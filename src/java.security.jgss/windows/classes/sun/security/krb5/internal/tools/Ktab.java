@@ -1,321 +1,321 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.tools;
+pbckbge sun.security.krb5.internbl.tools;
 
 import sun.security.krb5.*;
-import sun.security.krb5.internal.ktab.*;
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.File;
-import java.text.DateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
-import sun.security.krb5.internal.crypto.EType;
+import sun.security.krb5.internbl.ktbb.*;
+import jbvb.io.IOException;
+import jbvb.io.BufferedRebder;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.File;
+import jbvb.text.DbteFormbt;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbte;
+import jbvb.util.Locble;
+import sun.security.krb5.internbl.crypto.EType;
 /**
- * This class can execute as a command-line tool to help the user manage
- * entries in the key table.
- * Available functions include list/add/update/delete service key(s).
+ * This clbss cbn execute bs b commbnd-line tool to help the user mbnbge
+ * entries in the key tbble.
+ * Avbilbble functions include list/bdd/updbte/delete service key(s).
  *
- * @author Yanni Zhang
- * @author Ram Marti
+ * @buthor Ybnni Zhbng
+ * @buthor Rbm Mbrti
  */
 
-public class Ktab {
-    // KeyTabAdmin admin;
-    KeyTab table;
-    char action;
-    String name;   // name and directory of key table
-    String principal;
-    boolean showEType;
-    boolean showTime;
+public clbss Ktbb {
+    // KeyTbbAdmin bdmin;
+    KeyTbb tbble;
+    chbr bction;
+    String nbme;   // nbme bnd directory of key tbble
+    String principbl;
+    boolebn showEType;
+    boolebn showTime;
     int etype = -1;
-    char[] password = null;
+    chbr[] pbssword = null;
 
-    boolean forced = false; // true if delete without prompt. Default false
-    boolean append = false; // true if new keys are appended. Default false
-    int vDel = -1;          // kvno to delete, -1 all, -2 old. Default -1
-    int vAdd = -1;          // kvno to add. Default -1, means auto incremented
+    boolebn forced = fblse; // true if delete without prompt. Defbult fblse
+    boolebn bppend = fblse; // true if new keys bre bppended. Defbult fblse
+    int vDel = -1;          // kvno to delete, -1 bll, -2 old. Defbult -1
+    int vAdd = -1;          // kvno to bdd. Defbult -1, mebns buto incremented
 
     /**
-     * The main program that can be invoked at command line.
-     * See {@link #printHelp} for usages.
+     * The mbin progrbm thbt cbn be invoked bt commbnd line.
+     * See {@link #printHelp} for usbges.
      */
-    public static void main(String[] args) {
-        Ktab ktab = new Ktab();
-        if ((args.length == 1) && (args[0].equalsIgnoreCase("-help"))) {
-            ktab.printHelp();
+    public stbtic void mbin(String[] brgs) {
+        Ktbb ktbb = new Ktbb();
+        if ((brgs.length == 1) && (brgs[0].equblsIgnoreCbse("-help"))) {
+            ktbb.printHelp();
             return;
-        } else if ((args == null) || (args.length == 0)) {
-            ktab.action = 'l';
+        } else if ((brgs == null) || (brgs.length == 0)) {
+            ktbb.bction = 'l';
         } else {
-            ktab.processArgs(args);
+            ktbb.processArgs(brgs);
         }
-        ktab.table = KeyTab.getInstance(ktab.name);
-        if (ktab.table.isMissing() && ktab.action != 'a') {
-            if (ktab.name == null) {
-                System.out.println("No default key table exists.");
+        ktbb.tbble = KeyTbb.getInstbnce(ktbb.nbme);
+        if (ktbb.tbble.isMissing() && ktbb.bction != 'b') {
+            if (ktbb.nbme == null) {
+                System.out.println("No defbult key tbble exists.");
             } else {
-                System.out.println("Key table " +
-                        ktab.name + " does not exist.");
+                System.out.println("Key tbble " +
+                        ktbb.nbme + " does not exist.");
             }
             System.exit(-1);
         }
-        if (!ktab.table.isValid()) {
-            if (ktab.name == null) {
-                System.out.println("The format of the default key table " +
+        if (!ktbb.tbble.isVblid()) {
+            if (ktbb.nbme == null) {
+                System.out.println("The formbt of the defbult key tbble " +
                         " is incorrect.");
             } else {
-                System.out.println("The format of key table " +
-                        ktab.name + " is incorrect.");
+                System.out.println("The formbt of key tbble " +
+                        ktbb.nbme + " is incorrect.");
             }
             System.exit(-1);
         }
-        switch (ktab.action) {
-        case 'l':
-            ktab.listKt();
-            break;
-        case 'a':
-            ktab.addEntry();
-            break;
-        case 'd':
-            ktab.deleteEntry();
-            break;
-        default:
-            ktab.error("A command must be provided");
+        switch (ktbb.bction) {
+        cbse 'l':
+            ktbb.listKt();
+            brebk;
+        cbse 'b':
+            ktbb.bddEntry();
+            brebk;
+        cbse 'd':
+            ktbb.deleteEntry();
+            brebk;
+        defbult:
+            ktbb.error("A commbnd must be provided");
         }
     }
 
     /**
-     * Parses the command line arguments.
+     * Pbrses the commbnd line brguments.
      */
-    void processArgs(String[] args) {
+    void processArgs(String[] brgs) {
 
-        // Commands (should appear before options):
+        // Commbnds (should bppebr before options):
         //   -l
-        //   -a <princ>
+        //   -b <princ>
         //   -d <princ>
         // Options:
         //   -e <etype> (for -d)
         //   -e (for -l)
         //   -n <kvno>
-        //   -k <keytab>
+        //   -k <keytbb>
         //   -t
         //   -f
-        //   -append
-        // Optional extra arguments:
-        //   password for -a
-        //   [kvno|all|old] for -d
+        //   -bppend
+        // Optionbl extrb brguments:
+        //   pbssword for -b
+        //   [kvno|bll|old] for -d
 
-        boolean argAlreadyAppeared = false;
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].startsWith("-")) {
-                switch (args[i].toLowerCase(Locale.US)) {
+        boolebn brgAlrebdyAppebred = fblse;
+        for (int i = 0; i < brgs.length; i++) {
+            if (brgs[i].stbrtsWith("-")) {
+                switch (brgs[i].toLowerCbse(Locble.US)) {
 
-                    // Commands
-                    case "-l":   // list
-                        action = 'l';
-                        break;
-                    case "-a":   // add a new entry to keytab.
-                        action = 'a';
-                        if (++i >= args.length || args[i].startsWith("-")) {
-                            error("A principal name must be specified after -a");
+                    // Commbnds
+                    cbse "-l":   // list
+                        bction = 'l';
+                        brebk;
+                    cbse "-b":   // bdd b new entry to keytbb.
+                        bction = 'b';
+                        if (++i >= brgs.length || brgs[i].stbrtsWith("-")) {
+                            error("A principbl nbme must be specified bfter -b");
                         }
-                        principal = args[i];
-                        break;
-                    case "-d":   // delete entries
-                        action = 'd';
-                        if (++i >= args.length || args[i].startsWith("-")) {
-                            error("A principal name must be specified after -d");
+                        principbl = brgs[i];
+                        brebk;
+                    cbse "-d":   // delete entries
+                        bction = 'd';
+                        if (++i >= brgs.length || brgs[i].stbrtsWith("-")) {
+                            error("A principbl nbme must be specified bfter -d");
                         }
-                        principal = args[i];
-                        break;
+                        principbl = brgs[i];
+                        brebk;
 
                         // Options
-                    case "-e":
-                        if (action == 'l') {    // list etypes
+                    cbse "-e":
+                        if (bction == 'l') {    // list etypes
                             showEType = true;
-                        } else if (action == 'd') { // delete etypes
-                            if (++i >= args.length || args[i].startsWith("-")) {
-                                error("An etype must be specified after -e");
+                        } else if (bction == 'd') { // delete etypes
+                            if (++i >= brgs.length || brgs[i].stbrtsWith("-")) {
+                                error("An etype must be specified bfter -e");
                             }
                             try {
-                                etype = Integer.parseInt(args[i]);
+                                etype = Integer.pbrseInt(brgs[i]);
                                 if (etype <= 0) {
-                                    throw new NumberFormatException();
+                                    throw new NumberFormbtException();
                                 }
-                            } catch (NumberFormatException nfe) {
-                                error(args[i] + " is not a valid etype");
+                            } cbtch (NumberFormbtException nfe) {
+                                error(brgs[i] + " is not b vblid etype");
                             }
                         } else {
-                            error(args[i] + " is not valid after -" + action);
+                            error(brgs[i] + " is not vblid bfter -" + bction);
                         }
-                        break;
-                    case "-n":   // kvno for -a
-                        if (++i >= args.length || args[i].startsWith("-")) {
-                            error("A KVNO must be specified after -n");
+                        brebk;
+                    cbse "-n":   // kvno for -b
+                        if (++i >= brgs.length || brgs[i].stbrtsWith("-")) {
+                            error("A KVNO must be specified bfter -n");
                         }
                         try {
-                            vAdd = Integer.parseInt(args[i]);
+                            vAdd = Integer.pbrseInt(brgs[i]);
                             if (vAdd < 0) {
-                                throw new NumberFormatException();
+                                throw new NumberFormbtException();
                             }
-                        } catch (NumberFormatException nfe) {
-                            error(args[i] + " is not a valid KVNO");
+                        } cbtch (NumberFormbtException nfe) {
+                            error(brgs[i] + " is not b vblid KVNO");
                         }
-                        break;
-                    case "-k":  // specify keytab to use
-                        if (++i >= args.length || args[i].startsWith("-")) {
-                            error("A keytab name must be specified after -k");
+                        brebk;
+                    cbse "-k":  // specify keytbb to use
+                        if (++i >= brgs.length || brgs[i].stbrtsWith("-")) {
+                            error("A keytbb nbme must be specified bfter -k");
                         }
-                        if (args[i].length() >= 5 &&
-                            args[i].substring(0, 5).equalsIgnoreCase("FILE:")) {
-                            name = args[i].substring(5);
+                        if (brgs[i].length() >= 5 &&
+                            brgs[i].substring(0, 5).equblsIgnoreCbse("FILE:")) {
+                            nbme = brgs[i].substring(5);
                         } else {
-                            name = args[i];
+                            nbme = brgs[i];
                         }
-                        break;
-                    case "-t":   // list timestamps
+                        brebk;
+                    cbse "-t":   // list timestbmps
                         showTime = true;
-                        break;
-                    case "-f":   // force delete, no prompt
+                        brebk;
+                    cbse "-f":   // force delete, no prompt
                         forced = true;
-                        break;
-                    case "-append": // -a, new keys append to file
-                        append = true;
-                        break;
-                    default:
-                        error("Unknown command: " + args[i]);
-                        break;
+                        brebk;
+                    cbse "-bppend": // -b, new keys bppend to file
+                        bppend = true;
+                        brebk;
+                    defbult:
+                        error("Unknown commbnd: " + brgs[i]);
+                        brebk;
                 }
-            } else {    // optional standalone arguments
-                if (argAlreadyAppeared) {
-                    error("Useless extra argument " + args[i]);
+            } else {    // optionbl stbndblone brguments
+                if (brgAlrebdyAppebred) {
+                    error("Useless extrb brgument " + brgs[i]);
                 }
-                if (action == 'a') {
-                    password = args[i].toCharArray();
-                } else if (action == 'd') {
-                    switch (args[i]) {
-                        case "all": vDel = -1; break;
-                        case "old": vDel = -2; break;
-                        default: {
+                if (bction == 'b') {
+                    pbssword = brgs[i].toChbrArrby();
+                } else if (bction == 'd') {
+                    switch (brgs[i]) {
+                        cbse "bll": vDel = -1; brebk;
+                        cbse "old": vDel = -2; brebk;
+                        defbult: {
                             try {
-                                vDel = Integer.parseInt(args[i]);
+                                vDel = Integer.pbrseInt(brgs[i]);
                                 if (vDel < 0) {
-                                    throw new NumberFormatException();
+                                    throw new NumberFormbtException();
                                 }
-                            } catch (NumberFormatException nfe) {
-                                error(args[i] + " is not a valid KVNO");
+                            } cbtch (NumberFormbtException nfe) {
+                                error(brgs[i] + " is not b vblid KVNO");
                             }
                         }
                     }
                 } else {
-                    error("Useless extra argument " + args[i]);
+                    error("Useless extrb brgument " + brgs[i]);
                 }
-                argAlreadyAppeared = true;
+                brgAlrebdyAppebred = true;
             }
         }
     }
 
     /**
-     * Adds a service key to key table. If the specified key table does not
-     * exist, the program will automatically generate
-     * a new key table.
+     * Adds b service key to key tbble. If the specified key tbble does not
+     * exist, the progrbm will butombticblly generbte
+     * b new key tbble.
      */
-    void addEntry() {
-        PrincipalName pname = null;
+    void bddEntry() {
+        PrincipblNbme pnbme = null;
         try {
-            pname = new PrincipalName(principal);
-        } catch (KrbException e) {
-            System.err.println("Failed to add " + principal +
-                               " to keytab.");
-            e.printStackTrace();
+            pnbme = new PrincipblNbme(principbl);
+        } cbtch (KrbException e) {
+            System.err.println("Fbiled to bdd " + principbl +
+                               " to keytbb.");
+            e.printStbckTrbce();
             System.exit(-1);
         }
-        if (password == null) {
+        if (pbssword == null) {
             try {
-                BufferedReader cis =
-                    new BufferedReader(new InputStreamReader(System.in));
-                System.out.print("Password for " + pname.toString() + ":");
+                BufferedRebder cis =
+                    new BufferedRebder(new InputStrebmRebder(System.in));
+                System.out.print("Pbssword for " + pnbme.toString() + ":");
                 System.out.flush();
-                password = cis.readLine().toCharArray();
-            } catch (IOException e) {
-                System.err.println("Failed to read the password.");
-                e.printStackTrace();
+                pbssword = cis.rebdLine().toChbrArrby();
+            } cbtch (IOException e) {
+                System.err.println("Fbiled to rebd the pbssword.");
+                e.printStbckTrbce();
                 System.exit(-1);
             }
 
         }
         try {
-            // admin.addEntry(pname, password);
-            table.addEntry(pname, password, vAdd, append);
-            Arrays.fill(password, '0');  // clear password
-            // admin.save();
-            table.save();
+            // bdmin.bddEntry(pnbme, pbssword);
+            tbble.bddEntry(pnbme, pbssword, vAdd, bppend);
+            Arrbys.fill(pbssword, '0');  // clebr pbssword
+            // bdmin.sbve();
+            tbble.sbve();
             System.out.println("Done!");
-            System.out.println("Service key for " + principal +
-                               " is saved in " + table.tabName());
+            System.out.println("Service key for " + principbl +
+                               " is sbved in " + tbble.tbbNbme());
 
-        } catch (KrbException e) {
-            System.err.println("Failed to add " + principal + " to keytab.");
-            e.printStackTrace();
+        } cbtch (KrbException e) {
+            System.err.println("Fbiled to bdd " + principbl + " to keytbb.");
+            e.printStbckTrbce();
             System.exit(-1);
-        } catch (IOException e) {
-            System.err.println("Failed to save new entry.");
-            e.printStackTrace();
+        } cbtch (IOException e) {
+            System.err.println("Fbiled to sbve new entry.");
+            e.printStbckTrbce();
             System.exit(-1);
         }
     }
 
     /**
-     * Lists key table name and entries in it.
+     * Lists key tbble nbme bnd entries in it.
      */
     void listKt() {
-        System.out.println("Keytab name: " + table.tabName());
-        KeyTabEntry[] entries = table.getEntries();
+        System.out.println("Keytbb nbme: " + tbble.tbbNbme());
+        KeyTbbEntry[] entries = tbble.getEntries();
         if ((entries != null) && (entries.length > 0)) {
             String[][] output = new String[entries.length+1][showTime?3:2];
             int column = 0;
             output[0][column++] = "KVNO";
-            if (showTime) output[0][column++] = "Timestamp";
-            output[0][column++] = "Principal";
+            if (showTime) output[0][column++] = "Timestbmp";
+            output[0][column++] = "Principbl";
             for (int i = 0; i < entries.length; i++) {
                 column = 0;
                 output[i+1][column++] = entries[i].getKey().
                         getKeyVersionNumber().toString();
                 if (showTime) output[i+1][column++] =
-                        DateFormat.getDateTimeInstance(
-                        DateFormat.SHORT, DateFormat.SHORT).format(
-                        new Date(entries[i].getTimeStamp().getTime()));
+                        DbteFormbt.getDbteTimeInstbnce(
+                        DbteFormbt.SHORT, DbteFormbt.SHORT).formbt(
+                        new Dbte(entries[i].getTimeStbmp().getTime()));
                 String princ = entries[i].getService().toString();
                 if (showEType) {
                     int e = entries[i].getKey().getEType();
@@ -339,7 +339,7 @@ public class Ktab {
             }
             System.out.println();
             for (int j=0; j<column; j++) {
-                for (int k=0; k<Math.abs(width[j]); k++) System.out.print("-");
+                for (int k=0; k<Mbth.bbs(width[j]); k++) System.out.print("-");
                 System.out.print(" ");
             }
             System.out.println();
@@ -355,56 +355,56 @@ public class Ktab {
     }
 
     /**
-     * Deletes an entry from the key table.
+     * Deletes bn entry from the key tbble.
      */
     void deleteEntry() {
-        PrincipalName pname = null;
+        PrincipblNbme pnbme = null;
         try {
-            pname = new PrincipalName(principal);
+            pnbme = new PrincipblNbme(principbl);
             if (!forced) {
-                String answer;
-                BufferedReader cis =
-                    new BufferedReader(new InputStreamReader(System.in));
-                System.out.print("Are you sure you want to delete "+
-                        "service key(s) for " + pname.toString() +
-                        " (" + (etype==-1?"all etypes":("etype="+etype)) + ", " +
-                        (vDel==-1?"all kvno":(vDel==-2?"old kvno":("kvno=" + vDel))) +
-                        ") in " + table.tabName() + "? (Y/[N]): ");
+                String bnswer;
+                BufferedRebder cis =
+                    new BufferedRebder(new InputStrebmRebder(System.in));
+                System.out.print("Are you sure you wbnt to delete "+
+                        "service key(s) for " + pnbme.toString() +
+                        " (" + (etype==-1?"bll etypes":("etype="+etype)) + ", " +
+                        (vDel==-1?"bll kvno":(vDel==-2?"old kvno":("kvno=" + vDel))) +
+                        ") in " + tbble.tbbNbme() + "? (Y/[N]): ");
 
                 System.out.flush();
-                answer = cis.readLine();
-                if (answer.equalsIgnoreCase("Y") ||
-                    answer.equalsIgnoreCase("Yes"));
+                bnswer = cis.rebdLine();
+                if (bnswer.equblsIgnoreCbse("Y") ||
+                    bnswer.equblsIgnoreCbse("Yes"));
                 else {
-                    // no error, the user did not want to delete the entry
+                    // no error, the user did not wbnt to delete the entry
                     System.exit(0);
                 }
             }
-        } catch (KrbException e) {
+        } cbtch (KrbException e) {
             System.err.println("Error occurred while deleting the entry. "+
-                               "Deletion failed.");
-            e.printStackTrace();
+                               "Deletion fbiled.");
+            e.printStbckTrbce();
             System.exit(-1);
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             System.err.println("Error occurred while deleting the entry. "+
-                               " Deletion failed.");
-            e.printStackTrace();
+                               " Deletion fbiled.");
+            e.printStbckTrbce();
             System.exit(-1);
         }
 
-        int count = table.deleteEntries(pname, etype, vDel);
+        int count = tbble.deleteEntries(pnbme, etype, vDel);
 
         if (count == 0) {
-            System.err.println("No matched entry in the keytab. " +
-                               "Deletion fails.");
+            System.err.println("No mbtched entry in the keytbb. " +
+                               "Deletion fbils.");
             System.exit(-1);
         } else {
             try {
-                table.save();
-            } catch (IOException e) {
-                System.err.println("Error occurs while saving the keytab. " +
-                                   "Deletion fails.");
-                e.printStackTrace();
+                tbble.sbve();
+            } cbtch (IOException e) {
+                System.err.println("Error occurs while sbving the keytbb. " +
+                                   "Deletion fbils.");
+                e.printStbckTrbce();
                 System.exit(-1);
             }
             System.out.println("Done! " + count + " entries removed.");
@@ -419,35 +419,35 @@ public class Ktab {
         System.exit(-1);
     }
     /**
-     * Prints out the help information.
+     * Prints out the help informbtion.
      */
     void printHelp() {
-        System.out.println("\nUsage: ktab <commands> <options>");
+        System.out.println("\nUsbge: ktbb <commbnds> <options>");
         System.out.println();
-        System.out.println("Available commands:");
+        System.out.println("Avbilbble commbnds:");
         System.out.println();
         System.out.println("-l [-e] [-t]\n"
-                + "    list the keytab name and entries. -e with etype, -t with timestamp.");
-        System.out.println("-a <principal name> [<password>] [-n <kvno>] [-append]\n"
-                + "    add new key entries to the keytab for the given principal name with\n"
-                + "    optional <password>. If a <kvno> is specified, new keys' Key Version\n"
-                + "    Numbers equal to the value, otherwise, automatically incrementing\n"
-                + "    the Key Version Numbers. If -append is specified, new keys are\n"
-                + "    appended to the keytab, otherwise, old keys for the\n"
-                + "    same principal are removed.");
-        System.out.println("-d <principal name> [-f] [-e <etype>] [<kvno> | all | old]\n"
-                + "    delete key entries from the keytab for the specified principal. If\n"
-                + "    <kvno> is specified, delete keys whose Key Version Numbers match\n"
-                + "    kvno. If \"all\" is specified, delete all keys. If \"old\" is specified,\n"
-                + "    delete all keys except those with the highest kvno. Default action\n"
-                + "    is \"all\". If <etype> is specified, only keys of this encryption type\n"
-                + "    are deleted. <etype> should be specified as the numberic value etype\n"
+                + "    list the keytbb nbme bnd entries. -e with etype, -t with timestbmp.");
+        System.out.println("-b <principbl nbme> [<pbssword>] [-n <kvno>] [-bppend]\n"
+                + "    bdd new key entries to the keytbb for the given principbl nbme with\n"
+                + "    optionbl <pbssword>. If b <kvno> is specified, new keys' Key Version\n"
+                + "    Numbers equbl to the vblue, otherwise, butombticblly incrementing\n"
+                + "    the Key Version Numbers. If -bppend is specified, new keys bre\n"
+                + "    bppended to the keytbb, otherwise, old keys for the\n"
+                + "    sbme principbl bre removed.");
+        System.out.println("-d <principbl nbme> [-f] [-e <etype>] [<kvno> | bll | old]\n"
+                + "    delete key entries from the keytbb for the specified principbl. If\n"
+                + "    <kvno> is specified, delete keys whose Key Version Numbers mbtch\n"
+                + "    kvno. If \"bll\" is specified, delete bll keys. If \"old\" is specified,\n"
+                + "    delete bll keys except those with the highest kvno. Defbult bction\n"
+                + "    is \"bll\". If <etype> is specified, only keys of this encryption type\n"
+                + "    bre deleted. <etype> should be specified bs the numberic vblue etype\n"
                 + "    defined in RFC 3961, section 8. A prompt to confirm the deletion is\n"
-                + "    displayed unless -f is specified.");
+                + "    displbyed unless -f is specified.");
         System.out.println();
         System.out.println("Common option(s):");
         System.out.println();
-        System.out.println("-k <keytab name>\n"
-                + "    specify keytab name and path with prefix FILE:");
+        System.out.println("-k <keytbb nbme>\n"
+                + "    specify keytbb nbme bnd pbth with prefix FILE:");
     }
 }

@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
-import java.text.*;
-import sun.jvmstat.monitor.*;
+import jbvb.text.*;
+import sun.jvmstbt.monitor.*;
 
 /**
- * A class implementing the Closure interface for iterating over the
- * specified columns of data and generating the columnized string of
- * data representing a row of output for the form.
+ * A clbss implementing the Closure interfbce for iterbting over the
+ * specified columns of dbtb bnd generbting the columnized string of
+ * dbtb representing b row of output for the form.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class RowClosure implements Closure {
-    private MonitoredVm vm;
-    private StringBuilder row = new StringBuilder();
+public clbss RowClosure implements Closure {
+    privbte MonitoredVm vm;
+    privbte StringBuilder row = new StringBuilder();
 
     public RowClosure(MonitoredVm vm) {
         this.vm = vm;
     }
 
-    public void visit(Object o, boolean hasNext) throws MonitorException {
-        if (! (o instanceof ColumnFormat)) {
+    public void visit(Object o, boolebn hbsNext) throws MonitorException {
+        if (! (o instbnceof ColumnFormbt)) {
             return;
         }
 
-        ColumnFormat c = (ColumnFormat)o;
+        ColumnFormbt c = (ColumnFormbt)o;
         String s = null;
 
         Expression e = c.getExpression();
-        ExpressionEvaluator ee = new ExpressionExecuter(vm);
-        Object value = ee.evaluate(e);
+        ExpressionEvblubtor ee = new ExpressionExecuter(vm);
+        Object vblue = ee.evblubte(e);
 
-        if (value instanceof String) {
-            s = (String)value;
-        } else if (value instanceof Number) {
-            double d = ((Number)value).doubleValue();
-            double scaledValue = c.getScale().scale(d);
-            DecimalFormat df = new DecimalFormat(c.getFormat());
-            DecimalFormatSymbols syms = df.getDecimalFormatSymbols();
-            syms.setNaN("-");
-            df.setDecimalFormatSymbols(syms);
-            s = df.format(scaledValue);
+        if (vblue instbnceof String) {
+            s = (String)vblue;
+        } else if (vblue instbnceof Number) {
+            double d = ((Number)vblue).doubleVblue();
+            double scbledVblue = c.getScble().scble(d);
+            DecimblFormbt df = new DecimblFormbt(c.getFormbt());
+            DecimblFormbtSymbols syms = df.getDecimblFormbtSymbols();
+            syms.setNbN("-");
+            df.setDecimblFormbtSymbols(syms);
+            s = df.formbt(scbledVblue);
         }
 
-        c.setPreviousValue(value);
-        s = c.getAlignment().align(s, c.getWidth());
-        row.append(s);
-        if (hasNext) {
-            row.append(" ");
+        c.setPreviousVblue(vblue);
+        s = c.getAlignment().blign(s, c.getWidth());
+        row.bppend(s);
+        if (hbsNext) {
+            row.bppend(" ");
         }
     }
 

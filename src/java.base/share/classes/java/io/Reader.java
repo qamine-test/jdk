@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 
 /**
- * Abstract class for reading character streams.  The only methods that a
- * subclass must implement are read(char[], int, int) and close().  Most
- * subclasses, however, will override some of the methods defined here in order
- * to provide higher efficiency, additional functionality, or both.
+ * Abstrbct clbss for rebding chbrbcter strebms.  The only methods thbt b
+ * subclbss must implement bre rebd(chbr[], int, int) bnd close().  Most
+ * subclbsses, however, will override some of the methods defined here in order
+ * to provide higher efficiency, bdditionbl functionblity, or both.
  *
  *
- * @see BufferedReader
- * @see   LineNumberReader
- * @see CharArrayReader
- * @see InputStreamReader
- * @see   FileReader
- * @see FilterReader
- * @see   PushbackReader
- * @see PipedReader
- * @see StringReader
+ * @see BufferedRebder
+ * @see   LineNumberRebder
+ * @see ChbrArrbyRebder
+ * @see InputStrebmRebder
+ * @see   FileRebder
+ * @see FilterRebder
+ * @see   PushbbckRebder
+ * @see PipedRebder
+ * @see StringRebder
  * @see Writer
  *
- * @author      Mark Reinhold
+ * @buthor      Mbrk Reinhold
  * @since       1.1
  */
 
-public abstract class Reader implements Readable, Closeable {
+public bbstrbct clbss Rebder implements Rebdbble, Closebble {
 
     /**
-     * The object used to synchronize operations on this stream.  For
-     * efficiency, a character-stream object may use an object other than
-     * itself to protect critical sections.  A subclass should therefore use
-     * the object in this field rather than <tt>this</tt> or a synchronized
+     * The object used to synchronize operbtions on this strebm.  For
+     * efficiency, b chbrbcter-strebm object mby use bn object other thbn
+     * itself to protect criticbl sections.  A subclbss should therefore use
+     * the object in this field rbther thbn <tt>this</tt> or b synchronized
      * method.
      */
     protected Object lock;
 
     /**
-     * Creates a new character-stream reader whose critical sections will
-     * synchronize on the reader itself.
+     * Crebtes b new chbrbcter-strebm rebder whose criticbl sections will
+     * synchronize on the rebder itself.
      */
-    protected Reader() {
+    protected Rebder() {
         this.lock = this;
     }
 
     /**
-     * Creates a new character-stream reader whose critical sections will
+     * Crebtes b new chbrbcter-strebm rebder whose criticbl sections will
      * synchronize on the given object.
      *
-     * @param lock  The Object to synchronize on.
+     * @pbrbm lock  The Object to synchronize on.
      */
-    protected Reader(Object lock) {
+    protected Rebder(Object lock) {
         if (lock == null) {
             throw new NullPointerException();
         }
@@ -81,110 +81,110 @@ public abstract class Reader implements Readable, Closeable {
     }
 
     /**
-     * Attempts to read characters into the specified character buffer.
-     * The buffer is used as a repository of characters as-is: the only
-     * changes made are the results of a put operation. No flipping or
+     * Attempts to rebd chbrbcters into the specified chbrbcter buffer.
+     * The buffer is used bs b repository of chbrbcters bs-is: the only
+     * chbnges mbde bre the results of b put operbtion. No flipping or
      * rewinding of the buffer is performed.
      *
-     * @param target the buffer to read characters into
-     * @return The number of characters added to the buffer, or
-     *         -1 if this source of characters is at its end
-     * @throws IOException if an I/O error occurs
-     * @throws NullPointerException if target is null
-     * @throws java.nio.ReadOnlyBufferException if target is a read only buffer
+     * @pbrbm tbrget the buffer to rebd chbrbcters into
+     * @return The number of chbrbcters bdded to the buffer, or
+     *         -1 if this source of chbrbcters is bt its end
+     * @throws IOException if bn I/O error occurs
+     * @throws NullPointerException if tbrget is null
+     * @throws jbvb.nio.RebdOnlyBufferException if tbrget is b rebd only buffer
      * @since 1.5
      */
-    public int read(java.nio.CharBuffer target) throws IOException {
-        int len = target.remaining();
-        char[] cbuf = new char[len];
-        int n = read(cbuf, 0, len);
+    public int rebd(jbvb.nio.ChbrBuffer tbrget) throws IOException {
+        int len = tbrget.rembining();
+        chbr[] cbuf = new chbr[len];
+        int n = rebd(cbuf, 0, len);
         if (n > 0)
-            target.put(cbuf, 0, n);
+            tbrget.put(cbuf, 0, n);
         return n;
     }
 
     /**
-     * Reads a single character.  This method will block until a character is
-     * available, an I/O error occurs, or the end of the stream is reached.
+     * Rebds b single chbrbcter.  This method will block until b chbrbcter is
+     * bvbilbble, bn I/O error occurs, or the end of the strebm is rebched.
      *
-     * <p> Subclasses that intend to support efficient single-character input
+     * <p> Subclbsses thbt intend to support efficient single-chbrbcter input
      * should override this method.
      *
-     * @return     The character read, as an integer in the range 0 to 65535
-     *             (<tt>0x00-0xffff</tt>), or -1 if the end of the stream has
-     *             been reached
+     * @return     The chbrbcter rebd, bs bn integer in the rbnge 0 to 65535
+     *             (<tt>0x00-0xffff</tt>), or -1 if the end of the strebm hbs
+     *             been rebched
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public int read() throws IOException {
-        char cb[] = new char[1];
-        if (read(cb, 0, 1) == -1)
+    public int rebd() throws IOException {
+        chbr cb[] = new chbr[1];
+        if (rebd(cb, 0, 1) == -1)
             return -1;
         else
             return cb[0];
     }
 
     /**
-     * Reads characters into an array.  This method will block until some input
-     * is available, an I/O error occurs, or the end of the stream is reached.
+     * Rebds chbrbcters into bn brrby.  This method will block until some input
+     * is bvbilbble, bn I/O error occurs, or the end of the strebm is rebched.
      *
-     * @param       cbuf  Destination buffer
+     * @pbrbm       cbuf  Destinbtion buffer
      *
-     * @return      The number of characters read, or -1
-     *              if the end of the stream
-     *              has been reached
+     * @return      The number of chbrbcters rebd, or -1
+     *              if the end of the strebm
+     *              hbs been rebched
      *
-     * @exception   IOException  If an I/O error occurs
+     * @exception   IOException  If bn I/O error occurs
      */
-    public int read(char cbuf[]) throws IOException {
-        return read(cbuf, 0, cbuf.length);
+    public int rebd(chbr cbuf[]) throws IOException {
+        return rebd(cbuf, 0, cbuf.length);
     }
 
     /**
-     * Reads characters into a portion of an array.  This method will block
-     * until some input is available, an I/O error occurs, or the end of the
-     * stream is reached.
+     * Rebds chbrbcters into b portion of bn brrby.  This method will block
+     * until some input is bvbilbble, bn I/O error occurs, or the end of the
+     * strebm is rebched.
      *
-     * @param      cbuf  Destination buffer
-     * @param      off   Offset at which to start storing characters
-     * @param      len   Maximum number of characters to read
+     * @pbrbm      cbuf  Destinbtion buffer
+     * @pbrbm      off   Offset bt which to stbrt storing chbrbcters
+     * @pbrbm      len   Mbximum number of chbrbcters to rebd
      *
-     * @return     The number of characters read, or -1 if the end of the
-     *             stream has been reached
+     * @return     The number of chbrbcters rebd, or -1 if the end of the
+     *             strebm hbs been rebched
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    abstract public int read(char cbuf[], int off, int len) throws IOException;
+    bbstrbct public int rebd(chbr cbuf[], int off, int len) throws IOException;
 
-    /** Maximum skip-buffer size */
-    private static final int maxSkipBufferSize = 8192;
+    /** Mbximum skip-buffer size */
+    privbte stbtic finbl int mbxSkipBufferSize = 8192;
 
-    /** Skip buffer, null until allocated */
-    private char skipBuffer[] = null;
+    /** Skip buffer, null until bllocbted */
+    privbte chbr skipBuffer[] = null;
 
     /**
-     * Skips characters.  This method will block until some characters are
-     * available, an I/O error occurs, or the end of the stream is reached.
+     * Skips chbrbcters.  This method will block until some chbrbcters bre
+     * bvbilbble, bn I/O error occurs, or the end of the strebm is rebched.
      *
-     * @param  n  The number of characters to skip
+     * @pbrbm  n  The number of chbrbcters to skip
      *
-     * @return    The number of characters actually skipped
+     * @return    The number of chbrbcters bctublly skipped
      *
-     * @exception  IllegalArgumentException  If <code>n</code> is negative.
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IllegblArgumentException  If <code>n</code> is negbtive.
+     * @exception  IOException  If bn I/O error occurs
      */
     public long skip(long n) throws IOException {
         if (n < 0L)
-            throw new IllegalArgumentException("skip value is negative");
-        int nn = (int) Math.min(n, maxSkipBufferSize);
+            throw new IllegblArgumentException("skip vblue is negbtive");
+        int nn = (int) Mbth.min(n, mbxSkipBufferSize);
         synchronized (lock) {
             if ((skipBuffer == null) || (skipBuffer.length < nn))
-                skipBuffer = new char[nn];
+                skipBuffer = new chbr[nn];
             long r = n;
             while (r > 0) {
-                int nc = read(skipBuffer, 0, (int)Math.min(r, nn));
+                int nc = rebd(skipBuffer, 0, (int)Mbth.min(r, nn));
                 if (nc == -1)
-                    break;
+                    brebk;
                 r -= nc;
             }
             return n - r;
@@ -192,57 +192,57 @@ public abstract class Reader implements Readable, Closeable {
     }
 
     /**
-     * Tells whether this stream is ready to be read.
+     * Tells whether this strebm is rebdy to be rebd.
      *
-     * @return True if the next read() is guaranteed not to block for input,
-     * false otherwise.  Note that returning false does not guarantee that the
-     * next read will block.
+     * @return True if the next rebd() is gubrbnteed not to block for input,
+     * fblse otherwise.  Note thbt returning fblse does not gubrbntee thbt the
+     * next rebd will block.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public boolean ready() throws IOException {
-        return false;
+    public boolebn rebdy() throws IOException {
+        return fblse;
     }
 
     /**
-     * Tells whether this stream supports the mark() operation. The default
-     * implementation always returns false. Subclasses should override this
+     * Tells whether this strebm supports the mbrk() operbtion. The defbult
+     * implementbtion blwbys returns fblse. Subclbsses should override this
      * method.
      *
-     * @return true if and only if this stream supports the mark operation.
+     * @return true if bnd only if this strebm supports the mbrk operbtion.
      */
-    public boolean markSupported() {
-        return false;
+    public boolebn mbrkSupported() {
+        return fblse;
     }
 
     /**
-     * Marks the present position in the stream.  Subsequent calls to reset()
-     * will attempt to reposition the stream to this point.  Not all
-     * character-input streams support the mark() operation.
+     * Mbrks the present position in the strebm.  Subsequent cblls to reset()
+     * will bttempt to reposition the strebm to this point.  Not bll
+     * chbrbcter-input strebms support the mbrk() operbtion.
      *
-     * @param  readAheadLimit  Limit on the number of characters that may be
-     *                         read while still preserving the mark.  After
-     *                         reading this many characters, attempting to
-     *                         reset the stream may fail.
+     * @pbrbm  rebdAhebdLimit  Limit on the number of chbrbcters thbt mby be
+     *                         rebd while still preserving the mbrk.  After
+     *                         rebding this mbny chbrbcters, bttempting to
+     *                         reset the strebm mby fbil.
      *
-     * @exception  IOException  If the stream does not support mark(),
+     * @exception  IOException  If the strebm does not support mbrk(),
      *                          or if some other I/O error occurs
      */
-    public void mark(int readAheadLimit) throws IOException {
-        throw new IOException("mark() not supported");
+    public void mbrk(int rebdAhebdLimit) throws IOException {
+        throw new IOException("mbrk() not supported");
     }
 
     /**
-     * Resets the stream.  If the stream has been marked, then attempt to
-     * reposition it at the mark.  If the stream has not been marked, then
-     * attempt to reset it in some way appropriate to the particular stream,
-     * for example by repositioning it to its starting point.  Not all
-     * character-input streams support the reset() operation, and some support
-     * reset() without supporting mark().
+     * Resets the strebm.  If the strebm hbs been mbrked, then bttempt to
+     * reposition it bt the mbrk.  If the strebm hbs not been mbrked, then
+     * bttempt to reset it in some wby bppropribte to the pbrticulbr strebm,
+     * for exbmple by repositioning it to its stbrting point.  Not bll
+     * chbrbcter-input strebms support the reset() operbtion, bnd some support
+     * reset() without supporting mbrk().
      *
-     * @exception  IOException  If the stream has not been marked,
-     *                          or if the mark has been invalidated,
-     *                          or if the stream does not support reset(),
+     * @exception  IOException  If the strebm hbs not been mbrked,
+     *                          or if the mbrk hbs been invblidbted,
+     *                          or if the strebm does not support reset(),
      *                          or if some other I/O error occurs
      */
     public void reset() throws IOException {
@@ -250,13 +250,13 @@ public abstract class Reader implements Readable, Closeable {
     }
 
     /**
-     * Closes the stream and releases any system resources associated with
-     * it.  Once the stream has been closed, further read(), ready(),
-     * mark(), reset(), or skip() invocations will throw an IOException.
-     * Closing a previously closed stream has no effect.
+     * Closes the strebm bnd relebses bny system resources bssocibted with
+     * it.  Once the strebm hbs been closed, further rebd(), rebdy(),
+     * mbrk(), reset(), or skip() invocbtions will throw bn IOException.
+     * Closing b previously closed strebm hbs no effect.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-     abstract public void close() throws IOException;
+     bbstrbct public void close() throws IOException;
 
 }

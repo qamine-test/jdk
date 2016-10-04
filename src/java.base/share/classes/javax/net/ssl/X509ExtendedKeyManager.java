@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.security.Principal;
+import jbvb.security.Principbl;
 
 /**
- * Abstract class that provides for extension of the X509KeyManager
- * interface.
+ * Abstrbct clbss thbt provides for extension of the X509KeyMbnbger
+ * interfbce.
  * <P>
- * Methods in this class should be overriden to provide actual
- * implementations.
+ * Methods in this clbss should be overriden to provide bctubl
+ * implementbtions.
  *
  * @since 1.5
- * @author Brad R. Wetmore
+ * @buthor Brbd R. Wetmore
  */
-public abstract class X509ExtendedKeyManager implements X509KeyManager {
+public bbstrbct clbss X509ExtendedKeyMbnbger implements X509KeyMbnbger {
 
     /**
-     * Constructor used by subclasses only.
+     * Constructor used by subclbsses only.
      */
-    protected X509ExtendedKeyManager() {
+    protected X509ExtendedKeyMbnbger() {
     }
 
     /**
-     * Choose an alias to authenticate the client side of an
+     * Choose bn blibs to buthenticbte the client side of bn
      * <code>SSLEngine</code> connection given the public key type
-     * and the list of certificate issuer authorities recognized by
-     * the peer (if any).
+     * bnd the list of certificbte issuer buthorities recognized by
+     * the peer (if bny).
      * <P>
-     * The default implementation returns null.
+     * The defbult implementbtion returns null.
      *
-     * @param keyType the key algorithm type name(s), ordered
+     * @pbrbm keyType the key blgorithm type nbme(s), ordered
      *          with the most-preferred key type first.
-     * @param issuers the list of acceptable CA issuer subject names
-     *          or null if it does not matter which issuers are used.
-     * @param engine the <code>SSLEngine</code> to be used for this
-     *          connection.  This parameter can be null, which indicates
-     *          that implementations of this interface are free to
-     *          select an alias applicable to any engine.
-     * @return the alias name for the desired key, or null if there
-     *          are no matches.
+     * @pbrbm issuers the list of bcceptbble CA issuer subject nbmes
+     *          or null if it does not mbtter which issuers bre used.
+     * @pbrbm engine the <code>SSLEngine</code> to be used for this
+     *          connection.  This pbrbmeter cbn be null, which indicbtes
+     *          thbt implementbtions of this interfbce bre free to
+     *          select bn blibs bpplicbble to bny engine.
+     * @return the blibs nbme for the desired key, or null if there
+     *          bre no mbtches.
      */
-    public String chooseEngineClientAlias(String[] keyType,
-            Principal[] issuers, SSLEngine engine) {
+    public String chooseEngineClientAlibs(String[] keyType,
+            Principbl[] issuers, SSLEngine engine) {
         return null;
     }
 
     /**
-     * Choose an alias to authenticate the server side of an
+     * Choose bn blibs to buthenticbte the server side of bn
      * <code>SSLEngine</code> connection given the public key type
-     * and the list of certificate issuer authorities recognized by
-     * the peer (if any).
+     * bnd the list of certificbte issuer buthorities recognized by
+     * the peer (if bny).
      * <P>
-     * The default implementation returns null.
+     * The defbult implementbtion returns null.
      *
-     * @param keyType the key algorithm type name.
-     * @param issuers the list of acceptable CA issuer subject names
-     *          or null if it does not matter which issuers are used.
-     * @param engine the <code>SSLEngine</code> to be used for this
-     *          connection.  This parameter can be null, which indicates
-     *          that implementations of this interface are free to
-     *          select an alias applicable to any engine.
-     * @return the alias name for the desired key, or null if there
-     *          are no matches.
+     * @pbrbm keyType the key blgorithm type nbme.
+     * @pbrbm issuers the list of bcceptbble CA issuer subject nbmes
+     *          or null if it does not mbtter which issuers bre used.
+     * @pbrbm engine the <code>SSLEngine</code> to be used for this
+     *          connection.  This pbrbmeter cbn be null, which indicbtes
+     *          thbt implementbtions of this interfbce bre free to
+     *          select bn blibs bpplicbble to bny engine.
+     * @return the blibs nbme for the desired key, or null if there
+     *          bre no mbtches.
      */
-    public String chooseEngineServerAlias(String keyType,
-            Principal[] issuers, SSLEngine engine) {
+    public String chooseEngineServerAlibs(String keyType,
+            Principbl[] issuers, SSLEngine engine) {
         return null;
     }
 

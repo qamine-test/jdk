@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management.counter;
+pbckbge sun.mbnbgement.counter;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
+import jbvb.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
 
 /**
  */
-public abstract class AbstractCounter implements Counter {
+public bbstrbct clbss AbstrbctCounter implements Counter {
 
-    String name;
+    String nbme;
     Units units;
-    Variability variability;
-    int flags;
+    Vbribbility vbribbility;
+    int flbgs;
     int vectorLength;
 
-    // Flags defined in hotspot implementation
-    class Flags {
-        static final int SUPPORTED = 0x1;
+    // Flbgs defined in hotspot implementbtion
+    clbss Flbgs {
+        stbtic finbl int SUPPORTED = 0x1;
     }
 
-    protected AbstractCounter(String name, Units units,
-                              Variability variability, int flags,
+    protected AbstrbctCounter(String nbme, Units units,
+                              Vbribbility vbribbility, int flbgs,
                               int vectorLength) {
-        this.name = name;
+        this.nbme = nbme;
         this.units = units;
-        this.variability = variability;
-        this.flags = flags;
+        this.vbribbility = vbribbility;
+        this.flbgs = flbgs;
         this.vectorLength = vectorLength;
     }
 
-    protected AbstractCounter(String name, Units units,
-                              Variability variability, int flags) {
-        this(name, units, variability, flags, 0);
+    protected AbstrbctCounter(String nbme, Units units,
+                              Vbribbility vbribbility, int flbgs) {
+        this(nbme, units, vbribbility, flbgs, 0);
     }
 
     /**
-     * Returns the name of the Performance Counter
+     * Returns the nbme of the Performbnce Counter
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Returns the Units for this Performance Counter
+     * Returns the Units for this Performbnce Counter
      */
     public Units getUnits() {
         return units;
     }
 
     /**
-     * Returns the Variability for this performance Object
+     * Returns the Vbribbility for this performbnce Object
      */
-    public Variability getVariability() {
-        return variability;
+    public Vbribbility getVbribbility() {
+        return vbribbility;
     }
 
     /**
-     * Return true if this performance counter is a vector
+     * Return true if this performbnce counter is b vector
      */
-    public boolean isVector() {
+    public boolebn isVector() {
         return vectorLength > 0;
     }
 
@@ -94,28 +94,28 @@ public abstract class AbstractCounter implements Counter {
         return vectorLength;
     }
 
-    public boolean isInternal() {
-        return (flags & Flags.SUPPORTED) == 0;
+    public boolebn isInternbl() {
+        return (flbgs & Flbgs.SUPPORTED) == 0;
     }
 
     /**
-     * return the flags associated with the counter.
+     * return the flbgs bssocibted with the counter.
      */
-    public int getFlags() {
-        return flags;
+    public int getFlbgs() {
+        return flbgs;
     }
 
-    public abstract Object getValue();
+    public bbstrbct Object getVblue();
 
     public String toString() {
-        String result = getName() + ": " + getValue() + " " + getUnits();
-        if (isInternal()) {
+        String result = getNbme() + ": " + getVblue() + " " + getUnits();
+        if (isInternbl()) {
             return result + " [INTERNAL]";
         } else {
             return result;
         }
     }
 
-    private static final long serialVersionUID = 6992337162326171013L;
+    privbte stbtic finbl long seriblVersionUID = 6992337162326171013L;
 
 }

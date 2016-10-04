@@ -1,104 +1,104 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!doctype html public "-//w3c//dtd html 4.0 trbnsitionbl//en">
 <html>
-<head>
+<hebd>
 <!--
  
-Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
-</head>
+</hebd>
 <body bgcolor="white">
 <p>
-This package provides methods to read files from a JAR file and
-to transform them to a more compact transfer format called Pack200.
-It also provides methods to receive the transmitted data and expand
-it into a JAR file equivalent to the original JAR file.
+This pbckbge provides methods to rebd files from b JAR file bnd
+to trbnsform them to b more compbct trbnsfer formbt cblled Pbck200.
+It blso provides methods to receive the trbnsmitted dbtb bnd expbnd
+it into b JAR file equivblent to the originbl JAR file.
 
 <p> 
-The <tt>pack</tt> methods may be used by application developers
-who wish to deploy large JARs on the web.  The <tt>unpack</tt> methods may be used 
-by deployment applications such as Java Web Start and Java Plugin.
+The <tt>pbck</tt> methods mby be used by bpplicbtion developers
+who wish to deploy lbrge JARs on the web.  The <tt>unpbck</tt> methods mby be used 
+by deployment bpplicbtions such bs Jbvb Web Stbrt bnd Jbvb Plugin.
 
 <p>
-In typical use, the packed output should be further compressed using
-a suitable tool such as gzip or <tt>java.util.zip.GZIPOutputStream</tt>.
-The resulting file (with a suffix ".pack.gz") should be hosted on a HTTP/1.1
-compliant server, which will be capable of handling "Accept-Encoding",
-as specified by the HTTP 1.1 RFC2616 specification.
+In typicbl use, the pbcked output should be further compressed using
+b suitbble tool such bs gzip or <tt>jbvb.util.zip.GZIPOutputStrebm</tt>.
+The resulting file (with b suffix ".pbck.gz") should be hosted on b HTTP/1.1
+complibnt server, which will be cbpbble of hbndling "Accept-Encoding",
+bs specified by the HTTP 1.1 RFC2616 specificbtion.
 
 <p>
-<b>NOTE:</b> It is recommended that the original ".jar" file be hosted
-in addition to the ".pack.gz" file, so that older client implementations
-will continue to work reliably.
-(On-demand compression by the server is not recommended.)
+<b>NOTE:</b> It is recommended thbt the originbl ".jbr" file be hosted
+in bddition to the ".pbck.gz" file, so thbt older client implementbtions
+will continue to work relibbly.
+(On-dembnd compression by the server is not recommended.)
 
 <p>
-When a client application requests a ".jar" file (call it "Large.jar"),
-the client will transmit the  headers
-"Content-Type=application/x-java-archive" as well as "Accept-Encoding=pack200-gzip".
-This indicates to the server that the client application desires an version
-of the file encoded with Pack200 and further compressed with gzip.
+When b client bpplicbtion requests b ".jbr" file (cbll it "Lbrge.jbr"),
+the client will trbnsmit the  hebders
+"Content-Type=bpplicbtion/x-jbvb-brchive" bs well bs "Accept-Encoding=pbck200-gzip".
+This indicbtes to the server thbt the client bpplicbtion desires bn version
+of the file encoded with Pbck200 bnd further compressed with gzip.
 
 <p>
-The server implementation will typically check for the existence of "Large.pack.gz".
-If that file is available, the server will transmit it with the headers
-"Content-Encoding=pack200-gzip" and "Content-Type=application/x-java-archive". 
+The server implementbtion will typicblly check for the existence of "Lbrge.pbck.gz".
+If thbt file is bvbilbble, the server will trbnsmit it with the hebders
+"Content-Encoding=pbck200-gzip" bnd "Content-Type=bpplicbtion/x-jbvb-brchive". 
 
 <p>
-If the ".pack.gz" file, is not available, then the server will transmit
-the original ".jar"
-with "Content-Encoding=null" and "Content-Type=application/x-java-archive".
+If the ".pbck.gz" file, is not bvbilbble, then the server will trbnsmit
+the originbl ".jbr"
+with "Content-Encoding=null" bnd "Content-Type=bpplicbtion/x-jbvb-brchive".
 
 <p>
-A MIME type of "application/x-java-pack200" may be specified by the
-client application to indicate a ".pack" file is required.
-However, this has limited capability, and is not recommended.
+A MIME type of "bpplicbtion/x-jbvb-pbck200" mby be specified by the
+client bpplicbtion to indicbte b ".pbck" file is required.
+However, this hbs limited cbpbbility, bnd is not recommended.
 
-<h2> Package Specification</h2>
-Network Transfer Format Specification :<a href="http://jcp.org/en/jsr/detail?id=200">
-http://jcp.org/en/jsr/detail?id=200</a>
+<h2> Pbckbge Specificbtion</h2>
+Network Trbnsfer Formbt Specificbtion :<b href="http://jcp.org/en/jsr/detbil?id=200">
+http://jcp.org/en/jsr/detbil?id=200</b>
 
-<h2> Related Documentation</h2>
-For overviews, tutorials, examples, guides, and tool documentation, please
+<h2> Relbted Documentbtion</h2>
+For overviews, tutoribls, exbmples, guides, bnd tool documentbtion, plebse
 see:
 <ul>
 
 <li>
-Jar File Specification :<a href="http://java.sun.com/j2se/1.3/docs/guide/jar/jar.html">
-http://java.sun.com/j2se/1.3/docs/guide/jar/jar.html</a></li>
+Jbr File Specificbtion :<b href="http://jbvb.sun.com/j2se/1.3/docs/guide/jbr/jbr.html">
+http://jbvb.sun.com/j2se/1.3/docs/guide/jbr/jbr.html</b></li>
 
 <li>
-Class File Specification: Chapter 4 of
-<em>The Java&trade; Virtual Machine Specification</em>
+Clbss File Specificbtion: Chbpter 4 of
+<em>The Jbvb&trbde; Virtubl Mbchine Specificbtion</em>
 
 <li>
-Hypertext Transfer Protocol -- HTTP/1.1 : <a href="http://www.ietf.org/rfc/rfc2616.txt">
+Hypertext Trbnsfer Protocol -- HTTP/1.1 : <b href="http://www.ietf.org/rfc/rfc2616.txt">
 http://www.ietf.org/rfc/rfc2616.txt
 </ul>
 
 <li>
 @since 1.5</li>
 
-<br><!-- Put @see and @since tags down here. -->
+<br><!-- Put @see bnd @since tbgs down here. -->
 </body>
 </html>

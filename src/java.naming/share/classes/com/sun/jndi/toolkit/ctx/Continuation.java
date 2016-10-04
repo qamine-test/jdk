@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.toolkit.ctx;
+pbckbge com.sun.jndi.toolkit.ctx;
 
-import javax.naming.*;
-import javax.naming.spi.ResolveResult;
-import java.util.Hashtable;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.ResolveResult;
+import jbvb.util.Hbshtbble;
 
 /**
-  * This class contains information required to continue
-  * the method (place where it left off, and remaining name to
+  * This clbss contbins informbtion required to continue
+  * the method (plbce where it left off, bnd rembining nbme to
   * continue).
   *
-  * @author Rosanna Lee
+  * @buthor Rosbnnb Lee
   */
 
-public class Continuation extends ResolveResult {
+public clbss Continubtion extends ResolveResult {
     /**
-     * The name that we started out with. It is initialized by the constructor
-     * and used to calculate to "resolved name" in NamingException in
+     * The nbme thbt we stbrted out with. It is initiblized by the constructor
+     * bnd used to cblculbte to "resolved nbme" in NbmingException in
      * fillInException().
-     * %%% Note that this approach does not always do the calculation
-     * correctly with respect to absence or presence of the trailing slash
-     * for resolved name.
+     * %%% Note thbt this bpprobch does not blwbys do the cblculbtion
+     * correctly with respect to bbsence or presence of the trbiling slbsh
+     * for resolved nbme.
      */
-    protected Name starter;
+    protected Nbme stbrter;
 
     /**
      * Whether links were encountered.
@@ -54,224 +54,224 @@ public class Continuation extends ResolveResult {
     protected Object followingLink = null;
 
     /**
-     * The environment used by the caller. Initialized by constructor and
-     * used when filling out a CannotProceedException.
+     * The environment used by the cbller. Initiblized by constructor bnd
+     * used when filling out b CbnnotProceedException.
      */
-    protected Hashtable<?,?> environment = null;
+    protected Hbshtbble<?,?> environment = null;
 
     /**
-     * Indicates whether the Continuation instance indicates that the operation
-     * should be continued using the data in the Continuation.
-     * Typically, this is only false if an error has been encountered or if
-     * the operation has succeeded.
+     * Indicbtes whether the Continubtion instbnce indicbtes thbt the operbtion
+     * should be continued using the dbtb in the Continubtion.
+     * Typicblly, this is only fblse if bn error hbs been encountered or if
+     * the operbtion hbs succeeded.
      */
-    protected boolean continuing = false;
+    protected boolebn continuing = fblse;
 
     /**
-     * The last resolved context. Used to set the "AltNameCtx" in a
-     * CannotProceedException.
+     * The lbst resolved context. Used to set the "AltNbmeCtx" in b
+     * CbnnotProceedException.
      */
     protected Context resolvedContext = null;
 
     /**
-     * The resolved name relative to resolvedContext. Used to set the
-     * "AltName" in a CannotProceedException.
+     * The resolved nbme relbtive to resolvedContext. Used to set the
+     * "AltNbme" in b CbnnotProceedException.
      */
-    protected Name relativeResolvedName = null;
+    protected Nbme relbtiveResolvedNbme = null;
 
     /**
-     * Constructs a new instance of Continuation.
-     * Used as dummy for contexts that do not do federation (e.g. for schema ops)
+     * Constructs b new instbnce of Continubtion.
+     * Used bs dummy for contexts thbt do not do federbtion (e.g. for schemb ops)
      */
-    public Continuation() {
+    public Continubtion() {
     }
 
     /**
-     * Constructs a new instance of Continuation.
-     * @param top The name of the object that is to be resolved/operated upon.
-     *          This becomes the Continuation's 'starter' and is used to
-     *          calculate the "resolved name" when filling in a NamingException.
-     * @param environment The environment used by the caller. It is used
-     *          when setting the "environment" of a CannotProceedException.
+     * Constructs b new instbnce of Continubtion.
+     * @pbrbm top The nbme of the object thbt is to be resolved/operbted upon.
+     *          This becomes the Continubtion's 'stbrter' bnd is used to
+     *          cblculbte the "resolved nbme" when filling in b NbmingException.
+     * @pbrbm environment The environment used by the cbller. It is used
+     *          when setting the "environment" of b CbnnotProceedException.
      */
-    @SuppressWarnings("unchecked")  // For Hashtable clone: environment.clone()
-    public Continuation(Name top, Hashtable<?,?> environment) {
+    @SuppressWbrnings("unchecked")  // For Hbshtbble clone: environment.clone()
+    public Continubtion(Nbme top, Hbshtbble<?,?> environment) {
         super();
-        starter = top;
-        this.environment = (Hashtable<?,?>)
+        stbrter = top;
+        this.environment = (Hbshtbble<?,?>)
                 ((environment == null) ? null : environment.clone());
     }
 
     /**
-     * Determines whether this Continuation contains data that should be
-     * used to continue the operation.
+     * Determines whether this Continubtion contbins dbtb thbt should be
+     * used to continue the operbtion.
      *
-     * @return true if operation should continue; false if operation has
+     * @return true if operbtion should continue; fblse if operbtion hbs
      * completed (successfully or unsuccessfully).
      */
-    public boolean isContinue() {
+    public boolebn isContinue() {
         return continuing;
     }
 
     /**
-     * Sets this Continuation to indicate successful completion.
-     * Subsequent calls to isContinue() will return false.
+     * Sets this Continubtion to indicbte successful completion.
+     * Subsequent cblls to isContinue() will return fblse.
      * This method is different from the setError() methods only from
-     * the standpoint that this method does not set any of the other
-     * fields such as resolved object or resolved context. This is because
-     * this method is typically called when the context recognizes that
-     * the operation has successfully completed and that the continuation
-     * already contains the appropriately set fields.
+     * the stbndpoint thbt this method does not set bny of the other
+     * fields such bs resolved object or resolved context. This is becbuse
+     * this method is typicblly cblled when the context recognizes thbt
+     * the operbtion hbs successfully completed bnd thbt the continubtion
+     * blrebdy contbins the bppropribtely set fields.
      * @see setError
      * @see setErrorNNS
      */
     public void setSuccess() {
-        continuing = false;
+        continuing = fblse;
     }
 
     /**
-     * Fills in an exception's fields using data from this Continuation.
-     * The resolved name is set by subtracting remainingName from starter.
-     * %%% This might not not always produce the correct answer wrt trailing "/".
-     * If the exception is a CannotProceedException, its environment,
-     * altName, and altNameCtx fields are set using this continuation's
-     * environment, relativeResolvedName, and resolvedContext.
+     * Fills in bn exception's fields using dbtb from this Continubtion.
+     * The resolved nbme is set by subtrbcting rembiningNbme from stbrter.
+     * %%% This might not not blwbys produce the correct bnswer wrt trbiling "/".
+     * If the exception is b CbnnotProceedException, its environment,
+     * bltNbme, bnd bltNbmeCtx fields bre set using this continubtion's
+     * environment, relbtiveResolvedNbme, bnd resolvedContext.
      *
-     * @param e The non-null naming exception to fill.
-     * @return The non-null naming exception with its fields set using
-     * data from this Continuation.
+     * @pbrbm e The non-null nbming exception to fill.
+     * @return The non-null nbming exception with its fields set using
+     * dbtb from this Continubtion.
      */
-    public NamingException fillInException(NamingException e) {
-        e.setRemainingName(remainingName);
+    public NbmingException fillInException(NbmingException e) {
+        e.setRembiningNbme(rembiningNbme);
         e.setResolvedObj(resolvedObj);
 
-        if (starter == null || starter.isEmpty())
-            e.setResolvedName(null);
-        else if (remainingName == null)
-            e.setResolvedName(starter);
+        if (stbrter == null || stbrter.isEmpty())
+            e.setResolvedNbme(null);
+        else if (rembiningNbme == null)
+            e.setResolvedNbme(stbrter);
         else
-            e.setResolvedName(
-                starter.getPrefix(starter.size() -
-                                  remainingName.size()));
+            e.setResolvedNbme(
+                stbrter.getPrefix(stbrter.size() -
+                                  rembiningNbme.size()));
 
-        if ((e instanceof CannotProceedException)) {
-            CannotProceedException cpe = (CannotProceedException)e;
-            Hashtable<?,?> env = (environment == null ?
-                new Hashtable<>(11) : (Hashtable<?,?>)environment.clone());
+        if ((e instbnceof CbnnotProceedException)) {
+            CbnnotProceedException cpe = (CbnnotProceedException)e;
+            Hbshtbble<?,?> env = (environment == null ?
+                new Hbshtbble<>(11) : (Hbshtbble<?,?>)environment.clone());
             cpe.setEnvironment(env);
-            cpe.setAltNameCtx(resolvedContext);
-            cpe.setAltName(relativeResolvedName);
+            cpe.setAltNbmeCtx(resolvedContext);
+            cpe.setAltNbme(relbtiveResolvedNbme);
         }
 
         return e;
     }
 
     /**
-     * Sets this Continuation to indicated that an error has occurred,
-     * and that the remaining name is rename + "/".
+     * Sets this Continubtion to indicbted thbt bn error hbs occurred,
+     * bnd thbt the rembining nbme is renbme + "/".
      *
-     * This method is typically called by _nns methods that have been
-     * given a name to process. It might process part of that name but
-     * encountered some error. Consequently, it would call setErrorNNS()
-     * with the remaining name. Since the _nns method was expected to
-     * operate upon the "nns" of the original name, the remaining name
-     * must include the "nns". That's why this method adds a trailing "/".
+     * This method is typicblly cblled by _nns methods thbt hbve been
+     * given b nbme to process. It might process pbrt of thbt nbme but
+     * encountered some error. Consequently, it would cbll setErrorNNS()
+     * with the rembining nbme. Since the _nns method wbs expected to
+     * operbte upon the "nns" of the originbl nbme, the rembining nbme
+     * must include the "nns". Thbt's why this method bdds b trbiling "/".
      *<p>
-     * After this method is called, isContinuing() returns false.
+     * After this method is cblled, isContinuing() returns fblse.
      *
-     * @param resObj The possibly null object that was resolved to.
-     * @param remain The non-null remaining name.
+     * @pbrbm resObj The possibly null object thbt wbs resolved to.
+     * @pbrbm rembin The non-null rembining nbme.
      */
-    public void setErrorNNS(Object resObj, Name remain) {
-        Name nm = (Name)(remain.clone());
+    public void setErrorNNS(Object resObj, Nbme rembin) {
+        Nbme nm = (Nbme)(rembin.clone());
         try {
-            nm.add("");
-        } catch (InvalidNameException e) {
-            // ignore; can't happen for composite name
+            nm.bdd("");
+        } cbtch (InvblidNbmeException e) {
+            // ignore; cbn't hbppen for composite nbme
         }
         setErrorAux(resObj, nm);
     }
 
     /**
-     * Form that accepts a String name instead of a Name name.
+     * Form thbt bccepts b String nbme instebd of b Nbme nbme.
 
-     * @param resObj The possibly null object that was resolved to.
-     * @param remain The possibly String remaining name.
+     * @pbrbm resObj The possibly null object thbt wbs resolved to.
+     * @pbrbm rembin The possibly String rembining nbme.
      *
-     * @see #setErrorNNS(java.lang.Object, javax.naming.Name)
+     * @see #setErrorNNS(jbvb.lbng.Object, jbvbx.nbming.Nbme)
      */
-    public void setErrorNNS(Object resObj, String remain) {
-        CompositeName rname = new CompositeName();
+    public void setErrorNNS(Object resObj, String rembin) {
+        CompositeNbme rnbme = new CompositeNbme();
         try {
-            if (remain != null && !remain.equals(""))
-                rname.add(remain);
+            if (rembin != null && !rembin.equbls(""))
+                rnbme.bdd(rembin);
 
-            rname.add("");
-        } catch (InvalidNameException e) {
-            // ignore, can't happen for composite name
+            rnbme.bdd("");
+        } cbtch (InvblidNbmeException e) {
+            // ignore, cbn't hbppen for composite nbme
         }
-        setErrorAux(resObj, rname);
+        setErrorAux(resObj, rnbme);
     }
 
     /**
-     * Sets this Continuation to indicated that an error has occurred
-     * and supply resolved information.
+     * Sets this Continubtion to indicbted thbt bn error hbs occurred
+     * bnd supply resolved informbtion.
      *
-     * This method is typically called by methods that have been
-     * given a name to process. It might process part of that name but
-     * encountered some error. Consequently, it would call setError()
-     * with the resolved object and the remaining name.
+     * This method is typicblly cblled by methods thbt hbve been
+     * given b nbme to process. It might process pbrt of thbt nbme but
+     * encountered some error. Consequently, it would cbll setError()
+     * with the resolved object bnd the rembining nbme.
      *<p>
-     * After this method is called, isContinuing() returns false.
+     * After this method is cblled, isContinuing() returns fblse.
      *
-     * @param resObj The possibly null object that was resolved to.
-     * @param remain The possibly null remaining name.
+     * @pbrbm resObj The possibly null object thbt wbs resolved to.
+     * @pbrbm rembin The possibly null rembining nbme.
      */
-    public void setError(Object resObj, Name remain) {
-        if (remain != null)
-            remainingName = (Name)(remain.clone());
+    public void setError(Object resObj, Nbme rembin) {
+        if (rembin != null)
+            rembiningNbme = (Nbme)(rembin.clone());
         else
-            remainingName = null;
+            rembiningNbme = null;
 
-        setErrorAux(resObj, remainingName);
+        setErrorAux(resObj, rembiningNbme);
     }
 
 
     /**
-     * Form that accepts a String name instead of a Name name.
+     * Form thbt bccepts b String nbme instebd of b Nbme nbme.
 
-     * @param resObj The possibly null object that was resolved to.
-     * @param remain The possibly String remaining name.
+     * @pbrbm resObj The possibly null object thbt wbs resolved to.
+     * @pbrbm rembin The possibly String rembining nbme.
      *
-     * @see #setError(java.lang.Object, javax.naming.Name)
+     * @see #setError(jbvb.lbng.Object, jbvbx.nbming.Nbme)
      */
-    public void setError(Object resObj, String remain) {
-        CompositeName rname = new CompositeName();
-        if (remain != null && !remain.equals("")) {
+    public void setError(Object resObj, String rembin) {
+        CompositeNbme rnbme = new CompositeNbme();
+        if (rembin != null && !rembin.equbls("")) {
             try {
-                rname.add(remain);
-            } catch (InvalidNameException e) {
-                // ignore; can't happen for composite name
+                rnbme.bdd(rembin);
+            } cbtch (InvblidNbmeException e) {
+                // ignore; cbn't hbppen for composite nbme
             }
         }
-        setErrorAux(resObj, rname);
+        setErrorAux(resObj, rnbme);
     }
 
-    private void setErrorAux(Object resObj, Name rname) {
-        remainingName = rname;
+    privbte void setErrorAux(Object resObj, Nbme rnbme) {
+        rembiningNbme = rnbme;
         resolvedObj = resObj;
-        continuing = false;
+        continuing = fblse;
     }
 
-    private void setContinueAux(Object resObj,
-        Name relResName, Context currCtx,  Name remain) {
-        if (resObj instanceof LinkRef) {
-            setContinueLink(resObj, relResName, currCtx, remain);
+    privbte void setContinueAux(Object resObj,
+        Nbme relResNbme, Context currCtx,  Nbme rembin) {
+        if (resObj instbnceof LinkRef) {
+            setContinueLink(resObj, relResNbme, currCtx, rembin);
         } else {
-            remainingName = remain;
+            rembiningNbme = rembin;
             resolvedObj = resObj;
 
-            relativeResolvedName = relResName;
+            relbtiveResolvedNbme = relResNbme;
             resolvedContext = currCtx;
 
             continuing = true;
@@ -279,164 +279,164 @@ public class Continuation extends ResolveResult {
     }
 
     /**
-     * Sets this Continuation with the supplied data, and set remaining name
+     * Sets this Continubtion with the supplied dbtb, bnd set rembining nbme
      * to be "/".
-     * This method is typically called by _nns methods that have been
-     * given a name to process. It might the name (without the nns) and
+     * This method is typicblly cblled by _nns methods thbt hbve been
+     * given b nbme to process. It might the nbme (without the nns) bnd
      * continue process of the nns elsewhere.
-     * Consequently, it would call this form of the setContinueNNS().
-     * This method supplies "/" as the remaining name.
+     * Consequently, it would cbll this form of the setContinueNNS().
+     * This method supplies "/" bs the rembining nbme.
      *<p>
-     * After this method is called, isContinuing() returns true.
+     * After this method is cblled, isContinuing() returns true.
      *
-     * @param resObj The possibly null resolved object.
-     * @param relResName The non-null resolved name relative to currCtx.
-     * @param currCtx The non-null context from which relResName is to be resolved.
+     * @pbrbm resObj The possibly null resolved object.
+     * @pbrbm relResNbme The non-null resolved nbme relbtive to currCtx.
+     * @pbrbm currCtx The non-null context from which relResNbme is to be resolved.
      */
-    public void setContinueNNS(Object resObj, Name relResName, Context currCtx) {
-        CompositeName rname = new CompositeName();
+    public void setContinueNNS(Object resObj, Nbme relResNbme, Context currCtx) {
+        CompositeNbme rnbme = new CompositeNbme();
 
-        setContinue(resObj, relResName, currCtx, PartialCompositeContext._NNS_NAME);
+        setContinue(resObj, relResNbme, currCtx, PbrtiblCompositeContext._NNS_NAME);
     }
 
     /**
-     * Overloaded form that accesses String names.
+     * Overlobded form thbt bccesses String nbmes.
      *
-     * @param resObj The possibly null resolved object.
-     * @param relResName The non-null resolved name relative to currCtx.
-     * @param currCtx The non-null context from which relResName is to be resolved.
-     * @see #setContinueNNS(java.lang.Object, javax.naming.Name, javax.naming.Context)
+     * @pbrbm resObj The possibly null resolved object.
+     * @pbrbm relResNbme The non-null resolved nbme relbtive to currCtx.
+     * @pbrbm currCtx The non-null context from which relResNbme is to be resolved.
+     * @see #setContinueNNS(jbvb.lbng.Object, jbvbx.nbming.Nbme, jbvbx.nbming.Context)
      */
-    public void setContinueNNS(Object resObj, String relResName, Context currCtx) {
-        CompositeName relname = new CompositeName();
+    public void setContinueNNS(Object resObj, String relResNbme, Context currCtx) {
+        CompositeNbme relnbme = new CompositeNbme();
         try {
-            relname.add(relResName);
-        } catch (NamingException e) {}
+            relnbme.bdd(relResNbme);
+        } cbtch (NbmingException e) {}
 
-        setContinue(resObj, relname, currCtx, PartialCompositeContext._NNS_NAME);
+        setContinue(resObj, relnbme, currCtx, PbrtiblCompositeContext._NNS_NAME);
     }
 
 
     /**
-     * Sets this Continuation with the supplied data, and set remaining name
-     * to be the empty name.
-     * This method is typically called by list-style methods
-     * in which the target context implementing list() expects an
-     * empty name. For example when c_list() is given a non-empty name to
-     * process, it would resolve that name, and then call setContinue()
-     * with the resolved object so that the target context to be listed
-     * would be called with the empty name (i.e. list the target context itself).
+     * Sets this Continubtion with the supplied dbtb, bnd set rembining nbme
+     * to be the empty nbme.
+     * This method is typicblly cblled by list-style methods
+     * in which the tbrget context implementing list() expects bn
+     * empty nbme. For exbmple when c_list() is given b non-empty nbme to
+     * process, it would resolve thbt nbme, bnd then cbll setContinue()
+     * with the resolved object so thbt the tbrget context to be listed
+     * would be cblled with the empty nbme (i.e. list the tbrget context itself).
      *<p>
-     * After this method is called, isContinuing() returns true.
+     * After this method is cblled, isContinuing() returns true.
      *
-     * @param resObj The possibly null resolved object.
-     * @param relResName The non-null resolved name relative to currCtx.
-     * @param currCtx The non-null context from which relResName is to be resolved.
+     * @pbrbm resObj The possibly null resolved object.
+     * @pbrbm relResNbme The non-null resolved nbme relbtive to currCtx.
+     * @pbrbm currCtx The non-null context from which relResNbme is to be resolved.
      */
-    public void setContinue(Object obj, Name relResName, Context currCtx) {
-        setContinueAux(obj, relResName, currCtx,
-            (Name)PartialCompositeContext._EMPTY_NAME.clone());
+    public void setContinue(Object obj, Nbme relResNbme, Context currCtx) {
+        setContinueAux(obj, relResNbme, currCtx,
+            (Nbme)PbrtiblCompositeContext._EMPTY_NAME.clone());
     }
 
     /**
-     * Sets this Continuation with the supplied data.
+     * Sets this Continubtion with the supplied dbtb.
 
-     * This method is typically called by a method that has been asked
-     * to operate on a name. The method resolves part of the name
-     * (relResName) to obj and sets the unprocessed part to rename.
-     * It calls setContinue() so that the operation can be continued
-     * using this data.
+     * This method is typicblly cblled by b method thbt hbs been bsked
+     * to operbte on b nbme. The method resolves pbrt of the nbme
+     * (relResNbme) to obj bnd sets the unprocessed pbrt to renbme.
+     * It cblls setContinue() so thbt the operbtion cbn be continued
+     * using this dbtb.
      *<p>
-     * After this method is called, isContinuing() returns true.
+     * After this method is cblled, isContinuing() returns true.
      *
-     * @param resObj The possibly null resolved object.
-     * @param relResName The non-null resolved name relative to currCtx.
-     * @param currCtx The non-null context from which relResName is to be resolved.
-     * @param remain The non-null remaining name.
+     * @pbrbm resObj The possibly null resolved object.
+     * @pbrbm relResNbme The non-null resolved nbme relbtive to currCtx.
+     * @pbrbm currCtx The non-null context from which relResNbme is to be resolved.
+     * @pbrbm rembin The non-null rembining nbme.
      */
-    public void setContinue(Object obj, Name relResName, Context currCtx, Name remain) {
-        if (remain != null)
-            this.remainingName = (Name)(remain.clone());
+    public void setContinue(Object obj, Nbme relResNbme, Context currCtx, Nbme rembin) {
+        if (rembin != null)
+            this.rembiningNbme = (Nbme)(rembin.clone());
         else
-            this.remainingName = new CompositeName();
+            this.rembiningNbme = new CompositeNbme();
 
-        setContinueAux(obj, relResName, currCtx, remainingName);
+        setContinueAux(obj, relResNbme, currCtx, rembiningNbme);
     }
 
     /**
-     * String overload.
+     * String overlobd.
      *
-     * @param resObj The possibly null resolved object.
-     * @param relResName The non-null resolved name relative to currCtx.
-     * @param currCtx The non-null context from which relResName is to be resolved.
-     * @param remain The non-null remaining name.
-     * @see #setContinue(java.lang.Object, java.lang.String, javax.naming.Context, java.lang.String)
+     * @pbrbm resObj The possibly null resolved object.
+     * @pbrbm relResNbme The non-null resolved nbme relbtive to currCtx.
+     * @pbrbm currCtx The non-null context from which relResNbme is to be resolved.
+     * @pbrbm rembin The non-null rembining nbme.
+     * @see #setContinue(jbvb.lbng.Object, jbvb.lbng.String, jbvbx.nbming.Context, jbvb.lbng.String)
      */
-    public void setContinue(Object obj, String relResName,
-        Context currCtx, String remain) {
-        CompositeName relname = new CompositeName();
-        if (!relResName.equals("")) {
+    public void setContinue(Object obj, String relResNbme,
+        Context currCtx, String rembin) {
+        CompositeNbme relnbme = new CompositeNbme();
+        if (!relResNbme.equbls("")) {
             try {
-                relname.add(relResName);
-            } catch (NamingException e){}
+                relnbme.bdd(relResNbme);
+            } cbtch (NbmingException e){}
         }
 
-        CompositeName rname = new CompositeName();
-        if (!remain.equals("")) {
+        CompositeNbme rnbme = new CompositeNbme();
+        if (!rembin.equbls("")) {
             try {
-                rname.add(remain);
-            } catch (NamingException e) {
+                rnbme.bdd(rembin);
+            } cbtch (NbmingException e) {
             }
         }
 
-        setContinueAux(obj, relname, currCtx, rname);
+        setContinueAux(obj, relnbme, currCtx, rnbme);
     }
 
     /**
-     * %%% This method is kept only for backward compatibility. Delete when
-     * old implementations updated.
+     * %%% This method is kept only for bbckwbrd compbtibility. Delete when
+     * old implementbtions updbted.
      *
-     * Replaced by setContinue(obj, relResName, (Context)currCtx);
+     * Replbced by setContinue(obj, relResNbme, (Context)currCtx);
      *
-     * @deprecated
+     * @deprecbted
      */
-    @Deprecated
+    @Deprecbted
     public void setContinue(Object obj, Object currCtx) {
         setContinue(obj, null, (Context)currCtx);
     }
 
 
     /**
-     * Sets this Continuation to process a linkRef.
+     * Sets this Continubtion to process b linkRef.
      * %%% Not working yet.
      */
-    private void setContinueLink(Object linkRef, Name relResName,
-        Context resolvedCtx, Name rname) {
+    privbte void setContinueLink(Object linkRef, Nbme relResNbme,
+        Context resolvedCtx, Nbme rnbme) {
         this.followingLink = linkRef;
 
-        this.remainingName = rname;
+        this.rembiningNbme = rnbme;
         this.resolvedObj = resolvedCtx;
 
-        this.relativeResolvedName = PartialCompositeContext._EMPTY_NAME;
+        this.relbtiveResolvedNbme = PbrtiblCompositeContext._EMPTY_NAME;
         this.resolvedContext = resolvedCtx;
 
         this.continuing = true;
     }
 
     public String toString() {
-        if (remainingName != null)
-            return starter.toString() + "; remainingName: '" + remainingName + "'";
+        if (rembiningNbme != null)
+            return stbrter.toString() + "; rembiningNbme: '" + rembiningNbme + "'";
         else
-            return starter.toString();
+            return stbrter.toString();
     }
 
-    public String toString(boolean detail) {
-        if (!detail || this.resolvedObj == null)
+    public String toString(boolebn detbil) {
+        if (!detbil || this.resolvedObj == null)
                 return this.toString();
         return this.toString() + "; resolvedObj: " + this.resolvedObj +
-            "; relativeResolvedName: " + relativeResolvedName +
+            "; relbtiveResolvedNbme: " + relbtiveResolvedNbme +
             "; resolvedContext: " + resolvedContext;
     }
 
-    private static final long serialVersionUID = 8162530656132624308L;
+    privbte stbtic finbl long seriblVersionUID = 8162530656132624308L;
 }

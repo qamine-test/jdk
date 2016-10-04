@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -31,17 +31,17 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
-#include <signal.h>
+#include <signbl.h>
 #include <dirent.h>
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #include <sys/syslimits.h>
 #include <sys/un.h>
 #include <fcntl.h>
 
-#include "sun_tools_attach_BsdVirtualMachine.h"
+#include "sun_tools_bttbch_BsdVirtublMbchine.h"
 
 #define RESTARTABLE(_cmd, _result) do { \
   do { \
@@ -50,57 +50,57 @@
 } while(0)
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
+ * Clbss:     sun_tools_bttbch_BsdVirtublMbchine
  * Method:    socket
- * Signature: ()I
+ * Signbture: ()I
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_BsdVirtualMachine_socket
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbch_BsdVirtublMbchine_socket
+  (JNIEnv *env, jclbss cls)
 {
     int fd = socket(PF_UNIX, SOCK_STREAM, 0);
     if (fd == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "socket");
+        JNU_ThrowIOExceptionWithLbstError(env, "socket");
     }
     return (jint)fd;
 }
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
+ * Clbss:     sun_tools_bttbch_BsdVirtublMbchine
  * Method:    connect
- * Signature: (ILjava/lang/String;)I
+ * Signbture: (ILjbvb/lbng/String;)I
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_connect
-  (JNIEnv *env, jclass cls, jint fd, jstring path)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_BsdVirtublMbchine_connect
+  (JNIEnv *env, jclbss cls, jint fd, jstring pbth)
 {
-    jboolean isCopy;
-    const char* p = GetStringPlatformChars(env, path, &isCopy);
+    jboolebn isCopy;
+    const chbr* p = GetStringPlbtformChbrs(env, pbth, &isCopy);
     if (p != NULL) {
-        struct sockaddr_un addr;
+        struct sockbddr_un bddr;
         int err = 0;
 
-        memset(&addr, 0, sizeof(addr));
-        addr.sun_family = AF_UNIX;
-        /* strncpy is safe because addr.sun_path was zero-initialized before. */
-        strncpy(addr.sun_path, p, sizeof(addr.sun_path) - 1);
+        memset(&bddr, 0, sizeof(bddr));
+        bddr.sun_fbmily = AF_UNIX;
+        /* strncpy is sbfe becbuse bddr.sun_pbth wbs zero-initiblized before. */
+        strncpy(bddr.sun_pbth, p, sizeof(bddr.sun_pbth) - 1);
 
-        if (connect(fd, (struct sockaddr*)&addr, sizeof(addr)) == -1) {
+        if (connect(fd, (struct sockbddr*)&bddr, sizeof(bddr)) == -1) {
             err = errno;
         }
 
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, path, p);
+            JNU_RelebseStringPlbtformChbrs(env, pbth, p);
         }
 
         /*
-         * If the connect failed then we throw the appropriate exception
-         * here (can't throw it before releasing the string as can't call
+         * If the connect fbiled then we throw the bppropribte exception
+         * here (cbn't throw it before relebsing the string bs cbn't cbll
          * JNI with pending exception)
          */
         if (err != 0) {
             if (err == ENOENT) {
-                JNU_ThrowByName(env, "java/io/FileNotFoundException", NULL);
+                JNU_ThrowByNbme(env, "jbvb/io/FileNotFoundException", NULL);
             } else {
-                char* msg = strdup(strerror(err));
+                chbr* msg = strdup(strerror(err));
                 JNU_ThrowIOException(env, msg);
                 if (msg != NULL) {
                     free(msg);
@@ -111,49 +111,49 @@ JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_connect
 }
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
+ * Clbss:     sun_tools_bttbch_BsdVirtublMbchine
  * Method:    sendQuitTo
- * Signature: (I)V
+ * Signbture: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_sendQuitTo
-  (JNIEnv *env, jclass cls, jint pid)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_BsdVirtublMbchine_sendQuitTo
+  (JNIEnv *env, jclbss cls, jint pid)
 {
     if (kill((pid_t)pid, SIGQUIT)) {
-        JNU_ThrowIOExceptionWithLastError(env, "kill");
+        JNU_ThrowIOExceptionWithLbstError(env, "kill");
     }
 }
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
+ * Clbss:     sun_tools_bttbch_BsdVirtublMbchine
  * Method:    checkPermissions
- * Signature: (Ljava/lang/String;)V
+ * Signbture: (Ljbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_checkPermissions
-  (JNIEnv *env, jclass cls, jstring path)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_BsdVirtublMbchine_checkPermissions
+  (JNIEnv *env, jclbss cls, jstring pbth)
 {
-    jboolean isCopy;
-    const char* p = GetStringPlatformChars(env, path, &isCopy);
+    jboolebn isCopy;
+    const chbr* p = GetStringPlbtformChbrs(env, pbth, &isCopy);
     if (p != NULL) {
-        struct stat sb;
+        struct stbt sb;
         uid_t uid, gid;
         int res;
 
         /*
-         * Check that the path is owned by the effective uid/gid of this
-         * process. Also check that group/other access is not allowed.
+         * Check thbt the pbth is owned by the effective uid/gid of this
+         * process. Also check thbt group/other bccess is not bllowed.
          */
         uid = geteuid();
         gid = getegid();
 
-        res = stat(p, &sb);
+        res = stbt(p, &sb);
         if (res != 0) {
-            /* save errno */
+            /* sbve errno */
             res = errno;
         }
 
-        /* release p here before we throw an I/O exception */
+        /* relebse p here before we throw bn I/O exception */
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, path, p);
+            JNU_RelebseStringPlbtformChbrs(env, pbth, p);
         }
 
         if (res == 0) {
@@ -162,7 +162,7 @@ JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_checkPermissions
                 JNU_ThrowIOException(env, "well-known file is not secure");
             }
         } else {
-            char* msg = strdup(strerror(res));
+            chbr* msg = strdup(strerror(res));
             JNU_ThrowIOException(env, msg);
             if (msg != NULL) {
                 free(msg);
@@ -172,137 +172,137 @@ JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_checkPermissions
 }
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
+ * Clbss:     sun_tools_bttbch_BsdVirtublMbchine
  * Method:    close
- * Signature: (I)V
+ * Signbture: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_close
-  (JNIEnv *env, jclass cls, jint fd)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_BsdVirtublMbchine_close
+  (JNIEnv *env, jclbss cls, jint fd)
 {
     int res;
     RESTARTABLE(close(fd), res);
 }
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
- * Method:    read
- * Signature: (I[BI)I
+ * Clbss:     sun_tools_bttbch_BsdVirtublMbchine
+ * Method:    rebd
+ * Signbture: (I[BI)I
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_BsdVirtualMachine_read
-  (JNIEnv *env, jclass cls, jint fd, jbyteArray ba, jint off, jint baLen)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbch_BsdVirtublMbchine_rebd
+  (JNIEnv *env, jclbss cls, jint fd, jbyteArrby bb, jint off, jint bbLen)
 {
-    unsigned char buf[128];
+    unsigned chbr buf[128];
     size_t len = sizeof(buf);
     ssize_t n;
 
-    size_t remaining = (size_t)(baLen - off);
-    if (len > remaining) {
-        len = remaining;
+    size_t rembining = (size_t)(bbLen - off);
+    if (len > rembining) {
+        len = rembining;
     }
 
-    RESTARTABLE(read(fd, buf, len), n);
+    RESTARTABLE(rebd(fd, buf, len), n);
     if (n == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "read");
+        JNU_ThrowIOExceptionWithLbstError(env, "rebd");
     } else {
         if (n == 0) {
             n = -1;     // EOF
         } else {
-            (*env)->SetByteArrayRegion(env, ba, off, (jint)n, (jbyte *)(buf));
+            (*env)->SetByteArrbyRegion(env, bb, off, (jint)n, (jbyte *)(buf));
         }
     }
     return n;
 }
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
+ * Clbss:     sun_tools_bttbch_BsdVirtublMbchine
  * Method:    write
- * Signature: (I[B)V
+ * Signbture: (I[B)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_write
-  (JNIEnv *env, jclass cls, jint fd, jbyteArray ba, jint off, jint bufLen)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_BsdVirtublMbchine_write
+  (JNIEnv *env, jclbss cls, jint fd, jbyteArrby bb, jint off, jint bufLen)
 {
-    size_t remaining = bufLen;
+    size_t rembining = bufLen;
     do {
-        unsigned char buf[128];
+        unsigned chbr buf[128];
         size_t len = sizeof(buf);
         int n;
 
-        if (len > remaining) {
-            len = remaining;
+        if (len > rembining) {
+            len = rembining;
         }
-        (*env)->GetByteArrayRegion(env, ba, off, len, (jbyte *)buf);
+        (*env)->GetByteArrbyRegion(env, bb, off, len, (jbyte *)buf);
 
         RESTARTABLE(write(fd, buf, len), n);
         if (n > 0) {
            off += n;
-           remaining -= n;
+           rembining -= n;
         } else {
-            JNU_ThrowIOExceptionWithLastError(env, "write");
+            JNU_ThrowIOExceptionWithLbstError(env, "write");
             return;
         }
 
-    } while (remaining > 0);
+    } while (rembining > 0);
 }
 
 /*
- * Class:     sun_tools_attach_BSDVirtualMachine
- * Method:    createAttachFile
- * Signature: (Ljava.lang.String;)V
+ * Clbss:     sun_tools_bttbch_BSDVirtublMbchine
+ * Method:    crebteAttbchFile
+ * Signbture: (Ljbvb.lbng.String;)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_createAttachFile(JNIEnv *env, jclass cls, jstring path)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_BsdVirtublMbchine_crebteAttbchFile(JNIEnv *env, jclbss cls, jstring pbth)
 {
-    const char* _path;
-    jboolean isCopy;
+    const chbr* _pbth;
+    jboolebn isCopy;
     int fd, rc;
 
-    _path = GetStringPlatformChars(env, path, &isCopy);
-    if (_path == NULL) {
-        JNU_ThrowIOException(env, "Must specify a path");
+    _pbth = GetStringPlbtformChbrs(env, pbth, &isCopy);
+    if (_pbth == NULL) {
+        JNU_ThrowIOException(env, "Must specify b pbth");
         return;
     }
 
-    RESTARTABLE(open(_path, O_CREAT | O_EXCL, S_IWUSR | S_IRUSR), fd);
+    RESTARTABLE(open(_pbth, O_CREAT | O_EXCL, S_IWUSR | S_IRUSR), fd);
     if (fd == -1) {
-        /* release p here before we throw an I/O exception */
+        /* relebse p here before we throw bn I/O exception */
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, path, _path);
+            JNU_RelebseStringPlbtformChbrs(env, pbth, _pbth);
         }
-        JNU_ThrowIOExceptionWithLastError(env, "open");
+        JNU_ThrowIOExceptionWithLbstError(env, "open");
         return;
     }
 
-    RESTARTABLE(chown(_path, geteuid(), getegid()), rc);
+    RESTARTABLE(chown(_pbth, geteuid(), getegid()), rc);
 
     RESTARTABLE(close(fd), rc);
 
-    /* release p here */
+    /* relebse p here */
     if (isCopy) {
-        JNU_ReleaseStringPlatformChars(env, path, _path);
+        JNU_RelebseStringPlbtformChbrs(env, pbth, _pbth);
     }
 }
 
 /*
- * Class:     sun_tools_attach_BSDVirtualMachine
+ * Clbss:     sun_tools_bttbch_BSDVirtublMbchine
  * Method:    getTempDir
- * Signature: (V)Ljava.lang.String;
+ * Signbture: (V)Ljbvb.lbng.String;
  */
-JNIEXPORT jstring JNICALL Java_sun_tools_attach_BsdVirtualMachine_getTempDir(JNIEnv *env, jclass cls)
+JNIEXPORT jstring JNICALL Jbvb_sun_tools_bttbch_BsdVirtublMbchine_getTempDir(JNIEnv *env, jclbss cls)
 {
-    // This must be hard coded because it's the system's temporary
-    // directory not the java application's temp directory, ala java.io.tmpdir.
+    // This must be hbrd coded becbuse it's the system's temporbry
+    // directory not the jbvb bpplicbtion's temp directory, blb jbvb.io.tmpdir.
 
 #ifdef __APPLE__
-    // macosx has a secure per-user temporary directory
-    static char *temp_path = NULL;
-    char temp_path_storage[PATH_MAX];
-    if (temp_path == NULL) {
-        int pathSize = confstr(_CS_DARWIN_USER_TEMP_DIR, temp_path_storage, PATH_MAX);
-        if (pathSize == 0 || pathSize > PATH_MAX) {
-            strlcpy(temp_path_storage, "/tmp", sizeof(temp_path_storage));
+    // mbcosx hbs b secure per-user temporbry directory
+    stbtic chbr *temp_pbth = NULL;
+    chbr temp_pbth_storbge[PATH_MAX];
+    if (temp_pbth == NULL) {
+        int pbthSize = confstr(_CS_DARWIN_USER_TEMP_DIR, temp_pbth_storbge, PATH_MAX);
+        if (pbthSize == 0 || pbthSize > PATH_MAX) {
+            strlcpy(temp_pbth_storbge, "/tmp", sizeof(temp_pbth_storbge));
         }
-        temp_path = temp_path_storage;
+        temp_pbth = temp_pbth_storbge;
     }
-    return JNU_NewStringPlatform(env, temp_path);
+    return JNU_NewStringPlbtform(env, temp_pbth);
 #else /* __APPLE__ */
     return (*env)->NewStringUTF(env, "/tmp");
 #endif /* __APPLE__ */

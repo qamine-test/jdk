@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.event.*;
-import java.text.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.text.*;
+import jbvb.bwt.event.*;
+import jbvb.text.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.text.*;
 
 /**
- * DateFormatter is an <code>InternationalFormatter</code> that does its
- * formatting by way of an instance of <code>java.text.DateFormat</code>.
+ * DbteFormbtter is bn <code>InternbtionblFormbtter</code> thbt does its
+ * formbtting by wby of bn instbnce of <code>jbvb.text.DbteFormbt</code>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see java.text.DateFormat
+ * @see jbvb.text.DbteFormbt
  *
  * @since 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DateFormatter extends InternationalFormatter {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DbteFormbtter extends InternbtionblFormbtter {
     /**
-     * This is shorthand for
-     * <code>new DateFormatter(DateFormat.getDateInstance())</code>.
+     * This is shorthbnd for
+     * <code>new DbteFormbtter(DbteFormbt.getDbteInstbnce())</code>.
      */
-    public DateFormatter() {
-        this(DateFormat.getDateInstance());
+    public DbteFormbtter() {
+        this(DbteFormbt.getDbteInstbnce());
     }
 
     /**
-     * Returns a DateFormatter configured with the specified
-     * <code>Format</code> instance.
+     * Returns b DbteFormbtter configured with the specified
+     * <code>Formbt</code> instbnce.
      *
-     * @param format Format used to dictate legal values
+     * @pbrbm formbt Formbt used to dictbte legbl vblues
      */
-    public DateFormatter(DateFormat format) {
-        super(format);
-        setFormat(format);
+    public DbteFormbtter(DbteFormbt formbt) {
+        super(formbt);
+        setFormbt(formbt);
     }
 
     /**
-     * Sets the format that dictates the legal values that can be edited
-     * and displayed.
+     * Sets the formbt thbt dictbtes the legbl vblues thbt cbn be edited
+     * bnd displbyed.
      * <p>
-     * If you have used the nullary constructor the value of this property
-     * will be determined for the current locale by way of the
-     * <code>Dateformat.getDateInstance()</code> method.
+     * If you hbve used the nullbry constructor the vblue of this property
+     * will be determined for the current locble by wby of the
+     * <code>Dbteformbt.getDbteInstbnce()</code> method.
      *
-     * @param format DateFormat instance used for converting from/to Strings
+     * @pbrbm formbt DbteFormbt instbnce used for converting from/to Strings
      */
-    public void setFormat(DateFormat format) {
-        super.setFormat(format);
+    public void setFormbt(DbteFormbt formbt) {
+        super.setFormbt(formbt);
     }
 
     /**
-     * Returns the Calendar that <code>DateFormat</code> is associated with,
-     * or if the <code>Format</code> is not a <code>DateFormat</code>
-     * <code>Calendar.getInstance</code> is returned.
+     * Returns the Cblendbr thbt <code>DbteFormbt</code> is bssocibted with,
+     * or if the <code>Formbt</code> is not b <code>DbteFormbt</code>
+     * <code>Cblendbr.getInstbnce</code> is returned.
      */
-    private Calendar getCalendar() {
-        Format f = getFormat();
+    privbte Cblendbr getCblendbr() {
+        Formbt f = getFormbt();
 
-        if (f instanceof DateFormat) {
-            return ((DateFormat)f).getCalendar();
+        if (f instbnceof DbteFormbt) {
+            return ((DbteFormbt)f).getCblendbr();
         }
-        return Calendar.getInstance();
+        return Cblendbr.getInstbnce();
     }
 
 
     /**
-     * Returns true, as DateFormatterFilter will support
-     * incrementing/decrementing of the value.
+     * Returns true, bs DbteFormbtterFilter will support
+     * incrementing/decrementing of the vblue.
      */
-    boolean getSupportsIncrement() {
+    boolebn getSupportsIncrement() {
         return true;
     }
 
     /**
-     * Returns the field that will be adjusted by adjustValue.
+     * Returns the field thbt will be bdjusted by bdjustVblue.
      */
-    Object getAdjustField(int start, Map<?, ?> attributes) {
-        Iterator<?> attrs = attributes.keySet().iterator();
+    Object getAdjustField(int stbrt, Mbp<?, ?> bttributes) {
+        Iterbtor<?> bttrs = bttributes.keySet().iterbtor();
 
-        while (attrs.hasNext()) {
-            Object key = attrs.next();
+        while (bttrs.hbsNext()) {
+            Object key = bttrs.next();
 
-            if ((key instanceof DateFormat.Field) &&
-                (key == DateFormat.Field.HOUR1 ||
-                 ((DateFormat.Field)key).getCalendarField() != -1)) {
+            if ((key instbnceof DbteFormbt.Field) &&
+                (key == DbteFormbt.Field.HOUR1 ||
+                 ((DbteFormbt.Field)key).getCblendbrField() != -1)) {
                 return key;
             }
         }
@@ -124,36 +124,36 @@ public class DateFormatter extends InternationalFormatter {
     }
 
     /**
-     * Adjusts the Date if FieldPosition identifies a known calendar
+     * Adjusts the Dbte if FieldPosition identifies b known cblendbr
      * field.
      */
-    Object adjustValue(Object value, Map<?, ?> attributes, Object key,
+    Object bdjustVblue(Object vblue, Mbp<?, ?> bttributes, Object key,
                            int direction) throws
-                      BadLocationException, ParseException {
+                      BbdLocbtionException, PbrseException {
         if (key != null) {
             int field;
 
-            // HOUR1 has no corresponding calendar field, thus, map
-            // it to HOUR0 which will give the correct behavior.
-            if (key == DateFormat.Field.HOUR1) {
-                key = DateFormat.Field.HOUR0;
+            // HOUR1 hbs no corresponding cblendbr field, thus, mbp
+            // it to HOUR0 which will give the correct behbvior.
+            if (key == DbteFormbt.Field.HOUR1) {
+                key = DbteFormbt.Field.HOUR0;
             }
-            field = ((DateFormat.Field)key).getCalendarField();
+            field = ((DbteFormbt.Field)key).getCblendbrField();
 
-            Calendar calendar = getCalendar();
+            Cblendbr cblendbr = getCblendbr();
 
-            if (calendar != null) {
-                calendar.setTime((Date)value);
+            if (cblendbr != null) {
+                cblendbr.setTime((Dbte)vblue);
 
-                int fieldValue = calendar.get(field);
+                int fieldVblue = cblendbr.get(field);
 
                 try {
-                    calendar.add(field, direction);
-                    value = calendar.getTime();
-                } catch (Throwable th) {
-                    value = null;
+                    cblendbr.bdd(field, direction);
+                    vblue = cblendbr.getTime();
+                } cbtch (Throwbble th) {
+                    vblue = null;
                 }
-                return value;
+                return vblue;
             }
         }
         return null;

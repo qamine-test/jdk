@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
-import sun.misc.FloatingDecimal;
+import jbvb.mbth.BigDecimbl;
+import jbvb.mbth.BigInteger;
+import jbvb.mbth.RoundingMode;
+import sun.misc.FlobtingDecimbl;
 
 /**
- * Digit List. Private to DecimalFormat.
- * Handles the transcoding
- * between numeric values and strings of characters.  Only handles
- * non-negative numbers.  The division of labor between DigitList and
- * DecimalFormat is that DigitList handles the radix 10 representation
- * issues; DecimalFormat handles the locale-specific issues such as
- * positive/negative, grouping, decimal point, currency, and so on.
+ * Digit List. Privbte to DecimblFormbt.
+ * Hbndles the trbnscoding
+ * between numeric vblues bnd strings of chbrbcters.  Only hbndles
+ * non-negbtive numbers.  The division of lbbor between DigitList bnd
+ * DecimblFormbt is thbt DigitList hbndles the rbdix 10 representbtion
+ * issues; DecimblFormbt hbndles the locble-specific issues such bs
+ * positive/negbtive, grouping, decimbl point, currency, bnd so on.
  *
- * A DigitList is really a representation of a floating point value.
- * It may be an integer value; we assume that a double has sufficient
- * precision to represent all digits of a long.
+ * A DigitList is reblly b representbtion of b flobting point vblue.
+ * It mby be bn integer vblue; we bssume thbt b double hbs sufficient
+ * precision to represent bll digits of b long.
  *
- * The DigitList representation consists of a string of characters,
- * which are the digits radix 10, from '0' to '9'.  It also has a radix
- * 10 exponent associated with it.  The value represented by a DigitList
- * object can be computed by mulitplying the fraction f, where 0 <= f < 1,
- * derived by placing all the digits of the list to the right of the
- * decimal point, by 10^exponent.
+ * The DigitList representbtion consists of b string of chbrbcters,
+ * which bre the digits rbdix 10, from '0' to '9'.  It blso hbs b rbdix
+ * 10 exponent bssocibted with it.  The vblue represented by b DigitList
+ * object cbn be computed by mulitplying the frbction f, where 0 <= f < 1,
+ * derived by plbcing bll the digits of the list to the right of the
+ * decimbl point, by 10^exponent.
  *
- * @see  Locale
- * @see  Format
- * @see  NumberFormat
- * @see  DecimalFormat
- * @see  ChoiceFormat
- * @see  MessageFormat
- * @author       Mark Davis, Alan Liu
+ * @see  Locble
+ * @see  Formbt
+ * @see  NumberFormbt
+ * @see  DecimblFormbt
+ * @see  ChoiceFormbt
+ * @see  MessbgeFormbt
+ * @buthor       Mbrk Dbvis, Albn Liu
  */
-final class DigitList implements Cloneable {
+finbl clbss DigitList implements Clonebble {
     /**
-     * The maximum number of significant digits in an IEEE 754 double, that
-     * is, in a Java double.  This must not be increased, or garbage digits
-     * will be generated, and should not be decreased, or accuracy will be lost.
+     * The mbximum number of significbnt digits in bn IEEE 754 double, thbt
+     * is, in b Jbvb double.  This must not be increbsed, or gbrbbge digits
+     * will be generbted, bnd should not be decrebsed, or bccurbcy will be lost.
      */
-    public static final int MAX_COUNT = 19; // == Long.toString(Long.MAX_VALUE).length()
+    public stbtic finbl int MAX_COUNT = 19; // == Long.toString(Long.MAX_VALUE).length()
 
     /**
-     * These data members are intentionally public and can be set directly.
+     * These dbtb members bre intentionblly public bnd cbn be set directly.
      *
-     * The value represented is given by placing the decimal point before
-     * digits[decimalAt].  If decimalAt is < 0, then leading zeros between
-     * the decimal point and the first nonzero digit are implied.  If decimalAt
-     * is > count, then trailing zeros between the digits[count-1] and the
-     * decimal point are implied.
+     * The vblue represented is given by plbcing the decimbl point before
+     * digits[decimblAt].  If decimblAt is < 0, then lebding zeros between
+     * the decimbl point bnd the first nonzero digit bre implied.  If decimblAt
+     * is > count, then trbiling zeros between the digits[count-1] bnd the
+     * decimbl point bre implied.
      *
-     * Equivalently, the represented value is given by f * 10^decimalAt.  Here
-     * f is a value 0.1 <= f < 1 arrived at by placing the digits in Digits to
-     * the right of the decimal.
+     * Equivblently, the represented vblue is given by f * 10^decimblAt.  Here
+     * f is b vblue 0.1 <= f < 1 brrived bt by plbcing the digits in Digits to
+     * the right of the decimbl.
      *
-     * DigitList is normalized, so if it is non-zero, figits[0] is non-zero.  We
-     * don't allow denormalized numbers because our exponent is effectively of
-     * unlimited magnitude.  The count value contains the number of significant
+     * DigitList is normblized, so if it is non-zero, figits[0] is non-zero.  We
+     * don't bllow denormblized numbers becbuse our exponent is effectively of
+     * unlimited mbgnitude.  The count vblue contbins the number of significbnt
      * digits present in digits[].
      *
-     * Zero is represented by any DigitList with count == 0 or with each digits[i]
-     * for all i <= count == '0'.
+     * Zero is represented by bny DigitList with count == 0 or with ebch digits[i]
+     * for bll i <= count == '0'.
      */
-    public int decimalAt = 0;
+    public int decimblAt = 0;
     public int count = 0;
-    public char[] digits = new char[MAX_COUNT];
+    public chbr[] digits = new chbr[MAX_COUNT];
 
-    private char[] data;
-    private RoundingMode roundingMode = RoundingMode.HALF_EVEN;
-    private boolean isNegative = false;
+    privbte chbr[] dbtb;
+    privbte RoundingMode roundingMode = RoundingMode.HALF_EVEN;
+    privbte boolebn isNegbtive = fblse;
 
     /**
      * Return true if the represented number is zero.
      */
-    boolean isZero() {
+    boolebn isZero() {
         for (int i=0; i < count; ++i) {
             if (digits[i] != '0') {
-                return false;
+                return fblse;
             }
         }
         return true;
@@ -128,301 +128,301 @@ final class DigitList implements Cloneable {
     }
 
     /**
-     * Clears out the digits.
-     * Use before appending them.
-     * Typically, you set a series of digits with append, then at the point
-     * you hit the decimal point, you set myDigitList.decimalAt = myDigitList.count;
-     * then go on appending digits.
+     * Clebrs out the digits.
+     * Use before bppending them.
+     * Typicblly, you set b series of digits with bppend, then bt the point
+     * you hit the decimbl point, you set myDigitList.decimblAt = myDigitList.count;
+     * then go on bppending digits.
      */
-    public void clear () {
-        decimalAt = 0;
+    public void clebr () {
+        decimblAt = 0;
         count = 0;
     }
 
     /**
-     * Appends a digit to the list, extending the list when necessary.
+     * Appends b digit to the list, extending the list when necessbry.
      */
-    public void append(char digit) {
+    public void bppend(chbr digit) {
         if (count == digits.length) {
-            char[] data = new char[count + 100];
-            System.arraycopy(digits, 0, data, 0, count);
-            digits = data;
+            chbr[] dbtb = new chbr[count + 100];
+            System.brrbycopy(digits, 0, dbtb, 0, count);
+            digits = dbtb;
         }
         digits[count++] = digit;
     }
 
     /**
-     * Utility routine to get the value of the digit list
-     * If (count == 0) this throws a NumberFormatException, which
-     * mimics Long.parseLong().
+     * Utility routine to get the vblue of the digit list
+     * If (count == 0) this throws b NumberFormbtException, which
+     * mimics Long.pbrseLong().
      */
-    public final double getDouble() {
+    public finbl double getDouble() {
         if (count == 0) {
             return 0.0;
         }
 
         StringBuffer temp = getStringBuffer();
-        temp.append('.');
-        temp.append(digits, 0, count);
-        temp.append('E');
-        temp.append(decimalAt);
-        return Double.parseDouble(temp.toString());
+        temp.bppend('.');
+        temp.bppend(digits, 0, count);
+        temp.bppend('E');
+        temp.bppend(decimblAt);
+        return Double.pbrseDouble(temp.toString());
     }
 
     /**
-     * Utility routine to get the value of the digit list.
-     * If (count == 0) this returns 0, unlike Long.parseLong().
+     * Utility routine to get the vblue of the digit list.
+     * If (count == 0) this returns 0, unlike Long.pbrseLong().
      */
-    public final long getLong() {
-        // for now, simple implementation; later, do proper IEEE native stuff
+    public finbl long getLong() {
+        // for now, simple implementbtion; lbter, do proper IEEE nbtive stuff
 
         if (count == 0) {
             return 0;
         }
 
-        // We have to check for this, because this is the one NEGATIVE value
-        // we represent.  If we tried to just pass the digits off to parseLong,
-        // we'd get a parse failure.
+        // We hbve to check for this, becbuse this is the one NEGATIVE vblue
+        // we represent.  If we tried to just pbss the digits off to pbrseLong,
+        // we'd get b pbrse fbilure.
         if (isLongMIN_VALUE()) {
             return Long.MIN_VALUE;
         }
 
         StringBuffer temp = getStringBuffer();
-        temp.append(digits, 0, count);
-        for (int i = count; i < decimalAt; ++i) {
-            temp.append('0');
+        temp.bppend(digits, 0, count);
+        for (int i = count; i < decimblAt; ++i) {
+            temp.bppend('0');
         }
-        return Long.parseLong(temp.toString());
+        return Long.pbrseLong(temp.toString());
     }
 
-    public final BigDecimal getBigDecimal() {
+    public finbl BigDecimbl getBigDecimbl() {
         if (count == 0) {
-            if (decimalAt == 0) {
-                return BigDecimal.ZERO;
+            if (decimblAt == 0) {
+                return BigDecimbl.ZERO;
             } else {
-                return new BigDecimal("0E" + decimalAt);
+                return new BigDecimbl("0E" + decimblAt);
             }
         }
 
-       if (decimalAt == count) {
-           return new BigDecimal(digits, 0, count);
+       if (decimblAt == count) {
+           return new BigDecimbl(digits, 0, count);
        } else {
-           return new BigDecimal(digits, 0, count).scaleByPowerOfTen(decimalAt - count);
+           return new BigDecimbl(digits, 0, count).scbleByPowerOfTen(decimblAt - count);
        }
     }
 
     /**
-     * Return true if the number represented by this object can fit into
-     * a long.
-     * @param isPositive true if this number should be regarded as positive
-     * @param ignoreNegativeZero true if -0 should be regarded as identical to
-     * +0; otherwise they are considered distinct
-     * @return true if this number fits into a Java long
+     * Return true if the number represented by this object cbn fit into
+     * b long.
+     * @pbrbm isPositive true if this number should be regbrded bs positive
+     * @pbrbm ignoreNegbtiveZero true if -0 should be regbrded bs identicbl to
+     * +0; otherwise they bre considered distinct
+     * @return true if this number fits into b Jbvb long
      */
-    boolean fitsIntoLong(boolean isPositive, boolean ignoreNegativeZero) {
-        // Figure out if the result will fit in a long.  We have to
-        // first look for nonzero digits after the decimal point;
+    boolebn fitsIntoLong(boolebn isPositive, boolebn ignoreNegbtiveZero) {
+        // Figure out if the result will fit in b long.  We hbve to
+        // first look for nonzero digits bfter the decimbl point;
         // then check the size.  If the digit count is 18 or less, then
-        // the value can definitely be represented as a long.  If it is 19
-        // then it may be too large.
+        // the vblue cbn definitely be represented bs b long.  If it is 19
+        // then it mby be too lbrge.
 
-        // Trim trailing zeros.  This does not change the represented value.
+        // Trim trbiling zeros.  This does not chbnge the represented vblue.
         while (count > 0 && digits[count - 1] == '0') {
             --count;
         }
 
         if (count == 0) {
-            // Positive zero fits into a long, but negative zero can only
-            // be represented as a double. - bug 4162852
-            return isPositive || ignoreNegativeZero;
+            // Positive zero fits into b long, but negbtive zero cbn only
+            // be represented bs b double. - bug 4162852
+            return isPositive || ignoreNegbtiveZero;
         }
 
-        if (decimalAt < count || decimalAt > MAX_COUNT) {
-            return false;
+        if (decimblAt < count || decimblAt > MAX_COUNT) {
+            return fblse;
         }
 
-        if (decimalAt < MAX_COUNT) return true;
+        if (decimblAt < MAX_COUNT) return true;
 
-        // At this point we have decimalAt == count, and count == MAX_COUNT.
-        // The number will overflow if it is larger than 9223372036854775807
-        // or smaller than -9223372036854775808.
+        // At this point we hbve decimblAt == count, bnd count == MAX_COUNT.
+        // The number will overflow if it is lbrger thbn 9223372036854775807
+        // or smbller thbn -9223372036854775808.
         for (int i=0; i<count; ++i) {
-            char dig = digits[i], max = LONG_MIN_REP[i];
-            if (dig > max) return false;
-            if (dig < max) return true;
+            chbr dig = digits[i], mbx = LONG_MIN_REP[i];
+            if (dig > mbx) return fblse;
+            if (dig < mbx) return true;
         }
 
-        // At this point the first count digits match.  If decimalAt is less
-        // than count, then the remaining digits are zero, and we return true.
-        if (count < decimalAt) return true;
+        // At this point the first count digits mbtch.  If decimblAt is less
+        // thbn count, then the rembining digits bre zero, bnd we return true.
+        if (count < decimblAt) return true;
 
-        // Now we have a representation of Long.MIN_VALUE, without the leading
-        // negative sign.  If this represents a positive value, then it does
+        // Now we hbve b representbtion of Long.MIN_VALUE, without the lebding
+        // negbtive sign.  If this represents b positive vblue, then it does
         // not fit; otherwise it fits.
         return !isPositive;
     }
 
     /**
-     * Set the digit list to a representation of the given double value.
-     * This method supports fixed-point notation.
-     * @param isNegative Boolean value indicating whether the number is negative.
-     * @param source Value to be converted; must not be Inf, -Inf, Nan,
-     * or a value <= 0.
-     * @param maximumFractionDigits The most fractional digits which should
+     * Set the digit list to b representbtion of the given double vblue.
+     * This method supports fixed-point notbtion.
+     * @pbrbm isNegbtive Boolebn vblue indicbting whether the number is negbtive.
+     * @pbrbm source Vblue to be converted; must not be Inf, -Inf, Nbn,
+     * or b vblue <= 0.
+     * @pbrbm mbximumFrbctionDigits The most frbctionbl digits which should
      * be converted.
      */
-    final void set(boolean isNegative, double source, int maximumFractionDigits) {
-        set(isNegative, source, maximumFractionDigits, true);
+    finbl void set(boolebn isNegbtive, double source, int mbximumFrbctionDigits) {
+        set(isNegbtive, source, mbximumFrbctionDigits, true);
     }
 
     /**
-     * Set the digit list to a representation of the given double value.
-     * This method supports both fixed-point and exponential notation.
-     * @param isNegative Boolean value indicating whether the number is negative.
-     * @param source Value to be converted; must not be Inf, -Inf, Nan,
-     * or a value <= 0.
-     * @param maximumDigits The most fractional or total digits which should
+     * Set the digit list to b representbtion of the given double vblue.
+     * This method supports both fixed-point bnd exponentibl notbtion.
+     * @pbrbm isNegbtive Boolebn vblue indicbting whether the number is negbtive.
+     * @pbrbm source Vblue to be converted; must not be Inf, -Inf, Nbn,
+     * or b vblue <= 0.
+     * @pbrbm mbximumDigits The most frbctionbl or totbl digits which should
      * be converted.
-     * @param fixedPoint If true, then maximumDigits is the maximum
-     * fractional digits to be converted.  If false, total digits.
+     * @pbrbm fixedPoint If true, then mbximumDigits is the mbximum
+     * frbctionbl digits to be converted.  If fblse, totbl digits.
      */
-    final void set(boolean isNegative, double source, int maximumDigits, boolean fixedPoint) {
+    finbl void set(boolebn isNegbtive, double source, int mbximumDigits, boolebn fixedPoint) {
 
-        FloatingDecimal.BinaryToASCIIConverter fdConverter  = FloatingDecimal.getBinaryToASCIIConverter(source);
-        boolean hasBeenRoundedUp = fdConverter.digitsRoundedUp();
-        boolean allDecimalDigits = fdConverter.decimalDigitsExact();
-        assert !fdConverter.isExceptional();
-        String digitsString = fdConverter.toJavaFormatString();
+        FlobtingDecimbl.BinbryToASCIIConverter fdConverter  = FlobtingDecimbl.getBinbryToASCIIConverter(source);
+        boolebn hbsBeenRoundedUp = fdConverter.digitsRoundedUp();
+        boolebn bllDecimblDigits = fdConverter.decimblDigitsExbct();
+        bssert !fdConverter.isExceptionbl();
+        String digitsString = fdConverter.toJbvbFormbtString();
 
-        set(isNegative, digitsString,
-            hasBeenRoundedUp, allDecimalDigits,
-            maximumDigits, fixedPoint);
+        set(isNegbtive, digitsString,
+            hbsBeenRoundedUp, bllDecimblDigits,
+            mbximumDigits, fixedPoint);
     }
 
     /**
-     * Generate a representation of the form DDDDD, DDDDD.DDDDD, or
+     * Generbte b representbtion of the form DDDDD, DDDDD.DDDDD, or
      * DDDDDE+/-DDDDD.
-     * @param roundedUp Boolean value indicating if the s digits were rounded-up.
-     * @param allDecimalDigits Boolean value indicating if the digits in s are
-     * an exact decimal representation of the double that was passed.
+     * @pbrbm roundedUp Boolebn vblue indicbting if the s digits were rounded-up.
+     * @pbrbm bllDecimblDigits Boolebn vblue indicbting if the digits in s bre
+     * bn exbct decimbl representbtion of the double thbt wbs pbssed.
      */
-    private void set(boolean isNegative, String s,
-                     boolean roundedUp, boolean allDecimalDigits,
-                     int maximumDigits, boolean fixedPoint) {
-        this.isNegative = isNegative;
+    privbte void set(boolebn isNegbtive, String s,
+                     boolebn roundedUp, boolebn bllDecimblDigits,
+                     int mbximumDigits, boolebn fixedPoint) {
+        this.isNegbtive = isNegbtive;
         int len = s.length();
-        char[] source = getDataChars(len);
-        s.getChars(0, len, source, 0);
+        chbr[] source = getDbtbChbrs(len);
+        s.getChbrs(0, len, source, 0);
 
-        decimalAt = -1;
+        decimblAt = -1;
         count = 0;
         int exponent = 0;
-        // Number of zeros between decimal point and first non-zero digit after
-        // decimal point, for numbers < 1.
-        int leadingZerosAfterDecimal = 0;
-        boolean nonZeroDigitSeen = false;
+        // Number of zeros between decimbl point bnd first non-zero digit bfter
+        // decimbl point, for numbers < 1.
+        int lebdingZerosAfterDecimbl = 0;
+        boolebn nonZeroDigitSeen = fblse;
 
         for (int i = 0; i < len; ) {
-            char c = source[i++];
+            chbr c = source[i++];
             if (c == '.') {
-                decimalAt = count;
+                decimblAt = count;
             } else if (c == 'e' || c == 'E') {
-                exponent = parseInt(source, i, len);
-                break;
+                exponent = pbrseInt(source, i, len);
+                brebk;
             } else {
                 if (!nonZeroDigitSeen) {
                     nonZeroDigitSeen = (c != '0');
-                    if (!nonZeroDigitSeen && decimalAt != -1)
-                        ++leadingZerosAfterDecimal;
+                    if (!nonZeroDigitSeen && decimblAt != -1)
+                        ++lebdingZerosAfterDecimbl;
                 }
                 if (nonZeroDigitSeen) {
                     digits[count++] = c;
                 }
             }
         }
-        if (decimalAt == -1) {
-            decimalAt = count;
+        if (decimblAt == -1) {
+            decimblAt = count;
         }
         if (nonZeroDigitSeen) {
-            decimalAt += exponent - leadingZerosAfterDecimal;
+            decimblAt += exponent - lebdingZerosAfterDecimbl;
         }
 
         if (fixedPoint) {
-            // The negative of the exponent represents the number of leading
-            // zeros between the decimal and the first non-zero digit, for
-            // a value < 0.1 (e.g., for 0.00123, -decimalAt == 2).  If this
-            // is more than the maximum fraction digits, then we have an underflow
-            // for the printed representation.
-            if (-decimalAt > maximumDigits) {
-                // Handle an underflow to zero when we round something like
-                // 0.0009 to 2 fractional digits.
+            // The negbtive of the exponent represents the number of lebding
+            // zeros between the decimbl bnd the first non-zero digit, for
+            // b vblue < 0.1 (e.g., for 0.00123, -decimblAt == 2).  If this
+            // is more thbn the mbximum frbction digits, then we hbve bn underflow
+            // for the printed representbtion.
+            if (-decimblAt > mbximumDigits) {
+                // Hbndle bn underflow to zero when we round something like
+                // 0.0009 to 2 frbctionbl digits.
                 count = 0;
                 return;
-            } else if (-decimalAt == maximumDigits) {
-                // If we round 0.0009 to 3 fractional digits, then we have to
-                // create a new one digit in the least significant location.
-                if (shouldRoundUp(0, roundedUp, allDecimalDigits)) {
+            } else if (-decimblAt == mbximumDigits) {
+                // If we round 0.0009 to 3 frbctionbl digits, then we hbve to
+                // crebte b new one digit in the lebst significbnt locbtion.
+                if (shouldRoundUp(0, roundedUp, bllDecimblDigits)) {
                     count = 1;
-                    ++decimalAt;
+                    ++decimblAt;
                     digits[0] = '1';
                 } else {
                     count = 0;
                 }
                 return;
             }
-            // else fall through
+            // else fbll through
         }
 
-        // Eliminate trailing zeros.
+        // Eliminbte trbiling zeros.
         while (count > 1 && digits[count - 1] == '0') {
             --count;
         }
 
-        // Eliminate digits beyond maximum digits to be displayed.
-        // Round up if appropriate.
-        round(fixedPoint ? (maximumDigits + decimalAt) : maximumDigits,
-              roundedUp, allDecimalDigits);
+        // Eliminbte digits beyond mbximum digits to be displbyed.
+        // Round up if bppropribte.
+        round(fixedPoint ? (mbximumDigits + decimblAt) : mbximumDigits,
+              roundedUp, bllDecimblDigits);
     }
 
     /**
-     * Round the representation to the given number of digits.
-     * @param maximumDigits The maximum number of digits to be shown.
-     * @param alreadyRounded Boolean indicating if rounding up already happened.
-     * @param allDecimalDigits Boolean indicating if the digits provide an exact
-     * representation of the value.
+     * Round the representbtion to the given number of digits.
+     * @pbrbm mbximumDigits The mbximum number of digits to be shown.
+     * @pbrbm blrebdyRounded Boolebn indicbting if rounding up blrebdy hbppened.
+     * @pbrbm bllDecimblDigits Boolebn indicbting if the digits provide bn exbct
+     * representbtion of the vblue.
      *
-     * Upon return, count will be less than or equal to maximumDigits.
+     * Upon return, count will be less thbn or equbl to mbximumDigits.
      */
-    private final void round(int maximumDigits,
-                             boolean alreadyRounded,
-                             boolean allDecimalDigits) {
-        // Eliminate digits beyond maximum digits to be displayed.
-        // Round up if appropriate.
-        if (maximumDigits >= 0 && maximumDigits < count) {
-            if (shouldRoundUp(maximumDigits, alreadyRounded, allDecimalDigits)) {
+    privbte finbl void round(int mbximumDigits,
+                             boolebn blrebdyRounded,
+                             boolebn bllDecimblDigits) {
+        // Eliminbte digits beyond mbximum digits to be displbyed.
+        // Round up if bppropribte.
+        if (mbximumDigits >= 0 && mbximumDigits < count) {
+            if (shouldRoundUp(mbximumDigits, blrebdyRounded, bllDecimblDigits)) {
                 // Rounding up involved incrementing digits from LSD to MSD.
-                // In most cases this is simple, but in a worst case situation
-                // (9999..99) we have to adjust the decimalAt value.
+                // In most cbses this is simple, but in b worst cbse situbtion
+                // (9999..99) we hbve to bdjust the decimblAt vblue.
                 for (;;) {
-                    --maximumDigits;
-                    if (maximumDigits < 0) {
-                        // We have all 9's, so we increment to a single digit
-                        // of one and adjust the exponent.
+                    --mbximumDigits;
+                    if (mbximumDigits < 0) {
+                        // We hbve bll 9's, so we increment to b single digit
+                        // of one bnd bdjust the exponent.
                         digits[0] = '1';
-                        ++decimalAt;
-                        maximumDigits = 0; // Adjust the count
-                        break;
+                        ++decimblAt;
+                        mbximumDigits = 0; // Adjust the count
+                        brebk;
                     }
 
-                    ++digits[maximumDigits];
-                    if (digits[maximumDigits] <= '9') break;
-                    // digits[maximumDigits] = '0'; // Unnecessary since we'll truncate this
+                    ++digits[mbximumDigits];
+                    if (digits[mbximumDigits] <= '9') brebk;
+                    // digits[mbximumDigits] = '0'; // Unnecessbry since we'll truncbte this
                 }
-                ++maximumDigits; // Increment for use as count
+                ++mbximumDigits; // Increment for use bs count
             }
-            count = maximumDigits;
+            count = mbximumDigits;
 
-            // Eliminate trailing zeros.
+            // Eliminbte trbiling zeros.
             while (count > 1 && digits[count-1] == '0') {
                 --count;
             }
@@ -431,381 +431,381 @@ final class DigitList implements Cloneable {
 
 
     /**
-     * Return true if truncating the representation to the given number
-     * of digits will result in an increment to the last digit.  This
+     * Return true if truncbting the representbtion to the given number
+     * of digits will result in bn increment to the lbst digit.  This
      * method implements the rounding modes defined in the
-     * java.math.RoundingMode class.
+     * jbvb.mbth.RoundingMode clbss.
      * [bnf]
-     * @param maximumDigits the number of digits to keep, from 0 to
-     * <code>count-1</code>.  If 0, then all digits are rounded away, and
-     * this method returns true if a one should be generated (e.g., formatting
+     * @pbrbm mbximumDigits the number of digits to keep, from 0 to
+     * <code>count-1</code>.  If 0, then bll digits bre rounded bwby, bnd
+     * this method returns true if b one should be generbted (e.g., formbtting
      * 0.09 with "#.#").
      * @exception ArithmeticException if rounding is needed with rounding
      *            mode being set to RoundingMode.UNNECESSARY
-     * @return true if digit <code>maximumDigits-1</code> should be
+     * @return true if digit <code>mbximumDigits-1</code> should be
      * incremented
      */
-    private boolean shouldRoundUp(int maximumDigits,
-                                  boolean alreadyRounded,
-                                  boolean allDecimalDigits) {
-        if (maximumDigits < count) {
+    privbte boolebn shouldRoundUp(int mbximumDigits,
+                                  boolebn blrebdyRounded,
+                                  boolebn bllDecimblDigits) {
+        if (mbximumDigits < count) {
             /*
-             * To avoid erroneous double-rounding or truncation when converting
-             * a binary double value to text, information about the exactness
-             * of the conversion result in FloatingDecimal, as well as any
-             * rounding done, is needed in this class.
+             * To bvoid erroneous double-rounding or truncbtion when converting
+             * b binbry double vblue to text, informbtion bbout the exbctness
+             * of the conversion result in FlobtingDecimbl, bs well bs bny
+             * rounding done, is needed in this clbss.
              *
              * - For the  HALF_DOWN, HALF_EVEN, HALF_UP rounding rules below:
-             *   In the case of formating float or double, We must take into
-             *   account what FloatingDecimal has done in the binary to decimal
+             *   In the cbse of formbting flobt or double, We must tbke into
+             *   bccount whbt FlobtingDecimbl hbs done in the binbry to decimbl
              *   conversion.
              *
-             *   Considering the tie cases, FloatingDecimal may round-up the
-             *   value (returning decimal digits equal to tie when it is below),
-             *   or "truncate" the value to the tie while value is above it,
-             *   or provide the exact decimal digits when the binary value can be
-             *   converted exactly to its decimal representation given formating
-             *   rules of FloatingDecimal ( we have thus an exact decimal
-             *   representation of the binary value).
+             *   Considering the tie cbses, FlobtingDecimbl mby round-up the
+             *   vblue (returning decimbl digits equbl to tie when it is below),
+             *   or "truncbte" the vblue to the tie while vblue is bbove it,
+             *   or provide the exbct decimbl digits when the binbry vblue cbn be
+             *   converted exbctly to its decimbl representbtion given formbting
+             *   rules of FlobtingDecimbl ( we hbve thus bn exbct decimbl
+             *   representbtion of the binbry vblue).
              *
-             *   - If the double binary value was converted exactly as a decimal
-             *     value, then DigitList code must apply the expected rounding
+             *   - If the double binbry vblue wbs converted exbctly bs b decimbl
+             *     vblue, then DigitList code must bpply the expected rounding
              *     rule.
              *
-             *   - If FloatingDecimal already rounded up the decimal value,
-             *     DigitList should neither round up the value again in any of
-             *     the three rounding modes above.
+             *   - If FlobtingDecimbl blrebdy rounded up the decimbl vblue,
+             *     DigitList should neither round up the vblue bgbin in bny of
+             *     the three rounding modes bbove.
              *
-             *   - If FloatingDecimal has truncated the decimal value to
-             *     an ending '5' digit, DigitList should round up the value in
-             *     all of the three rounding modes above.
+             *   - If FlobtingDecimbl hbs truncbted the decimbl vblue to
+             *     bn ending '5' digit, DigitList should round up the vblue in
+             *     bll of the three rounding modes bbove.
              *
              *
-             *   This has to be considered only if digit at maximumDigits index
-             *   is exactly the last one in the set of digits, otherwise there are
-             *   remaining digits after that position and we don't have to consider
-             *   what FloatingDecimal did.
+             *   This hbs to be considered only if digit bt mbximumDigits index
+             *   is exbctly the lbst one in the set of digits, otherwise there bre
+             *   rembining digits bfter thbt position bnd we don't hbve to consider
+             *   whbt FlobtingDecimbl did.
              *
-             * - Other rounding modes are not impacted by these tie cases.
+             * - Other rounding modes bre not impbcted by these tie cbses.
              *
-             * - For other numbers that are always converted to exact digits
-             *   (like BigInteger, Long, ...), the passed alreadyRounded boolean
-             *   have to be  set to false, and allDecimalDigits has to be set to
-             *   true in the upper DigitList call stack, providing the right state
-             *   for those situations..
+             * - For other numbers thbt bre blwbys converted to exbct digits
+             *   (like BigInteger, Long, ...), the pbssed blrebdyRounded boolebn
+             *   hbve to be  set to fblse, bnd bllDecimblDigits hbs to be set to
+             *   true in the upper DigitList cbll stbck, providing the right stbte
+             *   for those situbtions..
              */
 
             switch(roundingMode) {
-            case UP:
-                for (int i=maximumDigits; i<count; ++i) {
+            cbse UP:
+                for (int i=mbximumDigits; i<count; ++i) {
                     if (digits[i] != '0') {
                         return true;
                     }
                 }
-                break;
-            case DOWN:
-                break;
-            case CEILING:
-                for (int i=maximumDigits; i<count; ++i) {
+                brebk;
+            cbse DOWN:
+                brebk;
+            cbse CEILING:
+                for (int i=mbximumDigits; i<count; ++i) {
                     if (digits[i] != '0') {
-                        return !isNegative;
+                        return !isNegbtive;
                     }
                 }
-                break;
-            case FLOOR:
-                for (int i=maximumDigits; i<count; ++i) {
+                brebk;
+            cbse FLOOR:
+                for (int i=mbximumDigits; i<count; ++i) {
                     if (digits[i] != '0') {
-                        return isNegative;
+                        return isNegbtive;
                     }
                 }
-                break;
-            case HALF_UP:
-                if (digits[maximumDigits] >= '5') {
+                brebk;
+            cbse HALF_UP:
+                if (digits[mbximumDigits] >= '5') {
                     // We should not round up if the rounding digits position is
-                    // exactly the last index and if digits were already rounded.
-                    if ((maximumDigits == (count - 1)) &&
-                        (alreadyRounded))
-                        return false;
+                    // exbctly the lbst index bnd if digits were blrebdy rounded.
+                    if ((mbximumDigits == (count - 1)) &&
+                        (blrebdyRounded))
+                        return fblse;
 
-                    // Value was exactly at or was above tie. We must round up.
+                    // Vblue wbs exbctly bt or wbs bbove tie. We must round up.
                     return true;
                 }
-                break;
-            case HALF_DOWN:
-                if (digits[maximumDigits] > '5') {
+                brebk;
+            cbse HALF_DOWN:
+                if (digits[mbximumDigits] > '5') {
                     return true;
-                } else if (digits[maximumDigits] == '5' ) {
-                    if (maximumDigits == (count - 1)) {
-                        // The rounding position is exactly the last index.
-                        if (allDecimalDigits || alreadyRounded)
-                            /* FloatingDecimal rounded up (value was below tie),
-                             * or provided the exact list of digits (value was
-                             * an exact tie). We should not round up, following
+                } else if (digits[mbximumDigits] == '5' ) {
+                    if (mbximumDigits == (count - 1)) {
+                        // The rounding position is exbctly the lbst index.
+                        if (bllDecimblDigits || blrebdyRounded)
+                            /* FlobtingDecimbl rounded up (vblue wbs below tie),
+                             * or provided the exbct list of digits (vblue wbs
+                             * bn exbct tie). We should not round up, following
                              * the HALF_DOWN rounding rule.
                              */
-                            return false;
+                            return fblse;
                         else
-                            // Value was above the tie, we must round up.
+                            // Vblue wbs bbove the tie, we must round up.
                             return true;
                     }
 
-                    // We must round up if it gives a non null digit after '5'.
-                    for (int i=maximumDigits+1; i<count; ++i) {
+                    // We must round up if it gives b non null digit bfter '5'.
+                    for (int i=mbximumDigits+1; i<count; ++i) {
                         if (digits[i] != '0') {
                             return true;
                         }
                     }
                 }
-                break;
-            case HALF_EVEN:
-                // Implement IEEE half-even rounding
-                if (digits[maximumDigits] > '5') {
+                brebk;
+            cbse HALF_EVEN:
+                // Implement IEEE hblf-even rounding
+                if (digits[mbximumDigits] > '5') {
                     return true;
-                } else if (digits[maximumDigits] == '5' ) {
-                    if (maximumDigits == (count - 1)) {
-                        // the rounding position is exactly the last index :
-                        if (alreadyRounded)
-                            // If FloatingDecimal rounded up (value was below tie),
-                            // then we should not round up again.
-                            return false;
+                } else if (digits[mbximumDigits] == '5' ) {
+                    if (mbximumDigits == (count - 1)) {
+                        // the rounding position is exbctly the lbst index :
+                        if (blrebdyRounded)
+                            // If FlobtingDecimbl rounded up (vblue wbs below tie),
+                            // then we should not round up bgbin.
+                            return fblse;
 
-                        if (!allDecimalDigits)
-                            // Otherwise if the digits don't represent exact value,
-                            // value was above tie and FloatingDecimal truncated
+                        if (!bllDecimblDigits)
+                            // Otherwise if the digits don't represent exbct vblue,
+                            // vblue wbs bbove tie bnd FlobtingDecimbl truncbted
                             // digits to tie. We must round up.
                             return true;
                         else {
-                            // This is an exact tie value, and FloatingDecimal
-                            // provided all of the exact digits. We thus apply
+                            // This is bn exbct tie vblue, bnd FlobtingDecimbl
+                            // provided bll of the exbct digits. We thus bpply
                             // HALF_EVEN rounding rule.
-                            return ((maximumDigits > 0) &&
-                                    (digits[maximumDigits-1] % 2 != 0));
+                            return ((mbximumDigits > 0) &&
+                                    (digits[mbximumDigits-1] % 2 != 0));
                         }
                     } else {
-                        // Rounds up if it gives a non null digit after '5'
-                        for (int i=maximumDigits+1; i<count; ++i) {
+                        // Rounds up if it gives b non null digit bfter '5'
+                        for (int i=mbximumDigits+1; i<count; ++i) {
                             if (digits[i] != '0')
                                 return true;
                         }
                     }
                 }
-                break;
-            case UNNECESSARY:
-                for (int i=maximumDigits; i<count; ++i) {
+                brebk;
+            cbse UNNECESSARY:
+                for (int i=mbximumDigits; i<count; ++i) {
                     if (digits[i] != '0') {
                         throw new ArithmeticException(
                             "Rounding needed with the rounding mode being set to RoundingMode.UNNECESSARY");
                     }
                 }
-                break;
-            default:
-                assert false;
+                brebk;
+            defbult:
+                bssert fblse;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Utility routine to set the value of the digit list from a long
+     * Utility routine to set the vblue of the digit list from b long
      */
-    final void set(boolean isNegative, long source) {
-        set(isNegative, source, 0);
+    finbl void set(boolebn isNegbtive, long source) {
+        set(isNegbtive, source, 0);
     }
 
     /**
-     * Set the digit list to a representation of the given long value.
-     * @param isNegative Boolean value indicating whether the number is negative.
-     * @param source Value to be converted; must be >= 0 or ==
+     * Set the digit list to b representbtion of the given long vblue.
+     * @pbrbm isNegbtive Boolebn vblue indicbting whether the number is negbtive.
+     * @pbrbm source Vblue to be converted; must be >= 0 or ==
      * Long.MIN_VALUE.
-     * @param maximumDigits The most digits which should be converted.
-     * If maximumDigits is lower than the number of significant digits
-     * in source, the representation will be rounded.  Ignored if <= 0.
+     * @pbrbm mbximumDigits The most digits which should be converted.
+     * If mbximumDigits is lower thbn the number of significbnt digits
+     * in source, the representbtion will be rounded.  Ignored if <= 0.
      */
-    final void set(boolean isNegative, long source, int maximumDigits) {
-        this.isNegative = isNegative;
+    finbl void set(boolebn isNegbtive, long source, int mbximumDigits) {
+        this.isNegbtive = isNegbtive;
 
-        // This method does not expect a negative number. However,
-        // "source" can be a Long.MIN_VALUE (-9223372036854775808),
-        // if the number being formatted is a Long.MIN_VALUE.  In that
-        // case, it will be formatted as -Long.MIN_VALUE, a number
-        // which is outside the legal range of a long, but which can
+        // This method does not expect b negbtive number. However,
+        // "source" cbn be b Long.MIN_VALUE (-9223372036854775808),
+        // if the number being formbtted is b Long.MIN_VALUE.  In thbt
+        // cbse, it will be formbtted bs -Long.MIN_VALUE, b number
+        // which is outside the legbl rbnge of b long, but which cbn
         // be represented by DigitList.
         if (source <= 0) {
             if (source == Long.MIN_VALUE) {
-                decimalAt = count = MAX_COUNT;
-                System.arraycopy(LONG_MIN_REP, 0, digits, 0, count);
+                decimblAt = count = MAX_COUNT;
+                System.brrbycopy(LONG_MIN_REP, 0, digits, 0, count);
             } else {
-                decimalAt = count = 0; // Values <= 0 format as zero
+                decimblAt = count = 0; // Vblues <= 0 formbt bs zero
             }
         } else {
-            // Rewritten to improve performance.  I used to call
-            // Long.toString(), which was about 4x slower than this code.
+            // Rewritten to improve performbnce.  I used to cbll
+            // Long.toString(), which wbs bbout 4x slower thbn this code.
             int left = MAX_COUNT;
             int right;
             while (source > 0) {
-                digits[--left] = (char)('0' + (source % 10));
+                digits[--left] = (chbr)('0' + (source % 10));
                 source /= 10;
             }
-            decimalAt = MAX_COUNT - left;
-            // Don't copy trailing zeros.  We are guaranteed that there is at
-            // least one non-zero digit, so we don't have to check lower bounds.
+            decimblAt = MAX_COUNT - left;
+            // Don't copy trbiling zeros.  We bre gubrbnteed thbt there is bt
+            // lebst one non-zero digit, so we don't hbve to check lower bounds.
             for (right = MAX_COUNT - 1; digits[right] == '0'; --right)
                 ;
             count = right - left + 1;
-            System.arraycopy(digits, left, digits, 0, count);
+            System.brrbycopy(digits, left, digits, 0, count);
         }
-        if (maximumDigits > 0) round(maximumDigits, false, true);
+        if (mbximumDigits > 0) round(mbximumDigits, fblse, true);
     }
 
     /**
-     * Set the digit list to a representation of the given BigDecimal value.
-     * This method supports both fixed-point and exponential notation.
-     * @param isNegative Boolean value indicating whether the number is negative.
-     * @param source Value to be converted; must not be a value <= 0.
-     * @param maximumDigits The most fractional or total digits which should
+     * Set the digit list to b representbtion of the given BigDecimbl vblue.
+     * This method supports both fixed-point bnd exponentibl notbtion.
+     * @pbrbm isNegbtive Boolebn vblue indicbting whether the number is negbtive.
+     * @pbrbm source Vblue to be converted; must not be b vblue <= 0.
+     * @pbrbm mbximumDigits The most frbctionbl or totbl digits which should
      * be converted.
-     * @param fixedPoint If true, then maximumDigits is the maximum
-     * fractional digits to be converted.  If false, total digits.
+     * @pbrbm fixedPoint If true, then mbximumDigits is the mbximum
+     * frbctionbl digits to be converted.  If fblse, totbl digits.
      */
-    final void set(boolean isNegative, BigDecimal source, int maximumDigits, boolean fixedPoint) {
+    finbl void set(boolebn isNegbtive, BigDecimbl source, int mbximumDigits, boolebn fixedPoint) {
         String s = source.toString();
         extendDigits(s.length());
 
-        set(isNegative, s,
-            false, true,
-            maximumDigits, fixedPoint);
+        set(isNegbtive, s,
+            fblse, true,
+            mbximumDigits, fixedPoint);
     }
 
     /**
-     * Set the digit list to a representation of the given BigInteger value.
-     * @param isNegative Boolean value indicating whether the number is negative.
-     * @param source Value to be converted; must be >= 0.
-     * @param maximumDigits The most digits which should be converted.
-     * If maximumDigits is lower than the number of significant digits
-     * in source, the representation will be rounded.  Ignored if <= 0.
+     * Set the digit list to b representbtion of the given BigInteger vblue.
+     * @pbrbm isNegbtive Boolebn vblue indicbting whether the number is negbtive.
+     * @pbrbm source Vblue to be converted; must be >= 0.
+     * @pbrbm mbximumDigits The most digits which should be converted.
+     * If mbximumDigits is lower thbn the number of significbnt digits
+     * in source, the representbtion will be rounded.  Ignored if <= 0.
      */
-    final void set(boolean isNegative, BigInteger source, int maximumDigits) {
-        this.isNegative = isNegative;
+    finbl void set(boolebn isNegbtive, BigInteger source, int mbximumDigits) {
+        this.isNegbtive = isNegbtive;
         String s = source.toString();
         int len = s.length();
         extendDigits(len);
-        s.getChars(0, len, digits, 0);
+        s.getChbrs(0, len, digits, 0);
 
-        decimalAt = len;
+        decimblAt = len;
         int right;
         for (right = len - 1; right >= 0 && digits[right] == '0'; --right)
             ;
         count = right + 1;
 
-        if (maximumDigits > 0) {
-            round(maximumDigits, false, true);
+        if (mbximumDigits > 0) {
+            round(mbximumDigits, fblse, true);
         }
     }
 
     /**
-     * equality test between two digit lists.
+     * equblity test between two digit lists.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj)                      // quick check
             return true;
-        if (!(obj instanceof DigitList))         // (1) same object?
-            return false;
+        if (!(obj instbnceof DigitList))         // (1) sbme object?
+            return fblse;
         DigitList other = (DigitList) obj;
         if (count != other.count ||
-        decimalAt != other.decimalAt)
-            return false;
+        decimblAt != other.decimblAt)
+            return fblse;
         for (int i = 0; i < count; i++)
             if (digits[i] != other.digits[i])
-                return false;
+                return fblse;
         return true;
     }
 
     /**
-     * Generates the hash code for the digit list.
+     * Generbtes the hbsh code for the digit list.
      */
-    public int hashCode() {
-        int hashcode = decimalAt;
+    public int hbshCode() {
+        int hbshcode = decimblAt;
 
         for (int i = 0; i < count; i++) {
-            hashcode = hashcode * 37 + digits[i];
+            hbshcode = hbshcode * 37 + digits[i];
         }
 
-        return hashcode;
+        return hbshcode;
     }
 
     /**
-     * Creates a copy of this object.
-     * @return a clone of this instance.
+     * Crebtes b copy of this object.
+     * @return b clone of this instbnce.
      */
     public Object clone() {
         try {
             DigitList other = (DigitList) super.clone();
-            char[] newDigits = new char[digits.length];
-            System.arraycopy(digits, 0, newDigits, 0, digits.length);
+            chbr[] newDigits = new chbr[digits.length];
+            System.brrbycopy(digits, 0, newDigits, 0, digits.length);
             other.digits = newDigits;
             other.tempBuffer = null;
             return other;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e);
         }
     }
 
     /**
      * Returns true if this DigitList represents Long.MIN_VALUE;
-     * false, otherwise.  This is required so that getLong() works.
+     * fblse, otherwise.  This is required so thbt getLong() works.
      */
-    private boolean isLongMIN_VALUE() {
-        if (decimalAt != count || count != MAX_COUNT) {
-            return false;
+    privbte boolebn isLongMIN_VALUE() {
+        if (decimblAt != count || count != MAX_COUNT) {
+            return fblse;
         }
 
         for (int i = 0; i < count; ++i) {
-            if (digits[i] != LONG_MIN_REP[i]) return false;
+            if (digits[i] != LONG_MIN_REP[i]) return fblse;
         }
 
         return true;
     }
 
-    private static final int parseInt(char[] str, int offset, int strLen) {
-        char c;
-        boolean positive = true;
+    privbte stbtic finbl int pbrseInt(chbr[] str, int offset, int strLen) {
+        chbr c;
+        boolebn positive = true;
         if ((c = str[offset]) == '-') {
-            positive = false;
+            positive = fblse;
             offset++;
         } else if (c == '+') {
             offset++;
         }
 
-        int value = 0;
+        int vblue = 0;
         while (offset < strLen) {
             c = str[offset++];
             if (c >= '0' && c <= '9') {
-                value = value * 10 + (c - '0');
+                vblue = vblue * 10 + (c - '0');
             } else {
-                break;
+                brebk;
             }
         }
-        return positive ? value : -value;
+        return positive ? vblue : -vblue;
     }
 
-    // The digit part of -9223372036854775808L
-    private static final char[] LONG_MIN_REP = "9223372036854775808".toCharArray();
+    // The digit pbrt of -9223372036854775808L
+    privbte stbtic finbl chbr[] LONG_MIN_REP = "9223372036854775808".toChbrArrby();
 
     public String toString() {
         if (isZero()) {
             return "0";
         }
         StringBuffer buf = getStringBuffer();
-        buf.append("0.");
-        buf.append(digits, 0, count);
-        buf.append("x10^");
-        buf.append(decimalAt);
+        buf.bppend("0.");
+        buf.bppend(digits, 0, count);
+        buf.bppend("x10^");
+        buf.bppend(decimblAt);
         return buf.toString();
     }
 
-    private StringBuffer tempBuffer;
+    privbte StringBuffer tempBuffer;
 
-    private StringBuffer getStringBuffer() {
+    privbte StringBuffer getStringBuffer() {
         if (tempBuffer == null) {
             tempBuffer = new StringBuffer(MAX_COUNT);
         } else {
@@ -814,16 +814,16 @@ final class DigitList implements Cloneable {
         return tempBuffer;
     }
 
-    private void extendDigits(int len) {
+    privbte void extendDigits(int len) {
         if (len > digits.length) {
-            digits = new char[len];
+            digits = new chbr[len];
         }
     }
 
-    private final char[] getDataChars(int length) {
-        if (data == null || data.length < length) {
-            data = new char[length];
+    privbte finbl chbr[] getDbtbChbrs(int length) {
+        if (dbtb == null || dbtb.length < length) {
+            dbtb = new chbr[length];
         }
-        return data;
+        return dbtb;
     }
 }

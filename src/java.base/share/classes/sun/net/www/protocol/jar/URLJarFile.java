@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.jar;
+pbckbge sun.net.www.protocol.jbr;
 
-import java.io.*;
-import java.net.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.*;
-import java.util.jar.*;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipEntry;
-import java.security.CodeSigner;
-import java.security.cert.Certificate;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import sun.net.www.ParseUtil;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.nio.file.Files;
+import jbvb.nio.file.Pbth;
+import jbvb.nio.file.StbndbrdCopyOption;
+import jbvb.util.*;
+import jbvb.util.jbr.*;
+import jbvb.util.zip.ZipFile;
+import jbvb.util.zip.ZipEntry;
+import jbvb.security.CodeSigner;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
+import sun.net.www.PbrseUtil;
 
-/* URL jar file is a common JarFile subtype used for JarURLConnection */
-public class URLJarFile extends JarFile {
+/* URL jbr file is b common JbrFile subtype used for JbrURLConnection */
+public clbss URLJbrFile extends JbrFile {
 
     /*
-     * Interface to be able to call retrieve() in plugin if
-     * this variable is set.
+     * Interfbce to be bble to cbll retrieve() in plugin if
+     * this vbribble is set.
      */
-    private static URLJarFileCallBack callback = null;
+    privbte stbtic URLJbrFileCbllBbck cbllbbck = null;
 
-    /* Controller of the Jar File's closing */
-    private URLJarFileCloseController closeController = null;
+    /* Controller of the Jbr File's closing */
+    privbte URLJbrFileCloseController closeController = null;
 
-    private static int BUF_SIZE = 2048;
+    privbte stbtic int BUF_SIZE = 2048;
 
-    private Manifest superMan;
-    private Attributes superAttr;
-    private Map<String, Attributes> superEntries;
+    privbte Mbnifest superMbn;
+    privbte Attributes superAttr;
+    privbte Mbp<String, Attributes> superEntries;
 
-    static JarFile getJarFile(URL url) throws IOException {
-        return getJarFile(url, null);
+    stbtic JbrFile getJbrFile(URL url) throws IOException {
+        return getJbrFile(url, null);
     }
 
-    static JarFile getJarFile(URL url, URLJarFileCloseController closeController) throws IOException {
+    stbtic JbrFile getJbrFile(URL url, URLJbrFileCloseController closeController) throws IOException {
         if (isFileURL(url))
-            return new URLJarFile(url, closeController);
+            return new URLJbrFile(url, closeController);
         else {
             return retrieve(url, closeController);
         }
     }
 
     /*
-     * Changed modifier from private to public in order to be able
-     * to instantiate URLJarFile from sun.plugin package.
+     * Chbnged modifier from privbte to public in order to be bble
+     * to instbntibte URLJbrFile from sun.plugin pbckbge.
      */
-    public URLJarFile(File file) throws IOException {
+    public URLJbrFile(File file) throws IOException {
         this(file, null);
     }
 
     /*
-     * Changed modifier from private to public in order to be able
-     * to instantiate URLJarFile from sun.plugin package.
+     * Chbnged modifier from privbte to public in order to be bble
+     * to instbntibte URLJbrFile from sun.plugin pbckbge.
      */
-    public URLJarFile(File file, URLJarFileCloseController closeController) throws IOException {
+    public URLJbrFile(File file, URLJbrFileCloseController closeController) throws IOException {
         super(file, true, ZipFile.OPEN_READ | ZipFile.OPEN_DELETE);
         this.closeController = closeController;
     }
 
-    private URLJarFile(URL url, URLJarFileCloseController closeController) throws IOException {
-        super(ParseUtil.decode(url.getFile()));
+    privbte URLJbrFile(URL url, URLJbrFileCloseController closeController) throws IOException {
+        super(PbrseUtil.decode(url.getFile()));
         this.closeController = closeController;
     }
 
-    private static boolean isFileURL(URL url) {
-        if (url.getProtocol().equalsIgnoreCase("file")) {
+    privbte stbtic boolebn isFileURL(URL url) {
+        if (url.getProtocol().equblsIgnoreCbse("file")) {
             /*
-             * Consider this a 'file' only if it's a LOCAL file, because
-             * 'file:' URLs can be accessible through ftp.
+             * Consider this b 'file' only if it's b LOCAL file, becbuse
+             * 'file:' URLs cbn be bccessible through ftp.
              */
             String host = url.getHost();
-            if (host == null || host.equals("") || host.equals("~") ||
-                host.equalsIgnoreCase("localhost"))
+            if (host == null || host.equbls("") || host.equbls("~") ||
+                host.equblsIgnoreCbse("locblhost"))
                 return true;
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * close the jar file.
+     * close the jbr file.
      */
-    protected void finalize() throws IOException {
+    protected void finblize() throws IOException {
         close();
     }
 
     /**
-     * Returns the <code>ZipEntry</code> for the given entry name or
+     * Returns the <code>ZipEntry</code> for the given entry nbme or
      * <code>null</code> if not found.
      *
-     * @param name the JAR file entry name
-     * @return the <code>ZipEntry</code> for the given entry name or
+     * @pbrbm nbme the JAR file entry nbme
+     * @return the <code>ZipEntry</code> for the given entry nbme or
      *         <code>null</code> if not found
-     * @see java.util.zip.ZipEntry
+     * @see jbvb.util.zip.ZipEntry
      */
-    public ZipEntry getEntry(String name) {
-        ZipEntry ze = super.getEntry(name);
+    public ZipEntry getEntry(String nbme) {
+        ZipEntry ze = super.getEntry(nbme);
         if (ze != null) {
-            if (ze instanceof JarEntry)
-                return new URLJarFileEntry((JarEntry)ze);
+            if (ze instbnceof JbrEntry)
+                return new URLJbrFileEntry((JbrEntry)ze);
             else
-                throw new InternalError(super.getClass() +
+                throw new InternblError(super.getClbss() +
                                         " returned unexpected entry type " +
-                                        ze.getClass());
+                                        ze.getClbss());
         }
         return null;
     }
 
-    public Manifest getManifest() throws IOException {
+    public Mbnifest getMbnifest() throws IOException {
 
-        if (!isSuperMan()) {
+        if (!isSuperMbn()) {
             return null;
         }
 
-        Manifest man = new Manifest();
-        Attributes attr = man.getMainAttributes();
-        attr.putAll((Map)superAttr.clone());
+        Mbnifest mbn = new Mbnifest();
+        Attributes bttr = mbn.getMbinAttributes();
+        bttr.putAll((Mbp)superAttr.clone());
 
-        // now deep copy the manifest entries
+        // now deep copy the mbnifest entries
         if (superEntries != null) {
-            Map<String, Attributes> entries = man.getEntries();
+            Mbp<String, Attributes> entries = mbn.getEntries();
             for (String key : superEntries.keySet()) {
-                Attributes at = superEntries.get(key);
-                entries.put(key, (Attributes) at.clone());
+                Attributes bt = superEntries.get(key);
+                entries.put(key, (Attributes) bt.clone());
             }
         }
 
-        return man;
+        return mbn;
     }
 
-    /* If close controller is set the notify the controller about the pending close */
+    /* If close controller is set the notify the controller bbout the pending close */
     public void close() throws IOException {
         if (closeController != null) {
                 closeController.close(this);
@@ -167,72 +167,72 @@ public class URLJarFile extends JarFile {
         super.close();
     }
 
-    // optimal side-effects
-    private synchronized boolean isSuperMan() throws IOException {
+    // optimbl side-effects
+    privbte synchronized boolebn isSuperMbn() throws IOException {
 
-        if (superMan == null) {
-            superMan = super.getManifest();
+        if (superMbn == null) {
+            superMbn = super.getMbnifest();
         }
 
-        if (superMan != null) {
-            superAttr = superMan.getMainAttributes();
-            superEntries = superMan.getEntries();
+        if (superMbn != null) {
+            superAttr = superMbn.getMbinAttributes();
+            superEntries = superMbn.getEntries();
             return true;
         } else
-            return false;
+            return fblse;
     }
 
     /**
-     * Given a URL, retrieves a JAR file, caches it to disk, and creates a
-     * cached JAR file object.
+     * Given b URL, retrieves b JAR file, cbches it to disk, bnd crebtes b
+     * cbched JAR file object.
      */
-    private static JarFile retrieve(final URL url) throws IOException {
+    privbte stbtic JbrFile retrieve(finbl URL url) throws IOException {
         return retrieve(url, null);
     }
 
     /**
-     * Given a URL, retrieves a JAR file, caches it to disk, and creates a
-     * cached JAR file object.
+     * Given b URL, retrieves b JAR file, cbches it to disk, bnd crebtes b
+     * cbched JAR file object.
      */
-     private static JarFile retrieve(final URL url, final URLJarFileCloseController closeController) throws IOException {
+     privbte stbtic JbrFile retrieve(finbl URL url, finbl URLJbrFileCloseController closeController) throws IOException {
         /*
-         * See if interface is set, then call retrieve function of the class
-         * that implements URLJarFileCallBack interface (sun.plugin - to
-         * handle the cache failure for JARJAR file.)
+         * See if interfbce is set, then cbll retrieve function of the clbss
+         * thbt implements URLJbrFileCbllBbck interfbce (sun.plugin - to
+         * hbndle the cbche fbilure for JARJAR file.)
          */
-        if (callback != null)
+        if (cbllbbck != null)
         {
-            return callback.retrieve(url);
+            return cbllbbck.retrieve(url);
         }
 
         else
         {
 
-            JarFile result = null;
+            JbrFile result = null;
 
-            /* get the stream before asserting privileges */
-            try (final InputStream in = url.openConnection().getInputStream()) {
+            /* get the strebm before bsserting privileges */
+            try (finbl InputStrebm in = url.openConnection().getInputStrebm()) {
                 result = AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<JarFile>() {
-                        public JarFile run() throws IOException {
-                            Path tmpFile = Files.createTempFile("jar_cache", null);
+                    new PrivilegedExceptionAction<JbrFile>() {
+                        public JbrFile run() throws IOException {
+                            Pbth tmpFile = Files.crebteTempFile("jbr_cbche", null);
                             try {
-                                Files.copy(in, tmpFile, StandardCopyOption.REPLACE_EXISTING);
-                                JarFile jarFile = new URLJarFile(tmpFile.toFile(), closeController);
+                                Files.copy(in, tmpFile, StbndbrdCopyOption.REPLACE_EXISTING);
+                                JbrFile jbrFile = new URLJbrFile(tmpFile.toFile(), closeController);
                                 tmpFile.toFile().deleteOnExit();
-                                return jarFile;
-                            } catch (Throwable thr) {
+                                return jbrFile;
+                            } cbtch (Throwbble thr) {
                                 try {
                                     Files.delete(tmpFile);
-                                } catch (IOException ioe) {
-                                    thr.addSuppressed(ioe);
+                                } cbtch (IOException ioe) {
+                                    thr.bddSuppressed(ioe);
                                 }
                                 throw thr;
                             }
                         }
                     });
-            } catch (PrivilegedActionException pae) {
-                throw (IOException) pae.getException();
+            } cbtch (PrivilegedActionException pbe) {
+                throw (IOException) pbe.getException();
             }
 
             return result;
@@ -240,37 +240,37 @@ public class URLJarFile extends JarFile {
     }
 
     /*
-     * Set the call back interface to call retrive function in sun.plugin
-     * package if plugin is running.
+     * Set the cbll bbck interfbce to cbll retrive function in sun.plugin
+     * pbckbge if plugin is running.
      */
-    public static void setCallBack(URLJarFileCallBack cb)
+    public stbtic void setCbllBbck(URLJbrFileCbllBbck cb)
     {
-        callback = cb;
+        cbllbbck = cb;
     }
 
 
-    private class URLJarFileEntry extends JarEntry {
-        private JarEntry je;
+    privbte clbss URLJbrFileEntry extends JbrEntry {
+        privbte JbrEntry je;
 
-        URLJarFileEntry(JarEntry je) {
+        URLJbrFileEntry(JbrEntry je) {
             super(je);
             this.je=je;
         }
 
         public Attributes getAttributes() throws IOException {
-            if (URLJarFile.this.isSuperMan()) {
-                Map<String, Attributes> e = URLJarFile.this.superEntries;
+            if (URLJbrFile.this.isSuperMbn()) {
+                Mbp<String, Attributes> e = URLJbrFile.this.superEntries;
                 if (e != null) {
-                    Attributes a = e.get(getName());
-                    if (a != null)
-                        return  (Attributes)a.clone();
+                    Attributes b = e.get(getNbme());
+                    if (b != null)
+                        return  (Attributes)b.clone();
                 }
             }
             return null;
         }
 
-        public java.security.cert.Certificate[] getCertificates() {
-            Certificate[] certs = je.getCertificates();
+        public jbvb.security.cert.Certificbte[] getCertificbtes() {
+            Certificbte[] certs = je.getCertificbtes();
             return certs == null? null: certs.clone();
         }
 
@@ -280,7 +280,7 @@ public class URLJarFile extends JarFile {
         }
     }
 
-    public interface URLJarFileCloseController {
-        public void close(JarFile jarFile);
+    public interfbce URLJbrFileCloseController {
+        public void close(JbrFile jbrFile);
     }
 }

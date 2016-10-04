@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.IOException;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
+import jbvb.io.IOException;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.chbnnels.spi.*;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
 
 /**
- * Selector implementation based on the Solaris event port mechanism.
+ * Selector implementbtion bbsed on the Solbris event port mechbnism.
  */
 
-class EventPortSelectorImpl
+clbss EventPortSelectorImpl
     extends SelectorImpl
 {
-    private final EventPortWrapper pollWrapper;
+    privbte finbl EventPortWrbpper pollWrbpper;
 
-    // Maps from file descriptors to keys
-    private Map<Integer,SelectionKeyImpl> fdToKey;
+    // Mbps from file descriptors to keys
+    privbte Mbp<Integer,SelectionKeyImpl> fdToKey;
 
-    // True if this Selector has been closed
-    private boolean closed = false;
+    // True if this Selector hbs been closed
+    privbte boolebn closed = fblse;
 
-    // Lock for interrupt triggering and clearing
-    private final Object interruptLock = new Object();
-    private boolean interruptTriggered = false;
+    // Lock for interrupt triggering bnd clebring
+    privbte finbl Object interruptLock = new Object();
+    privbte boolebn interruptTriggered = fblse;
 
     /**
-     * Package private constructor called by factory method in
-     * the abstract superclass Selector.
+     * Pbckbge privbte constructor cblled by fbctory method in
+     * the bbstrbct superclbss Selector.
      */
     EventPortSelectorImpl(SelectorProvider sp) throws IOException {
         super(sp);
-        pollWrapper = new EventPortWrapper();
-        fdToKey = new HashMap<>();
+        pollWrbpper = new EventPortWrbpper();
+        fdToKey = new HbshMbp<>();
     }
 
     protected int doSelect(long timeout) throws IOException {
@@ -68,41 +68,41 @@ class EventPortSelectorImpl
         int entries;
         try {
             begin();
-            entries = pollWrapper.poll(timeout);
-        } finally {
+            entries = pollWrbpper.poll(timeout);
+        } finblly {
             end();
         }
         processDeregisterQueue();
-        int numKeysUpdated = updateSelectedKeys(entries);
-        if (pollWrapper.interrupted()) {
+        int numKeysUpdbted = updbteSelectedKeys(entries);
+        if (pollWrbpper.interrupted()) {
             synchronized (interruptLock) {
-                interruptTriggered = false;
+                interruptTriggered = fblse;
             }
         }
-        return numKeysUpdated;
+        return numKeysUpdbted;
     }
 
-    private int updateSelectedKeys(int entries) {
-        int numKeysUpdated = 0;
+    privbte int updbteSelectedKeys(int entries) {
+        int numKeysUpdbted = 0;
         for (int i=0; i<entries; i++) {
-            int nextFD = pollWrapper.getDescriptor(i);
-            SelectionKeyImpl ski = fdToKey.get(Integer.valueOf(nextFD));
+            int nextFD = pollWrbpper.getDescriptor(i);
+            SelectionKeyImpl ski = fdToKey.get(Integer.vblueOf(nextFD));
             if (ski != null) {
-                int rOps = pollWrapper.getEventOps(i);
-                if (selectedKeys.contains(ski)) {
-                    if (ski.channel.translateAndSetReadyOps(rOps, ski)) {
-                        numKeysUpdated++;
+                int rOps = pollWrbpper.getEventOps(i);
+                if (selectedKeys.contbins(ski)) {
+                    if (ski.chbnnel.trbnslbteAndSetRebdyOps(rOps, ski)) {
+                        numKeysUpdbted++;
                     }
                 } else {
-                    ski.channel.translateAndSetReadyOps(rOps, ski);
-                    if ((ski.nioReadyOps() & ski.nioInterestOps()) != 0) {
-                        selectedKeys.add(ski);
-                        numKeysUpdated++;
+                    ski.chbnnel.trbnslbteAndSetRebdyOps(rOps, ski);
+                    if ((ski.nioRebdyOps() & ski.nioInterestOps()) != 0) {
+                        selectedKeys.bdd(ski);
+                        numKeysUpdbted++;
                     }
                 }
             }
         }
-        return numKeysUpdated;
+        return numKeysUpdbted;
     }
 
     protected void implClose() throws IOException {
@@ -110,20 +110,20 @@ class EventPortSelectorImpl
             return;
         closed = true;
 
-        // prevent further wakeup
+        // prevent further wbkeup
         synchronized (interruptLock) {
             interruptTriggered = true;
         }
 
-        pollWrapper.close();
+        pollWrbpper.close();
         selectedKeys = null;
 
-        // Deregister channels
-        Iterator<SelectionKey> i = keys.iterator();
-        while (i.hasNext()) {
+        // Deregister chbnnels
+        Iterbtor<SelectionKey> i = keys.iterbtor();
+        while (i.hbsNext()) {
             SelectionKeyImpl ski = (SelectionKeyImpl)i.next();
             deregister(ski);
-            SelectableChannel selch = ski.channel();
+            SelectbbleChbnnel selch = ski.chbnnel();
             if (!selch.isOpen() && !selch.isRegistered())
                 ((SelChImpl)selch).kill();
             i.remove();
@@ -131,22 +131,22 @@ class EventPortSelectorImpl
     }
 
     protected void implRegister(SelectionKeyImpl ski) {
-        int fd = IOUtil.fdVal(ski.channel.getFD());
-        fdToKey.put(Integer.valueOf(fd), ski);
-        keys.add(ski);
+        int fd = IOUtil.fdVbl(ski.chbnnel.getFD());
+        fdToKey.put(Integer.vblueOf(fd), ski);
+        keys.bdd(ski);
     }
 
     protected void implDereg(SelectionKeyImpl ski) throws IOException {
         int i = ski.getIndex();
-        assert (i >= 0);
-        int fd = ski.channel.getFDVal();
-        fdToKey.remove(Integer.valueOf(fd));
-        pollWrapper.release(fd);
+        bssert (i >= 0);
+        int fd = ski.chbnnel.getFDVbl();
+        fdToKey.remove(Integer.vblueOf(fd));
+        pollWrbpper.relebse(fd);
         ski.setIndex(-1);
         keys.remove(ski);
         selectedKeys.remove(ski);
-        deregister((AbstractSelectionKey)ski);
-        SelectableChannel selch = ski.channel();
+        deregister((AbstrbctSelectionKey)ski);
+        SelectbbleChbnnel selch = ski.chbnnel();
         if (!selch.isOpen() && !selch.isRegistered())
             ((SelChImpl)selch).kill();
     }
@@ -154,14 +154,14 @@ class EventPortSelectorImpl
     public void putEventOps(SelectionKeyImpl sk, int ops) {
         if (closed)
             throw new ClosedSelectorException();
-        int fd = sk.channel.getFDVal();
-        pollWrapper.setInterest(fd, ops);
+        int fd = sk.chbnnel.getFDVbl();
+        pollWrbpper.setInterest(fd, ops);
     }
 
-    public Selector wakeup() {
+    public Selector wbkeup() {
         synchronized (interruptLock) {
             if (!interruptTriggered) {
-                pollWrapper.interrupt();
+                pollWrbpper.interrupt();
                 interruptTriggered = true;
             }
         }

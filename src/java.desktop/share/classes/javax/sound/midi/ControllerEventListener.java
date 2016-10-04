@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
 
 /**
- * The <code>ControllerEventListener</code> interface should be implemented
- * by classes whose instances need to be notified when a <code>Sequencer</code>
- * has processed a requested type of MIDI control-change event.
- * To register a <code>ControllerEventListener</code> object to receive such
- * notifications, invoke the
- * {@link Sequencer#addControllerEventListener(ControllerEventListener, int[])
- * addControllerEventListener} method of <code>Sequencer</code>,
- * specifying the types of MIDI controllers about which you are interested in
- * getting control-change notifications.
+ * The <code>ControllerEventListener</code> interfbce should be implemented
+ * by clbsses whose instbnces need to be notified when b <code>Sequencer</code>
+ * hbs processed b requested type of MIDI control-chbnge event.
+ * To register b <code>ControllerEventListener</code> object to receive such
+ * notificbtions, invoke the
+ * {@link Sequencer#bddControllerEventListener(ControllerEventListener, int[])
+ * bddControllerEventListener} method of <code>Sequencer</code>,
+ * specifying the types of MIDI controllers bbout which you bre interested in
+ * getting control-chbnge notificbtions.
  *
- * @see MidiChannel#controlChange(int, int)
+ * @see MidiChbnnel#controlChbnge(int, int)
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  */
-public interface ControllerEventListener extends EventListener {
+public interfbce ControllerEventListener extends EventListener {
 
     /**
-     * Invoked when a <code>Sequencer</code> has encountered and processed
-     * a control-change event of interest to this listener.  The event passed
-     * in is a <code>ShortMessage</code> whose first data byte indicates
-     * the controller number and whose second data byte is the value to which
-     * the controller was set.
+     * Invoked when b <code>Sequencer</code> hbs encountered bnd processed
+     * b control-chbnge event of interest to this listener.  The event pbssed
+     * in is b <code>ShortMessbge</code> whose first dbtb byte indicbtes
+     * the controller number bnd whose second dbtb byte is the vblue to which
+     * the controller wbs set.
      *
-     * @param event the control-change event that the sequencer encountered in
+     * @pbrbm event the control-chbnge event thbt the sequencer encountered in
      * the sequence it is processing
      *
-     * @see Sequencer#addControllerEventListener(ControllerEventListener, int[])
-     * @see MidiChannel#controlChange(int, int)
-     * @see ShortMessage#getData1
-     * @see ShortMessage#getData2
+     * @see Sequencer#bddControllerEventListener(ControllerEventListener, int[])
+     * @see MidiChbnnel#controlChbnge(int, int)
+     * @see ShortMessbge#getDbtb1
+     * @see ShortMessbge#getDbtb2
      */
-    public void controlChange(ShortMessage event);
+    public void controlChbnge(ShortMessbge event);
 }

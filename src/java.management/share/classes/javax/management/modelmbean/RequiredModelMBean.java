@@ -1,524 +1,524 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * @author    IBM Corp.
+ * @buthor    IBM Corp.
  *
  * Copyright IBM Corp. 1999-2000.  All rights reserved.
  */
 
 
-package javax.management.modelmbean;
+pbckbge jbvbx.mbnbgement.modelmbebn;
 
-/* java imports */
+/* jbvb imports */
 
-import static com.sun.jmx.defaults.JmxProperties.MODELMBEAN_LOGGER;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
+import stbtic com.sun.jmx.defbults.JmxProperties.MODELMBEAN_LOGGER;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.PrintStrebm;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
 
-import java.lang.reflect.Method;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.reflect.Method;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.Dbte;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.logging.Level;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-import java.util.Vector;
-import javax.management.Attribute;
-import javax.management.AttributeChangeNotification;
-import javax.management.AttributeChangeNotificationFilter;
-import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.Descriptor;
-import javax.management.InstanceNotFoundException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanConstructorInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanOperationInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
-import javax.management.Notification;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import javax.management.RuntimeErrorException;
-import javax.management.RuntimeOperationsException;
-import javax.management.ServiceNotFoundException;
-import javax.management.loading.ClassLoaderRepository;
-import sun.misc.JavaSecurityAccess;
-import sun.misc.SharedSecrets;
+import jbvb.util.Vector;
+import jbvbx.mbnbgement.Attribute;
+import jbvbx.mbnbgement.AttributeChbngeNotificbtion;
+import jbvbx.mbnbgement.AttributeChbngeNotificbtionFilter;
+import jbvbx.mbnbgement.AttributeList;
+import jbvbx.mbnbgement.AttributeNotFoundException;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.InvblidAttributeVblueException;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.MBebnConstructorInfo;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.MBebnOperbtionInfo;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MBebnServerFbctory;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionBrobdcbsterSupport;
+import jbvbx.mbnbgement.NotificbtionEmitter;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.ReflectionException;
+import jbvbx.mbnbgement.RuntimeErrorException;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
+import jbvbx.mbnbgement.ServiceNotFoundException;
+import jbvbx.mbnbgement.lobding.ClbssLobderRepository;
+import sun.misc.JbvbSecurityAccess;
+import sun.misc.ShbredSecrets;
 
 import sun.reflect.misc.MethodUtil;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * This class is the implementation of a ModelMBean. An appropriate
- * implementation of a ModelMBean must be shipped with every JMX Agent
- * and the class must be named RequiredModelMBean.
+ * This clbss is the implementbtion of b ModelMBebn. An bppropribte
+ * implementbtion of b ModelMBebn must be shipped with every JMX Agent
+ * bnd the clbss must be nbmed RequiredModelMBebn.
  * <P>
- * Java resources wishing to be manageable instantiate the
- * RequiredModelMBean using the MBeanServer's createMBean method.
- * The resource then sets the MBeanInfo and Descriptors for the
- * RequiredModelMBean instance. The attributes and operations exposed
- * via the ModelMBeanInfo for the ModelMBean are accessible
- * from MBeans, connectors/adaptors like other MBeans. Through the
- * Descriptors, values and methods in the managed application can be
- * defined and mapped to attributes and operations of the ModelMBean.
- * This mapping can be defined in an XML formatted file or dynamically and
- * programmatically at runtime.
+ * Jbvb resources wishing to be mbnbgebble instbntibte the
+ * RequiredModelMBebn using the MBebnServer's crebteMBebn method.
+ * The resource then sets the MBebnInfo bnd Descriptors for the
+ * RequiredModelMBebn instbnce. The bttributes bnd operbtions exposed
+ * vib the ModelMBebnInfo for the ModelMBebn bre bccessible
+ * from MBebns, connectors/bdbptors like other MBebns. Through the
+ * Descriptors, vblues bnd methods in the mbnbged bpplicbtion cbn be
+ * defined bnd mbpped to bttributes bnd operbtions of the ModelMBebn.
+ * This mbpping cbn be defined in bn XML formbtted file or dynbmicblly bnd
+ * progrbmmbticblly bt runtime.
  * <P>
- * Every RequiredModelMBean which is instantiated in the MBeanServer
- * becomes manageable:<br>
- * its attributes and operations become remotely accessible through the
- * connectors/adaptors connected to that MBeanServer.
+ * Every RequiredModelMBebn which is instbntibted in the MBebnServer
+ * becomes mbnbgebble:<br>
+ * its bttributes bnd operbtions become remotely bccessible through the
+ * connectors/bdbptors connected to thbt MBebnServer.
  * <P>
- * A Java object cannot be registered in the MBeanServer unless it is a
- * JMX compliant MBean. By instantiating a RequiredModelMBean, resources
- * are guaranteed that the MBean is valid.
+ * A Jbvb object cbnnot be registered in the MBebnServer unless it is b
+ * JMX complibnt MBebn. By instbntibting b RequiredModelMBebn, resources
+ * bre gubrbnteed thbt the MBebn is vblid.
  *
- * MBeanException and RuntimeOperationsException must be thrown on every
- * public method.  This allows for wrapping exceptions from distributed
- * communications (RMI, EJB, etc.)
+ * MBebnException bnd RuntimeOperbtionsException must be thrown on every
+ * public method.  This bllows for wrbpping exceptions from distributed
+ * communicbtions (RMI, EJB, etc.)
  *
  * @since 1.5
  */
 
-public class RequiredModelMBean
-    implements ModelMBean, MBeanRegistration, NotificationEmitter {
+public clbss RequiredModelMBebn
+    implements ModelMBebn, MBebnRegistrbtion, NotificbtionEmitter {
 
     /*************************************/
-    /* attributes                        */
+    /* bttributes                        */
     /*************************************/
-    ModelMBeanInfo modelMBeanInfo;
+    ModelMBebnInfo modelMBebnInfo;
 
-    /* Notification broadcaster for any notification to be sent
-     * from the application through the RequiredModelMBean.  */
-    private NotificationBroadcasterSupport generalBroadcaster = null;
+    /* Notificbtion brobdcbster for bny notificbtion to be sent
+     * from the bpplicbtion through the RequiredModelMBebn.  */
+    privbte NotificbtionBrobdcbsterSupport generblBrobdcbster = null;
 
-    /* Notification broadcaster for attribute change notifications */
-    private NotificationBroadcasterSupport attributeBroadcaster = null;
+    /* Notificbtion brobdcbster for bttribute chbnge notificbtions */
+    privbte NotificbtionBrobdcbsterSupport bttributeBrobdcbster = null;
 
-    /* handle, name, or reference for instance on which the actual invoke
-     * and operations will be executed */
-    private Object managedResource = null;
+    /* hbndle, nbme, or reference for instbnce on which the bctubl invoke
+     * bnd operbtions will be executed */
+    privbte Object mbnbgedResource = null;
 
 
-    /* records the registering in MBeanServer */
-    private boolean registered = false;
-    private transient MBeanServer server = null;
+    /* records the registering in MBebnServer */
+    privbte boolebn registered = fblse;
+    privbte trbnsient MBebnServer server = null;
 
-    private final static JavaSecurityAccess javaSecurityAccess = SharedSecrets.getJavaSecurityAccess();
-    final private AccessControlContext acc = AccessController.getContext();
+    privbte finbl stbtic JbvbSecurityAccess jbvbSecurityAccess = ShbredSecrets.getJbvbSecurityAccess();
+    finbl privbte AccessControlContext bcc = AccessController.getContext();
 
     /*************************************/
     /* constructors                      */
     /*************************************/
 
     /**
-     * Constructs an <CODE>RequiredModelMBean</CODE> with an empty
-     * ModelMBeanInfo.
+     * Constructs bn <CODE>RequiredModelMBebn</CODE> with bn empty
+     * ModelMBebnInfo.
      * <P>
-     * The RequiredModelMBean's MBeanInfo and Descriptors
-     * can be customized using the {@link #setModelMBeanInfo} method.
-     * After the RequiredModelMBean's MBeanInfo and Descriptors are
-     * customized, the RequiredModelMBean can be registered with
-     * the MBeanServer.
+     * The RequiredModelMBebn's MBebnInfo bnd Descriptors
+     * cbn be customized using the {@link #setModelMBebnInfo} method.
+     * After the RequiredModelMBebn's MBebnInfo bnd Descriptors bre
+     * customized, the RequiredModelMBebn cbn be registered with
+     * the MBebnServer.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
+     * @exception MBebnException Wrbps b distributed communicbtion Exception.
      *
-     * @exception RuntimeOperationsException Wraps a {@link
+     * @exception RuntimeOperbtionsException Wrbps b {@link
      * RuntimeException} during the construction of the object.
      **/
-    public RequiredModelMBean()
-        throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public RequiredModelMBebn()
+        throws MBebnException, RuntimeOperbtionsException {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                    "RequiredModelMBean()", "Entry");
+                    RequiredModelMBebn.clbss.getNbme(),
+                    "RequiredModelMBebn()", "Entry");
         }
-        modelMBeanInfo = createDefaultModelMBeanInfo();
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        modelMBebnInfo = crebteDefbultModelMBebnInfo();
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                    "RequiredModelMBean()", "Exit");
+                    RequiredModelMBebn.clbss.getNbme(),
+                    "RequiredModelMBebn()", "Exit");
         }
     }
 
     /**
-     * Constructs a RequiredModelMBean object using ModelMBeanInfo passed in.
-     * As long as the RequiredModelMBean is not registered
-     * with the MBeanServer yet, the RequiredModelMBean's MBeanInfo and
-     * Descriptors can be customized using the {@link #setModelMBeanInfo}
+     * Constructs b RequiredModelMBebn object using ModelMBebnInfo pbssed in.
+     * As long bs the RequiredModelMBebn is not registered
+     * with the MBebnServer yet, the RequiredModelMBebn's MBebnInfo bnd
+     * Descriptors cbn be customized using the {@link #setModelMBebnInfo}
      * method.
-     * After the RequiredModelMBean's MBeanInfo and Descriptors are
-     * customized, the RequiredModelMBean can be registered with the
-     * MBeanServer.
+     * After the RequiredModelMBebn's MBebnInfo bnd Descriptors bre
+     * customized, the RequiredModelMBebn cbn be registered with the
+     * MBebnServer.
      *
-     * @param mbi The ModelMBeanInfo object to be used by the
-     *            RequiredModelMBean. The given ModelMBeanInfo is cloned
-     *            and modified as specified by {@link #setModelMBeanInfo}
+     * @pbrbm mbi The ModelMBebnInfo object to be used by the
+     *            RequiredModelMBebn. The given ModelMBebnInfo is cloned
+     *            bnd modified bs specified by {@link #setModelMBebnInfo}
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an
-     *    {link java.lang.IllegalArgumentException}:
-     *          The MBeanInfo passed in parameter is null.
+     * @exception MBebnException Wrbps b distributed communicbtion Exception.
+     * @exception RuntimeOperbtionsException Wrbps bn
+     *    {link jbvb.lbng.IllegblArgumentException}:
+     *          The MBebnInfo pbssed in pbrbmeter is null.
      *
      **/
-    public RequiredModelMBean(ModelMBeanInfo mbi)
-        throws MBeanException, RuntimeOperationsException {
+    public RequiredModelMBebn(ModelMBebnInfo mbi)
+        throws MBebnException, RuntimeOperbtionsException {
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                    "RequiredModelMBean(MBeanInfo)", "Entry");
+                    RequiredModelMBebn.clbss.getNbme(),
+                    "RequiredModelMBebn(MBebnInfo)", "Entry");
         }
-        setModelMBeanInfo(mbi);
+        setModelMBebnInfo(mbi);
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                    "RequiredModelMBean(MBeanInfo)", "Exit");
+                    RequiredModelMBebn.clbss.getNbme(),
+                    "RequiredModelMBebn(MBebnInfo)", "Exit");
         }
     }
 
 
     /*************************************/
-    /* initializers                      */
+    /* initiblizers                      */
     /*************************************/
 
     /**
-     * Initializes a ModelMBean object using ModelMBeanInfo passed in.
-     * This method makes it possible to set a customized ModelMBeanInfo on
-     * the ModelMBean as long as it is not registered with the MBeanServer.
+     * Initiblizes b ModelMBebn object using ModelMBebnInfo pbssed in.
+     * This method mbkes it possible to set b customized ModelMBebnInfo on
+     * the ModelMBebn bs long bs it is not registered with the MBebnServer.
      * <br>
-     * Once the ModelMBean's ModelMBeanInfo (with Descriptors) are
-     * customized and set on the ModelMBean, the  ModelMBean be
-     * registered with the MBeanServer.
+     * Once the ModelMBebn's ModelMBebnInfo (with Descriptors) bre
+     * customized bnd set on the ModelMBebn, the  ModelMBebn be
+     * registered with the MBebnServer.
      * <P>
-     * If the ModelMBean is currently registered, this method throws
-     * a {@link javax.management.RuntimeOperationsException} wrapping an
-     * {@link IllegalStateException}
+     * If the ModelMBebn is currently registered, this method throws
+     * b {@link jbvbx.mbnbgement.RuntimeOperbtionsException} wrbpping bn
+     * {@link IllegblStbteException}
      * <P>
-     * If the given <var>inModelMBeanInfo</var> does not contain any
-     * {@link ModelMBeanNotificationInfo} for the <code>GENERIC</code>
-     * or <code>ATTRIBUTE_CHANGE</code> notifications, then the
-     * RequiredModelMBean will supply its own default
-     * {@link ModelMBeanNotificationInfo ModelMBeanNotificationInfo}s for
-     * those missing notifications.
+     * If the given <vbr>inModelMBebnInfo</vbr> does not contbin bny
+     * {@link ModelMBebnNotificbtionInfo} for the <code>GENERIC</code>
+     * or <code>ATTRIBUTE_CHANGE</code> notificbtions, then the
+     * RequiredModelMBebn will supply its own defbult
+     * {@link ModelMBebnNotificbtionInfo ModelMBebnNotificbtionInfo}s for
+     * those missing notificbtions.
      *
-     * @param mbi The ModelMBeanInfo object to be used
-     *        by the ModelMBean.
+     * @pbrbm mbi The ModelMBebnInfo object to be used
+     *        by the ModelMBebn.
      *
-     * @exception MBeanException Wraps a distributed communication
+     * @exception MBebnException Wrbps b distributed communicbtion
      *        Exception.
-     * @exception RuntimeOperationsException
-     * <ul><li>Wraps an {@link IllegalArgumentException} if
-     *         the MBeanInfo passed in parameter is null.</li>
-     *     <li>Wraps an {@link IllegalStateException} if the ModelMBean
-     *         is currently registered in the MBeanServer.</li>
+     * @exception RuntimeOperbtionsException
+     * <ul><li>Wrbps bn {@link IllegblArgumentException} if
+     *         the MBebnInfo pbssed in pbrbmeter is null.</li>
+     *     <li>Wrbps bn {@link IllegblStbteException} if the ModelMBebn
+     *         is currently registered in the MBebnServer.</li>
      * </ul>
      *
      **/
-    public void setModelMBeanInfo(ModelMBeanInfo mbi)
-        throws MBeanException, RuntimeOperationsException {
+    public void setModelMBebnInfo(ModelMBebnInfo mbi)
+        throws MBebnException, RuntimeOperbtionsException {
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "setModelMBeanInfo(ModelMBeanInfo)","Entry");
+                    RequiredModelMBebn.clbss.getNbme(),
+                "setModelMBebnInfo(ModelMBebnInfo)","Entry");
         }
 
         if (mbi == null) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),
-                    "setModelMBeanInfo(ModelMBeanInfo)",
-                    "ModelMBeanInfo is null: Raising exception.");
+                        RequiredModelMBebn.clbss.getNbme(),
+                    "setModelMBebnInfo(ModelMBebnInfo)",
+                    "ModelMBebnInfo is null: Rbising exception.");
             }
-            final RuntimeException x = new
-                IllegalArgumentException("ModelMBeanInfo must not be null");
-            final String exceptionText =
-                "Exception occurred trying to initialize the " +
-                "ModelMBeanInfo of the RequiredModelMBean";
-            throw new RuntimeOperationsException(x,exceptionText);
+            finbl RuntimeException x = new
+                IllegblArgumentException("ModelMBebnInfo must not be null");
+            finbl String exceptionText =
+                "Exception occurred trying to initiblize the " +
+                "ModelMBebnInfo of the RequiredModelMBebn";
+            throw new RuntimeOperbtionsException(x,exceptionText);
         }
 
         if (registered) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),
-                    "setModelMBeanInfo(ModelMBeanInfo)",
-                    "RequiredMBean is registered: Raising exception.");
+                        RequiredModelMBebn.clbss.getNbme(),
+                    "setModelMBebnInfo(ModelMBebnInfo)",
+                    "RequiredMBebn is registered: Rbising exception.");
             }
-            final String exceptionText =
+            finbl String exceptionText =
                 "Exception occurred trying to set the " +
-                "ModelMBeanInfo of the RequiredModelMBean";
-            final RuntimeException x = new IllegalStateException(
-             "cannot call setModelMBeanInfo while ModelMBean is registered");
-            throw new RuntimeOperationsException(x,exceptionText);
+                "ModelMBebnInfo of the RequiredModelMBebn";
+            finbl RuntimeException x = new IllegblStbteException(
+             "cbnnot cbll setModelMBebnInfo while ModelMBebn is registered");
+            throw new RuntimeOperbtionsException(x,exceptionText);
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "setModelMBeanInfo(ModelMBeanInfo)",
-                "Setting ModelMBeanInfo to " + printModelMBeanInfo(mbi));
-            int noOfNotifications = 0;
-            if (mbi.getNotifications() != null) {
-                noOfNotifications = mbi.getNotifications().length;
+                    RequiredModelMBebn.clbss.getNbme(),
+                "setModelMBebnInfo(ModelMBebnInfo)",
+                "Setting ModelMBebnInfo to " + printModelMBebnInfo(mbi));
+            int noOfNotificbtions = 0;
+            if (mbi.getNotificbtions() != null) {
+                noOfNotificbtions = mbi.getNotificbtions().length;
             }
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "setModelMBeanInfo(ModelMBeanInfo)",
-                "ModelMBeanInfo notifications has " +
-                noOfNotifications + " elements");
+                    RequiredModelMBebn.clbss.getNbme(),
+                "setModelMBebnInfo(ModelMBebnInfo)",
+                "ModelMBebnInfo notificbtions hbs " +
+                noOfNotificbtions + " elements");
         }
 
-        modelMBeanInfo = (ModelMBeanInfo)mbi.clone();
+        modelMBebnInfo = (ModelMBebnInfo)mbi.clone();
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "setModelMBeanInfo(ModelMBeanInfo)","set mbeanInfo to: "+
-                 printModelMBeanInfo(modelMBeanInfo));
+                    RequiredModelMBebn.clbss.getNbme(),
+                "setModelMBebnInfo(ModelMBebnInfo)","set mbebnInfo to: "+
+                 printModelMBebnInfo(modelMBebnInfo));
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "setModelMBeanInfo(ModelMBeanInfo)","Exit");
+                    RequiredModelMBebn.clbss.getNbme(),
+                "setModelMBebnInfo(ModelMBebnInfo)","Exit");
         }
     }
 
 
     /**
-     * Sets the instance handle of the object against which to
-     * execute all methods in this ModelMBean management interface
-     * (MBeanInfo and Descriptors).
+     * Sets the instbnce hbndle of the object bgbinst which to
+     * execute bll methods in this ModelMBebn mbnbgement interfbce
+     * (MBebnInfo bnd Descriptors).
      *
-     * @param mr Object that is the managed resource
-     * @param mr_type The type of reference for the managed resource.
-     *     <br>Can be: "ObjectReference", "Handle", "IOR", "EJBHandle",
+     * @pbrbm mr Object thbt is the mbnbged resource
+     * @pbrbm mr_type The type of reference for the mbnbged resource.
+     *     <br>Cbn be: "ObjectReference", "Hbndle", "IOR", "EJBHbndle",
      *         or "RMIReference".
-     *     <br>In this implementation only "ObjectReference" is supported.
+     *     <br>In this implementbtion only "ObjectReference" is supported.
      *
-     * @exception MBeanException The initializer of the object has
-     *            thrown an exception.
-     * @exception InstanceNotFoundException The managed resource
+     * @exception MBebnException The initiblizer of the object hbs
+     *            thrown bn exception.
+     * @exception InstbnceNotFoundException The mbnbged resource
      *            object could not be found
-     * @exception InvalidTargetObjectTypeException The managed
+     * @exception InvblidTbrgetObjectTypeException The mbnbged
      *            resource type should be "ObjectReference".
-     * @exception RuntimeOperationsException Wraps a {@link
+     * @exception RuntimeOperbtionsException Wrbps b {@link
      *            RuntimeException} when setting the resource.
      **/
-    public void setManagedResource(Object mr, String mr_type)
-        throws MBeanException, RuntimeOperationsException,
-               InstanceNotFoundException, InvalidTargetObjectTypeException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public void setMbnbgedResource(Object mr, String mr_type)
+        throws MBebnException, RuntimeOperbtionsException,
+               InstbnceNotFoundException, InvblidTbrgetObjectTypeException {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "setManagedResource(Object,String)","Entry");
+                    RequiredModelMBebn.clbss.getNbme(),
+                "setMbnbgedResource(Object,String)","Entry");
         }
 
-        // check that the mr_type is supported by this JMXAgent
+        // check thbt the mr_type is supported by this JMXAgent
         // only "objectReference" is supported
         if ((mr_type == null) ||
-            (! mr_type.equalsIgnoreCase("objectReference"))) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+            (! mr_type.equblsIgnoreCbse("objectReference"))) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),
-                    "setManagedResource(Object,String)",
-                    "Managed Resource Type is not supported: " + mr_type);
+                        RequiredModelMBebn.clbss.getNbme(),
+                    "setMbnbgedResource(Object,String)",
+                    "Mbnbged Resource Type is not supported: " + mr_type);
             }
-            throw new InvalidTargetObjectTypeException(mr_type);
+            throw new InvblidTbrgetObjectTypeException(mr_type);
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "setManagedResource(Object,String)",
-                "Managed Resource is valid");
+                    RequiredModelMBebn.clbss.getNbme(),
+                "setMbnbgedResource(Object,String)",
+                "Mbnbged Resource is vblid");
         }
-        managedResource = mr;
+        mbnbgedResource = mr;
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "setManagedResource(Object, String)", "Exit");
+                    RequiredModelMBebn.clbss.getNbme(),
+                "setMbnbgedResource(Object, String)", "Exit");
         }
     }
 
     /**
-     * <p>Instantiates this MBean instance with the data found for
-     * the MBean in the persistent store.  The data loaded could include
-     * attribute and operation values.</p>
+     * <p>Instbntibtes this MBebn instbnce with the dbtb found for
+     * the MBebn in the persistent store.  The dbtb lobded could include
+     * bttribute bnd operbtion vblues.</p>
      *
-     * <p>This method should be called during construction or
-     * initialization of this instance, and before the MBean is
-     * registered with the MBeanServer.</p>
+     * <p>This method should be cblled during construction or
+     * initiblizbtion of this instbnce, bnd before the MBebn is
+     * registered with the MBebnServer.</p>
      *
-     * <p>If the implementation of this class does not support
-     * persistence, an {@link MBeanException} wrapping a {@link
+     * <p>If the implementbtion of this clbss does not support
+     * persistence, bn {@link MBebnException} wrbpping b {@link
      * ServiceNotFoundException} is thrown.</p>
      *
-     * @exception MBeanException Wraps another exception, or
+     * @exception MBebnException Wrbps bnother exception, or
      * persistence is not supported
-     * @exception RuntimeOperationsException Wraps exceptions from the
-     * persistence mechanism
-     * @exception InstanceNotFoundException Could not find or load
-     * this MBean from persistent storage
+     * @exception RuntimeOperbtionsException Wrbps exceptions from the
+     * persistence mechbnism
+     * @exception InstbnceNotFoundException Could not find or lobd
+     * this MBebn from persistent storbge
      */
-    public void load()
-        throws MBeanException, RuntimeOperationsException,
-               InstanceNotFoundException {
-        final ServiceNotFoundException x = new ServiceNotFoundException(
-                                "Persistence not supported for this MBean");
-        throw new MBeanException(x, x.getMessage());
+    public void lobd()
+        throws MBebnException, RuntimeOperbtionsException,
+               InstbnceNotFoundException {
+        finbl ServiceNotFoundException x = new ServiceNotFoundException(
+                                "Persistence not supported for this MBebn");
+        throw new MBebnException(x, x.getMessbge());
     }
 
         /**
-     * <p>Captures the current state of this MBean instance and writes
-     * it out to the persistent store.  The state stored could include
-     * attribute and operation values.</p>
+     * <p>Cbptures the current stbte of this MBebn instbnce bnd writes
+     * it out to the persistent store.  The stbte stored could include
+     * bttribute bnd operbtion vblues.</p>
      *
-     * <p>If the implementation of this class does not support
-     * persistence, an {@link MBeanException} wrapping a {@link
+     * <p>If the implementbtion of this clbss does not support
+     * persistence, bn {@link MBebnException} wrbpping b {@link
      * ServiceNotFoundException} is thrown.</p>
      *
-     * <p>Persistence policy from the MBean and attribute descriptor
-     * is used to guide execution of this method. The MBean should be
+     * <p>Persistence policy from the MBebn bnd bttribute descriptor
+     * is used to guide execution of this method. The MBebn should be
      * stored if 'persistPolicy' field is:</p>
      *
-     * <PRE>{@literal  != "never"
-     *   = "always"
-     *   = "onTimer" and now > 'lastPersistTime' + 'persistPeriod'
-     *   = "NoMoreOftenThan" and now > 'lastPersistTime' + 'persistPeriod'
+     * <PRE>{@literbl  != "never"
+     *   = "blwbys"
+     *   = "onTimer" bnd now > 'lbstPersistTime' + 'persistPeriod'
+     *   = "NoMoreOftenThbn" bnd now > 'lbstPersistTime' + 'persistPeriod'
      *   = "onUnregister"
      * }</PRE>
      *
-     * <p>Do not store the MBean if 'persistPolicy' field is:</p>
-     * <PRE>{@literal
+     * <p>Do not store the MBebn if 'persistPolicy' field is:</p>
+     * <PRE>{@literbl
      *    = "never"
-     *    = "onUpdate"
-     *    = "onTimer" && now < 'lastPersistTime' + 'persistPeriod'
+     *    = "onUpdbte"
+     *    = "onTimer" && now < 'lbstPersistTime' + 'persistPeriod'
      * }</PRE>
      *
-     * @exception MBeanException Wraps another exception, or
+     * @exception MBebnException Wrbps bnother exception, or
      * persistence is not supported
-     * @exception RuntimeOperationsException Wraps exceptions from the
-     * persistence mechanism
-     * @exception InstanceNotFoundException Could not find/access the
+     * @exception RuntimeOperbtionsException Wrbps exceptions from the
+     * persistence mechbnism
+     * @exception InstbnceNotFoundException Could not find/bccess the
      * persistent store
      */
     public void store()
-        throws MBeanException, RuntimeOperationsException,
-               InstanceNotFoundException {
-        final ServiceNotFoundException x = new ServiceNotFoundException(
-                                "Persistence not supported for this MBean");
-        throw new MBeanException(x, x.getMessage());
+        throws MBebnException, RuntimeOperbtionsException,
+               InstbnceNotFoundException {
+        finbl ServiceNotFoundException x = new ServiceNotFoundException(
+                                "Persistence not supported for this MBebn");
+        throw new MBebnException(x, x.getMessbge());
     }
 
     /*************************************/
-    /* DynamicMBean Interface            */
+    /* DynbmicMBebn Interfbce            */
     /*************************************/
 
     /**
-     * The resolveForCacheValue method checks the descriptor passed in to
-     * see if there is a valid cached value in the descriptor.
-     * The valid value will be in the 'value' field if there is one.
+     * The resolveForCbcheVblue method checks the descriptor pbssed in to
+     * see if there is b vblid cbched vblue in the descriptor.
+     * The vblid vblue will be in the 'vblue' field if there is one.
      * If the 'currencyTimeLimit' field in the descriptor is:
      * <ul>
-     *   <li><b>&lt;0</b> Then the value is not cached and is never valid.
-     *         Null is returned. The 'value' and 'lastUpdatedTimeStamp'
-     *         fields are cleared.</li>
-     *   <li><b>=0</b> Then the value is always cached and always valid.
-     *         The 'value' field is returned.
-     *         The 'lastUpdatedTimeStamp' field is not checked.</li>
-     *   <li><b>&gt;0</b> Represents the number of seconds that the
-     *         'value' field is valid.
-     *         The 'value' field is no longer valid when
-     *         'lastUpdatedTimeStamp' + 'currencyTimeLimit' &gt; Now.
+     *   <li><b>&lt;0</b> Then the vblue is not cbched bnd is never vblid.
+     *         Null is returned. The 'vblue' bnd 'lbstUpdbtedTimeStbmp'
+     *         fields bre clebred.</li>
+     *   <li><b>=0</b> Then the vblue is blwbys cbched bnd blwbys vblid.
+     *         The 'vblue' field is returned.
+     *         The 'lbstUpdbtedTimeStbmp' field is not checked.</li>
+     *   <li><b>&gt;0</b> Represents the number of seconds thbt the
+     *         'vblue' field is vblid.
+     *         The 'vblue' field is no longer vblid when
+     *         'lbstUpdbtedTimeStbmp' + 'currencyTimeLimit' &gt; Now.
      *       <ul>
-     *       <li>When 'value' is valid, 'valid' is returned.</li>
-     *       <li>When 'value' is no longer valid then null is returned and
-     *           'value' and 'lastUpdatedTimeStamp' fields are cleared.</li>
+     *       <li>When 'vblue' is vblid, 'vblid' is returned.</li>
+     *       <li>When 'vblue' is no longer vblid then null is returned bnd
+     *           'vblue' bnd 'lbstUpdbtedTimeStbmp' fields bre clebred.</li>
      *       </ul>
      *   </li>
      * </ul>
      *
      **/
-    private Object resolveForCacheValue(Descriptor descr)
-        throws MBeanException, RuntimeOperationsException {
+    privbte Object resolveForCbcheVblue(Descriptor descr)
+        throws MBebnException, RuntimeOperbtionsException {
 
-        final boolean tracing = MODELMBEAN_LOGGER.isLoggable(Level.FINER);
-        final String mth = "resolveForCacheValue(Descriptor)";
-        if (tracing) {
+        finbl boolebn trbcing = MODELMBEAN_LOGGER.isLoggbble(Level.FINER);
+        finbl String mth = "resolveForCbcheVblue(Descriptor)";
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,"Entry");
+                    RequiredModelMBebn.clbss.getNbme(),mth,"Entry");
         }
 
         Object response = null;
-        boolean resetValue = false, returnCachedValue = true;
+        boolebn resetVblue = fblse, returnCbchedVblue = true;
         long currencyPeriod = 0;
 
         if (descr == null) {
-            if (tracing) {
+            if (trbcing) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),mth,
+                        RequiredModelMBebn.clbss.getNbme(),mth,
                     "Input Descriptor is null");
             }
             return response;
         }
 
-        if (tracing) {
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
+                    RequiredModelMBebn.clbss.getNbme(),
                     mth, "descriptor is " + descr);
         }
 
-        final Descriptor mmbDescr = modelMBeanInfo.getMBeanDescriptor();
+        finbl Descriptor mmbDescr = modelMBebnInfo.getMBebnDescriptor();
         if (mmbDescr == null) {
-            if (tracing) {
+            if (trbcing) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                        mth,"MBean Descriptor is null");
+                    RequiredModelMBebn.clbss.getNbme(),
+                        mth,"MBebn Descriptor is null");
             }
             //return response;
         }
 
-        Object objExpTime = descr.getFieldValue("currencyTimeLimit");
+        Object objExpTime = descr.getFieldVblue("currencyTimeLimit");
 
         String expTime;
         if (objExpTime != null) {
@@ -528,7 +528,7 @@ public class RequiredModelMBean
         }
 
         if ((expTime == null) && (mmbDescr != null)) {
-            objExpTime = mmbDescr.getFieldValue("currencyTimeLimit");
+            objExpTime = mmbDescr.getFieldVblue("currencyTimeLimit");
             if (objExpTime != null) {
                 expTime = objExpTime.toString();
             } else {
@@ -537,791 +537,791 @@ public class RequiredModelMBean
         }
 
         if (expTime != null) {
-            if (tracing) {
+            if (trbcing) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
+                    RequiredModelMBebn.clbss.getNbme(),
                         mth,"currencyTimeLimit: " + expTime);
             }
 
-            // convert seconds to milliseconds for time comparison
-            currencyPeriod = Long.parseLong(expTime) * 1000;
+            // convert seconds to milliseconds for time compbrison
+            currencyPeriod = Long.pbrseLong(expTime) * 1000;
             if (currencyPeriod < 0) {
-                /* if currencyTimeLimit is -1 then value is never cached */
-                returnCachedValue = false;
-                resetValue = true;
-                if (tracing) {
+                /* if currencyTimeLimit is -1 then vblue is never cbched */
+                returnCbchedVblue = fblse;
+                resetVblue = true;
+                if (trbcing) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            RequiredModelMBean.class.getName(),mth,
-                        currencyPeriod + ": never Cached");
+                            RequiredModelMBebn.clbss.getNbme(),mth,
+                        currencyPeriod + ": never Cbched");
                 }
             } else if (currencyPeriod == 0) {
-                /* if currencyTimeLimit is 0 then value is always cached */
-                returnCachedValue = true;
-                resetValue = false;
-                if (tracing) {
+                /* if currencyTimeLimit is 0 then vblue is blwbys cbched */
+                returnCbchedVblue = true;
+                resetVblue = fblse;
+                if (trbcing) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            RequiredModelMBean.class.getName(),mth,
-                        "always valid Cache");
+                            RequiredModelMBebn.clbss.getNbme(),mth,
+                        "blwbys vblid Cbche");
                 }
             } else {
-                Object objtStamp =
-                    descr.getFieldValue("lastUpdatedTimeStamp");
+                Object objtStbmp =
+                    descr.getFieldVblue("lbstUpdbtedTimeStbmp");
 
-                String tStamp;
-                if (objtStamp != null) tStamp = objtStamp.toString();
-                else tStamp = null;
+                String tStbmp;
+                if (objtStbmp != null) tStbmp = objtStbmp.toString();
+                else tStbmp = null;
 
-                if (tracing) {
+                if (trbcing) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            RequiredModelMBean.class.getName(),mth,
-                        "lastUpdatedTimeStamp: " + tStamp);
+                            RequiredModelMBebn.clbss.getNbme(),mth,
+                        "lbstUpdbtedTimeStbmp: " + tStbmp);
                 }
 
-                if (tStamp == null)
-                    tStamp = "0";
+                if (tStbmp == null)
+                    tStbmp = "0";
 
-                long lastTime = Long.parseLong(tStamp);
+                long lbstTime = Long.pbrseLong(tStbmp);
 
-                if (tracing) {
+                if (trbcing) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            RequiredModelMBean.class.getName(),mth,
+                            RequiredModelMBebn.clbss.getNbme(),mth,
                         "currencyPeriod:" + currencyPeriod +
-                        " lastUpdatedTimeStamp:" + lastTime);
+                        " lbstUpdbtedTimeStbmp:" + lbstTime);
                 }
 
-                long now = (new Date()).getTime();
+                long now = (new Dbte()).getTime();
 
-                if (now < (lastTime + currencyPeriod)) {
-                    returnCachedValue = true;
-                    resetValue = false;
-                    if (tracing) {
+                if (now < (lbstTime + currencyPeriod)) {
+                    returnCbchedVblue = true;
+                    resetVblue = fblse;
+                    if (trbcing) {
                         MODELMBEAN_LOGGER.logp(Level.FINER,
-                                RequiredModelMBean.class.getName(),mth,
-                            " timed valid Cache for " + now + " < " +
-                            (lastTime + currencyPeriod));
+                                RequiredModelMBebn.clbss.getNbme(),mth,
+                            " timed vblid Cbche for " + now + " < " +
+                            (lbstTime + currencyPeriod));
                     }
-                } else { /* value is expired */
-                    returnCachedValue = false;
-                    resetValue = true;
-                    if (tracing) {
+                } else { /* vblue is expired */
+                    returnCbchedVblue = fblse;
+                    resetVblue = true;
+                    if (trbcing) {
                         MODELMBEAN_LOGGER.logp(Level.FINER,
-                                RequiredModelMBean.class.getName(),mth,
-                            "timed expired cache for " + now + " > " +
-                            (lastTime + currencyPeriod));
+                                RequiredModelMBebn.clbss.getNbme(),mth,
+                            "timed expired cbche for " + now + " > " +
+                            (lbstTime + currencyPeriod));
                     }
                 }
             }
-            if (tracing) {
+            if (trbcing) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),mth,
-                    "returnCachedValue:" + returnCachedValue +
-                    " resetValue: " + resetValue);
+                        RequiredModelMBebn.clbss.getNbme(),mth,
+                    "returnCbchedVblue:" + returnCbchedVblue +
+                    " resetVblue: " + resetVblue);
             }
 
-            if (returnCachedValue == true) {
-                Object currValue = descr.getFieldValue("value");
-                if (currValue != null) {
-                    /* error/validity check return value here */
-                    response = currValue;
-                    /* need to cast string cached value to type */
-                    if (tracing) {
+            if (returnCbchedVblue == true) {
+                Object currVblue = descr.getFieldVblue("vblue");
+                if (currVblue != null) {
+                    /* error/vblidity check return vblue here */
+                    response = currVblue;
+                    /* need to cbst string cbched vblue to type */
+                    if (trbcing) {
                         MODELMBEAN_LOGGER.logp(Level.FINER,
-                                RequiredModelMBean.class.getName(),mth,
-                            "valid Cache value: " + currValue);
+                                RequiredModelMBebn.clbss.getNbme(),mth,
+                            "vblid Cbche vblue: " + currVblue);
                     }
 
                 } else {
                     response = null;
-                    if (tracing) {
+                    if (trbcing) {
                         MODELMBEAN_LOGGER.logp(Level.FINER,
-                            RequiredModelMBean.class.getName(),
-                                mth,"no Cached value");
+                            RequiredModelMBebn.clbss.getNbme(),
+                                mth,"no Cbched vblue");
                     }
                 }
             }
 
-            if (resetValue == true) {
-                /* value is not current, so remove it */
-                descr.removeField("lastUpdatedTimeStamp");
-                descr.removeField("value");
+            if (resetVblue == true) {
+                /* vblue is not current, so remove it */
+                descr.removeField("lbstUpdbtedTimeStbmp");
+                descr.removeField("vblue");
                 response = null;
-                modelMBeanInfo.setDescriptor(descr,null);
-                if (tracing) {
+                modelMBebnInfo.setDescriptor(descr,null);
+                if (trbcing) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),
-                            mth,"reset cached value to null");
+                        RequiredModelMBebn.clbss.getNbme(),
+                            mth,"reset cbched vblue to null");
                 }
             }
         }
 
-        if (tracing) {
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,"Exit");
+                    RequiredModelMBebn.clbss.getNbme(),mth,"Exit");
         }
 
         return response;
     }
 
     /**
-     * Returns the attributes, operations, constructors and notifications
-     * that this RequiredModelMBean exposes for management.
+     * Returns the bttributes, operbtions, constructors bnd notificbtions
+     * thbt this RequiredModelMBebn exposes for mbnbgement.
      *
-     * @return  An instance of ModelMBeanInfo allowing retrieval all
-     *          attributes, operations, and Notifications of this MBean.
+     * @return  An instbnce of ModelMBebnInfo bllowing retrievbl bll
+     *          bttributes, operbtions, bnd Notificbtions of this MBebn.
      *
      **/
-    public MBeanInfo getMBeanInfo() {
+    public MBebnInfo getMBebnInfo() {
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                    "getMBeanInfo()","Entry");
+                    RequiredModelMBebn.clbss.getNbme(),
+                    "getMBebnInfo()","Entry");
         }
 
-        if (modelMBeanInfo == null) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (modelMBebnInfo == null) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),
-                    "getMBeanInfo()","modelMBeanInfo is null");
+                        RequiredModelMBebn.clbss.getNbme(),
+                    "getMBebnInfo()","modelMBebnInfo is null");
             }
-            modelMBeanInfo = createDefaultModelMBeanInfo();
-            //return new ModelMBeanInfo(" ", "", null, null, null, null);
+            modelMBebnInfo = crebteDefbultModelMBebnInfo();
+            //return new ModelMBebnInfo(" ", "", null, null, null, null);
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "getMBeanInfo()","ModelMBeanInfo is " +
-                  modelMBeanInfo.getClassName() + " for " +
-                  modelMBeanInfo.getDescription());
+                    RequiredModelMBebn.clbss.getNbme(),
+                "getMBebnInfo()","ModelMBebnInfo is " +
+                  modelMBebnInfo.getClbssNbme() + " for " +
+                  modelMBebnInfo.getDescription());
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "getMBeanInfo()",printModelMBeanInfo(modelMBeanInfo));
+                    RequiredModelMBebn.clbss.getNbme(),
+                "getMBebnInfo()",printModelMBebnInfo(modelMBebnInfo));
         }
 
-        return((MBeanInfo) modelMBeanInfo.clone());
+        return((MBebnInfo) modelMBebnInfo.clone());
     }
 
-    private String printModelMBeanInfo(ModelMBeanInfo info) {
-        final StringBuilder retStr = new StringBuilder();
+    privbte String printModelMBebnInfo(ModelMBebnInfo info) {
+        finbl StringBuilder retStr = new StringBuilder();
         if (info == null) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),
-                        "printModelMBeanInfo(ModelMBeanInfo)",
-                        "ModelMBeanInfo to print is null, " +
-                        "printing local ModelMBeanInfo");
+                        RequiredModelMBebn.clbss.getNbme(),
+                        "printModelMBebnInfo(ModelMBebnInfo)",
+                        "ModelMBebnInfo to print is null, " +
+                        "printing locbl ModelMBebnInfo");
             }
-            info = modelMBeanInfo;
+            info = modelMBebnInfo;
         }
 
-        retStr.append("\nMBeanInfo for ModelMBean is:");
-        retStr.append("\nCLASSNAME: \t"+ info.getClassName());
-        retStr.append("\nDESCRIPTION: \t"+ info.getDescription());
+        retStr.bppend("\nMBebnInfo for ModelMBebn is:");
+        retStr.bppend("\nCLASSNAME: \t"+ info.getClbssNbme());
+        retStr.bppend("\nDESCRIPTION: \t"+ info.getDescription());
 
 
         try {
-            retStr.append("\nMBEAN DESCRIPTOR: \t"+
-                          info.getMBeanDescriptor());
-        } catch (Exception e) {
-            retStr.append("\nMBEAN DESCRIPTOR: \t" + " is invalid");
+            retStr.bppend("\nMBEAN DESCRIPTOR: \t"+
+                          info.getMBebnDescriptor());
+        } cbtch (Exception e) {
+            retStr.bppend("\nMBEAN DESCRIPTOR: \t" + " is invblid");
         }
 
-        retStr.append("\nATTRIBUTES");
+        retStr.bppend("\nATTRIBUTES");
 
-        final MBeanAttributeInfo[] attrInfo = info.getAttributes();
-        if ((attrInfo != null) && (attrInfo.length>0)) {
-            for (int i=0; i<attrInfo.length; i++) {
-                final ModelMBeanAttributeInfo attInfo =
-                    (ModelMBeanAttributeInfo)attrInfo[i];
-                retStr.append(" ** NAME: \t"+ attInfo.getName());
-                retStr.append("    DESCR: \t"+ attInfo.getDescription());
-                retStr.append("    TYPE: \t"+ attInfo.getType() +
-                              "    READ: \t"+ attInfo.isReadable() +
-                              "    WRITE: \t"+ attInfo.isWritable());
-                retStr.append("    DESCRIPTOR: " +
-                              attInfo.getDescriptor().toString());
+        finbl MBebnAttributeInfo[] bttrInfo = info.getAttributes();
+        if ((bttrInfo != null) && (bttrInfo.length>0)) {
+            for (int i=0; i<bttrInfo.length; i++) {
+                finbl ModelMBebnAttributeInfo bttInfo =
+                    (ModelMBebnAttributeInfo)bttrInfo[i];
+                retStr.bppend(" ** NAME: \t"+ bttInfo.getNbme());
+                retStr.bppend("    DESCR: \t"+ bttInfo.getDescription());
+                retStr.bppend("    TYPE: \t"+ bttInfo.getType() +
+                              "    READ: \t"+ bttInfo.isRebdbble() +
+                              "    WRITE: \t"+ bttInfo.isWritbble());
+                retStr.bppend("    DESCRIPTOR: " +
+                              bttInfo.getDescriptor().toString());
             }
         } else {
-            retStr.append(" ** No attributes **");
+            retStr.bppend(" ** No bttributes **");
         }
 
-        retStr.append("\nCONSTRUCTORS");
-        final MBeanConstructorInfo[] constrInfo = info.getConstructors();
+        retStr.bppend("\nCONSTRUCTORS");
+        finbl MBebnConstructorInfo[] constrInfo = info.getConstructors();
         if ((constrInfo != null) && (constrInfo.length > 0 )) {
             for (int i=0; i<constrInfo.length; i++) {
-                final ModelMBeanConstructorInfo ctorInfo =
-                    (ModelMBeanConstructorInfo)constrInfo[i];
-                retStr.append(" ** NAME: \t"+ ctorInfo.getName());
-                retStr.append("    DESCR: \t"+
+                finbl ModelMBebnConstructorInfo ctorInfo =
+                    (ModelMBebnConstructorInfo)constrInfo[i];
+                retStr.bppend(" ** NAME: \t"+ ctorInfo.getNbme());
+                retStr.bppend("    DESCR: \t"+
                               ctorInfo.getDescription());
-                retStr.append("    PARAM: \t"+
-                              ctorInfo.getSignature().length +
-                              " parameter(s)");
-                retStr.append("    DESCRIPTOR: " +
+                retStr.bppend("    PARAM: \t"+
+                              ctorInfo.getSignbture().length +
+                              " pbrbmeter(s)");
+                retStr.bppend("    DESCRIPTOR: " +
                               ctorInfo.getDescriptor().toString());
             }
         } else {
-            retStr.append(" ** No Constructors **");
+            retStr.bppend(" ** No Constructors **");
         }
 
-        retStr.append("\nOPERATIONS");
-        final MBeanOperationInfo[] opsInfo = info.getOperations();
+        retStr.bppend("\nOPERATIONS");
+        finbl MBebnOperbtionInfo[] opsInfo = info.getOperbtions();
         if ((opsInfo != null) && (opsInfo.length>0)) {
             for (int i=0; i<opsInfo.length; i++) {
-                final ModelMBeanOperationInfo operInfo =
-                    (ModelMBeanOperationInfo)opsInfo[i];
-                retStr.append(" ** NAME: \t"+ operInfo.getName());
-                retStr.append("    DESCR: \t"+ operInfo.getDescription());
-                retStr.append("    PARAM: \t"+
-                              operInfo.getSignature().length +
-                              " parameter(s)");
-                retStr.append("    DESCRIPTOR: " +
+                finbl ModelMBebnOperbtionInfo operInfo =
+                    (ModelMBebnOperbtionInfo)opsInfo[i];
+                retStr.bppend(" ** NAME: \t"+ operInfo.getNbme());
+                retStr.bppend("    DESCR: \t"+ operInfo.getDescription());
+                retStr.bppend("    PARAM: \t"+
+                              operInfo.getSignbture().length +
+                              " pbrbmeter(s)");
+                retStr.bppend("    DESCRIPTOR: " +
                               operInfo.getDescriptor().toString());
             }
         } else {
-            retStr.append(" ** No operations ** ");
+            retStr.bppend(" ** No operbtions ** ");
         }
 
-        retStr.append("\nNOTIFICATIONS");
+        retStr.bppend("\nNOTIFICATIONS");
 
-        MBeanNotificationInfo[] notifInfo = info.getNotifications();
+        MBebnNotificbtionInfo[] notifInfo = info.getNotificbtions();
         if ((notifInfo != null) && (notifInfo.length>0)) {
             for (int i=0; i<notifInfo.length; i++) {
-                final ModelMBeanNotificationInfo nInfo =
-                    (ModelMBeanNotificationInfo)notifInfo[i];
-                retStr.append(" ** NAME: \t"+ nInfo.getName());
-                retStr.append("    DESCR: \t"+ nInfo.getDescription());
-                retStr.append("    DESCRIPTOR: " +
+                finbl ModelMBebnNotificbtionInfo nInfo =
+                    (ModelMBebnNotificbtionInfo)notifInfo[i];
+                retStr.bppend(" ** NAME: \t"+ nInfo.getNbme());
+                retStr.bppend("    DESCR: \t"+ nInfo.getDescription());
+                retStr.bppend("    DESCRIPTOR: " +
                               nInfo.getDescriptor().toString());
             }
         } else {
-            retStr.append(" ** No notifications **");
+            retStr.bppend(" ** No notificbtions **");
         }
 
-        retStr.append(" ** ModelMBean: End of MBeanInfo ** ");
+        retStr.bppend(" ** ModelMBebn: End of MBebnInfo ** ");
 
         return retStr.toString();
     }
 
     /**
-     * Invokes a method on or through a RequiredModelMBean and returns
+     * Invokes b method on or through b RequiredModelMBebn bnd returns
      * the result of the method execution.
      * <P>
      * If the given method to be invoked, together with the provided
-     * signature, matches one of RequiredModelMbean
-     * accessible methods, this one will be call. Otherwise the call to
-     * the given method will be tried on the managed resource.
+     * signbture, mbtches one of RequiredModelMbebn
+     * bccessible methods, this one will be cbll. Otherwise the cbll to
+     * the given method will be tried on the mbnbged resource.
      * <P>
-     * The last value returned by an operation may be cached in
-     * the operation's descriptor which
-     * is in the ModelMBeanOperationInfo's descriptor.
-     * The valid value will be in the 'value' field if there is one.
+     * The lbst vblue returned by bn operbtion mby be cbched in
+     * the operbtion's descriptor which
+     * is in the ModelMBebnOperbtionInfo's descriptor.
+     * The vblid vblue will be in the 'vblue' field if there is one.
      * If the 'currencyTimeLimit' field in the descriptor is:
      * <UL>
-     * <LI><b>&lt;0</b> Then the value is not cached and is never valid.
-     *      The operation method is invoked.
-     *      The 'value' and 'lastUpdatedTimeStamp' fields are cleared.</LI>
-     * <LI><b>=0</b> Then the value is always cached and always valid.
-     *      The 'value' field is returned. If there is no 'value' field
-     *      then the operation method is invoked for the attribute.
-     *      The 'lastUpdatedTimeStamp' field and `value' fields are set to
-     *      the operation's return value and the current time stamp.</LI>
-     * <LI><b>&gt;0</b> Represents the number of seconds that the 'value'
-     *      field is valid.
-     *      The 'value' field is no longer valid when
-     *      'lastUpdatedTimeStamp' + 'currencyTimeLimit' &gt; Now.
+     * <LI><b>&lt;0</b> Then the vblue is not cbched bnd is never vblid.
+     *      The operbtion method is invoked.
+     *      The 'vblue' bnd 'lbstUpdbtedTimeStbmp' fields bre clebred.</LI>
+     * <LI><b>=0</b> Then the vblue is blwbys cbched bnd blwbys vblid.
+     *      The 'vblue' field is returned. If there is no 'vblue' field
+     *      then the operbtion method is invoked for the bttribute.
+     *      The 'lbstUpdbtedTimeStbmp' field bnd `vblue' fields bre set to
+     *      the operbtion's return vblue bnd the current time stbmp.</LI>
+     * <LI><b>&gt;0</b> Represents the number of seconds thbt the 'vblue'
+     *      field is vblid.
+     *      The 'vblue' field is no longer vblid when
+     *      'lbstUpdbtedTimeStbmp' + 'currencyTimeLimit' &gt; Now.
      *      <UL>
-     *         <LI>When 'value' is valid, 'value' is returned.</LI>
-     *         <LI>When 'value' is no longer valid then the operation
-     *             method is invoked. The 'lastUpdatedTimeStamp' field
-     *             and `value' fields are updated.</lI>
+     *         <LI>When 'vblue' is vblid, 'vblue' is returned.</LI>
+     *         <LI>When 'vblue' is no longer vblid then the operbtion
+     *             method is invoked. The 'lbstUpdbtedTimeStbmp' field
+     *             bnd `vblue' fields bre updbted.</lI>
      *      </UL>
      * </LI>
      * </UL>
      *
-     * <p><b>Note:</b> because of inconsistencies in previous versions of
-     * this specification, it is recommended not to use negative or zero
-     * values for <code>currencyTimeLimit</code>.  To indicate that a
-     * cached value is never valid, omit the
-     * <code>currencyTimeLimit</code> field.  To indicate that it is
-     * always valid, use a very large number for this field.</p>
+     * <p><b>Note:</b> becbuse of inconsistencies in previous versions of
+     * this specificbtion, it is recommended not to use negbtive or zero
+     * vblues for <code>currencyTimeLimit</code>.  To indicbte thbt b
+     * cbched vblue is never vblid, omit the
+     * <code>currencyTimeLimit</code> field.  To indicbte thbt it is
+     * blwbys vblid, use b very lbrge number for this field.</p>
      *
-     * @param opName The name of the method to be invoked. The
-     *     name can be the fully qualified method name including the
-     *     classname, or just the method name if the classname is
-     *     defined in the 'class' field of the operation descriptor.
-     * @param opArgs An array containing the parameters to be set
-     *     when the operation is invoked
-     * @param sig An array containing the signature of the
-     *     operation. The class objects will be loaded using the same
-     *     class loader as the one used for loading the MBean on which
-     *     the operation was invoked.
+     * @pbrbm opNbme The nbme of the method to be invoked. The
+     *     nbme cbn be the fully qublified method nbme including the
+     *     clbssnbme, or just the method nbme if the clbssnbme is
+     *     defined in the 'clbss' field of the operbtion descriptor.
+     * @pbrbm opArgs An brrby contbining the pbrbmeters to be set
+     *     when the operbtion is invoked
+     * @pbrbm sig An brrby contbining the signbture of the
+     *     operbtion. The clbss objects will be lobded using the sbme
+     *     clbss lobder bs the one used for lobding the MBebn on which
+     *     the operbtion wbs invoked.
      *
      * @return  The object returned by the method, which represents the
-     *     result of invoking the method on the specified managed resource.
+     *     result of invoking the method on the specified mbnbged resource.
      *
-     * @exception MBeanException  Wraps one of the following Exceptions:
+     * @exception MBebnException  Wrbps one of the following Exceptions:
      * <UL>
-     * <LI> An Exception thrown by the managed object's invoked method.</LI>
-     * <LI> {@link ServiceNotFoundException}: No ModelMBeanOperationInfo or
-     *      no descriptor defined for the specified operation or the managed
+     * <LI> An Exception thrown by the mbnbged object's invoked method.</LI>
+     * <LI> {@link ServiceNotFoundException}: No ModelMBebnOperbtionInfo or
+     *      no descriptor defined for the specified operbtion or the mbnbged
      *      resource is null.</LI>
-     * <LI> {@link InvalidTargetObjectTypeException}: The 'targetType'
-     *      field value is not 'objectReference'.</LI>
+     * <LI> {@link InvblidTbrgetObjectTypeException}: The 'tbrgetType'
+     *      field vblue is not 'objectReference'.</LI>
      * </UL>
-     * @exception ReflectionException  Wraps an {@link java.lang.Exception}
+     * @exception ReflectionException  Wrbps bn {@link jbvb.lbng.Exception}
      *      thrown while trying to invoke the method.
-     * @exception RuntimeOperationsException Wraps an
-     *      {@link IllegalArgumentException} Method name is null.
+     * @exception RuntimeOperbtionsException Wrbps bn
+     *      {@link IllegblArgumentException} Method nbme is null.
      *
      **/
     /*
-      The requirement to be able to invoke methods on the
-      RequiredModelMBean class itself makes this method considerably
-      more complicated than it might otherwise be.  Note that, unlike
-      earlier versions, we do not allow you to invoke such methods if
-      they are not explicitly mentioned in the ModelMBeanInfo.  Doing
-      so was potentially a security problem, and certainly very
+      The requirement to be bble to invoke methods on the
+      RequiredModelMBebn clbss itself mbkes this method considerbbly
+      more complicbted thbn it might otherwise be.  Note thbt, unlike
+      ebrlier versions, we do not bllow you to invoke such methods if
+      they bre not explicitly mentioned in the ModelMBebnInfo.  Doing
+      so wbs potentiblly b security problem, bnd certbinly very
       surprising.
 
-      We do not look for the method in the RequiredModelMBean class
+      We do not look for the method in the RequiredModelMBebn clbss
       itself if:
-      (a) there is a "targetObject" field in the Descriptor for the
-      operation; or
-      (b) there is a "class" field in the Descriptor for the operation
-      and the named class is not RequiredModelMBean or one of its
-      superinterfaces; or
-      (c) the name of the operation is not the name of a method in
-      RequiredModelMBean (this is just an optimization).
+      (b) there is b "tbrgetObject" field in the Descriptor for the
+      operbtion; or
+      (b) there is b "clbss" field in the Descriptor for the operbtion
+      bnd the nbmed clbss is not RequiredModelMBebn or one of its
+      superinterfbces; or
+      (c) the nbme of the operbtion is not the nbme of b method in
+      RequiredModelMBebn (this is just bn optimizbtion).
 
-      In cases (a) and (b), if you have gone to the trouble of adding
-      those fields specifically for this operation then presumably you
-      do not want RequiredModelMBean's methods to be called.
+      In cbses (b) bnd (b), if you hbve gone to the trouble of bdding
+      those fields specificblly for this operbtion then presumbbly you
+      do not wbnt RequiredModelMBebn's methods to be cblled.
 
-      We have to pay attention to class loading issues.  If the
-      "class" field is present, the named class has to be resolved
-      relative to RequiredModelMBean's class loader to test the
-      condition (b) above, and relative to the managed resource's
-      class loader to ensure that the managed resource is in fact of
-      the named class (or a subclass).  The class names in the sig
-      array likewise have to be resolved, first against
-      RequiredModelMBean's class loader, then against the managed
-      resource's class loader.  There is no point in using any other
-      loader because when we call Method.invoke we must call it on
-      a Method that is implemented by the target object.
+      We hbve to pby bttention to clbss lobding issues.  If the
+      "clbss" field is present, the nbmed clbss hbs to be resolved
+      relbtive to RequiredModelMBebn's clbss lobder to test the
+      condition (b) bbove, bnd relbtive to the mbnbged resource's
+      clbss lobder to ensure thbt the mbnbged resource is in fbct of
+      the nbmed clbss (or b subclbss).  The clbss nbmes in the sig
+      brrby likewise hbve to be resolved, first bgbinst
+      RequiredModelMBebn's clbss lobder, then bgbinst the mbnbged
+      resource's clbss lobder.  There is no point in using bny other
+      lobder becbuse when we cbll Method.invoke we must cbll it on
+      b Method thbt is implemented by the tbrget object.
      */
-    public Object invoke(String opName, Object[] opArgs, String[] sig)
-            throws MBeanException, ReflectionException {
+    public Object invoke(String opNbme, Object[] opArgs, String[] sig)
+            throws MBebnException, ReflectionException {
 
-        final boolean tracing = MODELMBEAN_LOGGER.isLoggable(Level.FINER);
-        final String mth = "invoke(String, Object[], String[])";
+        finbl boolebn trbcing = MODELMBEAN_LOGGER.isLoggbble(Level.FINER);
+        finbl String mth = "invoke(String, Object[], String[])";
 
-        if (tracing) {
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(), mth, "Entry");
+                    RequiredModelMBebn.clbss.getNbme(), mth, "Entry");
         }
 
-        if (opName == null) {
-            final RuntimeException x =
-                new IllegalArgumentException("Method name must not be null");
-            throw new RuntimeOperationsException(x,
+        if (opNbme == null) {
+            finbl RuntimeException x =
+                new IllegblArgumentException("Method nbme must not be null");
+            throw new RuntimeOperbtionsException(x,
                       "An exception occurred while trying to " +
-                      "invoke a method on a RequiredModelMBean");
+                      "invoke b method on b RequiredModelMBebn");
         }
 
-        String opClassName = null;
-        String opMethodName;
+        String opClbssNbme = null;
+        String opMethodNbme;
 
-        // Parse for class name and method
-        int opSplitter = opName.lastIndexOf('.');
+        // Pbrse for clbss nbme bnd method
+        int opSplitter = opNbme.lbstIndexOf('.');
         if (opSplitter > 0) {
-            opClassName = opName.substring(0,opSplitter);
-            opMethodName = opName.substring(opSplitter+1);
+            opClbssNbme = opNbme.substring(0,opSplitter);
+            opMethodNbme = opNbme.substring(opSplitter+1);
         } else
-            opMethodName = opName;
+            opMethodNbme = opNbme;
 
-        /* Ignore anything after a left paren.  We keep this for
-           compatibility but it isn't specified.  */
-        opSplitter = opMethodName.indexOf('(');
+        /* Ignore bnything bfter b left pbren.  We keep this for
+           compbtibility but it isn't specified.  */
+        opSplitter = opMethodNbme.indexOf('(');
         if (opSplitter > 0)
-            opMethodName = opMethodName.substring(0,opSplitter);
+            opMethodNbme = opMethodNbme.substring(0,opSplitter);
 
-        if (tracing) {
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                    mth, "Finding operation " + opName + " as " + opMethodName);
+                    RequiredModelMBebn.clbss.getNbme(),
+                    mth, "Finding operbtion " + opNbme + " bs " + opMethodNbme);
         }
 
-        ModelMBeanOperationInfo opInfo =
-            modelMBeanInfo.getOperation(opMethodName);
+        ModelMBebnOperbtionInfo opInfo =
+            modelMBebnInfo.getOperbtion(opMethodNbme);
         if (opInfo == null) {
-            final String msg =
-                "Operation " + opName + " not in ModelMBeanInfo";
-            throw new MBeanException(new ServiceNotFoundException(msg), msg);
+            finbl String msg =
+                "Operbtion " + opNbme + " not in ModelMBebnInfo";
+            throw new MBebnException(new ServiceNotFoundException(msg), msg);
         }
 
-        final Descriptor opDescr = opInfo.getDescriptor();
+        finbl Descriptor opDescr = opInfo.getDescriptor();
         if (opDescr == null) {
-            final String msg = "Operation descriptor null";
-            throw new MBeanException(new ServiceNotFoundException(msg), msg);
+            finbl String msg = "Operbtion descriptor null";
+            throw new MBebnException(new ServiceNotFoundException(msg), msg);
         }
 
-        final Object cached = resolveForCacheValue(opDescr);
-        if (cached != null) {
-            if (tracing) {
+        finbl Object cbched = resolveForCbcheVblue(opDescr);
+        if (cbched != null) {
+            if (trbcing) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),
+                        RequiredModelMBebn.clbss.getNbme(),
                         mth,
-                        "Returning cached value");
+                        "Returning cbched vblue");
             }
-            return cached;
+            return cbched;
         }
 
-        if (opClassName == null)
-            opClassName = (String) opDescr.getFieldValue("class");
-        // may still be null now
+        if (opClbssNbme == null)
+            opClbssNbme = (String) opDescr.getFieldVblue("clbss");
+        // mby still be null now
 
-        opMethodName = (String) opDescr.getFieldValue("name");
-        if (opMethodName == null) {
-            final String msg =
-                "Method descriptor must include `name' field";
-            throw new MBeanException(new ServiceNotFoundException(msg), msg);
+        opMethodNbme = (String) opDescr.getFieldVblue("nbme");
+        if (opMethodNbme == null) {
+            finbl String msg =
+                "Method descriptor must include `nbme' field";
+            throw new MBebnException(new ServiceNotFoundException(msg), msg);
         }
 
-        final String targetTypeField = (String)
-            opDescr.getFieldValue("targetType");
-        if (targetTypeField != null
-            && !targetTypeField.equalsIgnoreCase("objectReference")) {
-            final String msg =
-                "Target type must be objectReference: " + targetTypeField;
-            throw new MBeanException(new InvalidTargetObjectTypeException(msg),
+        finbl String tbrgetTypeField = (String)
+            opDescr.getFieldVblue("tbrgetType");
+        if (tbrgetTypeField != null
+            && !tbrgetTypeField.equblsIgnoreCbse("objectReference")) {
+            finbl String msg =
+                "Tbrget type must be objectReference: " + tbrgetTypeField;
+            throw new MBebnException(new InvblidTbrgetObjectTypeException(msg),
                                      msg);
         }
 
-        final Object targetObjectField = opDescr.getFieldValue("targetObject");
-        if (tracing && targetObjectField != null)
+        finbl Object tbrgetObjectField = opDescr.getFieldVblue("tbrgetObject");
+        if (trbcing && tbrgetObjectField != null)
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                        mth, "Found target object in descriptor");
+                    RequiredModelMBebn.clbss.getNbme(),
+                        mth, "Found tbrget object in descriptor");
 
-        /* Now look for the method, either in RequiredModelMBean itself
-           or in the target object.  Set "method" and "targetObject"
-           appropriately.  */
+        /* Now look for the method, either in RequiredModelMBebn itself
+           or in the tbrget object.  Set "method" bnd "tbrgetObject"
+           bppropribtely.  */
         Method method;
-        Object targetObject;
+        Object tbrgetObject;
 
-        method = findRMMBMethod(opMethodName, targetObjectField,
-                                opClassName, sig);
+        method = findRMMBMethod(opMethodNbme, tbrgetObjectField,
+                                opClbssNbme, sig);
 
         if (method != null)
-            targetObject = this;
+            tbrgetObject = this;
         else {
-            if (tracing) {
+            if (trbcing) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                        mth, "looking for method in managedResource class");
+                    RequiredModelMBebn.clbss.getNbme(),
+                        mth, "looking for method in mbnbgedResource clbss");
             }
-            if (targetObjectField != null)
-                targetObject = targetObjectField;
+            if (tbrgetObjectField != null)
+                tbrgetObject = tbrgetObjectField;
             else {
-                targetObject = managedResource;
-                if (targetObject == null) {
-                    final String msg =
-                        "managedResource for invoke " + opName +
+                tbrgetObject = mbnbgedResource;
+                if (tbrgetObject == null) {
+                    finbl String msg =
+                        "mbnbgedResource for invoke " + opNbme +
                         " is null";
                     Exception snfe = new ServiceNotFoundException(msg);
-                    throw new MBeanException(snfe);
+                    throw new MBebnException(snfe);
                 }
             }
 
-            final Class<?> targetClass;
+            finbl Clbss<?> tbrgetClbss;
 
-            if (opClassName != null) {
+            if (opClbssNbme != null) {
                 try {
-                    AccessControlContext stack = AccessController.getContext();
-                    final Object obj = targetObject;
-                    final String className = opClassName;
-                    final ClassNotFoundException[] caughtException = new ClassNotFoundException[1];
+                    AccessControlContext stbck = AccessController.getContext();
+                    finbl Object obj = tbrgetObject;
+                    finbl String clbssNbme = opClbssNbme;
+                    finbl ClbssNotFoundException[] cbughtException = new ClbssNotFoundException[1];
 
-                    targetClass = javaSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Class<?>>() {
+                    tbrgetClbss = jbvbSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Clbss<?>>() {
 
                         @Override
-                        public Class<?> run() {
+                        public Clbss<?> run() {
                             try {
-                                ReflectUtil.checkPackageAccess(className);
-                                final ClassLoader targetClassLoader =
-                                    obj.getClass().getClassLoader();
-                                return Class.forName(className, false,
-                                                            targetClassLoader);
-                            } catch (ClassNotFoundException e) {
-                                caughtException[0] = e;
+                                ReflectUtil.checkPbckbgeAccess(clbssNbme);
+                                finbl ClbssLobder tbrgetClbssLobder =
+                                    obj.getClbss().getClbssLobder();
+                                return Clbss.forNbme(clbssNbme, fblse,
+                                                            tbrgetClbssLobder);
+                            } cbtch (ClbssNotFoundException e) {
+                                cbughtException[0] = e;
                             }
                             return null;
                         }
-                    }, stack, acc);
+                    }, stbck, bcc);
 
-                    if (caughtException[0] != null) {
-                        throw caughtException[0];
+                    if (cbughtException[0] != null) {
+                        throw cbughtException[0];
                     }
-                } catch (ClassNotFoundException e) {
-                    final String msg =
-                        "class for invoke " + opName + " not found";
+                } cbtch (ClbssNotFoundException e) {
+                    finbl String msg =
+                        "clbss for invoke " + opNbme + " not found";
                     throw new ReflectionException(e, msg);
                 }
             } else
-                targetClass = targetObject.getClass();
+                tbrgetClbss = tbrgetObject.getClbss();
 
-            method = resolveMethod(targetClass, opMethodName, sig);
+            method = resolveMethod(tbrgetClbss, opMethodNbme, sig);
         }
 
-        if (tracing) {
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                RequiredModelMBean.class.getName(),
-                    mth, "found " + opMethodName + ", now invoking");
+                RequiredModelMBebn.clbss.getNbme(),
+                    mth, "found " + opMethodNbme + ", now invoking");
         }
 
-        final Object result =
-            invokeMethod(opName, method, targetObject, opArgs);
+        finbl Object result =
+            invokeMethod(opNbme, method, tbrgetObject, opArgs);
 
-        if (tracing) {
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                RequiredModelMBean.class.getName(),
+                RequiredModelMBebn.clbss.getNbme(),
                     mth, "successfully invoked method");
         }
 
         if (result != null)
-            cacheResult(opInfo, opDescr, result);
+            cbcheResult(opInfo, opDescr, result);
 
         return result;
     }
 
-    private Method resolveMethod(Class<?> targetClass,
-                                        String opMethodName,
-                                        final String[] sig)
+    privbte Method resolveMethod(Clbss<?> tbrgetClbss,
+                                        String opMethodNbme,
+                                        finbl String[] sig)
             throws ReflectionException {
-        final boolean tracing = MODELMBEAN_LOGGER.isLoggable(Level.FINER);
+        finbl boolebn trbcing = MODELMBEAN_LOGGER.isLoggbble(Level.FINER);
 
-        if (tracing) {
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                RequiredModelMBean.class.getName(),"resolveMethod",
-                  "resolving " + targetClass.getName() + "." + opMethodName);
+                RequiredModelMBebn.clbss.getNbme(),"resolveMethod",
+                  "resolving " + tbrgetClbss.getNbme() + "." + opMethodNbme);
         }
 
-        final Class<?>[] argClasses;
+        finbl Clbss<?>[] brgClbsses;
 
         if (sig == null)
-            argClasses = null;
+            brgClbsses = null;
         else {
-            final AccessControlContext stack = AccessController.getContext();
-            final ReflectionException[] caughtException = new ReflectionException[1];
-            final ClassLoader targetClassLoader = targetClass.getClassLoader();
-            argClasses = new Class<?>[sig.length];
+            finbl AccessControlContext stbck = AccessController.getContext();
+            finbl ReflectionException[] cbughtException = new ReflectionException[1];
+            finbl ClbssLobder tbrgetClbssLobder = tbrgetClbss.getClbssLobder();
+            brgClbsses = new Clbss<?>[sig.length];
 
-            javaSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Void>() {
+            jbvbSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Void>() {
 
                 @Override
                 public Void run() {
                     for (int i = 0; i < sig.length; i++) {
-                        if (tracing) {
+                        if (trbcing) {
                             MODELMBEAN_LOGGER.logp(Level.FINER,
-                                RequiredModelMBean.class.getName(),"resolveMethod",
+                                RequiredModelMBebn.clbss.getNbme(),"resolveMethod",
                                     "resolve type " + sig[i]);
                         }
-                        argClasses[i] = (Class<?>) primitiveClassMap.get(sig[i]);
-                        if (argClasses[i] == null) {
+                        brgClbsses[i] = (Clbss<?>) primitiveClbssMbp.get(sig[i]);
+                        if (brgClbsses[i] == null) {
                             try {
-                                ReflectUtil.checkPackageAccess(sig[i]);
-                                argClasses[i] =
-                                    Class.forName(sig[i], false, targetClassLoader);
-                            } catch (ClassNotFoundException e) {
-                                if (tracing) {
+                                ReflectUtil.checkPbckbgeAccess(sig[i]);
+                                brgClbsses[i] =
+                                    Clbss.forNbme(sig[i], fblse, tbrgetClbssLobder);
+                            } cbtch (ClbssNotFoundException e) {
+                                if (trbcing) {
                                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                                            RequiredModelMBean.class.getName(),
+                                            RequiredModelMBebn.clbss.getNbme(),
                                             "resolveMethod",
-                                            "class not found");
+                                            "clbss not found");
                                 }
-                                final String msg = "Parameter class not found";
-                                caughtException[0] = new ReflectionException(e, msg);
+                                finbl String msg = "Pbrbmeter clbss not found";
+                                cbughtException[0] = new ReflectionException(e, msg);
                             }
                         }
                     }
                     return null;
                 }
-            }, stack, acc);
+            }, stbck, bcc);
 
-            if (caughtException[0] != null) {
-                throw caughtException[0];
+            if (cbughtException[0] != null) {
+                throw cbughtException[0];
             }
         }
 
         try {
-            return targetClass.getMethod(opMethodName, argClasses);
-        } catch (NoSuchMethodException e) {
-            final String msg =
-                "Target method not found: " + targetClass.getName() + "." +
-                opMethodName;
+            return tbrgetClbss.getMethod(opMethodNbme, brgClbsses);
+        } cbtch (NoSuchMethodException e) {
+            finbl String msg =
+                "Tbrget method not found: " + tbrgetClbss.getNbme() + "." +
+                opMethodNbme;
             throw new ReflectionException(e, msg);
         }
     }
 
-    /* Map e.g. "int" to int.class.  Goodness knows how many time this
-       particular wheel has been reinvented.  */
-    private static final Class<?>[] primitiveClasses = {
-        int.class, long.class, boolean.class, double.class,
-        float.class, short.class, byte.class, char.class,
+    /* Mbp e.g. "int" to int.clbss.  Goodness knows how mbny time this
+       pbrticulbr wheel hbs been reinvented.  */
+    privbte stbtic finbl Clbss<?>[] primitiveClbsses = {
+        int.clbss, long.clbss, boolebn.clbss, double.clbss,
+        flobt.clbss, short.clbss, byte.clbss, chbr.clbss,
     };
-    private static final Map<String,Class<?>> primitiveClassMap =
-        new HashMap<String,Class<?>>();
-    static {
-        for (int i = 0; i < primitiveClasses.length; i++) {
-            final Class<?> c = primitiveClasses[i];
-            primitiveClassMap.put(c.getName(), c);
+    privbte stbtic finbl Mbp<String,Clbss<?>> primitiveClbssMbp =
+        new HbshMbp<String,Clbss<?>>();
+    stbtic {
+        for (int i = 0; i < primitiveClbsses.length; i++) {
+            finbl Clbss<?> c = primitiveClbsses[i];
+            primitiveClbssMbp.put(c.getNbme(), c);
         }
     }
 
-    /* Find a method in RequiredModelMBean as determined by the given
-       parameters.  Return null if there is none, or if the parameters
-       exclude using it.  Called from invoke. */
-    private Method findRMMBMethod(String opMethodName,
-                                         Object targetObjectField,
-                                         String opClassName,
+    /* Find b method in RequiredModelMBebn bs determined by the given
+       pbrbmeters.  Return null if there is none, or if the pbrbmeters
+       exclude using it.  Cblled from invoke. */
+    privbte Method findRMMBMethod(String opMethodNbme,
+                                         Object tbrgetObjectField,
+                                         String opClbssNbme,
                                          String[] sig) {
-        final boolean tracing = MODELMBEAN_LOGGER.isLoggable(Level.FINER);
+        finbl boolebn trbcing = MODELMBEAN_LOGGER.isLoggbble(Level.FINER);
 
-        if (tracing) {
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                RequiredModelMBean.class.getName(),
+                RequiredModelMBebn.clbss.getNbme(),
                     "invoke(String, Object[], String[])",
-                  "looking for method in RequiredModelMBean class");
+                  "looking for method in RequiredModelMBebn clbss");
         }
 
-        if (!isRMMBMethodName(opMethodName))
+        if (!isRMMBMethodNbme(opMethodNbme))
             return null;
-        if (targetObjectField != null)
+        if (tbrgetObjectField != null)
             return null;
-        final Class<RequiredModelMBean> rmmbClass = RequiredModelMBean.class;
-        final Class<?> targetClass;
-        if (opClassName == null)
-            targetClass = rmmbClass;
+        finbl Clbss<RequiredModelMBebn> rmmbClbss = RequiredModelMBebn.clbss;
+        finbl Clbss<?> tbrgetClbss;
+        if (opClbssNbme == null)
+            tbrgetClbss = rmmbClbss;
         else {
-            AccessControlContext stack = AccessController.getContext();
-            final String className = opClassName;
-            targetClass = javaSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Class<?>>() {
+            AccessControlContext stbck = AccessController.getContext();
+            finbl String clbssNbme = opClbssNbme;
+            tbrgetClbss = jbvbSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Clbss<?>>() {
 
                 @Override
-                public Class<?> run() {
+                public Clbss<?> run() {
                     try {
-                        ReflectUtil.checkPackageAccess(className);
-                        final ClassLoader targetClassLoader =
-                            rmmbClass.getClassLoader();
-                        Class<?> clz = Class.forName(className, false,
-                                                    targetClassLoader);
-                        if (!rmmbClass.isAssignableFrom(clz))
+                        ReflectUtil.checkPbckbgeAccess(clbssNbme);
+                        finbl ClbssLobder tbrgetClbssLobder =
+                            rmmbClbss.getClbssLobder();
+                        Clbss<?> clz = Clbss.forNbme(clbssNbme, fblse,
+                                                    tbrgetClbssLobder);
+                        if (!rmmbClbss.isAssignbbleFrom(clz))
                             return null;
                         return clz;
-                    } catch (ClassNotFoundException e) {
+                    } cbtch (ClbssNotFoundException e) {
                         return null;
                     }
                 }
-            }, stack, acc);
+            }, stbck, bcc);
         }
         try {
-            return targetClass != null ? resolveMethod(targetClass, opMethodName, sig) : null;
-        } catch (ReflectionException e) {
+            return tbrgetClbss != null ? resolveMethod(tbrgetClbss, opMethodNbme, sig) : null;
+        } cbtch (ReflectionException e) {
             return null;
         }
     }
 
     /*
-     * Invoke the given method, and throw the somewhat unpredictable
-     * appropriate exception if the method itself gets an exception.
+     * Invoke the given method, bnd throw the somewhbt unpredictbble
+     * bppropribte exception if the method itself gets bn exception.
      */
-    private Object invokeMethod(String opName, final Method method,
-                                final Object targetObject, final Object[] opArgs)
-            throws MBeanException, ReflectionException {
+    privbte Object invokeMethod(String opNbme, finbl Method method,
+                                finbl Object tbrgetObject, finbl Object[] opArgs)
+            throws MBebnException, ReflectionException {
         try {
-            final Throwable[] caughtException = new Throwable[1];
-            AccessControlContext stack = AccessController.getContext();
-            Object rslt = javaSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Object>() {
+            finbl Throwbble[] cbughtException = new Throwbble[1];
+            AccessControlContext stbck = AccessController.getContext();
+            Object rslt = jbvbSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Object>() {
 
                 @Override
                 public Object run() {
                     try {
-                        ReflectUtil.checkPackageAccess(method.getDeclaringClass());
-                        return MethodUtil.invoke(method, targetObject, opArgs);
-                    } catch (InvocationTargetException e) {
-                        caughtException[0] = e;
-                    } catch (IllegalAccessException e) {
-                        caughtException[0] = e;
+                        ReflectUtil.checkPbckbgeAccess(method.getDeclbringClbss());
+                        return MethodUtil.invoke(method, tbrgetObject, opArgs);
+                    } cbtch (InvocbtionTbrgetException e) {
+                        cbughtException[0] = e;
+                    } cbtch (IllegblAccessException e) {
+                        cbughtException[0] = e;
                     }
                     return null;
                 }
-            }, stack, acc);
-            if (caughtException[0] != null) {
-                if (caughtException[0] instanceof Exception) {
-                    throw (Exception)caughtException[0];
-                } else if(caughtException[0] instanceof Error) {
-                    throw (Error)caughtException[0];
+            }, stbck, bcc);
+            if (cbughtException[0] != null) {
+                if (cbughtException[0] instbnceof Exception) {
+                    throw (Exception)cbughtException[0];
+                } else if(cbughtException[0] instbnceof Error) {
+                    throw (Error)cbughtException[0];
                 }
             }
             return rslt;
-        } catch (RuntimeErrorException ree) {
-            throw new RuntimeOperationsException(ree,
-                      "RuntimeException occurred in RequiredModelMBean "+
-                      "while trying to invoke operation " + opName);
-        } catch (RuntimeException re) {
-            throw new RuntimeOperationsException(re,
-                      "RuntimeException occurred in RequiredModelMBean "+
-                      "while trying to invoke operation " + opName);
-        } catch (IllegalAccessException iae) {
-            throw new ReflectionException(iae,
-                      "IllegalAccessException occurred in " +
-                      "RequiredModelMBean while trying to " +
-                      "invoke operation " + opName);
-        } catch (InvocationTargetException ite) {
-            Throwable mmbTargEx = ite.getTargetException();
-            if (mmbTargEx instanceof RuntimeException) {
-                throw new MBeanException ((RuntimeException)mmbTargEx,
-                      "RuntimeException thrown in RequiredModelMBean "+
-                      "while trying to invoke operation " + opName);
-            } else if (mmbTargEx instanceof Error) {
-                throw new RuntimeErrorException((Error)mmbTargEx,
-                      "Error occurred in RequiredModelMBean while trying "+
-                      "to invoke operation " + opName);
-            } else if (mmbTargEx instanceof ReflectionException) {
-                throw (ReflectionException) mmbTargEx;
+        } cbtch (RuntimeErrorException ree) {
+            throw new RuntimeOperbtionsException(ree,
+                      "RuntimeException occurred in RequiredModelMBebn "+
+                      "while trying to invoke operbtion " + opNbme);
+        } cbtch (RuntimeException re) {
+            throw new RuntimeOperbtionsException(re,
+                      "RuntimeException occurred in RequiredModelMBebn "+
+                      "while trying to invoke operbtion " + opNbme);
+        } cbtch (IllegblAccessException ibe) {
+            throw new ReflectionException(ibe,
+                      "IllegblAccessException occurred in " +
+                      "RequiredModelMBebn while trying to " +
+                      "invoke operbtion " + opNbme);
+        } cbtch (InvocbtionTbrgetException ite) {
+            Throwbble mmbTbrgEx = ite.getTbrgetException();
+            if (mmbTbrgEx instbnceof RuntimeException) {
+                throw new MBebnException ((RuntimeException)mmbTbrgEx,
+                      "RuntimeException thrown in RequiredModelMBebn "+
+                      "while trying to invoke operbtion " + opNbme);
+            } else if (mmbTbrgEx instbnceof Error) {
+                throw new RuntimeErrorException((Error)mmbTbrgEx,
+                      "Error occurred in RequiredModelMBebn while trying "+
+                      "to invoke operbtion " + opNbme);
+            } else if (mmbTbrgEx instbnceof ReflectionException) {
+                throw (ReflectionException) mmbTbrgEx;
             } else {
-                throw new MBeanException ((Exception)mmbTargEx,
-                      "Exception thrown in RequiredModelMBean "+
-                      "while trying to invoke operation " + opName);
+                throw new MBebnException ((Exception)mmbTbrgEx,
+                      "Exception thrown in RequiredModelMBebn "+
+                      "while trying to invoke operbtion " + opNbme);
             }
-        } catch (Error err) {
+        } cbtch (Error err) {
             throw new RuntimeErrorException(err,
-                  "Error occurred in RequiredModelMBean while trying "+
-                  "to invoke operation " + opName);
-        } catch (Exception e) {
+                  "Error occurred in RequiredModelMBebn while trying "+
+                  "to invoke operbtion " + opNbme);
+        } cbtch (Exception e) {
             throw new ReflectionException(e,
-                  "Exception occurred in RequiredModelMBean while " +
-                  "trying to invoke operation " + opName);
+                  "Exception occurred in RequiredModelMBebn while " +
+                  "trying to invoke operbtion " + opNbme);
         }
     }
 
     /*
-     * Cache the result of an operation in the descriptor, if that is
-     * called for by the descriptor's configuration.  Note that we
-     * don't remember operation parameters when caching the result, so
-     * this is unlikely to be useful if there are any.
+     * Cbche the result of bn operbtion in the descriptor, if thbt is
+     * cblled for by the descriptor's configurbtion.  Note thbt we
+     * don't remember operbtion pbrbmeters when cbching the result, so
+     * this is unlikely to be useful if there bre bny.
      */
-    private void cacheResult(ModelMBeanOperationInfo opInfo,
+    privbte void cbcheResult(ModelMBebnOperbtionInfo opInfo,
                              Descriptor opDescr, Object result)
-            throws MBeanException {
+            throws MBebnException {
 
         Descriptor mmbDesc =
-            modelMBeanInfo.getMBeanDescriptor();
+            modelMBebnInfo.getMBebnDescriptor();
 
         Object objctl =
-            opDescr.getFieldValue("currencyTimeLimit");
+            opDescr.getFieldVblue("currencyTimeLimit");
         String ctl;
         if (objctl != null) {
             ctl = objctl.toString();
@@ -1330,24 +1330,24 @@ public class RequiredModelMBean
         }
         if ((ctl == null) && (mmbDesc != null)) {
             objctl =
-                mmbDesc.getFieldValue("currencyTimeLimit");
+                mmbDesc.getFieldVblue("currencyTimeLimit");
             if (objctl != null) {
                 ctl = objctl.toString();
             } else {
                 ctl = null;
             }
         }
-        if ((ctl != null) && !(ctl.equals("-1"))) {
-            opDescr.setField("value", result);
-            opDescr.setField("lastUpdatedTimeStamp",
-                    String.valueOf((new Date()).getTime()));
+        if ((ctl != null) && !(ctl.equbls("-1"))) {
+            opDescr.setField("vblue", result);
+            opDescr.setField("lbstUpdbtedTimeStbmp",
+                    String.vblueOf((new Dbte()).getTime()));
 
 
-            modelMBeanInfo.setDescriptor(opDescr,
-                                         "operation");
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+            modelMBebnInfo.setDescriptor(opDescr,
+                                         "operbtion");
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),
+                        RequiredModelMBebn.clbss.getNbme(),
                         "invoke(String,Object[],Object[])",
                         "new descriptor is " + opDescr);
             }
@@ -1355,227 +1355,227 @@ public class RequiredModelMBean
     }
 
     /*
-     * Determine whether the given name is the name of a public method
-     * in this class.  This is only an optimization: it prevents us
-     * from trying to do argument type lookups and reflection on a
-     * method that will obviously fail because it has the wrong name.
+     * Determine whether the given nbme is the nbme of b public method
+     * in this clbss.  This is only bn optimizbtion: it prevents us
+     * from trying to do brgument type lookups bnd reflection on b
+     * method thbt will obviously fbil becbuse it hbs the wrong nbme.
      *
-     * The first time this method is called we do the reflection, and
-     * every other time we reuse the remembered values.
+     * The first time this method is cblled we do the reflection, bnd
+     * every other time we reuse the remembered vblues.
      *
-     * It's conceivable that the (possibly malicious) first caller
-     * doesn't have the required permissions to do reflection, in
-     * which case we don't touch anything so as not to interfere
-     * with a later permissionful caller.
+     * It's conceivbble thbt the (possibly mblicious) first cbller
+     * doesn't hbve the required permissions to do reflection, in
+     * which cbse we don't touch bnything so bs not to interfere
+     * with b lbter permissionful cbller.
      */
-    private static Set<String> rmmbMethodNames;
-    private static synchronized boolean isRMMBMethodName(String name) {
-        if (rmmbMethodNames == null) {
+    privbte stbtic Set<String> rmmbMethodNbmes;
+    privbte stbtic synchronized boolebn isRMMBMethodNbme(String nbme) {
+        if (rmmbMethodNbmes == null) {
             try {
-                Set<String> names = new HashSet<String>();
-                Method[] methods = RequiredModelMBean.class.getMethods();
+                Set<String> nbmes = new HbshSet<String>();
+                Method[] methods = RequiredModelMBebn.clbss.getMethods();
                 for (int i = 0; i < methods.length; i++)
-                    names.add(methods[i].getName());
-                rmmbMethodNames = names;
-            } catch (Exception e) {
+                    nbmes.bdd(methods[i].getNbme());
+                rmmbMethodNbmes = nbmes;
+            } cbtch (Exception e) {
                 return true;
-                // This is only an optimization so we'll go on to discover
-                // whether the name really is an RMMB method.
+                // This is only bn optimizbtion so we'll go on to discover
+                // whether the nbme reblly is bn RMMB method.
             }
         }
-        return rmmbMethodNames.contains(name);
+        return rmmbMethodNbmes.contbins(nbme);
     }
 
     /**
-     * Returns the value of a specific attribute defined for this
-     * ModelMBean.
-     * The last value returned by an attribute may be cached in the
-     * attribute's descriptor.
-     * The valid value will be in the 'value' field if there is one.
+     * Returns the vblue of b specific bttribute defined for this
+     * ModelMBebn.
+     * The lbst vblue returned by bn bttribute mby be cbched in the
+     * bttribute's descriptor.
+     * The vblid vblue will be in the 'vblue' field if there is one.
      * If the 'currencyTimeLimit' field in the descriptor is:
      * <UL>
-     * <LI>  <b>&lt;0</b> Then the value is not cached and is never valid.
-     *       The getter method is invoked for the attribute.
-     *       The 'value' and 'lastUpdatedTimeStamp' fields are cleared.</LI>
-     * <LI>  <b>=0</b> Then the value is always cached and always valid.
-     *       The 'value' field is returned. If there is no'value' field
-     *       then the getter method is invoked for the attribute.
-     *       The 'lastUpdatedTimeStamp' field and `value' fields are set
-     *       to the attribute's value and the current time stamp.</LI>
-     * <LI>  <b>&gt;0</b> Represents the number of seconds that the 'value'
-     *       field is valid.
-     *       The 'value' field is no longer valid when
-     *       'lastUpdatedTimeStamp' + 'currencyTimeLimit' &gt; Now.
+     * <LI>  <b>&lt;0</b> Then the vblue is not cbched bnd is never vblid.
+     *       The getter method is invoked for the bttribute.
+     *       The 'vblue' bnd 'lbstUpdbtedTimeStbmp' fields bre clebred.</LI>
+     * <LI>  <b>=0</b> Then the vblue is blwbys cbched bnd blwbys vblid.
+     *       The 'vblue' field is returned. If there is no'vblue' field
+     *       then the getter method is invoked for the bttribute.
+     *       The 'lbstUpdbtedTimeStbmp' field bnd `vblue' fields bre set
+     *       to the bttribute's vblue bnd the current time stbmp.</LI>
+     * <LI>  <b>&gt;0</b> Represents the number of seconds thbt the 'vblue'
+     *       field is vblid.
+     *       The 'vblue' field is no longer vblid when
+     *       'lbstUpdbtedTimeStbmp' + 'currencyTimeLimit' &gt; Now.
      *   <UL>
-     *        <LI>When 'value' is valid, 'value' is returned.</LI>
-     *        <LI>When 'value' is no longer valid then the getter
-     *            method is invoked for the attribute.
-     *            The 'lastUpdatedTimeStamp' field and `value' fields
-     *            are updated.</LI>
+     *        <LI>When 'vblue' is vblid, 'vblue' is returned.</LI>
+     *        <LI>When 'vblue' is no longer vblid then the getter
+     *            method is invoked for the bttribute.
+     *            The 'lbstUpdbtedTimeStbmp' field bnd `vblue' fields
+     *            bre updbted.</LI>
      *   </UL></LI>
      * </UL>
      *
-     * <p><b>Note:</b> because of inconsistencies in previous versions of
-     * this specification, it is recommended not to use negative or zero
-     * values for <code>currencyTimeLimit</code>.  To indicate that a
-     * cached value is never valid, omit the
-     * <code>currencyTimeLimit</code> field.  To indicate that it is
-     * always valid, use a very large number for this field.</p>
+     * <p><b>Note:</b> becbuse of inconsistencies in previous versions of
+     * this specificbtion, it is recommended not to use negbtive or zero
+     * vblues for <code>currencyTimeLimit</code>.  To indicbte thbt b
+     * cbched vblue is never vblid, omit the
+     * <code>currencyTimeLimit</code> field.  To indicbte thbt it is
+     * blwbys vblid, use b very lbrge number for this field.</p>
      *
-     * <p>If the 'getMethod' field contains the name of a valid
-     * operation descriptor, then the method described by the
-     * operation descriptor is executed.  The response from the
-     * method is returned as the value of the attribute.  If the
-     * operation fails or the returned value is not compatible with
-     * the declared type of the attribute, an exception will be thrown.</p>
+     * <p>If the 'getMethod' field contbins the nbme of b vblid
+     * operbtion descriptor, then the method described by the
+     * operbtion descriptor is executed.  The response from the
+     * method is returned bs the vblue of the bttribute.  If the
+     * operbtion fbils or the returned vblue is not compbtible with
+     * the declbred type of the bttribute, bn exception will be thrown.</p>
      *
-     * <p>If no 'getMethod' field is defined then the default value of the
-     * attribute is returned. If the returned value is not compatible with
-     * the declared type of the attribute, an exception will be thrown.</p>
+     * <p>If no 'getMethod' field is defined then the defbult vblue of the
+     * bttribute is returned. If the returned vblue is not compbtible with
+     * the declbred type of the bttribute, bn exception will be thrown.</p>
      *
-     * <p>The declared type of the attribute is the String returned by
-     * {@link ModelMBeanAttributeInfo#getType()}.  A value is compatible
+     * <p>The declbred type of the bttribute is the String returned by
+     * {@link ModelMBebnAttributeInfo#getType()}.  A vblue is compbtible
      * with this type if one of the following is true:
      * <ul>
-     * <li>the value is null;</li>
-     * <li>the declared name is a primitive type name (such as "int")
-     *     and the value is an instance of the corresponding wrapper
-     *     type (such as java.lang.Integer);</li>
-     * <li>the name of the value's class is identical to the declared name;</li>
-     * <li>the declared name can be loaded by the value's class loader and
-     *     produces a class to which the value can be assigned.</li>
+     * <li>the vblue is null;</li>
+     * <li>the declbred nbme is b primitive type nbme (such bs "int")
+     *     bnd the vblue is bn instbnce of the corresponding wrbpper
+     *     type (such bs jbvb.lbng.Integer);</li>
+     * <li>the nbme of the vblue's clbss is identicbl to the declbred nbme;</li>
+     * <li>the declbred nbme cbn be lobded by the vblue's clbss lobder bnd
+     *     produces b clbss to which the vblue cbn be bssigned.</li>
      * </ul>
      *
-     * <p>In this implementation, in every case where the getMethod needs to
-     * be called, because the method is invoked through the standard "invoke"
-     * method and thus needs operationInfo, an operation must be specified
-     * for that getMethod so that the invocation works correctly.</p>
+     * <p>In this implementbtion, in every cbse where the getMethod needs to
+     * be cblled, becbuse the method is invoked through the stbndbrd "invoke"
+     * method bnd thus needs operbtionInfo, bn operbtion must be specified
+     * for thbt getMethod so thbt the invocbtion works correctly.</p>
      *
-     * @param attrName A String specifying the name of the
-     * attribute to be retrieved. It must match the name of a
-     * ModelMBeanAttributeInfo.
+     * @pbrbm bttrNbme A String specifying the nbme of the
+     * bttribute to be retrieved. It must mbtch the nbme of b
+     * ModelMBebnAttributeInfo.
      *
-     * @return The value of the retrieved attribute from the
-     * descriptor 'value' field or from the invocation of the
-     * operation in the 'getMethod' field of the descriptor.
+     * @return The vblue of the retrieved bttribute from the
+     * descriptor 'vblue' field or from the invocbtion of the
+     * operbtion in the 'getMethod' field of the descriptor.
      *
-     * @exception AttributeNotFoundException The specified attribute is
-     *    not accessible in the MBean.
-     *    The following cases may result in an AttributeNotFoundException:
+     * @exception AttributeNotFoundException The specified bttribute is
+     *    not bccessible in the MBebn.
+     *    The following cbses mby result in bn AttributeNotFoundException:
      *    <UL>
-     *      <LI> No ModelMBeanInfo was found for the Model MBean.</LI>
-     *      <LI> No ModelMBeanAttributeInfo was found for the specified
-     *           attribute name.</LI>
-     *      <LI> The ModelMBeanAttributeInfo isReadable method returns
-     *           'false'.</LI>
+     *      <LI> No ModelMBebnInfo wbs found for the Model MBebn.</LI>
+     *      <LI> No ModelMBebnAttributeInfo wbs found for the specified
+     *           bttribute nbme.</LI>
+     *      <LI> The ModelMBebnAttributeInfo isRebdbble method returns
+     *           'fblse'.</LI>
      *    </UL>
-     * @exception MBeanException  Wraps one of the following Exceptions:
+     * @exception MBebnException  Wrbps one of the following Exceptions:
      *    <UL>
-     *      <LI> {@link InvalidAttributeValueException}: A wrong value type
-     *           was received from the attribute's getter method or
+     *      <LI> {@link InvblidAttributeVblueException}: A wrong vblue type
+     *           wbs received from the bttribute's getter method or
      *           no 'getMethod' field defined in the descriptor for
-     *           the attribute and no default value exists.</LI>
+     *           the bttribute bnd no defbult vblue exists.</LI>
      *      <LI> {@link ServiceNotFoundException}: No
-     *           ModelMBeanOperationInfo defined for the attribute's
-     *           getter method or no descriptor associated with the
-     *           ModelMBeanOperationInfo or the managed resource is
+     *           ModelMBebnOperbtionInfo defined for the bttribute's
+     *           getter method or no descriptor bssocibted with the
+     *           ModelMBebnOperbtionInfo or the mbnbged resource is
      *           null.</LI>
-     *      <LI> {@link InvalidTargetObjectTypeException} The 'targetType'
-     *           field value is not 'objectReference'.</LI>
-     *      <LI> An Exception thrown by the managed object's getter.</LI>
+     *      <LI> {@link InvblidTbrgetObjectTypeException} The 'tbrgetType'
+     *           field vblue is not 'objectReference'.</LI>
+     *      <LI> An Exception thrown by the mbnbged object's getter.</LI>
      *    </UL>
-     * @exception ReflectionException  Wraps an {@link java.lang.Exception}
+     * @exception ReflectionException  Wrbps bn {@link jbvb.lbng.Exception}
      *    thrown while trying to invoke the getter.
-     * @exception RuntimeOperationsException Wraps an
-     *    {@link IllegalArgumentException}: The attribute name in
-     *    parameter is null.
+     * @exception RuntimeOperbtionsException Wrbps bn
+     *    {@link IllegblArgumentException}: The bttribute nbme in
+     *    pbrbmeter is null.
      *
-     * @see #setAttribute(javax.management.Attribute)
+     * @see #setAttribute(jbvbx.mbnbgement.Attribute)
      **/
-    public Object getAttribute(String attrName)
-        throws AttributeNotFoundException, MBeanException,
+    public Object getAttribute(String bttrNbme)
+        throws AttributeNotFoundException, MBebnException,
                ReflectionException {
-        if (attrName == null)
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("attributeName must not be null"),
-                "Exception occurred trying to get attribute of a " +
-                "RequiredModelMBean");
-        final String mth = "getAttribute(String)";
-        final boolean tracing = MODELMBEAN_LOGGER.isLoggable(Level.FINER);
-        if (tracing) {
+        if (bttrNbme == null)
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("bttributeNbme must not be null"),
+                "Exception occurred trying to get bttribute of b " +
+                "RequiredModelMBebn");
+        finbl String mth = "getAttribute(String)";
+        finbl boolebn trbcing = MODELMBEAN_LOGGER.isLoggbble(Level.FINER);
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                mth, "Entry with " + attrName);
+                    RequiredModelMBebn.clbss.getNbme(),
+                mth, "Entry with " + bttrNbme);
         }
 
-        /* Check attributeDescriptor for getMethod */
+        /* Check bttributeDescriptor for getMethod */
         Object response;
 
         try {
-            if (modelMBeanInfo == null)
+            if (modelMBebnInfo == null)
                 throw new AttributeNotFoundException(
-                      "getAttribute failed: ModelMBeanInfo not found for "+
-                      attrName);
+                      "getAttribute fbiled: ModelMBebnInfo not found for "+
+                      bttrNbme);
 
-            ModelMBeanAttributeInfo attrInfo = modelMBeanInfo.getAttribute(attrName);
-            Descriptor mmbDesc = modelMBeanInfo.getMBeanDescriptor();
+            ModelMBebnAttributeInfo bttrInfo = modelMBebnInfo.getAttribute(bttrNbme);
+            Descriptor mmbDesc = modelMBebnInfo.getMBebnDescriptor();
 
-            if (attrInfo == null)
-                throw new AttributeNotFoundException("getAttribute failed:"+
-                      " ModelMBeanAttributeInfo not found for " + attrName);
+            if (bttrInfo == null)
+                throw new AttributeNotFoundException("getAttribute fbiled:"+
+                      " ModelMBebnAttributeInfo not found for " + bttrNbme);
 
-            Descriptor attrDescr = attrInfo.getDescriptor();
-            if (attrDescr != null) {
-                if (!attrInfo.isReadable())
+            Descriptor bttrDescr = bttrInfo.getDescriptor();
+            if (bttrDescr != null) {
+                if (!bttrInfo.isRebdbble())
                     throw new AttributeNotFoundException(
-                          "getAttribute failed: " + attrName +
-                          " is not readable ");
+                          "getAttribute fbiled: " + bttrNbme +
+                          " is not rebdbble ");
 
-                response = resolveForCacheValue(attrDescr);
+                response = resolveForCbcheVblue(bttrDescr);
 
-                /* return current cached value */
-                if (tracing) {
+                /* return current cbched vblue */
+                if (trbcing) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            RequiredModelMBean.class.getName(), mth,
-                        "*** cached value is " + response);
+                            RequiredModelMBebn.clbss.getNbme(), mth,
+                        "*** cbched vblue is " + response);
                 }
 
                 if (response == null) {
-                    /* no cached value, run getMethod */
-                    if (tracing) {
+                    /* no cbched vblue, run getMethod */
+                    if (trbcing) {
                         MODELMBEAN_LOGGER.logp(Level.FINER,
-                                RequiredModelMBean.class.getName(), mth,
-                            "**** cached value is null - getting getMethod");
+                                RequiredModelMBebn.clbss.getNbme(), mth,
+                            "**** cbched vblue is null - getting getMethod");
                     }
-                    String attrGetMethod =
-                        (String)(attrDescr.getFieldValue("getMethod"));
+                    String bttrGetMethod =
+                        (String)(bttrDescr.getFieldVblue("getMethod"));
 
-                    if (attrGetMethod != null) {
-                        /* run method from operations descriptor */
-                        if (tracing) {
+                    if (bttrGetMethod != null) {
+                        /* run method from operbtions descriptor */
+                        if (trbcing) {
                             MODELMBEAN_LOGGER.logp(Level.FINER,
-                                    RequiredModelMBean.class.getName(),
-                                mth, "invoking a getMethod for " +  attrName);
+                                    RequiredModelMBebn.clbss.getNbme(),
+                                mth, "invoking b getMethod for " +  bttrNbme);
                         }
 
                         Object getResponse =
-                            invoke(attrGetMethod, new Object[] {},
+                            invoke(bttrGetMethod, new Object[] {},
                                    new String[] {});
 
                         if (getResponse != null) {
-                            // error/validity check return value here
-                            if (tracing) {
+                            // error/vblidity check return vblue here
+                            if (trbcing) {
                                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                                        RequiredModelMBean.class.getName(),
-                                        mth, "got a non-null response " +
+                                        RequiredModelMBebn.clbss.getNbme(),
+                                        mth, "got b non-null response " +
                                         "from getMethod\n");
                             }
 
                             response = getResponse;
 
-                            // change cached value in attribute descriptor
+                            // chbnge cbched vblue in bttribute descriptor
                             Object objctl =
-                                attrDescr.getFieldValue("currencyTimeLimit");
+                                bttrDescr.getFieldVblue("currencyTimeLimit");
 
                             String ctl;
                             if (objctl != null) ctl = objctl.toString();
@@ -1583,128 +1583,128 @@ public class RequiredModelMBean
 
                             if ((ctl == null) && (mmbDesc != null)) {
                                 objctl = mmbDesc.
-                                    getFieldValue("currencyTimeLimit");
+                                    getFieldVblue("currencyTimeLimit");
                                 if (objctl != null) ctl = objctl.toString();
                                 else ctl = null;
                             }
 
-                            if ((ctl != null) && !(ctl.equals("-1"))) {
-                                if (tracing) {
+                            if ((ctl != null) && !(ctl.equbls("-1"))) {
+                                if (trbcing) {
                                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                                            RequiredModelMBean.class.getName(),
+                                            RequiredModelMBebn.clbss.getNbme(),
                                             mth,
-                                            "setting cached value and " +
-                                            "lastUpdatedTime in descriptor");
+                                            "setting cbched vblue bnd " +
+                                            "lbstUpdbtedTime in descriptor");
                                 }
-                                attrDescr.setField("value", response);
-                                final String stamp = String.valueOf(
-                                    (new Date()).getTime());
-                                attrDescr.setField("lastUpdatedTimeStamp",
-                                                   stamp);
-                                attrInfo.setDescriptor(attrDescr);
-                                modelMBeanInfo.setDescriptor(attrDescr,
-                                                             "attribute");
-                                if (tracing) {
+                                bttrDescr.setField("vblue", response);
+                                finbl String stbmp = String.vblueOf(
+                                    (new Dbte()).getTime());
+                                bttrDescr.setField("lbstUpdbtedTimeStbmp",
+                                                   stbmp);
+                                bttrInfo.setDescriptor(bttrDescr);
+                                modelMBebnInfo.setDescriptor(bttrDescr,
+                                                             "bttribute");
+                                if (trbcing) {
                                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                                            RequiredModelMBean.class.getName(),
-                                        mth,"new descriptor is " +attrDescr);
+                                            RequiredModelMBebn.clbss.getNbme(),
+                                        mth,"new descriptor is " +bttrDescr);
                                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                                            RequiredModelMBean.class.getName(),
+                                            RequiredModelMBebn.clbss.getNbme(),
                                         mth,"AttributeInfo descriptor is " +
-                                            attrInfo.getDescriptor());
-                                    final String attStr = modelMBeanInfo.
-                                        getDescriptor(attrName,"attribute").
+                                            bttrInfo.getDescriptor());
+                                    finbl String bttStr = modelMBebnInfo.
+                                        getDescriptor(bttrNbme,"bttribute").
                                             toString();
                                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                                            RequiredModelMBean.class.getName(),
+                                            RequiredModelMBebn.clbss.getNbme(),
                                             mth,
-                                            "modelMBeanInfo: AttributeInfo " +
-                                            "descriptor is " + attStr);
+                                            "modelMBebnInfo: AttributeInfo " +
+                                            "descriptor is " + bttStr);
                                 }
                             }
                         } else {
-                            // response was invalid or really returned null
-                            if (tracing) {
+                            // response wbs invblid or reblly returned null
+                            if (trbcing) {
                                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                                        RequiredModelMBean.class.getName(), mth,
-                                    "got a null response from getMethod\n");
+                                        RequiredModelMBebn.clbss.getNbme(), mth,
+                                    "got b null response from getMethod\n");
                             }
                             response = null;
                         }
                     } else {
-                        // not getMethod so return descriptor (default) value
-                        String qualifier="";
-                        response = attrDescr.getFieldValue("value");
+                        // not getMethod so return descriptor (defbult) vblue
+                        String qublifier="";
+                        response = bttrDescr.getFieldVblue("vblue");
                         if (response == null) {
-                            qualifier="default ";
-                            response = attrDescr.getFieldValue("default");
+                            qublifier="defbult ";
+                            response = bttrDescr.getFieldVblue("defbult");
                         }
-                        if (tracing) {
+                        if (trbcing) {
                             MODELMBEAN_LOGGER.logp(Level.FINER,
-                                    RequiredModelMBean.class.getName(), mth,
-                                "could not find getMethod for " +attrName +
-                                ", returning descriptor " +qualifier + "value");
+                                    RequiredModelMBebn.clbss.getNbme(), mth,
+                                "could not find getMethod for " +bttrNbme +
+                                ", returning descriptor " +qublifier + "vblue");
                         }
-                        // !! cast response to right class
+                        // !! cbst response to right clbss
                     }
                 }
 
-                // make sure response class matches type field
-                final String respType = attrInfo.getType();
+                // mbke sure response clbss mbtches type field
+                finbl String respType = bttrInfo.getType();
                 if (response != null) {
-                    String responseClass = response.getClass().getName();
-                    if (!respType.equals(responseClass)) {
-                        boolean wrongType = false;
-                        boolean primitiveType = false;
-                        boolean correspondingTypes = false;
+                    String responseClbss = response.getClbss().getNbme();
+                    if (!respType.equbls(responseClbss)) {
+                        boolebn wrongType = fblse;
+                        boolebn primitiveType = fblse;
+                        boolebn correspondingTypes = fblse;
                         for (int i = 0; i < primitiveTypes.length; i++) {
-                            if (respType.equals(primitiveTypes[i])) {
+                            if (respType.equbls(primitiveTypes[i])) {
                                 primitiveType = true;
-                                if (responseClass.equals(primitiveWrappers[i]))
+                                if (responseClbss.equbls(primitiveWrbppers[i]))
                                     correspondingTypes = true;
-                                break;
+                                brebk;
                             }
                         }
                         if (primitiveType) {
-                            // inequality may come from primitive/wrapper class
+                            // inequblity mby come from primitive/wrbpper clbss
                             if (!correspondingTypes)
                                 wrongType = true;
                         } else {
-                            // inequality may come from type subclassing
-                            boolean subtype;
+                            // inequblity mby come from type subclbssing
+                            boolebn subtype;
                             try {
-                                final Class<?> respClass = response.getClass();
-                                final Exception[] caughException = new Exception[1];
+                                finbl Clbss<?> respClbss = response.getClbss();
+                                finbl Exception[] cbughException = new Exception[1];
 
-                                AccessControlContext stack = AccessController.getContext();
+                                AccessControlContext stbck = AccessController.getContext();
 
-                                Class<?> c = javaSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Class<?>>() {
+                                Clbss<?> c = jbvbSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Clbss<?>>() {
 
                                     @Override
-                                    public Class<?> run() {
+                                    public Clbss<?> run() {
                                         try {
-                                            ReflectUtil.checkPackageAccess(respType);
-                                            ClassLoader cl =
-                                                respClass.getClassLoader();
-                                            return Class.forName(respType, true, cl);
-                                        } catch (Exception e) {
-                                            caughException[0] = e;
+                                            ReflectUtil.checkPbckbgeAccess(respType);
+                                            ClbssLobder cl =
+                                                respClbss.getClbssLobder();
+                                            return Clbss.forNbme(respType, true, cl);
+                                        } cbtch (Exception e) {
+                                            cbughException[0] = e;
                                         }
                                         return null;
                                     }
-                                }, stack, acc);
+                                }, stbck, bcc);
 
-                                if (caughException[0] != null) {
-                                    throw caughException[0];
+                                if (cbughException[0] != null) {
+                                    throw cbughException[0];
                                 }
 
-                                subtype = c.isInstance(response);
-                            } catch (Exception e) {
-                                subtype = false;
+                                subtype = c.isInstbnce(response);
+                            } cbtch (Exception e) {
+                                subtype = fblse;
 
-                                if (tracing) {
+                                if (trbcing) {
                                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                                            RequiredModelMBean.class.getName(),
+                                            RequiredModelMBebn.clbss.getNbme(),
                                         mth, "Exception: ",e);
                                 }
                             }
@@ -1712,108 +1712,108 @@ public class RequiredModelMBean
                                 wrongType = true;
                         }
                         if (wrongType) {
-                            if (tracing) {
+                            if (trbcing) {
                                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                                        RequiredModelMBean.class.getName(), mth,
+                                        RequiredModelMBebn.clbss.getNbme(), mth,
                                     "Wrong response type '" + respType + "'");
                             }
                             // throw exception, didn't get
-                            // back right attribute type
-                            throw new MBeanException(
-                              new InvalidAttributeValueException(
-                                "Wrong value type received for get attribute"),
-                              "An exception occurred while trying to get an " +
-                              "attribute value through a RequiredModelMBean");
+                            // bbck right bttribute type
+                            throw new MBebnException(
+                              new InvblidAttributeVblueException(
+                                "Wrong vblue type received for get bttribute"),
+                              "An exception occurred while trying to get bn " +
+                              "bttribute vblue through b RequiredModelMBebn");
                         }
                     }
                 }
             } else {
-                if (tracing) {
+                if (trbcing) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            RequiredModelMBean.class.getName(), mth,
-                            "getMethod failed " + attrName +
-                            " not in attributeDescriptor\n");
+                            RequiredModelMBebn.clbss.getNbme(), mth,
+                            "getMethod fbiled " + bttrNbme +
+                            " not in bttributeDescriptor\n");
                 }
-                throw new MBeanException(new
-                    InvalidAttributeValueException(
-                    "Unable to resolve attribute value, " +
-                    "no getMethod defined in descriptor for attribute"),
-                    "An exception occurred while trying to get an "+
-                    "attribute value through a RequiredModelMBean");
+                throw new MBebnException(new
+                    InvblidAttributeVblueException(
+                    "Unbble to resolve bttribute vblue, " +
+                    "no getMethod defined in descriptor for bttribute"),
+                    "An exception occurred while trying to get bn "+
+                    "bttribute vblue through b RequiredModelMBebn");
             }
 
-        } catch (MBeanException mbe) {
+        } cbtch (MBebnException mbe) {
             throw mbe;
-        } catch (AttributeNotFoundException t) {
+        } cbtch (AttributeNotFoundException t) {
             throw t;
-        } catch (Exception e) {
-            if (tracing) {
+        } cbtch (Exception e) {
+            if (trbcing) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(), mth,
-                        "getMethod failed with " + e.getMessage() +
-                        " exception type " + (e.getClass()).toString());
+                        RequiredModelMBebn.clbss.getNbme(), mth,
+                        "getMethod fbiled with " + e.getMessbge() +
+                        " exception type " + (e.getClbss()).toString());
             }
-            throw new MBeanException(e,"An exception occurred while trying "+
-                      "to get an attribute value: " + e.getMessage());
+            throw new MBebnException(e,"An exception occurred while trying "+
+                      "to get bn bttribute vblue: " + e.getMessbge());
         }
 
-        if (tracing) {
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(), mth, "Exit");
+                    RequiredModelMBebn.clbss.getNbme(), mth, "Exit");
         }
 
         return response;
     }
 
     /**
-     * Returns the values of several attributes in the ModelMBean.
-     * Executes a getAttribute for each attribute name in the
-     * attrNames array passed in.
+     * Returns the vblues of severbl bttributes in the ModelMBebn.
+     * Executes b getAttribute for ebch bttribute nbme in the
+     * bttrNbmes brrby pbssed in.
      *
-     * @param attrNames A String array of names of the attributes
+     * @pbrbm bttrNbmes A String brrby of nbmes of the bttributes
      * to be retrieved.
      *
-     * @return The array of the retrieved attributes.
+     * @return The brrby of the retrieved bttributes.
      *
-     * @exception RuntimeOperationsException Wraps an
-     * {@link IllegalArgumentException}: The object name in parameter is
-     * null or attributes in parameter is null.
+     * @exception RuntimeOperbtionsException Wrbps bn
+     * {@link IllegblArgumentException}: The object nbme in pbrbmeter is
+     * null or bttributes in pbrbmeter is null.
      *
-     * @see #setAttributes(javax.management.AttributeList)
+     * @see #setAttributes(jbvbx.mbnbgement.AttributeList)
      */
-    public AttributeList getAttributes(String[] attrNames)      {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public AttributeList getAttributes(String[] bttrNbmes)      {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
+                    RequiredModelMBebn.clbss.getNbme(),
             "getAttributes(String[])","Entry");
         }
 
-        if (attrNames == null)
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("attributeNames must not be null"),
-                "Exception occurred trying to get attributes of a "+
-                "RequiredModelMBean");
+        if (bttrNbmes == null)
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("bttributeNbmes must not be null"),
+                "Exception occurred trying to get bttributes of b "+
+                "RequiredModelMBebn");
 
         AttributeList responseList = new AttributeList();
-        for (int i = 0; i < attrNames.length; i++) {
+        for (int i = 0; i < bttrNbmes.length; i++) {
             try {
-                responseList.add(new Attribute(attrNames[i],
-                                     getAttribute(attrNames[i])));
-            } catch (Exception e) {
-                // eat exceptions because interface doesn't have an
+                responseList.bdd(new Attribute(bttrNbmes[i],
+                                     getAttribute(bttrNbmes[i])));
+            } cbtch (Exception e) {
+                // ebt exceptions becbuse interfbce doesn't hbve bn
                 // exception on it
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+                if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            RequiredModelMBean.class.getName(),
+                            RequiredModelMBebn.clbss.getNbme(),
                         "getAttributes(String[])",
-                            "Failed to get \"" + attrNames[i] + "\": ", e);
+                            "Fbiled to get \"" + bttrNbmes[i] + "\": ", e);
                 }
             }
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                RequiredModelMBean.class.getName(),
+                RequiredModelMBebn.clbss.getNbme(),
                     "getAttributes(String[])","Exit");
         }
 
@@ -1821,287 +1821,287 @@ public class RequiredModelMBean
     }
 
     /**
-     * Sets the value of a specific attribute of a named ModelMBean.
+     * Sets the vblue of b specific bttribute of b nbmed ModelMBebn.
      *
-     * If the 'setMethod' field of the attribute's descriptor
-     * contains the name of a valid operation descriptor, then the
-     * method described by the operation descriptor is executed.
-     * In this implementation, the operation descriptor must be specified
-     * correctly and assigned to the modelMBeanInfo so that the 'setMethod'
+     * If the 'setMethod' field of the bttribute's descriptor
+     * contbins the nbme of b vblid operbtion descriptor, then the
+     * method described by the operbtion descriptor is executed.
+     * In this implementbtion, the operbtion descriptor must be specified
+     * correctly bnd bssigned to the modelMBebnInfo so thbt the 'setMethod'
      * works correctly.
-     * The response from the method is set as the value of the attribute
+     * The response from the method is set bs the vblue of the bttribute
      * in the descriptor.
      *
-     * <p>If currencyTimeLimit is &gt; 0, then the new value for the
-     * attribute is cached in the attribute descriptor's
-     * 'value' field and the 'lastUpdatedTimeStamp' field is set to
-     * the current time stamp.
+     * <p>If currencyTimeLimit is &gt; 0, then the new vblue for the
+     * bttribute is cbched in the bttribute descriptor's
+     * 'vblue' field bnd the 'lbstUpdbtedTimeStbmp' field is set to
+     * the current time stbmp.
      *
-     * <p>If the persist field of the attribute's descriptor is not null
-     * then Persistence policy from the attribute descriptor is used to
-     * guide storing the attribute in a persistent store.
-     * <br>Store the MBean if 'persistPolicy' field is:
+     * <p>If the persist field of the bttribute's descriptor is not null
+     * then Persistence policy from the bttribute descriptor is used to
+     * guide storing the bttribute in b persistent store.
+     * <br>Store the MBebn if 'persistPolicy' field is:
      * <UL>
      * <Li> != "never"</Li>
-     * <Li> = "always"</Li>
-     * <Li> = "onUpdate"</Li>
-     * <Li> {@literal = "onTimer" and now > 'lastPersistTime' + 'persistPeriod'}</Li>
-     * <Li> {@literal = "NoMoreOftenThan" and now > 'lastPersistTime' +
+     * <Li> = "blwbys"</Li>
+     * <Li> = "onUpdbte"</Li>
+     * <Li> {@literbl = "onTimer" bnd now > 'lbstPersistTime' + 'persistPeriod'}</Li>
+     * <Li> {@literbl = "NoMoreOftenThbn" bnd now > 'lbstPersistTime' +
      *         'persistPeriod'}</Li>
      * </UL>
-     * Do not store the MBean if 'persistPolicy' field is:
+     * Do not store the MBebn if 'persistPolicy' field is:
      * <UL>
      * <Li> = "never"</Li>
-     * <Li> = {@literal = "onTimer" && now < 'lastPersistTime' + 'persistPeriod'}</Li>
+     * <Li> = {@literbl = "onTimer" && now < 'lbstPersistTime' + 'persistPeriod'}</Li>
      * <Li> = "onUnregister"</Li>
-     * <Li> = {@literal = "NoMoreOftenThan" and now < 'lastPersistTime' +
+     * <Li> = {@literbl = "NoMoreOftenThbn" bnd now < 'lbstPersistTime' +
      *        'persistPeriod'}</Li>
      * </UL>
      *
-     * <p>The ModelMBeanInfo of the Model MBean is stored in a file.
+     * <p>The ModelMBebnInfo of the Model MBebn is stored in b file.
      *
-     * @param attribute The Attribute instance containing the name of
-     *        the attribute to be set and the value it is to be set to.
+     * @pbrbm bttribute The Attribute instbnce contbining the nbme of
+     *        the bttribute to be set bnd the vblue it is to be set to.
      *
      *
-     * @exception AttributeNotFoundException The specified attribute is
-     *   not accessible in the MBean.
-     *   <br>The following cases may result in an AttributeNotFoundException:
+     * @exception AttributeNotFoundException The specified bttribute is
+     *   not bccessible in the MBebn.
+     *   <br>The following cbses mby result in bn AttributeNotFoundException:
      *   <UL>
-     *     <LI> No ModelMBeanAttributeInfo is found for the specified
-     *          attribute.</LI>
-     *     <LI> The ModelMBeanAttributeInfo's isWritable method returns
-     *          'false'.</LI>
+     *     <LI> No ModelMBebnAttributeInfo is found for the specified
+     *          bttribute.</LI>
+     *     <LI> The ModelMBebnAttributeInfo's isWritbble method returns
+     *          'fblse'.</LI>
      *   </UL>
-     * @exception InvalidAttributeValueException No descriptor is defined
-     *   for the specified attribute.
-     * @exception MBeanException Wraps one of the following Exceptions:
+     * @exception InvblidAttributeVblueException No descriptor is defined
+     *   for the specified bttribute.
+     * @exception MBebnException Wrbps one of the following Exceptions:
      *   <UL>
-     *     <LI> An Exception thrown by the managed object's setter.</LI>
-     *     <LI> A {@link ServiceNotFoundException} if a setMethod field is
-     *          defined in the descriptor for the attribute and the managed
-     *          resource is null; or if no setMethod field is defined and
-     *          caching is not enabled for the attribute.
-     *          Note that if there is no getMethod field either, then caching
-     *          is automatically enabled.</LI>
-     *     <LI> {@link InvalidTargetObjectTypeException} The 'targetType'
-     *          field value is not 'objectReference'.</LI>
-     *     <LI> An Exception thrown by the managed object's getter.</LI>
+     *     <LI> An Exception thrown by the mbnbged object's setter.</LI>
+     *     <LI> A {@link ServiceNotFoundException} if b setMethod field is
+     *          defined in the descriptor for the bttribute bnd the mbnbged
+     *          resource is null; or if no setMethod field is defined bnd
+     *          cbching is not enbbled for the bttribute.
+     *          Note thbt if there is no getMethod field either, then cbching
+     *          is butombticblly enbbled.</LI>
+     *     <LI> {@link InvblidTbrgetObjectTypeException} The 'tbrgetType'
+     *          field vblue is not 'objectReference'.</LI>
+     *     <LI> An Exception thrown by the mbnbged object's getter.</LI>
      *   </UL>
-     * @exception ReflectionException  Wraps an {@link java.lang.Exception}
+     * @exception ReflectionException  Wrbps bn {@link jbvb.lbng.Exception}
      *   thrown while trying to invoke the setter.
-     * @exception RuntimeOperationsException Wraps an
-     *   {@link IllegalArgumentException}: The attribute in parameter is
+     * @exception RuntimeOperbtionsException Wrbps bn
+     *   {@link IllegblArgumentException}: The bttribute in pbrbmeter is
      *   null.
      *
-     * @see #getAttribute(java.lang.String)
+     * @see #getAttribute(jbvb.lbng.String)
      **/
-    public void setAttribute(Attribute attribute)
-        throws AttributeNotFoundException, InvalidAttributeValueException,
-               MBeanException, ReflectionException {
-        final boolean tracing = MODELMBEAN_LOGGER.isLoggable(Level.FINER);
-        if (tracing) {
+    public void setAttribute(Attribute bttribute)
+        throws AttributeNotFoundException, InvblidAttributeVblueException,
+               MBebnException, ReflectionException {
+        finbl boolebn trbcing = MODELMBEAN_LOGGER.isLoggbble(Level.FINER);
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
+                    RequiredModelMBebn.clbss.getNbme(),
                 "setAttribute()","Entry");
         }
 
-        if (attribute == null)
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("attribute must not be null"),
-                "Exception occurred trying to set an attribute of a "+
-                "RequiredModelMBean");
+        if (bttribute == null)
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("bttribute must not be null"),
+                "Exception occurred trying to set bn bttribute of b "+
+                "RequiredModelMBebn");
 
         /* run setMethod if there is one */
-        /* return cached value if its current */
-        /* set cached value in descriptor and set date/time */
-        /* send attribute change Notification */
-        /* check persistence policy and persist if need be */
-        String attrName = attribute.getName();
-        Object attrValue = attribute.getValue();
-        boolean updateDescriptor = false;
+        /* return cbched vblue if its current */
+        /* set cbched vblue in descriptor bnd set dbte/time */
+        /* send bttribute chbnge Notificbtion */
+        /* check persistence policy bnd persist if need be */
+        String bttrNbme = bttribute.getNbme();
+        Object bttrVblue = bttribute.getVblue();
+        boolebn updbteDescriptor = fblse;
 
-        ModelMBeanAttributeInfo attrInfo =
-            modelMBeanInfo.getAttribute(attrName);
+        ModelMBebnAttributeInfo bttrInfo =
+            modelMBebnInfo.getAttribute(bttrNbme);
 
-        if (attrInfo == null)
-            throw new AttributeNotFoundException("setAttribute failed: " +
-                                               attrName + " is not found ");
+        if (bttrInfo == null)
+            throw new AttributeNotFoundException("setAttribute fbiled: " +
+                                               bttrNbme + " is not found ");
 
-        Descriptor mmbDesc = modelMBeanInfo.getMBeanDescriptor();
-        Descriptor attrDescr = attrInfo.getDescriptor();
+        Descriptor mmbDesc = modelMBebnInfo.getMBebnDescriptor();
+        Descriptor bttrDescr = bttrInfo.getDescriptor();
 
-        if (attrDescr != null) {
-            if (!attrInfo.isWritable())
-                throw new AttributeNotFoundException("setAttribute failed: "
-                                          + attrName + " is not writable ");
+        if (bttrDescr != null) {
+            if (!bttrInfo.isWritbble())
+                throw new AttributeNotFoundException("setAttribute fbiled: "
+                                          + bttrNbme + " is not writbble ");
 
-            String attrSetMethod = (String)
-                (attrDescr.getFieldValue("setMethod"));
-            String attrGetMethod = (String)
-                (attrDescr.getFieldValue("getMethod"));
+            String bttrSetMethod = (String)
+                (bttrDescr.getFieldVblue("setMethod"));
+            String bttrGetMethod = (String)
+                (bttrDescr.getFieldVblue("getMethod"));
 
-            String attrType = attrInfo.getType();
-            Object currValue = "Unknown";
+            String bttrType = bttrInfo.getType();
+            Object currVblue = "Unknown";
 
             try {
-                currValue = this.getAttribute(attrName);
-            } catch (Throwable t) {
-                // OK: Default "Unknown" value used for unknown attribute
+                currVblue = this.getAttribute(bttrNbme);
+            } cbtch (Throwbble t) {
+                // OK: Defbult "Unknown" vblue used for unknown bttribute
             }
 
-            Attribute oldAttr = new Attribute(attrName, currValue);
+            Attribute oldAttr = new Attribute(bttrNbme, currVblue);
 
-            /* run method from operations descriptor */
-            if (attrSetMethod == null) {
-                if (attrValue != null) {
+            /* run method from operbtions descriptor */
+            if (bttrSetMethod == null) {
+                if (bttrVblue != null) {
                     try {
-                        final Class<?> clazz = loadClass(attrType);
-                        if (! clazz.isInstance(attrValue))  throw new
-                            InvalidAttributeValueException(clazz.getName() +
+                        finbl Clbss<?> clbzz = lobdClbss(bttrType);
+                        if (! clbzz.isInstbnce(bttrVblue))  throw new
+                            InvblidAttributeVblueException(clbzz.getNbme() +
                                                            " expected, "   +
-                                            attrValue.getClass().getName() +
+                                            bttrVblue.getClbss().getNbme() +
                                                            " received.");
-                    } catch (ClassNotFoundException x) {
-                        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+                    } cbtch (ClbssNotFoundException x) {
+                        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                             MODELMBEAN_LOGGER.logp(Level.FINER,
-                                    RequiredModelMBean.class.getName(),
-                                "setAttribute(Attribute)","Class " +
-                                    attrType + " for attribute "
-                                + attrName + " not found: ", x);
+                                    RequiredModelMBebn.clbss.getNbme(),
+                                "setAttribute(Attribute)","Clbss " +
+                                    bttrType + " for bttribute "
+                                + bttrNbme + " not found: ", x);
                         }
                     }
                 }
-                updateDescriptor = true;
+                updbteDescriptor = true;
             } else {
-                invoke(attrSetMethod,
-                       (new Object[] {attrValue}),
-                       (new String[] {attrType}) );
+                invoke(bttrSetMethod,
+                       (new Object[] {bttrVblue}),
+                       (new String[] {bttrType}) );
             }
 
-            /* change cached value */
-            Object objctl = attrDescr.getFieldValue("currencyTimeLimit");
+            /* chbnge cbched vblue */
+            Object objctl = bttrDescr.getFieldVblue("currencyTimeLimit");
             String ctl;
             if (objctl != null) ctl = objctl.toString();
             else ctl = null;
 
             if ((ctl == null) && (mmbDesc != null)) {
-                objctl = mmbDesc.getFieldValue("currencyTimeLimit");
+                objctl = mmbDesc.getFieldVblue("currencyTimeLimit");
                 if (objctl != null) ctl = objctl.toString();
                 else ctl = null;
             }
 
-            final boolean updateCache = ((ctl != null) && !(ctl.equals("-1")));
+            finbl boolebn updbteCbche = ((ctl != null) && !(ctl.equbls("-1")));
 
-             if(attrSetMethod == null  && !updateCache && attrGetMethod != null)
-                throw new MBeanException(new ServiceNotFoundException("No " +
+             if(bttrSetMethod == null  && !updbteCbche && bttrGetMethod != null)
+                throw new MBebnException(new ServiceNotFoundException("No " +
                         "setMethod field is defined in the descriptor for " +
-                        attrName + " attribute and caching is not enabled " +
+                        bttrNbme + " bttribute bnd cbching is not enbbled " +
                         "for it"));
 
-            if (updateCache || updateDescriptor) {
-                if (tracing) {
+            if (updbteCbche || updbteDescriptor) {
+                if (trbcing) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),
+                        RequiredModelMBebn.clbss.getNbme(),
                             "setAttribute(Attribute)",
-                            "setting cached value of " +
-                            attrName + " to " + attrValue);
+                            "setting cbched vblue of " +
+                            bttrNbme + " to " + bttrVblue);
                 }
 
-                attrDescr.setField("value", attrValue);
+                bttrDescr.setField("vblue", bttrVblue);
 
-                if (updateCache) {
-                    final String currtime = String.valueOf(
-                        (new Date()).getTime());
+                if (updbteCbche) {
+                    finbl String currtime = String.vblueOf(
+                        (new Dbte()).getTime());
 
-                    attrDescr.setField("lastUpdatedTimeStamp", currtime);
+                    bttrDescr.setField("lbstUpdbtedTimeStbmp", currtime);
                 }
 
-                attrInfo.setDescriptor(attrDescr);
+                bttrInfo.setDescriptor(bttrDescr);
 
-                modelMBeanInfo.setDescriptor(attrDescr,"attribute");
-                if (tracing) {
-                    final StringBuilder strb = new StringBuilder()
-                    .append("new descriptor is ").append(attrDescr)
-                    .append(". AttributeInfo descriptor is ")
-                    .append(attrInfo.getDescriptor())
-                    .append(". AttributeInfo descriptor is ")
-                    .append(modelMBeanInfo.getDescriptor(attrName,"attribute"));
+                modelMBebnInfo.setDescriptor(bttrDescr,"bttribute");
+                if (trbcing) {
+                    finbl StringBuilder strb = new StringBuilder()
+                    .bppend("new descriptor is ").bppend(bttrDescr)
+                    .bppend(". AttributeInfo descriptor is ")
+                    .bppend(bttrInfo.getDescriptor())
+                    .bppend(". AttributeInfo descriptor is ")
+                    .bppend(modelMBebnInfo.getDescriptor(bttrNbme,"bttribute"));
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            RequiredModelMBean.class.getName(),
+                            RequiredModelMBebn.clbss.getNbme(),
                             "setAttribute(Attribute)",strb.toString());
                 }
 
             }
 
-            if (tracing) {
+            if (trbcing) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),
-                "setAttribute(Attribute)","sending sendAttributeNotification");
+                        RequiredModelMBebn.clbss.getNbme(),
+                "setAttribute(Attribute)","sending sendAttributeNotificbtion");
             }
-            sendAttributeChangeNotification(oldAttr,attribute);
+            sendAttributeChbngeNotificbtion(oldAttr,bttribute);
 
         } else { // if descriptor ... else no descriptor
 
-            if (tracing) {
+            if (trbcing) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            RequiredModelMBean.class.getName(),
-                        "setAttribute(Attribute)","setMethod failed "+attrName+
-                        " not in attributeDescriptor\n");
+                            RequiredModelMBebn.clbss.getNbme(),
+                        "setAttribute(Attribute)","setMethod fbiled "+bttrNbme+
+                        " not in bttributeDescriptor\n");
             }
 
-            throw new InvalidAttributeValueException(
-                      "Unable to resolve attribute value, "+
-                      "no defined in descriptor for attribute");
+            throw new InvblidAttributeVblueException(
+                      "Unbble to resolve bttribute vblue, "+
+                      "no defined in descriptor for bttribute");
         } // else no descriptor
 
-        if (tracing) {
+        if (trbcing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
+                    RequiredModelMBebn.clbss.getNbme(),
                 "setAttribute(Attribute)", "Exit");
         }
 
     }
 
     /**
-     * Sets the values of an array of attributes of this ModelMBean.
-     * Executes the setAttribute() method for each attribute in the list.
+     * Sets the vblues of bn brrby of bttributes of this ModelMBebn.
+     * Executes the setAttribute() method for ebch bttribute in the list.
      *
-     * @param attributes A list of attributes: The identification of the
-     * attributes to be set and  the values they are to be set to.
+     * @pbrbm bttributes A list of bttributes: The identificbtion of the
+     * bttributes to be set bnd  the vblues they bre to be set to.
      *
-     * @return  The array of attributes that were set, with their new
-     *    values in Attribute instances.
+     * @return  The brrby of bttributes thbt were set, with their new
+     *    vblues in Attribute instbnces.
      *
-     * @exception RuntimeOperationsException Wraps an
-     *   {@link IllegalArgumentException}: The object name in parameter
-     *   is null or attributes in parameter is null.
+     * @exception RuntimeOperbtionsException Wrbps bn
+     *   {@link IllegblArgumentException}: The object nbme in pbrbmeter
+     *   is null or bttributes in pbrbmeter is null.
      *
      * @see #getAttributes
      **/
-    public AttributeList setAttributes(AttributeList attributes) {
+    public AttributeList setAttributes(AttributeList bttributes) {
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
+                    RequiredModelMBebn.clbss.getNbme(),
                 "setAttribute(Attribute)", "Entry");
         }
 
-        if (attributes == null)
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("attributes must not be null"),
-                "Exception occurred trying to set attributes of a "+
-                "RequiredModelMBean");
+        if (bttributes == null)
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("bttributes must not be null"),
+                "Exception occurred trying to set bttributes of b "+
+                "RequiredModelMBebn");
 
-        final AttributeList responseList = new AttributeList();
+        finbl AttributeList responseList = new AttributeList();
 
-        // Go through the list of attributes
-        for (Attribute attr : attributes.asList()) {
+        // Go through the list of bttributes
+        for (Attribute bttr : bttributes.bsList()) {
             try {
-                setAttribute(attr);
-                responseList.add(attr);
-            } catch (Exception excep) {
-                responseList.remove(attr);
+                setAttribute(bttr);
+                responseList.bdd(bttr);
+            } cbtch (Exception excep) {
+                responseList.remove(bttr);
             }
         }
 
@@ -2110,774 +2110,774 @@ public class RequiredModelMBean
 
 
 
-    private ModelMBeanInfo createDefaultModelMBeanInfo() {
-        return(new ModelMBeanInfoSupport((this.getClass().getName()),
-                   "Default ModelMBean", null, null, null, null));
+    privbte ModelMBebnInfo crebteDefbultModelMBebnInfo() {
+        return(new ModelMBebnInfoSupport((this.getClbss().getNbme()),
+                   "Defbult ModelMBebn", null, null, null, null));
     }
 
     /*************************************/
-    /* NotificationBroadcaster Interface */
+    /* NotificbtionBrobdcbster Interfbce */
     /*************************************/
 
 
-    private synchronized void writeToLog(String logFileName,
+    privbte synchronized void writeToLog(String logFileNbme,
                                          String logEntry) throws Exception {
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
+                    RequiredModelMBebn.clbss.getNbme(),
                 "writeToLog(String, String)",
-                "Notification Logging to " + logFileName + ": " + logEntry);
+                "Notificbtion Logging to " + logFileNbme + ": " + logEntry);
         }
-        if ((logFileName == null) || (logEntry == null)) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if ((logFileNbme == null) || (logEntry == null)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),
+                        RequiredModelMBebn.clbss.getNbme(),
                     "writeToLog(String, String)",
-                    "Bad input parameters, will not log this entry.");
+                    "Bbd input pbrbmeters, will not log this entry.");
             }
             return;
         }
 
-        FileOutputStream fos = new FileOutputStream(logFileName, true);
+        FileOutputStrebm fos = new FileOutputStrebm(logFileNbme, true);
         try {
-            PrintStream logOut = new PrintStream(fos);
+            PrintStrebm logOut = new PrintStrebm(fos);
             logOut.println(logEntry);
             logOut.close();
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(),
+                        RequiredModelMBebn.clbss.getNbme(),
                     "writeToLog(String, String)","Successfully opened log " +
-                        logFileName);
+                        logFileNbme);
             }
-        } catch (Exception e) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        } cbtch (Exception e) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
+                    RequiredModelMBebn.clbss.getNbme(),
                         "writeToLog(String, String)",
                         "Exception " + e.toString() +
-                        " trying to write to the Notification log file " +
-                        logFileName);
+                        " trying to write to the Notificbtion log file " +
+                        logFileNbme);
             }
             throw e;
-        } finally {
+        } finblly {
             fos.close();
         }
     }
 
 
     /**
-     * Registers an object which implements the NotificationListener
-     * interface as a listener.  This
-     * object's 'handleNotification()' method will be invoked when any
-     * notification is issued through or by the ModelMBean.  This does
-     * not include attributeChangeNotifications.  They must be registered
+     * Registers bn object which implements the NotificbtionListener
+     * interfbce bs b listener.  This
+     * object's 'hbndleNotificbtion()' method will be invoked when bny
+     * notificbtion is issued through or by the ModelMBebn.  This does
+     * not include bttributeChbngeNotificbtions.  They must be registered
      * for independently.
      *
-     * @param listener The listener object which will handles
-     *        notifications emitted by the registered MBean.
-     * @param filter The filter object. If null, no filtering will be
-     *        performed before handling notifications.
-     * @param handback The context to be sent to the listener with
-     *        the notification when a notification is emitted.
+     * @pbrbm listener The listener object which will hbndles
+     *        notificbtions emitted by the registered MBebn.
+     * @pbrbm filter The filter object. If null, no filtering will be
+     *        performed before hbndling notificbtions.
+     * @pbrbm hbndbbck The context to be sent to the listener with
+     *        the notificbtion when b notificbtion is emitted.
      *
-     * @exception IllegalArgumentException The listener cannot be null.
+     * @exception IllegblArgumentException The listener cbnnot be null.
      *
-     * @see #removeNotificationListener
+     * @see #removeNotificbtionListener
      */
-    public void addNotificationListener(NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-        throws java.lang.IllegalArgumentException {
-        final String mth = "addNotificationListener(" +
-                "NotificationListener, NotificationFilter, Object)";
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public void bddNotificbtionListener(NotificbtionListener listener,
+                                        NotificbtionFilter filter,
+                                        Object hbndbbck)
+        throws jbvb.lbng.IllegblArgumentException {
+        finbl String mth = "bddNotificbtionListener(" +
+                "NotificbtionListener, NotificbtionFilter, Object)";
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(), mth, "Entry");
+                        RequiredModelMBebn.clbss.getNbme(), mth, "Entry");
         }
 
         if (listener == null)
-            throw new IllegalArgumentException(
-                  "notification listener must not be null");
+            throw new IllegblArgumentException(
+                  "notificbtion listener must not be null");
 
-        if (generalBroadcaster == null)
-            generalBroadcaster = new NotificationBroadcasterSupport();
+        if (generblBrobdcbster == null)
+            generblBrobdcbster = new NotificbtionBrobdcbsterSupport();
 
-        generalBroadcaster.addNotificationListener(listener, filter,
-                                                   handback);
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        generblBrobdcbster.bddNotificbtionListener(listener, filter,
+                                                   hbndbbck);
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(), mth,
-                    "NotificationListener added");
+                        RequiredModelMBebn.clbss.getNbme(), mth,
+                    "NotificbtionListener bdded");
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        RequiredModelMBean.class.getName(), mth, "Exit");
+                        RequiredModelMBebn.clbss.getNbme(), mth, "Exit");
         }
     }
 
     /**
-     * Removes a listener for Notifications from the RequiredModelMBean.
+     * Removes b listener for Notificbtions from the RequiredModelMBebn.
      *
-     * @param listener The listener name which was handling notifications
-     *    emitted by the registered MBean.
-     *    This method will remove all information related to this listener.
+     * @pbrbm listener The listener nbme which wbs hbndling notificbtions
+     *    emitted by the registered MBebn.
+     *    This method will remove bll informbtion relbted to this listener.
      *
      * @exception ListenerNotFoundException The listener is not registered
-     *    in the MBean or is null.
+     *    in the MBebn or is null.
      *
-     * @see #addNotificationListener
+     * @see #bddNotificbtionListener
      **/
-    public void removeNotificationListener(NotificationListener listener)
+    public void removeNotificbtionListener(NotificbtionListener listener)
         throws ListenerNotFoundException {
         if (listener == null)
             throw new ListenerNotFoundException(
-                      "Notification listener is null");
+                      "Notificbtion listener is null");
 
-        final String mth="removeNotificationListener(NotificationListener)";
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        finbl String mth="removeNotificbtionListener(NotificbtionListener)";
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(), mth, "Entry");
+                    RequiredModelMBebn.clbss.getNbme(), mth, "Entry");
         }
 
-        if (generalBroadcaster == null)
+        if (generblBrobdcbster == null)
             throw new ListenerNotFoundException(
-                  "No notification listeners registered");
+                  "No notificbtion listeners registered");
 
 
-        generalBroadcaster.removeNotificationListener(listener);
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        generblBrobdcbster.removeNotificbtionListener(listener);
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(), mth, "Exit");
+                    RequiredModelMBebn.clbss.getNbme(), mth, "Exit");
         }
 
     }
 
-    public void removeNotificationListener(NotificationListener listener,
-                                           NotificationFilter filter,
-                                           Object handback)
+    public void removeNotificbtionListener(NotificbtionListener listener,
+                                           NotificbtionFilter filter,
+                                           Object hbndbbck)
         throws ListenerNotFoundException {
 
         if (listener == null)
             throw new ListenerNotFoundException(
-                      "Notification listener is null");
+                      "Notificbtion listener is null");
 
-        final String mth = "removeNotificationListener(" +
-                "NotificationListener, NotificationFilter, Object)";
+        finbl String mth = "removeNotificbtionListener(" +
+                "NotificbtionListener, NotificbtionFilter, Object)";
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(), mth, "Entry");
+                    RequiredModelMBebn.clbss.getNbme(), mth, "Entry");
         }
 
-        if (generalBroadcaster == null)
+        if (generblBrobdcbster == null)
             throw new ListenerNotFoundException(
-                  "No notification listeners registered");
+                  "No notificbtion listeners registered");
 
 
-        generalBroadcaster.removeNotificationListener(listener,filter,
-                                                      handback);
+        generblBrobdcbster.removeNotificbtionListener(listener,filter,
+                                                      hbndbbck);
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(), mth, "Exit");
+                    RequiredModelMBebn.clbss.getNbme(), mth, "Exit");
         }
 
     }
 
-    public void sendNotification(Notification ntfyObj)
-        throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public void sendNotificbtion(Notificbtion ntfyObj)
+        throws MBebnException, RuntimeOperbtionsException {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "sendNotification(Notification)", "Entry");
+                    RequiredModelMBebn.clbss.getNbme(),
+                "sendNotificbtion(Notificbtion)", "Entry");
         }
 
         if (ntfyObj == null)
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("notification object must not be "+
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("notificbtion object must not be "+
                                          "null"),
-                "Exception occurred trying to send a notification from a "+
-                "RequiredModelMBean");
+                "Exception occurred trying to send b notificbtion from b "+
+                "RequiredModelMBebn");
 
 
-        // log notification if specified in descriptor
+        // log notificbtion if specified in descriptor
         Descriptor ntfyDesc =
-            modelMBeanInfo.getDescriptor(ntfyObj.getType(),"notification");
-        Descriptor mmbDesc = modelMBeanInfo.getMBeanDescriptor();
+            modelMBebnInfo.getDescriptor(ntfyObj.getType(),"notificbtion");
+        Descriptor mmbDesc = modelMBebnInfo.getMBebnDescriptor();
 
         if (ntfyDesc != null) {
-            String logging = (String) ntfyDesc.getFieldValue("log");
+            String logging = (String) ntfyDesc.getFieldVblue("log");
 
             if (logging == null) {
                 if (mmbDesc != null)
-                    logging = (String) mmbDesc.getFieldValue("log");
+                    logging = (String) mmbDesc.getFieldVblue("log");
             }
 
             if ((logging != null) &&
-                (logging.equalsIgnoreCase("t") ||
-                 logging.equalsIgnoreCase("true"))) {
+                (logging.equblsIgnoreCbse("t") ||
+                 logging.equblsIgnoreCbse("true"))) {
 
-                String logfile = (String) ntfyDesc.getFieldValue("logfile");
+                String logfile = (String) ntfyDesc.getFieldVblue("logfile");
                 if (logfile == null) {
                     if (mmbDesc != null)
-                        logfile = (String)mmbDesc.getFieldValue("logfile");
+                        logfile = (String)mmbDesc.getFieldVblue("logfile");
                 }
                 if (logfile != null) {
                     try {
                         writeToLog(logfile,"LogMsg: " +
-                            ((new Date(ntfyObj.getTimeStamp())).toString())+
+                            ((new Dbte(ntfyObj.getTimeStbmp())).toString())+
                             " " + ntfyObj.getType() + " " +
-                            ntfyObj.getMessage() + " Severity = " +
-                            (String)ntfyDesc.getFieldValue("severity"));
-                    } catch (Exception e) {
-                        if (MODELMBEAN_LOGGER.isLoggable(Level.FINE)) {
+                            ntfyObj.getMessbge() + " Severity = " +
+                            (String)ntfyDesc.getFieldVblue("severity"));
+                    } cbtch (Exception e) {
+                        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINE)) {
                             MODELMBEAN_LOGGER.logp(Level.FINE,
-                                    RequiredModelMBean.class.getName(),
-                                    "sendNotification(Notification)",
-                                    "Failed to log " +
-                                    ntfyObj.getType() + " notification: ", e);
+                                    RequiredModelMBebn.clbss.getNbme(),
+                                    "sendNotificbtion(Notificbtion)",
+                                    "Fbiled to log " +
+                                    ntfyObj.getType() + " notificbtion: ", e);
                         }
                     }
                 }
             }
         }
-        if (generalBroadcaster != null) {
-            generalBroadcaster.sendNotification(ntfyObj);
+        if (generblBrobdcbster != null) {
+            generblBrobdcbster.sendNotificbtion(ntfyObj);
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                RequiredModelMBean.class.getName(),
-                    "sendNotification(Notification)",
-                    "sendNotification sent provided notification object");
+                RequiredModelMBebn.clbss.getNbme(),
+                    "sendNotificbtion(Notificbtion)",
+                    "sendNotificbtion sent provided notificbtion object");
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                RequiredModelMBean.class.getName(),
-                    "sendNotification(Notification)"," Exit");
+                RequiredModelMBebn.clbss.getNbme(),
+                    "sendNotificbtion(Notificbtion)"," Exit");
         }
 
     }
 
 
-    public void sendNotification(String ntfyText)
-        throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public void sendNotificbtion(String ntfyText)
+        throws MBebnException, RuntimeOperbtionsException {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "sendNotification(String)","Entry");
+                    RequiredModelMBebn.clbss.getNbme(),
+                "sendNotificbtion(String)","Entry");
         }
 
         if (ntfyText == null)
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("notification message must not "+
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("notificbtion messbge must not "+
                                          "be null"),
-                "Exception occurred trying to send a text notification "+
-                "from a ModelMBean");
+                "Exception occurred trying to send b text notificbtion "+
+                "from b ModelMBebn");
 
-        Notification myNtfyObj = new Notification("jmx.modelmbean.generic",
+        Notificbtion myNtfyObj = new Notificbtion("jmx.modelmbebn.generic",
                                                   this, 1, ntfyText);
-        sendNotification(myNtfyObj);
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        sendNotificbtion(myNtfyObj);
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "sendNotification(String)","Notification sent");
+                    RequiredModelMBebn.clbss.getNbme(),
+                "sendNotificbtion(String)","Notificbtion sent");
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "sendNotification(String)","Exit");
+                    RequiredModelMBebn.clbss.getNbme(),
+                "sendNotificbtion(String)","Exit");
         }
     }
 
     /**
-     * Returns `true' if the notification `notifName' is found
+     * Returns `true' if the notificbtion `notifNbme' is found
      * in `info'. (bug 4744667)
      **/
-    private static final
-        boolean hasNotification(final ModelMBeanInfo info,
-                                final String notifName) {
+    privbte stbtic finbl
+        boolebn hbsNotificbtion(finbl ModelMBebnInfo info,
+                                finbl String notifNbme) {
         try {
-            if (info == null) return false;
-            else return (info.getNotification(notifName)!=null);
-        } catch (MBeanException x) {
-            return false;
-        } catch (RuntimeOperationsException r) {
-            return false;
+            if (info == null) return fblse;
+            else return (info.getNotificbtion(notifNbme)!=null);
+        } cbtch (MBebnException x) {
+            return fblse;
+        } cbtch (RuntimeOperbtionsException r) {
+            return fblse;
         }
     }
 
     /**
-     * Creates a default ModelMBeanNotificationInfo for GENERIC
-     * notification.  (bug 4744667)
+     * Crebtes b defbult ModelMBebnNotificbtionInfo for GENERIC
+     * notificbtion.  (bug 4744667)
      **/
-    private static final ModelMBeanNotificationInfo makeGenericInfo() {
-        final Descriptor genericDescriptor = new DescriptorSupport( new
+    privbte stbtic finbl ModelMBebnNotificbtionInfo mbkeGenericInfo() {
+        finbl Descriptor genericDescriptor = new DescriptorSupport( new
             String[] {
-                "name=GENERIC",
-                "descriptorType=notification",
+                "nbme=GENERIC",
+                "descriptorType=notificbtion",
                 "log=T",
                 "severity=6",
-                "displayName=jmx.modelmbean.generic"} );
+                "displbyNbme=jmx.modelmbebn.generic"} );
 
-        return new ModelMBeanNotificationInfo(new
-            String[] {"jmx.modelmbean.generic"},
+        return new ModelMBebnNotificbtionInfo(new
+            String[] {"jmx.modelmbebn.generic"},
             "GENERIC",
-            "A text notification has been issued by the managed resource",
+            "A text notificbtion hbs been issued by the mbnbged resource",
             genericDescriptor);
     }
 
     /**
-     * Creates a default ModelMBeanNotificationInfo for ATTRIBUTE_CHANGE
-     * notification.  (bug 4744667)
+     * Crebtes b defbult ModelMBebnNotificbtionInfo for ATTRIBUTE_CHANGE
+     * notificbtion.  (bug 4744667)
      **/
-    private static final
-        ModelMBeanNotificationInfo makeAttributeChangeInfo() {
-        final Descriptor attributeDescriptor = new DescriptorSupport(new
+    privbte stbtic finbl
+        ModelMBebnNotificbtionInfo mbkeAttributeChbngeInfo() {
+        finbl Descriptor bttributeDescriptor = new DescriptorSupport(new
             String[] {
-                "name=ATTRIBUTE_CHANGE",
-                "descriptorType=notification",
+                "nbme=ATTRIBUTE_CHANGE",
+                "descriptorType=notificbtion",
                 "log=T",
                 "severity=6",
-                "displayName=jmx.attribute.change"});
+                "displbyNbme=jmx.bttribute.chbnge"});
 
-        return new ModelMBeanNotificationInfo(new
-            String[] {"jmx.attribute.change"},
+        return new ModelMBebnNotificbtionInfo(new
+            String[] {"jmx.bttribute.chbnge"},
             "ATTRIBUTE_CHANGE",
-            "Signifies that an observed MBean attribute value has changed",
-            attributeDescriptor );
+            "Signifies thbt bn observed MBebn bttribute vblue hbs chbnged",
+            bttributeDescriptor );
     }
 
     /**
-     * Returns the array of Notifications always generated by the
-     * RequiredModelMBean.
+     * Returns the brrby of Notificbtions blwbys generbted by the
+     * RequiredModelMBebn.
      * <P>
      *
-     * RequiredModelMBean may always send also two additional notifications:
+     * RequiredModelMBebn mby blwbys send blso two bdditionbl notificbtions:
      * <UL>
-     *   <LI> One with descriptor <code>"name=GENERIC,descriptorType=notification,log=T,severity=6,displayName=jmx.modelmbean.generic"</code></LI>
-     *   <LI> Second is a standard attribute change notification
-     *        with descriptor <code>"name=ATTRIBUTE_CHANGE,descriptorType=notification,log=T,severity=6,displayName=jmx.attribute.change"</code></LI>
+     *   <LI> One with descriptor <code>"nbme=GENERIC,descriptorType=notificbtion,log=T,severity=6,displbyNbme=jmx.modelmbebn.generic"</code></LI>
+     *   <LI> Second is b stbndbrd bttribute chbnge notificbtion
+     *        with descriptor <code>"nbme=ATTRIBUTE_CHANGE,descriptorType=notificbtion,log=T,severity=6,displbyNbme=jmx.bttribute.chbnge"</code></LI>
      * </UL>
-     * Thus these two notifications are always added to those specified
-     * by the application.
+     * Thus these two notificbtions bre blwbys bdded to those specified
+     * by the bpplicbtion.
      *
-     * @return MBeanNotificationInfo[]
+     * @return MBebnNotificbtionInfo[]
      *
      **/
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "getNotificationInfo()","Entry");
+                    RequiredModelMBebn.clbss.getNbme(),
+                "getNotificbtionInfo()","Entry");
         }
 
-        // Using hasNotification() is not optimal, but shouldn't really
-        // matter in this context...
+        // Using hbsNotificbtion() is not optimbl, but shouldn't reblly
+        // mbtter in this context...
 
-        // hasGeneric==true if GENERIC notification is present.
+        // hbsGeneric==true if GENERIC notificbtion is present.
         // (bug 4744667)
-        final boolean hasGeneric = hasNotification(modelMBeanInfo,"GENERIC");
+        finbl boolebn hbsGeneric = hbsNotificbtion(modelMBebnInfo,"GENERIC");
 
-        // hasAttributeChange==true if ATTRIBUTE_CHANGE notification is
+        // hbsAttributeChbnge==true if ATTRIBUTE_CHANGE notificbtion is
         // present.
         // (bug 4744667)
-        final boolean hasAttributeChange =
-           hasNotification(modelMBeanInfo,"ATTRIBUTE_CHANGE");
+        finbl boolebn hbsAttributeChbnge =
+           hbsNotificbtion(modelMBebnInfo,"ATTRIBUTE_CHANGE");
 
-        // User supplied list of notification infos.
+        // User supplied list of notificbtion infos.
         //
-        final ModelMBeanNotificationInfo[] currInfo =
-           (ModelMBeanNotificationInfo[])modelMBeanInfo.getNotifications();
+        finbl ModelMBebnNotificbtionInfo[] currInfo =
+           (ModelMBebnNotificbtionInfo[])modelMBebnInfo.getNotificbtions();
 
-        // Length of the returned list of notification infos:
+        // Length of the returned list of notificbtion infos:
         //    length of user suplied list + possibly 1 for GENERIC, +
         //    possibly 1 for ATTRIBUTE_CHANGE
         //    (bug 4744667)
-        final int len = ((currInfo==null?0:currInfo.length) +
-                         (hasGeneric?0:1) + (hasAttributeChange?0:1));
+        finbl int len = ((currInfo==null?0:currInfo.length) +
+                         (hbsGeneric?0:1) + (hbsAttributeChbnge?0:1));
 
-        // Returned list of notification infos:
+        // Returned list of notificbtion infos:
         //
-        final ModelMBeanNotificationInfo[] respInfo =
-           new ModelMBeanNotificationInfo[len];
+        finbl ModelMBebnNotificbtionInfo[] respInfo =
+           new ModelMBebnNotificbtionInfo[len];
 
         // Preserve previous ordering (JMX 1.1)
         //
 
-        // Counter of "standard" notification inserted before user
-        // supplied notifications.
+        // Counter of "stbndbrd" notificbtion inserted before user
+        // supplied notificbtions.
         //
         int inserted=0;
-        if (!hasGeneric)
-            // We need to add description for GENERIC notification
+        if (!hbsGeneric)
+            // We need to bdd description for GENERIC notificbtion
             // (bug 4744667)
-            respInfo[inserted++] = makeGenericInfo();
+            respInfo[inserted++] = mbkeGenericInfo();
 
 
-        if (!hasAttributeChange)
-            // We need to add description for ATTRIBUTE_CHANGE notification
+        if (!hbsAttributeChbnge)
+            // We need to bdd description for ATTRIBUTE_CHANGE notificbtion
             // (bug 4744667)
-            respInfo[inserted++] = makeAttributeChangeInfo();
+            respInfo[inserted++] = mbkeAttributeChbngeInfo();
 
         // Now copy user supplied list in returned list.
         //
-        final int count  = currInfo.length;
-        final int offset = inserted;
+        finbl int count  = currInfo.length;
+        finbl int offset = inserted;
         for (int j=0; j < count; j++) {
             respInfo[offset+j] = currInfo[j];
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                "getNotificationInfo()","Exit");
+                    RequiredModelMBebn.clbss.getNbme(),
+                "getNotificbtionInfo()","Exit");
         }
 
         return respInfo;
     }
 
 
-    public void addAttributeChangeNotificationListener(NotificationListener
+    public void bddAttributeChbngeNotificbtionListener(NotificbtionListener
                                                        inlistener,
                                                        String
-                                                       inAttributeName,
-                                                       Object inhandback)
-        throws MBeanException, RuntimeOperationsException,
-               IllegalArgumentException {
-        final String mth="addAttributeChangeNotificationListener(" +
-                "NotificationListener, String, Object)";
+                                                       inAttributeNbme,
+                                                       Object inhbndbbck)
+        throws MBebnException, RuntimeOperbtionsException,
+               IllegblArgumentException {
+        finbl String mth="bddAttributeChbngeNotificbtionListener(" +
+                "NotificbtionListener, String, Object)";
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,"Entry");
+                    RequiredModelMBebn.clbss.getNbme(),mth,"Entry");
         }
 
         if (inlistener == null)
-            throw new IllegalArgumentException(
+            throw new IllegblArgumentException(
                   "Listener to be registered must not be null");
 
 
-        if (attributeBroadcaster == null)
-            attributeBroadcaster = new NotificationBroadcasterSupport();
+        if (bttributeBrobdcbster == null)
+            bttributeBrobdcbster = new NotificbtionBrobdcbsterSupport();
 
-        AttributeChangeNotificationFilter currFilter =
-            new AttributeChangeNotificationFilter();
+        AttributeChbngeNotificbtionFilter currFilter =
+            new AttributeChbngeNotificbtionFilter();
 
-        MBeanAttributeInfo[] attrInfo = modelMBeanInfo.getAttributes();
-        boolean found = false;
-        if (inAttributeName == null) {
-            if ((attrInfo != null) && (attrInfo.length>0)) {
-                for (int i=0; i<attrInfo.length; i++) {
-                    currFilter.enableAttribute(attrInfo[i].getName());
+        MBebnAttributeInfo[] bttrInfo = modelMBebnInfo.getAttributes();
+        boolebn found = fblse;
+        if (inAttributeNbme == null) {
+            if ((bttrInfo != null) && (bttrInfo.length>0)) {
+                for (int i=0; i<bttrInfo.length; i++) {
+                    currFilter.enbbleAttribute(bttrInfo[i].getNbme());
                 }
             }
         } else {
-            if ((attrInfo != null) && (attrInfo.length>0)) {
-                for (int i=0; i<attrInfo.length; i++) {
-                    if (inAttributeName.equals(attrInfo[i].getName())) {
+            if ((bttrInfo != null) && (bttrInfo.length>0)) {
+                for (int i=0; i<bttrInfo.length; i++) {
+                    if (inAttributeNbme.equbls(bttrInfo[i].getNbme())) {
                         found = true;
-                        currFilter.enableAttribute(inAttributeName);
-                        break;
+                        currFilter.enbbleAttribute(inAttributeNbme);
+                        brebk;
                     }
                 }
             }
             if (!found) {
-                throw new RuntimeOperationsException(new
-                    IllegalArgumentException(
-                    "The attribute name does not exist"),
-                    "Exception occurred trying to add an "+
-                    "AttributeChangeNotification listener");
+                throw new RuntimeOperbtionsException(new
+                    IllegblArgumentException(
+                    "The bttribute nbme does not exist"),
+                    "Exception occurred trying to bdd bn "+
+                    "AttributeChbngeNotificbtion listener");
             }
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            Vector<String> enabledAttrs = currFilter.getEnabledAttributes();
-            String s = (enabledAttrs.size() > 1) ?
-                        "[" + enabledAttrs.firstElement() + ", ...]" :
-                        enabledAttrs.toString();
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
+            Vector<String> enbbledAttrs = currFilter.getEnbbledAttributes();
+            String s = (enbbledAttrs.size() > 1) ?
+                        "[" + enbbledAttrs.firstElement() + ", ...]" :
+                        enbbledAttrs.toString();
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(), mth,
-                "Set attribute change filter to " + s);
+                    RequiredModelMBebn.clbss.getNbme(), mth,
+                "Set bttribute chbnge filter to " + s);
         }
 
-        attributeBroadcaster.addNotificationListener(inlistener,currFilter,
-                                                     inhandback);
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        bttributeBrobdcbster.bddNotificbtionListener(inlistener,currFilter,
+                                                     inhbndbbck);
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,
-                    "Notification listener added for " + inAttributeName);
+                    RequiredModelMBebn.clbss.getNbme(),mth,
+                    "Notificbtion listener bdded for " + inAttributeNbme);
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,"Exit");
+                    RequiredModelMBebn.clbss.getNbme(),mth,"Exit");
         }
     }
 
-    public void removeAttributeChangeNotificationListener(
-            NotificationListener inlistener, String inAttributeName)
-        throws MBeanException, RuntimeOperationsException,
+    public void removeAttributeChbngeNotificbtionListener(
+            NotificbtionListener inlistener, String inAttributeNbme)
+        throws MBebnException, RuntimeOperbtionsException,
                ListenerNotFoundException {
         if (inlistener == null) throw new
-            ListenerNotFoundException("Notification listener is null");
+            ListenerNotFoundException("Notificbtion listener is null");
 
-        final String mth = "removeAttributeChangeNotificationListener(" +
-                "NotificationListener, String)";
+        finbl String mth = "removeAttributeChbngeNotificbtionListener(" +
+                "NotificbtionListener, String)";
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,"Entry");
+                    RequiredModelMBebn.clbss.getNbme(),mth,"Entry");
         }
 
 
-        if (attributeBroadcaster == null)
+        if (bttributeBrobdcbster == null)
             throw new ListenerNotFoundException(
-                  "No attribute change notification listeners registered");
+                  "No bttribute chbnge notificbtion listeners registered");
 
 
-        MBeanAttributeInfo[] attrInfo = modelMBeanInfo.getAttributes();
-        boolean found = false;
-        if ((attrInfo != null) && (attrInfo.length>0)) {
-            for (int i=0; i<attrInfo.length; i++) {
-                if (attrInfo[i].getName().equals(inAttributeName)) {
+        MBebnAttributeInfo[] bttrInfo = modelMBebnInfo.getAttributes();
+        boolebn found = fblse;
+        if ((bttrInfo != null) && (bttrInfo.length>0)) {
+            for (int i=0; i<bttrInfo.length; i++) {
+                if (bttrInfo[i].getNbme().equbls(inAttributeNbme)) {
                     found = true;
-                    break;
+                    brebk;
                 }
             }
         }
 
-        if ((!found) && (inAttributeName != null)) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Invalid attribute name"),
+        if ((!found) && (inAttributeNbme != null)) {
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("Invblid bttribute nbme"),
                 "Exception occurred trying to remove "+
-                "attribute change notification listener");
+                "bttribute chbnge notificbtion listener");
         }
 
         /* note: */
-        /* this may be a problem if the same listener is registered for
-           multiple attributes with multiple filters and/or handback
-           objects.  It may remove all of them */
+        /* this mby be b problem if the sbme listener is registered for
+           multiple bttributes with multiple filters bnd/or hbndbbck
+           objects.  It mby remove bll of them */
 
-        attributeBroadcaster.removeNotificationListener(inlistener);
+        bttributeBrobdcbster.removeNotificbtionListener(inlistener);
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,"Exit");
+                    RequiredModelMBebn.clbss.getNbme(),mth,"Exit");
         }
     }
 
-    public void sendAttributeChangeNotification(AttributeChangeNotification
+    public void sendAttributeChbngeNotificbtion(AttributeChbngeNotificbtion
                                                 ntfyObj)
-        throws MBeanException, RuntimeOperationsException {
-        final String mth = "sendAttributeChangeNotification(" +
-                "AttributeChangeNotification)";
+        throws MBebnException, RuntimeOperbtionsException {
+        finbl String mth = "sendAttributeChbngeNotificbtion(" +
+                "AttributeChbngeNotificbtion)";
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,"Entry");
+                    RequiredModelMBebn.clbss.getNbme(),mth,"Entry");
         }
 
         if (ntfyObj == null)
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException(
-                "attribute change notification object must not be null"),
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException(
+                "bttribute chbnge notificbtion object must not be null"),
                 "Exception occurred trying to send "+
-                "attribute change notification of a ModelMBean");
+                "bttribute chbnge notificbtion of b ModelMBebn");
 
-        Object oldv = ntfyObj.getOldValue();
-        Object newv =  ntfyObj.getNewValue();
+        Object oldv = ntfyObj.getOldVblue();
+        Object newv =  ntfyObj.getNewVblue();
 
         if (oldv == null) oldv = "null";
         if (newv == null) newv = "null";
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,
-                "Sending AttributeChangeNotification with " +
-                ntfyObj.getAttributeName() + ntfyObj.getAttributeType() +
-                ntfyObj.getNewValue() + ntfyObj.getOldValue());
+                    RequiredModelMBebn.clbss.getNbme(),mth,
+                "Sending AttributeChbngeNotificbtion with " +
+                ntfyObj.getAttributeNbme() + ntfyObj.getAttributeType() +
+                ntfyObj.getNewVblue() + ntfyObj.getOldVblue());
         }
 
-        // log notification if specified in descriptor
+        // log notificbtion if specified in descriptor
         Descriptor ntfyDesc =
-            modelMBeanInfo.getDescriptor(ntfyObj.getType(),"notification");
-        Descriptor mmbDesc = modelMBeanInfo.getMBeanDescriptor();
+            modelMBebnInfo.getDescriptor(ntfyObj.getType(),"notificbtion");
+        Descriptor mmbDesc = modelMBebnInfo.getMBebnDescriptor();
 
         String logging, logfile;
 
         if (ntfyDesc != null) {
-            logging =(String)  ntfyDesc.getFieldValue("log");
+            logging =(String)  ntfyDesc.getFieldVblue("log");
             if (logging == null) {
                 if (mmbDesc != null)
-                    logging = (String) mmbDesc.getFieldValue("log");
+                    logging = (String) mmbDesc.getFieldVblue("log");
             }
             if ((logging != null) &&
-                ( logging.equalsIgnoreCase("t") ||
-                  logging.equalsIgnoreCase("true"))) {
-                logfile = (String) ntfyDesc.getFieldValue("logfile");
+                ( logging.equblsIgnoreCbse("t") ||
+                  logging.equblsIgnoreCbse("true"))) {
+                logfile = (String) ntfyDesc.getFieldVblue("logfile");
                 if (logfile == null) {
                     if (mmbDesc != null)
-                        logfile = (String)mmbDesc.getFieldValue("logfile");
+                        logfile = (String)mmbDesc.getFieldVblue("logfile");
                 }
 
                 if (logfile != null) {
                     try {
                         writeToLog(logfile,"LogMsg: " +
-                           ((new Date(ntfyObj.getTimeStamp())).toString())+
+                           ((new Dbte(ntfyObj.getTimeStbmp())).toString())+
                            " " + ntfyObj.getType() + " " +
-                           ntfyObj.getMessage() +
-                           " Name = " + ntfyObj.getAttributeName() +
-                           " Old value = " + oldv +
-                           " New value = " + newv);
-                    } catch (Exception e) {
-                        if (MODELMBEAN_LOGGER.isLoggable(Level.FINE)) {
+                           ntfyObj.getMessbge() +
+                           " Nbme = " + ntfyObj.getAttributeNbme() +
+                           " Old vblue = " + oldv +
+                           " New vblue = " + newv);
+                    } cbtch (Exception e) {
+                        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINE)) {
                             MODELMBEAN_LOGGER.logp(Level.FINE,
-                                    RequiredModelMBean.class.getName(),mth,
-                                "Failed to log " + ntfyObj.getType() +
-                                    " notification: ", e);
+                                    RequiredModelMBebn.clbss.getNbme(),mth,
+                                "Fbiled to log " + ntfyObj.getType() +
+                                    " notificbtion: ", e);
                         }
                     }
                 }
             }
         } else if (mmbDesc != null) {
-            logging = (String) mmbDesc.getFieldValue("log");
+            logging = (String) mmbDesc.getFieldVblue("log");
             if ((logging != null) &&
-                ( logging.equalsIgnoreCase("t") ||
-                  logging.equalsIgnoreCase("true") )) {
-                logfile = (String) mmbDesc.getFieldValue("logfile");
+                ( logging.equblsIgnoreCbse("t") ||
+                  logging.equblsIgnoreCbse("true") )) {
+                logfile = (String) mmbDesc.getFieldVblue("logfile");
 
                 if (logfile != null) {
                     try {
                         writeToLog(logfile,"LogMsg: " +
-                           ((new Date(ntfyObj.getTimeStamp())).toString())+
+                           ((new Dbte(ntfyObj.getTimeStbmp())).toString())+
                            " " + ntfyObj.getType() + " " +
-                           ntfyObj.getMessage() +
-                           " Name = " + ntfyObj.getAttributeName() +
-                           " Old value = " + oldv +
-                           " New value = " + newv);
-                    } catch (Exception e) {
-                        if (MODELMBEAN_LOGGER.isLoggable(Level.FINE)) {
+                           ntfyObj.getMessbge() +
+                           " Nbme = " + ntfyObj.getAttributeNbme() +
+                           " Old vblue = " + oldv +
+                           " New vblue = " + newv);
+                    } cbtch (Exception e) {
+                        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINE)) {
                             MODELMBEAN_LOGGER.logp(Level.FINE,
-                                    RequiredModelMBean.class.getName(),mth,
-                                "Failed to log " + ntfyObj.getType() +
-                                    " notification: ", e);
+                                    RequiredModelMBebn.clbss.getNbme(),mth,
+                                "Fbiled to log " + ntfyObj.getType() +
+                                    " notificbtion: ", e);
                         }
                     }
                 }
             }
         }
-        if (attributeBroadcaster != null) {
-            attributeBroadcaster.sendNotification(ntfyObj);
+        if (bttributeBrobdcbster != null) {
+            bttributeBrobdcbster.sendNotificbtion(ntfyObj);
         }
 
-        // XXX Revisit: This is a quickfix: it would be better to have a
-        //     single broadcaster. However, it is not so simple because
-        //     removeAttributeChangeNotificationListener() should
-        //     remove only listeners whose filter is an instanceof
-        //     AttributeChangeNotificationFilter.
+        // XXX Revisit: This is b quickfix: it would be better to hbve b
+        //     single brobdcbster. However, it is not so simple becbuse
+        //     removeAttributeChbngeNotificbtionListener() should
+        //     remove only listeners whose filter is bn instbnceof
+        //     AttributeChbngeNotificbtionFilter.
         //
-        if (generalBroadcaster != null) {
-            generalBroadcaster.sendNotification(ntfyObj);
+        if (generblBrobdcbster != null) {
+            generblBrobdcbster.sendNotificbtion(ntfyObj);
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,
-                "sent notification");
+                    RequiredModelMBebn.clbss.getNbme(),mth,
+                "sent notificbtion");
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,
+                    RequiredModelMBebn.clbss.getNbme(),mth,
                 "Exit");
         }
     }
 
-    public void sendAttributeChangeNotification(Attribute inOldVal,
-                                                Attribute inNewVal)
-        throws MBeanException, RuntimeOperationsException {
-        final String mth =
-            "sendAttributeChangeNotification(Attribute, Attribute)";
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+    public void sendAttributeChbngeNotificbtion(Attribute inOldVbl,
+                                                Attribute inNewVbl)
+        throws MBebnException, RuntimeOperbtionsException {
+        finbl String mth =
+            "sendAttributeChbngeNotificbtion(Attribute, Attribute)";
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,
+                    RequiredModelMBebn.clbss.getNbme(),mth,
                 "Entry");
         }
 
-        // do we really want to do this?
-        if ((inOldVal == null) || (inNewVal == null))
-            throw new RuntimeOperationsException(new
-               IllegalArgumentException("Attribute object must not be null"),
+        // do we reblly wbnt to do this?
+        if ((inOldVbl == null) || (inNewVbl == null))
+            throw new RuntimeOperbtionsException(new
+               IllegblArgumentException("Attribute object must not be null"),
                "Exception occurred trying to send " +
-               "attribute change notification of a ModelMBean");
+               "bttribute chbnge notificbtion of b ModelMBebn");
 
 
-        if (!(inOldVal.getName().equals(inNewVal.getName())))
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Attribute names are not the same"),
+        if (!(inOldVbl.getNbme().equbls(inNewVbl.getNbme())))
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("Attribute nbmes bre not the sbme"),
                 "Exception occurred trying to send " +
-                "attribute change notification of a ModelMBean");
+                "bttribute chbnge notificbtion of b ModelMBebn");
 
 
-        Object newVal = inNewVal.getValue();
-        Object oldVal = inOldVal.getValue();
-        String className = "unknown";
-        if (newVal != null)
-            className = newVal.getClass().getName();
-        if (oldVal != null)
-            className = oldVal.getClass().getName();
+        Object newVbl = inNewVbl.getVblue();
+        Object oldVbl = inOldVbl.getVblue();
+        String clbssNbme = "unknown";
+        if (newVbl != null)
+            clbssNbme = newVbl.getClbss().getNbme();
+        if (oldVbl != null)
+            clbssNbme = oldVbl.getClbss().getNbme();
 
-        AttributeChangeNotification myNtfyObj = new
-            AttributeChangeNotification(this,
+        AttributeChbngeNotificbtion myNtfyObj = new
+            AttributeChbngeNotificbtion(this,
                                         1,
-                                        ((new Date()).getTime()),
-                                        "AttributeChangeDetected",
-                                        inOldVal.getName(),
-                                        className,
-                                        inOldVal.getValue(),
-                                        inNewVal.getValue());
+                                        ((new Dbte()).getTime()),
+                                        "AttributeChbngeDetected",
+                                        inOldVbl.getNbme(),
+                                        clbssNbme,
+                                        inOldVbl.getVblue(),
+                                        inNewVbl.getVblue());
 
-        sendAttributeChangeNotification(myNtfyObj);
+        sendAttributeChbngeNotificbtion(myNtfyObj);
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),mth,
+                    RequiredModelMBebn.clbss.getNbme(),mth,
                 "Exit");
         }
 
     }
 
     /**
-     * Return the Class Loader Repository used to perform class loading.
-     * Subclasses may wish to redefine this method in order to return
-     * the appropriate {@link javax.management.loading.ClassLoaderRepository}
-     * that should be used in this object.
+     * Return the Clbss Lobder Repository used to perform clbss lobding.
+     * Subclbsses mby wish to redefine this method in order to return
+     * the bppropribte {@link jbvbx.mbnbgement.lobding.ClbssLobderRepository}
+     * thbt should be used in this object.
      *
-     * @return the Class Loader Repository.
+     * @return the Clbss Lobder Repository.
      *
      */
-    protected ClassLoaderRepository getClassLoaderRepository() {
-        return MBeanServerFactory.getClassLoaderRepository(server);
+    protected ClbssLobderRepository getClbssLobderRepository() {
+        return MBebnServerFbctory.getClbssLobderRepository(server);
     }
 
-    private Class<?> loadClass(final String className)
-        throws ClassNotFoundException {
-        AccessControlContext stack = AccessController.getContext();
-        final ClassNotFoundException[] caughtException = new ClassNotFoundException[1];
+    privbte Clbss<?> lobdClbss(finbl String clbssNbme)
+        throws ClbssNotFoundException {
+        AccessControlContext stbck = AccessController.getContext();
+        finbl ClbssNotFoundException[] cbughtException = new ClbssNotFoundException[1];
 
-        Class<?> c = javaSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Class<?>>() {
+        Clbss<?> c = jbvbSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Clbss<?>>() {
 
             @Override
-            public Class<?> run() {
+            public Clbss<?> run() {
                 try {
-                    ReflectUtil.checkPackageAccess(className);
-                    return Class.forName(className);
-                } catch (ClassNotFoundException e) {
-                    final ClassLoaderRepository clr =
-                        getClassLoaderRepository();
+                    ReflectUtil.checkPbckbgeAccess(clbssNbme);
+                    return Clbss.forNbme(clbssNbme);
+                } cbtch (ClbssNotFoundException e) {
+                    finbl ClbssLobderRepository clr =
+                        getClbssLobderRepository();
                     try {
-                        if (clr == null) throw new ClassNotFoundException(className);
-                        return clr.loadClass(className);
-                    } catch (ClassNotFoundException ex) {
-                        caughtException[0] = ex;
+                        if (clr == null) throw new ClbssNotFoundException(clbssNbme);
+                        return clr.lobdClbss(clbssNbme);
+                    } cbtch (ClbssNotFoundException ex) {
+                        cbughtException[0] = ex;
                     }
                 }
                 return null;
             }
-        }, stack, acc);
+        }, stbck, bcc);
 
-        if (caughtException[0] != null) {
-            throw caughtException[0];
+        if (cbughtException[0] != null) {
+            throw cbughtException[0];
         }
 
         return c;
@@ -2885,123 +2885,123 @@ public class RequiredModelMBean
 
 
     /*************************************/
-    /* MBeanRegistration Interface       */
+    /* MBebnRegistrbtion Interfbce       */
     /*************************************/
 
     /**
-     * Allows the MBean to perform any operations it needs before
-     * being registered in the MBean server.  If the name of the MBean
-     * is not specified, the MBean can provide a name for its
-     * registration.  If any exception is raised, the MBean will not be
-     * registered in the MBean server.
+     * Allows the MBebn to perform bny operbtions it needs before
+     * being registered in the MBebn server.  If the nbme of the MBebn
+     * is not specified, the MBebn cbn provide b nbme for its
+     * registrbtion.  If bny exception is rbised, the MBebn will not be
+     * registered in the MBebn server.
      * <P>
-     * In order to ensure proper run-time semantics of RequireModelMBean,
-     * Any subclass of RequiredModelMBean overloading or overriding this
-     * method should call <code>super.preRegister(server, name)</code>
-     * in its own <code>preRegister</code> implementation.
+     * In order to ensure proper run-time sembntics of RequireModelMBebn,
+     * Any subclbss of RequiredModelMBebn overlobding or overriding this
+     * method should cbll <code>super.preRegister(server, nbme)</code>
+     * in its own <code>preRegister</code> implementbtion.
      *
-     * @param server The MBean server in which the MBean will be registered.
+     * @pbrbm server The MBebn server in which the MBebn will be registered.
      *
-     * @param name The object name of the MBean.  This name is null if
-     * the name parameter to one of the <code>createMBean</code> or
-     * <code>registerMBean</code> methods in the {@link MBeanServer}
-     * interface is null.  In that case, this method must return a
-     * non-null ObjectName for the new MBean.
+     * @pbrbm nbme The object nbme of the MBebn.  This nbme is null if
+     * the nbme pbrbmeter to one of the <code>crebteMBebn</code> or
+     * <code>registerMBebn</code> methods in the {@link MBebnServer}
+     * interfbce is null.  In thbt cbse, this method must return b
+     * non-null ObjectNbme for the new MBebn.
      *
-     * @return The name under which the MBean is to be registered.
-     * This value must not be null.  If the <code>name</code>
-     * parameter is not null, it will usually but not necessarily be
-     * the returned value.
+     * @return The nbme under which the MBebn is to be registered.
+     * This vblue must not be null.  If the <code>nbme</code>
+     * pbrbmeter is not null, it will usublly but not necessbrily be
+     * the returned vblue.
      *
-     * @exception java.lang.Exception This exception will be caught by
-     * the MBean server and re-thrown as an
-     * {@link javax.management.MBeanRegistrationException
-     * MBeanRegistrationException}.
+     * @exception jbvb.lbng.Exception This exception will be cbught by
+     * the MBebn server bnd re-thrown bs bn
+     * {@link jbvbx.mbnbgement.MBebnRegistrbtionException
+     * MBebnRegistrbtionException}.
      */
-    public ObjectName preRegister(MBeanServer server,
-                                  ObjectName name)
-        throws java.lang.Exception  {
-        // Since ModelMbeanInfo cannot be null (otherwise exception
-        // thrown at creation)
-        // no exception thrown on ModelMBeanInfo not set.
-        if (name == null) throw new NullPointerException(
-                     "name of RequiredModelMBean to registered is null");
+    public ObjectNbme preRegister(MBebnServer server,
+                                  ObjectNbme nbme)
+        throws jbvb.lbng.Exception  {
+        // Since ModelMbebnInfo cbnnot be null (otherwise exception
+        // thrown bt crebtion)
+        // no exception thrown on ModelMBebnInfo not set.
+        if (nbme == null) throw new NullPointerException(
+                     "nbme of RequiredModelMBebn to registered is null");
         this.server = server;
-        return name;
+        return nbme;
     }
 
     /**
-     * Allows the MBean to perform any operations needed after having been
-     * registered in the MBean server or after the registration has failed.
+     * Allows the MBebn to perform bny operbtions needed bfter hbving been
+     * registered in the MBebn server or bfter the registrbtion hbs fbiled.
      * <P>
-     * In order to ensure proper run-time semantics of RequireModelMBean,
-     * Any subclass of RequiredModelMBean overloading or overriding this
-     * method should call <code>super.postRegister(registrationDone)</code>
-     * in its own <code>postRegister</code> implementation.
+     * In order to ensure proper run-time sembntics of RequireModelMBebn,
+     * Any subclbss of RequiredModelMBebn overlobding or overriding this
+     * method should cbll <code>super.postRegister(registrbtionDone)</code>
+     * in its own <code>postRegister</code> implementbtion.
      *
-     * @param registrationDone Indicates whether or not the MBean has
-     * been successfully registered in the MBean server. The value
-     * false means that the registration phase has failed.
+     * @pbrbm registrbtionDone Indicbtes whether or not the MBebn hbs
+     * been successfully registered in the MBebn server. The vblue
+     * fblse mebns thbt the registrbtion phbse hbs fbiled.
      */
-    public void postRegister(Boolean registrationDone) {
-        registered = registrationDone.booleanValue();
+    public void postRegister(Boolebn registrbtionDone) {
+        registered = registrbtionDone.boolebnVblue();
     }
 
     /**
-     * Allows the MBean to perform any operations it needs before
-     * being unregistered by the MBean server.
+     * Allows the MBebn to perform bny operbtions it needs before
+     * being unregistered by the MBebn server.
      * <P>
-     * In order to ensure proper run-time semantics of RequireModelMBean,
-     * Any subclass of RequiredModelMBean overloading or overriding this
-     * method should call <code>super.preDeregister()</code> in its own
-     * <code>preDeregister</code> implementation.
+     * In order to ensure proper run-time sembntics of RequireModelMBebn,
+     * Any subclbss of RequiredModelMBebn overlobding or overriding this
+     * method should cbll <code>super.preDeregister()</code> in its own
+     * <code>preDeregister</code> implementbtion.
      *
-     * @exception java.lang.Exception This exception will be caught by
-     * the MBean server and re-thrown as an
-     * {@link javax.management.MBeanRegistrationException
-     * MBeanRegistrationException}.
+     * @exception jbvb.lbng.Exception This exception will be cbught by
+     * the MBebn server bnd re-thrown bs bn
+     * {@link jbvbx.mbnbgement.MBebnRegistrbtionException
+     * MBebnRegistrbtionException}.
      */
-    public void preDeregister() throws java.lang.Exception {
+    public void preDeregister() throws jbvb.lbng.Exception {
     }
 
     /**
-     * Allows the MBean to perform any operations needed after having been
-     * unregistered in the MBean server.
+     * Allows the MBebn to perform bny operbtions needed bfter hbving been
+     * unregistered in the MBebn server.
      * <P>
-     * In order to ensure proper run-time semantics of RequireModelMBean,
-     * Any subclass of RequiredModelMBean overloading or overriding this
-     * method should call <code>super.postDeregister()</code> in its own
-     * <code>postDeregister</code> implementation.
+     * In order to ensure proper run-time sembntics of RequireModelMBebn,
+     * Any subclbss of RequiredModelMBebn overlobding or overriding this
+     * method should cbll <code>super.postDeregister()</code> in its own
+     * <code>postDeregister</code> implementbtion.
      */
     public void postDeregister() {
-        registered = false;
+        registered = fblse;
         this.server=null;
     }
 
-    private static final String[] primitiveTypes;
-    private static final String[] primitiveWrappers;
-    static {
+    privbte stbtic finbl String[] primitiveTypes;
+    privbte stbtic finbl String[] primitiveWrbppers;
+    stbtic {
         primitiveTypes = new String[] {
-            Boolean.TYPE.getName(),
-            Byte.TYPE.getName(),
-            Character.TYPE.getName(),
-            Short.TYPE.getName(),
-            Integer.TYPE.getName(),
-            Long.TYPE.getName(),
-            Float.TYPE.getName(),
-            Double.TYPE.getName(),
-            Void.TYPE.getName()
+            Boolebn.TYPE.getNbme(),
+            Byte.TYPE.getNbme(),
+            Chbrbcter.TYPE.getNbme(),
+            Short.TYPE.getNbme(),
+            Integer.TYPE.getNbme(),
+            Long.TYPE.getNbme(),
+            Flobt.TYPE.getNbme(),
+            Double.TYPE.getNbme(),
+            Void.TYPE.getNbme()
         };
-        primitiveWrappers = new String[] {
-            Boolean.class.getName(),
-            Byte.class.getName(),
-            Character.class.getName(),
-            Short.class.getName(),
-            Integer.class.getName(),
-            Long.class.getName(),
-            Float.class.getName(),
-            Double.class.getName(),
-            Void.class.getName()
+        primitiveWrbppers = new String[] {
+            Boolebn.clbss.getNbme(),
+            Byte.clbss.getNbme(),
+            Chbrbcter.clbss.getNbme(),
+            Short.clbss.getNbme(),
+            Integer.clbss.getNbme(),
+            Long.clbss.getNbme(),
+            Flobt.clbss.getNbme(),
+            Double.clbss.getNbme(),
+            Void.clbss.getNbme()
         };
     }
 }

@@ -1,277 +1,277 @@
 <!--
- Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ This code is free softwbre; you cbn redistribute it bnd/or modify it
+ under the terms of the GNU Generbl Public License version 2 only, bs
+ published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ by Orbcle in the LICENSE file thbt bccompbnied this code.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ This code is distributed in the hope thbt it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ version 2 for more detbils (b copy is included in the LICENSE file thbt
+ bccompbnied this code).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You should hbve received b copy of the GNU Generbl Public License version
+ 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
+ Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  questions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
-<head>
+<hebd>
 <!--
 
   Copyright 2003 Wily Technology, Inc.
 
 -->
-</head>
+</hebd>
 
 <body bgcolor="white">
 
-Provides services that allow Java programming language agents to instrument programs running on the JVM. 
-The mechanism for instrumentation is modification of the byte-codes of methods.
+Provides services thbt bllow Jbvb progrbmming lbngubge bgents to instrument progrbms running on the JVM. 
+The mechbnism for instrumentbtion is modificbtion of the byte-codes of methods.
 
-<h2>Package Specification</h2>
+<h2>Pbckbge Specificbtion</h2>
 
 <P> 
-An agent is deployed as a JAR file. An attribute in the JAR file manifest specifies the
-agent class which will be loaded to start the agent. For implementations that support a command-line 
-interface, an agent is started by specifying an option on the command-line.  
-Implementations may also support a mechanism to start agents some time after the VM has
-started. For example, an implementation may provide a mechanism that allows a tool to 
-<i>attach</i> to a running application, and initiate the loading of the tool's agent into
-the running application. The details as to how the load is initiated, is implementation
+An bgent is deployed bs b JAR file. An bttribute in the JAR file mbnifest specifies the
+bgent clbss which will be lobded to stbrt the bgent. For implementbtions thbt support b commbnd-line 
+interfbce, bn bgent is stbrted by specifying bn option on the commbnd-line.  
+Implementbtions mby blso support b mechbnism to stbrt bgents some time bfter the VM hbs
+stbrted. For exbmple, bn implementbtion mby provide b mechbnism thbt bllows b tool to 
+<i>bttbch</i> to b running bpplicbtion, bnd initibte the lobding of the tool's bgent into
+the running bpplicbtion. The detbils bs to how the lobd is initibted, is implementbtion
 dependent.
 
-<h3>Command-Line Interface</h3>
+<h3>Commbnd-Line Interfbce</h3>
 
 <P> 
-An implementation is not required to provide a way to start agents from the
-command-line interface. On implementations that do provide a way to start agents
-from the command-line interface, an agent is started by adding this option to
-the command-line:
+An implementbtion is not required to provide b wby to stbrt bgents from the
+commbnd-line interfbce. On implementbtions thbt do provide b wby to stbrt bgents
+from the commbnd-line interfbce, bn bgent is stbrted by bdding this option to
+the commbnd-line:
 <blockquote>
-<code><b>-javaagent:</b></code><i>jarpath[</i><code><b>=</b></code><i>options]</i>
+<code><b>-jbvbbgent:</b></code><i>jbrpbth[</i><code><b>=</b></code><i>options]</i>
 </blockquote>
-<i>jarpath</i> is the path to the agent JAR file.
-<i>options</i> is the agent options.
-This switch may be used multiple times on the same command-line, 
-thus creating multiple agents.
-More than one agent may use the same <i>jarpath</i>.
-An agent JAR file must conform to the JAR file specification.
+<i>jbrpbth</i> is the pbth to the bgent JAR file.
+<i>options</i> is the bgent options.
+This switch mby be used multiple times on the sbme commbnd-line, 
+thus crebting multiple bgents.
+More thbn one bgent mby use the sbme <i>jbrpbth</i>.
+An bgent JAR file must conform to the JAR file specificbtion.
 
 <P>
-The manifest of the agent JAR file must contain the attribute <code>Premain-Class</code>. The
-value of this attribute is the name of the <i>agent class</i>. The agent class must implement a 
-public static <code>premain</code> method similar in principle to the <code>main</code> application 
-entry point.  After the Java Virtual Machine (JVM) has initialized, each <code>premain</code> method 
-will be called in the order the agents were specified, then the real application
-<code>main</code> method will be called. 
-Each <code>premain</code> method must return in order for the startup sequence to proceed.
+The mbnifest of the bgent JAR file must contbin the bttribute <code>Prembin-Clbss</code>. The
+vblue of this bttribute is the nbme of the <i>bgent clbss</i>. The bgent clbss must implement b 
+public stbtic <code>prembin</code> method similbr in principle to the <code>mbin</code> bpplicbtion 
+entry point.  After the Jbvb Virtubl Mbchine (JVM) hbs initiblized, ebch <code>prembin</code> method 
+will be cblled in the order the bgents were specified, then the rebl bpplicbtion
+<code>mbin</code> method will be cblled. 
+Ebch <code>prembin</code> method must return in order for the stbrtup sequence to proceed.
 
 <P>
-The <code>premain</code> method has one of two possible signatures. The JVM first attempts to
-invoke the following method on the agent class:
+The <code>prembin</code> method hbs one of two possible signbtures. The JVM first bttempts to
+invoke the following method on the bgent clbss:
 
 <blockquote>
-<code>public static void
-premain(String agentArgs, Instrumentation inst);
+<code>public stbtic void
+prembin(String bgentArgs, Instrumentbtion inst);
 </code>
 </blockquote>
 
 <P>
-If the agent class does not implement this method then the JVM will attempt to invoke:
+If the bgent clbss does not implement this method then the JVM will bttempt to invoke:
 
 <blockquote>
-<code>public static void
-premain(String agentArgs);
+<code>public stbtic void
+prembin(String bgentArgs);
 </code>
 </blockquote>
 
 <P>
-The agent class may also have an <code>agentmain</code> method for use when the agent is started 
-after VM startup. When the agent is started using a command-line option, the <code>agentmain</code>
+The bgent clbss mby blso hbve bn <code>bgentmbin</code> method for use when the bgent is stbrted 
+bfter VM stbrtup. When the bgent is stbrted using b commbnd-line option, the <code>bgentmbin</code>
 method is not invoked.
 
 
 <P>
-The agent class will be loaded by the system class loader
-(see {@link java.lang.ClassLoader#getSystemClassLoader ClassLoader.getSystemClassLoader}). This is
-the class loader which typically loads the class containing the application <code>main</code> method.
-The <code>premain</code> methods will be run under the same security and classloader 
-rules as the application <code>main</code> method.
-There are no modeling restrictions on what the agent <code>premain</code> method may do.
-Anything application <code>main</code> can do, including creating threads, is legal from <code>premain</code>.
+The bgent clbss will be lobded by the system clbss lobder
+(see {@link jbvb.lbng.ClbssLobder#getSystemClbssLobder ClbssLobder.getSystemClbssLobder}). This is
+the clbss lobder which typicblly lobds the clbss contbining the bpplicbtion <code>mbin</code> method.
+The <code>prembin</code> methods will be run under the sbme security bnd clbsslobder 
+rules bs the bpplicbtion <code>mbin</code> method.
+There bre no modeling restrictions on whbt the bgent <code>prembin</code> method mby do.
+Anything bpplicbtion <code>mbin</code> cbn do, including crebting threbds, is legbl from <code>prembin</code>.
 
 <P>
-Each agent is passed its agent options via the <code>agentArgs</code> parameter.
-The agent options are passed as a single string,
-any additional parsing should be performed by the agent itself.
+Ebch bgent is pbssed its bgent options vib the <code>bgentArgs</code> pbrbmeter.
+The bgent options bre pbssed bs b single string,
+bny bdditionbl pbrsing should be performed by the bgent itself.
 
 <P>
-If the agent cannot be resolved 
-(for example, because the agent class cannot be loaded,
-or because the agent class does not have an appropriate <code>premain</code> method), the JVM will abort.
-If a <code>premain</code> method throws an uncaught exception, the JVM will abort.
+If the bgent cbnnot be resolved 
+(for exbmple, becbuse the bgent clbss cbnnot be lobded,
+or becbuse the bgent clbss does not hbve bn bppropribte <code>prembin</code> method), the JVM will bbort.
+If b <code>prembin</code> method throws bn uncbught exception, the JVM will bbort.
 
 
 
-<h3>Starting Agents After VM Startup</h3>
+<h3>Stbrting Agents After VM Stbrtup</h3>
 
 <p>
-An implementation may provide a mechanism to start agents sometime after the
-the VM has started. The details as to how this is initiated are implementation 
-specific but typically the application has already started and its <code>
-main</code> method has already been invoked. In cases where an implementation
-supports the starting of agents after the VM has started the following applies:
+An implementbtion mby provide b mechbnism to stbrt bgents sometime bfter the
+the VM hbs stbrted. The detbils bs to how this is initibted bre implementbtion 
+specific but typicblly the bpplicbtion hbs blrebdy stbrted bnd its <code>
+mbin</code> method hbs blrebdy been invoked. In cbses where bn implementbtion
+supports the stbrting of bgents bfter the VM hbs stbrted the following bpplies:
 
 <ol>
-  <li><p>The manifest of the agent JAR must contain the attribute <code>Agent-Class</code>. 
-      The value of this attribute is the name of the <i>agent class</i>. </p></li> 
+  <li><p>The mbnifest of the bgent JAR must contbin the bttribute <code>Agent-Clbss</code>. 
+      The vblue of this bttribute is the nbme of the <i>bgent clbss</i>. </p></li> 
       
-  <li><p>The agent class must implement a public static <code>agentmain</code> method. </p></li>
+  <li><p>The bgent clbss must implement b public stbtic <code>bgentmbin</code> method. </p></li>
 
-  <li><p>The system class loader (
-      {@link java.lang.ClassLoader#getSystemClassLoader ClassLoader.getSystemClassLoader}) must
-      support a mechanism to add an agent JAR file to the system class path.</li>
+  <li><p>The system clbss lobder (
+      {@link jbvb.lbng.ClbssLobder#getSystemClbssLobder ClbssLobder.getSystemClbssLobder}) must
+      support b mechbnism to bdd bn bgent JAR file to the system clbss pbth.</li>
 </ol>  
 
 <P>
-The agent JAR is appended to the system class path. This is the class loader that typically loads 
-the class containing the application <code>main</code> method. The agent class is loaded and the
-JVM attempts to invoke the <code>agentmain</code> method. The JVM first attempts to invoke 
-the following method on the agent class:
+The bgent JAR is bppended to the system clbss pbth. This is the clbss lobder thbt typicblly lobds 
+the clbss contbining the bpplicbtion <code>mbin</code> method. The bgent clbss is lobded bnd the
+JVM bttempts to invoke the <code>bgentmbin</code> method. The JVM first bttempts to invoke 
+the following method on the bgent clbss:
 
 <blockquote>
-<code>public static void
-agentmain(String agentArgs, Instrumentation inst);
+<code>public stbtic void
+bgentmbin(String bgentArgs, Instrumentbtion inst);
 </code>
 </blockquote>
 
 <P>
-If the agent class does not implement this method then the JVM will attempt to invoke:
+If the bgent clbss does not implement this method then the JVM will bttempt to invoke:
 
 <blockquote>
-<code>public static void
-agentmain(String agentArgs);
+<code>public stbtic void
+bgentmbin(String bgentArgs);
 </code>
 </blockquote>
 
 <P>
-The agent class may also have an <code>premain</code> method for use when the agent is started
-using a command-line option. When the agent is started after VM startup the <code>premain</code>
+The bgent clbss mby blso hbve bn <code>prembin</code> method for use when the bgent is stbrted
+using b commbnd-line option. When the bgent is stbrted bfter VM stbrtup the <code>prembin</code>
 method is not invoked.
 
 
 <P>
-The agent is passed its agent options via the <code>agentArgs</code> parameter.
-The agent options are passed as a single string,
-any additional parsing should be performed by the agent itself. 
+The bgent is pbssed its bgent options vib the <code>bgentArgs</code> pbrbmeter.
+The bgent options bre pbssed bs b single string,
+bny bdditionbl pbrsing should be performed by the bgent itself. 
 
 <P>
-The <code>agentmain</code> method should do any necessary initialization 
-required to start the agent. When startup is complete the method should 
-return. If the agent cannot be started
-(for example, because the agent class cannot be loaded,
-or because the agent class does not have a conformant <code>agentmain</code> method), the JVM will
-not abort. If the <code>agentmain</code> method throws an uncaught exception it will be ignored.
+The <code>bgentmbin</code> method should do bny necessbry initiblizbtion 
+required to stbrt the bgent. When stbrtup is complete the method should 
+return. If the bgent cbnnot be stbrted
+(for exbmple, becbuse the bgent clbss cbnnot be lobded,
+or becbuse the bgent clbss does not hbve b conformbnt <code>bgentmbin</code> method), the JVM will
+not bbort. If the <code>bgentmbin</code> method throws bn uncbught exception it will be ignored.
 
 
 
-<h3>Manifest Attributes</h3>
-The following manifest attributes are defined for an agent JAR file:
+<h3>Mbnifest Attributes</h3>
+The following mbnifest bttributes bre defined for bn bgent JAR file:
 <blockquote>
 <dl>
-<dt><code>Premain-Class</code></dt>
+<dt><code>Prembin-Clbss</code></dt>
 <dd>
-                        When an agent is specified at JVM launch time this attribute
-			specifies the agent class.
-			That is, the class containing the <code>premain</code> method.
-                        When an agent is specified at JVM launch time this attribute
-			is required. If the attribute is not present the JVM will abort.
-                        Note: this is a class name, not a file name or path.							
+                        When bn bgent is specified bt JVM lbunch time this bttribute
+			specifies the bgent clbss.
+			Thbt is, the clbss contbining the <code>prembin</code> method.
+                        When bn bgent is specified bt JVM lbunch time this bttribute
+			is required. If the bttribute is not present the JVM will bbort.
+                        Note: this is b clbss nbme, not b file nbme or pbth.							
 </dd>
 
-<dt><code>Agent-Class</code></dt>
+<dt><code>Agent-Clbss</code></dt>
 <dd>
-                        If an implementation supports a mechanism to start agents 
-                        sometime after the VM has started then this attribute specifies
-                        the agent class.
-                        That is, the class containing the <code>agentmain</code> method.
-                        This attribute is required, if it is not present the agent
-                        will not be started.
-                        Note: this is a class name, not a file name or path.
+                        If bn implementbtion supports b mechbnism to stbrt bgents 
+                        sometime bfter the VM hbs stbrted then this bttribute specifies
+                        the bgent clbss.
+                        Thbt is, the clbss contbining the <code>bgentmbin</code> method.
+                        This bttribute is required, if it is not present the bgent
+                        will not be stbrted.
+                        Note: this is b clbss nbme, not b file nbme or pbth.
 </dd>			
 
-<dt><code>Boot-Class-Path</code></dt>
+<dt><code>Boot-Clbss-Pbth</code></dt>
 <dd>
-                        A list of paths to be searched by the bootstrap class
-                        loader. Paths represent directories or libraries
-                        (commonly referred to as JAR or zip libraries on
-                        many platforms). 			
-                        These paths are searched by the
-                        bootstrap class loader after the platform specific
-                        mechanisms of locating a class have failed.
-                        Paths are searched in the order listed.
-                        Paths in the list are separated by one or more spaces.
-                        A path takes the syntax of the path component of a
-                        hierarchical URI. The path is
-                        absolute if it begins with a slash character ('/'),
-                        otherwise it is relative. A relative path is resolved
-                        against the absolute path of the agent JAR file.
-                        Malformed and non-existent paths are ignored.	
-			When an agent is started sometime after the VM has
-			started then paths that do not represent a JAR file
-			are ignored.
-                        This attribute is optional.
+                        A list of pbths to be sebrched by the bootstrbp clbss
+                        lobder. Pbths represent directories or librbries
+                        (commonly referred to bs JAR or zip librbries on
+                        mbny plbtforms). 			
+                        These pbths bre sebrched by the
+                        bootstrbp clbss lobder bfter the plbtform specific
+                        mechbnisms of locbting b clbss hbve fbiled.
+                        Pbths bre sebrched in the order listed.
+                        Pbths in the list bre sepbrbted by one or more spbces.
+                        A pbth tbkes the syntbx of the pbth component of b
+                        hierbrchicbl URI. The pbth is
+                        bbsolute if it begins with b slbsh chbrbcter ('/'),
+                        otherwise it is relbtive. A relbtive pbth is resolved
+                        bgbinst the bbsolute pbth of the bgent JAR file.
+                        Mblformed bnd non-existent pbths bre ignored.	
+			When bn bgent is stbrted sometime bfter the VM hbs
+			stbrted then pbths thbt do not represent b JAR file
+			bre ignored.
+                        This bttribute is optionbl.
 </dd>
-<dt><code>Can-Redefine-Classes</code></dt>
+<dt><code>Cbn-Redefine-Clbsses</code></dt>
 <dd>
-                        Boolean (<code>true</code> or <code>false</code>, case irrelevant).
-                        Is the ability to redefine classes
-                        needed by this agent.
-                        Values other than <code>true</code> are considered <code>false</code>.
-                        This attribute is optional, the default is <code>false</code>.
+                        Boolebn (<code>true</code> or <code>fblse</code>, cbse irrelevbnt).
+                        Is the bbility to redefine clbsses
+                        needed by this bgent.
+                        Vblues other thbn <code>true</code> bre considered <code>fblse</code>.
+                        This bttribute is optionbl, the defbult is <code>fblse</code>.
 </dd>
-<dt><code>Can-Retransform-Classes</code></dt>
+<dt><code>Cbn-Retrbnsform-Clbsses</code></dt>
 <dd>
-                        Boolean (<code>true</code> or <code>false</code>, case irrelevant).
-                        Is the ability to retransform classes
-                        needed by this agent.
-                        Values other than <code>true</code> are considered <code>false</code>.
-                        This attribute is optional, the default is <code>false</code>.
+                        Boolebn (<code>true</code> or <code>fblse</code>, cbse irrelevbnt).
+                        Is the bbility to retrbnsform clbsses
+                        needed by this bgent.
+                        Vblues other thbn <code>true</code> bre considered <code>fblse</code>.
+                        This bttribute is optionbl, the defbult is <code>fblse</code>.
 </dd>
-<dt><code>Can-Set-Native-Method-Prefix</code></dt>
+<dt><code>Cbn-Set-Nbtive-Method-Prefix</code></dt>
 <dd>
-                        Boolean (<code>true</code> or <code>false</code>, case irrelevant).
-                        Is the ability to set native method prefix needed by this agent.
-                        Values other than <code>true</code> are considered <code>false</code>.
-                        This attribute is optional, the default is <code>false</code>.
+                        Boolebn (<code>true</code> or <code>fblse</code>, cbse irrelevbnt).
+                        Is the bbility to set nbtive method prefix needed by this bgent.
+                        Vblues other thbn <code>true</code> bre considered <code>fblse</code>.
+                        This bttribute is optionbl, the defbult is <code>fblse</code>.
 </dd>
 </dl>
 </blockquote>
 
 <p> 
-An agent JAR file may have both the <code>Premain-Class</code> and <code>Agent-Class</code>
-attributes present in the manifest. When the agent is started on the command-line using
-the <code>-javaagent</code> option then the <code>Premain-Class</code> attribute
-specifies the name of the agent class and the <code>Agent-Class</code> attribute is
-ignored. Similarly, if the agent is started sometime after the VM has started, then
-the <code>Agent-Class</code> attribute specifies the name of the agent class
-(the value of <code>Premain-Class</code> attribute is ignored).
+An bgent JAR file mby hbve both the <code>Prembin-Clbss</code> bnd <code>Agent-Clbss</code>
+bttributes present in the mbnifest. When the bgent is stbrted on the commbnd-line using
+the <code>-jbvbbgent</code> option then the <code>Prembin-Clbss</code> bttribute
+specifies the nbme of the bgent clbss bnd the <code>Agent-Clbss</code> bttribute is
+ignored. Similbrly, if the bgent is stbrted sometime bfter the VM hbs stbrted, then
+the <code>Agent-Clbss</code> bttribute specifies the nbme of the bgent clbss
+(the vblue of <code>Prembin-Clbss</code> bttribute is ignored).
 
-<h2>Related Documentation</h2>
+<h2>Relbted Documentbtion</h2>
 
-For tool documentation, please see:
+For tool documentbtion, plebse see:
 <ul>
-  <li><a href="{@docRoot}/../technotes/tools/index.html">JDK Tools and Utilities</a>
+  <li><b href="{@docRoot}/../technotes/tools/index.html">JDK Tools bnd Utilities</b>
 </ul>
 
 @since 1.5

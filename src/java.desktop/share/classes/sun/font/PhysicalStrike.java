@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.bwt.Font;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
 
 
-public abstract class PhysicalStrike extends FontStrike {
+public bbstrbct clbss PhysicblStrike extends FontStrike {
 
-    static final long INTMASK = 0xffffffffL;
-    static boolean longAddresses;
-    static {
-        switch (StrikeCache.nativeAddressSize) {
-        case 8: longAddresses = true; break;
-        case 4: longAddresses = false; break;
-        default: throw new RuntimeException("Unexpected address size");
+    stbtic finbl long INTMASK = 0xffffffffL;
+    stbtic boolebn longAddresses;
+    stbtic {
+        switch (StrikeCbche.nbtiveAddressSize) {
+        cbse 8: longAddresses = true; brebk;
+        cbse 4: longAddresses = fblse; brebk;
+        defbult: throw new RuntimeException("Unexpected bddress size");
         }
     }
 
-    private PhysicalFont physicalFont;
-    protected CharToGlyphMapper mapper;
-    /* the ScalerContext is a native structure pre-filled with the
-     * info needed to setup the scaler for this strike. Its immutable
-     * so we set it up when the strike is created and free it when the
-     * strike is disposed. There's then no need to pass the info down
-     * separately to native on every call to the scaler.
+    privbte PhysicblFont physicblFont;
+    protected ChbrToGlyphMbpper mbpper;
+    /* the ScblerContext is b nbtive structure pre-filled with the
+     * info needed to setup the scbler for this strike. Its immutbble
+     * so we set it up when the strike is crebted bnd free it when the
+     * strike is disposed. There's then no need to pbss the info down
+     * sepbrbtely to nbtive on every cbll to the scbler.
      */
-    protected long pScalerContext;
+    protected long pScblerContext;
 
-    /* Only one of these two arrays is non-null.
-     * use the one that matches size of an address (32 or 64 bits)
+    /* Only one of these two brrbys is non-null.
+     * use the one thbt mbtches size of bn bddress (32 or 64 bits)
      */
-    protected long[] longGlyphImages;
-    protected int[] intGlyphImages;
+    protected long[] longGlyphImbges;
+    protected int[] intGlyphImbges;
 
-    /* Used by the TrueTypeFont subclass, which is the only client
-     * of getGlyphPoint(). The field and method are here because
-     * there is no TrueTypeFontStrike subclass.
-     * This map is a cache of the positions of points on the outline
-     * of a TrueType glyph. It is used by the OpenType layout engine
-     * to perform mark positioning. Without this cache every position
-     * request involves scaling and hinting the glyph outline potentially
-     * over and over again.
+    /* Used by the TrueTypeFont subclbss, which is the only client
+     * of getGlyphPoint(). The field bnd method bre here becbuse
+     * there is no TrueTypeFontStrike subclbss.
+     * This mbp is b cbche of the positions of points on the outline
+     * of b TrueType glyph. It is used by the OpenType lbyout engine
+     * to perform mbrk positioning. Without this cbche every position
+     * request involves scbling bnd hinting the glyph outline potentiblly
+     * over bnd over bgbin.
      */
-    ConcurrentHashMap<Integer, Point2D.Float> glyphPointMapCache;
+    ConcurrentHbshMbp<Integer, Point2D.Flobt> glyphPointMbpCbche;
 
-    protected boolean getImageWithAdvance;
-    protected static final int complexTX =
-        AffineTransform.TYPE_FLIP |
-        AffineTransform.TYPE_GENERAL_SCALE |
-        AffineTransform.TYPE_GENERAL_ROTATION |
-        AffineTransform.TYPE_GENERAL_TRANSFORM |
-        AffineTransform.TYPE_QUADRANT_ROTATION;
+    protected boolebn getImbgeWithAdvbnce;
+    protected stbtic finbl int complexTX =
+        AffineTrbnsform.TYPE_FLIP |
+        AffineTrbnsform.TYPE_GENERAL_SCALE |
+        AffineTrbnsform.TYPE_GENERAL_ROTATION |
+        AffineTrbnsform.TYPE_GENERAL_TRANSFORM |
+        AffineTrbnsform.TYPE_QUADRANT_ROTATION;
 
-    PhysicalStrike(PhysicalFont physicalFont, FontStrikeDesc desc) {
-        this.physicalFont = physicalFont;
+    PhysicblStrike(PhysicblFont physicblFont, FontStrikeDesc desc) {
+        this.physicblFont = physicblFont;
         this.desc = desc;
     }
 
-    protected PhysicalStrike() {
+    protected PhysicblStrike() {
     }
-    /* A number of methods are delegated by the strike to the scaler
-     * context which is a shared resource on a physical font.
+    /* A number of methods bre delegbted by the strike to the scbler
+     * context which is b shbred resource on b physicbl font.
      */
 
     public int getNumGlyphs() {
-        return physicalFont.getNumGlyphs();
+        return physicblFont.getNumGlyphs();
     }
 
     /* These 3 metrics methods below should be implemented to return
-     * values in user space.
+     * vblues in user spbce.
      */
     StrikeMetrics getFontMetrics() {
         if (strikeMetrics == null) {
             strikeMetrics =
-                physicalFont.getFontMetrics(pScalerContext);
+                physicblFont.getFontMetrics(pScblerContext);
         }
         return strikeMetrics;
     }
 
-    float getCodePointAdvance(int cp) {
-        return getGlyphAdvance(physicalFont.getMapper().charToGlyph(cp));
+    flobt getCodePointAdvbnce(int cp) {
+        return getGlyphAdvbnce(physicblFont.getMbpper().chbrToGlyph(cp));
     }
 
-   Point2D.Float getCharMetrics(char ch) {
-        return getGlyphMetrics(physicalFont.getMapper().charToGlyph(ch));
+   Point2D.Flobt getChbrMetrics(chbr ch) {
+        return getGlyphMetrics(physicblFont.getMbpper().chbrToGlyph(ch));
     }
 
-    int getSlot0GlyphImagePtrs(int[] glyphCodes, long[] images, int  len) {
+    int getSlot0GlyphImbgePtrs(int[] glyphCodes, long[] imbges, int  len) {
         return 0;
     }
 
-    /* Used by the OpenType engine for mark positioning.
+    /* Used by the OpenType engine for mbrk positioning.
      */
-    Point2D.Float getGlyphPoint(int glyphCode, int ptNumber) {
-        Point2D.Float gp = null;
-        Integer ptKey = Integer.valueOf(glyphCode<<16|ptNumber);
-        if (glyphPointMapCache == null) {
+    Point2D.Flobt getGlyphPoint(int glyphCode, int ptNumber) {
+        Point2D.Flobt gp = null;
+        Integer ptKey = Integer.vblueOf(glyphCode<<16|ptNumber);
+        if (glyphPointMbpCbche == null) {
             synchronized (this) {
-                if (glyphPointMapCache == null) {
-                    glyphPointMapCache =
-                        new ConcurrentHashMap<Integer, Point2D.Float>();
+                if (glyphPointMbpCbche == null) {
+                    glyphPointMbpCbche =
+                        new ConcurrentHbshMbp<Integer, Point2D.Flobt>();
                 }
             }
         } else {
-            gp = glyphPointMapCache.get(ptKey);
+            gp = glyphPointMbpCbche.get(ptKey);
         }
 
         if (gp == null) {
-            gp = (physicalFont.getGlyphPoint(pScalerContext, glyphCode, ptNumber));
-            adjustPoint(gp);
-            glyphPointMapCache.put(ptKey, gp);
+            gp = (physicblFont.getGlyphPoint(pScblerContext, glyphCode, ptNumber));
+            bdjustPoint(gp);
+            glyphPointMbpCbche.put(ptKey, gp);
         }
         return gp;
     }
 
-    protected void adjustPoint(Point2D.Float pt) {
+    protected void bdjustPoint(Point2D.Flobt pt) {
     }
 }

@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.mbth.BigInteger;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
  * Represent the CRL Number Extension.
  *
- * <p>This extension, if present, conveys a monotonically increasing
- * sequence number for each CRL issued by a given CA through a specific
+ * <p>This extension, if present, conveys b monotonicblly increbsing
+ * sequence number for ebch CRL issued by b given CA through b specific
  * CA X.500 Directory entry or CRL distribution point. This extension
- * allows users to easily determine when a particular CRL supersedes
- * another CRL.
+ * bllows users to ebsily determine when b pbrticulbr CRL supersedes
+ * bnother CRL.
  *
- * @author Hemma Prafullchandra
+ * @buthor Hemmb Prbfullchbndrb
  * @see Extension
  * @see CertAttrSet
  */
-public class CRLNumberExtension extends Extension
+public clbss CRLNumberExtension extends Extension
 implements CertAttrSet<String> {
 
     /**
-     * Attribute name.
+     * Attribute nbme.
      */
-    public static final String NAME = "CRLNumber";
-    public static final String NUMBER = "value";
+    public stbtic finbl String NAME = "CRLNumber";
+    public stbtic finbl String NUMBER = "vblue";
 
-    private static final String LABEL = "CRL Number";
+    privbte stbtic finbl String LABEL = "CRL Number";
 
-    private BigInteger crlNumber = null;
-    private String extensionName;
-    private String extensionLabel;
+    privbte BigInteger crlNumber = null;
+    privbte String extensionNbme;
+    privbte String extensionLbbel;
 
-    // Encode this extension value
-    private void encodeThis() throws IOException {
+    // Encode this extension vblue
+    privbte void encodeThis() throws IOException {
         if (crlNumber == null) {
-            this.extensionValue = null;
+            this.extensionVblue = null;
             return;
         }
-        DerOutputStream os = new DerOutputStream();
+        DerOutputStrebm os = new DerOutputStrebm();
         os.putInteger(this.crlNumber);
-        this.extensionValue = os.toByteArray();
+        this.extensionVblue = os.toByteArrby();
     }
 
     /**
-     * Create a CRLNumberExtension with the integer value .
-     * The criticality is set to false.
+     * Crebte b CRLNumberExtension with the integer vblue .
+     * The criticblity is set to fblse.
      *
-     * @param crlNum the value to be set for the extension.
+     * @pbrbm crlNum the vblue to be set for the extension.
      */
     public CRLNumberExtension(int crlNum) throws IOException {
-        this(PKIXExtensions.CRLNumber_Id, false, BigInteger.valueOf(crlNum),
+        this(PKIXExtensions.CRLNumber_Id, fblse, BigInteger.vblueOf(crlNum),
         NAME, LABEL);
     }
 
     /**
-     * Create a CRLNumberExtension with the BigInteger value .
-     * The criticality is set to false.
+     * Crebte b CRLNumberExtension with the BigInteger vblue .
+     * The criticblity is set to fblse.
      *
-     * @param crlNum the value to be set for the extension.
+     * @pbrbm crlNum the vblue to be set for the extension.
      */
     public CRLNumberExtension(BigInteger crlNum) throws IOException {
-        this(PKIXExtensions.CRLNumber_Id, false, crlNum, NAME, LABEL);
+        this(PKIXExtensions.CRLNumber_Id, fblse, crlNum, NAME, LABEL);
     }
 
     /**
-     * Creates the extension (also called by the subclass).
+     * Crebtes the extension (blso cblled by the subclbss).
      */
     protected CRLNumberExtension(ObjectIdentifier extensionId,
-        boolean isCritical, BigInteger crlNum, String extensionName,
-        String extensionLabel) throws IOException {
+        boolebn isCriticbl, BigInteger crlNum, String extensionNbme,
+        String extensionLbbel) throws IOException {
 
         this.extensionId = extensionId;
-        this.critical = isCritical;
+        this.criticbl = isCriticbl;
         this.crlNumber = crlNum;
-        this.extensionName = extensionName;
-        this.extensionLabel = extensionLabel;
+        this.extensionNbme = extensionNbme;
+        this.extensionLbbel = extensionLbbel;
         encodeThis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crebte the extension from the pbssed DER encoded vblue of the sbme.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-    public CRLNumberExtension(Boolean critical, Object value)
+    public CRLNumberExtension(Boolebn criticbl, Object vblue)
     throws IOException {
-        this(PKIXExtensions.CRLNumber_Id, critical, value, NAME, LABEL);
+        this(PKIXExtensions.CRLNumber_Id, criticbl, vblue, NAME, LABEL);
     }
 
     /**
-     * Creates the extension (also called by the subclass).
+     * Crebtes the extension (blso cblled by the subclbss).
      */
     protected CRLNumberExtension(ObjectIdentifier extensionId,
-        Boolean critical, Object value, String extensionName,
-        String extensionLabel) throws IOException {
+        Boolebn criticbl, Object vblue, String extensionNbme,
+        String extensionLbbel) throws IOException {
 
         this.extensionId = extensionId;
-        this.critical = critical.booleanValue();
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        this.crlNumber = val.getBigInteger();
-        this.extensionName = extensionName;
-        this.extensionLabel = extensionLabel;
+        this.criticbl = criticbl.boolebnVblue();
+        this.extensionVblue = (byte[]) vblue;
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        this.crlNumber = vbl.getBigInteger();
+        this.extensionNbme = extensionNbme;
+        this.extensionLbbel = extensionLbbel;
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(NUMBER)) {
-            if (!(obj instanceof BigInteger)) {
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(NUMBER)) {
+            if (!(obj instbnceof BigInteger)) {
                 throw new IOException("Attribute must be of type BigInteger.");
             }
             crlNumber = (BigInteger)obj;
         } else {
-          throw new IOException("Attribute name not recognized by"
-                                + " CertAttrSet:" + extensionName + ".");
+          throw new IOException("Attribute nbme not recognized by"
+                                + " CertAttrSet:" + extensionNbme + ".");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public BigInteger get(String name) throws IOException {
-        if (name.equalsIgnoreCase(NUMBER)) {
+    public BigInteger get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(NUMBER)) {
             if (crlNumber == null) return null;
             else return crlNumber;
         } else {
-          throw new IOException("Attribute name not recognized by"
-                                + " CertAttrSet:" + extensionName + ".");
+          throw new IOException("Attribute nbme not recognized by"
+                                + " CertAttrSet:" + extensionNbme + ".");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(NUMBER)) {
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(NUMBER)) {
             crlNumber = null;
         } else {
-          throw new IOException("Attribute name not recognized by"
-                                + " CertAttrSet:" + extensionName + ".");
+          throw new IOException("Attribute nbme not recognized by"
+                                + " CertAttrSet:" + extensionNbme + ".");
         }
         encodeThis();
     }
 
     /**
-     * Returns a printable representation of the CRLNumberExtension.
+     * Returns b printbble representbtion of the CRLNumberExtension.
      */
     public String toString() {
-        String s = super.toString() + extensionLabel + ": " +
+        String s = super.toString() + extensionLbbel + ": " +
                    ((crlNumber == null) ? "" : Debug.toHexString(crlNumber))
                    + "\n";
         return (s);
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Write the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-       DerOutputStream  tmp = new DerOutputStream();
+    public void encode(OutputStrebm out) throws IOException {
+       DerOutputStrebm  tmp = new DerOutputStrebm();
         encode(out, PKIXExtensions.CRLNumber_Id, true);
     }
 
     /**
-     * Write the extension to the DerOutputStream.
-     * (Also called by the subclass)
+     * Write the extension to the DerOutputStrebm.
+     * (Also cblled by the subclbss)
      */
-    protected void encode(OutputStream out, ObjectIdentifier extensionId,
-        boolean isCritical) throws IOException {
+    protected void encode(OutputStrebm out, ObjectIdentifier extensionId,
+        boolebn isCriticbl) throws IOException {
 
-       DerOutputStream  tmp = new DerOutputStream();
+       DerOutputStrebm  tmp = new DerOutputStrebm();
 
-       if (this.extensionValue == null) {
+       if (this.extensionVblue == null) {
            this.extensionId = extensionId;
-           this.critical = isCritical;
+           this.criticbl = isCriticbl;
            encodeThis();
        }
        super.encode(tmp);
-       out.write(tmp.toByteArray());
+       out.write(tmp.toByteArrby());
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(NUMBER);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(NUMBER);
         return (elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
-        return (extensionName);
+    public String getNbme() {
+        return (extensionNbme);
     }
 }

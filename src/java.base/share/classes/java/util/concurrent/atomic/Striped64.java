@@ -1,411 +1,411 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
-import java.util.function.LongBinaryOperator;
-import java.util.function.DoubleBinaryOperator;
-import java.util.concurrent.ThreadLocalRandom;
+pbckbge jbvb.util.concurrent.btomic;
+import jbvb.util.function.LongBinbryOperbtor;
+import jbvb.util.function.DoubleBinbryOperbtor;
+import jbvb.util.concurrent.ThrebdLocblRbndom;
 
 /**
- * A package-local class holding common representation and mechanics
- * for classes supporting dynamic striping on 64bit values. The class
- * extends Number so that concrete subclasses must publicly do so.
+ * A pbckbge-locbl clbss holding common representbtion bnd mechbnics
+ * for clbsses supporting dynbmic striping on 64bit vblues. The clbss
+ * extends Number so thbt concrete subclbsses must publicly do so.
  */
-@SuppressWarnings("serial")
-abstract class Striped64 extends Number {
+@SuppressWbrnings("seribl")
+bbstrbct clbss Striped64 extends Number {
     /*
-     * This class maintains a lazily-initialized table of atomically
-     * updated variables, plus an extra "base" field. The table size
-     * is a power of two. Indexing uses masked per-thread hash codes.
-     * Nearly all declarations in this class are package-private,
-     * accessed directly by subclasses.
+     * This clbss mbintbins b lbzily-initiblized tbble of btomicblly
+     * updbted vbribbles, plus bn extrb "bbse" field. The tbble size
+     * is b power of two. Indexing uses mbsked per-threbd hbsh codes.
+     * Nebrly bll declbrbtions in this clbss bre pbckbge-privbte,
+     * bccessed directly by subclbsses.
      *
-     * Table entries are of class Cell; a variant of AtomicLong padded
-     * (via @sun.misc.Contended) to reduce cache contention. Padding
-     * is overkill for most Atomics because they are usually
-     * irregularly scattered in memory and thus don't interfere much
-     * with each other. But Atomic objects residing in arrays will
-     * tend to be placed adjacent to each other, and so will most
-     * often share cache lines (with a huge negative performance
-     * impact) without this precaution.
+     * Tbble entries bre of clbss Cell; b vbribnt of AtomicLong pbdded
+     * (vib @sun.misc.Contended) to reduce cbche contention. Pbdding
+     * is overkill for most Atomics becbuse they bre usublly
+     * irregulbrly scbttered in memory bnd thus don't interfere much
+     * with ebch other. But Atomic objects residing in brrbys will
+     * tend to be plbced bdjbcent to ebch other, bnd so will most
+     * often shbre cbche lines (with b huge negbtive performbnce
+     * impbct) without this precbution.
      *
-     * In part because Cells are relatively large, we avoid creating
-     * them until they are needed.  When there is no contention, all
-     * updates are made to the base field.  Upon first contention (a
-     * failed CAS on base update), the table is initialized to size 2.
-     * The table size is doubled upon further contention until
-     * reaching the nearest power of two greater than or equal to the
-     * number of CPUS. Table slots remain empty (null) until they are
+     * In pbrt becbuse Cells bre relbtively lbrge, we bvoid crebting
+     * them until they bre needed.  When there is no contention, bll
+     * updbtes bre mbde to the bbse field.  Upon first contention (b
+     * fbiled CAS on bbse updbte), the tbble is initiblized to size 2.
+     * The tbble size is doubled upon further contention until
+     * rebching the nebrest power of two grebter thbn or equbl to the
+     * number of CPUS. Tbble slots rembin empty (null) until they bre
      * needed.
      *
-     * A single spinlock ("cellsBusy") is used for initializing and
-     * resizing the table, as well as populating slots with new Cells.
-     * There is no need for a blocking lock; when the lock is not
-     * available, threads try other slots (or the base).  During these
-     * retries, there is increased contention and reduced locality,
-     * which is still better than alternatives.
+     * A single spinlock ("cellsBusy") is used for initiblizing bnd
+     * resizing the tbble, bs well bs populbting slots with new Cells.
+     * There is no need for b blocking lock; when the lock is not
+     * bvbilbble, threbds try other slots (or the bbse).  During these
+     * retries, there is increbsed contention bnd reduced locblity,
+     * which is still better thbn blternbtives.
      *
-     * The Thread probe fields maintained via ThreadLocalRandom serve
-     * as per-thread hash codes. We let them remain uninitialized as
-     * zero (if they come in this way) until they contend at slot
-     * 0. They are then initialized to values that typically do not
-     * often conflict with others.  Contention and/or table collisions
-     * are indicated by failed CASes when performing an update
-     * operation. Upon a collision, if the table size is less than
-     * the capacity, it is doubled in size unless some other thread
-     * holds the lock. If a hashed slot is empty, and lock is
-     * available, a new Cell is created. Otherwise, if the slot
-     * exists, a CAS is tried.  Retries proceed by "double hashing",
-     * using a secondary hash (Marsaglia XorShift) to try to find a
+     * The Threbd probe fields mbintbined vib ThrebdLocblRbndom serve
+     * bs per-threbd hbsh codes. We let them rembin uninitiblized bs
+     * zero (if they come in this wby) until they contend bt slot
+     * 0. They bre then initiblized to vblues thbt typicblly do not
+     * often conflict with others.  Contention bnd/or tbble collisions
+     * bre indicbted by fbiled CASes when performing bn updbte
+     * operbtion. Upon b collision, if the tbble size is less thbn
+     * the cbpbcity, it is doubled in size unless some other threbd
+     * holds the lock. If b hbshed slot is empty, bnd lock is
+     * bvbilbble, b new Cell is crebted. Otherwise, if the slot
+     * exists, b CAS is tried.  Retries proceed by "double hbshing",
+     * using b secondbry hbsh (Mbrsbglib XorShift) to try to find b
      * free slot.
      *
-     * The table size is capped because, when there are more threads
-     * than CPUs, supposing that each thread were bound to a CPU,
-     * there would exist a perfect hash function mapping threads to
-     * slots that eliminates collisions. When we reach capacity, we
-     * search for this mapping by randomly varying the hash codes of
-     * colliding threads.  Because search is random, and collisions
-     * only become known via CAS failures, convergence can be slow,
-     * and because threads are typically not bound to CPUS forever,
-     * may not occur at all. However, despite these limitations,
-     * observed contention rates are typically low in these cases.
+     * The tbble size is cbpped becbuse, when there bre more threbds
+     * thbn CPUs, supposing thbt ebch threbd were bound to b CPU,
+     * there would exist b perfect hbsh function mbpping threbds to
+     * slots thbt eliminbtes collisions. When we rebch cbpbcity, we
+     * sebrch for this mbpping by rbndomly vbrying the hbsh codes of
+     * colliding threbds.  Becbuse sebrch is rbndom, bnd collisions
+     * only become known vib CAS fbilures, convergence cbn be slow,
+     * bnd becbuse threbds bre typicblly not bound to CPUS forever,
+     * mby not occur bt bll. However, despite these limitbtions,
+     * observed contention rbtes bre typicblly low in these cbses.
      *
-     * It is possible for a Cell to become unused when threads that
-     * once hashed to it terminate, as well as in the case where
-     * doubling the table causes no thread to hash to it under
-     * expanded mask.  We do not try to detect or remove such cells,
-     * under the assumption that for long-running instances, observed
-     * contention levels will recur, so the cells will eventually be
-     * needed again; and for short-lived ones, it does not matter.
+     * It is possible for b Cell to become unused when threbds thbt
+     * once hbshed to it terminbte, bs well bs in the cbse where
+     * doubling the tbble cbuses no threbd to hbsh to it under
+     * expbnded mbsk.  We do not try to detect or remove such cells,
+     * under the bssumption thbt for long-running instbnces, observed
+     * contention levels will recur, so the cells will eventublly be
+     * needed bgbin; bnd for short-lived ones, it does not mbtter.
      */
 
     /**
-     * Padded variant of AtomicLong supporting only raw accesses plus CAS.
+     * Pbdded vbribnt of AtomicLong supporting only rbw bccesses plus CAS.
      *
-     * JVM intrinsics note: It would be possible to use a release-only
+     * JVM intrinsics note: It would be possible to use b relebse-only
      * form of CAS here, if it were provided.
      */
-    @sun.misc.Contended static final class Cell {
-        volatile long value;
-        Cell(long x) { value = x; }
-        final boolean cas(long cmp, long val) {
-            return UNSAFE.compareAndSwapLong(this, valueOffset, cmp, val);
+    @sun.misc.Contended stbtic finbl clbss Cell {
+        volbtile long vblue;
+        Cell(long x) { vblue = x; }
+        finbl boolebn cbs(long cmp, long vbl) {
+            return UNSAFE.compbreAndSwbpLong(this, vblueOffset, cmp, vbl);
         }
 
-        // Unsafe mechanics
-        private static final sun.misc.Unsafe UNSAFE;
-        private static final long valueOffset;
-        static {
+        // Unsbfe mechbnics
+        privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+        privbte stbtic finbl long vblueOffset;
+        stbtic {
             try {
-                UNSAFE = sun.misc.Unsafe.getUnsafe();
-                Class<?> ak = Cell.class;
-                valueOffset = UNSAFE.objectFieldOffset
-                    (ak.getDeclaredField("value"));
-            } catch (Exception e) {
+                UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+                Clbss<?> bk = Cell.clbss;
+                vblueOffset = UNSAFE.objectFieldOffset
+                    (bk.getDeclbredField("vblue"));
+            } cbtch (Exception e) {
                 throw new Error(e);
             }
         }
     }
 
-    /** Number of CPUS, to place bound on table size */
-    static final int NCPU = Runtime.getRuntime().availableProcessors();
+    /** Number of CPUS, to plbce bound on tbble size */
+    stbtic finbl int NCPU = Runtime.getRuntime().bvbilbbleProcessors();
 
     /**
-     * Table of cells. When non-null, size is a power of 2.
+     * Tbble of cells. When non-null, size is b power of 2.
      */
-    transient volatile Cell[] cells;
+    trbnsient volbtile Cell[] cells;
 
     /**
-     * Base value, used mainly when there is no contention, but also as
-     * a fallback during table initialization races. Updated via CAS.
+     * Bbse vblue, used mbinly when there is no contention, but blso bs
+     * b fbllbbck during tbble initiblizbtion rbces. Updbted vib CAS.
      */
-    transient volatile long base;
+    trbnsient volbtile long bbse;
 
     /**
-     * Spinlock (locked via CAS) used when resizing and/or creating Cells.
+     * Spinlock (locked vib CAS) used when resizing bnd/or crebting Cells.
      */
-    transient volatile int cellsBusy;
+    trbnsient volbtile int cellsBusy;
 
     /**
-     * Package-private default constructor
+     * Pbckbge-privbte defbult constructor
      */
     Striped64() {
     }
 
     /**
-     * CASes the base field.
+     * CASes the bbse field.
      */
-    final boolean casBase(long cmp, long val) {
-        return UNSAFE.compareAndSwapLong(this, BASE, cmp, val);
+    finbl boolebn cbsBbse(long cmp, long vbl) {
+        return UNSAFE.compbreAndSwbpLong(this, BASE, cmp, vbl);
     }
 
     /**
-     * CASes the cellsBusy field from 0 to 1 to acquire lock.
+     * CASes the cellsBusy field from 0 to 1 to bcquire lock.
      */
-    final boolean casCellsBusy() {
-        return UNSAFE.compareAndSwapInt(this, CELLSBUSY, 0, 1);
+    finbl boolebn cbsCellsBusy() {
+        return UNSAFE.compbreAndSwbpInt(this, CELLSBUSY, 0, 1);
     }
 
     /**
-     * Returns the probe value for the current thread.
-     * Duplicated from ThreadLocalRandom because of packaging restrictions.
+     * Returns the probe vblue for the current threbd.
+     * Duplicbted from ThrebdLocblRbndom becbuse of pbckbging restrictions.
      */
-    static final int getProbe() {
-        return UNSAFE.getInt(Thread.currentThread(), PROBE);
+    stbtic finbl int getProbe() {
+        return UNSAFE.getInt(Threbd.currentThrebd(), PROBE);
     }
 
     /**
-     * Pseudo-randomly advances and records the given probe value for the
-     * given thread.
-     * Duplicated from ThreadLocalRandom because of packaging restrictions.
+     * Pseudo-rbndomly bdvbnces bnd records the given probe vblue for the
+     * given threbd.
+     * Duplicbted from ThrebdLocblRbndom becbuse of pbckbging restrictions.
      */
-    static final int advanceProbe(int probe) {
+    stbtic finbl int bdvbnceProbe(int probe) {
         probe ^= probe << 13;   // xorshift
         probe ^= probe >>> 17;
         probe ^= probe << 5;
-        UNSAFE.putInt(Thread.currentThread(), PROBE, probe);
+        UNSAFE.putInt(Threbd.currentThrebd(), PROBE, probe);
         return probe;
     }
 
     /**
-     * Handles cases of updates involving initialization, resizing,
-     * creating new Cells, and/or contention. See above for
-     * explanation. This method suffers the usual non-modularity
+     * Hbndles cbses of updbtes involving initiblizbtion, resizing,
+     * crebting new Cells, bnd/or contention. See bbove for
+     * explbnbtion. This method suffers the usubl non-modulbrity
      * problems of optimistic retry code, relying on rechecked sets of
-     * reads.
+     * rebds.
      *
-     * @param x the value
-     * @param fn the update function, or null for add (this convention
-     * avoids the need for an extra field or function in LongAdder).
-     * @param wasUncontended false if CAS failed before call
+     * @pbrbm x the vblue
+     * @pbrbm fn the updbte function, or null for bdd (this convention
+     * bvoids the need for bn extrb field or function in LongAdder).
+     * @pbrbm wbsUncontended fblse if CAS fbiled before cbll
      */
-    final void longAccumulate(long x, LongBinaryOperator fn,
-                              boolean wasUncontended) {
+    finbl void longAccumulbte(long x, LongBinbryOperbtor fn,
+                              boolebn wbsUncontended) {
         int h;
         if ((h = getProbe()) == 0) {
-            ThreadLocalRandom.current(); // force initialization
+            ThrebdLocblRbndom.current(); // force initiblizbtion
             h = getProbe();
-            wasUncontended = true;
+            wbsUncontended = true;
         }
-        boolean collide = false;                // True if last slot nonempty
+        boolebn collide = fblse;                // True if lbst slot nonempty
         for (;;) {
-            Cell[] as; Cell a; int n; long v;
-            if ((as = cells) != null && (n = as.length) > 0) {
-                if ((a = as[(n - 1) & h]) == null) {
-                    if (cellsBusy == 0) {       // Try to attach new Cell
-                        Cell r = new Cell(x);   // Optimistically create
-                        if (cellsBusy == 0 && casCellsBusy()) {
-                            boolean created = false;
+            Cell[] bs; Cell b; int n; long v;
+            if ((bs = cells) != null && (n = bs.length) > 0) {
+                if ((b = bs[(n - 1) & h]) == null) {
+                    if (cellsBusy == 0) {       // Try to bttbch new Cell
+                        Cell r = new Cell(x);   // Optimisticblly crebte
+                        if (cellsBusy == 0 && cbsCellsBusy()) {
+                            boolebn crebted = fblse;
                             try {               // Recheck under lock
                                 Cell[] rs; int m, j;
                                 if ((rs = cells) != null &&
                                     (m = rs.length) > 0 &&
                                     rs[j = (m - 1) & h] == null) {
                                     rs[j] = r;
-                                    created = true;
+                                    crebted = true;
                                 }
-                            } finally {
+                            } finblly {
                                 cellsBusy = 0;
                             }
-                            if (created)
-                                break;
+                            if (crebted)
+                                brebk;
                             continue;           // Slot is now non-empty
                         }
                     }
-                    collide = false;
+                    collide = fblse;
                 }
-                else if (!wasUncontended)       // CAS already known to fail
-                    wasUncontended = true;      // Continue after rehash
-                else if (a.cas(v = a.value, ((fn == null) ? v + x :
-                                             fn.applyAsLong(v, x))))
-                    break;
-                else if (n >= NCPU || cells != as)
-                    collide = false;            // At max size or stale
+                else if (!wbsUncontended)       // CAS blrebdy known to fbil
+                    wbsUncontended = true;      // Continue bfter rehbsh
+                else if (b.cbs(v = b.vblue, ((fn == null) ? v + x :
+                                             fn.bpplyAsLong(v, x))))
+                    brebk;
+                else if (n >= NCPU || cells != bs)
+                    collide = fblse;            // At mbx size or stble
                 else if (!collide)
                     collide = true;
-                else if (cellsBusy == 0 && casCellsBusy()) {
+                else if (cellsBusy == 0 && cbsCellsBusy()) {
                     try {
-                        if (cells == as) {      // Expand table unless stale
+                        if (cells == bs) {      // Expbnd tbble unless stble
                             Cell[] rs = new Cell[n << 1];
                             for (int i = 0; i < n; ++i)
-                                rs[i] = as[i];
+                                rs[i] = bs[i];
                             cells = rs;
                         }
-                    } finally {
+                    } finblly {
                         cellsBusy = 0;
                     }
-                    collide = false;
-                    continue;                   // Retry with expanded table
+                    collide = fblse;
+                    continue;                   // Retry with expbnded tbble
                 }
-                h = advanceProbe(h);
+                h = bdvbnceProbe(h);
             }
-            else if (cellsBusy == 0 && cells == as && casCellsBusy()) {
-                boolean init = false;
-                try {                           // Initialize table
-                    if (cells == as) {
+            else if (cellsBusy == 0 && cells == bs && cbsCellsBusy()) {
+                boolebn init = fblse;
+                try {                           // Initiblize tbble
+                    if (cells == bs) {
                         Cell[] rs = new Cell[2];
                         rs[h & 1] = new Cell(x);
                         cells = rs;
                         init = true;
                     }
-                } finally {
+                } finblly {
                     cellsBusy = 0;
                 }
                 if (init)
-                    break;
+                    brebk;
             }
-            else if (casBase(v = base, ((fn == null) ? v + x :
-                                        fn.applyAsLong(v, x))))
-                break;                          // Fall back on using base
+            else if (cbsBbse(v = bbse, ((fn == null) ? v + x :
+                                        fn.bpplyAsLong(v, x))))
+                brebk;                          // Fbll bbck on using bbse
         }
     }
 
     /**
-     * Same as longAccumulate, but injecting long/double conversions
-     * in too many places to sensibly merge with long version, given
-     * the low-overhead requirements of this class. So must instead be
-     * maintained by copy/paste/adapt.
+     * Sbme bs longAccumulbte, but injecting long/double conversions
+     * in too mbny plbces to sensibly merge with long version, given
+     * the low-overhebd requirements of this clbss. So must instebd be
+     * mbintbined by copy/pbste/bdbpt.
      */
-    final void doubleAccumulate(double x, DoubleBinaryOperator fn,
-                                boolean wasUncontended) {
+    finbl void doubleAccumulbte(double x, DoubleBinbryOperbtor fn,
+                                boolebn wbsUncontended) {
         int h;
         if ((h = getProbe()) == 0) {
-            ThreadLocalRandom.current(); // force initialization
+            ThrebdLocblRbndom.current(); // force initiblizbtion
             h = getProbe();
-            wasUncontended = true;
+            wbsUncontended = true;
         }
-        boolean collide = false;                // True if last slot nonempty
+        boolebn collide = fblse;                // True if lbst slot nonempty
         for (;;) {
-            Cell[] as; Cell a; int n; long v;
-            if ((as = cells) != null && (n = as.length) > 0) {
-                if ((a = as[(n - 1) & h]) == null) {
-                    if (cellsBusy == 0) {       // Try to attach new Cell
-                        Cell r = new Cell(Double.doubleToRawLongBits(x));
-                        if (cellsBusy == 0 && casCellsBusy()) {
-                            boolean created = false;
+            Cell[] bs; Cell b; int n; long v;
+            if ((bs = cells) != null && (n = bs.length) > 0) {
+                if ((b = bs[(n - 1) & h]) == null) {
+                    if (cellsBusy == 0) {       // Try to bttbch new Cell
+                        Cell r = new Cell(Double.doubleToRbwLongBits(x));
+                        if (cellsBusy == 0 && cbsCellsBusy()) {
+                            boolebn crebted = fblse;
                             try {               // Recheck under lock
                                 Cell[] rs; int m, j;
                                 if ((rs = cells) != null &&
                                     (m = rs.length) > 0 &&
                                     rs[j = (m - 1) & h] == null) {
                                     rs[j] = r;
-                                    created = true;
+                                    crebted = true;
                                 }
-                            } finally {
+                            } finblly {
                                 cellsBusy = 0;
                             }
-                            if (created)
-                                break;
+                            if (crebted)
+                                brebk;
                             continue;           // Slot is now non-empty
                         }
                     }
-                    collide = false;
+                    collide = fblse;
                 }
-                else if (!wasUncontended)       // CAS already known to fail
-                    wasUncontended = true;      // Continue after rehash
-                else if (a.cas(v = a.value,
+                else if (!wbsUncontended)       // CAS blrebdy known to fbil
+                    wbsUncontended = true;      // Continue bfter rehbsh
+                else if (b.cbs(v = b.vblue,
                                ((fn == null) ?
-                                Double.doubleToRawLongBits
+                                Double.doubleToRbwLongBits
                                 (Double.longBitsToDouble(v) + x) :
-                                Double.doubleToRawLongBits
-                                (fn.applyAsDouble
+                                Double.doubleToRbwLongBits
+                                (fn.bpplyAsDouble
                                  (Double.longBitsToDouble(v), x)))))
-                    break;
-                else if (n >= NCPU || cells != as)
-                    collide = false;            // At max size or stale
+                    brebk;
+                else if (n >= NCPU || cells != bs)
+                    collide = fblse;            // At mbx size or stble
                 else if (!collide)
                     collide = true;
-                else if (cellsBusy == 0 && casCellsBusy()) {
+                else if (cellsBusy == 0 && cbsCellsBusy()) {
                     try {
-                        if (cells == as) {      // Expand table unless stale
+                        if (cells == bs) {      // Expbnd tbble unless stble
                             Cell[] rs = new Cell[n << 1];
                             for (int i = 0; i < n; ++i)
-                                rs[i] = as[i];
+                                rs[i] = bs[i];
                             cells = rs;
                         }
-                    } finally {
+                    } finblly {
                         cellsBusy = 0;
                     }
-                    collide = false;
-                    continue;                   // Retry with expanded table
+                    collide = fblse;
+                    continue;                   // Retry with expbnded tbble
                 }
-                h = advanceProbe(h);
+                h = bdvbnceProbe(h);
             }
-            else if (cellsBusy == 0 && cells == as && casCellsBusy()) {
-                boolean init = false;
-                try {                           // Initialize table
-                    if (cells == as) {
+            else if (cellsBusy == 0 && cells == bs && cbsCellsBusy()) {
+                boolebn init = fblse;
+                try {                           // Initiblize tbble
+                    if (cells == bs) {
                         Cell[] rs = new Cell[2];
-                        rs[h & 1] = new Cell(Double.doubleToRawLongBits(x));
+                        rs[h & 1] = new Cell(Double.doubleToRbwLongBits(x));
                         cells = rs;
                         init = true;
                     }
-                } finally {
+                } finblly {
                     cellsBusy = 0;
                 }
                 if (init)
-                    break;
+                    brebk;
             }
-            else if (casBase(v = base,
+            else if (cbsBbse(v = bbse,
                              ((fn == null) ?
-                              Double.doubleToRawLongBits
+                              Double.doubleToRbwLongBits
                               (Double.longBitsToDouble(v) + x) :
-                              Double.doubleToRawLongBits
-                              (fn.applyAsDouble
+                              Double.doubleToRbwLongBits
+                              (fn.bpplyAsDouble
                                (Double.longBitsToDouble(v), x)))))
-                break;                          // Fall back on using base
+                brebk;                          // Fbll bbck on using bbse
         }
     }
 
-    // Unsafe mechanics
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long BASE;
-    private static final long CELLSBUSY;
-    private static final long PROBE;
-    static {
+    // Unsbfe mechbnics
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+    privbte stbtic finbl long BASE;
+    privbte stbtic finbl long CELLSBUSY;
+    privbte stbtic finbl long PROBE;
+    stbtic {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> sk = Striped64.class;
+            UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> sk = Striped64.clbss;
             BASE = UNSAFE.objectFieldOffset
-                (sk.getDeclaredField("base"));
+                (sk.getDeclbredField("bbse"));
             CELLSBUSY = UNSAFE.objectFieldOffset
-                (sk.getDeclaredField("cellsBusy"));
-            Class<?> tk = Thread.class;
+                (sk.getDeclbredField("cellsBusy"));
+            Clbss<?> tk = Threbd.clbss;
             PROBE = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("threadLocalRandomProbe"));
-        } catch (Exception e) {
+                (tk.getDeclbredField("threbdLocblRbndomProbe"));
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

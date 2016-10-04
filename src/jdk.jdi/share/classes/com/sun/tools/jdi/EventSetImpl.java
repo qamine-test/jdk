@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.*;
 import com.sun.jdi.request.*;
 
-import java.util.*;
-enum EventDestination {UNKNOWN_EVENT, INTERNAL_EVENT, CLIENT_EVENT};
+import jbvb.util.*;
+enum EventDestinbtion {UNKNOWN_EVENT, INTERNAL_EVENT, CLIENT_EVENT};
 
 /*
- * An EventSet is normally created by the transport reader thread when
- * it reads a JDWP Composite command.  The constructor doesn't unpack
- * the events contained in the Composite command and create EventImpls
- * for them because that process might involve calling back into the back-end
- * which should not be done by the transport reader thread.  Instead,
- * the raw bytes of the packet are read and stored in the EventSet.
- * The EventSet is then added to each EventQueue. When an EventSet is
- * removed from an EventQueue, the EventSetImpl.build() method is called.
- * This method reads the packet bytes and creates the actual EventImpl objects.
- * build() also filters out events for our internal handler and puts them in
- * their own EventSet.  This means that the EventImpls that are in the EventSet
- * that is on the queues are all for client requests.
+ * An EventSet is normblly crebted by the trbnsport rebder threbd when
+ * it rebds b JDWP Composite commbnd.  The constructor doesn't unpbck
+ * the events contbined in the Composite commbnd bnd crebte EventImpls
+ * for them becbuse thbt process might involve cblling bbck into the bbck-end
+ * which should not be done by the trbnsport rebder threbd.  Instebd,
+ * the rbw bytes of the pbcket bre rebd bnd stored in the EventSet.
+ * The EventSet is then bdded to ebch EventQueue. When bn EventSet is
+ * removed from bn EventQueue, the EventSetImpl.build() method is cblled.
+ * This method rebds the pbcket bytes bnd crebtes the bctubl EventImpl objects.
+ * build() blso filters out events for our internbl hbndler bnd puts them in
+ * their own EventSet.  This mebns thbt the EventImpls thbt bre in the EventSet
+ * thbt is on the queues bre bll for client requests.
  */
-public class EventSetImpl extends ArrayList<Event> implements EventSet {
-    private static final long serialVersionUID = -4857338819787924570L;
-    private VirtualMachineImpl vm; // we implement Mirror
-    private Packet pkt;
-    private byte suspendPolicy;
-    private EventSetImpl internalEventSet;
+public clbss EventSetImpl extends ArrbyList<Event> implements EventSet {
+    privbte stbtic finbl long seriblVersionUID = -4857338819787924570L;
+    privbte VirtublMbchineImpl vm; // we implement Mirror
+    privbte Pbcket pkt;
+    privbte byte suspendPolicy;
+    privbte EventSetImpl internblEventSet;
 
     public String toString() {
         String string = "event set, policy:" + suspendPolicy +
                         ", count:" + this.size() + " = {";
-        boolean first = true;
+        boolebn first = true;
         for (Event event : this) {
             if (!first) {
                 string += ", ";
             }
             string += event.toString();
-            first = false;
+            first = fblse;
         }
         string += "}";
         return string;
     }
 
-    abstract class EventImpl extends MirrorImpl implements Event {
+    bbstrbct clbss EventImpl extends MirrorImpl implements Event {
 
-        private final byte eventCmd;
-        private final int requestID;
-        // This is set only for client requests, not internal requests.
-        private final EventRequest request;
+        privbte finbl byte eventCmd;
+        privbte finbl int requestID;
+        // This is set only for client requests, not internbl requests.
+        privbte finbl EventRequest request;
 
         /**
          * Constructor for events.
@@ -83,20 +83,20 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
             super(EventSetImpl.this.vm);
             this.eventCmd = evt.eventKind();
             this.requestID = requestID;
-            EventRequestManagerImpl ermi = EventSetImpl.this.
-                vm.eventRequestManagerImpl();
+            EventRequestMbnbgerImpl ermi = EventSetImpl.this.
+                vm.eventRequestMbnbgerImpl();
             this.request =  ermi.request(eventCmd, requestID);
         }
 
         /*
-         * Override superclass back to default equality
+         * Override superclbss bbck to defbult equblity
          */
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             return this == obj;
         }
 
-        public int hashCode() {
-            return System.identityHashCode(this);
+        public int hbshCode() {
+            return System.identityHbshCode(this);
         }
 
         /**
@@ -117,172 +117,172 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
             return requestID;
         }
 
-        EventDestination destination() {
+        EventDestinbtion destinbtion() {
             /*
              * We need to decide if this event is for
-             * 1. an internal request
-             * 2. a client request that is no longer available, ie
-             *    it has been deleted, or disabled and re-enabled
-             *    which gives it a new ID.
-             * 3. a current client request that is disabled
-             * 4. a current enabled client request.
+             * 1. bn internbl request
+             * 2. b client request thbt is no longer bvbilbble, ie
+             *    it hbs been deleted, or disbbled bnd re-enbbled
+             *    which gives it b new ID.
+             * 3. b current client request thbt is disbbled
+             * 4. b current enbbled client request.
              *
-             * We will filter this set into a set
-             * that contains only 1s for our internal queue
-             * and a set that contains only 4s for our client queue.
-             * If we get an EventSet that contains only 2 and 3
-             * then we have to resume it if it is not SUSPEND_NONE
-             * because no one else will.
+             * We will filter this set into b set
+             * thbt contbins only 1s for our internbl queue
+             * bnd b set thbt contbins only 4s for our client queue.
+             * If we get bn EventSet thbt contbins only 2 bnd 3
+             * then we hbve to resume it if it is not SUSPEND_NONE
+             * becbuse no one else will.
              */
             if (requestID == 0) {
-                /* An unsolicited event.  These have traditionally
-                 * been treated as client events.
+                /* An unsolicited event.  These hbve trbditionblly
+                 * been trebted bs client events.
                  */
-                return EventDestination.CLIENT_EVENT;
+                return EventDestinbtion.CLIENT_EVENT;
             }
 
-            // Is this an event for a current client request?
+            // Is this bn event for b current client request?
             if (request == null) {
-                // Nope.  Is it an event for an internal request?
-                EventRequestManagerImpl ermi = this.vm.getInternalEventRequestManager();
+                // Nope.  Is it bn event for bn internbl request?
+                EventRequestMbnbgerImpl ermi = this.vm.getInternblEventRequestMbnbger();
                 if (ermi.request(eventCmd, requestID) != null) {
                     // Yep
-                    return EventDestination.INTERNAL_EVENT;
+                    return EventDestinbtion.INTERNAL_EVENT;
                 }
-                return EventDestination.UNKNOWN_EVENT;
+                return EventDestinbtion.UNKNOWN_EVENT;
             }
 
-            // We found a client request
-            if (request.isEnabled()) {
-                return EventDestination.CLIENT_EVENT;
+            // We found b client request
+            if (request.isEnbbled()) {
+                return EventDestinbtion.CLIENT_EVENT;
             }
-            return EventDestination.UNKNOWN_EVENT;
+            return EventDestinbtion.UNKNOWN_EVENT;
         }
 
-        abstract String eventName();
+        bbstrbct String eventNbme();
 
         public String toString() {
-            return eventName();
+            return eventNbme();
         }
 
     }
 
-    abstract class ThreadedEventImpl extends EventImpl {
-        private ThreadReference thread;
+    bbstrbct clbss ThrebdedEventImpl extends EventImpl {
+        privbte ThrebdReference threbd;
 
-        ThreadedEventImpl(JDWP.Event.Composite.Events.EventsCommon evt,
-                          int requestID, ThreadReference thread) {
+        ThrebdedEventImpl(JDWP.Event.Composite.Events.EventsCommon evt,
+                          int requestID, ThrebdReference threbd) {
             super(evt, requestID);
-            this.thread = thread;
+            this.threbd = threbd;
         }
 
-        public ThreadReference thread() {
-            return thread;
+        public ThrebdReference threbd() {
+            return threbd;
         }
 
         public String toString() {
-            return eventName() + " in thread " + thread.name();
+            return eventNbme() + " in threbd " + threbd.nbme();
         }
     }
 
-    abstract class LocatableEventImpl extends ThreadedEventImpl
-                                            implements Locatable {
-        private Location location;
+    bbstrbct clbss LocbtbbleEventImpl extends ThrebdedEventImpl
+                                            implements Locbtbble {
+        privbte Locbtion locbtion;
 
-        LocatableEventImpl(JDWP.Event.Composite.Events.EventsCommon evt,
+        LocbtbbleEventImpl(JDWP.Event.Composite.Events.EventsCommon evt,
                            int requestID,
-                           ThreadReference thread, Location location) {
-            super(evt, requestID, thread);
-            this.location = location;
+                           ThrebdReference threbd, Locbtion locbtion) {
+            super(evt, requestID, threbd);
+            this.locbtion = locbtion;
         }
 
-        public Location location() {
-            return location;
+        public Locbtion locbtion() {
+            return locbtion;
         }
 
         /**
-         * For MethodEntry and MethodExit
+         * For MethodEntry bnd MethodExit
          */
         public Method method() {
-            return location.method();
+            return locbtion.method();
         }
 
         public String toString() {
-            return eventName() + "@" +
-                   ((location() == null) ? " null" : location().toString()) +
-                   " in thread " + thread().name();
+            return eventNbme() + "@" +
+                   ((locbtion() == null) ? " null" : locbtion().toString()) +
+                   " in threbd " + threbd().nbme();
         }
     }
 
-    class BreakpointEventImpl extends LocatableEventImpl
-                            implements BreakpointEvent {
-        BreakpointEventImpl(JDWP.Event.Composite.Events.Breakpoint evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
+    clbss BrebkpointEventImpl extends LocbtbbleEventImpl
+                            implements BrebkpointEvent {
+        BrebkpointEventImpl(JDWP.Event.Composite.Events.Brebkpoint evt) {
+            super(evt, evt.requestID, evt.threbd, evt.locbtion);
         }
 
-        String eventName() {
-            return "BreakpointEvent";
+        String eventNbme() {
+            return "BrebkpointEvent";
         }
     }
 
-    class StepEventImpl extends LocatableEventImpl implements StepEvent {
+    clbss StepEventImpl extends LocbtbbleEventImpl implements StepEvent {
         StepEventImpl(JDWP.Event.Composite.Events.SingleStep evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
+            super(evt, evt.requestID, evt.threbd, evt.locbtion);
         }
 
-        String eventName() {
+        String eventNbme() {
             return "StepEvent";
         }
     }
 
-    class MethodEntryEventImpl extends LocatableEventImpl
+    clbss MethodEntryEventImpl extends LocbtbbleEventImpl
                             implements MethodEntryEvent {
         MethodEntryEventImpl(JDWP.Event.Composite.Events.MethodEntry evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
+            super(evt, evt.requestID, evt.threbd, evt.locbtion);
         }
 
-        String eventName() {
+        String eventNbme() {
             return "MethodEntryEvent";
         }
     }
 
-    class MethodExitEventImpl extends LocatableEventImpl
+    clbss MethodExitEventImpl extends LocbtbbleEventImpl
                             implements MethodExitEvent {
-        private Value returnVal = null;
+        privbte Vblue returnVbl = null;
 
         MethodExitEventImpl(JDWP.Event.Composite.Events.MethodExit evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
+            super(evt, evt.requestID, evt.threbd, evt.locbtion);
         }
 
-        MethodExitEventImpl(JDWP.Event.Composite.Events.MethodExitWithReturnValue evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
-            returnVal = evt.value;
+        MethodExitEventImpl(JDWP.Event.Composite.Events.MethodExitWithReturnVblue evt) {
+            super(evt, evt.requestID, evt.threbd, evt.locbtion);
+            returnVbl = evt.vblue;
         }
 
-        String eventName() {
+        String eventNbme() {
             return "MethodExitEvent";
         }
 
-        public Value returnValue() {
-            if (!this.vm.canGetMethodReturnValues()) {
-                throw new UnsupportedOperationException(
-                "target does not support return values in MethodExit events");
+        public Vblue returnVblue() {
+            if (!this.vm.cbnGetMethodReturnVblues()) {
+                throw new UnsupportedOperbtionException(
+                "tbrget does not support return vblues in MethodExit events");
             }
-            return returnVal;
+            return returnVbl;
         }
 
     }
 
-    class MonitorContendedEnterEventImpl extends LocatableEventImpl
+    clbss MonitorContendedEnterEventImpl extends LocbtbbleEventImpl
                             implements MonitorContendedEnterEvent {
-        private ObjectReference monitor = null;
+        privbte ObjectReference monitor = null;
 
         MonitorContendedEnterEventImpl(JDWP.Event.Composite.Events.MonitorContendedEnter evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
+            super(evt, evt.requestID, evt.threbd, evt.locbtion);
             this.monitor = evt.object;
         }
 
-        String eventName() {
+        String eventNbme() {
             return "MonitorContendedEnter";
         }
 
@@ -292,16 +292,16 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
 
     }
 
-    class MonitorContendedEnteredEventImpl extends LocatableEventImpl
+    clbss MonitorContendedEnteredEventImpl extends LocbtbbleEventImpl
                             implements MonitorContendedEnteredEvent {
-        private ObjectReference monitor = null;
+        privbte ObjectReference monitor = null;
 
         MonitorContendedEnteredEventImpl(JDWP.Event.Composite.Events.MonitorContendedEntered evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
+            super(evt, evt.requestID, evt.threbd, evt.locbtion);
             this.monitor = evt.object;
         }
 
-        String eventName() {
+        String eventNbme() {
             return "MonitorContendedEntered";
         }
 
@@ -311,19 +311,19 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
 
     }
 
-    class MonitorWaitEventImpl extends LocatableEventImpl
-                            implements MonitorWaitEvent {
-        private ObjectReference monitor = null;
-        private long timeout;
+    clbss MonitorWbitEventImpl extends LocbtbbleEventImpl
+                            implements MonitorWbitEvent {
+        privbte ObjectReference monitor = null;
+        privbte long timeout;
 
-        MonitorWaitEventImpl(JDWP.Event.Composite.Events.MonitorWait evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
+        MonitorWbitEventImpl(JDWP.Event.Composite.Events.MonitorWbit evt) {
+            super(evt, evt.requestID, evt.threbd, evt.locbtion);
             this.monitor = evt.object;
             this.timeout = evt.timeout;
         }
 
-        String eventName() {
-            return "MonitorWait";
+        String eventNbme() {
+            return "MonitorWbit";
         }
 
         public ObjectReference  monitor() {
@@ -335,166 +335,166 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
         }
     }
 
-    class MonitorWaitedEventImpl extends LocatableEventImpl
-                            implements MonitorWaitedEvent {
-        private ObjectReference monitor = null;
-        private boolean timed_out;
+    clbss MonitorWbitedEventImpl extends LocbtbbleEventImpl
+                            implements MonitorWbitedEvent {
+        privbte ObjectReference monitor = null;
+        privbte boolebn timed_out;
 
-        MonitorWaitedEventImpl(JDWP.Event.Composite.Events.MonitorWaited evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
+        MonitorWbitedEventImpl(JDWP.Event.Composite.Events.MonitorWbited evt) {
+            super(evt, evt.requestID, evt.threbd, evt.locbtion);
             this.monitor = evt.object;
             this.timed_out = evt.timed_out;
         }
 
-        String eventName() {
-            return "MonitorWaited";
+        String eventNbme() {
+            return "MonitorWbited";
         }
 
         public ObjectReference  monitor() {
             return monitor;
         };
 
-        public boolean timedout() {
+        public boolebn timedout() {
             return timed_out;
         }
     }
 
-    class ClassPrepareEventImpl extends ThreadedEventImpl
-                            implements ClassPrepareEvent {
-        private ReferenceType referenceType;
+    clbss ClbssPrepbreEventImpl extends ThrebdedEventImpl
+                            implements ClbssPrepbreEvent {
+        privbte ReferenceType referenceType;
 
-        ClassPrepareEventImpl(JDWP.Event.Composite.Events.ClassPrepare evt) {
-            super(evt, evt.requestID, evt.thread);
-            referenceType = this.vm.referenceType(evt.typeID, evt.refTypeTag,
-                                                  evt.signature);
-            ((ReferenceTypeImpl)referenceType).setStatus(evt.status);
+        ClbssPrepbreEventImpl(JDWP.Event.Composite.Events.ClbssPrepbre evt) {
+            super(evt, evt.requestID, evt.threbd);
+            referenceType = this.vm.referenceType(evt.typeID, evt.refTypeTbg,
+                                                  evt.signbture);
+            ((ReferenceTypeImpl)referenceType).setStbtus(evt.stbtus);
         }
 
         public ReferenceType referenceType() {
             return referenceType;
         }
 
-        String eventName() {
-            return "ClassPrepareEvent";
+        String eventNbme() {
+            return "ClbssPrepbreEvent";
         }
     }
 
-    class ClassUnloadEventImpl extends EventImpl implements ClassUnloadEvent {
-        private String classSignature;
+    clbss ClbssUnlobdEventImpl extends EventImpl implements ClbssUnlobdEvent {
+        privbte String clbssSignbture;
 
-        ClassUnloadEventImpl(JDWP.Event.Composite.Events.ClassUnload evt) {
+        ClbssUnlobdEventImpl(JDWP.Event.Composite.Events.ClbssUnlobd evt) {
             super(evt, evt.requestID);
-            this.classSignature = evt.signature;
+            this.clbssSignbture = evt.signbture;
         }
 
-        public String className() {
-            return classSignature.substring(1, classSignature.length()-1)
-                .replace('/', '.');
+        public String clbssNbme() {
+            return clbssSignbture.substring(1, clbssSignbture.length()-1)
+                .replbce('/', '.');
         }
 
-        public String classSignature() {
-            return classSignature;
+        public String clbssSignbture() {
+            return clbssSignbture;
         }
 
-        String eventName() {
-            return "ClassUnloadEvent";
+        String eventNbme() {
+            return "ClbssUnlobdEvent";
         }
     }
 
-    class ExceptionEventImpl extends LocatableEventImpl
+    clbss ExceptionEventImpl extends LocbtbbleEventImpl
                                              implements ExceptionEvent {
-        private ObjectReference exception;
-        private Location catchLocation;
+        privbte ObjectReference exception;
+        privbte Locbtion cbtchLocbtion;
 
         ExceptionEventImpl(JDWP.Event.Composite.Events.Exception evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
+            super(evt, evt.requestID, evt.threbd, evt.locbtion);
             this.exception = evt.exception;
-            this.catchLocation = evt.catchLocation;
+            this.cbtchLocbtion = evt.cbtchLocbtion;
         }
 
         public ObjectReference exception() {
             return exception;
         }
 
-        public Location catchLocation() {
-            return catchLocation;
+        public Locbtion cbtchLocbtion() {
+            return cbtchLocbtion;
         }
 
-        String eventName() {
+        String eventNbme() {
             return "ExceptionEvent";
         }
     }
 
-    class ThreadDeathEventImpl extends ThreadedEventImpl
-                                        implements ThreadDeathEvent {
-        ThreadDeathEventImpl(JDWP.Event.Composite.Events.ThreadDeath evt) {
-            super(evt, evt.requestID, evt.thread);
+    clbss ThrebdDebthEventImpl extends ThrebdedEventImpl
+                                        implements ThrebdDebthEvent {
+        ThrebdDebthEventImpl(JDWP.Event.Composite.Events.ThrebdDebth evt) {
+            super(evt, evt.requestID, evt.threbd);
         }
 
-        String eventName() {
-            return "ThreadDeathEvent";
-        }
-    }
-
-    class ThreadStartEventImpl extends ThreadedEventImpl
-                                        implements ThreadStartEvent {
-        ThreadStartEventImpl(JDWP.Event.Composite.Events.ThreadStart evt) {
-            super(evt, evt.requestID, evt.thread);
-        }
-
-        String eventName() {
-            return "ThreadStartEvent";
+        String eventNbme() {
+            return "ThrebdDebthEvent";
         }
     }
 
-    class VMStartEventImpl extends ThreadedEventImpl
-                                        implements VMStartEvent {
-        VMStartEventImpl(JDWP.Event.Composite.Events.VMStart evt) {
-            super(evt, evt.requestID, evt.thread);
+    clbss ThrebdStbrtEventImpl extends ThrebdedEventImpl
+                                        implements ThrebdStbrtEvent {
+        ThrebdStbrtEventImpl(JDWP.Event.Composite.Events.ThrebdStbrt evt) {
+            super(evt, evt.requestID, evt.threbd);
         }
 
-        String eventName() {
-            return "VMStartEvent";
+        String eventNbme() {
+            return "ThrebdStbrtEvent";
         }
     }
 
-    class VMDeathEventImpl extends EventImpl implements VMDeathEvent {
+    clbss VMStbrtEventImpl extends ThrebdedEventImpl
+                                        implements VMStbrtEvent {
+        VMStbrtEventImpl(JDWP.Event.Composite.Events.VMStbrt evt) {
+            super(evt, evt.requestID, evt.threbd);
+        }
 
-        VMDeathEventImpl(JDWP.Event.Composite.Events.VMDeath evt) {
+        String eventNbme() {
+            return "VMStbrtEvent";
+        }
+    }
+
+    clbss VMDebthEventImpl extends EventImpl implements VMDebthEvent {
+
+        VMDebthEventImpl(JDWP.Event.Composite.Events.VMDebth evt) {
             super(evt, evt.requestID);
         }
 
-        String eventName() {
-            return "VMDeathEvent";
+        String eventNbme() {
+            return "VMDebthEvent";
         }
     }
 
-    class VMDisconnectEventImpl extends EventImpl
+    clbss VMDisconnectEventImpl extends EventImpl
                                          implements VMDisconnectEvent {
 
         VMDisconnectEventImpl() {
             super((byte)JDWP.EventKind.VM_DISCONNECTED);
         }
 
-        String eventName() {
+        String eventNbme() {
             return "VMDisconnectEvent";
         }
     }
 
-    abstract class WatchpointEventImpl extends LocatableEventImpl
-                                            implements WatchpointEvent {
-        private final ReferenceTypeImpl refType;
-        private final long fieldID;
-        private final ObjectReference object;
-        private Field field = null;
+    bbstrbct clbss WbtchpointEventImpl extends LocbtbbleEventImpl
+                                            implements WbtchpointEvent {
+        privbte finbl ReferenceTypeImpl refType;
+        privbte finbl long fieldID;
+        privbte finbl ObjectReference object;
+        privbte Field field = null;
 
-        WatchpointEventImpl(JDWP.Event.Composite.Events.EventsCommon evt,
+        WbtchpointEventImpl(JDWP.Event.Composite.Events.EventsCommon evt,
                             int requestID,
-                            ThreadReference thread, Location location,
-                            byte refTypeTag, long typeID, long fieldID,
+                            ThrebdReference threbd, Locbtion locbtion,
+                            byte refTypeTbg, long typeID, long fieldID,
                             ObjectReference object) {
-            super(evt, requestID, thread, location);
-            this.refType = this.vm.referenceType(typeID, refTypeTag);
+            super(evt, requestID, threbd, locbtion);
+            this.refType = this.vm.referenceType(typeID, refTypeTbg);
             this.fieldID = fieldID;
             this.object = object;
         }
@@ -510,159 +510,159 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
             return object;
         }
 
-        public Value valueCurrent() {
+        public Vblue vblueCurrent() {
             if (object == null) {
-                return refType.getValue(field());
+                return refType.getVblue(field());
             } else {
-                return object.getValue(field());
+                return object.getVblue(field());
             }
         }
     }
 
-    class AccessWatchpointEventImpl extends WatchpointEventImpl
-                                            implements AccessWatchpointEvent {
+    clbss AccessWbtchpointEventImpl extends WbtchpointEventImpl
+                                            implements AccessWbtchpointEvent {
 
-        AccessWatchpointEventImpl(JDWP.Event.Composite.Events.FieldAccess evt) {
-            super(evt, evt.requestID, evt.thread, evt.location,
-                  evt.refTypeTag, evt.typeID, evt.fieldID, evt.object);
+        AccessWbtchpointEventImpl(JDWP.Event.Composite.Events.FieldAccess evt) {
+            super(evt, evt.requestID, evt.threbd, evt.locbtion,
+                  evt.refTypeTbg, evt.typeID, evt.fieldID, evt.object);
         }
 
-        String eventName() {
-            return "AccessWatchpoint";
+        String eventNbme() {
+            return "AccessWbtchpoint";
         }
     }
 
-    class ModificationWatchpointEventImpl extends WatchpointEventImpl
-                           implements ModificationWatchpointEvent {
-        Value newValue;
+    clbss ModificbtionWbtchpointEventImpl extends WbtchpointEventImpl
+                           implements ModificbtionWbtchpointEvent {
+        Vblue newVblue;
 
-        ModificationWatchpointEventImpl(
-                        JDWP.Event.Composite.Events.FieldModification evt) {
-            super(evt, evt.requestID, evt.thread, evt.location,
-                  evt.refTypeTag, evt.typeID, evt.fieldID, evt.object);
-            this.newValue = evt.valueToBe;
+        ModificbtionWbtchpointEventImpl(
+                        JDWP.Event.Composite.Events.FieldModificbtion evt) {
+            super(evt, evt.requestID, evt.threbd, evt.locbtion,
+                  evt.refTypeTbg, evt.typeID, evt.fieldID, evt.object);
+            this.newVblue = evt.vblueToBe;
         }
 
-        public Value valueToBe() {
-            return newValue;
+        public Vblue vblueToBe() {
+            return newVblue;
         }
 
-        String eventName() {
-            return "ModificationWatchpoint";
+        String eventNbme() {
+            return "ModificbtionWbtchpoint";
         }
     }
 
     /**
-     * Events are constructed on the thread which reads all data from the
-     * transport. This means that the packet cannot be converted to real
-     * JDI objects as that may involve further communications with the
-     * back end which would deadlock.
+     * Events bre constructed on the threbd which rebds bll dbtb from the
+     * trbnsport. This mebns thbt the pbcket cbnnot be converted to rebl
+     * JDI objects bs thbt mby involve further communicbtions with the
+     * bbck end which would debdlock.
      *
-     * Hence the {@link #build()} method below called by EventQueue.
+     * Hence the {@link #build()} method below cblled by EventQueue.
      */
-    EventSetImpl(VirtualMachine aVm, Packet pkt) {
+    EventSetImpl(VirtublMbchine bVm, Pbcket pkt) {
         super();
 
         // From "MirrorImpl":
-        // Yes, its a bit of a hack. But by doing it this
-        // way, this is the only place we have to change
-        // typing to substitute a new impl.
-        vm = (VirtualMachineImpl)aVm;
+        // Yes, its b bit of b hbck. But by doing it this
+        // wby, this is the only plbce we hbve to chbnge
+        // typing to substitute b new impl.
+        vm = (VirtublMbchineImpl)bVm;
 
         this.pkt = pkt;
     }
 
     /**
-     * Constructor for special events like VM disconnected
+     * Constructor for specibl events like VM disconnected
      */
-    EventSetImpl(VirtualMachine aVm, byte eventCmd) {
-        this(aVm, null);
+    EventSetImpl(VirtublMbchine bVm, byte eventCmd) {
+        this(bVm, null);
         suspendPolicy = JDWP.SuspendPolicy.NONE;
         switch (eventCmd) {
-            case JDWP.EventKind.VM_DISCONNECTED:
-                addEvent(new VMDisconnectEventImpl());
-                break;
+            cbse JDWP.EventKind.VM_DISCONNECTED:
+                bddEvent(new VMDisconnectEventImpl());
+                brebk;
 
-            default:
-                throw new InternalException("Bad singleton event code");
+            defbult:
+                throw new InternblException("Bbd singleton event code");
         }
     }
 
-    private void addEvent(EventImpl evt) {
-        // Note that this class has a public add method that throws
-        // an exception so that clients can't modify the EventSet
-        super.add(evt);
+    privbte void bddEvent(EventImpl evt) {
+        // Note thbt this clbss hbs b public bdd method thbt throws
+        // bn exception so thbt clients cbn't modify the EventSet
+        super.bdd(evt);
     }
 
     /*
-     * Complete the construction of an EventSet.  This is called from
-     * an event handler thread.  It upacks the JDWP events inside
-     * the packet and creates EventImpls for them.  The EventSet is already
-     * on EventQueues when this is called, so it has to be synch.
+     * Complete the construction of bn EventSet.  This is cblled from
+     * bn event hbndler threbd.  It upbcks the JDWP events inside
+     * the pbcket bnd crebtes EventImpls for them.  The EventSet is blrebdy
+     * on EventQueues when this is cblled, so it hbs to be synch.
      */
     synchronized void build() {
         if (pkt == null) {
             return;
         }
-        PacketStream ps = new PacketStream(vm, pkt);
+        PbcketStrebm ps = new PbcketStrebm(vm, pkt);
         JDWP.Event.Composite compEvt = new JDWP.Event.Composite(vm, ps);
         suspendPolicy = compEvt.suspendPolicy;
-        if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
+        if ((vm.trbceFlbgs & VirtublMbchine.TRACE_EVENTS) != 0) {
             switch(suspendPolicy) {
-                case JDWP.SuspendPolicy.ALL:
-                    vm.printTrace("EventSet: SUSPEND_ALL");
-                    break;
+                cbse JDWP.SuspendPolicy.ALL:
+                    vm.printTrbce("EventSet: SUSPEND_ALL");
+                    brebk;
 
-                case JDWP.SuspendPolicy.EVENT_THREAD:
-                    vm.printTrace("EventSet: SUSPEND_EVENT_THREAD");
-                    break;
+                cbse JDWP.SuspendPolicy.EVENT_THREAD:
+                    vm.printTrbce("EventSet: SUSPEND_EVENT_THREAD");
+                    brebk;
 
-                case JDWP.SuspendPolicy.NONE:
-                    vm.printTrace("EventSet: SUSPEND_NONE");
-                    break;
+                cbse JDWP.SuspendPolicy.NONE:
+                    vm.printTrbce("EventSet: SUSPEND_NONE");
+                    brebk;
             }
         }
 
-        ThreadReference fix6485605 = null;
+        ThrebdReference fix6485605 = null;
         for (int i = 0; i < compEvt.events.length; i++) {
-            EventImpl evt = createEvent(compEvt.events[i]);
-            if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
+            EventImpl evt = crebteEvent(compEvt.events[i]);
+            if ((vm.trbceFlbgs & VirtublMbchine.TRACE_EVENTS) != 0) {
                 try {
-                    vm.printTrace("Event: " + evt);
-                } catch (VMDisconnectedException ee) {
+                    vm.printTrbce("Event: " + evt);
+                } cbtch (VMDisconnectedException ee) {
                     // ignore - see bug 6502716
                 }
             }
 
-            switch (evt.destination()) {
-                case UNKNOWN_EVENT:
-                    // Ignore disabled, deleted, unknown events, but
-                    // save the thread if there is one since we might
-                    // have to resume it.  Note that events for different
-                    // threads can't be in the same event set.
-                    if (evt instanceof ThreadedEventImpl &&
+            switch (evt.destinbtion()) {
+                cbse UNKNOWN_EVENT:
+                    // Ignore disbbled, deleted, unknown events, but
+                    // sbve the threbd if there is one since we might
+                    // hbve to resume it.  Note thbt events for different
+                    // threbds cbn't be in the sbme event set.
+                    if (evt instbnceof ThrebdedEventImpl &&
                         suspendPolicy == JDWP.SuspendPolicy.EVENT_THREAD) {
-                        fix6485605 = ((ThreadedEventImpl)evt).thread();
+                        fix6485605 = ((ThrebdedEventImpl)evt).threbd();
                     }
                     continue;
-                case CLIENT_EVENT:
-                    addEvent(evt);
-                    break;
-                case INTERNAL_EVENT:
-                    if (internalEventSet == null) {
-                        internalEventSet = new EventSetImpl(this.vm, null);
+                cbse CLIENT_EVENT:
+                    bddEvent(evt);
+                    brebk;
+                cbse INTERNAL_EVENT:
+                    if (internblEventSet == null) {
+                        internblEventSet = new EventSetImpl(this.vm, null);
                     }
-                    internalEventSet.addEvent(evt);
-                    break;
-                default:
-                    throw new InternalException("Invalid event destination");
+                    internblEventSet.bddEvent(evt);
+                    brebk;
+                defbult:
+                    throw new InternblException("Invblid event destinbtion");
             }
         }
         pkt = null; // No longer needed - free it up
 
-        // Avoid hangs described in 6296125, 6293795
+        // Avoid hbngs described in 6296125, 6293795
         if (super.size() == 0) {
-            // This set has no client events.  If we don't do
+            // This set hbs no client events.  If we don't do
             // needed resumes, no one else is going to.
             if (suspendPolicy == JDWP.SuspendPolicy.ALL) {
                 vm.resume();
@@ -671,7 +671,7 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
                 if (fix6485605 != null) {
                     fix6485605.resume();
                 } else {
-                    // apparently, there is nothing to resume.
+                    // bppbrently, there is nothing to resume.
                 }
             }
             suspendPolicy = JDWP.SuspendPolicy.NONE;
@@ -681,7 +681,7 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
     }
 
     /**
-     * Filter out internal events
+     * Filter out internbl events
      */
     EventSet userFilter() {
         return this;
@@ -690,86 +690,86 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
     /**
      * Filter out user events.
      */
-    EventSet internalFilter() {
-        return this.internalEventSet;
+    EventSet internblFilter() {
+        return this.internblEventSet;
     }
 
-    EventImpl createEvent(JDWP.Event.Composite.Events evt) {
-        JDWP.Event.Composite.Events.EventsCommon comm = evt.aEventsCommon;
+    EventImpl crebteEvent(JDWP.Event.Composite.Events evt) {
+        JDWP.Event.Composite.Events.EventsCommon comm = evt.bEventsCommon;
         switch (evt.eventKind) {
-            case JDWP.EventKind.THREAD_START:
-                return new ThreadStartEventImpl(
-                      (JDWP.Event.Composite.Events.ThreadStart)comm);
+            cbse JDWP.EventKind.THREAD_START:
+                return new ThrebdStbrtEventImpl(
+                      (JDWP.Event.Composite.Events.ThrebdStbrt)comm);
 
-            case JDWP.EventKind.THREAD_END:
-                return new ThreadDeathEventImpl(
-                      (JDWP.Event.Composite.Events.ThreadDeath)comm);
+            cbse JDWP.EventKind.THREAD_END:
+                return new ThrebdDebthEventImpl(
+                      (JDWP.Event.Composite.Events.ThrebdDebth)comm);
 
-            case JDWP.EventKind.EXCEPTION:
+            cbse JDWP.EventKind.EXCEPTION:
                 return new ExceptionEventImpl(
                       (JDWP.Event.Composite.Events.Exception)comm);
 
-            case JDWP.EventKind.BREAKPOINT:
-                return new BreakpointEventImpl(
-                      (JDWP.Event.Composite.Events.Breakpoint)comm);
+            cbse JDWP.EventKind.BREAKPOINT:
+                return new BrebkpointEventImpl(
+                      (JDWP.Event.Composite.Events.Brebkpoint)comm);
 
-            case JDWP.EventKind.METHOD_ENTRY:
+            cbse JDWP.EventKind.METHOD_ENTRY:
                 return new MethodEntryEventImpl(
                       (JDWP.Event.Composite.Events.MethodEntry)comm);
 
-            case JDWP.EventKind.METHOD_EXIT:
+            cbse JDWP.EventKind.METHOD_EXIT:
                 return new MethodExitEventImpl(
                       (JDWP.Event.Composite.Events.MethodExit)comm);
 
-            case JDWP.EventKind.METHOD_EXIT_WITH_RETURN_VALUE:
+            cbse JDWP.EventKind.METHOD_EXIT_WITH_RETURN_VALUE:
                 return new MethodExitEventImpl(
-                      (JDWP.Event.Composite.Events.MethodExitWithReturnValue)comm);
+                      (JDWP.Event.Composite.Events.MethodExitWithReturnVblue)comm);
 
-            case JDWP.EventKind.FIELD_ACCESS:
-                return new AccessWatchpointEventImpl(
+            cbse JDWP.EventKind.FIELD_ACCESS:
+                return new AccessWbtchpointEventImpl(
                       (JDWP.Event.Composite.Events.FieldAccess)comm);
 
-            case JDWP.EventKind.FIELD_MODIFICATION:
-                return new ModificationWatchpointEventImpl(
-                      (JDWP.Event.Composite.Events.FieldModification)comm);
+            cbse JDWP.EventKind.FIELD_MODIFICATION:
+                return new ModificbtionWbtchpointEventImpl(
+                      (JDWP.Event.Composite.Events.FieldModificbtion)comm);
 
-            case JDWP.EventKind.SINGLE_STEP:
+            cbse JDWP.EventKind.SINGLE_STEP:
                 return new StepEventImpl(
                       (JDWP.Event.Composite.Events.SingleStep)comm);
 
-            case JDWP.EventKind.CLASS_PREPARE:
-                return new ClassPrepareEventImpl(
-                      (JDWP.Event.Composite.Events.ClassPrepare)comm);
+            cbse JDWP.EventKind.CLASS_PREPARE:
+                return new ClbssPrepbreEventImpl(
+                      (JDWP.Event.Composite.Events.ClbssPrepbre)comm);
 
-            case JDWP.EventKind.CLASS_UNLOAD:
-                return new ClassUnloadEventImpl(
-                      (JDWP.Event.Composite.Events.ClassUnload)comm);
+            cbse JDWP.EventKind.CLASS_UNLOAD:
+                return new ClbssUnlobdEventImpl(
+                      (JDWP.Event.Composite.Events.ClbssUnlobd)comm);
 
-            case JDWP.EventKind.MONITOR_CONTENDED_ENTER:
+            cbse JDWP.EventKind.MONITOR_CONTENDED_ENTER:
                 return new MonitorContendedEnterEventImpl(
                       (JDWP.Event.Composite.Events.MonitorContendedEnter)comm);
 
-            case JDWP.EventKind.MONITOR_CONTENDED_ENTERED:
+            cbse JDWP.EventKind.MONITOR_CONTENDED_ENTERED:
                 return new MonitorContendedEnteredEventImpl(
                       (JDWP.Event.Composite.Events.MonitorContendedEntered)comm);
 
-            case JDWP.EventKind.MONITOR_WAIT:
-                return new MonitorWaitEventImpl(
-                      (JDWP.Event.Composite.Events.MonitorWait)comm);
+            cbse JDWP.EventKind.MONITOR_WAIT:
+                return new MonitorWbitEventImpl(
+                      (JDWP.Event.Composite.Events.MonitorWbit)comm);
 
-            case JDWP.EventKind.MONITOR_WAITED:
-                return new MonitorWaitedEventImpl(
-                      (JDWP.Event.Composite.Events.MonitorWaited)comm);
+            cbse JDWP.EventKind.MONITOR_WAITED:
+                return new MonitorWbitedEventImpl(
+                      (JDWP.Event.Composite.Events.MonitorWbited)comm);
 
-            case JDWP.EventKind.VM_START:
-                return new VMStartEventImpl(
-                      (JDWP.Event.Composite.Events.VMStart)comm);
+            cbse JDWP.EventKind.VM_START:
+                return new VMStbrtEventImpl(
+                      (JDWP.Event.Composite.Events.VMStbrt)comm);
 
-            case JDWP.EventKind.VM_DEATH:
-                return new VMDeathEventImpl(
-                      (JDWP.Event.Composite.Events.VMDeath)comm);
+            cbse JDWP.EventKind.VM_DEATH:
+                return new VMDebthEventImpl(
+                      (JDWP.Event.Composite.Events.VMDebth)comm);
 
-            default:
+            defbult:
                 // Ignore unknown event types
                 System.err.println("Ignoring event cmd " +
                                    evt.eventKind + " from the VM");
@@ -777,18 +777,18 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
         }
     }
 
-    public VirtualMachine virtualMachine() {
+    public VirtublMbchine virtublMbchine() {
         return vm;
     }
 
     public int suspendPolicy() {
-        return EventRequestManagerImpl.JDWPtoJDISuspendPolicy(suspendPolicy);
+        return EventRequestMbnbgerImpl.JDWPtoJDISuspendPolicy(suspendPolicy);
     }
 
-    private ThreadReference eventThread() {
+    privbte ThrebdReference eventThrebd() {
         for (Event event : this) {
-            if (event instanceof ThreadedEventImpl) {
-                return ((ThreadedEventImpl)event).thread();
+            if (event instbnceof ThrebdedEventImpl) {
+                return ((ThrebdedEventImpl)event).threbd();
             }
         }
         return null;
@@ -796,39 +796,39 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
 
     public void resume() {
         switch (suspendPolicy()) {
-            case EventRequest.SUSPEND_ALL:
+            cbse EventRequest.SUSPEND_ALL:
                 vm.resume();
-                break;
-            case EventRequest.SUSPEND_EVENT_THREAD:
-                ThreadReference thread = eventThread();
-                if (thread == null) {
-                    throw new InternalException("Inconsistent suspend policy");
+                brebk;
+            cbse EventRequest.SUSPEND_EVENT_THREAD:
+                ThrebdReference threbd = eventThrebd();
+                if (threbd == null) {
+                    throw new InternblException("Inconsistent suspend policy");
                 }
-                thread.resume();
-                break;
-            case EventRequest.SUSPEND_NONE:
+                threbd.resume();
+                brebk;
+            cbse EventRequest.SUSPEND_NONE:
                 // Do nothing
-                break;
-            default:
-                throw new InternalException("Invalid suspend policy");
+                brebk;
+            defbult:
+                throw new InternblException("Invblid suspend policy");
         }
     }
 
-    public Iterator<Event> iterator() {
+    public Iterbtor<Event> iterbtor() {
         return new Itr();
     }
 
-    public EventIterator eventIterator() {
+    public EventIterbtor eventIterbtor() {
         return new Itr();
     }
 
-    public class Itr implements EventIterator {
+    public clbss Itr implements EventIterbtor {
         /**
-         * Index of element to be returned by subsequent call to next.
+         * Index of element to be returned by subsequent cbll to next.
          */
         int cursor = 0;
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return cursor != size();
         }
 
@@ -837,7 +837,7 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
                 Event nxt = get(cursor);
                 ++cursor;
                 return nxt;
-            } catch(IndexOutOfBoundsException e) {
+            } cbtch(IndexOutOfBoundsException e) {
                 throw new NoSuchElementException();
             }
         }
@@ -847,33 +847,33 @@ public class EventSetImpl extends ArrayList<Event> implements EventSet {
         }
 
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
     @Override
-    public Spliterator<Event> spliterator() {
-        return Spliterators.spliterator(this, Spliterator.DISTINCT);
+    public Spliterbtor<Event> spliterbtor() {
+        return Spliterbtors.spliterbtor(this, Spliterbtor.DISTINCT);
     }
 
-    /* below make this unmodifiable */
+    /* below mbke this unmodifibble */
 
-    public boolean add(Event o){
-        throw new UnsupportedOperationException();
+    public boolebn bdd(Event o){
+        throw new UnsupportedOperbtionException();
     }
-    public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+    public boolebn remove(Object o) {
+        throw new UnsupportedOperbtionException();
     }
-    public boolean addAll(Collection<? extends Event> coll) {
-        throw new UnsupportedOperationException();
+    public boolebn bddAll(Collection<? extends Event> coll) {
+        throw new UnsupportedOperbtionException();
     }
-    public boolean removeAll(Collection<?> coll) {
-        throw new UnsupportedOperationException();
+    public boolebn removeAll(Collection<?> coll) {
+        throw new UnsupportedOperbtionException();
     }
-    public boolean retainAll(Collection<?> coll) {
-        throw new UnsupportedOperationException();
+    public boolebn retbinAll(Collection<?> coll) {
+        throw new UnsupportedOperbtionException();
     }
-    public void clear() {
-        throw new UnsupportedOperationException();
+    public void clebr() {
+        throw new UnsupportedOperbtionException();
     }
 }

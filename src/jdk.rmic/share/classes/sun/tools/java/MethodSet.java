@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * The MethodSet structure is used to store methods for a class.
- * It maintains the invariant that it never stores two methods
- * with the same signature.  MethodSets are able to lookup
- * all methods with a given name and the unique method with a given
- * signature (name, args).
+ * The MethodSet structure is used to store methods for b clbss.
+ * It mbintbins the invbribnt thbt it never stores two methods
+ * with the sbme signbture.  MethodSets bre bble to lookup
+ * bll methods with b given nbme bnd the unique method with b given
+ * signbture (nbme, brgs).
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 
 public
-class MethodSet {
+clbss MethodSet {
 
     /**
-     * A Map containing Lists of MemberDefinitions.  The Lists
-     * contain methods which share the same name.
+     * A Mbp contbining Lists of MemberDefinitions.  The Lists
+     * contbin methods which shbre the sbme nbme.
      */
-    private final Map<Identifier,List<MemberDefinition>> lookupMap;
+    privbte finbl Mbp<Identifier,List<MemberDefinition>> lookupMbp;
 
     /**
      * The number of methods stored in the MethodSet.
      */
-    private int count;
+    privbte int count;
 
     /**
-     * Is this MethodSet currently frozen?  See freeze() for more details.
+     * Is this MethodSet currently frozen?  See freeze() for more detbils.
      */
-    private boolean frozen;
+    privbte boolebn frozen;
 
     /**
-     * Creates a brand new MethodSet
+     * Crebtes b brbnd new MethodSet
      */
     public MethodSet() {
-        frozen = false;
-        lookupMap = new HashMap<>();
+        frozen = fblse;
+        lookupMbp = new HbshMbp<>();
         count = 0;
     }
 
@@ -75,152 +75,152 @@ class MethodSet {
     }
 
     /**
-     * Adds `method' to the MethodSet.  No method of the same signature
-     * should be already defined.
+     * Adds `method' to the MethodSet.  No method of the sbme signbture
+     * should be blrebdy defined.
      */
-    public void add(MemberDefinition method) {
-            // Check for late additions.
+    public void bdd(MemberDefinition method) {
+            // Check for lbte bdditions.
             if (frozen) {
-                throw new CompilerError("add()");
+                throw new CompilerError("bdd()");
             }
 
             // todo: Check for method??
 
-            Identifier name = method.getName();
+            Identifier nbme = method.getNbme();
 
-            // Get a List containing all methods of this name.
-            List<MemberDefinition> methodList = lookupMap.get(name);
+            // Get b List contbining bll methods of this nbme.
+            List<MemberDefinition> methodList = lookupMbp.get(nbme);
 
             if (methodList == null) {
-                // There is no method with this name already.
-                // Create a List, and insert it into the hash.
-                methodList = new ArrayList<>();
-                lookupMap.put(name, methodList);
+                // There is no method with this nbme blrebdy.
+                // Crebte b List, bnd insert it into the hbsh.
+                methodList = new ArrbyList<>();
+                lookupMbp.put(nbme, methodList);
             }
 
-            // Make sure that no method with the same signature has already
-            // been added to the MethodSet.
+            // Mbke sure thbt no method with the sbme signbture hbs blrebdy
+            // been bdded to the MethodSet.
             int size = methodList.size();
             for (int i = 0; i < size; i++) {
                 if ((methodList.get(i))
-                    .getType().equalArguments(method.getType())) {
-                    throw new CompilerError("duplicate addition");
+                    .getType().equblArguments(method.getType())) {
+                    throw new CompilerError("duplicbte bddition");
                 }
             }
 
-            // We add the method to the appropriate list.
-            methodList.add(method);
+            // We bdd the method to the bppropribte list.
+            methodList.bdd(method);
             count++;
     }
 
     /**
-     * Adds `method' to the MethodSet, replacing any previous definition
-     * with the same signature.
+     * Adds `method' to the MethodSet, replbcing bny previous definition
+     * with the sbme signbture.
      */
-    public void replace(MemberDefinition method) {
-            // Check for late additions.
+    public void replbce(MemberDefinition method) {
+            // Check for lbte bdditions.
             if (frozen) {
-                throw new CompilerError("replace()");
+                throw new CompilerError("replbce()");
             }
 
             // todo: Check for method??
 
-            Identifier name = method.getName();
+            Identifier nbme = method.getNbme();
 
-            // Get a List containing all methods of this name.
-            List<MemberDefinition> methodList = lookupMap.get(name);
+            // Get b List contbining bll methods of this nbme.
+            List<MemberDefinition> methodList = lookupMbp.get(nbme);
 
             if (methodList == null) {
-                // There is no method with this name already.
-                // Create a List, and insert it into the hash.
-                methodList = new ArrayList<>();
-                lookupMap.put(name, methodList);
+                // There is no method with this nbme blrebdy.
+                // Crebte b List, bnd insert it into the hbsh.
+                methodList = new ArrbyList<>();
+                lookupMbp.put(nbme, methodList);
             }
 
-            // Replace the element which has the same signature as
+            // Replbce the element which hbs the sbme signbture bs
             // `method'.
             int size = methodList.size();
             for (int i = 0; i < size; i++) {
                 if ((methodList.get(i))
-                    .getType().equalArguments(method.getType())) {
+                    .getType().equblArguments(method.getType())) {
                     methodList.set(i, method);
                     return;
                 }
             }
 
-            // We add the method to the appropriate list.
-            methodList.add(method);
+            // We bdd the method to the bppropribte list.
+            methodList.bdd(method);
             count++;
     }
 
     /**
-     * If the MethodSet contains a method with the same signature
+     * If the MethodSet contbins b method with the sbme signbture
      * then lookup() returns it.  Otherwise, this method returns null.
      */
-    public MemberDefinition lookupSig(Identifier name, Type type) {
-        // Go through all methods of the same name and see if any
-        // have the right signature.
-        Iterator<MemberDefinition> matches = lookupName(name);
-        MemberDefinition candidate;
+    public MemberDefinition lookupSig(Identifier nbme, Type type) {
+        // Go through bll methods of the sbme nbme bnd see if bny
+        // hbve the right signbture.
+        Iterbtor<MemberDefinition> mbtches = lookupNbme(nbme);
+        MemberDefinition cbndidbte;
 
-        while (matches.hasNext()) {
-            candidate = matches.next();
-            if (candidate.getType().equalArguments(type)) {
-                return candidate;
+        while (mbtches.hbsNext()) {
+            cbndidbte = mbtches.next();
+            if (cbndidbte.getType().equblArguments(type)) {
+                return cbndidbte;
             }
         }
 
-        // No match.
+        // No mbtch.
         return null;
     }
 
     /**
-     * Returns an Iterator of all methods contained in the
-     * MethodSet which have a given name.
+     * Returns bn Iterbtor of bll methods contbined in the
+     * MethodSet which hbve b given nbme.
      */
-    public Iterator<MemberDefinition> lookupName(Identifier name) {
-        // Find the List containing all methods of this name, and
-        // return that List's Iterator.
-        List<MemberDefinition> methodList = lookupMap.get(name);
+    public Iterbtor<MemberDefinition> lookupNbme(Identifier nbme) {
+        // Find the List contbining bll methods of this nbme, bnd
+        // return thbt List's Iterbtor.
+        List<MemberDefinition> methodList = lookupMbp.get(nbme);
         if (methodList == null) {
-            // If there is no method of this name, return a bogus, empty
-            // Iterator.
-            return Collections.emptyIterator();
+            // If there is no method of this nbme, return b bogus, empty
+            // Iterbtor.
+            return Collections.emptyIterbtor();
         }
-        return methodList.iterator();
+        return methodList.iterbtor();
     }
 
     /**
-     * Returns an Iterator of all methods in the MethodSet
+     * Returns bn Iterbtor of bll methods in the MethodSet
      */
-    public Iterator<MemberDefinition> iterator() {
+    public Iterbtor<MemberDefinition> iterbtor() {
 
         //----------------------------------------------------------
-        // The inner class MethodIterator is used to create our
-        // Iterator of all methods in the MethodSet.
-        class MethodIterator implements Iterator<MemberDefinition> {
-            Iterator<List<MemberDefinition>> hashIter = lookupMap.values().iterator();
-            Iterator<MemberDefinition> listIter = Collections.emptyIterator();
+        // The inner clbss MethodIterbtor is used to crebte our
+        // Iterbtor of bll methods in the MethodSet.
+        clbss MethodIterbtor implements Iterbtor<MemberDefinition> {
+            Iterbtor<List<MemberDefinition>> hbshIter = lookupMbp.vblues().iterbtor();
+            Iterbtor<MemberDefinition> listIter = Collections.emptyIterbtor();
 
-            public boolean hasNext() {
-                if (listIter.hasNext()) {
+            public boolebn hbsNext() {
+                if (listIter.hbsNext()) {
                     return true;
                 } else {
-                    if (hashIter.hasNext()) {
-                        listIter = hashIter.next().iterator();
+                    if (hbshIter.hbsNext()) {
+                        listIter = hbshIter.next().iterbtor();
 
-                        // The following should be always true.
-                        if (listIter.hasNext()) {
+                        // The following should be blwbys true.
+                        if (listIter.hbsNext()) {
                             return true;
                         } else {
                             throw new
-                                CompilerError("iterator() in MethodSet");
+                                CompilerError("iterbtor() in MethodSet");
                         }
                     }
                 }
 
                 // We've run out of Lists.
-                return false;
+                return fblse;
             }
 
             public MemberDefinition next() {
@@ -228,50 +228,50 @@ class MethodSet {
             }
 
             public void remove() {
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperbtionException();
             }
         }
-        // end MethodIterator
+        // end MethodIterbtor
         //----------------------------------------------------------
 
         // A one-liner.
-        return new MethodIterator();
+        return new MethodIterbtor();
     }
 
     /**
-     * After freeze() is called, the MethodSet becomes (mostly)
-     * immutable.  Any calls to add() or addMeet() lead to
-     * CompilerErrors.  Note that the entries themselves are still
-     * (unfortunately) open for mischievous and wanton modification.
+     * After freeze() is cblled, the MethodSet becomes (mostly)
+     * immutbble.  Any cblls to bdd() or bddMeet() lebd to
+     * CompilerErrors.  Note thbt the entries themselves bre still
+     * (unfortunbtely) open for mischievous bnd wbnton modificbtion.
      */
     public void freeze() {
         frozen = true;
     }
 
     /**
-     * Tells whether freeze() has been called on this MethodSet.
+     * Tells whether freeze() hbs been cblled on this MethodSet.
      */
-    public boolean isFrozen() {
+    public boolebn isFrozen() {
         return frozen;
     }
 
     /**
-     * Returns a (big) string representation of this MethodSet
+     * Returns b (big) string representbtion of this MethodSet
      */
     public String toString() {
         int len = size();
         StringBuilder sb = new StringBuilder();
-        Iterator<MemberDefinition> all = iterator();
-        sb.append("{");
+        Iterbtor<MemberDefinition> bll = iterbtor();
+        sb.bppend("{");
 
-        while (all.hasNext()) {
-            sb.append(all.next().toString());
+        while (bll.hbsNext()) {
+            sb.bppend(bll.next().toString());
             len--;
             if (len > 0) {
-                sb.append(", ");
+                sb.bppend(", ");
             }
         }
-        sb.append("}");
+        sb.bppend("}");
         return sb.toString();
     }
 }

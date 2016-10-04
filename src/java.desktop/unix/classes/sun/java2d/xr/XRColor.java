@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.xr;
+pbckbge sun.jbvb2d.xr;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * XRender color class.
+ * XRender color clbss.
  *
- * @author Clemens Eisserer
+ * @buthor Clemens Eisserer
  */
 
-public class XRColor {
-    public static final XRColor FULL_ALPHA = new XRColor(0xffff, 0, 0, 0);
-    public static final XRColor NO_ALPHA = new XRColor(0, 0, 0, 0);
+public clbss XRColor {
+    public stbtic finbl XRColor FULL_ALPHA = new XRColor(0xffff, 0, 0, 0);
+    public stbtic finbl XRColor NO_ALPHA = new XRColor(0, 0, 0, 0);
 
-    int red, green, blue, alpha;
+    int red, green, blue, blphb;
 
     public XRColor() {
         red = 0;
         green = 0;
         blue = 0;
-        alpha = 0;
+        blphb = 0;
     }
 
-    public XRColor(int alpha, int red, int green, int blue) {
-        this.alpha = alpha;
+    public XRColor(int blphb, int red, int green, int blue) {
+        this.blphb = blphb;
         this.red = red;
         this.green = green;
         this.blue = blue;
     }
 
     public XRColor(Color color) {
-        setColorValues(color);
+        setColorVblues(color);
     }
 
-    public void setColorValues(Color color) {
-        alpha = byteToXRColorValue(color.getAlpha());
+    public void setColorVblues(Color color) {
+        blphb = byteToXRColorVblue(color.getAlphb());
 
-        red = byteToXRColorValue(
-                      (int)(color.getRed() * color.getAlpha() / 255.0));
-        green = byteToXRColorValue(
-                      (int)(color.getGreen() * color.getAlpha() / 255.0));
-        blue = byteToXRColorValue(
-                      (int)(color.getBlue() * color.getAlpha() / 255.0));
+        red = byteToXRColorVblue(
+                      (int)(color.getRed() * color.getAlphb() / 255.0));
+        green = byteToXRColorVblue(
+                      (int)(color.getGreen() * color.getAlphb() / 255.0));
+        blue = byteToXRColorVblue(
+                      (int)(color.getBlue() * color.getAlphb() / 255.0));
     }
 
-    public static int[] ARGBPrePixelToXRColors(int[] pixels) {
-        int[] colorValues = new int[pixels.length * 4];
+    public stbtic int[] ARGBPrePixelToXRColors(int[] pixels) {
+        int[] colorVblues = new int[pixels.length * 4];
         XRColor c = new XRColor();
 
         for (int i = 0; i < pixels.length; i++) {
-            c.setColorValues(pixels[i], true);
-            colorValues[i * 4 + 0] = c.alpha;
-            colorValues[i * 4 + 1] = c.red;
-            colorValues[i * 4 + 2] = c.green;
-            colorValues[i * 4 + 3] = c.blue;
+            c.setColorVblues(pixels[i], true);
+            colorVblues[i * 4 + 0] = c.blphb;
+            colorVblues[i * 4 + 1] = c.red;
+            colorVblues[i * 4 + 2] = c.green;
+            colorVblues[i * 4 + 3] = c.blue;
         }
 
-        return colorValues;
+        return colorVblues;
     }
 
-    public void setColorValues(int pixel, boolean pre) {
+    public void setColorVblues(int pixel, boolebn pre) {
         long pix = XRUtils.intToULong(pixel);
-        alpha = (int) (((pix & 0xFF000000) >> 16) + 255);
+        blphb = (int) (((pix & 0xFF000000) >> 16) + 255);
         red = (int) (((pix & 0x00FF0000) >> 8) + 255);
         green = (int) (((pix & 0x0000FF00) >> 0) + 255);
         blue = (int) (((pix & 0x000000FF) << 8) + 255);
 
-        if (alpha == 255) {
-            alpha = 0;
+        if (blphb == 255) {
+            blphb = 0;
         }
 
         if (!pre) {
-            double alphaMult = XRUtils.XFixedToDouble(alpha);
-            this.red = (int) (red * alphaMult);
-            this.green = (int) (green * alphaMult);
-            this.blue = (int) (blue * alphaMult);
+            double blphbMult = XRUtils.XFixedToDouble(blphb);
+            this.red = (int) (red * blphbMult);
+            this.green = (int) (green * blphbMult);
+            this.blue = (int) (blue * blphbMult);
         }
     }
 
-    public static int byteToXRColorValue(int byteValue) {
-        int xrValue = 0;
+    public stbtic int byteToXRColorVblue(int byteVblue) {
+        int xrVblue = 0;
 
-        if (byteValue != 0) {
-            if (byteValue == 255) {
-                xrValue = 0xffff;
+        if (byteVblue != 0) {
+            if (byteVblue == 255) {
+                xrVblue = 0xffff;
             } else {
-                xrValue = ((byteValue << 8) + 255);
+                xrVblue = ((byteVblue << 8) + 255);
             }
         }
 
-        return xrValue;
+        return xrVblue;
     }
 
     public String toString(){
-        return "A:"+alpha+"  R:"+red+"  G:"+green+" B:"+blue;
+        return "A:"+blphb+"  R:"+red+"  G:"+green+" B:"+blue;
     }
 
-    public void setAlpha(int alpha) {
-        this.alpha = alpha;
+    public void setAlphb(int blphb) {
+        this.blphb = blphb;
     }
 
-    public int getAlpha() {
-        return alpha;
+    public int getAlphb() {
+        return blphb;
     }
 
     public int getRed() {

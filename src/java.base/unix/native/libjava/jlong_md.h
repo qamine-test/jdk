@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef _SOLARIS_JLONG_MD_H_
 #define _SOLARIS_JLONG_MD_H_
 
-/* Make sure ptrdiff_t is defined */
+/* Mbke sure ptrdiff_t is defined */
 #include <stddef.h>
 #include <stdint.h>  /* For uintptr_t */
 
-#define jlong_high(a)   ((jint)((a)>>32))
-#define jlong_low(a)    ((jint)(a))
-#define jlong_add(a, b) ((a) + (b))
-#define jlong_and(a, b) ((a) & (b))
-#define jlong_div(a, b) ((a) / (b))
-#define jlong_mul(a, b) ((a) * (b))
-#define jlong_neg(a)    (-(a))
-#define jlong_not(a)    (~(a))
-#define jlong_or(a, b)  ((a) | (b))
-#define jlong_shl(a, n) ((a) << (n))
-#define jlong_shr(a, n) ((a) >> (n))
-#define jlong_sub(a, b) ((a) - (b))
-#define jlong_xor(a, b) ((a) ^ (b))
-#define jlong_rem(a,b)  ((a) % (b))
+#define jlong_high(b)   ((jint)((b)>>32))
+#define jlong_low(b)    ((jint)(b))
+#define jlong_bdd(b, b) ((b) + (b))
+#define jlong_bnd(b, b) ((b) & (b))
+#define jlong_div(b, b) ((b) / (b))
+#define jlong_mul(b, b) ((b) * (b))
+#define jlong_neg(b)    (-(b))
+#define jlong_not(b)    (~(b))
+#define jlong_or(b, b)  ((b) | (b))
+#define jlong_shl(b, n) ((b) << (n))
+#define jlong_shr(b, n) ((b) >> (n))
+#define jlong_sub(b, b) ((b) - (b))
+#define jlong_xor(b, b) ((b) ^ (b))
+#define jlong_rem(b,b)  ((b) % (b))
 
-/* comparison operators */
+/* compbrison operbtors */
 #define jlong_ltz(ll)   ((ll)<0)
 #define jlong_gez(ll)   ((ll)>=0)
 #define jlong_gtz(ll)   ((ll)>0)
-#define jlong_eqz(a)    ((a) == 0)
-#define jlong_eq(a, b)  ((a) == (b))
-#define jlong_ne(a,b)   ((a) != (b))
-#define jlong_ge(a,b)   ((a) >= (b))
-#define jlong_le(a,b)   ((a) <= (b))
-#define jlong_lt(a,b)   ((a) < (b))
-#define jlong_gt(a,b)   ((a) > (b))
+#define jlong_eqz(b)    ((b) == 0)
+#define jlong_eq(b, b)  ((b) == (b))
+#define jlong_ne(b,b)   ((b) != (b))
+#define jlong_ge(b,b)   ((b) >= (b))
+#define jlong_le(b,b)   ((b) <= (b))
+#define jlong_lt(b,b)   ((b) < (b))
+#define jlong_gt(b,b)   ((b) > (b))
 
 #define jlong_zero      ((jlong) 0)
 #define jlong_one       ((jlong) 1)
 #define jlong_minus_one ((jlong) -1)
 
-/* For static variables initialized to zero */
+/* For stbtic vbribbles initiblized to zero */
 #define jlong_zero_init  ((jlong) 0L)
 
 #ifdef _LP64
-#define jlong_to_ptr(a) ((void*)(a))
-#define ptr_to_jlong(a) ((jlong)(a))
+#define jlong_to_ptr(b) ((void*)(b))
+#define ptr_to_jlong(b) ((jlong)(b))
 #else
-#define jlong_to_ptr(a) ((void*)(int)(a))
-#define ptr_to_jlong(a) ((jlong)(int)(a))
+#define jlong_to_ptr(b) ((void*)(int)(b))
+#define ptr_to_jlong(b) ((jlong)(int)(b))
 #endif
 
-#define jint_to_jlong(a)        ((jlong)(a))
-#define jlong_to_jint(a)        ((jint)(a))
+#define jint_to_jlong(b)        ((jlong)(b))
+#define jlong_to_jint(b)        ((jint)(b))
 
-/* Useful on machines where jlong and jdouble have different endianness. */
-#define jlong_to_jdouble_bits(a)
-#define jdouble_to_jlong_bits(a)
+/* Useful on mbchines where jlong bnd jdouble hbve different endibnness. */
+#define jlong_to_jdouble_bits(b)
+#define jdouble_to_jlong_bits(b)
 
-#define jlong_to_int(a)     ((int)(a))
-#define int_to_jlong(a)     ((jlong)(a))
-#define jlong_to_uint(a)    ((unsigned int)(a))
-#define uint_to_jlong(a)    ((jlong)(a))
-#define jlong_to_ptrdiff(a) ((ptrdiff_t)(a))
-#define ptrdiff_to_jlong(a) ((jlong)(a))
-#define jlong_to_size(a)    ((size_t)(a))
-#define size_to_jlong(a)    ((jlong)(a))
-#define long_to_jlong(a)    ((jlong)(a))
+#define jlong_to_int(b)     ((int)(b))
+#define int_to_jlong(b)     ((jlong)(b))
+#define jlong_to_uint(b)    ((unsigned int)(b))
+#define uint_to_jlong(b)    ((jlong)(b))
+#define jlong_to_ptrdiff(b) ((ptrdiff_t)(b))
+#define ptrdiff_to_jlong(b) ((jlong)(b))
+#define jlong_to_size(b)    ((size_t)(b))
+#define size_to_jlong(b)    ((jlong)(b))
+#define long_to_jlong(b)    ((jlong)(b))
 
 #endif /* !_SOLARIS_JLONG_MD_H_ */

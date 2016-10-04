@@ -1,2 +1,2 @@
-Main-Class: com.sun.sample.scriptpad.Main
+Mbin-Clbss: com.sun.sbmple.scriptpbd.Mbin
 

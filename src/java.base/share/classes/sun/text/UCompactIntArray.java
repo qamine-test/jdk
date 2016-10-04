@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.text;
+pbckbge sun.text;
 
-public final class UCompactIntArray implements Cloneable {
+public finbl clbss UCompbctIntArrby implements Clonebble {
     /**
-     * Default constructor for UCompactIntArray, the default value of the
-     * compact array is 0.
+     * Defbult constructor for UCompbctIntArrby, the defbult vblue of the
+     * compbct brrby is 0.
      */
-    public UCompactIntArray() {
-        values = new int[16][];
+    public UCompbctIntArrby() {
+        vblues = new int[16][];
         indices = new short[16][];
-        blockTouched = new boolean[16][];
-        planeTouched = new boolean[16];
+        blockTouched = new boolebn[16][];
+        plbneTouched = new boolebn[16];
     }
 
-    public UCompactIntArray(int defaultValue) {
+    public UCompbctIntArrby(int defbultVblue) {
         this();
-        this.defaultValue = defaultValue;
+        this.defbultVblue = defbultVblue;
     }
 
     /**
-     * Get the mapped value of a Unicode character.
-     * @param index the character to get the mapped value with
-     * @return the mapped value of the given character
+     * Get the mbpped vblue of b Unicode chbrbcter.
+     * @pbrbm index the chbrbcter to get the mbpped vblue with
+     * @return the mbpped vblue of the given chbrbcter
      */
     public int elementAt(int index) {
-        int plane = (index & PLANEMASK) >> PLANESHIFT;
-        if (!planeTouched[plane]) {
-            return defaultValue;
+        int plbne = (index & PLANEMASK) >> PLANESHIFT;
+        if (!plbneTouched[plbne]) {
+            return defbultVblue;
         }
         index &= CODEPOINTMASK;
-        return values[plane][(indices[plane][index >> BLOCKSHIFT] & 0xFFFF)
+        return vblues[plbne][(indices[plbne][index >> BLOCKSHIFT] & 0xFFFF)
                        + (index & BLOCKMASK)];
     }
 
 
     /**
-     * Set a new value for a Unicode character.
-     * Set automatically expands the array if it is compacted.
-     * @param index the character to set the mapped value with
-     * @param value the new mapped value
+     * Set b new vblue for b Unicode chbrbcter.
+     * Set butombticblly expbnds the brrby if it is compbcted.
+     * @pbrbm index the chbrbcter to set the mbpped vblue with
+     * @pbrbm vblue the new mbpped vblue
      */
-    public void setElementAt(int index, int value) {
-        if (isCompact) {
-            expand();
+    public void setElementAt(int index, int vblue) {
+        if (isCompbct) {
+            expbnd();
         }
-        int plane = (index & PLANEMASK) >> PLANESHIFT;
-        if (!planeTouched[plane]) {
-            initPlane(plane);
+        int plbne = (index & PLANEMASK) >> PLANESHIFT;
+        if (!plbneTouched[plbne]) {
+            initPlbne(plbne);
         }
         index &= CODEPOINTMASK;
-        values[plane][index] = value;
-        blockTouched[plane][index >> BLOCKSHIFT] = true;
+        vblues[plbne][index] = vblue;
+        blockTouched[plbne][index >> BLOCKSHIFT] = true;
     }
 
 
     /**
-     * Compact the array.
+     * Compbct the brrby.
      */
-    public void compact() {
-        if (isCompact) {
+    public void compbct() {
+        if (isCompbct) {
             return;
         }
-        for (int plane = 0; plane < PLANECOUNT; plane++) {
-            if (!planeTouched[plane]) {
+        for (int plbne = 0; plbne < PLANECOUNT; plbne++) {
+            if (!plbneTouched[plbne]) {
                 continue;
             }
-            int limitCompacted = 0;
-            int iBlockStart = 0;
+            int limitCompbcted = 0;
+            int iBlockStbrt = 0;
             short iUntouched = -1;
 
-            for (int i = 0; i < indices[plane].length; ++i, iBlockStart += BLOCKCOUNT) {
-                indices[plane][i] = -1;
-                if (!blockTouched[plane][i] && iUntouched != -1) {
-                    // If no values in this block were set, we can just set its
-                    // index to be the same as some other block with no values
-                    // set, assuming we've seen one yet.
-                    indices[plane][i] = iUntouched;
+            for (int i = 0; i < indices[plbne].length; ++i, iBlockStbrt += BLOCKCOUNT) {
+                indices[plbne][i] = -1;
+                if (!blockTouched[plbne][i] && iUntouched != -1) {
+                    // If no vblues in this block were set, we cbn just set its
+                    // index to be the sbme bs some other block with no vblues
+                    // set, bssuming we've seen one yet.
+                    indices[plbne][i] = iUntouched;
                 } else {
-                    int jBlockStart = limitCompacted * BLOCKCOUNT;
-                    if (i > limitCompacted) {
-                        System.arraycopy(values[plane], iBlockStart,
-                                         values[plane], jBlockStart, BLOCKCOUNT);
+                    int jBlockStbrt = limitCompbcted * BLOCKCOUNT;
+                    if (i > limitCompbcted) {
+                        System.brrbycopy(vblues[plbne], iBlockStbrt,
+                                         vblues[plbne], jBlockStbrt, BLOCKCOUNT);
                     }
-                    if (!blockTouched[plane][i]) {
+                    if (!blockTouched[plbne][i]) {
                         // If this is the first untouched block we've seen, remember it.
-                        iUntouched = (short)jBlockStart;
+                        iUntouched = (short)jBlockStbrt;
                     }
-                    indices[plane][i] = (short)jBlockStart;
-                    limitCompacted++;
+                    indices[plbne][i] = (short)jBlockStbrt;
+                    limitCompbcted++;
                 }
             }
 
-            // we are done compacting, so now make the array shorter
-            int newSize = limitCompacted * BLOCKCOUNT;
+            // we bre done compbcting, so now mbke the brrby shorter
+            int newSize = limitCompbcted * BLOCKCOUNT;
             int[] result = new int[newSize];
-            System.arraycopy(values[plane], 0, result, 0, newSize);
-            values[plane] = result;
-            blockTouched[plane] = null;
+            System.brrbycopy(vblues[plbne], 0, result, 0, newSize);
+            vblues[plbne] = result;
+            blockTouched[plbne] = null;
         }
-        isCompact = true;
+        isCompbct = true;
     }
 
 
     // --------------------------------------------------------------
-    // private
+    // privbte
     // --------------------------------------------------------------
     /**
-     * Expanded takes the array back to a 0x10ffff element array
+     * Expbnded tbkes the brrby bbck to b 0x10ffff element brrby
      */
-    private void expand() {
+    privbte void expbnd() {
         int i;
-        if (isCompact) {
-            int[]   tempArray;
-            for (int plane = 0; plane < PLANECOUNT; plane++) {
-                if (!planeTouched[plane]) {
+        if (isCompbct) {
+            int[]   tempArrby;
+            for (int plbne = 0; plbne < PLANECOUNT; plbne++) {
+                if (!plbneTouched[plbne]) {
                     continue;
                 }
-                blockTouched[plane] = new boolean[INDEXCOUNT];
-                tempArray = new int[UNICODECOUNT];
+                blockTouched[plbne] = new boolebn[INDEXCOUNT];
+                tempArrby = new int[UNICODECOUNT];
                 for (i = 0; i < UNICODECOUNT; ++i) {
-                    tempArray[i] = values[plane][indices[plane][i >> BLOCKSHIFT]
+                    tempArrby[i] = vblues[plbne][indices[plbne][i >> BLOCKSHIFT]
                                                 & 0xffff + (i & BLOCKMASK)];
-                    blockTouched[plane][i >> BLOCKSHIFT] = true;
+                    blockTouched[plbne][i >> BLOCKSHIFT] = true;
                 }
                 for (i = 0; i < INDEXCOUNT; ++i) {
-                    indices[plane][i] = (short)(i<<BLOCKSHIFT);
+                    indices[plbne][i] = (short)(i<<BLOCKSHIFT);
                 }
-                values[plane] = tempArray;
+                vblues[plbne] = tempArrby;
             }
-            isCompact = false;
+            isCompbct = fblse;
         }
     }
 
-    private void initPlane(int plane) {
-        values[plane] = new int[UNICODECOUNT];
-        indices[plane] = new short[INDEXCOUNT];
-        blockTouched[plane] = new boolean[INDEXCOUNT];
-        planeTouched[plane] = true;
+    privbte void initPlbne(int plbne) {
+        vblues[plbne] = new int[UNICODECOUNT];
+        indices[plbne] = new short[INDEXCOUNT];
+        blockTouched[plbne] = new boolebn[INDEXCOUNT];
+        plbneTouched[plbne] = true;
 
-        if (planeTouched[0] && plane != 0) {
-            System.arraycopy(indices[0], 0, indices[plane], 0, INDEXCOUNT);
+        if (plbneTouched[0] && plbne != 0) {
+            System.brrbycopy(indices[0], 0, indices[plbne], 0, INDEXCOUNT);
         } else {
             for (int i = 0; i < INDEXCOUNT; ++i) {
-                indices[plane][i] = (short)(i<<BLOCKSHIFT);
+                indices[plbne][i] = (short)(i<<BLOCKSHIFT);
             }
         }
         for (int i = 0; i < UNICODECOUNT; ++i) {
-            values[plane][i] = defaultValue;
+            vblues[plbne][i] = defbultVblue;
         }
     }
 
     public int getKSize() {
         int size = 0;
-        for (int plane = 0; plane < PLANECOUNT; plane++) {
-            if (planeTouched[plane]) {
-                size += (values[plane].length * 4 + indices[plane].length * 2);
+        for (int plbne = 0; plbne < PLANECOUNT; plbne++) {
+            if (plbneTouched[plbne]) {
+                size += (vblues[plbne].length * 4 + indices[plbne].length * 2);
             }
         }
         return size / 1024;
     }
 
-    private static final int PLANEMASK = 0x30000;
-    private static final int PLANESHIFT = 16;
-    private static final int PLANECOUNT = 0x10;
-    private static final int CODEPOINTMASK  = 0xffff;
+    privbte stbtic finbl int PLANEMASK = 0x30000;
+    privbte stbtic finbl int PLANESHIFT = 16;
+    privbte stbtic finbl int PLANECOUNT = 0x10;
+    privbte stbtic finbl int CODEPOINTMASK  = 0xffff;
 
-    private static final int UNICODECOUNT = 0x10000;
-    private static final int BLOCKSHIFT = 7;
-    private static final int BLOCKCOUNT = (1<<BLOCKSHIFT);
-    private static final int INDEXSHIFT = (16-BLOCKSHIFT);
-    private static final int INDEXCOUNT = (1<<INDEXSHIFT);
-    private static final int BLOCKMASK = BLOCKCOUNT - 1;
+    privbte stbtic finbl int UNICODECOUNT = 0x10000;
+    privbte stbtic finbl int BLOCKSHIFT = 7;
+    privbte stbtic finbl int BLOCKCOUNT = (1<<BLOCKSHIFT);
+    privbte stbtic finbl int INDEXSHIFT = (16-BLOCKSHIFT);
+    privbte stbtic finbl int INDEXCOUNT = (1<<INDEXSHIFT);
+    privbte stbtic finbl int BLOCKMASK = BLOCKCOUNT - 1;
 
-    private int defaultValue;
-    private int values[][];
-    private short indices[][];
-    private boolean isCompact;
-    private boolean[][] blockTouched;
-    private boolean[] planeTouched;
+    privbte int defbultVblue;
+    privbte int vblues[][];
+    privbte short indices[][];
+    privbte boolebn isCompbct;
+    privbte boolebn[][] blockTouched;
+    privbte boolebn[] plbneTouched;
 };

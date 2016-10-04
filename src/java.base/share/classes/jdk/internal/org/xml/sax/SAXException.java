@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// SAX exception class.
-// http://www.saxproject.org
-// No warranty; no copyright -- use this as you will.
-// $Id: SAXException.java,v 1.3 2004/11/03 22:55:32 jsuttor Exp $
+// SAX exception clbss.
+// http://www.sbxproject.org
+// No wbrrbnty; no copyright -- use this bs you will.
+// $Id: SAXException.jbvb,v 1.3 2004/11/03 22:55:32 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbckbge jdk.internbl.org.xml.sbx;
 
 /**
- * Encapsulate a general SAX error or warning.
+ * Encbpsulbte b generbl SAX error or wbrning.
  *
  * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
+ * <em>This module, both source code bnd documentbtion, is in the
+ * Public Dombin, bnd comes with <strong>NO WARRANTY</strong>.</em>
+ * See <b href='http://www.sbxproject.org'>http://www.sbxproject.org</b>
+ * for further informbtion.
  * </blockquote>
  *
- * <p>This class can contain basic error or warning information from
- * either the XML parser or the application: a parser writer or
- * application writer can subclass it to provide additional
- * functionality.  SAX handlers may throw this exception or
- * any exception subclassed from it.</p>
+ * <p>This clbss cbn contbin bbsic error or wbrning informbtion from
+ * either the XML pbrser or the bpplicbtion: b pbrser writer or
+ * bpplicbtion writer cbn subclbss it to provide bdditionbl
+ * functionblity.  SAX hbndlers mby throw this exception or
+ * bny exception subclbssed from it.</p>
  *
- * <p>If the application needs to pass through other types of
- * exceptions, it must wrap those exceptions in a SAXException
- * or an exception derived from a SAXException.</p>
+ * <p>If the bpplicbtion needs to pbss through other types of
+ * exceptions, it must wrbp those exceptions in b SAXException
+ * or bn exception derived from b SAXException.</p>
  *
- * <p>If the parser or application needs to include information about a
- * specific location in an XML document, it should use the
- * {@link org.xml.sax.SAXParseException SAXParseException} subclass.</p>
+ * <p>If the pbrser or bpplicbtion needs to include informbtion bbout b
+ * specific locbtion in bn XML document, it should use the
+ * {@link org.xml.sbx.SAXPbrseException SAXPbrseException} subclbss.</p>
  *
  * @since SAX 1.0
- * @author David Megginson
- * @version 2.0.1 (sax2r2)
- * @see org.xml.sax.SAXParseException
+ * @buthor Dbvid Megginson
+ * @version 2.0.1 (sbx2r2)
+ * @see org.xml.sbx.SAXPbrseException
  */
-public class SAXException extends Exception {
+public clbss SAXException extends Exception {
 
 
     /**
-     * Create a new SAXException.
+     * Crebte b new SAXException.
      */
     public SAXException ()
     {
@@ -73,24 +73,24 @@ public class SAXException extends Exception {
 
 
     /**
-     * Create a new SAXException.
+     * Crebte b new SAXException.
      *
-     * @param message The error or warning message.
+     * @pbrbm messbge The error or wbrning messbge.
      */
-    public SAXException (String message) {
-        super(message);
+    public SAXException (String messbge) {
+        super(messbge);
         this.exception = null;
     }
 
 
     /**
-     * Create a new SAXException wrapping an existing exception.
+     * Crebte b new SAXException wrbpping bn existing exception.
      *
      * <p>The existing exception will be embedded in the new
-     * one, and its message will become the default message for
+     * one, bnd its messbge will become the defbult messbge for
      * the SAXException.</p>
      *
-     * @param e The exception to be wrapped in a SAXException.
+     * @pbrbm e The exception to be wrbpped in b SAXException.
      */
     public SAXException (Exception e)
     {
@@ -100,44 +100,44 @@ public class SAXException extends Exception {
 
 
     /**
-     * Create a new SAXException from an existing exception.
+     * Crebte b new SAXException from bn existing exception.
      *
      * <p>The existing exception will be embedded in the new
-     * one, but the new exception will have its own message.</p>
+     * one, but the new exception will hbve its own messbge.</p>
      *
-     * @param message The detail message.
-     * @param e The exception to be wrapped in a SAXException.
+     * @pbrbm messbge The detbil messbge.
+     * @pbrbm e The exception to be wrbpped in b SAXException.
      */
-    public SAXException (String message, Exception e)
+    public SAXException (String messbge, Exception e)
     {
-        super(message);
+        super(messbge);
         this.exception = e;
     }
 
 
     /**
-     * Return a detail message for this exception.
+     * Return b detbil messbge for this exception.
      *
-     * <p>If there is an embedded exception, and if the SAXException
-     * has no detail message of its own, this method will return
-     * the detail message from the embedded exception.</p>
+     * <p>If there is bn embedded exception, bnd if the SAXException
+     * hbs no detbil messbge of its own, this method will return
+     * the detbil messbge from the embedded exception.</p>
      *
-     * @return The error or warning message.
+     * @return The error or wbrning messbge.
      */
-    public String getMessage ()
+    public String getMessbge ()
     {
-        String message = super.getMessage();
+        String messbge = super.getMessbge();
 
-        if (message == null && exception != null) {
-            return exception.getMessage();
+        if (messbge == null && exception != null) {
+            return exception.getMessbge();
         } else {
-            return message;
+            return messbge;
         }
     }
 
 
     /**
-     * Return the embedded exception, if any.
+     * Return the embedded exception, if bny.
      *
      * @return The embedded exception, or null if there is none.
      */
@@ -147,18 +147,18 @@ public class SAXException extends Exception {
     }
 
     /**
-     * Return the cause of the exception
+     * Return the cbuse of the exception
      *
-     * @return Return the cause of the exception
+     * @return Return the cbuse of the exception
      */
-    public Throwable getCause() {
+    public Throwbble getCbuse() {
         return exception;
     }
 
     /**
-     * Override toString to pick up any embedded exception.
+     * Override toString to pick up bny embedded exception.
      *
-     * @return A string representation of this exception.
+     * @return A string representbtion of this exception.
      */
     public String toString ()
     {
@@ -172,17 +172,17 @@ public class SAXException extends Exception {
 
 
     //////////////////////////////////////////////////////////////////////
-    // Internal state.
+    // Internbl stbte.
     //////////////////////////////////////////////////////////////////////
 
 
     /**
-     * @serial The embedded exception if tunnelling, or null.
+     * @seribl The embedded exception if tunnelling, or null.
      */
-    private Exception exception;
+    privbte Exception exception;
 
-    // Added serialVersionUID to preserve binary compatibility
-    static final long serialVersionUID = 583241635256073760L;
+    // Added seriblVersionUID to preserve binbry compbtibility
+    stbtic finbl long seriblVersionUID = 583241635256073760L;
 }
 
-// end of SAXException.java
+// end of SAXException.jbvb

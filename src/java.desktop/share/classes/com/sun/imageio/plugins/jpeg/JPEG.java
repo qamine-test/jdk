@@ -1,228 +1,228 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbckbge com.sun.imbgeio.plugins.jpeg;
 
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.plugins.jpeg.JPEGQTable;
-import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.plugins.jpeg.JPEGQTbble;
+import jbvbx.imbgeio.plugins.jpeg.JPEGHuffmbnTbble;
 
-import java.awt.image.ColorModel;
-import java.awt.color.ColorSpace;
-import java.awt.color.ICC_ColorSpace;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.color.ICC_ColorSpbce;
 
 /**
- * A class containing JPEG-related constants, definitions, and
- * static methods.  This class and its constants must be public so that
- * <code>JPEGImageWriteParam</code> can see it.
+ * A clbss contbining JPEG-relbted constbnts, definitions, bnd
+ * stbtic methods.  This clbss bnd its constbnts must be public so thbt
+ * <code>JPEGImbgeWritePbrbm</code> cbn see it.
  */
-public class JPEG {
+public clbss JPEG {
 
-    // List of all the JPEG markers (pre-JPEG2000)
+    // List of bll the JPEG mbrkers (pre-JPEG2000)
 
-    /** For temporary use in arithmetic coding */
-    public static final int TEM = 0x01;
+    /** For temporbry use in brithmetic coding */
+    public stbtic finbl int TEM = 0x01;
 
-    // Codes 0x02 - 0xBF are reserved
+    // Codes 0x02 - 0xBF bre reserved
 
-    // SOF markers for Nondifferential Huffman coding
-    /** Baseline DCT */
-    public static final int SOF0 = 0xC0;
-    /** Extended Sequential DCT */
-    public static final int SOF1 = 0xC1;
+    // SOF mbrkers for Nondifferentibl Huffmbn coding
+    /** Bbseline DCT */
+    public stbtic finbl int SOF0 = 0xC0;
+    /** Extended Sequentibl DCT */
+    public stbtic finbl int SOF1 = 0xC1;
     /** Progressive DCT */
-    public static final int SOF2 = 0xC2;
-    /** Lossless Sequential */
-    public static final int SOF3 = 0xC3;
+    public stbtic finbl int SOF2 = 0xC2;
+    /** Lossless Sequentibl */
+    public stbtic finbl int SOF3 = 0xC3;
 
-    /** Define Huffman Tables */
-    public static final int DHT = 0xC4;
+    /** Define Huffmbn Tbbles */
+    public stbtic finbl int DHT = 0xC4;
 
-    // SOF markers for Differential Huffman coding
-    /** Differential Sequential DCT */
-    public static final int SOF5 = 0xC5;
-    /** Differential Progressive DCT */
-    public static final int SOF6 = 0xC6;
-    /** Differential Lossless */
-    public static final int SOF7 = 0xC7;
+    // SOF mbrkers for Differentibl Huffmbn coding
+    /** Differentibl Sequentibl DCT */
+    public stbtic finbl int SOF5 = 0xC5;
+    /** Differentibl Progressive DCT */
+    public stbtic finbl int SOF6 = 0xC6;
+    /** Differentibl Lossless */
+    public stbtic finbl int SOF7 = 0xC7;
 
     /** Reserved for JPEG extensions */
-    public static final int JPG = 0xC8;
+    public stbtic finbl int JPG = 0xC8;
 
-    // SOF markers for Nondifferential arithmetic coding
-    /** Extended Sequential DCT, Arithmetic coding */
-    public static final int SOF9 = 0xC9;
+    // SOF mbrkers for Nondifferentibl brithmetic coding
+    /** Extended Sequentibl DCT, Arithmetic coding */
+    public stbtic finbl int SOF9 = 0xC9;
     /** Progressive DCT, Arithmetic coding */
-    public static final int SOF10 = 0xCA;
-    /** Lossless Sequential, Arithmetic coding */
-    public static final int SOF11 = 0xCB;
+    public stbtic finbl int SOF10 = 0xCA;
+    /** Lossless Sequentibl, Arithmetic coding */
+    public stbtic finbl int SOF11 = 0xCB;
 
-    /** Define Arithmetic conditioning tables */
-    public static final int DAC = 0xCC;
+    /** Define Arithmetic conditioning tbbles */
+    public stbtic finbl int DAC = 0xCC;
 
-    // SOF markers for Differential arithmetic coding
-    /** Differential Sequential DCT, Arithmetic coding */
-    public static final int SOF13 = 0xCD;
-    /** Differential Progressive DCT, Arithmetic coding */
-    public static final int SOF14 = 0xCE;
-    /** Differential Lossless, Arithmetic coding */
-    public static final int SOF15 = 0xCF;
+    // SOF mbrkers for Differentibl brithmetic coding
+    /** Differentibl Sequentibl DCT, Arithmetic coding */
+    public stbtic finbl int SOF13 = 0xCD;
+    /** Differentibl Progressive DCT, Arithmetic coding */
+    public stbtic finbl int SOF14 = 0xCE;
+    /** Differentibl Lossless, Arithmetic coding */
+    public stbtic finbl int SOF15 = 0xCF;
 
-    // Restart Markers
-    public static final int RST0 = 0xD0;
-    public static final int RST1 = 0xD1;
-    public static final int RST2 = 0xD2;
-    public static final int RST3 = 0xD3;
-    public static final int RST4 = 0xD4;
-    public static final int RST5 = 0xD5;
-    public static final int RST6 = 0xD6;
-    public static final int RST7 = 0xD7;
-    /** Number of restart markers */
-    public static final int RESTART_RANGE = 8;
+    // Restbrt Mbrkers
+    public stbtic finbl int RST0 = 0xD0;
+    public stbtic finbl int RST1 = 0xD1;
+    public stbtic finbl int RST2 = 0xD2;
+    public stbtic finbl int RST3 = 0xD3;
+    public stbtic finbl int RST4 = 0xD4;
+    public stbtic finbl int RST5 = 0xD5;
+    public stbtic finbl int RST6 = 0xD6;
+    public stbtic finbl int RST7 = 0xD7;
+    /** Number of restbrt mbrkers */
+    public stbtic finbl int RESTART_RANGE = 8;
 
-    /** Start of Image */
-    public static final int SOI = 0xD8;
-    /** End of Image */
-    public static final int EOI = 0xD9;
-    /** Start of Scan */
-    public static final int SOS = 0xDA;
+    /** Stbrt of Imbge */
+    public stbtic finbl int SOI = 0xD8;
+    /** End of Imbge */
+    public stbtic finbl int EOI = 0xD9;
+    /** Stbrt of Scbn */
+    public stbtic finbl int SOS = 0xDA;
 
-    /** Define Quantisation Tables */
-    public static final int DQT = 0xDB;
+    /** Define Qubntisbtion Tbbles */
+    public stbtic finbl int DQT = 0xDB;
 
     /** Define Number of lines */
-    public static final int DNL = 0xDC;
+    public stbtic finbl int DNL = 0xDC;
 
-    /** Define Restart Interval */
-    public static final int DRI = 0xDD;
+    /** Define Restbrt Intervbl */
+    public stbtic finbl int DRI = 0xDD;
 
-    /** Define Heirarchical progression */
-    public static final int DHP = 0xDE;
+    /** Define Heirbrchicbl progression */
+    public stbtic finbl int DHP = 0xDE;
 
-    /** Expand reference image(s) */
-    public static final int EXP = 0xDF;
+    /** Expbnd reference imbge(s) */
+    public stbtic finbl int EXP = 0xDF;
 
-    // Application markers
+    // Applicbtion mbrkers
     /** APP0 used by JFIF */
-    public static final int APP0 = 0xE0;
-    public static final int APP1 = 0xE1;
-    public static final int APP2 = 0xE2;
-    public static final int APP3 = 0xE3;
-    public static final int APP4 = 0xE4;
-    public static final int APP5 = 0xE5;
-    public static final int APP6 = 0xE6;
-    public static final int APP7 = 0xE7;
-    public static final int APP8 = 0xE8;
-    public static final int APP9 = 0xE9;
-    public static final int APP10 = 0xEA;
-    public static final int APP11 = 0xEB;
-    public static final int APP12 = 0xEC;
-    public static final int APP13 = 0xED;
+    public stbtic finbl int APP0 = 0xE0;
+    public stbtic finbl int APP1 = 0xE1;
+    public stbtic finbl int APP2 = 0xE2;
+    public stbtic finbl int APP3 = 0xE3;
+    public stbtic finbl int APP4 = 0xE4;
+    public stbtic finbl int APP5 = 0xE5;
+    public stbtic finbl int APP6 = 0xE6;
+    public stbtic finbl int APP7 = 0xE7;
+    public stbtic finbl int APP8 = 0xE8;
+    public stbtic finbl int APP9 = 0xE9;
+    public stbtic finbl int APP10 = 0xEA;
+    public stbtic finbl int APP11 = 0xEB;
+    public stbtic finbl int APP12 = 0xEC;
+    public stbtic finbl int APP13 = 0xED;
     /** APP14 used by Adobe */
-    public static final int APP14 = 0xEE;
-    public static final int APP15 = 0xEF;
+    public stbtic finbl int APP14 = 0xEE;
+    public stbtic finbl int APP15 = 0xEF;
 
-    // codes 0xF0 to 0xFD are reserved
+    // codes 0xF0 to 0xFD bre reserved
 
-    /** Comment marker */
-    public static final int COM = 0xFE;
+    /** Comment mbrker */
+    public stbtic finbl int COM = 0xFE;
 
     // JFIF Resolution units
-    /** The X and Y units simply indicate the aspect ratio of the pixels. */
-    public static final int DENSITY_UNIT_ASPECT_RATIO = 0;
+    /** The X bnd Y units simply indicbte the bspect rbtio of the pixels. */
+    public stbtic finbl int DENSITY_UNIT_ASPECT_RATIO = 0;
     /** Pixel density is in pixels per inch. */
-    public static final int DENSITY_UNIT_DOTS_INCH    = 1;
+    public stbtic finbl int DENSITY_UNIT_DOTS_INCH    = 1;
     /** Pixel density is in pixels per centemeter. */
-    public static final int DENSITY_UNIT_DOTS_CM      = 2;
-    /** The max known value for DENSITY_UNIT */
-    public static final int NUM_DENSITY_UNIT = 3;
+    public stbtic finbl int DENSITY_UNIT_DOTS_CM      = 2;
+    /** The mbx known vblue for DENSITY_UNIT */
+    public stbtic finbl int NUM_DENSITY_UNIT = 3;
 
-    // Adobe transform values
-    public static final int ADOBE_IMPOSSIBLE = -1;
-    public static final int ADOBE_UNKNOWN = 0;
-    public static final int ADOBE_YCC = 1;
-    public static final int ADOBE_YCCK = 2;
+    // Adobe trbnsform vblues
+    public stbtic finbl int ADOBE_IMPOSSIBLE = -1;
+    public stbtic finbl int ADOBE_UNKNOWN = 0;
+    public stbtic finbl int ADOBE_YCC = 1;
+    public stbtic finbl int ADOBE_YCCK = 2;
 
-    // Spi initialization stuff
-    public static final String vendor = "Oracle Corporation";
-    public static final String version = "0.5";
-    // Names of the formats we can read or write
-    static final String [] names = {"JPEG", "jpeg", "JPG", "jpg"};
-    static final String [] suffixes = {"jpg", "jpeg"};
-    static final String [] MIMETypes = {"image/jpeg"};
-    public static final String nativeImageMetadataFormatName =
-        "javax_imageio_jpeg_image_1.0";
-    public static final String nativeImageMetadataFormatClassName =
-        "com.sun.imageio.plugins.jpeg.JPEGImageMetadataFormat";
-    public static final String nativeStreamMetadataFormatName =
-        "javax_imageio_jpeg_stream_1.0";
-    public static final String nativeStreamMetadataFormatClassName =
-        "com.sun.imageio.plugins.jpeg.JPEGStreamMetadataFormat";
+    // Spi initiblizbtion stuff
+    public stbtic finbl String vendor = "Orbcle Corporbtion";
+    public stbtic finbl String version = "0.5";
+    // Nbmes of the formbts we cbn rebd or write
+    stbtic finbl String [] nbmes = {"JPEG", "jpeg", "JPG", "jpg"};
+    stbtic finbl String [] suffixes = {"jpg", "jpeg"};
+    stbtic finbl String [] MIMETypes = {"imbge/jpeg"};
+    public stbtic finbl String nbtiveImbgeMetbdbtbFormbtNbme =
+        "jbvbx_imbgeio_jpeg_imbge_1.0";
+    public stbtic finbl String nbtiveImbgeMetbdbtbFormbtClbssNbme =
+        "com.sun.imbgeio.plugins.jpeg.JPEGImbgeMetbdbtbFormbt";
+    public stbtic finbl String nbtiveStrebmMetbdbtbFormbtNbme =
+        "jbvbx_imbgeio_jpeg_strebm_1.0";
+    public stbtic finbl String nbtiveStrebmMetbdbtbFormbtClbssNbme =
+        "com.sun.imbgeio.plugins.jpeg.JPEGStrebmMetbdbtbFormbt";
 
     // IJG Color codes.
-    public static final int JCS_UNKNOWN = 0;       // error/unspecified
-    public static final int JCS_GRAYSCALE = 1;     // monochrome
-    public static final int JCS_RGB = 2;           // red/green/blue
-    public static final int JCS_YCbCr = 3;         // Y/Cb/Cr (also known as YUV)
-    public static final int JCS_CMYK = 4;          // C/M/Y/K
-    public static final int JCS_YCC = 5;           // PhotoYCC
-    public static final int JCS_RGBA = 6;          // RGB-Alpha
-    public static final int JCS_YCbCrA = 7;        // Y/Cb/Cr/Alpha
-    // 8 and 9 were old "Legacy" codes which the old code never identified
-    // on reading anyway.  Support for writing them is being dropped, too.
-    public static final int JCS_YCCA = 10;         // PhotoYCC-Alpha
-    public static final int JCS_YCCK = 11;         // Y/Cb/Cr/K
+    public stbtic finbl int JCS_UNKNOWN = 0;       // error/unspecified
+    public stbtic finbl int JCS_GRAYSCALE = 1;     // monochrome
+    public stbtic finbl int JCS_RGB = 2;           // red/green/blue
+    public stbtic finbl int JCS_YCbCr = 3;         // Y/Cb/Cr (blso known bs YUV)
+    public stbtic finbl int JCS_CMYK = 4;          // C/M/Y/K
+    public stbtic finbl int JCS_YCC = 5;           // PhotoYCC
+    public stbtic finbl int JCS_RGBA = 6;          // RGB-Alphb
+    public stbtic finbl int JCS_YCbCrA = 7;        // Y/Cb/Cr/Alphb
+    // 8 bnd 9 were old "Legbcy" codes which the old code never identified
+    // on rebding bnywby.  Support for writing them is being dropped, too.
+    public stbtic finbl int JCS_YCCA = 10;         // PhotoYCC-Alphb
+    public stbtic finbl int JCS_YCCK = 11;         // Y/Cb/Cr/K
 
-    public static final int NUM_JCS_CODES = JCS_YCCK+1;
+    public stbtic finbl int NUM_JCS_CODES = JCS_YCCK+1;
 
-    /** IJG can handle up to 4-channel JPEGs */
-    static final int [] [] bandOffsets = {{0},
+    /** IJG cbn hbndle up to 4-chbnnel JPEGs */
+    stbtic finbl int [] [] bbndOffsets = {{0},
                                           {0, 1},
                                           {0, 1, 2},
                                           {0, 1, 2, 3}};
 
-    static final int [] bOffsRGB = { 2, 1, 0 };
+    stbtic finbl int [] bOffsRGB = { 2, 1, 0 };
 
-    /* These are kept in the inner class to avoid static initialization
-     * of the CMM class until someone actually needs it.
+    /* These bre kept in the inner clbss to bvoid stbtic initiblizbtion
+     * of the CMM clbss until someone bctublly needs it.
      * (e.g. do not init CMM on the request for jpeg mime types)
      */
-    public static class JCS {
-        public static final ColorSpace sRGB =
-            ColorSpace.getInstance(ColorSpace.CS_sRGB);
+    public stbtic clbss JCS {
+        public stbtic finbl ColorSpbce sRGB =
+            ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
 
-        private static ColorSpace YCC = null;
-        private static boolean yccInited = false;
+        privbte stbtic ColorSpbce YCC = null;
+        privbte stbtic boolebn yccInited = fblse;
 
-        public static ColorSpace getYCC() {
+        public stbtic ColorSpbce getYCC() {
             if (!yccInited) {
                 try {
-                    YCC = ColorSpace.getInstance(ColorSpace.CS_PYCC);
-                } catch (IllegalArgumentException e) {
-                    // PYCC.pf may not always be installed
-                } finally {
+                    YCC = ColorSpbce.getInstbnce(ColorSpbce.CS_PYCC);
+                } cbtch (IllegblArgumentException e) {
+                    // PYCC.pf mby not blwbys be instblled
+                } finblly {
                     yccInited = true;
                 }
             }
@@ -230,139 +230,139 @@ public class JPEG {
         }
     }
 
-    // Default value for ImageWriteParam
-    public static final float DEFAULT_QUALITY = 0.75F;
+    // Defbult vblue for ImbgeWritePbrbm
+    public stbtic finbl flobt DEFAULT_QUALITY = 0.75F;
 
     /**
-     * Returns <code>true</code> if the given <code>ColorSpace</code>
-     * object is an instance of ICC_ColorSpace but is not one of the
-     * standard <code>ColorSpaces</code> returned by
-     * <code>ColorSpace.getInstance()</code>.
+     * Returns <code>true</code> if the given <code>ColorSpbce</code>
+     * object is bn instbnce of ICC_ColorSpbce but is not one of the
+     * stbndbrd <code>ColorSpbces</code> returned by
+     * <code>ColorSpbce.getInstbnce()</code>.
      */
-    static boolean isNonStandardICC(ColorSpace cs) {
-        boolean retval = false;
-        if ((cs instanceof ICC_ColorSpace)
+    stbtic boolebn isNonStbndbrdICC(ColorSpbce cs) {
+        boolebn retvbl = fblse;
+        if ((cs instbnceof ICC_ColorSpbce)
             && (!cs.isCS_sRGB())
-            && (!cs.equals(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ)))
-            && (!cs.equals(ColorSpace.getInstance(ColorSpace.CS_GRAY)))
-            && (!cs.equals(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB)))
-            && (!cs.equals(ColorSpace.getInstance(ColorSpace.CS_PYCC)))
+            && (!cs.equbls(ColorSpbce.getInstbnce(ColorSpbce.CS_CIEXYZ)))
+            && (!cs.equbls(ColorSpbce.getInstbnce(ColorSpbce.CS_GRAY)))
+            && (!cs.equbls(ColorSpbce.getInstbnce(ColorSpbce.CS_LINEAR_RGB)))
+            && (!cs.equbls(ColorSpbce.getInstbnce(ColorSpbce.CS_PYCC)))
             ) {
-            retval = true;
+            retvbl = true;
         }
-        return retval;
+        return retvbl;
     }
 
 
     /**
-     * Returns <code>true</code> if the given imageType can be used
-     * in a JFIF file.  If <code>input</code> is true, then the
-     * image type is considered before colorspace conversion.
+     * Returns <code>true</code> if the given imbgeType cbn be used
+     * in b JFIF file.  If <code>input</code> is true, then the
+     * imbge type is considered before colorspbce conversion.
      */
-    static boolean isJFIFcompliant(ImageTypeSpecifier imageType,
-                                   boolean input) {
-        ColorModel cm = imageType.getColorModel();
-        // Can't have alpha
-        if (cm.hasAlpha()) {
-            return false;
+    stbtic boolebn isJFIFcomplibnt(ImbgeTypeSpecifier imbgeType,
+                                   boolebn input) {
+        ColorModel cm = imbgeType.getColorModel();
+        // Cbn't hbve blphb
+        if (cm.hbsAlphb()) {
+            return fblse;
         }
-        // Gray is OK, always
-        int numComponents = imageType.getNumComponents();
+        // Grby is OK, blwbys
+        int numComponents = imbgeType.getNumComponents();
         if (numComponents == 1) {
             return true;
         }
 
-        // If it isn't gray, it must have 3 channels
+        // If it isn't grby, it must hbve 3 chbnnels
         if (numComponents != 3) {
-            return false;
+            return fblse;
         }
 
         if (input) {
             // Must be RGB
-            if (cm.getColorSpace().getType() == ColorSpace.TYPE_RGB) {
+            if (cm.getColorSpbce().getType() == ColorSpbce.TYPE_RGB) {
                 return true;
             }
         } else {
             // Must be YCbCr
-            if (cm.getColorSpace().getType() == ColorSpace.TYPE_YCbCr) {
+            if (cm.getColorSpbce().getType() == ColorSpbce.TYPE_YCbCr) {
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Given an image type, return the Adobe transform corresponding to
-     * that type, or ADOBE_IMPOSSIBLE if the image type is incompatible
-     * with an Adobe marker segment.  If <code>input</code> is true, then
-     * the image type is considered before colorspace conversion.
+     * Given bn imbge type, return the Adobe trbnsform corresponding to
+     * thbt type, or ADOBE_IMPOSSIBLE if the imbge type is incompbtible
+     * with bn Adobe mbrker segment.  If <code>input</code> is true, then
+     * the imbge type is considered before colorspbce conversion.
      */
-    static int transformForType(ImageTypeSpecifier imageType, boolean input) {
-        int retval = ADOBE_IMPOSSIBLE;
-        ColorModel cm = imageType.getColorModel();
-        switch (cm.getColorSpace().getType()) {
-        case ColorSpace.TYPE_GRAY:
-            retval = ADOBE_UNKNOWN;
-            break;
-        case ColorSpace.TYPE_RGB:
-            retval = input ? ADOBE_YCC : ADOBE_UNKNOWN;
-            break;
-        case ColorSpace.TYPE_YCbCr:
-            retval = ADOBE_YCC;
-            break;
-        case ColorSpace.TYPE_CMYK:
-            retval = input ? ADOBE_YCCK : ADOBE_IMPOSSIBLE;
+    stbtic int trbnsformForType(ImbgeTypeSpecifier imbgeType, boolebn input) {
+        int retvbl = ADOBE_IMPOSSIBLE;
+        ColorModel cm = imbgeType.getColorModel();
+        switch (cm.getColorSpbce().getType()) {
+        cbse ColorSpbce.TYPE_GRAY:
+            retvbl = ADOBE_UNKNOWN;
+            brebk;
+        cbse ColorSpbce.TYPE_RGB:
+            retvbl = input ? ADOBE_YCC : ADOBE_UNKNOWN;
+            brebk;
+        cbse ColorSpbce.TYPE_YCbCr:
+            retvbl = ADOBE_YCC;
+            brebk;
+        cbse ColorSpbce.TYPE_CMYK:
+            retvbl = input ? ADOBE_YCCK : ADOBE_IMPOSSIBLE;
         }
-        return retval;
+        return retvbl;
     }
 
     /**
-     * Converts an ImageWriteParam (i.e. IJG) non-linear quality value
-     * to a float suitable for passing to JPEGQTable.getScaledInstance().
+     * Converts bn ImbgeWritePbrbm (i.e. IJG) non-linebr qublity vblue
+     * to b flobt suitbble for pbssing to JPEGQTbble.getScbledInstbnce().
      */
-    static float convertToLinearQuality(float quality) {
+    stbtic flobt convertToLinebrQublity(flobt qublity) {
         // The following is converted from the IJG code.
-        if (quality <= 0.0F) {
-            quality = 0.01F;
+        if (qublity <= 0.0F) {
+            qublity = 0.01F;
         }
 
-        if (quality > 1.00F) {
-            quality = 1.00F;
+        if (qublity > 1.00F) {
+            qublity = 1.00F;
         }
 
-        if (quality < 0.5F) {
-            quality = 0.5F / quality;
+        if (qublity < 0.5F) {
+            qublity = 0.5F / qublity;
         } else {
-            quality = 2.0F - (quality * 2.0F);
+            qublity = 2.0F - (qublity * 2.0F);
         }
 
-        return quality;
+        return qublity;
     }
 
     /**
-     * Return an array of default, visually lossless quantization tables.
+     * Return bn brrby of defbult, visublly lossless qubntizbtion tbbles.
      */
-    static JPEGQTable [] getDefaultQTables() {
-        JPEGQTable [] qTables = new JPEGQTable[2];
-        qTables[0] = JPEGQTable.K1Div2Luminance;
-        qTables[1] = JPEGQTable.K2Div2Chrominance;
-        return qTables;
+    stbtic JPEGQTbble [] getDefbultQTbbles() {
+        JPEGQTbble [] qTbbles = new JPEGQTbble[2];
+        qTbbles[0] = JPEGQTbble.K1Div2Luminbnce;
+        qTbbles[1] = JPEGQTbble.K2Div2Chrominbnce;
+        return qTbbles;
     }
 
     /**
-     * Return an array of default Huffman tables.
+     * Return bn brrby of defbult Huffmbn tbbles.
      */
-    static JPEGHuffmanTable [] getDefaultHuffmanTables(boolean wantDC) {
-        JPEGHuffmanTable [] tables = new JPEGHuffmanTable[2];
-        if (wantDC) {
-            tables[0] = JPEGHuffmanTable.StdDCLuminance;
-            tables[1] = JPEGHuffmanTable.StdDCChrominance;
+    stbtic JPEGHuffmbnTbble [] getDefbultHuffmbnTbbles(boolebn wbntDC) {
+        JPEGHuffmbnTbble [] tbbles = new JPEGHuffmbnTbble[2];
+        if (wbntDC) {
+            tbbles[0] = JPEGHuffmbnTbble.StdDCLuminbnce;
+            tbbles[1] = JPEGHuffmbnTbble.StdDCChrominbnce;
         } else {
-            tables[0] = JPEGHuffmanTable.StdACLuminance;
-            tables[1] = JPEGHuffmanTable.StdACChrominance;
+            tbbles[0] = JPEGHuffmbnTbble.StdACLuminbnce;
+            tbbles[1] = JPEGHuffmbnTbble.StdACChrominbnce;
         }
-        return tables;
+        return tbbles;
     }
 
 }

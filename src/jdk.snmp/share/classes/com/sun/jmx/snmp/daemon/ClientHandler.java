@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbckbge com.sun.jmx.snmp.dbemon;
 
 
 
-// java import
+// jbvb import
 //
-import java.io.*;
-import java.util.logging.Level;
+import jbvb.io.*;
+import jbvb.util.logging.Level;
 
 // jmx import
 //
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.ObjectNbme;
 
 // jmx RI import
 //
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
+import stbtic com.sun.jmx.defbults.JmxProperties.SNMP_ADAPTOR_LOGGER;
 
 /**
- * The <CODE>ClientHandler</CODE> class is the base class of each
- * adaptor.<p>
+ * The <CODE>ClientHbndler</CODE> clbss is the bbse clbss of ebch
+ * bdbptor.<p>
  */
 
-abstract class ClientHandler implements Runnable {
+bbstrbct clbss ClientHbndler implements Runnbble {
 
-    public ClientHandler(CommunicatorServer server, int id, MBeanServer f, ObjectName n) {
-        adaptorServer = server ;
+    public ClientHbndler(CommunicbtorServer server, int id, MBebnServer f, ObjectNbme n) {
+        bdbptorServer = server ;
         requestId = id ;
         mbs = f ;
-        objectName = n ;
-        interruptCalled = false ;
-        dbgTag = makeDebugTag() ;
+        objectNbme = n ;
+        interruptCblled = fblse ;
+        dbgTbg = mbkeDebugTbg() ;
         //if (mbs == null ){
-        //thread = new Thread (this) ;
-        thread =  createThread(this);
+        //threbd = new Threbd (this) ;
+        threbd =  crebteThrebd(this);
 
         //} else {
-        //thread = mbs.getThreadAllocatorSrvIf().obtainThread(objectName,this) ;
+        //threbd = mbs.getThrebdAllocbtorSrvIf().obtbinThrebd(objectNbme,this) ;
         //}
-        // Note: the thread will be started by the subclass.
+        // Note: the threbd will be stbrted by the subclbss.
     }
 
-    // thread service
-    Thread createThread(Runnable r) {
-        return new Thread(this);
+    // threbd service
+    Threbd crebteThrebd(Runnbble r) {
+        return new Threbd(this);
     }
 
     public void interrupt() {
-        SNMP_ADAPTOR_LOGGER.entering(dbgTag, "interrupt");
-        interruptCalled = true ;
-        if (thread != null) {
-            thread.interrupt() ;
+        SNMP_ADAPTOR_LOGGER.entering(dbgTbg, "interrupt");
+        interruptCblled = true ;
+        if (threbd != null) {
+            threbd.interrupt() ;
         }
-        SNMP_ADAPTOR_LOGGER.exiting(dbgTag, "interrupt");
+        SNMP_ADAPTOR_LOGGER.exiting(dbgTbg, "interrupt");
     }
 
 
     public void join() {
-        if (thread != null) {
+        if (threbd != null) {
         try {
-            thread.join() ;
+            threbd.join() ;
         }
-        catch(InterruptedException x) {
+        cbtch(InterruptedException x) {
         }
         }
     }
@@ -95,39 +95,39 @@ abstract class ClientHandler implements Runnable {
 
         try {
             //
-            // Notify the server we are now active
+            // Notify the server we bre now bctive
             //
-            adaptorServer.notifyClientHandlerCreated(this) ;
+            bdbptorServer.notifyClientHbndlerCrebted(this) ;
 
             //
-            // Call protocol specific sequence
+            // Cbll protocol specific sequence
             //
             doRun() ;
         }
-        finally {
+        finblly {
             //
-            // Now notify the adaptor server that the handler is terminating.
-            // This is important because the server may be blocked waiting for
-            // a handler to terminate.
+            // Now notify the bdbptor server thbt the hbndler is terminbting.
+            // This is importbnt becbuse the server mby be blocked wbiting for
+            // b hbndler to terminbte.
             //
-            adaptorServer.notifyClientHandlerDeleted(this) ;
+            bdbptorServer.notifyClientHbndlerDeleted(this) ;
         }
     }
 
     //
-    // The protocol-dependent part of the request
+    // The protocol-dependent pbrt of the request
     //
-    public abstract void doRun() ;
+    public bbstrbct void doRun() ;
 
-    protected CommunicatorServer adaptorServer = null ;
+    protected CommunicbtorServer bdbptorServer = null ;
     protected int requestId = -1 ;
-    protected MBeanServer mbs = null ;
-    protected ObjectName objectName = null ;
-    protected Thread thread = null ;
-    protected boolean interruptCalled = false ;
-    protected String dbgTag = null ;
+    protected MBebnServer mbs = null ;
+    protected ObjectNbme objectNbme = null ;
+    protected Threbd threbd = null ;
+    protected boolebn interruptCblled = fblse ;
+    protected String dbgTbg = null ;
 
-    protected String makeDebugTag() {
-        return "ClientHandler[" + adaptorServer.getProtocol() + ":" + adaptorServer.getPort() + "][" + requestId + "]";
+    protected String mbkeDebugTbg() {
+        return "ClientHbndler[" + bdbptorServer.getProtocol() + ":" + bdbptorServer.getPort() + "][" + requestId + "]";
     }
 }

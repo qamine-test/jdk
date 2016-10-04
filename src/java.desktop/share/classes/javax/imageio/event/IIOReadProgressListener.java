@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.event;
+pbckbge jbvbx.imbgeio.event;
 
-import java.util.EventListener;
-import javax.imageio.ImageReader;
+import jbvb.util.EventListener;
+import jbvbx.imbgeio.ImbgeRebder;
 
 /**
- * An interface used by <code>ImageReader</code> implementations to
- * notify callers of their image and thumbnail reading methods of
+ * An interfbce used by <code>ImbgeRebder</code> implementbtions to
+ * notify cbllers of their imbge bnd thumbnbil rebding methods of
  * progress.
  *
- * <p> This interface receives general indications of decoding
- * progress (via the <code>imageProgress</code> and
- * <code>thumbnailProgress</code> methods), and events indicating when
- * an entire image has been updated (via the
- * <code>imageStarted</code>, <code>imageComplete</code>,
- * <code>thumbnailStarted</code> and <code>thumbnailComplete</code>
- * methods).  Applications that wish to be informed of pixel updates
- * as they happen (for example, during progressive decoding), should
- * provide an <code>IIOReadUpdateListener</code>.
+ * <p> This interfbce receives generbl indicbtions of decoding
+ * progress (vib the <code>imbgeProgress</code> bnd
+ * <code>thumbnbilProgress</code> methods), bnd events indicbting when
+ * bn entire imbge hbs been updbted (vib the
+ * <code>imbgeStbrted</code>, <code>imbgeComplete</code>,
+ * <code>thumbnbilStbrted</code> bnd <code>thumbnbilComplete</code>
+ * methods).  Applicbtions thbt wish to be informed of pixel updbtes
+ * bs they hbppen (for exbmple, during progressive decoding), should
+ * provide bn <code>IIORebdUpdbteListener</code>.
  *
- * @see IIOReadUpdateListener
- * @see javax.imageio.ImageReader#addIIOReadProgressListener
- * @see javax.imageio.ImageReader#removeIIOReadProgressListener
+ * @see IIORebdUpdbteListener
+ * @see jbvbx.imbgeio.ImbgeRebder#bddIIORebdProgressListener
+ * @see jbvbx.imbgeio.ImbgeRebder#removeIIORebdProgressListener
  *
  */
-public interface IIOReadProgressListener extends EventListener {
+public interfbce IIORebdProgressListener extends EventListener {
 
     /**
-     * Reports that a sequence of read operations is beginning.
-     * <code>ImageReader</code> implementations are required to call
-     * this method exactly once from their
-     * <code>readAll(Iterator)</code> method.
+     * Reports thbt b sequence of rebd operbtions is beginning.
+     * <code>ImbgeRebder</code> implementbtions bre required to cbll
+     * this method exbctly once from their
+     * <code>rebdAll(Iterbtor)</code> method.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
-     * @param minIndex the index of the first image to be read.
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this method.
+     * @pbrbm minIndex the index of the first imbge to be rebd.
      */
-    void sequenceStarted(ImageReader source, int minIndex);
+    void sequenceStbrted(ImbgeRebder source, int minIndex);
 
     /**
-     * Reports that a sequence of read operations has completed.
-     * <code>ImageReader</code> implementations are required to call
-     * this method exactly once from their
-     * <code>readAll(Iterator)</code> method.
+     * Reports thbt b sequence of rebd operbtions hbs completed.
+     * <code>ImbgeRebder</code> implementbtions bre required to cbll
+     * this method exbctly once from their
+     * <code>rebdAll(Iterbtor)</code> method.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this method.
      */
-    void sequenceComplete(ImageReader source);
+    void sequenceComplete(ImbgeRebder source);
 
     /**
-     * Reports that an image read operation is beginning.  All
-     * <code>ImageReader</code> implementations are required to call
-     * this method exactly once when beginning an image read
-     * operation.
+     * Reports thbt bn imbge rebd operbtion is beginning.  All
+     * <code>ImbgeRebder</code> implementbtions bre required to cbll
+     * this method exbctly once when beginning bn imbge rebd
+     * operbtion.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
-     * @param imageIndex the index of the image being read within its
-     * containing input file or stream.
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this method.
+     * @pbrbm imbgeIndex the index of the imbge being rebd within its
+     * contbining input file or strebm.
      */
-    void imageStarted(ImageReader source, int imageIndex);
+    void imbgeStbrted(ImbgeRebder source, int imbgeIndex);
 
     /**
-     * Reports the approximate degree of completion of the current
-     * <code>read</code> call of the associated
-     * <code>ImageReader</code>.
+     * Reports the bpproximbte degree of completion of the current
+     * <code>rebd</code> cbll of the bssocibted
+     * <code>ImbgeRebder</code>.
      *
-     * <p> The degree of completion is expressed as a percentage
-     * varying from <code>0.0F</code> to <code>100.0F</code>.  The
-     * percentage should ideally be calculated in terms of the
-     * remaining time to completion, but it is usually more practical
-     * to use a more well-defined metric such as pixels decoded or
-     * portion of input stream consumed.  In any case, a sequence of
-     * calls to this method during a given read operation should
-     * supply a monotonically increasing sequence of percentage
-     * values.  It is not necessary to supply the exact values
-     * <code>0</code> and <code>100</code>, as these may be inferred
-     * by the callee from other methods.
+     * <p> The degree of completion is expressed bs b percentbge
+     * vbrying from <code>0.0F</code> to <code>100.0F</code>.  The
+     * percentbge should ideblly be cblculbted in terms of the
+     * rembining time to completion, but it is usublly more prbcticbl
+     * to use b more well-defined metric such bs pixels decoded or
+     * portion of input strebm consumed.  In bny cbse, b sequence of
+     * cblls to this method during b given rebd operbtion should
+     * supply b monotonicblly increbsing sequence of percentbge
+     * vblues.  It is not necessbry to supply the exbct vblues
+     * <code>0</code> bnd <code>100</code>, bs these mby be inferred
+     * by the cbllee from other methods.
      *
-     * <p> Each particular <code>ImageReader</code> implementation may
-     * call this method at whatever frequency it desires.  A rule of
-     * thumb is to call it around each 5 percent mark.
+     * <p> Ebch pbrticulbr <code>ImbgeRebder</code> implementbtion mby
+     * cbll this method bt whbtever frequency it desires.  A rule of
+     * thumb is to cbll it bround ebch 5 percent mbrk.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
-     * @param percentageDone the approximate percentage of decoding that
-     * has been completed.
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this method.
+     * @pbrbm percentbgeDone the bpproximbte percentbge of decoding thbt
+     * hbs been completed.
      */
-    void imageProgress(ImageReader source, float percentageDone);
+    void imbgeProgress(ImbgeRebder source, flobt percentbgeDone);
 
     /**
-     * Reports that the current image read operation has completed.
-     * All <code>ImageReader</code> implementations are required to
-     * call this method exactly once upon completion of each image
-     * read operation.
+     * Reports thbt the current imbge rebd operbtion hbs completed.
+     * All <code>ImbgeRebder</code> implementbtions bre required to
+     * cbll this method exbctly once upon completion of ebch imbge
+     * rebd operbtion.
      *
-     * @param source the <code>ImageReader</code> object calling this
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this
      * method.
      */
-    void imageComplete(ImageReader source);
+    void imbgeComplete(ImbgeRebder source);
 
     /**
-     * Reports that a thumbnail read operation is beginning.  All
-     * <code>ImageReader</code> implementations are required to call
-     * this method exactly once when beginning a thumbnail read
-     * operation.
+     * Reports thbt b thumbnbil rebd operbtion is beginning.  All
+     * <code>ImbgeRebder</code> implementbtions bre required to cbll
+     * this method exbctly once when beginning b thumbnbil rebd
+     * operbtion.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
-     * @param imageIndex the index of the image being read within its
-     * containing input file or stream.
-     * @param thumbnailIndex the index of the thumbnail being read.
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this method.
+     * @pbrbm imbgeIndex the index of the imbge being rebd within its
+     * contbining input file or strebm.
+     * @pbrbm thumbnbilIndex the index of the thumbnbil being rebd.
      */
-    void thumbnailStarted(ImageReader source,
-                          int imageIndex, int thumbnailIndex);
+    void thumbnbilStbrted(ImbgeRebder source,
+                          int imbgeIndex, int thumbnbilIndex);
 
     /**
-     * Reports the approximate degree of completion of the current
-     * <code>getThumbnail</code> call within the associated
-     * <code>ImageReader</code>.  The semantics are identical to those
-     * of <code>imageProgress</code>.
+     * Reports the bpproximbte degree of completion of the current
+     * <code>getThumbnbil</code> cbll within the bssocibted
+     * <code>ImbgeRebder</code>.  The sembntics bre identicbl to those
+     * of <code>imbgeProgress</code>.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
-     * @param percentageDone the approximate percentage of decoding that
-     * has been completed.
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this method.
+     * @pbrbm percentbgeDone the bpproximbte percentbge of decoding thbt
+     * hbs been completed.
      */
-    void thumbnailProgress(ImageReader source, float percentageDone);
+    void thumbnbilProgress(ImbgeRebder source, flobt percentbgeDone);
 
     /**
-     * Reports that a thumbnail read operation has completed.  All
-     * <code>ImageReader</code> implementations are required to call
-     * this method exactly once upon completion of each thumbnail read
-     * operation.
+     * Reports thbt b thumbnbil rebd operbtion hbs completed.  All
+     * <code>ImbgeRebder</code> implementbtions bre required to cbll
+     * this method exbctly once upon completion of ebch thumbnbil rebd
+     * operbtion.
      *
-     * @param source the <code>ImageReader</code> object calling this
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this
      * method.
      */
-    void thumbnailComplete(ImageReader source);
+    void thumbnbilComplete(ImbgeRebder source);
 
     /**
-     * Reports that a read has been aborted via the reader's
-     * <code>abort</code> method.  No further notifications will be
+     * Reports thbt b rebd hbs been bborted vib the rebder's
+     * <code>bbort</code> method.  No further notificbtions will be
      * given.
      *
-     * @param source the <code>ImageReader</code> object calling this
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this
      * method.
      */
-    void readAborted(ImageReader source);
+    void rebdAborted(ImbgeRebder source);
 }

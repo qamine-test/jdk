@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.auth;
+pbckbge com.sun.security.buth;
 
-import java.security.Principal;
-import sun.security.x509.X500Name;
+import jbvb.security.Principbl;
+import sun.security.x509.X500Nbme;
 
 /**
- * <p> This class represents an X.500 <code>Principal</code>.
- * X500Principals have names such as,
- * "CN=Duke, OU=JavaSoft, O=Sun Microsystems, C=US"
+ * <p> This clbss represents bn X.500 <code>Principbl</code>.
+ * X500Principbls hbve nbmes such bs,
+ * "CN=Duke, OU=JbvbSoft, O=Sun Microsystems, C=US"
  * (RFC 1779 style).
  *
- * <p> Principals such as this <code>X500Principal</code>
- * may be associated with a particular <code>Subject</code>
- * to augment that <code>Subject</code> with an additional
- * identity.  Refer to the <code>Subject</code> class for more information
- * on how to achieve this.  Authorization decisions can then be based upon
- * the Principals associated with a <code>Subject</code>.
+ * <p> Principbls such bs this <code>X500Principbl</code>
+ * mby be bssocibted with b pbrticulbr <code>Subject</code>
+ * to bugment thbt <code>Subject</code> with bn bdditionbl
+ * identity.  Refer to the <code>Subject</code> clbss for more informbtion
+ * on how to bchieve this.  Authorizbtion decisions cbn then be bbsed upon
+ * the Principbls bssocibted with b <code>Subject</code>.
  *
- * @see java.security.Principal
- * @see javax.security.auth.Subject
- * @deprecated A new X500Principal class is available in the Java platform.
- *             This X500Principal classs is entirely deprecated and
- *             is here to allow for a smooth transition to the new
- *             class.
- * @see javax.security.auth.x500.X500Principal
+ * @see jbvb.security.Principbl
+ * @see jbvbx.security.buth.Subject
+ * @deprecbted A new X500Principbl clbss is bvbilbble in the Jbvb plbtform.
+ *             This X500Principbl clbsss is entirely deprecbted bnd
+ *             is here to bllow for b smooth trbnsition to the new
+ *             clbss.
+ * @see jbvbx.security.buth.x500.X500Principbl
 */
-@jdk.Exported(false)
-@Deprecated
-public class X500Principal implements Principal, java.io.Serializable {
+@jdk.Exported(fblse)
+@Deprecbted
+public clbss X500Principbl implements Principbl, jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = -8222422609431628648L;
+    privbte stbtic finbl long seriblVersionUID = -8222422609431628648L;
 
-    private static final java.util.ResourceBundle rb =
-        java.security.AccessController.doPrivileged
-        (new java.security.PrivilegedAction<java.util.ResourceBundle>() {
-              public java.util.ResourceBundle run() {
-                  return (java.util.ResourceBundle.getBundle
+    privbte stbtic finbl jbvb.util.ResourceBundle rb =
+        jbvb.security.AccessController.doPrivileged
+        (new jbvb.security.PrivilegedAction<jbvb.util.ResourceBundle>() {
+              public jbvb.util.ResourceBundle run() {
+                  return (jbvb.util.ResourceBundle.getBundle
                                 ("sun.security.util.AuthResources"));
               }
         });
 
     /**
-     * @serial
+     * @seribl
      */
-    private String name;
+    privbte String nbme;
 
-    transient private X500Name thisX500Name;
+    trbnsient privbte X500Nbme thisX500Nbme;
 
     /**
-     * Create a X500Principal with an X.500 Name,
-     * such as "CN=Duke, OU=JavaSoft, O=Sun Microsystems, C=US"
+     * Crebte b X500Principbl with bn X.500 Nbme,
+     * such bs "CN=Duke, OU=JbvbSoft, O=Sun Microsystems, C=US"
      * (RFC 1779 style).
      *
      * <p>
      *
-     * @param name the X.500 name
+     * @pbrbm nbme the X.500 nbme
      *
-     * @exception NullPointerException if the <code>name</code>
+     * @exception NullPointerException if the <code>nbme</code>
      *                  is <code>null</code>. <p>
      *
-     * @exception IllegalArgumentException if the <code>name</code>
+     * @exception IllegblArgumentException if the <code>nbme</code>
      *                  is improperly specified.
      */
-    public X500Principal(String name) {
-        if (name == null)
-            throw new NullPointerException(rb.getString("provided.null.name"));
+    public X500Principbl(String nbme) {
+        if (nbme == null)
+            throw new NullPointerException(rb.getString("provided.null.nbme"));
 
         try {
-            thisX500Name = new X500Name(name);
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e.toString());
+            thisX500Nbme = new X500Nbme(nbme);
+        } cbtch (Exception e) {
+            throw new IllegblArgumentException(e.toString());
         }
 
-        this.name = name;
+        this.nbme = nbme;
     }
 
     /**
-     * Return the Unix username for this <code>X500Principal</code>.
+     * Return the Unix usernbme for this <code>X500Principbl</code>.
      *
      * <p>
      *
-     * @return the Unix username for this <code>X500Principal</code>
+     * @return the Unix usernbme for this <code>X500Principbl</code>
      */
-    public String getName() {
-        return thisX500Name.getName();
+    public String getNbme() {
+        return thisX500Nbme.getNbme();
     }
 
     /**
-     * Return a string representation of this <code>X500Principal</code>.
+     * Return b string representbtion of this <code>X500Principbl</code>.
      *
      * <p>
      *
-     * @return a string representation of this <code>X500Principal</code>.
+     * @return b string representbtion of this <code>X500Principbl</code>.
      */
     public String toString() {
-        return thisX500Name.toString();
+        return thisX500Nbme.toString();
     }
 
     /**
-     * Compares the specified Object with this <code>X500Principal</code>
-     * for equality.
+     * Compbres the specified Object with this <code>X500Principbl</code>
+     * for equblity.
      *
      * <p>
      *
-     * @param o Object to be compared for equality with this
-     *          <code>X500Principal</code>.
+     * @pbrbm o Object to be compbred for equblity with this
+     *          <code>X500Principbl</code>.
      *
-     * @return true if the specified Object is equal equal to this
-     *          <code>X500Principal</code>.
+     * @return true if the specified Object is equbl equbl to this
+     *          <code>X500Principbl</code>.
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == null)
-            return false;
+            return fblse;
 
         if (this == o)
             return true;
 
-        if (o instanceof X500Principal) {
-            X500Principal that = (X500Principal)o;
+        if (o instbnceof X500Principbl) {
+            X500Principbl thbt = (X500Principbl)o;
             try {
-                X500Name thatX500Name = new X500Name(that.getName());
-                return thisX500Name.equals(thatX500Name);
-            } catch (Exception e) {
-                // any parsing exceptions, return false
-                return false;
+                X500Nbme thbtX500Nbme = new X500Nbme(thbt.getNbme());
+                return thisX500Nbme.equbls(thbtX500Nbme);
+            } cbtch (Exception e) {
+                // bny pbrsing exceptions, return fblse
+                return fblse;
             }
-        } else if (o instanceof Principal) {
-            // this will return 'true' if 'o' is a sun.security.x509.X500Name
-            // and the X500Names are equal
-            return o.equals(thisX500Name);
+        } else if (o instbnceof Principbl) {
+            // this will return 'true' if 'o' is b sun.security.x509.X500Nbme
+            // bnd the X500Nbmes bre equbl
+            return o.equbls(thisX500Nbme);
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Return a hash code for this <code>X500Principal</code>.
+     * Return b hbsh code for this <code>X500Principbl</code>.
      *
      * <p>
      *
-     * @return a hash code for this <code>X500Principal</code>.
+     * @return b hbsh code for this <code>X500Principbl</code>.
      */
-    public int hashCode() {
-        return thisX500Name.hashCode();
+    public int hbshCode() {
+        return thisX500Nbme.hbshCode();
     }
 
     /**
-     * Reads this object from a stream (i.e., deserializes it)
+     * Rebds this object from b strebm (i.e., deseriblizes it)
      */
-    private void readObject(java.io.ObjectInputStream s) throws
-                                        java.io.IOException,
-                                        java.io.NotActiveException,
-                                        ClassNotFoundException {
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s) throws
+                                        jbvb.io.IOException,
+                                        jbvb.io.NotActiveException,
+                                        ClbssNotFoundException {
 
-        s.defaultReadObject();
+        s.defbultRebdObject();
 
-        // re-create thisX500Name
-        thisX500Name = new X500Name(name);
+        // re-crebte thisX500Nbme
+        thisX500Nbme = new X500Nbme(nbme);
     }
 }

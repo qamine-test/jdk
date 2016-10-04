@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,290 +56,290 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbckbge jdk.internbl.org.objectweb.bsm.tree;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.FieldVisitor;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor;
+import jdk.internbl.org.objectweb.bsm.Attribute;
+import jdk.internbl.org.objectweb.bsm.ClbssVisitor;
+import jdk.internbl.org.objectweb.bsm.FieldVisitor;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.TypePbth;
 
 /**
- * A node that represents a class.
+ * A node thbt represents b clbss.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class ClassNode extends ClassVisitor {
+public clbss ClbssNode extends ClbssVisitor {
 
     /**
-     * The class version.
+     * The clbss version.
      */
     public int version;
 
     /**
-     * The class's access flags (see {@link jdk.internal.org.objectweb.asm.Opcodes}). This
-     * field also indicates if the class is deprecated.
+     * The clbss's bccess flbgs (see {@link jdk.internbl.org.objectweb.bsm.Opcodes}). This
+     * field blso indicbtes if the clbss is deprecbted.
      */
-    public int access;
+    public int bccess;
 
     /**
-     * The internal name of the class (see
-     * {@link jdk.internal.org.objectweb.asm.Type#getInternalName() getInternalName}).
+     * The internbl nbme of the clbss (see
+     * {@link jdk.internbl.org.objectweb.bsm.Type#getInternblNbme() getInternblNbme}).
      */
-    public String name;
+    public String nbme;
 
     /**
-     * The signature of the class. May be <tt>null</tt>.
+     * The signbture of the clbss. Mby be <tt>null</tt>.
      */
-    public String signature;
+    public String signbture;
 
     /**
-     * The internal of name of the super class (see
-     * {@link jdk.internal.org.objectweb.asm.Type#getInternalName() getInternalName}). For
-     * interfaces, the super class is {@link Object}. May be <tt>null</tt>, but
-     * only for the {@link Object} class.
+     * The internbl of nbme of the super clbss (see
+     * {@link jdk.internbl.org.objectweb.bsm.Type#getInternblNbme() getInternblNbme}). For
+     * interfbces, the super clbss is {@link Object}. Mby be <tt>null</tt>, but
+     * only for the {@link Object} clbss.
      */
-    public String superName;
+    public String superNbme;
 
     /**
-     * The internal names of the class's interfaces (see
-     * {@link jdk.internal.org.objectweb.asm.Type#getInternalName() getInternalName}). This
-     * list is a list of {@link String} objects.
+     * The internbl nbmes of the clbss's interfbces (see
+     * {@link jdk.internbl.org.objectweb.bsm.Type#getInternblNbme() getInternblNbme}). This
+     * list is b list of {@link String} objects.
      */
-    public List<String> interfaces;
+    public List<String> interfbces;
 
     /**
-     * The name of the source file from which this class was compiled. May be
+     * The nbme of the source file from which this clbss wbs compiled. Mby be
      * <tt>null</tt>.
      */
     public String sourceFile;
 
     /**
-     * Debug information to compute the correspondence between source and
-     * compiled elements of the class. May be <tt>null</tt>.
+     * Debug informbtion to compute the correspondence between source bnd
+     * compiled elements of the clbss. Mby be <tt>null</tt>.
      */
     public String sourceDebug;
 
     /**
-     * The internal name of the enclosing class of the class. May be
+     * The internbl nbme of the enclosing clbss of the clbss. Mby be
      * <tt>null</tt>.
      */
-    public String outerClass;
+    public String outerClbss;
 
     /**
-     * The name of the method that contains the class, or <tt>null</tt> if the
-     * class is not enclosed in a method.
+     * The nbme of the method thbt contbins the clbss, or <tt>null</tt> if the
+     * clbss is not enclosed in b method.
      */
     public String outerMethod;
 
     /**
-     * The descriptor of the method that contains the class, or <tt>null</tt> if
-     * the class is not enclosed in a method.
+     * The descriptor of the method thbt contbins the clbss, or <tt>null</tt> if
+     * the clbss is not enclosed in b method.
      */
     public String outerMethodDesc;
 
     /**
-     * The runtime visible annotations of this class. This list is a list of
-     * {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime visible bnnotbtions of this clbss. This list is b list of
+     * {@link AnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label visible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.AnnotbtionNode
+     * @lbbel visible
      */
-    public List<AnnotationNode> visibleAnnotations;
+    public List<AnnotbtionNode> visibleAnnotbtions;
 
     /**
-     * The runtime invisible annotations of this class. This list is a list of
-     * {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime invisible bnnotbtions of this clbss. This list is b list of
+     * {@link AnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label invisible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.AnnotbtionNode
+     * @lbbel invisible
      */
-    public List<AnnotationNode> invisibleAnnotations;
+    public List<AnnotbtionNode> invisibleAnnotbtions;
 
     /**
-     * The runtime visible type annotations of this class. This list is a list
-     * of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime visible type bnnotbtions of this clbss. This list is b list
+     * of {@link TypeAnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label visible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.TypeAnnotbtionNode
+     * @lbbel visible
      */
-    public List<TypeAnnotationNode> visibleTypeAnnotations;
+    public List<TypeAnnotbtionNode> visibleTypeAnnotbtions;
 
     /**
-     * The runtime invisible type annotations of this class. This list is a list
-     * of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime invisible type bnnotbtions of this clbss. This list is b list
+     * of {@link TypeAnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label invisible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.TypeAnnotbtionNode
+     * @lbbel invisible
      */
-    public List<TypeAnnotationNode> invisibleTypeAnnotations;
+    public List<TypeAnnotbtionNode> invisibleTypeAnnotbtions;
 
     /**
-     * The non standard attributes of this class. This list is a list of
-     * {@link Attribute} objects. May be <tt>null</tt>.
+     * The non stbndbrd bttributes of this clbss. This list is b list of
+     * {@link Attribute} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.Attribute
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.Attribute
      */
-    public List<Attribute> attrs;
+    public List<Attribute> bttrs;
 
     /**
-     * Informations about the inner classes of this class. This list is a list
-     * of {@link InnerClassNode} objects.
+     * Informbtions bbout the inner clbsses of this clbss. This list is b list
+     * of {@link InnerClbssNode} objects.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.InnerClassNode
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.InnerClbssNode
      */
-    public List<InnerClassNode> innerClasses;
+    public List<InnerClbssNode> innerClbsses;
 
     /**
-     * The fields of this class. This list is a list of {@link FieldNode}
+     * The fields of this clbss. This list is b list of {@link FieldNode}
      * objects.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.FieldNode
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.FieldNode
      */
     public List<FieldNode> fields;
 
     /**
-     * The methods of this class. This list is a list of {@link MethodNode}
+     * The methods of this clbss. This list is b list of {@link MethodNode}
      * objects.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.MethodNode
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.MethodNode
      */
     public List<MethodNode> methods;
 
     /**
-     * Constructs a new {@link ClassNode}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the {@link #ClassNode(int)}
+     * Constructs b new {@link ClbssNode}. <i>Subclbsses must not use this
+     * constructor</i>. Instebd, they must use the {@link #ClbssNode(int)}
      * version.
      *
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public ClassNode() {
+    public ClbssNode() {
         this(Opcodes.ASM5);
-        if (getClass() != ClassNode.class) {
-            throw new IllegalStateException();
+        if (getClbss() != ClbssNode.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Constructs a new {@link ClassNode}.
+     * Constructs b new {@link ClbssNode}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
      */
-    public ClassNode(final int api) {
-        super(api);
-        this.interfaces = new ArrayList<String>();
-        this.innerClasses = new ArrayList<InnerClassNode>();
-        this.fields = new ArrayList<FieldNode>();
-        this.methods = new ArrayList<MethodNode>();
+    public ClbssNode(finbl int bpi) {
+        super(bpi);
+        this.interfbces = new ArrbyList<String>();
+        this.innerClbsses = new ArrbyList<InnerClbssNode>();
+        this.fields = new ArrbyList<FieldNode>();
+        this.methods = new ArrbyList<MethodNode>();
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the ClassVisitor abstract class
+    // Implementbtion of the ClbssVisitor bbstrbct clbss
     // ------------------------------------------------------------------------
 
     @Override
-    public void visit(final int version, final int access, final String name,
-            final String signature, final String superName,
-            final String[] interfaces) {
+    public void visit(finbl int version, finbl int bccess, finbl String nbme,
+            finbl String signbture, finbl String superNbme,
+            finbl String[] interfbces) {
         this.version = version;
-        this.access = access;
-        this.name = name;
-        this.signature = signature;
-        this.superName = superName;
-        if (interfaces != null) {
-            this.interfaces.addAll(Arrays.asList(interfaces));
+        this.bccess = bccess;
+        this.nbme = nbme;
+        this.signbture = signbture;
+        this.superNbme = superNbme;
+        if (interfbces != null) {
+            this.interfbces.bddAll(Arrbys.bsList(interfbces));
         }
     }
 
     @Override
-    public void visitSource(final String file, final String debug) {
+    public void visitSource(finbl String file, finbl String debug) {
         sourceFile = file;
         sourceDebug = debug;
     }
 
     @Override
-    public void visitOuterClass(final String owner, final String name,
-            final String desc) {
-        outerClass = owner;
-        outerMethod = name;
+    public void visitOuterClbss(finbl String owner, finbl String nbme,
+            finbl String desc) {
+        outerClbss = owner;
+        outerMethod = nbme;
         outerMethodDesc = desc;
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        AnnotationNode an = new AnnotationNode(desc);
+    public AnnotbtionVisitor visitAnnotbtion(finbl String desc,
+            finbl boolebn visible) {
+        AnnotbtionNode bn = new AnnotbtionNode(desc);
         if (visible) {
-            if (visibleAnnotations == null) {
-                visibleAnnotations = new ArrayList<AnnotationNode>(1);
+            if (visibleAnnotbtions == null) {
+                visibleAnnotbtions = new ArrbyList<AnnotbtionNode>(1);
             }
-            visibleAnnotations.add(an);
+            visibleAnnotbtions.bdd(bn);
         } else {
-            if (invisibleAnnotations == null) {
-                invisibleAnnotations = new ArrayList<AnnotationNode>(1);
+            if (invisibleAnnotbtions == null) {
+                invisibleAnnotbtions = new ArrbyList<AnnotbtionNode>(1);
             }
-            invisibleAnnotations.add(an);
+            invisibleAnnotbtions.bdd(bn);
         }
-        return an;
+        return bn;
     }
 
     @Override
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        TypeAnnotationNode an = new TypeAnnotationNode(typeRef, typePath, desc);
+    public AnnotbtionVisitor visitTypeAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        TypeAnnotbtionNode bn = new TypeAnnotbtionNode(typeRef, typePbth, desc);
         if (visible) {
-            if (visibleTypeAnnotations == null) {
-                visibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(1);
+            if (visibleTypeAnnotbtions == null) {
+                visibleTypeAnnotbtions = new ArrbyList<TypeAnnotbtionNode>(1);
             }
-            visibleTypeAnnotations.add(an);
+            visibleTypeAnnotbtions.bdd(bn);
         } else {
-            if (invisibleTypeAnnotations == null) {
-                invisibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(1);
+            if (invisibleTypeAnnotbtions == null) {
+                invisibleTypeAnnotbtions = new ArrbyList<TypeAnnotbtionNode>(1);
             }
-            invisibleTypeAnnotations.add(an);
+            invisibleTypeAnnotbtions.bdd(bn);
         }
-        return an;
+        return bn;
     }
 
     @Override
-    public void visitAttribute(final Attribute attr) {
-        if (attrs == null) {
-            attrs = new ArrayList<Attribute>(1);
+    public void visitAttribute(finbl Attribute bttr) {
+        if (bttrs == null) {
+            bttrs = new ArrbyList<Attribute>(1);
         }
-        attrs.add(attr);
+        bttrs.bdd(bttr);
     }
 
     @Override
-    public void visitInnerClass(final String name, final String outerName,
-            final String innerName, final int access) {
-        InnerClassNode icn = new InnerClassNode(name, outerName, innerName,
-                access);
-        innerClasses.add(icn);
+    public void visitInnerClbss(finbl String nbme, finbl String outerNbme,
+            finbl String innerNbme, finbl int bccess) {
+        InnerClbssNode icn = new InnerClbssNode(nbme, outerNbme, innerNbme,
+                bccess);
+        innerClbsses.bdd(icn);
     }
 
     @Override
-    public FieldVisitor visitField(final int access, final String name,
-            final String desc, final String signature, final Object value) {
-        FieldNode fn = new FieldNode(access, name, desc, signature, value);
-        fields.add(fn);
+    public FieldVisitor visitField(finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl Object vblue) {
+        FieldNode fn = new FieldNode(bccess, nbme, desc, signbture, vblue);
+        fields.bdd(fn);
         return fn;
     }
 
     @Override
-    public MethodVisitor visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions) {
-        MethodNode mn = new MethodNode(access, name, desc, signature,
+    public MethodVisitor visitMethod(finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl String[] exceptions) {
+        MethodNode mn = new MethodNode(bccess, nbme, desc, signbture,
                 exceptions);
-        methods.add(mn);
+        methods.bdd(mn);
         return mn;
     }
 
@@ -352,93 +352,93 @@ public class ClassNode extends ClassVisitor {
     // ------------------------------------------------------------------------
 
     /**
-     * Checks that this class node is compatible with the given ASM API version.
-     * This methods checks that this node, and all its nodes recursively, do not
-     * contain elements that were introduced in more recent versions of the ASM
-     * API than the given version.
+     * Checks thbt this clbss node is compbtible with the given ASM API version.
+     * This methods checks thbt this node, bnd bll its nodes recursively, do not
+     * contbin elements thbt were introduced in more recent versions of the ASM
+     * API thbn the given version.
      *
-     * @param api
-     *            an ASM API version. Must be one of {@link Opcodes#ASM4} or
+     * @pbrbm bpi
+     *            bn ASM API version. Must be one of {@link Opcodes#ASM4} or
      *            {@link Opcodes#ASM5}.
      */
-    public void check(final int api) {
-        if (api == Opcodes.ASM4) {
-            if (visibleTypeAnnotations != null
-                    && visibleTypeAnnotations.size() > 0) {
+    public void check(finbl int bpi) {
+        if (bpi == Opcodes.ASM4) {
+            if (visibleTypeAnnotbtions != null
+                    && visibleTypeAnnotbtions.size() > 0) {
                 throw new RuntimeException();
             }
-            if (invisibleTypeAnnotations != null
-                    && invisibleTypeAnnotations.size() > 0) {
+            if (invisibleTypeAnnotbtions != null
+                    && invisibleTypeAnnotbtions.size() > 0) {
                 throw new RuntimeException();
             }
             for (FieldNode f : fields) {
-                f.check(api);
+                f.check(bpi);
             }
             for (MethodNode m : methods) {
-                m.check(api);
+                m.check(bpi);
             }
         }
     }
 
     /**
-     * Makes the given class visitor visit this class.
+     * Mbkes the given clbss visitor visit this clbss.
      *
-     * @param cv
-     *            a class visitor.
+     * @pbrbm cv
+     *            b clbss visitor.
      */
-    public void accept(final ClassVisitor cv) {
-        // visits header
-        String[] interfaces = new String[this.interfaces.size()];
-        this.interfaces.toArray(interfaces);
-        cv.visit(version, access, name, signature, superName, interfaces);
+    public void bccept(finbl ClbssVisitor cv) {
+        // visits hebder
+        String[] interfbces = new String[this.interfbces.size()];
+        this.interfbces.toArrby(interfbces);
+        cv.visit(version, bccess, nbme, signbture, superNbme, interfbces);
         // visits source
         if (sourceFile != null || sourceDebug != null) {
             cv.visitSource(sourceFile, sourceDebug);
         }
-        // visits outer class
-        if (outerClass != null) {
-            cv.visitOuterClass(outerClass, outerMethod, outerMethodDesc);
+        // visits outer clbss
+        if (outerClbss != null) {
+            cv.visitOuterClbss(outerClbss, outerMethod, outerMethodDesc);
         }
-        // visits attributes
+        // visits bttributes
         int i, n;
-        n = visibleAnnotations == null ? 0 : visibleAnnotations.size();
+        n = visibleAnnotbtions == null ? 0 : visibleAnnotbtions.size();
         for (i = 0; i < n; ++i) {
-            AnnotationNode an = visibleAnnotations.get(i);
-            an.accept(cv.visitAnnotation(an.desc, true));
+            AnnotbtionNode bn = visibleAnnotbtions.get(i);
+            bn.bccept(cv.visitAnnotbtion(bn.desc, true));
         }
-        n = invisibleAnnotations == null ? 0 : invisibleAnnotations.size();
+        n = invisibleAnnotbtions == null ? 0 : invisibleAnnotbtions.size();
         for (i = 0; i < n; ++i) {
-            AnnotationNode an = invisibleAnnotations.get(i);
-            an.accept(cv.visitAnnotation(an.desc, false));
+            AnnotbtionNode bn = invisibleAnnotbtions.get(i);
+            bn.bccept(cv.visitAnnotbtion(bn.desc, fblse));
         }
-        n = visibleTypeAnnotations == null ? 0 : visibleTypeAnnotations.size();
+        n = visibleTypeAnnotbtions == null ? 0 : visibleTypeAnnotbtions.size();
         for (i = 0; i < n; ++i) {
-            TypeAnnotationNode an = visibleTypeAnnotations.get(i);
-            an.accept(cv.visitTypeAnnotation(an.typeRef, an.typePath, an.desc,
+            TypeAnnotbtionNode bn = visibleTypeAnnotbtions.get(i);
+            bn.bccept(cv.visitTypeAnnotbtion(bn.typeRef, bn.typePbth, bn.desc,
                     true));
         }
-        n = invisibleTypeAnnotations == null ? 0 : invisibleTypeAnnotations
+        n = invisibleTypeAnnotbtions == null ? 0 : invisibleTypeAnnotbtions
                 .size();
         for (i = 0; i < n; ++i) {
-            TypeAnnotationNode an = invisibleTypeAnnotations.get(i);
-            an.accept(cv.visitTypeAnnotation(an.typeRef, an.typePath, an.desc,
-                    false));
+            TypeAnnotbtionNode bn = invisibleTypeAnnotbtions.get(i);
+            bn.bccept(cv.visitTypeAnnotbtion(bn.typeRef, bn.typePbth, bn.desc,
+                    fblse));
         }
-        n = attrs == null ? 0 : attrs.size();
+        n = bttrs == null ? 0 : bttrs.size();
         for (i = 0; i < n; ++i) {
-            cv.visitAttribute(attrs.get(i));
+            cv.visitAttribute(bttrs.get(i));
         }
-        // visits inner classes
-        for (i = 0; i < innerClasses.size(); ++i) {
-            innerClasses.get(i).accept(cv);
+        // visits inner clbsses
+        for (i = 0; i < innerClbsses.size(); ++i) {
+            innerClbsses.get(i).bccept(cv);
         }
         // visits fields
         for (i = 0; i < fields.size(); ++i) {
-            fields.get(i).accept(cv);
+            fields.get(i).bccept(cv);
         }
         // visits methods
         for (i = 0; i < methods.size(); ++i) {
-            methods.get(i).accept(cv);
+            methods.get(i).bccept(cv);
         }
         // visits end
         cv.visitEnd();

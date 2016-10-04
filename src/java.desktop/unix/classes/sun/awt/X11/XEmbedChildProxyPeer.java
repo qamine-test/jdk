@@ -1,391 +1,391 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.ColorModel;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.awt.image.VolatileImage;
-import java.awt.peer.*;
-import sun.java2d.pipe.Region;
-import sun.awt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.imbge.ImbgeProducer;
+import jbvb.bwt.imbge.VolbtileImbge;
+import jbvb.bwt.peer.*;
+import sun.jbvb2d.pipe.Region;
+import sun.bwt.*;
 
-public class XEmbedChildProxyPeer implements ComponentPeer, XEventDispatcher{
-    XEmbeddingContainer container;
+public clbss XEmbedChildProxyPeer implements ComponentPeer, XEventDispbtcher{
+    XEmbeddingContbiner contbiner;
     XEmbedChildProxy proxy;
-    long handle;
+    long hbndle;
     XEmbedChildProxyPeer(XEmbedChildProxy proxy) {
-        this.container = proxy.getEmbeddingContainer();
-        this.handle = proxy.getHandle();
+        this.contbiner = proxy.getEmbeddingContbiner();
+        this.hbndle = proxy.getHbndle();
         this.proxy = proxy;
-        initDispatching();
+        initDispbtching();
     }
 
-    void initDispatching() {
-        XToolkit.awtLock();
+    void initDispbtching() {
+        XToolkit.bwtLock();
         try {
-            XToolkit.addEventDispatcher(handle, this);
-            XlibWrapper.XSelectInput(XToolkit.getDisplay(), handle,
-                    XConstants.StructureNotifyMask | XConstants.PropertyChangeMask);
+            XToolkit.bddEventDispbtcher(hbndle, this);
+            XlibWrbpper.XSelectInput(XToolkit.getDisplby(), hbndle,
+                    XConstbnts.StructureNotifyMbsk | XConstbnts.PropertyChbngeMbsk);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlock();
         }
-        container.notifyChildEmbedded(handle);
+        contbiner.notifyChildEmbedded(hbndle);
     }
-    public boolean isObscured() { return false; }
-    public boolean canDetermineObscurity() { return false; }
-    public void                 setVisible(boolean b) {
+    public boolebn isObscured() { return fblse; }
+    public boolebn cbnDetermineObscurity() { return fblse; }
+    public void                 setVisible(boolebn b) {
         if (!b) {
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XUnmapWindow(XToolkit.getDisplay(), handle);
+                XlibWrbpper.XUnmbpWindow(XToolkit.getDisplby(), hbndle);
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlock();
             }
         } else {
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XMapWindow(XToolkit.getDisplay(), handle);
+                XlibWrbpper.XMbpWindow(XToolkit.getDisplby(), hbndle);
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlock();
             }
         }
     }
-    public void setEnabled(boolean b) {}
-    public void paint(Graphics g) {}
-    public void repaint(long tm, int x, int y, int width, int height) {}
-    public void print(Graphics g) {}
+    public void setEnbbled(boolebn b) {}
+    public void pbint(Grbphics g) {}
+    public void repbint(long tm, int x, int y, int width, int height) {}
+    public void print(Grbphics g) {}
     public void setBounds(int x, int y, int width, int height, int op) {
-        // Unimplemeneted: Check for min/max hints for non-resizable
-        XToolkit.awtLock();
+        // Unimplemeneted: Check for min/mbx hints for non-resizbble
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XMoveResizeWindow(XToolkit.getDisplay(), handle, x, y, width, height);
+            XlibWrbpper.XMoveResizeWindow(XToolkit.getDisplby(), hbndle, x, y, width, height);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlock();
         }
     }
-    public void handleEvent(AWTEvent e) {
+    public void hbndleEvent(AWTEvent e) {
         switch (e.getID()) {
-          case FocusEvent.FOCUS_GAINED:
-              XKeyboardFocusManagerPeer.getInstance().setCurrentFocusOwner(proxy);
-              container.focusGained(handle);
-              break;
-          case FocusEvent.FOCUS_LOST:
-              XKeyboardFocusManagerPeer.getInstance().setCurrentFocusOwner(null);
-              container.focusLost(handle);
-              break;
-          case KeyEvent.KEY_PRESSED:
-          case KeyEvent.KEY_RELEASED:
+          cbse FocusEvent.FOCUS_GAINED:
+              XKeybobrdFocusMbnbgerPeer.getInstbnce().setCurrentFocusOwner(proxy);
+              contbiner.focusGbined(hbndle);
+              brebk;
+          cbse FocusEvent.FOCUS_LOST:
+              XKeybobrdFocusMbnbgerPeer.getInstbnce().setCurrentFocusOwner(null);
+              contbiner.focusLost(hbndle);
+              brebk;
+          cbse KeyEvent.KEY_PRESSED:
+          cbse KeyEvent.KEY_RELEASED:
               if (!((InputEvent)e).isConsumed()) {
-                  container.forwardKeyEvent(handle, (KeyEvent)e);
+                  contbiner.forwbrdKeyEvent(hbndle, (KeyEvent)e);
               }
-              break;
+              brebk;
         }
     }
-    public void                coalescePaintEvent(PaintEvent e) {}
-    public Point                getLocationOnScreen() {
-        XWindowAttributes attr = new XWindowAttributes();
-        XToolkit.awtLock();
+    public void                coblescePbintEvent(PbintEvent e) {}
+    public Point                getLocbtionOnScreen() {
+        XWindowAttributes bttr = new XWindowAttributes();
+        XToolkit.bwtLock();
         try{
-            XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(), handle, attr.pData);
-            return new Point(attr.get_x(), attr.get_y());
-        } finally {
-            XToolkit.awtUnlock();
-            attr.dispose();
+            XlibWrbpper.XGetWindowAttributes(XToolkit.getDisplby(), hbndle, bttr.pDbtb);
+            return new Point(bttr.get_x(), bttr.get_y());
+        } finblly {
+            XToolkit.bwtUnlock();
+            bttr.dispose();
         }
     }
     public Dimension            getPreferredSize() {
-        XToolkit.awtLock();
-        long p_hints = XlibWrapper.XAllocSizeHints();
+        XToolkit.bwtLock();
+        long p_hints = XlibWrbpper.XAllocSizeHints();
         try {
             XSizeHints hints = new XSizeHints(p_hints);
-            XlibWrapper.XGetWMNormalHints(XToolkit.getDisplay(), handle, p_hints, XlibWrapper.larg1);
+            XlibWrbpper.XGetWMNormblHints(XToolkit.getDisplby(), hbndle, p_hints, XlibWrbpper.lbrg1);
             Dimension res = new Dimension(hints.get_width(), hints.get_height());
             return res;
-        } finally {
-            XlibWrapper.XFree(p_hints);
-            XToolkit.awtUnlock();
+        } finblly {
+            XlibWrbpper.XFree(p_hints);
+            XToolkit.bwtUnlock();
         }
     }
     public Dimension            getMinimumSize() {
-        XToolkit.awtLock();
-        long p_hints = XlibWrapper.XAllocSizeHints();
+        XToolkit.bwtLock();
+        long p_hints = XlibWrbpper.XAllocSizeHints();
         try {
             XSizeHints hints = new XSizeHints(p_hints);
-            XlibWrapper.XGetWMNormalHints(XToolkit.getDisplay(), handle, p_hints, XlibWrapper.larg1);
+            XlibWrbpper.XGetWMNormblHints(XToolkit.getDisplby(), hbndle, p_hints, XlibWrbpper.lbrg1);
             Dimension res = new Dimension(hints.get_min_width(), hints.get_min_height());
             return res;
-        } finally {
-            XlibWrapper.XFree(p_hints);
-            XToolkit.awtUnlock();
+        } finblly {
+            XlibWrbpper.XFree(p_hints);
+            XToolkit.bwtUnlock();
         }
     }
     public ColorModel           getColorModel() { return null; }
-    public Toolkit              getToolkit() { return Toolkit.getDefaultToolkit(); }
+    public Toolkit              getToolkit() { return Toolkit.getDefbultToolkit(); }
 
-    public Graphics             getGraphics() { return null; }
+    public Grbphics             getGrbphics() { return null; }
     public FontMetrics          getFontMetrics(Font font) { return null; }
     public void         dispose() {
-        container.detachChild(handle);
+        contbiner.detbchChild(hbndle);
     }
     public void         setForeground(Color c) {}
-    public void         setBackground(Color c) {}
+    public void         setBbckground(Color c) {}
     public void         setFont(Font f) {}
-    public void                 updateCursorImmediately() {}
+    public void                 updbteCursorImmedibtely() {}
 
     void postEvent(AWTEvent event) {
-        XToolkit.postEvent(XToolkit.targetToAppContext(proxy), event);
+        XToolkit.postEvent(XToolkit.tbrgetToAppContext(proxy), event);
     }
 
-    boolean simulateMotifRequestFocus(Component lightweightChild, boolean temporary,
-                                      boolean focusedWindowChangeAllowed, long time)
+    boolebn simulbteMotifRequestFocus(Component lightweightChild, boolebn temporbry,
+                                      boolebn focusedWindowChbngeAllowed, long time)
     {
         if (lightweightChild == null) {
             lightweightChild = (Component)proxy;
         }
-        Component currentOwner = XKeyboardFocusManagerPeer.getInstance().getCurrentFocusOwner();
+        Component currentOwner = XKeybobrdFocusMbnbgerPeer.getInstbnce().getCurrentFocusOwner();
         if (currentOwner != null && currentOwner.getPeer() == null) {
             currentOwner = null;
         }
-        FocusEvent  fg = new FocusEvent(lightweightChild, FocusEvent.FOCUS_GAINED, false, currentOwner );
+        FocusEvent  fg = new FocusEvent(lightweightChild, FocusEvent.FOCUS_GAINED, fblse, currentOwner );
         FocusEvent fl = null;
         if (currentOwner != null) {
-            fl = new FocusEvent(currentOwner, FocusEvent.FOCUS_LOST, false, lightweightChild);
+            fl = new FocusEvent(currentOwner, FocusEvent.FOCUS_LOST, fblse, lightweightChild);
         }
 
-        // TODO: do we need to wrap in sequenced?
+        // TODO: do we need to wrbp in sequenced?
         if (fl != null) {
-            postEvent(XComponentPeer.wrapInSequenced(fl));
+            postEvent(XComponentPeer.wrbpInSequenced(fl));
         }
-        postEvent(XComponentPeer.wrapInSequenced(fg));
-        // End of Motif compatibility code
+        postEvent(XComponentPeer.wrbpInSequenced(fg));
+        // End of Motif compbtibility code
         return true;
     }
 
-    public boolean requestFocus(Component lightweightChild,
-                                boolean temporary,
-                                boolean focusedWindowChangeAllowed,
+    public boolebn requestFocus(Component lightweightChild,
+                                boolebn temporbry,
+                                boolebn focusedWindowChbngeAllowed,
                                 long time,
-                                CausedFocusEvent.Cause cause)
+                                CbusedFocusEvent.Cbuse cbuse)
     {
-        int result = XKeyboardFocusManagerPeer
-            .shouldNativelyFocusHeavyweight(proxy, lightweightChild,
-                                            temporary, false, time, cause);
+        int result = XKeybobrdFocusMbnbgerPeer
+            .shouldNbtivelyFocusHebvyweight(proxy, lightweightChild,
+                                            temporbry, fblse, time, cbuse);
 
         switch (result) {
-          case XKeyboardFocusManagerPeer.SNFH_FAILURE:
-              return false;
-          case XKeyboardFocusManagerPeer.SNFH_SUCCESS_PROCEED:
-              // Currently we just generate focus events like we deal with lightweight instead of calling
-              // XSetInputFocus on native window
+          cbse XKeybobrdFocusMbnbgerPeer.SNFH_FAILURE:
+              return fblse;
+          cbse XKeybobrdFocusMbnbgerPeer.SNFH_SUCCESS_PROCEED:
+              // Currently we just generbte focus events like we debl with lightweight instebd of cblling
+              // XSetInputFocus on nbtive window
 
               /**
-               * The problems with requests in non-focused window arise because shouldNativelyFocusHeavyweight
-               * checks that native window is focused while appropriate WINDOW_GAINED_FOCUS has not yet
-               * been processed - it is in EventQueue. Thus, SNFH allows native request and stores request record
-               * in requests list - and it breaks our requests sequence as first record on WGF should be the last focus
-               * owner which had focus before WLF. So, we should not add request record for such requests
-               * but store this component in mostRecent - and return true as before for compatibility.
+               * The problems with requests in non-focused window brise becbuse shouldNbtivelyFocusHebvyweight
+               * checks thbt nbtive window is focused while bppropribte WINDOW_GAINED_FOCUS hbs not yet
+               * been processed - it is in EventQueue. Thus, SNFH bllows nbtive request bnd stores request record
+               * in requests list - bnd it brebks our requests sequence bs first record on WGF should be the lbst focus
+               * owner which hbd focus before WLF. So, we should not bdd request record for such requests
+               * but store this component in mostRecent - bnd return true bs before for compbtibility.
                */
-              Container parent = proxy.getParent();
-              // Search for parent window
-              while (parent != null && !(parent instanceof Window)) {
-                  parent = parent.getParent();
+              Contbiner pbrent = proxy.getPbrent();
+              // Sebrch for pbrent window
+              while (pbrent != null && !(pbrent instbnceof Window)) {
+                  pbrent = pbrent.getPbrent();
               }
-              if (parent != null) {
-                  Window parentWindow = (Window)parent;
-                  // and check that it is focused
-                  if (!parentWindow.isFocused() &&
-                      XKeyboardFocusManagerPeer.getInstance().getCurrentFocusedWindow() == parentWindow) {
-                      // if it is not - skip requesting focus on Solaris
-                      // but return true for compatibility.
+              if (pbrent != null) {
+                  Window pbrentWindow = (Window)pbrent;
+                  // bnd check thbt it is focused
+                  if (!pbrentWindow.isFocused() &&
+                      XKeybobrdFocusMbnbgerPeer.getInstbnce().getCurrentFocusedWindow() == pbrentWindow) {
+                      // if it is not - skip requesting focus on Solbris
+                      // but return true for compbtibility.
                       return true;
                   }
               }
 
-              // NOTE: We simulate heavyweight behavior of Motif - component receives focus right
-              // after request, not after event. Normally, we should better listen for event
+              // NOTE: We simulbte hebvyweight behbvior of Motif - component receives focus right
+              // bfter request, not bfter event. Normblly, we should better listen for event
               // by listeners.
 
-              // TODO: consider replacing with XKeyboardFocusManagerPeer.deliverFocus
-              return simulateMotifRequestFocus(lightweightChild, temporary, focusedWindowChangeAllowed, time);
-              // Motif compatibility code
-          case XKeyboardFocusManagerPeer.SNFH_SUCCESS_HANDLED:
-              // Either lightweight or excessive requiest - all events are generated.
+              // TODO: consider replbcing with XKeybobrdFocusMbnbgerPeer.deliverFocus
+              return simulbteMotifRequestFocus(lightweightChild, temporbry, focusedWindowChbngeAllowed, time);
+              // Motif compbtibility code
+          cbse XKeybobrdFocusMbnbgerPeer.SNFH_SUCCESS_HANDLED:
+              // Either lightweight or excessive requiest - bll events bre generbted.
               return true;
         }
-        return false;
+        return fblse;
     }
-    public boolean              isFocusable() {
+    public boolebn              isFocusbble() {
         return true;
     }
 
-    public Image                createImage(ImageProducer producer) { return null; }
-    public Image                createImage(int width, int height) { return null; }
-    public VolatileImage        createVolatileImage(int width, int height) { return null; }
-    public boolean              prepareImage(Image img, int w, int h, ImageObserver o) { return false; }
-    public int                  checkImage(Image img, int w, int h, ImageObserver o) { return 0; }
-    public GraphicsConfiguration getGraphicsConfiguration() { return null; }
-    public boolean     handlesWheelScrolling() { return true; }
-    public void createBuffers(int numBuffers, BufferCapabilities caps)
+    public Imbge                crebteImbge(ImbgeProducer producer) { return null; }
+    public Imbge                crebteImbge(int width, int height) { return null; }
+    public VolbtileImbge        crebteVolbtileImbge(int width, int height) { return null; }
+    public boolebn              prepbreImbge(Imbge img, int w, int h, ImbgeObserver o) { return fblse; }
+    public int                  checkImbge(Imbge img, int w, int h, ImbgeObserver o) { return 0; }
+    public GrbphicsConfigurbtion getGrbphicsConfigurbtion() { return null; }
+    public boolebn     hbndlesWheelScrolling() { return true; }
+    public void crebteBuffers(int numBuffers, BufferCbpbbilities cbps)
       throws AWTException { }
-    public Image getBackBuffer() { return null; }
-    public void flip(int x1, int y1, int x2, int y2, BufferCapabilities.FlipContents flipAction) {  }
+    public Imbge getBbckBuffer() { return null; }
+    public void flip(int x1, int y1, int x2, int y2, BufferCbpbbilities.FlipContents flipAction) {  }
     public void destroyBuffers() { }
 
     /**
-     * Used by lightweight implementations to tell a ComponentPeer to layout
-     * its sub-elements.  For instance, a lightweight Checkbox needs to layout
-     * the box, as well as the text label.
+     * Used by lightweight implementbtions to tell b ComponentPeer to lbyout
+     * its sub-elements.  For instbnce, b lightweight Checkbox needs to lbyout
+     * the box, bs well bs the text lbbel.
      */
-    public void        layout() {}
+    public void        lbyout() {}
 
     /**
-     * DEPRECATED:  Replaced by getPreferredSize().
+     * DEPRECATED:  Replbced by getPreferredSize().
      */
     public Dimension            preferredSize() {
         return getPreferredSize();
     }
 
     /**
-     * DEPRECATED:  Replaced by getMinimumSize().
+     * DEPRECATED:  Replbced by getMinimumSize().
      */
     public Dimension            minimumSize() {
         return getMinimumSize();
     }
 
     /**
-     * DEPRECATED:  Replaced by setVisible(boolean).
+     * DEPRECATED:  Replbced by setVisible(boolebn).
      */
     public void         show() {
         setVisible(true);
     }
 
     /**
-     * DEPRECATED:  Replaced by setVisible(boolean).
+     * DEPRECATED:  Replbced by setVisible(boolebn).
      */
     public void         hide() {
-        setVisible(false);
+        setVisible(fblse);
     }
 
     /**
-     * DEPRECATED:  Replaced by setEnabled(boolean).
+     * DEPRECATED:  Replbced by setEnbbled(boolebn).
      */
-    public void         enable() {}
+    public void         enbble() {}
 
     /**
-     * DEPRECATED:  Replaced by setEnabled(boolean).
+     * DEPRECATED:  Replbced by setEnbbled(boolebn).
      */
-    public void         disable() {}
+    public void         disbble() {}
 
     /**
-     * DEPRECATED:  Replaced by setBounds(int, int, int, int).
+     * DEPRECATED:  Replbced by setBounds(int, int, int, int).
      */
-    public void reshape(int x, int y, int width, int height) {
+    public void reshbpe(int x, int y, int width, int height) {
         setBounds(x, y, width, height, SET_BOUNDS);
     }
 
     Window getTopLevel(Component comp) {
-        while (comp != null && !(comp instanceof Window)) {
-            comp = comp.getParent();
+        while (comp != null && !(comp instbnceof Window)) {
+            comp = comp.getPbrent();
         }
         return (Window)comp;
     }
 
     void childResized() {
-        XToolkit.postEvent(XToolkit.targetToAppContext(proxy), new ComponentEvent(proxy, ComponentEvent.COMPONENT_RESIZED));
-        container.childResized(proxy);
-//         XToolkit.postEvent(XToolkit.targetToAppContext(proxy), new InvocationEvent(proxy, new Runnable() {
+        XToolkit.postEvent(XToolkit.tbrgetToAppContext(proxy), new ComponentEvent(proxy, ComponentEvent.COMPONENT_RESIZED));
+        contbiner.childResized(proxy);
+//         XToolkit.postEvent(XToolkit.tbrgetToAppContext(proxy), new InvocbtionEvent(proxy, new Runnbble() {
 //                 public void run() {
-//                     getTopLevel(proxy).invalidate();
-//                     getTopLevel(proxy).pack();
+//                     getTopLevel(proxy).invblidbte();
+//                     getTopLevel(proxy).pbck();
 //                 }
 //             }));
     }
-    void handlePropertyNotify(XEvent xev) {
+    void hbndlePropertyNotify(XEvent xev) {
         XPropertyEvent ev = xev.get_xproperty();
-        if (ev.get_atom() == XAtom.XA_WM_NORMAL_HINTS) {
+        if (ev.get_btom() == XAtom.XA_WM_NORMAL_HINTS) {
             childResized();
         }
     }
-    void handleConfigureNotify(XEvent xev) {
+    void hbndleConfigureNotify(XEvent xev) {
         childResized();
     }
-    public void dispatchEvent(XEvent xev) {
+    public void dispbtchEvent(XEvent xev) {
         int type = xev.get_type();
         switch (type) {
-          case XConstants.PropertyNotify:
-              handlePropertyNotify(xev);
-              break;
-          case XConstants.ConfigureNotify:
-              handleConfigureNotify(xev);
-              break;
+          cbse XConstbnts.PropertyNotify:
+              hbndlePropertyNotify(xev);
+              brebk;
+          cbse XConstbnts.ConfigureNotify:
+              hbndleConfigureNotify(xev);
+              brebk;
         }
     }
 
     void requestXEmbedFocus() {
-        postEvent(new InvocationEvent(proxy, new Runnable() {
+        postEvent(new InvocbtionEvent(proxy, new Runnbble() {
                 public void run() {
                     proxy.requestFocusInWindow();
                 }
             }));
     }
 
-    public void reparent(ContainerPeer newNativeParent) {
+    public void repbrent(ContbinerPeer newNbtivePbrent) {
     }
-    public boolean isReparentSupported() {
-        return false;
+    public boolebn isRepbrentSupported() {
+        return fblse;
     }
-    public Rectangle getBounds() {
-        XWindowAttributes attrs = new XWindowAttributes();
-        XToolkit.awtLock();
+    public Rectbngle getBounds() {
+        XWindowAttributes bttrs = new XWindowAttributes();
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(), handle, attrs.pData);
-            return new Rectangle(attrs.get_x(), attrs.get_y(), attrs.get_width(), attrs.get_height());
-        } finally {
-            XToolkit.awtUnlock();
-            attrs.dispose();
+            XlibWrbpper.XGetWindowAttributes(XToolkit.getDisplby(), hbndle, bttrs.pDbtb);
+            return new Rectbngle(bttrs.get_x(), bttrs.get_y(), bttrs.get_width(), bttrs.get_height());
+        } finblly {
+            XToolkit.bwtUnlock();
+            bttrs.dispose();
         }
     }
-    public void setBoundsOperation(int operation) {
+    public void setBoundsOperbtion(int operbtion) {
     }
 
-    public void applyShape(Region shape) {
+    public void bpplyShbpe(Region shbpe) {
     }
 
-    public void setZOrder(ComponentPeer above) {
+    public void setZOrder(ComponentPeer bbove) {
     }
 
-    public boolean updateGraphicsData(GraphicsConfiguration gc) {
-        return false;
+    public boolebn updbteGrbphicsDbtb(GrbphicsConfigurbtion gc) {
+        return fblse;
     }
 }

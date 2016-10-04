@@ -1,450 +1,450 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.windows;
+pbckbge sun.jbvb2d.windows;
 
-import java.awt.Composite;
-import java.awt.Shape;
-import java.awt.geom.Path2D;
-import java.awt.geom.PathIterator;
-import sun.java2d.InvalidPipeException;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.Region;
-import sun.java2d.pipe.PixelDrawPipe;
-import sun.java2d.pipe.PixelFillPipe;
-import sun.java2d.pipe.ShapeDrawPipe;
-import sun.java2d.pipe.SpanIterator;
-import sun.java2d.pipe.ShapeSpanIterator;
-import sun.java2d.pipe.LoopPipe;
-import sun.java2d.loops.GraphicsPrimitive;
+import jbvb.bwt.Composite;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.Pbth2D;
+import jbvb.bwt.geom.PbthIterbtor;
+import sun.jbvb2d.InvblidPipeException;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.pipe.Region;
+import sun.jbvb2d.pipe.PixelDrbwPipe;
+import sun.jbvb2d.pipe.PixelFillPipe;
+import sun.jbvb2d.pipe.ShbpeDrbwPipe;
+import sun.jbvb2d.pipe.SpbnIterbtor;
+import sun.jbvb2d.pipe.ShbpeSpbnIterbtor;
+import sun.jbvb2d.pipe.LoopPipe;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
 
-public class GDIRenderer implements
-    PixelDrawPipe,
+public clbss GDIRenderer implements
+    PixelDrbwPipe,
     PixelFillPipe,
-    ShapeDrawPipe
+    ShbpeDrbwPipe
 {
-    native void doDrawLine(GDIWindowSurfaceData sData,
+    nbtive void doDrbwLine(GDIWindowSurfbceDbtb sDbtb,
                            Region clip, Composite comp, int color,
                            int x1, int y1, int x2, int y2);
 
-    public void drawLine(SunGraphics2D sg2d,
+    public void drbwLine(SunGrbphics2D sg2d,
                          int x1, int y1, int x2, int y2)
     {
-        int transx = sg2d.transX;
-        int transy = sg2d.transY;
+        int trbnsx = sg2d.trbnsX;
+        int trbnsy = sg2d.trbnsY;
         try {
-            doDrawLine((GDIWindowSurfaceData)sg2d.surfaceData,
-                       sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                       x1+transx, y1+transy, x2+transx, y2+transy);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doDrbwLine((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                       sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                       x1+trbnsx, y1+trbnsy, x2+trbnsx, y2+trbnsy);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    native void doDrawRect(GDIWindowSurfaceData sData,
+    nbtive void doDrbwRect(GDIWindowSurfbceDbtb sDbtb,
                            Region clip, Composite comp, int color,
                            int x, int y, int w, int h);
 
-    public void drawRect(SunGraphics2D sg2d,
+    public void drbwRect(SunGrbphics2D sg2d,
                          int x, int y, int width, int height)
     {
         try {
-            doDrawRect((GDIWindowSurfaceData)sg2d.surfaceData,
-                       sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                       x+sg2d.transX, y+sg2d.transY, width, height);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doDrbwRect((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                       sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                       x+sg2d.trbnsX, y+sg2d.trbnsY, width, height);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    native void doDrawRoundRect(GDIWindowSurfaceData sData,
+    nbtive void doDrbwRoundRect(GDIWindowSurfbceDbtb sDbtb,
                                 Region clip, Composite comp, int color,
                                 int x, int y, int w, int h,
-                                int arcW, int arcH);
+                                int brcW, int brcH);
 
-    public void drawRoundRect(SunGraphics2D sg2d,
+    public void drbwRoundRect(SunGrbphics2D sg2d,
                               int x, int y, int width, int height,
-                              int arcWidth, int arcHeight)
+                              int brcWidth, int brcHeight)
     {
         try {
-            doDrawRoundRect((GDIWindowSurfaceData)sg2d.surfaceData,
-                            sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                            x+sg2d.transX, y+sg2d.transY, width, height,
-                            arcWidth, arcHeight);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doDrbwRoundRect((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                            sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                            x+sg2d.trbnsX, y+sg2d.trbnsY, width, height,
+                            brcWidth, brcHeight);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    native void doDrawOval(GDIWindowSurfaceData sData,
+    nbtive void doDrbwOvbl(GDIWindowSurfbceDbtb sDbtb,
                            Region clip, Composite comp, int color,
                            int x, int y, int w, int h);
 
-    public void drawOval(SunGraphics2D sg2d,
+    public void drbwOvbl(SunGrbphics2D sg2d,
                          int x, int y, int width, int height)
     {
         try {
-            doDrawOval((GDIWindowSurfaceData)sg2d.surfaceData,
-                       sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                       x+sg2d.transX, y+sg2d.transY, width, height);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doDrbwOvbl((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                       sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                       x+sg2d.trbnsX, y+sg2d.trbnsY, width, height);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    native void doDrawArc(GDIWindowSurfaceData sData,
+    nbtive void doDrbwArc(GDIWindowSurfbceDbtb sDbtb,
                           Region clip, Composite comp, int color,
                           int x, int y, int w, int h,
-                          int angleStart, int angleExtent);
+                          int bngleStbrt, int bngleExtent);
 
-    public void drawArc(SunGraphics2D sg2d,
+    public void drbwArc(SunGrbphics2D sg2d,
                         int x, int y, int width, int height,
-                        int startAngle, int arcAngle)
+                        int stbrtAngle, int brcAngle)
     {
         try {
-            doDrawArc((GDIWindowSurfaceData)sg2d.surfaceData,
-                      sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                      x+sg2d.transX, y+sg2d.transY, width, height,
-                      startAngle, arcAngle);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doDrbwArc((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                      sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                      x+sg2d.trbnsX, y+sg2d.trbnsY, width, height,
+                      stbrtAngle, brcAngle);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    native void doDrawPoly(GDIWindowSurfaceData sData,
+    nbtive void doDrbwPoly(GDIWindowSurfbceDbtb sDbtb,
                            Region clip, Composite comp, int color,
-                           int transx, int transy,
+                           int trbnsx, int trbnsy,
                            int[] xpoints, int[] ypoints,
-                           int npoints, boolean isclosed);
+                           int npoints, boolebn isclosed);
 
-    public void drawPolyline(SunGraphics2D sg2d,
+    public void drbwPolyline(SunGrbphics2D sg2d,
                              int xpoints[], int ypoints[],
                              int npoints)
     {
         try {
-            doDrawPoly((GDIWindowSurfaceData)sg2d.surfaceData,
-                       sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                       sg2d.transX, sg2d.transY, xpoints, ypoints, npoints, false);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doDrbwPoly((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                       sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                       sg2d.trbnsX, sg2d.trbnsY, xpoints, ypoints, npoints, fblse);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    public void drawPolygon(SunGraphics2D sg2d,
+    public void drbwPolygon(SunGrbphics2D sg2d,
                             int xpoints[], int ypoints[],
                             int npoints)
     {
         try {
-            doDrawPoly((GDIWindowSurfaceData)sg2d.surfaceData,
-                       sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                       sg2d.transX, sg2d.transY, xpoints, ypoints, npoints, true);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doDrbwPoly((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                       sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                       sg2d.trbnsX, sg2d.trbnsY, xpoints, ypoints, npoints, true);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    native void doFillRect(GDIWindowSurfaceData sData,
+    nbtive void doFillRect(GDIWindowSurfbceDbtb sDbtb,
                            Region clip, Composite comp, int color,
                            int x, int y, int w, int h);
 
-    public void fillRect(SunGraphics2D sg2d,
+    public void fillRect(SunGrbphics2D sg2d,
                          int x, int y, int width, int height)
     {
         try {
-            doFillRect((GDIWindowSurfaceData)sg2d.surfaceData,
-                       sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                       x+sg2d.transX, y+sg2d.transY, width, height);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doFillRect((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                       sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                       x+sg2d.trbnsX, y+sg2d.trbnsY, width, height);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    native void doFillRoundRect(GDIWindowSurfaceData sData,
+    nbtive void doFillRoundRect(GDIWindowSurfbceDbtb sDbtb,
                                 Region clip, Composite comp, int color,
                                 int x, int y, int w, int h,
-                                int arcW, int arcH);
+                                int brcW, int brcH);
 
-    public void fillRoundRect(SunGraphics2D sg2d,
+    public void fillRoundRect(SunGrbphics2D sg2d,
                               int x, int y, int width, int height,
-                              int arcWidth, int arcHeight)
+                              int brcWidth, int brcHeight)
     {
         try {
-            doFillRoundRect((GDIWindowSurfaceData)sg2d.surfaceData,
-                            sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                            x+sg2d.transX, y+sg2d.transY, width, height,
-                            arcWidth, arcHeight);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doFillRoundRect((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                            sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                            x+sg2d.trbnsX, y+sg2d.trbnsY, width, height,
+                            brcWidth, brcHeight);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    native void doFillOval(GDIWindowSurfaceData sData,
+    nbtive void doFillOvbl(GDIWindowSurfbceDbtb sDbtb,
                            Region clip, Composite comp, int color,
                            int x, int y, int w, int h);
 
-    public void fillOval(SunGraphics2D sg2d,
+    public void fillOvbl(SunGrbphics2D sg2d,
                          int x, int y, int width, int height)
     {
         try {
-            doFillOval((GDIWindowSurfaceData)sg2d.surfaceData,
-                       sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                       x+sg2d.transX, y+sg2d.transY, width, height);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doFillOvbl((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                       sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                       x+sg2d.trbnsX, y+sg2d.trbnsY, width, height);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    native void doFillArc(GDIWindowSurfaceData sData,
+    nbtive void doFillArc(GDIWindowSurfbceDbtb sDbtb,
                           Region clip, Composite comp, int color,
                           int x, int y, int w, int h,
-                          int angleStart, int angleExtent);
+                          int bngleStbrt, int bngleExtent);
 
-    public void fillArc(SunGraphics2D sg2d,
+    public void fillArc(SunGrbphics2D sg2d,
                         int x, int y, int width, int height,
-                        int startAngle, int arcAngle)
+                        int stbrtAngle, int brcAngle)
     {
         try {
-            doFillArc((GDIWindowSurfaceData)sg2d.surfaceData,
-                      sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                      x+sg2d.transX, y+sg2d.transY, width, height,
-                      startAngle, arcAngle);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doFillArc((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                      sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                      x+sg2d.trbnsX, y+sg2d.trbnsY, width, height,
+                      stbrtAngle, brcAngle);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    native void doFillPoly(GDIWindowSurfaceData sData,
+    nbtive void doFillPoly(GDIWindowSurfbceDbtb sDbtb,
                            Region clip, Composite comp, int color,
-                           int transx, int transy,
+                           int trbnsx, int trbnsy,
                            int[] xpoints, int[] ypoints,
                            int npoints);
 
-    public void fillPolygon(SunGraphics2D sg2d,
+    public void fillPolygon(SunGrbphics2D sg2d,
                             int xpoints[], int ypoints[],
                             int npoints)
     {
         try {
-            doFillPoly((GDIWindowSurfaceData)sg2d.surfaceData,
-                       sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                       sg2d.transX, sg2d.transY, xpoints, ypoints, npoints);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doFillPoly((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                       sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                       sg2d.trbnsX, sg2d.trbnsY, xpoints, ypoints, npoints);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    native void doShape(GDIWindowSurfaceData sData,
+    nbtive void doShbpe(GDIWindowSurfbceDbtb sDbtb,
                         Region clip, Composite comp, int color,
-                        int transX, int transY,
-                        Path2D.Float p2df, boolean isfill);
+                        int trbnsX, int trbnsY,
+                        Pbth2D.Flobt p2df, boolebn isfill);
 
-    void doShape(SunGraphics2D sg2d, Shape s, boolean isfill) {
-        Path2D.Float p2df;
-        int transX;
-        int transY;
-        if (sg2d.transformState <= SunGraphics2D.TRANSFORM_INT_TRANSLATE) {
-            if (s instanceof Path2D.Float) {
-                p2df = (Path2D.Float)s;
+    void doShbpe(SunGrbphics2D sg2d, Shbpe s, boolebn isfill) {
+        Pbth2D.Flobt p2df;
+        int trbnsX;
+        int trbnsY;
+        if (sg2d.trbnsformStbte <= SunGrbphics2D.TRANSFORM_INT_TRANSLATE) {
+            if (s instbnceof Pbth2D.Flobt) {
+                p2df = (Pbth2D.Flobt)s;
             } else {
-                p2df = new Path2D.Float(s);
+                p2df = new Pbth2D.Flobt(s);
             }
-            transX = sg2d.transX;
-            transY = sg2d.transY;
+            trbnsX = sg2d.trbnsX;
+            trbnsY = sg2d.trbnsY;
         } else {
-            p2df = new Path2D.Float(s, sg2d.transform);
-            transX = 0;
-            transY = 0;
+            p2df = new Pbth2D.Flobt(s, sg2d.trbnsform);
+            trbnsX = 0;
+            trbnsY = 0;
         }
         try {
-            doShape((GDIWindowSurfaceData)sg2d.surfaceData,
-                    sg2d.getCompClip(), sg2d.composite, sg2d.eargb,
-                    transX, transY, p2df, isfill);
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            doShbpe((GDIWindowSurfbceDbtb)sg2d.surfbceDbtb,
+                    sg2d.getCompClip(), sg2d.composite, sg2d.ebrgb,
+                    trbnsX, trbnsY, p2df, isfill);
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
     }
 
-    // REMIND: This is just a hack to get WIDE lines to honor the
-    // necessary hinted pixelization rules.  This should be replaced
-    // by a native FillSpans method or a getHintedStrokeGeneralPath()
-    // method that could be filled by the doShape method more quickly.
-    public void doFillSpans(SunGraphics2D sg2d, SpanIterator si) {
+    // REMIND: This is just b hbck to get WIDE lines to honor the
+    // necessbry hinted pixelizbtion rules.  This should be replbced
+    // by b nbtive FillSpbns method or b getHintedStrokeGenerblPbth()
+    // method thbt could be filled by the doShbpe method more quickly.
+    public void doFillSpbns(SunGrbphics2D sg2d, SpbnIterbtor si) {
         int box[] = new int[4];
-        GDIWindowSurfaceData sd;
+        GDIWindowSurfbceDbtb sd;
         try {
-            sd = (GDIWindowSurfaceData)sg2d.surfaceData;
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            sd = (GDIWindowSurfbceDbtb)sg2d.surfbceDbtb;
+        } cbtch (ClbssCbstException e) {
+            throw new InvblidPipeException("wrong surfbce dbtb type: " + sg2d.surfbceDbtb);
         }
         Region clip = sg2d.getCompClip();
         Composite comp = sg2d.composite;
-        int eargb = sg2d.eargb;
-        while (si.nextSpan(box)) {
-            doFillRect(sd, clip, comp, eargb,
+        int ebrgb = sg2d.ebrgb;
+        while (si.nextSpbn(box)) {
+            doFillRect(sd, clip, comp, ebrgb,
                        box[0], box[1], box[2]-box[0], box[3]-box[1]);
         }
     }
 
-    public void draw(SunGraphics2D sg2d, Shape s) {
-        if (sg2d.strokeState == SunGraphics2D.STROKE_THIN) {
-            doShape(sg2d, s, false);
-        } else if (sg2d.strokeState < SunGraphics2D.STROKE_CUSTOM) {
-            ShapeSpanIterator si = LoopPipe.getStrokeSpans(sg2d, s);
+    public void drbw(SunGrbphics2D sg2d, Shbpe s) {
+        if (sg2d.strokeStbte == SunGrbphics2D.STROKE_THIN) {
+            doShbpe(sg2d, s, fblse);
+        } else if (sg2d.strokeStbte < SunGrbphics2D.STROKE_CUSTOM) {
+            ShbpeSpbnIterbtor si = LoopPipe.getStrokeSpbns(sg2d, s);
             try {
-                doFillSpans(sg2d, si);
-            } finally {
+                doFillSpbns(sg2d, si);
+            } finblly {
                 si.dispose();
             }
         } else {
-            doShape(sg2d, sg2d.stroke.createStrokedShape(s), true);
+            doShbpe(sg2d, sg2d.stroke.crebteStrokedShbpe(s), true);
         }
     }
 
-    public void fill(SunGraphics2D sg2d, Shape s) {
-        doShape(sg2d, s, true);
+    public void fill(SunGrbphics2D sg2d, Shbpe s) {
+        doShbpe(sg2d, s, true);
     }
 
-    public native void devCopyArea(GDIWindowSurfaceData sData,
+    public nbtive void devCopyAreb(GDIWindowSurfbceDbtb sDbtb,
                                    int srcx, int srcy,
                                    int dx, int dy,
                                    int w, int h);
 
-    public GDIRenderer traceWrap() {
-        return new Tracer();
+    public GDIRenderer trbceWrbp() {
+        return new Trbcer();
     }
 
-    public static class Tracer extends GDIRenderer {
-        void doDrawLine(GDIWindowSurfaceData sData,
+    public stbtic clbss Trbcer extends GDIRenderer {
+        void doDrbwLine(GDIWindowSurfbceDbtb sDbtb,
                         Region clip, Composite comp, int color,
                         int x1, int y1, int x2, int y2)
         {
-            GraphicsPrimitive.tracePrimitive("GDIDrawLine");
-            super.doDrawLine(sData, clip, comp, color, x1, y1, x2, y2);
+            GrbphicsPrimitive.trbcePrimitive("GDIDrbwLine");
+            super.doDrbwLine(sDbtb, clip, comp, color, x1, y1, x2, y2);
         }
-        void doDrawRect(GDIWindowSurfaceData sData,
+        void doDrbwRect(GDIWindowSurfbceDbtb sDbtb,
                         Region clip, Composite comp, int color,
                         int x, int y, int w, int h)
         {
-            GraphicsPrimitive.tracePrimitive("GDIDrawRect");
-            super.doDrawRect(sData, clip, comp, color, x, y, w, h);
+            GrbphicsPrimitive.trbcePrimitive("GDIDrbwRect");
+            super.doDrbwRect(sDbtb, clip, comp, color, x, y, w, h);
         }
-        void doDrawRoundRect(GDIWindowSurfaceData sData,
+        void doDrbwRoundRect(GDIWindowSurfbceDbtb sDbtb,
                              Region clip, Composite comp, int color,
                              int x, int y, int w, int h,
-                             int arcW, int arcH)
+                             int brcW, int brcH)
         {
-            GraphicsPrimitive.tracePrimitive("GDIDrawRoundRect");
-            super.doDrawRoundRect(sData, clip, comp, color,
-                                  x, y, w, h, arcW, arcH);
+            GrbphicsPrimitive.trbcePrimitive("GDIDrbwRoundRect");
+            super.doDrbwRoundRect(sDbtb, clip, comp, color,
+                                  x, y, w, h, brcW, brcH);
         }
-        void doDrawOval(GDIWindowSurfaceData sData,
+        void doDrbwOvbl(GDIWindowSurfbceDbtb sDbtb,
                         Region clip, Composite comp, int color,
                         int x, int y, int w, int h)
         {
-            GraphicsPrimitive.tracePrimitive("GDIDrawOval");
-            super.doDrawOval(sData, clip, comp, color, x, y, w, h);
+            GrbphicsPrimitive.trbcePrimitive("GDIDrbwOvbl");
+            super.doDrbwOvbl(sDbtb, clip, comp, color, x, y, w, h);
         }
-        void doDrawArc(GDIWindowSurfaceData sData,
+        void doDrbwArc(GDIWindowSurfbceDbtb sDbtb,
                        Region clip, Composite comp, int color,
                        int x, int y, int w, int h,
-                       int angleStart, int angleExtent)
+                       int bngleStbrt, int bngleExtent)
         {
-            GraphicsPrimitive.tracePrimitive("GDIDrawArc");
-            super.doDrawArc(sData, clip, comp, color, x, y, w, h,
-                            angleStart, angleExtent);
+            GrbphicsPrimitive.trbcePrimitive("GDIDrbwArc");
+            super.doDrbwArc(sDbtb, clip, comp, color, x, y, w, h,
+                            bngleStbrt, bngleExtent);
         }
-        void doDrawPoly(GDIWindowSurfaceData sData,
+        void doDrbwPoly(GDIWindowSurfbceDbtb sDbtb,
                         Region clip, Composite comp, int color,
-                        int transx, int transy,
+                        int trbnsx, int trbnsy,
                         int[] xpoints, int[] ypoints,
-                        int npoints, boolean isclosed)
+                        int npoints, boolebn isclosed)
         {
-            GraphicsPrimitive.tracePrimitive("GDIDrawPoly");
-            super.doDrawPoly(sData, clip, comp, color, transx, transy,
+            GrbphicsPrimitive.trbcePrimitive("GDIDrbwPoly");
+            super.doDrbwPoly(sDbtb, clip, comp, color, trbnsx, trbnsy,
                              xpoints, ypoints, npoints, isclosed);
         }
-        void doFillRect(GDIWindowSurfaceData sData,
+        void doFillRect(GDIWindowSurfbceDbtb sDbtb,
                         Region clip, Composite comp, int color,
                         int x, int y, int w, int h)
         {
-            GraphicsPrimitive.tracePrimitive("GDIFillRect");
-            super.doFillRect(sData, clip, comp, color, x, y, w, h);
+            GrbphicsPrimitive.trbcePrimitive("GDIFillRect");
+            super.doFillRect(sDbtb, clip, comp, color, x, y, w, h);
         }
-        void doFillRoundRect(GDIWindowSurfaceData sData,
+        void doFillRoundRect(GDIWindowSurfbceDbtb sDbtb,
                              Region clip, Composite comp, int color,
                              int x, int y, int w, int h,
-                             int arcW, int arcH)
+                             int brcW, int brcH)
         {
-            GraphicsPrimitive.tracePrimitive("GDIFillRoundRect");
-            super.doFillRoundRect(sData, clip, comp, color,
-                                  x, y, w, h, arcW, arcH);
+            GrbphicsPrimitive.trbcePrimitive("GDIFillRoundRect");
+            super.doFillRoundRect(sDbtb, clip, comp, color,
+                                  x, y, w, h, brcW, brcH);
         }
-        void doFillOval(GDIWindowSurfaceData sData,
+        void doFillOvbl(GDIWindowSurfbceDbtb sDbtb,
                         Region clip, Composite comp, int color,
                         int x, int y, int w, int h)
         {
-            GraphicsPrimitive.tracePrimitive("GDIFillOval");
-            super.doFillOval(sData, clip, comp, color, x, y, w, h);
+            GrbphicsPrimitive.trbcePrimitive("GDIFillOvbl");
+            super.doFillOvbl(sDbtb, clip, comp, color, x, y, w, h);
         }
-        void doFillArc(GDIWindowSurfaceData sData,
+        void doFillArc(GDIWindowSurfbceDbtb sDbtb,
                        Region clip, Composite comp, int color,
                        int x, int y, int w, int h,
-                       int angleStart, int angleExtent)
+                       int bngleStbrt, int bngleExtent)
         {
-            GraphicsPrimitive.tracePrimitive("GDIFillArc");
-            super.doFillArc(sData, clip, comp, color, x, y, w, h,
-                            angleStart, angleExtent);
+            GrbphicsPrimitive.trbcePrimitive("GDIFillArc");
+            super.doFillArc(sDbtb, clip, comp, color, x, y, w, h,
+                            bngleStbrt, bngleExtent);
         }
-        void doFillPoly(GDIWindowSurfaceData sData,
+        void doFillPoly(GDIWindowSurfbceDbtb sDbtb,
                         Region clip, Composite comp, int color,
-                        int transx, int transy,
+                        int trbnsx, int trbnsy,
                         int[] xpoints, int[] ypoints,
                         int npoints)
         {
-            GraphicsPrimitive.tracePrimitive("GDIFillPoly");
-            super.doFillPoly(sData, clip, comp, color, transx, transy,
+            GrbphicsPrimitive.trbcePrimitive("GDIFillPoly");
+            super.doFillPoly(sDbtb, clip, comp, color, trbnsx, trbnsy,
                              xpoints, ypoints, npoints);
         }
-        void doShape(GDIWindowSurfaceData sData,
+        void doShbpe(GDIWindowSurfbceDbtb sDbtb,
                      Region clip, Composite comp, int color,
-                     int transX, int transY,
-                     Path2D.Float p2df, boolean isfill)
+                     int trbnsX, int trbnsY,
+                     Pbth2D.Flobt p2df, boolebn isfill)
         {
-            GraphicsPrimitive.tracePrimitive(isfill
-                                             ? "GDIFillShape"
-                                             : "GDIDrawShape");
-            super.doShape(sData, clip, comp, color,
-                          transX, transY, p2df, isfill);
+            GrbphicsPrimitive.trbcePrimitive(isfill
+                                             ? "GDIFillShbpe"
+                                             : "GDIDrbwShbpe");
+            super.doShbpe(sDbtb, clip, comp, color,
+                          trbnsX, trbnsY, p2df, isfill);
         }
-        public void devCopyArea(GDIWindowSurfaceData sData,
+        public void devCopyAreb(GDIWindowSurfbceDbtb sDbtb,
                                 int srcx, int srcy,
                                 int dx, int dy,
                                 int w, int h)
         {
-            GraphicsPrimitive.tracePrimitive("GDICopyArea");
-            super.devCopyArea(sData, srcx, srcy, dx, dy, w, h);
+            GrbphicsPrimitive.trbcePrimitive("GDICopyAreb");
+            super.devCopyAreb(sDbtb, srcx, srcy, dx, dy, w, h);
         }
     }
 }

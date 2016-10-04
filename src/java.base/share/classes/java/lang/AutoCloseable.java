@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * An object that may hold resources (such as file or socket handles)
- * until it is closed. The {@link #close()} method of an {@code AutoCloseable}
- * object is called automatically when exiting a {@code
- * try}-with-resources block for which the object has been declared in
- * the resource specification header. This construction ensures prompt
- * release, avoiding resource exhaustion exceptions and errors that
- * may otherwise occur.
+ * An object thbt mby hold resources (such bs file or socket hbndles)
+ * until it is closed. The {@link #close()} method of bn {@code AutoClosebble}
+ * object is cblled butombticblly when exiting b {@code
+ * try}-with-resources block for which the object hbs been declbred in
+ * the resource specificbtion hebder. This construction ensures prompt
+ * relebse, bvoiding resource exhbustion exceptions bnd errors thbt
+ * mby otherwise occur.
  *
- * @apiNote
- * <p>It is possible, and in fact common, for a base class to
- * implement AutoCloseable even though not all of its subclasses or
- * instances will hold releasable resources.  For code that must operate
- * in complete generality, or when it is known that the {@code AutoCloseable}
- * instance requires resource release, it is recommended to use {@code
- * try}-with-resources constructions. However, when using facilities such as
- * {@link java.util.stream.Stream} that support both I/O-based and
- * non-I/O-based forms, {@code try}-with-resources blocks are in
- * general unnecessary when using non-I/O-based forms.
+ * @bpiNote
+ * <p>It is possible, bnd in fbct common, for b bbse clbss to
+ * implement AutoClosebble even though not bll of its subclbsses or
+ * instbnces will hold relebsbble resources.  For code thbt must operbte
+ * in complete generblity, or when it is known thbt the {@code AutoClosebble}
+ * instbnce requires resource relebse, it is recommended to use {@code
+ * try}-with-resources constructions. However, when using fbcilities such bs
+ * {@link jbvb.util.strebm.Strebm} thbt support both I/O-bbsed bnd
+ * non-I/O-bbsed forms, {@code try}-with-resources blocks bre in
+ * generbl unnecessbry when using non-I/O-bbsed forms.
  *
- * @author Josh Bloch
+ * @buthor Josh Bloch
  * @since 1.7
  */
-public interface AutoCloseable {
+public interfbce AutoClosebble {
     /**
-     * Closes this resource, relinquishing any underlying resources.
-     * This method is invoked automatically on objects managed by the
-     * {@code try}-with-resources statement.
+     * Closes this resource, relinquishing bny underlying resources.
+     * This method is invoked butombticblly on objects mbnbged by the
+     * {@code try}-with-resources stbtement.
      *
-     * <p>While this interface method is declared to throw {@code
-     * Exception}, implementers are <em>strongly</em> encouraged to
-     * declare concrete implementations of the {@code close} method to
-     * throw more specific exceptions, or to throw no exception at all
-     * if the close operation cannot fail.
+     * <p>While this interfbce method is declbred to throw {@code
+     * Exception}, implementers bre <em>strongly</em> encourbged to
+     * declbre concrete implementbtions of the {@code close} method to
+     * throw more specific exceptions, or to throw no exception bt bll
+     * if the close operbtion cbnnot fbil.
      *
-     * <p> Cases where the close operation may fail require careful
-     * attention by implementers. It is strongly advised to relinquish
-     * the underlying resources and to internally <em>mark</em> the
-     * resource as closed, prior to throwing the exception. The {@code
-     * close} method is unlikely to be invoked more than once and so
-     * this ensures that the resources are released in a timely manner.
-     * Furthermore it reduces problems that could arise when the resource
-     * wraps, or is wrapped, by another resource.
+     * <p> Cbses where the close operbtion mby fbil require cbreful
+     * bttention by implementers. It is strongly bdvised to relinquish
+     * the underlying resources bnd to internblly <em>mbrk</em> the
+     * resource bs closed, prior to throwing the exception. The {@code
+     * close} method is unlikely to be invoked more thbn once bnd so
+     * this ensures thbt the resources bre relebsed in b timely mbnner.
+     * Furthermore it reduces problems thbt could brise when the resource
+     * wrbps, or is wrbpped, by bnother resource.
      *
-     * <p><em>Implementers of this interface are also strongly advised
-     * to not have the {@code close} method throw {@link
+     * <p><em>Implementers of this interfbce bre blso strongly bdvised
+     * to not hbve the {@code close} method throw {@link
      * InterruptedException}.</em>
      *
-     * This exception interacts with a thread's interrupted status,
-     * and runtime misbehavior is likely to occur if an {@code
-     * InterruptedException} is {@linkplain Throwable#addSuppressed
+     * This exception interbcts with b threbd's interrupted stbtus,
+     * bnd runtime misbehbvior is likely to occur if bn {@code
+     * InterruptedException} is {@linkplbin Throwbble#bddSuppressed
      * suppressed}.
      *
-     * More generally, if it would cause problems for an
-     * exception to be suppressed, the {@code AutoCloseable.close}
+     * More generblly, if it would cbuse problems for bn
+     * exception to be suppressed, the {@code AutoClosebble.close}
      * method should not throw it.
      *
-     * <p>Note that unlike the {@link java.io.Closeable#close close}
-     * method of {@link java.io.Closeable}, this {@code close} method
+     * <p>Note thbt unlike the {@link jbvb.io.Closebble#close close}
+     * method of {@link jbvb.io.Closebble}, this {@code close} method
      * is <em>not</em> required to be idempotent.  In other words,
-     * calling this {@code close} method more than once may have some
-     * visible side effect, unlike {@code Closeable.close} which is
-     * required to have no effect if called more than once.
+     * cblling this {@code close} method more thbn once mby hbve some
+     * visible side effect, unlike {@code Closebble.close} which is
+     * required to hbve no effect if cblled more thbn once.
      *
-     * However, implementers of this interface are strongly encouraged
-     * to make their {@code close} methods idempotent.
+     * However, implementers of this interfbce bre strongly encourbged
+     * to mbke their {@code close} methods idempotent.
      *
-     * @throws Exception if this resource cannot be closed
+     * @throws Exception if this resource cbnnot be closed
      */
     void close() throws Exception;
 }

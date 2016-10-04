@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Licensed Materials - Property of IBM
+ * Licensed Mbteribls - Property of IBM
  * RMI-IIOP v1.0
  * Copyright IBM Corp. 1998 1999  All Rights Reserved
  *
  */
 
-package sun.rmi.rmic;
+pbckbge sun.rmi.rmic;
 
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
-import java.util.MissingResourceException;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.ResourceBundle;
+import jbvb.util.StringTokenizer;
+import jbvb.util.MissingResourceException;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.ByteArrayOutputStream;
+import jbvb.io.OutputStrebm;
+import jbvb.io.PrintStrebm;
+import jbvb.io.IOException;
+import jbvb.io.File;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
 
-import sun.tools.java.ClassFile;
-import sun.tools.java.ClassDefinition;
-import sun.tools.java.ClassDeclaration;
-import sun.tools.java.ClassNotFound;
-import sun.tools.java.Identifier;
-import sun.tools.java.ClassPath;
+import sun.tools.jbvb.ClbssFile;
+import sun.tools.jbvb.ClbssDefinition;
+import sun.tools.jbvb.ClbssDeclbrbtion;
+import sun.tools.jbvb.ClbssNotFound;
+import sun.tools.jbvb.Identifier;
+import sun.tools.jbvb.ClbssPbth;
 
-import sun.tools.javac.SourceClass;
-import sun.tools.util.CommandLine;
-import java.lang.reflect.Constructor;
-import java.util.Properties;
+import sun.tools.jbvbc.SourceClbss;
+import sun.tools.util.CommbndLine;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.util.Properties;
 
 /**
- * Main "rmic" program.
+ * Mbin "rmic" progrbm.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
-public class Main implements sun.rmi.rmic.Constants {
-    String sourcePathArg;
-    String sysClassPathArg;
+public clbss Mbin implements sun.rmi.rmic.Constbnts {
+    String sourcePbthArg;
+    String sysClbssPbthArg;
     String extDirsArg;
-    String classPathString;
+    String clbssPbthString;
     File destDir;
-    int flags;
+    int flbgs;
     long tm;
-    Vector<String> classes;
-    boolean nowrite;
-    boolean nocompile;
-    boolean keepGenerated;
-    boolean status;
-    String[] generatorArgs;
-    Vector<Generator> generators;
-    Class<? extends BatchEnvironment> environmentClass =
-        BatchEnvironment.class;
-    boolean iiopGeneration = false;
+    Vector<String> clbsses;
+    boolebn nowrite;
+    boolebn nocompile;
+    boolebn keepGenerbted;
+    boolebn stbtus;
+    String[] generbtorArgs;
+    Vector<Generbtor> generbtors;
+    Clbss<? extends BbtchEnvironment> environmentClbss =
+        BbtchEnvironment.clbss;
+    boolebn iiopGenerbtion = fblse;
 
     /**
-     * Name of the program.
+     * Nbme of the progrbm.
      */
-    String program;
+    String progrbm;
 
     /**
-     * The stream where error message are printed.
+     * The strebm where error messbge bre printed.
      */
-    OutputStream out;
+    OutputStrebm out;
 
     /**
      * Constructor.
      */
-    public Main(OutputStream out, String program) {
+    public Mbin(OutputStrebm out, String progrbm) {
         this.out = out;
-        this.program = program;
+        this.progrbm = progrbm;
     }
 
     /**
-     * Output a message.
+     * Output b messbge.
      */
     public void output(String msg) {
-        PrintStream out =
-            this.out instanceof PrintStream ? (PrintStream)this.out
-            : new PrintStream(this.out, true);
+        PrintStrebm out =
+            this.out instbnceof PrintStrebm ? (PrintStrebm)this.out
+            : new PrintStrebm(this.out, true);
         out.println(msg);
     }
 
     /**
-     * Top level error message.  This method is called when the
+     * Top level error messbge.  This method is cblled when the
      * environment could not be set up yet.
      */
     public void error(String msg) {
         output(getText(msg));
     }
 
-    public void error(String msg, String arg1) {
-        output(getText(msg, arg1));
+    public void error(String msg, String brg1) {
+        output(getText(msg, brg1));
     }
 
-    public void error(String msg, String arg1, String arg2) {
-        output(getText(msg, arg1, arg2));
+    public void error(String msg, String brg1, String brg2) {
+        output(getText(msg, brg1, brg2));
     }
 
     /**
-     * Usage
+     * Usbge
      */
-    public void usage() {
-        error("rmic.usage", program);
+    public void usbge() {
+        error("rmic.usbge", progrbm);
     }
 
     /**
      * Run the compiler
      */
-    public synchronized boolean compile(String argv[]) {
+    public synchronized boolebn compile(String brgv[]) {
 
         /*
-         * Handle internal option to use the new (and incomplete) rmic
-         * implementation.  This option is handled here, rather than
-         * in parseArgs, so that none of the arguments will be nulled
-         * before delegating to the new implementation.
+         * Hbndle internbl option to use the new (bnd incomplete) rmic
+         * implementbtion.  This option is hbndled here, rbther thbn
+         * in pbrseArgs, so thbt none of the brguments will be nulled
+         * before delegbting to the new implementbtion.
          */
-        for (int i = 0; i < argv.length; i++) {
-            if (argv[i].equals("-Xnew")) {
-                return (new sun.rmi.rmic.newrmic.Main(out,
-                                                      program)).compile(argv);
+        for (int i = 0; i < brgv.length; i++) {
+            if (brgv[i].equbls("-Xnew")) {
+                return (new sun.rmi.rmic.newrmic.Mbin(out,
+                                                      progrbm)).compile(brgv);
             }
         }
 
-        if (!parseArgs(argv)) {
-            return false;
+        if (!pbrseArgs(brgv)) {
+            return fblse;
         }
 
-        if (classes.size() == 0) {
-            usage();
-            return false;
+        if (clbsses.size() == 0) {
+            usbge();
+            return fblse;
         }
 
-        if ((flags & F_WARNINGS) != 0) {
-            for (Generator g : generators) {
-                if (g instanceof RMIGenerator) {
-                    output(getText("rmic.jrmp.stubs.deprecated", program));
-                    break;
+        if ((flbgs & F_WARNINGS) != 0) {
+            for (Generbtor g : generbtors) {
+                if (g instbnceof RMIGenerbtor) {
+                    output(getText("rmic.jrmp.stubs.deprecbted", progrbm));
+                    brebk;
                 }
             }
         }
@@ -175,219 +175,219 @@ public class Main implements sun.rmi.rmic.Constants {
     }
 
     /**
-     * Get the destination directory.
+     * Get the destinbtion directory.
      */
-    public File getDestinationDir() {
+    public File getDestinbtionDir() {
         return destDir;
     }
 
     /**
-     * Parse the arguments for compile.
+     * Pbrse the brguments for compile.
      */
-    public boolean parseArgs(String argv[]) {
-        sourcePathArg = null;
-        sysClassPathArg = null;
+    public boolebn pbrseArgs(String brgv[]) {
+        sourcePbthArg = null;
+        sysClbssPbthArg = null;
         extDirsArg = null;
 
-        classPathString = null;
+        clbssPbthString = null;
         destDir = null;
-        flags = F_WARNINGS;
+        flbgs = F_WARNINGS;
         tm = System.currentTimeMillis();
-        classes = new Vector<>();
-        nowrite = false;
-        nocompile = false;
-        keepGenerated = false;
-        generatorArgs = getArray("generator.args",true);
-        if (generatorArgs == null) {
-            return false;
+        clbsses = new Vector<>();
+        nowrite = fblse;
+        nocompile = fblse;
+        keepGenerbted = fblse;
+        generbtorArgs = getArrby("generbtor.brgs",true);
+        if (generbtorArgs == null) {
+            return fblse;
         }
-        generators = new Vector<>();
+        generbtors = new Vector<>();
 
-        // Pre-process command line for @file arguments
+        // Pre-process commbnd line for @file brguments
         try {
-            argv = CommandLine.parse(argv);
-        } catch (FileNotFoundException e) {
-            error("rmic.cant.read", e.getMessage());
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace(out instanceof PrintStream ?
-                              (PrintStream) out :
-                              new PrintStream(out, true));
-            return false;
+            brgv = CommbndLine.pbrse(brgv);
+        } cbtch (FileNotFoundException e) {
+            error("rmic.cbnt.rebd", e.getMessbge());
+            return fblse;
+        } cbtch (IOException e) {
+            e.printStbckTrbce(out instbnceof PrintStrebm ?
+                              (PrintStrebm) out :
+                              new PrintStrebm(out, true));
+            return fblse;
         }
 
-        // Parse arguments
-        for (int i = 0 ; i < argv.length ; i++) {
-            if (argv[i] != null) {
-                if (argv[i].equals("-g")) {
-                    flags &= ~F_OPT;
-                    flags |= F_DEBUG_LINES | F_DEBUG_VARS;
-                    argv[i] = null;
-                } else if (argv[i].equals("-O")) {
-                    flags &= ~F_DEBUG_LINES;
-                    flags &= ~F_DEBUG_VARS;
-                    flags |= F_OPT | F_DEPENDENCIES;
-                    argv[i] = null;
-                } else if (argv[i].equals("-nowarn")) {
-                    flags &= ~F_WARNINGS;
-                    argv[i] = null;
-                } else if (argv[i].equals("-debug")) {
-                    flags |= F_DUMP;
-                    argv[i] = null;
-                } else if (argv[i].equals("-depend")) {
-                    flags |= F_DEPENDENCIES;
-                    argv[i] = null;
-                } else if (argv[i].equals("-verbose")) {
-                    flags |= F_VERBOSE;
-                    argv[i] = null;
-                } else if (argv[i].equals("-nowrite")) {
+        // Pbrse brguments
+        for (int i = 0 ; i < brgv.length ; i++) {
+            if (brgv[i] != null) {
+                if (brgv[i].equbls("-g")) {
+                    flbgs &= ~F_OPT;
+                    flbgs |= F_DEBUG_LINES | F_DEBUG_VARS;
+                    brgv[i] = null;
+                } else if (brgv[i].equbls("-O")) {
+                    flbgs &= ~F_DEBUG_LINES;
+                    flbgs &= ~F_DEBUG_VARS;
+                    flbgs |= F_OPT | F_DEPENDENCIES;
+                    brgv[i] = null;
+                } else if (brgv[i].equbls("-nowbrn")) {
+                    flbgs &= ~F_WARNINGS;
+                    brgv[i] = null;
+                } else if (brgv[i].equbls("-debug")) {
+                    flbgs |= F_DUMP;
+                    brgv[i] = null;
+                } else if (brgv[i].equbls("-depend")) {
+                    flbgs |= F_DEPENDENCIES;
+                    brgv[i] = null;
+                } else if (brgv[i].equbls("-verbose")) {
+                    flbgs |= F_VERBOSE;
+                    brgv[i] = null;
+                } else if (brgv[i].equbls("-nowrite")) {
                     nowrite = true;
-                    argv[i] = null;
-                } else if (argv[i].equals("-Xnocompile")) {
+                    brgv[i] = null;
+                } else if (brgv[i].equbls("-Xnocompile")) {
                     nocompile = true;
-                    keepGenerated = true;
-                    argv[i] = null;
-                } else if (argv[i].equals("-keep") ||
-                           argv[i].equals("-keepgenerated")) {
-                    keepGenerated = true;
-                    argv[i] = null;
-                } else if (argv[i].equals("-show")) {
+                    keepGenerbted = true;
+                    brgv[i] = null;
+                } else if (brgv[i].equbls("-keep") ||
+                           brgv[i].equbls("-keepgenerbted")) {
+                    keepGenerbted = true;
+                    brgv[i] = null;
+                } else if (brgv[i].equbls("-show")) {
                     error("rmic.option.unsupported", "-show");
-                    usage();
-                    return false;
-                } else if (argv[i].equals("-classpath")) {
-                    if ((i + 1) < argv.length) {
-                        if (classPathString != null) {
-                            error("rmic.option.already.seen", "-classpath");
-                            usage();
-                            return false;
+                    usbge();
+                    return fblse;
+                } else if (brgv[i].equbls("-clbsspbth")) {
+                    if ((i + 1) < brgv.length) {
+                        if (clbssPbthString != null) {
+                            error("rmic.option.blrebdy.seen", "-clbsspbth");
+                            usbge();
+                            return fblse;
                         }
-                        argv[i] = null;
-                        classPathString = argv[++i];
-                        argv[i] = null;
+                        brgv[i] = null;
+                        clbssPbthString = brgv[++i];
+                        brgv[i] = null;
                     } else {
-                        error("rmic.option.requires.argument", "-classpath");
-                        usage();
-                        return false;
+                        error("rmic.option.requires.brgument", "-clbsspbth");
+                        usbge();
+                        return fblse;
                     }
-                } else if (argv[i].equals("-sourcepath")) {
-                    if ((i + 1) < argv.length) {
-                        if (sourcePathArg != null) {
-                            error("rmic.option.already.seen", "-sourcepath");
-                            usage();
-                            return false;
+                } else if (brgv[i].equbls("-sourcepbth")) {
+                    if ((i + 1) < brgv.length) {
+                        if (sourcePbthArg != null) {
+                            error("rmic.option.blrebdy.seen", "-sourcepbth");
+                            usbge();
+                            return fblse;
                         }
-                        argv[i] = null;
-                        sourcePathArg = argv[++i];
-                        argv[i] = null;
+                        brgv[i] = null;
+                        sourcePbthArg = brgv[++i];
+                        brgv[i] = null;
                     } else {
-                        error("rmic.option.requires.argument", "-sourcepath");
-                        usage();
-                        return false;
+                        error("rmic.option.requires.brgument", "-sourcepbth");
+                        usbge();
+                        return fblse;
                     }
-                } else if (argv[i].equals("-bootclasspath")) {
-                    if ((i + 1) < argv.length) {
-                        if (sysClassPathArg != null) {
-                            error("rmic.option.already.seen", "-bootclasspath");
-                            usage();
-                            return false;
+                } else if (brgv[i].equbls("-bootclbsspbth")) {
+                    if ((i + 1) < brgv.length) {
+                        if (sysClbssPbthArg != null) {
+                            error("rmic.option.blrebdy.seen", "-bootclbsspbth");
+                            usbge();
+                            return fblse;
                         }
-                        argv[i] = null;
-                        sysClassPathArg = argv[++i];
-                        argv[i] = null;
+                        brgv[i] = null;
+                        sysClbssPbthArg = brgv[++i];
+                        brgv[i] = null;
                     } else {
-                        error("rmic.option.requires.argument", "-bootclasspath");
-                        usage();
-                        return false;
+                        error("rmic.option.requires.brgument", "-bootclbsspbth");
+                        usbge();
+                        return fblse;
                     }
-                } else if (argv[i].equals("-extdirs")) {
-                    if ((i + 1) < argv.length) {
+                } else if (brgv[i].equbls("-extdirs")) {
+                    if ((i + 1) < brgv.length) {
                         if (extDirsArg != null) {
-                            error("rmic.option.already.seen", "-extdirs");
-                            usage();
-                            return false;
+                            error("rmic.option.blrebdy.seen", "-extdirs");
+                            usbge();
+                            return fblse;
                         }
-                        argv[i] = null;
-                        extDirsArg = argv[++i];
-                        argv[i] = null;
+                        brgv[i] = null;
+                        extDirsArg = brgv[++i];
+                        brgv[i] = null;
                     } else {
-                        error("rmic.option.requires.argument", "-extdirs");
-                        usage();
-                        return false;
+                        error("rmic.option.requires.brgument", "-extdirs");
+                        usbge();
+                        return fblse;
                     }
-                } else if (argv[i].equals("-d")) {
-                    if ((i + 1) < argv.length) {
+                } else if (brgv[i].equbls("-d")) {
+                    if ((i + 1) < brgv.length) {
                         if (destDir != null) {
-                            error("rmic.option.already.seen", "-d");
-                            usage();
-                            return false;
+                            error("rmic.option.blrebdy.seen", "-d");
+                            usbge();
+                            return fblse;
                         }
-                        argv[i] = null;
-                        destDir = new File(argv[++i]);
-                        argv[i] = null;
+                        brgv[i] = null;
+                        destDir = new File(brgv[++i]);
+                        brgv[i] = null;
                         if (!destDir.exists()) {
-                            error("rmic.no.such.directory", destDir.getPath());
-                            usage();
-                            return false;
+                            error("rmic.no.such.directory", destDir.getPbth());
+                            usbge();
+                            return fblse;
                         }
                     } else {
-                        error("rmic.option.requires.argument", "-d");
-                        usage();
-                        return false;
+                        error("rmic.option.requires.brgument", "-d");
+                        usbge();
+                        return fblse;
                     }
                 } else {
-                    if (!checkGeneratorArg(argv,i)) {
-                        usage();
-                        return false;
+                    if (!checkGenerbtorArg(brgv,i)) {
+                        usbge();
+                        return fblse;
                     }
                 }
             }
         }
 
 
-        // Now that all generators have had a chance at the args,
-        // scan what's left for classes and illegal args...
+        // Now thbt bll generbtors hbve hbd b chbnce bt the brgs,
+        // scbn whbt's left for clbsses bnd illegbl brgs...
 
-        for (int i = 0; i < argv.length; i++) {
-            if (argv[i] != null) {
-                if (argv[i].startsWith("-")) {
-                    error("rmic.no.such.option", argv[i]);
-                    usage();
-                    return false;
+        for (int i = 0; i < brgv.length; i++) {
+            if (brgv[i] != null) {
+                if (brgv[i].stbrtsWith("-")) {
+                    error("rmic.no.such.option", brgv[i]);
+                    usbge();
+                    return fblse;
                 } else {
-                    classes.addElement(argv[i]);
+                    clbsses.bddElement(brgv[i]);
                 }
             }
         }
 
 
-        // If the generators vector is empty, add the default generator...
+        // If the generbtors vector is empty, bdd the defbult generbtor...
 
-        if (generators.size() == 0) {
-            addGenerator("default");
+        if (generbtors.size() == 0) {
+            bddGenerbtor("defbult");
         }
 
         return true;
     }
 
     /**
-     * If this argument is for a generator, instantiate it, call
-     * parseArgs(...) and add generator to generators vector.
-     * Returns false on error.
+     * If this brgument is for b generbtor, instbntibte it, cbll
+     * pbrseArgs(...) bnd bdd generbtor to generbtors vector.
+     * Returns fblse on error.
      */
-    protected boolean checkGeneratorArg(String[] argv, int currentIndex) {
-        boolean result = true;
-        if (argv[currentIndex].startsWith("-")) {
-            String arg = argv[currentIndex].substring(1).toLowerCase(); // Remove '-'
-            for (int i = 0; i < generatorArgs.length; i++) {
-                if (arg.equalsIgnoreCase(generatorArgs[i])) {
-                    // Got a match, add Generator and call parseArgs...
-                    Generator gen = addGenerator(arg);
+    protected boolebn checkGenerbtorArg(String[] brgv, int currentIndex) {
+        boolebn result = true;
+        if (brgv[currentIndex].stbrtsWith("-")) {
+            String brg = brgv[currentIndex].substring(1).toLowerCbse(); // Remove '-'
+            for (int i = 0; i < generbtorArgs.length; i++) {
+                if (brg.equblsIgnoreCbse(generbtorArgs[i])) {
+                    // Got b mbtch, bdd Generbtor bnd cbll pbrseArgs...
+                    Generbtor gen = bddGenerbtor(brg);
                     if (gen == null) {
-                        return false;
+                        return fblse;
                     }
-                    result = gen.parseArgs(argv,this);
-                    break;
+                    result = gen.pbrseArgs(brgv,this);
+                    brebk;
                 }
             }
         }
@@ -395,223 +395,223 @@ public class Main implements sun.rmi.rmic.Constants {
     }
 
     /**
-     * Instantiate and add a generator to the generators array.
+     * Instbntibte bnd bdd b generbtor to the generbtors brrby.
      */
-    protected Generator addGenerator(String arg) {
+    protected Generbtor bddGenerbtor(String brg) {
 
-        Generator gen;
+        Generbtor gen;
 
-        // Create an instance of the generator and add it to
-        // the array...
+        // Crebte bn instbnce of the generbtor bnd bdd it to
+        // the brrby...
 
-        String className = getString("generator.class." + arg);
-        if (className == null) {
-            error("rmic.missing.property",arg);
+        String clbssNbme = getString("generbtor.clbss." + brg);
+        if (clbssNbme == null) {
+            error("rmic.missing.property",brg);
             return null;
         }
 
         try {
-            gen = (Generator) Class.forName(className).newInstance();
-        } catch (Exception e) {
-            error("rmic.cannot.instantiate",className);
+            gen = (Generbtor) Clbss.forNbme(clbssNbme).newInstbnce();
+        } cbtch (Exception e) {
+            error("rmic.cbnnot.instbntibte",clbssNbme);
             return null;
         }
 
-        generators.addElement(gen);
+        generbtors.bddElement(gen);
 
-        // Get the environment required by this generator...
+        // Get the environment required by this generbtor...
 
-        Class<?> envClass = BatchEnvironment.class;
-        String env = getString("generator.env." + arg);
+        Clbss<?> envClbss = BbtchEnvironment.clbss;
+        String env = getString("generbtor.env." + brg);
         if (env != null) {
             try {
-                envClass = Class.forName(env);
+                envClbss = Clbss.forNbme(env);
 
-                // Is the new class a subclass of the current one?
+                // Is the new clbss b subclbss of the current one?
 
-                if (environmentClass.isAssignableFrom(envClass)) {
+                if (environmentClbss.isAssignbbleFrom(envClbss)) {
 
                     // Yes, so switch to the new one...
 
-                    environmentClass = envClass.asSubclass(BatchEnvironment.class);
+                    environmentClbss = envClbss.bsSubclbss(BbtchEnvironment.clbss);
 
                 } else {
 
-                    // No. Is the current class a subclass of the
+                    // No. Is the current clbss b subclbss of the
                     // new one?
 
-                    if (!envClass.isAssignableFrom(environmentClass)) {
+                    if (!envClbss.isAssignbbleFrom(environmentClbss)) {
 
-                        // No, so it's a conflict...
+                        // No, so it's b conflict...
 
-                        error("rmic.cannot.use.both",environmentClass.getName(),envClass.getName());
+                        error("rmic.cbnnot.use.both",environmentClbss.getNbme(),envClbss.getNbme());
                         return null;
                     }
                 }
-            } catch (ClassNotFoundException e) {
-                error("rmic.class.not.found",env);
+            } cbtch (ClbssNotFoundException e) {
+                error("rmic.clbss.not.found",env);
                 return null;
             }
         }
 
-        // If this is the iiop stub generator, cache
-        // that fact for the jrmp generator...
+        // If this is the iiop stub generbtor, cbche
+        // thbt fbct for the jrmp generbtor...
 
-        if (arg.equals("iiop")) {
-            iiopGeneration = true;
+        if (brg.equbls("iiop")) {
+            iiopGenerbtion = true;
         }
         return gen;
     }
 
     /**
-     * Grab a resource string and parse it into an array of strings. Assumes
-     * comma separated list.
-     * @param name The resource name.
-     * @param mustExist If true, throws error if resource does not exist. If
-     * false and resource does not exist, returns zero element array.
+     * Grbb b resource string bnd pbrse it into bn brrby of strings. Assumes
+     * commb sepbrbted list.
+     * @pbrbm nbme The resource nbme.
+     * @pbrbm mustExist If true, throws error if resource does not exist. If
+     * fblse bnd resource does not exist, returns zero element brrby.
      */
-    protected String[] getArray(String name, boolean mustExist) {
+    protected String[] getArrby(String nbme, boolebn mustExist) {
         String[] result = null;
-        String value = getString(name);
-        if (value == null) {
+        String vblue = getString(nbme);
+        if (vblue == null) {
             if (mustExist) {
-                error("rmic.resource.not.found",name);
+                error("rmic.resource.not.found",nbme);
                 return null;
             } else {
                 return new String[0];
             }
         }
 
-        StringTokenizer parser = new StringTokenizer(value,", \t\n\r", false);
-        int count = parser.countTokens();
+        StringTokenizer pbrser = new StringTokenizer(vblue,", \t\n\r", fblse);
+        int count = pbrser.countTokens();
         result = new String[count];
         for (int i = 0; i < count; i++) {
-            result[i] = parser.nextToken();
+            result[i] = pbrser.nextToken();
         }
 
         return result;
     }
 
     /**
-     * Get the correct type of BatchEnvironment
+     * Get the correct type of BbtchEnvironment
      */
-    public BatchEnvironment getEnv() {
+    public BbtchEnvironment getEnv() {
 
-        ClassPath classPath =
-            BatchEnvironment.createClassPath(classPathString,
-                                             sysClassPathArg,
+        ClbssPbth clbssPbth =
+            BbtchEnvironment.crebteClbssPbth(clbssPbthString,
+                                             sysClbssPbthArg,
                                              extDirsArg);
-        BatchEnvironment result = null;
+        BbtchEnvironment result = null;
         try {
-            Class<?>[] ctorArgTypes = {OutputStream.class,ClassPath.class,Main.class};
-            Object[] ctorArgs = {out,classPath,this};
-            Constructor<? extends BatchEnvironment> constructor =
-                environmentClass.getConstructor(ctorArgTypes);
-            result =  constructor.newInstance(ctorArgs);
+            Clbss<?>[] ctorArgTypes = {OutputStrebm.clbss,ClbssPbth.clbss,Mbin.clbss};
+            Object[] ctorArgs = {out,clbssPbth,this};
+            Constructor<? extends BbtchEnvironment> constructor =
+                environmentClbss.getConstructor(ctorArgTypes);
+            result =  constructor.newInstbnce(ctorArgs);
             result.reset();
         }
-        catch (Exception e) {
-            error("rmic.cannot.instantiate",environmentClass.getName());
+        cbtch (Exception e) {
+            error("rmic.cbnnot.instbntibte",environmentClbss.getNbme());
         }
         return result;
     }
 
 
     /**
-     * Do the compile with the switches and files already supplied
+     * Do the compile with the switches bnd files blrebdy supplied
      */
-    public boolean doCompile() {
-        // Create batch environment
-        BatchEnvironment env = getEnv();
-        env.flags |= flags;
+    public boolebn doCompile() {
+        // Crebte bbtch environment
+        BbtchEnvironment env = getEnv();
+        env.flbgs |= flbgs;
 
-        // Set the classfile version numbers
-        // Compat and 1.1 stubs must retain the old version number.
-        env.majorVersion = 45;
+        // Set the clbssfile version numbers
+        // Compbt bnd 1.1 stubs must retbin the old version number.
+        env.mbjorVersion = 45;
         env.minorVersion = 3;
 
-        // Preload the "out of memory" error string just in case we run
+        // Prelobd the "out of memory" error string just in cbse we run
         // out of memory during the compile.
         String noMemoryErrorString = getText("rmic.no.memory");
-        String stackOverflowErrorString = getText("rmic.stack.overflow");
+        String stbckOverflowErrorString = getText("rmic.stbck.overflow");
 
         try {
-            /** Load the classes on the command line
-             * Replace the entries in classes with the ClassDefinition for the class
+            /** Lobd the clbsses on the commbnd line
+             * Replbce the entries in clbsses with the ClbssDefinition for the clbss
              */
-            for (int i = classes.size()-1; i >= 0; i-- ) {
-                Identifier implClassName =
-                    Identifier.lookup(classes.elementAt(i));
+            for (int i = clbsses.size()-1; i >= 0; i-- ) {
+                Identifier implClbssNbme =
+                    Identifier.lookup(clbsses.elementAt(i));
 
                 /*
-                 * Fix bugid 4049354: support using '.' as an inner class
-                 * qualifier on the command line (previously, only mangled
-                 * inner class names were understood, like "pkg.Outer$Inner").
+                 * Fix bugid 4049354: support using '.' bs bn inner clbss
+                 * qublifier on the commbnd line (previously, only mbngled
+                 * inner clbss nbmes were understood, like "pkg.Outer$Inner").
                  *
-                 * The following method, also used by "javap", resolves the
-                 * given unmangled inner class name to the appropriate
-                 * internal identifier.  For example, it translates
+                 * The following method, blso used by "jbvbp", resolves the
+                 * given unmbngled inner clbss nbme to the bppropribte
+                 * internbl identifier.  For exbmple, it trbnslbtes
                  * "pkg.Outer.Inner" to "pkg.Outer. Inner".
                  */
-                implClassName = env.resolvePackageQualifiedName(implClassName);
+                implClbssNbme = env.resolvePbckbgeQublifiedNbme(implClbssNbme);
                 /*
-                 * But if we use such an internal inner class name identifier
-                 * to load the class definition, the Java compiler will notice
-                 * if the impl class is a "private" inner class and then deny
-                 * skeletons (needed unless "-v1.2" is used) the ability to
-                 * cast to it.  To work around this problem, we mangle inner
-                 * class name identifiers to their binary "outer" class name:
+                 * But if we use such bn internbl inner clbss nbme identifier
+                 * to lobd the clbss definition, the Jbvb compiler will notice
+                 * if the impl clbss is b "privbte" inner clbss bnd then deny
+                 * skeletons (needed unless "-v1.2" is used) the bbility to
+                 * cbst to it.  To work bround this problem, we mbngle inner
+                 * clbss nbme identifiers to their binbry "outer" clbss nbme:
                  * "pkg.Outer. Inner" becomes "pkg.Outer$Inner".
                  */
-                implClassName = Names.mangleClass(implClassName);
+                implClbssNbme = Nbmes.mbngleClbss(implClbssNbme);
 
-                ClassDeclaration decl = env.getClassDeclaration(implClassName);
+                ClbssDeclbrbtion decl = env.getClbssDeclbrbtion(implClbssNbme);
                 try {
-                    ClassDefinition def = decl.getClassDefinition(env);
-                    for (int j = 0; j < generators.size(); j++) {
-                        Generator gen = generators.elementAt(j);
-                        gen.generate(env, def, destDir);
+                    ClbssDefinition def = decl.getClbssDefinition(env);
+                    for (int j = 0; j < generbtors.size(); j++) {
+                        Generbtor gen = generbtors.elementAt(j);
+                        gen.generbte(env, def, destDir);
                     }
-                } catch (ClassNotFound ex) {
-                    env.error(0, "rmic.class.not.found", implClassName);
+                } cbtch (ClbssNotFound ex) {
+                    env.error(0, "rmic.clbss.not.found", implClbssNbme);
                 }
 
             }
 
-            // compile all classes that need compilation
+            // compile bll clbsses thbt need compilbtion
             if (!nocompile) {
-                compileAllClasses(env);
+                compileAllClbsses(env);
             }
-        } catch (OutOfMemoryError ee) {
-            // The compiler has run out of memory.  Use the error string
-            // which we preloaded.
+        } cbtch (OutOfMemoryError ee) {
+            // The compiler hbs run out of memory.  Use the error string
+            // which we prelobded.
             env.output(noMemoryErrorString);
-            return false;
-        } catch (StackOverflowError ee) {
-            env.output(stackOverflowErrorString);
-            return false;
-        } catch (Error ee) {
-            // We allow the compiler to take an exception silently if a program
-            // error has previously been detected.  Presumably, this makes the
-            // compiler more robust in the face of bad error recovery.
+            return fblse;
+        } cbtch (StbckOverflowError ee) {
+            env.output(stbckOverflowErrorString);
+            return fblse;
+        } cbtch (Error ee) {
+            // We bllow the compiler to tbke bn exception silently if b progrbm
+            // error hbs previously been detected.  Presumbbly, this mbkes the
+            // compiler more robust in the fbce of bbd error recovery.
             if (env.nerrors == 0 || env.dump()) {
-                env.error(0, "fatal.error");
-                ee.printStackTrace(out instanceof PrintStream ?
-                                   (PrintStream) out :
-                                   new PrintStream(out, true));
+                env.error(0, "fbtbl.error");
+                ee.printStbckTrbce(out instbnceof PrintStrebm ?
+                                   (PrintStrebm) out :
+                                   new PrintStrebm(out, true));
             }
-        } catch (Exception ee) {
+        } cbtch (Exception ee) {
             if (env.nerrors == 0 || env.dump()) {
-                env.error(0, "fatal.exception");
-                ee.printStackTrace(out instanceof PrintStream ?
-                                   (PrintStream) out :
-                                   new PrintStream(out, true));
+                env.error(0, "fbtbl.exception");
+                ee.printStbckTrbce(out instbnceof PrintStrebm ?
+                                   (PrintStrebm) out :
+                                   new PrintStrebm(out, true));
             }
         }
 
         env.flushErrors();
 
-        boolean status = true;
+        boolebn stbtus = true;
         if (env.nerrors > 0) {
             String msg = "";
             if (env.nerrors > 1) {
@@ -619,28 +619,28 @@ public class Main implements sun.rmi.rmic.Constants {
             } else {
                 msg = getText("rmic.1error");
             }
-            if (env.nwarnings > 0) {
-                if (env.nwarnings > 1) {
-                    msg += ", " + getText("rmic.warnings", env.nwarnings);
+            if (env.nwbrnings > 0) {
+                if (env.nwbrnings > 1) {
+                    msg += ", " + getText("rmic.wbrnings", env.nwbrnings);
                 } else {
-                    msg += ", " + getText("rmic.1warning");
+                    msg += ", " + getText("rmic.1wbrning");
                 }
             }
             output(msg);
-            status = false;
+            stbtus = fblse;
         } else {
-            if (env.nwarnings > 0) {
-                if (env.nwarnings > 1) {
-                    output(getText("rmic.warnings", env.nwarnings));
+            if (env.nwbrnings > 0) {
+                if (env.nwbrnings > 1) {
+                    output(getText("rmic.wbrnings", env.nwbrnings));
                 } else {
-                    output(getText("rmic.1warning"));
+                    output(getText("rmic.1wbrning"));
                 }
             }
         }
 
-        // last step is to delete generated source files
-        if (!keepGenerated) {
-            env.deleteGeneratedFiles();
+        // lbst step is to delete generbted source files
+        if (!keepGenerbted) {
+            env.deleteGenerbtedFiles();
         }
 
         // We're done
@@ -649,157 +649,157 @@ public class Main implements sun.rmi.rmic.Constants {
             output(getText("rmic.done_in", Long.toString(tm)));
         }
 
-        // Shutdown the environment object and release our resources.
-        // Note that while this is unneccessary when rmic is invoked
-        // the command line, there are environments in which rmic
-        // from is invoked within a server process, so resource
-        // reclamation is important...
+        // Shutdown the environment object bnd relebse our resources.
+        // Note thbt while this is unneccessbry when rmic is invoked
+        // the commbnd line, there bre environments in which rmic
+        // from is invoked within b server process, so resource
+        // reclbmbtion is importbnt...
 
         env.shutdown();
 
-        sourcePathArg = null;
-        sysClassPathArg = null;
+        sourcePbthArg = null;
+        sysClbssPbthArg = null;
         extDirsArg = null;
-        classPathString = null;
+        clbssPbthString = null;
         destDir = null;
-        classes = null;
-        generatorArgs = null;
-        generators = null;
-        environmentClass = null;
-        program = null;
+        clbsses = null;
+        generbtorArgs = null;
+        generbtors = null;
+        environmentClbss = null;
+        progrbm = null;
         out = null;
 
-        return status;
+        return stbtus;
     }
 
     /*
-     * Compile all classes that need to be compiled.
+     * Compile bll clbsses thbt need to be compiled.
      */
-    public void compileAllClasses (BatchEnvironment env)
-        throws ClassNotFound,
+    public void compileAllClbsses (BbtchEnvironment env)
+        throws ClbssNotFound,
                IOException,
                InterruptedException {
-        ByteArrayOutputStream buf = new ByteArrayOutputStream(4096);
-        boolean done;
+        ByteArrbyOutputStrebm buf = new ByteArrbyOutputStrebm(4096);
+        boolebn done;
 
         do {
             done = true;
-            for (Enumeration<?> e = env.getClasses() ; e.hasMoreElements() ; ) {
-                ClassDeclaration c = (ClassDeclaration)e.nextElement();
-                done = compileClass(c,buf,env);
+            for (Enumerbtion<?> e = env.getClbsses() ; e.hbsMoreElements() ; ) {
+                ClbssDeclbrbtion c = (ClbssDeclbrbtion)e.nextElement();
+                done = compileClbss(c,buf,env);
             }
         } while (!done);
     }
 
     /*
-     * Compile a single class.
-     * Fallthrough is intentional
+     * Compile b single clbss.
+     * Fbllthrough is intentionbl
      */
-    @SuppressWarnings("fallthrough")
-    public boolean compileClass (ClassDeclaration c,
-                                 ByteArrayOutputStream buf,
-                                 BatchEnvironment env)
-        throws ClassNotFound,
+    @SuppressWbrnings("fbllthrough")
+    public boolebn compileClbss (ClbssDeclbrbtion c,
+                                 ByteArrbyOutputStrebm buf,
+                                 BbtchEnvironment env)
+        throws ClbssNotFound,
                IOException,
                InterruptedException {
-        boolean done = true;
+        boolebn done = true;
         env.flushErrors();
-        SourceClass src;
+        SourceClbss src;
 
-        switch (c.getStatus()) {
-        case CS_UNDEFINED:
+        switch (c.getStbtus()) {
+        cbse CS_UNDEFINED:
             {
                 if (!env.dependencies()) {
-                    break;
+                    brebk;
                 }
-                // fall through
+                // fbll through
             }
 
-        case CS_SOURCE:
+        cbse CS_SOURCE:
             {
-                done = false;
-                env.loadDefinition(c);
-                if (c.getStatus() != CS_PARSED) {
-                    break;
+                done = fblse;
+                env.lobdDefinition(c);
+                if (c.getStbtus() != CS_PARSED) {
+                    brebk;
                 }
-                // fall through
+                // fbll through
             }
 
-        case CS_PARSED:
+        cbse CS_PARSED:
             {
-                if (c.getClassDefinition().isInsideLocal()) {
-                    break;
+                if (c.getClbssDefinition().isInsideLocbl()) {
+                    brebk;
                 }
-                // If we get to here, then compilation is going
+                // If we get to here, then compilbtion is going
                 // to occur. If the -Xnocompile switch is set
-                // then fail. Note that this check is required
-                // here because this method is called from
-                // generators, not just from within this class...
+                // then fbil. Note thbt this check is required
+                // here becbuse this method is cblled from
+                // generbtors, not just from within this clbss...
 
                 if (nocompile) {
-                    throw new IOException("Compilation required, but -Xnocompile option in effect");
+                    throw new IOException("Compilbtion required, but -Xnocompile option in effect");
                 }
 
-                done = false;
+                done = fblse;
 
-                src = (SourceClass)c.getClassDefinition(env);
+                src = (SourceClbss)c.getClbssDefinition(env);
                 src.check(env);
                 c.setDefinition(src, CS_CHECKED);
-                // fall through
+                // fbll through
             }
 
-        case CS_CHECKED:
+        cbse CS_CHECKED:
             {
-                src = (SourceClass)c.getClassDefinition(env);
-                // bail out if there were any errors
+                src = (SourceClbss)c.getClbssDefinition(env);
+                // bbil out if there were bny errors
                 if (src.getError()) {
                     c.setDefinition(src, CS_COMPILED);
-                    break;
+                    brebk;
                 }
-                done = false;
+                done = fblse;
                 buf.reset();
                 src.compile(buf);
                 c.setDefinition(src, CS_COMPILED);
-                src.cleanup(env);
+                src.clebnup(env);
 
                 if (src.getError() || nowrite) {
-                    break;
+                    brebk;
                 }
 
-                String pkgName = c.getName().getQualifier().toString().replace('.', File.separatorChar);
-                String className = c.getName().getFlatName().toString().replace('.', SIGC_INNERCLASS) + ".class";
+                String pkgNbme = c.getNbme().getQublifier().toString().replbce('.', File.sepbrbtorChbr);
+                String clbssNbme = c.getNbme().getFlbtNbme().toString().replbce('.', SIGC_INNERCLASS) + ".clbss";
 
                 File file;
                 if (destDir != null) {
-                    if (pkgName.length() > 0) {
-                        file = new File(destDir, pkgName);
+                    if (pkgNbme.length() > 0) {
+                        file = new File(destDir, pkgNbme);
                         if (!file.exists()) {
                             file.mkdirs();
                         }
-                        file = new File(file, className);
+                        file = new File(file, clbssNbme);
                     } else {
-                        file = new File(destDir, className);
+                        file = new File(destDir, clbssNbme);
                     }
                 } else {
-                    ClassFile classfile = (ClassFile)src.getSource();
-                    if (classfile.isZipped()) {
-                        env.error(0, "cant.write", classfile.getPath());
-                        break;
+                    ClbssFile clbssfile = (ClbssFile)src.getSource();
+                    if (clbssfile.isZipped()) {
+                        env.error(0, "cbnt.write", clbssfile.getPbth());
+                        brebk;
                     }
-                    file = new File(classfile.getPath());
-                    file = new File(file.getParent(), className);
+                    file = new File(clbssfile.getPbth());
+                    file = new File(file.getPbrent(), clbssNbme);
                 }
 
-                // Create the file
+                // Crebte the file
                 try {
-                    FileOutputStream out = new FileOutputStream(file.getPath());
+                    FileOutputStrebm out = new FileOutputStrebm(file.getPbth());
                     buf.writeTo(out);
                     out.close();
                     if (env.verbose()) {
-                        output(getText("rmic.wrote", file.getPath()));
+                        output(getText("rmic.wrote", file.getPbth()));
                     }
-                } catch (IOException ee) {
-                    env.error(0, "cant.write", file.getPath());
+                } cbtch (IOException ee) {
+                    env.error(0, "cbnt.write", file.getPbth());
                 }
             }
         }
@@ -807,91 +807,91 @@ public class Main implements sun.rmi.rmic.Constants {
     }
 
     /**
-     * Main program
+     * Mbin progrbm
      */
-    public static void main(String argv[]) {
-        Main compiler = new Main(System.out, "rmic");
-        System.exit(compiler.compile(argv) ? 0 : 1);
+    public stbtic void mbin(String brgv[]) {
+        Mbin compiler = new Mbin(System.out, "rmic");
+        System.exit(compiler.compile(brgv) ? 0 : 1);
     }
 
     /**
-     * Return the string value of a named resource in the rmic.properties
+     * Return the string vblue of b nbmed resource in the rmic.properties
      * resource bundle.  If the resource is not found, null is returned.
      */
-    public static String getString(String key) {
-        if (!resourcesInitialized) {
+    public stbtic String getString(String key) {
+        if (!resourcesInitiblized) {
             initResources();
         }
 
-        // To enable extensions, search the 'resourcesExt'
+        // To enbble extensions, sebrch the 'resourcesExt'
         // bundle first, followed by the 'resources' bundle...
 
         if (resourcesExt != null) {
             try {
                 return resourcesExt.getString(key);
-            } catch (MissingResourceException e) {}
+            } cbtch (MissingResourceException e) {}
         }
 
         try {
             return resources.getString(key);
-        } catch (MissingResourceException ignore) {
+        } cbtch (MissingResourceException ignore) {
         }
         return null;
     }
 
-    private static boolean resourcesInitialized = false;
-    private static ResourceBundle resources;
-    private static ResourceBundle resourcesExt = null;
+    privbte stbtic boolebn resourcesInitiblized = fblse;
+    privbte stbtic ResourceBundle resources;
+    privbte stbtic ResourceBundle resourcesExt = null;
 
-    private static void initResources() {
+    privbte stbtic void initResources() {
         try {
             resources =
                 ResourceBundle.getBundle("sun.rmi.rmic.resources.rmic");
-            resourcesInitialized = true;
+            resourcesInitiblized = true;
             try {
                 resourcesExt =
                     ResourceBundle.getBundle("sun.rmi.rmic.resources.rmicext");
-            } catch (MissingResourceException e) {}
-        } catch (MissingResourceException e) {
-            throw new Error("fatal: missing resource bundle: " +
-                            e.getClassName());
+            } cbtch (MissingResourceException e) {}
+        } cbtch (MissingResourceException e) {
+            throw new Error("fbtbl: missing resource bundle: " +
+                            e.getClbssNbme());
         }
     }
 
-    public static String getText(String key) {
-        String message = getString(key);
-        if (message == null) {
-            message = "no text found: \"" + key + "\"";
+    public stbtic String getText(String key) {
+        String messbge = getString(key);
+        if (messbge == null) {
+            messbge = "no text found: \"" + key + "\"";
         }
-        return message;
+        return messbge;
     }
 
-    public static String getText(String key, int num) {
+    public stbtic String getText(String key, int num) {
         return getText(key, Integer.toString(num), null, null);
     }
 
-    public static String getText(String key, String arg0) {
-        return getText(key, arg0, null, null);
+    public stbtic String getText(String key, String brg0) {
+        return getText(key, brg0, null, null);
     }
 
-    public static String getText(String key, String arg0, String arg1) {
-        return getText(key, arg0, arg1, null);
+    public stbtic String getText(String key, String brg0, String brg1) {
+        return getText(key, brg0, brg1, null);
     }
 
-    public static String getText(String key,
-                                 String arg0, String arg1, String arg2)
+    public stbtic String getText(String key,
+                                 String brg0, String brg1, String brg2)
     {
-        String format = getString(key);
-        if (format == null) {
-            format = "no text found: key = \"" + key + "\", " +
-                "arguments = \"{0}\", \"{1}\", \"{2}\"";
+        String formbt = getString(key);
+        if (formbt == null) {
+            formbt = "no text found: key = \"" + key + "\", " +
+                "brguments = \"{0}\", \"{1}\", \"{2}\"";
         }
 
-        String[] args = new String[3];
-        args[0] = (arg0 != null ? arg0 : "null");
-        args[1] = (arg1 != null ? arg1 : "null");
-        args[2] = (arg2 != null ? arg2 : "null");
+        String[] brgs = new String[3];
+        brgs[0] = (brg0 != null ? brg0 : "null");
+        brgs[1] = (brg1 != null ? brg1 : "null");
+        brgs[2] = (brg2 != null ? brg2 : "null");
 
-        return java.text.MessageFormat.format(format, (Object[]) args);
+        return jbvb.text.MessbgeFormbt.formbt(formbt, (Object[]) brgs);
     }
 }

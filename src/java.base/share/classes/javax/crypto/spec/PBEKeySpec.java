@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto.spec;
+pbckbge jbvbx.crypto.spec;
 
-import java.security.spec.KeySpec;
+import jbvb.security.spec.KeySpec;
 
 /**
- * A user-chosen password that can be used with password-based encryption
+ * A user-chosen pbssword thbt cbn be used with pbssword-bbsed encryption
  * (<i>PBE</i>).
  *
- * <p>The password can be viewed as some kind of raw key material, from which
- * the encryption mechanism that uses it derives a cryptographic key.
+ * <p>The pbssword cbn be viewed bs some kind of rbw key mbteribl, from which
+ * the encryption mechbnism thbt uses it derives b cryptogrbphic key.
  *
- * <p>Different PBE mechanisms may consume different bits of each password
- * character. For example, the PBE mechanism defined in
- * <a href="http://www.ietf.org/rfc/rfc2898.txt">
- * PKCS #5</a> looks at only the low order 8 bits of each character, whereas
- * PKCS #12 looks at all 16 bits of each character.
+ * <p>Different PBE mechbnisms mby consume different bits of ebch pbssword
+ * chbrbcter. For exbmple, the PBE mechbnism defined in
+ * <b href="http://www.ietf.org/rfc/rfc2898.txt">
+ * PKCS #5</b> looks bt only the low order 8 bits of ebch chbrbcter, wherebs
+ * PKCS #12 looks bt bll 16 bits of ebch chbrbcter.
  *
- * <p>You convert the password characters to a PBE key by creating an
- * instance of the appropriate secret-key factory. For example, a secret-key
- * factory for PKCS #5 will construct a PBE key from only the low order 8 bits
- * of each password character, whereas a secret-key factory for PKCS #12 will
- * take all 16 bits of each character.
+ * <p>You convert the pbssword chbrbcters to b PBE key by crebting bn
+ * instbnce of the bppropribte secret-key fbctory. For exbmple, b secret-key
+ * fbctory for PKCS #5 will construct b PBE key from only the low order 8 bits
+ * of ebch pbssword chbrbcter, wherebs b secret-key fbctory for PKCS #12 will
+ * tbke bll 16 bits of ebch chbrbcter.
  *
- * <p>Also note that this class stores passwords as char arrays instead of
- * <code>String</code> objects (which would seem more logical), because the
- * String class is immutable and there is no way to overwrite its
- * internal value when the password stored in it is no longer needed. Hence,
- * this class requests the password as a char array, so it can be overwritten
+ * <p>Also note thbt this clbss stores pbsswords bs chbr brrbys instebd of
+ * <code>String</code> objects (which would seem more logicbl), becbuse the
+ * String clbss is immutbble bnd there is no wby to overwrite its
+ * internbl vblue when the pbssword stored in it is no longer needed. Hence,
+ * this clbss requests the pbssword bs b chbr brrby, so it cbn be overwritten
  * when done.
  *
- * @author Jan Luehe
- * @author Valerie Peng
+ * @buthor Jbn Luehe
+ * @buthor Vblerie Peng
  *
- * @see javax.crypto.SecretKeyFactory
- * @see PBEParameterSpec
+ * @see jbvbx.crypto.SecretKeyFbctory
+ * @see PBEPbrbmeterSpec
  * @since 1.4
  */
-public class PBEKeySpec implements KeySpec {
+public clbss PBEKeySpec implements KeySpec {
 
-    private char[] password;
-    private byte[] salt = null;
-    private int iterationCount = 0;
-    private int keyLength = 0;
+    privbte chbr[] pbssword;
+    privbte byte[] sblt = null;
+    privbte int iterbtionCount = 0;
+    privbte int keyLength = 0;
 
     /**
-     * Constructor that takes a password. An empty char[] is used if
+     * Constructor thbt tbkes b pbssword. An empty chbr[] is used if
      * null is specified.
      *
-     * <p> Note: <code>password</code> is cloned before it is stored in
+     * <p> Note: <code>pbssword</code> is cloned before it is stored in
      * the new <code>PBEKeySpec</code> object.
      *
-     * @param password the password.
+     * @pbrbm pbssword the pbssword.
      */
-    public PBEKeySpec(char[] password) {
-        if ((password == null) || (password.length == 0)) {
-            this.password = new char[0];
+    public PBEKeySpec(chbr[] pbssword) {
+        if ((pbssword == null) || (pbssword.length == 0)) {
+            this.pbssword = new chbr[0];
         } else {
-            this.password = password.clone();
+            this.pbssword = pbssword.clone();
         }
     }
 
 
     /**
-     * Constructor that takes a password, salt, iteration count, and
-     * to-be-derived key length for generating PBEKey of variable-key-size
-     * PBE ciphers.  An empty char[] is used if null is specified for
-     * <code>password</code>.
+     * Constructor thbt tbkes b pbssword, sblt, iterbtion count, bnd
+     * to-be-derived key length for generbting PBEKey of vbribble-key-size
+     * PBE ciphers.  An empty chbr[] is used if null is specified for
+     * <code>pbssword</code>.
      *
-     * <p> Note: the <code>password</code> and <code>salt</code>
-     * are cloned before they are stored in
+     * <p> Note: the <code>pbssword</code> bnd <code>sblt</code>
+     * bre cloned before they bre stored in
      * the new <code>PBEKeySpec</code> object.
      *
-     * @param password the password.
-     * @param salt the salt.
-     * @param iterationCount the iteration count.
-     * @param keyLength the to-be-derived key length.
-     * @exception NullPointerException if <code>salt</code> is null.
-     * @exception IllegalArgumentException if <code>salt</code> is empty,
-     * i.e. 0-length, <code>iterationCount</code> or
+     * @pbrbm pbssword the pbssword.
+     * @pbrbm sblt the sblt.
+     * @pbrbm iterbtionCount the iterbtion count.
+     * @pbrbm keyLength the to-be-derived key length.
+     * @exception NullPointerException if <code>sblt</code> is null.
+     * @exception IllegblArgumentException if <code>sblt</code> is empty,
+     * i.e. 0-length, <code>iterbtionCount</code> or
      * <code>keyLength</code> is not positive.
      */
-    public PBEKeySpec(char[] password, byte[] salt, int iterationCount,
+    public PBEKeySpec(chbr[] pbssword, byte[] sblt, int iterbtionCount,
         int keyLength) {
-        if ((password == null) || (password.length == 0)) {
-            this.password = new char[0];
+        if ((pbssword == null) || (pbssword.length == 0)) {
+            this.pbssword = new chbr[0];
         } else {
-            this.password = password.clone();
+            this.pbssword = pbssword.clone();
         }
-        if (salt == null) {
-            throw new NullPointerException("the salt parameter " +
+        if (sblt == null) {
+            throw new NullPointerException("the sblt pbrbmeter " +
                                             "must be non-null");
-        } else if (salt.length == 0) {
-            throw new IllegalArgumentException("the salt parameter " +
+        } else if (sblt.length == 0) {
+            throw new IllegblArgumentException("the sblt pbrbmeter " +
                                                 "must not be empty");
         } else {
-            this.salt = salt.clone();
+            this.sblt = sblt.clone();
         }
-        if (iterationCount<=0) {
-            throw new IllegalArgumentException("invalid iterationCount value");
+        if (iterbtionCount<=0) {
+            throw new IllegblArgumentException("invblid iterbtionCount vblue");
         }
         if (keyLength<=0) {
-            throw new IllegalArgumentException("invalid keyLength value");
+            throw new IllegblArgumentException("invblid keyLength vblue");
         }
-        this.iterationCount = iterationCount;
+        this.iterbtionCount = iterbtionCount;
         this.keyLength = keyLength;
     }
 
 
     /**
-     * Constructor that takes a password, salt, iteration count for
-     * generating PBEKey of fixed-key-size PBE ciphers. An empty
-     * char[] is used if null is specified for <code>password</code>.
+     * Constructor thbt tbkes b pbssword, sblt, iterbtion count for
+     * generbting PBEKey of fixed-key-size PBE ciphers. An empty
+     * chbr[] is used if null is specified for <code>pbssword</code>.
      *
-     * <p> Note: the <code>password</code> and <code>salt</code>
-     * are cloned before they are stored in the new
+     * <p> Note: the <code>pbssword</code> bnd <code>sblt</code>
+     * bre cloned before they bre stored in the new
      * <code>PBEKeySpec</code> object.
      *
-     * @param password the password.
-     * @param salt the salt.
-     * @param iterationCount the iteration count.
-     * @exception NullPointerException if <code>salt</code> is null.
-     * @exception IllegalArgumentException if <code>salt</code> is empty,
-     * i.e. 0-length, or <code>iterationCount</code> is not positive.
+     * @pbrbm pbssword the pbssword.
+     * @pbrbm sblt the sblt.
+     * @pbrbm iterbtionCount the iterbtion count.
+     * @exception NullPointerException if <code>sblt</code> is null.
+     * @exception IllegblArgumentException if <code>sblt</code> is empty,
+     * i.e. 0-length, or <code>iterbtionCount</code> is not positive.
      */
-    public PBEKeySpec(char[] password, byte[] salt, int iterationCount) {
-        if ((password == null) || (password.length == 0)) {
-            this.password = new char[0];
+    public PBEKeySpec(chbr[] pbssword, byte[] sblt, int iterbtionCount) {
+        if ((pbssword == null) || (pbssword.length == 0)) {
+            this.pbssword = new chbr[0];
         } else {
-            this.password = password.clone();
+            this.pbssword = pbssword.clone();
         }
-        if (salt == null) {
-            throw new NullPointerException("the salt parameter " +
+        if (sblt == null) {
+            throw new NullPointerException("the sblt pbrbmeter " +
                                             "must be non-null");
-        } else if (salt.length == 0) {
-            throw new IllegalArgumentException("the salt parameter " +
+        } else if (sblt.length == 0) {
+            throw new IllegblArgumentException("the sblt pbrbmeter " +
                                                 "must not be empty");
         } else {
-            this.salt = salt.clone();
+            this.sblt = sblt.clone();
         }
-        if (iterationCount<=0) {
-            throw new IllegalArgumentException("invalid iterationCount value");
+        if (iterbtionCount<=0) {
+            throw new IllegblArgumentException("invblid iterbtionCount vblue");
         }
-        this.iterationCount = iterationCount;
+        this.iterbtionCount = iterbtionCount;
     }
 
     /**
-     * Clears the internal copy of the password.
+     * Clebrs the internbl copy of the pbssword.
      *
      */
-    public final void clearPassword() {
-        if (password != null) {
-            for (int i = 0; i < password.length; i++) {
-                password[i] = ' ';
+    public finbl void clebrPbssword() {
+        if (pbssword != null) {
+            for (int i = 0; i < pbssword.length; i++) {
+                pbssword[i] = ' ';
             }
-            password = null;
+            pbssword = null;
         }
     }
 
     /**
-     * Returns a copy of the password.
+     * Returns b copy of the pbssword.
      *
-     * <p> Note: this method returns a copy of the password. It is
-     * the caller's responsibility to zero out the password information after
+     * <p> Note: this method returns b copy of the pbssword. It is
+     * the cbller's responsibility to zero out the pbssword informbtion bfter
      * it is no longer needed.
      *
-     * @exception IllegalStateException if password has been cleared by
-     * calling <code>clearPassword</code> method.
-     * @return the password.
+     * @exception IllegblStbteException if pbssword hbs been clebred by
+     * cblling <code>clebrPbssword</code> method.
+     * @return the pbssword.
      */
-    public final char[] getPassword() {
-        if (password == null) {
-            throw new IllegalStateException("password has been cleared");
+    public finbl chbr[] getPbssword() {
+        if (pbssword == null) {
+            throw new IllegblStbteException("pbssword hbs been clebred");
         }
-        return password.clone();
+        return pbssword.clone();
     }
 
     /**
-     * Returns a copy of the salt or null if not specified.
+     * Returns b copy of the sblt or null if not specified.
      *
-     * <p> Note: this method should return a copy of the salt. It is
-     * the caller's responsibility to zero out the salt information after
+     * <p> Note: this method should return b copy of the sblt. It is
+     * the cbller's responsibility to zero out the sblt informbtion bfter
      * it is no longer needed.
      *
-     * @return the salt.
+     * @return the sblt.
      */
-    public final byte[] getSalt() {
-        if (salt != null) {
-            return salt.clone();
+    public finbl byte[] getSblt() {
+        if (sblt != null) {
+            return sblt.clone();
         } else {
             return null;
         }
     }
 
     /**
-     * Returns the iteration count or 0 if not specified.
+     * Returns the iterbtion count or 0 if not specified.
      *
-     * @return the iteration count.
+     * @return the iterbtion count.
      */
-    public final int getIterationCount() {
-        return iterationCount;
+    public finbl int getIterbtionCount() {
+        return iterbtionCount;
     }
 
     /**
      * Returns the to-be-derived key length or 0 if not specified.
      *
-     * <p> Note: this is used to indicate the preference on key length
-     * for variable-key-size ciphers. The actual key size depends on
-     * each provider's implementation.
+     * <p> Note: this is used to indicbte the preference on key length
+     * for vbribble-key-size ciphers. The bctubl key size depends on
+     * ebch provider's implementbtion.
      *
      * @return the to-be-derived key length.
      */
-    public final int getKeyLength() {
+    public finbl int getKeyLength() {
         return keyLength;
     }
 }

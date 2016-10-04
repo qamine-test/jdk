@@ -1,195 +1,195 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.ldap;
+pbckbge jbvbx.nbming.ldbp;
 
-import java.io.IOException;
-import com.sun.jndi.ldap.Ber;
-import com.sun.jndi.ldap.BerEncoder;
+import jbvb.io.IOException;
+import com.sun.jndi.ldbp.Ber;
+import com.sun.jndi.ldbp.BerEncoder;
 
 /**
- * Requests that the results of a search operation be returned by the LDAP
- * server in batches of a specified size.
- * The requestor controls the rate at which batches are returned by the rate
- * at which it invokes search operations.
+ * Requests thbt the results of b sebrch operbtion be returned by the LDAP
+ * server in bbtches of b specified size.
+ * The requestor controls the rbte bt which bbtches bre returned by the rbte
+ * bt which it invokes sebrch operbtions.
  * <p>
- * The following code sample shows how the class may be used:
+ * The following code sbmple shows how the clbss mby be used:
  * <pre>{@code
  *
- *     // Open an LDAP association
- *     LdapContext ctx = new InitialLdapContext();
+ *     // Open bn LDAP bssocibtion
+ *     LdbpContext ctx = new InitiblLdbpContext();
  *
- *     // Activate paged results
- *     int pageSize = 20; // 20 entries per page
+ *     // Activbte pbged results
+ *     int pbgeSize = 20; // 20 entries per pbge
  *     byte[] cookie = null;
- *     int total;
+ *     int totbl;
  *     ctx.setRequestControls(new Control[]{
- *         new PagedResultsControl(pageSize, Control.CRITICAL) });
+ *         new PbgedResultsControl(pbgeSize, Control.CRITICAL) });
  *
  *     do {
- *         // Perform the search
- *         NamingEnumeration results =
- *             ctx.search("", "(objectclass=*)", new SearchControls());
+ *         // Perform the sebrch
+ *         NbmingEnumerbtion results =
+ *             ctx.sebrch("", "(objectclbss=*)", new SebrchControls());
  *
- *         // Iterate over a batch of search results
- *         while (results != null && results.hasMore()) {
- *             // Display an entry
- *             SearchResult entry = (SearchResult)results.next();
- *             System.out.println(entry.getName());
+ *         // Iterbte over b bbtch of sebrch results
+ *         while (results != null && results.hbsMore()) {
+ *             // Displby bn entry
+ *             SebrchResult entry = (SebrchResult)results.next();
+ *             System.out.println(entry.getNbme());
  *             System.out.println(entry.getAttributes());
  *
- *             // Handle the entry's response controls (if any)
- *             if (entry instanceof HasControls) {
- *                 // ((HasControls)entry).getControls();
+ *             // Hbndle the entry's response controls (if bny)
+ *             if (entry instbnceof HbsControls) {
+ *                 // ((HbsControls)entry).getControls();
  *             }
  *         }
- *         // Examine the paged results control response
+ *         // Exbmine the pbged results control response
  *         Control[] controls = ctx.getResponseControls();
  *         if (controls != null) {
  *             for (int i = 0; i < controls.length; i++) {
- *                 if (controls[i] instanceof PagedResultsResponseControl) {
- *                     PagedResultsResponseControl prrc =
- *                         (PagedResultsResponseControl)controls[i];
- *                     total = prrc.getResultSize();
+ *                 if (controls[i] instbnceof PbgedResultsResponseControl) {
+ *                     PbgedResultsResponseControl prrc =
+ *                         (PbgedResultsResponseControl)controls[i];
+ *                     totbl = prrc.getResultSize();
  *                     cookie = prrc.getCookie();
  *                 } else {
- *                     // Handle other response controls (if any)
+ *                     // Hbndle other response controls (if bny)
  *                 }
  *             }
  *         }
  *
- *         // Re-activate paged results
+ *         // Re-bctivbte pbged results
  *         ctx.setRequestControls(new Control[]{
- *             new PagedResultsControl(pageSize, cookie, Control.CRITICAL) });
+ *             new PbgedResultsControl(pbgeSize, cookie, Control.CRITICAL) });
  *     } while (cookie != null);
  *
- *     // Close the LDAP association
+ *     // Close the LDAP bssocibtion
  *     ctx.close();
  *     ...
  *
  * } </pre>
  * <p>
- * This class implements the LDAPv3 Control for paged-results as defined in
- * <a href="http://www.ietf.org/rfc/rfc2696.txt">RFC 2696</a>.
+ * This clbss implements the LDAPv3 Control for pbged-results bs defined in
+ * <b href="http://www.ietf.org/rfc/rfc2696.txt">RFC 2696</b>.
  *
- * The control's value has the following ASN.1 definition:
+ * The control's vblue hbs the following ASN.1 definition:
  * <pre>{@code
  *
- *     realSearchControlValue ::= SEQUENCE {
- *         size      INTEGER (0..maxInt),
- *                           -- requested page size from client
- *                           -- result set size estimate from server
+ *     reblSebrchControlVblue ::= SEQUENCE {
+ *         size      INTEGER (0..mbxInt),
+ *                           -- requested pbge size from client
+ *                           -- result set size estimbte from server
  *         cookie    OCTET STRING
  *     }
  *
  * }</pre>
  *
  * @since 1.5
- * @see PagedResultsResponseControl
- * @author Vincent Ryan
+ * @see PbgedResultsResponseControl
+ * @buthor Vincent Rybn
  */
-final public class PagedResultsControl extends BasicControl {
+finbl public clbss PbgedResultsControl extends BbsicControl {
 
     /**
-     * The paged-results control's assigned object identifier
+     * The pbged-results control's bssigned object identifier
      * is 1.2.840.113556.1.4.319.
      */
-    public static final String OID = "1.2.840.113556.1.4.319";
+    public stbtic finbl String OID = "1.2.840.113556.1.4.319";
 
-    private static final byte[] EMPTY_COOKIE = new byte[0];
+    privbte stbtic finbl byte[] EMPTY_COOKIE = new byte[0];
 
-    private static final long serialVersionUID = 6684806685736844298L;
+    privbte stbtic finbl long seriblVersionUID = 6684806685736844298L;
 
     /**
-     * Constructs a control to set the number of entries to be returned per
-     * page of results.
+     * Constructs b control to set the number of entries to be returned per
+     * pbge of results.
      *
-     * @param   pageSize        The number of entries to return in a page.
-     * @param   criticality     If true then the server must honor the control
-     *                          and return search results as indicated by
-     *                          pageSize or refuse to perform the search.
-     *                          If false, then the server need not honor the
+     * @pbrbm   pbgeSize        The number of entries to return in b pbge.
+     * @pbrbm   criticblity     If true then the server must honor the control
+     *                          bnd return sebrch results bs indicbted by
+     *                          pbgeSize or refuse to perform the sebrch.
+     *                          If fblse, then the server need not honor the
      *                          control.
-     * @exception IOException   If an error was encountered while encoding the
-     *                          supplied arguments into a control.
+     * @exception IOException   If bn error wbs encountered while encoding the
+     *                          supplied brguments into b control.
      */
-    public PagedResultsControl(int pageSize, boolean criticality)
+    public PbgedResultsControl(int pbgeSize, boolebn criticblity)
             throws IOException {
 
-        super(OID, criticality, null);
-        value = setEncodedValue(pageSize, EMPTY_COOKIE);
+        super(OID, criticblity, null);
+        vblue = setEncodedVblue(pbgeSize, EMPTY_COOKIE);
     }
 
     /**
-     * Constructs a control to set the number of entries to be returned per
-     * page of results. The cookie is provided by the server and may be
-     * obtained from the paged-results response control.
+     * Constructs b control to set the number of entries to be returned per
+     * pbge of results. The cookie is provided by the server bnd mby be
+     * obtbined from the pbged-results response control.
      * <p>
-     * A sequence of paged-results can be abandoned by setting the pageSize
-     * to zero and setting the cookie to the last cookie received from the
+     * A sequence of pbged-results cbn be bbbndoned by setting the pbgeSize
+     * to zero bnd setting the cookie to the lbst cookie received from the
      * server.
      *
-     * @param   pageSize        The number of entries to return in a page.
-     * @param   cookie          A possibly null server-generated cookie.
-     * @param   criticality     If true then the server must honor the control
-     *                          and return search results as indicated by
-     *                          pageSize or refuse to perform the search.
-     *                          If false, then the server need not honor the
+     * @pbrbm   pbgeSize        The number of entries to return in b pbge.
+     * @pbrbm   cookie          A possibly null server-generbted cookie.
+     * @pbrbm   criticblity     If true then the server must honor the control
+     *                          bnd return sebrch results bs indicbted by
+     *                          pbgeSize or refuse to perform the sebrch.
+     *                          If fblse, then the server need not honor the
      *                          control.
-     * @exception IOException   If an error was encountered while encoding the
-     *                          supplied arguments into a control.
+     * @exception IOException   If bn error wbs encountered while encoding the
+     *                          supplied brguments into b control.
      */
-    public PagedResultsControl(int pageSize, byte[] cookie,
-        boolean criticality) throws IOException {
+    public PbgedResultsControl(int pbgeSize, byte[] cookie,
+        boolebn criticblity) throws IOException {
 
-        super(OID, criticality, null);
+        super(OID, criticblity, null);
         if (cookie == null) {
             cookie = EMPTY_COOKIE;
         }
-        value = setEncodedValue(pageSize, cookie);
+        vblue = setEncodedVblue(pbgeSize, cookie);
     }
 
     /*
-     * Encodes the paged-results control's value using ASN.1 BER.
-     * The result includes the BER tag and length for the control's value but
-     * does not include the control's object identifier and criticality setting.
+     * Encodes the pbged-results control's vblue using ASN.1 BER.
+     * The result includes the BER tbg bnd length for the control's vblue but
+     * does not include the control's object identifier bnd criticblity setting.
      *
-     * @param   pageSize        The number of entries to return in a page.
-     * @param   cookie          A non-null server-generated cookie.
-     * @return A possibly null byte array representing the ASN.1 BER encoded
-     *         value of the LDAP paged-results control.
-     * @exception IOException If a BER encoding error occurs.
+     * @pbrbm   pbgeSize        The number of entries to return in b pbge.
+     * @pbrbm   cookie          A non-null server-generbted cookie.
+     * @return A possibly null byte brrby representing the ASN.1 BER encoded
+     *         vblue of the LDAP pbged-results control.
+     * @exception IOException If b BER encoding error occurs.
      */
-    private byte[] setEncodedValue(int pageSize, byte[] cookie)
+    privbte byte[] setEncodedVblue(int pbgeSize, byte[] cookie)
         throws IOException {
 
         // build the ASN.1 encoding
         BerEncoder ber = new BerEncoder(10 + cookie.length);
 
         ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
-            ber.encodeInt(pageSize);
+            ber.encodeInt(pbgeSize);
             ber.encodeOctetString(cookie, Ber.ASN_OCTET_STR);
         ber.endSeq();
 

@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef GraphicsPrimitiveMgr_h_Included
-#define GraphicsPrimitiveMgr_h_Included
+#ifndef GrbphicsPrimitiveMgr_h_Included
+#define GrbphicsPrimitiveMgr_h_Included
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,115 +32,115 @@ extern "C" {
 
 #include <stddef.h>
 
-#include "java_awt_AlphaComposite.h"
+#include "jbvb_bwt_AlphbComposite.h"
 
-#include "SurfaceData.h"
-#include "SpanIterator.h"
+#include "SurfbceDbtb.h"
+#include "SpbnIterbtor.h"
 
 #include "j2d_md.h"
 
-#include "AlphaMath.h"
-#include "GlyphImageRef.h"
+#include "AlphbMbth.h"
+#include "GlyphImbgeRef.h"
 
 /*
- * This structure contains all of the information about a particular
- * type of GraphicsPrimitive, such as a FillRect, a MaskFill, or a Blit.
+ * This structure contbins bll of the informbtion bbout b pbrticulbr
+ * type of GrbphicsPrimitive, such bs b FillRect, b MbskFill, or b Blit.
  *
- * A global collection of these structures is declared and initialized
- * to contain the necessary Java (JNI) information so that appropriate
- * Java GraphicsPrimitive objects can be quickly constructed for a set
- * of native loops simply by referencing the necessary entry from that
+ * A globbl collection of these structures is declbred bnd initiblized
+ * to contbin the necessbry Jbvb (JNI) informbtion so thbt bppropribte
+ * Jbvb GrbphicsPrimitive objects cbn be quickly constructed for b set
+ * of nbtive loops simply by referencing the necessbry entry from thbt
  * collection for the type of primitive being registered.
  *
  * See PrimitiveTypes.{Blit,BlitBg,FillRect,...} below.
  */
 typedef struct _PrimitiveType {
-    char                *ClassName;
-    jint                srcflags;
-    jint                dstflags;
-    jclass              ClassObject;
+    chbr                *ClbssNbme;
+    jint                srcflbgs;
+    jint                dstflbgs;
+    jclbss              ClbssObject;
     jmethodID           Constructor;
 } PrimitiveType;
 
-/* The integer constants to identify the compositing rule being defined. */
-#define RULE_Xor        (java_awt_AlphaComposite_MIN_RULE - 1)
-#define RULE_Clear      java_awt_AlphaComposite_CLEAR
-#define RULE_Src        java_awt_AlphaComposite_SRC
-#define RULE_SrcOver    java_awt_AlphaComposite_SRC_OVER
-#define RULE_DstOver    java_awt_AlphaComposite_DST_OVER
-#define RULE_SrcIn      java_awt_AlphaComposite_SRC_IN
-#define RULE_DstIn      java_awt_AlphaComposite_DST_IN
-#define RULE_SrcOut     java_awt_AlphaComposite_SRC_OUT
-#define RULE_DstOut     java_awt_AlphaComposite_DST_OUT
+/* The integer constbnts to identify the compositing rule being defined. */
+#define RULE_Xor        (jbvb_bwt_AlphbComposite_MIN_RULE - 1)
+#define RULE_Clebr      jbvb_bwt_AlphbComposite_CLEAR
+#define RULE_Src        jbvb_bwt_AlphbComposite_SRC
+#define RULE_SrcOver    jbvb_bwt_AlphbComposite_SRC_OVER
+#define RULE_DstOver    jbvb_bwt_AlphbComposite_DST_OVER
+#define RULE_SrcIn      jbvb_bwt_AlphbComposite_SRC_IN
+#define RULE_DstIn      jbvb_bwt_AlphbComposite_DST_IN
+#define RULE_SrcOut     jbvb_bwt_AlphbComposite_SRC_OUT
+#define RULE_DstOut     jbvb_bwt_AlphbComposite_DST_OUT
 
 /*
- * This structure holds the information retrieved from a Java
- * Composite object for easy transfer to various C functions
- * that implement the inner loop for a native primitive.
+ * This structure holds the informbtion retrieved from b Jbvb
+ * Composite object for ebsy trbnsfer to vbrious C functions
+ * thbt implement the inner loop for b nbtive primitive.
  *
- * Currently only AlphaComposite and XORComposite are supported.
+ * Currently only AlphbComposite bnd XORComposite bre supported.
  */
 typedef struct _CompositeInfo {
-    jint        rule;           /* See RULE_* constants above */
+    jint        rule;           /* See RULE_* constbnts bbove */
     union {
-        jfloat  extraAlpha;     /* from AlphaComposite */
+        jflobt  extrbAlphb;     /* from AlphbComposite */
         jint    xorPixel;       /* from XORComposite */
-    } details;
-    juint       alphaMask;      /* from XORComposite */
+    } detbils;
+    juint       blphbMbsk;      /* from XORComposite */
 } CompositeInfo;
 
 /*
- * This structure is the common header for the two native structures
- * that hold information about a particular SurfaceType or CompositeType.
+ * This structure is the common hebder for the two nbtive structures
+ * thbt hold informbtion bbout b pbrticulbr SurfbceType or CompositeType.
  *
- * A global collection of these structures is declared and initialized
- * to contain the necessary Java (JNI) information so that appropriate
- * Java GraphicsPrimitive objects can be quickly constructed for a set
- * of native loops simply by referencing the necessary entry from that
- * collection for the type of composite or surface being implemented.
+ * A globbl collection of these structures is declbred bnd initiblized
+ * to contbin the necessbry Jbvb (JNI) informbtion so thbt bppropribte
+ * Jbvb GrbphicsPrimitive objects cbn be quickly constructed for b set
+ * of nbtive loops simply by referencing the necessbry entry from thbt
+ * collection for the type of composite or surfbce being implemented.
  *
- * See SurfaceTypes.{OpaqueColor,IntArgb,ByteGray,...} below.
- * See CompositeTypes.{Xor,AnyAlpha,...} below.
+ * See SurfbceTypes.{OpbqueColor,IntArgb,ByteGrby,...} below.
+ * See CompositeTypes.{Xor,AnyAlphb,...} below.
  */
 typedef struct _SurfCompHdr {
-    char                *Name;
+    chbr                *Nbme;
     jobject             Object;
 } SurfCompHdr;
 
 /*
- * The definitions for the SurfaceType structure described above.
+ * The definitions for the SurfbceType structure described bbove.
  */
 
 /*
- * The signature for a function that returns the specific integer
- * format pixel for a given ARGB color value for a particular
- * SurfaceType implementation.
- * This function is valid only after GetRasInfo call for the
- * associated surface.
+ * The signbture for b function thbt returns the specific integer
+ * formbt pixel for b given ARGB color vblue for b pbrticulbr
+ * SurfbceType implementbtion.
+ * This function is vblid only bfter GetRbsInfo cbll for the
+ * bssocibted surfbce.
  */
-typedef jint (PixelForFunc)(SurfaceDataRasInfo *pRasInfo, jint rgb);
+typedef jint (PixelForFunc)(SurfbceDbtbRbsInfo *pRbsInfo, jint rgb);
 
 /*
- * The additional information needed to manipulate a surface:
- * - The pixelFor function for translating ARGB values.
- *   Valid only after GetRasInfo call for this surface.
- * - The additional flags needed when reading from this surface.
- * - The additional flags needed when writing to this surface.
+ * The bdditionbl informbtion needed to mbnipulbte b surfbce:
+ * - The pixelFor function for trbnslbting ARGB vblues.
+ *   Vblid only bfter GetRbsInfo cbll for this surfbce.
+ * - The bdditionbl flbgs needed when rebding from this surfbce.
+ * - The bdditionbl flbgs needed when writing to this surfbce.
  */
-typedef struct _SurfaceType {
+typedef struct _SurfbceType {
     SurfCompHdr         hdr;
     PixelForFunc        *pixelFor;
-    jint                readflags;
-    jint                writeflags;
-} SurfaceType;
+    jint                rebdflbgs;
+    jint                writeflbgs;
+} SurfbceType;
 
 /*
- * The definitions for the CompositeType structure described above.
+ * The definitions for the CompositeType structure described bbove.
  */
 
 /*
- * The signature for a function that fills in a CompositeInfo
- * structure from the information present in a given Java Composite
+ * The signbture for b function thbt fills in b CompositeInfo
+ * structure from the informbtion present in b given Jbvb Composite
  * object.
  */
 typedef void (JNICALL CompInfoFunc)(JNIEnv *env,
@@ -148,342 +148,342 @@ typedef void (JNICALL CompInfoFunc)(JNIEnv *env,
                                     jobject Composite);
 
 /*
- * The additional information needed to implement a primitive that
- * performs a particular composite operation:
- * - The getCompInfo function for filling in a CompositeInfo structure.
- * - The additional flags needed for locking the destination surface.
+ * The bdditionbl informbtion needed to implement b primitive thbt
+ * performs b pbrticulbr composite operbtion:
+ * - The getCompInfo function for filling in b CompositeInfo structure.
+ * - The bdditionbl flbgs needed for locking the destinbtion surfbce.
  */
 typedef struct _CompositeType {
     SurfCompHdr         hdr;
     CompInfoFunc        *getCompInfo;
-    jint                dstflags;
+    jint                dstflbgs;
 } CompositeType;
 
 /*
- * The signature of the native functions that register a set of
- * related native GraphicsPrimitive functions.
+ * The signbture of the nbtive functions thbt register b set of
+ * relbted nbtive GrbphicsPrimitive functions.
  */
-typedef jboolean (RegisterFunc)(JNIEnv *env);
+typedef jboolebn (RegisterFunc)(JNIEnv *env);
 
-struct _NativePrimitive;        /* forward reference for function typedefs */
+struct _NbtivePrimitive;        /* forwbrd reference for function typedefs */
 
 /*
- * This empty function signature represents an "old pre-ANSI style"
- * function declaration which makes no claims about the argument list
- * other than that the types of the arguments will undergo argument
- * promotion in the calling conventions.
+ * This empty function signbture represents bn "old pre-ANSI style"
+ * function declbrbtion which mbkes no clbims bbout the brgument list
+ * other thbn thbt the types of the brguments will undergo brgument
+ * promotion in the cblling conventions.
  * (See section A7.3.2 in K&R 2nd edition.)
  *
- * When trying to statically initialize the function pointer field of
- * a NativePrimitive structure, which is a union of all possible
- * inner loop function signatures, the initializer constant must be
- * compatible with the first field in the union.  This generic function
- * type allows us to assign any function pointer to that union as long
- * as it meets the requirements specified above (i.e. all arguments
- * are compatible with their promoted values according to the old
- * style argument promotion calling semantics).
+ * When trying to stbticblly initiblize the function pointer field of
+ * b NbtivePrimitive structure, which is b union of bll possible
+ * inner loop function signbtures, the initiblizer constbnt must be
+ * compbtible with the first field in the union.  This generic function
+ * type bllows us to bssign bny function pointer to thbt union bs long
+ * bs it meets the requirements specified bbove (i.e. bll brguments
+ * bre compbtible with their promoted vblues bccording to the old
+ * style brgument promotion cblling sembntics).
  *
- * Note: This means that you cannot define an argument to any of
- * these native functions which is a byte or a short as that value
- * would not be passed in the same way for an ANSI-style full prototype
- * calling convention and an old-style argument promotion calling
+ * Note: This mebns thbt you cbnnot define bn brgument to bny of
+ * these nbtive functions which is b byte or b short bs thbt vblue
+ * would not be pbssed in the sbme wby for bn ANSI-style full prototype
+ * cblling convention bnd bn old-style brgument promotion cblling
  * convention.
  */
 typedef void (AnyFunc)();
 
 /*
- * The signature of the inner loop function for a "Blit".
+ * The signbture of the inner loop function for b "Blit".
  */
 typedef void (BlitFunc)(void *pSrc, void *pDst,
                         juint width, juint height,
-                        SurfaceDataRasInfo *pSrcInfo,
-                        SurfaceDataRasInfo *pDstInfo,
-                        struct _NativePrimitive *pPrim,
+                        SurfbceDbtbRbsInfo *pSrcInfo,
+                        SurfbceDbtbRbsInfo *pDstInfo,
+                        struct _NbtivePrimitive *pPrim,
                         CompositeInfo *pCompInfo);
 
 /*
- * The signature of the inner loop function for a "BlitBg".
+ * The signbture of the inner loop function for b "BlitBg".
  */
 typedef void (BlitBgFunc)(void *pSrc, void *pDst,
                           juint width, juint height, jint bgpixel,
-                          SurfaceDataRasInfo *pSrcInfo,
-                          SurfaceDataRasInfo *pDstInfo,
-                          struct _NativePrimitive *pPrim,
+                          SurfbceDbtbRbsInfo *pSrcInfo,
+                          SurfbceDbtbRbsInfo *pDstInfo,
+                          struct _NbtivePrimitive *pPrim,
                           CompositeInfo *pCompInfo);
 
 /*
- * The signature of the inner loop function for a "ScaleBlit".
+ * The signbture of the inner loop function for b "ScbleBlit".
  */
-typedef void (ScaleBlitFunc)(void *pSrc, void *pDst,
+typedef void (ScbleBlitFunc)(void *pSrc, void *pDst,
                              juint dstwidth, juint dstheight,
                              jint sxloc, jint syloc,
-                             jint sxinc, jint syinc, jint scale,
-                             SurfaceDataRasInfo *pSrcInfo,
-                             SurfaceDataRasInfo *pDstInfo,
-                             struct _NativePrimitive *pPrim,
+                             jint sxinc, jint syinc, jint scble,
+                             SurfbceDbtbRbsInfo *pSrcInfo,
+                             SurfbceDbtbRbsInfo *pDstInfo,
+                             struct _NbtivePrimitive *pPrim,
                              CompositeInfo *pCompInfo);
 
 /*
- * The signature of the inner loop function for a "FillRect".
+ * The signbture of the inner loop function for b "FillRect".
  */
-typedef void (FillRectFunc)(SurfaceDataRasInfo *pRasInfo,
+typedef void (FillRectFunc)(SurfbceDbtbRbsInfo *pRbsInfo,
                             jint lox, jint loy,
                             jint hix, jint hiy,
-                            jint pixel, struct _NativePrimitive *pPrim,
+                            jint pixel, struct _NbtivePrimitive *pPrim,
                             CompositeInfo *pCompInfo);
 
 /*
- * The signature of the inner loop function for a "FillSpans".
+ * The signbture of the inner loop function for b "FillSpbns".
  */
-typedef void (FillSpansFunc)(SurfaceDataRasInfo *pRasInfo,
-                             SpanIteratorFuncs *pSpanFuncs, void *siData,
-                             jint pixel, struct _NativePrimitive *pPrim,
+typedef void (FillSpbnsFunc)(SurfbceDbtbRbsInfo *pRbsInfo,
+                             SpbnIterbtorFuncs *pSpbnFuncs, void *siDbtb,
+                             jint pixel, struct _NbtivePrimitive *pPrim,
                              CompositeInfo *pCompInfo);
 
 /*
- * The signature of the inner loop function for a "DrawLine".
- * Note that this same inner loop is used for native DrawRect
- * and DrawPolygons primitives.
+ * The signbture of the inner loop function for b "DrbwLine".
+ * Note thbt this sbme inner loop is used for nbtive DrbwRect
+ * bnd DrbwPolygons primitives.
  */
-typedef void (DrawLineFunc)(SurfaceDataRasInfo *pRasInfo,
+typedef void (DrbwLineFunc)(SurfbceDbtbRbsInfo *pRbsInfo,
                             jint x1, jint y1, jint pixel,
                             jint steps, jint error,
-                            jint bumpmajormask, jint errmajor,
-                            jint bumpminormask, jint errminor,
-                            struct _NativePrimitive *pPrim,
+                            jint bumpmbjormbsk, jint errmbjor,
+                            jint bumpminormbsk, jint errminor,
+                            struct _NbtivePrimitive *pPrim,
                             CompositeInfo *pCompInfo);
 
 /*
- * The signature of the inner loop function for a "MaskFill".
+ * The signbture of the inner loop function for b "MbskFill".
  */
-typedef void (MaskFillFunc)(void *pRas,
-                            unsigned char *pMask, jint maskOff, jint maskScan,
+typedef void (MbskFillFunc)(void *pRbs,
+                            unsigned chbr *pMbsk, jint mbskOff, jint mbskScbn,
                             jint width, jint height,
                             jint fgColor,
-                            SurfaceDataRasInfo *pRasInfo,
-                            struct _NativePrimitive *pPrim,
+                            SurfbceDbtbRbsInfo *pRbsInfo,
+                            struct _NbtivePrimitive *pPrim,
                             CompositeInfo *pCompInfo);
 
 /*
- * The signature of the inner loop function for a "MaskBlit".
+ * The signbture of the inner loop function for b "MbskBlit".
  */
-typedef void (MaskBlitFunc)(void *pDst, void *pSrc,
-                            unsigned char *pMask, jint maskOff, jint maskScan,
+typedef void (MbskBlitFunc)(void *pDst, void *pSrc,
+                            unsigned chbr *pMbsk, jint mbskOff, jint mbskScbn,
                             jint width, jint height,
-                            SurfaceDataRasInfo *pDstInfo,
-                            SurfaceDataRasInfo *pSrcInfo,
-                            struct _NativePrimitive *pPrim,
+                            SurfbceDbtbRbsInfo *pDstInfo,
+                            SurfbceDbtbRbsInfo *pSrcInfo,
+                            struct _NbtivePrimitive *pPrim,
                             CompositeInfo *pCompInfo);
 /*
- * The signature of the inner loop function for a "DrawGlyphList".
+ * The signbture of the inner loop function for b "DrbwGlyphList".
  */
-typedef void (DrawGlyphListFunc)(SurfaceDataRasInfo *pRasInfo,
-                                 ImageRef *glyphs,
-                                 jint totalGlyphs,
+typedef void (DrbwGlyphListFunc)(SurfbceDbtbRbsInfo *pRbsInfo,
+                                 ImbgeRef *glyphs,
+                                 jint totblGlyphs,
                                  jint fgpixel, jint fgcolor,
                                  jint cx1, jint cy1,
                                  jint cx2, jint cy2,
-                                 struct _NativePrimitive *pPrim,
+                                 struct _NbtivePrimitive *pPrim,
                                  CompositeInfo *pCompInfo);
 
 /*
- * The signature of the inner loop function for a "DrawGlyphListAA".
+ * The signbture of the inner loop function for b "DrbwGlyphListAA".
  */
-typedef void (DrawGlyphListAAFunc)(SurfaceDataRasInfo *pRasInfo,
-                                   ImageRef *glyphs,
-                                   jint totalGlyphs,
+typedef void (DrbwGlyphListAAFunc)(SurfbceDbtbRbsInfo *pRbsInfo,
+                                   ImbgeRef *glyphs,
+                                   jint totblGlyphs,
                                    jint fgpixel, jint fgcolor,
                                    jint cx1, jint cy1,
                                    jint cx2, jint cy2,
-                                   struct _NativePrimitive *pPrim,
+                                   struct _NbtivePrimitive *pPrim,
                                    CompositeInfo *pCompInfo);
 
 /*
- * The signature of the inner loop function for a "DrawGlyphListLCD".
- * rgbOrder is a jint rather than a jboolean so that this typedef matches
- * AnyFunc which is the first element in a union in NativePrimitive's
- * initialiser. See the comments alongside declaration of the AnyFunc type for
- * a full explanation.
+ * The signbture of the inner loop function for b "DrbwGlyphListLCD".
+ * rgbOrder is b jint rbther thbn b jboolebn so thbt this typedef mbtches
+ * AnyFunc which is the first element in b union in NbtivePrimitive's
+ * initibliser. See the comments blongside declbrbtion of the AnyFunc type for
+ * b full explbnbtion.
  */
-typedef void (DrawGlyphListLCDFunc)(SurfaceDataRasInfo *pRasInfo,
-                                    ImageRef *glyphs,
-                                    jint totalGlyphs,
+typedef void (DrbwGlyphListLCDFunc)(SurfbceDbtbRbsInfo *pRbsInfo,
+                                    ImbgeRef *glyphs,
+                                    jint totblGlyphs,
                                     jint fgpixel, jint fgcolor,
                                     jint cx1, jint cy1,
                                     jint cx2, jint cy2,
                                     jint rgbOrder,
-                                    unsigned char *gammaLut,
-                                    unsigned char *invGammaLut,
-                                    struct _NativePrimitive *pPrim,
+                                    unsigned chbr *gbmmbLut,
+                                    unsigned chbr *invGbmmbLut,
+                                    struct _NbtivePrimitive *pPrim,
                                     CompositeInfo *pCompInfo);
 
 /*
- * The signature of the inner loop functions for a "TransformHelper".
+ * The signbture of the inner loop functions for b "TrbnsformHelper".
  */
-typedef void (TransformHelperFunc)(SurfaceDataRasInfo *pSrcInfo,
+typedef void (TrbnsformHelperFunc)(SurfbceDbtbRbsInfo *pSrcInfo,
                                    jint *pRGB, jint numpix,
                                    jlong xlong, jlong dxlong,
                                    jlong ylong, jlong dylong);
 
 typedef struct {
-    TransformHelperFunc         *nnHelper;
-    TransformHelperFunc         *blHelper;
-    TransformHelperFunc         *bcHelper;
-} TransformHelperFuncs;
+    TrbnsformHelperFunc         *nnHelper;
+    TrbnsformHelperFunc         *blHelper;
+    TrbnsformHelperFunc         *bcHelper;
+} TrbnsformHelperFuncs;
 
-typedef void (TransformInterpFunc)(jint *pRGBbase, jint numpix,
-                                   jint xfract, jint dxfract,
-                                   jint yfract, jint dyfract);
+typedef void (TrbnsformInterpFunc)(jint *pRGBbbse, jint numpix,
+                                   jint xfrbct, jint dxfrbct,
+                                   jint yfrbct, jint dyfrbct);
 
 /*
- * The signature of the inner loop function for a "FillParallelogram"
- * Note that this same inner loop is used for native DrawParallelogram
+ * The signbture of the inner loop function for b "FillPbrbllelogrbm"
+ * Note thbt this sbme inner loop is used for nbtive DrbwPbrbllelogrbm
  * primitives.
- * Note that these functions are paired with equivalent DrawLine
- * inner loop functions to facilitate nicer looking and faster thin
- * transformed drawrect calls.
+ * Note thbt these functions bre pbired with equivblent DrbwLine
+ * inner loop functions to fbcilitbte nicer looking bnd fbster thin
+ * trbnsformed drbwrect cblls.
  */
-typedef void (FillParallelogramFunc)(SurfaceDataRasInfo *pRasInfo,
+typedef void (FillPbrbllelogrbmFunc)(SurfbceDbtbRbsInfo *pRbsInfo,
                                      jint lox, jint loy, jint hix, jint hiy,
                                      jlong leftx, jlong dleftx,
                                      jlong rightx, jlong drightx,
-                                     jint pixel, struct _NativePrimitive *pPrim,
+                                     jint pixel, struct _NbtivePrimitive *pPrim,
                                      CompositeInfo *pCompInfo);
 
 typedef struct {
-    FillParallelogramFunc       *fillpgram;
-    DrawLineFunc                *drawline;
-} DrawParallelogramFuncs;
+    FillPbrbllelogrbmFunc       *fillpgrbm;
+    DrbwLineFunc                *drbwline;
+} DrbwPbrbllelogrbmFuncs;
 
 /*
- * This structure contains all information for defining a single
- * native GraphicsPrimitive, including:
- * - The information about the type of the GraphicsPrimitive subclass.
- * - The information about the type of the source surface.
- * - The information about the type of the compositing operation.
- * - The information about the type of the destination surface.
- * - A pointer to the function that performs the actual inner loop work.
- * - Extra flags needed for locking the source and destination surfaces
- *   above and beyond the flags specified in the Primitive, Composite
- *   and SurfaceType structures.  (For most native primitives these
- *   flags can be calculated automatically from information stored in
- *   the PrimitiveType, SurfaceType, and CompositeType structures.)
+ * This structure contbins bll informbtion for defining b single
+ * nbtive GrbphicsPrimitive, including:
+ * - The informbtion bbout the type of the GrbphicsPrimitive subclbss.
+ * - The informbtion bbout the type of the source surfbce.
+ * - The informbtion bbout the type of the compositing operbtion.
+ * - The informbtion bbout the type of the destinbtion surfbce.
+ * - A pointer to the function thbt performs the bctubl inner loop work.
+ * - Extrb flbgs needed for locking the source bnd destinbtion surfbces
+ *   bbove bnd beyond the flbgs specified in the Primitive, Composite
+ *   bnd SurfbceType structures.  (For most nbtive primitives these
+ *   flbgs cbn be cblculbted butombticblly from informbtion stored in
+ *   the PrimitiveType, SurfbceType, bnd CompositeType structures.)
  */
-typedef struct _NativePrimitive {
+typedef struct _NbtivePrimitive {
     PrimitiveType       *pPrimType;
-    SurfaceType         *pSrcType;
+    SurfbceType         *pSrcType;
     CompositeType       *pCompType;
-    SurfaceType         *pDstType;
-    /* See declaration of AnyFunc type above for comments explaining why
-     * only AnyFunc is used by the initializers for these union fields
-     * and consequent type restrictions.
+    SurfbceType         *pDstType;
+    /* See declbrbtion of AnyFunc type bbove for comments explbining why
+     * only AnyFunc is used by the initiblizers for these union fields
+     * bnd consequent type restrictions.
      */
     union {
-        AnyFunc                 *initializer;
+        AnyFunc                 *initiblizer;
         BlitFunc                *blit;
         BlitBgFunc              *blitbg;
-        ScaleBlitFunc           *scaledblit;
+        ScbleBlitFunc           *scbledblit;
         FillRectFunc            *fillrect;
-        FillSpansFunc           *fillspans;
-        FillParallelogramFunc   *fillparallelogram;
-        DrawParallelogramFuncs  *drawparallelogram;
-        DrawLineFunc            *drawline;
-        MaskFillFunc            *maskfill;
-        MaskBlitFunc            *maskblit;
-        DrawGlyphListFunc       *drawglyphlist;
-        DrawGlyphListFunc       *drawglyphlistaa;
-        DrawGlyphListLCDFunc    *drawglyphlistlcd;
-        TransformHelperFuncs    *transformhelpers;
+        FillSpbnsFunc           *fillspbns;
+        FillPbrbllelogrbmFunc   *fillpbrbllelogrbm;
+        DrbwPbrbllelogrbmFuncs  *drbwpbrbllelogrbm;
+        DrbwLineFunc            *drbwline;
+        MbskFillFunc            *mbskfill;
+        MbskBlitFunc            *mbskblit;
+        DrbwGlyphListFunc       *drbwglyphlist;
+        DrbwGlyphListFunc       *drbwglyphlistbb;
+        DrbwGlyphListLCDFunc    *drbwglyphlistlcd;
+        TrbnsformHelperFuncs    *trbnsformhelpers;
     } funcs, funcs_c;
-    jint                srcflags;
-    jint                dstflags;
-} NativePrimitive;
+    jint                srcflbgs;
+    jint                dstflbgs;
+} NbtivePrimitive;
 
 /*
- * This function should be defined to return a pointer to
- * an accelerated version of a primitive function 'func_c'
- * if it exists and to return a copy of the input parameter
+ * This function should be defined to return b pointer to
+ * bn bccelerbted version of b primitive function 'func_c'
+ * if it exists bnd to return b copy of the input pbrbmeter
  * otherwise.
  */
-extern AnyFunc* MapAccelFunction(AnyFunc *func_c);
+extern AnyFunc* MbpAccelFunction(AnyFunc *func_c);
 
 /*
- * The global collection of all primitive types.  Specific NativePrimitive
- * structures can be statically initialized by pointing to these structures.
+ * The globbl collection of bll primitive types.  Specific NbtivePrimitive
+ * structures cbn be stbticblly initiblized by pointing to these structures.
  */
 extern struct _PrimitiveTypes {
     PrimitiveType       Blit;
     PrimitiveType       BlitBg;
-    PrimitiveType       ScaledBlit;
+    PrimitiveType       ScbledBlit;
     PrimitiveType       FillRect;
-    PrimitiveType       FillSpans;
-    PrimitiveType       FillParallelogram;
-    PrimitiveType       DrawParallelogram;
-    PrimitiveType       DrawLine;
-    PrimitiveType       DrawRect;
-    PrimitiveType       DrawPolygons;
-    PrimitiveType       DrawPath;
-    PrimitiveType       FillPath;
-    PrimitiveType       MaskBlit;
-    PrimitiveType       MaskFill;
-    PrimitiveType       DrawGlyphList;
-    PrimitiveType       DrawGlyphListAA;
-    PrimitiveType       DrawGlyphListLCD;
-    PrimitiveType       TransformHelper;
+    PrimitiveType       FillSpbns;
+    PrimitiveType       FillPbrbllelogrbm;
+    PrimitiveType       DrbwPbrbllelogrbm;
+    PrimitiveType       DrbwLine;
+    PrimitiveType       DrbwRect;
+    PrimitiveType       DrbwPolygons;
+    PrimitiveType       DrbwPbth;
+    PrimitiveType       FillPbth;
+    PrimitiveType       MbskBlit;
+    PrimitiveType       MbskFill;
+    PrimitiveType       DrbwGlyphList;
+    PrimitiveType       DrbwGlyphListAA;
+    PrimitiveType       DrbwGlyphListLCD;
+    PrimitiveType       TrbnsformHelper;
 } PrimitiveTypes;
 
 /*
- * The global collection of all surface types.  Specific NativePrimitive
- * structures can be statically initialized by pointing to these structures.
+ * The globbl collection of bll surfbce types.  Specific NbtivePrimitive
+ * structures cbn be stbticblly initiblized by pointing to these structures.
  */
-extern struct _SurfaceTypes {
-    SurfaceType         OpaqueColor;
-    SurfaceType         AnyColor;
-    SurfaceType         AnyByte;
-    SurfaceType         ByteBinary1Bit;
-    SurfaceType         ByteBinary2Bit;
-    SurfaceType         ByteBinary4Bit;
-    SurfaceType         ByteIndexed;
-    SurfaceType         ByteIndexedBm;
-    SurfaceType         ByteGray;
-    SurfaceType         Index8Gray;
-    SurfaceType         Index12Gray;
-    SurfaceType         AnyShort;
-    SurfaceType         Ushort555Rgb;
-    SurfaceType         Ushort555Rgbx;
-    SurfaceType         Ushort565Rgb;
-    SurfaceType         Ushort4444Argb;
-    SurfaceType         UshortGray;
-    SurfaceType         UshortIndexed;
-    SurfaceType         Any3Byte;
-    SurfaceType         ThreeByteBgr;
-    SurfaceType         AnyInt;
-    SurfaceType         IntArgb;
-    SurfaceType         IntArgbPre;
-    SurfaceType         IntArgbBm;
-    SurfaceType         IntRgb;
-    SurfaceType         IntBgr;
-    SurfaceType         IntRgbx;
-    SurfaceType         Any4Byte;
-    SurfaceType         FourByteAbgr;
-    SurfaceType         FourByteAbgrPre;
-} SurfaceTypes;
+extern struct _SurfbceTypes {
+    SurfbceType         OpbqueColor;
+    SurfbceType         AnyColor;
+    SurfbceType         AnyByte;
+    SurfbceType         ByteBinbry1Bit;
+    SurfbceType         ByteBinbry2Bit;
+    SurfbceType         ByteBinbry4Bit;
+    SurfbceType         ByteIndexed;
+    SurfbceType         ByteIndexedBm;
+    SurfbceType         ByteGrby;
+    SurfbceType         Index8Grby;
+    SurfbceType         Index12Grby;
+    SurfbceType         AnyShort;
+    SurfbceType         Ushort555Rgb;
+    SurfbceType         Ushort555Rgbx;
+    SurfbceType         Ushort565Rgb;
+    SurfbceType         Ushort4444Argb;
+    SurfbceType         UshortGrby;
+    SurfbceType         UshortIndexed;
+    SurfbceType         Any3Byte;
+    SurfbceType         ThreeByteBgr;
+    SurfbceType         AnyInt;
+    SurfbceType         IntArgb;
+    SurfbceType         IntArgbPre;
+    SurfbceType         IntArgbBm;
+    SurfbceType         IntRgb;
+    SurfbceType         IntBgr;
+    SurfbceType         IntRgbx;
+    SurfbceType         Any4Byte;
+    SurfbceType         FourByteAbgr;
+    SurfbceType         FourByteAbgrPre;
+} SurfbceTypes;
 
 /*
- * The global collection of all composite types.  Specific NativePrimitive
- * structures can be statically initialized by pointing to these structures.
+ * The globbl collection of bll composite types.  Specific NbtivePrimitive
+ * structures cbn be stbticblly initiblized by pointing to these structures.
  */
 extern struct _CompositeTypes {
-    CompositeType       SrcNoEa;
-    CompositeType       SrcOverNoEa;
-    CompositeType       SrcOverBmNoEa;
+    CompositeType       SrcNoEb;
+    CompositeType       SrcOverNoEb;
+    CompositeType       SrcOverBmNoEb;
     CompositeType       Src;
     CompositeType       SrcOver;
     CompositeType       Xor;
-    CompositeType       AnyAlpha;
+    CompositeType       AnyAlphb;
 } CompositeTypes;
 
-#define ArraySize(A)    (sizeof(A) / sizeof(A[0]))
+#define ArrbySize(A)    (sizeof(A) / sizeof(A[0]))
 
 #define PtrAddBytes(p, b)               ((void *) (((intptr_t) (p)) + (b)))
 #define PtrCoord(p, x, xinc, y, yinc)   PtrAddBytes(p, \
@@ -491,100 +491,100 @@ extern struct _CompositeTypes {
                                                     ((ptrdiff_t)(x))*(xinc))
 
 /*
- * The function to call with an array of NativePrimitive structures
- * to register them with the Java GraphicsPrimitiveMgr.
+ * The function to cbll with bn brrby of NbtivePrimitive structures
+ * to register them with the Jbvb GrbphicsPrimitiveMgr.
  */
-extern jboolean RegisterPrimitives(JNIEnv *env,
-                                   NativePrimitive *pPrim,
+extern jboolebn RegisterPrimitives(JNIEnv *env,
+                                   NbtivePrimitive *pPrim,
                                    jint NumPrimitives);
 
 /*
- * The utility function to retrieve the NativePrimitive structure
- * from a given Java GraphicsPrimitive object.
+ * The utility function to retrieve the NbtivePrimitive structure
+ * from b given Jbvb GrbphicsPrimitive object.
  */
-extern JNIEXPORT NativePrimitive * JNICALL
-GetNativePrim(JNIEnv *env, jobject gp);
+extern JNIEXPORT NbtivePrimitive * JNICALL
+GetNbtivePrim(JNIEnv *env, jobject gp);
 
 /*
- * Utility functions to get values from a Java SunGraphics2D or Color object.
+ * Utility functions to get vblues from b Jbvb SunGrbphics2D or Color object.
  */
 extern JNIEXPORT void JNICALL
 GrPrim_Sg2dGetCompInfo(JNIEnv *env, jobject sg2d,
-                       NativePrimitive *pPrim,
+                       NbtivePrimitive *pPrim,
                        CompositeInfo *pCompInfo);
 extern JNIEXPORT jint JNICALL
 GrPrim_CompGetXorColor(JNIEnv *env, jobject comp);
 extern JNIEXPORT void JNICALL
 GrPrim_CompGetXorInfo(JNIEnv *env, CompositeInfo *pCompInfo, jobject comp);
 extern JNIEXPORT void JNICALL
-GrPrim_CompGetAlphaInfo(JNIEnv *env, CompositeInfo *pCompInfo, jobject comp);
+GrPrim_CompGetAlphbInfo(JNIEnv *env, CompositeInfo *pCompInfo, jobject comp);
 
 extern JNIEXPORT void JNICALL
 GrPrim_Sg2dGetClip(JNIEnv *env, jobject sg2d,
-                   SurfaceDataBounds *bounds);
+                   SurfbceDbtbBounds *bounds);
 
 extern JNIEXPORT jint JNICALL
 GrPrim_Sg2dGetPixel(JNIEnv *env, jobject sg2d);
 extern JNIEXPORT jint JNICALL
-GrPrim_Sg2dGetEaRGB(JNIEnv *env, jobject sg2d);
+GrPrim_Sg2dGetEbRGB(JNIEnv *env, jobject sg2d);
 extern JNIEXPORT jint JNICALL
-GrPrim_Sg2dGetLCDTextContrast(JNIEnv *env, jobject sg2d);
+GrPrim_Sg2dGetLCDTextContrbst(JNIEnv *env, jobject sg2d);
 
 /*
- * Data structure and functions to retrieve and use
- * AffineTransform objects from the native level.
+ * Dbtb structure bnd functions to retrieve bnd use
+ * AffineTrbnsform objects from the nbtive level.
  */
 typedef struct {
-    jdouble dxdx;       /* dx in dest space for each dx in src space */
-    jdouble dxdy;       /* dx in dest space for each dy in src space */
+    jdouble dxdx;       /* dx in dest spbce for ebch dx in src spbce */
+    jdouble dxdy;       /* dx in dest spbce for ebch dy in src spbce */
     jdouble tx;
-    jdouble dydx;       /* dy in dest space for each dx in src space */
-    jdouble dydy;       /* dy in dest space for each dy in src space */
+    jdouble dydx;       /* dy in dest spbce for ebch dx in src spbce */
+    jdouble dydy;       /* dy in dest spbce for ebch dy in src spbce */
     jdouble ty;
-} TransformInfo;
+} TrbnsformInfo;
 
 extern JNIEXPORT void JNICALL
-Transform_GetInfo(JNIEnv *env, jobject txform, TransformInfo *pTxInfo);
+Trbnsform_GetInfo(JNIEnv *env, jobject txform, TrbnsformInfo *pTxInfo);
 extern JNIEXPORT void JNICALL
-Transform_transform(TransformInfo *pTxInfo, jdouble *pX, jdouble *pY);
+Trbnsform_trbnsform(TrbnsformInfo *pTxInfo, jdouble *pX, jdouble *pY);
 
-void GrPrim_RefineBounds(SurfaceDataBounds *bounds, jint transX, jint transY,
-                         jfloat *coords,  jint maxCoords);
+void GrPrim_RefineBounds(SurfbceDbtbBounds *bounds, jint trbnsX, jint trbnsY,
+                         jflobt *coords,  jint mbxCoords);
 
-extern jfieldID path2DTypesID;
-extern jfieldID path2DNumTypesID;
-extern jfieldID path2DWindingRuleID;
-extern jfieldID path2DFloatCoordsID;
+extern jfieldID pbth2DTypesID;
+extern jfieldID pbth2DNumTypesID;
+extern jfieldID pbth2DWindingRuleID;
+extern jfieldID pbth2DFlobtCoordsID;
 extern jfieldID sg2dStrokeHintID;
 extern jint sunHints_INTVAL_STROKE_PURE;
 
 /*
- * Macros for using jlong variables as 32bits.32bits fractional values
+ * Mbcros for using jlong vbribbles bs 32bits.32bits frbctionbl vblues
  */
-#define LongOneHalf     (((jlong) 1) << 31)
+#define LongOneHblf     (((jlong) 1) << 31)
 #define IntToLong(i)    (((jlong) (i)) << 32)
 #define DblToLong(d)    ((jlong) ((d) * IntToLong(1)))
 #define LongToDbl(l)    (((jdouble) l) / IntToLong(1))
 #define WholeOfLong(l)  ((jint) ((l) >> 32))
-#define FractOfLong(l)  ((jint) (l))
+#define FrbctOfLong(l)  ((jint) (l))
 #define URShift(i, n)   (((juint) (i)) >> (n))
 
 /*
- * Macros to help in defining arrays of NativePrimitive structures.
+ * Mbcros to help in defining brrbys of NbtivePrimitive structures.
  *
- * These macros are the very base macros.  More specific macros are
- * defined in LoopMacros.h.
+ * These mbcros bre the very bbse mbcros.  More specific mbcros bre
+ * defined in LoopMbcros.h.
  *
- * Note that the DrawLine, DrawRect, and DrawPolygons primitives are
- * all registered together from a single shared native function pointer.
+ * Note thbt the DrbwLine, DrbwRect, bnd DrbwPolygons primitives bre
+ * bll registered together from b single shbred nbtive function pointer.
  */
 
 #define REGISTER_PRIMITIVE(TYPE, SRC, COMP, DST, FUNC) \
     { \
         & PrimitiveTypes.TYPE, \
-        & SurfaceTypes.SRC, \
+        & SurfbceTypes.SRC, \
         & CompositeTypes.COMP, \
-        & SurfaceTypes.DST, \
+        & SurfbceTypes.DST, \
         {FUNC}, \
         {FUNC}, \
         0,   \
@@ -594,9 +594,9 @@ extern jint sunHints_INTVAL_STROKE_PURE;
 #define REGISTER_PRIMITIVE_FLAGS(TYPE, SRC, COMP, DST, FUNC, SFLAGS, DFLAGS) \
     { \
         & PrimitiveTypes.TYPE, \
-        & SurfaceTypes.SRC, \
+        & SurfbceTypes.SRC, \
         & CompositeTypes.COMP, \
-        & SurfaceTypes.DST, \
+        & SurfbceTypes.DST, \
         {FUNC}, \
         {FUNC}, \
         SFLAGS, \
@@ -610,10 +610,10 @@ extern jint sunHints_INTVAL_STROKE_PURE;
     REGISTER_PRIMITIVE_FLAGS(Blit, SRC, COMP, DST, FUNC, SFLAGS, DFLAGS)
 
 #define REGISTER_SCALEBLIT(SRC, COMP, DST, FUNC) \
-    REGISTER_PRIMITIVE(ScaledBlit, SRC, COMP, DST, FUNC)
+    REGISTER_PRIMITIVE(ScbledBlit, SRC, COMP, DST, FUNC)
 
 #define REGISTER_SCALEBLIT_FLAGS(SRC, COMP, DST, FUNC, SFLAGS, DFLAGS) \
-    REGISTER_PRIMITIVE_FLAGS(ScaledBlit, SRC, COMP, DST, FUNC, SFLAGS, DFLAGS)
+    REGISTER_PRIMITIVE_FLAGS(ScbledBlit, SRC, COMP, DST, FUNC, SFLAGS, DFLAGS)
 
 #define REGISTER_BLITBG(SRC, COMP, DST, FUNC) \
     REGISTER_PRIMITIVE(BlitBg, SRC, COMP, DST, FUNC)
@@ -622,36 +622,36 @@ extern jint sunHints_INTVAL_STROKE_PURE;
     REGISTER_PRIMITIVE(FillRect, SRC, COMP, DST, FUNC)
 
 #define REGISTER_FILLSPANS(SRC, COMP, DST, FUNC) \
-    REGISTER_PRIMITIVE(FillSpans, SRC, COMP, DST, FUNC)
+    REGISTER_PRIMITIVE(FillSpbns, SRC, COMP, DST, FUNC)
 
 #define REGISTER_FILLPGRAM(SRC, COMP, DST, FUNC) \
-    REGISTER_PRIMITIVE(FillParallelogram, SRC, COMP, DST, FUNC), \
-    REGISTER_PRIMITIVE(DrawParallelogram, SRC, COMP, DST, FUNC)
+    REGISTER_PRIMITIVE(FillPbrbllelogrbm, SRC, COMP, DST, FUNC), \
+    REGISTER_PRIMITIVE(DrbwPbrbllelogrbm, SRC, COMP, DST, FUNC)
 
 #define REGISTER_LINE_PRIMITIVES(SRC, COMP, DST, FUNC) \
-    REGISTER_PRIMITIVE(DrawLine, SRC, COMP, DST, FUNC), \
-    REGISTER_PRIMITIVE(DrawRect, SRC, COMP, DST, FUNC), \
-    REGISTER_PRIMITIVE(DrawPolygons, SRC, COMP, DST, FUNC), \
-    REGISTER_PRIMITIVE(DrawPath, SRC, COMP, DST, FUNC), \
-    REGISTER_PRIMITIVE(FillPath, SRC, COMP, DST, FUNC)
+    REGISTER_PRIMITIVE(DrbwLine, SRC, COMP, DST, FUNC), \
+    REGISTER_PRIMITIVE(DrbwRect, SRC, COMP, DST, FUNC), \
+    REGISTER_PRIMITIVE(DrbwPolygons, SRC, COMP, DST, FUNC), \
+    REGISTER_PRIMITIVE(DrbwPbth, SRC, COMP, DST, FUNC), \
+    REGISTER_PRIMITIVE(FillPbth, SRC, COMP, DST, FUNC)
 
 #define REGISTER_MASKBLIT(SRC, COMP, DST, FUNC) \
-    REGISTER_PRIMITIVE(MaskBlit, SRC, COMP, DST, FUNC)
+    REGISTER_PRIMITIVE(MbskBlit, SRC, COMP, DST, FUNC)
 
 #define REGISTER_MASKFILL(SRC, COMP, DST, FUNC) \
-    REGISTER_PRIMITIVE(MaskFill, SRC, COMP, DST, FUNC)
+    REGISTER_PRIMITIVE(MbskFill, SRC, COMP, DST, FUNC)
 
 #define REGISTER_DRAWGLYPHLIST(SRC, COMP, DST, FUNC) \
-    REGISTER_PRIMITIVE(DrawGlyphList, SRC, COMP, DST, FUNC)
+    REGISTER_PRIMITIVE(DrbwGlyphList, SRC, COMP, DST, FUNC)
 
 #define REGISTER_DRAWGLYPHLISTAA(SRC, COMP, DST, FUNC) \
-    REGISTER_PRIMITIVE(DrawGlyphListAA, SRC, COMP, DST, FUNC)
+    REGISTER_PRIMITIVE(DrbwGlyphListAA, SRC, COMP, DST, FUNC)
 
 #define REGISTER_DRAWGLYPHLISTLCD(SRC, COMP, DST, FUNC) \
-    REGISTER_PRIMITIVE(DrawGlyphListLCD, SRC, COMP, DST, FUNC)
+    REGISTER_PRIMITIVE(DrbwGlyphListLCD, SRC, COMP, DST, FUNC)
 
 #ifdef __cplusplus
 };
 #endif
 
-#endif /* GraphicsPrimitiveMgr_h_Included */
+#endif /* GrbphicsPrimitiveMgr_h_Included */

@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTION
- *      Image affine transformation with Bicubic filtering
+ *      Imbge bffine trbnsformbtion with Bicubic filtering
  * SYNOPSIS
- *      mlib_status mlib_ImageAffine_[s32|f32|d64]_?ch_bc(mlib_s32 *leftEdges,
+ *      mlib_stbtus mlib_ImbgeAffine_[s32|f32|d64]_?ch_bc(mlib_s32 *leftEdges,
  *                                                        mlib_s32 *rightEdges,
- *                                                        mlib_s32 *xStarts,
- *                                                        mlib_s32 *yStarts,
+ *                                                        mlib_s32 *xStbrts,
+ *                                                        mlib_s32 *yStbrts,
  *                                                        mlib_s32 *sides,
- *                                                        mlib_u8  *dstData,
+ *                                                        mlib_u8  *dstDbtb,
  *                                                        mlib_u8  **lineAddr,
  *                                                        mlib_s32 dstYStride,
- *                                                        mlib_s32 is_affine,
+ *                                                        mlib_s32 is_bffine,
  *                                                        mlib_s32 srcYStride,
  *                                                        mlib_filter filter)
  *
  *
  * ARGUMENTS
- *      leftEdges  array[dstHeight] of xLeft coordinates
- *      RightEdges array[dstHeight] of xRight coordinates
- *      xStarts    array[dstHeight] of xStart * 65536 coordinates
- *      yStarts    array[dstHeight] of yStart * 65536 coordinates
- *      sides      output array[4]. sides[0] is yStart, sides[1] is yFinish,
+ *      leftEdges  brrby[dstHeight] of xLeft coordinbtes
+ *      RightEdges brrby[dstHeight] of xRight coordinbtes
+ *      xStbrts    brrby[dstHeight] of xStbrt * 65536 coordinbtes
+ *      yStbrts    brrby[dstHeight] of yStbrt * 65536 coordinbtes
+ *      sides      output brrby[4]. sides[0] is yStbrt, sides[1] is yFinish,
  *                 sides[2] is dx * 65536, sides[3] is dy * 65536
- *      dstData    pointer to the first pixel on (yStart - 1) line
- *      lineAddr   array[srcHeight] of pointers to the first pixel on
+ *      dstDbtb    pointer to the first pixel on (yStbrt - 1) line
+ *      lineAddr   brrby[srcHeight] of pointers to the first pixel on
  *                 the corresponding lines
- *      dstYStride stride of destination image
- *      is_affine  indicator (Affine - GridWarp)
- *      srcYStride stride of source image
- *      filter     type of resampling filter
+ *      dstYStride stride of destinbtion imbge
+ *      is_bffine  indicbtor (Affine - GridWbrp)
+ *      srcYStride stride of source imbge
+ *      filter     type of resbmpling filter
  *
  * DESCRIPTION
- *      The functions step along the lines from xLeft to xRight and apply
- *      the Bicubic and Bicubic2 filtering.
+ *      The functions step blong the lines from xLeft to xRight bnd bpply
+ *      the Bicubic bnd Bicubic2 filtering.
  *
  */
 
-#include "mlib_ImageAffine.h"
+#include "mlib_ImbgeAffine.h"
 
 #define IMG_TYPE  5
 
@@ -72,7 +72,7 @@
 #define DTYPE  mlib_s32
 #define FTYPE  mlib_d64
 
-#define FUN_NAME(CHAN) mlib_ImageAffine_s32_##CHAN##_bc
+#define FUN_NAME(CHAN) mlib_ImbgeAffine_s32_##CHAN##_bc
 
 #define STORE(res, x) SAT32(res)
 
@@ -81,7 +81,7 @@
 #define DTYPE  mlib_f32
 #define FTYPE  DTYPE
 
-#define FUN_NAME(CHAN) mlib_ImageAffine_f32_##CHAN##_bc
+#define FUN_NAME(CHAN) mlib_ImbgeAffine_f32_##CHAN##_bc
 
 #define STORE(res, x) res = (x)
 
@@ -90,7 +90,7 @@
 #define DTYPE  mlib_d64
 #define FTYPE  DTYPE
 
-#define FUN_NAME(CHAN) mlib_ImageAffine_d64_##CHAN##_bc
+#define FUN_NAME(CHAN) mlib_ImbgeAffine_d64_##CHAN##_bc
 
 #define STORE(res, x) res = (x)
 
@@ -98,8 +98,8 @@
 
 /***************************************************************/
 #define CREATE_COEF_BICUBIC( X, Y, OPERATOR )                   \
-  dx = (X & MLIB_MASK) * scale;                                 \
-  dy = (Y & MLIB_MASK) * scale;                                 \
+  dx = (X & MLIB_MASK) * scble;                                 \
+  dy = (Y & MLIB_MASK) * scble;                                 \
   dx_2  = ((FTYPE)0.5)  * dx;                                   \
   dy_2  = ((FTYPE)0.5)  * dy;                                   \
   dx2   = dx   * dx;    dy2   = dy   * dy;                      \
@@ -121,8 +121,8 @@
 
 /***************************************************************/
 #define CREATE_COEF_BICUBIC_2( X, Y, OPERATOR )                 \
-  dx = (X & MLIB_MASK) * scale;                                 \
-  dy = (Y & MLIB_MASK) * scale;                                 \
+  dx = (X & MLIB_MASK) * scble;                                 \
+  dy = (Y & MLIB_MASK) * scble;                                 \
   dx2   = dx  * dx;    dy2   = dy  * dy;                        \
   dx3_2 = dx  * dx2;   dy3_2 = dy  * dy2;                       \
   dx3_3 = ((FTYPE)2.0) * dx2;                                   \
@@ -141,23 +141,23 @@
   yf3 = dy3_2 - dy2
 
 /***************************************************************/
-mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(1ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_BC();
   DTYPE *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     FTYPE xf0, xf1, xf2, xf3;
     FTYPE yf0, yf1, yf2, yf3;
     FTYPE dx, dx_2, dx2, dx3_2, dx3_3;
     FTYPE dy, dy_2, dy2, dy3_2, dy3_3;
-    FTYPE c0, c1, c2, c3, val0;
-    FTYPE scale = 1 / 65536.f;
+    FTYPE c0, c1, c2, c3, vbl0;
+    FTYPE scble = 1 / 65536.f;
     FTYPE s0, s1, s2, s3;
     FTYPE s4, s5, s6, s7;
 
     CLIP(1);
-    dstLineEnd = (DTYPE *) dstData + xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + xRight;
 
     if (filter == MLIB_BICUBIC) {
       CREATE_COEF_BICUBIC(X, Y,;);
@@ -195,9 +195,9 @@ mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
         c3 = (srcPixelPtr[0] * xf0 + srcPixelPtr[1] * xf1 +
               srcPixelPtr[2] * xf2 + srcPixelPtr[3] * xf3);
 
-        CREATE_COEF_BICUBIC(X, Y, val0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
+        CREATE_COEF_BICUBIC(X, Y, vbl0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
 
-        STORE(dstPixelPtr[0], val0);
+        STORE(dstPixelPtr[0], vbl0);
 
         xSrc = (X >> MLIB_SHIFT) - 1;
         ySrc = (Y >> MLIB_SHIFT) - 1;
@@ -230,9 +230,9 @@ mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
         c3 = (srcPixelPtr[0] * xf0 + srcPixelPtr[1] * xf1 +
               srcPixelPtr[2] * xf2 + srcPixelPtr[3] * xf3);
 
-        CREATE_COEF_BICUBIC_2(X, Y, val0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
+        CREATE_COEF_BICUBIC_2(X, Y, vbl0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
 
-        STORE(dstPixelPtr[0], val0);
+        STORE(dstPixelPtr[0], vbl0);
 
         xSrc = (X >> MLIB_SHIFT) - 1;
         ySrc = (Y >> MLIB_SHIFT) - 1;
@@ -260,32 +260,32 @@ mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
     c3 = (srcPixelPtr[0] * xf0 + srcPixelPtr[1] * xf1 +
           srcPixelPtr[2] * xf2 + srcPixelPtr[3] * xf3);
 
-    val0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3);
-    STORE(dstPixelPtr[0], val0);
+    vbl0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3);
+    STORE(dstPixelPtr[0], vbl0);
   }
 
   return MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(2ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_BC();
   DTYPE *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     FTYPE xf0, xf1, xf2, xf3;
     FTYPE yf0, yf1, yf2, yf3;
     FTYPE dx, dx_2, dx2, dx3_2, dx3_3;
     FTYPE dy, dy_2, dy2, dy3_2, dy3_3;
-    FTYPE c0, c1, c2, c3, val0;
-    FTYPE scale = 1 / 65536.f;
+    FTYPE c0, c1, c2, c3, vbl0;
+    FTYPE scble = 1 / 65536.f;
     FTYPE s0, s1, s2, s3;
     FTYPE s4, s5, s6, s7;
     mlib_s32 k;
 
     CLIP(2);
-    dstLineEnd = (DTYPE *) dstData + 2 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 2 * xRight;
 
     for (k = 0; k < 2; k++) {
       mlib_s32 X1 = X;
@@ -328,9 +328,9 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
           c3 = (srcPixelPtr[0] * xf0 + srcPixelPtr[2] * xf1 +
                 srcPixelPtr[4] * xf2 + srcPixelPtr[6] * xf3);
 
-          CREATE_COEF_BICUBIC(X1, Y1, val0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
+          CREATE_COEF_BICUBIC(X1, Y1, vbl0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
 
-          STORE(dPtr[0], val0);
+          STORE(dPtr[0], vbl0);
 
           xSrc = (X1 >> MLIB_SHIFT) - 1;
           ySrc = (Y1 >> MLIB_SHIFT) - 1;
@@ -363,9 +363,9 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
           c3 = (srcPixelPtr[0] * xf0 + srcPixelPtr[2] * xf1 +
                 srcPixelPtr[4] * xf2 + srcPixelPtr[6] * xf3);
 
-          CREATE_COEF_BICUBIC_2(X1, Y1, val0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
+          CREATE_COEF_BICUBIC_2(X1, Y1, vbl0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
 
-            STORE(dPtr[0], val0);
+            STORE(dPtr[0], vbl0);
 
           xSrc = (X1 >> MLIB_SHIFT) - 1;
           ySrc = (Y1 >> MLIB_SHIFT) - 1;
@@ -393,8 +393,8 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
       c3 = (srcPixelPtr[0] * xf0 + srcPixelPtr[2] * xf1 +
             srcPixelPtr[4] * xf2 + srcPixelPtr[6] * xf3);
 
-      val0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3);
-      STORE(dPtr[0], val0);
+      vbl0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3);
+      STORE(dPtr[0], vbl0);
     }
   }
 
@@ -402,24 +402,24 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(3ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_BC();
   DTYPE *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     FTYPE xf0, xf1, xf2, xf3;
     FTYPE yf0, yf1, yf2, yf3;
     FTYPE dx, dx_2, dx2, dx3_2, dx3_3;
     FTYPE dy, dy_2, dy2, dy3_2, dy3_3;
-    FTYPE c0, c1, c2, c3, val0;
-    FTYPE scale = 1 / 65536.f;
+    FTYPE c0, c1, c2, c3, vbl0;
+    FTYPE scble = 1 / 65536.f;
     FTYPE s0, s1, s2, s3;
     FTYPE s4, s5, s6, s7;
     mlib_s32 k;
 
     CLIP(3);
-    dstLineEnd = (DTYPE *) dstData + 3 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 3 * xRight;
 
     for (k = 0; k < 3; k++) {
       mlib_s32 X1 = X;
@@ -462,9 +462,9 @@ mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
           c3 = (srcPixelPtr[0] * xf0 + srcPixelPtr[3] * xf1 +
                 srcPixelPtr[6] * xf2 + srcPixelPtr[9] * xf3);
 
-          CREATE_COEF_BICUBIC(X1, Y1, val0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
+          CREATE_COEF_BICUBIC(X1, Y1, vbl0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
 
-          STORE(dPtr[0], val0);
+          STORE(dPtr[0], vbl0);
 
           xSrc = (X1 >> MLIB_SHIFT) - 1;
           ySrc = (Y1 >> MLIB_SHIFT) - 1;
@@ -497,9 +497,9 @@ mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
           c3 = (srcPixelPtr[0] * xf0 + srcPixelPtr[3] * xf1 +
                 srcPixelPtr[6] * xf2 + srcPixelPtr[9] * xf3);
 
-          CREATE_COEF_BICUBIC_2(X1, Y1, val0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
+          CREATE_COEF_BICUBIC_2(X1, Y1, vbl0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
 
-            STORE(dPtr[0], val0);
+            STORE(dPtr[0], vbl0);
 
           xSrc = (X1 >> MLIB_SHIFT) - 1;
           ySrc = (Y1 >> MLIB_SHIFT) - 1;
@@ -527,8 +527,8 @@ mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
       c3 = (srcPixelPtr[0] * xf0 + srcPixelPtr[3] * xf1 +
             srcPixelPtr[6] * xf2 + srcPixelPtr[9] * xf3);
 
-      val0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3);
-      STORE(dPtr[0], val0);
+      vbl0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3);
+      STORE(dPtr[0], vbl0);
     }
   }
 
@@ -536,24 +536,24 @@ mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(4ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_BC();
   DTYPE *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     FTYPE xf0, xf1, xf2, xf3;
     FTYPE yf0, yf1, yf2, yf3;
     FTYPE dx, dx_2, dx2, dx3_2, dx3_3;
     FTYPE dy, dy_2, dy2, dy3_2, dy3_3;
-    FTYPE c0, c1, c2, c3, val0;
-    FTYPE scale = 1 / 65536.f;
+    FTYPE c0, c1, c2, c3, vbl0;
+    FTYPE scble = 1 / 65536.f;
     FTYPE s0, s1, s2, s3;
     FTYPE s4, s5, s6, s7;
     mlib_s32 k;
 
     CLIP(4);
-    dstLineEnd = (DTYPE *) dstData + 4 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 4 * xRight;
 
     for (k = 0; k < 4; k++) {
       mlib_s32 X1 = X;
@@ -597,9 +597,9 @@ mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
           c3 = (srcPixelPtr[0] * xf0 + srcPixelPtr[4] * xf1 +
                 srcPixelPtr[8] * xf2 + srcPixelPtr[12] * xf3);
 
-          CREATE_COEF_BICUBIC(X1, Y1, val0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
+          CREATE_COEF_BICUBIC(X1, Y1, vbl0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
 
-          STORE(dPtr[0], val0);
+          STORE(dPtr[0], vbl0);
 
           xSrc = (X1 >> MLIB_SHIFT) - 1;
           ySrc = (Y1 >> MLIB_SHIFT) - 1;
@@ -633,9 +633,9 @@ mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
           c3 = (srcPixelPtr[0] * xf0 + srcPixelPtr[4] * xf1 +
                 srcPixelPtr[8] * xf2 + srcPixelPtr[12] * xf3);
 
-          CREATE_COEF_BICUBIC_2(X1, Y1, val0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
+          CREATE_COEF_BICUBIC_2(X1, Y1, vbl0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3));
 
-            STORE(dPtr[0], val0);
+            STORE(dPtr[0], vbl0);
 
           xSrc = (X1 >> MLIB_SHIFT) - 1;
           ySrc = (Y1 >> MLIB_SHIFT) - 1;
@@ -663,8 +663,8 @@ mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
       c3 = (srcPixelPtr[0] * xf0 + srcPixelPtr[4] * xf1 +
             srcPixelPtr[8] * xf2 + srcPixelPtr[12] * xf3);
 
-      val0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3);
-      STORE(dPtr[0], val0);
+      vbl0 = (c0 * yf0 + c1 * yf1 + c2 * yf2 + c3 * yf3);
+      STORE(dPtr[0], vbl0);
     }
   }
 

@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto.spec;
+pbckbge jbvbx.crypto.spec;
 
 /**
- * This class specifies the source for encoding input P in OAEP Padding,
- * as defined in the
- * <a href="http://www.ietf.org/rfc/rfc3447.txt">PKCS #1</a>
- * standard.
+ * This clbss specifies the source for encoding input P in OAEP Pbdding,
+ * bs defined in the
+ * <b href="http://www.ietf.org/rfc/rfc3447.txt">PKCS #1</b>
+ * stbndbrd.
  * <pre>
  * PKCS1PSourceAlgorithms    ALGORITHM-IDENTIFIER ::= {
  *   { OID id-pSpecified PARAMETERS OCTET STRING },
- *   ...  -- Allows for future expansion --
+ *   ...  -- Allows for future expbnsion --
  * }
  * </pre>
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  *
  * @since 1.5
  */
-public class PSource {
+public clbss PSource {
 
-    private String pSrcName;
+    privbte String pSrcNbme;
 
     /**
-     * Constructs a source of the encoding input P for OAEP
-     * padding as defined in the PKCS #1 standard using the
-     * specified PSource algorithm.
-     * @param pSrcName the algorithm for the source of the
+     * Constructs b source of the encoding input P for OAEP
+     * pbdding bs defined in the PKCS #1 stbndbrd using the
+     * specified PSource blgorithm.
+     * @pbrbm pSrcNbme the blgorithm for the source of the
      * encoding input P.
-     * @exception NullPointerException if <code>pSrcName</code>
+     * @exception NullPointerException if <code>pSrcNbme</code>
      * is null.
      */
-    protected PSource(String pSrcName) {
-        if (pSrcName == null) {
-            throw new NullPointerException("pSource algorithm is null");
+    protected PSource(String pSrcNbme) {
+        if (pSrcNbme == null) {
+            throw new NullPointerException("pSource blgorithm is null");
         }
-        this.pSrcName = pSrcName;
+        this.pSrcNbme = pSrcNbme;
     }
     /**
-     * Returns the PSource algorithm name.
+     * Returns the PSource blgorithm nbme.
      *
-     * @return the PSource algorithm name.
+     * @return the PSource blgorithm nbme.
      */
     public String getAlgorithm() {
-        return pSrcName;
+        return pSrcNbme;
     }
 
     /**
-     * This class is used to explicitly specify the value for
-     * encoding input P in OAEP Padding.
+     * This clbss is used to explicitly specify the vblue for
+     * encoding input P in OAEP Pbdding.
      *
      * @since 1.5
      */
-    public static final class PSpecified extends PSource {
+    public stbtic finbl clbss PSpecified extends PSource {
 
-        private byte[] p = new byte[0];
+        privbte byte[] p = new byte[0];
 
         /**
-         * The encoding input P whose value equals byte[0].
+         * The encoding input P whose vblue equbls byte[0].
          */
-        public static final PSpecified DEFAULT = new PSpecified(new byte[0]);
+        public stbtic finbl PSpecified DEFAULT = new PSpecified(new byte[0]);
 
         /**
          * Constructs the source explicitly with the specified
-         * value <code>p</code> as the encoding input P.
+         * vblue <code>p</code> bs the encoding input P.
          * Note:
-         * @param p the value of the encoding input. The contents
-         * of the array are copied to protect against subsequent
-         * modification.
+         * @pbrbm p the vblue of the encoding input. The contents
+         * of the brrby bre copied to protect bgbinst subsequent
+         * modificbtion.
          * @exception NullPointerException if <code>p</code> is null.
          */
         public PSpecified(byte[] p) {
@@ -97,11 +97,11 @@ public class PSource {
             this.p = p.clone();
         }
         /**
-         * Returns the value of encoding input P.
-         * @return the value of encoding input P. A new array is
-         * returned each time this method is called.
+         * Returns the vblue of encoding input P.
+         * @return the vblue of encoding input P. A new brrby is
+         * returned ebch time this method is cblled.
          */
-        public byte[] getValue() {
+        public byte[] getVblue() {
             return (p.length==0? p: p.clone());
         }
     }

@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 //
-//    Most of this is adapted from Ken Ferry's KFAppleScript Additions, contributed with permission
-//    http://homepage.mac.com/kenferry/software.html
+//    Most of this is bdbpted from Ken Ferry's KFAppleScript Additions, contributed with permission
+//    http://homepbge.mbc.com/kenferry/softwbre.html
 //
 
 #import "AS_NS_ConversionUtils.h"
 
-#import <Cocoa/Cocoa.h>
-#import <Carbon/Carbon.h>
+#import <Cocob/Cocob.h>
+#import <Cbrbon/Cbrbon.h>
 
 
-@interface NSAppleEventDescriptor (JavaAppleScriptEngineAdditionsPrivate)
+@interfbce NSAppleEventDescriptor (JbvbAppleScriptEngineAdditionsPrivbte)
 
-// just returns self.  This means that you can pass custom descriptors
-// to -[NSAppleScript executeHandler:error:withParameters:].
-- (NSAppleEventDescriptor *)aeDescriptorValue;
+// just returns self.  This mebns thbt you cbn pbss custom descriptors
+// to -[NSAppleScript executeHbndler:error:withPbrbmeters:].
+- (NSAppleEventDescriptor *)beDescriptorVblue;
 
 // working with primitive descriptor types
-+ (id)descriptorWithInt16:(SInt16)val;
-- (SInt16)int16Value;
-+ (id)descriptorWithUnsignedInt32:(UInt32)val;
-- (UInt32)unsignedInt32Value;
-+ (id)descriptorWithFloat32:(Float32)val;
-- (Float32)float32Value;
-+ (id)descriptorWithFloat64:(Float64)val;
-- (Float64)float64Value;
-+ (id)descriptorWithLongDateTime:(LongDateTime)val;
-- (LongDateTime)longDateTimeValue;
++ (id)descriptorWithInt16:(SInt16)vbl;
+- (SInt16)int16Vblue;
++ (id)descriptorWithUnsignedInt32:(UInt32)vbl;
+- (UInt32)unsignedInt32Vblue;
++ (id)descriptorWithFlobt32:(Flobt32)vbl;
+- (Flobt32)flobt32Vblue;
++ (id)descriptorWithFlobt64:(Flobt64)vbl;
+- (Flobt64)flobt64Vblue;
++ (id)descriptorWithLongDbteTime:(LongDbteTime)vbl;
+- (LongDbteTime)longDbteTimeVblue;
 
 
-// These are the methods for converting AS objects to objective-C objects.
-// -[NSAppleEventDescriptor objCObjectValue] is the general method for converting
-// AS objects to ObjC objects, and is called by -[NSAppleScript executeHandler:error:withParameters:].
-// It does no work itself.  It finds a handler based on the type of the descriptor and lets that
-// handler object do the work.  If there is no handler type registered for a the type of a descriptor,
-// the raw descriptor is returned.
+// These bre the methods for converting AS objects to objective-C objects.
+// -[NSAppleEventDescriptor objCObjectVblue] is the generbl method for converting
+// AS objects to ObjC objects, bnd is cblled by -[NSAppleScript executeHbndler:error:withPbrbmeters:].
+// It does no work itself.  It finds b hbndler bbsed on the type of the descriptor bnd lets thbt
+// hbndler object do the work.  If there is no hbndler type registered for b the type of b descriptor,
+// the rbw descriptor is returned.
 //
-// You can designate a handlers for descriptor types with
-// +[NSAppleEventDescriptor registerConversionHandler:selector:forDescriptorTypes:].  Please note
-// that this method does _not_ retain the handler object (for now anyway).  The selector should
-// take a single argument, a descriptor to translate, and should return an object.  An example such
-// selector is @selector(dictionaryWithAEDesc:), for which the handler object would be [NSDictionary class].
+// You cbn designbte b hbndlers for descriptor types with
+// +[NSAppleEventDescriptor registerConversionHbndler:selector:forDescriptorTypes:].  Plebse note
+// thbt this method does _not_ retbin the hbndler object (for now bnywby).  The selector should
+// tbke b single brgument, b descriptor to trbnslbte, bnd should return bn object.  An exbmple such
+// selector is @selector(dictionbryWithAEDesc:), for which the hbndler object would be [NSDictionbry clbss].
 //
-// A number of handlers are designated by default.  The methods and objects can be easily inferred (or check
-// the implementation), but the automatically handled types are
+// A number of hbndlers bre designbted by defbult.  The methods bnd objects cbn be ebsily inferred (or check
+// the implementbtion), but the butombticblly hbndled types bre
 //    typeUnicodeText,
 //    typeText,
 //    typeUTF8Text,
 //    typeCString,
-//    typeChar,
-//    typeBoolean,
+//    typeChbr,
+//    typeBoolebn,
 //    typeTrue,
-//    typeFalse,
+//    typeFblse,
 //    typeSInt16,
 //    typeSInt32,
 //    typeUInt32,
 //    typeSInt64,
-//    typeIEEE32BitFloatingPoint,
-//    typeIEEE64BitFloatingPoint,
-//    type128BitFloatingPoint,
+//    typeIEEE32BitFlobtingPoint,
+//    typeIEEE64BitFlobtingPoint,
+//    type128BitFlobtingPoint,
 //    typeAEList,
 //    typeAERecord,
-//    typeLongDateTime,
+//    typeLongDbteTime,
 //    typeNull.
-+ (void)registerConversionHandler:(id)anObject selector:(SEL)aSelector forDescriptorTypes:(DescType)firstType, ...;
-+ (void) jaseSetUpHandlerDict;
++ (void)registerConversionHbndler:(id)bnObject selector:(SEL)bSelector forDescriptorTypes:(DescType)firstType, ...;
++ (void) jbseSetUpHbndlerDict;
 @end
 
-// wrap the NSAppleEventDescriptor string methods
-@interface NSString (JavaAppleScriptEngineAdditions)
-- (NSAppleEventDescriptor *)aeDescriptorValue;
+// wrbp the NSAppleEventDescriptor string methods
+@interfbce NSString (JbvbAppleScriptEngineAdditions)
+- (NSAppleEventDescriptor *)beDescriptorVblue;
 + (NSString *)stringWithAEDesc:(NSAppleEventDescriptor *)desc;
 @end
 
-// wrap the NSAppleEventDescriptor longDateTime methods
-@interface NSDate (JavaAppleScriptEngineAdditions)
-- (NSAppleEventDescriptor *)aeDescriptorValue;
-+ (NSDate *)dateWithAEDesc:(NSAppleEventDescriptor *)desc;
+// wrbp the NSAppleEventDescriptor longDbteTime methods
+@interfbce NSDbte (JbvbAppleScriptEngineAdditions)
+- (NSAppleEventDescriptor *)beDescriptorVblue;
++ (NSDbte *)dbteWithAEDesc:(NSAppleEventDescriptor *)desc;
 @end
 
-// these are fairly complicated methods, due to having to try to match up the various
+// these bre fbirly complicbted methods, due to hbving to try to mbtch up the vbrious
 // AS number types (see NSAppleEventDescriptor for the primitive number methods)
-// with NSNumber variants.  For complete behavior it's best to look at the implementation.
+// with NSNumber vbribnts.  For complete behbvior it's best to look bt the implementbtion.
 // Some notes:
-//    NSNumbers created with numberWithBool should be correctly translated to AS booleans and vice versa.
-//    NSNumbers created with large integer types may have to be translated to AS doubles,
-//      so be careful if checking equality (you may have to check equality within epsilon).
-//    Since NSNumbers can't remember if they were created with an unsigned value,
-//      [[NSNumber numberWithUnsignedChar:255] aeDescriptorValue] is going to get you an AS integer
-//      with value -1.  If you really need a descriptor with an unsigned value, you'll need to do it
-//      manually using the primitive methods on NSAppleEventDescriptor.  The resulting descriptor
-//      can still be passed to AS with -[NSAppleScript executeHandler:error:withParameters:].
-@interface NSNumber (JavaAppleScriptEngineAdditions)
-- (NSAppleEventDescriptor *)aeDescriptorValue;
+//    NSNumbers crebted with numberWithBool should be correctly trbnslbted to AS boolebns bnd vice versb.
+//    NSNumbers crebted with lbrge integer types mby hbve to be trbnslbted to AS doubles,
+//      so be cbreful if checking equblity (you mby hbve to check equblity within epsilon).
+//    Since NSNumbers cbn't remember if they were crebted with bn unsigned vblue,
+//      [[NSNumber numberWithUnsignedChbr:255] beDescriptorVblue] is going to get you bn AS integer
+//      with vblue -1.  If you reblly need b descriptor with bn unsigned vblue, you'll need to do it
+//      mbnublly using the primitive methods on NSAppleEventDescriptor.  The resulting descriptor
+//      cbn still be pbssed to AS with -[NSAppleScript executeHbndler:error:withPbrbmeters:].
+@interfbce NSNumber (JbvbAppleScriptEngineAdditions)
+- (NSAppleEventDescriptor *)beDescriptorVblue;
 + (id)numberWithAEDesc:(NSAppleEventDescriptor *)desc;
 @end
 
-// Here we're following the behavior described in the CocoaScripting release note.
+// Here we're following the behbvior described in the CocobScripting relebse note.
 //
 // NSPoint -> list of two numbers: {x, y}
-// NSRange -> list of two numbers: {begin offset, end offset}
+// NSRbnge -> list of two numbers: {begin offset, end offset}
 // NSRect  -> list of four numbers: {left, bottom, right, top}
 // NSSize  -> list of two numbers: {width, height}
-@interface NSValue (JavaAppleScriptEngineAdditions)
-- (NSAppleEventDescriptor *)aeDescriptorValue;
+@interfbce NSVblue (JbvbAppleScriptEngineAdditions)
+- (NSAppleEventDescriptor *)beDescriptorVblue;
 @end
 
-// No need for ObjC -> AS conversion here, we fall through to NSObject as a collection.
-// For AS -> ObjC conversion, we build an array using the primitive list methods on
+// No need for ObjC -> AS conversion here, we fbll through to NSObject bs b collection.
+// For AS -> ObjC conversion, we build bn brrby using the primitive list methods on
 // NSAppleEventDescriptor.
-@interface NSArray (JavaAppleScriptEngineAdditions)
-+ (NSArray *)arrayWithAEDesc:(NSAppleEventDescriptor *)desc;
+@interfbce NSArrby (JbvbAppleScriptEngineAdditions)
++ (NSArrby *)brrbyWithAEDesc:(NSAppleEventDescriptor *)desc;
 @end
 
 
-// Please see the CocoaScripting release note for behavior.  It's kind of complicated.
+// Plebse see the CocobScripting relebse note for behbvior.  It's kind of complicbted.
 //
-// methods wrap the primitive record methods on NSAppleEventDescriptor.
-@interface NSDictionary (JavaAppleScriptEngineAdditions)
-- (NSAppleEventDescriptor *)aeDescriptorValue;
-+ (NSDictionary *)dictionaryWithAEDesc:(NSAppleEventDescriptor *)desc;
+// methods wrbp the primitive record methods on NSAppleEventDescriptor.
+@interfbce NSDictionbry (JbvbAppleScriptEngineAdditions)
+- (NSAppleEventDescriptor *)beDescriptorVblue;
++ (NSDictionbry *)dictionbryWithAEDesc:(NSAppleEventDescriptor *)desc;
 @end
 
-// be aware that a null descriptor does not correspond to the 'null' keyword in
-// AppleScript - it's more like nothing at all.  For example, the return
-// from an empty handler.
-@interface NSNull (JavaAppleScriptEngineAdditions)
-- (NSAppleEventDescriptor *)aeDescriptorValue;
+// be bwbre thbt b null descriptor does not correspond to the 'null' keyword in
+// AppleScript - it's more like nothing bt bll.  For exbmple, the return
+// from bn empty hbndler.
+@interfbce NSNull (JbvbAppleScriptEngineAdditions)
+- (NSAppleEventDescriptor *)beDescriptorVblue;
 + (NSNull *)nullWithAEDesc:(NSAppleEventDescriptor *)desc;
 @end
 
 
-@interface NSNumber (JavaAppleScriptEngineAdditionsPrivate)
-+ (id) jaseNumberWithSignedIntP:(void *)int_p byteCount:(int)bytes;
-+ (id) jaseNumberWithUnsignedIntP:(void *)int_p byteCount:(int)bytes;
-+ (id) jaseNumberWithFloatP:(void *)float_p byteCount:(int)bytes;
+@interfbce NSNumber (JbvbAppleScriptEngineAdditionsPrivbte)
++ (id) jbseNumberWithSignedIntP:(void *)int_p byteCount:(int)bytes;
++ (id) jbseNumberWithUnsignedIntP:(void *)int_p byteCount:(int)bytes;
++ (id) jbseNumberWithFlobtP:(void *)flobt_p byteCount:(int)bytes;
 @end
 
 
-@implementation NSObject (JavaAppleScriptEngineAdditions)
+@implementbtion NSObject (JbvbAppleScriptEngineAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
+- (NSAppleEventDescriptor *)beDescriptorVblue {
     // collections go to lists
-    if (![self respondsToSelector:@selector(objectEnumerator)]) {
-        // encode the description as a fallback - this is pretty useless, only helpful for debugging
-        return [[self description] aeDescriptorValue];
+    if (![self respondsToSelector:@selector(objectEnumerbtor)]) {
+        // encode the description bs b fbllbbck - this is pretty useless, only helpful for debugging
+        return [[self description] beDescriptorVblue];
     }
 
     NSAppleEventDescriptor *resultDesc = [NSAppleEventDescriptor listDescriptor];
-    NSEnumerator *objectEnumerator = [(id)self objectEnumerator];
+    NSEnumerbtor *objectEnumerbtor = [(id)self objectEnumerbtor];
 
-    unsigned int i = 1; // apple event descriptors are 1-indexed
+    unsigned int i = 1; // bpple event descriptors bre 1-indexed
     id currentObject;
-    while((currentObject = [objectEnumerator nextObject]) != nil) {
-        [resultDesc insertDescriptor:[currentObject aeDescriptorValue] atIndex:i++];
+    while((currentObject = [objectEnumerbtor nextObject]) != nil) {
+        [resultDesc insertDescriptor:[currentObject beDescriptorVblue] btIndex:i++];
     }
 
     return resultDesc;
@@ -186,56 +186,56 @@
 @end
 
 
-@implementation NSArray (JavaAppleScriptEngineAdditions)
+@implementbtion NSArrby (JbvbAppleScriptEngineAdditions)
 
-// don't need to override aeDescriptorValue, the NSObject will treat the array as a collection
-+ (NSArray *)arrayWithAEDesc:(NSAppleEventDescriptor *)desc {
+// don't need to override beDescriptorVblue, the NSObject will trebt the brrby bs b collection
++ (NSArrby *)brrbyWithAEDesc:(NSAppleEventDescriptor *)desc {
     NSAppleEventDescriptor *listDesc = [desc coerceToDescriptorType:typeAEList];
-    NSMutableArray *resultArray = [NSMutableArray array];
+    NSMutbbleArrby *resultArrby = [NSMutbbleArrby brrby];
 
-    // apple event descriptors are 1-indexed
+    // bpple event descriptors bre 1-indexed
     unsigned int listCount = [listDesc numberOfItems];
     unsigned int i;
     for (i = 1; i <= listCount; i++) {
-        [resultArray addObject:[[listDesc descriptorAtIndex:i] objCObjectValue]];
+        [resultArrby bddObject:[[listDesc descriptorAtIndex:i] objCObjectVblue]];
     }
 
-    return resultArray;
+    return resultArrby;
 }
 
 @end
 
 
-@implementation NSDictionary (JavaAppleScriptEngineAdditions)
+@implementbtion NSDictionbry (JbvbAppleScriptEngineAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
+- (NSAppleEventDescriptor *)beDescriptorVblue {
     NSAppleEventDescriptor *resultDesc = [NSAppleEventDescriptor recordDescriptor];
-    NSMutableArray *userFields = [NSMutableArray array];
-    NSArray *keys = [self allKeys];
+    NSMutbbleArrby *userFields = [NSMutbbleArrby brrby];
+    NSArrby *keys = [self bllKeys];
 
     unsigned int keyCount = [keys count];
     unsigned int i;
     for (i = 0; i < keyCount; i++) {
         id key = [keys objectAtIndex:i];
 
-        if ([key isKindOfClass:[NSNumber class]]) {
-            [resultDesc setDescriptor:[[self objectForKey:key] aeDescriptorValue] forKeyword:[(NSNumber *)key intValue]];
-        } else if ([key isKindOfClass:[NSString class]]) {
-            [userFields addObject:key];
-            [userFields addObject:[self objectForKey:key]];
+        if ([key isKindOfClbss:[NSNumber clbss]]) {
+            [resultDesc setDescriptor:[[self objectForKey:key] beDescriptorVblue] forKeyword:[(NSNumber *)key intVblue]];
+        } else if ([key isKindOfClbss:[NSString clbss]]) {
+            [userFields bddObject:key];
+            [userFields bddObject:[self objectForKey:key]];
         }
     }
 
     if ([userFields count] > 0) {
-        [resultDesc setDescriptor:[userFields aeDescriptorValue] forKeyword:keyASUserRecordFields];
+        [resultDesc setDescriptor:[userFields beDescriptorVblue] forKeyword:keyASUserRecordFields];
     }
 
     return resultDesc;
 }
 
-+ (NSDictionary *)dictionaryWithAEDesc:(NSAppleEventDescriptor *)desc {
++ (NSDictionbry *)dictionbryWithAEDesc:(NSAppleEventDescriptor *)desc {
     NSAppleEventDescriptor *recDescriptor = [desc coerceToDescriptorType:typeAERecord];
-    NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
+    NSMutbbleDictionbry *resultDict = [NSMutbbleDictionbry dictionbry];
 
     // NSAppleEventDescriptor uses 1 indexing
     unsigned int recordCount = [recDescriptor numberOfItems];
@@ -250,16 +250,16 @@
             unsigned int listCount = [listDescriptor numberOfItems];
             unsigned int listIndex;
             for (listIndex = 1; listIndex <= listCount; listIndex += 2) {
-                id keyObj = [[listDescriptor descriptorAtIndex:listIndex] objCObjectValue];
-                id valObj = [[listDescriptor descriptorAtIndex:listIndex+1] objCObjectValue];
+                id keyObj = [[listDescriptor descriptorAtIndex:listIndex] objCObjectVblue];
+                id vblObj = [[listDescriptor descriptorAtIndex:listIndex+1] objCObjectVblue];
 
-                [resultDict setObject:valObj forKey:keyObj];
+                [resultDict setObject:vblObj forKey:keyObj];
             }
         } else {
             id keyObj = [NSNumber numberWithInt:keyword];
-            id valObj = [[recDescriptor descriptorAtIndex:recordIndex] objCObjectValue];
+            id vblObj = [[recDescriptor descriptorAtIndex:recordIndex] objCObjectVblue];
 
-            [resultDict setObject:valObj forKey:keyObj];
+            [resultDict setObject:vblObj forKey:keyObj];
         }
     }
 
@@ -269,29 +269,29 @@
 @end
 
 
-@implementation NSString (JavaAppleScriptEngineAdditions)
+@implementbtion NSString (JbvbAppleScriptEngineAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
+- (NSAppleEventDescriptor *)beDescriptorVblue {
     return [NSAppleEventDescriptor descriptorWithString:self];
 }
 
 + (NSString *)stringWithAEDesc:(NSAppleEventDescriptor *)desc {
-    return [desc stringValue];
+    return [desc stringVblue];
 }
 
 + (NSString *)versionWithAEDesc:(NSAppleEventDescriptor *)desc {
-    const AEDesc *aeDesc = [desc aeDesc];
+    const AEDesc *beDesc = [desc beDesc];
     VersRec v;
-    AEGetDescData(aeDesc, &v, sizeof(v));
-    return [[[NSString alloc] initWithBytes:&v.shortVersion[1] length:StrLength(v.shortVersion) encoding:NSUTF8StringEncoding] autorelease];
+    AEGetDescDbtb(beDesc, &v, sizeof(v));
+    return [[[NSString blloc] initWithBytes:&v.shortVersion[1] length:StrLength(v.shortVersion) encoding:NSUTF8StringEncoding] butorelebse];
 }
 
 @end
 
 
-@implementation NSNull (JavaAppleScriptEngineAdditions)
+@implementbtion NSNull (JbvbAppleScriptEngineAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
+- (NSAppleEventDescriptor *)beDescriptorVblue {
     return [NSAppleEventDescriptor nullDescriptor];
 }
 
@@ -302,67 +302,67 @@
 @end
 
 
-@implementation NSDate (JavaAppleScriptEngineAdditions)
+@implementbtion NSDbte (JbvbAppleScriptEngineAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    LongDateTime ldt;
-    UCConvertCFAbsoluteTimeToLongDateTime(CFDateGetAbsoluteTime((CFDateRef)self), &ldt);
-    return [NSAppleEventDescriptor descriptorWithLongDateTime:ldt];
+- (NSAppleEventDescriptor *)beDescriptorVblue {
+    LongDbteTime ldt;
+    UCConvertCFAbsoluteTimeToLongDbteTime(CFDbteGetAbsoluteTime((CFDbteRef)self), &ldt);
+    return [NSAppleEventDescriptor descriptorWithLongDbteTime:ldt];
 }
 
-+ (NSDate *)dateWithAEDesc:(NSAppleEventDescriptor *)desc {
-    CFAbsoluteTime absTime;
-    UCConvertLongDateTimeToCFAbsoluteTime([desc longDateTimeValue], &absTime);
-    NSDate *resultDate = (NSDate *)CFDateCreate(NULL, absTime);
-    return [resultDate autorelease];
++ (NSDbte *)dbteWithAEDesc:(NSAppleEventDescriptor *)desc {
+    CFAbsoluteTime bbsTime;
+    UCConvertLongDbteTimeToCFAbsoluteTime([desc longDbteTimeVblue], &bbsTime);
+    NSDbte *resultDbte = (NSDbte *)CFDbteCrebte(NULL, bbsTime);
+    return [resultDbte butorelebse];
 }
 
 @end
 
 
 
-static inline int areEqualEncodings(const char *enc1, const char *enc2) {
+stbtic inline int breEqublEncodings(const chbr *enc1, const chbr *enc2) {
     return (strcmp(enc1, enc2) == 0);
 }
 
-@implementation NSNumber (JavaAppleScriptEngineAdditions)
+@implementbtion NSNumber (JbvbAppleScriptEngineAdditions)
 
--(id)jaseDescriptorValueWithFloatP:(void *)float_p byteCount:(int)bytes {
-    float floatVal;
-    if (bytes < sizeof(Float32)) {
-        floatVal = [self floatValue];
-        float_p = &floatVal;
-        bytes = sizeof(floatVal);
+-(id)jbseDescriptorVblueWithFlobtP:(void *)flobt_p byteCount:(int)bytes {
+    flobt flobtVbl;
+    if (bytes < sizeof(Flobt32)) {
+        flobtVbl = [self flobtVblue];
+        flobt_p = &flobtVbl;
+        bytes = sizeof(flobtVbl);
     }
 
-    double doubleVal;
-    if (bytes > sizeof(Float64)) {
-        doubleVal = [self doubleValue];
-        float_p = &doubleVal;
-        bytes = sizeof(doubleVal);
+    double doubleVbl;
+    if (bytes > sizeof(Flobt64)) {
+        doubleVbl = [self doubleVblue];
+        flobt_p = &doubleVbl;
+        bytes = sizeof(doubleVbl);
     }
 
-    if (bytes == sizeof(Float32)) {
-        return [NSAppleEventDescriptor descriptorWithFloat32:*(Float32 *)float_p];
+    if (bytes == sizeof(Flobt32)) {
+        return [NSAppleEventDescriptor descriptorWithFlobt32:*(Flobt32 *)flobt_p];
     }
 
-    if (bytes == sizeof(Float64)) {
-        return [NSAppleEventDescriptor descriptorWithFloat64:*(Float64 *)float_p];
+    if (bytes == sizeof(Flobt64)) {
+        return [NSAppleEventDescriptor descriptorWithFlobt64:*(Flobt64 *)flobt_p];
     }
 
-    [NSException raise:NSInvalidArgumentException
-                format:@"Cannot create an NSAppleEventDescriptor for float with %d bytes of data.",  bytes];
+    [NSException rbise:NSInvblidArgumentException
+                formbt:@"Cbnnot crebte bn NSAppleEventDescriptor for flobt with %d bytes of dbtb.",  bytes];
 
     return nil;
 }
 
--(id)jaseDescriptorValueWithSignedIntP:(void *)int_p byteCount:(int)bytes {
-    int intVal;
+-(id)jbseDescriptorVblueWithSignedIntP:(void *)int_p byteCount:(int)bytes {
+    int intVbl;
 
     if (bytes < sizeof(SInt16)) {
-        intVal = [self intValue];
-        int_p = &intVal;
-        bytes = sizeof(intVal);
+        intVbl = [self intVblue];
+        int_p = &intVbl;
+        bytes = sizeof(intVbl);
     }
 
     if (bytes == sizeof(SInt16)) {
@@ -373,100 +373,100 @@ static inline int areEqualEncodings(const char *enc1, const char *enc2) {
         return [NSAppleEventDescriptor descriptorWithInt32:*(SInt32 *)int_p];
     }
 
-    double val = [self doubleValue];
-    return [self jaseDescriptorValueWithFloatP:&val byteCount:sizeof(val)];
+    double vbl = [self doubleVblue];
+    return [self jbseDescriptorVblueWithFlobtP:&vbl byteCount:sizeof(vbl)];
 }
 
--(id)jaseDescriptorValueWithUnsignedIntP:(void *)int_p byteCount:(int)bytes {
-    unsigned int uIntVal;
+-(id)jbseDescriptorVblueWithUnsignedIntP:(void *)int_p byteCount:(int)bytes {
+    unsigned int uIntVbl;
 
     if (bytes < sizeof(UInt32)) {
-        uIntVal = [self unsignedIntValue];
-        int_p = &uIntVal;
-        bytes = sizeof(uIntVal);
+        uIntVbl = [self unsignedIntVblue];
+        int_p = &uIntVbl;
+        bytes = sizeof(uIntVbl);
     }
 
     if (bytes == sizeof(UInt32)) {
         return [NSAppleEventDescriptor descriptorWithUnsignedInt32:*(UInt32 *)int_p];
     }
 
-    double val = (double)[self unsignedLongLongValue];
-    return [self jaseDescriptorValueWithFloatP:&val byteCount:sizeof(val)];
+    double vbl = (double)[self unsignedLongLongVblue];
+    return [self jbseDescriptorVblueWithFlobtP:&vbl byteCount:sizeof(vbl)];
 }
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    // NSNumber is unfortunately complicated, because the applescript
-    // type we should use depends on the c type that our NSNumber corresponds to
+- (NSAppleEventDescriptor *)beDescriptorVblue {
+    // NSNumber is unfortunbtely complicbted, becbuse the bpplescript
+    // type we should use depends on the c type thbt our NSNumber corresponds to
 
-    const char *type = [self objCType];
+    const chbr *type = [self objCType];
 
     // convert
-    if (areEqualEncodings(type, @encode(BOOL))) {
-        return [NSAppleEventDescriptor descriptorWithBoolean:[self boolValue]];
+    if (breEqublEncodings(type, @encode(BOOL))) {
+        return [NSAppleEventDescriptor descriptorWithBoolebn:[self boolVblue]];
     }
 
-    if (areEqualEncodings(type, @encode(char))) {
-        char val = [self charValue];
-        return [self jaseDescriptorValueWithSignedIntP:&val byteCount:sizeof(val)];
+    if (breEqublEncodings(type, @encode(chbr))) {
+        chbr vbl = [self chbrVblue];
+        return [self jbseDescriptorVblueWithSignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(short))) {
-        short val = [self shortValue];
-        return [self jaseDescriptorValueWithSignedIntP:&val byteCount:sizeof(val)];
+    if (breEqublEncodings(type, @encode(short))) {
+        short vbl = [self shortVblue];
+        return [self jbseDescriptorVblueWithSignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(int))) {
-        int val = [self intValue];
-        return [self jaseDescriptorValueWithSignedIntP:&val byteCount:sizeof(val)];
+    if (breEqublEncodings(type, @encode(int))) {
+        int vbl = [self intVblue];
+        return [self jbseDescriptorVblueWithSignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(long))) {
-        long val = [self longValue];
-        return [self jaseDescriptorValueWithSignedIntP:&val byteCount:sizeof(val)];
+    if (breEqublEncodings(type, @encode(long))) {
+        long vbl = [self longVblue];
+        return [self jbseDescriptorVblueWithSignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(long long))) {
-        long long val = [self longLongValue];
-        return [self jaseDescriptorValueWithSignedIntP:&val byteCount:sizeof(val)];
+    if (breEqublEncodings(type, @encode(long long))) {
+        long long vbl = [self longLongVblue];
+        return [self jbseDescriptorVblueWithSignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(unsigned char))) {
-        unsigned char val = [self unsignedCharValue];
-        return [self jaseDescriptorValueWithUnsignedIntP:&val byteCount:sizeof(val)];
+    if (breEqublEncodings(type, @encode(unsigned chbr))) {
+        unsigned chbr vbl = [self unsignedChbrVblue];
+        return [self jbseDescriptorVblueWithUnsignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(unsigned short))) {
-        unsigned short val = [self unsignedShortValue];
-        return [self jaseDescriptorValueWithUnsignedIntP:&val byteCount:sizeof(val)];
+    if (breEqublEncodings(type, @encode(unsigned short))) {
+        unsigned short vbl = [self unsignedShortVblue];
+        return [self jbseDescriptorVblueWithUnsignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(unsigned int))) {
-        unsigned int val = [self unsignedIntValue];
-        return [self jaseDescriptorValueWithUnsignedIntP:&val byteCount:sizeof(val)];
+    if (breEqublEncodings(type, @encode(unsigned int))) {
+        unsigned int vbl = [self unsignedIntVblue];
+        return [self jbseDescriptorVblueWithUnsignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(unsigned long))) {
-        unsigned long val = [self unsignedLongValue];
-        return [self jaseDescriptorValueWithUnsignedIntP:&val byteCount:sizeof(val)];
+    if (breEqublEncodings(type, @encode(unsigned long))) {
+        unsigned long vbl = [self unsignedLongVblue];
+        return [self jbseDescriptorVblueWithUnsignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(unsigned long long))) {
-        unsigned long long val = [self unsignedLongLongValue];
-        return [self jaseDescriptorValueWithUnsignedIntP:&val byteCount:sizeof(val)];
+    if (breEqublEncodings(type, @encode(unsigned long long))) {
+        unsigned long long vbl = [self unsignedLongLongVblue];
+        return [self jbseDescriptorVblueWithUnsignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(float))) {
-        float val = [self floatValue];
-        return [self jaseDescriptorValueWithFloatP:&val byteCount:sizeof(val)];
+    if (breEqublEncodings(type, @encode(flobt))) {
+        flobt vbl = [self flobtVblue];
+        return [self jbseDescriptorVblueWithFlobtP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(double))) {
-        double val = [self doubleValue];
-        return [self jaseDescriptorValueWithFloatP:&val byteCount:sizeof(val)];
+    if (breEqublEncodings(type, @encode(double))) {
+        double vbl = [self doubleVblue];
+        return [self jbseDescriptorVblueWithFlobtP:&vbl byteCount:sizeof(vbl)];
     }
 
-    [NSException raise:@"jaseUnsupportedAEDescriptorConversion"
-                format:@"JavaAppleScriptEngineAdditions: conversion of an NSNumber with objCType '%s' to an aeDescriptor is not supported.", type];
+    [NSException rbise:@"jbseUnsupportedAEDescriptorConversion"
+                formbt:@"JbvbAppleScriptEngineAdditions: conversion of bn NSNumber with objCType '%s' to bn beDescriptor is not supported.", type];
 
     return nil;
 }
@@ -474,51 +474,51 @@ static inline int areEqualEncodings(const char *enc1, const char *enc2) {
 + (id)numberWithAEDesc:(NSAppleEventDescriptor *)desc {
     DescType type = [desc descriptorType];
 
-    if ((type == typeTrue) || (type == typeFalse) || (type == typeBoolean)) {
-        return [NSNumber numberWithBool:[desc booleanValue]];
+    if ((type == typeTrue) || (type == typeFblse) || (type == typeBoolebn)) {
+        return [NSNumber numberWithBool:[desc boolebnVblue]];
     }
 
     if (type == typeSInt16) {
-        SInt16 val = [desc int16Value];
-        return [NSNumber jaseNumberWithSignedIntP:&val byteCount:sizeof(val)];
+        SInt16 vbl = [desc int16Vblue];
+        return [NSNumber jbseNumberWithSignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
     if (type == typeSInt32) {
-        SInt32 val = [desc int32Value];
-        return [NSNumber jaseNumberWithSignedIntP:&val byteCount:sizeof(val)];
+        SInt32 vbl = [desc int32Vblue];
+        return [NSNumber jbseNumberWithSignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
     if (type == typeUInt32) {
-        UInt32 val = [desc unsignedInt32Value];
-        return [NSNumber jaseNumberWithUnsignedIntP:&val byteCount:sizeof(val)];
+        UInt32 vbl = [desc unsignedInt32Vblue];
+        return [NSNumber jbseNumberWithUnsignedIntP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (type == typeIEEE32BitFloatingPoint) {
-        Float32 val = [desc float32Value];
-        return [NSNumber jaseNumberWithFloatP:&val byteCount:sizeof(val)];
+    if (type == typeIEEE32BitFlobtingPoint) {
+        Flobt32 vbl = [desc flobt32Vblue];
+        return [NSNumber jbseNumberWithFlobtP:&vbl byteCount:sizeof(vbl)];
     }
 
-    if (type == typeIEEE64BitFloatingPoint) {
-        Float64 val = [desc float64Value];
-        return [NSNumber jaseNumberWithFloatP:&val byteCount:sizeof(val)];
+    if (type == typeIEEE64BitFlobtingPoint) {
+        Flobt64 vbl = [desc flobt64Vblue];
+        return [NSNumber jbseNumberWithFlobtP:&vbl byteCount:sizeof(vbl)];
     }
 
-    // try to coerce to 64bit floating point
-    desc = [desc coerceToDescriptorType:typeIEEE64BitFloatingPoint];
+    // try to coerce to 64bit flobting point
+    desc = [desc coerceToDescriptorType:typeIEEE64BitFlobtingPoint];
     if (desc != nil) {
-        Float64 val = [desc float64Value];
-        return [NSNumber jaseNumberWithFloatP:&val byteCount:sizeof(val)];
+        Flobt64 vbl = [desc flobt64Vblue];
+        return [NSNumber jbseNumberWithFlobtP:&vbl byteCount:sizeof(vbl)];
     }
 
-    [NSException raise:@"jaseUnsupportedAEDescriptorConversion"
-                format:@"JavaAppleScriptEngineAdditions: conversion of an NSAppleEventDescriptor with objCType '%s' to an aeDescriptor is not supported.", type];
+    [NSException rbise:@"jbseUnsupportedAEDescriptorConversion"
+                formbt:@"JbvbAppleScriptEngineAdditions: conversion of bn NSAppleEventDescriptor with objCType '%s' to bn beDescriptor is not supported.", type];
 
     return nil;
 }
 
-+ (id) jaseNumberWithSignedIntP:(void *)int_p byteCount:(int)bytes {
-    if (bytes == sizeof(char)) {
-        return [NSNumber numberWithChar:*(char *)int_p];
++ (id) jbseNumberWithSignedIntP:(void *)int_p byteCount:(int)bytes {
+    if (bytes == sizeof(chbr)) {
+        return [NSNumber numberWithChbr:*(chbr *)int_p];
     }
 
     if (bytes == sizeof(short)) {
@@ -537,15 +537,15 @@ static inline int areEqualEncodings(const char *enc1, const char *enc2) {
         return [NSNumber numberWithLongLong:*(long long *)int_p];
     }
 
-    [NSException raise:NSInvalidArgumentException
-                format:@"NSNumber jaseNumberWithSignedIntP:byteCount: number with %i bytes not supported.", bytes];
+    [NSException rbise:NSInvblidArgumentException
+                formbt:@"NSNumber jbseNumberWithSignedIntP:byteCount: number with %i bytes not supported.", bytes];
 
     return nil;
 }
 
-+ (id) jaseNumberWithUnsignedIntP:(void *)int_p byteCount:(int)bytes {
-    if (bytes == sizeof(unsigned char)) {
-        return [NSNumber numberWithUnsignedChar:*(unsigned char *)int_p];
++ (id) jbseNumberWithUnsignedIntP:(void *)int_p byteCount:(int)bytes {
+    if (bytes == sizeof(unsigned chbr)) {
+        return [NSNumber numberWithUnsignedChbr:*(unsigned chbr *)int_p];
     }
 
     if (bytes == sizeof(unsigned short)) {
@@ -564,66 +564,66 @@ static inline int areEqualEncodings(const char *enc1, const char *enc2) {
         return [NSNumber numberWithUnsignedLongLong:*(unsigned long long *)int_p];
     }
 
-    [NSException raise:NSInvalidArgumentException
-                format:@"NSNumber numberWithUnsignedInt:byteCount: number with %i bytes not supported.", bytes];
+    [NSException rbise:NSInvblidArgumentException
+                formbt:@"NSNumber numberWithUnsignedInt:byteCount: number with %i bytes not supported.", bytes];
 
     return nil;
 }
 
-+ (id) jaseNumberWithFloatP:(void *)float_p byteCount:(int)bytes {
-    if (bytes == sizeof(float)) {
-        return [NSNumber numberWithFloat:*(float *)float_p];
++ (id) jbseNumberWithFlobtP:(void *)flobt_p byteCount:(int)bytes {
+    if (bytes == sizeof(flobt)) {
+        return [NSNumber numberWithFlobt:*(flobt *)flobt_p];
     }
 
     if (bytes == sizeof(double)) {
-        return [NSNumber numberWithFloat:*(double *)float_p];
+        return [NSNumber numberWithFlobt:*(double *)flobt_p];
     }
 
-    [NSException raise:NSInvalidArgumentException
-                format:@"NSNumber numberWithFloat:byteCount: floating point number with %i bytes not supported.", bytes];
+    [NSException rbise:NSInvblidArgumentException
+                formbt:@"NSNumber numberWithFlobt:byteCount: flobting point number with %i bytes not supported.", bytes];
 
     return nil;
 }
 
 @end
 
-@implementation NSValue (JavaAppleScriptEngineAdditions)
+@implementbtion NSVblue (JbvbAppleScriptEngineAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    const char *type = [self objCType];
+- (NSAppleEventDescriptor *)beDescriptorVblue {
+    const chbr *type = [self objCType];
 
-    if (areEqualEncodings(type, @encode(NSSize))) {
-        NSSize size = [self sizeValue];
-        return [[NSArray arrayWithObjects:
-                 [NSNumber numberWithFloat:size.width],
-                 [NSNumber numberWithFloat:size.height], nil] aeDescriptorValue];
+    if (breEqublEncodings(type, @encode(NSSize))) {
+        NSSize size = [self sizeVblue];
+        return [[NSArrby brrbyWithObjects:
+                 [NSNumber numberWithFlobt:size.width],
+                 [NSNumber numberWithFlobt:size.height], nil] beDescriptorVblue];
     }
 
-    if (areEqualEncodings(type, @encode(NSPoint))) {
-        NSPoint point = [self pointValue];
-        return [[NSArray arrayWithObjects:
-                 [NSNumber numberWithFloat:point.x],
-                 [NSNumber numberWithFloat:point.y], nil] aeDescriptorValue];
+    if (breEqublEncodings(type, @encode(NSPoint))) {
+        NSPoint point = [self pointVblue];
+        return [[NSArrby brrbyWithObjects:
+                 [NSNumber numberWithFlobt:point.x],
+                 [NSNumber numberWithFlobt:point.y], nil] beDescriptorVblue];
     }
 
-    if (areEqualEncodings(type, @encode(NSRange))) {
-        NSRange range = [self rangeValue];
-        return [[NSArray arrayWithObjects:
-                 [NSNumber numberWithUnsignedInt:range.location],
-                 [NSNumber numberWithUnsignedInt:range.location + range.length], nil] aeDescriptorValue];
+    if (breEqublEncodings(type, @encode(NSRbnge))) {
+        NSRbnge rbnge = [self rbngeVblue];
+        return [[NSArrby brrbyWithObjects:
+                 [NSNumber numberWithUnsignedInt:rbnge.locbtion],
+                 [NSNumber numberWithUnsignedInt:rbnge.locbtion + rbnge.length], nil] beDescriptorVblue];
     }
 
-    if (areEqualEncodings(type, @encode(NSRect))) {
-        NSRect rect = [self rectValue];
-        return [[NSArray arrayWithObjects:
-                 [NSNumber numberWithFloat:rect.origin.x],
-                 [NSNumber numberWithFloat:rect.origin.y],
-                 [NSNumber numberWithFloat:rect.origin.x + rect.size.width],
-                 [NSNumber numberWithFloat:rect.origin.y + rect.size.height], nil] aeDescriptorValue];
+    if (breEqublEncodings(type, @encode(NSRect))) {
+        NSRect rect = [self rectVblue];
+        return [[NSArrby brrbyWithObjects:
+                 [NSNumber numberWithFlobt:rect.origin.x],
+                 [NSNumber numberWithFlobt:rect.origin.y],
+                 [NSNumber numberWithFlobt:rect.origin.x + rect.size.width],
+                 [NSNumber numberWithFlobt:rect.origin.y + rect.size.height], nil] beDescriptorVblue];
     }
 
-    [NSException raise:@"jaseUnsupportedAEDescriptorConversion"
-                format:@"JavaAppleScriptEngineAdditions: conversion of an NSNumber with objCType '%s' to an aeDescriptor is not supported.", type];
+    [NSException rbise:@"jbseUnsupportedAEDescriptorConversion"
+                formbt:@"JbvbAppleScriptEngineAdditions: conversion of bn NSNumber with objCType '%s' to bn beDescriptor is not supported.", type];
 
     return nil;
 }
@@ -631,163 +631,163 @@ static inline int areEqualEncodings(const char *enc1, const char *enc2) {
 @end
 
 
-@implementation NSImage (JavaAppleScriptEngineAdditions)
+@implementbtion NSImbge (JbvbAppleScriptEngineAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    NSData *data = [self TIFFRepresentation];
-    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeTIFF data:data];
+- (NSAppleEventDescriptor *)beDescriptorVblue {
+    NSDbtb *dbtb = [self TIFFRepresentbtion];
+    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeTIFF dbtb:dbtb];
 }
 
-+ (NSImage *)imageWithAEDesc:(NSAppleEventDescriptor *)desc {
-    const AEDesc *d = [desc aeDesc];
-    NSMutableData *data = [NSMutableData dataWithLength:AEGetDescDataSize(d)];
-    AEGetDescData(d, [data mutableBytes], [data length]);
-    return [[[NSImage alloc] initWithData:data] autorelease];
++ (NSImbge *)imbgeWithAEDesc:(NSAppleEventDescriptor *)desc {
+    const AEDesc *d = [desc beDesc];
+    NSMutbbleDbtb *dbtb = [NSMutbbleDbtb dbtbWithLength:AEGetDescDbtbSize(d)];
+    AEGetDescDbtb(d, [dbtb mutbbleBytes], [dbtb length]);
+    return [[[NSImbge blloc] initWithDbtb:dbtb] butorelebse];
 }
 
 @end
 
 
 
-@implementation NSAppleEventDescriptor (JavaAppleScriptEngineAdditions)
+@implementbtion NSAppleEventDescriptor (JbvbAppleScriptEngineAdditions)
 
-// we're going to leak this.  It doesn't matter much for running apps, but
+// we're going to lebk this.  It doesn't mbtter much for running bpps, but
 // for developers it might be nice to try to dispose of it (so it would not clutter the
-// output when testing for leaks)
-static NSMutableDictionary *handlerDict = nil;
+// output when testing for lebks)
+stbtic NSMutbbleDictionbry *hbndlerDict = nil;
 
-- (id)objCObjectValue {
-    if (handlerDict == nil) [NSAppleEventDescriptor jaseSetUpHandlerDict];
+- (id)objCObjectVblue {
+    if (hbndlerDict == nil) [NSAppleEventDescriptor jbseSetUpHbndlerDict];
 
     id returnObj;
     DescType type = [self descriptorType];
-    NSInvocation *handlerInvocation = [handlerDict objectForKey:[NSValue valueWithBytes:&type objCType:@encode(DescType)]];
-    if (handlerInvocation == nil) {
+    NSInvocbtion *hbndlerInvocbtion = [hbndlerDict objectForKey:[NSVblue vblueWithBytes:&type objCType:@encode(DescType)]];
+    if (hbndlerInvocbtion == nil) {
         if (type == typeType) {
             DescType subType;
-            AEGetDescData([self aeDesc], &subType, sizeof(subType));
+            AEGetDescDbtb([self beDesc], &subType, sizeof(subType));
             if (subType == typeNull) return [NSNull null];
         }
-        // return raw apple event descriptor if no handler is registered
+        // return rbw bpple event descriptor if no hbndler is registered
         returnObj = self;
     } else {
-        [handlerInvocation setArgument:&self atIndex:2];
-        [handlerInvocation invoke];
-        [handlerInvocation getReturnValue:&returnObj];
+        [hbndlerInvocbtion setArgument:&self btIndex:2];
+        [hbndlerInvocbtion invoke];
+        [hbndlerInvocbtion getReturnVblue:&returnObj];
     }
 
     return returnObj;
 }
 
-// FIXME - error checking, non nil handler
-+ (void)registerConversionHandler:(id)anObject selector:(SEL)aSelector forDescriptorTypes:(DescType)firstType, ... {
-    if (handlerDict == nil) [NSAppleEventDescriptor jaseSetUpHandlerDict];
+// FIXME - error checking, non nil hbndler
++ (void)registerConversionHbndler:(id)bnObject selector:(SEL)bSelector forDescriptorTypes:(DescType)firstType, ... {
+    if (hbndlerDict == nil) [NSAppleEventDescriptor jbseSetUpHbndlerDict];
 
-    NSInvocation *handlerInvocation = [NSInvocation invocationWithMethodSignature:[anObject methodSignatureForSelector:aSelector]];
-    [handlerInvocation setTarget:anObject];
-    [handlerInvocation setSelector:aSelector];
+    NSInvocbtion *hbndlerInvocbtion = [NSInvocbtion invocbtionWithMethodSignbture:[bnObject methodSignbtureForSelector:bSelector]];
+    [hbndlerInvocbtion setTbrget:bnObject];
+    [hbndlerInvocbtion setSelector:bSelector];
 
-    DescType aType = firstType;
-    va_list typesList;
-    va_start(typesList, firstType);
+    DescType bType = firstType;
+    vb_list typesList;
+    vb_stbrt(typesList, firstType);
     do {
-        NSValue *type = [NSValue valueWithBytes:&aType objCType:@encode(DescType)];
-        [handlerDict setObject:handlerInvocation forKey:type];
-    } while((aType = va_arg(typesList, DescType)) != 0);
-    va_end(typesList);
+        NSVblue *type = [NSVblue vblueWithBytes:&bType objCType:@encode(DescType)];
+        [hbndlerDict setObject:hbndlerInvocbtion forKey:type];
+    } while((bType = vb_brg(typesList, DescType)) != 0);
+    vb_end(typesList);
 }
 
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
+- (NSAppleEventDescriptor *)beDescriptorVblue {
     return self;
 }
 
-+ (id)descriptorWithInt16:(SInt16)val {
-    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeSInt16 bytes:&val length:sizeof(val)];
++ (id)descriptorWithInt16:(SInt16)vbl {
+    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeSInt16 bytes:&vbl length:sizeof(vbl)];
 }
 
-- (SInt16)int16Value {
-    SInt16 retValue;
-    [[[self coerceToDescriptorType:typeSInt16] data] getBytes:&retValue];
-    return retValue;
+- (SInt16)int16Vblue {
+    SInt16 retVblue;
+    [[[self coerceToDescriptorType:typeSInt16] dbtb] getBytes:&retVblue];
+    return retVblue;
 }
 
-+ (id)descriptorWithUnsignedInt32:(UInt32)val {
-    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeUInt32 bytes:&val length:sizeof(val)];
++ (id)descriptorWithUnsignedInt32:(UInt32)vbl {
+    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeUInt32 bytes:&vbl length:sizeof(vbl)];
 }
 
-- (UInt32)unsignedInt32Value {
-    UInt32 retValue;
-    [[[self coerceToDescriptorType:typeUInt32] data] getBytes:&retValue];
-    return retValue;
-}
-
-
-+ (id)descriptorWithFloat32:(Float32)val {
-    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeIEEE32BitFloatingPoint bytes:&val length:sizeof(val)];
-}
-
-- (Float32)float32Value {
-    Float32 retValue;
-    [[[self coerceToDescriptorType:typeIEEE32BitFloatingPoint] data] getBytes:&retValue];
-    return retValue;
+- (UInt32)unsignedInt32Vblue {
+    UInt32 retVblue;
+    [[[self coerceToDescriptorType:typeUInt32] dbtb] getBytes:&retVblue];
+    return retVblue;
 }
 
 
-+ (id)descriptorWithFloat64:(Float64)val {
-    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeIEEE64BitFloatingPoint bytes:&val length:sizeof(val)];
++ (id)descriptorWithFlobt32:(Flobt32)vbl {
+    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeIEEE32BitFlobtingPoint bytes:&vbl length:sizeof(vbl)];
 }
 
-- (Float64)float64Value {
-    Float64 retValue;
-    [[[self coerceToDescriptorType:typeIEEE64BitFloatingPoint] data] getBytes:&retValue];
-    return retValue;
+- (Flobt32)flobt32Vblue {
+    Flobt32 retVblue;
+    [[[self coerceToDescriptorType:typeIEEE32BitFlobtingPoint] dbtb] getBytes:&retVblue];
+    return retVblue;
 }
 
-+ (id)descriptorWithLongDateTime:(LongDateTime)val {
-    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeLongDateTime bytes:&val length:sizeof(val)];
+
++ (id)descriptorWithFlobt64:(Flobt64)vbl {
+    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeIEEE64BitFlobtingPoint bytes:&vbl length:sizeof(vbl)];
 }
 
-- (LongDateTime)longDateTimeValue {
-    LongDateTime retValue;
-    [[[self coerceToDescriptorType:typeLongDateTime] data] getBytes:&retValue];
-    return retValue;
+- (Flobt64)flobt64Vblue {
+    Flobt64 retVblue;
+    [[[self coerceToDescriptorType:typeIEEE64BitFlobtingPoint] dbtb] getBytes:&retVblue];
+    return retVblue;
 }
 
-+ (void)jaseSetUpHandlerDict {
-    handlerDict = [[NSMutableDictionary alloc] init];
++ (id)descriptorWithLongDbteTime:(LongDbteTime)vbl {
+    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeLongDbteTime bytes:&vbl length:sizeof(vbl)];
+}
 
-    // register default handlers
-    // types are culled from AEDataModel.h and AERegistry.h
+- (LongDbteTime)longDbteTimeVblue {
+    LongDbteTime retVblue;
+    [[[self coerceToDescriptorType:typeLongDbteTime] dbtb] getBytes:&retVblue];
+    return retVblue;
+}
+
++ (void)jbseSetUpHbndlerDict {
+    hbndlerDict = [[NSMutbbleDictionbry blloc] init];
+
+    // register defbult hbndlers
+    // types bre culled from AEDbtbModel.h bnd AERegistry.h
 
     // string -> NSStrings
-    [NSAppleEventDescriptor registerConversionHandler:[NSString class] selector:@selector(stringWithAEDesc:) forDescriptorTypes:
-     typeUnicodeText, typeText, typeUTF8Text, typeCString, typeChar, nil];
+    [NSAppleEventDescriptor registerConversionHbndler:[NSString clbss] selector:@selector(stringWithAEDesc:) forDescriptorTypes:
+     typeUnicodeText, typeText, typeUTF8Text, typeCString, typeChbr, nil];
 
     // number/bool -> NSNumber
-    [NSAppleEventDescriptor registerConversionHandler:[NSNumber class] selector:@selector(numberWithAEDesc:) forDescriptorTypes:
-     typeBoolean, typeTrue, typeFalse,
+    [NSAppleEventDescriptor registerConversionHbndler:[NSNumber clbss] selector:@selector(numberWithAEDesc:) forDescriptorTypes:
+     typeBoolebn, typeTrue, typeFblse,
      typeSInt16, typeSInt32, typeUInt32, typeSInt64,
-     typeIEEE32BitFloatingPoint, typeIEEE64BitFloatingPoint, type128BitFloatingPoint, nil];
+     typeIEEE32BitFlobtingPoint, typeIEEE64BitFlobtingPoint, type128BitFlobtingPoint, nil];
 
-    // list -> NSArray
-    [NSAppleEventDescriptor registerConversionHandler:[NSArray class] selector:@selector(arrayWithAEDesc:) forDescriptorTypes:typeAEList, nil];
+    // list -> NSArrby
+    [NSAppleEventDescriptor registerConversionHbndler:[NSArrby clbss] selector:@selector(brrbyWithAEDesc:) forDescriptorTypes:typeAEList, nil];
 
-    // record -> NSDictionary
-    [NSAppleEventDescriptor registerConversionHandler:[NSDictionary class] selector:@selector(dictionaryWithAEDesc:) forDescriptorTypes:typeAERecord, nil];
+    // record -> NSDictionbry
+    [NSAppleEventDescriptor registerConversionHbndler:[NSDictionbry clbss] selector:@selector(dictionbryWithAEDesc:) forDescriptorTypes:typeAERecord, nil];
 
-    // date -> NSDate
-    [NSAppleEventDescriptor registerConversionHandler:[NSDate class] selector:@selector(dateWithAEDesc:) forDescriptorTypes:typeLongDateTime, nil];
+    // dbte -> NSDbte
+    [NSAppleEventDescriptor registerConversionHbndler:[NSDbte clbss] selector:@selector(dbteWithAEDesc:) forDescriptorTypes:typeLongDbteTime, nil];
 
-    // images -> NSImage
-    [NSAppleEventDescriptor registerConversionHandler:[NSImage class] selector:@selector(imageWithAEDesc:) forDescriptorTypes:
-     typeTIFF, typeJPEG, typeGIF, typePict, typeIconFamily, typeIconAndMask, nil];
+    // imbges -> NSImbge
+    [NSAppleEventDescriptor registerConversionHbndler:[NSImbge clbss] selector:@selector(imbgeWithAEDesc:) forDescriptorTypes:
+     typeTIFF, typeJPEG, typeGIF, typePict, typeIconFbmily, typeIconAndMbsk, nil];
 
     // vers -> NSString
-    [NSAppleEventDescriptor registerConversionHandler:[NSString class] selector:@selector(versionWithAEDesc:) forDescriptorTypes:typeVersion, nil];
+    [NSAppleEventDescriptor registerConversionHbndler:[NSString clbss] selector:@selector(versionWithAEDesc:) forDescriptorTypes:typeVersion, nil];
 
     // null -> NSNull
-    [NSAppleEventDescriptor registerConversionHandler:[NSNull class] selector:@selector(nullWithAEDesc:) forDescriptorTypes:typeNull, nil];
+    [NSAppleEventDescriptor registerConversionHbndler:[NSNull clbss] selector:@selector(nullWithAEDesc:) forDescriptorTypes:typeNull, nil];
 }
 
 @end

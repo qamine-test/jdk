@@ -1,136 +1,136 @@
 README.txt
 
 
-This Poller class demonstrates access to poll(2) functionality in Java.
+This Poller clbss demonstrbtes bccess to poll(2) functionblity in Jbvb.
 
-Requires Solaris production (native threads) JDK 1.2 or later, currently
-the C code compiles only on Solaris (SPARC and Intel).
+Requires Solbris production (nbtive threbds) JDK 1.2 or lbter, currently
+the C code compiles only on Solbris (SPARC bnd Intel).
 
-Poller.java is the class, Poller.c is the supporting JNI code.
+Poller.jbvb is the clbss, Poller.c is the supporting JNI code.
 
-PollingServer.java is a sample application which uses the Poller class
+PollingServer.jbvb is b sbmple bpplicbtion which uses the Poller clbss
 to multiplex sockets.
 
-SimpleServer.java is the functional equivalent that does not multiplex
-but uses a single thread to handle each client connection.
+SimpleServer.jbvb is the functionbl equivblent thbt does not multiplex
+but uses b single threbd to hbndle ebch client connection.
 
-Client.java is a sample application to drive against either server.
+Client.jbvb is b sbmple bpplicbtion to drive bgbinst either server.
 
-To build the Poller class and client/server demo :
- javac PollingServer.java Client.java
- javah Poller
- cc -G -o libpoller.so -I ${JAVA_HOME}/include -I ${JAVA_HOME}/include/solaris\
+To build the Poller clbss bnd client/server demo :
+ jbvbc PollingServer.jbvb Client.jbvb
+ jbvbh Poller
+ cc -G -o libpoller.so -I ${JAVA_HOME}/include -I ${JAVA_HOME}/include/solbris\
   Poller.c
 
-You will need to set the environment variable LD_LIBRARY_PATH to search
-the directory containing libpoller.so.
+You will need to set the environment vbribble LD_LIBRARY_PATH to sebrch
+the directory contbining libpoller.so.
 
-To use client/server, bump up your fd limit to handle the connections you
-want (need root access to go beyond 1024).  For info on changing your file
-descriptor limit, type "man limit".  If you are using Solaris 2.6
-or later, a regression in loopback read() performance may hit you at low
-numbers of connections, so run the client on another machine.
+To use client/server, bump up your fd limit to hbndle the connections you
+wbnt (need root bccess to go beyond 1024).  For info on chbnging your file
+descriptor limit, type "mbn limit".  If you bre using Solbris 2.6
+or lbter, b regression in loopbbck rebd() performbnce mby hit you bt low
+numbers of connections, so run the client on bnother mbchine.
 
-BASICs of Poller class usage :
- run "javadoc Poller" or see Poller.java for more details.
+BASICs of Poller clbss usbge :
+ run "jbvbdoc Poller" or see Poller.jbvb for more detbils.
 
 {
-    Poller Mux = new Poller(65535); // allow it to contain 64K IO objects
+    Poller Mux = new Poller(65535); // bllow it to contbin 64K IO objects
     
-    int fd1 = Mux.add(socket1, Poller.POLLIN);
+    int fd1 = Mux.bdd(socket1, Poller.POLLIN);
     ...
-    int fdN = Mux.add(socketN, Poller.POLLIN);
+    int fdN = Mux.bdd(socketN, Poller.POLLIN);
 
     int[] fds = new int[100];
     short[] revents = new revents[100];
 
-    int numEvents = Mux.waitMultiple(100, fds, revents, timeout);
+    int numEvents = Mux.wbitMultiple(100, fds, revents, timeout);
 
     for (int i = 0; i < numEvents; i++) {
        /*
-        * Probably need more sophisticated mapping scheme than this!
+        * Probbbly need more sophisticbted mbpping scheme thbn this!
 	*/
         if (fds[i] == fd1) {
-	    System.out.println("Got data on socket1");
-	    socket1.getInputStream().read(byteArray);
-	    // Do something based upon state of fd1 connection
+	    System.out.println("Got dbtb on socket1");
+	    socket1.getInputStrebm().rebd(byteArrby);
+	    // Do something bbsed upon stbte of fd1 connection
 	}
 	...
     }
 }
 
-Poller class implementation notes :
+Poller clbss implementbtion notes :
 
-  Currently all add(),remove(),isMember(), and waitMultiple() methods
-are synchronized for each Poller object.  If one thread is blocked in
-pObj.waitMultiple(), another thread calling pObj.add(fd) will block
-until waitMultiple() returns.  There is no provided mechanism to
-interrupt waitMultiple(), as one might expect a ServerSocket to be in
-the list waited on (see PollingServer.java).
+  Currently bll bdd(),remove(),isMember(), bnd wbitMultiple() methods
+bre synchronized for ebch Poller object.  If one threbd is blocked in
+pObj.wbitMultiple(), bnother threbd cblling pObj.bdd(fd) will block
+until wbitMultiple() returns.  There is no provided mechbnism to
+interrupt wbitMultiple(), bs one might expect b ServerSocket to be in
+the list wbited on (see PollingServer.jbvb).
 
-  One might also need to interrupt waitMultiple() to remove()
-fds/sockets, in which case one could create a Pipe or loopback localhost
-connection (at the level of PollingServer) and use a write() to that
+  One might blso need to interrupt wbitMultiple() to remove()
+fds/sockets, in which cbse one could crebte b Pipe or loopbbck locblhost
+connection (bt the level of PollingServer) bnd use b write() to thbt
 connection to interrupt.  Or, better, one could queue up deletions
-until the next return of waitMultiple().  Or one could implement an
-interrupt mechanism in the JNI C code using a pipe(), and expose that
-at the Java level.
+until the next return of wbitMultiple().  Or one could implement bn
+interrupt mechbnism in the JNI C code using b pipe(), bnd expose thbt
+bt the Jbvb level.
 
-  If frequent deletions/re-additions of socks/fds is to be done with
-very large sets of monitored fds, the Solaris 7 kernel cache will
-likely perform poorly without some tuning.  One could differentiate
-between deleted (no longer cared for) fds/socks and those that are
-merely being disabled while data is processed on their behalf.  In
-that case, re-enabling a disabled fd/sock could put it in it's
-original position in the poll array, thereby increasing the kernel
-cache performance.  This would best be done in Poller.c.  Of course
-this is not necessary for optimal /dev/poll performance.
+  If frequent deletions/re-bdditions of socks/fds is to be done with
+very lbrge sets of monitored fds, the Solbris 7 kernel cbche will
+likely perform poorly without some tuning.  One could differentibte
+between deleted (no longer cbred for) fds/socks bnd those thbt bre
+merely being disbbled while dbtb is processed on their behblf.  In
+thbt cbse, re-enbbling b disbbled fd/sock could put it in it's
+originbl position in the poll brrby, thereby increbsing the kernel
+cbche performbnce.  This would best be done in Poller.c.  Of course
+this is not necessbry for optimbl /dev/poll performbnce.
 
-  Caution...the next paragraph gets a little technical for the
-benefit of those who already understand poll()ing fairly well.  Others
-may choose to skip over it to read notes on the demo server.
+  Cbution...the next pbrbgrbph gets b little technicbl for the
+benefit of those who blrebdy understbnd poll()ing fbirly well.  Others
+mby choose to skip over it to rebd notes on the demo server.
 
-  An optimal solution for frequent enabling/disabling of socks/fds
-could involve a separately synchronized structure of "async"
-operations.  Using a simple array (0..64k) containing the action
-(ADD,ENABLE,DISABLE, NONE), the events, and the index into the poll
-array, and having nativeWait() wake up in the poll() call periodically
-to process these async operations, I was able to speed up performance
-of the PollingServer by a factor of 2x at 8000 connections.  Of course
-much of that gain was from the fact that I could (with the advent of
-an asyncAdd() method) move the accept() loop into a separate thread
-from the main poll() loop, and avoid the overhead of calling poll()
-with up to 7999 fds just for an accept.  In implementing the async
-Disable/Enable, a further large optimization was to auto-disable fds
-with events available (before return from nativeWait()), so I could
-just call asyncEnable(fd) after processing (read()ing) the available
-data.  This removed the need for inefficient gang-scheduling the
-attached PollingServer uses.  In order to separately synchronize the
-async structure, yet still be able to operate on it from within
-nativeWait(), synchronization had to be done at the C level here.  Due
-to the new complexities this introduced, as well as the fact that it
-was tuned specifically for Solaris 7 poll() improvements (not
-/dev/poll), this extra logic was left out of this demo.
+  An optimbl solution for frequent enbbling/disbbling of socks/fds
+could involve b sepbrbtely synchronized structure of "bsync"
+operbtions.  Using b simple brrby (0..64k) contbining the bction
+(ADD,ENABLE,DISABLE, NONE), the events, bnd the index into the poll
+brrby, bnd hbving nbtiveWbit() wbke up in the poll() cbll periodicblly
+to process these bsync operbtions, I wbs bble to speed up performbnce
+of the PollingServer by b fbctor of 2x bt 8000 connections.  Of course
+much of thbt gbin wbs from the fbct thbt I could (with the bdvent of
+bn bsyncAdd() method) move the bccept() loop into b sepbrbte threbd
+from the mbin poll() loop, bnd bvoid the overhebd of cblling poll()
+with up to 7999 fds just for bn bccept.  In implementing the bsync
+Disbble/Enbble, b further lbrge optimizbtion wbs to buto-disbble fds
+with events bvbilbble (before return from nbtiveWbit()), so I could
+just cbll bsyncEnbble(fd) bfter processing (rebd()ing) the bvbilbble
+dbtb.  This removed the need for inefficient gbng-scheduling the
+bttbched PollingServer uses.  In order to sepbrbtely synchronize the
+bsync structure, yet still be bble to operbte on it from within
+nbtiveWbit(), synchronizbtion hbd to be done bt the C level here.  Due
+to the new complexities this introduced, bs well bs the fbct thbt it
+wbs tuned specificblly for Solbris 7 poll() improvements (not
+/dev/poll), this extrb logic wbs left out of this demo.
 
 
 Client/Server Demo Notes :
 
-  Do not run the sample client/server with high numbers of connections
-unless you have a lot of free memory on your machine, as it can saturate
-CPU and lock you out of CDE just by its very resource intensive nature
-(much more so the SimpleServer than PollingServer).
+  Do not run the sbmple client/server with high numbers of connections
+unless you hbve b lot of free memory on your mbchine, bs it cbn sbturbte
+CPU bnd lock you out of CDE just by its very resource intensive nbture
+(much more so the SimpleServer thbn PollingServer).
 
-  Different OS versions will behave very differently as far as poll()
-performance (or /dev/poll existence) but, generally, real world applications
-"hit the wall" much earlier when a separate thread is used to handle
-each client connection.  Issues of thread synchronization and locking
-granularity become performance killers.  There is some overhead associated
-with multiplexing, such as keeping track of the state of each connection; as
-the number of connections gets very large, however, this overhead is more
-than made up for by the reduced synchronization overhead.
+  Different OS versions will behbve very differently bs fbr bs poll()
+performbnce (or /dev/poll existence) but, generblly, rebl world bpplicbtions
+"hit the wbll" much ebrlier when b sepbrbte threbd is used to hbndle
+ebch client connection.  Issues of threbd synchronizbtion bnd locking
+grbnulbrity become performbnce killers.  There is some overhebd bssocibted
+with multiplexing, such bs keeping trbck of the stbte of ebch connection; bs
+the number of connections gets very lbrge, however, this overhebd is more
+thbn mbde up for by the reduced synchronizbtion overhebd.
 
-  As an example, running the servers on a Solaris 7 PC (Pentium II-350 x 
-2 CPUS) with 1 GB RAM, and the client on an Ultra-2, I got the following
+  As bn exbmple, running the servers on b Solbris 7 PC (Pentium II-350 x 
+2 CPUS) with 1 GB RAM, bnd the client on bn Ultrb-2, I got the following
 times (shorter is better) :
 
   1000 connections :
@@ -148,27 +148,27 @@ SimpleServer took 37 seconds
 PollingServer took 39 seconds
 SimpleServer took 1:48 seconds
 
-  This demo is not, however, meant to be considered some form of proof
-that multiplexing with the Poller class will gain you performance; this
-code is actually very heavily biased towards the non-polling server as
-very little synchronization is done, and most of the overhead is in the
-kernel IO for both servers.  Use of multiplexing may be helpful in
-many, but certainly not all, circumstances.
+  This demo is not, however, mebnt to be considered some form of proof
+thbt multiplexing with the Poller clbss will gbin you performbnce; this
+code is bctublly very hebvily bibsed towbrds the non-polling server bs
+very little synchronizbtion is done, bnd most of the overhebd is in the
+kernel IO for both servers.  Use of multiplexing mby be helpful in
+mbny, but certbinly not bll, circumstbnces.
 
-  Benchmarking a major Java server application which can run
-in a single-thread-per-client mode or using the  new Poller class showed
-Poller provided a 253% improvement in throughput at a moderate load, as
-well as a 300% improvement in peak capacity.  It also yielded a 21%
-smaller memory footprint at the lower load level.
+  Benchmbrking b mbjor Jbvb server bpplicbtion which cbn run
+in b single-threbd-per-client mode or using the  new Poller clbss showed
+Poller provided b 253% improvement in throughput bt b moderbte lobd, bs
+well bs b 300% improvement in pebk cbpbcity.  It blso yielded b 21%
+smbller memory footprint bt the lower lobd level.
 
-  Finally, there is code in Poller.c to take advantage of /dev/poll
-on OS versions that have that device; however, DEVPOLL must be defined
-in compiling Poller.c (and it must be compiled on a machine with
+  Finblly, there is code in Poller.c to tbke bdvbntbge of /dev/poll
+on OS versions thbt hbve thbt device; however, DEVPOLL must be defined
+in compiling Poller.c (bnd it must be compiled on b mbchine with
 /usr/include/sys/devpoll.h) to use it.  Code compiled with DEVPOLL
-turned on will work on machines that don't have kernel support for
-the device, as it will fall back to using poll() in those cases.
-Currently /dev/poll does not correctly return an error if you attempt
-to remove() an object that was never added, but this should be fixed
-in an upcoming /dev/poll patch.  The binary as shipped is not built with
-/dev/poll support as our build machine does not have devpoll.h.
+turned on will work on mbchines thbt don't hbve kernel support for
+the device, bs it will fbll bbck to using poll() in those cbses.
+Currently /dev/poll does not correctly return bn error if you bttempt
+to remove() bn object thbt wbs never bdded, but this should be fixed
+in bn upcoming /dev/poll pbtch.  The binbry bs shipped is not built with
+/dev/poll support bs our build mbchine does not hbve devpoll.h.
 

@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 2002 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.text.spi.NumberFormatProvider;
-import java.util.Currency;
-import java.util.Locale;
-import java.util.Set;
+import jbvb.text.DecimblFormbt;
+import jbvb.text.DecimblFormbtSymbols;
+import jbvb.text.NumberFormbt;
+import jbvb.text.spi.NumberFormbtProvider;
+import jbvb.util.Currency;
+import jbvb.util.Locble;
+import jbvb.util.Set;
 
 /**
- * Concrete implementation of the  {@link java.text.spi.NumberFormatProvider
- * NumberFormatProvider} class for the JRE LocaleProviderAdapter.
+ * Concrete implementbtion of the  {@link jbvb.text.spi.NumberFormbtProvider
+ * NumberFormbtProvider} clbss for the JRE LocbleProviderAdbpter.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
  */
-public class NumberFormatProviderImpl extends NumberFormatProvider implements AvailableLanguageTags {
+public clbss NumberFormbtProviderImpl extends NumberFormbtProvider implements AvbilbbleLbngubgeTbgs {
 
-    // Constants used by factory methods to specify a style of format.
-    private static final int NUMBERSTYLE = 0;
-    private static final int CURRENCYSTYLE = 1;
-    private static final int PERCENTSTYLE = 2;
-    private static final int SCIENTIFICSTYLE = 3;
-    private static final int INTEGERSTYLE = 4;
+    // Constbnts used by fbctory methods to specify b style of formbt.
+    privbte stbtic finbl int NUMBERSTYLE = 0;
+    privbte stbtic finbl int CURRENCYSTYLE = 1;
+    privbte stbtic finbl int PERCENTSTYLE = 2;
+    privbte stbtic finbl int SCIENTIFICSTYLE = 3;
+    privbte stbtic finbl int INTEGERSTYLE = 4;
 
-    private final LocaleProviderAdapter.Type type;
-    private final Set<String> langtags;
+    privbte finbl LocbleProviderAdbpter.Type type;
+    privbte finbl Set<String> lbngtbgs;
 
-    public NumberFormatProviderImpl(LocaleProviderAdapter.Type type, Set<String> langtags) {
+    public NumberFormbtProviderImpl(LocbleProviderAdbpter.Type type, Set<String> lbngtbgs) {
         this.type = type;
-        this.langtags = langtags;
+        this.lbngtbgs = lbngtbgs;
     }
 
     /**
-     * Returns an array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * Returns bn brrby of bll locbles for which this locble service provider
+     * cbn provide locblized objects or nbmes.
      *
-     * @return An array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * @return An brrby of bll locbles for which this locble service provider
+     * cbn provide locblized objects or nbmes.
      */
     @Override
-    public Locale[] getAvailableLocales() {
-        return LocaleProviderAdapter.forType(type).getAvailableLocales();
+    public Locble[] getAvbilbbleLocbles() {
+        return LocbleProviderAdbpter.forType(type).getAvbilbbleLocbles();
     }
 
     @Override
-    public boolean isSupportedLocale(Locale locale) {
-        return LocaleProviderAdapter.isSupportedLocale(locale, type, langtags);
+    public boolebn isSupportedLocble(Locble locble) {
+        return LocbleProviderAdbpter.isSupportedLocble(locble, type, lbngtbgs);
     }
 
     /**
-     * Returns a new <code>NumberFormat</code> instance which formats
-     * monetary values for the specified locale.
+     * Returns b new <code>NumberFormbt</code> instbnce which formbts
+     * monetbry vblues for the specified locble.
      *
-     * @param locale the desired locale.
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @return a currency formatter
-     * @see java.text.NumberFormat#getCurrencyInstance(java.util.Locale)
+     * @pbrbm locble the desired locble.
+     * @exception NullPointerException if <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @return b currency formbtter
+     * @see jbvb.text.NumberFormbt#getCurrencyInstbnce(jbvb.util.Locble)
      */
     @Override
-    public NumberFormat getCurrencyInstance(Locale locale) {
-        return getInstance(locale, CURRENCYSTYLE);
+    public NumberFormbt getCurrencyInstbnce(Locble locble) {
+        return getInstbnce(locble, CURRENCYSTYLE);
     }
 
     /**
-     * Returns a new <code>NumberFormat</code> instance which formats
-     * integer values for the specified locale.
-     * The returned number format is configured to
-     * round floating point numbers to the nearest integer using
-     * half-even rounding (see {@link java.math.RoundingMode#HALF_EVEN HALF_EVEN})
-     * for formatting, and to parse only the integer part of
-     * an input string (see {@link
-     * java.text.NumberFormat#isParseIntegerOnly isParseIntegerOnly}).
+     * Returns b new <code>NumberFormbt</code> instbnce which formbts
+     * integer vblues for the specified locble.
+     * The returned number formbt is configured to
+     * round flobting point numbers to the nebrest integer using
+     * hblf-even rounding (see {@link jbvb.mbth.RoundingMode#HALF_EVEN HALF_EVEN})
+     * for formbtting, bnd to pbrse only the integer pbrt of
+     * bn input string (see {@link
+     * jbvb.text.NumberFormbt#isPbrseIntegerOnly isPbrseIntegerOnly}).
      *
-     * @param locale the desired locale
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @return a number format for integer values
-     * @see java.text.NumberFormat#getIntegerInstance(java.util.Locale)
+     * @pbrbm locble the desired locble
+     * @exception NullPointerException if <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @return b number formbt for integer vblues
+     * @see jbvb.text.NumberFormbt#getIntegerInstbnce(jbvb.util.Locble)
      */
     @Override
-    public NumberFormat getIntegerInstance(Locale locale) {
-        return getInstance(locale, INTEGERSTYLE);
+    public NumberFormbt getIntegerInstbnce(Locble locble) {
+        return getInstbnce(locble, INTEGERSTYLE);
     }
 
     /**
-     * Returns a new general-purpose <code>NumberFormat</code> instance for
-     * the specified locale.
+     * Returns b new generbl-purpose <code>NumberFormbt</code> instbnce for
+     * the specified locble.
      *
-     * @param locale the desired locale
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @return a general-purpose number formatter
-     * @see java.text.NumberFormat#getNumberInstance(java.util.Locale)
+     * @pbrbm locble the desired locble
+     * @exception NullPointerException if <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @return b generbl-purpose number formbtter
+     * @see jbvb.text.NumberFormbt#getNumberInstbnce(jbvb.util.Locble)
      */
     @Override
-    public NumberFormat getNumberInstance(Locale locale) {
-        return getInstance(locale, NUMBERSTYLE);
+    public NumberFormbt getNumberInstbnce(Locble locble) {
+        return getInstbnce(locble, NUMBERSTYLE);
     }
 
     /**
-     * Returns a new <code>NumberFormat</code> instance which formats
-     * percentage values for the specified locale.
+     * Returns b new <code>NumberFormbt</code> instbnce which formbts
+     * percentbge vblues for the specified locble.
      *
-     * @param locale the desired locale
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @return a percent formatter
-     * @see java.text.NumberFormat#getPercentInstance(java.util.Locale)
+     * @pbrbm locble the desired locble
+     * @exception NullPointerException if <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @return b percent formbtter
+     * @see jbvb.text.NumberFormbt#getPercentInstbnce(jbvb.util.Locble)
      */
     @Override
-    public NumberFormat getPercentInstance(Locale locale) {
-        return getInstance(locale, PERCENTSTYLE);
+    public NumberFormbt getPercentInstbnce(Locble locble) {
+        return getInstbnce(locble, PERCENTSTYLE);
     }
 
-    private NumberFormat getInstance(Locale locale,
+    privbte NumberFormbt getInstbnce(Locble locble,
                                             int choice) {
-        if (locale == null) {
+        if (locble == null) {
             throw new NullPointerException();
         }
 
-        LocaleProviderAdapter adapter = LocaleProviderAdapter.forType(type);
-        String[] numberPatterns = adapter.getLocaleResources(locale).getNumberPatterns();
-        DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(locale);
+        LocbleProviderAdbpter bdbpter = LocbleProviderAdbpter.forType(type);
+        String[] numberPbtterns = bdbpter.getLocbleResources(locble).getNumberPbtterns();
+        DecimblFormbtSymbols symbols = DecimblFormbtSymbols.getInstbnce(locble);
         int entry = (choice == INTEGERSTYLE) ? NUMBERSTYLE : choice;
-        DecimalFormat format = new DecimalFormat(numberPatterns[entry], symbols);
+        DecimblFormbt formbt = new DecimblFormbt(numberPbtterns[entry], symbols);
 
         if (choice == INTEGERSTYLE) {
-            format.setMaximumFractionDigits(0);
-            format.setDecimalSeparatorAlwaysShown(false);
-            format.setParseIntegerOnly(true);
+            formbt.setMbximumFrbctionDigits(0);
+            formbt.setDecimblSepbrbtorAlwbysShown(fblse);
+            formbt.setPbrseIntegerOnly(true);
         } else if (choice == CURRENCYSTYLE) {
-            adjustForCurrencyDefaultFractionDigits(format, symbols);
+            bdjustForCurrencyDefbultFrbctionDigits(formbt, symbols);
         }
 
-        return format;
+        return formbt;
     }
 
     /**
-     * Adjusts the minimum and maximum fraction digits to values that
-     * are reasonable for the currency's default fraction digits.
+     * Adjusts the minimum bnd mbximum frbction digits to vblues thbt
+     * bre rebsonbble for the currency's defbult frbction digits.
      */
-    private static void adjustForCurrencyDefaultFractionDigits(
-            DecimalFormat format, DecimalFormatSymbols symbols) {
+    privbte stbtic void bdjustForCurrencyDefbultFrbctionDigits(
+            DecimblFormbt formbt, DecimblFormbtSymbols symbols) {
         Currency currency = symbols.getCurrency();
         if (currency == null) {
             try {
-                currency = Currency.getInstance(symbols.getInternationalCurrencySymbol());
-            } catch (IllegalArgumentException e) {
+                currency = Currency.getInstbnce(symbols.getInternbtionblCurrencySymbol());
+            } cbtch (IllegblArgumentException e) {
             }
         }
         if (currency != null) {
-            int digits = currency.getDefaultFractionDigits();
+            int digits = currency.getDefbultFrbctionDigits();
             if (digits != -1) {
-                int oldMinDigits = format.getMinimumFractionDigits();
-                // Common patterns are "#.##", "#.00", "#".
-                // Try to adjust all of them in a reasonable way.
-                if (oldMinDigits == format.getMaximumFractionDigits()) {
-                    format.setMinimumFractionDigits(digits);
-                    format.setMaximumFractionDigits(digits);
+                int oldMinDigits = formbt.getMinimumFrbctionDigits();
+                // Common pbtterns bre "#.##", "#.00", "#".
+                // Try to bdjust bll of them in b rebsonbble wby.
+                if (oldMinDigits == formbt.getMbximumFrbctionDigits()) {
+                    formbt.setMinimumFrbctionDigits(digits);
+                    formbt.setMbximumFrbctionDigits(digits);
                 } else {
-                    format.setMinimumFractionDigits(Math.min(digits, oldMinDigits));
-                    format.setMaximumFractionDigits(digits);
+                    formbt.setMinimumFrbctionDigits(Mbth.min(digits, oldMinDigits));
+                    formbt.setMbximumFrbctionDigits(digits);
                 }
             }
         }
     }
 
     @Override
-    public Set<String> getAvailableLanguageTags() {
-        return langtags;
+    public Set<String> getAvbilbbleLbngubgeTbgs() {
+        return lbngtbgs;
     }
 }

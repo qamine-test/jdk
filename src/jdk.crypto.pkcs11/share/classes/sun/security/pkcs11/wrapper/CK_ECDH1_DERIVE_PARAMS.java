@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,27 +45,27 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
 
 
 /**
- * class CK_ECDH1_DERIVE_PARAMS provides the parameters to the
- * CKM_ECDH1_DERIVE and CKM_ECDH1_COFACTOR_DERIVE mechanisms.<p>
+ * clbss CK_ECDH1_DERIVE_PARAMS provides the pbrbmeters to the
+ * CKM_ECDH1_DERIVE bnd CKM_ECDH1_COFACTOR_DERIVE mechbnisms.<p>
  * <B>PKCS#11 structure:</B>
  * <PRE>
  * typedef struct CK_ECDH1_DERIVE_PARAMS {
  *   CK_EC_KDF_TYPE kdf;
- *   CK_ULONG ulSharedDataLen;
- *   CK_BYTE_PTR pSharedData;
- *   CK_ULONG ulPublicDataLen;
- *   CK_BYTE_PTR pPublicData;
+ *   CK_ULONG ulShbredDbtbLen;
+ *   CK_BYTE_PTR pShbredDbtb;
+ *   CK_ULONG ulPublicDbtbLen;
+ *   CK_BYTE_PTR pPublicDbtb;
  * } CK_ECDH1_DERIVE_PARAMS;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
  */
-public class CK_ECDH1_DERIVE_PARAMS {
+public clbss CK_ECDH1_DERIVE_PARAMS {
 
     /**
      * <B>PKCS#11:</B>
@@ -78,59 +78,59 @@ public class CK_ECDH1_DERIVE_PARAMS {
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulSharedDataLen;
-     *   CK_BYTE_PTR pSharedData;
+     *   CK_ULONG ulShbredDbtbLen;
+     *   CK_BYTE_PTR pShbredDbtb;
      * </PRE>
      */
-    public byte[] pSharedData;
+    public byte[] pShbredDbtb;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulPublicDataLen;
-     *   CK_BYTE_PTR pPublicData;
+     *   CK_ULONG ulPublicDbtbLen;
+     *   CK_BYTE_PTR pPublicDbtb;
      * </PRE>
      */
-    public byte[] pPublicData;
+    public byte[] pPublicDbtb;
 
-    public CK_ECDH1_DERIVE_PARAMS(long kdf, byte[] pSharedData, byte[] pPublicData) {
+    public CK_ECDH1_DERIVE_PARAMS(long kdf, byte[] pShbredDbtb, byte[] pPublicDbtb) {
         this.kdf = kdf;
-        this.pSharedData = pSharedData;
-        this.pPublicData = pPublicData;
+        this.pShbredDbtb = pShbredDbtb;
+        this.pPublicDbtb = pPublicDbtb;
     }
 
     /**
-     * Returns the string representation of CK_PKCS5_PBKD2_PARAMS.
+     * Returns the string representbtion of CK_PKCS5_PBKD2_PARAMS.
      *
-     * @return the string representation of CK_PKCS5_PBKD2_PARAMS
+     * @return the string representbtion of CK_PKCS5_PBKD2_PARAMS
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(Constants.INDENT);
-        sb.append("kdf: 0x");
-        sb.append(Functions.toFullHexString(kdf));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("kdf: 0x");
+        sb.bppend(Functions.toFullHexString(kdf));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pSharedDataLen: ");
-        sb.append(pSharedData.length);
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("pShbredDbtbLen: ");
+        sb.bppend(pShbredDbtb.length);
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pSharedData: ");
-        sb.append(Functions.toHexString(pSharedData));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("pShbredDbtb: ");
+        sb.bppend(Functions.toHexString(pShbredDbtb));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pPublicDataLen: ");
-        sb.append(pPublicData.length);
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("pPublicDbtbLen: ");
+        sb.bppend(pPublicDbtb.length);
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pPublicData: ");
-        sb.append(Functions.toHexString(pPublicData));
-        //buffer.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("pPublicDbtb: ");
+        sb.bppend(Functions.toHexString(pPublicDbtb));
+        //buffer.bppend(Constbnts.NEWLINE);
 
         return sb.toString();
     }

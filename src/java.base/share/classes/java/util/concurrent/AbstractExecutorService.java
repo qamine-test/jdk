@@ -1,199 +1,199 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.*;
+pbckbge jbvb.util.concurrent;
+import jbvb.util.*;
 
 /**
- * Provides default implementations of {@link ExecutorService}
- * execution methods. This class implements the {@code submit},
- * {@code invokeAny} and {@code invokeAll} methods using a
- * {@link RunnableFuture} returned by {@code newTaskFor}, which defaults
- * to the {@link FutureTask} class provided in this package.  For example,
- * the implementation of {@code submit(Runnable)} creates an
- * associated {@code RunnableFuture} that is executed and
- * returned. Subclasses may override the {@code newTaskFor} methods
- * to return {@code RunnableFuture} implementations other than
- * {@code FutureTask}.
+ * Provides defbult implementbtions of {@link ExecutorService}
+ * execution methods. This clbss implements the {@code submit},
+ * {@code invokeAny} bnd {@code invokeAll} methods using b
+ * {@link RunnbbleFuture} returned by {@code newTbskFor}, which defbults
+ * to the {@link FutureTbsk} clbss provided in this pbckbge.  For exbmple,
+ * the implementbtion of {@code submit(Runnbble)} crebtes bn
+ * bssocibted {@code RunnbbleFuture} thbt is executed bnd
+ * returned. Subclbsses mby override the {@code newTbskFor} methods
+ * to return {@code RunnbbleFuture} implementbtions other thbn
+ * {@code FutureTbsk}.
  *
- * <p><b>Extension example</b>. Here is a sketch of a class
- * that customizes {@link ThreadPoolExecutor} to use
- * a {@code CustomTask} class instead of the default {@code FutureTask}:
+ * <p><b>Extension exbmple</b>. Here is b sketch of b clbss
+ * thbt customizes {@link ThrebdPoolExecutor} to use
+ * b {@code CustomTbsk} clbss instebd of the defbult {@code FutureTbsk}:
  *  <pre> {@code
- * public class CustomThreadPoolExecutor extends ThreadPoolExecutor {
+ * public clbss CustomThrebdPoolExecutor extends ThrebdPoolExecutor {
  *
- *   static class CustomTask<V> implements RunnableFuture<V> {...}
+ *   stbtic clbss CustomTbsk<V> implements RunnbbleFuture<V> {...}
  *
- *   protected <V> RunnableFuture<V> newTaskFor(Callable<V> c) {
- *       return new CustomTask<V>(c);
+ *   protected <V> RunnbbleFuture<V> newTbskFor(Cbllbble<V> c) {
+ *       return new CustomTbsk<V>(c);
  *   }
- *   protected <V> RunnableFuture<V> newTaskFor(Runnable r, V v) {
- *       return new CustomTask<V>(r, v);
+ *   protected <V> RunnbbleFuture<V> newTbskFor(Runnbble r, V v) {
+ *       return new CustomTbsk<V>(r, v);
  *   }
- *   // ... add constructors, etc.
+ *   // ... bdd constructors, etc.
  * }}</pre>
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public abstract class AbstractExecutorService implements ExecutorService {
+public bbstrbct clbss AbstrbctExecutorService implements ExecutorService {
 
     /**
-     * Returns a {@code RunnableFuture} for the given runnable and default
-     * value.
+     * Returns b {@code RunnbbleFuture} for the given runnbble bnd defbult
+     * vblue.
      *
-     * @param runnable the runnable task being wrapped
-     * @param value the default value for the returned future
-     * @param <T> the type of the given value
-     * @return a {@code RunnableFuture} which, when run, will run the
-     * underlying runnable and which, as a {@code Future}, will yield
-     * the given value as its result and provide for cancellation of
-     * the underlying task
+     * @pbrbm runnbble the runnbble tbsk being wrbpped
+     * @pbrbm vblue the defbult vblue for the returned future
+     * @pbrbm <T> the type of the given vblue
+     * @return b {@code RunnbbleFuture} which, when run, will run the
+     * underlying runnbble bnd which, bs b {@code Future}, will yield
+     * the given vblue bs its result bnd provide for cbncellbtion of
+     * the underlying tbsk
      * @since 1.6
      */
-    protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
-        return new FutureTask<T>(runnable, value);
+    protected <T> RunnbbleFuture<T> newTbskFor(Runnbble runnbble, T vblue) {
+        return new FutureTbsk<T>(runnbble, vblue);
     }
 
     /**
-     * Returns a {@code RunnableFuture} for the given callable task.
+     * Returns b {@code RunnbbleFuture} for the given cbllbble tbsk.
      *
-     * @param callable the callable task being wrapped
-     * @param <T> the type of the callable's result
-     * @return a {@code RunnableFuture} which, when run, will call the
-     * underlying callable and which, as a {@code Future}, will yield
-     * the callable's result as its result and provide for
-     * cancellation of the underlying task
+     * @pbrbm cbllbble the cbllbble tbsk being wrbpped
+     * @pbrbm <T> the type of the cbllbble's result
+     * @return b {@code RunnbbleFuture} which, when run, will cbll the
+     * underlying cbllbble bnd which, bs b {@code Future}, will yield
+     * the cbllbble's result bs its result bnd provide for
+     * cbncellbtion of the underlying tbsk
      * @since 1.6
      */
-    protected <T> RunnableFuture<T> newTaskFor(Callable<T> callable) {
-        return new FutureTask<T>(callable);
+    protected <T> RunnbbleFuture<T> newTbskFor(Cbllbble<T> cbllbble) {
+        return new FutureTbsk<T>(cbllbble);
     }
 
     /**
      * @throws RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
-    public Future<?> submit(Runnable task) {
-        if (task == null) throw new NullPointerException();
-        RunnableFuture<Void> ftask = newTaskFor(task, null);
-        execute(ftask);
-        return ftask;
+    public Future<?> submit(Runnbble tbsk) {
+        if (tbsk == null) throw new NullPointerException();
+        RunnbbleFuture<Void> ftbsk = newTbskFor(tbsk, null);
+        execute(ftbsk);
+        return ftbsk;
     }
 
     /**
      * @throws RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
-    public <T> Future<T> submit(Runnable task, T result) {
-        if (task == null) throw new NullPointerException();
-        RunnableFuture<T> ftask = newTaskFor(task, result);
-        execute(ftask);
-        return ftask;
+    public <T> Future<T> submit(Runnbble tbsk, T result) {
+        if (tbsk == null) throw new NullPointerException();
+        RunnbbleFuture<T> ftbsk = newTbskFor(tbsk, result);
+        execute(ftbsk);
+        return ftbsk;
     }
 
     /**
      * @throws RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
-    public <T> Future<T> submit(Callable<T> task) {
-        if (task == null) throw new NullPointerException();
-        RunnableFuture<T> ftask = newTaskFor(task);
-        execute(ftask);
-        return ftask;
+    public <T> Future<T> submit(Cbllbble<T> tbsk) {
+        if (tbsk == null) throw new NullPointerException();
+        RunnbbleFuture<T> ftbsk = newTbskFor(tbsk);
+        execute(ftbsk);
+        return ftbsk;
     }
 
     /**
-     * the main mechanics of invokeAny.
+     * the mbin mechbnics of invokeAny.
      */
-    private <T> T doInvokeAny(Collection<? extends Callable<T>> tasks,
-                              boolean timed, long nanos)
+    privbte <T> T doInvokeAny(Collection<? extends Cbllbble<T>> tbsks,
+                              boolebn timed, long nbnos)
         throws InterruptedException, ExecutionException, TimeoutException {
-        if (tasks == null)
+        if (tbsks == null)
             throw new NullPointerException();
-        int ntasks = tasks.size();
-        if (ntasks == 0)
-            throw new IllegalArgumentException();
-        ArrayList<Future<T>> futures = new ArrayList<Future<T>>(ntasks);
+        int ntbsks = tbsks.size();
+        if (ntbsks == 0)
+            throw new IllegblArgumentException();
+        ArrbyList<Future<T>> futures = new ArrbyList<Future<T>>(ntbsks);
         ExecutorCompletionService<T> ecs =
             new ExecutorCompletionService<T>(this);
 
-        // For efficiency, especially in executors with limited
-        // parallelism, check to see if previously submitted tasks are
-        // done before submitting more of them. This interleaving
-        // plus the exception mechanics account for messiness of main
+        // For efficiency, especiblly in executors with limited
+        // pbrbllelism, check to see if previously submitted tbsks bre
+        // done before submitting more of them. This interlebving
+        // plus the exception mechbnics bccount for messiness of mbin
         // loop.
 
         try {
-            // Record exceptions so that if we fail to obtain any
-            // result, we can throw the last exception we got.
+            // Record exceptions so thbt if we fbil to obtbin bny
+            // result, we cbn throw the lbst exception we got.
             ExecutionException ee = null;
-            final long deadline = timed ? System.nanoTime() + nanos : 0L;
-            Iterator<? extends Callable<T>> it = tasks.iterator();
+            finbl long debdline = timed ? System.nbnoTime() + nbnos : 0L;
+            Iterbtor<? extends Cbllbble<T>> it = tbsks.iterbtor();
 
-            // Start one task for sure; the rest incrementally
-            futures.add(ecs.submit(it.next()));
-            --ntasks;
-            int active = 1;
+            // Stbrt one tbsk for sure; the rest incrementblly
+            futures.bdd(ecs.submit(it.next()));
+            --ntbsks;
+            int bctive = 1;
 
             for (;;) {
                 Future<T> f = ecs.poll();
                 if (f == null) {
-                    if (ntasks > 0) {
-                        --ntasks;
-                        futures.add(ecs.submit(it.next()));
-                        ++active;
+                    if (ntbsks > 0) {
+                        --ntbsks;
+                        futures.bdd(ecs.submit(it.next()));
+                        ++bctive;
                     }
-                    else if (active == 0)
-                        break;
+                    else if (bctive == 0)
+                        brebk;
                     else if (timed) {
-                        f = ecs.poll(nanos, TimeUnit.NANOSECONDS);
+                        f = ecs.poll(nbnos, TimeUnit.NANOSECONDS);
                         if (f == null)
                             throw new TimeoutException();
-                        nanos = deadline - System.nanoTime();
+                        nbnos = debdline - System.nbnoTime();
                     }
                     else
-                        f = ecs.take();
+                        f = ecs.tbke();
                 }
                 if (f != null) {
-                    --active;
+                    --bctive;
                     try {
                         return f.get();
-                    } catch (ExecutionException eex) {
+                    } cbtch (ExecutionException eex) {
                         ee = eex;
-                    } catch (RuntimeException rex) {
+                    } cbtch (RuntimeException rex) {
                         ee = new ExecutionException(rex);
                     }
                 }
@@ -203,38 +203,38 @@ public abstract class AbstractExecutorService implements ExecutorService {
                 ee = new ExecutionException();
             throw ee;
 
-        } finally {
+        } finblly {
             for (int i = 0, size = futures.size(); i < size; i++)
-                futures.get(i).cancel(true);
+                futures.get(i).cbncel(true);
         }
     }
 
-    public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
+    public <T> T invokeAny(Collection<? extends Cbllbble<T>> tbsks)
         throws InterruptedException, ExecutionException {
         try {
-            return doInvokeAny(tasks, false, 0);
-        } catch (TimeoutException cannotHappen) {
-            assert false;
+            return doInvokeAny(tbsks, fblse, 0);
+        } cbtch (TimeoutException cbnnotHbppen) {
+            bssert fblse;
             return null;
         }
     }
 
-    public <T> T invokeAny(Collection<? extends Callable<T>> tasks,
+    public <T> T invokeAny(Collection<? extends Cbllbble<T>> tbsks,
                            long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
-        return doInvokeAny(tasks, true, unit.toNanos(timeout));
+        return doInvokeAny(tbsks, true, unit.toNbnos(timeout));
     }
 
-    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+    public <T> List<Future<T>> invokeAll(Collection<? extends Cbllbble<T>> tbsks)
         throws InterruptedException {
-        if (tasks == null)
+        if (tbsks == null)
             throw new NullPointerException();
-        ArrayList<Future<T>> futures = new ArrayList<Future<T>>(tasks.size());
-        boolean done = false;
+        ArrbyList<Future<T>> futures = new ArrbyList<Future<T>>(tbsks.size());
+        boolebn done = fblse;
         try {
-            for (Callable<T> t : tasks) {
-                RunnableFuture<T> f = newTaskFor(t);
-                futures.add(f);
+            for (Cbllbble<T> t : tbsks) {
+                RunnbbleFuture<T> f = newTbskFor(t);
+                futures.bdd(f);
                 execute(f);
             }
             for (int i = 0, size = futures.size(); i < size; i++) {
@@ -242,65 +242,65 @@ public abstract class AbstractExecutorService implements ExecutorService {
                 if (!f.isDone()) {
                     try {
                         f.get();
-                    } catch (CancellationException ignore) {
-                    } catch (ExecutionException ignore) {
+                    } cbtch (CbncellbtionException ignore) {
+                    } cbtch (ExecutionException ignore) {
                     }
                 }
             }
             done = true;
             return futures;
-        } finally {
+        } finblly {
             if (!done)
                 for (int i = 0, size = futures.size(); i < size; i++)
-                    futures.get(i).cancel(true);
+                    futures.get(i).cbncel(true);
         }
     }
 
-    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
+    public <T> List<Future<T>> invokeAll(Collection<? extends Cbllbble<T>> tbsks,
                                          long timeout, TimeUnit unit)
         throws InterruptedException {
-        if (tasks == null)
+        if (tbsks == null)
             throw new NullPointerException();
-        long nanos = unit.toNanos(timeout);
-        ArrayList<Future<T>> futures = new ArrayList<Future<T>>(tasks.size());
-        boolean done = false;
+        long nbnos = unit.toNbnos(timeout);
+        ArrbyList<Future<T>> futures = new ArrbyList<Future<T>>(tbsks.size());
+        boolebn done = fblse;
         try {
-            for (Callable<T> t : tasks)
-                futures.add(newTaskFor(t));
+            for (Cbllbble<T> t : tbsks)
+                futures.bdd(newTbskFor(t));
 
-            final long deadline = System.nanoTime() + nanos;
-            final int size = futures.size();
+            finbl long debdline = System.nbnoTime() + nbnos;
+            finbl int size = futures.size();
 
-            // Interleave time checks and calls to execute in case
-            // executor doesn't have any/much parallelism.
+            // Interlebve time checks bnd cblls to execute in cbse
+            // executor doesn't hbve bny/much pbrbllelism.
             for (int i = 0; i < size; i++) {
-                execute((Runnable)futures.get(i));
-                nanos = deadline - System.nanoTime();
-                if (nanos <= 0L)
+                execute((Runnbble)futures.get(i));
+                nbnos = debdline - System.nbnoTime();
+                if (nbnos <= 0L)
                     return futures;
             }
 
             for (int i = 0; i < size; i++) {
                 Future<T> f = futures.get(i);
                 if (!f.isDone()) {
-                    if (nanos <= 0L)
+                    if (nbnos <= 0L)
                         return futures;
                     try {
-                        f.get(nanos, TimeUnit.NANOSECONDS);
-                    } catch (CancellationException ignore) {
-                    } catch (ExecutionException ignore) {
-                    } catch (TimeoutException toe) {
+                        f.get(nbnos, TimeUnit.NANOSECONDS);
+                    } cbtch (CbncellbtionException ignore) {
+                    } cbtch (ExecutionException ignore) {
+                    } cbtch (TimeoutException toe) {
                         return futures;
                     }
-                    nanos = deadline - System.nanoTime();
+                    nbnos = debdline - System.nbnoTime();
                 }
             }
             done = true;
             return futures;
-        } finally {
+        } finblly {
             if (!done)
                 for (int i = 0, size = futures.size(); i < size; i++)
-                    futures.get(i).cancel(true);
+                    futures.get(i).cbncel(true);
         }
     }
 

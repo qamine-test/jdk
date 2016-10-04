@@ -1,31 +1,31 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp.  and others 1998-2013 - All Rights Reserved
+ * (C) Copyright IBM Corp.  bnd others 1998-2013 - All Rights Reserved
  *
  */
 
@@ -33,115 +33,115 @@
 #define __GXLAYOUTENGINE2_H
 
 #include "LETypes.h"
-#include "LayoutEngine.h"
+#include "LbyoutEngine.h"
 
-#include "MorphTables.h"
+#include "MorphTbbles.h"
 
 U_NAMESPACE_BEGIN
 
-class LEFontInstance;
-class LEGlyphStorage;
+clbss LEFontInstbnce;
+clbss LEGlyphStorbge;
 
 /**
- * This class implements layout for QuickDraw GX or Apple Advanced Typograyph (AAT)
- * fonts. A font is a GX or AAT font if it contains a 'mort' table. See Apple's
- * TrueType Reference Manual (http://fonts.apple.com/TTRefMan/index.html) for details.
- * Information about 'mort' tables is in the chapter titled "Font Files."
+ * This clbss implements lbyout for QuickDrbw GX or Apple Advbnced Typogrbyph (AAT)
+ * fonts. A font is b GX or AAT font if it contbins b 'mort' tbble. See Apple's
+ * TrueType Reference Mbnubl (http://fonts.bpple.com/TTRefMbn/index.html) for detbils.
+ * Informbtion bbout 'mort' tbbles is in the chbpter titled "Font Files."
  *
- * @internal
+ * @internbl
  */
-class GXLayoutEngine2 : public LayoutEngine
+clbss GXLbyoutEngine2 : public LbyoutEngine
 {
 public:
     /**
-     * This is the main constructor. It constructs an instance of GXLayoutEngine for
-     * a particular font, script and language. It takes the 'mort' table as a parameter since
-     * LayoutEngine::layoutEngineFactory has to read the 'mort' table to know that it has a
+     * This is the mbin constructor. It constructs bn instbnce of GXLbyoutEngine for
+     * b pbrticulbr font, script bnd lbngubge. It tbkes the 'mort' tbble bs b pbrbmeter since
+     * LbyoutEngine::lbyoutEngineFbctory hbs to rebd the 'mort' tbble to know thbt it hbs b
      * GX font.
      *
-     * Note: GX and AAT fonts don't contain any script and language specific tables, so
-     * the script and language are ignored.
+     * Note: GX bnd AAT fonts don't contbin bny script bnd lbngubge specific tbbles, so
+     * the script bnd lbngubge bre ignored.
      *
-     * @param fontInstance - the font
-     * @param scriptCode - the script
-     * @param langaugeCode - the language
-     * @param morphTable - the 'mort' table
-     * @param success - set to an error code if the operation fails
+     * @pbrbm fontInstbnce - the font
+     * @pbrbm scriptCode - the script
+     * @pbrbm lbngbugeCode - the lbngubge
+     * @pbrbm morphTbble - the 'mort' tbble
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @see LayoutEngine::layoutEngineFactory
-     * @see ScriptAndLangaugeTags.h for script and language codes
+     * @see LbyoutEngine::lbyoutEngineFbctory
+     * @see ScriptAndLbngbugeTbgs.h for script bnd lbngubge codes
      *
-     * @internal
+     * @internbl
      */
-    GXLayoutEngine2(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode, const LEReferenceTo<MorphTableHeader2> &morphTable, le_int32 typoFlags, LEErrorCode &success);
+    GXLbyoutEngine2(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode, const LEReferenceTo<MorphTbbleHebder2> &morphTbble, le_int32 typoFlbgs, LEErrorCode &success);
 
     /**
-     * The destructor, virtual for correct polymorphic invocation.
+     * The destructor, virtubl for correct polymorphic invocbtion.
      *
-     * @internal
+     * @internbl
      */
-    virtual ~GXLayoutEngine2();
+    virtubl ~GXLbyoutEngine2();
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for the actual class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for the bctubl clbss.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual UClassID getDynamicClassID() const;
+    virtubl UClbssID getDynbmicClbssID() const;
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for this class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for this clbss.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    static UClassID getStaticClassID();
+    stbtic UClbssID getStbticClbssID();
 
 protected:
 
     /**
-     * The address of the 'mort' table
+     * The bddress of the 'mort' tbble
      *
-     * @internal
+     * @internbl
      */
-    const LEReferenceTo<MorphTableHeader2> fMorphTable;
+    const LEReferenceTo<MorphTbbleHebder2> fMorphTbble;
 
     /**
-     * This method does GX layout using the font's 'mort' table. It converts the
-     * input character codes to glyph indices using mapCharsToGlyphs, and then
-     * applies the 'mort' table.
+     * This method does GX lbyout using the font's 'mort' tbble. It converts the
+     * input chbrbcter codes to glyph indices using mbpChbrsToGlyphs, bnd then
+     * bpplies the 'mort' tbble.
      *
-     * Input parameters:
-     * @param chars - the input character context
-     * @param offset - the index of the first character to process
-     * @param count - the number of characters to process
-     * @param max - the number of characters in the input context
-     * @param rightToLeft - <code>TRUE</code> if the text is in a right to left directional run
-     * @param glyphStorage - the glyph storage object. The glyph and char index arrays will be set.
+     * Input pbrbmeters:
+     * @pbrbm chbrs - the input chbrbcter context
+     * @pbrbm offset - the index of the first chbrbcter to process
+     * @pbrbm count - the number of chbrbcters to process
+     * @pbrbm mbx - the number of chbrbcters in the input context
+     * @pbrbm rightToLeft - <code>TRUE</code> if the text is in b right to left directionbl run
+     * @pbrbm glyphStorbge - the glyph storbge object. The glyph bnd chbr index brrbys will be set.
      *
-     * Output parameters:
-     * @param success - set to an error code if the operation fails
+     * Output pbrbmeters:
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @return the number of glyphs in the glyph index array
+     * @return the number of glyphs in the glyph index brrby
      *
-     * @internal
+     * @internbl
      */
-    virtual le_int32 computeGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-        LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl le_int32 computeGlyphs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft,
+        LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
     /**
-     * This method adjusts the glyph positions using the font's
-     * 'kern', 'trak', 'bsln', 'opbd' and 'just' tables.
+     * This method bdjusts the glyph positions using the font's
+     * 'kern', 'trbk', 'bsln', 'opbd' bnd 'just' tbbles.
      *
-     * Input parameters:
-     * @param glyphStorage - the object holding the glyph storage. The positions will be updated as needed.
+     * Input pbrbmeters:
+     * @pbrbm glyphStorbge - the object holding the glyph storbge. The positions will be updbted bs needed.
      *
-     * Output parameters:
-     * @param success - set to an error code if the operation fails
+     * Output pbrbmeters:
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @internal
+     * @internbl
      */
-    virtual void adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse,
-                                      LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl void bdjustGlyphPositions(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse,
+                                      LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
 };
 

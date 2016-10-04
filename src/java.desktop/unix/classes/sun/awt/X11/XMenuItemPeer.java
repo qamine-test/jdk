@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.*;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAccessor;
 
-public class XMenuItemPeer implements MenuItemPeer {
+public clbss XMenuItemPeer implements MenuItemPeer {
 
     /************************************************
      *
-     * Data members
+     * Dbtb members
      *
      ************************************************/
 
     /*
-     * Primary members
+     * Primbry members
      */
 
     /**
-     * Window that this item belongs to.
+     * Window thbt this item belongs to.
      */
-    private XBaseMenuWindow container;
+    privbte XBbseMenuWindow contbiner;
 
     /**
-     * Target MenuItem. Note that 'target' member
-     * in XWindow is required for dispatching events.
-     * This member is only used for accessing its fields
-     * and firing ActionEvent & ItemEvent
+     * Tbrget MenuItem. Note thbt 'tbrget' member
+     * in XWindow is required for dispbtching events.
+     * This member is only used for bccessing its fields
+     * bnd firing ActionEvent & ItemEvent
      */
-    private MenuItem target;
+    privbte MenuItem tbrget;
 
     /*
-     * Mapping to window
+     * Mbpping to window
      */
 
     /**
-     * Rectangle occupied by menu item in container's
-     * coordinates. Filled by map(...) function from
-     * XBaseMenuWindow.map()
+     * Rectbngle occupied by menu item in contbiner's
+     * coordinbtes. Filled by mbp(...) function from
+     * XBbseMenuWindow.mbp()
      */
-    private Rectangle bounds;
+    privbte Rectbngle bounds;
 
     /**
-     * Point in container's coordinate system used as
-     * origin by drawText.
+     * Point in contbiner's coordinbte system used bs
+     * origin by drbwText.
      */
-    private Point textOrigin;
+    privbte Point textOrigin;
 
     /*
-     * Size constants
+     * Size constbnts
      */
-    private final static int SEPARATOR_WIDTH = 20;
-    private final static int SEPARATOR_HEIGHT = 5;
+    privbte finbl stbtic int SEPARATOR_WIDTH = 20;
+    privbte finbl stbtic int SEPARATOR_HEIGHT = 5;
 
     /************************************************
      *
@@ -85,32 +85,32 @@ public class XMenuItemPeer implements MenuItemPeer {
      ************************************************/
 
     /**
-     * Text metrics are filled in calcTextMetrics function
-     * and reset in resetTextMetrics function. Text metrics
-     * contain calculated dimensions of various components of
+     * Text metrics bre filled in cblcTextMetrics function
+     * bnd reset in resetTextMetrics function. Text metrics
+     * contbin cblculbted dimensions of vbrious components of
      * menu item.
      */
-    private TextMetrics textMetrics;
+    privbte TextMetrics textMetrics;
 
-    static class TextMetrics implements Cloneable {
+    stbtic clbss TextMetrics implements Clonebble {
         /*
-         * Calculated text size members
+         * Cblculbted text size members
          */
-        private Dimension textDimension;
-        private int shortcutWidth;
-        private int textBaseline;
+        privbte Dimension textDimension;
+        privbte int shortcutWidth;
+        privbte int textBbseline;
 
-        TextMetrics(Dimension textDimension, int shortcutWidth, int textBaseline) {
+        TextMetrics(Dimension textDimension, int shortcutWidth, int textBbseline) {
             this.textDimension = textDimension;
             this.shortcutWidth = shortcutWidth;
-            this.textBaseline = textBaseline;
+            this.textBbseline = textBbseline;
         }
 
         public Object clone() {
             try {
                 return super.clone();
-            } catch (CloneNotSupportedException ex) {
-                throw new InternalError(ex);
+            } cbtch (CloneNotSupportedException ex) {
+                throw new InternblError(ex);
             }
         }
 
@@ -122,8 +122,8 @@ public class XMenuItemPeer implements MenuItemPeer {
             return this.shortcutWidth;
         }
 
-        int getTextBaseline() {
-            return this.textBaseline;
+        int getTextBbseline() {
+            return this.textBbseline;
         }
     }
 
@@ -132,13 +132,13 @@ public class XMenuItemPeer implements MenuItemPeer {
      * Construction
      *
      ************************************************/
-    XMenuItemPeer(MenuItem target) {
-        this.target = target;
+    XMenuItemPeer(MenuItem tbrget) {
+        this.tbrget = tbrget;
     }
 
     /************************************************
      *
-     * Implementaion of interface methods
+     * Implementbion of interfbce methods
      *
      ************************************************/
 
@@ -151,145 +151,145 @@ public class XMenuItemPeer implements MenuItemPeer {
 
     public void setFont(Font font) {
         resetTextMetrics();
-        repaintIfShowing();
+        repbintIfShowing();
     }
     /*
      * From MenuItemPeer
      */
-    public void setLabel(String label) {
+    public void setLbbel(String lbbel) {
         resetTextMetrics();
-        repaintIfShowing();
+        repbintIfShowing();
     }
 
-    public void setEnabled(boolean enabled) {
-        repaintIfShowing();
-    }
-
-    /**
-     * DEPRECATED:  Replaced by setEnabled(boolean).
-     * @see java.awt.peer.MenuItemPeer
-     */
-    public void enable() {
-        setEnabled( true );
+    public void setEnbbled(boolebn enbbled) {
+        repbintIfShowing();
     }
 
     /**
-     * DEPRECATED:  Replaced by setEnabled(boolean).
-     * @see java.awt.peer.MenuItemPeer
+     * DEPRECATED:  Replbced by setEnbbled(boolebn).
+     * @see jbvb.bwt.peer.MenuItemPeer
      */
-    public void disable() {
-        setEnabled( false );
+    public void enbble() {
+        setEnbbled( true );
+    }
+
+    /**
+     * DEPRECATED:  Replbced by setEnbbled(boolebn).
+     * @see jbvb.bwt.peer.MenuItemPeer
+     */
+    public void disbble() {
+        setEnbbled( fblse );
     }
 
     /************************************************
      *
-     * Access to target's fields
+     * Access to tbrget's fields
      *
      ************************************************/
 
-    MenuItem getTarget() {
-        return this.target;
+    MenuItem getTbrget() {
+        return this.tbrget;
     }
 
-    Font getTargetFont() {
-        if (target == null) {
-            return XWindow.getDefaultFont();
+    Font getTbrgetFont() {
+        if (tbrget == null) {
+            return XWindow.getDefbultFont();
         }
-        return AWTAccessor.getMenuComponentAccessor().getFont_NoClientCode(target);
+        return AWTAccessor.getMenuComponentAccessor().getFont_NoClientCode(tbrget);
     }
 
-    String getTargetLabel() {
-        if (target == null) {
+    String getTbrgetLbbel() {
+        if (tbrget == null) {
             return "";
         }
-        String label = AWTAccessor.getMenuItemAccessor().getLabel(target);
-        return (label == null) ? "" : label;
+        String lbbel = AWTAccessor.getMenuItemAccessor().getLbbel(tbrget);
+        return (lbbel == null) ? "" : lbbel;
     }
 
-    boolean isTargetEnabled() {
-        if (target == null) {
-            return false;
+    boolebn isTbrgetEnbbled() {
+        if (tbrget == null) {
+            return fblse;
         }
-        return AWTAccessor.getMenuItemAccessor().isEnabled(target);
+        return AWTAccessor.getMenuItemAccessor().isEnbbled(tbrget);
     }
 
     /**
-     * Returns true if item and all its parents are enabled
+     * Returns true if item bnd bll its pbrents bre enbbled
      * This function is used to fix
-     * 6184485: Popup menu is not disabled on XToolkit even when calling setEnabled (false)
+     * 6184485: Popup menu is not disbbled on XToolkit even when cblling setEnbbled (fblse)
      */
-    boolean isTargetItemEnabled() {
-        if (target == null) {
-            return false;
+    boolebn isTbrgetItemEnbbled() {
+        if (tbrget == null) {
+            return fblse;
         }
-        return AWTAccessor.getMenuItemAccessor().isItemEnabled(target);
+        return AWTAccessor.getMenuItemAccessor().isItemEnbbled(tbrget);
     }
 
-    String getTargetActionCommand() {
-        if (target == null) {
+    String getTbrgetActionCommbnd() {
+        if (tbrget == null) {
             return "";
         }
-        return AWTAccessor.getMenuItemAccessor().getActionCommandImpl(target);
+        return AWTAccessor.getMenuItemAccessor().getActionCommbndImpl(tbrget);
     }
 
-    MenuShortcut getTargetShortcut() {
-        if (target == null) {
+    MenuShortcut getTbrgetShortcut() {
+        if (tbrget == null) {
             return null;
         }
-        return AWTAccessor.getMenuItemAccessor().getShortcut(target);
+        return AWTAccessor.getMenuItemAccessor().getShortcut(tbrget);
     }
 
     String getShortcutText() {
-        //Fix for 6180413: shortcuts should not be displayed for any of the menuitems in a popup menu
-        if (container == null) {
+        //Fix for 6180413: shortcuts should not be displbyed for bny of the menuitems in b popup menu
+        if (contbiner == null) {
             return null;
         }
-        if (container.getRootMenuWindow() instanceof XPopupMenuPeer) {
+        if (contbiner.getRootMenuWindow() instbnceof XPopupMenuPeer) {
             return null;
         }
-        MenuShortcut sc = getTargetShortcut();
-        //TODO:This can potentially call user code
+        MenuShortcut sc = getTbrgetShortcut();
+        //TODO:This cbn potentiblly cbll user code
         return (sc == null) ? null : sc.toString();
     }
 
 
     /************************************************
      *
-     * Basic manipulations
+     * Bbsic mbnipulbtions
      *
      ************************************************/
 
     /**
-     * This function is called when filling item vectors
-     * in XMenuWindow & XMenuBar. We need it because peers
-     * are created earlier than windows.
-     * @param container the window that this item belongs to.
+     * This function is cblled when filling item vectors
+     * in XMenuWindow & XMenuBbr. We need it becbuse peers
+     * bre crebted ebrlier thbn windows.
+     * @pbrbm contbiner the window thbt this item belongs to.
      */
-    void setContainer(XBaseMenuWindow container) {
-        synchronized(XBaseMenuWindow.getMenuTreeLock()) {
-            this.container = container;
+    void setContbiner(XBbseMenuWindow contbiner) {
+        synchronized(XBbseMenuWindow.getMenuTreeLock()) {
+            this.contbiner = contbiner;
         }
     }
 
     /**
-     * returns the window that this item belongs to
+     * returns the window thbt this item belongs to
      */
-    XBaseMenuWindow getContainer() {
-        return this.container;
+    XBbseMenuWindow getContbiner() {
+        return this.contbiner;
     }
 
     /************************************************
      *
-     * Overridable behaviour
+     * Overridbble behbviour
      *
      ************************************************/
 
     /**
      * This function should be overriden simply to
-     * return false in inherited classes.
+     * return fblse in inherited clbsses.
      */
-    boolean isSeparator() {
-        boolean r = (getTargetLabel().equals("-"));
+    boolebn isSepbrbtor() {
+        boolebn r = (getTbrgetLbbel().equbls("-"));
         return r;
     }
 
@@ -300,33 +300,33 @@ public class XMenuItemPeer implements MenuItemPeer {
      ************************************************/
 
     /**
-     * Returns true if container exists and is showing
+     * Returns true if contbiner exists bnd is showing
      */
-    boolean isContainerShowing() {
-        if (container == null) {
-            return false;
+    boolebn isContbinerShowing() {
+        if (contbiner == null) {
+            return fblse;
         }
-        return container.isShowing();
+        return contbiner.isShowing();
     }
 
     /**
-     * Repaints item if it is showing
+     * Repbints item if it is showing
      */
-    void repaintIfShowing() {
-        if (isContainerShowing()) {
-            container.postPaintEvent();
+    void repbintIfShowing() {
+        if (isContbinerShowing()) {
+            contbiner.postPbintEvent();
         }
     }
 
     /**
      * This function is invoked when the user clicks
      * on menu item.
-     * @param when the timestamp of action event
+     * @pbrbm when the timestbmp of bction event
      */
-    void action(long when) {
-        if (!isSeparator() && isTargetItemEnabled()) {
-            XWindow.postEventStatic(new ActionEvent(target, ActionEvent.ACTION_PERFORMED,
-                                                    getTargetActionCommand(), when,
+    void bction(long when) {
+        if (!isSepbrbtor() && isTbrgetItemEnbbled()) {
+            XWindow.postEventStbtic(new ActionEvent(tbrget, ActionEvent.ACTION_PERFORMED,
+                                                    getTbrgetActionCommbnd(), when,
                                                     0));
         }
     }
@@ -338,121 +338,121 @@ public class XMenuItemPeer implements MenuItemPeer {
 
     /**
      * Returns text metrics of menu item.
-     * This function does not use any locks
-     * and is guaranteed to return some value
-     * (possibly actual, possibly expired)
+     * This function does not use bny locks
+     * bnd is gubrbnteed to return some vblue
+     * (possibly bctubl, possibly expired)
      */
     TextMetrics getTextMetrics() {
         TextMetrics textMetrics = this.textMetrics;
         if (textMetrics == null) {
-            textMetrics = calcTextMetrics();
+            textMetrics = cblcTextMetrics();
             this.textMetrics = textMetrics;
         }
         return textMetrics;
     }
 
     /**
-     * Returns dimensions of item's label.
-     * This function does not use any locks
-     * Returns actual or expired  value
+     * Returns dimensions of item's lbbel.
+     * This function does not use bny locks
+     * Returns bctubl or expired  vblue
      * or null if error occurs
      */
     /*Dimension getTextDimension() {
         TextMetrics textMetrics = this.textMetrics;
         if (textMetrics == null) {
-            textMetrics = calcTextMetrics();
+            textMetrics = cblcTextMetrics();
             this.textMetrics = textMetrics;
         }
         return (textMetrics != null) ? textMetrics.textDimension : null;
         }*/
 
     /**
-     * Returns width of item's shortcut label,
-     * 0 if item has no shortcut.
-     * The height of shortcut can be deternimed
+     * Returns width of item's shortcut lbbel,
+     * 0 if item hbs no shortcut.
+     * The height of shortcut cbn be deternimed
      * from text dimensions.
-     * This function does not use any locks
-     * and is guaranteed to return some value
-     * (possibly actual, possibly expired)
+     * This function does not use bny locks
+     * bnd is gubrbnteed to return some vblue
+     * (possibly bctubl, possibly expired)
      */
     /*int getShortcutWidth() {
         TextMetrics textMetrics = this.textMetrics;
         if (textMetrics == null) {
-            textMetrics = calcTextMetrics();
+            textMetrics = cblcTextMetrics();
             this.textMetrics = textMetrics;
         }
         return (textMetrics != null) ? textMetrics.shortcutWidth : 0;
     }
 
-    int getTextBaseline() {
+    int getTextBbseline() {
         TextMetrics textMetrics = this.textMetrics;
         if (textMetrics == null) {
-            textMetrics = calcTextMetrics();
+            textMetrics = cblcTextMetrics();
             this.textMetrics = textMetrics;
         }
-        return (textMetrics != null) ? textMetrics.textBaseline : 0;
+        return (textMetrics != null) ? textMetrics.textBbseline : 0;
         }*/
 
-    TextMetrics calcTextMetrics() {
-        if (container == null) {
+    TextMetrics cblcTextMetrics() {
+        if (contbiner == null) {
             return null;
         }
-        if (isSeparator()) {
+        if (isSepbrbtor()) {
             return new TextMetrics(new Dimension(SEPARATOR_WIDTH, SEPARATOR_HEIGHT), 0, 0);
         }
-        Graphics g = container.getGraphics();
+        Grbphics g = contbiner.getGrbphics();
         if (g == null) {
             return null;
         }
         try {
-            g.setFont(getTargetFont());
+            g.setFont(getTbrgetFont());
             FontMetrics fm = g.getFontMetrics();
-            String str = getTargetLabel();
+            String str = getTbrgetLbbel();
             int width = fm.stringWidth(str);
             int height = fm.getHeight();
             Dimension textDimension = new Dimension(width, height);
-            int textBaseline = fm.getHeight() - fm.getAscent();
+            int textBbseline = fm.getHeight() - fm.getAscent();
             String sc = getShortcutText();
             int shortcutWidth = (sc == null) ? 0 : fm.stringWidth(sc);
-            return new TextMetrics(textDimension, shortcutWidth, textBaseline);
-        } finally {
+            return new TextMetrics(textDimension, shortcutWidth, textBbseline);
+        } finblly {
             g.dispose();
         }
     }
 
     void resetTextMetrics() {
         textMetrics = null;
-        if (container != null) {
-            container.updateSize();
+        if (contbiner != null) {
+            contbiner.updbteSize();
         }
     }
 
     /************************************************
      *
-     * Mapping utility functions
+     * Mbpping utility functions
      *
      ************************************************/
 
     /**
-     * Sets mapping of item to window.
-     * @param bounds bounds of item in container's coordinates
-     * @param textOrigin point for drawString in container's coordinates
-     * @see XBaseMenuWindow.map()
+     * Sets mbpping of item to window.
+     * @pbrbm bounds bounds of item in contbiner's coordinbtes
+     * @pbrbm textOrigin point for drbwString in contbiner's coordinbtes
+     * @see XBbseMenuWindow.mbp()
      */
-    void map(Rectangle bounds, Point textOrigin) {
+    void mbp(Rectbngle bounds, Point textOrigin) {
         this.bounds = bounds;
         this.textOrigin = textOrigin;
     }
 
     /**
-     * returns bounds of item that were previously set by map() function
+     * returns bounds of item thbt were previously set by mbp() function
      */
-    Rectangle getBounds() {
+    Rectbngle getBounds() {
         return bounds;
     }
 
     /**
-     * returns origin of item's text that was previously set by map() function
+     * returns origin of item's text thbt wbs previously set by mbp() function
      */
     Point getTextOrigin() {
         return textOrigin;

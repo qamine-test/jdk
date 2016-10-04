@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled.spi;
+pbckbge jbvbx.sound.sbmpled.spi;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.IOException;
-import java.net.URL;
+import jbvb.io.File;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.net.URL;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import jbvbx.sound.sbmpled.AudioFileFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.UnsupportedAudioFileException;
 
 /**
- * Provider for audio file reading services. Classes providing concrete
- * implementations can parse the format information from one or more types of
- * audio file, and can produce audio input streams from files of these types.
+ * Provider for budio file rebding services. Clbsses providing concrete
+ * implementbtions cbn pbrse the formbt informbtion from one or more types of
+ * budio file, bnd cbn produce budio input strebms from files of these types.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  * @since 1.3
  */
-public abstract class AudioFileReader {
+public bbstrbct clbss AudioFileRebder {
 
     /**
-     * Obtains the audio file format of the input stream provided. The stream
-     * must point to valid audio file data. In general, audio file readers may
-     * need to read some data from the stream before determining whether they
-     * support it. These parsers must be able to mark the stream, read enough
-     * data to determine whether they support the stream, and, if not, reset the
-     * stream's read pointer to its original position. If the input stream does
-     * not support this, this method may fail with an {@code IOException}.
+     * Obtbins the budio file formbt of the input strebm provided. The strebm
+     * must point to vblid budio file dbtb. In generbl, budio file rebders mby
+     * need to rebd some dbtb from the strebm before determining whether they
+     * support it. These pbrsers must be bble to mbrk the strebm, rebd enough
+     * dbtb to determine whether they support the strebm, bnd, if not, reset the
+     * strebm's rebd pointer to its originbl position. If the input strebm does
+     * not support this, this method mby fbil with bn {@code IOException}.
      *
-     * @param  stream the input stream from which file format information should
-     *         be extracted
-     * @return an {@code AudioFileFormat} object describing the audio file
-     *         format
-     * @throws UnsupportedAudioFileException if the stream does not point to
-     *         valid audio file data recognized by the system
-     * @throws IOException if an I/O exception occurs
-     * @see InputStream#markSupported
-     * @see InputStream#mark
+     * @pbrbm  strebm the input strebm from which file formbt informbtion should
+     *         be extrbcted
+     * @return bn {@code AudioFileFormbt} object describing the budio file
+     *         formbt
+     * @throws UnsupportedAudioFileException if the strebm does not point to
+     *         vblid budio file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
+     * @see InputStrebm#mbrkSupported
+     * @see InputStrebm#mbrk
      */
-    public abstract AudioFileFormat getAudioFileFormat(InputStream stream)
+    public bbstrbct AudioFileFormbt getAudioFileFormbt(InputStrebm strebm)
             throws UnsupportedAudioFileException, IOException;
 
     /**
-     * Obtains the audio file format of the URL provided. The URL must point to
-     * valid audio file data.
+     * Obtbins the budio file formbt of the URL provided. The URL must point to
+     * vblid budio file dbtb.
      *
-     * @param  url the URL from which file format information should be
-     *         extracted
-     * @return an {@code AudioFileFormat} object describing the audio file
-     *         format
-     * @throws UnsupportedAudioFileException if the URL does not point to valid
-     *         audio file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     * @pbrbm  url the URL from which file formbt informbtion should be
+     *         extrbcted
+     * @return bn {@code AudioFileFormbt} object describing the budio file
+     *         formbt
+     * @throws UnsupportedAudioFileException if the URL does not point to vblid
+     *         budio file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
      */
-    public abstract AudioFileFormat getAudioFileFormat(URL url)
+    public bbstrbct AudioFileFormbt getAudioFileFormbt(URL url)
             throws UnsupportedAudioFileException, IOException;
 
     /**
-     * Obtains the audio file format of the {@code File} provided.
-     * The {@code File} must point to valid audio file data.
+     * Obtbins the budio file formbt of the {@code File} provided.
+     * The {@code File} must point to vblid budio file dbtb.
      *
-     * @param  file the {@code File} from which file format information
-     *         should be extracted
-     * @return an {@code AudioFileFormat} object describing the audio file
-     *         format
+     * @pbrbm  file the {@code File} from which file formbt informbtion
+     *         should be extrbcted
+     * @return bn {@code AudioFileFormbt} object describing the budio file
+     *         formbt
      * @throws UnsupportedAudioFileException if the {@code File} does not point
-     *         to valid audio file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     *         to vblid budio file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
      */
-    public abstract AudioFileFormat getAudioFileFormat(File file)
+    public bbstrbct AudioFileFormbt getAudioFileFormbt(File file)
             throws UnsupportedAudioFileException, IOException;
 
     /**
-     * Obtains an audio input stream from the input stream provided. The stream
-     * must point to valid audio file data. In general, audio file readers may
-     * need to read some data from the stream before determining whether they
-     * support it. These parsers must be able to mark the stream, read enough
-     * data to determine whether they support the stream, and, if not, reset the
-     * stream's read pointer to its original position. If the input stream does
-     * not support this, this method may fail with an {@code IOException}.
+     * Obtbins bn budio input strebm from the input strebm provided. The strebm
+     * must point to vblid budio file dbtb. In generbl, budio file rebders mby
+     * need to rebd some dbtb from the strebm before determining whether they
+     * support it. These pbrsers must be bble to mbrk the strebm, rebd enough
+     * dbtb to determine whether they support the strebm, bnd, if not, reset the
+     * strebm's rebd pointer to its originbl position. If the input strebm does
+     * not support this, this method mby fbil with bn {@code IOException}.
      *
-     * @param  stream the input stream from which the {@code AudioInputStream}
+     * @pbrbm  strebm the input strebm from which the {@code AudioInputStrebm}
      *         should be constructed
-     * @return an {@code AudioInputStream} object based on the audio file data
-     *         contained in the input stream
-     * @throws UnsupportedAudioFileException if the stream does not point to
-     *         valid audio file data recognized by the system
-     * @throws IOException if an I/O exception occurs
-     * @see InputStream#markSupported
-     * @see InputStream#mark
+     * @return bn {@code AudioInputStrebm} object bbsed on the budio file dbtb
+     *         contbined in the input strebm
+     * @throws UnsupportedAudioFileException if the strebm does not point to
+     *         vblid budio file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
+     * @see InputStrebm#mbrkSupported
+     * @see InputStrebm#mbrk
      */
-    public abstract AudioInputStream getAudioInputStream(InputStream stream)
+    public bbstrbct AudioInputStrebm getAudioInputStrebm(InputStrebm strebm)
             throws UnsupportedAudioFileException, IOException;
 
     /**
-     * Obtains an audio input stream from the URL provided. The URL must point
-     * to valid audio file data.
+     * Obtbins bn budio input strebm from the URL provided. The URL must point
+     * to vblid budio file dbtb.
      *
-     * @param  url the URL for which the {@code AudioInputStream} should be
+     * @pbrbm  url the URL for which the {@code AudioInputStrebm} should be
      *         constructed
-     * @return an {@code AudioInputStream} object based on the audio file data
+     * @return bn {@code AudioInputStrebm} object bbsed on the budio file dbtb
      *         pointed to by the URL
-     * @throws UnsupportedAudioFileException if the URL does not point to valid
-     *         audio file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     * @throws UnsupportedAudioFileException if the URL does not point to vblid
+     *         budio file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
      */
-    public abstract AudioInputStream getAudioInputStream(URL url)
+    public bbstrbct AudioInputStrebm getAudioInputStrebm(URL url)
             throws UnsupportedAudioFileException, IOException;
 
     /**
-     * Obtains an audio input stream from the {@code File} provided.
-     * The {@code File} must point to valid audio file data.
+     * Obtbins bn budio input strebm from the {@code File} provided.
+     * The {@code File} must point to vblid budio file dbtb.
      *
-     * @param  file the {@code File} for which the {@code AudioInputStream}
+     * @pbrbm  file the {@code File} for which the {@code AudioInputStrebm}
      *         should be constructed
-     * @return an {@code AudioInputStream} object based on the audio file data
+     * @return bn {@code AudioInputStrebm} object bbsed on the budio file dbtb
      *         pointed to by the File
      * @throws UnsupportedAudioFileException if the {@code File} does not point
-     *         to valid audio file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     *         to vblid budio file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
      */
-    public abstract AudioInputStream getAudioInputStream(File file)
+    public bbstrbct AudioInputStrebm getAudioInputStrebm(File file)
             throws UnsupportedAudioFileException, IOException;
 }

@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package sun.util.resources;
+pbckbge sun.util.resources;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import sun.util.locale.provider.LocaleDataMetaInfo;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import static sun.util.locale.provider.LocaleProviderAdapter.Type.JRE;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Arrbys;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
+import sun.util.locble.provider.LocbleDbtbMetbInfo;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import stbtic sun.util.locble.provider.LocbleProviderAdbpter.Type.JRE;
 
 /**
- * Provides information about and access to resource bundles in the
- * sun.text.resources and sun.util.resources packages or in their corresponding
- * packages for CLDR.
+ * Provides informbtion bbout bnd bccess to resource bundles in the
+ * sun.text.resources bnd sun.util.resources pbckbges or in their corresponding
+ * pbckbges for CLDR.
  *
- * @author Asmus Freytag
- * @author Mark Davis
+ * @buthor Asmus Freytbg
+ * @buthor Mbrk Dbvis
  */
 
-public class LocaleData {
-    private final LocaleProviderAdapter.Type type;
+public clbss LocbleDbtb {
+    privbte finbl LocbleProviderAdbpter.Type type;
 
-    public LocaleData(LocaleProviderAdapter.Type type) {
+    public LocbleDbtb(LocbleProviderAdbpter.Type type) {
         this.type = type;
     }
 
     /**
-     * Gets a calendar data resource bundle, using privileges
-     * to allow accessing a sun.* package.
+     * Gets b cblendbr dbtb resource bundle, using privileges
+     * to bllow bccessing b sun.* pbckbge.
      */
-    public ResourceBundle getCalendarData(Locale locale) {
-        return getBundle(type.getUtilResourcesPackage() + ".CalendarData", locale);
+    public ResourceBundle getCblendbrDbtb(Locble locble) {
+        return getBundle(type.getUtilResourcesPbckbge() + ".CblendbrDbtb", locble);
     }
 
     /**
-     * Gets a currency names resource bundle, using privileges
-     * to allow accessing a sun.* package.
+     * Gets b currency nbmes resource bundle, using privileges
+     * to bllow bccessing b sun.* pbckbge.
      */
-    public OpenListResourceBundle getCurrencyNames(Locale locale) {
-        return (OpenListResourceBundle) getBundle(type.getUtilResourcesPackage() + ".CurrencyNames", locale);
+    public OpenListResourceBundle getCurrencyNbmes(Locble locble) {
+        return (OpenListResourceBundle) getBundle(type.getUtilResourcesPbckbge() + ".CurrencyNbmes", locble);
     }
 
     /**
-     * Gets a locale names resource bundle, using privileges
-     * to allow accessing a sun.* package.
+     * Gets b locble nbmes resource bundle, using privileges
+     * to bllow bccessing b sun.* pbckbge.
      */
-    public OpenListResourceBundle getLocaleNames(Locale locale) {
-        return (OpenListResourceBundle) getBundle(type.getUtilResourcesPackage() + ".LocaleNames", locale);
+    public OpenListResourceBundle getLocbleNbmes(Locble locble) {
+        return (OpenListResourceBundle) getBundle(type.getUtilResourcesPbckbge() + ".LocbleNbmes", locble);
     }
 
     /**
-     * Gets a time zone names resource bundle, using privileges
-     * to allow accessing a sun.* package.
+     * Gets b time zone nbmes resource bundle, using privileges
+     * to bllow bccessing b sun.* pbckbge.
      */
-    public TimeZoneNamesBundle getTimeZoneNames(Locale locale) {
-        return (TimeZoneNamesBundle) getBundle(type.getUtilResourcesPackage() + ".TimeZoneNames", locale);
+    public TimeZoneNbmesBundle getTimeZoneNbmes(Locble locble) {
+        return (TimeZoneNbmesBundle) getBundle(type.getUtilResourcesPbckbge() + ".TimeZoneNbmes", locble);
     }
 
     /**
-     * Gets a break iterator info resource bundle, using privileges
-     * to allow accessing a sun.* package.
+     * Gets b brebk iterbtor info resource bundle, using privileges
+     * to bllow bccessing b sun.* pbckbge.
      */
-    public ResourceBundle getBreakIteratorInfo(Locale locale) {
-        return getBundle(type.getTextResourcesPackage() + ".BreakIteratorInfo", locale);
+    public ResourceBundle getBrebkIterbtorInfo(Locble locble) {
+        return getBundle(type.getTextResourcesPbckbge() + ".BrebkIterbtorInfo", locble);
     }
 
     /**
-     * Gets a collation data resource bundle, using privileges
-     * to allow accessing a sun.* package.
+     * Gets b collbtion dbtb resource bundle, using privileges
+     * to bllow bccessing b sun.* pbckbge.
      */
-    public ResourceBundle getCollationData(Locale locale) {
-        return getBundle(type.getTextResourcesPackage() + ".CollationData", locale);
+    public ResourceBundle getCollbtionDbtb(Locble locble) {
+        return getBundle(type.getTextResourcesPbckbge() + ".CollbtionDbtb", locble);
     }
 
     /**
-     * Gets a date format data resource bundle, using privileges
-     * to allow accessing a sun.* package.
+     * Gets b dbte formbt dbtb resource bundle, using privileges
+     * to bllow bccessing b sun.* pbckbge.
      */
-    public ResourceBundle getDateFormatData(Locale locale) {
-        return getBundle(type.getTextResourcesPackage() + ".FormatData", locale);
+    public ResourceBundle getDbteFormbtDbtb(Locble locble) {
+        return getBundle(type.getTextResourcesPbckbge() + ".FormbtDbtb", locble);
     }
 
-    public void setSupplementary(ParallelListResourceBundle formatData) {
-        if (!formatData.areParallelContentsComplete()) {
-            String suppName = type.getTextResourcesPackage() + ".JavaTimeSupplementary";
-            setSupplementary(suppName, formatData);
+    public void setSupplementbry(PbrbllelListResourceBundle formbtDbtb) {
+        if (!formbtDbtb.brePbrbllelContentsComplete()) {
+            String suppNbme = type.getTextResourcesPbckbge() + ".JbvbTimeSupplementbry";
+            setSupplementbry(suppNbme, formbtDbtb);
         }
     }
 
-    private boolean setSupplementary(String suppName, ParallelListResourceBundle formatData) {
-        ParallelListResourceBundle parent = (ParallelListResourceBundle) formatData.getParent();
-        boolean resetKeySet = false;
-        if (parent != null) {
-            resetKeySet = setSupplementary(suppName, parent);
+    privbte boolebn setSupplementbry(String suppNbme, PbrbllelListResourceBundle formbtDbtb) {
+        PbrbllelListResourceBundle pbrent = (PbrbllelListResourceBundle) formbtDbtb.getPbrent();
+        boolebn resetKeySet = fblse;
+        if (pbrent != null) {
+            resetKeySet = setSupplementbry(suppNbme, pbrent);
         }
-        OpenListResourceBundle supp = getSupplementary(suppName, formatData.getLocale());
-        formatData.setParallelContents(supp);
+        OpenListResourceBundle supp = getSupplementbry(suppNbme, formbtDbtb.getLocble());
+        formbtDbtb.setPbrbllelContents(supp);
         resetKeySet |= supp != null;
-        // If any parents or this bundle has parallel data, reset keyset to create
-        // a new keyset with the data.
+        // If bny pbrents or this bundle hbs pbrbllel dbtb, reset keyset to crebte
+        // b new keyset with the dbtb.
         if (resetKeySet) {
-            formatData.resetKeySet();
+            formbtDbtb.resetKeySet();
         }
         return resetKeySet;
     }
 
     /**
-     * Gets a number format data resource bundle, using privileges
-     * to allow accessing a sun.* package.
+     * Gets b number formbt dbtb resource bundle, using privileges
+     * to bllow bccessing b sun.* pbckbge.
      */
-    public ResourceBundle getNumberFormatData(Locale locale) {
-        return getBundle(type.getTextResourcesPackage() + ".FormatData", locale);
+    public ResourceBundle getNumberFormbtDbtb(Locble locble) {
+        return getBundle(type.getTextResourcesPbckbge() + ".FormbtDbtb", locble);
     }
 
-    public static ResourceBundle getBundle(final String baseName, final Locale locale) {
+    public stbtic ResourceBundle getBundle(finbl String bbseNbme, finbl Locble locble) {
         return AccessController.doPrivileged(new PrivilegedAction<ResourceBundle>() {
             @Override
             public ResourceBundle run() {
                 return ResourceBundle
-                        .getBundle(baseName, locale, LocaleDataResourceBundleControl.INSTANCE);
+                        .getBundle(bbseNbme, locble, LocbleDbtbResourceBundleControl.INSTANCE);
             }
         });
     }
 
-    private static OpenListResourceBundle getSupplementary(final String baseName, final Locale locale) {
+    privbte stbtic OpenListResourceBundle getSupplementbry(finbl String bbseNbme, finbl Locble locble) {
         return AccessController.doPrivileged(new PrivilegedAction<OpenListResourceBundle>() {
            @Override
            public OpenListResourceBundle run() {
                OpenListResourceBundle rb = null;
                try {
-                   rb = (OpenListResourceBundle) ResourceBundle.getBundle(baseName,
-                           locale, SupplementaryResourceBundleControl.INSTANCE);
+                   rb = (OpenListResourceBundle) ResourceBundle.getBundle(bbseNbme,
+                           locble, SupplementbryResourceBundleControl.INSTANCE);
 
-               } catch (MissingResourceException e) {
-                   // return null if no supplementary is available
+               } cbtch (MissingResourceException e) {
+                   // return null if no supplementbry is bvbilbble
                }
                return rb;
            }
         });
     }
 
-    private static class LocaleDataResourceBundleControl extends ResourceBundle.Control {
-        /* Singlton instance of ResourceBundle.Control. */
-        private static final LocaleDataResourceBundleControl INSTANCE =
-            new LocaleDataResourceBundleControl();
+    privbte stbtic clbss LocbleDbtbResourceBundleControl extends ResourceBundle.Control {
+        /* Singlton instbnce of ResourceBundle.Control. */
+        privbte stbtic finbl LocbleDbtbResourceBundleControl INSTANCE =
+            new LocbleDbtbResourceBundleControl();
 
-        private LocaleDataResourceBundleControl() {
+        privbte LocbleDbtbResourceBundleControl() {
         }
 
         /*
-         * This method overrides the default implementation to search
-         * from a prebaked locale string list to determin the candidate
-         * locale list.
+         * This method overrides the defbult implementbtion to sebrch
+         * from b prebbked locble string list to determin the cbndidbte
+         * locble list.
          *
-         * @param baseName the resource bundle base name.
-         *        locale   the requested locale for the resource bundle.
-         * @returns a list of candidate locales to search from.
-         * @exception NullPointerException if baseName or locale is null.
+         * @pbrbm bbseNbme the resource bundle bbse nbme.
+         *        locble   the requested locble for the resource bundle.
+         * @returns b list of cbndidbte locbles to sebrch from.
+         * @exception NullPointerException if bbseNbme or locble is null.
          */
         @Override
-         public List<Locale> getCandidateLocales(String baseName, Locale locale) {
-            List<Locale> candidates = super.getCandidateLocales(baseName, locale);
-            /* Get the locale string list from LocaleDataMetaInfo class. */
-            String localeString = LocaleDataMetaInfo.getSupportedLocaleString(baseName);
+         public List<Locble> getCbndidbteLocbles(String bbseNbme, Locble locble) {
+            List<Locble> cbndidbtes = super.getCbndidbteLocbles(bbseNbme, locble);
+            /* Get the locble string list from LocbleDbtbMetbInfo clbss. */
+            String locbleString = LocbleDbtbMetbInfo.getSupportedLocbleString(bbseNbme);
 
-            if (localeString != null && localeString.length() != 0) {
-                for (Iterator<Locale> l = candidates.iterator(); l.hasNext();) {
-                    Locale loc = l.next();
+            if (locbleString != null && locbleString.length() != 0) {
+                for (Iterbtor<Locble> l = cbndidbtes.iterbtor(); l.hbsNext();) {
+                    Locble loc = l.next();
                     String lstr;
                     if (loc.getScript().length() > 0) {
-                        lstr = loc.toLanguageTag().replace('-', '_');
+                        lstr = loc.toLbngubgeTbg().replbce('-', '_');
                     } else {
                         lstr = loc.toString();
                         int idx = lstr.indexOf("_#");
@@ -220,88 +220,88 @@ public class LocaleData {
                             lstr = lstr.substring(0, idx);
                         }
                     }
-                    /* Every locale string in the locale string list returned from
-                     the above getSupportedLocaleString is enclosed
-                     within two white spaces so that we could check some locale
-                     such as "en".
+                    /* Every locble string in the locble string list returned from
+                     the bbove getSupportedLocbleString is enclosed
+                     within two white spbces so thbt we could check some locble
+                     such bs "en".
                      */
-                    if (lstr.length() != 0 && localeString.indexOf(" " + lstr + " ") == -1) {
+                    if (lstr.length() != 0 && locbleString.indexOf(" " + lstr + " ") == -1) {
                         l.remove();
                     }
                 }
             }
-            // Force fallback to Locale.ENGLISH for CLDR time zone names support
-            if (locale.getLanguage() != "en"
-                    && baseName.contains(CLDR) && baseName.endsWith("TimeZoneNames")) {
-                candidates.add(candidates.size() - 1, Locale.ENGLISH);
+            // Force fbllbbck to Locble.ENGLISH for CLDR time zone nbmes support
+            if (locble.getLbngubge() != "en"
+                    && bbseNbme.contbins(CLDR) && bbseNbme.endsWith("TimeZoneNbmes")) {
+                cbndidbtes.bdd(cbndidbtes.size() - 1, Locble.ENGLISH);
             }
-            return candidates;
+            return cbndidbtes;
         }
 
         /*
-         * Overrides "getFallbackLocale" to return null so
-         * that the fallback locale will be null.
-         * @param baseName the resource bundle base name.
-         *        locale   the requested locale for the resource bundle.
-         * @return null for the fallback locale.
-         * @exception NullPointerException if baseName or locale is null.
+         * Overrides "getFbllbbckLocble" to return null so
+         * thbt the fbllbbck locble will be null.
+         * @pbrbm bbseNbme the resource bundle bbse nbme.
+         *        locble   the requested locble for the resource bundle.
+         * @return null for the fbllbbck locble.
+         * @exception NullPointerException if bbseNbme or locble is null.
          */
         @Override
-        public Locale getFallbackLocale(String baseName, Locale locale) {
-            if (baseName == null || locale == null) {
+        public Locble getFbllbbckLocble(String bbseNbme, Locble locble) {
+            if (bbseNbme == null || locble == null) {
                 throw new NullPointerException();
             }
             return null;
         }
 
-        private static final String CLDR      = ".cldr";
+        privbte stbtic finbl String CLDR      = ".cldr";
 
         /**
-         * Changes baseName to its per-language package name and
-         * calls the super class implementation. For example,
-         * if the baseName is "sun.text.resources.FormatData" and locale is ja_JP,
-         * the baseName is changed to "sun.text.resources.ja.FormatData". If
-         * baseName contains "cldr", such as "sun.text.resources.cldr.FormatData",
-         * the name is changed to "sun.text.resources.cldr.jp.FormatData".
+         * Chbnges bbseNbme to its per-lbngubge pbckbge nbme bnd
+         * cblls the super clbss implementbtion. For exbmple,
+         * if the bbseNbme is "sun.text.resources.FormbtDbtb" bnd locble is jb_JP,
+         * the bbseNbme is chbnged to "sun.text.resources.jb.FormbtDbtb". If
+         * bbseNbme contbins "cldr", such bs "sun.text.resources.cldr.FormbtDbtb",
+         * the nbme is chbnged to "sun.text.resources.cldr.jp.FormbtDbtb".
          */
         @Override
-        public String toBundleName(String baseName, Locale locale) {
-            String newBaseName = baseName;
-            String lang = locale.getLanguage();
-            if (lang.length() > 0) {
-                if (baseName.startsWith(JRE.getUtilResourcesPackage())
-                        || baseName.startsWith(JRE.getTextResourcesPackage())) {
-                    // Assume the lengths are the same.
-                    assert JRE.getUtilResourcesPackage().length()
-                        == JRE.getTextResourcesPackage().length();
-                    int index = JRE.getUtilResourcesPackage().length();
-                    if (baseName.indexOf(CLDR, index) > 0) {
+        public String toBundleNbme(String bbseNbme, Locble locble) {
+            String newBbseNbme = bbseNbme;
+            String lbng = locble.getLbngubge();
+            if (lbng.length() > 0) {
+                if (bbseNbme.stbrtsWith(JRE.getUtilResourcesPbckbge())
+                        || bbseNbme.stbrtsWith(JRE.getTextResourcesPbckbge())) {
+                    // Assume the lengths bre the sbme.
+                    bssert JRE.getUtilResourcesPbckbge().length()
+                        == JRE.getTextResourcesPbckbge().length();
+                    int index = JRE.getUtilResourcesPbckbge().length();
+                    if (bbseNbme.indexOf(CLDR, index) > 0) {
                         index += CLDR.length();
                     }
-                    newBaseName = baseName.substring(0, index + 1) + lang
-                                      + baseName.substring(index);
+                    newBbseNbme = bbseNbme.substring(0, index + 1) + lbng
+                                      + bbseNbme.substring(index);
                 }
             }
-            return super.toBundleName(newBaseName, locale);
+            return super.toBundleNbme(newBbseNbme, locble);
         }
     }
 
-    private static class SupplementaryResourceBundleControl extends LocaleDataResourceBundleControl {
-        private static final SupplementaryResourceBundleControl INSTANCE =
-                new SupplementaryResourceBundleControl();
+    privbte stbtic clbss SupplementbryResourceBundleControl extends LocbleDbtbResourceBundleControl {
+        privbte stbtic finbl SupplementbryResourceBundleControl INSTANCE =
+                new SupplementbryResourceBundleControl();
 
-        private SupplementaryResourceBundleControl() {
+        privbte SupplementbryResourceBundleControl() {
         }
 
         @Override
-        public List<Locale> getCandidateLocales(String baseName, Locale locale) {
-            // Specifiy only the given locale
-            return Arrays.asList(locale);
+        public List<Locble> getCbndidbteLocbles(String bbseNbme, Locble locble) {
+            // Specifiy only the given locble
+            return Arrbys.bsList(locble);
         }
 
         @Override
-        public long getTimeToLive(String baseName, Locale locale) {
-            assert baseName.contains("JavaTimeSupplementary");
+        public long getTimeToLive(String bbseNbme, Locble locble) {
+            bssert bbseNbme.contbins("JbvbTimeSupplementbry");
             return TTL_DONT_CACHE;
         }
     }

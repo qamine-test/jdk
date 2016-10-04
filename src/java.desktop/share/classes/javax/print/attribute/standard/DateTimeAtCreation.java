@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import java.util.Date;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.DateTimeSyntax;
-import javax.print.attribute.PrintJobAttribute;
+import jbvb.util.Dbte;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.DbteTimeSyntbx;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class DateTimeAtCreation is a printing attribute class, a date-time
- * attribute, that indicates the date and time at which the Print Job was
- * created.
+ * Clbss DbteTimeAtCrebtion is b printing bttribute clbss, b dbte-time
+ * bttribute, thbt indicbtes the dbte bnd time bt which the Print Job wbs
+ * crebted.
  * <P>
- * To construct a DateTimeAtCreation attribute from separate values of the year,
- * month, day, hour, minute, and so on, use a {@link java.util.Calendar
- * Calendar} object to construct a {@link java.util.Date Date} object, then use
- * the {@link java.util.Date Date} object to construct the DateTimeAtCreation
- * attribute. To convert a DateTimeAtCreation attribute to separate values of
- * the year, month, day, hour, minute, and so on, create a {@link
- * java.util.Calendar Calendar} object and set it to the {@link java.util.Date
- * Date} from the DateTimeAtCreation attribute.
+ * To construct b DbteTimeAtCrebtion bttribute from sepbrbte vblues of the yebr,
+ * month, dby, hour, minute, bnd so on, use b {@link jbvb.util.Cblendbr
+ * Cblendbr} object to construct b {@link jbvb.util.Dbte Dbte} object, then use
+ * the {@link jbvb.util.Dbte Dbte} object to construct the DbteTimeAtCrebtion
+ * bttribute. To convert b DbteTimeAtCrebtion bttribute to sepbrbte vblues of
+ * the yebr, month, dby, hour, minute, bnd so on, crebte b {@link
+ * jbvb.util.Cblendbr Cblendbr} object bnd set it to the {@link jbvb.util.Dbte
+ * Dbte} from the DbteTimeAtCrebtion bttribute.
  * <P>
- * <B>IPP Compatibility:</B> The information needed to construct an IPP
- * "date-time-at-creation" attribute can be obtained as described above. The
- * category name returned by <CODE>getName()</CODE> gives the IPP attribute
- * name.
+ * <B>IPP Compbtibility:</B> The informbtion needed to construct bn IPP
+ * "dbte-time-bt-crebtion" bttribute cbn be obtbined bs described bbove. The
+ * cbtegory nbme returned by <CODE>getNbme()</CODE> gives the IPP bttribute
+ * nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class DateTimeAtCreation   extends DateTimeSyntax
+public finbl clbss DbteTimeAtCrebtion   extends DbteTimeSyntbx
         implements PrintJobAttribute {
 
-    private static final long serialVersionUID = -2923732231056647903L;
+    privbte stbtic finbl long seriblVersionUID = -2923732231056647903L;
 
     /**
-     * Construct a new date-time at creation attribute with the given {@link
-     * java.util.Date Date} value.
+     * Construct b new dbte-time bt crebtion bttribute with the given {@link
+     * jbvb.util.Dbte Dbte} vblue.
      *
-     * @param  dateTime  {@link java.util.Date Date} value.
+     * @pbrbm  dbteTime  {@link jbvb.util.Dbte Dbte} vblue.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>dateTime</CODE> is null.
+     *     (unchecked exception) Thrown if <CODE>dbteTime</CODE> is null.
      */
-    public DateTimeAtCreation(Date dateTime) {
-        super (dateTime);
+    public DbteTimeAtCrebtion(Dbte dbteTime) {
+        super (dbteTime);
     }
 
     /**
-     * Returns whether this date-time at creation attribute is equivalent to
-     * the passed in object. To be equivalent, all of the following conditions
+     * Returns whether this dbte-time bt crebtion bttribute is equivblent to
+     * the pbssed in object. To be equivblent, bll of the following conditions
      * must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class DateTimeAtCreation.
+     * <CODE>object</CODE> is bn instbnce of clbss DbteTimeAtCrebtion.
      * <LI>
-     * This date-time at creation attribute's {@link java.util.Date Date} value
-     * and <CODE>object</CODE>'s {@link java.util.Date Date} value are equal.
+     * This dbte-time bt crebtion bttribute's {@link jbvb.util.Dbte Dbte} vblue
+     * bnd <CODE>object</CODE>'s {@link jbvb.util.Dbte Dbte} vblue bre equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this date-time
-     *          at creation attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this dbte-time
+     *          bt crebtion bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return(super.equals (object) &&
-               object instanceof DateTimeAtCreation);
+    public boolebn equbls(Object object) {
+        return(super.equbls (object) &&
+               object instbnceof DbteTimeAtCrebtion);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class DateTimeAtCreation, the category is class
-     * DateTimeAtCreation itself.
+     * For clbss DbteTimeAtCrebtion, the cbtegory is clbss
+     * DbteTimeAtCrebtion itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return DateTimeAtCreation.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return DbteTimeAtCrebtion.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class DateTimeAtCreation, the category name is
-     * <CODE>"date-time-at-creation"</CODE>.
+     * For clbss DbteTimeAtCrebtion, the cbtegory nbme is
+     * <CODE>"dbte-time-bt-crebtion"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "date-time-at-creation";
+    public finbl String getNbme() {
+        return "dbte-time-bt-crebtion";
     }
 
 }

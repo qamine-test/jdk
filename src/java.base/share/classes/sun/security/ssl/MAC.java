@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.NoSuchAlgorithmException;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.ByteBuffer;
 
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
+import jbvbx.crypto.Mbc;
+import jbvbx.crypto.SecretKey;
 
-import sun.security.ssl.CipherSuite.MacAlg;
-import static sun.security.ssl.CipherSuite.*;
+import sun.security.ssl.CipherSuite.MbcAlg;
+import stbtic sun.security.ssl.CipherSuite.*;
 
 /**
- * This class computes the "Message Authentication Code" (MAC) for each
- * SSL stream and block cipher message.  This is essentially a shared-secret
- * signature, used to provide integrity protection for SSL messages.  The
- * MAC is actually one of several keyed hashes, as associated with the cipher
- * suite and protocol version. (SSL v3.0 uses one construct, TLS uses another.)
+ * This clbss computes the "Messbge Authenticbtion Code" (MAC) for ebch
+ * SSL strebm bnd block cipher messbge.  This is essentiblly b shbred-secret
+ * signbture, used to provide integrity protection for SSL messbges.  The
+ * MAC is bctublly one of severbl keyed hbshes, bs bssocibted with the cipher
+ * suite bnd protocol version. (SSL v3.0 uses one construct, TLS uses bnother.)
  *
- * @author David Brownell
- * @author Andreas Sterbenz
+ * @buthor Dbvid Brownell
+ * @buthor Andrebs Sterbenz
  */
-final class MAC extends Authenticator {
+finbl clbss MAC extends Authenticbtor {
 
-    final static MAC NULL = new MAC();
+    finbl stbtic MAC NULL = new MAC();
 
-    // Value of the null MAC is fixed
-    private static final byte nullMAC[] = new byte[0];
+    // Vblue of the null MAC is fixed
+    privbte stbtic finbl byte nullMAC[] = new byte[0];
 
-    // internal identifier for the MAC algorithm
-    private final MacAlg        macAlg;
+    // internbl identifier for the MAC blgorithm
+    privbte finbl MbcAlg        mbcAlg;
 
-    // JCE Mac object
-    private final Mac mac;
+    // JCE Mbc object
+    privbte finbl Mbc mbc;
 
-    private MAC() {
-        macAlg = M_NULL;
-        mac = null;
+    privbte MAC() {
+        mbcAlg = M_NULL;
+        mbc = null;
     }
 
     /**
-     * Set up, configured for the given SSL/TLS MAC type and version.
+     * Set up, configured for the given SSL/TLS MAC type bnd version.
      */
-    MAC(MacAlg macAlg, ProtocolVersion protocolVersion, SecretKey key)
-            throws NoSuchAlgorithmException, InvalidKeyException {
+    MAC(MbcAlg mbcAlg, ProtocolVersion protocolVersion, SecretKey key)
+            throws NoSuchAlgorithmException, InvblidKeyException {
         super(protocolVersion);
-        this.macAlg = macAlg;
+        this.mbcAlg = mbcAlg;
 
-        String algorithm;
-        boolean tls = (protocolVersion.v >= ProtocolVersion.TLS10.v);
+        String blgorithm;
+        boolebn tls = (protocolVersion.v >= ProtocolVersion.TLS10.v);
 
-        if (macAlg == M_MD5) {
-            algorithm = tls ? "HmacMD5" : "SslMacMD5";
-        } else if (macAlg == M_SHA) {
-            algorithm = tls ? "HmacSHA1" : "SslMacSHA1";
-        } else if (macAlg == M_SHA256) {
-            algorithm = "HmacSHA256";    // TLS 1.2+
-        } else if (macAlg == M_SHA384) {
-            algorithm = "HmacSHA384";    // TLS 1.2+
+        if (mbcAlg == M_MD5) {
+            blgorithm = tls ? "HmbcMD5" : "SslMbcMD5";
+        } else if (mbcAlg == M_SHA) {
+            blgorithm = tls ? "HmbcSHA1" : "SslMbcSHA1";
+        } else if (mbcAlg == M_SHA256) {
+            blgorithm = "HmbcSHA256";    // TLS 1.2+
+        } else if (mbcAlg == M_SHA384) {
+            blgorithm = "HmbcSHA384";    // TLS 1.2+
         } else {
-            throw new RuntimeException("Unknown Mac " + macAlg);
+            throw new RuntimeException("Unknown Mbc " + mbcAlg);
         }
 
-        mac = JsseJce.getMac(algorithm);
-        mac.init(key);
+        mbc = JsseJce.getMbc(blgorithm);
+        mbc.init(key);
     }
 
     /**
      * Returns the length of the MAC.
      */
     int MAClen() {
-        return macAlg.size;
+        return mbcAlg.size;
     }
 
     /**
-     * Returns the hash function block length of the MAC alorithm.
+     * Returns the hbsh function block length of the MAC blorithm.
      */
-    int hashBlockLen() {
-        return macAlg.hashBlockSize;
+    int hbshBlockLen() {
+        return mbcAlg.hbshBlockSize;
     }
 
     /**
-     * Returns the hash function minimal padding length of the MAC alorithm.
+     * Returns the hbsh function minimbl pbdding length of the MAC blorithm.
      */
-    int minimalPaddingLen() {
-        return macAlg.minimalPaddingSize;
+    int minimblPbddingLen() {
+        return mbcAlg.minimblPbddingSize;
     }
 
     /**
-     * Computes and returns the MAC for the data in this byte array.
+     * Computes bnd returns the MAC for the dbtb in this byte brrby.
      *
-     * @param type record type
-     * @param buf compressed record on which the MAC is computed
-     * @param offset start of compressed record data
-     * @param len the size of the compressed record
-     * @param isSimulated if true, simulate the the MAC computation
+     * @pbrbm type record type
+     * @pbrbm buf compressed record on which the MAC is computed
+     * @pbrbm offset stbrt of compressed record dbtb
+     * @pbrbm len the size of the compressed record
+     * @pbrbm isSimulbted if true, simulbte the the MAC computbtion
      */
-    final byte[] compute(byte type, byte buf[],
-            int offset, int len, boolean isSimulated) {
-        if (macAlg.size == 0) {
+    finbl byte[] compute(byte type, byte buf[],
+            int offset, int len, boolebn isSimulbted) {
+        if (mbcAlg.size == 0) {
             return nullMAC;
         }
 
-        if (!isSimulated) {
-            byte[] additional = acquireAuthenticationBytes(type, len);
-            mac.update(additional);
+        if (!isSimulbted) {
+            byte[] bdditionbl = bcquireAuthenticbtionBytes(type, len);
+            mbc.updbte(bdditionbl);
         }
-        mac.update(buf, offset, len);
+        mbc.updbte(buf, offset, len);
 
-        return mac.doFinal();
+        return mbc.doFinbl();
     }
 
     /**
-     * Compute and returns the MAC for the remaining data
+     * Compute bnd returns the MAC for the rembining dbtb
      * in this ByteBuffer.
      *
-     * On return, the bb position == limit, and limit will
-     * have not changed.
+     * On return, the bb position == limit, bnd limit will
+     * hbve not chbnged.
      *
-     * @param type record type
-     * @param bb a ByteBuffer in which the position and limit
-     *          demarcate the data to be MAC'd.
-     * @param isSimulated if true, simulate the the MAC computation
+     * @pbrbm type record type
+     * @pbrbm bb b ByteBuffer in which the position bnd limit
+     *          dembrcbte the dbtb to be MAC'd.
+     * @pbrbm isSimulbted if true, simulbte the the MAC computbtion
      */
-    final byte[] compute(byte type, ByteBuffer bb, boolean isSimulated) {
-        if (macAlg.size == 0) {
+    finbl byte[] compute(byte type, ByteBuffer bb, boolebn isSimulbted) {
+        if (mbcAlg.size == 0) {
             return nullMAC;
         }
 
-        if (!isSimulated) {
-            byte[] additional =
-                    acquireAuthenticationBytes(type, bb.remaining());
-            mac.update(additional);
+        if (!isSimulbted) {
+            byte[] bdditionbl =
+                    bcquireAuthenticbtionBytes(type, bb.rembining());
+            mbc.updbte(bdditionbl);
         }
-        mac.update(bb);
+        mbc.updbte(bb);
 
-        return mac.doFinal();
+        return mbc.doFinbl();
     }
 
 }

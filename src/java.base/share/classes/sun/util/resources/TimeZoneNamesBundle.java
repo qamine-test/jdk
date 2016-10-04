@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package sun.util.resources;
+pbckbge sun.util.resources;
 
-import java.util.Map;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.MissingResourceException;
-import java.util.Set;
+import jbvb.util.Mbp;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.LinkedHbshSet;
+import jbvb.util.MissingResourceException;
+import jbvb.util.Set;
 
 /**
- * Subclass of <code>ResourceBundle</code> with special
- * functionality for time zone names. The additional functionality:
+ * Subclbss of <code>ResourceBundle</code> with specibl
+ * functionblity for time zone nbmes. The bdditionbl functionblity:
  * <ul>
  * <li>Preserves the order of entries in the <code>getContents</code>
- *     array for the enumeration returned by <code>getKeys</code>.
+ *     brrby for the enumerbtion returned by <code>getKeys</code>.
  * <li>Inserts the time zone ID (the key of the bundle entries) into
- *     the string arrays returned by <code>handleGetObject</code>.
+ *     the string brrbys returned by <code>hbndleGetObject</code>.
  * <ul>
- * All <code>TimeZoneNames</code> resource bundles must extend this
- * class and implement the <code>getContents</code> method.
+ * All <code>TimeZoneNbmes</code> resource bundles must extend this
+ * clbss bnd implement the <code>getContents</code> method.
  */
-public abstract class TimeZoneNamesBundle extends OpenListResourceBundle {
+public bbstrbct clbss TimeZoneNbmesBundle extends OpenListResourceBundle {
 
     /**
-     * Returns a String array containing time zone names. The String array has
-     * at most size elements.
+     * Returns b String brrby contbining time zone nbmes. The String brrby hbs
+     * bt most size elements.
      *
-     * @param key  the time zone ID for which names are obtained
-     * @param size the requested size of array for names
-     * @return a String array containing names
+     * @pbrbm key  the time zone ID for which nbmes bre obtbined
+     * @pbrbm size the requested size of brrby for nbmes
+     * @return b String brrby contbining nbmes
      */
-    public String[] getStringArray(String key, int size) {
-        String[] names = handleGetObject(key, size);
-        if ((names == null || names.length != size) && parent != null) {
-            names = ((TimeZoneNamesBundle)parent).getStringArray(key, size);
+    public String[] getStringArrby(String key, int size) {
+        String[] nbmes = hbndleGetObject(key, size);
+        if ((nbmes == null || nbmes.length != size) && pbrent != null) {
+            nbmes = ((TimeZoneNbmesBundle)pbrent).getStringArrby(key, size);
         }
-        if (names == null) {
-            throw new MissingResourceException("no time zone names", getClass().getName(), key);
+        if (nbmes == null) {
+            throw new MissingResourceException("no time zone nbmes", getClbss().getNbme(), key);
         }
-        return names;
+        return nbmes;
 
     }
 
     /**
-     * Maps time zone IDs to locale-specific names.
-     * The value returned is an array of five strings:
+     * Mbps time zone IDs to locble-specific nbmes.
+     * The vblue returned is bn brrby of five strings:
      * <ul>
-     * <li>The time zone ID (same as the key, not localized).
-     * <li>The long name of the time zone in standard time (localized).
-     * <li>The short name of the time zone in standard time (localized).
-     * <li>The long name of the time zone in daylight savings time (localized).
-     * <li>The short name of the time zone in daylight savings time (localized).
+     * <li>The time zone ID (sbme bs the key, not locblized).
+     * <li>The long nbme of the time zone in stbndbrd time (locblized).
+     * <li>The short nbme of the time zone in stbndbrd time (locblized).
+     * <li>The long nbme of the time zone in dbylight sbvings time (locblized).
+     * <li>The short nbme of the time zone in dbylight sbvings time (locblized).
      * </ul>
-     * The localized names come from the subclasses's
-     * <code>getContents</code> implementations, while the time zone
-     * ID is inserted into the returned array by this method.
+     * The locblized nbmes come from the subclbsses's
+     * <code>getContents</code> implementbtions, while the time zone
+     * ID is inserted into the returned brrby by this method.
      */
     @Override
-    public Object handleGetObject(String key) {
-        return handleGetObject(key, 5);
+    public Object hbndleGetObject(String key) {
+        return hbndleGetObject(key, 5);
     }
 
-    private String[] handleGetObject(String key, int n) {
-        String[] contents = (String[]) super.handleGetObject(key);
+    privbte String[] hbndleGetObject(String key, int n) {
+        String[] contents = (String[]) super.hbndleGetObject(key);
         if (contents == null) {
             return null;
         }
-        int clen = Math.min(n - 1, contents.length);
+        int clen = Mbth.min(n - 1, contents.length);
         String[] tmpobj = new String[clen+1];
         tmpobj[0] = key;
-        System.arraycopy(contents, 0, tmpobj, 1, clen);
+        System.brrbycopy(contents, 0, tmpobj, 1, clen);
         return tmpobj;
     }
 
     /**
-     * Use LinkedHashMap to preserve the order of bundle entries.
+     * Use LinkedHbshMbp to preserve the order of bundle entries.
      */
     @Override
-    protected <K, V> Map<K, V> createMap(int size) {
-        return new LinkedHashMap<>(size);
+    protected <K, V> Mbp<K, V> crebteMbp(int size) {
+        return new LinkedHbshMbp<>(size);
     }
 
     /**
-     * Use LinkedHashSet to preserve the key order.
-     * @param <E> the type of elements
-     * @return a Set
+     * Use LinkedHbshSet to preserve the key order.
+     * @pbrbm <E> the type of elements
+     * @return b Set
      */
     @Override
-    protected <E> Set<E> createSet() {
-        return new LinkedHashSet<>();
+    protected <E> Set<E> crebteSet() {
+        return new LinkedHbshSet<>();
     }
 
     /**
-     * Provides key/value mappings for a specific
-     * resource bundle. Each entry of the array
-     * returned must be an array with two elements:
+     * Provides key/vblue mbppings for b specific
+     * resource bundle. Ebch entry of the brrby
+     * returned must be bn brrby with two elements:
      * <ul>
-     * <li>The key, which must be a string.
-     * <li>The value, which must be an array of
+     * <li>The key, which must be b string.
+     * <li>The vblue, which must be bn brrby of
      *     four strings:
      *     <ul>
-     *     <li>The long name of the time zone in standard time.
-     *     <li>The short name of the time zone in standard time.
-     *     <li>The long name of the time zone in daylight savings time.
-     *     <li>The short name of the time zone in daylight savings time.
+     *     <li>The long nbme of the time zone in stbndbrd time.
+     *     <li>The short nbme of the time zone in stbndbrd time.
+     *     <li>The long nbme of the time zone in dbylight sbvings time.
+     *     <li>The short nbme of the time zone in dbylight sbvings time.
      *     </ul>
      * </ul>
      */
-    protected abstract Object[][] getContents();
+    protected bbstrbct Object[][] getContents();
 }

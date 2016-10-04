@@ -1,235 +1,235 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.ObjectStreamException;
+import jbvb.io.ObjectStrebmException;
 
 /**
- * This class represents an Internet Protocol version 4 (IPv4) address.
- * Defined by <a href="http://www.ietf.org/rfc/rfc790.txt">
- * <i>RFC&nbsp;790: Assigned Numbers</i></a>,
- * <a href="http://www.ietf.org/rfc/rfc1918.txt">
- * <i>RFC&nbsp;1918: Address Allocation for Private Internets</i></a>,
- * and <a href="http://www.ietf.org/rfc/rfc2365.txt"><i>RFC&nbsp;2365:
- * Administratively Scoped IP Multicast</i></a>
+ * This clbss represents bn Internet Protocol version 4 (IPv4) bddress.
+ * Defined by <b href="http://www.ietf.org/rfc/rfc790.txt">
+ * <i>RFC&nbsp;790: Assigned Numbers</i></b>,
+ * <b href="http://www.ietf.org/rfc/rfc1918.txt">
+ * <i>RFC&nbsp;1918: Address Allocbtion for Privbte Internets</i></b>,
+ * bnd <b href="http://www.ietf.org/rfc/rfc2365.txt"><i>RFC&nbsp;2365:
+ * Administrbtively Scoped IP Multicbst</i></b>
  *
- * <h3> <A NAME="format">Textual representation of IP addresses</a> </h3>
+ * <h3> <A NAME="formbt">Textubl representbtion of IP bddresses</b> </h3>
  *
- * Textual representation of IPv4 address used as input to methods
- * takes one of the following forms:
+ * Textubl representbtion of IPv4 bddress used bs input to methods
+ * tbkes one of the following forms:
  *
- * <blockquote><table cellpadding=0 cellspacing=0 summary="layout">
+ * <blockquote><tbble cellpbdding=0 cellspbcing=0 summbry="lbyout">
  * <tr><td>{@code d.d.d.d}</td></tr>
  * <tr><td>{@code d.d.d}</td></tr>
  * <tr><td>{@code d.d}</td></tr>
  * <tr><td>{@code d}</td></tr>
- * </table></blockquote>
+ * </tbble></blockquote>
  *
- * <p> When four parts are specified, each is interpreted as a byte of
- * data and assigned, from left to right, to the four bytes of an IPv4
- * address.
+ * <p> When four pbrts bre specified, ebch is interpreted bs b byte of
+ * dbtb bnd bssigned, from left to right, to the four bytes of bn IPv4
+ * bddress.
 
- * <p> When a three part address is specified, the last part is
- * interpreted as a 16-bit quantity and placed in the right most two
- * bytes of the network address. This makes the three part address
- * format convenient for specifying Class B net- work addresses as
+ * <p> When b three pbrt bddress is specified, the lbst pbrt is
+ * interpreted bs b 16-bit qubntity bnd plbced in the right most two
+ * bytes of the network bddress. This mbkes the three pbrt bddress
+ * formbt convenient for specifying Clbss B net- work bddresses bs
  * 128.net.host.
  *
- * <p> When a two part address is supplied, the last part is
- * interpreted as a 24-bit quantity and placed in the right most three
- * bytes of the network address. This makes the two part address
- * format convenient for specifying Class A network addresses as
+ * <p> When b two pbrt bddress is supplied, the lbst pbrt is
+ * interpreted bs b 24-bit qubntity bnd plbced in the right most three
+ * bytes of the network bddress. This mbkes the two pbrt bddress
+ * formbt convenient for specifying Clbss A network bddresses bs
  * net.host.
  *
- * <p> When only one part is given, the value is stored directly in
- * the network address without any byte rearrangement.
+ * <p> When only one pbrt is given, the vblue is stored directly in
+ * the network bddress without bny byte rebrrbngement.
  *
- * <p> For methods that return a textual representation as output
- * value, the first form, i.e. a dotted-quad string, is used.
+ * <p> For methods thbt return b textubl representbtion bs output
+ * vblue, the first form, i.e. b dotted-qubd string, is used.
  *
- * <h4> The Scope of a Multicast Address </h4>
+ * <h4> The Scope of b Multicbst Address </h4>
  *
- * Historically the IPv4 TTL field in the IP header has doubled as a
- * multicast scope field: a TTL of 0 means node-local, 1 means
- * link-local, up through 32 means site-local, up through 64 means
- * region-local, up through 128 means continent-local, and up through
- * 255 are global. However, the administrative scoping is preferred.
- * Please refer to <a href="http://www.ietf.org/rfc/rfc2365.txt">
- * <i>RFC&nbsp;2365: Administratively Scoped IP Multicast</i></a>
+ * Historicblly the IPv4 TTL field in the IP hebder hbs doubled bs b
+ * multicbst scope field: b TTL of 0 mebns node-locbl, 1 mebns
+ * link-locbl, up through 32 mebns site-locbl, up through 64 mebns
+ * region-locbl, up through 128 mebns continent-locbl, bnd up through
+ * 255 bre globbl. However, the bdministrbtive scoping is preferred.
+ * Plebse refer to <b href="http://www.ietf.org/rfc/rfc2365.txt">
+ * <i>RFC&nbsp;2365: Administrbtively Scoped IP Multicbst</i></b>
  * @since 1.4
  */
 
-public final
-class Inet4Address extends InetAddress {
-    final static int INADDRSZ = 4;
+public finbl
+clbss Inet4Address extends InetAddress {
+    finbl stbtic int INADDRSZ = 4;
 
-    /** use serialVersionUID from InetAddress, but Inet4Address instance
-     *  is always replaced by an InetAddress instance before being
-     *  serialized */
-    private static final long serialVersionUID = 3286316764910316507L;
+    /** use seriblVersionUID from InetAddress, but Inet4Address instbnce
+     *  is blwbys replbced by bn InetAddress instbnce before being
+     *  seriblized */
+    privbte stbtic finbl long seriblVersionUID = 3286316764910316507L;
 
     /*
-     * Perform initializations.
+     * Perform initiblizbtions.
      */
-    static {
+    stbtic {
         init();
     }
 
     Inet4Address() {
         super();
-        holder().hostName = null;
-        holder().address = 0;
-        holder().family = IPv4;
+        holder().hostNbme = null;
+        holder().bddress = 0;
+        holder().fbmily = IPv4;
     }
 
-    Inet4Address(String hostName, byte addr[]) {
-        holder().hostName = hostName;
-        holder().family = IPv4;
-        if (addr != null) {
-            if (addr.length == INADDRSZ) {
-                int address  = addr[3] & 0xFF;
-                address |= ((addr[2] << 8) & 0xFF00);
-                address |= ((addr[1] << 16) & 0xFF0000);
-                address |= ((addr[0] << 24) & 0xFF000000);
-                holder().address = address;
+    Inet4Address(String hostNbme, byte bddr[]) {
+        holder().hostNbme = hostNbme;
+        holder().fbmily = IPv4;
+        if (bddr != null) {
+            if (bddr.length == INADDRSZ) {
+                int bddress  = bddr[3] & 0xFF;
+                bddress |= ((bddr[2] << 8) & 0xFF00);
+                bddress |= ((bddr[1] << 16) & 0xFF0000);
+                bddress |= ((bddr[0] << 24) & 0xFF000000);
+                holder().bddress = bddress;
             }
         }
     }
-    Inet4Address(String hostName, int address) {
-        holder().hostName = hostName;
-        holder().family = IPv4;
-        holder().address = address;
+    Inet4Address(String hostNbme, int bddress) {
+        holder().hostNbme = hostNbme;
+        holder().fbmily = IPv4;
+        holder().bddress = bddress;
     }
 
     /**
-     * Replaces the object to be serialized with an InetAddress object.
+     * Replbces the object to be seriblized with bn InetAddress object.
      *
-     * @return the alternate object to be serialized.
+     * @return the blternbte object to be seriblized.
      *
-     * @throws ObjectStreamException if a new object replacing this
-     * object could not be created
+     * @throws ObjectStrebmException if b new object replbcing this
+     * object could not be crebted
      */
-    private Object writeReplace() throws ObjectStreamException {
-        // will replace the to be serialized 'this' object
+    privbte Object writeReplbce() throws ObjectStrebmException {
+        // will replbce the to be seriblized 'this' object
         InetAddress inet = new InetAddress();
-        inet.holder().hostName = holder().getHostName();
-        inet.holder().address = holder().getAddress();
+        inet.holder().hostNbme = holder().getHostNbme();
+        inet.holder().bddress = holder().getAddress();
 
         /**
-         * Prior to 1.4 an InetAddress was created with a family
-         * based on the platform AF_INET value (usually 2).
-         * For compatibility reasons we must therefore write the
-         * the InetAddress with this family.
+         * Prior to 1.4 bn InetAddress wbs crebted with b fbmily
+         * bbsed on the plbtform AF_INET vblue (usublly 2).
+         * For compbtibility rebsons we must therefore write the
+         * the InetAddress with this fbmily.
          */
-        inet.holder().family = 2;
+        inet.holder().fbmily = 2;
 
         return inet;
     }
 
     /**
-     * Utility routine to check if the InetAddress is an
-     * IP multicast address. IP multicast address is a Class D
-     * address i.e first four bits of the address are 1110.
-     * @return a {@code boolean} indicating if the InetAddress is
-     * an IP multicast address
+     * Utility routine to check if the InetAddress is bn
+     * IP multicbst bddress. IP multicbst bddress is b Clbss D
+     * bddress i.e first four bits of the bddress bre 1110.
+     * @return b {@code boolebn} indicbting if the InetAddress is
+     * bn IP multicbst bddress
      * @since   1.1
      */
-    public boolean isMulticastAddress() {
+    public boolebn isMulticbstAddress() {
         return ((holder().getAddress() & 0xf0000000) == 0xe0000000);
     }
 
     /**
-     * Utility routine to check if the InetAddress in a wildcard address.
-     * @return a {@code boolean} indicating if the Inetaddress is
-     *         a wildcard address.
+     * Utility routine to check if the InetAddress in b wildcbrd bddress.
+     * @return b {@code boolebn} indicbting if the Inetbddress is
+     *         b wildcbrd bddress.
      * @since 1.4
      */
-    public boolean isAnyLocalAddress() {
+    public boolebn isAnyLocblAddress() {
         return holder().getAddress() == 0;
     }
 
     /**
-     * Utility routine to check if the InetAddress is a loopback address.
+     * Utility routine to check if the InetAddress is b loopbbck bddress.
      *
-     * @return a {@code boolean} indicating if the InetAddress is
-     * a loopback address; or false otherwise.
+     * @return b {@code boolebn} indicbting if the InetAddress is
+     * b loopbbck bddress; or fblse otherwise.
      * @since 1.4
      */
-    public boolean isLoopbackAddress() {
+    public boolebn isLoopbbckAddress() {
         /* 127.x.x.x */
         byte[] byteAddr = getAddress();
         return byteAddr[0] == 127;
     }
 
     /**
-     * Utility routine to check if the InetAddress is an link local address.
+     * Utility routine to check if the InetAddress is bn link locbl bddress.
      *
-     * @return a {@code boolean} indicating if the InetAddress is
-     * a link local address; or false if address is not a link local unicast address.
+     * @return b {@code boolebn} indicbting if the InetAddress is
+     * b link locbl bddress; or fblse if bddress is not b link locbl unicbst bddress.
      * @since 1.4
      */
-    public boolean isLinkLocalAddress() {
-        // link-local unicast in IPv4 (169.254.0.0/16)
-        // defined in "Documenting Special Use IPv4 Address Blocks
-        // that have been Registered with IANA" by Bill Manning
-        // draft-manning-dsua-06.txt
-        int address = holder().getAddress();
-        return (((address >>> 24) & 0xFF) == 169)
-            && (((address >>> 16) & 0xFF) == 254);
+    public boolebn isLinkLocblAddress() {
+        // link-locbl unicbst in IPv4 (169.254.0.0/16)
+        // defined in "Documenting Specibl Use IPv4 Address Blocks
+        // thbt hbve been Registered with IANA" by Bill Mbnning
+        // drbft-mbnning-dsub-06.txt
+        int bddress = holder().getAddress();
+        return (((bddress >>> 24) & 0xFF) == 169)
+            && (((bddress >>> 16) & 0xFF) == 254);
     }
 
     /**
-     * Utility routine to check if the InetAddress is a site local address.
+     * Utility routine to check if the InetAddress is b site locbl bddress.
      *
-     * @return a {@code boolean} indicating if the InetAddress is
-     * a site local address; or false if address is not a site local unicast address.
+     * @return b {@code boolebn} indicbting if the InetAddress is
+     * b site locbl bddress; or fblse if bddress is not b site locbl unicbst bddress.
      * @since 1.4
      */
-    public boolean isSiteLocalAddress() {
+    public boolebn isSiteLocblAddress() {
         // refer to RFC 1918
         // 10/8 prefix
         // 172.16/12 prefix
         // 192.168/16 prefix
-        int address = holder().getAddress();
-        return (((address >>> 24) & 0xFF) == 10)
-            || ((((address >>> 24) & 0xFF) == 172)
-                && (((address >>> 16) & 0xF0) == 16))
-            || ((((address >>> 24) & 0xFF) == 192)
-                && (((address >>> 16) & 0xFF) == 168));
+        int bddress = holder().getAddress();
+        return (((bddress >>> 24) & 0xFF) == 10)
+            || ((((bddress >>> 24) & 0xFF) == 172)
+                && (((bddress >>> 16) & 0xF0) == 16))
+            || ((((bddress >>> 24) & 0xFF) == 192)
+                && (((bddress >>> 16) & 0xFF) == 168));
     }
 
     /**
-     * Utility routine to check if the multicast address has global scope.
+     * Utility routine to check if the multicbst bddress hbs globbl scope.
      *
-     * @return a {@code boolean} indicating if the address has
-     *         is a multicast address of global scope, false if it is not
-     *         of global scope or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs
+     *         is b multicbst bddress of globbl scope, fblse if it is not
+     *         of globbl scope or it is not b multicbst bddress
      * @since 1.4
      */
-    public boolean isMCGlobal() {
+    public boolebn isMCGlobbl() {
         // 224.0.1.0 to 238.255.255.255
         byte[] byteAddr = getAddress();
         return ((byteAddr[0] & 0xff) >= 224 && (byteAddr[0] & 0xff) <= 238 ) &&
@@ -238,141 +238,141 @@ class Inet4Address extends InetAddress {
     }
 
     /**
-     * Utility routine to check if the multicast address has node scope.
+     * Utility routine to check if the multicbst bddress hbs node scope.
      *
-     * @return a {@code boolean} indicating if the address has
-     *         is a multicast address of node-local scope, false if it is not
-     *         of node-local scope or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs
+     *         is b multicbst bddress of node-locbl scope, fblse if it is not
+     *         of node-locbl scope or it is not b multicbst bddress
      * @since 1.4
      */
-    public boolean isMCNodeLocal() {
+    public boolebn isMCNodeLocbl() {
         // unless ttl == 0
-        return false;
+        return fblse;
     }
 
     /**
-     * Utility routine to check if the multicast address has link scope.
+     * Utility routine to check if the multicbst bddress hbs link scope.
      *
-     * @return a {@code boolean} indicating if the address has
-     *         is a multicast address of link-local scope, false if it is not
-     *         of link-local scope or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs
+     *         is b multicbst bddress of link-locbl scope, fblse if it is not
+     *         of link-locbl scope or it is not b multicbst bddress
      * @since 1.4
      */
-    public boolean isMCLinkLocal() {
-        // 224.0.0/24 prefix and ttl == 1
-        int address = holder().getAddress();
-        return (((address >>> 24) & 0xFF) == 224)
-            && (((address >>> 16) & 0xFF) == 0)
-            && (((address >>> 8) & 0xFF) == 0);
+    public boolebn isMCLinkLocbl() {
+        // 224.0.0/24 prefix bnd ttl == 1
+        int bddress = holder().getAddress();
+        return (((bddress >>> 24) & 0xFF) == 224)
+            && (((bddress >>> 16) & 0xFF) == 0)
+            && (((bddress >>> 8) & 0xFF) == 0);
     }
 
     /**
-     * Utility routine to check if the multicast address has site scope.
+     * Utility routine to check if the multicbst bddress hbs site scope.
      *
-     * @return a {@code boolean} indicating if the address has
-     *         is a multicast address of site-local scope, false if it is not
-     *         of site-local scope or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs
+     *         is b multicbst bddress of site-locbl scope, fblse if it is not
+     *         of site-locbl scope or it is not b multicbst bddress
      * @since 1.4
      */
-    public boolean isMCSiteLocal() {
+    public boolebn isMCSiteLocbl() {
         // 239.255/16 prefix or ttl < 32
-        int address = holder().getAddress();
-        return (((address >>> 24) & 0xFF) == 239)
-            && (((address >>> 16) & 0xFF) == 255);
+        int bddress = holder().getAddress();
+        return (((bddress >>> 24) & 0xFF) == 239)
+            && (((bddress >>> 16) & 0xFF) == 255);
     }
 
     /**
-     * Utility routine to check if the multicast address has organization scope.
+     * Utility routine to check if the multicbst bddress hbs orgbnizbtion scope.
      *
-     * @return a {@code boolean} indicating if the address has
-     *         is a multicast address of organization-local scope,
-     *         false if it is not of organization-local scope
-     *         or it is not a multicast address
+     * @return b {@code boolebn} indicbting if the bddress hbs
+     *         is b multicbst bddress of orgbnizbtion-locbl scope,
+     *         fblse if it is not of orgbnizbtion-locbl scope
+     *         or it is not b multicbst bddress
      * @since 1.4
      */
-    public boolean isMCOrgLocal() {
+    public boolebn isMCOrgLocbl() {
         // 239.192 - 239.195
-        int address = holder().getAddress();
-        return (((address >>> 24) & 0xFF) == 239)
-            && (((address >>> 16) & 0xFF) >= 192)
-            && (((address >>> 16) & 0xFF) <= 195);
+        int bddress = holder().getAddress();
+        return (((bddress >>> 24) & 0xFF) == 239)
+            && (((bddress >>> 16) & 0xFF) >= 192)
+            && (((bddress >>> 16) & 0xFF) <= 195);
     }
 
     /**
-     * Returns the raw IP address of this {@code InetAddress}
+     * Returns the rbw IP bddress of this {@code InetAddress}
      * object. The result is in network byte order: the highest order
-     * byte of the address is in {@code getAddress()[0]}.
+     * byte of the bddress is in {@code getAddress()[0]}.
      *
-     * @return  the raw IP address of this object.
+     * @return  the rbw IP bddress of this object.
      */
     public byte[] getAddress() {
-        int address = holder().getAddress();
-        byte[] addr = new byte[INADDRSZ];
+        int bddress = holder().getAddress();
+        byte[] bddr = new byte[INADDRSZ];
 
-        addr[0] = (byte) ((address >>> 24) & 0xFF);
-        addr[1] = (byte) ((address >>> 16) & 0xFF);
-        addr[2] = (byte) ((address >>> 8) & 0xFF);
-        addr[3] = (byte) (address & 0xFF);
-        return addr;
+        bddr[0] = (byte) ((bddress >>> 24) & 0xFF);
+        bddr[1] = (byte) ((bddress >>> 16) & 0xFF);
+        bddr[2] = (byte) ((bddress >>> 8) & 0xFF);
+        bddr[3] = (byte) (bddress & 0xFF);
+        return bddr;
     }
 
     /**
-     * Returns the IP address string in textual presentation form.
+     * Returns the IP bddress string in textubl presentbtion form.
      *
-     * @return  the raw IP address in a string format.
+     * @return  the rbw IP bddress in b string formbt.
      * @since   1.0.2
      */
     public String getHostAddress() {
-        return numericToTextFormat(getAddress());
+        return numericToTextFormbt(getAddress());
     }
 
     /**
-     * Returns a hashcode for this IP address.
+     * Returns b hbshcode for this IP bddress.
      *
-     * @return  a hash code value for this IP address.
+     * @return  b hbsh code vblue for this IP bddress.
      */
-    public int hashCode() {
+    public int hbshCode() {
         return holder().getAddress();
     }
 
     /**
-     * Compares this object against the specified object.
-     * The result is {@code true} if and only if the argument is
-     * not {@code null} and it represents the same IP address as
+     * Compbres this object bgbinst the specified object.
+     * The result is {@code true} if bnd only if the brgument is
+     * not {@code null} bnd it represents the sbme IP bddress bs
      * this object.
      * <p>
-     * Two instances of {@code InetAddress} represent the same IP
-     * address if the length of the byte arrays returned by
-     * {@code getAddress} is the same for both, and each of the
-     * array components is the same for the byte arrays.
+     * Two instbnces of {@code InetAddress} represent the sbme IP
+     * bddress if the length of the byte brrbys returned by
+     * {@code getAddress} is the sbme for both, bnd ebch of the
+     * brrby components is the sbme for the byte brrbys.
      *
-     * @param   obj   the object to compare against.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
-     * @see     java.net.InetAddress#getAddress()
+     * @pbrbm   obj   the object to compbre bgbinst.
+     * @return  {@code true} if the objects bre the sbme;
+     *          {@code fblse} otherwise.
+     * @see     jbvb.net.InetAddress#getAddress()
      */
-    public boolean equals(Object obj) {
-        return (obj != null) && (obj instanceof Inet4Address) &&
+    public boolebn equbls(Object obj) {
+        return (obj != null) && (obj instbnceof Inet4Address) &&
             (((InetAddress)obj).holder().getAddress() == holder().getAddress());
     }
 
     // Utilities
     /*
-     * Converts IPv4 binary address into a string suitable for presentation.
+     * Converts IPv4 binbry bddress into b string suitbble for presentbtion.
      *
-     * @param src a byte array representing an IPv4 numeric address
-     * @return a String representing the IPv4 address in
-     *         textual representation format
+     * @pbrbm src b byte brrby representing bn IPv4 numeric bddress
+     * @return b String representing the IPv4 bddress in
+     *         textubl representbtion formbt
      * @since 1.4
      */
 
-    static String numericToTextFormat(byte[] src)
+    stbtic String numericToTextFormbt(byte[] src)
     {
         return (src[0] & 0xff) + "." + (src[1] & 0xff) + "." + (src[2] & 0xff) + "." + (src[3] & 0xff);
     }
 
     /**
-     * Perform class load-time initializations.
+     * Perform clbss lobd-time initiblizbtions.
      */
-    private static native void init();
+    privbte stbtic nbtive void init();
 }

@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 1996, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
 /**
- * InvocationTargetException is a checked exception that wraps
- * an exception thrown by an invoked method or constructor.
+ * InvocbtionTbrgetException is b checked exception thbt wrbps
+ * bn exception thrown by bn invoked method or constructor.
  *
- * <p>As of release 1.4, this exception has been retrofitted to conform to
- * the general purpose exception-chaining mechanism.  The "target exception"
- * that is provided at construction time and accessed via the
- * {@link #getTargetException()} method is now known as the <i>cause</i>,
- * and may be accessed via the {@link Throwable#getCause()} method,
- * as well as the aforementioned "legacy method."
+ * <p>As of relebse 1.4, this exception hbs been retrofitted to conform to
+ * the generbl purpose exception-chbining mechbnism.  The "tbrget exception"
+ * thbt is provided bt construction time bnd bccessed vib the
+ * {@link #getTbrgetException()} method is now known bs the <i>cbuse</i>,
+ * bnd mby be bccessed vib the {@link Throwbble#getCbuse()} method,
+ * bs well bs the bforementioned "legbcy method."
  *
  * @see Method
  * @see Constructor
  */
-public class InvocationTargetException extends ReflectiveOperationException {
+public clbss InvocbtionTbrgetException extends ReflectiveOperbtionException {
     /**
-     * Use serialVersionUID from JDK 1.1.X for interoperability
+     * Use seriblVersionUID from JDK 1.1.X for interoperbbility
      */
-    private static final long serialVersionUID = 4085088731926701167L;
+    privbte stbtic finbl long seriblVersionUID = 4085088731926701167L;
 
      /**
-     * This field holds the target if the
-     * InvocationTargetException(Throwable target) constructor was
-     * used to instantiate the object
+     * This field holds the tbrget if the
+     * InvocbtionTbrgetException(Throwbble tbrget) constructor wbs
+     * used to instbntibte the object
      *
-     * @serial
+     * @seribl
      *
      */
-    private Throwable target;
+    privbte Throwbble tbrget;
 
     /**
-     * Constructs an {@code InvocationTargetException} with
-     * {@code null} as the target exception.
+     * Constructs bn {@code InvocbtionTbrgetException} with
+     * {@code null} bs the tbrget exception.
      */
-    protected InvocationTargetException() {
-        super((Throwable)null);  // Disallow initCause
+    protected InvocbtionTbrgetException() {
+        super((Throwbble)null);  // Disbllow initCbuse
     }
 
     /**
-     * Constructs a InvocationTargetException with a target exception.
+     * Constructs b InvocbtionTbrgetException with b tbrget exception.
      *
-     * @param target the target exception
+     * @pbrbm tbrget the tbrget exception
      */
-    public InvocationTargetException(Throwable target) {
-        super((Throwable)null);  // Disallow initCause
-        this.target = target;
+    public InvocbtionTbrgetException(Throwbble tbrget) {
+        super((Throwbble)null);  // Disbllow initCbuse
+        this.tbrget = tbrget;
     }
 
     /**
-     * Constructs a InvocationTargetException with a target exception
-     * and a detail message.
+     * Constructs b InvocbtionTbrgetException with b tbrget exception
+     * bnd b detbil messbge.
      *
-     * @param target the target exception
-     * @param s      the detail message
+     * @pbrbm tbrget the tbrget exception
+     * @pbrbm s      the detbil messbge
      */
-    public InvocationTargetException(Throwable target, String s) {
-        super(s, null);  // Disallow initCause
-        this.target = target;
+    public InvocbtionTbrgetException(Throwbble tbrget, String s) {
+        super(s, null);  // Disbllow initCbuse
+        this.tbrget = tbrget;
     }
 
     /**
-     * Get the thrown target exception.
+     * Get the thrown tbrget exception.
      *
-     * <p>This method predates the general-purpose exception chaining facility.
-     * The {@link Throwable#getCause()} method is now the preferred means of
-     * obtaining this information.
+     * <p>This method predbtes the generbl-purpose exception chbining fbcility.
+     * The {@link Throwbble#getCbuse()} method is now the preferred mebns of
+     * obtbining this informbtion.
      *
-     * @return the thrown target exception (cause of this exception).
+     * @return the thrown tbrget exception (cbuse of this exception).
      */
-    public Throwable getTargetException() {
-        return target;
+    public Throwbble getTbrgetException() {
+        return tbrget;
     }
 
     /**
-     * Returns the cause of this exception (the thrown target exception,
-     * which may be {@code null}).
+     * Returns the cbuse of this exception (the thrown tbrget exception,
+     * which mby be {@code null}).
      *
-     * @return  the cause of this exception.
+     * @return  the cbuse of this exception.
      * @since   1.4
      */
-    public Throwable getCause() {
-        return target;
+    public Throwbble getCbuse() {
+        return tbrget;
     }
 }

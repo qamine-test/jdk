@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-public class BooleanValueImpl extends PrimitiveValueImpl
-                              implements BooleanValue {
-    private boolean value;
+public clbss BoolebnVblueImpl extends PrimitiveVblueImpl
+                              implements BoolebnVblue {
+    privbte boolebn vblue;
 
-    BooleanValueImpl(VirtualMachine aVm,boolean aValue) {
-        super(aVm);
+    BoolebnVblueImpl(VirtublMbchine bVm,boolebn bVblue) {
+        super(bVm);
 
-        value = aValue;
+        vblue = bVblue;
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof BooleanValue)) {
-            return (value == ((BooleanValue)obj).value())
-                   && super.equals(obj);
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof BoolebnVblue)) {
+            return (vblue == ((BoolebnVblue)obj).vblue())
+                   && super.equbls(obj);
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         /*
-         * TO DO: Better hash code
+         * TO DO: Better hbsh code
          */
-        return intValue();
+        return intVblue();
     }
 
     public Type type() {
-        return vm.theBooleanType();
+        return vm.theBoolebnType();
     }
 
-    public boolean value() {
-        return value;
+    public boolebn vblue() {
+        return vblue;
     }
 
-    public boolean booleanValue() {
-        return value;
+    public boolebn boolebnVblue() {
+        return vblue;
     }
 
-    public byte byteValue() {
-        return(byte)((value)?1:0);
+    public byte byteVblue() {
+        return(byte)((vblue)?1:0);
     }
 
-    public char charValue() {
-        return(char)((value)?1:0);
+    public chbr chbrVblue() {
+        return(chbr)((vblue)?1:0);
     }
 
-    public short shortValue() {
-        return(short)((value)?1:0);
+    public short shortVblue() {
+        return(short)((vblue)?1:0);
     }
 
-    public int intValue() {
-        return (value)?1:0;
+    public int intVblue() {
+        return (vblue)?1:0;
     }
 
-    public long longValue() {
-        return(long)((value)?1:0);
+    public long longVblue() {
+        return(long)((vblue)?1:0);
     }
 
-    public float floatValue() {
-        return(float)((value)?1.0:0.0);
+    public flobt flobtVblue() {
+        return(flobt)((vblue)?1.0:0.0);
     }
 
-    public double doubleValue() {
-        return (value)?1.0:0.0;
+    public double doubleVblue() {
+        return (vblue)?1.0:0.0;
     }
 
     public String toString() {
-        return "" + value;
+        return "" + vblue;
     }
 
-    byte typeValueKey() {
-        return JDWP.Tag.BOOLEAN;
+    byte typeVblueKey() {
+        return JDWP.Tbg.BOOLEAN;
     }
 }

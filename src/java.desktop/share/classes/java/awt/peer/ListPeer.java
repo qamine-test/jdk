@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1995, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt.peer;
+pbckbge jbvb.bwt.peer;
 
-import java.awt.Dimension;
-import java.awt.List;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.List;
 
 /**
- * The peer interface for {@link List}.
+ * The peer interfbce for {@link List}.
  *
- * The peer interfaces are intended only for use in porting
- * the AWT. They are not intended for use by application
- * developers, and developers should not implement peers
- * nor invoke any of the peer methods directly on the peer
- * instances.
+ * The peer interfbces bre intended only for use in porting
+ * the AWT. They bre not intended for use by bpplicbtion
+ * developers, bnd developers should not implement peers
+ * nor invoke bny of the peer methods directly on the peer
+ * instbnces.
  */
-public interface ListPeer extends ComponentPeer {
+public interfbce ListPeer extends ComponentPeer {
 
     /**
-     * Returns the indices of the list items that are currently selected.
-     * The returned array is not required to be a copy, the callers of this
-     * method already make sure it is not modified.
+     * Returns the indices of the list items thbt bre currently selected.
+     * The returned brrby is not required to be b copy, the cbllers of this
+     * method blrebdy mbke sure it is not modified.
      *
-     * @return the indices of the list items that are currently selected
+     * @return the indices of the list items thbt bre currently selected
      *
      * @see List#getSelectedIndexes()
      */
     int[] getSelectedIndexes();
 
     /**
-     * Adds an item to the list at the specified index.
+     * Adds bn item to the list bt the specified index.
      *
-     * @param item the item to add to the list
-     * @param index the index where to add the item into the list
+     * @pbrbm item the item to bdd to the list
+     * @pbrbm index the index where to bdd the item into the list
      *
-     * @see List#add(String, int)
+     * @see List#bdd(String, int)
      */
-    void add(String item, int index);
+    void bdd(String item, int index);
 
     /**
-     * Deletes items from the list. All items from start to end should are
-     * deleted, including the item at the start and end indices.
+     * Deletes items from the list. All items from stbrt to end should bre
+     * deleted, including the item bt the stbrt bnd end indices.
      *
-     * @param start the first item to be deleted
-     * @param end the last item to be deleted
+     * @pbrbm stbrt the first item to be deleted
+     * @pbrbm end the lbst item to be deleted
      */
-    void delItems(int start, int end);
+    void delItems(int stbrt, int end);
 
     /**
-     * Removes all items from the list.
+     * Removes bll items from the list.
      *
      * @see List#removeAll()
      */
     void removeAll();
 
     /**
-     * Selects the item at the specified {@code index}.
+     * Selects the item bt the specified {@code index}.
      *
-     * @param index the index of the item to select
+     * @pbrbm index the index of the item to select
      *
      * @see List#select(int)
      */
     void select(int index);
 
     /**
-     * De-selects the item at the specified {@code index}.
+     * De-selects the item bt the specified {@code index}.
      *
-     * @param index the index of the item to de-select
+     * @pbrbm index the index of the item to de-select
      *
      * @see List#deselect(int)
      */
     void deselect(int index);
 
     /**
-     * Makes sure that the item at the specified {@code index} is visible,
-     * by scrolling the list or similar.
+     * Mbkes sure thbt the item bt the specified {@code index} is visible,
+     * by scrolling the list or similbr.
      *
-     * @param index the index of the item to make visible
+     * @pbrbm index the index of the item to mbke visible
      *
-     * @see List#makeVisible(int)
+     * @see List#mbkeVisible(int)
      */
-    void makeVisible(int index);
+    void mbkeVisible(int index);
 
     /**
      * Toggles multiple selection mode on or off.
      *
-     * @param m {@code true} for multiple selection mode,
-     *        {@code false} for single selection mode
+     * @pbrbm m {@code true} for multiple selection mode,
+     *        {@code fblse} for single selection mode
      *
-     * @see List#setMultipleMode(boolean)
+     * @see List#setMultipleMode(boolebn)
      */
-    void setMultipleMode(boolean m);
+    void setMultipleMode(boolebn m);
 
     /**
-     * Returns the preferred size for a list with the specified number of rows.
+     * Returns the preferred size for b list with the specified number of rows.
      *
-     * @param rows the number of rows
+     * @pbrbm rows the number of rows
      *
      * @return the preferred size of the list
      *
@@ -125,9 +125,9 @@ public interface ListPeer extends ComponentPeer {
     Dimension getPreferredSize(int rows);
 
     /**
-     * Returns the minimum size for a list with the specified number of rows.
+     * Returns the minimum size for b list with the specified number of rows.
      *
-     * @param rows the number of rows
+     * @pbrbm rows the number of rows
      *
      * @return the minimum size of the list
      *

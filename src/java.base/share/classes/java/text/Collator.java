@@ -1,346 +1,346 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996-1998 -  All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996-1998 -  All Rights Reserved
  * (C) Copyright IBM Corp. 1996-1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.lang.ref.SoftReference;
-import java.text.spi.CollatorProvider;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleServiceProviderPool;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.text.spi.CollbtorProvider;
+import jbvb.util.Locble;
+import jbvb.util.ResourceBundle;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.locble.provider.LocbleServiceProviderPool;
 
 
 /**
- * The <code>Collator</code> class performs locale-sensitive
- * <code>String</code> comparison. You use this class to build
- * searching and sorting routines for natural language text.
+ * The <code>Collbtor</code> clbss performs locble-sensitive
+ * <code>String</code> compbrison. You use this clbss to build
+ * sebrching bnd sorting routines for nbturbl lbngubge text.
  *
  * <p>
- * <code>Collator</code> is an abstract base class. Subclasses
- * implement specific collation strategies. One subclass,
- * <code>RuleBasedCollator</code>, is currently provided with
- * the Java Platform and is applicable to a wide set of languages. Other
- * subclasses may be created to handle more specialized needs.
+ * <code>Collbtor</code> is bn bbstrbct bbse clbss. Subclbsses
+ * implement specific collbtion strbtegies. One subclbss,
+ * <code>RuleBbsedCollbtor</code>, is currently provided with
+ * the Jbvb Plbtform bnd is bpplicbble to b wide set of lbngubges. Other
+ * subclbsses mby be crebted to hbndle more speciblized needs.
  *
  * <p>
- * Like other locale-sensitive classes, you can use the static
- * factory method, <code>getInstance</code>, to obtain the appropriate
- * <code>Collator</code> object for a given locale. You will only need
- * to look at the subclasses of <code>Collator</code> if you need
- * to understand the details of a particular collation strategy or
- * if you need to modify that strategy.
+ * Like other locble-sensitive clbsses, you cbn use the stbtic
+ * fbctory method, <code>getInstbnce</code>, to obtbin the bppropribte
+ * <code>Collbtor</code> object for b given locble. You will only need
+ * to look bt the subclbsses of <code>Collbtor</code> if you need
+ * to understbnd the detbils of b pbrticulbr collbtion strbtegy or
+ * if you need to modify thbt strbtegy.
  *
  * <p>
- * The following example shows how to compare two strings using
- * the <code>Collator</code> for the default locale.
+ * The following exbmple shows how to compbre two strings using
+ * the <code>Collbtor</code> for the defbult locble.
  * <blockquote>
  * <pre>{@code
- * // Compare two strings in the default locale
- * Collator myCollator = Collator.getInstance();
- * if( myCollator.compare("abc", "ABC") < 0 )
- *     System.out.println("abc is less than ABC");
+ * // Compbre two strings in the defbult locble
+ * Collbtor myCollbtor = Collbtor.getInstbnce();
+ * if( myCollbtor.compbre("bbc", "ABC") < 0 )
+ *     System.out.println("bbc is less thbn ABC");
  * else
- *     System.out.println("abc is greater than or equal to ABC");
+ *     System.out.println("bbc is grebter thbn or equbl to ABC");
  * }</pre>
  * </blockquote>
  *
  * <p>
- * You can set a <code>Collator</code>'s <em>strength</em> property
- * to determine the level of difference considered significant in
- * comparisons. Four strengths are provided: <code>PRIMARY</code>,
- * <code>SECONDARY</code>, <code>TERTIARY</code>, and <code>IDENTICAL</code>.
- * The exact assignment of strengths to language features is
- * locale dependant.  For example, in Czech, "e" and "f" are considered
- * primary differences, while "e" and "&#283;" are secondary differences,
- * "e" and "E" are tertiary differences and "e" and "e" are identical.
- * The following shows how both case and accents could be ignored for
+ * You cbn set b <code>Collbtor</code>'s <em>strength</em> property
+ * to determine the level of difference considered significbnt in
+ * compbrisons. Four strengths bre provided: <code>PRIMARY</code>,
+ * <code>SECONDARY</code>, <code>TERTIARY</code>, bnd <code>IDENTICAL</code>.
+ * The exbct bssignment of strengths to lbngubge febtures is
+ * locble dependbnt.  For exbmple, in Czech, "e" bnd "f" bre considered
+ * primbry differences, while "e" bnd "&#283;" bre secondbry differences,
+ * "e" bnd "E" bre tertibry differences bnd "e" bnd "e" bre identicbl.
+ * The following shows how both cbse bnd bccents could be ignored for
  * US English.
  * <blockquote>
  * <pre>
- * //Get the Collator for US English and set its strength to PRIMARY
- * Collator usCollator = Collator.getInstance(Locale.US);
- * usCollator.setStrength(Collator.PRIMARY);
- * if( usCollator.compare("abc", "ABC") == 0 ) {
- *     System.out.println("Strings are equivalent");
+ * //Get the Collbtor for US English bnd set its strength to PRIMARY
+ * Collbtor usCollbtor = Collbtor.getInstbnce(Locble.US);
+ * usCollbtor.setStrength(Collbtor.PRIMARY);
+ * if( usCollbtor.compbre("bbc", "ABC") == 0 ) {
+ *     System.out.println("Strings bre equivblent");
  * }
  * </pre>
  * </blockquote>
  * <p>
- * For comparing <code>String</code>s exactly once, the <code>compare</code>
- * method provides the best performance. When sorting a list of
- * <code>String</code>s however, it is generally necessary to compare each
- * <code>String</code> multiple times. In this case, <code>CollationKey</code>s
- * provide better performance. The <code>CollationKey</code> class converts
- * a <code>String</code> to a series of bits that can be compared bitwise
- * against other <code>CollationKey</code>s. A <code>CollationKey</code> is
- * created by a <code>Collator</code> object for a given <code>String</code>.
+ * For compbring <code>String</code>s exbctly once, the <code>compbre</code>
+ * method provides the best performbnce. When sorting b list of
+ * <code>String</code>s however, it is generblly necessbry to compbre ebch
+ * <code>String</code> multiple times. In this cbse, <code>CollbtionKey</code>s
+ * provide better performbnce. The <code>CollbtionKey</code> clbss converts
+ * b <code>String</code> to b series of bits thbt cbn be compbred bitwise
+ * bgbinst other <code>CollbtionKey</code>s. A <code>CollbtionKey</code> is
+ * crebted by b <code>Collbtor</code> object for b given <code>String</code>.
  * <br>
- * <strong>Note:</strong> <code>CollationKey</code>s from different
- * <code>Collator</code>s can not be compared. See the class description
- * for {@link CollationKey}
- * for an example using <code>CollationKey</code>s.
+ * <strong>Note:</strong> <code>CollbtionKey</code>s from different
+ * <code>Collbtor</code>s cbn not be compbred. See the clbss description
+ * for {@link CollbtionKey}
+ * for bn exbmple using <code>CollbtionKey</code>s.
  *
- * @see         RuleBasedCollator
- * @see         CollationKey
- * @see         CollationElementIterator
- * @see         Locale
- * @author      Helena Shih, Laura Werner, Richard Gillam
+ * @see         RuleBbsedCollbtor
+ * @see         CollbtionKey
+ * @see         CollbtionElementIterbtor
+ * @see         Locble
+ * @buthor      Helenb Shih, Lburb Werner, Richbrd Gillbm
  */
 
-public abstract class Collator
-    implements java.util.Comparator<Object>, Cloneable
+public bbstrbct clbss Collbtor
+    implements jbvb.util.Compbrbtor<Object>, Clonebble
 {
     /**
-     * Collator strength value.  When set, only PRIMARY differences are
-     * considered significant during comparison. The assignment of strengths
-     * to language features is locale dependant. A common example is for
-     * different base letters ("a" vs "b") to be considered a PRIMARY difference.
-     * @see java.text.Collator#setStrength
-     * @see java.text.Collator#getStrength
+     * Collbtor strength vblue.  When set, only PRIMARY differences bre
+     * considered significbnt during compbrison. The bssignment of strengths
+     * to lbngubge febtures is locble dependbnt. A common exbmple is for
+     * different bbse letters ("b" vs "b") to be considered b PRIMARY difference.
+     * @see jbvb.text.Collbtor#setStrength
+     * @see jbvb.text.Collbtor#getStrength
      */
-    public final static int PRIMARY = 0;
+    public finbl stbtic int PRIMARY = 0;
     /**
-     * Collator strength value.  When set, only SECONDARY and above differences are
-     * considered significant during comparison. The assignment of strengths
-     * to language features is locale dependant. A common example is for
-     * different accented forms of the same base letter ("a" vs "\u00E4") to be
-     * considered a SECONDARY difference.
-     * @see java.text.Collator#setStrength
-     * @see java.text.Collator#getStrength
+     * Collbtor strength vblue.  When set, only SECONDARY bnd bbove differences bre
+     * considered significbnt during compbrison. The bssignment of strengths
+     * to lbngubge febtures is locble dependbnt. A common exbmple is for
+     * different bccented forms of the sbme bbse letter ("b" vs "\u00E4") to be
+     * considered b SECONDARY difference.
+     * @see jbvb.text.Collbtor#setStrength
+     * @see jbvb.text.Collbtor#getStrength
      */
-    public final static int SECONDARY = 1;
+    public finbl stbtic int SECONDARY = 1;
     /**
-     * Collator strength value.  When set, only TERTIARY and above differences are
-     * considered significant during comparison. The assignment of strengths
-     * to language features is locale dependant. A common example is for
-     * case differences ("a" vs "A") to be considered a TERTIARY difference.
-     * @see java.text.Collator#setStrength
-     * @see java.text.Collator#getStrength
+     * Collbtor strength vblue.  When set, only TERTIARY bnd bbove differences bre
+     * considered significbnt during compbrison. The bssignment of strengths
+     * to lbngubge febtures is locble dependbnt. A common exbmple is for
+     * cbse differences ("b" vs "A") to be considered b TERTIARY difference.
+     * @see jbvb.text.Collbtor#setStrength
+     * @see jbvb.text.Collbtor#getStrength
      */
-    public final static int TERTIARY = 2;
+    public finbl stbtic int TERTIARY = 2;
 
     /**
-     * Collator strength value.  When set, all differences are
-     * considered significant during comparison. The assignment of strengths
-     * to language features is locale dependant. A common example is for control
-     * characters ("&#092;u0001" vs "&#092;u0002") to be considered equal at the
-     * PRIMARY, SECONDARY, and TERTIARY levels but different at the IDENTICAL
-     * level.  Additionally, differences between pre-composed accents such as
-     * "&#092;u00C0" (A-grave) and combining accents such as "A&#092;u0300"
-     * (A, combining-grave) will be considered significant at the IDENTICAL
+     * Collbtor strength vblue.  When set, bll differences bre
+     * considered significbnt during compbrison. The bssignment of strengths
+     * to lbngubge febtures is locble dependbnt. A common exbmple is for control
+     * chbrbcters ("&#092;u0001" vs "&#092;u0002") to be considered equbl bt the
+     * PRIMARY, SECONDARY, bnd TERTIARY levels but different bt the IDENTICAL
+     * level.  Additionblly, differences between pre-composed bccents such bs
+     * "&#092;u00C0" (A-grbve) bnd combining bccents such bs "A&#092;u0300"
+     * (A, combining-grbve) will be considered significbnt bt the IDENTICAL
      * level if decomposition is set to NO_DECOMPOSITION.
      */
-    public final static int IDENTICAL = 3;
+    public finbl stbtic int IDENTICAL = 3;
 
     /**
-     * Decomposition mode value. With NO_DECOMPOSITION
-     * set, accented characters will not be decomposed for collation. This
-     * is the default setting and provides the fastest collation but
-     * will only produce correct results for languages that do not use accents.
-     * @see java.text.Collator#getDecomposition
-     * @see java.text.Collator#setDecomposition
+     * Decomposition mode vblue. With NO_DECOMPOSITION
+     * set, bccented chbrbcters will not be decomposed for collbtion. This
+     * is the defbult setting bnd provides the fbstest collbtion but
+     * will only produce correct results for lbngubges thbt do not use bccents.
+     * @see jbvb.text.Collbtor#getDecomposition
+     * @see jbvb.text.Collbtor#setDecomposition
      */
-    public final static int NO_DECOMPOSITION = 0;
+    public finbl stbtic int NO_DECOMPOSITION = 0;
 
     /**
-     * Decomposition mode value. With CANONICAL_DECOMPOSITION
-     * set, characters that are canonical variants according to Unicode
-     * standard will be decomposed for collation. This should be used to get
-     * correct collation of accented characters.
+     * Decomposition mode vblue. With CANONICAL_DECOMPOSITION
+     * set, chbrbcters thbt bre cbnonicbl vbribnts bccording to Unicode
+     * stbndbrd will be decomposed for collbtion. This should be used to get
+     * correct collbtion of bccented chbrbcters.
      * <p>
-     * CANONICAL_DECOMPOSITION corresponds to Normalization Form D as
+     * CANONICAL_DECOMPOSITION corresponds to Normblizbtion Form D bs
      * described in
-     * <a href="http://www.unicode.org/unicode/reports/tr15/tr15-23.html">Unicode
-     * Technical Report #15</a>.
-     * @see java.text.Collator#getDecomposition
-     * @see java.text.Collator#setDecomposition
+     * <b href="http://www.unicode.org/unicode/reports/tr15/tr15-23.html">Unicode
+     * Technicbl Report #15</b>.
+     * @see jbvb.text.Collbtor#getDecomposition
+     * @see jbvb.text.Collbtor#setDecomposition
      */
-    public final static int CANONICAL_DECOMPOSITION = 1;
+    public finbl stbtic int CANONICAL_DECOMPOSITION = 1;
 
     /**
-     * Decomposition mode value. With FULL_DECOMPOSITION
-     * set, both Unicode canonical variants and Unicode compatibility variants
-     * will be decomposed for collation.  This causes not only accented
-     * characters to be collated, but also characters that have special formats
-     * to be collated with their norminal form. For example, the half-width and
-     * full-width ASCII and Katakana characters are then collated together.
-     * FULL_DECOMPOSITION is the most complete and therefore the slowest
+     * Decomposition mode vblue. With FULL_DECOMPOSITION
+     * set, both Unicode cbnonicbl vbribnts bnd Unicode compbtibility vbribnts
+     * will be decomposed for collbtion.  This cbuses not only bccented
+     * chbrbcters to be collbted, but blso chbrbcters thbt hbve specibl formbts
+     * to be collbted with their norminbl form. For exbmple, the hblf-width bnd
+     * full-width ASCII bnd Kbtbkbnb chbrbcters bre then collbted together.
+     * FULL_DECOMPOSITION is the most complete bnd therefore the slowest
      * decomposition mode.
      * <p>
-     * FULL_DECOMPOSITION corresponds to Normalization Form KD as
+     * FULL_DECOMPOSITION corresponds to Normblizbtion Form KD bs
      * described in
-     * <a href="http://www.unicode.org/unicode/reports/tr15/tr15-23.html">Unicode
-     * Technical Report #15</a>.
-     * @see java.text.Collator#getDecomposition
-     * @see java.text.Collator#setDecomposition
+     * <b href="http://www.unicode.org/unicode/reports/tr15/tr15-23.html">Unicode
+     * Technicbl Report #15</b>.
+     * @see jbvb.text.Collbtor#getDecomposition
+     * @see jbvb.text.Collbtor#setDecomposition
      */
-    public final static int FULL_DECOMPOSITION = 2;
+    public finbl stbtic int FULL_DECOMPOSITION = 2;
 
     /**
-     * Gets the Collator for the current default locale.
-     * The default locale is determined by java.util.Locale.getDefault.
-     * @return the Collator for the default locale.(for example, en_US)
-     * @see java.util.Locale#getDefault
+     * Gets the Collbtor for the current defbult locble.
+     * The defbult locble is determined by jbvb.util.Locble.getDefbult.
+     * @return the Collbtor for the defbult locble.(for exbmple, en_US)
+     * @see jbvb.util.Locble#getDefbult
      */
-    public static synchronized Collator getInstance() {
-        return getInstance(Locale.getDefault());
+    public stbtic synchronized Collbtor getInstbnce() {
+        return getInstbnce(Locble.getDefbult());
     }
 
     /**
-     * Gets the Collator for the desired locale.
-     * @param desiredLocale the desired locale.
-     * @return the Collator for the desired locale.
-     * @see java.util.Locale
-     * @see java.util.ResourceBundle
+     * Gets the Collbtor for the desired locble.
+     * @pbrbm desiredLocble the desired locble.
+     * @return the Collbtor for the desired locble.
+     * @see jbvb.util.Locble
+     * @see jbvb.util.ResourceBundle
      */
-    public static Collator getInstance(Locale desiredLocale) {
-        SoftReference<Collator> ref = cache.get(desiredLocale);
-        Collator result = (ref != null) ? ref.get() : null;
+    public stbtic Collbtor getInstbnce(Locble desiredLocble) {
+        SoftReference<Collbtor> ref = cbche.get(desiredLocble);
+        Collbtor result = (ref != null) ? ref.get() : null;
         if (result == null) {
-            LocaleProviderAdapter adapter;
-            adapter = LocaleProviderAdapter.getAdapter(CollatorProvider.class,
-                                                       desiredLocale);
-            CollatorProvider provider = adapter.getCollatorProvider();
-            result = provider.getInstance(desiredLocale);
+            LocbleProviderAdbpter bdbpter;
+            bdbpter = LocbleProviderAdbpter.getAdbpter(CollbtorProvider.clbss,
+                                                       desiredLocble);
+            CollbtorProvider provider = bdbpter.getCollbtorProvider();
+            result = provider.getInstbnce(desiredLocble);
             if (result == null) {
-                result = LocaleProviderAdapter.forJRE()
-                             .getCollatorProvider().getInstance(desiredLocale);
+                result = LocbleProviderAdbpter.forJRE()
+                             .getCollbtorProvider().getInstbnce(desiredLocble);
             }
             while (true) {
                 if (ref != null) {
-                    // Remove the empty SoftReference if any
-                    cache.remove(desiredLocale, ref);
+                    // Remove the empty SoftReference if bny
+                    cbche.remove(desiredLocble, ref);
                 }
-                ref = cache.putIfAbsent(desiredLocale, new SoftReference<>(result));
+                ref = cbche.putIfAbsent(desiredLocble, new SoftReference<>(result));
                 if (ref == null) {
-                    break;
+                    brebk;
                 }
-                Collator cachedColl = ref.get();
-                if (cachedColl != null) {
-                    result = cachedColl;
-                    break;
+                Collbtor cbchedColl = ref.get();
+                if (cbchedColl != null) {
+                    result = cbchedColl;
+                    brebk;
                 }
             }
         }
-        return (Collator) result.clone(); // make the world safe
+        return (Collbtor) result.clone(); // mbke the world sbfe
     }
 
     /**
-     * Compares the source string to the target string according to the
-     * collation rules for this Collator.  Returns an integer less than,
-     * equal to or greater than zero depending on whether the source String is
-     * less than, equal to or greater than the target string.  See the Collator
-     * class description for an example of use.
+     * Compbres the source string to the tbrget string bccording to the
+     * collbtion rules for this Collbtor.  Returns bn integer less thbn,
+     * equbl to or grebter thbn zero depending on whether the source String is
+     * less thbn, equbl to or grebter thbn the tbrget string.  See the Collbtor
+     * clbss description for bn exbmple of use.
      * <p>
-     * For a one time comparison, this method has the best performance. If a
-     * given String will be involved in multiple comparisons, CollationKey.compareTo
-     * has the best performance. See the Collator class description for an example
-     * using CollationKeys.
-     * @param source the source string.
-     * @param target the target string.
-     * @return Returns an integer value. Value is less than zero if source is less than
-     * target, value is zero if source and target are equal, value is greater than zero
-     * if source is greater than target.
-     * @see java.text.CollationKey
-     * @see java.text.Collator#getCollationKey
+     * For b one time compbrison, this method hbs the best performbnce. If b
+     * given String will be involved in multiple compbrisons, CollbtionKey.compbreTo
+     * hbs the best performbnce. See the Collbtor clbss description for bn exbmple
+     * using CollbtionKeys.
+     * @pbrbm source the source string.
+     * @pbrbm tbrget the tbrget string.
+     * @return Returns bn integer vblue. Vblue is less thbn zero if source is less thbn
+     * tbrget, vblue is zero if source bnd tbrget bre equbl, vblue is grebter thbn zero
+     * if source is grebter thbn tbrget.
+     * @see jbvb.text.CollbtionKey
+     * @see jbvb.text.Collbtor#getCollbtionKey
      */
-    public abstract int compare(String source, String target);
+    public bbstrbct int compbre(String source, String tbrget);
 
     /**
-     * Compares its two arguments for order.  Returns a negative integer,
-     * zero, or a positive integer as the first argument is less than, equal
-     * to, or greater than the second.
+     * Compbres its two brguments for order.  Returns b negbtive integer,
+     * zero, or b positive integer bs the first brgument is less thbn, equbl
+     * to, or grebter thbn the second.
      * <p>
-     * This implementation merely returns
-     *  <code> compare((String)o1, (String)o2) </code>.
+     * This implementbtion merely returns
+     *  <code> compbre((String)o1, (String)o2) </code>.
      *
-     * @return a negative integer, zero, or a positive integer as the
-     *         first argument is less than, equal to, or greater than the
+     * @return b negbtive integer, zero, or b positive integer bs the
+     *         first brgument is less thbn, equbl to, or grebter thbn the
      *         second.
-     * @exception ClassCastException the arguments cannot be cast to Strings.
-     * @see java.util.Comparator
+     * @exception ClbssCbstException the brguments cbnnot be cbst to Strings.
+     * @see jbvb.util.Compbrbtor
      * @since   1.2
      */
     @Override
-    public int compare(Object o1, Object o2) {
-    return compare((String)o1, (String)o2);
+    public int compbre(Object o1, Object o2) {
+    return compbre((String)o1, (String)o2);
     }
 
     /**
-     * Transforms the String into a series of bits that can be compared bitwise
-     * to other CollationKeys. CollationKeys provide better performance than
-     * Collator.compare when Strings are involved in multiple comparisons.
-     * See the Collator class description for an example using CollationKeys.
-     * @param source the string to be transformed into a collation key.
-     * @return the CollationKey for the given String based on this Collator's collation
-     * rules. If the source String is null, a null CollationKey is returned.
-     * @see java.text.CollationKey
-     * @see java.text.Collator#compare
+     * Trbnsforms the String into b series of bits thbt cbn be compbred bitwise
+     * to other CollbtionKeys. CollbtionKeys provide better performbnce thbn
+     * Collbtor.compbre when Strings bre involved in multiple compbrisons.
+     * See the Collbtor clbss description for bn exbmple using CollbtionKeys.
+     * @pbrbm source the string to be trbnsformed into b collbtion key.
+     * @return the CollbtionKey for the given String bbsed on this Collbtor's collbtion
+     * rules. If the source String is null, b null CollbtionKey is returned.
+     * @see jbvb.text.CollbtionKey
+     * @see jbvb.text.Collbtor#compbre
      */
-    public abstract CollationKey getCollationKey(String source);
+    public bbstrbct CollbtionKey getCollbtionKey(String source);
 
     /**
-     * Convenience method for comparing the equality of two strings based on
-     * this Collator's collation rules.
-     * @param source the source string to be compared with.
-     * @param target the target string to be compared with.
-     * @return true if the strings are equal according to the collation
-     * rules.  false, otherwise.
-     * @see java.text.Collator#compare
+     * Convenience method for compbring the equblity of two strings bbsed on
+     * this Collbtor's collbtion rules.
+     * @pbrbm source the source string to be compbred with.
+     * @pbrbm tbrget the tbrget string to be compbred with.
+     * @return true if the strings bre equbl bccording to the collbtion
+     * rules.  fblse, otherwise.
+     * @see jbvb.text.Collbtor#compbre
      */
-    public boolean equals(String source, String target)
+    public boolebn equbls(String source, String tbrget)
     {
-        return (compare(source, target) == Collator.EQUAL);
+        return (compbre(source, tbrget) == Collbtor.EQUAL);
     }
 
     /**
-     * Returns this Collator's strength property.  The strength property determines
-     * the minimum level of difference considered significant during comparison.
-     * See the Collator class description for an example of use.
-     * @return this Collator's current strength property.
-     * @see java.text.Collator#setStrength
-     * @see java.text.Collator#PRIMARY
-     * @see java.text.Collator#SECONDARY
-     * @see java.text.Collator#TERTIARY
-     * @see java.text.Collator#IDENTICAL
+     * Returns this Collbtor's strength property.  The strength property determines
+     * the minimum level of difference considered significbnt during compbrison.
+     * See the Collbtor clbss description for bn exbmple of use.
+     * @return this Collbtor's current strength property.
+     * @see jbvb.text.Collbtor#setStrength
+     * @see jbvb.text.Collbtor#PRIMARY
+     * @see jbvb.text.Collbtor#SECONDARY
+     * @see jbvb.text.Collbtor#TERTIARY
+     * @see jbvb.text.Collbtor#IDENTICAL
      */
     public synchronized int getStrength()
     {
@@ -348,16 +348,16 @@ public abstract class Collator
     }
 
     /**
-     * Sets this Collator's strength property.  The strength property determines
-     * the minimum level of difference considered significant during comparison.
-     * See the Collator class description for an example of use.
-     * @param newStrength  the new strength value.
-     * @see java.text.Collator#getStrength
-     * @see java.text.Collator#PRIMARY
-     * @see java.text.Collator#SECONDARY
-     * @see java.text.Collator#TERTIARY
-     * @see java.text.Collator#IDENTICAL
-     * @exception  IllegalArgumentException If the new strength value is not one of
+     * Sets this Collbtor's strength property.  The strength property determines
+     * the minimum level of difference considered significbnt during compbrison.
+     * See the Collbtor clbss description for bn exbmple of use.
+     * @pbrbm newStrength  the new strength vblue.
+     * @see jbvb.text.Collbtor#getStrength
+     * @see jbvb.text.Collbtor#PRIMARY
+     * @see jbvb.text.Collbtor#SECONDARY
+     * @see jbvb.text.Collbtor#TERTIARY
+     * @see jbvb.text.Collbtor#IDENTICAL
+     * @exception  IllegblArgumentException If the new strength vblue is not one of
      * PRIMARY, SECONDARY, TERTIARY or IDENTICAL.
      */
     public synchronized void setStrength(int newStrength) {
@@ -365,151 +365,151 @@ public abstract class Collator
             (newStrength != SECONDARY) &&
             (newStrength != TERTIARY) &&
             (newStrength != IDENTICAL)) {
-            throw new IllegalArgumentException("Incorrect comparison level.");
+            throw new IllegblArgumentException("Incorrect compbrison level.");
         }
         strength = newStrength;
     }
 
     /**
-     * Get the decomposition mode of this Collator. Decomposition mode
-     * determines how Unicode composed characters are handled. Adjusting
-     * decomposition mode allows the user to select between faster and more
-     * complete collation behavior.
-     * <p>The three values for decomposition mode are:
+     * Get the decomposition mode of this Collbtor. Decomposition mode
+     * determines how Unicode composed chbrbcters bre hbndled. Adjusting
+     * decomposition mode bllows the user to select between fbster bnd more
+     * complete collbtion behbvior.
+     * <p>The three vblues for decomposition mode bre:
      * <UL>
      * <LI>NO_DECOMPOSITION,
      * <LI>CANONICAL_DECOMPOSITION
      * <LI>FULL_DECOMPOSITION.
      * </UL>
-     * See the documentation for these three constants for a description
-     * of their meaning.
+     * See the documentbtion for these three constbnts for b description
+     * of their mebning.
      * @return the decomposition mode
-     * @see java.text.Collator#setDecomposition
-     * @see java.text.Collator#NO_DECOMPOSITION
-     * @see java.text.Collator#CANONICAL_DECOMPOSITION
-     * @see java.text.Collator#FULL_DECOMPOSITION
+     * @see jbvb.text.Collbtor#setDecomposition
+     * @see jbvb.text.Collbtor#NO_DECOMPOSITION
+     * @see jbvb.text.Collbtor#CANONICAL_DECOMPOSITION
+     * @see jbvb.text.Collbtor#FULL_DECOMPOSITION
      */
     public synchronized int getDecomposition()
     {
         return decmp;
     }
     /**
-     * Set the decomposition mode of this Collator. See getDecomposition
-     * for a description of decomposition mode.
-     * @param decompositionMode  the new decomposition mode.
-     * @see java.text.Collator#getDecomposition
-     * @see java.text.Collator#NO_DECOMPOSITION
-     * @see java.text.Collator#CANONICAL_DECOMPOSITION
-     * @see java.text.Collator#FULL_DECOMPOSITION
-     * @exception IllegalArgumentException If the given value is not a valid decomposition
+     * Set the decomposition mode of this Collbtor. See getDecomposition
+     * for b description of decomposition mode.
+     * @pbrbm decompositionMode  the new decomposition mode.
+     * @see jbvb.text.Collbtor#getDecomposition
+     * @see jbvb.text.Collbtor#NO_DECOMPOSITION
+     * @see jbvb.text.Collbtor#CANONICAL_DECOMPOSITION
+     * @see jbvb.text.Collbtor#FULL_DECOMPOSITION
+     * @exception IllegblArgumentException If the given vblue is not b vblid decomposition
      * mode.
      */
     public synchronized void setDecomposition(int decompositionMode) {
         if ((decompositionMode != NO_DECOMPOSITION) &&
             (decompositionMode != CANONICAL_DECOMPOSITION) &&
             (decompositionMode != FULL_DECOMPOSITION)) {
-            throw new IllegalArgumentException("Wrong decomposition mode.");
+            throw new IllegblArgumentException("Wrong decomposition mode.");
         }
         decmp = decompositionMode;
     }
 
     /**
-     * Returns an array of all locales for which the
-     * <code>getInstance</code> methods of this class can return
-     * localized instances.
-     * The returned array represents the union of locales supported
-     * by the Java runtime and by installed
-     * {@link java.text.spi.CollatorProvider CollatorProvider} implementations.
-     * It must contain at least a Locale instance equal to
-     * {@link java.util.Locale#US Locale.US}.
+     * Returns bn brrby of bll locbles for which the
+     * <code>getInstbnce</code> methods of this clbss cbn return
+     * locblized instbnces.
+     * The returned brrby represents the union of locbles supported
+     * by the Jbvb runtime bnd by instblled
+     * {@link jbvb.text.spi.CollbtorProvider CollbtorProvider} implementbtions.
+     * It must contbin bt lebst b Locble instbnce equbl to
+     * {@link jbvb.util.Locble#US Locble.US}.
      *
-     * @return An array of locales for which localized
-     *         <code>Collator</code> instances are available.
+     * @return An brrby of locbles for which locblized
+     *         <code>Collbtor</code> instbnces bre bvbilbble.
      */
-    public static synchronized Locale[] getAvailableLocales() {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(CollatorProvider.class);
-        return pool.getAvailableLocales();
+    public stbtic synchronized Locble[] getAvbilbbleLocbles() {
+        LocbleServiceProviderPool pool =
+            LocbleServiceProviderPool.getPool(CollbtorProvider.clbss);
+        return pool.getAvbilbbleLocbles();
     }
 
     /**
-     * Overrides Cloneable
+     * Overrides Clonebble
      */
     @Override
     public Object clone()
     {
         try {
-            return (Collator)super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+            return (Collbtor)super.clone();
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e);
         }
     }
 
     /**
-     * Compares the equality of two Collators.
-     * @param that the Collator to be compared with this.
-     * @return true if this Collator is the same as that Collator;
-     * false otherwise.
+     * Compbres the equblity of two Collbtors.
+     * @pbrbm thbt the Collbtor to be compbred with this.
+     * @return true if this Collbtor is the sbme bs thbt Collbtor;
+     * fblse otherwise.
      */
     @Override
-    public boolean equals(Object that)
+    public boolebn equbls(Object thbt)
     {
-        if (this == that) {
+        if (this == thbt) {
             return true;
         }
-        if (that == null) {
-            return false;
+        if (thbt == null) {
+            return fblse;
         }
-        if (getClass() != that.getClass()) {
-            return false;
+        if (getClbss() != thbt.getClbss()) {
+            return fblse;
         }
-        Collator other = (Collator) that;
+        Collbtor other = (Collbtor) thbt;
         return ((strength == other.strength) &&
                 (decmp == other.decmp));
     }
 
     /**
-     * Generates the hash code for this Collator.
+     * Generbtes the hbsh code for this Collbtor.
      */
     @Override
-    abstract public int hashCode();
+    bbstrbct public int hbshCode();
 
     /**
-     * Default constructor.  This constructor is
-     * protected so subclasses can get access to it. Users typically create
-     * a Collator sub-class by calling the factory method getInstance.
-     * @see java.text.Collator#getInstance
+     * Defbult constructor.  This constructor is
+     * protected so subclbsses cbn get bccess to it. Users typicblly crebte
+     * b Collbtor sub-clbss by cblling the fbctory method getInstbnce.
+     * @see jbvb.text.Collbtor#getInstbnce
      */
-    protected Collator()
+    protected Collbtor()
     {
         strength = TERTIARY;
         decmp = CANONICAL_DECOMPOSITION;
     }
 
-    private int strength = 0;
-    private int decmp = 0;
-    private static final ConcurrentMap<Locale, SoftReference<Collator>> cache
-            = new ConcurrentHashMap<>();
+    privbte int strength = 0;
+    privbte int decmp = 0;
+    privbte stbtic finbl ConcurrentMbp<Locble, SoftReference<Collbtor>> cbche
+            = new ConcurrentHbshMbp<>();
 
     //
-    // FIXME: These three constants should be removed.
+    // FIXME: These three constbnts should be removed.
     //
     /**
-     * LESS is returned if source string is compared to be less than target
-     * string in the compare() method.
-     * @see java.text.Collator#compare
+     * LESS is returned if source string is compbred to be less thbn tbrget
+     * string in the compbre() method.
+     * @see jbvb.text.Collbtor#compbre
      */
-    final static int LESS = -1;
+    finbl stbtic int LESS = -1;
     /**
-     * EQUAL is returned if source string is compared to be equal to target
-     * string in the compare() method.
-     * @see java.text.Collator#compare
+     * EQUAL is returned if source string is compbred to be equbl to tbrget
+     * string in the compbre() method.
+     * @see jbvb.text.Collbtor#compbre
      */
-    final static int EQUAL = 0;
+    finbl stbtic int EQUAL = 0;
     /**
-     * GREATER is returned if source string is compared to be greater than
-     * target string in the compare() method.
-     * @see java.text.Collator#compare
+     * GREATER is returned if source string is compbred to be grebter thbn
+     * tbrget string in the compbre() method.
+     * @see jbvb.text.Collbtor#compbre
      */
-    final static int GREATER = 1;
+    finbl stbtic int GREATER = 1;
  }

@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.rcache;
+pbckbge sun.security.krb5.internbl.rcbche;
 
-import java.io.IOException;
-import java.nio.BufferUnderflowException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.channels.SeekableByteChannel;
-import java.nio.charset.StandardCharsets;
-import java.util.StringTokenizer;
+import jbvb.io.IOException;
+import jbvb.nio.BufferUnderflowException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ByteOrder;
+import jbvb.nio.chbnnels.SeekbbleByteChbnnel;
+import jbvb.nio.chbrset.StbndbrdChbrsets;
+import jbvb.util.StringTokenizer;
 
 /**
- * The class represents an old style replay cache entry. It is only used in
- * a dfl file.
+ * The clbss represents bn old style replby cbche entry. It is only used in
+ * b dfl file.
  *
- * @author Sun/Oracle
- * @author Yanni Zhang
+ * @buthor Sun/Orbcle
+ * @buthor Ybnni Zhbng
  */
-public class AuthTime {
-    final int ctime;
-    final int cusec;
-    final String client;
-    final String server;
+public clbss AuthTime {
+    finbl int ctime;
+    finbl int cusec;
+    finbl String client;
+    finbl String server;
 
     /**
-     * Constructs an <code>AuthTime</code>.
+     * Constructs bn <code>AuthTime</code>.
      */
     public AuthTime(String client, String server,
             int ctime, int cusec) {
@@ -65,65 +65,65 @@ public class AuthTime {
 
     @Override
     public String toString() {
-        return String.format("%d/%06d/----/%s", ctime, cusec, client);
+        return String.formbt("%d/%06d/----/%s", ctime, cusec, client);
     }
 
-    // Methods used when saved in a dfl file. See DflCache.java
+    // Methods used when sbved in b dfl file. See DflCbche.jbvb
 
     /**
-     * Reads an LC style string from a channel, which is a int32 length
-     * plus a UTF-8 encoded string possibly ends with \0.
-     * @throws IOException if there is a format error
+     * Rebds bn LC style string from b chbnnel, which is b int32 length
+     * plus b UTF-8 encoded string possibly ends with \0.
+     * @throws IOException if there is b formbt error
      * @throws BufferUnderflowException if goes beyond the end
      */
-    private static String readStringWithLength(SeekableByteChannel chan)
+    privbte stbtic String rebdStringWithLength(SeekbbleByteChbnnel chbn)
             throws IOException {
-        ByteBuffer bb = ByteBuffer.allocate(4);
-        bb.order(ByteOrder.nativeOrder());
-        chan.read(bb);
+        ByteBuffer bb = ByteBuffer.bllocbte(4);
+        bb.order(ByteOrder.nbtiveOrder());
+        chbn.rebd(bb);
         bb.flip();
         int len = bb.getInt();
         if (len > 1024) {
-            // Memory attack? The string should be fairly short.
-            throw new IOException("Invalid string length");
+            // Memory bttbck? The string should be fbirly short.
+            throw new IOException("Invblid string length");
         }
-        bb = ByteBuffer.allocate(len);
-        if (chan.read(bb) != len) {
+        bb = ByteBuffer.bllocbte(len);
+        if (chbn.rebd(bb) != len) {
             throw new IOException("Not enough string");
         }
-        byte[] data = bb.array();
-        return (data[len-1] == 0)?
-                new String(data, 0, len-1, StandardCharsets.UTF_8):
-                new String(data, StandardCharsets.UTF_8);
+        byte[] dbtb = bb.brrby();
+        return (dbtb[len-1] == 0)?
+                new String(dbtb, 0, len-1, StbndbrdChbrsets.UTF_8):
+                new String(dbtb, StbndbrdChbrsets.UTF_8);
     }
 
     /**
-     * Reads an AuthTime or AuthTimeWithHash object from a channel.
-     * @throws IOException if there is a format error
+     * Rebds bn AuthTime or AuthTimeWithHbsh object from b chbnnel.
+     * @throws IOException if there is b formbt error
      * @throws BufferUnderflowException if goes beyond the end
      */
-    public static AuthTime readFrom(SeekableByteChannel chan)
+    public stbtic AuthTime rebdFrom(SeekbbleByteChbnnel chbn)
             throws IOException {
-        String client = readStringWithLength(chan);
-        String server = readStringWithLength(chan);
-        ByteBuffer bb = ByteBuffer.allocate(8);
-        chan.read(bb);
-        bb.order(ByteOrder.nativeOrder());
+        String client = rebdStringWithLength(chbn);
+        String server = rebdStringWithLength(chbn);
+        ByteBuffer bb = ByteBuffer.bllocbte(8);
+        chbn.rebd(bb);
+        bb.order(ByteOrder.nbtiveOrder());
         int cusec = bb.getInt(0);
         int ctime = bb.getInt(4);
         if (client.isEmpty()) {
             StringTokenizer st = new StringTokenizer(server, " :");
             if (st.countTokens() != 6) {
-                throw new IOException("Incorrect rcache style");
+                throw new IOException("Incorrect rcbche style");
             }
             st.nextToken();
-            String hash = st.nextToken();
+            String hbsh = st.nextToken();
             st.nextToken();
             client = st.nextToken();
             st.nextToken();
             server = st.nextToken();
-            return new AuthTimeWithHash(
-                    client, server, ctime, cusec, hash);
+            return new AuthTimeWithHbsh(
+                    client, server, ctime, cusec, hbsh);
         } else {
             return new AuthTime(
                     client, server, ctime, cusec);
@@ -131,26 +131,26 @@ public class AuthTime {
     }
 
     /**
-     * Encodes to be used in a dfl file
+     * Encodes to be used in b dfl file
      */
     protected byte[] encode0(String cstring, String sstring) {
-        byte[] c = cstring.getBytes(StandardCharsets.UTF_8);;
-        byte[] s = sstring.getBytes(StandardCharsets.UTF_8);;
+        byte[] c = cstring.getBytes(StbndbrdChbrsets.UTF_8);;
+        byte[] s = sstring.getBytes(StbndbrdChbrsets.UTF_8);;
         byte[] zero = new byte[1];
         int len = 4 + c.length + 1 + 4 + s.length + 1 + 4 + 4;
-        ByteBuffer bb = ByteBuffer.allocate(len)
-                .order(ByteOrder.nativeOrder());
+        ByteBuffer bb = ByteBuffer.bllocbte(len)
+                .order(ByteOrder.nbtiveOrder());
         bb.putInt(c.length+1).put(c).put(zero)
                 .putInt(s.length+1).put(s).put(zero)
                 .putInt(cusec).putInt(ctime);
-        return bb.array();
+        return bb.brrby();
     }
 
     /**
-     * Encodes to be used in a dfl file
-     * @param withHash useless here
+     * Encodes to be used in b dfl file
+     * @pbrbm withHbsh useless here
      */
-    public byte[] encode(boolean withHash) {
+    public byte[] encode(boolebn withHbsh) {
         return encode0(client, server);
     }
 }

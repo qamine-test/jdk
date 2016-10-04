@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi.connect;
+pbckbge com.sun.jdi.connect;
 
-import java.util.Map;
-import java.io.IOException;
-import com.sun.jdi.VirtualMachine;
+import jbvb.util.Mbp;
+import jbvb.io.IOException;
+import com.sun.jdi.VirtublMbchine;
 
 /**
- * A connector which listens for a connection initiated by a target VM.
+ * A connector which listens for b connection initibted by b tbrget VM.
  *
- * @author Gordon Hirsch
+ * @buthor Gordon Hirsch
  * @since  1.3
  */
 @jdk.Exported
-public interface ListeningConnector extends Connector {
+public interfbce ListeningConnector extends Connector {
     /**
-     * Indicates whether this listening connector supports multiple
-     * connections for a single argument map. If so, a call to
-     * {@link #startListening} may allow
-     * multiple target VM to become connected.
+     * Indicbtes whether this listening connector supports multiple
+     * connections for b single brgument mbp. If so, b cbll to
+     * {@link #stbrtListening} mby bllow
+     * multiple tbrget VM to become connected.
      *
-     * @return <code>true</code> if multiple connections are supported;
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if multiple connections bre supported;
+     * <code>fblse</code> otherwise.
      */
-    boolean supportsMultipleConnections();
+    boolebn supportsMultipleConnections();
 
     /**
-     * Listens for one or more connections initiated by target VMs.
-     * The connector uses the given argument map
-     * in determining the address at which to listen or else it generates
-     * an appropriate listen address. In either case, an address string
-     * is returned from this method which can be used in starting target VMs
-     * to identify this connector. The format of the address string
-     * is connector, transport, and, possibly, platform dependent.
+     * Listens for one or more connections initibted by tbrget VMs.
+     * The connector uses the given brgument mbp
+     * in determining the bddress bt which to listen or else it generbtes
+     * bn bppropribte listen bddress. In either cbse, bn bddress string
+     * is returned from this method which cbn be used in stbrting tbrget VMs
+     * to identify this connector. The formbt of the bddress string
+     * is connector, trbnsport, bnd, possibly, plbtform dependent.
      * <p>
-     * The argument map associates argument name strings to instances
-     * of {@link Connector.Argument}. The default argument map for a
-     * connector can be obtained through {@link Connector#defaultArguments}.
-     * Argument map values can be changed, but map entries should not be
-     * added or deleted.
+     * The brgument mbp bssocibtes brgument nbme strings to instbnces
+     * of {@link Connector.Argument}. The defbult brgument mbp for b
+     * connector cbn be obtbined through {@link Connector#defbultArguments}.
+     * Argument mbp vblues cbn be chbnged, but mbp entries should not be
+     * bdded or deleted.
      * <p>
-     * This method does not return a {@link VirtualMachine}, and, normally,
-     * returns before any target VM initiates
-     * a connection. The connected target is obtained through
-     * {@link #accept} (using the same argument map as is passed to this
+     * This method does not return b {@link VirtublMbchine}, bnd, normblly,
+     * returns before bny tbrget VM initibtes
+     * b connection. The connected tbrget is obtbined through
+     * {@link #bccept} (using the sbme brgument mbp bs is pbssed to this
      * method).
      * <p>
-     * If <code>arguments</code> contains addressing information. and
-     * only one connection will be accepted, the {@link #accept accept} method
-     * can be called immediately without calling this method.
+     * If <code>brguments</code> contbins bddressing informbtion. bnd
+     * only one connection will be bccepted, the {@link #bccept bccept} method
+     * cbn be cblled immedibtely without cblling this method.
      *
-     * @return the address at which the connector is listening
-     * for a connection.
-     * @throws java.io.IOException when unable to start listening.
-     * Specific exceptions are dependent on the Connector implementation
+     * @return the bddress bt which the connector is listening
+     * for b connection.
+     * @throws jbvb.io.IOException when unbble to stbrt listening.
+     * Specific exceptions bre dependent on the Connector implementbtion
      * in use.
-     * @throws IllegalConnectorArgumentsException when one of the
-     * connector arguments is invalid.
+     * @throws IllegblConnectorArgumentsException when one of the
+     * connector brguments is invblid.
      */
-    String startListening(Map<String,? extends Connector.Argument> arguments)
-        throws IOException, IllegalConnectorArgumentsException;
+    String stbrtListening(Mbp<String,? extends Connector.Argument> brguments)
+        throws IOException, IllegblConnectorArgumentsException;
 
     /**
-     * Cancels listening for connections. The given argument map should match
-     * the argument map given for a previous {@link #startListening} invocation.
+     * Cbncels listening for connections. The given brgument mbp should mbtch
+     * the brgument mbp given for b previous {@link #stbrtListening} invocbtion.
      *
-     * @throws java.io.IOException when unable to stop listening.
-     * Specific exceptions are dependent on the Connector implementation
+     * @throws jbvb.io.IOException when unbble to stop listening.
+     * Specific exceptions bre dependent on the Connector implementbtion
      * in use.
-     * @throws IllegalConnectorArgumentsException when one of the
-     * connector arguments is invalid.
+     * @throws IllegblConnectorArgumentsException when one of the
+     * connector brguments is invblid.
      */
-    void stopListening(Map<String,? extends Connector.Argument> arguments)
-        throws IOException, IllegalConnectorArgumentsException;
+    void stopListening(Mbp<String,? extends Connector.Argument> brguments)
+        throws IOException, IllegblConnectorArgumentsException;
 
 
     /**
-     * Waits for a target VM to attach to this connector.
+     * Wbits for b tbrget VM to bttbch to this connector.
      *
-     * @throws TransportTimeoutException when the Connector encapsulates
-     * a transport that supports a timeout when accepting, a
-     * {@link Connector.Argument} representing a timeout has been set
-     * in the argument map, and a timeout occurs whilst waiting for
-     * the target VM to connect.
-     * @throws java.io.IOException when unable to accept.
-     * Specific exceptions are dependent on the Connector implementation
+     * @throws TrbnsportTimeoutException when the Connector encbpsulbtes
+     * b trbnsport thbt supports b timeout when bccepting, b
+     * {@link Connector.Argument} representing b timeout hbs been set
+     * in the brgument mbp, bnd b timeout occurs whilst wbiting for
+     * the tbrget VM to connect.
+     * @throws jbvb.io.IOException when unbble to bccept.
+     * Specific exceptions bre dependent on the Connector implementbtion
      * in use.
-     * @throws IllegalConnectorArgumentsException when one of the
-     * connector arguments is invalid.
+     * @throws IllegblConnectorArgumentsException when one of the
+     * connector brguments is invblid.
      */
-    VirtualMachine accept(Map<String,? extends Connector.Argument> arguments)
-        throws IOException, IllegalConnectorArgumentsException;
+    VirtublMbchine bccept(Mbp<String,? extends Connector.Argument> brguments)
+        throws IOException, IllegblConnectorArgumentsException;
 
 }

@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import sun.swing.DefaultLookup;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import sun.swing.DefbultLookup;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JOptionPane}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JOptionPbne}.
  *
- * @author James Gosling
- * @author Scott Violet
- * @author Amy Fowler
+ * @buthor Jbmes Gosling
+ * @buthor Scott Violet
+ * @buthor Amy Fowler
  * @since 1.7
  */
-public class SynthOptionPaneUI extends BasicOptionPaneUI implements
-                                PropertyChangeListener, SynthUI {
-    private SynthStyle style;
+public clbss SynthOptionPbneUI extends BbsicOptionPbneUI implements
+                                PropertyChbngeListener, SynthUI {
+    privbte SynthStyle style;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param x component to create UI object for
+     * @pbrbm x component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new SynthOptionPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent x) {
+        return new SynthOptionPbneUI();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults() {
-        updateStyle(optionPane);
+    protected void instbllDefbults() {
+        updbteStyle(optionPbne);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        optionPane.addPropertyChangeListener(this);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        optionPbne.bddPropertyChbngeListener(this);
     }
 
-    private void updateStyle(JComponent c) {
+    privbte void updbteStyle(JComponent c) {
         SynthContext context = getContext(c, ENABLED);
         SynthStyle oldStyle = style;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
         if (style != oldStyle) {
             minimumSize = (Dimension)style.get(context,
-                                               "OptionPane.minimumSize");
+                                               "OptionPbne.minimumSize");
             if (minimumSize == null) {
                 minimumSize = new Dimension(262, 90);
             }
             if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                uninstbllKeybobrdActions();
+                instbllKeybobrdActions();
             }
         }
         context.dispose();
@@ -95,10 +95,10 @@ public class SynthOptionPaneUI extends BasicOptionPaneUI implements
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(optionPane, ENABLED);
+    protected void uninstbllDefbults() {
+        SynthContext context = getContext(optionPbne, ENABLED);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
     }
@@ -107,28 +107,28 @@ public class SynthOptionPaneUI extends BasicOptionPaneUI implements
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        optionPane.removePropertyChangeListener(this);
+    protected void uninstbllListeners() {
+        super.uninstbllListeners();
+        optionPbne.removePropertyChbngeListener(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installComponents() {
-        optionPane.add(createMessageArea());
+    protected void instbllComponents() {
+        optionPbne.bdd(crebteMessbgeAreb());
 
-        Container separator = createSeparator();
-        if (separator != null) {
-            optionPane.add(separator);
-            SynthContext context = getContext(optionPane, ENABLED);
-            optionPane.add(Box.createVerticalStrut(context.getStyle().
-                       getInt(context, "OptionPane.separatorPadding", 6)));
+        Contbiner sepbrbtor = crebteSepbrbtor();
+        if (sepbrbtor != null) {
+            optionPbne.bdd(sepbrbtor);
+            SynthContext context = getContext(optionPbne, ENABLED);
+            optionPbne.bdd(Box.crebteVerticblStrut(context.getStyle().
+                       getInt(context, "OptionPbne.sepbrbtorPbdding", 6)));
             context.dispose();
         }
-        optionPane.add(createButtonArea());
-        optionPane.applyComponentOrientation(optionPane.getComponentOrientation());
+        optionPbne.bdd(crebteButtonAreb());
+        optionPbne.bpplyComponentOrientbtion(optionPbne.getComponentOrientbtion());
     }
 
     /**
@@ -136,83 +136,83 @@ public class SynthOptionPaneUI extends BasicOptionPaneUI implements
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+        return getContext(c, getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
-    private int getComponentState(JComponent c) {
-        return SynthLookAndFeel.getComponentState(c);
+    privbte int getComponentStbte(JComponent c) {
+        return SynthLookAndFeel.getComponentStbte(c);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintOptionPaneBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintOptionPbneBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component. This implementation does nothing.
+     * Pbints the specified component. This implementbtion does nothing.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
+    protected void pbint(SynthContext context, Grbphics g) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintOptionPaneBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintOptionPbneBorder(context, g, x, y, w, h);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((JOptionPane)e.getSource());
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(e)) {
+            updbteStyle((JOptionPbne)e.getSource());
         }
     }
 
@@ -220,54 +220,54 @@ public class SynthOptionPaneUI extends BasicOptionPaneUI implements
      * {@inheritDoc}
      */
     @Override
-    protected boolean getSizeButtonsToSameWidth() {
-        return DefaultLookup.getBoolean(optionPane, this,
-                                        "OptionPane.sameSizeButtons", true);
+    protected boolebn getSizeButtonsToSbmeWidth() {
+        return DefbultLookup.getBoolebn(optionPbne, this,
+                                        "OptionPbne.sbmeSizeButtons", true);
     }
 
     /**
-     * Called from {@link #installComponents} to create a {@code Container}
-     * containing the body of the message. The icon is the created by calling
-     * {@link #addIcon}.
+     * Cblled from {@link #instbllComponents} to crebte b {@code Contbiner}
+     * contbining the body of the messbge. The icon is the crebted by cblling
+     * {@link #bddIcon}.
      */
     @Override
-    protected Container createMessageArea() {
-        JPanel top = new JPanel();
-        top.setName("OptionPane.messageArea");
-        top.setLayout(new BorderLayout());
+    protected Contbiner crebteMessbgeAreb() {
+        JPbnel top = new JPbnel();
+        top.setNbme("OptionPbne.messbgeAreb");
+        top.setLbyout(new BorderLbyout());
 
         /* Fill the body. */
-        Container          body = new JPanel(new GridBagLayout());
-        Container          realBody = new JPanel(new BorderLayout());
+        Contbiner          body = new JPbnel(new GridBbgLbyout());
+        Contbiner          reblBody = new JPbnel(new BorderLbyout());
 
-        body.setName("OptionPane.body");
-        realBody.setName("OptionPane.realBody");
+        body.setNbme("OptionPbne.body");
+        reblBody.setNbme("OptionPbne.reblBody");
 
         if (getIcon() != null) {
-            JPanel sep = new JPanel();
-            sep.setName("OptionPane.separator");
+            JPbnel sep = new JPbnel();
+            sep.setNbme("OptionPbne.sepbrbtor");
             sep.setPreferredSize(new Dimension(15, 1));
-            realBody.add(sep, BorderLayout.BEFORE_LINE_BEGINS);
+            reblBody.bdd(sep, BorderLbyout.BEFORE_LINE_BEGINS);
         }
-        realBody.add(body, BorderLayout.CENTER);
+        reblBody.bdd(body, BorderLbyout.CENTER);
 
-        GridBagConstraints cons = new GridBagConstraints();
+        GridBbgConstrbints cons = new GridBbgConstrbints();
         cons.gridx = cons.gridy = 0;
-        cons.gridwidth = GridBagConstraints.REMAINDER;
+        cons.gridwidth = GridBbgConstrbints.REMAINDER;
         cons.gridheight = 1;
 
-        SynthContext context = getContext(optionPane, ENABLED);
-        cons.anchor = context.getStyle().getInt(context,
-                      "OptionPane.messageAnchor", GridBagConstraints.CENTER);
+        SynthContext context = getContext(optionPbne, ENABLED);
+        cons.bnchor = context.getStyle().getInt(context,
+                      "OptionPbne.messbgeAnchor", GridBbgConstrbints.CENTER);
         context.dispose();
 
         cons.insets = new Insets(0,0,3,0);
 
-        addMessageComponents(body, cons, getMessage(),
-                          getMaxCharactersPerLineCount(), false);
-        top.add(realBody, BorderLayout.CENTER);
+        bddMessbgeComponents(body, cons, getMessbge(),
+                          getMbxChbrbctersPerLineCount(), fblse);
+        top.bdd(reblBody, BorderLbyout.CENTER);
 
-        addIcon(top);
+        bddIcon(top);
         return top;
     }
 
@@ -275,10 +275,10 @@ public class SynthOptionPaneUI extends BasicOptionPaneUI implements
      * {@inheritDoc}
      */
     @Override
-    protected Container createSeparator() {
-        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+    protected Contbiner crebteSepbrbtor() {
+        JSepbrbtor sepbrbtor = new JSepbrbtor(SwingConstbnts.HORIZONTAL);
 
-        separator.setName("OptionPane.separator");
-        return separator;
+        sepbrbtor.setNbme("OptionPbne.sepbrbtor");
+        return sepbrbtor;
     }
 }

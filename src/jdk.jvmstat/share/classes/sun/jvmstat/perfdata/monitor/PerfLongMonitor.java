@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbckbge sun.jvmstbt.perfdbtb.monitor;
 
-import sun.jvmstat.monitor.*;
-import java.nio.LongBuffer;
+import sun.jvmstbt.monitor.*;
+import jbvb.nio.LongBuffer;
 
 /**
- * Class for monitoring a PerfData Long instrument.
+ * Clbss for monitoring b PerfDbtb Long instrument.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class PerfLongMonitor extends AbstractMonitor implements LongMonitor {
+public clbss PerfLongMonitor extends AbstrbctMonitor implements LongMonitor {
 
     /**
-     * The buffer containing the data for the long instrument.
+     * The buffer contbining the dbtb for the long instrument.
      */
     LongBuffer lb;
 
     /**
-     * Constructor to create a LongMonitor object for the long instrument
-     * represented by the data in the given buffer.
+     * Constructor to crebte b LongMonitor object for the long instrument
+     * represented by the dbtb in the given buffer.
      *
-     * @param name the name of the long instrument
-     * @param u the units of measure attribute
-     * @param v the variability attribute
-     * @param supported support level indicator
-     * @param lb the buffer containing the long instrument data.
+     * @pbrbm nbme the nbme of the long instrument
+     * @pbrbm u the units of mebsure bttribute
+     * @pbrbm v the vbribbility bttribute
+     * @pbrbm supported support level indicbtor
+     * @pbrbm lb the buffer contbining the long instrument dbtb.
      */
-    public PerfLongMonitor(String name, Units u, Variability v,
-                           boolean supported, LongBuffer lb) {
-        super(name, u, v, supported);
+    public PerfLongMonitor(String nbme, Units u, Vbribbility v,
+                           boolebn supported, LongBuffer lb) {
+        super(nbme, u, v, supported);
         this.lb = lb;
     }
 
     /**
      * {@inheritDoc}
-     * The object returned contains a Long object containing the
-     * current value of the LongInstrument.
+     * The object returned contbins b Long object contbining the
+     * current vblue of the LongInstrument.
      *
-     * @return Object - the current value of the the LongInstrument. The
-     *                  return type is guaranteed to be of type Long.
+     * @return Object - the current vblue of the the LongInstrument. The
+     *                  return type is gubrbnteed to be of type Long.
      */
-    public Object getValue() {
-        return Long.valueOf(lb.get(0));
+    public Object getVblue() {
+        return Long.vblueOf(lb.get(0));
     }
 
     /**
-     * Return the current value of the LongInstrument as an long.
+     * Return the current vblue of the LongInstrument bs bn long.
      *
-     * @return long - the current value of the LongInstrument
+     * @return long - the current vblue of the LongInstrument
      */
-    public long longValue() {
+    public long longVblue() {
         return lb.get(0);
     }
 }

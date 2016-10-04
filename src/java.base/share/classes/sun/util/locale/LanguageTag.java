@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *******************************************************************************
- * Copyright (C) 2010, International Business Machines Corporation and         *
+ * Copyright (C) 2010, Internbtionbl Business Mbchines Corporbtion bnd         *
  * others. All Rights Reserved.                                                *
  *******************************************************************************
  */
-package sun.util.locale;
+pbckbge sun.util.locble;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-public class LanguageTag {
+public clbss LbngubgeTbg {
     //
-    // static fields
+    // stbtic fields
     //
-    public static final String SEP = "-";
-    public static final String PRIVATEUSE = "x";
-    public static final String UNDETERMINED = "und";
-    public static final String PRIVUSE_VARIANT_PREFIX = "lvariant";
+    public stbtic finbl String SEP = "-";
+    public stbtic finbl String PRIVATEUSE = "x";
+    public stbtic finbl String UNDETERMINED = "und";
+    public stbtic finbl String PRIVUSE_VARIANT_PREFIX = "lvbribnt";
 
     //
-    // Language subtag fields
+    // Lbngubge subtbg fields
     //
-    private String language = "";      // language subtag
-    private String script = "";        // script subtag
-    private String region = "";        // region subtag
-    private String privateuse = "";    // privateuse
+    privbte String lbngubge = "";      // lbngubge subtbg
+    privbte String script = "";        // script subtbg
+    privbte String region = "";        // region subtbg
+    privbte String privbteuse = "";    // privbteuse
 
-    private List<String> extlangs = Collections.emptyList();   // extlang subtags
-    private List<String> variants = Collections.emptyList();   // variant subtags
-    private List<String> extensions = Collections.emptyList(); // extensions
+    privbte List<String> extlbngs = Collections.emptyList();   // extlbng subtbgs
+    privbte List<String> vbribnts = Collections.emptyList();   // vbribnt subtbgs
+    privbte List<String> extensions = Collections.emptyList(); // extensions
 
-    // Map contains grandfathered tags and its preferred mappings from
+    // Mbp contbins grbndfbthered tbgs bnd its preferred mbppings from
     // http://www.ietf.org/rfc/rfc5646.txt
-    // Keys are lower-case strings.
-    private static final Map<String, String[]> GRANDFATHERED = new HashMap<>();
+    // Keys bre lower-cbse strings.
+    privbte stbtic finbl Mbp<String, String[]> GRANDFATHERED = new HbshMbp<>();
 
-    static {
-        // grandfathered = irregular           ; non-redundant tags registered
-        //               / regular             ; during the RFC 3066 era
+    stbtic {
+        // grbndfbthered = irregulbr           ; non-redundbnt tbgs registered
+        //               / regulbr             ; during the RFC 3066 erb
         //
-        // irregular     = "en-GB-oed"         ; irregular tags do not match
-        //               / "i-ami"             ; the 'langtag' production and
+        // irregulbr     = "en-GB-oed"         ; irregulbr tbgs do not mbtch
+        //               / "i-bmi"             ; the 'lbngtbg' production bnd
         //               / "i-bnn"             ; would not otherwise be
-        //               / "i-default"         ; considered 'well-formed'
-        //               / "i-enochian"        ; These tags are all valid,
-        //               / "i-hak"             ; but most are deprecated
-        //               / "i-klingon"         ; in favor of more modern
-        //               / "i-lux"             ; subtags or subtag
-        //               / "i-mingo"           ; combination
-        //               / "i-navajo"
+        //               / "i-defbult"         ; considered 'well-formed'
+        //               / "i-enochibn"        ; These tbgs bre bll vblid,
+        //               / "i-hbk"             ; but most bre deprecbted
+        //               / "i-klingon"         ; in fbvor of more modern
+        //               / "i-lux"             ; subtbgs or subtbg
+        //               / "i-mingo"           ; combinbtion
+        //               / "i-nbvbjo"
         //               / "i-pwn"
-        //               / "i-tao"
-        //               / "i-tay"
+        //               / "i-tbo"
+        //               / "i-tby"
         //               / "i-tsu"
         //               / "sgn-BE-FR"
         //               / "sgn-BE-NL"
         //               / "sgn-CH-DE"
         //
-        // regular       = "art-lojban"        ; these tags match the 'langtag'
-        //               / "cel-gaulish"       ; production, but their subtags
-        //               / "no-bok"            ; are not extended language
-        //               / "no-nyn"            ; or variant subtags: their meaning
-        //               / "zh-guoyu"          ; is defined by their registration
-        //               / "zh-hakka"          ; and all of these are deprecated
-        //               / "zh-min"            ; in favor of a more modern
-        //               / "zh-min-nan"        ; subtag or sequence of subtags
-        //               / "zh-xiang"
+        // regulbr       = "brt-lojbbn"        ; these tbgs mbtch the 'lbngtbg'
+        //               / "cel-gbulish"       ; production, but their subtbgs
+        //               / "no-bok"            ; bre not extended lbngubge
+        //               / "no-nyn"            ; or vbribnt subtbgs: their mebning
+        //               / "zh-guoyu"          ; is defined by their registrbtion
+        //               / "zh-hbkkb"          ; bnd bll of these bre deprecbted
+        //               / "zh-min"            ; in fbvor of b more modern
+        //               / "zh-min-nbn"        ; subtbg or sequence of subtbgs
+        //               / "zh-xibng"
 
-        final String[][] entries = {
-          //{"tag",         "preferred"},
-            {"art-lojban",  "jbo"},
-            {"cel-gaulish", "xtg-x-cel-gaulish"},   // fallback
-            {"en-GB-oed",   "en-GB-x-oed"},         // fallback
-            {"i-ami",       "ami"},
+        finbl String[][] entries = {
+          //{"tbg",         "preferred"},
+            {"brt-lojbbn",  "jbo"},
+            {"cel-gbulish", "xtg-x-cel-gbulish"},   // fbllbbck
+            {"en-GB-oed",   "en-GB-x-oed"},         // fbllbbck
+            {"i-bmi",       "bmi"},
             {"i-bnn",       "bnn"},
-            {"i-default",   "en-x-i-default"},      // fallback
-            {"i-enochian",  "und-x-i-enochian"},    // fallback
-            {"i-hak",       "hak"},
+            {"i-defbult",   "en-x-i-defbult"},      // fbllbbck
+            {"i-enochibn",  "und-x-i-enochibn"},    // fbllbbck
+            {"i-hbk",       "hbk"},
             {"i-klingon",   "tlh"},
             {"i-lux",       "lb"},
-            {"i-mingo",     "see-x-i-mingo"},       // fallback
-            {"i-navajo",    "nv"},
+            {"i-mingo",     "see-x-i-mingo"},       // fbllbbck
+            {"i-nbvbjo",    "nv"},
             {"i-pwn",       "pwn"},
-            {"i-tao",       "tao"},
-            {"i-tay",       "tay"},
+            {"i-tbo",       "tbo"},
+            {"i-tby",       "tby"},
             {"i-tsu",       "tsu"},
             {"no-bok",      "nb"},
             {"no-nyn",      "nn"},
@@ -120,292 +120,292 @@ public class LanguageTag {
             {"sgn-BE-NL",   "vgt"},
             {"sgn-CH-DE",   "sgg"},
             {"zh-guoyu",    "cmn"},
-            {"zh-hakka",    "hak"},
-            {"zh-min",      "nan-x-zh-min"},        // fallback
-            {"zh-min-nan",  "nan"},
-            {"zh-xiang",    "hsn"},
+            {"zh-hbkkb",    "hbk"},
+            {"zh-min",      "nbn-x-zh-min"},        // fbllbbck
+            {"zh-min-nbn",  "nbn"},
+            {"zh-xibng",    "hsn"},
         };
         for (String[] e : entries) {
-            GRANDFATHERED.put(LocaleUtils.toLowerString(e[0]), e);
+            GRANDFATHERED.put(LocbleUtils.toLowerString(e[0]), e);
         }
     }
 
-    private LanguageTag() {
+    privbte LbngubgeTbg() {
     }
 
     /*
      * BNF in RFC5646
      *
-     * Language-Tag  = langtag             ; normal language tags
-     *               / privateuse          ; private use tag
-     *               / grandfathered       ; grandfathered tags
+     * Lbngubge-Tbg  = lbngtbg             ; normbl lbngubge tbgs
+     *               / privbteuse          ; privbte use tbg
+     *               / grbndfbthered       ; grbndfbthered tbgs
      *
      *
-     * langtag       = language
+     * lbngtbg       = lbngubge
      *                 ["-" script]
      *                 ["-" region]
-     *                 *("-" variant)
+     *                 *("-" vbribnt)
      *                 *("-" extension)
-     *                 ["-" privateuse]
+     *                 ["-" privbteuse]
      *
-     * language      = 2*3ALPHA            ; shortest ISO 639 code
-     *                 ["-" extlang]       ; sometimes followed by
-     *                                     ; extended language subtags
+     * lbngubge      = 2*3ALPHA            ; shortest ISO 639 code
+     *                 ["-" extlbng]       ; sometimes followed by
+     *                                     ; extended lbngubge subtbgs
      *               / 4ALPHA              ; or reserved for future use
-     *               / 5*8ALPHA            ; or registered language subtag
+     *               / 5*8ALPHA            ; or registered lbngubge subtbg
      *
-     * extlang       = 3ALPHA              ; selected ISO 639 codes
-     *                 *2("-" 3ALPHA)      ; permanently reserved
+     * extlbng       = 3ALPHA              ; selected ISO 639 codes
+     *                 *2("-" 3ALPHA)      ; permbnently reserved
      *
      * script        = 4ALPHA              ; ISO 15924 code
      *
      * region        = 2ALPHA              ; ISO 3166-1 code
      *               / 3DIGIT              ; UN M.49 code
      *
-     * variant       = 5*8alphanum         ; registered variants
-     *               / (DIGIT 3alphanum)
+     * vbribnt       = 5*8blphbnum         ; registered vbribnts
+     *               / (DIGIT 3blphbnum)
      *
-     * extension     = singleton 1*("-" (2*8alphanum))
+     * extension     = singleton 1*("-" (2*8blphbnum))
      *
-     *                                     ; Single alphanumerics
-     *                                     ; "x" reserved for private use
+     *                                     ; Single blphbnumerics
+     *                                     ; "x" reserved for privbte use
      * singleton     = DIGIT               ; 0 - 9
      *               / %x41-57             ; A - W
      *               / %x59-5A             ; Y - Z
-     *               / %x61-77             ; a - w
+     *               / %x61-77             ; b - w
      *               / %x79-7A             ; y - z
      *
-     * privateuse    = "x" 1*("-" (1*8alphanum))
+     * privbteuse    = "x" 1*("-" (1*8blphbnum))
      *
      */
-    public static LanguageTag parse(String languageTag, ParseStatus sts) {
+    public stbtic LbngubgeTbg pbrse(String lbngubgeTbg, PbrseStbtus sts) {
         if (sts == null) {
-            sts = new ParseStatus();
+            sts = new PbrseStbtus();
         } else {
             sts.reset();
         }
 
-        StringTokenIterator itr;
+        StringTokenIterbtor itr;
 
-        // Check if the tag is grandfathered
-        String[] gfmap = GRANDFATHERED.get(LocaleUtils.toLowerString(languageTag));
-        if (gfmap != null) {
-            // use preferred mapping
-            itr = new StringTokenIterator(gfmap[1], SEP);
+        // Check if the tbg is grbndfbthered
+        String[] gfmbp = GRANDFATHERED.get(LocbleUtils.toLowerString(lbngubgeTbg));
+        if (gfmbp != null) {
+            // use preferred mbpping
+            itr = new StringTokenIterbtor(gfmbp[1], SEP);
         } else {
-            itr = new StringTokenIterator(languageTag, SEP);
+            itr = new StringTokenIterbtor(lbngubgeTbg, SEP);
         }
 
-        LanguageTag tag = new LanguageTag();
+        LbngubgeTbg tbg = new LbngubgeTbg();
 
-        // langtag must start with either language or privateuse
-        if (tag.parseLanguage(itr, sts)) {
-            tag.parseExtlangs(itr, sts);
-            tag.parseScript(itr, sts);
-            tag.parseRegion(itr, sts);
-            tag.parseVariants(itr, sts);
-            tag.parseExtensions(itr, sts);
+        // lbngtbg must stbrt with either lbngubge or privbteuse
+        if (tbg.pbrseLbngubge(itr, sts)) {
+            tbg.pbrseExtlbngs(itr, sts);
+            tbg.pbrseScript(itr, sts);
+            tbg.pbrseRegion(itr, sts);
+            tbg.pbrseVbribnts(itr, sts);
+            tbg.pbrseExtensions(itr, sts);
         }
-        tag.parsePrivateuse(itr, sts);
+        tbg.pbrsePrivbteuse(itr, sts);
 
         if (!itr.isDone() && !sts.isError()) {
             String s = itr.current();
-            sts.errorIndex = itr.currentStart();
+            sts.errorIndex = itr.currentStbrt();
             if (s.length() == 0) {
-                sts.errorMsg = "Empty subtag";
+                sts.errorMsg = "Empty subtbg";
             } else {
-                sts.errorMsg = "Invalid subtag: " + s;
+                sts.errorMsg = "Invblid subtbg: " + s;
             }
         }
 
-        return tag;
+        return tbg;
     }
 
     //
-    // Language subtag parsers
+    // Lbngubge subtbg pbrsers
     //
 
-    private boolean parseLanguage(StringTokenIterator itr, ParseStatus sts) {
+    privbte boolebn pbrseLbngubge(StringTokenIterbtor itr, PbrseStbtus sts) {
         if (itr.isDone() || sts.isError()) {
-            return false;
+            return fblse;
         }
 
-        boolean found = false;
+        boolebn found = fblse;
 
         String s = itr.current();
-        if (isLanguage(s)) {
+        if (isLbngubge(s)) {
             found = true;
-            language = s;
-            sts.parseLength = itr.currentEnd();
+            lbngubge = s;
+            sts.pbrseLength = itr.currentEnd();
             itr.next();
         }
 
         return found;
     }
 
-    private boolean parseExtlangs(StringTokenIterator itr, ParseStatus sts) {
+    privbte boolebn pbrseExtlbngs(StringTokenIterbtor itr, PbrseStbtus sts) {
         if (itr.isDone() || sts.isError()) {
-            return false;
+            return fblse;
         }
 
-        boolean found = false;
+        boolebn found = fblse;
 
         while (!itr.isDone()) {
             String s = itr.current();
-            if (!isExtlang(s)) {
-                break;
+            if (!isExtlbng(s)) {
+                brebk;
             }
             found = true;
-            if (extlangs.isEmpty()) {
-                extlangs = new ArrayList<>(3);
+            if (extlbngs.isEmpty()) {
+                extlbngs = new ArrbyList<>(3);
             }
-            extlangs.add(s);
-            sts.parseLength = itr.currentEnd();
+            extlbngs.bdd(s);
+            sts.pbrseLength = itr.currentEnd();
             itr.next();
 
-            if (extlangs.size() == 3) {
-                // Maximum 3 extlangs
-                break;
+            if (extlbngs.size() == 3) {
+                // Mbximum 3 extlbngs
+                brebk;
             }
         }
 
         return found;
     }
 
-    private boolean parseScript(StringTokenIterator itr, ParseStatus sts) {
+    privbte boolebn pbrseScript(StringTokenIterbtor itr, PbrseStbtus sts) {
         if (itr.isDone() || sts.isError()) {
-            return false;
+            return fblse;
         }
 
-        boolean found = false;
+        boolebn found = fblse;
 
         String s = itr.current();
         if (isScript(s)) {
             found = true;
             script = s;
-            sts.parseLength = itr.currentEnd();
+            sts.pbrseLength = itr.currentEnd();
             itr.next();
         }
 
         return found;
     }
 
-    private boolean parseRegion(StringTokenIterator itr, ParseStatus sts) {
+    privbte boolebn pbrseRegion(StringTokenIterbtor itr, PbrseStbtus sts) {
         if (itr.isDone() || sts.isError()) {
-            return false;
+            return fblse;
         }
 
-        boolean found = false;
+        boolebn found = fblse;
 
         String s = itr.current();
         if (isRegion(s)) {
             found = true;
             region = s;
-            sts.parseLength = itr.currentEnd();
+            sts.pbrseLength = itr.currentEnd();
             itr.next();
         }
 
         return found;
     }
 
-    private boolean parseVariants(StringTokenIterator itr, ParseStatus sts) {
+    privbte boolebn pbrseVbribnts(StringTokenIterbtor itr, PbrseStbtus sts) {
         if (itr.isDone() || sts.isError()) {
-            return false;
+            return fblse;
         }
 
-        boolean found = false;
+        boolebn found = fblse;
 
         while (!itr.isDone()) {
             String s = itr.current();
-            if (!isVariant(s)) {
-                break;
+            if (!isVbribnt(s)) {
+                brebk;
             }
             found = true;
-            if (variants.isEmpty()) {
-                variants = new ArrayList<>(3);
+            if (vbribnts.isEmpty()) {
+                vbribnts = new ArrbyList<>(3);
             }
-            variants.add(s);
-            sts.parseLength = itr.currentEnd();
+            vbribnts.bdd(s);
+            sts.pbrseLength = itr.currentEnd();
             itr.next();
         }
 
         return found;
     }
 
-    private boolean parseExtensions(StringTokenIterator itr, ParseStatus sts) {
+    privbte boolebn pbrseExtensions(StringTokenIterbtor itr, PbrseStbtus sts) {
         if (itr.isDone() || sts.isError()) {
-            return false;
+            return fblse;
         }
 
-        boolean found = false;
+        boolebn found = fblse;
 
         while (!itr.isDone()) {
             String s = itr.current();
             if (isExtensionSingleton(s)) {
-                int start = itr.currentStart();
+                int stbrt = itr.currentStbrt();
                 String singleton = s;
                 StringBuilder sb = new StringBuilder(singleton);
 
                 itr.next();
                 while (!itr.isDone()) {
                     s = itr.current();
-                    if (isExtensionSubtag(s)) {
-                        sb.append(SEP).append(s);
-                        sts.parseLength = itr.currentEnd();
+                    if (isExtensionSubtbg(s)) {
+                        sb.bppend(SEP).bppend(s);
+                        sts.pbrseLength = itr.currentEnd();
                     } else {
-                        break;
+                        brebk;
                     }
                     itr.next();
                 }
 
-                if (sts.parseLength <= start) {
-                    sts.errorIndex = start;
+                if (sts.pbrseLength <= stbrt) {
+                    sts.errorIndex = stbrt;
                     sts.errorMsg = "Incomplete extension '" + singleton + "'";
-                    break;
+                    brebk;
                 }
 
                 if (extensions.isEmpty()) {
-                    extensions = new ArrayList<>(4);
+                    extensions = new ArrbyList<>(4);
                 }
-                extensions.add(sb.toString());
+                extensions.bdd(sb.toString());
                 found = true;
             } else {
-                break;
+                brebk;
             }
         }
         return found;
     }
 
-    private boolean parsePrivateuse(StringTokenIterator itr, ParseStatus sts) {
+    privbte boolebn pbrsePrivbteuse(StringTokenIterbtor itr, PbrseStbtus sts) {
         if (itr.isDone() || sts.isError()) {
-            return false;
+            return fblse;
         }
 
-        boolean found = false;
+        boolebn found = fblse;
 
         String s = itr.current();
-        if (isPrivateusePrefix(s)) {
-            int start = itr.currentStart();
+        if (isPrivbteusePrefix(s)) {
+            int stbrt = itr.currentStbrt();
             StringBuilder sb = new StringBuilder(s);
 
             itr.next();
             while (!itr.isDone()) {
                 s = itr.current();
-                if (!isPrivateuseSubtag(s)) {
-                    break;
+                if (!isPrivbteuseSubtbg(s)) {
+                    brebk;
                 }
-                sb.append(SEP).append(s);
-                sts.parseLength = itr.currentEnd();
+                sb.bppend(SEP).bppend(s);
+                sts.pbrseLength = itr.currentEnd();
 
                 itr.next();
             }
 
-            if (sts.parseLength <= start) {
-                // need at least 1 private subtag
-                sts.errorIndex = start;
-                sts.errorMsg = "Incomplete privateuse";
+            if (sts.pbrseLength <= stbrt) {
+                // need bt lebst 1 privbte subtbg
+                sts.errorIndex = stbrt;
+                sts.errorMsg = "Incomplete privbteuse";
             } else {
-                privateuse = sb.toString();
+                privbteuse = sb.toString();
                 found = true;
             }
         }
@@ -413,145 +413,145 @@ public class LanguageTag {
         return found;
     }
 
-    public static LanguageTag parseLocale(BaseLocale baseLocale, LocaleExtensions localeExtensions) {
-        LanguageTag tag = new LanguageTag();
+    public stbtic LbngubgeTbg pbrseLocble(BbseLocble bbseLocble, LocbleExtensions locbleExtensions) {
+        LbngubgeTbg tbg = new LbngubgeTbg();
 
-        String language = baseLocale.getLanguage();
-        String script = baseLocale.getScript();
-        String region = baseLocale.getRegion();
-        String variant = baseLocale.getVariant();
+        String lbngubge = bbseLocble.getLbngubge();
+        String script = bbseLocble.getScript();
+        String region = bbseLocble.getRegion();
+        String vbribnt = bbseLocble.getVbribnt();
 
-        boolean hasSubtag = false;
+        boolebn hbsSubtbg = fblse;
 
-        String privuseVar = null;   // store ill-formed variant subtags
+        String privuseVbr = null;   // store ill-formed vbribnt subtbgs
 
-        if (isLanguage(language)) {
-            // Convert a deprecated language code to its new code
-            if (language.equals("iw")) {
-                language = "he";
-            } else if (language.equals("ji")) {
-                language = "yi";
-            } else if (language.equals("in")) {
-                language = "id";
+        if (isLbngubge(lbngubge)) {
+            // Convert b deprecbted lbngubge code to its new code
+            if (lbngubge.equbls("iw")) {
+                lbngubge = "he";
+            } else if (lbngubge.equbls("ji")) {
+                lbngubge = "yi";
+            } else if (lbngubge.equbls("in")) {
+                lbngubge = "id";
             }
-            tag.language = language;
+            tbg.lbngubge = lbngubge;
         }
 
         if (isScript(script)) {
-            tag.script = canonicalizeScript(script);
-            hasSubtag = true;
+            tbg.script = cbnonicblizeScript(script);
+            hbsSubtbg = true;
         }
 
         if (isRegion(region)) {
-            tag.region = canonicalizeRegion(region);
-            hasSubtag = true;
+            tbg.region = cbnonicblizeRegion(region);
+            hbsSubtbg = true;
         }
 
-        // Special handling for no_NO_NY - use nn_NO for language tag
-        if (tag.language.equals("no") && tag.region.equals("NO") && variant.equals("NY")) {
-            tag.language = "nn";
-            variant = "";
+        // Specibl hbndling for no_NO_NY - use nn_NO for lbngubge tbg
+        if (tbg.lbngubge.equbls("no") && tbg.region.equbls("NO") && vbribnt.equbls("NY")) {
+            tbg.lbngubge = "nn";
+            vbribnt = "";
         }
 
-        if (variant.length() > 0) {
-            List<String> variants = null;
-            StringTokenIterator varitr = new StringTokenIterator(variant, BaseLocale.SEP);
-            while (!varitr.isDone()) {
-                String var = varitr.current();
-                if (!isVariant(var)) {
-                    break;
+        if (vbribnt.length() > 0) {
+            List<String> vbribnts = null;
+            StringTokenIterbtor vbritr = new StringTokenIterbtor(vbribnt, BbseLocble.SEP);
+            while (!vbritr.isDone()) {
+                String vbr = vbritr.current();
+                if (!isVbribnt(vbr)) {
+                    brebk;
                 }
-                if (variants == null) {
-                    variants = new ArrayList<>();
+                if (vbribnts == null) {
+                    vbribnts = new ArrbyList<>();
                 }
-                variants.add(var);  // Do not canonicalize!
-                varitr.next();
+                vbribnts.bdd(vbr);  // Do not cbnonicblize!
+                vbritr.next();
             }
-            if (variants != null) {
-                tag.variants = variants;
-                hasSubtag = true;
+            if (vbribnts != null) {
+                tbg.vbribnts = vbribnts;
+                hbsSubtbg = true;
             }
-            if (!varitr.isDone()) {
-                // ill-formed variant subtags
+            if (!vbritr.isDone()) {
+                // ill-formed vbribnt subtbgs
                 StringBuilder buf = new StringBuilder();
-                while (!varitr.isDone()) {
-                    String prvv = varitr.current();
-                    if (!isPrivateuseSubtag(prvv)) {
-                        // cannot use private use subtag - truncated
-                        break;
+                while (!vbritr.isDone()) {
+                    String prvv = vbritr.current();
+                    if (!isPrivbteuseSubtbg(prvv)) {
+                        // cbnnot use privbte use subtbg - truncbted
+                        brebk;
                     }
                     if (buf.length() > 0) {
-                        buf.append(SEP);
+                        buf.bppend(SEP);
                     }
-                    buf.append(prvv);
-                    varitr.next();
+                    buf.bppend(prvv);
+                    vbritr.next();
                 }
                 if (buf.length() > 0) {
-                    privuseVar = buf.toString();
+                    privuseVbr = buf.toString();
                 }
             }
         }
 
         List<String> extensions = null;
-        String privateuse = null;
+        String privbteuse = null;
 
-        if (localeExtensions != null) {
-            Set<Character> locextKeys = localeExtensions.getKeys();
-            for (Character locextKey : locextKeys) {
-                Extension ext = localeExtensions.getExtension(locextKey);
-                if (isPrivateusePrefixChar(locextKey)) {
-                    privateuse = ext.getValue();
+        if (locbleExtensions != null) {
+            Set<Chbrbcter> locextKeys = locbleExtensions.getKeys();
+            for (Chbrbcter locextKey : locextKeys) {
+                Extension ext = locbleExtensions.getExtension(locextKey);
+                if (isPrivbteusePrefixChbr(locextKey)) {
+                    privbteuse = ext.getVblue();
                 } else {
                     if (extensions == null) {
-                        extensions = new ArrayList<>();
+                        extensions = new ArrbyList<>();
                     }
-                    extensions.add(locextKey.toString() + SEP + ext.getValue());
+                    extensions.bdd(locextKey.toString() + SEP + ext.getVblue());
                 }
             }
         }
 
         if (extensions != null) {
-            tag.extensions = extensions;
-            hasSubtag = true;
+            tbg.extensions = extensions;
+            hbsSubtbg = true;
         }
 
-        // append ill-formed variant subtags to private use
-        if (privuseVar != null) {
-            if (privateuse == null) {
-                privateuse = PRIVUSE_VARIANT_PREFIX + SEP + privuseVar;
+        // bppend ill-formed vbribnt subtbgs to privbte use
+        if (privuseVbr != null) {
+            if (privbteuse == null) {
+                privbteuse = PRIVUSE_VARIANT_PREFIX + SEP + privuseVbr;
             } else {
-                privateuse = privateuse + SEP + PRIVUSE_VARIANT_PREFIX
-                             + SEP + privuseVar.replace(BaseLocale.SEP, SEP);
+                privbteuse = privbteuse + SEP + PRIVUSE_VARIANT_PREFIX
+                             + SEP + privuseVbr.replbce(BbseLocble.SEP, SEP);
             }
         }
 
-        if (privateuse != null) {
-            tag.privateuse = privateuse;
+        if (privbteuse != null) {
+            tbg.privbteuse = privbteuse;
         }
 
-        if (tag.language.length() == 0 && (hasSubtag || privateuse == null)) {
-            // use lang "und" when 1) no language is available AND
-            // 2) any of other subtags other than private use are available or
-            // no private use tag is available
-            tag.language = UNDETERMINED;
+        if (tbg.lbngubge.length() == 0 && (hbsSubtbg || privbteuse == null)) {
+            // use lbng "und" when 1) no lbngubge is bvbilbble AND
+            // 2) bny of other subtbgs other thbn privbte use bre bvbilbble or
+            // no privbte use tbg is bvbilbble
+            tbg.lbngubge = UNDETERMINED;
         }
 
-        return tag;
+        return tbg;
     }
 
     //
-    // Getter methods for language subtag fields
+    // Getter methods for lbngubge subtbg fields
     //
 
-    public String getLanguage() {
-        return language;
+    public String getLbngubge() {
+        return lbngubge;
     }
 
-    public List<String> getExtlangs() {
-        if (extlangs.isEmpty()) {
+    public List<String> getExtlbngs() {
+        if (extlbngs.isEmpty()) {
             return Collections.emptyList();
         }
-        return Collections.unmodifiableList(extlangs);
+        return Collections.unmodifibbleList(extlbngs);
     }
 
     public String getScript() {
@@ -562,186 +562,186 @@ public class LanguageTag {
         return region;
     }
 
-    public List<String> getVariants() {
-        if (variants.isEmpty()) {
+    public List<String> getVbribnts() {
+        if (vbribnts.isEmpty()) {
             return Collections.emptyList();
         }
-        return Collections.unmodifiableList(variants);
+        return Collections.unmodifibbleList(vbribnts);
     }
 
     public List<String> getExtensions() {
         if (extensions.isEmpty()) {
             return Collections.emptyList();
         }
-        return Collections.unmodifiableList(extensions);
+        return Collections.unmodifibbleList(extensions);
     }
 
-    public String getPrivateuse() {
-        return privateuse;
+    public String getPrivbteuse() {
+        return privbteuse;
     }
 
     //
-    // Language subtag syntax checking methods
+    // Lbngubge subtbg syntbx checking methods
     //
 
-    public static boolean isLanguage(String s) {
-        // language      = 2*3ALPHA            ; shortest ISO 639 code
-        //                 ["-" extlang]       ; sometimes followed by
-        //                                     ;   extended language subtags
+    public stbtic boolebn isLbngubge(String s) {
+        // lbngubge      = 2*3ALPHA            ; shortest ISO 639 code
+        //                 ["-" extlbng]       ; sometimes followed by
+        //                                     ;   extended lbngubge subtbgs
         //               / 4ALPHA              ; or reserved for future use
-        //               / 5*8ALPHA            ; or registered language subtag
+        //               / 5*8ALPHA            ; or registered lbngubge subtbg
         int len = s.length();
-        return (len >= 2) && (len <= 8) && LocaleUtils.isAlphaString(s);
+        return (len >= 2) && (len <= 8) && LocbleUtils.isAlphbString(s);
     }
 
-    public static boolean isExtlang(String s) {
-        // extlang       = 3ALPHA              ; selected ISO 639 codes
-        //                 *2("-" 3ALPHA)      ; permanently reserved
-        return (s.length() == 3) && LocaleUtils.isAlphaString(s);
+    public stbtic boolebn isExtlbng(String s) {
+        // extlbng       = 3ALPHA              ; selected ISO 639 codes
+        //                 *2("-" 3ALPHA)      ; permbnently reserved
+        return (s.length() == 3) && LocbleUtils.isAlphbString(s);
     }
 
-    public static boolean isScript(String s) {
+    public stbtic boolebn isScript(String s) {
         // script        = 4ALPHA              ; ISO 15924 code
-        return (s.length() == 4) && LocaleUtils.isAlphaString(s);
+        return (s.length() == 4) && LocbleUtils.isAlphbString(s);
     }
 
-    public static boolean isRegion(String s) {
+    public stbtic boolebn isRegion(String s) {
         // region        = 2ALPHA              ; ISO 3166-1 code
         //               / 3DIGIT              ; UN M.49 code
-        return ((s.length() == 2) && LocaleUtils.isAlphaString(s))
-                || ((s.length() == 3) && LocaleUtils.isNumericString(s));
+        return ((s.length() == 2) && LocbleUtils.isAlphbString(s))
+                || ((s.length() == 3) && LocbleUtils.isNumericString(s));
     }
 
-    public static boolean isVariant(String s) {
-        // variant       = 5*8alphanum         ; registered variants
-        //               / (DIGIT 3alphanum)
+    public stbtic boolebn isVbribnt(String s) {
+        // vbribnt       = 5*8blphbnum         ; registered vbribnts
+        //               / (DIGIT 3blphbnum)
         int len = s.length();
         if (len >= 5 && len <= 8) {
-            return LocaleUtils.isAlphaNumericString(s);
+            return LocbleUtils.isAlphbNumericString(s);
         }
         if (len == 4) {
-            return LocaleUtils.isNumeric(s.charAt(0))
-                    && LocaleUtils.isAlphaNumeric(s.charAt(1))
-                    && LocaleUtils.isAlphaNumeric(s.charAt(2))
-                    && LocaleUtils.isAlphaNumeric(s.charAt(3));
+            return LocbleUtils.isNumeric(s.chbrAt(0))
+                    && LocbleUtils.isAlphbNumeric(s.chbrAt(1))
+                    && LocbleUtils.isAlphbNumeric(s.chbrAt(2))
+                    && LocbleUtils.isAlphbNumeric(s.chbrAt(3));
         }
-        return false;
+        return fblse;
     }
 
-    public static boolean isExtensionSingleton(String s) {
+    public stbtic boolebn isExtensionSingleton(String s) {
         // singleton     = DIGIT               ; 0 - 9
         //               / %x41-57             ; A - W
         //               / %x59-5A             ; Y - Z
-        //               / %x61-77             ; a - w
+        //               / %x61-77             ; b - w
         //               / %x79-7A             ; y - z
 
         return (s.length() == 1)
-                && LocaleUtils.isAlphaString(s)
-                && !LocaleUtils.caseIgnoreMatch(PRIVATEUSE, s);
+                && LocbleUtils.isAlphbString(s)
+                && !LocbleUtils.cbseIgnoreMbtch(PRIVATEUSE, s);
     }
 
-    public static boolean isExtensionSingletonChar(char c) {
-        return isExtensionSingleton(String.valueOf(c));
+    public stbtic boolebn isExtensionSingletonChbr(chbr c) {
+        return isExtensionSingleton(String.vblueOf(c));
     }
 
-    public static boolean isExtensionSubtag(String s) {
-        // extension     = singleton 1*("-" (2*8alphanum))
+    public stbtic boolebn isExtensionSubtbg(String s) {
+        // extension     = singleton 1*("-" (2*8blphbnum))
         int len = s.length();
-        return (len >= 2) && (len <= 8) && LocaleUtils.isAlphaNumericString(s);
+        return (len >= 2) && (len <= 8) && LocbleUtils.isAlphbNumericString(s);
     }
 
-    public static boolean isPrivateusePrefix(String s) {
-        // privateuse    = "x" 1*("-" (1*8alphanum))
+    public stbtic boolebn isPrivbteusePrefix(String s) {
+        // privbteuse    = "x" 1*("-" (1*8blphbnum))
         return (s.length() == 1)
-                && LocaleUtils.caseIgnoreMatch(PRIVATEUSE, s);
+                && LocbleUtils.cbseIgnoreMbtch(PRIVATEUSE, s);
     }
 
-    public static boolean isPrivateusePrefixChar(char c) {
-        return (LocaleUtils.caseIgnoreMatch(PRIVATEUSE, String.valueOf(c)));
+    public stbtic boolebn isPrivbteusePrefixChbr(chbr c) {
+        return (LocbleUtils.cbseIgnoreMbtch(PRIVATEUSE, String.vblueOf(c)));
     }
 
-    public static boolean isPrivateuseSubtag(String s) {
-        // privateuse    = "x" 1*("-" (1*8alphanum))
+    public stbtic boolebn isPrivbteuseSubtbg(String s) {
+        // privbteuse    = "x" 1*("-" (1*8blphbnum))
         int len = s.length();
-        return (len >= 1) && (len <= 8) && LocaleUtils.isAlphaNumericString(s);
+        return (len >= 1) && (len <= 8) && LocbleUtils.isAlphbNumericString(s);
     }
 
     //
-    // Language subtag canonicalization methods
+    // Lbngubge subtbg cbnonicblizbtion methods
     //
 
-    public static String canonicalizeLanguage(String s) {
-        return LocaleUtils.toLowerString(s);
+    public stbtic String cbnonicblizeLbngubge(String s) {
+        return LocbleUtils.toLowerString(s);
     }
 
-    public static String canonicalizeExtlang(String s) {
-        return LocaleUtils.toLowerString(s);
+    public stbtic String cbnonicblizeExtlbng(String s) {
+        return LocbleUtils.toLowerString(s);
     }
 
-    public static String canonicalizeScript(String s) {
-        return LocaleUtils.toTitleString(s);
+    public stbtic String cbnonicblizeScript(String s) {
+        return LocbleUtils.toTitleString(s);
     }
 
-    public static String canonicalizeRegion(String s) {
-        return LocaleUtils.toUpperString(s);
+    public stbtic String cbnonicblizeRegion(String s) {
+        return LocbleUtils.toUpperString(s);
     }
 
-    public static String canonicalizeVariant(String s) {
-        return LocaleUtils.toLowerString(s);
+    public stbtic String cbnonicblizeVbribnt(String s) {
+        return LocbleUtils.toLowerString(s);
     }
 
-    public static String canonicalizeExtension(String s) {
-        return LocaleUtils.toLowerString(s);
+    public stbtic String cbnonicblizeExtension(String s) {
+        return LocbleUtils.toLowerString(s);
     }
 
-    public static String canonicalizeExtensionSingleton(String s) {
-        return LocaleUtils.toLowerString(s);
+    public stbtic String cbnonicblizeExtensionSingleton(String s) {
+        return LocbleUtils.toLowerString(s);
     }
 
-    public static String canonicalizeExtensionSubtag(String s) {
-        return LocaleUtils.toLowerString(s);
+    public stbtic String cbnonicblizeExtensionSubtbg(String s) {
+        return LocbleUtils.toLowerString(s);
     }
 
-    public static String canonicalizePrivateuse(String s) {
-        return LocaleUtils.toLowerString(s);
+    public stbtic String cbnonicblizePrivbteuse(String s) {
+        return LocbleUtils.toLowerString(s);
     }
 
-    public static String canonicalizePrivateuseSubtag(String s) {
-        return LocaleUtils.toLowerString(s);
+    public stbtic String cbnonicblizePrivbteuseSubtbg(String s) {
+        return LocbleUtils.toLowerString(s);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        if (language.length() > 0) {
-            sb.append(language);
+        if (lbngubge.length() > 0) {
+            sb.bppend(lbngubge);
 
-            for (String extlang : extlangs) {
-                sb.append(SEP).append(extlang);
+            for (String extlbng : extlbngs) {
+                sb.bppend(SEP).bppend(extlbng);
             }
 
             if (script.length() > 0) {
-                sb.append(SEP).append(script);
+                sb.bppend(SEP).bppend(script);
             }
 
             if (region.length() > 0) {
-                sb.append(SEP).append(region);
+                sb.bppend(SEP).bppend(region);
             }
 
-            for (String variant : variants) {
-                sb.append(SEP).append(variant);
+            for (String vbribnt : vbribnts) {
+                sb.bppend(SEP).bppend(vbribnt);
             }
 
             for (String extension : extensions) {
-                sb.append(SEP).append(extension);
+                sb.bppend(SEP).bppend(extension);
             }
         }
-        if (privateuse.length() > 0) {
+        if (privbteuse.length() > 0) {
             if (sb.length() > 0) {
-                sb.append(SEP);
+                sb.bppend(SEP);
             }
-            sb.append(privateuse);
+            sb.bppend(privbteuse);
         }
 
         return sb.toString();

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,30 +27,30 @@
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package sun.text.resources.ar;
+pbckbge sun.text.resources.br;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListResourceBundle;
 
-public class CollationData_ar extends ListResourceBundle {
+public clbss CollbtionDbtb_br extends ListResourceBundle {
 
-    protected final Object[][] getContents() {
+    protected finbl Object[][] getContents() {
         return new Object[][] {
             { "Rule",
-                // for ar, the following additions are needed:
+                // for br, the following bdditions bre needed:
                "& \u0361 = \u0640"
                + "= \u064b"
                + "= \u064c"
@@ -64,7 +64,7 @@ public class CollationData_ar extends ListResourceBundle {
                + "= \u06d7"
                + "= \u06d8"
                + "= \u06d9"
-               + "= \u06da"
+               + "= \u06db"
                + "= \u06db"
                + "= \u06dc"
                + "= \u06dd"
@@ -80,7 +80,7 @@ public class CollationData_ar extends ListResourceBundle {
                + "= \u06e7"
                + "= \u06e8"
                + "= \u06e9"
-               + "= \u06ea"
+               + "= \u06eb"
                + "= \u06eb"
                + "= \u06ec"
                + "= \u06ed"
@@ -95,15 +95,15 @@ public class CollationData_ar extends ListResourceBundle {
                + "& 7 < \u0667 < \u06f7"       // 7
                + "& 8 < \u0668 < \u06f8"       // 8
                + "& 9 < \u0669 < \u06f9"       // 9
-                // Punctuations
-               + "& \u00b5 < \u060c"  // retroflex click < arabic comma
-               + "< \u061b"           // ar semicolon
-               + "< \u061f"           // ar question mark
-               + "< \u066a"           // ar percent sign
-               + "< \u066b"           // ar decimal separator
-               + "< \u066c"           // ar thousand separator
-               + "< \u06d4"           // ar full stop
-                // Arabic script sorts after Z's
+                // Punctubtions
+               + "& \u00b5 < \u060c"  // retroflex click < brbbic commb
+               + "< \u061b"           // br semicolon
+               + "< \u061f"           // br question mbrk
+               + "< \u066b"           // br percent sign
+               + "< \u066b"           // br decimbl sepbrbtor
+               + "< \u066c"           // br thousbnd sepbrbtor
+               + "< \u06d4"           // br full stop
+                // Arbbic script sorts bfter Z's
                + "&  Z <  \u0621"
                + "; \u0622"
                + "; \u0623"
@@ -114,7 +114,7 @@ public class CollationData_ar extends ListResourceBundle {
                + "< \u0628"
                + "< \u067e"
                + "< \u0629"
-               + "= \u062a"
+               + "= \u062b"
                + "< \u062b"
                + "< \u062c"
                + "< \u0686"
@@ -132,18 +132,18 @@ public class CollationData_ar extends ListResourceBundle {
                + "< \u0637"
                + "< \u0638"
                + "< \u0639"
-               + "< \u063a"
+               + "< \u063b"
                + "< \u0641"
                + "< \u0642"
                + "< \u0643"
-               + "< \u06af"
+               + "< \u06bf"
                + "< \u0644"
                + "< \u0645"
                + "< \u0646"
                + "< \u0647"
                + "< \u0648"
                + "< \u0649"
-               + "; \u064a"
+               + "; \u064b"
                + "< \u0670"
                + "< \u0671"
                + "< \u0672"
@@ -154,7 +154,7 @@ public class CollationData_ar extends ListResourceBundle {
                + "< \u0677"
                + "< \u0678"
                + "< \u0679"
-               + "< \u067a"
+               + "< \u067b"
                + "< \u067b"
                + "< \u067c"
                + "< \u067d"
@@ -168,7 +168,7 @@ public class CollationData_ar extends ListResourceBundle {
                + "< \u0687"
                + "< \u0688"
                + "< \u0689"
-               + "< \u068a"
+               + "< \u068b"
                + "< \u068b"
                + "< \u068c"
                + "< \u068d"
@@ -183,27 +183,12 @@ public class CollationData_ar extends ListResourceBundle {
                + "< \u0696"
                + "< \u0697"
                + "< \u0699"
-               + "< \u069a"
+               + "< \u069b"
                + "< \u069b"
                + "< \u069c"
                + "< \u069d"
                + "< \u069e"
                + "< \u069f"
-               + "< \u06a0"
-               + "< \u06a1"
-               + "< \u06a2"
-               + "< \u06a3"
-               + "< \u06a4"
-               + "< \u06a5"
-               + "< \u06a6"
-               + "< \u06a7"
-               + "< \u06a8"
-               + "< \u06a9"
-               + "< \u06aa"
-               + "< \u06ab"
-               + "< \u06ac"
-               + "< \u06ad"
-               + "< \u06ae"
                + "< \u06b0"
                + "< \u06b1"
                + "< \u06b2"
@@ -212,7 +197,22 @@ public class CollationData_ar extends ListResourceBundle {
                + "< \u06b5"
                + "< \u06b6"
                + "< \u06b7"
-               + "< \u06ba"
+               + "< \u06b8"
+               + "< \u06b9"
+               + "< \u06bb"
+               + "< \u06bb"
+               + "< \u06bc"
+               + "< \u06bd"
+               + "< \u06be"
+               + "< \u06b0"
+               + "< \u06b1"
+               + "< \u06b2"
+               + "< \u06b3"
+               + "< \u06b4"
+               + "< \u06b5"
+               + "< \u06b6"
+               + "< \u06b7"
+               + "< \u06bb"
                + "< \u06bb"
                + "< \u06bc"
                + "< \u06bd"
@@ -227,7 +227,7 @@ public class CollationData_ar extends ListResourceBundle {
                + "< \u06c7"
                + "< \u06c8"
                + "< \u06c9"
-               + "< \u06ca"
+               + "< \u06cb"
                + "< \u06cb"
                + "< \u06cc"
                + "< \u06cd"

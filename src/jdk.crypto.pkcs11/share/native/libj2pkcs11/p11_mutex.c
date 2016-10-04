@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,140 +45,140 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-#include "pkcs11wrapper.h"
+#include "pkcs11wrbpper.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
+#include <bssert.h>
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#include "sun_security_pkcs11_wrbpper_PKCS11.h"
 
-/* The initArgs that enable the application to do custom mutex-handling */
+/* The initArgs thbt enbble the bpplicbtion to do custom mutex-hbndling */
 #ifndef NO_CALLBACKS
 jobject jInitArgsObject;
-CK_C_INITIALIZE_ARGS_PTR ckpGlobalInitArgs;
+CK_C_INITIALIZE_ARGS_PTR ckpGlobblInitArgs;
 #endif /* NO_CALLBACKS */
 
 /* ************************************************************************** */
-/* Now come the functions for mutex handling and notification callbacks       */
+/* Now come the functions for mutex hbndling bnd notificbtion cbllbbcks       */
 /* ************************************************************************** */
 
 /*
- * converts the InitArgs object to a CK_C_INITIALIZE_ARGS structure and sets the functions
- * that will call the right Java mutex functions
+ * converts the InitArgs object to b CK_C_INITIALIZE_ARGS structure bnd sets the functions
+ * thbt will cbll the right Jbvb mutex functions
  *
- * @param env - used to call JNI funktions to get the Java classes, objects, methods and fields
- * @param pInitArgs - the InitArgs object with the Java mutex functions to call
- * @return - the pointer to the CK_C_INITIALIZE_ARGS structure with the functions that will call
- *           the corresponding Java functions
+ * @pbrbm env - used to cbll JNI funktions to get the Jbvb clbsses, objects, methods bnd fields
+ * @pbrbm pInitArgs - the InitArgs object with the Jbvb mutex functions to cbll
+ * @return - the pointer to the CK_C_INITIALIZE_ARGS structure with the functions thbt will cbll
+ *           the corresponding Jbvb functions
  */
-CK_C_INITIALIZE_ARGS_PTR makeCKInitArgsAdapter(JNIEnv *env, jobject jInitArgs)
+CK_C_INITIALIZE_ARGS_PTR mbkeCKInitArgsAdbpter(JNIEnv *env, jobject jInitArgs)
 {
     CK_C_INITIALIZE_ARGS_PTR ckpInitArgs;
-    jclass jInitArgsClass;
+    jclbss jInitArgsClbss;
     jfieldID fieldID;
-    jlong jFlags;
+    jlong jFlbgs;
     jobject jReserved;
     CK_ULONG ckReservedLength;
 #ifndef NO_CALLBACKS
-    jobject jMutexHandler;
+    jobject jMutexHbndler;
 #endif /* NO_CALLBACKS */
 
     if(jInitArgs == NULL) {
         return NULL_PTR;
     }
 
-    /* convert the Java InitArgs object to a pointer to a CK_C_INITIALIZE_ARGS structure */
-    ckpInitArgs = (CK_C_INITIALIZE_ARGS_PTR) malloc(sizeof(CK_C_INITIALIZE_ARGS));
+    /* convert the Jbvb InitArgs object to b pointer to b CK_C_INITIALIZE_ARGS structure */
+    ckpInitArgs = (CK_C_INITIALIZE_ARGS_PTR) mblloc(sizeof(CK_C_INITIALIZE_ARGS));
     if (ckpInitArgs == NULL) {
         throwOutOfMemoryError(env, 0);
         return NULL_PTR;
     }
 
-    /* Set the mutex functions that will call the Java mutex functions, but
+    /* Set the mutex functions thbt will cbll the Jbvb mutex functions, but
      * only set it, if the field is not null.
      */
-    jInitArgsClass = (*env)->FindClass(env, CLASS_C_INITIALIZE_ARGS);
-    if (jInitArgsClass == NULL) {
+    jInitArgsClbss = (*env)->FindClbss(env, CLASS_C_INITIALIZE_ARGS);
+    if (jInitArgsClbss == NULL) {
         free(ckpInitArgs);
         return NULL;
     }
 
 #ifdef NO_CALLBACKS
-    ckpInitArgs->CreateMutex = NULL_PTR;
+    ckpInitArgs->CrebteMutex = NULL_PTR;
     ckpInitArgs->DestroyMutex = NULL_PTR;
     ckpInitArgs->LockMutex = NULL_PTR;
     ckpInitArgs->UnlockMutex = NULL_PTR;
 #else
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "CreateMutex", "Lsun/security/pkcs11/wrapper/CK_CREATEMUTEX;");
+    fieldID = (*env)->GetFieldID(env, jInitArgsClbss, "CrebteMutex", "Lsun/security/pkcs11/wrbpper/CK_CREATEMUTEX;");
     if (fieldID == NULL) {
         free(ckpInitArgs);
         return NULL;
     }
-    jMutexHandler = (*env)->GetObjectField(env, jInitArgs, fieldID);
-    ckpInitArgs->CreateMutex = (jMutexHandler != NULL) ? &callJCreateMutex : NULL_PTR;
+    jMutexHbndler = (*env)->GetObjectField(env, jInitArgs, fieldID);
+    ckpInitArgs->CrebteMutex = (jMutexHbndler != NULL) ? &cbllJCrebteMutex : NULL_PTR;
 
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "DestroyMutex", "Lsun/security/pkcs11/wrapper/CK_DESTROYMUTEX;");
+    fieldID = (*env)->GetFieldID(env, jInitArgsClbss, "DestroyMutex", "Lsun/security/pkcs11/wrbpper/CK_DESTROYMUTEX;");
     if (fieldID == NULL) {
         free(ckpInitArgs);
         return NULL;
     }
-    jMutexHandler = (*env)->GetObjectField(env, jInitArgs, fieldID);
-    ckpInitArgs->DestroyMutex = (jMutexHandler != NULL) ? &callJDestroyMutex : NULL_PTR;
+    jMutexHbndler = (*env)->GetObjectField(env, jInitArgs, fieldID);
+    ckpInitArgs->DestroyMutex = (jMutexHbndler != NULL) ? &cbllJDestroyMutex : NULL_PTR;
 
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "LockMutex", "Lsun/security/pkcs11/wrapper/CK_LOCKMUTEX;");
+    fieldID = (*env)->GetFieldID(env, jInitArgsClbss, "LockMutex", "Lsun/security/pkcs11/wrbpper/CK_LOCKMUTEX;");
     if (fieldID == NULL) {
         free(ckpInitArgs);
         return NULL;
     }
-    jMutexHandler = (*env)->GetObjectField(env, jInitArgs, fieldID);
-    ckpInitArgs->LockMutex = (jMutexHandler != NULL) ? &callJLockMutex : NULL_PTR;
+    jMutexHbndler = (*env)->GetObjectField(env, jInitArgs, fieldID);
+    ckpInitArgs->LockMutex = (jMutexHbndler != NULL) ? &cbllJLockMutex : NULL_PTR;
 
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "UnlockMutex", "Lsun/security/pkcs11/wrapper/CK_UNLOCKMUTEX;");
+    fieldID = (*env)->GetFieldID(env, jInitArgsClbss, "UnlockMutex", "Lsun/security/pkcs11/wrbpper/CK_UNLOCKMUTEX;");
     if (fieldID == NULL) {
         free(ckpInitArgs);
         return NULL;
     }
-    jMutexHandler = (*env)->GetObjectField(env, jInitArgs, fieldID);
-    ckpInitArgs->UnlockMutex = (jMutexHandler != NULL) ? &callJUnlockMutex : NULL_PTR;
+    jMutexHbndler = (*env)->GetObjectField(env, jInitArgs, fieldID);
+    ckpInitArgs->UnlockMutex = (jMutexHbndler != NULL) ? &cbllJUnlockMutex : NULL_PTR;
 
-    if ((ckpInitArgs->CreateMutex != NULL_PTR)
+    if ((ckpInitArgs->CrebteMutex != NULL_PTR)
             || (ckpInitArgs->DestroyMutex != NULL_PTR)
             || (ckpInitArgs->LockMutex != NULL_PTR)
             || (ckpInitArgs->UnlockMutex != NULL_PTR)) {
-        /* we only need to keep a global copy, if we need callbacks */
-        /* set the global object jInitArgs so that the right Java mutex functions will be called */
-        jInitArgsObject = (*env)->NewGlobalRef(env, jInitArgs);
-        ckpGlobalInitArgs = (CK_C_INITIALIZE_ARGS_PTR) malloc(sizeof(CK_C_INITIALIZE_ARGS));
-        if (ckpGlobalInitArgs == NULL) {
+        /* we only need to keep b globbl copy, if we need cbllbbcks */
+        /* set the globbl object jInitArgs so thbt the right Jbvb mutex functions will be cblled */
+        jInitArgsObject = (*env)->NewGlobblRef(env, jInitArgs);
+        ckpGlobblInitArgs = (CK_C_INITIALIZE_ARGS_PTR) mblloc(sizeof(CK_C_INITIALIZE_ARGS));
+        if (ckpGlobblInitArgs == NULL) {
             free(ckpInitArgs);
             throwOutOfMemoryError(env, 0);
             return NULL_PTR;
         }
 
-        memcpy(ckpGlobalInitArgs, ckpInitArgs, sizeof(CK_C_INITIALIZE_ARGS));
+        memcpy(ckpGlobblInitArgs, ckpInitArgs, sizeof(CK_C_INITIALIZE_ARGS));
     }
 #endif /* NO_CALLBACKS */
 
-    /* convert and set the flags field */
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "flags", "J");
+    /* convert bnd set the flbgs field */
+    fieldID = (*env)->GetFieldID(env, jInitArgsClbss, "flbgs", "J");
     if (fieldID == NULL) {
         free(ckpInitArgs);
         return NULL;
     }
-    jFlags = (*env)->GetLongField(env, jInitArgs, fieldID);
-    ckpInitArgs->flags = jLongToCKULong(jFlags);
+    jFlbgs = (*env)->GetLongField(env, jInitArgs, fieldID);
+    ckpInitArgs->flbgs = jLongToCKULong(jFlbgs);
 
     /* pReserved should be NULL_PTR in this version */
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "pReserved", "Ljava/lang/Object;");
+    fieldID = (*env)->GetFieldID(env, jInitArgsClbss, "pReserved", "Ljbvb/lbng/Object;");
     if (fieldID == NULL) {
         free(ckpInitArgs);
         return NULL;
     }
     jReserved = (*env)->GetObjectField(env, jInitArgs, fieldID);
 
-    /* we try to convert the reserved parameter also */
+    /* we try to convert the reserved pbrbmeter blso */
     jObjectToPrimitiveCKObjectPtrPtr(env, jReserved, &(ckpInitArgs->pReserved), &ckReservedLength);
 
     return ckpInitArgs ;
@@ -187,361 +187,361 @@ CK_C_INITIALIZE_ARGS_PTR makeCKInitArgsAdapter(JNIEnv *env, jobject jInitArgs)
 #ifndef NO_CALLBACKS
 
 /*
- * is the function that gets called by PKCS#11 to create a mutex and calls the Java
- * CreateMutex function
+ * is the function thbt gets cblled by PKCS#11 to crebte b mutex bnd cblls the Jbvb
+ * CrebteMutex function
  *
- * @param env - used to call JNI funktions to get the Java classes, objects, methods and fields
- * @param ppMutex - the new created mutex
- * @return - should return CKR_OK if the mutex creation was ok
+ * @pbrbm env - used to cbll JNI funktions to get the Jbvb clbsses, objects, methods bnd fields
+ * @pbrbm ppMutex - the new crebted mutex
+ * @return - should return CKR_OK if the mutex crebtion wbs ok
  */
-CK_RV callJCreateMutex(CK_VOID_PTR_PTR ppMutex)
+CK_RV cbllJCrebteMutex(CK_VOID_PTR_PTR ppMutex)
 {
-    extern JavaVM *jvm;
+    extern JbvbVM *jvm;
     JNIEnv *env;
-    jint returnValue;
-    jthrowable pkcs11Exception;
-    jclass pkcs11ExceptionClass;
+    jint returnVblue;
+    jthrowbble pkcs11Exception;
+    jclbss pkcs11ExceptionClbss;
     jlong errorCode;
     CK_RV rv = CKR_OK;
-    int wasAttached = 1;
-    jclass jCreateMutexClass;
-    jclass jInitArgsClass;
+    int wbsAttbched = 1;
+    jclbss jCrebteMutexClbss;
+    jclbss jInitArgsClbss;
     jmethodID methodID;
     jfieldID fieldID;
-    jobject jCreateMutex;
+    jobject jCrebteMutex;
     jobject jMutex;
 
 
-    /* Get the currently running Java VM */
+    /* Get the currently running Jbvb VM */
     if (jvm == NULL) { return rv ;} /* there is no VM running */
 
-    /* Determine, if current thread is already attached */
-    returnValue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
-    if (returnValue == JNI_EDETACHED) {
-        /* thread detached, so attach it */
-        wasAttached = 0;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else if (returnValue == JNI_EVERSION) {
-        /* this version of JNI is not supported, so just try to attach */
-        /* we assume it was attached to ensure that this thread is not detached
-         * afterwards even though it should not
+    /* Determine, if current threbd is blrebdy bttbched */
+    returnVblue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
+    if (returnVblue == JNI_EDETACHED) {
+        /* threbd detbched, so bttbch it */
+        wbsAttbched = 0;
+        returnVblue = (*jvm)->AttbchCurrentThrebd(jvm, (void **) &env, NULL);
+    } else if (returnVblue == JNI_EVERSION) {
+        /* this version of JNI is not supported, so just try to bttbch */
+        /* we bssume it wbs bttbched to ensure thbt this threbd is not detbched
+         * bfterwbrds even though it should not
          */
-        wasAttached = 1;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
+        wbsAttbched = 1;
+        returnVblue = (*jvm)->AttbchCurrentThrebd(jvm, (void **) &env, NULL);
     } else {
-        /* attached */
-        wasAttached = 1;
+        /* bttbched */
+        wbsAttbched = 1;
     }
 
-    jCreateMutexClass = (*env)->FindClass(env, CLASS_CREATEMUTEX);
-    if (jCreateMutexClass == NULL) { return rv; }
-    jInitArgsClass = (*env)->FindClass(env, CLASS_C_INITIALIZE_ARGS);
-    if (jInitArgsClass == NULL) { return rv; }
+    jCrebteMutexClbss = (*env)->FindClbss(env, CLASS_CREATEMUTEX);
+    if (jCrebteMutexClbss == NULL) { return rv; }
+    jInitArgsClbss = (*env)->FindClbss(env, CLASS_C_INITIALIZE_ARGS);
+    if (jInitArgsClbss == NULL) { return rv; }
 
-    /* get the CreateMutex object out of the jInitArgs object */
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "CreateMutex", "Lsun/security/pkcs11/wrapper/CK_CREATEMUTEX;");
+    /* get the CrebteMutex object out of the jInitArgs object */
+    fieldID = (*env)->GetFieldID(env, jInitArgsClbss, "CrebteMutex", "Lsun/security/pkcs11/wrbpper/CK_CREATEMUTEX;");
     if (fieldID == NULL) { return rv; }
-    jCreateMutex = (*env)->GetObjectField(env, jInitArgsObject, fieldID);
-    assert(jCreateMutex != 0);
+    jCrebteMutex = (*env)->GetObjectField(env, jInitArgsObject, fieldID);
+    bssert(jCrebteMutex != 0);
 
-    /* call the CK_CREATEMUTEX function of the CreateMutex object */
-    /* and get the new Java mutex object */
-    methodID = (*env)->GetMethodID(env, jCreateMutexClass, "CK_CREATEMUTEX", "()Ljava/lang/Object;");
+    /* cbll the CK_CREATEMUTEX function of the CrebteMutex object */
+    /* bnd get the new Jbvb mutex object */
+    methodID = (*env)->GetMethodID(env, jCrebteMutexClbss, "CK_CREATEMUTEX", "()Ljbvb/lbng/Object;");
     if (methodID == NULL) { return rv; }
-    jMutex = (*env)->CallObjectMethod(env, jCreateMutex, methodID);
+    jMutex = (*env)->CbllObjectMethod(env, jCrebteMutex, methodID);
 
-    /* set a global reference on the Java mutex */
-    jMutex = (*env)->NewGlobalRef(env, jMutex);
-    /* convert the Java mutex to a CK mutex */
+    /* set b globbl reference on the Jbvb mutex */
+    jMutex = (*env)->NewGlobblRef(env, jMutex);
+    /* convert the Jbvb mutex to b CK mutex */
     *ppMutex = jObjectToCKVoidPtr(jMutex);
 
 
-    /* check, if callback threw an exception */
+    /* check, if cbllbbck threw bn exception */
     pkcs11Exception = (*env)->ExceptionOccurred(env);
 
     if (pkcs11Exception != NULL) {
-        /* TBD: clear the pending exception with ExceptionClear? */
-        /* The was an exception thrown, now we get the error-code from it */
-        pkcs11ExceptionClass = (*env)->FindClass(env, CLASS_PKCS11EXCEPTION);
-        if (pkcs11ExceptionClass == NULL) { return rv; }
-        methodID = (*env)->GetMethodID(env, pkcs11ExceptionClass, "getErrorCode", "()J");
+        /* TBD: clebr the pending exception with ExceptionClebr? */
+        /* The wbs bn exception thrown, now we get the error-code from it */
+        pkcs11ExceptionClbss = (*env)->FindClbss(env, CLASS_PKCS11EXCEPTION);
+        if (pkcs11ExceptionClbss == NULL) { return rv; }
+        methodID = (*env)->GetMethodID(env, pkcs11ExceptionClbss, "getErrorCode", "()J");
         if (methodID == NULL) { return rv; }
 
-        errorCode = (*env)->CallLongMethod(env, pkcs11Exception, methodID);
+        errorCode = (*env)->CbllLongMethod(env, pkcs11Exception, methodID);
         rv = jLongToCKULong(errorCode);
     }
 
-    /* if we attached this thread to the VM just for callback, we detach it now */
-    if (wasAttached) {
-        returnValue = (*jvm)->DetachCurrentThread(jvm);
+    /* if we bttbched this threbd to the VM just for cbllbbck, we detbch it now */
+    if (wbsAttbched) {
+        returnVblue = (*jvm)->DetbchCurrentThrebd(jvm);
     }
 
     return rv ;
 }
 
 /*
- * is the function that gets called by PKCS#11 to destroy a mutex and calls the Java
+ * is the function thbt gets cblled by PKCS#11 to destroy b mutex bnd cblls the Jbvb
  * DestroyMutex function
  *
- * @param env - used to call JNI funktions to get the Java classes, objects, methods and fields
- * @param pMutex - the mutex to destroy
- * @return - should return CKR_OK if the mutex was destroyed
+ * @pbrbm env - used to cbll JNI funktions to get the Jbvb clbsses, objects, methods bnd fields
+ * @pbrbm pMutex - the mutex to destroy
+ * @return - should return CKR_OK if the mutex wbs destroyed
  */
-CK_RV callJDestroyMutex(CK_VOID_PTR pMutex)
+CK_RV cbllJDestroyMutex(CK_VOID_PTR pMutex)
 {
-    extern JavaVM *jvm;
+    extern JbvbVM *jvm;
     JNIEnv *env;
-    jint returnValue;
-    jthrowable pkcs11Exception;
-    jclass pkcs11ExceptionClass;
+    jint returnVblue;
+    jthrowbble pkcs11Exception;
+    jclbss pkcs11ExceptionClbss;
     jlong errorCode;
     CK_RV rv = CKR_OK;
-    int wasAttached = 1;
-    jclass jDestroyMutexClass;
-    jclass jInitArgsClass;
+    int wbsAttbched = 1;
+    jclbss jDestroyMutexClbss;
+    jclbss jInitArgsClbss;
     jmethodID methodID;
     jfieldID fieldID;
     jobject jDestroyMutex;
     jobject jMutex;
 
 
-    /* Get the currently running Java VM */
+    /* Get the currently running Jbvb VM */
     if (jvm == NULL) { return rv ; } /* there is no VM running */
 
-    /* Determine, if current thread is already attached */
-    returnValue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
-    if (returnValue == JNI_EDETACHED) {
-        /* thread detached, so attach it */
-        wasAttached = 0;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else if (returnValue == JNI_EVERSION) {
-        /* this version of JNI is not supported, so just try to attach */
-        /* we assume it was attached to ensure that this thread is not detached
-         * afterwards even though it should not
+    /* Determine, if current threbd is blrebdy bttbched */
+    returnVblue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
+    if (returnVblue == JNI_EDETACHED) {
+        /* threbd detbched, so bttbch it */
+        wbsAttbched = 0;
+        returnVblue = (*jvm)->AttbchCurrentThrebd(jvm, (void **) &env, NULL);
+    } else if (returnVblue == JNI_EVERSION) {
+        /* this version of JNI is not supported, so just try to bttbch */
+        /* we bssume it wbs bttbched to ensure thbt this threbd is not detbched
+         * bfterwbrds even though it should not
          */
-        wasAttached = 1;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
+        wbsAttbched = 1;
+        returnVblue = (*jvm)->AttbchCurrentThrebd(jvm, (void **) &env, NULL);
     } else {
-        /* attached */
-        wasAttached = 1;
+        /* bttbched */
+        wbsAttbched = 1;
     }
 
-    jDestroyMutexClass = (*env)->FindClass(env, CLASS_DESTROYMUTEX);
-    if (jDestroyMutexClass == NULL) { return rv; }
-    jInitArgsClass = (*env)->FindClass(env, CLASS_C_INITIALIZE_ARGS);
-    if (jInitArgsClass == NULL) { return rv; }
+    jDestroyMutexClbss = (*env)->FindClbss(env, CLASS_DESTROYMUTEX);
+    if (jDestroyMutexClbss == NULL) { return rv; }
+    jInitArgsClbss = (*env)->FindClbss(env, CLASS_C_INITIALIZE_ARGS);
+    if (jInitArgsClbss == NULL) { return rv; }
 
-    /* convert the CK mutex to a Java mutex */
+    /* convert the CK mutex to b Jbvb mutex */
     jMutex = ckVoidPtrToJObject(pMutex);
 
     /* get the DestroyMutex object out of the jInitArgs object */
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "DestroyMutex", "Lsun/security/pkcs11/wrapper/CK_DESTROYMUTEX;");
+    fieldID = (*env)->GetFieldID(env, jInitArgsClbss, "DestroyMutex", "Lsun/security/pkcs11/wrbpper/CK_DESTROYMUTEX;");
     if (fieldID == NULL) { return rv; }
     jDestroyMutex = (*env)->GetObjectField(env, jInitArgsObject, fieldID);
-    assert(jDestroyMutex != 0);
+    bssert(jDestroyMutex != 0);
 
-    /* call the CK_DESTROYMUTEX method of the DestroyMutex object */
-    methodID = (*env)->GetMethodID(env, jDestroyMutexClass, "CK_DESTROYMUTEX", "(Ljava/lang/Object;)V");
+    /* cbll the CK_DESTROYMUTEX method of the DestroyMutex object */
+    methodID = (*env)->GetMethodID(env, jDestroyMutexClbss, "CK_DESTROYMUTEX", "(Ljbvb/lbng/Object;)V");
     if (methodID == NULL) { return rv; }
-    (*env)->CallVoidMethod(env, jDestroyMutex, methodID, jMutex);
+    (*env)->CbllVoidMethod(env, jDestroyMutex, methodID, jMutex);
 
-    /* delete the global reference on the Java mutex */
-    (*env)->DeleteGlobalRef(env, jMutex);
+    /* delete the globbl reference on the Jbvb mutex */
+    (*env)->DeleteGlobblRef(env, jMutex);
 
 
-    /* check, if callback threw an exception */
+    /* check, if cbllbbck threw bn exception */
     pkcs11Exception = (*env)->ExceptionOccurred(env);
 
     if (pkcs11Exception != NULL) {
-        /* TBD: clear the pending exception with ExceptionClear? */
-        /* The was an exception thrown, now we get the error-code from it */
-        pkcs11ExceptionClass = (*env)->FindClass(env, CLASS_PKCS11EXCEPTION);
-        if (pkcs11ExceptionClass == NULL) { return rv; }
-        methodID = (*env)->GetMethodID(env, pkcs11ExceptionClass, "getErrorCode", "()J");
+        /* TBD: clebr the pending exception with ExceptionClebr? */
+        /* The wbs bn exception thrown, now we get the error-code from it */
+        pkcs11ExceptionClbss = (*env)->FindClbss(env, CLASS_PKCS11EXCEPTION);
+        if (pkcs11ExceptionClbss == NULL) { return rv; }
+        methodID = (*env)->GetMethodID(env, pkcs11ExceptionClbss, "getErrorCode", "()J");
         if (methodID == NULL) { return rv; }
-        errorCode = (*env)->CallLongMethod(env, pkcs11Exception, methodID);
+        errorCode = (*env)->CbllLongMethod(env, pkcs11Exception, methodID);
         rv = jLongToCKULong(errorCode);
     }
 
-    /* if we attached this thread to the VM just for callback, we detach it now */
-    if (wasAttached) {
-        returnValue = (*jvm)->DetachCurrentThread(jvm);
+    /* if we bttbched this threbd to the VM just for cbllbbck, we detbch it now */
+    if (wbsAttbched) {
+        returnVblue = (*jvm)->DetbchCurrentThrebd(jvm);
     }
 
     return rv ;
 }
 
 /*
- * is the function that gets called by PKCS#11 to lock a mutex and calls the Java
+ * is the function thbt gets cblled by PKCS#11 to lock b mutex bnd cblls the Jbvb
  * LockMutex function
  *
- * @param env - used to call JNI funktions to get the Java classes, objects, methods and fields
- * @param pMutex - the mutex to lock
- * @return - should return CKR_OK if the mutex was not locked already
+ * @pbrbm env - used to cbll JNI funktions to get the Jbvb clbsses, objects, methods bnd fields
+ * @pbrbm pMutex - the mutex to lock
+ * @return - should return CKR_OK if the mutex wbs not locked blrebdy
  */
-CK_RV callJLockMutex(CK_VOID_PTR pMutex)
+CK_RV cbllJLockMutex(CK_VOID_PTR pMutex)
 {
-    extern JavaVM *jvm;
+    extern JbvbVM *jvm;
     JNIEnv *env;
-    jint returnValue;
-    jthrowable pkcs11Exception;
-    jclass pkcs11ExceptionClass;
+    jint returnVblue;
+    jthrowbble pkcs11Exception;
+    jclbss pkcs11ExceptionClbss;
     jlong errorCode;
     CK_RV rv = CKR_OK;
-    int wasAttached = 1;
-    jclass jLockMutexClass;
-    jclass jInitArgsClass;
+    int wbsAttbched = 1;
+    jclbss jLockMutexClbss;
+    jclbss jInitArgsClbss;
     jmethodID methodID;
     jfieldID fieldID;
     jobject jLockMutex;
     jobject jMutex;
 
 
-    /* Get the currently running Java VM */
+    /* Get the currently running Jbvb VM */
     if (jvm == NULL) { return rv ; } /* there is no VM running */
 
-    /* Determine, if current thread is already attached */
-    returnValue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
-    if (returnValue == JNI_EDETACHED) {
-        /* thread detached, so attach it */
-        wasAttached = 0;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else if (returnValue == JNI_EVERSION) {
-        /* this version of JNI is not supported, so just try to attach */
-        /* we assume it was attached to ensure that this thread is not detached
-         * afterwards even though it should not
+    /* Determine, if current threbd is blrebdy bttbched */
+    returnVblue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
+    if (returnVblue == JNI_EDETACHED) {
+        /* threbd detbched, so bttbch it */
+        wbsAttbched = 0;
+        returnVblue = (*jvm)->AttbchCurrentThrebd(jvm, (void **) &env, NULL);
+    } else if (returnVblue == JNI_EVERSION) {
+        /* this version of JNI is not supported, so just try to bttbch */
+        /* we bssume it wbs bttbched to ensure thbt this threbd is not detbched
+         * bfterwbrds even though it should not
          */
-        wasAttached = 1;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
+        wbsAttbched = 1;
+        returnVblue = (*jvm)->AttbchCurrentThrebd(jvm, (void **) &env, NULL);
     } else {
-        /* attached */
-        wasAttached = 1;
+        /* bttbched */
+        wbsAttbched = 1;
     }
 
-    jLockMutexClass = (*env)->FindClass(env, CLASS_LOCKMUTEX);
-    if (jLockMutexClass == NULL) { return rv; }
-    jInitArgsClass = (*env)->FindClass(env, CLASS_C_INITIALIZE_ARGS);
-    if (jInitArgsClass == NULL) { return rv; }
+    jLockMutexClbss = (*env)->FindClbss(env, CLASS_LOCKMUTEX);
+    if (jLockMutexClbss == NULL) { return rv; }
+    jInitArgsClbss = (*env)->FindClbss(env, CLASS_C_INITIALIZE_ARGS);
+    if (jInitArgsClbss == NULL) { return rv; }
 
-    /* convert the CK mutex to a Java mutex */
+    /* convert the CK mutex to b Jbvb mutex */
     jMutex = ckVoidPtrToJObject(pMutex);
 
     /* get the LockMutex object out of the jInitArgs object */
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "LockMutex", "Lsun/security/pkcs11/wrapper/CK_LOCKMUTEX;");
+    fieldID = (*env)->GetFieldID(env, jInitArgsClbss, "LockMutex", "Lsun/security/pkcs11/wrbpper/CK_LOCKMUTEX;");
     if (fieldID == NULL) { return rv; }
     jLockMutex = (*env)->GetObjectField(env, jInitArgsObject, fieldID);
-    assert(jLockMutex != 0);
+    bssert(jLockMutex != 0);
 
-    /* call the CK_LOCKMUTEX method of the LockMutex object */
-    methodID = (*env)->GetMethodID(env, jLockMutexClass, "CK_LOCKMUTEX", "(Ljava/lang/Object;)V");
+    /* cbll the CK_LOCKMUTEX method of the LockMutex object */
+    methodID = (*env)->GetMethodID(env, jLockMutexClbss, "CK_LOCKMUTEX", "(Ljbvb/lbng/Object;)V");
     if (methodID == NULL) { return rv; }
-    (*env)->CallVoidMethod(env, jLockMutex, methodID, jMutex);
+    (*env)->CbllVoidMethod(env, jLockMutex, methodID, jMutex);
 
-    /* check, if callback threw an exception */
+    /* check, if cbllbbck threw bn exception */
     pkcs11Exception = (*env)->ExceptionOccurred(env);
 
     if (pkcs11Exception != NULL) {
-        /* TBD: clear the pending exception with ExceptionClear? */
-        /* The was an exception thrown, now we get the error-code from it */
-        pkcs11ExceptionClass = (*env)->FindClass(env, CLASS_PKCS11EXCEPTION);
-        if (pkcs11ExceptionClass == NULL) { return rv; }
-        methodID = (*env)->GetMethodID(env, pkcs11ExceptionClass, "getErrorCode", "()J");
+        /* TBD: clebr the pending exception with ExceptionClebr? */
+        /* The wbs bn exception thrown, now we get the error-code from it */
+        pkcs11ExceptionClbss = (*env)->FindClbss(env, CLASS_PKCS11EXCEPTION);
+        if (pkcs11ExceptionClbss == NULL) { return rv; }
+        methodID = (*env)->GetMethodID(env, pkcs11ExceptionClbss, "getErrorCode", "()J");
         if (methodID == NULL) { return rv; }
-        errorCode = (*env)->CallLongMethod(env, pkcs11Exception, methodID);
+        errorCode = (*env)->CbllLongMethod(env, pkcs11Exception, methodID);
         rv = jLongToCKULong(errorCode);
     }
 
-    /* if we attached this thread to the VM just for callback, we detach it now */
-    if (wasAttached) {
-        returnValue = (*jvm)->DetachCurrentThread(jvm);
+    /* if we bttbched this threbd to the VM just for cbllbbck, we detbch it now */
+    if (wbsAttbched) {
+        returnVblue = (*jvm)->DetbchCurrentThrebd(jvm);
     }
 
     return rv ;
 }
 
 /*
- * is the function that gets called by PKCS#11 to unlock a mutex and calls the Java
+ * is the function thbt gets cblled by PKCS#11 to unlock b mutex bnd cblls the Jbvb
  * UnlockMutex function
  *
- * @param env - used to call JNI funktions to get the Java classes, objects, methods and fields
- * @param pMutex - the mutex to unlock
- * @return - should return CKR_OK if the mutex was not unlocked already
+ * @pbrbm env - used to cbll JNI funktions to get the Jbvb clbsses, objects, methods bnd fields
+ * @pbrbm pMutex - the mutex to unlock
+ * @return - should return CKR_OK if the mutex wbs not unlocked blrebdy
  */
-CK_RV callJUnlockMutex(CK_VOID_PTR pMutex)
+CK_RV cbllJUnlockMutex(CK_VOID_PTR pMutex)
 {
-    extern JavaVM *jvm;
+    extern JbvbVM *jvm;
     JNIEnv *env;
-    jint returnValue;
-    jthrowable pkcs11Exception;
-    jclass pkcs11ExceptionClass;
+    jint returnVblue;
+    jthrowbble pkcs11Exception;
+    jclbss pkcs11ExceptionClbss;
     jlong errorCode;
     CK_RV rv = CKR_OK;
-    int wasAttached = 1;
-    jclass jUnlockMutexClass;
-    jclass jInitArgsClass;
+    int wbsAttbched = 1;
+    jclbss jUnlockMutexClbss;
+    jclbss jInitArgsClbss;
     jmethodID methodID;
     jfieldID fieldID;
     jobject jUnlockMutex;
     jobject jMutex;
 
 
-    /* Get the currently running Java VM */
+    /* Get the currently running Jbvb VM */
     if (jvm == NULL) { return rv ; } /* there is no VM running */
 
-    /* Determine, if current thread is already attached */
-    returnValue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
-    if (returnValue == JNI_EDETACHED) {
-        /* thread detached, so attach it */
-        wasAttached = 0;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
-    } else if (returnValue == JNI_EVERSION) {
-        /* this version of JNI is not supported, so just try to attach */
-        /* we assume it was attached to ensure that this thread is not detached
-         * afterwards even though it should not
+    /* Determine, if current threbd is blrebdy bttbched */
+    returnVblue = (*jvm)->GetEnv(jvm, (void **) &env, JNI_VERSION_1_2);
+    if (returnVblue == JNI_EDETACHED) {
+        /* threbd detbched, so bttbch it */
+        wbsAttbched = 0;
+        returnVblue = (*jvm)->AttbchCurrentThrebd(jvm, (void **) &env, NULL);
+    } else if (returnVblue == JNI_EVERSION) {
+        /* this version of JNI is not supported, so just try to bttbch */
+        /* we bssume it wbs bttbched to ensure thbt this threbd is not detbched
+         * bfterwbrds even though it should not
          */
-        wasAttached = 1;
-        returnValue = (*jvm)->AttachCurrentThread(jvm, (void **) &env, NULL);
+        wbsAttbched = 1;
+        returnVblue = (*jvm)->AttbchCurrentThrebd(jvm, (void **) &env, NULL);
     } else {
-        /* attached */
-        wasAttached = 1;
+        /* bttbched */
+        wbsAttbched = 1;
     }
 
-    jUnlockMutexClass = (*env)->FindClass(env, CLASS_UNLOCKMUTEX);
-    if (jUnlockMutexClass == NULL) { return rv; }
-    jInitArgsClass = (*env)->FindClass(env, CLASS_C_INITIALIZE_ARGS);
-    if (jInitArgsClass == NULL) { return rv; }
+    jUnlockMutexClbss = (*env)->FindClbss(env, CLASS_UNLOCKMUTEX);
+    if (jUnlockMutexClbss == NULL) { return rv; }
+    jInitArgsClbss = (*env)->FindClbss(env, CLASS_C_INITIALIZE_ARGS);
+    if (jInitArgsClbss == NULL) { return rv; }
 
-    /* convert the CK-type mutex to a Java mutex */
+    /* convert the CK-type mutex to b Jbvb mutex */
     jMutex = ckVoidPtrToJObject(pMutex);
 
     /* get the UnlockMutex object out of the jInitArgs object */
-    fieldID = (*env)->GetFieldID(env, jInitArgsClass, "UnlockMutex", "Lsun/security/pkcs11/wrapper/CK_UNLOCKMUTEX;");
+    fieldID = (*env)->GetFieldID(env, jInitArgsClbss, "UnlockMutex", "Lsun/security/pkcs11/wrbpper/CK_UNLOCKMUTEX;");
     if (fieldID == NULL) { return rv; }
     jUnlockMutex = (*env)->GetObjectField(env, jInitArgsObject, fieldID);
-    assert(jUnlockMutex != 0);
+    bssert(jUnlockMutex != 0);
 
-    /* call the CK_UNLOCKMUTEX method of the UnLockMutex object */
-    methodID = (*env)->GetMethodID(env, jUnlockMutexClass, "CK_UNLOCKMUTEX", "(Ljava/lang/Object;)V");
+    /* cbll the CK_UNLOCKMUTEX method of the UnLockMutex object */
+    methodID = (*env)->GetMethodID(env, jUnlockMutexClbss, "CK_UNLOCKMUTEX", "(Ljbvb/lbng/Object;)V");
     if (methodID == NULL) { return rv; }
-    (*env)->CallVoidMethod(env, jUnlockMutex, methodID, jMutex);
+    (*env)->CbllVoidMethod(env, jUnlockMutex, methodID, jMutex);
 
-    /* check, if callback threw an exception */
+    /* check, if cbllbbck threw bn exception */
     pkcs11Exception = (*env)->ExceptionOccurred(env);
 
     if (pkcs11Exception != NULL) {
-        /* TBD: clear the pending exception with ExceptionClear? */
-        /* The was an exception thrown, now we get the error-code from it */
-        pkcs11ExceptionClass = (*env)->FindClass(env, CLASS_PKCS11EXCEPTION);
-        if (pkcs11ExceptionClass == NULL) { return rv; }
-        methodID = (*env)->GetMethodID(env, pkcs11ExceptionClass, "getErrorCode", "()J");
+        /* TBD: clebr the pending exception with ExceptionClebr? */
+        /* The wbs bn exception thrown, now we get the error-code from it */
+        pkcs11ExceptionClbss = (*env)->FindClbss(env, CLASS_PKCS11EXCEPTION);
+        if (pkcs11ExceptionClbss == NULL) { return rv; }
+        methodID = (*env)->GetMethodID(env, pkcs11ExceptionClbss, "getErrorCode", "()J");
         if (methodID == NULL) { return rv; }
-        errorCode = (*env)->CallLongMethod(env, pkcs11Exception, methodID);
+        errorCode = (*env)->CbllLongMethod(env, pkcs11Exception, methodID);
         rv = jLongToCKULong(errorCode);
     }
 
-    /* if we attached this thread to the VM just for callback, we detach it now */
-    if (wasAttached) {
-        returnValue = (*jvm)->DetachCurrentThread(jvm);
+    /* if we bttbched this threbd to the VM just for cbllbbck, we detbch it now */
+    if (wbsAttbched) {
+        returnVblue = (*jvm)->DetbchCurrentThrebd(jvm);
     }
 
     return rv ;

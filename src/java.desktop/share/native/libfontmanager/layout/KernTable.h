@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -38,38 +38,38 @@
 #endif
 
 #include "LETypes.h"
-#include "LETableReference.h"
-//#include "LEFontInstance.h"
-//#include "LEGlyphStorage.h"
+#include "LETbbleReference.h"
+//#include "LEFontInstbnce.h"
+//#include "LEGlyphStorbge.h"
 
 #include <stdio.h>
 
 U_NAMESPACE_BEGIN
-struct PairInfo;
-class  LEFontInstance;
-class  LEGlyphStorage;
+struct PbirInfo;
+clbss  LEFontInstbnce;
+clbss  LEGlyphStorbge;
 
 /**
- * Windows type 0 kerning table support only for now.
+ * Windows type 0 kerning tbble support only for now.
  */
-class U_LAYOUT_API KernTable
+clbss U_LAYOUT_API KernTbble
 {
- private:
-  le_uint16 coverage;
-  le_uint16 nPairs;
-  PairInfo  *pairsSwapped;
-  const LETableReference &fTable;
-  le_uint16 searchRange;
+ privbte:
+  le_uint16 coverbge;
+  le_uint16 nPbirs;
+  PbirInfo  *pbirsSwbpped;
+  const LETbbleReference &fTbble;
+  le_uint16 sebrchRbnge;
   le_uint16 entrySelector;
-  le_uint16 rangeShift;
+  le_uint16 rbngeShift;
 
  public:
-  KernTable(const LETableReference &table, LEErrorCode &success);
+  KernTbble(const LETbbleReference &tbble, LEErrorCode &success);
 
   /*
    * Process the glyph positions.
    */
-  void process(LEGlyphStorage& storage, LEErrorCode &success);
+  void process(LEGlyphStorbge& storbge, LEErrorCode &success);
 };
 
 U_NAMESPACE_END

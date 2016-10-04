@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text.html.parser;
+pbckbge jbvbx.swing.text.html.pbrser;
 
 /**
- * A content model state. This is basically a list of pointers to
+ * A content model stbte. This is bbsicblly b list of pointers to
  * the BNF expression representing the model (the ContentModel).
- * Each element in a DTD has a content model which describes the
- * elements that may occur inside, and the order in which they can
+ * Ebch element in b DTD hbs b content model which describes the
+ * elements thbt mby occur inside, bnd the order in which they cbn
  * occur.
  * <p>
- * Each time a token is reduced a new state is created.
+ * Ebch time b token is reduced b new stbte is crebted.
  * <p>
- * See Annex H on page 556 of the SGML handbook for more information.
+ * See Annex H on pbge 556 of the SGML hbndbook for more informbtion.
  *
- * @see Parser
+ * @see Pbrser
  * @see DTD
  * @see Element
  * @see ContentModel
- * @author Arthur van Hoff
+ * @buthor Arthur vbn Hoff
  */
-class ContentModelState {
+clbss ContentModelStbte {
     ContentModel model;
-    long value;
-    ContentModelState next;
+    long vblue;
+    ContentModelStbte next;
 
     /**
-     * Create a content model state for a content model.
+     * Crebte b content model stbte for b content model.
      */
-    public ContentModelState(ContentModel model) {
+    public ContentModelStbte(ContentModel model) {
         this(model, null, 0);
     }
 
     /**
-     * Create a content model state for a content model given the
-     * remaining state that needs to be reduce.
+     * Crebte b content model stbte for b content model given the
+     * rembining stbte thbt needs to be reduce.
      */
-    ContentModelState(Object content, ContentModelState next) {
+    ContentModelStbte(Object content, ContentModelStbte next) {
         this(content, next, 0);
     }
 
     /**
-     * Create a content model state for a content model given the
-     * remaining state that needs to be reduce.
+     * Crebte b content model stbte for b content model given the
+     * rembining stbte thbt needs to be reduce.
      */
-    ContentModelState(Object content, ContentModelState next, long value) {
+    ContentModelStbte(Object content, ContentModelStbte next, long vblue) {
         this.model = (ContentModel)content;
         this.next = next;
-        this.value = value;
+        this.vblue = vblue;
     }
 
     /**
-     * Return the content model that is relevant to the current state.
+     * Return the content model thbt is relevbnt to the current stbte.
      */
     public ContentModel getModel() {
         ContentModel m = model;
-        for (int i = 0; i < value; i++) {
+        for (int i = 0; i < vblue; i++) {
             if (m.next != null) {
                 m = m.next;
             } else {
@@ -88,210 +88,210 @@ class ContentModelState {
     }
 
     /**
-     * Check if the state can be terminated. That is there are no more
-     * tokens required in the input stream.
-     * @return true if the model can terminate without further input
+     * Check if the stbte cbn be terminbted. Thbt is there bre no more
+     * tokens required in the input strebm.
+     * @return true if the model cbn terminbte without further input
      */
-    @SuppressWarnings("fallthrough")
-    public boolean terminate() {
+    @SuppressWbrnings("fbllthrough")
+    public boolebn terminbte() {
         switch (model.type) {
-          case '+':
-            if ((value == 0) && !(model).empty()) {
-                return false;
+          cbse '+':
+            if ((vblue == 0) && !(model).empty()) {
+                return fblse;
             }
-            // Fall through
-          case '*':
-          case '?':
-            return (next == null) || next.terminate();
+            // Fbll through
+          cbse '*':
+          cbse '?':
+            return (next == null) || next.terminbte();
 
-          case '|':
+          cbse '|':
             for (ContentModel m = (ContentModel)model.content ; m != null ; m = m.next) {
                 if (m.empty()) {
-                    return (next == null) || next.terminate();
+                    return (next == null) || next.terminbte();
                 }
             }
-            return false;
+            return fblse;
 
-          case '&': {
+          cbse '&': {
             ContentModel m = (ContentModel)model.content;
 
             for (int i = 0 ; m != null ; i++, m = m.next) {
-                if ((value & (1L << i)) == 0) {
+                if ((vblue & (1L << i)) == 0) {
                     if (!m.empty()) {
-                        return false;
+                        return fblse;
                     }
                 }
             }
-            return (next == null) || next.terminate();
+            return (next == null) || next.terminbte();
           }
 
-          case ',': {
+          cbse ',': {
             ContentModel m = (ContentModel)model.content;
-            for (int i = 0 ; i < value ; i++, m = m.next);
+            for (int i = 0 ; i < vblue ; i++, m = m.next);
 
             for (; (m != null) && m.empty() ; m = m.next);
             if (m != null) {
-                return false;
+                return fblse;
             }
-            return (next == null) || next.terminate();
+            return (next == null) || next.terminbte();
           }
 
-        default:
-          return false;
+        defbult:
+          return fblse;
         }
     }
 
     /**
-     * Check if the state can be terminated. That is there are no more
-     * tokens required in the input stream.
-     * @return the only possible element that can occur next
+     * Check if the stbte cbn be terminbted. Thbt is there bre no more
+     * tokens required in the input strebm.
+     * @return the only possible element thbt cbn occur next
      */
     public Element first() {
         switch (model.type) {
-          case '*':
-          case '?':
-          case '|':
-          case '&':
+          cbse '*':
+          cbse '?':
+          cbse '|':
+          cbse '&':
             return null;
 
-          case '+':
+          cbse '+':
             return model.first();
 
-          case ',': {
+          cbse ',': {
               ContentModel m = (ContentModel)model.content;
-              for (int i = 0 ; i < value ; i++, m = m.next);
+              for (int i = 0 ; i < vblue ; i++, m = m.next);
               return m.first();
           }
 
-          default:
+          defbult:
             return model.first();
         }
     }
 
     /**
-     * Advance this state to a new state. An exception is thrown if the
-     * token is illegal at this point in the content model.
-     * @return next state after reducing a token
+     * Advbnce this stbte to b new stbte. An exception is thrown if the
+     * token is illegbl bt this point in the content model.
+     * @return next stbte bfter reducing b token
      */
-    public ContentModelState advance(Object token) {
+    public ContentModelStbte bdvbnce(Object token) {
         switch (model.type) {
-          case '+':
+          cbse '+':
             if (model.first(token)) {
-                return new ContentModelState(model.content,
-                        new ContentModelState(model, next, value + 1)).advance(token);
+                return new ContentModelStbte(model.content,
+                        new ContentModelStbte(model, next, vblue + 1)).bdvbnce(token);
             }
-            if (value != 0) {
+            if (vblue != 0) {
                 if (next != null) {
-                    return next.advance(token);
+                    return next.bdvbnce(token);
                 } else {
                     return null;
                 }
             }
-            break;
+            brebk;
 
-          case '*':
+          cbse '*':
             if (model.first(token)) {
-                return new ContentModelState(model.content, this).advance(token);
+                return new ContentModelStbte(model.content, this).bdvbnce(token);
             }
             if (next != null) {
-                return next.advance(token);
+                return next.bdvbnce(token);
             } else {
                 return null;
             }
 
-          case '?':
+          cbse '?':
             if (model.first(token)) {
-                return new ContentModelState(model.content, next).advance(token);
+                return new ContentModelStbte(model.content, next).bdvbnce(token);
             }
             if (next != null) {
-                return next.advance(token);
+                return next.bdvbnce(token);
             } else {
                 return null;
             }
 
-          case '|':
+          cbse '|':
             for (ContentModel m = (ContentModel)model.content ; m != null ; m = m.next) {
                 if (m.first(token)) {
-                    return new ContentModelState(m, next).advance(token);
+                    return new ContentModelStbte(m, next).bdvbnce(token);
                 }
             }
-            break;
+            brebk;
 
-          case ',': {
+          cbse ',': {
             ContentModel m = (ContentModel)model.content;
-            for (int i = 0 ; i < value ; i++, m = m.next);
+            for (int i = 0 ; i < vblue ; i++, m = m.next);
 
             if (m.first(token) || m.empty()) {
                 if (m.next == null) {
-                    return new ContentModelState(m, next).advance(token);
+                    return new ContentModelStbte(m, next).bdvbnce(token);
                 } else {
-                    return new ContentModelState(m,
-                            new ContentModelState(model, next, value + 1)).advance(token);
+                    return new ContentModelStbte(m,
+                            new ContentModelStbte(model, next, vblue + 1)).bdvbnce(token);
                 }
             }
-            break;
+            brebk;
           }
 
-          case '&': {
+          cbse '&': {
             ContentModel m = (ContentModel)model.content;
-            boolean complete = true;
+            boolebn complete = true;
 
             for (int i = 0 ; m != null ; i++, m = m.next) {
-                if ((value & (1L << i)) == 0) {
+                if ((vblue & (1L << i)) == 0) {
                     if (m.first(token)) {
-                        return new ContentModelState(m,
-                                new ContentModelState(model, next, value | (1L << i))).advance(token);
+                        return new ContentModelStbte(m,
+                                new ContentModelStbte(model, next, vblue | (1L << i))).bdvbnce(token);
                     }
                     if (!m.empty()) {
-                        complete = false;
+                        complete = fblse;
                     }
                 }
             }
             if (complete) {
                 if (next != null) {
-                    return next.advance(token);
+                    return next.bdvbnce(token);
                 } else {
                     return null;
                 }
             }
-            break;
+            brebk;
           }
 
-          default:
+          defbult:
             if (model.content == token) {
-                if (next == null && (token instanceof Element) &&
+                if (next == null && (token instbnceof Element) &&
                     ((Element)token).content != null) {
-                    return new ContentModelState(((Element)token).content);
+                    return new ContentModelStbte(((Element)token).content);
                 }
                 return next;
             }
-            // PENDING: Currently we don't correctly deal with optional start
-            // tags. This can most notably be seen with the 4.01 spec where
-            // TBODY's start and end tags are optional.
-            // Uncommenting this and the PENDING in ContentModel will
-            // correctly skip the omit tags, but the delegate is not notified.
-            // Some additional API needs to be added to track skipped tags,
-            // and this can then be added back.
+            // PENDING: Currently we don't correctly debl with optionbl stbrt
+            // tbgs. This cbn most notbbly be seen with the 4.01 spec where
+            // TBODY's stbrt bnd end tbgs bre optionbl.
+            // Uncommenting this bnd the PENDING in ContentModel will
+            // correctly skip the omit tbgs, but the delegbte is not notified.
+            // Some bdditionbl API needs to be bdded to trbck skipped tbgs,
+            // bnd this cbn then be bdded bbck.
 /*
-            if ((model.content instanceof Element)) {
+            if ((model.content instbnceof Element)) {
                 Element e = (Element)model.content;
 
-                if (e.omitStart() && e.content != null) {
-                    return new ContentModelState(e.content, next).advance(
+                if (e.omitStbrt() && e.content != null) {
+                    return new ContentModelStbte(e.content, next).bdvbnce(
                                            token);
                 }
             }
 */
         }
 
-        // We used to throw this exception at this point.  However, it
-        // was determined that throwing this exception was more expensive
-        // than returning null, and we could not justify to ourselves why
-        // it was necessary to throw an exception, rather than simply
-        // returning null.  I'm leaving it in a commented out state so
-        // that it can be easily restored if the situation ever arises.
+        // We used to throw this exception bt this point.  However, it
+        // wbs determined thbt throwing this exception wbs more expensive
+        // thbn returning null, bnd we could not justify to ourselves why
+        // it wbs necessbry to throw bn exception, rbther thbn simply
+        // returning null.  I'm lebving it in b commented out stbte so
+        // thbt it cbn be ebsily restored if the situbtion ever brises.
         //
-        // throw new IllegalArgumentException("invalid token: " + token);
+        // throw new IllegblArgumentException("invblid token: " + token);
         return null;
     }
 }

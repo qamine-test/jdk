@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.*;
-import java.nio.*;
-import java.util.*;
-import java.security.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.util.*;
+import jbvb.security.*;
 
-import javax.crypto.BadPaddingException;
+import jbvbx.crypto.BbdPbddingException;
 
-import javax.net.ssl.*;
-import javax.net.ssl.SSLEngineResult.*;
+import jbvbx.net.ssl.*;
+import jbvbx.net.ssl.SSLEngineResult.*;
 
 /**
- * Implementation of an non-blocking SSLEngine.
+ * Implementbtion of bn non-blocking SSLEngine.
  *
- * *Currently*, the SSLEngine code exists in parallel with the current
- * SSLSocket.  As such, the current implementation is using legacy code
- * with many of the same abstractions.  However, it varies in many
- * areas, most dramatically in the IO handling.
+ * *Currently*, the SSLEngine code exists in pbrbllel with the current
+ * SSLSocket.  As such, the current implementbtion is using legbcy code
+ * with mbny of the sbme bbstrbctions.  However, it vbries in mbny
+ * brebs, most drbmbticblly in the IO hbndling.
  *
- * There are three main I/O threads that can be existing in parallel:
- * wrap(), unwrap(), and beginHandshake().  We are encouraging users to
- * not call multiple instances of wrap or unwrap, because the data could
- * appear to flow out of the SSLEngine in a non-sequential order.  We
- * take all steps we can to at least make sure the ordering remains
- * consistent, but once the calls returns, anything can happen.  For
- * example, thread1 and thread2 both call wrap, thread1 gets the first
- * packet, thread2 gets the second packet, but thread2 gets control back
- * before thread1, and sends the data.  The receiving side would see an
+ * There bre three mbin I/O threbds thbt cbn be existing in pbrbllel:
+ * wrbp(), unwrbp(), bnd beginHbndshbke().  We bre encourbging users to
+ * not cbll multiple instbnces of wrbp or unwrbp, becbuse the dbtb could
+ * bppebr to flow out of the SSLEngine in b non-sequentibl order.  We
+ * tbke bll steps we cbn to bt lebst mbke sure the ordering rembins
+ * consistent, but once the cblls returns, bnything cbn hbppen.  For
+ * exbmple, threbd1 bnd threbd2 both cbll wrbp, threbd1 gets the first
+ * pbcket, threbd2 gets the second pbcket, but threbd2 gets control bbck
+ * before threbd1, bnd sends the dbtb.  The receiving side would see bn
  * out-of-order error.
  *
- * Handshaking is still done the same way as SSLSocket using the normal
- * InputStream/OutputStream abstactions.  We create
- * ClientHandshakers/ServerHandshakers, which produce/consume the
- * handshaking data.  The transfer of the data is largely handled by the
- * HandshakeInStream/HandshakeOutStreams.  Lastly, the
- * InputRecord/OutputRecords still have the same functionality, except
- * that they are overridden with EngineInputRecord/EngineOutputRecord,
- * which provide SSLEngine-specific functionality.
+ * Hbndshbking is still done the sbme wby bs SSLSocket using the normbl
+ * InputStrebm/OutputStrebm bbstbctions.  We crebte
+ * ClientHbndshbkers/ServerHbndshbkers, which produce/consume the
+ * hbndshbking dbtb.  The trbnsfer of the dbtb is lbrgely hbndled by the
+ * HbndshbkeInStrebm/HbndshbkeOutStrebms.  Lbstly, the
+ * InputRecord/OutputRecords still hbve the sbme functionblity, except
+ * thbt they bre overridden with EngineInputRecord/EngineOutputRecord,
+ * which provide SSLEngine-specific functionblity.
  *
- * Some of the major differences are:
+ * Some of the mbjor differences bre:
  *
  * EngineInputRecord/EngineOutputRecord/EngineWriter:
  *
- *      In order to avoid writing whole new control flows for
- *      handshaking, and to reuse most of the same code, we kept most
- *      of the actual handshake code the same.  As usual, reading
- *      handshake data may trigger output of more handshake data, so
- *      what we do is write this data to internal buffers, and wait for
- *      wrap() to be called to give that data a ride.
+ *      In order to bvoid writing whole new control flows for
+ *      hbndshbking, bnd to reuse most of the sbme code, we kept most
+ *      of the bctubl hbndshbke code the sbme.  As usubl, rebding
+ *      hbndshbke dbtb mby trigger output of more hbndshbke dbtb, so
+ *      whbt we do is write this dbtb to internbl buffers, bnd wbit for
+ *      wrbp() to be cblled to give thbt dbtb b ride.
  *
- *      All data is routed through
- *      EngineInputRecord/EngineOutputRecord.  However, all handshake
- *      data (ct_alert/ct_change_cipher_spec/ct_handshake) are passed
- *      through to the the underlying InputRecord/OutputRecord, and
- *      the data uses the internal buffers.
+ *      All dbtb is routed through
+ *      EngineInputRecord/EngineOutputRecord.  However, bll hbndshbke
+ *      dbtb (ct_blert/ct_chbnge_cipher_spec/ct_hbndshbke) bre pbssed
+ *      through to the the underlying InputRecord/OutputRecord, bnd
+ *      the dbtb uses the internbl buffers.
  *
- *      Application data is handled slightly different, we copy the data
- *      directly from the src to the dst buffers, and do all operations
- *      on those buffers, saving the overhead of multiple copies.
+ *      Applicbtion dbtb is hbndled slightly different, we copy the dbtb
+ *      directly from the src to the dst buffers, bnd do bll operbtions
+ *      on those buffers, sbving the overhebd of multiple copies.
  *
- *      In the case of an inbound record, unwrap passes the inbound
- *      ByteBuffer to the InputRecord.  If the data is handshake data,
- *      the data is read into the InputRecord's internal buffer.  If
- *      the data is application data, the data is decoded directly into
+ *      In the cbse of bn inbound record, unwrbp pbsses the inbound
+ *      ByteBuffer to the InputRecord.  If the dbtb is hbndshbke dbtb,
+ *      the dbtb is rebd into the InputRecord's internbl buffer.  If
+ *      the dbtb is bpplicbtion dbtb, the dbtb is decoded directly into
  *      the dst buffer.
  *
- *      In the case of an outbound record, when the write to the
- *      "real" OutputStream's would normally take place, instead we
- *      call back up to the EngineOutputRecord's version of
- *      writeBuffer, at which time we capture the resulting output in a
- *      ByteBuffer, and send that back to the EngineWriter for internal
- *      storage.
+ *      In the cbse of bn outbound record, when the write to the
+ *      "rebl" OutputStrebm's would normblly tbke plbce, instebd we
+ *      cbll bbck up to the EngineOutputRecord's version of
+ *      writeBuffer, bt which time we cbpture the resulting output in b
+ *      ByteBuffer, bnd send thbt bbck to the EngineWriter for internbl
+ *      storbge.
  *
- *      EngineWriter is responsible for "handling" all outbound
- *      data, be it handshake or app data, and for returning the data
- *      to wrap() in the proper order.
+ *      EngineWriter is responsible for "hbndling" bll outbound
+ *      dbtb, be it hbndshbke or bpp dbtb, bnd for returning the dbtb
+ *      to wrbp() in the proper order.
  *
- * ClientHandshaker/ServerHandshaker/Handshaker:
- *      Methods which relied on SSLSocket now have work on either
+ * ClientHbndshbker/ServerHbndshbker/Hbndshbker:
+ *      Methods which relied on SSLSocket now hbve work on either
  *      SSLSockets or SSLEngines.
  *
- * @author Brad Wetmore
+ * @buthor Brbd Wetmore
  */
-final public class SSLEngineImpl extends SSLEngine {
+finbl public clbss SSLEngineImpl extends SSLEngine {
 
     //
-    // Fields and global comments
+    // Fields bnd globbl comments
     //
 
     /*
-     * There's a state machine associated with each connection, which
-     * among other roles serves to negotiate session changes.
+     * There's b stbte mbchine bssocibted with ebch connection, which
+     * bmong other roles serves to negotibte session chbnges.
      *
-     * - START with constructor, until the TCP connection's around.
-     * - HANDSHAKE picks session parameters before allowing traffic.
-     *          There are many substates due to sequencing requirements
-     *          for handshake messages.
-     * - DATA may be transmitted.
-     * - RENEGOTIATE state allows concurrent data and handshaking
-     *          traffic ("same" substates as HANDSHAKE), and terminates
-     *          in selection of new session (and connection) parameters
-     * - ERROR state immediately precedes abortive disconnect.
-     * - CLOSED when one side closes down, used to start the shutdown
-     *          process.  SSL connection objects are not reused.
+     * - START with constructor, until the TCP connection's bround.
+     * - HANDSHAKE picks session pbrbmeters before bllowing trbffic.
+     *          There bre mbny substbtes due to sequencing requirements
+     *          for hbndshbke messbges.
+     * - DATA mby be trbnsmitted.
+     * - RENEGOTIATE stbte bllows concurrent dbtb bnd hbndshbking
+     *          trbffic ("sbme" substbtes bs HANDSHAKE), bnd terminbtes
+     *          in selection of new session (bnd connection) pbrbmeters
+     * - ERROR stbte immedibtely precedes bbortive disconnect.
+     * - CLOSED when one side closes down, used to stbrt the shutdown
+     *          process.  SSL connection objects bre not reused.
      *
-     * State affects what SSL record types may legally be sent:
+     * Stbte bffects whbt SSL record types mby legblly be sent:
      *
-     * - Handshake ... only in HANDSHAKE and RENEGOTIATE states
-     * - App Data ... only in DATA and RENEGOTIATE states
+     * - Hbndshbke ... only in HANDSHAKE bnd RENEGOTIATE stbtes
+     * - App Dbtb ... only in DATA bnd RENEGOTIATE stbtes
      * - Alert ... in HANDSHAKE, DATA, RENEGOTIATE
      *
-     * Re what may be received:  same as what may be sent, except that
-     * HandshakeRequest handshaking messages can come from servers even
-     * in the application data state, to request entry to RENEGOTIATE.
+     * Re whbt mby be received:  sbme bs whbt mby be sent, except thbt
+     * HbndshbkeRequest hbndshbking messbges cbn come from servers even
+     * in the bpplicbtion dbtb stbte, to request entry to RENEGOTIATE.
      *
-     * The state machine within HANDSHAKE and RENEGOTIATE states controls
-     * the pending session, not the connection state, until the change
-     * cipher spec and "Finished" handshake messages are processed and
-     * make the "new" session become the current one.
+     * The stbte mbchine within HANDSHAKE bnd RENEGOTIATE stbtes controls
+     * the pending session, not the connection stbte, until the chbnge
+     * cipher spec bnd "Finished" hbndshbke messbges bre processed bnd
+     * mbke the "new" session become the current one.
      *
-     * NOTE: details of the SMs always need to be nailed down better.
-     * The text above illustrates the core ideas.
+     * NOTE: detbils of the SMs blwbys need to be nbiled down better.
+     * The text bbove illustrbtes the core idebs.
      *
      *                +---->-------+------>--------->-------+
      *                |            |                        |
@@ -158,186 +158,186 @@ final public class SSLEngineImpl extends SSLEngine {
      *                v                                     |
      *               ERROR>------>----->CLOSED<--------<----+
      *
-     * ALSO, note that the the purpose of handshaking (renegotiation is
-     * included) is to assign a different, and perhaps new, session to
-     * the connection.  The SSLv3 spec is a bit confusing on that new
-     * protocol feature.
+     * ALSO, note thbt the the purpose of hbndshbking (renegotibtion is
+     * included) is to bssign b different, bnd perhbps new, session to
+     * the connection.  The SSLv3 spec is b bit confusing on thbt new
+     * protocol febture.
      */
-    private int                 connectionState;
+    privbte int                 connectionStbte;
 
-    private static final int    cs_START = 0;
-    private static final int    cs_HANDSHAKE = 1;
-    private static final int    cs_DATA = 2;
-    private static final int    cs_RENEGOTIATE = 3;
-    private static final int    cs_ERROR = 4;
-    private static final int    cs_CLOSED = 6;
+    privbte stbtic finbl int    cs_START = 0;
+    privbte stbtic finbl int    cs_HANDSHAKE = 1;
+    privbte stbtic finbl int    cs_DATA = 2;
+    privbte stbtic finbl int    cs_RENEGOTIATE = 3;
+    privbte stbtic finbl int    cs_ERROR = 4;
+    privbte stbtic finbl int    cs_CLOSED = 6;
 
     /*
-     * Once we're in state cs_CLOSED, we can continue to
-     * wrap/unwrap until we finish sending/receiving the messages
-     * for close_notify.  EngineWriter handles outboundDone.
+     * Once we're in stbte cs_CLOSED, we cbn continue to
+     * wrbp/unwrbp until we finish sending/receiving the messbges
+     * for close_notify.  EngineWriter hbndles outboundDone.
      */
-    private boolean             inboundDone = false;
+    privbte boolebn             inboundDone = fblse;
 
     EngineWriter                writer;
 
     /*
-     * The authentication context holds all information used to establish
-     * who this end of the connection is (certificate chains, private keys,
-     * etc) and who is trusted (e.g. as CAs or websites).
+     * The buthenticbtion context holds bll informbtion used to estbblish
+     * who this end of the connection is (certificbte chbins, privbte keys,
+     * etc) bnd who is trusted (e.g. bs CAs or websites).
      */
-    private SSLContextImpl      sslContext;
+    privbte SSLContextImpl      sslContext;
 
     /*
-     * This connection is one of (potentially) many associated with
-     * any given session.  The output of the handshake protocol is a
-     * new session ... although all the protocol description talks
-     * about changing the cipher spec (and it does change), in fact
-     * that's incidental since it's done by changing everything that
-     * is associated with a session at the same time.  (TLS/IETF may
-     * change that to add client authentication w/o new key exchg.)
+     * This connection is one of (potentiblly) mbny bssocibted with
+     * bny given session.  The output of the hbndshbke protocol is b
+     * new session ... blthough bll the protocol description tblks
+     * bbout chbnging the cipher spec (bnd it does chbnge), in fbct
+     * thbt's incidentbl since it's done by chbnging everything thbt
+     * is bssocibted with b session bt the sbme time.  (TLS/IETF mby
+     * chbnge thbt to bdd client buthenticbtion w/o new key exchg.)
      */
-    private Handshaker                  handshaker;
-    private SSLSessionImpl              sess;
-    private volatile SSLSessionImpl     handshakeSession;
+    privbte Hbndshbker                  hbndshbker;
+    privbte SSLSessionImpl              sess;
+    privbte volbtile SSLSessionImpl     hbndshbkeSession;
 
 
     /*
-     * Client authentication be off, requested, or required.
+     * Client buthenticbtion be off, requested, or required.
      *
-     * This will be used by both this class and SSLSocket's variants.
+     * This will be used by both this clbss bnd SSLSocket's vbribnts.
      */
-    static final byte           clauth_none = 0;
-    static final byte           clauth_requested = 1;
-    static final byte           clauth_required = 2;
+    stbtic finbl byte           clbuth_none = 0;
+    stbtic finbl byte           clbuth_requested = 1;
+    stbtic finbl byte           clbuth_required = 2;
 
     /*
-     * Flag indicating if the next record we receive MUST be a Finished
-     * message. Temporarily set during the handshake to ensure that
-     * a change cipher spec message is followed by a finished message.
+     * Flbg indicbting if the next record we receive MUST be b Finished
+     * messbge. Temporbrily set during the hbndshbke to ensure thbt
+     * b chbnge cipher spec messbge is followed by b finished messbge.
      */
-    private boolean             expectingFinished;
+    privbte boolebn             expectingFinished;
 
 
     /*
-     * If someone tries to closeInbound() (say at End-Of-Stream)
-     * our engine having received a close_notify, we need to
-     * notify the app that we may have a truncation attack underway.
+     * If someone tries to closeInbound() (sby bt End-Of-Strebm)
+     * our engine hbving received b close_notify, we need to
+     * notify the bpp thbt we mby hbve b truncbtion bttbck underwby.
      */
-    private boolean             recvCN;
+    privbte boolebn             recvCN;
 
     /*
-     * For improved diagnostics, we detail connection closure
-     * If the engine is closed (connectionState >= cs_ERROR),
-     * closeReason != null indicates if the engine was closed
-     * because of an error or because or normal shutdown.
+     * For improved dibgnostics, we detbil connection closure
+     * If the engine is closed (connectionStbte >= cs_ERROR),
+     * closeRebson != null indicbtes if the engine wbs closed
+     * becbuse of bn error or becbuse or normbl shutdown.
      */
-    private SSLException        closeReason;
+    privbte SSLException        closeRebson;
 
     /*
-     * Per-connection private state that doesn't change when the
-     * session is changed.
+     * Per-connection privbte stbte thbt doesn't chbnge when the
+     * session is chbnged.
      */
-    private byte                        doClientAuth;
-    private boolean                     enableSessionCreation = true;
+    privbte byte                        doClientAuth;
+    privbte boolebn                     enbbleSessionCrebtion = true;
     EngineInputRecord                   inputRecord;
     EngineOutputRecord                  outputRecord;
-    private AccessControlContext        acc;
+    privbte AccessControlContext        bcc;
 
-    // The cipher suites enabled for use on this connection.
-    private CipherSuiteList             enabledCipherSuites;
+    // The cipher suites enbbled for use on this connection.
+    privbte CipherSuiteList             enbbledCipherSuites;
 
-    // the endpoint identification protocol
-    private String                      identificationProtocol = null;
+    // the endpoint identificbtion protocol
+    privbte String                      identificbtionProtocol = null;
 
-    // The cryptographic algorithm constraints
-    private AlgorithmConstraints        algorithmConstraints = null;
+    // The cryptogrbphic blgorithm constrbints
+    privbte AlgorithmConstrbints        blgorithmConstrbints = null;
 
-    // The server name indication and matchers
-    List<SNIServerName>         serverNames =
-                                    Collections.<SNIServerName>emptyList();
-    Collection<SNIMatcher>      sniMatchers =
-                                    Collections.<SNIMatcher>emptyList();
+    // The server nbme indicbtion bnd mbtchers
+    List<SNIServerNbme>         serverNbmes =
+                                    Collections.<SNIServerNbme>emptyList();
+    Collection<SNIMbtcher>      sniMbtchers =
+                                    Collections.<SNIMbtcher>emptyList();
 
-    // Have we been told whether we're client or server?
-    private boolean                     serverModeSet = false;
-    private boolean                     roleIsServer;
+    // Hbve we been told whether we're client or server?
+    privbte boolebn                     serverModeSet = fblse;
+    privbte boolebn                     roleIsServer;
 
     /*
-     * The protocol versions enabled for use on this connection.
+     * The protocol versions enbbled for use on this connection.
      *
-     * Note: we support a pseudo protocol called SSLv2Hello which when
-     * set will result in an SSL v2 Hello being sent with SSL (version 3.0)
+     * Note: we support b pseudo protocol cblled SSLv2Hello which when
+     * set will result in bn SSL v2 Hello being sent with SSL (version 3.0)
      * or TLS (version 3.1, 3.2, etc.) version info.
      */
-    private ProtocolList        enabledProtocols;
+    privbte ProtocolList        enbbledProtocols;
 
     /*
-     * The SSL version associated with this connection.
+     * The SSL version bssocibted with this connection.
      */
-    private ProtocolVersion     protocolVersion = ProtocolVersion.DEFAULT;
+    privbte ProtocolVersion     protocolVersion = ProtocolVersion.DEFAULT;
 
     /*
-     * Crypto state that's reinitialized when the session changes.
+     * Crypto stbte thbt's reinitiblized when the session chbnges.
      */
-    private Authenticator       readAuthenticator, writeAuthenticator;
-    private CipherBox           readCipher, writeCipher;
-    // NOTE: compression state would be saved here
+    privbte Authenticbtor       rebdAuthenticbtor, writeAuthenticbtor;
+    privbte CipherBox           rebdCipher, writeCipher;
+    // NOTE: compression stbte would be sbved here
 
     /*
-     * security parameters for secure renegotiation.
+     * security pbrbmeters for secure renegotibtion.
      */
-    private boolean             secureRenegotiation;
-    private byte[]              clientVerifyData;
-    private byte[]              serverVerifyData;
+    privbte boolebn             secureRenegotibtion;
+    privbte byte[]              clientVerifyDbtb;
+    privbte byte[]              serverVerifyDbtb;
 
     /*
      * READ ME * READ ME * READ ME * READ ME * READ ME * READ ME *
      * IMPORTANT STUFF TO UNDERSTANDING THE SYNCHRONIZATION ISSUES.
      * READ ME * READ ME * READ ME * READ ME * READ ME * READ ME *
      *
-     * There are several locks here.
+     * There bre severbl locks here.
      *
-     * The primary lock is the per-instance lock used by
-     * synchronized(this) and the synchronized methods.  It controls all
-     * access to things such as the connection state and variables which
-     * affect handshaking.  If we are inside a synchronized method, we
-     * can access the state directly, otherwise, we must use the
-     * synchronized equivalents.
+     * The primbry lock is the per-instbnce lock used by
+     * synchronized(this) bnd the synchronized methods.  It controls bll
+     * bccess to things such bs the connection stbte bnd vbribbles which
+     * bffect hbndshbking.  If we bre inside b synchronized method, we
+     * cbn bccess the stbte directly, otherwise, we must use the
+     * synchronized equivblents.
      *
-     * Note that we must never acquire the <code>this</code> lock after
-     * <code>writeLock</code> or run the risk of deadlock.
+     * Note thbt we must never bcquire the <code>this</code> lock bfter
+     * <code>writeLock</code> or run the risk of debdlock.
      *
-     * Grab some coffee, and be careful with any code changes.
+     * Grbb some coffee, bnd be cbreful with bny code chbnges.
      */
-    private Object              wrapLock;
-    private Object              unwrapLock;
+    privbte Object              wrbpLock;
+    privbte Object              unwrbpLock;
     Object                      writeLock;
 
     /*
-     * Is it the first application record to write?
+     * Is it the first bpplicbtion record to write?
      */
-    private boolean isFirstAppOutputRecord = true;
+    privbte boolebn isFirstAppOutputRecord = true;
 
     /*
-     * Whether local cipher suites preference in server side should be
-     * honored during handshaking?
+     * Whether locbl cipher suites preference in server side should be
+     * honored during hbndshbking?
      */
-    private boolean preferLocalCipherSuites = false;
+    privbte boolebn preferLocblCipherSuites = fblse;
 
     /*
-     * Class and subclass dynamic debugging support
+     * Clbss bnd subclbss dynbmic debugging support
      */
-    private static final Debug debug = Debug.getInstance("ssl");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("ssl");
 
     //
-    // Initialization/Constructors
+    // Initiblizbtion/Constructors
     //
 
     /**
-     * Constructor for an SSLEngine from SSLContext, without
-     * host/port hints.  This Engine will not be able to cache
-     * sessions, but must renegotiate everything by hand.
+     * Constructor for bn SSLEngine from SSLContext, without
+     * host/port hints.  This Engine will not be bble to cbche
+     * sessions, but must renegotibte everything by hbnd.
      */
     SSLEngineImpl(SSLContextImpl ctx) {
         super();
@@ -345,7 +345,7 @@ final public class SSLEngineImpl extends SSLEngine {
     }
 
     /**
-     * Constructor for an SSLEngine from SSLContext.
+     * Constructor for bn SSLEngine from SSLContext.
      */
     SSLEngineImpl(SSLContextImpl ctx, String host, int port) {
         super(host, port);
@@ -353,298 +353,298 @@ final public class SSLEngineImpl extends SSLEngine {
     }
 
     /**
-     * Initializes the Engine
+     * Initiblizes the Engine
      */
-    private void init(SSLContextImpl ctx) {
+    privbte void init(SSLContextImpl ctx) {
         if (debug != null && Debug.isOn("ssl")) {
             System.out.println("Using SSLEngineImpl.");
         }
 
         sslContext = ctx;
         sess = SSLSessionImpl.nullSession;
-        handshakeSession = null;
+        hbndshbkeSession = null;
 
         /*
-         * State is cs_START until we initialize the handshaker.
+         * Stbte is cs_START until we initiblize the hbndshbker.
          *
-         * Apps using SSLEngine are probably going to be server.
-         * Somewhat arbitrary choice.
+         * Apps using SSLEngine bre probbbly going to be server.
+         * Somewhbt brbitrbry choice.
          */
         roleIsServer = true;
-        connectionState = cs_START;
+        connectionStbte = cs_START;
 
-        // default server name indication
-        serverNames =
-            Utilities.addToSNIServerNameList(serverNames, getPeerHost());
+        // defbult server nbme indicbtion
+        serverNbmes =
+            Utilities.bddToSNIServerNbmeList(serverNbmes, getPeerHost());
 
         /*
-         * default read and write side cipher and MAC support
+         * defbult rebd bnd write side cipher bnd MAC support
          *
          * Note:  compression support would go here too
          */
-        readCipher = CipherBox.NULL;
-        readAuthenticator = MAC.NULL;
+        rebdCipher = CipherBox.NULL;
+        rebdAuthenticbtor = MAC.NULL;
         writeCipher = CipherBox.NULL;
-        writeAuthenticator = MAC.NULL;
+        writeAuthenticbtor = MAC.NULL;
 
-        // default security parameters for secure renegotiation
-        secureRenegotiation = false;
-        clientVerifyData = new byte[0];
-        serverVerifyData = new byte[0];
+        // defbult security pbrbmeters for secure renegotibtion
+        secureRenegotibtion = fblse;
+        clientVerifyDbtb = new byte[0];
+        serverVerifyDbtb = new byte[0];
 
-        enabledCipherSuites =
-                sslContext.getDefaultCipherSuiteList(roleIsServer);
-        enabledProtocols =
-                sslContext.getDefaultProtocolList(roleIsServer);
+        enbbledCipherSuites =
+                sslContext.getDefbultCipherSuiteList(roleIsServer);
+        enbbledProtocols =
+                sslContext.getDefbultProtocolList(roleIsServer);
 
-        wrapLock = new Object();
-        unwrapLock = new Object();
+        wrbpLock = new Object();
+        unwrbpLock = new Object();
         writeLock = new Object();
 
         /*
-         * Save the Access Control Context.  This will be used later
-         * for a couple of things, including providing a context to
-         * run tasks in, and for determining which credentials
-         * to use for Subject based (JAAS) decisions
+         * Sbve the Access Control Context.  This will be used lbter
+         * for b couple of things, including providing b context to
+         * run tbsks in, bnd for determining which credentibls
+         * to use for Subject bbsed (JAAS) decisions
          */
-        acc = AccessController.getContext();
+        bcc = AccessController.getContext();
 
         /*
-         * All outbound application data goes through this OutputRecord,
-         * other data goes through their respective records created
-         * elsewhere.  All inbound data goes through this one
+         * All outbound bpplicbtion dbtb goes through this OutputRecord,
+         * other dbtb goes through their respective records crebted
+         * elsewhere.  All inbound dbtb goes through this one
          * input record.
          */
         outputRecord =
-            new EngineOutputRecord(Record.ct_application_data, this);
+            new EngineOutputRecord(Record.ct_bpplicbtion_dbtb, this);
         inputRecord = new EngineInputRecord(this);
-        inputRecord.enableFormatChecks();
+        inputRecord.enbbleFormbtChecks();
 
         writer = new EngineWriter();
     }
 
     /**
-     * Initialize the handshaker object. This means:
+     * Initiblize the hbndshbker object. This mebns:
      *
-     *  . if a handshake is already in progress (state is cs_HANDSHAKE
-     *    or cs_RENEGOTIATE), do nothing and return
+     *  . if b hbndshbke is blrebdy in progress (stbte is cs_HANDSHAKE
+     *    or cs_RENEGOTIATE), do nothing bnd return
      *
-     *  . if the engine is already closed, throw an Exception (internal error)
+     *  . if the engine is blrebdy closed, throw bn Exception (internbl error)
      *
-     *  . otherwise (cs_START or cs_DATA), create the appropriate handshaker
-     *    object and advance the connection state (to cs_HANDSHAKE or
+     *  . otherwise (cs_START or cs_DATA), crebte the bppropribte hbndshbker
+     *    object bnd bdvbnce the connection stbte (to cs_HANDSHAKE or
      *    cs_RENEGOTIATE, respectively).
      *
-     * This method is called right after a new engine is created, when
-     * starting renegotiation, or when changing client/server mode of the
+     * This method is cblled right bfter b new engine is crebted, when
+     * stbrting renegotibtion, or when chbnging client/server mode of the
      * engine.
      */
-    private void initHandshaker() {
-        switch (connectionState) {
+    privbte void initHbndshbker() {
+        switch (connectionStbte) {
 
         //
-        // Starting a new handshake.
+        // Stbrting b new hbndshbke.
         //
-        case cs_START:
-        case cs_DATA:
-            break;
+        cbse cs_START:
+        cbse cs_DATA:
+            brebk;
 
         //
-        // We're already in the middle of a handshake.
+        // We're blrebdy in the middle of b hbndshbke.
         //
-        case cs_HANDSHAKE:
-        case cs_RENEGOTIATE:
+        cbse cs_HANDSHAKE:
+        cbse cs_RENEGOTIATE:
             return;
 
         //
-        // Anyone allowed to call this routine is required to
-        // do so ONLY if the connection state is reasonable...
+        // Anyone bllowed to cbll this routine is required to
+        // do so ONLY if the connection stbte is rebsonbble...
         //
-        default:
-            throw new IllegalStateException("Internal error");
+        defbult:
+            throw new IllegblStbteException("Internbl error");
         }
 
-        // state is either cs_START or cs_DATA
-        if (connectionState == cs_START) {
-            connectionState = cs_HANDSHAKE;
+        // stbte is either cs_START or cs_DATA
+        if (connectionStbte == cs_START) {
+            connectionStbte = cs_HANDSHAKE;
         } else { // cs_DATA
-            connectionState = cs_RENEGOTIATE;
+            connectionStbte = cs_RENEGOTIATE;
         }
         if (roleIsServer) {
-            handshaker = new ServerHandshaker(this, sslContext,
-                    enabledProtocols, doClientAuth,
-                    protocolVersion, connectionState == cs_HANDSHAKE,
-                    secureRenegotiation, clientVerifyData, serverVerifyData);
-            handshaker.setSNIMatchers(sniMatchers);
-            handshaker.setUseCipherSuitesOrder(preferLocalCipherSuites);
+            hbndshbker = new ServerHbndshbker(this, sslContext,
+                    enbbledProtocols, doClientAuth,
+                    protocolVersion, connectionStbte == cs_HANDSHAKE,
+                    secureRenegotibtion, clientVerifyDbtb, serverVerifyDbtb);
+            hbndshbker.setSNIMbtchers(sniMbtchers);
+            hbndshbker.setUseCipherSuitesOrder(preferLocblCipherSuites);
         } else {
-            handshaker = new ClientHandshaker(this, sslContext,
-                    enabledProtocols,
-                    protocolVersion, connectionState == cs_HANDSHAKE,
-                    secureRenegotiation, clientVerifyData, serverVerifyData);
-            handshaker.setSNIServerNames(serverNames);
+            hbndshbker = new ClientHbndshbker(this, sslContext,
+                    enbbledProtocols,
+                    protocolVersion, connectionStbte == cs_HANDSHAKE,
+                    secureRenegotibtion, clientVerifyDbtb, serverVerifyDbtb);
+            hbndshbker.setSNIServerNbmes(serverNbmes);
         }
-        handshaker.setEnabledCipherSuites(enabledCipherSuites);
-        handshaker.setEnableSessionCreation(enableSessionCreation);
+        hbndshbker.setEnbbledCipherSuites(enbbledCipherSuites);
+        hbndshbker.setEnbbleSessionCrebtion(enbbleSessionCrebtion);
     }
 
     /*
-     * Report the current status of the Handshaker
+     * Report the current stbtus of the Hbndshbker
      */
-    private HandshakeStatus getHSStatus(HandshakeStatus hss) {
+    privbte HbndshbkeStbtus getHSStbtus(HbndshbkeStbtus hss) {
 
         if (hss != null) {
             return hss;
         }
 
         synchronized (this) {
-            if (writer.hasOutboundData()) {
-                return HandshakeStatus.NEED_WRAP;
-            } else if (handshaker != null) {
-                if (handshaker.taskOutstanding()) {
-                    return HandshakeStatus.NEED_TASK;
+            if (writer.hbsOutboundDbtb()) {
+                return HbndshbkeStbtus.NEED_WRAP;
+            } else if (hbndshbker != null) {
+                if (hbndshbker.tbskOutstbnding()) {
+                    return HbndshbkeStbtus.NEED_TASK;
                 } else {
-                    return HandshakeStatus.NEED_UNWRAP;
+                    return HbndshbkeStbtus.NEED_UNWRAP;
                 }
-            } else if (connectionState == cs_CLOSED) {
+            } else if (connectionStbte == cs_CLOSED) {
                 /*
-                 * Special case where we're closing, but
+                 * Specibl cbse where we're closing, but
                  * still need the close_notify before we
-                 * can officially be closed.
+                 * cbn officiblly be closed.
                  *
-                 * Note isOutboundDone is taken care of by
-                 * hasOutboundData() above.
+                 * Note isOutboundDone is tbken cbre of by
+                 * hbsOutboundDbtb() bbove.
                  */
                 if (!isInboundDone()) {
-                    return HandshakeStatus.NEED_UNWRAP;
-                } // else not handshaking
+                    return HbndshbkeStbtus.NEED_UNWRAP;
+                } // else not hbndshbking
             }
 
-            return HandshakeStatus.NOT_HANDSHAKING;
+            return HbndshbkeStbtus.NOT_HANDSHAKING;
         }
     }
 
-    synchronized private void checkTaskThrown() throws SSLException {
-        if (handshaker != null) {
-            handshaker.checkThrown();
+    synchronized privbte void checkTbskThrown() throws SSLException {
+        if (hbndshbker != null) {
+            hbndshbker.checkThrown();
         }
     }
 
     //
-    // Handshaking and connection state code
+    // Hbndshbking bnd connection stbte code
     //
 
     /*
-     * Provides "this" synchronization for connection state.
-     * Otherwise, you can access it directly.
+     * Provides "this" synchronizbtion for connection stbte.
+     * Otherwise, you cbn bccess it directly.
      */
-    synchronized private int getConnectionState() {
-        return connectionState;
+    synchronized privbte int getConnectionStbte() {
+        return connectionStbte;
     }
 
-    synchronized private void setConnectionState(int state) {
-        connectionState = state;
+    synchronized privbte void setConnectionStbte(int stbte) {
+        connectionStbte = stbte;
     }
 
     /*
      * Get the Access Control Context.
      *
-     * Used for a known context to
-     * run tasks in, and for determining which credentials
-     * to use for Subject-based (JAAS) decisions.
+     * Used for b known context to
+     * run tbsks in, bnd for determining which credentibls
+     * to use for Subject-bbsed (JAAS) decisions.
      */
     AccessControlContext getAcc() {
-        return acc;
+        return bcc;
     }
 
     /*
-     * Is a handshake currently underway?
+     * Is b hbndshbke currently underwby?
      */
     @Override
-    public SSLEngineResult.HandshakeStatus getHandshakeStatus() {
-        return getHSStatus(null);
+    public SSLEngineResult.HbndshbkeStbtus getHbndshbkeStbtus() {
+        return getHSStbtus(null);
     }
 
     /*
-     * When a connection finishes handshaking by enabling use of a newly
-     * negotiated session, each end learns about it in two halves (read,
-     * and write).  When both read and write ciphers have changed, and the
-     * last handshake message has been read, the connection has joined
+     * When b connection finishes hbndshbking by enbbling use of b newly
+     * negotibted session, ebch end lebrns bbout it in two hblves (rebd,
+     * bnd write).  When both rebd bnd write ciphers hbve chbnged, bnd the
+     * lbst hbndshbke messbge hbs been rebd, the connection hbs joined
      * (rejoined) the new session.
      *
-     * NOTE:  The SSLv3 spec is rather unclear on the concepts here.
-     * Sessions don't change once they're established (including cipher
-     * suite and master secret) but connections can join them (and leave
-     * them).  They're created by handshaking, though sometime handshaking
-     * causes connections to join up with pre-established sessions.
+     * NOTE:  The SSLv3 spec is rbther unclebr on the concepts here.
+     * Sessions don't chbnge once they're estbblished (including cipher
+     * suite bnd mbster secret) but connections cbn join them (bnd lebve
+     * them).  They're crebted by hbndshbking, though sometime hbndshbking
+     * cbuses connections to join up with pre-estbblished sessions.
      *
-     * Synchronized on "this" from readRecord.
+     * Synchronized on "this" from rebdRecord.
      */
-    private void changeReadCiphers() throws SSLException {
-        if (connectionState != cs_HANDSHAKE
-                && connectionState != cs_RENEGOTIATE) {
+    privbte void chbngeRebdCiphers() throws SSLException {
+        if (connectionStbte != cs_HANDSHAKE
+                && connectionStbte != cs_RENEGOTIATE) {
             throw new SSLProtocolException(
-                "State error, change cipher specs");
+                "Stbte error, chbnge cipher specs");
         }
 
-        // ... create decompressor
+        // ... crebte decompressor
 
-        CipherBox oldCipher = readCipher;
+        CipherBox oldCipher = rebdCipher;
 
         try {
-            readCipher = handshaker.newReadCipher();
-            readAuthenticator = handshaker.newReadAuthenticator();
-        } catch (GeneralSecurityException e) {
-            // "can't happen"
+            rebdCipher = hbndshbker.newRebdCipher();
+            rebdAuthenticbtor = hbndshbker.newRebdAuthenticbtor();
+        } cbtch (GenerblSecurityException e) {
+            // "cbn't hbppen"
             throw new SSLException("Algorithm missing:  ", e);
         }
 
         /*
-         * Dispose of any intermediate state in the underlying cipher.
-         * For PKCS11 ciphers, this will release any attached sessions,
-         * and thus make finalization faster.
+         * Dispose of bny intermedibte stbte in the underlying cipher.
+         * For PKCS11 ciphers, this will relebse bny bttbched sessions,
+         * bnd thus mbke finblizbtion fbster.
          *
-         * Since MAC's doFinal() is called for every SSL/TLS packet, it's
-         * not necessary to do the same with MAC's.
+         * Since MAC's doFinbl() is cblled for every SSL/TLS pbcket, it's
+         * not necessbry to do the sbme with MAC's.
          */
         oldCipher.dispose();
     }
 
     /*
-     * used by Handshaker to change the active write cipher, follows
-     * the output of the CCS message.
+     * used by Hbndshbker to chbnge the bctive write cipher, follows
+     * the output of the CCS messbge.
      *
-     * Also synchronized on "this" from readRecord/delegatedTask.
+     * Also synchronized on "this" from rebdRecord/delegbtedTbsk.
      */
-    void changeWriteCiphers() throws SSLException {
-        if (connectionState != cs_HANDSHAKE
-                && connectionState != cs_RENEGOTIATE) {
+    void chbngeWriteCiphers() throws SSLException {
+        if (connectionStbte != cs_HANDSHAKE
+                && connectionStbte != cs_RENEGOTIATE) {
             throw new SSLProtocolException(
-                "State error, change cipher specs");
+                "Stbte error, chbnge cipher specs");
         }
 
-        // ... create compressor
+        // ... crebte compressor
 
         CipherBox oldCipher = writeCipher;
 
         try {
-            writeCipher = handshaker.newWriteCipher();
-            writeAuthenticator = handshaker.newWriteAuthenticator();
-        } catch (GeneralSecurityException e) {
-            // "can't happen"
+            writeCipher = hbndshbker.newWriteCipher();
+            writeAuthenticbtor = hbndshbker.newWriteAuthenticbtor();
+        } cbtch (GenerblSecurityException e) {
+            // "cbn't hbppen"
             throw new SSLException("Algorithm missing:  ", e);
         }
 
-        // See comment above.
+        // See comment bbove.
         oldCipher.dispose();
 
-        // reset the flag of the first application record
+        // reset the flbg of the first bpplicbtion record
         isFirstAppOutputRecord = true;
     }
 
     /*
-     * Updates the SSL version associated with this connection.
-     * Called from Handshaker once it has determined the negotiated version.
+     * Updbtes the SSL version bssocibted with this connection.
+     * Cblled from Hbndshbker once it hbs determined the negotibted version.
      */
     synchronized void setVersion(ProtocolVersion protocolVersion) {
         this.protocolVersion = protocolVersion;
@@ -653,331 +653,331 @@ final public class SSLEngineImpl extends SSLEngine {
 
 
     /**
-     * Kickstart the handshake if it is not already in progress.
-     * This means:
+     * Kickstbrt the hbndshbke if it is not blrebdy in progress.
+     * This mebns:
      *
-     *  . if handshaking is already underway, do nothing and return
+     *  . if hbndshbking is blrebdy underwby, do nothing bnd return
      *
-     *  . if the engine is not connected or already closed, throw an
+     *  . if the engine is not connected or blrebdy closed, throw bn
      *    Exception.
      *
-     *  . otherwise, call initHandshake() to initialize the handshaker
-     *    object and progress the state. Then, send the initial
-     *    handshaking message if appropriate (always on clients and
-     *    on servers when renegotiating).
+     *  . otherwise, cbll initHbndshbke() to initiblize the hbndshbker
+     *    object bnd progress the stbte. Then, send the initibl
+     *    hbndshbking messbge if bppropribte (blwbys on clients bnd
+     *    on servers when renegotibting).
      */
-    private synchronized void kickstartHandshake() throws IOException {
-        switch (connectionState) {
+    privbte synchronized void kickstbrtHbndshbke() throws IOException {
+        switch (connectionStbte) {
 
-        case cs_START:
+        cbse cs_START:
             if (!serverModeSet) {
-                throw new IllegalStateException(
+                throw new IllegblStbteException(
                     "Client/Server mode not yet set.");
             }
-            initHandshaker();
-            break;
+            initHbndshbker();
+            brebk;
 
-        case cs_HANDSHAKE:
-            // handshaker already setup, proceed
-            break;
+        cbse cs_HANDSHAKE:
+            // hbndshbker blrebdy setup, proceed
+            brebk;
 
-        case cs_DATA:
-            if (!secureRenegotiation && !Handshaker.allowUnsafeRenegotiation) {
-                throw new SSLHandshakeException(
-                        "Insecure renegotiation is not allowed");
+        cbse cs_DATA:
+            if (!secureRenegotibtion && !Hbndshbker.bllowUnsbfeRenegotibtion) {
+                throw new SSLHbndshbkeException(
+                        "Insecure renegotibtion is not bllowed");
             }
 
-            if (!secureRenegotiation) {
-                if (debug != null && Debug.isOn("handshake")) {
+            if (!secureRenegotibtion) {
+                if (debug != null && Debug.isOn("hbndshbke")) {
                     System.out.println(
-                        "Warning: Using insecure renegotiation");
+                        "Wbrning: Using insecure renegotibtion");
                 }
             }
 
-            // initialize the handshaker, move to cs_RENEGOTIATE
-            initHandshaker();
-            break;
+            // initiblize the hbndshbker, move to cs_RENEGOTIATE
+            initHbndshbker();
+            brebk;
 
-        case cs_RENEGOTIATE:
-            // handshaking already in progress, return
+        cbse cs_RENEGOTIATE:
+            // hbndshbking blrebdy in progress, return
             return;
 
-        default:
+        defbult:
             // cs_ERROR/cs_CLOSED
             throw new SSLException("SSLEngine is closing/closed");
         }
 
         //
-        // Kickstart handshake state machine if we need to ...
+        // Kickstbrt hbndshbke stbte mbchine if we need to ...
         //
-        // Note that handshaker.kickstart() writes the message
-        // to its HandshakeOutStream, which calls back into
+        // Note thbt hbndshbker.kickstbrt() writes the messbge
+        // to its HbndshbkeOutStrebm, which cblls bbck into
         // SSLSocketImpl.writeRecord() to send it.
         //
-        if (!handshaker.activated()) {
-             // prior to handshaking, activate the handshake
-            if (connectionState == cs_RENEGOTIATE) {
-                // don't use SSLv2Hello when renegotiating
-                handshaker.activate(protocolVersion);
+        if (!hbndshbker.bctivbted()) {
+             // prior to hbndshbking, bctivbte the hbndshbke
+            if (connectionStbte == cs_RENEGOTIATE) {
+                // don't use SSLv2Hello when renegotibting
+                hbndshbker.bctivbte(protocolVersion);
             } else {
-                handshaker.activate(null);
+                hbndshbker.bctivbte(null);
             }
 
-            if (handshaker instanceof ClientHandshaker) {
+            if (hbndshbker instbnceof ClientHbndshbker) {
                 // send client hello
-                handshaker.kickstart();
-            } else {    // instanceof ServerHandshaker
-                if (connectionState == cs_HANDSHAKE) {
-                    // initial handshake, no kickstart message to send
+                hbndshbker.kickstbrt();
+            } else {    // instbnceof ServerHbndshbker
+                if (connectionStbte == cs_HANDSHAKE) {
+                    // initibl hbndshbke, no kickstbrt messbge to send
                 } else {
-                    // we want to renegotiate, send hello request
-                    handshaker.kickstart();
+                    // we wbnt to renegotibte, send hello request
+                    hbndshbker.kickstbrt();
 
-                    // hello request is not included in the handshake
-                    // hashes, reset them
-                    handshaker.handshakeHash.reset();
+                    // hello request is not included in the hbndshbke
+                    // hbshes, reset them
+                    hbndshbker.hbndshbkeHbsh.reset();
                 }
             }
         }
     }
 
     /*
-     * Start a SSLEngine handshake
+     * Stbrt b SSLEngine hbndshbke
      */
     @Override
-    public void beginHandshake() throws SSLException {
+    public void beginHbndshbke() throws SSLException {
         try {
-            kickstartHandshake();
-        } catch (Exception e) {
-            fatal(Alerts.alert_handshake_failure,
-                "Couldn't kickstart handshaking", e);
+            kickstbrtHbndshbke();
+        } cbtch (Exception e) {
+            fbtbl(Alerts.blert_hbndshbke_fbilure,
+                "Couldn't kickstbrt hbndshbking", e);
         }
     }
 
 
     //
-    // Read/unwrap side
+    // Rebd/unwrbp side
     //
 
 
     /**
-     * Unwraps a buffer.  Does a variety of checks before grabbing
-     * the unwrapLock, which blocks multiple unwraps from occurring.
+     * Unwrbps b buffer.  Does b vbriety of checks before grbbbing
+     * the unwrbpLock, which blocks multiple unwrbps from occurring.
      */
     @Override
-    public SSLEngineResult unwrap(ByteBuffer netData, ByteBuffer [] appData,
+    public SSLEngineResult unwrbp(ByteBuffer netDbtb, ByteBuffer [] bppDbtb,
             int offset, int length) throws SSLException {
 
-        EngineArgs ea = new EngineArgs(netData, appData, offset, length);
+        EngineArgs eb = new EngineArgs(netDbtb, bppDbtb, offset, length);
 
         try {
-            synchronized (unwrapLock) {
-                return readNetRecord(ea);
+            synchronized (unwrbpLock) {
+                return rebdNetRecord(eb);
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             /*
              * Don't reset position so it looks like we didn't
-             * consume anything.  We did consume something, and it
-             * got us into this situation, so report that much back.
-             * Our days of consuming are now over anyway.
+             * consume bnything.  We did consume something, bnd it
+             * got us into this situbtion, so report thbt much bbck.
+             * Our dbys of consuming bre now over bnywby.
              */
-            fatal(Alerts.alert_internal_error,
-                "problem unwrapping net record", e);
-            return null;  // make compiler happy
-        } finally {
+            fbtbl(Alerts.blert_internbl_error,
+                "problem unwrbpping net record", e);
+            return null;  // mbke compiler hbppy
+        } finblly {
             /*
-             * Just in case something failed to reset limits properly.
+             * Just in cbse something fbiled to reset limits properly.
              */
-            ea.resetLim();
+            eb.resetLim();
         }
     }
 
     /*
-     * Makes additional checks for unwrap, but this time more
-     * specific to this packet and the current state of the machine.
+     * Mbkes bdditionbl checks for unwrbp, but this time more
+     * specific to this pbcket bnd the current stbte of the mbchine.
      */
-    private SSLEngineResult readNetRecord(EngineArgs ea) throws IOException {
+    privbte SSLEngineResult rebdNetRecord(EngineArgs eb) throws IOException {
 
-        Status status = null;
-        HandshakeStatus hsStatus = null;
+        Stbtus stbtus = null;
+        HbndshbkeStbtus hsStbtus = null;
 
         /*
-         * See if the handshaker needs to report back some SSLException.
+         * See if the hbndshbker needs to report bbck some SSLException.
          */
-        checkTaskThrown();
+        checkTbskThrown();
 
         /*
-         * Check if we are closing/closed.
+         * Check if we bre closing/closed.
          */
         if (isInboundDone()) {
-            return new SSLEngineResult(Status.CLOSED, getHSStatus(null), 0, 0);
+            return new SSLEngineResult(Stbtus.CLOSED, getHSStbtus(null), 0, 0);
         }
 
         /*
-         * If we're still in cs_HANDSHAKE, make sure it's been
-         * started.
+         * If we're still in cs_HANDSHAKE, mbke sure it's been
+         * stbrted.
          */
         synchronized (this) {
-            if ((connectionState == cs_HANDSHAKE) ||
-                    (connectionState == cs_START)) {
-                kickstartHandshake();
+            if ((connectionStbte == cs_HANDSHAKE) ||
+                    (connectionStbte == cs_START)) {
+                kickstbrtHbndshbke();
 
                 /*
-                 * If there's still outbound data to flush, we
-                 * can return without trying to unwrap anything.
+                 * If there's still outbound dbtb to flush, we
+                 * cbn return without trying to unwrbp bnything.
                  */
-                hsStatus = getHSStatus(null);
+                hsStbtus = getHSStbtus(null);
 
-                if (hsStatus == HandshakeStatus.NEED_WRAP) {
-                    return new SSLEngineResult(Status.OK, hsStatus, 0, 0);
+                if (hsStbtus == HbndshbkeStbtus.NEED_WRAP) {
+                    return new SSLEngineResult(Stbtus.OK, hsStbtus, 0, 0);
                 }
             }
         }
 
         /*
-         * Grab a copy of this if it doesn't already exist,
-         * and we can use it several places before anything major
-         * happens on this side.  Races aren't critical
+         * Grbb b copy of this if it doesn't blrebdy exist,
+         * bnd we cbn use it severbl plbces before bnything mbjor
+         * hbppens on this side.  Rbces bren't criticbl
          * here.
          */
-        if (hsStatus == null) {
-            hsStatus = getHSStatus(null);
+        if (hsStbtus == null) {
+            hsStbtus = getHSStbtus(null);
         }
 
         /*
-         * If we have a task outstanding, this *MUST* be done before
-         * doing any more unwrapping, because we could be in the middle
-         * of receiving a handshake message, for example, a finished
-         * message which would change the ciphers.
+         * If we hbve b tbsk outstbnding, this *MUST* be done before
+         * doing bny more unwrbpping, becbuse we could be in the middle
+         * of receiving b hbndshbke messbge, for exbmple, b finished
+         * messbge which would chbnge the ciphers.
          */
-        if (hsStatus == HandshakeStatus.NEED_TASK) {
+        if (hsStbtus == HbndshbkeStbtus.NEED_TASK) {
             return new SSLEngineResult(
-                Status.OK, hsStatus, 0, 0);
+                Stbtus.OK, hsStbtus, 0, 0);
         }
 
         /*
-         * Check the packet to make sure enough is here.
-         * This will also indirectly check for 0 len packets.
+         * Check the pbcket to mbke sure enough is here.
+         * This will blso indirectly check for 0 len pbckets.
          */
-        int packetLen = inputRecord.bytesInCompletePacket(ea.netData);
+        int pbcketLen = inputRecord.bytesInCompletePbcket(eb.netDbtb);
 
-        // Is this packet bigger than SSL/TLS normally allows?
-        if (packetLen > sess.getPacketBufferSize()) {
-            if (packetLen > Record.maxLargeRecordSize) {
+        // Is this pbcket bigger thbn SSL/TLS normblly bllows?
+        if (pbcketLen > sess.getPbcketBufferSize()) {
+            if (pbcketLen > Record.mbxLbrgeRecordSize) {
                 throw new SSLProtocolException(
-                    "Input SSL/TLS record too big: max = " +
-                    Record.maxLargeRecordSize +
-                    " len = " + packetLen);
+                    "Input SSL/TLS record too big: mbx = " +
+                    Record.mbxLbrgeRecordSize +
+                    " len = " + pbcketLen);
             } else {
-                // Expand the expected maximum packet/application buffer
+                // Expbnd the expected mbximum pbcket/bpplicbtion buffer
                 // sizes.
-                sess.expandBufferSizes();
+                sess.expbndBufferSizes();
             }
         }
 
         /*
          * Check for OVERFLOW.
          *
-         * To be considered: We could delay enforcing the application buffer
-         * free space requirement until after the initial handshaking.
+         * To be considered: We could delby enforcing the bpplicbtion buffer
+         * free spbce requirement until bfter the initibl hbndshbking.
          */
-        if ((packetLen - Record.headerSize) > ea.getAppRemaining()) {
-            return new SSLEngineResult(Status.BUFFER_OVERFLOW, hsStatus, 0, 0);
+        if ((pbcketLen - Record.hebderSize) > eb.getAppRembining()) {
+            return new SSLEngineResult(Stbtus.BUFFER_OVERFLOW, hsStbtus, 0, 0);
         }
 
         // check for UNDERFLOW.
-        if ((packetLen == -1) || (ea.netData.remaining() < packetLen)) {
+        if ((pbcketLen == -1) || (eb.netDbtb.rembining() < pbcketLen)) {
             return new SSLEngineResult(
-                Status.BUFFER_UNDERFLOW, hsStatus, 0, 0);
+                Stbtus.BUFFER_UNDERFLOW, hsStbtus, 0, 0);
         }
 
         /*
-         * We're now ready to actually do the read.
-         * The only result code we really need to be exactly
-         * right is the HS finished, for signaling to
-         * HandshakeCompletedListeners.
+         * We're now rebdy to bctublly do the rebd.
+         * The only result code we reblly need to be exbctly
+         * right is the HS finished, for signbling to
+         * HbndshbkeCompletedListeners.
          */
         try {
-            hsStatus = readRecord(ea);
-        } catch (SSLException e) {
+            hsStbtus = rebdRecord(eb);
+        } cbtch (SSLException e) {
             throw e;
-        } catch (IOException e) {
-            throw new SSLException("readRecord", e);
+        } cbtch (IOException e) {
+            throw new SSLException("rebdRecord", e);
         }
 
         /*
-         * Check the various condition that we could be reporting.
+         * Check the vbrious condition thbt we could be reporting.
          *
-         * It's *possible* something might have happened between the
-         * above and now, but it was better to minimally lock "this"
-         * during the read process.  We'll return the current
-         * status, which is more representative of the current state.
+         * It's *possible* something might hbve hbppened between the
+         * bbove bnd now, but it wbs better to minimblly lock "this"
+         * during the rebd process.  We'll return the current
+         * stbtus, which is more representbtive of the current stbte.
          *
-         * status above should cover:  FINISHED, NEED_TASK
+         * stbtus bbove should cover:  FINISHED, NEED_TASK
          */
-        status = (isInboundDone() ? Status.CLOSED : Status.OK);
-        hsStatus = getHSStatus(hsStatus);
+        stbtus = (isInboundDone() ? Stbtus.CLOSED : Stbtus.OK);
+        hsStbtus = getHSStbtus(hsStbtus);
 
-        return new SSLEngineResult(status, hsStatus,
-            ea.deltaNet(), ea.deltaApp());
+        return new SSLEngineResult(stbtus, hsStbtus,
+            eb.deltbNet(), eb.deltbApp());
     }
 
     /*
-     * Actually do the read record processing.
+     * Actublly do the rebd record processing.
      *
-     * Returns a Status if it can make specific determinations
-     * of the engine state.  In particular, we need to signal
-     * that a handshake just completed.
+     * Returns b Stbtus if it cbn mbke specific determinbtions
+     * of the engine stbte.  In pbrticulbr, we need to signbl
+     * thbt b hbndshbke just completed.
      *
-     * It would be nice to be symmetrical with the write side and move
-     * the majority of this to EngineInputRecord, but there's too much
-     * SSLEngine state to do that cleanly.  It must still live here.
+     * It would be nice to be symmetricbl with the write side bnd move
+     * the mbjority of this to EngineInputRecord, but there's too much
+     * SSLEngine stbte to do thbt clebnly.  It must still live here.
      */
-    private HandshakeStatus readRecord(EngineArgs ea) throws IOException {
+    privbte HbndshbkeStbtus rebdRecord(EngineArgs eb) throws IOException {
 
-        HandshakeStatus hsStatus = null;
+        HbndshbkeStbtus hsStbtus = null;
 
         /*
-         * The various operations will return new sliced BB's,
-         * this will avoid having to worry about positions and
+         * The vbrious operbtions will return new sliced BB's,
+         * this will bvoid hbving to worry bbout positions bnd
          * limits in the netBB.
          */
-        ByteBuffer readBB = null;
+        ByteBuffer rebdBB = null;
         ByteBuffer decryptedBB = null;
 
-        if (getConnectionState() != cs_ERROR) {
+        if (getConnectionStbte() != cs_ERROR) {
 
             /*
-             * Read a record ... maybe emitting an alert if we get a
-             * comprehensible but unsupported "hello" message during
-             * format checking (e.g. V2).
+             * Rebd b record ... mbybe emitting bn blert if we get b
+             * comprehensible but unsupported "hello" messbge during
+             * formbt checking (e.g. V2).
              */
             try {
-                readBB = inputRecord.read(ea.netData);
-            } catch (IOException e) {
-                fatal(Alerts.alert_unexpected_message, e);
+                rebdBB = inputRecord.rebd(eb.netDbtb);
+            } cbtch (IOException e) {
+                fbtbl(Alerts.blert_unexpected_messbge, e);
             }
 
             /*
-             * The basic SSLv3 record protection involves (optional)
-             * encryption for privacy, and an integrity check ensuring
-             * data origin authentication.  We do them both here, and
-             * throw a fatal alert if the integrity check fails.
+             * The bbsic SSLv3 record protection involves (optionbl)
+             * encryption for privbcy, bnd bn integrity check ensuring
+             * dbtb origin buthenticbtion.  We do them both here, bnd
+             * throw b fbtbl blert if the integrity check fbils.
              */
             try {
                 decryptedBB = inputRecord.decrypt(
-                                    readAuthenticator, readCipher, readBB);
-            } catch (BadPaddingException e) {
-                byte alertType = (inputRecord.contentType() ==
-                    Record.ct_handshake) ?
-                        Alerts.alert_handshake_failure :
-                        Alerts.alert_bad_record_mac;
-                fatal(alertType, e.getMessage(), e);
+                                    rebdAuthenticbtor, rebdCipher, rebdBB);
+            } cbtch (BbdPbddingException e) {
+                byte blertType = (inputRecord.contentType() ==
+                    Record.ct_hbndshbke) ?
+                        Alerts.blert_hbndshbke_fbilure :
+                        Alerts.blert_bbd_record_mbc;
+                fbtbl(blertType, e.getMessbge(), e);
             }
 
             // if (!inputRecord.decompress(c))
-            //     fatal(Alerts.alert_decompression_failure,
-            //     "decompression failure");
+            //     fbtbl(Alerts.blert_decompression_fbilure,
+            //     "decompression fbilure");
 
 
             /*
@@ -986,368 +986,368 @@ final public class SSLEngineImpl extends SSLEngine {
 
             synchronized (this) {
                 switch (inputRecord.contentType()) {
-                case Record.ct_handshake:
+                cbse Record.ct_hbndshbke:
                     /*
-                     * Handshake messages always go to a pending session
-                     * handshaker ... if there isn't one, create one.  This
-                     * must work asynchronously, for renegotiation.
+                     * Hbndshbke messbges blwbys go to b pending session
+                     * hbndshbker ... if there isn't one, crebte one.  This
+                     * must work bsynchronously, for renegotibtion.
                      *
-                     * NOTE that handshaking will either resume a session
-                     * which was in the cache (and which might have other
-                     * connections in it already), or else will start a new
-                     * session (new keys exchanged) with just this connection
+                     * NOTE thbt hbndshbking will either resume b session
+                     * which wbs in the cbche (bnd which might hbve other
+                     * connections in it blrebdy), or else will stbrt b new
+                     * session (new keys exchbnged) with just this connection
                      * in it.
                      */
-                    initHandshaker();
-                    if (!handshaker.activated()) {
-                        // prior to handshaking, activate the handshake
-                        if (connectionState == cs_RENEGOTIATE) {
-                            // don't use SSLv2Hello when renegotiating
-                            handshaker.activate(protocolVersion);
+                    initHbndshbker();
+                    if (!hbndshbker.bctivbted()) {
+                        // prior to hbndshbking, bctivbte the hbndshbke
+                        if (connectionStbte == cs_RENEGOTIATE) {
+                            // don't use SSLv2Hello when renegotibting
+                            hbndshbker.bctivbte(protocolVersion);
                         } else {
-                            handshaker.activate(null);
+                            hbndshbker.bctivbte(null);
                         }
                     }
 
                     /*
-                     * process the handshake record ... may contain just
-                     * a partial handshake message or multiple messages.
+                     * process the hbndshbke record ... mby contbin just
+                     * b pbrtibl hbndshbke messbge or multiple messbges.
                      *
-                     * The handshaker state machine will ensure that it's
-                     * a finished message.
+                     * The hbndshbker stbte mbchine will ensure thbt it's
+                     * b finished messbge.
                      */
-                    handshaker.process_record(inputRecord, expectingFinished);
-                    expectingFinished = false;
+                    hbndshbker.process_record(inputRecord, expectingFinished);
+                    expectingFinished = fblse;
 
-                    if (handshaker.invalidated) {
-                        handshaker = null;
-                        // if state is cs_RENEGOTIATE, revert it to cs_DATA
-                        if (connectionState == cs_RENEGOTIATE) {
-                            connectionState = cs_DATA;
+                    if (hbndshbker.invblidbted) {
+                        hbndshbker = null;
+                        // if stbte is cs_RENEGOTIATE, revert it to cs_DATA
+                        if (connectionStbte == cs_RENEGOTIATE) {
+                            connectionStbte = cs_DATA;
                         }
-                    } else if (handshaker.isDone()) {
-                        // reset the parameters for secure renegotiation.
-                        secureRenegotiation =
-                                        handshaker.isSecureRenegotiation();
-                        clientVerifyData = handshaker.getClientVerifyData();
-                        serverVerifyData = handshaker.getServerVerifyData();
+                    } else if (hbndshbker.isDone()) {
+                        // reset the pbrbmeters for secure renegotibtion.
+                        secureRenegotibtion =
+                                        hbndshbker.isSecureRenegotibtion();
+                        clientVerifyDbtb = hbndshbker.getClientVerifyDbtb();
+                        serverVerifyDbtb = hbndshbker.getServerVerifyDbtb();
 
-                        sess = handshaker.getSession();
-                        handshakeSession = null;
-                        if (!writer.hasOutboundData()) {
-                            hsStatus = HandshakeStatus.FINISHED;
+                        sess = hbndshbker.getSession();
+                        hbndshbkeSession = null;
+                        if (!writer.hbsOutboundDbtb()) {
+                            hsStbtus = HbndshbkeStbtus.FINISHED;
                         }
-                        handshaker = null;
-                        connectionState = cs_DATA;
+                        hbndshbker = null;
+                        connectionStbte = cs_DATA;
 
-                        // No handshakeListeners here.  That's a
+                        // No hbndshbkeListeners here.  Thbt's b
                         // SSLSocket thing.
-                    } else if (handshaker.taskOutstanding()) {
-                        hsStatus = HandshakeStatus.NEED_TASK;
+                    } else if (hbndshbker.tbskOutstbnding()) {
+                        hsStbtus = HbndshbkeStbtus.NEED_TASK;
                     }
-                    break;
+                    brebk;
 
-                case Record.ct_application_data:
-                    // Pass this right back up to the application.
-                    if ((connectionState != cs_DATA)
-                            && (connectionState != cs_RENEGOTIATE)
-                            && (connectionState != cs_CLOSED)) {
+                cbse Record.ct_bpplicbtion_dbtb:
+                    // Pbss this right bbck up to the bpplicbtion.
+                    if ((connectionStbte != cs_DATA)
+                            && (connectionStbte != cs_RENEGOTIATE)
+                            && (connectionStbte != cs_CLOSED)) {
                         throw new SSLProtocolException(
-                            "Data received in non-data state: " +
-                            connectionState);
+                            "Dbtb received in non-dbtb stbte: " +
+                            connectionStbte);
                     }
 
                     if (expectingFinished) {
                         throw new SSLProtocolException
-                                ("Expecting finished message, received data");
+                                ("Expecting finished messbge, received dbtb");
                     }
 
                     /*
-                     * Don't return data once the inbound side is
+                     * Don't return dbtb once the inbound side is
                      * closed.
                      */
                     if (!inboundDone) {
-                        ea.scatter(decryptedBB.slice());
+                        eb.scbtter(decryptedBB.slice());
                     }
-                    break;
+                    brebk;
 
-                case Record.ct_alert:
+                cbse Record.ct_blert:
                     recvAlert();
-                    break;
+                    brebk;
 
-                case Record.ct_change_cipher_spec:
-                    if ((connectionState != cs_HANDSHAKE
-                                && connectionState != cs_RENEGOTIATE)
-                            || inputRecord.available() != 1
-                            || inputRecord.read() != 1) {
-                        fatal(Alerts.alert_unexpected_message,
-                            "illegal change cipher spec msg, state = "
-                            + connectionState);
+                cbse Record.ct_chbnge_cipher_spec:
+                    if ((connectionStbte != cs_HANDSHAKE
+                                && connectionStbte != cs_RENEGOTIATE)
+                            || inputRecord.bvbilbble() != 1
+                            || inputRecord.rebd() != 1) {
+                        fbtbl(Alerts.blert_unexpected_messbge,
+                            "illegbl chbnge cipher spec msg, stbte = "
+                            + connectionStbte);
                     }
 
                     //
-                    // The first message after a change_cipher_spec
-                    // record MUST be a "Finished" handshake record,
-                    // else it's a protocol violation.  We force this
-                    // to be checked by a minor tweak to the state
-                    // machine.
+                    // The first messbge bfter b chbnge_cipher_spec
+                    // record MUST be b "Finished" hbndshbke record,
+                    // else it's b protocol violbtion.  We force this
+                    // to be checked by b minor twebk to the stbte
+                    // mbchine.
                     //
-                    changeReadCiphers();
-                    // next message MUST be a finished message
+                    chbngeRebdCiphers();
+                    // next messbge MUST be b finished messbge
                     expectingFinished = true;
-                    break;
+                    brebk;
 
-                default:
+                defbult:
                     //
-                    // TLS requires that unrecognized records be ignored.
+                    // TLS requires thbt unrecognized records be ignored.
                     //
                     if (debug != null && Debug.isOn("ssl")) {
-                        System.out.println(Thread.currentThread().getName() +
+                        System.out.println(Threbd.currentThrebd().getNbme() +
                             ", Received record type: "
                             + inputRecord.contentType());
                     }
-                    break;
+                    brebk;
                 } // switch
 
                 /*
-                 * We only need to check the sequence number state for
-                 * non-handshaking record.
+                 * We only need to check the sequence number stbte for
+                 * non-hbndshbking record.
                  *
-                 * Note that in order to maintain the handshake status
-                 * properly, we check the sequence number after the last
-                 * record reading process. As we request renegotiation
-                 * or close the connection for wrapped sequence number
-                 * when there is enough sequence number space left to
-                 * handle a few more records, so the sequence number
-                 * of the last record cannot be wrapped.
+                 * Note thbt in order to mbintbin the hbndshbke stbtus
+                 * properly, we check the sequence number bfter the lbst
+                 * record rebding process. As we request renegotibtion
+                 * or close the connection for wrbpped sequence number
+                 * when there is enough sequence number spbce left to
+                 * hbndle b few more records, so the sequence number
+                 * of the lbst record cbnnot be wrbpped.
                  */
-                hsStatus = getHSStatus(hsStatus);
-                if (connectionState < cs_ERROR && !isInboundDone() &&
-                        (hsStatus == HandshakeStatus.NOT_HANDSHAKING)) {
-                    if (checkSequenceNumber(readAuthenticator,
+                hsStbtus = getHSStbtus(hsStbtus);
+                if (connectionStbte < cs_ERROR && !isInboundDone() &&
+                        (hsStbtus == HbndshbkeStbtus.NOT_HANDSHAKING)) {
+                    if (checkSequenceNumber(rebdAuthenticbtor,
                             inputRecord.contentType())) {
-                        hsStatus = getHSStatus(null);
+                        hsStbtus = getHSStbtus(null);
                     }
                 }
             } // synchronized (this)
         }
 
-        return hsStatus;
+        return hsStbtus;
     }
 
 
     //
-    // write/wrap side
+    // write/wrbp side
     //
 
 
     /**
-     * Wraps a buffer.  Does a variety of checks before grabbing
-     * the wrapLock, which blocks multiple wraps from occurring.
+     * Wrbps b buffer.  Does b vbriety of checks before grbbbing
+     * the wrbpLock, which blocks multiple wrbps from occurring.
      */
     @Override
-    public SSLEngineResult wrap(ByteBuffer [] appData,
-            int offset, int length, ByteBuffer netData) throws SSLException {
+    public SSLEngineResult wrbp(ByteBuffer [] bppDbtb,
+            int offset, int length, ByteBuffer netDbtb) throws SSLException {
 
-        EngineArgs ea = new EngineArgs(appData, offset, length, netData);
+        EngineArgs eb = new EngineArgs(bppDbtb, offset, length, netDbtb);
 
         /*
-         * We can be smarter about using smaller buffer sizes later.
-         * For now, force it to be large enough to handle any
-         * valid SSL/TLS record.
+         * We cbn be smbrter bbout using smbller buffer sizes lbter.
+         * For now, force it to be lbrge enough to hbndle bny
+         * vblid SSL/TLS record.
          */
-        if (netData.remaining() < EngineOutputRecord.maxRecordSize) {
+        if (netDbtb.rembining() < EngineOutputRecord.mbxRecordSize) {
             return new SSLEngineResult(
-                Status.BUFFER_OVERFLOW, getHSStatus(null), 0, 0);
+                Stbtus.BUFFER_OVERFLOW, getHSStbtus(null), 0, 0);
         }
 
         try {
-            synchronized (wrapLock) {
-                return writeAppRecord(ea);
+            synchronized (wrbpLock) {
+                return writeAppRecord(eb);
             }
-        } catch (Exception e) {
-            ea.resetPos();
+        } cbtch (Exception e) {
+            eb.resetPos();
 
-            fatal(Alerts.alert_internal_error,
-                "problem wrapping app data", e);
-            return null;  // make compiler happy
-        } finally {
+            fbtbl(Alerts.blert_internbl_error,
+                "problem wrbpping bpp dbtb", e);
+            return null;  // mbke compiler hbppy
+        } finblly {
             /*
-             * Just in case something didn't reset limits properly.
+             * Just in cbse something didn't reset limits properly.
              */
-            ea.resetLim();
+            eb.resetLim();
         }
     }
 
     /*
-     * Makes additional checks for unwrap, but this time more
-     * specific to this packet and the current state of the machine.
+     * Mbkes bdditionbl checks for unwrbp, but this time more
+     * specific to this pbcket bnd the current stbte of the mbchine.
      */
-    private SSLEngineResult writeAppRecord(EngineArgs ea) throws IOException {
+    privbte SSLEngineResult writeAppRecord(EngineArgs eb) throws IOException {
 
-        Status status = null;
-        HandshakeStatus hsStatus = null;
+        Stbtus stbtus = null;
+        HbndshbkeStbtus hsStbtus = null;
 
         /*
-         * See if the handshaker needs to report back some SSLException.
+         * See if the hbndshbker needs to report bbck some SSLException.
          */
-        checkTaskThrown();
+        checkTbskThrown();
 
         /*
          * short circuit if we're closed/closing.
          */
         if (writer.isOutboundDone()) {
-            return new SSLEngineResult(Status.CLOSED, getHSStatus(null), 0, 0);
+            return new SSLEngineResult(Stbtus.CLOSED, getHSStbtus(null), 0, 0);
         }
 
         /*
-         * If we're still in cs_HANDSHAKE, make sure it's been
-         * started.
+         * If we're still in cs_HANDSHAKE, mbke sure it's been
+         * stbrted.
          */
         synchronized (this) {
-            if ((connectionState == cs_HANDSHAKE) ||
-                    (connectionState == cs_START)) {
-                kickstartHandshake();
+            if ((connectionStbte == cs_HANDSHAKE) ||
+                    (connectionStbte == cs_START)) {
+                kickstbrtHbndshbke();
 
                 /*
-                 * If there's no HS data available to write, we can return
-                 * without trying to wrap anything.
+                 * If there's no HS dbtb bvbilbble to write, we cbn return
+                 * without trying to wrbp bnything.
                  */
-                hsStatus = getHSStatus(null);
+                hsStbtus = getHSStbtus(null);
 
-                if (hsStatus == HandshakeStatus.NEED_UNWRAP) {
-                    return new SSLEngineResult(Status.OK, hsStatus, 0, 0);
+                if (hsStbtus == HbndshbkeStbtus.NEED_UNWRAP) {
+                    return new SSLEngineResult(Stbtus.OK, hsStbtus, 0, 0);
                 }
             }
         }
 
         /*
-         * Grab a copy of this if it doesn't already exist,
-         * and we can use it several places before anything major
-         * happens on this side.  Races aren't critical
+         * Grbb b copy of this if it doesn't blrebdy exist,
+         * bnd we cbn use it severbl plbces before bnything mbjor
+         * hbppens on this side.  Rbces bren't criticbl
          * here.
          */
-        if (hsStatus == null) {
-            hsStatus = getHSStatus(null);
+        if (hsStbtus == null) {
+            hsStbtus = getHSStbtus(null);
         }
 
         /*
-         * If we have a task outstanding, this *MUST* be done before
-         * doing any more wrapping, because we could be in the middle
-         * of receiving a handshake message, for example, a finished
-         * message which would change the ciphers.
+         * If we hbve b tbsk outstbnding, this *MUST* be done before
+         * doing bny more wrbpping, becbuse we could be in the middle
+         * of receiving b hbndshbke messbge, for exbmple, b finished
+         * messbge which would chbnge the ciphers.
          */
-        if (hsStatus == HandshakeStatus.NEED_TASK) {
+        if (hsStbtus == HbndshbkeStbtus.NEED_TASK) {
             return new SSLEngineResult(
-                Status.OK, hsStatus, 0, 0);
+                Stbtus.OK, hsStbtus, 0, 0);
         }
 
         /*
-         * This will obtain any waiting outbound data, or will
-         * process the outbound appData.
+         * This will obtbin bny wbiting outbound dbtb, or will
+         * process the outbound bppDbtb.
          */
         try {
             synchronized (writeLock) {
-                hsStatus = writeRecord(outputRecord, ea);
+                hsStbtus = writeRecord(outputRecord, eb);
             }
-        } catch (SSLException e) {
+        } cbtch (SSLException e) {
             throw e;
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new SSLException("Write problems", e);
         }
 
         /*
-         * writeRecord might have reported some status.
-         * Now check for the remaining cases.
+         * writeRecord might hbve reported some stbtus.
+         * Now check for the rembining cbses.
          *
-         * status above should cover:  NEED_WRAP/FINISHED
+         * stbtus bbove should cover:  NEED_WRAP/FINISHED
          */
-        status = (isOutboundDone() ? Status.CLOSED : Status.OK);
-        hsStatus = getHSStatus(hsStatus);
+        stbtus = (isOutboundDone() ? Stbtus.CLOSED : Stbtus.OK);
+        hsStbtus = getHSStbtus(hsStbtus);
 
-        return new SSLEngineResult(status, hsStatus,
-            ea.deltaApp(), ea.deltaNet());
+        return new SSLEngineResult(stbtus, hsStbtus,
+            eb.deltbApp(), eb.deltbNet());
     }
 
     /*
-     * Central point to write/get all of the outgoing data.
+     * Centrbl point to write/get bll of the outgoing dbtb.
      */
-    private HandshakeStatus writeRecord(EngineOutputRecord eor,
-            EngineArgs ea) throws IOException {
+    privbte HbndshbkeStbtus writeRecord(EngineOutputRecord eor,
+            EngineArgs eb) throws IOException {
 
-        // eventually compress as well.
-        HandshakeStatus hsStatus =
-                writer.writeRecord(eor, ea, writeAuthenticator, writeCipher);
+        // eventublly compress bs well.
+        HbndshbkeStbtus hsStbtus =
+                writer.writeRecord(eor, eb, writeAuthenticbtor, writeCipher);
 
         /*
-         * We only need to check the sequence number state for
-         * non-handshaking record.
+         * We only need to check the sequence number stbte for
+         * non-hbndshbking record.
          *
-         * Note that in order to maintain the handshake status
-         * properly, we check the sequence number after the last
-         * record writing process. As we request renegotiation
-         * or close the connection for wrapped sequence number
-         * when there is enough sequence number space left to
-         * handle a few more records, so the sequence number
-         * of the last record cannot be wrapped.
+         * Note thbt in order to mbintbin the hbndshbke stbtus
+         * properly, we check the sequence number bfter the lbst
+         * record writing process. As we request renegotibtion
+         * or close the connection for wrbpped sequence number
+         * when there is enough sequence number spbce left to
+         * hbndle b few more records, so the sequence number
+         * of the lbst record cbnnot be wrbpped.
          */
-        hsStatus = getHSStatus(hsStatus);
-        if (connectionState < cs_ERROR && !isOutboundDone() &&
-                (hsStatus == HandshakeStatus.NOT_HANDSHAKING)) {
-            if (checkSequenceNumber(writeAuthenticator, eor.contentType())) {
-                hsStatus = getHSStatus(null);
+        hsStbtus = getHSStbtus(hsStbtus);
+        if (connectionStbte < cs_ERROR && !isOutboundDone() &&
+                (hsStbtus == HbndshbkeStbtus.NOT_HANDSHAKING)) {
+            if (checkSequenceNumber(writeAuthenticbtor, eor.contentType())) {
+                hsStbtus = getHSStbtus(null);
             }
         }
 
         /*
-         * turn off the flag of the first application record if we really
-         * consumed at least byte.
+         * turn off the flbg of the first bpplicbtion record if we reblly
+         * consumed bt lebst byte.
          */
-        if (isFirstAppOutputRecord && ea.deltaApp() > 0) {
-            isFirstAppOutputRecord = false;
+        if (isFirstAppOutputRecord && eb.deltbApp() > 0) {
+            isFirstAppOutputRecord = fblse;
         }
 
-        return hsStatus;
+        return hsStbtus;
     }
 
     /*
-     * Need to split the payload except the following cases:
+     * Need to split the pbylobd except the following cbses:
      *
-     * 1. protocol version is TLS 1.1 or later;
+     * 1. protocol version is TLS 1.1 or lbter;
      * 2. bulk cipher does not use CBC mode, including null bulk cipher suites.
-     * 3. the payload is the first application record of a freshly
-     *    negotiated TLS session.
-     * 4. the CBC protection is disabled;
+     * 3. the pbylobd is the first bpplicbtion record of b freshly
+     *    negotibted TLS session.
+     * 4. the CBC protection is disbbled;
      *
-     * More details, please refer to
+     * More detbils, plebse refer to
      * EngineOutputRecord.write(EngineArgs, MAC, CipherBox).
      */
-    boolean needToSplitPayload(CipherBox cipher, ProtocolVersion protocol) {
+    boolebn needToSplitPbylobd(CipherBox cipher, ProtocolVersion protocol) {
         return (protocol.v <= ProtocolVersion.TLS10.v) &&
                 cipher.isCBCMode() && !isFirstAppOutputRecord &&
-                Record.enableCBCProtection;
+                Record.enbbleCBCProtection;
     }
 
     /*
-     * Non-application OutputRecords go through here.
+     * Non-bpplicbtion OutputRecords go through here.
      */
     void writeRecord(EngineOutputRecord eor) throws IOException {
-        // eventually compress as well.
-        writer.writeRecord(eor, writeAuthenticator, writeCipher);
+        // eventublly compress bs well.
+        writer.writeRecord(eor, writeAuthenticbtor, writeCipher);
 
         /*
-         * Check the sequence number state
+         * Check the sequence number stbte
          *
-         * Note that in order to maintain the connection I/O
-         * properly, we check the sequence number after the last
-         * record writing process. As we request renegotiation
-         * or close the connection for wrapped sequence number
-         * when there is enough sequence number space left to
-         * handle a few more records, so the sequence number
-         * of the last record cannot be wrapped.
+         * Note thbt in order to mbintbin the connection I/O
+         * properly, we check the sequence number bfter the lbst
+         * record writing process. As we request renegotibtion
+         * or close the connection for wrbpped sequence number
+         * when there is enough sequence number spbce left to
+         * hbndle b few more records, so the sequence number
+         * of the lbst record cbnnot be wrbpped.
          */
-        if ((connectionState < cs_ERROR) && !isOutboundDone()) {
-            checkSequenceNumber(writeAuthenticator, eor.contentType());
+        if ((connectionStbte < cs_ERROR) && !isOutboundDone()) {
+            checkSequenceNumber(writeAuthenticbtor, eor.contentType());
         }
     }
 
@@ -1356,205 +1356,205 @@ final public class SSLEngineImpl extends SSLEngine {
     //
 
     /**
-     * Check the sequence number state
+     * Check the sequence number stbte
      *
-     * RFC 4346 states that, "Sequence numbers are of type uint64 and
-     * may not exceed 2^64-1.  Sequence numbers do not wrap. If a TLS
-     * implementation would need to wrap a sequence number, it must
-     * renegotiate instead."
+     * RFC 4346 stbtes thbt, "Sequence numbers bre of type uint64 bnd
+     * mby not exceed 2^64-1.  Sequence numbers do not wrbp. If b TLS
+     * implementbtion would need to wrbp b sequence number, it must
+     * renegotibte instebd."
      *
-     * Return true if the handshake status may be changed.
+     * Return true if the hbndshbke stbtus mby be chbnged.
      */
-    private boolean checkSequenceNumber(Authenticator authenticator, byte type)
+    privbte boolebn checkSequenceNumber(Authenticbtor buthenticbtor, byte type)
             throws IOException {
 
         /*
          * Don't bother to check the sequence number for error or
          * closed connections, or NULL MAC
          */
-        if (connectionState >= cs_ERROR || authenticator == MAC.NULL) {
-            return false;
+        if (connectionStbte >= cs_ERROR || buthenticbtor == MAC.NULL) {
+            return fblse;
         }
 
         /*
-         * Conservatively, close the connection immediately when the
+         * Conservbtively, close the connection immedibtely when the
          * sequence number is close to overflow
          */
-        if (authenticator.seqNumOverflow()) {
+        if (buthenticbtor.seqNumOverflow()) {
             /*
-             * TLS protocols do not define a error alert for sequence
-             * number overflow. We use handshake_failure error alert
-             * for handshaking and bad_record_mac for other records.
+             * TLS protocols do not define b error blert for sequence
+             * number overflow. We use hbndshbke_fbilure error blert
+             * for hbndshbking bnd bbd_record_mbc for other records.
              */
             if (debug != null && Debug.isOn("ssl")) {
-                System.out.println(Thread.currentThread().getName() +
+                System.out.println(Threbd.currentThrebd().getNbme() +
                     ", sequence number extremely close to overflow " +
-                    "(2^64-1 packets). Closing connection.");
+                    "(2^64-1 pbckets). Closing connection.");
             }
 
-            fatal(Alerts.alert_handshake_failure, "sequence number overflow");
+            fbtbl(Alerts.blert_hbndshbke_fbilure, "sequence number overflow");
 
-            return true; // make the compiler happy
+            return true; // mbke the compiler hbppy
         }
 
         /*
-         * Ask for renegotiation when need to renew sequence number.
+         * Ask for renegotibtion when need to renew sequence number.
          *
-         * Don't bother to kickstart the renegotiation when the local is
-         * asking for it.
+         * Don't bother to kickstbrt the renegotibtion when the locbl is
+         * bsking for it.
          */
-        if ((type != Record.ct_handshake) && authenticator.seqNumIsHuge()) {
+        if ((type != Record.ct_hbndshbke) && buthenticbtor.seqNumIsHuge()) {
             if (debug != null && Debug.isOn("ssl")) {
-                System.out.println(Thread.currentThread().getName() +
-                        ", request renegotiation " +
-                        "to avoid sequence number overflow");
+                System.out.println(Threbd.currentThrebd().getNbme() +
+                        ", request renegotibtion " +
+                        "to bvoid sequence number overflow");
             }
 
-            beginHandshake();
+            beginHbndshbke();
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Signals that no more outbound application data will be sent
+     * Signbls thbt no more outbound bpplicbtion dbtb will be sent
      * on this <code>SSLEngine</code>.
      */
-    private void closeOutboundInternal() {
+    privbte void closeOutboundInternbl() {
 
         if ((debug != null) && Debug.isOn("ssl")) {
-            System.out.println(Thread.currentThread().getName() +
-                                    ", closeOutboundInternal()");
+            System.out.println(Threbd.currentThrebd().getNbme() +
+                                    ", closeOutboundInternbl()");
         }
 
         /*
-         * Already closed, ignore
+         * Alrebdy closed, ignore
          */
         if (writer.isOutboundDone()) {
             return;
         }
 
-        switch (connectionState) {
+        switch (connectionStbte) {
 
         /*
-         * If we haven't even started yet, don't bother reading inbound.
+         * If we hbven't even stbrted yet, don't bother rebding inbound.
          */
-        case cs_START:
+        cbse cs_START:
             writer.closeOutbound();
             inboundDone = true;
-            break;
+            brebk;
 
-        case cs_ERROR:
-        case cs_CLOSED:
-            break;
+        cbse cs_ERROR:
+        cbse cs_CLOSED:
+            brebk;
 
         /*
-         * Otherwise we indicate clean termination.
+         * Otherwise we indicbte clebn terminbtion.
          */
-        // case cs_HANDSHAKE:
-        // case cs_DATA:
-        // case cs_RENEGOTIATE:
-        default:
-            warning(Alerts.alert_close_notify);
+        // cbse cs_HANDSHAKE:
+        // cbse cs_DATA:
+        // cbse cs_RENEGOTIATE:
+        defbult:
+            wbrning(Alerts.blert_close_notify);
             writer.closeOutbound();
-            break;
+            brebk;
         }
 
-        // See comment in changeReadCiphers()
+        // See comment in chbngeRebdCiphers()
         writeCipher.dispose();
 
-        connectionState = cs_CLOSED;
+        connectionStbte = cs_CLOSED;
     }
 
     @Override
     synchronized public void closeOutbound() {
         /*
-         * Dump out a close_notify to the remote side
+         * Dump out b close_notify to the remote side
          */
         if ((debug != null) && Debug.isOn("ssl")) {
-            System.out.println(Thread.currentThread().getName() +
-                                    ", called closeOutbound()");
+            System.out.println(Threbd.currentThrebd().getNbme() +
+                                    ", cblled closeOutbound()");
         }
 
-        closeOutboundInternal();
+        closeOutboundInternbl();
     }
 
     /**
-     * Returns the outbound application data closure state
+     * Returns the outbound bpplicbtion dbtb closure stbte
      */
     @Override
-    public boolean isOutboundDone() {
+    public boolebn isOutboundDone() {
         return writer.isOutboundDone();
     }
 
     /**
-     * Signals that no more inbound network data will be sent
+     * Signbls thbt no more inbound network dbtb will be sent
      * to this <code>SSLEngine</code>.
      */
-    private void closeInboundInternal() {
+    privbte void closeInboundInternbl() {
 
         if ((debug != null) && Debug.isOn("ssl")) {
-            System.out.println(Thread.currentThread().getName() +
-                                    ", closeInboundInternal()");
+            System.out.println(Threbd.currentThrebd().getNbme() +
+                                    ", closeInboundInternbl()");
         }
 
         /*
-         * Already closed, ignore
+         * Alrebdy closed, ignore
          */
         if (inboundDone) {
             return;
         }
 
-        closeOutboundInternal();
+        closeOutboundInternbl();
         inboundDone = true;
 
-        // See comment in changeReadCiphers()
-        readCipher.dispose();
+        // See comment in chbngeRebdCiphers()
+        rebdCipher.dispose();
 
-        connectionState = cs_CLOSED;
+        connectionStbte = cs_CLOSED;
     }
 
     /*
-     * Close the inbound side of the connection.  We grab the
-     * lock here, and do the real work in the internal verison.
-     * We do check for truncation attacks.
+     * Close the inbound side of the connection.  We grbb the
+     * lock here, bnd do the rebl work in the internbl verison.
+     * We do check for truncbtion bttbcks.
      */
     @Override
     synchronized public void closeInbound() throws SSLException {
         /*
-         * Currently closes the outbound side as well.  The IETF TLS
-         * working group has expressed the opinion that 1/2 open
-         * connections are not allowed by the spec.  May change
-         * someday in the future.
+         * Currently closes the outbound side bs well.  The IETF TLS
+         * working group hbs expressed the opinion thbt 1/2 open
+         * connections bre not bllowed by the spec.  Mby chbnge
+         * somedby in the future.
          */
         if ((debug != null) && Debug.isOn("ssl")) {
-            System.out.println(Thread.currentThread().getName() +
-                                    ", called closeInbound()");
+            System.out.println(Threbd.currentThrebd().getNbme() +
+                                    ", cblled closeInbound()");
         }
 
         /*
-         * No need to throw an Exception if we haven't even started yet.
+         * No need to throw bn Exception if we hbven't even stbrted yet.
          */
-        if ((connectionState != cs_START) && !recvCN) {
+        if ((connectionStbte != cs_START) && !recvCN) {
             recvCN = true;  // Only receive the Exception once
-            fatal(Alerts.alert_internal_error,
+            fbtbl(Alerts.blert_internbl_error,
                 "Inbound closed before receiving peer's close_notify: " +
-                "possible truncation attack?");
+                "possible truncbtion bttbck?");
         } else {
             /*
-             * Currently, this is a no-op, but in case we change
-             * the close inbound code later.
+             * Currently, this is b no-op, but in cbse we chbnge
+             * the close inbound code lbter.
              */
-            closeInboundInternal();
+            closeInboundInternbl();
         }
     }
 
     /**
-     * Returns the network inbound data closure state
+     * Returns the network inbound dbtb closure stbte
      */
     @Override
-    synchronized public boolean isInboundDone() {
+    synchronized public boolebn isInboundDone() {
         return inboundDone;
     }
 
@@ -1568,7 +1568,7 @@ final public class SSLEngineImpl extends SSLEngine {
      * Returns the current <code>SSLSession</code> for this
      * <code>SSLEngine</code>
      * <P>
-     * These can be long lived, and frequently correspond to an
+     * These cbn be long lived, bnd frequently correspond to bn
      * entire login session for some user.
      */
     @Override
@@ -1577,22 +1577,22 @@ final public class SSLEngineImpl extends SSLEngine {
     }
 
     @Override
-    synchronized public SSLSession getHandshakeSession() {
-        return handshakeSession;
+    synchronized public SSLSession getHbndshbkeSession() {
+        return hbndshbkeSession;
     }
 
-    synchronized void setHandshakeSession(SSLSessionImpl session) {
-        handshakeSession = session;
+    synchronized void setHbndshbkeSession(SSLSessionImpl session) {
+        hbndshbkeSession = session;
     }
 
     /**
-     * Returns a delegated <code>Runnable</code> task for
+     * Returns b delegbted <code>Runnbble</code> tbsk for
      * this <code>SSLEngine</code>.
      */
     @Override
-    synchronized public Runnable getDelegatedTask() {
-        if (handshaker != null) {
-            return handshaker.getTask();
+    synchronized public Runnbble getDelegbtedTbsk() {
+        if (hbndshbker != null) {
+            return hbndshbker.getTbsk();
         }
         return null;
     }
@@ -1603,218 +1603,218 @@ final public class SSLEngineImpl extends SSLEngine {
     //
 
     /*
-     * Send a warning alert.
+     * Send b wbrning blert.
      */
-    void warning(byte description) {
-        sendAlert(Alerts.alert_warning, description);
+    void wbrning(byte description) {
+        sendAlert(Alerts.blert_wbrning, description);
     }
 
-    synchronized void fatal(byte description, String diagnostic)
+    synchronized void fbtbl(byte description, String dibgnostic)
             throws SSLException {
-        fatal(description, diagnostic, null);
+        fbtbl(description, dibgnostic, null);
     }
 
-    synchronized void fatal(byte description, Throwable cause)
+    synchronized void fbtbl(byte description, Throwbble cbuse)
             throws SSLException {
-        fatal(description, null, cause);
+        fbtbl(description, null, cbuse);
     }
 
     /*
-     * We've got a fatal error here, so start the shutdown process.
+     * We've got b fbtbl error here, so stbrt the shutdown process.
      *
-     * Because of the way the code was written, we have some code
-     * calling fatal directly when the "description" is known
-     * and some throwing Exceptions which are then caught by higher
-     * levels which then call here.  This code needs to determine
-     * if one of the lower levels has already started the process.
+     * Becbuse of the wby the code wbs written, we hbve some code
+     * cblling fbtbl directly when the "description" is known
+     * bnd some throwing Exceptions which bre then cbught by higher
+     * levels which then cbll here.  This code needs to determine
+     * if one of the lower levels hbs blrebdy stbrted the process.
      *
-     * We won't worry about Error's, if we have one of those,
+     * We won't worry bbout Error's, if we hbve one of those,
      * we're in worse trouble.  Note:  the networking code doesn't
-     * deal with Errors either.
+     * debl with Errors either.
      */
-    synchronized void fatal(byte description, String diagnostic,
-            Throwable cause) throws SSLException {
+    synchronized void fbtbl(byte description, String dibgnostic,
+            Throwbble cbuse) throws SSLException {
 
         /*
-         * If we have no further information, make a general-purpose
-         * message for folks to see.  We generally have one or the other.
+         * If we hbve no further informbtion, mbke b generbl-purpose
+         * messbge for folks to see.  We generblly hbve one or the other.
          */
-        if (diagnostic == null) {
-            diagnostic = "General SSLEngine problem";
+        if (dibgnostic == null) {
+            dibgnostic = "Generbl SSLEngine problem";
         }
-        if (cause == null) {
-            cause = Alerts.getSSLException(description, cause, diagnostic);
+        if (cbuse == null) {
+            cbuse = Alerts.getSSLException(description, cbuse, dibgnostic);
         }
 
         /*
-         * If we've already shutdown because of an error,
-         * there is nothing we can do except rethrow the exception.
+         * If we've blrebdy shutdown becbuse of bn error,
+         * there is nothing we cbn do except rethrow the exception.
          *
          * Most exceptions seen here will be SSLExceptions.
-         * We may find the occasional Exception which hasn't been
-         * converted to a SSLException, so we'll do it here.
+         * We mby find the occbsionbl Exception which hbsn't been
+         * converted to b SSLException, so we'll do it here.
          */
-        if (closeReason != null) {
+        if (closeRebson != null) {
             if ((debug != null) && Debug.isOn("ssl")) {
-                System.out.println(Thread.currentThread().getName() +
-                    ", fatal: engine already closed.  Rethrowing " +
-                    cause.toString());
+                System.out.println(Threbd.currentThrebd().getNbme() +
+                    ", fbtbl: engine blrebdy closed.  Rethrowing " +
+                    cbuse.toString());
             }
-            if (cause instanceof RuntimeException) {
-                throw (RuntimeException)cause;
-            } else if (cause instanceof SSLException) {
-                throw (SSLException)cause;
-            } else if (cause instanceof Exception) {
-                throw new SSLException("fatal SSLEngine condition", cause);
+            if (cbuse instbnceof RuntimeException) {
+                throw (RuntimeException)cbuse;
+            } else if (cbuse instbnceof SSLException) {
+                throw (SSLException)cbuse;
+            } else if (cbuse instbnceof Exception) {
+                throw new SSLException("fbtbl SSLEngine condition", cbuse);
             }
         }
 
         if ((debug != null) && Debug.isOn("ssl")) {
-            System.out.println(Thread.currentThread().getName()
-                        + ", fatal error: " + description +
-                        ": " + diagnostic + "\n" + cause.toString());
+            System.out.println(Threbd.currentThrebd().getNbme()
+                        + ", fbtbl error: " + description +
+                        ": " + dibgnostic + "\n" + cbuse.toString());
         }
 
         /*
          * Ok, this engine's going down.
          */
-        int oldState = connectionState;
-        connectionState = cs_ERROR;
+        int oldStbte = connectionStbte;
+        connectionStbte = cs_ERROR;
 
         inboundDone = true;
 
-        sess.invalidate();
-        if (handshakeSession != null) {
-            handshakeSession.invalidate();
+        sess.invblidbte();
+        if (hbndshbkeSession != null) {
+            hbndshbkeSession.invblidbte();
         }
 
         /*
-         * If we haven't even started handshaking yet, no need
-         * to generate the fatal close alert.
+         * If we hbven't even stbrted hbndshbking yet, no need
+         * to generbte the fbtbl close blert.
          */
-        if (oldState != cs_START) {
-            sendAlert(Alerts.alert_fatal, description);
+        if (oldStbte != cs_START) {
+            sendAlert(Alerts.blert_fbtbl, description);
         }
 
-        if (cause instanceof SSLException) { // only true if != null
-            closeReason = (SSLException)cause;
+        if (cbuse instbnceof SSLException) { // only true if != null
+            closeRebson = (SSLException)cbuse;
         } else {
             /*
              * Including RuntimeExceptions, but we'll throw those
-             * down below.  The closeReason isn't used again,
+             * down below.  The closeRebson isn't used bgbin,
              * except for null checks.
              */
-            closeReason =
-                Alerts.getSSLException(description, cause, diagnostic);
+            closeRebson =
+                Alerts.getSSLException(description, cbuse, dibgnostic);
         }
 
         writer.closeOutbound();
 
-        connectionState = cs_CLOSED;
+        connectionStbte = cs_CLOSED;
 
-        // See comment in changeReadCiphers()
-        readCipher.dispose();
+        // See comment in chbngeRebdCiphers()
+        rebdCipher.dispose();
         writeCipher.dispose();
 
-        if (cause instanceof RuntimeException) {
-            throw (RuntimeException)cause;
+        if (cbuse instbnceof RuntimeException) {
+            throw (RuntimeException)cbuse;
         } else {
-            throw closeReason;
+            throw closeRebson;
         }
     }
 
     /*
-     * Process an incoming alert ... caller must already have synchronized
-     * access to "this".
+     * Process bn incoming blert ... cbller must blrebdy hbve synchronized
+     * bccess to "this".
      */
-    private void recvAlert() throws IOException {
-        byte level = (byte)inputRecord.read();
-        byte description = (byte)inputRecord.read();
-        if (description == -1) { // check for short message
-            fatal(Alerts.alert_illegal_parameter, "Short alert message");
+    privbte void recvAlert() throws IOException {
+        byte level = (byte)inputRecord.rebd();
+        byte description = (byte)inputRecord.rebd();
+        if (description == -1) { // check for short messbge
+            fbtbl(Alerts.blert_illegbl_pbrbmeter, "Short blert messbge");
         }
 
         if (debug != null && (Debug.isOn("record") ||
-                Debug.isOn("handshake"))) {
+                Debug.isOn("hbndshbke"))) {
             synchronized (System.out) {
-                System.out.print(Thread.currentThread().getName());
+                System.out.print(Threbd.currentThrebd().getNbme());
                 System.out.print(", RECV " + protocolVersion + " ALERT:  ");
-                if (level == Alerts.alert_fatal) {
-                    System.out.print("fatal, ");
-                } else if (level == Alerts.alert_warning) {
-                    System.out.print("warning, ");
+                if (level == Alerts.blert_fbtbl) {
+                    System.out.print("fbtbl, ");
+                } else if (level == Alerts.blert_wbrning) {
+                    System.out.print("wbrning, ");
                 } else {
                     System.out.print("<level " + (0x0ff & level) + ">, ");
                 }
-                System.out.println(Alerts.alertDescription(description));
+                System.out.println(Alerts.blertDescription(description));
             }
         }
 
-        if (level == Alerts.alert_warning) {
-            if (description == Alerts.alert_close_notify) {
-                if (connectionState == cs_HANDSHAKE) {
-                    fatal(Alerts.alert_unexpected_message,
-                                "Received close_notify during handshake");
+        if (level == Alerts.blert_wbrning) {
+            if (description == Alerts.blert_close_notify) {
+                if (connectionStbte == cs_HANDSHAKE) {
+                    fbtbl(Alerts.blert_unexpected_messbge,
+                                "Received close_notify during hbndshbke");
                 } else {
                     recvCN = true;
-                    closeInboundInternal();  // reply to close
+                    closeInboundInternbl();  // reply to close
                 }
             } else {
 
                 //
-                // The other legal warnings relate to certificates,
-                // e.g. no_certificate, bad_certificate, etc; these
-                // are important to the handshaking code, which can
-                // also handle illegal protocol alerts if needed.
+                // The other legbl wbrnings relbte to certificbtes,
+                // e.g. no_certificbte, bbd_certificbte, etc; these
+                // bre importbnt to the hbndshbking code, which cbn
+                // blso hbndle illegbl protocol blerts if needed.
                 //
-                if (handshaker != null) {
-                    handshaker.handshakeAlert(description);
+                if (hbndshbker != null) {
+                    hbndshbker.hbndshbkeAlert(description);
                 }
             }
-        } else { // fatal or unknown level
-            String reason = "Received fatal alert: "
-                + Alerts.alertDescription(description);
-            if (closeReason == null) {
-                closeReason = Alerts.getSSLException(description, reason);
+        } else { // fbtbl or unknown level
+            String rebson = "Received fbtbl blert: "
+                + Alerts.blertDescription(description);
+            if (closeRebson == null) {
+                closeRebson = Alerts.getSSLException(description, rebson);
             }
-            fatal(Alerts.alert_unexpected_message, reason);
+            fbtbl(Alerts.blert_unexpected_messbge, rebson);
         }
     }
 
 
     /*
-     * Emit alerts.  Caller must have synchronized with "this".
+     * Emit blerts.  Cbller must hbve synchronized with "this".
      */
-    private void sendAlert(byte level, byte description) {
-        // the connectionState cannot be cs_START
-        if (connectionState >= cs_CLOSED) {
+    privbte void sendAlert(byte level, byte description) {
+        // the connectionStbte cbnnot be cs_START
+        if (connectionStbte >= cs_CLOSED) {
             return;
         }
 
-        // For initial handshaking, don't send alert message to peer if
-        // handshaker has not started.
-        if (connectionState == cs_HANDSHAKE &&
-            (handshaker == null || !handshaker.started())) {
+        // For initibl hbndshbking, don't send blert messbge to peer if
+        // hbndshbker hbs not stbrted.
+        if (connectionStbte == cs_HANDSHAKE &&
+            (hbndshbker == null || !hbndshbker.stbrted())) {
             return;
         }
 
-        EngineOutputRecord r = new EngineOutputRecord(Record.ct_alert, this);
+        EngineOutputRecord r = new EngineOutputRecord(Record.ct_blert, this);
         r.setVersion(protocolVersion);
 
-        boolean useDebug = debug != null && Debug.isOn("ssl");
+        boolebn useDebug = debug != null && Debug.isOn("ssl");
         if (useDebug) {
             synchronized (System.out) {
-                System.out.print(Thread.currentThread().getName());
+                System.out.print(Threbd.currentThrebd().getNbme());
                 System.out.print(", SEND " + protocolVersion + " ALERT:  ");
-                if (level == Alerts.alert_fatal) {
-                    System.out.print("fatal, ");
-                } else if (level == Alerts.alert_warning) {
-                    System.out.print("warning, ");
+                if (level == Alerts.blert_fbtbl) {
+                    System.out.print("fbtbl, ");
+                } else if (level == Alerts.blert_wbrning) {
+                    System.out.print("wbrning, ");
                 } else {
                     System.out.print("<level = " + (0x0ff & level) + ">, ");
                 }
                 System.out.println("description = "
-                        + Alerts.alertDescription(description));
+                        + Alerts.blertDescription(description));
             }
         }
 
@@ -1822,10 +1822,10 @@ final public class SSLEngineImpl extends SSLEngine {
         r.write(description);
         try {
             writeRecord(r);
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             if (useDebug) {
-                System.out.println(Thread.currentThread().getName() +
-                    ", Exception sending alert: " + e);
+                System.out.println(Threbd.currentThrebd().getNbme() +
+                    ", Exception sending blert: " + e);
             }
         }
     }
@@ -1837,307 +1837,307 @@ final public class SSLEngineImpl extends SSLEngine {
 
 
     /**
-     * Controls whether new connections may cause creation of new SSL
+     * Controls whether new connections mby cbuse crebtion of new SSL
      * sessions.
      *
-     * As long as handshaking has not started, we can change
-     * whether we enable session creations.  Otherwise,
-     * we will need to wait for the next handshake.
+     * As long bs hbndshbking hbs not stbrted, we cbn chbnge
+     * whether we enbble session crebtions.  Otherwise,
+     * we will need to wbit for the next hbndshbke.
      */
     @Override
-    synchronized public void setEnableSessionCreation(boolean flag) {
-        enableSessionCreation = flag;
+    synchronized public void setEnbbleSessionCrebtion(boolebn flbg) {
+        enbbleSessionCrebtion = flbg;
 
-        if ((handshaker != null) && !handshaker.activated()) {
-            handshaker.setEnableSessionCreation(enableSessionCreation);
+        if ((hbndshbker != null) && !hbndshbker.bctivbted()) {
+            hbndshbker.setEnbbleSessionCrebtion(enbbleSessionCrebtion);
         }
     }
 
     /**
-     * Returns true if new connections may cause creation of new SSL
+     * Returns true if new connections mby cbuse crebtion of new SSL
      * sessions.
      */
     @Override
-    synchronized public boolean getEnableSessionCreation() {
-        return enableSessionCreation;
+    synchronized public boolebn getEnbbleSessionCrebtion() {
+        return enbbleSessionCrebtion;
     }
 
 
     /**
-     * Sets the flag controlling whether a server mode engine
-     * *REQUIRES* SSL client authentication.
+     * Sets the flbg controlling whether b server mode engine
+     * *REQUIRES* SSL client buthenticbtion.
      *
-     * As long as handshaking has not started, we can change
-     * whether client authentication is needed.  Otherwise,
-     * we will need to wait for the next handshake.
+     * As long bs hbndshbking hbs not stbrted, we cbn chbnge
+     * whether client buthenticbtion is needed.  Otherwise,
+     * we will need to wbit for the next hbndshbke.
      */
     @Override
-    synchronized public void setNeedClientAuth(boolean flag) {
-        doClientAuth = (flag ?
-            SSLEngineImpl.clauth_required : SSLEngineImpl.clauth_none);
+    synchronized public void setNeedClientAuth(boolebn flbg) {
+        doClientAuth = (flbg ?
+            SSLEngineImpl.clbuth_required : SSLEngineImpl.clbuth_none);
 
-        if ((handshaker != null) &&
-                (handshaker instanceof ServerHandshaker) &&
-                !handshaker.activated()) {
-            ((ServerHandshaker) handshaker).setClientAuth(doClientAuth);
+        if ((hbndshbker != null) &&
+                (hbndshbker instbnceof ServerHbndshbker) &&
+                !hbndshbker.bctivbted()) {
+            ((ServerHbndshbker) hbndshbker).setClientAuth(doClientAuth);
         }
     }
 
     @Override
-    synchronized public boolean getNeedClientAuth() {
-        return (doClientAuth == SSLEngineImpl.clauth_required);
+    synchronized public boolebn getNeedClientAuth() {
+        return (doClientAuth == SSLEngineImpl.clbuth_required);
     }
 
     /**
-     * Sets the flag controlling whether a server mode engine
-     * *REQUESTS* SSL client authentication.
+     * Sets the flbg controlling whether b server mode engine
+     * *REQUESTS* SSL client buthenticbtion.
      *
-     * As long as handshaking has not started, we can change
-     * whether client authentication is requested.  Otherwise,
-     * we will need to wait for the next handshake.
+     * As long bs hbndshbking hbs not stbrted, we cbn chbnge
+     * whether client buthenticbtion is requested.  Otherwise,
+     * we will need to wbit for the next hbndshbke.
      */
     @Override
-    synchronized public void setWantClientAuth(boolean flag) {
-        doClientAuth = (flag ?
-            SSLEngineImpl.clauth_requested : SSLEngineImpl.clauth_none);
+    synchronized public void setWbntClientAuth(boolebn flbg) {
+        doClientAuth = (flbg ?
+            SSLEngineImpl.clbuth_requested : SSLEngineImpl.clbuth_none);
 
-        if ((handshaker != null) &&
-                (handshaker instanceof ServerHandshaker) &&
-                !handshaker.activated()) {
-            ((ServerHandshaker) handshaker).setClientAuth(doClientAuth);
+        if ((hbndshbker != null) &&
+                (hbndshbker instbnceof ServerHbndshbker) &&
+                !hbndshbker.bctivbted()) {
+            ((ServerHbndshbker) hbndshbker).setClientAuth(doClientAuth);
         }
     }
 
     @Override
-    synchronized public boolean getWantClientAuth() {
-        return (doClientAuth == SSLEngineImpl.clauth_requested);
+    synchronized public boolebn getWbntClientAuth() {
+        return (doClientAuth == SSLEngineImpl.clbuth_requested);
     }
 
 
     /**
-     * Sets the flag controlling whether the engine is in SSL
-     * client or server mode.  Must be called before any SSL
-     * traffic has started.
+     * Sets the flbg controlling whether the engine is in SSL
+     * client or server mode.  Must be cblled before bny SSL
+     * trbffic hbs stbrted.
      */
     @Override
-    @SuppressWarnings("fallthrough")
-    synchronized public void setUseClientMode(boolean flag) {
-        switch (connectionState) {
+    @SuppressWbrnings("fbllthrough")
+    synchronized public void setUseClientMode(boolebn flbg) {
+        switch (connectionStbte) {
 
-        case cs_START:
+        cbse cs_START:
             /*
-             * If we need to change the engine mode and the enabled
-             * protocols haven't specifically been set by the user,
-             * change them to the corresponding default ones.
+             * If we need to chbnge the engine mode bnd the enbbled
+             * protocols hbven't specificblly been set by the user,
+             * chbnge them to the corresponding defbult ones.
              */
-            if (roleIsServer != (!flag) &&
-                    sslContext.isDefaultProtocolList(enabledProtocols)) {
-                enabledProtocols = sslContext.getDefaultProtocolList(!flag);
+            if (roleIsServer != (!flbg) &&
+                    sslContext.isDefbultProtocolList(enbbledProtocols)) {
+                enbbledProtocols = sslContext.getDefbultProtocolList(!flbg);
             }
 
-            roleIsServer = !flag;
+            roleIsServer = !flbg;
             serverModeSet = true;
-            break;
+            brebk;
 
-        case cs_HANDSHAKE:
+        cbse cs_HANDSHAKE:
             /*
-             * If we have a handshaker, but haven't started
-             * SSL traffic, we can throw away our current
-             * handshaker, and start from scratch.  Don't
-             * need to call doneConnect() again, we already
-             * have the streams.
+             * If we hbve b hbndshbker, but hbven't stbrted
+             * SSL trbffic, we cbn throw bwby our current
+             * hbndshbker, bnd stbrt from scrbtch.  Don't
+             * need to cbll doneConnect() bgbin, we blrebdy
+             * hbve the strebms.
              */
-            assert(handshaker != null);
-            if (!handshaker.activated()) {
+            bssert(hbndshbker != null);
+            if (!hbndshbker.bctivbted()) {
                 /*
-                 * If we need to change the engine mode and the enabled
-                 * protocols haven't specifically been set by the user,
-                 * change them to the corresponding default ones.
+                 * If we need to chbnge the engine mode bnd the enbbled
+                 * protocols hbven't specificblly been set by the user,
+                 * chbnge them to the corresponding defbult ones.
                  */
-                if (roleIsServer != (!flag) &&
-                        sslContext.isDefaultProtocolList(enabledProtocols)) {
-                    enabledProtocols = sslContext.getDefaultProtocolList(!flag);
+                if (roleIsServer != (!flbg) &&
+                        sslContext.isDefbultProtocolList(enbbledProtocols)) {
+                    enbbledProtocols = sslContext.getDefbultProtocolList(!flbg);
                 }
 
-                roleIsServer = !flag;
-                connectionState = cs_START;
-                initHandshaker();
-                break;
+                roleIsServer = !flbg;
+                connectionStbte = cs_START;
+                initHbndshbker();
+                brebk;
             }
 
-            // If handshake has started, that's an error.  Fall through...
+            // If hbndshbke hbs stbrted, thbt's bn error.  Fbll through...
 
-        default:
+        defbult:
             if (debug != null && Debug.isOn("ssl")) {
-                System.out.println(Thread.currentThread().getName() +
-                    ", setUseClientMode() invoked in state = " +
-                    connectionState);
+                System.out.println(Threbd.currentThrebd().getNbme() +
+                    ", setUseClientMode() invoked in stbte = " +
+                    connectionStbte);
             }
 
             /*
-             * We can let them continue if they catch this correctly,
+             * We cbn let them continue if they cbtch this correctly,
              * we don't need to shut this down.
              */
-            throw new IllegalArgumentException(
-                "Cannot change mode after SSL traffic has started");
+            throw new IllegblArgumentException(
+                "Cbnnot chbnge mode bfter SSL trbffic hbs stbrted");
         }
     }
 
     @Override
-    synchronized public boolean getUseClientMode() {
+    synchronized public boolebn getUseClientMode() {
         return !roleIsServer;
     }
 
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on an SSL connection.  Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not support the mutual authentication of servers and clients, or
-     * which do not protect data confidentiality.  Servers may also need
-     * certain kinds of certificates to use certain cipher suites.
+     * Returns the nbmes of the cipher suites which could be enbbled for use
+     * on bn SSL connection.  Normblly, only b subset of these will bctublly
+     * be enbbled by defbult, since this list mby include cipher suites which
+     * do not support the mutubl buthenticbtion of servers bnd clients, or
+     * which do not protect dbtb confidentiblity.  Servers mby blso need
+     * certbin kinds of certificbtes to use certbin cipher suites.
      *
-     * @return an array of cipher suite names
+     * @return bn brrby of cipher suite nbmes
      */
     @Override
     public String[] getSupportedCipherSuites() {
-        return sslContext.getSupportedCipherSuiteList().toStringArray();
+        return sslContext.getSupportedCipherSuiteList().toStringArrby();
     }
 
     /**
-     * Controls which particular cipher suites are enabled for use on
-     * this connection.  The cipher suites must have been listed by
-     * getCipherSuites() as being supported.  Even if a suite has been
-     * enabled, it might never be used if no peer supports it or the
-     * requisite certificates (and private keys) are not available.
+     * Controls which pbrticulbr cipher suites bre enbbled for use on
+     * this connection.  The cipher suites must hbve been listed by
+     * getCipherSuites() bs being supported.  Even if b suite hbs been
+     * enbbled, it might never be used if no peer supports it or the
+     * requisite certificbtes (bnd privbte keys) bre not bvbilbble.
      *
-     * @param suites Names of all the cipher suites to enable.
+     * @pbrbm suites Nbmes of bll the cipher suites to enbble.
      */
     @Override
-    synchronized public void setEnabledCipherSuites(String[] suites) {
-        enabledCipherSuites = new CipherSuiteList(suites);
-        if ((handshaker != null) && !handshaker.activated()) {
-            handshaker.setEnabledCipherSuites(enabledCipherSuites);
+    synchronized public void setEnbbledCipherSuites(String[] suites) {
+        enbbledCipherSuites = new CipherSuiteList(suites);
+        if ((hbndshbker != null) && !hbndshbker.bctivbted()) {
+            hbndshbker.setEnbbledCipherSuites(enbbledCipherSuites);
         }
     }
 
     /**
-     * Returns the names of the SSL cipher suites which are currently enabled
-     * for use on this connection.  When an SSL engine is first created,
-     * all enabled cipher suites <em>(a)</em> protect data confidentiality,
-     * by traffic encryption, and <em>(b)</em> can mutually authenticate
-     * both clients and servers.  Thus, in some environments, this value
+     * Returns the nbmes of the SSL cipher suites which bre currently enbbled
+     * for use on this connection.  When bn SSL engine is first crebted,
+     * bll enbbled cipher suites <em>(b)</em> protect dbtb confidentiblity,
+     * by trbffic encryption, bnd <em>(b)</em> cbn mutublly buthenticbte
+     * both clients bnd servers.  Thus, in some environments, this vblue
      * might be empty.
      *
-     * @return an array of cipher suite names
+     * @return bn brrby of cipher suite nbmes
      */
     @Override
-    synchronized public String[] getEnabledCipherSuites() {
-        return enabledCipherSuites.toStringArray();
+    synchronized public String[] getEnbbledCipherSuites() {
+        return enbbledCipherSuites.toStringArrby();
     }
 
 
     /**
-     * Returns the protocols that are supported by this implementation.
-     * A subset of the supported protocols may be enabled for this connection
-     * @return an array of protocol names.
+     * Returns the protocols thbt bre supported by this implementbtion.
+     * A subset of the supported protocols mby be enbbled for this connection
+     * @return bn brrby of protocol nbmes.
      */
     @Override
     public String[] getSupportedProtocols() {
-        return sslContext.getSuportedProtocolList().toStringArray();
+        return sslContext.getSuportedProtocolList().toStringArrby();
     }
 
     /**
-     * Controls which protocols are enabled for use on
-     * this connection.  The protocols must have been listed by
-     * getSupportedProtocols() as being supported.
+     * Controls which protocols bre enbbled for use on
+     * this connection.  The protocols must hbve been listed by
+     * getSupportedProtocols() bs being supported.
      *
-     * @param protocols protocols to enable.
-     * @exception IllegalArgumentException when one of the protocols
-     *  named by the parameter is not supported.
+     * @pbrbm protocols protocols to enbble.
+     * @exception IllegblArgumentException when one of the protocols
+     *  nbmed by the pbrbmeter is not supported.
      */
     @Override
-    synchronized public void setEnabledProtocols(String[] protocols) {
-        enabledProtocols = new ProtocolList(protocols);
-        if ((handshaker != null) && !handshaker.activated()) {
-            handshaker.setEnabledProtocols(enabledProtocols);
+    synchronized public void setEnbbledProtocols(String[] protocols) {
+        enbbledProtocols = new ProtocolList(protocols);
+        if ((hbndshbker != null) && !hbndshbker.bctivbted()) {
+            hbndshbker.setEnbbledProtocols(enbbledProtocols);
         }
     }
 
     @Override
-    synchronized public String[] getEnabledProtocols() {
-        return enabledProtocols.toStringArray();
-    }
-
-    /**
-     * Returns the SSLParameters in effect for this SSLEngine.
-     */
-    @Override
-    synchronized public SSLParameters getSSLParameters() {
-        SSLParameters params = super.getSSLParameters();
-
-        // the super implementation does not handle the following parameters
-        params.setEndpointIdentificationAlgorithm(identificationProtocol);
-        params.setAlgorithmConstraints(algorithmConstraints);
-        params.setSNIMatchers(sniMatchers);
-        params.setServerNames(serverNames);
-        params.setUseCipherSuitesOrder(preferLocalCipherSuites);
-
-        return params;
+    synchronized public String[] getEnbbledProtocols() {
+        return enbbledProtocols.toStringArrby();
     }
 
     /**
-     * Applies SSLParameters to this engine.
+     * Returns the SSLPbrbmeters in effect for this SSLEngine.
      */
     @Override
-    synchronized public void setSSLParameters(SSLParameters params) {
-        super.setSSLParameters(params);
+    synchronized public SSLPbrbmeters getSSLPbrbmeters() {
+        SSLPbrbmeters pbrbms = super.getSSLPbrbmeters();
 
-        // the super implementation does not handle the following parameters
-        identificationProtocol = params.getEndpointIdentificationAlgorithm();
-        algorithmConstraints = params.getAlgorithmConstraints();
-        preferLocalCipherSuites = params.getUseCipherSuitesOrder();
+        // the super implementbtion does not hbndle the following pbrbmeters
+        pbrbms.setEndpointIdentificbtionAlgorithm(identificbtionProtocol);
+        pbrbms.setAlgorithmConstrbints(blgorithmConstrbints);
+        pbrbms.setSNIMbtchers(sniMbtchers);
+        pbrbms.setServerNbmes(serverNbmes);
+        pbrbms.setUseCipherSuitesOrder(preferLocblCipherSuites);
 
-        List<SNIServerName> sniNames = params.getServerNames();
-        if (sniNames != null) {
-            serverNames = sniNames;
+        return pbrbms;
+    }
+
+    /**
+     * Applies SSLPbrbmeters to this engine.
+     */
+    @Override
+    synchronized public void setSSLPbrbmeters(SSLPbrbmeters pbrbms) {
+        super.setSSLPbrbmeters(pbrbms);
+
+        // the super implementbtion does not hbndle the following pbrbmeters
+        identificbtionProtocol = pbrbms.getEndpointIdentificbtionAlgorithm();
+        blgorithmConstrbints = pbrbms.getAlgorithmConstrbints();
+        preferLocblCipherSuites = pbrbms.getUseCipherSuitesOrder();
+
+        List<SNIServerNbme> sniNbmes = pbrbms.getServerNbmes();
+        if (sniNbmes != null) {
+            serverNbmes = sniNbmes;
         }
 
-        Collection<SNIMatcher> matchers = params.getSNIMatchers();
-        if (matchers != null) {
-            sniMatchers = matchers;
+        Collection<SNIMbtcher> mbtchers = pbrbms.getSNIMbtchers();
+        if (mbtchers != null) {
+            sniMbtchers = mbtchers;
         }
 
-        if ((handshaker != null) && !handshaker.started()) {
-            handshaker.setIdentificationProtocol(identificationProtocol);
-            handshaker.setAlgorithmConstraints(algorithmConstraints);
+        if ((hbndshbker != null) && !hbndshbker.stbrted()) {
+            hbndshbker.setIdentificbtionProtocol(identificbtionProtocol);
+            hbndshbker.setAlgorithmConstrbints(blgorithmConstrbints);
             if (roleIsServer) {
-                handshaker.setSNIMatchers(sniMatchers);
-                handshaker.setUseCipherSuitesOrder(preferLocalCipherSuites);
+                hbndshbker.setSNIMbtchers(sniMbtchers);
+                hbndshbker.setUseCipherSuitesOrder(preferLocblCipherSuites);
             } else {
-                handshaker.setSNIServerNames(serverNames);
+                hbndshbker.setSNIServerNbmes(serverNbmes);
             }
         }
     }
 
     /**
-     * Returns a printable representation of this end of the connection.
+     * Returns b printbble representbtion of this end of the connection.
      */
     @Override
     public String toString() {
-        StringBuilder retval = new StringBuilder(80);
+        StringBuilder retvbl = new StringBuilder(80);
 
-        retval.append(Integer.toHexString(hashCode()));
-        retval.append("[");
-        retval.append("SSLEngine[hostname=");
+        retvbl.bppend(Integer.toHexString(hbshCode()));
+        retvbl.bppend("[");
+        retvbl.bppend("SSLEngine[hostnbme=");
         String host = getPeerHost();
-        retval.append((host == null) ? "null" : host);
-        retval.append(" port=");
-        retval.append(Integer.toString(getPeerPort()));
-        retval.append("] ");
-        retval.append(getSession().getCipherSuite());
-        retval.append("]");
+        retvbl.bppend((host == null) ? "null" : host);
+        retvbl.bppend(" port=");
+        retvbl.bppend(Integer.toString(getPeerPort()));
+        retvbl.bppend("] ");
+        retvbl.bppend(getSession().getCipherSuite());
+        retvbl.bppend("]");
 
-        return retval.toString();
+        return retvbl.toString();
     }
 }

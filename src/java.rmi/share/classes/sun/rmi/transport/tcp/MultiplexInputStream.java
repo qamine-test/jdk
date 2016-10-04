@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 1996, 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 1997, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport.tcp;
+pbckbge sun.rmi.trbnsport.tcp;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * MultiplexInputStream manages receiving data over a connection managed
- * by a ConnectionMultiplexer object.  This object is responsible for
- * requesting more bytes of data as space in its internal buffer becomes
- * available.
+ * MultiplexInputStrebm mbnbges receiving dbtb over b connection mbnbged
+ * by b ConnectionMultiplexer object.  This object is responsible for
+ * requesting more bytes of dbtb bs spbce in its internbl buffer becomes
+ * bvbilbble.
  *
- * @author Peter Jones
+ * @buthor Peter Jones
  */
-final class MultiplexInputStream extends InputStream {
+finbl clbss MultiplexInputStrebm extends InputStrebm {
 
-    /** object managing multiplexed connection */
-    private ConnectionMultiplexer manager;
+    /** object mbnbging multiplexed connection */
+    privbte ConnectionMultiplexer mbnbger;
 
-    /** information about the connection this is the input stream for */
-    private MultiplexConnectionInfo info;
+    /** informbtion bbout the connection this is the input strebm for */
+    privbte MultiplexConnectionInfo info;
 
     /** input buffer */
-    private byte buffer[];
+    privbte byte buffer[];
 
-    /** number of real data bytes present in buffer */
-    private int present = 0;
+    /** number of rebl dbtb bytes present in buffer */
+    privbte int present = 0;
 
-    /** current position to read from in input buffer */
-    private int pos = 0;
+    /** current position to rebd from in input buffer */
+    privbte int pos = 0;
 
-    /** pending number of bytes this stream has requested */
-    private int requested = 0;
+    /** pending number of bytes this strebm hbs requested */
+    privbte int requested = 0;
 
-    /** true if this connection has been disconnected */
-    private boolean disconnected = false;
+    /** true if this connection hbs been disconnected */
+    privbte boolebn disconnected = fblse;
 
     /**
-     * lock acquired to access shared variables:
+     * lock bcquired to bccess shbred vbribbles:
      * buffer, present, pos, requested, & disconnected
-     * WARNING:  Any of the methods manager.send*() should not be
-     * invoked while this lock is held, since they could potentially
-     * block if the underlying connection's transport buffers are
-     * full, and the manager may need to acquire this lock to process
-     * and consume data coming over the underlying connection.
+     * WARNING:  Any of the methods mbnbger.send*() should not be
+     * invoked while this lock is held, since they could potentiblly
+     * block if the underlying connection's trbnsport buffers bre
+     * full, bnd the mbnbger mby need to bcquire this lock to process
+     * bnd consume dbtb coming over the underlying connection.
      */
-    private Object lock = new Object();
+    privbte Object lock = new Object();
 
-    /** level at which more data is requested when read past */
-    private int waterMark;
+    /** level bt which more dbtb is requested when rebd pbst */
+    privbte int wbterMbrk;
 
-    /** data structure for holding reads of one byte */
-    private byte temp[] = new byte[1];
+    /** dbtb structure for holding rebds of one byte */
+    privbte byte temp[] = new byte[1];
 
     /**
-     * Create a new MultiplexInputStream for the given manager.
-     * @param manager object that manages this connection
-     * @param info structure for connection this stream reads from
-     * @param bufferLength length of input buffer
+     * Crebte b new MultiplexInputStrebm for the given mbnbger.
+     * @pbrbm mbnbger object thbt mbnbges this connection
+     * @pbrbm info structure for connection this strebm rebds from
+     * @pbrbm bufferLength length of input buffer
      */
-    MultiplexInputStream(
-        ConnectionMultiplexer    manager,
+    MultiplexInputStrebm(
+        ConnectionMultiplexer    mbnbger,
         MultiplexConnectionInfo  info,
         int                      bufferLength)
     {
-        this.manager = manager;
+        this.mbnbger = mbnbger;
         this.info    = info;
 
         buffer = new byte[bufferLength];
-        waterMark = bufferLength / 2;
+        wbterMbrk = bufferLength / 2;
     }
 
     /**
-     * Read a byte from the connection.
+     * Rebd b byte from the connection.
      */
-    public synchronized int read() throws IOException
+    public synchronized int rebd() throws IOException
     {
-        int n = read(temp, 0, 1);
+        int n = rebd(temp, 0, 1);
         if (n != 1)
             return -1;
         return temp[0] & 0xFF;
     }
 
     /**
-     * Read a subarray of bytes from connection.  This method blocks for
-     * at least one byte, and it returns the number of bytes actually read,
-     * or -1 if the end of the stream was detected.
-     * @param b array to read bytes into
-     * @param off offset of beginning of bytes to read into
-     * @param len number of bytes to read
+     * Rebd b subbrrby of bytes from connection.  This method blocks for
+     * bt lebst one byte, bnd it returns the number of bytes bctublly rebd,
+     * or -1 if the end of the strebm wbs detected.
+     * @pbrbm b brrby to rebd bytes into
+     * @pbrbm off offset of beginning of bytes to rebd into
+     * @pbrbm len number of bytes to rebd
      */
-    public synchronized int read(byte b[], int off, int len) throws IOException
+    public synchronized int rebd(byte b[], int off, int len) throws IOException
     {
         if (len <= 0)
             return 0;
 
-        int moreSpace;
+        int moreSpbce;
         synchronized (lock) {
             if (pos >= present)
                 pos = present = 0;
-            else if (pos >= waterMark) {
-                System.arraycopy(buffer, pos, buffer, 0, present - pos);
+            else if (pos >= wbterMbrk) {
+                System.brrbycopy(buffer, pos, buffer, 0, present - pos);
                 present -= pos;
                 pos = 0;
             }
-            int freeSpace = buffer.length - present;
-            moreSpace = Math.max(freeSpace - requested, 0);
+            int freeSpbce = buffer.length - present;
+            moreSpbce = Mbth.mbx(freeSpbce - requested, 0);
         }
-        if (moreSpace > 0)
-            manager.sendRequest(info, moreSpace);
+        if (moreSpbce > 0)
+            mbnbger.sendRequest(info, moreSpbce);
         synchronized (lock) {
-            requested += moreSpace;
+            requested += moreSpbce;
             while ((pos >= present) && !disconnected) {
                 try {
-                    lock.wait();
-                } catch (InterruptedException e) {
+                    lock.wbit();
+                } cbtch (InterruptedException e) {
                 }
             }
             if (disconnected && pos >= present)
                 return -1;
 
-            int available = present - pos;
-            if (len < available) {
-                System.arraycopy(buffer, pos, b, off, len);
+            int bvbilbble = present - pos;
+            if (len < bvbilbble) {
+                System.brrbycopy(buffer, pos, b, off, len);
                 pos += len;
                 return len;
             }
             else {
-                System.arraycopy(buffer, pos, b, off, available);
+                System.brrbycopy(buffer, pos, b, off, bvbilbble);
                 pos = present = 0;
-                // could send another request here, if len > available??
-                return available;
+                // could send bnother request here, if len > bvbilbble??
+                return bvbilbble;
             }
         }
     }
 
     /**
-     * Return the number of bytes immediately available for reading.
+     * Return the number of bytes immedibtely bvbilbble for rebding.
      */
-    public int available() throws IOException
+    public int bvbilbble() throws IOException
     {
         synchronized (lock) {
             return present - pos;
@@ -171,29 +171,29 @@ final class MultiplexInputStream extends InputStream {
      */
     public void close() throws IOException
     {
-        manager.sendClose(info);
+        mbnbger.sendClose(info);
     }
 
     /**
-     * Receive bytes transmitted from connection at remote endpoint.
-     * @param length number of bytes transmitted
-     * @param in input stream with those bytes ready to be read
+     * Receive bytes trbnsmitted from connection bt remote endpoint.
+     * @pbrbm length number of bytes trbnsmitted
+     * @pbrbm in input strebm with those bytes rebdy to be rebd
      */
-    void receive(int length, DataInputStream in)
+    void receive(int length, DbtbInputStrebm in)
         throws IOException
     {
-        /* TO DO: Optimize so that data received from stream can be loaded
-         * directly into user's buffer if there is a pending read().
+        /* TO DO: Optimize so thbt dbtb received from strebm cbn be lobded
+         * directly into user's buffer if there is b pending rebd().
          */
         synchronized (lock) {
             if ((pos > 0) && ((buffer.length - present) < length)) {
-                System.arraycopy(buffer, pos, buffer, 0, present - pos);
+                System.brrbycopy(buffer, pos, buffer, 0, present - pos);
                 present -= pos;
                 pos = 0;
             }
             if ((buffer.length - present) < length)
                 throw new IOException("Receive buffer overflow");
-            in.readFully(buffer, present, length);
+            in.rebdFully(buffer, present, length);
             present += length;
             requested -= length;
             lock.notifyAll();
@@ -201,7 +201,7 @@ final class MultiplexInputStream extends InputStream {
     }
 
     /**
-     * Disconnect this stream from all connection activity.
+     * Disconnect this strebm from bll connection bctivity.
      */
     void disconnect()
     {

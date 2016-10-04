@@ -3,456 +3,456 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.algorithms;
+pbckbge com.sun.org.bpbche.xml.internbl.security.blgorithms;
 
-import java.security.Key;
-import java.security.SecureRandom;
-import java.security.spec.AlgorithmParameterSpec;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.security.Key;
+import jbvb.security.SecureRbndom;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.util.Mbp;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
 
-import com.sun.org.apache.xml.internal.security.algorithms.implementations.IntegrityHmac;
-import com.sun.org.apache.xml.internal.security.algorithms.implementations.SignatureBaseRSA;
-import com.sun.org.apache.xml.internal.security.algorithms.implementations.SignatureDSA;
-import com.sun.org.apache.xml.internal.security.algorithms.implementations.SignatureECDSA;
-import com.sun.org.apache.xml.internal.security.exceptions.AlgorithmAlreadyRegisteredException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignature;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.implementbtions.IntegrityHmbc;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.implementbtions.SignbtureBbseRSA;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.implementbtions.SignbtureDSA;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.implementbtions.SignbtureECDSA;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.AlgorithmAlrebdyRegisteredException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbture;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Allows selection of digital signature's algorithm, private keys, other
- * security parameters, and algorithm's ID.
+ * Allows selection of digitbl signbture's blgorithm, privbte keys, other
+ * security pbrbmeters, bnd blgorithm's ID.
  *
- * @author Christian Geuer-Pollmann
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public class SignatureAlgorithm extends Algorithm {
+public clbss SignbtureAlgorithm extends Algorithm {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(SignatureAlgorithm.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(SignbtureAlgorithm.clbss.getNbme());
 
-    /** All available algorithm classes are registered here */
-    private static Map<String, Class<? extends SignatureAlgorithmSpi>> algorithmHash =
-        new ConcurrentHashMap<String, Class<? extends SignatureAlgorithmSpi>>();
+    /** All bvbilbble blgorithm clbsses bre registered here */
+    privbte stbtic Mbp<String, Clbss<? extends SignbtureAlgorithmSpi>> blgorithmHbsh =
+        new ConcurrentHbshMbp<String, Clbss<? extends SignbtureAlgorithmSpi>>();
 
-    /** Field signatureAlgorithm */
-    private final SignatureAlgorithmSpi signatureAlgorithm;
+    /** Field signbtureAlgorithm */
+    privbte finbl SignbtureAlgorithmSpi signbtureAlgorithm;
 
-    private final String algorithmURI;
+    privbte finbl String blgorithmURI;
 
     /**
-     * Constructor SignatureAlgorithm
+     * Constructor SignbtureAlgorithm
      *
-     * @param doc
-     * @param algorithmURI
+     * @pbrbm doc
+     * @pbrbm blgorithmURI
      * @throws XMLSecurityException
      */
-    public SignatureAlgorithm(Document doc, String algorithmURI) throws XMLSecurityException {
-        super(doc, algorithmURI);
-        this.algorithmURI = algorithmURI;
+    public SignbtureAlgorithm(Document doc, String blgorithmURI) throws XMLSecurityException {
+        super(doc, blgorithmURI);
+        this.blgorithmURI = blgorithmURI;
 
-        signatureAlgorithm = getSignatureAlgorithmSpi(algorithmURI);
-        signatureAlgorithm.engineGetContextFromElement(this.constructionElement);
+        signbtureAlgorithm = getSignbtureAlgorithmSpi(blgorithmURI);
+        signbtureAlgorithm.engineGetContextFromElement(this.constructionElement);
     }
 
     /**
-     * Constructor SignatureAlgorithm
+     * Constructor SignbtureAlgorithm
      *
-     * @param doc
-     * @param algorithmURI
-     * @param hmacOutputLength
+     * @pbrbm doc
+     * @pbrbm blgorithmURI
+     * @pbrbm hmbcOutputLength
      * @throws XMLSecurityException
      */
-    public SignatureAlgorithm(
-        Document doc, String algorithmURI, int hmacOutputLength
+    public SignbtureAlgorithm(
+        Document doc, String blgorithmURI, int hmbcOutputLength
     ) throws XMLSecurityException {
-        super(doc, algorithmURI);
-        this.algorithmURI = algorithmURI;
+        super(doc, blgorithmURI);
+        this.blgorithmURI = blgorithmURI;
 
-        signatureAlgorithm = getSignatureAlgorithmSpi(algorithmURI);
-        signatureAlgorithm.engineGetContextFromElement(this.constructionElement);
+        signbtureAlgorithm = getSignbtureAlgorithmSpi(blgorithmURI);
+        signbtureAlgorithm.engineGetContextFromElement(this.constructionElement);
 
-        signatureAlgorithm.engineSetHMACOutputLength(hmacOutputLength);
-        ((IntegrityHmac)signatureAlgorithm).engineAddContextToElement(constructionElement);
+        signbtureAlgorithm.engineSetHMACOutputLength(hmbcOutputLength);
+        ((IntegrityHmbc)signbtureAlgorithm).engineAddContextToElement(constructionElement);
     }
 
     /**
-     * Constructor SignatureAlgorithm
+     * Constructor SignbtureAlgorithm
      *
-     * @param element
-     * @param baseURI
+     * @pbrbm element
+     * @pbrbm bbseURI
      * @throws XMLSecurityException
      */
-    public SignatureAlgorithm(Element element, String baseURI) throws XMLSecurityException {
-        this(element, baseURI, false);
+    public SignbtureAlgorithm(Element element, String bbseURI) throws XMLSecurityException {
+        this(element, bbseURI, fblse);
     }
 
     /**
-     * Constructor SignatureAlgorithm
+     * Constructor SignbtureAlgorithm
      *
-     * @param element
-     * @param baseURI
-     * @param secureValidation
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm secureVblidbtion
      * @throws XMLSecurityException
      */
-    public SignatureAlgorithm(
-        Element element, String baseURI, boolean secureValidation
+    public SignbtureAlgorithm(
+        Element element, String bbseURI, boolebn secureVblidbtion
     ) throws XMLSecurityException {
-        super(element, baseURI);
-        algorithmURI = this.getURI();
+        super(element, bbseURI);
+        blgorithmURI = this.getURI();
 
-        Attr attr = element.getAttributeNodeNS(null, "Id");
-        if (attr != null) {
-            element.setIdAttributeNode(attr, true);
+        Attr bttr = element.getAttributeNodeNS(null, "Id");
+        if (bttr != null) {
+            element.setIdAttributeNode(bttr, true);
         }
 
-        if (secureValidation && (XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5.equals(algorithmURI)
-            || XMLSignature.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5.equals(algorithmURI))) {
-            Object exArgs[] = { algorithmURI };
+        if (secureVblidbtion && (XMLSignbture.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5.equbls(blgorithmURI)
+            || XMLSignbture.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5.equbls(blgorithmURI))) {
+            Object exArgs[] = { blgorithmURI };
 
-            throw new XMLSecurityException("signature.signatureAlgorithm", exArgs);
+            throw new XMLSecurityException("signbture.signbtureAlgorithm", exArgs);
         }
 
-        signatureAlgorithm = getSignatureAlgorithmSpi(algorithmURI);
-        signatureAlgorithm.engineGetContextFromElement(this.constructionElement);
+        signbtureAlgorithm = getSignbtureAlgorithmSpi(blgorithmURI);
+        signbtureAlgorithm.engineGetContextFromElement(this.constructionElement);
     }
 
     /**
-     * Get a SignatureAlgorithmSpi object corresponding to the algorithmURI argument
+     * Get b SignbtureAlgorithmSpi object corresponding to the blgorithmURI brgument
      */
-    private static SignatureAlgorithmSpi getSignatureAlgorithmSpi(String algorithmURI)
-        throws XMLSignatureException {
+    privbte stbtic SignbtureAlgorithmSpi getSignbtureAlgorithmSpi(String blgorithmURI)
+        throws XMLSignbtureException {
         try {
-            Class<? extends SignatureAlgorithmSpi> implementingClass =
-                algorithmHash.get(algorithmURI);
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Create URI \"" + algorithmURI + "\" class \""
-                   + implementingClass + "\"");
+            Clbss<? extends SignbtureAlgorithmSpi> implementingClbss =
+                blgorithmHbsh.get(blgorithmURI);
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "Crebte URI \"" + blgorithmURI + "\" clbss \""
+                   + implementingClbss + "\"");
             }
-            return implementingClass.newInstance();
-        }  catch (IllegalAccessException ex) {
-            Object exArgs[] = { algorithmURI, ex.getMessage() };
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs, ex);
-        } catch (InstantiationException ex) {
-            Object exArgs[] = { algorithmURI, ex.getMessage() };
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs, ex);
-        } catch (NullPointerException ex) {
-            Object exArgs[] = { algorithmURI, ex.getMessage() };
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs, ex);
+            return implementingClbss.newInstbnce();
+        }  cbtch (IllegblAccessException ex) {
+            Object exArgs[] = { blgorithmURI, ex.getMessbge() };
+            throw new XMLSignbtureException("blgorithms.NoSuchAlgorithm", exArgs, ex);
+        } cbtch (InstbntibtionException ex) {
+            Object exArgs[] = { blgorithmURI, ex.getMessbge() };
+            throw new XMLSignbtureException("blgorithms.NoSuchAlgorithm", exArgs, ex);
+        } cbtch (NullPointerException ex) {
+            Object exArgs[] = { blgorithmURI, ex.getMessbge() };
+            throw new XMLSignbtureException("blgorithms.NoSuchAlgorithm", exArgs, ex);
         }
     }
 
 
     /**
-     * Proxy method for {@link java.security.Signature#sign()}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#sign()}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @return the result of the {@link java.security.Signature#sign()} method
-     * @throws XMLSignatureException
+     * @return the result of the {@link jbvb.security.Signbture#sign()} method
+     * @throws XMLSignbtureException
      */
-    public byte[] sign() throws XMLSignatureException {
-        return signatureAlgorithm.engineSign();
+    public byte[] sign() throws XMLSignbtureException {
+        return signbtureAlgorithm.engineSign();
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#getAlgorithm}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#getAlgorithm}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @return the result of the {@link java.security.Signature#getAlgorithm} method
+     * @return the result of the {@link jbvb.security.Signbture#getAlgorithm} method
      */
     public String getJCEAlgorithmString() {
-        return signatureAlgorithm.engineGetJCEAlgorithmString();
+        return signbtureAlgorithm.engineGetJCEAlgorithmString();
     }
 
     /**
-     * Method getJCEProviderName
+     * Method getJCEProviderNbme
      *
-     * @return The Provider of this Signature Algorithm
+     * @return The Provider of this Signbture Algorithm
      */
-    public String getJCEProviderName() {
-        return signatureAlgorithm.engineGetJCEProviderName();
+    public String getJCEProviderNbme() {
+        return signbtureAlgorithm.engineGetJCEProviderNbme();
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#update(byte[])}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#updbte(byte[])}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param input
-     * @throws XMLSignatureException
+     * @pbrbm input
+     * @throws XMLSignbtureException
      */
-    public void update(byte[] input) throws XMLSignatureException {
-        signatureAlgorithm.engineUpdate(input);
+    public void updbte(byte[] input) throws XMLSignbtureException {
+        signbtureAlgorithm.engineUpdbte(input);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#update(byte)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#updbte(byte)}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param input
-     * @throws XMLSignatureException
+     * @pbrbm input
+     * @throws XMLSignbtureException
      */
-    public void update(byte input) throws XMLSignatureException {
-        signatureAlgorithm.engineUpdate(input);
+    public void updbte(byte input) throws XMLSignbtureException {
+        signbtureAlgorithm.engineUpdbte(input);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#update(byte[], int, int)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#updbte(byte[], int, int)}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param buf
-     * @param offset
-     * @param len
-     * @throws XMLSignatureException
+     * @pbrbm buf
+     * @pbrbm offset
+     * @pbrbm len
+     * @throws XMLSignbtureException
      */
-    public void update(byte buf[], int offset, int len) throws XMLSignatureException {
-        signatureAlgorithm.engineUpdate(buf, offset, len);
+    public void updbte(byte buf[], int offset, int len) throws XMLSignbtureException {
+        signbtureAlgorithm.engineUpdbte(buf, offset, len);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#initSign(java.security.PrivateKey)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#initSign(jbvb.security.PrivbteKey)}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param signingKey
-     * @throws XMLSignatureException
+     * @pbrbm signingKey
+     * @throws XMLSignbtureException
      */
-    public void initSign(Key signingKey) throws XMLSignatureException {
-        signatureAlgorithm.engineInitSign(signingKey);
+    public void initSign(Key signingKey) throws XMLSignbtureException {
+        signbtureAlgorithm.engineInitSign(signingKey);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#initSign(java.security.PrivateKey,
-     * java.security.SecureRandom)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#initSign(jbvb.security.PrivbteKey,
+     * jbvb.security.SecureRbndom)}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param signingKey
-     * @param secureRandom
-     * @throws XMLSignatureException
+     * @pbrbm signingKey
+     * @pbrbm secureRbndom
+     * @throws XMLSignbtureException
      */
-    public void initSign(Key signingKey, SecureRandom secureRandom) throws XMLSignatureException {
-        signatureAlgorithm.engineInitSign(signingKey, secureRandom);
+    public void initSign(Key signingKey, SecureRbndom secureRbndom) throws XMLSignbtureException {
+        signbtureAlgorithm.engineInitSign(signingKey, secureRbndom);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#initSign(java.security.PrivateKey)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#initSign(jbvb.security.PrivbteKey)}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param signingKey
-     * @param algorithmParameterSpec
-     * @throws XMLSignatureException
+     * @pbrbm signingKey
+     * @pbrbm blgorithmPbrbmeterSpec
+     * @throws XMLSignbtureException
      */
     public void initSign(
-        Key signingKey, AlgorithmParameterSpec algorithmParameterSpec
-    ) throws XMLSignatureException {
-        signatureAlgorithm.engineInitSign(signingKey, algorithmParameterSpec);
+        Key signingKey, AlgorithmPbrbmeterSpec blgorithmPbrbmeterSpec
+    ) throws XMLSignbtureException {
+        signbtureAlgorithm.engineInitSign(signingKey, blgorithmPbrbmeterSpec);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#setParameter(
-     * java.security.spec.AlgorithmParameterSpec)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#setPbrbmeter(
+     * jbvb.security.spec.AlgorithmPbrbmeterSpec)}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param params
-     * @throws XMLSignatureException
+     * @pbrbm pbrbms
+     * @throws XMLSignbtureException
      */
-    public void setParameter(AlgorithmParameterSpec params) throws XMLSignatureException {
-        signatureAlgorithm.engineSetParameter(params);
+    public void setPbrbmeter(AlgorithmPbrbmeterSpec pbrbms) throws XMLSignbtureException {
+        signbtureAlgorithm.engineSetPbrbmeter(pbrbms);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#initVerify(java.security.PublicKey)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#initVerify(jbvb.security.PublicKey)}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param verificationKey
-     * @throws XMLSignatureException
+     * @pbrbm verificbtionKey
+     * @throws XMLSignbtureException
      */
-    public void initVerify(Key verificationKey) throws XMLSignatureException {
-        signatureAlgorithm.engineInitVerify(verificationKey);
+    public void initVerify(Key verificbtionKey) throws XMLSignbtureException {
+        signbtureAlgorithm.engineInitVerify(verificbtionKey);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#verify(byte[])}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy method for {@link jbvb.security.Signbture#verify(byte[])}
+     * which is executed on the internbl {@link jbvb.security.Signbture} object.
      *
-     * @param signature
-     * @return true if the signature is valid.
+     * @pbrbm signbture
+     * @return true if the signbture is vblid.
      *
-     * @throws XMLSignatureException
+     * @throws XMLSignbtureException
      */
-    public boolean verify(byte[] signature) throws XMLSignatureException {
-        return signatureAlgorithm.engineVerify(signature);
+    public boolebn verify(byte[] signbture) throws XMLSignbtureException {
+        return signbtureAlgorithm.engineVerify(signbture);
     }
 
     /**
-     * Returns the URI representation of Transformation algorithm
+     * Returns the URI representbtion of Trbnsformbtion blgorithm
      *
-     * @return the URI representation of Transformation algorithm
+     * @return the URI representbtion of Trbnsformbtion blgorithm
      */
-    public final String getURI() {
-        return constructionElement.getAttributeNS(null, Constants._ATT_ALGORITHM);
+    public finbl String getURI() {
+        return constructionElement.getAttributeNS(null, Constbnts._ATT_ALGORITHM);
     }
 
     /**
-     * Registers implementing class of the Transform algorithm with algorithmURI
+     * Registers implementing clbss of the Trbnsform blgorithm with blgorithmURI
      *
-     * @param algorithmURI algorithmURI URI representation of <code>Transform algorithm</code>.
-     * @param implementingClass <code>implementingClass</code> the implementing class of
-     * {@link SignatureAlgorithmSpi}
-     * @throws AlgorithmAlreadyRegisteredException if specified algorithmURI is already registered
-     * @throws XMLSignatureException
+     * @pbrbm blgorithmURI blgorithmURI URI representbtion of <code>Trbnsform blgorithm</code>.
+     * @pbrbm implementingClbss <code>implementingClbss</code> the implementing clbss of
+     * {@link SignbtureAlgorithmSpi}
+     * @throws AlgorithmAlrebdyRegisteredException if specified blgorithmURI is blrebdy registered
+     * @throws XMLSignbtureException
      */
-    @SuppressWarnings("unchecked")
-    public static void register(String algorithmURI, String implementingClass)
-       throws AlgorithmAlreadyRegisteredException, ClassNotFoundException,
-           XMLSignatureException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Try to register " + algorithmURI + " " + implementingClass);
+    @SuppressWbrnings("unchecked")
+    public stbtic void register(String blgorithmURI, String implementingClbss)
+       throws AlgorithmAlrebdyRegisteredException, ClbssNotFoundException,
+           XMLSignbtureException {
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Try to register " + blgorithmURI + " " + implementingClbss);
         }
 
-        // are we already registered?
-        Class<? extends SignatureAlgorithmSpi> registeredClass = algorithmHash.get(algorithmURI);
-        if (registeredClass != null) {
-            Object exArgs[] = { algorithmURI, registeredClass };
-            throw new AlgorithmAlreadyRegisteredException(
-                "algorithm.alreadyRegistered", exArgs
+        // bre we blrebdy registered?
+        Clbss<? extends SignbtureAlgorithmSpi> registeredClbss = blgorithmHbsh.get(blgorithmURI);
+        if (registeredClbss != null) {
+            Object exArgs[] = { blgorithmURI, registeredClbss };
+            throw new AlgorithmAlrebdyRegisteredException(
+                "blgorithm.blrebdyRegistered", exArgs
             );
         }
         try {
-            Class<? extends SignatureAlgorithmSpi> clazz =
-                (Class<? extends SignatureAlgorithmSpi>)
-                    ClassLoaderUtils.loadClass(implementingClass, SignatureAlgorithm.class);
-            algorithmHash.put(algorithmURI, clazz);
-        } catch (NullPointerException ex) {
-            Object exArgs[] = { algorithmURI, ex.getMessage() };
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs, ex);
+            Clbss<? extends SignbtureAlgorithmSpi> clbzz =
+                (Clbss<? extends SignbtureAlgorithmSpi>)
+                    ClbssLobderUtils.lobdClbss(implementingClbss, SignbtureAlgorithm.clbss);
+            blgorithmHbsh.put(blgorithmURI, clbzz);
+        } cbtch (NullPointerException ex) {
+            Object exArgs[] = { blgorithmURI, ex.getMessbge() };
+            throw new XMLSignbtureException("blgorithms.NoSuchAlgorithm", exArgs, ex);
         }
     }
 
     /**
-     * Registers implementing class of the Transform algorithm with algorithmURI
+     * Registers implementing clbss of the Trbnsform blgorithm with blgorithmURI
      *
-     * @param algorithmURI algorithmURI URI representation of <code>Transform algorithm</code>.
-     * @param implementingClass <code>implementingClass</code> the implementing class of
-     * {@link SignatureAlgorithmSpi}
-     * @throws AlgorithmAlreadyRegisteredException if specified algorithmURI is already registered
-     * @throws XMLSignatureException
+     * @pbrbm blgorithmURI blgorithmURI URI representbtion of <code>Trbnsform blgorithm</code>.
+     * @pbrbm implementingClbss <code>implementingClbss</code> the implementing clbss of
+     * {@link SignbtureAlgorithmSpi}
+     * @throws AlgorithmAlrebdyRegisteredException if specified blgorithmURI is blrebdy registered
+     * @throws XMLSignbtureException
      */
-    public static void register(String algorithmURI, Class<? extends SignatureAlgorithmSpi> implementingClass)
-       throws AlgorithmAlreadyRegisteredException, ClassNotFoundException,
-           XMLSignatureException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Try to register " + algorithmURI + " " + implementingClass);
+    public stbtic void register(String blgorithmURI, Clbss<? extends SignbtureAlgorithmSpi> implementingClbss)
+       throws AlgorithmAlrebdyRegisteredException, ClbssNotFoundException,
+           XMLSignbtureException {
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Try to register " + blgorithmURI + " " + implementingClbss);
         }
 
-        // are we already registered?
-        Class<? extends SignatureAlgorithmSpi> registeredClass = algorithmHash.get(algorithmURI);
-        if (registeredClass != null) {
-            Object exArgs[] = { algorithmURI, registeredClass };
-            throw new AlgorithmAlreadyRegisteredException(
-                "algorithm.alreadyRegistered", exArgs
+        // bre we blrebdy registered?
+        Clbss<? extends SignbtureAlgorithmSpi> registeredClbss = blgorithmHbsh.get(blgorithmURI);
+        if (registeredClbss != null) {
+            Object exArgs[] = { blgorithmURI, registeredClbss };
+            throw new AlgorithmAlrebdyRegisteredException(
+                "blgorithm.blrebdyRegistered", exArgs
             );
         }
-        algorithmHash.put(algorithmURI, implementingClass);
+        blgorithmHbsh.put(blgorithmURI, implementingClbss);
     }
 
     /**
-     * This method registers the default algorithms.
+     * This method registers the defbult blgorithms.
      */
-    public static void registerDefaultAlgorithms() {
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_DSA, SignatureDSA.class
+    public stbtic void registerDefbultAlgorithms() {
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_SIGNATURE_DSA, SignbtureDSA.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_DSA_SHA256, SignatureDSA.SHA256.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_SIGNATURE_DSA_SHA256, SignbtureDSA.SHA256.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA1, SignatureBaseRSA.SignatureRSASHA1.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_SIGNATURE_RSA_SHA1, SignbtureBbseRSA.SignbtureRSASHA1.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_MAC_HMAC_SHA1, IntegrityHmac.IntegrityHmacSHA1.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_MAC_HMAC_SHA1, IntegrityHmbc.IntegrityHmbcSHA1.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5,
-            SignatureBaseRSA.SignatureRSAMD5.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5,
+            SignbtureBbseRSA.SignbtureRSAMD5.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_RSA_RIPEMD160,
-            SignatureBaseRSA.SignatureRSARIPEMD160.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_SIGNATURE_RSA_RIPEMD160,
+            SignbtureBbseRSA.SignbtureRSARIPEMD160.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA256, SignatureBaseRSA.SignatureRSASHA256.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_SIGNATURE_RSA_SHA256, SignbtureBbseRSA.SignbtureRSASHA256.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA384, SignatureBaseRSA.SignatureRSASHA384.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_SIGNATURE_RSA_SHA384, SignbtureBbseRSA.SignbtureRSASHA384.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA512, SignatureBaseRSA.SignatureRSASHA512.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_SIGNATURE_RSA_SHA512, SignbtureBbseRSA.SignbtureRSASHA512.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_ECDSA_SHA1, SignatureECDSA.SignatureECDSASHA1.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_SIGNATURE_ECDSA_SHA1, SignbtureECDSA.SignbtureECDSASHA1.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_ECDSA_SHA256, SignatureECDSA.SignatureECDSASHA256.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_SIGNATURE_ECDSA_SHA256, SignbtureECDSA.SignbtureECDSASHA256.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_ECDSA_SHA384, SignatureECDSA.SignatureECDSASHA384.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_SIGNATURE_ECDSA_SHA384, SignbtureECDSA.SignbtureECDSASHA384.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_ECDSA_SHA512, SignatureECDSA.SignatureECDSASHA512.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_SIGNATURE_ECDSA_SHA512, SignbtureECDSA.SignbtureECDSASHA512.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5, IntegrityHmac.IntegrityHmacMD5.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5, IntegrityHmbc.IntegrityHmbcMD5.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_MAC_HMAC_RIPEMD160, IntegrityHmac.IntegrityHmacRIPEMD160.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_MAC_HMAC_RIPEMD160, IntegrityHmbc.IntegrityHmbcRIPEMD160.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_MAC_HMAC_SHA256, IntegrityHmac.IntegrityHmacSHA256.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_MAC_HMAC_SHA256, IntegrityHmbc.IntegrityHmbcSHA256.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_MAC_HMAC_SHA384, IntegrityHmac.IntegrityHmacSHA384.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_MAC_HMAC_SHA384, IntegrityHmbc.IntegrityHmbcSHA384.clbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_MAC_HMAC_SHA512, IntegrityHmac.IntegrityHmacSHA512.class
+        blgorithmHbsh.put(
+            XMLSignbture.ALGO_ID_MAC_HMAC_SHA512, IntegrityHmbc.IntegrityHmbcSHA512.clbss
         );
     }
 
     /**
-     * Method getBaseNamespace
+     * Method getBbseNbmespbce
      *
      * @return URI of this element
      */
-    public String getBaseNamespace() {
-        return Constants.SignatureSpecNS;
+    public String getBbseNbmespbce() {
+        return Constbnts.SignbtureSpecNS;
     }
 
     /**
-     * Method getBaseLocalName
+     * Method getBbseLocblNbme
      *
-     * @return Local name
+     * @return Locbl nbme
      */
-    public String getBaseLocalName() {
-        return Constants._TAG_SIGNATUREMETHOD;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_SIGNATUREMETHOD;
     }
 }

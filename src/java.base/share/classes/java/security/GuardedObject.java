@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
 /**
- * A GuardedObject is an object that is used to protect access to
- * another object.
+ * A GubrdedObject is bn object thbt is used to protect bccess to
+ * bnother object.
  *
- * <p>A GuardedObject encapsulates a target object and a Guard object,
- * such that access to the target object is possible
- * only if the Guard object allows it.
- * Once an object is encapsulated by a GuardedObject,
- * access to that object is controlled by the {@code getObject}
+ * <p>A GubrdedObject encbpsulbtes b tbrget object bnd b Gubrd object,
+ * such thbt bccess to the tbrget object is possible
+ * only if the Gubrd object bllows it.
+ * Once bn object is encbpsulbted by b GubrdedObject,
+ * bccess to thbt object is controlled by the {@code getObject}
  * method, which invokes the
- * {@code checkGuard} method on the Guard object that is
- * guarding access. If access is not allowed,
- * an exception is thrown.
+ * {@code checkGubrd} method on the Gubrd object thbt is
+ * gubrding bccess. If bccess is not bllowed,
+ * bn exception is thrown.
  *
- * @see Guard
+ * @see Gubrd
  * @see Permission
  *
- * @author Roland Schemers
- * @author Li Gong
+ * @buthor Rolbnd Schemers
+ * @buthor Li Gong
  */
 
-public class GuardedObject implements java.io.Serializable {
+public clbss GubrdedObject implements jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = -5240450096227834308L;
+    privbte stbtic finbl long seriblVersionUID = -5240450096227834308L;
 
-    private Object object; // the object we are guarding
-    private Guard guard;   // the guard
+    privbte Object object; // the object we bre gubrding
+    privbte Gubrd gubrd;   // the gubrd
 
     /**
-     * Constructs a GuardedObject using the specified object and guard.
-     * If the Guard object is null, then no restrictions will
-     * be placed on who can access the object.
+     * Constructs b GubrdedObject using the specified object bnd gubrd.
+     * If the Gubrd object is null, then no restrictions will
+     * be plbced on who cbn bccess the object.
      *
-     * @param object the object to be guarded.
+     * @pbrbm object the object to be gubrded.
      *
-     * @param guard the Guard object that guards access to the object.
+     * @pbrbm gubrd the Gubrd object thbt gubrds bccess to the object.
      */
 
-    public GuardedObject(Object object, Guard guard)
+    public GubrdedObject(Object object, Gubrd gubrd)
     {
-        this.guard = guard;
+        this.gubrd = gubrd;
         this.object = object;
     }
 
     /**
-     * Retrieves the guarded object, or throws an exception if access
-     * to the guarded object is denied by the guard.
+     * Retrieves the gubrded object, or throws bn exception if bccess
+     * to the gubrded object is denied by the gubrd.
      *
-     * @return the guarded object.
+     * @return the gubrded object.
      *
-     * @exception SecurityException if access to the guarded object is
+     * @exception SecurityException if bccess to the gubrded object is
      * denied.
      */
     public Object getObject()
         throws SecurityException
     {
-        if (guard != null)
-            guard.checkGuard(object);
+        if (gubrd != null)
+            gubrd.checkGubrd(object);
 
         return object;
     }
 
     /**
-     * Writes this object out to a stream (i.e., serializes it).
-     * We check the guard if there is one.
+     * Writes this object out to b strebm (i.e., seriblizes it).
+     * We check the gubrd if there is one.
      */
-    private void writeObject(java.io.ObjectOutputStream oos)
-        throws java.io.IOException
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm oos)
+        throws jbvb.io.IOException
     {
-        if (guard != null)
-            guard.checkGuard(object);
+        if (gubrd != null)
+            gubrd.checkGubrd(object);
 
-        oos.defaultWriteObject();
+        oos.defbultWriteObject();
     }
 }

@@ -1,640 +1,640 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.io.InvalidObjectException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.Arrays;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.util.Arrbys;
 
 /**
- * A <code>ChoiceFormat</code> allows you to attach a format to a range of numbers.
- * It is generally used in a <code>MessageFormat</code> for handling plurals.
- * The choice is specified with an ascending list of doubles, where each item
- * specifies a half-open interval up to the next item:
+ * A <code>ChoiceFormbt</code> bllows you to bttbch b formbt to b rbnge of numbers.
+ * It is generblly used in b <code>MessbgeFormbt</code> for hbndling plurbls.
+ * The choice is specified with bn bscending list of doubles, where ebch item
+ * specifies b hblf-open intervbl up to the next item:
  * <blockquote>
  * <pre>
- * X matches j if and only if limit[j] &le; X &lt; limit[j+1]
+ * X mbtches j if bnd only if limit[j] &le; X &lt; limit[j+1]
  * </pre>
  * </blockquote>
- * If there is no match, then either the first or last index is used, depending
- * on whether the number (X) is too low or too high.  If the limit array is not
- * in ascending order, the results of formatting will be incorrect.  ChoiceFormat
- * also accepts <code>&#92;u221E</code> as equivalent to infinity(INF).
+ * If there is no mbtch, then either the first or lbst index is used, depending
+ * on whether the number (X) is too low or too high.  If the limit brrby is not
+ * in bscending order, the results of formbtting will be incorrect.  ChoiceFormbt
+ * blso bccepts <code>&#92;u221E</code> bs equivblent to infinity(INF).
  *
  * <p>
  * <strong>Note:</strong>
- * <code>ChoiceFormat</code> differs from the other <code>Format</code>
- * classes in that you create a <code>ChoiceFormat</code> object with a
- * constructor (not with a <code>getInstance</code> style factory
- * method). The factory methods aren't necessary because <code>ChoiceFormat</code>
- * doesn't require any complex setup for a given locale. In fact,
- * <code>ChoiceFormat</code> doesn't implement any locale specific behavior.
+ * <code>ChoiceFormbt</code> differs from the other <code>Formbt</code>
+ * clbsses in thbt you crebte b <code>ChoiceFormbt</code> object with b
+ * constructor (not with b <code>getInstbnce</code> style fbctory
+ * method). The fbctory methods bren't necessbry becbuse <code>ChoiceFormbt</code>
+ * doesn't require bny complex setup for b given locble. In fbct,
+ * <code>ChoiceFormbt</code> doesn't implement bny locble specific behbvior.
  *
  * <p>
- * When creating a <code>ChoiceFormat</code>, you must specify an array of formats
- * and an array of limits. The length of these arrays must be the same.
- * For example,
+ * When crebting b <code>ChoiceFormbt</code>, you must specify bn brrby of formbts
+ * bnd bn brrby of limits. The length of these brrbys must be the sbme.
+ * For exbmple,
  * <ul>
  * <li>
  *     <em>limits</em> = {1,2,3,4,5,6,7}<br>
- *     <em>formats</em> = {"Sun","Mon","Tue","Wed","Thur","Fri","Sat"}
+ *     <em>formbts</em> = {"Sun","Mon","Tue","Wed","Thur","Fri","Sbt"}
  * <li>
- *     <em>limits</em> = {0, 1, ChoiceFormat.nextDouble(1)}<br>
- *     <em>formats</em> = {"no files", "one file", "many files"}<br>
- *     (<code>nextDouble</code> can be used to get the next higher double, to
- *     make the half-open interval.)
+ *     <em>limits</em> = {0, 1, ChoiceFormbt.nextDouble(1)}<br>
+ *     <em>formbts</em> = {"no files", "one file", "mbny files"}<br>
+ *     (<code>nextDouble</code> cbn be used to get the next higher double, to
+ *     mbke the hblf-open intervbl.)
  * </ul>
  *
  * <p>
- * Here is a simple example that shows formatting and parsing:
+ * Here is b simple exbmple thbt shows formbtting bnd pbrsing:
  * <blockquote>
  * <pre>{@code
  * double[] limits = {1,2,3,4,5,6,7};
- * String[] dayOfWeekNames = {"Sun","Mon","Tue","Wed","Thur","Fri","Sat"};
- * ChoiceFormat form = new ChoiceFormat(limits, dayOfWeekNames);
- * ParsePosition status = new ParsePosition(0);
+ * String[] dbyOfWeekNbmes = {"Sun","Mon","Tue","Wed","Thur","Fri","Sbt"};
+ * ChoiceFormbt form = new ChoiceFormbt(limits, dbyOfWeekNbmes);
+ * PbrsePosition stbtus = new PbrsePosition(0);
  * for (double i = 0.0; i <= 8.0; ++i) {
- *     status.setIndex(0);
- *     System.out.println(i + " -> " + form.format(i) + " -> "
- *                              + form.parse(form.format(i),status));
+ *     stbtus.setIndex(0);
+ *     System.out.println(i + " -> " + form.formbt(i) + " -> "
+ *                              + form.pbrse(form.formbt(i),stbtus));
  * }
  * }</pre>
  * </blockquote>
- * Here is a more complex example, with a pattern format:
+ * Here is b more complex exbmple, with b pbttern formbt:
  * <blockquote>
  * <pre>{@code
  * double[] filelimits = {0,1,2};
- * String[] filepart = {"are no files","is one file","are {2} files"};
- * ChoiceFormat fileform = new ChoiceFormat(filelimits, filepart);
- * Format[] testFormats = {fileform, null, NumberFormat.getInstance()};
- * MessageFormat pattform = new MessageFormat("There {0} on {1}");
- * pattform.setFormats(testFormats);
+ * String[] filepbrt = {"bre no files","is one file","bre {2} files"};
+ * ChoiceFormbt fileform = new ChoiceFormbt(filelimits, filepbrt);
+ * Formbt[] testFormbts = {fileform, null, NumberFormbt.getInstbnce()};
+ * MessbgeFormbt pbttform = new MessbgeFormbt("There {0} on {1}");
+ * pbttform.setFormbts(testFormbts);
  * Object[] testArgs = {null, "ADisk", null};
  * for (int i = 0; i < 4; ++i) {
  *     testArgs[0] = new Integer(i);
  *     testArgs[2] = testArgs[0];
- *     System.out.println(pattform.format(testArgs));
+ *     System.out.println(pbttform.formbt(testArgs));
  * }
  * }</pre>
  * </blockquote>
  * <p>
- * Specifying a pattern for ChoiceFormat objects is fairly straightforward.
- * For example:
+ * Specifying b pbttern for ChoiceFormbt objects is fbirly strbightforwbrd.
+ * For exbmple:
  * <blockquote>
  * <pre>{@code
- * ChoiceFormat fmt = new ChoiceFormat(
- *      "-1#is negative| 0#is zero or fraction | 1#is one |1.0<is 1+ |2#is two |2<is more than 2.");
- * System.out.println("Formatter Pattern : " + fmt.toPattern());
+ * ChoiceFormbt fmt = new ChoiceFormbt(
+ *      "-1#is negbtive| 0#is zero or frbction | 1#is one |1.0<is 1+ |2#is two |2<is more thbn 2.");
+ * System.out.println("Formbtter Pbttern : " + fmt.toPbttern());
  *
- * System.out.println("Format with -INF : " + fmt.format(Double.NEGATIVE_INFINITY));
- * System.out.println("Format with -1.0 : " + fmt.format(-1.0));
- * System.out.println("Format with 0 : " + fmt.format(0));
- * System.out.println("Format with 0.9 : " + fmt.format(0.9));
- * System.out.println("Format with 1.0 : " + fmt.format(1));
- * System.out.println("Format with 1.5 : " + fmt.format(1.5));
- * System.out.println("Format with 2 : " + fmt.format(2));
- * System.out.println("Format with 2.1 : " + fmt.format(2.1));
- * System.out.println("Format with NaN : " + fmt.format(Double.NaN));
- * System.out.println("Format with +INF : " + fmt.format(Double.POSITIVE_INFINITY));
+ * System.out.println("Formbt with -INF : " + fmt.formbt(Double.NEGATIVE_INFINITY));
+ * System.out.println("Formbt with -1.0 : " + fmt.formbt(-1.0));
+ * System.out.println("Formbt with 0 : " + fmt.formbt(0));
+ * System.out.println("Formbt with 0.9 : " + fmt.formbt(0.9));
+ * System.out.println("Formbt with 1.0 : " + fmt.formbt(1));
+ * System.out.println("Formbt with 1.5 : " + fmt.formbt(1.5));
+ * System.out.println("Formbt with 2 : " + fmt.formbt(2));
+ * System.out.println("Formbt with 2.1 : " + fmt.formbt(2.1));
+ * System.out.println("Formbt with NbN : " + fmt.formbt(Double.NbN));
+ * System.out.println("Formbt with +INF : " + fmt.formbt(Double.POSITIVE_INFINITY));
  * }</pre>
  * </blockquote>
  * And the output result would be like the following:
  * <blockquote>
  * <pre>{@code
- * Format with -INF : is negative
- * Format with -1.0 : is negative
- * Format with 0 : is zero or fraction
- * Format with 0.9 : is zero or fraction
- * Format with 1.0 : is one
- * Format with 1.5 : is 1+
- * Format with 2 : is two
- * Format with 2.1 : is more than 2.
- * Format with NaN : is negative
- * Format with +INF : is more than 2.
+ * Formbt with -INF : is negbtive
+ * Formbt with -1.0 : is negbtive
+ * Formbt with 0 : is zero or frbction
+ * Formbt with 0.9 : is zero or frbction
+ * Formbt with 1.0 : is one
+ * Formbt with 1.5 : is 1+
+ * Formbt with 2 : is two
+ * Formbt with 2.1 : is more thbn 2.
+ * Formbt with NbN : is negbtive
+ * Formbt with +INF : is more thbn 2.
  * }</pre>
  * </blockquote>
  *
- * <h3><a name="synchronization">Synchronization</a></h3>
+ * <h3><b nbme="synchronizbtion">Synchronizbtion</b></h3>
  *
  * <p>
- * Choice formats are not synchronized.
- * It is recommended to create separate format instances for each thread.
- * If multiple threads access a format concurrently, it must be synchronized
- * externally.
+ * Choice formbts bre not synchronized.
+ * It is recommended to crebte sepbrbte formbt instbnces for ebch threbd.
+ * If multiple threbds bccess b formbt concurrently, it must be synchronized
+ * externblly.
  *
  *
- * @see          DecimalFormat
- * @see          MessageFormat
- * @author       Mark Davis
+ * @see          DecimblFormbt
+ * @see          MessbgeFormbt
+ * @buthor       Mbrk Dbvis
  */
-public class ChoiceFormat extends NumberFormat {
+public clbss ChoiceFormbt extends NumberFormbt {
 
-    // Proclaim serial compatibility with 1.1 FCS
-    private static final long serialVersionUID = 1795184449645032964L;
+    // Proclbim seribl compbtibility with 1.1 FCS
+    privbte stbtic finbl long seriblVersionUID = 1795184449645032964L;
 
     /**
-     * Sets the pattern.
-     * @param newPattern See the class description.
+     * Sets the pbttern.
+     * @pbrbm newPbttern See the clbss description.
      */
-    public void applyPattern(String newPattern) {
+    public void bpplyPbttern(String newPbttern) {
         StringBuffer[] segments = new StringBuffer[2];
         for (int i = 0; i < segments.length; ++i) {
             segments[i] = new StringBuffer();
         }
         double[] newChoiceLimits = new double[30];
-        String[] newChoiceFormats = new String[30];
+        String[] newChoiceFormbts = new String[30];
         int count = 0;
-        int part = 0;
-        double startValue = 0;
-        double oldStartValue = Double.NaN;
-        boolean inQuote = false;
-        for (int i = 0; i < newPattern.length(); ++i) {
-            char ch = newPattern.charAt(i);
+        int pbrt = 0;
+        double stbrtVblue = 0;
+        double oldStbrtVblue = Double.NbN;
+        boolebn inQuote = fblse;
+        for (int i = 0; i < newPbttern.length(); ++i) {
+            chbr ch = newPbttern.chbrAt(i);
             if (ch=='\'') {
-                // Check for "''" indicating a literal quote
-                if ((i+1)<newPattern.length() && newPattern.charAt(i+1)==ch) {
-                    segments[part].append(ch);
+                // Check for "''" indicbting b literbl quote
+                if ((i+1)<newPbttern.length() && newPbttern.chbrAt(i+1)==ch) {
+                    segments[pbrt].bppend(ch);
                     ++i;
                 } else {
                     inQuote = !inQuote;
                 }
             } else if (inQuote) {
-                segments[part].append(ch);
+                segments[pbrt].bppend(ch);
             } else if (ch == '<' || ch == '#' || ch == '\u2264') {
                 if (segments[0].length() == 0) {
-                    throw new IllegalArgumentException();
+                    throw new IllegblArgumentException();
                 }
                 try {
                     String tempBuffer = segments[0].toString();
-                    if (tempBuffer.equals("\u221E")) {
-                        startValue = Double.POSITIVE_INFINITY;
-                    } else if (tempBuffer.equals("-\u221E")) {
-                        startValue = Double.NEGATIVE_INFINITY;
+                    if (tempBuffer.equbls("\u221E")) {
+                        stbrtVblue = Double.POSITIVE_INFINITY;
+                    } else if (tempBuffer.equbls("-\u221E")) {
+                        stbrtVblue = Double.NEGATIVE_INFINITY;
                     } else {
-                        startValue = Double.valueOf(segments[0].toString()).doubleValue();
+                        stbrtVblue = Double.vblueOf(segments[0].toString()).doubleVblue();
                     }
-                } catch (Exception e) {
-                    throw new IllegalArgumentException();
+                } cbtch (Exception e) {
+                    throw new IllegblArgumentException();
                 }
-                if (ch == '<' && startValue != Double.POSITIVE_INFINITY &&
-                        startValue != Double.NEGATIVE_INFINITY) {
-                    startValue = nextDouble(startValue);
+                if (ch == '<' && stbrtVblue != Double.POSITIVE_INFINITY &&
+                        stbrtVblue != Double.NEGATIVE_INFINITY) {
+                    stbrtVblue = nextDouble(stbrtVblue);
                 }
-                if (startValue <= oldStartValue) {
-                    throw new IllegalArgumentException();
+                if (stbrtVblue <= oldStbrtVblue) {
+                    throw new IllegblArgumentException();
                 }
                 segments[0].setLength(0);
-                part = 1;
+                pbrt = 1;
             } else if (ch == '|') {
                 if (count == newChoiceLimits.length) {
-                    newChoiceLimits = doubleArraySize(newChoiceLimits);
-                    newChoiceFormats = doubleArraySize(newChoiceFormats);
+                    newChoiceLimits = doubleArrbySize(newChoiceLimits);
+                    newChoiceFormbts = doubleArrbySize(newChoiceFormbts);
                 }
-                newChoiceLimits[count] = startValue;
-                newChoiceFormats[count] = segments[1].toString();
+                newChoiceLimits[count] = stbrtVblue;
+                newChoiceFormbts[count] = segments[1].toString();
                 ++count;
-                oldStartValue = startValue;
+                oldStbrtVblue = stbrtVblue;
                 segments[1].setLength(0);
-                part = 0;
+                pbrt = 0;
             } else {
-                segments[part].append(ch);
+                segments[pbrt].bppend(ch);
             }
         }
-        // clean up last one
-        if (part == 1) {
+        // clebn up lbst one
+        if (pbrt == 1) {
             if (count == newChoiceLimits.length) {
-                newChoiceLimits = doubleArraySize(newChoiceLimits);
-                newChoiceFormats = doubleArraySize(newChoiceFormats);
+                newChoiceLimits = doubleArrbySize(newChoiceLimits);
+                newChoiceFormbts = doubleArrbySize(newChoiceFormbts);
             }
-            newChoiceLimits[count] = startValue;
-            newChoiceFormats[count] = segments[1].toString();
+            newChoiceLimits[count] = stbrtVblue;
+            newChoiceFormbts[count] = segments[1].toString();
             ++count;
         }
         choiceLimits = new double[count];
-        System.arraycopy(newChoiceLimits, 0, choiceLimits, 0, count);
-        choiceFormats = new String[count];
-        System.arraycopy(newChoiceFormats, 0, choiceFormats, 0, count);
+        System.brrbycopy(newChoiceLimits, 0, choiceLimits, 0, count);
+        choiceFormbts = new String[count];
+        System.brrbycopy(newChoiceFormbts, 0, choiceFormbts, 0, count);
     }
 
     /**
-     * Gets the pattern.
+     * Gets the pbttern.
      *
-     * @return the pattern string
+     * @return the pbttern string
      */
-    public String toPattern() {
+    public String toPbttern() {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < choiceLimits.length; ++i) {
             if (i != 0) {
-                result.append('|');
+                result.bppend('|');
             }
-            // choose based upon which has less precision
-            // approximate that by choosing the closest one to an integer.
+            // choose bbsed upon which hbs less precision
+            // bpproximbte thbt by choosing the closest one to bn integer.
             // could do better, but it's not worth it.
             double less = previousDouble(choiceLimits[i]);
-            double tryLessOrEqual = Math.abs(Math.IEEEremainder(choiceLimits[i], 1.0d));
-            double tryLess = Math.abs(Math.IEEEremainder(less, 1.0d));
+            double tryLessOrEqubl = Mbth.bbs(Mbth.IEEErembinder(choiceLimits[i], 1.0d));
+            double tryLess = Mbth.bbs(Mbth.IEEErembinder(less, 1.0d));
 
-            if (tryLessOrEqual < tryLess) {
-                result.append(""+choiceLimits[i]);
-                result.append('#');
+            if (tryLessOrEqubl < tryLess) {
+                result.bppend(""+choiceLimits[i]);
+                result.bppend('#');
             } else {
                 if (choiceLimits[i] == Double.POSITIVE_INFINITY) {
-                    result.append("\u221E");
+                    result.bppend("\u221E");
                 } else if (choiceLimits[i] == Double.NEGATIVE_INFINITY) {
-                    result.append("-\u221E");
+                    result.bppend("-\u221E");
                 } else {
-                    result.append(""+less);
+                    result.bppend(""+less);
                 }
-                result.append('<');
+                result.bppend('<');
             }
-            // Append choiceFormats[i], using quotes if there are special characters.
-            // Single quotes themselves must be escaped in either case.
-            String text = choiceFormats[i];
-            boolean needQuote = text.indexOf('<') >= 0
+            // Append choiceFormbts[i], using quotes if there bre specibl chbrbcters.
+            // Single quotes themselves must be escbped in either cbse.
+            String text = choiceFormbts[i];
+            boolebn needQuote = text.indexOf('<') >= 0
                 || text.indexOf('#') >= 0
                 || text.indexOf('\u2264') >= 0
                 || text.indexOf('|') >= 0;
-            if (needQuote) result.append('\'');
-            if (text.indexOf('\'') < 0) result.append(text);
+            if (needQuote) result.bppend('\'');
+            if (text.indexOf('\'') < 0) result.bppend(text);
             else {
                 for (int j=0; j<text.length(); ++j) {
-                    char c = text.charAt(j);
-                    result.append(c);
-                    if (c == '\'') result.append(c);
+                    chbr c = text.chbrAt(j);
+                    result.bppend(c);
+                    if (c == '\'') result.bppend(c);
                 }
             }
-            if (needQuote) result.append('\'');
+            if (needQuote) result.bppend('\'');
         }
         return result.toString();
     }
 
     /**
-     * Constructs with limits and corresponding formats based on the pattern.
+     * Constructs with limits bnd corresponding formbts bbsed on the pbttern.
      *
-     * @param newPattern the new pattern string
-     * @see #applyPattern
+     * @pbrbm newPbttern the new pbttern string
+     * @see #bpplyPbttern
      */
-    public ChoiceFormat(String newPattern)  {
-        applyPattern(newPattern);
+    public ChoiceFormbt(String newPbttern)  {
+        bpplyPbttern(newPbttern);
     }
 
     /**
-     * Constructs with the limits and the corresponding formats.
+     * Constructs with the limits bnd the corresponding formbts.
      *
-     * @param limits limits in ascending order
-     * @param formats corresponding format strings
+     * @pbrbm limits limits in bscending order
+     * @pbrbm formbts corresponding formbt strings
      * @see #setChoices
      */
-    public ChoiceFormat(double[] limits, String[] formats) {
-        setChoices(limits, formats);
+    public ChoiceFormbt(double[] limits, String[] formbts) {
+        setChoices(limits, formbts);
     }
 
     /**
-     * Set the choices to be used in formatting.
-     * @param limits contains the top value that you want
-     * parsed with that format, and should be in ascending sorted order. When
-     * formatting X, the choice will be the i, where
-     * limit[i] &le; X {@literal <} limit[i+1].
-     * If the limit array is not in ascending order, the results of formatting
+     * Set the choices to be used in formbtting.
+     * @pbrbm limits contbins the top vblue thbt you wbnt
+     * pbrsed with thbt formbt, bnd should be in bscending sorted order. When
+     * formbtting X, the choice will be the i, where
+     * limit[i] &le; X {@literbl <} limit[i+1].
+     * If the limit brrby is not in bscending order, the results of formbtting
      * will be incorrect.
-     * @param formats are the formats you want to use for each limit.
-     * They can be either Format objects or Strings.
-     * When formatting with object Y,
-     * if the object is a NumberFormat, then ((NumberFormat) Y).format(X)
-     * is called. Otherwise Y.toString() is called.
+     * @pbrbm formbts bre the formbts you wbnt to use for ebch limit.
+     * They cbn be either Formbt objects or Strings.
+     * When formbtting with object Y,
+     * if the object is b NumberFormbt, then ((NumberFormbt) Y).formbt(X)
+     * is cblled. Otherwise Y.toString() is cblled.
      */
-    public void setChoices(double[] limits, String formats[]) {
-        if (limits.length != formats.length) {
-            throw new IllegalArgumentException(
-                "Array and limit arrays must be of the same length.");
+    public void setChoices(double[] limits, String formbts[]) {
+        if (limits.length != formbts.length) {
+            throw new IllegblArgumentException(
+                "Arrby bnd limit brrbys must be of the sbme length.");
         }
-        choiceLimits = Arrays.copyOf(limits, limits.length);
-        choiceFormats = Arrays.copyOf(formats, formats.length);
+        choiceLimits = Arrbys.copyOf(limits, limits.length);
+        choiceFormbts = Arrbys.copyOf(formbts, formbts.length);
     }
 
     /**
-     * Get the limits passed in the constructor.
+     * Get the limits pbssed in the constructor.
      * @return the limits.
      */
     public double[] getLimits() {
-        double[] newLimits = Arrays.copyOf(choiceLimits, choiceLimits.length);
+        double[] newLimits = Arrbys.copyOf(choiceLimits, choiceLimits.length);
         return newLimits;
     }
 
     /**
-     * Get the formats passed in the constructor.
-     * @return the formats.
+     * Get the formbts pbssed in the constructor.
+     * @return the formbts.
      */
-    public Object[] getFormats() {
-        Object[] newFormats = Arrays.copyOf(choiceFormats, choiceFormats.length);
-        return newFormats;
+    public Object[] getFormbts() {
+        Object[] newFormbts = Arrbys.copyOf(choiceFormbts, choiceFormbts.length);
+        return newFormbts;
     }
 
     // Overrides
 
     /**
-     * Specialization of format. This method really calls
-     * <code>format(double, StringBuffer, FieldPosition)</code>
-     * thus the range of longs that are supported is only equal to
-     * the range that can be stored by double. This will never be
-     * a practical limitation.
+     * Speciblizbtion of formbt. This method reblly cblls
+     * <code>formbt(double, StringBuffer, FieldPosition)</code>
+     * thus the rbnge of longs thbt bre supported is only equbl to
+     * the rbnge thbt cbn be stored by double. This will never be
+     * b prbcticbl limitbtion.
      */
-    public StringBuffer format(long number, StringBuffer toAppendTo,
-                               FieldPosition status) {
-        return format((double)number, toAppendTo, status);
+    public StringBuffer formbt(long number, StringBuffer toAppendTo,
+                               FieldPosition stbtus) {
+        return formbt((double)number, toAppendTo, stbtus);
     }
 
     /**
-     * Returns pattern with formatted double.
-     * @param number number to be formatted and substituted.
-     * @param toAppendTo where text is appended.
-     * @param status ignore no useful status is returned.
+     * Returns pbttern with formbtted double.
+     * @pbrbm number number to be formbtted bnd substituted.
+     * @pbrbm toAppendTo where text is bppended.
+     * @pbrbm stbtus ignore no useful stbtus is returned.
      */
-   public StringBuffer format(double number, StringBuffer toAppendTo,
-                               FieldPosition status) {
+   public StringBuffer formbt(double number, StringBuffer toAppendTo,
+                               FieldPosition stbtus) {
         // find the number
         int i;
         for (i = 0; i < choiceLimits.length; ++i) {
             if (!(number >= choiceLimits[i])) {
-                // same as number < choiceLimits, except catchs NaN
-                break;
+                // sbme bs number < choiceLimits, except cbtchs NbN
+                brebk;
             }
         }
         --i;
         if (i < 0) i = 0;
-        // return either a formatted number, or a string
-        return toAppendTo.append(choiceFormats[i]);
+        // return either b formbtted number, or b string
+        return toAppendTo.bppend(choiceFormbts[i]);
     }
 
     /**
-     * Parses a Number from the input text.
-     * @param text the source text.
-     * @param status an input-output parameter.  On input, the
-     * status.index field indicates the first character of the
-     * source text that should be parsed.  On exit, if no error
-     * occurred, status.index is set to the first unparsed character
-     * in the source text.  On exit, if an error did occur,
-     * status.index is unchanged and status.errorIndex is set to the
-     * first index of the character that caused the parse to fail.
-     * @return A Number representing the value of the number parsed.
+     * Pbrses b Number from the input text.
+     * @pbrbm text the source text.
+     * @pbrbm stbtus bn input-output pbrbmeter.  On input, the
+     * stbtus.index field indicbtes the first chbrbcter of the
+     * source text thbt should be pbrsed.  On exit, if no error
+     * occurred, stbtus.index is set to the first unpbrsed chbrbcter
+     * in the source text.  On exit, if bn error did occur,
+     * stbtus.index is unchbnged bnd stbtus.errorIndex is set to the
+     * first index of the chbrbcter thbt cbused the pbrse to fbil.
+     * @return A Number representing the vblue of the number pbrsed.
      */
-    public Number parse(String text, ParsePosition status) {
-        // find the best number (defined as the one with the longest parse)
-        int start = status.index;
-        int furthest = start;
-        double bestNumber = Double.NaN;
+    public Number pbrse(String text, PbrsePosition stbtus) {
+        // find the best number (defined bs the one with the longest pbrse)
+        int stbrt = stbtus.index;
+        int furthest = stbrt;
+        double bestNumber = Double.NbN;
         double tempNumber = 0.0;
-        for (int i = 0; i < choiceFormats.length; ++i) {
-            String tempString = choiceFormats[i];
-            if (text.regionMatches(start, tempString, 0, tempString.length())) {
-                status.index = start + tempString.length();
+        for (int i = 0; i < choiceFormbts.length; ++i) {
+            String tempString = choiceFormbts[i];
+            if (text.regionMbtches(stbrt, tempString, 0, tempString.length())) {
+                stbtus.index = stbrt + tempString.length();
                 tempNumber = choiceLimits[i];
-                if (status.index > furthest) {
-                    furthest = status.index;
+                if (stbtus.index > furthest) {
+                    furthest = stbtus.index;
                     bestNumber = tempNumber;
-                    if (furthest == text.length()) break;
+                    if (furthest == text.length()) brebk;
                 }
             }
         }
-        status.index = furthest;
-        if (status.index == start) {
-            status.errorIndex = furthest;
+        stbtus.index = furthest;
+        if (stbtus.index == stbrt) {
+            stbtus.errorIndex = furthest;
         }
         return new Double(bestNumber);
     }
 
     /**
-     * Finds the least double greater than {@code d}.
-     * If {@code NaN}, returns same value.
-     * <p>Used to make half-open intervals.
+     * Finds the lebst double grebter thbn {@code d}.
+     * If {@code NbN}, returns sbme vblue.
+     * <p>Used to mbke hblf-open intervbls.
      *
-     * @param d the reference value
-     * @return the least double value greather than {@code d}
+     * @pbrbm d the reference vblue
+     * @return the lebst double vblue grebther thbn {@code d}
      * @see #previousDouble
      */
-    public static final double nextDouble (double d) {
+    public stbtic finbl double nextDouble (double d) {
         return nextDouble(d,true);
     }
 
     /**
-     * Finds the greatest double less than {@code d}.
-     * If {@code NaN}, returns same value.
+     * Finds the grebtest double less thbn {@code d}.
+     * If {@code NbN}, returns sbme vblue.
      *
-     * @param d the reference value
-     * @return the greatest double value less than {@code d}
+     * @pbrbm d the reference vblue
+     * @return the grebtest double vblue less thbn {@code d}
      * @see #nextDouble
      */
-    public static final double previousDouble (double d) {
-        return nextDouble(d,false);
+    public stbtic finbl double previousDouble (double d) {
+        return nextDouble(d,fblse);
     }
 
     /**
-     * Overrides Cloneable
+     * Overrides Clonebble
      */
     public Object clone()
     {
-        ChoiceFormat other = (ChoiceFormat) super.clone();
-        // for primitives or immutables, shallow clone is enough
+        ChoiceFormbt other = (ChoiceFormbt) super.clone();
+        // for primitives or immutbbles, shbllow clone is enough
         other.choiceLimits = choiceLimits.clone();
-        other.choiceFormats = choiceFormats.clone();
+        other.choiceFormbts = choiceFormbts.clone();
         return other;
     }
 
     /**
-     * Generates a hash code for the message format object.
+     * Generbtes b hbsh code for the messbge formbt object.
      */
-    public int hashCode() {
+    public int hbshCode() {
         int result = choiceLimits.length;
-        if (choiceFormats.length > 0) {
-            // enough for reasonable distribution
-            result ^= choiceFormats[choiceFormats.length-1].hashCode();
+        if (choiceFormbts.length > 0) {
+            // enough for rebsonbble distribution
+            result ^= choiceFormbts[choiceFormbts.length-1].hbshCode();
         }
         return result;
     }
 
     /**
-     * Equality comparision between two
+     * Equblity compbrision between two
      */
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
+    public boolebn equbls(Object obj) {
+        if (obj == null) return fblse;
         if (this == obj)                      // quick check
             return true;
-        if (getClass() != obj.getClass())
-            return false;
-        ChoiceFormat other = (ChoiceFormat) obj;
-        return (Arrays.equals(choiceLimits, other.choiceLimits)
-             && Arrays.equals(choiceFormats, other.choiceFormats));
+        if (getClbss() != obj.getClbss())
+            return fblse;
+        ChoiceFormbt other = (ChoiceFormbt) obj;
+        return (Arrbys.equbls(choiceLimits, other.choiceLimits)
+             && Arrbys.equbls(choiceFormbts, other.choiceFormbts));
     }
 
     /**
-     * After reading an object from the input stream, do a simple verification
-     * to maintain class invariants.
-     * @throws InvalidObjectException if the objects read from the stream is invalid.
+     * After rebding bn object from the input strebm, do b simple verificbtion
+     * to mbintbin clbss invbribnts.
+     * @throws InvblidObjectException if the objects rebd from the strebm is invblid.
      */
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        if (choiceLimits.length != choiceFormats.length) {
-            throw new InvalidObjectException(
-                    "limits and format arrays of different length.");
+    privbte void rebdObject(ObjectInputStrebm in) throws IOException, ClbssNotFoundException {
+        in.defbultRebdObject();
+        if (choiceLimits.length != choiceFormbts.length) {
+            throw new InvblidObjectException(
+                    "limits bnd formbt brrbys of different length.");
         }
     }
 
-    // ===============privates===========================
+    // ===============privbtes===========================
 
     /**
-     * A list of lower bounds for the choices.  The formatter will return
-     * <code>choiceFormats[i]</code> if the number being formatted is greater than or equal to
-     * <code>choiceLimits[i]</code> and less than <code>choiceLimits[i+1]</code>.
-     * @serial
+     * A list of lower bounds for the choices.  The formbtter will return
+     * <code>choiceFormbts[i]</code> if the number being formbtted is grebter thbn or equbl to
+     * <code>choiceLimits[i]</code> bnd less thbn <code>choiceLimits[i+1]</code>.
+     * @seribl
      */
-    private double[] choiceLimits;
+    privbte double[] choiceLimits;
 
     /**
-     * A list of choice strings.  The formatter will return
-     * <code>choiceFormats[i]</code> if the number being formatted is greater than or equal to
-     * <code>choiceLimits[i]</code> and less than <code>choiceLimits[i+1]</code>.
-     * @serial
+     * A list of choice strings.  The formbtter will return
+     * <code>choiceFormbts[i]</code> if the number being formbtted is grebter thbn or equbl to
+     * <code>choiceLimits[i]</code> bnd less thbn <code>choiceLimits[i+1]</code>.
+     * @seribl
      */
-    private String[] choiceFormats;
+    privbte String[] choiceFormbts;
 
     /*
-    static final long SIGN          = 0x8000000000000000L;
-    static final long EXPONENT      = 0x7FF0000000000000L;
-    static final long SIGNIFICAND   = 0x000FFFFFFFFFFFFFL;
+    stbtic finbl long SIGN          = 0x8000000000000000L;
+    stbtic finbl long EXPONENT      = 0x7FF0000000000000L;
+    stbtic finbl long SIGNIFICAND   = 0x000FFFFFFFFFFFFFL;
 
-    private static double nextDouble (double d, boolean positive) {
-        if (Double.isNaN(d) || Double.isInfinite(d)) {
+    privbte stbtic double nextDouble (double d, boolebn positive) {
+        if (Double.isNbN(d) || Double.isInfinite(d)) {
                 return d;
             }
         long bits = Double.doubleToLongBits(d);
-        long significand = bits & SIGNIFICAND;
+        long significbnd = bits & SIGNIFICAND;
         if (bits < 0) {
-            significand |= (SIGN | EXPONENT);
+            significbnd |= (SIGN | EXPONENT);
         }
         long exponent = bits & EXPONENT;
         if (positive) {
-            significand += 1;
+            significbnd += 1;
             // FIXME fix overflow & underflow
         } else {
-            significand -= 1;
+            significbnd -= 1;
             // FIXME fix overflow & underflow
         }
-        bits = exponent | (significand & ~EXPONENT);
+        bits = exponent | (significbnd & ~EXPONENT);
         return Double.longBitsToDouble(bits);
     }
     */
 
-    static final long SIGN                = 0x8000000000000000L;
-    static final long EXPONENT            = 0x7FF0000000000000L;
-    static final long POSITIVEINFINITY    = 0x7FF0000000000000L;
+    stbtic finbl long SIGN                = 0x8000000000000000L;
+    stbtic finbl long EXPONENT            = 0x7FF0000000000000L;
+    stbtic finbl long POSITIVEINFINITY    = 0x7FF0000000000000L;
 
     /**
-     * Finds the least double greater than {@code d} (if {@code positive} is
-     * {@code true}), or the greatest double less than {@code d} (if
-     * {@code positive} is {@code false}).
-     * If {@code NaN}, returns same value.
+     * Finds the lebst double grebter thbn {@code d} (if {@code positive} is
+     * {@code true}), or the grebtest double less thbn {@code d} (if
+     * {@code positive} is {@code fblse}).
+     * If {@code NbN}, returns sbme vblue.
      *
-     * Does not affect floating-point flags,
+     * Does not bffect flobting-point flbgs,
      * provided these member functions do not:
      *          Double.longBitsToDouble(long)
      *          Double.doubleToLongBits(double)
-     *          Double.isNaN(double)
+     *          Double.isNbN(double)
      *
-     * @param d        the reference value
-     * @param positive {@code true} if the least double is desired;
-     *                 {@code false} otherwise
-     * @return the least or greater double value
+     * @pbrbm d        the reference vblue
+     * @pbrbm positive {@code true} if the lebst double is desired;
+     *                 {@code fblse} otherwise
+     * @return the lebst or grebter double vblue
      */
-    public static double nextDouble (double d, boolean positive) {
+    public stbtic double nextDouble (double d, boolebn positive) {
 
-        /* filter out NaN's */
-        if (Double.isNaN(d)) {
+        /* filter out NbN's */
+        if (Double.isNbN(d)) {
             return d;
         }
 
-        /* zero's are also a special case */
+        /* zero's bre blso b specibl cbse */
         if (d == 0.0) {
-            double smallestPositiveDouble = Double.longBitsToDouble(1L);
+            double smbllestPositiveDouble = Double.longBitsToDouble(1L);
             if (positive) {
-                return smallestPositiveDouble;
+                return smbllestPositiveDouble;
             } else {
-                return -smallestPositiveDouble;
+                return -smbllestPositiveDouble;
             }
         }
 
-        /* if entering here, d is a nonzero value */
+        /* if entering here, d is b nonzero vblue */
 
-        /* hold all bits in a long for later use */
+        /* hold bll bits in b long for lbter use */
         long bits = Double.doubleToLongBits(d);
 
         /* strip off the sign bit */
-        long magnitude = bits & ~SIGN;
+        long mbgnitude = bits & ~SIGN;
 
-        /* if next double away from zero, increase magnitude */
+        /* if next double bwby from zero, increbse mbgnitude */
         if ((bits > 0) == positive) {
-            if (magnitude != POSITIVEINFINITY) {
-                magnitude += 1;
+            if (mbgnitude != POSITIVEINFINITY) {
+                mbgnitude += 1;
             }
         }
-        /* else decrease magnitude */
+        /* else decrebse mbgnitude */
         else {
-            magnitude -= 1;
+            mbgnitude -= 1;
         }
 
-        /* restore sign bit and return */
+        /* restore sign bit bnd return */
         long signbit = bits & SIGN;
-        return Double.longBitsToDouble (magnitude | signbit);
+        return Double.longBitsToDouble (mbgnitude | signbit);
     }
 
-    private static double[] doubleArraySize(double[] array) {
-        int oldSize = array.length;
-        double[] newArray = new double[oldSize * 2];
-        System.arraycopy(array, 0, newArray, 0, oldSize);
-        return newArray;
+    privbte stbtic double[] doubleArrbySize(double[] brrby) {
+        int oldSize = brrby.length;
+        double[] newArrby = new double[oldSize * 2];
+        System.brrbycopy(brrby, 0, newArrby, 0, oldSize);
+        return newArrby;
     }
 
-    private String[] doubleArraySize(String[] array) {
-        int oldSize = array.length;
-        String[] newArray = new String[oldSize * 2];
-        System.arraycopy(array, 0, newArray, 0, oldSize);
-        return newArray;
+    privbte String[] doubleArrbySize(String[] brrby) {
+        int oldSize = brrby.length;
+        String[] newArrby = new String[oldSize * 2];
+        System.brrbycopy(brrby, 0, newArrby, 0, oldSize);
+        return newArrby;
     }
 
 }

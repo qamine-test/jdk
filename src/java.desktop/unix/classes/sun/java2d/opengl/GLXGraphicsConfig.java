@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import java.awt.AWTException;
-import java.awt.BufferCapabilities;
-import java.awt.BufferCapabilities.FlipContents;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.ImageCapabilities;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DirectColorModel;
-import java.awt.image.VolatileImage;
-import java.awt.image.WritableRaster;
-import sun.awt.X11ComponentPeer;
-import sun.awt.X11GraphicsConfig;
-import sun.awt.X11GraphicsDevice;
-import sun.awt.X11GraphicsEnvironment;
-import sun.awt.image.OffScreenImage;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.SurfaceManager;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.Surface;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.hw.AccelSurface;
-import sun.java2d.pipe.hw.AccelTypedVolatileImage;
-import sun.java2d.pipe.hw.ContextCapabilities;
-import static sun.java2d.opengl.OGLSurfaceData.*;
-import static sun.java2d.opengl.OGLContext.*;
-import static sun.java2d.opengl.OGLContext.OGLContextCaps.*;
-import sun.java2d.opengl.GLXSurfaceData.GLXVSyncOffScreenSurfaceData;
-import sun.java2d.pipe.hw.AccelDeviceEventListener;
-import sun.java2d.pipe.hw.AccelDeviceEventNotifier;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.BufferCbpbbilities;
+import jbvb.bwt.BufferCbpbbilities.FlipContents;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.ImbgeCbpbbilities;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.VolbtileImbge;
+import jbvb.bwt.imbge.WritbbleRbster;
+import sun.bwt.X11ComponentPeer;
+import sun.bwt.X11GrbphicsConfig;
+import sun.bwt.X11GrbphicsDevice;
+import sun.bwt.X11GrbphicsEnvironment;
+import sun.bwt.imbge.OffScreenImbge;
+import sun.bwt.imbge.SunVolbtileImbge;
+import sun.bwt.imbge.SurfbceMbnbger;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.Surfbce;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.pipe.hw.AccelSurfbce;
+import sun.jbvb2d.pipe.hw.AccelTypedVolbtileImbge;
+import sun.jbvb2d.pipe.hw.ContextCbpbbilities;
+import stbtic sun.jbvb2d.opengl.OGLSurfbceDbtb.*;
+import stbtic sun.jbvb2d.opengl.OGLContext.*;
+import stbtic sun.jbvb2d.opengl.OGLContext.OGLContextCbps.*;
+import sun.jbvb2d.opengl.GLXSurfbceDbtb.GLXVSyncOffScreenSurfbceDbtb;
+import sun.jbvb2d.pipe.hw.AccelDeviceEventListener;
+import sun.jbvb2d.pipe.hw.AccelDeviceEventNotifier;
 
-public class GLXGraphicsConfig
-    extends X11GraphicsConfig
-    implements OGLGraphicsConfig
+public clbss GLXGrbphicsConfig
+    extends X11GrbphicsConfig
+    implements OGLGrbphicsConfig
 {
-    private static ImageCapabilities imageCaps = new GLXImageCaps();
-    private BufferCapabilities bufferCaps;
-    private long pConfigInfo;
-    private ContextCapabilities oglCaps;
-    private OGLContext context;
+    privbte stbtic ImbgeCbpbbilities imbgeCbps = new GLXImbgeCbps();
+    privbte BufferCbpbbilities bufferCbps;
+    privbte long pConfigInfo;
+    privbte ContextCbpbbilities oglCbps;
+    privbte OGLContext context;
 
-    private static native long getGLXConfigInfo(int screennum, int visualnum);
-    private static native int getOGLCapabilities(long configInfo);
-    private native void initConfig(long aData, long ctxinfo);
+    privbte stbtic nbtive long getGLXConfigInfo(int screennum, int visublnum);
+    privbte stbtic nbtive int getOGLCbpbbilities(long configInfo);
+    privbte nbtive void initConfig(long bDbtb, long ctxinfo);
 
-    private GLXGraphicsConfig(X11GraphicsDevice device, int visualnum,
-                              long configInfo, ContextCapabilities oglCaps)
+    privbte GLXGrbphicsConfig(X11GrbphicsDevice device, int visublnum,
+                              long configInfo, ContextCbpbbilities oglCbps)
     {
-        super(device, visualnum, 0, 0,
-              (oglCaps.getCaps() & CAPS_DOUBLEBUFFERED) != 0);
+        super(device, visublnum, 0, 0,
+              (oglCbps.getCbps() & CAPS_DOUBLEBUFFERED) != 0);
         pConfigInfo = configInfo;
-        initConfig(getAData(), configInfo);
-        this.oglCaps = oglCaps;
-        context = new OGLContext(OGLRenderQueue.getInstance(), this);
+        initConfig(getADbtb(), configInfo);
+        this.oglCbps = oglCbps;
+        context = new OGLContext(OGLRenderQueue.getInstbnce(), this);
     }
 
     @Override
@@ -93,68 +93,68 @@ public class GLXGraphicsConfig
     }
 
     @Override
-    public SurfaceData createManagedSurface(int w, int h, int transparency) {
-        return GLXSurfaceData.createData(this, w, h,
-                                         getColorModel(transparency),
+    public SurfbceDbtb crebteMbnbgedSurfbce(int w, int h, int trbnspbrency) {
+        return GLXSurfbceDbtb.crebteDbtb(this, w, h,
+                                         getColorModel(trbnspbrency),
                                          null,
-                                         OGLSurfaceData.TEXTURE);
+                                         OGLSurfbceDbtb.TEXTURE);
     }
 
-    public static GLXGraphicsConfig getConfig(X11GraphicsDevice device,
-                                              int visualnum)
+    public stbtic GLXGrbphicsConfig getConfig(X11GrbphicsDevice device,
+                                              int visublnum)
     {
-        if (!X11GraphicsEnvironment.isGLXAvailable()) {
+        if (!X11GrbphicsEnvironment.isGLXAvbilbble()) {
             return null;
         }
 
         long cfginfo = 0;
-        final String ids[] = new String[1];
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
+        finbl String ids[] = new String[1];
+        OGLRenderQueue rq = OGLRenderQueue.getInstbnce();
         rq.lock();
         try {
-            // getGLXConfigInfo() creates and destroys temporary
-            // surfaces/contexts, so we should first invalidate the current
-            // Java-level context and flush the queue...
-            OGLContext.invalidateCurrentContext();
-            GLXGetConfigInfo action =
-                new GLXGetConfigInfo(device.getScreen(), visualnum);
-            rq.flushAndInvokeNow(action);
-            cfginfo = action.getConfigInfo();
+            // getGLXConfigInfo() crebtes bnd destroys temporbry
+            // surfbces/contexts, so we should first invblidbte the current
+            // Jbvb-level context bnd flush the queue...
+            OGLContext.invblidbteCurrentContext();
+            GLXGetConfigInfo bction =
+                new GLXGetConfigInfo(device.getScreen(), visublnum);
+            rq.flushAndInvokeNow(bction);
+            cfginfo = bction.getConfigInfo();
             if (cfginfo != 0L) {
-                OGLContext.setScratchSurface(cfginfo);
-                rq.flushAndInvokeNow(new Runnable() {
+                OGLContext.setScrbtchSurfbce(cfginfo);
+                rq.flushAndInvokeNow(new Runnbble() {
                     public void run() {
                         ids[0] = OGLContext.getOGLIdString();
                     }
                 });
             }
-        } finally {
+        } finblly {
             rq.unlock();
         }
         if (cfginfo == 0) {
             return null;
         }
 
-        int oglCaps = getOGLCapabilities(cfginfo);
-        ContextCapabilities caps = new OGLContextCaps(oglCaps, ids[0]);
+        int oglCbps = getOGLCbpbbilities(cfginfo);
+        ContextCbpbbilities cbps = new OGLContextCbps(oglCbps, ids[0]);
 
-        return new GLXGraphicsConfig(device, visualnum, cfginfo, caps);
+        return new GLXGrbphicsConfig(device, visublnum, cfginfo, cbps);
     }
 
     /**
-     * This is a small helper class that allows us to execute
-     * getGLXConfigInfo() on the queue flushing thread.
+     * This is b smbll helper clbss thbt bllows us to execute
+     * getGLXConfigInfo() on the queue flushing threbd.
      */
-    private static class GLXGetConfigInfo implements Runnable {
-        private int screen;
-        private int visual;
-        private long cfginfo;
-        private GLXGetConfigInfo(int screen, int visual) {
+    privbte stbtic clbss GLXGetConfigInfo implements Runnbble {
+        privbte int screen;
+        privbte int visubl;
+        privbte long cfginfo;
+        privbte GLXGetConfigInfo(int screen, int visubl) {
             this.screen = screen;
-            this.visual = visual;
+            this.visubl = visubl;
         }
         public void run() {
-            cfginfo = getGLXConfigInfo(screen, visual);
+            cfginfo = getGLXConfigInfo(screen, visubl);
         }
         public long getConfigInfo() {
             return cfginfo;
@@ -162,265 +162,265 @@ public class GLXGraphicsConfig
     }
 
     /**
-     * Returns true if the provided capability bit is present for this config.
-     * See OGLContext.java for a list of supported capabilities.
+     * Returns true if the provided cbpbbility bit is present for this config.
+     * See OGLContext.jbvb for b list of supported cbpbbilities.
      */
     @Override
-    public final boolean isCapPresent(int cap) {
-        return ((oglCaps.getCaps() & cap) != 0);
+    public finbl boolebn isCbpPresent(int cbp) {
+        return ((oglCbps.getCbps() & cbp) != 0);
     }
 
     @Override
-    public final long getNativeConfigInfo() {
+    public finbl long getNbtiveConfigInfo() {
         return pConfigInfo;
     }
 
     /**
      * {@inheritDoc}
      *
-     * @see sun.java2d.pipe.hw.BufferedContextProvider#getContext
+     * @see sun.jbvb2d.pipe.hw.BufferedContextProvider#getContext
      */
     @Override
-    public final OGLContext getContext() {
+    public finbl OGLContext getContext() {
         return context;
     }
 
     @Override
-    public BufferedImage createCompatibleImage(int width, int height) {
+    public BufferedImbge crebteCompbtibleImbge(int width, int height) {
         ColorModel model = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-        WritableRaster
-            raster = model.createCompatibleWritableRaster(width, height);
-        return new BufferedImage(model, raster, model.isAlphaPremultiplied(),
+        WritbbleRbster
+            rbster = model.crebteCompbtibleWritbbleRbster(width, height);
+        return new BufferedImbge(model, rbster, model.isAlphbPremultiplied(),
                                  null);
     }
 
     @Override
-    public ColorModel getColorModel(int transparency) {
-        switch (transparency) {
-        case Transparency.OPAQUE:
-            // REMIND: once the ColorModel spec is changed, this should be
-            //         an opaque premultiplied DCM...
+    public ColorModel getColorModel(int trbnspbrency) {
+        switch (trbnspbrency) {
+        cbse Trbnspbrency.OPAQUE:
+            // REMIND: once the ColorModel spec is chbnged, this should be
+            //         bn opbque premultiplied DCM...
             return new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-        case Transparency.BITMASK:
+        cbse Trbnspbrency.BITMASK:
             return new DirectColorModel(25, 0xff0000, 0xff00, 0xff, 0x1000000);
-        case Transparency.TRANSLUCENT:
-            ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+        cbse Trbnspbrency.TRANSLUCENT:
+            ColorSpbce cs = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
             return new DirectColorModel(cs, 32,
                                         0xff0000, 0xff00, 0xff, 0xff000000,
-                                        true, DataBuffer.TYPE_INT);
-        default:
+                                        true, DbtbBuffer.TYPE_INT);
+        defbult:
             return null;
         }
     }
 
     public String toString() {
-        return ("GLXGraphicsConfig[dev="+screen+
-                ",vis=0x"+Integer.toHexString(visual)+
+        return ("GLXGrbphicsConfig[dev="+screen+
+                ",vis=0x"+Integer.toHexString(visubl)+
                 "]");
     }
 
     /**
-     * The following methods are invoked from MToolkit or XToolkit.java and
-     * X11ComponentPeer.java rather than having the X11-dependent
-     * implementations hardcoded in those classes.  This way the appropriate
-     * actions are taken based on the peer's GraphicsConfig, whether it is
-     * an X11GraphicsConfig or a GLXGraphicsConfig.
+     * The following methods bre invoked from MToolkit or XToolkit.jbvb bnd
+     * X11ComponentPeer.jbvb rbther thbn hbving the X11-dependent
+     * implementbtions hbrdcoded in those clbsses.  This wby the bppropribte
+     * bctions bre tbken bbsed on the peer's GrbphicsConfig, whether it is
+     * bn X11GrbphicsConfig or b GLXGrbphicsConfig.
      */
 
     /**
-     * Creates a new SurfaceData that will be associated with the given
+     * Crebtes b new SurfbceDbtb thbt will be bssocibted with the given
      * X11ComponentPeer.
      */
     @Override
-    public SurfaceData createSurfaceData(X11ComponentPeer peer) {
-        return GLXSurfaceData.createData(peer);
+    public SurfbceDbtb crebteSurfbceDbtb(X11ComponentPeer peer) {
+        return GLXSurfbceDbtb.crebteDbtb(peer);
     }
 
     /**
-     * Creates a new hidden-acceleration image of the given width and height
-     * that is associated with the target Component.
+     * Crebtes b new hidden-bccelerbtion imbge of the given width bnd height
+     * thbt is bssocibted with the tbrget Component.
      */
     @Override
-    public Image createAcceleratedImage(Component target,
+    public Imbge crebteAccelerbtedImbge(Component tbrget,
                                         int width, int height)
     {
-        ColorModel model = getColorModel(Transparency.OPAQUE);
-        WritableRaster wr =
-            model.createCompatibleWritableRaster(width, height);
-        return new OffScreenImage(target, model, wr,
-                                  model.isAlphaPremultiplied());
+        ColorModel model = getColorModel(Trbnspbrency.OPAQUE);
+        WritbbleRbster wr =
+            model.crebteCompbtibleWritbbleRbster(width, height);
+        return new OffScreenImbge(tbrget, model, wr,
+                                  model.isAlphbPremultiplied());
     }
 
     /**
      * The following methods correspond to the multibuffering methods in
-     * X11ComponentPeer.java...
+     * X11ComponentPeer.jbvb...
      */
 
     /**
-     * Attempts to create a GLX-based backbuffer for the given peer.  If
-     * the requested configuration is not natively supported, an AWTException
-     * is thrown.  Otherwise, if the backbuffer creation is successful, a
-     * value of 1 is returned.
+     * Attempts to crebte b GLX-bbsed bbckbuffer for the given peer.  If
+     * the requested configurbtion is not nbtively supported, bn AWTException
+     * is thrown.  Otherwise, if the bbckbuffer crebtion is successful, b
+     * vblue of 1 is returned.
      */
     @Override
-    public long createBackBuffer(X11ComponentPeer peer,
-                                 int numBuffers, BufferCapabilities caps)
+    public long crebteBbckBuffer(X11ComponentPeer peer,
+                                 int numBuffers, BufferCbpbbilities cbps)
         throws AWTException
     {
         if (numBuffers > 2) {
             throw new AWTException(
                 "Only double or single buffering is supported");
         }
-        BufferCapabilities configCaps = getBufferCapabilities();
-        if (!configCaps.isPageFlipping()) {
-            throw new AWTException("Page flipping is not supported");
+        BufferCbpbbilities configCbps = getBufferCbpbbilities();
+        if (!configCbps.isPbgeFlipping()) {
+            throw new AWTException("Pbge flipping is not supported");
         }
-        if (caps.getFlipContents() == BufferCapabilities.FlipContents.PRIOR) {
+        if (cbps.getFlipContents() == BufferCbpbbilities.FlipContents.PRIOR) {
             throw new AWTException("FlipContents.PRIOR is not supported");
         }
 
-        // non-zero return value means backbuffer creation was successful
+        // non-zero return vblue mebns bbckbuffer crebtion wbs successful
         // (checked in X11ComponentPeer.flip(), etc.)
         return 1;
     }
 
     /**
-     * Destroys the backbuffer object represented by the given handle value.
+     * Destroys the bbckbuffer object represented by the given hbndle vblue.
      */
     @Override
-    public void destroyBackBuffer(long backBuffer) {
+    public void destroyBbckBuffer(long bbckBuffer) {
     }
 
     /**
-     * Creates a VolatileImage that essentially wraps the target Component's
-     * backbuffer (the provided backbuffer handle is essentially ignored).
+     * Crebtes b VolbtileImbge thbt essentiblly wrbps the tbrget Component's
+     * bbckbuffer (the provided bbckbuffer hbndle is essentiblly ignored).
      */
     @Override
-    public VolatileImage createBackBufferImage(Component target,
-                                               long backBuffer)
+    public VolbtileImbge crebteBbckBufferImbge(Component tbrget,
+                                               long bbckBuffer)
     {
-        return new SunVolatileImage(target,
-                                    target.getWidth(), target.getHeight(),
-                                    Boolean.TRUE);
+        return new SunVolbtileImbge(tbrget,
+                                    tbrget.getWidth(), tbrget.getHeight(),
+                                    Boolebn.TRUE);
     }
 
     /**
-     * Performs the native GLX flip operation for the given target Component.
+     * Performs the nbtive GLX flip operbtion for the given tbrget Component.
      */
     @Override
     public void flip(X11ComponentPeer peer,
-                     Component target, VolatileImage xBackBuffer,
+                     Component tbrget, VolbtileImbge xBbckBuffer,
                      int x1, int y1, int x2, int y2,
-                     BufferCapabilities.FlipContents flipAction)
+                     BufferCbpbbilities.FlipContents flipAction)
     {
-        if (flipAction == BufferCapabilities.FlipContents.COPIED) {
-            SurfaceManager vsm = SurfaceManager.getManager(xBackBuffer);
-            SurfaceData sd = vsm.getPrimarySurfaceData();
+        if (flipAction == BufferCbpbbilities.FlipContents.COPIED) {
+            SurfbceMbnbger vsm = SurfbceMbnbger.getMbnbger(xBbckBuffer);
+            SurfbceDbtb sd = vsm.getPrimbrySurfbceDbtb();
 
-            if (sd instanceof GLXVSyncOffScreenSurfaceData) {
-                GLXVSyncOffScreenSurfaceData vsd =
-                    (GLXVSyncOffScreenSurfaceData)sd;
-                SurfaceData bbsd = vsd.getFlipSurface();
-                Graphics2D bbg =
-                    new SunGraphics2D(bbsd, Color.black, Color.white, null);
+            if (sd instbnceof GLXVSyncOffScreenSurfbceDbtb) {
+                GLXVSyncOffScreenSurfbceDbtb vsd =
+                    (GLXVSyncOffScreenSurfbceDbtb)sd;
+                SurfbceDbtb bbsd = vsd.getFlipSurfbce();
+                Grbphics2D bbg =
+                    new SunGrbphics2D(bbsd, Color.blbck, Color.white, null);
                 try {
-                    bbg.drawImage(xBackBuffer, 0, 0, null);
-                } finally {
+                    bbg.drbwImbge(xBbckBuffer, 0, 0, null);
+                } finblly {
                     bbg.dispose();
                 }
             } else {
-                Graphics g = peer.getGraphics();
+                Grbphics g = peer.getGrbphics();
                 try {
-                    g.drawImage(xBackBuffer,
+                    g.drbwImbge(xBbckBuffer,
                                 x1, y1, x2, y2,
                                 x1, y1, x2, y2,
                                 null);
-                } finally {
+                } finblly {
                     g.dispose();
                 }
                 return;
             }
-        } else if (flipAction == BufferCapabilities.FlipContents.PRIOR) {
+        } else if (flipAction == BufferCbpbbilities.FlipContents.PRIOR) {
             // not supported by GLX...
             return;
         }
 
-        OGLSurfaceData.swapBuffers(peer.getContentWindow());
+        OGLSurfbceDbtb.swbpBuffers(peer.getContentWindow());
 
-        if (flipAction == BufferCapabilities.FlipContents.BACKGROUND) {
-            Graphics g = xBackBuffer.getGraphics();
+        if (flipAction == BufferCbpbbilities.FlipContents.BACKGROUND) {
+            Grbphics g = xBbckBuffer.getGrbphics();
             try {
-                g.setColor(target.getBackground());
+                g.setColor(tbrget.getBbckground());
                 g.fillRect(0, 0,
-                           xBackBuffer.getWidth(),
-                           xBackBuffer.getHeight());
-            } finally {
+                           xBbckBuffer.getWidth(),
+                           xBbckBuffer.getHeight());
+            } finblly {
                 g.dispose();
             }
         }
     }
 
-    private static class GLXBufferCaps extends BufferCapabilities {
-        public GLXBufferCaps(boolean dblBuf) {
-            super(imageCaps, imageCaps,
+    privbte stbtic clbss GLXBufferCbps extends BufferCbpbbilities {
+        public GLXBufferCbps(boolebn dblBuf) {
+            super(imbgeCbps, imbgeCbps,
                   dblBuf ? FlipContents.UNDEFINED : null);
         }
     }
 
     @Override
-    public BufferCapabilities getBufferCapabilities() {
-        if (bufferCaps == null) {
-            bufferCaps = new GLXBufferCaps(isDoubleBuffered());
+    public BufferCbpbbilities getBufferCbpbbilities() {
+        if (bufferCbps == null) {
+            bufferCbps = new GLXBufferCbps(isDoubleBuffered());
         }
-        return bufferCaps;
+        return bufferCbps;
     }
 
-    private static class GLXImageCaps extends ImageCapabilities {
-        private GLXImageCaps() {
+    privbte stbtic clbss GLXImbgeCbps extends ImbgeCbpbbilities {
+        privbte GLXImbgeCbps() {
             super(true);
         }
-        public boolean isTrueVolatile() {
+        public boolebn isTrueVolbtile() {
             return true;
         }
     }
 
     @Override
-    public ImageCapabilities getImageCapabilities() {
-        return imageCaps;
+    public ImbgeCbpbbilities getImbgeCbpbbilities() {
+        return imbgeCbps;
     }
 
     /**
      * {@inheritDoc}
      *
-     * @see sun.java2d.pipe.hw.AccelGraphicsConfig#createCompatibleVolatileImage
+     * @see sun.jbvb2d.pipe.hw.AccelGrbphicsConfig#crebteCompbtibleVolbtileImbge
      */
     @Override
-    public VolatileImage
-        createCompatibleVolatileImage(int width, int height,
-                                      int transparency, int type)
+    public VolbtileImbge
+        crebteCompbtibleVolbtileImbge(int width, int height,
+                                      int trbnspbrency, int type)
     {
         if (type == FLIP_BACKBUFFER || type == WINDOW || type == UNDEFINED ||
-            transparency == Transparency.BITMASK)
+            trbnspbrency == Trbnspbrency.BITMASK)
         {
             return null;
         }
 
         if (type == FBOBJECT) {
-            if (!isCapPresent(CAPS_EXT_FBOBJECT)) {
+            if (!isCbpPresent(CAPS_EXT_FBOBJECT)) {
                 return null;
             }
         } else if (type == PBUFFER) {
-            boolean isOpaque = transparency == Transparency.OPAQUE;
-            if (!isOpaque && !isCapPresent(CAPS_STORED_ALPHA)) {
+            boolebn isOpbque = trbnspbrency == Trbnspbrency.OPAQUE;
+            if (!isOpbque && !isCbpPresent(CAPS_STORED_ALPHA)) {
                 return null;
             }
         }
 
-        SunVolatileImage vi = new AccelTypedVolatileImage(this, width, height,
-                                                          transparency, type);
-        Surface sd = vi.getDestSurface();
-        if (!(sd instanceof AccelSurface) ||
-            ((AccelSurface)sd).getType() != type)
+        SunVolbtileImbge vi = new AccelTypedVolbtileImbge(this, width, height,
+                                                          trbnspbrency, type);
+        Surfbce sd = vi.getDestSurfbce();
+        if (!(sd instbnceof AccelSurfbce) ||
+            ((AccelSurfbce)sd).getType() != type)
         {
             vi.flush();
             vi = null;
@@ -432,16 +432,16 @@ public class GLXGraphicsConfig
     /**
      * {@inheritDoc}
      *
-     * @see sun.java2d.pipe.hw.AccelGraphicsConfig#getContextCapabilities
+     * @see sun.jbvb2d.pipe.hw.AccelGrbphicsConfig#getContextCbpbbilities
      */
     @Override
-    public ContextCapabilities getContextCapabilities() {
-        return oglCaps;
+    public ContextCbpbbilities getContextCbpbbilities() {
+        return oglCbps;
     }
 
     @Override
-    public void addDeviceEventListener(AccelDeviceEventListener l) {
-        AccelDeviceEventNotifier.addListener(l, screen.getScreen());
+    public void bddDeviceEventListener(AccelDeviceEventListener l) {
+        AccelDeviceEventNotifier.bddListener(l, screen.getScreen());
     }
 
     @Override

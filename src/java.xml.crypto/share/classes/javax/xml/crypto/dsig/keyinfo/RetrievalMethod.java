@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: RetrievalMethod.java,v 1.8 2005/05/10 16:35:35 mullan Exp $
+ * $Id: RetrievblMethod.jbvb,v 1.8 2005/05/10 16:35:35 mullbn Exp $
  */
-package javax.xml.crypto.dsig.keyinfo;
+pbckbge jbvbx.xml.crypto.dsig.keyinfo;
 
-import javax.xml.crypto.Data;
-import javax.xml.crypto.URIReference;
-import javax.xml.crypto.URIReferenceException;
-import javax.xml.crypto.XMLCryptoContext;
-import javax.xml.crypto.XMLStructure;
-import javax.xml.crypto.dsig.Transform;
-import java.util.List;
+import jbvbx.xml.crypto.Dbtb;
+import jbvbx.xml.crypto.URIReference;
+import jbvbx.xml.crypto.URIReferenceException;
+import jbvbx.xml.crypto.XMLCryptoContext;
+import jbvbx.xml.crypto.XMLStructure;
+import jbvbx.xml.crypto.dsig.Trbnsform;
+import jbvb.util.List;
 
 /**
- * A representation of the XML <code>RetrievalMethod</code> element as
- * defined in the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * A <code>RetrievalMethod</code> object is used to convey a reference to
- * <code>KeyInfo</code> information that is stored at another location.
- * The XML schema definition is defined as:
+ * A representbtion of the XML <code>RetrievblMethod</code> element bs
+ * defined in the <b href="http://www.w3.org/TR/xmldsig-core/">
+ * W3C Recommendbtion for XML-Signbture Syntbx bnd Processing</b>.
+ * A <code>RetrievblMethod</code> object is used to convey b reference to
+ * <code>KeyInfo</code> informbtion thbt is stored bt bnother locbtion.
+ * The XML schemb definition is defined bs:
  *
  * <pre>
- *   &lt;element name="RetrievalMethod" type="ds:RetrievalMethodType"/&gt;
- *   &lt;complexType name="RetrievalMethodType"&gt;
+ *   &lt;element nbme="RetrievblMethod" type="ds:RetrievblMethodType"/&gt;
+ *   &lt;complexType nbme="RetrievblMethodType"&gt;
  *     &lt;sequence&gt;
- *       &lt;element name="Transforms" type="ds:TransformsType" minOccurs="0"/&gt;
+ *       &lt;element nbme="Trbnsforms" type="ds:TrbnsformsType" minOccurs="0"/&gt;
  *     &lt;/sequence&gt;
- *     &lt;attribute name="URI" type="anyURI"/&gt;
- *     &lt;attribute name="Type" type="anyURI" use="optional"/&gt;
+ *     &lt;bttribute nbme="URI" type="bnyURI"/&gt;
+ *     &lt;bttribute nbme="Type" type="bnyURI" use="optionbl"/&gt;
  *   &lt;/complexType&gt;
  * </pre>
  *
- * A <code>RetrievalMethod</code> instance may be created by invoking one of the
- * {@link KeyInfoFactory#newRetrievalMethod newRetrievalMethod} methods
- * of the {@link KeyInfoFactory} class, and passing it the URI
- * identifying the location of the KeyInfo, an optional type URI identifying
- * the type of KeyInfo, and an optional list of {@link Transform}s; for example:
+ * A <code>RetrievblMethod</code> instbnce mby be crebted by invoking one of the
+ * {@link KeyInfoFbctory#newRetrievblMethod newRetrievblMethod} methods
+ * of the {@link KeyInfoFbctory} clbss, bnd pbssing it the URI
+ * identifying the locbtion of the KeyInfo, bn optionbl type URI identifying
+ * the type of KeyInfo, bnd bn optionbl list of {@link Trbnsform}s; for exbmple:
  * <pre>
- *   KeyInfoFactory factory = KeyInfoFactory.getInstance("DOM");
- *   RetrievalMethod rm = factory.newRetrievalMethod
- *      ("#KeyValue-1", KeyValue.DSA_TYPE, Collections.singletonList(Transform.BASE64));
+ *   KeyInfoFbctory fbctory = KeyInfoFbctory.getInstbnce("DOM");
+ *   RetrievblMethod rm = fbctory.newRetrievblMethod
+ *      ("#KeyVblue-1", KeyVblue.DSA_TYPE, Collections.singletonList(Trbnsform.BASE64));
  * </pre>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see KeyInfoFactory#newRetrievalMethod(String)
- * @see KeyInfoFactory#newRetrievalMethod(String, String, List)
+ * @see KeyInfoFbctory#newRetrievblMethod(String)
+ * @see KeyInfoFbctory#newRetrievblMethod(String, String, List)
  */
-public interface RetrievalMethod extends URIReference, XMLStructure {
+public interfbce RetrievblMethod extends URIReference, XMLStructure {
 
     /**
-     * Returns an {@link java.util.Collections#unmodifiableList unmodifiable
-     * list} of {@link Transform}s of this <code>RetrievalMethod</code>.
+     * Returns bn {@link jbvb.util.Collections#unmodifibbleList unmodifibble
+     * list} of {@link Trbnsform}s of this <code>RetrievblMethod</code>.
      *
-     * @return an unmodifiable list of <code>Transform</code> objects (may be
+     * @return bn unmodifibble list of <code>Trbnsform</code> objects (mby be
      *    empty but never <code>null</code>).
      */
-    @SuppressWarnings("rawtypes")
-    List getTransforms();
+    @SuppressWbrnings("rbwtypes")
+    List getTrbnsforms();
 
     /**
-     * Returns the URI of the referenced <code>KeyInfo</code> information.
+     * Returns the URI of the referenced <code>KeyInfo</code> informbtion.
      *
-     * @return the URI of the referenced <code>KeyInfo</code> information in
-     *    RFC 2396 format (never <code>null</code>)
+     * @return the URI of the referenced <code>KeyInfo</code> informbtion in
+     *    RFC 2396 formbt (never <code>null</code>)
      */
     String getURI();
 
    /**
-    * Dereferences the <code>KeyInfo</code> information referenced by this
-    * <code>RetrievalMethod</code> and applies the specified
-    * <code>Transform</code>s.
+    * Dereferences the <code>KeyInfo</code> informbtion referenced by this
+    * <code>RetrievblMethod</code> bnd bpplies the specified
+    * <code>Trbnsform</code>s.
     *
-    * @param context an <code>XMLCryptoContext</code> that may contain
-    *    additional useful information for dereferencing the URI. The
-    *    context's <code>baseURI</code> and <code>dereferencer</code>
-    *    parameters (if specified) are used to resolve and dereference this
-    *    <code>RetrievalMethod</code>
-    * @return a <code>Data</code> object representing the raw contents of the
-    *    <code>KeyInfo</code> information referenced by this
-    *    <code>RetrievalMethod</code>. It is the caller's responsibility to
-    *    convert the returned data to an appropriate
+    * @pbrbm context bn <code>XMLCryptoContext</code> thbt mby contbin
+    *    bdditionbl useful informbtion for dereferencing the URI. The
+    *    context's <code>bbseURI</code> bnd <code>dereferencer</code>
+    *    pbrbmeters (if specified) bre used to resolve bnd dereference this
+    *    <code>RetrievblMethod</code>
+    * @return b <code>Dbtb</code> object representing the rbw contents of the
+    *    <code>KeyInfo</code> informbtion referenced by this
+    *    <code>RetrievblMethod</code>. It is the cbller's responsibility to
+    *    convert the returned dbtb to bn bppropribte
     *    <code>KeyInfo</code> object.
     * @throws NullPointerException if <code>context</code> is <code>null</code>
-    * @throws URIReferenceException if there is an error while dereferencing
+    * @throws URIReferenceException if there is bn error while dereferencing
     */
-    Data dereference(XMLCryptoContext context) throws URIReferenceException;
+    Dbtb dereference(XMLCryptoContext context) throws URIReferenceException;
 }

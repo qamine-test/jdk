@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -29,7 +29,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 
 #include "childproc.h"
 
@@ -37,7 +37,7 @@ extern int errno;
 
 #define ALLOC(X,Y) { \
     void *mptr; \
-    mptr = malloc (Y); \
+    mptr = mblloc (Y); \
     if (mptr == 0) { \
         error (fdout, ERR_MALLOC); \
     } \
@@ -54,66 +54,66 @@ void error (int fd, int err) {
 }
 
 void shutItDown() {
-    fprintf(stdout, "This command is not for general use and should ");
-    fprintf(stdout, "only be run as the result of a call to\n");
-    fprintf(stdout, "ProcessBuilder.start() or Runtime.exec() in a java ");
-    fprintf(stdout, "application\n");
+    fprintf(stdout, "This commbnd is not for generbl use bnd should ");
+    fprintf(stdout, "only be run bs the result of b cbll to\n");
+    fprintf(stdout, "ProcessBuilder.stbrt() or Runtime.exec() in b jbvb ");
+    fprintf(stdout, "bpplicbtion\n");
     _exit(1);
 }
 
 /*
- * read the following off the pipefd
+ * rebd the following off the pipefd
  * - the ChildStuff struct
- * - the SpawnInfo struct
- * - the data strings for fields in ChildStuff
+ * - the SpbwnInfo struct
+ * - the dbtb strings for fields in ChildStuff
  */
 void initChildStuff (int fdin, int fdout, ChildStuff *c) {
     int n;
-    int argvBytes, nargv, envvBytes, nenvv;
+    int brgvBytes, nbrgv, envvBytes, nenvv;
     int dirlen;
-    char *buf;
-    SpawnInfo sp;
+    chbr *buf;
+    SpbwnInfo sp;
     int bufsize, offset=0;
-    int magic;
+    int mbgic;
     int res;
 
-    res = readFully (fdin, &magic, sizeof(magic));
-    if (res != 4 || magic != magicNumber()) {
+    res = rebdFully (fdin, &mbgic, sizeof(mbgic));
+    if (res != 4 || mbgic != mbgicNumber()) {
         error (fdout, ERR_PIPE);
     }
 
-    if (readFully (fdin, c, sizeof(*c)) == -1) {
+    if (rebdFully (fdin, c, sizeof(*c)) == -1) {
         error (fdout, ERR_PIPE);
     }
 
-    if (readFully (fdin, &sp, sizeof(sp)) == -1) {
+    if (rebdFully (fdin, &sp, sizeof(sp)) == -1) {
         error (fdout, ERR_PIPE);
     }
 
-    bufsize = sp.argvBytes + sp.envvBytes +
-              sp.dirlen + sp.parentPathvBytes;
+    bufsize = sp.brgvBytes + sp.envvBytes +
+              sp.dirlen + sp.pbrentPbthvBytes;
 
     ALLOC(buf, bufsize);
 
-    if (readFully (fdin, buf, bufsize) == -1) {
+    if (rebdFully (fdin, buf, bufsize) == -1) {
         error (fdout, ERR_PIPE);
     }
 
-    /* Initialize argv[] */
-    ALLOC(c->argv, sizeof(char *) * sp.nargv);
-    initVectorFromBlock (c->argv, buf+offset, sp.nargv-1);
-    offset += sp.argvBytes;
+    /* Initiblize brgv[] */
+    ALLOC(c->brgv, sizeof(chbr *) * sp.nbrgv);
+    initVectorFromBlock (c->brgv, buf+offset, sp.nbrgv-1);
+    offset += sp.brgvBytes;
 
-    /* Initialize envv[] */
+    /* Initiblize envv[] */
     if (sp.nenvv == 0) {
         c->envv = 0;
     } else {
-        ALLOC(c->envv, sizeof(char *) * sp.nenvv);
+        ALLOC(c->envv, sizeof(chbr *) * sp.nenvv);
         initVectorFromBlock (c->envv, buf+offset, sp.nenvv-1);
         offset += sp.envvBytes;
     }
 
-    /* Initialize pdir */
+    /* Initiblize pdir */
     if (sp.dirlen == 0) {
         c->pdir = 0;
     } else {
@@ -121,22 +121,22 @@ void initChildStuff (int fdin, int fdout, ChildStuff *c) {
         offset += sp.dirlen;
     }
 
-    /* Initialize parentPathv[] */
-    ALLOC(parentPathv, sizeof (char *) * sp.nparentPathv)
-    initVectorFromBlock ((const char**)parentPathv, buf+offset, sp.nparentPathv-1);
-    offset += sp.parentPathvBytes;
+    /* Initiblize pbrentPbthv[] */
+    ALLOC(pbrentPbthv, sizeof (chbr *) * sp.npbrentPbthv)
+    initVectorFromBlock ((const chbr**)pbrentPbthv, buf+offset, sp.npbrentPbthv-1);
+    offset += sp.pbrentPbthvBytes;
 }
 
-int main(int argc, char *argv[]) {
+int mbin(int brgc, chbr *brgv[]) {
     ChildStuff c;
     int t;
-    struct stat buf;
-    /* argv[0] contains the fd number to read all the child info */
+    struct stbt buf;
+    /* brgv[0] contbins the fd number to rebd bll the child info */
     int r, fdin, fdout;
 
-    r = sscanf (argv[argc-1], "%d:%d", &fdin, &fdout);
+    r = sscbnf (brgv[brgc-1], "%d:%d", &fdin, &fdout);
     if (r == 2 && fcntl(fdin, F_GETFD) != -1) {
-        fstat(fdin, &buf);
+        fstbt(fdin, &buf);
         if (!S_ISFIFO(buf.st_mode))
             shutItDown();
     } else {

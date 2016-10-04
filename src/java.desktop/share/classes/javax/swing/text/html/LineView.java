@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.util.Enumeration;
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
+import jbvb.util.Enumerbtion;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.text.*;
 
 /**
- * A view implementation to display an unwrapped
- * preformatted line.<p>
- * This subclasses ParagraphView, but this really only contains one
+ * A view implementbtion to displby bn unwrbpped
+ * preformbtted line.<p>
+ * This subclbsses PbrbgrbphView, but this reblly only contbins one
  * Row of text.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-class LineView extends ParagraphView {
-    /** Last place painted at. */
-    int tabBase;
+clbss LineView extends PbrbgrbphView {
+    /** Lbst plbce pbinted bt. */
+    int tbbBbse;
 
     /**
-     * Creates a LineView object.
+     * Crebtes b LineView object.
      *
-     * @param elem the element to wrap in a view
+     * @pbrbm elem the element to wrbp in b view
      */
     public LineView(Element elem) {
         super(elem);
     }
 
     /**
-     * Preformatted lines are not suppressed if they
-     * have only whitespace, so they are always visible.
+     * Preformbtted lines bre not suppressed if they
+     * hbve only whitespbce, so they bre blwbys visible.
      */
-    public boolean isVisible() {
+    public boolebn isVisible() {
         return true;
     }
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.  The preformatted line should refuse to be
-     * sized less than the preferred size.
+     * Determines the minimum spbn for this view blong bn
+     * bxis.  The preformbtted line should refuse to be
+     * sized less thbn the preferred size.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *  <code>View.Y_AXIS</code>
-     * @return  the minimum span the view can be rendered into
-     * @see View#getPreferredSpan
+     * @return  the minimum spbn the view cbn be rendered into
+     * @see View#getPreferredSpbn
      */
-    public float getMinimumSpan(int axis) {
-        return getPreferredSpan(axis);
+    public flobt getMinimumSpbn(int bxis) {
+        return getPreferredSpbn(bxis);
     }
 
     /**
-     * Gets the resize weight for the specified axis.
+     * Gets the resize weight for the specified bxis.
      *
-     * @param axis may be either X_AXIS or Y_AXIS
+     * @pbrbm bxis mby be either X_AXIS or Y_AXIS
      * @return the weight
      */
-    public int getResizeWeight(int axis) {
-        switch (axis) {
-        case View.X_AXIS:
+    public int getResizeWeight(int bxis) {
+        switch (bxis) {
+        cbse View.X_AXIS:
             return 1;
-        case View.Y_AXIS:
+        cbse View.Y_AXIS:
             return 0;
-        default:
-            throw new IllegalArgumentException("Invalid axis: " + axis);
+        defbult:
+            throw new IllegblArgumentException("Invblid bxis: " + bxis);
         }
     }
 
     /**
-     * Gets the alignment for an axis.
+     * Gets the blignment for bn bxis.
      *
-     * @param axis may be either X_AXIS or Y_AXIS
-     * @return the alignment
+     * @pbrbm bxis mby be either X_AXIS or Y_AXIS
+     * @return the blignment
      */
-    public float getAlignment(int axis) {
-        if (axis == View.X_AXIS) {
+    public flobt getAlignment(int bxis) {
+        if (bxis == View.X_AXIS) {
             return 0;
         }
-        return super.getAlignment(axis);
+        return super.getAlignment(bxis);
     }
 
     /**
-     * Lays out the children.  If the layout span has changed,
-     * the rows are rebuilt.  The superclass functionality
-     * is called after checking and possibly rebuilding the
-     * rows.  If the height has changed, the
-     * <code>preferenceChanged</code> method is called
-     * on the parent since the vertical preference is
+     * Lbys out the children.  If the lbyout spbn hbs chbnged,
+     * the rows bre rebuilt.  The superclbss functionblity
+     * is cblled bfter checking bnd possibly rebuilding the
+     * rows.  If the height hbs chbnged, the
+     * <code>preferenceChbnged</code> method is cblled
+     * on the pbrent since the verticbl preference is
      * rigid.
      *
-     * @param width  the width to lay out against >= 0.  This is
-     *   the width inside of the inset area.
-     * @param height the height to lay out against >= 0 (not used
-     *   by paragraph, but used by the superclass).  This
-     *   is the height inside of the inset area.
+     * @pbrbm width  the width to lby out bgbinst >= 0.  This is
+     *   the width inside of the inset breb.
+     * @pbrbm height the height to lby out bgbinst >= 0 (not used
+     *   by pbrbgrbph, but used by the superclbss).  This
+     *   is the height inside of the inset breb.
      */
-    protected void layout(int width, int height) {
-        super.layout(Integer.MAX_VALUE - 1, height);
+    protected void lbyout(int width, int height) {
+        super.lbyout(Integer.MAX_VALUE - 1, height);
     }
 
     /**
-     * Returns the next tab stop position given a reference position.
-     * This view implements the tab coordinate system, and calls
-     * <code>getTabbedSpan</code> on the logical children in the process
-     * of layout to determine the desired span of the children.  The
-     * logical children can delegate their tab expansion upward to
-     * the paragraph which knows how to expand tabs.
-     * <code>LabelView</code> is an example of a view that delegates
-     * its tab expansion needs upward to the paragraph.
+     * Returns the next tbb stop position given b reference position.
+     * This view implements the tbb coordinbte system, bnd cblls
+     * <code>getTbbbedSpbn</code> on the logicbl children in the process
+     * of lbyout to determine the desired spbn of the children.  The
+     * logicbl children cbn delegbte their tbb expbnsion upwbrd to
+     * the pbrbgrbph which knows how to expbnd tbbs.
+     * <code>LbbelView</code> is bn exbmple of b view thbt delegbtes
+     * its tbb expbnsion needs upwbrd to the pbrbgrbph.
      * <p>
-     * This is implemented to try and locate a <code>TabSet</code>
-     * in the paragraph element's attribute set.  If one can be
-     * found, its settings will be used, otherwise a default expansion
-     * will be provided.  The base location for for tab expansion
-     * is the left inset from the paragraphs most recent allocation
-     * (which is what the layout of the children is based upon).
+     * This is implemented to try bnd locbte b <code>TbbSet</code>
+     * in the pbrbgrbph element's bttribute set.  If one cbn be
+     * found, its settings will be used, otherwise b defbult expbnsion
+     * will be provided.  The bbse locbtion for for tbb expbnsion
+     * is the left inset from the pbrbgrbphs most recent bllocbtion
+     * (which is whbt the lbyout of the children is bbsed upon).
      *
-     * @param x the X reference position
-     * @param tabOffset the position within the text stream
-     *   that the tab occurred at >= 0.
-     * @return the trailing end of the tab expansion >= 0
-     * @see TabSet
-     * @see TabStop
-     * @see LabelView
+     * @pbrbm x the X reference position
+     * @pbrbm tbbOffset the position within the text strebm
+     *   thbt the tbb occurred bt >= 0.
+     * @return the trbiling end of the tbb expbnsion >= 0
+     * @see TbbSet
+     * @see TbbStop
+     * @see LbbelView
      */
-    public float nextTabStop(float x, int tabOffset) {
+    public flobt nextTbbStop(flobt x, int tbbOffset) {
         // If the text isn't left justified, offset by 10 pixels!
-        if (getTabSet() == null &&
-            StyleConstants.getAlignment(getAttributes()) ==
-            StyleConstants.ALIGN_LEFT) {
-            return getPreTab(x, tabOffset);
+        if (getTbbSet() == null &&
+            StyleConstbnts.getAlignment(getAttributes()) ==
+            StyleConstbnts.ALIGN_LEFT) {
+            return getPreTbb(x, tbbOffset);
         }
-        return super.nextTabStop(x, tabOffset);
+        return super.nextTbbStop(x, tbbOffset);
     }
 
     /**
-     * Returns the location for the tab.
+     * Returns the locbtion for the tbb.
      */
-    protected float getPreTab(float x, int tabOffset) {
+    protected flobt getPreTbb(flobt x, int tbbOffset) {
         Document d = getDocument();
-        View v = getViewAtPosition(tabOffset, null);
-        if ((d instanceof StyledDocument) && v != null) {
+        View v = getViewAtPosition(tbbOffset, null);
+        if ((d instbnceof StyledDocument) && v != null) {
             // Assume f is fixed point.
             Font f = ((StyledDocument)d).getFont(v.getAttributes());
-            Container c = getContainer();
+            Contbiner c = getContbiner();
             FontMetrics fm = (c != null) ? c.getFontMetrics(f) :
-                Toolkit.getDefaultToolkit().getFontMetrics(f);
-            int width = getCharactersPerTab() * fm.charWidth('W');
-            int tb = (int)getTabBase();
-            return (float)((((int)x - tb) / width + 1) * width + tb);
+                Toolkit.getDefbultToolkit().getFontMetrics(f);
+            int width = getChbrbctersPerTbb() * fm.chbrWidth('W');
+            int tb = (int)getTbbBbse();
+            return (flobt)((((int)x - tb) / width + 1) * width + tb);
         }
         return 10.0f + x;
     }
 
     /**
-     * @return number of characters per tab, 8.
+     * @return number of chbrbcters per tbb, 8.
      */
-    protected int getCharactersPerTab() {
+    protected int getChbrbctersPerTbb() {
         return 8;
     }
 }

@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.util.Arrays;
-import java.awt.*;
-import java.awt.font.TextAttribute;
-import javax.swing.event.*;
-import javax.swing.SizeRequirements;
+import jbvb.util.Arrbys;
+import jbvb.bwt.*;
+import jbvb.bwt.font.TextAttribute;
+import jbvbx.swing.event.*;
+import jbvbx.swing.SizeRequirements;
 
 /**
- * View of a simple line-wrapping paragraph that supports
+ * View of b simple line-wrbpping pbrbgrbph thbt supports
  * multiple fonts, colors, components, icons, etc.  It is
- * basically a vertical box with a margin around it.  The
- * contents of the box are a bunch of rows which are special
- * horizontal boxes.  This view creates a collection of
- * views that represent the child elements of the paragraph
- * element.  Each of these views are placed into a row
- * directly if they will fit, otherwise the <code>breakView</code>
- * method is called to try and carve the view into pieces
- * that fit.
+ * bbsicblly b verticbl box with b mbrgin bround it.  The
+ * contents of the box bre b bunch of rows which bre specibl
+ * horizontbl boxes.  This view crebtes b collection of
+ * views thbt represent the child elements of the pbrbgrbph
+ * element.  Ebch of these views bre plbced into b row
+ * directly if they will fit, otherwise the <code>brebkView</code>
+ * method is cblled to try bnd cbrve the view into pieces
+ * thbt fit.
  *
- * @author  Timothy Prinzing
- * @author  Scott Violet
- * @author  Igor Kushnirskiy
+ * @buthor  Timothy Prinzing
+ * @buthor  Scott Violet
+ * @buthor  Igor Kushnirskiy
  * @see     View
  */
-public class ParagraphView extends FlowView implements TabExpander {
+public clbss PbrbgrbphView extends FlowView implements TbbExpbnder {
 
     /**
-     * Constructs a <code>ParagraphView</code> for the given element.
+     * Constructs b <code>PbrbgrbphView</code> for the given element.
      *
-     * @param elem the element that this view is responsible for
+     * @pbrbm elem the element thbt this view is responsible for
      */
-    public ParagraphView(Element elem) {
+    public PbrbgrbphView(Element elem) {
         super(elem, View.Y_AXIS);
         setPropertiesFromAttributes();
         Document doc = elem.getDocument();
-        Object i18nFlag = doc.getProperty(AbstractDocument.I18NProperty);
-        if ((i18nFlag != null) && i18nFlag.equals(Boolean.TRUE)) {
+        Object i18nFlbg = doc.getProperty(AbstrbctDocument.I18NProperty);
+        if ((i18nFlbg != null) && i18nFlbg.equbls(Boolebn.TRUE)) {
             try {
-                if (i18nStrategy == null) {
-                    // the classname should probably come from a property file.
-                    String classname = "javax.swing.text.TextLayoutStrategy";
-                    ClassLoader loader = getClass().getClassLoader();
-                    if (loader != null) {
-                        i18nStrategy = loader.loadClass(classname);
+                if (i18nStrbtegy == null) {
+                    // the clbssnbme should probbbly come from b property file.
+                    String clbssnbme = "jbvbx.swing.text.TextLbyoutStrbtegy";
+                    ClbssLobder lobder = getClbss().getClbssLobder();
+                    if (lobder != null) {
+                        i18nStrbtegy = lobder.lobdClbss(clbssnbme);
                     } else {
-                        i18nStrategy = Class.forName(classname);
+                        i18nStrbtegy = Clbss.forNbme(clbssnbme);
                     }
                 }
-                Object o = i18nStrategy.newInstance();
-                if (o instanceof FlowStrategy) {
-                    strategy = (FlowStrategy) o;
+                Object o = i18nStrbtegy.newInstbnce();
+                if (o instbnceof FlowStrbtegy) {
+                    strbtegy = (FlowStrbtegy) o;
                 }
-            } catch (Throwable e) {
-                throw new StateInvariantError("ParagraphView: Can't create i18n strategy: "
-                                              + e.getMessage());
+            } cbtch (Throwbble e) {
+                throw new StbteInvbribntError("PbrbgrbphView: Cbn't crebte i18n strbtegy: "
+                                              + e.getMessbge());
             }
         }
     }
 
     /**
-     * Sets the type of justification.
+     * Sets the type of justificbtion.
      *
-     * @param j one of the following values:
+     * @pbrbm j one of the following vblues:
      * <ul>
-     * <li><code>StyleConstants.ALIGN_LEFT</code>
-     * <li><code>StyleConstants.ALIGN_CENTER</code>
-     * <li><code>StyleConstants.ALIGN_RIGHT</code>
+     * <li><code>StyleConstbnts.ALIGN_LEFT</code>
+     * <li><code>StyleConstbnts.ALIGN_CENTER</code>
+     * <li><code>StyleConstbnts.ALIGN_RIGHT</code>
      * </ul>
      */
-    protected void setJustification(int j) {
-        justification = j;
+    protected void setJustificbtion(int j) {
+        justificbtion = j;
     }
 
     /**
-     * Sets the line spacing.
+     * Sets the line spbcing.
      *
-     * @param ls the value is a factor of the line hight
+     * @pbrbm ls the vblue is b fbctor of the line hight
      */
-    protected void setLineSpacing(float ls) {
-        lineSpacing = ls;
+    protected void setLineSpbcing(flobt ls) {
+        lineSpbcing = ls;
     }
 
     /**
      * Sets the indent on the first line.
      *
-     * @param fi the value in points
+     * @pbrbm fi the vblue in points
      */
-    protected void setFirstLineIndent(float fi) {
+    protected void setFirstLineIndent(flobt fi) {
         firstLineIndent = (int) fi;
     }
 
     /**
-     * Set the cached properties from the attributes.
+     * Set the cbched properties from the bttributes.
      */
     protected void setPropertiesFromAttributes() {
-        AttributeSet attr = getAttributes();
-        if (attr != null) {
-            setParagraphInsets(attr);
-            Integer a = (Integer)attr.getAttribute(StyleConstants.Alignment);
-            int alignment;
-            if (a == null) {
+        AttributeSet bttr = getAttributes();
+        if (bttr != null) {
+            setPbrbgrbphInsets(bttr);
+            Integer b = (Integer)bttr.getAttribute(StyleConstbnts.Alignment);
+            int blignment;
+            if (b == null) {
                 Document doc = getElement().getDocument();
                 Object o = doc.getProperty(TextAttribute.RUN_DIRECTION);
-                if ((o != null) && o.equals(TextAttribute.RUN_DIRECTION_RTL)) {
-                    alignment = StyleConstants.ALIGN_RIGHT;
+                if ((o != null) && o.equbls(TextAttribute.RUN_DIRECTION_RTL)) {
+                    blignment = StyleConstbnts.ALIGN_RIGHT;
                 } else {
-                    alignment = StyleConstants.ALIGN_LEFT;
+                    blignment = StyleConstbnts.ALIGN_LEFT;
                 }
             } else {
-                alignment = a.intValue();
+                blignment = b.intVblue();
             }
-            setJustification(alignment);
-            setLineSpacing(StyleConstants.getLineSpacing(attr));
-            setFirstLineIndent(StyleConstants.getFirstLineIndent(attr));
+            setJustificbtion(blignment);
+            setLineSpbcing(StyleConstbnts.getLineSpbcing(bttr));
+            setFirstLineIndent(StyleConstbnts.getFirstLineIndent(bttr));
         }
     }
 
     /**
-     * Returns the number of views that this view is
+     * Returns the number of views thbt this view is
      * responsible for.
-     * The child views of the paragraph are rows which
-     * have been used to arrange pieces of the <code>View</code>s
-     * that represent the child elements.  This is the number
-     * of views that have been tiled in two dimensions,
-     * and should be equivalent to the number of child elements
+     * The child views of the pbrbgrbph bre rows which
+     * hbve been used to brrbnge pieces of the <code>View</code>s
+     * thbt represent the child elements.  This is the number
+     * of views thbt hbve been tiled in two dimensions,
+     * bnd should be equivblent to the number of child elements
      * to the element this view is responsible for.
      *
-     * @return the number of views that this <code>ParagraphView</code>
+     * @return the number of views thbt this <code>PbrbgrbphView</code>
      *          is responsible for
      */
-    protected int getLayoutViewCount() {
-        return layoutPool.getViewCount();
+    protected int getLbyoutViewCount() {
+        return lbyoutPool.getViewCount();
     }
 
     /**
-     * Returns the view at a given <code>index</code>.
-     * The child views of the paragraph are rows which
-     * have been used to arrange pieces of the <code>Views</code>
-     * that represent the child elements.  This methods returns
+     * Returns the view bt b given <code>index</code>.
+     * The child views of the pbrbgrbph bre rows which
+     * hbve been used to brrbnge pieces of the <code>Views</code>
+     * thbt represent the child elements.  This methods returns
      * the view responsible for the child element index
-     * (prior to breaking).  These are the Views that were
-     * produced from a factory (to represent the child
-     * elements) and used for layout.
+     * (prior to brebking).  These bre the Views thbt were
+     * produced from b fbctory (to represent the child
+     * elements) bnd used for lbyout.
      *
-     * @param index the <code>index</code> of the desired view
-     * @return the view at <code>index</code>
+     * @pbrbm index the <code>index</code> of the desired view
+     * @return the view bt <code>index</code>
      */
-    protected View getLayoutView(int index) {
-        return layoutPool.getView(index);
+    protected View getLbyoutView(int index) {
+        return lbyoutPool.getView(index);
     }
 
     /**
-     * Returns the next visual position for the cursor, in
-     * either the east or west direction.
+     * Returns the next visubl position for the cursor, in
+     * either the ebst or west direction.
      * Overridden from <code>CompositeView</code>.
-     * @param pos position into the model
-     * @param b either <code>Position.Bias.Forward</code> or
-     *          <code>Position.Bias.Backward</code>
-     * @param a the allocated region to render into
-     * @param direction either <code>SwingConstants.NORTH</code>
-     *          or <code>SwingConstants.SOUTH</code>
-     * @param biasRet an array containing the bias that were checked
+     * @pbrbm pos position into the model
+     * @pbrbm b either <code>Position.Bibs.Forwbrd</code> or
+     *          <code>Position.Bibs.Bbckwbrd</code>
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm direction either <code>SwingConstbnts.NORTH</code>
+     *          or <code>SwingConstbnts.SOUTH</code>
+     * @pbrbm bibsRet bn brrby contbining the bibs thbt were checked
      *  in this method
-     * @return the location in the model that represents the
-     *  next location visual position
+     * @return the locbtion in the model thbt represents the
+     *  next locbtion visubl position
      */
-    protected int getNextNorthSouthVisualPositionFrom(int pos, Position.Bias b,
-                                                      Shape a, int direction,
-                                                      Position.Bias[] biasRet)
-                                                throws BadLocationException {
+    protected int getNextNorthSouthVisublPositionFrom(int pos, Position.Bibs b,
+                                                      Shbpe b, int direction,
+                                                      Position.Bibs[] bibsRet)
+                                                throws BbdLocbtionException {
         int vIndex;
         if(pos == -1) {
             vIndex = (direction == NORTH) ?
                      getViewCount() - 1 : 0;
         }
         else {
-            if(b == Position.Bias.Backward && pos > 0) {
+            if(b == Position.Bibs.Bbckwbrd && pos > 0) {
                 vIndex = getViewIndexAtPosition(pos - 1);
             }
             else {
@@ -216,16 +216,16 @@ public class ParagraphView extends FlowView implements TabExpander {
             }
         }
         // vIndex gives index of row to look in.
-        JTextComponent text = (JTextComponent)getContainer();
-        Caret c = text.getCaret();
-        Point magicPoint;
-        magicPoint = (c != null) ? c.getMagicCaretPosition() : null;
+        JTextComponent text = (JTextComponent)getContbiner();
+        Cbret c = text.getCbret();
+        Point mbgicPoint;
+        mbgicPoint = (c != null) ? c.getMbgicCbretPosition() : null;
         int x;
-        if(magicPoint == null) {
-            Shape posBounds;
+        if(mbgicPoint == null) {
+            Shbpe posBounds;
             try {
                 posBounds = text.getUI().modelToView(text, pos, b);
-            } catch (BadLocationException exc) {
+            } cbtch (BbdLocbtionException exc) {
                 posBounds = null;
             }
             if(posBounds == null) {
@@ -236,597 +236,597 @@ public class ParagraphView extends FlowView implements TabExpander {
             }
         }
         else {
-            x = magicPoint.x;
+            x = mbgicPoint.x;
         }
-        return getClosestPositionTo(pos, b, a, direction, biasRet, vIndex, x);
+        return getClosestPositionTo(pos, b, b, direction, bibsRet, vIndex, x);
     }
 
     /**
      * Returns the closest model position to <code>x</code>.
-     * <code>rowIndex</code> gives the index of the view that corresponds
-     * that should be looked in.
-     * @param pos  position into the model
-     * @param a the allocated region to render into
-     * @param direction one of the following values:
+     * <code>rowIndex</code> gives the index of the view thbt corresponds
+     * thbt should be looked in.
+     * @pbrbm pos  position into the model
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm direction one of the following vblues:
      * <ul>
-     * <li><code>SwingConstants.NORTH</code>
-     * <li><code>SwingConstants.SOUTH</code>
+     * <li><code>SwingConstbnts.NORTH</code>
+     * <li><code>SwingConstbnts.SOUTH</code>
      * </ul>
-     * @param biasRet an array containing the bias that were checked
+     * @pbrbm bibsRet bn brrby contbining the bibs thbt were checked
      *  in this method
-     * @param rowIndex the index of the view
-     * @param x the x coordinate of interest
+     * @pbrbm rowIndex the index of the view
+     * @pbrbm x the x coordinbte of interest
      * @return the closest model position to <code>x</code>
      */
-    // NOTE: This will not properly work if ParagraphView contains
-    // other ParagraphViews. It won't raise, but this does not message
-    // the children views with getNextVisualPositionFrom.
-    protected int getClosestPositionTo(int pos, Position.Bias b, Shape a,
-                                       int direction, Position.Bias[] biasRet,
+    // NOTE: This will not properly work if PbrbgrbphView contbins
+    // other PbrbgrbphViews. It won't rbise, but this does not messbge
+    // the children views with getNextVisublPositionFrom.
+    protected int getClosestPositionTo(int pos, Position.Bibs b, Shbpe b,
+                                       int direction, Position.Bibs[] bibsRet,
                                        int rowIndex, int x)
-              throws BadLocationException {
-        JTextComponent text = (JTextComponent)getContainer();
+              throws BbdLocbtionException {
+        JTextComponent text = (JTextComponent)getContbiner();
         Document doc = getDocument();
         View row = getView(rowIndex);
-        int lastPos = -1;
-        // This could be made better to check backward positions too.
-        biasRet[0] = Position.Bias.Forward;
+        int lbstPos = -1;
+        // This could be mbde better to check bbckwbrd positions too.
+        bibsRet[0] = Position.Bibs.Forwbrd;
         for(int vc = 0, numViews = row.getViewCount(); vc < numViews; vc++) {
             View v = row.getView(vc);
-            int start = v.getStartOffset();
-            boolean ltr = AbstractDocument.isLeftToRight(doc, start, start + 1);
+            int stbrt = v.getStbrtOffset();
+            boolebn ltr = AbstrbctDocument.isLeftToRight(doc, stbrt, stbrt + 1);
             if(ltr) {
-                lastPos = start;
-                for(int end = v.getEndOffset(); lastPos < end; lastPos++) {
-                    float xx = text.modelToView(lastPos).getBounds().x;
+                lbstPos = stbrt;
+                for(int end = v.getEndOffset(); lbstPos < end; lbstPos++) {
+                    flobt xx = text.modelToView(lbstPos).getBounds().x;
                     if(xx >= x) {
-                        while (++lastPos < end &&
-                               text.modelToView(lastPos).getBounds().x == xx) {
+                        while (++lbstPos < end &&
+                               text.modelToView(lbstPos).getBounds().x == xx) {
                         }
-                        return --lastPos;
+                        return --lbstPos;
                     }
                 }
-                lastPos--;
+                lbstPos--;
             }
             else {
-                for(lastPos = v.getEndOffset() - 1; lastPos >= start;
-                    lastPos--) {
-                    float xx = text.modelToView(lastPos).getBounds().x;
+                for(lbstPos = v.getEndOffset() - 1; lbstPos >= stbrt;
+                    lbstPos--) {
+                    flobt xx = text.modelToView(lbstPos).getBounds().x;
                     if(xx >= x) {
-                        while (--lastPos >= start &&
-                               text.modelToView(lastPos).getBounds().x == xx) {
+                        while (--lbstPos >= stbrt &&
+                               text.modelToView(lbstPos).getBounds().x == xx) {
                         }
-                        return ++lastPos;
+                        return ++lbstPos;
                     }
                 }
-                lastPos++;
+                lbstPos++;
             }
         }
-        if(lastPos == -1) {
-            return getStartOffset();
+        if(lbstPos == -1) {
+            return getStbrtOffset();
         }
-        return lastPos;
+        return lbstPos;
     }
 
     /**
-     * Determines in which direction the next view lays.
-     * Consider the <code>View</code> at index n.
-     * Typically the <code>View</code>s are layed out
-     * from left to right, so that the <code>View</code>
-     * to the EAST will be at index n + 1, and the
-     * <code>View</code> to the WEST will be at index n - 1.
-     * In certain situations, such as with bidirectional text,
-     * it is possible that the <code>View</code> to EAST is not
-     * at index n + 1, but rather at index n - 1,
-     * or that the <code>View</code> to the WEST is not at
-     * index n - 1, but index n + 1.  In this case this method
-     * would return true, indicating the <code>View</code>s are
-     * layed out in descending order.
+     * Determines in which direction the next view lbys.
+     * Consider the <code>View</code> bt index n.
+     * Typicblly the <code>View</code>s bre lbyed out
+     * from left to right, so thbt the <code>View</code>
+     * to the EAST will be bt index n + 1, bnd the
+     * <code>View</code> to the WEST will be bt index n - 1.
+     * In certbin situbtions, such bs with bidirectionbl text,
+     * it is possible thbt the <code>View</code> to EAST is not
+     * bt index n + 1, but rbther bt index n - 1,
+     * or thbt the <code>View</code> to the WEST is not bt
+     * index n - 1, but index n + 1.  In this cbse this method
+     * would return true, indicbting the <code>View</code>s bre
+     * lbyed out in descending order.
      * <p>
-     * This will return true if the text is layed out right
-     * to left at position, otherwise false.
+     * This will return true if the text is lbyed out right
+     * to left bt position, otherwise fblse.
      *
-     * @param position position into the model
-     * @param bias either <code>Position.Bias.Forward</code> or
-     *          <code>Position.Bias.Backward</code>
-     * @return true if the text is layed out right to left at
-     *         position, otherwise false.
+     * @pbrbm position position into the model
+     * @pbrbm bibs either <code>Position.Bibs.Forwbrd</code> or
+     *          <code>Position.Bibs.Bbckwbrd</code>
+     * @return true if the text is lbyed out right to left bt
+     *         position, otherwise fblse.
      */
-    protected boolean flipEastAndWestAtEnds(int position,
-                                            Position.Bias bias) {
+    protected boolebn flipEbstAndWestAtEnds(int position,
+                                            Position.Bibs bibs) {
         Document doc = getDocument();
-        position = getStartOffset();
-        return !AbstractDocument.isLeftToRight(doc, position, position + 1);
+        position = getStbrtOffset();
+        return !AbstrbctDocument.isLeftToRight(doc, position, position + 1);
     }
 
     // --- FlowView methods ---------------------------------------------
 
     /**
-     * Fetches the constraining span to flow against for
+     * Fetches the constrbining spbn to flow bgbinst for
      * the given child index.
-     * @param index the index of the view being queried
-     * @return the constraining span for the given view at
+     * @pbrbm index the index of the view being queried
+     * @return the constrbining spbn for the given view bt
      *  <code>index</code>
      * @since 1.3
      */
-    public int getFlowSpan(int index) {
+    public int getFlowSpbn(int index) {
         View child = getView(index);
-        int adjust = 0;
-        if (child instanceof Row) {
+        int bdjust = 0;
+        if (child instbnceof Row) {
             Row row = (Row) child;
-            adjust = row.getLeftInset() + row.getRightInset();
+            bdjust = row.getLeftInset() + row.getRightInset();
         }
-        return (layoutSpan == Integer.MAX_VALUE) ? layoutSpan
-                                                 : (layoutSpan - adjust);
+        return (lbyoutSpbn == Integer.MAX_VALUE) ? lbyoutSpbn
+                                                 : (lbyoutSpbn - bdjust);
     }
 
     /**
-     * Fetches the location along the flow axis that the
-     * flow span will start at.
-     * @param index the index of the view being queried
-     * @return the location for the given view at
+     * Fetches the locbtion blong the flow bxis thbt the
+     * flow spbn will stbrt bt.
+     * @pbrbm index the index of the view being queried
+     * @return the locbtion for the given view bt
      *  <code>index</code>
      * @since 1.3
      */
-    public int getFlowStart(int index) {
+    public int getFlowStbrt(int index) {
         View child = getView(index);
-        int adjust = 0;
-        if (child instanceof Row) {
+        int bdjust = 0;
+        if (child instbnceof Row) {
             Row row = (Row) child;
-            adjust = row.getLeftInset();
+            bdjust = row.getLeftInset();
         }
-        return tabBase + adjust;
+        return tbbBbse + bdjust;
     }
 
     /**
-     * Create a <code>View</code> that should be used to hold a
-     * a row's worth of children in a flow.
+     * Crebte b <code>View</code> thbt should be used to hold b
+     * b row's worth of children in b flow.
      * @return the new <code>View</code>
      * @since 1.3
      */
-    protected View createRow() {
+    protected View crebteRow() {
         return new Row(getElement());
     }
 
-    // --- TabExpander methods ------------------------------------------
+    // --- TbbExpbnder methods ------------------------------------------
 
     /**
-     * Returns the next tab stop position given a reference position.
-     * This view implements the tab coordinate system, and calls
-     * <code>getTabbedSpan</code> on the logical children in the process
-     * of layout to determine the desired span of the children.  The
-     * logical children can delegate their tab expansion upward to
-     * the paragraph which knows how to expand tabs.
-     * <code>LabelView</code> is an example of a view that delegates
-     * its tab expansion needs upward to the paragraph.
+     * Returns the next tbb stop position given b reference position.
+     * This view implements the tbb coordinbte system, bnd cblls
+     * <code>getTbbbedSpbn</code> on the logicbl children in the process
+     * of lbyout to determine the desired spbn of the children.  The
+     * logicbl children cbn delegbte their tbb expbnsion upwbrd to
+     * the pbrbgrbph which knows how to expbnd tbbs.
+     * <code>LbbelView</code> is bn exbmple of b view thbt delegbtes
+     * its tbb expbnsion needs upwbrd to the pbrbgrbph.
      * <p>
-     * This is implemented to try and locate a <code>TabSet</code>
-     * in the paragraph element's attribute set.  If one can be
-     * found, its settings will be used, otherwise a default expansion
-     * will be provided.  The base location for for tab expansion
-     * is the left inset from the paragraphs most recent allocation
-     * (which is what the layout of the children is based upon).
+     * This is implemented to try bnd locbte b <code>TbbSet</code>
+     * in the pbrbgrbph element's bttribute set.  If one cbn be
+     * found, its settings will be used, otherwise b defbult expbnsion
+     * will be provided.  The bbse locbtion for for tbb expbnsion
+     * is the left inset from the pbrbgrbphs most recent bllocbtion
+     * (which is whbt the lbyout of the children is bbsed upon).
      *
-     * @param x the X reference position
-     * @param tabOffset the position within the text stream
-     *   that the tab occurred at &gt;= 0
-     * @return the trailing end of the tab expansion &gt;= 0
-     * @see TabSet
-     * @see TabStop
-     * @see LabelView
+     * @pbrbm x the X reference position
+     * @pbrbm tbbOffset the position within the text strebm
+     *   thbt the tbb occurred bt &gt;= 0
+     * @return the trbiling end of the tbb expbnsion &gt;= 0
+     * @see TbbSet
+     * @see TbbStop
+     * @see LbbelView
      */
-    public float nextTabStop(float x, int tabOffset) {
+    public flobt nextTbbStop(flobt x, int tbbOffset) {
         // If the text isn't left justified, offset by 10 pixels!
-        if(justification != StyleConstants.ALIGN_LEFT)
+        if(justificbtion != StyleConstbnts.ALIGN_LEFT)
             return x + 10.0f;
-        x -= tabBase;
-        TabSet tabs = getTabSet();
-        if(tabs == null) {
-            // a tab every 72 pixels.
-            return (float)(tabBase + (((int)x / 72 + 1) * 72));
+        x -= tbbBbse;
+        TbbSet tbbs = getTbbSet();
+        if(tbbs == null) {
+            // b tbb every 72 pixels.
+            return (flobt)(tbbBbse + (((int)x / 72 + 1) * 72));
         }
-        TabStop tab = tabs.getTabAfter(x + .01f);
-        if(tab == null) {
-            // no tab, do a default of 5 pixels.
-            // Should this cause a wrapping of the line?
-            return tabBase + x + 5.0f;
+        TbbStop tbb = tbbs.getTbbAfter(x + .01f);
+        if(tbb == null) {
+            // no tbb, do b defbult of 5 pixels.
+            // Should this cbuse b wrbpping of the line?
+            return tbbBbse + x + 5.0f;
         }
-        int alignment = tab.getAlignment();
+        int blignment = tbb.getAlignment();
         int offset;
-        switch(alignment) {
-        default:
-        case TabStop.ALIGN_LEFT:
-            // Simple case, left tab.
-            return tabBase + tab.getPosition();
-        case TabStop.ALIGN_BAR:
-            // PENDING: what does this mean?
-            return tabBase + tab.getPosition();
-        case TabStop.ALIGN_RIGHT:
-        case TabStop.ALIGN_CENTER:
-            offset = findOffsetToCharactersInString(tabChars,
-                                                    tabOffset + 1);
-            break;
-        case TabStop.ALIGN_DECIMAL:
-            offset = findOffsetToCharactersInString(tabDecimalChars,
-                                                    tabOffset + 1);
-            break;
+        switch(blignment) {
+        defbult:
+        cbse TbbStop.ALIGN_LEFT:
+            // Simple cbse, left tbb.
+            return tbbBbse + tbb.getPosition();
+        cbse TbbStop.ALIGN_BAR:
+            // PENDING: whbt does this mebn?
+            return tbbBbse + tbb.getPosition();
+        cbse TbbStop.ALIGN_RIGHT:
+        cbse TbbStop.ALIGN_CENTER:
+            offset = findOffsetToChbrbctersInString(tbbChbrs,
+                                                    tbbOffset + 1);
+            brebk;
+        cbse TbbStop.ALIGN_DECIMAL:
+            offset = findOffsetToChbrbctersInString(tbbDecimblChbrs,
+                                                    tbbOffset + 1);
+            brebk;
         }
         if (offset == -1) {
             offset = getEndOffset();
         }
-        float charsSize = getPartialSize(tabOffset + 1, offset);
-        switch(alignment) {
-        case TabStop.ALIGN_RIGHT:
-        case TabStop.ALIGN_DECIMAL:
-            // right and decimal are treated the same way, the new
-            // position will be the location of the tab less the
-            // partialSize.
-            return tabBase + Math.max(x, tab.getPosition() - charsSize);
-        case TabStop.ALIGN_CENTER:
-            // Similar to right, but half the partialSize.
-            return tabBase + Math.max(x, tab.getPosition() - charsSize / 2.0f);
+        flobt chbrsSize = getPbrtiblSize(tbbOffset + 1, offset);
+        switch(blignment) {
+        cbse TbbStop.ALIGN_RIGHT:
+        cbse TbbStop.ALIGN_DECIMAL:
+            // right bnd decimbl bre trebted the sbme wby, the new
+            // position will be the locbtion of the tbb less the
+            // pbrtiblSize.
+            return tbbBbse + Mbth.mbx(x, tbb.getPosition() - chbrsSize);
+        cbse TbbStop.ALIGN_CENTER:
+            // Similbr to right, but hblf the pbrtiblSize.
+            return tbbBbse + Mbth.mbx(x, tbb.getPosition() - chbrsSize / 2.0f);
         }
         // will never get here!
         return x;
     }
 
     /**
-     * Gets the <code>Tabset</code> to be used in calculating tabs.
+     * Gets the <code>Tbbset</code> to be used in cblculbting tbbs.
      *
-     * @return the <code>TabSet</code>
+     * @return the <code>TbbSet</code>
      */
-    protected TabSet getTabSet() {
-        return StyleConstants.getTabSet(getElement().getAttributes());
+    protected TbbSet getTbbSet() {
+        return StyleConstbnts.getTbbSet(getElement().getAttributes());
     }
 
     /**
      * Returns the size used by the views between
-     * <code>startOffset</code> and <code>endOffset</code>.
-     * This uses <code>getPartialView</code> to calculate the
+     * <code>stbrtOffset</code> bnd <code>endOffset</code>.
+     * This uses <code>getPbrtiblView</code> to cblculbte the
      * size if the child view implements the
-     * <code>TabableView</code> interface. If a
-     * size is needed and a <code>View</code> does not implement
-     * the <code>TabableView</code> interface,
-     * the <code>preferredSpan</code> will be used.
+     * <code>TbbbbleView</code> interfbce. If b
+     * size is needed bnd b <code>View</code> does not implement
+     * the <code>TbbbbleView</code> interfbce,
+     * the <code>preferredSpbn</code> will be used.
      *
-     * @param startOffset the starting document offset &gt;= 0
-     * @param endOffset the ending document offset &gt;= startOffset
+     * @pbrbm stbrtOffset the stbrting document offset &gt;= 0
+     * @pbrbm endOffset the ending document offset &gt;= stbrtOffset
      * @return the size &gt;= 0
      */
-    protected float getPartialSize(int startOffset, int endOffset) {
-        float size = 0.0f;
+    protected flobt getPbrtiblSize(int stbrtOffset, int endOffset) {
+        flobt size = 0.0f;
         int viewIndex;
         int numViews = getViewCount();
         View view;
         int viewEnd;
         int tempEnd;
 
-        // Have to search layoutPool!
-        // PENDING: when ParagraphView supports breaking location
-        // into layoutPool will have to change!
-        viewIndex = getElement().getElementIndex(startOffset);
-        numViews = layoutPool.getViewCount();
-        while(startOffset < endOffset && viewIndex < numViews) {
-            view = layoutPool.getView(viewIndex++);
+        // Hbve to sebrch lbyoutPool!
+        // PENDING: when PbrbgrbphView supports brebking locbtion
+        // into lbyoutPool will hbve to chbnge!
+        viewIndex = getElement().getElementIndex(stbrtOffset);
+        numViews = lbyoutPool.getViewCount();
+        while(stbrtOffset < endOffset && viewIndex < numViews) {
+            view = lbyoutPool.getView(viewIndex++);
             viewEnd = view.getEndOffset();
-            tempEnd = Math.min(endOffset, viewEnd);
-            if(view instanceof TabableView)
-                size += ((TabableView)view).getPartialSpan(startOffset, tempEnd);
-            else if(startOffset == view.getStartOffset() &&
+            tempEnd = Mbth.min(endOffset, viewEnd);
+            if(view instbnceof TbbbbleView)
+                size += ((TbbbbleView)view).getPbrtiblSpbn(stbrtOffset, tempEnd);
+            else if(stbrtOffset == view.getStbrtOffset() &&
                     tempEnd == view.getEndOffset())
-                size += view.getPreferredSpan(View.X_AXIS);
+                size += view.getPreferredSpbn(View.X_AXIS);
             else
-                // PENDING: should we handle this better?
+                // PENDING: should we hbndle this better?
                 return 0.0f;
-            startOffset = viewEnd;
+            stbrtOffset = viewEnd;
         }
         return size;
     }
 
     /**
-     * Finds the next character in the document with a character in
-     * <code>string</code>, starting at offset <code>start</code>. If
-     * there are no characters found, -1 will be returned.
+     * Finds the next chbrbcter in the document with b chbrbcter in
+     * <code>string</code>, stbrting bt offset <code>stbrt</code>. If
+     * there bre no chbrbcters found, -1 will be returned.
      *
-     * @param string the string of characters
-     * @param start where to start in the model &gt;= 0
-     * @return the document offset, or -1 if no characters found
+     * @pbrbm string the string of chbrbcters
+     * @pbrbm stbrt where to stbrt in the model &gt;= 0
+     * @return the document offset, or -1 if no chbrbcters found
      */
-    protected int findOffsetToCharactersInString(char[] string,
-                                                 int start) {
+    protected int findOffsetToChbrbctersInString(chbr[] string,
+                                                 int stbrt) {
         int stringLength = string.length;
         int end = getEndOffset();
         Segment seg = new Segment();
         try {
-            getDocument().getText(start, end - start, seg);
-        } catch (BadLocationException ble) {
+            getDocument().getText(stbrt, end - stbrt, seg);
+        } cbtch (BbdLocbtionException ble) {
             return -1;
         }
-        for(int counter = seg.offset, maxCounter = seg.offset + seg.count;
-            counter < maxCounter; counter++) {
-            char currentChar = seg.array[counter];
+        for(int counter = seg.offset, mbxCounter = seg.offset + seg.count;
+            counter < mbxCounter; counter++) {
+            chbr currentChbr = seg.brrby[counter];
             for(int subCounter = 0; subCounter < stringLength;
                 subCounter++) {
-                if(currentChar == string[subCounter])
-                    return counter - seg.offset + start;
+                if(currentChbr == string[subCounter])
+                    return counter - seg.offset + stbrt;
             }
         }
-        // No match.
+        // No mbtch.
         return -1;
     }
 
     /**
-     * Returns where the tabs are calculated from.
-     * @return where tabs are calculated from
+     * Returns where the tbbs bre cblculbted from.
+     * @return where tbbs bre cblculbted from
      */
-    protected float getTabBase() {
-        return (float)tabBase;
+    protected flobt getTbbBbse() {
+        return (flobt)tbbBbse;
     }
 
     // ---- View methods ----------------------------------------------------
 
     /**
-     * Renders using the given rendering surface and area on that
-     * surface.  This is implemented to delegate to the superclass
-     * after stashing the base coordinate for tab calculations.
+     * Renders using the given rendering surfbce bnd breb on thbt
+     * surfbce.  This is implemented to delegbte to the superclbss
+     * bfter stbshing the bbse coordinbte for tbb cblculbtions.
      *
-     * @param g the rendering surface to use
-     * @param a the allocated region to render into
-     * @see View#paint
+     * @pbrbm g the rendering surfbce to use
+     * @pbrbm b the bllocbted region to render into
+     * @see View#pbint
      */
-    public void paint(Graphics g, Shape a) {
-        Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a : a.getBounds();
-        tabBase = alloc.x + getLeftInset();
-        super.paint(g, a);
+    public void pbint(Grbphics g, Shbpe b) {
+        Rectbngle blloc = (b instbnceof Rectbngle) ? (Rectbngle)b : b.getBounds();
+        tbbBbse = blloc.x + getLeftInset();
+        super.pbint(g, b);
 
-        // line with the negative firstLineIndent value needs
-        // special handling
+        // line with the negbtive firstLineIndent vblue needs
+        // specibl hbndling
         if (firstLineIndent < 0) {
-            Shape sh = getChildAllocation(0, a);
-            if ((sh != null) &&  sh.intersects(alloc)) {
-                int x = alloc.x + getLeftInset() + firstLineIndent;
-                int y = alloc.y + getTopInset();
+            Shbpe sh = getChildAllocbtion(0, b);
+            if ((sh != null) &&  sh.intersects(blloc)) {
+                int x = blloc.x + getLeftInset() + firstLineIndent;
+                int y = blloc.y + getTopInset();
 
-                Rectangle clip = g.getClipBounds();
+                Rectbngle clip = g.getClipBounds();
                 tempRect.x = x + getOffset(X_AXIS, 0);
                 tempRect.y = y + getOffset(Y_AXIS, 0);
-                tempRect.width = getSpan(X_AXIS, 0) - firstLineIndent;
-                tempRect.height = getSpan(Y_AXIS, 0);
+                tempRect.width = getSpbn(X_AXIS, 0) - firstLineIndent;
+                tempRect.height = getSpbn(Y_AXIS, 0);
                 if (tempRect.intersects(clip)) {
                     tempRect.x = tempRect.x - firstLineIndent;
-                    paintChild(g, tempRect, 0);
+                    pbintChild(g, tempRect, 0);
                 }
             }
         }
     }
 
     /**
-     * Determines the desired alignment for this view along an
-     * axis.  This is implemented to give the alignment to the
-     * center of the first row along the y axis, and the default
-     * along the x axis.
+     * Determines the desired blignment for this view blong bn
+     * bxis.  This is implemented to give the blignment to the
+     * center of the first row blong the y bxis, bnd the defbult
+     * blong the x bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *   <code>View.Y_AXIS</code>
-     * @return the desired alignment.  This should be a value
-     *   between 0.0 and 1.0 inclusive, where 0 indicates alignment at the
-     *   origin and 1.0 indicates alignment to the full span
-     *   away from the origin.  An alignment of 0.5 would be the
+     * @return the desired blignment.  This should be b vblue
+     *   between 0.0 bnd 1.0 inclusive, where 0 indicbtes blignment bt the
+     *   origin bnd 1.0 indicbtes blignment to the full spbn
+     *   bwby from the origin.  An blignment of 0.5 would be the
      *   center of the view.
      */
-    public float getAlignment(int axis) {
-        switch (axis) {
-        case Y_AXIS:
-            float a = 0.5f;
+    public flobt getAlignment(int bxis) {
+        switch (bxis) {
+        cbse Y_AXIS:
+            flobt b = 0.5f;
             if (getViewCount() != 0) {
-                int paragraphSpan = (int) getPreferredSpan(View.Y_AXIS);
+                int pbrbgrbphSpbn = (int) getPreferredSpbn(View.Y_AXIS);
                 View v = getView(0);
-                int rowSpan = (int) v.getPreferredSpan(View.Y_AXIS);
-                a = (paragraphSpan != 0) ? ((float)(rowSpan / 2)) / paragraphSpan : 0;
+                int rowSpbn = (int) v.getPreferredSpbn(View.Y_AXIS);
+                b = (pbrbgrbphSpbn != 0) ? ((flobt)(rowSpbn / 2)) / pbrbgrbphSpbn : 0;
             }
-            return a;
-        case X_AXIS:
+            return b;
+        cbse X_AXIS:
             return 0.5f;
-        default:
-            throw new IllegalArgumentException("Invalid axis: " + axis);
+        defbult:
+            throw new IllegblArgumentException("Invblid bxis: " + bxis);
         }
     }
 
     /**
-     * Breaks this view on the given axis at the given length.
+     * Brebks this view on the given bxis bt the given length.
      * <p>
-     * <code>ParagraphView</code> instances are breakable
-     * along the <code>Y_AXIS</code> only, and only if
-     * <code>len</code> is after the first line.
+     * <code>PbrbgrbphView</code> instbnces bre brebkbble
+     * blong the <code>Y_AXIS</code> only, bnd only if
+     * <code>len</code> is bfter the first line.
      *
-     * @param axis may be either <code>View.X_AXIS</code>
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code>
      *  or <code>View.Y_AXIS</code>
-     * @param len specifies where a potential break is desired
-     *  along the given axis &gt;= 0
-     * @param a the current allocation of the view
-     * @return the fragment of the view that represents the
-     *  given span, if the view can be broken; if the view
-     *  doesn't support breaking behavior, the view itself is
+     * @pbrbm len specifies where b potentibl brebk is desired
+     *  blong the given bxis &gt;= 0
+     * @pbrbm b the current bllocbtion of the view
+     * @return the frbgment of the view thbt represents the
+     *  given spbn, if the view cbn be broken; if the view
+     *  doesn't support brebking behbvior, the view itself is
      *  returned
-     * @see View#breakView
+     * @see View#brebkView
      */
-    public View breakView(int axis, float len, Shape a) {
-        if(axis == View.Y_AXIS) {
-            if(a != null) {
-                Rectangle alloc = a.getBounds();
-                setSize(alloc.width, alloc.height);
+    public View brebkView(int bxis, flobt len, Shbpe b) {
+        if(bxis == View.Y_AXIS) {
+            if(b != null) {
+                Rectbngle blloc = b.getBounds();
+                setSize(blloc.width, blloc.height);
             }
-            // Determine what row to break on.
+            // Determine whbt row to brebk on.
 
-            // PENDING(prinz) add break support
+            // PENDING(prinz) bdd brebk support
             return this;
         }
         return this;
     }
 
     /**
-     * Gets the break weight for a given location.
+     * Gets the brebk weight for b given locbtion.
      * <p>
-     * <code>ParagraphView</code> instances are breakable
-     * along the <code>Y_AXIS</code> only, and only if
-     * <code>len</code> is after the first row.  If the length
-     * is less than one row, a value of <code>BadBreakWeight</code>
+     * <code>PbrbgrbphView</code> instbnces bre brebkbble
+     * blong the <code>Y_AXIS</code> only, bnd only if
+     * <code>len</code> is bfter the first row.  If the length
+     * is less thbn one row, b vblue of <code>BbdBrebkWeight</code>
      * is returned.
      *
-     * @param axis may be either <code>View.X_AXIS</code>
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code>
      *  or <code>View.Y_AXIS</code>
-     * @param len specifies where a potential break is desired &gt;= 0
-     * @return a value indicating the attractiveness of breaking here;
-     *  either <code>GoodBreakWeight</code> or <code>BadBreakWeight</code>
-     * @see View#getBreakWeight
+     * @pbrbm len specifies where b potentibl brebk is desired &gt;= 0
+     * @return b vblue indicbting the bttrbctiveness of brebking here;
+     *  either <code>GoodBrebkWeight</code> or <code>BbdBrebkWeight</code>
+     * @see View#getBrebkWeight
      */
-    public int getBreakWeight(int axis, float len) {
-        if(axis == View.Y_AXIS) {
-            // PENDING(prinz) make this return a reasonable value
-            // when paragraph breaking support is re-implemented.
-            // If less than one row, bad weight value should be
+    public int getBrebkWeight(int bxis, flobt len) {
+        if(bxis == View.Y_AXIS) {
+            // PENDING(prinz) mbke this return b rebsonbble vblue
+            // when pbrbgrbph brebking support is re-implemented.
+            // If less thbn one row, bbd weight vblue should be
             // returned.
-            //return GoodBreakWeight;
-            return BadBreakWeight;
+            //return GoodBrebkWeight;
+            return BbdBrebkWeight;
         }
-        return BadBreakWeight;
+        return BbdBrebkWeight;
     }
 
     /**
-     * Calculate the needs for the paragraph along the minor axis.
+     * Cblculbte the needs for the pbrbgrbph blong the minor bxis.
      *
-     * <p>This uses size requirements of the superclass, modified to take into
-     * account the non-breakable areas at the adjacent views edges.  The minimal
-     * size requirements for such views should be no less than the sum of all
-     * adjacent fragments.</p>
+     * <p>This uses size requirements of the superclbss, modified to tbke into
+     * bccount the non-brebkbble brebs bt the bdjbcent views edges.  The minimbl
+     * size requirements for such views should be no less thbn the sum of bll
+     * bdjbcent frbgments.</p>
      *
-     * <p>If the {@code axis} parameter is neither {@code View.X_AXIS} nor
-     * {@code View.Y_AXIS}, {@link IllegalArgumentException} is thrown.  If the
-     * {@code r} parameter is {@code null,} a new {@code SizeRequirements}
-     * object is created, otherwise the supplied {@code SizeRequirements}
+     * <p>If the {@code bxis} pbrbmeter is neither {@code View.X_AXIS} nor
+     * {@code View.Y_AXIS}, {@link IllegblArgumentException} is thrown.  If the
+     * {@code r} pbrbmeter is {@code null,} b new {@code SizeRequirements}
+     * object is crebted, otherwise the supplied {@code SizeRequirements}
      * object is returned.</p>
      *
-     * @param axis  the minor axis
-     * @param r     the input {@code SizeRequirements} object
-     * @return      the new or adjusted {@code SizeRequirements} object
-     * @throws IllegalArgumentException  if the {@code axis} parameter is invalid
+     * @pbrbm bxis  the minor bxis
+     * @pbrbm r     the input {@code SizeRequirements} object
+     * @return      the new or bdjusted {@code SizeRequirements} object
+     * @throws IllegblArgumentException  if the {@code bxis} pbrbmeter is invblid
      */
     @Override
-    protected SizeRequirements calculateMinorAxisRequirements(int axis,
+    protected SizeRequirements cblculbteMinorAxisRequirements(int bxis,
                                                         SizeRequirements r) {
-        r = super.calculateMinorAxisRequirements(axis, r);
+        r = super.cblculbteMinorAxisRequirements(bxis, r);
 
-        float min = 0;
-        float glue = 0;
-        int n = getLayoutViewCount();
+        flobt min = 0;
+        flobt glue = 0;
+        int n = getLbyoutViewCount();
         for (int i = 0; i < n; i++) {
-            View v = getLayoutView(i);
-            float span = v.getMinimumSpan(axis);
-            if (v.getBreakWeight(axis, 0, v.getMaximumSpan(axis)) > View.BadBreakWeight) {
-                // find the longest non-breakable fragments at the view edges
-                int p0 = v.getStartOffset();
+            View v = getLbyoutView(i);
+            flobt spbn = v.getMinimumSpbn(bxis);
+            if (v.getBrebkWeight(bxis, 0, v.getMbximumSpbn(bxis)) > View.BbdBrebkWeight) {
+                // find the longest non-brebkbble frbgments bt the view edges
+                int p0 = v.getStbrtOffset();
                 int p1 = v.getEndOffset();
-                float start = findEdgeSpan(v, axis, p0, p0, p1);
-                float end = findEdgeSpan(v, axis, p1, p0, p1);
-                glue += start;
-                min = Math.max(min, Math.max(span, glue));
+                flobt stbrt = findEdgeSpbn(v, bxis, p0, p0, p1);
+                flobt end = findEdgeSpbn(v, bxis, p1, p0, p1);
+                glue += stbrt;
+                min = Mbth.mbx(min, Mbth.mbx(spbn, glue));
                 glue = end;
             } else {
-                // non-breakable view
-                glue += span;
-                min = Math.max(min, glue);
+                // non-brebkbble view
+                glue += spbn;
+                min = Mbth.mbx(min, glue);
             }
         }
-        r.minimum = Math.max(r.minimum, (int) min);
-        r.preferred = Math.max(r.minimum, r.preferred);
-        r.maximum = Math.max(r.preferred, r.maximum);
+        r.minimum = Mbth.mbx(r.minimum, (int) min);
+        r.preferred = Mbth.mbx(r.minimum, r.preferred);
+        r.mbximum = Mbth.mbx(r.preferred, r.mbximum);
 
         return r;
     }
 
     /**
-     * Binary search for the longest non-breakable fragment at the view edge.
+     * Binbry sebrch for the longest non-brebkbble frbgment bt the view edge.
      */
-    private float findEdgeSpan(View v, int axis, int fp, int p0, int p1) {
+    privbte flobt findEdgeSpbn(View v, int bxis, int fp, int p0, int p1) {
         int len = p1 - p0;
         if (len <= 1) {
-            // further fragmentation is not possible
-            return v.getMinimumSpan(axis);
+            // further frbgmentbtion is not possible
+            return v.getMinimumSpbn(bxis);
         } else {
             int mid = p0 + len / 2;
-            boolean startEdge = mid > fp;
-            // initial view is breakable hence must support fragmentation
-            View f = startEdge ?
-                v.createFragment(fp, mid) : v.createFragment(mid, fp);
-            boolean breakable = f.getBreakWeight(
-                    axis, 0, f.getMaximumSpan(axis)) > View.BadBreakWeight;
-            if (breakable == startEdge) {
+            boolebn stbrtEdge = mid > fp;
+            // initibl view is brebkbble hence must support frbgmentbtion
+            View f = stbrtEdge ?
+                v.crebteFrbgment(fp, mid) : v.crebteFrbgment(mid, fp);
+            boolebn brebkbble = f.getBrebkWeight(
+                    bxis, 0, f.getMbximumSpbn(bxis)) > View.BbdBrebkWeight;
+            if (brebkbble == stbrtEdge) {
                 p1 = mid;
             } else {
                 p0 = mid;
             }
-            return findEdgeSpan(f, axis, fp, p0, p1);
+            return findEdgeSpbn(f, bxis, fp, p0, p1);
         }
     }
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.
+     * Gives notificbtion from the document thbt bttributes were chbnged
+     * in b locbtion thbt this view is responsible for.
      *
-     * @param changes the change information from the
-     *  associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#changedUpdate
+     * @pbrbm chbnges the chbnge informbtion from the
+     *  bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#chbngedUpdbte
      */
-    public void changedUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-        // update any property settings stored, and layout should be
+    public void chbngedUpdbte(DocumentEvent chbnges, Shbpe b, ViewFbctory f) {
+        // updbte bny property settings stored, bnd lbyout should be
         // recomputed
         setPropertiesFromAttributes();
-        layoutChanged(X_AXIS);
-        layoutChanged(Y_AXIS);
-        super.changedUpdate(changes, a, f);
+        lbyoutChbnged(X_AXIS);
+        lbyoutChbnged(Y_AXIS);
+        super.chbngedUpdbte(chbnges, b, f);
     }
 
 
-    // --- variables -----------------------------------------------
+    // --- vbribbles -----------------------------------------------
 
-    private int justification;
-    private float lineSpacing;
-    /** Indentation for the first line, from the left inset. */
+    privbte int justificbtion;
+    privbte flobt lineSpbcing;
+    /** Indentbtion for the first line, from the left inset. */
     protected int firstLineIndent = 0;
 
     /**
-     * Used by the TabExpander functionality to determine
-     * where to base the tab calculations.  This is basically
-     * the location of the left side of the paragraph.
+     * Used by the TbbExpbnder functionblity to determine
+     * where to bbse the tbb cblculbtions.  This is bbsicblly
+     * the locbtion of the left side of the pbrbgrbph.
      */
-    private int tabBase;
+    privbte int tbbBbse;
 
     /**
-     * Used to create an i18n-based layout strategy
+     * Used to crebte bn i18n-bbsed lbyout strbtegy
      */
-    static Class<?> i18nStrategy;
+    stbtic Clbss<?> i18nStrbtegy;
 
-    /** Used for searching for a tab. */
-    static char[] tabChars;
-    /** Used for searching for a tab or decimal character. */
-    static char[] tabDecimalChars;
+    /** Used for sebrching for b tbb. */
+    stbtic chbr[] tbbChbrs;
+    /** Used for sebrching for b tbb or decimbl chbrbcter. */
+    stbtic chbr[] tbbDecimblChbrs;
 
-    static {
-        tabChars = new char[1];
-        tabChars[0] = '\t';
-        tabDecimalChars = new char[2];
-        tabDecimalChars[0] = '\t';
-        tabDecimalChars[1] = '.';
+    stbtic {
+        tbbChbrs = new chbr[1];
+        tbbChbrs[0] = '\t';
+        tbbDecimblChbrs = new chbr[2];
+        tbbDecimblChbrs[0] = '\t';
+        tbbDecimblChbrs[1] = '.';
     }
 
     /**
-     * Internally created view that has the purpose of holding
-     * the views that represent the children of the paragraph
-     * that have been arranged in rows.
+     * Internblly crebted view thbt hbs the purpose of holding
+     * the views thbt represent the children of the pbrbgrbph
+     * thbt hbve been brrbnged in rows.
      */
-    class Row extends BoxView {
+    clbss Row extends BoxView {
 
         Row(Element elem) {
             super(elem, View.X_AXIS);
@@ -834,70 +834,70 @@ public class ParagraphView extends FlowView implements TabExpander {
 
         /**
          * This is reimplemented to do nothing since the
-         * paragraph fills in the row with its needed
+         * pbrbgrbph fills in the row with its needed
          * children.
          */
-        protected void loadChildren(ViewFactory f) {
+        protected void lobdChildren(ViewFbctory f) {
         }
 
         /**
-         * Fetches the attributes to use when rendering.  This view
-         * isn't directly responsible for an element so it returns
-         * the outer classes attributes.
+         * Fetches the bttributes to use when rendering.  This view
+         * isn't directly responsible for bn element so it returns
+         * the outer clbsses bttributes.
          */
         public AttributeSet getAttributes() {
-            View p = getParent();
+            View p = getPbrent();
             return (p != null) ? p.getAttributes() : null;
         }
 
-        public float getAlignment(int axis) {
-            if (axis == View.X_AXIS) {
-                switch (justification) {
-                case StyleConstants.ALIGN_LEFT:
+        public flobt getAlignment(int bxis) {
+            if (bxis == View.X_AXIS) {
+                switch (justificbtion) {
+                cbse StyleConstbnts.ALIGN_LEFT:
                     return 0;
-                case StyleConstants.ALIGN_RIGHT:
+                cbse StyleConstbnts.ALIGN_RIGHT:
                     return 1;
-                case StyleConstants.ALIGN_CENTER:
+                cbse StyleConstbnts.ALIGN_CENTER:
                     return 0.5f;
-                case StyleConstants.ALIGN_JUSTIFIED:
-                    float rv = 0.5f;
-                    //if we can justifiy the content always align to
+                cbse StyleConstbnts.ALIGN_JUSTIFIED:
+                    flobt rv = 0.5f;
+                    //if we cbn justifiy the content blwbys blign to
                     //the left.
-                    if (isJustifiableDocument()) {
+                    if (isJustifibbleDocument()) {
                         rv = 0f;
                     }
                     return rv;
                 }
             }
-            return super.getAlignment(axis);
+            return super.getAlignment(bxis);
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.  This is
-         * implemented to let the superclass find the position along
-         * the major axis and the allocation of the row is used
-         * along the minor axis, so that even though the children
-         * are different heights they all get the same caret height.
+         * Provides b mbpping from the document model coordinbte spbce
+         * to the coordinbte spbce of the view mbpped to it.  This is
+         * implemented to let the superclbss find the position blong
+         * the mbjor bxis bnd the bllocbtion of the row is used
+         * blong the minor bxis, so thbt even though the children
+         * bre different heights they bll get the sbme cbret height.
          *
-         * @param pos the position to convert
-         * @param a the allocated region to render into
+         * @pbrbm pos the position to convert
+         * @pbrbm b the bllocbted region to render into
          * @return the bounding box of the given position
-         * @exception BadLocationException  if the given position does not represent a
-         *   valid location in the associated document
+         * @exception BbdLocbtionException  if the given position does not represent b
+         *   vblid locbtion in the bssocibted document
          * @see View#modelToView
          */
-        public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-            Rectangle r = a.getBounds();
+        public Shbpe modelToView(int pos, Shbpe b, Position.Bibs b) throws BbdLocbtionException {
+            Rectbngle r = b.getBounds();
             View v = getViewAtPosition(pos, r);
-            if ((v != null) && (!v.getElement().isLeaf())) {
-                // Don't adjust the height if the view represents a branch.
-                return super.modelToView(pos, a, b);
+            if ((v != null) && (!v.getElement().isLebf())) {
+                // Don't bdjust the height if the view represents b brbnch.
+                return super.modelToView(pos, b, b);
             }
-            r = a.getBounds();
+            r = b.getBounds();
             int height = r.height;
             int y = r.y;
-            Shape loc = super.modelToView(pos, a, b);
+            Shbpe loc = super.modelToView(pos, b, b);
             r = loc.getBounds();
             r.height = height;
             r.y = y;
@@ -905,16 +905,16 @@ public class ParagraphView extends FlowView implements TabExpander {
         }
 
         /**
-         * Range represented by a row in the paragraph is only
-         * a subset of the total range of the paragraph element.
-         * @see View#getRange
+         * Rbnge represented by b row in the pbrbgrbph is only
+         * b subset of the totbl rbnge of the pbrbgrbph element.
+         * @see View#getRbnge
          */
-        public int getStartOffset() {
+        public int getStbrtOffset() {
             int offs = Integer.MAX_VALUE;
             int n = getViewCount();
             for (int i = 0; i < n; i++) {
                 View v = getView(i);
-                offs = Math.min(offs, v.getStartOffset());
+                offs = Mbth.min(offs, v.getStbrtOffset());
             }
             return offs;
         }
@@ -924,215 +924,215 @@ public class ParagraphView extends FlowView implements TabExpander {
             int n = getViewCount();
             for (int i = 0; i < n; i++) {
                 View v = getView(i);
-                offs = Math.max(offs, v.getEndOffset());
+                offs = Mbth.mbx(offs, v.getEndOffset());
             }
             return offs;
         }
 
         /**
-         * Perform layout for the minor axis of the box (i.e. the
-         * axis orthogonal to the axis that it represents).  The results
-         * of the layout should be placed in the given arrays which represent
-         * the allocations to the children along the minor axis.
+         * Perform lbyout for the minor bxis of the box (i.e. the
+         * bxis orthogonbl to the bxis thbt it represents).  The results
+         * of the lbyout should be plbced in the given brrbys which represent
+         * the bllocbtions to the children blong the minor bxis.
          * <p>
-         * This is implemented to do a baseline layout of the children
-         * by calling BoxView.baselineLayout.
+         * This is implemented to do b bbseline lbyout of the children
+         * by cblling BoxView.bbselineLbyout.
          *
-         * @param targetSpan the total span given to the view, which
-         *  would be used to layout the children.
-         * @param axis the axis being layed out.
-         * @param offsets the offsets from the origin of the view for
-         *  each of the child views.  This is a return value and is
-         *  filled in by the implementation of this method.
-         * @param spans the span of each child view.  This is a return
-         *  value and is filled in by the implementation of this method.
-         * @return the offset and span for each child view in the
-         *  offsets and spans parameters
+         * @pbrbm tbrgetSpbn the totbl spbn given to the view, which
+         *  would be used to lbyout the children.
+         * @pbrbm bxis the bxis being lbyed out.
+         * @pbrbm offsets the offsets from the origin of the view for
+         *  ebch of the child views.  This is b return vblue bnd is
+         *  filled in by the implementbtion of this method.
+         * @pbrbm spbns the spbn of ebch child view.  This is b return
+         *  vblue bnd is filled in by the implementbtion of this method.
+         * @return the offset bnd spbn for ebch child view in the
+         *  offsets bnd spbns pbrbmeters
          */
-        protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
-            baselineLayout(targetSpan, axis, offsets, spans);
+        protected void lbyoutMinorAxis(int tbrgetSpbn, int bxis, int[] offsets, int[] spbns) {
+            bbselineLbyout(tbrgetSpbn, bxis, offsets, spbns);
         }
 
-        protected SizeRequirements calculateMinorAxisRequirements(int axis,
+        protected SizeRequirements cblculbteMinorAxisRequirements(int bxis,
                                                                   SizeRequirements r) {
-            return baselineRequirements(axis, r);
+            return bbselineRequirements(bxis, r);
         }
 
 
-        private boolean isLastRow() {
-            View parent;
-            return ((parent = getParent()) == null
-                    || this == parent.getView(parent.getViewCount() - 1));
+        privbte boolebn isLbstRow() {
+            View pbrent;
+            return ((pbrent = getPbrent()) == null
+                    || this == pbrent.getView(pbrent.getViewCount() - 1));
         }
 
-        private boolean isBrokenRow() {
-            boolean rv = false;
+        privbte boolebn isBrokenRow() {
+            boolebn rv = fblse;
             int viewsCount = getViewCount();
             if (viewsCount > 0) {
-                View lastView = getView(viewsCount - 1);
-                if (lastView.getBreakWeight(X_AXIS, 0, 0) >=
-                      ForcedBreakWeight) {
+                View lbstView = getView(viewsCount - 1);
+                if (lbstView.getBrebkWeight(X_AXIS, 0, 0) >=
+                      ForcedBrebkWeight) {
                     rv = true;
                 }
             }
             return rv;
         }
 
-        private boolean isJustifiableDocument() {
-            return (! Boolean.TRUE.equals(getDocument().getProperty(
-                          AbstractDocument.I18NProperty)));
+        privbte boolebn isJustifibbleDocument() {
+            return (! Boolebn.TRUE.equbls(getDocument().getProperty(
+                          AbstrbctDocument.I18NProperty)));
         }
 
         /**
          * Whether we need to justify this {@code Row}.
-         * At this time (jdk1.6) we support justification on for non
+         * At this time (jdk1.6) we support justificbtion on for non
          * 18n text.
          *
          * @return {@code true} if this {@code Row} should be justified.
          */
-        private boolean isJustifyEnabled() {
-            boolean ret = (justification == StyleConstants.ALIGN_JUSTIFIED);
+        privbte boolebn isJustifyEnbbled() {
+            boolebn ret = (justificbtion == StyleConstbnts.ALIGN_JUSTIFIED);
 
-            //no justification for i18n documents
-            ret = ret && isJustifiableDocument();
+            //no justificbtion for i18n documents
+            ret = ret && isJustifibbleDocument();
 
-            //no justification for the last row
-            ret = ret && ! isLastRow();
+            //no justificbtion for the lbst row
+            ret = ret && ! isLbstRow();
 
-            //no justification for the broken rows
+            //no justificbtion for the broken rows
             ret = ret && ! isBrokenRow();
 
             return ret;
         }
 
 
-        //Calls super method after setting spaceAddon to 0.
-        //Justification should not affect MajorAxisRequirements
+        //Cblls super method bfter setting spbceAddon to 0.
+        //Justificbtion should not bffect MbjorAxisRequirements
         @Override
-        protected SizeRequirements calculateMajorAxisRequirements(int axis,
+        protected SizeRequirements cblculbteMbjorAxisRequirements(int bxis,
                 SizeRequirements r) {
-            int oldJustficationData[] = justificationData;
-            justificationData = null;
-            SizeRequirements ret = super.calculateMajorAxisRequirements(axis, r);
-            if (isJustifyEnabled()) {
-                justificationData = oldJustficationData;
+            int oldJustficbtionDbtb[] = justificbtionDbtb;
+            justificbtionDbtb = null;
+            SizeRequirements ret = super.cblculbteMbjorAxisRequirements(bxis, r);
+            if (isJustifyEnbbled()) {
+                justificbtionDbtb = oldJustficbtionDbtb;
             }
             return ret;
         }
 
         @Override
-        protected void layoutMajorAxis(int targetSpan, int axis,
-                                       int[] offsets, int[] spans) {
-            int oldJustficationData[] = justificationData;
-            justificationData = null;
-            super.layoutMajorAxis(targetSpan, axis, offsets, spans);
-            if (! isJustifyEnabled()) {
+        protected void lbyoutMbjorAxis(int tbrgetSpbn, int bxis,
+                                       int[] offsets, int[] spbns) {
+            int oldJustficbtionDbtb[] = justificbtionDbtb;
+            justificbtionDbtb = null;
+            super.lbyoutMbjorAxis(tbrgetSpbn, bxis, offsets, spbns);
+            if (! isJustifyEnbbled()) {
                 return;
             }
 
-            int currentSpan = 0;
-            for (int span : spans) {
-                currentSpan += span;
+            int currentSpbn = 0;
+            for (int spbn : spbns) {
+                currentSpbn += spbn;
             }
-            if (currentSpan == targetSpan) {
+            if (currentSpbn == tbrgetSpbn) {
                 //no need to justify
                 return;
             }
 
-            // we justify text by enlarging spaces by the {@code spaceAddon}.
-            // justification is started to the right of the rightmost TAB.
-            // leading and trailing spaces are not extendable.
+            // we justify text by enlbrging spbces by the {@code spbceAddon}.
+            // justificbtion is stbrted to the right of the rightmost TAB.
+            // lebding bnd trbiling spbces bre not extendbble.
             //
-            // GlyphPainter1 uses
-            // justificationData
-            // for all painting and measurement.
+            // GlyphPbinter1 uses
+            // justificbtionDbtb
+            // for bll pbinting bnd mebsurement.
 
-            int extendableSpaces = 0;
-            int startJustifiableContent = -1;
-            int endJustifiableContent = -1;
-            int lastLeadingSpaces = 0;
+            int extendbbleSpbces = 0;
+            int stbrtJustifibbleContent = -1;
+            int endJustifibbleContent = -1;
+            int lbstLebdingSpbces = 0;
 
-            int rowStartOffset = getStartOffset();
+            int rowStbrtOffset = getStbrtOffset();
             int rowEndOffset = getEndOffset();
-            int spaceMap[] = new int[rowEndOffset - rowStartOffset];
-            Arrays.fill(spaceMap, 0);
+            int spbceMbp[] = new int[rowEndOffset - rowStbrtOffset];
+            Arrbys.fill(spbceMbp, 0);
             for (int i = getViewCount() - 1; i >= 0 ; i--) {
                 View view = getView(i);
-                if (view instanceof GlyphView) {
-                    GlyphView.JustificationInfo justificationInfo =
-                        ((GlyphView) view).getJustificationInfo(rowStartOffset);
-                    final int viewStartOffset = view.getStartOffset();
-                    final int offset = viewStartOffset - rowStartOffset;
-                    for (int j = 0; j < justificationInfo.spaceMap.length(); j++) {
-                        if (justificationInfo.spaceMap.get(j)) {
-                            spaceMap[j + offset] = 1;
+                if (view instbnceof GlyphView) {
+                    GlyphView.JustificbtionInfo justificbtionInfo =
+                        ((GlyphView) view).getJustificbtionInfo(rowStbrtOffset);
+                    finbl int viewStbrtOffset = view.getStbrtOffset();
+                    finbl int offset = viewStbrtOffset - rowStbrtOffset;
+                    for (int j = 0; j < justificbtionInfo.spbceMbp.length(); j++) {
+                        if (justificbtionInfo.spbceMbp.get(j)) {
+                            spbceMbp[j + offset] = 1;
                         }
                     }
-                    if (startJustifiableContent > 0) {
-                        if (justificationInfo.end >= 0) {
-                            extendableSpaces += justificationInfo.trailingSpaces;
+                    if (stbrtJustifibbleContent > 0) {
+                        if (justificbtionInfo.end >= 0) {
+                            extendbbleSpbces += justificbtionInfo.trbilingSpbces;
                         } else {
-                            lastLeadingSpaces += justificationInfo.trailingSpaces;
+                            lbstLebdingSpbces += justificbtionInfo.trbilingSpbces;
                         }
                     }
-                    if (justificationInfo.start >= 0) {
-                        startJustifiableContent =
-                            justificationInfo.start + viewStartOffset;
-                        extendableSpaces += lastLeadingSpaces;
+                    if (justificbtionInfo.stbrt >= 0) {
+                        stbrtJustifibbleContent =
+                            justificbtionInfo.stbrt + viewStbrtOffset;
+                        extendbbleSpbces += lbstLebdingSpbces;
                     }
-                    if (justificationInfo.end >= 0
-                          && endJustifiableContent < 0) {
-                        endJustifiableContent =
-                            justificationInfo.end + viewStartOffset;
+                    if (justificbtionInfo.end >= 0
+                          && endJustifibbleContent < 0) {
+                        endJustifibbleContent =
+                            justificbtionInfo.end + viewStbrtOffset;
                     }
-                    extendableSpaces += justificationInfo.contentSpaces;
-                    lastLeadingSpaces = justificationInfo.leadingSpaces;
-                    if (justificationInfo.hasTab) {
-                        break;
+                    extendbbleSpbces += justificbtionInfo.contentSpbces;
+                    lbstLebdingSpbces = justificbtionInfo.lebdingSpbces;
+                    if (justificbtionInfo.hbsTbb) {
+                        brebk;
                     }
                 }
             }
-            if (extendableSpaces <= 0) {
-                //there is nothing we can do to justify
+            if (extendbbleSpbces <= 0) {
+                //there is nothing we cbn do to justify
                 return;
             }
-            int adjustment = (targetSpan - currentSpan);
-            int spaceAddon = (extendableSpaces > 0)
-                ?  adjustment / extendableSpaces
+            int bdjustment = (tbrgetSpbn - currentSpbn);
+            int spbceAddon = (extendbbleSpbces > 0)
+                ?  bdjustment / extendbbleSpbces
                 : 0;
-            int spaceAddonLeftoverEnd = -1;
-            for (int i = startJustifiableContent - rowStartOffset,
-                     leftover = adjustment - spaceAddon * extendableSpaces;
+            int spbceAddonLeftoverEnd = -1;
+            for (int i = stbrtJustifibbleContent - rowStbrtOffset,
+                     leftover = bdjustment - spbceAddon * extendbbleSpbces;
                      leftover > 0;
-                     leftover -= spaceMap[i],
+                     leftover -= spbceMbp[i],
                      i++) {
-                spaceAddonLeftoverEnd = i;
+                spbceAddonLeftoverEnd = i;
             }
-            if (spaceAddon > 0 || spaceAddonLeftoverEnd >= 0) {
-                justificationData = (oldJustficationData != null)
-                    ? oldJustficationData
+            if (spbceAddon > 0 || spbceAddonLeftoverEnd >= 0) {
+                justificbtionDbtb = (oldJustficbtionDbtb != null)
+                    ? oldJustficbtionDbtb
                     : new int[END_JUSTIFIABLE + 1];
-                justificationData[SPACE_ADDON] = spaceAddon;
-                justificationData[SPACE_ADDON_LEFTOVER_END] =
-                    spaceAddonLeftoverEnd;
-                justificationData[START_JUSTIFIABLE] =
-                    startJustifiableContent - rowStartOffset;
-                justificationData[END_JUSTIFIABLE] =
-                    endJustifiableContent - rowStartOffset;
-                super.layoutMajorAxis(targetSpan, axis, offsets, spans);
+                justificbtionDbtb[SPACE_ADDON] = spbceAddon;
+                justificbtionDbtb[SPACE_ADDON_LEFTOVER_END] =
+                    spbceAddonLeftoverEnd;
+                justificbtionDbtb[START_JUSTIFIABLE] =
+                    stbrtJustifibbleContent - rowStbrtOffset;
+                justificbtionDbtb[END_JUSTIFIABLE] =
+                    endJustifibbleContent - rowStbrtOffset;
+                super.lbyoutMbjorAxis(tbrgetSpbn, bxis, offsets, spbns);
             }
         }
 
-        //for justified row we assume the maximum horizontal span
+        //for justified row we bssume the mbximum horizontbl spbn
         //is MAX_VALUE.
         @Override
-        public float getMaximumSpan(int axis) {
-            float ret;
-            if (View.X_AXIS == axis
-                  && isJustifyEnabled()) {
-                ret = Float.MAX_VALUE;
+        public flobt getMbximumSpbn(int bxis) {
+            flobt ret;
+            if (View.X_AXIS == bxis
+                  && isJustifyEnbbled()) {
+                ret = Flobt.MAX_VALUE;
             } else {
-              ret = super.getMaximumSpan(axis);
+              ret = super.getMbximumSpbn(bxis);
             }
             return ret;
         }
@@ -1141,18 +1141,18 @@ public class ParagraphView extends FlowView implements TabExpander {
          * Fetches the child view index representing the given position in
          * the model.
          *
-         * @param pos the position &gt;= 0
+         * @pbrbm pos the position &gt;= 0
          * @return  index of the view representing the given position, or
-         *   -1 if no view represents that position
+         *   -1 if no view represents thbt position
          */
         protected int getViewIndexAtPosition(int pos) {
-            // This is expensive, but are views are not necessarily layed
+            // This is expensive, but bre views bre not necessbrily lbyed
             // out in model order.
-            if(pos < getStartOffset() || pos >= getEndOffset())
+            if(pos < getStbrtOffset() || pos >= getEndOffset())
                 return -1;
             for(int counter = getViewCount() - 1; counter >= 0; counter--) {
                 View v = getView(counter);
-                if(pos >= v.getStartOffset() &&
+                if(pos >= v.getStbrtOffset() &&
                    pos < v.getEndOffset()) {
                     return counter;
                 }
@@ -1166,29 +1166,29 @@ public class ParagraphView extends FlowView implements TabExpander {
          * @return the inset
          */
         protected short getLeftInset() {
-            View parentView;
-            int adjustment = 0;
-            if ((parentView = getParent()) != null) { //use firstLineIdent for the first row
-                if (this == parentView.getView(0)) {
-                    adjustment = firstLineIndent;
+            View pbrentView;
+            int bdjustment = 0;
+            if ((pbrentView = getPbrent()) != null) { //use firstLineIdent for the first row
+                if (this == pbrentView.getView(0)) {
+                    bdjustment = firstLineIndent;
                 }
             }
-            return (short)(super.getLeftInset() + adjustment);
+            return (short)(super.getLeftInset() + bdjustment);
         }
 
         protected short getBottomInset() {
             return (short)(super.getBottomInset() +
                            ((minorRequest != null) ? minorRequest.preferred : 0) *
-                           lineSpacing);
+                           lineSpbcing);
         }
 
-        final static int SPACE_ADDON = 0;
-        final static int SPACE_ADDON_LEFTOVER_END = 1;
-        final static int START_JUSTIFIABLE = 2;
-        //this should be the last index in justificationData
-        final static int END_JUSTIFIABLE = 3;
+        finbl stbtic int SPACE_ADDON = 0;
+        finbl stbtic int SPACE_ADDON_LEFTOVER_END = 1;
+        finbl stbtic int START_JUSTIFIABLE = 2;
+        //this should be the lbst index in justificbtionDbtb
+        finbl stbtic int END_JUSTIFIABLE = 3;
 
-        int justificationData[] = null;
+        int justificbtionDbtb[] = null;
     }
 
 }

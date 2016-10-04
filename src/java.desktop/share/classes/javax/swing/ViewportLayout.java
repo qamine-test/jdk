@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.AWTError;
-import java.awt.LayoutManager;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Rectangle;
-import java.awt.Point;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.io.Serializable;
+import jbvb.bwt.AWTError;
+import jbvb.bwt.LbyoutMbnbger;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Point;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Insets;
+import jbvb.io.Seriblizbble;
 
 /**
- * The default layout manager for <code>JViewport</code>.
- * <code>ViewportLayout</code> defines
- * a policy for layout that should be useful for most applications.
- * The viewport makes its view the same size as the viewport,
- * however it will not make the view smaller than its minimum size.
+ * The defbult lbyout mbnbger for <code>JViewport</code>.
+ * <code>ViewportLbyout</code> defines
+ * b policy for lbyout thbt should be useful for most bpplicbtions.
+ * The viewport mbkes its view the sbme size bs the viewport,
+ * however it will not mbke the view smbller thbn its minimum size.
  * As the viewport grows the view is kept bottom justified until
  * the entire view is visible, subsequently the view is kept top
  * justified.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class ViewportLayout implements LayoutManager, Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss ViewportLbyout implements LbyoutMbnbger, Seriblizbble
 {
-    // Single instance used by JViewport.
-    static ViewportLayout SHARED_INSTANCE = new ViewportLayout();
+    // Single instbnce used by JViewport.
+    stbtic ViewportLbyout SHARED_INSTANCE = new ViewportLbyout();
 
     /**
-     * Adds the specified component to the layout. Not used by this class.
-     * @param name the name of the component
-     * @param c the the component to be added
+     * Adds the specified component to the lbyout. Not used by this clbss.
+     * @pbrbm nbme the nbme of the component
+     * @pbrbm c the the component to be bdded
      */
-    public void addLayoutComponent(String name, Component c) { }
+    public void bddLbyoutComponent(String nbme, Component c) { }
 
     /**
-     * Removes the specified component from the layout. Not used by
-     * this class.
-     * @param c the component to remove
+     * Removes the specified component from the lbyout. Not used by
+     * this clbss.
+     * @pbrbm c the component to remove
      */
-    public void removeLayoutComponent(Component c) { }
+    public void removeLbyoutComponent(Component c) { }
 
 
     /**
-     * Returns the preferred dimensions for this layout given the components
-     * in the specified target container.
-     * @param parent the component which needs to be laid out
-     * @return a <code>Dimension</code> object containing the
+     * Returns the preferred dimensions for this lbyout given the components
+     * in the specified tbrget contbiner.
+     * @pbrbm pbrent the component which needs to be lbid out
+     * @return b <code>Dimension</code> object contbining the
      *          preferred dimensions
-     * @see #minimumLayoutSize
+     * @see #minimumLbyoutSize
      */
-    public Dimension preferredLayoutSize(Container parent) {
-        Component view = ((JViewport)parent).getView();
+    public Dimension preferredLbyoutSize(Contbiner pbrent) {
+        Component view = ((JViewport)pbrent).getView();
         if (view == null) {
             return new Dimension(0, 0);
         }
-        else if (view instanceof Scrollable) {
-            return ((Scrollable)view).getPreferredScrollableViewportSize();
+        else if (view instbnceof Scrollbble) {
+            return ((Scrollbble)view).getPreferredScrollbbleViewportSize();
         }
         else {
             return view.getPreferredSize();
@@ -101,97 +101,97 @@ public class ViewportLayout implements LayoutManager, Serializable
 
 
     /**
-     * Returns the minimum dimensions needed to layout the components
-     * contained in the specified target container.
+     * Returns the minimum dimensions needed to lbyout the components
+     * contbined in the specified tbrget contbiner.
      *
-     * @param parent the component which needs to be laid out
-     * @return a <code>Dimension</code> object containing the minimum
+     * @pbrbm pbrent the component which needs to be lbid out
+     * @return b <code>Dimension</code> object contbining the minimum
      *          dimensions
-     * @see #preferredLayoutSize
+     * @see #preferredLbyoutSize
      */
-    public Dimension minimumLayoutSize(Container parent) {
+    public Dimension minimumLbyoutSize(Contbiner pbrent) {
         return new Dimension(4, 4);
     }
 
 
     /**
-     * Called by the AWT when the specified container needs to be laid out.
+     * Cblled by the AWT when the specified contbiner needs to be lbid out.
      *
-     * @param parent  the container to lay out
+     * @pbrbm pbrent  the contbiner to lby out
      *
-     * @throws AWTError if the target isn't the container specified to the
-     *                      <code>BoxLayout</code> constructor
+     * @throws AWTError if the tbrget isn't the contbiner specified to the
+     *                      <code>BoxLbyout</code> constructor
      */
-    public void layoutContainer(Container parent)
+    public void lbyoutContbiner(Contbiner pbrent)
     {
-        JViewport vp = (JViewport)parent;
+        JViewport vp = (JViewport)pbrent;
         Component view = vp.getView();
-        Scrollable scrollableView = null;
+        Scrollbble scrollbbleView = null;
 
         if (view == null) {
             return;
         }
-        else if (view instanceof Scrollable) {
-            scrollableView = (Scrollable) view;
+        else if (view instbnceof Scrollbble) {
+            scrollbbleView = (Scrollbble) view;
         }
 
-        /* All of the dimensions below are in view coordinates, except
+        /* All of the dimensions below bre in view coordinbtes, except
          * vpSize which we're converting.
          */
 
         Insets insets = vp.getInsets();
         Dimension viewPrefSize = view.getPreferredSize();
         Dimension vpSize = vp.getSize();
-        Dimension extentSize = vp.toViewCoordinates(vpSize);
+        Dimension extentSize = vp.toViewCoordinbtes(vpSize);
         Dimension viewSize = new Dimension(viewPrefSize);
 
-        if (scrollableView != null) {
-            if (scrollableView.getScrollableTracksViewportWidth()) {
+        if (scrollbbleView != null) {
+            if (scrollbbleView.getScrollbbleTrbcksViewportWidth()) {
                 viewSize.width = vpSize.width;
             }
-            if (scrollableView.getScrollableTracksViewportHeight()) {
+            if (scrollbbleView.getScrollbbleTrbcksViewportHeight()) {
                 viewSize.height = vpSize.height;
             }
         }
 
         Point viewPosition = vp.getViewPosition();
 
-        /* If the new viewport size would leave empty space to the
+        /* If the new viewport size would lebve empty spbce to the
          * right of the view, right justify the view or left justify
-         * the view when the width of the view is smaller than the
-         * container.
+         * the view when the width of the view is smbller thbn the
+         * contbiner.
          */
-        if (scrollableView == null ||
-            vp.getParent() == null ||
-            vp.getParent().getComponentOrientation().isLeftToRight()) {
+        if (scrollbbleView == null ||
+            vp.getPbrent() == null ||
+            vp.getPbrent().getComponentOrientbtion().isLeftToRight()) {
             if ((viewPosition.x + extentSize.width) > viewSize.width) {
-                viewPosition.x = Math.max(0, viewSize.width - extentSize.width);
+                viewPosition.x = Mbth.mbx(0, viewSize.width - extentSize.width);
             }
         } else {
             if (extentSize.width > viewSize.width) {
                 viewPosition.x = viewSize.width - extentSize.width;
             } else {
-                viewPosition.x = Math.max(0, Math.min(viewSize.width - extentSize.width, viewPosition.x));
+                viewPosition.x = Mbth.mbx(0, Mbth.min(viewSize.width - extentSize.width, viewPosition.x));
             }
         }
 
-        /* If the new viewport size would leave empty space below the
+        /* If the new viewport size would lebve empty spbce below the
          * view, bottom justify the view or top justify the view when
-         * the height of the view is smaller than the container.
+         * the height of the view is smbller thbn the contbiner.
          */
         if ((viewPosition.y + extentSize.height) > viewSize.height) {
-            viewPosition.y = Math.max(0, viewSize.height - extentSize.height);
+            viewPosition.y = Mbth.mbx(0, viewSize.height - extentSize.height);
         }
 
-        /* If we haven't been advised about how the viewports size
-         * should change wrt to the viewport, i.e. if the view isn't
-         * an instance of Scrollable, then adjust the views size as follows.
+        /* If we hbven't been bdvised bbout how the viewports size
+         * should chbnge wrt to the viewport, i.e. if the view isn't
+         * bn instbnce of Scrollbble, then bdjust the views size bs follows.
          *
-         * If the origin of the view is showing and the viewport is
-         * bigger than the views preferred size, then make the view
-         * the same size as the viewport.
+         * If the origin of the view is showing bnd the viewport is
+         * bigger thbn the views preferred size, then mbke the view
+         * the sbme size bs the viewport.
          */
-        if (scrollableView == null) {
+        if (scrollbbleView == null) {
             if ((viewPosition.x == 0) && (vpSize.width > viewPrefSize.width)) {
                 viewSize.width = vpSize.width;
             }

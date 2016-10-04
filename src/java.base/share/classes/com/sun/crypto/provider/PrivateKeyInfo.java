@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.math.*;
-import java.io.*;
+import jbvb.mbth.*;
+import jbvb.io.*;
 import sun.security.x509.AlgorithmId;
 import sun.security.util.*;
 
 
 /**
- * This class implements the <code>PrivateKeyInfo</code> type,
- * which is defined in PKCS #8 as follows:
+ * This clbss implements the <code>PrivbteKeyInfo</code> type,
+ * which is defined in PKCS #8 bs follows:
  *
  * <pre>
- * PrivateKeyInfo ::=  SEQUENCE {
+ * PrivbteKeyInfo ::=  SEQUENCE {
  *     version   INTEGER,
- *     privateKeyAlgorithm   AlgorithmIdentifier,
- *     privateKey   OCTET STRING,
- *     attributes   [0] IMPLICIT Attributes OPTIONAL }
+ *     privbteKeyAlgorithm   AlgorithmIdentifier,
+ *     privbteKey   OCTET STRING,
+ *     bttributes   [0] IMPLICIT Attributes OPTIONAL }
  * </pre>
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  */
-final class PrivateKeyInfo {
+finbl clbss PrivbteKeyInfo {
 
-    // the version number defined by the PKCS #8 standard
-    private static final BigInteger VERSION = BigInteger.ZERO;
+    // the version number defined by the PKCS #8 stbndbrd
+    privbte stbtic finbl BigInteger VERSION = BigInteger.ZERO;
 
-    // the private-key algorithm
-    private AlgorithmId algid;
+    // the privbte-key blgorithm
+    privbte AlgorithmId blgid;
 
-    // the private-key value
-    private byte[] privkey;
+    // the privbte-key vblue
+    privbte byte[] privkey;
 
     /**
-     * Constructs a PKCS#8 PrivateKeyInfo from its ASN.1 encoding.
+     * Constructs b PKCS#8 PrivbteKeyInfo from its ASN.1 encoding.
      */
-    PrivateKeyInfo(byte[] encoded) throws IOException {
-        DerValue val = new DerValue(encoded);
+    PrivbteKeyInfo(byte[] encoded) throws IOException {
+        DerVblue vbl = new DerVblue(encoded);
 
-        if (val.tag != DerValue.tag_Sequence)
-            throw new IOException("private key parse error: not a sequence");
+        if (vbl.tbg != DerVblue.tbg_Sequence)
+            throw new IOException("privbte key pbrse error: not b sequence");
 
         // version
-        BigInteger parsedVersion = val.data.getBigInteger();
-        if (!parsedVersion.equals(VERSION)) {
-            throw new IOException("version mismatch: (supported: " +
-                                  VERSION + ", parsed: " + parsedVersion);
+        BigInteger pbrsedVersion = vbl.dbtb.getBigInteger();
+        if (!pbrsedVersion.equbls(VERSION)) {
+            throw new IOException("version mismbtch: (supported: " +
+                                  VERSION + ", pbrsed: " + pbrsedVersion);
         }
 
-        // privateKeyAlgorithm
-        this.algid = AlgorithmId.parse(val.data.getDerValue());
+        // privbteKeyAlgorithm
+        this.blgid = AlgorithmId.pbrse(vbl.dbtb.getDerVblue());
 
-        // privateKey
-        this.privkey = val.data.getOctetString();
+        // privbteKey
+        this.privkey = vbl.dbtb.getOctetString();
 
-        // OPTIONAL attributes not supported yet
+        // OPTIONAL bttributes not supported yet
     }
 
     /**
-     * Returns the private-key algorithm.
+     * Returns the privbte-key blgorithm.
      */
     AlgorithmId getAlgorithm() {
-        return this.algid;
+        return this.blgid;
     }
 }

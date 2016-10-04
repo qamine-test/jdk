@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -31,7 +31,7 @@
 
 #include "proc_md.h"
 
-#include "log_messages.h"
+#include "log_messbges.h"
 
 #ifdef JDWP_LOGGING
 
@@ -42,22 +42,22 @@
 #define MAXLEN_MESSAGE          256
 #define MAXLEN_EXEC             (MAXLEN_FILENAME*2+MAXLEN_INTEGER+16)
 
-static MUTEX_T my_mutex = MUTEX_INIT;
+stbtic MUTEX_T my_mutex = MUTEX_INIT;
 
-/* Static variables (should be protected with mutex) */
-static int logging;
-static FILE * log_file;
-static char logging_filename[MAXLEN_FILENAME+1+6];
-static char location_stamp[MAXLEN_LOCATION+1];
-static PID_T processPid;
-static int open_count;
+/* Stbtic vbribbles (should be protected with mutex) */
+stbtic int logging;
+stbtic FILE * log_file;
+stbtic chbr logging_filenbme[MAXLEN_FILENAME+1+6];
+stbtic chbr locbtion_stbmp[MAXLEN_LOCATION+1];
+stbtic PID_T processPid;
+stbtic int open_count;
 
-/* Ascii id of current native thread. */
-static void
-get_time_stamp(char *tbuf, size_t ltbuf)
+/* Ascii id of current nbtive threbd. */
+stbtic void
+get_time_stbmp(chbr *tbuf, size_t ltbuf)
 {
-    char timestamp_prefix[MAXLEN_TIMESTAMP+1];
-    char timestamp_postfix[MAXLEN_TIMESTAMP+1];
+    chbr timestbmp_prefix[MAXLEN_TIMESTAMP+1];
+    chbr timestbmp_postfix[MAXLEN_TIMESTAMP+1];
     unsigned millisecs = 0;
     time_t t = 0;
 
@@ -65,23 +65,23 @@ get_time_stamp(char *tbuf, size_t ltbuf)
     if ( time(&t) == (time_t)(-1) ) {
         t = 0;
     }
-    /* Break this up so that the format strings are string literals
-       and we avoid a compiler warning. */
-    (void)strftime(timestamp_prefix, sizeof(timestamp_prefix),
-                "%d.%m.%Y %T", localtime(&t));
-    (void)strftime(timestamp_postfix, sizeof(timestamp_postfix),
-                "%Z", localtime(&t));
+    /* Brebk this up so thbt the formbt strings bre string literbls
+       bnd we bvoid b compiler wbrning. */
+    (void)strftime(timestbmp_prefix, sizeof(timestbmp_prefix),
+                "%d.%m.%Y %T", locbltime(&t));
+    (void)strftime(timestbmp_postfix, sizeof(timestbmp_postfix),
+                "%Z", locbltime(&t));
     (void)snprintf(tbuf, ltbuf,
-                   "%s.%.3d %s", timestamp_prefix,
-                   (int)(millisecs), timestamp_postfix);
+                   "%s.%.3d %s", timestbmp_prefix,
+                   (int)(millisecs), timestbmp_postfix);
 }
 
-/* Get basename of filename */
-static const char *
-file_basename(const char *file)
+/* Get bbsenbme of filenbme */
+stbtic const chbr *
+file_bbsenbme(const chbr *file)
 {
-    char *p1;
-    char *p2;
+    chbr *p1;
+    chbr *p2;
 
     if ( file==NULL )
         return "unknown";
@@ -94,75 +94,75 @@ file_basename(const char *file)
     return file;
 }
 
-/* Fill in the exact source location of the LOG entry. */
-static void
-fill_location_stamp(const char *flavor, const char *file, int line)
+/* Fill in the exbct source locbtion of the LOG entry. */
+stbtic void
+fill_locbtion_stbmp(const chbr *flbvor, const chbr *file, int line)
 {
-    (void)snprintf(location_stamp, sizeof(location_stamp),
+    (void)snprintf(locbtion_stbmp, sizeof(locbtion_stbmp),
                     "%s:\"%s\":%d;",
-                    flavor, file_basename(file), line);
-    location_stamp[sizeof(location_stamp)-1] = 0;
+                    flbvor, file_bbsenbme(file), line);
+    locbtion_stbmp[sizeof(locbtion_stbmp)-1] = 0;
 }
 
-/* Begin a log entry. */
+/* Begin b log entry. */
 void
-log_message_begin(const char *flavor, const char *file, int line)
+log_messbge_begin(const chbr *flbvor, const chbr *file, int line)
 {
-    MUTEX_LOCK(my_mutex); /* Unlocked in log_message_end() */
+    MUTEX_LOCK(my_mutex); /* Unlocked in log_messbge_end() */
     if ( logging ) {
-        location_stamp[0] = 0;
-        fill_location_stamp(flavor, file, line);
+        locbtion_stbmp[0] = 0;
+        fill_locbtion_stbmp(flbvor, file, line);
     }
 }
 
-/* Standard Logging Format Entry */
-static void
-standard_logging_format(FILE *fp,
-        const char *datetime,
-        const char *level,
-        const char *product,
-        const char *module,
-        const char *optional,
-        const char *messageID,
-        const char *message)
+/* Stbndbrd Logging Formbt Entry */
+stbtic void
+stbndbrd_logging_formbt(FILE *fp,
+        const chbr *dbtetime,
+        const chbr *level,
+        const chbr *product,
+        const chbr *module,
+        const chbr *optionbl,
+        const chbr *messbgeID,
+        const chbr *messbge)
 {
-    const char *format;
+    const chbr *formbt;
 
-    /* "[#|Date&Time&Zone|LogLevel|ProductName|ModuleID|
-     *     OptionalKey1=Value1;OptionalKeyN=ValueN|MessageID:MessageText|#]\n"
+    /* "[#|Dbte&Time&Zone|LogLevel|ProductNbme|ModuleID|
+     *     OptionblKey1=Vblue1;OptionblKeyN=VblueN|MessbgeID:MessbgeText|#]\n"
      */
 
-    format="[#|%s|%s|%s|%s|%s|%s:%s|#]\n";
+    formbt="[#|%s|%s|%s|%s|%s|%s:%s|#]\n";
 
-    print_message(fp, "", "", format,
-            datetime,
+    print_messbge(fp, "", "", formbt,
+            dbtetime,
             level,
             product,
             module,
-            optional,
-            messageID,
-            message);
+            optionbl,
+            messbgeID,
+            messbge);
 }
 
-/* End a log entry */
+/* End b log entry */
 void
-log_message_end(const char *format, ...)
+log_messbge_end(const chbr *formbt, ...)
 {
     if ( logging ) {
-        va_list ap;
+        vb_list bp;
         THREAD_T tid;
-        char datetime[MAXLEN_TIMESTAMP+1];
-        const char *level;
-        const char *product;
-        const char *module;
-        char optional[MAXLEN_INTEGER+6+MAXLEN_INTEGER+6+MAXLEN_LOCATION+1];
-        const char *messageID;
-        char message[MAXLEN_MESSAGE+1];
+        chbr dbtetime[MAXLEN_TIMESTAMP+1];
+        const chbr *level;
+        const chbr *product;
+        const chbr *module;
+        chbr optionbl[MAXLEN_INTEGER+6+MAXLEN_INTEGER+6+MAXLEN_LOCATION+1];
+        const chbr *messbgeID;
+        chbr messbge[MAXLEN_MESSAGE+1];
 
-        /* Grab the location, start file if needed, and clear the lock */
-        if ( log_file == NULL && open_count == 0 && logging_filename[0] != 0 ) {
+        /* Grbb the locbtion, stbrt file if needed, bnd clebr the lock */
+        if ( log_file == NULL && open_count == 0 && logging_filenbme[0] != 0 ) {
             open_count++;
-            log_file = fopen(logging_filename, "w");
+            log_file = fopen(logging_filenbme, "w");
             if ( log_file!=NULL ) {
                 (void)setvbuf(log_file, NULL, _IOLBF, BUFSIZ);
             } else {
@@ -172,65 +172,65 @@ log_message_end(const char *format, ...)
 
         if ( log_file != NULL ) {
 
-            /* Get the rest of the needed information */
+            /* Get the rest of the needed informbtion */
             tid = GET_THREAD_ID();
             level = "FINEST"; /* FIXUP? */
             product = "J2SE1.5"; /* FIXUP? */
             module = "jdwp"; /* FIXUP? */
-            messageID = ""; /* FIXUP: Unique message string ID? */
-            (void)snprintf(optional, sizeof(optional),
+            messbgeID = ""; /* FIXUP: Unique messbge string ID? */
+            (void)snprintf(optionbl, sizeof(optionbl),
                         "LOC=%s;PID=%d;THR=t@%d",
-                        location_stamp,
+                        locbtion_stbmp,
                         (int)processPid,
                         (int)(intptr_t)tid);
 
-            /* Construct message string. */
-            va_start(ap, format);
-            (void)vsnprintf(message, sizeof(message), format, ap);
-            va_end(ap);
+            /* Construct messbge string. */
+            vb_stbrt(bp, formbt);
+            (void)vsnprintf(messbge, sizeof(messbge), formbt, bp);
+            vb_end(bp);
 
-            get_time_stamp(datetime, sizeof(datetime));
+            get_time_stbmp(dbtetime, sizeof(dbtetime));
 
-            /* Send out standard logging format message */
-            standard_logging_format(log_file,
-                datetime,
+            /* Send out stbndbrd logging formbt messbge */
+            stbndbrd_logging_formbt(log_file,
+                dbtetime,
                 level,
                 product,
                 module,
-                optional,
-                messageID,
-                message);
+                optionbl,
+                messbgeID,
+                messbge);
         }
-        location_stamp[0] = 0;
+        locbtion_stbmp[0] = 0;
     }
-    MUTEX_UNLOCK(my_mutex); /* Locked in log_message_begin() */
+    MUTEX_UNLOCK(my_mutex); /* Locked in log_messbge_begin() */
 }
 
 #endif
 
-/* Set up the logging with the name of a logging file. */
+/* Set up the logging with the nbme of b logging file. */
 void
-setup_logging(const char *filename, unsigned flags)
+setup_logging(const chbr *filenbme, unsigned flbgs)
 {
 #ifdef JDWP_LOGGING
     FILE *fp = NULL;
 
     /* Turn off logging */
     logging = 0;
-    gdata->log_flags = 0;
+    gdbtb->log_flbgs = 0;
 
     /* Just return if not doing logging */
-    if ( filename==NULL || flags==0 )
+    if ( filenbme==NULL || flbgs==0 )
         return;
 
-    /* Create potential filename for logging */
+    /* Crebte potentibl filenbme for logging */
     processPid = GETPID();
-    (void)snprintf(logging_filename, sizeof(logging_filename),
-                    "%s.%d", filename, (int)processPid);
+    (void)snprintf(logging_filenbme, sizeof(logging_filenbme),
+                    "%s.%d", filenbme, (int)processPid);
 
-    /* Turn on logging (do this last) */
+    /* Turn on logging (do this lbst) */
     logging = 1;
-    gdata->log_flags = flags;
+    gdbtb->log_flbgs = flbgs;
 
 #endif
 }

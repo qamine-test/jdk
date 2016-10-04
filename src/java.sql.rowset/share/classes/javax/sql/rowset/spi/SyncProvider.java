@@ -1,187 +1,187 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset.spi;
+pbckbge jbvbx.sql.rowset.spi;
 
-import javax.sql.*;
+import jbvbx.sql.*;
 
 /**
- * The synchronization mechanism that provides reader/writer capabilities for
+ * The synchronizbtion mechbnism thbt provides rebder/writer cbpbbilities for
  * disconnected <code>RowSet</code> objects.
- * A <code>SyncProvider</code> implementation is a class that extends the
- * <code>SyncProvider</code> abstract class.
+ * A <code>SyncProvider</code> implementbtion is b clbss thbt extends the
+ * <code>SyncProvider</code> bbstrbct clbss.
  * <P>
- * A <code>SyncProvider</code> implementation is
- * identified by a unique ID, which is its fully qualified class name.
- * This name must be registered with the
- * <code>SyncFactory</code> SPI, thus making the implementation available to
- * all <code>RowSet</code> implementations.
- * The factory mechanism in the reference implementation uses this name to instantiate
- * the implementation, which can then provide a <code>RowSet</code> object with its
- * reader (a <code>javax.sql.RowSetReader</code> object) and its writer (a
- * <code>javax.sql.RowSetWriter</code> object).
+ * A <code>SyncProvider</code> implementbtion is
+ * identified by b unique ID, which is its fully qublified clbss nbme.
+ * This nbme must be registered with the
+ * <code>SyncFbctory</code> SPI, thus mbking the implementbtion bvbilbble to
+ * bll <code>RowSet</code> implementbtions.
+ * The fbctory mechbnism in the reference implementbtion uses this nbme to instbntibte
+ * the implementbtion, which cbn then provide b <code>RowSet</code> object with its
+ * rebder (b <code>jbvbx.sql.RowSetRebder</code> object) bnd its writer (b
+ * <code>jbvbx.sql.RowSetWriter</code> object).
  * <P>
- * The Jdbc <code>RowSet</code> Implementations specification provides two
- * reference implementations of the <code>SyncProvider</code> abstract class:
- * <code>RIOptimisticProvider</code> and <code>RIXMLProvider</code>.
- * The <code>RIOptimisticProvider</code> can set any <code>RowSet</code>
- * implementation with a <code>RowSetReader</code> object and a
+ * The Jdbc <code>RowSet</code> Implementbtions specificbtion provides two
+ * reference implementbtions of the <code>SyncProvider</code> bbstrbct clbss:
+ * <code>RIOptimisticProvider</code> bnd <code>RIXMLProvider</code>.
+ * The <code>RIOptimisticProvider</code> cbn set bny <code>RowSet</code>
+ * implementbtion with b <code>RowSetRebder</code> object bnd b
  * <code>RowSetWriter</code> object.  However, only the <code>RIXMLProvider</code>
- * implementation can set an <code>XmlReader</code> object and an
+ * implementbtion cbn set bn <code>XmlRebder</code> object bnd bn
  * <code>XmlWriter</code> object. A <code>WebRowSet</code> object uses the
- * <code>XmlReader</code> object to read data in XML format to populate itself with that
- * data.  It uses the <code>XmlWriter</code> object to write itself to a stream or
- * <code>java.io.Writer</code> object in XML format.
+ * <code>XmlRebder</code> object to rebd dbtb in XML formbt to populbte itself with thbt
+ * dbtb.  It uses the <code>XmlWriter</code> object to write itself to b strebm or
+ * <code>jbvb.io.Writer</code> object in XML formbt.
  *
- * <h3>1.0 Naming Convention for Implementations</h3>
- * As a guide  to naming <code>SyncProvider</code>
- * implementations, the following should be noted:
+ * <h3>1.0 Nbming Convention for Implementbtions</h3>
+ * As b guide  to nbming <code>SyncProvider</code>
+ * implementbtions, the following should be noted:
  * <UL>
- * <li>The name for a <code>SyncProvider</code> implementation
- * is its fully qualified class name.
- * <li>It is recommended that vendors supply a
- * <code>SyncProvider</code> implementation in a package named <code>providers</code>.
+ * <li>The nbme for b <code>SyncProvider</code> implementbtion
+ * is its fully qublified clbss nbme.
+ * <li>It is recommended thbt vendors supply b
+ * <code>SyncProvider</code> implementbtion in b pbckbge nbmed <code>providers</code>.
  * </UL>
  * <p>
- * For instance, if a vendor named Fred, Inc. offered a
- * <code>SyncProvider</code> implementation, you could have the following:
+ * For instbnce, if b vendor nbmed Fred, Inc. offered b
+ * <code>SyncProvider</code> implementbtion, you could hbve the following:
  * <PRE>
- *     Vendor name:  Fred, Inc.
- *     Domain name of vendor:  com.fred
- *     Package name:  com.fred.providers
- *     SyncProvider implementation class name:  HighAvailabilityProvider
+ *     Vendor nbme:  Fred, Inc.
+ *     Dombin nbme of vendor:  com.fred
+ *     Pbckbge nbme:  com.fred.providers
+ *     SyncProvider implementbtion clbss nbme:  HighAvbilbbilityProvider
  *
- *     Fully qualified class name of SyncProvider implementation:
- *                        com.fred.providers.HighAvailabilityProvider
+ *     Fully qublified clbss nbme of SyncProvider implementbtion:
+ *                        com.fred.providers.HighAvbilbbilityProvider
  * </PRE>
  * <P>
- * The following line of code uses the fully qualified name to register
- * this implementation with the <code>SyncFactory</code> static instance.
+ * The following line of code uses the fully qublified nbme to register
+ * this implementbtion with the <code>SyncFbctory</code> stbtic instbnce.
  * <PRE>
- *     SyncFactory.registerProvider(
- *                          "com.fred.providers.HighAvailabilityProvider");
+ *     SyncFbctory.registerProvider(
+ *                          "com.fred.providers.HighAvbilbbilityProvider");
  * </PRE>
  * <P>
- * The default <code>SyncProvider</code> object provided with the reference
- * implementation uses the following name:
+ * The defbult <code>SyncProvider</code> object provided with the reference
+ * implementbtion uses the following nbme:
  * <pre>
  *     com.sun.rowset.providers.RIOptimisticProvider
  * </pre>
  * <p>
- * A vendor can register a <code>SyncProvider</code> implementation class name
- * with Oracle Corporation by sending email to jdbc@sun.com.
- * Oracle will maintain a database listing the
- * available <code>SyncProvider</code> implementations for use with compliant
- * <code>RowSet</code> implementations.  This database will be similar to the
- * one already maintained to list available JDBC drivers.
+ * A vendor cbn register b <code>SyncProvider</code> implementbtion clbss nbme
+ * with Orbcle Corporbtion by sending embil to jdbc@sun.com.
+ * Orbcle will mbintbin b dbtbbbse listing the
+ * bvbilbble <code>SyncProvider</code> implementbtions for use with complibnt
+ * <code>RowSet</code> implementbtions.  This dbtbbbse will be similbr to the
+ * one blrebdy mbintbined to list bvbilbble JDBC drivers.
  * <P>
- * Vendors should refer to the reference implementation synchronization
- * providers for additional guidance on how to implement a new
- * <code>SyncProvider</code> implementation.
+ * Vendors should refer to the reference implementbtion synchronizbtion
+ * providers for bdditionbl guidbnce on how to implement b new
+ * <code>SyncProvider</code> implementbtion.
  *
- * <h3>2.0 How a <code>RowSet</code> Object Gets Its Provider</h3>
+ * <h3>2.0 How b <code>RowSet</code> Object Gets Its Provider</h3>
  *
- * A disconnected <code>Rowset</code> object may get access to a
- * <code>SyncProvider</code> object in one of the following two ways:
+ * A disconnected <code>Rowset</code> object mby get bccess to b
+ * <code>SyncProvider</code> object in one of the following two wbys:
  * <UL>
- *  <LI>Using a constructor<BR>
+ *  <LI>Using b constructor<BR>
  *      <PRE>
- *       CachedRowSet crs = new CachedRowSet(
- *                  "com.fred.providers.HighAvailabilitySyncProvider");
+ *       CbchedRowSet crs = new CbchedRowSet(
+ *                  "com.fred.providers.HighAvbilbbilitySyncProvider");
  *      </PRE>
  *  <LI>Using the <code>setSyncProvider</code> method
  *      <PRE>
- *       CachedRowSet crs = new CachedRowSet();
- *       crs.setSyncProvider("com.fred.providers.HighAvailabilitySyncProvider");
+ *       CbchedRowSet crs = new CbchedRowSet();
+ *       crs.setSyncProvider("com.fred.providers.HighAvbilbbilitySyncProvider");
  *      </PRE>
 
  * </UL>
  * <p>
- * By default, the reference implementations of the <code>RowSet</code> synchronization
- * providers are always available to the Java platform.
- * If no other pluggable synchronization providers have been correctly
- * registered, the <code>SyncFactory</code> will automatically generate
- * an instance of the default <code>SyncProvider</code> reference implementation.
- * Thus, in the preceding code fragment, if no implementation named
- * <code>com.fred.providers.HighAvailabilitySyncProvider</code> has been
- * registered with the <code>SyncFactory</code> instance, <i>crs</i> will be
- * assigned the default provider in the reference implementation, which is
+ * By defbult, the reference implementbtions of the <code>RowSet</code> synchronizbtion
+ * providers bre blwbys bvbilbble to the Jbvb plbtform.
+ * If no other pluggbble synchronizbtion providers hbve been correctly
+ * registered, the <code>SyncFbctory</code> will butombticblly generbte
+ * bn instbnce of the defbult <code>SyncProvider</code> reference implementbtion.
+ * Thus, in the preceding code frbgment, if no implementbtion nbmed
+ * <code>com.fred.providers.HighAvbilbbilitySyncProvider</code> hbs been
+ * registered with the <code>SyncFbctory</code> instbnce, <i>crs</i> will be
+ * bssigned the defbult provider in the reference implementbtion, which is
  * <code>com.sun.rowset.providers.RIOptimisticProvider</code>.
  *
- * <h3>3.0 Violations and Synchronization Issues</h3>
- * If an update between a disconnected <code>RowSet</code> object
- * and a data source violates
- * the original query or the underlying data source constraints, this will
- * result in undefined behavior for all disconnected <code>RowSet</code> implementations
- * and their designated <code>SyncProvider</code> implementations.
- * Not defining the behavior when such violations occur offers greater flexibility
- * for a <code>SyncProvider</code>
- * implementation to determine its own best course of action.
+ * <h3>3.0 Violbtions bnd Synchronizbtion Issues</h3>
+ * If bn updbte between b disconnected <code>RowSet</code> object
+ * bnd b dbtb source violbtes
+ * the originbl query or the underlying dbtb source constrbints, this will
+ * result in undefined behbvior for bll disconnected <code>RowSet</code> implementbtions
+ * bnd their designbted <code>SyncProvider</code> implementbtions.
+ * Not defining the behbvior when such violbtions occur offers grebter flexibility
+ * for b <code>SyncProvider</code>
+ * implementbtion to determine its own best course of bction.
  * <p>
- * A <code>SyncProvider</code> implementation
- * may choose to implement a specific handler to
- * handle a subset of query violations.
- * However if an original query violation or a more general data source constraint
- * violation is not handled by the <code>SyncProvider</code> implementation,
- * all <code>SyncProvider</code>
- * objects must throw a <code>SyncProviderException</code>.
+ * A <code>SyncProvider</code> implementbtion
+ * mby choose to implement b specific hbndler to
+ * hbndle b subset of query violbtions.
+ * However if bn originbl query violbtion or b more generbl dbtb source constrbint
+ * violbtion is not hbndled by the <code>SyncProvider</code> implementbtion,
+ * bll <code>SyncProvider</code>
+ * objects must throw b <code>SyncProviderException</code>.
  *
- * <h3>4.0 Updatable SQL VIEWs</h3>
- * It is possible for any disconnected or connected <code>RowSet</code> object to be populated
- * from an SQL query that is formulated originally from an SQL <code>VIEW</code>.
- * While in many cases it is possible for an update to be performed to an
- * underlying view, such an update requires additional metadata, which may vary.
- * The <code>SyncProvider</code> class provides two constants to indicate whether
- * an implementation supports updating an SQL <code>VIEW</code>.
+ * <h3>4.0 Updbtbble SQL VIEWs</h3>
+ * It is possible for bny disconnected or connected <code>RowSet</code> object to be populbted
+ * from bn SQL query thbt is formulbted originblly from bn SQL <code>VIEW</code>.
+ * While in mbny cbses it is possible for bn updbte to be performed to bn
+ * underlying view, such bn updbte requires bdditionbl metbdbtb, which mby vbry.
+ * The <code>SyncProvider</code> clbss provides two constbnts to indicbte whether
+ * bn implementbtion supports updbting bn SQL <code>VIEW</code>.
  * <ul>
- * <li><code><b>NONUPDATABLE_VIEW_SYNC</b></code> - Indicates that a <code>SyncProvider</code>
- * implementation does not support synchronization with an SQL <code>VIEW</code> as the
- * underlying source of data for the <code>RowSet</code> object.
- * <li><code><b>UPDATABLE_VIEW_SYNC</b></code> - Indicates that a
- * <code>SyncProvider</code> implementation
- * supports synchronization with an SQL <code>VIEW</code> as the underlying source
- * of data.
+ * <li><code><b>NONUPDATABLE_VIEW_SYNC</b></code> - Indicbtes thbt b <code>SyncProvider</code>
+ * implementbtion does not support synchronizbtion with bn SQL <code>VIEW</code> bs the
+ * underlying source of dbtb for the <code>RowSet</code> object.
+ * <li><code><b>UPDATABLE_VIEW_SYNC</b></code> - Indicbtes thbt b
+ * <code>SyncProvider</code> implementbtion
+ * supports synchronizbtion with bn SQL <code>VIEW</code> bs the underlying source
+ * of dbtb.
  * </ul>
  * <P>
- * The default is for a <code>RowSet</code> object not to be updatable if it was
- * populated with data from an SQL <code>VIEW</code>.
+ * The defbult is for b <code>RowSet</code> object not to be updbtbble if it wbs
+ * populbted with dbtb from bn SQL <code>VIEW</code>.
  *
- * <h3>5.0 <code>SyncProvider</code> Constants</h3>
- * The <code>SyncProvider</code> class provides three sets of constants that
- * are used as return values or parameters for <code>SyncProvider</code> methods.
- * <code>SyncProvider</code> objects may be implemented to perform synchronization
- * between a <code>RowSet</code> object and its underlying data source with varying
- * degrees of of care. The first group of constants indicate how synchronization
- * is handled. For example, <code>GRADE_NONE</code> indicates that a
- * <code>SyncProvider</code> object will not take any care to see what data is
- * valid and will simply write the <code>RowSet</code> data to the data source.
- * <code>GRADE_MODIFIED_AT_COMMIT</code> indicates that the provider will check
- * only modified data for validity.  Other grades check all data for validity
- * or set locks when data is modified or loaded.
+ * <h3>5.0 <code>SyncProvider</code> Constbnts</h3>
+ * The <code>SyncProvider</code> clbss provides three sets of constbnts thbt
+ * bre used bs return vblues or pbrbmeters for <code>SyncProvider</code> methods.
+ * <code>SyncProvider</code> objects mby be implemented to perform synchronizbtion
+ * between b <code>RowSet</code> object bnd its underlying dbtb source with vbrying
+ * degrees of of cbre. The first group of constbnts indicbte how synchronizbtion
+ * is hbndled. For exbmple, <code>GRADE_NONE</code> indicbtes thbt b
+ * <code>SyncProvider</code> object will not tbke bny cbre to see whbt dbtb is
+ * vblid bnd will simply write the <code>RowSet</code> dbtb to the dbtb source.
+ * <code>GRADE_MODIFIED_AT_COMMIT</code> indicbtes thbt the provider will check
+ * only modified dbtb for vblidity.  Other grbdes check bll dbtb for vblidity
+ * or set locks when dbtb is modified or lobded.
  * <OL>
- *  <LI>Constants to indicate the synchronization grade of a
+ *  <LI>Constbnts to indicbte the synchronizbtion grbde of b
  *     <code>SyncProvider</code> object
  *   <UL>
  *    <LI>SyncProvider.GRADE_NONE
@@ -190,31 +190,31 @@ import javax.sql.*;
  *    <LI>SyncProvider.GRADE_LOCK_WHEN_MODIFIED
  *    <LI>SyncProvider.GRADE_LOCK_WHEN_LOADED
  *   </UL>
- *  <LI>Constants to indicate what locks are set on the data source
+ *  <LI>Constbnts to indicbte whbt locks bre set on the dbtb source
  *   <UL>
  *     <LI>SyncProvider.DATASOURCE_NO_LOCK
  *     <LI>SyncProvider.DATASOURCE_ROW_LOCK
  *     <LI>SyncProvider.DATASOURCE_TABLE_LOCK
  *     <LI>SyncProvider.DATASOURCE_DB_LOCK
  *   </UL>
- *  <LI>Constants to indicate whether a <code>SyncProvider</code> object can
- *       perform updates to an SQL <code>VIEW</code> <BR>
- *       These constants are explained in the preceding section (4.0).
+ *  <LI>Constbnts to indicbte whether b <code>SyncProvider</code> object cbn
+ *       perform updbtes to bn SQL <code>VIEW</code> <BR>
+ *       These constbnts bre explbined in the preceding section (4.0).
  *   <UL>
  *     <LI>SyncProvider.UPDATABLE_VIEW_SYNC
  *     <LI>SyncProvider.NONUPDATABLE_VIEW_SYNC
  *   </UL>
  * </OL>
  *
- * @author Jonathan Bruce
- * @see javax.sql.rowset.spi.SyncFactory
- * @see javax.sql.rowset.spi.SyncFactoryException
+ * @buthor Jonbthbn Bruce
+ * @see jbvbx.sql.rowset.spi.SyncFbctory
+ * @see jbvbx.sql.rowset.spi.SyncFbctoryException
  * @since 1.5
  */
-public abstract class SyncProvider {
+public bbstrbct clbss SyncProvider {
 
    /**
-    * Creates a default <code>SyncProvider</code> object.
+    * Crebtes b defbult <code>SyncProvider</code> object.
     */
     public SyncProvider() {
     }
@@ -222,71 +222,71 @@ public abstract class SyncProvider {
     /**
      * Returns the unique identifier for this <code>SyncProvider</code> object.
      *
-     * @return a <code>String</code> object with the fully qualified class name of
+     * @return b <code>String</code> object with the fully qublified clbss nbme of
      *         this <code>SyncProvider</code> object
      */
-    public abstract String getProviderID();
+    public bbstrbct String getProviderID();
 
     /**
-     * Returns a <code>javax.sql.RowSetReader</code> object, which can be used to
-     * populate a <code>RowSet</code> object with data.
+     * Returns b <code>jbvbx.sql.RowSetRebder</code> object, which cbn be used to
+     * populbte b <code>RowSet</code> object with dbtb.
      *
-     * @return a <code>javax.sql.RowSetReader</code> object
+     * @return b <code>jbvbx.sql.RowSetRebder</code> object
      */
-    public abstract RowSetReader getRowSetReader();
+    public bbstrbct RowSetRebder getRowSetRebder();
 
     /**
-     * Returns a <code>javax.sql.RowSetWriter</code> object, which can be
-     * used to write a <code>RowSet</code> object's data back to the
-     * underlying data source.
+     * Returns b <code>jbvbx.sql.RowSetWriter</code> object, which cbn be
+     * used to write b <code>RowSet</code> object's dbtb bbck to the
+     * underlying dbtb source.
      *
-     * @return a <code>javax.sql.RowSetWriter</code> object
+     * @return b <code>jbvbx.sql.RowSetWriter</code> object
      */
-    public abstract RowSetWriter getRowSetWriter();
+    public bbstrbct RowSetWriter getRowSetWriter();
 
     /**
-     * Returns a constant indicating the
-     * grade of synchronization a <code>RowSet</code> object can expect from
+     * Returns b constbnt indicbting the
+     * grbde of synchronizbtion b <code>RowSet</code> object cbn expect from
      * this <code>SyncProvider</code> object.
      *
-     * @return an int that is one of the following constants:
+     * @return bn int thbt is one of the following constbnts:
      *           SyncProvider.GRADE_NONE,
      *           SyncProvider.GRADE_CHECK_MODIFIED_AT_COMMIT,
      *           SyncProvider.GRADE_CHECK_ALL_AT_COMMIT,
      *           SyncProvider.GRADE_LOCK_WHEN_MODIFIED,
      *           SyncProvider.GRADE_LOCK_WHEN_LOADED
      */
-    public abstract int getProviderGrade();
+    public bbstrbct int getProviderGrbde();
 
 
     /**
-     * Sets a lock on the underlying data source at the level indicated by
-     * <i>datasource_lock</i>. This should cause the
-     * <code>SyncProvider</code> to adjust its behavior by increasing or
-     * decreasing the level of optimism it provides for a successful
-     * synchronization.
+     * Sets b lock on the underlying dbtb source bt the level indicbted by
+     * <i>dbtbsource_lock</i>. This should cbuse the
+     * <code>SyncProvider</code> to bdjust its behbvior by increbsing or
+     * decrebsing the level of optimism it provides for b successful
+     * synchronizbtion.
      *
-     * @param datasource_lock one of the following constants indicating the severity
-     *           level of data source lock required:
+     * @pbrbm dbtbsource_lock one of the following constbnts indicbting the severity
+     *           level of dbtb source lock required:
      * <pre>
      *           SyncProvider.DATASOURCE_NO_LOCK,
      *           SyncProvider.DATASOURCE_ROW_LOCK,
      *           SyncProvider.DATASOURCE_TABLE_LOCK,
      *           SyncProvider.DATASOURCE_DB_LOCK,
      * </pre>
-     * @throws SyncProviderException if an unsupported data source locking level
+     * @throws SyncProviderException if bn unsupported dbtb source locking level
      *           is set.
-     * @see #getDataSourceLock
+     * @see #getDbtbSourceLock
      */
-    public abstract void setDataSourceLock(int datasource_lock)
+    public bbstrbct void setDbtbSourceLock(int dbtbsource_lock)
         throws SyncProviderException;
 
     /**
-     * Returns the current data source lock severity level active in this
-     * <code>SyncProvider</code> implementation.
+     * Returns the current dbtb source lock severity level bctive in this
+     * <code>SyncProvider</code> implementbtion.
      *
-     * @return a constant indicating the current level of data source lock
-     *        active in this <code>SyncProvider</code> object;
+     * @return b constbnt indicbting the current level of dbtb source lock
+     *        bctive in this <code>SyncProvider</code> object;
      *         one of the following:
      * <pre>
      *           SyncProvider.DATASOURCE_NO_LOCK,
@@ -294,138 +294,138 @@ public abstract class SyncProvider {
      *           SyncProvider.DATASOURCE_TABLE_LOCK,
      *           SyncProvider.DATASOURCE_DB_LOCK
      * </pre>
-     * @throws SyncProviderException if an error occurs determining the data
+     * @throws SyncProviderException if bn error occurs determining the dbtb
      *        source locking level.
-     * @see #setDataSourceLock
+     * @see #setDbtbSourceLock
 
      */
-    public abstract int getDataSourceLock()
+    public bbstrbct int getDbtbSourceLock()
         throws SyncProviderException;
 
     /**
-     * Returns whether this <code>SyncProvider</code> implementation
-     * can perform synchronization between a <code>RowSet</code> object
-     * and the SQL <code>VIEW</code> in the data source from which
-     * the <code>RowSet</code> object got its data.
+     * Returns whether this <code>SyncProvider</code> implementbtion
+     * cbn perform synchronizbtion between b <code>RowSet</code> object
+     * bnd the SQL <code>VIEW</code> in the dbtb source from which
+     * the <code>RowSet</code> object got its dbtb.
      *
-     * @return an <code>int</code> saying whether this <code>SyncProvider</code>
-     *         object supports updating an SQL <code>VIEW</code>; one of the
+     * @return bn <code>int</code> sbying whether this <code>SyncProvider</code>
+     *         object supports updbting bn SQL <code>VIEW</code>; one of the
      *         following:
      *            SyncProvider.UPDATABLE_VIEW_SYNC,
      *            SyncProvider.NONUPDATABLE_VIEW_SYNC
      */
-    public abstract int supportsUpdatableView();
+    public bbstrbct int supportsUpdbtbbleView();
 
     /**
-     * Returns the release version of this <code>SyncProvider</code> instance.
+     * Returns the relebse version of this <code>SyncProvider</code> instbnce.
      *
-     * @return a <code>String</code> detailing the release version of the
-     *     <code>SyncProvider</code> implementation
+     * @return b <code>String</code> detbiling the relebse version of the
+     *     <code>SyncProvider</code> implementbtion
      */
-    public abstract String getVersion();
+    public bbstrbct String getVersion();
 
     /**
-     * Returns the vendor name of this <code>SyncProvider</code> instance
+     * Returns the vendor nbme of this <code>SyncProvider</code> instbnce
      *
-     * @return a <code>String</code> detailing the vendor name of this
-     *     <code>SyncProvider</code> implementation
+     * @return b <code>String</code> detbiling the vendor nbme of this
+     *     <code>SyncProvider</code> implementbtion
      */
-    public abstract String getVendor();
+    public bbstrbct String getVendor();
 
     /*
-     * Standard description of synchronization grades that a SyncProvider
+     * Stbndbrd description of synchronizbtion grbdes thbt b SyncProvider
      * could provide.
      */
 
     /**
-     * Indicates that no synchronization with the originating data source is
+     * Indicbtes thbt no synchronizbtion with the originbting dbtb source is
      * provided. A <code>SyncProvider</code>
-     * implementation returning this grade will simply attempt to write
-     * updates in the <code>RowSet</code> object to the underlying data
-     * source without checking the validity of any data.
+     * implementbtion returning this grbde will simply bttempt to write
+     * updbtes in the <code>RowSet</code> object to the underlying dbtb
+     * source without checking the vblidity of bny dbtb.
      *
      */
-    public static final int GRADE_NONE = 1;
+    public stbtic finbl int GRADE_NONE = 1;
 
     /**
-     * Indicates a low level optimistic synchronization grade with
-     * respect to the originating data source.
+     * Indicbtes b low level optimistic synchronizbtion grbde with
+     * respect to the originbting dbtb source.
      *
-     * A <code>SyncProvider</code> implementation
-     * returning this grade will check only rows that have changed.
+     * A <code>SyncProvider</code> implementbtion
+     * returning this grbde will check only rows thbt hbve chbnged.
      *
      */
-    public static final int GRADE_CHECK_MODIFIED_AT_COMMIT = 2;
+    public stbtic finbl int GRADE_CHECK_MODIFIED_AT_COMMIT = 2;
 
     /**
-     * Indicates a high level optimistic synchronization grade with
-     * respect to the originating data source.
+     * Indicbtes b high level optimistic synchronizbtion grbde with
+     * respect to the originbting dbtb source.
      *
-     * A <code>SyncProvider</code> implementation
-     * returning this grade will check all rows, including rows that have not
-     * changed.
+     * A <code>SyncProvider</code> implementbtion
+     * returning this grbde will check bll rows, including rows thbt hbve not
+     * chbnged.
      */
-    public static final int GRADE_CHECK_ALL_AT_COMMIT = 3;
+    public stbtic finbl int GRADE_CHECK_ALL_AT_COMMIT = 3;
 
     /**
-     * Indicates a pessimistic synchronization grade with
-     * respect to the originating data source.
+     * Indicbtes b pessimistic synchronizbtion grbde with
+     * respect to the originbting dbtb source.
      *
      * A <code>SyncProvider</code>
-     * implementation returning this grade will lock the row in the originating
-     * data source.
+     * implementbtion returning this grbde will lock the row in the originbting
+     * dbtb source.
      */
-    public static final int GRADE_LOCK_WHEN_MODIFIED = 4;
+    public stbtic finbl int GRADE_LOCK_WHEN_MODIFIED = 4;
 
     /**
-     * Indicates the most pessimistic synchronization grade with
-     * respect to the originating
-     * data source. A <code>SyncProvider</code>
-     * implementation returning this grade will lock the entire view and/or
-     * table affected by the original statement used to populate a
+     * Indicbtes the most pessimistic synchronizbtion grbde with
+     * respect to the originbting
+     * dbtb source. A <code>SyncProvider</code>
+     * implementbtion returning this grbde will lock the entire view bnd/or
+     * tbble bffected by the originbl stbtement used to populbte b
      * <code>RowSet</code> object.
      */
-    public static final int GRADE_LOCK_WHEN_LOADED = 5;
+    public stbtic finbl int GRADE_LOCK_WHEN_LOADED = 5;
 
     /**
-     * Indicates that no locks remain on the originating data source. This is the default
-     * lock setting for all <code>SyncProvider</code> implementations unless
-     * otherwise directed by a <code>RowSet</code> object.
+     * Indicbtes thbt no locks rembin on the originbting dbtb source. This is the defbult
+     * lock setting for bll <code>SyncProvider</code> implementbtions unless
+     * otherwise directed by b <code>RowSet</code> object.
      */
-    public static final int DATASOURCE_NO_LOCK = 1;
+    public stbtic finbl int DATASOURCE_NO_LOCK = 1;
 
     /**
-     * Indicates that a lock is placed on the rows that are touched by the original
-     * SQL statement used to populate the <code>RowSet</code> object
-     * that is using this <code>SyncProvider</code> object.
+     * Indicbtes thbt b lock is plbced on the rows thbt bre touched by the originbl
+     * SQL stbtement used to populbte the <code>RowSet</code> object
+     * thbt is using this <code>SyncProvider</code> object.
      */
-    public static final int DATASOURCE_ROW_LOCK = 2;
+    public stbtic finbl int DATASOURCE_ROW_LOCK = 2;
 
     /**
-     * Indicates that a lock is placed on all tables that are touched by the original
-     * SQL statement used to populate the <code>RowSet</code> object
-     * that is using this <code>SyncProvider</code> object.
+     * Indicbtes thbt b lock is plbced on bll tbbles thbt bre touched by the originbl
+     * SQL stbtement used to populbte the <code>RowSet</code> object
+     * thbt is using this <code>SyncProvider</code> object.
      */
-    public static final int DATASOURCE_TABLE_LOCK = 3;
+    public stbtic finbl int DATASOURCE_TABLE_LOCK = 3;
 
     /**
-     * Indicates that a lock is placed on the entire data source that is the source of
-     * data for the <code>RowSet</code> object
-     * that is using this <code>SyncProvider</code> object.
+     * Indicbtes thbt b lock is plbced on the entire dbtb source thbt is the source of
+     * dbtb for the <code>RowSet</code> object
+     * thbt is using this <code>SyncProvider</code> object.
      */
-    public static final int DATASOURCE_DB_LOCK = 4;
+    public stbtic finbl int DATASOURCE_DB_LOCK = 4;
 
     /**
-     * Indicates that a <code>SyncProvider</code> implementation
-     * supports synchronization between a <code>RowSet</code> object and
-     * the SQL <code>VIEW</code> used to populate it.
+     * Indicbtes thbt b <code>SyncProvider</code> implementbtion
+     * supports synchronizbtion between b <code>RowSet</code> object bnd
+     * the SQL <code>VIEW</code> used to populbte it.
      */
-    public static final int UPDATABLE_VIEW_SYNC = 5;
+    public stbtic finbl int UPDATABLE_VIEW_SYNC = 5;
 
     /**
-     * Indicates that a <code>SyncProvider</code> implementation
-     * does <B>not</B> support synchronization between a <code>RowSet</code>
-     * object and the SQL <code>VIEW</code> used to populate it.
+     * Indicbtes thbt b <code>SyncProvider</code> implementbtion
+     * does <B>not</B> support synchronizbtion between b <code>RowSet</code>
+     * object bnd the SQL <code>VIEW</code> used to populbte it.
      */
-    public static final int NONUPDATABLE_VIEW_SYNC = 6;
+    public stbtic finbl int NONUPDATABLE_VIEW_SYNC = 6;
 }

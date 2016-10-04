@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbckbge com.sun.tools.hbt.internbl.server;
 
-import com.sun.tools.hat.internal.model.*;
-import java.util.*;
+import com.sun.tools.hbt.internbl.model.*;
+import jbvb.util.*;
 
 /**
- * References by type summary
+ * References by type summbry
  *
  */
-public class RefsByTypeQuery extends QueryHandler {
+public clbss RefsByTypeQuery extends QueryHbndler {
     public void run() {
-        JavaClass clazz = snapshot.findClass(query);
-        if (clazz == null) {
-            error("class not found: " + query);
+        JbvbClbss clbzz = snbpshot.findClbss(query);
+        if (clbzz == null) {
+            error("clbss not found: " + query);
         } else {
-            Map<JavaClass, Long> referrersStat = new HashMap<JavaClass, Long>();
-            final Map<JavaClass, Long> refereesStat = new HashMap<JavaClass, Long>();
-            Enumeration<JavaHeapObject> instances = clazz.getInstances(false);
-            while (instances.hasMoreElements()) {
-                JavaHeapObject instance = instances.nextElement();
-                if (instance.getId() == -1) {
+            Mbp<JbvbClbss, Long> referrersStbt = new HbshMbp<JbvbClbss, Long>();
+            finbl Mbp<JbvbClbss, Long> refereesStbt = new HbshMbp<JbvbClbss, Long>();
+            Enumerbtion<JbvbHebpObject> instbnces = clbzz.getInstbnces(fblse);
+            while (instbnces.hbsMoreElements()) {
+                JbvbHebpObject instbnce = instbnces.nextElement();
+                if (instbnce.getId() == -1) {
                     continue;
                 }
-                Enumeration<JavaThing> e = instance.getReferers();
-                while (e.hasMoreElements()) {
-                    JavaHeapObject ref = (JavaHeapObject)e.nextElement();
-                    JavaClass cl = ref.getClazz();
+                Enumerbtion<JbvbThing> e = instbnce.getReferers();
+                while (e.hbsMoreElements()) {
+                    JbvbHebpObject ref = (JbvbHebpObject)e.nextElement();
+                    JbvbClbss cl = ref.getClbzz();
                     if (cl == null) {
-                         System.out.println("null class for " + ref);
+                         System.out.println("null clbss for " + ref);
                          continue;
                     }
-                    Long count = referrersStat.get(cl);
+                    Long count = referrersStbt.get(cl);
                     if (count == null) {
                         count = 1L;
                     } else {
                         count = count + 1L;
                     }
-                    referrersStat.put(cl, count);
+                    referrersStbt.put(cl, count);
                 }
-                instance.visitReferencedObjects(
-                    new AbstractJavaHeapObjectVisitor() {
-                        public void visit(JavaHeapObject obj) {
-                            JavaClass cl = obj.getClazz();
-                            Long count = refereesStat.get(cl);
+                instbnce.visitReferencedObjects(
+                    new AbstrbctJbvbHebpObjectVisitor() {
+                        public void visit(JbvbHebpObject obj) {
+                            JbvbClbss cl = obj.getClbzz();
+                            Long count = refereesStbt.get(cl);
                             if (count == null) {
                                 count = 1L;
                             } else {
                                 count = count + 1L;
                             }
-                            refereesStat.put(cl, count);
+                            refereesStbt.put(cl, count);
                         }
                     }
                 );
-            } // for each instance
+            } // for ebch instbnce
 
-            startHtml("References by Type");
-            out.println("<p align='center'>");
-            printClass(clazz);
-            if (clazz.getId() != -1) {
-                println("[" + clazz.getIdString() + "]");
+            stbrtHtml("References by Type");
+            out.println("<p blign='center'>");
+            printClbss(clbzz);
+            if (clbzz.getId() != -1) {
+                println("[" + clbzz.getIdString() + "]");
             }
             out.println("</p>");
 
-            if (referrersStat.size() != 0) {
-                out.println("<h3 align='center'>Referrers by Type</h3>");
-                print(referrersStat);
+            if (referrersStbt.size() != 0) {
+                out.println("<h3 blign='center'>Referrers by Type</h3>");
+                print(referrersStbt);
             }
 
-            if (refereesStat.size() != 0) {
-                out.println("<h3 align='center'>Referees by Type</h3>");
-                print(refereesStat);
+            if (refereesStbt.size() != 0) {
+                out.println("<h3 blign='center'>Referees by Type</h3>");
+                print(refereesStbt);
             }
 
             endHtml();
-        }  // clazz != null
+        }  // clbzz != null
     } // run
 
-    private void print(final Map<JavaClass, Long> map) {
-        out.println("<table border='1' align='center'>");
-        Set<JavaClass> keys = map.keySet();
-        JavaClass[] classes = new JavaClass[keys.size()];
-        keys.toArray(classes);
-        Arrays.sort(classes, new Comparator<JavaClass>() {
-            public int compare(JavaClass first, JavaClass second) {
-                Long count1 = map.get(first);
-                Long count2 = map.get(second);
-                return count2.compareTo(count1);
+    privbte void print(finbl Mbp<JbvbClbss, Long> mbp) {
+        out.println("<tbble border='1' blign='center'>");
+        Set<JbvbClbss> keys = mbp.keySet();
+        JbvbClbss[] clbsses = new JbvbClbss[keys.size()];
+        keys.toArrby(clbsses);
+        Arrbys.sort(clbsses, new Compbrbtor<JbvbClbss>() {
+            public int compbre(JbvbClbss first, JbvbClbss second) {
+                Long count1 = mbp.get(first);
+                Long count2 = mbp.get(second);
+                return count2.compbreTo(count1);
             }
         });
 
-        out.println("<tr><th>Class</th><th>Count</th></tr>");
-        for (int i = 0; i < classes.length; i++) {
-            JavaClass clazz = classes[i];
+        out.println("<tr><th>Clbss</th><th>Count</th></tr>");
+        for (int i = 0; i < clbsses.length; i++) {
+            JbvbClbss clbzz = clbsses[i];
             out.println("<tr><td>");
-            out.print("<a href='/refsByType/");
-            print(clazz.getIdString());
+            out.print("<b href='/refsByType/");
+            print(clbzz.getIdString());
             out.print("'>");
-            print(clazz.getName());
-            out.println("</a>");
+            print(clbzz.getNbme());
+            out.println("</b>");
             out.println("</td><td>");
-            out.println(map.get(clazz));
+            out.println(mbp.get(clbzz));
             out.println("</td></tr>");
         }
-        out.println("</table>");
+        out.println("</tbble>");
     }
 }

@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.security.Security;
-import java.security.*;
+import jbvb.security.Security;
+import jbvb.security.*;
 
-import sun.security.jca.GetInstance;
+import sun.security.jcb.GetInstbnce;
 
 /**
- * This class acts as a factory for key managers based on a
- * source of key material. Each key manager manages a specific
- * type of key material for use by secure sockets. The key
- * material is based on a KeyStore and/or provider specific sources.
+ * This clbss bcts bs b fbctory for key mbnbgers bbsed on b
+ * source of key mbteribl. Ebch key mbnbger mbnbges b specific
+ * type of key mbteribl for use by secure sockets. The key
+ * mbteribl is bbsed on b KeyStore bnd/or provider specific sources.
  *
  * @since 1.4
- * @see KeyManager
+ * @see KeyMbnbger
  */
-public class KeyManagerFactory {
+public clbss KeyMbnbgerFbctory {
     // The provider
-    private Provider provider;
+    privbte Provider provider;
 
-    // The provider implementation (delegate)
-    private KeyManagerFactorySpi factorySpi;
+    // The provider implementbtion (delegbte)
+    privbte KeyMbnbgerFbctorySpi fbctorySpi;
 
-    // The name of the key management algorithm.
-    private String algorithm;
+    // The nbme of the key mbnbgement blgorithm.
+    privbte String blgorithm;
 
     /**
-     * Obtains the default KeyManagerFactory algorithm name.
+     * Obtbins the defbult KeyMbnbgerFbctory blgorithm nbme.
      *
-     * <p>The default algorithm can be changed at runtime by setting
-     * the value of the {@code ssl.KeyManagerFactory.algorithm}
-     * security property to the desired algorithm name.
+     * <p>The defbult blgorithm cbn be chbnged bt runtime by setting
+     * the vblue of the {@code ssl.KeyMbnbgerFbctory.blgorithm}
+     * security property to the desired blgorithm nbme.
      *
-     * @see java.security.Security security properties
-     * @return the default algorithm name as specified by the
-     *          {@code ssl.KeyManagerFactory.algorithm} security property, or an
-     *          implementation-specific default if no such property exists.
+     * @see jbvb.security.Security security properties
+     * @return the defbult blgorithm nbme bs specified by the
+     *          {@code ssl.KeyMbnbgerFbctory.blgorithm} security property, or bn
+     *          implementbtion-specific defbult if no such property exists.
      */
-    public final static String getDefaultAlgorithm() {
+    public finbl stbtic String getDefbultAlgorithm() {
         String type;
         type = AccessController.doPrivileged(new PrivilegedAction<String>() {
             @Override
             public String run() {
                 return Security.getProperty(
-                    "ssl.KeyManagerFactory.algorithm");
+                    "ssl.KeyMbnbgerFbctory.blgorithm");
             }
         });
         if (type == null) {
@@ -77,215 +77,215 @@ public class KeyManagerFactory {
     }
 
     /**
-     * Creates a KeyManagerFactory object.
+     * Crebtes b KeyMbnbgerFbctory object.
      *
-     * @param factorySpi the delegate
-     * @param provider the provider
-     * @param algorithm the algorithm
+     * @pbrbm fbctorySpi the delegbte
+     * @pbrbm provider the provider
+     * @pbrbm blgorithm the blgorithm
      */
-    protected KeyManagerFactory(KeyManagerFactorySpi factorySpi,
-                                Provider provider, String algorithm) {
-        this.factorySpi = factorySpi;
+    protected KeyMbnbgerFbctory(KeyMbnbgerFbctorySpi fbctorySpi,
+                                Provider provider, String blgorithm) {
+        this.fbctorySpi = fbctorySpi;
         this.provider = provider;
-        this.algorithm = algorithm;
+        this.blgorithm = blgorithm;
     }
 
     /**
-     * Returns the algorithm name of this <code>KeyManagerFactory</code> object.
+     * Returns the blgorithm nbme of this <code>KeyMbnbgerFbctory</code> object.
      *
-     * <p>This is the same name that was specified in one of the
-     * <code>getInstance</code> calls that created this
-     * <code>KeyManagerFactory</code> object.
+     * <p>This is the sbme nbme thbt wbs specified in one of the
+     * <code>getInstbnce</code> cblls thbt crebted this
+     * <code>KeyMbnbgerFbctory</code> object.
      *
-     * @return the algorithm name of this <code>KeyManagerFactory</code> object.
+     * @return the blgorithm nbme of this <code>KeyMbnbgerFbctory</code> object.
      */
-    public final String getAlgorithm() {
-        return this.algorithm;
+    public finbl String getAlgorithm() {
+        return this.blgorithm;
     }
 
     /**
-     * Returns a <code>KeyManagerFactory</code> object that acts as a
-     * factory for key managers.
+     * Returns b <code>KeyMbnbgerFbctory</code> object thbt bcts bs b
+     * fbctory for key mbnbgers.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new KeyManagerFactory object encapsulating the
-     * KeyManagerFactorySpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
+     * <p> This method trbverses the list of registered security Providers,
+     * stbrting with the most preferred Provider.
+     * A new KeyMbnbgerFbctory object encbpsulbting the
+     * KeyMbnbgerFbctorySpi implementbtion from the first
+     * Provider thbt supports the specified blgorithm is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the standard name of the requested algorithm.
-     *          See the <a href=
+     * @pbrbm blgorithm the stbndbrd nbme of the requested blgorithm.
+     *          See the <b href=
      *  "{@docRoot}/../technotes/guides/security/jsse/JSSERefGuide.html">
-     *          Java Secure Socket Extension Reference Guide </a>
-     *          for information about standard algorithm names.
+     *          Jbvb Secure Socket Extension Reference Guide </b>
+     *          for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @return the new <code>KeyManagerFactory</code> object.
+     * @return the new <code>KeyMbnbgerFbctory</code> object.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          KeyManagerFactorySpi implementation for the
-     *          specified algorithm.
-     * @exception NullPointerException if <code>algorithm</code> is null.
+     * @exception NoSuchAlgorithmException if no Provider supports b
+     *          KeyMbnbgerFbctorySpi implementbtion for the
+     *          specified blgorithm.
+     * @exception NullPointerException if <code>blgorithm</code> is null.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final KeyManagerFactory getInstance(String algorithm)
+    public stbtic finbl KeyMbnbgerFbctory getInstbnce(String blgorithm)
             throws NoSuchAlgorithmException {
-        GetInstance.Instance instance = GetInstance.getInstance
-                ("KeyManagerFactory", KeyManagerFactorySpi.class,
-                algorithm);
-        return new KeyManagerFactory((KeyManagerFactorySpi)instance.impl,
-                instance.provider, algorithm);
+        GetInstbnce.Instbnce instbnce = GetInstbnce.getInstbnce
+                ("KeyMbnbgerFbctory", KeyMbnbgerFbctorySpi.clbss,
+                blgorithm);
+        return new KeyMbnbgerFbctory((KeyMbnbgerFbctorySpi)instbnce.impl,
+                instbnce.provider, blgorithm);
     }
 
     /**
-     * Returns a <code>KeyManagerFactory</code> object that acts as a
-     * factory for key managers.
+     * Returns b <code>KeyMbnbgerFbctory</code> object thbt bcts bs b
+     * fbctory for key mbnbgers.
      *
-     * <p> A new KeyManagerFactory object encapsulating the
-     * KeyManagerFactorySpi implementation from the specified provider
+     * <p> A new KeyMbnbgerFbctory object encbpsulbting the
+     * KeyMbnbgerFbctorySpi implementbtion from the specified provider
      * is returned.  The specified provider must be registered
      * in the security provider list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
 
-     * @param algorithm the standard name of the requested algorithm.
-     *          See the <a href=
+     * @pbrbm blgorithm the stbndbrd nbme of the requested blgorithm.
+     *          See the <b href=
      *  "{@docRoot}/../technotes/guides/security/jsse/JSSERefGuide.html">
-     *          Java Secure Socket Extension Reference Guide </a>
-     *          for information about standard algorithm names.
+     *          Jbvb Secure Socket Extension Reference Guide </b>
+     *          for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the name of the provider.
+     * @pbrbm provider the nbme of the provider.
      *
-     * @return the new <code>KeyManagerFactory</code> object.
+     * @return the new <code>KeyMbnbgerFbctory</code> object.
      *
-     * @throws NoSuchAlgorithmException if a KeyManagerFactorySpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
+     * @throws NoSuchAlgorithmException if b KeyMbnbgerFbctorySpi
+     *          implementbtion for the specified blgorithm is not
+     *          bvbilbble from the specified provider.
      *
      * @throws NoSuchProviderException if the specified provider is not
      *          registered in the security provider list.
      *
-     * @throws IllegalArgumentException if the provider name is null or empty.
-     * @throws NullPointerException if <code>algorithm</code> is null.
+     * @throws IllegblArgumentException if the provider nbme is null or empty.
+     * @throws NullPointerException if <code>blgorithm</code> is null.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final KeyManagerFactory getInstance(String algorithm,
+    public stbtic finbl KeyMbnbgerFbctory getInstbnce(String blgorithm,
             String provider) throws NoSuchAlgorithmException,
             NoSuchProviderException {
-        GetInstance.Instance instance = GetInstance.getInstance
-                ("KeyManagerFactory", KeyManagerFactorySpi.class,
-                algorithm, provider);
-        return new KeyManagerFactory((KeyManagerFactorySpi)instance.impl,
-                instance.provider, algorithm);
+        GetInstbnce.Instbnce instbnce = GetInstbnce.getInstbnce
+                ("KeyMbnbgerFbctory", KeyMbnbgerFbctorySpi.clbss,
+                blgorithm, provider);
+        return new KeyMbnbgerFbctory((KeyMbnbgerFbctorySpi)instbnce.impl,
+                instbnce.provider, blgorithm);
     }
 
     /**
-     * Returns a <code>KeyManagerFactory</code> object that acts as a
-     * factory for key managers.
+     * Returns b <code>KeyMbnbgerFbctory</code> object thbt bcts bs b
+     * fbctory for key mbnbgers.
      *
-     * <p> A new KeyManagerFactory object encapsulating the
-     * KeyManagerFactorySpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A new KeyMbnbgerFbctory object encbpsulbting the
+     * KeyMbnbgerFbctorySpi implementbtion from the specified Provider
+     * object is returned.  Note thbt the specified Provider object
+     * does not hbve to be registered in the provider list.
      *
-     * @param algorithm the standard name of the requested algorithm.
-     *          See the <a href=
+     * @pbrbm blgorithm the stbndbrd nbme of the requested blgorithm.
+     *          See the <b href=
      *  "{@docRoot}/../technotes/guides/security/jsse/JSSERefGuide.html">
-     *          Java Secure Socket Extension Reference Guide </a>
-     *          for information about standard algorithm names.
+     *          Jbvb Secure Socket Extension Reference Guide </b>
+     *          for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider an instance of the provider.
+     * @pbrbm provider bn instbnce of the provider.
      *
-     * @return the new <code>KeyManagerFactory</code> object.
+     * @return the new <code>KeyMbnbgerFbctory</code> object.
      *
-     * @throws NoSuchAlgorithmException if a KeyManagerFactorySpi
-     *          implementation for the specified algorithm is not available
+     * @throws NoSuchAlgorithmException if b KeyMbnbgerFbctorySpi
+     *          implementbtion for the specified blgorithm is not bvbilbble
      *          from the specified Provider object.
      *
-     * @throws IllegalArgumentException if provider is null.
-     * @throws NullPointerException if <code>algorithm</code> is null.
+     * @throws IllegblArgumentException if provider is null.
+     * @throws NullPointerException if <code>blgorithm</code> is null.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final KeyManagerFactory getInstance(String algorithm,
+    public stbtic finbl KeyMbnbgerFbctory getInstbnce(String blgorithm,
             Provider provider) throws NoSuchAlgorithmException {
-        GetInstance.Instance instance = GetInstance.getInstance
-                ("KeyManagerFactory", KeyManagerFactorySpi.class,
-                algorithm, provider);
-        return new KeyManagerFactory((KeyManagerFactorySpi)instance.impl,
-                instance.provider, algorithm);
+        GetInstbnce.Instbnce instbnce = GetInstbnce.getInstbnce
+                ("KeyMbnbgerFbctory", KeyMbnbgerFbctorySpi.clbss,
+                blgorithm, provider);
+        return new KeyMbnbgerFbctory((KeyMbnbgerFbctorySpi)instbnce.impl,
+                instbnce.provider, blgorithm);
     }
 
     /**
-     * Returns the provider of this <code>KeyManagerFactory</code> object.
+     * Returns the provider of this <code>KeyMbnbgerFbctory</code> object.
      *
-     * @return the provider of this <code>KeyManagerFactory</code> object
+     * @return the provider of this <code>KeyMbnbgerFbctory</code> object
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         return this.provider;
     }
 
 
     /**
-     * Initializes this factory with a source of key material.
+     * Initiblizes this fbctory with b source of key mbteribl.
      * <P>
-     * The provider typically uses a KeyStore for obtaining
-     * key material for use during secure socket negotiations.
-     * The KeyStore is generally password-protected.
+     * The provider typicblly uses b KeyStore for obtbining
+     * key mbteribl for use during secure socket negotibtions.
+     * The KeyStore is generblly pbssword-protected.
      * <P>
-     * For more flexible initialization, please see
-     * {@link #init(ManagerFactoryParameters)}.
+     * For more flexible initiblizbtion, plebse see
+     * {@link #init(MbnbgerFbctoryPbrbmeters)}.
      * <P>
      *
-     * @param ks the key store or null
-     * @param password the password for recovering keys in the KeyStore
-     * @throws KeyStoreException if this operation fails
-     * @throws NoSuchAlgorithmException if the specified algorithm is not
-     *          available from the specified provider.
-     * @throws UnrecoverableKeyException if the key cannot be recovered
-     *          (e.g. the given password is wrong).
+     * @pbrbm ks the key store or null
+     * @pbrbm pbssword the pbssword for recovering keys in the KeyStore
+     * @throws KeyStoreException if this operbtion fbils
+     * @throws NoSuchAlgorithmException if the specified blgorithm is not
+     *          bvbilbble from the specified provider.
+     * @throws UnrecoverbbleKeyException if the key cbnnot be recovered
+     *          (e.g. the given pbssword is wrong).
      */
-    public final void init(KeyStore ks, char[] password) throws
+    public finbl void init(KeyStore ks, chbr[] pbssword) throws
             KeyStoreException, NoSuchAlgorithmException,
-            UnrecoverableKeyException {
-        factorySpi.engineInit(ks, password);
+            UnrecoverbbleKeyException {
+        fbctorySpi.engineInit(ks, pbssword);
     }
 
 
     /**
-     * Initializes this factory with a source of provider-specific
-     * key material.
+     * Initiblizes this fbctory with b source of provider-specific
+     * key mbteribl.
      * <P>
-     * In some cases, initialization parameters other than a keystore
-     * and password may be needed by a provider.  Users of that
-     * particular provider are expected to pass an implementation of
-     * the appropriate <CODE>ManagerFactoryParameters</CODE> as
-     * defined by the provider.  The provider can then call the
-     * specified methods in the <CODE>ManagerFactoryParameters</CODE>
-     * implementation to obtain the needed information.
+     * In some cbses, initiblizbtion pbrbmeters other thbn b keystore
+     * bnd pbssword mby be needed by b provider.  Users of thbt
+     * pbrticulbr provider bre expected to pbss bn implementbtion of
+     * the bppropribte <CODE>MbnbgerFbctoryPbrbmeters</CODE> bs
+     * defined by the provider.  The provider cbn then cbll the
+     * specified methods in the <CODE>MbnbgerFbctoryPbrbmeters</CODE>
+     * implementbtion to obtbin the needed informbtion.
      *
-     * @param spec an implementation of a provider-specific parameter
-     *          specification
-     * @throws InvalidAlgorithmParameterException if an error is encountered
+     * @pbrbm spec bn implementbtion of b provider-specific pbrbmeter
+     *          specificbtion
+     * @throws InvblidAlgorithmPbrbmeterException if bn error is encountered
      */
-    public final void init(ManagerFactoryParameters spec) throws
-            InvalidAlgorithmParameterException {
-        factorySpi.engineInit(spec);
+    public finbl void init(MbnbgerFbctoryPbrbmeters spec) throws
+            InvblidAlgorithmPbrbmeterException {
+        fbctorySpi.engineInit(spec);
     }
 
 
     /**
-     * Returns one key manager for each type of key material.
+     * Returns one key mbnbger for ebch type of key mbteribl.
      *
-     * @return the key managers
-     * @throws IllegalStateException if the KeyManagerFactory is not initialized
+     * @return the key mbnbgers
+     * @throws IllegblStbteException if the KeyMbnbgerFbctory is not initiblized
      */
-    public final KeyManager[] getKeyManagers() {
-        return factorySpi.engineGetKeyManagers();
+    public finbl KeyMbnbger[] getKeyMbnbgers() {
+        return fbctorySpi.engineGetKeyMbnbgers();
     }
 }

@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.annotation;
+pbckbge sun.reflect.bnnotbtion;
 
-import sun.misc.JavaLangAccess;
+import sun.misc.JbvbLbngAccess;
 
-import java.lang.annotation.*;
-import java.lang.reflect.*;
-import java.util.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.reflect.*;
+import jbvb.util.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Represents an annotation type at run time.  Used to type-check annotations
- * and apply member defaults.
+ * Represents bn bnnotbtion type bt run time.  Used to type-check bnnotbtions
+ * bnd bpply member defbults.
  *
- * @author  Josh Bloch
+ * @buthor  Josh Bloch
  * @since   1.5
  */
-public class AnnotationType {
+public clbss AnnotbtionType {
     /**
-     * Member name -> type mapping. Note that primitive types
-     * are represented by the class objects for the corresponding wrapper
-     * types.  This matches the return value that must be used for a
-     * dynamic proxy, allowing for a simple isInstance test.
+     * Member nbme -> type mbpping. Note thbt primitive types
+     * bre represented by the clbss objects for the corresponding wrbpper
+     * types.  This mbtches the return vblue thbt must be used for b
+     * dynbmic proxy, bllowing for b simple isInstbnce test.
      */
-    private final Map<String, Class<?>> memberTypes;
+    privbte finbl Mbp<String, Clbss<?>> memberTypes;
 
     /**
-     * Member name -> default value mapping.
+     * Member nbme -> defbult vblue mbpping.
      */
-    private final Map<String, Object> memberDefaults;
+    privbte finbl Mbp<String, Object> memberDefbults;
 
     /**
-     * Member name -> Method object mapping. This (and its assoicated
-     * accessor) are used only to generate AnnotationTypeMismatchExceptions.
+     * Member nbme -> Method object mbpping. This (bnd its bssoicbted
+     * bccessor) bre used only to generbte AnnotbtionTypeMismbtchExceptions.
      */
-    private final Map<String, Method> members;
+    privbte finbl Mbp<String, Method> members;
 
     /**
-     * The retention policy for this annotation type.
+     * The retention policy for this bnnotbtion type.
      */
-    private final RetentionPolicy retention;
+    privbte finbl RetentionPolicy retention;
 
     /**
-     * Whether this annotation type is inherited.
+     * Whether this bnnotbtion type is inherited.
      */
-    private final boolean inherited;
+    privbte finbl boolebn inherited;
 
     /**
-     * Returns an AnnotationType instance for the specified annotation type.
+     * Returns bn AnnotbtionType instbnce for the specified bnnotbtion type.
      *
-     * @throw IllegalArgumentException if the specified class object for
-     *     does not represent a valid annotation type
+     * @throw IllegblArgumentException if the specified clbss object for
+     *     does not represent b vblid bnnotbtion type
      */
-    public static AnnotationType getInstance(
-        Class<? extends Annotation> annotationClass)
+    public stbtic AnnotbtionType getInstbnce(
+        Clbss<? extends Annotbtion> bnnotbtionClbss)
     {
-        JavaLangAccess jla = sun.misc.SharedSecrets.getJavaLangAccess();
-        AnnotationType result = jla.getAnnotationType(annotationClass); // volatile read
+        JbvbLbngAccess jlb = sun.misc.ShbredSecrets.getJbvbLbngAccess();
+        AnnotbtionType result = jlb.getAnnotbtionType(bnnotbtionClbss); // volbtile rebd
         if (result == null) {
-            result = new AnnotationType(annotationClass);
-            // try to CAS the AnnotationType: null -> result
-            if (!jla.casAnnotationType(annotationClass, null, result)) {
-                // somebody was quicker -> read it's result
-                result = jla.getAnnotationType(annotationClass);
-                assert result != null;
+            result = new AnnotbtionType(bnnotbtionClbss);
+            // try to CAS the AnnotbtionType: null -> result
+            if (!jlb.cbsAnnotbtionType(bnnotbtionClbss, null, result)) {
+                // somebody wbs quicker -> rebd it's result
+                result = jlb.getAnnotbtionType(bnnotbtionClbss);
+                bssert result != null;
             }
         }
 
@@ -97,125 +97,125 @@ public class AnnotationType {
     /**
      * Sole constructor.
      *
-     * @param annotationClass the class object for the annotation type
-     * @throw IllegalArgumentException if the specified class object for
-     *     does not represent a valid annotation type
+     * @pbrbm bnnotbtionClbss the clbss object for the bnnotbtion type
+     * @throw IllegblArgumentException if the specified clbss object for
+     *     does not represent b vblid bnnotbtion type
      */
-    private AnnotationType(final Class<? extends Annotation> annotationClass) {
-        if (!annotationClass.isAnnotation())
-            throw new IllegalArgumentException("Not an annotation type");
+    privbte AnnotbtionType(finbl Clbss<? extends Annotbtion> bnnotbtionClbss) {
+        if (!bnnotbtionClbss.isAnnotbtion())
+            throw new IllegblArgumentException("Not bn bnnotbtion type");
 
         Method[] methods =
             AccessController.doPrivileged(new PrivilegedAction<Method[]>() {
                 public Method[] run() {
-                    // Initialize memberTypes and defaultValues
-                    return annotationClass.getDeclaredMethods();
+                    // Initiblize memberTypes bnd defbultVblues
+                    return bnnotbtionClbss.getDeclbredMethods();
                 }
             });
 
-        memberTypes = new HashMap<String,Class<?>>(methods.length+1, 1.0f);
-        memberDefaults = new HashMap<String, Object>(0);
-        members = new HashMap<String, Method>(methods.length+1, 1.0f);
+        memberTypes = new HbshMbp<String,Clbss<?>>(methods.length+1, 1.0f);
+        memberDefbults = new HbshMbp<String, Object>(0);
+        members = new HbshMbp<String, Method>(methods.length+1, 1.0f);
 
         for (Method method :  methods) {
-            if (method.getParameterTypes().length != 0)
-                throw new IllegalArgumentException(method + " has params");
-            String name = method.getName();
-            Class<?> type = method.getReturnType();
-            memberTypes.put(name, invocationHandlerReturnType(type));
-            members.put(name, method);
+            if (method.getPbrbmeterTypes().length != 0)
+                throw new IllegblArgumentException(method + " hbs pbrbms");
+            String nbme = method.getNbme();
+            Clbss<?> type = method.getReturnType();
+            memberTypes.put(nbme, invocbtionHbndlerReturnType(type));
+            members.put(nbme, method);
 
-            Object defaultValue = method.getDefaultValue();
-            if (defaultValue != null)
-                memberDefaults.put(name, defaultValue);
+            Object defbultVblue = method.getDefbultVblue();
+            if (defbultVblue != null)
+                memberDefbults.put(nbme, defbultVblue);
         }
 
-        // Initialize retention, & inherited fields.  Special treatment
-        // of the corresponding annotation types breaks infinite recursion.
-        if (annotationClass != Retention.class &&
-            annotationClass != Inherited.class) {
-            JavaLangAccess jla = sun.misc.SharedSecrets.getJavaLangAccess();
-            Map<Class<? extends Annotation>, Annotation> metaAnnotations =
-                AnnotationParser.parseSelectAnnotations(
-                    jla.getRawClassAnnotations(annotationClass),
-                    jla.getConstantPool(annotationClass),
-                    annotationClass,
-                    Retention.class, Inherited.class
+        // Initiblize retention, & inherited fields.  Specibl trebtment
+        // of the corresponding bnnotbtion types brebks infinite recursion.
+        if (bnnotbtionClbss != Retention.clbss &&
+            bnnotbtionClbss != Inherited.clbss) {
+            JbvbLbngAccess jlb = sun.misc.ShbredSecrets.getJbvbLbngAccess();
+            Mbp<Clbss<? extends Annotbtion>, Annotbtion> metbAnnotbtions =
+                AnnotbtionPbrser.pbrseSelectAnnotbtions(
+                    jlb.getRbwClbssAnnotbtions(bnnotbtionClbss),
+                    jlb.getConstbntPool(bnnotbtionClbss),
+                    bnnotbtionClbss,
+                    Retention.clbss, Inherited.clbss
                 );
-            Retention ret = (Retention) metaAnnotations.get(Retention.class);
-            retention = (ret == null ? RetentionPolicy.CLASS : ret.value());
-            inherited = metaAnnotations.containsKey(Inherited.class);
+            Retention ret = (Retention) metbAnnotbtions.get(Retention.clbss);
+            retention = (ret == null ? RetentionPolicy.CLASS : ret.vblue());
+            inherited = metbAnnotbtions.contbinsKey(Inherited.clbss);
         }
         else {
             retention = RetentionPolicy.RUNTIME;
-            inherited = false;
+            inherited = fblse;
         }
     }
 
     /**
-     * Returns the type that must be returned by the invocation handler
-     * of a dynamic proxy in order to have the dynamic proxy return
-     * the specified type (which is assumed to be a legal member type
-     * for an annotation).
+     * Returns the type thbt must be returned by the invocbtion hbndler
+     * of b dynbmic proxy in order to hbve the dynbmic proxy return
+     * the specified type (which is bssumed to be b legbl member type
+     * for bn bnnotbtion).
      */
-    public static Class<?> invocationHandlerReturnType(Class<?> type) {
-        // Translate primitives to wrappers
-        if (type == byte.class)
-            return Byte.class;
-        if (type == char.class)
-            return Character.class;
-        if (type == double.class)
-            return Double.class;
-        if (type == float.class)
-            return Float.class;
-        if (type == int.class)
-            return Integer.class;
-        if (type == long.class)
-            return Long.class;
-        if (type == short.class)
-            return Short.class;
-        if (type == boolean.class)
-            return Boolean.class;
+    public stbtic Clbss<?> invocbtionHbndlerReturnType(Clbss<?> type) {
+        // Trbnslbte primitives to wrbppers
+        if (type == byte.clbss)
+            return Byte.clbss;
+        if (type == chbr.clbss)
+            return Chbrbcter.clbss;
+        if (type == double.clbss)
+            return Double.clbss;
+        if (type == flobt.clbss)
+            return Flobt.clbss;
+        if (type == int.clbss)
+            return Integer.clbss;
+        if (type == long.clbss)
+            return Long.clbss;
+        if (type == short.clbss)
+            return Short.clbss;
+        if (type == boolebn.clbss)
+            return Boolebn.clbss;
 
-        // Otherwise, just return declared type
+        // Otherwise, just return declbred type
         return type;
     }
 
     /**
-     * Returns member types for this annotation type
-     * (member name -> type mapping).
+     * Returns member types for this bnnotbtion type
+     * (member nbme -> type mbpping).
      */
-    public Map<String, Class<?>> memberTypes() {
+    public Mbp<String, Clbss<?>> memberTypes() {
         return memberTypes;
     }
 
     /**
-     * Returns members of this annotation type
-     * (member name -> associated Method object mapping).
+     * Returns members of this bnnotbtion type
+     * (member nbme -> bssocibted Method object mbpping).
      */
-    public Map<String, Method> members() {
+    public Mbp<String, Method> members() {
         return members;
     }
 
     /**
-     * Returns the default values for this annotation type
-     * (Member name -> default value mapping).
+     * Returns the defbult vblues for this bnnotbtion type
+     * (Member nbme -> defbult vblue mbpping).
      */
-    public Map<String, Object> memberDefaults() {
-        return memberDefaults;
+    public Mbp<String, Object> memberDefbults() {
+        return memberDefbults;
     }
 
     /**
-     * Returns the retention policy for this annotation type.
+     * Returns the retention policy for this bnnotbtion type.
      */
     public RetentionPolicy retention() {
         return retention;
     }
 
     /**
-     * Returns true if this this annotation type is inherited.
+     * Returns true if this this bnnotbtion type is inherited.
      */
-    public boolean isInherited() {
+    public boolebn isInherited() {
         return inherited;
     }
 
@@ -223,9 +223,9 @@ public class AnnotationType {
      * For debugging.
      */
     public String toString() {
-        return "Annotation Type:\n" +
+        return "Annotbtion Type:\n" +
                "   Member types: " + memberTypes + "\n" +
-               "   Member defaults: " + memberDefaults + "\n" +
+               "   Member defbults: " + memberDefbults + "\n" +
                "   Retention policy: " + retention + "\n" +
                "   Inherited: " + inherited;
     }

@@ -1,147 +1,147 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
-import java.io.ObjectStreamField;
-import java.net.NetworkInterface;
-import java.util.Enumeration;
-import java.util.Random;
-import java.util.Spliterator;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.LongConsumer;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.StreamSupport;
+import jbvb.io.ObjectStrebmField;
+import jbvb.net.NetworkInterfbce;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Rbndom;
+import jbvb.util.Spliterbtor;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.concurrent.btomic.AtomicLong;
+import jbvb.util.function.DoubleConsumer;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.function.LongConsumer;
+import jbvb.util.strebm.DoubleStrebm;
+import jbvb.util.strebm.IntStrebm;
+import jbvb.util.strebm.LongStrebm;
+import jbvb.util.strebm.StrebmSupport;
 
 /**
- * A random number generator isolated to the current thread.  Like the
- * global {@link java.util.Random} generator used by the {@link
- * java.lang.Math} class, a {@code ThreadLocalRandom} is initialized
- * with an internally generated seed that may not otherwise be
- * modified. When applicable, use of {@code ThreadLocalRandom} rather
- * than shared {@code Random} objects in concurrent programs will
- * typically encounter much less overhead and contention.  Use of
- * {@code ThreadLocalRandom} is particularly appropriate when multiple
- * tasks (for example, each a {@link ForkJoinTask}) use random numbers
- * in parallel in thread pools.
+ * A rbndom number generbtor isolbted to the current threbd.  Like the
+ * globbl {@link jbvb.util.Rbndom} generbtor used by the {@link
+ * jbvb.lbng.Mbth} clbss, b {@code ThrebdLocblRbndom} is initiblized
+ * with bn internblly generbted seed thbt mby not otherwise be
+ * modified. When bpplicbble, use of {@code ThrebdLocblRbndom} rbther
+ * thbn shbred {@code Rbndom} objects in concurrent progrbms will
+ * typicblly encounter much less overhebd bnd contention.  Use of
+ * {@code ThrebdLocblRbndom} is pbrticulbrly bppropribte when multiple
+ * tbsks (for exbmple, ebch b {@link ForkJoinTbsk}) use rbndom numbers
+ * in pbrbllel in threbd pools.
  *
- * <p>Usages of this class should typically be of the form:
- * {@code ThreadLocalRandom.current().nextX(...)} (where
+ * <p>Usbges of this clbss should typicblly be of the form:
+ * {@code ThrebdLocblRbndom.current().nextX(...)} (where
  * {@code X} is {@code Int}, {@code Long}, etc).
- * When all usages are of this form, it is never possible to
- * accidently share a {@code ThreadLocalRandom} across multiple threads.
+ * When bll usbges bre of this form, it is never possible to
+ * bccidently shbre b {@code ThrebdLocblRbndom} bcross multiple threbds.
  *
- * <p>This class also provides additional commonly used bounded random
- * generation methods.
+ * <p>This clbss blso provides bdditionbl commonly used bounded rbndom
+ * generbtion methods.
  *
- * <p>Instances of {@code ThreadLocalRandom} are not cryptographically
- * secure.  Consider instead using {@link java.security.SecureRandom}
- * in security-sensitive applications. Additionally,
- * default-constructed instances do not use a cryptographically random
- * seed unless the {@linkplain System#getProperty system property}
- * {@code java.util.secureRandomSeed} is set to {@code true}.
+ * <p>Instbnces of {@code ThrebdLocblRbndom} bre not cryptogrbphicblly
+ * secure.  Consider instebd using {@link jbvb.security.SecureRbndom}
+ * in security-sensitive bpplicbtions. Additionblly,
+ * defbult-constructed instbnces do not use b cryptogrbphicblly rbndom
+ * seed unless the {@linkplbin System#getProperty system property}
+ * {@code jbvb.util.secureRbndomSeed} is set to {@code true}.
  *
  * @since 1.7
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class ThreadLocalRandom extends Random {
+public clbss ThrebdLocblRbndom extends Rbndom {
     /*
-     * This class implements the java.util.Random API (and subclasses
-     * Random) using a single static instance that accesses random
-     * number state held in class Thread (primarily, field
-     * threadLocalRandomSeed). In doing so, it also provides a home
-     * for managing package-private utilities that rely on exactly the
-     * same state as needed to maintain the ThreadLocalRandom
-     * instances. We leverage the need for an initialization flag
-     * field to also use it as a "probe" -- a self-adjusting thread
-     * hash used for contention avoidance, as well as a secondary
-     * simpler (xorShift) random seed that is conservatively used to
-     * avoid otherwise surprising users by hijacking the
-     * ThreadLocalRandom sequence.  The dual use is a marriage of
-     * convenience, but is a simple and efficient way of reducing
-     * application-level overhead and footprint of most concurrent
-     * programs.
+     * This clbss implements the jbvb.util.Rbndom API (bnd subclbsses
+     * Rbndom) using b single stbtic instbnce thbt bccesses rbndom
+     * number stbte held in clbss Threbd (primbrily, field
+     * threbdLocblRbndomSeed). In doing so, it blso provides b home
+     * for mbnbging pbckbge-privbte utilities thbt rely on exbctly the
+     * sbme stbte bs needed to mbintbin the ThrebdLocblRbndom
+     * instbnces. We leverbge the need for bn initiblizbtion flbg
+     * field to blso use it bs b "probe" -- b self-bdjusting threbd
+     * hbsh used for contention bvoidbnce, bs well bs b secondbry
+     * simpler (xorShift) rbndom seed thbt is conservbtively used to
+     * bvoid otherwise surprising users by hijbcking the
+     * ThrebdLocblRbndom sequence.  The dubl use is b mbrribge of
+     * convenience, but is b simple bnd efficient wby of reducing
+     * bpplicbtion-level overhebd bnd footprint of most concurrent
+     * progrbms.
      *
-     * Even though this class subclasses java.util.Random, it uses the
-     * same basic algorithm as java.util.SplittableRandom.  (See its
-     * internal documentation for explanations, which are not repeated
-     * here.)  Because ThreadLocalRandoms are not splittable
-     * though, we use only a single 64bit gamma.
+     * Even though this clbss subclbsses jbvb.util.Rbndom, it uses the
+     * sbme bbsic blgorithm bs jbvb.util.SplittbbleRbndom.  (See its
+     * internbl documentbtion for explbnbtions, which bre not repebted
+     * here.)  Becbuse ThrebdLocblRbndoms bre not splittbble
+     * though, we use only b single 64bit gbmmb.
      *
-     * Because this class is in a different package than class Thread,
-     * field access methods use Unsafe to bypass access control rules.
-     * To conform to the requirements of the Random superclass
-     * constructor, the common static ThreadLocalRandom maintains an
-     * "initialized" field for the sake of rejecting user calls to
-     * setSeed while still allowing a call from constructor.  Note
-     * that serialization is completely unnecessary because there is
-     * only a static singleton.  But we generate a serial form
-     * containing "rnd" and "initialized" fields to ensure
-     * compatibility across versions.
+     * Becbuse this clbss is in b different pbckbge thbn clbss Threbd,
+     * field bccess methods use Unsbfe to bypbss bccess control rules.
+     * To conform to the requirements of the Rbndom superclbss
+     * constructor, the common stbtic ThrebdLocblRbndom mbintbins bn
+     * "initiblized" field for the sbke of rejecting user cblls to
+     * setSeed while still bllowing b cbll from constructor.  Note
+     * thbt seriblizbtion is completely unnecessbry becbuse there is
+     * only b stbtic singleton.  But we generbte b seribl form
+     * contbining "rnd" bnd "initiblized" fields to ensure
+     * compbtibility bcross versions.
      *
-     * Implementations of non-core methods are mostly the same as in
-     * SplittableRandom, that were in part derived from a previous
-     * version of this class.
+     * Implementbtions of non-core methods bre mostly the sbme bs in
+     * SplittbbleRbndom, thbt were in pbrt derived from b previous
+     * version of this clbss.
      *
-     * The nextLocalGaussian ThreadLocal supports the very rarely used
-     * nextGaussian method by providing a holder for the second of a
-     * pair of them. As is true for the base class version of this
-     * method, this time/space tradeoff is probably never worthwhile,
-     * but we provide identical statistical properties.
+     * The nextLocblGbussibn ThrebdLocbl supports the very rbrely used
+     * nextGbussibn method by providing b holder for the second of b
+     * pbir of them. As is true for the bbse clbss version of this
+     * method, this time/spbce trbdeoff is probbbly never worthwhile,
+     * but we provide identicbl stbtisticbl properties.
      */
 
-    /** Generates per-thread initialization/probe field */
-    private static final AtomicInteger probeGenerator =
+    /** Generbtes per-threbd initiblizbtion/probe field */
+    privbte stbtic finbl AtomicInteger probeGenerbtor =
         new AtomicInteger();
 
     /**
-     * The next seed for default constructors.
+     * The next seed for defbult constructors.
      */
-    private static final AtomicLong seeder = new AtomicLong(initialSeed());
+    privbte stbtic finbl AtomicLong seeder = new AtomicLong(initiblSeed());
 
-    private static long initialSeed() {
-        String pp = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction(
-                        "java.util.secureRandomSeed"));
-        if (pp != null && pp.equalsIgnoreCase("true")) {
-            byte[] seedBytes = java.security.SecureRandom.getSeed(8);
+    privbte stbtic long initiblSeed() {
+        String pp = jbvb.security.AccessController.doPrivileged(
+                new sun.security.bction.GetPropertyAction(
+                        "jbvb.util.secureRbndomSeed"));
+        if (pp != null && pp.equblsIgnoreCbse("true")) {
+            byte[] seedBytes = jbvb.security.SecureRbndom.getSeed(8);
             long s = (long)(seedBytes[0]) & 0xffL;
             for (int i = 1; i < 8; ++i)
                 s = (s << 8) | ((long)(seedBytes[i]) & 0xffL);
@@ -149,125 +149,125 @@ public class ThreadLocalRandom extends Random {
         }
         long h = 0L;
         try {
-            Enumeration<NetworkInterface> ifcs =
-                    NetworkInterface.getNetworkInterfaces();
-            boolean retry = false; // retry once if getHardwareAddress is null
-            while (ifcs.hasMoreElements()) {
-                NetworkInterface ifc = ifcs.nextElement();
-                if (!ifc.isVirtual()) { // skip fake addresses
-                    byte[] bs = ifc.getHardwareAddress();
+            Enumerbtion<NetworkInterfbce> ifcs =
+                    NetworkInterfbce.getNetworkInterfbces();
+            boolebn retry = fblse; // retry once if getHbrdwbreAddress is null
+            while (ifcs.hbsMoreElements()) {
+                NetworkInterfbce ifc = ifcs.nextElement();
+                if (!ifc.isVirtubl()) { // skip fbke bddresses
+                    byte[] bs = ifc.getHbrdwbreAddress();
                     if (bs != null) {
                         int n = bs.length;
-                        int m = Math.min(n >>> 1, 4);
+                        int m = Mbth.min(n >>> 1, 4);
                         for (int i = 0; i < m; ++i)
                             h = (h << 16) ^ (bs[i] << 8) ^ bs[n-1-i];
                         if (m < 4)
                             h = (h << 8) ^ bs[n-1-m];
                         h = mix64(h);
-                        break;
+                        brebk;
                     }
                     else if (!retry)
                         retry = true;
                     else
-                        break;
+                        brebk;
                 }
             }
-        } catch (Exception ignore) {
+        } cbtch (Exception ignore) {
         }
         return (h ^ mix64(System.currentTimeMillis()) ^
-                mix64(System.nanoTime()));
+                mix64(System.nbnoTime()));
     }
 
     /**
      * The seed increment
      */
-    private static final long GAMMA = 0x9e3779b97f4a7c15L;
+    privbte stbtic finbl long GAMMA = 0x9e3779b97f4b7c15L;
 
     /**
-     * The increment for generating probe values
+     * The increment for generbting probe vblues
      */
-    private static final int PROBE_INCREMENT = 0x9e3779b9;
+    privbte stbtic finbl int PROBE_INCREMENT = 0x9e3779b9;
 
     /**
-     * The increment of seeder per new instance
+     * The increment of seeder per new instbnce
      */
-    private static final long SEEDER_INCREMENT = 0xbb67ae8584caa73bL;
+    privbte stbtic finbl long SEEDER_INCREMENT = 0xbb67be8584cbb73bL;
 
-    // Constants from SplittableRandom
-    private static final double DOUBLE_UNIT = 0x1.0p-53;  // 1.0  / (1L << 53)
-    private static final float  FLOAT_UNIT  = 0x1.0p-24f; // 1.0f / (1 << 24)
+    // Constbnts from SplittbbleRbndom
+    privbte stbtic finbl double DOUBLE_UNIT = 0x1.0p-53;  // 1.0  / (1L << 53)
+    privbte stbtic finbl flobt  FLOAT_UNIT  = 0x1.0p-24f; // 1.0f / (1 << 24)
 
-    /** Rarely-used holder for the second of a pair of Gaussians */
-    private static final ThreadLocal<Double> nextLocalGaussian =
-        new ThreadLocal<Double>();
+    /** Rbrely-used holder for the second of b pbir of Gbussibns */
+    privbte stbtic finbl ThrebdLocbl<Double> nextLocblGbussibn =
+        new ThrebdLocbl<Double>();
 
-    private static long mix64(long z) {
-        z = (z ^ (z >>> 33)) * 0xff51afd7ed558ccdL;
-        z = (z ^ (z >>> 33)) * 0xc4ceb9fe1a85ec53L;
+    privbte stbtic long mix64(long z) {
+        z = (z ^ (z >>> 33)) * 0xff51bfd7ed558ccdL;
+        z = (z ^ (z >>> 33)) * 0xc4ceb9fe1b85ec53L;
         return z ^ (z >>> 33);
     }
 
-    private static int mix32(long z) {
-        z = (z ^ (z >>> 33)) * 0xff51afd7ed558ccdL;
-        return (int)(((z ^ (z >>> 33)) * 0xc4ceb9fe1a85ec53L) >>> 32);
+    privbte stbtic int mix32(long z) {
+        z = (z ^ (z >>> 33)) * 0xff51bfd7ed558ccdL;
+        return (int)(((z ^ (z >>> 33)) * 0xc4ceb9fe1b85ec53L) >>> 32);
     }
 
     /**
-     * Field used only during singleton initialization.
+     * Field used only during singleton initiblizbtion.
      * True when constructor completes.
      */
-    boolean initialized;
+    boolebn initiblized;
 
-    /** Constructor used only for static singleton */
-    private ThreadLocalRandom() {
-        initialized = true; // false during super() call
+    /** Constructor used only for stbtic singleton */
+    privbte ThrebdLocblRbndom() {
+        initiblized = true; // fblse during super() cbll
     }
 
-    /** The common ThreadLocalRandom */
-    static final ThreadLocalRandom instance = new ThreadLocalRandom();
+    /** The common ThrebdLocblRbndom */
+    stbtic finbl ThrebdLocblRbndom instbnce = new ThrebdLocblRbndom();
 
     /**
-     * Initialize Thread fields for the current thread.  Called only
-     * when Thread.threadLocalRandomProbe is zero, indicating that a
-     * thread local seed value needs to be generated. Note that even
-     * though the initialization is purely thread-local, we need to
-     * rely on (static) atomic generators to initialize the values.
+     * Initiblize Threbd fields for the current threbd.  Cblled only
+     * when Threbd.threbdLocblRbndomProbe is zero, indicbting thbt b
+     * threbd locbl seed vblue needs to be generbted. Note thbt even
+     * though the initiblizbtion is purely threbd-locbl, we need to
+     * rely on (stbtic) btomic generbtors to initiblize the vblues.
      */
-    static final void localInit() {
-        int p = probeGenerator.addAndGet(PROBE_INCREMENT);
+    stbtic finbl void locblInit() {
+        int p = probeGenerbtor.bddAndGet(PROBE_INCREMENT);
         int probe = (p == 0) ? 1 : p; // skip 0
         long seed = mix64(seeder.getAndAdd(SEEDER_INCREMENT));
-        Thread t = Thread.currentThread();
+        Threbd t = Threbd.currentThrebd();
         UNSAFE.putLong(t, SEED, seed);
         UNSAFE.putInt(t, PROBE, probe);
     }
 
     /**
-     * Returns the current thread's {@code ThreadLocalRandom}.
+     * Returns the current threbd's {@code ThrebdLocblRbndom}.
      *
-     * @return the current thread's {@code ThreadLocalRandom}
+     * @return the current threbd's {@code ThrebdLocblRbndom}
      */
-    public static ThreadLocalRandom current() {
-        if (UNSAFE.getInt(Thread.currentThread(), PROBE) == 0)
-            localInit();
-        return instance;
+    public stbtic ThrebdLocblRbndom current() {
+        if (UNSAFE.getInt(Threbd.currentThrebd(), PROBE) == 0)
+            locblInit();
+        return instbnce;
     }
 
     /**
-     * Throws {@code UnsupportedOperationException}.  Setting seeds in
-     * this generator is not supported.
+     * Throws {@code UnsupportedOperbtionException}.  Setting seeds in
+     * this generbtor is not supported.
      *
-     * @throws UnsupportedOperationException always
+     * @throws UnsupportedOperbtionException blwbys
      */
     public void setSeed(long seed) {
-        // only allow call from super() constructor
-        if (initialized)
-            throw new UnsupportedOperationException();
+        // only bllow cbll from super() constructor
+        if (initiblized)
+            throw new UnsupportedOperbtionException();
     }
 
-    final long nextSeed() {
-        Thread t; long r; // read and update per-thread seed
-        UNSAFE.putLong(t = Thread.currentThread(), SEED,
+    finbl long nextSeed() {
+        Threbd t; long r; // rebd bnd updbte per-threbd seed
+        UNSAFE.putLong(t = Threbd.currentThrebd(), SEED,
                        r = UNSAFE.getLong(t, SEED) + GAMMA);
         return r;
     }
@@ -277,34 +277,34 @@ public class ThreadLocalRandom extends Random {
         return (int)(mix64(nextSeed()) >>> (64 - bits));
     }
 
-    // IllegalArgumentException messages
-    static final String BadBound = "bound must be positive";
-    static final String BadRange = "bound must be greater than origin";
-    static final String BadSize  = "size must be non-negative";
+    // IllegblArgumentException messbges
+    stbtic finbl String BbdBound = "bound must be positive";
+    stbtic finbl String BbdRbnge = "bound must be grebter thbn origin";
+    stbtic finbl String BbdSize  = "size must be non-negbtive";
 
     /**
-     * The form of nextLong used by LongStream Spliterators.  If
-     * origin is greater than bound, acts as unbounded form of
-     * nextLong, else as bounded form.
+     * The form of nextLong used by LongStrebm Spliterbtors.  If
+     * origin is grebter thbn bound, bcts bs unbounded form of
+     * nextLong, else bs bounded form.
      *
-     * @param origin the least value, unless greater than bound
-     * @param bound the upper bound (exclusive), must not equal origin
-     * @return a pseudorandom value
+     * @pbrbm origin the lebst vblue, unless grebter thbn bound
+     * @pbrbm bound the upper bound (exclusive), must not equbl origin
+     * @return b pseudorbndom vblue
      */
-    final long internalNextLong(long origin, long bound) {
+    finbl long internblNextLong(long origin, long bound) {
         long r = mix64(nextSeed());
         if (origin < bound) {
             long n = bound - origin, m = n - 1;
             if ((n & m) == 0L)  // power of two
                 r = (r & m) + origin;
-            else if (n > 0L) {  // reject over-represented candidates
-                for (long u = r >>> 1;            // ensure nonnegative
+            else if (n > 0L) {  // reject over-represented cbndidbtes
+                for (long u = r >>> 1;            // ensure nonnegbtive
                      u + m - (r = u % n) < 0L;    // rejection check
                      u = mix64(nextSeed()) >>> 1) // retry
                     ;
                 r += origin;
             }
-            else {              // range not representable as long
+            else {              // rbnge not representbble bs long
                 while (r < origin || r >= bound)
                     r = mix64(nextSeed());
             }
@@ -313,14 +313,14 @@ public class ThreadLocalRandom extends Random {
     }
 
     /**
-     * The form of nextInt used by IntStream Spliterators.
-     * Exactly the same as long version, except for types.
+     * The form of nextInt used by IntStrebm Spliterbtors.
+     * Exbctly the sbme bs long version, except for types.
      *
-     * @param origin the least value, unless greater than bound
-     * @param bound the upper bound (exclusive), must not equal origin
-     * @return a pseudorandom value
+     * @pbrbm origin the lebst vblue, unless grebter thbn bound
+     * @pbrbm bound the upper bound (exclusive), must not equbl origin
+     * @return b pseudorbndom vblue
      */
-    final int internalNextInt(int origin, int bound) {
+    finbl int internblNextInt(int origin, int bound) {
         int r = mix32(nextSeed());
         if (origin < bound) {
             int n = bound - origin, m = n - 1;
@@ -342,13 +342,13 @@ public class ThreadLocalRandom extends Random {
     }
 
     /**
-     * The form of nextDouble used by DoubleStream Spliterators.
+     * The form of nextDouble used by DoubleStrebm Spliterbtors.
      *
-     * @param origin the least value, unless greater than bound
-     * @param bound the upper bound (exclusive), must not equal origin
-     * @return a pseudorandom value
+     * @pbrbm origin the lebst vblue, unless grebter thbn bound
+     * @pbrbm bound the upper bound (exclusive), must not equbl origin
+     * @return b pseudorbndom vblue
      */
-    final double internalNextDouble(double origin, double bound) {
+    finbl double internblNextDouble(double origin, double bound) {
         double r = (nextLong() >>> 11) * DOUBLE_UNIT;
         if (origin < bound) {
             r = r * (bound - origin) + origin;
@@ -359,31 +359,31 @@ public class ThreadLocalRandom extends Random {
     }
 
     /**
-     * Returns a pseudorandom {@code int} value.
+     * Returns b pseudorbndom {@code int} vblue.
      *
-     * @return a pseudorandom {@code int} value
+     * @return b pseudorbndom {@code int} vblue
      */
     public int nextInt() {
         return mix32(nextSeed());
     }
 
     /**
-     * Returns a pseudorandom {@code int} value between zero (inclusive)
-     * and the specified bound (exclusive).
+     * Returns b pseudorbndom {@code int} vblue between zero (inclusive)
+     * bnd the specified bound (exclusive).
      *
-     * @param bound the upper bound (exclusive).  Must be positive.
-     * @return a pseudorandom {@code int} value between zero
-     *         (inclusive) and the bound (exclusive)
-     * @throws IllegalArgumentException if {@code bound} is not positive
+     * @pbrbm bound the upper bound (exclusive).  Must be positive.
+     * @return b pseudorbndom {@code int} vblue between zero
+     *         (inclusive) bnd the bound (exclusive)
+     * @throws IllegblArgumentException if {@code bound} is not positive
      */
     public int nextInt(int bound) {
         if (bound <= 0)
-            throw new IllegalArgumentException(BadBound);
+            throw new IllegblArgumentException(BbdBound);
         int r = mix32(nextSeed());
         int m = bound - 1;
         if ((bound & m) == 0) // power of two
             r &= m;
-        else { // reject over-represented candidates
+        else { // reject over-represented cbndidbtes
             for (int u = r >>> 1;
                  u + m - (r = u % bound) < 0;
                  u = mix32(nextSeed()) >>> 1)
@@ -393,48 +393,48 @@ public class ThreadLocalRandom extends Random {
     }
 
     /**
-     * Returns a pseudorandom {@code int} value between the specified
-     * origin (inclusive) and the specified bound (exclusive).
+     * Returns b pseudorbndom {@code int} vblue between the specified
+     * origin (inclusive) bnd the specified bound (exclusive).
      *
-     * @param origin the least value returned
-     * @param bound the upper bound (exclusive)
-     * @return a pseudorandom {@code int} value between the origin
-     *         (inclusive) and the bound (exclusive)
-     * @throws IllegalArgumentException if {@code origin} is greater than
-     *         or equal to {@code bound}
+     * @pbrbm origin the lebst vblue returned
+     * @pbrbm bound the upper bound (exclusive)
+     * @return b pseudorbndom {@code int} vblue between the origin
+     *         (inclusive) bnd the bound (exclusive)
+     * @throws IllegblArgumentException if {@code origin} is grebter thbn
+     *         or equbl to {@code bound}
      */
     public int nextInt(int origin, int bound) {
         if (origin >= bound)
-            throw new IllegalArgumentException(BadRange);
-        return internalNextInt(origin, bound);
+            throw new IllegblArgumentException(BbdRbnge);
+        return internblNextInt(origin, bound);
     }
 
     /**
-     * Returns a pseudorandom {@code long} value.
+     * Returns b pseudorbndom {@code long} vblue.
      *
-     * @return a pseudorandom {@code long} value
+     * @return b pseudorbndom {@code long} vblue
      */
     public long nextLong() {
         return mix64(nextSeed());
     }
 
     /**
-     * Returns a pseudorandom {@code long} value between zero (inclusive)
-     * and the specified bound (exclusive).
+     * Returns b pseudorbndom {@code long} vblue between zero (inclusive)
+     * bnd the specified bound (exclusive).
      *
-     * @param bound the upper bound (exclusive).  Must be positive.
-     * @return a pseudorandom {@code long} value between zero
-     *         (inclusive) and the bound (exclusive)
-     * @throws IllegalArgumentException if {@code bound} is not positive
+     * @pbrbm bound the upper bound (exclusive).  Must be positive.
+     * @return b pseudorbndom {@code long} vblue between zero
+     *         (inclusive) bnd the bound (exclusive)
+     * @throws IllegblArgumentException if {@code bound} is not positive
      */
     public long nextLong(long bound) {
         if (bound <= 0)
-            throw new IllegalArgumentException(BadBound);
+            throw new IllegblArgumentException(BbdBound);
         long r = mix64(nextSeed());
         long m = bound - 1;
         if ((bound & m) == 0L) // power of two
             r &= m;
-        else { // reject over-represented candidates
+        else { // reject over-represented cbndidbtes
             for (long u = r >>> 1;
                  u + m - (r = u % bound) < 0L;
                  u = mix64(nextSeed()) >>> 1)
@@ -444,483 +444,483 @@ public class ThreadLocalRandom extends Random {
     }
 
     /**
-     * Returns a pseudorandom {@code long} value between the specified
-     * origin (inclusive) and the specified bound (exclusive).
+     * Returns b pseudorbndom {@code long} vblue between the specified
+     * origin (inclusive) bnd the specified bound (exclusive).
      *
-     * @param origin the least value returned
-     * @param bound the upper bound (exclusive)
-     * @return a pseudorandom {@code long} value between the origin
-     *         (inclusive) and the bound (exclusive)
-     * @throws IllegalArgumentException if {@code origin} is greater than
-     *         or equal to {@code bound}
+     * @pbrbm origin the lebst vblue returned
+     * @pbrbm bound the upper bound (exclusive)
+     * @return b pseudorbndom {@code long} vblue between the origin
+     *         (inclusive) bnd the bound (exclusive)
+     * @throws IllegblArgumentException if {@code origin} is grebter thbn
+     *         or equbl to {@code bound}
      */
     public long nextLong(long origin, long bound) {
         if (origin >= bound)
-            throw new IllegalArgumentException(BadRange);
-        return internalNextLong(origin, bound);
+            throw new IllegblArgumentException(BbdRbnge);
+        return internblNextLong(origin, bound);
     }
 
     /**
-     * Returns a pseudorandom {@code double} value between zero
-     * (inclusive) and one (exclusive).
+     * Returns b pseudorbndom {@code double} vblue between zero
+     * (inclusive) bnd one (exclusive).
      *
-     * @return a pseudorandom {@code double} value between zero
-     *         (inclusive) and one (exclusive)
+     * @return b pseudorbndom {@code double} vblue between zero
+     *         (inclusive) bnd one (exclusive)
      */
     public double nextDouble() {
         return (mix64(nextSeed()) >>> 11) * DOUBLE_UNIT;
     }
 
     /**
-     * Returns a pseudorandom {@code double} value between 0.0
-     * (inclusive) and the specified bound (exclusive).
+     * Returns b pseudorbndom {@code double} vblue between 0.0
+     * (inclusive) bnd the specified bound (exclusive).
      *
-     * @param bound the upper bound (exclusive).  Must be positive.
-     * @return a pseudorandom {@code double} value between zero
-     *         (inclusive) and the bound (exclusive)
-     * @throws IllegalArgumentException if {@code bound} is not positive
+     * @pbrbm bound the upper bound (exclusive).  Must be positive.
+     * @return b pseudorbndom {@code double} vblue between zero
+     *         (inclusive) bnd the bound (exclusive)
+     * @throws IllegblArgumentException if {@code bound} is not positive
      */
     public double nextDouble(double bound) {
         if (!(bound > 0.0))
-            throw new IllegalArgumentException(BadBound);
+            throw new IllegblArgumentException(BbdBound);
         double result = (mix64(nextSeed()) >>> 11) * DOUBLE_UNIT * bound;
         return (result < bound) ?  result : // correct for rounding
             Double.longBitsToDouble(Double.doubleToLongBits(bound) - 1);
     }
 
     /**
-     * Returns a pseudorandom {@code double} value between the specified
-     * origin (inclusive) and bound (exclusive).
+     * Returns b pseudorbndom {@code double} vblue between the specified
+     * origin (inclusive) bnd bound (exclusive).
      *
-     * @param origin the least value returned
-     * @param bound the upper bound (exclusive)
-     * @return a pseudorandom {@code double} value between the origin
-     *         (inclusive) and the bound (exclusive)
-     * @throws IllegalArgumentException if {@code origin} is greater than
-     *         or equal to {@code bound}
+     * @pbrbm origin the lebst vblue returned
+     * @pbrbm bound the upper bound (exclusive)
+     * @return b pseudorbndom {@code double} vblue between the origin
+     *         (inclusive) bnd the bound (exclusive)
+     * @throws IllegblArgumentException if {@code origin} is grebter thbn
+     *         or equbl to {@code bound}
      */
     public double nextDouble(double origin, double bound) {
         if (!(origin < bound))
-            throw new IllegalArgumentException(BadRange);
-        return internalNextDouble(origin, bound);
+            throw new IllegblArgumentException(BbdRbnge);
+        return internblNextDouble(origin, bound);
     }
 
     /**
-     * Returns a pseudorandom {@code boolean} value.
+     * Returns b pseudorbndom {@code boolebn} vblue.
      *
-     * @return a pseudorandom {@code boolean} value
+     * @return b pseudorbndom {@code boolebn} vblue
      */
-    public boolean nextBoolean() {
+    public boolebn nextBoolebn() {
         return mix32(nextSeed()) < 0;
     }
 
     /**
-     * Returns a pseudorandom {@code float} value between zero
-     * (inclusive) and one (exclusive).
+     * Returns b pseudorbndom {@code flobt} vblue between zero
+     * (inclusive) bnd one (exclusive).
      *
-     * @return a pseudorandom {@code float} value between zero
-     *         (inclusive) and one (exclusive)
+     * @return b pseudorbndom {@code flobt} vblue between zero
+     *         (inclusive) bnd one (exclusive)
      */
-    public float nextFloat() {
+    public flobt nextFlobt() {
         return (mix32(nextSeed()) >>> 8) * FLOAT_UNIT;
     }
 
-    public double nextGaussian() {
-        // Use nextLocalGaussian instead of nextGaussian field
-        Double d = nextLocalGaussian.get();
+    public double nextGbussibn() {
+        // Use nextLocblGbussibn instebd of nextGbussibn field
+        Double d = nextLocblGbussibn.get();
         if (d != null) {
-            nextLocalGaussian.set(null);
-            return d.doubleValue();
+            nextLocblGbussibn.set(null);
+            return d.doubleVblue();
         }
         double v1, v2, s;
         do {
-            v1 = 2 * nextDouble() - 1; // between -1 and 1
-            v2 = 2 * nextDouble() - 1; // between -1 and 1
+            v1 = 2 * nextDouble() - 1; // between -1 bnd 1
+            v2 = 2 * nextDouble() - 1; // between -1 bnd 1
             s = v1 * v1 + v2 * v2;
         } while (s >= 1 || s == 0);
-        double multiplier = StrictMath.sqrt(-2 * StrictMath.log(s)/s);
-        nextLocalGaussian.set(new Double(v2 * multiplier));
+        double multiplier = StrictMbth.sqrt(-2 * StrictMbth.log(s)/s);
+        nextLocblGbussibn.set(new Double(v2 * multiplier));
         return v1 * multiplier;
     }
 
-    // stream methods, coded in a way intended to better isolate for
-    // maintenance purposes the small differences across forms.
+    // strebm methods, coded in b wby intended to better isolbte for
+    // mbintenbnce purposes the smbll differences bcross forms.
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code int} values.
+     * Returns b strebm producing the given {@code strebmSize} number of
+     * pseudorbndom {@code int} vblues.
      *
-     * @param streamSize the number of values to generate
-     * @return a stream of pseudorandom {@code int} values
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero
+     * @pbrbm strebmSize the number of vblues to generbte
+     * @return b strebm of pseudorbndom {@code int} vblues
+     * @throws IllegblArgumentException if {@code strebmSize} is
+     *         less thbn zero
      * @since 1.8
      */
-    public IntStream ints(long streamSize) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        return StreamSupport.intStream
-            (new RandomIntsSpliterator
-             (0L, streamSize, Integer.MAX_VALUE, 0),
-             false);
+    public IntStrebm ints(long strebmSize) {
+        if (strebmSize < 0L)
+            throw new IllegblArgumentException(BbdSize);
+        return StrebmSupport.intStrebm
+            (new RbndomIntsSpliterbtor
+             (0L, strebmSize, Integer.MAX_VALUE, 0),
+             fblse);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code int}
-     * values.
+     * Returns bn effectively unlimited strebm of pseudorbndom {@code int}
+     * vblues.
      *
-     * @implNote This method is implemented to be equivalent to {@code
+     * @implNote This method is implemented to be equivblent to {@code
      * ints(Long.MAX_VALUE)}.
      *
-     * @return a stream of pseudorandom {@code int} values
+     * @return b strebm of pseudorbndom {@code int} vblues
      * @since 1.8
      */
-    public IntStream ints() {
-        return StreamSupport.intStream
-            (new RandomIntsSpliterator
+    public IntStrebm ints() {
+        return StrebmSupport.intStrebm
+            (new RbndomIntsSpliterbtor
              (0L, Long.MAX_VALUE, Integer.MAX_VALUE, 0),
-             false);
+             fblse);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number
-     * of pseudorandom {@code int} values, each conforming to the given
-     * origin (inclusive) and bound (exclusive).
+     * Returns b strebm producing the given {@code strebmSize} number
+     * of pseudorbndom {@code int} vblues, ebch conforming to the given
+     * origin (inclusive) bnd bound (exclusive).
      *
-     * @param streamSize the number of values to generate
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code int} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero, or {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm strebmSize the number of vblues to generbte
+     * @pbrbm rbndomNumberOrigin the origin (inclusive) of ebch rbndom vblue
+     * @pbrbm rbndomNumberBound the bound (exclusive) of ebch rbndom vblue
+     * @return b strebm of pseudorbndom {@code int} vblues,
+     *         ebch with the given origin (inclusive) bnd bound (exclusive)
+     * @throws IllegblArgumentException if {@code strebmSize} is
+     *         less thbn zero, or {@code rbndomNumberOrigin}
+     *         is grebter thbn or equbl to {@code rbndomNumberBound}
      * @since 1.8
      */
-    public IntStream ints(long streamSize, int randomNumberOrigin,
-                          int randomNumberBound) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        if (randomNumberOrigin >= randomNumberBound)
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.intStream
-            (new RandomIntsSpliterator
-             (0L, streamSize, randomNumberOrigin, randomNumberBound),
-             false);
+    public IntStrebm ints(long strebmSize, int rbndomNumberOrigin,
+                          int rbndomNumberBound) {
+        if (strebmSize < 0L)
+            throw new IllegblArgumentException(BbdSize);
+        if (rbndomNumberOrigin >= rbndomNumberBound)
+            throw new IllegblArgumentException(BbdRbnge);
+        return StrebmSupport.intStrebm
+            (new RbndomIntsSpliterbtor
+             (0L, strebmSize, rbndomNumberOrigin, rbndomNumberBound),
+             fblse);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * int} values, each conforming to the given origin (inclusive) and bound
+     * Returns bn effectively unlimited strebm of pseudorbndom {@code
+     * int} vblues, ebch conforming to the given origin (inclusive) bnd bound
      * (exclusive).
      *
-     * @implNote This method is implemented to be equivalent to {@code
-     * ints(Long.MAX_VALUE, randomNumberOrigin, randomNumberBound)}.
+     * @implNote This method is implemented to be equivblent to {@code
+     * ints(Long.MAX_VALUE, rbndomNumberOrigin, rbndomNumberBound)}.
      *
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code int} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm rbndomNumberOrigin the origin (inclusive) of ebch rbndom vblue
+     * @pbrbm rbndomNumberBound the bound (exclusive) of ebch rbndom vblue
+     * @return b strebm of pseudorbndom {@code int} vblues,
+     *         ebch with the given origin (inclusive) bnd bound (exclusive)
+     * @throws IllegblArgumentException if {@code rbndomNumberOrigin}
+     *         is grebter thbn or equbl to {@code rbndomNumberBound}
      * @since 1.8
      */
-    public IntStream ints(int randomNumberOrigin, int randomNumberBound) {
-        if (randomNumberOrigin >= randomNumberBound)
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.intStream
-            (new RandomIntsSpliterator
-             (0L, Long.MAX_VALUE, randomNumberOrigin, randomNumberBound),
-             false);
+    public IntStrebm ints(int rbndomNumberOrigin, int rbndomNumberBound) {
+        if (rbndomNumberOrigin >= rbndomNumberBound)
+            throw new IllegblArgumentException(BbdRbnge);
+        return StrebmSupport.intStrebm
+            (new RbndomIntsSpliterbtor
+             (0L, Long.MAX_VALUE, rbndomNumberOrigin, rbndomNumberBound),
+             fblse);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code long} values.
+     * Returns b strebm producing the given {@code strebmSize} number of
+     * pseudorbndom {@code long} vblues.
      *
-     * @param streamSize the number of values to generate
-     * @return a stream of pseudorandom {@code long} values
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero
+     * @pbrbm strebmSize the number of vblues to generbte
+     * @return b strebm of pseudorbndom {@code long} vblues
+     * @throws IllegblArgumentException if {@code strebmSize} is
+     *         less thbn zero
      * @since 1.8
      */
-    public LongStream longs(long streamSize) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        return StreamSupport.longStream
-            (new RandomLongsSpliterator
-             (0L, streamSize, Long.MAX_VALUE, 0L),
-             false);
+    public LongStrebm longs(long strebmSize) {
+        if (strebmSize < 0L)
+            throw new IllegblArgumentException(BbdSize);
+        return StrebmSupport.longStrebm
+            (new RbndomLongsSpliterbtor
+             (0L, strebmSize, Long.MAX_VALUE, 0L),
+             fblse);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code long}
-     * values.
+     * Returns bn effectively unlimited strebm of pseudorbndom {@code long}
+     * vblues.
      *
-     * @implNote This method is implemented to be equivalent to {@code
+     * @implNote This method is implemented to be equivblent to {@code
      * longs(Long.MAX_VALUE)}.
      *
-     * @return a stream of pseudorandom {@code long} values
+     * @return b strebm of pseudorbndom {@code long} vblues
      * @since 1.8
      */
-    public LongStream longs() {
-        return StreamSupport.longStream
-            (new RandomLongsSpliterator
+    public LongStrebm longs() {
+        return StrebmSupport.longStrebm
+            (new RbndomLongsSpliterbtor
              (0L, Long.MAX_VALUE, Long.MAX_VALUE, 0L),
-             false);
+             fblse);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code long}, each conforming to the given origin
-     * (inclusive) and bound (exclusive).
+     * Returns b strebm producing the given {@code strebmSize} number of
+     * pseudorbndom {@code long}, ebch conforming to the given origin
+     * (inclusive) bnd bound (exclusive).
      *
-     * @param streamSize the number of values to generate
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code long} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero, or {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm strebmSize the number of vblues to generbte
+     * @pbrbm rbndomNumberOrigin the origin (inclusive) of ebch rbndom vblue
+     * @pbrbm rbndomNumberBound the bound (exclusive) of ebch rbndom vblue
+     * @return b strebm of pseudorbndom {@code long} vblues,
+     *         ebch with the given origin (inclusive) bnd bound (exclusive)
+     * @throws IllegblArgumentException if {@code strebmSize} is
+     *         less thbn zero, or {@code rbndomNumberOrigin}
+     *         is grebter thbn or equbl to {@code rbndomNumberBound}
      * @since 1.8
      */
-    public LongStream longs(long streamSize, long randomNumberOrigin,
-                            long randomNumberBound) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        if (randomNumberOrigin >= randomNumberBound)
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.longStream
-            (new RandomLongsSpliterator
-             (0L, streamSize, randomNumberOrigin, randomNumberBound),
-             false);
+    public LongStrebm longs(long strebmSize, long rbndomNumberOrigin,
+                            long rbndomNumberBound) {
+        if (strebmSize < 0L)
+            throw new IllegblArgumentException(BbdSize);
+        if (rbndomNumberOrigin >= rbndomNumberBound)
+            throw new IllegblArgumentException(BbdRbnge);
+        return StrebmSupport.longStrebm
+            (new RbndomLongsSpliterbtor
+             (0L, strebmSize, rbndomNumberOrigin, rbndomNumberBound),
+             fblse);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * long} values, each conforming to the given origin (inclusive) and bound
+     * Returns bn effectively unlimited strebm of pseudorbndom {@code
+     * long} vblues, ebch conforming to the given origin (inclusive) bnd bound
      * (exclusive).
      *
-     * @implNote This method is implemented to be equivalent to {@code
-     * longs(Long.MAX_VALUE, randomNumberOrigin, randomNumberBound)}.
+     * @implNote This method is implemented to be equivblent to {@code
+     * longs(Long.MAX_VALUE, rbndomNumberOrigin, rbndomNumberBound)}.
      *
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code long} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm rbndomNumberOrigin the origin (inclusive) of ebch rbndom vblue
+     * @pbrbm rbndomNumberBound the bound (exclusive) of ebch rbndom vblue
+     * @return b strebm of pseudorbndom {@code long} vblues,
+     *         ebch with the given origin (inclusive) bnd bound (exclusive)
+     * @throws IllegblArgumentException if {@code rbndomNumberOrigin}
+     *         is grebter thbn or equbl to {@code rbndomNumberBound}
      * @since 1.8
      */
-    public LongStream longs(long randomNumberOrigin, long randomNumberBound) {
-        if (randomNumberOrigin >= randomNumberBound)
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.longStream
-            (new RandomLongsSpliterator
-             (0L, Long.MAX_VALUE, randomNumberOrigin, randomNumberBound),
-             false);
+    public LongStrebm longs(long rbndomNumberOrigin, long rbndomNumberBound) {
+        if (rbndomNumberOrigin >= rbndomNumberBound)
+            throw new IllegblArgumentException(BbdRbnge);
+        return StrebmSupport.longStrebm
+            (new RbndomLongsSpliterbtor
+             (0L, Long.MAX_VALUE, rbndomNumberOrigin, rbndomNumberBound),
+             fblse);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code double} values, each between zero
-     * (inclusive) and one (exclusive).
+     * Returns b strebm producing the given {@code strebmSize} number of
+     * pseudorbndom {@code double} vblues, ebch between zero
+     * (inclusive) bnd one (exclusive).
      *
-     * @param streamSize the number of values to generate
-     * @return a stream of {@code double} values
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero
+     * @pbrbm strebmSize the number of vblues to generbte
+     * @return b strebm of {@code double} vblues
+     * @throws IllegblArgumentException if {@code strebmSize} is
+     *         less thbn zero
      * @since 1.8
      */
-    public DoubleStream doubles(long streamSize) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        return StreamSupport.doubleStream
-            (new RandomDoublesSpliterator
-             (0L, streamSize, Double.MAX_VALUE, 0.0),
-             false);
+    public DoubleStrebm doubles(long strebmSize) {
+        if (strebmSize < 0L)
+            throw new IllegblArgumentException(BbdSize);
+        return StrebmSupport.doubleStrebm
+            (new RbndomDoublesSpliterbtor
+             (0L, strebmSize, Double.MAX_VALUE, 0.0),
+             fblse);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * double} values, each between zero (inclusive) and one
+     * Returns bn effectively unlimited strebm of pseudorbndom {@code
+     * double} vblues, ebch between zero (inclusive) bnd one
      * (exclusive).
      *
-     * @implNote This method is implemented to be equivalent to {@code
+     * @implNote This method is implemented to be equivblent to {@code
      * doubles(Long.MAX_VALUE)}.
      *
-     * @return a stream of pseudorandom {@code double} values
+     * @return b strebm of pseudorbndom {@code double} vblues
      * @since 1.8
      */
-    public DoubleStream doubles() {
-        return StreamSupport.doubleStream
-            (new RandomDoublesSpliterator
+    public DoubleStrebm doubles() {
+        return StrebmSupport.doubleStrebm
+            (new RbndomDoublesSpliterbtor
              (0L, Long.MAX_VALUE, Double.MAX_VALUE, 0.0),
-             false);
+             fblse);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code double} values, each conforming to the given origin
-     * (inclusive) and bound (exclusive).
+     * Returns b strebm producing the given {@code strebmSize} number of
+     * pseudorbndom {@code double} vblues, ebch conforming to the given origin
+     * (inclusive) bnd bound (exclusive).
      *
-     * @param streamSize the number of values to generate
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code double} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero
-     * @throws IllegalArgumentException if {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm strebmSize the number of vblues to generbte
+     * @pbrbm rbndomNumberOrigin the origin (inclusive) of ebch rbndom vblue
+     * @pbrbm rbndomNumberBound the bound (exclusive) of ebch rbndom vblue
+     * @return b strebm of pseudorbndom {@code double} vblues,
+     *         ebch with the given origin (inclusive) bnd bound (exclusive)
+     * @throws IllegblArgumentException if {@code strebmSize} is
+     *         less thbn zero
+     * @throws IllegblArgumentException if {@code rbndomNumberOrigin}
+     *         is grebter thbn or equbl to {@code rbndomNumberBound}
      * @since 1.8
      */
-    public DoubleStream doubles(long streamSize, double randomNumberOrigin,
-                                double randomNumberBound) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        if (!(randomNumberOrigin < randomNumberBound))
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.doubleStream
-            (new RandomDoublesSpliterator
-             (0L, streamSize, randomNumberOrigin, randomNumberBound),
-             false);
+    public DoubleStrebm doubles(long strebmSize, double rbndomNumberOrigin,
+                                double rbndomNumberBound) {
+        if (strebmSize < 0L)
+            throw new IllegblArgumentException(BbdSize);
+        if (!(rbndomNumberOrigin < rbndomNumberBound))
+            throw new IllegblArgumentException(BbdRbnge);
+        return StrebmSupport.doubleStrebm
+            (new RbndomDoublesSpliterbtor
+             (0L, strebmSize, rbndomNumberOrigin, rbndomNumberBound),
+             fblse);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * double} values, each conforming to the given origin (inclusive) and bound
+     * Returns bn effectively unlimited strebm of pseudorbndom {@code
+     * double} vblues, ebch conforming to the given origin (inclusive) bnd bound
      * (exclusive).
      *
-     * @implNote This method is implemented to be equivalent to {@code
-     * doubles(Long.MAX_VALUE, randomNumberOrigin, randomNumberBound)}.
+     * @implNote This method is implemented to be equivblent to {@code
+     * doubles(Long.MAX_VALUE, rbndomNumberOrigin, rbndomNumberBound)}.
      *
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code double} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm rbndomNumberOrigin the origin (inclusive) of ebch rbndom vblue
+     * @pbrbm rbndomNumberBound the bound (exclusive) of ebch rbndom vblue
+     * @return b strebm of pseudorbndom {@code double} vblues,
+     *         ebch with the given origin (inclusive) bnd bound (exclusive)
+     * @throws IllegblArgumentException if {@code rbndomNumberOrigin}
+     *         is grebter thbn or equbl to {@code rbndomNumberBound}
      * @since 1.8
      */
-    public DoubleStream doubles(double randomNumberOrigin, double randomNumberBound) {
-        if (!(randomNumberOrigin < randomNumberBound))
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.doubleStream
-            (new RandomDoublesSpliterator
-             (0L, Long.MAX_VALUE, randomNumberOrigin, randomNumberBound),
-             false);
+    public DoubleStrebm doubles(double rbndomNumberOrigin, double rbndomNumberBound) {
+        if (!(rbndomNumberOrigin < rbndomNumberBound))
+            throw new IllegblArgumentException(BbdRbnge);
+        return StrebmSupport.doubleStrebm
+            (new RbndomDoublesSpliterbtor
+             (0L, Long.MAX_VALUE, rbndomNumberOrigin, rbndomNumberBound),
+             fblse);
     }
 
     /**
-     * Spliterator for int streams.  We multiplex the four int
-     * versions into one class by treating a bound less than origin as
-     * unbounded, and also by treating "infinite" as equivalent to
-     * Long.MAX_VALUE. For splits, it uses the standard divide-by-two
-     * approach. The long and double versions of this class are
-     * identical except for types.
+     * Spliterbtor for int strebms.  We multiplex the four int
+     * versions into one clbss by trebting b bound less thbn origin bs
+     * unbounded, bnd blso by trebting "infinite" bs equivblent to
+     * Long.MAX_VALUE. For splits, it uses the stbndbrd divide-by-two
+     * bpprobch. The long bnd double versions of this clbss bre
+     * identicbl except for types.
      */
-    static final class RandomIntsSpliterator implements Spliterator.OfInt {
+    stbtic finbl clbss RbndomIntsSpliterbtor implements Spliterbtor.OfInt {
         long index;
-        final long fence;
-        final int origin;
-        final int bound;
-        RandomIntsSpliterator(long index, long fence,
+        finbl long fence;
+        finbl int origin;
+        finbl int bound;
+        RbndomIntsSpliterbtor(long index, long fence,
                               int origin, int bound) {
             this.index = index; this.fence = fence;
             this.origin = origin; this.bound = bound;
         }
 
-        public RandomIntsSpliterator trySplit() {
+        public RbndomIntsSpliterbtor trySplit() {
             long i = index, m = (i + fence) >>> 1;
             return (m <= i) ? null :
-                new RandomIntsSpliterator(i, index = m, origin, bound);
+                new RbndomIntsSpliterbtor(i, index = m, origin, bound);
         }
 
-        public long estimateSize() {
+        public long estimbteSize() {
             return fence - index;
         }
 
-        public int characteristics() {
-            return (Spliterator.SIZED | Spliterator.SUBSIZED |
-                    Spliterator.NONNULL | Spliterator.IMMUTABLE);
+        public int chbrbcteristics() {
+            return (Spliterbtor.SIZED | Spliterbtor.SUBSIZED |
+                    Spliterbtor.NONNULL | Spliterbtor.IMMUTABLE);
         }
 
-        public boolean tryAdvance(IntConsumer consumer) {
+        public boolebn tryAdvbnce(IntConsumer consumer) {
             if (consumer == null) throw new NullPointerException();
             long i = index, f = fence;
             if (i < f) {
-                consumer.accept(ThreadLocalRandom.current().internalNextInt(origin, bound));
+                consumer.bccept(ThrebdLocblRbndom.current().internblNextInt(origin, bound));
                 index = i + 1;
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        public void forEachRemaining(IntConsumer consumer) {
+        public void forEbchRembining(IntConsumer consumer) {
             if (consumer == null) throw new NullPointerException();
             long i = index, f = fence;
             if (i < f) {
                 index = f;
                 int o = origin, b = bound;
-                ThreadLocalRandom rng = ThreadLocalRandom.current();
+                ThrebdLocblRbndom rng = ThrebdLocblRbndom.current();
                 do {
-                    consumer.accept(rng.internalNextInt(o, b));
+                    consumer.bccept(rng.internblNextInt(o, b));
                 } while (++i < f);
             }
         }
     }
 
     /**
-     * Spliterator for long streams.
+     * Spliterbtor for long strebms.
      */
-    static final class RandomLongsSpliterator implements Spliterator.OfLong {
+    stbtic finbl clbss RbndomLongsSpliterbtor implements Spliterbtor.OfLong {
         long index;
-        final long fence;
-        final long origin;
-        final long bound;
-        RandomLongsSpliterator(long index, long fence,
+        finbl long fence;
+        finbl long origin;
+        finbl long bound;
+        RbndomLongsSpliterbtor(long index, long fence,
                                long origin, long bound) {
             this.index = index; this.fence = fence;
             this.origin = origin; this.bound = bound;
         }
 
-        public RandomLongsSpliterator trySplit() {
+        public RbndomLongsSpliterbtor trySplit() {
             long i = index, m = (i + fence) >>> 1;
             return (m <= i) ? null :
-                new RandomLongsSpliterator(i, index = m, origin, bound);
+                new RbndomLongsSpliterbtor(i, index = m, origin, bound);
         }
 
-        public long estimateSize() {
+        public long estimbteSize() {
             return fence - index;
         }
 
-        public int characteristics() {
-            return (Spliterator.SIZED | Spliterator.SUBSIZED |
-                    Spliterator.NONNULL | Spliterator.IMMUTABLE);
+        public int chbrbcteristics() {
+            return (Spliterbtor.SIZED | Spliterbtor.SUBSIZED |
+                    Spliterbtor.NONNULL | Spliterbtor.IMMUTABLE);
         }
 
-        public boolean tryAdvance(LongConsumer consumer) {
+        public boolebn tryAdvbnce(LongConsumer consumer) {
             if (consumer == null) throw new NullPointerException();
             long i = index, f = fence;
             if (i < f) {
-                consumer.accept(ThreadLocalRandom.current().internalNextLong(origin, bound));
+                consumer.bccept(ThrebdLocblRbndom.current().internblNextLong(origin, bound));
                 index = i + 1;
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        public void forEachRemaining(LongConsumer consumer) {
+        public void forEbchRembining(LongConsumer consumer) {
             if (consumer == null) throw new NullPointerException();
             long i = index, f = fence;
             if (i < f) {
                 index = f;
                 long o = origin, b = bound;
-                ThreadLocalRandom rng = ThreadLocalRandom.current();
+                ThrebdLocblRbndom rng = ThrebdLocblRbndom.current();
                 do {
-                    consumer.accept(rng.internalNextLong(o, b));
+                    consumer.bccept(rng.internblNextLong(o, b));
                 } while (++i < f);
             }
         }
@@ -928,173 +928,173 @@ public class ThreadLocalRandom extends Random {
     }
 
     /**
-     * Spliterator for double streams.
+     * Spliterbtor for double strebms.
      */
-    static final class RandomDoublesSpliterator implements Spliterator.OfDouble {
+    stbtic finbl clbss RbndomDoublesSpliterbtor implements Spliterbtor.OfDouble {
         long index;
-        final long fence;
-        final double origin;
-        final double bound;
-        RandomDoublesSpliterator(long index, long fence,
+        finbl long fence;
+        finbl double origin;
+        finbl double bound;
+        RbndomDoublesSpliterbtor(long index, long fence,
                                  double origin, double bound) {
             this.index = index; this.fence = fence;
             this.origin = origin; this.bound = bound;
         }
 
-        public RandomDoublesSpliterator trySplit() {
+        public RbndomDoublesSpliterbtor trySplit() {
             long i = index, m = (i + fence) >>> 1;
             return (m <= i) ? null :
-                new RandomDoublesSpliterator(i, index = m, origin, bound);
+                new RbndomDoublesSpliterbtor(i, index = m, origin, bound);
         }
 
-        public long estimateSize() {
+        public long estimbteSize() {
             return fence - index;
         }
 
-        public int characteristics() {
-            return (Spliterator.SIZED | Spliterator.SUBSIZED |
-                    Spliterator.NONNULL | Spliterator.IMMUTABLE);
+        public int chbrbcteristics() {
+            return (Spliterbtor.SIZED | Spliterbtor.SUBSIZED |
+                    Spliterbtor.NONNULL | Spliterbtor.IMMUTABLE);
         }
 
-        public boolean tryAdvance(DoubleConsumer consumer) {
+        public boolebn tryAdvbnce(DoubleConsumer consumer) {
             if (consumer == null) throw new NullPointerException();
             long i = index, f = fence;
             if (i < f) {
-                consumer.accept(ThreadLocalRandom.current().internalNextDouble(origin, bound));
+                consumer.bccept(ThrebdLocblRbndom.current().internblNextDouble(origin, bound));
                 index = i + 1;
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        public void forEachRemaining(DoubleConsumer consumer) {
+        public void forEbchRembining(DoubleConsumer consumer) {
             if (consumer == null) throw new NullPointerException();
             long i = index, f = fence;
             if (i < f) {
                 index = f;
                 double o = origin, b = bound;
-                ThreadLocalRandom rng = ThreadLocalRandom.current();
+                ThrebdLocblRbndom rng = ThrebdLocblRbndom.current();
                 do {
-                    consumer.accept(rng.internalNextDouble(o, b));
+                    consumer.bccept(rng.internblNextDouble(o, b));
                 } while (++i < f);
             }
         }
     }
 
 
-    // Within-package utilities
+    // Within-pbckbge utilities
 
     /*
-     * Descriptions of the usages of the methods below can be found in
-     * the classes that use them. Briefly, a thread's "probe" value is
-     * a non-zero hash code that (probably) does not collide with
-     * other existing threads with respect to any power of two
-     * collision space. When it does collide, it is pseudo-randomly
-     * adjusted (using a Marsaglia XorShift). The nextSecondarySeed
-     * method is used in the same contexts as ThreadLocalRandom, but
-     * only for transient usages such as random adaptive spin/block
-     * sequences for which a cheap RNG suffices and for which it could
-     * in principle disrupt user-visible statistical properties of the
-     * main ThreadLocalRandom if we were to use it.
+     * Descriptions of the usbges of the methods below cbn be found in
+     * the clbsses thbt use them. Briefly, b threbd's "probe" vblue is
+     * b non-zero hbsh code thbt (probbbly) does not collide with
+     * other existing threbds with respect to bny power of two
+     * collision spbce. When it does collide, it is pseudo-rbndomly
+     * bdjusted (using b Mbrsbglib XorShift). The nextSecondbrySeed
+     * method is used in the sbme contexts bs ThrebdLocblRbndom, but
+     * only for trbnsient usbges such bs rbndom bdbptive spin/block
+     * sequences for which b chebp RNG suffices bnd for which it could
+     * in principle disrupt user-visible stbtisticbl properties of the
+     * mbin ThrebdLocblRbndom if we were to use it.
      *
-     * Note: Because of package-protection issues, versions of some
-     * these methods also appear in some subpackage classes.
+     * Note: Becbuse of pbckbge-protection issues, versions of some
+     * these methods blso bppebr in some subpbckbge clbsses.
      */
 
     /**
-     * Returns the probe value for the current thread without forcing
-     * initialization. Note that invoking ThreadLocalRandom.current()
-     * can be used to force initialization on zero return.
+     * Returns the probe vblue for the current threbd without forcing
+     * initiblizbtion. Note thbt invoking ThrebdLocblRbndom.current()
+     * cbn be used to force initiblizbtion on zero return.
      */
-    static final int getProbe() {
-        return UNSAFE.getInt(Thread.currentThread(), PROBE);
+    stbtic finbl int getProbe() {
+        return UNSAFE.getInt(Threbd.currentThrebd(), PROBE);
     }
 
     /**
-     * Pseudo-randomly advances and records the given probe value for the
-     * given thread.
+     * Pseudo-rbndomly bdvbnces bnd records the given probe vblue for the
+     * given threbd.
      */
-    static final int advanceProbe(int probe) {
+    stbtic finbl int bdvbnceProbe(int probe) {
         probe ^= probe << 13;   // xorshift
         probe ^= probe >>> 17;
         probe ^= probe << 5;
-        UNSAFE.putInt(Thread.currentThread(), PROBE, probe);
+        UNSAFE.putInt(Threbd.currentThrebd(), PROBE, probe);
         return probe;
     }
 
     /**
-     * Returns the pseudo-randomly initialized or updated secondary seed.
+     * Returns the pseudo-rbndomly initiblized or updbted secondbry seed.
      */
-    static final int nextSecondarySeed() {
+    stbtic finbl int nextSecondbrySeed() {
         int r;
-        Thread t = Thread.currentThread();
+        Threbd t = Threbd.currentThrebd();
         if ((r = UNSAFE.getInt(t, SECONDARY)) != 0) {
             r ^= r << 13;   // xorshift
             r ^= r >>> 17;
             r ^= r << 5;
         }
         else {
-            localInit();
+            locblInit();
             if ((r = (int)UNSAFE.getLong(t, SEED)) == 0)
-                r = 1; // avoid zero
+                r = 1; // bvoid zero
         }
         UNSAFE.putInt(t, SECONDARY, r);
         return r;
     }
 
-    // Serialization support
+    // Seriblizbtion support
 
-    private static final long serialVersionUID = -5851777807851030925L;
+    privbte stbtic finbl long seriblVersionUID = -5851777807851030925L;
 
     /**
-     * @serialField rnd long
-     *              seed for random computations
-     * @serialField initialized boolean
-     *              always true
+     * @seriblField rnd long
+     *              seed for rbndom computbtions
+     * @seriblField initiblized boolebn
+     *              blwbys true
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-            new ObjectStreamField("rnd", long.class),
-            new ObjectStreamField("initialized", boolean.class),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+            new ObjectStrebmField("rnd", long.clbss),
+            new ObjectStrebmField("initiblized", boolebn.clbss),
     };
 
     /**
-     * Saves the {@code ThreadLocalRandom} to a stream (that is, serializes it).
-     * @param s the stream
-     * @throws java.io.IOException if an I/O error occurs
+     * Sbves the {@code ThrebdLocblRbndom} to b strebm (thbt is, seriblizes it).
+     * @pbrbm s the strebm
+     * @throws jbvb.io.IOException if bn I/O error occurs
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
 
-        java.io.ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("rnd", UNSAFE.getLong(Thread.currentThread(), SEED));
-        fields.put("initialized", true);
+        jbvb.io.ObjectOutputStrebm.PutField fields = s.putFields();
+        fields.put("rnd", UNSAFE.getLong(Threbd.currentThrebd(), SEED));
+        fields.put("initiblized", true);
         s.writeFields();
     }
 
     /**
-     * Returns the {@link #current() current} thread's {@code ThreadLocalRandom}.
-     * @return the {@link #current() current} thread's {@code ThreadLocalRandom}
+     * Returns the {@link #current() current} threbd's {@code ThrebdLocblRbndom}.
+     * @return the {@link #current() current} threbd's {@code ThrebdLocblRbndom}
      */
-    private Object readResolve() {
+    privbte Object rebdResolve() {
         return current();
     }
 
-    // Unsafe mechanics
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long SEED;
-    private static final long PROBE;
-    private static final long SECONDARY;
-    static {
+    // Unsbfe mechbnics
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+    privbte stbtic finbl long SEED;
+    privbte stbtic finbl long PROBE;
+    privbte stbtic finbl long SECONDARY;
+    stbtic {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> tk = Thread.class;
+            UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> tk = Threbd.clbss;
             SEED = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("threadLocalRandomSeed"));
+                (tk.getDeclbredField("threbdLocblRbndomSeed"));
             PROBE = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("threadLocalRandomProbe"));
+                (tk.getDeclbredField("threbdLocblRbndomProbe"));
             SECONDARY = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("threadLocalRandomSecondarySeed"));
-        } catch (Exception e) {
+                (tk.getDeclbredField("threbdLocblRbndomSecondbrySeed"));
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

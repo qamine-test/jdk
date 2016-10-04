@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.sasl;
+pbckbge com.sun.security.sbsl;
 
-import javax.security.sasl.*;
-import com.sun.security.sasl.util.PolicyUtils;
+import jbvbx.security.sbsl.*;
+import com.sun.security.sbsl.util.PolicyUtils;
 
-import java.util.Map;
-import javax.security.auth.callback.CallbackHandler;
+import jbvb.util.Mbp;
+import jbvbx.security.buth.cbllbbck.CbllbbckHbndler;
 
 /**
-  * Server factory for CRAM-MD5.
+  * Server fbctory for CRAM-MD5.
   *
-  * Requires the following callback to be satisfied by callback handler
+  * Requires the following cbllbbck to be sbtisfied by cbllbbck hbndler
   * when using CRAM-MD5.
-  * - AuthorizeCallback (to get canonicalized authzid)
+  * - AuthorizeCbllbbck (to get cbnonicblized buthzid)
   *
-  * @author Rosanna Lee
+  * @buthor Rosbnnb Lee
   */
-final public class ServerFactoryImpl implements SaslServerFactory {
-    private static final String myMechs[] = {
+finbl public clbss ServerFbctoryImpl implements SbslServerFbctory {
+    privbte stbtic finbl String myMechs[] = {
         "CRAM-MD5", //
     };
 
-    private static final int mechPolicies[] = {
+    privbte stbtic finbl int mechPolicies[] = {
         PolicyUtils.NOPLAINTEXT|PolicyUtils.NOANONYMOUS,      // CRAM-MD5
     };
 
-    private static final int CRAMMD5 = 0;
+    privbte stbtic finbl int CRAMMD5 = 0;
 
-    public ServerFactoryImpl() {
+    public ServerFbctoryImpl() {
     }
 
-    public SaslServer createSaslServer(String mech,
+    public SbslServer crebteSbslServer(String mech,
         String protocol,
-        String serverName,
-        Map<String,?> props,
-        CallbackHandler cbh) throws SaslException {
+        String serverNbme,
+        Mbp<String,?> props,
+        CbllbbckHbndler cbh) throws SbslException {
 
-        if (mech.equals(myMechs[CRAMMD5])
+        if (mech.equbls(myMechs[CRAMMD5])
             && PolicyUtils.checkPolicy(mechPolicies[CRAMMD5], props)) {
 
             if (cbh == null) {
-                throw new SaslException(
-            "Callback handler with support for AuthorizeCallback required");
+                throw new SbslException(
+            "Cbllbbck hbndler with support for AuthorizeCbllbbck required");
             }
-            return new CramMD5Server(protocol, serverName, props, cbh);
+            return new CrbmMD5Server(protocol, serverNbme, props, cbh);
         }
         return null;
     };
 
-    public String[] getMechanismNames(Map<String,?> props) {
+    public String[] getMechbnismNbmes(Mbp<String,?> props) {
         return PolicyUtils.filterMechs(myMechs, mechPolicies, props);
     }
 }

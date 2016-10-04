@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstatd;
+pbckbge sun.tools.jstbtd;
 
-import java.rmi.*;
-import java.rmi.server.*;
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
-import java.net.MalformedURLException;
-import sun.jvmstat.monitor.remote.*;
+import jbvb.rmi.*;
+import jbvb.rmi.server.*;
+import jbvb.rmi.registry.Registry;
+import jbvb.rmi.registry.LocbteRegistry;
+import jbvb.net.MblformedURLException;
+import sun.jvmstbt.monitor.remote.*;
 
 /**
- * Application providing remote access to the jvmstat instrumentation
- * exported by local Java Virtual Machine processes. Remote access is
- * provided through an RMI interface.
+ * Applicbtion providing remote bccess to the jvmstbt instrumentbtion
+ * exported by locbl Jbvb Virtubl Mbchine processes. Remote bccess is
+ * provided through bn RMI interfbce.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class Jstatd {
+public clbss Jstbtd {
 
-    private static Registry registry;
-    private static int port = -1;
-    private static boolean startRegistry = true;
+    privbte stbtic Registry registry;
+    privbte stbtic int port = -1;
+    privbte stbtic boolebn stbrtRegistry = true;
 
-    private static void printUsage() {
-        System.err.println("usage: jstatd [-nr] [-p port] [-n rminame]");
+    privbte stbtic void printUsbge() {
+        System.err.println("usbge: jstbtd [-nr] [-p port] [-n rminbme]");
     }
 
-    static void bind(String name, RemoteHostImpl remoteHost)
-                throws RemoteException, MalformedURLException, Exception {
+    stbtic void bind(String nbme, RemoteHostImpl remoteHost)
+                throws RemoteException, MblformedURLException, Exception {
 
         try {
-            Naming.rebind(name, remoteHost);
-        } catch (java.rmi.ConnectException e) {
+            Nbming.rebind(nbme, remoteHost);
+        } cbtch (jbvb.rmi.ConnectException e) {
             /*
-             * either the registry is not running or we cannot contact it.
-             * start an internal registry if requested.
+             * either the registry is not running or we cbnnot contbct it.
+             * stbrt bn internbl registry if requested.
              */
-            if (startRegistry && registry == null) {
-                int localport = (port < 0) ? Registry.REGISTRY_PORT : port;
-                registry = LocateRegistry.createRegistry(localport);
-                bind(name, remoteHost);
+            if (stbrtRegistry && registry == null) {
+                int locblport = (port < 0) ? Registry.REGISTRY_PORT : port;
+                registry = LocbteRegistry.crebteRegistry(locblport);
+                bind(nbme, remoteHost);
             }
             else {
-                System.out.println("Could not contact registry\n"
-                                   + e.getMessage());
-                e.printStackTrace();
+                System.out.println("Could not contbct registry\n"
+                                   + e.getMessbge());
+                e.printStbckTrbce();
             }
-        } catch (RemoteException e) {
-            System.err.println("Could not bind " + name + " to RMI Registry");
-            e.printStackTrace();
+        } cbtch (RemoteException e) {
+            System.err.println("Could not bind " + nbme + " to RMI Registry");
+            e.printStbckTrbce();
         }
     }
 
-    public static void main(String[] args) {
-        String rminame = null;
-        int argc = 0;
+    public stbtic void mbin(String[] brgs) {
+        String rminbme = null;
+        int brgc = 0;
 
-        for ( ; (argc < args.length) && (args[argc].startsWith("-")); argc++) {
-            String arg = args[argc];
+        for ( ; (brgc < brgs.length) && (brgs[brgc].stbrtsWith("-")); brgc++) {
+            String brg = brgs[brgc];
 
-            if (arg.compareTo("-nr") == 0) {
-                startRegistry = false;
-            } else if (arg.startsWith("-p")) {
-                if (arg.compareTo("-p") != 0) {
-                    port = Integer.parseInt(arg.substring(2));
+            if (brg.compbreTo("-nr") == 0) {
+                stbrtRegistry = fblse;
+            } else if (brg.stbrtsWith("-p")) {
+                if (brg.compbreTo("-p") != 0) {
+                    port = Integer.pbrseInt(brg.substring(2));
                 } else {
-                  argc++;
-                  if (argc >= args.length) {
-                      printUsage();
+                  brgc++;
+                  if (brgc >= brgs.length) {
+                      printUsbge();
                       System.exit(1);
                   }
-                  port = Integer.parseInt(args[argc]);
+                  port = Integer.pbrseInt(brgs[brgc]);
                 }
-            } else if (arg.startsWith("-n")) {
-                if (arg.compareTo("-n") != 0) {
-                    rminame = arg.substring(2);
+            } else if (brg.stbrtsWith("-n")) {
+                if (brg.compbreTo("-n") != 0) {
+                    rminbme = brg.substring(2);
                 } else {
-                    argc++;
-                    if (argc >= args.length) {
-                        printUsage();
+                    brgc++;
+                    if (brgc >= brgs.length) {
+                        printUsbge();
                         System.exit(1);
                     }
-                    rminame = args[argc];
+                    rminbme = brgs[brgc];
                 }
             } else {
-                printUsage();
+                printUsbge();
                 System.exit(1);
             }
         }
 
-        if (argc < args.length) {
-            printUsage();
+        if (brgc < brgs.length) {
+            printUsbge();
             System.exit(1);
         }
 
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new RMISecurityManager());
+        if (System.getSecurityMbnbger() == null) {
+            System.setSecurityMbnbger(new RMISecurityMbnbger());
         }
 
-        StringBuilder name = new StringBuilder();
+        StringBuilder nbme = new StringBuilder();
 
         if (port >= 0) {
-            name.append("//:").append(port);
+            nbme.bppend("//:").bppend(port);
         }
 
-        if (rminame == null) {
-            rminame = "JStatRemoteHost";
+        if (rminbme == null) {
+            rminbme = "JStbtRemoteHost";
         }
 
-        name.append("/").append(rminame);
+        nbme.bppend("/").bppend(rminbme);
 
         try {
-            // use 1.5.0 dynamically generated subs.
-            System.setProperty("java.rmi.server.ignoreSubClasses", "true");
+            // use 1.5.0 dynbmicblly generbted subs.
+            System.setProperty("jbvb.rmi.server.ignoreSubClbsses", "true");
             RemoteHostImpl remoteHost = new RemoteHostImpl();
-            RemoteHost stub = (RemoteHost) UnicastRemoteObject.exportObject(
+            RemoteHost stub = (RemoteHost) UnicbstRemoteObject.exportObject(
                     remoteHost, 0);
-            bind(name.toString(), remoteHost);
-        } catch (MalformedURLException e) {
-            if (rminame != null) {
-                System.out.println("Bad RMI server name: " + rminame);
+            bind(nbme.toString(), remoteHost);
+        } cbtch (MblformedURLException e) {
+            if (rminbme != null) {
+                System.out.println("Bbd RMI server nbme: " + rminbme);
             } else {
-                System.out.println("Bad RMI URL: " + name + " : "
-                                   + e.getMessage());
+                System.out.println("Bbd RMI URL: " + nbme + " : "
+                                   + e.getMessbge());
             }
             System.exit(1);
-        } catch (java.rmi.ConnectException e) {
-            // could not attach to or create a registry
-            System.out.println("Could not contact RMI registry\n"
-                               + e.getMessage());
+        } cbtch (jbvb.rmi.ConnectException e) {
+            // could not bttbch to or crebte b registry
+            System.out.println("Could not contbct RMI registry\n"
+                               + e.getMessbge());
             System.exit(1);
-        } catch (Exception e) {
-            System.out.println("Could not create remote object\n"
-                               + e.getMessage());
-            e.printStackTrace();
+        } cbtch (Exception e) {
+            System.out.println("Could not crebte remote object\n"
+                               + e.getMessbge());
+            e.printStbckTrbce();
             System.exit(1);
         }
     }

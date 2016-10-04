@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.rsa;
+pbckbge sun.security.rsb;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.spec.PSource;
-import javax.crypto.spec.OAEPParameterSpec;
+import jbvbx.crypto.BbdPbddingException;
+import jbvbx.crypto.spec.PSource;
+import jbvbx.crypto.spec.OAEPPbrbmeterSpec;
 
-import sun.security.jca.JCAUtil;
+import sun.security.jcb.JCAUtil;
 
 /**
- * RSA padding and unpadding.
+ * RSA pbdding bnd unpbdding.
  *
- * The various PKCS#1 versions can be found in the EMC/RSA Labs
+ * The vbrious PKCS#1 versions cbn be found in the EMC/RSA Lbbs
  * web site, which is currently:
  *
- *     http://www.emc.com/emc-plus/rsa-labs/index.htm
+ *     http://www.emc.com/emc-plus/rsb-lbbs/index.htm
  *
- * or in the IETF RFCs derived from the above PKCS#1 standards.
+ * or in the IETF RFCs derived from the bbove PKCS#1 stbndbrds.
  *
  *     RFC 2313: v1.5
  *     RFC 2437: v2.0
  *     RFC 3447: v2.1
  *
- * The format of PKCS#1 v1.5 padding is:
+ * The formbt of PKCS#1 v1.5 pbdding is:
  *
- *   0x00 | BT | PS...PS | 0x00 | data...data
+ *   0x00 | BT | PS...PS | 0x00 | dbtb...dbtb
  *
  * where BT is the blocktype (1 or 2). The length of the entire string
- * must be the same as the size of the modulus (i.e. 128 byte for a 1024 bit
- * key). Per spec, the padding string must be at least 8 bytes long. That
- * leaves up to (length of key in bytes) - 11 bytes for the data.
+ * must be the sbme bs the size of the modulus (i.e. 128 byte for b 1024 bit
+ * key). Per spec, the pbdding string must be bt lebst 8 bytes long. Thbt
+ * lebves up to (length of key in bytes) - 11 bytes for the dbtb.
  *
- * OAEP padding was introduced in PKCS#1 v2.0 and is a bit more complicated
- * and has a number of options. We support:
+ * OAEP pbdding wbs introduced in PKCS#1 v2.0 bnd is b bit more complicbted
+ * bnd hbs b number of options. We support:
  *
- *   . arbitrary hash functions ('Hash' in the specification), MessageDigest
- *     implementation must be available
- *   . MGF1 as the mask generation function
- *   . the empty string as the default value for label L and whatever
- *     specified in javax.crypto.spec.OAEPParameterSpec
+ *   . brbitrbry hbsh functions ('Hbsh' in the specificbtion), MessbgeDigest
+ *     implementbtion must be bvbilbble
+ *   . MGF1 bs the mbsk generbtion function
+ *   . the empty string bs the defbult vblue for lbbel L bnd whbtever
+ *     specified in jbvbx.crypto.spec.OAEPPbrbmeterSpec
  *
- * The algorithms (representations) are forwards-compatible: that is,
- * the algorithm described in previous releases are in later releases.
- * However, additional comments/checks/clarifications were added to the
- * later versions based on real-world experience (e.g. stricter v1.5
- * format checking.)
+ * The blgorithms (representbtions) bre forwbrds-compbtible: thbt is,
+ * the blgorithm described in previous relebses bre in lbter relebses.
+ * However, bdditionbl comments/checks/clbrificbtions were bdded to the
+ * lbter versions bbsed on rebl-world experience (e.g. stricter v1.5
+ * formbt checking.)
  *
- * Note: RSA keys should be at least 512 bits long
+ * Note: RSA keys should be bt lebst 512 bits long
  *
  * @since   1.5
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public final class RSAPadding {
+public finbl clbss RSAPbdding {
 
-    // NOTE: the constants below are embedded in the JCE RSACipher class
-    // file. Do not change without coordinating the update
+    // NOTE: the constbnts below bre embedded in the JCE RSACipher clbss
+    // file. Do not chbnge without coordinbting the updbte
 
-    // PKCS#1 v1.5 padding, blocktype 1 (signing)
-    public final static int PAD_BLOCKTYPE_1    = 1;
-    // PKCS#1 v1.5 padding, blocktype 2 (encryption)
-    public final static int PAD_BLOCKTYPE_2    = 2;
-    // nopadding. Does not do anything, but allows simpler RSACipher code
-    public final static int PAD_NONE           = 3;
-    // PKCS#1 v2.1 OAEP padding
-    public final static int PAD_OAEP_MGF1 = 4;
+    // PKCS#1 v1.5 pbdding, blocktype 1 (signing)
+    public finbl stbtic int PAD_BLOCKTYPE_1    = 1;
+    // PKCS#1 v1.5 pbdding, blocktype 2 (encryption)
+    public finbl stbtic int PAD_BLOCKTYPE_2    = 2;
+    // nopbdding. Does not do bnything, but bllows simpler RSACipher code
+    public finbl stbtic int PAD_NONE           = 3;
+    // PKCS#1 v2.1 OAEP pbdding
+    public finbl stbtic int PAD_OAEP_MGF1 = 4;
 
     // type, one of PAD_*
-    private final int type;
+    privbte finbl int type;
 
-    // size of the padded block (i.e. size of the modulus)
-    private final int paddedSize;
+    // size of the pbdded block (i.e. size of the modulus)
+    privbte finbl int pbddedSize;
 
-    // PRNG used to generate padding bytes (PAD_BLOCKTYPE_2, PAD_OAEP_MGF1)
-    private SecureRandom random;
+    // PRNG used to generbte pbdding bytes (PAD_BLOCKTYPE_2, PAD_OAEP_MGF1)
+    privbte SecureRbndom rbndom;
 
-    // maximum size of the data
-    private final int maxDataSize;
+    // mbximum size of the dbtb
+    privbte finbl int mbxDbtbSize;
 
-    // OAEP: main messagedigest
-    private MessageDigest md;
+    // OAEP: mbin messbgedigest
+    privbte MessbgeDigest md;
 
-    // OAEP: message digest for MGF1
-    private MessageDigest mgfMd;
+    // OAEP: messbge digest for MGF1
+    privbte MessbgeDigest mgfMd;
 
-    // OAEP: value of digest of data (user-supplied or zero-length) using md
-    private byte[] lHash;
+    // OAEP: vblue of digest of dbtb (user-supplied or zero-length) using md
+    privbte byte[] lHbsh;
 
     /**
-     * Get a RSAPadding instance of the specified type.
-     * Keys used with this padding must be paddedSize bytes long.
+     * Get b RSAPbdding instbnce of the specified type.
+     * Keys used with this pbdding must be pbddedSize bytes long.
      */
-    public static RSAPadding getInstance(int type, int paddedSize)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-        return new RSAPadding(type, paddedSize, null, null);
+    public stbtic RSAPbdding getInstbnce(int type, int pbddedSize)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+        return new RSAPbdding(type, pbddedSize, null, null);
     }
 
     /**
-     * Get a RSAPadding instance of the specified type.
-     * Keys used with this padding must be paddedSize bytes long.
+     * Get b RSAPbdding instbnce of the specified type.
+     * Keys used with this pbdding must be pbddedSize bytes long.
      */
-    public static RSAPadding getInstance(int type, int paddedSize,
-            SecureRandom random) throws InvalidKeyException,
-            InvalidAlgorithmParameterException {
-        return new RSAPadding(type, paddedSize, random, null);
+    public stbtic RSAPbdding getInstbnce(int type, int pbddedSize,
+            SecureRbndom rbndom) throws InvblidKeyException,
+            InvblidAlgorithmPbrbmeterException {
+        return new RSAPbdding(type, pbddedSize, rbndom, null);
     }
 
     /**
-     * Get a RSAPadding instance of the specified type, which must be
-     * OAEP. Keys used with this padding must be paddedSize bytes long.
+     * Get b RSAPbdding instbnce of the specified type, which must be
+     * OAEP. Keys used with this pbdding must be pbddedSize bytes long.
      */
-    public static RSAPadding getInstance(int type, int paddedSize,
-            SecureRandom random, OAEPParameterSpec spec)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
-        return new RSAPadding(type, paddedSize, random, spec);
+    public stbtic RSAPbdding getInstbnce(int type, int pbddedSize,
+            SecureRbndom rbndom, OAEPPbrbmeterSpec spec)
+        throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+        return new RSAPbdding(type, pbddedSize, rbndom, spec);
     }
 
-    // internal constructor
-    private RSAPadding(int type, int paddedSize, SecureRandom random,
-            OAEPParameterSpec spec) throws InvalidKeyException,
-            InvalidAlgorithmParameterException {
+    // internbl constructor
+    privbte RSAPbdding(int type, int pbddedSize, SecureRbndom rbndom,
+            OAEPPbrbmeterSpec spec) throws InvblidKeyException,
+            InvblidAlgorithmPbrbmeterException {
         this.type = type;
-        this.paddedSize = paddedSize;
-        this.random = random;
-        if (paddedSize < 64) {
-            // sanity check, already verified in RSASignature/RSACipher
-            throw new InvalidKeyException("Padded size must be at least 64");
+        this.pbddedSize = pbddedSize;
+        this.rbndom = rbndom;
+        if (pbddedSize < 64) {
+            // sbnity check, blrebdy verified in RSASignbture/RSACipher
+            throw new InvblidKeyException("Pbdded size must be bt lebst 64");
         }
         switch (type) {
-        case PAD_BLOCKTYPE_1:
-        case PAD_BLOCKTYPE_2:
-            maxDataSize = paddedSize - 11;
-            break;
-        case PAD_NONE:
-            maxDataSize = paddedSize;
-            break;
-        case PAD_OAEP_MGF1:
-            String mdName = "SHA-1";
-            String mgfMdName = "SHA-1";
+        cbse PAD_BLOCKTYPE_1:
+        cbse PAD_BLOCKTYPE_2:
+            mbxDbtbSize = pbddedSize - 11;
+            brebk;
+        cbse PAD_NONE:
+            mbxDbtbSize = pbddedSize;
+            brebk;
+        cbse PAD_OAEP_MGF1:
+            String mdNbme = "SHA-1";
+            String mgfMdNbme = "SHA-1";
             byte[] digestInput = null;
             try {
                 if (spec != null) {
-                    mdName = spec.getDigestAlgorithm();
-                    String mgfName = spec.getMGFAlgorithm();
-                    if (!mgfName.equalsIgnoreCase("MGF1")) {
-                        throw new InvalidAlgorithmParameterException
-                            ("Unsupported MGF algo: " + mgfName);
+                    mdNbme = spec.getDigestAlgorithm();
+                    String mgfNbme = spec.getMGFAlgorithm();
+                    if (!mgfNbme.equblsIgnoreCbse("MGF1")) {
+                        throw new InvblidAlgorithmPbrbmeterException
+                            ("Unsupported MGF blgo: " + mgfNbme);
                     }
-                    mgfMdName = ((MGF1ParameterSpec)spec.getMGFParameters())
+                    mgfMdNbme = ((MGF1PbrbmeterSpec)spec.getMGFPbrbmeters())
                             .getDigestAlgorithm();
                     PSource pSrc = spec.getPSource();
                     String pSrcAlgo = pSrc.getAlgorithm();
-                    if (!pSrcAlgo.equalsIgnoreCase("PSpecified")) {
-                        throw new InvalidAlgorithmParameterException
-                            ("Unsupported pSource algo: " + pSrcAlgo);
+                    if (!pSrcAlgo.equblsIgnoreCbse("PSpecified")) {
+                        throw new InvblidAlgorithmPbrbmeterException
+                            ("Unsupported pSource blgo: " + pSrcAlgo);
                     }
-                    digestInput = ((PSource.PSpecified) pSrc).getValue();
+                    digestInput = ((PSource.PSpecified) pSrc).getVblue();
                 }
-                md = MessageDigest.getInstance(mdName);
-                mgfMd = MessageDigest.getInstance(mgfMdName);
-            } catch (NoSuchAlgorithmException e) {
-                throw new InvalidKeyException
-                        ("Digest " + mdName + " not available", e);
+                md = MessbgeDigest.getInstbnce(mdNbme);
+                mgfMd = MessbgeDigest.getInstbnce(mgfMdNbme);
+            } cbtch (NoSuchAlgorithmException e) {
+                throw new InvblidKeyException
+                        ("Digest " + mdNbme + " not bvbilbble", e);
             }
-            lHash = getInitialHash(md, digestInput);
-            int digestLen = lHash.length;
-            maxDataSize = paddedSize - 2 - 2 * digestLen;
-            if (maxDataSize <= 0) {
-                throw new InvalidKeyException
-                        ("Key is too short for encryption using OAEPPadding" +
-                         " with " + mdName + " and MGF1" + mgfMdName);
+            lHbsh = getInitiblHbsh(md, digestInput);
+            int digestLen = lHbsh.length;
+            mbxDbtbSize = pbddedSize - 2 - 2 * digestLen;
+            if (mbxDbtbSize <= 0) {
+                throw new InvblidKeyException
+                        ("Key is too short for encryption using OAEPPbdding" +
+                         " with " + mdNbme + " bnd MGF1" + mgfMdNbme);
             }
-            break;
-        default:
-            throw new InvalidKeyException("Invalid padding: " + type);
+            brebk;
+        defbult:
+            throw new InvblidKeyException("Invblid pbdding: " + type);
         }
     }
 
-    // cache of hashes of zero length data
-    private static final Map<String,byte[]> emptyHashes =
-        Collections.synchronizedMap(new HashMap<String,byte[]>());
+    // cbche of hbshes of zero length dbtb
+    privbte stbtic finbl Mbp<String,byte[]> emptyHbshes =
+        Collections.synchronizedMbp(new HbshMbp<String,byte[]>());
 
     /**
-     * Return the value of the digest using the specified message digest
-     * <code>md</code> and the digest input <code>digestInput</code>.
+     * Return the vblue of the digest using the specified messbge digest
+     * <code>md</code> bnd the digest input <code>digestInput</code>.
      * if <code>digestInput</code> is null or 0-length, zero length
-     * is used to generate the initial digest.
-     * Note: the md object must be in reset state
+     * is used to generbte the initibl digest.
+     * Note: the md object must be in reset stbte
      */
-    private static byte[] getInitialHash(MessageDigest md,
+    privbte stbtic byte[] getInitiblHbsh(MessbgeDigest md,
         byte[] digestInput) {
         byte[] result;
         if ((digestInput == null) || (digestInput.length == 0)) {
-            String digestName = md.getAlgorithm();
-            result = emptyHashes.get(digestName);
+            String digestNbme = md.getAlgorithm();
+            result = emptyHbshes.get(digestNbme);
             if (result == null) {
                 result = md.digest();
-                emptyHashes.put(digestName, result);
+                emptyHbshes.put(digestNbme, result);
             }
         } else {
             result = md.digest(digestInput);
@@ -232,132 +232,132 @@ public final class RSAPadding {
     }
 
     /**
-     * Return the maximum size of the plaintext data that can be processed
+     * Return the mbximum size of the plbintext dbtb thbt cbn be processed
      * using this object.
      */
-    public int getMaxDataSize() {
-        return maxDataSize;
+    public int getMbxDbtbSize() {
+        return mbxDbtbSize;
     }
 
     /**
-     * Pad the data and return the padded block.
+     * Pbd the dbtb bnd return the pbdded block.
      */
-    public byte[] pad(byte[] data, int ofs, int len)
-            throws BadPaddingException {
-        return pad(RSACore.convert(data, ofs, len));
+    public byte[] pbd(byte[] dbtb, int ofs, int len)
+            throws BbdPbddingException {
+        return pbd(RSACore.convert(dbtb, ofs, len));
     }
 
     /**
-     * Pad the data and return the padded block.
+     * Pbd the dbtb bnd return the pbdded block.
      */
-    public byte[] pad(byte[] data) throws BadPaddingException {
-        if (data.length > maxDataSize) {
-            throw new BadPaddingException("Data must be shorter than "
-                + (maxDataSize + 1) + " bytes");
+    public byte[] pbd(byte[] dbtb) throws BbdPbddingException {
+        if (dbtb.length > mbxDbtbSize) {
+            throw new BbdPbddingException("Dbtb must be shorter thbn "
+                + (mbxDbtbSize + 1) + " bytes");
         }
         switch (type) {
-        case PAD_NONE:
-            return data;
-        case PAD_BLOCKTYPE_1:
-        case PAD_BLOCKTYPE_2:
-            return padV15(data);
-        case PAD_OAEP_MGF1:
-            return padOAEP(data);
-        default:
+        cbse PAD_NONE:
+            return dbtb;
+        cbse PAD_BLOCKTYPE_1:
+        cbse PAD_BLOCKTYPE_2:
+            return pbdV15(dbtb);
+        cbse PAD_OAEP_MGF1:
+            return pbdOAEP(dbtb);
+        defbult:
             throw new AssertionError();
         }
     }
 
     /**
-     * Unpad the padded block and return the data.
+     * Unpbd the pbdded block bnd return the dbtb.
      */
-    public byte[] unpad(byte[] padded, int ofs, int len)
-            throws BadPaddingException {
-        return unpad(RSACore.convert(padded, ofs, len));
+    public byte[] unpbd(byte[] pbdded, int ofs, int len)
+            throws BbdPbddingException {
+        return unpbd(RSACore.convert(pbdded, ofs, len));
     }
 
     /**
-     * Unpad the padded block and return the data.
+     * Unpbd the pbdded block bnd return the dbtb.
      */
-    public byte[] unpad(byte[] padded) throws BadPaddingException {
-        if (padded.length != paddedSize) {
-            throw new BadPaddingException("Decryption error");
+    public byte[] unpbd(byte[] pbdded) throws BbdPbddingException {
+        if (pbdded.length != pbddedSize) {
+            throw new BbdPbddingException("Decryption error");
         }
         switch (type) {
-        case PAD_NONE:
-            return padded;
-        case PAD_BLOCKTYPE_1:
-        case PAD_BLOCKTYPE_2:
-            return unpadV15(padded);
-        case PAD_OAEP_MGF1:
-            return unpadOAEP(padded);
-        default:
+        cbse PAD_NONE:
+            return pbdded;
+        cbse PAD_BLOCKTYPE_1:
+        cbse PAD_BLOCKTYPE_2:
+            return unpbdV15(pbdded);
+        cbse PAD_OAEP_MGF1:
+            return unpbdOAEP(pbdded);
+        defbult:
             throw new AssertionError();
         }
     }
 
     /**
-     * PKCS#1 v1.5 padding (blocktype 1 and 2).
+     * PKCS#1 v1.5 pbdding (blocktype 1 bnd 2).
      */
-    private byte[] padV15(byte[] data) throws BadPaddingException {
-        byte[] padded = new byte[paddedSize];
-        System.arraycopy(data, 0, padded, paddedSize - data.length,
-            data.length);
-        int psSize = paddedSize - 3 - data.length;
+    privbte byte[] pbdV15(byte[] dbtb) throws BbdPbddingException {
+        byte[] pbdded = new byte[pbddedSize];
+        System.brrbycopy(dbtb, 0, pbdded, pbddedSize - dbtb.length,
+            dbtb.length);
+        int psSize = pbddedSize - 3 - dbtb.length;
         int k = 0;
-        padded[k++] = 0;
-        padded[k++] = (byte)type;
+        pbdded[k++] = 0;
+        pbdded[k++] = (byte)type;
         if (type == PAD_BLOCKTYPE_1) {
-            // blocktype 1: all padding bytes are 0xff
+            // blocktype 1: bll pbdding bytes bre 0xff
             while (psSize-- > 0) {
-                padded[k++] = (byte)0xff;
+                pbdded[k++] = (byte)0xff;
             }
         } else {
-            // blocktype 2: padding bytes are random non-zero bytes
-            if (random == null) {
-                random = JCAUtil.getSecureRandom();
+            // blocktype 2: pbdding bytes bre rbndom non-zero bytes
+            if (rbndom == null) {
+                rbndom = JCAUtil.getSecureRbndom();
             }
-            // generate non-zero padding bytes
-            // use a buffer to reduce calls to SecureRandom
+            // generbte non-zero pbdding bytes
+            // use b buffer to reduce cblls to SecureRbndom
             byte[] r = new byte[64];
             int i = -1;
             while (psSize-- > 0) {
                 int b;
                 do {
                     if (i < 0) {
-                        random.nextBytes(r);
+                        rbndom.nextBytes(r);
                         i = r.length - 1;
                     }
                     b = r[i--] & 0xff;
                 } while (b == 0);
-                padded[k++] = (byte)b;
+                pbdded[k++] = (byte)b;
             }
         }
-        return padded;
+        return pbdded;
     }
 
     /**
-     * PKCS#1 v1.5 unpadding (blocktype 1 (signature) and 2 (encryption)).
+     * PKCS#1 v1.5 unpbdding (blocktype 1 (signbture) bnd 2 (encryption)).
      *
-     * Note that we want to make it a constant-time operation
+     * Note thbt we wbnt to mbke it b constbnt-time operbtion
      */
-    private byte[] unpadV15(byte[] padded) throws BadPaddingException {
+    privbte byte[] unpbdV15(byte[] pbdded) throws BbdPbddingException {
         int k = 0;
-        boolean bp = false;
+        boolebn bp = fblse;
 
-        if (padded[k++] != 0) {
+        if (pbdded[k++] != 0) {
             bp = true;
         }
-        if (padded[k++] != type) {
+        if (pbdded[k++] != type) {
             bp = true;
         }
         int p = 0;
-        while (k < padded.length) {
-            int b = padded[k++] & 0xff;
+        while (k < pbdded.length) {
+            int b = pbdded[k++] & 0xff;
             if ((b == 0) && (p == 0)) {
                 p = k;
             }
-            if ((k == padded.length) && (p == 0)) {
+            if ((k == pbdded.length) && (p == 0)) {
                 bp = true;
             }
             if ((type == PAD_BLOCKTYPE_1) && (b != 0xff) &&
@@ -365,138 +365,138 @@ public final class RSAPadding {
                 bp = true;
             }
         }
-        int n = padded.length - p;
-        if (n > maxDataSize) {
+        int n = pbdded.length - p;
+        if (n > mbxDbtbSize) {
             bp = true;
         }
 
-        // copy useless padding array for a constant-time method
-        byte[] padding = new byte[p];
-        System.arraycopy(padded, 0, padding, 0, p);
+        // copy useless pbdding brrby for b constbnt-time method
+        byte[] pbdding = new byte[p];
+        System.brrbycopy(pbdded, 0, pbdding, 0, p);
 
-        byte[] data = new byte[n];
-        System.arraycopy(padded, p, data, 0, n);
+        byte[] dbtb = new byte[n];
+        System.brrbycopy(pbdded, p, dbtb, 0, n);
 
-        BadPaddingException bpe = new BadPaddingException("Decryption error");
+        BbdPbddingException bpe = new BbdPbddingException("Decryption error");
 
         if (bp) {
             throw bpe;
         } else {
-            return data;
+            return dbtb;
         }
     }
 
     /**
-     * PKCS#1 v2.0 OAEP padding (MGF1).
-     * Paragraph references refer to PKCS#1 v2.1 (June 14, 2002)
+     * PKCS#1 v2.0 OAEP pbdding (MGF1).
+     * Pbrbgrbph references refer to PKCS#1 v2.1 (June 14, 2002)
      */
-    private byte[] padOAEP(byte[] M) throws BadPaddingException {
-        if (random == null) {
-            random = JCAUtil.getSecureRandom();
+    privbte byte[] pbdOAEP(byte[] M) throws BbdPbddingException {
+        if (rbndom == null) {
+            rbndom = JCAUtil.getSecureRbndom();
         }
-        int hLen = lHash.length;
+        int hLen = lHbsh.length;
 
-        // 2.d: generate a random octet string seed of length hLen
-        // if necessary
+        // 2.d: generbte b rbndom octet string seed of length hLen
+        // if necessbry
         byte[] seed = new byte[hLen];
-        random.nextBytes(seed);
+        rbndom.nextBytes(seed);
 
-        // buffer for encoded message EM
-        byte[] EM = new byte[paddedSize];
+        // buffer for encoded messbge EM
+        byte[] EM = new byte[pbddedSize];
 
-        // start and length of seed (as index into EM)
-        int seedStart = 1;
+        // stbrt bnd length of seed (bs index into EM)
+        int seedStbrt = 1;
         int seedLen = hLen;
 
         // copy seed into EM
-        System.arraycopy(seed, 0, EM, seedStart, seedLen);
+        System.brrbycopy(seed, 0, EM, seedStbrt, seedLen);
 
-        // start and length of data block DB in EM
-        // we place it inside of EM to reduce copying
-        int dbStart = hLen + 1;
-        int dbLen = EM.length - dbStart;
+        // stbrt bnd length of dbtb block DB in EM
+        // we plbce it inside of EM to reduce copying
+        int dbStbrt = hLen + 1;
+        int dbLen = EM.length - dbStbrt;
 
-        // start of message M in EM
-        int mStart = paddedSize - M.length;
+        // stbrt of messbge M in EM
+        int mStbrt = pbddedSize - M.length;
 
         // build DB
-        // 2.b: Concatenate lHash, PS, a single octet with hexadecimal value
-        // 0x01, and the message M to form a data block DB of length
-        // k - hLen -1 octets as DB = lHash || PS || 0x01 || M
-        // (note that PS is all zeros)
-        System.arraycopy(lHash, 0, EM, dbStart, hLen);
-        EM[mStart - 1] = 1;
-        System.arraycopy(M, 0, EM, mStart, M.length);
+        // 2.b: Concbtenbte lHbsh, PS, b single octet with hexbdecimbl vblue
+        // 0x01, bnd the messbge M to form b dbtb block DB of length
+        // k - hLen -1 octets bs DB = lHbsh || PS || 0x01 || M
+        // (note thbt PS is bll zeros)
+        System.brrbycopy(lHbsh, 0, EM, dbStbrt, hLen);
+        EM[mStbrt - 1] = 1;
+        System.brrbycopy(M, 0, EM, mStbrt, M.length);
 
-        // produce maskedDB
-        mgf1(EM, seedStart, seedLen, EM, dbStart, dbLen);
+        // produce mbskedDB
+        mgf1(EM, seedStbrt, seedLen, EM, dbStbrt, dbLen);
 
-        // produce maskSeed
-        mgf1(EM, dbStart, dbLen, EM, seedStart, seedLen);
+        // produce mbskSeed
+        mgf1(EM, dbStbrt, dbLen, EM, seedStbrt, seedLen);
 
         return EM;
     }
 
     /**
-     * PKCS#1 v2.1 OAEP unpadding (MGF1).
+     * PKCS#1 v2.1 OAEP unpbdding (MGF1).
      */
-    private byte[] unpadOAEP(byte[] padded) throws BadPaddingException {
-        byte[] EM = padded;
-        boolean bp = false;
-        int hLen = lHash.length;
+    privbte byte[] unpbdOAEP(byte[] pbdded) throws BbdPbddingException {
+        byte[] EM = pbdded;
+        boolebn bp = fblse;
+        int hLen = lHbsh.length;
 
         if (EM[0] != 0) {
             bp = true;
         }
 
-        int seedStart = 1;
+        int seedStbrt = 1;
         int seedLen = hLen;
 
-        int dbStart = hLen + 1;
-        int dbLen = EM.length - dbStart;
+        int dbStbrt = hLen + 1;
+        int dbLen = EM.length - dbStbrt;
 
-        mgf1(EM, dbStart, dbLen, EM, seedStart, seedLen);
-        mgf1(EM, seedStart, seedLen, EM, dbStart, dbLen);
+        mgf1(EM, dbStbrt, dbLen, EM, seedStbrt, seedLen);
+        mgf1(EM, seedStbrt, seedLen, EM, dbStbrt, dbLen);
 
-        // verify lHash == lHash'
+        // verify lHbsh == lHbsh'
         for (int i = 0; i < hLen; i++) {
-            if (lHash[i] != EM[dbStart + i]) {
+            if (lHbsh[i] != EM[dbStbrt + i]) {
                 bp = true;
             }
         }
 
-        int padStart = dbStart + hLen;
+        int pbdStbrt = dbStbrt + hLen;
         int onePos = -1;
 
-        for (int i = padStart; i < EM.length; i++) {
-            int value = EM[i];
+        for (int i = pbdStbrt; i < EM.length; i++) {
+            int vblue = EM[i];
             if (onePos == -1) {
-                if (value == 0x00) {
+                if (vblue == 0x00) {
                     // continue;
-                } else if (value == 0x01) {
+                } else if (vblue == 0x01) {
                     onePos = i;
-                } else {  // Anything other than {0,1} is bad.
+                } else {  // Anything other thbn {0,1} is bbd.
                     bp = true;
                 }
             }
         }
 
-        // We either ran off the rails or found something other than 0/1.
+        // We either rbn off the rbils or found something other thbn 0/1.
         if (onePos == -1) {
             bp = true;
-            onePos = EM.length - 1;  // Don't inadvertently return any data.
+            onePos = EM.length - 1;  // Don't inbdvertently return bny dbtb.
         }
 
-        int mStart = onePos + 1;
+        int mStbrt = onePos + 1;
 
-        // copy useless padding array for a constant-time method
-        byte [] tmp = new byte[mStart - padStart];
-        System.arraycopy(EM, padStart, tmp, 0, tmp.length);
+        // copy useless pbdding brrby for b constbnt-time method
+        byte [] tmp = new byte[mStbrt - pbdStbrt];
+        System.brrbycopy(EM, pbdStbrt, tmp, 0, tmp.length);
 
-        byte [] m = new byte[EM.length - mStart];
-        System.arraycopy(EM, mStart, m, 0, m.length);
+        byte [] m = new byte[EM.length - mStbrt];
+        System.brrbycopy(EM, mStbrt, m, 0, m.length);
 
-        BadPaddingException bpe = new BadPaddingException("Decryption error");
+        BbdPbddingException bpe = new BbdPbddingException("Decryption error");
 
         if (bp) {
             throw bpe;
@@ -506,30 +506,30 @@ public final class RSAPadding {
     }
 
     /**
-     * Compute MGF1 using mgfMD as the message digest.
-     * Note that we combine MGF1 with the XOR operation to reduce data
+     * Compute MGF1 using mgfMD bs the messbge digest.
+     * Note thbt we combine MGF1 with the XOR operbtion to reduce dbtb
      * copying.
      *
-     * We generate maskLen bytes of MGF1 from the seed and XOR it into
-     * out[] starting at outOfs;
+     * We generbte mbskLen bytes of MGF1 from the seed bnd XOR it into
+     * out[] stbrting bt outOfs;
      */
-    private void mgf1(byte[] seed, int seedOfs, int seedLen,
-            byte[] out, int outOfs, int maskLen)  throws BadPaddingException {
+    privbte void mgf1(byte[] seed, int seedOfs, int seedLen,
+            byte[] out, int outOfs, int mbskLen)  throws BbdPbddingException {
         byte[] C = new byte[4]; // 32 bit counter
         byte[] digest = new byte[mgfMd.getDigestLength()];
-        while (maskLen > 0) {
-            mgfMd.update(seed, seedOfs, seedLen);
-            mgfMd.update(C);
+        while (mbskLen > 0) {
+            mgfMd.updbte(seed, seedOfs, seedLen);
+            mgfMd.updbte(C);
             try {
                 mgfMd.digest(digest, 0, digest.length);
-            } catch (DigestException e) {
-                // should never happen
-                throw new BadPaddingException(e.toString());
+            } cbtch (DigestException e) {
+                // should never hbppen
+                throw new BbdPbddingException(e.toString());
             }
-            for (int i = 0; (i < digest.length) && (maskLen > 0); maskLen--) {
+            for (int i = 0; (i < digest.length) && (mbskLen > 0); mbskLen--) {
                 out[outOfs++] ^= digest[i++];
             }
-            if (maskLen > 0) {
+            if (mbskLen > 0) {
                 // increment counter
                 for (int i = C.length - 1; (++C[i] == 0) && (i > 0); i--) {
                     // empty

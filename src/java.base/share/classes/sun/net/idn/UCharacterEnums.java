@@ -1,42 +1,42 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
 /**
  *******************************************************************************
- * Copyright (C) 2004, International Business Machines Corporation and         *
+ * Copyright (C) 2004, Internbtionbl Business Mbchines Corporbtion bnd         *
  * others. All Rights Reserved.                                                *
  *******************************************************************************
  */
 // CHANGELOG
-//      2005-05-19 Edward Wang
-//          - copy this file from icu4jsrc_3_2/src/com/ibm/icu/lang/UCharacterEnums.java
-//          - move from package com.ibm.icu.lang to package sun.net.idn
+//      2005-05-19 Edwbrd Wbng
+//          - copy this file from icu4jsrc_3_2/src/com/ibm/icu/lbng/UChbrbcterEnums.jbvb
+//          - move from pbckbge com.ibm.icu.lbng to pbckbge sun.net.idn
 //
-//      2011-09-06 Kurchi Subhra Hazra
-//          - Added @Deprecated tag to the following:
-//            - class UCharacterEnums
-//            - interfaces ECharacterCategory, ECharacterDirection
+//      2011-09-06 Kurchi Subhrb Hbzrb
+//          - Added @Deprecbted tbg to the following:
+//            - clbss UChbrbcterEnums
+//            - interfbces EChbrbcterCbtegory, EChbrbcterDirection
 //            - fields INITIAL_QUOTE_PUNCTUATION, FINAL_QUOTE_PUNCTUATION,
 //              DIRECTIONALITY_LEFT_TO_RIGHT, DIRECTIONALITY_RIGHT_TO_LEFT,
 //              DIRECTIONALITY_EUROPEAN_NUMBER, DIRECTIONALITY_EUROPEAN_NUMBER_SEPARATOR
@@ -50,538 +50,538 @@
 //              DIRECTIONALITY_BOUNDARY_NEUTRAL, DIRECTIONALITY_UNDEFINED
 //
 
-package sun.net.idn;
+pbckbge sun.net.idn;
 
 /**
- * A container for the different 'enumerated types' used by UCharacter.
- * @draft ICU 3.0
- * @deprecated This is a draft API and might change in a future release of ICU.
+ * A contbiner for the different 'enumerbted types' used by UChbrbcter.
+ * @drbft ICU 3.0
+ * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
  */
 
-@Deprecated
-class UCharacterEnums {
+@Deprecbted
+clbss UChbrbcterEnums {
 
-    /** This is just a namespace, it is not instantiatable. */
-    private UCharacterEnums() {};
+    /** This is just b nbmespbce, it is not instbntibtbble. */
+    privbte UChbrbcterEnums() {};
 
     /**
-     * 'Enum' for the CharacterCategory constants.  These constants are
-     * compatible in name <b>but not in value</b> with those defined in
-     * <code>java.lang.Character</code>.
-     * @see UCharacterCategory
-     * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+     * 'Enum' for the ChbrbcterCbtegory constbnts.  These constbnts bre
+     * compbtible in nbme <b>but not in vblue</b> with those defined in
+     * <code>jbvb.lbng.Chbrbcter</code>.
+     * @see UChbrbcterCbtegory
+     * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
      */
-    @Deprecated
-    public static interface ECharacterCategory {
+    @Deprecbted
+    public stbtic interfbce EChbrbcterCbtegory {
         /**
-         * Unassigned character type
-         * @stable ICU 2.1
+         * Unbssigned chbrbcter type
+         * @stbble ICU 2.1
          */
-        public static final int UNASSIGNED              = 0;
+        public stbtic finbl int UNASSIGNED              = 0;
 
         /**
-         * Character type Cn
-         * Not Assigned (no characters in [UnicodeData.txt] have this property)
-         * @stable ICU 2.6
+         * Chbrbcter type Cn
+         * Not Assigned (no chbrbcters in [UnicodeDbtb.txt] hbve this property)
+         * @stbble ICU 2.6
          */
-        public static final int GENERAL_OTHER_TYPES     = 0;
+        public stbtic finbl int GENERAL_OTHER_TYPES     = 0;
 
         /**
-         * Character type Lu
-         * @stable ICU 2.1
+         * Chbrbcter type Lu
+         * @stbble ICU 2.1
          */
-        public static final int UPPERCASE_LETTER        = 1;
+        public stbtic finbl int UPPERCASE_LETTER        = 1;
 
         /**
-         * Character type Ll
-         * @stable ICU 2.1
+         * Chbrbcter type Ll
+         * @stbble ICU 2.1
          */
-        public static final int LOWERCASE_LETTER        = 2;
+        public stbtic finbl int LOWERCASE_LETTER        = 2;
 
         /**
-         * Character type Lt
-         * @stable ICU 2.1
+         * Chbrbcter type Lt
+         * @stbble ICU 2.1
          */
 
-        public static final int TITLECASE_LETTER        = 3;
+        public stbtic finbl int TITLECASE_LETTER        = 3;
 
         /**
-         * Character type Lm
-         * @stable ICU 2.1
+         * Chbrbcter type Lm
+         * @stbble ICU 2.1
          */
-        public static final int MODIFIER_LETTER         = 4;
+        public stbtic finbl int MODIFIER_LETTER         = 4;
 
         /**
-         * Character type Lo
-         * @stable ICU 2.1
+         * Chbrbcter type Lo
+         * @stbble ICU 2.1
          */
-        public static final int OTHER_LETTER            = 5;
+        public stbtic finbl int OTHER_LETTER            = 5;
 
         /**
-         * Character type Mn
-         * @stable ICU 2.1
+         * Chbrbcter type Mn
+         * @stbble ICU 2.1
          */
-        public static final int NON_SPACING_MARK        = 6;
+        public stbtic finbl int NON_SPACING_MARK        = 6;
 
         /**
-         * Character type Me
-         * @stable ICU 2.1
+         * Chbrbcter type Me
+         * @stbble ICU 2.1
          */
-        public static final int ENCLOSING_MARK          = 7;
+        public stbtic finbl int ENCLOSING_MARK          = 7;
 
         /**
-         * Character type Mc
-         * @stable ICU 2.1
+         * Chbrbcter type Mc
+         * @stbble ICU 2.1
          */
-        public static final int COMBINING_SPACING_MARK  = 8;
+        public stbtic finbl int COMBINING_SPACING_MARK  = 8;
 
         /**
-         * Character type Nd
-         * @stable ICU 2.1
+         * Chbrbcter type Nd
+         * @stbble ICU 2.1
          */
-        public static final int DECIMAL_DIGIT_NUMBER    = 9;
+        public stbtic finbl int DECIMAL_DIGIT_NUMBER    = 9;
 
         /**
-         * Character type Nl
-         * @stable ICU 2.1
+         * Chbrbcter type Nl
+         * @stbble ICU 2.1
          */
-        public static final int LETTER_NUMBER           = 10;
+        public stbtic finbl int LETTER_NUMBER           = 10;
 
         /**
-         * Character type No
-         * @stable ICU 2.1
+         * Chbrbcter type No
+         * @stbble ICU 2.1
          */
-        public static final int OTHER_NUMBER            = 11;
+        public stbtic finbl int OTHER_NUMBER            = 11;
 
         /**
-         * Character type Zs
-         * @stable ICU 2.1
+         * Chbrbcter type Zs
+         * @stbble ICU 2.1
          */
-        public static final int SPACE_SEPARATOR         = 12;
+        public stbtic finbl int SPACE_SEPARATOR         = 12;
 
         /**
-         * Character type Zl
-         * @stable ICU 2.1
+         * Chbrbcter type Zl
+         * @stbble ICU 2.1
          */
-        public static final int LINE_SEPARATOR          = 13;
+        public stbtic finbl int LINE_SEPARATOR          = 13;
 
         /**
-         * Character type Zp
-         * @stable ICU 2.1
+         * Chbrbcter type Zp
+         * @stbble ICU 2.1
          */
-        public static final int PARAGRAPH_SEPARATOR     = 14;
+        public stbtic finbl int PARAGRAPH_SEPARATOR     = 14;
 
         /**
-         * Character type Cc
-         * @stable ICU 2.1
+         * Chbrbcter type Cc
+         * @stbble ICU 2.1
          */
-        public static final int CONTROL                 = 15;
+        public stbtic finbl int CONTROL                 = 15;
 
         /**
-         * Character type Cf
-         * @stable ICU 2.1
+         * Chbrbcter type Cf
+         * @stbble ICU 2.1
          */
-        public static final int FORMAT                  = 16;
+        public stbtic finbl int FORMAT                  = 16;
 
         /**
-         * Character type Co
-         * @stable ICU 2.1
+         * Chbrbcter type Co
+         * @stbble ICU 2.1
          */
-        public static final int PRIVATE_USE             = 17;
+        public stbtic finbl int PRIVATE_USE             = 17;
 
         /**
-         * Character type Cs
-         * @stable ICU 2.1
+         * Chbrbcter type Cs
+         * @stbble ICU 2.1
          */
-        public static final int SURROGATE               = 18;
+        public stbtic finbl int SURROGATE               = 18;
 
         /**
-         * Character type Pd
-         * @stable ICU 2.1
+         * Chbrbcter type Pd
+         * @stbble ICU 2.1
          */
-        public static final int DASH_PUNCTUATION        = 19;
+        public stbtic finbl int DASH_PUNCTUATION        = 19;
 
         /**
-         * Character type Ps
-         * @stable ICU 2.1
+         * Chbrbcter type Ps
+         * @stbble ICU 2.1
          */
-        public static final int START_PUNCTUATION       = 20;
+        public stbtic finbl int START_PUNCTUATION       = 20;
 
         /**
-         * Character type Pe
-         * @stable ICU 2.1
+         * Chbrbcter type Pe
+         * @stbble ICU 2.1
          */
-        public static final int END_PUNCTUATION         = 21;
+        public stbtic finbl int END_PUNCTUATION         = 21;
 
         /**
-         * Character type Pc
-         * @stable ICU 2.1
+         * Chbrbcter type Pc
+         * @stbble ICU 2.1
          */
-        public static final int CONNECTOR_PUNCTUATION   = 22;
+        public stbtic finbl int CONNECTOR_PUNCTUATION   = 22;
 
         /**
-         * Character type Po
-         * @stable ICU 2.1
+         * Chbrbcter type Po
+         * @stbble ICU 2.1
          */
-        public static final int OTHER_PUNCTUATION       = 23;
+        public stbtic finbl int OTHER_PUNCTUATION       = 23;
 
         /**
-         * Character type Sm
-         * @stable ICU 2.1
+         * Chbrbcter type Sm
+         * @stbble ICU 2.1
          */
-        public static final int MATH_SYMBOL             = 24;
+        public stbtic finbl int MATH_SYMBOL             = 24;
 
         /**
-         * Character type Sc
-         * @stable ICU 2.1
+         * Chbrbcter type Sc
+         * @stbble ICU 2.1
          */
-        public static final int CURRENCY_SYMBOL         = 25;
+        public stbtic finbl int CURRENCY_SYMBOL         = 25;
 
         /**
-         * Character type Sk
-         * @stable ICU 2.1
+         * Chbrbcter type Sk
+         * @stbble ICU 2.1
          */
-        public static final int MODIFIER_SYMBOL         = 26;
+        public stbtic finbl int MODIFIER_SYMBOL         = 26;
 
         /**
-         * Character type So
-         * @stable ICU 2.1
+         * Chbrbcter type So
+         * @stbble ICU 2.1
          */
-        public static final int OTHER_SYMBOL            = 27;
+        public stbtic finbl int OTHER_SYMBOL            = 27;
 
         /**
-         * Character type Pi
+         * Chbrbcter type Pi
          * @see #INITIAL_QUOTE_PUNCTUATION
-         * @stable ICU 2.1
+         * @stbble ICU 2.1
          */
-        public static final int INITIAL_PUNCTUATION     = 28;
+        public stbtic finbl int INITIAL_PUNCTUATION     = 28;
 
         /**
-         * Character type Pi
-         * This name is compatible with java.lang.Character's name for this type.
+         * Chbrbcter type Pi
+         * This nbme is compbtible with jbvb.lbng.Chbrbcter's nbme for this type.
          * @see #INITIAL_PUNCTUATION
-         * @draft ICU 2.8
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * @drbft ICU 2.8
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final int INITIAL_QUOTE_PUNCTUATION = 28;
+        @Deprecbted
+        public stbtic finbl int INITIAL_QUOTE_PUNCTUATION = 28;
 
         /**
-         * Character type Pf
+         * Chbrbcter type Pf
          * @see #FINAL_QUOTE_PUNCTUATION
-         * @stable ICU 2.1
+         * @stbble ICU 2.1
          */
-        public static final int FINAL_PUNCTUATION       = 29;
+        public stbtic finbl int FINAL_PUNCTUATION       = 29;
 
         /**
-         * Character type Pf
-         * This name is compatible with java.lang.Character's name for this type.
+         * Chbrbcter type Pf
+         * This nbme is compbtible with jbvb.lbng.Chbrbcter's nbme for this type.
          * @see #FINAL_PUNCTUATION
-         * @draft ICU 2.8
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * @drbft ICU 2.8
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final int FINAL_QUOTE_PUNCTUATION   = 29;
+        @Deprecbted
+        public stbtic finbl int FINAL_QUOTE_PUNCTUATION   = 29;
 
         /**
-         * Character type count
-         * @stable ICU 2.1
+         * Chbrbcter type count
+         * @stbble ICU 2.1
          */
-        public static final int CHAR_CATEGORY_COUNT     = 30;
+        public stbtic finbl int CHAR_CATEGORY_COUNT     = 30;
     }
 
     /**
-     * 'Enum' for the CharacterDirection constants.  There are two sets
-     * of names, those used in ICU, and those used in the JDK.  The
-     * JDK constants are compatible in name <b>but not in value</b>
-     * with those defined in <code>java.lang.Character</code>.
-     * @see UCharacterDirection
-     * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+     * 'Enum' for the ChbrbcterDirection constbnts.  There bre two sets
+     * of nbmes, those used in ICU, bnd those used in the JDK.  The
+     * JDK constbnts bre compbtible in nbme <b>but not in vblue</b>
+     * with those defined in <code>jbvb.lbng.Chbrbcter</code>.
+     * @see UChbrbcterDirection
+     * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
      */
 
-    @Deprecated
-    public static interface ECharacterDirection {
+    @Deprecbted
+    public stbtic interfbce EChbrbcterDirection {
         /**
-         * Directional type L
-         * @stable ICU 2.1
+         * Directionbl type L
+         * @stbble ICU 2.1
          */
-        public static final int LEFT_TO_RIGHT              = 0;
+        public stbtic finbl int LEFT_TO_RIGHT              = 0;
 
         /**
-         * JDK-compatible synonum for LEFT_TO_RIGHT.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for LEFT_TO_RIGHT.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_LEFT_TO_RIGHT = (byte)LEFT_TO_RIGHT;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_LEFT_TO_RIGHT = (byte)LEFT_TO_RIGHT;
 
         /**
-         * Directional type R
-         * @stable ICU 2.1
+         * Directionbl type R
+         * @stbble ICU 2.1
          */
-        public static final int RIGHT_TO_LEFT              = 1;
+        public stbtic finbl int RIGHT_TO_LEFT              = 1;
 
         /**
-         * JDK-compatible synonum for RIGHT_TO_LEFT.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for RIGHT_TO_LEFT.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_RIGHT_TO_LEFT = (byte)RIGHT_TO_LEFT;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_RIGHT_TO_LEFT = (byte)RIGHT_TO_LEFT;
 
         /**
-         * Directional type EN
-         * @stable ICU 2.1
+         * Directionbl type EN
+         * @stbble ICU 2.1
          */
-        public static final int EUROPEAN_NUMBER            = 2;
+        public stbtic finbl int EUROPEAN_NUMBER            = 2;
 
         /**
-         * JDK-compatible synonum for EUROPEAN_NUMBER.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for EUROPEAN_NUMBER.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_EUROPEAN_NUMBER = (byte)EUROPEAN_NUMBER;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_EUROPEAN_NUMBER = (byte)EUROPEAN_NUMBER;
 
         /**
-         * Directional type ES
-         * @stable ICU 2.1
+         * Directionbl type ES
+         * @stbble ICU 2.1
          */
-        public static final int EUROPEAN_NUMBER_SEPARATOR  = 3;
+        public stbtic finbl int EUROPEAN_NUMBER_SEPARATOR  = 3;
 
         /**
-         * JDK-compatible synonum for EUROPEAN_NUMBER_SEPARATOR.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for EUROPEAN_NUMBER_SEPARATOR.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_EUROPEAN_NUMBER_SEPARATOR = (byte)EUROPEAN_NUMBER_SEPARATOR;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_EUROPEAN_NUMBER_SEPARATOR = (byte)EUROPEAN_NUMBER_SEPARATOR;
 
         /**
-         * Directional type ET
-         * @stable ICU 2.1
+         * Directionbl type ET
+         * @stbble ICU 2.1
          */
-        public static final int EUROPEAN_NUMBER_TERMINATOR = 4;
+        public stbtic finbl int EUROPEAN_NUMBER_TERMINATOR = 4;
 
         /**
-         * JDK-compatible synonum for EUROPEAN_NUMBER_TERMINATOR.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for EUROPEAN_NUMBER_TERMINATOR.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_EUROPEAN_NUMBER_TERMINATOR = (byte)EUROPEAN_NUMBER_TERMINATOR;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_EUROPEAN_NUMBER_TERMINATOR = (byte)EUROPEAN_NUMBER_TERMINATOR;
 
         /**
-         * Directional type AN
-         * @stable ICU 2.1
+         * Directionbl type AN
+         * @stbble ICU 2.1
          */
-        public static final int ARABIC_NUMBER              = 5;
+        public stbtic finbl int ARABIC_NUMBER              = 5;
 
         /**
-         * JDK-compatible synonum for ARABIC_NUMBER.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for ARABIC_NUMBER.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_ARABIC_NUMBER = (byte)ARABIC_NUMBER;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_ARABIC_NUMBER = (byte)ARABIC_NUMBER;
 
         /**
-         * Directional type CS
-         * @stable ICU 2.1
+         * Directionbl type CS
+         * @stbble ICU 2.1
          */
-        public static final int COMMON_NUMBER_SEPARATOR    = 6;
+        public stbtic finbl int COMMON_NUMBER_SEPARATOR    = 6;
 
         /**
-         * JDK-compatible synonum for COMMON_NUMBER_SEPARATOR.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for COMMON_NUMBER_SEPARATOR.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_COMMON_NUMBER_SEPARATOR = (byte)COMMON_NUMBER_SEPARATOR;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_COMMON_NUMBER_SEPARATOR = (byte)COMMON_NUMBER_SEPARATOR;
 
         /**
-         * Directional type B
-         * @stable ICU 2.1
+         * Directionbl type B
+         * @stbble ICU 2.1
          */
-        public static final int BLOCK_SEPARATOR            = 7;
+        public stbtic finbl int BLOCK_SEPARATOR            = 7;
 
         /**
-         * JDK-compatible synonum for BLOCK_SEPARATOR.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for BLOCK_SEPARATOR.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_PARAGRAPH_SEPARATOR = (byte)BLOCK_SEPARATOR;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_PARAGRAPH_SEPARATOR = (byte)BLOCK_SEPARATOR;
 
         /**
-         * Directional type S
-         * @stable ICU 2.1
+         * Directionbl type S
+         * @stbble ICU 2.1
          */
-        public static final int SEGMENT_SEPARATOR          = 8;
+        public stbtic finbl int SEGMENT_SEPARATOR          = 8;
 
         /**
-         * JDK-compatible synonum for SEGMENT_SEPARATOR.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for SEGMENT_SEPARATOR.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_SEGMENT_SEPARATOR = (byte)SEGMENT_SEPARATOR;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_SEGMENT_SEPARATOR = (byte)SEGMENT_SEPARATOR;
 
         /**
-         * Directional type WS
-         * @stable ICU 2.1
+         * Directionbl type WS
+         * @stbble ICU 2.1
          */
-        public static final int WHITE_SPACE_NEUTRAL        = 9;
+        public stbtic finbl int WHITE_SPACE_NEUTRAL        = 9;
 
         /**
-         * JDK-compatible synonum for WHITE_SPACE_NEUTRAL.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for WHITE_SPACE_NEUTRAL.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_WHITESPACE = (byte)WHITE_SPACE_NEUTRAL;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_WHITESPACE = (byte)WHITE_SPACE_NEUTRAL;
 
         /**
-         * Directional type ON
-         * @stable ICU 2.1
+         * Directionbl type ON
+         * @stbble ICU 2.1
          */
-        public static final int OTHER_NEUTRAL              = 10;
+        public stbtic finbl int OTHER_NEUTRAL              = 10;
 
         /**
-         * JDK-compatible synonum for OTHER_NEUTRAL.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for OTHER_NEUTRAL.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_OTHER_NEUTRALS = (byte)OTHER_NEUTRAL;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_OTHER_NEUTRALS = (byte)OTHER_NEUTRAL;
 
         /**
-         * Directional type LRE
-         * @stable ICU 2.1
+         * Directionbl type LRE
+         * @stbble ICU 2.1
          */
-        public static final int LEFT_TO_RIGHT_EMBEDDING    = 11;
+        public stbtic finbl int LEFT_TO_RIGHT_EMBEDDING    = 11;
 
         /**
-         * JDK-compatible synonum for LEFT_TO_RIGHT_EMBEDDING.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for LEFT_TO_RIGHT_EMBEDDING.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING = (byte)LEFT_TO_RIGHT_EMBEDDING;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING = (byte)LEFT_TO_RIGHT_EMBEDDING;
 
         /**
-         * Directional type LRO
-         * @stable ICU 2.1
+         * Directionbl type LRO
+         * @stbble ICU 2.1
          */
-        public static final int LEFT_TO_RIGHT_OVERRIDE     = 12;
+        public stbtic finbl int LEFT_TO_RIGHT_OVERRIDE     = 12;
 
         /**
-         * JDK-compatible synonum for LEFT_TO_RIGHT_OVERRIDE.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for LEFT_TO_RIGHT_OVERRIDE.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE = (byte)LEFT_TO_RIGHT_OVERRIDE;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE = (byte)LEFT_TO_RIGHT_OVERRIDE;
 
         /**
-         * Directional type AL
-         * @stable ICU 2.1
+         * Directionbl type AL
+         * @stbble ICU 2.1
          */
-        public static final int RIGHT_TO_LEFT_ARABIC       = 13;
+        public stbtic finbl int RIGHT_TO_LEFT_ARABIC       = 13;
 
         /**
-         * JDK-compatible synonum for RIGHT_TO_LEFT_ARABIC.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for RIGHT_TO_LEFT_ARABIC.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC = (byte)RIGHT_TO_LEFT_ARABIC;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC = (byte)RIGHT_TO_LEFT_ARABIC;
 
         /**
-         * Directional type RLE
-         * @stable ICU 2.1
+         * Directionbl type RLE
+         * @stbble ICU 2.1
          */
-        public static final int RIGHT_TO_LEFT_EMBEDDING    = 14;
+        public stbtic finbl int RIGHT_TO_LEFT_EMBEDDING    = 14;
 
         /**
-         * JDK-compatible synonum for RIGHT_TO_LEFT_EMBEDDING.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for RIGHT_TO_LEFT_EMBEDDING.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING = (byte)RIGHT_TO_LEFT_EMBEDDING;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING = (byte)RIGHT_TO_LEFT_EMBEDDING;
 
         /**
-         * Directional type RLO
-         * @stable ICU 2.1
+         * Directionbl type RLO
+         * @stbble ICU 2.1
          */
-        public static final int RIGHT_TO_LEFT_OVERRIDE     = 15;
+        public stbtic finbl int RIGHT_TO_LEFT_OVERRIDE     = 15;
 
         /**
-         * JDK-compatible synonum for RIGHT_TO_LEFT_OVERRIDE.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for RIGHT_TO_LEFT_OVERRIDE.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE = (byte)RIGHT_TO_LEFT_OVERRIDE;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE = (byte)RIGHT_TO_LEFT_OVERRIDE;
 
         /**
-         * Directional type PDF
-         * @stable ICU 2.1
+         * Directionbl type PDF
+         * @stbble ICU 2.1
          */
-        public static final int POP_DIRECTIONAL_FORMAT     = 16;
+        public stbtic finbl int POP_DIRECTIONAL_FORMAT     = 16;
 
         /**
-         * JDK-compatible synonum for POP_DIRECTIONAL_FORMAT.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for POP_DIRECTIONAL_FORMAT.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_POP_DIRECTIONAL_FORMAT = (byte)POP_DIRECTIONAL_FORMAT;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_POP_DIRECTIONAL_FORMAT = (byte)POP_DIRECTIONAL_FORMAT;
 
         /**
-         * Directional type NSM
-         * @stable ICU 2.1
+         * Directionbl type NSM
+         * @stbble ICU 2.1
          */
-        public static final int DIR_NON_SPACING_MARK       = 17;
+        public stbtic finbl int DIR_NON_SPACING_MARK       = 17;
 
         /**
-         * JDK-compatible synonum for DIR_NON_SPACING_MARK.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for DIR_NON_SPACING_MARK.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_NON_SPACING_MARK = (byte)DIR_NON_SPACING_MARK;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_NON_SPACING_MARK = (byte)DIR_NON_SPACING_MARK;
 
         /**
-         * Directional type BN
-         * @stable ICU 2.1
+         * Directionbl type BN
+         * @stbble ICU 2.1
          */
-        public static final int BOUNDARY_NEUTRAL           = 18;
+        public stbtic finbl int BOUNDARY_NEUTRAL           = 18;
 
         /**
-         * JDK-compatible synonum for BOUNDARY_NEUTRAL.
-         * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * JDK-compbtible synonum for BOUNDARY_NEUTRAL.
+         * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_BOUNDARY_NEUTRAL = (byte)BOUNDARY_NEUTRAL;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_BOUNDARY_NEUTRAL = (byte)BOUNDARY_NEUTRAL;
 
         /**
-         * Number of directional types
-         * @stable ICU 2.1
+         * Number of directionbl types
+         * @stbble ICU 2.1
          */
-        public static final int CHAR_DIRECTION_COUNT       = 19;
+        public stbtic finbl int CHAR_DIRECTION_COUNT       = 19;
 
         /**
-         * Undefined bidirectional character type. Undefined <code>char</code>
-         * values have undefined directionality in the Unicode specification.
-     * @draft ICU 3.0
-     * @deprecated This is a draft API and might change in a future release of ICU.
+         * Undefined bidirectionbl chbrbcter type. Undefined <code>chbr</code>
+         * vblues hbve undefined directionblity in the Unicode specificbtion.
+     * @drbft ICU 3.0
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
          */
-        @Deprecated
-        public static final byte DIRECTIONALITY_UNDEFINED = -1;
+        @Deprecbted
+        public stbtic finbl byte DIRECTIONALITY_UNDEFINED = -1;
     }
 }

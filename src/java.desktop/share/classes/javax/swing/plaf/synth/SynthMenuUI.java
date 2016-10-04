@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import sun.swing.MenuItemLayoutHelper;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import sun.swing.MenuItemLbyoutHelper;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JMenu}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JMenu}.
  *
- * @author Georges Saab
- * @author David Karlton
- * @author Arnaud Weber
+ * @buthor Georges Sbbb
+ * @buthor Dbvid Kbrlton
+ * @buthor Arnbud Weber
  * @since 1.7
  */
-public class SynthMenuUI extends BasicMenuUI
-                         implements PropertyChangeListener, SynthUI {
-    private SynthStyle style;
-    private SynthStyle accStyle;
+public clbss SynthMenuUI extends BbsicMenuUI
+                         implements PropertyChbngeListener, SynthUI {
+    privbte SynthStyle style;
+    privbte SynthStyle bccStyle;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param x component to create UI object for
+     * @pbrbm x component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent x) {
+    public stbtic ComponentUI crebteUI(JComponent x) {
         return new SynthMenuUI();
     }
 
@@ -59,77 +59,77 @@ public class SynthMenuUI extends BasicMenuUI
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults() {
-        updateStyle(menuItem);
+    protected void instbllDefbults() {
+        updbteStyle(menuItem);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        menuItem.addPropertyChangeListener(this);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        menuItem.bddPropertyChbngeListener(this);
     }
 
-    private void updateStyle(JMenuItem mi) {
+    privbte void updbteStyle(JMenuItem mi) {
         SynthStyle oldStyle = style;
         SynthContext context = getContext(mi, ENABLED);
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
         if (oldStyle != style) {
             String prefix = getPropertyPrefix();
-            defaultTextIconGap = style.getInt(
-                           context, prefix + ".textIconGap", 4);
-            if (menuItem.getMargin() == null ||
-                         (menuItem.getMargin() instanceof UIResource)) {
-                Insets insets = (Insets)style.get(context, prefix + ".margin");
+            defbultTextIconGbp = style.getInt(
+                           context, prefix + ".textIconGbp", 4);
+            if (menuItem.getMbrgin() == null ||
+                         (menuItem.getMbrgin() instbnceof UIResource)) {
+                Insets insets = (Insets)style.get(context, prefix + ".mbrgin");
 
                 if (insets == null) {
-                    // Some places assume margins are non-null.
+                    // Some plbces bssume mbrgins bre non-null.
                     insets = SynthLookAndFeel.EMPTY_UIRESOURCE_INSETS;
                 }
-                menuItem.setMargin(insets);
+                menuItem.setMbrgin(insets);
             }
-            acceleratorDelimiter = style.getString(context, prefix +
-                                            ".acceleratorDelimiter", "+");
+            bccelerbtorDelimiter = style.getString(context, prefix +
+                                            ".bccelerbtorDelimiter", "+");
 
-            if (MenuItemLayoutHelper.useCheckAndArrow(menuItem)) {
+            if (MenuItemLbyoutHelper.useCheckAndArrow(menuItem)) {
                 checkIcon = style.getIcon(context, prefix + ".checkIcon");
-                arrowIcon = style.getIcon(context, prefix + ".arrowIcon");
+                brrowIcon = style.getIcon(context, prefix + ".brrowIcon");
             } else {
-                // Not needed in this case
+                // Not needed in this cbse
                 checkIcon = null;
-                arrowIcon = null;
+                brrowIcon = null;
             }
 
-            ((JMenu)menuItem).setDelay(style.getInt(context, prefix +
-                                                    ".delay", 200));
+            ((JMenu)menuItem).setDelby(style.getInt(context, prefix +
+                                                    ".delby", 200));
             if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                uninstbllKeybobrdActions();
+                instbllKeybobrdActions();
             }
         }
         context.dispose();
 
-        SynthContext accContext = getContext(mi, Region.MENU_ITEM_ACCELERATOR,
+        SynthContext bccContext = getContext(mi, Region.MENU_ITEM_ACCELERATOR,
                                              ENABLED);
 
-        accStyle = SynthLookAndFeel.updateStyle(accContext, this);
-        accContext.dispose();
+        bccStyle = SynthLookAndFeel.updbteStyle(bccContext, this);
+        bccContext.dispose();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
-        // Remove values from the parent's Client Properties.
-        JComponent p = MenuItemLayoutHelper.getMenuItemParent((JMenuItem) c);
+    public void uninstbllUI(JComponent c) {
+        super.uninstbllUI(c);
+        // Remove vblues from the pbrent's Client Properties.
+        JComponent p = MenuItemLbyoutHelper.getMenuItemPbrent((JMenuItem) c);
         if (p != null) {
             p.putClientProperty(
-                    SynthMenuItemLayoutHelper.MAX_ACC_OR_ARROW_WIDTH, null);
+                    SynthMenuItemLbyoutHelper.MAX_ACC_OR_ARROW_WIDTH, null);
         }
     }
 
@@ -137,28 +137,28 @@ public class SynthMenuUI extends BasicMenuUI
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults() {
+    protected void uninstbllDefbults() {
         SynthContext context = getContext(menuItem, ENABLED);
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
 
-        SynthContext accContext = getContext(menuItem,
+        SynthContext bccContext = getContext(menuItem,
                                      Region.MENU_ITEM_ACCELERATOR, ENABLED);
-        accStyle.uninstallDefaults(accContext);
-        accContext.dispose();
-        accStyle = null;
+        bccStyle.uninstbllDefbults(bccContext);
+        bccContext.dispose();
+        bccStyle = null;
 
-        super.uninstallDefaults();
+        super.uninstbllDefbults();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        menuItem.removePropertyChangeListener(this);
+    protected void uninstbllListeners() {
+        super.uninstbllListeners();
+        menuItem.removePropertyChbngeListener(this);
     }
 
     /**
@@ -166,41 +166,41 @@ public class SynthMenuUI extends BasicMenuUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+        return getContext(c, getComponentStbte(c));
     }
 
-    SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
     SynthContext getContext(JComponent c, Region region) {
-        return getContext(c, region, getComponentState(c, region));
+        return getContext(c, region, getComponentStbte(c, region));
     }
 
-    private SynthContext getContext(JComponent c, Region region, int state) {
-        return SynthContext.getContext(c, region, accStyle, state);
+    privbte SynthContext getContext(JComponent c, Region region, int stbte) {
+        return SynthContext.getContext(c, region, bccStyle, stbte);
     }
 
-    private int getComponentState(JComponent c) {
-        int state;
+    privbte int getComponentStbte(JComponent c) {
+        int stbte;
 
-        if (!c.isEnabled()) {
+        if (!c.isEnbbled()) {
             return DISABLED;
         }
         if (menuItem.isArmed()) {
-            state = MOUSE_OVER;
+            stbte = MOUSE_OVER;
         }
         else {
-            state = SynthLookAndFeel.getComponentState(c);
+            stbte = SynthLookAndFeel.getComponentStbte(c);
         }
         if (menuItem.isSelected()) {
-            state |= SELECTED;
+            stbte |= SELECTED;
         }
-        return state;
+        return stbte;
     }
 
-    private int getComponentState(JComponent c, Region region) {
-        return getComponentState(c);
+    privbte int getComponentStbte(JComponent c, Region region) {
+        return getComponentStbte(c);
     }
 
     /**
@@ -209,96 +209,96 @@ public class SynthMenuUI extends BasicMenuUI
     @Override
     protected Dimension getPreferredMenuItemSize(JComponent c,
                                                      Icon checkIcon,
-                                                     Icon arrowIcon,
-                                                     int defaultTextIconGap) {
+                                                     Icon brrowIcon,
+                                                     int defbultTextIconGbp) {
         SynthContext context = getContext(c);
-        SynthContext accContext = getContext(c, Region.MENU_ITEM_ACCELERATOR);
-        Dimension value = SynthGraphicsUtils.getPreferredMenuItemSize(
-                context, accContext, c, checkIcon, arrowIcon,
-                defaultTextIconGap, acceleratorDelimiter,
-                MenuItemLayoutHelper.useCheckAndArrow(menuItem),
+        SynthContext bccContext = getContext(c, Region.MENU_ITEM_ACCELERATOR);
+        Dimension vblue = SynthGrbphicsUtils.getPreferredMenuItemSize(
+                context, bccContext, c, checkIcon, brrowIcon,
+                defbultTextIconGbp, bccelerbtorDelimiter,
+                MenuItemLbyoutHelper.useCheckAndArrow(menuItem),
                 getPropertyPrefix());
         context.dispose();
-        accContext.dispose();
-        return value;
+        bccContext.dispose();
+        return vblue;
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintMenuBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintMenuBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component. This implementation does nothing.
+     * Pbints the specified component. This implementbtion does nothing.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        SynthContext accContext = getContext(menuItem,
+    protected void pbint(SynthContext context, Grbphics g) {
+        SynthContext bccContext = getContext(menuItem,
                                              Region.MENU_ITEM_ACCELERATOR);
-        // Refetch the appropriate check indicator for the current state
+        // Refetch the bppropribte check indicbtor for the current stbte
         String prefix = getPropertyPrefix();
         Icon checkIcon = style.getIcon(context, prefix + ".checkIcon");
-        Icon arrowIcon = style.getIcon(context, prefix + ".arrowIcon");
-        SynthGraphicsUtils.paint(context, accContext, g, checkIcon, arrowIcon,
-              acceleratorDelimiter, defaultTextIconGap, getPropertyPrefix());
-        accContext.dispose();
+        Icon brrowIcon = style.getIcon(context, prefix + ".brrowIcon");
+        SynthGrbphicsUtils.pbint(context, bccContext, g, checkIcon, brrowIcon,
+              bccelerbtorDelimiter, defbultTextIconGbp, getPropertyPrefix());
+        bccContext.dispose();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintMenuBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintMenuBorder(context, g, x, y, w, h);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e) ||
-                (e.getPropertyName().equals("ancestor") && UIManager.getBoolean("Menu.useMenuBarForTopLevelMenus"))) {
-            updateStyle((JMenu)e.getSource());
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(e) ||
+                (e.getPropertyNbme().equbls("bncestor") && UIMbnbger.getBoolebn("Menu.useMenuBbrForTopLevelMenus"))) {
+            updbteStyle((JMenu)e.getSource());
         }
     }
 }

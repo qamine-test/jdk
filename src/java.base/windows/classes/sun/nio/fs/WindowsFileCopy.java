@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
+import jbvb.nio.file.*;
+import jbvb.io.IOException;
+import jbvb.util.concurrent.ExecutionException;
 import com.sun.nio.file.ExtendedCopyOption;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtic sun.nio.fs.WindowsNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Utility methods for copying and moving files.
+ * Utility methods for copying bnd moving files.
  */
 
-class WindowsFileCopy {
-    private WindowsFileCopy() {
+clbss WindowsFileCopy {
+    privbte WindowsFileCopy() {
     }
 
     /**
-     * Copy file from source to target
+     * Copy file from source to tbrget
      */
-    static void copy(final WindowsPath source,
-                     final WindowsPath target,
+    stbtic void copy(finbl WindowsPbth source,
+                     finbl WindowsPbth tbrget,
                      CopyOption... options)
         throws IOException
     {
-        // map options
-        boolean replaceExisting = false;
-        boolean copyAttributes = false;
-        boolean followLinks = true;
-        boolean interruptible = false;
+        // mbp options
+        boolebn replbceExisting = fblse;
+        boolebn copyAttributes = fblse;
+        boolebn followLinks = true;
+        boolebn interruptible = fblse;
         for (CopyOption option: options) {
-            if (option == StandardCopyOption.REPLACE_EXISTING) {
-                replaceExisting = true;
+            if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                replbceExisting = true;
                 continue;
             }
             if (option == LinkOption.NOFOLLOW_LINKS) {
-                followLinks = false;
+                followLinks = fblse;
                 continue;
             }
-            if (option == StandardCopyOption.COPY_ATTRIBUTES) {
+            if (option == StbndbrdCopyOption.COPY_ATTRIBUTES) {
                 copyAttributes = true;
                 continue;
             }
@@ -73,143 +73,143 @@ class WindowsFileCopy {
             }
             if (option == null)
                 throw new NullPointerException();
-            throw new UnsupportedOperationException("Unsupported copy option");
+            throw new UnsupportedOperbtionException("Unsupported copy option");
         }
 
-        // check permissions. If the source file is a symbolic link then
-        // later we must also check LinkPermission
-        SecurityManager sm = System.getSecurityManager();
+        // check permissions. If the source file is b symbolic link then
+        // lbter we must blso check LinkPermission
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            source.checkRead();
-            target.checkWrite();
+            source.checkRebd();
+            tbrget.checkWrite();
         }
 
-        // get attributes of source file
-        // attempt to get attributes of target file
-        // if both files are the same there is nothing to do
-        // if target exists and !replace then throw exception
+        // get bttributes of source file
+        // bttempt to get bttributes of tbrget file
+        // if both files bre the sbme there is nothing to do
+        // if tbrget exists bnd !replbce then throw exception
 
         WindowsFileAttributes sourceAttrs = null;
-        WindowsFileAttributes targetAttrs = null;
+        WindowsFileAttributes tbrgetAttrs = null;
 
-        long sourceHandle = 0L;
+        long sourceHbndle = 0L;
         try {
-            sourceHandle = source.openForReadAttributeAccess(followLinks);
-        } catch (WindowsException x) {
+            sourceHbndle = source.openForRebdAttributeAccess(followLinks);
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(source);
         }
         try {
-            // source attributes
+            // source bttributes
             try {
-                sourceAttrs = WindowsFileAttributes.readAttributes(sourceHandle);
-            } catch (WindowsException x) {
+                sourceAttrs = WindowsFileAttributes.rebdAttributes(sourceHbndle);
+            } cbtch (WindowsException x) {
                 x.rethrowAsIOException(source);
             }
 
-            // open target (don't follow links)
-            long targetHandle = 0L;
+            // open tbrget (don't follow links)
+            long tbrgetHbndle = 0L;
             try {
-                targetHandle = target.openForReadAttributeAccess(false);
+                tbrgetHbndle = tbrget.openForRebdAttributeAccess(fblse);
                 try {
-                    targetAttrs = WindowsFileAttributes.readAttributes(targetHandle);
+                    tbrgetAttrs = WindowsFileAttributes.rebdAttributes(tbrgetHbndle);
 
-                    // if both files are the same then nothing to do
-                    if (WindowsFileAttributes.isSameFile(sourceAttrs, targetAttrs)) {
+                    // if both files bre the sbme then nothing to do
+                    if (WindowsFileAttributes.isSbmeFile(sourceAttrs, tbrgetAttrs)) {
                         return;
                     }
 
-                    // can't replace file
-                    if (!replaceExisting) {
-                        throw new FileAlreadyExistsException(
-                            target.getPathForExceptionMessage());
+                    // cbn't replbce file
+                    if (!replbceExisting) {
+                        throw new FileAlrebdyExistsException(
+                            tbrget.getPbthForExceptionMessbge());
                     }
 
-                } finally {
-                    CloseHandle(targetHandle);
+                } finblly {
+                    CloseHbndle(tbrgetHbndle);
                 }
-            } catch (WindowsException x) {
+            } cbtch (WindowsException x) {
                 // ignore
             }
 
-        } finally {
-            CloseHandle(sourceHandle);
+        } finblly {
+            CloseHbndle(sourceHbndle);
         }
 
-        // if source file is a symbolic link then we must check for LinkPermission
+        // if source file is b symbolic link then we must check for LinkPermission
         if (sm != null && sourceAttrs.isSymbolicLink()) {
             sm.checkPermission(new LinkPermission("symbolic"));
         }
 
-        final String sourcePath = asWin32Path(source);
-        final String targetPath = asWin32Path(target);
+        finbl String sourcePbth = bsWin32Pbth(source);
+        finbl String tbrgetPbth = bsWin32Pbth(tbrget);
 
-        // if target exists then delete it.
-        if (targetAttrs != null) {
+        // if tbrget exists then delete it.
+        if (tbrgetAttrs != null) {
             try {
-                if (targetAttrs.isDirectory() || targetAttrs.isDirectoryLink()) {
-                    RemoveDirectory(targetPath);
+                if (tbrgetAttrs.isDirectory() || tbrgetAttrs.isDirectoryLink()) {
+                    RemoveDirectory(tbrgetPbth);
                 } else {
-                    DeleteFile(targetPath);
+                    DeleteFile(tbrgetPbth);
                 }
-            } catch (WindowsException x) {
-                if (targetAttrs.isDirectory()) {
-                    // ERROR_ALREADY_EXISTS is returned when attempting to delete
+            } cbtch (WindowsException x) {
+                if (tbrgetAttrs.isDirectory()) {
+                    // ERROR_ALREADY_EXISTS is returned when bttempting to delete
                     // non-empty directory on SAMBA servers.
-                    if (x.lastError() == ERROR_DIR_NOT_EMPTY ||
-                        x.lastError() == ERROR_ALREADY_EXISTS)
+                    if (x.lbstError() == ERROR_DIR_NOT_EMPTY ||
+                        x.lbstError() == ERROR_ALREADY_EXISTS)
                     {
                         throw new DirectoryNotEmptyException(
-                            target.getPathForExceptionMessage());
+                            tbrget.getPbthForExceptionMessbge());
                     }
                 }
-                x.rethrowAsIOException(target);
+                x.rethrowAsIOException(tbrget);
             }
         }
 
-        // Use CopyFileEx if the file is not a directory or junction
+        // Use CopyFileEx if the file is not b directory or junction
         if (!sourceAttrs.isDirectory() && !sourceAttrs.isDirectoryLink()) {
-            final int flags =
+            finbl int flbgs =
                 (source.getFileSystem().supportsLinks() && !followLinks) ?
                 COPY_FILE_COPY_SYMLINK : 0;
 
             if (interruptible) {
                 // interruptible copy
-                Cancellable copyTask = new Cancellable() {
+                Cbncellbble copyTbsk = new Cbncellbble() {
                     @Override
-                    public int cancelValue() {
+                    public int cbncelVblue() {
                         return 1;  // TRUE
                     }
                     @Override
                     public void implRun() throws IOException {
                         try {
-                            CopyFileEx(sourcePath, targetPath, flags,
-                                       addressToPollForCancel());
-                        } catch (WindowsException x) {
-                            x.rethrowAsIOException(source, target);
+                            CopyFileEx(sourcePbth, tbrgetPbth, flbgs,
+                                       bddressToPollForCbncel());
+                        } cbtch (WindowsException x) {
+                            x.rethrowAsIOException(source, tbrget);
                         }
                     }
                 };
                 try {
-                    Cancellable.runInterruptibly(copyTask);
-                } catch (ExecutionException e) {
-                    Throwable t = e.getCause();
-                    if (t instanceof IOException)
+                    Cbncellbble.runInterruptibly(copyTbsk);
+                } cbtch (ExecutionException e) {
+                    Throwbble t = e.getCbuse();
+                    if (t instbnceof IOException)
                         throw (IOException)t;
                     throw new IOException(t);
                 }
             } else {
                 // non-interruptible copy
                 try {
-                    CopyFileEx(sourcePath, targetPath, flags, 0L);
-                } catch (WindowsException x) {
-                    x.rethrowAsIOException(source, target);
+                    CopyFileEx(sourcePbth, tbrgetPbth, flbgs, 0L);
+                } cbtch (WindowsException x) {
+                    x.rethrowAsIOException(source, tbrget);
                 }
             }
             if (copyAttributes) {
-                // CopyFileEx does not copy security attributes
+                // CopyFileEx does not copy security bttributes
                 try {
-                    copySecurityAttributes(source, target, followLinks);
-                } catch (IOException x) {
+                    copySecurityAttributes(source, tbrget, followLinks);
+                } cbtch (IOException x) {
                     // ignore
                 }
             }
@@ -219,55 +219,55 @@ class WindowsFileCopy {
         // copy directory or directory junction
         try {
             if (sourceAttrs.isDirectory()) {
-                CreateDirectory(targetPath, 0L);
+                CrebteDirectory(tbrgetPbth, 0L);
             } else {
-                String linkTarget = WindowsLinkSupport.readLink(source);
-                int flags = SYMBOLIC_LINK_FLAG_DIRECTORY;
-                CreateSymbolicLink(targetPath,
-                                   WindowsPath.addPrefixIfNeeded(linkTarget),
-                                   flags);
+                String linkTbrget = WindowsLinkSupport.rebdLink(source);
+                int flbgs = SYMBOLIC_LINK_FLAG_DIRECTORY;
+                CrebteSymbolicLink(tbrgetPbth,
+                                   WindowsPbth.bddPrefixIfNeeded(linkTbrget),
+                                   flbgs);
             }
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(target);
+        } cbtch (WindowsException x) {
+            x.rethrowAsIOException(tbrget);
         }
         if (copyAttributes) {
-            // copy DOS/timestamps attributes
+            // copy DOS/timestbmps bttributes
             WindowsFileAttributeViews.Dos view =
-                WindowsFileAttributeViews.createDosView(target, false);
+                WindowsFileAttributeViews.crebteDosView(tbrget, fblse);
             try {
                 view.setAttributes(sourceAttrs);
-            } catch (IOException x) {
+            } cbtch (IOException x) {
                 if (sourceAttrs.isDirectory()) {
                     try {
-                        RemoveDirectory(targetPath);
-                    } catch (WindowsException ignore) { }
+                        RemoveDirectory(tbrgetPbth);
+                    } cbtch (WindowsException ignore) { }
                 }
             }
 
-            // copy security attributes. If this fail it doesn't cause the move
-            // to fail.
+            // copy security bttributes. If this fbil it doesn't cbuse the move
+            // to fbil.
             try {
-                copySecurityAttributes(source, target, followLinks);
-            } catch (IOException ignore) { }
+                copySecurityAttributes(source, tbrget, followLinks);
+            } cbtch (IOException ignore) { }
         }
     }
 
     /**
-     * Move file from source to target
+     * Move file from source to tbrget
      */
-    static void move(WindowsPath source, WindowsPath target, CopyOption... options)
+    stbtic void move(WindowsPbth source, WindowsPbth tbrget, CopyOption... options)
         throws IOException
     {
-        // map options
-        boolean atomicMove = false;
-        boolean replaceExisting = false;
+        // mbp options
+        boolebn btomicMove = fblse;
+        boolebn replbceExisting = fblse;
         for (CopyOption option: options) {
-            if (option == StandardCopyOption.ATOMIC_MOVE) {
-                atomicMove = true;
+            if (option == StbndbrdCopyOption.ATOMIC_MOVE) {
+                btomicMove = true;
                 continue;
             }
-            if (option == StandardCopyOption.REPLACE_EXISTING) {
-                replaceExisting = true;
+            if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                replbceExisting = true;
                 continue;
             }
             if (option == LinkOption.NOFOLLOW_LINKS) {
@@ -275,230 +275,230 @@ class WindowsFileCopy {
                 continue;
             }
             if (option == null) throw new NullPointerException();
-            throw new UnsupportedOperationException("Unsupported copy option");
+            throw new UnsupportedOperbtionException("Unsupported copy option");
         }
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             source.checkWrite();
-            target.checkWrite();
+            tbrget.checkWrite();
         }
 
-        final String sourcePath = asWin32Path(source);
-        final String targetPath = asWin32Path(target);
+        finbl String sourcePbth = bsWin32Pbth(source);
+        finbl String tbrgetPbth = bsWin32Pbth(tbrget);
 
-        // atomic case
-        if (atomicMove) {
+        // btomic cbse
+        if (btomicMove) {
             try {
-                MoveFileEx(sourcePath, targetPath, MOVEFILE_REPLACE_EXISTING);
-            } catch (WindowsException x) {
-                if (x.lastError() == ERROR_NOT_SAME_DEVICE) {
+                MoveFileEx(sourcePbth, tbrgetPbth, MOVEFILE_REPLACE_EXISTING);
+            } cbtch (WindowsException x) {
+                if (x.lbstError() == ERROR_NOT_SAME_DEVICE) {
                     throw new AtomicMoveNotSupportedException(
-                        source.getPathForExceptionMessage(),
-                        target.getPathForExceptionMessage(),
+                        source.getPbthForExceptionMessbge(),
+                        tbrget.getPbthForExceptionMessbge(),
                         x.errorString());
                 }
-                x.rethrowAsIOException(source, target);
+                x.rethrowAsIOException(source, tbrget);
             }
             return;
         }
 
-        // get attributes of source file
-        // attempt to get attributes of target file
-        // if both files are the same there is nothing to do
-        // if target exists and !replace then throw exception
+        // get bttributes of source file
+        // bttempt to get bttributes of tbrget file
+        // if both files bre the sbme there is nothing to do
+        // if tbrget exists bnd !replbce then throw exception
 
         WindowsFileAttributes sourceAttrs = null;
-        WindowsFileAttributes targetAttrs = null;
+        WindowsFileAttributes tbrgetAttrs = null;
 
-        long sourceHandle = 0L;
+        long sourceHbndle = 0L;
         try {
-            sourceHandle = source.openForReadAttributeAccess(false);
-        } catch (WindowsException x) {
+            sourceHbndle = source.openForRebdAttributeAccess(fblse);
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(source);
         }
         try {
-            // source attributes
+            // source bttributes
             try {
-                sourceAttrs = WindowsFileAttributes.readAttributes(sourceHandle);
-            } catch (WindowsException x) {
+                sourceAttrs = WindowsFileAttributes.rebdAttributes(sourceHbndle);
+            } cbtch (WindowsException x) {
                 x.rethrowAsIOException(source);
             }
 
-            // open target (don't follow links)
-            long targetHandle = 0L;
+            // open tbrget (don't follow links)
+            long tbrgetHbndle = 0L;
             try {
-                targetHandle = target.openForReadAttributeAccess(false);
+                tbrgetHbndle = tbrget.openForRebdAttributeAccess(fblse);
                 try {
-                    targetAttrs = WindowsFileAttributes.readAttributes(targetHandle);
+                    tbrgetAttrs = WindowsFileAttributes.rebdAttributes(tbrgetHbndle);
 
-                    // if both files are the same then nothing to do
-                    if (WindowsFileAttributes.isSameFile(sourceAttrs, targetAttrs)) {
+                    // if both files bre the sbme then nothing to do
+                    if (WindowsFileAttributes.isSbmeFile(sourceAttrs, tbrgetAttrs)) {
                         return;
                     }
 
-                    // can't replace file
-                    if (!replaceExisting) {
-                        throw new FileAlreadyExistsException(
-                            target.getPathForExceptionMessage());
+                    // cbn't replbce file
+                    if (!replbceExisting) {
+                        throw new FileAlrebdyExistsException(
+                            tbrget.getPbthForExceptionMessbge());
                     }
 
-                } finally {
-                    CloseHandle(targetHandle);
+                } finblly {
+                    CloseHbndle(tbrgetHbndle);
                 }
-            } catch (WindowsException x) {
+            } cbtch (WindowsException x) {
                 // ignore
             }
 
-        } finally {
-            CloseHandle(sourceHandle);
+        } finblly {
+            CloseHbndle(sourceHbndle);
         }
 
-        // if target exists then delete it.
-        if (targetAttrs != null) {
+        // if tbrget exists then delete it.
+        if (tbrgetAttrs != null) {
             try {
-                if (targetAttrs.isDirectory() || targetAttrs.isDirectoryLink()) {
-                    RemoveDirectory(targetPath);
+                if (tbrgetAttrs.isDirectory() || tbrgetAttrs.isDirectoryLink()) {
+                    RemoveDirectory(tbrgetPbth);
                 } else {
-                    DeleteFile(targetPath);
+                    DeleteFile(tbrgetPbth);
                 }
-            } catch (WindowsException x) {
-                if (targetAttrs.isDirectory()) {
-                    // ERROR_ALREADY_EXISTS is returned when attempting to delete
+            } cbtch (WindowsException x) {
+                if (tbrgetAttrs.isDirectory()) {
+                    // ERROR_ALREADY_EXISTS is returned when bttempting to delete
                     // non-empty directory on SAMBA servers.
-                    if (x.lastError() == ERROR_DIR_NOT_EMPTY ||
-                        x.lastError() == ERROR_ALREADY_EXISTS)
+                    if (x.lbstError() == ERROR_DIR_NOT_EMPTY ||
+                        x.lbstError() == ERROR_ALREADY_EXISTS)
                     {
                         throw new DirectoryNotEmptyException(
-                            target.getPathForExceptionMessage());
+                            tbrget.getPbthForExceptionMessbge());
                     }
                 }
-                x.rethrowAsIOException(target);
+                x.rethrowAsIOException(tbrget);
             }
         }
 
-        // first try MoveFileEx (no options). If target is on same volume then
-        // all attributes (including security attributes) are preserved.
+        // first try MoveFileEx (no options). If tbrget is on sbme volume then
+        // bll bttributes (including security bttributes) bre preserved.
         try {
-            MoveFileEx(sourcePath, targetPath, 0);
+            MoveFileEx(sourcePbth, tbrgetPbth, 0);
             return;
-        } catch (WindowsException x) {
-            if (x.lastError() != ERROR_NOT_SAME_DEVICE)
-                x.rethrowAsIOException(source, target);
+        } cbtch (WindowsException x) {
+            if (x.lbstError() != ERROR_NOT_SAME_DEVICE)
+                x.rethrowAsIOException(source, tbrget);
         }
 
-        // target is on different volume so use MoveFileEx with copy option
+        // tbrget is on different volume so use MoveFileEx with copy option
         if (!sourceAttrs.isDirectory() && !sourceAttrs.isDirectoryLink()) {
             try {
-                MoveFileEx(sourcePath, targetPath, MOVEFILE_COPY_ALLOWED);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(source, target);
+                MoveFileEx(sourcePbth, tbrgetPbth, MOVEFILE_COPY_ALLOWED);
+            } cbtch (WindowsException x) {
+                x.rethrowAsIOException(source, tbrget);
             }
-            // MoveFileEx does not copy security attributes when moving
-            // across volumes.
+            // MoveFileEx does not copy security bttributes when moving
+            // bcross volumes.
             try {
-                copySecurityAttributes(source, target, false);
-            } catch (IOException x) {
+                copySecurityAttributes(source, tbrget, fblse);
+            } cbtch (IOException x) {
                 // ignore
             }
             return;
         }
 
-        // moving directory or directory-link to another file system
-        assert sourceAttrs.isDirectory() || sourceAttrs.isDirectoryLink();
+        // moving directory or directory-link to bnother file system
+        bssert sourceAttrs.isDirectory() || sourceAttrs.isDirectoryLink();
 
-        // create new directory or directory junction
+        // crebte new directory or directory junction
         try {
             if (sourceAttrs.isDirectory()) {
-                CreateDirectory(targetPath, 0L);
+                CrebteDirectory(tbrgetPbth, 0L);
             } else {
-                String linkTarget = WindowsLinkSupport.readLink(source);
-                CreateSymbolicLink(targetPath,
-                                   WindowsPath.addPrefixIfNeeded(linkTarget),
+                String linkTbrget = WindowsLinkSupport.rebdLink(source);
+                CrebteSymbolicLink(tbrgetPbth,
+                                   WindowsPbth.bddPrefixIfNeeded(linkTbrget),
                                    SYMBOLIC_LINK_FLAG_DIRECTORY);
             }
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(target);
+        } cbtch (WindowsException x) {
+            x.rethrowAsIOException(tbrget);
         }
 
-        // copy timestamps/DOS attributes
+        // copy timestbmps/DOS bttributes
         WindowsFileAttributeViews.Dos view =
-                WindowsFileAttributeViews.createDosView(target, false);
+                WindowsFileAttributeViews.crebteDosView(tbrget, fblse);
         try {
             view.setAttributes(sourceAttrs);
-        } catch (IOException x) {
-            // rollback
+        } cbtch (IOException x) {
+            // rollbbck
             try {
-                RemoveDirectory(targetPath);
-            } catch (WindowsException ignore) { }
+                RemoveDirectory(tbrgetPbth);
+            } cbtch (WindowsException ignore) { }
             throw x;
         }
 
-        // copy security attributes. If this fails it doesn't cause the move
-        // to fail.
+        // copy security bttributes. If this fbils it doesn't cbuse the move
+        // to fbil.
         try {
-            copySecurityAttributes(source, target, false);
-        } catch (IOException ignore) { }
+            copySecurityAttributes(source, tbrget, fblse);
+        } cbtch (IOException ignore) { }
 
         // delete source
         try {
-            RemoveDirectory(sourcePath);
-        } catch (WindowsException x) {
-            // rollback
+            RemoveDirectory(sourcePbth);
+        } cbtch (WindowsException x) {
+            // rollbbck
             try {
-                RemoveDirectory(targetPath);
-            } catch (WindowsException ignore) { }
-            // ERROR_ALREADY_EXISTS is returned when attempting to delete
+                RemoveDirectory(tbrgetPbth);
+            } cbtch (WindowsException ignore) { }
+            // ERROR_ALREADY_EXISTS is returned when bttempting to delete
             // non-empty directory on SAMBA servers.
-            if (x.lastError() == ERROR_DIR_NOT_EMPTY ||
-                x.lastError() == ERROR_ALREADY_EXISTS)
+            if (x.lbstError() == ERROR_DIR_NOT_EMPTY ||
+                x.lbstError() == ERROR_ALREADY_EXISTS)
             {
                 throw new DirectoryNotEmptyException(
-                    target.getPathForExceptionMessage());
+                    tbrget.getPbthForExceptionMessbge());
             }
             x.rethrowAsIOException(source);
         }
     }
 
 
-    private static String asWin32Path(WindowsPath path) throws IOException {
+    privbte stbtic String bsWin32Pbth(WindowsPbth pbth) throws IOException {
         try {
-            return path.getPathForWin32Calls();
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(path);
+            return pbth.getPbthForWin32Cblls();
+        } cbtch (WindowsException x) {
+            x.rethrowAsIOException(pbth);
             return null;
         }
     }
 
     /**
-     * Copy DACL/owner/group from source to target
+     * Copy DACL/owner/group from source to tbrget
      */
-    private static void copySecurityAttributes(WindowsPath source,
-                                               WindowsPath target,
-                                               boolean followLinks)
+    privbte stbtic void copySecurityAttributes(WindowsPbth source,
+                                               WindowsPbth tbrget,
+                                               boolebn followLinks)
         throws IOException
     {
-        String path = WindowsLinkSupport.getFinalPath(source, followLinks);
+        String pbth = WindowsLinkSupport.getFinblPbth(source, followLinks);
 
-        // may need SeRestorePrivilege to set file owner
+        // mby need SeRestorePrivilege to set file owner
         WindowsSecurity.Privilege priv =
-            WindowsSecurity.enablePrivilege("SeRestorePrivilege");
+            WindowsSecurity.enbblePrivilege("SeRestorePrivilege");
         try {
             int request = (DACL_SECURITY_INFORMATION |
                 OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION);
-            NativeBuffer buffer =
-                WindowsAclFileAttributeView.getFileSecurity(path, request);
+            NbtiveBuffer buffer =
+                WindowsAclFileAttributeView.getFileSecurity(pbth, request);
             try {
                 try {
-                    SetFileSecurity(target.getPathForWin32Calls(), request,
-                        buffer.address());
-                } catch (WindowsException x) {
-                    x.rethrowAsIOException(target);
+                    SetFileSecurity(tbrget.getPbthForWin32Cblls(), request,
+                        buffer.bddress());
+                } cbtch (WindowsException x) {
+                    x.rethrowAsIOException(tbrget);
                 }
-            } finally {
-                buffer.release();
+            } finblly {
+                buffer.relebse();
             }
-        } finally {
+        } finblly {
             priv.drop();
         }
     }

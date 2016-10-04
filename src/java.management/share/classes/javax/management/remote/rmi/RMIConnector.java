@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.remote.rmi;
+pbckbge jbvbx.mbnbgement.remote.rmi;
 
-import com.sun.jmx.mbeanserver.Util;
-import com.sun.jmx.remote.internal.ClientCommunicatorAdmin;
-import com.sun.jmx.remote.internal.ClientListenerInfo;
-import com.sun.jmx.remote.internal.ClientNotifForwarder;
-import com.sun.jmx.remote.internal.ProxyRef;
-import com.sun.jmx.remote.internal.IIOPHelper;
-import com.sun.jmx.remote.util.ClassLogger;
+import com.sun.jmx.mbebnserver.Util;
+import com.sun.jmx.remote.internbl.ClientCommunicbtorAdmin;
+import com.sun.jmx.remote.internbl.ClientListenerInfo;
+import com.sun.jmx.remote.internbl.ClientNotifForwbrder;
+import com.sun.jmx.remote.internbl.ProxyRef;
+import com.sun.jmx.remote.internbl.IIOPHelper;
+import com.sun.jmx.remote.util.ClbssLogger;
 import com.sun.jmx.remote.util.EnvHelp;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InvalidObjectException;
-import java.io.NotSerializableException;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamClass;
-import java.io.Serializable;
-import java.io.WriteAbortedException;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Proxy;
-import java.net.MalformedURLException;
-import java.rmi.MarshalException;
-import java.rmi.MarshalledObject;
-import java.rmi.NoSuchObjectException;
-import java.rmi.Remote;
-import java.rmi.ServerException;
-import java.rmi.UnmarshalException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RemoteObject;
-import java.rmi.server.RemoteObjectInvocationHandler;
-import java.rmi.server.RemoteRef;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.security.ProtectionDomain;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.WeakHashMap;
-import javax.management.Attribute;
-import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.IntrospectionException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanRegistrationException;
-import javax.management.MBeanServerConnection;
-import javax.management.MBeanServerDelegate;
-import javax.management.MBeanServerNotification;
-import javax.management.NotCompliantMBeanException;
-import javax.management.Notification;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.NotificationFilter;
-import javax.management.NotificationFilterSupport;
-import javax.management.NotificationListener;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
-import javax.management.QueryExp;
-import javax.management.ReflectionException;
-import javax.management.remote.JMXConnectionNotification;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-import javax.management.remote.NotificationResult;
-import javax.management.remote.JMXAddressable;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.rmi.ssl.SslRMIClientSocketFactory;
-import javax.security.auth.Subject;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.NotSeriblizbbleException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectStrebmClbss;
+import jbvb.io.Seriblizbble;
+import jbvb.io.WriteAbortedException;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionHbndler;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.net.MblformedURLException;
+import jbvb.rmi.MbrshblException;
+import jbvb.rmi.MbrshblledObject;
+import jbvb.rmi.NoSuchObjectException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.ServerException;
+import jbvb.rmi.UnmbrshblException;
+import jbvb.rmi.server.RMIClientSocketFbctory;
+import jbvb.rmi.server.RemoteObject;
+import jbvb.rmi.server.RemoteObjectInvocbtionHbndler;
+import jbvb.rmi.server.RemoteRef;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.ProtectionDombin;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Properties;
+import jbvb.util.Set;
+import jbvb.util.WebkHbshMbp;
+import jbvbx.mbnbgement.Attribute;
+import jbvbx.mbnbgement.AttributeList;
+import jbvbx.mbnbgement.AttributeNotFoundException;
+import jbvbx.mbnbgement.InstbnceAlrebdyExistsException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.IntrospectionException;
+import jbvbx.mbnbgement.InvblidAttributeVblueException;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnRegistrbtionException;
+import jbvbx.mbnbgement.MBebnServerConnection;
+import jbvbx.mbnbgement.MBebnServerDelegbte;
+import jbvbx.mbnbgement.MBebnServerNotificbtion;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionBrobdcbsterSupport;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionFilterSupport;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.ObjectInstbnce;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.QueryExp;
+import jbvbx.mbnbgement.ReflectionException;
+import jbvbx.mbnbgement.remote.JMXConnectionNotificbtion;
+import jbvbx.mbnbgement.remote.JMXConnector;
+import jbvbx.mbnbgement.remote.JMXConnectorFbctory;
+import jbvbx.mbnbgement.remote.JMXServiceURL;
+import jbvbx.mbnbgement.remote.NotificbtionResult;
+import jbvbx.mbnbgement.remote.JMXAddressbble;
+import jbvbx.nbming.InitiblContext;
+import jbvbx.nbming.NbmingException;
+import jbvbx.rmi.ssl.SslRMIClientSocketFbctory;
+import jbvbx.security.buth.Subject;
 import sun.reflect.misc.ReflectUtil;
-import sun.rmi.server.UnicastRef2;
-import sun.rmi.transport.LiveRef;
+import sun.rmi.server.UnicbstRef2;
+import sun.rmi.trbnsport.LiveRef;
 
 /**
- * <p>A connection to a remote RMI connector.  Usually, such
- * connections are made using {@link
- * javax.management.remote.JMXConnectorFactory JMXConnectorFactory}.
- * However, specialized applications can use this class directly, for
- * example with an {@link RMIServer} stub obtained without going
+ * <p>A connection to b remote RMI connector.  Usublly, such
+ * connections bre mbde using {@link
+ * jbvbx.mbnbgement.remote.JMXConnectorFbctory JMXConnectorFbctory}.
+ * However, speciblized bpplicbtions cbn use this clbss directly, for
+ * exbmple with bn {@link RMIServer} stub obtbined without going
  * through JNDI.</p>
  *
  * @since 1.5
  */
-public class RMIConnector implements JMXConnector, Serializable, JMXAddressable {
+public clbss RMIConnector implements JMXConnector, Seriblizbble, JMXAddressbble {
 
-    private static final ClassLogger logger =
-            new ClassLogger("javax.management.remote.rmi", "RMIConnector");
+    privbte stbtic finbl ClbssLogger logger =
+            new ClbssLogger("jbvbx.mbnbgement.remote.rmi", "RMIConnector");
 
-    private static final long serialVersionUID = 817323035842634473L;
+    privbte stbtic finbl long seriblVersionUID = 817323035842634473L;
 
-    private RMIConnector(RMIServer rmiServer, JMXServiceURL address,
-            Map<String, ?> environment) {
-        if (rmiServer == null && address == null) throw new
-                IllegalArgumentException("rmiServer and jmxServiceURL both null");
-        initTransients();
+    privbte RMIConnector(RMIServer rmiServer, JMXServiceURL bddress,
+            Mbp<String, ?> environment) {
+        if (rmiServer == null && bddress == null) throw new
+                IllegblArgumentException("rmiServer bnd jmxServiceURL both null");
+        initTrbnsients();
 
         this.rmiServer = rmiServer;
-        this.jmxServiceURL = address;
+        this.jmxServiceURL = bddress;
         if (environment == null) {
-            this.env = Collections.emptyMap();
+            this.env = Collections.emptyMbp();
         } else {
             EnvHelp.checkAttributes(environment);
-            this.env = Collections.unmodifiableMap(environment);
+            this.env = Collections.unmodifibbleMbp(environment);
         }
     }
 
     /**
-     * <p>Constructs an <code>RMIConnector</code> that will connect
-     * the RMI connector server with the given address.</p>
+     * <p>Constructs bn <code>RMIConnector</code> thbt will connect
+     * the RMI connector server with the given bddress.</p>
      *
-     * <p>The address can refer directly to the connector server,
-     * using one of the following syntaxes:</p>
+     * <p>The bddress cbn refer directly to the connector server,
+     * using one of the following syntbxes:</p>
      *
      * <pre>
      * service:jmx:rmi://<em>[host[:port]]</em>/stub/<em>encoded-stub</em>
      * service:jmx:iiop://<em>[host[:port]]</em>/ior/<em>encoded-IOR</em>
      * </pre>
      *
-     * <p>(Here, the square brackets <code>[]</code> are not part of the
-     * address but indicate that the host and port are optional.)</p>
+     * <p>(Here, the squbre brbckets <code>[]</code> bre not pbrt of the
+     * bddress but indicbte thbt the host bnd port bre optionbl.)</p>
      *
-     * <p>The address can instead indicate where to find an RMI stub
-     * through JNDI, using one of the following syntaxes:</p>
+     * <p>The bddress cbn instebd indicbte where to find bn RMI stub
+     * through JNDI, using one of the following syntbxes:</p>
      *
      * <pre>
-     * service:jmx:rmi://<em>[host[:port]]</em>/jndi/<em>jndi-name</em>
-     * service:jmx:iiop://<em>[host[:port]]</em>/jndi/<em>jndi-name</em>
+     * service:jmx:rmi://<em>[host[:port]]</em>/jndi/<em>jndi-nbme</em>
+     * service:jmx:iiop://<em>[host[:port]]</em>/jndi/<em>jndi-nbme</em>
      * </pre>
      *
-     * <p>An implementation may also recognize additional address
-     * syntaxes, for example:</p>
+     * <p>An implementbtion mby blso recognize bdditionbl bddress
+     * syntbxes, for exbmple:</p>
      *
      * <pre>
      * service:jmx:iiop://<em>[host[:port]]</em>/stub/<em>encoded-stub</em>
      * </pre>
      *
-     * @param url the address of the RMI connector server.
+     * @pbrbm url the bddress of the RMI connector server.
      *
-     * @param environment additional attributes specifying how to make
-     * the connection.  For JNDI-based addresses, these attributes can
-     * usefully include JNDI attributes recognized by {@link
-     * InitialContext#InitialContext(Hashtable) InitialContext}.  This
-     * parameter can be null, which is equivalent to an empty Map.
+     * @pbrbm environment bdditionbl bttributes specifying how to mbke
+     * the connection.  For JNDI-bbsed bddresses, these bttributes cbn
+     * usefully include JNDI bttributes recognized by {@link
+     * InitiblContext#InitiblContext(Hbshtbble) InitiblContext}.  This
+     * pbrbmeter cbn be null, which is equivblent to bn empty Mbp.
      *
-     * @exception IllegalArgumentException if <code>url</code>
+     * @exception IllegblArgumentException if <code>url</code>
      * is null.
      */
-    public RMIConnector(JMXServiceURL url, Map<String,?> environment) {
+    public RMIConnector(JMXServiceURL url, Mbp<String,?> environment) {
         this(null, url, environment);
     }
 
     /**
-     * <p>Constructs an <code>RMIConnector</code> using the given RMI stub.
+     * <p>Constructs bn <code>RMIConnector</code> using the given RMI stub.
      *
-     * @param rmiServer an RMI stub representing the RMI connector server.
-     * @param environment additional attributes specifying how to make
-     * the connection.  This parameter can be null, which is
-     * equivalent to an empty Map.
+     * @pbrbm rmiServer bn RMI stub representing the RMI connector server.
+     * @pbrbm environment bdditionbl bttributes specifying how to mbke
+     * the connection.  This pbrbmeter cbn be null, which is
+     * equivblent to bn empty Mbp.
      *
-     * @exception IllegalArgumentException if <code>rmiServer</code>
+     * @exception IllegblArgumentException if <code>rmiServer</code>
      * is null.
      */
-    public RMIConnector(RMIServer rmiServer, Map<String,?> environment) {
+    public RMIConnector(RMIServer rmiServer, Mbp<String,?> environment) {
         this(rmiServer, null, environment);
     }
 
     /**
-     * <p>Returns a string representation of this object.  In general,
-     * the <code>toString</code> method returns a string that
-     * "textually represents" this object. The result should be a
-     * concise but informative representation that is easy for a
-     * person to read.</p>
+     * <p>Returns b string representbtion of this object.  In generbl,
+     * the <code>toString</code> method returns b string thbt
+     * "textublly represents" this object. The result should be b
+     * concise but informbtive representbtion thbt is ebsy for b
+     * person to rebd.</p>
      *
-     * @return a String representation of this object.
+     * @return b String representbtion of this object.
      **/
     @Override
     public String toString() {
-        final StringBuilder b = new StringBuilder(this.getClass().getName());
-        b.append(":");
+        finbl StringBuilder b = new StringBuilder(this.getClbss().getNbme());
+        b.bppend(":");
         if (rmiServer != null) {
-            b.append(" rmiServer=").append(rmiServer.toString());
+            b.bppend(" rmiServer=").bppend(rmiServer.toString());
         }
         if (jmxServiceURL != null) {
-            if (rmiServer!=null) b.append(",");
-            b.append(" jmxServiceURL=").append(jmxServiceURL.toString());
+            if (rmiServer!=null) b.bppend(",");
+            b.bppend(" jmxServiceURL=").bppend(jmxServiceURL.toString());
         }
         return b.toString();
     }
 
     /**
-     * <p>The address of this connector.</p>
+     * <p>The bddress of this connector.</p>
      *
-     * @return the address of this connector, or null if it
-     * does not have one.
+     * @return the bddress of this connector, or null if it
+     * does not hbve one.
      *
      * @since 1.6
      */
@@ -237,265 +237,265 @@ public class RMIConnector implements JMXConnector, Serializable, JMXAddressable 
     }
 
     //--------------------------------------------------------------------
-    // implements JMXConnector interface
+    // implements JMXConnector interfbce
     //--------------------------------------------------------------------
 
     /**
-     * @throws IOException if the connection could not be made because of a
-     *   communication problem, or in the case of the {@code iiop} protocol,
-     *   that RMI/IIOP is not supported
+     * @throws IOException if the connection could not be mbde becbuse of b
+     *   communicbtion problem, or in the cbse of the {@code iiop} protocol,
+     *   thbt RMI/IIOP is not supported
      */
     public void connect() throws IOException {
         connect(null);
     }
 
     /**
-     * @throws IOException if the connection could not be made because of a
-     *   communication problem, or in the case of the {@code iiop} protocol,
-     *   that RMI/IIOP is not supported
+     * @throws IOException if the connection could not be mbde becbuse of b
+     *   communicbtion problem, or in the cbse of the {@code iiop} protocol,
+     *   thbt RMI/IIOP is not supported
      */
-    public synchronized void connect(Map<String,?> environment)
+    public synchronized void connect(Mbp<String,?> environment)
     throws IOException {
-        final boolean tracing = logger.traceOn();
-        String        idstr   = (tracing?"["+this.toString()+"]":null);
+        finbl boolebn trbcing = logger.trbceOn();
+        String        idstr   = (trbcing?"["+this.toString()+"]":null);
 
-        if (terminated) {
-            logger.trace("connect",idstr + " already closed.");
+        if (terminbted) {
+            logger.trbce("connect",idstr + " blrebdy closed.");
             throw new IOException("Connector closed");
         }
         if (connected) {
-            logger.trace("connect",idstr + " already connected.");
+            logger.trbce("connect",idstr + " blrebdy connected.");
             return;
         }
 
         try {
-            if (tracing) logger.trace("connect",idstr + " connecting...");
+            if (trbcing) logger.trbce("connect",idstr + " connecting...");
 
-            final Map<String, Object> usemap =
-                    new HashMap<String, Object>((this.env==null) ?
-                        Collections.<String, Object>emptyMap() : this.env);
+            finbl Mbp<String, Object> usembp =
+                    new HbshMbp<String, Object>((this.env==null) ?
+                        Collections.<String, Object>emptyMbp() : this.env);
 
 
             if (environment != null) {
                 EnvHelp.checkAttributes(environment);
-                usemap.putAll(environment);
+                usembp.putAll(environment);
             }
 
             // Get RMIServer stub from directory or URL encoding if needed.
-            if (tracing) logger.trace("connect",idstr + " finding stub...");
+            if (trbcing) logger.trbce("connect",idstr + " finding stub...");
             RMIServer stub = (rmiServer!=null)?rmiServer:
-                findRMIServer(jmxServiceURL, usemap);
+                findRMIServer(jmxServiceURL, usembp);
 
             // Check for secure RMIServer stub if the corresponding
             // client-side environment property is set to "true".
             //
-            String stringBoolean =  (String) usemap.get("jmx.remote.x.check.stub");
-            boolean checkStub = EnvHelp.computeBooleanFromString(stringBoolean);
+            String stringBoolebn =  (String) usembp.get("jmx.remote.x.check.stub");
+            boolebn checkStub = EnvHelp.computeBoolebnFromString(stringBoolebn);
 
-            if (checkStub) checkStub(stub, rmiServerImplStubClass);
+            if (checkStub) checkStub(stub, rmiServerImplStubClbss);
 
             // Connect IIOP Stub if needed.
-            if (tracing) logger.trace("connect",idstr + " connecting stub...");
-            stub = connectStub(stub,usemap);
-            idstr = (tracing?"["+this.toString()+"]":null);
+            if (trbcing) logger.trbce("connect",idstr + " connecting stub...");
+            stub = connectStub(stub,usembp);
+            idstr = (trbcing?"["+this.toString()+"]":null);
 
-            // Calling newClient on the RMIServer stub.
-            if (tracing)
-                logger.trace("connect",idstr + " getting connection...");
-            Object credentials = usemap.get(CREDENTIALS);
+            // Cblling newClient on the RMIServer stub.
+            if (trbcing)
+                logger.trbce("connect",idstr + " getting connection...");
+            Object credentibls = usembp.get(CREDENTIALS);
 
             try {
-                connection = getConnection(stub, credentials, checkStub);
-            } catch (java.rmi.RemoteException re) {
+                connection = getConnection(stub, credentibls, checkStub);
+            } cbtch (jbvb.rmi.RemoteException re) {
                 if (jmxServiceURL != null) {
-                    final String pro = jmxServiceURL.getProtocol();
-                    final String path = jmxServiceURL.getURLPath();
+                    finbl String pro = jmxServiceURL.getProtocol();
+                    finbl String pbth = jmxServiceURL.getURLPbth();
 
-                    if ("rmi".equals(pro) &&
-                        path.startsWith("/jndi/iiop:")) {
-                        MalformedURLException mfe = new MalformedURLException(
+                    if ("rmi".equbls(pro) &&
+                        pbth.stbrtsWith("/jndi/iiop:")) {
+                        MblformedURLException mfe = new MblformedURLException(
                               "Protocol is rmi but JNDI scheme is iiop: " + jmxServiceURL);
-                        mfe.initCause(re);
+                        mfe.initCbuse(re);
                         throw mfe;
                     }
                 }
                 throw re;
             }
 
-            // Always use one of:
-            //   ClassLoader provided in Map at connect time,
-            //   or contextClassLoader at connect time.
-            if (tracing)
-                logger.trace("connect",idstr + " getting class loader...");
-            defaultClassLoader = EnvHelp.resolveClientClassLoader(usemap);
+            // Alwbys use one of:
+            //   ClbssLobder provided in Mbp bt connect time,
+            //   or contextClbssLobder bt connect time.
+            if (trbcing)
+                logger.trbce("connect",idstr + " getting clbss lobder...");
+            defbultClbssLobder = EnvHelp.resolveClientClbssLobder(usembp);
 
-            usemap.put(JMXConnectorFactory.DEFAULT_CLASS_LOADER,
-                    defaultClassLoader);
+            usembp.put(JMXConnectorFbctory.DEFAULT_CLASS_LOADER,
+                    defbultClbssLobder);
 
-            rmiNotifClient = new RMINotifClient(defaultClassLoader, usemap);
+            rmiNotifClient = new RMINotifClient(defbultClbssLobder, usembp);
 
-            env = usemap;
-            final long checkPeriod = EnvHelp.getConnectionCheckPeriod(usemap);
-            communicatorAdmin = new RMIClientCommunicatorAdmin(checkPeriod);
+            env = usembp;
+            finbl long checkPeriod = EnvHelp.getConnectionCheckPeriod(usembp);
+            communicbtorAdmin = new RMIClientCommunicbtorAdmin(checkPeriod);
 
             connected = true;
 
-            // The connectionId variable is used in doStart(), when
+            // The connectionId vbribble is used in doStbrt(), when
             // reconnecting, to identify the "old" connection.
             //
             connectionId = getConnectionId();
 
-            Notification connectedNotif =
-                    new JMXConnectionNotification(JMXConnectionNotification.OPENED,
+            Notificbtion connectedNotif =
+                    new JMXConnectionNotificbtion(JMXConnectionNotificbtion.OPENED,
                     this,
                     connectionId,
                     clientNotifSeqNo++,
                     "Successful connection",
                     null);
-            sendNotification(connectedNotif);
+            sendNotificbtion(connectedNotif);
 
-            if (tracing) logger.trace("connect",idstr + " done...");
-        } catch (IOException e) {
-            if (tracing)
-                logger.trace("connect",idstr + " failed to connect: " + e);
+            if (trbcing) logger.trbce("connect",idstr + " done...");
+        } cbtch (IOException e) {
+            if (trbcing)
+                logger.trbce("connect",idstr + " fbiled to connect: " + e);
             throw e;
-        } catch (RuntimeException e) {
-            if (tracing)
-                logger.trace("connect",idstr + " failed to connect: " + e);
+        } cbtch (RuntimeException e) {
+            if (trbcing)
+                logger.trbce("connect",idstr + " fbiled to connect: " + e);
             throw e;
-        } catch (NamingException e) {
-            final String msg = "Failed to retrieve RMIServer stub: " + e;
-            if (tracing) logger.trace("connect",idstr + " " + msg);
-            throw EnvHelp.initCause(new IOException(msg),e);
+        } cbtch (NbmingException e) {
+            finbl String msg = "Fbiled to retrieve RMIServer stub: " + e;
+            if (trbcing) logger.trbce("connect",idstr + " " + msg);
+            throw EnvHelp.initCbuse(new IOException(msg),e);
         }
     }
 
     public synchronized String getConnectionId() throws IOException {
-        if (terminated || !connected) {
-            if (logger.traceOn())
-                logger.trace("getConnectionId","["+this.toString()+
+        if (terminbted || !connected) {
+            if (logger.trbceOn())
+                logger.trbce("getConnectionId","["+this.toString()+
                         "] not connected.");
 
             throw new IOException("Not connected");
         }
 
-        // we do a remote call to have an IOException if the connection is broken.
+        // we do b remote cbll to hbve bn IOException if the connection is broken.
         // see the bug 4939578
         return connection.getConnectionId();
     }
 
-    public synchronized MBeanServerConnection getMBeanServerConnection()
+    public synchronized MBebnServerConnection getMBebnServerConnection()
     throws IOException {
-        return getMBeanServerConnection(null);
+        return getMBebnServerConnection(null);
     }
 
-    public synchronized MBeanServerConnection
-            getMBeanServerConnection(Subject delegationSubject)
+    public synchronized MBebnServerConnection
+            getMBebnServerConnection(Subject delegbtionSubject)
             throws IOException {
 
-        if (terminated) {
-            if (logger.traceOn())
-                logger.trace("getMBeanServerConnection","[" + this.toString() +
-                        "] already closed.");
+        if (terminbted) {
+            if (logger.trbceOn())
+                logger.trbce("getMBebnServerConnection","[" + this.toString() +
+                        "] blrebdy closed.");
             throw new IOException("Connection closed");
         } else if (!connected) {
-            if (logger.traceOn())
-                logger.trace("getMBeanServerConnection","[" + this.toString() +
+            if (logger.trbceOn())
+                logger.trbce("getMBebnServerConnection","[" + this.toString() +
                         "] is not connected.");
             throw new IOException("Not connected");
         }
 
-        return getConnectionWithSubject(delegationSubject);
+        return getConnectionWithSubject(delegbtionSubject);
     }
 
     public void
-            addConnectionNotificationListener(NotificationListener listener,
-            NotificationFilter filter,
-            Object handback) {
+            bddConnectionNotificbtionListener(NotificbtionListener listener,
+            NotificbtionFilter filter,
+            Object hbndbbck) {
         if (listener == null)
             throw new NullPointerException("listener");
-        connectionBroadcaster.addNotificationListener(listener, filter,
-                handback);
+        connectionBrobdcbster.bddNotificbtionListener(listener, filter,
+                hbndbbck);
     }
 
     public void
-            removeConnectionNotificationListener(NotificationListener listener)
+            removeConnectionNotificbtionListener(NotificbtionListener listener)
             throws ListenerNotFoundException {
         if (listener == null)
             throw new NullPointerException("listener");
-        connectionBroadcaster.removeNotificationListener(listener);
+        connectionBrobdcbster.removeNotificbtionListener(listener);
     }
 
     public void
-            removeConnectionNotificationListener(NotificationListener listener,
-            NotificationFilter filter,
-            Object handback)
+            removeConnectionNotificbtionListener(NotificbtionListener listener,
+            NotificbtionFilter filter,
+            Object hbndbbck)
             throws ListenerNotFoundException {
         if (listener == null)
             throw new NullPointerException("listener");
-        connectionBroadcaster.removeNotificationListener(listener, filter,
-                handback);
+        connectionBrobdcbster.removeNotificbtionListener(listener, filter,
+                hbndbbck);
     }
 
-    private void sendNotification(Notification n) {
-        connectionBroadcaster.sendNotification(n);
+    privbte void sendNotificbtion(Notificbtion n) {
+        connectionBrobdcbster.sendNotificbtion(n);
     }
 
     public synchronized void close() throws IOException {
-        close(false);
+        close(fblse);
     }
 
-    // allows to do close after setting the flag "terminated" to true.
-    // It is necessary to avoid a deadlock, see 6296324
-    private synchronized void close(boolean intern) throws IOException {
-        final boolean tracing = logger.traceOn();
-        final boolean debug   = logger.debugOn();
-        final String  idstr   = (tracing?"["+this.toString()+"]":null);
+    // bllows to do close bfter setting the flbg "terminbted" to true.
+    // It is necessbry to bvoid b debdlock, see 6296324
+    privbte synchronized void close(boolebn intern) throws IOException {
+        finbl boolebn trbcing = logger.trbceOn();
+        finbl boolebn debug   = logger.debugOn();
+        finbl String  idstr   = (trbcing?"["+this.toString()+"]":null);
 
         if (!intern) {
-            // Return if already cleanly closed.
+            // Return if blrebdy clebnly closed.
             //
-            if (terminated) {
+            if (terminbted) {
                 if (closeException == null) {
-                    if (tracing) logger.trace("close",idstr + " already closed.");
+                    if (trbcing) logger.trbce("close",idstr + " blrebdy closed.");
                     return;
                 }
             } else {
-                terminated = true;
+                terminbted = true;
             }
         }
 
-        if (closeException != null && tracing) {
-            // Already closed, but not cleanly. Attempt again.
+        if (closeException != null && trbcing) {
+            // Alrebdy closed, but not clebnly. Attempt bgbin.
             //
-            if (tracing) {
-                logger.trace("close",idstr + " had failed: " + closeException);
-                logger.trace("close",idstr + " attempting to close again.");
+            if (trbcing) {
+                logger.trbce("close",idstr + " hbd fbiled: " + closeException);
+                logger.trbce("close",idstr + " bttempting to close bgbin.");
             }
         }
 
-        String savedConnectionId = null;
+        String sbvedConnectionId = null;
         if (connected) {
-            savedConnectionId = connectionId;
+            sbvedConnectionId = connectionId;
         }
 
         closeException = null;
 
-        if (tracing) logger.trace("close",idstr + " closing.");
+        if (trbcing) logger.trbce("close",idstr + " closing.");
 
-        if (communicatorAdmin != null) {
-            communicatorAdmin.terminate();
+        if (communicbtorAdmin != null) {
+            communicbtorAdmin.terminbte();
         }
 
         if (rmiNotifClient != null) {
             try {
-                rmiNotifClient.terminate();
-                if (tracing) logger.trace("close",idstr +
-                        " RMI Notification client terminated.");
-            } catch (RuntimeException x) {
+                rmiNotifClient.terminbte();
+                if (trbcing) logger.trbce("close",idstr +
+                        " RMI Notificbtion client terminbted.");
+            } cbtch (RuntimeException x) {
                 closeException = x;
-                if (tracing) logger.trace("close",idstr +
-                        " Failed to terminate RMI Notification client: " + x);
+                if (trbcing) logger.trbce("close",idstr +
+                        " Fbiled to terminbte RMI Notificbtion client: " + x);
                 if (debug) logger.debug("close",x);
             }
         }
@@ -503,974 +503,974 @@ public class RMIConnector implements JMXConnector, Serializable, JMXAddressable 
         if (connection != null) {
             try {
                 connection.close();
-                if (tracing) logger.trace("close",idstr + " closed.");
-            } catch (NoSuchObjectException nse) {
-                // OK, the server maybe closed itself.
-            } catch (IOException e) {
+                if (trbcing) logger.trbce("close",idstr + " closed.");
+            } cbtch (NoSuchObjectException nse) {
+                // OK, the server mbybe closed itself.
+            } cbtch (IOException e) {
                 closeException = e;
-                if (tracing) logger.trace("close",idstr +
-                        " Failed to close RMIServer: " + e);
+                if (trbcing) logger.trbce("close",idstr +
+                        " Fbiled to close RMIServer: " + e);
                 if (debug) logger.debug("close",e);
             }
         }
 
-        // Clean up MBeanServerConnection table
+        // Clebn up MBebnServerConnection tbble
         //
-        rmbscMap.clear();
+        rmbscMbp.clebr();
 
-        /* Send notification of closure.  We don't do this if the user
-         * never called connect() on the connector, because there's no
-         * connection id in that case.  */
+        /* Send notificbtion of closure.  We don't do this if the user
+         * never cblled connect() on the connector, becbuse there's no
+         * connection id in thbt cbse.  */
 
-        if (savedConnectionId != null) {
-            Notification closedNotif =
-                    new JMXConnectionNotification(JMXConnectionNotification.CLOSED,
+        if (sbvedConnectionId != null) {
+            Notificbtion closedNotif =
+                    new JMXConnectionNotificbtion(JMXConnectionNotificbtion.CLOSED,
                     this,
-                    savedConnectionId,
+                    sbvedConnectionId,
                     clientNotifSeqNo++,
-                    "Client has been closed",
+                    "Client hbs been closed",
                     null);
-            sendNotification(closedNotif);
+            sendNotificbtion(closedNotif);
         }
 
         // throw exception if needed
         //
         if (closeException != null) {
-            if (tracing) logger.trace("close",idstr + " failed to close: " +
+            if (trbcing) logger.trbce("close",idstr + " fbiled to close: " +
                     closeException);
-            if (closeException instanceof IOException)
+            if (closeException instbnceof IOException)
                 throw (IOException) closeException;
-            if (closeException instanceof RuntimeException)
+            if (closeException instbnceof RuntimeException)
                 throw (RuntimeException) closeException;
-            final IOException x =
-                    new IOException("Failed to close: " + closeException);
-            throw EnvHelp.initCause(x,closeException);
+            finbl IOException x =
+                    new IOException("Fbiled to close: " + closeException);
+            throw EnvHelp.initCbuse(x,closeException);
         }
     }
 
-    // added for re-connection
-    private Integer addListenerWithSubject(ObjectName name,
-                                           MarshalledObject<NotificationFilter> filter,
-                                           Subject delegationSubject,
-                                           boolean reconnect)
-        throws InstanceNotFoundException, IOException {
+    // bdded for re-connection
+    privbte Integer bddListenerWithSubject(ObjectNbme nbme,
+                                           MbrshblledObject<NotificbtionFilter> filter,
+                                           Subject delegbtionSubject,
+                                           boolebn reconnect)
+        throws InstbnceNotFoundException, IOException {
 
-        final boolean debug = logger.debugOn();
+        finbl boolebn debug = logger.debugOn();
         if (debug)
-            logger.debug("addListenerWithSubject",
-                    "(ObjectName,MarshalledObject,Subject)");
+            logger.debug("bddListenerWithSubject",
+                    "(ObjectNbme,MbrshblledObject,Subject)");
 
-        final ObjectName[] names = new ObjectName[] {name};
-        final MarshalledObject<NotificationFilter>[] filters =
-                Util.cast(new MarshalledObject<?>[] {filter});
-        final Subject[] delegationSubjects = new Subject[] {
-            delegationSubject
+        finbl ObjectNbme[] nbmes = new ObjectNbme[] {nbme};
+        finbl MbrshblledObject<NotificbtionFilter>[] filters =
+                Util.cbst(new MbrshblledObject<?>[] {filter});
+        finbl Subject[] delegbtionSubjects = new Subject[] {
+            delegbtionSubject
         };
 
-        final Integer[] listenerIDs =
-                addListenersWithSubjects(names,filters,delegationSubjects,
+        finbl Integer[] listenerIDs =
+                bddListenersWithSubjects(nbmes,filters,delegbtionSubjects,
                 reconnect);
 
-        if (debug) logger.debug("addListenerWithSubject","listenerID="
+        if (debug) logger.debug("bddListenerWithSubject","listenerID="
                 + listenerIDs[0]);
         return listenerIDs[0];
     }
 
-    // added for re-connection
-    private Integer[] addListenersWithSubjects(ObjectName[]       names,
-                             MarshalledObject<NotificationFilter>[] filters,
-                             Subject[]          delegationSubjects,
-                             boolean            reconnect)
-        throws InstanceNotFoundException, IOException {
+    // bdded for re-connection
+    privbte Integer[] bddListenersWithSubjects(ObjectNbme[]       nbmes,
+                             MbrshblledObject<NotificbtionFilter>[] filters,
+                             Subject[]          delegbtionSubjects,
+                             boolebn            reconnect)
+        throws InstbnceNotFoundException, IOException {
 
-        final boolean debug = logger.debugOn();
+        finbl boolebn debug = logger.debugOn();
         if (debug)
-            logger.debug("addListenersWithSubjects",
-                    "(ObjectName[],MarshalledObject[],Subject[])");
+            logger.debug("bddListenersWithSubjects",
+                    "(ObjectNbme[],MbrshblledObject[],Subject[])");
 
-        final ClassLoader old = pushDefaultClassLoader();
+        finbl ClbssLobder old = pushDefbultClbssLobder();
         Integer[] listenerIDs = null;
 
         try {
-            listenerIDs = connection.addNotificationListeners(names,
+            listenerIDs = connection.bddNotificbtionListeners(nbmes,
                     filters,
-                    delegationSubjects);
-        } catch (NoSuchObjectException noe) {
-            // maybe reconnect
+                    delegbtionSubjects);
+        } cbtch (NoSuchObjectException noe) {
+            // mbybe reconnect
             if (reconnect) {
-                communicatorAdmin.gotIOException(noe);
+                communicbtorAdmin.gotIOException(noe);
 
-                listenerIDs = connection.addNotificationListeners(names,
+                listenerIDs = connection.bddNotificbtionListeners(nbmes,
                         filters,
-                        delegationSubjects);
+                        delegbtionSubjects);
             } else {
                 throw noe;
             }
-        } catch (IOException ioe) {
-            // send a failed notif if necessary
-            communicatorAdmin.gotIOException(ioe);
-        } finally {
-            popDefaultClassLoader(old);
+        } cbtch (IOException ioe) {
+            // send b fbiled notif if necessbry
+            communicbtorAdmin.gotIOException(ioe);
+        } finblly {
+            popDefbultClbssLobder(old);
         }
 
-        if (debug) logger.debug("addListenersWithSubjects","registered "
+        if (debug) logger.debug("bddListenersWithSubjects","registered "
                 + ((listenerIDs==null)?0:listenerIDs.length)
                 + " listener(s)");
         return listenerIDs;
     }
 
     //--------------------------------------------------------------------
-    // Implementation of MBeanServerConnection
+    // Implementbtion of MBebnServerConnection
     //--------------------------------------------------------------------
-    private class RemoteMBeanServerConnection implements MBeanServerConnection {
-        private Subject delegationSubject;
+    privbte clbss RemoteMBebnServerConnection implements MBebnServerConnection {
+        privbte Subject delegbtionSubject;
 
-        public RemoteMBeanServerConnection() {
+        public RemoteMBebnServerConnection() {
             this(null);
         }
 
-        public RemoteMBeanServerConnection(Subject delegationSubject) {
-            this.delegationSubject = delegationSubject;
+        public RemoteMBebnServerConnection(Subject delegbtionSubject) {
+            this.delegbtionSubject = delegbtionSubject;
         }
 
-        public ObjectInstance createMBean(String className,
-                ObjectName name)
+        public ObjectInstbnce crebteMBebn(String clbssNbme,
+                ObjectNbme nbme)
                 throws ReflectionException,
-                InstanceAlreadyExistsException,
-                MBeanRegistrationException,
-                MBeanException,
-                NotCompliantMBeanException,
+                InstbnceAlrebdyExistsException,
+                MBebnRegistrbtionException,
+                MBebnException,
+                NotComplibntMBebnException,
                 IOException {
             if (logger.debugOn())
-                logger.debug("createMBean(String,ObjectName)",
-                        "className=" + className + ", name=" +
-                        name);
+                logger.debug("crebteMBebn(String,ObjectNbme)",
+                        "clbssNbme=" + clbssNbme + ", nbme=" +
+                        nbme);
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.createMBean(className,
-                        name,
-                        delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.crebteMBebn(clbssNbme,
+                        nbme,
+                        delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.createMBean(className,
-                        name,
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.crebteMBebn(clbssNbme,
+                        nbme,
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public ObjectInstance createMBean(String className,
-                ObjectName name,
-                ObjectName loaderName)
+        public ObjectInstbnce crebteMBebn(String clbssNbme,
+                ObjectNbme nbme,
+                ObjectNbme lobderNbme)
                 throws ReflectionException,
-                InstanceAlreadyExistsException,
-                MBeanRegistrationException,
-                MBeanException,
-                NotCompliantMBeanException,
-                InstanceNotFoundException,
+                InstbnceAlrebdyExistsException,
+                MBebnRegistrbtionException,
+                MBebnException,
+                NotComplibntMBebnException,
+                InstbnceNotFoundException,
                 IOException {
 
             if (logger.debugOn())
-                logger.debug("createMBean(String,ObjectName,ObjectName)",
-                        "className=" + className + ", name="
-                        + name + ", loaderName="
-                        + loaderName + ")");
+                logger.debug("crebteMBebn(String,ObjectNbme,ObjectNbme)",
+                        "clbssNbme=" + clbssNbme + ", nbme="
+                        + nbme + ", lobderNbme="
+                        + lobderNbme + ")");
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.createMBean(className,
-                        name,
-                        loaderName,
-                        delegationSubject);
+                return connection.crebteMBebn(clbssNbme,
+                        nbme,
+                        lobderNbme,
+                        delegbtionSubject);
 
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.createMBean(className,
-                        name,
-                        loaderName,
-                        delegationSubject);
+                return connection.crebteMBebn(clbssNbme,
+                        nbme,
+                        lobderNbme,
+                        delegbtionSubject);
 
-            } finally {
-                popDefaultClassLoader(old);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public ObjectInstance createMBean(String className,
-                ObjectName name,
-                Object params[],
-                String signature[])
+        public ObjectInstbnce crebteMBebn(String clbssNbme,
+                ObjectNbme nbme,
+                Object pbrbms[],
+                String signbture[])
                 throws ReflectionException,
-                InstanceAlreadyExistsException,
-                MBeanRegistrationException,
-                MBeanException,
-                NotCompliantMBeanException,
+                InstbnceAlrebdyExistsException,
+                MBebnRegistrbtionException,
+                MBebnException,
+                NotComplibntMBebnException,
                 IOException {
             if (logger.debugOn())
-                logger.debug("createMBean(String,ObjectName,Object[],String[])",
-                        "className=" + className + ", name="
-                        + name + ", params="
-                        + objects(params) + ", signature="
-                        + strings(signature));
+                logger.debug("crebteMBebn(String,ObjectNbme,Object[],String[])",
+                        "clbssNbme=" + clbssNbme + ", nbme="
+                        + nbme + ", pbrbms="
+                        + objects(pbrbms) + ", signbture="
+                        + strings(signbture));
 
-            final MarshalledObject<Object[]> sParams =
-                    new MarshalledObject<Object[]>(params);
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl MbrshblledObject<Object[]> sPbrbms =
+                    new MbrshblledObject<Object[]>(pbrbms);
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.createMBean(className,
-                        name,
-                        sParams,
-                        signature,
-                        delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.crebteMBebn(clbssNbme,
+                        nbme,
+                        sPbrbms,
+                        signbture,
+                        delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.createMBean(className,
-                        name,
-                        sParams,
-                        signature,
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.crebteMBebn(clbssNbme,
+                        nbme,
+                        sPbrbms,
+                        signbture,
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public ObjectInstance createMBean(String className,
-                ObjectName name,
-                ObjectName loaderName,
-                Object params[],
-                String signature[])
+        public ObjectInstbnce crebteMBebn(String clbssNbme,
+                ObjectNbme nbme,
+                ObjectNbme lobderNbme,
+                Object pbrbms[],
+                String signbture[])
                 throws ReflectionException,
-                InstanceAlreadyExistsException,
-                MBeanRegistrationException,
-                MBeanException,
-                NotCompliantMBeanException,
-                InstanceNotFoundException,
+                InstbnceAlrebdyExistsException,
+                MBebnRegistrbtionException,
+                MBebnException,
+                NotComplibntMBebnException,
+                InstbnceNotFoundException,
                 IOException {
             if (logger.debugOn()) logger.debug(
-                    "createMBean(String,ObjectName,ObjectName,Object[],String[])",
-                    "className=" + className + ", name=" + name + ", loaderName="
-                    + loaderName + ", params=" + objects(params)
-                    + ", signature=" + strings(signature));
+                    "crebteMBebn(String,ObjectNbme,ObjectNbme,Object[],String[])",
+                    "clbssNbme=" + clbssNbme + ", nbme=" + nbme + ", lobderNbme="
+                    + lobderNbme + ", pbrbms=" + objects(pbrbms)
+                    + ", signbture=" + strings(signbture));
 
-            final MarshalledObject<Object[]> sParams =
-                    new MarshalledObject<Object[]>(params);
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl MbrshblledObject<Object[]> sPbrbms =
+                    new MbrshblledObject<Object[]>(pbrbms);
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.createMBean(className,
-                        name,
-                        loaderName,
-                        sParams,
-                        signature,
-                        delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.crebteMBebn(clbssNbme,
+                        nbme,
+                        lobderNbme,
+                        sPbrbms,
+                        signbture,
+                        delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.createMBean(className,
-                        name,
-                        loaderName,
-                        sParams,
-                        signature,
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.crebteMBebn(clbssNbme,
+                        nbme,
+                        lobderNbme,
+                        sPbrbms,
+                        signbture,
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public void unregisterMBean(ObjectName name)
-        throws InstanceNotFoundException,
-                MBeanRegistrationException,
+        public void unregisterMBebn(ObjectNbme nbme)
+        throws InstbnceNotFoundException,
+                MBebnRegistrbtionException,
                 IOException {
             if (logger.debugOn())
-                logger.debug("unregisterMBean", "name=" + name);
+                logger.debug("unregisterMBebn", "nbme=" + nbme);
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                connection.unregisterMBean(name, delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                connection.unregisterMBebn(nbme, delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                connection.unregisterMBean(name, delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                connection.unregisterMBebn(nbme, delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public ObjectInstance getObjectInstance(ObjectName name)
-        throws InstanceNotFoundException,
+        public ObjectInstbnce getObjectInstbnce(ObjectNbme nbme)
+        throws InstbnceNotFoundException,
                 IOException {
             if (logger.debugOn())
-                logger.debug("getObjectInstance", "name=" + name);
+                logger.debug("getObjectInstbnce", "nbme=" + nbme);
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.getObjectInstance(name, delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.getObjectInstbnce(nbme, delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.getObjectInstance(name, delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.getObjectInstbnce(nbme, delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public Set<ObjectInstance> queryMBeans(ObjectName name,
+        public Set<ObjectInstbnce> queryMBebns(ObjectNbme nbme,
                 QueryExp query)
                 throws IOException {
-            if (logger.debugOn()) logger.debug("queryMBeans",
-                    "name=" + name + ", query=" + query);
+            if (logger.debugOn()) logger.debug("queryMBebns",
+                    "nbme=" + nbme + ", query=" + query);
 
-            final MarshalledObject<QueryExp> sQuery =
-                    new MarshalledObject<QueryExp>(query);
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl MbrshblledObject<QueryExp> sQuery =
+                    new MbrshblledObject<QueryExp>(query);
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.queryMBeans(name, sQuery, delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.queryMBebns(nbme, sQuery, delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.queryMBeans(name, sQuery, delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.queryMBebns(nbme, sQuery, delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public Set<ObjectName> queryNames(ObjectName name,
+        public Set<ObjectNbme> queryNbmes(ObjectNbme nbme,
                 QueryExp query)
                 throws IOException {
-            if (logger.debugOn()) logger.debug("queryNames",
-                    "name=" + name + ", query=" + query);
+            if (logger.debugOn()) logger.debug("queryNbmes",
+                    "nbme=" + nbme + ", query=" + query);
 
-            final MarshalledObject<QueryExp> sQuery =
-                    new MarshalledObject<QueryExp>(query);
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl MbrshblledObject<QueryExp> sQuery =
+                    new MbrshblledObject<QueryExp>(query);
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.queryNames(name, sQuery, delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.queryNbmes(nbme, sQuery, delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.queryNames(name, sQuery, delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.queryNbmes(nbme, sQuery, delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public boolean isRegistered(ObjectName name)
+        public boolebn isRegistered(ObjectNbme nbme)
         throws IOException {
             if (logger.debugOn())
-                logger.debug("isRegistered", "name=" + name);
+                logger.debug("isRegistered", "nbme=" + nbme);
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.isRegistered(name, delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.isRegistered(nbme, delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.isRegistered(name, delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.isRegistered(nbme, delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public Integer getMBeanCount()
+        public Integer getMBebnCount()
         throws IOException {
-            if (logger.debugOn()) logger.debug("getMBeanCount", "");
+            if (logger.debugOn()) logger.debug("getMBebnCount", "");
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.getMBeanCount(delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.getMBebnCount(delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.getMBeanCount(delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.getMBebnCount(delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public Object getAttribute(ObjectName name,
-                String attribute)
-                throws MBeanException,
+        public Object getAttribute(ObjectNbme nbme,
+                String bttribute)
+                throws MBebnException,
                 AttributeNotFoundException,
-                InstanceNotFoundException,
+                InstbnceNotFoundException,
                 ReflectionException,
                 IOException {
             if (logger.debugOn()) logger.debug("getAttribute",
-                    "name=" + name + ", attribute="
-                    + attribute);
+                    "nbme=" + nbme + ", bttribute="
+                    + bttribute);
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.getAttribute(name,
-                        attribute,
-                        delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.getAttribute(nbme,
+                        bttribute,
+                        delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.getAttribute(name,
-                        attribute,
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.getAttribute(nbme,
+                        bttribute,
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public AttributeList getAttributes(ObjectName name,
-                String[] attributes)
-                throws InstanceNotFoundException,
+        public AttributeList getAttributes(ObjectNbme nbme,
+                String[] bttributes)
+                throws InstbnceNotFoundException,
                 ReflectionException,
                 IOException {
             if (logger.debugOn()) logger.debug("getAttributes",
-                    "name=" + name + ", attributes="
-                    + strings(attributes));
+                    "nbme=" + nbme + ", bttributes="
+                    + strings(bttributes));
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.getAttributes(name,
-                        attributes,
-                        delegationSubject);
+                return connection.getAttributes(nbme,
+                        bttributes,
+                        delegbtionSubject);
 
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.getAttributes(name,
-                        attributes,
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.getAttributes(nbme,
+                        bttributes,
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
 
-        public void setAttribute(ObjectName name,
-                Attribute attribute)
-                throws InstanceNotFoundException,
+        public void setAttribute(ObjectNbme nbme,
+                Attribute bttribute)
+                throws InstbnceNotFoundException,
                 AttributeNotFoundException,
-                InvalidAttributeValueException,
-                MBeanException,
+                InvblidAttributeVblueException,
+                MBebnException,
                 ReflectionException,
                 IOException {
 
             if (logger.debugOn()) logger.debug("setAttribute",
-                    "name=" + name + ", attribute="
-                    + attribute);
+                    "nbme=" + nbme + ", bttribute="
+                    + bttribute);
 
-            final MarshalledObject<Attribute> sAttribute =
-                    new MarshalledObject<Attribute>(attribute);
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl MbrshblledObject<Attribute> sAttribute =
+                    new MbrshblledObject<Attribute>(bttribute);
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                connection.setAttribute(name, sAttribute, delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                connection.setAttribute(nbme, sAttribute, delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                connection.setAttribute(name, sAttribute, delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                connection.setAttribute(nbme, sAttribute, delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public AttributeList setAttributes(ObjectName name,
-                AttributeList attributes)
-                throws InstanceNotFoundException,
+        public AttributeList setAttributes(ObjectNbme nbme,
+                AttributeList bttributes)
+                throws InstbnceNotFoundException,
                 ReflectionException,
                 IOException {
 
             if (logger.debugOn()) logger.debug("setAttributes",
-                    "name=" + name + ", attributes="
-                    + attributes);
+                    "nbme=" + nbme + ", bttributes="
+                    + bttributes);
 
-            final MarshalledObject<AttributeList> sAttributes =
-                    new MarshalledObject<AttributeList>(attributes);
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl MbrshblledObject<AttributeList> sAttributes =
+                    new MbrshblledObject<AttributeList>(bttributes);
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.setAttributes(name,
+                return connection.setAttributes(nbme,
                         sAttributes,
-                        delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                        delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.setAttributes(name,
+                return connection.setAttributes(nbme,
                         sAttributes,
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
 
-        public Object invoke(ObjectName name,
-                String operationName,
-                Object params[],
-                String signature[])
-                throws InstanceNotFoundException,
-                MBeanException,
+        public Object invoke(ObjectNbme nbme,
+                String operbtionNbme,
+                Object pbrbms[],
+                String signbture[])
+                throws InstbnceNotFoundException,
+                MBebnException,
                 ReflectionException,
                 IOException {
 
             if (logger.debugOn()) logger.debug("invoke",
-                    "name=" + name
-                    + ", operationName=" + operationName
-                    + ", params=" + objects(params)
-                    + ", signature=" + strings(signature));
+                    "nbme=" + nbme
+                    + ", operbtionNbme=" + operbtionNbme
+                    + ", pbrbms=" + objects(pbrbms)
+                    + ", signbture=" + strings(signbture));
 
-            final MarshalledObject<Object[]> sParams =
-                    new MarshalledObject<Object[]>(params);
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl MbrshblledObject<Object[]> sPbrbms =
+                    new MbrshblledObject<Object[]>(pbrbms);
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.invoke(name,
-                        operationName,
-                        sParams,
-                        signature,
-                        delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.invoke(nbme,
+                        operbtionNbme,
+                        sPbrbms,
+                        signbture,
+                        delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.invoke(name,
-                        operationName,
-                        sParams,
-                        signature,
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.invoke(nbme,
+                        operbtionNbme,
+                        sPbrbms,
+                        signbture,
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
 
-        public String getDefaultDomain()
+        public String getDefbultDombin()
         throws IOException {
-            if (logger.debugOn()) logger.debug("getDefaultDomain", "");
+            if (logger.debugOn()) logger.debug("getDefbultDombin", "");
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.getDefaultDomain(delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.getDefbultDombin(delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.getDefaultDomain(delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.getDefbultDombin(delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public String[] getDomains() throws IOException {
-            if (logger.debugOn()) logger.debug("getDomains", "");
+        public String[] getDombins() throws IOException {
+            if (logger.debugOn()) logger.debug("getDombins", "");
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.getDomains(delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.getDombins(delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.getDomains(delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.getDombins(delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public MBeanInfo getMBeanInfo(ObjectName name)
-        throws InstanceNotFoundException,
+        public MBebnInfo getMBebnInfo(ObjectNbme nbme)
+        throws InstbnceNotFoundException,
                 IntrospectionException,
                 ReflectionException,
                 IOException {
 
-            if (logger.debugOn()) logger.debug("getMBeanInfo", "name=" + name);
-            final ClassLoader old = pushDefaultClassLoader();
+            if (logger.debugOn()) logger.debug("getMBebnInfo", "nbme=" + nbme);
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.getMBeanInfo(name, delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.getMBebnInfo(nbme, delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.getMBeanInfo(name, delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.getMBebnInfo(nbme, delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
 
-        public boolean isInstanceOf(ObjectName name,
-                String className)
-                throws InstanceNotFoundException,
+        public boolebn isInstbnceOf(ObjectNbme nbme,
+                String clbssNbme)
+                throws InstbnceNotFoundException,
                 IOException {
             if (logger.debugOn())
-                logger.debug("isInstanceOf", "name=" + name +
-                        ", className=" + className);
+                logger.debug("isInstbnceOf", "nbme=" + nbme +
+                        ", clbssNbme=" + clbssNbme);
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                return connection.isInstanceOf(name,
-                        className,
-                        delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                return connection.isInstbnceOf(nbme,
+                        clbssNbme,
+                        delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                return connection.isInstanceOf(name,
-                        className,
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                return connection.isInstbnceOf(nbme,
+                        clbssNbme,
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public void addNotificationListener(ObjectName name,
-                ObjectName listener,
-                NotificationFilter filter,
-                Object handback)
-                throws InstanceNotFoundException,
+        public void bddNotificbtionListener(ObjectNbme nbme,
+                ObjectNbme listener,
+                NotificbtionFilter filter,
+                Object hbndbbck)
+                throws InstbnceNotFoundException,
                 IOException {
 
             if (logger.debugOn())
-                logger.debug("addNotificationListener" +
-                        "(ObjectName,ObjectName,NotificationFilter,Object)",
-                        "name=" + name + ", listener=" + listener
-                        + ", filter=" + filter + ", handback=" + handback);
+                logger.debug("bddNotificbtionListener" +
+                        "(ObjectNbme,ObjectNbme,NotificbtionFilter,Object)",
+                        "nbme=" + nbme + ", listener=" + listener
+                        + ", filter=" + filter + ", hbndbbck=" + hbndbbck);
 
-            final MarshalledObject<NotificationFilter> sFilter =
-                    new MarshalledObject<NotificationFilter>(filter);
-            final MarshalledObject<Object> sHandback =
-                    new MarshalledObject<Object>(handback);
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl MbrshblledObject<NotificbtionFilter> sFilter =
+                    new MbrshblledObject<NotificbtionFilter>(filter);
+            finbl MbrshblledObject<Object> sHbndbbck =
+                    new MbrshblledObject<Object>(hbndbbck);
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                connection.addNotificationListener(name,
+                connection.bddNotificbtionListener(nbme,
                         listener,
                         sFilter,
-                        sHandback,
-                        delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                        sHbndbbck,
+                        delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                connection.addNotificationListener(name,
+                connection.bddNotificbtionListener(nbme,
                         listener,
                         sFilter,
-                        sHandback,
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                        sHbndbbck,
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public void removeNotificationListener(ObjectName name,
-                ObjectName listener)
-                throws InstanceNotFoundException,
+        public void removeNotificbtionListener(ObjectNbme nbme,
+                ObjectNbme listener)
+                throws InstbnceNotFoundException,
                 ListenerNotFoundException,
                 IOException {
 
-            if (logger.debugOn()) logger.debug("removeNotificationListener" +
-                    "(ObjectName,ObjectName)",
-                    "name=" + name
+            if (logger.debugOn()) logger.debug("removeNotificbtionListener" +
+                    "(ObjectNbme,ObjectNbme)",
+                    "nbme=" + nbme
                     + ", listener=" + listener);
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                connection.removeNotificationListener(name,
+                connection.removeNotificbtionListener(nbme,
                         listener,
-                        delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                        delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                connection.removeNotificationListener(name,
+                connection.removeNotificbtionListener(nbme,
                         listener,
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        public void removeNotificationListener(ObjectName name,
-                ObjectName listener,
-                NotificationFilter filter,
-                Object handback)
-                throws InstanceNotFoundException,
+        public void removeNotificbtionListener(ObjectNbme nbme,
+                ObjectNbme listener,
+                NotificbtionFilter filter,
+                Object hbndbbck)
+                throws InstbnceNotFoundException,
                 ListenerNotFoundException,
                 IOException {
             if (logger.debugOn())
-                logger.debug("removeNotificationListener" +
-                        "(ObjectName,ObjectName,NotificationFilter,Object)",
-                        "name=" + name
+                logger.debug("removeNotificbtionListener" +
+                        "(ObjectNbme,ObjectNbme,NotificbtionFilter,Object)",
+                        "nbme=" + nbme
                         + ", listener=" + listener
                         + ", filter=" + filter
-                        + ", handback=" + handback);
+                        + ", hbndbbck=" + hbndbbck);
 
-            final MarshalledObject<NotificationFilter> sFilter =
-                    new MarshalledObject<NotificationFilter>(filter);
-            final MarshalledObject<Object> sHandback =
-                    new MarshalledObject<Object>(handback);
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl MbrshblledObject<NotificbtionFilter> sFilter =
+                    new MbrshblledObject<NotificbtionFilter>(filter);
+            finbl MbrshblledObject<Object> sHbndbbck =
+                    new MbrshblledObject<Object>(hbndbbck);
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                connection.removeNotificationListener(name,
+                connection.removeNotificbtionListener(nbme,
                         listener,
                         sFilter,
-                        sHandback,
-                        delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                        sHbndbbck,
+                        delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                connection.removeNotificationListener(name,
+                connection.removeNotificbtionListener(nbme,
                         listener,
                         sFilter,
-                        sHandback,
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                        sHbndbbck,
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
         }
 
-        // Specific Notification Handle ----------------------------------
+        // Specific Notificbtion Hbndle ----------------------------------
 
-        public void addNotificationListener(ObjectName name,
-                NotificationListener listener,
-                NotificationFilter filter,
-                Object handback)
-                throws InstanceNotFoundException,
+        public void bddNotificbtionListener(ObjectNbme nbme,
+                NotificbtionListener listener,
+                NotificbtionFilter filter,
+                Object hbndbbck)
+                throws InstbnceNotFoundException,
                 IOException {
 
-            final boolean debug = logger.debugOn();
+            finbl boolebn debug = logger.debugOn();
 
             if (debug)
-                logger.debug("addNotificationListener" +
-                        "(ObjectName,NotificationListener,"+
-                        "NotificationFilter,Object)",
-                        "name=" + name
+                logger.debug("bddNotificbtionListener" +
+                        "(ObjectNbme,NotificbtionListener,"+
+                        "NotificbtionFilter,Object)",
+                        "nbme=" + nbme
                         + ", listener=" + listener
                         + ", filter=" + filter
-                        + ", handback=" + handback);
+                        + ", hbndbbck=" + hbndbbck);
 
-            final Integer listenerID =
-                    addListenerWithSubject(name,
-                    new MarshalledObject<NotificationFilter>(filter),
-                    delegationSubject,true);
-            rmiNotifClient.addNotificationListener(listenerID, name, listener,
-                    filter, handback,
-                    delegationSubject);
+            finbl Integer listenerID =
+                    bddListenerWithSubject(nbme,
+                    new MbrshblledObject<NotificbtionFilter>(filter),
+                    delegbtionSubject,true);
+            rmiNotifClient.bddNotificbtionListener(listenerID, nbme, listener,
+                    filter, hbndbbck,
+                    delegbtionSubject);
         }
 
-        public void removeNotificationListener(ObjectName name,
-                NotificationListener listener)
-                throws InstanceNotFoundException,
+        public void removeNotificbtionListener(ObjectNbme nbme,
+                NotificbtionListener listener)
+                throws InstbnceNotFoundException,
                 ListenerNotFoundException,
                 IOException {
 
-            final boolean debug = logger.debugOn();
+            finbl boolebn debug = logger.debugOn();
 
-            if (debug) logger.debug("removeNotificationListener"+
-                    "(ObjectName,NotificationListener)",
-                    "name=" + name
+            if (debug) logger.debug("removeNotificbtionListener"+
+                    "(ObjectNbme,NotificbtionListener)",
+                    "nbme=" + nbme
                     + ", listener=" + listener);
 
-            final Integer[] ret =
-                    rmiNotifClient.removeNotificationListener(name, listener);
+            finbl Integer[] ret =
+                    rmiNotifClient.removeNotificbtionListener(nbme, listener);
 
-            if (debug) logger.debug("removeNotificationListener",
+            if (debug) logger.debug("removeNotificbtionListener",
                     "listenerIDs=" + objects(ret));
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
 
             try {
-                connection.removeNotificationListeners(name,
+                connection.removeNotificbtionListeners(nbme,
                         ret,
-                        delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                        delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                connection.removeNotificationListeners(name,
+                connection.removeNotificbtionListeners(nbme,
                         ret,
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
 
         }
 
-        public void removeNotificationListener(ObjectName name,
-                NotificationListener listener,
-                NotificationFilter filter,
-                Object handback)
-                throws InstanceNotFoundException,
+        public void removeNotificbtionListener(ObjectNbme nbme,
+                NotificbtionListener listener,
+                NotificbtionFilter filter,
+                Object hbndbbck)
+                throws InstbnceNotFoundException,
                 ListenerNotFoundException,
                 IOException {
-            final boolean debug = logger.debugOn();
+            finbl boolebn debug = logger.debugOn();
 
             if (debug)
-                logger.debug("removeNotificationListener"+
-                        "(ObjectName,NotificationListener,"+
-                        "NotificationFilter,Object)",
-                        "name=" + name
+                logger.debug("removeNotificbtionListener"+
+                        "(ObjectNbme,NotificbtionListener,"+
+                        "NotificbtionFilter,Object)",
+                        "nbme=" + nbme
                         + ", listener=" + listener
                         + ", filter=" + filter
-                        + ", handback=" + handback);
+                        + ", hbndbbck=" + hbndbbck);
 
-            final Integer ret =
-                    rmiNotifClient.removeNotificationListener(name, listener,
-                    filter, handback);
+            finbl Integer ret =
+                    rmiNotifClient.removeNotificbtionListener(nbme, listener,
+                    filter, hbndbbck);
 
-            if (debug) logger.debug("removeNotificationListener",
+            if (debug) logger.debug("removeNotificbtionListener",
                     "listenerID=" + ret);
 
-            final ClassLoader old = pushDefaultClassLoader();
+            finbl ClbssLobder old = pushDefbultClbssLobder();
             try {
-                connection.removeNotificationListeners(name,
+                connection.removeNotificbtionListeners(nbme,
                         new Integer[] {ret},
-                        delegationSubject);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+                        delegbtionSubject);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                connection.removeNotificationListeners(name,
+                connection.removeNotificbtionListeners(nbme,
                         new Integer[] {ret},
-                        delegationSubject);
-            } finally {
-                popDefaultClassLoader(old);
+                        delegbtionSubject);
+            } finblly {
+                popDefbultClbssLobder(old);
             }
 
         }
     }
 
     //--------------------------------------------------------------------
-    private class RMINotifClient extends ClientNotifForwarder {
-        public RMINotifClient(ClassLoader cl, Map<String, ?> env) {
+    privbte clbss RMINotifClient extends ClientNotifForwbrder {
+        public RMINotifClient(ClbssLobder cl, Mbp<String, ?> env) {
             super(cl, env);
         }
 
-        protected NotificationResult fetchNotifs(long clientSequenceNumber,
-                int maxNotifications,
+        protected NotificbtionResult fetchNotifs(long clientSequenceNumber,
+                int mbxNotificbtions,
                 long timeout)
-                throws IOException, ClassNotFoundException {
+                throws IOException, ClbssNotFoundException {
             IOException org;
 
-            while (true) { // used for a successful re-connection
+            while (true) { // used for b successful re-connection
                 try {
-                    return connection.fetchNotifications(clientSequenceNumber,
-                            maxNotifications,
+                    return connection.fetchNotificbtions(clientSequenceNumber,
+                            mbxNotificbtions,
                             timeout);
-                } catch (IOException ioe) {
+                } cbtch (IOException ioe) {
                     org = ioe;
 
                     // inform of IOException
                     try {
-                        communicatorAdmin.gotIOException(ioe);
+                        communicbtorAdmin.gotIOException(ioe);
 
-                        // The connection should be re-established.
+                        // The connection should be re-estbblished.
                         continue;
-                    } catch (IOException ee) {
+                    } cbtch (IOException ee) {
                         // No more fetch, the Exception will be re-thrown.
-                        break;
-                    } // never reached
-                } // never reached
+                        brebk;
+                    } // never rebched
+                } // never rebched
             }
 
-            // specially treating for an UnmarshalException
-            if (org instanceof UnmarshalException) {
-                UnmarshalException ume = (UnmarshalException)org;
+            // speciblly trebting for bn UnmbrshblException
+            if (org instbnceof UnmbrshblException) {
+                UnmbrshblException ume = (UnmbrshblException)org;
 
-                if (ume.detail instanceof ClassNotFoundException)
-                    throw (ClassNotFoundException) ume.detail;
+                if (ume.detbil instbnceof ClbssNotFoundException)
+                    throw (ClbssNotFoundException) ume.detbil;
 
-                /* In Sun's RMI implementation, if a method return
-                   contains an unserializable object, then we get
-                   UnmarshalException wrapping WriteAbortedException
-                   wrapping NotSerializableException.  In that case we
-                   extract the NotSerializableException so that our
-                   caller can realize it should try to skip past the
-                   notification that presumably caused it.  It's not
-                   certain that every other RMI implementation will
-                   generate this exact exception sequence.  If not, we
-                   will not detect that the problem is due to an
-                   unserializable object, and we will stop trying to
-                   receive notifications from the server.  It's not
-                   clear we can do much better.  */
-                if (ume.detail instanceof WriteAbortedException) {
-                    WriteAbortedException wae =
-                            (WriteAbortedException) ume.detail;
-                    if (wae.detail instanceof IOException)
-                        throw (IOException) wae.detail;
+                /* In Sun's RMI implementbtion, if b method return
+                   contbins bn unseriblizbble object, then we get
+                   UnmbrshblException wrbpping WriteAbortedException
+                   wrbpping NotSeriblizbbleException.  In thbt cbse we
+                   extrbct the NotSeriblizbbleException so thbt our
+                   cbller cbn reblize it should try to skip pbst the
+                   notificbtion thbt presumbbly cbused it.  It's not
+                   certbin thbt every other RMI implementbtion will
+                   generbte this exbct exception sequence.  If not, we
+                   will not detect thbt the problem is due to bn
+                   unseriblizbble object, bnd we will stop trying to
+                   receive notificbtions from the server.  It's not
+                   clebr we cbn do much better.  */
+                if (ume.detbil instbnceof WriteAbortedException) {
+                    WriteAbortedException wbe =
+                            (WriteAbortedException) ume.detbil;
+                    if (wbe.detbil instbnceof IOException)
+                        throw (IOException) wbe.detbil;
                 }
-            } else if (org instanceof MarshalException) {
-                // IIOP will throw MarshalException wrapping a NotSerializableException
-                // when a server fails to serialize a response.
-                MarshalException me = (MarshalException)org;
-                if (me.detail instanceof NotSerializableException) {
-                    throw (NotSerializableException)me.detail;
+            } else if (org instbnceof MbrshblException) {
+                // IIOP will throw MbrshblException wrbpping b NotSeriblizbbleException
+                // when b server fbils to seriblize b response.
+                MbrshblException me = (MbrshblException)org;
+                if (me.detbil instbnceof NotSeriblizbbleException) {
+                    throw (NotSeriblizbbleException)me.detbil;
                 }
             }
 
-            // Not serialization problem, simply re-throw the orginal exception
+            // Not seriblizbtion problem, simply re-throw the orginbl exception
             throw org;
         }
 
-        protected Integer addListenerForMBeanRemovedNotif()
-        throws IOException, InstanceNotFoundException {
-            NotificationFilterSupport clientFilter =
-                    new NotificationFilterSupport();
-            clientFilter.enableType(
-                    MBeanServerNotification.UNREGISTRATION_NOTIFICATION);
-            MarshalledObject<NotificationFilter> sFilter =
-                new MarshalledObject<NotificationFilter>(clientFilter);
+        protected Integer bddListenerForMBebnRemovedNotif()
+        throws IOException, InstbnceNotFoundException {
+            NotificbtionFilterSupport clientFilter =
+                    new NotificbtionFilterSupport();
+            clientFilter.enbbleType(
+                    MBebnServerNotificbtion.UNREGISTRATION_NOTIFICATION);
+            MbrshblledObject<NotificbtionFilter> sFilter =
+                new MbrshblledObject<NotificbtionFilter>(clientFilter);
 
             Integer[] listenerIDs;
-            final ObjectName[] names =
-                new ObjectName[] {MBeanServerDelegate.DELEGATE_NAME};
-            final MarshalledObject<NotificationFilter>[] filters =
-                Util.cast(new MarshalledObject<?>[] {sFilter});
-            final Subject[] subjects = new Subject[] {null};
+            finbl ObjectNbme[] nbmes =
+                new ObjectNbme[] {MBebnServerDelegbte.DELEGATE_NAME};
+            finbl MbrshblledObject<NotificbtionFilter>[] filters =
+                Util.cbst(new MbrshblledObject<?>[] {sFilter});
+            finbl Subject[] subjects = new Subject[] {null};
             try {
                 listenerIDs =
-                        connection.addNotificationListeners(names,
+                        connection.bddNotificbtionListeners(nbmes,
                         filters,
                         subjects);
 
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
                 listenerIDs =
-                        connection.addNotificationListeners(names,
+                        connection.bddNotificbtionListeners(nbmes,
                         filters,
                         subjects);
             }
             return listenerIDs[0];
         }
 
-        protected void removeListenerForMBeanRemovedNotif(Integer id)
-        throws IOException, InstanceNotFoundException,
+        protected void removeListenerForMBebnRemovedNotif(Integer id)
+        throws IOException, InstbnceNotFoundException,
                 ListenerNotFoundException {
             try {
-                connection.removeNotificationListeners(
-                        MBeanServerDelegate.DELEGATE_NAME,
+                connection.removeNotificbtionListeners(
+                        MBebnServerDelegbte.DELEGATE_NAME,
                         new Integer[] {id},
                         null);
-            } catch (IOException ioe) {
-                communicatorAdmin.gotIOException(ioe);
+            } cbtch (IOException ioe) {
+                communicbtorAdmin.gotIOException(ioe);
 
-                connection.removeNotificationListeners(
-                        MBeanServerDelegate.DELEGATE_NAME,
+                connection.removeNotificbtionListeners(
+                        MBebnServerDelegbte.DELEGATE_NAME,
                         new Integer[] {id},
                         null);
             }
 
         }
 
-        protected void lostNotifs(String message, long number) {
-            final String notifType = JMXConnectionNotification.NOTIFS_LOST;
+        protected void lostNotifs(String messbge, long number) {
+            finbl String notifType = JMXConnectionNotificbtion.NOTIFS_LOST;
 
-            final JMXConnectionNotification n =
-                new JMXConnectionNotification(notifType,
+            finbl JMXConnectionNotificbtion n =
+                new JMXConnectionNotificbtion(notifType,
                                               RMIConnector.this,
                                               connectionId,
                                               clientNotifCounter++,
-                                              message,
-                                              Long.valueOf(number));
-            sendNotification(n);
+                                              messbge,
+                                              Long.vblueOf(number));
+            sendNotificbtion(n);
         }
     }
 
-    private class RMIClientCommunicatorAdmin extends ClientCommunicatorAdmin {
-        public RMIClientCommunicatorAdmin(long period) {
+    privbte clbss RMIClientCommunicbtorAdmin extends ClientCommunicbtorAdmin {
+        public RMIClientCommunicbtorAdmin(long period) {
             super(period);
         }
 
         @Override
         public void gotIOException(IOException ioe) throws IOException {
-            if (ioe instanceof NoSuchObjectException) {
-                // need to restart
+            if (ioe instbnceof NoSuchObjectException) {
+                // need to restbrt
                 super.gotIOException(ioe);
 
                 return;
@@ -1478,13 +1478,13 @@ public class RMIConnector implements JMXConnector, Serializable, JMXAddressable 
 
             // check if the connection is broken
             try {
-                connection.getDefaultDomain(null);
-            } catch (IOException ioexc) {
-                boolean toClose = false;
+                connection.getDefbultDombin(null);
+            } cbtch (IOException ioexc) {
+                boolebn toClose = fblse;
 
                 synchronized(this) {
-                    if (!terminated) {
-                        terminated = true;
+                    if (!terminbted) {
+                        terminbted = true;
 
                         toClose = true;
                     }
@@ -1492,43 +1492,43 @@ public class RMIConnector implements JMXConnector, Serializable, JMXAddressable 
 
                 if (toClose) {
                     // we should close the connection,
-                    // but send a failed notif at first
-                    final Notification failedNotif =
-                            new JMXConnectionNotification(
-                            JMXConnectionNotification.FAILED,
+                    // but send b fbiled notif bt first
+                    finbl Notificbtion fbiledNotif =
+                            new JMXConnectionNotificbtion(
+                            JMXConnectionNotificbtion.FAILED,
                             this,
                             connectionId,
                             clientNotifSeqNo++,
-                            "Failed to communicate with the server: "+ioe.toString(),
+                            "Fbiled to communicbte with the server: "+ioe.toString(),
                             ioe);
 
-                    sendNotification(failedNotif);
+                    sendNotificbtion(fbiledNotif);
 
                     try {
                         close(true);
-                    } catch (Exception e) {
+                    } cbtch (Exception e) {
                         // OK.
-                        // We are closing
+                        // We bre closing
                     }
                 }
             }
 
-            // forward the exception
-            if (ioe instanceof ServerException) {
-                /* Need to unwrap the exception.
-                   Some user-thrown exception at server side will be wrapped by
-                   rmi into a ServerException.
-                   For example, a RMIConnnectorServer will wrap a
-                   ClassNotFoundException into a UnmarshalException, and rmi
-                   will throw a ServerException at client side which wraps this
-                   UnmarshalException.
-                   No failed notif here.
+            // forwbrd the exception
+            if (ioe instbnceof ServerException) {
+                /* Need to unwrbp the exception.
+                   Some user-thrown exception bt server side will be wrbpped by
+                   rmi into b ServerException.
+                   For exbmple, b RMIConnnectorServer will wrbp b
+                   ClbssNotFoundException into b UnmbrshblException, bnd rmi
+                   will throw b ServerException bt client side which wrbps this
+                   UnmbrshblException.
+                   No fbiled notif here.
                  */
-                Throwable tt = ((ServerException)ioe).detail;
+                Throwbble tt = ((ServerException)ioe).detbil;
 
-                if (tt instanceof IOException) {
+                if (tt instbnceof IOException) {
                     throw (IOException)tt;
-                } else if (tt instanceof RuntimeException) {
+                } else if (tt instbnceof RuntimeException) {
                     throw (RuntimeException)tt;
                 }
             }
@@ -1536,73 +1536,73 @@ public class RMIConnector implements JMXConnector, Serializable, JMXAddressable 
             throw ioe;
         }
 
-        public void reconnectNotificationListeners(ClientListenerInfo[] old) throws IOException {
-            final int len  = old.length;
+        public void reconnectNotificbtionListeners(ClientListenerInfo[] old) throws IOException {
+            finbl int len  = old.length;
             int i;
 
             ClientListenerInfo[] clis = new ClientListenerInfo[len];
 
-            final Subject[] subjects = new Subject[len];
-            final ObjectName[] names = new ObjectName[len];
-            final NotificationListener[] listeners = new NotificationListener[len];
-            final NotificationFilter[] filters = new NotificationFilter[len];
-            final MarshalledObject<NotificationFilter>[] mFilters =
-                    Util.cast(new MarshalledObject<?>[len]);
-            final Object[] handbacks = new Object[len];
+            finbl Subject[] subjects = new Subject[len];
+            finbl ObjectNbme[] nbmes = new ObjectNbme[len];
+            finbl NotificbtionListener[] listeners = new NotificbtionListener[len];
+            finbl NotificbtionFilter[] filters = new NotificbtionFilter[len];
+            finbl MbrshblledObject<NotificbtionFilter>[] mFilters =
+                    Util.cbst(new MbrshblledObject<?>[len]);
+            finbl Object[] hbndbbcks = new Object[len];
 
             for (i=0;i<len;i++) {
-                subjects[i]  = old[i].getDelegationSubject();
-                names[i]     = old[i].getObjectName();
+                subjects[i]  = old[i].getDelegbtionSubject();
+                nbmes[i]     = old[i].getObjectNbme();
                 listeners[i] = old[i].getListener();
-                filters[i]   = old[i].getNotificationFilter();
-                mFilters[i]  = new MarshalledObject<NotificationFilter>(filters[i]);
-                handbacks[i] = old[i].getHandback();
+                filters[i]   = old[i].getNotificbtionFilter();
+                mFilters[i]  = new MbrshblledObject<NotificbtionFilter>(filters[i]);
+                hbndbbcks[i] = old[i].getHbndbbck();
             }
 
             try {
-                Integer[] ids = addListenersWithSubjects(names,mFilters,subjects,false);
+                Integer[] ids = bddListenersWithSubjects(nbmes,mFilters,subjects,fblse);
 
                 for (i=0;i<len;i++) {
                     clis[i] = new ClientListenerInfo(ids[i],
-                            names[i],
+                            nbmes[i],
                             listeners[i],
                             filters[i],
-                            handbacks[i],
+                            hbndbbcks[i],
                             subjects[i]);
                 }
 
                 rmiNotifClient.postReconnection(clis);
 
                 return;
-            } catch (InstanceNotFoundException infe) {
+            } cbtch (InstbnceNotFoundException infe) {
                 // OK, we will do one by one
             }
 
             int j = 0;
             for (i=0;i<len;i++) {
                 try {
-                    Integer id = addListenerWithSubject(names[i],
-                            new MarshalledObject<NotificationFilter>(filters[i]),
+                    Integer id = bddListenerWithSubject(nbmes[i],
+                            new MbrshblledObject<NotificbtionFilter>(filters[i]),
                             subjects[i],
-                            false);
+                            fblse);
 
                     clis[j++] = new ClientListenerInfo(id,
-                            names[i],
+                            nbmes[i],
                             listeners[i],
                             filters[i],
-                            handbacks[i],
+                            hbndbbcks[i],
                             subjects[i]);
-                } catch (InstanceNotFoundException infe) {
-                    logger.warning("reconnectNotificationListeners",
-                            "Can't reconnect listener for " +
-                            names[i]);
+                } cbtch (InstbnceNotFoundException infe) {
+                    logger.wbrning("reconnectNotificbtionListeners",
+                            "Cbn't reconnect listener for " +
+                            nbmes[i]);
                 }
             }
 
             if (j != len) {
                 ClientListenerInfo[] tmp = clis;
                 clis = new ClientListenerInfo[j];
-                System.arraycopy(tmp, 0, clis, 0, j);
+                System.brrbycopy(tmp, 0, clis, 0, j);
             }
 
             rmiNotifClient.postReconnection(clis);
@@ -1610,111 +1610,111 @@ public class RMIConnector implements JMXConnector, Serializable, JMXAddressable 
 
         protected void checkConnection() throws IOException {
             if (logger.debugOn())
-                logger.debug("RMIClientCommunicatorAdmin-checkConnection",
-                        "Calling the method getDefaultDomain.");
+                logger.debug("RMIClientCommunicbtorAdmin-checkConnection",
+                        "Cblling the method getDefbultDombin.");
 
-            connection.getDefaultDomain(null);
+            connection.getDefbultDombin(null);
         }
 
-        protected void doStart() throws IOException {
+        protected void doStbrt() throws IOException {
             // Get RMIServer stub from directory or URL encoding if needed.
             RMIServer stub;
             try {
                 stub = (rmiServer!=null)?rmiServer:
                     findRMIServer(jmxServiceURL, env);
-            } catch (NamingException ne) {
-                throw new IOException("Failed to get a RMI stub: "+ne);
+            } cbtch (NbmingException ne) {
+                throw new IOException("Fbiled to get b RMI stub: "+ne);
             }
 
             // Connect IIOP Stub if needed.
             stub = connectStub(stub,env);
 
-            // Calling newClient on the RMIServer stub.
-            Object credentials = env.get(CREDENTIALS);
-            connection = stub.newClient(credentials);
+            // Cblling newClient on the RMIServer stub.
+            Object credentibls = env.get(CREDENTIALS);
+            connection = stub.newClient(credentibls);
 
             // notif issues
-            final ClientListenerInfo[] old = rmiNotifClient.preReconnection();
+            finbl ClientListenerInfo[] old = rmiNotifClient.preReconnection();
 
-            reconnectNotificationListeners(old);
+            reconnectNotificbtionListeners(old);
 
             connectionId = getConnectionId();
 
-            Notification reconnectedNotif =
-                    new JMXConnectionNotification(JMXConnectionNotification.OPENED,
+            Notificbtion reconnectedNotif =
+                    new JMXConnectionNotificbtion(JMXConnectionNotificbtion.OPENED,
                     this,
                     connectionId,
                     clientNotifSeqNo++,
                     "Reconnected to server",
                     null);
-            sendNotification(reconnectedNotif);
+            sendNotificbtion(reconnectedNotif);
 
         }
 
         protected void doStop() {
             try {
                 close();
-            } catch (IOException ioe) {
-                logger.warning("RMIClientCommunicatorAdmin-doStop",
-                        "Failed to call the method close():" + ioe);
-                logger.debug("RMIClientCommunicatorAdmin-doStop",ioe);
+            } cbtch (IOException ioe) {
+                logger.wbrning("RMIClientCommunicbtorAdmin-doStop",
+                        "Fbiled to cbll the method close():" + ioe);
+                logger.debug("RMIClientCommunicbtorAdmin-doStop",ioe);
             }
         }
     }
 
     //--------------------------------------------------------------------
-    // Private stuff - Serialization
+    // Privbte stuff - Seriblizbtion
     //--------------------------------------------------------------------
     /**
-     * <p>In order to be usable, an IIOP stub must be connected to an ORB.
-     * The stub is automatically connected to the ORB if:
+     * <p>In order to be usbble, bn IIOP stub must be connected to bn ORB.
+     * The stub is butombticblly connected to the ORB if:
      * <ul>
-     *     <li> It was returned by the COS naming</li>
-     *     <li> Its server counterpart has been registered in COS naming
+     *     <li> It wbs returned by the COS nbming</li>
+     *     <li> Its server counterpbrt hbs been registered in COS nbming
      *          through JNDI.</li>
      * </ul>
-     * Otherwise, it is not connected. A stub which is deserialized
-     * from Jini is not connected. A stub which is obtained from a
-     * non registered RMIIIOPServerImpl is not a connected.<br>
-     * A stub which is not connected can't be serialized, and thus
-     * can't be registered in Jini. A stub which is not connected can't
+     * Otherwise, it is not connected. A stub which is deseriblized
+     * from Jini is not connected. A stub which is obtbined from b
+     * non registered RMIIIOPServerImpl is not b connected.<br>
+     * A stub which is not connected cbn't be seriblized, bnd thus
+     * cbn't be registered in Jini. A stub which is not connected cbn't
      * be used to invoke methods on the server.
      * <p>
-     * In order to palliate this, this method will connect the
+     * In order to pbllibte this, this method will connect the
      * given stub if it is not yet connected. If the given
-     * <var>RMIServer</var> is not an instance of
-     * {@link javax.rmi.CORBA.Stub javax.rmi.CORBA.Stub}, then the
-     * method do nothing and simply returns that stub. Otherwise,
-     * this method will attempt to connect the stub to an ORB as
+     * <vbr>RMIServer</vbr> is not bn instbnce of
+     * {@link jbvbx.rmi.CORBA.Stub jbvbx.rmi.CORBA.Stub}, then the
+     * method do nothing bnd simply returns thbt stub. Otherwise,
+     * this method will bttempt to connect the stub to bn ORB bs
      * follows:
      * <ul>
-     * <li>This method looks in the provided <var>environment</var> for
-     * the "java.naming.corba.orb" property. If it is found, the
-     * referenced object (an {@link org.omg.CORBA.ORB ORB}) is used to
-     * connect the stub. Otherwise, a new org.omg.CORBA.ORB is created
-     * by calling {@link
+     * <li>This method looks in the provided <vbr>environment</vbr> for
+     * the "jbvb.nbming.corbb.orb" property. If it is found, the
+     * referenced object (bn {@link org.omg.CORBA.ORB ORB}) is used to
+     * connect the stub. Otherwise, b new org.omg.CORBA.ORB is crebted
+     * by cblling {@link
      * org.omg.CORBA.ORB#init(String[], Properties)
      * org.omg.CORBA.ORB.init((String[])null,(Properties)null)}</li>
-     * <li>The new created ORB is kept in a static
-     * {@link WeakReference} and can be reused for connecting other
+     * <li>The new crebted ORB is kept in b stbtic
+     * {@link WebkReference} bnd cbn be reused for connecting other
      * stubs. However, no reference is ever kept on the ORB provided
-     * in the <var>environment</var> map, if any.</li>
+     * in the <vbr>environment</vbr> mbp, if bny.</li>
      * </ul>
-     * @param rmiServer A RMI Server Stub.
-     * @param environment An environment map, possibly containing an ORB.
+     * @pbrbm rmiServer A RMI Server Stub.
+     * @pbrbm environment An environment mbp, possibly contbining bn ORB.
      * @return the given stub.
-     * @exception IllegalArgumentException if the
-     *      <tt>java.naming.corba.orb</tt> property is specified and
-     *      does not point to an {@link org.omg.CORBA.ORB ORB}.
-     * @exception IOException if the connection to the ORB failed.
+     * @exception IllegblArgumentException if the
+     *      <tt>jbvb.nbming.corbb.orb</tt> property is specified bnd
+     *      does not point to bn {@link org.omg.CORBA.ORB ORB}.
+     * @exception IOException if the connection to the ORB fbiled.
      **/
-    static RMIServer connectStub(RMIServer rmiServer,
-                                 Map<String, ?> environment)
+    stbtic RMIServer connectStub(RMIServer rmiServer,
+                                 Mbp<String, ?> environment)
         throws IOException {
         if (IIOPHelper.isStub(rmiServer)) {
             try {
                 IIOPHelper.getOrb(rmiServer);
-            } catch (UnsupportedOperationException x) {
+            } cbtch (UnsupportedOperbtionException x) {
                 // BAD_OPERATION
                 IIOPHelper.connect(rmiServer, resolveOrb(environment));
             }
@@ -1723,600 +1723,600 @@ public class RMIConnector implements JMXConnector, Serializable, JMXAddressable 
     }
 
     /**
-     * Get the ORB specified by <var>environment</var>, or create a
+     * Get the ORB specified by <vbr>environment</vbr>, or crebte b
      * new one.
-     * <p>This method looks in the provided <var>environment</var> for
-     * the "java.naming.corba.orb" property. If it is found, the
-     * referenced object (an {@link org.omg.CORBA.ORB ORB}) is
-     * returned. Otherwise, a new org.omg.CORBA.ORB is created
-     * by calling {@link
-     * org.omg.CORBA.ORB#init(String[], java.util.Properties)
+     * <p>This method looks in the provided <vbr>environment</vbr> for
+     * the "jbvb.nbming.corbb.orb" property. If it is found, the
+     * referenced object (bn {@link org.omg.CORBA.ORB ORB}) is
+     * returned. Otherwise, b new org.omg.CORBA.ORB is crebted
+     * by cblling {@link
+     * org.omg.CORBA.ORB#init(String[], jbvb.util.Properties)
      * org.omg.CORBA.ORB.init((String[])null,(Properties)null)}
-     * <p>The new created ORB is kept in a static
-     * {@link WeakReference} and can be reused for connecting other
+     * <p>The new crebted ORB is kept in b stbtic
+     * {@link WebkReference} bnd cbn be reused for connecting other
      * stubs. However, no reference is ever kept on the ORB provided
-     * in the <var>environment</var> map, if any.
-     * @param environment An environment map, possibly containing an ORB.
+     * in the <vbr>environment</vbr> mbp, if bny.
+     * @pbrbm environment An environment mbp, possibly contbining bn ORB.
      * @return An ORB.
-     * @exception IllegalArgumentException if the
-     *      <tt>java.naming.corba.orb</tt> property is specified and
-     *      does not point to an {@link org.omg.CORBA.ORB ORB}.
-     * @exception IOException if the ORB initialization failed.
+     * @exception IllegblArgumentException if the
+     *      <tt>jbvb.nbming.corbb.orb</tt> property is specified bnd
+     *      does not point to bn {@link org.omg.CORBA.ORB ORB}.
+     * @exception IOException if the ORB initiblizbtion fbiled.
      **/
-    static Object resolveOrb(Map<String, ?> environment)
+    stbtic Object resolveOrb(Mbp<String, ?> environment)
         throws IOException {
         if (environment != null) {
-            final Object orb = environment.get(EnvHelp.DEFAULT_ORB);
+            finbl Object orb = environment.get(EnvHelp.DEFAULT_ORB);
             if (orb != null && !(IIOPHelper.isOrb(orb)))
-                throw new IllegalArgumentException(EnvHelp.DEFAULT_ORB +
-                        " must be an instance of org.omg.CORBA.ORB.");
+                throw new IllegblArgumentException(EnvHelp.DEFAULT_ORB +
+                        " must be bn instbnce of org.omg.CORBA.ORB.");
             if (orb != null) return orb;
         }
-        final Object orb =
+        finbl Object orb =
                 (RMIConnector.orb==null)?null:RMIConnector.orb.get();
         if (orb != null) return orb;
 
-        final Object newOrb =
-                IIOPHelper.createOrb((String[])null, (Properties)null);
-        RMIConnector.orb = new WeakReference<Object>(newOrb);
+        finbl Object newOrb =
+                IIOPHelper.crebteOrb((String[])null, (Properties)null);
+        RMIConnector.orb = new WebkReference<Object>(newOrb);
         return newOrb;
     }
 
     /**
-     * Read RMIConnector fields from an {@link java.io.ObjectInputStream
-     * ObjectInputStream}.
-     * Calls <code>s.defaultReadObject()</code> and then initializes
-     * all transient variables that need initializing.
-     * @param s The ObjectInputStream to read from.
-     * @exception InvalidObjectException if none of <var>rmiServer</var> stub
-     *    or <var>jmxServiceURL</var> are set.
-     * @see #RMIConnector(JMXServiceURL,Map)
-     * @see #RMIConnector(RMIServer,Map)
+     * Rebd RMIConnector fields from bn {@link jbvb.io.ObjectInputStrebm
+     * ObjectInputStrebm}.
+     * Cblls <code>s.defbultRebdObject()</code> bnd then initiblizes
+     * bll trbnsient vbribbles thbt need initiblizing.
+     * @pbrbm s The ObjectInputStrebm to rebd from.
+     * @exception InvblidObjectException if none of <vbr>rmiServer</vbr> stub
+     *    or <vbr>jmxServiceURL</vbr> bre set.
+     * @see #RMIConnector(JMXServiceURL,Mbp)
+     * @see #RMIConnector(RMIServer,Mbp)
      **/
-    private void readObject(java.io.ObjectInputStream s)
-    throws IOException, ClassNotFoundException  {
-        s.defaultReadObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+    throws IOException, ClbssNotFoundException  {
+        s.defbultRebdObject();
 
         if (rmiServer == null && jmxServiceURL == null) throw new
-                InvalidObjectException("rmiServer and jmxServiceURL both null");
+                InvblidObjectException("rmiServer bnd jmxServiceURL both null");
 
-        initTransients();
+        initTrbnsients();
     }
 
     /**
-     * Writes the RMIConnector fields to an {@link java.io.ObjectOutputStream
-     * ObjectOutputStream}.
-     * <p>Connects the underlying RMIServer stub to an ORB, if needed,
-     * before serializing it. This is done using the environment
-     * map that was provided to the constructor, if any, and as documented
-     * in {@link javax.management.remote.rmi}.</p>
-     * <p>This method then calls <code>s.defaultWriteObject()</code>.
-     * Usually, <var>rmiServer</var> is null if this object
-     * was constructed with a JMXServiceURL, and <var>jmxServiceURL</var>
-     * is null if this object is constructed with a RMIServer stub.
-     * <p>Note that the environment Map is not serialized, since the objects
-     * it contains are assumed to be contextual and relevant only
-     * with respect to the local environment (class loader, ORB, etc...).</p>
-     * <p>After an RMIConnector is deserialized, it is assumed that the
-     * user will call {@link #connect(Map)}, providing a new Map that
-     * can contain values which are contextually relevant to the new
-     * local environment.</p>
-     * <p>Since connection to the ORB is needed prior to serializing, and
-     * since the ORB to connect to is one of those contextual parameters,
-     * it is not recommended to re-serialize a just de-serialized object -
-     * as the de-serialized object has no map. Thus, when an RMIConnector
-     * object is needed for serialization or transmission to a remote
-     * application, it is recommended to obtain a new RMIConnector stub
-     * by calling {@link RMIConnectorServer#toJMXConnector(Map)}.</p>
-     * @param s The ObjectOutputStream to write to.
-     * @exception InvalidObjectException if none of <var>rmiServer</var> stub
-     *    or <var>jmxServiceURL</var> are set.
-     * @see #RMIConnector(JMXServiceURL,Map)
-     * @see #RMIConnector(RMIServer,Map)
+     * Writes the RMIConnector fields to bn {@link jbvb.io.ObjectOutputStrebm
+     * ObjectOutputStrebm}.
+     * <p>Connects the underlying RMIServer stub to bn ORB, if needed,
+     * before seriblizing it. This is done using the environment
+     * mbp thbt wbs provided to the constructor, if bny, bnd bs documented
+     * in {@link jbvbx.mbnbgement.remote.rmi}.</p>
+     * <p>This method then cblls <code>s.defbultWriteObject()</code>.
+     * Usublly, <vbr>rmiServer</vbr> is null if this object
+     * wbs constructed with b JMXServiceURL, bnd <vbr>jmxServiceURL</vbr>
+     * is null if this object is constructed with b RMIServer stub.
+     * <p>Note thbt the environment Mbp is not seriblized, since the objects
+     * it contbins bre bssumed to be contextubl bnd relevbnt only
+     * with respect to the locbl environment (clbss lobder, ORB, etc...).</p>
+     * <p>After bn RMIConnector is deseriblized, it is bssumed thbt the
+     * user will cbll {@link #connect(Mbp)}, providing b new Mbp thbt
+     * cbn contbin vblues which bre contextublly relevbnt to the new
+     * locbl environment.</p>
+     * <p>Since connection to the ORB is needed prior to seriblizing, bnd
+     * since the ORB to connect to is one of those contextubl pbrbmeters,
+     * it is not recommended to re-seriblize b just de-seriblized object -
+     * bs the de-seriblized object hbs no mbp. Thus, when bn RMIConnector
+     * object is needed for seriblizbtion or trbnsmission to b remote
+     * bpplicbtion, it is recommended to obtbin b new RMIConnector stub
+     * by cblling {@link RMIConnectorServer#toJMXConnector(Mbp)}.</p>
+     * @pbrbm s The ObjectOutputStrebm to write to.
+     * @exception InvblidObjectException if none of <vbr>rmiServer</vbr> stub
+     *    or <vbr>jmxServiceURL</vbr> bre set.
+     * @see #RMIConnector(JMXServiceURL,Mbp)
+     * @see #RMIConnector(RMIServer,Mbp)
      **/
-    private void writeObject(java.io.ObjectOutputStream s)
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
     throws IOException {
         if (rmiServer == null && jmxServiceURL == null) throw new
-                InvalidObjectException("rmiServer and jmxServiceURL both null.");
+                InvblidObjectException("rmiServer bnd jmxServiceURL both null.");
         connectStub(this.rmiServer,env);
-        s.defaultWriteObject();
+        s.defbultWriteObject();
     }
 
-    // Initialization of transient variables.
-    private void initTransients() {
-        rmbscMap = new WeakHashMap<Subject, WeakReference<MBeanServerConnection>>();
-        connected = false;
-        terminated = false;
+    // Initiblizbtion of trbnsient vbribbles.
+    privbte void initTrbnsients() {
+        rmbscMbp = new WebkHbshMbp<Subject, WebkReference<MBebnServerConnection>>();
+        connected = fblse;
+        terminbted = fblse;
 
-        connectionBroadcaster = new NotificationBroadcasterSupport();
+        connectionBrobdcbster = new NotificbtionBrobdcbsterSupport();
     }
 
     //--------------------------------------------------------------------
-    // Private stuff - Check if stub can be trusted.
+    // Privbte stuff - Check if stub cbn be trusted.
     //--------------------------------------------------------------------
 
-    private static void checkStub(Remote stub,
-            Class<?> stubClass) {
+    privbte stbtic void checkStub(Remote stub,
+            Clbss<?> stubClbss) {
 
-        // Check remote stub is from the expected class.
+        // Check remote stub is from the expected clbss.
         //
-        if (stub.getClass() != stubClass) {
-            if (!Proxy.isProxyClass(stub.getClass())) {
+        if (stub.getClbss() != stubClbss) {
+            if (!Proxy.isProxyClbss(stub.getClbss())) {
                 throw new SecurityException(
-                        "Expecting a " + stubClass.getName() + " stub!");
+                        "Expecting b " + stubClbss.getNbme() + " stub!");
             } else {
-                InvocationHandler handler = Proxy.getInvocationHandler(stub);
-                if (handler.getClass() != RemoteObjectInvocationHandler.class)
+                InvocbtionHbndler hbndler = Proxy.getInvocbtionHbndler(stub);
+                if (hbndler.getClbss() != RemoteObjectInvocbtionHbndler.clbss)
                     throw new SecurityException(
-                            "Expecting a dynamic proxy instance with a " +
-                            RemoteObjectInvocationHandler.class.getName() +
-                            " invocation handler!");
+                            "Expecting b dynbmic proxy instbnce with b " +
+                            RemoteObjectInvocbtionHbndler.clbss.getNbme() +
+                            " invocbtion hbndler!");
                 else
-                    stub = (Remote) handler;
+                    stub = (Remote) hbndler;
             }
         }
 
-        // Check RemoteRef in stub is from the expected class
-        // "sun.rmi.server.UnicastRef2".
+        // Check RemoteRef in stub is from the expected clbss
+        // "sun.rmi.server.UnicbstRef2".
         //
         RemoteRef ref = ((RemoteObject)stub).getRef();
-        if (ref.getClass() != UnicastRef2.class)
+        if (ref.getClbss() != UnicbstRef2.clbss)
             throw new SecurityException(
-                    "Expecting a " + UnicastRef2.class.getName() +
+                    "Expecting b " + UnicbstRef2.clbss.getNbme() +
                     " remote reference in stub!");
 
-        // Check RMIClientSocketFactory in stub is from the expected class
-        // "javax.rmi.ssl.SslRMIClientSocketFactory".
+        // Check RMIClientSocketFbctory in stub is from the expected clbss
+        // "jbvbx.rmi.ssl.SslRMIClientSocketFbctory".
         //
-        LiveRef liveRef = ((UnicastRef2)ref).getLiveRef();
-        RMIClientSocketFactory csf = liveRef.getClientSocketFactory();
-        if (csf == null || csf.getClass() != SslRMIClientSocketFactory.class)
+        LiveRef liveRef = ((UnicbstRef2)ref).getLiveRef();
+        RMIClientSocketFbctory csf = liveRef.getClientSocketFbctory();
+        if (csf == null || csf.getClbss() != SslRMIClientSocketFbctory.clbss)
             throw new SecurityException(
-                    "Expecting a " + SslRMIClientSocketFactory.class.getName() +
-                    " RMI client socket factory in stub!");
+                    "Expecting b " + SslRMIClientSocketFbctory.clbss.getNbme() +
+                    " RMI client socket fbctory in stub!");
     }
 
     //--------------------------------------------------------------------
-    // Private stuff - RMIServer creation
+    // Privbte stuff - RMIServer crebtion
     //--------------------------------------------------------------------
 
-    private RMIServer findRMIServer(JMXServiceURL directoryURL,
-            Map<String, Object> environment)
-            throws NamingException, IOException {
-        final boolean isIiop = RMIConnectorServer.isIiopURL(directoryURL,true);
+    privbte RMIServer findRMIServer(JMXServiceURL directoryURL,
+            Mbp<String, Object> environment)
+            throws NbmingException, IOException {
+        finbl boolebn isIiop = RMIConnectorServer.isIiopURL(directoryURL,true);
         if (isIiop) {
-            // Make sure java.naming.corba.orb is in the Map.
+            // Mbke sure jbvb.nbming.corbb.orb is in the Mbp.
             environment.put(EnvHelp.DEFAULT_ORB,resolveOrb(environment));
         }
 
-        String path = directoryURL.getURLPath();
-        int end = path.indexOf(';');
-        if (end < 0) end = path.length();
-        if (path.startsWith("/jndi/"))
-            return findRMIServerJNDI(path.substring(6,end), environment, isIiop);
-        else if (path.startsWith("/stub/"))
-            return findRMIServerJRMP(path.substring(6,end), environment, isIiop);
-        else if (path.startsWith("/ior/")) {
-            if (!IIOPHelper.isAvailable())
-                throw new IOException("iiop protocol not available");
-            return findRMIServerIIOP(path.substring(5,end), environment, isIiop);
+        String pbth = directoryURL.getURLPbth();
+        int end = pbth.indexOf(';');
+        if (end < 0) end = pbth.length();
+        if (pbth.stbrtsWith("/jndi/"))
+            return findRMIServerJNDI(pbth.substring(6,end), environment, isIiop);
+        else if (pbth.stbrtsWith("/stub/"))
+            return findRMIServerJRMP(pbth.substring(6,end), environment, isIiop);
+        else if (pbth.stbrtsWith("/ior/")) {
+            if (!IIOPHelper.isAvbilbble())
+                throw new IOException("iiop protocol not bvbilbble");
+            return findRMIServerIIOP(pbth.substring(5,end), environment, isIiop);
         } else {
-            final String msg = "URL path must begin with /jndi/ or /stub/ " +
-                    "or /ior/: " + path;
-            throw new MalformedURLException(msg);
+            finbl String msg = "URL pbth must begin with /jndi/ or /stub/ " +
+                    "or /ior/: " + pbth;
+            throw new MblformedURLException(msg);
         }
     }
 
     /**
-     * Lookup the RMIServer stub in a directory.
-     * @param jndiURL A JNDI URL indicating the location of the Stub
-     *                (see {@link javax.management.remote.rmi}), e.g.:
-     *   <ul><li><tt>rmi://registry-host:port/rmi-stub-name</tt></li>
-     *       <li>or <tt>iiop://cosnaming-host:port/iiop-stub-name</tt></li>
-     *       <li>or <tt>ldap://ldap-host:port/java-container-dn</tt></li>
+     * Lookup the RMIServer stub in b directory.
+     * @pbrbm jndiURL A JNDI URL indicbting the locbtion of the Stub
+     *                (see {@link jbvbx.mbnbgement.remote.rmi}), e.g.:
+     *   <ul><li><tt>rmi://registry-host:port/rmi-stub-nbme</tt></li>
+     *       <li>or <tt>iiop://cosnbming-host:port/iiop-stub-nbme</tt></li>
+     *       <li>or <tt>ldbp://ldbp-host:port/jbvb-contbiner-dn</tt></li>
      *   </ul>
-     * @param env the environment Map passed to the connector.
-     * @param isIiop true if the stub is expected to be an IIOP stub.
+     * @pbrbm env the environment Mbp pbssed to the connector.
+     * @pbrbm isIiop true if the stub is expected to be bn IIOP stub.
      * @return The retrieved RMIServer stub.
-     * @exception NamingException if the stub couldn't be found.
+     * @exception NbmingException if the stub couldn't be found.
      **/
-    private RMIServer findRMIServerJNDI(String jndiURL, Map<String, ?> env,
-            boolean isIiop)
-            throws NamingException {
+    privbte RMIServer findRMIServerJNDI(String jndiURL, Mbp<String, ?> env,
+            boolebn isIiop)
+            throws NbmingException {
 
-        InitialContext ctx = new InitialContext(EnvHelp.mapToHashtable(env));
+        InitiblContext ctx = new InitiblContext(EnvHelp.mbpToHbshtbble(env));
 
         Object objref = ctx.lookup(jndiURL);
         ctx.close();
 
         if (isIiop)
-            return narrowIIOPServer(objref);
+            return nbrrowIIOPServer(objref);
         else
-            return narrowJRMPServer(objref);
+            return nbrrowJRMPServer(objref);
     }
 
-    private static RMIServer narrowJRMPServer(Object objref) {
+    privbte stbtic RMIServer nbrrowJRMPServer(Object objref) {
 
         return (RMIServer) objref;
     }
 
-    private static RMIServer narrowIIOPServer(Object objref) {
+    privbte stbtic RMIServer nbrrowIIOPServer(Object objref) {
         try {
-            return IIOPHelper.narrow(objref, RMIServer.class);
-        } catch (ClassCastException e) {
-            if (logger.traceOn())
-                logger.trace("narrowIIOPServer","Failed to narrow objref=" +
+            return IIOPHelper.nbrrow(objref, RMIServer.clbss);
+        } cbtch (ClbssCbstException e) {
+            if (logger.trbceOn())
+                logger.trbce("nbrrowIIOPServer","Fbiled to nbrrow objref=" +
                         objref + ": " + e);
-            if (logger.debugOn()) logger.debug("narrowIIOPServer",e);
+            if (logger.debugOn()) logger.debug("nbrrowIIOPServer",e);
             return null;
         }
     }
 
-    private RMIServer findRMIServerIIOP(String ior, Map<String, ?> env, boolean isIiop) {
+    privbte RMIServer findRMIServerIIOP(String ior, Mbp<String, ?> env, boolebn isIiop) {
         // could forbid "rmi:" URL here -- but do we need to?
-        final Object orb = env.get(EnvHelp.DEFAULT_ORB);
-        final Object stub = IIOPHelper.stringToObject(orb, ior);
-        return IIOPHelper.narrow(stub, RMIServer.class);
+        finbl Object orb = env.get(EnvHelp.DEFAULT_ORB);
+        finbl Object stub = IIOPHelper.stringToObject(orb, ior);
+        return IIOPHelper.nbrrow(stub, RMIServer.clbss);
     }
 
-    private RMIServer findRMIServerJRMP(String base64, Map<String, ?> env, boolean isIiop)
+    privbte RMIServer findRMIServerJRMP(String bbse64, Mbp<String, ?> env, boolebn isIiop)
         throws IOException {
         // could forbid "iiop:" URL here -- but do we need to?
-        final byte[] serialized;
+        finbl byte[] seriblized;
         try {
-            serialized = base64ToByteArray(base64);
-        } catch (IllegalArgumentException e) {
-            throw new MalformedURLException("Bad BASE64 encoding: " +
-                    e.getMessage());
+            seriblized = bbse64ToByteArrby(bbse64);
+        } cbtch (IllegblArgumentException e) {
+            throw new MblformedURLException("Bbd BASE64 encoding: " +
+                    e.getMessbge());
         }
-        final ByteArrayInputStream bin = new ByteArrayInputStream(serialized);
+        finbl ByteArrbyInputStrebm bin = new ByteArrbyInputStrebm(seriblized);
 
-        final ClassLoader loader = EnvHelp.resolveClientClassLoader(env);
-        final ObjectInputStream oin =
-                (loader == null) ?
-                    new ObjectInputStream(bin) :
-                    new ObjectInputStreamWithLoader(bin, loader);
-        final Object stub;
+        finbl ClbssLobder lobder = EnvHelp.resolveClientClbssLobder(env);
+        finbl ObjectInputStrebm oin =
+                (lobder == null) ?
+                    new ObjectInputStrebm(bin) :
+                    new ObjectInputStrebmWithLobder(bin, lobder);
+        finbl Object stub;
         try {
-            stub = oin.readObject();
-        } catch (ClassNotFoundException e) {
-            throw new MalformedURLException("Class not found: " + e);
+            stub = oin.rebdObject();
+        } cbtch (ClbssNotFoundException e) {
+            throw new MblformedURLException("Clbss not found: " + e);
         }
         return (RMIServer)stub;
     }
 
-    private static final class ObjectInputStreamWithLoader
-            extends ObjectInputStream {
-        ObjectInputStreamWithLoader(InputStream in, ClassLoader cl)
+    privbte stbtic finbl clbss ObjectInputStrebmWithLobder
+            extends ObjectInputStrebm {
+        ObjectInputStrebmWithLobder(InputStrebm in, ClbssLobder cl)
         throws IOException {
             super(in);
-            this.loader = cl;
+            this.lobder = cl;
         }
 
         @Override
-        protected Class<?> resolveClass(ObjectStreamClass classDesc)
-                throws IOException, ClassNotFoundException {
-            String name = classDesc.getName();
-            ReflectUtil.checkPackageAccess(name);
-            return Class.forName(name, false, loader);
+        protected Clbss<?> resolveClbss(ObjectStrebmClbss clbssDesc)
+                throws IOException, ClbssNotFoundException {
+            String nbme = clbssDesc.getNbme();
+            ReflectUtil.checkPbckbgeAccess(nbme);
+            return Clbss.forNbme(nbme, fblse, lobder);
         }
 
-        private final ClassLoader loader;
+        privbte finbl ClbssLobder lobder;
     }
 
-    private MBeanServerConnection getConnectionWithSubject(Subject delegationSubject) {
-        MBeanServerConnection conn = null;
+    privbte MBebnServerConnection getConnectionWithSubject(Subject delegbtionSubject) {
+        MBebnServerConnection conn = null;
 
-        if (delegationSubject == null) {
+        if (delegbtionSubject == null) {
             if (nullSubjectConnRef == null
                     || (conn = nullSubjectConnRef.get()) == null) {
-                conn = new RemoteMBeanServerConnection(null);
-                nullSubjectConnRef = new WeakReference<MBeanServerConnection>(conn);
+                conn = new RemoteMBebnServerConnection(null);
+                nullSubjectConnRef = new WebkReference<MBebnServerConnection>(conn);
             }
         } else {
-            WeakReference<MBeanServerConnection> wr = rmbscMap.get(delegationSubject);
+            WebkReference<MBebnServerConnection> wr = rmbscMbp.get(delegbtionSubject);
             if (wr == null || (conn = wr.get()) == null) {
-                conn = new RemoteMBeanServerConnection(delegationSubject);
-                rmbscMap.put(delegationSubject, new WeakReference<MBeanServerConnection>(conn));
+                conn = new RemoteMBebnServerConnection(delegbtionSubject);
+                rmbscMbp.put(delegbtionSubject, new WebkReference<MBebnServerConnection>(conn));
             }
         }
         return conn;
     }
 
     /*
-       The following section of code avoids a class loading problem
-       with RMI.  The problem is that an RMI stub, when deserializing
-       a remote method return value or exception, will first of all
-       consult the first non-bootstrap class loader it finds in the
-       call stack.  This can lead to behavior that is not portable
-       between implementations of the JMX Remote API.  Notably, an
-       implementation on J2SE 1.4 will find the RMI stub's loader on
-       the stack.  But in J2SE 5, this stub is loaded by the
-       bootstrap loader, so RMI will find the loader of the user code
-       that called an MBeanServerConnection method.
+       The following section of code bvoids b clbss lobding problem
+       with RMI.  The problem is thbt bn RMI stub, when deseriblizing
+       b remote method return vblue or exception, will first of bll
+       consult the first non-bootstrbp clbss lobder it finds in the
+       cbll stbck.  This cbn lebd to behbvior thbt is not portbble
+       between implementbtions of the JMX Remote API.  Notbbly, bn
+       implementbtion on J2SE 1.4 will find the RMI stub's lobder on
+       the stbck.  But in J2SE 5, this stub is lobded by the
+       bootstrbp lobder, so RMI will find the lobder of the user code
+       thbt cblled bn MBebnServerConnection method.
 
-       To avoid this problem, we take advantage of what the RMI stub
-       is doing internally.  Each remote call will end up calling
-       ref.invoke(...), where ref is the RemoteRef parameter given to
-       the RMI stub's constructor.  It is within this call that the
-       deserialization will happen.  So we fabricate our own RemoteRef
-       that delegates everything to the "real" one but that is loaded
-       by a class loader that knows no other classes.  The class
-       loader NoCallStackClassLoader does this: the RemoteRef is an
-       instance of the class named by proxyRefClassName, which is
-       fabricated by the class loader using byte code that is defined
+       To bvoid this problem, we tbke bdvbntbge of whbt the RMI stub
+       is doing internblly.  Ebch remote cbll will end up cblling
+       ref.invoke(...), where ref is the RemoteRef pbrbmeter given to
+       the RMI stub's constructor.  It is within this cbll thbt the
+       deseriblizbtion will hbppen.  So we fbbricbte our own RemoteRef
+       thbt delegbtes everything to the "rebl" one but thbt is lobded
+       by b clbss lobder thbt knows no other clbsses.  The clbss
+       lobder NoCbllStbckClbssLobder does this: the RemoteRef is bn
+       instbnce of the clbss nbmed by proxyRefClbssNbme, which is
+       fbbricbted by the clbss lobder using byte code thbt is defined
        by the string below.
 
-       The call stack when the deserialization happens is thus this:
-       MBeanServerConnection.getAttribute (or whatever)
+       The cbll stbck when the deseriblizbtion hbppens is thus this:
+       MBebnServerConnection.getAttribute (or whbtever)
        -> RMIConnectionImpl_Stub.getAttribute
           -> ProxyRef.invoke(...getAttribute...)
-             -> UnicastRef.invoke(...getAttribute...)
-                -> internal RMI stuff
+             -> UnicbstRef.invoke(...getAttribute...)
+                -> internbl RMI stuff
 
-       Here UnicastRef is the RemoteRef created when the stub was
-       deserialized (which is of some RMI internal class).  It and the
-       "internal RMI stuff" are loaded by the bootstrap loader, so are
-       transparent to the stack search.  The first non-bootstrap
-       loader found is our ProxyRefLoader, as required.
+       Here UnicbstRef is the RemoteRef crebted when the stub wbs
+       deseriblized (which is of some RMI internbl clbss).  It bnd the
+       "internbl RMI stuff" bre lobded by the bootstrbp lobder, so bre
+       trbnspbrent to the stbck sebrch.  The first non-bootstrbp
+       lobder found is our ProxyRefLobder, bs required.
 
-       In a future version of this code as integrated into J2SE 5,
-       this workaround could be replaced by direct access to the
-       internals of RMI.  For now, we use the same code base for J2SE
-       and for the standalone Reference Implementation.
+       In b future version of this code bs integrbted into J2SE 5,
+       this workbround could be replbced by direct bccess to the
+       internbls of RMI.  For now, we use the sbme code bbse for J2SE
+       bnd for the stbndblone Reference Implementbtion.
 
-       The byte code below encodes the following class, compiled using
+       The byte code below encodes the following clbss, compiled using
        J2SE 1.4.2 with the -g:none option.
 
-        package com.sun.jmx.remote.internal;
+        pbckbge com.sun.jmx.remote.internbl;
 
-        import java.lang.reflect.Method;
-        import java.rmi.Remote;
-        import java.rmi.server.RemoteRef;
-        import com.sun.jmx.remote.internal.ProxyRef;
+        import jbvb.lbng.reflect.Method;
+        import jbvb.rmi.Remote;
+        import jbvb.rmi.server.RemoteRef;
+        import com.sun.jmx.remote.internbl.ProxyRef;
 
-        public class PRef extends ProxyRef {
+        public clbss PRef extends ProxyRef {
             public PRef(RemoteRef ref) {
                 super(ref);
             }
 
             public Object invoke(Remote obj, Method method,
-                                 Object[] params, long opnum)
+                                 Object[] pbrbms, long opnum)
                     throws Exception {
-                return ref.invoke(obj, method, params, opnum);
+                return ref.invoke(obj, method, pbrbms, opnum);
             }
         }
      */
 
-    private static final String rmiServerImplStubClassName =
-        RMIServer.class.getName() + "Impl_Stub";
-    private static final Class<?> rmiServerImplStubClass;
-    private static final String rmiConnectionImplStubClassName =
-            RMIConnection.class.getName() + "Impl_Stub";
-    private static final Class<?> rmiConnectionImplStubClass;
-    private static final String pRefClassName =
-        "com.sun.jmx.remote.internal.PRef";
-    private static final Constructor<?> proxyRefConstructor;
-    static {
-        final String pRefByteCodeString =
+    privbte stbtic finbl String rmiServerImplStubClbssNbme =
+        RMIServer.clbss.getNbme() + "Impl_Stub";
+    privbte stbtic finbl Clbss<?> rmiServerImplStubClbss;
+    privbte stbtic finbl String rmiConnectionImplStubClbssNbme =
+            RMIConnection.clbss.getNbme() + "Impl_Stub";
+    privbte stbtic finbl Clbss<?> rmiConnectionImplStubClbss;
+    privbte stbtic finbl String pRefClbssNbme =
+        "com.sun.jmx.remote.internbl.PRef";
+    privbte stbtic finbl Constructor<?> proxyRefConstructor;
+    stbtic {
+        finbl String pRefByteCodeString =
                 "\312\376\272\276\0\0\0.\0\27\12\0\5\0\15\11\0\4\0\16\13\0\17\0"+
-                "\20\7\0\21\7\0\22\1\0\6<init>\1\0\36(Ljava/rmi/server/RemoteRef;"+
-                ")V\1\0\4Code\1\0\6invoke\1\0S(Ljava/rmi/Remote;Ljava/lang/reflec"+
-                "t/Method;[Ljava/lang/Object;J)Ljava/lang/Object;\1\0\12Exception"+
+                "\20\7\0\21\7\0\22\1\0\6<init>\1\0\36(Ljbvb/rmi/server/RemoteRef;"+
+                ")V\1\0\4Code\1\0\6invoke\1\0S(Ljbvb/rmi/Remote;Ljbvb/lbng/reflec"+
+                "t/Method;[Ljbvb/lbng/Object;J)Ljbvb/lbng/Object;\1\0\12Exception"+
                 "s\7\0\23\14\0\6\0\7\14\0\24\0\25\7\0\26\14\0\11\0\12\1\0\40com/"+
-                "sun/jmx/remote/internal/PRef\1\0$com/sun/jmx/remote/internal/Pr"+
-                "oxyRef\1\0\23java/lang/Exception\1\0\3ref\1\0\33Ljava/rmi/serve"+
-                "r/RemoteRef;\1\0\31java/rmi/server/RemoteRef\0!\0\4\0\5\0\0\0\0"+
+                "sun/jmx/remote/internbl/PRef\1\0$com/sun/jmx/remote/internbl/Pr"+
+                "oxyRef\1\0\23jbvb/lbng/Exception\1\0\3ref\1\0\33Ljbvb/rmi/serve"+
+                "r/RemoteRef;\1\0\31jbvb/rmi/server/RemoteRef\0!\0\4\0\5\0\0\0\0"+
                 "\0\2\0\1\0\6\0\7\0\1\0\10\0\0\0\22\0\2\0\2\0\0\0\6*+\267\0\1\261"+
                 "\0\0\0\0\0\1\0\11\0\12\0\2\0\10\0\0\0\33\0\6\0\6\0\0\0\17*\264\0"+
                 "\2+,-\26\4\271\0\3\6\0\260\0\0\0\0\0\13\0\0\0\4\0\1\0\14\0\0";
-        final byte[] pRefByteCode =
-                NoCallStackClassLoader.stringToBytes(pRefByteCodeString);
-        PrivilegedExceptionAction<Constructor<?>> action =
+        finbl byte[] pRefByteCode =
+                NoCbllStbckClbssLobder.stringToBytes(pRefByteCodeString);
+        PrivilegedExceptionAction<Constructor<?>> bction =
                 new PrivilegedExceptionAction<Constructor<?>>() {
             public Constructor<?> run() throws Exception {
-                Class<RMIConnector> thisClass = RMIConnector.class;
-                ClassLoader thisLoader = thisClass.getClassLoader();
-                ProtectionDomain thisProtectionDomain =
-                        thisClass.getProtectionDomain();
-                String[] otherClassNames = {ProxyRef.class.getName()};
-                ClassLoader cl =
-                        new NoCallStackClassLoader(pRefClassName,
+                Clbss<RMIConnector> thisClbss = RMIConnector.clbss;
+                ClbssLobder thisLobder = thisClbss.getClbssLobder();
+                ProtectionDombin thisProtectionDombin =
+                        thisClbss.getProtectionDombin();
+                String[] otherClbssNbmes = {ProxyRef.clbss.getNbme()};
+                ClbssLobder cl =
+                        new NoCbllStbckClbssLobder(pRefClbssNbme,
                         pRefByteCode,
-                        otherClassNames,
-                        thisLoader,
-                        thisProtectionDomain);
-                Class<?> c = cl.loadClass(pRefClassName);
-                return c.getConstructor(RemoteRef.class);
+                        otherClbssNbmes,
+                        thisLobder,
+                        thisProtectionDombin);
+                Clbss<?> c = cl.lobdClbss(pRefClbssNbme);
+                return c.getConstructor(RemoteRef.clbss);
             }
         };
 
-        Class<?> serverStubClass;
+        Clbss<?> serverStubClbss;
         try {
-            serverStubClass = Class.forName(rmiServerImplStubClassName);
-        } catch (Exception e) {
+            serverStubClbss = Clbss.forNbme(rmiServerImplStubClbssNbme);
+        } cbtch (Exception e) {
             logger.error("<clinit>",
-                    "Failed to instantiate " +
-                    rmiServerImplStubClassName + ": " + e);
+                    "Fbiled to instbntibte " +
+                    rmiServerImplStubClbssNbme + ": " + e);
             logger.debug("<clinit>",e);
-            serverStubClass = null;
+            serverStubClbss = null;
         }
-        rmiServerImplStubClass = serverStubClass;
+        rmiServerImplStubClbss = serverStubClbss;
 
-        Class<?> stubClass;
+        Clbss<?> stubClbss;
         Constructor<?> constr;
         try {
-            stubClass = Class.forName(rmiConnectionImplStubClassName);
-            constr = (Constructor<?>) AccessController.doPrivileged(action);
-        } catch (Exception e) {
+            stubClbss = Clbss.forNbme(rmiConnectionImplStubClbssNbme);
+            constr = (Constructor<?>) AccessController.doPrivileged(bction);
+        } cbtch (Exception e) {
             logger.error("<clinit>",
-                    "Failed to initialize proxy reference constructor "+
-                    "for " + rmiConnectionImplStubClassName + ": " + e);
+                    "Fbiled to initiblize proxy reference constructor "+
+                    "for " + rmiConnectionImplStubClbssNbme + ": " + e);
             logger.debug("<clinit>",e);
-            stubClass = null;
+            stubClbss = null;
             constr = null;
         }
-        rmiConnectionImplStubClass = stubClass;
+        rmiConnectionImplStubClbss = stubClbss;
         proxyRefConstructor = constr;
     }
 
-    private static RMIConnection shadowJrmpStub(RemoteObject stub)
-    throws InstantiationException, IllegalAccessException,
-            InvocationTargetException, ClassNotFoundException,
+    privbte stbtic RMIConnection shbdowJrmpStub(RemoteObject stub)
+    throws InstbntibtionException, IllegblAccessException,
+            InvocbtionTbrgetException, ClbssNotFoundException,
             NoSuchMethodException {
         RemoteRef ref = stub.getRef();
         RemoteRef proxyRef = (RemoteRef)
-            proxyRefConstructor.newInstance(new Object[] {ref});
-        final Constructor<?> rmiConnectionImplStubConstructor =
-            rmiConnectionImplStubClass.getConstructor(RemoteRef.class);
-        Object[] args = {proxyRef};
+            proxyRefConstructor.newInstbnce(new Object[] {ref});
+        finbl Constructor<?> rmiConnectionImplStubConstructor =
+            rmiConnectionImplStubClbss.getConstructor(RemoteRef.clbss);
+        Object[] brgs = {proxyRef};
         RMIConnection proxyStub = (RMIConnection)
-        rmiConnectionImplStubConstructor.newInstance(args);
+        rmiConnectionImplStubConstructor.newInstbnce(brgs);
         return proxyStub;
     }
 
     /*
-       The following code performs a similar trick for RMI/IIOP to the
-       one described above for RMI/JRMP.  Unlike JRMP, though, we
-       can't easily insert an object between the RMIConnection stub
-       and the RMI/IIOP deserialization code, as explained below.
+       The following code performs b similbr trick for RMI/IIOP to the
+       one described bbove for RMI/JRMP.  Unlike JRMP, though, we
+       cbn't ebsily insert bn object between the RMIConnection stub
+       bnd the RMI/IIOP deseriblizbtion code, bs explbined below.
 
-       A method in an RMI/IIOP stub does the following.  It makes an
-       org.omg.CORBA_2_3.portable.OutputStream for each request, and
-       writes the parameters to it.  Then it calls
-       _invoke(OutputStream) which it inherits from CORBA's
-       ObjectImpl.  That returns an
-       org.omg.CORBA_2_3.portable.InputStream.  The return value is
-       read from this InputStream.  So the stack during
-       deserialization looks like this:
+       A method in bn RMI/IIOP stub does the following.  It mbkes bn
+       org.omg.CORBA_2_3.portbble.OutputStrebm for ebch request, bnd
+       writes the pbrbmeters to it.  Then it cblls
+       _invoke(OutputStrebm) which it inherits from CORBA's
+       ObjectImpl.  Thbt returns bn
+       org.omg.CORBA_2_3.portbble.InputStrebm.  The return vblue is
+       rebd from this InputStrebm.  So the stbck during
+       deseriblizbtion looks like this:
 
-       MBeanServerConnection.getAttribute (or whatever)
+       MBebnServerConnection.getAttribute (or whbtever)
        -> _RMIConnection_Stub.getAttribute
-          -> Util.readAny (a CORBA method)
-             -> InputStream.read_any
-                -> internal CORBA stuff
+          -> Util.rebdAny (b CORBA method)
+             -> InputStrebm.rebd_bny
+                -> internbl CORBA stuff
 
-       What we would have *liked* to have done would be the same thing
-       as for RMI/JRMP.  We create a "ProxyDelegate" that is an
-       org.omg.CORBA.portable.Delegate that simply forwards every
-       operation to the real original Delegate from the RMIConnection
-       stub, except that the InputStream returned by _invoke is
-       wrapped by a "ProxyInputStream" that is loaded by our
-       NoCallStackClassLoader.
+       Whbt we would hbve *liked* to hbve done would be the sbme thing
+       bs for RMI/JRMP.  We crebte b "ProxyDelegbte" thbt is bn
+       org.omg.CORBA.portbble.Delegbte thbt simply forwbrds every
+       operbtion to the rebl originbl Delegbte from the RMIConnection
+       stub, except thbt the InputStrebm returned by _invoke is
+       wrbpped by b "ProxyInputStrebm" thbt is lobded by our
+       NoCbllStbckClbssLobder.
 
-       Unfortunately, this doesn't work, at least with Sun's J2SE
-       1.4.2, because the CORBA code is not designed to allow you to
-       change Delegates arbitrarily.  You get a ClassCastException
-       from code that expects the Delegate to implement an internal
-       interface.
+       Unfortunbtely, this doesn't work, bt lebst with Sun's J2SE
+       1.4.2, becbuse the CORBA code is not designed to bllow you to
+       chbnge Delegbtes brbitrbrily.  You get b ClbssCbstException
+       from code thbt expects the Delegbte to implement bn internbl
+       interfbce.
 
-       So instead we do the following.  We create a subclass of the
-       stub that overrides the _invoke method so as to wrap the
-       returned InputStream in a ProxyInputStream.  We create a
-       subclass of ProxyInputStream using the NoCallStackClassLoader
-       and override its read_any and read_value(Class) methods.
-       (These are the only methods called during deserialization of
-       MBeanServerConnection return values.)  We extract the Delegate
-       from the original stub and insert it into our subclass stub,
-       and away we go.  The state of a stub consists solely of its
-       Delegate.
+       So instebd we do the following.  We crebte b subclbss of the
+       stub thbt overrides the _invoke method so bs to wrbp the
+       returned InputStrebm in b ProxyInputStrebm.  We crebte b
+       subclbss of ProxyInputStrebm using the NoCbllStbckClbssLobder
+       bnd override its rebd_bny bnd rebd_vblue(Clbss) methods.
+       (These bre the only methods cblled during deseriblizbtion of
+       MBebnServerConnection return vblues.)  We extrbct the Delegbte
+       from the originbl stub bnd insert it into our subclbss stub,
+       bnd bwby we go.  The stbte of b stub consists solely of its
+       Delegbte.
 
-       We also need to catch ApplicationException, which will encode
-       any exceptions declared in the throws clause of the called
-       method.  Its InputStream needs to be wrapped in a
-       ProxyInputSteam too.
+       We blso need to cbtch ApplicbtionException, which will encode
+       bny exceptions declbred in the throws clbuse of the cblled
+       method.  Its InputStrebm needs to be wrbpped in b
+       ProxyInputStebm too.
 
-       We override _releaseReply in the stub subclass so that it
-       replaces a ProxyInputStream argument with the original
-       InputStream.  This avoids problems if the implementation of
-       _releaseReply ends up casting this InputStream to an
-       implementation-specific interface (which in Sun's J2SE 5 it
+       We override _relebseReply in the stub subclbss so thbt it
+       replbces b ProxyInputStrebm brgument with the originbl
+       InputStrebm.  This bvoids problems if the implementbtion of
+       _relebseReply ends up cbsting this InputStrebm to bn
+       implementbtion-specific interfbce (which in Sun's J2SE 5 it
        does).
 
-       It is not strictly necessary for the stub subclass to be loaded
-       by a NoCallStackClassLoader, since the call-stack search stops
-       at the ProxyInputStream subclass.  However, it is convenient
-       for two reasons.  One is that it means that the
-       ProxyInputStream subclass can be accessed directly, without
-       using reflection.  The other is that it avoids build problems,
-       since usually stubs are created after other classes are
-       compiled, so we can't access them from this class without,
-       again, using reflection.
+       It is not strictly necessbry for the stub subclbss to be lobded
+       by b NoCbllStbckClbssLobder, since the cbll-stbck sebrch stops
+       bt the ProxyInputStrebm subclbss.  However, it is convenient
+       for two rebsons.  One is thbt it mebns thbt the
+       ProxyInputStrebm subclbss cbn be bccessed directly, without
+       using reflection.  The other is thbt it bvoids build problems,
+       since usublly stubs bre crebted bfter other clbsses bre
+       compiled, so we cbn't bccess them from this clbss without,
+       bgbin, using reflection.
 
-       The strings below encode the following two Java classes,
-       compiled using javac -g:none.
+       The strings below encode the following two Jbvb clbsses,
+       compiled using jbvbc -g:none.
 
-        package com.sun.jmx.remote.protocol.iiop;
+        pbckbge com.sun.jmx.remote.protocol.iiop;
 
-        import org.omg.stub.javax.management.remote.rmi._RMIConnection_Stub;
+        import org.omg.stub.jbvbx.mbnbgement.remote.rmi._RMIConnection_Stub;
 
-        import org.omg.CORBA.portable.ApplicationException;
-        import org.omg.CORBA.portable.InputStream;
-        import org.omg.CORBA.portable.OutputStream;
-        import org.omg.CORBA.portable.RemarshalException;
+        import org.omg.CORBA.portbble.ApplicbtionException;
+        import org.omg.CORBA.portbble.InputStrebm;
+        import org.omg.CORBA.portbble.OutputStrebm;
+        import org.omg.CORBA.portbble.RembrshblException;
 
-        public class ProxyStub extends _RMIConnection_Stub {
-            public InputStream _invoke(OutputStream out)
-                    throws ApplicationException, RemarshalException {
+        public clbss ProxyStub extends _RMIConnection_Stub {
+            public InputStrebm _invoke(OutputStrebm out)
+                    throws ApplicbtionException, RembrshblException {
                 try {
-                    return new PInputStream(super._invoke(out));
-                } catch (ApplicationException e) {
-                    InputStream pis = new PInputStream(e.getInputStream());
-                    throw new ApplicationException(e.getId(), pis);
+                    return new PInputStrebm(super._invoke(out));
+                } cbtch (ApplicbtionException e) {
+                    InputStrebm pis = new PInputStrebm(e.getInputStrebm());
+                    throw new ApplicbtionException(e.getId(), pis);
                 }
             }
 
-            public void _releaseReply(InputStream in) {
+            public void _relebseReply(InputStrebm in) {
                 if (in != null)
-                    in = ((PInputStream)in).getProxiedInputStream();
-                super._releaseReply(in);
+                    in = ((PInputStrebm)in).getProxiedInputStrebm();
+                super._relebseReply(in);
             }
         }
 
-        package com.sun.jmx.remote.protocol.iiop;
+        pbckbge com.sun.jmx.remote.protocol.iiop;
 
-        public class PInputStream extends ProxyInputStream {
-            public PInputStream(org.omg.CORBA.portable.InputStream in) {
+        public clbss PInputStrebm extends ProxyInputStrebm {
+            public PInputStrebm(org.omg.CORBA.portbble.InputStrebm in) {
                 super(in);
             }
 
-            public org.omg.CORBA.Any read_any() {
-                return in.read_any();
+            public org.omg.CORBA.Any rebd_bny() {
+                return in.rebd_bny();
             }
 
-            public java.io.Serializable read_value(Class clz) {
-                return narrow().read_value(clz);
+            public jbvb.io.Seriblizbble rebd_vblue(Clbss clz) {
+                return nbrrow().rebd_vblue(clz);
             }
         }
 
 
      */
-    private static final String iiopConnectionStubClassName =
-        "org.omg.stub.javax.management.remote.rmi._RMIConnection_Stub";
-    private static final String proxyStubClassName =
+    privbte stbtic finbl String iiopConnectionStubClbssNbme =
+        "org.omg.stub.jbvbx.mbnbgement.remote.rmi._RMIConnection_Stub";
+    privbte stbtic finbl String proxyStubClbssNbme =
         "com.sun.jmx.remote.protocol.iiop.ProxyStub";
-    private static final String ProxyInputStreamClassName =
-        "com.sun.jmx.remote.protocol.iiop.ProxyInputStream";
-    private static final String pInputStreamClassName =
-        "com.sun.jmx.remote.protocol.iiop.PInputStream";
-    private static final Class<?> proxyStubClass;
-    static {
-        final String proxyStubByteCodeString =
+    privbte stbtic finbl String ProxyInputStrebmClbssNbme =
+        "com.sun.jmx.remote.protocol.iiop.ProxyInputStrebm";
+    privbte stbtic finbl String pInputStrebmClbssNbme =
+        "com.sun.jmx.remote.protocol.iiop.PInputStrebm";
+    privbte stbtic finbl Clbss<?> proxyStubClbss;
+    stbtic {
+        finbl String proxyStubByteCodeString =
                 "\312\376\272\276\0\0\0\63\0+\12\0\14\0\30\7\0\31\12\0\14\0\32\12"+
                 "\0\2\0\33\7\0\34\12\0\5\0\35\12\0\5\0\36\12\0\5\0\37\12\0\2\0 "+
                 "\12\0\14\0!\7\0\"\7\0#\1\0\6<init>\1\0\3()V\1\0\4Code\1\0\7_in"+
-                "voke\1\0K(Lorg/omg/CORBA/portable/OutputStream;)Lorg/omg/CORBA"+
-                "/portable/InputStream;\1\0\15StackMapTable\7\0\34\1\0\12Except"+
-                "ions\7\0$\1\0\15_releaseReply\1\0'(Lorg/omg/CORBA/portable/Inp"+
-                "utStream;)V\14\0\15\0\16\1\0-com/sun/jmx/remote/protocol/iiop/"+
-                "PInputStream\14\0\20\0\21\14\0\15\0\27\1\0+org/omg/CORBA/porta"+
-                "ble/ApplicationException\14\0%\0&\14\0'\0(\14\0\15\0)\14\0*\0&"+
+                "voke\1\0K(Lorg/omg/CORBA/portbble/OutputStrebm;)Lorg/omg/CORBA"+
+                "/portbble/InputStrebm;\1\0\15StbckMbpTbble\7\0\34\1\0\12Except"+
+                "ions\7\0$\1\0\15_relebseReply\1\0'(Lorg/omg/CORBA/portbble/Inp"+
+                "utStrebm;)V\14\0\15\0\16\1\0-com/sun/jmx/remote/protocol/iiop/"+
+                "PInputStrebm\14\0\20\0\21\14\0\15\0\27\1\0+org/omg/CORBA/portb"+
+                "ble/ApplicbtionException\14\0%\0&\14\0'\0(\14\0\15\0)\14\0*\0&"+
                 "\14\0\26\0\27\1\0*com/sun/jmx/remote/protocol/iiop/ProxyStub\1"+
-                "\0<org/omg/stub/javax/management/remote/rmi/_RMIConnection_Stu"+
-                "b\1\0)org/omg/CORBA/portable/RemarshalException\1\0\16getInput"+
-                "Stream\1\0&()Lorg/omg/CORBA/portable/InputStream;\1\0\5getId\1"+
-                "\0\24()Ljava/lang/String;\1\09(Ljava/lang/String;Lorg/omg/CORB"+
-                "A/portable/InputStream;)V\1\0\25getProxiedInputStream\0!\0\13\0"+
+                "\0<org/omg/stub/jbvbx/mbnbgement/remote/rmi/_RMIConnection_Stu"+
+                "b\1\0)org/omg/CORBA/portbble/RembrshblException\1\0\16getInput"+
+                "Strebm\1\0&()Lorg/omg/CORBA/portbble/InputStrebm;\1\0\5getId\1"+
+                "\0\24()Ljbvb/lbng/String;\1\09(Ljbvb/lbng/String;Lorg/omg/CORB"+
+                "A/portbble/InputStrebm;)V\1\0\25getProxiedInputStrebm\0!\0\13\0"+
                 "\14\0\0\0\0\0\3\0\1\0\15\0\16\0\1\0\17\0\0\0\21\0\1\0\1\0\0\0\5"+
                 "*\267\0\1\261\0\0\0\0\0\1\0\20\0\21\0\2\0\17\0\0\0G\0\4\0\4\0\0"+
                 "\0'\273\0\2Y*+\267\0\3\267\0\4\260M\273\0\2Y,\266\0\6\267\0\4N"+
@@ -2324,180 +2324,180 @@ public class RMIConnector implements JMXConnector, Serializable, JMXAddressable 
                 "\0\0\0\6\0\1M\7\0\23\0\24\0\0\0\6\0\2\0\5\0\25\0\1\0\26\0\27\0"+
                 "\1\0\17\0\0\0'\0\2\0\2\0\0\0\22+\306\0\13+\300\0\2\266\0\11L*+"+
                 "\267\0\12\261\0\0\0\1\0\22\0\0\0\3\0\1\14\0\0";
-        final String pInputStreamByteCodeString =
+        finbl String pInputStrebmByteCodeString =
                 "\312\376\272\276\0\0\0\63\0\36\12\0\7\0\17\11\0\6\0\20\12\0\21"+
                 "\0\22\12\0\6\0\23\12\0\24\0\25\7\0\26\7\0\27\1\0\6<init>\1\0'("+
-                "Lorg/omg/CORBA/portable/InputStream;)V\1\0\4Code\1\0\10read_an"+
-                "y\1\0\25()Lorg/omg/CORBA/Any;\1\0\12read_value\1\0)(Ljava/lang"+
-                "/Class;)Ljava/io/Serializable;\14\0\10\0\11\14\0\30\0\31\7\0\32"+
+                "Lorg/omg/CORBA/portbble/InputStrebm;)V\1\0\4Code\1\0\10rebd_bn"+
+                "y\1\0\25()Lorg/omg/CORBA/Any;\1\0\12rebd_vblue\1\0)(Ljbvb/lbng"+
+                "/Clbss;)Ljbvb/io/Seriblizbble;\14\0\10\0\11\14\0\30\0\31\7\0\32"+
                 "\14\0\13\0\14\14\0\33\0\34\7\0\35\14\0\15\0\16\1\0-com/sun/jmx"+
-                "/remote/protocol/iiop/PInputStream\1\0\61com/sun/jmx/remote/pr"+
-                "otocol/iiop/ProxyInputStream\1\0\2in\1\0$Lorg/omg/CORBA/portab"+
-                "le/InputStream;\1\0\"org/omg/CORBA/portable/InputStream\1\0\6n"+
-                "arrow\1\0*()Lorg/omg/CORBA_2_3/portable/InputStream;\1\0&org/o"+
-                "mg/CORBA_2_3/portable/InputStream\0!\0\6\0\7\0\0\0\0\0\3\0\1\0"+
+                "/remote/protocol/iiop/PInputStrebm\1\0\61com/sun/jmx/remote/pr"+
+                "otocol/iiop/ProxyInputStrebm\1\0\2in\1\0$Lorg/omg/CORBA/portbb"+
+                "le/InputStrebm;\1\0\"org/omg/CORBA/portbble/InputStrebm\1\0\6n"+
+                "brrow\1\0*()Lorg/omg/CORBA_2_3/portbble/InputStrebm;\1\0&org/o"+
+                "mg/CORBA_2_3/portbble/InputStrebm\0!\0\6\0\7\0\0\0\0\0\3\0\1\0"+
                 "\10\0\11\0\1\0\12\0\0\0\22\0\2\0\2\0\0\0\6*+\267\0\1\261\0\0\0"+
                 "\0\0\1\0\13\0\14\0\1\0\12\0\0\0\24\0\1\0\1\0\0\0\10*\264\0\2\266"+
                 "\0\3\260\0\0\0\0\0\1\0\15\0\16\0\1\0\12\0\0\0\25\0\2\0\2\0\0\0"+
                 "\11*\266\0\4+\266\0\5\260\0\0\0\0\0\0";
-        final byte[] proxyStubByteCode =
-                NoCallStackClassLoader.stringToBytes(proxyStubByteCodeString);
-        final byte[] pInputStreamByteCode =
-                NoCallStackClassLoader.stringToBytes(pInputStreamByteCodeString);
-        final String[] classNames={proxyStubClassName, pInputStreamClassName};
-        final byte[][] byteCodes = {proxyStubByteCode, pInputStreamByteCode};
-        final String[] otherClassNames = {
-            iiopConnectionStubClassName,
-            ProxyInputStreamClassName,
+        finbl byte[] proxyStubByteCode =
+                NoCbllStbckClbssLobder.stringToBytes(proxyStubByteCodeString);
+        finbl byte[] pInputStrebmByteCode =
+                NoCbllStbckClbssLobder.stringToBytes(pInputStrebmByteCodeString);
+        finbl String[] clbssNbmes={proxyStubClbssNbme, pInputStrebmClbssNbme};
+        finbl byte[][] byteCodes = {proxyStubByteCode, pInputStrebmByteCode};
+        finbl String[] otherClbssNbmes = {
+            iiopConnectionStubClbssNbme,
+            ProxyInputStrebmClbssNbme,
         };
-        if (IIOPHelper.isAvailable()) {
-            PrivilegedExceptionAction<Class<?>> action =
-                new PrivilegedExceptionAction<Class<?>>() {
-              public Class<?> run() throws Exception {
-                Class<RMIConnector> thisClass = RMIConnector.class;
-                ClassLoader thisLoader = thisClass.getClassLoader();
-                ProtectionDomain thisProtectionDomain =
-                        thisClass.getProtectionDomain();
-                ClassLoader cl =
-                        new NoCallStackClassLoader(classNames,
+        if (IIOPHelper.isAvbilbble()) {
+            PrivilegedExceptionAction<Clbss<?>> bction =
+                new PrivilegedExceptionAction<Clbss<?>>() {
+              public Clbss<?> run() throws Exception {
+                Clbss<RMIConnector> thisClbss = RMIConnector.clbss;
+                ClbssLobder thisLobder = thisClbss.getClbssLobder();
+                ProtectionDombin thisProtectionDombin =
+                        thisClbss.getProtectionDombin();
+                ClbssLobder cl =
+                        new NoCbllStbckClbssLobder(clbssNbmes,
                         byteCodes,
-                        otherClassNames,
-                        thisLoader,
-                        thisProtectionDomain);
-                return cl.loadClass(proxyStubClassName);
+                        otherClbssNbmes,
+                        thisLobder,
+                        thisProtectionDombin);
+                return cl.lobdClbss(proxyStubClbssNbme);
               }
             };
-            Class<?> stubClass;
+            Clbss<?> stubClbss;
             try {
-                stubClass = AccessController.doPrivileged(action);
-            } catch (Exception e) {
+                stubClbss = AccessController.doPrivileged(bction);
+            } cbtch (Exception e) {
                 logger.error("<clinit>",
-                        "Unexpected exception making shadow IIOP stub class: "+e);
+                        "Unexpected exception mbking shbdow IIOP stub clbss: "+e);
                 logger.debug("<clinit>",e);
-                stubClass = null;
+                stubClbss = null;
             }
-            proxyStubClass = stubClass;
+            proxyStubClbss = stubClbss;
         } else {
-            proxyStubClass = null;
+            proxyStubClbss = null;
         }
     }
 
-  private static RMIConnection shadowIiopStub(Object stub)
-    throws InstantiationException, IllegalAccessException {
+  privbte stbtic RMIConnection shbdowIiopStub(Object stub)
+    throws InstbntibtionException, IllegblAccessException {
         Object proxyStub = null;
         try {
             proxyStub = AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
                 public Object run() throws Exception {
-                    return proxyStubClass.newInstance();
+                    return proxyStubClbss.newInstbnce();
                 }
             });
-        } catch (PrivilegedActionException e) {
-            throw new InternalError();
+        } cbtch (PrivilegedActionException e) {
+            throw new InternblError();
         }
-        IIOPHelper.setDelegate(proxyStub, IIOPHelper.getDelegate(stub));
+        IIOPHelper.setDelegbte(proxyStub, IIOPHelper.getDelegbte(stub));
         return (RMIConnection) proxyStub;
     }
-    private static RMIConnection getConnection(RMIServer server,
-            Object credentials,
-            boolean checkStub)
+    privbte stbtic RMIConnection getConnection(RMIServer server,
+            Object credentibls,
+            boolebn checkStub)
             throws IOException {
-        RMIConnection c = server.newClient(credentials);
-        if (checkStub) checkStub(c, rmiConnectionImplStubClass);
+        RMIConnection c = server.newClient(credentibls);
+        if (checkStub) checkStub(c, rmiConnectionImplStubClbss);
         try {
-            if (c.getClass() == rmiConnectionImplStubClass)
-                return shadowJrmpStub((RemoteObject) c);
-            if (c.getClass().getName().equals(iiopConnectionStubClassName))
-                return shadowIiopStub(c);
-            logger.trace("getConnection",
-                    "Did not wrap " + c.getClass() + " to foil " +
-                    "stack search for classes: class loading semantics " +
-                    "may be incorrect");
-        } catch (Exception e) {
+            if (c.getClbss() == rmiConnectionImplStubClbss)
+                return shbdowJrmpStub((RemoteObject) c);
+            if (c.getClbss().getNbme().equbls(iiopConnectionStubClbssNbme))
+                return shbdowIiopStub(c);
+            logger.trbce("getConnection",
+                    "Did not wrbp " + c.getClbss() + " to foil " +
+                    "stbck sebrch for clbsses: clbss lobding sembntics " +
+                    "mby be incorrect");
+        } cbtch (Exception e) {
             logger.error("getConnection",
-                    "Could not wrap " + c.getClass() + " to foil " +
-                    "stack search for classes: class loading semantics " +
-                    "may be incorrect: " + e);
+                    "Could not wrbp " + c.getClbss() + " to foil " +
+                    "stbck sebrch for clbsses: clbss lobding sembntics " +
+                    "mby be incorrect: " + e);
             logger.debug("getConnection",e);
-            // so just return the original stub, which will work for all
-            // but the most exotic class loading situations
+            // so just return the originbl stub, which will work for bll
+            // but the most exotic clbss lobding situbtions
         }
         return c;
     }
 
-    private static byte[] base64ToByteArray(String s) {
+    privbte stbtic byte[] bbse64ToByteArrby(String s) {
         int sLen = s.length();
         int numGroups = sLen/4;
         if (4*numGroups != sLen)
-            throw new IllegalArgumentException(
-                    "String length must be a multiple of four.");
-        int missingBytesInLastGroup = 0;
+            throw new IllegblArgumentException(
+                    "String length must be b multiple of four.");
+        int missingBytesInLbstGroup = 0;
         int numFullGroups = numGroups;
         if (sLen != 0) {
-            if (s.charAt(sLen-1) == '=') {
-                missingBytesInLastGroup++;
+            if (s.chbrAt(sLen-1) == '=') {
+                missingBytesInLbstGroup++;
                 numFullGroups--;
             }
-            if (s.charAt(sLen-2) == '=')
-                missingBytesInLastGroup++;
+            if (s.chbrAt(sLen-2) == '=')
+                missingBytesInLbstGroup++;
         }
-        byte[] result = new byte[3*numGroups - missingBytesInLastGroup];
+        byte[] result = new byte[3*numGroups - missingBytesInLbstGroup];
 
-        // Translate all full groups from base64 to byte array elements
+        // Trbnslbte bll full groups from bbse64 to byte brrby elements
         int inCursor = 0, outCursor = 0;
         for (int i=0; i<numFullGroups; i++) {
-            int ch0 = base64toInt(s.charAt(inCursor++));
-            int ch1 = base64toInt(s.charAt(inCursor++));
-            int ch2 = base64toInt(s.charAt(inCursor++));
-            int ch3 = base64toInt(s.charAt(inCursor++));
+            int ch0 = bbse64toInt(s.chbrAt(inCursor++));
+            int ch1 = bbse64toInt(s.chbrAt(inCursor++));
+            int ch2 = bbse64toInt(s.chbrAt(inCursor++));
+            int ch3 = bbse64toInt(s.chbrAt(inCursor++));
             result[outCursor++] = (byte) ((ch0 << 2) | (ch1 >> 4));
             result[outCursor++] = (byte) ((ch1 << 4) | (ch2 >> 2));
             result[outCursor++] = (byte) ((ch2 << 6) | ch3);
         }
 
-        // Translate partial group, if present
-        if (missingBytesInLastGroup != 0) {
-            int ch0 = base64toInt(s.charAt(inCursor++));
-            int ch1 = base64toInt(s.charAt(inCursor++));
+        // Trbnslbte pbrtibl group, if present
+        if (missingBytesInLbstGroup != 0) {
+            int ch0 = bbse64toInt(s.chbrAt(inCursor++));
+            int ch1 = bbse64toInt(s.chbrAt(inCursor++));
             result[outCursor++] = (byte) ((ch0 << 2) | (ch1 >> 4));
 
-            if (missingBytesInLastGroup == 1) {
-                int ch2 = base64toInt(s.charAt(inCursor++));
+            if (missingBytesInLbstGroup == 1) {
+                int ch2 = bbse64toInt(s.chbrAt(inCursor++));
                 result[outCursor++] = (byte) ((ch1 << 4) | (ch2 >> 2));
             }
         }
-        // assert inCursor == s.length()-missingBytesInLastGroup;
-        // assert outCursor == result.length;
+        // bssert inCursor == s.length()-missingBytesInLbstGroup;
+        // bssert outCursor == result.length;
         return result;
     }
 
     /**
-     * Translates the specified character, which is assumed to be in the
-     * "Base 64 Alphabet" into its equivalent 6-bit positive integer.
+     * Trbnslbtes the specified chbrbcter, which is bssumed to be in the
+     * "Bbse 64 Alphbbet" into its equivblent 6-bit positive integer.
      *
-     * @throws IllegalArgumentException if
-     *        c is not in the Base64 Alphabet.
+     * @throws IllegblArgumentException if
+     *        c is not in the Bbse64 Alphbbet.
      */
-    private static int base64toInt(char c) {
+    privbte stbtic int bbse64toInt(chbr c) {
         int result;
 
-        if (c >= base64ToInt.length)
+        if (c >= bbse64ToInt.length)
             result = -1;
         else
-            result = base64ToInt[c];
+            result = bbse64ToInt[c];
 
         if (result < 0)
-            throw new IllegalArgumentException("Illegal character " + c);
+            throw new IllegblArgumentException("Illegbl chbrbcter " + c);
         return result;
     }
 
     /**
-     * This array is a lookup table that translates unicode characters
-     * drawn from the "Base64 Alphabet" (as specified in Table 1 of RFC 2045)
-     * into their 6-bit positive integer equivalents.  Characters that
-     * are not in the Base64 alphabet but fall within the bounds of the
-     * array are translated to -1.
+     * This brrby is b lookup tbble thbt trbnslbtes unicode chbrbcters
+     * drbwn from the "Bbse64 Alphbbet" (bs specified in Tbble 1 of RFC 2045)
+     * into their 6-bit positive integer equivblents.  Chbrbcters thbt
+     * bre not in the Bbse64 blphbbet but fbll within the bounds of the
+     * brrby bre trbnslbted to -1.
      */
-    private static final byte base64ToInt[] = {
+    privbte stbtic finbl byte bbse64ToInt[] = {
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54,
@@ -2508,104 +2508,104 @@ public class RMIConnector implements JMXConnector, Serializable, JMXAddressable 
     };
 
     //--------------------------------------------------------------------
-    // Private stuff - Find / Set default class loader
+    // Privbte stuff - Find / Set defbult clbss lobder
     //--------------------------------------------------------------------
-    private ClassLoader pushDefaultClassLoader() {
-        final Thread t = Thread.currentThread();
-        final ClassLoader old =  t.getContextClassLoader();
-        if (defaultClassLoader != null)
+    privbte ClbssLobder pushDefbultClbssLobder() {
+        finbl Threbd t = Threbd.currentThrebd();
+        finbl ClbssLobder old =  t.getContextClbssLobder();
+        if (defbultClbssLobder != null)
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 public Void run() {
-                    t.setContextClassLoader(defaultClassLoader);
+                    t.setContextClbssLobder(defbultClbssLobder);
                     return null;
                 }
             });
             return old;
     }
 
-    private void popDefaultClassLoader(final ClassLoader old) {
+    privbte void popDefbultClbssLobder(finbl ClbssLobder old) {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                Thread.currentThread().setContextClassLoader(old);
+                Threbd.currentThrebd().setContextClbssLobder(old);
                 return null;
             }
         });
     }
 
     //--------------------------------------------------------------------
-    // Private variables
+    // Privbte vbribbles
     //--------------------------------------------------------------------
     /**
-     * @serial The RMIServer stub of the RMI JMX Connector server to
+     * @seribl The RMIServer stub of the RMI JMX Connector server to
      * which this client connector is (or will be) connected. This
-     * field can be null when <var>jmxServiceURL</var> is not
-     * null. This includes the case where <var>jmxServiceURL</var>
-     * contains a serialized RMIServer stub. If both
-     * <var>rmiServer</var> and <var>jmxServiceURL</var> are null then
-     * serialization will fail.
+     * field cbn be null when <vbr>jmxServiceURL</vbr> is not
+     * null. This includes the cbse where <vbr>jmxServiceURL</vbr>
+     * contbins b seriblized RMIServer stub. If both
+     * <vbr>rmiServer</vbr> bnd <vbr>jmxServiceURL</vbr> bre null then
+     * seriblizbtion will fbil.
      *
-     * @see #RMIConnector(RMIServer,Map)
+     * @see #RMIConnector(RMIServer,Mbp)
      **/
-    private final RMIServer rmiServer;
+    privbte finbl RMIServer rmiServer;
 
     /**
-     * @serial The JMXServiceURL of the RMI JMX Connector server to
-     * which this client connector will be connected. This field can
-     * be null when <var>rmiServer</var> is not null. If both
-     * <var>rmiServer</var> and <var>jmxServiceURL</var> are null then
-     * serialization will fail.
+     * @seribl The JMXServiceURL of the RMI JMX Connector server to
+     * which this client connector will be connected. This field cbn
+     * be null when <vbr>rmiServer</vbr> is not null. If both
+     * <vbr>rmiServer</vbr> bnd <vbr>jmxServiceURL</vbr> bre null then
+     * seriblizbtion will fbil.
      *
-     * @see #RMIConnector(JMXServiceURL,Map)
+     * @see #RMIConnector(JMXServiceURL,Mbp)
      **/
-    private final JMXServiceURL jmxServiceURL;
+    privbte finbl JMXServiceURL jmxServiceURL;
 
     // ---------------------------------------------------------
     // WARNING - WARNING - WARNING - WARNING - WARNING - WARNING
     // ---------------------------------------------------------
-    // Any transient variable which needs to be initialized should
-    // be initialized in the method initTransient()
-    private transient Map<String, Object> env;
-    private transient ClassLoader defaultClassLoader;
-    private transient RMIConnection connection;
-    private transient String connectionId;
+    // Any trbnsient vbribble which needs to be initiblized should
+    // be initiblized in the method initTrbnsient()
+    privbte trbnsient Mbp<String, Object> env;
+    privbte trbnsient ClbssLobder defbultClbssLobder;
+    privbte trbnsient RMIConnection connection;
+    privbte trbnsient String connectionId;
 
-    private transient long clientNotifSeqNo = 0;
+    privbte trbnsient long clientNotifSeqNo = 0;
 
-    private transient WeakHashMap<Subject, WeakReference<MBeanServerConnection>> rmbscMap;
-    private transient WeakReference<MBeanServerConnection> nullSubjectConnRef = null;
+    privbte trbnsient WebkHbshMbp<Subject, WebkReference<MBebnServerConnection>> rmbscMbp;
+    privbte trbnsient WebkReference<MBebnServerConnection> nullSubjectConnRef = null;
 
-    private transient RMINotifClient rmiNotifClient;
+    privbte trbnsient RMINotifClient rmiNotifClient;
     // = new RMINotifClient(new Integer(0));
 
-    private transient long clientNotifCounter = 0;
+    privbte trbnsient long clientNotifCounter = 0;
 
-    private transient boolean connected;
-    // = false;
-    private transient boolean terminated;
-    // = false;
+    privbte trbnsient boolebn connected;
+    // = fblse;
+    privbte trbnsient boolebn terminbted;
+    // = fblse;
 
-    private transient Exception closeException;
+    privbte trbnsient Exception closeException;
 
-    private transient NotificationBroadcasterSupport connectionBroadcaster;
+    privbte trbnsient NotificbtionBrobdcbsterSupport connectionBrobdcbster;
 
-    private transient ClientCommunicatorAdmin communicatorAdmin;
+    privbte trbnsient ClientCommunicbtorAdmin communicbtorAdmin;
 
     /**
-     * A static WeakReference to an {@link org.omg.CORBA.ORB ORB} to
+     * A stbtic WebkReference to bn {@link org.omg.CORBA.ORB ORB} to
      * connect unconnected stubs.
      **/
-    private static volatile WeakReference<Object> orb = null;
+    privbte stbtic volbtile WebkReference<Object> orb = null;
 
     // TRACES & DEBUG
     //---------------
-    private static String objects(final Object[] objs) {
+    privbte stbtic String objects(finbl Object[] objs) {
         if (objs == null)
             return "null";
         else
-            return Arrays.asList(objs).toString();
+            return Arrbys.bsList(objs).toString();
     }
 
-    private static String strings(final String[] strs) {
+    privbte stbtic String strings(finbl String[] strs) {
         return objects(strs);
     }
 }

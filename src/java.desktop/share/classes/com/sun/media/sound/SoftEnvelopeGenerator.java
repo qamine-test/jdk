@@ -1,298 +1,298 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
 /**
- * AHDSR control signal envelope generator.
+ * AHDSR control signbl envelope generbtor.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftEnvelopeGenerator implements SoftProcess {
+public finbl clbss SoftEnvelopeGenerbtor implements SoftProcess {
 
-    public final static int EG_OFF = 0;
-    public final static int EG_DELAY = 1;
-    public final static int EG_ATTACK = 2;
-    public final static int EG_HOLD = 3;
-    public final static int EG_DECAY = 4;
-    public final static int EG_SUSTAIN = 5;
-    public final static int EG_RELEASE = 6;
-    public final static int EG_SHUTDOWN = 7;
-    public final static int EG_END = 8;
-    int max_count = 10;
+    public finbl stbtic int EG_OFF = 0;
+    public finbl stbtic int EG_DELAY = 1;
+    public finbl stbtic int EG_ATTACK = 2;
+    public finbl stbtic int EG_HOLD = 3;
+    public finbl stbtic int EG_DECAY = 4;
+    public finbl stbtic int EG_SUSTAIN = 5;
+    public finbl stbtic int EG_RELEASE = 6;
+    public finbl stbtic int EG_SHUTDOWN = 7;
+    public finbl stbtic int EG_END = 8;
+    int mbx_count = 10;
     int used_count = 0;
-    private final int[] stage = new int[max_count];
-    private final int[] stage_ix = new int[max_count];
-    private final double[] stage_v = new double[max_count];
-    private final int[] stage_count = new int[max_count];
-    private final double[][] on = new double[max_count][1];
-    private final double[][] active = new double[max_count][1];
-    private final double[][] out = new double[max_count][1];
-    private final double[][] delay = new double[max_count][1];
-    private final double[][] attack = new double[max_count][1];
-    private final double[][] hold = new double[max_count][1];
-    private final double[][] decay = new double[max_count][1];
-    private final double[][] sustain = new double[max_count][1];
-    private final double[][] release = new double[max_count][1];
-    private final double[][] shutdown = new double[max_count][1];
-    private final double[][] release2 = new double[max_count][1];
-    private final double[][] attack2 = new double[max_count][1];
-    private final double[][] decay2 = new double[max_count][1];
-    private double control_time = 0;
+    privbte finbl int[] stbge = new int[mbx_count];
+    privbte finbl int[] stbge_ix = new int[mbx_count];
+    privbte finbl double[] stbge_v = new double[mbx_count];
+    privbte finbl int[] stbge_count = new int[mbx_count];
+    privbte finbl double[][] on = new double[mbx_count][1];
+    privbte finbl double[][] bctive = new double[mbx_count][1];
+    privbte finbl double[][] out = new double[mbx_count][1];
+    privbte finbl double[][] delby = new double[mbx_count][1];
+    privbte finbl double[][] bttbck = new double[mbx_count][1];
+    privbte finbl double[][] hold = new double[mbx_count][1];
+    privbte finbl double[][] decby = new double[mbx_count][1];
+    privbte finbl double[][] sustbin = new double[mbx_count][1];
+    privbte finbl double[][] relebse = new double[mbx_count][1];
+    privbte finbl double[][] shutdown = new double[mbx_count][1];
+    privbte finbl double[][] relebse2 = new double[mbx_count][1];
+    privbte finbl double[][] bttbck2 = new double[mbx_count][1];
+    privbte finbl double[][] decby2 = new double[mbx_count][1];
+    privbte double control_time = 0;
 
     public void reset() {
         for (int i = 0; i < used_count; i++) {
-            stage[i] = 0;
+            stbge[i] = 0;
             on[i][0] = 0;
             out[i][0] = 0;
-            delay[i][0] = 0;
-            attack[i][0] = 0;
+            delby[i][0] = 0;
+            bttbck[i][0] = 0;
             hold[i][0] = 0;
-            decay[i][0] = 0;
-            sustain[i][0] = 0;
-            release[i][0] = 0;
+            decby[i][0] = 0;
+            sustbin[i][0] = 0;
+            relebse[i][0] = 0;
             shutdown[i][0] = 0;
-            attack2[i][0] = 0;
-            decay2[i][0] = 0;
-            release2[i][0] = 0;
+            bttbck2[i][0] = 0;
+            decby2[i][0] = 0;
+            relebse2[i][0] = 0;
         }
         used_count = 0;
     }
 
     public void init(SoftSynthesizer synth) {
-        control_time = 1.0 / synth.getControlRate();
+        control_time = 1.0 / synth.getControlRbte();
         processControlLogic();
     }
 
-    public double[] get(int instance, String name) {
-        if (instance >= used_count)
-            used_count = instance + 1;
-        if (name == null)
-            return out[instance];
-        if (name.equals("on"))
-            return on[instance];
-        if (name.equals("active"))
-            return active[instance];
-        if (name.equals("delay"))
-            return delay[instance];
-        if (name.equals("attack"))
-            return attack[instance];
-        if (name.equals("hold"))
-            return hold[instance];
-        if (name.equals("decay"))
-            return decay[instance];
-        if (name.equals("sustain"))
-            return sustain[instance];
-        if (name.equals("release"))
-            return release[instance];
-        if (name.equals("shutdown"))
-            return shutdown[instance];
-        if (name.equals("attack2"))
-            return attack2[instance];
-        if (name.equals("decay2"))
-            return decay2[instance];
-        if (name.equals("release2"))
-            return release2[instance];
+    public double[] get(int instbnce, String nbme) {
+        if (instbnce >= used_count)
+            used_count = instbnce + 1;
+        if (nbme == null)
+            return out[instbnce];
+        if (nbme.equbls("on"))
+            return on[instbnce];
+        if (nbme.equbls("bctive"))
+            return bctive[instbnce];
+        if (nbme.equbls("delby"))
+            return delby[instbnce];
+        if (nbme.equbls("bttbck"))
+            return bttbck[instbnce];
+        if (nbme.equbls("hold"))
+            return hold[instbnce];
+        if (nbme.equbls("decby"))
+            return decby[instbnce];
+        if (nbme.equbls("sustbin"))
+            return sustbin[instbnce];
+        if (nbme.equbls("relebse"))
+            return relebse[instbnce];
+        if (nbme.equbls("shutdown"))
+            return shutdown[instbnce];
+        if (nbme.equbls("bttbck2"))
+            return bttbck2[instbnce];
+        if (nbme.equbls("decby2"))
+            return decby2[instbnce];
+        if (nbme.equbls("relebse2"))
+            return relebse2[instbnce];
 
         return null;
     }
 
-    @SuppressWarnings("fallthrough")
+    @SuppressWbrnings("fbllthrough")
     public void processControlLogic() {
         for (int i = 0; i < used_count; i++) {
 
-            if (stage[i] == EG_END)
+            if (stbge[i] == EG_END)
                 continue;
 
-            if ((stage[i] > EG_OFF) && (stage[i] < EG_RELEASE)) {
+            if ((stbge[i] > EG_OFF) && (stbge[i] < EG_RELEASE)) {
                 if (on[i][0] < 0.5) {
                     if (on[i][0] < -0.5) {
-                        stage_count[i] = (int)(Math.pow(2,
+                        stbge_count[i] = (int)(Mbth.pow(2,
                                 this.shutdown[i][0] / 1200.0) / control_time);
-                        if (stage_count[i] < 0)
-                            stage_count[i] = 0;
-                        stage_v[i] = out[i][0];
-                        stage_ix[i] = 0;
-                        stage[i] = EG_SHUTDOWN;
+                        if (stbge_count[i] < 0)
+                            stbge_count[i] = 0;
+                        stbge_v[i] = out[i][0];
+                        stbge_ix[i] = 0;
+                        stbge[i] = EG_SHUTDOWN;
                     } else {
-                        if ((release2[i][0] < 0.000001) && release[i][0] < 0
-                                && Double.isInfinite(release[i][0])) {
+                        if ((relebse2[i][0] < 0.000001) && relebse[i][0] < 0
+                                && Double.isInfinite(relebse[i][0])) {
                             out[i][0] = 0;
-                            active[i][0] = 0;
-                            stage[i] = EG_END;
+                            bctive[i][0] = 0;
+                            stbge[i] = EG_END;
                             continue;
                         }
 
-                        stage_count[i] = (int)(Math.pow(2,
-                                this.release[i][0] / 1200.0) / control_time);
-                        stage_count[i]
-                                += (int)(this.release2[i][0]/(control_time * 1000));
-                        if (stage_count[i] < 0)
-                            stage_count[i] = 0;
-                        // stage_v[i] = out[i][0];
-                        stage_ix[i] = 0;
+                        stbge_count[i] = (int)(Mbth.pow(2,
+                                this.relebse[i][0] / 1200.0) / control_time);
+                        stbge_count[i]
+                                += (int)(this.relebse2[i][0]/(control_time * 1000));
+                        if (stbge_count[i] < 0)
+                            stbge_count[i] = 0;
+                        // stbge_v[i] = out[i][0];
+                        stbge_ix[i] = 0;
 
                         double m = 1 - out[i][0];
-                        stage_ix[i] = (int)(stage_count[i] * m);
+                        stbge_ix[i] = (int)(stbge_count[i] * m);
 
-                        stage[i] = EG_RELEASE;
+                        stbge[i] = EG_RELEASE;
                     }
                 }
             }
 
-            switch (stage[i]) {
-            case EG_OFF:
-                active[i][0] = 1;
+            switch (stbge[i]) {
+            cbse EG_OFF:
+                bctive[i][0] = 1;
                 if (on[i][0] < 0.5)
-                    break;
-                stage[i] = EG_DELAY;
-                stage_ix[i] = (int)(Math.pow(2,
-                        this.delay[i][0] / 1200.0) / control_time);
-                if (stage_ix[i] < 0)
-                    stage_ix[i] = 0;
-                // Fallthrough
-            case EG_DELAY:
-                if (stage_ix[i] == 0) {
-                    double attack = this.attack[i][0];
-                    double attack2 = this.attack2[i][0];
+                    brebk;
+                stbge[i] = EG_DELAY;
+                stbge_ix[i] = (int)(Mbth.pow(2,
+                        this.delby[i][0] / 1200.0) / control_time);
+                if (stbge_ix[i] < 0)
+                    stbge_ix[i] = 0;
+                // Fbllthrough
+            cbse EG_DELAY:
+                if (stbge_ix[i] == 0) {
+                    double bttbck = this.bttbck[i][0];
+                    double bttbck2 = this.bttbck2[i][0];
 
-                    if (attack2 < 0.000001
-                            && (attack < 0 && Double.isInfinite(attack))) {
+                    if (bttbck2 < 0.000001
+                            && (bttbck < 0 && Double.isInfinite(bttbck))) {
                         out[i][0] = 1;
-                        stage[i] = EG_HOLD;
-                        stage_count[i] = (int)(Math.pow(2,
+                        stbge[i] = EG_HOLD;
+                        stbge_count[i] = (int)(Mbth.pow(2,
                                 this.hold[i][0] / 1200.0) / control_time);
-                        stage_ix[i] = 0;
+                        stbge_ix[i] = 0;
                     } else {
-                        stage[i] = EG_ATTACK;
-                        stage_count[i] = (int)(Math.pow(2,
-                                attack / 1200.0) / control_time);
-                        stage_count[i] += (int)(attack2 / (control_time * 1000));
-                        if (stage_count[i] < 0)
-                            stage_count[i] = 0;
-                        stage_ix[i] = 0;
+                        stbge[i] = EG_ATTACK;
+                        stbge_count[i] = (int)(Mbth.pow(2,
+                                bttbck / 1200.0) / control_time);
+                        stbge_count[i] += (int)(bttbck2 / (control_time * 1000));
+                        if (stbge_count[i] < 0)
+                            stbge_count[i] = 0;
+                        stbge_ix[i] = 0;
                     }
                 } else
-                    stage_ix[i]--;
-                break;
-            case EG_ATTACK:
-                stage_ix[i]++;
-                if (stage_ix[i] >= stage_count[i]) {
+                    stbge_ix[i]--;
+                brebk;
+            cbse EG_ATTACK:
+                stbge_ix[i]++;
+                if (stbge_ix[i] >= stbge_count[i]) {
                     out[i][0] = 1;
-                    stage[i] = EG_HOLD;
+                    stbge[i] = EG_HOLD;
                 } else {
-                    // CONVEX attack
-                    double a = ((double)stage_ix[i]) / ((double)stage_count[i]);
-                    a = 1 + ((40.0 / 96.0) / Math.log(10)) * Math.log(a);
-                    if (a < 0)
-                        a = 0;
-                    else if (a > 1)
-                        a = 1;
-                    out[i][0] = a;
+                    // CONVEX bttbck
+                    double b = ((double)stbge_ix[i]) / ((double)stbge_count[i]);
+                    b = 1 + ((40.0 / 96.0) / Mbth.log(10)) * Mbth.log(b);
+                    if (b < 0)
+                        b = 0;
+                    else if (b > 1)
+                        b = 1;
+                    out[i][0] = b;
                 }
-                break;
-            case EG_HOLD:
-                stage_ix[i]++;
-                if (stage_ix[i] >= stage_count[i]) {
-                    stage[i] = EG_DECAY;
-                    stage_count[i] = (int)(Math.pow(2,
-                            this.decay[i][0] / 1200.0) / control_time);
-                    stage_count[i] += (int)(this.decay2[i][0]/(control_time*1000));
-                    if (stage_count[i] < 0)
-                        stage_count[i] = 0;
-                    stage_ix[i] = 0;
+                brebk;
+            cbse EG_HOLD:
+                stbge_ix[i]++;
+                if (stbge_ix[i] >= stbge_count[i]) {
+                    stbge[i] = EG_DECAY;
+                    stbge_count[i] = (int)(Mbth.pow(2,
+                            this.decby[i][0] / 1200.0) / control_time);
+                    stbge_count[i] += (int)(this.decby2[i][0]/(control_time*1000));
+                    if (stbge_count[i] < 0)
+                        stbge_count[i] = 0;
+                    stbge_ix[i] = 0;
                 }
-                break;
-            case EG_DECAY:
-                stage_ix[i]++;
-                double sustain = this.sustain[i][0] * (1.0 / 1000.0);
-                if (stage_ix[i] >= stage_count[i]) {
-                    out[i][0] = sustain;
-                    stage[i] = EG_SUSTAIN;
-                    if (sustain < 0.001) {
+                brebk;
+            cbse EG_DECAY:
+                stbge_ix[i]++;
+                double sustbin = this.sustbin[i][0] * (1.0 / 1000.0);
+                if (stbge_ix[i] >= stbge_count[i]) {
+                    out[i][0] = sustbin;
+                    stbge[i] = EG_SUSTAIN;
+                    if (sustbin < 0.001) {
                         out[i][0] = 0;
-                        active[i][0] = 0;
-                        stage[i] = EG_END;
+                        bctive[i][0] = 0;
+                        stbge[i] = EG_END;
                     }
                 } else {
-                    double m = ((double)stage_ix[i]) / ((double)stage_count[i]);
-                    out[i][0] = (1 - m) + sustain * m;
+                    double m = ((double)stbge_ix[i]) / ((double)stbge_count[i]);
+                    out[i][0] = (1 - m) + sustbin * m;
                 }
-                break;
-            case EG_SUSTAIN:
-                break;
-            case EG_RELEASE:
-                stage_ix[i]++;
-                if (stage_ix[i] >= stage_count[i]) {
+                brebk;
+            cbse EG_SUSTAIN:
+                brebk;
+            cbse EG_RELEASE:
+                stbge_ix[i]++;
+                if (stbge_ix[i] >= stbge_count[i]) {
                     out[i][0] = 0;
-                    active[i][0] = 0;
-                    stage[i] = EG_END;
+                    bctive[i][0] = 0;
+                    stbge[i] = EG_END;
                 } else {
-                    double m = ((double)stage_ix[i]) / ((double)stage_count[i]);
-                    out[i][0] = (1 - m); // *stage_v[i];
+                    double m = ((double)stbge_ix[i]) / ((double)stbge_count[i]);
+                    out[i][0] = (1 - m); // *stbge_v[i];
 
                     if (on[i][0] < -0.5) {
-                        stage_count[i] = (int)(Math.pow(2,
+                        stbge_count[i] = (int)(Mbth.pow(2,
                                 this.shutdown[i][0] / 1200.0) / control_time);
-                        if (stage_count[i] < 0)
-                            stage_count[i] = 0;
-                        stage_v[i] = out[i][0];
-                        stage_ix[i] = 0;
-                        stage[i] = EG_SHUTDOWN;
+                        if (stbge_count[i] < 0)
+                            stbge_count[i] = 0;
+                        stbge_v[i] = out[i][0];
+                        stbge_ix[i] = 0;
+                        stbge[i] = EG_SHUTDOWN;
                     }
 
-                    // re-damping
+                    // re-dbmping
                     if (on[i][0] > 0.5) {
-                        sustain = this.sustain[i][0] * (1.0 / 1000.0);
-                        if (out[i][0] > sustain) {
-                            stage[i] = EG_DECAY;
-                            stage_count[i] = (int)(Math.pow(2,
-                                    this.decay[i][0] / 1200.0) / control_time);
-                            stage_count[i] +=
-                                    (int)(this.decay2[i][0]/(control_time*1000));
-                            if (stage_count[i] < 0)
-                                stage_count[i] = 0;
-                            m = (out[i][0] - 1) / (sustain - 1);
-                            stage_ix[i] = (int) (stage_count[i] * m);
+                        sustbin = this.sustbin[i][0] * (1.0 / 1000.0);
+                        if (out[i][0] > sustbin) {
+                            stbge[i] = EG_DECAY;
+                            stbge_count[i] = (int)(Mbth.pow(2,
+                                    this.decby[i][0] / 1200.0) / control_time);
+                            stbge_count[i] +=
+                                    (int)(this.decby2[i][0]/(control_time*1000));
+                            if (stbge_count[i] < 0)
+                                stbge_count[i] = 0;
+                            m = (out[i][0] - 1) / (sustbin - 1);
+                            stbge_ix[i] = (int) (stbge_count[i] * m);
                         }
                     }
 
                 }
-                break;
-            case EG_SHUTDOWN:
-                stage_ix[i]++;
-                if (stage_ix[i] >= stage_count[i]) {
+                brebk;
+            cbse EG_SHUTDOWN:
+                stbge_ix[i]++;
+                if (stbge_ix[i] >= stbge_count[i]) {
                     out[i][0] = 0;
-                    active[i][0] = 0;
-                    stage[i] = EG_END;
+                    bctive[i][0] = 0;
+                    stbge[i] = EG_END;
                 } else {
-                    double m = ((double)stage_ix[i]) / ((double)stage_count[i]);
-                    out[i][0] = (1 - m) * stage_v[i];
+                    double m = ((double)stbge_ix[i]) / ((double)stbge_count[i]);
+                    out[i][0] = (1 - m) * stbge_v[i];
                 }
-                break;
-            default:
-                break;
+                brebk;
+            defbult:
+                brebk;
             }
         }
 

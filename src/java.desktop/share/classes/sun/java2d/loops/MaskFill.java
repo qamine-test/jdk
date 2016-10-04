@@ -1,277 +1,277 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import java.awt.Paint;
-import java.awt.PaintContext;
-import java.awt.Composite;
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
-import sun.awt.image.BufImgSurfaceData;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.Region;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.PbintContext;
+import jbvb.bwt.Composite;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.WritbbleRbster;
+import sun.bwt.imbge.BufImgSurfbceDbtb;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.pipe.Region;
 
 /**
- * MaskFill
- * 1) fills rectangles of pixels on a surface
- * 2) performs compositing of colors based upon a Composite
- *    parameter
- * 3) blends result of composite with destination using an
- *    alpha coverage mask
- * 4) the mask may be null in which case it should be treated
- *    as if it were an array of all opaque values (0xff)
+ * MbskFill
+ * 1) fills rectbngles of pixels on b surfbce
+ * 2) performs compositing of colors bbsed upon b Composite
+ *    pbrbmeter
+ * 3) blends result of composite with destinbtion using bn
+ *    blphb coverbge mbsk
+ * 4) the mbsk mby be null in which cbse it should be trebted
+ *    bs if it were bn brrby of bll opbque vblues (0xff)
  */
-public class MaskFill extends GraphicsPrimitive
+public clbss MbskFill extends GrbphicsPrimitive
 {
-    public static final String methodSignature = "MaskFill(...)".toString();
-    public static final String fillPgramSignature =
-        "FillAAPgram(...)".toString();
-    public static final String drawPgramSignature =
-        "DrawAAPgram(...)".toString();
+    public stbtic finbl String methodSignbture = "MbskFill(...)".toString();
+    public stbtic finbl String fillPgrbmSignbture =
+        "FillAAPgrbm(...)".toString();
+    public stbtic finbl String drbwPgrbmSignbture =
+        "DrbwAAPgrbm(...)".toString();
 
-    public static final int primTypeID = makePrimTypeID();
+    public stbtic finbl int primTypeID = mbkePrimTypeID();
 
-    private static RenderCache fillcache = new RenderCache(10);
+    privbte stbtic RenderCbche fillcbche = new RenderCbche(10);
 
-    public static MaskFill locate(SurfaceType srctype,
+    public stbtic MbskFill locbte(SurfbceType srctype,
                                   CompositeType comptype,
-                                  SurfaceType dsttype)
+                                  SurfbceType dsttype)
     {
-        return (MaskFill)
-            GraphicsPrimitiveMgr.locate(primTypeID,
+        return (MbskFill)
+            GrbphicsPrimitiveMgr.locbte(primTypeID,
                                         srctype, comptype, dsttype);
     }
 
-    public static MaskFill locatePrim(SurfaceType srctype,
+    public stbtic MbskFill locbtePrim(SurfbceType srctype,
                                       CompositeType comptype,
-                                      SurfaceType dsttype)
+                                      SurfbceType dsttype)
     {
-        return (MaskFill)
-            GraphicsPrimitiveMgr.locatePrim(primTypeID,
+        return (MbskFill)
+            GrbphicsPrimitiveMgr.locbtePrim(primTypeID,
                                             srctype, comptype, dsttype);
     }
 
     /*
-     * Note that this uses locatePrim, not locate, so it can return
-     * null if there is no specific loop to handle this op...
+     * Note thbt this uses locbtePrim, not locbte, so it cbn return
+     * null if there is no specific loop to hbndle this op...
      */
-    public static MaskFill getFromCache(SurfaceType src,
+    public stbtic MbskFill getFromCbche(SurfbceType src,
                                         CompositeType comp,
-                                        SurfaceType dst)
+                                        SurfbceType dst)
     {
-        Object o = fillcache.get(src, comp, dst);
+        Object o = fillcbche.get(src, comp, dst);
         if (o != null) {
-            return (MaskFill) o;
+            return (MbskFill) o;
         }
-        MaskFill fill = locatePrim(src, comp, dst);
+        MbskFill fill = locbtePrim(src, comp, dst);
         if (fill != null) {
-            fillcache.put(src, comp, dst, fill);
+            fillcbche.put(src, comp, dst, fill);
         }
         return fill;
     }
 
-    protected MaskFill(String alternateSignature,
-                       SurfaceType srctype,
+    protected MbskFill(String blternbteSignbture,
+                       SurfbceType srctype,
                        CompositeType comptype,
-                       SurfaceType dsttype)
+                       SurfbceType dsttype)
     {
-        super(alternateSignature, primTypeID, srctype, comptype, dsttype);
+        super(blternbteSignbture, primTypeID, srctype, comptype, dsttype);
     }
 
-    protected MaskFill(SurfaceType srctype,
+    protected MbskFill(SurfbceType srctype,
                        CompositeType comptype,
-                       SurfaceType dsttype)
+                       SurfbceType dsttype)
     {
-        super(methodSignature, primTypeID, srctype, comptype, dsttype);
+        super(methodSignbture, primTypeID, srctype, comptype, dsttype);
     }
 
-    public MaskFill(long pNativePrim,
-                    SurfaceType srctype,
+    public MbskFill(long pNbtivePrim,
+                    SurfbceType srctype,
                     CompositeType comptype,
-                    SurfaceType dsttype)
+                    SurfbceType dsttype)
     {
-        super(pNativePrim, methodSignature, primTypeID, srctype, comptype, dsttype);
+        super(pNbtivePrim, methodSignbture, primTypeID, srctype, comptype, dsttype);
     }
 
     /**
-     * All MaskFill implementors must have this invoker method
+     * All MbskFill implementors must hbve this invoker method
      */
-    public native void MaskFill(SunGraphics2D sg2d, SurfaceData sData,
+    public nbtive void MbskFill(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                                 Composite comp,
                                 int x, int y, int w, int h,
-                                byte[] mask, int maskoff, int maskscan);
+                                byte[] mbsk, int mbskoff, int mbskscbn);
 
-    public native void FillAAPgram(SunGraphics2D sg2d, SurfaceData sData,
+    public nbtive void FillAAPgrbm(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                                    Composite comp,
                                    double x, double y,
                                    double dx1, double dy1,
                                    double dx2, double dy2);
 
-    public native void DrawAAPgram(SunGraphics2D sg2d, SurfaceData sData,
+    public nbtive void DrbwAAPgrbm(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                                    Composite comp,
                                    double x, double y,
                                    double dx1, double dy1,
                                    double dx2, double dy2,
                                    double lw1, double lw2);
 
-    public boolean canDoParallelograms() {
-        return (getNativePrim() != 0);
+    public boolebn cbnDoPbrbllelogrbms() {
+        return (getNbtivePrim() != 0);
     }
 
-    static {
-        GraphicsPrimitiveMgr.registerGeneral(new MaskFill(null, null, null));
+    stbtic {
+        GrbphicsPrimitiveMgr.registerGenerbl(new MbskFill(null, null, null));
     }
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
+    public GrbphicsPrimitive mbkePrimitive(SurfbceType srctype,
                                            CompositeType comptype,
-                                           SurfaceType dsttype)
+                                           SurfbceType dsttype)
     {
-        if (SurfaceType.OpaqueColor.equals(srctype) ||
-            SurfaceType.AnyColor.equals(srctype))
+        if (SurfbceType.OpbqueColor.equbls(srctype) ||
+            SurfbceType.AnyColor.equbls(srctype))
         {
-            if (CompositeType.Xor.equals(comptype)) {
-                throw new InternalError("Cannot construct MaskFill for " +
+            if (CompositeType.Xor.equbls(comptype)) {
+                throw new InternblError("Cbnnot construct MbskFill for " +
                                         "XOR mode");
             } else {
-                return new General(srctype, comptype, dsttype);
+                return new Generbl(srctype, comptype, dsttype);
             }
         } else {
-            throw new InternalError("MaskFill can only fill with colors");
+            throw new InternblError("MbskFill cbn only fill with colors");
         }
     }
 
-    private static class General extends MaskFill {
+    privbte stbtic clbss Generbl extends MbskFill {
         FillRect fillop;
-        MaskBlit maskop;
+        MbskBlit mbskop;
 
-        public General(SurfaceType srctype,
+        public Generbl(SurfbceType srctype,
                        CompositeType comptype,
-                       SurfaceType dsttype)
+                       SurfbceType dsttype)
         {
             super(srctype, comptype, dsttype);
-            fillop = FillRect.locate(srctype,
-                                     CompositeType.SrcNoEa,
-                                     SurfaceType.IntArgb);
-            maskop = MaskBlit.locate(SurfaceType.IntArgb, comptype, dsttype);
+            fillop = FillRect.locbte(srctype,
+                                     CompositeType.SrcNoEb,
+                                     SurfbceType.IntArgb);
+            mbskop = MbskBlit.locbte(SurfbceType.IntArgb, comptype, dsttype);
         }
 
-        public void MaskFill(SunGraphics2D sg2d,
-                             SurfaceData sData,
+        public void MbskFill(SunGrbphics2D sg2d,
+                             SurfbceDbtb sDbtb,
                              Composite comp,
                              int x, int y, int w, int h,
-                             byte mask[], int offset, int scan)
+                             byte mbsk[], int offset, int scbn)
         {
-            BufferedImage dstBI =
-                new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-            SurfaceData tmpData = BufImgSurfaceData.createData(dstBI);
+            BufferedImbge dstBI =
+                new BufferedImbge(w, h, BufferedImbge.TYPE_INT_ARGB);
+            SurfbceDbtb tmpDbtb = BufImgSurfbceDbtb.crebteDbtb(dstBI);
 
             // REMIND: This is not pretty.  It would be nicer if we
-            // passed a "FillData" object to the Pixel loops, instead
-            // of a SunGraphics2D parameter...
+            // pbssed b "FillDbtb" object to the Pixel loops, instebd
+            // of b SunGrbphics2D pbrbmeter...
             Region clip = sg2d.clipRegion;
             sg2d.clipRegion = null;
             int pixel = sg2d.pixel;
-            sg2d.pixel = tmpData.pixelFor(sg2d.getColor());
-            fillop.FillRect(sg2d, tmpData, 0, 0, w, h);
+            sg2d.pixel = tmpDbtb.pixelFor(sg2d.getColor());
+            fillop.FillRect(sg2d, tmpDbtb, 0, 0, w, h);
             sg2d.pixel = pixel;
             sg2d.clipRegion = clip;
 
-            maskop.MaskBlit(tmpData, sData, comp, null,
+            mbskop.MbskBlit(tmpDbtb, sDbtb, comp, null,
                             0, 0, x, y, w, h,
-                            mask, offset, scan);
+                            mbsk, offset, scbn);
         }
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceMaskFill(this);
+    public GrbphicsPrimitive trbceWrbp() {
+        return new TrbceMbskFill(this);
     }
 
-    private static class TraceMaskFill extends MaskFill {
-        MaskFill target;
-        MaskFill fillPgramTarget;
-        MaskFill drawPgramTarget;
+    privbte stbtic clbss TrbceMbskFill extends MbskFill {
+        MbskFill tbrget;
+        MbskFill fillPgrbmTbrget;
+        MbskFill drbwPgrbmTbrget;
 
-        public TraceMaskFill(MaskFill target) {
-            super(target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
-            this.fillPgramTarget = new MaskFill(fillPgramSignature,
-                                                target.getSourceType(),
-                                                target.getCompositeType(),
-                                                target.getDestType());
-            this.drawPgramTarget = new MaskFill(drawPgramSignature,
-                                                target.getSourceType(),
-                                                target.getCompositeType(),
-                                                target.getDestType());
+        public TrbceMbskFill(MbskFill tbrget) {
+            super(tbrget.getSourceType(),
+                  tbrget.getCompositeType(),
+                  tbrget.getDestType());
+            this.tbrget = tbrget;
+            this.fillPgrbmTbrget = new MbskFill(fillPgrbmSignbture,
+                                                tbrget.getSourceType(),
+                                                tbrget.getCompositeType(),
+                                                tbrget.getDestType());
+            this.drbwPgrbmTbrget = new MbskFill(drbwPgrbmSignbture,
+                                                tbrget.getSourceType(),
+                                                tbrget.getCompositeType(),
+                                                tbrget.getDestType());
         }
 
-        public GraphicsPrimitive traceWrap() {
+        public GrbphicsPrimitive trbceWrbp() {
             return this;
         }
 
-        public void MaskFill(SunGraphics2D sg2d, SurfaceData sData,
+        public void MbskFill(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                              Composite comp,
                              int x, int y, int w, int h,
-                             byte[] mask, int maskoff, int maskscan)
+                             byte[] mbsk, int mbskoff, int mbskscbn)
         {
-            tracePrimitive(target);
-            target.MaskFill(sg2d, sData, comp, x, y, w, h,
-                            mask, maskoff, maskscan);
+            trbcePrimitive(tbrget);
+            tbrget.MbskFill(sg2d, sDbtb, comp, x, y, w, h,
+                            mbsk, mbskoff, mbskscbn);
         }
 
-        public void FillAAPgram(SunGraphics2D sg2d, SurfaceData sData,
+        public void FillAAPgrbm(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                                 Composite comp,
                                 double x, double y,
                                 double dx1, double dy1,
                                 double dx2, double dy2)
         {
-            tracePrimitive(fillPgramTarget);
-            target.FillAAPgram(sg2d, sData, comp,
+            trbcePrimitive(fillPgrbmTbrget);
+            tbrget.FillAAPgrbm(sg2d, sDbtb, comp,
                                x, y, dx1, dy1, dx2, dy2);
         }
 
-        public void DrawAAPgram(SunGraphics2D sg2d, SurfaceData sData,
+        public void DrbwAAPgrbm(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                                 Composite comp,
                                 double x, double y,
                                 double dx1, double dy1,
                                 double dx2, double dy2,
                                 double lw1, double lw2)
         {
-            tracePrimitive(drawPgramTarget);
-            target.DrawAAPgram(sg2d, sData, comp,
+            trbcePrimitive(drbwPgrbmTbrget);
+            tbrget.DrbwAAPgrbm(sg2d, sDbtb, comp,
                                x, y, dx1, dy1, dx2, dy2, lw1, lw2);
         }
 
-        public boolean canDoParallelograms() {
-            return target.canDoParallelograms();
+        public boolebn cbnDoPbrbllelogrbms() {
+            return tbrget.cbnDoPbrbllelogrbms();
         }
     }
 }

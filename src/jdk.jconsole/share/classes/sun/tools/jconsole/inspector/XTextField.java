@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.event.*;
-import javax.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.*;
 
 
 /**
- * This list implements the drag and drop functionality.
+ * This list implements the drbg bnd drop functionblity.
  */
-@SuppressWarnings("serial")
-public class XTextField extends JPanel
+@SuppressWbrnings("seribl")
+public clbss XTextField extends JPbnel
     implements DocumentListener,
                ActionListener {
 
-    private XObject selectedObject;
+    privbte XObject selectedObject;
     protected JTextField textField;
 
-    private static boolean allowNullSelection = false;
+    privbte stbtic boolebn bllowNullSelection = fblse;
 
-    protected final static int COMPATIBLE_VALUE = 1;
-    protected final static int CURRENT_VALUE = 2;
-    protected final static int NULL_VALUE = 3;
+    protected finbl stbtic int COMPATIBLE_VALUE = 1;
+    protected finbl stbtic int CURRENT_VALUE = 2;
+    protected finbl stbtic int NULL_VALUE = 3;
 
-    private JButton button;
-    private XOperations operation;
+    privbte JButton button;
+    privbte XOperbtions operbtion;
 
     //used in XTestFieldEditor
     public XTextField() {
-        super(new BorderLayout());
-        add(textField = new JTextField(),BorderLayout.CENTER);
-        textField.addActionListener(this);
+        super(new BorderLbyout());
+        bdd(textField = new JTextField(),BorderLbyout.CENTER);
+        textField.bddActionListener(this);
         //
     }
 
-    public XTextField(Object value) {
-        this(value,value.toString().length());
+    public XTextField(Object vblue) {
+        this(vblue,vblue.toString().length());
     }
 
-    public XTextField(Object value, int colWidth) {
-        this(value,value.getClass(),colWidth, true, null, null);
+    public XTextField(Object vblue, int colWidth) {
+        this(vblue,vblue.getClbss(),colWidth, true, null, null);
     }
 
-    public XTextField(Object value,
-                      Class<?> expectedClass,
+    public XTextField(Object vblue,
+                      Clbss<?> expectedClbss,
                       int colWidth,
-                      boolean isCallable,
+                      boolebn isCbllbble,
                       JButton button,
-                      XOperations operation) {
-        super(new BorderLayout());
+                      XOperbtions operbtion) {
+        super(new BorderLbyout());
         this.button = button;
-        this.operation = operation;
-        add(textField = new JTextField(value.toString(),colWidth),
-            BorderLayout.CENTER);
-        if(isCallable)
-            textField.addActionListener(this);
+        this.operbtion = operbtion;
+        bdd(textField = new JTextField(vblue.toString(),colWidth),
+            BorderLbyout.CENTER);
+        if(isCbllbble)
+            textField.bddActionListener(this);
 
-        boolean fieldEditable = Utils.isEditableType(expectedClass.getName());
-        if (fieldEditable && isCallable) {
-            textField.setEditable(true);
+        boolebn fieldEditbble = Utils.isEditbbleType(expectedClbss.getNbme());
+        if (fieldEditbble && isCbllbble) {
+            textField.setEditbble(true);
         }
         else {
-            textField.setEditable(false);
+            textField.setEditbble(fblse);
         }
     }
 
-    public static void setNullSelectionAllowed(boolean allowNullSelection) {
-        XTextField.allowNullSelection = allowNullSelection;
+    public stbtic void setNullSelectionAllowed(boolebn bllowNullSelection) {
+        XTextField.bllowNullSelection = bllowNullSelection;
     }
 
-    public static boolean getNullSelectionAllowed() {
-        return allowNullSelection;
+    public stbtic boolebn getNullSelectionAllowed() {
+        return bllowNullSelection;
     }
 
-    protected void init(Object value, Class<?> expectedClass) {
-         boolean fieldEditable =  Utils.isEditableType(expectedClass.getName());
-        clearObject();
-        if (value != null) {
-            textField.setText(value.toString());
+    protected void init(Object vblue, Clbss<?> expectedClbss) {
+         boolebn fieldEditbble =  Utils.isEditbbleType(expectedClbss.getNbme());
+        clebrObject();
+        if (vblue != null) {
+            textField.setText(vblue.toString());
         }
         else {
-            //null String value for the moment
+            //null String vblue for the moment
             textField.setText("");
         }
         textField.setToolTipText(null);
-        if (fieldEditable) {
-            if (!textField.isEditable()) {
-                textField.setEditable(true);
+        if (fieldEditbble) {
+            if (!textField.isEditbble()) {
+                textField.setEditbble(true);
             }
 
         }
         else {
-            if (textField.isEditable()) {
-                textField.setEditable(false);
+            if (textField.isEditbble()) {
+                textField.setEditbble(fblse);
             }
         }
     }
 
-    private synchronized void clearObject() {
+    privbte synchronized void clebrObject() {
         textField.getDocument().removeDocumentListener(this);
         selectedObject = null;
-        setDefaultColors();
+        setDefbultColors();
     }
 
-    private synchronized void setDefaultColors() {
+    privbte synchronized void setDefbultColors() {
         //  if (fore != null) textField.setForeground(fore);
-        // if (back != null)  textField.setBackground(back);
+        // if (bbck != null)  textField.setBbckground(bbck);
     }
 
-    public void setHorizontalAlignment(int h) {
-        textField.setHorizontalAlignment(h);
+    public void setHorizontblAlignment(int h) {
+        textField.setHorizontblAlignment(h);
     }
 
-    //can be overwritten
-    protected JMenuItem buildJMenuItem(XObject xobject, int valueType) {
-        if (valueType == COMPATIBLE_VALUE) {
+    //cbn be overwritten
+    protected JMenuItem buildJMenuItem(XObject xobject, int vblueType) {
+        if (vblueType == COMPATIBLE_VALUE) {
             return new JMenuItem(xobject.getText());
         }
-        else if (valueType == CURRENT_VALUE) {
+        else if (vblueType == CURRENT_VALUE) {
             return new JMenuItem("> "+xobject.getText());
         }
-        else if (valueType == NULL_VALUE) {
+        else if (vblueType == NULL_VALUE) {
             return new JMenuItem("null");
         }
         else {
@@ -154,21 +154,21 @@ public class XTextField extends JPanel
     }
 
     // ACTIONLISTENER IMPLEMENTATION
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() instanceof JTextField) {
-            if(operation != null)
-                operation.performInvokeRequest(button);
+    public void bctionPerformed(ActionEvent e) {
+        if (e.getSource() instbnceof JTextField) {
+            if(operbtion != null)
+                operbtion.performInvokeRequest(button);
         }
     }
 
     /**
-     * This method returns either the user inputted String, or an XObject
-     * if one was dropped on the input field.
+     * This method returns either the user inputted String, or bn XObject
+     * if one wbs dropped on the input field.
      */
-    public Object getValue() {
+    public Object getVblue() {
         if (selectedObject!=null) {
             if (selectedObject == XObject.NULL_OBJECT) {
-                //null case
+                //null cbse
                 return null;
             }
             else {
@@ -180,22 +180,22 @@ public class XTextField extends JPanel
         }
     }
 
-    public void changedUpdate(DocumentEvent e) {
+    public void chbngedUpdbte(DocumentEvent e) {
         // the user typed something, so remove references
-        // to the object that was dropped.
-        clearObject();
+        // to the object thbt wbs dropped.
+        clebrObject();
     }
 
-    public void removeUpdate(DocumentEvent e) {
+    public void removeUpdbte(DocumentEvent e) {
         // the user typed something, so remove references
-        // to the object that was dropped.
-        clearObject();
+        // to the object thbt wbs dropped.
+        clebrObject();
     }
 
-    public void insertUpdate(DocumentEvent e) {
+    public void insertUpdbte(DocumentEvent e) {
         // the user typed something, so remove references
-        // to the object that was dropped.
-        clearObject();
+        // to the object thbt wbs dropped.
+        clebrObject();
     }
 
 }

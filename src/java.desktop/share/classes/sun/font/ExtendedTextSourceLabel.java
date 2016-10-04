@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
@@ -27,324 +27,324 @@
  * (C) Copyright IBM Corp. 1998-2003 - All Rights Reserved
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
 
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphJustificationInfo;
-import java.awt.font.GlyphMetrics;
-import java.awt.font.LineMetrics;
-import java.awt.font.TextAttribute;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.GlyphJustificbtionInfo;
+import jbvb.bwt.font.GlyphMetrics;
+import jbvb.bwt.font.LineMetrics;
+import jbvb.bwt.font.TextAttribute;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
 /**
- * Default implementation of ExtendedTextLabel.
+ * Defbult implementbtion of ExtendedTextLbbel.
  */
 
-// {jbr} I made this class package-private to keep the
-// Decoration.Label API package-private.
+// {jbr} I mbde this clbss pbckbge-privbte to keep the
+// Decorbtion.Lbbel API pbckbge-privbte.
 
 /* public */
-class ExtendedTextSourceLabel extends ExtendedTextLabel implements Decoration.Label {
+clbss ExtendedTextSourceLbbel extends ExtendedTextLbbel implements Decorbtion.Lbbel {
 
   TextSource source;
-  private Decoration decorator;
+  privbte Decorbtion decorbtor;
 
-  // caches
-  private Font font;
-  private AffineTransform baseTX;
-  private CoreMetrics cm;
+  // cbches
+  privbte Font font;
+  privbte AffineTrbnsform bbseTX;
+  privbte CoreMetrics cm;
 
-  Rectangle2D lb;
-  Rectangle2D ab;
-  Rectangle2D vb;
-  Rectangle2D ib;
-  StandardGlyphVector gv;
-  float[] charinfo;
+  Rectbngle2D lb;
+  Rectbngle2D bb;
+  Rectbngle2D vb;
+  Rectbngle2D ib;
+  StbndbrdGlyphVector gv;
+  flobt[] chbrinfo;
 
   /**
-   * Create from a TextSource.
+   * Crebte from b TextSource.
    */
-  public ExtendedTextSourceLabel(TextSource source, Decoration decorator) {
+  public ExtendedTextSourceLbbel(TextSource source, Decorbtion decorbtor) {
     this.source = source;
-    this.decorator = decorator;
+    this.decorbtor = decorbtor;
     finishInit();
   }
 
   /**
-   * Create from a TextSource, optionally using cached data from oldLabel starting at the offset.
-   * If present oldLabel must have been created from a run of text that includes the text used in
-   * the new label.  Start in source corresponds to logical character offset in oldLabel.
+   * Crebte from b TextSource, optionblly using cbched dbtb from oldLbbel stbrting bt the offset.
+   * If present oldLbbel must hbve been crebted from b run of text thbt includes the text used in
+   * the new lbbel.  Stbrt in source corresponds to logicbl chbrbcter offset in oldLbbel.
    */
-  public ExtendedTextSourceLabel(TextSource source, ExtendedTextSourceLabel oldLabel, int offset) {
-    // currently no optimization.
+  public ExtendedTextSourceLbbel(TextSource source, ExtendedTextSourceLbbel oldLbbel, int offset) {
+    // currently no optimizbtion.
     this.source = source;
-    this.decorator = oldLabel.decorator;
+    this.decorbtor = oldLbbel.decorbtor;
     finishInit();
   }
 
-  private void finishInit() {
+  privbte void finishInit() {
     font = source.getFont();
 
-    Map<TextAttribute, ?> atts = font.getAttributes();
-    baseTX = AttributeValues.getBaselineTransform(atts);
-    if (baseTX == null){
+    Mbp<TextAttribute, ?> btts = font.getAttributes();
+    bbseTX = AttributeVblues.getBbselineTrbnsform(btts);
+    if (bbseTX == null){
         cm = source.getCoreMetrics();
     } else {
-      AffineTransform charTX = AttributeValues.getCharTransform(atts);
-      if (charTX == null) {
-          charTX = new AffineTransform();
+      AffineTrbnsform chbrTX = AttributeVblues.getChbrTrbnsform(btts);
+      if (chbrTX == null) {
+          chbrTX = new AffineTrbnsform();
       }
-      font = font.deriveFont(charTX);
+      font = font.deriveFont(chbrTX);
 
-      LineMetrics lm = font.getLineMetrics(source.getChars(), source.getStart(),
-          source.getStart() + source.getLength(), source.getFRC());
+      LineMetrics lm = font.getLineMetrics(source.getChbrs(), source.getStbrt(),
+          source.getStbrt() + source.getLength(), source.getFRC());
       cm = CoreMetrics.get(lm);
     }
   }
 
 
-  // TextLabel API
+  // TextLbbel API
 
-  public Rectangle2D getLogicalBounds() {
-    return getLogicalBounds(0, 0);
+  public Rectbngle2D getLogicblBounds() {
+    return getLogicblBounds(0, 0);
   }
 
-  public Rectangle2D getLogicalBounds(float x, float y) {
+  public Rectbngle2D getLogicblBounds(flobt x, flobt y) {
     if (lb == null) {
-      lb = createLogicalBounds();
+      lb = crebteLogicblBounds();
     }
-    return new Rectangle2D.Float((float)(lb.getX() + x),
-                                 (float)(lb.getY() + y),
-                                 (float)lb.getWidth(),
-                                 (float)lb.getHeight());
+    return new Rectbngle2D.Flobt((flobt)(lb.getX() + x),
+                                 (flobt)(lb.getY() + y),
+                                 (flobt)lb.getWidth(),
+                                 (flobt)lb.getHeight());
   }
 
-    public float getAdvance() {
+    public flobt getAdvbnce() {
         if (lb == null) {
-            lb = createLogicalBounds();
+            lb = crebteLogicblBounds();
         }
-        return (float)lb.getWidth();
+        return (flobt)lb.getWidth();
     }
 
-  public Rectangle2D getVisualBounds(float x, float y) {
+  public Rectbngle2D getVisublBounds(flobt x, flobt y) {
     if (vb == null) {
-      vb = decorator.getVisualBounds(this);
+      vb = decorbtor.getVisublBounds(this);
     }
-    return new Rectangle2D.Float((float)(vb.getX() + x),
-                                 (float)(vb.getY() + y),
-                                 (float)vb.getWidth(),
-                                 (float)vb.getHeight());
+    return new Rectbngle2D.Flobt((flobt)(vb.getX() + x),
+                                 (flobt)(vb.getY() + y),
+                                 (flobt)vb.getWidth(),
+                                 (flobt)vb.getHeight());
   }
 
-  public Rectangle2D getAlignBounds(float x, float y) {
-    if (ab == null) {
-      ab = createAlignBounds();
+  public Rectbngle2D getAlignBounds(flobt x, flobt y) {
+    if (bb == null) {
+      bb = crebteAlignBounds();
     }
-    return new Rectangle2D.Float((float)(ab.getX() + x),
-                                 (float)(ab.getY() + y),
-                                 (float)ab.getWidth(),
-                                 (float)ab.getHeight());
+    return new Rectbngle2D.Flobt((flobt)(bb.getX() + x),
+                                 (flobt)(bb.getY() + y),
+                                 (flobt)bb.getWidth(),
+                                 (flobt)bb.getHeight());
 
   }
 
-  public Rectangle2D getItalicBounds(float x, float y) {
+  public Rectbngle2D getItblicBounds(flobt x, flobt y) {
     if (ib == null) {
-      ib = createItalicBounds();
+      ib = crebteItblicBounds();
     }
-    return new Rectangle2D.Float((float)(ib.getX() + x),
-                                 (float)(ib.getY() + y),
-                                 (float)ib.getWidth(),
-                                 (float)ib.getHeight());
+    return new Rectbngle2D.Flobt((flobt)(ib.getX() + x),
+                                 (flobt)(ib.getY() + y),
+                                 (flobt)ib.getWidth(),
+                                 (flobt)ib.getHeight());
 
   }
 
-  public Rectangle getPixelBounds(FontRenderContext frc, float x, float y) {
+  public Rectbngle getPixelBounds(FontRenderContext frc, flobt x, flobt y) {
       return getGV().getPixelBounds(frc, x, y);
   }
 
-  public boolean isSimple() {
-      return decorator == Decoration.getPlainDecoration() &&
-             baseTX == null;
+  public boolebn isSimple() {
+      return decorbtor == Decorbtion.getPlbinDecorbtion() &&
+             bbseTX == null;
   }
 
-  public AffineTransform getBaselineTransform() {
-      return baseTX; // passing internal object, caller must not modify!
+  public AffineTrbnsform getBbselineTrbnsform() {
+      return bbseTX; // pbssing internbl object, cbller must not modify!
   }
 
-  public Shape handleGetOutline(float x, float y) {
+  public Shbpe hbndleGetOutline(flobt x, flobt y) {
     return getGV().getOutline(x, y);
   }
 
-  public Shape getOutline(float x, float y) {
-    return decorator.getOutline(this, x, y);
+  public Shbpe getOutline(flobt x, flobt y) {
+    return decorbtor.getOutline(this, x, y);
   }
 
-  public void handleDraw(Graphics2D g, float x, float y) {
-    g.drawGlyphVector(getGV(), x, y);
+  public void hbndleDrbw(Grbphics2D g, flobt x, flobt y) {
+    g.drbwGlyphVector(getGV(), x, y);
   }
 
-  public void draw(Graphics2D g, float x, float y) {
-    decorator.drawTextAndDecorations(this, g, x, y);
+  public void drbw(Grbphics2D g, flobt x, flobt y) {
+    decorbtor.drbwTextAndDecorbtions(this, g, x, y);
   }
 
   /**
-   * The logical bounds extends from the origin of the glyphvector to the
-   * position at which a following glyphvector's origin should be placed.
-   * We always assume glyph vectors are rendered from left to right, so
-   * the origin is always to the left.
-   * <p> On a left-to-right run, combining marks and 'ligatured away'
-   * characters are to the right of their base characters.  The charinfo
-   * array will record the character positions for these 'missing' characters
-   * as being at the origin+advance of the base glyph, with zero advance.
-   * (This is not necessarily the same as the glyph position, for example,
-   * an umlaut glyph may have a position to the left of this point, it depends
-   * on whether the font was designed so that such glyphs overhang to the left
+   * The logicbl bounds extends from the origin of the glyphvector to the
+   * position bt which b following glyphvector's origin should be plbced.
+   * We blwbys bssume glyph vectors bre rendered from left to right, so
+   * the origin is blwbys to the left.
+   * <p> On b left-to-right run, combining mbrks bnd 'ligbtured bwby'
+   * chbrbcters bre to the right of their bbse chbrbcters.  The chbrinfo
+   * brrby will record the chbrbcter positions for these 'missing' chbrbcters
+   * bs being bt the origin+bdvbnce of the bbse glyph, with zero bdvbnce.
+   * (This is not necessbrily the sbme bs the glyph position, for exbmple,
+   * bn umlbut glyph mby hbve b position to the left of this point, it depends
+   * on whether the font wbs designed so thbt such glyphs overhbng to the left
    * of their origin, or whether it presumes some kind of kerning to position
-   * the glyphs).  Anyway, the left of the bounds is the origin of the first
-   * logical (leftmost) character, and the right is the origin + advance of the
-   * last logical (rightmost) character.
-   * <p> On a right-to-left run, these special characters are to the left
-   * of their base characters.  Again, since 'glyph position' has been abstracted
-   * away, we can use the origin of the leftmost character, and the origin +
-   * advance of the rightmost character.
-   * <p> On a mixed run (hindi) we can't rely on the first logical character
-   * being the leftmost character.  However we can again rely on the leftmost
-   * character origin and the rightmost character + advance.
+   * the glyphs).  Anywby, the left of the bounds is the origin of the first
+   * logicbl (leftmost) chbrbcter, bnd the right is the origin + bdvbnce of the
+   * lbst logicbl (rightmost) chbrbcter.
+   * <p> On b right-to-left run, these specibl chbrbcters bre to the left
+   * of their bbse chbrbcters.  Agbin, since 'glyph position' hbs been bbstrbcted
+   * bwby, we cbn use the origin of the leftmost chbrbcter, bnd the origin +
+   * bdvbnce of the rightmost chbrbcter.
+   * <p> On b mixed run (hindi) we cbn't rely on the first logicbl chbrbcter
+   * being the leftmost chbrbcter.  However we cbn bgbin rely on the leftmost
+   * chbrbcter origin bnd the rightmost chbrbcter + bdvbnce.
    */
-  protected Rectangle2D createLogicalBounds() {
-    return getGV().getLogicalBounds();
+  protected Rectbngle2D crebteLogicblBounds() {
+    return getGV().getLogicblBounds();
   }
 
-  public Rectangle2D handleGetVisualBounds() {
-    return getGV().getVisualBounds();
+  public Rectbngle2D hbndleGetVisublBounds() {
+    return getGV().getVisublBounds();
   }
 
   /**
-   * Like createLogicalBounds except ignore leading and logically trailing white space.
-   * this assumes logically trailing whitespace is also visually trailing.
-   * Whitespace is anything that has a zero visual width, regardless of its advance.
-   * <p> We make the same simplifying assumptions as in createLogicalBounds, namely
-   * that we can rely on the charinfo to shield us from any glyph positioning oddities
-   * in the font that place the glyph for a character at other than the pos + advance
-   * of the character to its left.  So we no longer need to skip chars with zero
-   * advance, as their bounds (right and left) are already correct.
+   * Like crebteLogicblBounds except ignore lebding bnd logicblly trbiling white spbce.
+   * this bssumes logicblly trbiling whitespbce is blso visublly trbiling.
+   * Whitespbce is bnything thbt hbs b zero visubl width, regbrdless of its bdvbnce.
+   * <p> We mbke the sbme simplifying bssumptions bs in crebteLogicblBounds, nbmely
+   * thbt we cbn rely on the chbrinfo to shield us from bny glyph positioning oddities
+   * in the font thbt plbce the glyph for b chbrbcter bt other thbn the pos + bdvbnce
+   * of the chbrbcter to its left.  So we no longer need to skip chbrs with zero
+   * bdvbnce, bs their bounds (right bnd left) bre blrebdy correct.
    */
-  protected Rectangle2D createAlignBounds() {
-    float[] info = getCharinfo();
+  protected Rectbngle2D crebteAlignBounds() {
+    flobt[] info = getChbrinfo();
 
-    float al = 0f;
-    float at = -cm.ascent;
-    float aw = 0f;
-    float ah = cm.ascent + cm.descent;
+    flobt bl = 0f;
+    flobt bt = -cm.bscent;
+    flobt bw = 0f;
+    flobt bh = cm.bscent + cm.descent;
 
-    if (charinfo == null || charinfo.length == 0) {
-        return new Rectangle2D.Float(al, at, aw, ah);
+    if (chbrinfo == null || chbrinfo.length == 0) {
+        return new Rectbngle2D.Flobt(bl, bt, bw, bh);
     }
 
-    boolean lineIsLTR = (source.getLayoutFlags() & 0x8) == 0;
-    int rn = info.length - numvals;
+    boolebn lineIsLTR = (source.getLbyoutFlbgs() & 0x8) == 0;
+    int rn = info.length - numvbls;
     if (lineIsLTR) {
       while (rn > 0 && info[rn+visw] == 0) {
-        rn -= numvals;
+        rn -= numvbls;
       }
     }
 
     if (rn >= 0) {
       int ln = 0;
-      while (ln < rn && ((info[ln+advx] == 0) || (!lineIsLTR && info[ln+visw] == 0))) {
-        ln += numvals;
+      while (ln < rn && ((info[ln+bdvx] == 0) || (!lineIsLTR && info[ln+visw] == 0))) {
+        ln += numvbls;
       }
 
-      al = Math.max(0f, info[ln+posx]);
-      aw = info[rn+posx] + info[rn+advx] - al;
+      bl = Mbth.mbx(0f, info[ln+posx]);
+      bw = info[rn+posx] + info[rn+bdvx] - bl;
     }
 
     /*
-      boolean lineIsLTR = source.lineIsLTR();
-      int rn = info.length - numvals;
-      while (rn > 0 && ((info[rn+advx] == 0) || (lineIsLTR && info[rn+visw] == 0))) {
-      rn -= numvals;
+      boolebn lineIsLTR = source.lineIsLTR();
+      int rn = info.length - numvbls;
+      while (rn > 0 && ((info[rn+bdvx] == 0) || (lineIsLTR && info[rn+visw] == 0))) {
+      rn -= numvbls;
       }
 
       if (rn >= 0) {
       int ln = 0;
-      while (ln < rn && ((info[ln+advx] == 0) || (!lineIsLTR && info[ln+visw] == 0))) {
-      ln += numvals;
+      while (ln < rn && ((info[ln+bdvx] == 0) || (!lineIsLTR && info[ln+visw] == 0))) {
+      ln += numvbls;
       }
 
-      al = Math.max(0f, info[ln+posx]);
-      aw = info[rn+posx] + info[rn+advx] - al;
+      bl = Mbth.mbx(0f, info[ln+posx]);
+      bw = info[rn+posx] + info[rn+bdvx] - bl;
       }
       */
 
-    return new Rectangle2D.Float(al, at, aw, ah);
+    return new Rectbngle2D.Flobt(bl, bt, bw, bh);
   }
 
-  public Rectangle2D createItalicBounds() {
-    float ia = cm.italicAngle;
+  public Rectbngle2D crebteItblicBounds() {
+    flobt ib = cm.itblicAngle;
 
-    Rectangle2D lb = getLogicalBounds();
-    float l = (float)lb.getMinX();
-    float t = -cm.ascent;
-    float r = (float)lb.getMaxX();
-    float b = cm.descent;
-    if (ia != 0) {
-        if (ia > 0) {
-            l -= ia * (b - cm.ssOffset);
-            r -= ia * (t - cm.ssOffset);
+    Rectbngle2D lb = getLogicblBounds();
+    flobt l = (flobt)lb.getMinX();
+    flobt t = -cm.bscent;
+    flobt r = (flobt)lb.getMbxX();
+    flobt b = cm.descent;
+    if (ib != 0) {
+        if (ib > 0) {
+            l -= ib * (b - cm.ssOffset);
+            r -= ib * (t - cm.ssOffset);
         } else {
-            l -= ia * (t - cm.ssOffset);
-            r -= ia * (b - cm.ssOffset);
+            l -= ib * (t - cm.ssOffset);
+            r -= ib * (b - cm.ssOffset);
         }
     }
-    return new Rectangle2D.Float(l, t, r - l, b - t);
+    return new Rectbngle2D.Flobt(l, t, r - l, b - t);
   }
 
-  private final StandardGlyphVector getGV() {
+  privbte finbl StbndbrdGlyphVector getGV() {
     if (gv == null) {
-      gv = createGV();
+      gv = crebteGV();
     }
 
     return gv;
   }
 
-  protected StandardGlyphVector createGV() {
+  protected StbndbrdGlyphVector crebteGV() {
     FontRenderContext frc = source.getFRC();
-    int flags = source.getLayoutFlags();
-    char[] context = source.getChars();
-    int start = source.getStart();
+    int flbgs = source.getLbyoutFlbgs();
+    chbr[] context = source.getChbrs();
+    int stbrt = source.getStbrt();
     int length = source.getLength();
 
-    GlyphLayout gl = GlyphLayout.get(null); // !!! no custom layout engines
-    gv = gl.layout(font, frc, context, start, length, flags, null); // ??? use textsource
-    GlyphLayout.done(gl);
+    GlyphLbyout gl = GlyphLbyout.get(null); // !!! no custom lbyout engines
+    gv = gl.lbyout(font, frc, context, stbrt, length, flbgs, null); // ??? use textsource
+    GlyphLbyout.done(gl);
 
     return gv;
   }
 
-  // ExtendedTextLabel API
+  // ExtendedTextLbbel API
 
-  private static final int posx = 0,
+  privbte stbtic finbl int posx = 0,
     posy = 1,
-    advx = 2,
-    advy = 3,
+    bdvx = 2,
+    bdvy = 3,
     visx = 4,
     visy = 5,
     visw = 6,
     vish = 7;
-  private static final int numvals = 8;
+  privbte stbtic finbl int numvbls = 8;
 
-  public int getNumCharacters() {
+  public int getNumChbrbcters() {
     return source.getLength();
   }
 
@@ -352,56 +352,56 @@ class ExtendedTextSourceLabel extends ExtendedTextLabel implements Decoration.La
     return cm;
   }
 
-  public float getCharX(int index) {
-    validate(index);
-    float[] charinfo = getCharinfo();
-    int idx = l2v(index) * numvals + posx;
-    if (charinfo == null || idx >= charinfo.length) {
+  public flobt getChbrX(int index) {
+    vblidbte(index);
+    flobt[] chbrinfo = getChbrinfo();
+    int idx = l2v(index) * numvbls + posx;
+    if (chbrinfo == null || idx >= chbrinfo.length) {
         return 0f;
     } else {
-        return charinfo[idx];
+        return chbrinfo[idx];
     }
   }
 
-  public float getCharY(int index) {
-    validate(index);
-    float[] charinfo = getCharinfo();
-    int idx = l2v(index) * numvals + posy;
-    if (charinfo == null || idx >= charinfo.length) {
+  public flobt getChbrY(int index) {
+    vblidbte(index);
+    flobt[] chbrinfo = getChbrinfo();
+    int idx = l2v(index) * numvbls + posy;
+    if (chbrinfo == null || idx >= chbrinfo.length) {
         return 0f;
     } else {
-        return charinfo[idx];
+        return chbrinfo[idx];
     }
   }
 
-  public float getCharAdvance(int index) {
-    validate(index);
-    float[] charinfo = getCharinfo();
-    int idx = l2v(index) * numvals + advx;
-    if (charinfo == null || idx >= charinfo.length) {
+  public flobt getChbrAdvbnce(int index) {
+    vblidbte(index);
+    flobt[] chbrinfo = getChbrinfo();
+    int idx = l2v(index) * numvbls + bdvx;
+    if (chbrinfo == null || idx >= chbrinfo.length) {
         return 0f;
     } else {
-        return charinfo[idx];
+        return chbrinfo[idx];
     }
   }
 
-  public Rectangle2D handleGetCharVisualBounds(int index) {
-    validate(index);
-    float[] charinfo = getCharinfo();
-    index = l2v(index) * numvals;
-    if (charinfo == null || (index+vish) >= charinfo.length) {
-        return new Rectangle2D.Float();
+  public Rectbngle2D hbndleGetChbrVisublBounds(int index) {
+    vblidbte(index);
+    flobt[] chbrinfo = getChbrinfo();
+    index = l2v(index) * numvbls;
+    if (chbrinfo == null || (index+vish) >= chbrinfo.length) {
+        return new Rectbngle2D.Flobt();
     }
-    return new Rectangle2D.Float(
-                                 charinfo[index + visx],
-                                 charinfo[index + visy],
-                                 charinfo[index + visw],
-                                 charinfo[index + vish]);
+    return new Rectbngle2D.Flobt(
+                                 chbrinfo[index + visx],
+                                 chbrinfo[index + visy],
+                                 chbrinfo[index + visw],
+                                 chbrinfo[index + vish]);
   }
 
-  public Rectangle2D getCharVisualBounds(int index, float x, float y) {
+  public Rectbngle2D getChbrVisublBounds(int index, flobt x, flobt y) {
 
-    Rectangle2D bounds = decorator.getCharVisualBounds(this, index);
+    Rectbngle2D bounds = decorbtor.getChbrVisublBounds(this, index);
     if (x != 0 || y != 0) {
         bounds.setRect(bounds.getX()+x,
                        bounds.getY()+y,
@@ -411,54 +411,54 @@ class ExtendedTextSourceLabel extends ExtendedTextLabel implements Decoration.La
     return bounds;
   }
 
-  private void validate(int index) {
+  privbte void vblidbte(int index) {
     if (index < 0) {
-      throw new IllegalArgumentException("index " + index + " < 0");
+      throw new IllegblArgumentException("index " + index + " < 0");
     } else if (index >= source.getLength()) {
-      throw new IllegalArgumentException("index " + index + " < " + source.getLength());
+      throw new IllegblArgumentException("index " + index + " < " + source.getLength());
     }
   }
 
   /*
-    public int hitTestChar(float x, float y) {
-    // !!! return index of char hit, for swing
-    // result is negative for trailing-edge hits
-    // no italics so no problem at margins.
-    // for now, ignore y since we assume horizontal text
+    public int hitTestChbr(flobt x, flobt y) {
+    // !!! return index of chbr hit, for swing
+    // result is negbtive for trbiling-edge hits
+    // no itblics so no problem bt mbrgins.
+    // for now, ignore y since we bssume horizontbl text
 
-    // find non-combining char origin to right of x
-    float[] charinfo = getCharinfo();
+    // find non-combining chbr origin to right of x
+    flobt[] chbrinfo = getChbrinfo();
 
     int n = 0;
     int e = source.getLength();
-    while (n < e && charinfo[n + advx] != 0 && charinfo[n + posx] > x) {
-    n += numvals;
+    while (n < e && chbrinfo[n + bdvx] != 0 && chbrinfo[n + posx] > x) {
+    n += numvbls;
     }
-    float rightx = n < e ? charinfo[n+posx] : charinfo[e - numvals + posx] + charinfo[e - numvals + advx];
+    flobt rightx = n < e ? chbrinfo[n+posx] : chbrinfo[e - numvbls + posx] + chbrinfo[e - numvbls + bdvx];
 
-    // find non-combining char to left of that char
-    n -= numvals;
-    while (n >= 0 && charinfo[n+advx] == 0) {
-    n -= numvals;
+    // find non-combining chbr to left of thbt chbr
+    n -= numvbls;
+    while (n >= 0 && chbrinfo[n+bdvx] == 0) {
+    n -= numvbls;
     }
-    float leftx = n >= 0 ? charinfo[n+posx] : 0;
-    float lefta = n >= 0 ? charinfo[n+advx] : 0;
+    flobt leftx = n >= 0 ? chbrinfo[n+posx] : 0;
+    flobt leftb = n >= 0 ? chbrinfo[n+bdvx] : 0;
 
-    n /= numvals;
+    n /= numvbls;
 
-    boolean left = true;
-    if (x < leftx + lefta / 2f) {
-    // left of prev char
-    } else if (x < (leftx + lefta + rightx) / 2f) {
-    // right of prev char
-    left = false;
+    boolebn left = true;
+    if (x < leftx + leftb / 2f) {
+    // left of prev chbr
+    } else if (x < (leftx + leftb + rightx) / 2f) {
+    // right of prev chbr
+    left = fblse;
     } else {
-    // left of follow char
+    // left of follow chbr
     n += 1;
     }
 
-    if ((source.getLayoutFlags() & 0x1) != 0) {
-    n = getNumCharacters() - 1 - n;
+    if ((source.getLbyoutFlbgs() & 0x1) != 0) {
+    n = getNumChbrbcters() - 1 - n;
     left = !left;
     }
 
@@ -466,167 +466,167 @@ class ExtendedTextSourceLabel extends ExtendedTextLabel implements Decoration.La
     }
     */
 
-  public int logicalToVisual(int logicalIndex) {
-    validate(logicalIndex);
-    return l2v(logicalIndex);
+  public int logicblToVisubl(int logicblIndex) {
+    vblidbte(logicblIndex);
+    return l2v(logicblIndex);
   }
 
-  public int visualToLogical(int visualIndex) {
-    validate(visualIndex);
-    return v2l(visualIndex);
+  public int visublToLogicbl(int visublIndex) {
+    vblidbte(visublIndex);
+    return v2l(visublIndex);
   }
 
-  public int getLineBreakIndex(int start, float width) {
-    float[] charinfo = getCharinfo();
+  public int getLineBrebkIndex(int stbrt, flobt width) {
+    flobt[] chbrinfo = getChbrinfo();
     int length = source.getLength();
-    --start;
-    while (width >= 0 && ++start < length) {
-      int cidx = l2v(start) * numvals + advx;
-      if (cidx >= charinfo.length) {
-          break; // layout bailed for some reason
+    --stbrt;
+    while (width >= 0 && ++stbrt < length) {
+      int cidx = l2v(stbrt) * numvbls + bdvx;
+      if (cidx >= chbrinfo.length) {
+          brebk; // lbyout bbiled for some rebson
       }
-      float adv = charinfo[cidx];
-      width -= adv;
+      flobt bdv = chbrinfo[cidx];
+      width -= bdv;
     }
 
-    return start;
+    return stbrt;
   }
 
-  public float getAdvanceBetween(int start, int limit) {
-    float a = 0f;
+  public flobt getAdvbnceBetween(int stbrt, int limit) {
+    flobt b = 0f;
 
-    float[] charinfo = getCharinfo();
-    --start;
-    while (++start < limit) {
-      int cidx = l2v(start) * numvals + advx;
-      if (cidx >= charinfo.length) {
-          break; // layout bailed for some reason
+    flobt[] chbrinfo = getChbrinfo();
+    --stbrt;
+    while (++stbrt < limit) {
+      int cidx = l2v(stbrt) * numvbls + bdvx;
+      if (cidx >= chbrinfo.length) {
+          brebk; // lbyout bbiled for some rebson
       }
-      a += charinfo[cidx];
+      b += chbrinfo[cidx];
     }
 
-    return a;
+    return b;
   }
 
-  public boolean caretAtOffsetIsValid(int offset) {
-      // REMIND: improve this implementation
+  public boolebn cbretAtOffsetIsVblid(int offset) {
+      // REMIND: improve this implementbtion
 
-      // Ligature formation can either be done in logical order,
-      // with the ligature glyph logically preceding the null
-      // chars;  or in visual order, with the ligature glyph to
-      // the left of the null chars.  This method's implementation
-      // must reflect which strategy is used.
+      // Ligbture formbtion cbn either be done in logicbl order,
+      // with the ligbture glyph logicblly preceding the null
+      // chbrs;  or in visubl order, with the ligbture glyph to
+      // the left of the null chbrs.  This method's implementbtion
+      // must reflect which strbtegy is used.
 
       if (offset == 0 || offset == source.getLength()) {
           return true;
       }
-      char c = source.getChars()[source.getStart() + offset];
-      if (c == '\t' || c == '\n' || c == '\r') { // hack
+      chbr c = source.getChbrs()[source.getStbrt() + offset];
+      if (c == '\t' || c == '\n' || c == '\r') { // hbck
           return true;
       }
       int v = l2v(offset);
 
-      // If ligatures are always to the left, do this stuff:
-      //if (!(source.getLayoutFlags() & 0x1) == 0) {
+      // If ligbtures bre blwbys to the left, do this stuff:
+      //if (!(source.getLbyoutFlbgs() & 0x1) == 0) {
       //    v += 1;
       //    if (v == source.getLength()) {
       //        return true;
       //    }
       //}
 
-      int idx = v * numvals + advx;
-      float[] charinfo = getCharinfo();
-      if (charinfo == null || idx >= charinfo.length) {
-          return false;
+      int idx = v * numvbls + bdvx;
+      flobt[] chbrinfo = getChbrinfo();
+      if (chbrinfo == null || idx >= chbrinfo.length) {
+          return fblse;
       } else {
-          return charinfo[idx] != 0;
+          return chbrinfo[idx] != 0;
       }
   }
 
-  private final float[] getCharinfo() {
-    if (charinfo == null) {
-      charinfo = createCharinfo();
+  privbte finbl flobt[] getChbrinfo() {
+    if (chbrinfo == null) {
+      chbrinfo = crebteChbrinfo();
     }
-    return charinfo;
+    return chbrinfo;
   }
 
 /*
-* This takes the glyph info record obtained from the glyph vector and converts it into a similar record
-* adjusted to represent character data instead.  For economy we don't use glyph info records in this processing.
+* This tbkes the glyph info record obtbined from the glyph vector bnd converts it into b similbr record
+* bdjusted to represent chbrbcter dbtb instebd.  For economy we don't use glyph info records in this processing.
 *
-* Here are some constraints:
-* - there can be more glyphs than characters (glyph insertion, perhaps based on normalization, has taken place)
-* - there can not be fewer glyphs than characters (0xffff glyphs are inserted for characters ligaturized away)
-* - each glyph maps to a single character, when multiple glyphs exist for a character they all map to it, but
-*   no two characters map to the same glyph
-* - multiple glyphs mapping to the same character need not be in sequence (thai, tamil have split characters)
-* - glyphs may be arbitrarily reordered (Indic reorders glyphs)
-* - all glyphs share the same bidi level
-* - all glyphs share the same horizontal (or vertical) baseline
-* - combining marks visually follow their base character in the glyph array-- i.e. in an rtl gv they are
-*   to the left of their base character-- and have zero advance.
+* Here bre some constrbints:
+* - there cbn be more glyphs thbn chbrbcters (glyph insertion, perhbps bbsed on normblizbtion, hbs tbken plbce)
+* - there cbn not be fewer glyphs thbn chbrbcters (0xffff glyphs bre inserted for chbrbcters ligbturized bwby)
+* - ebch glyph mbps to b single chbrbcter, when multiple glyphs exist for b chbrbcter they bll mbp to it, but
+*   no two chbrbcters mbp to the sbme glyph
+* - multiple glyphs mbpping to the sbme chbrbcter need not be in sequence (thbi, tbmil hbve split chbrbcters)
+* - glyphs mby be brbitrbrily reordered (Indic reorders glyphs)
+* - bll glyphs shbre the sbme bidi level
+* - bll glyphs shbre the sbme horizontbl (or verticbl) bbseline
+* - combining mbrks visublly follow their bbse chbrbcter in the glyph brrby-- i.e. in bn rtl gv they bre
+*   to the left of their bbse chbrbcter-- bnd hbve zero bdvbnce.
 *
-* The output maps this to character positions, and therefore caret positions, via the following assumptions:
-* - zero-advance glyphs do not contribute to the advance of their character (i.e. position is ignored), conversely
-*   if a glyph is to contribute to the advance of its character it must have a non-zero (float) advance
-* - no carets can appear between a zero width character and its preceding character, where 'preceding' is
-*   defined logically.
-* - no carets can appear within a split character
-* - no carets can appear within a local reordering (i.e. Indic reordering, or non-adjacent split characters)
-* - all characters lie on the same baseline, and it is either horizontal or vertical
-* - the charinfo is in uniform ltr or rtl order (visual order), since local reorderings and split characters are removed
+* The output mbps this to chbrbcter positions, bnd therefore cbret positions, vib the following bssumptions:
+* - zero-bdvbnce glyphs do not contribute to the bdvbnce of their chbrbcter (i.e. position is ignored), conversely
+*   if b glyph is to contribute to the bdvbnce of its chbrbcter it must hbve b non-zero (flobt) bdvbnce
+* - no cbrets cbn bppebr between b zero width chbrbcter bnd its preceding chbrbcter, where 'preceding' is
+*   defined logicblly.
+* - no cbrets cbn bppebr within b split chbrbcter
+* - no cbrets cbn bppebr within b locbl reordering (i.e. Indic reordering, or non-bdjbcent split chbrbcters)
+* - bll chbrbcters lie on the sbme bbseline, bnd it is either horizontbl or verticbl
+* - the chbrinfo is in uniform ltr or rtl order (visubl order), since locbl reorderings bnd split chbrbcters bre removed
 *
-* The algorithm works in the following way:
-* 1) we scan the glyphs ltr or rtl based on the bidi run direction
-* 2) we can work in place, since we always consume a glyph for each char we write
-*    a) if the line is ltr, we start writing at position 0 until we finish, there may be leftver space
-*    b) if the line is rtl and 1-1, we start writing at position numChars/glyphs - 1 until we finish at 0
-*    c) otherwise if we don't finish at 0, we have to copy the data down
-* 3) we consume clusters in the following way:
-*    a) the first element is always consumed
-*    b) subsequent elements are consumed if:
-*       i) their advance is zero
-*       ii) their character index <= the character index of any character seen in this cluster
-*       iii) the minimum character index seen in this cluster isn't adjacent to the previous cluster
-*    c) character data is written as follows for horizontal lines (x/y and w/h are exchanged on vertical lines)
-*       i) the x position is the position of the leftmost glyph whose advance is not zero
-*       ii)the y position is the baseline
-*       iii) the x advance is the distance to the maximum x + adv of all glyphs whose advance is not zero
-*       iv) the y advance is the baseline
-*       v) vis x,y,w,h tightly encloses the vis x,y,w,h of all the glyphs with nonzero w and h
-* 4) we can make some simple optimizations if we know some things:
-*    a) if the mapping is 1-1, unidirectional, and there are no zero-adv glyphs, we just return the glyphinfo
-*    b) if the mapping is 1-1, unidirectional, we just adjust the remaining glyphs to originate at right/left of the base
-*    c) if the mapping is 1-1, we compute the base position and advance as we go, then go back to adjust the remaining glyphs
-*    d) otherwise we keep separate track of the write position as we do (c) since no glyph in the cluster may be in the
-*    position we are writing.
-*    e) most clusters are simply the single base glyph in the same position as its character, so we try to avoid
-*    copying its data unnecessarily.
-* 5) the glyph vector ought to provide access to these 'global' attributes to enable these optimizations.  A single
-*    int with flags set is probably ok, we could also provide accessors for each attribute.  This doesn't map to
-*    the GlyphMetrics flags very well, so I won't attempt to keep them similar.  It might be useful to add those
-*    in addition to these.
-*    int FLAG_HAS_ZERO_ADVANCE_GLYPHS = 1; // set if there are zero-advance glyphs
-*    int FLAG_HAS_NONUNIFORM_ORDER = 2; // set if some glyphs are rearranged out of character visual order
-*    int FLAG_HAS_SPLIT_CHARACTERS = 4; // set if multiple glyphs per character
-*    int getDescriptionFlags(); // return an int containing the above flags
-*    boolean hasZeroAdvanceGlyphs();
-*    boolean hasNonuniformOrder();
-*    boolean hasSplitCharacters();
-*    The optimized cases in (4) correspond to values 0, 1, 3, and 7 returned by getDescriptionFlags().
+* The blgorithm works in the following wby:
+* 1) we scbn the glyphs ltr or rtl bbsed on the bidi run direction
+* 2) we cbn work in plbce, since we blwbys consume b glyph for ebch chbr we write
+*    b) if the line is ltr, we stbrt writing bt position 0 until we finish, there mby be leftver spbce
+*    b) if the line is rtl bnd 1-1, we stbrt writing bt position numChbrs/glyphs - 1 until we finish bt 0
+*    c) otherwise if we don't finish bt 0, we hbve to copy the dbtb down
+* 3) we consume clusters in the following wby:
+*    b) the first element is blwbys consumed
+*    b) subsequent elements bre consumed if:
+*       i) their bdvbnce is zero
+*       ii) their chbrbcter index <= the chbrbcter index of bny chbrbcter seen in this cluster
+*       iii) the minimum chbrbcter index seen in this cluster isn't bdjbcent to the previous cluster
+*    c) chbrbcter dbtb is written bs follows for horizontbl lines (x/y bnd w/h bre exchbnged on verticbl lines)
+*       i) the x position is the position of the leftmost glyph whose bdvbnce is not zero
+*       ii)the y position is the bbseline
+*       iii) the x bdvbnce is the distbnce to the mbximum x + bdv of bll glyphs whose bdvbnce is not zero
+*       iv) the y bdvbnce is the bbseline
+*       v) vis x,y,w,h tightly encloses the vis x,y,w,h of bll the glyphs with nonzero w bnd h
+* 4) we cbn mbke some simple optimizbtions if we know some things:
+*    b) if the mbpping is 1-1, unidirectionbl, bnd there bre no zero-bdv glyphs, we just return the glyphinfo
+*    b) if the mbpping is 1-1, unidirectionbl, we just bdjust the rembining glyphs to originbte bt right/left of the bbse
+*    c) if the mbpping is 1-1, we compute the bbse position bnd bdvbnce bs we go, then go bbck to bdjust the rembining glyphs
+*    d) otherwise we keep sepbrbte trbck of the write position bs we do (c) since no glyph in the cluster mby be in the
+*    position we bre writing.
+*    e) most clusters bre simply the single bbse glyph in the sbme position bs its chbrbcter, so we try to bvoid
+*    copying its dbtb unnecessbrily.
+* 5) the glyph vector ought to provide bccess to these 'globbl' bttributes to enbble these optimizbtions.  A single
+*    int with flbgs set is probbbly ok, we could blso provide bccessors for ebch bttribute.  This doesn't mbp to
+*    the GlyphMetrics flbgs very well, so I won't bttempt to keep them similbr.  It might be useful to bdd those
+*    in bddition to these.
+*    int FLAG_HAS_ZERO_ADVANCE_GLYPHS = 1; // set if there bre zero-bdvbnce glyphs
+*    int FLAG_HAS_NONUNIFORM_ORDER = 2; // set if some glyphs bre rebrrbnged out of chbrbcter visubl order
+*    int FLAG_HAS_SPLIT_CHARACTERS = 4; // set if multiple glyphs per chbrbcter
+*    int getDescriptionFlbgs(); // return bn int contbining the bbove flbgs
+*    boolebn hbsZeroAdvbnceGlyphs();
+*    boolebn hbsNonuniformOrder();
+*    boolebn hbsSplitChbrbcters();
+*    The optimized cbses in (4) correspond to vblues 0, 1, 3, bnd 7 returned by getDescriptionFlbgs().
 */
-  protected float[] createCharinfo() {
-    StandardGlyphVector gv = getGV();
-    float[] glyphinfo = null;
+  protected flobt[] crebteChbrinfo() {
+    StbndbrdGlyphVector gv = getGV();
+    flobt[] glyphinfo = null;
     try {
         glyphinfo = gv.getGlyphInfo();
     }
-    catch (Exception e) {
+    cbtch (Exception e) {
         System.out.println(source);
     }
 
     /*
-    if ((gv.getDescriptionFlags() & 0x7) == 0) {
+    if ((gv.getDescriptionFlbgs() & 0x7) == 0) {
         return glyphinfo;
     }
     */
@@ -635,186 +635,186 @@ class ExtendedTextSourceLabel extends ExtendedTextLabel implements Decoration.La
     if (numGlyphs == 0) {
         return glyphinfo;
     }
-    int[] indices = gv.getGlyphCharIndices(0, numGlyphs, null);
+    int[] indices = gv.getGlyphChbrIndices(0, numGlyphs, null);
 
-    boolean DEBUG = false;
+    boolebn DEBUG = fblse;
     if (DEBUG) {
       System.err.println("number of glyphs: " + numGlyphs);
       for (int i = 0; i < numGlyphs; ++i) {
         System.err.println("g: " + i +
-            ", x: " + glyphinfo[i*numvals+posx] +
-            ", a: " + glyphinfo[i*numvals+advx] +
+            ", x: " + glyphinfo[i*numvbls+posx] +
+            ", b: " + glyphinfo[i*numvbls+bdvx] +
             ", n: " + indices[i]);
       }
     }
 
-    int minIndex = indices[0];  // smallest index seen this cluster
-    int maxIndex = minIndex;    // largest index seen this cluster
-    int nextMin = 0;            // expected smallest index for this cluster
-    int cp = 0;                 // character position
-    int cx = 0;                 // character index (logical)
+    int minIndex = indices[0];  // smbllest index seen this cluster
+    int mbxIndex = minIndex;    // lbrgest index seen this cluster
+    int nextMin = 0;            // expected smbllest index for this cluster
+    int cp = 0;                 // chbrbcter position
+    int cx = 0;                 // chbrbcter index (logicbl)
     int gp = 0;                 // glyph position
-    int gx = 0;                 // glyph index (visual)
-    int gxlimit = numGlyphs;    // limit of gx, when we reach this we're done
-    int pdelta = numvals;       // delta for incrementing positions
-    int xdelta = 1;             // delta for incrementing indices
+    int gx = 0;                 // glyph index (visubl)
+    int gxlimit = numGlyphs;    // limit of gx, when we rebch this we're done
+    int pdeltb = numvbls;       // deltb for incrementing positions
+    int xdeltb = 1;             // deltb for incrementing indices
 
-    boolean ltr = (source.getLayoutFlags() & 0x1) == 0;
+    boolebn ltr = (source.getLbyoutFlbgs() & 0x1) == 0;
     if (!ltr) {
         minIndex = indices[numGlyphs - 1];
-        maxIndex = minIndex;
-        nextMin  = 0; // still logical
-        cp = glyphinfo.length - numvals;
-        cx = 0; // still logical
-        gp = glyphinfo.length - numvals;
+        mbxIndex = minIndex;
+        nextMin  = 0; // still logicbl
+        cp = glyphinfo.length - numvbls;
+        cx = 0; // still logicbl
+        gp = glyphinfo.length - numvbls;
         gx = numGlyphs - 1;
         gxlimit = -1;
-        pdelta = -numvals;
-        xdelta = -1;
+        pdeltb = -numvbls;
+        xdeltb = -1;
     }
 
     /*
-    // to support vertical, use 'ixxxx' indices and swap horiz and vertical components
-    if (source.isVertical()) {
+    // to support verticbl, use 'ixxxx' indices bnd swbp horiz bnd verticbl components
+    if (source.isVerticbl()) {
         iposx = posy;
         iposy = posx;
-        iadvx = advy;
-        iadvy = advx;
+        ibdvx = bdvy;
+        ibdvy = bdvx;
         ivisx = visy;
         ivisy = visx;
         ivish = visw;
         ivisw = vish;
     } else {
-        // use standard values
+        // use stbndbrd vblues
     }
     */
 
-    // use intermediates to reduce array access when we need to
-    float cposl = 0, cposr = 0, cvisl = 0, cvist = 0, cvisr = 0, cvisb = 0;
-    float baseline = 0;
+    // use intermedibtes to reduce brrby bccess when we need to
+    flobt cposl = 0, cposr = 0, cvisl = 0, cvist = 0, cvisr = 0, cvisb = 0;
+    flobt bbseline = 0;
 
-    // record if we have to copy data even when no cluster
-    boolean mustCopy = false;
+    // record if we hbve to copy dbtb even when no cluster
+    boolebn mustCopy = fblse;
 
     while (gx != gxlimit) {
-        // start of new cluster
-        boolean haveCopy = false;
-        int clusterExtraGlyphs = 0;
+        // stbrt of new cluster
+        boolebn hbveCopy = fblse;
+        int clusterExtrbGlyphs = 0;
 
         minIndex = indices[gx];
-        maxIndex = minIndex;
+        mbxIndex = minIndex;
 
-        // advance to next glyph
-        gx += xdelta;
-        gp += pdelta;
+        // bdvbnce to next glyph
+        gx += xdeltb;
+        gp += pdeltb;
 
  /*
-        while (gx != gxlimit && (glyphinfo[gp + advx] == 0 ||
-                           minIndex != nextMin || indices[gx] <= maxIndex)) {
+        while (gx != gxlimit && (glyphinfo[gp + bdvx] == 0 ||
+                           minIndex != nextMin || indices[gx] <= mbxIndex)) {
   */
         while (gx != gxlimit &&
-               ((glyphinfo[gp + advx] == 0) ||
+               ((glyphinfo[gp + bdvx] == 0) ||
                (minIndex != nextMin) ||
-               (indices[gx] <= maxIndex) ||
-               (maxIndex - minIndex > clusterExtraGlyphs))) {
-            // initialize base data first time through, using base glyph
-            if (!haveCopy) {
-                int gps = gp - pdelta;
+               (indices[gx] <= mbxIndex) ||
+               (mbxIndex - minIndex > clusterExtrbGlyphs))) {
+            // initiblize bbse dbtb first time through, using bbse glyph
+            if (!hbveCopy) {
+                int gps = gp - pdeltb;
 
                 cposl = glyphinfo[gps + posx];
-                cposr = cposl + glyphinfo[gps + advx];
+                cposr = cposl + glyphinfo[gps + bdvx];
                 cvisl = glyphinfo[gps + visx];
                 cvist = glyphinfo[gps + visy];
                 cvisr = cvisl + glyphinfo[gps + visw];
                 cvisb = cvist + glyphinfo[gps + vish];
 
-                haveCopy = true;
+                hbveCopy = true;
             }
 
-            // have an extra glyph in this cluster
-            ++clusterExtraGlyphs;
+            // hbve bn extrb glyph in this cluster
+            ++clusterExtrbGlyphs;
 
-            // adjust advance only if new glyph has non-zero advance
-            float radvx = glyphinfo[gp + advx];
-            if (radvx != 0) {
-                float rposx = glyphinfo[gp + posx];
-                cposl = Math.min(cposl, rposx);
-                cposr = Math.max(cposr, rposx + radvx);
+            // bdjust bdvbnce only if new glyph hbs non-zero bdvbnce
+            flobt rbdvx = glyphinfo[gp + bdvx];
+            if (rbdvx != 0) {
+                flobt rposx = glyphinfo[gp + posx];
+                cposl = Mbth.min(cposl, rposx);
+                cposr = Mbth.mbx(cposr, rposx + rbdvx);
             }
 
-            // adjust visible bounds only if new glyph has non-empty bounds
-            float rvisw = glyphinfo[gp + visw];
+            // bdjust visible bounds only if new glyph hbs non-empty bounds
+            flobt rvisw = glyphinfo[gp + visw];
             if (rvisw != 0) {
-                float rvisx = glyphinfo[gp + visx];
-                float rvisy = glyphinfo[gp + visy];
-                cvisl = Math.min(cvisl, rvisx);
-                cvist = Math.min(cvist, rvisy);
-                cvisr = Math.max(cvisr, rvisx + rvisw);
-                cvisb = Math.max(cvisb, rvisy + glyphinfo[gp + vish]);
+                flobt rvisx = glyphinfo[gp + visx];
+                flobt rvisy = glyphinfo[gp + visy];
+                cvisl = Mbth.min(cvisl, rvisx);
+                cvist = Mbth.min(cvist, rvisy);
+                cvisr = Mbth.mbx(cvisr, rvisx + rvisw);
+                cvisb = Mbth.mbx(cvisb, rvisy + glyphinfo[gp + vish]);
             }
 
-            // adjust min, max index
-            minIndex = Math.min(minIndex, indices[gx]);
-            maxIndex = Math.max(maxIndex, indices[gx]);
+            // bdjust min, mbx index
+            minIndex = Mbth.min(minIndex, indices[gx]);
+            mbxIndex = Mbth.mbx(mbxIndex, indices[gx]);
 
-            // get ready to examine next glyph
-            gx += xdelta;
-            gp += pdelta;
+            // get rebdy to exbmine next glyph
+            gx += xdeltb;
+            gp += pdeltb;
         }
-        // done with cluster, gx and gp are set for next glyph
+        // done with cluster, gx bnd gp bre set for next glyph
 
         if (DEBUG) {
-            System.out.println("minIndex = " + minIndex + ", maxIndex = " + maxIndex);
+            System.out.println("minIndex = " + minIndex + ", mbxIndex = " + mbxIndex);
         }
 
-        nextMin = maxIndex + 1;
+        nextMin = mbxIndex + 1;
 
-        // do common character adjustments
-        glyphinfo[cp + posy] = baseline;
-        glyphinfo[cp + advy] = 0;
+        // do common chbrbcter bdjustments
+        glyphinfo[cp + posy] = bbseline;
+        glyphinfo[cp + bdvy] = 0;
 
-        if (haveCopy) {
-            // save adjustments to the base character
+        if (hbveCopy) {
+            // sbve bdjustments to the bbse chbrbcter
             glyphinfo[cp + posx] = cposl;
-            glyphinfo[cp + advx] = cposr - cposl;
+            glyphinfo[cp + bdvx] = cposr - cposl;
             glyphinfo[cp + visx] = cvisl;
             glyphinfo[cp + visy] = cvist;
             glyphinfo[cp + visw] = cvisr - cvisl;
             glyphinfo[cp + vish] = cvisb - cvist;
 
-            // compare number of chars read with number of glyphs read.
-            // if more glyphs than chars, set mustCopy to true, as we'll always have
-            // to copy the data from here on out.
-            if (maxIndex - minIndex < clusterExtraGlyphs) {
+            // compbre number of chbrs rebd with number of glyphs rebd.
+            // if more glyphs thbn chbrs, set mustCopy to true, bs we'll blwbys hbve
+            // to copy the dbtb from here on out.
+            if (mbxIndex - minIndex < clusterExtrbGlyphs) {
                 mustCopy = true;
             }
 
-            // Fix the characters that follow the base character.
-            // New values are all the same.  Note we fix the number of characters
-            // we saw, not the number of glyphs we saw.
-            if (minIndex < maxIndex) {
+            // Fix the chbrbcters thbt follow the bbse chbrbcter.
+            // New vblues bre bll the sbme.  Note we fix the number of chbrbcters
+            // we sbw, not the number of glyphs we sbw.
+            if (minIndex < mbxIndex) {
                 if (!ltr) {
-                    // if rtl, characters to left of base, else to right.  reuse cposr.
+                    // if rtl, chbrbcters to left of bbse, else to right.  reuse cposr.
                     cposr = cposl;
                 }
-                cvisr -= cvisl; // reuse, convert to deltas.
+                cvisr -= cvisl; // reuse, convert to deltbs.
                 cvisb -= cvist;
 
                 int iMinIndex = minIndex, icp = cp / 8;
 
-                while (minIndex < maxIndex) {
+                while (minIndex < mbxIndex) {
                     ++minIndex;
-                    cx += xdelta;
-                    cp += pdelta;
+                    cx += xdeltb;
+                    cp += pdeltb;
 
                     if (cp < 0 || cp >= glyphinfo.length) {
-                        if (DEBUG) System.out.println("minIndex = " + iMinIndex + ", maxIndex = " + maxIndex + ", cp = " + icp);
+                        if (DEBUG) System.out.println("minIndex = " + iMinIndex + ", mbxIndex = " + mbxIndex + ", cp = " + icp);
                     }
 
                     glyphinfo[cp + posx] = cposr;
-                    glyphinfo[cp + posy] = baseline;
-                    glyphinfo[cp + advx] = 0;
-                    glyphinfo[cp + advy] = 0;
+                    glyphinfo[cp + posy] = bbseline;
+                    glyphinfo[cp + bdvx] = 0;
+                    glyphinfo[cp + bdvy] = 0;
                     glyphinfo[cp + visx] = cvisl;
                     glyphinfo[cp + visy] = cvist;
                     glyphinfo[cp + visw] = cvisr;
@@ -823,43 +823,43 @@ class ExtendedTextSourceLabel extends ExtendedTextLabel implements Decoration.La
             }
 
             // no longer using this copy
-            haveCopy = false;
+            hbveCopy = fblse;
         } else if (mustCopy) {
-            // out of synch, so we have to copy all the time now
-            int gpr = gp - pdelta;
+            // out of synch, so we hbve to copy bll the time now
+            int gpr = gp - pdeltb;
 
             glyphinfo[cp + posx] = glyphinfo[gpr + posx];
-            glyphinfo[cp + advx] = glyphinfo[gpr + advx];
+            glyphinfo[cp + bdvx] = glyphinfo[gpr + bdvx];
             glyphinfo[cp + visx] = glyphinfo[gpr + visx];
             glyphinfo[cp + visy] = glyphinfo[gpr + visy];
             glyphinfo[cp + visw] = glyphinfo[gpr + visw];
             glyphinfo[cp + vish] = glyphinfo[gpr + vish];
         }
-        // else glyphinfo is already at the correct character position, and is unchanged, so just leave it
+        // else glyphinfo is blrebdy bt the correct chbrbcter position, bnd is unchbnged, so just lebve it
 
         // reset for new cluster
-        cp += pdelta;
-        cx += xdelta;
+        cp += pdeltb;
+        cx += xdeltb;
     }
 
     if (mustCopy && !ltr) {
-        // data written to wrong end of array, need to shift down
+        // dbtb written to wrong end of brrby, need to shift down
 
-        cp -= pdelta; // undo last increment, get start of valid character data in array
-        System.arraycopy(glyphinfo, cp, glyphinfo, 0, glyphinfo.length - cp);
+        cp -= pdeltb; // undo lbst increment, get stbrt of vblid chbrbcter dbtb in brrby
+        System.brrbycopy(glyphinfo, cp, glyphinfo, 0, glyphinfo.length - cp);
     }
 
     if (DEBUG) {
-      char[] chars = source.getChars();
-      int start = source.getStart();
+      chbr[] chbrs = source.getChbrs();
+      int stbrt = source.getStbrt();
       int length = source.getLength();
-      System.out.println("char info for " + length + " characters");
-      for(int i = 0; i < length * numvals;) {
-        System.out.println(" ch: " + Integer.toHexString(chars[start + v2l(i / numvals)]) +
+      System.out.println("chbr info for " + length + " chbrbcters");
+      for(int i = 0; i < length * numvbls;) {
+        System.out.println(" ch: " + Integer.toHexString(chbrs[stbrt + v2l(i / numvbls)]) +
                            " x: " + glyphinfo[i++] +
                            " y: " + glyphinfo[i++] +
-                           " xa: " + glyphinfo[i++] +
-                           " ya: " + glyphinfo[i++] +
+                           " xb: " + glyphinfo[i++] +
+                           " yb: " + glyphinfo[i++] +
                            " l: " + glyphinfo[i++] +
                            " t: " + glyphinfo[i++] +
                            " w: " + glyphinfo[i++] +
@@ -871,25 +871,25 @@ class ExtendedTextSourceLabel extends ExtendedTextLabel implements Decoration.La
   }
 
   /**
-   * Map logical character index to visual character index.
+   * Mbp logicbl chbrbcter index to visubl chbrbcter index.
    * <p>
-   * This ignores hindi reordering.  @see createCharinfo
+   * This ignores hindi reordering.  @see crebteChbrinfo
    */
   protected int l2v(int index) {
-    return (source.getLayoutFlags() & 0x1) == 0 ? index : source.getLength() - 1 - index;
+    return (source.getLbyoutFlbgs() & 0x1) == 0 ? index : source.getLength() - 1 - index;
   }
 
   /**
-   * Map visual character index to logical character index.
+   * Mbp visubl chbrbcter index to logicbl chbrbcter index.
    * <p>
-   * This ignores hindi reordering.  @see createCharinfo
+   * This ignores hindi reordering.  @see crebteChbrinfo
    */
   protected int v2l(int index) {
-    return (source.getLayoutFlags() & 0x1) == 0 ? index : source.getLength() - 1 - index;
+    return (source.getLbyoutFlbgs() & 0x1) == 0 ? index : source.getLength() - 1 - index;
   }
 
-  public TextLineComponent getSubset(int start, int limit, int dir) {
-    return new ExtendedTextSourceLabel(source.getSubSource(start, limit-start, dir), decorator);
+  public TextLineComponent getSubset(int stbrt, int limit, int dir) {
+    return new ExtendedTextSourceLbbel(source.getSubSource(stbrt, limit-stbrt, dir), decorbtor);
   }
 
   public String toString() {
@@ -897,126 +897,126 @@ class ExtendedTextSourceLabel extends ExtendedTextLabel implements Decoration.La
         return source.toString(TextSource.WITHOUT_CONTEXT);
     }
     StringBuilder sb = new StringBuilder();
-    sb.append(super.toString());
-    sb.append("[source:");
-    sb.append(source.toString(TextSource.WITHOUT_CONTEXT));
-    sb.append(", lb:");
-    sb.append(lb);
-    sb.append(", ab:");
-    sb.append(ab);
-    sb.append(", vb:");
-    sb.append(vb);
-    sb.append(", gv:");
-    sb.append(gv);
-    sb.append(", ci: ");
-    if (charinfo == null) {
-      sb.append("null");
+    sb.bppend(super.toString());
+    sb.bppend("[source:");
+    sb.bppend(source.toString(TextSource.WITHOUT_CONTEXT));
+    sb.bppend(", lb:");
+    sb.bppend(lb);
+    sb.bppend(", bb:");
+    sb.bppend(bb);
+    sb.bppend(", vb:");
+    sb.bppend(vb);
+    sb.bppend(", gv:");
+    sb.bppend(gv);
+    sb.bppend(", ci: ");
+    if (chbrinfo == null) {
+      sb.bppend("null");
     } else {
-      sb.append(charinfo[0]);
-      for (int i = 1; i < charinfo.length;) {
-        sb.append(i % numvals == 0 ? "; " : ", ");
-        sb.append(charinfo[i]);
+      sb.bppend(chbrinfo[0]);
+      for (int i = 1; i < chbrinfo.length;) {
+        sb.bppend(i % numvbls == 0 ? "; " : ", ");
+        sb.bppend(chbrinfo[i]);
       }
     }
-    sb.append("]");
+    sb.bppend("]");
 
     return sb.toString();
   }
 
-  //public static ExtendedTextLabel create(TextSource source) {
-  //  return new ExtendedTextSourceLabel(source);
+  //public stbtic ExtendedTextLbbel crebte(TextSource source) {
+  //  return new ExtendedTextSourceLbbel(source);
   //}
 
-  public int getNumJustificationInfos() {
+  public int getNumJustificbtionInfos() {
     return getGV().getNumGlyphs();
   }
 
 
-  public void getJustificationInfos(GlyphJustificationInfo[] infos, int infoStart, int charStart, int charLimit) {
-    // This simple implementation only uses spaces for justification.
-    // Since regular characters aren't justified, we don't need to deal with
-    // special infos for combining marks or ligature substitution glyphs.
-    // added character justification for kanjii only 2/22/98
+  public void getJustificbtionInfos(GlyphJustificbtionInfo[] infos, int infoStbrt, int chbrStbrt, int chbrLimit) {
+    // This simple implementbtion only uses spbces for justificbtion.
+    // Since regulbr chbrbcters bren't justified, we don't need to debl with
+    // specibl infos for combining mbrks or ligbture substitution glyphs.
+    // bdded chbrbcter justificbtion for kbnjii only 2/22/98
 
-    StandardGlyphVector gv = getGV();
+    StbndbrdGlyphVector gv = getGV();
 
-    float[] charinfo = getCharinfo();
+    flobt[] chbrinfo = getChbrinfo();
 
-    float size = gv.getFont().getSize2D();
+    flobt size = gv.getFont().getSize2D();
 
-    GlyphJustificationInfo nullInfo =
-      new GlyphJustificationInfo(0,
-                                 false, GlyphJustificationInfo.PRIORITY_NONE, 0, 0,
-                                 false, GlyphJustificationInfo.PRIORITY_NONE, 0, 0);
+    GlyphJustificbtionInfo nullInfo =
+      new GlyphJustificbtionInfo(0,
+                                 fblse, GlyphJustificbtionInfo.PRIORITY_NONE, 0, 0,
+                                 fblse, GlyphJustificbtionInfo.PRIORITY_NONE, 0, 0);
 
-    GlyphJustificationInfo spaceInfo =
-      new GlyphJustificationInfo(size,
-                                 true, GlyphJustificationInfo.PRIORITY_WHITESPACE, 0, size,
-                                 true, GlyphJustificationInfo.PRIORITY_WHITESPACE, 0, size / 4f);
+    GlyphJustificbtionInfo spbceInfo =
+      new GlyphJustificbtionInfo(size,
+                                 true, GlyphJustificbtionInfo.PRIORITY_WHITESPACE, 0, size,
+                                 true, GlyphJustificbtionInfo.PRIORITY_WHITESPACE, 0, size / 4f);
 
-    GlyphJustificationInfo kanjiInfo =
-      new GlyphJustificationInfo(size,
-                                 true, GlyphJustificationInfo.PRIORITY_INTERCHAR, size, size,
-                                 false, GlyphJustificationInfo.PRIORITY_NONE, 0, 0);
+    GlyphJustificbtionInfo kbnjiInfo =
+      new GlyphJustificbtionInfo(size,
+                                 true, GlyphJustificbtionInfo.PRIORITY_INTERCHAR, size, size,
+                                 fblse, GlyphJustificbtionInfo.PRIORITY_NONE, 0, 0);
 
-    char[] chars = source.getChars();
-    int offset = source.getStart();
+    chbr[] chbrs = source.getChbrs();
+    int offset = source.getStbrt();
 
-    // assume data is 1-1 and either all rtl or all ltr, for now
+    // bssume dbtb is 1-1 bnd either bll rtl or bll ltr, for now
 
     int numGlyphs = gv.getNumGlyphs();
     int minGlyph = 0;
-    int maxGlyph = numGlyphs;
-    boolean ltr = (source.getLayoutFlags() & 0x1) == 0;
-    if (charStart != 0 || charLimit != source.getLength()) {
+    int mbxGlyph = numGlyphs;
+    boolebn ltr = (source.getLbyoutFlbgs() & 0x1) == 0;
+    if (chbrStbrt != 0 || chbrLimit != source.getLength()) {
       if (ltr) {
-        minGlyph = charStart;
-        maxGlyph = charLimit;
+        minGlyph = chbrStbrt;
+        mbxGlyph = chbrLimit;
       } else {
-        minGlyph = numGlyphs - charLimit;
-        maxGlyph = numGlyphs - charStart;
+        minGlyph = numGlyphs - chbrLimit;
+        mbxGlyph = numGlyphs - chbrStbrt;
       }
     }
 
     for (int i = 0; i < numGlyphs; ++i) {
-      GlyphJustificationInfo info = null;
-      if (i >= minGlyph && i < maxGlyph) {
-        if (charinfo[i * numvals + advx] == 0) { // combining marks don't justify
+      GlyphJustificbtionInfo info = null;
+      if (i >= minGlyph && i < mbxGlyph) {
+        if (chbrinfo[i * numvbls + bdvx] == 0) { // combining mbrks don't justify
           info = nullInfo;
         } else {
-          int ci = v2l(i); // 1-1 assumption again
-          char c = chars[offset + ci];
-          if (Character.isWhitespace(c)) {
-            info = spaceInfo;
-            // CJK, Hangul, CJK Compatibility areas
+          int ci = v2l(i); // 1-1 bssumption bgbin
+          chbr c = chbrs[offset + ci];
+          if (Chbrbcter.isWhitespbce(c)) {
+            info = spbceInfo;
+            // CJK, Hbngul, CJK Compbtibility brebs
           } else if (c >= 0x4e00 &&
-                     (c < 0xa000) ||
-                     (c >= 0xac00 && c < 0xd7b0) ||
+                     (c < 0xb000) ||
+                     (c >= 0xbc00 && c < 0xd7b0) ||
                      (c >= 0xf900 && c < 0xfb00)) {
-            info = kanjiInfo;
+            info = kbnjiInfo;
           } else {
             info = nullInfo;
           }
         }
       }
-      infos[infoStart + i] = info;
+      infos[infoStbrt + i] = info;
     }
   }
 
-  public TextLineComponent applyJustificationDeltas(float[] deltas, int deltaStart, boolean[] flags) {
+  public TextLineComponent bpplyJustificbtionDeltbs(flobt[] deltbs, int deltbStbrt, boolebn[] flbgs) {
 
-    // when we justify, we need to adjust the charinfo since spaces
-    // change their advances.  preserve the existing charinfo.
+    // when we justify, we need to bdjust the chbrinfo since spbces
+    // chbnge their bdvbnces.  preserve the existing chbrinfo.
 
-    float[] newCharinfo = getCharinfo().clone();
+    flobt[] newChbrinfo = getChbrinfo().clone();
 
-    // we only push spaces, so never need to rejustify
-    flags[0] = false;
+    // we only push spbces, so never need to rejustify
+    flbgs[0] = fblse;
 
     // preserve the existing gv.
 
-    StandardGlyphVector newgv = (StandardGlyphVector)getGV().clone();
-    float[] newPositions = newgv.getGlyphPositions(null);
+    StbndbrdGlyphVector newgv = (StbndbrdGlyphVector)getGV().clone();
+    flobt[] newPositions = newgv.getGlyphPositions(null);
     int numGlyphs = newgv.getNumGlyphs();
 
     /*
@@ -1026,42 +1026,42 @@ class ExtendedTextSourceLabel extends ExtendedTextLabel implements Decoration.La
       System.out.println("[" + (i/2) + "] " + newPositions[i] + ", " + newPositions[i+1]);
     }
 
-    System.out.println("deltas: " + deltas + " start: " + deltaStart);
-    for (int i = deltaStart; i < deltaStart + numGlyphs; i += 2) {
-      System.out.println("[" + (i/2) + "] " + deltas[i] + ", " + deltas[i+1]);
+    System.out.println("deltbs: " + deltbs + " stbrt: " + deltbStbrt);
+    for (int i = deltbStbrt; i < deltbStbrt + numGlyphs; i += 2) {
+      System.out.println("[" + (i/2) + "] " + deltbs[i] + ", " + deltbs[i+1]);
     }
     */
 
-    char[] chars = source.getChars();
-    int offset = source.getStart();
+    chbr[] chbrs = source.getChbrs();
+    int offset = source.getStbrt();
 
-    // accumulate the deltas to adjust positions and advances.
-    // handle whitespace by modifying advance,
-    // handle everything else by modifying position before and after
+    // bccumulbte the deltbs to bdjust positions bnd bdvbnces.
+    // hbndle whitespbce by modifying bdvbnce,
+    // hbndle everything else by modifying position before bnd bfter
 
-    float deltaPos = 0;
+    flobt deltbPos = 0;
     for (int i = 0; i < numGlyphs; ++i) {
-      if (Character.isWhitespace(chars[offset + v2l(i)])) {
-        newPositions[i*2] += deltaPos;
+      if (Chbrbcter.isWhitespbce(chbrs[offset + v2l(i)])) {
+        newPositions[i*2] += deltbPos;
 
-        float deltaAdv = deltas[deltaStart + i*2] + deltas[deltaStart + i*2 + 1];
+        flobt deltbAdv = deltbs[deltbStbrt + i*2] + deltbs[deltbStbrt + i*2 + 1];
 
-        newCharinfo[i * numvals + posx] += deltaPos;
-        newCharinfo[i * numvals + visx] += deltaPos;
-        newCharinfo[i * numvals + advx] += deltaAdv;
+        newChbrinfo[i * numvbls + posx] += deltbPos;
+        newChbrinfo[i * numvbls + visx] += deltbPos;
+        newChbrinfo[i * numvbls + bdvx] += deltbAdv;
 
-        deltaPos += deltaAdv;
+        deltbPos += deltbAdv;
       } else {
-        deltaPos += deltas[deltaStart + i*2];
+        deltbPos += deltbs[deltbStbrt + i*2];
 
-        newPositions[i*2] += deltaPos;
-        newCharinfo[i * numvals + posx] += deltaPos;
-        newCharinfo[i * numvals + visx] += deltaPos;
+        newPositions[i*2] += deltbPos;
+        newChbrinfo[i * numvbls + posx] += deltbPos;
+        newChbrinfo[i * numvbls + visx] += deltbPos;
 
-        deltaPos += deltas[deltaStart + i*2 + 1];
+        deltbPos += deltbs[deltbStbrt + i*2 + 1];
       }
     }
-    newPositions[numGlyphs * 2] += deltaPos;
+    newPositions[numGlyphs * 2] += deltbPos;
 
     newgv.setGlyphPositions(newPositions);
 
@@ -1073,9 +1073,9 @@ class ExtendedTextSourceLabel extends ExtendedTextLabel implements Decoration.La
     }
     */
 
-    ExtendedTextSourceLabel result = new ExtendedTextSourceLabel(source, decorator);
+    ExtendedTextSourceLbbel result = new ExtendedTextSourceLbbel(source, decorbtor);
     result.gv = newgv;
-    result.charinfo = newCharinfo;
+    result.chbrinfo = newChbrinfo;
 
     return result;
   }

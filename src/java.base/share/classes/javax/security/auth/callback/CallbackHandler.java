@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.callback;
+pbckbge jbvbx.security.buth.cbllbbck;
 
 /**
- * <p> An application implements a {@code CallbackHandler} and passes
- * it to underlying security services so that they may interact with
- * the application to retrieve specific authentication data,
- * such as usernames and passwords, or to display certain information,
- * such as error and warning messages.
+ * <p> An bpplicbtion implements b {@code CbllbbckHbndler} bnd pbsses
+ * it to underlying security services so thbt they mby interbct with
+ * the bpplicbtion to retrieve specific buthenticbtion dbtb,
+ * such bs usernbmes bnd pbsswords, or to displby certbin informbtion,
+ * such bs error bnd wbrning messbges.
  *
- * <p> CallbackHandlers are implemented in an application-dependent fashion.
- * For example, implementations for an application with a graphical user
- * interface (GUI) may pop up windows to prompt for requested information
- * or to display error messages.  An implementation may also choose to obtain
- * requested information from an alternate source without asking the end user.
+ * <p> CbllbbckHbndlers bre implemented in bn bpplicbtion-dependent fbshion.
+ * For exbmple, implementbtions for bn bpplicbtion with b grbphicbl user
+ * interfbce (GUI) mby pop up windows to prompt for requested informbtion
+ * or to displby error messbges.  An implementbtion mby blso choose to obtbin
+ * requested informbtion from bn blternbte source without bsking the end user.
  *
- * <p> Underlying security services make requests for different types
- * of information by passing individual Callbacks to the
- * {@code CallbackHandler}.  The {@code CallbackHandler}
- * implementation decides how to retrieve and display information
- * depending on the Callbacks passed to it.  For example,
- * if the underlying service needs a username and password to
- * authenticate a user, it uses a {@code NameCallback} and
- * {@code PasswordCallback}.  The {@code CallbackHandler}
- * can then choose to prompt for a username and password serially,
- * or to prompt for both in a single window.
+ * <p> Underlying security services mbke requests for different types
+ * of informbtion by pbssing individubl Cbllbbcks to the
+ * {@code CbllbbckHbndler}.  The {@code CbllbbckHbndler}
+ * implementbtion decides how to retrieve bnd displby informbtion
+ * depending on the Cbllbbcks pbssed to it.  For exbmple,
+ * if the underlying service needs b usernbme bnd pbssword to
+ * buthenticbte b user, it uses b {@code NbmeCbllbbck} bnd
+ * {@code PbsswordCbllbbck}.  The {@code CbllbbckHbndler}
+ * cbn then choose to prompt for b usernbme bnd pbssword seriblly,
+ * or to prompt for both in b single window.
  *
- * <p> A default {@code CallbackHandler} class implementation
- * may be specified by setting the value of the
- * {@code auth.login.defaultCallbackHandler} security property.
+ * <p> A defbult {@code CbllbbckHbndler} clbss implementbtion
+ * mby be specified by setting the vblue of the
+ * {@code buth.login.defbultCbllbbckHbndler} security property.
  *
- * <p> If the security property is set to the fully qualified name of a
- * {@code CallbackHandler} implementation class,
- * then a {@code LoginContext} will load the specified
- * {@code CallbackHandler} and pass it to the underlying LoginModules.
- * The {@code LoginContext} only loads the default handler
- * if it was not provided one.
+ * <p> If the security property is set to the fully qublified nbme of b
+ * {@code CbllbbckHbndler} implementbtion clbss,
+ * then b {@code LoginContext} will lobd the specified
+ * {@code CbllbbckHbndler} bnd pbss it to the underlying LoginModules.
+ * The {@code LoginContext} only lobds the defbult hbndler
+ * if it wbs not provided one.
  *
- * <p> All default handler implementations must provide a public
- * zero-argument constructor.
+ * <p> All defbult hbndler implementbtions must provide b public
+ * zero-brgument constructor.
  *
- * @see java.security.Security security properties
+ * @see jbvb.security.Security security properties
  */
-public interface CallbackHandler {
+public interfbce CbllbbckHbndler {
 
     /**
-     * <p> Retrieve or display the information requested in the
-     * provided Callbacks.
+     * <p> Retrieve or displby the informbtion requested in the
+     * provided Cbllbbcks.
      *
-     * <p> The {@code handle} method implementation checks the
-     * instance(s) of the {@code Callback} object(s) passed in
-     * to retrieve or display the requested information.
-     * The following example is provided to help demonstrate what an
-     * {@code handle} method implementation might look like.
-     * This example code is for guidance only.  Many details,
-     * including proper error handling, are left out for simplicity.
+     * <p> The {@code hbndle} method implementbtion checks the
+     * instbnce(s) of the {@code Cbllbbck} object(s) pbssed in
+     * to retrieve or displby the requested informbtion.
+     * The following exbmple is provided to help demonstrbte whbt bn
+     * {@code hbndle} method implementbtion might look like.
+     * This exbmple code is for guidbnce only.  Mbny detbils,
+     * including proper error hbndling, bre left out for simplicity.
      *
      * <pre>{@code
-     * public void handle(Callback[] callbacks)
-     * throws IOException, UnsupportedCallbackException {
+     * public void hbndle(Cbllbbck[] cbllbbcks)
+     * throws IOException, UnsupportedCbllbbckException {
      *
-     *   for (int i = 0; i < callbacks.length; i++) {
-     *      if (callbacks[i] instanceof TextOutputCallback) {
+     *   for (int i = 0; i < cbllbbcks.length; i++) {
+     *      if (cbllbbcks[i] instbnceof TextOutputCbllbbck) {
      *
-     *          // display the message according to the specified type
-     *          TextOutputCallback toc = (TextOutputCallback)callbacks[i];
-     *          switch (toc.getMessageType()) {
-     *          case TextOutputCallback.INFORMATION:
-     *              System.out.println(toc.getMessage());
-     *              break;
-     *          case TextOutputCallback.ERROR:
-     *              System.out.println("ERROR: " + toc.getMessage());
-     *              break;
-     *          case TextOutputCallback.WARNING:
-     *              System.out.println("WARNING: " + toc.getMessage());
-     *              break;
-     *          default:
-     *              throw new IOException("Unsupported message type: " +
-     *                                  toc.getMessageType());
+     *          // displby the messbge bccording to the specified type
+     *          TextOutputCbllbbck toc = (TextOutputCbllbbck)cbllbbcks[i];
+     *          switch (toc.getMessbgeType()) {
+     *          cbse TextOutputCbllbbck.INFORMATION:
+     *              System.out.println(toc.getMessbge());
+     *              brebk;
+     *          cbse TextOutputCbllbbck.ERROR:
+     *              System.out.println("ERROR: " + toc.getMessbge());
+     *              brebk;
+     *          cbse TextOutputCbllbbck.WARNING:
+     *              System.out.println("WARNING: " + toc.getMessbge());
+     *              brebk;
+     *          defbult:
+     *              throw new IOException("Unsupported messbge type: " +
+     *                                  toc.getMessbgeType());
      *          }
      *
-     *      } else if (callbacks[i] instanceof NameCallback) {
+     *      } else if (cbllbbcks[i] instbnceof NbmeCbllbbck) {
      *
-     *          // prompt the user for a username
-     *          NameCallback nc = (NameCallback)callbacks[i];
+     *          // prompt the user for b usernbme
+     *          NbmeCbllbbck nc = (NbmeCbllbbck)cbllbbcks[i];
      *
-     *          // ignore the provided defaultName
+     *          // ignore the provided defbultNbme
      *          System.err.print(nc.getPrompt());
      *          System.err.flush();
-     *          nc.setName((new BufferedReader
-     *                  (new InputStreamReader(System.in))).readLine());
+     *          nc.setNbme((new BufferedRebder
+     *                  (new InputStrebmRebder(System.in))).rebdLine());
      *
-     *      } else if (callbacks[i] instanceof PasswordCallback) {
+     *      } else if (cbllbbcks[i] instbnceof PbsswordCbllbbck) {
      *
-     *          // prompt the user for sensitive information
-     *          PasswordCallback pc = (PasswordCallback)callbacks[i];
+     *          // prompt the user for sensitive informbtion
+     *          PbsswordCbllbbck pc = (PbsswordCbllbbck)cbllbbcks[i];
      *          System.err.print(pc.getPrompt());
      *          System.err.flush();
-     *          pc.setPassword(readPassword(System.in));
+     *          pc.setPbssword(rebdPbssword(System.in));
      *
      *      } else {
-     *          throw new UnsupportedCallbackException
-     *                  (callbacks[i], "Unrecognized Callback");
+     *          throw new UnsupportedCbllbbckException
+     *                  (cbllbbcks[i], "Unrecognized Cbllbbck");
      *      }
      *   }
      * }
      *
-     * // Reads user password from given input stream.
-     * private char[] readPassword(InputStream in) throws IOException {
-     *    // insert code to read a user password from the input stream
+     * // Rebds user pbssword from given input strebm.
+     * privbte chbr[] rebdPbssword(InputStrebm in) throws IOException {
+     *    // insert code to rebd b user pbssword from the input strebm
      * }
      * }</pre>
      *
-     * @param callbacks an array of {@code Callback} objects provided
-     *          by an underlying security service which contains
-     *          the information requested to be retrieved or displayed.
+     * @pbrbm cbllbbcks bn brrby of {@code Cbllbbck} objects provided
+     *          by bn underlying security service which contbins
+     *          the informbtion requested to be retrieved or displbyed.
      *
-     * @exception java.io.IOException if an input or output error occurs. <p>
+     * @exception jbvb.io.IOException if bn input or output error occurs. <p>
      *
-     * @exception UnsupportedCallbackException if the implementation of this
-     *          method does not support one or more of the Callbacks
-     *          specified in the {@code callbacks} parameter.
+     * @exception UnsupportedCbllbbckException if the implementbtion of this
+     *          method does not support one or more of the Cbllbbcks
+     *          specified in the {@code cbllbbcks} pbrbmeter.
      */
-    void handle(Callback[] callbacks)
-    throws java.io.IOException, UnsupportedCallbackException;
+    void hbndle(Cbllbbck[] cbllbbcks)
+    throws jbvb.io.IOException, UnsupportedCbllbbckException;
 }

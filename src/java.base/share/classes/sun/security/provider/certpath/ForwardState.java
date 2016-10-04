@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.io.IOException;
-import java.security.cert.CertificateException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ListIterator;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.IOException;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertPbthVblidbtorException;
+import jbvb.security.cert.PKIXCertPbthChecker;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.ListIterbtor;
+import jbvbx.security.buth.x500.X500Principbl;
 
 import sun.security.util.Debug;
-import sun.security.x509.SubjectAlternativeNameExtension;
-import sun.security.x509.GeneralNames;
-import sun.security.x509.GeneralName;
-import sun.security.x509.GeneralNameInterface;
-import sun.security.x509.X500Name;
+import sun.security.x509.SubjectAlternbtiveNbmeExtension;
+import sun.security.x509.GenerblNbmes;
+import sun.security.x509.GenerblNbme;
+import sun.security.x509.GenerblNbmeInterfbce;
+import sun.security.x509.X500Nbme;
 import sun.security.x509.X509CertImpl;
 
 /**
- * A specification of a forward PKIX validation state
- * which is initialized by each build and updated each time a
- * certificate is added to the current path.
+ * A specificbtion of b forwbrd PKIX vblidbtion stbte
+ * which is initiblized by ebch build bnd updbted ebch time b
+ * certificbte is bdded to the current pbth.
  * @since       1.4
- * @author      Yassir Elley
+ * @buthor      Ybssir Elley
  */
-class ForwardState implements State {
+clbss ForwbrdStbte implements Stbte {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
 
-    /* The issuer DN of the last cert in the path */
-    X500Principal issuerDN;
+    /* The issuer DN of the lbst cert in the pbth */
+    X500Principbl issuerDN;
 
-    /* The last cert in the path */
+    /* The lbst cert in the pbth */
     X509CertImpl cert;
 
-    /* The set of subjectDNs and subjectAltNames of all certs in the path */
-    HashSet<GeneralNameInterface> subjectNamesTraversed;
+    /* The set of subjectDNs bnd subjectAltNbmes of bll certs in the pbth */
+    HbshSet<GenerblNbmeInterfbce> subjectNbmesTrbversed;
 
     /*
-     * The number of intermediate CA certs which have been traversed so
-     * far in the path
+     * The number of intermedibte CA certs which hbve been trbversed so
+     * fbr in the pbth
      */
-    int traversedCACerts;
+    int trbversedCACerts;
 
-    /* Flag indicating if state is initial (path is just starting) */
-    private boolean init = true;
+    /* Flbg indicbting if stbte is initibl (pbth is just stbrting) */
+    privbte boolebn init = true;
 
 
-    /* the untrusted certificates checker */
+    /* the untrusted certificbtes checker */
     UntrustedChecker untrustedChecker;
 
-    /* The list of user-defined checkers that support forward checking */
-    ArrayList<PKIXCertPathChecker> forwardCheckers;
+    /* The list of user-defined checkers thbt support forwbrd checking */
+    ArrbyList<PKIXCertPbthChecker> forwbrdCheckers;
 
-    /* Flag indicating if key needing to inherit key parameters has been
+    /* Flbg indicbting if key needing to inherit key pbrbmeters hbs been
      * encountered.
      */
-    boolean keyParamsNeededFlag = false;
+    boolebn keyPbrbmsNeededFlbg = fblse;
 
     /**
-     * Returns a boolean flag indicating if the state is initial
-     * (just starting)
+     * Returns b boolebn flbg indicbting if the stbte is initibl
+     * (just stbrting)
      *
-     * @return boolean flag indicating if the state is initial (just starting)
+     * @return boolebn flbg indicbting if the stbte is initibl (just stbrting)
      */
     @Override
-    public boolean isInitial() {
+    public boolebn isInitibl() {
         return init;
     }
 
     /**
-     * Return boolean flag indicating whether a public key that needs to inherit
-     * key parameters has been encountered.
+     * Return boolebn flbg indicbting whether b public key thbt needs to inherit
+     * key pbrbmeters hbs been encountered.
      *
-     * @return boolean true if key needing to inherit parameters has been
-     * encountered; false otherwise.
+     * @return boolebn true if key needing to inherit pbrbmeters hbs been
+     * encountered; fblse otherwise.
      */
     @Override
-    public boolean keyParamsNeeded() {
-        return keyParamsNeededFlag;
+    public boolebn keyPbrbmsNeeded() {
+        return keyPbrbmsNeededFlbg;
     }
 
     /**
-     * Display state for debugging purposes
+     * Displby stbte for debugging purposes
      */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("State [");
-        sb.append("\n  issuerDN of last cert: ").append(issuerDN);
-        sb.append("\n  traversedCACerts: ").append(traversedCACerts);
-        sb.append("\n  init: ").append(String.valueOf(init));
-        sb.append("\n  keyParamsNeeded: ").append
-                 (String.valueOf(keyParamsNeededFlag));
-        sb.append("\n  subjectNamesTraversed: \n").append
-                 (subjectNamesTraversed);
-        sb.append("]\n");
+        sb.bppend("Stbte [");
+        sb.bppend("\n  issuerDN of lbst cert: ").bppend(issuerDN);
+        sb.bppend("\n  trbversedCACerts: ").bppend(trbversedCACerts);
+        sb.bppend("\n  init: ").bppend(String.vblueOf(init));
+        sb.bppend("\n  keyPbrbmsNeeded: ").bppend
+                 (String.vblueOf(keyPbrbmsNeededFlbg));
+        sb.bppend("\n  subjectNbmesTrbversed: \n").bppend
+                 (subjectNbmesTrbversed);
+        sb.bppend("]\n");
         return sb.toString();
     }
 
     /**
-     * Initialize the state.
+     * Initiblize the stbte.
      *
-     * @param certPathCheckers the list of user-defined PKIXCertPathCheckers
+     * @pbrbm certPbthCheckers the list of user-defined PKIXCertPbthCheckers
      */
-    public void initState(List<PKIXCertPathChecker> certPathCheckers)
-        throws CertPathValidatorException
+    public void initStbte(List<PKIXCertPbthChecker> certPbthCheckers)
+        throws CertPbthVblidbtorException
     {
-        subjectNamesTraversed = new HashSet<GeneralNameInterface>();
-        traversedCACerts = 0;
+        subjectNbmesTrbversed = new HbshSet<GenerblNbmeInterfbce>();
+        trbversedCACerts = 0;
 
         /*
-         * Populate forwardCheckers with every user-defined checker
-         * that supports forward checking and initialize the forwardCheckers
+         * Populbte forwbrdCheckers with every user-defined checker
+         * thbt supports forwbrd checking bnd initiblize the forwbrdCheckers
          */
-        forwardCheckers = new ArrayList<PKIXCertPathChecker>();
-        for (PKIXCertPathChecker checker : certPathCheckers) {
-            if (checker.isForwardCheckingSupported()) {
+        forwbrdCheckers = new ArrbyList<PKIXCertPbthChecker>();
+        for (PKIXCertPbthChecker checker : certPbthCheckers) {
+            if (checker.isForwbrdCheckingSupported()) {
                 checker.init(true);
-                forwardCheckers.add(checker);
+                forwbrdCheckers.bdd(checker);
             }
         }
 
@@ -153,107 +153,107 @@ class ForwardState implements State {
     }
 
     /**
-     * Update the state with the next certificate added to the path.
+     * Updbte the stbte with the next certificbte bdded to the pbth.
      *
-     * @param cert the certificate which is used to update the state
+     * @pbrbm cert the certificbte which is used to updbte the stbte
      */
     @Override
-    public void updateState(X509Certificate cert)
-        throws CertificateException, IOException, CertPathValidatorException {
+    public void updbteStbte(X509Certificbte cert)
+        throws CertificbteException, IOException, CertPbthVblidbtorException {
 
         if (cert == null)
             return;
 
         X509CertImpl icert = X509CertImpl.toImpl(cert);
 
-        /* see if certificate key has null parameters */
-        if (PKIX.isDSAPublicKeyWithoutParams(icert.getPublicKey())) {
-            keyParamsNeededFlag = true;
+        /* see if certificbte key hbs null pbrbmeters */
+        if (PKIX.isDSAPublicKeyWithoutPbrbms(icert.getPublicKey())) {
+            keyPbrbmsNeededFlbg = true;
         }
 
-        /* update certificate */
+        /* updbte certificbte */
         this.cert = icert;
 
-        /* update issuer DN */
-        issuerDN = cert.getIssuerX500Principal();
+        /* updbte issuer DN */
+        issuerDN = cert.getIssuerX500Principbl();
 
         if (!X509CertImpl.isSelfIssued(cert)) {
 
             /*
-             * update traversedCACerts only if this is a non-self-issued
-             * intermediate CA cert
+             * updbte trbversedCACerts only if this is b non-self-issued
+             * intermedibte CA cert
              */
-            if (!init && cert.getBasicConstraints() != -1) {
-                traversedCACerts++;
+            if (!init && cert.getBbsicConstrbints() != -1) {
+                trbversedCACerts++;
             }
         }
 
-        /* update subjectNamesTraversed only if this is the EE cert or if
+        /* updbte subjectNbmesTrbversed only if this is the EE cert or if
            this cert is not self-issued */
         if (init || !X509CertImpl.isSelfIssued(cert)){
-            X500Principal subjName = cert.getSubjectX500Principal();
-            subjectNamesTraversed.add(X500Name.asX500Name(subjName));
+            X500Principbl subjNbme = cert.getSubjectX500Principbl();
+            subjectNbmesTrbversed.bdd(X500Nbme.bsX500Nbme(subjNbme));
 
             try {
-                SubjectAlternativeNameExtension subjAltNameExt
-                    = icert.getSubjectAlternativeNameExtension();
-                if (subjAltNameExt != null) {
-                    GeneralNames gNames = subjAltNameExt.get(
-                            SubjectAlternativeNameExtension.SUBJECT_NAME);
-                    for (GeneralName gName : gNames.names()) {
-                        subjectNamesTraversed.add(gName.getName());
+                SubjectAlternbtiveNbmeExtension subjAltNbmeExt
+                    = icert.getSubjectAlternbtiveNbmeExtension();
+                if (subjAltNbmeExt != null) {
+                    GenerblNbmes gNbmes = subjAltNbmeExt.get(
+                            SubjectAlternbtiveNbmeExtension.SUBJECT_NAME);
+                    for (GenerblNbme gNbme : gNbmes.nbmes()) {
+                        subjectNbmesTrbversed.bdd(gNbme.getNbme());
                     }
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 if (debug != null) {
-                    debug.println("ForwardState.updateState() unexpected "
+                    debug.println("ForwbrdStbte.updbteStbte() unexpected "
                         + "exception");
-                    e.printStackTrace();
+                    e.printStbckTrbce();
                 }
-                throw new CertPathValidatorException(e);
+                throw new CertPbthVblidbtorException(e);
             }
         }
 
-        init = false;
+        init = fblse;
     }
 
     /*
-     * Clone current state. The state is cloned as each cert is
-     * added to the path. This is necessary if backtracking occurs,
-     * and a prior state needs to be restored.
+     * Clone current stbte. The stbte is cloned bs ebch cert is
+     * bdded to the pbth. This is necessbry if bbcktrbcking occurs,
+     * bnd b prior stbte needs to be restored.
      *
-     * Note that this is a SMART clone. Not all fields are fully copied,
-     * because some of them will
-     * not have their contents modified by subsequent calls to updateState.
+     * Note thbt this is b SMART clone. Not bll fields bre fully copied,
+     * becbuse some of them will
+     * not hbve their contents modified by subsequent cblls to updbteStbte.
      */
     @Override
-    @SuppressWarnings("unchecked") // Safe casts assuming clone() works correctly
+    @SuppressWbrnings("unchecked") // Sbfe cbsts bssuming clone() works correctly
     public Object clone() {
         try {
-            ForwardState clonedState = (ForwardState) super.clone();
+            ForwbrdStbte clonedStbte = (ForwbrdStbte) super.clone();
 
-            /* clone checkers, if cloneable */
-            clonedState.forwardCheckers = (ArrayList<PKIXCertPathChecker>)
-                                                forwardCheckers.clone();
-            ListIterator<PKIXCertPathChecker> li =
-                                clonedState.forwardCheckers.listIterator();
-            while (li.hasNext()) {
-                PKIXCertPathChecker checker = li.next();
-                if (checker instanceof Cloneable) {
-                    li.set((PKIXCertPathChecker)checker.clone());
+            /* clone checkers, if clonebble */
+            clonedStbte.forwbrdCheckers = (ArrbyList<PKIXCertPbthChecker>)
+                                                forwbrdCheckers.clone();
+            ListIterbtor<PKIXCertPbthChecker> li =
+                                clonedStbte.forwbrdCheckers.listIterbtor();
+            while (li.hbsNext()) {
+                PKIXCertPbthChecker checker = li.next();
+                if (checker instbnceof Clonebble) {
+                    li.set((PKIXCertPbthChecker)checker.clone());
                 }
             }
 
             /*
-             * Shallow copy traversed names. There is no need to
+             * Shbllow copy trbversed nbmes. There is no need to
              * deep copy contents, since the elements of the Set
-             * are never modified by subsequent calls to updateState().
+             * bre never modified by subsequent cblls to updbteStbte().
              */
-            clonedState.subjectNamesTraversed
-                = (HashSet<GeneralNameInterface>)subjectNamesTraversed.clone();
-            return clonedState;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e.toString(), e);
+            clonedStbte.subjectNbmesTrbversed
+                = (HbshSet<GenerblNbmeInterfbce>)subjectNbmesTrbversed.clone();
+            return clonedStbte;
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e.toString(), e);
         }
     }
 }

@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.io.FileDescriptor;
-import sun.net.ResourceManager;
+import jbvb.io.IOException;
+import jbvb.io.FileDescriptor;
+import sun.net.ResourceMbnbger;
 
 /**
- * This class defines the plain DatagramSocketImpl that is used for all
- * Windows versions lower than Vista. It adds support for IPv6 on
- * these platforms where available.
+ * This clbss defines the plbin DbtbgrbmSocketImpl thbt is used for bll
+ * Windows versions lower thbn Vistb. It bdds support for IPv6 on
+ * these plbtforms where bvbilbble.
  *
- * For backward compatibility windows platforms that do not have IPv6
- * support also use this implementation, and fd1 gets set to null
- * during socket creation.
+ * For bbckwbrd compbtibility windows plbtforms thbt do not hbve IPv6
+ * support blso use this implementbtion, bnd fd1 gets set to null
+ * during socket crebtion.
  *
- * @author Chris Hegarty
+ * @buthor Chris Hegbrty
  */
 
-class TwoStacksPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
+clbss TwoStbcksPlbinDbtbgrbmSocketImpl extends AbstrbctPlbinDbtbgrbmSocketImpl
 {
     /* Used for IPv6 on Windows only */
-    private FileDescriptor fd1;
+    privbte FileDescriptor fd1;
 
     /*
-     * Needed for ipv6 on windows because we need to know
-     * if the socket was bound to ::0 or 0.0.0.0, when a caller
-     * asks for it. In this case, both sockets are used, but we
-     * don't know whether the caller requested ::0 or 0.0.0.0
-     * and need to remember it here.
+     * Needed for ipv6 on windows becbuse we need to know
+     * if the socket wbs bound to ::0 or 0.0.0.0, when b cbller
+     * bsks for it. In this cbse, both sockets bre used, but we
+     * don't know whether the cbller requested ::0 or 0.0.0.0
+     * bnd need to remember it here.
      */
-    private InetAddress anyLocalBoundAddr=null;
+    privbte InetAddress bnyLocblBoundAddr=null;
 
-    private int fduse=-1; /* saved between peek() and receive() calls */
+    privbte int fduse=-1; /* sbved between peek() bnd receive() cblls */
 
-    /* saved between successive calls to receive, if data is detected
-     * on both sockets at same time. To ensure that one socket is not
-     * starved, they rotate using this field
+    /* sbved between successive cblls to receive, if dbtb is detected
+     * on both sockets bt sbme time. To ensure thbt one socket is not
+     * stbrved, they rotbte using this field
      */
-    private int lastfd=-1;
+    privbte int lbstfd=-1;
 
-    static {
+    stbtic {
         init();
     }
 
     // true if this socket is exclusively bound
-    private final boolean exclusiveBind;
+    privbte finbl boolebn exclusiveBind;
 
     /*
-     * Set to true if SO_REUSEADDR is set after the socket is bound to
-     * indicate SO_REUSEADDR is being emulated
+     * Set to true if SO_REUSEADDR is set bfter the socket is bound to
+     * indicbte SO_REUSEADDR is being emulbted
      */
-    private boolean reuseAddressEmulated;
+    privbte boolebn reuseAddressEmulbted;
 
-    // emulates SO_REUSEADDR when exclusiveBind is true and socket is bound
-    private boolean isReuseAddress;
+    // emulbtes SO_REUSEADDR when exclusiveBind is true bnd socket is bound
+    privbte boolebn isReuseAddress;
 
-    TwoStacksPlainDatagramSocketImpl(boolean exclBind) {
+    TwoStbcksPlbinDbtbgrbmSocketImpl(boolebn exclBind) {
         exclusiveBind = exclBind;
     }
 
-    protected synchronized void create() throws SocketException {
+    protected synchronized void crebte() throws SocketException {
         fd1 = new FileDescriptor();
         try {
-            super.create();
-        } catch (SocketException e) {
+            super.crebte();
+        } cbtch (SocketException e) {
             fd1 = null;
             throw e;
         }
     }
 
-    protected synchronized void bind(int lport, InetAddress laddr)
+    protected synchronized void bind(int lport, InetAddress lbddr)
         throws SocketException {
-        super.bind(lport, laddr);
-        if (laddr.isAnyLocalAddress()) {
-            anyLocalBoundAddr = laddr;
+        super.bind(lport, lbddr);
+        if (lbddr.isAnyLocblAddress()) {
+            bnyLocblBoundAddr = lbddr;
         }
     }
 
     @Override
-    protected synchronized void bind0(int lport, InetAddress laddr)
+    protected synchronized void bind0(int lport, InetAddress lbddr)
         throws SocketException
     {
-        bind0(lport, laddr, exclusiveBind);
+        bind0(lport, lbddr, exclusiveBind);
 
     }
 
-    protected synchronized void receive(DatagramPacket p)
+    protected synchronized void receive(DbtbgrbmPbcket p)
         throws IOException {
         try {
             receive0(p);
-        } finally {
+        } finblly {
             fduse = -1;
         }
     }
@@ -124,91 +124,91 @@ class TwoStacksPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
 
         if (optID == SO_BINDADDR) {
             if ((fd != null && fd1 != null) && !connected) {
-                return anyLocalBoundAddr;
+                return bnyLocblBoundAddr;
             }
-            int family = connectedAddress == null ? -1 : connectedAddress.holder().getFamily();
-            return socketLocalAddress(family);
-        } else if (optID == SO_REUSEADDR && reuseAddressEmulated) {
+            int fbmily = connectedAddress == null ? -1 : connectedAddress.holder().getFbmily();
+            return socketLocblAddress(fbmily);
+        } else if (optID == SO_REUSEADDR && reuseAddressEmulbted) {
             return isReuseAddress;
         } else {
             return super.getOption(optID);
         }
     }
 
-    protected void socketSetOption(int opt, Object val)
+    protected void socketSetOption(int opt, Object vbl)
         throws SocketException
     {
-        if (opt == SO_REUSEADDR && exclusiveBind && localPort != 0)  {
-            // socket already bound, emulate
-            reuseAddressEmulated = true;
-            isReuseAddress = (Boolean)val;
+        if (opt == SO_REUSEADDR && exclusiveBind && locblPort != 0)  {
+            // socket blrebdy bound, emulbte
+            reuseAddressEmulbted = true;
+            isReuseAddress = (Boolebn)vbl;
         } else {
-            socketNativeSetOption(opt, val);
+            socketNbtiveSetOption(opt, vbl);
         }
 
     }
 
-    protected boolean isClosed() {
-        return (fd == null && fd1 == null) ? true : false;
+    protected boolebn isClosed() {
+        return (fd == null && fd1 == null) ? true : fblse;
     }
 
     protected void close() {
         if (fd != null || fd1 != null) {
-            datagramSocketClose();
-            ResourceManager.afterUdpClose();
+            dbtbgrbmSocketClose();
+            ResourceMbnbger.bfterUdpClose();
             fd = null;
             fd1 = null;
         }
     }
 
-    /* Native methods */
+    /* Nbtive methods */
 
-    protected synchronized native void bind0(int lport, InetAddress laddr,
-                                             boolean exclBind)
+    protected synchronized nbtive void bind0(int lport, InetAddress lbddr,
+                                             boolebn exclBind)
         throws SocketException;
 
-    protected native void send(DatagramPacket p) throws IOException;
+    protected nbtive void send(DbtbgrbmPbcket p) throws IOException;
 
-    protected synchronized native int peek(InetAddress i) throws IOException;
+    protected synchronized nbtive int peek(InetAddress i) throws IOException;
 
-    protected synchronized native int peekData(DatagramPacket p) throws IOException;
+    protected synchronized nbtive int peekDbtb(DbtbgrbmPbcket p) throws IOException;
 
-    protected synchronized native void receive0(DatagramPacket p)
+    protected synchronized nbtive void receive0(DbtbgrbmPbcket p)
         throws IOException;
 
-    protected native void setTimeToLive(int ttl) throws IOException;
+    protected nbtive void setTimeToLive(int ttl) throws IOException;
 
-    protected native int getTimeToLive() throws IOException;
+    protected nbtive int getTimeToLive() throws IOException;
 
-    @Deprecated
-    protected native void setTTL(byte ttl) throws IOException;
+    @Deprecbted
+    protected nbtive void setTTL(byte ttl) throws IOException;
 
-    @Deprecated
-    protected native byte getTTL() throws IOException;
+    @Deprecbted
+    protected nbtive byte getTTL() throws IOException;
 
-    protected native void join(InetAddress inetaddr, NetworkInterface netIf)
+    protected nbtive void join(InetAddress inetbddr, NetworkInterfbce netIf)
         throws IOException;
 
-    protected native void leave(InetAddress inetaddr, NetworkInterface netIf)
+    protected nbtive void lebve(InetAddress inetbddr, NetworkInterfbce netIf)
         throws IOException;
 
-    protected native void datagramSocketCreate() throws SocketException;
+    protected nbtive void dbtbgrbmSocketCrebte() throws SocketException;
 
-    protected native void datagramSocketClose();
+    protected nbtive void dbtbgrbmSocketClose();
 
-    protected native void socketNativeSetOption(int opt, Object val)
+    protected nbtive void socketNbtiveSetOption(int opt, Object vbl)
         throws SocketException;
 
-    protected native Object socketGetOption(int opt) throws SocketException;
+    protected nbtive Object socketGetOption(int opt) throws SocketException;
 
-    protected native void connect0(InetAddress address, int port) throws SocketException;
+    protected nbtive void connect0(InetAddress bddress, int port) throws SocketException;
 
-    protected native Object socketLocalAddress(int family) throws SocketException;
+    protected nbtive Object socketLocblAddress(int fbmily) throws SocketException;
 
-    protected native void disconnect0(int family);
+    protected nbtive void disconnect0(int fbmily);
 
     /**
-     * Perform class load-time initializations.
+     * Perform clbss lobd-time initiblizbtions.
      */
-    private native static void init();
+    privbte nbtive stbtic void init();
 }

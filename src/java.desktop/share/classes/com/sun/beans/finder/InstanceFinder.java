@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.finder;
+pbckbge com.sun.bebns.finder;
 
 /**
- * This is utility class that provides basic functionality
- * to find an auxiliary class for a JavaBean specified by its type.
+ * This is utility clbss thbt provides bbsic functionblity
+ * to find bn buxilibry clbss for b JbvbBebn specified by its type.
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-class InstanceFinder<T> {
+clbss InstbnceFinder<T> {
 
-    private static final String[] EMPTY = { };
+    privbte stbtic finbl String[] EMPTY = { };
 
-    private final Class<? extends T> type;
-    private final boolean allow;
-    private final String suffix;
-    private volatile String[] packages;
+    privbte finbl Clbss<? extends T> type;
+    privbte finbl boolebn bllow;
+    privbte finbl String suffix;
+    privbte volbtile String[] pbckbges;
 
-    InstanceFinder(Class<? extends T> type, boolean allow, String suffix, String... packages) {
+    InstbnceFinder(Clbss<? extends T> type, boolebn bllow, String suffix, String... pbckbges) {
         this.type = type;
-        this.allow = allow;
+        this.bllow = bllow;
         this.suffix = suffix;
-        this.packages = packages.clone();
+        this.pbckbges = pbckbges.clone();
     }
 
-    public String[] getPackages() {
-        return this.packages.clone();
+    public String[] getPbckbges() {
+        return this.pbckbges.clone();
     }
 
-    public void setPackages(String... packages) {
-        this.packages = (packages != null) && (packages.length > 0)
-                ? packages.clone()
+    public void setPbckbges(String... pbckbges) {
+        this.pbckbges = (pbckbges != null) && (pbckbges.length > 0)
+                ? pbckbges.clone()
                 : EMPTY;
     }
 
-    public T find(Class<?> type) {
+    public T find(Clbss<?> type) {
         if (type == null) {
             return null;
         }
-        String name = type.getName() + this.suffix;
-        T object = instantiate(type, name);
+        String nbme = type.getNbme() + this.suffix;
+        T object = instbntibte(type, nbme);
         if (object != null) {
             return object;
         }
-        if (this.allow) {
-            object = instantiate(type, null);
+        if (this.bllow) {
+            object = instbntibte(type, null);
             if (object != null) {
                 return object;
             }
         }
-        int index = name.lastIndexOf('.') + 1;
+        int index = nbme.lbstIndexOf('.') + 1;
         if (index > 0) {
-            name = name.substring(index);
+            nbme = nbme.substring(index);
         }
-        for (String prefix : this.packages) {
-            object = instantiate(type, prefix, name);
+        for (String prefix : this.pbckbges) {
+            object = instbntibte(type, prefix, nbme);
             if (object != null) {
                 return object;
             }
@@ -86,26 +86,26 @@ class InstanceFinder<T> {
         return null;
     }
 
-    protected T instantiate(Class<?> type, String name) {
+    protected T instbntibte(Clbss<?> type, String nbme) {
         if (type != null) {
             try {
-                if (name != null) {
-                    type = ClassFinder.findClass(name, type.getClassLoader());
+                if (nbme != null) {
+                    type = ClbssFinder.findClbss(nbme, type.getClbssLobder());
                 }
-                if (this.type.isAssignableFrom(type)) {
-                    @SuppressWarnings("unchecked")
-                    T tmp = (T) type.newInstance();
+                if (this.type.isAssignbbleFrom(type)) {
+                    @SuppressWbrnings("unchecked")
+                    T tmp = (T) type.newInstbnce();
                     return tmp;
                 }
             }
-            catch (Exception exception) {
-                // ignore any exceptions
+            cbtch (Exception exception) {
+                // ignore bny exceptions
             }
         }
         return null;
     }
 
-    protected T instantiate(Class<?> type, String prefix, String name) {
-        return instantiate(type, prefix + '.' + name);
+    protected T instbntibte(Clbss<?> type, String prefix, String nbme) {
+        return instbntibte(type, prefix + '.' + nbme);
     }
 }

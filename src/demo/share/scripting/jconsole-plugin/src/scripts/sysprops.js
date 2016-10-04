@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,59 +30,59 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
- * This file defines 'sysprops' function to print Java System
- * properties.'sysprops' function which can be called once or periodically 
- * from a timer thread (calling it periodically would slow down the target
- * application). To call this once, just call 'sysprops()' in script
- * console prompt. To call sysprops in a timer thread, you can use
+ * This file defines 'sysprops' function to print Jbvb System
+ * properties.'sysprops' function which cbn be cblled once or periodicblly 
+ * from b timer threbd (cblling it periodicblly would slow down the tbrget
+ * bpplicbtion). To cbll this once, just cbll 'sysprops()' in script
+ * console prompt. To cbll sysprops in b timer threbd, you cbn use
  *
- *     var t = setInterval(function () { sysprops(print); }, 5000);
+ *     vbr t = setIntervbl(function () { sysprops(print); }, 5000);
  *
- * The above call prints threads in sorted order for every 5 seconds.
- * The print output goes to OS console window from which jconsole was 
- * started. The timer can be cancelled later by clearTimeout() function
- * as shown below:
+ * The bbove cbll prints threbds in sorted order for every 5 seconds.
+ * The print output goes to OS console window from which jconsole wbs 
+ * stbrted. The timer cbn be cbncelled lbter by clebrTimeout() function
+ * bs shown below:
  * 
- *     clearInterval(t);
+ *     clebrIntervbl(t);
  */
 
 
 /**
- * Returns System properties as a Map
+ * Returns System properties bs b Mbp
  */
 function getSystemProps() {
-    var runtimeBean = newPlatformMXBeanProxy(
-                "java.lang:type=Runtime",
-                java.lang.management.RuntimeMXBean.class);
-    return runtimeBean.systemProperties;
+    vbr runtimeBebn = newPlbtformMXBebnProxy(
+                "jbvb.lbng:type=Runtime",
+                jbvb.lbng.mbnbgement.RuntimeMXBebn.clbss);
+    return runtimeBebn.systemProperties;
 }
 
 /**
  * print System properties
  *
- * @param printFunc function called to print [optional]
+ * @pbrbm printFunc function cblled to print [optionbl]
  */
 function sysprops(printFunc) {
-    // by default use 'echo' to print. Other choices could be
-    // 'print' or custom function that writes in a text file
+    // by defbult use 'echo' to print. Other choices could be
+    // 'print' or custom function thbt writes in b text file
     if (printFunc == undefined) {
         printFunc = echo;
     }
 
-    var map = getSystemProps();
-    var keys = map.keySet().iterator();
-    while (keys.hasNext()) {
-        var key = keys.next();
-        var value = map.get(key);
-        printFunc(key + "=" + value);
+    vbr mbp = getSystemProps();
+    vbr keys = mbp.keySet().iterbtor();
+    while (keys.hbsNext()) {
+        vbr key = keys.next();
+        vbr vblue = mbp.get(key);
+        printFunc(key + "=" + vblue);
     }
 }

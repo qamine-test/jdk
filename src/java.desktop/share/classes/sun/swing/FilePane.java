@@ -1,212 +1,212 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.swing;
+pbckbge sun.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.*;
-import java.text.DateFormat;
-import java.text.MessageFormat;
-import java.util.*;
-import java.util.List;
-import java.util.concurrent.Callable;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.io.*;
+import jbvb.text.DbteFormbt;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.*;
+import jbvb.util.List;
+import jbvb.util.concurrent.Cbllbble;
 
-import javax.accessibility.AccessibleContext;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.filechooser.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.table.*;
-import javax.swing.text.*;
+import jbvbx.bccessibility.AccessibleContext;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.filechooser.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.tbble.*;
+import jbvbx.swing.text.*;
 
-import sun.awt.shell.*;
+import sun.bwt.shell.*;
 
 /**
- * <b>WARNING:</b> This class is an implementation detail and is only
- * public so that it can be used by two packages. You should NOT consider
+ * <b>WARNING:</b> This clbss is bn implementbtion detbil bnd is only
+ * public so thbt it cbn be used by two pbckbges. You should NOT consider
  * this public API.
  * <p>
- * This component is intended to be used in a subclass of
- * javax.swing.plaf.basic.BasicFileChooserUI. It realies heavily on the
- * implementation of BasicFileChooserUI, and is intended to be API compatible
- * with earlier implementations of MetalFileChooserUI and WindowsFileChooserUI.
+ * This component is intended to be used in b subclbss of
+ * jbvbx.swing.plbf.bbsic.BbsicFileChooserUI. It reblies hebvily on the
+ * implementbtion of BbsicFileChooserUI, bnd is intended to be API compbtible
+ * with ebrlier implementbtions of MetblFileChooserUI bnd WindowsFileChooserUI.
  *
- * @author Leif Samuelsson
+ * @buthor Leif Sbmuelsson
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public class FilePane extends JPanel implements PropertyChangeListener {
-    // Constants for actions. These are used for the actions' ACTION_COMMAND_KEY
-    // and as keys in the action maps for FilePane and the corresponding UI classes
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+public clbss FilePbne extends JPbnel implements PropertyChbngeListener {
+    // Constbnts for bctions. These bre used for the bctions' ACTION_COMMAND_KEY
+    // bnd bs keys in the bction mbps for FilePbne bnd the corresponding UI clbsses
 
-    public final static String ACTION_APPROVE_SELECTION = "approveSelection";
-    public final static String ACTION_CANCEL            = "cancelSelection";
-    public final static String ACTION_EDIT_FILE_NAME    = "editFileName";
-    public final static String ACTION_REFRESH           = "refresh";
-    public final static String ACTION_CHANGE_TO_PARENT_DIRECTORY = "Go Up";
-    public final static String ACTION_NEW_FOLDER        = "New Folder";
-    public final static String ACTION_VIEW_LIST         = "viewTypeList";
-    public final static String ACTION_VIEW_DETAILS      = "viewTypeDetails";
+    public finbl stbtic String ACTION_APPROVE_SELECTION = "bpproveSelection";
+    public finbl stbtic String ACTION_CANCEL            = "cbncelSelection";
+    public finbl stbtic String ACTION_EDIT_FILE_NAME    = "editFileNbme";
+    public finbl stbtic String ACTION_REFRESH           = "refresh";
+    public finbl stbtic String ACTION_CHANGE_TO_PARENT_DIRECTORY = "Go Up";
+    public finbl stbtic String ACTION_NEW_FOLDER        = "New Folder";
+    public finbl stbtic String ACTION_VIEW_LIST         = "viewTypeList";
+    public finbl stbtic String ACTION_VIEW_DETAILS      = "viewTypeDetbils";
 
-    private Action[] actions;
+    privbte Action[] bctions;
 
     // "enums" for setViewType()
-    public  static final int VIEWTYPE_LIST     = 0;
-    public  static final int VIEWTYPE_DETAILS  = 1;
-    private static final int VIEWTYPE_COUNT    = 2;
+    public  stbtic finbl int VIEWTYPE_LIST     = 0;
+    public  stbtic finbl int VIEWTYPE_DETAILS  = 1;
+    privbte stbtic finbl int VIEWTYPE_COUNT    = 2;
 
-    private int viewType = -1;
-    private JPanel[] viewPanels = new JPanel[VIEWTYPE_COUNT];
-    private JPanel currentViewPanel;
-    private String[] viewTypeActionNames;
+    privbte int viewType = -1;
+    privbte JPbnel[] viewPbnels = new JPbnel[VIEWTYPE_COUNT];
+    privbte JPbnel currentViewPbnel;
+    privbte String[] viewTypeActionNbmes;
 
-    private String filesListAccessibleName = null;
-    private String filesDetailsAccessibleName = null;
+    privbte String filesListAccessibleNbme = null;
+    privbte String filesDetbilsAccessibleNbme = null;
 
-    private JPopupMenu contextMenu;
-    private JMenu viewMenu;
+    privbte JPopupMenu contextMenu;
+    privbte JMenu viewMenu;
 
-    private String viewMenuLabelText;
-    private String refreshActionLabelText;
-    private String newFolderActionLabelText;
+    privbte String viewMenuLbbelText;
+    privbte String refreshActionLbbelText;
+    privbte String newFolderActionLbbelText;
 
-    private String kiloByteString;
-    private String megaByteString;
-    private String gigaByteString;
+    privbte String kiloByteString;
+    privbte String megbByteString;
+    privbte String gigbByteString;
 
-    private String renameErrorTitleText;
-    private String renameErrorText;
-    private String renameErrorFileExistsText;
+    privbte String renbmeErrorTitleText;
+    privbte String renbmeErrorText;
+    privbte String renbmeErrorFileExistsText;
 
-    private static final Cursor waitCursor =
+    privbte stbtic finbl Cursor wbitCursor =
         Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
 
-    private final KeyListener detailsKeyListener = new KeyAdapter() {
-        private final long timeFactor;
+    privbte finbl KeyListener detbilsKeyListener = new KeyAdbpter() {
+        privbte finbl long timeFbctor;
 
-        private final StringBuilder typedString = new StringBuilder();
+        privbte finbl StringBuilder typedString = new StringBuilder();
 
-        private long lastTime = 1000L;
+        privbte long lbstTime = 1000L;
 
         {
-            Long l = (Long) UIManager.get("Table.timeFactor");
-            timeFactor = (l != null) ? l : 1000L;
+            Long l = (Long) UIMbnbger.get("Tbble.timeFbctor");
+            timeFbctor = (l != null) ? l : 1000L;
         }
 
         /**
-         * Moves the keyboard focus to the first element whose prefix matches
-         * the sequence of alphanumeric keys pressed by the user with delay
-         * less than value of <code>timeFactor</code>. Subsequent same key
-         * presses move the keyboard focus to the next object that starts with
-         * the same letter until another key is pressed, then it is treated
-         * as the prefix with appropriate number of the same letters followed
-         * by first typed another letter.
+         * Moves the keybobrd focus to the first element whose prefix mbtches
+         * the sequence of blphbnumeric keys pressed by the user with delby
+         * less thbn vblue of <code>timeFbctor</code>. Subsequent sbme key
+         * presses move the keybobrd focus to the next object thbt stbrts with
+         * the sbme letter until bnother key is pressed, then it is trebted
+         * bs the prefix with bppropribte number of the sbme letters followed
+         * by first typed bnother letter.
          */
         public void keyTyped(KeyEvent e) {
-            BasicDirectoryModel model = getModel();
+            BbsicDirectoryModel model = getModel();
             int rowCount = model.getSize();
 
-            if (detailsTable == null || rowCount == 0 ||
-                    e.isAltDown() || e.isControlDown() || e.isMetaDown()) {
+            if (detbilsTbble == null || rowCount == 0 ||
+                    e.isAltDown() || e.isControlDown() || e.isMetbDown()) {
                 return;
             }
 
-            InputMap inputMap = detailsTable.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+            InputMbp inputMbp = detbilsTbble.getInputMbp(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
             KeyStroke key = KeyStroke.getKeyStrokeForEvent(e);
 
-            if (inputMap != null && inputMap.get(key) != null) {
+            if (inputMbp != null && inputMbp.get(key) != null) {
                 return;
             }
 
-            int startIndex = detailsTable.getSelectionModel().getLeadSelectionIndex();
+            int stbrtIndex = detbilsTbble.getSelectionModel().getLebdSelectionIndex();
 
-            if (startIndex < 0) {
-                startIndex = 0;
+            if (stbrtIndex < 0) {
+                stbrtIndex = 0;
             }
 
-            if (startIndex >= rowCount) {
-                startIndex = rowCount - 1;
+            if (stbrtIndex >= rowCount) {
+                stbrtIndex = rowCount - 1;
             }
 
-            char c = e.getKeyChar();
+            chbr c = e.getKeyChbr();
 
             long time = e.getWhen();
 
-            if (time - lastTime < timeFactor) {
-                if (typedString.length() == 1 && typedString.charAt(0) == c) {
-                    // Subsequent same key presses move the keyboard focus to the next
-                    // object that starts with the same letter.
-                    startIndex++;
+            if (time - lbstTime < timeFbctor) {
+                if (typedString.length() == 1 && typedString.chbrAt(0) == c) {
+                    // Subsequent sbme key presses move the keybobrd focus to the next
+                    // object thbt stbrts with the sbme letter.
+                    stbrtIndex++;
                 } else {
-                    typedString.append(c);
+                    typedString.bppend(c);
                 }
             } else {
-                startIndex++;
+                stbrtIndex++;
 
                 typedString.setLength(0);
-                typedString.append(c);
+                typedString.bppend(c);
             }
 
-            lastTime = time;
+            lbstTime = time;
 
-            if (startIndex >= rowCount) {
-                startIndex = 0;
+            if (stbrtIndex >= rowCount) {
+                stbrtIndex = 0;
             }
 
             // Find next file
-            int index = getNextMatch(startIndex, rowCount - 1);
+            int index = getNextMbtch(stbrtIndex, rowCount - 1);
 
-            if (index < 0 && startIndex > 0) { // wrap
-                index = getNextMatch(0, startIndex - 1);
+            if (index < 0 && stbrtIndex > 0) { // wrbp
+                index = getNextMbtch(0, stbrtIndex - 1);
             }
 
             if (index >= 0) {
-                detailsTable.getSelectionModel().setSelectionInterval(index, index);
+                detbilsTbble.getSelectionModel().setSelectionIntervbl(index, index);
 
-                Rectangle cellRect = detailsTable.getCellRect(index,
-                        detailsTable.convertColumnIndexToView(COLUMN_FILENAME), false);
-                detailsTable.scrollRectToVisible(cellRect);
+                Rectbngle cellRect = detbilsTbble.getCellRect(index,
+                        detbilsTbble.convertColumnIndexToView(COLUMN_FILENAME), fblse);
+                detbilsTbble.scrollRectToVisible(cellRect);
             }
         }
 
-        private int getNextMatch(int startIndex, int finishIndex) {
-            BasicDirectoryModel model = getModel();
+        privbte int getNextMbtch(int stbrtIndex, int finishIndex) {
+            BbsicDirectoryModel model = getModel();
             JFileChooser fileChooser = getFileChooser();
-            DetailsTableRowSorter rowSorter = getRowSorter();
+            DetbilsTbbleRowSorter rowSorter = getRowSorter();
 
-            String prefix = typedString.toString().toLowerCase();
+            String prefix = typedString.toString().toLowerCbse();
 
-            // Search element
-            for (int index = startIndex; index <= finishIndex; index++) {
+            // Sebrch element
+            for (int index = stbrtIndex; index <= finishIndex; index++) {
                 File file = (File) model.getElementAt(rowSorter.convertRowIndexToModel(index));
 
-                String fileName = fileChooser.getName(file).toLowerCase();
+                String fileNbme = fileChooser.getNbme(file).toLowerCbse();
 
-                if (fileName.startsWith(prefix)) {
+                if (fileNbme.stbrtsWith(prefix)) {
                     return index;
                 }
             }
@@ -215,89 +215,89 @@ public class FilePane extends JPanel implements PropertyChangeListener {
         }
     };
 
-    private FocusListener editorFocusListener = new FocusAdapter() {
+    privbte FocusListener editorFocusListener = new FocusAdbpter() {
         public void focusLost(FocusEvent e) {
-            if (! e.isTemporary()) {
-                applyEdit();
+            if (! e.isTemporbry()) {
+                bpplyEdit();
             }
         }
     };
 
-    private static FocusListener repaintListener = new FocusListener() {
-        public void focusGained(FocusEvent fe) {
-            repaintSelection(fe.getSource());
+    privbte stbtic FocusListener repbintListener = new FocusListener() {
+        public void focusGbined(FocusEvent fe) {
+            repbintSelection(fe.getSource());
         }
 
         public void focusLost(FocusEvent fe) {
-            repaintSelection(fe.getSource());
+            repbintSelection(fe.getSource());
         }
 
-        private void repaintSelection(Object source) {
-            if (source instanceof JList) {
-                repaintListSelection((JList)source);
-            } else if (source instanceof JTable) {
-                repaintTableSelection((JTable)source);
+        privbte void repbintSelection(Object source) {
+            if (source instbnceof JList) {
+                repbintListSelection((JList)source);
+            } else if (source instbnceof JTbble) {
+                repbintTbbleSelection((JTbble)source);
             }
         }
 
-        private void repaintListSelection(JList<?> list) {
+        privbte void repbintListSelection(JList<?> list) {
             int[] indices = list.getSelectedIndices();
             for (int i : indices) {
-                Rectangle bounds = list.getCellBounds(i, i);
-                list.repaint(bounds);
+                Rectbngle bounds = list.getCellBounds(i, i);
+                list.repbint(bounds);
             }
         }
 
-        private void repaintTableSelection(JTable table) {
-            int minRow = table.getSelectionModel().getMinSelectionIndex();
-            int maxRow = table.getSelectionModel().getMaxSelectionIndex();
-            if (minRow == -1 || maxRow == -1) {
+        privbte void repbintTbbleSelection(JTbble tbble) {
+            int minRow = tbble.getSelectionModel().getMinSelectionIndex();
+            int mbxRow = tbble.getSelectionModel().getMbxSelectionIndex();
+            if (minRow == -1 || mbxRow == -1) {
                 return;
             }
 
-            int col0 = table.convertColumnIndexToView(COLUMN_FILENAME);
+            int col0 = tbble.convertColumnIndexToView(COLUMN_FILENAME);
 
-            Rectangle first = table.getCellRect(minRow, col0, false);
-            Rectangle last = table.getCellRect(maxRow, col0, false);
-            Rectangle dirty = first.union(last);
-            table.repaint(dirty);
+            Rectbngle first = tbble.getCellRect(minRow, col0, fblse);
+            Rectbngle lbst = tbble.getCellRect(mbxRow, col0, fblse);
+            Rectbngle dirty = first.union(lbst);
+            tbble.repbint(dirty);
         }
     };
 
-    private boolean smallIconsView = false;
-    private Border  listViewBorder;
-    private Color   listViewBackground;
-    private boolean listViewWindowsStyle;
-    private boolean readOnly;
-    private boolean fullRowSelection = false;
+    privbte boolebn smbllIconsView = fblse;
+    privbte Border  listViewBorder;
+    privbte Color   listViewBbckground;
+    privbte boolebn listViewWindowsStyle;
+    privbte boolebn rebdOnly;
+    privbte boolebn fullRowSelection = fblse;
 
-    private ListSelectionModel listSelectionModel;
-    private JList<?> list;
-    private JTable detailsTable;
+    privbte ListSelectionModel listSelectionModel;
+    privbte JList<?> list;
+    privbte JTbble detbilsTbble;
 
-    private static final int COLUMN_FILENAME = 0;
+    privbte stbtic finbl int COLUMN_FILENAME = 0;
 
-    // Provides a way to recognize a newly created folder, so it can
-    // be selected when it appears in the model.
-    private File newFolderFile;
+    // Provides b wby to recognize b newly crebted folder, so it cbn
+    // be selected when it bppebrs in the model.
+    privbte File newFolderFile;
 
-    // Used for accessing methods in the corresponding UI class
-    private FileChooserUIAccessor fileChooserUIAccessor;
-    private DetailsTableModel detailsTableModel;
-    private DetailsTableRowSorter rowSorter;
+    // Used for bccessing methods in the corresponding UI clbss
+    privbte FileChooserUIAccessor fileChooserUIAccessor;
+    privbte DetbilsTbbleModel detbilsTbbleModel;
+    privbte DetbilsTbbleRowSorter rowSorter;
 
-    public FilePane(FileChooserUIAccessor fileChooserUIAccessor) {
-        super(new BorderLayout());
+    public FilePbne(FileChooserUIAccessor fileChooserUIAccessor) {
+        super(new BorderLbyout());
 
         this.fileChooserUIAccessor = fileChooserUIAccessor;
 
-        installDefaults();
-        createActionMap();
+        instbllDefbults();
+        crebteActionMbp();
     }
 
-    public void uninstallUI() {
+    public void uninstbllUI() {
         if (getModel() != null) {
-            getModel().removePropertyChangeListener(this);
+            getModel().removePropertyChbngeListener(this);
         }
     }
 
@@ -305,7 +305,7 @@ public class FilePane extends JPanel implements PropertyChangeListener {
         return fileChooserUIAccessor.getFileChooser();
     }
 
-    protected BasicDirectoryModel getModel() {
+    protected BbsicDirectoryModel getModel() {
         return fileChooserUIAccessor.getModel();
     }
 
@@ -318,98 +318,98 @@ public class FilePane extends JPanel implements PropertyChangeListener {
             return;
         }
 
-        int oldValue = this.viewType;
+        int oldVblue = this.viewType;
         this.viewType = viewType;
 
-        JPanel createdViewPanel = null;
+        JPbnel crebtedViewPbnel = null;
         Component newFocusOwner = null;
 
         switch (viewType) {
-          case VIEWTYPE_LIST:
-            if (viewPanels[viewType] == null) {
-                createdViewPanel = fileChooserUIAccessor.createList();
-                if (createdViewPanel == null) {
-                    createdViewPanel = createList();
+          cbse VIEWTYPE_LIST:
+            if (viewPbnels[viewType] == null) {
+                crebtedViewPbnel = fileChooserUIAccessor.crebteList();
+                if (crebtedViewPbnel == null) {
+                    crebtedViewPbnel = crebteList();
                 }
 
-                list = findChildComponent(createdViewPanel, JList.class);
+                list = findChildComponent(crebtedViewPbnel, JList.clbss);
                 if (listSelectionModel == null) {
                     listSelectionModel = list.getSelectionModel();
-                    if (detailsTable != null) {
-                        detailsTable.setSelectionModel(listSelectionModel);
+                    if (detbilsTbble != null) {
+                        detbilsTbble.setSelectionModel(listSelectionModel);
                     }
                 } else {
                     list.setSelectionModel(listSelectionModel);
                 }
             }
-            list.setLayoutOrientation(JList.VERTICAL_WRAP);
+            list.setLbyoutOrientbtion(JList.VERTICAL_WRAP);
             newFocusOwner = list;
-            break;
+            brebk;
 
-          case VIEWTYPE_DETAILS:
-            if (viewPanels[viewType] == null) {
-                createdViewPanel = fileChooserUIAccessor.createDetailsView();
-                if (createdViewPanel == null) {
-                    createdViewPanel = createDetailsView();
+          cbse VIEWTYPE_DETAILS:
+            if (viewPbnels[viewType] == null) {
+                crebtedViewPbnel = fileChooserUIAccessor.crebteDetbilsView();
+                if (crebtedViewPbnel == null) {
+                    crebtedViewPbnel = crebteDetbilsView();
                 }
 
-                detailsTable = findChildComponent(createdViewPanel, JTable.class);
-                detailsTable.setRowHeight(Math.max(detailsTable.getFont().getSize() + 4, 16 + 1));
+                detbilsTbble = findChildComponent(crebtedViewPbnel, JTbble.clbss);
+                detbilsTbble.setRowHeight(Mbth.mbx(detbilsTbble.getFont().getSize() + 4, 16 + 1));
                 if (listSelectionModel != null) {
-                    detailsTable.setSelectionModel(listSelectionModel);
+                    detbilsTbble.setSelectionModel(listSelectionModel);
                 }
             }
-            newFocusOwner = detailsTable;
-            break;
+            newFocusOwner = detbilsTbble;
+            brebk;
         }
 
-        if (createdViewPanel != null) {
-            viewPanels[viewType] = createdViewPanel;
-            recursivelySetInheritsPopupMenu(createdViewPanel, true);
+        if (crebtedViewPbnel != null) {
+            viewPbnels[viewType] = crebtedViewPbnel;
+            recursivelySetInheritsPopupMenu(crebtedViewPbnel, true);
         }
 
-        boolean isFocusOwner = false;
+        boolebn isFocusOwner = fblse;
 
-        if (currentViewPanel != null) {
-            Component owner = DefaultKeyboardFocusManager.
-                    getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+        if (currentViewPbnel != null) {
+            Component owner = DefbultKeybobrdFocusMbnbger.
+                    getCurrentKeybobrdFocusMbnbger().getPermbnentFocusOwner();
 
-            isFocusOwner = owner == detailsTable || owner == list;
+            isFocusOwner = owner == detbilsTbble || owner == list;
 
-            remove(currentViewPanel);
+            remove(currentViewPbnel);
         }
 
-        currentViewPanel = viewPanels[viewType];
-        add(currentViewPanel, BorderLayout.CENTER);
+        currentViewPbnel = viewPbnels[viewType];
+        bdd(currentViewPbnel, BorderLbyout.CENTER);
 
         if (isFocusOwner && newFocusOwner != null) {
             newFocusOwner.requestFocusInWindow();
         }
 
-        revalidate();
-        repaint();
-        updateViewMenu();
-        firePropertyChange("viewType", oldValue, viewType);
+        revblidbte();
+        repbint();
+        updbteViewMenu();
+        firePropertyChbnge("viewType", oldVblue, viewType);
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    class ViewTypeAction extends AbstractAction {
-        private int viewType;
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    clbss ViewTypeAction extends AbstrbctAction {
+        privbte int viewType;
 
         ViewTypeAction(int viewType) {
-            super(viewTypeActionNames[viewType]);
+            super(viewTypeActionNbmes[viewType]);
             this.viewType = viewType;
 
             String cmd;
             switch (viewType) {
-                case VIEWTYPE_LIST:    cmd = ACTION_VIEW_LIST;    break;
-                case VIEWTYPE_DETAILS: cmd = ACTION_VIEW_DETAILS; break;
-                default:               cmd = (String)getValue(Action.NAME);
+                cbse VIEWTYPE_LIST:    cmd = ACTION_VIEW_LIST;    brebk;
+                cbse VIEWTYPE_DETAILS: cmd = ACTION_VIEW_DETAILS; brebk;
+                defbult:               cmd = (String)getVblue(Action.NAME);
             }
-            putValue(Action.ACTION_COMMAND_KEY, cmd);
+            putVblue(Action.ACTION_COMMAND_KEY, cmd);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             setViewType(viewType);
         }
     }
@@ -418,182 +418,182 @@ public class FilePane extends JPanel implements PropertyChangeListener {
         return new ViewTypeAction(viewType);
     }
 
-    private static void recursivelySetInheritsPopupMenu(Container container, boolean b) {
-        if (container instanceof JComponent) {
-            ((JComponent)container).setInheritsPopupMenu(b);
+    privbte stbtic void recursivelySetInheritsPopupMenu(Contbiner contbiner, boolebn b) {
+        if (contbiner instbnceof JComponent) {
+            ((JComponent)contbiner).setInheritsPopupMenu(b);
         }
-        int n = container.getComponentCount();
+        int n = contbiner.getComponentCount();
         for (int i = 0; i < n; i++) {
-            recursivelySetInheritsPopupMenu((Container)container.getComponent(i), b);
+            recursivelySetInheritsPopupMenu((Contbiner)contbiner.getComponent(i), b);
         }
     }
 
-    protected void installDefaults() {
-        Locale l = getFileChooser().getLocale();
+    protected void instbllDefbults() {
+        Locble l = getFileChooser().getLocble();
 
-        listViewBorder       = UIManager.getBorder("FileChooser.listViewBorder");
-        listViewBackground   = UIManager.getColor("FileChooser.listViewBackground");
-        listViewWindowsStyle = UIManager.getBoolean("FileChooser.listViewWindowsStyle");
-        readOnly             = UIManager.getBoolean("FileChooser.readOnly");
+        listViewBorder       = UIMbnbger.getBorder("FileChooser.listViewBorder");
+        listViewBbckground   = UIMbnbger.getColor("FileChooser.listViewBbckground");
+        listViewWindowsStyle = UIMbnbger.getBoolebn("FileChooser.listViewWindowsStyle");
+        rebdOnly             = UIMbnbger.getBoolebn("FileChooser.rebdOnly");
 
-        // TODO: On windows, get the following localized strings from the OS
+        // TODO: On windows, get the following locblized strings from the OS
 
-        viewMenuLabelText =
-                        UIManager.getString("FileChooser.viewMenuLabelText", l);
-        refreshActionLabelText =
-                        UIManager.getString("FileChooser.refreshActionLabelText", l);
-        newFolderActionLabelText =
-                        UIManager.getString("FileChooser.newFolderActionLabelText", l);
+        viewMenuLbbelText =
+                        UIMbnbger.getString("FileChooser.viewMenuLbbelText", l);
+        refreshActionLbbelText =
+                        UIMbnbger.getString("FileChooser.refreshActionLbbelText", l);
+        newFolderActionLbbelText =
+                        UIMbnbger.getString("FileChooser.newFolderActionLbbelText", l);
 
-        viewTypeActionNames = new String[VIEWTYPE_COUNT];
-        viewTypeActionNames[VIEWTYPE_LIST] =
-                        UIManager.getString("FileChooser.listViewActionLabelText", l);
-        viewTypeActionNames[VIEWTYPE_DETAILS] =
-                        UIManager.getString("FileChooser.detailsViewActionLabelText", l);
+        viewTypeActionNbmes = new String[VIEWTYPE_COUNT];
+        viewTypeActionNbmes[VIEWTYPE_LIST] =
+                        UIMbnbger.getString("FileChooser.listViewActionLbbelText", l);
+        viewTypeActionNbmes[VIEWTYPE_DETAILS] =
+                        UIMbnbger.getString("FileChooser.detbilsViewActionLbbelText", l);
 
-        kiloByteString = UIManager.getString("FileChooser.fileSizeKiloBytes", l);
-        megaByteString = UIManager.getString("FileChooser.fileSizeMegaBytes", l);
-        gigaByteString = UIManager.getString("FileChooser.fileSizeGigaBytes", l);
-        fullRowSelection = UIManager.getBoolean("FileView.fullRowSelection");
+        kiloByteString = UIMbnbger.getString("FileChooser.fileSizeKiloBytes", l);
+        megbByteString = UIMbnbger.getString("FileChooser.fileSizeMegbBytes", l);
+        gigbByteString = UIMbnbger.getString("FileChooser.fileSizeGigbBytes", l);
+        fullRowSelection = UIMbnbger.getBoolebn("FileView.fullRowSelection");
 
-        filesListAccessibleName = UIManager.getString("FileChooser.filesListAccessibleName", l);
-        filesDetailsAccessibleName = UIManager.getString("FileChooser.filesDetailsAccessibleName", l);
+        filesListAccessibleNbme = UIMbnbger.getString("FileChooser.filesListAccessibleNbme", l);
+        filesDetbilsAccessibleNbme = UIMbnbger.getString("FileChooser.filesDetbilsAccessibleNbme", l);
 
-        renameErrorTitleText = UIManager.getString("FileChooser.renameErrorTitleText", l);
-        renameErrorText = UIManager.getString("FileChooser.renameErrorText", l);
-        renameErrorFileExistsText = UIManager.getString("FileChooser.renameErrorFileExistsText", l);
+        renbmeErrorTitleText = UIMbnbger.getString("FileChooser.renbmeErrorTitleText", l);
+        renbmeErrorText = UIMbnbger.getString("FileChooser.renbmeErrorText", l);
+        renbmeErrorFileExistsText = UIMbnbger.getString("FileChooser.renbmeErrorFileExistsText", l);
     }
 
     /**
-     * Fetches the command list for the FilePane. These commands
-     * are useful for binding to events, such as in a keymap.
+     * Fetches the commbnd list for the FilePbne. These commbnds
+     * bre useful for binding to events, such bs in b keymbp.
      *
-     * @return the command list
+     * @return the commbnd list
      */
     public Action[] getActions() {
-        if (actions == null) {
-            @SuppressWarnings("serial") // JDK-implementation class
-            class FilePaneAction extends AbstractAction {
-                FilePaneAction(String name) {
-                    this(name, name);
+        if (bctions == null) {
+            @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+            clbss FilePbneAction extends AbstrbctAction {
+                FilePbneAction(String nbme) {
+                    this(nbme, nbme);
                 }
 
-                FilePaneAction(String name, String cmd) {
-                    super(name);
-                    putValue(Action.ACTION_COMMAND_KEY, cmd);
+                FilePbneAction(String nbme, String cmd) {
+                    super(nbme);
+                    putVblue(Action.ACTION_COMMAND_KEY, cmd);
                 }
 
-                public void actionPerformed(ActionEvent e) {
-                    String cmd = (String)getValue(Action.ACTION_COMMAND_KEY);
+                public void bctionPerformed(ActionEvent e) {
+                    String cmd = (String)getVblue(Action.ACTION_COMMAND_KEY);
 
                     if (cmd == ACTION_CANCEL) {
                         if (editFile != null) {
-                           cancelEdit();
+                           cbncelEdit();
                         } else {
-                           getFileChooser().cancelSelection();
+                           getFileChooser().cbncelSelection();
                         }
                     } else if (cmd == ACTION_EDIT_FILE_NAME) {
                         JFileChooser fc = getFileChooser();
                         int index = listSelectionModel.getMinSelectionIndex();
                         if (index >= 0 && editFile == null &&
-                            (!fc.isMultiSelectionEnabled() ||
+                            (!fc.isMultiSelectionEnbbled() ||
                              fc.getSelectedFiles().length <= 1)) {
 
-                            editFileName(index);
+                            editFileNbme(index);
                         }
                     } else if (cmd == ACTION_REFRESH) {
-                        getFileChooser().rescanCurrentDirectory();
+                        getFileChooser().rescbnCurrentDirectory();
                     }
                 }
 
-                public boolean isEnabled() {
-                    String cmd = (String)getValue(Action.ACTION_COMMAND_KEY);
+                public boolebn isEnbbled() {
+                    String cmd = (String)getVblue(Action.ACTION_COMMAND_KEY);
                     if (cmd == ACTION_CANCEL) {
-                        return getFileChooser().isEnabled();
+                        return getFileChooser().isEnbbled();
                     } else if (cmd == ACTION_EDIT_FILE_NAME) {
-                        return !readOnly && getFileChooser().isEnabled();
+                        return !rebdOnly && getFileChooser().isEnbbled();
                     } else {
                         return true;
                     }
                 }
             }
 
-            ArrayList<Action> actionList = new ArrayList<Action>(8);
-            Action action;
+            ArrbyList<Action> bctionList = new ArrbyList<Action>(8);
+            Action bction;
 
-            actionList.add(new FilePaneAction(ACTION_CANCEL));
-            actionList.add(new FilePaneAction(ACTION_EDIT_FILE_NAME));
-            actionList.add(new FilePaneAction(refreshActionLabelText, ACTION_REFRESH));
+            bctionList.bdd(new FilePbneAction(ACTION_CANCEL));
+            bctionList.bdd(new FilePbneAction(ACTION_EDIT_FILE_NAME));
+            bctionList.bdd(new FilePbneAction(refreshActionLbbelText, ACTION_REFRESH));
 
-            action = fileChooserUIAccessor.getApproveSelectionAction();
-            if (action != null) {
-                actionList.add(action);
+            bction = fileChooserUIAccessor.getApproveSelectionAction();
+            if (bction != null) {
+                bctionList.bdd(bction);
             }
-            action = fileChooserUIAccessor.getChangeToParentDirectoryAction();
-            if (action != null) {
-                actionList.add(action);
+            bction = fileChooserUIAccessor.getChbngeToPbrentDirectoryAction();
+            if (bction != null) {
+                bctionList.bdd(bction);
             }
-            action = getNewFolderAction();
-            if (action != null) {
-                actionList.add(action);
+            bction = getNewFolderAction();
+            if (bction != null) {
+                bctionList.bdd(bction);
             }
-            action = getViewTypeAction(VIEWTYPE_LIST);
-            if (action != null) {
-                actionList.add(action);
+            bction = getViewTypeAction(VIEWTYPE_LIST);
+            if (bction != null) {
+                bctionList.bdd(bction);
             }
-            action = getViewTypeAction(VIEWTYPE_DETAILS);
-            if (action != null) {
-                actionList.add(action);
+            bction = getViewTypeAction(VIEWTYPE_DETAILS);
+            if (bction != null) {
+                bctionList.bdd(bction);
             }
-            actions = actionList.toArray(new Action[actionList.size()]);
+            bctions = bctionList.toArrby(new Action[bctionList.size()]);
         }
 
-        return actions;
+        return bctions;
     }
 
-    protected void createActionMap() {
-        addActionsToMap(super.getActionMap(), getActions());
+    protected void crebteActionMbp() {
+        bddActionsToMbp(super.getActionMbp(), getActions());
     }
 
 
-    public static void addActionsToMap(ActionMap map, Action[] actions) {
-        if (map != null && actions != null) {
-            for (Action a : actions) {
-                String cmd = (String)a.getValue(Action.ACTION_COMMAND_KEY);
+    public stbtic void bddActionsToMbp(ActionMbp mbp, Action[] bctions) {
+        if (mbp != null && bctions != null) {
+            for (Action b : bctions) {
+                String cmd = (String)b.getVblue(Action.ACTION_COMMAND_KEY);
                 if (cmd == null) {
-                    cmd = (String)a.getValue(Action.NAME);
+                    cmd = (String)b.getVblue(Action.NAME);
                 }
-                map.put(cmd, a);
+                mbp.put(cmd, b);
             }
         }
     }
 
 
-    private void updateListRowCount(JList<?> list) {
-        if (smallIconsView) {
+    privbte void updbteListRowCount(JList<?> list) {
+        if (smbllIconsView) {
             list.setVisibleRowCount(getModel().getSize() / 3);
         } else {
             list.setVisibleRowCount(-1);
         }
     }
 
-    public JPanel createList() {
-        JPanel p = new JPanel(new BorderLayout());
-        final JFileChooser fileChooser = getFileChooser();
+    public JPbnel crebteList() {
+        JPbnel p = new JPbnel(new BorderLbyout());
+        finbl JFileChooser fileChooser = getFileChooser();
 
-        @SuppressWarnings("serial") // anonymous class
-        final JList<Object> list = new JList<Object>() {
-            public int getNextMatch(String prefix, int startIndex, Position.Bias bias) {
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        finbl JList<Object> list = new JList<Object>() {
+            public int getNextMbtch(String prefix, int stbrtIndex, Position.Bibs bibs) {
                 ListModel<?> model = getModel();
-                int max = model.getSize();
-                if (prefix == null || startIndex < 0 || startIndex >= max) {
-                    throw new IllegalArgumentException();
+                int mbx = model.getSize();
+                if (prefix == null || stbrtIndex < 0 || stbrtIndex >= mbx) {
+                    throw new IllegblArgumentException();
                 }
-                // start search from the next element before/after the selected element
-                boolean backwards = (bias == Position.Bias.Backward);
-                for (int i = startIndex; backwards ? i >= 0 : i < max; i += (backwards ?  -1 : 1)) {
-                    String filename = fileChooser.getName((File)model.getElementAt(i));
-                    if (filename.regionMatches(true, 0, prefix, 0, prefix.length())) {
+                // stbrt sebrch from the next element before/bfter the selected element
+                boolebn bbckwbrds = (bibs == Position.Bibs.Bbckwbrd);
+                for (int i = stbrtIndex; bbckwbrds ? i >= 0 : i < mbx; i += (bbckwbrds ?  -1 : 1)) {
+                    String filenbme = fileChooser.getNbme((File)model.getElementAt(i));
+                    if (filenbme.regionMbtches(true, 0, prefix, 0, prefix.length())) {
                         return i;
                     }
                 }
@@ -601,68 +601,68 @@ public class FilePane extends JPanel implements PropertyChangeListener {
             }
         };
         list.setCellRenderer(new FileRenderer());
-        list.setLayoutOrientation(JList.VERTICAL_WRAP);
+        list.setLbyoutOrientbtion(JList.VERTICAL_WRAP);
 
-        // 4835633 : tell BasicListUI that this is a file list
-        list.putClientProperty("List.isFileList", Boolean.TRUE);
+        // 4835633 : tell BbsicListUI thbt this is b file list
+        list.putClientProperty("List.isFileList", Boolebn.TRUE);
 
         if (listViewWindowsStyle) {
-            list.addFocusListener(repaintListener);
+            list.bddFocusListener(repbintListener);
         }
 
-        updateListRowCount(list);
+        updbteListRowCount(list);
 
-        getModel().addListDataListener(new ListDataListener() {
-            public void intervalAdded(ListDataEvent e) {
-                updateListRowCount(list);
+        getModel().bddListDbtbListener(new ListDbtbListener() {
+            public void intervblAdded(ListDbtbEvent e) {
+                updbteListRowCount(list);
             }
-            public void intervalRemoved(ListDataEvent e) {
-                updateListRowCount(list);
+            public void intervblRemoved(ListDbtbEvent e) {
+                updbteListRowCount(list);
             }
-            public void contentsChanged(ListDataEvent e) {
+            public void contentsChbnged(ListDbtbEvent e) {
                 if (isShowing()) {
-                    clearSelection();
+                    clebrSelection();
                 }
-                updateListRowCount(list);
+                updbteListRowCount(list);
             }
         });
 
-        getModel().addPropertyChangeListener(this);
+        getModel().bddPropertyChbngeListener(this);
 
-        if (fileChooser.isMultiSelectionEnabled()) {
+        if (fileChooser.isMultiSelectionEnbbled()) {
             list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         } else {
             list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         }
-        list.setModel(new SortableListModel());
+        list.setModel(new SortbbleListModel());
 
-        list.addListSelectionListener(createListSelectionListener());
-        list.addMouseListener(getMouseHandler());
+        list.bddListSelectionListener(crebteListSelectionListener());
+        list.bddMouseListener(getMouseHbndler());
 
-        JScrollPane scrollpane = new JScrollPane(list);
-        if (listViewBackground != null) {
-            list.setBackground(listViewBackground);
+        JScrollPbne scrollpbne = new JScrollPbne(list);
+        if (listViewBbckground != null) {
+            list.setBbckground(listViewBbckground);
         }
         if (listViewBorder != null) {
-            scrollpane.setBorder(listViewBorder);
+            scrollpbne.setBorder(listViewBorder);
         }
 
-        list.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, filesListAccessibleName);
+        list.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, filesListAccessibleNbme);
 
-        p.add(scrollpane, BorderLayout.CENTER);
+        p.bdd(scrollpbne, BorderLbyout.CENTER);
         return p;
     }
 
     /**
-     * This model allows for sorting JList
+     * This model bllows for sorting JList
      */
-    @SuppressWarnings("serial") // JDK-implementation class
-    private class SortableListModel extends AbstractListModel<Object>
-            implements TableModelListener, RowSorterListener {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    privbte clbss SortbbleListModel extends AbstrbctListModel<Object>
+            implements TbbleModelListener, RowSorterListener {
 
-        public SortableListModel() {
-            getDetailsTableModel().addTableModelListener(this);
-            getRowSorter().addRowSorterListener(this);
+        public SortbbleListModel() {
+            getDetbilsTbbleModel().bddTbbleModelListener(this);
+            getRowSorter().bddRowSorterListener(this);
         }
 
         public int getSize() {
@@ -670,83 +670,83 @@ public class FilePane extends JPanel implements PropertyChangeListener {
         }
 
         public Object getElementAt(int index) {
-            // JList doesn't support RowSorter so far, so we put it into the list model
+            // JList doesn't support RowSorter so fbr, so we put it into the list model
             return getModel().getElementAt(getRowSorter().convertRowIndexToModel(index));
         }
 
-        public void tableChanged(TableModelEvent e) {
-            fireContentsChanged(this, 0, getSize());
+        public void tbbleChbnged(TbbleModelEvent e) {
+            fireContentsChbnged(this, 0, getSize());
         }
 
-        public void sorterChanged(RowSorterEvent e) {
-            fireContentsChanged(this, 0, getSize());
+        public void sorterChbnged(RowSorterEvent e) {
+            fireContentsChbnged(this, 0, getSize());
         }
     }
 
-    private DetailsTableModel getDetailsTableModel() {
-        if(detailsTableModel == null) {
-            detailsTableModel = new DetailsTableModel(getFileChooser());
+    privbte DetbilsTbbleModel getDetbilsTbbleModel() {
+        if(detbilsTbbleModel == null) {
+            detbilsTbbleModel = new DetbilsTbbleModel(getFileChooser());
         }
-        return detailsTableModel;
+        return detbilsTbbleModel;
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    class DetailsTableModel extends AbstractTableModel implements ListDataListener {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    clbss DetbilsTbbleModel extends AbstrbctTbbleModel implements ListDbtbListener {
         JFileChooser chooser;
-        BasicDirectoryModel directoryModel;
+        BbsicDirectoryModel directoryModel;
 
         ShellFolderColumnInfo[] columns;
-        int[] columnMap;
+        int[] columnMbp;
 
-        DetailsTableModel(JFileChooser fc) {
+        DetbilsTbbleModel(JFileChooser fc) {
             this.chooser = fc;
             directoryModel = getModel();
-            directoryModel.addListDataListener(this);
+            directoryModel.bddListDbtbListener(this);
 
-            updateColumnInfo();
+            updbteColumnInfo();
         }
 
-        void updateColumnInfo() {
+        void updbteColumnInfo() {
             File dir = chooser.getCurrentDirectory();
             if (dir != null && usesShellFolder(chooser)) {
                 try {
                     dir = ShellFolder.getShellFolder(dir);
-                } catch (FileNotFoundException e) {
-                    // Leave dir without changing
+                } cbtch (FileNotFoundException e) {
+                    // Lebve dir without chbnging
                 }
             }
 
-            ShellFolderColumnInfo[] allColumns = ShellFolder.getFolderColumns(dir);
+            ShellFolderColumnInfo[] bllColumns = ShellFolder.getFolderColumns(dir);
 
-            ArrayList<ShellFolderColumnInfo> visibleColumns =
-                    new ArrayList<ShellFolderColumnInfo>();
-            columnMap = new int[allColumns.length];
-            for (int i = 0; i < allColumns.length; i++) {
-                ShellFolderColumnInfo column = allColumns[i];
+            ArrbyList<ShellFolderColumnInfo> visibleColumns =
+                    new ArrbyList<ShellFolderColumnInfo>();
+            columnMbp = new int[bllColumns.length];
+            for (int i = 0; i < bllColumns.length; i++) {
+                ShellFolderColumnInfo column = bllColumns[i];
                 if (column.isVisible()) {
-                    columnMap[visibleColumns.size()] = i;
-                    visibleColumns.add(column);
+                    columnMbp[visibleColumns.size()] = i;
+                    visibleColumns.bdd(column);
                 }
             }
 
             columns = new ShellFolderColumnInfo[visibleColumns.size()];
-            visibleColumns.toArray(columns);
-            columnMap = Arrays.copyOf(columnMap, columns.length);
+            visibleColumns.toArrby(columns);
+            columnMbp = Arrbys.copyOf(columnMbp, columns.length);
 
             List<? extends RowSorter.SortKey> sortKeys =
                     (rowSorter == null) ? null : rowSorter.getSortKeys();
-            fireTableStructureChanged();
+            fireTbbleStructureChbnged();
             restoreSortKeys(sortKeys);
         }
 
-        private void restoreSortKeys(List<? extends RowSorter.SortKey> sortKeys) {
+        privbte void restoreSortKeys(List<? extends RowSorter.SortKey> sortKeys) {
             if (sortKeys != null) {
-                // check if preserved sortKeys are valid for this folder
+                // check if preserved sortKeys bre vblid for this folder
                 for (int i = 0; i < sortKeys.size(); i++) {
                     RowSorter.SortKey sortKey = sortKeys.get(i);
                     if (sortKey.getColumn() >= columns.length) {
                         sortKeys = null;
-                        break;
+                        brebk;
                     }
                 }
                 if (sortKeys != null) {
@@ -763,55 +763,55 @@ public class FilePane extends JPanel implements PropertyChangeListener {
             return columns.length;
         }
 
-        public Object getValueAt(int row, int col) {
-            // Note: It is very important to avoid getting info on drives, as
-            // this will trigger "No disk in A:" and similar dialogs.
+        public Object getVblueAt(int row, int col) {
+            // Note: It is very importbnt to bvoid getting info on drives, bs
+            // this will trigger "No disk in A:" bnd similbr diblogs.
             //
             // Use (f.exists() && !chooser.getFileSystemView().isFileSystemRoot(f)) to
-            // determine if it is safe to call methods directly on f.
-            return getFileColumnValue((File)directoryModel.getElementAt(row), col);
+            // determine if it is sbfe to cbll methods directly on f.
+            return getFileColumnVblue((File)directoryModel.getElementAt(row), col);
         }
 
-        private Object getFileColumnValue(File f, int col) {
+        privbte Object getFileColumnVblue(File f, int col) {
             return (col == COLUMN_FILENAME)
-                    ? f // always return the file itself for the 1st column
-                    : ShellFolder.getFolderColumnValue(f, columnMap[col]);
+                    ? f // blwbys return the file itself for the 1st column
+                    : ShellFolder.getFolderColumnVblue(f, columnMbp[col]);
         }
 
-        public void setValueAt(Object value, int row, int col) {
+        public void setVblueAt(Object vblue, int row, int col) {
             if (col == COLUMN_FILENAME) {
-                final JFileChooser chooser = getFileChooser();
-                File f = (File)getValueAt(row, col);
+                finbl JFileChooser chooser = getFileChooser();
+                File f = (File)getVblueAt(row, col);
                 if (f != null) {
-                    String oldDisplayName = chooser.getName(f);
-                    String oldFileName = f.getName();
-                    String newDisplayName = ((String)value).trim();
-                    String newFileName;
+                    String oldDisplbyNbme = chooser.getNbme(f);
+                    String oldFileNbme = f.getNbme();
+                    String newDisplbyNbme = ((String)vblue).trim();
+                    String newFileNbme;
 
-                    if (!newDisplayName.equals(oldDisplayName)) {
-                        newFileName = newDisplayName;
+                    if (!newDisplbyNbme.equbls(oldDisplbyNbme)) {
+                        newFileNbme = newDisplbyNbme;
                         //Check if extension is hidden from user
-                        int i1 = oldFileName.length();
-                        int i2 = oldDisplayName.length();
-                        if (i1 > i2 && oldFileName.charAt(i2) == '.') {
-                            newFileName = newDisplayName + oldFileName.substring(i2);
+                        int i1 = oldFileNbme.length();
+                        int i2 = oldDisplbyNbme.length();
+                        if (i1 > i2 && oldFileNbme.chbrAt(i2) == '.') {
+                            newFileNbme = newDisplbyNbme + oldFileNbme.substring(i2);
                         }
 
-                        // rename
+                        // renbme
                         FileSystemView fsv = chooser.getFileSystemView();
-                        final File f2 = fsv.createFileObject(f.getParentFile(), newFileName);
+                        finbl File f2 = fsv.crebteFileObject(f.getPbrentFile(), newFileNbme);
                         if (f2.exists()) {
-                            JOptionPane.showMessageDialog(chooser, MessageFormat.format(renameErrorFileExistsText,
-                                    oldFileName), renameErrorTitleText, JOptionPane.ERROR_MESSAGE);
+                            JOptionPbne.showMessbgeDiblog(chooser, MessbgeFormbt.formbt(renbmeErrorFileExistsText,
+                                    oldFileNbme), renbmeErrorTitleText, JOptionPbne.ERROR_MESSAGE);
                         } else {
-                            if (FilePane.this.getModel().renameFile(f, f2)) {
-                                if (fsv.isParent(chooser.getCurrentDirectory(), f2)) {
-                                    // The setSelectedFile method produces a new setValueAt invocation while the JTable
-                                    // is editing. Postpone file selection to be sure that edit mode of the JTable
+                            if (FilePbne.this.getModel().renbmeFile(f, f2)) {
+                                if (fsv.isPbrent(chooser.getCurrentDirectory(), f2)) {
+                                    // The setSelectedFile method produces b new setVblueAt invocbtion while the JTbble
+                                    // is editing. Postpone file selection to be sure thbt edit mode of the JTbble
                                     // is completed
-                                    SwingUtilities.invokeLater(new Runnable() {
+                                    SwingUtilities.invokeLbter(new Runnbble() {
                                         public void run() {
-                                            if (chooser.isMultiSelectionEnabled()) {
+                                            if (chooser.isMultiSelectionEnbbled()) {
                                                 chooser.setSelectedFiles(new File[]{f2});
                                             } else {
                                                 chooser.setSelectedFile(f2);
@@ -819,12 +819,12 @@ public class FilePane extends JPanel implements PropertyChangeListener {
                                         }
                                     });
                                 } else {
-                                    // Could be because of delay in updating Desktop folder
+                                    // Could be becbuse of delby in updbting Desktop folder
                                     // chooser.setSelectedFile(null);
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(chooser, MessageFormat.format(renameErrorText, oldFileName),
-                                        renameErrorTitleText, JOptionPane.ERROR_MESSAGE);
+                                JOptionPbne.showMessbgeDiblog(chooser, MessbgeFormbt.formbt(renbmeErrorText, oldFileNbme),
+                                        renbmeErrorTitleText, JOptionPbne.ERROR_MESSAGE);
                             }
                         }
                     }
@@ -832,32 +832,32 @@ public class FilePane extends JPanel implements PropertyChangeListener {
             }
         }
 
-        public boolean isCellEditable(int row, int column) {
+        public boolebn isCellEditbble(int row, int column) {
             File currentDirectory = getFileChooser().getCurrentDirectory();
-            return (!readOnly && column == COLUMN_FILENAME && canWrite(currentDirectory));
+            return (!rebdOnly && column == COLUMN_FILENAME && cbnWrite(currentDirectory));
         }
 
-        public void contentsChanged(ListDataEvent e) {
-            // Update the selection after the model has been updated
-            new DelayedSelectionUpdater();
-            fireTableDataChanged();
+        public void contentsChbnged(ListDbtbEvent e) {
+            // Updbte the selection bfter the model hbs been updbted
+            new DelbyedSelectionUpdbter();
+            fireTbbleDbtbChbnged();
         }
 
-        public void intervalAdded(ListDataEvent e) {
+        public void intervblAdded(ListDbtbEvent e) {
             int i0 = e.getIndex0();
             int i1 = e.getIndex1();
             if (i0 == i1) {
                 File file = (File)getModel().getElementAt(i0);
-                if (file.equals(newFolderFile)) {
-                    new DelayedSelectionUpdater(file);
+                if (file.equbls(newFolderFile)) {
+                    new DelbyedSelectionUpdbter(file);
                     newFolderFile = null;
                 }
             }
 
-            fireTableRowsInserted(e.getIndex0(), e.getIndex1());
+            fireTbbleRowsInserted(e.getIndex0(), e.getIndex1());
         }
-        public void intervalRemoved(ListDataEvent e) {
-            fireTableRowsDeleted(e.getIndex0(), e.getIndex1());
+        public void intervblRemoved(ListDbtbEvent e) {
+            fireTbbleRowsDeleted(e.getIndex0(), e.getIndex1());
         }
 
         public ShellFolderColumnInfo[] getColumns() {
@@ -866,96 +866,96 @@ public class FilePane extends JPanel implements PropertyChangeListener {
     }
 
 
-    private void updateDetailsColumnModel(JTable table) {
-        if (table != null) {
-            ShellFolderColumnInfo[] columns = detailsTableModel.getColumns();
+    privbte void updbteDetbilsColumnModel(JTbble tbble) {
+        if (tbble != null) {
+            ShellFolderColumnInfo[] columns = detbilsTbbleModel.getColumns();
 
-            TableColumnModel columnModel = new DefaultTableColumnModel();
+            TbbleColumnModel columnModel = new DefbultTbbleColumnModel();
             for (int i = 0; i < columns.length; i++) {
-                ShellFolderColumnInfo dataItem = columns[i];
-                TableColumn column = new TableColumn(i);
+                ShellFolderColumnInfo dbtbItem = columns[i];
+                TbbleColumn column = new TbbleColumn(i);
 
-                String title = dataItem.getTitle();
-                if (title != null && title.startsWith("FileChooser.") && title.endsWith("HeaderText")) {
-                    // the column must have a string resource that we try to get
-                    String uiTitle = UIManager.getString(title, table.getLocale());
+                String title = dbtbItem.getTitle();
+                if (title != null && title.stbrtsWith("FileChooser.") && title.endsWith("HebderText")) {
+                    // the column must hbve b string resource thbt we try to get
+                    String uiTitle = UIMbnbger.getString(title, tbble.getLocble());
                     if (uiTitle != null) {
                         title = uiTitle;
                     }
                 }
-                column.setHeaderValue(title);
+                column.setHebderVblue(title);
 
-                Integer width = dataItem.getWidth();
+                Integer width = dbtbItem.getWidth();
                 if (width != null) {
                     column.setPreferredWidth(width);
-                    // otherwise we let JTable to decide the actual width
+                    // otherwise we let JTbble to decide the bctubl width
                 }
 
-                columnModel.addColumn(column);
+                columnModel.bddColumn(column);
             }
 
-            // Install cell editor for editing file name
-            if (!readOnly && columnModel.getColumnCount() > COLUMN_FILENAME) {
+            // Instbll cell editor for editing file nbme
+            if (!rebdOnly && columnModel.getColumnCount() > COLUMN_FILENAME) {
                 columnModel.getColumn(COLUMN_FILENAME).
-                        setCellEditor(getDetailsTableCellEditor());
+                        setCellEditor(getDetbilsTbbleCellEditor());
             }
 
-            table.setColumnModel(columnModel);
+            tbble.setColumnModel(columnModel);
         }
     }
 
-    private DetailsTableRowSorter getRowSorter() {
+    privbte DetbilsTbbleRowSorter getRowSorter() {
         if (rowSorter == null) {
-            rowSorter = new DetailsTableRowSorter();
+            rowSorter = new DetbilsTbbleRowSorter();
         }
         return rowSorter;
     }
 
-    private class DetailsTableRowSorter extends TableRowSorter<TableModel> {
-        public DetailsTableRowSorter() {
-            setModelWrapper(new SorterModelWrapper());
+    privbte clbss DetbilsTbbleRowSorter extends TbbleRowSorter<TbbleModel> {
+        public DetbilsTbbleRowSorter() {
+            setModelWrbpper(new SorterModelWrbpper());
         }
 
-        public void updateComparators(ShellFolderColumnInfo [] columns) {
+        public void updbteCompbrbtors(ShellFolderColumnInfo [] columns) {
             for (int i = 0; i < columns.length; i++) {
-                Comparator<?> c = columns[i].getComparator();
+                Compbrbtor<?> c = columns[i].getCompbrbtor();
                 if (c != null) {
-                    c = new DirectoriesFirstComparatorWrapper(i, c);
+                    c = new DirectoriesFirstCompbrbtorWrbpper(i, c);
                 }
-                setComparator(i, c);
+                setCompbrbtor(i, c);
             }
         }
 
         @Override
         public void sort() {
-            ShellFolder.invoke(new Callable<Void>() {
-                public Void call() {
-                    DetailsTableRowSorter.super.sort();
+            ShellFolder.invoke(new Cbllbble<Void>() {
+                public Void cbll() {
+                    DetbilsTbbleRowSorter.super.sort();
                     return null;
                 }
             });
         }
 
-        public void modelStructureChanged() {
-            super.modelStructureChanged();
-            updateComparators(detailsTableModel.getColumns());
+        public void modelStructureChbnged() {
+            super.modelStructureChbnged();
+            updbteCompbrbtors(detbilsTbbleModel.getColumns());
         }
 
-        private class SorterModelWrapper extends ModelWrapper<TableModel, Integer> {
-            public TableModel getModel() {
-                return getDetailsTableModel();
+        privbte clbss SorterModelWrbpper extends ModelWrbpper<TbbleModel, Integer> {
+            public TbbleModel getModel() {
+                return getDetbilsTbbleModel();
             }
 
             public int getColumnCount() {
-                return getDetailsTableModel().getColumnCount();
+                return getDetbilsTbbleModel().getColumnCount();
             }
 
             public int getRowCount() {
-                return getDetailsTableModel().getRowCount();
+                return getDetbilsTbbleModel().getRowCount();
             }
 
-            public Object getValueAt(int row, int column) {
-                return FilePane.this.getModel().getElementAt(row);
+            public Object getVblueAt(int row, int column) {
+                return FilePbne.this.getModel().getElementAt(row);
             }
 
             public Integer getIdentifier(int row) {
@@ -965,91 +965,91 @@ public class FilePane extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * This class sorts directories before files, comparing directory to
-     * directory and file to file using the wrapped comparator.
+     * This clbss sorts directories before files, compbring directory to
+     * directory bnd file to file using the wrbpped compbrbtor.
      */
-    private class DirectoriesFirstComparatorWrapper implements Comparator<File> {
-        private Comparator<Object> comparator;
-        private int column;
+    privbte clbss DirectoriesFirstCompbrbtorWrbpper implements Compbrbtor<File> {
+        privbte Compbrbtor<Object> compbrbtor;
+        privbte int column;
 
-        @SuppressWarnings("unchecked")
-        public DirectoriesFirstComparatorWrapper(int column, Comparator<?> comparator) {
+        @SuppressWbrnings("unchecked")
+        public DirectoriesFirstCompbrbtorWrbpper(int column, Compbrbtor<?> compbrbtor) {
             this.column = column;
-            this.comparator = (Comparator<Object>)comparator;
+            this.compbrbtor = (Compbrbtor<Object>)compbrbtor;
         }
 
-        public int compare(File f1, File f2) {
+        public int compbre(File f1, File f2) {
             if (f1 != null && f2 != null) {
-                boolean traversable1 = getFileChooser().isTraversable(f1);
-                boolean traversable2 = getFileChooser().isTraversable(f2);
+                boolebn trbversbble1 = getFileChooser().isTrbversbble(f1);
+                boolebn trbversbble2 = getFileChooser().isTrbversbble(f2);
                 // directories go first
-                if (traversable1 && !traversable2) {
+                if (trbversbble1 && !trbversbble2) {
                     return -1;
                 }
-                if (!traversable1 && traversable2) {
+                if (!trbversbble1 && trbversbble2) {
                     return 1;
                 }
             }
-            if (detailsTableModel.getColumns()[column].isCompareByColumn()) {
-                return comparator.compare(
-                        getDetailsTableModel().getFileColumnValue(f1, column),
-                        getDetailsTableModel().getFileColumnValue(f2, column)
+            if (detbilsTbbleModel.getColumns()[column].isCompbreByColumn()) {
+                return compbrbtor.compbre(
+                        getDetbilsTbbleModel().getFileColumnVblue(f1, column),
+                        getDetbilsTbbleModel().getFileColumnVblue(f2, column)
                 );
             }
-            // For this column we need to pass the file itself (not a
-            // column value) to the comparator
-            return comparator.compare(f1, f2);
+            // For this column we need to pbss the file itself (not b
+            // column vblue) to the compbrbtor
+            return compbrbtor.compbre(f1, f2);
         }
     }
 
-    private DetailsTableCellEditor tableCellEditor;
+    privbte DetbilsTbbleCellEditor tbbleCellEditor;
 
-    private DetailsTableCellEditor getDetailsTableCellEditor() {
-        if (tableCellEditor == null) {
-            tableCellEditor = new DetailsTableCellEditor(new JTextField());
+    privbte DetbilsTbbleCellEditor getDetbilsTbbleCellEditor() {
+        if (tbbleCellEditor == null) {
+            tbbleCellEditor = new DetbilsTbbleCellEditor(new JTextField());
         }
-        return tableCellEditor;
+        return tbbleCellEditor;
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    private class DetailsTableCellEditor extends DefaultCellEditor {
-        private final JTextField tf;
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    privbte clbss DetbilsTbbleCellEditor extends DefbultCellEditor {
+        privbte finbl JTextField tf;
 
-        public DetailsTableCellEditor(JTextField tf) {
+        public DetbilsTbbleCellEditor(JTextField tf) {
             super(tf);
             this.tf = tf;
-            tf.setName("Table.editor");
-            tf.addFocusListener(editorFocusListener);
+            tf.setNbme("Tbble.editor");
+            tf.bddFocusListener(editorFocusListener);
         }
 
-        public Component getTableCellEditorComponent(JTable table, Object value,
-                                                     boolean isSelected, int row, int column) {
-            Component comp = super.getTableCellEditorComponent(table, value,
+        public Component getTbbleCellEditorComponent(JTbble tbble, Object vblue,
+                                                     boolebn isSelected, int row, int column) {
+            Component comp = super.getTbbleCellEditorComponent(tbble, vblue,
                     isSelected, row, column);
-            if (value instanceof File) {
-                tf.setText(getFileChooser().getName((File) value));
+            if (vblue instbnceof File) {
+                tf.setText(getFileChooser().getNbme((File) vblue));
                 tf.selectAll();
             }
             return comp;
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    class DetailsTableCellRenderer extends DefaultTableCellRenderer {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    clbss DetbilsTbbleCellRenderer extends DefbultTbbleCellRenderer {
         JFileChooser chooser;
-        DateFormat df;
+        DbteFormbt df;
 
-        DetailsTableCellRenderer(JFileChooser chooser) {
+        DetbilsTbbleCellRenderer(JFileChooser chooser) {
             this.chooser = chooser;
-            df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT,
-                                                chooser.getLocale());
+            df = DbteFormbt.getDbteTimeInstbnce(DbteFormbt.SHORT, DbteFormbt.SHORT,
+                                                chooser.getLocble());
         }
 
         public void setBounds(int x, int y, int width, int height) {
-        if (getHorizontalAlignment() == SwingConstants.LEADING &&
+        if (getHorizontblAlignment() == SwingConstbnts.LEADING &&
                     !fullRowSelection) {
-                // Restrict width to actual text
-                width = Math.min(width, this.getPreferredSize().width+4);
+                // Restrict width to bctubl text
+                width = Mbth.min(width, this.getPreferredSize().width+4);
             } else {
                 x -= 4;
             }
@@ -1058,73 +1058,73 @@ public class FilePane extends JPanel implements PropertyChangeListener {
 
 
         public Insets getInsets(Insets i) {
-            // Provide some space between columns
+            // Provide some spbce between columns
             i = super.getInsets(i);
             i.left  += 4;
             i.right += 4;
             return i;
         }
 
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                              boolean isSelected, boolean hasFocus, int row, int column) {
+        public Component getTbbleCellRendererComponent(JTbble tbble, Object vblue,
+                              boolebn isSelected, boolebn hbsFocus, int row, int column) {
 
-            if ((table.convertColumnIndexToModel(column) != COLUMN_FILENAME ||
-                    (listViewWindowsStyle && !table.isFocusOwner())) &&
+            if ((tbble.convertColumnIndexToModel(column) != COLUMN_FILENAME ||
+                    (listViewWindowsStyle && !tbble.isFocusOwner())) &&
                     !fullRowSelection) {
-                isSelected = false;
+                isSelected = fblse;
             }
 
-            super.getTableCellRendererComponent(table, value, isSelected,
-                                                       hasFocus, row, column);
+            super.getTbbleCellRendererComponent(tbble, vblue, isSelected,
+                                                       hbsFocus, row, column);
 
             setIcon(null);
 
-            int modelColumn = table.convertColumnIndexToModel(column);
-            ShellFolderColumnInfo columnInfo = detailsTableModel.getColumns()[modelColumn];
+            int modelColumn = tbble.convertColumnIndexToModel(column);
+            ShellFolderColumnInfo columnInfo = detbilsTbbleModel.getColumns()[modelColumn];
 
-            Integer alignment = columnInfo.getAlignment();
-            if (alignment == null) {
-                alignment = (value instanceof Number)
-                        ? SwingConstants.RIGHT
-                        : SwingConstants.LEADING;
+            Integer blignment = columnInfo.getAlignment();
+            if (blignment == null) {
+                blignment = (vblue instbnceof Number)
+                        ? SwingConstbnts.RIGHT
+                        : SwingConstbnts.LEADING;
             }
 
-            setHorizontalAlignment(alignment);
+            setHorizontblAlignment(blignment);
 
-            // formatting cell text
-            // TODO: it's rather a temporary trick, to be revised
+            // formbtting cell text
+            // TODO: it's rbther b temporbry trick, to be revised
             String text;
 
-            if (value == null) {
+            if (vblue == null) {
                 text = "";
 
-            } else if (value instanceof File) {
-                File file = (File)value;
-                text = chooser.getName(file);
+            } else if (vblue instbnceof File) {
+                File file = (File)vblue;
+                text = chooser.getNbme(file);
                 Icon icon = chooser.getIcon(file);
                 setIcon(icon);
 
-            } else if (value instanceof Long) {
-                long len = ((Long) value) / 1024L;
+            } else if (vblue instbnceof Long) {
+                long len = ((Long) vblue) / 1024L;
                 if (listViewWindowsStyle) {
-                    text = MessageFormat.format(kiloByteString, len + 1);
+                    text = MessbgeFormbt.formbt(kiloByteString, len + 1);
                 } else if (len < 1024L) {
-                    text = MessageFormat.format(kiloByteString, (len == 0L) ? 1L : len);
+                    text = MessbgeFormbt.formbt(kiloByteString, (len == 0L) ? 1L : len);
                 } else {
                     len /= 1024L;
                     if (len < 1024L) {
-                        text = MessageFormat.format(megaByteString, len);
+                        text = MessbgeFormbt.formbt(megbByteString, len);
                     } else {
                         len /= 1024L;
-                        text = MessageFormat.format(gigaByteString, len);
+                        text = MessbgeFormbt.formbt(gigbByteString, len);
                     }
                 }
 
-            } else if (value instanceof Date) {
-                text = df.format((Date)value);
+            } else if (vblue instbnceof Dbte) {
+                text = df.formbt((Dbte)vblue);
 
             } else {
-                text = value.toString();
+                text = vblue.toString();
             }
 
             setText(text);
@@ -1133,104 +1133,104 @@ public class FilePane extends JPanel implements PropertyChangeListener {
         }
     }
 
-    public JPanel createDetailsView() {
-        final JFileChooser chooser = getFileChooser();
+    public JPbnel crebteDetbilsView() {
+        finbl JFileChooser chooser = getFileChooser();
 
-        JPanel p = new JPanel(new BorderLayout());
+        JPbnel p = new JPbnel(new BorderLbyout());
 
-        @SuppressWarnings("serial") // anonymous class
-        final JTable detailsTable = new JTable(getDetailsTableModel()) {
-            // Handle Escape key events here
-            protected boolean processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolean pressed) {
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        finbl JTbble detbilsTbble = new JTbble(getDetbilsTbbleModel()) {
+            // Hbndle Escbpe key events here
+            protected boolebn processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolebn pressed) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE && getCellEditor() == null) {
-                    // We are not editing, forward to filechooser.
-                    chooser.dispatchEvent(e);
+                    // We bre not editing, forwbrd to filechooser.
+                    chooser.dispbtchEvent(e);
                     return true;
                 }
                 return super.processKeyBinding(ks, e, condition, pressed);
             }
 
-            public void tableChanged(TableModelEvent e) {
-                super.tableChanged(e);
+            public void tbbleChbnged(TbbleModelEvent e) {
+                super.tbbleChbnged(e);
 
-                if (e.getFirstRow() == TableModelEvent.HEADER_ROW) {
-                    // update header with possibly changed column set
-                    updateDetailsColumnModel(this);
+                if (e.getFirstRow() == TbbleModelEvent.HEADER_ROW) {
+                    // updbte hebder with possibly chbnged column set
+                    updbteDetbilsColumnModel(this);
                 }
             }
         };
 
-        detailsTable.setRowSorter(getRowSorter());
-        detailsTable.setAutoCreateColumnsFromModel(false);
-        detailsTable.setComponentOrientation(chooser.getComponentOrientation());
-        detailsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        detailsTable.setShowGrid(false);
-        detailsTable.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
-        detailsTable.addKeyListener(detailsKeyListener);
+        detbilsTbble.setRowSorter(getRowSorter());
+        detbilsTbble.setAutoCrebteColumnsFromModel(fblse);
+        detbilsTbble.setComponentOrientbtion(chooser.getComponentOrientbtion());
+        detbilsTbble.setAutoResizeMode(JTbble.AUTO_RESIZE_OFF);
+        detbilsTbble.setShowGrid(fblse);
+        detbilsTbble.putClientProperty("JTbble.butoStbrtsEdit", Boolebn.FALSE);
+        detbilsTbble.bddKeyListener(detbilsKeyListener);
 
         Font font = list.getFont();
-        detailsTable.setFont(font);
-        detailsTable.setIntercellSpacing(new Dimension(0, 0));
+        detbilsTbble.setFont(font);
+        detbilsTbble.setIntercellSpbcing(new Dimension(0, 0));
 
-        TableCellRenderer headerRenderer =
-                new AlignableTableHeaderRenderer(detailsTable.getTableHeader().getDefaultRenderer());
-        detailsTable.getTableHeader().setDefaultRenderer(headerRenderer);
-        TableCellRenderer cellRenderer = new DetailsTableCellRenderer(chooser);
-        detailsTable.setDefaultRenderer(Object.class, cellRenderer);
+        TbbleCellRenderer hebderRenderer =
+                new AlignbbleTbbleHebderRenderer(detbilsTbble.getTbbleHebder().getDefbultRenderer());
+        detbilsTbble.getTbbleHebder().setDefbultRenderer(hebderRenderer);
+        TbbleCellRenderer cellRenderer = new DetbilsTbbleCellRenderer(chooser);
+        detbilsTbble.setDefbultRenderer(Object.clbss, cellRenderer);
 
-        // So that drag can be started on a mouse press
-        detailsTable.getColumnModel().getSelectionModel().
+        // So thbt drbg cbn be stbrted on b mouse press
+        detbilsTbble.getColumnModel().getSelectionModel().
             setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        detailsTable.addMouseListener(getMouseHandler());
-        // No need to addListSelectionListener because selections are forwarded
+        detbilsTbble.bddMouseListener(getMouseHbndler());
+        // No need to bddListSelectionListener becbuse selections bre forwbrded
         // to our JList.
 
-        // 4835633 : tell BasicTableUI that this is a file list
-        detailsTable.putClientProperty("Table.isFileList", Boolean.TRUE);
+        // 4835633 : tell BbsicTbbleUI thbt this is b file list
+        detbilsTbble.putClientProperty("Tbble.isFileList", Boolebn.TRUE);
 
         if (listViewWindowsStyle) {
-            detailsTable.addFocusListener(repaintListener);
+            detbilsTbble.bddFocusListener(repbintListener);
         }
 
-        // TAB/SHIFT-TAB should transfer focus and ENTER should select an item.
-        // We don't want them to navigate within the table
-        ActionMap am = SwingUtilities.getUIActionMap(detailsTable);
-        am.remove("selectNextRowCell");
-        am.remove("selectPreviousRowCell");
-        am.remove("selectNextColumnCell");
-        am.remove("selectPreviousColumnCell");
-        detailsTable.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
+        // TAB/SHIFT-TAB should trbnsfer focus bnd ENTER should select bn item.
+        // We don't wbnt them to nbvigbte within the tbble
+        ActionMbp bm = SwingUtilities.getUIActionMbp(detbilsTbble);
+        bm.remove("selectNextRowCell");
+        bm.remove("selectPreviousRowCell");
+        bm.remove("selectNextColumnCell");
+        bm.remove("selectPreviousColumnCell");
+        detbilsTbble.setFocusTrbversblKeys(KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS,
                      null);
-        detailsTable.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
+        detbilsTbble.setFocusTrbversblKeys(KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS,
                      null);
 
-        JScrollPane scrollpane = new JScrollPane(detailsTable);
-        scrollpane.setComponentOrientation(chooser.getComponentOrientation());
-        LookAndFeel.installColors(scrollpane.getViewport(), "Table.background", "Table.foreground");
+        JScrollPbne scrollpbne = new JScrollPbne(detbilsTbble);
+        scrollpbne.setComponentOrientbtion(chooser.getComponentOrientbtion());
+        LookAndFeel.instbllColors(scrollpbne.getViewport(), "Tbble.bbckground", "Tbble.foreground");
 
-        // Adjust width of first column so the table fills the viewport when
-        // first displayed (temporary listener).
-        scrollpane.addComponentListener(new ComponentAdapter() {
+        // Adjust width of first column so the tbble fills the viewport when
+        // first displbyed (temporbry listener).
+        scrollpbne.bddComponentListener(new ComponentAdbpter() {
             public void componentResized(ComponentEvent e) {
-                JScrollPane sp = (JScrollPane)e.getComponent();
-                fixNameColumnWidth(sp.getViewport().getSize().width);
+                JScrollPbne sp = (JScrollPbne)e.getComponent();
+                fixNbmeColumnWidth(sp.getViewport().getSize().width);
                 sp.removeComponentListener(this);
             }
         });
 
         // 4835633.
-        // If the mouse is pressed in the area below the Details view table, the
-        // event is not dispatched to the Table MouseListener but to the
-        // scrollpane.  Listen for that here so we can clear the selection.
-        scrollpane.addMouseListener(new MouseAdapter() {
+        // If the mouse is pressed in the breb below the Detbils view tbble, the
+        // event is not dispbtched to the Tbble MouseListener but to the
+        // scrollpbne.  Listen for thbt here so we cbn clebr the selection.
+        scrollpbne.bddMouseListener(new MouseAdbpter() {
             public void mousePressed(MouseEvent e) {
-                JScrollPane jsp = ((JScrollPane)e.getComponent());
-                JTable table = (JTable)jsp.getViewport().getView();
+                JScrollPbne jsp = ((JScrollPbne)e.getComponent());
+                JTbble tbble = (JTbble)jsp.getViewport().getView();
 
-                if (!e.isShiftDown() || table.getSelectionModel().getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
-                    clearSelection();
-                    TableCellEditor tce = table.getCellEditor();
+                if (!e.isShiftDown() || tbble.getSelectionModel().getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
+                    clebrSelection();
+                    TbbleCellEditor tce = tbble.getCellEditor();
                     if (tce != null) {
                         tce.stopCellEditing();
                     }
@@ -1238,77 +1238,77 @@ public class FilePane extends JPanel implements PropertyChangeListener {
             }
         });
 
-        detailsTable.setForeground(list.getForeground());
-        detailsTable.setBackground(list.getBackground());
+        detbilsTbble.setForeground(list.getForeground());
+        detbilsTbble.setBbckground(list.getBbckground());
 
         if (listViewBorder != null) {
-            scrollpane.setBorder(listViewBorder);
+            scrollpbne.setBorder(listViewBorder);
         }
-        p.add(scrollpane, BorderLayout.CENTER);
+        p.bdd(scrollpbne, BorderLbyout.CENTER);
 
-        detailsTableModel.fireTableStructureChanged();
+        detbilsTbbleModel.fireTbbleStructureChbnged();
 
-        detailsTable.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, filesDetailsAccessibleName);
+        detbilsTbble.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, filesDetbilsAccessibleNbme);
 
         return p;
-    } // createDetailsView
+    } // crebteDetbilsView
 
-    private class AlignableTableHeaderRenderer implements TableCellRenderer {
-        TableCellRenderer wrappedRenderer;
+    privbte clbss AlignbbleTbbleHebderRenderer implements TbbleCellRenderer {
+        TbbleCellRenderer wrbppedRenderer;
 
-        public AlignableTableHeaderRenderer(TableCellRenderer wrappedRenderer) {
-            this.wrappedRenderer = wrappedRenderer;
+        public AlignbbleTbbleHebderRenderer(TbbleCellRenderer wrbppedRenderer) {
+            this.wrbppedRenderer = wrbppedRenderer;
         }
 
-        public Component getTableCellRendererComponent(
-                                JTable table, Object value, boolean isSelected,
-                                boolean hasFocus, int row, int column) {
+        public Component getTbbleCellRendererComponent(
+                                JTbble tbble, Object vblue, boolebn isSelected,
+                                boolebn hbsFocus, int row, int column) {
 
-            Component c = wrappedRenderer.getTableCellRendererComponent(
-                                table, value, isSelected, hasFocus, row, column);
+            Component c = wrbppedRenderer.getTbbleCellRendererComponent(
+                                tbble, vblue, isSelected, hbsFocus, row, column);
 
-            int modelColumn = table.convertColumnIndexToModel(column);
-            ShellFolderColumnInfo columnInfo = detailsTableModel.getColumns()[modelColumn];
+            int modelColumn = tbble.convertColumnIndexToModel(column);
+            ShellFolderColumnInfo columnInfo = detbilsTbbleModel.getColumns()[modelColumn];
 
-            Integer alignment = columnInfo.getAlignment();
-            if (alignment == null) {
-                alignment = SwingConstants.CENTER;
+            Integer blignment = columnInfo.getAlignment();
+            if (blignment == null) {
+                blignment = SwingConstbnts.CENTER;
             }
-            if (c instanceof JLabel) {
-                ((JLabel) c).setHorizontalAlignment(alignment);
+            if (c instbnceof JLbbel) {
+                ((JLbbel) c).setHorizontblAlignment(blignment);
             }
 
             return c;
         }
     }
 
-    private void fixNameColumnWidth(int viewWidth) {
-        TableColumn nameCol = detailsTable.getColumnModel().getColumn(COLUMN_FILENAME);
-        int tableWidth = detailsTable.getPreferredSize().width;
+    privbte void fixNbmeColumnWidth(int viewWidth) {
+        TbbleColumn nbmeCol = detbilsTbble.getColumnModel().getColumn(COLUMN_FILENAME);
+        int tbbleWidth = detbilsTbble.getPreferredSize().width;
 
-        if (tableWidth < viewWidth) {
-            nameCol.setPreferredWidth(nameCol.getPreferredWidth() + viewWidth - tableWidth);
+        if (tbbleWidth < viewWidth) {
+            nbmeCol.setPreferredWidth(nbmeCol.getPreferredWidth() + viewWidth - tbbleWidth);
         }
     }
 
-    private class DelayedSelectionUpdater implements Runnable {
+    privbte clbss DelbyedSelectionUpdbter implements Runnbble {
         File editFile;
 
-        DelayedSelectionUpdater() {
+        DelbyedSelectionUpdbter() {
             this(null);
         }
 
-        DelayedSelectionUpdater(File editFile) {
+        DelbyedSelectionUpdbter(File editFile) {
             this.editFile = editFile;
             if (isShowing()) {
-                SwingUtilities.invokeLater(this);
+                SwingUtilities.invokeLbter(this);
             }
         }
 
         public void run() {
             setFileSelected();
             if (editFile != null) {
-                editFileName(getRowSorter().convertRowIndexToView(
+                editFileNbme(getRowSorter().convertRowIndexToView(
                         getModel().indexOf(editFile)));
                 editFile = null;
             }
@@ -1317,171 +1317,171 @@ public class FilePane extends JPanel implements PropertyChangeListener {
 
 
     /**
-     * Creates a selection listener for the list of files and directories.
+     * Crebtes b selection listener for the list of files bnd directories.
      *
-     * @return a <code>ListSelectionListener</code>
+     * @return b <code>ListSelectionListener</code>
      */
-    public ListSelectionListener createListSelectionListener() {
-        return fileChooserUIAccessor.createListSelectionListener();
+    public ListSelectionListener crebteListSelectionListener() {
+        return fileChooserUIAccessor.crebteListSelectionListener();
     }
 
-    int lastIndex = -1;
+    int lbstIndex = -1;
     File editFile = null;
 
-    private int getEditIndex() {
-        return lastIndex;
+    privbte int getEditIndex() {
+        return lbstIndex;
     }
 
-    private void setEditIndex(int i) {
-        lastIndex = i;
+    privbte void setEditIndex(int i) {
+        lbstIndex = i;
     }
 
-    private void resetEditIndex() {
-        lastIndex = -1;
+    privbte void resetEditIndex() {
+        lbstIndex = -1;
     }
 
-    private void cancelEdit() {
+    privbte void cbncelEdit() {
         if (editFile != null) {
             editFile = null;
             list.remove(editCell);
-            repaint();
-        } else if (detailsTable != null && detailsTable.isEditing()) {
-            detailsTable.getCellEditor().cancelCellEditing();
+            repbint();
+        } else if (detbilsTbble != null && detbilsTbble.isEditing()) {
+            detbilsTbble.getCellEditor().cbncelCellEditing();
         }
     }
 
     JTextField editCell = null;
 
     /**
-     * @param index visual index of the file to be edited
+     * @pbrbm index visubl index of the file to be edited
      */
-    private void editFileName(int index) {
+    privbte void editFileNbme(int index) {
         JFileChooser chooser = getFileChooser();
         File currentDirectory = chooser.getCurrentDirectory();
 
-        if (readOnly || !canWrite(currentDirectory)) {
+        if (rebdOnly || !cbnWrite(currentDirectory)) {
             return;
         }
 
         ensureIndexIsVisible(index);
         switch (viewType) {
-          case VIEWTYPE_LIST:
+          cbse VIEWTYPE_LIST:
             editFile = (File)getModel().getElementAt(getRowSorter().convertRowIndexToModel(index));
-            Rectangle r = list.getCellBounds(index, index);
+            Rectbngle r = list.getCellBounds(index, index);
             if (editCell == null) {
                 editCell = new JTextField();
-                editCell.setName("Tree.cellEditor");
-                editCell.addActionListener(new EditActionListener());
-                editCell.addFocusListener(editorFocusListener);
-                editCell.setNextFocusableComponent(list);
+                editCell.setNbme("Tree.cellEditor");
+                editCell.bddActionListener(new EditActionListener());
+                editCell.bddFocusListener(editorFocusListener);
+                editCell.setNextFocusbbleComponent(list);
             }
-            list.add(editCell);
-            editCell.setText(chooser.getName(editFile));
-            ComponentOrientation orientation = list.getComponentOrientation();
-            editCell.setComponentOrientation(orientation);
+            list.bdd(editCell);
+            editCell.setText(chooser.getNbme(editFile));
+            ComponentOrientbtion orientbtion = list.getComponentOrientbtion();
+            editCell.setComponentOrientbtion(orientbtion);
 
             Icon icon = chooser.getIcon(editFile);
 
-            // PENDING - grab padding (4) below from defaults table.
+            // PENDING - grbb pbdding (4) below from defbults tbble.
             int editX = icon == null ? 20 : icon.getIconWidth() + 4;
 
-            if (orientation.isLeftToRight()) {
+            if (orientbtion.isLeftToRight()) {
                 editCell.setBounds(editX + r.x, r.y, r.width - editX, r.height);
             } else {
                 editCell.setBounds(r.x, r.y, r.width - editX, r.height);
             }
             editCell.requestFocus();
             editCell.selectAll();
-            break;
+            brebk;
 
-          case VIEWTYPE_DETAILS:
-            detailsTable.editCellAt(index, COLUMN_FILENAME);
-            break;
+          cbse VIEWTYPE_DETAILS:
+            detbilsTbble.editCellAt(index, COLUMN_FILENAME);
+            brebk;
         }
     }
 
 
-    class EditActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            applyEdit();
+    clbss EditActionListener implements ActionListener {
+        public void bctionPerformed(ActionEvent e) {
+            bpplyEdit();
         }
     }
 
-    private void applyEdit() {
+    privbte void bpplyEdit() {
         if (editFile != null && editFile.exists()) {
             JFileChooser chooser = getFileChooser();
-            String oldDisplayName = chooser.getName(editFile);
-            String oldFileName = editFile.getName();
-            String newDisplayName = editCell.getText().trim();
-            String newFileName;
+            String oldDisplbyNbme = chooser.getNbme(editFile);
+            String oldFileNbme = editFile.getNbme();
+            String newDisplbyNbme = editCell.getText().trim();
+            String newFileNbme;
 
-            if (!newDisplayName.equals(oldDisplayName)) {
-                newFileName = newDisplayName;
+            if (!newDisplbyNbme.equbls(oldDisplbyNbme)) {
+                newFileNbme = newDisplbyNbme;
                 //Check if extension is hidden from user
-                int i1 = oldFileName.length();
-                int i2 = oldDisplayName.length();
-                if (i1 > i2 && oldFileName.charAt(i2) == '.') {
-                    newFileName = newDisplayName + oldFileName.substring(i2);
+                int i1 = oldFileNbme.length();
+                int i2 = oldDisplbyNbme.length();
+                if (i1 > i2 && oldFileNbme.chbrAt(i2) == '.') {
+                    newFileNbme = newDisplbyNbme + oldFileNbme.substring(i2);
                 }
 
-                // rename
+                // renbme
                 FileSystemView fsv = chooser.getFileSystemView();
-                File f2 = fsv.createFileObject(editFile.getParentFile(), newFileName);
+                File f2 = fsv.crebteFileObject(editFile.getPbrentFile(), newFileNbme);
                 if (f2.exists()) {
-                    JOptionPane.showMessageDialog(chooser, MessageFormat.format(renameErrorFileExistsText, oldFileName),
-                            renameErrorTitleText, JOptionPane.ERROR_MESSAGE);
+                    JOptionPbne.showMessbgeDiblog(chooser, MessbgeFormbt.formbt(renbmeErrorFileExistsText, oldFileNbme),
+                            renbmeErrorTitleText, JOptionPbne.ERROR_MESSAGE);
                 } else {
-                    if (getModel().renameFile(editFile, f2)) {
-                        if (fsv.isParent(chooser.getCurrentDirectory(), f2)) {
-                            if (chooser.isMultiSelectionEnabled()) {
+                    if (getModel().renbmeFile(editFile, f2)) {
+                        if (fsv.isPbrent(chooser.getCurrentDirectory(), f2)) {
+                            if (chooser.isMultiSelectionEnbbled()) {
                                 chooser.setSelectedFiles(new File[]{f2});
                             } else {
                                 chooser.setSelectedFile(f2);
                             }
                         } else {
-                            //Could be because of delay in updating Desktop folder
+                            //Could be becbuse of delby in updbting Desktop folder
                             //chooser.setSelectedFile(null);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(chooser, MessageFormat.format(renameErrorText, oldFileName),
-                                renameErrorTitleText, JOptionPane.ERROR_MESSAGE);
+                        JOptionPbne.showMessbgeDiblog(chooser, MessbgeFormbt.formbt(renbmeErrorText, oldFileNbme),
+                                renbmeErrorTitleText, JOptionPbne.ERROR_MESSAGE);
                     }
                 }
             }
         }
-        if (detailsTable != null && detailsTable.isEditing()) {
-            detailsTable.getCellEditor().stopCellEditing();
+        if (detbilsTbble != null && detbilsTbble.isEditing()) {
+            detbilsTbble.getCellEditor().stopCellEditing();
         }
-        cancelEdit();
+        cbncelEdit();
     }
 
     protected Action newFolderAction;
 
-    @SuppressWarnings("serial") // anonymous class inside
+    @SuppressWbrnings("seribl") // bnonymous clbss inside
     public Action getNewFolderAction() {
-        if (!readOnly && newFolderAction == null) {
-            newFolderAction = new AbstractAction(newFolderActionLabelText) {
-                private Action basicNewFolderAction;
+        if (!rebdOnly && newFolderAction == null) {
+            newFolderAction = new AbstrbctAction(newFolderActionLbbelText) {
+                privbte Action bbsicNewFolderAction;
 
-                // Initializer
+                // Initiblizer
                 {
-                    putValue(Action.ACTION_COMMAND_KEY, FilePane.ACTION_NEW_FOLDER);
+                    putVblue(Action.ACTION_COMMAND_KEY, FilePbne.ACTION_NEW_FOLDER);
 
                     File currentDirectory = getFileChooser().getCurrentDirectory();
                     if (currentDirectory != null) {
-                        setEnabled(canWrite(currentDirectory));
+                        setEnbbled(cbnWrite(currentDirectory));
                     }
                 }
 
-                public void actionPerformed(ActionEvent ev) {
-                    if (basicNewFolderAction == null) {
-                        basicNewFolderAction = fileChooserUIAccessor.getNewFolderAction();
+                public void bctionPerformed(ActionEvent ev) {
+                    if (bbsicNewFolderAction == null) {
+                        bbsicNewFolderAction = fileChooserUIAccessor.getNewFolderAction();
                     }
                     JFileChooser fc = getFileChooser();
                     File oldFile = fc.getSelectedFile();
-                    basicNewFolderAction.actionPerformed(ev);
+                    bbsicNewFolderAction.bctionPerformed(ev);
                     File newFile = fc.getSelectedFile();
-                    if (newFile != null && !newFile.equals(oldFile) && newFile.isDirectory()) {
+                    if (newFile != null && !newFile.equbls(oldFile) && newFile.isDirectory()) {
                         newFolderFile = newFile;
                     }
                 }
@@ -1490,29 +1490,29 @@ public class FilePane extends JPanel implements PropertyChangeListener {
         return newFolderAction;
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    protected class FileRenderer extends DefaultListCellRenderer  {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    protected clbss FileRenderer extends DefbultListCellRenderer  {
 
-        public Component getListCellRendererComponent(JList<?> list, Object value,
-                                                      int index, boolean isSelected,
-                                                      boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList<?> list, Object vblue,
+                                                      int index, boolebn isSelected,
+                                                      boolebn cellHbsFocus) {
 
             if (listViewWindowsStyle && !list.isFocusOwner()) {
-                isSelected = false;
+                isSelected = fblse;
             }
 
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            File file = (File) value;
-            String fileName = getFileChooser().getName(file);
-            setText(fileName);
+            super.getListCellRendererComponent(list, vblue, index, isSelected, cellHbsFocus);
+            File file = (File) vblue;
+            String fileNbme = getFileChooser().getNbme(file);
+            setText(fileNbme);
             setFont(list.getFont());
 
             Icon icon = getFileChooser().getIcon(file);
             if (icon != null) {
                 setIcon(icon);
             } else {
-                if (getFileChooser().getFileSystemView().isTraversable(file)) {
-                    setText(fileName+File.separator);
+                if (getFileChooser().getFileSystemView().isTrbversbble(file)) {
+                    setText(fileNbme+File.sepbrbtor);
                 }
             }
 
@@ -1522,34 +1522,34 @@ public class FilePane extends JPanel implements PropertyChangeListener {
 
 
     void setFileSelected() {
-        if (getFileChooser().isMultiSelectionEnabled() && !isDirectorySelected()) {
+        if (getFileChooser().isMultiSelectionEnbbled() && !isDirectorySelected()) {
             File[] files = getFileChooser().getSelectedFiles(); // Should be selected
-            Object[] selectedObjects = list.getSelectedValues(); // Are actually selected
+            Object[] selectedObjects = list.getSelectedVblues(); // Are bctublly selected
 
-            listSelectionModel.setValueIsAdjusting(true);
+            listSelectionModel.setVblueIsAdjusting(true);
             try {
-                int lead = listSelectionModel.getLeadSelectionIndex();
-                int anchor = listSelectionModel.getAnchorSelectionIndex();
+                int lebd = listSelectionModel.getLebdSelectionIndex();
+                int bnchor = listSelectionModel.getAnchorSelectionIndex();
 
-                Arrays.sort(files);
-                Arrays.sort(selectedObjects);
+                Arrbys.sort(files);
+                Arrbys.sort(selectedObjects);
 
                 int shouldIndex = 0;
-                int actuallyIndex = 0;
+                int bctubllyIndex = 0;
 
-                // Remove files that shouldn't be selected and add files which should be selected
-                // Note: Assume files are already sorted in compareTo order.
+                // Remove files thbt shouldn't be selected bnd bdd files which should be selected
+                // Note: Assume files bre blrebdy sorted in compbreTo order.
                 while (shouldIndex < files.length &&
-                       actuallyIndex < selectedObjects.length) {
-                    int comparison = files[shouldIndex].compareTo((File)selectedObjects[actuallyIndex]);
-                    if (comparison < 0) {
+                       bctubllyIndex < selectedObjects.length) {
+                    int compbrison = files[shouldIndex].compbreTo((File)selectedObjects[bctubllyIndex]);
+                    if (compbrison < 0) {
                         doSelectFile(files[shouldIndex++]);
-                    } else if (comparison > 0) {
-                        doDeselectFile(selectedObjects[actuallyIndex++]);
+                    } else if (compbrison > 0) {
+                        doDeselectFile(selectedObjects[bctubllyIndex++]);
                     } else {
                         // Do nothing
                         shouldIndex++;
-                        actuallyIndex++;
+                        bctubllyIndex++;
                     }
 
                 }
@@ -1558,18 +1558,18 @@ public class FilePane extends JPanel implements PropertyChangeListener {
                     doSelectFile(files[shouldIndex++]);
                 }
 
-                while (actuallyIndex < selectedObjects.length) {
-                    doDeselectFile(selectedObjects[actuallyIndex++]);
+                while (bctubllyIndex < selectedObjects.length) {
+                    doDeselectFile(selectedObjects[bctubllyIndex++]);
                 }
 
-                // restore the anchor and lead
-                if (listSelectionModel instanceof DefaultListSelectionModel) {
-                    ((DefaultListSelectionModel)listSelectionModel).
-                        moveLeadSelectionIndex(lead);
-                    listSelectionModel.setAnchorSelectionIndex(anchor);
+                // restore the bnchor bnd lebd
+                if (listSelectionModel instbnceof DefbultListSelectionModel) {
+                    ((DefbultListSelectionModel)listSelectionModel).
+                        moveLebdSelectionIndex(lebd);
+                    listSelectionModel.setAnchorSelectionIndex(bnchor);
                 }
-            } finally {
-                listSelectionModel.setValueIsAdjusting(false);
+            } finblly {
+                listSelectionModel.setVblueIsAdjusting(fblse);
             }
         } else {
             JFileChooser chooser = getFileChooser();
@@ -1582,143 +1582,143 @@ public class FilePane extends JPanel implements PropertyChangeListener {
             int i;
             if (f != null && (i = getModel().indexOf(f)) >= 0) {
                 int viewIndex = getRowSorter().convertRowIndexToView(i);
-                listSelectionModel.setSelectionInterval(viewIndex, viewIndex);
+                listSelectionModel.setSelectionIntervbl(viewIndex, viewIndex);
                 ensureIndexIsVisible(viewIndex);
             } else {
-                clearSelection();
+                clebrSelection();
             }
         }
     }
 
-    private void doSelectFile(File fileToSelect) {
+    privbte void doSelectFile(File fileToSelect) {
         int index = getModel().indexOf(fileToSelect);
-        // could be missed in the current directory if it changed
+        // could be missed in the current directory if it chbnged
         if (index >= 0) {
             index = getRowSorter().convertRowIndexToView(index);
-            listSelectionModel.addSelectionInterval(index, index);
+            listSelectionModel.bddSelectionIntervbl(index, index);
         }
     }
 
-    private void doDeselectFile(Object fileToDeselect) {
+    privbte void doDeselectFile(Object fileToDeselect) {
         int index = getRowSorter().convertRowIndexToView(
                                 getModel().indexOf(fileToDeselect));
-        listSelectionModel.removeSelectionInterval(index, index);
+        listSelectionModel.removeSelectionIntervbl(index, index);
     }
 
-    /* The following methods are used by the PropertyChange Listener */
+    /* The following methods bre used by the PropertyChbnge Listener */
 
-    private void doSelectedFileChanged(PropertyChangeEvent e) {
-        applyEdit();
-        File f = (File) e.getNewValue();
+    privbte void doSelectedFileChbnged(PropertyChbngeEvent e) {
+        bpplyEdit();
+        File f = (File) e.getNewVblue();
         JFileChooser fc = getFileChooser();
         if (f != null
-            && ((fc.isFileSelectionEnabled() && !f.isDirectory())
-                || (f.isDirectory() && fc.isDirectorySelectionEnabled()))) {
+            && ((fc.isFileSelectionEnbbled() && !f.isDirectory())
+                || (f.isDirectory() && fc.isDirectorySelectionEnbbled()))) {
 
             setFileSelected();
         }
     }
 
-    private void doSelectedFilesChanged(PropertyChangeEvent e) {
-        applyEdit();
-        File[] files = (File[]) e.getNewValue();
+    privbte void doSelectedFilesChbnged(PropertyChbngeEvent e) {
+        bpplyEdit();
+        File[] files = (File[]) e.getNewVblue();
         JFileChooser fc = getFileChooser();
         if (files != null
             && files.length > 0
-            && (files.length > 1 || fc.isDirectorySelectionEnabled() || !files[0].isDirectory())) {
+            && (files.length > 1 || fc.isDirectorySelectionEnbbled() || !files[0].isDirectory())) {
             setFileSelected();
         }
     }
 
-    private void doDirectoryChanged(PropertyChangeEvent e) {
-        getDetailsTableModel().updateColumnInfo();
+    privbte void doDirectoryChbnged(PropertyChbngeEvent e) {
+        getDetbilsTbbleModel().updbteColumnInfo();
 
         JFileChooser fc = getFileChooser();
         FileSystemView fsv = fc.getFileSystemView();
 
-        applyEdit();
+        bpplyEdit();
         resetEditIndex();
         ensureIndexIsVisible(0);
         File currentDirectory = fc.getCurrentDirectory();
         if (currentDirectory != null) {
-            if (!readOnly) {
-                getNewFolderAction().setEnabled(canWrite(currentDirectory));
+            if (!rebdOnly) {
+                getNewFolderAction().setEnbbled(cbnWrite(currentDirectory));
             }
-            fileChooserUIAccessor.getChangeToParentDirectoryAction().setEnabled(!fsv.isRoot(currentDirectory));
+            fileChooserUIAccessor.getChbngeToPbrentDirectoryAction().setEnbbled(!fsv.isRoot(currentDirectory));
         }
         if (list != null) {
-            list.clearSelection();
+            list.clebrSelection();
         }
     }
 
-    private void doFilterChanged(PropertyChangeEvent e) {
-        applyEdit();
+    privbte void doFilterChbnged(PropertyChbngeEvent e) {
+        bpplyEdit();
         resetEditIndex();
-        clearSelection();
+        clebrSelection();
     }
 
-    private void doFileSelectionModeChanged(PropertyChangeEvent e) {
-        applyEdit();
+    privbte void doFileSelectionModeChbnged(PropertyChbngeEvent e) {
+        bpplyEdit();
         resetEditIndex();
-        clearSelection();
+        clebrSelection();
     }
 
-    private void doMultiSelectionChanged(PropertyChangeEvent e) {
-        if (getFileChooser().isMultiSelectionEnabled()) {
+    privbte void doMultiSelectionChbnged(PropertyChbngeEvent e) {
+        if (getFileChooser().isMultiSelectionEnbbled()) {
             listSelectionModel.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         } else {
             listSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            clearSelection();
+            clebrSelection();
             getFileChooser().setSelectedFiles(null);
         }
     }
 
     /*
-     * Listen for filechooser property changes, such as
-     * the selected file changing, or the type of the dialog changing.
+     * Listen for filechooser property chbnges, such bs
+     * the selected file chbnging, or the type of the diblog chbnging.
      */
-    public void propertyChange(PropertyChangeEvent e) {
+    public void propertyChbnge(PropertyChbngeEvent e) {
             if (viewType == -1) {
                 setViewType(VIEWTYPE_LIST);
             }
 
-        String s = e.getPropertyName();
-        if (s.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
-            doSelectedFileChanged(e);
-        } else if (s.equals(JFileChooser.SELECTED_FILES_CHANGED_PROPERTY)) {
-            doSelectedFilesChanged(e);
-        } else if (s.equals(JFileChooser.DIRECTORY_CHANGED_PROPERTY)) {
-            doDirectoryChanged(e);
-        } else if (s.equals(JFileChooser.FILE_FILTER_CHANGED_PROPERTY)) {
-            doFilterChanged(e);
-        } else if (s.equals(JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY)) {
-            doFileSelectionModeChanged(e);
-        } else if (s.equals(JFileChooser.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
-            doMultiSelectionChanged(e);
-        } else if (s.equals(JFileChooser.CANCEL_SELECTION)) {
-            applyEdit();
-        } else if (s.equals("busy")) {
-            setCursor((Boolean)e.getNewValue() ? waitCursor : null);
-        } else if (s.equals("componentOrientation")) {
-            ComponentOrientation o = (ComponentOrientation)e.getNewValue();
+        String s = e.getPropertyNbme();
+        if (s.equbls(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
+            doSelectedFileChbnged(e);
+        } else if (s.equbls(JFileChooser.SELECTED_FILES_CHANGED_PROPERTY)) {
+            doSelectedFilesChbnged(e);
+        } else if (s.equbls(JFileChooser.DIRECTORY_CHANGED_PROPERTY)) {
+            doDirectoryChbnged(e);
+        } else if (s.equbls(JFileChooser.FILE_FILTER_CHANGED_PROPERTY)) {
+            doFilterChbnged(e);
+        } else if (s.equbls(JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY)) {
+            doFileSelectionModeChbnged(e);
+        } else if (s.equbls(JFileChooser.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
+            doMultiSelectionChbnged(e);
+        } else if (s.equbls(JFileChooser.CANCEL_SELECTION)) {
+            bpplyEdit();
+        } else if (s.equbls("busy")) {
+            setCursor((Boolebn)e.getNewVblue() ? wbitCursor : null);
+        } else if (s.equbls("componentOrientbtion")) {
+            ComponentOrientbtion o = (ComponentOrientbtion)e.getNewVblue();
             JFileChooser cc = (JFileChooser)e.getSource();
-            if (o != e.getOldValue()) {
-                cc.applyComponentOrientation(o);
+            if (o != e.getOldVblue()) {
+                cc.bpplyComponentOrientbtion(o);
             }
-            if (detailsTable != null) {
-                detailsTable.setComponentOrientation(o);
-                detailsTable.getParent().getParent().setComponentOrientation(o);
+            if (detbilsTbble != null) {
+                detbilsTbble.setComponentOrientbtion(o);
+                detbilsTbble.getPbrent().getPbrent().setComponentOrientbtion(o);
             }
         }
     }
 
-    private void ensureIndexIsVisible(int i) {
+    privbte void ensureIndexIsVisible(int i) {
         if (i >= 0) {
             if (list != null) {
                 list.ensureIndexIsVisible(i);
             }
-            if (detailsTable != null) {
-                detailsTable.scrollRectToVisible(detailsTable.getCellRect(i, COLUMN_FILENAME, true));
+            if (detbilsTbble != null) {
+                detbilsTbble.scrollRectToVisible(detbilsTbble.getCellRect(i, COLUMN_FILENAME, true));
             }
         }
     }
@@ -1730,15 +1730,15 @@ public class FilePane extends JPanel implements PropertyChangeListener {
         }
     }
 
-    public void rescanCurrentDirectory() {
-        getModel().validateFileCache();
+    public void rescbnCurrentDirectory() {
+        getModel().vblidbteFileCbche();
     }
 
-    public void clearSelection() {
+    public void clebrSelection() {
         if (listSelectionModel != null) {
-            listSelectionModel.clearSelection();
-            if (listSelectionModel instanceof DefaultListSelectionModel) {
-                ((DefaultListSelectionModel)listSelectionModel).moveLeadSelectionIndex(0);
+            listSelectionModel.clebrSelection();
+            if (listSelectionModel instbnceof DefbultListSelectionModel) {
+                ((DefbultListSelectionModel)listSelectionModel).moveLebdSelectionIndex(0);
                 listSelectionModel.setAnchorSelectionIndex(0);
             }
         }
@@ -1746,26 +1746,26 @@ public class FilePane extends JPanel implements PropertyChangeListener {
 
     public JMenu getViewMenu() {
         if (viewMenu == null) {
-            viewMenu = new JMenu(viewMenuLabelText);
+            viewMenu = new JMenu(viewMenuLbbelText);
             ButtonGroup viewButtonGroup = new ButtonGroup();
 
             for (int i = 0; i < VIEWTYPE_COUNT; i++) {
-                JRadioButtonMenuItem mi =
-                    new JRadioButtonMenuItem(new ViewTypeAction(i));
-                viewButtonGroup.add(mi);
-                viewMenu.add(mi);
+                JRbdioButtonMenuItem mi =
+                    new JRbdioButtonMenuItem(new ViewTypeAction(i));
+                viewButtonGroup.bdd(mi);
+                viewMenu.bdd(mi);
             }
-            updateViewMenu();
+            updbteViewMenu();
         }
         return viewMenu;
     }
 
-    private void updateViewMenu() {
+    privbte void updbteViewMenu() {
         if (viewMenu != null) {
             Component[] comps = viewMenu.getMenuComponents();
             for (Component comp : comps) {
-                if (comp instanceof JRadioButtonMenuItem) {
-                    JRadioButtonMenuItem mi = (JRadioButtonMenuItem) comp;
+                if (comp instbnceof JRbdioButtonMenuItem) {
+                    JRbdioButtonMenuItem mi = (JRbdioButtonMenuItem) comp;
                     if (((ViewTypeAction)mi.getAction()).viewType == viewType) {
                         mi.setSelected(true);
                     }
@@ -1784,22 +1784,22 @@ public class FilePane extends JPanel implements PropertyChangeListener {
         if (contextMenu == null) {
             contextMenu = new JPopupMenu();
             if (viewMenu != null) {
-                contextMenu.add(viewMenu);
+                contextMenu.bdd(viewMenu);
                 if (listViewWindowsStyle) {
-                    contextMenu.addSeparator();
+                    contextMenu.bddSepbrbtor();
                 }
             }
-            ActionMap actionMap = getActionMap();
-            Action refreshAction   = actionMap.get(ACTION_REFRESH);
-            Action newFolderAction = actionMap.get(ACTION_NEW_FOLDER);
+            ActionMbp bctionMbp = getActionMbp();
+            Action refreshAction   = bctionMbp.get(ACTION_REFRESH);
+            Action newFolderAction = bctionMbp.get(ACTION_NEW_FOLDER);
             if (refreshAction != null) {
-                contextMenu.add(refreshAction);
+                contextMenu.bdd(refreshAction);
                 if (listViewWindowsStyle && newFolderAction != null) {
-                    contextMenu.addSeparator();
+                    contextMenu.bddSepbrbtor();
                 }
             }
             if (newFolderAction != null) {
-                contextMenu.add(newFolderAction);
+                contextMenu.bdd(newFolderAction);
             }
         }
         if (viewMenu != null) {
@@ -1809,44 +1809,44 @@ public class FilePane extends JPanel implements PropertyChangeListener {
     }
 
 
-    private Handler handler;
+    privbte Hbndler hbndler;
 
-    protected Handler getMouseHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    protected Hbndler getMouseHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
-    private class Handler implements MouseListener {
-        private MouseListener doubleClickListener;
+    privbte clbss Hbndler implements MouseListener {
+        privbte MouseListener doubleClickListener;
 
         public void mouseClicked(MouseEvent evt) {
             JComponent source = (JComponent)evt.getSource();
 
             int index;
-            if (source instanceof JList) {
+            if (source instbnceof JList) {
                 index = SwingUtilities2.loc2IndexFileList(list, evt.getPoint());
-            } else if (source instanceof JTable) {
-                JTable table = (JTable)source;
+            } else if (source instbnceof JTbble) {
+                JTbble tbble = (JTbble)source;
                 Point p = evt.getPoint();
-                index = table.rowAtPoint(p);
+                index = tbble.rowAtPoint(p);
 
-                boolean pointOutsidePrefSize =
+                boolebn pointOutsidePrefSize =
                         SwingUtilities2.pointOutsidePrefSize(
-                            table, index, table.columnAtPoint(p), p);
+                            tbble, index, tbble.columnAtPoint(p), p);
 
                 if (pointOutsidePrefSize && !fullRowSelection) {
                     return;
                 }
 
-                // Translate point from table to list
+                // Trbnslbte point from tbble to list
                 if (index >= 0 && list != null &&
                     listSelectionModel.isSelectedIndex(index)) {
 
-                    // Make a new event with the list as source, placing the
+                    // Mbke b new event with the list bs source, plbcing the
                     // click in the corresponding list cell.
-                    Rectangle r = list.getCellBounds(index, index);
+                    Rectbngle r = list.getCellBounds(index, index);
                     evt = new MouseEvent(list, evt.getID(),
                                          evt.getWhen(), evt.getModifiers(),
                                          r.x + 1, r.y + r.height/2,
@@ -1862,13 +1862,13 @@ public class FilePane extends JPanel implements PropertyChangeListener {
             if (index >= 0 && SwingUtilities.isLeftMouseButton(evt)) {
                 JFileChooser fc = getFileChooser();
 
-                // For single click, we handle editing file name
-                if (evt.getClickCount() == 1 && source instanceof JList) {
-                    if ((!fc.isMultiSelectionEnabled() || fc.getSelectedFiles().length <= 1)
+                // For single click, we hbndle editing file nbme
+                if (evt.getClickCount() == 1 && source instbnceof JList) {
+                    if ((!fc.isMultiSelectionEnbbled() || fc.getSelectedFiles().length <= 1)
                         && index >= 0 && listSelectionModel.isSelectedIndex(index)
                         && getEditIndex() == index && editFile == null) {
 
-                        editFileName(index);
+                        editFileNbme(index);
                     } else {
                         if (index >= 0) {
                             setEditIndex(index);
@@ -1878,12 +1878,12 @@ public class FilePane extends JPanel implements PropertyChangeListener {
                     }
                 } else if (evt.getClickCount() == 2) {
                     // on double click (open or drill down one directory) be
-                    // sure to clear the edit index
+                    // sure to clebr the edit index
                     resetEditIndex();
                 }
             }
 
-            // Forward event to Basic
+            // Forwbrd event to Bbsic
             if (getDoubleClickListener() != null) {
                 getDoubleClickListener().mouseClicked(evt);
             }
@@ -1891,21 +1891,21 @@ public class FilePane extends JPanel implements PropertyChangeListener {
 
         public void mouseEntered(MouseEvent evt) {
             JComponent source = (JComponent)evt.getSource();
-            if (source instanceof JTable) {
-                JTable table = (JTable)evt.getSource();
+            if (source instbnceof JTbble) {
+                JTbble tbble = (JTbble)evt.getSource();
 
-                TransferHandler th1 = getFileChooser().getTransferHandler();
-                TransferHandler th2 = table.getTransferHandler();
+                TrbnsferHbndler th1 = getFileChooser().getTrbnsferHbndler();
+                TrbnsferHbndler th2 = tbble.getTrbnsferHbndler();
                 if (th1 != th2) {
-                    table.setTransferHandler(th1);
+                    tbble.setTrbnsferHbndler(th1);
                 }
 
-                boolean dragEnabled = getFileChooser().getDragEnabled();
-                if (dragEnabled != table.getDragEnabled()) {
-                    table.setDragEnabled(dragEnabled);
+                boolebn drbgEnbbled = getFileChooser().getDrbgEnbbled();
+                if (drbgEnbbled != tbble.getDrbgEnbbled()) {
+                    tbble.setDrbgEnbbled(drbgEnbbled);
                 }
-            } else if (source instanceof JList) {
-                // Forward event to Basic
+            } else if (source instbnceof JList) {
+                // Forwbrd event to Bbsic
                 if (getDoubleClickListener() != null) {
                     getDoubleClickListener().mouseEntered(evt);
                 }
@@ -1913,8 +1913,8 @@ public class FilePane extends JPanel implements PropertyChangeListener {
         }
 
         public void mouseExited(MouseEvent evt) {
-            if (evt.getSource() instanceof JList) {
-                // Forward event to Basic
+            if (evt.getSource() instbnceof JList) {
+                // Forwbrd event to Bbsic
                 if (getDoubleClickListener() != null) {
                     getDoubleClickListener().mouseExited(evt);
                 }
@@ -1922,61 +1922,61 @@ public class FilePane extends JPanel implements PropertyChangeListener {
         }
 
         public void mousePressed(MouseEvent evt) {
-            if (evt.getSource() instanceof JList) {
-                // Forward event to Basic
+            if (evt.getSource() instbnceof JList) {
+                // Forwbrd event to Bbsic
                 if (getDoubleClickListener() != null) {
                     getDoubleClickListener().mousePressed(evt);
                 }
             }
         }
 
-        public void mouseReleased(MouseEvent evt) {
-            if (evt.getSource() instanceof JList) {
-                // Forward event to Basic
+        public void mouseRelebsed(MouseEvent evt) {
+            if (evt.getSource() instbnceof JList) {
+                // Forwbrd event to Bbsic
                 if (getDoubleClickListener() != null) {
-                    getDoubleClickListener().mouseReleased(evt);
+                    getDoubleClickListener().mouseRelebsed(evt);
                 }
             }
         }
 
-        private MouseListener getDoubleClickListener() {
-            // Lazy creation of Basic's listener
+        privbte MouseListener getDoubleClickListener() {
+            // Lbzy crebtion of Bbsic's listener
             if (doubleClickListener == null && list != null) {
                 doubleClickListener =
-                    fileChooserUIAccessor.createDoubleClickListener(list);
+                    fileChooserUIAccessor.crebteDoubleClickListener(list);
             }
             return doubleClickListener;
         }
     }
 
     /**
-     * Property to remember whether a directory is currently selected in the UI.
+     * Property to remember whether b directory is currently selected in the UI.
      *
-     * @return <code>true</code> iff a directory is currently selected.
+     * @return <code>true</code> iff b directory is currently selected.
      */
-    protected boolean isDirectorySelected() {
+    protected boolebn isDirectorySelected() {
         return fileChooserUIAccessor.isDirectorySelected();
     }
 
 
     /**
-     * Property to remember the directory that is currently selected in the UI.
+     * Property to remember the directory thbt is currently selected in the UI.
      *
-     * @return the value of the <code>directory</code> property
-     * @see javax.swing.plaf.basic.BasicFileChooserUI#setDirectory
+     * @return the vblue of the <code>directory</code> property
+     * @see jbvbx.swing.plbf.bbsic.BbsicFileChooserUI#setDirectory
      */
     protected File getDirectory() {
         return fileChooserUIAccessor.getDirectory();
     }
 
-    private <T> T findChildComponent(Container container, Class<T> cls) {
-        int n = container.getComponentCount();
+    privbte <T> T findChildComponent(Contbiner contbiner, Clbss<T> cls) {
+        int n = contbiner.getComponentCount();
         for (int i = 0; i < n; i++) {
-            Component comp = container.getComponent(i);
-            if (cls.isInstance(comp)) {
-                return cls.cast(comp);
-            } else if (comp instanceof Container) {
-                T c = findChildComponent((Container)comp, cls);
+            Component comp = contbiner.getComponent(i);
+            if (cls.isInstbnce(comp)) {
+                return cls.cbst(comp);
+            } else if (comp instbnceof Contbiner) {
+                T c = findChildComponent((Contbiner)comp, cls);
                 if (c != null) {
                     return c;
                 }
@@ -1985,25 +1985,25 @@ public class FilePane extends JPanel implements PropertyChangeListener {
         return null;
     }
 
-    public boolean canWrite(File f) {
-        // Return false for non FileSystem files or if file doesn't exist.
+    public boolebn cbnWrite(File f) {
+        // Return fblse for non FileSystem files or if file doesn't exist.
         if (!f.exists()) {
-            return false;
+            return fblse;
         }
 
-        if (f instanceof ShellFolder) {
-            return f.canWrite();
+        if (f instbnceof ShellFolder) {
+            return f.cbnWrite();
         } else {
             if (usesShellFolder(getFileChooser())) {
                 try {
-                    return ShellFolder.getShellFolder(f).canWrite();
-                } catch (FileNotFoundException ex) {
+                    return ShellFolder.getShellFolder(f).cbnWrite();
+                } cbtch (FileNotFoundException ex) {
                     // File doesn't exist
-                    return false;
+                    return fblse;
                 }
             } else {
-                // Ordinary file
-                return f.canWrite();
+                // Ordinbry file
+                return f.cbnWrite();
             }
         }
     }
@@ -2011,26 +2011,26 @@ public class FilePane extends JPanel implements PropertyChangeListener {
     /**
      * Returns true if specified FileChooser should use ShellFolder
      */
-    public static boolean usesShellFolder(JFileChooser chooser) {
-        Boolean prop = (Boolean) chooser.getClientProperty("FileChooser.useShellFolder");
+    public stbtic boolebn usesShellFolder(JFileChooser chooser) {
+        Boolebn prop = (Boolebn) chooser.getClientProperty("FileChooser.useShellFolder");
 
-        return prop == null ? chooser.getFileSystemView().equals(FileSystemView.getFileSystemView())
-                : prop.booleanValue();
+        return prop == null ? chooser.getFileSystemView().equbls(FileSystemView.getFileSystemView())
+                : prop.boolebnVblue();
     }
 
-    // This interface is used to access methods in the FileChooserUI
-    // that are not public.
-    public interface FileChooserUIAccessor {
+    // This interfbce is used to bccess methods in the FileChooserUI
+    // thbt bre not public.
+    public interfbce FileChooserUIAccessor {
         public JFileChooser getFileChooser();
-        public BasicDirectoryModel getModel();
-        public JPanel createList();
-        public JPanel createDetailsView();
-        public boolean isDirectorySelected();
+        public BbsicDirectoryModel getModel();
+        public JPbnel crebteList();
+        public JPbnel crebteDetbilsView();
+        public boolebn isDirectorySelected();
         public File getDirectory();
         public Action getApproveSelectionAction();
-        public Action getChangeToParentDirectoryAction();
+        public Action getChbngeToPbrentDirectoryAction();
         public Action getNewFolderAction();
-        public MouseListener createDoubleClickListener(JList<?> list);
-        public ListSelectionListener createListSelectionListener();
+        public MouseListener crebteDoubleClickListener(JList<?> list);
+        public ListSelectionListener crebteListSelectionListener();
     }
 }

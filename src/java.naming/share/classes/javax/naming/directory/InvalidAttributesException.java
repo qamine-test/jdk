@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.directory;
+pbckbge jbvbx.nbming.directory;
 
-import javax.naming.NamingException;
+import jbvbx.nbming.NbmingException;
 
 /**
-  * This exception is thrown when an attempt is
-  * made to add or modify an attribute set that has been specified
-  * incompletely or incorrectly. This could happen, for example,
-  * when attempting to add or modify a binding, or to create a new
-  * subcontext without specifying all the mandatory attributes
-  * required for creation of the object.  Another situation in
-  * which this exception is thrown is by specification of incompatible
-  * attributes within the same attribute set, or attributes in conflict
-  * with that specified by the object's schema.
+  * This exception is thrown when bn bttempt is
+  * mbde to bdd or modify bn bttribute set thbt hbs been specified
+  * incompletely or incorrectly. This could hbppen, for exbmple,
+  * when bttempting to bdd or modify b binding, or to crebte b new
+  * subcontext without specifying bll the mbndbtory bttributes
+  * required for crebtion of the object.  Another situbtion in
+  * which this exception is thrown is by specificbtion of incompbtible
+  * bttributes within the sbme bttribute set, or bttributes in conflict
+  * with thbt specified by the object's schemb.
   * <p>
-  * Synchronization and serialization issues that apply to NamingException
-  * apply directly here.
+  * Synchronizbtion bnd seriblizbtion issues thbt bpply to NbmingException
+  * bpply directly here.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   * @since 1.3
   */
 
-public class InvalidAttributesException extends NamingException {
+public clbss InvblidAttributesException extends NbmingException {
     /**
-     * Constructs a new instance of InvalidAttributesException using an
-     * explanation. All other fields are set to null.
-     * @param   explanation     Additional detail about this exception. Can be null.
-     * @see java.lang.Throwable#getMessage
+     * Constructs b new instbnce of InvblidAttributesException using bn
+     * explbnbtion. All other fields bre set to null.
+     * @pbrbm   explbnbtion     Additionbl detbil bbout this exception. Cbn be null.
+     * @see jbvb.lbng.Throwbble#getMessbge
      */
-    public InvalidAttributesException(String explanation) {
-        super(explanation);
+    public InvblidAttributesException(String explbnbtion) {
+        super(explbnbtion);
     }
 
     /**
-      * Constructs a new instance of InvalidAttributesException.
-      * All fields are set to null.
+      * Constructs b new instbnce of InvblidAttributesException.
+      * All fields bre set to null.
       */
-    public InvalidAttributesException() {
+    public InvblidAttributesException() {
         super();
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = 2607612850539889765L;
+    privbte stbtic finbl long seriblVersionUID = 2607612850539889765L;
 }

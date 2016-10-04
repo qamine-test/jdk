@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.misc;
+pbckbge sun.misc;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.PrintStrebm;
+import jbvb.io.IOException;
 
 /**
- * This class implements a Berkeley uu character encoder. This encoder
- * was made famous by uuencode program.
+ * This clbss implements b Berkeley uu chbrbcter encoder. This encoder
+ * wbs mbde fbmous by uuencode progrbm.
  *
- * The basic character coding is algorithmic, taking 6 bits of binary
- * data and adding it to an ASCII ' ' (space) character. This converts
- * these six bits into a printable representation. Note that it depends
- * on the ASCII character encoding standard for english. Groups of three
- * bytes are converted into 4 characters by treating the three bytes
- * a four 6 bit groups, group 1 is byte 1's most significant six bits,
- * group 2 is byte 1's least significant two bits plus byte 2's four
- * most significant bits. etc.
+ * The bbsic chbrbcter coding is blgorithmic, tbking 6 bits of binbry
+ * dbtb bnd bdding it to bn ASCII ' ' (spbce) chbrbcter. This converts
+ * these six bits into b printbble representbtion. Note thbt it depends
+ * on the ASCII chbrbcter encoding stbndbrd for english. Groups of three
+ * bytes bre converted into 4 chbrbcters by trebting the three bytes
+ * b four 6 bit groups, group 1 is byte 1's most significbnt six bits,
+ * group 2 is byte 1's lebst significbnt two bits plus byte 2's four
+ * most significbnt bits. etc.
  *
  * In this encoding, the buffer prefix is:
  * <pre>
- *     begin [mode] [filename]
+ *     begin [mode] [filenbme]
  * </pre>
  *
  * This is followed by one or more lines of the form:
  * <pre>
- *      (len)(data)(data)(data) ...
+ *      (len)(dbtb)(dbtb)(dbtb) ...
  * </pre>
- * where (len) is the number of bytes on this line. Note that groupings
- * are always four characters, even if length is not a multiple of three
- * bytes. When less than three characters are encoded, the values of the
- * last remaining bytes is undefined and should be ignored.
+ * where (len) is the number of bytes on this line. Note thbt groupings
+ * bre blwbys four chbrbcters, even if length is not b multiple of three
+ * bytes. When less thbn three chbrbcters bre encoded, the vblues of the
+ * lbst rembining bytes is undefined bnd should be ignored.
  *
- * The last line of data in a uuencoded file is represented by a single
- * space character. This is translated by the decoding engine to a line
- * length of zero. This is immediately followed by a line which contains
+ * The lbst line of dbtb in b uuencoded file is represented by b single
+ * spbce chbrbcter. This is trbnslbted by the decoding engine to b line
+ * length of zero. This is immedibtely followed by b line which contbins
  * the word 'end[newline]'
  *
- * @author      Chuck McManis
- * @see         CharacterEncoder
+ * @buthor      Chuck McMbnis
+ * @see         ChbrbcterEncoder
  * @see         UUDecoder
  */
-public class UUEncoder extends CharacterEncoder {
+public clbss UUEncoder extends ChbrbcterEncoder {
 
     /**
-     * This name is stored in the begin line.
+     * This nbme is stored in the begin line.
      */
-    private String bufferName;
+    privbte String bufferNbme;
 
     /**
-     * Represents UNIX(tm) mode bits. Generally three octal digits representing
-     * read, write, and execute permission of the owner, group owner, and
-     * others. They should be interpreted as the bit groups:
+     * Represents UNIX(tm) mode bits. Generblly three octbl digits representing
+     * rebd, write, bnd execute permission of the owner, group owner, bnd
+     * others. They should be interpreted bs the bit groups:
      * (owner) (group) (others)
-     *  rwx      rwx     rwx    (r = read, w = write, x = execute)
+     *  rwx      rwx     rwx    (r = rebd, w = write, x = execute)
      *
-     * By default these are set to 644 (UNIX rw-r--r-- permissions).
+     * By defbult these bre set to 644 (UNIX rw-r--r-- permissions).
      */
-    private int mode;
+    privbte int mode;
 
 
     /**
-     * Default - buffer begin line will be:
+     * Defbult - buffer begin line will be:
      * <pre>
      *  begin 644 encoder.buf
      * </pre>
      */
     public UUEncoder() {
-        bufferName = "encoder.buf";
+        bufferNbme = "encoder.buf";
         mode = 644;
     }
 
     /**
-     * Specifies a name for the encoded buffer, begin line will be:
+     * Specifies b nbme for the encoded buffer, begin line will be:
      * <pre>
      *  begin 644 [FNAME]
      * </pre>
      */
-    public UUEncoder(String fname) {
-        bufferName = fname;
+    public UUEncoder(String fnbme) {
+        bufferNbme = fnbme;
         mode = 644;
     }
 
     /**
-     * Specifies a name and mode for the encoded buffer, begin line will be:
+     * Specifies b nbme bnd mode for the encoded buffer, begin line will be:
      * <pre>
      *  begin [MODE] [FNAME]
      * </pre>
      */
-    public UUEncoder(String fname, int newMode) {
-        bufferName = fname;
+    public UUEncoder(String fnbme, int newMode) {
+        bufferNbme = fnbme;
         mode = newMode;
     }
 
-    /** number of bytes per atom in uuencoding is 3 */
+    /** number of bytes per btom in uuencoding is 3 */
     protected int bytesPerAtom() {
         return (3);
     }
@@ -128,73 +128,73 @@ public class UUEncoder extends CharacterEncoder {
     }
 
     /**
-     * encodeAtom - take three bytes and encodes them into 4 characters
-     * If len is less than 3 then remaining bytes are filled with '1'.
-     * This insures that the last line won't end in spaces and potentiallly
-     * be truncated.
+     * encodeAtom - tbke three bytes bnd encodes them into 4 chbrbcters
+     * If len is less thbn 3 then rembining bytes bre filled with '1'.
+     * This insures thbt the lbst line won't end in spbces bnd potentibllly
+     * be truncbted.
      */
-    protected void encodeAtom(OutputStream outStream, byte data[], int offset, int len)
+    protected void encodeAtom(OutputStrebm outStrebm, byte dbtb[], int offset, int len)
         throws IOException {
-        byte    a, b = 1, c = 1;
+        byte    b, b = 1, c = 1;
         int     c1, c2, c3, c4;
 
-        a = data[offset];
+        b = dbtb[offset];
         if (len > 1) {
-            b = data[offset+1];
+            b = dbtb[offset+1];
         }
         if (len > 2) {
-            c = data[offset+2];
+            c = dbtb[offset+2];
         }
 
-        c1 = (a >>> 2) & 0x3f;
-        c2 = ((a << 4) & 0x30) | ((b >>> 4) & 0xf);
+        c1 = (b >>> 2) & 0x3f;
+        c2 = ((b << 4) & 0x30) | ((b >>> 4) & 0xf);
         c3 = ((b << 2) & 0x3c) | ((c >>> 6) & 0x3);
         c4 = c & 0x3f;
-        outStream.write(c1 + ' ');
-        outStream.write(c2 + ' ');
-        outStream.write(c3 + ' ');
-        outStream.write(c4 + ' ');
+        outStrebm.write(c1 + ' ');
+        outStrebm.write(c2 + ' ');
+        outStrebm.write(c3 + ' ');
+        outStrebm.write(c4 + ' ');
         return;
     }
 
     /**
-     * Encode the line prefix which consists of the single character. The
-     * lenght is added to the value of ' ' (32 decimal) and printed.
+     * Encode the line prefix which consists of the single chbrbcter. The
+     * lenght is bdded to the vblue of ' ' (32 decimbl) bnd printed.
      */
-    protected void encodeLinePrefix(OutputStream outStream, int length)
+    protected void encodeLinePrefix(OutputStrebm outStrebm, int length)
         throws IOException {
-        outStream.write((length & 0x3f) + ' ');
+        outStrebm.write((length & 0x3f) + ' ');
     }
 
 
     /**
-     * The line suffix for uuencoded files is simply a new line.
+     * The line suffix for uuencoded files is simply b new line.
      */
-    protected void encodeLineSuffix(OutputStream outStream) throws IOException {
-        pStream.println();
+    protected void encodeLineSuffix(OutputStrebm outStrebm) throws IOException {
+        pStrebm.println();
     }
 
     /**
-     * encodeBufferPrefix writes the begin line to the output stream.
+     * encodeBufferPrefix writes the begin line to the output strebm.
      */
-    protected void encodeBufferPrefix(OutputStream a) throws IOException {
-        super.pStream = new PrintStream(a);
-        super.pStream.print("begin "+mode+" ");
-        if (bufferName != null) {
-            super.pStream.println(bufferName);
+    protected void encodeBufferPrefix(OutputStrebm b) throws IOException {
+        super.pStrebm = new PrintStrebm(b);
+        super.pStrebm.print("begin "+mode+" ");
+        if (bufferNbme != null) {
+            super.pStrebm.println(bufferNbme);
         } else {
-            super.pStream.println("encoder.bin");
+            super.pStrebm.println("encoder.bin");
         }
-        super.pStream.flush();
+        super.pStrebm.flush();
     }
 
     /**
-     * encodeBufferSuffix writes the single line containing space (' ') and
-     * the line containing the word 'end' to the output stream.
+     * encodeBufferSuffix writes the single line contbining spbce (' ') bnd
+     * the line contbining the word 'end' to the output strebm.
      */
-    protected void encodeBufferSuffix(OutputStream a) throws IOException {
-        super.pStream.println(" \nend");
-        super.pStream.flush();
+    protected void encodeBufferSuffix(OutputStrebm b) throws IOException {
+        super.pStrebm.println(" \nend");
+        super.pStrebm.flush();
     }
 
 }

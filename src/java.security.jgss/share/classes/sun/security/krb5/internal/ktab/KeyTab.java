@@ -1,304 +1,304 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.ktab;
+pbckbge sun.security.krb5.internbl.ktbb;
 
 import sun.security.krb5.*;
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.Vector;
+import sun.security.krb5.internbl.*;
+import sun.security.krb5.internbl.crypto.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.io.IOException;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileNotFoundException;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Vector;
 import sun.security.jgss.krb5.ServiceCreds;
 
 /**
- * This class represents key table. The key table functions deal with storing
- * and retrieving service keys for use in authentication exchanges.
+ * This clbss represents key tbble. The key tbble functions debl with storing
+ * bnd retrieving service keys for use in buthenticbtion exchbnges.
  *
- * A KeyTab object is always constructed, if the file specified does not
- * exist, it's still valid but empty. If there is an I/O error or file format
- * error, it's invalid.
+ * A KeyTbb object is blwbys constructed, if the file specified does not
+ * exist, it's still vblid but empty. If there is bn I/O error or file formbt
+ * error, it's invblid.
  *
- * The class is immutable on the read side (the write side is only used by
- * the ktab tool).
+ * The clbss is immutbble on the rebd side (the write side is only used by
+ * the ktbb tool).
  *
- * @author Yanni Zhang
+ * @buthor Ybnni Zhbng
  */
-public class KeyTab implements KeyTabConstants {
+public clbss KeyTbb implements KeyTbbConstbnts {
 
-    private static final boolean DEBUG = Krb5.DEBUG;
-    private static String defaultTabName = null;
+    privbte stbtic finbl boolebn DEBUG = Krb5.DEBUG;
+    privbte stbtic String defbultTbbNbme = null;
 
-    // Attention: Currently there is no way to remove a keytab from this map,
-    // this might lead to a memory leak.
-    private static Map<String,KeyTab> map = new HashMap<>();
+    // Attention: Currently there is no wby to remove b keytbb from this mbp,
+    // this might lebd to b memory lebk.
+    privbte stbtic Mbp<String,KeyTbb> mbp = new HbshMbp<>();
 
-    // KeyTab file does not exist. Note: a missing keytab is still valid
-    private boolean isMissing = false;
+    // KeyTbb file does not exist. Note: b missing keytbb is still vblid
+    privbte boolebn isMissing = fblse;
 
-    // KeyTab file is invalid, possibly an I/O error or a file format error.
-    private boolean isValid = true;
+    // KeyTbb file is invblid, possibly bn I/O error or b file formbt error.
+    privbte boolebn isVblid = true;
 
-    private final String tabName;
-    private long lastModified;
-    private int kt_vno = KRB5_KT_VNO;
+    privbte finbl String tbbNbme;
+    privbte long lbstModified;
+    privbte int kt_vno = KRB5_KT_VNO;
 
-    private Vector<KeyTabEntry> entries = new Vector<>();
+    privbte Vector<KeyTbbEntry> entries = new Vector<>();
 
     /**
-     * Constructs a KeyTab object.
+     * Constructs b KeyTbb object.
      *
-     * If there is any I/O error or format errot during the loading, the
-     * isValid flag is set to false, and all half-read entries are dismissed.
-     * @param filename path name for the keytab file, must not be null
+     * If there is bny I/O error or formbt errot during the lobding, the
+     * isVblid flbg is set to fblse, bnd bll hblf-rebd entries bre dismissed.
+     * @pbrbm filenbme pbth nbme for the keytbb file, must not be null
      */
-    private KeyTab(String filename) {
-        tabName = filename;
+    privbte KeyTbb(String filenbme) {
+        tbbNbme = filenbme;
         try {
-            lastModified = new File(tabName).lastModified();
-            try (KeyTabInputStream kis =
-                    new KeyTabInputStream(new FileInputStream(filename))) {
-                load(kis);
+            lbstModified = new File(tbbNbme).lbstModified();
+            try (KeyTbbInputStrebm kis =
+                    new KeyTbbInputStrebm(new FileInputStrebm(filenbme))) {
+                lobd(kis);
             }
-        } catch (FileNotFoundException e) {
-            entries.clear();
+        } cbtch (FileNotFoundException e) {
+            entries.clebr();
             isMissing = true;
-        } catch (Exception ioe) {
-            entries.clear();
-            isValid = false;
+        } cbtch (Exception ioe) {
+            entries.clebr();
+            isVblid = fblse;
         }
     }
 
     /**
-     * Read a keytab file. Returns a new object and save it into cache when
-     * new content (modified since last read) is available. If keytab file is
-     * invalid, the old object will be returned. This is a safeguard for
-     * partial-written keytab files or non-stable network. Please note that
-     * a missing keytab is valid, which is equivalent to an empty keytab.
+     * Rebd b keytbb file. Returns b new object bnd sbve it into cbche when
+     * new content (modified since lbst rebd) is bvbilbble. If keytbb file is
+     * invblid, the old object will be returned. This is b sbfegubrd for
+     * pbrtibl-written keytbb files or non-stbble network. Plebse note thbt
+     * b missing keytbb is vblid, which is equivblent to bn empty keytbb.
      *
-     * @param s file name of keytab, must not be null
-     * @return the keytab object, can be invalid, but never null.
+     * @pbrbm s file nbme of keytbb, must not be null
+     * @return the keytbb object, cbn be invblid, but never null.
      */
-    private synchronized static KeyTab getInstance0(String s) {
-        long lm = new File(s).lastModified();
-        KeyTab old = map.get(s);
-        if (old != null && old.isValid() && old.lastModified == lm) {
+    privbte synchronized stbtic KeyTbb getInstbnce0(String s) {
+        long lm = new File(s).lbstModified();
+        KeyTbb old = mbp.get(s);
+        if (old != null && old.isVblid() && old.lbstModified == lm) {
             return old;
         }
-        KeyTab ktab = new KeyTab(s);
-        if (ktab.isValid()) {               // A valid new keytab
-            map.put(s, ktab);
-            return ktab;
+        KeyTbb ktbb = new KeyTbb(s);
+        if (ktbb.isVblid()) {               // A vblid new keytbb
+            mbp.put(s, ktbb);
+            return ktbb;
         } else if (old != null) {           // An existing old one
             return old;
         } else {
-            return ktab;                    // first read is invalid
+            return ktbb;                    // first rebd is invblid
         }
     }
 
     /**
-     * Gets a KeyTab object.
-     * @param s the key tab file name.
-     * @return the KeyTab object, never null.
+     * Gets b KeyTbb object.
+     * @pbrbm s the key tbb file nbme.
+     * @return the KeyTbb object, never null.
      */
-    public static KeyTab getInstance(String s) {
+    public stbtic KeyTbb getInstbnce(String s) {
         if (s == null) {
-            return getInstance();
+            return getInstbnce();
         } else {
-            return getInstance0(normalize(s));
+            return getInstbnce0(normblize(s));
         }
     }
 
     /**
-     * Gets a KeyTab object.
-     * @param file the key tab file.
-     * @return the KeyTab object, never null.
+     * Gets b KeyTbb object.
+     * @pbrbm file the key tbb file.
+     * @return the KeyTbb object, never null.
      */
-    public static KeyTab getInstance(File file) {
+    public stbtic KeyTbb getInstbnce(File file) {
         if (file == null) {
-            return getInstance();
+            return getInstbnce();
         } else {
-            return getInstance0(file.getPath());
+            return getInstbnce0(file.getPbth());
         }
     }
 
     /**
-     * Gets the default KeyTab object.
-     * @return the KeyTab object, never null.
+     * Gets the defbult KeyTbb object.
+     * @return the KeyTbb object, never null.
      */
-    public static KeyTab getInstance() {
-        return getInstance(getDefaultTabName());
+    public stbtic KeyTbb getInstbnce() {
+        return getInstbnce(getDefbultTbbNbme());
     }
 
-    public boolean isMissing() {
+    public boolebn isMissing() {
         return isMissing;
     }
 
-    public boolean isValid() {
-        return isValid;
+    public boolebn isVblid() {
+        return isVblid;
     }
 
     /**
-     * The location of keytab file will be read from the configuration file
-     * If it is not specified, consider user.home as the keytab file's
-     * default location.
+     * The locbtion of keytbb file will be rebd from the configurbtion file
+     * If it is not specified, consider user.home bs the keytbb file's
+     * defbult locbtion.
      * @return never null
      */
-    private static String getDefaultTabName() {
-        if (defaultTabName != null) {
-            return defaultTabName;
+    privbte stbtic String getDefbultTbbNbme() {
+        if (defbultTbbNbme != null) {
+            return defbultTbbNbme;
         } else {
-            String kname = null;
+            String knbme = null;
             try {
-                String keytab_names = Config.getInstance().get
-                        ("libdefaults", "default_keytab_name");
-                if (keytab_names != null) {
-                    StringTokenizer st = new StringTokenizer(keytab_names, " ");
-                    while (st.hasMoreTokens()) {
-                        kname = normalize(st.nextToken());
-                        if (new File(kname).exists()) {
-                            break;
+                String keytbb_nbmes = Config.getInstbnce().get
+                        ("libdefbults", "defbult_keytbb_nbme");
+                if (keytbb_nbmes != null) {
+                    StringTokenizer st = new StringTokenizer(keytbb_nbmes, " ");
+                    while (st.hbsMoreTokens()) {
+                        knbme = normblize(st.nextToken());
+                        if (new File(knbme).exists()) {
+                            brebk;
                         }
                     }
                 }
-            } catch (KrbException e) {
-                kname = null;
+            } cbtch (KrbException e) {
+                knbme = null;
             }
 
-            if (kname == null) {
+            if (knbme == null) {
                 String user_home =
-                        java.security.AccessController.doPrivileged(
-                        new sun.security.action.GetPropertyAction("user.home"));
+                        jbvb.security.AccessController.doPrivileged(
+                        new sun.security.bction.GetPropertyAction("user.home"));
 
                 if (user_home == null) {
                     user_home =
-                        java.security.AccessController.doPrivileged(
-                        new sun.security.action.GetPropertyAction("user.dir"));
+                        jbvb.security.AccessController.doPrivileged(
+                        new sun.security.bction.GetPropertyAction("user.dir"));
                 }
 
-                kname = user_home + File.separator  + "krb5.keytab";
+                knbme = user_home + File.sepbrbtor  + "krb5.keytbb";
             }
-            defaultTabName = kname;
-            return kname;
+            defbultTbbNbme = knbme;
+            return knbme;
         }
     }
 
     /**
-     * Normalizes some common keytab name formats into the bare file name.
-     * For example, FILE:/etc/krb5.keytab to /etc/krb5.keytab
-     * @param name never null
+     * Normblizes some common keytbb nbme formbts into the bbre file nbme.
+     * For exbmple, FILE:/etc/krb5.keytbb to /etc/krb5.keytbb
+     * @pbrbm nbme never null
      * @return never null
      */
-    // This method is used in this class and Krb5LoginModule
-    public static String normalize(String name) {
-        String kname;
-        if ((name.length() >= 5) &&
-            (name.substring(0, 5).equalsIgnoreCase("FILE:"))) {
-            kname = name.substring(5);
-        } else if ((name.length() >= 9) &&
-                (name.substring(0, 9).equalsIgnoreCase("ANY:FILE:"))) {
-            // this format found in MIT's krb5.ini.
-            kname = name.substring(9);
-        } else if ((name.length() >= 7) &&
-                (name.substring(0, 7).equalsIgnoreCase("SRVTAB:"))) {
-            // this format found in MIT's krb5.ini.
-            kname = name.substring(7);
+    // This method is used in this clbss bnd Krb5LoginModule
+    public stbtic String normblize(String nbme) {
+        String knbme;
+        if ((nbme.length() >= 5) &&
+            (nbme.substring(0, 5).equblsIgnoreCbse("FILE:"))) {
+            knbme = nbme.substring(5);
+        } else if ((nbme.length() >= 9) &&
+                (nbme.substring(0, 9).equblsIgnoreCbse("ANY:FILE:"))) {
+            // this formbt found in MIT's krb5.ini.
+            knbme = nbme.substring(9);
+        } else if ((nbme.length() >= 7) &&
+                (nbme.substring(0, 7).equblsIgnoreCbse("SRVTAB:"))) {
+            // this formbt found in MIT's krb5.ini.
+            knbme = nbme.substring(7);
         } else
-            kname = name;
-        return kname;
+            knbme = nbme;
+        return knbme;
     }
 
-    private void load(KeyTabInputStream kis)
-        throws IOException, RealmException {
+    privbte void lobd(KeyTbbInputStrebm kis)
+        throws IOException, ReblmException {
 
-        entries.clear();
-        kt_vno = kis.readVersion();
+        entries.clebr();
+        kt_vno = kis.rebdVersion();
         if (kt_vno == KRB5_KT_VNO_1) {
-            kis.setNativeByteOrder();
+            kis.setNbtiveByteOrder();
         }
         int entryLength = 0;
-        KeyTabEntry entry;
-        while (kis.available() > 0) {
-            entryLength = kis.readEntryLength();
-            entry = kis.readEntry(entryLength, kt_vno);
+        KeyTbbEntry entry;
+        while (kis.bvbilbble() > 0) {
+            entryLength = kis.rebdEntryLength();
+            entry = kis.rebdEntry(entryLength, kt_vno);
             if (DEBUG) {
-                System.out.println(">>> KeyTab: load() entry length: " +
+                System.out.println(">>> KeyTbb: lobd() entry length: " +
                         entryLength + "; type: " +
                         (entry != null? entry.keyType : 0));
             }
             if (entry != null)
-                entries.addElement(entry);
+                entries.bddElement(entry);
         }
     }
 
     /**
-     * Returns a principal name in this keytab. Used by
+     * Returns b principbl nbme in this keytbb. Used by
      * {@link ServiceCreds#getKKeys()}.
      */
-    public PrincipalName getOneName() {
+    public PrincipblNbme getOneNbme() {
         int size = entries.size();
         return size > 0 ? entries.elementAt(size-1).service : null;
     }
 
     /**
-     * Reads all keys for a service from the keytab file that have
-     * etypes that have been configured for use.
-     * @param service the PrincipalName of the requested service
-     * @return an array containing all the service keys, never null
+     * Rebds bll keys for b service from the keytbb file thbt hbve
+     * etypes thbt hbve been configured for use.
+     * @pbrbm service the PrincipblNbme of the requested service
+     * @return bn brrby contbining bll the service keys, never null
      */
-    public EncryptionKey[] readServiceKeys(PrincipalName service) {
-        KeyTabEntry entry;
+    public EncryptionKey[] rebdServiceKeys(PrincipblNbme service) {
+        KeyTbbEntry entry;
         EncryptionKey key;
         int size = entries.size();
-        ArrayList<EncryptionKey> keys = new ArrayList<>(size);
+        ArrbyList<EncryptionKey> keys = new ArrbyList<>(size);
         if (DEBUG) {
             System.out.println("Looking for keys for: " + service);
         }
         for (int i = size-1; i >= 0; i--) {
             entry = entries.elementAt(i);
-            if (entry.service.match(service)) {
+            if (entry.service.mbtch(service)) {
                 if (EType.isSupported(entry.keyType)) {
                     key = new EncryptionKey(entry.keyblock,
                                         entry.keyType,
                                         entry.keyVersion);
-                    keys.add(key);
+                    keys.bdd(key);
                     if (DEBUG) {
                         System.out.println("Added key: " + entry.keyType +
                             "version: " + entry.keyVersion);
@@ -310,36 +310,36 @@ public class KeyTab implements KeyTabConstants {
             }
         }
         size = keys.size();
-        EncryptionKey[] retVal = keys.toArray(new EncryptionKey[size]);
+        EncryptionKey[] retVbl = keys.toArrby(new EncryptionKey[size]);
 
-        // Sort the keys by kvno. Sometimes we must choose a single key (say,
-        // generate encrypted timestamp in AS-REQ). A key with a higher KVNO
-        // sounds like a newer one.
-        Arrays.sort(retVal, new Comparator<EncryptionKey>() {
+        // Sort the keys by kvno. Sometimes we must choose b single key (sby,
+        // generbte encrypted timestbmp in AS-REQ). A key with b higher KVNO
+        // sounds like b newer one.
+        Arrbys.sort(retVbl, new Compbrbtor<EncryptionKey>() {
             @Override
-            public int compare(EncryptionKey o1, EncryptionKey o2) {
-                return o2.getKeyVersionNumber().intValue()
-                        - o1.getKeyVersionNumber().intValue();
+            public int compbre(EncryptionKey o1, EncryptionKey o2) {
+                return o2.getKeyVersionNumber().intVblue()
+                        - o1.getKeyVersionNumber().intVblue();
             }
         });
 
-        return retVal;
+        return retVbl;
     }
 
 
 
     /**
-     * Searches for the service entry in the keytab file.
-     * The etype of the key must be one that has been configured
+     * Sebrches for the service entry in the keytbb file.
+     * The etype of the key must be one thbt hbs been configured
      * to be used.
-     * @param service the PrincipalName of the requested service.
-     * @return true if the entry is found, otherwise, return false.
+     * @pbrbm service the PrincipblNbme of the requested service.
+     * @return true if the entry is found, otherwise, return fblse.
      */
-    public boolean findServiceEntry(PrincipalName service) {
-        KeyTabEntry entry;
+    public boolebn findServiceEntry(PrincipblNbme service) {
+        KeyTbbEntry entry;
         for (int i = 0; i < entries.size(); i++) {
             entry = entries.elementAt(i);
-            if (entry.service.match(service)) {
+            if (entry.service.mbtch(service)) {
                 if (EType.isSupported(entry.keyType)) {
                     return true;
                 } else if (DEBUG) {
@@ -348,73 +348,73 @@ public class KeyTab implements KeyTabConstants {
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
-    public String tabName() {
-        return tabName;
+    public String tbbNbme() {
+        return tbbNbme;
     }
 
     /////////////////// THE WRITE SIDE ///////////////////////
-    /////////////// only used by ktab tool //////////////////
+    /////////////// only used by ktbb tool //////////////////
 
     /**
-     * Adds a new entry in the key table.
-     * @param service the service which will have a new entry in the key table.
-     * @param psswd the password which generates the key.
-     * @param kvno the kvno to use, -1 means automatic increasing
-     * @param append false if entries with old kvno would be removed.
-     * Note: if kvno is not -1, entries with the same kvno are always removed
+     * Adds b new entry in the key tbble.
+     * @pbrbm service the service which will hbve b new entry in the key tbble.
+     * @pbrbm psswd the pbssword which generbtes the key.
+     * @pbrbm kvno the kvno to use, -1 mebns butombtic increbsing
+     * @pbrbm bppend fblse if entries with old kvno would be removed.
+     * Note: if kvno is not -1, entries with the sbme kvno bre blwbys removed
      */
-    public void addEntry(PrincipalName service, char[] psswd,
-            int kvno, boolean append) throws KrbException {
-        addEntry(service, service.getSalt(), psswd, kvno, append);
+    public void bddEntry(PrincipblNbme service, chbr[] psswd,
+            int kvno, boolebn bppend) throws KrbException {
+        bddEntry(service, service.getSblt(), psswd, kvno, bppend);
     }
 
-    // Called by KDC test
-    public void addEntry(PrincipalName service, String salt, char[] psswd,
-            int kvno, boolean append) throws KrbException {
+    // Cblled by KDC test
+    public void bddEntry(PrincipblNbme service, String sblt, chbr[] psswd,
+            int kvno, boolebn bppend) throws KrbException {
 
-        EncryptionKey[] encKeys = EncryptionKey.acquireSecretKeys(
-            psswd, salt);
+        EncryptionKey[] encKeys = EncryptionKey.bcquireSecretKeys(
+            psswd, sblt);
 
-        // There should be only one maximum KVNO value for all etypes, so that
-        // all added keys can have the same KVNO.
+        // There should be only one mbximum KVNO vblue for bll etypes, so thbt
+        // bll bdded keys cbn hbve the sbme KVNO.
 
-        int maxKvno = 0;    // only useful when kvno == -1
+        int mbxKvno = 0;    // only useful when kvno == -1
         for (int i = entries.size()-1; i >= 0; i--) {
-            KeyTabEntry e = entries.get(i);
-            if (e.service.match(service)) {
-                if (e.keyVersion > maxKvno) {
-                    maxKvno = e.keyVersion;
+            KeyTbbEntry e = entries.get(i);
+            if (e.service.mbtch(service)) {
+                if (e.keyVersion > mbxKvno) {
+                    mbxKvno = e.keyVersion;
                 }
-                if (!append || e.keyVersion == kvno) {
+                if (!bppend || e.keyVersion == kvno) {
                     entries.removeElementAt(i);
                 }
             }
         }
         if (kvno == -1) {
-            kvno = maxKvno + 1;
+            kvno = mbxKvno + 1;
         }
 
         for (int i = 0; encKeys != null && i < encKeys.length; i++) {
             int keyType = encKeys[i].getEType();
-            byte[] keyValue = encKeys[i].getBytes();
+            byte[] keyVblue = encKeys[i].getBytes();
 
-            KeyTabEntry newEntry = new KeyTabEntry(service,
-                            service.getRealm(),
+            KeyTbbEntry newEntry = new KeyTbbEntry(service,
+                            service.getReblm(),
                             new KerberosTime(System.currentTimeMillis()),
-                                               kvno, keyType, keyValue);
-            entries.addElement(newEntry);
+                                               kvno, keyType, keyVblue);
+            entries.bddElement(newEntry);
         }
     }
 
     /**
-     * Gets the list of service entries in key table.
-     * @return array of <code>KeyTabEntry</code>.
+     * Gets the list of service entries in key tbble.
+     * @return brrby of <code>KeyTbbEntry</code>.
      */
-    public KeyTabEntry[] getEntries() {
-        KeyTabEntry[] kentries = new KeyTabEntry[entries.size()];
+    public KeyTbbEntry[] getEntries() {
+        KeyTbbEntry[] kentries = new KeyTbbEntry[entries.size()];
         for (int i = 0; i < kentries.length; i++) {
             kentries[i] = entries.elementAt(i);
         }
@@ -422,33 +422,33 @@ public class KeyTab implements KeyTabConstants {
     }
 
     /**
-     * Creates a new default key table.
+     * Crebtes b new defbult key tbble.
      */
-    public synchronized static KeyTab create()
-        throws IOException, RealmException {
-        String dname = getDefaultTabName();
-        return create(dname);
+    public synchronized stbtic KeyTbb crebte()
+        throws IOException, ReblmException {
+        String dnbme = getDefbultTbbNbme();
+        return crebte(dnbme);
     }
 
     /**
-     * Creates a new default key table.
+     * Crebtes b new defbult key tbble.
      */
-    public synchronized static KeyTab create(String name)
-        throws IOException, RealmException {
+    public synchronized stbtic KeyTbb crebte(String nbme)
+        throws IOException, ReblmException {
 
-        try (KeyTabOutputStream kos =
-                new KeyTabOutputStream(new FileOutputStream(name))) {
+        try (KeyTbbOutputStrebm kos =
+                new KeyTbbOutputStrebm(new FileOutputStrebm(nbme))) {
             kos.writeVersion(KRB5_KT_VNO);
         }
-        return new KeyTab(name);
+        return new KeyTbb(nbme);
     }
 
     /**
-     * Saves the file at the directory.
+     * Sbves the file bt the directory.
      */
-    public synchronized void save() throws IOException {
-        try (KeyTabOutputStream kos =
-                new KeyTabOutputStream(new FileOutputStream(tabName))) {
+    public synchronized void sbve() throws IOException {
+        try (KeyTbbOutputStrebm kos =
+                new KeyTbbOutputStrebm(new FileOutputStrebm(tbbNbme))) {
             kos.writeVersion(kt_vno);
             for (int i = 0; i < entries.size(); i++) {
                 kos.writeEntry(entries.elementAt(i));
@@ -457,26 +457,26 @@ public class KeyTab implements KeyTabConstants {
     }
 
     /**
-     * Removes entries from the key table.
-     * @param service the service <code>PrincipalName</code>.
-     * @param etype the etype to match, remove all if -1
-     * @param kvno what kvno to remove, -1 for all, -2 for old
+     * Removes entries from the key tbble.
+     * @pbrbm service the service <code>PrincipblNbme</code>.
+     * @pbrbm etype the etype to mbtch, remove bll if -1
+     * @pbrbm kvno whbt kvno to remove, -1 for bll, -2 for old
      * @return the number of entries deleted
      */
-    public int deleteEntries(PrincipalName service, int etype, int kvno) {
+    public int deleteEntries(PrincipblNbme service, int etype, int kvno) {
         int count = 0;
 
-        // Remember the highest KVNO for each etype. Used for kvno == -2
-        Map<Integer,Integer> highest = new HashMap<>();
+        // Remember the highest KVNO for ebch etype. Used for kvno == -2
+        Mbp<Integer,Integer> highest = new HbshMbp<>();
 
         for (int i = entries.size()-1; i >= 0; i--) {
-            KeyTabEntry e = entries.get(i);
-            if (service.match(e.getService())) {
+            KeyTbbEntry e = entries.get(i);
+            if (service.mbtch(e.getService())) {
                 if (etype == -1 || e.keyType == etype) {
                     if (kvno == -2) {
                         // Two rounds for kvno == -2. In the first round (here),
-                        // only find out highest KVNO for each etype
-                        if (highest.containsKey(e.keyType)) {
+                        // only find out highest KVNO for ebch etype
+                        if (highest.contbinsKey(e.keyType)) {
                             int n = highest.get(e.keyType);
                             if (e.keyVersion > n) {
                                 highest.put(e.keyType, e.keyVersion);
@@ -495,8 +495,8 @@ public class KeyTab implements KeyTabConstants {
         // Second round for kvno == -2, remove old entries
         if (kvno == -2) {
             for (int i = entries.size()-1; i >= 0; i--) {
-                KeyTabEntry e = entries.get(i);
-                if (service.match(e.getService())) {
+                KeyTbbEntry e = entries.get(i);
+                if (service.mbtch(e.getService())) {
                     if (etype == -1 || e.keyType == etype) {
                         int n = highest.get(e.keyType);
                         if (e.keyVersion != n) {
@@ -511,13 +511,13 @@ public class KeyTab implements KeyTabConstants {
     }
 
     /**
-     * Creates key table file version.
-     * @param file the key table file.
+     * Crebtes key tbble file version.
+     * @pbrbm file the key tbble file.
      * @exception IOException.
      */
-    public synchronized void createVersion(File file) throws IOException {
-        try (KeyTabOutputStream kos =
-                new KeyTabOutputStream(new FileOutputStream(file))) {
+    public synchronized void crebteVersion(File file) throws IOException {
+        try (KeyTbbOutputStrebm kos =
+                new KeyTbbOutputStrebm(new FileOutputStrebm(file))) {
             kos.write16(KRB5_KT_VNO);
         }
     }

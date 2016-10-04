@@ -1,525 +1,525 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.x11;
+pbckbge sun.jbvb2d.x11;
 
-import java.awt.Polygon;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Path2D;
-import java.awt.geom.IllegalPathStateException;
-import sun.awt.SunToolkit;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.pipe.Region;
-import sun.java2d.pipe.PixelDrawPipe;
-import sun.java2d.pipe.PixelFillPipe;
-import sun.java2d.pipe.ShapeDrawPipe;
-import sun.java2d.pipe.SpanIterator;
-import sun.java2d.pipe.ShapeSpanIterator;
-import sun.java2d.pipe.LoopPipe;
+import jbvb.bwt.Polygon;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.geom.Pbth2D;
+import jbvb.bwt.geom.IllegblPbthStbteException;
+import sun.bwt.SunToolkit;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.pipe.Region;
+import sun.jbvb2d.pipe.PixelDrbwPipe;
+import sun.jbvb2d.pipe.PixelFillPipe;
+import sun.jbvb2d.pipe.ShbpeDrbwPipe;
+import sun.jbvb2d.pipe.SpbnIterbtor;
+import sun.jbvb2d.pipe.ShbpeSpbnIterbtor;
+import sun.jbvb2d.pipe.LoopPipe;
 
-public class X11Renderer implements
-    PixelDrawPipe,
+public clbss X11Renderer implements
+    PixelDrbwPipe,
     PixelFillPipe,
-    ShapeDrawPipe
+    ShbpeDrbwPipe
 {
-    public static X11Renderer getInstance() {
-        return (GraphicsPrimitive.tracingEnabled()
-                ? new X11TracingRenderer()
+    public stbtic X11Renderer getInstbnce() {
+        return (GrbphicsPrimitive.trbcingEnbbled()
+                ? new X11TrbcingRenderer()
                 : new X11Renderer());
     }
 
-    private final long validate(SunGraphics2D sg2d) {
-        // NOTE: getCompClip() will revalidateAll() if the
-        // surfaceData is invalid.  This should ensure that
-        // the clip and pixel that we are validating against
-        // are the most current.
+    privbte finbl long vblidbte(SunGrbphics2D sg2d) {
+        // NOTE: getCompClip() will revblidbteAll() if the
+        // surfbceDbtb is invblid.  This should ensure thbt
+        // the clip bnd pixel thbt we bre vblidbting bgbinst
+        // bre the most current.
         //
-        // The assumption is that the pipeline after that
-        // revalidation will either be another X11 pipe
-        // (because the drawable format never changes on X11)
-        // or a null pipeline if the surface is disposed.
+        // The bssumption is thbt the pipeline bfter thbt
+        // revblidbtion will either be bnother X11 pipe
+        // (becbuse the drbwbble formbt never chbnges on X11)
+        // or b null pipeline if the surfbce is disposed.
         //
-        // Since we do not get the ops structure of the SurfaceData
-        // until the actual call down to the native level we will
-        // pick up the most recently validated copy.
-        // Note that if the surface is disposed, a NullSurfaceData
-        // (with null native data structure) will be set in
-        // sg2d, so we have to protect against it in native code.
+        // Since we do not get the ops structure of the SurfbceDbtb
+        // until the bctubl cbll down to the nbtive level we will
+        // pick up the most recently vblidbted copy.
+        // Note thbt if the surfbce is disposed, b NullSurfbceDbtb
+        // (with null nbtive dbtb structure) will be set in
+        // sg2d, so we hbve to protect bgbinst it in nbtive code.
 
-        X11SurfaceData x11sd = (X11SurfaceData)sg2d.surfaceData;
+        X11SurfbceDbtb x11sd = (X11SurfbceDbtb)sg2d.surfbceDbtb;
         return x11sd.getRenderGC(sg2d.getCompClip(),
-                                 sg2d.compositeState, sg2d.composite,
+                                 sg2d.compositeStbte, sg2d.composite,
                                  sg2d.pixel);
     }
 
-    native void XDrawLine(long pXSData, long xgc,
+    nbtive void XDrbwLine(long pXSDbtb, long xgc,
                           int x1, int y1, int x2, int y2);
 
-    public void drawLine(SunGraphics2D sg2d, int x1, int y1, int x2, int y2) {
-        SunToolkit.awtLock();
+    public void drbwLine(SunGrbphics2D sg2d, int x1, int y1, int x2, int y2) {
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            int transx = sg2d.transX;
-            int transy = sg2d.transY;
-            XDrawLine(sg2d.surfaceData.getNativeOps(), xgc,
-                      x1+transx, y1+transy, x2+transx, y2+transy);
-        } finally {
-            SunToolkit.awtUnlock();
+            long xgc = vblidbte(sg2d);
+            int trbnsx = sg2d.trbnsX;
+            int trbnsy = sg2d.trbnsY;
+            XDrbwLine(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                      x1+trbnsx, y1+trbnsy, x2+trbnsx, y2+trbnsy);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    native void XDrawRect(long pXSData, long xgc,
+    nbtive void XDrbwRect(long pXSDbtb, long xgc,
                           int x, int y, int w, int h);
 
-    public void drawRect(SunGraphics2D sg2d,
+    public void drbwRect(SunGrbphics2D sg2d,
                          int x, int y, int width, int height)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            XDrawRect(sg2d.surfaceData.getNativeOps(), xgc,
-                      x+sg2d.transX, y+sg2d.transY, width, height);
-        } finally {
-            SunToolkit.awtUnlock();
+            long xgc = vblidbte(sg2d);
+            XDrbwRect(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                      x+sg2d.trbnsX, y+sg2d.trbnsY, width, height);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    native void XDrawRoundRect(long pXSData, long xgc,
+    nbtive void XDrbwRoundRect(long pXSDbtb, long xgc,
                                int x, int y, int w, int h,
-                               int arcW, int arcH);
+                               int brcW, int brcH);
 
-    public void drawRoundRect(SunGraphics2D sg2d,
+    public void drbwRoundRect(SunGrbphics2D sg2d,
                               int x, int y, int width, int height,
-                              int arcWidth, int arcHeight)
+                              int brcWidth, int brcHeight)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            XDrawRoundRect(sg2d.surfaceData.getNativeOps(), xgc,
-                           x+sg2d.transX, y+sg2d.transY, width, height,
-                           arcWidth, arcHeight);
-        } finally {
-            SunToolkit.awtUnlock();
+            long xgc = vblidbte(sg2d);
+            XDrbwRoundRect(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                           x+sg2d.trbnsX, y+sg2d.trbnsY, width, height,
+                           brcWidth, brcHeight);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    native void XDrawOval(long pXSData, long xgc,
+    nbtive void XDrbwOvbl(long pXSDbtb, long xgc,
                           int x, int y, int w, int h);
 
-    public void drawOval(SunGraphics2D sg2d,
+    public void drbwOvbl(SunGrbphics2D sg2d,
                          int x, int y, int width, int height)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            XDrawOval(sg2d.surfaceData.getNativeOps(), xgc,
-                      x+sg2d.transX, y+sg2d.transY, width, height);
-        } finally {
-            SunToolkit.awtUnlock();
+            long xgc = vblidbte(sg2d);
+            XDrbwOvbl(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                      x+sg2d.trbnsX, y+sg2d.trbnsY, width, height);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    native void XDrawArc(long pXSData, long xgc,
+    nbtive void XDrbwArc(long pXSDbtb, long xgc,
                          int x, int y, int w, int h,
-                         int angleStart, int angleExtent);
+                         int bngleStbrt, int bngleExtent);
 
-    public void drawArc(SunGraphics2D sg2d,
+    public void drbwArc(SunGrbphics2D sg2d,
                         int x, int y, int width, int height,
-                        int startAngle, int arcAngle)
+                        int stbrtAngle, int brcAngle)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            XDrawArc(sg2d.surfaceData.getNativeOps(), xgc,
-                     x+sg2d.transX, y+sg2d.transY, width, height,
-                     startAngle, arcAngle);
-        } finally {
-            SunToolkit.awtUnlock();
+            long xgc = vblidbte(sg2d);
+            XDrbwArc(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                     x+sg2d.trbnsX, y+sg2d.trbnsY, width, height,
+                     stbrtAngle, brcAngle);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    native void XDrawPoly(long pXSData, long xgc,
-                          int transx, int transy,
+    nbtive void XDrbwPoly(long pXSDbtb, long xgc,
+                          int trbnsx, int trbnsy,
                           int[] xpoints, int[] ypoints,
-                          int npoints, boolean isclosed);
+                          int npoints, boolebn isclosed);
 
-    public void drawPolyline(SunGraphics2D sg2d,
+    public void drbwPolyline(SunGrbphics2D sg2d,
                              int xpoints[], int ypoints[],
                              int npoints)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            XDrawPoly(sg2d.surfaceData.getNativeOps(), xgc,
-                      sg2d.transX, sg2d.transY,
-                      xpoints, ypoints, npoints, false);
-        } finally {
-            SunToolkit.awtUnlock();
+            long xgc = vblidbte(sg2d);
+            XDrbwPoly(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                      sg2d.trbnsX, sg2d.trbnsY,
+                      xpoints, ypoints, npoints, fblse);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    public void drawPolygon(SunGraphics2D sg2d,
+    public void drbwPolygon(SunGrbphics2D sg2d,
                             int xpoints[], int ypoints[],
                             int npoints)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            XDrawPoly(sg2d.surfaceData.getNativeOps(), xgc,
-                      sg2d.transX, sg2d.transY,
+            long xgc = vblidbte(sg2d);
+            XDrbwPoly(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                      sg2d.trbnsX, sg2d.trbnsY,
                       xpoints, ypoints, npoints, true);
-        } finally {
-            SunToolkit.awtUnlock();
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    native void XFillRect(long pXSData, long xgc,
+    nbtive void XFillRect(long pXSDbtb, long xgc,
                           int x, int y, int w, int h);
 
-    public void fillRect(SunGraphics2D sg2d,
+    public void fillRect(SunGrbphics2D sg2d,
                          int x, int y, int width, int height)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            XFillRect(sg2d.surfaceData.getNativeOps(), xgc,
-                      x+sg2d.transX, y+sg2d.transY, width, height);
-        } finally {
-            SunToolkit.awtUnlock();
+            long xgc = vblidbte(sg2d);
+            XFillRect(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                      x+sg2d.trbnsX, y+sg2d.trbnsY, width, height);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    native void XFillRoundRect(long pXSData, long xgc,
+    nbtive void XFillRoundRect(long pXSDbtb, long xgc,
                                int x, int y, int w, int h,
-                               int arcW, int arcH);
+                               int brcW, int brcH);
 
-    public void fillRoundRect(SunGraphics2D sg2d,
+    public void fillRoundRect(SunGrbphics2D sg2d,
                               int x, int y, int width, int height,
-                              int arcWidth, int arcHeight)
+                              int brcWidth, int brcHeight)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            XFillRoundRect(sg2d.surfaceData.getNativeOps(), xgc,
-                           x+sg2d.transX, y+sg2d.transY, width, height,
-                           arcWidth, arcHeight);
-        } finally {
-            SunToolkit.awtUnlock();
+            long xgc = vblidbte(sg2d);
+            XFillRoundRect(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                           x+sg2d.trbnsX, y+sg2d.trbnsY, width, height,
+                           brcWidth, brcHeight);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    native void XFillOval(long pXSData, long xgc,
+    nbtive void XFillOvbl(long pXSDbtb, long xgc,
                           int x, int y, int w, int h);
 
-    public void fillOval(SunGraphics2D sg2d,
+    public void fillOvbl(SunGrbphics2D sg2d,
                          int x, int y, int width, int height)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            XFillOval(sg2d.surfaceData.getNativeOps(), xgc,
-                      x+sg2d.transX, y+sg2d.transY, width, height);
-        } finally {
-            SunToolkit.awtUnlock();
+            long xgc = vblidbte(sg2d);
+            XFillOvbl(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                      x+sg2d.trbnsX, y+sg2d.trbnsY, width, height);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    native void XFillArc(long pXSData, long xgc,
+    nbtive void XFillArc(long pXSDbtb, long xgc,
                          int x, int y, int w, int h,
-                         int angleStart, int angleExtent);
+                         int bngleStbrt, int bngleExtent);
 
-    public void fillArc(SunGraphics2D sg2d,
+    public void fillArc(SunGrbphics2D sg2d,
                         int x, int y, int width, int height,
-                        int startAngle, int arcAngle)
+                        int stbrtAngle, int brcAngle)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            XFillArc(sg2d.surfaceData.getNativeOps(), xgc,
-                     x+sg2d.transX, y+sg2d.transY, width, height,
-                     startAngle, arcAngle);
-        } finally {
-            SunToolkit.awtUnlock();
+            long xgc = vblidbte(sg2d);
+            XFillArc(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                     x+sg2d.trbnsX, y+sg2d.trbnsY, width, height,
+                     stbrtAngle, brcAngle);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    native void XFillPoly(long pXSData, long xgc,
-                          int transx, int transy,
+    nbtive void XFillPoly(long pXSDbtb, long xgc,
+                          int trbnsx, int trbnsy,
                           int[] xpoints, int[] ypoints,
                           int npoints);
 
-    public void fillPolygon(SunGraphics2D sg2d,
+    public void fillPolygon(SunGrbphics2D sg2d,
                             int xpoints[], int ypoints[],
                             int npoints)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            XFillPoly(sg2d.surfaceData.getNativeOps(), xgc,
-                      sg2d.transX, sg2d.transY, xpoints, ypoints, npoints);
-        } finally {
-            SunToolkit.awtUnlock();
+            long xgc = vblidbte(sg2d);
+            XFillPoly(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                      sg2d.trbnsX, sg2d.trbnsY, xpoints, ypoints, npoints);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    native void XFillSpans(long pXSData, long xgc,
-                           SpanIterator si, long iterator,
-                           int transx, int transy);
+    nbtive void XFillSpbns(long pXSDbtb, long xgc,
+                           SpbnIterbtor si, long iterbtor,
+                           int trbnsx, int trbnsy);
 
-    native void XDoPath(SunGraphics2D sg2d, long pXSData, long xgc,
-                        int transX, int transY, Path2D.Float p2df,
-                        boolean isFill);
+    nbtive void XDoPbth(SunGrbphics2D sg2d, long pXSDbtb, long xgc,
+                        int trbnsX, int trbnsY, Pbth2D.Flobt p2df,
+                        boolebn isFill);
 
-    private void doPath(SunGraphics2D sg2d, Shape s, boolean isFill) {
-        Path2D.Float p2df;
-        int transx, transy;
-        if (sg2d.transformState <= SunGraphics2D.TRANSFORM_INT_TRANSLATE) {
-            if (s instanceof Path2D.Float) {
-                p2df = (Path2D.Float)s;
+    privbte void doPbth(SunGrbphics2D sg2d, Shbpe s, boolebn isFill) {
+        Pbth2D.Flobt p2df;
+        int trbnsx, trbnsy;
+        if (sg2d.trbnsformStbte <= SunGrbphics2D.TRANSFORM_INT_TRANSLATE) {
+            if (s instbnceof Pbth2D.Flobt) {
+                p2df = (Pbth2D.Flobt)s;
             } else {
-                p2df = new Path2D.Float(s);
+                p2df = new Pbth2D.Flobt(s);
             }
-            transx = sg2d.transX;
-            transy = sg2d.transY;
+            trbnsx = sg2d.trbnsX;
+            trbnsy = sg2d.trbnsY;
         } else {
-            p2df = new Path2D.Float(s, sg2d.transform);
-            transx = 0;
-            transy = 0;
+            p2df = new Pbth2D.Flobt(s, sg2d.trbnsform);
+            trbnsx = 0;
+            trbnsy = 0;
         }
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
         try {
-            long xgc = validate(sg2d);
-            XDoPath(sg2d, sg2d.surfaceData.getNativeOps(), xgc,
-                    transx, transy, p2df, isFill);
-        } finally {
-            SunToolkit.awtUnlock();
+            long xgc = vblidbte(sg2d);
+            XDoPbth(sg2d, sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                    trbnsx, trbnsy, p2df, isFill);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    public void draw(SunGraphics2D sg2d, Shape s) {
-        if (sg2d.strokeState == SunGraphics2D.STROKE_THIN) {
-            // Delegate to drawPolygon() if possible...
-            if (s instanceof Polygon &&
-                sg2d.transformState < SunGraphics2D.TRANSFORM_TRANSLATESCALE)
+    public void drbw(SunGrbphics2D sg2d, Shbpe s) {
+        if (sg2d.strokeStbte == SunGrbphics2D.STROKE_THIN) {
+            // Delegbte to drbwPolygon() if possible...
+            if (s instbnceof Polygon &&
+                sg2d.trbnsformStbte < SunGrbphics2D.TRANSFORM_TRANSLATESCALE)
             {
                 Polygon p = (Polygon) s;
-                drawPolygon(sg2d, p.xpoints, p.ypoints, p.npoints);
+                drbwPolygon(sg2d, p.xpoints, p.ypoints, p.npoints);
                 return;
             }
 
-            // Otherwise we will use drawPath() for
-            // high-quality thin paths.
-            doPath(sg2d, s, false);
-        } else if (sg2d.strokeState < SunGraphics2D.STROKE_CUSTOM) {
-            // REMIND: X11 can handle uniform scaled wide lines
-            // and dashed lines itself if we set the appropriate
-            // XGC attributes (TBD).
-            ShapeSpanIterator si = LoopPipe.getStrokeSpans(sg2d, s);
+            // Otherwise we will use drbwPbth() for
+            // high-qublity thin pbths.
+            doPbth(sg2d, s, fblse);
+        } else if (sg2d.strokeStbte < SunGrbphics2D.STROKE_CUSTOM) {
+            // REMIND: X11 cbn hbndle uniform scbled wide lines
+            // bnd dbshed lines itself if we set the bppropribte
+            // XGC bttributes (TBD).
+            ShbpeSpbnIterbtor si = LoopPipe.getStrokeSpbns(sg2d, s);
             try {
-                SunToolkit.awtLock();
+                SunToolkit.bwtLock();
                 try {
-                    long xgc = validate(sg2d);
-                    XFillSpans(sg2d.surfaceData.getNativeOps(), xgc,
-                               si, si.getNativeIterator(),
+                    long xgc = vblidbte(sg2d);
+                    XFillSpbns(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                               si, si.getNbtiveIterbtor(),
                                0, 0);
-                } finally {
-                    SunToolkit.awtUnlock();
+                } finblly {
+                    SunToolkit.bwtUnlock();
                 }
-            } finally {
+            } finblly {
                 si.dispose();
             }
         } else {
-            fill(sg2d, sg2d.stroke.createStrokedShape(s));
+            fill(sg2d, sg2d.stroke.crebteStrokedShbpe(s));
         }
     }
 
-    public void fill(SunGraphics2D sg2d, Shape s) {
-        if (sg2d.strokeState == SunGraphics2D.STROKE_THIN) {
-            // Delegate to fillPolygon() if possible...
-            if (s instanceof Polygon &&
-                sg2d.transformState < SunGraphics2D.TRANSFORM_TRANSLATESCALE)
+    public void fill(SunGrbphics2D sg2d, Shbpe s) {
+        if (sg2d.strokeStbte == SunGrbphics2D.STROKE_THIN) {
+            // Delegbte to fillPolygon() if possible...
+            if (s instbnceof Polygon &&
+                sg2d.trbnsformStbte < SunGrbphics2D.TRANSFORM_TRANSLATESCALE)
             {
                 Polygon p = (Polygon) s;
                 fillPolygon(sg2d, p.xpoints, p.ypoints, p.npoints);
                 return;
             }
 
-            // Otherwise we will use fillPath() for
-            // high-quality fills.
-            doPath(sg2d, s, true);
+            // Otherwise we will use fillPbth() for
+            // high-qublity fills.
+            doPbth(sg2d, s, true);
             return;
         }
 
-        AffineTransform at;
-        int transx, transy;
-        if (sg2d.transformState < SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
-            // Transform (translation) will be done by XFillSpans
-            at = null;
-            transx = sg2d.transX;
-            transy = sg2d.transY;
+        AffineTrbnsform bt;
+        int trbnsx, trbnsy;
+        if (sg2d.trbnsformStbte < SunGrbphics2D.TRANSFORM_TRANSLATESCALE) {
+            // Trbnsform (trbnslbtion) will be done by XFillSpbns
+            bt = null;
+            trbnsx = sg2d.trbnsX;
+            trbnsy = sg2d.trbnsY;
         } else {
-            // Transform will be done by the PathIterator
-            at = sg2d.transform;
-            transx = transy = 0;
+            // Trbnsform will be done by the PbthIterbtor
+            bt = sg2d.trbnsform;
+            trbnsx = trbnsy = 0;
         }
 
-        ShapeSpanIterator ssi = LoopPipe.getFillSSI(sg2d);
+        ShbpeSpbnIterbtor ssi = LoopPipe.getFillSSI(sg2d);
         try {
-            // Subtract transx/y from the SSI clip to match the
-            // (potentially untranslated) geometry fed to it
+            // Subtrbct trbnsx/y from the SSI clip to mbtch the
+            // (potentiblly untrbnslbted) geometry fed to it
             Region clip = sg2d.getCompClip();
-            ssi.setOutputAreaXYXY(clip.getLoX() - transx,
-                                  clip.getLoY() - transy,
-                                  clip.getHiX() - transx,
-                                  clip.getHiY() - transy);
-            ssi.appendPath(s.getPathIterator(at));
-            SunToolkit.awtLock();
+            ssi.setOutputArebXYXY(clip.getLoX() - trbnsx,
+                                  clip.getLoY() - trbnsy,
+                                  clip.getHiX() - trbnsx,
+                                  clip.getHiY() - trbnsy);
+            ssi.bppendPbth(s.getPbthIterbtor(bt));
+            SunToolkit.bwtLock();
             try {
-                long xgc = validate(sg2d);
-                XFillSpans(sg2d.surfaceData.getNativeOps(), xgc,
-                           ssi, ssi.getNativeIterator(),
-                           transx, transy);
-            } finally {
-                SunToolkit.awtUnlock();
+                long xgc = vblidbte(sg2d);
+                XFillSpbns(sg2d.surfbceDbtb.getNbtiveOps(), xgc,
+                           ssi, ssi.getNbtiveIterbtor(),
+                           trbnsx, trbnsy);
+            } finblly {
+                SunToolkit.bwtUnlock();
             }
-        } finally {
+        } finblly {
             ssi.dispose();
         }
     }
 
-    native void devCopyArea(long sdOps, long xgc,
+    nbtive void devCopyAreb(long sdOps, long xgc,
                             int srcx, int srcy,
                             int dstx, int dsty,
                             int w, int h);
 
-    public static class X11TracingRenderer extends X11Renderer {
-        void XDrawLine(long pXSData, long xgc,
+    public stbtic clbss X11TrbcingRenderer extends X11Renderer {
+        void XDrbwLine(long pXSDbtb, long xgc,
                        int x1, int y1, int x2, int y2)
         {
-            GraphicsPrimitive.tracePrimitive("X11DrawLine");
-            super.XDrawLine(pXSData, xgc, x1, y1, x2, y2);
+            GrbphicsPrimitive.trbcePrimitive("X11DrbwLine");
+            super.XDrbwLine(pXSDbtb, xgc, x1, y1, x2, y2);
         }
-        void XDrawRect(long pXSData, long xgc,
+        void XDrbwRect(long pXSDbtb, long xgc,
                        int x, int y, int w, int h)
         {
-            GraphicsPrimitive.tracePrimitive("X11DrawRect");
-            super.XDrawRect(pXSData, xgc, x, y, w, h);
+            GrbphicsPrimitive.trbcePrimitive("X11DrbwRect");
+            super.XDrbwRect(pXSDbtb, xgc, x, y, w, h);
         }
-        void XDrawRoundRect(long pXSData, long xgc,
+        void XDrbwRoundRect(long pXSDbtb, long xgc,
                             int x, int y, int w, int h,
-                            int arcW, int arcH)
+                            int brcW, int brcH)
         {
-            GraphicsPrimitive.tracePrimitive("X11DrawRoundRect");
-            super.XDrawRoundRect(pXSData, xgc, x, y, w, h, arcW, arcH);
+            GrbphicsPrimitive.trbcePrimitive("X11DrbwRoundRect");
+            super.XDrbwRoundRect(pXSDbtb, xgc, x, y, w, h, brcW, brcH);
         }
-        void XDrawOval(long pXSData, long xgc,
+        void XDrbwOvbl(long pXSDbtb, long xgc,
                        int x, int y, int w, int h)
         {
-            GraphicsPrimitive.tracePrimitive("X11DrawOval");
-            super.XDrawOval(pXSData, xgc, x, y, w, h);
+            GrbphicsPrimitive.trbcePrimitive("X11DrbwOvbl");
+            super.XDrbwOvbl(pXSDbtb, xgc, x, y, w, h);
         }
-        void XDrawArc(long pXSData, long xgc,
+        void XDrbwArc(long pXSDbtb, long xgc,
                       int x, int y, int w, int h,
-                      int angleStart, int angleExtent)
+                      int bngleStbrt, int bngleExtent)
         {
-            GraphicsPrimitive.tracePrimitive("X11DrawArc");
-            super.XDrawArc(pXSData, xgc,
-                           x, y, w, h, angleStart, angleExtent);
+            GrbphicsPrimitive.trbcePrimitive("X11DrbwArc");
+            super.XDrbwArc(pXSDbtb, xgc,
+                           x, y, w, h, bngleStbrt, bngleExtent);
         }
-        void XDrawPoly(long pXSData, long xgc,
-                       int transx, int transy,
+        void XDrbwPoly(long pXSDbtb, long xgc,
+                       int trbnsx, int trbnsy,
                        int[] xpoints, int[] ypoints,
-                       int npoints, boolean isclosed)
+                       int npoints, boolebn isclosed)
         {
-            GraphicsPrimitive.tracePrimitive("X11DrawPoly");
-            super.XDrawPoly(pXSData, xgc, transx, transy,
+            GrbphicsPrimitive.trbcePrimitive("X11DrbwPoly");
+            super.XDrbwPoly(pXSDbtb, xgc, trbnsx, trbnsy,
                             xpoints, ypoints, npoints, isclosed);
         }
-        void XDoPath(SunGraphics2D sg2d, long pXSData, long xgc,
-                     int transX, int transY, Path2D.Float p2df,
-                     boolean isFill)
+        void XDoPbth(SunGrbphics2D sg2d, long pXSDbtb, long xgc,
+                     int trbnsX, int trbnsY, Pbth2D.Flobt p2df,
+                     boolebn isFill)
         {
-            GraphicsPrimitive.tracePrimitive(isFill ?
-                                             "X11FillPath" :
-                                             "X11DrawPath");
-            super.XDoPath(sg2d, pXSData, xgc, transX, transY, p2df, isFill);
+            GrbphicsPrimitive.trbcePrimitive(isFill ?
+                                             "X11FillPbth" :
+                                             "X11DrbwPbth");
+            super.XDoPbth(sg2d, pXSDbtb, xgc, trbnsX, trbnsY, p2df, isFill);
         }
-        void XFillRect(long pXSData, long xgc,
+        void XFillRect(long pXSDbtb, long xgc,
                        int x, int y, int w, int h)
         {
-            GraphicsPrimitive.tracePrimitive("X11FillRect");
-            super.XFillRect(pXSData, xgc, x, y, w, h);
+            GrbphicsPrimitive.trbcePrimitive("X11FillRect");
+            super.XFillRect(pXSDbtb, xgc, x, y, w, h);
         }
-        void XFillRoundRect(long pXSData, long xgc,
+        void XFillRoundRect(long pXSDbtb, long xgc,
                             int x, int y, int w, int h,
-                            int arcW, int arcH)
+                            int brcW, int brcH)
         {
-            GraphicsPrimitive.tracePrimitive("X11FillRoundRect");
-            super.XFillRoundRect(pXSData, xgc, x, y, w, h, arcW, arcH);
+            GrbphicsPrimitive.trbcePrimitive("X11FillRoundRect");
+            super.XFillRoundRect(pXSDbtb, xgc, x, y, w, h, brcW, brcH);
         }
-        void XFillOval(long pXSData, long xgc,
+        void XFillOvbl(long pXSDbtb, long xgc,
                        int x, int y, int w, int h)
         {
-            GraphicsPrimitive.tracePrimitive("X11FillOval");
-            super.XFillOval(pXSData, xgc, x, y, w, h);
+            GrbphicsPrimitive.trbcePrimitive("X11FillOvbl");
+            super.XFillOvbl(pXSDbtb, xgc, x, y, w, h);
         }
-        void XFillArc(long pXSData, long xgc,
+        void XFillArc(long pXSDbtb, long xgc,
                       int x, int y, int w, int h,
-                      int angleStart, int angleExtent)
+                      int bngleStbrt, int bngleExtent)
         {
-            GraphicsPrimitive.tracePrimitive("X11FillArc");
-            super.XFillArc(pXSData, xgc,
-                           x, y, w, h, angleStart, angleExtent);
+            GrbphicsPrimitive.trbcePrimitive("X11FillArc");
+            super.XFillArc(pXSDbtb, xgc,
+                           x, y, w, h, bngleStbrt, bngleExtent);
         }
-        void XFillPoly(long pXSData, long xgc,
-                       int transx, int transy,
+        void XFillPoly(long pXSDbtb, long xgc,
+                       int trbnsx, int trbnsy,
                        int[] xpoints, int[] ypoints,
                        int npoints)
         {
-            GraphicsPrimitive.tracePrimitive("X11FillPoly");
-            super.XFillPoly(pXSData, xgc,
-                            transx, transy, xpoints, ypoints, npoints);
+            GrbphicsPrimitive.trbcePrimitive("X11FillPoly");
+            super.XFillPoly(pXSDbtb, xgc,
+                            trbnsx, trbnsy, xpoints, ypoints, npoints);
         }
-        void XFillSpans(long pXSData, long xgc,
-                        SpanIterator si, long iterator, int transx, int transy)
+        void XFillSpbns(long pXSDbtb, long xgc,
+                        SpbnIterbtor si, long iterbtor, int trbnsx, int trbnsy)
         {
-            GraphicsPrimitive.tracePrimitive("X11FillSpans");
-            super.XFillSpans(pXSData, xgc,
-                             si, iterator, transx, transy);
+            GrbphicsPrimitive.trbcePrimitive("X11FillSpbns");
+            super.XFillSpbns(pXSDbtb, xgc,
+                             si, iterbtor, trbnsx, trbnsy);
         }
-        void devCopyArea(long sdOps, long xgc,
+        void devCopyAreb(long sdOps, long xgc,
                          int srcx, int srcy,
                          int dstx, int dsty,
                          int w, int h)
         {
-            GraphicsPrimitive.tracePrimitive("X11CopyArea");
-            super.devCopyArea(sdOps, xgc, srcx, srcy, dstx, dsty, w, h);
+            GrbphicsPrimitive.trbcePrimitive("X11CopyAreb");
+            super.devCopyAreb(sdOps, xgc, srcx, srcy, dstx, dsty, w, h);
         }
     }
 }

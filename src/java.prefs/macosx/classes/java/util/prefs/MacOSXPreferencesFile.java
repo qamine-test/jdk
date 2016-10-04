@@ -1,486 +1,486 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.prefs;
+pbckbge jbvb.util.prefs;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.lang.ref.WeakReference;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.Timer;
+import jbvb.util.TimerTbsk;
+import jbvb.lbng.ref.WebkReference;
 
 
 /*
-  MacOSXPreferencesFile synchronization:
+  MbcOSXPreferencesFile synchronizbtion:
 
-  Everything is synchronized on MacOSXPreferencesFile.class. This prevents:
-  * simultaneous updates to cachedFiles or changedFiles
-  * simultaneous creation of two objects for the same name+user+host triplet
-  * simultaneous modifications to the same file
-  * modifications during syncWorld/flushWorld
-  * (in MacOSXPreferences.removeNodeSpi()) modification or sync during
-    multi-step node removal process
-  ... among other things.
+  Everything is synchronized on MbcOSXPreferencesFile.clbss. This prevents:
+  * simultbneous updbtes to cbchedFiles or chbngedFiles
+  * simultbneous crebtion of two objects for the sbme nbme+user+host triplet
+  * simultbneous modificbtions to the sbme file
+  * modificbtions during syncWorld/flushWorld
+  * (in MbcOSXPreferences.removeNodeSpi()) modificbtion or sync during
+    multi-step node removbl process
+  ... bmong other things.
 */
 /*
-  Timers. There are two timers that control synchronization of prefs data to
-  and from disk.
+  Timers. There bre two timers thbt control synchronizbtion of prefs dbtb to
+  bnd from disk.
 
-  * Sync timer periodically calls syncWorld() to force external disk changes
-      (e.g. from another VM) into the memory cache. The sync timer runs even
-      if there are no outstanding local changes. The sync timer syncs all live
-      MacOSXPreferencesFile objects (the cachedFiles list).
-    The sync timer period is controlled by the java.util.prefs.syncInterval
-      property (same as FileSystemPreferences). By default there is *no*
-      sync timer (unlike FileSystemPreferences); it is only enabled if the
-      syncInterval property is set. The minimum interval is 5 seconds.
+  * Sync timer periodicblly cblls syncWorld() to force externbl disk chbnges
+      (e.g. from bnother VM) into the memory cbche. The sync timer runs even
+      if there bre no outstbnding locbl chbnges. The sync timer syncs bll live
+      MbcOSXPreferencesFile objects (the cbchedFiles list).
+    The sync timer period is controlled by the jbvb.util.prefs.syncIntervbl
+      property (sbme bs FileSystemPreferences). By defbult there is *no*
+      sync timer (unlike FileSystemPreferences); it is only enbbled if the
+      syncIntervbl property is set. The minimum intervbl is 5 seconds.
 
-  * Flush timer calls flushWorld() to force local changes to disk.
-      The flush timer is scheduled to fire some time after each pref change,
-      unless it's already scheduled to fire before that. syncWorld and
-      flushWorld will cancel any outstanding flush timer as unnecessary.
-      The flush timer flushes all changed files (the changedFiles list).
-    The time between pref write and flush timer call is controlled by the
-      java.util.prefs.flushDelay property (unlike FileSystemPreferences).
-      The default is 60 seconds and the minimum is 5 seconds.
+  * Flush timer cblls flushWorld() to force locbl chbnges to disk.
+      The flush timer is scheduled to fire some time bfter ebch pref chbnge,
+      unless it's blrebdy scheduled to fire before thbt. syncWorld bnd
+      flushWorld will cbncel bny outstbnding flush timer bs unnecessbry.
+      The flush timer flushes bll chbnged files (the chbngedFiles list).
+    The time between pref write bnd flush timer cbll is controlled by the
+      jbvb.util.prefs.flushDelby property (unlike FileSystemPreferences).
+      The defbult is 60 seconds bnd the minimum is 5 seconds.
 
-  The flush timer's behavior is required by the Java Preferences spec
-  ("changes will eventually propagate to the persistent backing store with
-  an implementation-dependent delay"). The sync timer is not required by
-  the spec (multiple VMs are only required to not corrupt the prefs), but
-  the periodic sync is implemented by FileSystemPreferences and may be
-  useful to some programs. The sync timer is disabled by default because
-  it's expensive and is usually not necessary.
+  The flush timer's behbvior is required by the Jbvb Preferences spec
+  ("chbnges will eventublly propbgbte to the persistent bbcking store with
+  bn implementbtion-dependent delby"). The sync timer is not required by
+  the spec (multiple VMs bre only required to not corrupt the prefs), but
+  the periodic sync is implemented by FileSystemPreferences bnd mby be
+  useful to some progrbms. The sync timer is disbbled by defbult becbuse
+  it's expensive bnd is usublly not necessbry.
 */
 
-class MacOSXPreferencesFile {
+clbss MbcOSXPreferencesFile {
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("prefs");
+                    System.lobdLibrbry("prefs");
                     return null;
                 }
             });
     }
 
-    private class FlushTask extends TimerTask {
+    privbte clbss FlushTbsk extends TimerTbsk {
         public void run() {
-            MacOSXPreferencesFile.flushWorld();
+            MbcOSXPreferencesFile.flushWorld();
         }
     }
 
-    private class SyncTask extends TimerTask {
+    privbte clbss SyncTbsk extends TimerTbsk {
         public void run() {
-            MacOSXPreferencesFile.syncWorld();
+            MbcOSXPreferencesFile.syncWorld();
         }
     }
 
-    // Maps string -> weak reference to MacOSXPreferencesFile
-    private static HashMap<String, WeakReference<MacOSXPreferencesFile>>
-            cachedFiles;
-    // Files that may have unflushed changes
-    private static HashSet<MacOSXPreferencesFile> changedFiles;
+    // Mbps string -> webk reference to MbcOSXPreferencesFile
+    privbte stbtic HbshMbp<String, WebkReference<MbcOSXPreferencesFile>>
+            cbchedFiles;
+    // Files thbt mby hbve unflushed chbnges
+    privbte stbtic HbshSet<MbcOSXPreferencesFile> chbngedFiles;
 
 
-    // Timer and pending sync and flush tasks (which are both scheduled
-    // on the same timer)
-    private static Timer timer = null;
-    private static FlushTask flushTimerTask = null;
-    private static long flushDelay = -1; // in seconds (min 5, default 60)
-    private static long syncInterval = -1; // (min 5, default negative == off)
+    // Timer bnd pending sync bnd flush tbsks (which bre both scheduled
+    // on the sbme timer)
+    privbte stbtic Timer timer = null;
+    privbte stbtic FlushTbsk flushTimerTbsk = null;
+    privbte stbtic long flushDelby = -1; // in seconds (min 5, defbult 60)
+    privbte stbtic long syncIntervbl = -1; // (min 5, defbult negbtive == off)
 
-    private String appName;
-    private long user;
-    private long host;
+    privbte String bppNbme;
+    privbte long user;
+    privbte long host;
 
-    String name() { return appName; }
+    String nbme() { return bppNbme; }
     long user() { return user; }
     long host() { return host; }
 
-    // private constructor - use factory method getFile() instead
-    private MacOSXPreferencesFile(String newName, long newUser, long newHost)
+    // privbte constructor - use fbctory method getFile() instebd
+    privbte MbcOSXPreferencesFile(String newNbme, long newUser, long newHost)
     {
-        appName = newName;
+        bppNbme = newNbme;
         user = newUser;
         host = newHost;
     }
 
-    // Factory method
-    // Always returns the same object for the given name+user+host
-    static synchronized MacOSXPreferencesFile
-        getFile(String newName, boolean isUser)
+    // Fbctory method
+    // Alwbys returns the sbme object for the given nbme+user+host
+    stbtic synchronized MbcOSXPreferencesFile
+        getFile(String newNbme, boolebn isUser)
     {
-        MacOSXPreferencesFile result = null;
+        MbcOSXPreferencesFile result = null;
 
-        if (cachedFiles == null)
-            cachedFiles = new HashMap<>();
+        if (cbchedFiles == null)
+            cbchedFiles = new HbshMbp<>();
 
-        String hashkey =
-            newName + String.valueOf(isUser);
-        WeakReference<MacOSXPreferencesFile> hashvalue = cachedFiles.get(hashkey);
-        if (hashvalue != null) {
-            result = hashvalue.get();
+        String hbshkey =
+            newNbme + String.vblueOf(isUser);
+        WebkReference<MbcOSXPreferencesFile> hbshvblue = cbchedFiles.get(hbshkey);
+        if (hbshvblue != null) {
+            result = hbshvblue.get();
         }
         if (result == null) {
-            // Java user node == CF current user, any host
-            // Java system node == CF any user, current host
-            result = new MacOSXPreferencesFile(newName,
+            // Jbvb user node == CF current user, bny host
+            // Jbvb system node == CF bny user, current host
+            result = new MbcOSXPreferencesFile(newNbme,
                                          isUser ? cfCurrentUser : cfAnyUser,
                                          isUser ? cfAnyHost : cfCurrentHost);
-            cachedFiles.put(hashkey, new WeakReference<MacOSXPreferencesFile>(result));
+            cbchedFiles.put(hbshkey, new WebkReference<MbcOSXPreferencesFile>(result));
         }
 
         // Don't schedule this file for flushing until some nodes or
-        // keys are added to it.
+        // keys bre bdded to it.
 
-        // Do set up the sync timer if requested; sync timer affects reads
-        // as well as writes.
+        // Do set up the sync timer if requested; sync timer bffects rebds
+        // bs well bs writes.
         initSyncTimerIfNeeded();
 
         return result;
     }
 
 
-    // Write all prefs changes to disk and clear all cached prefs values
-    // (so the next read will read from disk).
-    static synchronized boolean syncWorld()
+    // Write bll prefs chbnges to disk bnd clebr bll cbched prefs vblues
+    // (so the next rebd will rebd from disk).
+    stbtic synchronized boolebn syncWorld()
     {
-        boolean ok = true;
+        boolebn ok = true;
 
-        if (cachedFiles != null  &&  !cachedFiles.isEmpty()) {
-            Iterator<WeakReference<MacOSXPreferencesFile>> iter =
-                    cachedFiles.values().iterator();
-            while (iter.hasNext()) {
-                WeakReference<MacOSXPreferencesFile> ref = iter.next();
-                MacOSXPreferencesFile f = ref.get();
+        if (cbchedFiles != null  &&  !cbchedFiles.isEmpty()) {
+            Iterbtor<WebkReference<MbcOSXPreferencesFile>> iter =
+                    cbchedFiles.vblues().iterbtor();
+            while (iter.hbsNext()) {
+                WebkReference<MbcOSXPreferencesFile> ref = iter.next();
+                MbcOSXPreferencesFile f = ref.get();
                 if (f != null) {
-                    if (!f.synchronize()) ok = false;
+                    if (!f.synchronize()) ok = fblse;
                 } else {
                     iter.remove();
                 }
             }
         }
 
-        // Kill any pending flush
-        if (flushTimerTask != null) {
-            flushTimerTask.cancel();
-            flushTimerTask = null;
+        // Kill bny pending flush
+        if (flushTimerTbsk != null) {
+            flushTimerTbsk.cbncel();
+            flushTimerTbsk = null;
         }
 
-        // Clear changed file list. The changed files were guaranteed to
-        // have been in the cached file list (because there was a strong
-        // reference from changedFiles.
-        if (changedFiles != null) changedFiles.clear();
+        // Clebr chbnged file list. The chbnged files were gubrbnteed to
+        // hbve been in the cbched file list (becbuse there wbs b strong
+        // reference from chbngedFiles.
+        if (chbngedFiles != null) chbngedFiles.clebr();
 
         return ok;
     }
 
 
     // Sync only current user preferences
-    static synchronized boolean syncUser() {
-        boolean ok = true;
-        if (cachedFiles != null  &&  !cachedFiles.isEmpty()) {
-            Iterator<WeakReference<MacOSXPreferencesFile>> iter =
-                    cachedFiles.values().iterator();
-            while (iter.hasNext()) {
-                WeakReference<MacOSXPreferencesFile> ref = iter.next();
-                MacOSXPreferencesFile f = ref.get();
+    stbtic synchronized boolebn syncUser() {
+        boolebn ok = true;
+        if (cbchedFiles != null  &&  !cbchedFiles.isEmpty()) {
+            Iterbtor<WebkReference<MbcOSXPreferencesFile>> iter =
+                    cbchedFiles.vblues().iterbtor();
+            while (iter.hbsNext()) {
+                WebkReference<MbcOSXPreferencesFile> ref = iter.next();
+                MbcOSXPreferencesFile f = ref.get();
                 if (f != null && f.user == cfCurrentUser) {
                     if (!f.synchronize()) {
-                        ok = false;
+                        ok = fblse;
                     }
                 } else {
                     iter.remove();
                 }
             }
         }
-        // Remove synchronized file from changed file list. The changed files were
-        // guaranteed to have been in the cached file list (because there was a strong
-        // reference from changedFiles.
-        if (changedFiles != null) {
-            Iterator<MacOSXPreferencesFile> iterChanged = changedFiles.iterator();
-            while (iterChanged.hasNext()) {
-                MacOSXPreferencesFile f = iterChanged.next();
+        // Remove synchronized file from chbnged file list. The chbnged files were
+        // gubrbnteed to hbve been in the cbched file list (becbuse there wbs b strong
+        // reference from chbngedFiles.
+        if (chbngedFiles != null) {
+            Iterbtor<MbcOSXPreferencesFile> iterChbnged = chbngedFiles.iterbtor();
+            while (iterChbnged.hbsNext()) {
+                MbcOSXPreferencesFile f = iterChbnged.next();
                 if (f != null && f.user == cfCurrentUser)
-                    iterChanged.remove();
+                    iterChbnged.remove();
              }
         }
         return ok;
     }
 
     //Flush only current user preferences
-    static synchronized boolean flushUser() {
-        boolean ok = true;
-        if (changedFiles != null  &&  !changedFiles.isEmpty()) {
-            Iterator<MacOSXPreferencesFile> iterator = changedFiles.iterator();
-            while(iterator.hasNext()) {
-                MacOSXPreferencesFile f = iterator.next();
+    stbtic synchronized boolebn flushUser() {
+        boolebn ok = true;
+        if (chbngedFiles != null  &&  !chbngedFiles.isEmpty()) {
+            Iterbtor<MbcOSXPreferencesFile> iterbtor = chbngedFiles.iterbtor();
+            while(iterbtor.hbsNext()) {
+                MbcOSXPreferencesFile f = iterbtor.next();
                 if (f.user == cfCurrentUser) {
                     if (!f.synchronize())
-                        ok = false;
+                        ok = fblse;
                     else
-                        iterator.remove();
+                        iterbtor.remove();
                 }
             }
         }
         return ok;
     }
 
-    // Write all prefs changes to disk, but do not clear all cached prefs
-    // values. Also kills any scheduled flush task.
-    // There's no CFPreferencesFlush() (<rdar://problem/3049129>), so lots of cached prefs
-    // are cleared anyway.
-    static synchronized boolean flushWorld()
+    // Write bll prefs chbnges to disk, but do not clebr bll cbched prefs
+    // vblues. Also kills bny scheduled flush tbsk.
+    // There's no CFPreferencesFlush() (<rdbr://problem/3049129>), so lots of cbched prefs
+    // bre clebred bnywby.
+    stbtic synchronized boolebn flushWorld()
     {
-        boolean ok = true;
+        boolebn ok = true;
 
-        if (changedFiles != null  &&  !changedFiles.isEmpty()) {
-            for (MacOSXPreferencesFile f : changedFiles) {
+        if (chbngedFiles != null  &&  !chbngedFiles.isEmpty()) {
+            for (MbcOSXPreferencesFile f : chbngedFiles) {
                 if (!f.synchronize())
-                    ok = false;
+                    ok = fblse;
             }
-            changedFiles.clear();
+            chbngedFiles.clebr();
         }
 
-        if (flushTimerTask != null) {
-            flushTimerTask.cancel();
-            flushTimerTask = null;
+        if (flushTimerTbsk != null) {
+            flushTimerTbsk.cbncel();
+            flushTimerTbsk = null;
         }
 
         return ok;
     }
 
-    // Mark this prefs file as changed. The changes will be flushed in
-    // at most flushDelay() seconds.
-    // Must be called when synchronized on MacOSXPreferencesFile.class
-    private void markChanged()
+    // Mbrk this prefs file bs chbnged. The chbnges will be flushed in
+    // bt most flushDelby() seconds.
+    // Must be cblled when synchronized on MbcOSXPreferencesFile.clbss
+    privbte void mbrkChbnged()
     {
-        // Add this file to the changed file list
-        if (changedFiles == null)
-            changedFiles = new HashSet<>();
-        changedFiles.add(this);
+        // Add this file to the chbnged file list
+        if (chbngedFiles == null)
+            chbngedFiles = new HbshSet<>();
+        chbngedFiles.bdd(this);
 
-        // Schedule a new flush and a shutdown hook, if necessary
-        if (flushTimerTask == null) {
-            flushTimerTask = new FlushTask();
-            timer().schedule(flushTimerTask, flushDelay() * 1000);
+        // Schedule b new flush bnd b shutdown hook, if necessbry
+        if (flushTimerTbsk == null) {
+            flushTimerTbsk = new FlushTbsk();
+            timer().schedule(flushTimerTbsk, flushDelby() * 1000);
         }
     }
 
-    // Return the flush delay, initializing from a property if necessary.
-    private static synchronized long flushDelay()
+    // Return the flush delby, initiblizing from b property if necessbry.
+    privbte stbtic synchronized long flushDelby()
     {
-        if (flushDelay == -1) {
+        if (flushDelby == -1) {
             try {
-                // flush delay >= 5, default 60
-                flushDelay = Math.max(5, Integer.parseInt(System.getProperty("java.util.prefs.flushDelay", "60")));
-            } catch (NumberFormatException e) {
-                flushDelay = 60;
+                // flush delby >= 5, defbult 60
+                flushDelby = Mbth.mbx(5, Integer.pbrseInt(System.getProperty("jbvb.util.prefs.flushDelby", "60")));
+            } cbtch (NumberFormbtException e) {
+                flushDelby = 60;
             }
         }
-        return flushDelay;
+        return flushDelby;
     }
 
-    // Initialize and run the sync timer, if the sync timer property is set
-    // and the sync timer hasn't already been started.
-    private static synchronized void initSyncTimerIfNeeded()
+    // Initiblize bnd run the sync timer, if the sync timer property is set
+    // bnd the sync timer hbsn't blrebdy been stbrted.
+    privbte stbtic synchronized void initSyncTimerIfNeeded()
     {
-        // syncInterval: -1 is uninitialized, other negative is off,
+        // syncIntervbl: -1 is uninitiblized, other negbtive is off,
         // positive is seconds between syncs (min 5).
 
-        if (syncInterval == -1) {
+        if (syncIntervbl == -1) {
             try {
-                syncInterval = Integer.parseInt(System.getProperty("java.util.prefs.syncInterval", "-2"));
-                if (syncInterval >= 0) {
+                syncIntervbl = Integer.pbrseInt(System.getProperty("jbvb.util.prefs.syncIntervbl", "-2"));
+                if (syncIntervbl >= 0) {
                     // minimum of 5 seconds
-                    syncInterval = Math.max(5, syncInterval);
+                    syncIntervbl = Mbth.mbx(5, syncIntervbl);
                 } else {
-                    syncInterval = -2; // default off
+                    syncIntervbl = -2; // defbult off
                 }
-            } catch (NumberFormatException e) {
-                syncInterval = -2; // bad property value - default off
+            } cbtch (NumberFormbtException e) {
+                syncIntervbl = -2; // bbd property vblue - defbult off
             }
 
-            if (syncInterval > 0) {
-                timer().schedule(new TimerTask() {
+            if (syncIntervbl > 0) {
+                timer().schedule(new TimerTbsk() {
                     @Override
                     public void run() {
-                        MacOSXPreferencesFile.syncWorld();}
-                    }, syncInterval * 1000, syncInterval * 1000);
+                        MbcOSXPreferencesFile.syncWorld();}
+                    }, syncIntervbl * 1000, syncIntervbl * 1000);
             } else {
-                // syncInterval property not set. No sync timer ever.
+                // syncIntervbl property not set. No sync timer ever.
             }
         }
     }
 
-    // Return the timer used for flush and sync, creating it if necessary.
-    private static synchronized Timer timer()
+    // Return the timer used for flush bnd sync, crebting it if necessbry.
+    privbte stbtic synchronized Timer timer()
     {
         if (timer == null) {
-            timer = new Timer(true); // daemon
-            Thread flushThread = new Thread() {
+            timer = new Timer(true); // dbemon
+            Threbd flushThrebd = new Threbd() {
                 @Override
                 public void run() {
                     flushWorld();
                 }
             };
-            /* Set context class loader to null in order to avoid
-             * keeping a strong reference to an application classloader.
+            /* Set context clbss lobder to null in order to bvoid
+             * keeping b strong reference to bn bpplicbtion clbsslobder.
              */
-            flushThread.setContextClassLoader(null);
-            Runtime.getRuntime().addShutdownHook(flushThread);
+            flushThrebd.setContextClbssLobder(null);
+            Runtime.getRuntime().bddShutdownHook(flushThrebd);
         }
         return timer;
     }
 
 
-    // Node manipulation
-    boolean addNode(String path)
+    // Node mbnipulbtion
+    boolebn bddNode(String pbth)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            markChanged();
-            return addNode(path, appName, user, host);
+        synchronized(MbcOSXPreferencesFile.clbss) {
+            mbrkChbnged();
+            return bddNode(pbth, bppNbme, user, host);
         }
     }
 
-    void removeNode(String path)
+    void removeNode(String pbth)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            markChanged();
-            removeNode(path, appName, user, host);
+        synchronized(MbcOSXPreferencesFile.clbss) {
+            mbrkChbnged();
+            removeNode(pbth, bppNbme, user, host);
         }
     }
 
-    boolean addChildToNode(String path, String child)
+    boolebn bddChildToNode(String pbth, String child)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            markChanged();
-            return addChildToNode(path, child+"/", appName, user, host);
+        synchronized(MbcOSXPreferencesFile.clbss) {
+            mbrkChbnged();
+            return bddChildToNode(pbth, child+"/", bppNbme, user, host);
         }
     }
 
-    void removeChildFromNode(String path, String child)
+    void removeChildFromNode(String pbth, String child)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            markChanged();
-            removeChildFromNode(path, child+"/", appName, user, host);
-        }
-    }
-
-
-    // Key manipulation
-    void addKeyToNode(String path, String key, String value)
-    {
-        synchronized(MacOSXPreferencesFile.class) {
-            markChanged();
-            addKeyToNode(path, key, value, appName, user, host);
-        }
-    }
-
-    void removeKeyFromNode(String path, String key)
-    {
-        synchronized(MacOSXPreferencesFile.class) {
-            markChanged();
-            removeKeyFromNode(path, key, appName, user, host);
-        }
-    }
-
-    String getKeyFromNode(String path, String key)
-    {
-        synchronized(MacOSXPreferencesFile.class) {
-            return getKeyFromNode(path, key, appName, user, host);
+        synchronized(MbcOSXPreferencesFile.clbss) {
+            mbrkChbnged();
+            removeChildFromNode(pbth, child+"/", bppNbme, user, host);
         }
     }
 
 
-    // Enumerators
-    String[] getChildrenForNode(String path)
+    // Key mbnipulbtion
+    void bddKeyToNode(String pbth, String key, String vblue)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            return getChildrenForNode(path, appName, user, host);
+        synchronized(MbcOSXPreferencesFile.clbss) {
+            mbrkChbnged();
+            bddKeyToNode(pbth, key, vblue, bppNbme, user, host);
         }
     }
 
-    String[] getKeysForNode(String path)
+    void removeKeyFromNode(String pbth, String key)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            return getKeysForNode(path, appName, user, host);
+        synchronized(MbcOSXPreferencesFile.clbss) {
+            mbrkChbnged();
+            removeKeyFromNode(pbth, key, bppNbme, user, host);
+        }
+    }
+
+    String getKeyFromNode(String pbth, String key)
+    {
+        synchronized(MbcOSXPreferencesFile.clbss) {
+            return getKeyFromNode(pbth, key, bppNbme, user, host);
         }
     }
 
 
-    // Synchronization
-    boolean synchronize()
+    // Enumerbtors
+    String[] getChildrenForNode(String pbth)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            return synchronize(appName, user, host);
+        synchronized(MbcOSXPreferencesFile.clbss) {
+            return getChildrenForNode(pbth, bppNbme, user, host);
+        }
+    }
+
+    String[] getKeysForNode(String pbth)
+    {
+        synchronized(MbcOSXPreferencesFile.clbss) {
+            return getKeysForNode(pbth, bppNbme, user, host);
+        }
+    }
+
+
+    // Synchronizbtion
+    boolebn synchronize()
+    {
+        synchronized(MbcOSXPreferencesFile.clbss) {
+            return synchronize(bppNbme, user, host);
         }
     }
 
 
     // CF functions
-    // Must be called when synchronized on MacOSXPreferencesFile.class
-    private static final native boolean
-        addNode(String path, String name, long user, long host);
-    private static final native void
-        removeNode(String path, String name, long user, long host);
-    private static final native boolean
-        addChildToNode(String path, String child,
-                       String name, long user, long host);
-    private static final native void
-        removeChildFromNode(String path, String child,
-                            String name, long user, long host);
-    private static final native void
-        addKeyToNode(String path, String key, String value,
-                     String name, long user, long host);
-    private static final native void
-        removeKeyFromNode(String path, String key,
-                          String name, long user, long host);
-    private static final native String
-        getKeyFromNode(String path, String key,
-                       String name, long user, long host);
-    private static final native String[]
-        getChildrenForNode(String path, String name, long user, long host);
-    private static final native String[]
-        getKeysForNode(String path, String name, long user, long host);
-    private static final native boolean
-        synchronize(String name, long user, long host);
+    // Must be cblled when synchronized on MbcOSXPreferencesFile.clbss
+    privbte stbtic finbl nbtive boolebn
+        bddNode(String pbth, String nbme, long user, long host);
+    privbte stbtic finbl nbtive void
+        removeNode(String pbth, String nbme, long user, long host);
+    privbte stbtic finbl nbtive boolebn
+        bddChildToNode(String pbth, String child,
+                       String nbme, long user, long host);
+    privbte stbtic finbl nbtive void
+        removeChildFromNode(String pbth, String child,
+                            String nbme, long user, long host);
+    privbte stbtic finbl nbtive void
+        bddKeyToNode(String pbth, String key, String vblue,
+                     String nbme, long user, long host);
+    privbte stbtic finbl nbtive void
+        removeKeyFromNode(String pbth, String key,
+                          String nbme, long user, long host);
+    privbte stbtic finbl nbtive String
+        getKeyFromNode(String pbth, String key,
+                       String nbme, long user, long host);
+    privbte stbtic finbl nbtive String[]
+        getChildrenForNode(String pbth, String nbme, long user, long host);
+    privbte stbtic finbl nbtive String[]
+        getKeysForNode(String pbth, String nbme, long user, long host);
+    privbte stbtic finbl nbtive boolebn
+        synchronize(String nbme, long user, long host);
 
-    // CFPreferences host and user values (CFStringRefs)
-    private static long cfCurrentUser = currentUser();
-    private static long cfAnyUser = anyUser();
-    private static long cfCurrentHost = currentHost();
-    private static long cfAnyHost = anyHost();
+    // CFPreferences host bnd user vblues (CFStringRefs)
+    privbte stbtic long cfCurrentUser = currentUser();
+    privbte stbtic long cfAnyUser = bnyUser();
+    privbte stbtic long cfCurrentHost = currentHost();
+    privbte stbtic long cfAnyHost = bnyHost();
 
-    // CFPreferences constant accessors
-    private static final native long currentUser();
-    private static final native long anyUser();
-    private static final native long currentHost();
-    private static final native long anyHost();
+    // CFPreferences constbnt bccessors
+    privbte stbtic finbl nbtive long currentUser();
+    privbte stbtic finbl nbtive long bnyUser();
+    privbte stbtic finbl nbtive long currentHost();
+    privbte stbtic finbl nbtive long bnyHost();
 }
 

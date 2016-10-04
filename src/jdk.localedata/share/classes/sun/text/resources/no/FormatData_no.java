@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package sun.text.resources.no;
+pbckbge sun.text.resources.no;
 
-import sun.util.resources.ParallelListResourceBundle;
+import sun.util.resources.PbrbllelListResourceBundle;
 
-public class FormatData_no extends ParallelListResourceBundle {
+public clbss FormbtDbtb_no extends PbrbllelListResourceBundle {
     /**
-     * Overrides ParallelListResourceBundle
+     * Overrides PbrbllelListResourceBundle
      */
-    protected final Object[][] getContents() {
+    protected finbl Object[][] getContents() {
         return new Object[][] {
-            { "MonthNames",
+            { "MonthNbmes",
                 new String[] {
-                    "januar", // january
-                    "februar", // february
-                    "mars", // march
-                    "april", // april
-                    "mai", // may
+                    "jbnubr", // jbnubry
+                    "februbr", // februbry
+                    "mbrs", // mbrch
+                    "bpril", // bpril
+                    "mbi", // mby
                     "juni", // june
                     "juli", // july
-                    "august", // august
+                    "bugust", // bugust
                     "september", // september
                     "oktober", // october
                     "november", // november
                     "desember", // december
-                    "" // month 13 if applicable
+                    "" // month 13 if bpplicbble
                 }
             },
-            { "standalone.MonthNames",
+            { "stbndblone.MonthNbmes",
                 new String[] {
-                    "januar",
-                    "februar",
-                    "mars",
-                    "april",
-                    "mai",
+                    "jbnubr",
+                    "februbr",
+                    "mbrs",
+                    "bpril",
+                    "mbi",
                     "juni",
                     "juli",
-                    "august",
+                    "bugust",
                     "september",
                     "oktober",
                     "november",
@@ -82,33 +82,33 @@ public class FormatData_no extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "MonthAbbreviations",
+            { "MonthAbbrevibtions",
                 new String[] {
-                    "jan", // abb january
-                    "feb", // abb february
-                    "mar", // abb march
-                    "apr", // abb april
-                    "mai", // abb may
-                    "jun", // abb june
-                    "jul", // abb july
-                    "aug", // abb august
-                    "sep", // abb september
-                    "okt", // abb october
-                    "nov", // abb november
-                    "des", // abb december
-                    "" // abb month 13 if applicable
+                    "jbn", // bbb jbnubry
+                    "feb", // bbb februbry
+                    "mbr", // bbb mbrch
+                    "bpr", // bbb bpril
+                    "mbi", // bbb mby
+                    "jun", // bbb june
+                    "jul", // bbb july
+                    "bug", // bbb bugust
+                    "sep", // bbb september
+                    "okt", // bbb october
+                    "nov", // bbb november
+                    "des", // bbb december
+                    "" // bbb month 13 if bpplicbble
                 }
             },
-            { "standalone.MonthAbbreviations",
+            { "stbndblone.MonthAbbrevibtions",
                 new String[] {
-                    "jan",
+                    "jbn",
                     "feb",
-                    "mar",
-                    "apr",
-                    "mai",
+                    "mbr",
+                    "bpr",
+                    "mbi",
                     "jun",
                     "jul",
-                    "aug",
+                    "bug",
                     "sep",
                     "okt",
                     "nov",
@@ -116,7 +116,7 @@ public class FormatData_no extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "MonthNarrows",
+            { "MonthNbrrows",
                 new String[] {
                     "J",
                     "F",
@@ -133,7 +133,7 @@ public class FormatData_no extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "standalone.MonthNarrows",
+            { "stbndblone.MonthNbrrows",
                 new String[] {
                     "J",
                     "F",
@@ -150,43 +150,43 @@ public class FormatData_no extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "DayNames",
+            { "DbyNbmes",
                 new String[] {
-                    "s\u00f8ndag", // Sunday
-                    "mandag", // Monday
-                    "tirsdag", // Tuesday
-                    "onsdag", // Wednesday
-                    "torsdag", // Thursday
-                    "fredag", // Friday
-                    "l\u00f8rdag" // Saturday
+                    "s\u00f8ndbg", // Sundby
+                    "mbndbg", // Mondby
+                    "tirsdbg", // Tuesdby
+                    "onsdbg", // Wednesdby
+                    "torsdbg", // Thursdby
+                    "fredbg", // Fridby
+                    "l\u00f8rdbg" // Sbturdby
                 }
             },
-            { "standalone.DayNames",
+            { "stbndblone.DbyNbmes",
                 new String[] {
-                    "s\u00f8ndag",
-                    "mandag",
-                    "tirsdag",
-                    "onsdag",
-                    "torsdag",
-                    "fredag",
-                    "l\u00f8rdag",
+                    "s\u00f8ndbg",
+                    "mbndbg",
+                    "tirsdbg",
+                    "onsdbg",
+                    "torsdbg",
+                    "fredbg",
+                    "l\u00f8rdbg",
                 }
             },
-            { "DayAbbreviations",
+            { "DbyAbbrevibtions",
                 new String[] {
-                    "s\u00f8", // abb Sunday
-                    "ma", // abb Monday
-                    "ti", // abb Tuesday
-                    "on", // abb Wednesday
-                    "to", // abb Thursday
-                    "fr", // abb Friday
-                    "l\u00f8" // abb Saturday
+                    "s\u00f8", // bbb Sundby
+                    "mb", // bbb Mondby
+                    "ti", // bbb Tuesdby
+                    "on", // bbb Wednesdby
+                    "to", // bbb Thursdby
+                    "fr", // bbb Fridby
+                    "l\u00f8" // bbb Sbturdby
                 }
             },
-            { "standalone.DayAbbreviations",
+            { "stbndblone.DbyAbbrevibtions",
                 new String[] {
                     "s\u00f8.",
-                    "ma.",
+                    "mb.",
                     "ti.",
                     "on.",
                     "to.",
@@ -194,7 +194,7 @@ public class FormatData_no extends ParallelListResourceBundle {
                     "l\u00f8.",
                 }
             },
-            { "DayNarrows",
+            { "DbyNbrrows",
                 new String[] {
                     "S",
                     "M",
@@ -205,7 +205,7 @@ public class FormatData_no extends ParallelListResourceBundle {
                     "L",
                 }
             },
-            { "standalone.DayNarrows",
+            { "stbndblone.DbyNbrrows",
                 new String[] {
                     "S",
                     "M",
@@ -218,41 +218,41 @@ public class FormatData_no extends ParallelListResourceBundle {
             },
             { "NumberElements",
                 new String[] {
-                    ",", // decimal separator
-                    "\u00a0", // group (thousands) separator
-                    ";", // list separator
+                    ",", // decimbl sepbrbtor
+                    "\u00b0", // group (thousbnds) sepbrbtor
+                    ";", // list sepbrbtor
                     "%", // percent sign
-                    "0", // native 0 digit
-                    "#", // pattern digit
+                    "0", // nbtive 0 digit
+                    "#", // pbttern digit
                     "-", // minus sign
-                    "E", // exponential
+                    "E", // exponentibl
                     "\u2030", // per mille
                     "\u221e", // infinity
-                    "\ufffd" // NaN
+                    "\ufffd" // NbN
                 }
             },
-            { "TimePatterns",
+            { "TimePbtterns",
                 new String[] {
-                    "'kl 'HH.mm z", // full time pattern
-                    "HH:mm:ss z", // long time pattern
-                    "HH:mm:ss", // medium time pattern
-                    "HH:mm", // short time pattern
+                    "'kl 'HH.mm z", // full time pbttern
+                    "HH:mm:ss z", // long time pbttern
+                    "HH:mm:ss", // medium time pbttern
+                    "HH:mm", // short time pbttern
                 }
             },
-            { "DatePatterns",
+            { "DbtePbtterns",
                 new String[] {
-                    "d. MMMM yyyy", // full date pattern
-                    "d. MMMM yyyy", // long date pattern
-                    "dd.MMM.yyyy", // medium date pattern
-                    "dd.MM.yy", // short date pattern
+                    "d. MMMM yyyy", // full dbte pbttern
+                    "d. MMMM yyyy", // long dbte pbttern
+                    "dd.MMM.yyyy", // medium dbte pbttern
+                    "dd.MM.yy", // short dbte pbttern
                 }
             },
-            { "DateTimePatterns",
+            { "DbteTimePbtterns",
                 new String[] {
-                    "{1} {0}" // date-time pattern
+                    "{1} {0}" // dbte-time pbttern
                 }
             },
-            { "DateTimePatternChars", "GyMdkHmsSEDFwWahKzZ" },
+            { "DbteTimePbtternChbrs", "GyMdkHmsSEDFwWbhKzZ" },
         };
     }
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -31,141 +31,141 @@
 #include <string.h>
 #include <sys/time.h>
 
-static INT64 getTimeInMicroseconds() {
-    struct timeval tv;
+stbtic INT64 getTimeInMicroseconds() {
+    struct timevbl tv;
 
-    gettimeofday(&tv, NULL);
+    gettimeofdby(&tv, NULL);
     return (tv.tv_sec * 1000000UL) + tv.tv_usec;
 }
 
 
-const char* getErrorStr(INT32 err) {
+const chbr* getErrorStr(INT32 err) {
         return snd_strerror((int) err);
 }
 
 
 
-// callback for iteration through devices
-// returns TRUE if iteration should continue
-typedef int (*DeviceIteratorPtr)(UINT32 deviceID,
-                                 snd_rawmidi_info_t* rawmidi_info,
-                                 snd_ctl_card_info_t* cardinfo,
-                                 void *userData);
+// cbllbbck for iterbtion through devices
+// returns TRUE if iterbtion should continue
+typedef int (*DeviceIterbtorPtr)(UINT32 deviceID,
+                                 snd_rbwmidi_info_t* rbwmidi_info,
+                                 snd_ctl_cbrd_info_t* cbrdinfo,
+                                 void *userDbtb);
 
-// for each ALSA device, call iterator. userData is passed to the iterator
-// returns total number of iterations
-static int iterateRawmidiDevices(snd_rawmidi_stream_t direction,
-                                 DeviceIteratorPtr iterator,
-                                 void* userData) {
+// for ebch ALSA device, cbll iterbtor. userDbtb is pbssed to the iterbtor
+// returns totbl number of iterbtions
+stbtic int iterbteRbwmidiDevices(snd_rbwmidi_strebm_t direction,
+                                 DeviceIterbtorPtr iterbtor,
+                                 void* userDbtb) {
     int count = 0;
     int subdeviceCount;
-    int card, dev, subDev;
-    char devname[16];
+    int cbrd, dev, subDev;
+    chbr devnbme[16];
     int err;
-    snd_ctl_t *handle;
-    snd_rawmidi_t *rawmidi;
-    snd_rawmidi_info_t *rawmidi_info;
-    snd_ctl_card_info_t *card_info, *defcardinfo = NULL;
+    snd_ctl_t *hbndle;
+    snd_rbwmidi_t *rbwmidi;
+    snd_rbwmidi_info_t *rbwmidi_info;
+    snd_ctl_cbrd_info_t *cbrd_info, *defcbrdinfo = NULL;
     UINT32 deviceID;
     int doContinue = TRUE;
 
-    snd_rawmidi_info_malloc(&rawmidi_info);
-    snd_ctl_card_info_malloc(&card_info);
+    snd_rbwmidi_info_mblloc(&rbwmidi_info);
+    snd_ctl_cbrd_info_mblloc(&cbrd_info);
 
-    // 1st try "default" device
+    // 1st try "defbult" device
     if (direction == SND_RAWMIDI_STREAM_INPUT) {
-        err = snd_rawmidi_open(&rawmidi, NULL, ALSA_DEFAULT_DEVICE_NAME,
+        err = snd_rbwmidi_open(&rbwmidi, NULL, ALSA_DEFAULT_DEVICE_NAME,
                                SND_RAWMIDI_NONBLOCK);
     } else if (direction == SND_RAWMIDI_STREAM_OUTPUT) {
-        err = snd_rawmidi_open(NULL, &rawmidi, ALSA_DEFAULT_DEVICE_NAME,
+        err = snd_rbwmidi_open(NULL, &rbwmidi, ALSA_DEFAULT_DEVICE_NAME,
                                SND_RAWMIDI_NONBLOCK);
     } else {
-        ERROR0("ERROR: iterateRawmidiDevices(): direction is neither"
+        ERROR0("ERROR: iterbteRbwmidiDevices(): direction is neither"
                " SND_RAWMIDI_STREAM_INPUT nor SND_RAWMIDI_STREAM_OUTPUT\n");
         err = MIDI_INVALID_ARGUMENT;
     }
     if (err < 0) {
-        ERROR1("ERROR: snd_rawmidi_open (\"default\"): %s\n",
+        ERROR1("ERROR: snd_rbwmidi_open (\"defbult\"): %s\n",
                snd_strerror(err));
     } else {
-        err = snd_rawmidi_info(rawmidi, rawmidi_info);
+        err = snd_rbwmidi_info(rbwmidi, rbwmidi_info);
 
-        snd_rawmidi_close(rawmidi);
+        snd_rbwmidi_close(rbwmidi);
         if (err < 0) {
-            ERROR1("ERROR: snd_rawmidi_info (\"default\"): %s\n",
+            ERROR1("ERROR: snd_rbwmidi_info (\"defbult\"): %s\n",
                     snd_strerror(err));
         } else {
-            // try to get card info
-            card = snd_rawmidi_info_get_card(rawmidi_info);
-            if (card >= 0) {
-                sprintf(devname, ALSA_HARDWARE_CARD, card);
-                if (snd_ctl_open(&handle, devname, SND_CTL_NONBLOCK) >= 0) {
-                    if (snd_ctl_card_info(handle, card_info) >= 0) {
-                        defcardinfo = card_info;
+            // try to get cbrd info
+            cbrd = snd_rbwmidi_info_get_cbrd(rbwmidi_info);
+            if (cbrd >= 0) {
+                sprintf(devnbme, ALSA_HARDWARE_CARD, cbrd);
+                if (snd_ctl_open(&hbndle, devnbme, SND_CTL_NONBLOCK) >= 0) {
+                    if (snd_ctl_cbrd_info(hbndle, cbrd_info) >= 0) {
+                        defcbrdinfo = cbrd_info;
                     }
-                    snd_ctl_close(handle);
+                    snd_ctl_close(hbndle);
                 }
             }
-            // call calback function for the device
-            if (iterator != NULL) {
-                doContinue = (*iterator)(ALSA_DEFAULT_DEVICE_ID, rawmidi_info,
-                                         defcardinfo, userData);
+            // cbll cblbbck function for the device
+            if (iterbtor != NULL) {
+                doContinue = (*iterbtor)(ALSA_DEFAULT_DEVICE_ID, rbwmidi_info,
+                                         defcbrdinfo, userDbtb);
             }
             count++;
         }
     }
 
-    // iterate cards
-    card = -1;
-    TRACE0("testing for cards...\n");
-    if (snd_card_next(&card) >= 0) {
-        TRACE1("Found card %d\n", card);
-        while (doContinue && (card >= 0)) {
-            sprintf(devname, ALSA_HARDWARE_CARD, card);
-            TRACE1("Opening control for alsa rawmidi device \"%s\"...\n", devname);
-            err = snd_ctl_open(&handle, devname, SND_CTL_NONBLOCK);
+    // iterbte cbrds
+    cbrd = -1;
+    TRACE0("testing for cbrds...\n");
+    if (snd_cbrd_next(&cbrd) >= 0) {
+        TRACE1("Found cbrd %d\n", cbrd);
+        while (doContinue && (cbrd >= 0)) {
+            sprintf(devnbme, ALSA_HARDWARE_CARD, cbrd);
+            TRACE1("Opening control for blsb rbwmidi device \"%s\"...\n", devnbme);
+            err = snd_ctl_open(&hbndle, devnbme, SND_CTL_NONBLOCK);
             if (err < 0) {
-                ERROR2("ERROR: snd_ctl_open, card=%d: %s\n", card, snd_strerror(err));
+                ERROR2("ERROR: snd_ctl_open, cbrd=%d: %s\n", cbrd, snd_strerror(err));
             } else {
                 TRACE0("snd_ctl_open() SUCCESS\n");
-                err = snd_ctl_card_info(handle, card_info);
+                err = snd_ctl_cbrd_info(hbndle, cbrd_info);
                 if (err < 0) {
-                    ERROR2("ERROR: snd_ctl_card_info, card=%d: %s\n", card, snd_strerror(err));
+                    ERROR2("ERROR: snd_ctl_cbrd_info, cbrd=%d: %s\n", cbrd, snd_strerror(err));
                 } else {
-                    TRACE0("snd_ctl_card_info() SUCCESS\n");
+                    TRACE0("snd_ctl_cbrd_info() SUCCESS\n");
                     dev = -1;
                     while (doContinue) {
-                        if (snd_ctl_rawmidi_next_device(handle, &dev) < 0) {
-                            ERROR0("snd_ctl_rawmidi_next_device\n");
+                        if (snd_ctl_rbwmidi_next_device(hbndle, &dev) < 0) {
+                            ERROR0("snd_ctl_rbwmidi_next_device\n");
                         }
-                        TRACE0("snd_ctl_rawmidi_next_device() SUCCESS\n");
+                        TRACE0("snd_ctl_rbwmidi_next_device() SUCCESS\n");
                         if (dev < 0) {
-                            break;
+                            brebk;
                         }
-                        snd_rawmidi_info_set_device(rawmidi_info, dev);
-                        snd_rawmidi_info_set_subdevice(rawmidi_info, 0);
-                        snd_rawmidi_info_set_stream(rawmidi_info, direction);
-                        err = snd_ctl_rawmidi_info(handle, rawmidi_info);
-                        TRACE0("after snd_ctl_rawmidi_info()\n");
+                        snd_rbwmidi_info_set_device(rbwmidi_info, dev);
+                        snd_rbwmidi_info_set_subdevice(rbwmidi_info, 0);
+                        snd_rbwmidi_info_set_strebm(rbwmidi_info, direction);
+                        err = snd_ctl_rbwmidi_info(hbndle, rbwmidi_info);
+                        TRACE0("bfter snd_ctl_rbwmidi_info()\n");
                         if (err < 0) {
                             if (err != -ENOENT) {
-                                ERROR2("ERROR: snd_ctl_rawmidi_info, card=%d: %s", card, snd_strerror(err));
+                                ERROR2("ERROR: snd_ctl_rbwmidi_info, cbrd=%d: %s", cbrd, snd_strerror(err));
                             }
                         } else {
-                            TRACE0("snd_ctl_rawmidi_info() SUCCESS\n");
-                            subdeviceCount = needEnumerateSubdevices(ALSA_RAWMIDI)
-                                ? snd_rawmidi_info_get_subdevices_count(rawmidi_info)
+                            TRACE0("snd_ctl_rbwmidi_info() SUCCESS\n");
+                            subdeviceCount = needEnumerbteSubdevices(ALSA_RAWMIDI)
+                                ? snd_rbwmidi_info_get_subdevices_count(rbwmidi_info)
                                 : 1;
-                            if (iterator!=NULL) {
+                            if (iterbtor!=NULL) {
                                 for (subDev = 0; subDev < subdeviceCount; subDev++) {
-                                    TRACE3("  Iterating %d,%d,%d\n", card, dev, subDev);
-                                    deviceID = encodeDeviceID(card, dev, subDev);
-                                    doContinue = (*iterator)(deviceID, rawmidi_info,
-                                                             card_info, userData);
+                                    TRACE3("  Iterbting %d,%d,%d\n", cbrd, dev, subDev);
+                                    deviceID = encodeDeviceID(cbrd, dev, subDev);
+                                    doContinue = (*iterbtor)(deviceID, rbwmidi_info,
+                                                             cbrd_info, userDbtb);
                                     count++;
-                                    TRACE0("returned from iterator\n");
+                                    TRACE0("returned from iterbtor\n");
                                     if (!doContinue) {
-                                        break;
+                                        brebk;
                                     }
                                 }
                             } else {
@@ -174,27 +174,27 @@ static int iterateRawmidiDevices(snd_rawmidi_stream_t direction,
                         }
                     } // of while(doContinue)
                 }
-                snd_ctl_close(handle);
+                snd_ctl_close(hbndle);
             }
-            if (snd_card_next(&card) < 0) {
-                break;
+            if (snd_cbrd_next(&cbrd) < 0) {
+                brebk;
             }
         }
     } else {
-        ERROR0("No cards found!\n");
+        ERROR0("No cbrds found!\n");
     }
-    snd_ctl_card_info_free(card_info);
-    snd_rawmidi_info_free(rawmidi_info);
+    snd_ctl_cbrd_info_free(cbrd_info);
+    snd_rbwmidi_info_free(rbwmidi_info);
     return count;
 }
 
 
 
-int getMidiDeviceCount(snd_rawmidi_stream_t direction) {
+int getMidiDeviceCount(snd_rbwmidi_strebm_t direction) {
     int deviceCount;
     TRACE0("> getMidiDeviceCount()\n");
-    initAlsaSupport();
-    deviceCount = iterateRawmidiDevices(direction, NULL, NULL);
+    initAlsbSupport();
+    deviceCount = iterbteRbwmidiDevices(direction, NULL, NULL);
     TRACE0("< getMidiDeviceCount()\n");
     return deviceCount;
 }
@@ -202,67 +202,67 @@ int getMidiDeviceCount(snd_rawmidi_stream_t direction) {
 
 
 /*
-  userData is assumed to be a pointer to ALSA_MIDIDeviceDescription.
-  ALSA_MIDIDeviceDescription->index has to be set to the index of the device
-  we want to get information of before this method is called the first time via
-  iterateRawmidiDevices(). On each call of this method,
-  ALSA_MIDIDeviceDescription->index is decremented. If it is equal to zero,
-  we have reached the desired device, so action is taken.
-  So after successful completion of iterateRawmidiDevices(),
-  ALSA_MIDIDeviceDescription->index is zero. If it isn't, this is an
-  indication of an error.
+  userDbtb is bssumed to be b pointer to ALSA_MIDIDeviceDescription.
+  ALSA_MIDIDeviceDescription->index hbs to be set to the index of the device
+  we wbnt to get informbtion of before this method is cblled the first time vib
+  iterbteRbwmidiDevices(). On ebch cbll of this method,
+  ALSA_MIDIDeviceDescription->index is decremented. If it is equbl to zero,
+  we hbve rebched the desired device, so bction is tbken.
+  So bfter successful completion of iterbteRbwmidiDevices(),
+  ALSA_MIDIDeviceDescription->index is zero. If it isn't, this is bn
+  indicbtion of bn error.
 */
-static int deviceInfoIterator(UINT32 deviceID, snd_rawmidi_info_t *rawmidi_info,
-                              snd_ctl_card_info_t *cardinfo, void *userData) {
-    char buffer[300];
-    ALSA_MIDIDeviceDescription* desc = (ALSA_MIDIDeviceDescription*)userData;
+stbtic int deviceInfoIterbtor(UINT32 deviceID, snd_rbwmidi_info_t *rbwmidi_info,
+                              snd_ctl_cbrd_info_t *cbrdinfo, void *userDbtb) {
+    chbr buffer[300];
+    ALSA_MIDIDeviceDescription* desc = (ALSA_MIDIDeviceDescription*)userDbtb;
 #ifdef ALSA_MIDI_USE_PLUGHW
     int usePlugHw = 1;
 #else
     int usePlugHw = 0;
 #endif
 
-    TRACE0("deviceInfoIterator\n");
-    initAlsaSupport();
+    TRACE0("deviceInfoIterbtor\n");
+    initAlsbSupport();
     if (desc->index == 0) {
         // we found the device with correct index
         desc->deviceID = deviceID;
 
         buffer[0]=' '; buffer[1]='[';
-        // buffer[300] is enough to store the actual device string w/o overrun
+        // buffer[300] is enough to store the bctubl device string w/o overrun
         getDeviceStringFromDeviceID(&buffer[2], deviceID, usePlugHw, ALSA_RAWMIDI);
-        strncat(buffer, "]", sizeof(buffer) - strlen(buffer) - 1);
-        strncpy(desc->name,
-                (cardinfo != NULL)
-                    ? snd_ctl_card_info_get_id(cardinfo)
-                    : snd_rawmidi_info_get_id(rawmidi_info),
+        strncbt(buffer, "]", sizeof(buffer) - strlen(buffer) - 1);
+        strncpy(desc->nbme,
+                (cbrdinfo != NULL)
+                    ? snd_ctl_cbrd_info_get_id(cbrdinfo)
+                    : snd_rbwmidi_info_get_id(rbwmidi_info),
                 desc->strLen - strlen(buffer));
-        strncat(desc->name, buffer, desc->strLen - strlen(desc->name));
+        strncbt(desc->nbme, buffer, desc->strLen - strlen(desc->nbme));
         desc->description[0] = 0;
-        if (cardinfo != NULL) {
-            strncpy(desc->description, snd_ctl_card_info_get_name(cardinfo),
+        if (cbrdinfo != NULL) {
+            strncpy(desc->description, snd_ctl_cbrd_info_get_nbme(cbrdinfo),
                     desc->strLen);
-            strncat(desc->description, ", ",
+            strncbt(desc->description, ", ",
                     desc->strLen - strlen(desc->description));
         }
-        strncat(desc->description, snd_rawmidi_info_get_id(rawmidi_info),
+        strncbt(desc->description, snd_rbwmidi_info_get_id(rbwmidi_info),
                 desc->strLen - strlen(desc->description));
-        strncat(desc->description, ", ", desc->strLen - strlen(desc->description));
-        strncat(desc->description, snd_rawmidi_info_get_name(rawmidi_info),
+        strncbt(desc->description, ", ", desc->strLen - strlen(desc->description));
+        strncbt(desc->description, snd_rbwmidi_info_get_nbme(rbwmidi_info),
                 desc->strLen - strlen(desc->description));
-        TRACE2("Returning %s, %s\n", desc->name, desc->description);
-        return FALSE; // do not continue iteration
+        TRACE2("Returning %s, %s\n", desc->nbme, desc->description);
+        return FALSE; // do not continue iterbtion
     }
     desc->index--;
     return TRUE;
 }
 
 
-static int getMIDIDeviceDescriptionByIndex(snd_rawmidi_stream_t direction,
+stbtic int getMIDIDeviceDescriptionByIndex(snd_rbwmidi_strebm_t direction,
                                            ALSA_MIDIDeviceDescription* desc) {
-    initAlsaSupport();
+    initAlsbSupport();
     TRACE1(" getMIDIDeviceDescriptionByIndex (index = %d)\n", desc->index);
-    iterateRawmidiDevices(direction, &deviceInfoIterator, desc);
+    iterbteRbwmidiDevices(direction, &deviceInfoIterbtor, desc);
     return (desc->index == 0) ? MIDI_SUCCESS : MIDI_INVALID_DEVICEID;
 }
 
@@ -272,9 +272,9 @@ int initMIDIDeviceDescription(ALSA_MIDIDeviceDescription* desc, int index) {
     int ret = MIDI_SUCCESS;
     desc->index = index;
     desc->strLen = 200;
-    desc->name = (char*) calloc(desc->strLen + 1, 1);
-    desc->description = (char*) calloc(desc->strLen + 1, 1);
-    if (! desc->name ||
+    desc->nbme = (chbr*) cblloc(desc->strLen + 1, 1);
+    desc->description = (chbr*) cblloc(desc->strLen + 1, 1);
+    if (! desc->nbme ||
         ! desc->description) {
         ret = MIDI_OUT_OF_MEMORY;
     }
@@ -283,8 +283,8 @@ int initMIDIDeviceDescription(ALSA_MIDIDeviceDescription* desc, int index) {
 
 
 void freeMIDIDeviceDescription(ALSA_MIDIDeviceDescription* desc) {
-    if (desc->name) {
-        free(desc->name);
+    if (desc->nbme) {
+        free(desc->nbme);
     }
     if (desc->description) {
         free(desc->description);
@@ -292,20 +292,20 @@ void freeMIDIDeviceDescription(ALSA_MIDIDeviceDescription* desc) {
 }
 
 
-int getMidiDeviceName(snd_rawmidi_stream_t direction, int index, char *name,
-                      UINT32 nameLength) {
+int getMidiDeviceNbme(snd_rbwmidi_strebm_t direction, int index, chbr *nbme,
+                      UINT32 nbmeLength) {
     ALSA_MIDIDeviceDescription desc;
     int ret;
 
-    TRACE1("getMidiDeviceName: nameLength: %d\n", (int) nameLength);
+    TRACE1("getMidiDeviceNbme: nbmeLength: %d\n", (int) nbmeLength);
     ret = initMIDIDeviceDescription(&desc, index);
     if (ret == MIDI_SUCCESS) {
-        TRACE0("getMidiDeviceName: initMIDIDeviceDescription() SUCCESS\n");
+        TRACE0("getMidiDeviceNbme: initMIDIDeviceDescription() SUCCESS\n");
         ret = getMIDIDeviceDescriptionByIndex(direction, &desc);
         if (ret == MIDI_SUCCESS) {
-            TRACE1("getMidiDeviceName: desc.name: %s\n", desc.name);
-            strncpy(name, desc.name, nameLength - 1);
-            name[nameLength - 1] = 0;
+            TRACE1("getMidiDeviceNbme: desc.nbme: %s\n", desc.nbme);
+            strncpy(nbme, desc.nbme, nbmeLength - 1);
+            nbme[nbmeLength - 1] = 0;
         }
     }
     freeMIDIDeviceDescription(&desc);
@@ -313,15 +313,15 @@ int getMidiDeviceName(snd_rawmidi_stream_t direction, int index, char *name,
 }
 
 
-int getMidiDeviceVendor(int index, char *name, UINT32 nameLength) {
-    strncpy(name, ALSA_VENDOR, nameLength - 1);
-    name[nameLength - 1] = 0;
+int getMidiDeviceVendor(int index, chbr *nbme, UINT32 nbmeLength) {
+    strncpy(nbme, ALSA_VENDOR, nbmeLength - 1);
+    nbme[nbmeLength - 1] = 0;
     return MIDI_SUCCESS;
 }
 
 
-int getMidiDeviceDescription(snd_rawmidi_stream_t direction,
-                             int index, char *name, UINT32 nameLength) {
+int getMidiDeviceDescription(snd_rbwmidi_strebm_t direction,
+                             int index, chbr *nbme, UINT32 nbmeLength) {
     ALSA_MIDIDeviceDescription desc;
     int ret;
 
@@ -329,8 +329,8 @@ int getMidiDeviceDescription(snd_rawmidi_stream_t direction,
     if (ret == MIDI_SUCCESS) {
         ret = getMIDIDeviceDescriptionByIndex(direction, &desc);
         if (ret == MIDI_SUCCESS) {
-            strncpy(name, desc.description, nameLength - 1);
-            name[nameLength - 1] = 0;
+            strncpy(nbme, desc.description, nbmeLength - 1);
+            nbme[nbmeLength - 1] = 0;
         }
     }
     freeMIDIDeviceDescription(&desc);
@@ -338,13 +338,13 @@ int getMidiDeviceDescription(snd_rawmidi_stream_t direction,
 }
 
 
-int getMidiDeviceVersion(int index, char *name, UINT32 nameLength) {
-    getALSAVersion(name, nameLength);
+int getMidiDeviceVersion(int index, chbr *nbme, UINT32 nbmeLength) {
+    getALSAVersion(nbme, nbmeLength);
     return MIDI_SUCCESS;
 }
 
 
-static int getMidiDeviceID(snd_rawmidi_stream_t direction, int index,
+stbtic int getMidiDeviceID(snd_rbwmidi_strebm_t direction, int index,
                            UINT32* deviceID) {
     ALSA_MIDIDeviceDescription desc;
     int ret;
@@ -353,7 +353,7 @@ static int getMidiDeviceID(snd_rawmidi_stream_t direction, int index,
     if (ret == MIDI_SUCCESS) {
         ret = getMIDIDeviceDescriptionByIndex(direction, &desc);
         if (ret == MIDI_SUCCESS) {
-            // TRACE1("getMidiDeviceName: desc.name: %s\n", desc.name);
+            // TRACE1("getMidiDeviceNbme: desc.nbme: %s\n", desc.nbme);
             *deviceID = desc.deviceID;
         }
     }
@@ -363,18 +363,18 @@ static int getMidiDeviceID(snd_rawmidi_stream_t direction, int index,
 
 
 /*
-  direction has to be either SND_RAWMIDI_STREAM_INPUT or
+  direction hbs to be either SND_RAWMIDI_STREAM_INPUT or
   SND_RAWMIDI_STREAM_OUTPUT.
   Returns 0 on success. Otherwise, MIDI_OUT_OF_MEMORY, MIDI_INVALID_ARGUMENT
-   or a negative ALSA error code is returned.
+   or b negbtive ALSA error code is returned.
 */
-INT32 openMidiDevice(snd_rawmidi_stream_t direction, INT32 deviceIndex,
-                     MidiDeviceHandle** handle) {
-    snd_rawmidi_t* native_handle;
-    snd_midi_event_t* event_parser = NULL;
+INT32 openMidiDevice(snd_rbwmidi_strebm_t direction, INT32 deviceIndex,
+                     MidiDeviceHbndle** hbndle) {
+    snd_rbwmidi_t* nbtive_hbndle;
+    snd_midi_event_t* event_pbrser = NULL;
     int err;
     UINT32 deviceID = 0;
-    char devicename[100];
+    chbr devicenbme[100];
 #ifdef ALSA_MIDI_USE_PLUGHW
     int usePlugHw = 1;
 #else
@@ -383,98 +383,98 @@ INT32 openMidiDevice(snd_rawmidi_stream_t direction, INT32 deviceIndex,
 
     TRACE0("> openMidiDevice()\n");
 
-    (*handle) = (MidiDeviceHandle*) calloc(sizeof(MidiDeviceHandle), 1);
-    if (!(*handle)) {
+    (*hbndle) = (MidiDeviceHbndle*) cblloc(sizeof(MidiDeviceHbndle), 1);
+    if (!(*hbndle)) {
         ERROR0("ERROR: openDevice: out of memory\n");
         return MIDI_OUT_OF_MEMORY;
     }
 
-    // TODO: iterate to get dev ID from index
+    // TODO: iterbte to get dev ID from index
     err = getMidiDeviceID(direction, deviceIndex, &deviceID);
     TRACE1("  openMidiDevice(): deviceID: %d\n", (int) deviceID);
-    getDeviceStringFromDeviceID(devicename, deviceID,
+    getDeviceStringFromDeviceID(devicenbme, deviceID,
                                 usePlugHw, ALSA_RAWMIDI);
-    TRACE1("  openMidiDevice(): deviceString: %s\n", devicename);
+    TRACE1("  openMidiDevice(): deviceString: %s\n", devicenbme);
 
-    // finally open the device
+    // finblly open the device
     if (direction == SND_RAWMIDI_STREAM_INPUT) {
-        err = snd_rawmidi_open(&native_handle, NULL, devicename,
+        err = snd_rbwmidi_open(&nbtive_hbndle, NULL, devicenbme,
                                SND_RAWMIDI_NONBLOCK);
     } else if (direction == SND_RAWMIDI_STREAM_OUTPUT) {
-        err = snd_rawmidi_open(NULL, &native_handle, devicename,
+        err = snd_rbwmidi_open(NULL, &nbtive_hbndle, devicenbme,
                                SND_RAWMIDI_NONBLOCK);
     } else {
         ERROR0("  ERROR: openMidiDevice(): direction is neither SND_RAWMIDI_STREAM_INPUT nor SND_RAWMIDI_STREAM_OUTPUT\n");
         err = MIDI_INVALID_ARGUMENT;
     }
     if (err < 0) {
-        ERROR1("<  ERROR: openMidiDevice(): snd_rawmidi_open() returned %d\n", err);
-        free(*handle);
-        (*handle) = NULL;
+        ERROR1("<  ERROR: openMidiDevice(): snd_rbwmidi_open() returned %d\n", err);
+        free(*hbndle);
+        (*hbndle) = NULL;
         return err;
     }
-    /* We opened with non-blocking behaviour to not get hung if the device
-       is used by a different process. Writing, however, should
-       be blocking. So we change it here. */
+    /* We opened with non-blocking behbviour to not get hung if the device
+       is used by b different process. Writing, however, should
+       be blocking. So we chbnge it here. */
     if (direction == SND_RAWMIDI_STREAM_OUTPUT) {
-        err = snd_rawmidi_nonblock(native_handle, 0);
+        err = snd_rbwmidi_nonblock(nbtive_hbndle, 0);
         if (err < 0) {
-            ERROR1("  ERROR: openMidiDevice(): snd_rawmidi_nonblock() returned %d\n", err);
-            snd_rawmidi_close(native_handle);
-            free(*handle);
-            (*handle) = NULL;
+            ERROR1("  ERROR: openMidiDevice(): snd_rbwmidi_nonblock() returned %d\n", err);
+            snd_rbwmidi_close(nbtive_hbndle);
+            free(*hbndle);
+            (*hbndle) = NULL;
             return err;
         }
     }
     if (direction == SND_RAWMIDI_STREAM_INPUT) {
-        err = snd_midi_event_new(EVENT_PARSER_BUFSIZE, &event_parser);
+        err = snd_midi_event_new(EVENT_PARSER_BUFSIZE, &event_pbrser);
         if (err < 0) {
             ERROR1("  ERROR: openMidiDevice(): snd_midi_event_new() returned %d\n", err);
-            snd_rawmidi_close(native_handle);
-            free(*handle);
-            (*handle) = NULL;
+            snd_rbwmidi_close(nbtive_hbndle);
+            free(*hbndle);
+            (*hbndle) = NULL;
             return err;
         }
     }
 
-    (*handle)->deviceHandle = (void*) native_handle;
-    (*handle)->startTime = getTimeInMicroseconds();
-    (*handle)->platformData = event_parser;
+    (*hbndle)->deviceHbndle = (void*) nbtive_hbndle;
+    (*hbndle)->stbrtTime = getTimeInMicroseconds();
+    (*hbndle)->plbtformDbtb = event_pbrser;
     TRACE0("< openMidiDevice(): succeeded\n");
     return err;
 }
 
 
 
-INT32 closeMidiDevice(MidiDeviceHandle* handle) {
+INT32 closeMidiDevice(MidiDeviceHbndle* hbndle) {
     int err;
 
     TRACE0("> closeMidiDevice()\n");
-    if (!handle) {
-        ERROR0("< ERROR: closeMidiDevice(): handle is NULL\n");
+    if (!hbndle) {
+        ERROR0("< ERROR: closeMidiDevice(): hbndle is NULL\n");
         return MIDI_INVALID_HANDLE;
     }
-    if (!handle->deviceHandle) {
-        ERROR0("< ERROR: closeMidiDevice(): native handle is NULL\n");
+    if (!hbndle->deviceHbndle) {
+        ERROR0("< ERROR: closeMidiDevice(): nbtive hbndle is NULL\n");
         return MIDI_INVALID_HANDLE;
     }
-    err = snd_rawmidi_close((snd_rawmidi_t*) handle->deviceHandle);
-    TRACE1("  snd_rawmidi_close() returns %d\n", err);
-    if (handle->platformData) {
-        snd_midi_event_free((snd_midi_event_t*) handle->platformData);
+    err = snd_rbwmidi_close((snd_rbwmidi_t*) hbndle->deviceHbndle);
+    TRACE1("  snd_rbwmidi_close() returns %d\n", err);
+    if (hbndle->plbtformDbtb) {
+        snd_midi_event_free((snd_midi_event_t*) hbndle->plbtformDbtb);
     }
-    free(handle);
+    free(hbndle);
     TRACE0("< closeMidiDevice: succeeded\n");
     return err;
 }
 
 
-INT64 getMidiTimestamp(MidiDeviceHandle* handle) {
-    if (!handle) {
-        ERROR0("< ERROR: closeMidiDevice(): handle is NULL\n");
+INT64 getMidiTimestbmp(MidiDeviceHbndle* hbndle) {
+    if (!hbndle) {
+        ERROR0("< ERROR: closeMidiDevice(): hbndle is NULL\n");
         return MIDI_INVALID_HANDLE;
     }
-    return getTimeInMicroseconds() - handle->startTime;
+    return getTimeInMicroseconds() - hbndle->stbrtTime;
 }
 
 

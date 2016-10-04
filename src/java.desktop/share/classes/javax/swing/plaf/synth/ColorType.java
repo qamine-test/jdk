@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 2002, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
 /**
- * A typesafe enumeration of colors that can be fetched from a style.
+ * A typesbfe enumerbtion of colors thbt cbn be fetched from b style.
  * <p>
- * Each <code>SynthStyle</code> has a set of <code>ColorType</code>s that
- * are accessed by way of the
+ * Ebch <code>SynthStyle</code> hbs b set of <code>ColorType</code>s thbt
+ * bre bccessed by wby of the
  * {@link SynthStyle#getColor(SynthContext, ColorType)} method.
- * <code>SynthStyle</code>'s <code>installDefaults</code> will install
+ * <code>SynthStyle</code>'s <code>instbllDefbults</code> will instbll
  * the <code>FOREGROUND</code> color
- * as the foreground of
- * the Component, and the <code>BACKGROUND</code> color to the background of
- * the component (assuming that you have not explicitly specified a
- * foreground and background color). Some components
- * support more color based properties, for
- * example <code>JList</code> has the property
- * <code>selectionForeground</code> which will be mapped to
- * <code>FOREGROUND</code> with a component state of
- * <code>SynthConstants.SELECTED</code>.
+ * bs the foreground of
+ * the Component, bnd the <code>BACKGROUND</code> color to the bbckground of
+ * the component (bssuming thbt you hbve not explicitly specified b
+ * foreground bnd bbckground color). Some components
+ * support more color bbsed properties, for
+ * exbmple <code>JList</code> hbs the property
+ * <code>selectionForeground</code> which will be mbpped to
+ * <code>FOREGROUND</code> with b component stbte of
+ * <code>SynthConstbnts.SELECTED</code>.
  * <p>
- * The following example shows a custom <code>SynthStyle</code> that returns
- * a red Color for the <code>DISABLED</code> state, otherwise a black color.
+ * The following exbmple shows b custom <code>SynthStyle</code> thbt returns
+ * b red Color for the <code>DISABLED</code> stbte, otherwise b blbck color.
  * <pre>
- * class MyStyle extends SynthStyle {
- *     private Color disabledColor = new ColorUIResource(Color.RED);
- *     private Color color = new ColorUIResource(Color.BLACK);
- *     protected Color getColorForState(SynthContext context, ColorType type){
- *         if (context.getComponentState() == SynthConstants.DISABLED) {
- *             return disabledColor;
+ * clbss MyStyle extends SynthStyle {
+ *     privbte Color disbbledColor = new ColorUIResource(Color.RED);
+ *     privbte Color color = new ColorUIResource(Color.BLACK);
+ *     protected Color getColorForStbte(SynthContext context, ColorType type){
+ *         if (context.getComponentStbte() == SynthConstbnts.DISABLED) {
+ *             return disbbledColor;
  *         }
  *         return color;
  *     }
@@ -58,79 +58,79 @@ package javax.swing.plaf.synth;
  * </pre>
  *
  * @since 1.5
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-public class ColorType {
+public clbss ColorType {
     /**
-     * ColorType for the foreground of a region.
+     * ColorType for the foreground of b region.
      */
-    public static final ColorType FOREGROUND = new ColorType("Foreground");
+    public stbtic finbl ColorType FOREGROUND = new ColorType("Foreground");
 
     /**
-     * ColorType for the background of a region.
+     * ColorType for the bbckground of b region.
      */
-    public static final ColorType BACKGROUND = new ColorType("Background");
+    public stbtic finbl ColorType BACKGROUND = new ColorType("Bbckground");
 
     /**
-     * ColorType for the foreground of a region.
+     * ColorType for the foreground of b region.
      */
-    public static final ColorType TEXT_FOREGROUND = new ColorType(
+    public stbtic finbl ColorType TEXT_FOREGROUND = new ColorType(
                                        "TextForeground");
 
     /**
-     * ColorType for the background of a region.
+     * ColorType for the bbckground of b region.
      */
-    public static final ColorType TEXT_BACKGROUND =new ColorType(
-                                       "TextBackground");
+    public stbtic finbl ColorType TEXT_BACKGROUND =new ColorType(
+                                       "TextBbckground");
 
     /**
      * ColorType for the focus.
      */
-    public static final ColorType FOCUS = new ColorType("Focus");
+    public stbtic finbl ColorType FOCUS = new ColorType("Focus");
 
     /**
-     * Maximum number of <code>ColorType</code>s.
+     * Mbximum number of <code>ColorType</code>s.
      */
-    public static final int MAX_COUNT;
+    public stbtic finbl int MAX_COUNT;
 
-    private static int nextID;
+    privbte stbtic int nextID;
 
-    private String description;
-    private int index;
+    privbte String description;
+    privbte int index;
 
-    static {
-        MAX_COUNT = Math.max(FOREGROUND.getID(), Math.max(
+    stbtic {
+        MAX_COUNT = Mbth.mbx(FOREGROUND.getID(), Mbth.mbx(
                                  BACKGROUND.getID(), FOCUS.getID())) + 1;
     }
 
     /**
-     * Creates a new ColorType with the specified description.
+     * Crebtes b new ColorType with the specified description.
      *
-     * @param description String description of the ColorType.
+     * @pbrbm description String description of the ColorType.
      */
     protected ColorType(String description) {
         if (description == null) {
             throw new NullPointerException(
-                          "ColorType must have a valid description");
+                          "ColorType must hbve b vblid description");
         }
         this.description = description;
-        synchronized(ColorType.class) {
+        synchronized(ColorType.clbss) {
             this.index = nextID++;
         }
     }
 
     /**
-     * Returns a unique id, as an integer, for this ColorType.
+     * Returns b unique id, bs bn integer, for this ColorType.
      *
-     * @return a unique id, as an integer, for this ColorType.
+     * @return b unique id, bs bn integer, for this ColorType.
      */
-    public final int getID() {
+    public finbl int getID() {
         return index;
     }
 
     /**
-     * Returns the textual description of this <code>ColorType</code>.
-     * This is the same value that the <code>ColorType</code> was created
+     * Returns the textubl description of this <code>ColorType</code>.
+     * This is the sbme vblue thbt the <code>ColorType</code> wbs crebted
      * with.
      *
      * @return the description of the string

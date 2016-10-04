@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,174 +30,174 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* Table of class information.
+/* Tbble of clbss informbtion.
  *
- *   Each element in this table is identified with a ClassIndex.
- *   Each element is uniquely identified by it's signature and loader.
- *   Every class load has a unique class serial number.
- *   While loaded, each element will have a cache of a global reference
- *     to it's jclass object, plus jmethodID's as needed.
- *   Method signatures and names are obtained via BCI.
- *   Methods can be identified with a ClassIndex and MethodIndex pair,
- *     where the MethodIndex matches the index of the method name and
- *     signature arrays obtained from the BCI pass.
- *   Strings are stored in the string table and a StringIndex is used.
- *   Class Loaders are stored in the loader table and a LoaderIndex is used.
- *   Since the jclass object is an object, at some point an object table
- *      entry may be allocated for the jclass as an ObjectIndex.
+ *   Ebch element in this tbble is identified with b ClbssIndex.
+ *   Ebch element is uniquely identified by it's signbture bnd lobder.
+ *   Every clbss lobd hbs b unique clbss seribl number.
+ *   While lobded, ebch element will hbve b cbche of b globbl reference
+ *     to it's jclbss object, plus jmethodID's bs needed.
+ *   Method signbtures bnd nbmes bre obtbined vib BCI.
+ *   Methods cbn be identified with b ClbssIndex bnd MethodIndex pbir,
+ *     where the MethodIndex mbtches the index of the method nbme bnd
+ *     signbture brrbys obtbined from the BCI pbss.
+ *   Strings bre stored in the string tbble bnd b StringIndex is used.
+ *   Clbss Lobders bre stored in the lobder tbble bnd b LobderIndex is used.
+ *   Since the jclbss object is bn object, bt some point bn object tbble
+ *      entry mby be bllocbted for the jclbss bs bn ObjectIndex.
  */
 
 #include "hprof.h"
 
-/* Effectively represents a jclass object. */
+/* Effectively represents b jclbss object. */
 
-/* These table elements are made unique by and sorted by signature name. */
+/* These tbble elements bre mbde unique by bnd sorted by signbture nbme. */
 
-typedef struct ClassKey {
-    StringIndex    sig_string_index;    /* Signature of class */
-    LoaderIndex    loader_index;        /* Index for class loader */
-} ClassKey;
+typedef struct ClbssKey {
+    StringIndex    sig_string_index;    /* Signbture of clbss */
+    LobderIndex    lobder_index;        /* Index for clbss lobder */
+} ClbssKey;
 
-/* Each class could contain method information, gotten from BCI callback */
+/* Ebch clbss could contbin method informbtion, gotten from BCI cbllbbck */
 
 typedef struct MethodInfo {
-    StringIndex  name_index;    /* Method name, index into string table */
-    StringIndex  sig_index;     /* Method signature, index into string table */
-    jmethodID    method_id;     /* Method ID, possibly NULL at first */
+    StringIndex  nbme_index;    /* Method nbme, index into string tbble */
+    StringIndex  sig_index;     /* Method signbture, index into string tbble */
+    jmethodID    method_id;     /* Method ID, possibly NULL bt first */
 } MethodInfo;
 
-/* The basic class information we save */
+/* The bbsic clbss informbtion we sbve */
 
-typedef struct ClassInfo {
-    jclass         classref;            /* Global ref to jclass */
-    MethodInfo    *method;              /* Array of method data */
+typedef struct ClbssInfo {
+    jclbss         clbssref;            /* Globbl ref to jclbss */
+    MethodInfo    *method;              /* Arrby of method dbtb */
     int            method_count;        /* Count of methods */
-    ObjectIndex    object_index;        /* Optional object index for jclass */
-    SerialNumber   serial_num;          /* Unique to the actual class load */
-    ClassStatus    status;              /* Current class status (bit mask) */
-    ClassIndex     super;               /* Super class in this table */
-    StringIndex    name;                /* Name of class */
-    jint           inst_size;           /* #bytes needed for instance fields */
-    jint           field_count;         /* Number of all fields */
-    FieldInfo     *field;               /* Pointer to all FieldInfo's */
-} ClassInfo;
+    ObjectIndex    object_index;        /* Optionbl object index for jclbss */
+    SeriblNumber   seribl_num;          /* Unique to the bctubl clbss lobd */
+    ClbssStbtus    stbtus;              /* Current clbss stbtus (bit mbsk) */
+    ClbssIndex     super;               /* Super clbss in this tbble */
+    StringIndex    nbme;                /* Nbme of clbss */
+    jint           inst_size;           /* #bytes needed for instbnce fields */
+    jint           field_count;         /* Number of bll fields */
+    FieldInfo     *field;               /* Pointer to bll FieldInfo's */
+} ClbssInfo;
 
-/* Private interfaces */
+/* Privbte interfbces */
 
-static ClassKey*
-get_pkey(ClassIndex index)
+stbtic ClbssKey*
+get_pkey(ClbssIndex index)
 {
     void *key_ptr;
     int   key_len;
 
-    table_get_key(gdata->class_table, index, (void*)&key_ptr, &key_len);
-    HPROF_ASSERT(key_len==sizeof(ClassKey));
+    tbble_get_key(gdbtb->clbss_tbble, index, (void*)&key_ptr, &key_len);
+    HPROF_ASSERT(key_len==sizeof(ClbssKey));
     HPROF_ASSERT(key_ptr!=NULL);
-    return (ClassKey*)key_ptr;
+    return (ClbssKey*)key_ptr;
 }
 
-static void
-fillin_pkey(const char *sig, LoaderIndex loader_index, ClassKey *pkey)
+stbtic void
+fillin_pkey(const chbr *sig, LobderIndex lobder_index, ClbssKey *pkey)
 {
-    static ClassKey empty_key;
+    stbtic ClbssKey empty_key;
 
-    HPROF_ASSERT(loader_index!=0);
+    HPROF_ASSERT(lobder_index!=0);
     *pkey                  = empty_key;
-    pkey->sig_string_index = string_find_or_create(sig);
-    pkey->loader_index     = loader_index;
+    pkey->sig_string_index = string_find_or_crebte(sig);
+    pkey->lobder_index     = lobder_index;
 }
 
-static ClassInfo *
-get_info(ClassIndex index)
+stbtic ClbssInfo *
+get_info(ClbssIndex index)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    info = (ClassInfo*)table_get_info(gdata->class_table, index);
+    info = (ClbssInfo*)tbble_get_info(gdbtb->clbss_tbble, index);
     return info;
 }
 
-static void
-fill_info(TableIndex index, ClassKey *pkey)
+stbtic void
+fill_info(TbbleIndex index, ClbssKey *pkey)
 {
-    ClassInfo *info;
-    char      *sig;
+    ClbssInfo *info;
+    chbr      *sig;
 
     info = get_info(index);
-    info->serial_num = gdata->class_serial_number_counter++;
+    info->seribl_num = gdbtb->clbss_seribl_number_counter++;
     info->method_count = 0;
     info->inst_size = -1;
     info->field_count = -1;
     info->field = NULL;
     sig = string_get(pkey->sig_string_index);
     if ( sig[0] != JVM_SIGNATURE_CLASS ) {
-        info->name = pkey->sig_string_index;
+        info->nbme = pkey->sig_string_index;
     } else {
         int        len;
 
         len = string_get_len(pkey->sig_string_index);
         if ( len > 2  ) {
-            char      *name;
+            chbr      *nbme;
 
-            /* Class signature looks like "Lname;", we want "name" here. */
-            name = HPROF_MALLOC(len-1);
-            (void)memcpy(name, sig+1, len-2);
-            name[len-2] = 0;
-            info->name = string_find_or_create(name);
-            HPROF_FREE(name);
+            /* Clbss signbture looks like "Lnbme;", we wbnt "nbme" here. */
+            nbme = HPROF_MALLOC(len-1);
+            (void)memcpy(nbme, sig+1, len-2);
+            nbme[len-2] = 0;
+            info->nbme = string_find_or_crebte(nbme);
+            HPROF_FREE(nbme);
         } else {
-            /* This would be strange, a class signature not in "Lname;" form? */
-            info->name = pkey->sig_string_index;
+            /* This would be strbnge, b clbss signbture not in "Lnbme;" form? */
+            info->nbme = pkey->sig_string_index;
         }
    }
 }
 
-static ClassIndex
-find_entry(ClassKey *pkey)
+stbtic ClbssIndex
+find_entry(ClbssKey *pkey)
 {
-    ClassIndex index;
+    ClbssIndex index;
 
-    index = table_find_entry(gdata->class_table,
-                                (void*)pkey, (int)sizeof(ClassKey));
+    index = tbble_find_entry(gdbtb->clbss_tbble,
+                                (void*)pkey, (int)sizeof(ClbssKey));
     return index;
 }
 
-static ClassIndex
-create_entry(ClassKey *pkey)
+stbtic ClbssIndex
+crebte_entry(ClbssKey *pkey)
 {
-    ClassIndex index;
+    ClbssIndex index;
 
-    index = table_create_entry(gdata->class_table,
-                                (void*)pkey, (int)sizeof(ClassKey), NULL);
+    index = tbble_crebte_entry(gdbtb->clbss_tbble,
+                                (void*)pkey, (int)sizeof(ClbssKey), NULL);
     fill_info(index, pkey);
     return index;
 }
 
-static ClassIndex
-find_or_create_entry(ClassKey *pkey)
+stbtic ClbssIndex
+find_or_crebte_entry(ClbssKey *pkey)
 {
-    ClassIndex      index;
+    ClbssIndex      index;
 
     HPROF_ASSERT(pkey!=NULL);
-    HPROF_ASSERT(pkey->loader_index!=0);
+    HPROF_ASSERT(pkey->lobder_index!=0);
     index = find_entry(pkey);
     if ( index == 0 ) {
-        index = create_entry(pkey);
+        index = crebte_entry(pkey);
     }
     return index;
 }
 
-static void
-delete_classref(JNIEnv *env, ClassInfo *info, jclass klass)
+stbtic void
+delete_clbssref(JNIEnv *env, ClbssInfo *info, jclbss klbss)
 {
-    jclass ref;
+    jclbss ref;
     int    i;
 
     HPROF_ASSERT(env!=NULL);
@@ -206,28 +206,28 @@ delete_classref(JNIEnv *env, ClassInfo *info, jclass klass)
     for ( i = 0 ; i < info->method_count ; i++ ) {
         info->method[i].method_id  = NULL;
     }
-    ref = info->classref;
-    if ( klass != NULL ) {
-        info->classref = newGlobalReference(env, klass);
+    ref = info->clbssref;
+    if ( klbss != NULL ) {
+        info->clbssref = newGlobblReference(env, klbss);
     } else {
-        info->classref = NULL;
+        info->clbssref = NULL;
     }
     if ( ref != NULL ) {
-        deleteGlobalReference(env, ref);
+        deleteGlobblReference(env, ref);
     }
 }
 
-static void
-cleanup_item(TableIndex index, void *key_ptr, int key_len,
-                                void *info_ptr, void *arg)
+stbtic void
+clebnup_item(TbbleIndex index, void *key_ptr, int key_len,
+                                void *info_ptr, void *brg)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    /* Cleanup any information in this ClassInfo structure. */
+    /* Clebnup bny informbtion in this ClbssInfo structure. */
     HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len==sizeof(ClassKey));
+    HPROF_ASSERT(key_len==sizeof(ClbssKey));
     HPROF_ASSERT(info_ptr!=NULL);
-    info = (ClassInfo *)info_ptr;
+    info = (ClbssInfo *)info_ptr;
     if ( info->method_count > 0 ) {
         HPROF_FREE((void*)info->method);
         info->method_count = 0;
@@ -240,224 +240,224 @@ cleanup_item(TableIndex index, void *key_ptr, int key_len,
     }
 }
 
-static void
-delete_ref_item(TableIndex index, void *key_ptr, int key_len,
-                                void *info_ptr, void *arg)
+stbtic void
+delete_ref_item(TbbleIndex index, void *key_ptr, int key_len,
+                                void *info_ptr, void *brg)
 {
-    delete_classref((JNIEnv*)arg, (ClassInfo*)info_ptr, NULL);
+    delete_clbssref((JNIEnv*)brg, (ClbssInfo*)info_ptr, NULL);
 }
 
-static void
-list_item(TableIndex index, void *key_ptr, int key_len,
-                                void *info_ptr, void *arg)
+stbtic void
+list_item(TbbleIndex index, void *key_ptr, int key_len,
+                                void *info_ptr, void *brg)
 {
-    ClassInfo *info;
-    ClassKey   key;
-    char      *sig;
+    ClbssInfo *info;
+    ClbssKey   key;
+    chbr      *sig;
     int        i;
 
     HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len==sizeof(ClassKey));
+    HPROF_ASSERT(key_len==sizeof(ClbssKey));
     HPROF_ASSERT(info_ptr!=NULL);
-    key = *((ClassKey*)key_ptr);
+    key = *((ClbssKey*)key_ptr);
     sig = string_get(key.sig_string_index);
-    info = (ClassInfo *)info_ptr;
-    debug_message(
-             "0x%08x: Class %s, SN=%u, status=0x%08x, ref=%p,"
+    info = (ClbssInfo *)info_ptr;
+    debug_messbge(
+             "0x%08x: Clbss %s, SN=%u, stbtus=0x%08x, ref=%p,"
              " method_count=%d\n",
              index,
-             (const char *)sig,
-             info->serial_num,
-             info->status,
-             (void*)info->classref,
+             (const chbr *)sig,
+             info->seribl_num,
+             info->stbtus,
+             (void*)info->clbssref,
              info->method_count);
     if ( info->method_count > 0 ) {
         for ( i = 0 ; i < info->method_count ; i++ ) {
-            debug_message(
+            debug_messbge(
                 "    Method %d: \"%s\", sig=\"%s\", method=%p\n",
                 i,
-                string_get(info->method[i].name_index),
+                string_get(info->method[i].nbme_index),
                 string_get(info->method[i].sig_index),
                 (void*)info->method[i].method_id);
         }
     }
 }
 
-static void
-all_status_remove(TableIndex index, void *key_ptr, int key_len,
-                                void *info_ptr, void *arg)
+stbtic void
+bll_stbtus_remove(TbbleIndex index, void *key_ptr, int key_len,
+                                void *info_ptr, void *brg)
 {
-    ClassInfo   *info;
-    ClassStatus  status;
+    ClbssInfo   *info;
+    ClbssStbtus  stbtus;
 
     HPROF_ASSERT(info_ptr!=NULL);
     /*LINTED*/
-    status = (ClassStatus)(long)(ptrdiff_t)arg;
-    info = (ClassInfo *)info_ptr;
-    info->status &= (~status);
+    stbtus = (ClbssStbtus)(long)(ptrdiff_t)brg;
+    info = (ClbssInfo *)info_ptr;
+    info->stbtus &= (~stbtus);
 }
 
-static void
-unload_walker(TableIndex index, void *key_ptr, int key_len,
-                                void *info_ptr, void *arg)
+stbtic void
+unlobd_wblker(TbbleIndex index, void *key_ptr, int key_len,
+                                void *info_ptr, void *brg)
 {
-    ClassInfo        *info;
+    ClbssInfo        *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    info = (ClassInfo *)info_ptr;
-    if ( ! ( info->status & CLASS_IN_LOAD_LIST ) ) {
-        if ( ! (info->status & (CLASS_SPECIAL|CLASS_SYSTEM|CLASS_UNLOADED)) ) {
-            io_write_class_unload(info->serial_num, info->object_index);
-            info->status |= CLASS_UNLOADED;
-            delete_classref((JNIEnv*)arg, info, NULL);
+    info = (ClbssInfo *)info_ptr;
+    if ( ! ( info->stbtus & CLASS_IN_LOAD_LIST ) ) {
+        if ( ! (info->stbtus & (CLASS_SPECIAL|CLASS_SYSTEM|CLASS_UNLOADED)) ) {
+            io_write_clbss_unlobd(info->seribl_num, info->object_index);
+            info->stbtus |= CLASS_UNLOADED;
+            delete_clbssref((JNIEnv*)brg, info, NULL);
         }
     }
 }
 
-/* External interfaces */
+/* Externbl interfbces */
 
 void
-class_init(void)
+clbss_init(void)
 {
-    HPROF_ASSERT(gdata->class_table==NULL);
-    gdata->class_table = table_initialize("Class", 512, 512, 511,
-                                    (int)sizeof(ClassInfo));
+    HPROF_ASSERT(gdbtb->clbss_tbble==NULL);
+    gdbtb->clbss_tbble = tbble_initiblize("Clbss", 512, 512, 511,
+                                    (int)sizeof(ClbssInfo));
 }
 
-ClassIndex
-class_find_or_create(const char *sig, LoaderIndex loader_index)
+ClbssIndex
+clbss_find_or_crebte(const chbr *sig, LobderIndex lobder_index)
 {
-    ClassKey key;
+    ClbssKey key;
 
-    fillin_pkey(sig, loader_index, &key);
-    return find_or_create_entry(&key);
+    fillin_pkey(sig, lobder_index, &key);
+    return find_or_crebte_entry(&key);
 }
 
-ClassIndex
-class_create(const char *sig, LoaderIndex loader_index)
+ClbssIndex
+clbss_crebte(const chbr *sig, LobderIndex lobder_index)
 {
-    ClassKey key;
+    ClbssKey key;
 
-    fillin_pkey(sig, loader_index, &key);
-    return create_entry(&key);
+    fillin_pkey(sig, lobder_index, &key);
+    return crebte_entry(&key);
 }
 
 void
-class_prime_system_classes(void)
+clbss_prime_system_clbsses(void)
 {
-    /* Prime System classes? Anything before VM_START is System class.
-     *   Or classes loaded before env arg is non-NULL.
-     *   Or any of the classes listed below.
+    /* Prime System clbsses? Anything before VM_START is System clbss.
+     *   Or clbsses lobded before env brg is non-NULL.
+     *   Or bny of the clbsses listed below.
      */
-    static const char * signatures[] =
+    stbtic const chbr * signbtures[] =
         {
-            "Ljava/lang/Object;",
-            "Ljava/io/Serializable;",
-            "Ljava/lang/String;",
-            "Ljava/lang/Class;",
-            "Ljava/lang/ClassLoader;",
-            "Ljava/lang/System;",
-            "Ljava/lang/Thread;",
-            "Ljava/lang/ThreadGroup;",
+            "Ljbvb/lbng/Object;",
+            "Ljbvb/io/Seriblizbble;",
+            "Ljbvb/lbng/String;",
+            "Ljbvb/lbng/Clbss;",
+            "Ljbvb/lbng/ClbssLobder;",
+            "Ljbvb/lbng/System;",
+            "Ljbvb/lbng/Threbd;",
+            "Ljbvb/lbng/ThrebdGroup;",
         };
-    int n_signatures;
+    int n_signbtures;
     int i;
-    LoaderIndex loader_index;
+    LobderIndex lobder_index;
 
-    n_signatures = (int)sizeof(signatures)/(int)sizeof(signatures[0]);
-    loader_index = loader_find_or_create(NULL, NULL);
-    for ( i = 0 ; i < n_signatures ; i++ ) {
-        ClassInfo  *info;
-        ClassIndex  index;
-        ClassKey    key;
+    n_signbtures = (int)sizeof(signbtures)/(int)sizeof(signbtures[0]);
+    lobder_index = lobder_find_or_crebte(NULL, NULL);
+    for ( i = 0 ; i < n_signbtures ; i++ ) {
+        ClbssInfo  *info;
+        ClbssIndex  index;
+        ClbssKey    key;
 
-        fillin_pkey(signatures[i], loader_index, &key);
-        index = find_or_create_entry(&key);
+        fillin_pkey(signbtures[i], lobder_index, &key);
+        index = find_or_crebte_entry(&key);
         info = get_info(index);
-        info->status |= CLASS_SYSTEM;
+        info->stbtus |= CLASS_SYSTEM;
     }
 }
 
 void
-class_add_status(ClassIndex index, ClassStatus status)
+clbss_bdd_stbtus(ClbssIndex index, ClbssStbtus stbtus)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
     info = get_info(index);
-    info->status |= status;
+    info->stbtus |= stbtus;
 }
 
-ClassStatus
-class_get_status(ClassIndex index)
+ClbssStbtus
+clbss_get_stbtus(ClbssIndex index)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
     info = get_info(index);
-    return info->status;
+    return info->stbtus;
 }
 
 StringIndex
-class_get_signature(ClassIndex index)
+clbss_get_signbture(ClbssIndex index)
 {
-    ClassKey *pkey;
+    ClbssKey *pkey;
 
     pkey = get_pkey(index);
     return pkey->sig_string_index;
 }
 
-SerialNumber
-class_get_serial_number(ClassIndex index)
+SeriblNumber
+clbss_get_seribl_number(ClbssIndex index)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
     if ( index == 0 ) {
         return 0;
     }
     info = get_info(index);
-    return info->serial_num;
+    return info->seribl_num;
 }
 
 void
-class_all_status_remove(ClassStatus status)
+clbss_bll_stbtus_remove(ClbssStbtus stbtus)
 {
-    table_walk_items(gdata->class_table, &all_status_remove,
-                (void*)(ptrdiff_t)(long)status);
+    tbble_wblk_items(gdbtb->clbss_tbble, &bll_stbtus_remove,
+                (void*)(ptrdiff_t)(long)stbtus);
 }
 
 void
-class_do_unloads(JNIEnv *env)
+clbss_do_unlobds(JNIEnv *env)
 {
-    table_walk_items(gdata->class_table, &unload_walker, (void*)env);
+    tbble_wblk_items(gdbtb->clbss_tbble, &unlobd_wblker, (void*)env);
 }
 
 void
-class_list(void)
+clbss_list(void)
 {
-    debug_message(
-        "--------------------- Class Table ------------------------\n");
-    table_walk_items(gdata->class_table, &list_item, NULL);
-    debug_message(
+    debug_messbge(
+        "--------------------- Clbss Tbble ------------------------\n");
+    tbble_wblk_items(gdbtb->clbss_tbble, &list_item, NULL);
+    debug_messbge(
         "----------------------------------------------------------\n");
 }
 
 void
-class_cleanup(void)
+clbss_clebnup(void)
 {
-    table_cleanup(gdata->class_table, &cleanup_item, NULL);
-    gdata->class_table = NULL;
+    tbble_clebnup(gdbtb->clbss_tbble, &clebnup_item, NULL);
+    gdbtb->clbss_tbble = NULL;
 }
 
 void
-class_delete_global_references(JNIEnv* env)
+clbss_delete_globbl_references(JNIEnv* env)
 {
-    table_walk_items(gdata->class_table, &delete_ref_item, (void*)env);
+    tbble_wblk_items(gdbtb->clbss_tbble, &delete_ref_item, (void*)env);
 }
 
 void
-class_set_methods(ClassIndex index, const char **name, const char **sig,
+clbss_set_methods(ClbssIndex index, const chbr **nbme, const chbr **sig,
                         int count)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
     int        i;
 
     info               = get_info(index);
@@ -470,87 +470,87 @@ class_set_methods(ClassIndex index, const char **name, const char **sig,
     if ( count > 0 ) {
         info->method = (MethodInfo *)HPROF_MALLOC(count*(int)sizeof(MethodInfo));
         for ( i = 0 ; i < count ; i++ ) {
-            info->method[i].name_index = string_find_or_create(name[i]);
-            info->method[i].sig_index  = string_find_or_create(sig[i]);
+            info->method[i].nbme_index = string_find_or_crebte(nbme[i]);
+            info->method[i].sig_index  = string_find_or_crebte(sig[i]);
             info->method[i].method_id  = NULL;
         }
     }
 }
 
-jclass
-class_new_classref(JNIEnv *env, ClassIndex index, jclass classref)
+jclbss
+clbss_new_clbssref(JNIEnv *env, ClbssIndex index, jclbss clbssref)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
-    HPROF_ASSERT(classref!=NULL);
+    HPROF_ASSERT(clbssref!=NULL);
     info = get_info(index);
-    if ( ! isSameObject(env, classref, info->classref) ) {
-        delete_classref(env, info, classref);
+    if ( ! isSbmeObject(env, clbssref, info->clbssref) ) {
+        delete_clbssref(env, info, clbssref);
     }
-    return info->classref;
+    return info->clbssref;
 }
 
-jclass
-class_get_class(JNIEnv *env, ClassIndex index)
+jclbss
+clbss_get_clbss(JNIEnv *env, ClbssIndex index)
 {
-    ClassInfo *info;
-    jclass     clazz;
+    ClbssInfo *info;
+    jclbss     clbzz;
 
     info        = get_info(index);
-    clazz       = info->classref;
-    if ( env != NULL && clazz == NULL ) {
+    clbzz       = info->clbssref;
+    if ( env != NULL && clbzz == NULL ) {
         WITH_LOCAL_REFS(env, 1) {
-            jclass   new_clazz;
-            char    *class_name;
+            jclbss   new_clbzz;
+            chbr    *clbss_nbme;
 
-            class_name = string_get(info->name);
-            /* This really only makes sense for the bootclass classes,
-             *   since FindClass doesn't provide a way to load a class in
-             *   a specific class loader.
+            clbss_nbme = string_get(info->nbme);
+            /* This reblly only mbkes sense for the bootclbss clbsses,
+             *   since FindClbss doesn't provide b wby to lobd b clbss in
+             *   b specific clbss lobder.
              */
-            new_clazz = findClass(env, class_name);
-            if ( new_clazz == NULL ) {
-                HPROF_ERROR(JNI_TRUE, "Cannot load class with findClass");
+            new_clbzz = findClbss(env, clbss_nbme);
+            if ( new_clbzz == NULL ) {
+                HPROF_ERROR(JNI_TRUE, "Cbnnot lobd clbss with findClbss");
             }
-            HPROF_ASSERT(new_clazz!=NULL);
-            clazz = class_new_classref(env, index, new_clazz);
+            HPROF_ASSERT(new_clbzz!=NULL);
+            clbzz = clbss_new_clbssref(env, index, new_clbzz);
         } END_WITH_LOCAL_REFS;
-        HPROF_ASSERT(clazz!=NULL);
+        HPROF_ASSERT(clbzz!=NULL);
     }
-    return clazz;
+    return clbzz;
 }
 
 jmethodID
-class_get_methodID(JNIEnv *env, ClassIndex index, MethodIndex mnum)
+clbss_get_methodID(JNIEnv *env, ClbssIndex index, MethodIndex mnum)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
     jmethodID  method;
 
     info = get_info(index);
     if (mnum >= info->method_count) {
-        jclass newExcCls = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
-        (*env)->ThrowNew(env, newExcCls, "Illegal mnum");
+        jclbss newExcCls = (*env)->FindClbss(env, "jbvb/lbng/IllegblArgumentException");
+        (*env)->ThrowNew(env, newExcCls, "Illegbl mnum");
 
         return NULL;
     }
     method = info->method[mnum].method_id;
     if ( method == NULL ) {
-        char * name;
-        char * sig;
-        jclass clazz;
+        chbr * nbme;
+        chbr * sig;
+        jclbss clbzz;
 
-        name  = (char *)string_get(info->method[mnum].name_index);
-        if (name==NULL) {
-            jclass newExcCls = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
-            (*env)->ThrowNew(env, newExcCls, "Name not found");
+        nbme  = (chbr *)string_get(info->method[mnum].nbme_index);
+        if (nbme==NULL) {
+            jclbss newExcCls = (*env)->FindClbss(env, "jbvb/lbng/IllegblArgumentException");
+            (*env)->ThrowNew(env, newExcCls, "Nbme not found");
 
             return NULL;
         }
-        sig   = (char *)string_get(info->method[mnum].sig_index);
+        sig   = (chbr *)string_get(info->method[mnum].sig_index);
         HPROF_ASSERT(sig!=NULL);
-        clazz = class_get_class(env, index);
-        if ( clazz != NULL ) {
-            method = getMethodID(env, clazz, name, sig);
+        clbzz = clbss_get_clbss(env, index);
+        if ( clbzz != NULL ) {
+            method = getMethodID(env, clbzz, nbme, sig);
             HPROF_ASSERT(method!=NULL);
             info = get_info(index);
             info->method[mnum].method_id = method;
@@ -560,119 +560,119 @@ class_get_methodID(JNIEnv *env, ClassIndex index, MethodIndex mnum)
 }
 
 void
-class_set_inst_size(ClassIndex index, jint inst_size)
+clbss_set_inst_size(ClbssIndex index, jint inst_size)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
     info = get_info(index);
     info->inst_size = inst_size;
 }
 
 jint
-class_get_inst_size(ClassIndex index)
+clbss_get_inst_size(ClbssIndex index)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
     info = get_info(index);
     return info->inst_size;
 }
 
 void
-class_set_object_index(ClassIndex index, ObjectIndex object_index)
+clbss_set_object_index(ClbssIndex index, ObjectIndex object_index)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
     info = get_info(index);
     info->object_index = object_index;
 }
 
 ObjectIndex
-class_get_object_index(ClassIndex index)
+clbss_get_object_index(ClbssIndex index)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
     info = get_info(index);
     return info->object_index;
 }
 
-ClassIndex
-class_get_super(ClassIndex index)
+ClbssIndex
+clbss_get_super(ClbssIndex index)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
     info = get_info(index);
     return info->super;
 }
 
 void
-class_set_super(ClassIndex index, ClassIndex super)
+clbss_set_super(ClbssIndex index, ClbssIndex super)
 {
-    ClassInfo *info;
+    ClbssInfo *info;
 
     info = get_info(index);
     info->super = super;
 }
 
-LoaderIndex
-class_get_loader(ClassIndex index)
+LobderIndex
+clbss_get_lobder(ClbssIndex index)
 {
-    ClassKey *pkey;
+    ClbssKey *pkey;
 
     pkey = get_pkey(index);
-    HPROF_ASSERT(pkey->loader_index!=0);
-    return pkey->loader_index;
+    HPROF_ASSERT(pkey->lobder_index!=0);
+    return pkey->lobder_index;
 }
 
-/* Get ALL class fields (supers too), return 1 on error, 0 if ok */
+/* Get ALL clbss fields (supers too), return 1 on error, 0 if ok */
 jint
-class_get_all_fields(JNIEnv *env, ClassIndex index,
+clbss_get_bll_fields(JNIEnv *env, ClbssIndex index,
                 jint *pfield_count, FieldInfo **pfield)
 {
-    ClassInfo  *info;
+    ClbssInfo  *info;
     FieldInfo  *finfo;
     jint        count;
     jint        ret;
 
     count = 0;
     finfo = NULL;
-    ret   = 1;       /* Default is to return an error condition */
+    ret   = 1;       /* Defbult is to return bn error condition */
 
     info = get_info(index);
     if ( info != NULL ) {
         if ( info->field_count >= 0 ) {
-            /* Get cache */
+            /* Get cbche */
             count = info->field_count;
             finfo = info->field;
-            ret   = 0;                 /* Return of cache data, no error */
+            ret   = 0;                 /* Return of cbche dbtb, no error */
         } else {
-            jclass     klass;
+            jclbss     klbss;
 
-            klass = info->classref;
-            if ( klass == NULL || isSameObject(env, klass, NULL) ) {
-                /* This is probably an error because this will cause the field
-                 *    index values to be off, but I'm hesitant to generate a
-                 *    fatal error here, so I will issue something and continue.
-                 *    I should have been holding a global reference to all the
-                 *    jclass, so I'm not sure how this could happen.
-                 *    Issuing a FindClass() here is just asking for trouble
-                 *    because if the class went away, we aren't even sure
-                 *    what ClassLoader to use.
+            klbss = info->clbssref;
+            if ( klbss == NULL || isSbmeObject(env, klbss, NULL) ) {
+                /* This is probbbly bn error becbuse this will cbuse the field
+                 *    index vblues to be off, but I'm hesitbnt to generbte b
+                 *    fbtbl error here, so I will issue something bnd continue.
+                 *    I should hbve been holding b globbl reference to bll the
+                 *    jclbss, so I'm not sure how this could hbppen.
+                 *    Issuing b FindClbss() here is just bsking for trouble
+                 *    becbuse if the clbss went bwby, we bren't even sure
+                 *    whbt ClbssLobder to use.
                  */
-                HPROF_ERROR(JNI_FALSE, "Missing jclass when fields needed");
+                HPROF_ERROR(JNI_FALSE, "Missing jclbss when fields needed");
             } else {
-                jint status;
+                jint stbtus;
 
-                status = getClassStatus(klass);
-                if ( status &
+                stbtus = getClbssStbtus(klbss);
+                if ( stbtus &
                     (JVMTI_CLASS_STATUS_PRIMITIVE|JVMTI_CLASS_STATUS_ARRAY) ) {
-                    /* Set cache */
+                    /* Set cbche */
                     info->field_count = count;
                     info->field       = finfo;
-                    ret               = 0;      /* Primitive or array ok */
-                } else if ( status & JVMTI_CLASS_STATUS_PREPARED ) {
-                    /* Call JVMTI to get them */
-                    getAllClassFieldInfo(env, klass, &count, &finfo);
-                    /* Set cache */
+                    ret               = 0;      /* Primitive or brrby ok */
+                } else if ( stbtus & JVMTI_CLASS_STATUS_PREPARED ) {
+                    /* Cbll JVMTI to get them */
+                    getAllClbssFieldInfo(env, klbss, &count, &finfo);
+                    /* Set cbche */
                     info->field_count = count;
                     info->field       = finfo;
                     ret               = 0;

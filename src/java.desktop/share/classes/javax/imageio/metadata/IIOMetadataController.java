@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.metadata;
+pbckbge jbvbx.imbgeio.metbdbtb;
 
 /**
- * An interface to be implemented by objects that can determine the
- * settings of an <code>IIOMetadata</code> object, either by putting
- * up a GUI to obtain values from a user, or by other means.  This
- * interface merely specifies a generic <code>activate</code> method
- * that invokes the controller, without regard for how the controller
- * obtains values (<i>i.e.</i>, whether the controller puts up a GUI
- * or merely computes a set of values is irrelevant to this
- * interface).
+ * An interfbce to be implemented by objects thbt cbn determine the
+ * settings of bn <code>IIOMetbdbtb</code> object, either by putting
+ * up b GUI to obtbin vblues from b user, or by other mebns.  This
+ * interfbce merely specifies b generic <code>bctivbte</code> method
+ * thbt invokes the controller, without regbrd for how the controller
+ * obtbins vblues (<i>i.e.</i>, whether the controller puts up b GUI
+ * or merely computes b set of vblues is irrelevbnt to this
+ * interfbce).
  *
- * <p> Within the <code>activate</code> method, a controller obtains
- * initial values by querying the <code>IIOMetadata</code> object's
- * settings, either using the XML DOM tree or a plug-in specific
- * interface, modifies values by whatever means, then modifies the
- * <code>IIOMetadata</code> object's settings, using either the
- * <code>setFromTree</code> or <code>mergeTree</code> methods, or a
- * plug-in specific interface.  In general, applications may expect
- * that when the <code>activate</code> method returns
- * <code>true</code>, the <code>IIOMetadata</code> object is ready for
- * use in a write operation.
+ * <p> Within the <code>bctivbte</code> method, b controller obtbins
+ * initibl vblues by querying the <code>IIOMetbdbtb</code> object's
+ * settings, either using the XML DOM tree or b plug-in specific
+ * interfbce, modifies vblues by whbtever mebns, then modifies the
+ * <code>IIOMetbdbtb</code> object's settings, using either the
+ * <code>setFromTree</code> or <code>mergeTree</code> methods, or b
+ * plug-in specific interfbce.  In generbl, bpplicbtions mby expect
+ * thbt when the <code>bctivbte</code> method returns
+ * <code>true</code>, the <code>IIOMetbdbtb</code> object is rebdy for
+ * use in b write operbtion.
  *
- * <p> Vendors may choose to provide GUIs for the
- * <code>IIOMetadata</code> subclasses they define for a particular
- * plug-in.  These can be set up as default controllers in the
- * corresponding <code>IIOMetadata</code> subclasses.
+ * <p> Vendors mby choose to provide GUIs for the
+ * <code>IIOMetbdbtb</code> subclbsses they define for b pbrticulbr
+ * plug-in.  These cbn be set up bs defbult controllers in the
+ * corresponding <code>IIOMetbdbtb</code> subclbsses.
  *
- * <p> Alternatively, an algorithmic process such as a database lookup
- * or the parsing of a command line could be used as a controller, in
- * which case the <code>activate</code> method would simply look up or
- * compute the settings, call methods on <code>IIOMetadata</code> to
- * set its state, and return <code>true</code>.
+ * <p> Alternbtively, bn blgorithmic process such bs b dbtbbbse lookup
+ * or the pbrsing of b commbnd line could be used bs b controller, in
+ * which cbse the <code>bctivbte</code> method would simply look up or
+ * compute the settings, cbll methods on <code>IIOMetbdbtb</code> to
+ * set its stbte, bnd return <code>true</code>.
  *
- * @see IIOMetadata#setController
- * @see IIOMetadata#getController
- * @see IIOMetadata#getDefaultController
- * @see IIOMetadata#hasController
- * @see IIOMetadata#activateController
+ * @see IIOMetbdbtb#setController
+ * @see IIOMetbdbtb#getController
+ * @see IIOMetbdbtb#getDefbultController
+ * @see IIOMetbdbtb#hbsController
+ * @see IIOMetbdbtb#bctivbteController
  *
  */
-public interface IIOMetadataController {
+public interfbce IIOMetbdbtbController {
 
     /**
-     * Activates the controller.  If <code>true</code> is returned,
-     * all settings in the <code>IIOMetadata</code> object should be
-     * ready for use in a write operation.  If <code>false</code> is
-     * returned, no settings in the <code>IIOMetadata</code> object
-     * will be disturbed (<i>i.e.</i>, the user canceled the
-     * operation).
+     * Activbtes the controller.  If <code>true</code> is returned,
+     * bll settings in the <code>IIOMetbdbtb</code> object should be
+     * rebdy for use in b write operbtion.  If <code>fblse</code> is
+     * returned, no settings in the <code>IIOMetbdbtb</code> object
+     * will be disturbed (<i>i.e.</i>, the user cbnceled the
+     * operbtion).
      *
-     * @param metadata the <code>IIOMetadata</code> object to be modified.
+     * @pbrbm metbdbtb the <code>IIOMetbdbtb</code> object to be modified.
      *
-     * @return <code>true</code> if the <code>IIOMetadata</code> has been
-     * modified, <code>false</code> otherwise.
+     * @return <code>true</code> if the <code>IIOMetbdbtb</code> hbs been
+     * modified, <code>fblse</code> otherwise.
      *
-     * @exception IllegalArgumentException if <code>metadata</code> is
-     * <code>null</code> or is not an instance of the correct class.
+     * @exception IllegblArgumentException if <code>metbdbtb</code> is
+     * <code>null</code> or is not bn instbnce of the correct clbss.
      */
-    boolean activate(IIOMetadata metadata);
+    boolebn bctivbte(IIOMetbdbtb metbdbtb);
 }

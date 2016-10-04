@@ -3,44 +3,44 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
 /**
- * The <code>EncryptedData</code> element is the core element in the syntax. Not
- * only does its <code>CipherData</code> child contain the encrypted data, but
- * it's also the element that replaces the encrypted element, or serves as the
+ * The <code>EncryptedDbtb</code> element is the core element in the syntbx. Not
+ * only does its <code>CipherDbtb</code> child contbin the encrypted dbtb, but
+ * it's blso the element thbt replbces the encrypted element, or serves bs the
  * new document root.
  * <p>
- * It's schema definition is as follows:
+ * It's schemb definition is bs follows:
  * <p>
  * <xmp>
- * <element name='EncryptedData' type='xenc:EncryptedDataType'/>
- * <complexType name='EncryptedDataType'>
+ * <element nbme='EncryptedDbtb' type='xenc:EncryptedDbtbType'/>
+ * <complexType nbme='EncryptedDbtbType'>
  *     <complexContent>
- *         <extension base='xenc:EncryptedType'/>
+ *         <extension bbse='xenc:EncryptedType'/>
  *     </complexContent>
  * </complexType>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @buthor Axl Mbttheus
  */
-public interface EncryptedData extends EncryptedType {
+public interfbce EncryptedDbtb extends EncryptedType {
 }
 

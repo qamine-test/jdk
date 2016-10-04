@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbckbge com.sun.tools.hbt.internbl.model;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
 
 
 /**
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
 
 /**
- * Represents a java "Thing".  A thing is anything that can be the value of
- * a field.  This includes JavaHeapObject, JavaObjectRef, and JavaValue.
+ * Represents b jbvb "Thing".  A thing is bnything thbt cbn be the vblue of
+ * b field.  This includes JbvbHebpObject, JbvbObjectRef, bnd JbvbVblue.
  */
 
-public abstract class JavaThing {
+public bbstrbct clbss JbvbThing {
 
-    protected JavaThing() {
+    protected JbvbThing() {
     }
 
     /**
-     * If this is a forward reference, figure out what it really
+     * If this is b forwbrd reference, figure out whbt it reblly
      * refers to.
      *
-     * @param snapshot  The snapshot this is for
-     * @param field     The field this thing represents.  If null, it is
-     *                  assumed this thing is an object (and never a value).
+     * @pbrbm snbpshot  The snbpshot this is for
+     * @pbrbm field     The field this thing represents.  If null, it is
+     *                  bssumed this thing is bn object (bnd never b vblue).
      */
-    public JavaThing dereference(Snapshot shapshot, JavaField field) {
+    public JbvbThing dereference(Snbpshot shbpshot, JbvbField field) {
         return this;
     }
 
 
     /**
-     * Are we the same type as other?
+     * Are we the sbme type bs other?
      *
-     * @see JavaObject.isSameTypeAs()
+     * @see JbvbObject.isSbmeTypeAs()
      */
-    public boolean isSameTypeAs(JavaThing other) {
-        return getClass() == other.getClass();
+    public boolebn isSbmeTypeAs(JbvbThing other) {
+        return getClbss() == other.getClbss();
     }
     /**
-     * @return true iff this represents a heap-allocated object
+     * @return true iff this represents b hebp-bllocbted object
      */
-    abstract public boolean isHeapAllocated();
+    bbstrbct public boolebn isHebpAllocbted();
 
     /**
-     * @return the size of this object, in bytes, including VM overhead
+     * @return the size of this object, in bytes, including VM overhebd
      */
-    abstract public int getSize();
+    bbstrbct public int getSize();
 
     /**
-     * @return a human-readable string representation of this thing
+     * @return b humbn-rebdbble string representbtion of this thing
      */
-    abstract public String toString();
+    bbstrbct public String toString();
 
     /**
-     * Compare our string representation to other's
-     * @see java.lang.String.compareTo()
+     * Compbre our string representbtion to other's
+     * @see jbvb.lbng.String.compbreTo()
      */
-    public int compareTo(JavaThing other) {
-        return toString().compareTo(other.toString());
+    public int compbreTo(JbvbThing other) {
+        return toString().compbreTo(other.toString());
     }
 
 }

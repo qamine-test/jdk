@@ -1,32 +1,32 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef FontScalerDefsIncludesDefined
-#define FontScalerDefsIncludesDefined
+#ifndef FontScblerDefsIncludesDefined
+#define FontScblerDefsIncludesDefined
 
-#include "AccelGlyphCache.h"
+#include "AccelGlyphCbche.h"
 
 #ifdef  __cplusplus
 extern "C" {
@@ -48,16 +48,16 @@ typedef long                    Int32;
 #endif
 typedef unsigned short          UInt16;
 typedef short                   Int16;
-typedef unsigned char           UInt8;
+typedef unsigned chbr           UInt8;
 
 typedef UInt8                   Byte;
 typedef Int32                   hsFixed;
-typedef Int32                   hsFract;
+typedef Int32                   hsFrbct;
 typedef UInt32                  Bool32;
 
 #ifndef  __cplusplus
-#ifndef false
-         #define false           0
+#ifndef fblse
+         #define fblse           0
 #endif
 
 #ifndef true
@@ -69,11 +69,11 @@ typedef UInt32                  Bool32;
 #define kNegInfinity32          (0x80000000)
 
 #define F26Dot6ToFixed(n)  ((n) << 10)
-#define F26Dot6ToScalar(n) (((t2kScalar)(n)) / (t2kScalar)64)
+#define F26Dot6ToScblbr(n) (((t2kScblbr)(n)) / (t2kScblbr)64)
 
-  /* t2kFixed is the same as F16Dot16 format although T2K also uses 26.6 */
+  /* t2kFixed is the sbme bs F16Dot16 formbt blthough T2K blso uses 26.6 */
 typedef Int32 t2kFixed;
-typedef float t2kScalar;
+typedef flobt t2kScblbr;
 
 #define t2kIntToFixed(x) ((t2kFixed)(x) << 16)
 #define t2kFixedToInt(x) ((x) >> 16)
@@ -81,38 +81,38 @@ typedef float t2kScalar;
 #define t2kFixedRound(x) (((x) + 0x8000) >> 16)
 #define t2kFixed1 t2kIntToFixed(1)
 
-#define t2kFloatToFixed(f) (t2kFixed)((f) * (float)(t2kFixed1))
-#define t2kFixedToFloat(x) ((x) / (float)(65536))
+#define t2kFlobtToFixed(f) (t2kFixed)((f) * (flobt)(t2kFixed1))
+#define t2kFixedToFlobt(x) ((x) / (flobt)(65536))
 
-#define t2kScalarAverage(a, b) (((a) + (b)) / (t2kScalar)(2))
+#define t2kScblbrAverbge(b, b) (((b) + (b)) / (t2kScblbr)(2))
 
-  /* managed: 1 means the glyph has a hardware cached
-   * copy, and its freeing is managed by the the usual
+  /* mbnbged: 1 mebns the glyph hbs b hbrdwbre cbched
+   * copy, bnd its freeing is mbnbged by the the usubl
    * 2D disposer code.
-   * A value of 0 means its either unaccelerated (and so has no cellInfos)
-   * or we want to free this in a different way.
-   * The field uses previously unused padding, so doesn't enlarge
+   * A vblue of 0 mebns its either unbccelerbted (bnd so hbs no cellInfos)
+   * or we wbnt to free this in b different wby.
+   * The field uses previously unused pbdding, so doesn't enlbrge
    * the structure.
    */
 #define UNMANAGED_GLYPH 0
 #define MANAGED_GLYPH   1
 typedef struct GlyphInfo {
-    float        advanceX;
-    float        advanceY;
+    flobt        bdvbnceX;
+    flobt        bdvbnceY;
     UInt16       width;
     UInt16       height;
     UInt16       rowBytes;
-    UInt8         managed;
-    float        topLeftX;
-    float        topLeftY;
+    UInt8         mbnbged;
+    flobt        topLeftX;
+    flobt        topLeftY;
     void         *cellInfo;
-    UInt8        *image;
+    UInt8        *imbge;
 } GlyphInfo;
 
-  /* We use fffe and ffff as meaning invisible glyphs which have no
-   * image, or advance and an empty outline.
-   * Since there are no valid glyphs with this great a value (watch out for
-   * large fonts in the future!) we can safely use check for >= this value
+  /* We use fffe bnd ffff bs mebning invisible glyphs which hbve no
+   * imbge, or bdvbnce bnd bn empty outline.
+   * Since there bre no vblid glyphs with this grebt b vblue (wbtch out for
+   * lbrge fonts in the future!) we cbn sbfely use check for >= this vblue
    */
 #define INVISIBLE_GLYPHS 0xfffe
 
@@ -123,37 +123,37 @@ typedef struct GlyphInfo {
 #define MORX_TAG 0x6D6F7278 /* 'morx' */
 #define KERN_TAG 0x6B65726E /* 'kern' */
 
-typedef struct TTLayoutTableCacheEntry {
+typedef struct TTLbyoutTbbleCbcheEntry {
   const void* ptr;
   int   len;
-} TTLayoutTableCacheEntry;
+} TTLbyoutTbbleCbcheEntry;
 
 #define LAYOUTCACHE_ENTRIES 6
 
-typedef struct TTLayoutTableCache {
-  TTLayoutTableCacheEntry entries[LAYOUTCACHE_ENTRIES];
-  void* kernPairs;
-} TTLayoutTableCache;
+typedef struct TTLbyoutTbbleCbche {
+  TTLbyoutTbbleCbcheEntry entries[LAYOUTCACHE_ENTRIES];
+  void* kernPbirs;
+} TTLbyoutTbbleCbche;
 
 #include "sunfontids.h"
 
-JNIEXPORT extern TTLayoutTableCache* newLayoutTableCache();
-JNIEXPORT extern void freeLayoutTableCache(TTLayoutTableCache* ltc);
+JNIEXPORT extern TTLbyoutTbbleCbche* newLbyoutTbbleCbche();
+JNIEXPORT extern void freeLbyoutTbbleCbche(TTLbyoutTbbleCbche* ltc);
 
-/* If font is malformed then scaler context created by particular scaler
- * will be replaced by null scaler context.
- * Note that this context is not compatible with structure of the context
- * object used by particular scaler. Therefore, before using context
- * scaler has to check if it is NullContext.
+/* If font is mblformed then scbler context crebted by pbrticulbr scbler
+ * will be replbced by null scbler context.
+ * Note thbt this context is not compbtible with structure of the context
+ * object used by pbrticulbr scbler. Therefore, before using context
+ * scbler hbs to check if it is NullContext.
  *
- * Note that in theory request with NullContext should not even reach native
- * scaler.
+ * Note thbt in theory request with NullContext should not even rebch nbtive
+ * scbler.
  *
- * It seems that the only reason to support NullContext is to simplify
- * FileFontStrike logic - presence of context is used as marker to
+ * It seems thbt the only rebson to support NullContext is to simplify
+ * FileFontStrike logic - presence of context is used bs mbrker to
  * free the memory.
 */
-JNIEXPORT int isNullScalerContext(void *context);
+JNIEXPORT int isNullScblerContext(void *context);
 
 #ifdef  __cplusplus
 }

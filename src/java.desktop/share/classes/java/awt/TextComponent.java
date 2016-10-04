@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.peer.TextComponentPeer;
-import java.awt.event.*;
-import java.util.EventListener;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.text.BreakIterator;
-import javax.swing.text.AttributeSet;
-import javax.accessibility.*;
-import java.awt.im.InputMethodRequests;
-import sun.awt.AWTPermissions;
-import sun.awt.InputMethodSupport;
+import jbvb.bwt.peer.TextComponentPeer;
+import jbvb.bwt.event.*;
+import jbvb.util.EventListener;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvb.text.BrebkIterbtor;
+import jbvbx.swing.text.AttributeSet;
+import jbvbx.bccessibility.*;
+import jbvb.bwt.im.InputMethodRequests;
+import sun.bwt.AWTPermissions;
+import sun.bwt.InputMethodSupport;
 
 /**
- * The <code>TextComponent</code> class is the superclass of
- * any component that allows the editing of some text.
+ * The <code>TextComponent</code> clbss is the superclbss of
+ * bny component thbt bllows the editing of some text.
  * <p>
- * A text component embodies a string of text.  The
- * <code>TextComponent</code> class defines a set of methods
- * that determine whether or not this text is editable. If the
- * component is editable, it defines another set of methods
- * that supports a text insertion caret.
+ * A text component embodies b string of text.  The
+ * <code>TextComponent</code> clbss defines b set of methods
+ * thbt determine whether or not this text is editbble. If the
+ * component is editbble, it defines bnother set of methods
+ * thbt supports b text insertion cbret.
  * <p>
- * In addition, the class defines methods that are used
- * to maintain a current <em>selection</em> from the text.
- * The text selection, a substring of the component's text,
- * is the target of editing operations. It is also referred
- * to as the <em>selected text</em>.
+ * In bddition, the clbss defines methods thbt bre used
+ * to mbintbin b current <em>selection</em> from the text.
+ * The text selection, b substring of the component's text,
+ * is the tbrget of editing operbtions. It is blso referred
+ * to bs the <em>selected text</em>.
  *
- * @author      Sami Shaio
- * @author      Arthur van Hoff
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
  * @since       1.0
  */
-public class TextComponent extends Component implements Accessible {
+public clbss TextComponent extends Component implements Accessible {
 
     /**
-     * The value of the text.
-     * A <code>null</code> value is the same as "".
+     * The vblue of the text.
+     * A <code>null</code> vblue is the sbme bs "".
      *
-     * @serial
+     * @seribl
      * @see #setText(String)
      * @see #getText()
      */
     String text;
 
     /**
-     * A boolean indicating whether or not this
-     * <code>TextComponent</code> is editable.
+     * A boolebn indicbting whether or not this
+     * <code>TextComponent</code> is editbble.
      * It will be <code>true</code> if the text component
-     * is editable and <code>false</code> if not.
+     * is editbble bnd <code>fblse</code> if not.
      *
-     * @serial
-     * @see #isEditable()
+     * @seribl
+     * @see #isEditbble()
      */
-    boolean editable = true;
+    boolebn editbble = true;
 
     /**
-     * The selection refers to the selected text, and the
-     * <code>selectionStart</code> is the start position
+     * The selection refers to the selected text, bnd the
+     * <code>selectionStbrt</code> is the stbrt position
      * of the selected text.
      *
-     * @serial
-     * @see #getSelectionStart()
-     * @see #setSelectionStart(int)
+     * @seribl
+     * @see #getSelectionStbrt()
+     * @see #setSelectionStbrt(int)
      */
-    int selectionStart;
+    int selectionStbrt;
 
     /**
-     * The selection refers to the selected text, and the
+     * The selection refers to the selected text, bnd the
      * <code>selectionEnd</code>
      * is the end position of the selected text.
      *
-     * @serial
+     * @seribl
      * @see #getSelectionEnd()
      * @see #setSelectionEnd(int)
      */
     int selectionEnd;
 
-    // A flag used to tell whether the background has been set by
-    // developer code (as opposed to AWT code).  Used to determine
-    // the background color of non-editable TextComponents.
-    boolean backgroundSetByClientCode = false;
+    // A flbg used to tell whether the bbckground hbs been set by
+    // developer code (bs opposed to AWT code).  Used to determine
+    // the bbckground color of non-editbble TextComponents.
+    boolebn bbckgroundSetByClientCode = fblse;
 
     /**
-     * A list of listeners that will receive events from this object.
+     * A list of listeners thbt will receive events from this object.
      */
-    transient protected TextListener textListener;
+    trbnsient protected TextListener textListener;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = -2214773872412987419L;
+    privbte stbtic finbl long seriblVersionUID = -2214773872412987419L;
 
     /**
-     * Constructs a new text component initialized with the
-     * specified text. Sets the value of the cursor to
+     * Constructs b new text component initiblized with the
+     * specified text. Sets the vblue of the cursor to
      * <code>Cursor.TEXT_CURSOR</code>.
-     * @param      text       the text to be displayed; if
+     * @pbrbm      text       the text to be displbyed; if
      *             <code>text</code> is <code>null</code>, the empty
-     *             string <code>""</code> will be displayed
-     * @exception  HeadlessException if
-     *             <code>GraphicsEnvironment.isHeadless</code>
+     *             string <code>""</code> will be displbyed
+     * @exception  HebdlessException if
+     *             <code>GrbphicsEnvironment.isHebdless</code>
      *             returns true
-     * @see        java.awt.GraphicsEnvironment#isHeadless
-     * @see        java.awt.Cursor
+     * @see        jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see        jbvb.bwt.Cursor
      */
-    TextComponent(String text) throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
+    TextComponent(String text) throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
         this.text = (text != null) ? text : "";
         setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
-    private void enableInputMethodsIfNecessary() {
-        if (checkForEnableIM) {
-            checkForEnableIM = false;
+    privbte void enbbleInputMethodsIfNecessbry() {
+        if (checkForEnbbleIM) {
+            checkForEnbbleIM = fblse;
             try {
-                Toolkit toolkit = Toolkit.getDefaultToolkit();
-                boolean shouldEnable = false;
-                if (toolkit instanceof InputMethodSupport) {
-                    shouldEnable = ((InputMethodSupport)toolkit)
-                      .enableInputMethodsForTextComponent();
+                Toolkit toolkit = Toolkit.getDefbultToolkit();
+                boolebn shouldEnbble = fblse;
+                if (toolkit instbnceof InputMethodSupport) {
+                    shouldEnbble = ((InputMethodSupport)toolkit)
+                      .enbbleInputMethodsForTextComponent();
                 }
-                enableInputMethods(shouldEnable);
-            } catch (Exception e) {
-                // if something bad happens, just don't enable input methods
+                enbbleInputMethods(shouldEnbble);
+            } cbtch (Exception e) {
+                // if something bbd hbppens, just don't enbble input methods
             }
         }
     }
 
     /**
-     * Enables or disables input method support for this text component. If input
-     * method support is enabled and the text component also processes key events,
-     * incoming events are offered to the current input method and will only be
-     * processed by the component or dispatched to its listeners if the input method
-     * does not consume them. Whether and how input method support for this text
-     * component is enabled or disabled by default is implementation dependent.
+     * Enbbles or disbbles input method support for this text component. If input
+     * method support is enbbled bnd the text component blso processes key events,
+     * incoming events bre offered to the current input method bnd will only be
+     * processed by the component or dispbtched to its listeners if the input method
+     * does not consume them. Whether bnd how input method support for this text
+     * component is enbbled or disbbled by defbult is implementbtion dependent.
      *
-     * @param enable true to enable, false to disable
+     * @pbrbm enbble true to enbble, fblse to disbble
      * @see #processKeyEvent
      * @since 1.2
      */
-    public void enableInputMethods(boolean enable) {
-        checkForEnableIM = false;
-        super.enableInputMethods(enable);
+    public void enbbleInputMethods(boolebn enbble) {
+        checkForEnbbleIM = fblse;
+        super.enbbleInputMethods(enbble);
     }
 
-    boolean areInputMethodsEnabled() {
-        // moved from the constructor above to here and addNotify below,
-        // this call will initialize the toolkit if not already initialized.
-        if (checkForEnableIM) {
-            enableInputMethodsIfNecessary();
+    boolebn breInputMethodsEnbbled() {
+        // moved from the constructor bbove to here bnd bddNotify below,
+        // this cbll will initiblize the toolkit if not blrebdy initiblized.
+        if (checkForEnbbleIM) {
+            enbbleInputMethodsIfNecessbry();
         }
 
-        // TextComponent handles key events without touching the eventMask or
-        // having a key listener, so just check whether the flag is set
-        return (eventMask & AWTEvent.INPUT_METHODS_ENABLED_MASK) != 0;
+        // TextComponent hbndles key events without touching the eventMbsk or
+        // hbving b key listener, so just check whether the flbg is set
+        return (eventMbsk & AWTEvent.INPUT_METHODS_ENABLED_MASK) != 0;
     }
 
     public InputMethodRequests getInputMethodRequests() {
@@ -191,29 +191,29 @@ public class TextComponent extends Component implements Accessible {
 
 
     /**
-     * Makes this Component displayable by connecting it to a
-     * native screen resource.
-     * This method is called internally by the toolkit and should
-     * not be called directly by programs.
-     * @see       java.awt.TextComponent#removeNotify
+     * Mbkes this Component displbybble by connecting it to b
+     * nbtive screen resource.
+     * This method is cblled internblly by the toolkit bnd should
+     * not be cblled directly by progrbms.
+     * @see       jbvb.bwt.TextComponent#removeNotify
      */
-    public void addNotify() {
-        super.addNotify();
-        enableInputMethodsIfNecessary();
+    public void bddNotify() {
+        super.bddNotify();
+        enbbleInputMethodsIfNecessbry();
     }
 
     /**
      * Removes the <code>TextComponent</code>'s peer.
-     * The peer allows us to modify the appearance of the
-     * <code>TextComponent</code> without changing its
-     * functionality.
+     * The peer bllows us to modify the bppebrbnce of the
+     * <code>TextComponent</code> without chbnging its
+     * functionblity.
      */
     public void removeNotify() {
         synchronized (getTreeLock()) {
             TextComponentPeer peer = (TextComponentPeer)this.peer;
             if (peer != null) {
                 text = peer.getText();
-                selectionStart = peer.getSelectionStart();
+                selectionStbrt = peer.getSelectionStbrt();
                 selectionEnd = peer.getSelectionEnd();
             }
             super.removeNotify();
@@ -221,32 +221,32 @@ public class TextComponent extends Component implements Accessible {
     }
 
     /**
-     * Sets the text that is presented by this
+     * Sets the text thbt is presented by this
      * text component to be the specified text.
-     * @param       t   the new text;
-     *                  if this parameter is <code>null</code> then
+     * @pbrbm       t   the new text;
+     *                  if this pbrbmeter is <code>null</code> then
      *                  the text is set to the empty string ""
-     * @see         java.awt.TextComponent#getText
+     * @see         jbvb.bwt.TextComponent#getText
      */
     public synchronized void setText(String t) {
-        boolean skipTextEvent = (text == null || text.isEmpty())
+        boolebn skipTextEvent = (text == null || text.isEmpty())
                 && (t == null || t.isEmpty());
         text = (t != null) ? t : "";
         TextComponentPeer peer = (TextComponentPeer)this.peer;
-        // Please note that we do not want to post an event
-        // if TextArea.setText() or TextField.setText() replaces an empty text
-        // by an empty text, that is, if component's text remains unchanged.
+        // Plebse note thbt we do not wbnt to post bn event
+        // if TextAreb.setText() or TextField.setText() replbces bn empty text
+        // by bn empty text, thbt is, if component's text rembins unchbnged.
         if (peer != null && !skipTextEvent) {
             peer.setText(text);
         }
     }
 
     /**
-     * Returns the text that is presented by this text component.
-     * By default, this is an empty string.
+     * Returns the text thbt is presented by this text component.
+     * By defbult, this is bn empty string.
      *
-     * @return the value of this <code>TextComponent</code>
-     * @see     java.awt.TextComponent#setText
+     * @return the vblue of this <code>TextComponent</code>
+     * @see     jbvb.bwt.TextComponent#setText
      */
     public synchronized String getText() {
         TextComponentPeer peer = (TextComponentPeer)this.peer;
@@ -257,132 +257,132 @@ public class TextComponent extends Component implements Accessible {
     }
 
     /**
-     * Returns the selected text from the text that is
+     * Returns the selected text from the text thbt is
      * presented by this text component.
      * @return      the selected text of this text component
-     * @see         java.awt.TextComponent#select
+     * @see         jbvb.bwt.TextComponent#select
      */
     public synchronized String getSelectedText() {
-        return getText().substring(getSelectionStart(), getSelectionEnd());
+        return getText().substring(getSelectionStbrt(), getSelectionEnd());
     }
 
     /**
-     * Indicates whether or not this text component is editable.
+     * Indicbtes whether or not this text component is editbble.
      * @return     <code>true</code> if this text component is
-     *                  editable; <code>false</code> otherwise.
-     * @see        java.awt.TextComponent#setEditable
+     *                  editbble; <code>fblse</code> otherwise.
+     * @see        jbvb.bwt.TextComponent#setEditbble
      * @since      1.0
      */
-    public boolean isEditable() {
-        return editable;
+    public boolebn isEditbble() {
+        return editbble;
     }
 
     /**
-     * Sets the flag that determines whether or not this
-     * text component is editable.
+     * Sets the flbg thbt determines whether or not this
+     * text component is editbble.
      * <p>
-     * If the flag is set to <code>true</code>, this text component
-     * becomes user editable. If the flag is set to <code>false</code>,
-     * the user cannot change the text of this text component.
-     * By default, non-editable text components have a background color
-     * of SystemColor.control.  This default can be overridden by
-     * calling setBackground.
+     * If the flbg is set to <code>true</code>, this text component
+     * becomes user editbble. If the flbg is set to <code>fblse</code>,
+     * the user cbnnot chbnge the text of this text component.
+     * By defbult, non-editbble text components hbve b bbckground color
+     * of SystemColor.control.  This defbult cbn be overridden by
+     * cblling setBbckground.
      *
-     * @param     b   a flag indicating whether this text component
-     *                      is user editable.
-     * @see       java.awt.TextComponent#isEditable
+     * @pbrbm     b   b flbg indicbting whether this text component
+     *                      is user editbble.
+     * @see       jbvb.bwt.TextComponent#isEditbble
      * @since     1.0
      */
-    public synchronized void setEditable(boolean b) {
-        if (editable == b) {
+    public synchronized void setEditbble(boolebn b) {
+        if (editbble == b) {
             return;
         }
 
-        editable = b;
+        editbble = b;
         TextComponentPeer peer = (TextComponentPeer)this.peer;
         if (peer != null) {
-            peer.setEditable(b);
+            peer.setEditbble(b);
         }
     }
 
     /**
-     * Gets the background color of this text component.
+     * Gets the bbckground color of this text component.
      *
-     * By default, non-editable text components have a background color
-     * of SystemColor.control.  This default can be overridden by
-     * calling setBackground.
+     * By defbult, non-editbble text components hbve b bbckground color
+     * of SystemColor.control.  This defbult cbn be overridden by
+     * cblling setBbckground.
      *
-     * @return This text component's background color.
-     *         If this text component does not have a background color,
-     *         the background color of its parent is returned.
-     * @see #setBackground(Color)
+     * @return This text component's bbckground color.
+     *         If this text component does not hbve b bbckground color,
+     *         the bbckground color of its pbrent is returned.
+     * @see #setBbckground(Color)
      * @since 1.0
      */
-    public Color getBackground() {
-        if (!editable && !backgroundSetByClientCode) {
+    public Color getBbckground() {
+        if (!editbble && !bbckgroundSetByClientCode) {
             return SystemColor.control;
         }
 
-        return super.getBackground();
+        return super.getBbckground();
     }
 
     /**
-     * Sets the background color of this text component.
+     * Sets the bbckground color of this text component.
      *
-     * @param c The color to become this text component's color.
-     *        If this parameter is null then this text component
-     *        will inherit the background color of its parent.
-     * @see #getBackground()
+     * @pbrbm c The color to become this text component's color.
+     *        If this pbrbmeter is null then this text component
+     *        will inherit the bbckground color of its pbrent.
+     * @see #getBbckground()
      * @since 1.0
      */
-    public void setBackground(Color c) {
-        backgroundSetByClientCode = true;
-        super.setBackground(c);
+    public void setBbckground(Color c) {
+        bbckgroundSetByClientCode = true;
+        super.setBbckground(c);
     }
 
     /**
-     * Gets the start position of the selected text in
+     * Gets the stbrt position of the selected text in
      * this text component.
-     * @return      the start position of the selected text
-     * @see         java.awt.TextComponent#setSelectionStart
-     * @see         java.awt.TextComponent#getSelectionEnd
+     * @return      the stbrt position of the selected text
+     * @see         jbvb.bwt.TextComponent#setSelectionStbrt
+     * @see         jbvb.bwt.TextComponent#getSelectionEnd
      */
-    public synchronized int getSelectionStart() {
+    public synchronized int getSelectionStbrt() {
         TextComponentPeer peer = (TextComponentPeer)this.peer;
         if (peer != null) {
-            selectionStart = peer.getSelectionStart();
+            selectionStbrt = peer.getSelectionStbrt();
         }
-        return selectionStart;
+        return selectionStbrt;
     }
 
     /**
-     * Sets the selection start for this text component to
-     * the specified position. The new start point is constrained
-     * to be at or before the current selection end. It also
-     * cannot be set to less than zero, the beginning of the
+     * Sets the selection stbrt for this text component to
+     * the specified position. The new stbrt point is constrbined
+     * to be bt or before the current selection end. It blso
+     * cbnnot be set to less thbn zero, the beginning of the
      * component's text.
-     * If the caller supplies a value for <code>selectionStart</code>
-     * that is out of bounds, the method enforces these constraints
-     * silently, and without failure.
-     * @param       selectionStart   the start position of the
+     * If the cbller supplies b vblue for <code>selectionStbrt</code>
+     * thbt is out of bounds, the method enforces these constrbints
+     * silently, bnd without fbilure.
+     * @pbrbm       selectionStbrt   the stbrt position of the
      *                        selected text
-     * @see         java.awt.TextComponent#getSelectionStart
-     * @see         java.awt.TextComponent#setSelectionEnd
+     * @see         jbvb.bwt.TextComponent#getSelectionStbrt
+     * @see         jbvb.bwt.TextComponent#setSelectionEnd
      * @since       1.1
      */
-    public synchronized void setSelectionStart(int selectionStart) {
+    public synchronized void setSelectionStbrt(int selectionStbrt) {
         /* Route through select method to enforce consistent policy
-         * between selectionStart and selectionEnd.
+         * between selectionStbrt bnd selectionEnd.
          */
-        select(selectionStart, getSelectionEnd());
+        select(selectionStbrt, getSelectionEnd());
     }
 
     /**
      * Gets the end position of the selected text in
      * this text component.
      * @return      the end position of the selected text
-     * @see         java.awt.TextComponent#setSelectionEnd
-     * @see         java.awt.TextComponent#getSelectionStart
+     * @see         jbvb.bwt.TextComponent#setSelectionEnd
+     * @see         jbvb.bwt.TextComponent#getSelectionStbrt
      */
     public synchronized int getSelectionEnd() {
         TextComponentPeer peer = (TextComponentPeer)this.peer;
@@ -394,152 +394,152 @@ public class TextComponent extends Component implements Accessible {
 
     /**
      * Sets the selection end for this text component to
-     * the specified position. The new end point is constrained
-     * to be at or after the current selection start. It also
-     * cannot be set beyond the end of the component's text.
-     * If the caller supplies a value for <code>selectionEnd</code>
-     * that is out of bounds, the method enforces these constraints
-     * silently, and without failure.
-     * @param       selectionEnd   the end position of the
+     * the specified position. The new end point is constrbined
+     * to be bt or bfter the current selection stbrt. It blso
+     * cbnnot be set beyond the end of the component's text.
+     * If the cbller supplies b vblue for <code>selectionEnd</code>
+     * thbt is out of bounds, the method enforces these constrbints
+     * silently, bnd without fbilure.
+     * @pbrbm       selectionEnd   the end position of the
      *                        selected text
-     * @see         java.awt.TextComponent#getSelectionEnd
-     * @see         java.awt.TextComponent#setSelectionStart
+     * @see         jbvb.bwt.TextComponent#getSelectionEnd
+     * @see         jbvb.bwt.TextComponent#setSelectionStbrt
      * @since       1.1
      */
     public synchronized void setSelectionEnd(int selectionEnd) {
         /* Route through select method to enforce consistent policy
-         * between selectionStart and selectionEnd.
+         * between selectionStbrt bnd selectionEnd.
          */
-        select(getSelectionStart(), selectionEnd);
+        select(getSelectionStbrt(), selectionEnd);
     }
 
     /**
-     * Selects the text between the specified start and end positions.
+     * Selects the text between the specified stbrt bnd end positions.
      * <p>
-     * This method sets the start and end positions of the
-     * selected text, enforcing the restriction that the start position
-     * must be greater than or equal to zero.  The end position must be
-     * greater than or equal to the start position, and less than or
-     * equal to the length of the text component's text.  The
-     * character positions are indexed starting with zero.
+     * This method sets the stbrt bnd end positions of the
+     * selected text, enforcing the restriction thbt the stbrt position
+     * must be grebter thbn or equbl to zero.  The end position must be
+     * grebter thbn or equbl to the stbrt position, bnd less thbn or
+     * equbl to the length of the text component's text.  The
+     * chbrbcter positions bre indexed stbrting with zero.
      * The length of the selection is
-     * <code>endPosition</code> - <code>startPosition</code>, so the
-     * character at <code>endPosition</code> is not selected.
-     * If the start and end positions of the selected text are equal,
-     * all text is deselected.
+     * <code>endPosition</code> - <code>stbrtPosition</code>, so the
+     * chbrbcter bt <code>endPosition</code> is not selected.
+     * If the stbrt bnd end positions of the selected text bre equbl,
+     * bll text is deselected.
      * <p>
-     * If the caller supplies values that are inconsistent or out of
-     * bounds, the method enforces these constraints silently, and
-     * without failure. Specifically, if the start position or end
-     * position is greater than the length of the text, it is reset to
-     * equal the text length. If the start position is less than zero,
-     * it is reset to zero, and if the end position is less than the
-     * start position, it is reset to the start position.
+     * If the cbller supplies vblues thbt bre inconsistent or out of
+     * bounds, the method enforces these constrbints silently, bnd
+     * without fbilure. Specificblly, if the stbrt position or end
+     * position is grebter thbn the length of the text, it is reset to
+     * equbl the text length. If the stbrt position is less thbn zero,
+     * it is reset to zero, bnd if the end position is less thbn the
+     * stbrt position, it is reset to the stbrt position.
      *
-     * @param        selectionStart the zero-based index of the first
-                       character (<code>char</code> value) to be selected
-     * @param        selectionEnd the zero-based end position of the
-                       text to be selected; the character (<code>char</code> value) at
+     * @pbrbm        selectionStbrt the zero-bbsed index of the first
+                       chbrbcter (<code>chbr</code> vblue) to be selected
+     * @pbrbm        selectionEnd the zero-bbsed end position of the
+                       text to be selected; the chbrbcter (<code>chbr</code> vblue) bt
                        <code>selectionEnd</code> is not selected
-     * @see          java.awt.TextComponent#setSelectionStart
-     * @see          java.awt.TextComponent#setSelectionEnd
-     * @see          java.awt.TextComponent#selectAll
+     * @see          jbvb.bwt.TextComponent#setSelectionStbrt
+     * @see          jbvb.bwt.TextComponent#setSelectionEnd
+     * @see          jbvb.bwt.TextComponent#selectAll
      */
-    public synchronized void select(int selectionStart, int selectionEnd) {
+    public synchronized void select(int selectionStbrt, int selectionEnd) {
         String text = getText();
-        if (selectionStart < 0) {
-            selectionStart = 0;
+        if (selectionStbrt < 0) {
+            selectionStbrt = 0;
         }
-        if (selectionStart > text.length()) {
-            selectionStart = text.length();
+        if (selectionStbrt > text.length()) {
+            selectionStbrt = text.length();
         }
         if (selectionEnd > text.length()) {
             selectionEnd = text.length();
         }
-        if (selectionEnd < selectionStart) {
-            selectionEnd = selectionStart;
+        if (selectionEnd < selectionStbrt) {
+            selectionEnd = selectionStbrt;
         }
 
-        this.selectionStart = selectionStart;
+        this.selectionStbrt = selectionStbrt;
         this.selectionEnd = selectionEnd;
 
         TextComponentPeer peer = (TextComponentPeer)this.peer;
         if (peer != null) {
-            peer.select(selectionStart, selectionEnd);
+            peer.select(selectionStbrt, selectionEnd);
         }
     }
 
     /**
-     * Selects all the text in this text component.
-     * @see        java.awt.TextComponent#select
+     * Selects bll the text in this text component.
+     * @see        jbvb.bwt.TextComponent#select
      */
     public synchronized void selectAll() {
-        this.selectionStart = 0;
+        this.selectionStbrt = 0;
         this.selectionEnd = getText().length();
 
         TextComponentPeer peer = (TextComponentPeer)this.peer;
         if (peer != null) {
-            peer.select(selectionStart, selectionEnd);
+            peer.select(selectionStbrt, selectionEnd);
         }
     }
 
     /**
-     * Sets the position of the text insertion caret.
-     * The caret position is constrained to be between 0
-     * and the last character of the text, inclusive.
-     * If the passed-in value is greater than this range,
-     * the value is set to the last character (or 0 if
-     * the <code>TextComponent</code> contains no text)
-     * and no error is returned.  If the passed-in value is
-     * less than 0, an <code>IllegalArgumentException</code>
+     * Sets the position of the text insertion cbret.
+     * The cbret position is constrbined to be between 0
+     * bnd the lbst chbrbcter of the text, inclusive.
+     * If the pbssed-in vblue is grebter thbn this rbnge,
+     * the vblue is set to the lbst chbrbcter (or 0 if
+     * the <code>TextComponent</code> contbins no text)
+     * bnd no error is returned.  If the pbssed-in vblue is
+     * less thbn 0, bn <code>IllegblArgumentException</code>
      * is thrown.
      *
-     * @param        position the position of the text insertion caret
-     * @exception    IllegalArgumentException if <code>position</code>
-     *               is less than zero
+     * @pbrbm        position the position of the text insertion cbret
+     * @exception    IllegblArgumentException if <code>position</code>
+     *               is less thbn zero
      * @since        1.1
      */
-    public synchronized void setCaretPosition(int position) {
+    public synchronized void setCbretPosition(int position) {
         if (position < 0) {
-            throw new IllegalArgumentException("position less than zero.");
+            throw new IllegblArgumentException("position less thbn zero.");
         }
 
-        int maxposition = getText().length();
-        if (position > maxposition) {
-            position = maxposition;
+        int mbxposition = getText().length();
+        if (position > mbxposition) {
+            position = mbxposition;
         }
 
         TextComponentPeer peer = (TextComponentPeer)this.peer;
         if (peer != null) {
-            peer.setCaretPosition(position);
+            peer.setCbretPosition(position);
         } else {
             select(position, position);
         }
     }
 
     /**
-     * Returns the position of the text insertion caret.
-     * The caret position is constrained to be between 0
-     * and the last character of the text, inclusive.
-     * If the text or caret have not been set, the default
-     * caret position is 0.
+     * Returns the position of the text insertion cbret.
+     * The cbret position is constrbined to be between 0
+     * bnd the lbst chbrbcter of the text, inclusive.
+     * If the text or cbret hbve not been set, the defbult
+     * cbret position is 0.
      *
-     * @return       the position of the text insertion caret
-     * @see #setCaretPosition(int)
+     * @return       the position of the text insertion cbret
+     * @see #setCbretPosition(int)
      * @since        1.1
      */
-    public synchronized int getCaretPosition() {
+    public synchronized int getCbretPosition() {
         TextComponentPeer peer = (TextComponentPeer)this.peer;
         int position = 0;
 
         if (peer != null) {
-            position = peer.getCaretPosition();
+            position = peer.getCbretPosition();
         } else {
-            position = selectionStart;
+            position = selectionStbrt;
         }
-        int maxposition = getText().length();
-        if (position > maxposition) {
-            position = maxposition;
+        int mbxposition = getText().length();
+        if (position > mbxposition) {
+            position = mbxposition;
         }
         return position;
     }
@@ -548,128 +548,128 @@ public class TextComponent extends Component implements Accessible {
      * Adds the specified text event listener to receive text events
      * from this text component.
      * If <code>l</code> is <code>null</code>, no exception is
-     * thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * thrown bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param l the text event listener
+     * @pbrbm l the text event listener
      * @see             #removeTextListener
      * @see             #getTextListeners
-     * @see             java.awt.event.TextListener
+     * @see             jbvb.bwt.event.TextListener
      */
-    public synchronized void addTextListener(TextListener l) {
+    public synchronized void bddTextListener(TextListener l) {
         if (l == null) {
             return;
         }
-        textListener = AWTEventMulticaster.add(textListener, l);
+        textListener = AWTEventMulticbster.bdd(textListener, l);
         newEventsOnly = true;
     }
 
     /**
-     * Removes the specified text event listener so that it no longer
+     * Removes the specified text event listener so thbt it no longer
      * receives text events from this text component
      * If <code>l</code> is <code>null</code>, no exception is
-     * thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * thrown bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param           l     the text listener
-     * @see             #addTextListener
+     * @pbrbm           l     the text listener
+     * @see             #bddTextListener
      * @see             #getTextListeners
-     * @see             java.awt.event.TextListener
+     * @see             jbvb.bwt.event.TextListener
      * @since           1.1
      */
     public synchronized void removeTextListener(TextListener l) {
         if (l == null) {
             return;
         }
-        textListener = AWTEventMulticaster.remove(textListener, l);
+        textListener = AWTEventMulticbster.remove(textListener, l);
     }
 
     /**
-     * Returns an array of all the text listeners
+     * Returns bn brrby of bll the text listeners
      * registered on this text component.
      *
-     * @return all of this text component's <code>TextListener</code>s
-     *         or an empty array if no text
-     *         listeners are currently registered
+     * @return bll of this text component's <code>TextListener</code>s
+     *         or bn empty brrby if no text
+     *         listeners bre currently registered
      *
      *
-     * @see #addTextListener
+     * @see #bddTextListener
      * @see #removeTextListener
      * @since 1.4
      */
     public synchronized TextListener[] getTextListeners() {
-        return getListeners(TextListener.class);
+        return getListeners(TextListener.clbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
      * upon this <code>TextComponent</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl, such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
      * <code>TextComponent</code> <code>t</code>
      * for its text listeners with the following code:
      *
-     * <pre>TextListener[] tls = (TextListener[])(t.getListeners(TextListener.class));</pre>
+     * <pre>TextListener[] tls = (TextListener[])(t.getListeners(TextListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this text component,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @see #getTextListeners
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         EventListener l = null;
-        if  (listenerType == TextListener.class) {
+        if  (listenerType == TextListener.clbss) {
             l = textListener;
         } else {
             return super.getListeners(listenerType);
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        return AWTEventMulticbster.getListeners(l, listenerType);
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
+    // REMIND: remove when filtering is done bt lower level
+    boolebn eventEnbbled(AWTEvent e) {
         if (e.id == TextEvent.TEXT_VALUE_CHANGED) {
-            if ((eventMask & AWTEvent.TEXT_EVENT_MASK) != 0 ||
+            if ((eventMbsk & AWTEvent.TEXT_EVENT_MASK) != 0 ||
                 textListener != null) {
                 return true;
             }
-            return false;
+            return fblse;
         }
-        return super.eventEnabled(e);
+        return super.eventEnbbled(e);
     }
 
     /**
-     * Processes events on this text component. If the event is a
+     * Processes events on this text component. If the event is b
      * <code>TextEvent</code>, it invokes the <code>processTextEvent</code>
-     * method else it invokes its superclass's <code>processEvent</code>.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * method else it invokes its superclbss's <code>processEvent</code>.
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param e the event
+     * @pbrbm e the event
      */
     protected void processEvent(AWTEvent e) {
-        if (e instanceof TextEvent) {
+        if (e instbnceof TextEvent) {
             processTextEvent((TextEvent)e);
             return;
         }
@@ -678,146 +678,146 @@ public class TextComponent extends Component implements Accessible {
 
     /**
      * Processes text events occurring on this text component by
-     * dispatching them to any registered <code>TextListener</code> objects.
+     * dispbtching them to bny registered <code>TextListener</code> objects.
      * <p>
-     * NOTE: This method will not be called unless text events
-     * are enabled for this component. This happens when one of the
+     * NOTE: This method will not be cblled unless text events
+     * bre enbbled for this component. This hbppens when one of the
      * following occurs:
      * <ul>
      * <li>A <code>TextListener</code> object is registered
-     * via <code>addTextListener</code>
-     * <li>Text events are enabled via <code>enableEvents</code>
+     * vib <code>bddTextListener</code>
+     * <li>Text events bre enbbled vib <code>enbbleEvents</code>
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param e the text event
-     * @see Component#enableEvents
+     * @pbrbm e the text event
+     * @see Component#enbbleEvents
      */
     protected void processTextEvent(TextEvent e) {
         TextListener listener = textListener;
         if (listener != null) {
             int id = e.getID();
             switch (id) {
-            case TextEvent.TEXT_VALUE_CHANGED:
-                listener.textValueChanged(e);
-                break;
+            cbse TextEvent.TEXT_VALUE_CHANGED:
+                listener.textVblueChbnged(e);
+                brebk;
             }
         }
     }
 
     /**
-     * Returns a string representing the state of this
+     * Returns b string representing the stbte of this
      * <code>TextComponent</code>. This
-     * method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return      the parameter string of this text component
+     * @return      the pbrbmeter string of this text component
      */
-    protected String paramString() {
-        String str = super.paramString() + ",text=" + getText();
-        if (editable) {
-            str += ",editable";
+    protected String pbrbmString() {
+        String str = super.pbrbmString() + ",text=" + getText();
+        if (editbble) {
+            str += ",editbble";
         }
-        return str + ",selection=" + getSelectionStart() + "-" + getSelectionEnd();
+        return str + ",selection=" + getSelectionStbrt() + "-" + getSelectionEnd();
     }
 
     /**
-     * Assigns a valid value to the canAccessClipboard instance variable.
+     * Assigns b vblid vblue to the cbnAccessClipbobrd instbnce vbribble.
      */
-    private boolean canAccessClipboard() {
-        SecurityManager sm = System.getSecurityManager();
+    privbte boolebn cbnAccessClipbobrd() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null) return true;
         try {
             sm.checkPermission(AWTPermissions.ACCESS_CLIPBOARD_PERMISSION);
             return true;
-        } catch (SecurityException e) {}
-        return false;
+        } cbtch (SecurityException e) {}
+        return fblse;
     }
 
     /*
-     * Serialization support.
+     * Seriblizbtion support.
      */
     /**
-     * The textComponent SerializedDataVersion.
+     * The textComponent SeriblizedDbtbVersion.
      *
-     * @serial
+     * @seribl
      */
-    private int textComponentSerializedDataVersion = 1;
+    privbte int textComponentSeriblizedDbtbVersion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * a list of serializable TextListener(s) as optional data.
-     * The non-serializable TextListener(s) are detected and
-     * no attempt is made to serialize them.
+     * Writes defbult seriblizbble fields to strebm.  Writes
+     * b list of seriblizbble TextListener(s) bs optionbl dbtb.
+     * The non-seriblizbble TextListener(s) bre detected bnd
+     * no bttempt is mbde to seriblize them.
      *
-     * @serialData Null terminated sequence of zero or more pairs.
-     *             A pair consists of a String and Object.
-     *             The String indicates the type of object and
+     * @seriblDbtb Null terminbted sequence of zero or more pbirs.
+     *             A pbir consists of b String bnd Object.
+     *             The String indicbtes the type of object bnd
      *             is one of the following :
-     *             textListenerK indicating and TextListener object.
+     *             textListenerK indicbting bnd TextListener object.
      *
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see java.awt.Component#textListenerK
+     * @see AWTEventMulticbster#sbve(ObjectOutputStrebm, String, EventListener)
+     * @see jbvb.bwt.Component#textListenerK
      */
-    private void writeObject(java.io.ObjectOutputStream s)
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
       throws IOException
     {
-        // Serialization support.  Since the value of the fields
-        // selectionStart, selectionEnd, and text aren't necessarily
-        // up to date, we sync them up with the peer before serializing.
+        // Seriblizbtion support.  Since the vblue of the fields
+        // selectionStbrt, selectionEnd, bnd text bren't necessbrily
+        // up to dbte, we sync them up with the peer before seriblizing.
         TextComponentPeer peer = (TextComponentPeer)this.peer;
         if (peer != null) {
             text = peer.getText();
-            selectionStart = peer.getSelectionStart();
+            selectionStbrt = peer.getSelectionStbrt();
             selectionEnd = peer.getSelectionEnd();
         }
 
-        s.defaultWriteObject();
+        s.defbultWriteObject();
 
-        AWTEventMulticaster.save(s, textListenerK, textListener);
+        AWTEventMulticbster.sbve(s, textListenerK, textListener);
         s.writeObject(null);
     }
 
     /**
-     * Read the ObjectInputStream, and if it isn't null,
-     * add a listener to receive text events fired by the
-     * TextComponent.  Unrecognized keys or values will be
+     * Rebd the ObjectInputStrebm, bnd if it isn't null,
+     * bdd b listener to receive text events fired by the
+     * TextComponent.  Unrecognized keys or vblues will be
      * ignored.
      *
-     * @exception HeadlessException if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns
+     * @exception HebdlessException if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns
      * <code>true</code>
      * @see #removeTextListener
-     * @see #addTextListener
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see #bddTextListener
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException, HeadlessException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException, HebdlessException
     {
-        GraphicsEnvironment.checkHeadless();
-        s.defaultReadObject();
+        GrbphicsEnvironment.checkHebdless();
+        s.defbultRebdObject();
 
-        // Make sure the state we just read in for text,
-        // selectionStart and selectionEnd has legal values
+        // Mbke sure the stbte we just rebd in for text,
+        // selectionStbrt bnd selectionEnd hbs legbl vblues
         this.text = (text != null) ? text : "";
-        select(selectionStart, selectionEnd);
+        select(selectionStbrt, selectionEnd);
 
         Object keyOrNull;
-        while(null != (keyOrNull = s.readObject())) {
+        while(null != (keyOrNull = s.rebdObject())) {
             String key = ((String)keyOrNull).intern();
 
             if (textListenerK == key) {
-                addTextListener((TextListener)(s.readObject()));
+                bddTextListener((TextListener)(s.rebdObject()));
             } else {
-                // skip value for unrecognized key
-                s.readObject();
+                // skip vblue for unrecognized key
+                s.rebdObject();
             }
         }
-        enableInputMethodsIfNecessary();
+        enbbleInputMethodsIfNecessbry();
     }
 
 
@@ -826,79 +826,79 @@ public class TextComponent extends Component implements Accessible {
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this TextComponent.
-     * For text components, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this TextComponent.
+     * For text components, the AccessibleContext tbkes the form of bn
      * AccessibleAWTTextComponent.
-     * A new AccessibleAWTTextComponent instance is created if necessary.
+     * A new AccessibleAWTTextComponent instbnce is crebted if necessbry.
      *
-     * @return an AccessibleAWTTextComponent that serves as the
+     * @return bn AccessibleAWTTextComponent thbt serves bs the
      *         AccessibleContext of this TextComponent
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTTextComponent();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTTextComponent();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>TextComponent</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to text component user-interface
+     * This clbss implements bccessibility support for the
+     * <code>TextComponent</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to text component user-interfbce
      * elements.
      * @since 1.3
      */
-    protected class AccessibleAWTTextComponent extends AccessibleAWTComponent
+    protected clbss AccessibleAWTTextComponent extends AccessibleAWTComponent
         implements AccessibleText, TextListener
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = 3631432373506317811L;
+        privbte stbtic finbl long seriblVersionUID = 3631432373506317811L;
 
         /**
-         * Constructs an AccessibleAWTTextComponent.  Adds a listener to track
-         * caret change.
+         * Constructs bn AccessibleAWTTextComponent.  Adds b listener to trbck
+         * cbret chbnge.
          */
         public AccessibleAWTTextComponent() {
-            TextComponent.this.addTextListener(this);
+            TextComponent.this.bddTextListener(this);
         }
 
         /**
-         * TextListener notification of a text value change.
+         * TextListener notificbtion of b text vblue chbnge.
          */
-        public void textValueChanged(TextEvent textEvent)  {
-            Integer cpos = Integer.valueOf(TextComponent.this.getCaretPosition());
-            firePropertyChange(ACCESSIBLE_TEXT_PROPERTY, null, cpos);
+        public void textVblueChbnged(TextEvent textEvent)  {
+            Integer cpos = Integer.vblueOf(TextComponent.this.getCbretPosition());
+            firePropertyChbnge(ACCESSIBLE_TEXT_PROPERTY, null, cpos);
         }
 
         /**
-         * Gets the state set of the TextComponent.
-         * The AccessibleStateSet of an object is composed of a set of
-         * unique AccessibleStates.  A change in the AccessibleStateSet
-         * of an object will cause a PropertyChangeEvent to be fired
+         * Gets the stbte set of the TextComponent.
+         * The AccessibleStbteSet of bn object is composed of b set of
+         * unique AccessibleStbtes.  A chbnge in the AccessibleStbteSet
+         * of bn object will cbuse b PropertyChbngeEvent to be fired
          * for the AccessibleContext.ACCESSIBLE_STATE_PROPERTY property.
          *
-         * @return an instance of AccessibleStateSet containing the
-         * current state set of the object
-         * @see AccessibleStateSet
-         * @see AccessibleState
-         * @see #addPropertyChangeListener
+         * @return bn instbnce of AccessibleStbteSet contbining the
+         * current stbte set of the object
+         * @see AccessibleStbteSet
+         * @see AccessibleStbte
+         * @see #bddPropertyChbngeListener
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            if (TextComponent.this.isEditable()) {
-                states.add(AccessibleState.EDITABLE);
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            if (TextComponent.this.isEditbble()) {
+                stbtes.bdd(AccessibleStbte.EDITABLE);
             }
-            return states;
+            return stbtes;
         }
 
 
         /**
          * Gets the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object (AccessibleRole.TEXT)
          * @see AccessibleRole
          */
@@ -907,10 +907,10 @@ public class TextComponent extends Component implements Accessible {
         }
 
         /**
-         * Get the AccessibleText associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleText bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleText interface on behalf of itself.
+         * AccessibleText interfbce on behblf of itself.
          *
          * @return this object
          */
@@ -919,88 +919,88 @@ public class TextComponent extends Component implements Accessible {
         }
 
 
-        // --- interface AccessibleText methods ------------------------
+        // --- interfbce AccessibleText methods ------------------------
 
         /**
-         * Many of these methods are just convenience methods; they
-         * just call the equivalent on the parent
+         * Mbny of these methods bre just convenience methods; they
+         * just cbll the equivblent on the pbrent
          */
 
         /**
-         * Given a point in local coordinates, return the zero-based index
-         * of the character under that Point.  If the point is invalid,
+         * Given b point in locbl coordinbtes, return the zero-bbsed index
+         * of the chbrbcter under thbt Point.  If the point is invblid,
          * this method returns -1.
          *
-         * @param p the Point in local coordinates
-         * @return the zero-based index of the character under Point p.
+         * @pbrbm p the Point in locbl coordinbtes
+         * @return the zero-bbsed index of the chbrbcter under Point p.
          */
         public int getIndexAtPoint(Point p) {
             return -1;
         }
 
         /**
-         * Determines the bounding box of the character at the given
-         * index into the string.  The bounds are returned in local
-         * coordinates.  If the index is invalid a null rectangle
+         * Determines the bounding box of the chbrbcter bt the given
+         * index into the string.  The bounds bre returned in locbl
+         * coordinbtes.  If the index is invblid b null rectbngle
          * is returned.
          *
-         * @param i the index into the String &gt;= 0
-         * @return the screen coordinates of the character's bounding box
+         * @pbrbm i the index into the String &gt;= 0
+         * @return the screen coordinbtes of the chbrbcter's bounding box
          */
-        public Rectangle getCharacterBounds(int i) {
+        public Rectbngle getChbrbcterBounds(int i) {
             return null;
         }
 
         /**
-         * Returns the number of characters (valid indicies)
+         * Returns the number of chbrbcters (vblid indicies)
          *
-         * @return the number of characters &gt;= 0
+         * @return the number of chbrbcters &gt;= 0
          */
-        public int getCharCount() {
+        public int getChbrCount() {
             return TextComponent.this.getText().length();
         }
 
         /**
-         * Returns the zero-based offset of the caret.
+         * Returns the zero-bbsed offset of the cbret.
          *
-         * Note: The character to the right of the caret will have the
-         * same index value as the offset (the caret is between
-         * two characters).
+         * Note: The chbrbcter to the right of the cbret will hbve the
+         * sbme index vblue bs the offset (the cbret is between
+         * two chbrbcters).
          *
-         * @return the zero-based offset of the caret.
+         * @return the zero-bbsed offset of the cbret.
          */
-        public int getCaretPosition() {
-            return TextComponent.this.getCaretPosition();
+        public int getCbretPosition() {
+            return TextComponent.this.getCbretPosition();
         }
 
         /**
-         * Returns the AttributeSet for a given character (at a given index).
+         * Returns the AttributeSet for b given chbrbcter (bt b given index).
          *
-         * @param i the zero-based index into the text
-         * @return the AttributeSet of the character
+         * @pbrbm i the zero-bbsed index into the text
+         * @return the AttributeSet of the chbrbcter
          */
-        public AttributeSet getCharacterAttribute(int i) {
-            return null; // No attributes in TextComponent
+        public AttributeSet getChbrbcterAttribute(int i) {
+            return null; // No bttributes in TextComponent
         }
 
         /**
-         * Returns the start offset within the selected text.
+         * Returns the stbrt offset within the selected text.
          * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
-         * Return 0 if the text is empty, or the caret position
+         * b cbret, the stbrt bnd end offsets will be the sbme.
+         * Return 0 if the text is empty, or the cbret position
          * if no selection.
          *
-         * @return the index into the text of the start of the selection &gt;= 0
+         * @return the index into the text of the stbrt of the selection &gt;= 0
          */
-        public int getSelectionStart() {
-            return TextComponent.this.getSelectionStart();
+        public int getSelectionStbrt() {
+            return TextComponent.this.getSelectionStbrt();
         }
 
         /**
          * Returns the end offset within the selected text.
          * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
-         * Return 0 if the text is empty, or the caret position
+         * b cbret, the stbrt bnd end offsets will be the sbme.
+         * Return 0 if the text is empty, or the cbret position
          * if no selection.
          *
          * @return the index into the text of the end of the selection &gt;= 0
@@ -1010,188 +1010,188 @@ public class TextComponent extends Component implements Accessible {
         }
 
         /**
-         * Returns the portion of the text that is selected.
+         * Returns the portion of the text thbt is selected.
          *
          * @return the text, null if no selection
          */
         public String getSelectedText() {
             String selText = TextComponent.this.getSelectedText();
             // Fix for 4256662
-            if (selText == null || selText.equals("")) {
+            if (selText == null || selText.equbls("")) {
                 return null;
             }
             return selText;
         }
 
         /**
-         * Returns the String at a given index.
+         * Returns the String bt b given index.
          *
-         * @param part the AccessibleText.CHARACTER, AccessibleText.WORD,
+         * @pbrbm pbrt the AccessibleText.CHARACTER, AccessibleText.WORD,
          * or AccessibleText.SENTENCE to retrieve
-         * @param index an index within the text &gt;= 0
+         * @pbrbm index bn index within the text &gt;= 0
          * @return the letter, word, or sentence,
-         *   null for an invalid index or part
+         *   null for bn invblid index or pbrt
          */
-        public String getAtIndex(int part, int index) {
+        public String getAtIndex(int pbrt, int index) {
             if (index < 0 || index >= TextComponent.this.getText().length()) {
                 return null;
             }
-            switch (part) {
-            case AccessibleText.CHARACTER:
+            switch (pbrt) {
+            cbse AccessibleText.CHARACTER:
                 return TextComponent.this.getText().substring(index, index+1);
-            case AccessibleText.WORD:  {
+            cbse AccessibleText.WORD:  {
                     String s = TextComponent.this.getText();
-                    BreakIterator words = BreakIterator.getWordInstance();
+                    BrebkIterbtor words = BrebkIterbtor.getWordInstbnce();
                     words.setText(s);
                     int end = words.following(index);
                     return s.substring(words.previous(), end);
                 }
-            case AccessibleText.SENTENCE:  {
+            cbse AccessibleText.SENTENCE:  {
                     String s = TextComponent.this.getText();
-                    BreakIterator sentence = BreakIterator.getSentenceInstance();
+                    BrebkIterbtor sentence = BrebkIterbtor.getSentenceInstbnce();
                     sentence.setText(s);
                     int end = sentence.following(index);
                     return s.substring(sentence.previous(), end);
                 }
-            default:
+            defbult:
                 return null;
             }
         }
 
-        private static final boolean NEXT = true;
-        private static final boolean PREVIOUS = false;
+        privbte stbtic finbl boolebn NEXT = true;
+        privbte stbtic finbl boolebn PREVIOUS = fblse;
 
         /**
-         * Needed to unify forward and backward searching.
-         * The method assumes that s is the text assigned to words.
+         * Needed to unify forwbrd bnd bbckwbrd sebrching.
+         * The method bssumes thbt s is the text bssigned to words.
          */
-        private int findWordLimit(int index, BreakIterator words, boolean direction,
+        privbte int findWordLimit(int index, BrebkIterbtor words, boolebn direction,
                                          String s) {
-            // Fix for 4256660 and 4256661.
-            // Words iterator is different from character and sentence iterators
-            // in that end of one word is not necessarily start of another word.
-            // Please see java.text.BreakIterator JavaDoc. The code below is
-            // based on nextWordStartAfter example from BreakIterator.java.
-            int last = (direction == NEXT) ? words.following(index)
+            // Fix for 4256660 bnd 4256661.
+            // Words iterbtor is different from chbrbcter bnd sentence iterbtors
+            // in thbt end of one word is not necessbrily stbrt of bnother word.
+            // Plebse see jbvb.text.BrebkIterbtor JbvbDoc. The code below is
+            // bbsed on nextWordStbrtAfter exbmple from BrebkIterbtor.jbvb.
+            int lbst = (direction == NEXT) ? words.following(index)
                                            : words.preceding(index);
             int current = (direction == NEXT) ? words.next()
                                               : words.previous();
-            while (current != BreakIterator.DONE) {
-                for (int p = Math.min(last, current); p < Math.max(last, current); p++) {
-                    if (Character.isLetter(s.charAt(p))) {
-                        return last;
+            while (current != BrebkIterbtor.DONE) {
+                for (int p = Mbth.min(lbst, current); p < Mbth.mbx(lbst, current); p++) {
+                    if (Chbrbcter.isLetter(s.chbrAt(p))) {
+                        return lbst;
                     }
                 }
-                last = current;
+                lbst = current;
                 current = (direction == NEXT) ? words.next()
                                               : words.previous();
             }
-            return BreakIterator.DONE;
+            return BrebkIterbtor.DONE;
         }
 
         /**
-         * Returns the String after a given index.
+         * Returns the String bfter b given index.
          *
-         * @param part the AccessibleText.CHARACTER, AccessibleText.WORD,
+         * @pbrbm pbrt the AccessibleText.CHARACTER, AccessibleText.WORD,
          * or AccessibleText.SENTENCE to retrieve
-         * @param index an index within the text &gt;= 0
-         * @return the letter, word, or sentence, null for an invalid
-         *  index or part
+         * @pbrbm index bn index within the text &gt;= 0
+         * @return the letter, word, or sentence, null for bn invblid
+         *  index or pbrt
          */
-        public String getAfterIndex(int part, int index) {
+        public String getAfterIndex(int pbrt, int index) {
             if (index < 0 || index >= TextComponent.this.getText().length()) {
                 return null;
             }
-            switch (part) {
-            case AccessibleText.CHARACTER:
+            switch (pbrt) {
+            cbse AccessibleText.CHARACTER:
                 if (index+1 >= TextComponent.this.getText().length()) {
                    return null;
                 }
                 return TextComponent.this.getText().substring(index+1, index+2);
-            case AccessibleText.WORD:  {
+            cbse AccessibleText.WORD:  {
                     String s = TextComponent.this.getText();
-                    BreakIterator words = BreakIterator.getWordInstance();
+                    BrebkIterbtor words = BrebkIterbtor.getWordInstbnce();
                     words.setText(s);
-                    int start = findWordLimit(index, words, NEXT, s);
-                    if (start == BreakIterator.DONE || start >= s.length()) {
+                    int stbrt = findWordLimit(index, words, NEXT, s);
+                    if (stbrt == BrebkIterbtor.DONE || stbrt >= s.length()) {
                         return null;
                     }
-                    int end = words.following(start);
-                    if (end == BreakIterator.DONE || end >= s.length()) {
+                    int end = words.following(stbrt);
+                    if (end == BrebkIterbtor.DONE || end >= s.length()) {
                         return null;
                     }
-                    return s.substring(start, end);
+                    return s.substring(stbrt, end);
                 }
-            case AccessibleText.SENTENCE:  {
+            cbse AccessibleText.SENTENCE:  {
                     String s = TextComponent.this.getText();
-                    BreakIterator sentence = BreakIterator.getSentenceInstance();
+                    BrebkIterbtor sentence = BrebkIterbtor.getSentenceInstbnce();
                     sentence.setText(s);
-                    int start = sentence.following(index);
-                    if (start == BreakIterator.DONE || start >= s.length()) {
+                    int stbrt = sentence.following(index);
+                    if (stbrt == BrebkIterbtor.DONE || stbrt >= s.length()) {
                         return null;
                     }
-                    int end = sentence.following(start);
-                    if (end == BreakIterator.DONE || end >= s.length()) {
+                    int end = sentence.following(stbrt);
+                    if (end == BrebkIterbtor.DONE || end >= s.length()) {
                         return null;
                     }
-                    return s.substring(start, end);
+                    return s.substring(stbrt, end);
                 }
-            default:
+            defbult:
                 return null;
             }
         }
 
 
         /**
-         * Returns the String before a given index.
+         * Returns the String before b given index.
          *
-         * @param part the AccessibleText.CHARACTER, AccessibleText.WORD,
+         * @pbrbm pbrt the AccessibleText.CHARACTER, AccessibleText.WORD,
          *   or AccessibleText.SENTENCE to retrieve
-         * @param index an index within the text &gt;= 0
-         * @return the letter, word, or sentence, null for an invalid index
-         *  or part
+         * @pbrbm index bn index within the text &gt;= 0
+         * @return the letter, word, or sentence, null for bn invblid index
+         *  or pbrt
          */
-        public String getBeforeIndex(int part, int index) {
+        public String getBeforeIndex(int pbrt, int index) {
             if (index < 0 || index > TextComponent.this.getText().length()-1) {
                 return null;
             }
-            switch (part) {
-            case AccessibleText.CHARACTER:
+            switch (pbrt) {
+            cbse AccessibleText.CHARACTER:
                 if (index == 0) {
                     return null;
                 }
                 return TextComponent.this.getText().substring(index-1, index);
-            case AccessibleText.WORD:  {
+            cbse AccessibleText.WORD:  {
                     String s = TextComponent.this.getText();
-                    BreakIterator words = BreakIterator.getWordInstance();
+                    BrebkIterbtor words = BrebkIterbtor.getWordInstbnce();
                     words.setText(s);
                     int end = findWordLimit(index, words, PREVIOUS, s);
-                    if (end == BreakIterator.DONE) {
+                    if (end == BrebkIterbtor.DONE) {
                         return null;
                     }
-                    int start = words.preceding(end);
-                    if (start == BreakIterator.DONE) {
+                    int stbrt = words.preceding(end);
+                    if (stbrt == BrebkIterbtor.DONE) {
                         return null;
                     }
-                    return s.substring(start, end);
+                    return s.substring(stbrt, end);
                 }
-            case AccessibleText.SENTENCE:  {
+            cbse AccessibleText.SENTENCE:  {
                     String s = TextComponent.this.getText();
-                    BreakIterator sentence = BreakIterator.getSentenceInstance();
+                    BrebkIterbtor sentence = BrebkIterbtor.getSentenceInstbnce();
                     sentence.setText(s);
                     int end = sentence.following(index);
                     end = sentence.previous();
-                    int start = sentence.previous();
-                    if (start == BreakIterator.DONE) {
+                    int stbrt = sentence.previous();
+                    if (stbrt == BrebkIterbtor.DONE) {
                         return null;
                     }
-                    return s.substring(start, end);
+                    return s.substring(stbrt, end);
                 }
-            default:
+            defbult:
                 return null;
             }
         }
     }  // end of AccessibleAWTTextComponent
 
-    private boolean checkForEnableIM = true;
+    privbte boolebn checkForEnbbleIM = true;
 }

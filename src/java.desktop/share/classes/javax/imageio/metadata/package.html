@@ -1,109 +1,109 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
-<head>
+<hebd>
 <!--
-Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2000, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
 
-</head>
+</hebd>
 
 <body bgcolor="white">
 
-A package of the Java Image I/O API dealing with reading and writing
-metadata.
+A pbckbge of the Jbvb Imbge I/O API debling with rebding bnd writing
+metbdbtb.
 
 <p>
 
-When reading an image, its per-stream and per-image metadata is made
-available as an <code>IIOMetadata</code> object.  The internals of
-this object are specific to the plug-in that created it.  Its contents
-may be accessed in the form of an XML <code>Document</code>, which is
-implemented as a tree of <code>IIOMetadataNode</code> objects.
+When rebding bn imbge, its per-strebm bnd per-imbge metbdbtb is mbde
+bvbilbble bs bn <code>IIOMetbdbtb</code> object.  The internbls of
+this object bre specific to the plug-in thbt crebted it.  Its contents
+mby be bccessed in the form of bn XML <code>Document</code>, which is
+implemented bs b tree of <code>IIOMetbdbtbNode</code> objects.
 
 <p>
 
-When writing an image, its metadata may be set by defining or
-modifying an <code>IIOMetadata</code> object.  Such an object may be
-obtained from an <code>ImageWriter</code> or
-<code>ImageTranscoder</code> (from the
-<code>javax.imageio</code> package).  Once such an object has
-been obtained, its contents may be set of modified via a
-<code>Document</code> consisting of <code>IIOMetadataNode</code>s.
-The document format may optionally be described using an
-<code>IIOMetadataFormat</code> object.
+When writing bn imbge, its metbdbtb mby be set by defining or
+modifying bn <code>IIOMetbdbtb</code> object.  Such bn object mby be
+obtbined from bn <code>ImbgeWriter</code> or
+<code>ImbgeTrbnscoder</code> (from the
+<code>jbvbx.imbgeio</code> pbckbge).  Once such bn object hbs
+been obtbined, its contents mby be set of modified vib b
+<code>Document</code> consisting of <code>IIOMetbdbtbNode</code>s.
+The document formbt mby optionblly be described using bn
+<code>IIOMetbdbtbFormbt</code> object.
 
 <p>
 
-The format of the metadata contained in the XML <code>Document</code>
-is identified by a string which appears as the root node of the tree
-of <code>IIOMetadataNode</code> objects.  This string contains a version
-number, e.g. "javax_imageio_jpeg_image_1.0".  Readers and writers may
-support multiple versions of the same basic format and the Image I/O
-API has methods that allow specifying which version to use by passing
-the string to the method/constructor used to obtain an <code>IIOMetadata</code>
-object.  In some cases, a more recent version may not be strictly
-compatible with a program written expecting an older version (for
-an example, see the Native Metadata Format section of the JPEG Metadata
-Usage Notes below).
+The formbt of the metbdbtb contbined in the XML <code>Document</code>
+is identified by b string which bppebrs bs the root node of the tree
+of <code>IIOMetbdbtbNode</code> objects.  This string contbins b version
+number, e.g. "jbvbx_imbgeio_jpeg_imbge_1.0".  Rebders bnd writers mby
+support multiple versions of the sbme bbsic formbt bnd the Imbge I/O
+API hbs methods thbt bllow specifying which version to use by pbssing
+the string to the method/constructor used to obtbin bn <code>IIOMetbdbtb</code>
+object.  In some cbses, b more recent version mby not be strictly
+compbtible with b progrbm written expecting bn older version (for
+bn exbmple, see the Nbtive Metbdbtb Formbt section of the JPEG Metbdbtb
+Usbge Notes below).
 
 <p>
 
-Plug-ins may choose to support a <A
-HREF="doc-files/standard_metadata.html">standard (plug-in neutral)
-format</A>.  This format does not provide lossless encoding of
-metadata, but allows a portion of the metadata to be accessed in a
-generic manner.
+Plug-ins mby choose to support b <A
+HREF="doc-files/stbndbrd_metbdbtb.html">stbndbrd (plug-in neutrbl)
+formbt</A>.  This formbt does not provide lossless encoding of
+metbdbtb, but bllows b portion of the metbdbtb to be bccessed in b
+generic mbnner.
 
 <p>
 
-Each of the standard plug-ins supports a so-called "native" metadata
-format, which encodes its metadata losslessly:
+Ebch of the stbndbrd plug-ins supports b so-cblled "nbtive" metbdbtb
+formbt, which encodes its metbdbtb losslessly:
 
 <ul>
 <li>
-<A HREF="doc-files/gif_metadata.html">
-GIF metadata
+<A HREF="doc-files/gif_metbdbtb.html">
+GIF metbdbtb
 </A>
 
 <li>
-<A HREF="doc-files/jpeg_metadata.html">
-JPEG metadata
+<A HREF="doc-files/jpeg_metbdbtb.html">
+JPEG metbdbtb
 </A>
 
 <li>
-<A HREF="doc-files/png_metadata.html">
-PNG metadata
+<A HREF="doc-files/png_metbdbtb.html">
+PNG metbdbtb
 </A>
 
 <li>
-<A HREF="doc-files/bmp_metadata.html">
-BMP metadata
+<A HREF="doc-files/bmp_metbdbtb.html">
+BMP metbdbtb
 </A>
 
 <li>
-<A HREF="doc-files/wbmp_metadata.html">
-WBMP metadata
+<A HREF="doc-files/wbmp_metbdbtb.html">
+WBMP metbdbtb
 </A>
 
 </ul>

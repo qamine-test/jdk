@@ -1,309 +1,309 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.function.IntFunction;
-import java.util.function.Supplier;
+import jbvb.util.Objects;
+import jbvb.util.Spliterbtor;
+import jbvb.util.function.IntFunction;
+import jbvb.util.function.Supplier;
 
 /**
- * Abstract base class for "pipeline" classes, which are the core
- * implementations of the Stream interface and its primitive specializations.
- * Manages construction and evaluation of stream pipelines.
+ * Abstrbct bbse clbss for "pipeline" clbsses, which bre the core
+ * implementbtions of the Strebm interfbce bnd its primitive speciblizbtions.
+ * Mbnbges construction bnd evblubtion of strebm pipelines.
  *
- * <p>An {@code AbstractPipeline} represents an initial portion of a stream
- * pipeline, encapsulating a stream source and zero or more intermediate
- * operations.  The individual {@code AbstractPipeline} objects are often
- * referred to as <em>stages</em>, where each stage describes either the stream
- * source or an intermediate operation.
+ * <p>An {@code AbstrbctPipeline} represents bn initibl portion of b strebm
+ * pipeline, encbpsulbting b strebm source bnd zero or more intermedibte
+ * operbtions.  The individubl {@code AbstrbctPipeline} objects bre often
+ * referred to bs <em>stbges</em>, where ebch stbge describes either the strebm
+ * source or bn intermedibte operbtion.
  *
- * <p>A concrete intermediate stage is generally built from an
- * {@code AbstractPipeline}, a shape-specific pipeline class which extends it
- * (e.g., {@code IntPipeline}) which is also abstract, and an operation-specific
- * concrete class which extends that.  {@code AbstractPipeline} contains most of
- * the mechanics of evaluating the pipeline, and implements methods that will be
- * used by the operation; the shape-specific classes add helper methods for
- * dealing with collection of results into the appropriate shape-specific
- * containers.
+ * <p>A concrete intermedibte stbge is generblly built from bn
+ * {@code AbstrbctPipeline}, b shbpe-specific pipeline clbss which extends it
+ * (e.g., {@code IntPipeline}) which is blso bbstrbct, bnd bn operbtion-specific
+ * concrete clbss which extends thbt.  {@code AbstrbctPipeline} contbins most of
+ * the mechbnics of evblubting the pipeline, bnd implements methods thbt will be
+ * used by the operbtion; the shbpe-specific clbsses bdd helper methods for
+ * debling with collection of results into the bppropribte shbpe-specific
+ * contbiners.
  *
- * <p>After chaining a new intermediate operation, or executing a terminal
- * operation, the stream is considered to be consumed, and no more intermediate
- * or terminal operations are permitted on this stream instance.
+ * <p>After chbining b new intermedibte operbtion, or executing b terminbl
+ * operbtion, the strebm is considered to be consumed, bnd no more intermedibte
+ * or terminbl operbtions bre permitted on this strebm instbnce.
  *
  * @implNote
- * <p>For sequential streams, and parallel streams without
- * <a href="package-summary.html#StreamOps">stateful intermediate
- * operations</a>, parallel streams, pipeline evaluation is done in a single
- * pass that "jams" all the operations together.  For parallel streams with
- * stateful operations, execution is divided into segments, where each
- * stateful operations marks the end of a segment, and each segment is
- * evaluated separately and the result used as the input to the next
- * segment.  In all cases, the source data is not consumed until a terminal
- * operation begins.
+ * <p>For sequentibl strebms, bnd pbrbllel strebms without
+ * <b href="pbckbge-summbry.html#StrebmOps">stbteful intermedibte
+ * operbtions</b>, pbrbllel strebms, pipeline evblubtion is done in b single
+ * pbss thbt "jbms" bll the operbtions together.  For pbrbllel strebms with
+ * stbteful operbtions, execution is divided into segments, where ebch
+ * stbteful operbtions mbrks the end of b segment, bnd ebch segment is
+ * evblubted sepbrbtely bnd the result used bs the input to the next
+ * segment.  In bll cbses, the source dbtb is not consumed until b terminbl
+ * operbtion begins.
  *
- * @param <E_IN>  type of input elements
- * @param <E_OUT> type of output elements
- * @param <S> type of the subclass implementing {@code BaseStream}
+ * @pbrbm <E_IN>  type of input elements
+ * @pbrbm <E_OUT> type of output elements
+ * @pbrbm <S> type of the subclbss implementing {@code BbseStrebm}
  * @since 1.8
  */
-abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
-        extends PipelineHelper<E_OUT> implements BaseStream<E_OUT, S> {
-    private static final String MSG_STREAM_LINKED = "stream has already been operated upon or closed";
-    private static final String MSG_CONSUMED = "source already consumed or closed";
+bbstrbct clbss AbstrbctPipeline<E_IN, E_OUT, S extends BbseStrebm<E_OUT, S>>
+        extends PipelineHelper<E_OUT> implements BbseStrebm<E_OUT, S> {
+    privbte stbtic finbl String MSG_STREAM_LINKED = "strebm hbs blrebdy been operbted upon or closed";
+    privbte stbtic finbl String MSG_CONSUMED = "source blrebdy consumed or closed";
 
     /**
-     * Backlink to the head of the pipeline chain (self if this is the source
-     * stage).
+     * Bbcklink to the hebd of the pipeline chbin (self if this is the source
+     * stbge).
      */
-    @SuppressWarnings("rawtypes")
-    private final AbstractPipeline sourceStage;
+    @SuppressWbrnings("rbwtypes")
+    privbte finbl AbstrbctPipeline sourceStbge;
 
     /**
-     * The "upstream" pipeline, or null if this is the source stage.
+     * The "upstrebm" pipeline, or null if this is the source stbge.
      */
-    @SuppressWarnings("rawtypes")
-    private final AbstractPipeline previousStage;
+    @SuppressWbrnings("rbwtypes")
+    privbte finbl AbstrbctPipeline previousStbge;
 
     /**
-     * The operation flags for the intermediate operation represented by this
+     * The operbtion flbgs for the intermedibte operbtion represented by this
      * pipeline object.
      */
-    protected final int sourceOrOpFlags;
+    protected finbl int sourceOrOpFlbgs;
 
     /**
-     * The next stage in the pipeline, or null if this is the last stage.
-     * Effectively final at the point of linking to the next pipeline.
+     * The next stbge in the pipeline, or null if this is the lbst stbge.
+     * Effectively finbl bt the point of linking to the next pipeline.
      */
-    @SuppressWarnings("rawtypes")
-    private AbstractPipeline nextStage;
+    @SuppressWbrnings("rbwtypes")
+    privbte AbstrbctPipeline nextStbge;
 
     /**
-     * The number of intermediate operations between this pipeline object
-     * and the stream source if sequential, or the previous stateful if parallel.
-     * Valid at the point of pipeline preparation for evaluation.
+     * The number of intermedibte operbtions between this pipeline object
+     * bnd the strebm source if sequentibl, or the previous stbteful if pbrbllel.
+     * Vblid bt the point of pipeline prepbrbtion for evblubtion.
      */
-    private int depth;
+    privbte int depth;
 
     /**
-     * The combined source and operation flags for the source and all operations
-     * up to and including the operation represented by this pipeline object.
-     * Valid at the point of pipeline preparation for evaluation.
+     * The combined source bnd operbtion flbgs for the source bnd bll operbtions
+     * up to bnd including the operbtion represented by this pipeline object.
+     * Vblid bt the point of pipeline prepbrbtion for evblubtion.
      */
-    private int combinedFlags;
+    privbte int combinedFlbgs;
 
     /**
-     * The source spliterator. Only valid for the head pipeline.
+     * The source spliterbtor. Only vblid for the hebd pipeline.
      * Before the pipeline is consumed if non-null then {@code sourceSupplier}
      * must be null. After the pipeline is consumed if non-null then is set to
      * null.
      */
-    private Spliterator<?> sourceSpliterator;
+    privbte Spliterbtor<?> sourceSpliterbtor;
 
     /**
-     * The source supplier. Only valid for the head pipeline. Before the
-     * pipeline is consumed if non-null then {@code sourceSpliterator} must be
+     * The source supplier. Only vblid for the hebd pipeline. Before the
+     * pipeline is consumed if non-null then {@code sourceSpliterbtor} must be
      * null. After the pipeline is consumed if non-null then is set to null.
      */
-    private Supplier<? extends Spliterator<?>> sourceSupplier;
+    privbte Supplier<? extends Spliterbtor<?>> sourceSupplier;
 
     /**
-     * True if this pipeline has been linked or consumed
+     * True if this pipeline hbs been linked or consumed
      */
-    private boolean linkedOrConsumed;
+    privbte boolebn linkedOrConsumed;
 
     /**
-     * True if there are any stateful ops in the pipeline; only valid for the
-     * source stage.
+     * True if there bre bny stbteful ops in the pipeline; only vblid for the
+     * source stbge.
      */
-    private boolean sourceAnyStateful;
+    privbte boolebn sourceAnyStbteful;
 
-    private Runnable sourceCloseAction;
+    privbte Runnbble sourceCloseAction;
 
     /**
-     * True if pipeline is parallel, otherwise the pipeline is sequential; only
-     * valid for the source stage.
+     * True if pipeline is pbrbllel, otherwise the pipeline is sequentibl; only
+     * vblid for the source stbge.
      */
-    private boolean parallel;
+    privbte boolebn pbrbllel;
 
     /**
-     * Constructor for the head of a stream pipeline.
+     * Constructor for the hebd of b strebm pipeline.
      *
-     * @param source {@code Supplier<Spliterator>} describing the stream source
-     * @param sourceFlags The source flags for the stream source, described in
-     * {@link StreamOpFlag}
-     * @param parallel True if the pipeline is parallel
+     * @pbrbm source {@code Supplier<Spliterbtor>} describing the strebm source
+     * @pbrbm sourceFlbgs The source flbgs for the strebm source, described in
+     * {@link StrebmOpFlbg}
+     * @pbrbm pbrbllel True if the pipeline is pbrbllel
      */
-    AbstractPipeline(Supplier<? extends Spliterator<?>> source,
-                     int sourceFlags, boolean parallel) {
-        this.previousStage = null;
+    AbstrbctPipeline(Supplier<? extends Spliterbtor<?>> source,
+                     int sourceFlbgs, boolebn pbrbllel) {
+        this.previousStbge = null;
         this.sourceSupplier = source;
-        this.sourceStage = this;
-        this.sourceOrOpFlags = sourceFlags & StreamOpFlag.STREAM_MASK;
-        // The following is an optimization of:
-        // StreamOpFlag.combineOpFlags(sourceOrOpFlags, StreamOpFlag.INITIAL_OPS_VALUE);
-        this.combinedFlags = (~(sourceOrOpFlags << 1)) & StreamOpFlag.INITIAL_OPS_VALUE;
+        this.sourceStbge = this;
+        this.sourceOrOpFlbgs = sourceFlbgs & StrebmOpFlbg.STREAM_MASK;
+        // The following is bn optimizbtion of:
+        // StrebmOpFlbg.combineOpFlbgs(sourceOrOpFlbgs, StrebmOpFlbg.INITIAL_OPS_VALUE);
+        this.combinedFlbgs = (~(sourceOrOpFlbgs << 1)) & StrebmOpFlbg.INITIAL_OPS_VALUE;
         this.depth = 0;
-        this.parallel = parallel;
+        this.pbrbllel = pbrbllel;
     }
 
     /**
-     * Constructor for the head of a stream pipeline.
+     * Constructor for the hebd of b strebm pipeline.
      *
-     * @param source {@code Spliterator} describing the stream source
-     * @param sourceFlags the source flags for the stream source, described in
-     * {@link StreamOpFlag}
-     * @param parallel {@code true} if the pipeline is parallel
+     * @pbrbm source {@code Spliterbtor} describing the strebm source
+     * @pbrbm sourceFlbgs the source flbgs for the strebm source, described in
+     * {@link StrebmOpFlbg}
+     * @pbrbm pbrbllel {@code true} if the pipeline is pbrbllel
      */
-    AbstractPipeline(Spliterator<?> source,
-                     int sourceFlags, boolean parallel) {
-        this.previousStage = null;
-        this.sourceSpliterator = source;
-        this.sourceStage = this;
-        this.sourceOrOpFlags = sourceFlags & StreamOpFlag.STREAM_MASK;
-        // The following is an optimization of:
-        // StreamOpFlag.combineOpFlags(sourceOrOpFlags, StreamOpFlag.INITIAL_OPS_VALUE);
-        this.combinedFlags = (~(sourceOrOpFlags << 1)) & StreamOpFlag.INITIAL_OPS_VALUE;
+    AbstrbctPipeline(Spliterbtor<?> source,
+                     int sourceFlbgs, boolebn pbrbllel) {
+        this.previousStbge = null;
+        this.sourceSpliterbtor = source;
+        this.sourceStbge = this;
+        this.sourceOrOpFlbgs = sourceFlbgs & StrebmOpFlbg.STREAM_MASK;
+        // The following is bn optimizbtion of:
+        // StrebmOpFlbg.combineOpFlbgs(sourceOrOpFlbgs, StrebmOpFlbg.INITIAL_OPS_VALUE);
+        this.combinedFlbgs = (~(sourceOrOpFlbgs << 1)) & StrebmOpFlbg.INITIAL_OPS_VALUE;
         this.depth = 0;
-        this.parallel = parallel;
+        this.pbrbllel = pbrbllel;
     }
 
     /**
-     * Constructor for appending an intermediate operation stage onto an
+     * Constructor for bppending bn intermedibte operbtion stbge onto bn
      * existing pipeline.
      *
-     * @param previousStage the upstream pipeline stage
-     * @param opFlags the operation flags for the new stage, described in
-     * {@link StreamOpFlag}
+     * @pbrbm previousStbge the upstrebm pipeline stbge
+     * @pbrbm opFlbgs the operbtion flbgs for the new stbge, described in
+     * {@link StrebmOpFlbg}
      */
-    AbstractPipeline(AbstractPipeline<?, E_IN, ?> previousStage, int opFlags) {
-        if (previousStage.linkedOrConsumed)
-            throw new IllegalStateException(MSG_STREAM_LINKED);
-        previousStage.linkedOrConsumed = true;
-        previousStage.nextStage = this;
+    AbstrbctPipeline(AbstrbctPipeline<?, E_IN, ?> previousStbge, int opFlbgs) {
+        if (previousStbge.linkedOrConsumed)
+            throw new IllegblStbteException(MSG_STREAM_LINKED);
+        previousStbge.linkedOrConsumed = true;
+        previousStbge.nextStbge = this;
 
-        this.previousStage = previousStage;
-        this.sourceOrOpFlags = opFlags & StreamOpFlag.OP_MASK;
-        this.combinedFlags = StreamOpFlag.combineOpFlags(opFlags, previousStage.combinedFlags);
-        this.sourceStage = previousStage.sourceStage;
-        if (opIsStateful())
-            sourceStage.sourceAnyStateful = true;
-        this.depth = previousStage.depth + 1;
+        this.previousStbge = previousStbge;
+        this.sourceOrOpFlbgs = opFlbgs & StrebmOpFlbg.OP_MASK;
+        this.combinedFlbgs = StrebmOpFlbg.combineOpFlbgs(opFlbgs, previousStbge.combinedFlbgs);
+        this.sourceStbge = previousStbge.sourceStbge;
+        if (opIsStbteful())
+            sourceStbge.sourceAnyStbteful = true;
+        this.depth = previousStbge.depth + 1;
     }
 
 
-    // Terminal evaluation methods
+    // Terminbl evblubtion methods
 
     /**
-     * Evaluate the pipeline with a terminal operation to produce a result.
+     * Evblubte the pipeline with b terminbl operbtion to produce b result.
      *
-     * @param <R> the type of result
-     * @param terminalOp the terminal operation to be applied to the pipeline.
+     * @pbrbm <R> the type of result
+     * @pbrbm terminblOp the terminbl operbtion to be bpplied to the pipeline.
      * @return the result
      */
-    final <R> R evaluate(TerminalOp<E_OUT, R> terminalOp) {
-        assert getOutputShape() == terminalOp.inputShape();
+    finbl <R> R evblubte(TerminblOp<E_OUT, R> terminblOp) {
+        bssert getOutputShbpe() == terminblOp.inputShbpe();
         if (linkedOrConsumed)
-            throw new IllegalStateException(MSG_STREAM_LINKED);
+            throw new IllegblStbteException(MSG_STREAM_LINKED);
         linkedOrConsumed = true;
 
-        return isParallel()
-               ? terminalOp.evaluateParallel(this, sourceSpliterator(terminalOp.getOpFlags()))
-               : terminalOp.evaluateSequential(this, sourceSpliterator(terminalOp.getOpFlags()));
+        return isPbrbllel()
+               ? terminblOp.evblubtePbrbllel(this, sourceSpliterbtor(terminblOp.getOpFlbgs()))
+               : terminblOp.evblubteSequentibl(this, sourceSpliterbtor(terminblOp.getOpFlbgs()));
     }
 
     /**
-     * Collect the elements output from the pipeline stage.
+     * Collect the elements output from the pipeline stbge.
      *
-     * @param generator the array generator to be used to create array instances
-     * @return a flat array-backed Node that holds the collected output elements
+     * @pbrbm generbtor the brrby generbtor to be used to crebte brrby instbnces
+     * @return b flbt brrby-bbcked Node thbt holds the collected output elements
      */
-    @SuppressWarnings("unchecked")
-    final Node<E_OUT> evaluateToArrayNode(IntFunction<E_OUT[]> generator) {
+    @SuppressWbrnings("unchecked")
+    finbl Node<E_OUT> evblubteToArrbyNode(IntFunction<E_OUT[]> generbtor) {
         if (linkedOrConsumed)
-            throw new IllegalStateException(MSG_STREAM_LINKED);
+            throw new IllegblStbteException(MSG_STREAM_LINKED);
         linkedOrConsumed = true;
 
-        // If the last intermediate operation is stateful then
-        // evaluate directly to avoid an extra collection step
-        if (isParallel() && previousStage != null && opIsStateful()) {
-            return opEvaluateParallel(previousStage, previousStage.sourceSpliterator(0), generator);
+        // If the lbst intermedibte operbtion is stbteful then
+        // evblubte directly to bvoid bn extrb collection step
+        if (isPbrbllel() && previousStbge != null && opIsStbteful()) {
+            return opEvblubtePbrbllel(previousStbge, previousStbge.sourceSpliterbtor(0), generbtor);
         }
         else {
-            return evaluate(sourceSpliterator(0), true, generator);
+            return evblubte(sourceSpliterbtor(0), true, generbtor);
         }
     }
 
     /**
-     * Gets the source stage spliterator if this pipeline stage is the source
-     * stage.  The pipeline is consumed after this method is called and
+     * Gets the source stbge spliterbtor if this pipeline stbge is the source
+     * stbge.  The pipeline is consumed bfter this method is cblled bnd
      * returns successfully.
      *
-     * @return the source stage spliterator
-     * @throws IllegalStateException if this pipeline stage is not the source
-     *         stage.
+     * @return the source stbge spliterbtor
+     * @throws IllegblStbteException if this pipeline stbge is not the source
+     *         stbge.
      */
-    @SuppressWarnings("unchecked")
-    final Spliterator<E_OUT> sourceStageSpliterator() {
-        if (this != sourceStage)
-            throw new IllegalStateException();
+    @SuppressWbrnings("unchecked")
+    finbl Spliterbtor<E_OUT> sourceStbgeSpliterbtor() {
+        if (this != sourceStbge)
+            throw new IllegblStbteException();
 
         if (linkedOrConsumed)
-            throw new IllegalStateException(MSG_STREAM_LINKED);
+            throw new IllegblStbteException(MSG_STREAM_LINKED);
         linkedOrConsumed = true;
 
-        if (sourceStage.sourceSpliterator != null) {
-            @SuppressWarnings("unchecked")
-            Spliterator<E_OUT> s = sourceStage.sourceSpliterator;
-            sourceStage.sourceSpliterator = null;
+        if (sourceStbge.sourceSpliterbtor != null) {
+            @SuppressWbrnings("unchecked")
+            Spliterbtor<E_OUT> s = sourceStbge.sourceSpliterbtor;
+            sourceStbge.sourceSpliterbtor = null;
             return s;
         }
-        else if (sourceStage.sourceSupplier != null) {
-            @SuppressWarnings("unchecked")
-            Spliterator<E_OUT> s = (Spliterator<E_OUT>) sourceStage.sourceSupplier.get();
-            sourceStage.sourceSupplier = null;
+        else if (sourceStbge.sourceSupplier != null) {
+            @SuppressWbrnings("unchecked")
+            Spliterbtor<E_OUT> s = (Spliterbtor<E_OUT>) sourceStbge.sourceSupplier.get();
+            sourceStbge.sourceSupplier = null;
             return s;
         }
         else {
-            throw new IllegalStateException(MSG_CONSUMED);
+            throw new IllegblStbteException(MSG_CONSUMED);
         }
     }
 
-    // BaseStream
+    // BbseStrebm
 
     @Override
-    @SuppressWarnings("unchecked")
-    public final S sequential() {
-        sourceStage.parallel = false;
+    @SuppressWbrnings("unchecked")
+    public finbl S sequentibl() {
+        sourceStbge.pbrbllel = fblse;
         return (S) this;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public final S parallel() {
-        sourceStage.parallel = true;
+    @SuppressWbrnings("unchecked")
+    public finbl S pbrbllel() {
+        sourceStbge.pbrbllel = true;
         return (S) this;
     }
 
@@ -311,428 +311,428 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
     public void close() {
         linkedOrConsumed = true;
         sourceSupplier = null;
-        sourceSpliterator = null;
-        if (sourceStage.sourceCloseAction != null) {
-            Runnable closeAction = sourceStage.sourceCloseAction;
-            sourceStage.sourceCloseAction = null;
+        sourceSpliterbtor = null;
+        if (sourceStbge.sourceCloseAction != null) {
+            Runnbble closeAction = sourceStbge.sourceCloseAction;
+            sourceStbge.sourceCloseAction = null;
             closeAction.run();
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public S onClose(Runnable closeHandler) {
-        Objects.requireNonNull(closeHandler);
-        Runnable existingHandler = sourceStage.sourceCloseAction;
-        sourceStage.sourceCloseAction =
-                (existingHandler == null)
-                ? closeHandler
-                : Streams.composeWithExceptions(existingHandler, closeHandler);
+    @SuppressWbrnings("unchecked")
+    public S onClose(Runnbble closeHbndler) {
+        Objects.requireNonNull(closeHbndler);
+        Runnbble existingHbndler = sourceStbge.sourceCloseAction;
+        sourceStbge.sourceCloseAction =
+                (existingHbndler == null)
+                ? closeHbndler
+                : Strebms.composeWithExceptions(existingHbndler, closeHbndler);
         return (S) this;
     }
 
-    // Primitive specialization use co-variant overrides, hence is not final
+    // Primitive speciblizbtion use co-vbribnt overrides, hence is not finbl
     @Override
-    @SuppressWarnings("unchecked")
-    public Spliterator<E_OUT> spliterator() {
+    @SuppressWbrnings("unchecked")
+    public Spliterbtor<E_OUT> spliterbtor() {
         if (linkedOrConsumed)
-            throw new IllegalStateException(MSG_STREAM_LINKED);
+            throw new IllegblStbteException(MSG_STREAM_LINKED);
         linkedOrConsumed = true;
 
-        if (this == sourceStage) {
-            if (sourceStage.sourceSpliterator != null) {
-                @SuppressWarnings("unchecked")
-                Spliterator<E_OUT> s = (Spliterator<E_OUT>) sourceStage.sourceSpliterator;
-                sourceStage.sourceSpliterator = null;
+        if (this == sourceStbge) {
+            if (sourceStbge.sourceSpliterbtor != null) {
+                @SuppressWbrnings("unchecked")
+                Spliterbtor<E_OUT> s = (Spliterbtor<E_OUT>) sourceStbge.sourceSpliterbtor;
+                sourceStbge.sourceSpliterbtor = null;
                 return s;
             }
-            else if (sourceStage.sourceSupplier != null) {
-                @SuppressWarnings("unchecked")
-                Supplier<Spliterator<E_OUT>> s = (Supplier<Spliterator<E_OUT>>) sourceStage.sourceSupplier;
-                sourceStage.sourceSupplier = null;
-                return lazySpliterator(s);
+            else if (sourceStbge.sourceSupplier != null) {
+                @SuppressWbrnings("unchecked")
+                Supplier<Spliterbtor<E_OUT>> s = (Supplier<Spliterbtor<E_OUT>>) sourceStbge.sourceSupplier;
+                sourceStbge.sourceSupplier = null;
+                return lbzySpliterbtor(s);
             }
             else {
-                throw new IllegalStateException(MSG_CONSUMED);
+                throw new IllegblStbteException(MSG_CONSUMED);
             }
         }
         else {
-            return wrap(this, () -> sourceSpliterator(0), isParallel());
+            return wrbp(this, () -> sourceSpliterbtor(0), isPbrbllel());
         }
     }
 
     @Override
-    public final boolean isParallel() {
-        return sourceStage.parallel;
+    public finbl boolebn isPbrbllel() {
+        return sourceStbge.pbrbllel;
     }
 
 
     /**
-     * Returns the composition of stream flags of the stream source and all
-     * intermediate operations.
+     * Returns the composition of strebm flbgs of the strebm source bnd bll
+     * intermedibte operbtions.
      *
-     * @return the composition of stream flags of the stream source and all
-     *         intermediate operations
-     * @see StreamOpFlag
+     * @return the composition of strebm flbgs of the strebm source bnd bll
+     *         intermedibte operbtions
+     * @see StrebmOpFlbg
      */
-    final int getStreamFlags() {
-        return StreamOpFlag.toStreamFlags(combinedFlags);
+    finbl int getStrebmFlbgs() {
+        return StrebmOpFlbg.toStrebmFlbgs(combinedFlbgs);
     }
 
     /**
-     * Prepare the pipeline for a parallel execution.  As the pipeline is built,
-     * the flags and depth indicators are set up for a sequential execution.
-     * If the execution is parallel, and there are any stateful operations, then
-     * some of these need to be adjusted, as well as adjusting for flags from
-     * the terminal operation (such as back-propagating UNORDERED).
-     * Need not be called for a sequential execution.
+     * Prepbre the pipeline for b pbrbllel execution.  As the pipeline is built,
+     * the flbgs bnd depth indicbtors bre set up for b sequentibl execution.
+     * If the execution is pbrbllel, bnd there bre bny stbteful operbtions, then
+     * some of these need to be bdjusted, bs well bs bdjusting for flbgs from
+     * the terminbl operbtion (such bs bbck-propbgbting UNORDERED).
+     * Need not be cblled for b sequentibl execution.
      *
-     * @param terminalFlags Operation flags for the terminal operation
+     * @pbrbm terminblFlbgs Operbtion flbgs for the terminbl operbtion
      */
-    private void parallelPrepare(int terminalFlags) {
-        @SuppressWarnings("rawtypes")
-        AbstractPipeline backPropagationHead = sourceStage;
-        if (sourceStage.sourceAnyStateful) {
+    privbte void pbrbllelPrepbre(int terminblFlbgs) {
+        @SuppressWbrnings("rbwtypes")
+        AbstrbctPipeline bbckPropbgbtionHebd = sourceStbge;
+        if (sourceStbge.sourceAnyStbteful) {
             int depth = 1;
-            for (  @SuppressWarnings("rawtypes") AbstractPipeline u = sourceStage, p = sourceStage.nextStage;
+            for (  @SuppressWbrnings("rbwtypes") AbstrbctPipeline u = sourceStbge, p = sourceStbge.nextStbge;
                  p != null;
-                 u = p, p = p.nextStage) {
-                int thisOpFlags = p.sourceOrOpFlags;
-                if (p.opIsStateful()) {
-                    // If the stateful operation is a short-circuit operation
-                    // then move the back propagation head forwards
-                    // NOTE: there are no size-injecting ops
-                    if (StreamOpFlag.SHORT_CIRCUIT.isKnown(thisOpFlags)) {
-                        backPropagationHead = p;
-                        // Clear the short circuit flag for next pipeline stage
-                        // This stage encapsulates short-circuiting, the next
-                        // stage may not have any short-circuit operations, and
-                        // if so spliterator.forEachRemaining should be used
-                        // for traversal
-                        thisOpFlags = thisOpFlags & ~StreamOpFlag.IS_SHORT_CIRCUIT;
+                 u = p, p = p.nextStbge) {
+                int thisOpFlbgs = p.sourceOrOpFlbgs;
+                if (p.opIsStbteful()) {
+                    // If the stbteful operbtion is b short-circuit operbtion
+                    // then move the bbck propbgbtion hebd forwbrds
+                    // NOTE: there bre no size-injecting ops
+                    if (StrebmOpFlbg.SHORT_CIRCUIT.isKnown(thisOpFlbgs)) {
+                        bbckPropbgbtionHebd = p;
+                        // Clebr the short circuit flbg for next pipeline stbge
+                        // This stbge encbpsulbtes short-circuiting, the next
+                        // stbge mby not hbve bny short-circuit operbtions, bnd
+                        // if so spliterbtor.forEbchRembining should be used
+                        // for trbversbl
+                        thisOpFlbgs = thisOpFlbgs & ~StrebmOpFlbg.IS_SHORT_CIRCUIT;
                     }
 
                     depth = 0;
-                    // The following injects size, it is equivalent to:
-                    // StreamOpFlag.combineOpFlags(StreamOpFlag.IS_SIZED, p.combinedFlags);
-                    thisOpFlags = (thisOpFlags & ~StreamOpFlag.NOT_SIZED) | StreamOpFlag.IS_SIZED;
+                    // The following injects size, it is equivblent to:
+                    // StrebmOpFlbg.combineOpFlbgs(StrebmOpFlbg.IS_SIZED, p.combinedFlbgs);
+                    thisOpFlbgs = (thisOpFlbgs & ~StrebmOpFlbg.NOT_SIZED) | StrebmOpFlbg.IS_SIZED;
                 }
                 p.depth = depth++;
-                p.combinedFlags = StreamOpFlag.combineOpFlags(thisOpFlags, u.combinedFlags);
+                p.combinedFlbgs = StrebmOpFlbg.combineOpFlbgs(thisOpFlbgs, u.combinedFlbgs);
             }
         }
 
-        // Apply the upstream terminal flags
-        if (terminalFlags != 0) {
-            int upstreamTerminalFlags = terminalFlags & StreamOpFlag.UPSTREAM_TERMINAL_OP_MASK;
-            for ( @SuppressWarnings("rawtypes") AbstractPipeline p = backPropagationHead; p.nextStage != null; p = p.nextStage) {
-                p.combinedFlags = StreamOpFlag.combineOpFlags(upstreamTerminalFlags, p.combinedFlags);
+        // Apply the upstrebm terminbl flbgs
+        if (terminblFlbgs != 0) {
+            int upstrebmTerminblFlbgs = terminblFlbgs & StrebmOpFlbg.UPSTREAM_TERMINAL_OP_MASK;
+            for ( @SuppressWbrnings("rbwtypes") AbstrbctPipeline p = bbckPropbgbtionHebd; p.nextStbge != null; p = p.nextStbge) {
+                p.combinedFlbgs = StrebmOpFlbg.combineOpFlbgs(upstrebmTerminblFlbgs, p.combinedFlbgs);
             }
 
-            combinedFlags = StreamOpFlag.combineOpFlags(terminalFlags, combinedFlags);
+            combinedFlbgs = StrebmOpFlbg.combineOpFlbgs(terminblFlbgs, combinedFlbgs);
         }
     }
 
     /**
-     * Get the source spliterator for this pipeline stage.  For a sequential or
-     * stateless parallel pipeline, this is the source spliterator.  For a
-     * stateful parallel pipeline, this is a spliterator describing the results
-     * of all computations up to and including the most recent stateful
-     * operation.
+     * Get the source spliterbtor for this pipeline stbge.  For b sequentibl or
+     * stbteless pbrbllel pipeline, this is the source spliterbtor.  For b
+     * stbteful pbrbllel pipeline, this is b spliterbtor describing the results
+     * of bll computbtions up to bnd including the most recent stbteful
+     * operbtion.
      */
-    @SuppressWarnings("unchecked")
-    private Spliterator<?> sourceSpliterator(int terminalFlags) {
-        // Get the source spliterator of the pipeline
-        Spliterator<?> spliterator = null;
-        if (sourceStage.sourceSpliterator != null) {
-            spliterator = sourceStage.sourceSpliterator;
-            sourceStage.sourceSpliterator = null;
+    @SuppressWbrnings("unchecked")
+    privbte Spliterbtor<?> sourceSpliterbtor(int terminblFlbgs) {
+        // Get the source spliterbtor of the pipeline
+        Spliterbtor<?> spliterbtor = null;
+        if (sourceStbge.sourceSpliterbtor != null) {
+            spliterbtor = sourceStbge.sourceSpliterbtor;
+            sourceStbge.sourceSpliterbtor = null;
         }
-        else if (sourceStage.sourceSupplier != null) {
-            spliterator = (Spliterator<?>) sourceStage.sourceSupplier.get();
-            sourceStage.sourceSupplier = null;
+        else if (sourceStbge.sourceSupplier != null) {
+            spliterbtor = (Spliterbtor<?>) sourceStbge.sourceSupplier.get();
+            sourceStbge.sourceSupplier = null;
         }
         else {
-            throw new IllegalStateException(MSG_CONSUMED);
+            throw new IllegblStbteException(MSG_CONSUMED);
         }
 
-        if (isParallel()) {
-            // @@@ Merge parallelPrepare with the loop below and use the
-            //     spliterator characteristics to determine if SIZED
+        if (isPbrbllel()) {
+            // @@@ Merge pbrbllelPrepbre with the loop below bnd use the
+            //     spliterbtor chbrbcteristics to determine if SIZED
             //     should be injected
-            parallelPrepare(terminalFlags);
+            pbrbllelPrepbre(terminblFlbgs);
 
-            // Adapt the source spliterator, evaluating each stateful op
-            // in the pipeline up to and including this pipeline stage
-            for ( @SuppressWarnings("rawtypes") AbstractPipeline u = sourceStage, p = sourceStage.nextStage, e = this;
+            // Adbpt the source spliterbtor, evblubting ebch stbteful op
+            // in the pipeline up to bnd including this pipeline stbge
+            for ( @SuppressWbrnings("rbwtypes") AbstrbctPipeline u = sourceStbge, p = sourceStbge.nextStbge, e = this;
                  u != e;
-                 u = p, p = p.nextStage) {
+                 u = p, p = p.nextStbge) {
 
-                if (p.opIsStateful()) {
-                    spliterator = p.opEvaluateParallelLazy(u, spliterator);
+                if (p.opIsStbteful()) {
+                    spliterbtor = p.opEvblubtePbrbllelLbzy(u, spliterbtor);
                 }
             }
         }
-        else if (terminalFlags != 0)  {
-            combinedFlags = StreamOpFlag.combineOpFlags(terminalFlags, combinedFlags);
+        else if (terminblFlbgs != 0)  {
+            combinedFlbgs = StrebmOpFlbg.combineOpFlbgs(terminblFlbgs, combinedFlbgs);
         }
 
-        return spliterator;
+        return spliterbtor;
     }
 
 
     // PipelineHelper
 
     @Override
-    final StreamShape getSourceShape() {
-        @SuppressWarnings("rawtypes")
-        AbstractPipeline p = AbstractPipeline.this;
+    finbl StrebmShbpe getSourceShbpe() {
+        @SuppressWbrnings("rbwtypes")
+        AbstrbctPipeline p = AbstrbctPipeline.this;
         while (p.depth > 0) {
-            p = p.previousStage;
+            p = p.previousStbge;
         }
-        return p.getOutputShape();
+        return p.getOutputShbpe();
     }
 
     @Override
-    final <P_IN> long exactOutputSizeIfKnown(Spliterator<P_IN> spliterator) {
-        return StreamOpFlag.SIZED.isKnown(getStreamAndOpFlags()) ? spliterator.getExactSizeIfKnown() : -1;
+    finbl <P_IN> long exbctOutputSizeIfKnown(Spliterbtor<P_IN> spliterbtor) {
+        return StrebmOpFlbg.SIZED.isKnown(getStrebmAndOpFlbgs()) ? spliterbtor.getExbctSizeIfKnown() : -1;
     }
 
     @Override
-    final <P_IN, S extends Sink<E_OUT>> S wrapAndCopyInto(S sink, Spliterator<P_IN> spliterator) {
-        copyInto(wrapSink(Objects.requireNonNull(sink)), spliterator);
+    finbl <P_IN, S extends Sink<E_OUT>> S wrbpAndCopyInto(S sink, Spliterbtor<P_IN> spliterbtor) {
+        copyInto(wrbpSink(Objects.requireNonNull(sink)), spliterbtor);
         return sink;
     }
 
     @Override
-    final <P_IN> void copyInto(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator) {
-        Objects.requireNonNull(wrappedSink);
+    finbl <P_IN> void copyInto(Sink<P_IN> wrbppedSink, Spliterbtor<P_IN> spliterbtor) {
+        Objects.requireNonNull(wrbppedSink);
 
-        if (!StreamOpFlag.SHORT_CIRCUIT.isKnown(getStreamAndOpFlags())) {
-            wrappedSink.begin(spliterator.getExactSizeIfKnown());
-            spliterator.forEachRemaining(wrappedSink);
-            wrappedSink.end();
+        if (!StrebmOpFlbg.SHORT_CIRCUIT.isKnown(getStrebmAndOpFlbgs())) {
+            wrbppedSink.begin(spliterbtor.getExbctSizeIfKnown());
+            spliterbtor.forEbchRembining(wrbppedSink);
+            wrbppedSink.end();
         }
         else {
-            copyIntoWithCancel(wrappedSink, spliterator);
+            copyIntoWithCbncel(wrbppedSink, spliterbtor);
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    final <P_IN> void copyIntoWithCancel(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator) {
-        @SuppressWarnings({"rawtypes","unchecked"})
-        AbstractPipeline p = AbstractPipeline.this;
+    @SuppressWbrnings("unchecked")
+    finbl <P_IN> void copyIntoWithCbncel(Sink<P_IN> wrbppedSink, Spliterbtor<P_IN> spliterbtor) {
+        @SuppressWbrnings({"rbwtypes","unchecked"})
+        AbstrbctPipeline p = AbstrbctPipeline.this;
         while (p.depth > 0) {
-            p = p.previousStage;
+            p = p.previousStbge;
         }
-        wrappedSink.begin(spliterator.getExactSizeIfKnown());
-        p.forEachWithCancel(spliterator, wrappedSink);
-        wrappedSink.end();
+        wrbppedSink.begin(spliterbtor.getExbctSizeIfKnown());
+        p.forEbchWithCbncel(spliterbtor, wrbppedSink);
+        wrbppedSink.end();
     }
 
     @Override
-    final int getStreamAndOpFlags() {
-        return combinedFlags;
+    finbl int getStrebmAndOpFlbgs() {
+        return combinedFlbgs;
     }
 
-    final boolean isOrdered() {
-        return StreamOpFlag.ORDERED.isKnown(combinedFlags);
+    finbl boolebn isOrdered() {
+        return StrebmOpFlbg.ORDERED.isKnown(combinedFlbgs);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    final <P_IN> Sink<P_IN> wrapSink(Sink<E_OUT> sink) {
+    @SuppressWbrnings("unchecked")
+    finbl <P_IN> Sink<P_IN> wrbpSink(Sink<E_OUT> sink) {
         Objects.requireNonNull(sink);
 
-        for ( @SuppressWarnings("rawtypes") AbstractPipeline p=AbstractPipeline.this; p.depth > 0; p=p.previousStage) {
-            sink = p.opWrapSink(p.previousStage.combinedFlags, sink);
+        for ( @SuppressWbrnings("rbwtypes") AbstrbctPipeline p=AbstrbctPipeline.this; p.depth > 0; p=p.previousStbge) {
+            sink = p.opWrbpSink(p.previousStbge.combinedFlbgs, sink);
         }
         return (Sink<P_IN>) sink;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    final <P_IN> Spliterator<E_OUT> wrapSpliterator(Spliterator<P_IN> sourceSpliterator) {
+    @SuppressWbrnings("unchecked")
+    finbl <P_IN> Spliterbtor<E_OUT> wrbpSpliterbtor(Spliterbtor<P_IN> sourceSpliterbtor) {
         if (depth == 0) {
-            return (Spliterator<E_OUT>) sourceSpliterator;
+            return (Spliterbtor<E_OUT>) sourceSpliterbtor;
         }
         else {
-            return wrap(this, () -> sourceSpliterator, isParallel());
+            return wrbp(this, () -> sourceSpliterbtor, isPbrbllel());
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    final <P_IN> Node<E_OUT> evaluate(Spliterator<P_IN> spliterator,
-                                      boolean flatten,
-                                      IntFunction<E_OUT[]> generator) {
-        if (isParallel()) {
-            // @@@ Optimize if op of this pipeline stage is a stateful op
-            return evaluateToNode(this, spliterator, flatten, generator);
+    @SuppressWbrnings("unchecked")
+    finbl <P_IN> Node<E_OUT> evblubte(Spliterbtor<P_IN> spliterbtor,
+                                      boolebn flbtten,
+                                      IntFunction<E_OUT[]> generbtor) {
+        if (isPbrbllel()) {
+            // @@@ Optimize if op of this pipeline stbge is b stbteful op
+            return evblubteToNode(this, spliterbtor, flbtten, generbtor);
         }
         else {
-            Node.Builder<E_OUT> nb = makeNodeBuilder(
-                    exactOutputSizeIfKnown(spliterator), generator);
-            return wrapAndCopyInto(nb, spliterator).build();
+            Node.Builder<E_OUT> nb = mbkeNodeBuilder(
+                    exbctOutputSizeIfKnown(spliterbtor), generbtor);
+            return wrbpAndCopyInto(nb, spliterbtor).build();
         }
     }
 
 
-    // Shape-specific abstract methods, implemented by XxxPipeline classes
+    // Shbpe-specific bbstrbct methods, implemented by XxxPipeline clbsses
 
     /**
-     * Get the output shape of the pipeline.  If the pipeline is the head,
-     * then it's output shape corresponds to the shape of the source.
-     * Otherwise, it's output shape corresponds to the output shape of the
-     * associated operation.
+     * Get the output shbpe of the pipeline.  If the pipeline is the hebd,
+     * then it's output shbpe corresponds to the shbpe of the source.
+     * Otherwise, it's output shbpe corresponds to the output shbpe of the
+     * bssocibted operbtion.
      *
-     * @return the output shape
+     * @return the output shbpe
      */
-    abstract StreamShape getOutputShape();
+    bbstrbct StrebmShbpe getOutputShbpe();
 
     /**
-     * Collect elements output from a pipeline into a Node that holds elements
-     * of this shape.
+     * Collect elements output from b pipeline into b Node thbt holds elements
+     * of this shbpe.
      *
-     * @param helper the pipeline helper describing the pipeline stages
-     * @param spliterator the source spliterator
-     * @param flattenTree true if the returned node should be flattened
-     * @param generator the array generator
-     * @return a Node holding the output of the pipeline
+     * @pbrbm helper the pipeline helper describing the pipeline stbges
+     * @pbrbm spliterbtor the source spliterbtor
+     * @pbrbm flbttenTree true if the returned node should be flbttened
+     * @pbrbm generbtor the brrby generbtor
+     * @return b Node holding the output of the pipeline
      */
-    abstract <P_IN> Node<E_OUT> evaluateToNode(PipelineHelper<E_OUT> helper,
-                                               Spliterator<P_IN> spliterator,
-                                               boolean flattenTree,
-                                               IntFunction<E_OUT[]> generator);
+    bbstrbct <P_IN> Node<E_OUT> evblubteToNode(PipelineHelper<E_OUT> helper,
+                                               Spliterbtor<P_IN> spliterbtor,
+                                               boolebn flbttenTree,
+                                               IntFunction<E_OUT[]> generbtor);
 
     /**
-     * Create a spliterator that wraps a source spliterator, compatible with
-     * this stream shape, and operations associated with a {@link
+     * Crebte b spliterbtor thbt wrbps b source spliterbtor, compbtible with
+     * this strebm shbpe, bnd operbtions bssocibted with b {@link
      * PipelineHelper}.
      *
-     * @param ph the pipeline helper describing the pipeline stages
-     * @param supplier the supplier of a spliterator
-     * @return a wrapping spliterator compatible with this shape
+     * @pbrbm ph the pipeline helper describing the pipeline stbges
+     * @pbrbm supplier the supplier of b spliterbtor
+     * @return b wrbpping spliterbtor compbtible with this shbpe
      */
-    abstract <P_IN> Spliterator<E_OUT> wrap(PipelineHelper<E_OUT> ph,
-                                            Supplier<Spliterator<P_IN>> supplier,
-                                            boolean isParallel);
+    bbstrbct <P_IN> Spliterbtor<E_OUT> wrbp(PipelineHelper<E_OUT> ph,
+                                            Supplier<Spliterbtor<P_IN>> supplier,
+                                            boolebn isPbrbllel);
 
     /**
-     * Create a lazy spliterator that wraps and obtains the supplied the
-     * spliterator when a method is invoked on the lazy spliterator.
-     * @param supplier the supplier of a spliterator
+     * Crebte b lbzy spliterbtor thbt wrbps bnd obtbins the supplied the
+     * spliterbtor when b method is invoked on the lbzy spliterbtor.
+     * @pbrbm supplier the supplier of b spliterbtor
      */
-    abstract Spliterator<E_OUT> lazySpliterator(Supplier<? extends Spliterator<E_OUT>> supplier);
+    bbstrbct Spliterbtor<E_OUT> lbzySpliterbtor(Supplier<? extends Spliterbtor<E_OUT>> supplier);
 
     /**
-     * Traverse the elements of a spliterator compatible with this stream shape,
-     * pushing those elements into a sink.   If the sink requests cancellation,
+     * Trbverse the elements of b spliterbtor compbtible with this strebm shbpe,
+     * pushing those elements into b sink.   If the sink requests cbncellbtion,
      * no further elements will be pulled or pushed.
      *
-     * @param spliterator the spliterator to pull elements from
-     * @param sink the sink to push elements to
+     * @pbrbm spliterbtor the spliterbtor to pull elements from
+     * @pbrbm sink the sink to push elements to
      */
-    abstract void forEachWithCancel(Spliterator<E_OUT> spliterator, Sink<E_OUT> sink);
+    bbstrbct void forEbchWithCbncel(Spliterbtor<E_OUT> spliterbtor, Sink<E_OUT> sink);
 
     /**
-     * Make a node builder compatible with this stream shape.
+     * Mbke b node builder compbtible with this strebm shbpe.
      *
-     * @param exactSizeIfKnown if {@literal >=0}, then a node builder will be
-     * created that has a fixed capacity of at most sizeIfKnown elements. If
-     * {@literal < 0}, then the node builder has an unfixed capacity. A fixed
-     * capacity node builder will throw exceptions if an element is added after
-     * builder has reached capacity, or is built before the builder has reached
-     * capacity.
+     * @pbrbm exbctSizeIfKnown if {@literbl >=0}, then b node builder will be
+     * crebted thbt hbs b fixed cbpbcity of bt most sizeIfKnown elements. If
+     * {@literbl < 0}, then the node builder hbs bn unfixed cbpbcity. A fixed
+     * cbpbcity node builder will throw exceptions if bn element is bdded bfter
+     * builder hbs rebched cbpbcity, or is built before the builder hbs rebched
+     * cbpbcity.
      *
-     * @param generator the array generator to be used to create instances of a
-     * T[] array. For implementations supporting primitive nodes, this parameter
-     * may be ignored.
-     * @return a node builder
+     * @pbrbm generbtor the brrby generbtor to be used to crebte instbnces of b
+     * T[] brrby. For implementbtions supporting primitive nodes, this pbrbmeter
+     * mby be ignored.
+     * @return b node builder
      */
     @Override
-    abstract Node.Builder<E_OUT> makeNodeBuilder(long exactSizeIfKnown,
-                                                 IntFunction<E_OUT[]> generator);
+    bbstrbct Node.Builder<E_OUT> mbkeNodeBuilder(long exbctSizeIfKnown,
+                                                 IntFunction<E_OUT[]> generbtor);
 
 
-    // Op-specific abstract methods, implemented by the operation class
+    // Op-specific bbstrbct methods, implemented by the operbtion clbss
 
     /**
-     * Returns whether this operation is stateful or not.  If it is stateful,
+     * Returns whether this operbtion is stbteful or not.  If it is stbteful,
      * then the method
-     * {@link #opEvaluateParallel(PipelineHelper, java.util.Spliterator, java.util.function.IntFunction)}
+     * {@link #opEvblubtePbrbllel(PipelineHelper, jbvb.util.Spliterbtor, jbvb.util.function.IntFunction)}
      * must be overridden.
      *
-     * @return {@code true} if this operation is stateful
+     * @return {@code true} if this operbtion is stbteful
      */
-    abstract boolean opIsStateful();
+    bbstrbct boolebn opIsStbteful();
 
     /**
-     * Accepts a {@code Sink} which will receive the results of this operation,
-     * and return a {@code Sink} which accepts elements of the input type of
-     * this operation and which performs the operation, passing the results to
+     * Accepts b {@code Sink} which will receive the results of this operbtion,
+     * bnd return b {@code Sink} which bccepts elements of the input type of
+     * this operbtion bnd which performs the operbtion, pbssing the results to
      * the provided {@code Sink}.
      *
-     * @apiNote
-     * The implementation may use the {@code flags} parameter to optimize the
-     * sink wrapping.  For example, if the input is already {@code DISTINCT},
-     * the implementation for the {@code Stream#distinct()} method could just
-     * return the sink it was passed.
+     * @bpiNote
+     * The implementbtion mby use the {@code flbgs} pbrbmeter to optimize the
+     * sink wrbpping.  For exbmple, if the input is blrebdy {@code DISTINCT},
+     * the implementbtion for the {@code Strebm#distinct()} method could just
+     * return the sink it wbs pbssed.
      *
-     * @param flags The combined stream and operation flags up to, but not
-     *        including, this operation
-     * @param sink sink to which elements should be sent after processing
-     * @return a sink which accepts elements, perform the operation upon
-     *         each element, and passes the results (if any) to the provided
+     * @pbrbm flbgs The combined strebm bnd operbtion flbgs up to, but not
+     *        including, this operbtion
+     * @pbrbm sink sink to which elements should be sent bfter processing
+     * @return b sink which bccepts elements, perform the operbtion upon
+     *         ebch element, bnd pbsses the results (if bny) to the provided
      *         {@code Sink}.
      */
-    abstract Sink<E_IN> opWrapSink(int flags, Sink<E_OUT> sink);
+    bbstrbct Sink<E_IN> opWrbpSink(int flbgs, Sink<E_OUT> sink);
 
     /**
-     * Performs a parallel evaluation of the operation using the specified
-     * {@code PipelineHelper} which describes the upstream intermediate
-     * operations.  Only called on stateful operations.  If {@link
-     * #opIsStateful()} returns true then implementations must override the
-     * default implementation.
+     * Performs b pbrbllel evblubtion of the operbtion using the specified
+     * {@code PipelineHelper} which describes the upstrebm intermedibte
+     * operbtions.  Only cblled on stbteful operbtions.  If {@link
+     * #opIsStbteful()} returns true then implementbtions must override the
+     * defbult implementbtion.
      *
-     * @implSpec The default implementation always throw
-     * {@code UnsupportedOperationException}.
+     * @implSpec The defbult implementbtion blwbys throw
+     * {@code UnsupportedOperbtionException}.
      *
-     * @param helper the pipeline helper describing the pipeline stages
-     * @param spliterator the source {@code Spliterator}
-     * @param generator the array generator
-     * @return a {@code Node} describing the result of the evaluation
+     * @pbrbm helper the pipeline helper describing the pipeline stbges
+     * @pbrbm spliterbtor the source {@code Spliterbtor}
+     * @pbrbm generbtor the brrby generbtor
+     * @return b {@code Node} describing the result of the evblubtion
      */
-    <P_IN> Node<E_OUT> opEvaluateParallel(PipelineHelper<E_OUT> helper,
-                                          Spliterator<P_IN> spliterator,
-                                          IntFunction<E_OUT[]> generator) {
-        throw new UnsupportedOperationException("Parallel evaluation is not supported");
+    <P_IN> Node<E_OUT> opEvblubtePbrbllel(PipelineHelper<E_OUT> helper,
+                                          Spliterbtor<P_IN> spliterbtor,
+                                          IntFunction<E_OUT[]> generbtor) {
+        throw new UnsupportedOperbtionException("Pbrbllel evblubtion is not supported");
     }
 
     /**
-     * Returns a {@code Spliterator} describing a parallel evaluation of the
-     * operation, using the specified {@code PipelineHelper} which describes the
-     * upstream intermediate operations.  Only called on stateful operations.
-     * It is not necessary (though acceptable) to do a full computation of the
-     * result here; it is preferable, if possible, to describe the result via a
-     * lazily evaluated spliterator.
+     * Returns b {@code Spliterbtor} describing b pbrbllel evblubtion of the
+     * operbtion, using the specified {@code PipelineHelper} which describes the
+     * upstrebm intermedibte operbtions.  Only cblled on stbteful operbtions.
+     * It is not necessbry (though bcceptbble) to do b full computbtion of the
+     * result here; it is preferbble, if possible, to describe the result vib b
+     * lbzily evblubted spliterbtor.
      *
-     * @implSpec The default implementation behaves as if:
+     * @implSpec The defbult implementbtion behbves bs if:
      * <pre>{@code
-     *     return evaluateParallel(helper, i -> (E_OUT[]) new
-     * Object[i]).spliterator();
+     *     return evblubtePbrbllel(helper, i -> (E_OUT[]) new
+     * Object[i]).spliterbtor();
      * }</pre>
-     * and is suitable for implementations that cannot do better than a full
-     * synchronous evaluation.
+     * bnd is suitbble for implementbtions thbt cbnnot do better thbn b full
+     * synchronous evblubtion.
      *
-     * @param helper the pipeline helper
-     * @param spliterator the source {@code Spliterator}
-     * @return a {@code Spliterator} describing the result of the evaluation
+     * @pbrbm helper the pipeline helper
+     * @pbrbm spliterbtor the source {@code Spliterbtor}
+     * @return b {@code Spliterbtor} describing the result of the evblubtion
      */
-    @SuppressWarnings("unchecked")
-    <P_IN> Spliterator<E_OUT> opEvaluateParallelLazy(PipelineHelper<E_OUT> helper,
-                                                     Spliterator<P_IN> spliterator) {
-        return opEvaluateParallel(helper, spliterator, i -> (E_OUT[]) new Object[i]).spliterator();
+    @SuppressWbrnings("unchecked")
+    <P_IN> Spliterbtor<E_OUT> opEvblubtePbrbllelLbzy(PipelineHelper<E_OUT> helper,
+                                                     Spliterbtor<P_IN> spliterbtor) {
+        return opEvblubtePbrbllel(helper, spliterbtor, i -> (E_OUT[]) new Object[i]).spliterbtor();
     }
 }

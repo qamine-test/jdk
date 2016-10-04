@@ -1,456 +1,456 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
+pbckbge jbvb.util;
+import jbvb.util.Dbte;
+import jbvb.util.concurrent.btomic.AtomicInteger;
 
 /**
- * A facility for threads to schedule tasks for future execution in a
- * background thread.  Tasks may be scheduled for one-time execution, or for
- * repeated execution at regular intervals.
+ * A fbcility for threbds to schedule tbsks for future execution in b
+ * bbckground threbd.  Tbsks mby be scheduled for one-time execution, or for
+ * repebted execution bt regulbr intervbls.
  *
- * <p>Corresponding to each <tt>Timer</tt> object is a single background
- * thread that is used to execute all of the timer's tasks, sequentially.
- * Timer tasks should complete quickly.  If a timer task takes excessive time
- * to complete, it "hogs" the timer's task execution thread.  This can, in
- * turn, delay the execution of subsequent tasks, which may "bunch up" and
- * execute in rapid succession when (and if) the offending task finally
+ * <p>Corresponding to ebch <tt>Timer</tt> object is b single bbckground
+ * threbd thbt is used to execute bll of the timer's tbsks, sequentiblly.
+ * Timer tbsks should complete quickly.  If b timer tbsk tbkes excessive time
+ * to complete, it "hogs" the timer's tbsk execution threbd.  This cbn, in
+ * turn, delby the execution of subsequent tbsks, which mby "bunch up" bnd
+ * execute in rbpid succession when (bnd if) the offending tbsk finblly
  * completes.
  *
- * <p>After the last live reference to a <tt>Timer</tt> object goes away
- * <i>and</i> all outstanding tasks have completed execution, the timer's task
- * execution thread terminates gracefully (and becomes subject to garbage
- * collection).  However, this can take arbitrarily long to occur.  By
- * default, the task execution thread does not run as a <i>daemon thread</i>,
- * so it is capable of keeping an application from terminating.  If a caller
- * wants to terminate a timer's task execution thread rapidly, the caller
- * should invoke the timer's <tt>cancel</tt> method.
+ * <p>After the lbst live reference to b <tt>Timer</tt> object goes bwby
+ * <i>bnd</i> bll outstbnding tbsks hbve completed execution, the timer's tbsk
+ * execution threbd terminbtes grbcefully (bnd becomes subject to gbrbbge
+ * collection).  However, this cbn tbke brbitrbrily long to occur.  By
+ * defbult, the tbsk execution threbd does not run bs b <i>dbemon threbd</i>,
+ * so it is cbpbble of keeping bn bpplicbtion from terminbting.  If b cbller
+ * wbnts to terminbte b timer's tbsk execution threbd rbpidly, the cbller
+ * should invoke the timer's <tt>cbncel</tt> method.
  *
- * <p>If the timer's task execution thread terminates unexpectedly, for
- * example, because its <tt>stop</tt> method is invoked, any further
- * attempt to schedule a task on the timer will result in an
- * <tt>IllegalStateException</tt>, as if the timer's <tt>cancel</tt>
- * method had been invoked.
+ * <p>If the timer's tbsk execution threbd terminbtes unexpectedly, for
+ * exbmple, becbuse its <tt>stop</tt> method is invoked, bny further
+ * bttempt to schedule b tbsk on the timer will result in bn
+ * <tt>IllegblStbteException</tt>, bs if the timer's <tt>cbncel</tt>
+ * method hbd been invoked.
  *
- * <p>This class is thread-safe: multiple threads can share a single
- * <tt>Timer</tt> object without the need for external synchronization.
+ * <p>This clbss is threbd-sbfe: multiple threbds cbn shbre b single
+ * <tt>Timer</tt> object without the need for externbl synchronizbtion.
  *
- * <p>This class does <i>not</i> offer real-time guarantees: it schedules
- * tasks using the <tt>Object.wait(long)</tt> method.
+ * <p>This clbss does <i>not</i> offer rebl-time gubrbntees: it schedules
+ * tbsks using the <tt>Object.wbit(long)</tt> method.
  *
- * <p>Java 5.0 introduced the {@code java.util.concurrent} package and
+ * <p>Jbvb 5.0 introduced the {@code jbvb.util.concurrent} pbckbge bnd
  * one of the concurrency utilities therein is the {@link
- * java.util.concurrent.ScheduledThreadPoolExecutor
- * ScheduledThreadPoolExecutor} which is a thread pool for repeatedly
- * executing tasks at a given rate or delay.  It is effectively a more
- * versatile replacement for the {@code Timer}/{@code TimerTask}
- * combination, as it allows multiple service threads, accepts various
- * time units, and doesn't require subclassing {@code TimerTask} (just
- * implement {@code Runnable}).  Configuring {@code
- * ScheduledThreadPoolExecutor} with one thread makes it equivalent to
+ * jbvb.util.concurrent.ScheduledThrebdPoolExecutor
+ * ScheduledThrebdPoolExecutor} which is b threbd pool for repebtedly
+ * executing tbsks bt b given rbte or delby.  It is effectively b more
+ * versbtile replbcement for the {@code Timer}/{@code TimerTbsk}
+ * combinbtion, bs it bllows multiple service threbds, bccepts vbrious
+ * time units, bnd doesn't require subclbssing {@code TimerTbsk} (just
+ * implement {@code Runnbble}).  Configuring {@code
+ * ScheduledThrebdPoolExecutor} with one threbd mbkes it equivblent to
  * {@code Timer}.
  *
- * <p>Implementation note: This class scales to large numbers of concurrently
- * scheduled tasks (thousands should present no problem).  Internally,
- * it uses a binary heap to represent its task queue, so the cost to schedule
- * a task is O(log n), where n is the number of concurrently scheduled tasks.
+ * <p>Implementbtion note: This clbss scbles to lbrge numbers of concurrently
+ * scheduled tbsks (thousbnds should present no problem).  Internblly,
+ * it uses b binbry hebp to represent its tbsk queue, so the cost to schedule
+ * b tbsk is O(log n), where n is the number of concurrently scheduled tbsks.
  *
- * <p>Implementation note: All constructors start a timer thread.
+ * <p>Implementbtion note: All constructors stbrt b timer threbd.
  *
- * @author  Josh Bloch
- * @see     TimerTask
- * @see     Object#wait(long)
+ * @buthor  Josh Bloch
+ * @see     TimerTbsk
+ * @see     Object#wbit(long)
  * @since   1.3
  */
 
-public class Timer {
+public clbss Timer {
     /**
-     * The timer task queue.  This data structure is shared with the timer
-     * thread.  The timer produces tasks, via its various schedule calls,
-     * and the timer thread consumes, executing timer tasks as appropriate,
-     * and removing them from the queue when they're obsolete.
+     * The timer tbsk queue.  This dbtb structure is shbred with the timer
+     * threbd.  The timer produces tbsks, vib its vbrious schedule cblls,
+     * bnd the timer threbd consumes, executing timer tbsks bs bppropribte,
+     * bnd removing them from the queue when they're obsolete.
      */
-    private final TaskQueue queue = new TaskQueue();
+    privbte finbl TbskQueue queue = new TbskQueue();
 
     /**
-     * The timer thread.
+     * The timer threbd.
      */
-    private final TimerThread thread = new TimerThread(queue);
+    privbte finbl TimerThrebd threbd = new TimerThrebd(queue);
 
     /**
-     * This object causes the timer's task execution thread to exit
-     * gracefully when there are no live references to the Timer object and no
-     * tasks in the timer queue.  It is used in preference to a finalizer on
-     * Timer as such a finalizer would be susceptible to a subclass's
-     * finalizer forgetting to call it.
+     * This object cbuses the timer's tbsk execution threbd to exit
+     * grbcefully when there bre no live references to the Timer object bnd no
+     * tbsks in the timer queue.  It is used in preference to b finblizer on
+     * Timer bs such b finblizer would be susceptible to b subclbss's
+     * finblizer forgetting to cbll it.
      */
-    private final Object threadReaper = new Object() {
-        protected void finalize() throws Throwable {
+    privbte finbl Object threbdRebper = new Object() {
+        protected void finblize() throws Throwbble {
             synchronized(queue) {
-                thread.newTasksMayBeScheduled = false;
-                queue.notify(); // In case queue is empty.
+                threbd.newTbsksMbyBeScheduled = fblse;
+                queue.notify(); // In cbse queue is empty.
             }
         }
     };
 
     /**
-     * This ID is used to generate thread names.
+     * This ID is used to generbte threbd nbmes.
      */
-    private final static AtomicInteger nextSerialNumber = new AtomicInteger(0);
-    private static int serialNumber() {
-        return nextSerialNumber.getAndIncrement();
+    privbte finbl stbtic AtomicInteger nextSeriblNumber = new AtomicInteger(0);
+    privbte stbtic int seriblNumber() {
+        return nextSeriblNumber.getAndIncrement();
     }
 
     /**
-     * Creates a new timer.  The associated thread does <i>not</i>
-     * {@linkplain Thread#setDaemon run as a daemon}.
+     * Crebtes b new timer.  The bssocibted threbd does <i>not</i>
+     * {@linkplbin Threbd#setDbemon run bs b dbemon}.
      */
     public Timer() {
-        this("Timer-" + serialNumber());
+        this("Timer-" + seriblNumber());
     }
 
     /**
-     * Creates a new timer whose associated thread may be specified to
-     * {@linkplain Thread#setDaemon run as a daemon}.
-     * A daemon thread is called for if the timer will be used to
-     * schedule repeating "maintenance activities", which must be
-     * performed as long as the application is running, but should not
-     * prolong the lifetime of the application.
+     * Crebtes b new timer whose bssocibted threbd mby be specified to
+     * {@linkplbin Threbd#setDbemon run bs b dbemon}.
+     * A dbemon threbd is cblled for if the timer will be used to
+     * schedule repebting "mbintenbnce bctivities", which must be
+     * performed bs long bs the bpplicbtion is running, but should not
+     * prolong the lifetime of the bpplicbtion.
      *
-     * @param isDaemon true if the associated thread should run as a daemon.
+     * @pbrbm isDbemon true if the bssocibted threbd should run bs b dbemon.
      */
-    public Timer(boolean isDaemon) {
-        this("Timer-" + serialNumber(), isDaemon);
+    public Timer(boolebn isDbemon) {
+        this("Timer-" + seriblNumber(), isDbemon);
     }
 
     /**
-     * Creates a new timer whose associated thread has the specified name.
-     * The associated thread does <i>not</i>
-     * {@linkplain Thread#setDaemon run as a daemon}.
+     * Crebtes b new timer whose bssocibted threbd hbs the specified nbme.
+     * The bssocibted threbd does <i>not</i>
+     * {@linkplbin Threbd#setDbemon run bs b dbemon}.
      *
-     * @param name the name of the associated thread
-     * @throws NullPointerException if {@code name} is null
+     * @pbrbm nbme the nbme of the bssocibted threbd
+     * @throws NullPointerException if {@code nbme} is null
      * @since 1.5
      */
-    public Timer(String name) {
-        thread.setName(name);
-        thread.start();
+    public Timer(String nbme) {
+        threbd.setNbme(nbme);
+        threbd.stbrt();
     }
 
     /**
-     * Creates a new timer whose associated thread has the specified name,
-     * and may be specified to
-     * {@linkplain Thread#setDaemon run as a daemon}.
+     * Crebtes b new timer whose bssocibted threbd hbs the specified nbme,
+     * bnd mby be specified to
+     * {@linkplbin Threbd#setDbemon run bs b dbemon}.
      *
-     * @param name the name of the associated thread
-     * @param isDaemon true if the associated thread should run as a daemon
-     * @throws NullPointerException if {@code name} is null
+     * @pbrbm nbme the nbme of the bssocibted threbd
+     * @pbrbm isDbemon true if the bssocibted threbd should run bs b dbemon
+     * @throws NullPointerException if {@code nbme} is null
      * @since 1.5
      */
-    public Timer(String name, boolean isDaemon) {
-        thread.setName(name);
-        thread.setDaemon(isDaemon);
-        thread.start();
+    public Timer(String nbme, boolebn isDbemon) {
+        threbd.setNbme(nbme);
+        threbd.setDbemon(isDbemon);
+        threbd.stbrt();
     }
 
     /**
-     * Schedules the specified task for execution after the specified delay.
+     * Schedules the specified tbsk for execution bfter the specified delby.
      *
-     * @param task  task to be scheduled.
-     * @param delay delay in milliseconds before task is to be executed.
-     * @throws IllegalArgumentException if <tt>delay</tt> is negative, or
-     *         <tt>delay + System.currentTimeMillis()</tt> is negative.
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} is null
+     * @pbrbm tbsk  tbsk to be scheduled.
+     * @pbrbm delby delby in milliseconds before tbsk is to be executed.
+     * @throws IllegblArgumentException if <tt>delby</tt> is negbtive, or
+     *         <tt>delby + System.currentTimeMillis()</tt> is negbtive.
+     * @throws IllegblStbteException if tbsk wbs blrebdy scheduled or
+     *         cbncelled, timer wbs cbncelled, or timer threbd terminbted.
+     * @throws NullPointerException if {@code tbsk} is null
      */
-    public void schedule(TimerTask task, long delay) {
-        if (delay < 0)
-            throw new IllegalArgumentException("Negative delay.");
-        sched(task, System.currentTimeMillis()+delay, 0);
+    public void schedule(TimerTbsk tbsk, long delby) {
+        if (delby < 0)
+            throw new IllegblArgumentException("Negbtive delby.");
+        sched(tbsk, System.currentTimeMillis()+delby, 0);
     }
 
     /**
-     * Schedules the specified task for execution at the specified time.  If
-     * the time is in the past, the task is scheduled for immediate execution.
+     * Schedules the specified tbsk for execution bt the specified time.  If
+     * the time is in the pbst, the tbsk is scheduled for immedibte execution.
      *
-     * @param task task to be scheduled.
-     * @param time time at which task is to be executed.
-     * @throws IllegalArgumentException if <tt>time.getTime()</tt> is negative.
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} or {@code time} is null
+     * @pbrbm tbsk tbsk to be scheduled.
+     * @pbrbm time time bt which tbsk is to be executed.
+     * @throws IllegblArgumentException if <tt>time.getTime()</tt> is negbtive.
+     * @throws IllegblStbteException if tbsk wbs blrebdy scheduled or
+     *         cbncelled, timer wbs cbncelled, or timer threbd terminbted.
+     * @throws NullPointerException if {@code tbsk} or {@code time} is null
      */
-    public void schedule(TimerTask task, Date time) {
-        sched(task, time.getTime(), 0);
+    public void schedule(TimerTbsk tbsk, Dbte time) {
+        sched(tbsk, time.getTime(), 0);
     }
 
     /**
-     * Schedules the specified task for repeated <i>fixed-delay execution</i>,
-     * beginning after the specified delay.  Subsequent executions take place
-     * at approximately regular intervals separated by the specified period.
+     * Schedules the specified tbsk for repebted <i>fixed-delby execution</i>,
+     * beginning bfter the specified delby.  Subsequent executions tbke plbce
+     * bt bpproximbtely regulbr intervbls sepbrbted by the specified period.
      *
-     * <p>In fixed-delay execution, each execution is scheduled relative to
-     * the actual execution time of the previous execution.  If an execution
-     * is delayed for any reason (such as garbage collection or other
-     * background activity), subsequent executions will be delayed as well.
-     * In the long run, the frequency of execution will generally be slightly
-     * lower than the reciprocal of the specified period (assuming the system
-     * clock underlying <tt>Object.wait(long)</tt> is accurate).
+     * <p>In fixed-delby execution, ebch execution is scheduled relbtive to
+     * the bctubl execution time of the previous execution.  If bn execution
+     * is delbyed for bny rebson (such bs gbrbbge collection or other
+     * bbckground bctivity), subsequent executions will be delbyed bs well.
+     * In the long run, the frequency of execution will generblly be slightly
+     * lower thbn the reciprocbl of the specified period (bssuming the system
+     * clock underlying <tt>Object.wbit(long)</tt> is bccurbte).
      *
-     * <p>Fixed-delay execution is appropriate for recurring activities
-     * that require "smoothness."  In other words, it is appropriate for
-     * activities where it is more important to keep the frequency accurate
-     * in the short run than in the long run.  This includes most animation
-     * tasks, such as blinking a cursor at regular intervals.  It also includes
-     * tasks wherein regular activity is performed in response to human
-     * input, such as automatically repeating a character as long as a key
+     * <p>Fixed-delby execution is bppropribte for recurring bctivities
+     * thbt require "smoothness."  In other words, it is bppropribte for
+     * bctivities where it is more importbnt to keep the frequency bccurbte
+     * in the short run thbn in the long run.  This includes most bnimbtion
+     * tbsks, such bs blinking b cursor bt regulbr intervbls.  It blso includes
+     * tbsks wherein regulbr bctivity is performed in response to humbn
+     * input, such bs butombticblly repebting b chbrbcter bs long bs b key
      * is held down.
      *
-     * @param task   task to be scheduled.
-     * @param delay  delay in milliseconds before task is to be executed.
-     * @param period time in milliseconds between successive task executions.
-     * @throws IllegalArgumentException if {@code delay < 0}, or
-     *         {@code delay + System.currentTimeMillis() < 0}, or
+     * @pbrbm tbsk   tbsk to be scheduled.
+     * @pbrbm delby  delby in milliseconds before tbsk is to be executed.
+     * @pbrbm period time in milliseconds between successive tbsk executions.
+     * @throws IllegblArgumentException if {@code delby < 0}, or
+     *         {@code delby + System.currentTimeMillis() < 0}, or
      *         {@code period <= 0}
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} is null
+     * @throws IllegblStbteException if tbsk wbs blrebdy scheduled or
+     *         cbncelled, timer wbs cbncelled, or timer threbd terminbted.
+     * @throws NullPointerException if {@code tbsk} is null
      */
-    public void schedule(TimerTask task, long delay, long period) {
-        if (delay < 0)
-            throw new IllegalArgumentException("Negative delay.");
+    public void schedule(TimerTbsk tbsk, long delby, long period) {
+        if (delby < 0)
+            throw new IllegblArgumentException("Negbtive delby.");
         if (period <= 0)
-            throw new IllegalArgumentException("Non-positive period.");
-        sched(task, System.currentTimeMillis()+delay, -period);
+            throw new IllegblArgumentException("Non-positive period.");
+        sched(tbsk, System.currentTimeMillis()+delby, -period);
     }
 
     /**
-     * Schedules the specified task for repeated <i>fixed-delay execution</i>,
-     * beginning at the specified time. Subsequent executions take place at
-     * approximately regular intervals, separated by the specified period.
+     * Schedules the specified tbsk for repebted <i>fixed-delby execution</i>,
+     * beginning bt the specified time. Subsequent executions tbke plbce bt
+     * bpproximbtely regulbr intervbls, sepbrbted by the specified period.
      *
-     * <p>In fixed-delay execution, each execution is scheduled relative to
-     * the actual execution time of the previous execution.  If an execution
-     * is delayed for any reason (such as garbage collection or other
-     * background activity), subsequent executions will be delayed as well.
-     * In the long run, the frequency of execution will generally be slightly
-     * lower than the reciprocal of the specified period (assuming the system
-     * clock underlying <tt>Object.wait(long)</tt> is accurate).  As a
-     * consequence of the above, if the scheduled first time is in the past,
-     * it is scheduled for immediate execution.
+     * <p>In fixed-delby execution, ebch execution is scheduled relbtive to
+     * the bctubl execution time of the previous execution.  If bn execution
+     * is delbyed for bny rebson (such bs gbrbbge collection or other
+     * bbckground bctivity), subsequent executions will be delbyed bs well.
+     * In the long run, the frequency of execution will generblly be slightly
+     * lower thbn the reciprocbl of the specified period (bssuming the system
+     * clock underlying <tt>Object.wbit(long)</tt> is bccurbte).  As b
+     * consequence of the bbove, if the scheduled first time is in the pbst,
+     * it is scheduled for immedibte execution.
      *
-     * <p>Fixed-delay execution is appropriate for recurring activities
-     * that require "smoothness."  In other words, it is appropriate for
-     * activities where it is more important to keep the frequency accurate
-     * in the short run than in the long run.  This includes most animation
-     * tasks, such as blinking a cursor at regular intervals.  It also includes
-     * tasks wherein regular activity is performed in response to human
-     * input, such as automatically repeating a character as long as a key
+     * <p>Fixed-delby execution is bppropribte for recurring bctivities
+     * thbt require "smoothness."  In other words, it is bppropribte for
+     * bctivities where it is more importbnt to keep the frequency bccurbte
+     * in the short run thbn in the long run.  This includes most bnimbtion
+     * tbsks, such bs blinking b cursor bt regulbr intervbls.  It blso includes
+     * tbsks wherein regulbr bctivity is performed in response to humbn
+     * input, such bs butombticblly repebting b chbrbcter bs long bs b key
      * is held down.
      *
-     * @param task   task to be scheduled.
-     * @param firstTime First time at which task is to be executed.
-     * @param period time in milliseconds between successive task executions.
-     * @throws IllegalArgumentException if {@code firstTime.getTime() < 0}, or
+     * @pbrbm tbsk   tbsk to be scheduled.
+     * @pbrbm firstTime First time bt which tbsk is to be executed.
+     * @pbrbm period time in milliseconds between successive tbsk executions.
+     * @throws IllegblArgumentException if {@code firstTime.getTime() < 0}, or
      *         {@code period <= 0}
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} or {@code firstTime} is null
+     * @throws IllegblStbteException if tbsk wbs blrebdy scheduled or
+     *         cbncelled, timer wbs cbncelled, or timer threbd terminbted.
+     * @throws NullPointerException if {@code tbsk} or {@code firstTime} is null
      */
-    public void schedule(TimerTask task, Date firstTime, long period) {
+    public void schedule(TimerTbsk tbsk, Dbte firstTime, long period) {
         if (period <= 0)
-            throw new IllegalArgumentException("Non-positive period.");
-        sched(task, firstTime.getTime(), -period);
+            throw new IllegblArgumentException("Non-positive period.");
+        sched(tbsk, firstTime.getTime(), -period);
     }
 
     /**
-     * Schedules the specified task for repeated <i>fixed-rate execution</i>,
-     * beginning after the specified delay.  Subsequent executions take place
-     * at approximately regular intervals, separated by the specified period.
+     * Schedules the specified tbsk for repebted <i>fixed-rbte execution</i>,
+     * beginning bfter the specified delby.  Subsequent executions tbke plbce
+     * bt bpproximbtely regulbr intervbls, sepbrbted by the specified period.
      *
-     * <p>In fixed-rate execution, each execution is scheduled relative to the
-     * scheduled execution time of the initial execution.  If an execution is
-     * delayed for any reason (such as garbage collection or other background
-     * activity), two or more executions will occur in rapid succession to
-     * "catch up."  In the long run, the frequency of execution will be
-     * exactly the reciprocal of the specified period (assuming the system
-     * clock underlying <tt>Object.wait(long)</tt> is accurate).
+     * <p>In fixed-rbte execution, ebch execution is scheduled relbtive to the
+     * scheduled execution time of the initibl execution.  If bn execution is
+     * delbyed for bny rebson (such bs gbrbbge collection or other bbckground
+     * bctivity), two or more executions will occur in rbpid succession to
+     * "cbtch up."  In the long run, the frequency of execution will be
+     * exbctly the reciprocbl of the specified period (bssuming the system
+     * clock underlying <tt>Object.wbit(long)</tt> is bccurbte).
      *
-     * <p>Fixed-rate execution is appropriate for recurring activities that
-     * are sensitive to <i>absolute</i> time, such as ringing a chime every
-     * hour on the hour, or running scheduled maintenance every day at a
-     * particular time.  It is also appropriate for recurring activities
-     * where the total time to perform a fixed number of executions is
-     * important, such as a countdown timer that ticks once every second for
-     * ten seconds.  Finally, fixed-rate execution is appropriate for
-     * scheduling multiple repeating timer tasks that must remain synchronized
-     * with respect to one another.
+     * <p>Fixed-rbte execution is bppropribte for recurring bctivities thbt
+     * bre sensitive to <i>bbsolute</i> time, such bs ringing b chime every
+     * hour on the hour, or running scheduled mbintenbnce every dby bt b
+     * pbrticulbr time.  It is blso bppropribte for recurring bctivities
+     * where the totbl time to perform b fixed number of executions is
+     * importbnt, such bs b countdown timer thbt ticks once every second for
+     * ten seconds.  Finblly, fixed-rbte execution is bppropribte for
+     * scheduling multiple repebting timer tbsks thbt must rembin synchronized
+     * with respect to one bnother.
      *
-     * @param task   task to be scheduled.
-     * @param delay  delay in milliseconds before task is to be executed.
-     * @param period time in milliseconds between successive task executions.
-     * @throws IllegalArgumentException if {@code delay < 0}, or
-     *         {@code delay + System.currentTimeMillis() < 0}, or
+     * @pbrbm tbsk   tbsk to be scheduled.
+     * @pbrbm delby  delby in milliseconds before tbsk is to be executed.
+     * @pbrbm period time in milliseconds between successive tbsk executions.
+     * @throws IllegblArgumentException if {@code delby < 0}, or
+     *         {@code delby + System.currentTimeMillis() < 0}, or
      *         {@code period <= 0}
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} is null
+     * @throws IllegblStbteException if tbsk wbs blrebdy scheduled or
+     *         cbncelled, timer wbs cbncelled, or timer threbd terminbted.
+     * @throws NullPointerException if {@code tbsk} is null
      */
-    public void scheduleAtFixedRate(TimerTask task, long delay, long period) {
-        if (delay < 0)
-            throw new IllegalArgumentException("Negative delay.");
+    public void scheduleAtFixedRbte(TimerTbsk tbsk, long delby, long period) {
+        if (delby < 0)
+            throw new IllegblArgumentException("Negbtive delby.");
         if (period <= 0)
-            throw new IllegalArgumentException("Non-positive period.");
-        sched(task, System.currentTimeMillis()+delay, period);
+            throw new IllegblArgumentException("Non-positive period.");
+        sched(tbsk, System.currentTimeMillis()+delby, period);
     }
 
     /**
-     * Schedules the specified task for repeated <i>fixed-rate execution</i>,
-     * beginning at the specified time. Subsequent executions take place at
-     * approximately regular intervals, separated by the specified period.
+     * Schedules the specified tbsk for repebted <i>fixed-rbte execution</i>,
+     * beginning bt the specified time. Subsequent executions tbke plbce bt
+     * bpproximbtely regulbr intervbls, sepbrbted by the specified period.
      *
-     * <p>In fixed-rate execution, each execution is scheduled relative to the
-     * scheduled execution time of the initial execution.  If an execution is
-     * delayed for any reason (such as garbage collection or other background
-     * activity), two or more executions will occur in rapid succession to
-     * "catch up."  In the long run, the frequency of execution will be
-     * exactly the reciprocal of the specified period (assuming the system
-     * clock underlying <tt>Object.wait(long)</tt> is accurate).  As a
-     * consequence of the above, if the scheduled first time is in the past,
-     * then any "missed" executions will be scheduled for immediate "catch up"
+     * <p>In fixed-rbte execution, ebch execution is scheduled relbtive to the
+     * scheduled execution time of the initibl execution.  If bn execution is
+     * delbyed for bny rebson (such bs gbrbbge collection or other bbckground
+     * bctivity), two or more executions will occur in rbpid succession to
+     * "cbtch up."  In the long run, the frequency of execution will be
+     * exbctly the reciprocbl of the specified period (bssuming the system
+     * clock underlying <tt>Object.wbit(long)</tt> is bccurbte).  As b
+     * consequence of the bbove, if the scheduled first time is in the pbst,
+     * then bny "missed" executions will be scheduled for immedibte "cbtch up"
      * execution.
      *
-     * <p>Fixed-rate execution is appropriate for recurring activities that
-     * are sensitive to <i>absolute</i> time, such as ringing a chime every
-     * hour on the hour, or running scheduled maintenance every day at a
-     * particular time.  It is also appropriate for recurring activities
-     * where the total time to perform a fixed number of executions is
-     * important, such as a countdown timer that ticks once every second for
-     * ten seconds.  Finally, fixed-rate execution is appropriate for
-     * scheduling multiple repeating timer tasks that must remain synchronized
-     * with respect to one another.
+     * <p>Fixed-rbte execution is bppropribte for recurring bctivities thbt
+     * bre sensitive to <i>bbsolute</i> time, such bs ringing b chime every
+     * hour on the hour, or running scheduled mbintenbnce every dby bt b
+     * pbrticulbr time.  It is blso bppropribte for recurring bctivities
+     * where the totbl time to perform b fixed number of executions is
+     * importbnt, such bs b countdown timer thbt ticks once every second for
+     * ten seconds.  Finblly, fixed-rbte execution is bppropribte for
+     * scheduling multiple repebting timer tbsks thbt must rembin synchronized
+     * with respect to one bnother.
      *
-     * @param task   task to be scheduled.
-     * @param firstTime First time at which task is to be executed.
-     * @param period time in milliseconds between successive task executions.
-     * @throws IllegalArgumentException if {@code firstTime.getTime() < 0} or
+     * @pbrbm tbsk   tbsk to be scheduled.
+     * @pbrbm firstTime First time bt which tbsk is to be executed.
+     * @pbrbm period time in milliseconds between successive tbsk executions.
+     * @throws IllegblArgumentException if {@code firstTime.getTime() < 0} or
      *         {@code period <= 0}
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} or {@code firstTime} is null
+     * @throws IllegblStbteException if tbsk wbs blrebdy scheduled or
+     *         cbncelled, timer wbs cbncelled, or timer threbd terminbted.
+     * @throws NullPointerException if {@code tbsk} or {@code firstTime} is null
      */
-    public void scheduleAtFixedRate(TimerTask task, Date firstTime,
+    public void scheduleAtFixedRbte(TimerTbsk tbsk, Dbte firstTime,
                                     long period) {
         if (period <= 0)
-            throw new IllegalArgumentException("Non-positive period.");
-        sched(task, firstTime.getTime(), period);
+            throw new IllegblArgumentException("Non-positive period.");
+        sched(tbsk, firstTime.getTime(), period);
     }
 
     /**
-     * Schedule the specified timer task for execution at the specified
+     * Schedule the specified timer tbsk for execution bt the specified
      * time with the specified period, in milliseconds.  If period is
-     * positive, the task is scheduled for repeated execution; if period is
-     * zero, the task is scheduled for one-time execution. Time is specified
-     * in Date.getTime() format.  This method checks timer state, task state,
-     * and initial execution time, but not period.
+     * positive, the tbsk is scheduled for repebted execution; if period is
+     * zero, the tbsk is scheduled for one-time execution. Time is specified
+     * in Dbte.getTime() formbt.  This method checks timer stbte, tbsk stbte,
+     * bnd initibl execution time, but not period.
      *
-     * @throws IllegalArgumentException if <tt>time</tt> is negative.
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} is null
+     * @throws IllegblArgumentException if <tt>time</tt> is negbtive.
+     * @throws IllegblStbteException if tbsk wbs blrebdy scheduled or
+     *         cbncelled, timer wbs cbncelled, or timer threbd terminbted.
+     * @throws NullPointerException if {@code tbsk} is null
      */
-    private void sched(TimerTask task, long time, long period) {
+    privbte void sched(TimerTbsk tbsk, long time, long period) {
         if (time < 0)
-            throw new IllegalArgumentException("Illegal execution time.");
+            throw new IllegblArgumentException("Illegbl execution time.");
 
-        // Constrain value of period sufficiently to prevent numeric
-        // overflow while still being effectively infinitely large.
-        if (Math.abs(period) > (Long.MAX_VALUE >> 1))
+        // Constrbin vblue of period sufficiently to prevent numeric
+        // overflow while still being effectively infinitely lbrge.
+        if (Mbth.bbs(period) > (Long.MAX_VALUE >> 1))
             period >>= 1;
 
         synchronized(queue) {
-            if (!thread.newTasksMayBeScheduled)
-                throw new IllegalStateException("Timer already cancelled.");
+            if (!threbd.newTbsksMbyBeScheduled)
+                throw new IllegblStbteException("Timer blrebdy cbncelled.");
 
-            synchronized(task.lock) {
-                if (task.state != TimerTask.VIRGIN)
-                    throw new IllegalStateException(
-                        "Task already scheduled or cancelled");
-                task.nextExecutionTime = time;
-                task.period = period;
-                task.state = TimerTask.SCHEDULED;
+            synchronized(tbsk.lock) {
+                if (tbsk.stbte != TimerTbsk.VIRGIN)
+                    throw new IllegblStbteException(
+                        "Tbsk blrebdy scheduled or cbncelled");
+                tbsk.nextExecutionTime = time;
+                tbsk.period = period;
+                tbsk.stbte = TimerTbsk.SCHEDULED;
             }
 
-            queue.add(task);
-            if (queue.getMin() == task)
+            queue.bdd(tbsk);
+            if (queue.getMin() == tbsk)
                 queue.notify();
         }
     }
 
     /**
-     * Terminates this timer, discarding any currently scheduled tasks.
-     * Does not interfere with a currently executing task (if it exists).
-     * Once a timer has been terminated, its execution thread terminates
-     * gracefully, and no more tasks may be scheduled on it.
+     * Terminbtes this timer, discbrding bny currently scheduled tbsks.
+     * Does not interfere with b currently executing tbsk (if it exists).
+     * Once b timer hbs been terminbted, its execution threbd terminbtes
+     * grbcefully, bnd no more tbsks mby be scheduled on it.
      *
-     * <p>Note that calling this method from within the run method of a
-     * timer task that was invoked by this timer absolutely guarantees that
-     * the ongoing task execution is the last task execution that will ever
+     * <p>Note thbt cblling this method from within the run method of b
+     * timer tbsk thbt wbs invoked by this timer bbsolutely gubrbntees thbt
+     * the ongoing tbsk execution is the lbst tbsk execution thbt will ever
      * be performed by this timer.
      *
-     * <p>This method may be called repeatedly; the second and subsequent
-     * calls have no effect.
+     * <p>This method mby be cblled repebtedly; the second bnd subsequent
+     * cblls hbve no effect.
      */
-    public void cancel() {
+    public void cbncel() {
         synchronized(queue) {
-            thread.newTasksMayBeScheduled = false;
-            queue.clear();
-            queue.notify();  // In case queue was already empty.
+            threbd.newTbsksMbyBeScheduled = fblse;
+            queue.clebr();
+            queue.notify();  // In cbse queue wbs blrebdy empty.
         }
     }
 
     /**
-     * Removes all cancelled tasks from this timer's task queue.  <i>Calling
-     * this method has no effect on the behavior of the timer</i>, but
-     * eliminates the references to the cancelled tasks from the queue.
-     * If there are no external references to these tasks, they become
-     * eligible for garbage collection.
+     * Removes bll cbncelled tbsks from this timer's tbsk queue.  <i>Cblling
+     * this method hbs no effect on the behbvior of the timer</i>, but
+     * eliminbtes the references to the cbncelled tbsks from the queue.
+     * If there bre no externbl references to these tbsks, they become
+     * eligible for gbrbbge collection.
      *
-     * <p>Most programs will have no need to call this method.
-     * It is designed for use by the rare application that cancels a large
-     * number of tasks.  Calling this method trades time for space: the
-     * runtime of the method may be proportional to n + c log n, where n
-     * is the number of tasks in the queue and c is the number of cancelled
-     * tasks.
+     * <p>Most progrbms will hbve no need to cbll this method.
+     * It is designed for use by the rbre bpplicbtion thbt cbncels b lbrge
+     * number of tbsks.  Cblling this method trbdes time for spbce: the
+     * runtime of the method mby be proportionbl to n + c log n, where n
+     * is the number of tbsks in the queue bnd c is the number of cbncelled
+     * tbsks.
      *
-     * <p>Note that it is permissible to call this method from within a
-     * a task scheduled on this timer.
+     * <p>Note thbt it is permissible to cbll this method from within b
+     * b tbsk scheduled on this timer.
      *
-     * @return the number of tasks removed from the queue.
+     * @return the number of tbsks removed from the queue.
      * @since 1.5
      */
      public int purge() {
@@ -458,14 +458,14 @@ public class Timer {
 
          synchronized(queue) {
              for (int i = queue.size(); i > 0; i--) {
-                 if (queue.get(i).state == TimerTask.CANCELLED) {
+                 if (queue.get(i).stbte == TimerTbsk.CANCELLED) {
                      queue.quickRemove(i);
                      result++;
                  }
              }
 
              if (result != 0)
-                 queue.heapify();
+                 queue.hebpify();
          }
 
          return result;
@@ -473,176 +473,176 @@ public class Timer {
 }
 
 /**
- * This "helper class" implements the timer's task execution thread, which
- * waits for tasks on the timer queue, executions them when they fire,
- * reschedules repeating tasks, and removes cancelled tasks and spent
- * non-repeating tasks from the queue.
+ * This "helper clbss" implements the timer's tbsk execution threbd, which
+ * wbits for tbsks on the timer queue, executions them when they fire,
+ * reschedules repebting tbsks, bnd removes cbncelled tbsks bnd spent
+ * non-repebting tbsks from the queue.
  */
-class TimerThread extends Thread {
+clbss TimerThrebd extends Threbd {
     /**
-     * This flag is set to false by the reaper to inform us that there
-     * are no more live references to our Timer object.  Once this flag
-     * is true and there are no more tasks in our queue, there is no
-     * work left for us to do, so we terminate gracefully.  Note that
+     * This flbg is set to fblse by the rebper to inform us thbt there
+     * bre no more live references to our Timer object.  Once this flbg
+     * is true bnd there bre no more tbsks in our queue, there is no
+     * work left for us to do, so we terminbte grbcefully.  Note thbt
      * this field is protected by queue's monitor!
      */
-    boolean newTasksMayBeScheduled = true;
+    boolebn newTbsksMbyBeScheduled = true;
 
     /**
      * Our Timer's queue.  We store this reference in preference to
-     * a reference to the Timer so the reference graph remains acyclic.
-     * Otherwise, the Timer would never be garbage-collected and this
-     * thread would never go away.
+     * b reference to the Timer so the reference grbph rembins bcyclic.
+     * Otherwise, the Timer would never be gbrbbge-collected bnd this
+     * threbd would never go bwby.
      */
-    private TaskQueue queue;
+    privbte TbskQueue queue;
 
-    TimerThread(TaskQueue queue) {
+    TimerThrebd(TbskQueue queue) {
         this.queue = queue;
     }
 
     public void run() {
         try {
-            mainLoop();
-        } finally {
-            // Someone killed this Thread, behave as if Timer cancelled
+            mbinLoop();
+        } finblly {
+            // Someone killed this Threbd, behbve bs if Timer cbncelled
             synchronized(queue) {
-                newTasksMayBeScheduled = false;
-                queue.clear();  // Eliminate obsolete references
+                newTbsksMbyBeScheduled = fblse;
+                queue.clebr();  // Eliminbte obsolete references
             }
         }
     }
 
     /**
-     * The main timer loop.  (See class comment.)
+     * The mbin timer loop.  (See clbss comment.)
      */
-    private void mainLoop() {
+    privbte void mbinLoop() {
         while (true) {
             try {
-                TimerTask task;
-                boolean taskFired;
+                TimerTbsk tbsk;
+                boolebn tbskFired;
                 synchronized(queue) {
-                    // Wait for queue to become non-empty
-                    while (queue.isEmpty() && newTasksMayBeScheduled)
-                        queue.wait();
+                    // Wbit for queue to become non-empty
+                    while (queue.isEmpty() && newTbsksMbyBeScheduled)
+                        queue.wbit();
                     if (queue.isEmpty())
-                        break; // Queue is empty and will forever remain; die
+                        brebk; // Queue is empty bnd will forever rembin; die
 
-                    // Queue nonempty; look at first evt and do the right thing
+                    // Queue nonempty; look bt first evt bnd do the right thing
                     long currentTime, executionTime;
-                    task = queue.getMin();
-                    synchronized(task.lock) {
-                        if (task.state == TimerTask.CANCELLED) {
+                    tbsk = queue.getMin();
+                    synchronized(tbsk.lock) {
+                        if (tbsk.stbte == TimerTbsk.CANCELLED) {
                             queue.removeMin();
-                            continue;  // No action required, poll queue again
+                            continue;  // No bction required, poll queue bgbin
                         }
                         currentTime = System.currentTimeMillis();
-                        executionTime = task.nextExecutionTime;
-                        if (taskFired = (executionTime<=currentTime)) {
-                            if (task.period == 0) { // Non-repeating, remove
+                        executionTime = tbsk.nextExecutionTime;
+                        if (tbskFired = (executionTime<=currentTime)) {
+                            if (tbsk.period == 0) { // Non-repebting, remove
                                 queue.removeMin();
-                                task.state = TimerTask.EXECUTED;
-                            } else { // Repeating task, reschedule
+                                tbsk.stbte = TimerTbsk.EXECUTED;
+                            } else { // Repebting tbsk, reschedule
                                 queue.rescheduleMin(
-                                  task.period<0 ? currentTime   - task.period
-                                                : executionTime + task.period);
+                                  tbsk.period<0 ? currentTime   - tbsk.period
+                                                : executionTime + tbsk.period);
                             }
                         }
                     }
-                    if (!taskFired) // Task hasn't yet fired; wait
-                        queue.wait(executionTime - currentTime);
+                    if (!tbskFired) // Tbsk hbsn't yet fired; wbit
+                        queue.wbit(executionTime - currentTime);
                 }
-                if (taskFired)  // Task fired; run it, holding no locks
-                    task.run();
-            } catch(InterruptedException e) {
+                if (tbskFired)  // Tbsk fired; run it, holding no locks
+                    tbsk.run();
+            } cbtch(InterruptedException e) {
             }
         }
     }
 }
 
 /**
- * This class represents a timer task queue: a priority queue of TimerTasks,
- * ordered on nextExecutionTime.  Each Timer object has one of these, which it
- * shares with its TimerThread.  Internally this class uses a heap, which
- * offers log(n) performance for the add, removeMin and rescheduleMin
- * operations, and constant time performance for the getMin operation.
+ * This clbss represents b timer tbsk queue: b priority queue of TimerTbsks,
+ * ordered on nextExecutionTime.  Ebch Timer object hbs one of these, which it
+ * shbres with its TimerThrebd.  Internblly this clbss uses b hebp, which
+ * offers log(n) performbnce for the bdd, removeMin bnd rescheduleMin
+ * operbtions, bnd constbnt time performbnce for the getMin operbtion.
  */
-class TaskQueue {
+clbss TbskQueue {
     /**
-     * Priority queue represented as a balanced binary heap: the two children
-     * of queue[n] are queue[2*n] and queue[2*n+1].  The priority queue is
-     * ordered on the nextExecutionTime field: The TimerTask with the lowest
-     * nextExecutionTime is in queue[1] (assuming the queue is nonempty).  For
-     * each node n in the heap, and each descendant of n, d,
+     * Priority queue represented bs b bblbnced binbry hebp: the two children
+     * of queue[n] bre queue[2*n] bnd queue[2*n+1].  The priority queue is
+     * ordered on the nextExecutionTime field: The TimerTbsk with the lowest
+     * nextExecutionTime is in queue[1] (bssuming the queue is nonempty).  For
+     * ebch node n in the hebp, bnd ebch descendbnt of n, d,
      * n.nextExecutionTime <= d.nextExecutionTime.
      */
-    private TimerTask[] queue = new TimerTask[128];
+    privbte TimerTbsk[] queue = new TimerTbsk[128];
 
     /**
-     * The number of tasks in the priority queue.  (The tasks are stored in
+     * The number of tbsks in the priority queue.  (The tbsks bre stored in
      * queue[1] up to queue[size]).
      */
-    private int size = 0;
+    privbte int size = 0;
 
     /**
-     * Returns the number of tasks currently on the queue.
+     * Returns the number of tbsks currently on the queue.
      */
     int size() {
         return size;
     }
 
     /**
-     * Adds a new task to the priority queue.
+     * Adds b new tbsk to the priority queue.
      */
-    void add(TimerTask task) {
-        // Grow backing store if necessary
+    void bdd(TimerTbsk tbsk) {
+        // Grow bbcking store if necessbry
         if (size + 1 == queue.length)
-            queue = Arrays.copyOf(queue, 2*queue.length);
+            queue = Arrbys.copyOf(queue, 2*queue.length);
 
-        queue[++size] = task;
+        queue[++size] = tbsk;
         fixUp(size);
     }
 
     /**
-     * Return the "head task" of the priority queue.  (The head task is an
-     * task with the lowest nextExecutionTime.)
+     * Return the "hebd tbsk" of the priority queue.  (The hebd tbsk is bn
+     * tbsk with the lowest nextExecutionTime.)
      */
-    TimerTask getMin() {
+    TimerTbsk getMin() {
         return queue[1];
     }
 
     /**
-     * Return the ith task in the priority queue, where i ranges from 1 (the
-     * head task, which is returned by getMin) to the number of tasks on the
+     * Return the ith tbsk in the priority queue, where i rbnges from 1 (the
+     * hebd tbsk, which is returned by getMin) to the number of tbsks on the
      * queue, inclusive.
      */
-    TimerTask get(int i) {
+    TimerTbsk get(int i) {
         return queue[i];
     }
 
     /**
-     * Remove the head task from the priority queue.
+     * Remove the hebd tbsk from the priority queue.
      */
     void removeMin() {
         queue[1] = queue[size];
-        queue[size--] = null;  // Drop extra reference to prevent memory leak
+        queue[size--] = null;  // Drop extrb reference to prevent memory lebk
         fixDown(1);
     }
 
     /**
-     * Removes the ith element from queue without regard for maintaining
-     * the heap invariant.  Recall that queue is one-based, so
+     * Removes the ith element from queue without regbrd for mbintbining
+     * the hebp invbribnt.  Recbll thbt queue is one-bbsed, so
      * 1 <= i <= size.
      */
     void quickRemove(int i) {
-        assert i <= size;
+        bssert i <= size;
 
         queue[i] = queue[size];
-        queue[size--] = null;  // Drop extra ref to prevent memory leak
+        queue[size--] = null;  // Drop extrb ref to prevent memory lebk
     }
 
     /**
-     * Sets the nextExecutionTime associated with the head task to the
-     * specified value, and adjusts priority queue accordingly.
+     * Sets the nextExecutionTime bssocibted with the hebd tbsk to the
+     * specified vblue, bnd bdjusts priority queue bccordingly.
      */
     void rescheduleMin(long newTime) {
         queue[1].nextExecutionTime = newTime;
@@ -650,17 +650,17 @@ class TaskQueue {
     }
 
     /**
-     * Returns true if the priority queue contains no elements.
+     * Returns true if the priority queue contbins no elements.
      */
-    boolean isEmpty() {
+    boolebn isEmpty() {
         return size==0;
     }
 
     /**
-     * Removes all elements from the priority queue.
+     * Removes bll elements from the priority queue.
      */
-    void clear() {
-        // Null out task references to prevent memory leak
+    void clebr() {
+        // Null out tbsk references to prevent memory lebk
         for (int i=1; i<=size; i++)
             queue[i] = null;
 
@@ -668,52 +668,52 @@ class TaskQueue {
     }
 
     /**
-     * Establishes the heap invariant (described above) assuming the heap
-     * satisfies the invariant except possibly for the leaf-node indexed by k
-     * (which may have a nextExecutionTime less than its parent's).
+     * Estbblishes the hebp invbribnt (described bbove) bssuming the hebp
+     * sbtisfies the invbribnt except possibly for the lebf-node indexed by k
+     * (which mby hbve b nextExecutionTime less thbn its pbrent's).
      *
-     * This method functions by "promoting" queue[k] up the hierarchy
-     * (by swapping it with its parent) repeatedly until queue[k]'s
-     * nextExecutionTime is greater than or equal to that of its parent.
+     * This method functions by "promoting" queue[k] up the hierbrchy
+     * (by swbpping it with its pbrent) repebtedly until queue[k]'s
+     * nextExecutionTime is grebter thbn or equbl to thbt of its pbrent.
      */
-    private void fixUp(int k) {
+    privbte void fixUp(int k) {
         while (k > 1) {
             int j = k >> 1;
             if (queue[j].nextExecutionTime <= queue[k].nextExecutionTime)
-                break;
-            TimerTask tmp = queue[j];  queue[j] = queue[k]; queue[k] = tmp;
+                brebk;
+            TimerTbsk tmp = queue[j];  queue[j] = queue[k]; queue[k] = tmp;
             k = j;
         }
     }
 
     /**
-     * Establishes the heap invariant (described above) in the subtree
-     * rooted at k, which is assumed to satisfy the heap invariant except
-     * possibly for node k itself (which may have a nextExecutionTime greater
-     * than its children's).
+     * Estbblishes the hebp invbribnt (described bbove) in the subtree
+     * rooted bt k, which is bssumed to sbtisfy the hebp invbribnt except
+     * possibly for node k itself (which mby hbve b nextExecutionTime grebter
+     * thbn its children's).
      *
-     * This method functions by "demoting" queue[k] down the hierarchy
-     * (by swapping it with its smaller child) repeatedly until queue[k]'s
-     * nextExecutionTime is less than or equal to those of its children.
+     * This method functions by "demoting" queue[k] down the hierbrchy
+     * (by swbpping it with its smbller child) repebtedly until queue[k]'s
+     * nextExecutionTime is less thbn or equbl to those of its children.
      */
-    private void fixDown(int k) {
+    privbte void fixDown(int k) {
         int j;
         while ((j = k << 1) <= size && j > 0) {
             if (j < size &&
                 queue[j].nextExecutionTime > queue[j+1].nextExecutionTime)
-                j++; // j indexes smallest kid
+                j++; // j indexes smbllest kid
             if (queue[k].nextExecutionTime <= queue[j].nextExecutionTime)
-                break;
-            TimerTask tmp = queue[j];  queue[j] = queue[k]; queue[k] = tmp;
+                brebk;
+            TimerTbsk tmp = queue[j];  queue[j] = queue[k]; queue[k] = tmp;
             k = j;
         }
     }
 
     /**
-     * Establishes the heap invariant (described above) in the entire tree,
-     * assuming nothing about the order of the elements prior to the call.
+     * Estbblishes the hebp invbribnt (described bbove) in the entire tree,
+     * bssuming nothing bbout the order of the elements prior to the cbll.
      */
-    void heapify() {
+    void hebpify() {
         for (int i = size/2; i >= 1; i--)
             fixDown(i);
     }

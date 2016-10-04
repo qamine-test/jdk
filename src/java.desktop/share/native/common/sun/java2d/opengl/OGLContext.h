@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef OGLContext_h_Included
 #define OGLContext_h_Included
 
-#include "sun_java2d_pipe_BufferedContext.h"
-#include "sun_java2d_opengl_OGLContext.h"
-#include "sun_java2d_opengl_OGLContext_OGLContextCaps.h"
+#include "sun_jbvb2d_pipe_BufferedContext.h"
+#include "sun_jbvb2d_opengl_OGLContext.h"
+#include "sun_jbvb2d_opengl_OGLContext_OGLContextCbps.h"
 
 #include "j2d_md.h"
 #include "J2D_GL/gl.h"
-#include "OGLSurfaceData.h"
+#include "OGLSurfbceDbtb.h"
 
 /**
- * The OGLBlendRule structure encapsulates the two enumerated values that
- * comprise a given Porter-Duff blending (compositing) rule.  For example,
- * the "SrcOver" rule can be represented by:
+ * The OGLBlendRule structure encbpsulbtes the two enumerbted vblues thbt
+ * comprise b given Porter-Duff blending (compositing) rule.  For exbmple,
+ * the "SrcOver" rule cbn be represented by:
  *     rule.src = GL_ONE;
  *     rule.dst = GL_ONE_MINUS_SRC_ALPHA;
  *
  *     GLenum src;
- * The constant representing the source factor in this Porter-Duff rule.
+ * The constbnt representing the source fbctor in this Porter-Duff rule.
  *
  *     GLenum dst;
- * The constant representing the destination factor in this Porter-Duff rule.
+ * The constbnt representing the destinbtion fbctor in this Porter-Duff rule.
  */
 typedef struct {
     GLenum src;
@@ -53,101 +53,101 @@ typedef struct {
 } OGLBlendRule;
 
 /**
- * The OGLContext structure contains cached state relevant to the native
- * OpenGL context stored within the native ctxInfo field.  Each Java-level
- * OGLContext object is associated with a native-level OGLContext structure.
- * The caps field is a bitfield that expresses the capabilities of the
- * GraphicsConfig associated with this context (see OGLContext.java for
- * the definitions of each capability bit).  The other fields are
- * simply cached values of various elements of the context state, typically
+ * The OGLContext structure contbins cbched stbte relevbnt to the nbtive
+ * OpenGL context stored within the nbtive ctxInfo field.  Ebch Jbvb-level
+ * OGLContext object is bssocibted with b nbtive-level OGLContext structure.
+ * The cbps field is b bitfield thbt expresses the cbpbbilities of the
+ * GrbphicsConfig bssocibted with this context (see OGLContext.jbvb for
+ * the definitions of ebch cbpbbility bit).  The other fields bre
+ * simply cbched vblues of vbrious elements of the context stbte, typicblly
  * used in the OGLContext.set*() methods.
  *
- * Note that the textureFunction field is implicitly set to zero when the
- * OGLContext is created.  The acceptable values (e.g. GL_MODULATE,
- * GL_REPLACE) for this field are never zero, which means we will always
- * validate the texture function state upon the first call to the
- * OGLC_UPDATE_TEXTURE_FUNCTION() macro.
+ * Note thbt the textureFunction field is implicitly set to zero when the
+ * OGLContext is crebted.  The bcceptbble vblues (e.g. GL_MODULATE,
+ * GL_REPLACE) for this field bre never zero, which mebns we will blwbys
+ * vblidbte the texture function stbte upon the first cbll to the
+ * OGLC_UPDATE_TEXTURE_FUNCTION() mbcro.
  */
 typedef struct {
     void       *ctxInfo;
-    jint       caps;
-    jint       compState;
-    jfloat     extraAlpha;
+    jint       cbps;
+    jint       compStbte;
+    jflobt     extrbAlphb;
     jint       xorPixel;
     jint       pixel;
     jubyte     r;
     jubyte     g;
     jubyte     b;
-    jubyte     a;
-    jint       paintState;
-    jboolean   useMask;
-    GLdouble   *xformMatrix;
+    jubyte     b;
+    jint       pbintStbte;
+    jboolebn   useMbsk;
+    GLdouble   *xformMbtrix;
     GLuint     blitTextureID;
     GLint      textureFunction;
-    jboolean   vertexCacheEnabled;
+    jboolebn   vertexCbcheEnbbled;
 } OGLContext;
 
 /**
- * See BufferedContext.java for more on these flags...
+ * See BufferedContext.jbvb for more on these flbgs...
  */
 #define OGLC_NO_CONTEXT_FLAGS \
-    sun_java2d_pipe_BufferedContext_NO_CONTEXT_FLAGS
+    sun_jbvb2d_pipe_BufferedContext_NO_CONTEXT_FLAGS
 #define OGLC_SRC_IS_OPAQUE    \
-    sun_java2d_pipe_BufferedContext_SRC_IS_OPAQUE
+    sun_jbvb2d_pipe_BufferedContext_SRC_IS_OPAQUE
 #define OGLC_USE_MASK         \
-    sun_java2d_pipe_BufferedContext_USE_MASK
+    sun_jbvb2d_pipe_BufferedContext_USE_MASK
 
 /**
- * See OGLContext.java for more on these flags.
+ * See OGLContext.jbvb for more on these flbgs.
  */
 #define CAPS_EMPTY           \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_EMPTY
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_EMPTY
 #define CAPS_RT_PLAIN_ALPHA  \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_RT_PLAIN_ALPHA
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_RT_PLAIN_ALPHA
 #define CAPS_RT_TEXTURE_ALPHA       \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_RT_TEXTURE_ALPHA
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_RT_TEXTURE_ALPHA
 #define CAPS_RT_TEXTURE_OPAQUE      \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_RT_TEXTURE_OPAQUE
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_RT_TEXTURE_OPAQUE
 #define CAPS_MULTITEXTURE    \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_MULTITEXTURE
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_MULTITEXTURE
 #define CAPS_TEXNONPOW2      \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_TEXNONPOW2
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_TEXNONPOW2
 #define CAPS_TEXNONSQUARE    \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_TEXNONSQUARE
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_TEXNONSQUARE
 #define CAPS_PS20            \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_PS20
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_PS20
 #define CAPS_PS30            \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_PS30
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_PS30
 #define LAST_SHARED_CAP      \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_LAST_SHARED_CAP
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_LAST_SHARED_CAP
 #define CAPS_EXT_FBOBJECT    \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_EXT_FBOBJECT
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_EXT_FBOBJECT
 #define CAPS_STORED_ALPHA    \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_STORED_ALPHA
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_STORED_ALPHA
 #define CAPS_DOUBLEBUFFERED  \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_DOUBLEBUFFERED
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_DOUBLEBUFFERED
 #define CAPS_EXT_LCD_SHADER  \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_EXT_LCD_SHADER
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_EXT_LCD_SHADER
 #define CAPS_EXT_BIOP_SHADER \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_EXT_BIOP_SHADER
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_EXT_BIOP_SHADER
 #define CAPS_EXT_GRAD_SHADER \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_EXT_GRAD_SHADER
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_EXT_GRAD_SHADER
 #define CAPS_EXT_TEXRECT     \
-    sun_java2d_opengl_OGLContext_OGLContextCaps_CAPS_EXT_TEXRECT
+    sun_jbvb2d_opengl_OGLContext_OGLContextCbps_CAPS_EXT_TEXRECT
 
 /**
- * Evaluates to true if the given capability bitmask is present for the
- * given OGLContext.  Note that only the constant name needs to be passed as
- * a parameter, as this macro will automatically prepend the full package
- * and class name to the constant name.
+ * Evblubtes to true if the given cbpbbility bitmbsk is present for the
+ * given OGLContext.  Note thbt only the constbnt nbme needs to be pbssed bs
+ * b pbrbmeter, bs this mbcro will butombticblly prepend the full pbckbge
+ * bnd clbss nbme to the constbnt nbme.
  */
-#define OGLC_IS_CAP_PRESENT(oglc, cap) (((oglc)->caps & (cap)) != 0)
+#define OGLC_IS_CAP_PRESENT(oglc, cbp) (((oglc)->cbps & (cbp)) != 0)
 
 /**
- * At startup we will embed one of the following values in the caps field
- * of OGLContext.  Later we can use this information to select
- * the codepath that offers the best performance for that vendor's
- * hardware and/or drivers.
+ * At stbrtup we will embed one of the following vblues in the cbps field
+ * of OGLContext.  Lbter we cbn use this informbtion to select
+ * the codepbth thbt offers the best performbnce for thbt vendor's
+ * hbrdwbre bnd/or drivers.
  */
 #define OGLC_VENDOR_OTHER  0
 #define OGLC_VENDOR_ATI    1
@@ -158,24 +158,24 @@ typedef struct {
 #define OGLC_VCAP_OFFSET   24
 
 #define OGLC_GET_VENDOR(oglc) \
-    (((oglc)->caps >> OGLC_VCAP_OFFSET) & OGLC_VCAP_MASK)
+    (((oglc)->cbps >> OGLC_VCAP_OFFSET) & OGLC_VCAP_MASK)
 
 /**
- * This constant determines the size of the shared tile texture used
- * by a number of image rendering methods.  For example, the blit tile texture
- * will have dimensions with width OGLC_BLIT_TILE_SIZE and height
- * OGLC_BLIT_TILE_SIZE (the tile will always be square).
+ * This constbnt determines the size of the shbred tile texture used
+ * by b number of imbge rendering methods.  For exbmple, the blit tile texture
+ * will hbve dimensions with width OGLC_BLIT_TILE_SIZE bnd height
+ * OGLC_BLIT_TILE_SIZE (the tile will blwbys be squbre).
  */
 #define OGLC_BLIT_TILE_SIZE 128
 
 /**
- * Helper macros that update the current texture function state only when
- * it needs to be changed, which helps reduce overhead for small texturing
- * operations.  The filter state is set on a per-context (not per-texture)
- * basis; for example, if we apply one texture using GL_MODULATE followed by
- * another texture using GL_MODULATE (under the same context), there is no
- * need to set the texture function the second time, as that would be
- * redundant.
+ * Helper mbcros thbt updbte the current texture function stbte only when
+ * it needs to be chbnged, which helps reduce overhebd for smbll texturing
+ * operbtions.  The filter stbte is set on b per-context (not per-texture)
+ * bbsis; for exbmple, if we bpply one texture using GL_MODULATE followed by
+ * bnother texture using GL_MODULATE (under the sbme context), there is no
+ * need to set the texture function the second time, bs thbt would be
+ * redundbnt.
  */
 #define OGLC_INIT_TEXTURE_FUNCTION(oglc, func)                      \
     do {                                                            \
@@ -193,33 +193,33 @@ typedef struct {
 /**
  * Exported methods.
  */
-OGLContext *OGLContext_SetSurfaces(JNIEnv *env, jlong pSrc, jlong pDst);
+OGLContext *OGLContext_SetSurfbces(JNIEnv *env, jlong pSrc, jlong pDst);
 void OGLContext_ResetClip(OGLContext *oglc);
 void OGLContext_SetRectClip(OGLContext *oglc, OGLSDOps *dstOps,
                             jint x1, jint y1, jint x2, jint y2);
-void OGLContext_BeginShapeClip(OGLContext *oglc);
-void OGLContext_EndShapeClip(OGLContext *oglc, OGLSDOps *dstOps);
-void OGLContext_SetExtraAlpha(jfloat ea);
+void OGLContext_BeginShbpeClip(OGLContext *oglc);
+void OGLContext_EndShbpeClip(OGLContext *oglc, OGLSDOps *dstOps);
+void OGLContext_SetExtrbAlphb(jflobt eb);
 void OGLContext_ResetComposite(OGLContext *oglc);
-void OGLContext_SetAlphaComposite(OGLContext *oglc,
-                                  jint rule, jfloat extraAlpha, jint flags);
+void OGLContext_SetAlphbComposite(OGLContext *oglc,
+                                  jint rule, jflobt extrbAlphb, jint flbgs);
 void OGLContext_SetXorComposite(OGLContext *oglc, jint xorPixel);
-void OGLContext_ResetTransform(OGLContext *oglc);
-void OGLContext_SetTransform(OGLContext *oglc,
+void OGLContext_ResetTrbnsform(OGLContext *oglc);
+void OGLContext_SetTrbnsform(OGLContext *oglc,
                              jdouble m00, jdouble m10,
                              jdouble m01, jdouble m11,
                              jdouble m02, jdouble m12);
 
-jboolean OGLContext_InitBlitTileTexture(OGLContext *oglc);
-GLuint OGLContext_CreateBlitTexture(GLenum internalFormat, GLenum pixelFormat,
+jboolebn OGLContext_InitBlitTileTexture(OGLContext *oglc);
+GLuint OGLContext_CrebteBlitTexture(GLenum internblFormbt, GLenum pixelFormbt,
                                     GLuint width, GLuint height);
 
 void OGLContext_DestroyContextResources(OGLContext *oglc);
 
-jboolean OGLContext_IsExtensionAvailable(const char *extString, char *extName);
-void OGLContext_GetExtensionInfo(JNIEnv *env, jint *caps);
-jboolean OGLContext_IsVersionSupported(const unsigned char *versionstr);
+jboolebn OGLContext_IsExtensionAvbilbble(const chbr *extString, chbr *extNbme);
+void OGLContext_GetExtensionInfo(JNIEnv *env, jint *cbps);
+jboolebn OGLContext_IsVersionSupported(const unsigned chbr *versionstr);
 
-GLhandleARB OGLContext_CreateFragmentProgram(const char *fragmentShaderSource);
+GLhbndleARB OGLContext_CrebteFrbgmentProgrbm(const chbr *frbgmentShbderSource);
 
 #endif /* OGLContext_h_Included */

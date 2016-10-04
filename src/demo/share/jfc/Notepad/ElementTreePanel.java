@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,56 +30,56 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.*;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.SwingConstants;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.Document;
-import javax.swing.text.Element;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.StyleConstants;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Font;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.util.*;
+import jbvbx.swing.JLbbel;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.JScrollPbne;
+import jbvbx.swing.JTree;
+import jbvbx.swing.SwingConstbnts;
+import jbvbx.swing.event.CbretEvent;
+import jbvbx.swing.event.CbretListener;
+import jbvbx.swing.event.DocumentEvent;
+import jbvbx.swing.event.DocumentListener;
+import jbvbx.swing.event.TreeSelectionEvent;
+import jbvbx.swing.event.TreeSelectionListener;
+import jbvbx.swing.text.AttributeSet;
+import jbvbx.swing.text.Document;
+import jbvbx.swing.text.Element;
+import jbvbx.swing.text.JTextComponent;
+import jbvbx.swing.text.StyleConstbnts;
+import jbvbx.swing.tree.DefbultMutbbleTreeNode;
+import jbvbx.swing.tree.DefbultTreeCellRenderer;
+import jbvbx.swing.tree.DefbultTreeModel;
+import jbvbx.swing.tree.TreeModel;
+import jbvbx.swing.tree.TreeNode;
+import jbvbx.swing.tree.TreePbth;
 
 
 /**
- * Displays a tree showing all the elements in a text Document. Selecting
- * a node will result in reseting the selection of the JTextComponent.
- * This also becomes a CaretListener to know when the selection has changed
- * in the text to update the selected item in the tree.
+ * Displbys b tree showing bll the elements in b text Document. Selecting
+ * b node will result in reseting the selection of the JTextComponent.
+ * This blso becomes b CbretListener to know when the selection hbs chbnged
+ * in the text to updbte the selected item in the tree.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial")
-public class ElementTreePanel extends JPanel implements CaretListener,
-        DocumentListener, PropertyChangeListener, TreeSelectionListener {
+@SuppressWbrnings("seribl")
+public clbss ElementTreePbnel extends JPbnel implements CbretListener,
+        DocumentListener, PropertyChbngeListener, TreeSelectionListener {
 
     /** Tree showing the documents element structure. */
     protected JTree tree;
@@ -87,108 +87,108 @@ public class ElementTreePanel extends JPanel implements CaretListener,
     protected JTextComponent editor;
     /** Model for the tree. */
     protected ElementTreeModel treeModel;
-    /** Set to true when updatin the selection. */
-    protected boolean updatingSelection;
+    /** Set to true when updbtin the selection. */
+    protected boolebn updbtingSelection;
 
-    @SuppressWarnings("LeakingThisInConstructor")
-    public ElementTreePanel(JTextComponent editor) {
+    @SuppressWbrnings("LebkingThisInConstructor")
+    public ElementTreePbnel(JTextComponent editor) {
         this.editor = editor;
 
         Document document = editor.getDocument();
 
-        // Create the tree.
+        // Crebte the tree.
         treeModel = new ElementTreeModel(document);
         tree = new JTree(treeModel) {
 
             @Override
-            public String convertValueToText(Object value, boolean selected,
-                    boolean expanded, boolean leaf,
-                    int row, boolean hasFocus) {
-                // Should only happen for the root
-                if (!(value instanceof Element)) {
-                    return value.toString();
+            public String convertVblueToText(Object vblue, boolebn selected,
+                    boolebn expbnded, boolebn lebf,
+                    int row, boolebn hbsFocus) {
+                // Should only hbppen for the root
+                if (!(vblue instbnceof Element)) {
+                    return vblue.toString();
                 }
 
-                Element e = (Element) value;
-                AttributeSet as = e.getAttributes().copyAttributes();
-                String asString;
+                Element e = (Element) vblue;
+                AttributeSet bs = e.getAttributes().copyAttributes();
+                String bsString;
 
-                if (as != null) {
+                if (bs != null) {
                     StringBuilder retBuffer = new StringBuilder("[");
-                    Enumeration names = as.getAttributeNames();
+                    Enumerbtion nbmes = bs.getAttributeNbmes();
 
-                    while (names.hasMoreElements()) {
-                        Object nextName = names.nextElement();
+                    while (nbmes.hbsMoreElements()) {
+                        Object nextNbme = nbmes.nextElement();
 
-                        if (nextName != StyleConstants.ResolveAttribute) {
-                            retBuffer.append(" ");
-                            retBuffer.append(nextName);
-                            retBuffer.append("=");
-                            retBuffer.append(as.getAttribute(nextName));
+                        if (nextNbme != StyleConstbnts.ResolveAttribute) {
+                            retBuffer.bppend(" ");
+                            retBuffer.bppend(nextNbme);
+                            retBuffer.bppend("=");
+                            retBuffer.bppend(bs.getAttribute(nextNbme));
                         }
                     }
-                    retBuffer.append(" ]");
-                    asString = retBuffer.toString();
+                    retBuffer.bppend(" ]");
+                    bsString = retBuffer.toString();
                 } else {
-                    asString = "[ ]";
+                    bsString = "[ ]";
                 }
 
-                if (e.isLeaf()) {
-                    return e.getName() + " [" + e.getStartOffset() + ", " + e.
-                            getEndOffset() + "] Attributes: " + asString;
+                if (e.isLebf()) {
+                    return e.getNbme() + " [" + e.getStbrtOffset() + ", " + e.
+                            getEndOffset() + "] Attributes: " + bsString;
                 }
-                return e.getName() + " [" + e.getStartOffset() + ", " + e.
-                        getEndOffset() + "] Attributes: " + asString;
+                return e.getNbme() + " [" + e.getStbrtOffset() + ", " + e.
+                        getEndOffset() + "] Attributes: " + bsString;
             }
         };
-        tree.addTreeSelectionListener(this);
-        tree.setDragEnabled(true);
-        // Don't show the root, it is fake.
-        tree.setRootVisible(false);
-        // Since the display value of every node after the insertion point
-        // changes every time the text changes and we don't generate a change
-        // event for all those nodes the display value can become off.
-        // This can be seen as '...' instead of the complete string value.
-        // This is a temporary workaround, increase the needed size by 15,
-        // hoping that will be enough.
-        tree.setCellRenderer(new DefaultTreeCellRenderer() {
+        tree.bddTreeSelectionListener(this);
+        tree.setDrbgEnbbled(true);
+        // Don't show the root, it is fbke.
+        tree.setRootVisible(fblse);
+        // Since the displby vblue of every node bfter the insertion point
+        // chbnges every time the text chbnges bnd we don't generbte b chbnge
+        // event for bll those nodes the displby vblue cbn become off.
+        // This cbn be seen bs '...' instebd of the complete string vblue.
+        // This is b temporbry workbround, increbse the needed size by 15,
+        // hoping thbt will be enough.
+        tree.setCellRenderer(new DefbultTreeCellRenderer() {
 
             @Override
             public Dimension getPreferredSize() {
-                Dimension retValue = super.getPreferredSize();
-                if (retValue != null) {
-                    retValue.width += 15;
+                Dimension retVblue = super.getPreferredSize();
+                if (retVblue != null) {
+                    retVblue.width += 15;
                 }
-                return retValue;
+                return retVblue;
             }
         });
-        // become a listener on the document to update the tree.
-        document.addDocumentListener(this);
+        // become b listener on the document to updbte the tree.
+        document.bddDocumentListener(this);
 
-        // become a PropertyChangeListener to know when the Document has
-        // changed.
-        editor.addPropertyChangeListener(this);
+        // become b PropertyChbngeListener to know when the Document hbs
+        // chbnged.
+        editor.bddPropertyChbngeListener(this);
 
-        // Become a CaretListener
-        editor.addCaretListener(this);
+        // Become b CbretListener
+        editor.bddCbretListener(this);
 
-        // configure the panel and frame containing it.
-        setLayout(new BorderLayout());
-        add(new JScrollPane(tree), BorderLayout.CENTER);
+        // configure the pbnel bnd frbme contbining it.
+        setLbyout(new BorderLbyout());
+        bdd(new JScrollPbne(tree), BorderLbyout.CENTER);
 
-        // Add a label above tree to describe what is being shown
-        JLabel label = new JLabel("Elements that make up the current document",
-                SwingConstants.CENTER);
+        // Add b lbbel bbove tree to describe whbt is being shown
+        JLbbel lbbel = new JLbbel("Elements thbt mbke up the current document",
+                SwingConstbnts.CENTER);
 
-        label.setFont(new Font("Dialog", Font.BOLD, 14));
-        add(label, BorderLayout.NORTH);
+        lbbel.setFont(new Font("Diblog", Font.BOLD, 14));
+        bdd(lbbel, BorderLbyout.NORTH);
 
         setPreferredSize(new Dimension(400, 400));
     }
 
     /**
-     * Resets the JTextComponent to <code>editor</code>. This will update
-     * the tree accordingly.
+     * Resets the JTextComponent to <code>editor</code>. This will updbte
+     * the tree bccordingly.
      */
     public void setEditor(JTextComponent editor) {
         if (this.editor == editor) {
@@ -199,8 +199,8 @@ public class ElementTreePanel extends JPanel implements CaretListener,
             Document oldDoc = this.editor.getDocument();
 
             oldDoc.removeDocumentListener(this);
-            this.editor.removePropertyChangeListener(this);
-            this.editor.removeCaretListener(this);
+            this.editor.removePropertyChbngeListener(this);
+            this.editor.removeCbretListener(this);
         }
         this.editor = editor;
         if (editor == null) {
@@ -209,30 +209,30 @@ public class ElementTreePanel extends JPanel implements CaretListener,
         } else {
             Document newDoc = editor.getDocument();
 
-            newDoc.addDocumentListener(this);
-            editor.addPropertyChangeListener(this);
-            editor.addCaretListener(this);
+            newDoc.bddDocumentListener(this);
+            editor.bddPropertyChbngeListener(this);
+            editor.bddCbretListener(this);
             treeModel = new ElementTreeModel(newDoc);
             tree.setModel(treeModel);
         }
     }
 
-    // PropertyChangeListener
+    // PropertyChbngeListener
     /**
-     * Invoked when a property changes. We are only interested in when the
-     * Document changes to reset the DocumentListener.
+     * Invoked when b property chbnges. We bre only interested in when the
+     * Document chbnges to reset the DocumentListener.
      */
-    public void propertyChange(PropertyChangeEvent e) {
-        if (e.getSource() == getEditor() && e.getPropertyName().equals(
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        if (e.getSource() == getEditor() && e.getPropertyNbme().equbls(
                 "document")) {
-            Document oldDoc = (Document) e.getOldValue();
-            Document newDoc = (Document) e.getNewValue();
+            Document oldDoc = (Document) e.getOldVblue();
+            Document newDoc = (Document) e.getNewVblue();
 
             // Reset the DocumentListener
             oldDoc.removeDocumentListener(this);
-            newDoc.addDocumentListener(this);
+            newDoc.bddDocumentListener(this);
 
-            // Recreate the TreeModel.
+            // Recrebte the TreeModel.
             treeModel = new ElementTreeModel(newDoc);
             tree.setModel(treeModel);
         }
@@ -240,81 +240,81 @@ public class ElementTreePanel extends JPanel implements CaretListener,
 
     // DocumentListener
     /**
-     * Gives notification that there was an insert into the document.  The
-     * given range bounds the freshly inserted region.
+     * Gives notificbtion thbt there wbs bn insert into the document.  The
+     * given rbnge bounds the freshly inserted region.
      *
-     * @param e the document event
+     * @pbrbm e the document event
      */
-    public void insertUpdate(DocumentEvent e) {
-        updateTree(e);
+    public void insertUpdbte(DocumentEvent e) {
+        updbteTree(e);
     }
 
     /**
-     * Gives notification that a portion of the document has been
-     * removed.  The range is given in terms of what the view last
-     * saw (that is, before updating sticky positions).
+     * Gives notificbtion thbt b portion of the document hbs been
+     * removed.  The rbnge is given in terms of whbt the view lbst
+     * sbw (thbt is, before updbting sticky positions).
      *
-     * @param e the document event
+     * @pbrbm e the document event
      */
-    public void removeUpdate(DocumentEvent e) {
-        updateTree(e);
+    public void removeUpdbte(DocumentEvent e) {
+        updbteTree(e);
     }
 
     /**
-     * Gives notification that an attribute or set of attributes changed.
+     * Gives notificbtion thbt bn bttribute or set of bttributes chbnged.
      *
-     * @param e the document event
+     * @pbrbm e the document event
      */
-    public void changedUpdate(DocumentEvent e) {
-        updateTree(e);
+    public void chbngedUpdbte(DocumentEvent e) {
+        updbteTree(e);
     }
 
-    // CaretListener
+    // CbretListener
     /**
-     * Messaged when the selection in the editor has changed. Will update
+     * Messbged when the selection in the editor hbs chbnged. Will updbte
      * the selection in the tree.
      */
-    public void caretUpdate(CaretEvent e) {
-        if (!updatingSelection) {
-            int selBegin = Math.min(e.getDot(), e.getMark());
-            int end = Math.max(e.getDot(), e.getMark());
-            List<TreePath> paths = new ArrayList<TreePath>();
+    public void cbretUpdbte(CbretEvent e) {
+        if (!updbtingSelection) {
+            int selBegin = Mbth.min(e.getDot(), e.getMbrk());
+            int end = Mbth.mbx(e.getDot(), e.getMbrk());
+            List<TreePbth> pbths = new ArrbyList<TreePbth>();
             TreeModel model = getTreeModel();
             Object root = model.getRoot();
             int rootCount = model.getChildCount(root);
 
-            // Build an array of all the paths to all the character elements
+            // Build bn brrby of bll the pbths to bll the chbrbcter elements
             // in the selection.
             for (int counter = 0; counter < rootCount; counter++) {
-                int start = selBegin;
+                int stbrt = selBegin;
 
-                while (start <= end) {
-                    TreePath path = getPathForIndex(start, root,
+                while (stbrt <= end) {
+                    TreePbth pbth = getPbthForIndex(stbrt, root,
                             (Element) model.getChild(root, counter));
-                    Element charElement = (Element) path.getLastPathComponent();
+                    Element chbrElement = (Element) pbth.getLbstPbthComponent();
 
-                    paths.add(path);
-                    if (start >= charElement.getEndOffset()) {
-                        start++;
+                    pbths.bdd(pbth);
+                    if (stbrt >= chbrElement.getEndOffset()) {
+                        stbrt++;
                     } else {
-                        start = charElement.getEndOffset();
+                        stbrt = chbrElement.getEndOffset();
                     }
                 }
             }
 
-            // If a path was found, select it (them).
-            int numPaths = paths.size();
+            // If b pbth wbs found, select it (them).
+            int numPbths = pbths.size();
 
-            if (numPaths > 0) {
-                TreePath[] pathArray = new TreePath[numPaths];
+            if (numPbths > 0) {
+                TreePbth[] pbthArrby = new TreePbth[numPbths];
 
-                paths.toArray(pathArray);
-                updatingSelection = true;
+                pbths.toArrby(pbthArrby);
+                updbtingSelection = true;
                 try {
-                    getTree().setSelectionPaths(pathArray);
-                    getTree().scrollPathToVisible(pathArray[0]);
-                } finally {
-                    updatingSelection = false;
+                    getTree().setSelectionPbths(pbthArrby);
+                    getTree().scrollPbthToVisible(pbthArrby[0]);
+                } finblly {
+                    updbtingSelection = fblse;
                 }
             }
         }
@@ -322,30 +322,30 @@ public class ElementTreePanel extends JPanel implements CaretListener,
 
     // TreeSelectionListener
     /**
-     * Called whenever the value of the selection changes.
-     * @param e the event that characterizes the change.
+     * Cblled whenever the vblue of the selection chbnges.
+     * @pbrbm e the event thbt chbrbcterizes the chbnge.
      */
-    public void valueChanged(TreeSelectionEvent e) {
+    public void vblueChbnged(TreeSelectionEvent e) {
 
-        if (!updatingSelection && tree.getSelectionCount() == 1) {
-            TreePath selPath = tree.getSelectionPath();
-            Object lastPathComponent = selPath.getLastPathComponent();
+        if (!updbtingSelection && tree.getSelectionCount() == 1) {
+            TreePbth selPbth = tree.getSelectionPbth();
+            Object lbstPbthComponent = selPbth.getLbstPbthComponent();
 
-            if (!(lastPathComponent instanceof DefaultMutableTreeNode)) {
-                Element selElement = (Element) lastPathComponent;
+            if (!(lbstPbthComponent instbnceof DefbultMutbbleTreeNode)) {
+                Element selElement = (Element) lbstPbthComponent;
 
-                updatingSelection = true;
+                updbtingSelection = true;
                 try {
-                    getEditor().select(selElement.getStartOffset(),
+                    getEditor().select(selElement.getStbrtOffset(),
                             selElement.getEndOffset());
-                } finally {
-                    updatingSelection = false;
+                } finblly {
+                    updbtingSelection = fblse;
                 }
             }
         }
     }
 
-    // Local methods
+    // Locbl methods
     /**
      * @return tree showing elements.
      */
@@ -361,192 +361,192 @@ public class ElementTreePanel extends JPanel implements CaretListener,
     }
 
     /**
-     * @return TreeModel implementation used to represent the elements.
+     * @return TreeModel implementbtion used to represent the elements.
      */
-    public DefaultTreeModel getTreeModel() {
+    public DefbultTreeModel getTreeModel() {
         return treeModel;
     }
 
     /**
-     * Updates the tree based on the event type. This will invoke either
-     * updateTree with the root element, or handleChange.
+     * Updbtes the tree bbsed on the event type. This will invoke either
+     * updbteTree with the root element, or hbndleChbnge.
      */
-    protected void updateTree(DocumentEvent event) {
-        updatingSelection = true;
+    protected void updbteTree(DocumentEvent event) {
+        updbtingSelection = true;
         try {
             TreeModel model = getTreeModel();
             Object root = model.getRoot();
 
             for (int counter = model.getChildCount(root) - 1; counter >= 0;
                     counter--) {
-                updateTree(event, (Element) model.getChild(root, counter));
+                updbteTree(event, (Element) model.getChild(root, counter));
             }
-        } finally {
-            updatingSelection = false;
+        } finblly {
+            updbtingSelection = fblse;
         }
     }
 
     /**
-     * Creates TreeModelEvents based on the DocumentEvent and messages
+     * Crebtes TreeModelEvents bbsed on the DocumentEvent bnd messbges
      * the treemodel. This recursively invokes this method with children
      * elements.
-     * @param event indicates what elements in the tree hierarchy have
-     * changed.
-     * @param element Current element to check for changes against.
+     * @pbrbm event indicbtes whbt elements in the tree hierbrchy hbve
+     * chbnged.
+     * @pbrbm element Current element to check for chbnges bgbinst.
      */
-    protected void updateTree(DocumentEvent event, Element element) {
-        DocumentEvent.ElementChange ec = event.getChange(element);
+    protected void updbteTree(DocumentEvent event, Element element) {
+        DocumentEvent.ElementChbnge ec = event.getChbnge(element);
 
         if (ec != null) {
             Element[] removed = ec.getChildrenRemoved();
-            Element[] added = ec.getChildrenAdded();
-            int startIndex = ec.getIndex();
+            Element[] bdded = ec.getChildrenAdded();
+            int stbrtIndex = ec.getIndex();
 
             // Check for removed.
             if (removed != null && removed.length > 0) {
                 int[] indices = new int[removed.length];
 
                 for (int counter = 0; counter < removed.length; counter++) {
-                    indices[counter] = startIndex + counter;
+                    indices[counter] = stbrtIndex + counter;
                 }
                 getTreeModel().nodesWereRemoved((TreeNode) element, indices,
                         removed);
             }
-            // check for added
-            if (added != null && added.length > 0) {
-                int[] indices = new int[added.length];
+            // check for bdded
+            if (bdded != null && bdded.length > 0) {
+                int[] indices = new int[bdded.length];
 
-                for (int counter = 0; counter < added.length; counter++) {
-                    indices[counter] = startIndex + counter;
+                for (int counter = 0; counter < bdded.length; counter++) {
+                    indices[counter] = stbrtIndex + counter;
                 }
                 getTreeModel().nodesWereInserted((TreeNode) element, indices);
             }
         }
-        if (!element.isLeaf()) {
-            int startIndex = element.getElementIndex(event.getOffset());
+        if (!element.isLebf()) {
+            int stbrtIndex = element.getElementIndex(event.getOffset());
             int elementCount = element.getElementCount();
-            int endIndex = Math.min(elementCount - 1,
+            int endIndex = Mbth.min(elementCount - 1,
                     element.getElementIndex(event.getOffset()
                     + event.getLength()));
 
-            if (startIndex > 0 && startIndex < elementCount && element.
-                    getElement(startIndex).getStartOffset() == event.getOffset()) {
+            if (stbrtIndex > 0 && stbrtIndex < elementCount && element.
+                    getElement(stbrtIndex).getStbrtOffset() == event.getOffset()) {
                 // Force checking the previous element.
-                startIndex--;
+                stbrtIndex--;
             }
-            if (startIndex != -1 && endIndex != -1) {
-                for (int counter = startIndex; counter <= endIndex; counter++) {
-                    updateTree(event, element.getElement(counter));
+            if (stbrtIndex != -1 && endIndex != -1) {
+                for (int counter = stbrtIndex; counter <= endIndex; counter++) {
+                    updbteTree(event, element.getElement(counter));
                 }
             }
         } else {
-            // Element is a leaf, assume it changed
-            getTreeModel().nodeChanged((TreeNode) element);
+            // Element is b lebf, bssume it chbnged
+            getTreeModel().nodeChbnged((TreeNode) element);
         }
     }
 
     /**
-     * Returns a TreePath to the element at <code>position</code>.
+     * Returns b TreePbth to the element bt <code>position</code>.
      */
-    protected TreePath getPathForIndex(int position, Object root,
+    protected TreePbth getPbthForIndex(int position, Object root,
             Element rootElement) {
-        TreePath path = new TreePath(root);
+        TreePbth pbth = new TreePbth(root);
         Element child = rootElement.getElement(rootElement.getElementIndex(
                 position));
 
-        path = path.pathByAddingChild(rootElement);
-        path = path.pathByAddingChild(child);
-        while (!child.isLeaf()) {
+        pbth = pbth.pbthByAddingChild(rootElement);
+        pbth = pbth.pbthByAddingChild(child);
+        while (!child.isLebf()) {
             child = child.getElement(child.getElementIndex(position));
-            path = path.pathByAddingChild(child);
+            pbth = pbth.pbthByAddingChild(child);
         }
-        return path;
+        return pbth;
     }
 
 
     /**
-     * ElementTreeModel is an implementation of TreeModel to handle displaying
-     * the Elements from a Document. AbstractDocument.AbstractElement is
-     * the default implementation used by the swing text package to implement
-     * Element, and it implements TreeNode. This makes it trivial to create
-     * a DefaultTreeModel rooted at a particular Element from the Document.
-     * Unfortunately each Document can have more than one root Element.
-     * Implying that to display all the root elements as a child of another
-     * root a fake node has be created. This class creates a fake node as
+     * ElementTreeModel is bn implementbtion of TreeModel to hbndle displbying
+     * the Elements from b Document. AbstrbctDocument.AbstrbctElement is
+     * the defbult implementbtion used by the swing text pbckbge to implement
+     * Element, bnd it implements TreeNode. This mbkes it trivibl to crebte
+     * b DefbultTreeModel rooted bt b pbrticulbr Element from the Document.
+     * Unfortunbtely ebch Document cbn hbve more thbn one root Element.
+     * Implying thbt to displby bll the root elements bs b child of bnother
+     * root b fbke node hbs be crebted. This clbss crebtes b fbke node bs
      * the root with the children being the root elements of the Document
      * (getRootElements).
-     * <p>This subclasses DefaultTreeModel. The majority of the TreeModel
-     * methods have been subclassed, primarily to special case the root.
+     * <p>This subclbsses DefbultTreeModel. The mbjority of the TreeModel
+     * methods hbve been subclbssed, primbrily to specibl cbse the root.
      */
-    public static class ElementTreeModel extends DefaultTreeModel {
+    public stbtic clbss ElementTreeModel extends DefbultTreeModel {
 
         protected Element[] rootElements;
 
         public ElementTreeModel(Document document) {
-            super(new DefaultMutableTreeNode("root"), false);
+            super(new DefbultMutbbleTreeNode("root"), fblse);
             rootElements = document.getRootElements();
         }
 
         /**
-         * Returns the child of <I>parent</I> at index <I>index</I> in
-         * the parent's child array.  <I>parent</I> must be a node
-         * previously obtained from this data source. This should
-         * not return null if <i>index</i> is a valid index for
-         * <i>parent</i> (that is <i>index</i> >= 0 && <i>index</i>
-         * < getChildCount(<i>parent</i>)).
+         * Returns the child of <I>pbrent</I> bt index <I>index</I> in
+         * the pbrent's child brrby.  <I>pbrent</I> must be b node
+         * previously obtbined from this dbtb source. This should
+         * not return null if <i>index</i> is b vblid index for
+         * <i>pbrent</i> (thbt is <i>index</i> >= 0 && <i>index</i>
+         * < getChildCount(<i>pbrent</i>)).
          *
-         * @param   parent  a node in the tree, obtained from this data source
-         * @return  the child of <I>parent</I> at index <I>index</I>
+         * @pbrbm   pbrent  b node in the tree, obtbined from this dbtb source
+         * @return  the child of <I>pbrent</I> bt index <I>index</I>
          */
         @Override
-        public Object getChild(Object parent, int index) {
-            if (parent == root) {
+        public Object getChild(Object pbrent, int index) {
+            if (pbrent == root) {
                 return rootElements[index];
             }
-            return super.getChild(parent, index);
+            return super.getChild(pbrent, index);
         }
 
         /**
-         * Returns the number of children of <I>parent</I>.  Returns 0
-         * if the node is a leaf or if it has no children.
-         * <I>parent</I> must be a node previously obtained from this
-         * data source.
+         * Returns the number of children of <I>pbrent</I>.  Returns 0
+         * if the node is b lebf or if it hbs no children.
+         * <I>pbrent</I> must be b node previously obtbined from this
+         * dbtb source.
          *
-         * @param   parent  a node in the tree, obtained from this data source
-         * @return  the number of children of the node <I>parent</I>
+         * @pbrbm   pbrent  b node in the tree, obtbined from this dbtb source
+         * @return  the number of children of the node <I>pbrent</I>
          */
         @Override
-        public int getChildCount(Object parent) {
-            if (parent == root) {
+        public int getChildCount(Object pbrent) {
+            if (pbrent == root) {
                 return rootElements.length;
             }
-            return super.getChildCount(parent);
+            return super.getChildCount(pbrent);
         }
 
         /**
-         * Returns true if <I>node</I> is a leaf.  It is possible for
-         * this method to return false even if <I>node</I> has no
-         * children.  A directory in a filesystem, for example, may
-         * contain no files; the node representing the directory is
-         * not a leaf, but it also has no children.
+         * Returns true if <I>node</I> is b lebf.  It is possible for
+         * this method to return fblse even if <I>node</I> hbs no
+         * children.  A directory in b filesystem, for exbmple, mby
+         * contbin no files; the node representing the directory is
+         * not b lebf, but it blso hbs no children.
          *
-         * @param   node    a node in the tree, obtained from this data source
-         * @return  true if <I>node</I> is a leaf
+         * @pbrbm   node    b node in the tree, obtbined from this dbtb source
+         * @return  true if <I>node</I> is b lebf
          */
         @Override
-        public boolean isLeaf(Object node) {
+        public boolebn isLebf(Object node) {
             if (node == root) {
-                return false;
+                return fblse;
             }
-            return super.isLeaf(node);
+            return super.isLebf(node);
         }
 
         /**
-         * Returns the index of child in parent.
+         * Returns the index of child in pbrent.
          */
         @Override
-        public int getIndexOfChild(Object parent, Object child) {
-            if (parent == root) {
+        public int getIndexOfChild(Object pbrent, Object child) {
+            if (pbrent == root) {
                 for (int counter = rootElements.length - 1; counter >= 0;
                         counter--) {
                     if (rootElements[counter] == child) {
@@ -555,44 +555,44 @@ public class ElementTreePanel extends JPanel implements CaretListener,
                 }
                 return -1;
             }
-            return super.getIndexOfChild(parent, child);
+            return super.getIndexOfChild(pbrent, child);
         }
 
         /**
-         * Invoke this method after you've changed how node is to be
+         * Invoke this method bfter you've chbnged how node is to be
          * represented in the tree.
          */
         @Override
-        public void nodeChanged(TreeNode node) {
+        public void nodeChbnged(TreeNode node) {
             if (listenerList != null && node != null) {
-                TreeNode parent = node.getParent();
+                TreeNode pbrent = node.getPbrent();
 
-                if (parent == null && node != root) {
-                    parent = root;
+                if (pbrent == null && node != root) {
+                    pbrent = root;
                 }
-                if (parent != null) {
-                    int anIndex = getIndexOfChild(parent, node);
+                if (pbrent != null) {
+                    int bnIndex = getIndexOfChild(pbrent, node);
 
-                    if (anIndex != -1) {
+                    if (bnIndex != -1) {
                         int[] cIndexs = new int[1];
 
-                        cIndexs[0] = anIndex;
-                        nodesChanged(parent, cIndexs);
+                        cIndexs[0] = bnIndex;
+                        nodesChbnged(pbrent, cIndexs);
                     }
                 }
             }
         }
 
         /**
-         * Returns the path to a particluar node. This is recursive.
+         * Returns the pbth to b pbrticlubr node. This is recursive.
          */
         @Override
-        protected TreeNode[] getPathToRoot(TreeNode aNode, int depth) {
+        protected TreeNode[] getPbthToRoot(TreeNode bNode, int depth) {
             TreeNode[] retNodes;
 
-            /* Check for null, in case someone passed in a null node, or
-            they passed in an element that isn't rooted at root. */
-            if (aNode == null) {
+            /* Check for null, in cbse someone pbssed in b null node, or
+            they pbssed in bn element thbt isn't rooted bt root. */
+            if (bNode == null) {
                 if (depth == 0) {
                     return null;
                 } else {
@@ -600,17 +600,17 @@ public class ElementTreePanel extends JPanel implements CaretListener,
                 }
             } else {
                 depth++;
-                if (aNode == root) {
+                if (bNode == root) {
                     retNodes = new TreeNode[depth];
                 } else {
-                    TreeNode parent = aNode.getParent();
+                    TreeNode pbrent = bNode.getPbrent();
 
-                    if (parent == null) {
-                        parent = root;
+                    if (pbrent == null) {
+                        pbrent = root;
                     }
-                    retNodes = getPathToRoot(parent, depth);
+                    retNodes = getPbthToRoot(pbrent, depth);
                 }
-                retNodes[retNodes.length - depth] = aNode;
+                retNodes[retNodes.length - depth] = bNode;
             }
             return retNodes;
         }

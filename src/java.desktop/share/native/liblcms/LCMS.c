@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
-#include "sun_java2d_cmm_lcms_LCMS.h"
+#include "sun_jbvb2d_cmm_lcms_LCMS.h"
 #include "jni_util.h"
-#include "Trace.h"
+#include "Trbce.h"
 #include "Disposer.h"
 #include <lcms2.h>
 #include "jlong.h"
 
 
-#define ALIGNLONG(x) (((x)+3) & ~(3))         // Aligns to DWORD boundary
+#define ALIGNLONG(x) (((x)+3) & ~(3))         // Aligns to DWORD boundbry
 
 #ifdef USE_BIG_ENDIAN
-#define AdjustEndianess32(a)
+#define AdjustEndibness32(b)
 #else
 
-static
-void AdjustEndianess32(cmsUInt8Number *pByte)
+stbtic
+void AdjustEndibness32(cmsUInt8Number *pByte)
 {
     cmsUInt8Number temp1;
     cmsUInt8Number temp2;
@@ -56,35 +56,35 @@ void AdjustEndianess32(cmsUInt8Number *pByte)
 
 #endif
 
-// Transports to properly encoded values - note that icc profiles does use
-// big endian notation.
+// Trbnsports to properly encoded vblues - note thbt icc profiles does use
+// big endibn notbtion.
 
-static
-cmsInt32Number TransportValue32(cmsInt32Number Value)
+stbtic
+cmsInt32Number TrbnsportVblue32(cmsInt32Number Vblue)
 {
-    cmsInt32Number Temp = Value;
+    cmsInt32Number Temp = Vblue;
 
-    AdjustEndianess32((cmsUInt8Number*) &Temp);
+    AdjustEndibness32((cmsUInt8Number*) &Temp);
     return Temp;
 }
 
-#define SigMake(a,b,c,d) \
-                    ( ( ((int) ((unsigned char) (a))) << 24) | \
-                      ( ((int) ((unsigned char) (b))) << 16) | \
-                      ( ((int) ((unsigned char) (c))) <<  8) | \
-                          (int) ((unsigned char) (d)))
+#define SigMbke(b,b,c,d) \
+                    ( ( ((int) ((unsigned chbr) (b))) << 24) | \
+                      ( ((int) ((unsigned chbr) (b))) << 16) | \
+                      ( ((int) ((unsigned chbr) (c))) <<  8) | \
+                          (int) ((unsigned chbr) (d)))
 
-#define TagIdConst(a, b, c, d) \
-                ((int) SigMake ((a), (b), (c), (d)))
+#define TbgIdConst(b, b, c, d) \
+                ((int) SigMbke ((b), (b), (c), (d)))
 
-#define SigHead TagIdConst('h','e','a','d')
+#define SigHebd TbgIdConst('h','e','b','d')
 
 #define DT_BYTE     0
 #define DT_SHORT    1
 #define DT_INT      2
 #define DT_DOUBLE   3
 
-/* Default temp profile list size */
+/* Defbult temp profile list size */
 #define DF_ICC_BUF_SIZE 32
 
 #define ERR_MSG_SIZE 256
@@ -100,28 +100,28 @@ typedef struct lcmsProfile_s {
 } lcmsProfile_t, *lcmsProfile_p;
 
 typedef union {
-    cmsTagSignature cms;
+    cmsTbgSignbture cms;
     jint j;
-} TagSignature_t, *TagSignature_p;
+} TbgSignbture_t, *TbgSignbture_p;
 
-static jfieldID Trans_renderType_fID;
-static jfieldID Trans_ID_fID;
-static jfieldID IL_isIntPacked_fID;
-static jfieldID IL_dataType_fID;
-static jfieldID IL_pixelType_fID;
-static jfieldID IL_dataArray_fID;
-static jfieldID IL_offset_fID;
-static jfieldID IL_nextRowOffset_fID;
-static jfieldID IL_width_fID;
-static jfieldID IL_height_fID;
-static jfieldID IL_imageAtOnce_fID;
+stbtic jfieldID Trbns_renderType_fID;
+stbtic jfieldID Trbns_ID_fID;
+stbtic jfieldID IL_isIntPbcked_fID;
+stbtic jfieldID IL_dbtbType_fID;
+stbtic jfieldID IL_pixelType_fID;
+stbtic jfieldID IL_dbtbArrby_fID;
+stbtic jfieldID IL_offset_fID;
+stbtic jfieldID IL_nextRowOffset_fID;
+stbtic jfieldID IL_width_fID;
+stbtic jfieldID IL_height_fID;
+stbtic jfieldID IL_imbgeAtOnce_fID;
 
-JavaVM *javaVM;
+JbvbVM *jbvbVM;
 
-void errorHandler(cmsContext ContextID, cmsUInt32Number errorCode,
-                  const char *errorText) {
+void errorHbndler(cmsContext ContextID, cmsUInt32Number errorCode,
+                  const chbr *errorText) {
     JNIEnv *env;
-    char errMsg[ERR_MSG_SIZE];
+    chbr errMsg[ERR_MSG_SIZE];
 
     int count = snprintf(errMsg, ERR_MSG_SIZE,
                           "LCMS error %d: %s", errorCode, errorText);
@@ -130,14 +130,14 @@ void errorHandler(cmsContext ContextID, cmsUInt32Number errorCode,
     }
     errMsg[count] = 0;
 
-    (*javaVM)->AttachCurrentThread(javaVM, (void**)&env, NULL);
-    JNU_ThrowByName(env, "java/awt/color/CMMException", errMsg);
+    (*jbvbVM)->AttbchCurrentThrebd(jbvbVM, (void**)&env, NULL);
+    JNU_ThrowByNbme(env, "jbvb/bwt/color/CMMException", errMsg);
 }
 
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *jvm, void *reserved) {
-    javaVM = jvm;
+JNIEXPORT jint JNICALL JNI_OnLobd(JbvbVM *jvm, void *reserved) {
+    jbvbVM = jvm;
 
-    cmsSetLogErrorHandler(errorHandler);
+    cmsSetLogErrorHbndler(errorHbndler);
     return JNI_VERSION_1_6;
 }
 
@@ -152,142 +152,142 @@ void LCMS_freeProfile(JNIEnv *env, jlong ptr) {
     }
 }
 
-void LCMS_freeTransform(JNIEnv *env, jlong ID)
+void LCMS_freeTrbnsform(JNIEnv *env, jlong ID)
 {
-    cmsHTRANSFORM sTrans = jlong_to_ptr(ID);
-    /* Passed ID is always valid native ref so there is no check for zero */
-    cmsDeleteTransform(sTrans);
+    cmsHTRANSFORM sTrbns = jlong_to_ptr(ID);
+    /* Pbssed ID is blwbys vblid nbtive ref so there is no check for zero */
+    cmsDeleteTrbnsform(sTrbns);
 }
 
 /*
- * Class:     sun_java2d_cmm_lcms_LCMS
- * Method:    createNativeTransform
- * Signature: ([JI)J
+ * Clbss:     sun_jbvb2d_cmm_lcms_LCMS
+ * Method:    crebteNbtiveTrbnsform
+ * Signbture: ([JI)J
  */
-JNIEXPORT jlong JNICALL Java_sun_java2d_cmm_lcms_LCMS_createNativeTransform
-  (JNIEnv *env, jclass cls, jlongArray profileIDs, jint renderType,
-   jint inFormatter, jboolean isInIntPacked,
-   jint outFormatter, jboolean isOutIntPacked, jobject disposerRef)
+JNIEXPORT jlong JNICALL Jbvb_sun_jbvb2d_cmm_lcms_LCMS_crebteNbtiveTrbnsform
+  (JNIEnv *env, jclbss cls, jlongArrby profileIDs, jint renderType,
+   jint inFormbtter, jboolebn isInIntPbcked,
+   jint outFormbtter, jboolebn isOutIntPbcked, jobject disposerRef)
 {
-    cmsHPROFILE _iccArray[DF_ICC_BUF_SIZE];
-    cmsHPROFILE *iccArray = &_iccArray[0];
-    cmsHTRANSFORM sTrans = NULL;
+    cmsHPROFILE _iccArrby[DF_ICC_BUF_SIZE];
+    cmsHPROFILE *iccArrby = &_iccArrby[0];
+    cmsHTRANSFORM sTrbns = NULL;
     int i, j, size;
     jlong* ids;
 
-    size = (*env)->GetArrayLength (env, profileIDs);
-    ids = (*env)->GetLongArrayElements(env, profileIDs, 0);
+    size = (*env)->GetArrbyLength (env, profileIDs);
+    ids = (*env)->GetLongArrbyElements(env, profileIDs, 0);
     if (ids == NULL) {
-        // An exception should have already been thrown.
+        // An exception should hbve blrebdy been thrown.
         return 0L;
     }
 
 #ifdef _LITTLE_ENDIAN
-    /* Reversing data packed into int for LE archs */
-    if (isInIntPacked) {
-        inFormatter ^= DOSWAP_SH(1);
+    /* Reversing dbtb pbcked into int for LE brchs */
+    if (isInIntPbcked) {
+        inFormbtter ^= DOSWAP_SH(1);
     }
-    if (isOutIntPacked) {
-        outFormatter ^= DOSWAP_SH(1);
+    if (isOutIntPbcked) {
+        outFormbtter ^= DOSWAP_SH(1);
     }
 #endif
 
     if (DF_ICC_BUF_SIZE < size*2) {
-        iccArray = (cmsHPROFILE*) malloc(
+        iccArrby = (cmsHPROFILE*) mblloc(
             size*2*sizeof(cmsHPROFILE));
-        if (iccArray == NULL) {
-            (*env)->ReleaseLongArrayElements(env, profileIDs, ids, 0);
+        if (iccArrby == NULL) {
+            (*env)->RelebseLongArrbyElements(env, profileIDs, ids, 0);
 
-            J2dRlsTraceLn(J2D_TRACE_ERROR, "getXForm: iccArray == NULL");
+            J2dRlsTrbceLn(J2D_TRACE_ERROR, "getXForm: iccArrby == NULL");
             return 0L;
         }
     }
 
     j = 0;
     for (i = 0; i < size; i++) {
-        cmsColorSpaceSignature cs;
+        cmsColorSpbceSignbture cs;
         lcmsProfile_p profilePtr = (lcmsProfile_p)jlong_to_ptr(ids[i]);
         cmsHPROFILE icc = profilePtr->pf;
 
-        iccArray[j++] = icc;
+        iccArrby[j++] = icc;
 
-        /* Middle non-abstract profiles should be doubled before passing to
-         * the cmsCreateMultiprofileTransform function
+        /* Middle non-bbstrbct profiles should be doubled before pbssing to
+         * the cmsCrebteMultiprofileTrbnsform function
          */
 
-        cs = cmsGetColorSpace(icc);
+        cs = cmsGetColorSpbce(icc);
         if (size > 2 && i != 0 && i != size - 1 &&
-            cs != cmsSigXYZData && cs != cmsSigLabData)
+            cs != cmsSigXYZDbtb && cs != cmsSigLbbDbtb)
         {
-            iccArray[j++] = icc;
+            iccArrby[j++] = icc;
         }
     }
 
-    sTrans = cmsCreateMultiprofileTransform(iccArray, j,
-        inFormatter, outFormatter, renderType, 0);
+    sTrbns = cmsCrebteMultiprofileTrbnsform(iccArrby, j,
+        inFormbtter, outFormbtter, renderType, 0);
 
-    (*env)->ReleaseLongArrayElements(env, profileIDs, ids, 0);
+    (*env)->RelebseLongArrbyElements(env, profileIDs, ids, 0);
 
-    if (sTrans == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "LCMS_createNativeTransform: "
-                                       "sTrans == NULL");
+    if (sTrbns == NULL) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "LCMS_crebteNbtiveTrbnsform: "
+                                       "sTrbns == NULL");
         if ((*env)->ExceptionOccurred(env) == NULL) {
-            JNU_ThrowByName(env, "java/awt/color/CMMException",
-                            "Cannot get color transform");
+            JNU_ThrowByNbme(env, "jbvb/bwt/color/CMMException",
+                            "Cbnnot get color trbnsform");
         }
     } else {
-        Disposer_AddRecord(env, disposerRef, LCMS_freeTransform, ptr_to_jlong(sTrans));
+        Disposer_AddRecord(env, disposerRef, LCMS_freeTrbnsform, ptr_to_jlong(sTrbns));
     }
 
-    if (iccArray != &_iccArray[0]) {
-        free(iccArray);
+    if (iccArrby != &_iccArrby[0]) {
+        free(iccArrby);
     }
-    return ptr_to_jlong(sTrans);
+    return ptr_to_jlong(sTrbns);
 }
 
 
 /*
- * Class:     sun_java2d_cmm_lcms_LCMS
- * Method:    loadProfile
- * Signature: ([B,Lsun/java2d/cmm/lcms/LCMSProfile;)V
+ * Clbss:     sun_jbvb2d_cmm_lcms_LCMS
+ * Method:    lobdProfile
+ * Signbture: ([B,Lsun/jbvb2d/cmm/lcms/LCMSProfile;)V
  */
-JNIEXPORT jlong JNICALL Java_sun_java2d_cmm_lcms_LCMS_loadProfileNative
-  (JNIEnv *env, jobject obj, jbyteArray data, jobject disposerRef)
+JNIEXPORT jlong JNICALL Jbvb_sun_jbvb2d_cmm_lcms_LCMS_lobdProfileNbtive
+  (JNIEnv *env, jobject obj, jbyteArrby dbtb, jobject disposerRef)
 {
-    jbyte* dataArray;
-    jint dataSize;
+    jbyte* dbtbArrby;
+    jint dbtbSize;
     lcmsProfile_p sProf = NULL;
     cmsHPROFILE pf;
 
-    if (JNU_IsNull(env, data)) {
-        JNU_ThrowIllegalArgumentException(env, "Invalid profile data");
+    if (JNU_IsNull(env, dbtb)) {
+        JNU_ThrowIllegblArgumentException(env, "Invblid profile dbtb");
         return 0L;
     }
 
-    dataArray = (*env)->GetByteArrayElements (env, data, 0);
-    if (dataArray == NULL) {
-        // An exception should have already been thrown.
+    dbtbArrby = (*env)->GetByteArrbyElements (env, dbtb, 0);
+    if (dbtbArrby == NULL) {
+        // An exception should hbve blrebdy been thrown.
         return 0L;
     }
 
-    dataSize = (*env)->GetArrayLength (env, data);
+    dbtbSize = (*env)->GetArrbyLength (env, dbtb);
 
-    pf = cmsOpenProfileFromMem((const void *)dataArray,
-                                     (cmsUInt32Number) dataSize);
+    pf = cmsOpenProfileFromMem((const void *)dbtbArrby,
+                                     (cmsUInt32Number) dbtbSize);
 
-    (*env)->ReleaseByteArrayElements (env, data, dataArray, 0);
+    (*env)->RelebseByteArrbyElements (env, dbtb, dbtbArrby, 0);
 
     if (pf == NULL) {
-        JNU_ThrowIllegalArgumentException(env, "Invalid profile data");
+        JNU_ThrowIllegblArgumentException(env, "Invblid profile dbtb");
     } else {
-        /* Sanity check: try to save the profile in order
-         * to force basic validation.
+        /* Sbnity check: try to sbve the profile in order
+         * to force bbsic vblidbtion.
          */
         cmsUInt32Number pfSize = 0;
-        if (!cmsSaveProfileToMem(pf, NULL, &pfSize) ||
-            pfSize < sizeof(cmsICCHeader))
+        if (!cmsSbveProfileToMem(pf, NULL, &pfSize) ||
+            pfSize < sizeof(cmsICCHebder))
         {
-            JNU_ThrowIllegalArgumentException(env, "Invalid profile data");
+            JNU_ThrowIllegblArgumentException(env, "Invblid profile dbtb");
 
             cmsCloseProfile(pf);
             pf = NULL;
@@ -295,8 +295,8 @@ JNIEXPORT jlong JNICALL Java_sun_java2d_cmm_lcms_LCMS_loadProfileNative
     }
 
     if (pf != NULL) {
-        // create profile holder
-        sProf = (lcmsProfile_p)malloc(sizeof(lcmsProfile_t));
+        // crebte profile holder
+        sProf = (lcmsProfile_p)mblloc(sizeof(lcmsProfile_t));
         if (sProf != NULL) {
             // register the disposer record
             sProf->pf = pf;
@@ -310,276 +310,276 @@ JNIEXPORT jlong JNICALL Java_sun_java2d_cmm_lcms_LCMS_loadProfileNative
 }
 
 /*
- * Class:     sun_java2d_cmm_lcms_LCMS
- * Method:    getProfileSizeNative
- * Signature: (J)I
+ * Clbss:     sun_jbvb2d_cmm_lcms_LCMS
+ * Method:    getProfileSizeNbtive
+ * Signbture: (J)I
  */
-JNIEXPORT jint JNICALL Java_sun_java2d_cmm_lcms_LCMS_getProfileSizeNative
+JNIEXPORT jint JNICALL Jbvb_sun_jbvb2d_cmm_lcms_LCMS_getProfileSizeNbtive
   (JNIEnv *env, jobject obj, jlong id)
 {
     lcmsProfile_p sProf = (lcmsProfile_p)jlong_to_ptr(id);
     cmsUInt32Number pfSize = 0;
 
-    if (cmsSaveProfileToMem(sProf->pf, NULL, &pfSize) && ((jint)pfSize > 0)) {
+    if (cmsSbveProfileToMem(sProf->pf, NULL, &pfSize) && ((jint)pfSize > 0)) {
         return (jint)pfSize;
     } else {
-      JNU_ThrowByName(env, "java/awt/color/CMMException",
-                      "Can not access specified profile.");
+      JNU_ThrowByNbme(env, "jbvb/bwt/color/CMMException",
+                      "Cbn not bccess specified profile.");
         return -1;
     }
 }
 
 /*
- * Class:     sun_java2d_cmm_lcms_LCMS
- * Method:    getProfileDataNative
- * Signature: (J[B)V
+ * Clbss:     sun_jbvb2d_cmm_lcms_LCMS
+ * Method:    getProfileDbtbNbtive
+ * Signbture: (J[B)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_cmm_lcms_LCMS_getProfileDataNative
-  (JNIEnv *env, jobject obj, jlong id, jbyteArray data)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_cmm_lcms_LCMS_getProfileDbtbNbtive
+  (JNIEnv *env, jobject obj, jlong id, jbyteArrby dbtb)
 {
     lcmsProfile_p sProf = (lcmsProfile_p)jlong_to_ptr(id);
     jint size;
-    jbyte* dataArray;
+    jbyte* dbtbArrby;
     cmsUInt32Number pfSize = 0;
-    cmsBool status;
+    cmsBool stbtus;
 
-    // determine actual profile size
-    if (!cmsSaveProfileToMem(sProf->pf, NULL, &pfSize)) {
-        JNU_ThrowByName(env, "java/awt/color/CMMException",
-                        "Can not access specified profile.");
+    // determine bctubl profile size
+    if (!cmsSbveProfileToMem(sProf->pf, NULL, &pfSize)) {
+        JNU_ThrowByNbme(env, "jbvb/bwt/color/CMMException",
+                        "Cbn not bccess specified profile.");
         return;
     }
 
-    // verify java buffer capacity
-    size = (*env)->GetArrayLength(env, data);
+    // verify jbvb buffer cbpbcity
+    size = (*env)->GetArrbyLength(env, dbtb);
     if (0 >= size || pfSize > (cmsUInt32Number)size) {
-        JNU_ThrowByName(env, "java/awt/color/CMMException",
-                        "Insufficient buffer capacity.");
+        JNU_ThrowByNbme(env, "jbvb/bwt/color/CMMException",
+                        "Insufficient buffer cbpbcity.");
         return;
     }
 
-    dataArray = (*env)->GetByteArrayElements (env, data, 0);
-    if (dataArray == NULL) {
-        // An exception should have already been thrown.
+    dbtbArrby = (*env)->GetByteArrbyElements (env, dbtb, 0);
+    if (dbtbArrby == NULL) {
+        // An exception should hbve blrebdy been thrown.
         return;
     }
 
-    status = cmsSaveProfileToMem(sProf->pf, dataArray, &pfSize);
+    stbtus = cmsSbveProfileToMem(sProf->pf, dbtbArrby, &pfSize);
 
-    (*env)->ReleaseByteArrayElements (env, data, dataArray, 0);
+    (*env)->RelebseByteArrbyElements (env, dbtb, dbtbArrby, 0);
 
-    if (!status) {
-        JNU_ThrowByName(env, "java/awt/color/CMMException",
-                        "Can not access specified profile.");
+    if (!stbtus) {
+        JNU_ThrowByNbme(env, "jbvb/bwt/color/CMMException",
+                        "Cbn not bccess specified profile.");
         return;
     }
 }
 
-/* Get profile header info */
-static cmsBool _getHeaderInfo(cmsHPROFILE pf, jbyte* pBuffer, jint bufferSize);
-static cmsBool _setHeaderInfo(cmsHPROFILE pf, jbyte* pBuffer, jint bufferSize);
-static cmsHPROFILE _writeCookedTag(cmsHPROFILE pfTarget, cmsTagSignature sig, jbyte *pData, jint size);
+/* Get profile hebder info */
+stbtic cmsBool _getHebderInfo(cmsHPROFILE pf, jbyte* pBuffer, jint bufferSize);
+stbtic cmsBool _setHebderInfo(cmsHPROFILE pf, jbyte* pBuffer, jint bufferSize);
+stbtic cmsHPROFILE _writeCookedTbg(cmsHPROFILE pfTbrget, cmsTbgSignbture sig, jbyte *pDbtb, jint size);
 
 
 /*
- * Class:     sun_java2d_cmm_lcms_LCMS
- * Method:    getTagData
- * Signature: (JI[B)V
+ * Clbss:     sun_jbvb2d_cmm_lcms_LCMS
+ * Method:    getTbgDbtb
+ * Signbture: (JI[B)V
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_java2d_cmm_lcms_LCMS_getTagNative
-  (JNIEnv *env, jobject obj, jlong id, jint tagSig)
+JNIEXPORT jbyteArrby JNICALL Jbvb_sun_jbvb2d_cmm_lcms_LCMS_getTbgNbtive
+  (JNIEnv *env, jobject obj, jlong id, jint tbgSig)
 {
     lcmsProfile_p sProf = (lcmsProfile_p)jlong_to_ptr(id);
-    TagSignature_t sig;
-    cmsInt32Number tagSize;
+    TbgSignbture_t sig;
+    cmsInt32Number tbgSize;
 
-    jbyte* dataArray = NULL;
-    jbyteArray data = NULL;
+    jbyte* dbtbArrby = NULL;
+    jbyteArrby dbtb = NULL;
 
     jint bufSize;
 
-    sig.j = tagSig;
+    sig.j = tbgSig;
 
-    if (tagSig == SigHead) {
-        cmsBool status;
+    if (tbgSig == SigHebd) {
+        cmsBool stbtus;
 
-        // allocate java array
-        bufSize = sizeof(cmsICCHeader);
-        data = (*env)->NewByteArray(env, bufSize);
+        // bllocbte jbvb brrby
+        bufSize = sizeof(cmsICCHebder);
+        dbtb = (*env)->NewByteArrby(env, bufSize);
 
-        if (data == NULL) {
-            // An exception should have already been thrown.
+        if (dbtb == NULL) {
+            // An exception should hbve blrebdy been thrown.
             return NULL;
         }
 
-        dataArray = (*env)->GetByteArrayElements (env, data, 0);
+        dbtbArrby = (*env)->GetByteArrbyElements (env, dbtb, 0);
 
-        if (dataArray == NULL) {
-            // An exception should have already been thrown.
+        if (dbtbArrby == NULL) {
+            // An exception should hbve blrebdy been thrown.
             return NULL;
         }
 
-        status = _getHeaderInfo(sProf->pf, dataArray, bufSize);
+        stbtus = _getHebderInfo(sProf->pf, dbtbArrby, bufSize);
 
-        (*env)->ReleaseByteArrayElements (env, data, dataArray, 0);
+        (*env)->RelebseByteArrbyElements (env, dbtb, dbtbArrby, 0);
 
-        if (!status) {
-            JNU_ThrowByName(env, "java/awt/color/CMMException",
-                            "ICC Profile header not found");
+        if (!stbtus) {
+            JNU_ThrowByNbme(env, "jbvb/bwt/color/CMMException",
+                            "ICC Profile hebder not found");
             return NULL;
         }
 
-        return data;
+        return dbtb;
     }
 
-    if (cmsIsTag(sProf->pf, sig.cms)) {
-        tagSize = cmsReadRawTag(sProf->pf, sig.cms, NULL, 0);
+    if (cmsIsTbg(sProf->pf, sig.cms)) {
+        tbgSize = cmsRebdRbwTbg(sProf->pf, sig.cms, NULL, 0);
     } else {
-        JNU_ThrowByName(env, "java/awt/color/CMMException",
-                        "ICC profile tag not found");
+        JNU_ThrowByNbme(env, "jbvb/bwt/color/CMMException",
+                        "ICC profile tbg not found");
         return NULL;
     }
 
-    // allocate java array
-    data = (*env)->NewByteArray(env, tagSize);
-    if (data == NULL) {
-        // An exception should have already been thrown.
+    // bllocbte jbvb brrby
+    dbtb = (*env)->NewByteArrby(env, tbgSize);
+    if (dbtb == NULL) {
+        // An exception should hbve blrebdy been thrown.
         return NULL;
     }
 
-    dataArray = (*env)->GetByteArrayElements (env, data, 0);
+    dbtbArrby = (*env)->GetByteArrbyElements (env, dbtb, 0);
 
-    if (dataArray == NULL) {
-        // An exception should have already been thrown.
+    if (dbtbArrby == NULL) {
+        // An exception should hbve blrebdy been thrown.
         return NULL;
     }
 
-    bufSize = cmsReadRawTag(sProf->pf, sig.cms, dataArray, tagSize);
+    bufSize = cmsRebdRbwTbg(sProf->pf, sig.cms, dbtbArrby, tbgSize);
 
-    (*env)->ReleaseByteArrayElements (env, data, dataArray, 0);
+    (*env)->RelebseByteArrbyElements (env, dbtb, dbtbArrby, 0);
 
-    if (bufSize != tagSize) {
-        JNU_ThrowByName(env, "java/awt/color/CMMException",
-                        "Can not get tag data.");
+    if (bufSize != tbgSize) {
+        JNU_ThrowByNbme(env, "jbvb/bwt/color/CMMException",
+                        "Cbn not get tbg dbtb.");
         return NULL;
     }
-    return data;
+    return dbtb;
 }
 
 /*
- * Class:     sun_java2d_cmm_lcms_LCMS
- * Method:    setTagData
- * Signature: (JI[B)V
+ * Clbss:     sun_jbvb2d_cmm_lcms_LCMS
+ * Method:    setTbgDbtb
+ * Signbture: (JI[B)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_cmm_lcms_LCMS_setTagDataNative
-  (JNIEnv *env, jobject obj, jlong id, jint tagSig, jbyteArray data)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_cmm_lcms_LCMS_setTbgDbtbNbtive
+  (JNIEnv *env, jobject obj, jlong id, jint tbgSig, jbyteArrby dbtb)
 {
     lcmsProfile_p sProf = (lcmsProfile_p)jlong_to_ptr(id);
-    cmsHPROFILE pfReplace = NULL;
+    cmsHPROFILE pfReplbce = NULL;
 
-    TagSignature_t sig;
-    cmsBool status = FALSE;
-    jbyte* dataArray;
-    int tagSize;
+    TbgSignbture_t sig;
+    cmsBool stbtus = FALSE;
+    jbyte* dbtbArrby;
+    int tbgSize;
 
-    sig.j = tagSig;
+    sig.j = tbgSig;
 
-    if (JNU_IsNull(env, data)) {
-        JNU_ThrowIllegalArgumentException(env, "Can not write tag data.");
+    if (JNU_IsNull(env, dbtb)) {
+        JNU_ThrowIllegblArgumentException(env, "Cbn not write tbg dbtb.");
         return;
     }
 
-    tagSize =(*env)->GetArrayLength(env, data);
+    tbgSize =(*env)->GetArrbyLength(env, dbtb);
 
-    dataArray = (*env)->GetByteArrayElements(env, data, 0);
+    dbtbArrby = (*env)->GetByteArrbyElements(env, dbtb, 0);
 
-    if (dataArray == NULL) {
-        // An exception should have already been thrown.
+    if (dbtbArrby == NULL) {
+        // An exception should hbve blrebdy been thrown.
         return;
     }
 
-    if (tagSig == SigHead) {
-        status  = _setHeaderInfo(sProf->pf, dataArray, tagSize);
+    if (tbgSig == SigHebd) {
+        stbtus  = _setHebderInfo(sProf->pf, dbtbArrby, tbgSize);
     } else {
         /*
-        * New strategy for generic tags: create a place holder,
-        * dump all existing tags there, dump externally supplied
-        * tag, and return the new profile to the java.
+        * New strbtegy for generic tbgs: crebte b plbce holder,
+        * dump bll existing tbgs there, dump externblly supplied
+        * tbg, bnd return the new profile to the jbvb.
         */
-        pfReplace = _writeCookedTag(sProf->pf, sig.cms, dataArray, tagSize);
-        status = (pfReplace != NULL);
+        pfReplbce = _writeCookedTbg(sProf->pf, sig.cms, dbtbArrby, tbgSize);
+        stbtus = (pfReplbce != NULL);
     }
 
-    (*env)->ReleaseByteArrayElements(env, data, dataArray, 0);
+    (*env)->RelebseByteArrbyElements(env, dbtb, dbtbArrby, 0);
 
-    if (!status) {
-        JNU_ThrowIllegalArgumentException(env, "Can not write tag data.");
-    } else if (pfReplace != NULL) {
+    if (!stbtus) {
+        JNU_ThrowIllegblArgumentException(env, "Cbn not write tbg dbtb.");
+    } else if (pfReplbce != NULL) {
         cmsCloseProfile(sProf->pf);
-        sProf->pf = pfReplace;
+        sProf->pf = pfReplbce;
     }
 }
 
-void* getILData (JNIEnv *env, jobject img, jint* pDataType,
-                 jobject* pDataObject) {
+void* getILDbtb (JNIEnv *env, jobject img, jint* pDbtbType,
+                 jobject* pDbtbObject) {
     void* result = NULL;
-    *pDataType = (*env)->GetIntField (env, img, IL_dataType_fID);
-    *pDataObject = (*env)->GetObjectField(env, img, IL_dataArray_fID);
-    switch (*pDataType) {
-        case DT_BYTE:
-            result = (*env)->GetByteArrayElements (env, *pDataObject, 0);
-            break;
-        case DT_SHORT:
-            result = (*env)->GetShortArrayElements (env, *pDataObject, 0);
-            break;
-        case DT_INT:
-            result = (*env)->GetIntArrayElements (env, *pDataObject, 0);
-            break;
-        case DT_DOUBLE:
-            result = (*env)->GetDoubleArrayElements (env, *pDataObject, 0);
-            break;
+    *pDbtbType = (*env)->GetIntField (env, img, IL_dbtbType_fID);
+    *pDbtbObject = (*env)->GetObjectField(env, img, IL_dbtbArrby_fID);
+    switch (*pDbtbType) {
+        cbse DT_BYTE:
+            result = (*env)->GetByteArrbyElements (env, *pDbtbObject, 0);
+            brebk;
+        cbse DT_SHORT:
+            result = (*env)->GetShortArrbyElements (env, *pDbtbObject, 0);
+            brebk;
+        cbse DT_INT:
+            result = (*env)->GetIntArrbyElements (env, *pDbtbObject, 0);
+            brebk;
+        cbse DT_DOUBLE:
+            result = (*env)->GetDoubleArrbyElements (env, *pDbtbObject, 0);
+            brebk;
     }
 
     return result;
 }
 
-void releaseILData (JNIEnv *env, void* pData, jint dataType,
-                    jobject dataObject) {
-    switch (dataType) {
-        case DT_BYTE:
-            (*env)->ReleaseByteArrayElements(env,dataObject,(jbyte*)pData,0);
-            break;
-        case DT_SHORT:
-            (*env)->ReleaseShortArrayElements(env,dataObject,(jshort*)pData, 0);
-            break;
-        case DT_INT:
-            (*env)->ReleaseIntArrayElements(env,dataObject,(jint*)pData,0);
-            break;
-        case DT_DOUBLE:
-            (*env)->ReleaseDoubleArrayElements(env,dataObject,(jdouble*)pData,
+void relebseILDbtb (JNIEnv *env, void* pDbtb, jint dbtbType,
+                    jobject dbtbObject) {
+    switch (dbtbType) {
+        cbse DT_BYTE:
+            (*env)->RelebseByteArrbyElements(env,dbtbObject,(jbyte*)pDbtb,0);
+            brebk;
+        cbse DT_SHORT:
+            (*env)->RelebseShortArrbyElements(env,dbtbObject,(jshort*)pDbtb, 0);
+            brebk;
+        cbse DT_INT:
+            (*env)->RelebseIntArrbyElements(env,dbtbObject,(jint*)pDbtb,0);
+            brebk;
+        cbse DT_DOUBLE:
+            (*env)->RelebseDoubleArrbyElements(env,dbtbObject,(jdouble*)pDbtb,
                                                0);
-            break;
+            brebk;
     }
 }
 
 /*
- * Class:     sun_java2d_cmm_lcms_LCMS
+ * Clbss:     sun_jbvb2d_cmm_lcms_LCMS
  * Method:    colorConvert
- * Signature: (Lsun/java2d/cmm/lcms/LCMSTransform;Lsun/java2d/cmm/lcms/LCMSImageLayout;Lsun/java2d/cmm/lcms/LCMSImageLayout;)V
+ * Signbture: (Lsun/jbvb2d/cmm/lcms/LCMSTrbnsform;Lsun/jbvb2d/cmm/lcms/LCMSImbgeLbyout;Lsun/jbvb2d/cmm/lcms/LCMSImbgeLbyout;)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_cmm_lcms_LCMS_colorConvert
-  (JNIEnv *env, jclass obj, jobject trans, jobject src, jobject dst)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_cmm_lcms_LCMS_colorConvert
+  (JNIEnv *env, jclbss obj, jobject trbns, jobject src, jobject dst)
 {
-    cmsHTRANSFORM sTrans = NULL;
+    cmsHTRANSFORM sTrbns = NULL;
     int srcDType, dstDType;
     int srcOffset, srcNextRowOffset, dstOffset, dstNextRowOffset;
     int width, height, i;
     void* inputBuffer;
     void* outputBuffer;
-    char* inputRow;
-    char* outputRow;
-    jobject srcData, dstData;
-    jboolean srcAtOnce = JNI_FALSE, dstAtOnce = JNI_FALSE;
+    chbr* inputRow;
+    chbr* outputRow;
+    jobject srcDbtb, dstDbtb;
+    jboolebn srcAtOnce = JNI_FALSE, dstAtOnce = JNI_FALSE;
 
     srcOffset = (*env)->GetIntField (env, src, IL_offset_fID);
     srcNextRowOffset = (*env)->GetIntField (env, src, IL_nextRowOffset_fID);
@@ -588,71 +588,71 @@ JNIEXPORT void JNICALL Java_sun_java2d_cmm_lcms_LCMS_colorConvert
     width = (*env)->GetIntField (env, src, IL_width_fID);
     height = (*env)->GetIntField (env, src, IL_height_fID);
 
-    srcAtOnce = (*env)->GetBooleanField(env, src, IL_imageAtOnce_fID);
-    dstAtOnce = (*env)->GetBooleanField(env, dst, IL_imageAtOnce_fID);
+    srcAtOnce = (*env)->GetBoolebnField(env, src, IL_imbgeAtOnce_fID);
+    dstAtOnce = (*env)->GetBoolebnField(env, dst, IL_imbgeAtOnce_fID);
 
-    sTrans = jlong_to_ptr((*env)->GetLongField (env, trans, Trans_ID_fID));
+    sTrbns = jlong_to_ptr((*env)->GetLongField (env, trbns, Trbns_ID_fID));
 
-    if (sTrans == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "LCMS_colorConvert: transform == NULL");
-        JNU_ThrowByName(env, "java/awt/color/CMMException",
-                        "Cannot get color transform");
+    if (sTrbns == NULL) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "LCMS_colorConvert: trbnsform == NULL");
+        JNU_ThrowByNbme(env, "jbvb/bwt/color/CMMException",
+                        "Cbnnot get color trbnsform");
         return;
     }
 
 
-    inputBuffer = getILData (env, src, &srcDType, &srcData);
+    inputBuffer = getILDbtb (env, src, &srcDType, &srcDbtb);
 
     if (inputBuffer == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "");
-        // An exception should have already been thrown.
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "");
+        // An exception should hbve blrebdy been thrown.
         return;
     }
 
-    outputBuffer = getILData (env, dst, &dstDType, &dstData);
+    outputBuffer = getILDbtb (env, dst, &dstDType, &dstDbtb);
 
     if (outputBuffer == NULL) {
-        releaseILData(env, inputBuffer, srcDType, srcData);
-        // An exception should have already been thrown.
+        relebseILDbtb(env, inputBuffer, srcDType, srcDbtb);
+        // An exception should hbve blrebdy been thrown.
         return;
     }
 
-    inputRow = (char*)inputBuffer + srcOffset;
-    outputRow = (char*)outputBuffer + dstOffset;
+    inputRow = (chbr*)inputBuffer + srcOffset;
+    outputRow = (chbr*)outputBuffer + dstOffset;
 
     if (srcAtOnce && dstAtOnce) {
-        cmsDoTransform(sTrans, inputRow, outputRow, width * height);
+        cmsDoTrbnsform(sTrbns, inputRow, outputRow, width * height);
     } else {
         for (i = 0; i < height; i++) {
-            cmsDoTransform(sTrans, inputRow, outputRow, width);
+            cmsDoTrbnsform(sTrbns, inputRow, outputRow, width);
             inputRow += srcNextRowOffset;
             outputRow += dstNextRowOffset;
         }
     }
 
-    releaseILData(env, inputBuffer, srcDType, srcData);
-    releaseILData(env, outputBuffer, dstDType, dstData);
+    relebseILDbtb(env, inputBuffer, srcDType, srcDbtb);
+    relebseILDbtb(env, outputBuffer, dstDType, dstDbtb);
 }
 
 /*
- * Class:     sun_java2d_cmm_lcms_LCMS
+ * Clbss:     sun_jbvb2d_cmm_lcms_LCMS
  * Method:    getProfileID
- * Signature: (Ljava/awt/color/ICC_Profile;)Lsun/java2d/cmm/lcms/LCMSProfile
+ * Signbture: (Ljbvb/bwt/color/ICC_Profile;)Lsun/jbvb2d/cmm/lcms/LCMSProfile
  */
-JNIEXPORT jobject JNICALL Java_sun_java2d_cmm_lcms_LCMS_getProfileID
-  (JNIEnv *env, jclass cls, jobject pf)
+JNIEXPORT jobject JNICALL Jbvb_sun_jbvb2d_cmm_lcms_LCMS_getProfileID
+  (JNIEnv *env, jclbss cls, jobject pf)
 {
-    jclass clsLcmsProfile;
+    jclbss clsLcmsProfile;
     jobject cmmProfile;
     jfieldID fid = (*env)->GetFieldID (env,
-        (*env)->GetObjectClass(env, pf),
-        "cmmProfile", "Lsun/java2d/cmm/Profile;");
+        (*env)->GetObjectClbss(env, pf),
+        "cmmProfile", "Lsun/jbvb2d/cmm/Profile;");
     if (fid == NULL) {
         return NULL;
     }
 
-    clsLcmsProfile = (*env)->FindClass(env,
-            "sun/java2d/cmm/lcms/LCMSProfile");
+    clsLcmsProfile = (*env)->FindClbss(env,
+            "sun/jbvb2d/cmm/lcms/LCMSProfile");
     if (clsLcmsProfile == NULL) {
         return NULL;
     }
@@ -662,48 +662,48 @@ JNIEXPORT jobject JNICALL Java_sun_java2d_cmm_lcms_LCMS_getProfileID
     if (JNU_IsNull(env, cmmProfile)) {
         return NULL;
     }
-    if ((*env)->IsInstanceOf(env, cmmProfile, clsLcmsProfile)) {
+    if ((*env)->IsInstbnceOf(env, cmmProfile, clsLcmsProfile)) {
         return cmmProfile;
     }
     return NULL;
 }
 
 /*
- * Class:     sun_java2d_cmm_lcms_LCMS
+ * Clbss:     sun_jbvb2d_cmm_lcms_LCMS
  * Method:    initLCMS
- * Signature: (Ljava/lang/Class;Ljava/lang/Class;Ljava/lang/Class;)V
+ * Signbture: (Ljbvb/lbng/Clbss;Ljbvb/lbng/Clbss;Ljbvb/lbng/Clbss;)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_cmm_lcms_LCMS_initLCMS
-  (JNIEnv *env, jclass cls, jclass Trans, jclass IL, jclass Pf)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_cmm_lcms_LCMS_initLCMS
+  (JNIEnv *env, jclbss cls, jclbss Trbns, jclbss IL, jclbss Pf)
 {
-    /* TODO: move initialization of the IDs to the static blocks of
-     * corresponding classes to avoid problems with invalidating ids by class
-     * unloading
+    /* TODO: move initiblizbtion of the IDs to the stbtic blocks of
+     * corresponding clbsses to bvoid problems with invblidbting ids by clbss
+     * unlobding
      */
-    Trans_renderType_fID = (*env)->GetFieldID (env, Trans, "renderType", "I");
-    if (Trans_renderType_fID == NULL) {
+    Trbns_renderType_fID = (*env)->GetFieldID (env, Trbns, "renderType", "I");
+    if (Trbns_renderType_fID == NULL) {
         return;
     }
-    Trans_ID_fID = (*env)->GetFieldID (env, Trans, "ID", "J");
-    if (Trans_ID_fID == NULL) {
+    Trbns_ID_fID = (*env)->GetFieldID (env, Trbns, "ID", "J");
+    if (Trbns_ID_fID == NULL) {
         return;
     }
 
-    IL_isIntPacked_fID = (*env)->GetFieldID (env, IL, "isIntPacked", "Z");
-    if (IL_isIntPacked_fID == NULL) {
+    IL_isIntPbcked_fID = (*env)->GetFieldID (env, IL, "isIntPbcked", "Z");
+    if (IL_isIntPbcked_fID == NULL) {
         return;
     }
-    IL_dataType_fID = (*env)->GetFieldID (env, IL, "dataType", "I");
-    if (IL_dataType_fID == NULL) {
+    IL_dbtbType_fID = (*env)->GetFieldID (env, IL, "dbtbType", "I");
+    if (IL_dbtbType_fID == NULL) {
         return;
     }
     IL_pixelType_fID = (*env)->GetFieldID (env, IL, "pixelType", "I");
     if (IL_pixelType_fID == NULL) {
         return;
     }
-    IL_dataArray_fID = (*env)->GetFieldID(env, IL, "dataArray",
-                                          "Ljava/lang/Object;");
-    if (IL_dataArray_fID == NULL) {
+    IL_dbtbArrby_fID = (*env)->GetFieldID(env, IL, "dbtbArrby",
+                                          "Ljbvb/lbng/Object;");
+    if (IL_dbtbArrby_fID == NULL) {
         return;
     }
     IL_width_fID = (*env)->GetFieldID (env, IL, "width", "I");
@@ -718,8 +718,8 @@ JNIEXPORT void JNICALL Java_sun_java2d_cmm_lcms_LCMS_initLCMS
     if (IL_offset_fID == NULL) {
         return;
     }
-    IL_imageAtOnce_fID = (*env)->GetFieldID (env, IL, "imageAtOnce", "Z");
-    if (IL_imageAtOnce_fID == NULL) {
+    IL_imbgeAtOnce_fID = (*env)->GetFieldID (env, IL, "imbgeAtOnce", "Z");
+    if (IL_imbgeAtOnce_fID == NULL) {
         return;
     }
     IL_nextRowOffset_fID = (*env)->GetFieldID (env, IL, "nextRowOffset", "I");
@@ -728,166 +728,166 @@ JNIEXPORT void JNICALL Java_sun_java2d_cmm_lcms_LCMS_initLCMS
     }
 }
 
-static cmsBool _getHeaderInfo(cmsHPROFILE pf, jbyte* pBuffer, jint bufferSize)
+stbtic cmsBool _getHebderInfo(cmsHPROFILE pf, jbyte* pBuffer, jint bufferSize)
 {
   cmsUInt32Number pfSize = 0;
   cmsUInt8Number* pfBuffer = NULL;
-  cmsBool status = FALSE;
+  cmsBool stbtus = FALSE;
 
-  if (!cmsSaveProfileToMem(pf, NULL, &pfSize) ||
-      pfSize < sizeof(cmsICCHeader) ||
-      bufferSize < (jint)sizeof(cmsICCHeader))
+  if (!cmsSbveProfileToMem(pf, NULL, &pfSize) ||
+      pfSize < sizeof(cmsICCHebder) ||
+      bufferSize < (jint)sizeof(cmsICCHebder))
   {
     return FALSE;
   }
 
-  pfBuffer = malloc(pfSize);
+  pfBuffer = mblloc(pfSize);
   if (pfBuffer == NULL) {
     return FALSE;
   }
 
-  // load raw profile data into the buffer
-  if (cmsSaveProfileToMem(pf, pfBuffer, &pfSize)) {
-    memcpy(pBuffer, pfBuffer, sizeof(cmsICCHeader));
-    status = TRUE;
+  // lobd rbw profile dbtb into the buffer
+  if (cmsSbveProfileToMem(pf, pfBuffer, &pfSize)) {
+    memcpy(pBuffer, pfBuffer, sizeof(cmsICCHebder));
+    stbtus = TRUE;
   }
   free(pfBuffer);
-  return status;
+  return stbtus;
 }
 
-static cmsBool _setHeaderInfo(cmsHPROFILE pf, jbyte* pBuffer, jint bufferSize)
+stbtic cmsBool _setHebderInfo(cmsHPROFILE pf, jbyte* pBuffer, jint bufferSize)
 {
-  cmsICCHeader pfHeader;
+  cmsICCHebder pfHebder;
 
-  if (pBuffer == NULL || bufferSize < (jint)sizeof(cmsICCHeader)) {
+  if (pBuffer == NULL || bufferSize < (jint)sizeof(cmsICCHebder)) {
     return FALSE;
   }
 
-  memcpy(&pfHeader, pBuffer, sizeof(cmsICCHeader));
+  memcpy(&pfHebder, pBuffer, sizeof(cmsICCHebder));
 
-  // now set header fields, which we can access using the lcms2 public API
-  cmsSetHeaderFlags(pf, pfHeader.flags);
-  cmsSetHeaderManufacturer(pf, pfHeader.manufacturer);
-  cmsSetHeaderModel(pf, pfHeader.model);
-  cmsSetHeaderAttributes(pf, pfHeader.attributes);
-  cmsSetHeaderProfileID(pf, (cmsUInt8Number*)&(pfHeader.profileID));
-  cmsSetHeaderRenderingIntent(pf, pfHeader.renderingIntent);
-  cmsSetPCS(pf, pfHeader.pcs);
-  cmsSetColorSpace(pf, pfHeader.colorSpace);
-  cmsSetDeviceClass(pf, pfHeader.deviceClass);
-  cmsSetEncodedICCversion(pf, pfHeader.version);
+  // now set hebder fields, which we cbn bccess using the lcms2 public API
+  cmsSetHebderFlbgs(pf, pfHebder.flbgs);
+  cmsSetHebderMbnufbcturer(pf, pfHebder.mbnufbcturer);
+  cmsSetHebderModel(pf, pfHebder.model);
+  cmsSetHebderAttributes(pf, pfHebder.bttributes);
+  cmsSetHebderProfileID(pf, (cmsUInt8Number*)&(pfHebder.profileID));
+  cmsSetHebderRenderingIntent(pf, pfHebder.renderingIntent);
+  cmsSetPCS(pf, pfHebder.pcs);
+  cmsSetColorSpbce(pf, pfHebder.colorSpbce);
+  cmsSetDeviceClbss(pf, pfHebder.deviceClbss);
+  cmsSetEncodedICCversion(pf, pfHebder.version);
 
   return TRUE;
 }
 
-/* Returns new profile handler, if it was created successfully,
+/* Returns new profile hbndler, if it wbs crebted successfully,
    NULL otherwise.
    */
-static cmsHPROFILE _writeCookedTag(const cmsHPROFILE pfTarget,
-                               const cmsTagSignature sig,
-                               jbyte *pData, jint size)
+stbtic cmsHPROFILE _writeCookedTbg(const cmsHPROFILE pfTbrget,
+                               const cmsTbgSignbture sig,
+                               jbyte *pDbtb, jint size)
 {
     cmsUInt32Number pfSize = 0;
-    const cmsInt32Number tagCount = cmsGetTagCount(pfTarget);
+    const cmsInt32Number tbgCount = cmsGetTbgCount(pfTbrget);
     cmsInt32Number i;
-    cmsHPROFILE pfSanity = NULL;
+    cmsHPROFILE pfSbnity = NULL;
 
-    cmsICCHeader hdr;
+    cmsICCHebder hdr;
 
-    cmsHPROFILE p = cmsCreateProfilePlaceholder(NULL);
+    cmsHPROFILE p = cmsCrebteProfilePlbceholder(NULL);
 
     if (NULL == p) {
         return NULL;
     }
-    memset(&hdr, 0, sizeof(cmsICCHeader));
+    memset(&hdr, 0, sizeof(cmsICCHebder));
 
-    // Populate the placeholder's header according to target profile
-    hdr.flags = cmsGetHeaderFlags(pfTarget);
-    hdr.renderingIntent = cmsGetHeaderRenderingIntent(pfTarget);
-    hdr.manufacturer = cmsGetHeaderManufacturer(pfTarget);
-    hdr.model = cmsGetHeaderModel(pfTarget);
-    hdr.pcs = cmsGetPCS(pfTarget);
-    hdr.colorSpace = cmsGetColorSpace(pfTarget);
-    hdr.deviceClass = cmsGetDeviceClass(pfTarget);
-    hdr.version = cmsGetEncodedICCversion(pfTarget);
-    cmsGetHeaderAttributes(pfTarget, &hdr.attributes);
-    cmsGetHeaderProfileID(pfTarget, (cmsUInt8Number*)&hdr.profileID);
+    // Populbte the plbceholder's hebder bccording to tbrget profile
+    hdr.flbgs = cmsGetHebderFlbgs(pfTbrget);
+    hdr.renderingIntent = cmsGetHebderRenderingIntent(pfTbrget);
+    hdr.mbnufbcturer = cmsGetHebderMbnufbcturer(pfTbrget);
+    hdr.model = cmsGetHebderModel(pfTbrget);
+    hdr.pcs = cmsGetPCS(pfTbrget);
+    hdr.colorSpbce = cmsGetColorSpbce(pfTbrget);
+    hdr.deviceClbss = cmsGetDeviceClbss(pfTbrget);
+    hdr.version = cmsGetEncodedICCversion(pfTbrget);
+    cmsGetHebderAttributes(pfTbrget, &hdr.bttributes);
+    cmsGetHebderProfileID(pfTbrget, (cmsUInt8Number*)&hdr.profileID);
 
-    cmsSetHeaderFlags(p, hdr.flags);
-    cmsSetHeaderManufacturer(p, hdr.manufacturer);
-    cmsSetHeaderModel(p, hdr.model);
-    cmsSetHeaderAttributes(p, hdr.attributes);
-    cmsSetHeaderProfileID(p, (cmsUInt8Number*)&(hdr.profileID));
-    cmsSetHeaderRenderingIntent(p, hdr.renderingIntent);
+    cmsSetHebderFlbgs(p, hdr.flbgs);
+    cmsSetHebderMbnufbcturer(p, hdr.mbnufbcturer);
+    cmsSetHebderModel(p, hdr.model);
+    cmsSetHebderAttributes(p, hdr.bttributes);
+    cmsSetHebderProfileID(p, (cmsUInt8Number*)&(hdr.profileID));
+    cmsSetHebderRenderingIntent(p, hdr.renderingIntent);
     cmsSetPCS(p, hdr.pcs);
-    cmsSetColorSpace(p, hdr.colorSpace);
-    cmsSetDeviceClass(p, hdr.deviceClass);
+    cmsSetColorSpbce(p, hdr.colorSpbce);
+    cmsSetDeviceClbss(p, hdr.deviceClbss);
     cmsSetEncodedICCversion(p, hdr.version);
 
-    // now write the user supplied tag
-    if (size <= 0 || !cmsWriteRawTag(p, sig, pData, size)) {
+    // now write the user supplied tbg
+    if (size <= 0 || !cmsWriteRbwTbg(p, sig, pDbtb, size)) {
         cmsCloseProfile(p);
         return NULL;
     }
 
-    // copy tags from the original profile
-    for (i = 0; i < tagCount; i++) {
-        cmsBool isTagReady = FALSE;
-        const cmsTagSignature s = cmsGetTagSignature(pfTarget, i);
-        const cmsInt32Number tagSize = cmsReadRawTag(pfTarget, s, NULL, 0);
+    // copy tbgs from the originbl profile
+    for (i = 0; i < tbgCount; i++) {
+        cmsBool isTbgRebdy = FALSE;
+        const cmsTbgSignbture s = cmsGetTbgSignbture(pfTbrget, i);
+        const cmsInt32Number tbgSize = cmsRebdRbwTbg(pfTbrget, s, NULL, 0);
 
         if (s == sig) {
-            // skip the user supplied tag
+            // skip the user supplied tbg
             continue;
         }
 
-        // read raw tag from the original profile
-        if (tagSize > 0) {
-            cmsUInt8Number* buf = (cmsUInt8Number*)malloc(tagSize);
+        // rebd rbw tbg from the originbl profile
+        if (tbgSize > 0) {
+            cmsUInt8Number* buf = (cmsUInt8Number*)mblloc(tbgSize);
             if (buf != NULL) {
-                if (tagSize ==  cmsReadRawTag(pfTarget, s, buf, tagSize)) {
-                    // now we are ready to write the tag
-                    isTagReady = cmsWriteRawTag(p, s, buf, tagSize);
+                if (tbgSize ==  cmsRebdRbwTbg(pfTbrget, s, buf, tbgSize)) {
+                    // now we bre rebdy to write the tbg
+                    isTbgRebdy = cmsWriteRbwTbg(p, s, buf, tbgSize);
                 }
                 free(buf);
             }
         }
 
-        if (!isTagReady) {
+        if (!isTbgRebdy) {
             cmsCloseProfile(p);
             return NULL;
         }
     }
 
-    // now we have all tags moved to the new profile.
-    // do some sanity checks: write it to a memory buffer and read again.
-    if (cmsSaveProfileToMem(p, NULL, &pfSize)) {
-        void* buf = malloc(pfSize);
+    // now we hbve bll tbgs moved to the new profile.
+    // do some sbnity checks: write it to b memory buffer bnd rebd bgbin.
+    if (cmsSbveProfileToMem(p, NULL, &pfSize)) {
+        void* buf = mblloc(pfSize);
         if (buf != NULL) {
-            // load raw profile data into the buffer
-            if (cmsSaveProfileToMem(p, buf, &pfSize)) {
-                pfSanity = cmsOpenProfileFromMem(buf, pfSize);
+            // lobd rbw profile dbtb into the buffer
+            if (cmsSbveProfileToMem(p, buf, &pfSize)) {
+                pfSbnity = cmsOpenProfileFromMem(buf, pfSize);
             }
             free(buf);
         }
     }
 
-    if (pfSanity == NULL) {
-        // for some reason, we failed to save and read the updated profile
-        // It likely indicates that the profile is not correct, so we report
-        // a failure here.
+    if (pfSbnity == NULL) {
+        // for some rebson, we fbiled to sbve bnd rebd the updbted profile
+        // It likely indicbtes thbt the profile is not correct, so we report
+        // b fbilure here.
         cmsCloseProfile(p);
         p =  NULL;
     } else {
-        // do final check whether we can read and handle the the target tag.
-        const void* pTag = cmsReadTag(pfSanity, sig);
-        if (pTag == NULL) {
-            // the tag can not be cooked
+        // do finbl check whether we cbn rebd bnd hbndle the the tbrget tbg.
+        const void* pTbg = cmsRebdTbg(pfSbnity, sig);
+        if (pTbg == NULL) {
+            // the tbg cbn not be cooked
             cmsCloseProfile(p);
             p = NULL;
         }
-        cmsCloseProfile(pfSanity);
-        pfSanity = NULL;
+        cmsCloseProfile(pfSbnity);
+        pfSbnity = NULL;
     }
 
     return p;

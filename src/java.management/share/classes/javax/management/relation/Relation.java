@@ -1,264 +1,264 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.relation;
+pbckbge jbvbx.mbnbgement.relbtion;
 
-import java.util.List;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * This interface has to be implemented by any MBean class expected to
- * represent a relation managed using the Relation Service.
- * <P>Simple relations, i.e. having only roles, no properties or methods, can
- * be created directly by the Relation Service (represented as RelationSupport
- * objects, internally handled by the Relation Service).
- * <P>If the user wants to represent more complex relations, involving
- * properties and/or methods, he has to provide his own class implementing the
- * Relation interface. This can be achieved either by inheriting from
- * RelationSupport class, or by implementing the interface (fully or delegation to
- * a RelationSupport object member).
- * <P>Specifying such user relation class is to introduce properties and/or
- * methods. Those have to be exposed for remote management. So this means that
- * any user relation class must be a MBean class.
+ * This interfbce hbs to be implemented by bny MBebn clbss expected to
+ * represent b relbtion mbnbged using the Relbtion Service.
+ * <P>Simple relbtions, i.e. hbving only roles, no properties or methods, cbn
+ * be crebted directly by the Relbtion Service (represented bs RelbtionSupport
+ * objects, internblly hbndled by the Relbtion Service).
+ * <P>If the user wbnts to represent more complex relbtions, involving
+ * properties bnd/or methods, he hbs to provide his own clbss implementing the
+ * Relbtion interfbce. This cbn be bchieved either by inheriting from
+ * RelbtionSupport clbss, or by implementing the interfbce (fully or delegbtion to
+ * b RelbtionSupport object member).
+ * <P>Specifying such user relbtion clbss is to introduce properties bnd/or
+ * methods. Those hbve to be exposed for remote mbnbgement. So this mebns thbt
+ * bny user relbtion clbss must be b MBebn clbss.
  *
  * @since 1.5
  */
-public interface Relation {
+public interfbce Relbtion {
 
     /**
-     * Retrieves role value for given role name.
-     * <P>Checks if the role exists and is readable according to the relation
+     * Retrieves role vblue for given role nbme.
+     * <P>Checks if the role exists bnd is rebdbble bccording to the relbtion
      * type.
      *
-     * @param roleName  name of role
+     * @pbrbm roleNbme  nbme of role
      *
-     * @return the ArrayList of ObjectName objects being the role value
+     * @return the ArrbyList of ObjectNbme objects being the role vblue
      *
-     * @exception IllegalArgumentException  if null role name
+     * @exception IllegblArgumentException  if null role nbme
      * @exception RoleNotFoundException  if:
-     * <P>- there is no role with given name
-     * <P>- the role is not readable.
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
+     * <P>- there is no role with given nbme
+     * <P>- the role is not rebdbble.
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
      *
      * @see #setRole
      */
-    public List<ObjectName> getRole(String roleName)
-        throws IllegalArgumentException,
+    public List<ObjectNbme> getRole(String roleNbme)
+        throws IllegblArgumentException,
                RoleNotFoundException,
-               RelationServiceNotRegisteredException;
+               RelbtionServiceNotRegisteredException;
 
     /**
-     * Retrieves values of roles with given names.
-     * <P>Checks for each role if it exists and is readable according to the
-     * relation type.
+     * Retrieves vblues of roles with given nbmes.
+     * <P>Checks for ebch role if it exists bnd is rebdbble bccording to the
+     * relbtion type.
      *
-     * @param roleNameArray  array of names of roles to be retrieved
+     * @pbrbm roleNbmeArrby  brrby of nbmes of roles to be retrieved
      *
-     * @return a RoleResult object, including a RoleList (for roles
-     * successfully retrieved) and a RoleUnresolvedList (for roles not
+     * @return b RoleResult object, including b RoleList (for roles
+     * successfully retrieved) bnd b RoleUnresolvedList (for roles not
      * retrieved).
      *
-     * @exception IllegalArgumentException  if null role name
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
+     * @exception IllegblArgumentException  if null role nbme
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
      *
      * @see #setRoles
      */
-    public RoleResult getRoles(String[] roleNameArray)
-        throws IllegalArgumentException,
-               RelationServiceNotRegisteredException;
+    public RoleResult getRoles(String[] roleNbmeArrby)
+        throws IllegblArgumentException,
+               RelbtionServiceNotRegisteredException;
 
     /**
-     * Returns the number of MBeans currently referenced in the given role.
+     * Returns the number of MBebns currently referenced in the given role.
      *
-     * @param roleName  name of role
+     * @pbrbm roleNbme  nbme of role
      *
-     * @return the number of currently referenced MBeans in that role
+     * @return the number of currently referenced MBebns in thbt role
      *
-     * @exception IllegalArgumentException  if null role name
-     * @exception RoleNotFoundException  if there is no role with given name
+     * @exception IllegblArgumentException  if null role nbme
+     * @exception RoleNotFoundException  if there is no role with given nbme
      */
-    public Integer getRoleCardinality(String roleName)
-        throws IllegalArgumentException,
+    public Integer getRoleCbrdinblity(String roleNbme)
+        throws IllegblArgumentException,
                RoleNotFoundException;
 
     /**
-     * Returns all roles present in the relation.
+     * Returns bll roles present in the relbtion.
      *
-     * @return a RoleResult object, including a RoleList (for roles
-     * successfully retrieved) and a RoleUnresolvedList (for roles not
-     * readable).
+     * @return b RoleResult object, including b RoleList (for roles
+     * successfully retrieved) bnd b RoleUnresolvedList (for roles not
+     * rebdbble).
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
      */
     public RoleResult getAllRoles()
-        throws RelationServiceNotRegisteredException;
+        throws RelbtionServiceNotRegisteredException;
 
     /**
-     * Returns all roles in the relation without checking read mode.
+     * Returns bll roles in the relbtion without checking rebd mode.
      *
-     * @return a RoleList.
+     * @return b RoleList.
      */
     public RoleList retrieveAllRoles();
 
     /**
      * Sets the given role.
-     * <P>Will check the role according to its corresponding role definition
-     * provided in relation's relation type
-     * <P>Will send a notification (RelationNotification with type
+     * <P>Will check the role bccording to its corresponding role definition
+     * provided in relbtion's relbtion type
+     * <P>Will send b notificbtion (RelbtionNotificbtion with type
      * RELATION_BASIC_UPDATE or RELATION_MBEAN_UPDATE, depending if the
-     * relation is a MBean or not).
+     * relbtion is b MBebn or not).
      *
-     * @param role  role to be set (name and new value)
+     * @pbrbm role  role to be set (nbme bnd new vblue)
      *
-     * @exception IllegalArgumentException  if null role
+     * @exception IllegblArgumentException  if null role
      * @exception RoleNotFoundException  if there is no role with the supplied
-     * role's name or if the role is not writable (no test on the write access
-     * mode performed when initializing the role)
-     * @exception InvalidRoleValueException  if value provided for
-     * role is not valid, i.e.:
-     * <P>- the number of referenced MBeans in given value is less than
+     * role's nbme or if the role is not writbble (no test on the write bccess
+     * mode performed when initiblizing the role)
+     * @exception InvblidRoleVblueException  if vblue provided for
+     * role is not vblid, i.e.:
+     * <P>- the number of referenced MBebns in given vblue is less thbn
      * expected minimum degree
-     * <P>- the number of referenced MBeans in provided value exceeds expected
-     * maximum degree
-     * <P>- one referenced MBean in the value is not an Object of the MBean
-     * class expected for that role
-     * <P>- a MBean provided for that role does not exist.
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception RelationTypeNotFoundException  if the relation type has not
-     * been declared in the Relation Service.
-     * @exception RelationNotFoundException  if the relation has not been
-     * added in the Relation Service.
+     * <P>- the number of referenced MBebns in provided vblue exceeds expected
+     * mbximum degree
+     * <P>- one referenced MBebn in the vblue is not bn Object of the MBebn
+     * clbss expected for thbt role
+     * <P>- b MBebn provided for thbt role does not exist.
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception RelbtionTypeNotFoundException  if the relbtion type hbs not
+     * been declbred in the Relbtion Service.
+     * @exception RelbtionNotFoundException  if the relbtion hbs not been
+     * bdded in the Relbtion Service.
      *
      * @see #getRole
      */
     public void setRole(Role role)
-        throws IllegalArgumentException,
+        throws IllegblArgumentException,
                RoleNotFoundException,
-               RelationTypeNotFoundException,
-               InvalidRoleValueException,
-               RelationServiceNotRegisteredException,
-               RelationNotFoundException;
+               RelbtionTypeNotFoundException,
+               InvblidRoleVblueException,
+               RelbtionServiceNotRegisteredException,
+               RelbtionNotFoundException;
 
     /**
      * Sets the given roles.
-     * <P>Will check the role according to its corresponding role definition
-     * provided in relation's relation type
-     * <P>Will send one notification (RelationNotification with type
+     * <P>Will check the role bccording to its corresponding role definition
+     * provided in relbtion's relbtion type
+     * <P>Will send one notificbtion (RelbtionNotificbtion with type
      * RELATION_BASIC_UPDATE or RELATION_MBEAN_UPDATE, depending if the
-     * relation is a MBean or not) per updated role.
+     * relbtion is b MBebn or not) per updbted role.
      *
-     * @param roleList  list of roles to be set
+     * @pbrbm roleList  list of roles to be set
      *
-     * @return a RoleResult object, including a RoleList (for roles
-     * successfully set) and a RoleUnresolvedList (for roles not
+     * @return b RoleResult object, including b RoleList (for roles
+     * successfully set) bnd b RoleUnresolvedList (for roles not
      * set).
      *
-     * @exception IllegalArgumentException  if null role list
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception RelationTypeNotFoundException  if the relation type has not
-     * been declared in the Relation Service.
-     * @exception RelationNotFoundException  if the relation MBean has not been
-     * added in the Relation Service.
+     * @exception IllegblArgumentException  if null role list
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception RelbtionTypeNotFoundException  if the relbtion type hbs not
+     * been declbred in the Relbtion Service.
+     * @exception RelbtionNotFoundException  if the relbtion MBebn hbs not been
+     * bdded in the Relbtion Service.
      *
      * @see #getRoles
      */
     public RoleResult setRoles(RoleList roleList)
-        throws IllegalArgumentException,
-               RelationServiceNotRegisteredException,
-               RelationTypeNotFoundException,
-               RelationNotFoundException;
+        throws IllegblArgumentException,
+               RelbtionServiceNotRegisteredException,
+               RelbtionTypeNotFoundException,
+               RelbtionNotFoundException;
 
     /**
-     * Callback used by the Relation Service when a MBean referenced in a role
+     * Cbllbbck used by the Relbtion Service when b MBebn referenced in b role
      * is unregistered.
-     * <P>The Relation Service will call this method to let the relation
-     * take action to reflect the impact of such unregistration.
-     * <P>BEWARE. the user is not expected to call this method.
-     * <P>Current implementation is to set the role with its current value
-     * (list of ObjectNames of referenced MBeans) without the unregistered
+     * <P>The Relbtion Service will cbll this method to let the relbtion
+     * tbke bction to reflect the impbct of such unregistrbtion.
+     * <P>BEWARE. the user is not expected to cbll this method.
+     * <P>Current implementbtion is to set the role with its current vblue
+     * (list of ObjectNbmes of referenced MBebns) without the unregistered
      * one.
      *
-     * @param objectName  ObjectName of unregistered MBean
-     * @param roleName  name of role where the MBean is referenced
+     * @pbrbm objectNbme  ObjectNbme of unregistered MBebn
+     * @pbrbm roleNbme  nbme of role where the MBebn is referenced
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      * @exception RoleNotFoundException  if role does not exist in the
-     * relation or is not writable
-     * @exception InvalidRoleValueException  if role value does not conform to
-     * the associated role info (this will never happen when called from the
-     * Relation Service)
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception RelationTypeNotFoundException  if the relation type has not
-     * been declared in the Relation Service.
-     * @exception RelationNotFoundException  if this method is called for a
-     * relation MBean not added in the Relation Service.
+     * relbtion or is not writbble
+     * @exception InvblidRoleVblueException  if role vblue does not conform to
+     * the bssocibted role info (this will never hbppen when cblled from the
+     * Relbtion Service)
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception RelbtionTypeNotFoundException  if the relbtion type hbs not
+     * been declbred in the Relbtion Service.
+     * @exception RelbtionNotFoundException  if this method is cblled for b
+     * relbtion MBebn not bdded in the Relbtion Service.
      */
-    public void handleMBeanUnregistration(ObjectName objectName,
-                                          String roleName)
-        throws IllegalArgumentException,
+    public void hbndleMBebnUnregistrbtion(ObjectNbme objectNbme,
+                                          String roleNbme)
+        throws IllegblArgumentException,
                RoleNotFoundException,
-               InvalidRoleValueException,
-               RelationServiceNotRegisteredException,
-               RelationTypeNotFoundException,
-               RelationNotFoundException;
+               InvblidRoleVblueException,
+               RelbtionServiceNotRegisteredException,
+               RelbtionTypeNotFoundException,
+               RelbtionNotFoundException;
 
     /**
-     * Retrieves MBeans referenced in the various roles of the relation.
+     * Retrieves MBebns referenced in the vbrious roles of the relbtion.
      *
-     * @return a HashMap mapping:
-     * <P> ObjectName {@literal ->} ArrayList of String (role names)
+     * @return b HbshMbp mbpping:
+     * <P> ObjectNbme {@literbl ->} ArrbyList of String (role nbmes)
      */
-    public Map<ObjectName,List<String>> getReferencedMBeans();
+    public Mbp<ObjectNbme,List<String>> getReferencedMBebns();
 
     /**
-     * Returns name of associated relation type.
+     * Returns nbme of bssocibted relbtion type.
      *
-     * @return the name of the relation type.
+     * @return the nbme of the relbtion type.
      */
-    public String getRelationTypeName();
+    public String getRelbtionTypeNbme();
 
     /**
-     * Returns ObjectName of the Relation Service handling the relation.
+     * Returns ObjectNbme of the Relbtion Service hbndling the relbtion.
      *
-     * @return the ObjectName of the Relation Service.
+     * @return the ObjectNbme of the Relbtion Service.
      */
-    public ObjectName getRelationServiceName();
+    public ObjectNbme getRelbtionServiceNbme();
 
     /**
-     * Returns relation identifier (used to uniquely identify the relation
-     * inside the Relation Service).
+     * Returns relbtion identifier (used to uniquely identify the relbtion
+     * inside the Relbtion Service).
      *
-     * @return the relation id.
+     * @return the relbtion id.
      */
-    public String getRelationId();
+    public String getRelbtionId();
 }

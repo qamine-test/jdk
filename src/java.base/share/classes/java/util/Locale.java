@@ -1,879 +1,879 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.io.Serializable;
-import java.security.AccessController;
-import java.text.MessageFormat;
-import java.util.spi.LocaleNameProvider;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.Seriblizbble;
+import jbvb.security.AccessController;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.spi.LocbleNbmeProvider;
 
-import sun.security.action.GetPropertyAction;
-import sun.util.locale.BaseLocale;
-import sun.util.locale.InternalLocaleBuilder;
-import sun.util.locale.LanguageTag;
-import sun.util.locale.LocaleExtensions;
-import sun.util.locale.LocaleMatcher;
-import sun.util.locale.LocaleObjectCache;
-import sun.util.locale.LocaleSyntaxException;
-import sun.util.locale.LocaleUtils;
-import sun.util.locale.ParseStatus;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleResources;
-import sun.util.locale.provider.LocaleServiceProviderPool;
-import sun.util.locale.provider.ResourceBundleBasedAdapter;
+import sun.security.bction.GetPropertyAction;
+import sun.util.locble.BbseLocble;
+import sun.util.locble.InternblLocbleBuilder;
+import sun.util.locble.LbngubgeTbg;
+import sun.util.locble.LocbleExtensions;
+import sun.util.locble.LocbleMbtcher;
+import sun.util.locble.LocbleObjectCbche;
+import sun.util.locble.LocbleSyntbxException;
+import sun.util.locble.LocbleUtils;
+import sun.util.locble.PbrseStbtus;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.locble.provider.LocbleResources;
+import sun.util.locble.provider.LocbleServiceProviderPool;
+import sun.util.locble.provider.ResourceBundleBbsedAdbpter;
 
 /**
- * A <code>Locale</code> object represents a specific geographical, political,
- * or cultural region. An operation that requires a <code>Locale</code> to perform
- * its task is called <em>locale-sensitive</em> and uses the <code>Locale</code>
- * to tailor information for the user. For example, displaying a number
- * is a locale-sensitive operation&mdash; the number should be formatted
- * according to the customs and conventions of the user's native country,
+ * A <code>Locble</code> object represents b specific geogrbphicbl, politicbl,
+ * or culturbl region. An operbtion thbt requires b <code>Locble</code> to perform
+ * its tbsk is cblled <em>locble-sensitive</em> bnd uses the <code>Locble</code>
+ * to tbilor informbtion for the user. For exbmple, displbying b number
+ * is b locble-sensitive operbtion&mdbsh; the number should be formbtted
+ * bccording to the customs bnd conventions of the user's nbtive country,
  * region, or culture.
  *
- * <p> The {@code Locale} class implements IETF BCP 47 which is composed of
- * <a href="http://tools.ietf.org/html/rfc4647">RFC 4647 "Matching of Language
- * Tags"</a> and <a href="http://tools.ietf.org/html/rfc5646">RFC 5646 "Tags
- * for Identifying Languages"</a> with support for the LDML (UTS#35, "Unicode
- * Locale Data Markup Language") BCP 47-compatible extensions for locale data
- * exchange.
+ * <p> The {@code Locble} clbss implements IETF BCP 47 which is composed of
+ * <b href="http://tools.ietf.org/html/rfc4647">RFC 4647 "Mbtching of Lbngubge
+ * Tbgs"</b> bnd <b href="http://tools.ietf.org/html/rfc5646">RFC 5646 "Tbgs
+ * for Identifying Lbngubges"</b> with support for the LDML (UTS#35, "Unicode
+ * Locble Dbtb Mbrkup Lbngubge") BCP 47-compbtible extensions for locble dbtb
+ * exchbnge.
  *
- * <p> A <code>Locale</code> object logically consists of the fields
+ * <p> A <code>Locble</code> object logicblly consists of the fields
  * described below.
  *
  * <dl>
- *   <dt><a name="def_language"><b>language</b></a></dt>
+ *   <dt><b nbme="def_lbngubge"><b>lbngubge</b></b></dt>
  *
- *   <dd>ISO 639 alpha-2 or alpha-3 language code, or registered
- *   language subtags up to 8 alpha letters (for future enhancements).
- *   When a language has both an alpha-2 code and an alpha-3 code, the
- *   alpha-2 code must be used.  You can find a full list of valid
- *   language codes in the IANA Language Subtag Registry (search for
- *   "Type: language").  The language field is case insensitive, but
- *   <code>Locale</code> always canonicalizes to lower case.</dd>
+ *   <dd>ISO 639 blphb-2 or blphb-3 lbngubge code, or registered
+ *   lbngubge subtbgs up to 8 blphb letters (for future enhbncements).
+ *   When b lbngubge hbs both bn blphb-2 code bnd bn blphb-3 code, the
+ *   blphb-2 code must be used.  You cbn find b full list of vblid
+ *   lbngubge codes in the IANA Lbngubge Subtbg Registry (sebrch for
+ *   "Type: lbngubge").  The lbngubge field is cbse insensitive, but
+ *   <code>Locble</code> blwbys cbnonicblizes to lower cbse.</dd>
  *
- *   <dd>Well-formed language values have the form
- *   <code>[a-zA-Z]{2,8}</code>.  Note that this is not the the full
- *   BCP47 language production, since it excludes extlang.  They are
- *   not needed since modern three-letter language codes replace
+ *   <dd>Well-formed lbngubge vblues hbve the form
+ *   <code>[b-zA-Z]{2,8}</code>.  Note thbt this is not the the full
+ *   BCP47 lbngubge production, since it excludes extlbng.  They bre
+ *   not needed since modern three-letter lbngubge codes replbce
  *   them.</dd>
  *
- *   <dd>Example: "en" (English), "ja" (Japanese), "kok" (Konkani)</dd>
+ *   <dd>Exbmple: "en" (English), "jb" (Jbpbnese), "kok" (Konkbni)</dd>
  *
- *   <dt><a name="def_script"><b>script</b></a></dt>
+ *   <dt><b nbme="def_script"><b>script</b></b></dt>
  *
- *   <dd>ISO 15924 alpha-4 script code.  You can find a full list of
- *   valid script codes in the IANA Language Subtag Registry (search
- *   for "Type: script").  The script field is case insensitive, but
- *   <code>Locale</code> always canonicalizes to title case (the first
- *   letter is upper case and the rest of the letters are lower
- *   case).</dd>
+ *   <dd>ISO 15924 blphb-4 script code.  You cbn find b full list of
+ *   vblid script codes in the IANA Lbngubge Subtbg Registry (sebrch
+ *   for "Type: script").  The script field is cbse insensitive, but
+ *   <code>Locble</code> blwbys cbnonicblizes to title cbse (the first
+ *   letter is upper cbse bnd the rest of the letters bre lower
+ *   cbse).</dd>
  *
- *   <dd>Well-formed script values have the form
- *   <code>[a-zA-Z]{4}</code></dd>
+ *   <dd>Well-formed script vblues hbve the form
+ *   <code>[b-zA-Z]{4}</code></dd>
  *
- *   <dd>Example: "Latn" (Latin), "Cyrl" (Cyrillic)</dd>
+ *   <dd>Exbmple: "Lbtn" (Lbtin), "Cyrl" (Cyrillic)</dd>
  *
- *   <dt><a name="def_region"><b>country (region)</b></a></dt>
+ *   <dt><b nbme="def_region"><b>country (region)</b></b></dt>
  *
- *   <dd>ISO 3166 alpha-2 country code or UN M.49 numeric-3 area code.
- *   You can find a full list of valid country and region codes in the
- *   IANA Language Subtag Registry (search for "Type: region").  The
- *   country (region) field is case insensitive, but
- *   <code>Locale</code> always canonicalizes to upper case.</dd>
+ *   <dd>ISO 3166 blphb-2 country code or UN M.49 numeric-3 breb code.
+ *   You cbn find b full list of vblid country bnd region codes in the
+ *   IANA Lbngubge Subtbg Registry (sebrch for "Type: region").  The
+ *   country (region) field is cbse insensitive, but
+ *   <code>Locble</code> blwbys cbnonicblizes to upper cbse.</dd>
  *
- *   <dd>Well-formed country/region values have
- *   the form <code>[a-zA-Z]{2} | [0-9]{3}</code></dd>
+ *   <dd>Well-formed country/region vblues hbve
+ *   the form <code>[b-zA-Z]{2} | [0-9]{3}</code></dd>
  *
- *   <dd>Example: "US" (United States), "FR" (France), "029"
- *   (Caribbean)</dd>
+ *   <dd>Exbmple: "US" (United Stbtes), "FR" (Frbnce), "029"
+ *   (Cbribbebn)</dd>
  *
- *   <dt><a name="def_variant"><b>variant</b></a></dt>
+ *   <dt><b nbme="def_vbribnt"><b>vbribnt</b></b></dt>
  *
- *   <dd>Any arbitrary value used to indicate a variation of a
- *   <code>Locale</code>.  Where there are two or more variant values
- *   each indicating its own semantics, these values should be ordered
- *   by importance, with most important first, separated by
- *   underscore('_').  The variant field is case sensitive.</dd>
+ *   <dd>Any brbitrbry vblue used to indicbte b vbribtion of b
+ *   <code>Locble</code>.  Where there bre two or more vbribnt vblues
+ *   ebch indicbting its own sembntics, these vblues should be ordered
+ *   by importbnce, with most importbnt first, sepbrbted by
+ *   underscore('_').  The vbribnt field is cbse sensitive.</dd>
  *
- *   <dd>Note: IETF BCP 47 places syntactic restrictions on variant
- *   subtags.  Also BCP 47 subtags are strictly used to indicate
- *   additional variations that define a language or its dialects that
- *   are not covered by any combinations of language, script and
- *   region subtags.  You can find a full list of valid variant codes
- *   in the IANA Language Subtag Registry (search for "Type: variant").
+ *   <dd>Note: IETF BCP 47 plbces syntbctic restrictions on vbribnt
+ *   subtbgs.  Also BCP 47 subtbgs bre strictly used to indicbte
+ *   bdditionbl vbribtions thbt define b lbngubge or its diblects thbt
+ *   bre not covered by bny combinbtions of lbngubge, script bnd
+ *   region subtbgs.  You cbn find b full list of vblid vbribnt codes
+ *   in the IANA Lbngubge Subtbg Registry (sebrch for "Type: vbribnt").
  *
- *   <p>However, the variant field in <code>Locale</code> has
- *   historically been used for any kind of variation, not just
- *   language variations.  For example, some supported variants
- *   available in Java SE Runtime Environments indicate alternative
- *   cultural behaviors such as calendar type or number script.  In
- *   BCP 47 this kind of information, which does not identify the
- *   language, is supported by extension subtags or private use
- *   subtags.</dd>
+ *   <p>However, the vbribnt field in <code>Locble</code> hbs
+ *   historicblly been used for bny kind of vbribtion, not just
+ *   lbngubge vbribtions.  For exbmple, some supported vbribnts
+ *   bvbilbble in Jbvb SE Runtime Environments indicbte blternbtive
+ *   culturbl behbviors such bs cblendbr type or number script.  In
+ *   BCP 47 this kind of informbtion, which does not identify the
+ *   lbngubge, is supported by extension subtbgs or privbte use
+ *   subtbgs.</dd>
  *
- *   <dd>Well-formed variant values have the form <code>SUBTAG
+ *   <dd>Well-formed vbribnt vblues hbve the form <code>SUBTAG
  *   (('_'|'-') SUBTAG)*</code> where <code>SUBTAG =
- *   [0-9][0-9a-zA-Z]{3} | [0-9a-zA-Z]{5,8}</code>. (Note: BCP 47 only
- *   uses hyphen ('-') as a delimiter, this is more lenient).</dd>
+ *   [0-9][0-9b-zA-Z]{3} | [0-9b-zA-Z]{5,8}</code>. (Note: BCP 47 only
+ *   uses hyphen ('-') bs b delimiter, this is more lenient).</dd>
  *
- *   <dd>Example: "polyton" (Polytonic Greek), "POSIX"</dd>
+ *   <dd>Exbmple: "polyton" (Polytonic Greek), "POSIX"</dd>
  *
- *   <dt><a name="def_extensions"><b>extensions</b></a></dt>
+ *   <dt><b nbme="def_extensions"><b>extensions</b></b></dt>
  *
- *   <dd>A map from single character keys to string values, indicating
- *   extensions apart from language identification.  The extensions in
- *   <code>Locale</code> implement the semantics and syntax of BCP 47
- *   extension subtags and private use subtags. The extensions are
- *   case insensitive, but <code>Locale</code> canonicalizes all
- *   extension keys and values to lower case. Note that extensions
- *   cannot have empty values.</dd>
+ *   <dd>A mbp from single chbrbcter keys to string vblues, indicbting
+ *   extensions bpbrt from lbngubge identificbtion.  The extensions in
+ *   <code>Locble</code> implement the sembntics bnd syntbx of BCP 47
+ *   extension subtbgs bnd privbte use subtbgs. The extensions bre
+ *   cbse insensitive, but <code>Locble</code> cbnonicblizes bll
+ *   extension keys bnd vblues to lower cbse. Note thbt extensions
+ *   cbnnot hbve empty vblues.</dd>
  *
- *   <dd>Well-formed keys are single characters from the set
- *   <code>[0-9a-zA-Z]</code>.  Well-formed values have the form
+ *   <dd>Well-formed keys bre single chbrbcters from the set
+ *   <code>[0-9b-zA-Z]</code>.  Well-formed vblues hbve the form
  *   <code>SUBTAG ('-' SUBTAG)*</code> where for the key 'x'
- *   <code>SUBTAG = [0-9a-zA-Z]{1,8}</code> and for other keys
- *   <code>SUBTAG = [0-9a-zA-Z]{2,8}</code> (that is, 'x' allows
- *   single-character subtags).</dd>
+ *   <code>SUBTAG = [0-9b-zA-Z]{1,8}</code> bnd for other keys
+ *   <code>SUBTAG = [0-9b-zA-Z]{2,8}</code> (thbt is, 'x' bllows
+ *   single-chbrbcter subtbgs).</dd>
  *
- *   <dd>Example: key="u"/value="ca-japanese" (Japanese Calendar),
- *   key="x"/value="java-1-7"</dd>
+ *   <dd>Exbmple: key="u"/vblue="cb-jbpbnese" (Jbpbnese Cblendbr),
+ *   key="x"/vblue="jbvb-1-7"</dd>
  * </dl>
  *
- * <b>Note:</b> Although BCP 47 requires field values to be registered
- * in the IANA Language Subtag Registry, the <code>Locale</code> class
- * does not provide any validation features.  The <code>Builder</code>
- * only checks if an individual field satisfies the syntactic
- * requirement (is well-formed), but does not validate the value
- * itself.  See {@link Builder} for details.
+ * <b>Note:</b> Although BCP 47 requires field vblues to be registered
+ * in the IANA Lbngubge Subtbg Registry, the <code>Locble</code> clbss
+ * does not provide bny vblidbtion febtures.  The <code>Builder</code>
+ * only checks if bn individubl field sbtisfies the syntbctic
+ * requirement (is well-formed), but does not vblidbte the vblue
+ * itself.  See {@link Builder} for detbils.
  *
- * <h3><a name="def_locale_extension">Unicode locale/language extension</a></h3>
+ * <h3><b nbme="def_locble_extension">Unicode locble/lbngubge extension</b></h3>
  *
- * <p>UTS#35, "Unicode Locale Data Markup Language" defines optional
- * attributes and keywords to override or refine the default behavior
- * associated with a locale.  A keyword is represented by a pair of
- * key and type.  For example, "nu-thai" indicates that Thai local
- * digits (value:"thai") should be used for formatting numbers
+ * <p>UTS#35, "Unicode Locble Dbtb Mbrkup Lbngubge" defines optionbl
+ * bttributes bnd keywords to override or refine the defbult behbvior
+ * bssocibted with b locble.  A keyword is represented by b pbir of
+ * key bnd type.  For exbmple, "nu-thbi" indicbtes thbt Thbi locbl
+ * digits (vblue:"thbi") should be used for formbtting numbers
  * (key:"nu").
  *
- * <p>The keywords are mapped to a BCP 47 extension value using the
- * extension key 'u' ({@link #UNICODE_LOCALE_EXTENSION}).  The above
- * example, "nu-thai", becomes the extension "u-nu-thai".code
+ * <p>The keywords bre mbpped to b BCP 47 extension vblue using the
+ * extension key 'u' ({@link #UNICODE_LOCALE_EXTENSION}).  The bbove
+ * exbmple, "nu-thbi", becomes the extension "u-nu-thbi".code
  *
- * <p>Thus, when a <code>Locale</code> object contains Unicode locale
- * attributes and keywords,
- * <code>getExtension(UNICODE_LOCALE_EXTENSION)</code> will return a
- * String representing this information, for example, "nu-thai".  The
- * <code>Locale</code> class also provides {@link
- * #getUnicodeLocaleAttributes}, {@link #getUnicodeLocaleKeys}, and
- * {@link #getUnicodeLocaleType} which allow you to access Unicode
- * locale attributes and key/type pairs directly.  When represented as
- * a string, the Unicode Locale Extension lists attributes
- * alphabetically, followed by key/type sequences with keys listed
- * alphabetically (the order of subtags comprising a key's type is
+ * <p>Thus, when b <code>Locble</code> object contbins Unicode locble
+ * bttributes bnd keywords,
+ * <code>getExtension(UNICODE_LOCALE_EXTENSION)</code> will return b
+ * String representing this informbtion, for exbmple, "nu-thbi".  The
+ * <code>Locble</code> clbss blso provides {@link
+ * #getUnicodeLocbleAttributes}, {@link #getUnicodeLocbleKeys}, bnd
+ * {@link #getUnicodeLocbleType} which bllow you to bccess Unicode
+ * locble bttributes bnd key/type pbirs directly.  When represented bs
+ * b string, the Unicode Locble Extension lists bttributes
+ * blphbbeticblly, followed by key/type sequences with keys listed
+ * blphbbeticblly (the order of subtbgs comprising b key's type is
  * fixed when the type is defined)
  *
- * <p>A well-formed locale key has the form
- * <code>[0-9a-zA-Z]{2}</code>.  A well-formed locale type has the
- * form <code>"" | [0-9a-zA-Z]{3,8} ('-' [0-9a-zA-Z]{3,8})*</code> (it
- * can be empty, or a series of subtags 3-8 alphanums in length).  A
- * well-formed locale attribute has the form
- * <code>[0-9a-zA-Z]{3,8}</code> (it is a single subtag with the same
- * form as a locale type subtag).
+ * <p>A well-formed locble key hbs the form
+ * <code>[0-9b-zA-Z]{2}</code>.  A well-formed locble type hbs the
+ * form <code>"" | [0-9b-zA-Z]{3,8} ('-' [0-9b-zA-Z]{3,8})*</code> (it
+ * cbn be empty, or b series of subtbgs 3-8 blphbnums in length).  A
+ * well-formed locble bttribute hbs the form
+ * <code>[0-9b-zA-Z]{3,8}</code> (it is b single subtbg with the sbme
+ * form bs b locble type subtbg).
  *
- * <p>The Unicode locale extension specifies optional behavior in
- * locale-sensitive services.  Although the LDML specification defines
- * various keys and values, actual locale-sensitive service
- * implementations in a Java Runtime Environment might not support any
- * particular Unicode locale attributes or key/type pairs.
+ * <p>The Unicode locble extension specifies optionbl behbvior in
+ * locble-sensitive services.  Although the LDML specificbtion defines
+ * vbrious keys bnd vblues, bctubl locble-sensitive service
+ * implementbtions in b Jbvb Runtime Environment might not support bny
+ * pbrticulbr Unicode locble bttributes or key/type pbirs.
  *
- * <h4>Creating a Locale</h4>
+ * <h4>Crebting b Locble</h4>
  *
- * <p>There are several different ways to create a <code>Locale</code>
+ * <p>There bre severbl different wbys to crebte b <code>Locble</code>
  * object.
  *
  * <h5>Builder</h5>
  *
- * <p>Using {@link Builder} you can construct a <code>Locale</code> object
- * that conforms to BCP 47 syntax.
+ * <p>Using {@link Builder} you cbn construct b <code>Locble</code> object
+ * thbt conforms to BCP 47 syntbx.
  *
  * <h5>Constructors</h5>
  *
- * <p>The <code>Locale</code> class provides three constructors:
+ * <p>The <code>Locble</code> clbss provides three constructors:
  * <blockquote>
  * <pre>
- *     {@link #Locale(String language)}
- *     {@link #Locale(String language, String country)}
- *     {@link #Locale(String language, String country, String variant)}
+ *     {@link #Locble(String lbngubge)}
+ *     {@link #Locble(String lbngubge, String country)}
+ *     {@link #Locble(String lbngubge, String country, String vbribnt)}
  * </pre>
  * </blockquote>
- * These constructors allow you to create a <code>Locale</code> object
- * with language, country and variant, but you cannot specify
+ * These constructors bllow you to crebte b <code>Locble</code> object
+ * with lbngubge, country bnd vbribnt, but you cbnnot specify
  * script or extensions.
  *
- * <h5>Factory Methods</h5>
+ * <h5>Fbctory Methods</h5>
  *
- * <p>The method {@link #forLanguageTag} creates a <code>Locale</code>
- * object for a well-formed BCP 47 language tag.
+ * <p>The method {@link #forLbngubgeTbg} crebtes b <code>Locble</code>
+ * object for b well-formed BCP 47 lbngubge tbg.
  *
- * <h5>Locale Constants</h5>
+ * <h5>Locble Constbnts</h5>
  *
- * <p>The <code>Locale</code> class provides a number of convenient constants
- * that you can use to create <code>Locale</code> objects for commonly used
- * locales. For example, the following creates a <code>Locale</code> object
- * for the United States:
+ * <p>The <code>Locble</code> clbss provides b number of convenient constbnts
+ * thbt you cbn use to crebte <code>Locble</code> objects for commonly used
+ * locbles. For exbmple, the following crebtes b <code>Locble</code> object
+ * for the United Stbtes:
  * <blockquote>
  * <pre>
- *     Locale.US
+ *     Locble.US
  * </pre>
  * </blockquote>
  *
- * <h4><a name="LocaleMatching">Locale Matching</a></h4>
+ * <h4><b nbme="LocbleMbtching">Locble Mbtching</b></h4>
  *
- * <p>If an application or a system is internationalized and provides localized
- * resources for multiple locales, it sometimes needs to find one or more
- * locales (or language tags) which meet each user's specific preferences. Note
- * that a term "language tag" is used interchangeably with "locale" in this
- * locale matching documentation.
+ * <p>If bn bpplicbtion or b system is internbtionblized bnd provides locblized
+ * resources for multiple locbles, it sometimes needs to find one or more
+ * locbles (or lbngubge tbgs) which meet ebch user's specific preferences. Note
+ * thbt b term "lbngubge tbg" is used interchbngebbly with "locble" in this
+ * locble mbtching documentbtion.
  *
- * <p>In order to do matching a user's preferred locales to a set of language
- * tags, <a href="http://tools.ietf.org/html/rfc4647">RFC 4647 Matching of
- * Language Tags</a> defines two mechanisms: filtering and lookup.
- * <em>Filtering</em> is used to get all matching locales, whereas
- * <em>lookup</em> is to choose the best matching locale.
- * Matching is done case-insensitively. These matching mechanisms are described
+ * <p>In order to do mbtching b user's preferred locbles to b set of lbngubge
+ * tbgs, <b href="http://tools.ietf.org/html/rfc4647">RFC 4647 Mbtching of
+ * Lbngubge Tbgs</b> defines two mechbnisms: filtering bnd lookup.
+ * <em>Filtering</em> is used to get bll mbtching locbles, wherebs
+ * <em>lookup</em> is to choose the best mbtching locble.
+ * Mbtching is done cbse-insensitively. These mbtching mechbnisms bre described
  * in the following sections.
  *
- * <p>A user's preference is called a <em>Language Priority List</em> and is
- * expressed as a list of language ranges. There are syntactically two types of
- * language ranges: basic and extended. See
- * {@link Locale.LanguageRange Locale.LanguageRange} for details.
+ * <p>A user's preference is cblled b <em>Lbngubge Priority List</em> bnd is
+ * expressed bs b list of lbngubge rbnges. There bre syntbcticblly two types of
+ * lbngubge rbnges: bbsic bnd extended. See
+ * {@link Locble.LbngubgeRbnge Locble.LbngubgeRbnge} for detbils.
  *
  * <h5>Filtering</h5>
  *
- * <p>The filtering operation returns all matching language tags. It is defined
- * in RFC 4647 as follows:
- * "In filtering, each language range represents the least specific language
- * tag (that is, the language tag with fewest number of subtags) that is an
- * acceptable match. All of the language tags in the matching set of tags will
- * have an equal or greater number of subtags than the language range. Every
- * non-wildcard subtag in the language range will appear in every one of the
- * matching language tags."
+ * <p>The filtering operbtion returns bll mbtching lbngubge tbgs. It is defined
+ * in RFC 4647 bs follows:
+ * "In filtering, ebch lbngubge rbnge represents the lebst specific lbngubge
+ * tbg (thbt is, the lbngubge tbg with fewest number of subtbgs) thbt is bn
+ * bcceptbble mbtch. All of the lbngubge tbgs in the mbtching set of tbgs will
+ * hbve bn equbl or grebter number of subtbgs thbn the lbngubge rbnge. Every
+ * non-wildcbrd subtbg in the lbngubge rbnge will bppebr in every one of the
+ * mbtching lbngubge tbgs."
  *
- * <p>There are two types of filtering: filtering for basic language ranges
- * (called "basic filtering") and filtering for extended language ranges
- * (called "extended filtering"). They may return different results by what
- * kind of language ranges are included in the given Language Priority List.
- * {@link Locale.FilteringMode} is a parameter to specify how filtering should
+ * <p>There bre two types of filtering: filtering for bbsic lbngubge rbnges
+ * (cblled "bbsic filtering") bnd filtering for extended lbngubge rbnges
+ * (cblled "extended filtering"). They mby return different results by whbt
+ * kind of lbngubge rbnges bre included in the given Lbngubge Priority List.
+ * {@link Locble.FilteringMode} is b pbrbmeter to specify how filtering should
  * be done.
  *
  * <h5>Lookup</h5>
  *
- * <p>The lookup operation returns the best matching language tags. It is
- * defined in RFC 4647 as follows:
- * "By contrast with filtering, each language range represents the most
- * specific tag that is an acceptable match.  The first matching tag found,
- * according to the user's priority, is considered the closest match and is the
+ * <p>The lookup operbtion returns the best mbtching lbngubge tbgs. It is
+ * defined in RFC 4647 bs follows:
+ * "By contrbst with filtering, ebch lbngubge rbnge represents the most
+ * specific tbg thbt is bn bcceptbble mbtch.  The first mbtching tbg found,
+ * bccording to the user's priority, is considered the closest mbtch bnd is the
  * item returned."
  *
- * <p>For example, if a Language Priority List consists of two language ranges,
- * {@code "zh-Hant-TW"} and {@code "en-US"}, in prioritized order, lookup
- * method progressively searches the language tags below in order to find the
- * best matching language tag.
+ * <p>For exbmple, if b Lbngubge Priority List consists of two lbngubge rbnges,
+ * {@code "zh-Hbnt-TW"} bnd {@code "en-US"}, in prioritized order, lookup
+ * method progressively sebrches the lbngubge tbgs below in order to find the
+ * best mbtching lbngubge tbg.
  * <blockquote>
  * <pre>
- *    1. zh-Hant-TW
- *    2. zh-Hant
+ *    1. zh-Hbnt-TW
+ *    2. zh-Hbnt
  *    3. zh
  *    4. en-US
  *    5. en
  * </pre>
  * </blockquote>
- * If there is a language tag which matches completely to a language range
- * above, the language tag is returned.
+ * If there is b lbngubge tbg which mbtches completely to b lbngubge rbnge
+ * bbove, the lbngubge tbg is returned.
  *
- * <p>{@code "*"} is the special language range, and it is ignored in lookup.
+ * <p>{@code "*"} is the specibl lbngubge rbnge, bnd it is ignored in lookup.
  *
- * <p>If multiple language tags match as a result of the subtag {@code '*'}
- * included in a language range, the first matching language tag returned by
- * an {@link Iterator} over a {@link Collection} of language tags is treated as
- * the best matching one.
+ * <p>If multiple lbngubge tbgs mbtch bs b result of the subtbg {@code '*'}
+ * included in b lbngubge rbnge, the first mbtching lbngubge tbg returned by
+ * bn {@link Iterbtor} over b {@link Collection} of lbngubge tbgs is trebted bs
+ * the best mbtching one.
  *
- * <h4>Use of Locale</h4>
+ * <h4>Use of Locble</h4>
  *
- * <p>Once you've created a <code>Locale</code> you can query it for information
- * about itself. Use <code>getCountry</code> to get the country (or region)
- * code and <code>getLanguage</code> to get the language code.
- * You can use <code>getDisplayCountry</code> to get the
- * name of the country suitable for displaying to the user. Similarly,
- * you can use <code>getDisplayLanguage</code> to get the name of
- * the language suitable for displaying to the user. Interestingly,
- * the <code>getDisplayXXX</code> methods are themselves locale-sensitive
- * and have two versions: one that uses the default
- * {@link Locale.Category#DISPLAY DISPLAY} locale and one
- * that uses the locale specified as an argument.
+ * <p>Once you've crebted b <code>Locble</code> you cbn query it for informbtion
+ * bbout itself. Use <code>getCountry</code> to get the country (or region)
+ * code bnd <code>getLbngubge</code> to get the lbngubge code.
+ * You cbn use <code>getDisplbyCountry</code> to get the
+ * nbme of the country suitbble for displbying to the user. Similbrly,
+ * you cbn use <code>getDisplbyLbngubge</code> to get the nbme of
+ * the lbngubge suitbble for displbying to the user. Interestingly,
+ * the <code>getDisplbyXXX</code> methods bre themselves locble-sensitive
+ * bnd hbve two versions: one thbt uses the defbult
+ * {@link Locble.Cbtegory#DISPLAY DISPLAY} locble bnd one
+ * thbt uses the locble specified bs bn brgument.
  *
- * <p>The Java Platform provides a number of classes that perform locale-sensitive
- * operations. For example, the <code>NumberFormat</code> class formats
- * numbers, currency, and percentages in a locale-sensitive manner. Classes
- * such as <code>NumberFormat</code> have several convenience methods
- * for creating a default object of that type. For example, the
- * <code>NumberFormat</code> class provides these three convenience methods
- * for creating a default <code>NumberFormat</code> object:
+ * <p>The Jbvb Plbtform provides b number of clbsses thbt perform locble-sensitive
+ * operbtions. For exbmple, the <code>NumberFormbt</code> clbss formbts
+ * numbers, currency, bnd percentbges in b locble-sensitive mbnner. Clbsses
+ * such bs <code>NumberFormbt</code> hbve severbl convenience methods
+ * for crebting b defbult object of thbt type. For exbmple, the
+ * <code>NumberFormbt</code> clbss provides these three convenience methods
+ * for crebting b defbult <code>NumberFormbt</code> object:
  * <blockquote>
  * <pre>
- *     NumberFormat.getInstance()
- *     NumberFormat.getCurrencyInstance()
- *     NumberFormat.getPercentInstance()
+ *     NumberFormbt.getInstbnce()
+ *     NumberFormbt.getCurrencyInstbnce()
+ *     NumberFormbt.getPercentInstbnce()
  * </pre>
  * </blockquote>
- * Each of these methods has two variants; one with an explicit locale
- * and one without; the latter uses the default
- * {@link Locale.Category#FORMAT FORMAT} locale:
+ * Ebch of these methods hbs two vbribnts; one with bn explicit locble
+ * bnd one without; the lbtter uses the defbult
+ * {@link Locble.Cbtegory#FORMAT FORMAT} locble:
  * <blockquote>
  * <pre>
- *     NumberFormat.getInstance(myLocale)
- *     NumberFormat.getCurrencyInstance(myLocale)
- *     NumberFormat.getPercentInstance(myLocale)
+ *     NumberFormbt.getInstbnce(myLocble)
+ *     NumberFormbt.getCurrencyInstbnce(myLocble)
+ *     NumberFormbt.getPercentInstbnce(myLocble)
  * </pre>
  * </blockquote>
- * A <code>Locale</code> is the mechanism for identifying the kind of object
- * (<code>NumberFormat</code>) that you would like to get. The locale is
- * <STRONG>just</STRONG> a mechanism for identifying objects,
- * <STRONG>not</STRONG> a container for the objects themselves.
+ * A <code>Locble</code> is the mechbnism for identifying the kind of object
+ * (<code>NumberFormbt</code>) thbt you would like to get. The locble is
+ * <STRONG>just</STRONG> b mechbnism for identifying objects,
+ * <STRONG>not</STRONG> b contbiner for the objects themselves.
  *
- * <h4>Compatibility</h4>
+ * <h4>Compbtibility</h4>
  *
- * <p>In order to maintain compatibility with existing usage, Locale's
- * constructors retain their behavior prior to the Java Runtime
- * Environment version 1.7.  The same is largely true for the
- * <code>toString</code> method. Thus Locale objects can continue to
- * be used as they were. In particular, clients who parse the output
- * of toString into language, country, and variant fields can continue
- * to do so (although this is strongly discouraged), although the
- * variant field will have additional information in it if script or
- * extensions are present.
+ * <p>In order to mbintbin compbtibility with existing usbge, Locble's
+ * constructors retbin their behbvior prior to the Jbvb Runtime
+ * Environment version 1.7.  The sbme is lbrgely true for the
+ * <code>toString</code> method. Thus Locble objects cbn continue to
+ * be used bs they were. In pbrticulbr, clients who pbrse the output
+ * of toString into lbngubge, country, bnd vbribnt fields cbn continue
+ * to do so (blthough this is strongly discourbged), blthough the
+ * vbribnt field will hbve bdditionbl informbtion in it if script or
+ * extensions bre present.
  *
- * <p>In addition, BCP 47 imposes syntax restrictions that are not
- * imposed by Locale's constructors. This means that conversions
- * between some Locales and BCP 47 language tags cannot be made without
- * losing information. Thus <code>toLanguageTag</code> cannot
- * represent the state of locales whose language, country, or variant
+ * <p>In bddition, BCP 47 imposes syntbx restrictions thbt bre not
+ * imposed by Locble's constructors. This mebns thbt conversions
+ * between some Locbles bnd BCP 47 lbngubge tbgs cbnnot be mbde without
+ * losing informbtion. Thus <code>toLbngubgeTbg</code> cbnnot
+ * represent the stbte of locbles whose lbngubge, country, or vbribnt
  * do not conform to BCP 47.
  *
- * <p>Because of these issues, it is recommended that clients migrate
- * away from constructing non-conforming locales and use the
- * <code>forLanguageTag</code> and <code>Locale.Builder</code> APIs instead.
- * Clients desiring a string representation of the complete locale can
- * then always rely on <code>toLanguageTag</code> for this purpose.
+ * <p>Becbuse of these issues, it is recommended thbt clients migrbte
+ * bwby from constructing non-conforming locbles bnd use the
+ * <code>forLbngubgeTbg</code> bnd <code>Locble.Builder</code> APIs instebd.
+ * Clients desiring b string representbtion of the complete locble cbn
+ * then blwbys rely on <code>toLbngubgeTbg</code> for this purpose.
  *
- * <h5><a name="special_cases_constructor">Special cases</a></h5>
+ * <h5><b nbme="specibl_cbses_constructor">Specibl cbses</b></h5>
  *
- * <p>For compatibility reasons, two
- * non-conforming locales are treated as special cases.  These are
- * <b><tt>ja_JP_JP</tt></b> and <b><tt>th_TH_TH</tt></b>. These are ill-formed
- * in BCP 47 since the variants are too short. To ease migration to BCP 47,
- * these are treated specially during construction.  These two cases (and only
- * these) cause a constructor to generate an extension, all other values behave
- * exactly as they did prior to Java 7.
+ * <p>For compbtibility rebsons, two
+ * non-conforming locbles bre trebted bs specibl cbses.  These bre
+ * <b><tt>jb_JP_JP</tt></b> bnd <b><tt>th_TH_TH</tt></b>. These bre ill-formed
+ * in BCP 47 since the vbribnts bre too short. To ebse migrbtion to BCP 47,
+ * these bre trebted speciblly during construction.  These two cbses (bnd only
+ * these) cbuse b constructor to generbte bn extension, bll other vblues behbve
+ * exbctly bs they did prior to Jbvb 7.
  *
- * <p>Java has used <tt>ja_JP_JP</tt> to represent Japanese as used in
- * Japan together with the Japanese Imperial calendar. This is now
- * representable using a Unicode locale extension, by specifying the
- * Unicode locale key <tt>ca</tt> (for "calendar") and type
- * <tt>japanese</tt>. When the Locale constructor is called with the
- * arguments "ja", "JP", "JP", the extension "u-ca-japanese" is
- * automatically added.
+ * <p>Jbvb hbs used <tt>jb_JP_JP</tt> to represent Jbpbnese bs used in
+ * Jbpbn together with the Jbpbnese Imperibl cblendbr. This is now
+ * representbble using b Unicode locble extension, by specifying the
+ * Unicode locble key <tt>cb</tt> (for "cblendbr") bnd type
+ * <tt>jbpbnese</tt>. When the Locble constructor is cblled with the
+ * brguments "jb", "JP", "JP", the extension "u-cb-jbpbnese" is
+ * butombticblly bdded.
  *
- * <p>Java has used <tt>th_TH_TH</tt> to represent Thai as used in
- * Thailand together with Thai digits. This is also now representable using
- * a Unicode locale extension, by specifying the Unicode locale key
- * <tt>nu</tt> (for "number") and value <tt>thai</tt>. When the Locale
- * constructor is called with the arguments "th", "TH", "TH", the
- * extension "u-nu-thai" is automatically added.
+ * <p>Jbvb hbs used <tt>th_TH_TH</tt> to represent Thbi bs used in
+ * Thbilbnd together with Thbi digits. This is blso now representbble using
+ * b Unicode locble extension, by specifying the Unicode locble key
+ * <tt>nu</tt> (for "number") bnd vblue <tt>thbi</tt>. When the Locble
+ * constructor is cblled with the brguments "th", "TH", "TH", the
+ * extension "u-nu-thbi" is butombticblly bdded.
  *
- * <h5>Serialization</h5>
+ * <h5>Seriblizbtion</h5>
  *
- * <p>During serialization, writeObject writes all fields to the output
- * stream, including extensions.
+ * <p>During seriblizbtion, writeObject writes bll fields to the output
+ * strebm, including extensions.
  *
- * <p>During deserialization, readResolve adds extensions as described
- * in <a href="#special_cases_constructor">Special Cases</a>, only
- * for the two cases th_TH_TH and ja_JP_JP.
+ * <p>During deseriblizbtion, rebdResolve bdds extensions bs described
+ * in <b href="#specibl_cbses_constructor">Specibl Cbses</b>, only
+ * for the two cbses th_TH_TH bnd jb_JP_JP.
  *
- * <h5>Legacy language codes</h5>
+ * <h5>Legbcy lbngubge codes</h5>
  *
- * <p>Locale's constructor has always converted three language codes to
- * their earlier, obsoleted forms: <tt>he</tt> maps to <tt>iw</tt>,
- * <tt>yi</tt> maps to <tt>ji</tt>, and <tt>id</tt> maps to
- * <tt>in</tt>.  This continues to be the case, in order to not break
- * backwards compatibility.
+ * <p>Locble's constructor hbs blwbys converted three lbngubge codes to
+ * their ebrlier, obsoleted forms: <tt>he</tt> mbps to <tt>iw</tt>,
+ * <tt>yi</tt> mbps to <tt>ji</tt>, bnd <tt>id</tt> mbps to
+ * <tt>in</tt>.  This continues to be the cbse, in order to not brebk
+ * bbckwbrds compbtibility.
  *
- * <p>The APIs added in 1.7 map between the old and new language codes,
- * maintaining the old codes internal to Locale (so that
- * <code>getLanguage</code> and <code>toString</code> reflect the old
- * code), but using the new codes in the BCP 47 language tag APIs (so
- * that <code>toLanguageTag</code> reflects the new one). This
- * preserves the equivalence between Locales no matter which code or
- * API is used to construct them. Java's default resource bundle
- * lookup mechanism also implements this mapping, so that resources
- * can be named using either convention, see {@link ResourceBundle.Control}.
+ * <p>The APIs bdded in 1.7 mbp between the old bnd new lbngubge codes,
+ * mbintbining the old codes internbl to Locble (so thbt
+ * <code>getLbngubge</code> bnd <code>toString</code> reflect the old
+ * code), but using the new codes in the BCP 47 lbngubge tbg APIs (so
+ * thbt <code>toLbngubgeTbg</code> reflects the new one). This
+ * preserves the equivblence between Locbles no mbtter which code or
+ * API is used to construct them. Jbvb's defbult resource bundle
+ * lookup mechbnism blso implements this mbpping, so thbt resources
+ * cbn be nbmed using either convention, see {@link ResourceBundle.Control}.
  *
- * <h5>Three-letter language/country(region) codes</h5>
+ * <h5>Three-letter lbngubge/country(region) codes</h5>
  *
- * <p>The Locale constructors have always specified that the language
- * and the country param be two characters in length, although in
- * practice they have accepted any length.  The specification has now
- * been relaxed to allow language codes of two to eight characters and
- * country (region) codes of two to three characters, and in
- * particular, three-letter language codes and three-digit region
- * codes as specified in the IANA Language Subtag Registry.  For
- * compatibility, the implementation still does not impose a length
- * constraint.
+ * <p>The Locble constructors hbve blwbys specified thbt the lbngubge
+ * bnd the country pbrbm be two chbrbcters in length, blthough in
+ * prbctice they hbve bccepted bny length.  The specificbtion hbs now
+ * been relbxed to bllow lbngubge codes of two to eight chbrbcters bnd
+ * country (region) codes of two to three chbrbcters, bnd in
+ * pbrticulbr, three-letter lbngubge codes bnd three-digit region
+ * codes bs specified in the IANA Lbngubge Subtbg Registry.  For
+ * compbtibility, the implementbtion still does not impose b length
+ * constrbint.
  *
  * @see Builder
  * @see ResourceBundle
- * @see java.text.Format
- * @see java.text.NumberFormat
- * @see java.text.Collator
- * @author Mark Davis
+ * @see jbvb.text.Formbt
+ * @see jbvb.text.NumberFormbt
+ * @see jbvb.text.Collbtor
+ * @buthor Mbrk Dbvis
  * @since 1.1
  */
-public final class Locale implements Cloneable, Serializable {
+public finbl clbss Locble implements Clonebble, Seriblizbble {
 
-    static private final  Cache LOCALECACHE = new Cache();
+    stbtic privbte finbl  Cbche LOCALECACHE = new Cbche();
 
-    /** Useful constant for language.
+    /** Useful constbnt for lbngubge.
      */
-    static public final Locale ENGLISH = createConstant("en", "");
+    stbtic public finbl Locble ENGLISH = crebteConstbnt("en", "");
 
-    /** Useful constant for language.
+    /** Useful constbnt for lbngubge.
      */
-    static public final Locale FRENCH = createConstant("fr", "");
+    stbtic public finbl Locble FRENCH = crebteConstbnt("fr", "");
 
-    /** Useful constant for language.
+    /** Useful constbnt for lbngubge.
      */
-    static public final Locale GERMAN = createConstant("de", "");
+    stbtic public finbl Locble GERMAN = crebteConstbnt("de", "");
 
-    /** Useful constant for language.
+    /** Useful constbnt for lbngubge.
      */
-    static public final Locale ITALIAN = createConstant("it", "");
+    stbtic public finbl Locble ITALIAN = crebteConstbnt("it", "");
 
-    /** Useful constant for language.
+    /** Useful constbnt for lbngubge.
      */
-    static public final Locale JAPANESE = createConstant("ja", "");
+    stbtic public finbl Locble JAPANESE = crebteConstbnt("jb", "");
 
-    /** Useful constant for language.
+    /** Useful constbnt for lbngubge.
      */
-    static public final Locale KOREAN = createConstant("ko", "");
+    stbtic public finbl Locble KOREAN = crebteConstbnt("ko", "");
 
-    /** Useful constant for language.
+    /** Useful constbnt for lbngubge.
      */
-    static public final Locale CHINESE = createConstant("zh", "");
+    stbtic public finbl Locble CHINESE = crebteConstbnt("zh", "");
 
-    /** Useful constant for language.
+    /** Useful constbnt for lbngubge.
      */
-    static public final Locale SIMPLIFIED_CHINESE = createConstant("zh", "CN");
+    stbtic public finbl Locble SIMPLIFIED_CHINESE = crebteConstbnt("zh", "CN");
 
-    /** Useful constant for language.
+    /** Useful constbnt for lbngubge.
      */
-    static public final Locale TRADITIONAL_CHINESE = createConstant("zh", "TW");
+    stbtic public finbl Locble TRADITIONAL_CHINESE = crebteConstbnt("zh", "TW");
 
-    /** Useful constant for country.
+    /** Useful constbnt for country.
      */
-    static public final Locale FRANCE = createConstant("fr", "FR");
+    stbtic public finbl Locble FRANCE = crebteConstbnt("fr", "FR");
 
-    /** Useful constant for country.
+    /** Useful constbnt for country.
      */
-    static public final Locale GERMANY = createConstant("de", "DE");
+    stbtic public finbl Locble GERMANY = crebteConstbnt("de", "DE");
 
-    /** Useful constant for country.
+    /** Useful constbnt for country.
      */
-    static public final Locale ITALY = createConstant("it", "IT");
+    stbtic public finbl Locble ITALY = crebteConstbnt("it", "IT");
 
-    /** Useful constant for country.
+    /** Useful constbnt for country.
      */
-    static public final Locale JAPAN = createConstant("ja", "JP");
+    stbtic public finbl Locble JAPAN = crebteConstbnt("jb", "JP");
 
-    /** Useful constant for country.
+    /** Useful constbnt for country.
      */
-    static public final Locale KOREA = createConstant("ko", "KR");
+    stbtic public finbl Locble KOREA = crebteConstbnt("ko", "KR");
 
-    /** Useful constant for country.
+    /** Useful constbnt for country.
      */
-    static public final Locale CHINA = SIMPLIFIED_CHINESE;
+    stbtic public finbl Locble CHINA = SIMPLIFIED_CHINESE;
 
-    /** Useful constant for country.
+    /** Useful constbnt for country.
      */
-    static public final Locale PRC = SIMPLIFIED_CHINESE;
+    stbtic public finbl Locble PRC = SIMPLIFIED_CHINESE;
 
-    /** Useful constant for country.
+    /** Useful constbnt for country.
      */
-    static public final Locale TAIWAN = TRADITIONAL_CHINESE;
+    stbtic public finbl Locble TAIWAN = TRADITIONAL_CHINESE;
 
-    /** Useful constant for country.
+    /** Useful constbnt for country.
      */
-    static public final Locale UK = createConstant("en", "GB");
+    stbtic public finbl Locble UK = crebteConstbnt("en", "GB");
 
-    /** Useful constant for country.
+    /** Useful constbnt for country.
      */
-    static public final Locale US = createConstant("en", "US");
+    stbtic public finbl Locble US = crebteConstbnt("en", "US");
 
-    /** Useful constant for country.
+    /** Useful constbnt for country.
      */
-    static public final Locale CANADA = createConstant("en", "CA");
+    stbtic public finbl Locble CANADA = crebteConstbnt("en", "CA");
 
-    /** Useful constant for country.
+    /** Useful constbnt for country.
      */
-    static public final Locale CANADA_FRENCH = createConstant("fr", "CA");
+    stbtic public finbl Locble CANADA_FRENCH = crebteConstbnt("fr", "CA");
 
     /**
-     * Useful constant for the root locale.  The root locale is the locale whose
-     * language, country, and variant are empty ("") strings.  This is regarded
-     * as the base locale of all locales, and is used as the language/country
-     * neutral locale for the locale sensitive operations.
+     * Useful constbnt for the root locble.  The root locble is the locble whose
+     * lbngubge, country, bnd vbribnt bre empty ("") strings.  This is regbrded
+     * bs the bbse locble of bll locbles, bnd is used bs the lbngubge/country
+     * neutrbl locble for the locble sensitive operbtions.
      *
      * @since 1.6
      */
-    static public final Locale ROOT = createConstant("", "");
+    stbtic public finbl Locble ROOT = crebteConstbnt("", "");
 
     /**
-     * The key for the private use extension ('x').
+     * The key for the privbte use extension ('x').
      *
-     * @see #getExtension(char)
-     * @see Builder#setExtension(char, String)
+     * @see #getExtension(chbr)
+     * @see Builder#setExtension(chbr, String)
      * @since 1.7
      */
-    static public final char PRIVATE_USE_EXTENSION = 'x';
+    stbtic public finbl chbr PRIVATE_USE_EXTENSION = 'x';
 
     /**
-     * The key for Unicode locale extension ('u').
+     * The key for Unicode locble extension ('u').
      *
-     * @see #getExtension(char)
-     * @see Builder#setExtension(char, String)
+     * @see #getExtension(chbr)
+     * @see Builder#setExtension(chbr, String)
      * @since 1.7
      */
-    static public final char UNICODE_LOCALE_EXTENSION = 'u';
+    stbtic public finbl chbr UNICODE_LOCALE_EXTENSION = 'u';
 
-    /** serialization ID
+    /** seriblizbtion ID
      */
-    static final long serialVersionUID = 9149081749638150636L;
-
-    /**
-     * Display types for retrieving localized names from the name providers.
-     */
-    private static final int DISPLAY_LANGUAGE = 0;
-    private static final int DISPLAY_COUNTRY  = 1;
-    private static final int DISPLAY_VARIANT  = 2;
-    private static final int DISPLAY_SCRIPT   = 3;
+    stbtic finbl long seriblVersionUID = 9149081749638150636L;
 
     /**
-     * Private constructor used by getInstance method
+     * Displby types for retrieving locblized nbmes from the nbme providers.
      */
-    private Locale(BaseLocale baseLocale, LocaleExtensions extensions) {
-        this.baseLocale = baseLocale;
-        this.localeExtensions = extensions;
+    privbte stbtic finbl int DISPLAY_LANGUAGE = 0;
+    privbte stbtic finbl int DISPLAY_COUNTRY  = 1;
+    privbte stbtic finbl int DISPLAY_VARIANT  = 2;
+    privbte stbtic finbl int DISPLAY_SCRIPT   = 3;
+
+    /**
+     * Privbte constructor used by getInstbnce method
+     */
+    privbte Locble(BbseLocble bbseLocble, LocbleExtensions extensions) {
+        this.bbseLocble = bbseLocble;
+        this.locbleExtensions = extensions;
     }
 
     /**
-     * Construct a locale from language, country and variant.
-     * This constructor normalizes the language value to lowercase and
-     * the country value to uppercase.
+     * Construct b locble from lbngubge, country bnd vbribnt.
+     * This constructor normblizes the lbngubge vblue to lowercbse bnd
+     * the country vblue to uppercbse.
      * <p>
      * <b>Note:</b>
      * <ul>
-     * <li>ISO 639 is not a stable standard; some of the language codes it defines
-     * (specifically "iw", "ji", and "in") have changed.  This constructor accepts both the
-     * old codes ("iw", "ji", and "in") and the new codes ("he", "yi", and "id"), but all other
-     * API on Locale will return only the OLD codes.
-     * <li>For backward compatibility reasons, this constructor does not make
-     * any syntactic checks on the input.
-     * <li>The two cases ("ja", "JP", "JP") and ("th", "TH", "TH") are handled specially,
-     * see <a href="#special_cases_constructor">Special Cases</a> for more information.
+     * <li>ISO 639 is not b stbble stbndbrd; some of the lbngubge codes it defines
+     * (specificblly "iw", "ji", bnd "in") hbve chbnged.  This constructor bccepts both the
+     * old codes ("iw", "ji", bnd "in") bnd the new codes ("he", "yi", bnd "id"), but bll other
+     * API on Locble will return only the OLD codes.
+     * <li>For bbckwbrd compbtibility rebsons, this constructor does not mbke
+     * bny syntbctic checks on the input.
+     * <li>The two cbses ("jb", "JP", "JP") bnd ("th", "TH", "TH") bre hbndled speciblly,
+     * see <b href="#specibl_cbses_constructor">Specibl Cbses</b> for more informbtion.
      * </ul>
      *
-     * @param language An ISO 639 alpha-2 or alpha-3 language code, or a language subtag
-     * up to 8 characters in length.  See the <code>Locale</code> class description about
-     * valid language values.
-     * @param country An ISO 3166 alpha-2 country code or a UN M.49 numeric-3 area code.
-     * See the <code>Locale</code> class description about valid country values.
-     * @param variant Any arbitrary value used to indicate a variation of a <code>Locale</code>.
-     * See the <code>Locale</code> class description for the details.
-     * @exception NullPointerException thrown if any argument is null.
+     * @pbrbm lbngubge An ISO 639 blphb-2 or blphb-3 lbngubge code, or b lbngubge subtbg
+     * up to 8 chbrbcters in length.  See the <code>Locble</code> clbss description bbout
+     * vblid lbngubge vblues.
+     * @pbrbm country An ISO 3166 blphb-2 country code or b UN M.49 numeric-3 breb code.
+     * See the <code>Locble</code> clbss description bbout vblid country vblues.
+     * @pbrbm vbribnt Any brbitrbry vblue used to indicbte b vbribtion of b <code>Locble</code>.
+     * See the <code>Locble</code> clbss description for the detbils.
+     * @exception NullPointerException thrown if bny brgument is null.
      */
-    public Locale(String language, String country, String variant) {
-        if (language== null || country == null || variant == null) {
+    public Locble(String lbngubge, String country, String vbribnt) {
+        if (lbngubge== null || country == null || vbribnt == null) {
             throw new NullPointerException();
         }
-        baseLocale = BaseLocale.getInstance(convertOldISOCodes(language), "", country, variant);
-        localeExtensions = getCompatibilityExtensions(language, "", country, variant);
+        bbseLocble = BbseLocble.getInstbnce(convertOldISOCodes(lbngubge), "", country, vbribnt);
+        locbleExtensions = getCompbtibilityExtensions(lbngubge, "", country, vbribnt);
     }
 
     /**
-     * Construct a locale from language and country.
-     * This constructor normalizes the language value to lowercase and
-     * the country value to uppercase.
+     * Construct b locble from lbngubge bnd country.
+     * This constructor normblizes the lbngubge vblue to lowercbse bnd
+     * the country vblue to uppercbse.
      * <p>
      * <b>Note:</b>
      * <ul>
-     * <li>ISO 639 is not a stable standard; some of the language codes it defines
-     * (specifically "iw", "ji", and "in") have changed.  This constructor accepts both the
-     * old codes ("iw", "ji", and "in") and the new codes ("he", "yi", and "id"), but all other
-     * API on Locale will return only the OLD codes.
-     * <li>For backward compatibility reasons, this constructor does not make
-     * any syntactic checks on the input.
+     * <li>ISO 639 is not b stbble stbndbrd; some of the lbngubge codes it defines
+     * (specificblly "iw", "ji", bnd "in") hbve chbnged.  This constructor bccepts both the
+     * old codes ("iw", "ji", bnd "in") bnd the new codes ("he", "yi", bnd "id"), but bll other
+     * API on Locble will return only the OLD codes.
+     * <li>For bbckwbrd compbtibility rebsons, this constructor does not mbke
+     * bny syntbctic checks on the input.
      * </ul>
      *
-     * @param language An ISO 639 alpha-2 or alpha-3 language code, or a language subtag
-     * up to 8 characters in length.  See the <code>Locale</code> class description about
-     * valid language values.
-     * @param country An ISO 3166 alpha-2 country code or a UN M.49 numeric-3 area code.
-     * See the <code>Locale</code> class description about valid country values.
-     * @exception NullPointerException thrown if either argument is null.
+     * @pbrbm lbngubge An ISO 639 blphb-2 or blphb-3 lbngubge code, or b lbngubge subtbg
+     * up to 8 chbrbcters in length.  See the <code>Locble</code> clbss description bbout
+     * vblid lbngubge vblues.
+     * @pbrbm country An ISO 3166 blphb-2 country code or b UN M.49 numeric-3 breb code.
+     * See the <code>Locble</code> clbss description bbout vblid country vblues.
+     * @exception NullPointerException thrown if either brgument is null.
      */
-    public Locale(String language, String country) {
-        this(language, country, "");
+    public Locble(String lbngubge, String country) {
+        this(lbngubge, country, "");
     }
 
     /**
-     * Construct a locale from a language code.
-     * This constructor normalizes the language value to lowercase.
+     * Construct b locble from b lbngubge code.
+     * This constructor normblizes the lbngubge vblue to lowercbse.
      * <p>
      * <b>Note:</b>
      * <ul>
-     * <li>ISO 639 is not a stable standard; some of the language codes it defines
-     * (specifically "iw", "ji", and "in") have changed.  This constructor accepts both the
-     * old codes ("iw", "ji", and "in") and the new codes ("he", "yi", and "id"), but all other
-     * API on Locale will return only the OLD codes.
-     * <li>For backward compatibility reasons, this constructor does not make
-     * any syntactic checks on the input.
+     * <li>ISO 639 is not b stbble stbndbrd; some of the lbngubge codes it defines
+     * (specificblly "iw", "ji", bnd "in") hbve chbnged.  This constructor bccepts both the
+     * old codes ("iw", "ji", bnd "in") bnd the new codes ("he", "yi", bnd "id"), but bll other
+     * API on Locble will return only the OLD codes.
+     * <li>For bbckwbrd compbtibility rebsons, this constructor does not mbke
+     * bny syntbctic checks on the input.
      * </ul>
      *
-     * @param language An ISO 639 alpha-2 or alpha-3 language code, or a language subtag
-     * up to 8 characters in length.  See the <code>Locale</code> class description about
-     * valid language values.
-     * @exception NullPointerException thrown if argument is null.
+     * @pbrbm lbngubge An ISO 639 blphb-2 or blphb-3 lbngubge code, or b lbngubge subtbg
+     * up to 8 chbrbcters in length.  See the <code>Locble</code> clbss description bbout
+     * vblid lbngubge vblues.
+     * @exception NullPointerException thrown if brgument is null.
      * @since 1.4
      */
-    public Locale(String language) {
-        this(language, "", "");
+    public Locble(String lbngubge) {
+        this(lbngubge, "", "");
     }
 
     /**
-     * This method must be called only for creating the Locale.*
-     * constants due to making shortcuts.
+     * This method must be cblled only for crebting the Locble.*
+     * constbnts due to mbking shortcuts.
      */
-    private static Locale createConstant(String lang, String country) {
-        BaseLocale base = BaseLocale.createInstance(lang, country);
-        return getInstance(base, null);
+    privbte stbtic Locble crebteConstbnt(String lbng, String country) {
+        BbseLocble bbse = BbseLocble.crebteInstbnce(lbng, country);
+        return getInstbnce(bbse, null);
     }
 
     /**
-     * Returns a <code>Locale</code> constructed from the given
-     * <code>language</code>, <code>country</code> and
-     * <code>variant</code>. If the same <code>Locale</code> instance
-     * is available in the cache, then that instance is
-     * returned. Otherwise, a new <code>Locale</code> instance is
-     * created and cached.
+     * Returns b <code>Locble</code> constructed from the given
+     * <code>lbngubge</code>, <code>country</code> bnd
+     * <code>vbribnt</code>. If the sbme <code>Locble</code> instbnce
+     * is bvbilbble in the cbche, then thbt instbnce is
+     * returned. Otherwise, b new <code>Locble</code> instbnce is
+     * crebted bnd cbched.
      *
-     * @param language lowercase 2 to 8 language code.
-     * @param country uppercase two-letter ISO-3166 code and numric-3 UN M.49 area code.
-     * @param variant vendor and browser specific code. See class description.
-     * @return the <code>Locale</code> instance requested
-     * @exception NullPointerException if any argument is null.
+     * @pbrbm lbngubge lowercbse 2 to 8 lbngubge code.
+     * @pbrbm country uppercbse two-letter ISO-3166 code bnd numric-3 UN M.49 breb code.
+     * @pbrbm vbribnt vendor bnd browser specific code. See clbss description.
+     * @return the <code>Locble</code> instbnce requested
+     * @exception NullPointerException if bny brgument is null.
      */
-    static Locale getInstance(String language, String country, String variant) {
-        return getInstance(language, "", country, variant, null);
+    stbtic Locble getInstbnce(String lbngubge, String country, String vbribnt) {
+        return getInstbnce(lbngubge, "", country, vbribnt, null);
     }
 
-    static Locale getInstance(String language, String script, String country,
-                                      String variant, LocaleExtensions extensions) {
-        if (language== null || script == null || country == null || variant == null) {
+    stbtic Locble getInstbnce(String lbngubge, String script, String country,
+                                      String vbribnt, LocbleExtensions extensions) {
+        if (lbngubge== null || script == null || country == null || vbribnt == null) {
             throw new NullPointerException();
         }
 
         if (extensions == null) {
-            extensions = getCompatibilityExtensions(language, script, country, variant);
+            extensions = getCompbtibilityExtensions(lbngubge, script, country, vbribnt);
         }
 
-        BaseLocale baseloc = BaseLocale.getInstance(language, script, country, variant);
-        return getInstance(baseloc, extensions);
+        BbseLocble bbseloc = BbseLocble.getInstbnce(lbngubge, script, country, vbribnt);
+        return getInstbnce(bbseloc, extensions);
     }
 
-    static Locale getInstance(BaseLocale baseloc, LocaleExtensions extensions) {
-        LocaleKey key = new LocaleKey(baseloc, extensions);
+    stbtic Locble getInstbnce(BbseLocble bbseloc, LocbleExtensions extensions) {
+        LocbleKey key = new LocbleKey(bbseloc, extensions);
         return LOCALECACHE.get(key);
     }
 
-    private static class Cache extends LocaleObjectCache<LocaleKey, Locale> {
-        private Cache() {
+    privbte stbtic clbss Cbche extends LocbleObjectCbche<LocbleKey, Locble> {
+        privbte Cbche() {
         }
 
         @Override
-        protected Locale createObject(LocaleKey key) {
-            return new Locale(key.base, key.exts);
+        protected Locble crebteObject(LocbleKey key) {
+            return new Locble(key.bbse, key.exts);
         }
     }
 
-    private static final class LocaleKey {
-        private final BaseLocale base;
-        private final LocaleExtensions exts;
-        private final int hash;
+    privbte stbtic finbl clbss LocbleKey {
+        privbte finbl BbseLocble bbse;
+        privbte finbl LocbleExtensions exts;
+        privbte finbl int hbsh;
 
-        private LocaleKey(BaseLocale baseLocale, LocaleExtensions extensions) {
-            base = baseLocale;
+        privbte LocbleKey(BbseLocble bbseLocble, LocbleExtensions extensions) {
+            bbse = bbseLocble;
             exts = extensions;
 
-            // Calculate the hash value here because it's always used.
-            int h = base.hashCode();
+            // Cblculbte the hbsh vblue here becbuse it's blwbys used.
+            int h = bbse.hbshCode();
             if (exts != null) {
-                h ^= exts.hashCode();
+                h ^= exts.hbshCode();
             }
-            hash = h;
+            hbsh = h;
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (this == obj) {
                 return true;
             }
-            if (!(obj instanceof LocaleKey)) {
-                return false;
+            if (!(obj instbnceof LocbleKey)) {
+                return fblse;
             }
-            LocaleKey other = (LocaleKey)obj;
-            if (hash != other.hash || !base.equals(other.base)) {
-                return false;
+            LocbleKey other = (LocbleKey)obj;
+            if (hbsh != other.hbsh || !bbse.equbls(other.bbse)) {
+                return fblse;
             }
             if (exts == null) {
                 return other.exts == null;
             }
-            return exts.equals(other.exts);
+            return exts.equbls(other.exts);
         }
 
         @Override
-        public int hashCode() {
-            return hash;
+        public int hbshCode() {
+            return hbsh;
         }
     }
 
     /**
-     * Gets the current value of the default locale for this instance
-     * of the Java Virtual Machine.
+     * Gets the current vblue of the defbult locble for this instbnce
+     * of the Jbvb Virtubl Mbchine.
      * <p>
-     * The Java Virtual Machine sets the default locale during startup
-     * based on the host environment. It is used by many locale-sensitive
-     * methods if no locale is explicitly specified.
-     * It can be changed using the
-     * {@link #setDefault(java.util.Locale) setDefault} method.
+     * The Jbvb Virtubl Mbchine sets the defbult locble during stbrtup
+     * bbsed on the host environment. It is used by mbny locble-sensitive
+     * methods if no locble is explicitly specified.
+     * It cbn be chbnged using the
+     * {@link #setDefbult(jbvb.util.Locble) setDefbult} method.
      *
-     * @return the default locale for this instance of the Java Virtual Machine
+     * @return the defbult locble for this instbnce of the Jbvb Virtubl Mbchine
      */
-    public static Locale getDefault() {
+    public stbtic Locble getDefbult() {
         // do not synchronize this method - see 4071298
-        return defaultLocale;
+        return defbultLocble;
     }
 
     /**
-     * Gets the current value of the default locale for the specified Category
-     * for this instance of the Java Virtual Machine.
+     * Gets the current vblue of the defbult locble for the specified Cbtegory
+     * for this instbnce of the Jbvb Virtubl Mbchine.
      * <p>
-     * The Java Virtual Machine sets the default locale during startup based
-     * on the host environment. It is used by many locale-sensitive methods
-     * if no locale is explicitly specified. It can be changed using the
-     * setDefault(Locale.Category, Locale) method.
+     * The Jbvb Virtubl Mbchine sets the defbult locble during stbrtup bbsed
+     * on the host environment. It is used by mbny locble-sensitive methods
+     * if no locble is explicitly specified. It cbn be chbnged using the
+     * setDefbult(Locble.Cbtegory, Locble) method.
      *
-     * @param category - the specified category to get the default locale
-     * @throws NullPointerException - if category is null
-     * @return the default locale for the specified Category for this instance
-     *     of the Java Virtual Machine
-     * @see #setDefault(Locale.Category, Locale)
+     * @pbrbm cbtegory - the specified cbtegory to get the defbult locble
+     * @throws NullPointerException - if cbtegory is null
+     * @return the defbult locble for the specified Cbtegory for this instbnce
+     *     of the Jbvb Virtubl Mbchine
+     * @see #setDefbult(Locble.Cbtegory, Locble)
      * @since 1.7
      */
-    public static Locale getDefault(Locale.Category category) {
+    public stbtic Locble getDefbult(Locble.Cbtegory cbtegory) {
         // do not synchronize this method - see 4071298
-        switch (category) {
-        case DISPLAY:
-            if (defaultDisplayLocale == null) {
-                synchronized(Locale.class) {
-                    if (defaultDisplayLocale == null) {
-                        defaultDisplayLocale = initDefault(category);
+        switch (cbtegory) {
+        cbse DISPLAY:
+            if (defbultDisplbyLocble == null) {
+                synchronized(Locble.clbss) {
+                    if (defbultDisplbyLocble == null) {
+                        defbultDisplbyLocble = initDefbult(cbtegory);
                     }
                 }
             }
-            return defaultDisplayLocale;
-        case FORMAT:
-            if (defaultFormatLocale == null) {
-                synchronized(Locale.class) {
-                    if (defaultFormatLocale == null) {
-                        defaultFormatLocale = initDefault(category);
+            return defbultDisplbyLocble;
+        cbse FORMAT:
+            if (defbultFormbtLocble == null) {
+                synchronized(Locble.clbss) {
+                    if (defbultFormbtLocble == null) {
+                        defbultFormbtLocble = initDefbult(cbtegory);
                     }
                 }
             }
-            return defaultFormatLocale;
-        default:
-            assert false: "Unknown Category";
+            return defbultFormbtLocble;
+        defbult:
+            bssert fblse: "Unknown Cbtegory";
         }
-        return getDefault();
+        return getDefbult();
     }
 
-    private static Locale initDefault() {
-        String language, region, script, country, variant;
-        language = AccessController.doPrivileged(
-            new GetPropertyAction("user.language", "en"));
-        // for compatibility, check for old user.region property
+    privbte stbtic Locble initDefbult() {
+        String lbngubge, region, script, country, vbribnt;
+        lbngubge = AccessController.doPrivileged(
+            new GetPropertyAction("user.lbngubge", "en"));
+        // for compbtibility, check for old user.region property
         region = AccessController.doPrivileged(
             new GetPropertyAction("user.region"));
         if (region != null) {
-            // region can be of form country, country_variant, or _variant
+            // region cbn be of form country, country_vbribnt, or _vbribnt
             int i = region.indexOf('_');
             if (i >= 0) {
                 country = region.substring(0, i);
-                variant = region.substring(i + 1);
+                vbribnt = region.substring(i + 1);
             } else {
                 country = region;
-                variant = "";
+                vbribnt = "";
             }
             script = "";
         } else {
@@ -881,647 +881,647 @@ public final class Locale implements Cloneable, Serializable {
                 new GetPropertyAction("user.script", ""));
             country = AccessController.doPrivileged(
                 new GetPropertyAction("user.country", ""));
-            variant = AccessController.doPrivileged(
-                new GetPropertyAction("user.variant", ""));
+            vbribnt = AccessController.doPrivileged(
+                new GetPropertyAction("user.vbribnt", ""));
         }
 
-        return getInstance(language, script, country, variant, null);
+        return getInstbnce(lbngubge, script, country, vbribnt, null);
     }
 
-    private static Locale initDefault(Locale.Category category) {
-        return getInstance(
+    privbte stbtic Locble initDefbult(Locble.Cbtegory cbtegory) {
+        return getInstbnce(
             AccessController.doPrivileged(
-                new GetPropertyAction(category.languageKey, defaultLocale.getLanguage())),
+                new GetPropertyAction(cbtegory.lbngubgeKey, defbultLocble.getLbngubge())),
             AccessController.doPrivileged(
-                new GetPropertyAction(category.scriptKey, defaultLocale.getScript())),
+                new GetPropertyAction(cbtegory.scriptKey, defbultLocble.getScript())),
             AccessController.doPrivileged(
-                new GetPropertyAction(category.countryKey, defaultLocale.getCountry())),
+                new GetPropertyAction(cbtegory.countryKey, defbultLocble.getCountry())),
             AccessController.doPrivileged(
-                new GetPropertyAction(category.variantKey, defaultLocale.getVariant())),
+                new GetPropertyAction(cbtegory.vbribntKey, defbultLocble.getVbribnt())),
             null);
     }
 
     /**
-     * Sets the default locale for this instance of the Java Virtual Machine.
-     * This does not affect the host locale.
+     * Sets the defbult locble for this instbnce of the Jbvb Virtubl Mbchine.
+     * This does not bffect the host locble.
      * <p>
-     * If there is a security manager, its <code>checkPermission</code>
-     * method is called with a <code>PropertyPermission("user.language", "write")</code>
-     * permission before the default locale is changed.
+     * If there is b security mbnbger, its <code>checkPermission</code>
+     * method is cblled with b <code>PropertyPermission("user.lbngubge", "write")</code>
+     * permission before the defbult locble is chbnged.
      * <p>
-     * The Java Virtual Machine sets the default locale during startup
-     * based on the host environment. It is used by many locale-sensitive
-     * methods if no locale is explicitly specified.
+     * The Jbvb Virtubl Mbchine sets the defbult locble during stbrtup
+     * bbsed on the host environment. It is used by mbny locble-sensitive
+     * methods if no locble is explicitly specified.
      * <p>
-     * Since changing the default locale may affect many different areas
-     * of functionality, this method should only be used if the caller
-     * is prepared to reinitialize locale-sensitive code running
-     * within the same Java Virtual Machine.
+     * Since chbnging the defbult locble mby bffect mbny different brebs
+     * of functionblity, this method should only be used if the cbller
+     * is prepbred to reinitiblize locble-sensitive code running
+     * within the sbme Jbvb Virtubl Mbchine.
      * <p>
-     * By setting the default locale with this method, all of the default
-     * locales for each Category are also set to the specified default locale.
+     * By setting the defbult locble with this method, bll of the defbult
+     * locbles for ebch Cbtegory bre blso set to the specified defbult locble.
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        <code>checkPermission</code> method doesn't allow the operation.
-     * @throws NullPointerException if <code>newLocale</code> is null
-     * @param newLocale the new default locale
-     * @see SecurityManager#checkPermission
-     * @see java.util.PropertyPermission
+     *        if b security mbnbger exists bnd its
+     *        <code>checkPermission</code> method doesn't bllow the operbtion.
+     * @throws NullPointerException if <code>newLocble</code> is null
+     * @pbrbm newLocble the new defbult locble
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.util.PropertyPermission
      */
-    public static synchronized void setDefault(Locale newLocale) {
-        setDefault(Category.DISPLAY, newLocale);
-        setDefault(Category.FORMAT, newLocale);
-        defaultLocale = newLocale;
+    public stbtic synchronized void setDefbult(Locble newLocble) {
+        setDefbult(Cbtegory.DISPLAY, newLocble);
+        setDefbult(Cbtegory.FORMAT, newLocble);
+        defbultLocble = newLocble;
     }
 
     /**
-     * Sets the default locale for the specified Category for this instance
-     * of the Java Virtual Machine. This does not affect the host locale.
+     * Sets the defbult locble for the specified Cbtegory for this instbnce
+     * of the Jbvb Virtubl Mbchine. This does not bffect the host locble.
      * <p>
-     * If there is a security manager, its checkPermission method is called
-     * with a PropertyPermission("user.language", "write") permission before
-     * the default locale is changed.
+     * If there is b security mbnbger, its checkPermission method is cblled
+     * with b PropertyPermission("user.lbngubge", "write") permission before
+     * the defbult locble is chbnged.
      * <p>
-     * The Java Virtual Machine sets the default locale during startup based
-     * on the host environment. It is used by many locale-sensitive methods
-     * if no locale is explicitly specified.
+     * The Jbvb Virtubl Mbchine sets the defbult locble during stbrtup bbsed
+     * on the host environment. It is used by mbny locble-sensitive methods
+     * if no locble is explicitly specified.
      * <p>
-     * Since changing the default locale may affect many different areas of
-     * functionality, this method should only be used if the caller is
-     * prepared to reinitialize locale-sensitive code running within the
-     * same Java Virtual Machine.
+     * Since chbnging the defbult locble mby bffect mbny different brebs of
+     * functionblity, this method should only be used if the cbller is
+     * prepbred to reinitiblize locble-sensitive code running within the
+     * sbme Jbvb Virtubl Mbchine.
      *
-     * @param category - the specified category to set the default locale
-     * @param newLocale - the new default locale
-     * @throws SecurityException - if a security manager exists and its
-     *     checkPermission method doesn't allow the operation.
-     * @throws NullPointerException - if category and/or newLocale is null
-     * @see SecurityManager#checkPermission(java.security.Permission)
+     * @pbrbm cbtegory - the specified cbtegory to set the defbult locble
+     * @pbrbm newLocble - the new defbult locble
+     * @throws SecurityException - if b security mbnbger exists bnd its
+     *     checkPermission method doesn't bllow the operbtion.
+     * @throws NullPointerException - if cbtegory bnd/or newLocble is null
+     * @see SecurityMbnbger#checkPermission(jbvb.security.Permission)
      * @see PropertyPermission
-     * @see #getDefault(Locale.Category)
+     * @see #getDefbult(Locble.Cbtegory)
      * @since 1.7
      */
-    public static synchronized void setDefault(Locale.Category category,
-        Locale newLocale) {
-        if (category == null)
-            throw new NullPointerException("Category cannot be NULL");
-        if (newLocale == null)
-            throw new NullPointerException("Can't set default locale to NULL");
+    public stbtic synchronized void setDefbult(Locble.Cbtegory cbtegory,
+        Locble newLocble) {
+        if (cbtegory == null)
+            throw new NullPointerException("Cbtegory cbnnot be NULL");
+        if (newLocble == null)
+            throw new NullPointerException("Cbn't set defbult locble to NULL");
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) sm.checkPermission(new PropertyPermission
-                        ("user.language", "write"));
-        switch (category) {
-        case DISPLAY:
-            defaultDisplayLocale = newLocale;
-            break;
-        case FORMAT:
-            defaultFormatLocale = newLocale;
-            break;
-        default:
-            assert false: "Unknown Category";
+                        ("user.lbngubge", "write"));
+        switch (cbtegory) {
+        cbse DISPLAY:
+            defbultDisplbyLocble = newLocble;
+            brebk;
+        cbse FORMAT:
+            defbultFormbtLocble = newLocble;
+            brebk;
+        defbult:
+            bssert fblse: "Unknown Cbtegory";
         }
     }
 
     /**
-     * Returns an array of all installed locales.
-     * The returned array represents the union of locales supported
-     * by the Java runtime environment and by installed
-     * {@link java.util.spi.LocaleServiceProvider LocaleServiceProvider}
-     * implementations.  It must contain at least a <code>Locale</code>
-     * instance equal to {@link java.util.Locale#US Locale.US}.
+     * Returns bn brrby of bll instblled locbles.
+     * The returned brrby represents the union of locbles supported
+     * by the Jbvb runtime environment bnd by instblled
+     * {@link jbvb.util.spi.LocbleServiceProvider LocbleServiceProvider}
+     * implementbtions.  It must contbin bt lebst b <code>Locble</code>
+     * instbnce equbl to {@link jbvb.util.Locble#US Locble.US}.
      *
-     * @return An array of installed locales.
+     * @return An brrby of instblled locbles.
      */
-    public static Locale[] getAvailableLocales() {
-        return LocaleServiceProviderPool.getAllAvailableLocales();
+    public stbtic Locble[] getAvbilbbleLocbles() {
+        return LocbleServiceProviderPool.getAllAvbilbbleLocbles();
     }
 
     /**
-     * Returns a list of all 2-letter country codes defined in ISO 3166.
-     * Can be used to create Locales.
+     * Returns b list of bll 2-letter country codes defined in ISO 3166.
+     * Cbn be used to crebte Locbles.
      * <p>
-     * <b>Note:</b> The <code>Locale</code> class also supports other codes for
-     * country (region), such as 3-letter numeric UN M.49 area codes.
-     * Therefore, the list returned by this method does not contain ALL valid
-     * codes that can be used to create Locales.
+     * <b>Note:</b> The <code>Locble</code> clbss blso supports other codes for
+     * country (region), such bs 3-letter numeric UN M.49 breb codes.
+     * Therefore, the list returned by this method does not contbin ALL vblid
+     * codes thbt cbn be used to crebte Locbles.
      *
-     * @return An array of ISO 3166 two-letter country codes.
+     * @return An brrby of ISO 3166 two-letter country codes.
      */
-    public static String[] getISOCountries() {
+    public stbtic String[] getISOCountries() {
         if (isoCountries == null) {
-            isoCountries = getISO2Table(LocaleISOData.isoCountryTable);
+            isoCountries = getISO2Tbble(LocbleISODbtb.isoCountryTbble);
         }
         String[] result = new String[isoCountries.length];
-        System.arraycopy(isoCountries, 0, result, 0, isoCountries.length);
+        System.brrbycopy(isoCountries, 0, result, 0, isoCountries.length);
         return result;
     }
 
     /**
-     * Returns a list of all 2-letter language codes defined in ISO 639.
-     * Can be used to create Locales.
+     * Returns b list of bll 2-letter lbngubge codes defined in ISO 639.
+     * Cbn be used to crebte Locbles.
      * <p>
      * <b>Note:</b>
      * <ul>
-     * <li>ISO 639 is not a stable standard&mdash; some languages' codes have changed.
-     * The list this function returns includes both the new and the old codes for the
-     * languages whose codes have changed.
-     * <li>The <code>Locale</code> class also supports language codes up to
-     * 8 characters in length.  Therefore, the list returned by this method does
-     * not contain ALL valid codes that can be used to create Locales.
+     * <li>ISO 639 is not b stbble stbndbrd&mdbsh; some lbngubges' codes hbve chbnged.
+     * The list this function returns includes both the new bnd the old codes for the
+     * lbngubges whose codes hbve chbnged.
+     * <li>The <code>Locble</code> clbss blso supports lbngubge codes up to
+     * 8 chbrbcters in length.  Therefore, the list returned by this method does
+     * not contbin ALL vblid codes thbt cbn be used to crebte Locbles.
      * </ul>
      *
-     * @return Am array of ISO 639 two-letter language codes.
+     * @return Am brrby of ISO 639 two-letter lbngubge codes.
      */
-    public static String[] getISOLanguages() {
-        if (isoLanguages == null) {
-            isoLanguages = getISO2Table(LocaleISOData.isoLanguageTable);
+    public stbtic String[] getISOLbngubges() {
+        if (isoLbngubges == null) {
+            isoLbngubges = getISO2Tbble(LocbleISODbtb.isoLbngubgeTbble);
         }
-        String[] result = new String[isoLanguages.length];
-        System.arraycopy(isoLanguages, 0, result, 0, isoLanguages.length);
+        String[] result = new String[isoLbngubges.length];
+        System.brrbycopy(isoLbngubges, 0, result, 0, isoLbngubges.length);
         return result;
     }
 
-    private static String[] getISO2Table(String table) {
-        int len = table.length() / 5;
-        String[] isoTable = new String[len];
+    privbte stbtic String[] getISO2Tbble(String tbble) {
+        int len = tbble.length() / 5;
+        String[] isoTbble = new String[len];
         for (int i = 0, j = 0; i < len; i++, j += 5) {
-            isoTable[i] = table.substring(j, j + 2);
+            isoTbble[i] = tbble.substring(j, j + 2);
         }
-        return isoTable;
+        return isoTbble;
     }
 
     /**
-     * Returns the language code of this Locale.
+     * Returns the lbngubge code of this Locble.
      *
-     * <p><b>Note:</b> ISO 639 is not a stable standard&mdash; some languages' codes have changed.
-     * Locale's constructor recognizes both the new and the old codes for the languages
-     * whose codes have changed, but this function always returns the old code.  If you
-     * want to check for a specific language whose code has changed, don't do
+     * <p><b>Note:</b> ISO 639 is not b stbble stbndbrd&mdbsh; some lbngubges' codes hbve chbnged.
+     * Locble's constructor recognizes both the new bnd the old codes for the lbngubges
+     * whose codes hbve chbnged, but this function blwbys returns the old code.  If you
+     * wbnt to check for b specific lbngubge whose code hbs chbnged, don't do
      * <pre>
-     * if (locale.getLanguage().equals("he")) // BAD!
+     * if (locble.getLbngubge().equbls("he")) // BAD!
      *    ...
      * </pre>
-     * Instead, do
+     * Instebd, do
      * <pre>
-     * if (locale.getLanguage().equals(new Locale("he").getLanguage()))
+     * if (locble.getLbngubge().equbls(new Locble("he").getLbngubge()))
      *    ...
      * </pre>
-     * @return The language code, or the empty string if none is defined.
-     * @see #getDisplayLanguage
+     * @return The lbngubge code, or the empty string if none is defined.
+     * @see #getDisplbyLbngubge
      */
-    public String getLanguage() {
-        return baseLocale.getLanguage();
+    public String getLbngubge() {
+        return bbseLocble.getLbngubge();
     }
 
     /**
-     * Returns the script for this locale, which should
-     * either be the empty string or an ISO 15924 4-letter script
-     * code. The first letter is uppercase and the rest are
-     * lowercase, for example, 'Latn', 'Cyrl'.
+     * Returns the script for this locble, which should
+     * either be the empty string or bn ISO 15924 4-letter script
+     * code. The first letter is uppercbse bnd the rest bre
+     * lowercbse, for exbmple, 'Lbtn', 'Cyrl'.
      *
      * @return The script code, or the empty string if none is defined.
-     * @see #getDisplayScript
+     * @see #getDisplbyScript
      * @since 1.7
      */
     public String getScript() {
-        return baseLocale.getScript();
+        return bbseLocble.getScript();
     }
 
     /**
-     * Returns the country/region code for this locale, which should
-     * either be the empty string, an uppercase ISO 3166 2-letter code,
-     * or a UN M.49 3-digit code.
+     * Returns the country/region code for this locble, which should
+     * either be the empty string, bn uppercbse ISO 3166 2-letter code,
+     * or b UN M.49 3-digit code.
      *
      * @return The country/region code, or the empty string if none is defined.
-     * @see #getDisplayCountry
+     * @see #getDisplbyCountry
      */
     public String getCountry() {
-        return baseLocale.getRegion();
+        return bbseLocble.getRegion();
     }
 
     /**
-     * Returns the variant code for this locale.
+     * Returns the vbribnt code for this locble.
      *
-     * @return The variant code, or the empty string if none is defined.
-     * @see #getDisplayVariant
+     * @return The vbribnt code, or the empty string if none is defined.
+     * @see #getDisplbyVbribnt
      */
-    public String getVariant() {
-        return baseLocale.getVariant();
+    public String getVbribnt() {
+        return bbseLocble.getVbribnt();
     }
 
     /**
-     * Returns {@code true} if this {@code Locale} has any <a href="#def_extensions">
-     * extensions</a>.
+     * Returns {@code true} if this {@code Locble} hbs bny <b href="#def_extensions">
+     * extensions</b>.
      *
-     * @return {@code true} if this {@code Locale} has any extensions
+     * @return {@code true} if this {@code Locble} hbs bny extensions
      * @since 1.8
      */
-    public boolean hasExtensions() {
-        return localeExtensions != null;
+    public boolebn hbsExtensions() {
+        return locbleExtensions != null;
     }
 
     /**
-     * Returns a copy of this {@code Locale} with no <a href="#def_extensions">
-     * extensions</a>. If this {@code Locale} has no extensions, this {@code Locale}
+     * Returns b copy of this {@code Locble} with no <b href="#def_extensions">
+     * extensions</b>. If this {@code Locble} hbs no extensions, this {@code Locble}
      * is returned.
      *
-     * @return a copy of this {@code Locale} with no extensions, or {@code this}
-     *         if {@code this} has no extensions
+     * @return b copy of this {@code Locble} with no extensions, or {@code this}
+     *         if {@code this} hbs no extensions
      * @since 1.8
      */
-    public Locale stripExtensions() {
-        return hasExtensions() ? Locale.getInstance(baseLocale, null) : this;
+    public Locble stripExtensions() {
+        return hbsExtensions() ? Locble.getInstbnce(bbseLocble, null) : this;
     }
 
     /**
-     * Returns the extension (or private use) value associated with
+     * Returns the extension (or privbte use) vblue bssocibted with
      * the specified key, or null if there is no extension
-     * associated with the key. To be well-formed, the key must be one
-     * of <code>[0-9A-Za-z]</code>. Keys are case-insensitive, so
-     * for example 'z' and 'Z' represent the same extension.
+     * bssocibted with the key. To be well-formed, the key must be one
+     * of <code>[0-9A-Zb-z]</code>. Keys bre cbse-insensitive, so
+     * for exbmple 'z' bnd 'Z' represent the sbme extension.
      *
-     * @param key the extension key
-     * @return The extension, or null if this locale defines no
+     * @pbrbm key the extension key
+     * @return The extension, or null if this locble defines no
      * extension for the specified key.
-     * @throws IllegalArgumentException if key is not well-formed
+     * @throws IllegblArgumentException if key is not well-formed
      * @see #PRIVATE_USE_EXTENSION
      * @see #UNICODE_LOCALE_EXTENSION
      * @since 1.7
      */
-    public String getExtension(char key) {
-        if (!LocaleExtensions.isValidKey(key)) {
-            throw new IllegalArgumentException("Ill-formed extension key: " + key);
+    public String getExtension(chbr key) {
+        if (!LocbleExtensions.isVblidKey(key)) {
+            throw new IllegblArgumentException("Ill-formed extension key: " + key);
         }
-        return hasExtensions() ? localeExtensions.getExtensionValue(key) : null;
+        return hbsExtensions() ? locbleExtensions.getExtensionVblue(key) : null;
     }
 
     /**
-     * Returns the set of extension keys associated with this locale, or the
-     * empty set if it has no extensions. The returned set is unmodifiable.
-     * The keys will all be lower-case.
+     * Returns the set of extension keys bssocibted with this locble, or the
+     * empty set if it hbs no extensions. The returned set is unmodifibble.
+     * The keys will bll be lower-cbse.
      *
-     * @return The set of extension keys, or the empty set if this locale has
+     * @return The set of extension keys, or the empty set if this locble hbs
      * no extensions.
      * @since 1.7
      */
-    public Set<Character> getExtensionKeys() {
-        if (!hasExtensions()) {
+    public Set<Chbrbcter> getExtensionKeys() {
+        if (!hbsExtensions()) {
             return Collections.emptySet();
         }
-        return localeExtensions.getKeys();
+        return locbleExtensions.getKeys();
     }
 
     /**
-     * Returns the set of unicode locale attributes associated with
-     * this locale, or the empty set if it has no attributes. The
-     * returned set is unmodifiable.
+     * Returns the set of unicode locble bttributes bssocibted with
+     * this locble, or the empty set if it hbs no bttributes. The
+     * returned set is unmodifibble.
      *
-     * @return The set of attributes.
+     * @return The set of bttributes.
      * @since 1.7
      */
-    public Set<String> getUnicodeLocaleAttributes() {
-        if (!hasExtensions()) {
+    public Set<String> getUnicodeLocbleAttributes() {
+        if (!hbsExtensions()) {
             return Collections.emptySet();
         }
-        return localeExtensions.getUnicodeLocaleAttributes();
+        return locbleExtensions.getUnicodeLocbleAttributes();
     }
 
     /**
-     * Returns the Unicode locale type associated with the specified Unicode locale key
-     * for this locale. Returns the empty string for keys that are defined with no type.
-     * Returns null if the key is not defined. Keys are case-insensitive. The key must
-     * be two alphanumeric characters ([0-9a-zA-Z]), or an IllegalArgumentException is
+     * Returns the Unicode locble type bssocibted with the specified Unicode locble key
+     * for this locble. Returns the empty string for keys thbt bre defined with no type.
+     * Returns null if the key is not defined. Keys bre cbse-insensitive. The key must
+     * be two blphbnumeric chbrbcters ([0-9b-zA-Z]), or bn IllegblArgumentException is
      * thrown.
      *
-     * @param key the Unicode locale key
-     * @return The Unicode locale type associated with the key, or null if the
-     * locale does not define the key.
-     * @throws IllegalArgumentException if the key is not well-formed
+     * @pbrbm key the Unicode locble key
+     * @return The Unicode locble type bssocibted with the key, or null if the
+     * locble does not define the key.
+     * @throws IllegblArgumentException if the key is not well-formed
      * @throws NullPointerException if <code>key</code> is null
      * @since 1.7
      */
-    public String getUnicodeLocaleType(String key) {
+    public String getUnicodeLocbleType(String key) {
         if (!isUnicodeExtensionKey(key)) {
-            throw new IllegalArgumentException("Ill-formed Unicode locale key: " + key);
+            throw new IllegblArgumentException("Ill-formed Unicode locble key: " + key);
         }
-        return hasExtensions() ? localeExtensions.getUnicodeLocaleType(key) : null;
+        return hbsExtensions() ? locbleExtensions.getUnicodeLocbleType(key) : null;
     }
 
     /**
-     * Returns the set of Unicode locale keys defined by this locale, or the empty set if
-     * this locale has none.  The returned set is immutable.  Keys are all lower case.
+     * Returns the set of Unicode locble keys defined by this locble, or the empty set if
+     * this locble hbs none.  The returned set is immutbble.  Keys bre bll lower cbse.
      *
-     * @return The set of Unicode locale keys, or the empty set if this locale has
-     * no Unicode locale keywords.
+     * @return The set of Unicode locble keys, or the empty set if this locble hbs
+     * no Unicode locble keywords.
      * @since 1.7
      */
-    public Set<String> getUnicodeLocaleKeys() {
-        if (localeExtensions == null) {
+    public Set<String> getUnicodeLocbleKeys() {
+        if (locbleExtensions == null) {
             return Collections.emptySet();
         }
-        return localeExtensions.getUnicodeLocaleKeys();
+        return locbleExtensions.getUnicodeLocbleKeys();
     }
 
     /**
-     * Package locale method returning the Locale's BaseLocale,
+     * Pbckbge locble method returning the Locble's BbseLocble,
      * used by ResourceBundle
-     * @return base locale of this Locale
+     * @return bbse locble of this Locble
      */
-    BaseLocale getBaseLocale() {
-        return baseLocale;
+    BbseLocble getBbseLocble() {
+        return bbseLocble;
     }
 
     /**
-     * Package private method returning the Locale's LocaleExtensions,
+     * Pbckbge privbte method returning the Locble's LocbleExtensions,
      * used by ResourceBundle.
-     * @return locale exnteions of this Locale,
-     *         or {@code null} if no extensions are defined
+     * @return locble exnteions of this Locble,
+     *         or {@code null} if no extensions bre defined
      */
-     LocaleExtensions getLocaleExtensions() {
-         return localeExtensions;
+     LocbleExtensions getLocbleExtensions() {
+         return locbleExtensions;
      }
 
     /**
-     * Returns a string representation of this <code>Locale</code>
-     * object, consisting of language, country, variant, script,
-     * and extensions as below:
+     * Returns b string representbtion of this <code>Locble</code>
+     * object, consisting of lbngubge, country, vbribnt, script,
+     * bnd extensions bs below:
      * <blockquote>
-     * language + "_" + country + "_" + (variant + "_#" | "#") + script + "-" + extensions
+     * lbngubge + "_" + country + "_" + (vbribnt + "_#" | "#") + script + "-" + extensions
      * </blockquote>
      *
-     * Language is always lower case, country is always upper case, script is always title
-     * case, and extensions are always lower case.  Extensions and private use subtags
-     * will be in canonical order as explained in {@link #toLanguageTag}.
+     * Lbngubge is blwbys lower cbse, country is blwbys upper cbse, script is blwbys title
+     * cbse, bnd extensions bre blwbys lower cbse.  Extensions bnd privbte use subtbgs
+     * will be in cbnonicbl order bs explbined in {@link #toLbngubgeTbg}.
      *
-     * <p>When the locale has neither script nor extensions, the result is the same as in
-     * Java 6 and prior.
+     * <p>When the locble hbs neither script nor extensions, the result is the sbme bs in
+     * Jbvb 6 bnd prior.
      *
-     * <p>If both the language and country fields are missing, this function will return
-     * the empty string, even if the variant, script, or extensions field is present (you
-     * can't have a locale with just a variant, the variant must accompany a well-formed
-     * language or country code).
+     * <p>If both the lbngubge bnd country fields bre missing, this function will return
+     * the empty string, even if the vbribnt, script, or extensions field is present (you
+     * cbn't hbve b locble with just b vbribnt, the vbribnt must bccompbny b well-formed
+     * lbngubge or country code).
      *
-     * <p>If script or extensions are present and variant is missing, no underscore is
-     * added before the "#".
+     * <p>If script or extensions bre present bnd vbribnt is missing, no underscore is
+     * bdded before the "#".
      *
-     * <p>This behavior is designed to support debugging and to be compatible with
-     * previous uses of <code>toString</code> that expected language, country, and variant
-     * fields only.  To represent a Locale as a String for interchange purposes, use
-     * {@link #toLanguageTag}.
+     * <p>This behbvior is designed to support debugging bnd to be compbtible with
+     * previous uses of <code>toString</code> thbt expected lbngubge, country, bnd vbribnt
+     * fields only.  To represent b Locble bs b String for interchbnge purposes, use
+     * {@link #toLbngubgeTbg}.
      *
-     * <p>Examples: <ul>
+     * <p>Exbmples: <ul>
      * <li><tt>en</tt></li>
      * <li><tt>de_DE</tt></li>
      * <li><tt>_GB</tt></li>
      * <li><tt>en_US_WIN</tt></li>
      * <li><tt>de__POSIX</tt></li>
-     * <li><tt>zh_CN_#Hans</tt></li>
-     * <li><tt>zh_TW_#Hant-x-java</tt></li>
-     * <li><tt>th_TH_TH_#u-nu-thai</tt></li></ul>
+     * <li><tt>zh_CN_#Hbns</tt></li>
+     * <li><tt>zh_TW_#Hbnt-x-jbvb</tt></li>
+     * <li><tt>th_TH_TH_#u-nu-thbi</tt></li></ul>
      *
-     * @return A string representation of the Locale, for debugging.
-     * @see #getDisplayName
-     * @see #toLanguageTag
+     * @return A string representbtion of the Locble, for debugging.
+     * @see #getDisplbyNbme
+     * @see #toLbngubgeTbg
      */
     @Override
-    public final String toString() {
-        boolean l = (baseLocale.getLanguage().length() != 0);
-        boolean s = (baseLocale.getScript().length() != 0);
-        boolean r = (baseLocale.getRegion().length() != 0);
-        boolean v = (baseLocale.getVariant().length() != 0);
-        boolean e = (localeExtensions != null && localeExtensions.getID().length() != 0);
+    public finbl String toString() {
+        boolebn l = (bbseLocble.getLbngubge().length() != 0);
+        boolebn s = (bbseLocble.getScript().length() != 0);
+        boolebn r = (bbseLocble.getRegion().length() != 0);
+        boolebn v = (bbseLocble.getVbribnt().length() != 0);
+        boolebn e = (locbleExtensions != null && locbleExtensions.getID().length() != 0);
 
-        StringBuilder result = new StringBuilder(baseLocale.getLanguage());
+        StringBuilder result = new StringBuilder(bbseLocble.getLbngubge());
         if (r || (l && (v || s || e))) {
-            result.append('_')
-                .append(baseLocale.getRegion()); // This may just append '_'
+            result.bppend('_')
+                .bppend(bbseLocble.getRegion()); // This mby just bppend '_'
         }
         if (v && (l || r)) {
-            result.append('_')
-                .append(baseLocale.getVariant());
+            result.bppend('_')
+                .bppend(bbseLocble.getVbribnt());
         }
 
         if (s && (l || r)) {
-            result.append("_#")
-                .append(baseLocale.getScript());
+            result.bppend("_#")
+                .bppend(bbseLocble.getScript());
         }
 
         if (e && (l || r)) {
-            result.append('_');
+            result.bppend('_');
             if (!s) {
-                result.append('#');
+                result.bppend('#');
             }
-            result.append(localeExtensions.getID());
+            result.bppend(locbleExtensions.getID());
         }
 
         return result.toString();
     }
 
     /**
-     * Returns a well-formed IETF BCP 47 language tag representing
-     * this locale.
+     * Returns b well-formed IETF BCP 47 lbngubge tbg representing
+     * this locble.
      *
-     * <p>If this <code>Locale</code> has a language, country, or
-     * variant that does not satisfy the IETF BCP 47 language tag
-     * syntax requirements, this method handles these fields as
+     * <p>If this <code>Locble</code> hbs b lbngubge, country, or
+     * vbribnt thbt does not sbtisfy the IETF BCP 47 lbngubge tbg
+     * syntbx requirements, this method hbndles these fields bs
      * described below:
      *
-     * <p><b>Language:</b> If language is empty, or not <a
-     * href="#def_language" >well-formed</a> (for example "a" or
-     * "e2"), it will be emitted as "und" (Undetermined).
+     * <p><b>Lbngubge:</b> If lbngubge is empty, or not <b
+     * href="#def_lbngubge" >well-formed</b> (for exbmple "b" or
+     * "e2"), it will be emitted bs "und" (Undetermined).
      *
-     * <p><b>Country:</b> If country is not <a
-     * href="#def_region">well-formed</a> (for example "12" or "USA"),
+     * <p><b>Country:</b> If country is not <b
+     * href="#def_region">well-formed</b> (for exbmple "12" or "USA"),
      * it will be omitted.
      *
-     * <p><b>Variant:</b> If variant <b>is</b> <a
-     * href="#def_variant">well-formed</a>, each sub-segment
-     * (delimited by '-' or '_') is emitted as a subtag.  Otherwise:
+     * <p><b>Vbribnt:</b> If vbribnt <b>is</b> <b
+     * href="#def_vbribnt">well-formed</b>, ebch sub-segment
+     * (delimited by '-' or '_') is emitted bs b subtbg.  Otherwise:
      * <ul>
      *
-     * <li>if all sub-segments match <code>[0-9a-zA-Z]{1,8}</code>
-     * (for example "WIN" or "Oracle_JDK_Standard_Edition"), the first
-     * ill-formed sub-segment and all following will be appended to
-     * the private use subtag.  The first appended subtag will be
-     * "lvariant", followed by the sub-segments in order, separated by
-     * hyphen. For example, "x-lvariant-WIN",
-     * "Oracle-x-lvariant-JDK-Standard-Edition".
+     * <li>if bll sub-segments mbtch <code>[0-9b-zA-Z]{1,8}</code>
+     * (for exbmple "WIN" or "Orbcle_JDK_Stbndbrd_Edition"), the first
+     * ill-formed sub-segment bnd bll following will be bppended to
+     * the privbte use subtbg.  The first bppended subtbg will be
+     * "lvbribnt", followed by the sub-segments in order, sepbrbted by
+     * hyphen. For exbmple, "x-lvbribnt-WIN",
+     * "Orbcle-x-lvbribnt-JDK-Stbndbrd-Edition".
      *
-     * <li>if any sub-segment does not match
-     * <code>[0-9a-zA-Z]{1,8}</code>, the variant will be truncated
-     * and the problematic sub-segment and all following sub-segments
-     * will be omitted.  If the remainder is non-empty, it will be
-     * emitted as a private use subtag as above (even if the remainder
-     * turns out to be well-formed).  For example,
-     * "Solaris_isjustthecoolestthing" is emitted as
-     * "x-lvariant-Solaris", not as "solaris".</li></ul>
+     * <li>if bny sub-segment does not mbtch
+     * <code>[0-9b-zA-Z]{1,8}</code>, the vbribnt will be truncbted
+     * bnd the problembtic sub-segment bnd bll following sub-segments
+     * will be omitted.  If the rembinder is non-empty, it will be
+     * emitted bs b privbte use subtbg bs bbove (even if the rembinder
+     * turns out to be well-formed).  For exbmple,
+     * "Solbris_isjustthecoolestthing" is emitted bs
+     * "x-lvbribnt-Solbris", not bs "solbris".</li></ul>
      *
-     * <p><b>Special Conversions:</b> Java supports some old locale
-     * representations, including deprecated ISO language codes,
-     * for compatibility. This method performs the following
+     * <p><b>Specibl Conversions:</b> Jbvb supports some old locble
+     * representbtions, including deprecbted ISO lbngubge codes,
+     * for compbtibility. This method performs the following
      * conversions:
      * <ul>
      *
-     * <li>Deprecated ISO language codes "iw", "ji", and "in" are
-     * converted to "he", "yi", and "id", respectively.
+     * <li>Deprecbted ISO lbngubge codes "iw", "ji", bnd "in" bre
+     * converted to "he", "yi", bnd "id", respectively.
      *
-     * <li>A locale with language "no", country "NO", and variant
-     * "NY", representing Norwegian Nynorsk (Norway), is converted
-     * to a language tag "nn-NO".</li></ul>
+     * <li>A locble with lbngubge "no", country "NO", bnd vbribnt
+     * "NY", representing Norwegibn Nynorsk (Norwby), is converted
+     * to b lbngubge tbg "nn-NO".</li></ul>
      *
-     * <p><b>Note:</b> Although the language tag created by this
-     * method is well-formed (satisfies the syntax requirements
-     * defined by the IETF BCP 47 specification), it is not
-     * necessarily a valid BCP 47 language tag.  For example,
+     * <p><b>Note:</b> Although the lbngubge tbg crebted by this
+     * method is well-formed (sbtisfies the syntbx requirements
+     * defined by the IETF BCP 47 specificbtion), it is not
+     * necessbrily b vblid BCP 47 lbngubge tbg.  For exbmple,
      * <pre>
-     *   new Locale("xx", "YY").toLanguageTag();</pre>
+     *   new Locble("xx", "YY").toLbngubgeTbg();</pre>
      *
-     * will return "xx-YY", but the language subtag "xx" and the
-     * region subtag "YY" are invalid because they are not registered
-     * in the IANA Language Subtag Registry.
+     * will return "xx-YY", but the lbngubge subtbg "xx" bnd the
+     * region subtbg "YY" bre invblid becbuse they bre not registered
+     * in the IANA Lbngubge Subtbg Registry.
      *
-     * @return a BCP47 language tag representing the locale
-     * @see #forLanguageTag(String)
+     * @return b BCP47 lbngubge tbg representing the locble
+     * @see #forLbngubgeTbg(String)
      * @since 1.7
      */
-    public String toLanguageTag() {
-        if (languageTag != null) {
-            return languageTag;
+    public String toLbngubgeTbg() {
+        if (lbngubgeTbg != null) {
+            return lbngubgeTbg;
         }
 
-        LanguageTag tag = LanguageTag.parseLocale(baseLocale, localeExtensions);
+        LbngubgeTbg tbg = LbngubgeTbg.pbrseLocble(bbseLocble, locbleExtensions);
         StringBuilder buf = new StringBuilder();
 
-        String subtag = tag.getLanguage();
-        if (subtag.length() > 0) {
-            buf.append(LanguageTag.canonicalizeLanguage(subtag));
+        String subtbg = tbg.getLbngubge();
+        if (subtbg.length() > 0) {
+            buf.bppend(LbngubgeTbg.cbnonicblizeLbngubge(subtbg));
         }
 
-        subtag = tag.getScript();
-        if (subtag.length() > 0) {
-            buf.append(LanguageTag.SEP);
-            buf.append(LanguageTag.canonicalizeScript(subtag));
+        subtbg = tbg.getScript();
+        if (subtbg.length() > 0) {
+            buf.bppend(LbngubgeTbg.SEP);
+            buf.bppend(LbngubgeTbg.cbnonicblizeScript(subtbg));
         }
 
-        subtag = tag.getRegion();
-        if (subtag.length() > 0) {
-            buf.append(LanguageTag.SEP);
-            buf.append(LanguageTag.canonicalizeRegion(subtag));
+        subtbg = tbg.getRegion();
+        if (subtbg.length() > 0) {
+            buf.bppend(LbngubgeTbg.SEP);
+            buf.bppend(LbngubgeTbg.cbnonicblizeRegion(subtbg));
         }
 
-        List<String>subtags = tag.getVariants();
-        for (String s : subtags) {
-            buf.append(LanguageTag.SEP);
-            // preserve casing
-            buf.append(s);
+        List<String>subtbgs = tbg.getVbribnts();
+        for (String s : subtbgs) {
+            buf.bppend(LbngubgeTbg.SEP);
+            // preserve cbsing
+            buf.bppend(s);
         }
 
-        subtags = tag.getExtensions();
-        for (String s : subtags) {
-            buf.append(LanguageTag.SEP);
-            buf.append(LanguageTag.canonicalizeExtension(s));
+        subtbgs = tbg.getExtensions();
+        for (String s : subtbgs) {
+            buf.bppend(LbngubgeTbg.SEP);
+            buf.bppend(LbngubgeTbg.cbnonicblizeExtension(s));
         }
 
-        subtag = tag.getPrivateuse();
-        if (subtag.length() > 0) {
+        subtbg = tbg.getPrivbteuse();
+        if (subtbg.length() > 0) {
             if (buf.length() > 0) {
-                buf.append(LanguageTag.SEP);
+                buf.bppend(LbngubgeTbg.SEP);
             }
-            buf.append(LanguageTag.PRIVATEUSE).append(LanguageTag.SEP);
-            // preserve casing
-            buf.append(subtag);
+            buf.bppend(LbngubgeTbg.PRIVATEUSE).bppend(LbngubgeTbg.SEP);
+            // preserve cbsing
+            buf.bppend(subtbg);
         }
 
-        String langTag = buf.toString();
+        String lbngTbg = buf.toString();
         synchronized (this) {
-            if (languageTag == null) {
-                languageTag = langTag;
+            if (lbngubgeTbg == null) {
+                lbngubgeTbg = lbngTbg;
             }
         }
-        return languageTag;
+        return lbngubgeTbg;
     }
 
     /**
-     * Returns a locale for the specified IETF BCP 47 language tag string.
+     * Returns b locble for the specified IETF BCP 47 lbngubge tbg string.
      *
-     * <p>If the specified language tag contains any ill-formed subtags,
-     * the first such subtag and all following subtags are ignored.  Compare
-     * to {@link Locale.Builder#setLanguageTag} which throws an exception
-     * in this case.
+     * <p>If the specified lbngubge tbg contbins bny ill-formed subtbgs,
+     * the first such subtbg bnd bll following subtbgs bre ignored.  Compbre
+     * to {@link Locble.Builder#setLbngubgeTbg} which throws bn exception
+     * in this cbse.
      *
-     * <p>The following <b>conversions</b> are performed:<ul>
+     * <p>The following <b>conversions</b> bre performed:<ul>
      *
-     * <li>The language code "und" is mapped to language "".
+     * <li>The lbngubge code "und" is mbpped to lbngubge "".
      *
-     * <li>The language codes "he", "yi", and "id" are mapped to "iw",
-     * "ji", and "in" respectively. (This is the same canonicalization
-     * that's done in Locale's constructors.)
+     * <li>The lbngubge codes "he", "yi", bnd "id" bre mbpped to "iw",
+     * "ji", bnd "in" respectively. (This is the sbme cbnonicblizbtion
+     * thbt's done in Locble's constructors.)
      *
-     * <li>The portion of a private use subtag prefixed by "lvariant",
-     * if any, is removed and appended to the variant field in the
-     * result locale (without case normalization).  If it is then
-     * empty, the private use subtag is discarded:
+     * <li>The portion of b privbte use subtbg prefixed by "lvbribnt",
+     * if bny, is removed bnd bppended to the vbribnt field in the
+     * result locble (without cbse normblizbtion).  If it is then
+     * empty, the privbte use subtbg is discbrded:
      *
      * <pre>
-     *     Locale loc;
-     *     loc = Locale.forLanguageTag("en-US-x-lvariant-POSIX");
-     *     loc.getVariant(); // returns "POSIX"
+     *     Locble loc;
+     *     loc = Locble.forLbngubgeTbg("en-US-x-lvbribnt-POSIX");
+     *     loc.getVbribnt(); // returns "POSIX"
      *     loc.getExtension('x'); // returns null
      *
-     *     loc = Locale.forLanguageTag("de-POSIX-x-URP-lvariant-Abc-Def");
-     *     loc.getVariant(); // returns "POSIX_Abc_Def"
+     *     loc = Locble.forLbngubgeTbg("de-POSIX-x-URP-lvbribnt-Abc-Def");
+     *     loc.getVbribnt(); // returns "POSIX_Abc_Def"
      *     loc.getExtension('x'); // returns "urp"
      * </pre>
      *
-     * <li>When the languageTag argument contains an extlang subtag,
-     * the first such subtag is used as the language, and the primary
-     * language subtag and other extlang subtags are ignored:
+     * <li>When the lbngubgeTbg brgument contbins bn extlbng subtbg,
+     * the first such subtbg is used bs the lbngubge, bnd the primbry
+     * lbngubge subtbg bnd other extlbng subtbgs bre ignored:
      *
      * <pre>
-     *     Locale.forLanguageTag("ar-aao").getLanguage(); // returns "aao"
-     *     Locale.forLanguageTag("en-abc-def-us").toString(); // returns "abc_US"
+     *     Locble.forLbngubgeTbg("br-bbo").getLbngubge(); // returns "bbo"
+     *     Locble.forLbngubgeTbg("en-bbc-def-us").toString(); // returns "bbc_US"
      * </pre>
      *
-     * <li>Case is normalized except for variant tags, which are left
-     * unchanged.  Language is normalized to lower case, script to
-     * title case, country to upper case, and extensions to lower
-     * case.
+     * <li>Cbse is normblized except for vbribnt tbgs, which bre left
+     * unchbnged.  Lbngubge is normblized to lower cbse, script to
+     * title cbse, country to upper cbse, bnd extensions to lower
+     * cbse.
      *
-     * <li>If, after processing, the locale would exactly match either
-     * ja_JP_JP or th_TH_TH with no extensions, the appropriate
-     * extensions are added as though the constructor had been called:
+     * <li>If, bfter processing, the locble would exbctly mbtch either
+     * jb_JP_JP or th_TH_TH with no extensions, the bppropribte
+     * extensions bre bdded bs though the constructor hbd been cblled:
      *
      * <pre>
-     *    Locale.forLanguageTag("ja-JP-x-lvariant-JP").toLanguageTag();
-     *    // returns "ja-JP-u-ca-japanese-x-lvariant-JP"
-     *    Locale.forLanguageTag("th-TH-x-lvariant-TH").toLanguageTag();
-     *    // returns "th-TH-u-nu-thai-x-lvariant-TH"
+     *    Locble.forLbngubgeTbg("jb-JP-x-lvbribnt-JP").toLbngubgeTbg();
+     *    // returns "jb-JP-u-cb-jbpbnese-x-lvbribnt-JP"
+     *    Locble.forLbngubgeTbg("th-TH-x-lvbribnt-TH").toLbngubgeTbg();
+     *    // returns "th-TH-u-nu-thbi-x-lvbribnt-TH"
      * </pre></ul>
      *
-     * <p>This implements the 'Language-Tag' production of BCP47, and
-     * so supports grandfathered (regular and irregular) as well as
-     * private use language tags.  Stand alone private use tags are
-     * represented as empty language and extension 'x-whatever',
-     * and grandfathered tags are converted to their canonical replacements
+     * <p>This implements the 'Lbngubge-Tbg' production of BCP47, bnd
+     * so supports grbndfbthered (regulbr bnd irregulbr) bs well bs
+     * privbte use lbngubge tbgs.  Stbnd blone privbte use tbgs bre
+     * represented bs empty lbngubge bnd extension 'x-whbtever',
+     * bnd grbndfbthered tbgs bre converted to their cbnonicbl replbcements
      * where they exist.
      *
-     * <p>Grandfathered tags with canonical replacements are as follows:
+     * <p>Grbndfbthered tbgs with cbnonicbl replbcements bre bs follows:
      *
-     * <table summary="Grandfathered tags with canonical replacements">
-     * <tbody align="center">
-     * <tr><th>grandfathered tag</th><th>&nbsp;</th><th>modern replacement</th></tr>
-     * <tr><td>art-lojban</td><td>&nbsp;</td><td>jbo</td></tr>
-     * <tr><td>i-ami</td><td>&nbsp;</td><td>ami</td></tr>
+     * <tbble summbry="Grbndfbthered tbgs with cbnonicbl replbcements">
+     * <tbody blign="center">
+     * <tr><th>grbndfbthered tbg</th><th>&nbsp;</th><th>modern replbcement</th></tr>
+     * <tr><td>brt-lojbbn</td><td>&nbsp;</td><td>jbo</td></tr>
+     * <tr><td>i-bmi</td><td>&nbsp;</td><td>bmi</td></tr>
      * <tr><td>i-bnn</td><td>&nbsp;</td><td>bnn</td></tr>
-     * <tr><td>i-hak</td><td>&nbsp;</td><td>hak</td></tr>
+     * <tr><td>i-hbk</td><td>&nbsp;</td><td>hbk</td></tr>
      * <tr><td>i-klingon</td><td>&nbsp;</td><td>tlh</td></tr>
      * <tr><td>i-lux</td><td>&nbsp;</td><td>lb</td></tr>
-     * <tr><td>i-navajo</td><td>&nbsp;</td><td>nv</td></tr>
+     * <tr><td>i-nbvbjo</td><td>&nbsp;</td><td>nv</td></tr>
      * <tr><td>i-pwn</td><td>&nbsp;</td><td>pwn</td></tr>
-     * <tr><td>i-tao</td><td>&nbsp;</td><td>tao</td></tr>
-     * <tr><td>i-tay</td><td>&nbsp;</td><td>tay</td></tr>
+     * <tr><td>i-tbo</td><td>&nbsp;</td><td>tbo</td></tr>
+     * <tr><td>i-tby</td><td>&nbsp;</td><td>tby</td></tr>
      * <tr><td>i-tsu</td><td>&nbsp;</td><td>tsu</td></tr>
      * <tr><td>no-bok</td><td>&nbsp;</td><td>nb</td></tr>
      * <tr><td>no-nyn</td><td>&nbsp;</td><td>nn</td></tr>
@@ -1529,255 +1529,255 @@ public final class Locale implements Cloneable, Serializable {
      * <tr><td>sgn-BE-NL</td><td>&nbsp;</td><td>vgt</td></tr>
      * <tr><td>sgn-CH-DE</td><td>&nbsp;</td><td>sgg</td></tr>
      * <tr><td>zh-guoyu</td><td>&nbsp;</td><td>cmn</td></tr>
-     * <tr><td>zh-hakka</td><td>&nbsp;</td><td>hak</td></tr>
-     * <tr><td>zh-min-nan</td><td>&nbsp;</td><td>nan</td></tr>
-     * <tr><td>zh-xiang</td><td>&nbsp;</td><td>hsn</td></tr>
+     * <tr><td>zh-hbkkb</td><td>&nbsp;</td><td>hbk</td></tr>
+     * <tr><td>zh-min-nbn</td><td>&nbsp;</td><td>nbn</td></tr>
+     * <tr><td>zh-xibng</td><td>&nbsp;</td><td>hsn</td></tr>
      * </tbody>
-     * </table>
+     * </tbble>
      *
-     * <p>Grandfathered tags with no modern replacement will be
-     * converted as follows:
+     * <p>Grbndfbthered tbgs with no modern replbcement will be
+     * converted bs follows:
      *
-     * <table summary="Grandfathered tags with no modern replacement">
-     * <tbody align="center">
-     * <tr><th>grandfathered tag</th><th>&nbsp;</th><th>converts to</th></tr>
-     * <tr><td>cel-gaulish</td><td>&nbsp;</td><td>xtg-x-cel-gaulish</td></tr>
+     * <tbble summbry="Grbndfbthered tbgs with no modern replbcement">
+     * <tbody blign="center">
+     * <tr><th>grbndfbthered tbg</th><th>&nbsp;</th><th>converts to</th></tr>
+     * <tr><td>cel-gbulish</td><td>&nbsp;</td><td>xtg-x-cel-gbulish</td></tr>
      * <tr><td>en-GB-oed</td><td>&nbsp;</td><td>en-GB-x-oed</td></tr>
-     * <tr><td>i-default</td><td>&nbsp;</td><td>en-x-i-default</td></tr>
-     * <tr><td>i-enochian</td><td>&nbsp;</td><td>und-x-i-enochian</td></tr>
+     * <tr><td>i-defbult</td><td>&nbsp;</td><td>en-x-i-defbult</td></tr>
+     * <tr><td>i-enochibn</td><td>&nbsp;</td><td>und-x-i-enochibn</td></tr>
      * <tr><td>i-mingo</td><td>&nbsp;</td><td>see-x-i-mingo</td></tr>
-     * <tr><td>zh-min</td><td>&nbsp;</td><td>nan-x-zh-min</td></tr>
+     * <tr><td>zh-min</td><td>&nbsp;</td><td>nbn-x-zh-min</td></tr>
      * </tbody>
-     * </table>
+     * </tbble>
      *
-     * <p>For a list of all grandfathered tags, see the
-     * IANA Language Subtag Registry (search for "Type: grandfathered").
+     * <p>For b list of bll grbndfbthered tbgs, see the
+     * IANA Lbngubge Subtbg Registry (sebrch for "Type: grbndfbthered").
      *
-     * <p><b>Note</b>: there is no guarantee that <code>toLanguageTag</code>
-     * and <code>forLanguageTag</code> will round-trip.
+     * <p><b>Note</b>: there is no gubrbntee thbt <code>toLbngubgeTbg</code>
+     * bnd <code>forLbngubgeTbg</code> will round-trip.
      *
-     * @param languageTag the language tag
-     * @return The locale that best represents the language tag.
-     * @throws NullPointerException if <code>languageTag</code> is <code>null</code>
-     * @see #toLanguageTag()
-     * @see java.util.Locale.Builder#setLanguageTag(String)
+     * @pbrbm lbngubgeTbg the lbngubge tbg
+     * @return The locble thbt best represents the lbngubge tbg.
+     * @throws NullPointerException if <code>lbngubgeTbg</code> is <code>null</code>
+     * @see #toLbngubgeTbg()
+     * @see jbvb.util.Locble.Builder#setLbngubgeTbg(String)
      * @since 1.7
      */
-    public static Locale forLanguageTag(String languageTag) {
-        LanguageTag tag = LanguageTag.parse(languageTag, null);
-        InternalLocaleBuilder bldr = new InternalLocaleBuilder();
-        bldr.setLanguageTag(tag);
-        BaseLocale base = bldr.getBaseLocale();
-        LocaleExtensions exts = bldr.getLocaleExtensions();
-        if (exts == null && base.getVariant().length() > 0) {
-            exts = getCompatibilityExtensions(base.getLanguage(), base.getScript(),
-                                              base.getRegion(), base.getVariant());
+    public stbtic Locble forLbngubgeTbg(String lbngubgeTbg) {
+        LbngubgeTbg tbg = LbngubgeTbg.pbrse(lbngubgeTbg, null);
+        InternblLocbleBuilder bldr = new InternblLocbleBuilder();
+        bldr.setLbngubgeTbg(tbg);
+        BbseLocble bbse = bldr.getBbseLocble();
+        LocbleExtensions exts = bldr.getLocbleExtensions();
+        if (exts == null && bbse.getVbribnt().length() > 0) {
+            exts = getCompbtibilityExtensions(bbse.getLbngubge(), bbse.getScript(),
+                                              bbse.getRegion(), bbse.getVbribnt());
         }
-        return getInstance(base, exts);
+        return getInstbnce(bbse, exts);
     }
 
     /**
-     * Returns a three-letter abbreviation of this locale's language.
-     * If the language matches an ISO 639-1 two-letter code, the
-     * corresponding ISO 639-2/T three-letter lowercase code is
-     * returned.  The ISO 639-2 language codes can be found on-line,
-     * see "Codes for the Representation of Names of Languages Part 2:
-     * Alpha-3 Code".  If the locale specifies a three-letter
-     * language, the language is returned as is.  If the locale does
-     * not specify a language the empty string is returned.
+     * Returns b three-letter bbbrevibtion of this locble's lbngubge.
+     * If the lbngubge mbtches bn ISO 639-1 two-letter code, the
+     * corresponding ISO 639-2/T three-letter lowercbse code is
+     * returned.  The ISO 639-2 lbngubge codes cbn be found on-line,
+     * see "Codes for the Representbtion of Nbmes of Lbngubges Pbrt 2:
+     * Alphb-3 Code".  If the locble specifies b three-letter
+     * lbngubge, the lbngubge is returned bs is.  If the locble does
+     * not specify b lbngubge the empty string is returned.
      *
-     * @return A three-letter abbreviation of this locale's language.
+     * @return A three-letter bbbrevibtion of this locble's lbngubge.
      * @exception MissingResourceException Throws MissingResourceException if
-     * three-letter language abbreviation is not available for this locale.
+     * three-letter lbngubge bbbrevibtion is not bvbilbble for this locble.
      */
-    public String getISO3Language() throws MissingResourceException {
-        String lang = baseLocale.getLanguage();
-        if (lang.length() == 3) {
-            return lang;
+    public String getISO3Lbngubge() throws MissingResourceException {
+        String lbng = bbseLocble.getLbngubge();
+        if (lbng.length() == 3) {
+            return lbng;
         }
 
-        String language3 = getISO3Code(lang, LocaleISOData.isoLanguageTable);
-        if (language3 == null) {
-            throw new MissingResourceException("Couldn't find 3-letter language code for "
-                    + lang, "FormatData_" + toString(), "ShortLanguage");
+        String lbngubge3 = getISO3Code(lbng, LocbleISODbtb.isoLbngubgeTbble);
+        if (lbngubge3 == null) {
+            throw new MissingResourceException("Couldn't find 3-letter lbngubge code for "
+                    + lbng, "FormbtDbtb_" + toString(), "ShortLbngubge");
         }
-        return language3;
+        return lbngubge3;
     }
 
     /**
-     * Returns a three-letter abbreviation for this locale's country.
-     * If the country matches an ISO 3166-1 alpha-2 code, the
-     * corresponding ISO 3166-1 alpha-3 uppercase code is returned.
-     * If the locale doesn't specify a country, this will be the empty
+     * Returns b three-letter bbbrevibtion for this locble's country.
+     * If the country mbtches bn ISO 3166-1 blphb-2 code, the
+     * corresponding ISO 3166-1 blphb-3 uppercbse code is returned.
+     * If the locble doesn't specify b country, this will be the empty
      * string.
      *
-     * <p>The ISO 3166-1 codes can be found on-line.
+     * <p>The ISO 3166-1 codes cbn be found on-line.
      *
-     * @return A three-letter abbreviation of this locale's country.
+     * @return A three-letter bbbrevibtion of this locble's country.
      * @exception MissingResourceException Throws MissingResourceException if the
-     * three-letter country abbreviation is not available for this locale.
+     * three-letter country bbbrevibtion is not bvbilbble for this locble.
      */
     public String getISO3Country() throws MissingResourceException {
-        String country3 = getISO3Code(baseLocale.getRegion(), LocaleISOData.isoCountryTable);
+        String country3 = getISO3Code(bbseLocble.getRegion(), LocbleISODbtb.isoCountryTbble);
         if (country3 == null) {
             throw new MissingResourceException("Couldn't find 3-letter country code for "
-                    + baseLocale.getRegion(), "FormatData_" + toString(), "ShortCountry");
+                    + bbseLocble.getRegion(), "FormbtDbtb_" + toString(), "ShortCountry");
         }
         return country3;
     }
 
-    private static String getISO3Code(String iso2Code, String table) {
+    privbte stbtic String getISO3Code(String iso2Code, String tbble) {
         int codeLength = iso2Code.length();
         if (codeLength == 0) {
             return "";
         }
 
-        int tableLength = table.length();
-        int index = tableLength;
+        int tbbleLength = tbble.length();
+        int index = tbbleLength;
         if (codeLength == 2) {
-            char c1 = iso2Code.charAt(0);
-            char c2 = iso2Code.charAt(1);
-            for (index = 0; index < tableLength; index += 5) {
-                if (table.charAt(index) == c1
-                    && table.charAt(index + 1) == c2) {
-                    break;
+            chbr c1 = iso2Code.chbrAt(0);
+            chbr c2 = iso2Code.chbrAt(1);
+            for (index = 0; index < tbbleLength; index += 5) {
+                if (tbble.chbrAt(index) == c1
+                    && tbble.chbrAt(index + 1) == c2) {
+                    brebk;
                 }
             }
         }
-        return index < tableLength ? table.substring(index + 2, index + 5) : null;
+        return index < tbbleLength ? tbble.substring(index + 2, index + 5) : null;
     }
 
     /**
-     * Returns a name for the locale's language that is appropriate for display to the
+     * Returns b nbme for the locble's lbngubge thbt is bppropribte for displby to the
      * user.
-     * If possible, the name returned will be localized for the default
-     * {@link Locale.Category#DISPLAY DISPLAY} locale.
-     * For example, if the locale is fr_FR and the default
-     * {@link Locale.Category#DISPLAY DISPLAY} locale
-     * is en_US, getDisplayLanguage() will return "French"; if the locale is en_US and
-     * the default {@link Locale.Category#DISPLAY DISPLAY} locale is fr_FR,
-     * getDisplayLanguage() will return "anglais".
-     * If the name returned cannot be localized for the default
-     * {@link Locale.Category#DISPLAY DISPLAY} locale,
-     * (say, we don't have a Japanese name for Croatian),
-     * this function falls back on the English name, and uses the ISO code as a last-resort
-     * value.  If the locale doesn't specify a language, this function returns the empty string.
+     * If possible, the nbme returned will be locblized for the defbult
+     * {@link Locble.Cbtegory#DISPLAY DISPLAY} locble.
+     * For exbmple, if the locble is fr_FR bnd the defbult
+     * {@link Locble.Cbtegory#DISPLAY DISPLAY} locble
+     * is en_US, getDisplbyLbngubge() will return "French"; if the locble is en_US bnd
+     * the defbult {@link Locble.Cbtegory#DISPLAY DISPLAY} locble is fr_FR,
+     * getDisplbyLbngubge() will return "bnglbis".
+     * If the nbme returned cbnnot be locblized for the defbult
+     * {@link Locble.Cbtegory#DISPLAY DISPLAY} locble,
+     * (sby, we don't hbve b Jbpbnese nbme for Crobtibn),
+     * this function fblls bbck on the English nbme, bnd uses the ISO code bs b lbst-resort
+     * vblue.  If the locble doesn't specify b lbngubge, this function returns the empty string.
      *
-     * @return The name of the display language.
+     * @return The nbme of the displby lbngubge.
      */
-    public final String getDisplayLanguage() {
-        return getDisplayLanguage(getDefault(Category.DISPLAY));
+    public finbl String getDisplbyLbngubge() {
+        return getDisplbyLbngubge(getDefbult(Cbtegory.DISPLAY));
     }
 
     /**
-     * Returns a name for the locale's language that is appropriate for display to the
+     * Returns b nbme for the locble's lbngubge thbt is bppropribte for displby to the
      * user.
-     * If possible, the name returned will be localized according to inLocale.
-     * For example, if the locale is fr_FR and inLocale
-     * is en_US, getDisplayLanguage() will return "French"; if the locale is en_US and
-     * inLocale is fr_FR, getDisplayLanguage() will return "anglais".
-     * If the name returned cannot be localized according to inLocale,
-     * (say, we don't have a Japanese name for Croatian),
-     * this function falls back on the English name, and finally
-     * on the ISO code as a last-resort value.  If the locale doesn't specify a language,
+     * If possible, the nbme returned will be locblized bccording to inLocble.
+     * For exbmple, if the locble is fr_FR bnd inLocble
+     * is en_US, getDisplbyLbngubge() will return "French"; if the locble is en_US bnd
+     * inLocble is fr_FR, getDisplbyLbngubge() will return "bnglbis".
+     * If the nbme returned cbnnot be locblized bccording to inLocble,
+     * (sby, we don't hbve b Jbpbnese nbme for Crobtibn),
+     * this function fblls bbck on the English nbme, bnd finblly
+     * on the ISO code bs b lbst-resort vblue.  If the locble doesn't specify b lbngubge,
      * this function returns the empty string.
      *
-     * @param inLocale The locale for which to retrieve the display language.
-     * @return The name of the display language appropriate to the given locale.
-     * @exception NullPointerException if <code>inLocale</code> is <code>null</code>
+     * @pbrbm inLocble The locble for which to retrieve the displby lbngubge.
+     * @return The nbme of the displby lbngubge bppropribte to the given locble.
+     * @exception NullPointerException if <code>inLocble</code> is <code>null</code>
      */
-    public String getDisplayLanguage(Locale inLocale) {
-        return getDisplayString(baseLocale.getLanguage(), inLocale, DISPLAY_LANGUAGE);
+    public String getDisplbyLbngubge(Locble inLocble) {
+        return getDisplbyString(bbseLocble.getLbngubge(), inLocble, DISPLAY_LANGUAGE);
     }
 
     /**
-     * Returns a name for the the locale's script that is appropriate for display to
-     * the user. If possible, the name will be localized for the default
-     * {@link Locale.Category#DISPLAY DISPLAY} locale.  Returns
-     * the empty string if this locale doesn't specify a script code.
+     * Returns b nbme for the the locble's script thbt is bppropribte for displby to
+     * the user. If possible, the nbme will be locblized for the defbult
+     * {@link Locble.Cbtegory#DISPLAY DISPLAY} locble.  Returns
+     * the empty string if this locble doesn't specify b script code.
      *
-     * @return the display name of the script code for the current default
-     *     {@link Locale.Category#DISPLAY DISPLAY} locale
+     * @return the displby nbme of the script code for the current defbult
+     *     {@link Locble.Cbtegory#DISPLAY DISPLAY} locble
      * @since 1.7
      */
-    public String getDisplayScript() {
-        return getDisplayScript(getDefault(Category.DISPLAY));
+    public String getDisplbyScript() {
+        return getDisplbyScript(getDefbult(Cbtegory.DISPLAY));
     }
 
     /**
-     * Returns a name for the locale's script that is appropriate
-     * for display to the user. If possible, the name will be
-     * localized for the given locale. Returns the empty string if
-     * this locale doesn't specify a script code.
+     * Returns b nbme for the locble's script thbt is bppropribte
+     * for displby to the user. If possible, the nbme will be
+     * locblized for the given locble. Returns the empty string if
+     * this locble doesn't specify b script code.
      *
-     * @param inLocale The locale for which to retrieve the display script.
-     * @return the display name of the script code for the current default
-     * {@link Locale.Category#DISPLAY DISPLAY} locale
-     * @throws NullPointerException if <code>inLocale</code> is <code>null</code>
+     * @pbrbm inLocble The locble for which to retrieve the displby script.
+     * @return the displby nbme of the script code for the current defbult
+     * {@link Locble.Cbtegory#DISPLAY DISPLAY} locble
+     * @throws NullPointerException if <code>inLocble</code> is <code>null</code>
      * @since 1.7
      */
-    public String getDisplayScript(Locale inLocale) {
-        return getDisplayString(baseLocale.getScript(), inLocale, DISPLAY_SCRIPT);
+    public String getDisplbyScript(Locble inLocble) {
+        return getDisplbyString(bbseLocble.getScript(), inLocble, DISPLAY_SCRIPT);
     }
 
     /**
-     * Returns a name for the locale's country that is appropriate for display to the
+     * Returns b nbme for the locble's country thbt is bppropribte for displby to the
      * user.
-     * If possible, the name returned will be localized for the default
-     * {@link Locale.Category#DISPLAY DISPLAY} locale.
-     * For example, if the locale is fr_FR and the default
-     * {@link Locale.Category#DISPLAY DISPLAY} locale
-     * is en_US, getDisplayCountry() will return "France"; if the locale is en_US and
-     * the default {@link Locale.Category#DISPLAY DISPLAY} locale is fr_FR,
-     * getDisplayCountry() will return "Etats-Unis".
-     * If the name returned cannot be localized for the default
-     * {@link Locale.Category#DISPLAY DISPLAY} locale,
-     * (say, we don't have a Japanese name for Croatia),
-     * this function falls back on the English name, and uses the ISO code as a last-resort
-     * value.  If the locale doesn't specify a country, this function returns the empty string.
+     * If possible, the nbme returned will be locblized for the defbult
+     * {@link Locble.Cbtegory#DISPLAY DISPLAY} locble.
+     * For exbmple, if the locble is fr_FR bnd the defbult
+     * {@link Locble.Cbtegory#DISPLAY DISPLAY} locble
+     * is en_US, getDisplbyCountry() will return "Frbnce"; if the locble is en_US bnd
+     * the defbult {@link Locble.Cbtegory#DISPLAY DISPLAY} locble is fr_FR,
+     * getDisplbyCountry() will return "Etbts-Unis".
+     * If the nbme returned cbnnot be locblized for the defbult
+     * {@link Locble.Cbtegory#DISPLAY DISPLAY} locble,
+     * (sby, we don't hbve b Jbpbnese nbme for Crobtib),
+     * this function fblls bbck on the English nbme, bnd uses the ISO code bs b lbst-resort
+     * vblue.  If the locble doesn't specify b country, this function returns the empty string.
      *
-     * @return The name of the country appropriate to the locale.
+     * @return The nbme of the country bppropribte to the locble.
      */
-    public final String getDisplayCountry() {
-        return getDisplayCountry(getDefault(Category.DISPLAY));
+    public finbl String getDisplbyCountry() {
+        return getDisplbyCountry(getDefbult(Cbtegory.DISPLAY));
     }
 
     /**
-     * Returns a name for the locale's country that is appropriate for display to the
+     * Returns b nbme for the locble's country thbt is bppropribte for displby to the
      * user.
-     * If possible, the name returned will be localized according to inLocale.
-     * For example, if the locale is fr_FR and inLocale
-     * is en_US, getDisplayCountry() will return "France"; if the locale is en_US and
-     * inLocale is fr_FR, getDisplayCountry() will return "Etats-Unis".
-     * If the name returned cannot be localized according to inLocale.
-     * (say, we don't have a Japanese name for Croatia),
-     * this function falls back on the English name, and finally
-     * on the ISO code as a last-resort value.  If the locale doesn't specify a country,
+     * If possible, the nbme returned will be locblized bccording to inLocble.
+     * For exbmple, if the locble is fr_FR bnd inLocble
+     * is en_US, getDisplbyCountry() will return "Frbnce"; if the locble is en_US bnd
+     * inLocble is fr_FR, getDisplbyCountry() will return "Etbts-Unis".
+     * If the nbme returned cbnnot be locblized bccording to inLocble.
+     * (sby, we don't hbve b Jbpbnese nbme for Crobtib),
+     * this function fblls bbck on the English nbme, bnd finblly
+     * on the ISO code bs b lbst-resort vblue.  If the locble doesn't specify b country,
      * this function returns the empty string.
      *
-     * @param inLocale The locale for which to retrieve the display country.
-     * @return The name of the country appropriate to the given locale.
-     * @exception NullPointerException if <code>inLocale</code> is <code>null</code>
+     * @pbrbm inLocble The locble for which to retrieve the displby country.
+     * @return The nbme of the country bppropribte to the given locble.
+     * @exception NullPointerException if <code>inLocble</code> is <code>null</code>
      */
-    public String getDisplayCountry(Locale inLocale) {
-        return getDisplayString(baseLocale.getRegion(), inLocale, DISPLAY_COUNTRY);
+    public String getDisplbyCountry(Locble inLocble) {
+        return getDisplbyString(bbseLocble.getRegion(), inLocble, DISPLAY_COUNTRY);
     }
 
-    private String getDisplayString(String code, Locale inLocale, int type) {
+    privbte String getDisplbyString(String code, Locble inLocble, int type) {
         if (code.length() == 0) {
             return "";
         }
 
-        if (inLocale == null) {
+        if (inLocble == null) {
             throw new NullPointerException();
         }
 
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(LocaleNameProvider.class);
+        LocbleServiceProviderPool pool =
+            LocbleServiceProviderPool.getPool(LocbleNbmeProvider.clbss);
         String key = (type == DISPLAY_VARIANT ? "%%"+code : code);
-        String result = pool.getLocalizedObject(
-                                LocaleNameGetter.INSTANCE,
-                                inLocale, key, type, code);
+        String result = pool.getLocblizedObject(
+                                LocbleNbmeGetter.INSTANCE,
+                                inLocble, key, type, code);
             if (result != null) {
                 return result;
             }
@@ -1786,199 +1786,199 @@ public final class Locale implements Cloneable, Serializable {
     }
 
     /**
-     * Returns a name for the locale's variant code that is appropriate for display to the
-     * user.  If possible, the name will be localized for the default
-     * {@link Locale.Category#DISPLAY DISPLAY} locale.  If the locale
-     * doesn't specify a variant code, this function returns the empty string.
+     * Returns b nbme for the locble's vbribnt code thbt is bppropribte for displby to the
+     * user.  If possible, the nbme will be locblized for the defbult
+     * {@link Locble.Cbtegory#DISPLAY DISPLAY} locble.  If the locble
+     * doesn't specify b vbribnt code, this function returns the empty string.
      *
-     * @return The name of the display variant code appropriate to the locale.
+     * @return The nbme of the displby vbribnt code bppropribte to the locble.
      */
-    public final String getDisplayVariant() {
-        return getDisplayVariant(getDefault(Category.DISPLAY));
+    public finbl String getDisplbyVbribnt() {
+        return getDisplbyVbribnt(getDefbult(Cbtegory.DISPLAY));
     }
 
     /**
-     * Returns a name for the locale's variant code that is appropriate for display to the
-     * user.  If possible, the name will be localized for inLocale.  If the locale
-     * doesn't specify a variant code, this function returns the empty string.
+     * Returns b nbme for the locble's vbribnt code thbt is bppropribte for displby to the
+     * user.  If possible, the nbme will be locblized for inLocble.  If the locble
+     * doesn't specify b vbribnt code, this function returns the empty string.
      *
-     * @param inLocale The locale for which to retrieve the display variant code.
-     * @return The name of the display variant code appropriate to the given locale.
-     * @exception NullPointerException if <code>inLocale</code> is <code>null</code>
+     * @pbrbm inLocble The locble for which to retrieve the displby vbribnt code.
+     * @return The nbme of the displby vbribnt code bppropribte to the given locble.
+     * @exception NullPointerException if <code>inLocble</code> is <code>null</code>
      */
-    public String getDisplayVariant(Locale inLocale) {
-        if (baseLocale.getVariant().length() == 0)
+    public String getDisplbyVbribnt(Locble inLocble) {
+        if (bbseLocble.getVbribnt().length() == 0)
             return "";
 
-        LocaleResources lr = LocaleProviderAdapter.forJRE().getLocaleResources(inLocale);
+        LocbleResources lr = LocbleProviderAdbpter.forJRE().getLocbleResources(inLocble);
 
-        String names[] = getDisplayVariantArray(inLocale);
+        String nbmes[] = getDisplbyVbribntArrby(inLocble);
 
-        // Get the localized patterns for formatting a list, and use
-        // them to format the list.
-        return formatList(names,
-                          lr.getLocaleName("ListPattern"),
-                          lr.getLocaleName("ListCompositionPattern"));
+        // Get the locblized pbtterns for formbtting b list, bnd use
+        // them to formbt the list.
+        return formbtList(nbmes,
+                          lr.getLocbleNbme("ListPbttern"),
+                          lr.getLocbleNbme("ListCompositionPbttern"));
     }
 
     /**
-     * Returns a name for the locale that is appropriate for display to the
-     * user. This will be the values returned by getDisplayLanguage(),
-     * getDisplayScript(), getDisplayCountry(), and getDisplayVariant() assembled
-     * into a single string. The the non-empty values are used in order,
-     * with the second and subsequent names in parentheses.  For example:
+     * Returns b nbme for the locble thbt is bppropribte for displby to the
+     * user. This will be the vblues returned by getDisplbyLbngubge(),
+     * getDisplbyScript(), getDisplbyCountry(), bnd getDisplbyVbribnt() bssembled
+     * into b single string. The the non-empty vblues bre used in order,
+     * with the second bnd subsequent nbmes in pbrentheses.  For exbmple:
      * <blockquote>
-     * language (script, country, variant)<br>
-     * language (country)<br>
-     * language (variant)<br>
+     * lbngubge (script, country, vbribnt)<br>
+     * lbngubge (country)<br>
+     * lbngubge (vbribnt)<br>
      * script (country)<br>
      * country<br>
      * </blockquote>
-     * depending on which fields are specified in the locale.  If the
-     * language, script, country, and variant fields are all empty,
+     * depending on which fields bre specified in the locble.  If the
+     * lbngubge, script, country, bnd vbribnt fields bre bll empty,
      * this function returns the empty string.
      *
-     * @return The name of the locale appropriate to display.
+     * @return The nbme of the locble bppropribte to displby.
      */
-    public final String getDisplayName() {
-        return getDisplayName(getDefault(Category.DISPLAY));
+    public finbl String getDisplbyNbme() {
+        return getDisplbyNbme(getDefbult(Cbtegory.DISPLAY));
     }
 
     /**
-     * Returns a name for the locale that is appropriate for display
-     * to the user.  This will be the values returned by
-     * getDisplayLanguage(), getDisplayScript(),getDisplayCountry(),
-     * and getDisplayVariant() assembled into a single string.
-     * The non-empty values are used in order,
-     * with the second and subsequent names in parentheses.  For example:
+     * Returns b nbme for the locble thbt is bppropribte for displby
+     * to the user.  This will be the vblues returned by
+     * getDisplbyLbngubge(), getDisplbyScript(),getDisplbyCountry(),
+     * bnd getDisplbyVbribnt() bssembled into b single string.
+     * The non-empty vblues bre used in order,
+     * with the second bnd subsequent nbmes in pbrentheses.  For exbmple:
      * <blockquote>
-     * language (script, country, variant)<br>
-     * language (country)<br>
-     * language (variant)<br>
+     * lbngubge (script, country, vbribnt)<br>
+     * lbngubge (country)<br>
+     * lbngubge (vbribnt)<br>
      * script (country)<br>
      * country<br>
      * </blockquote>
-     * depending on which fields are specified in the locale.  If the
-     * language, script, country, and variant fields are all empty,
+     * depending on which fields bre specified in the locble.  If the
+     * lbngubge, script, country, bnd vbribnt fields bre bll empty,
      * this function returns the empty string.
      *
-     * @param inLocale The locale for which to retrieve the display name.
-     * @return The name of the locale appropriate to display.
-     * @throws NullPointerException if <code>inLocale</code> is <code>null</code>
+     * @pbrbm inLocble The locble for which to retrieve the displby nbme.
+     * @return The nbme of the locble bppropribte to displby.
+     * @throws NullPointerException if <code>inLocble</code> is <code>null</code>
      */
-    public String getDisplayName(Locale inLocale) {
-        LocaleResources lr =  LocaleProviderAdapter.forJRE().getLocaleResources(inLocale);
+    public String getDisplbyNbme(Locble inLocble) {
+        LocbleResources lr =  LocbleProviderAdbpter.forJRE().getLocbleResources(inLocble);
 
-        String languageName = getDisplayLanguage(inLocale);
-        String scriptName = getDisplayScript(inLocale);
-        String countryName = getDisplayCountry(inLocale);
-        String[] variantNames = getDisplayVariantArray(inLocale);
+        String lbngubgeNbme = getDisplbyLbngubge(inLocble);
+        String scriptNbme = getDisplbyScript(inLocble);
+        String countryNbme = getDisplbyCountry(inLocble);
+        String[] vbribntNbmes = getDisplbyVbribntArrby(inLocble);
 
-        // Get the localized patterns for formatting a display name.
-        String displayNamePattern = lr.getLocaleName("DisplayNamePattern");
-        String listPattern = lr.getLocaleName("ListPattern");
-        String listCompositionPattern = lr.getLocaleName("ListCompositionPattern");
+        // Get the locblized pbtterns for formbtting b displby nbme.
+        String displbyNbmePbttern = lr.getLocbleNbme("DisplbyNbmePbttern");
+        String listPbttern = lr.getLocbleNbme("ListPbttern");
+        String listCompositionPbttern = lr.getLocbleNbme("ListCompositionPbttern");
 
-        // The display name consists of a main name, followed by qualifiers.
-        // Typically, the format is "MainName (Qualifier, Qualifier)" but this
-        // depends on what pattern is stored in the display locale.
-        String   mainName       = null;
-        String[] qualifierNames = null;
+        // The displby nbme consists of b mbin nbme, followed by qublifiers.
+        // Typicblly, the formbt is "MbinNbme (Qublifier, Qublifier)" but this
+        // depends on whbt pbttern is stored in the displby locble.
+        String   mbinNbme       = null;
+        String[] qublifierNbmes = null;
 
-        // The main name is the language, or if there is no language, the script,
-        // then if no script, the country. If there is no language/script/country
-        // (an anomalous situation) then the display name is simply the variant's
-        // display name.
-        if (languageName.length() == 0 && scriptName.length() == 0 && countryName.length() == 0) {
-            if (variantNames.length == 0) {
+        // The mbin nbme is the lbngubge, or if there is no lbngubge, the script,
+        // then if no script, the country. If there is no lbngubge/script/country
+        // (bn bnomblous situbtion) then the displby nbme is simply the vbribnt's
+        // displby nbme.
+        if (lbngubgeNbme.length() == 0 && scriptNbme.length() == 0 && countryNbme.length() == 0) {
+            if (vbribntNbmes.length == 0) {
                 return "";
             } else {
-                return formatList(variantNames, listPattern, listCompositionPattern);
+                return formbtList(vbribntNbmes, listPbttern, listCompositionPbttern);
             }
         }
-        ArrayList<String> names = new ArrayList<>(4);
-        if (languageName.length() != 0) {
-            names.add(languageName);
+        ArrbyList<String> nbmes = new ArrbyList<>(4);
+        if (lbngubgeNbme.length() != 0) {
+            nbmes.bdd(lbngubgeNbme);
         }
-        if (scriptName.length() != 0) {
-            names.add(scriptName);
+        if (scriptNbme.length() != 0) {
+            nbmes.bdd(scriptNbme);
         }
-        if (countryName.length() != 0) {
-            names.add(countryName);
+        if (countryNbme.length() != 0) {
+            nbmes.bdd(countryNbme);
         }
-        if (variantNames.length != 0) {
-            names.addAll(Arrays.asList(variantNames));
+        if (vbribntNbmes.length != 0) {
+            nbmes.bddAll(Arrbys.bsList(vbribntNbmes));
         }
 
-        // The first one in the main name
-        mainName = names.get(0);
+        // The first one in the mbin nbme
+        mbinNbme = nbmes.get(0);
 
-        // Others are qualifiers
-        int numNames = names.size();
-        qualifierNames = (numNames > 1) ?
-                names.subList(1, numNames).toArray(new String[numNames - 1]) : new String[0];
+        // Others bre qublifiers
+        int numNbmes = nbmes.size();
+        qublifierNbmes = (numNbmes > 1) ?
+                nbmes.subList(1, numNbmes).toArrby(new String[numNbmes - 1]) : new String[0];
 
-        // Create an array whose first element is the number of remaining
-        // elements.  This serves as a selector into a ChoiceFormat pattern from
-        // the resource.  The second and third elements are the main name and
-        // the qualifier; if there are no qualifiers, the third element is
-        // unused by the format pattern.
-        Object[] displayNames = {
-            qualifierNames.length != 0 ? 2 : 1,
-            mainName,
-            // We could also just call formatList() and have it handle the empty
-            // list case, but this is more efficient, and we want it to be
-            // efficient since all the language-only locales will not have any
-            // qualifiers.
-            qualifierNames.length != 0 ? formatList(qualifierNames, listPattern, listCompositionPattern) : null
+        // Crebte bn brrby whose first element is the number of rembining
+        // elements.  This serves bs b selector into b ChoiceFormbt pbttern from
+        // the resource.  The second bnd third elements bre the mbin nbme bnd
+        // the qublifier; if there bre no qublifiers, the third element is
+        // unused by the formbt pbttern.
+        Object[] displbyNbmes = {
+            qublifierNbmes.length != 0 ? 2 : 1,
+            mbinNbme,
+            // We could blso just cbll formbtList() bnd hbve it hbndle the empty
+            // list cbse, but this is more efficient, bnd we wbnt it to be
+            // efficient since bll the lbngubge-only locbles will not hbve bny
+            // qublifiers.
+            qublifierNbmes.length != 0 ? formbtList(qublifierNbmes, listPbttern, listCompositionPbttern) : null
         };
 
-        if (displayNamePattern != null) {
-            return new MessageFormat(displayNamePattern).format(displayNames);
+        if (displbyNbmePbttern != null) {
+            return new MessbgeFormbt(displbyNbmePbttern).formbt(displbyNbmes);
         }
         else {
-            // If we cannot get the message format pattern, then we use a simple
-            // hard-coded pattern.  This should not occur in practice unless the
-            // installation is missing some core files (FormatData etc.).
+            // If we cbnnot get the messbge formbt pbttern, then we use b simple
+            // hbrd-coded pbttern.  This should not occur in prbctice unless the
+            // instbllbtion is missing some core files (FormbtDbtb etc.).
             StringBuilder result = new StringBuilder();
-            result.append((String)displayNames[1]);
-            if (displayNames.length > 2) {
-                result.append(" (");
-                result.append((String)displayNames[2]);
-                result.append(')');
+            result.bppend((String)displbyNbmes[1]);
+            if (displbyNbmes.length > 2) {
+                result.bppend(" (");
+                result.bppend((String)displbyNbmes[2]);
+                result.bppend(')');
             }
             return result.toString();
         }
     }
 
     /**
-     * Overrides Cloneable.
+     * Overrides Clonebble.
      */
     @Override
     public Object clone()
     {
         try {
-            Locale that = (Locale)super.clone();
-            return that;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+            Locble thbt = (Locble)super.clone();
+            return thbt;
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e);
         }
     }
 
     /**
-     * Override hashCode.
-     * Since Locales are often used in hashtables, caches the value
+     * Override hbshCode.
+     * Since Locbles bre often used in hbshtbbles, cbches the vblue
      * for speed.
      */
     @Override
-    public int hashCode() {
-        int hc = hashCodeValue;
+    public int hbshCode() {
+        int hc = hbshCodeVblue;
         if (hc == 0) {
-            hc = baseLocale.hashCode();
-            if (localeExtensions != null) {
-                hc ^= localeExtensions.hashCode();
+            hc = bbseLocble.hbshCode();
+            if (locbleExtensions != null) {
+                hc ^= locbleExtensions.hbshCode();
             }
-            hashCodeValue = hc;
+            hbshCodeVblue = hc;
         }
         return hc;
     }
@@ -1986,299 +1986,299 @@ public final class Locale implements Cloneable, Serializable {
     // Overrides
 
     /**
-     * Returns true if this Locale is equal to another object.  A Locale is
-     * deemed equal to another Locale with identical language, script, country,
-     * variant and extensions, and unequal to all other objects.
+     * Returns true if this Locble is equbl to bnother object.  A Locble is
+     * deemed equbl to bnother Locble with identicbl lbngubge, script, country,
+     * vbribnt bnd extensions, bnd unequbl to bll other objects.
      *
-     * @return true if this Locale is equal to the specified object.
+     * @return true if this Locble is equbl to the specified object.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj)                      // quick check
             return true;
-        if (!(obj instanceof Locale))
-            return false;
-        BaseLocale otherBase = ((Locale)obj).baseLocale;
-        if (!baseLocale.equals(otherBase)) {
-            return false;
+        if (!(obj instbnceof Locble))
+            return fblse;
+        BbseLocble otherBbse = ((Locble)obj).bbseLocble;
+        if (!bbseLocble.equbls(otherBbse)) {
+            return fblse;
         }
-        if (localeExtensions == null) {
-            return ((Locale)obj).localeExtensions == null;
+        if (locbleExtensions == null) {
+            return ((Locble)obj).locbleExtensions == null;
         }
-        return localeExtensions.equals(((Locale)obj).localeExtensions);
+        return locbleExtensions.equbls(((Locble)obj).locbleExtensions);
     }
 
-    // ================= privates =====================================
+    // ================= privbtes =====================================
 
-    private transient BaseLocale baseLocale;
-    private transient LocaleExtensions localeExtensions;
-
-    /**
-     * Calculated hashcode
-     */
-    private transient volatile int hashCodeValue = 0;
-
-    private volatile static Locale defaultLocale = initDefault();
-    private volatile static Locale defaultDisplayLocale = null;
-    private volatile static Locale defaultFormatLocale = null;
-
-    private transient volatile String languageTag;
+    privbte trbnsient BbseLocble bbseLocble;
+    privbte trbnsient LocbleExtensions locbleExtensions;
 
     /**
-     * Return an array of the display names of the variant.
-     * @param bundle the ResourceBundle to use to get the display names
-     * @return an array of display names, possible of zero length.
+     * Cblculbted hbshcode
      */
-    private String[] getDisplayVariantArray(Locale inLocale) {
-        // Split the variant name into tokens separated by '_'.
-        StringTokenizer tokenizer = new StringTokenizer(baseLocale.getVariant(), "_");
-        String[] names = new String[tokenizer.countTokens()];
+    privbte trbnsient volbtile int hbshCodeVblue = 0;
 
-        // For each variant token, lookup the display name.  If
-        // not found, use the variant name itself.
-        for (int i=0; i<names.length; ++i) {
-            names[i] = getDisplayString(tokenizer.nextToken(),
-                                inLocale, DISPLAY_VARIANT);
+    privbte volbtile stbtic Locble defbultLocble = initDefbult();
+    privbte volbtile stbtic Locble defbultDisplbyLocble = null;
+    privbte volbtile stbtic Locble defbultFormbtLocble = null;
+
+    privbte trbnsient volbtile String lbngubgeTbg;
+
+    /**
+     * Return bn brrby of the displby nbmes of the vbribnt.
+     * @pbrbm bundle the ResourceBundle to use to get the displby nbmes
+     * @return bn brrby of displby nbmes, possible of zero length.
+     */
+    privbte String[] getDisplbyVbribntArrby(Locble inLocble) {
+        // Split the vbribnt nbme into tokens sepbrbted by '_'.
+        StringTokenizer tokenizer = new StringTokenizer(bbseLocble.getVbribnt(), "_");
+        String[] nbmes = new String[tokenizer.countTokens()];
+
+        // For ebch vbribnt token, lookup the displby nbme.  If
+        // not found, use the vbribnt nbme itself.
+        for (int i=0; i<nbmes.length; ++i) {
+            nbmes[i] = getDisplbyString(tokenizer.nextToken(),
+                                inLocble, DISPLAY_VARIANT);
         }
 
-        return names;
+        return nbmes;
     }
 
     /**
-     * Format a list using given pattern strings.
-     * If either of the patterns is null, then a the list is
-     * formatted by concatenation with the delimiter ','.
-     * @param stringList the list of strings to be formatted.
-     * @param listPattern should create a MessageFormat taking 0-3 arguments
-     * and formatting them into a list.
-     * @param listCompositionPattern should take 2 arguments
-     * and is used by composeList.
-     * @return a string representing the list.
+     * Formbt b list using given pbttern strings.
+     * If either of the pbtterns is null, then b the list is
+     * formbtted by concbtenbtion with the delimiter ','.
+     * @pbrbm stringList the list of strings to be formbtted.
+     * @pbrbm listPbttern should crebte b MessbgeFormbt tbking 0-3 brguments
+     * bnd formbtting them into b list.
+     * @pbrbm listCompositionPbttern should tbke 2 brguments
+     * bnd is used by composeList.
+     * @return b string representing the list.
      */
-    private static String formatList(String[] stringList, String listPattern, String listCompositionPattern) {
-        // If we have no list patterns, compose the list in a simple,
-        // non-localized way.
-        if (listPattern == null || listCompositionPattern == null) {
+    privbte stbtic String formbtList(String[] stringList, String listPbttern, String listCompositionPbttern) {
+        // If we hbve no list pbtterns, compose the list in b simple,
+        // non-locblized wby.
+        if (listPbttern == null || listCompositionPbttern == null) {
             StringBuilder result = new StringBuilder();
             for (int i = 0; i < stringList.length; ++i) {
                 if (i > 0) {
-                    result.append(',');
+                    result.bppend(',');
                 }
-                result.append(stringList[i]);
+                result.bppend(stringList[i]);
             }
             return result.toString();
         }
 
-        // Compose the list down to three elements if necessary
+        // Compose the list down to three elements if necessbry
         if (stringList.length > 3) {
-            MessageFormat format = new MessageFormat(listCompositionPattern);
-            stringList = composeList(format, stringList);
+            MessbgeFormbt formbt = new MessbgeFormbt(listCompositionPbttern);
+            stringList = composeList(formbt, stringList);
         }
 
-        // Rebuild the argument list with the list length as the first element
-        Object[] args = new Object[stringList.length + 1];
-        System.arraycopy(stringList, 0, args, 1, stringList.length);
-        args[0] = stringList.length;
+        // Rebuild the brgument list with the list length bs the first element
+        Object[] brgs = new Object[stringList.length + 1];
+        System.brrbycopy(stringList, 0, brgs, 1, stringList.length);
+        brgs[0] = stringList.length;
 
-        // Format it using the pattern in the resource
-        MessageFormat format = new MessageFormat(listPattern);
-        return format.format(args);
+        // Formbt it using the pbttern in the resource
+        MessbgeFormbt formbt = new MessbgeFormbt(listPbttern);
+        return formbt.formbt(brgs);
     }
 
     /**
-     * Given a list of strings, return a list shortened to three elements.
-     * Shorten it by applying the given format to the first two elements
+     * Given b list of strings, return b list shortened to three elements.
+     * Shorten it by bpplying the given formbt to the first two elements
      * recursively.
-     * @param format a format which takes two arguments
-     * @param list a list of strings
-     * @return if the list is three elements or shorter, the same list;
-     * otherwise, a new list of three elements.
+     * @pbrbm formbt b formbt which tbkes two brguments
+     * @pbrbm list b list of strings
+     * @return if the list is three elements or shorter, the sbme list;
+     * otherwise, b new list of three elements.
      */
-    private static String[] composeList(MessageFormat format, String[] list) {
+    privbte stbtic String[] composeList(MessbgeFormbt formbt, String[] list) {
         if (list.length <= 3) return list;
 
-        // Use the given format to compose the first two elements into one
+        // Use the given formbt to compose the first two elements into one
         String[] listItems = { list[0], list[1] };
-        String newItem = format.format(listItems);
+        String newItem = formbt.formbt(listItems);
 
-        // Form a new list one element shorter
+        // Form b new list one element shorter
         String[] newList = new String[list.length-1];
-        System.arraycopy(list, 2, newList, 1, newList.length-1);
+        System.brrbycopy(list, 2, newList, 1, newList.length-1);
         newList[0] = newItem;
 
         // Recurse
-        return composeList(format, newList);
+        return composeList(formbt, newList);
     }
 
-    // Duplicate of sun.util.locale.UnicodeLocaleExtension.isKey in order to
-    // avoid its class loading.
-    private static boolean isUnicodeExtensionKey(String s) {
-        // 2alphanum
-        return (s.length() == 2) && LocaleUtils.isAlphaNumericString(s);
+    // Duplicbte of sun.util.locble.UnicodeLocbleExtension.isKey in order to
+    // bvoid its clbss lobding.
+    privbte stbtic boolebn isUnicodeExtensionKey(String s) {
+        // 2blphbnum
+        return (s.length() == 2) && LocbleUtils.isAlphbNumericString(s);
     }
 
     /**
-     * @serialField language    String
-     *      language subtag in lower case. (See <a href="java/util/Locale.html#getLanguage()">getLanguage()</a>)
-     * @serialField country     String
-     *      country subtag in upper case. (See <a href="java/util/Locale.html#getCountry()">getCountry()</a>)
-     * @serialField variant     String
-     *      variant subtags separated by LOWLINE characters. (See <a href="java/util/Locale.html#getVariant()">getVariant()</a>)
-     * @serialField hashcode    int
-     *      deprecated, for forward compatibility only
-     * @serialField script      String
-     *      script subtag in title case (See <a href="java/util/Locale.html#getScript()">getScript()</a>)
-     * @serialField extensions  String
-     *      canonical representation of extensions, that is,
-     *      BCP47 extensions in alphabetical order followed by
-     *      BCP47 private use subtags, all in lower case letters
-     *      separated by HYPHEN-MINUS characters.
-     *      (See <a href="java/util/Locale.html#getExtensionKeys()">getExtensionKeys()</a>,
-     *      <a href="java/util/Locale.html#getExtension(char)">getExtension(char)</a>)
+     * @seriblField lbngubge    String
+     *      lbngubge subtbg in lower cbse. (See <b href="jbvb/util/Locble.html#getLbngubge()">getLbngubge()</b>)
+     * @seriblField country     String
+     *      country subtbg in upper cbse. (See <b href="jbvb/util/Locble.html#getCountry()">getCountry()</b>)
+     * @seriblField vbribnt     String
+     *      vbribnt subtbgs sepbrbted by LOWLINE chbrbcters. (See <b href="jbvb/util/Locble.html#getVbribnt()">getVbribnt()</b>)
+     * @seriblField hbshcode    int
+     *      deprecbted, for forwbrd compbtibility only
+     * @seriblField script      String
+     *      script subtbg in title cbse (See <b href="jbvb/util/Locble.html#getScript()">getScript()</b>)
+     * @seriblField extensions  String
+     *      cbnonicbl representbtion of extensions, thbt is,
+     *      BCP47 extensions in blphbbeticbl order followed by
+     *      BCP47 privbte use subtbgs, bll in lower cbse letters
+     *      sepbrbted by HYPHEN-MINUS chbrbcters.
+     *      (See <b href="jbvb/util/Locble.html#getExtensionKeys()">getExtensionKeys()</b>,
+     *      <b href="jbvb/util/Locble.html#getExtension(chbr)">getExtension(chbr)</b>)
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("language", String.class),
-        new ObjectStreamField("country", String.class),
-        new ObjectStreamField("variant", String.class),
-        new ObjectStreamField("hashcode", int.class),
-        new ObjectStreamField("script", String.class),
-        new ObjectStreamField("extensions", String.class),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("lbngubge", String.clbss),
+        new ObjectStrebmField("country", String.clbss),
+        new ObjectStrebmField("vbribnt", String.clbss),
+        new ObjectStrebmField("hbshcode", int.clbss),
+        new ObjectStrebmField("script", String.clbss),
+        new ObjectStrebmField("extensions", String.clbss),
     };
 
     /**
-     * Serializes this <code>Locale</code> to the specified <code>ObjectOutputStream</code>.
-     * @param out the <code>ObjectOutputStream</code> to write
+     * Seriblizes this <code>Locble</code> to the specified <code>ObjectOutputStrebm</code>.
+     * @pbrbm out the <code>ObjectOutputStrebm</code> to write
      * @throws IOException
      * @since 1.7
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("language", baseLocale.getLanguage());
-        fields.put("script", baseLocale.getScript());
-        fields.put("country", baseLocale.getRegion());
-        fields.put("variant", baseLocale.getVariant());
-        fields.put("extensions", localeExtensions == null ? "" : localeExtensions.getID());
-        fields.put("hashcode", -1); // place holder just for backward support
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        ObjectOutputStrebm.PutField fields = out.putFields();
+        fields.put("lbngubge", bbseLocble.getLbngubge());
+        fields.put("script", bbseLocble.getScript());
+        fields.put("country", bbseLocble.getRegion());
+        fields.put("vbribnt", bbseLocble.getVbribnt());
+        fields.put("extensions", locbleExtensions == null ? "" : locbleExtensions.getID());
+        fields.put("hbshcode", -1); // plbce holder just for bbckwbrd support
         out.writeFields();
     }
 
     /**
-     * Deserializes this <code>Locale</code>.
-     * @param in the <code>ObjectInputStream</code> to read
+     * Deseriblizes this <code>Locble</code>.
+     * @pbrbm in the <code>ObjectInputStrebm</code> to rebd
      * @throws IOException
-     * @throws ClassNotFoundException
-     * @throws IllformedLocaleException
+     * @throws ClbssNotFoundException
+     * @throws IllformedLocbleException
      * @since 1.7
      */
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        ObjectInputStream.GetField fields = in.readFields();
-        String language = (String)fields.get("language", "");
+    privbte void rebdObject(ObjectInputStrebm in) throws IOException, ClbssNotFoundException {
+        ObjectInputStrebm.GetField fields = in.rebdFields();
+        String lbngubge = (String)fields.get("lbngubge", "");
         String script = (String)fields.get("script", "");
         String country = (String)fields.get("country", "");
-        String variant = (String)fields.get("variant", "");
+        String vbribnt = (String)fields.get("vbribnt", "");
         String extStr = (String)fields.get("extensions", "");
-        baseLocale = BaseLocale.getInstance(convertOldISOCodes(language), script, country, variant);
+        bbseLocble = BbseLocble.getInstbnce(convertOldISOCodes(lbngubge), script, country, vbribnt);
         if (extStr.length() > 0) {
             try {
-                InternalLocaleBuilder bldr = new InternalLocaleBuilder();
+                InternblLocbleBuilder bldr = new InternblLocbleBuilder();
                 bldr.setExtensions(extStr);
-                localeExtensions = bldr.getLocaleExtensions();
-            } catch (LocaleSyntaxException e) {
-                throw new IllformedLocaleException(e.getMessage());
+                locbleExtensions = bldr.getLocbleExtensions();
+            } cbtch (LocbleSyntbxException e) {
+                throw new IllformedLocbleException(e.getMessbge());
             }
         } else {
-            localeExtensions = null;
+            locbleExtensions = null;
         }
     }
 
     /**
-     * Returns a cached <code>Locale</code> instance equivalent to
-     * the deserialized <code>Locale</code>. When serialized
-     * language, country and variant fields read from the object data stream
-     * are exactly "ja", "JP", "JP" or "th", "TH", "TH" and script/extensions
-     * fields are empty, this method supplies <code>UNICODE_LOCALE_EXTENSION</code>
-     * "ca"/"japanese" (calendar type is "japanese") or "nu"/"thai" (number script
-     * type is "thai"). See <a href="Locale.html#special_cases_constructor">Special Cases</a>
-     * for more information.
+     * Returns b cbched <code>Locble</code> instbnce equivblent to
+     * the deseriblized <code>Locble</code>. When seriblized
+     * lbngubge, country bnd vbribnt fields rebd from the object dbtb strebm
+     * bre exbctly "jb", "JP", "JP" or "th", "TH", "TH" bnd script/extensions
+     * fields bre empty, this method supplies <code>UNICODE_LOCALE_EXTENSION</code>
+     * "cb"/"jbpbnese" (cblendbr type is "jbpbnese") or "nu"/"thbi" (number script
+     * type is "thbi"). See <b href="Locble.html#specibl_cbses_constructor">Specibl Cbses</b>
+     * for more informbtion.
      *
-     * @return an instance of <code>Locale</code> equivalent to
-     * the deserialized <code>Locale</code>.
-     * @throws java.io.ObjectStreamException
+     * @return bn instbnce of <code>Locble</code> equivblent to
+     * the deseriblized <code>Locble</code>.
+     * @throws jbvb.io.ObjectStrebmException
      */
-    private Object readResolve() throws java.io.ObjectStreamException {
-        return getInstance(baseLocale.getLanguage(), baseLocale.getScript(),
-                baseLocale.getRegion(), baseLocale.getVariant(), localeExtensions);
+    privbte Object rebdResolve() throws jbvb.io.ObjectStrebmException {
+        return getInstbnce(bbseLocble.getLbngubge(), bbseLocble.getScript(),
+                bbseLocble.getRegion(), bbseLocble.getVbribnt(), locbleExtensions);
     }
 
-    private static volatile String[] isoLanguages = null;
+    privbte stbtic volbtile String[] isoLbngubges = null;
 
-    private static volatile String[] isoCountries = null;
+    privbte stbtic volbtile String[] isoCountries = null;
 
-    private static String convertOldISOCodes(String language) {
-        // we accept both the old and the new ISO codes for the languages whose ISO
-        // codes have changed, but we always store the OLD code, for backward compatibility
-        language = LocaleUtils.toLowerString(language).intern();
-        if (language == "he") {
+    privbte stbtic String convertOldISOCodes(String lbngubge) {
+        // we bccept both the old bnd the new ISO codes for the lbngubges whose ISO
+        // codes hbve chbnged, but we blwbys store the OLD code, for bbckwbrd compbtibility
+        lbngubge = LocbleUtils.toLowerString(lbngubge).intern();
+        if (lbngubge == "he") {
             return "iw";
-        } else if (language == "yi") {
+        } else if (lbngubge == "yi") {
             return "ji";
-        } else if (language == "id") {
+        } else if (lbngubge == "id") {
             return "in";
         } else {
-            return language;
+            return lbngubge;
         }
     }
 
-    private static LocaleExtensions getCompatibilityExtensions(String language,
+    privbte stbtic LocbleExtensions getCompbtibilityExtensions(String lbngubge,
                                                                String script,
                                                                String country,
-                                                               String variant) {
-        LocaleExtensions extensions = null;
-        // Special cases for backward compatibility support
-        if (LocaleUtils.caseIgnoreMatch(language, "ja")
+                                                               String vbribnt) {
+        LocbleExtensions extensions = null;
+        // Specibl cbses for bbckwbrd compbtibility support
+        if (LocbleUtils.cbseIgnoreMbtch(lbngubge, "jb")
                 && script.length() == 0
-                && LocaleUtils.caseIgnoreMatch(country, "jp")
-                && "JP".equals(variant)) {
-            // ja_JP_JP -> u-ca-japanese (calendar = japanese)
-            extensions = LocaleExtensions.CALENDAR_JAPANESE;
-        } else if (LocaleUtils.caseIgnoreMatch(language, "th")
+                && LocbleUtils.cbseIgnoreMbtch(country, "jp")
+                && "JP".equbls(vbribnt)) {
+            // jb_JP_JP -> u-cb-jbpbnese (cblendbr = jbpbnese)
+            extensions = LocbleExtensions.CALENDAR_JAPANESE;
+        } else if (LocbleUtils.cbseIgnoreMbtch(lbngubge, "th")
                 && script.length() == 0
-                && LocaleUtils.caseIgnoreMatch(country, "th")
-                && "TH".equals(variant)) {
-            // th_TH_TH -> u-nu-thai (numbersystem = thai)
-            extensions = LocaleExtensions.NUMBER_THAI;
+                && LocbleUtils.cbseIgnoreMbtch(country, "th")
+                && "TH".equbls(vbribnt)) {
+            // th_TH_TH -> u-nu-thbi (numbersystem = thbi)
+            extensions = LocbleExtensions.NUMBER_THAI;
         }
         return extensions;
     }
 
     /**
-     * Obtains a localized locale names from a LocaleNameProvider
-     * implementation.
+     * Obtbins b locblized locble nbmes from b LocbleNbmeProvider
+     * implementbtion.
      */
-    private static class LocaleNameGetter
-        implements LocaleServiceProviderPool.LocalizedObjectGetter<LocaleNameProvider, String> {
-        private static final LocaleNameGetter INSTANCE = new LocaleNameGetter();
+    privbte stbtic clbss LocbleNbmeGetter
+        implements LocbleServiceProviderPool.LocblizedObjectGetter<LocbleNbmeProvider, String> {
+        privbte stbtic finbl LocbleNbmeGetter INSTANCE = new LocbleNbmeGetter();
 
         @Override
-        public String getObject(LocaleNameProvider localeNameProvider,
-                                Locale locale,
+        public String getObject(LocbleNbmeProvider locbleNbmeProvider,
+                                Locble locble,
                                 String key,
-                                Object... params) {
-            assert params.length == 2;
-            int type = (Integer)params[0];
-            String code = (String)params[1];
+                                Object... pbrbms) {
+            bssert pbrbms.length == 2;
+            int type = (Integer)pbrbms[0];
+            String code = (String)pbrbms[1];
 
             switch(type) {
-            case DISPLAY_LANGUAGE:
-                return localeNameProvider.getDisplayLanguage(code, locale);
-            case DISPLAY_COUNTRY:
-                return localeNameProvider.getDisplayCountry(code, locale);
-            case DISPLAY_VARIANT:
-                return localeNameProvider.getDisplayVariant(code, locale);
-            case DISPLAY_SCRIPT:
-                return localeNameProvider.getDisplayScript(code, locale);
-            default:
-                assert false; // shouldn't happen
+            cbse DISPLAY_LANGUAGE:
+                return locbleNbmeProvider.getDisplbyLbngubge(code, locble);
+            cbse DISPLAY_COUNTRY:
+                return locbleNbmeProvider.getDisplbyCountry(code, locble);
+            cbse DISPLAY_VARIANT:
+                return locbleNbmeProvider.getDisplbyVbribnt(code, locble);
+            cbse DISPLAY_SCRIPT:
+                return locbleNbmeProvider.getDisplbyScript(code, locble);
+            defbult:
+                bssert fblse; // shouldn't hbppen
             }
 
             return null;
@@ -2286,166 +2286,166 @@ public final class Locale implements Cloneable, Serializable {
     }
 
     /**
-     * Enum for locale categories.  These locale categories are used to get/set
-     * the default locale for the specific functionality represented by the
-     * category.
+     * Enum for locble cbtegories.  These locble cbtegories bre used to get/set
+     * the defbult locble for the specific functionblity represented by the
+     * cbtegory.
      *
-     * @see #getDefault(Locale.Category)
-     * @see #setDefault(Locale.Category, Locale)
+     * @see #getDefbult(Locble.Cbtegory)
+     * @see #setDefbult(Locble.Cbtegory, Locble)
      * @since 1.7
      */
-    public enum Category {
+    public enum Cbtegory {
 
         /**
-         * Category used to represent the default locale for
-         * displaying user interfaces.
+         * Cbtegory used to represent the defbult locble for
+         * displbying user interfbces.
          */
-        DISPLAY("user.language.display",
-                "user.script.display",
-                "user.country.display",
-                "user.variant.display"),
+        DISPLAY("user.lbngubge.displby",
+                "user.script.displby",
+                "user.country.displby",
+                "user.vbribnt.displby"),
 
         /**
-         * Category used to represent the default locale for
-         * formatting dates, numbers, and/or currencies.
+         * Cbtegory used to represent the defbult locble for
+         * formbtting dbtes, numbers, bnd/or currencies.
          */
-        FORMAT("user.language.format",
-               "user.script.format",
-               "user.country.format",
-               "user.variant.format");
+        FORMAT("user.lbngubge.formbt",
+               "user.script.formbt",
+               "user.country.formbt",
+               "user.vbribnt.formbt");
 
-        Category(String languageKey, String scriptKey, String countryKey, String variantKey) {
-            this.languageKey = languageKey;
+        Cbtegory(String lbngubgeKey, String scriptKey, String countryKey, String vbribntKey) {
+            this.lbngubgeKey = lbngubgeKey;
             this.scriptKey = scriptKey;
             this.countryKey = countryKey;
-            this.variantKey = variantKey;
+            this.vbribntKey = vbribntKey;
         }
 
-        final String languageKey;
-        final String scriptKey;
-        final String countryKey;
-        final String variantKey;
+        finbl String lbngubgeKey;
+        finbl String scriptKey;
+        finbl String countryKey;
+        finbl String vbribntKey;
     }
 
     /**
-     * <code>Builder</code> is used to build instances of <code>Locale</code>
-     * from values configured by the setters.  Unlike the <code>Locale</code>
-     * constructors, the <code>Builder</code> checks if a value configured by a
-     * setter satisfies the syntax requirements defined by the <code>Locale</code>
-     * class.  A <code>Locale</code> object created by a <code>Builder</code> is
-     * well-formed and can be transformed to a well-formed IETF BCP 47 language tag
-     * without losing information.
+     * <code>Builder</code> is used to build instbnces of <code>Locble</code>
+     * from vblues configured by the setters.  Unlike the <code>Locble</code>
+     * constructors, the <code>Builder</code> checks if b vblue configured by b
+     * setter sbtisfies the syntbx requirements defined by the <code>Locble</code>
+     * clbss.  A <code>Locble</code> object crebted by b <code>Builder</code> is
+     * well-formed bnd cbn be trbnsformed to b well-formed IETF BCP 47 lbngubge tbg
+     * without losing informbtion.
      *
-     * <p><b>Note:</b> The <code>Locale</code> class does not provide any
-     * syntactic restrictions on variant, while BCP 47 requires each variant
-     * subtag to be 5 to 8 alphanumerics or a single numeric followed by 3
-     * alphanumerics.  The method <code>setVariant</code> throws
-     * <code>IllformedLocaleException</code> for a variant that does not satisfy
-     * this restriction. If it is necessary to support such a variant, use a
-     * Locale constructor.  However, keep in mind that a <code>Locale</code>
-     * object created this way might lose the variant information when
-     * transformed to a BCP 47 language tag.
+     * <p><b>Note:</b> The <code>Locble</code> clbss does not provide bny
+     * syntbctic restrictions on vbribnt, while BCP 47 requires ebch vbribnt
+     * subtbg to be 5 to 8 blphbnumerics or b single numeric followed by 3
+     * blphbnumerics.  The method <code>setVbribnt</code> throws
+     * <code>IllformedLocbleException</code> for b vbribnt thbt does not sbtisfy
+     * this restriction. If it is necessbry to support such b vbribnt, use b
+     * Locble constructor.  However, keep in mind thbt b <code>Locble</code>
+     * object crebted this wby might lose the vbribnt informbtion when
+     * trbnsformed to b BCP 47 lbngubge tbg.
      *
-     * <p>The following example shows how to create a <code>Locale</code> object
+     * <p>The following exbmple shows how to crebte b <code>Locble</code> object
      * with the <code>Builder</code>.
      * <blockquote>
      * <pre>
-     *     Locale aLocale = new Builder().setLanguage("sr").setScript("Latn").setRegion("RS").build();
+     *     Locble bLocble = new Builder().setLbngubge("sr").setScript("Lbtn").setRegion("RS").build();
      * </pre>
      * </blockquote>
      *
-     * <p>Builders can be reused; <code>clear()</code> resets all
-     * fields to their default values.
+     * <p>Builders cbn be reused; <code>clebr()</code> resets bll
+     * fields to their defbult vblues.
      *
-     * @see Locale#forLanguageTag
+     * @see Locble#forLbngubgeTbg
      * @since 1.7
      */
-    public static final class Builder {
-        private final InternalLocaleBuilder localeBuilder;
+    public stbtic finbl clbss Builder {
+        privbte finbl InternblLocbleBuilder locbleBuilder;
 
         /**
-         * Constructs an empty Builder. The default value of all
-         * fields, extensions, and private use information is the
+         * Constructs bn empty Builder. The defbult vblue of bll
+         * fields, extensions, bnd privbte use informbtion is the
          * empty string.
          */
         public Builder() {
-            localeBuilder = new InternalLocaleBuilder();
+            locbleBuilder = new InternblLocbleBuilder();
         }
 
         /**
-         * Resets the <code>Builder</code> to match the provided
-         * <code>locale</code>.  Existing state is discarded.
+         * Resets the <code>Builder</code> to mbtch the provided
+         * <code>locble</code>.  Existing stbte is discbrded.
          *
-         * <p>All fields of the locale must be well-formed, see {@link Locale}.
+         * <p>All fields of the locble must be well-formed, see {@link Locble}.
          *
-         * <p>Locales with any ill-formed fields cause
-         * <code>IllformedLocaleException</code> to be thrown, except for the
-         * following three cases which are accepted for compatibility
-         * reasons:<ul>
-         * <li>Locale("ja", "JP", "JP") is treated as "ja-JP-u-ca-japanese"
-         * <li>Locale("th", "TH", "TH") is treated as "th-TH-u-nu-thai"
-         * <li>Locale("no", "NO", "NY") is treated as "nn-NO"</ul>
+         * <p>Locbles with bny ill-formed fields cbuse
+         * <code>IllformedLocbleException</code> to be thrown, except for the
+         * following three cbses which bre bccepted for compbtibility
+         * rebsons:<ul>
+         * <li>Locble("jb", "JP", "JP") is trebted bs "jb-JP-u-cb-jbpbnese"
+         * <li>Locble("th", "TH", "TH") is trebted bs "th-TH-u-nu-thbi"
+         * <li>Locble("no", "NO", "NY") is trebted bs "nn-NO"</ul>
          *
-         * @param locale the locale
+         * @pbrbm locble the locble
          * @return This builder.
-         * @throws IllformedLocaleException if <code>locale</code> has
-         * any ill-formed fields.
-         * @throws NullPointerException if <code>locale</code> is null.
+         * @throws IllformedLocbleException if <code>locble</code> hbs
+         * bny ill-formed fields.
+         * @throws NullPointerException if <code>locble</code> is null.
          */
-        public Builder setLocale(Locale locale) {
+        public Builder setLocble(Locble locble) {
             try {
-                localeBuilder.setLocale(locale.baseLocale, locale.localeExtensions);
-            } catch (LocaleSyntaxException e) {
-                throw new IllformedLocaleException(e.getMessage(), e.getErrorIndex());
+                locbleBuilder.setLocble(locble.bbseLocble, locble.locbleExtensions);
+            } cbtch (LocbleSyntbxException e) {
+                throw new IllformedLocbleException(e.getMessbge(), e.getErrorIndex());
             }
             return this;
         }
 
         /**
-         * Resets the Builder to match the provided IETF BCP 47
-         * language tag.  Discards the existing state.  Null and the
-         * empty string cause the builder to be reset, like {@link
-         * #clear}.  Grandfathered tags (see {@link
-         * Locale#forLanguageTag}) are converted to their canonical
-         * form before being processed.  Otherwise, the language tag
-         * must be well-formed (see {@link Locale}) or an exception is
-         * thrown (unlike <code>Locale.forLanguageTag</code>, which
-         * just discards ill-formed and following portions of the
-         * tag).
+         * Resets the Builder to mbtch the provided IETF BCP 47
+         * lbngubge tbg.  Discbrds the existing stbte.  Null bnd the
+         * empty string cbuse the builder to be reset, like {@link
+         * #clebr}.  Grbndfbthered tbgs (see {@link
+         * Locble#forLbngubgeTbg}) bre converted to their cbnonicbl
+         * form before being processed.  Otherwise, the lbngubge tbg
+         * must be well-formed (see {@link Locble}) or bn exception is
+         * thrown (unlike <code>Locble.forLbngubgeTbg</code>, which
+         * just discbrds ill-formed bnd following portions of the
+         * tbg).
          *
-         * @param languageTag the language tag
+         * @pbrbm lbngubgeTbg the lbngubge tbg
          * @return This builder.
-         * @throws IllformedLocaleException if <code>languageTag</code> is ill-formed
-         * @see Locale#forLanguageTag(String)
+         * @throws IllformedLocbleException if <code>lbngubgeTbg</code> is ill-formed
+         * @see Locble#forLbngubgeTbg(String)
          */
-        public Builder setLanguageTag(String languageTag) {
-            ParseStatus sts = new ParseStatus();
-            LanguageTag tag = LanguageTag.parse(languageTag, sts);
+        public Builder setLbngubgeTbg(String lbngubgeTbg) {
+            PbrseStbtus sts = new PbrseStbtus();
+            LbngubgeTbg tbg = LbngubgeTbg.pbrse(lbngubgeTbg, sts);
             if (sts.isError()) {
-                throw new IllformedLocaleException(sts.getErrorMessage(), sts.getErrorIndex());
+                throw new IllformedLocbleException(sts.getErrorMessbge(), sts.getErrorIndex());
             }
-            localeBuilder.setLanguageTag(tag);
+            locbleBuilder.setLbngubgeTbg(tbg);
             return this;
         }
 
         /**
-         * Sets the language.  If <code>language</code> is the empty string or
-         * null, the language in this <code>Builder</code> is removed.  Otherwise,
-         * the language must be <a href="./Locale.html#def_language">well-formed</a>
-         * or an exception is thrown.
+         * Sets the lbngubge.  If <code>lbngubge</code> is the empty string or
+         * null, the lbngubge in this <code>Builder</code> is removed.  Otherwise,
+         * the lbngubge must be <b href="./Locble.html#def_lbngubge">well-formed</b>
+         * or bn exception is thrown.
          *
-         * <p>The typical language value is a two or three-letter language
-         * code as defined in ISO639.
+         * <p>The typicbl lbngubge vblue is b two or three-letter lbngubge
+         * code bs defined in ISO639.
          *
-         * @param language the language
+         * @pbrbm lbngubge the lbngubge
          * @return This builder.
-         * @throws IllformedLocaleException if <code>language</code> is ill-formed
+         * @throws IllformedLocbleException if <code>lbngubge</code> is ill-formed
          */
-        public Builder setLanguage(String language) {
+        public Builder setLbngubge(String lbngubge) {
             try {
-                localeBuilder.setLanguage(language);
-            } catch (LocaleSyntaxException e) {
-                throw new IllformedLocaleException(e.getMessage(), e.getErrorIndex());
+                locbleBuilder.setLbngubge(lbngubge);
+            } cbtch (LocbleSyntbxException e) {
+                throw new IllformedLocbleException(e.getMessbge(), e.getErrorIndex());
             }
             return this;
         }
@@ -2453,20 +2453,20 @@ public final class Locale implements Cloneable, Serializable {
         /**
          * Sets the script. If <code>script</code> is null or the empty string,
          * the script in this <code>Builder</code> is removed.
-         * Otherwise, the script must be <a href="./Locale.html#def_script">well-formed</a> or an
+         * Otherwise, the script must be <b href="./Locble.html#def_script">well-formed</b> or bn
          * exception is thrown.
          *
-         * <p>The typical script value is a four-letter script code as defined by ISO 15924.
+         * <p>The typicbl script vblue is b four-letter script code bs defined by ISO 15924.
          *
-         * @param script the script
+         * @pbrbm script the script
          * @return This builder.
-         * @throws IllformedLocaleException if <code>script</code> is ill-formed
+         * @throws IllformedLocbleException if <code>script</code> is ill-formed
          */
         public Builder setScript(String script) {
             try {
-                localeBuilder.setScript(script);
-            } catch (LocaleSyntaxException e) {
-                throw new IllformedLocaleException(e.getMessage(), e.getErrorIndex());
+                locbleBuilder.setScript(script);
+            } cbtch (LocbleSyntbxException e) {
+                throw new IllformedLocbleException(e.getMessbge(), e.getErrorIndex());
             }
             return this;
         }
@@ -2474,301 +2474,301 @@ public final class Locale implements Cloneable, Serializable {
         /**
          * Sets the region.  If region is null or the empty string, the region
          * in this <code>Builder</code> is removed.  Otherwise,
-         * the region must be <a href="./Locale.html#def_region">well-formed</a> or an
+         * the region must be <b href="./Locble.html#def_region">well-formed</b> or bn
          * exception is thrown.
          *
-         * <p>The typical region value is a two-letter ISO 3166 code or a
-         * three-digit UN M.49 area code.
+         * <p>The typicbl region vblue is b two-letter ISO 3166 code or b
+         * three-digit UN M.49 breb code.
          *
-         * <p>The country value in the <code>Locale</code> created by the
-         * <code>Builder</code> is always normalized to upper case.
+         * <p>The country vblue in the <code>Locble</code> crebted by the
+         * <code>Builder</code> is blwbys normblized to upper cbse.
          *
-         * @param region the region
+         * @pbrbm region the region
          * @return This builder.
-         * @throws IllformedLocaleException if <code>region</code> is ill-formed
+         * @throws IllformedLocbleException if <code>region</code> is ill-formed
          */
         public Builder setRegion(String region) {
             try {
-                localeBuilder.setRegion(region);
-            } catch (LocaleSyntaxException e) {
-                throw new IllformedLocaleException(e.getMessage(), e.getErrorIndex());
+                locbleBuilder.setRegion(region);
+            } cbtch (LocbleSyntbxException e) {
+                throw new IllformedLocbleException(e.getMessbge(), e.getErrorIndex());
             }
             return this;
         }
 
         /**
-         * Sets the variant.  If variant is null or the empty string, the
-         * variant in this <code>Builder</code> is removed.  Otherwise, it
-         * must consist of one or more <a href="./Locale.html#def_variant">well-formed</a>
-         * subtags, or an exception is thrown.
+         * Sets the vbribnt.  If vbribnt is null or the empty string, the
+         * vbribnt in this <code>Builder</code> is removed.  Otherwise, it
+         * must consist of one or more <b href="./Locble.html#def_vbribnt">well-formed</b>
+         * subtbgs, or bn exception is thrown.
          *
-         * <p><b>Note:</b> This method checks if <code>variant</code>
-         * satisfies the IETF BCP 47 variant subtag's syntax requirements,
-         * and normalizes the value to lowercase letters.  However,
-         * the <code>Locale</code> class does not impose any syntactic
-         * restriction on variant, and the variant value in
-         * <code>Locale</code> is case sensitive.  To set such a variant,
-         * use a Locale constructor.
+         * <p><b>Note:</b> This method checks if <code>vbribnt</code>
+         * sbtisfies the IETF BCP 47 vbribnt subtbg's syntbx requirements,
+         * bnd normblizes the vblue to lowercbse letters.  However,
+         * the <code>Locble</code> clbss does not impose bny syntbctic
+         * restriction on vbribnt, bnd the vbribnt vblue in
+         * <code>Locble</code> is cbse sensitive.  To set such b vbribnt,
+         * use b Locble constructor.
          *
-         * @param variant the variant
+         * @pbrbm vbribnt the vbribnt
          * @return This builder.
-         * @throws IllformedLocaleException if <code>variant</code> is ill-formed
+         * @throws IllformedLocbleException if <code>vbribnt</code> is ill-formed
          */
-        public Builder setVariant(String variant) {
+        public Builder setVbribnt(String vbribnt) {
             try {
-                localeBuilder.setVariant(variant);
-            } catch (LocaleSyntaxException e) {
-                throw new IllformedLocaleException(e.getMessage(), e.getErrorIndex());
+                locbleBuilder.setVbribnt(vbribnt);
+            } cbtch (LocbleSyntbxException e) {
+                throw new IllformedLocbleException(e.getMessbge(), e.getErrorIndex());
             }
             return this;
         }
 
         /**
-         * Sets the extension for the given key. If the value is null or the
+         * Sets the extension for the given key. If the vblue is null or the
          * empty string, the extension is removed.  Otherwise, the extension
-         * must be <a href="./Locale.html#def_extensions">well-formed</a> or an exception
+         * must be <b href="./Locble.html#def_extensions">well-formed</b> or bn exception
          * is thrown.
          *
-         * <p><b>Note:</b> The key {@link Locale#UNICODE_LOCALE_EXTENSION
-         * UNICODE_LOCALE_EXTENSION} ('u') is used for the Unicode locale extension.
-         * Setting a value for this key replaces any existing Unicode locale key/type
-         * pairs with those defined in the extension.
+         * <p><b>Note:</b> The key {@link Locble#UNICODE_LOCALE_EXTENSION
+         * UNICODE_LOCALE_EXTENSION} ('u') is used for the Unicode locble extension.
+         * Setting b vblue for this key replbces bny existing Unicode locble key/type
+         * pbirs with those defined in the extension.
          *
-         * <p><b>Note:</b> The key {@link Locale#PRIVATE_USE_EXTENSION
-         * PRIVATE_USE_EXTENSION} ('x') is used for the private use code. To be
-         * well-formed, the value for this key needs only to have subtags of one to
-         * eight alphanumeric characters, not two to eight as in the general case.
+         * <p><b>Note:</b> The key {@link Locble#PRIVATE_USE_EXTENSION
+         * PRIVATE_USE_EXTENSION} ('x') is used for the privbte use code. To be
+         * well-formed, the vblue for this key needs only to hbve subtbgs of one to
+         * eight blphbnumeric chbrbcters, not two to eight bs in the generbl cbse.
          *
-         * @param key the extension key
-         * @param value the extension value
+         * @pbrbm key the extension key
+         * @pbrbm vblue the extension vblue
          * @return This builder.
-         * @throws IllformedLocaleException if <code>key</code> is illegal
-         * or <code>value</code> is ill-formed
-         * @see #setUnicodeLocaleKeyword(String, String)
+         * @throws IllformedLocbleException if <code>key</code> is illegbl
+         * or <code>vblue</code> is ill-formed
+         * @see #setUnicodeLocbleKeyword(String, String)
          */
-        public Builder setExtension(char key, String value) {
+        public Builder setExtension(chbr key, String vblue) {
             try {
-                localeBuilder.setExtension(key, value);
-            } catch (LocaleSyntaxException e) {
-                throw new IllformedLocaleException(e.getMessage(), e.getErrorIndex());
+                locbleBuilder.setExtension(key, vblue);
+            } cbtch (LocbleSyntbxException e) {
+                throw new IllformedLocbleException(e.getMessbge(), e.getErrorIndex());
             }
             return this;
         }
 
         /**
-         * Sets the Unicode locale keyword type for the given key.  If the type
+         * Sets the Unicode locble keyword type for the given key.  If the type
          * is null, the Unicode keyword is removed.  Otherwise, the key must be
-         * non-null and both key and type must be <a
-         * href="./Locale.html#def_locale_extension">well-formed</a> or an exception
+         * non-null bnd both key bnd type must be <b
+         * href="./Locble.html#def_locble_extension">well-formed</b> or bn exception
          * is thrown.
          *
-         * <p>Keys and types are converted to lower case.
+         * <p>Keys bnd types bre converted to lower cbse.
          *
-         * <p><b>Note</b>:Setting the 'u' extension via {@link #setExtension}
-         * replaces all Unicode locale keywords with those defined in the
+         * <p><b>Note</b>:Setting the 'u' extension vib {@link #setExtension}
+         * replbces bll Unicode locble keywords with those defined in the
          * extension.
          *
-         * @param key the Unicode locale key
-         * @param type the Unicode locale type
+         * @pbrbm key the Unicode locble key
+         * @pbrbm type the Unicode locble type
          * @return This builder.
-         * @throws IllformedLocaleException if <code>key</code> or <code>type</code>
+         * @throws IllformedLocbleException if <code>key</code> or <code>type</code>
          * is ill-formed
          * @throws NullPointerException if <code>key</code> is null
-         * @see #setExtension(char, String)
+         * @see #setExtension(chbr, String)
          */
-        public Builder setUnicodeLocaleKeyword(String key, String type) {
+        public Builder setUnicodeLocbleKeyword(String key, String type) {
             try {
-                localeBuilder.setUnicodeLocaleKeyword(key, type);
-            } catch (LocaleSyntaxException e) {
-                throw new IllformedLocaleException(e.getMessage(), e.getErrorIndex());
+                locbleBuilder.setUnicodeLocbleKeyword(key, type);
+            } cbtch (LocbleSyntbxException e) {
+                throw new IllformedLocbleException(e.getMessbge(), e.getErrorIndex());
             }
             return this;
         }
 
         /**
-         * Adds a unicode locale attribute, if not already present, otherwise
-         * has no effect.  The attribute must not be null and must be <a
-         * href="./Locale.html#def_locale_extension">well-formed</a> or an exception
+         * Adds b unicode locble bttribute, if not blrebdy present, otherwise
+         * hbs no effect.  The bttribute must not be null bnd must be <b
+         * href="./Locble.html#def_locble_extension">well-formed</b> or bn exception
          * is thrown.
          *
-         * @param attribute the attribute
+         * @pbrbm bttribute the bttribute
          * @return This builder.
-         * @throws NullPointerException if <code>attribute</code> is null
-         * @throws IllformedLocaleException if <code>attribute</code> is ill-formed
-         * @see #setExtension(char, String)
+         * @throws NullPointerException if <code>bttribute</code> is null
+         * @throws IllformedLocbleException if <code>bttribute</code> is ill-formed
+         * @see #setExtension(chbr, String)
          */
-        public Builder addUnicodeLocaleAttribute(String attribute) {
+        public Builder bddUnicodeLocbleAttribute(String bttribute) {
             try {
-                localeBuilder.addUnicodeLocaleAttribute(attribute);
-            } catch (LocaleSyntaxException e) {
-                throw new IllformedLocaleException(e.getMessage(), e.getErrorIndex());
+                locbleBuilder.bddUnicodeLocbleAttribute(bttribute);
+            } cbtch (LocbleSyntbxException e) {
+                throw new IllformedLocbleException(e.getMessbge(), e.getErrorIndex());
             }
             return this;
         }
 
         /**
-         * Removes a unicode locale attribute, if present, otherwise has no
-         * effect.  The attribute must not be null and must be <a
-         * href="./Locale.html#def_locale_extension">well-formed</a> or an exception
+         * Removes b unicode locble bttribute, if present, otherwise hbs no
+         * effect.  The bttribute must not be null bnd must be <b
+         * href="./Locble.html#def_locble_extension">well-formed</b> or bn exception
          * is thrown.
          *
-         * <p>Attribute comparision for removal is case-insensitive.
+         * <p>Attribute compbrision for removbl is cbse-insensitive.
          *
-         * @param attribute the attribute
+         * @pbrbm bttribute the bttribute
          * @return This builder.
-         * @throws NullPointerException if <code>attribute</code> is null
-         * @throws IllformedLocaleException if <code>attribute</code> is ill-formed
-         * @see #setExtension(char, String)
+         * @throws NullPointerException if <code>bttribute</code> is null
+         * @throws IllformedLocbleException if <code>bttribute</code> is ill-formed
+         * @see #setExtension(chbr, String)
          */
-        public Builder removeUnicodeLocaleAttribute(String attribute) {
+        public Builder removeUnicodeLocbleAttribute(String bttribute) {
             try {
-                localeBuilder.removeUnicodeLocaleAttribute(attribute);
-            } catch (LocaleSyntaxException e) {
-                throw new IllformedLocaleException(e.getMessage(), e.getErrorIndex());
+                locbleBuilder.removeUnicodeLocbleAttribute(bttribute);
+            } cbtch (LocbleSyntbxException e) {
+                throw new IllformedLocbleException(e.getMessbge(), e.getErrorIndex());
             }
             return this;
         }
 
         /**
-         * Resets the builder to its initial, empty state.
+         * Resets the builder to its initibl, empty stbte.
          *
          * @return This builder.
          */
-        public Builder clear() {
-            localeBuilder.clear();
+        public Builder clebr() {
+            locbleBuilder.clebr();
             return this;
         }
 
         /**
-         * Resets the extensions to their initial, empty state.
-         * Language, script, region and variant are unchanged.
+         * Resets the extensions to their initibl, empty stbte.
+         * Lbngubge, script, region bnd vbribnt bre unchbnged.
          *
          * @return This builder.
-         * @see #setExtension(char, String)
+         * @see #setExtension(chbr, String)
          */
-        public Builder clearExtensions() {
-            localeBuilder.clearExtensions();
+        public Builder clebrExtensions() {
+            locbleBuilder.clebrExtensions();
             return this;
         }
 
         /**
-         * Returns an instance of <code>Locale</code> created from the fields set
+         * Returns bn instbnce of <code>Locble</code> crebted from the fields set
          * on this builder.
          *
-         * <p>This applies the conversions listed in {@link Locale#forLanguageTag}
-         * when constructing a Locale. (Grandfathered tags are handled in
-         * {@link #setLanguageTag}.)
+         * <p>This bpplies the conversions listed in {@link Locble#forLbngubgeTbg}
+         * when constructing b Locble. (Grbndfbthered tbgs bre hbndled in
+         * {@link #setLbngubgeTbg}.)
          *
-         * @return A Locale.
+         * @return A Locble.
          */
-        public Locale build() {
-            BaseLocale baseloc = localeBuilder.getBaseLocale();
-            LocaleExtensions extensions = localeBuilder.getLocaleExtensions();
-            if (extensions == null && baseloc.getVariant().length() > 0) {
-                extensions = getCompatibilityExtensions(baseloc.getLanguage(), baseloc.getScript(),
-                        baseloc.getRegion(), baseloc.getVariant());
+        public Locble build() {
+            BbseLocble bbseloc = locbleBuilder.getBbseLocble();
+            LocbleExtensions extensions = locbleBuilder.getLocbleExtensions();
+            if (extensions == null && bbseloc.getVbribnt().length() > 0) {
+                extensions = getCompbtibilityExtensions(bbseloc.getLbngubge(), bbseloc.getScript(),
+                        bbseloc.getRegion(), bbseloc.getVbribnt());
             }
-            return Locale.getInstance(baseloc, extensions);
+            return Locble.getInstbnce(bbseloc, extensions);
         }
     }
 
     /**
-     * This enum provides constants to select a filtering mode for locale
-     * matching. Refer to <a href="http://tools.ietf.org/html/rfc4647">RFC 4647
-     * Matching of Language Tags</a> for details.
+     * This enum provides constbnts to select b filtering mode for locble
+     * mbtching. Refer to <b href="http://tools.ietf.org/html/rfc4647">RFC 4647
+     * Mbtching of Lbngubge Tbgs</b> for detbils.
      *
-     * <p>As an example, think of two Language Priority Lists each of which
-     * includes only one language range and a set of following language tags:
+     * <p>As bn exbmple, think of two Lbngubge Priority Lists ebch of which
+     * includes only one lbngubge rbnge bnd b set of following lbngubge tbgs:
      *
      * <pre>
-     *    de (German)
-     *    de-DE (German, Germany)
-     *    de-Deva (German, in Devanagari script)
-     *    de-Deva-DE (German, in Devanagari script, Germany)
-     *    de-DE-1996 (German, Germany, orthography of 1996)
-     *    de-Latn-DE (German, in Latin script, Germany)
-     *    de-Latn-DE-1996 (German, in Latin script, Germany, orthography of 1996)
+     *    de (Germbn)
+     *    de-DE (Germbn, Germbny)
+     *    de-Devb (Germbn, in Devbnbgbri script)
+     *    de-Devb-DE (Germbn, in Devbnbgbri script, Germbny)
+     *    de-DE-1996 (Germbn, Germbny, orthogrbphy of 1996)
+     *    de-Lbtn-DE (Germbn, in Lbtin script, Germbny)
+     *    de-Lbtn-DE-1996 (Germbn, in Lbtin script, Germbny, orthogrbphy of 1996)
      * </pre>
      *
-     * The filtering method will behave as follows:
+     * The filtering method will behbve bs follows:
      *
-     * <table cellpadding=2 summary="Filtering method behavior">
+     * <tbble cellpbdding=2 summbry="Filtering method behbvior">
      * <tr>
      * <th>Filtering Mode</th>
-     * <th>Language Priority List: {@code "de-DE"}</th>
-     * <th>Language Priority List: {@code "de-*-DE"}</th>
+     * <th>Lbngubge Priority List: {@code "de-DE"}</th>
+     * <th>Lbngubge Priority List: {@code "de-*-DE"}</th>
      * </tr>
      * <tr>
-     * <td valign=top>
+     * <td vblign=top>
      * {@link FilteringMode#AUTOSELECT_FILTERING AUTOSELECT_FILTERING}
      * </td>
-     * <td valign=top>
-     * Performs <em>basic</em> filtering and returns {@code "de-DE"} and
+     * <td vblign=top>
+     * Performs <em>bbsic</em> filtering bnd returns {@code "de-DE"} bnd
      * {@code "de-DE-1996"}.
      * </td>
-     * <td valign=top>
-     * Performs <em>extended</em> filtering and returns {@code "de-DE"},
-     * {@code "de-Deva-DE"}, {@code "de-DE-1996"}, {@code "de-Latn-DE"}, and
-     * {@code "de-Latn-DE-1996"}.
+     * <td vblign=top>
+     * Performs <em>extended</em> filtering bnd returns {@code "de-DE"},
+     * {@code "de-Devb-DE"}, {@code "de-DE-1996"}, {@code "de-Lbtn-DE"}, bnd
+     * {@code "de-Lbtn-DE-1996"}.
      * </td>
      * </tr>
      * <tr>
-     * <td valign=top>
+     * <td vblign=top>
      * {@link FilteringMode#EXTENDED_FILTERING EXTENDED_FILTERING}
      * </td>
-     * <td valign=top>
-     * Performs <em>extended</em> filtering and returns {@code "de-DE"},
-     * {@code "de-Deva-DE"}, {@code "de-DE-1996"}, {@code "de-Latn-DE"}, and
-     * {@code "de-Latn-DE-1996"}.
+     * <td vblign=top>
+     * Performs <em>extended</em> filtering bnd returns {@code "de-DE"},
+     * {@code "de-Devb-DE"}, {@code "de-DE-1996"}, {@code "de-Lbtn-DE"}, bnd
+     * {@code "de-Lbtn-DE-1996"}.
      * </td>
-     * <td valign=top>Same as above.</td>
+     * <td vblign=top>Sbme bs bbove.</td>
      * </tr>
      * <tr>
-     * <td valign=top>
+     * <td vblign=top>
      * {@link FilteringMode#IGNORE_EXTENDED_RANGES IGNORE_EXTENDED_RANGES}
      * </td>
-     * <td valign=top>
-     * Performs <em>basic</em> filtering and returns {@code "de-DE"} and
+     * <td vblign=top>
+     * Performs <em>bbsic</em> filtering bnd returns {@code "de-DE"} bnd
      * {@code "de-DE-1996"}.
      * </td>
-     * <td valign=top>
-     * Performs <em>basic</em> filtering and returns {@code null} because
-     * nothing matches.
+     * <td vblign=top>
+     * Performs <em>bbsic</em> filtering bnd returns {@code null} becbuse
+     * nothing mbtches.
      * </td>
      * </tr>
      * <tr>
-     * <td valign=top>
+     * <td vblign=top>
      * {@link FilteringMode#MAP_EXTENDED_RANGES MAP_EXTENDED_RANGES}
      * </td>
-     * <td valign=top>Same as above.</td>
-     * <td valign=top>
-     * Performs <em>basic</em> filtering and returns {@code "de-DE"} and
-     * {@code "de-DE-1996"} because {@code "de-*-DE"} is mapped to
+     * <td vblign=top>Sbme bs bbove.</td>
+     * <td vblign=top>
+     * Performs <em>bbsic</em> filtering bnd returns {@code "de-DE"} bnd
+     * {@code "de-DE-1996"} becbuse {@code "de-*-DE"} is mbpped to
      * {@code "de-DE"}.
      * </td>
      * </tr>
      * <tr>
-     * <td valign=top>
+     * <td vblign=top>
      * {@link FilteringMode#REJECT_EXTENDED_RANGES REJECT_EXTENDED_RANGES}
      * </td>
-     * <td valign=top>Same as above.</td>
-     * <td valign=top>
-     * Throws {@link IllegalArgumentException} because {@code "de-*-DE"} is
-     * not a valid basic language range.
+     * <td vblign=top>Sbme bs bbove.</td>
+     * <td vblign=top>
+     * Throws {@link IllegblArgumentException} becbuse {@code "de-*-DE"} is
+     * not b vblid bbsic lbngubge rbnge.
      * </td>
      * </tr>
-     * </table>
+     * </tbble>
      *
      * @see #filter(List, Collection, FilteringMode)
-     * @see #filterTags(List, Collection, FilteringMode)
+     * @see #filterTbgs(List, Collection, FilteringMode)
      *
      * @since 1.8
      */
-    public static enum FilteringMode {
+    public stbtic enum FilteringMode {
         /**
-         * Specifies automatic filtering mode based on the given Language
-         * Priority List consisting of language ranges. If all of the ranges
-         * are basic, basic filtering is selected. Otherwise, extended
+         * Specifies butombtic filtering mode bbsed on the given Lbngubge
+         * Priority List consisting of lbngubge rbnges. If bll of the rbnges
+         * bre bbsic, bbsic filtering is selected. Otherwise, extended
          * filtering is selected.
          */
         AUTOSELECT_FILTERING,
@@ -2779,504 +2779,504 @@ public final class Locale implements Cloneable, Serializable {
         EXTENDED_FILTERING,
 
         /**
-         * Specifies basic filtering: Note that any extended language ranges
-         * included in the given Language Priority List are ignored.
+         * Specifies bbsic filtering: Note thbt bny extended lbngubge rbnges
+         * included in the given Lbngubge Priority List bre ignored.
          */
         IGNORE_EXTENDED_RANGES,
 
         /**
-         * Specifies basic filtering: If any extended language ranges are
-         * included in the given Language Priority List, they are mapped to the
-         * basic language range. Specifically, a language range starting with a
-         * subtag {@code "*"} is treated as a language range {@code "*"}. For
-         * example, {@code "*-US"} is treated as {@code "*"}. If {@code "*"} is
-         * not the first subtag, {@code "*"} and extra {@code "-"} are removed.
-         * For example, {@code "ja-*-JP"} is mapped to {@code "ja-JP"}.
+         * Specifies bbsic filtering: If bny extended lbngubge rbnges bre
+         * included in the given Lbngubge Priority List, they bre mbpped to the
+         * bbsic lbngubge rbnge. Specificblly, b lbngubge rbnge stbrting with b
+         * subtbg {@code "*"} is trebted bs b lbngubge rbnge {@code "*"}. For
+         * exbmple, {@code "*-US"} is trebted bs {@code "*"}. If {@code "*"} is
+         * not the first subtbg, {@code "*"} bnd extrb {@code "-"} bre removed.
+         * For exbmple, {@code "jb-*-JP"} is mbpped to {@code "jb-JP"}.
          */
         MAP_EXTENDED_RANGES,
 
         /**
-         * Specifies basic filtering: If any extended language ranges are
-         * included in the given Language Priority List, the list is rejected
-         * and the filtering method throws {@link IllegalArgumentException}.
+         * Specifies bbsic filtering: If bny extended lbngubge rbnges bre
+         * included in the given Lbngubge Priority List, the list is rejected
+         * bnd the filtering method throws {@link IllegblArgumentException}.
          */
         REJECT_EXTENDED_RANGES
     };
 
     /**
-     * This class expresses a <em>Language Range</em> defined in
-     * <a href="http://tools.ietf.org/html/rfc4647">RFC 4647 Matching of
-     * Language Tags</a>. A language range is an identifier which is used to
-     * select language tag(s) meeting specific requirements by using the
-     * mechanisms described in <a href="Locale.html#LocaleMatching">Locale
-     * Matching</a>. A list which represents a user's preferences and consists
-     * of language ranges is called a <em>Language Priority List</em>.
+     * This clbss expresses b <em>Lbngubge Rbnge</em> defined in
+     * <b href="http://tools.ietf.org/html/rfc4647">RFC 4647 Mbtching of
+     * Lbngubge Tbgs</b>. A lbngubge rbnge is bn identifier which is used to
+     * select lbngubge tbg(s) meeting specific requirements by using the
+     * mechbnisms described in <b href="Locble.html#LocbleMbtching">Locble
+     * Mbtching</b>. A list which represents b user's preferences bnd consists
+     * of lbngubge rbnges is cblled b <em>Lbngubge Priority List</em>.
      *
-     * <p>There are two types of language ranges: basic and extended. In RFC
-     * 4647, the syntax of language ranges is expressed in
-     * <a href="http://tools.ietf.org/html/rfc4234">ABNF</a> as follows:
+     * <p>There bre two types of lbngubge rbnges: bbsic bnd extended. In RFC
+     * 4647, the syntbx of lbngubge rbnges is expressed in
+     * <b href="http://tools.ietf.org/html/rfc4234">ABNF</b> bs follows:
      * <blockquote>
      * <pre>
-     *     basic-language-range    = (1*8ALPHA *("-" 1*8alphanum)) / "*"
-     *     extended-language-range = (1*8ALPHA / "*")
-     *                               *("-" (1*8alphanum / "*"))
-     *     alphanum                = ALPHA / DIGIT
+     *     bbsic-lbngubge-rbnge    = (1*8ALPHA *("-" 1*8blphbnum)) / "*"
+     *     extended-lbngubge-rbnge = (1*8ALPHA / "*")
+     *                               *("-" (1*8blphbnum / "*"))
+     *     blphbnum                = ALPHA / DIGIT
      * </pre>
      * </blockquote>
-     * For example, {@code "en"} (English), {@code "ja-JP"} (Japanese, Japan),
-     * {@code "*"} (special language range which matches any language tag) are
-     * basic language ranges, whereas {@code "*-CH"} (any languages,
-     * Switzerland), {@code "es-*"} (Spanish, any regions), and
-     * {@code "zh-Hant-*"} (Traditional Chinese, any regions) are extended
-     * language ranges.
+     * For exbmple, {@code "en"} (English), {@code "jb-JP"} (Jbpbnese, Jbpbn),
+     * {@code "*"} (specibl lbngubge rbnge which mbtches bny lbngubge tbg) bre
+     * bbsic lbngubge rbnges, wherebs {@code "*-CH"} (bny lbngubges,
+     * Switzerlbnd), {@code "es-*"} (Spbnish, bny regions), bnd
+     * {@code "zh-Hbnt-*"} (Trbditionbl Chinese, bny regions) bre extended
+     * lbngubge rbnges.
      *
      * @see #filter
-     * @see #filterTags
+     * @see #filterTbgs
      * @see #lookup
-     * @see #lookupTag
+     * @see #lookupTbg
      *
      * @since 1.8
      */
-    public static final class LanguageRange {
+    public stbtic finbl clbss LbngubgeRbnge {
 
        /**
-        * A constant holding the maximum value of weight, 1.0, which indicates
-        * that the language range is a good fit for the user.
+        * A constbnt holding the mbximum vblue of weight, 1.0, which indicbtes
+        * thbt the lbngubge rbnge is b good fit for the user.
         */
-        public static final double MAX_WEIGHT = 1.0;
+        public stbtic finbl double MAX_WEIGHT = 1.0;
 
        /**
-        * A constant holding the minimum value of weight, 0.0, which indicates
-        * that the language range is not a good fit for the user.
+        * A constbnt holding the minimum vblue of weight, 0.0, which indicbtes
+        * thbt the lbngubge rbnge is not b good fit for the user.
         */
-        public static final double MIN_WEIGHT = 0.0;
+        public stbtic finbl double MIN_WEIGHT = 0.0;
 
-        private final String range;
-        private final double weight;
+        privbte finbl String rbnge;
+        privbte finbl double weight;
 
-        private volatile int hash = 0;
+        privbte volbtile int hbsh = 0;
 
         /**
-         * Constructs a {@code LanguageRange} using the given {@code range}.
-         * Note that no validation is done against the IANA Language Subtag
-         * Registry at time of construction.
+         * Constructs b {@code LbngubgeRbnge} using the given {@code rbnge}.
+         * Note thbt no vblidbtion is done bgbinst the IANA Lbngubge Subtbg
+         * Registry bt time of construction.
          *
-         * <p>This is equivalent to {@code LanguageRange(range, MAX_WEIGHT)}.
+         * <p>This is equivblent to {@code LbngubgeRbnge(rbnge, MAX_WEIGHT)}.
          *
-         * @param range a language range
-         * @throws NullPointerException if the given {@code range} is
+         * @pbrbm rbnge b lbngubge rbnge
+         * @throws NullPointerException if the given {@code rbnge} is
          *     {@code null}
          */
-        public LanguageRange(String range) {
-            this(range, MAX_WEIGHT);
+        public LbngubgeRbnge(String rbnge) {
+            this(rbnge, MAX_WEIGHT);
         }
 
         /**
-         * Constructs a {@code LanguageRange} using the given {@code range} and
-         * {@code weight}. Note that no validation is done against the IANA
-         * Language Subtag Registry at time of construction.
+         * Constructs b {@code LbngubgeRbnge} using the given {@code rbnge} bnd
+         * {@code weight}. Note thbt no vblidbtion is done bgbinst the IANA
+         * Lbngubge Subtbg Registry bt time of construction.
          *
-         * @param range  a language range
-         * @param weight a weight value between {@code MIN_WEIGHT} and
+         * @pbrbm rbnge  b lbngubge rbnge
+         * @pbrbm weight b weight vblue between {@code MIN_WEIGHT} bnd
          *     {@code MAX_WEIGHT}
-         * @throws NullPointerException if the given {@code range} is
+         * @throws NullPointerException if the given {@code rbnge} is
          *     {@code null}
-         * @throws IllegalArgumentException if the given {@code weight} is less
-         *     than {@code MIN_WEIGHT} or greater than {@code MAX_WEIGHT}
+         * @throws IllegblArgumentException if the given {@code weight} is less
+         *     thbn {@code MIN_WEIGHT} or grebter thbn {@code MAX_WEIGHT}
          */
-        public LanguageRange(String range, double weight) {
-            if (range == null) {
+        public LbngubgeRbnge(String rbnge, double weight) {
+            if (rbnge == null) {
                 throw new NullPointerException();
             }
             if (weight < MIN_WEIGHT || weight > MAX_WEIGHT) {
-                throw new IllegalArgumentException("weight=" + weight);
+                throw new IllegblArgumentException("weight=" + weight);
             }
 
-            range = range.toLowerCase();
+            rbnge = rbnge.toLowerCbse();
 
-            // Do syntax check.
-            boolean isIllFormed = false;
-            String[] subtags = range.split("-");
-            if (isSubtagIllFormed(subtags[0], true)
-                || range.endsWith("-")) {
+            // Do syntbx check.
+            boolebn isIllFormed = fblse;
+            String[] subtbgs = rbnge.split("-");
+            if (isSubtbgIllFormed(subtbgs[0], true)
+                || rbnge.endsWith("-")) {
                 isIllFormed = true;
             } else {
-                for (int i = 1; i < subtags.length; i++) {
-                    if (isSubtagIllFormed(subtags[i], false)) {
+                for (int i = 1; i < subtbgs.length; i++) {
+                    if (isSubtbgIllFormed(subtbgs[i], fblse)) {
                         isIllFormed = true;
-                        break;
+                        brebk;
                     }
                 }
             }
             if (isIllFormed) {
-                throw new IllegalArgumentException("range=" + range);
+                throw new IllegblArgumentException("rbnge=" + rbnge);
             }
 
-            this.range = range;
+            this.rbnge = rbnge;
             this.weight = weight;
         }
 
-        private static boolean isSubtagIllFormed(String subtag,
-                                                 boolean isFirstSubtag) {
-            if (subtag.equals("") || subtag.length() > 8) {
+        privbte stbtic boolebn isSubtbgIllFormed(String subtbg,
+                                                 boolebn isFirstSubtbg) {
+            if (subtbg.equbls("") || subtbg.length() > 8) {
                 return true;
-            } else if (subtag.equals("*")) {
-                return false;
+            } else if (subtbg.equbls("*")) {
+                return fblse;
             }
-            char[] charArray = subtag.toCharArray();
-            if (isFirstSubtag) { // ALPHA
-                for (char c : charArray) {
-                    if (c < 'a' || c > 'z') {
+            chbr[] chbrArrby = subtbg.toChbrArrby();
+            if (isFirstSubtbg) { // ALPHA
+                for (chbr c : chbrArrby) {
+                    if (c < 'b' || c > 'z') {
                         return true;
                     }
                 }
             } else { // ALPHA / DIGIT
-                for (char c : charArray) {
-                    if (c < '0' || (c > '9' && c < 'a') || c > 'z') {
+                for (chbr c : chbrArrby) {
+                    if (c < '0' || (c > '9' && c < 'b') || c > 'z') {
                         return true;
                     }
                 }
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Returns the language range of this {@code LanguageRange}.
+         * Returns the lbngubge rbnge of this {@code LbngubgeRbnge}.
          *
-         * @return the language range.
+         * @return the lbngubge rbnge.
          */
-        public String getRange() {
-            return range;
+        public String getRbnge() {
+            return rbnge;
         }
 
         /**
-         * Returns the weight of this {@code LanguageRange}.
+         * Returns the weight of this {@code LbngubgeRbnge}.
          *
-         * @return the weight value.
+         * @return the weight vblue.
          */
         public double getWeight() {
             return weight;
         }
 
         /**
-         * Parses the given {@code ranges} to generate a Language Priority List.
+         * Pbrses the given {@code rbnges} to generbte b Lbngubge Priority List.
          *
-         * <p>This method performs a syntactic check for each language range in
-         * the given {@code ranges} but doesn't do validation using the IANA
-         * Language Subtag Registry.
+         * <p>This method performs b syntbctic check for ebch lbngubge rbnge in
+         * the given {@code rbnges} but doesn't do vblidbtion using the IANA
+         * Lbngubge Subtbg Registry.
          *
-         * <p>The {@code ranges} to be given can take one of the following
+         * <p>The {@code rbnges} to be given cbn tbke one of the following
          * forms:
          *
          * <pre>
-         *   "Accept-Language: ja,en;q=0.4"  (weighted list with Accept-Language prefix)
-         *   "ja,en;q=0.4"                   (weighted list)
-         *   "ja,en"                         (prioritized list)
+         *   "Accept-Lbngubge: jb,en;q=0.4"  (weighted list with Accept-Lbngubge prefix)
+         *   "jb,en;q=0.4"                   (weighted list)
+         *   "jb,en"                         (prioritized list)
          * </pre>
          *
-         * In a weighted list, each language range is given a weight value.
-         * The weight value is identical to the "quality value" in
-         * <a href="http://tools.ietf.org/html/rfc2616">RFC 2616</a>, and it
-         * expresses how much the user prefers  the language. A weight value is
-         * specified after a corresponding language range followed by
-         * {@code ";q="}, and the default weight value is {@code MAX_WEIGHT}
+         * In b weighted list, ebch lbngubge rbnge is given b weight vblue.
+         * The weight vblue is identicbl to the "qublity vblue" in
+         * <b href="http://tools.ietf.org/html/rfc2616">RFC 2616</b>, bnd it
+         * expresses how much the user prefers  the lbngubge. A weight vblue is
+         * specified bfter b corresponding lbngubge rbnge followed by
+         * {@code ";q="}, bnd the defbult weight vblue is {@code MAX_WEIGHT}
          * when it is omitted.
          *
-         * <p>Unlike a weighted list, language ranges in a prioritized list
-         * are sorted in the descending order based on its priority. The first
-         * language range has the highest priority and meets the user's
+         * <p>Unlike b weighted list, lbngubge rbnges in b prioritized list
+         * bre sorted in the descending order bbsed on its priority. The first
+         * lbngubge rbnge hbs the highest priority bnd meets the user's
          * preference most.
          *
-         * <p>In either case, language ranges are sorted in descending order in
-         * the Language Priority List based on priority or weight. If a
-         * language range appears in the given {@code ranges} more than once,
-         * only the first one is included on the Language Priority List.
+         * <p>In either cbse, lbngubge rbnges bre sorted in descending order in
+         * the Lbngubge Priority List bbsed on priority or weight. If b
+         * lbngubge rbnge bppebrs in the given {@code rbnges} more thbn once,
+         * only the first one is included on the Lbngubge Priority List.
          *
-         * <p>The returned list consists of language ranges from the given
-         * {@code ranges} and their equivalents found in the IANA Language
-         * Subtag Registry. For example, if the given {@code ranges} is
-         * {@code "Accept-Language: iw,en-us;q=0.7,en;q=0.3"}, the elements in
-         * the list to be returned are:
+         * <p>The returned list consists of lbngubge rbnges from the given
+         * {@code rbnges} bnd their equivblents found in the IANA Lbngubge
+         * Subtbg Registry. For exbmple, if the given {@code rbnges} is
+         * {@code "Accept-Lbngubge: iw,en-us;q=0.7,en;q=0.3"}, the elements in
+         * the list to be returned bre:
          *
          * <pre>
-         *  <b>Range</b>                                   <b>Weight</b>
-         *    "iw" (older tag for Hebrew)             1.0
+         *  <b>Rbnge</b>                                   <b>Weight</b>
+         *    "iw" (older tbg for Hebrew)             1.0
          *    "he" (new preferred code for Hebrew)    1.0
-         *    "en-us" (English, United States)        0.7
+         *    "en-us" (English, United Stbtes)        0.7
          *    "en" (English)                          0.3
          * </pre>
          *
-         * Two language ranges, {@code "iw"} and {@code "he"}, have the same
-         * highest priority in the list. By adding {@code "he"} to the user's
-         * Language Priority List, locale-matching method can find Hebrew as a
-         * matching locale (or language tag) even if the application or system
-         * offers only {@code "he"} as a supported locale (or language tag).
+         * Two lbngubge rbnges, {@code "iw"} bnd {@code "he"}, hbve the sbme
+         * highest priority in the list. By bdding {@code "he"} to the user's
+         * Lbngubge Priority List, locble-mbtching method cbn find Hebrew bs b
+         * mbtching locble (or lbngubge tbg) even if the bpplicbtion or system
+         * offers only {@code "he"} bs b supported locble (or lbngubge tbg).
          *
-         * @param ranges a list of comma-separated language ranges or a list of
-         *     language ranges in the form of the "Accept-Language" header
-         *     defined in <a href="http://tools.ietf.org/html/rfc2616">RFC
-         *     2616</a>
-         * @return a Language Priority List consisting of language ranges
-         *     included in the given {@code ranges} and their equivalent
-         *     language ranges if available. The list is modifiable.
-         * @throws NullPointerException if {@code ranges} is null
-         * @throws IllegalArgumentException if a language range or a weight
-         *     found in the given {@code ranges} is ill-formed
+         * @pbrbm rbnges b list of commb-sepbrbted lbngubge rbnges or b list of
+         *     lbngubge rbnges in the form of the "Accept-Lbngubge" hebder
+         *     defined in <b href="http://tools.ietf.org/html/rfc2616">RFC
+         *     2616</b>
+         * @return b Lbngubge Priority List consisting of lbngubge rbnges
+         *     included in the given {@code rbnges} bnd their equivblent
+         *     lbngubge rbnges if bvbilbble. The list is modifibble.
+         * @throws NullPointerException if {@code rbnges} is null
+         * @throws IllegblArgumentException if b lbngubge rbnge or b weight
+         *     found in the given {@code rbnges} is ill-formed
          */
-        public static List<LanguageRange> parse(String ranges) {
-            return LocaleMatcher.parse(ranges);
+        public stbtic List<LbngubgeRbnge> pbrse(String rbnges) {
+            return LocbleMbtcher.pbrse(rbnges);
         }
 
         /**
-         * Parses the given {@code ranges} to generate a Language Priority
-         * List, and then customizes the list using the given {@code map}.
-         * This method is equivalent to
-         * {@code mapEquivalents(parse(ranges), map)}.
+         * Pbrses the given {@code rbnges} to generbte b Lbngubge Priority
+         * List, bnd then customizes the list using the given {@code mbp}.
+         * This method is equivblent to
+         * {@code mbpEquivblents(pbrse(rbnges), mbp)}.
          *
-         * @param ranges a list of comma-separated language ranges or a list
-         *     of language ranges in the form of the "Accept-Language" header
-         *     defined in <a href="http://tools.ietf.org/html/rfc2616">RFC
-         *     2616</a>
-         * @param map a map containing information to customize language ranges
-         * @return a Language Priority List with customization. The list is
-         *     modifiable.
-         * @throws NullPointerException if {@code ranges} is null
-         * @throws IllegalArgumentException if a language range or a weight
-         *     found in the given {@code ranges} is ill-formed
-         * @see #parse(String)
-         * @see #mapEquivalents
+         * @pbrbm rbnges b list of commb-sepbrbted lbngubge rbnges or b list
+         *     of lbngubge rbnges in the form of the "Accept-Lbngubge" hebder
+         *     defined in <b href="http://tools.ietf.org/html/rfc2616">RFC
+         *     2616</b>
+         * @pbrbm mbp b mbp contbining informbtion to customize lbngubge rbnges
+         * @return b Lbngubge Priority List with customizbtion. The list is
+         *     modifibble.
+         * @throws NullPointerException if {@code rbnges} is null
+         * @throws IllegblArgumentException if b lbngubge rbnge or b weight
+         *     found in the given {@code rbnges} is ill-formed
+         * @see #pbrse(String)
+         * @see #mbpEquivblents
          */
-        public static List<LanguageRange> parse(String ranges,
-                                                Map<String, List<String>> map) {
-            return mapEquivalents(parse(ranges), map);
+        public stbtic List<LbngubgeRbnge> pbrse(String rbnges,
+                                                Mbp<String, List<String>> mbp) {
+            return mbpEquivblents(pbrse(rbnges), mbp);
         }
 
         /**
-         * Generates a new customized Language Priority List using the given
-         * {@code priorityList} and {@code map}. If the given {@code map} is
-         * empty, this method returns a copy of the given {@code priorityList}.
+         * Generbtes b new customized Lbngubge Priority List using the given
+         * {@code priorityList} bnd {@code mbp}. If the given {@code mbp} is
+         * empty, this method returns b copy of the given {@code priorityList}.
          *
-         * <p>In the map, a key represents a language range whereas a value is
-         * a list of equivalents of it. {@code '*'} cannot be used in the map.
-         * Each equivalent language range has the same weight value as its
-         * original language range.
+         * <p>In the mbp, b key represents b lbngubge rbnge wherebs b vblue is
+         * b list of equivblents of it. {@code '*'} cbnnot be used in the mbp.
+         * Ebch equivblent lbngubge rbnge hbs the sbme weight vblue bs its
+         * originbl lbngubge rbnge.
          *
          * <pre>
-         *  An example of map:
-         *    <b>Key</b>                            <b>Value</b>
+         *  An exbmple of mbp:
+         *    <b>Key</b>                            <b>Vblue</b>
          *      "zh" (Chinese)                 "zh",
-         *                                     "zh-Hans"(Simplified Chinese)
+         *                                     "zh-Hbns"(Simplified Chinese)
          *      "zh-HK" (Chinese, Hong Kong)   "zh-HK"
-         *      "zh-TW" (Chinese, Taiwan)      "zh-TW"
+         *      "zh-TW" (Chinese, Tbiwbn)      "zh-TW"
          * </pre>
          *
-         * The customization is performed after modification using the IANA
-         * Language Subtag Registry.
+         * The customizbtion is performed bfter modificbtion using the IANA
+         * Lbngubge Subtbg Registry.
          *
-         * <p>For example, if a user's Language Priority List consists of five
-         * language ranges ({@code "zh"}, {@code "zh-CN"}, {@code "en"},
-         * {@code "zh-TW"}, and {@code "zh-HK"}), the newly generated Language
-         * Priority List which is customized using the above map example will
-         * consists of {@code "zh"}, {@code "zh-Hans"}, {@code "zh-CN"},
-         * {@code "zh-Hans-CN"}, {@code "en"}, {@code "zh-TW"}, and
+         * <p>For exbmple, if b user's Lbngubge Priority List consists of five
+         * lbngubge rbnges ({@code "zh"}, {@code "zh-CN"}, {@code "en"},
+         * {@code "zh-TW"}, bnd {@code "zh-HK"}), the newly generbted Lbngubge
+         * Priority List which is customized using the bbove mbp exbmple will
+         * consists of {@code "zh"}, {@code "zh-Hbns"}, {@code "zh-CN"},
+         * {@code "zh-Hbns-CN"}, {@code "en"}, {@code "zh-TW"}, bnd
          * {@code "zh-HK"}.
          *
-         * <p>{@code "zh-HK"} and {@code "zh-TW"} aren't converted to
-         * {@code "zh-Hans-HK"} nor {@code "zh-Hans-TW"} even if they are
-         * included in the Language Priority List. In this example, mapping
-         * is used to clearly distinguish Simplified Chinese and Traditional
+         * <p>{@code "zh-HK"} bnd {@code "zh-TW"} bren't converted to
+         * {@code "zh-Hbns-HK"} nor {@code "zh-Hbns-TW"} even if they bre
+         * included in the Lbngubge Priority List. In this exbmple, mbpping
+         * is used to clebrly distinguish Simplified Chinese bnd Trbditionbl
          * Chinese.
          *
-         * <p>If the {@code "zh"}-to-{@code "zh"} mapping isn't included in the
-         * map, a simple replacement will be performed and the customized list
-         * won't include {@code "zh"} and {@code "zh-CN"}.
+         * <p>If the {@code "zh"}-to-{@code "zh"} mbpping isn't included in the
+         * mbp, b simple replbcement will be performed bnd the customized list
+         * won't include {@code "zh"} bnd {@code "zh-CN"}.
          *
-         * @param priorityList user's Language Priority List
-         * @param map a map containing information to customize language ranges
-         * @return a new Language Priority List with customization. The list is
-         *     modifiable.
+         * @pbrbm priorityList user's Lbngubge Priority List
+         * @pbrbm mbp b mbp contbining informbtion to customize lbngubge rbnges
+         * @return b new Lbngubge Priority List with customizbtion. The list is
+         *     modifibble.
          * @throws NullPointerException if {@code priorityList} is {@code null}
-         * @see #parse(String, Map)
+         * @see #pbrse(String, Mbp)
          */
-        public static List<LanguageRange> mapEquivalents(
-                                              List<LanguageRange>priorityList,
-                                              Map<String, List<String>> map) {
-            return LocaleMatcher.mapEquivalents(priorityList, map);
+        public stbtic List<LbngubgeRbnge> mbpEquivblents(
+                                              List<LbngubgeRbnge>priorityList,
+                                              Mbp<String, List<String>> mbp) {
+            return LocbleMbtcher.mbpEquivblents(priorityList, mbp);
         }
 
         /**
-         * Returns a hash code value for the object.
+         * Returns b hbsh code vblue for the object.
          *
-         * @return  a hash code value for this object.
+         * @return  b hbsh code vblue for this object.
          */
         @Override
-        public int hashCode() {
-            if (hash == 0) {
+        public int hbshCode() {
+            if (hbsh == 0) {
                 int result = 17;
-                result = 37*result + range.hashCode();
+                result = 37*result + rbnge.hbshCode();
                 long bitsWeight = Double.doubleToLongBits(weight);
                 result = 37*result + (int)(bitsWeight ^ (bitsWeight >>> 32));
-                hash = result;
+                hbsh = result;
             }
-            return hash;
+            return hbsh;
         }
 
         /**
-         * Compares this object to the specified object. The result is true if
-         * and only if the argument is not {@code null} and is a
-         * {@code LanguageRange} object that contains the same {@code range}
-         * and {@code weight} values as this object.
+         * Compbres this object to the specified object. The result is true if
+         * bnd only if the brgument is not {@code null} bnd is b
+         * {@code LbngubgeRbnge} object thbt contbins the sbme {@code rbnge}
+         * bnd {@code weight} vblues bs this object.
          *
-         * @param obj the object to compare with
-         * @return  {@code true} if this object's {@code range} and
-         *     {@code weight} are the same as the {@code obj}'s; {@code false}
+         * @pbrbm obj the object to compbre with
+         * @return  {@code true} if this object's {@code rbnge} bnd
+         *     {@code weight} bre the sbme bs the {@code obj}'s; {@code fblse}
          *     otherwise.
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (this == obj) {
                 return true;
             }
-            if (!(obj instanceof LanguageRange)) {
-                return false;
+            if (!(obj instbnceof LbngubgeRbnge)) {
+                return fblse;
             }
-            LanguageRange other = (LanguageRange)obj;
-            return hash == other.hash
-                   && range.equals(other.range)
+            LbngubgeRbnge other = (LbngubgeRbnge)obj;
+            return hbsh == other.hbsh
+                   && rbnge.equbls(other.rbnge)
                    && weight == other.weight;
         }
     }
 
     /**
-     * Returns a list of matching {@code Locale} instances using the filtering
-     * mechanism defined in RFC 4647.
+     * Returns b list of mbtching {@code Locble} instbnces using the filtering
+     * mechbnism defined in RFC 4647.
      *
-     * @param priorityList user's Language Priority List in which each language
-     *     tag is sorted in descending order based on priority or weight
-     * @param locales {@code Locale} instances used for matching
-     * @param mode filtering mode
-     * @return a list of {@code Locale} instances for matching language tags
-     *     sorted in descending order based on priority or weight, or an empty
-     *     list if nothing matches. The list is modifiable.
-     * @throws NullPointerException if {@code priorityList} or {@code locales}
+     * @pbrbm priorityList user's Lbngubge Priority List in which ebch lbngubge
+     *     tbg is sorted in descending order bbsed on priority or weight
+     * @pbrbm locbles {@code Locble} instbnces used for mbtching
+     * @pbrbm mode filtering mode
+     * @return b list of {@code Locble} instbnces for mbtching lbngubge tbgs
+     *     sorted in descending order bbsed on priority or weight, or bn empty
+     *     list if nothing mbtches. The list is modifibble.
+     * @throws NullPointerException if {@code priorityList} or {@code locbles}
      *     is {@code null}
-     * @throws IllegalArgumentException if one or more extended language ranges
-     *     are included in the given list when
+     * @throws IllegblArgumentException if one or more extended lbngubge rbnges
+     *     bre included in the given list when
      *     {@link FilteringMode#REJECT_EXTENDED_RANGES} is specified
      *
      * @since 1.8
      */
-    public static List<Locale> filter(List<LanguageRange> priorityList,
-                                      Collection<Locale> locales,
+    public stbtic List<Locble> filter(List<LbngubgeRbnge> priorityList,
+                                      Collection<Locble> locbles,
                                       FilteringMode mode) {
-        return LocaleMatcher.filter(priorityList, locales, mode);
+        return LocbleMbtcher.filter(priorityList, locbles, mode);
     }
 
     /**
-     * Returns a list of matching {@code Locale} instances using the filtering
-     * mechanism defined in RFC 4647. This is equivalent to
+     * Returns b list of mbtching {@code Locble} instbnces using the filtering
+     * mechbnism defined in RFC 4647. This is equivblent to
      * {@link #filter(List, Collection, FilteringMode)} when {@code mode} is
      * {@link FilteringMode#AUTOSELECT_FILTERING}.
      *
-     * @param priorityList user's Language Priority List in which each language
-     *     tag is sorted in descending order based on priority or weight
-     * @param locales {@code Locale} instances used for matching
-     * @return a list of {@code Locale} instances for matching language tags
-     *     sorted in descending order based on priority or weight, or an empty
-     *     list if nothing matches. The list is modifiable.
-     * @throws NullPointerException if {@code priorityList} or {@code locales}
+     * @pbrbm priorityList user's Lbngubge Priority List in which ebch lbngubge
+     *     tbg is sorted in descending order bbsed on priority or weight
+     * @pbrbm locbles {@code Locble} instbnces used for mbtching
+     * @return b list of {@code Locble} instbnces for mbtching lbngubge tbgs
+     *     sorted in descending order bbsed on priority or weight, or bn empty
+     *     list if nothing mbtches. The list is modifibble.
+     * @throws NullPointerException if {@code priorityList} or {@code locbles}
      *     is {@code null}
      *
      * @since 1.8
      */
-    public static List<Locale> filter(List<LanguageRange> priorityList,
-                                      Collection<Locale> locales) {
-        return filter(priorityList, locales, FilteringMode.AUTOSELECT_FILTERING);
+    public stbtic List<Locble> filter(List<LbngubgeRbnge> priorityList,
+                                      Collection<Locble> locbles) {
+        return filter(priorityList, locbles, FilteringMode.AUTOSELECT_FILTERING);
     }
 
     /**
-     * Returns a list of matching languages tags using the basic filtering
-     * mechanism defined in RFC 4647.
+     * Returns b list of mbtching lbngubges tbgs using the bbsic filtering
+     * mechbnism defined in RFC 4647.
      *
-     * @param priorityList user's Language Priority List in which each language
-     *     tag is sorted in descending order based on priority or weight
-     * @param tags language tags
-     * @param mode filtering mode
-     * @return a list of matching language tags sorted in descending order
-     *     based on priority or weight, or an empty list if nothing matches.
-     *     The list is modifiable.
-     * @throws NullPointerException if {@code priorityList} or {@code tags} is
+     * @pbrbm priorityList user's Lbngubge Priority List in which ebch lbngubge
+     *     tbg is sorted in descending order bbsed on priority or weight
+     * @pbrbm tbgs lbngubge tbgs
+     * @pbrbm mode filtering mode
+     * @return b list of mbtching lbngubge tbgs sorted in descending order
+     *     bbsed on priority or weight, or bn empty list if nothing mbtches.
+     *     The list is modifibble.
+     * @throws NullPointerException if {@code priorityList} or {@code tbgs} is
      *     {@code null}
-     * @throws IllegalArgumentException if one or more extended language ranges
-     *     are included in the given list when
+     * @throws IllegblArgumentException if one or more extended lbngubge rbnges
+     *     bre included in the given list when
      *     {@link FilteringMode#REJECT_EXTENDED_RANGES} is specified
      *
      * @since 1.8
      */
-    public static List<String> filterTags(List<LanguageRange> priorityList,
-                                          Collection<String> tags,
+    public stbtic List<String> filterTbgs(List<LbngubgeRbnge> priorityList,
+                                          Collection<String> tbgs,
                                           FilteringMode mode) {
-        return LocaleMatcher.filterTags(priorityList, tags, mode);
+        return LocbleMbtcher.filterTbgs(priorityList, tbgs, mode);
     }
 
     /**
-     * Returns a list of matching languages tags using the basic filtering
-     * mechanism defined in RFC 4647. This is equivalent to
-     * {@link #filterTags(List, Collection, FilteringMode)} when {@code mode}
+     * Returns b list of mbtching lbngubges tbgs using the bbsic filtering
+     * mechbnism defined in RFC 4647. This is equivblent to
+     * {@link #filterTbgs(List, Collection, FilteringMode)} when {@code mode}
      * is {@link FilteringMode#AUTOSELECT_FILTERING}.
      *
-     * @param priorityList user's Language Priority List in which each language
-     *     tag is sorted in descending order based on priority or weight
-     * @param tags language tags
-     * @return a list of matching language tags sorted in descending order
-     *     based on priority or weight, or an empty list if nothing matches.
-     *     The list is modifiable.
-     * @throws NullPointerException if {@code priorityList} or {@code tags} is
+     * @pbrbm priorityList user's Lbngubge Priority List in which ebch lbngubge
+     *     tbg is sorted in descending order bbsed on priority or weight
+     * @pbrbm tbgs lbngubge tbgs
+     * @return b list of mbtching lbngubge tbgs sorted in descending order
+     *     bbsed on priority or weight, or bn empty list if nothing mbtches.
+     *     The list is modifibble.
+     * @throws NullPointerException if {@code priorityList} or {@code tbgs} is
      *     {@code null}
      *
      * @since 1.8
      */
-    public static List<String> filterTags(List<LanguageRange> priorityList,
-                                          Collection<String> tags) {
-        return filterTags(priorityList, tags, FilteringMode.AUTOSELECT_FILTERING);
+    public stbtic List<String> filterTbgs(List<LbngubgeRbnge> priorityList,
+                                          Collection<String> tbgs) {
+        return filterTbgs(priorityList, tbgs, FilteringMode.AUTOSELECT_FILTERING);
     }
 
     /**
-     * Returns a {@code Locale} instance for the best-matching language
-     * tag using the lookup mechanism defined in RFC 4647.
+     * Returns b {@code Locble} instbnce for the best-mbtching lbngubge
+     * tbg using the lookup mechbnism defined in RFC 4647.
      *
-     * @param priorityList user's Language Priority List in which each language
-     *     tag is sorted in descending order based on priority or weight
-     * @param locales {@code Locale} instances used for matching
-     * @return the best matching <code>Locale</code> instance chosen based on
-     *     priority or weight, or {@code null} if nothing matches.
-     * @throws NullPointerException if {@code priorityList} or {@code tags} is
+     * @pbrbm priorityList user's Lbngubge Priority List in which ebch lbngubge
+     *     tbg is sorted in descending order bbsed on priority or weight
+     * @pbrbm locbles {@code Locble} instbnces used for mbtching
+     * @return the best mbtching <code>Locble</code> instbnce chosen bbsed on
+     *     priority or weight, or {@code null} if nothing mbtches.
+     * @throws NullPointerException if {@code priorityList} or {@code tbgs} is
      *     {@code null}
      *
      * @since 1.8
      */
-    public static Locale lookup(List<LanguageRange> priorityList,
-                                Collection<Locale> locales) {
-        return LocaleMatcher.lookup(priorityList, locales);
+    public stbtic Locble lookup(List<LbngubgeRbnge> priorityList,
+                                Collection<Locble> locbles) {
+        return LocbleMbtcher.lookup(priorityList, locbles);
     }
 
     /**
-     * Returns the best-matching language tag using the lookup mechanism
+     * Returns the best-mbtching lbngubge tbg using the lookup mechbnism
      * defined in RFC 4647.
      *
-     * @param priorityList user's Language Priority List in which each language
-     *     tag is sorted in descending order based on priority or weight
-     * @param tags language tangs used for matching
-     * @return the best matching language tag chosen based on priority or
-     *     weight, or {@code null} if nothing matches.
-     * @throws NullPointerException if {@code priorityList} or {@code tags} is
+     * @pbrbm priorityList user's Lbngubge Priority List in which ebch lbngubge
+     *     tbg is sorted in descending order bbsed on priority or weight
+     * @pbrbm tbgs lbngubge tbngs used for mbtching
+     * @return the best mbtching lbngubge tbg chosen bbsed on priority or
+     *     weight, or {@code null} if nothing mbtches.
+     * @throws NullPointerException if {@code priorityList} or {@code tbgs} is
      *     {@code null}
      *
      * @since 1.8
      */
-    public static String lookupTag(List<LanguageRange> priorityList,
-                                   Collection<String> tags) {
-        return LocaleMatcher.lookupTag(priorityList, tags);
+    public stbtic String lookupTbg(List<LbngubgeRbnge> priorityList,
+                                   Collection<String> tbgs) {
+        return LocbleMbtcher.lookupTbg(priorityList, tbgs);
     }
 
 }

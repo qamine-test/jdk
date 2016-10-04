@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1996, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.SystemColor;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageProducer;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
+import jbvb.bwt.Component;
+import jbvb.bwt.Color;
+import jbvb.bwt.SystemColor;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ImbgeProducer;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.WritbbleRbster;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
 
 /**
- * This is a special variant of BufferedImage that keeps a reference to
- * a Component.  The Component's foreground and background colors and
- * default font are used as the defaults for this image.
+ * This is b specibl vbribnt of BufferedImbge thbt keeps b reference to
+ * b Component.  The Component's foreground bnd bbckground colors bnd
+ * defbult font bre used bs the defbults for this imbge.
  */
-public class OffScreenImage extends BufferedImage {
+public clbss OffScreenImbge extends BufferedImbge {
 
     protected Component c;
-    private OffScreenImageSource osis;
-    private Font defaultFont;
+    privbte OffScreenImbgeSource osis;
+    privbte Font defbultFont;
 
     /**
-     * Constructs an OffScreenImage given a color model and tile,
-     * for offscreen rendering to be used with a given component.
-     * The component is used to obtain the foreground color, background
-     * color and font.
+     * Constructs bn OffScreenImbge given b color model bnd tile,
+     * for offscreen rendering to be used with b given component.
+     * The component is used to obtbin the foreground color, bbckground
+     * color bnd font.
      */
-    public OffScreenImage(Component c, ColorModel cm, WritableRaster raster,
-                          boolean isRasterPremultiplied)
+    public OffScreenImbge(Component c, ColorModel cm, WritbbleRbster rbster,
+                          boolebn isRbsterPremultiplied)
     {
-        super(cm, raster, isRasterPremultiplied, null);
+        super(cm, rbster, isRbsterPremultiplied, null);
         this.c = c;
-        initSurface(raster.getWidth(), raster.getHeight());
+        initSurfbce(rbster.getWidth(), rbster.getHeight());
     }
 
-    public Graphics getGraphics() {
-        return createGraphics();
+    public Grbphics getGrbphics() {
+        return crebteGrbphics();
     }
 
-    public Graphics2D createGraphics() {
+    public Grbphics2D crebteGrbphics() {
         if (c == null) {
-            GraphicsEnvironment env =
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-            return env.createGraphics(this);
+            GrbphicsEnvironment env =
+                GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+            return env.crebteGrbphics(this);
         }
 
-        Color bg = c.getBackground();
+        Color bg = c.getBbckground();
         if (bg == null) {
             bg = SystemColor.window;
         }
@@ -87,28 +87,28 @@ public class OffScreenImage extends BufferedImage {
 
         Font font = c.getFont();
         if (font == null) {
-            if (defaultFont == null) {
-                defaultFont = new Font("Dialog", Font.PLAIN, 12);
+            if (defbultFont == null) {
+                defbultFont = new Font("Diblog", Font.PLAIN, 12);
             }
-            font = defaultFont;
+            font = defbultFont;
         }
 
-        return new SunGraphics2D(SurfaceData.getPrimarySurfaceData(this),
+        return new SunGrbphics2D(SurfbceDbtb.getPrimbrySurfbceDbtb(this),
                                  fg, bg, font);
     }
 
-    private void initSurface(int width, int height) {
-        Graphics2D g2 = createGraphics();
+    privbte void initSurfbce(int width, int height) {
+        Grbphics2D g2 = crebteGrbphics();
         try {
-            g2.clearRect(0, 0, width, height);
-        } finally {
+            g2.clebrRect(0, 0, width, height);
+        } finblly {
             g2.dispose();
         }
     }
 
-    public ImageProducer getSource() {
+    public ImbgeProducer getSource() {
         if (osis == null) {
-            osis = new OffScreenImageSource(this);
+            osis = new OffScreenImbgeSource(this);
         }
         return osis;
     }

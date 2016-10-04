@@ -1,319 +1,319 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.im;
+pbckbge sun.bwt.im;
 
-import java.awt.AWTEvent;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextHitInfo;
-import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
-import java.awt.im.InputMethodRequests;
-import java.text.AttributedCharacterIterator;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
+import jbvb.bwt.AWTEvent;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.event.InputMethodEvent;
+import jbvb.bwt.event.InputMethodListener;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.TextHitInfo;
+import jbvb.bwt.font.TextLbyout;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.im.InputMethodRequests;
+import jbvb.text.AttributedChbrbcterIterbtor;
+import jbvbx.swing.JFrbme;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.border.LineBorder;
 
 /**
- * A composition area is used to display text that's being composed
- * using an input method in its own user interface environment,
- * typically in a root window.
+ * A composition breb is used to displby text thbt's being composed
+ * using bn input method in its own user interfbce environment,
+ * typicblly in b root window.
  *
- * @author JavaSoft International
+ * @buthor JbvbSoft Internbtionbl
  */
 
-// This class is final due to the 6607310 fix. Refer to the CR for details.
-public final class CompositionArea extends JPanel implements InputMethodListener {
+// This clbss is finbl due to the 6607310 fix. Refer to the CR for detbils.
+public finbl clbss CompositionAreb extends JPbnel implements InputMethodListener {
 
-    private CompositionAreaHandler handler;
+    privbte CompositionArebHbndler hbndler;
 
-    private TextLayout composedTextLayout;
-    private TextHitInfo caret = null;
-    private JFrame compositionWindow;
-    private final static int TEXT_ORIGIN_X = 5;
-    private final static int TEXT_ORIGIN_Y = 15;
-    private final static int PASSIVE_WIDTH = 480;
-    private final static int WIDTH_MARGIN=10;
-    private final static int HEIGHT_MARGIN=3;
+    privbte TextLbyout composedTextLbyout;
+    privbte TextHitInfo cbret = null;
+    privbte JFrbme compositionWindow;
+    privbte finbl stbtic int TEXT_ORIGIN_X = 5;
+    privbte finbl stbtic int TEXT_ORIGIN_Y = 15;
+    privbte finbl stbtic int PASSIVE_WIDTH = 480;
+    privbte finbl stbtic int WIDTH_MARGIN=10;
+    privbte finbl stbtic int HEIGHT_MARGIN=3;
 
-    CompositionArea() {
-        // create composition window with localized title
+    CompositionAreb() {
+        // crebte composition window with locblized title
         String windowTitle = Toolkit.getProperty("AWT.CompositionWindowTitle", "Input Window");
         compositionWindow =
-            (JFrame)InputMethodContext.createInputMethodWindow(windowTitle, null, true);
+            (JFrbme)InputMethodContext.crebteInputMethodWindow(windowTitle, null, true);
 
-        setOpaque(true);
-        setBorder(LineBorder.createGrayLineBorder());
-        setForeground(Color.black);
-        setBackground(Color.white);
+        setOpbque(true);
+        setBorder(LineBorder.crebteGrbyLineBorder());
+        setForeground(Color.blbck);
+        setBbckground(Color.white);
 
-        // if we get the focus, we still want to let the client's
-        // input context handle the event
-        enableInputMethods(true);
-        enableEvents(AWTEvent.KEY_EVENT_MASK);
+        // if we get the focus, we still wbnt to let the client's
+        // input context hbndle the event
+        enbbleInputMethods(true);
+        enbbleEvents(AWTEvent.KEY_EVENT_MASK);
 
-        compositionWindow.getContentPane().add(this);
-        compositionWindow.addWindowListener(new FrameWindowAdapter());
-        addInputMethodListener(this);
-        compositionWindow.enableInputMethods(false);
-        compositionWindow.pack();
+        compositionWindow.getContentPbne().bdd(this);
+        compositionWindow.bddWindowListener(new FrbmeWindowAdbpter());
+        bddInputMethodListener(this);
+        compositionWindow.enbbleInputMethods(fblse);
+        compositionWindow.pbck();
         Dimension windowSize = compositionWindow.getSize();
         Dimension screenSize = (getToolkit()).getScreenSize();
-        compositionWindow.setLocation(screenSize.width - windowSize.width-20,
+        compositionWindow.setLocbtion(screenSize.width - windowSize.width-20,
                                     screenSize.height - windowSize.height-100);
-        compositionWindow.setVisible(false);
+        compositionWindow.setVisible(fblse);
     }
 
     /**
-     * Sets the composition area handler that currently owns this
-     * composition area, and its input context.
+     * Sets the composition breb hbndler thbt currently owns this
+     * composition breb, bnd its input context.
      */
-    synchronized void setHandlerInfo(CompositionAreaHandler handler, InputContext inputContext) {
-        this.handler = handler;
+    synchronized void setHbndlerInfo(CompositionArebHbndler hbndler, InputContext inputContext) {
+        this.hbndler = hbndler;
         ((InputMethodWindow) compositionWindow).setInputContext(inputContext);
     }
 
     /**
-     * @see java.awt.Component#getInputMethodRequests
+     * @see jbvb.bwt.Component#getInputMethodRequests
      */
     public InputMethodRequests getInputMethodRequests() {
-        return handler;
+        return hbndler;
     }
 
-    // returns a 0-width rectangle
-    private Rectangle getCaretRectangle(TextHitInfo caret) {
-        int caretLocation = 0;
-        TextLayout layout = composedTextLayout;
-        if (layout != null) {
-            caretLocation = Math.round(layout.getCaretInfo(caret)[0]);
+    // returns b 0-width rectbngle
+    privbte Rectbngle getCbretRectbngle(TextHitInfo cbret) {
+        int cbretLocbtion = 0;
+        TextLbyout lbyout = composedTextLbyout;
+        if (lbyout != null) {
+            cbretLocbtion = Mbth.round(lbyout.getCbretInfo(cbret)[0]);
         }
-        Graphics g = getGraphics();
+        Grbphics g = getGrbphics();
         FontMetrics metrics = null;
         try {
             metrics = g.getFontMetrics();
-        } finally {
+        } finblly {
             g.dispose();
         }
-        return new Rectangle(TEXT_ORIGIN_X + caretLocation,
+        return new Rectbngle(TEXT_ORIGIN_X + cbretLocbtion,
                              TEXT_ORIGIN_Y - metrics.getAscent(),
                              0, metrics.getAscent() + metrics.getDescent());
     }
 
-    public void paint(Graphics g) {
-        super.paint(g);
+    public void pbint(Grbphics g) {
+        super.pbint(g);
         g.setColor(getForeground());
-        TextLayout layout = composedTextLayout;
-        if (layout != null) {
-            layout.draw((Graphics2D) g, TEXT_ORIGIN_X, TEXT_ORIGIN_Y);
+        TextLbyout lbyout = composedTextLbyout;
+        if (lbyout != null) {
+            lbyout.drbw((Grbphics2D) g, TEXT_ORIGIN_X, TEXT_ORIGIN_Y);
         }
-        if (caret != null) {
-            Rectangle rectangle = getCaretRectangle(caret);
-            g.setXORMode(getBackground());
-            g.fillRect(rectangle.x, rectangle.y, 1, rectangle.height);
-            g.setPaintMode();
+        if (cbret != null) {
+            Rectbngle rectbngle = getCbretRectbngle(cbret);
+            g.setXORMode(getBbckground());
+            g.fillRect(rectbngle.x, rectbngle.y, 1, rectbngle.height);
+            g.setPbintMode();
         }
     }
 
     // shows/hides the composition window
-    void setCompositionAreaVisible(boolean visible) {
+    void setCompositionArebVisible(boolebn visible) {
         compositionWindow.setVisible(visible);
     }
 
-    // returns true if composition area is visible
-    boolean isCompositionAreaVisible() {
+    // returns true if composition breb is visible
+    boolebn isCompositionArebVisible() {
         return compositionWindow.isVisible();
     }
 
-    // workaround for the Solaris focus lost problem
-    class FrameWindowAdapter extends WindowAdapter {
-        public void windowActivated(WindowEvent e) {
+    // workbround for the Solbris focus lost problem
+    clbss FrbmeWindowAdbpter extends WindowAdbpter {
+        public void windowActivbted(WindowEvent e) {
             requestFocus();
         }
     }
 
-    // InputMethodListener methods - just forward to the current handler
-    public void inputMethodTextChanged(InputMethodEvent event) {
-        handler.inputMethodTextChanged(event);
+    // InputMethodListener methods - just forwbrd to the current hbndler
+    public void inputMethodTextChbnged(InputMethodEvent event) {
+        hbndler.inputMethodTextChbnged(event);
     }
 
-    public void caretPositionChanged(InputMethodEvent event) {
-        handler.caretPositionChanged(event);
+    public void cbretPositionChbnged(InputMethodEvent event) {
+        hbndler.cbretPositionChbnged(event);
     }
 
     /**
-     * Sets the text and caret to be displayed in this composition area.
-     * Shows the window if it contains text, hides it if not.
+     * Sets the text bnd cbret to be displbyed in this composition breb.
+     * Shows the window if it contbins text, hides it if not.
      */
-    void setText(AttributedCharacterIterator composedText, TextHitInfo caret) {
-        composedTextLayout = null;
+    void setText(AttributedChbrbcterIterbtor composedText, TextHitInfo cbret) {
+        composedTextLbyout = null;
         if (composedText == null) {
-            // there's no composed text to display, so hide the window
-            compositionWindow.setVisible(false);
-            this.caret = null;
+            // there's no composed text to displby, so hide the window
+            compositionWindow.setVisible(fblse);
+            this.cbret = null;
         } else {
-            /* since we have composed text, make sure the window is shown.
-               This is necessary to get a valid graphics object. See 6181385.
+            /* since we hbve composed text, mbke sure the window is shown.
+               This is necessbry to get b vblid grbphics object. See 6181385.
             */
             if (!compositionWindow.isVisible()) {
                 compositionWindow.setVisible(true);
             }
 
-            Graphics g = getGraphics();
+            Grbphics g = getGrbphics();
 
             if (g == null) {
                 return;
             }
 
             try {
-                updateWindowLocation();
+                updbteWindowLocbtion();
 
-                FontRenderContext context = ((Graphics2D)g).getFontRenderContext();
-                composedTextLayout = new TextLayout(composedText, context);
-                Rectangle2D bounds = composedTextLayout.getBounds();
+                FontRenderContext context = ((Grbphics2D)g).getFontRenderContext();
+                composedTextLbyout = new TextLbyout(composedText, context);
+                Rectbngle2D bounds = composedTextLbyout.getBounds();
 
-                this.caret = caret;
+                this.cbret = cbret;
 
-                // Resize the composition area to just fit the text.
+                // Resize the composition breb to just fit the text.
                 FontMetrics metrics = g.getFontMetrics();
-                Rectangle2D maxCharBoundsRec = metrics.getMaxCharBounds(g);
-                int newHeight = (int)maxCharBoundsRec.getHeight() + HEIGHT_MARGIN;
-                int newFrameHeight = newHeight +compositionWindow.getInsets().top
+                Rectbngle2D mbxChbrBoundsRec = metrics.getMbxChbrBounds(g);
+                int newHeight = (int)mbxChbrBoundsRec.getHeight() + HEIGHT_MARGIN;
+                int newFrbmeHeight = newHeight +compositionWindow.getInsets().top
                                                +compositionWindow.getInsets().bottom;
-                // If it's a passive client, set the width always to PASSIVE_WIDTH (480px)
-                InputMethodRequests req = handler.getClientInputMethodRequests();
+                // If it's b pbssive client, set the width blwbys to PASSIVE_WIDTH (480px)
+                InputMethodRequests req = hbndler.getClientInputMethodRequests();
                 int newWidth = (req==null) ? PASSIVE_WIDTH : (int)bounds.getWidth() + WIDTH_MARGIN;
-                int newFrameWidth = newWidth + compositionWindow.getInsets().left
+                int newFrbmeWidth = newWidth + compositionWindow.getInsets().left
                                              + compositionWindow.getInsets().right;
                 setPreferredSize(new Dimension(newWidth, newHeight));
-                compositionWindow.setSize(new Dimension(newFrameWidth, newFrameHeight));
+                compositionWindow.setSize(new Dimension(newFrbmeWidth, newFrbmeHeight));
 
                 // show the composed text
-                paint(g);
+                pbint(g);
             }
-            finally {
+            finblly {
                 g.dispose();
             }
         }
     }
 
     /**
-     * Sets the caret to be displayed in this composition area.
-     * The text is not changed.
+     * Sets the cbret to be displbyed in this composition breb.
+     * The text is not chbnged.
      */
-    void setCaret(TextHitInfo caret) {
-        this.caret = caret;
+    void setCbret(TextHitInfo cbret) {
+        this.cbret = cbret;
         if (compositionWindow.isVisible()) {
-            Graphics g = getGraphics();
+            Grbphics g = getGrbphics();
             try {
-                paint(g);
-            } finally {
+                pbint(g);
+            } finblly {
                 g.dispose();
             }
         }
     }
 
     /**
-     * Positions the composition window near (usually below) the
+     * Positions the composition window nebr (usublly below) the
      * insertion point in the client component if the client
-     * component is an active client (below-the-spot input).
+     * component is bn bctive client (below-the-spot input).
      */
-    void updateWindowLocation() {
-        InputMethodRequests req = handler.getClientInputMethodRequests();
+    void updbteWindowLocbtion() {
+        InputMethodRequests req = hbndler.getClientInputMethodRequests();
         if (req == null) {
-            // not an active client
+            // not bn bctive client
             return;
         }
 
-        Point windowLocation = new Point();
+        Point windowLocbtion = new Point();
 
-        Rectangle caretRect = req.getTextLocation(null);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Rectbngle cbretRect = req.getTextLocbtion(null);
+        Dimension screenSize = Toolkit.getDefbultToolkit().getScreenSize();
         Dimension windowSize = compositionWindow.getSize();
-        final int SPACING = 2;
+        finbl int SPACING = 2;
 
-        if (caretRect.x + windowSize.width > screenSize.width) {
-            windowLocation.x = screenSize.width - windowSize.width;
+        if (cbretRect.x + windowSize.width > screenSize.width) {
+            windowLocbtion.x = screenSize.width - windowSize.width;
         } else {
-            windowLocation.x = caretRect.x;
+            windowLocbtion.x = cbretRect.x;
         }
 
-        if (caretRect.y + caretRect.height + SPACING + windowSize.height > screenSize.height) {
-            windowLocation.y = caretRect.y - SPACING - windowSize.height;
+        if (cbretRect.y + cbretRect.height + SPACING + windowSize.height > screenSize.height) {
+            windowLocbtion.y = cbretRect.y - SPACING - windowSize.height;
         } else {
-            windowLocation.y = caretRect.y + caretRect.height + SPACING;
+            windowLocbtion.y = cbretRect.y + cbretRect.height + SPACING;
         }
 
-        compositionWindow.setLocation(windowLocation);
+        compositionWindow.setLocbtion(windowLocbtion);
     }
 
     // support for InputMethodRequests methods
-    Rectangle getTextLocation(TextHitInfo offset) {
-        Rectangle rectangle = getCaretRectangle(offset);
-        Point location = getLocationOnScreen();
-        rectangle.translate(location.x, location.y);
-        return rectangle;
+    Rectbngle getTextLocbtion(TextHitInfo offset) {
+        Rectbngle rectbngle = getCbretRectbngle(offset);
+        Point locbtion = getLocbtionOnScreen();
+        rectbngle.trbnslbte(locbtion.x, locbtion.y);
+        return rectbngle;
     }
 
-   TextHitInfo getLocationOffset(int x, int y) {
-        TextLayout layout = composedTextLayout;
-        if (layout == null) {
+   TextHitInfo getLocbtionOffset(int x, int y) {
+        TextLbyout lbyout = composedTextLbyout;
+        if (lbyout == null) {
             return null;
         } else {
-            Point location = getLocationOnScreen();
-            x -= location.x + TEXT_ORIGIN_X;
-            y -= location.y + TEXT_ORIGIN_Y;
-            if (layout.getBounds().contains(x, y)) {
-                return layout.hitTestChar(x, y);
+            Point locbtion = getLocbtionOnScreen();
+            x -= locbtion.x + TEXT_ORIGIN_X;
+            y -= locbtion.y + TEXT_ORIGIN_Y;
+            if (lbyout.getBounds().contbins(x, y)) {
+                return lbyout.hitTestChbr(x, y);
             } else {
                 return null;
             }
         }
     }
 
-    // Disables or enables decorations of the composition window
-    void setCompositionAreaUndecorated(boolean setUndecorated){
-          if (compositionWindow.isDisplayable()){
+    // Disbbles or enbbles decorbtions of the composition window
+    void setCompositionArebUndecorbted(boolebn setUndecorbted){
+          if (compositionWindow.isDisplbybble()){
               compositionWindow.removeNotify();
           }
-          compositionWindow.setUndecorated(setUndecorated);
-          compositionWindow.pack();
+          compositionWindow.setUndecorbted(setUndecorbted);
+          compositionWindow.pbck();
     }
 
-    // Proclaim serial compatibility with 1.7.0
-    private static final long serialVersionUID = -1057247068746557444L;
+    // Proclbim seribl compbtibility with 1.7.0
+    privbte stbtic finbl long seriblVersionUID = -1057247068746557444L;
 
 }

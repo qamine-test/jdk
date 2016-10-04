@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -29,162 +29,162 @@
  */
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "ICUFeatures.h"
+#include "LEFontInstbnce.h"
+#include "OpenTypeTbbles.h"
+#include "ICUFebtures.h"
 #include "Lookups.h"
-#include "ScriptAndLanguage.h"
-#include "GlyphDefinitionTables.h"
-#include "GlyphPositioningTables.h"
-#include "SinglePositioningSubtables.h"
-#include "PairPositioningSubtables.h"
-#include "CursiveAttachmentSubtables.h"
-#include "MarkToBasePosnSubtables.h"
-#include "MarkToLigaturePosnSubtables.h"
-#include "MarkToMarkPosnSubtables.h"
-//#include "ContextualPositioningSubtables.h"
-#include "ContextualSubstSubtables.h"
-#include "ExtensionSubtables.h"
+#include "ScriptAndLbngubge.h"
+#include "GlyphDefinitionTbbles.h"
+#include "GlyphPositioningTbbles.h"
+#include "SinglePositioningSubtbbles.h"
+#include "PbirPositioningSubtbbles.h"
+#include "CursiveAttbchmentSubtbbles.h"
+#include "MbrkToBbsePosnSubtbbles.h"
+#include "MbrkToLigbturePosnSubtbbles.h"
+#include "MbrkToMbrkPosnSubtbbles.h"
+//#include "ContextublPositioningSubtbbles.h"
+#include "ContextublSubstSubtbbles.h"
+#include "ExtensionSubtbbles.h"
 #include "LookupProcessor.h"
 #include "GlyphPosnLookupProc.h"
-#include "LESwaps.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-// Aside from the names, the contextual positioning subtables are
-// the same as the contextual substitution subtables.
-typedef ContextualSubstitutionSubtable ContextualPositioningSubtable;
-typedef ChainingContextualSubstitutionSubtable ChainingContextualPositioningSubtable;
+// Aside from the nbmes, the contextubl positioning subtbbles bre
+// the sbme bs the contextubl substitution subtbbles.
+typedef ContextublSubstitutionSubtbble ContextublPositioningSubtbble;
+typedef ChbiningContextublSubstitutionSubtbble ChbiningContextublPositioningSubtbble;
 
 GlyphPositioningLookupProcessor::GlyphPositioningLookupProcessor(
-        const LEReferenceTo<GlyphPositioningTableHeader> &glyphPositioningTableHeader,
-        LETag scriptTag,
-        LETag languageTag,
-        const FeatureMap *featureMap,
-        le_int32 featureMapCount,
-        le_bool featureOrder,
+        const LEReferenceTo<GlyphPositioningTbbleHebder> &glyphPositioningTbbleHebder,
+        LETbg scriptTbg,
+        LETbg lbngubgeTbg,
+        const FebtureMbp *febtureMbp,
+        le_int32 febtureMbpCount,
+        le_bool febtureOrder,
         LEErrorCode& success)
     : LookupProcessor(
-                      glyphPositioningTableHeader,
-                      SWAPW(glyphPositioningTableHeader->scriptListOffset),
-                      SWAPW(glyphPositioningTableHeader->featureListOffset),
-                      SWAPW(glyphPositioningTableHeader->lookupListOffset),
-                      scriptTag,
-                      languageTag,
-                      featureMap,
-                      featureMapCount,
-                      featureOrder,
+                      glyphPositioningTbbleHebder,
+                      SWAPW(glyphPositioningTbbleHebder->scriptListOffset),
+                      SWAPW(glyphPositioningTbbleHebder->febtureListOffset),
+                      SWAPW(glyphPositioningTbbleHebder->lookupListOffset),
+                      scriptTbg,
+                      lbngubgeTbg,
+                      febtureMbp,
+                      febtureMbpCount,
+                      febtureOrder,
                       success
                       )
 {
-    // anything?
+    // bnything?
 }
 
 GlyphPositioningLookupProcessor::GlyphPositioningLookupProcessor()
 {
 }
 
-le_uint32 GlyphPositioningLookupProcessor::applySubtable(const LEReferenceTo<LookupSubtable> &lookupSubtable, le_uint16 lookupType,
-                                                       GlyphIterator *glyphIterator,
-                                                       const LEFontInstance *fontInstance,
+le_uint32 GlyphPositioningLookupProcessor::bpplySubtbble(const LEReferenceTo<LookupSubtbble> &lookupSubtbble, le_uint16 lookupType,
+                                                       GlyphIterbtor *glyphIterbtor,
+                                                       const LEFontInstbnce *fontInstbnce,
                                                        LEErrorCode& success) const
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    le_uint32 delta = 0;
+    le_uint32 deltb = 0;
 
-    //_LETRACE("attempting lookupType #%d", lookupType);
+    //_LETRACE("bttempting lookupType #%d", lookupType);
 
     switch(lookupType)
     {
-    case 0:
-        break;
+    cbse 0:
+        brebk;
 
-    case gpstSingle:
+    cbse gpstSingle:
     {
-      LEReferenceTo<SinglePositioningSubtable> subtable(lookupSubtable, success);
+      LEReferenceTo<SinglePositioningSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, glyphIterator, fontInstance, success);
-        break;
+        deltb = subtbble->process(subtbble, glyphIterbtor, fontInstbnce, success);
+        brebk;
     }
 
-    case gpstPair:
+    cbse gpstPbir:
     {
-        LEReferenceTo<PairPositioningSubtable> subtable(lookupSubtable, success);
+        LEReferenceTo<PbirPositioningSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, glyphIterator, fontInstance, success);
-        break;
+        deltb = subtbble->process(subtbble, glyphIterbtor, fontInstbnce, success);
+        brebk;
     }
 
-    case gpstCursive:
+    cbse gpstCursive:
     {
-        LEReferenceTo<CursiveAttachmentSubtable> subtable(lookupSubtable, success);
+        LEReferenceTo<CursiveAttbchmentSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, glyphIterator, fontInstance, success);
-        break;
+        deltb = subtbble->process(subtbble, glyphIterbtor, fontInstbnce, success);
+        brebk;
     }
 
-    case gpstMarkToBase:
+    cbse gpstMbrkToBbse:
     {
-        LEReferenceTo<MarkToBasePositioningSubtable> subtable(lookupSubtable, success);
+        LEReferenceTo<MbrkToBbsePositioningSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, glyphIterator, fontInstance, success);
-        break;
+        deltb = subtbble->process(subtbble, glyphIterbtor, fontInstbnce, success);
+        brebk;
     }
 
-     case gpstMarkToLigature:
+     cbse gpstMbrkToLigbture:
     {
-        LEReferenceTo<MarkToLigaturePositioningSubtable> subtable(lookupSubtable, success);
+        LEReferenceTo<MbrkToLigbturePositioningSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, glyphIterator, fontInstance, success);
-        break;
+        deltb = subtbble->process(subtbble, glyphIterbtor, fontInstbnce, success);
+        brebk;
     }
 
-    case gpstMarkToMark:
+    cbse gpstMbrkToMbrk:
     {
-        LEReferenceTo<MarkToMarkPositioningSubtable> subtable(lookupSubtable, success);
+        LEReferenceTo<MbrkToMbrkPositioningSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, glyphIterator, fontInstance, success);
-        break;
+        deltb = subtbble->process(subtbble, glyphIterbtor, fontInstbnce, success);
+        brebk;
     }
 
-   case gpstContext:
+   cbse gpstContext:
     {
-        LEReferenceTo<ContextualPositioningSubtable> subtable(lookupSubtable, success);
+        LEReferenceTo<ContextublPositioningSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, this , glyphIterator, fontInstance, success);
-        break;
+        deltb = subtbble->process(subtbble, this , glyphIterbtor, fontInstbnce, success);
+        brebk;
     }
 
-    case gpstChainedContext:
+    cbse gpstChbinedContext:
     {
-        const LEReferenceTo<ChainingContextualPositioningSubtable> subtable(lookupSubtable, success);
+        const LEReferenceTo<ChbiningContextublPositioningSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, this, glyphIterator, fontInstance, success);
-        break;
+        deltb = subtbble->process(subtbble, this, glyphIterbtor, fontInstbnce, success);
+        brebk;
     }
 
-    case gpstExtension:
+    cbse gpstExtension:
     {
-        const LEReferenceTo<ExtensionSubtable> subtable(lookupSubtable, success);
+        const LEReferenceTo<ExtensionSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, this, lookupType, glyphIterator, fontInstance, success);
-        break;
+        deltb = subtbble->process(subtbble, this, lookupType, glyphIterbtor, fontInstbnce, success);
+        brebk;
     }
 
-    default:
-        break;
+    defbult:
+        brebk;
     }
 
 #if LE_TRACE
-    if(delta != 0) {
-      _LETRACE("GlyphPositioningLookupProcessor applied #%d -> delta %d @ %d", lookupType, delta, glyphIterator->getCurrStreamPosition());
+    if(deltb != 0) {
+      _LETRACE("GlyphPositioningLookupProcessor bpplied #%d -> deltb %d @ %d", lookupType, deltb, glyphIterbtor->getCurrStrebmPosition());
     }
 #endif
 
-    return delta;
+    return deltb;
 }
 
 GlyphPositioningLookupProcessor::~GlyphPositioningLookupProcessor()

@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.rmi.ssl;
+pbckbge jbvbx.rmi.ssl;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.Socket;
-import java.rmi.server.RMIClientSocketFactory;
-import java.util.StringTokenizer;
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
+import jbvb.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.net.Socket;
+import jbvb.rmi.server.RMIClientSocketFbctory;
+import jbvb.util.StringTokenizer;
+import jbvbx.net.SocketFbctory;
+import jbvbx.net.ssl.SSLSocket;
+import jbvbx.net.ssl.SSLSocketFbctory;
 
 /**
- * <p>An <code>SslRMIClientSocketFactory</code> instance is used by the RMI
- * runtime in order to obtain client sockets for RMI calls via SSL.</p>
+ * <p>An <code>SslRMIClientSocketFbctory</code> instbnce is used by the RMI
+ * runtime in order to obtbin client sockets for RMI cblls vib SSL.</p>
  *
- * <p>This class implements <code>RMIClientSocketFactory</code> over
- * the Secure Sockets Layer (SSL) or Transport Layer Security (TLS)
+ * <p>This clbss implements <code>RMIClientSocketFbctory</code> over
+ * the Secure Sockets Lbyer (SSL) or Trbnsport Lbyer Security (TLS)
  * protocols.</p>
  *
- * <p>This class creates SSL sockets using the default
- * <code>SSLSocketFactory</code> (see {@link
- * SSLSocketFactory#getDefault}).  All instances of this class are
- * functionally equivalent.  In particular, they all share the same
- * truststore, and the same keystore when client authentication is
- * required by the server.  This behavior can be modified in
- * subclasses by overriding the {@link #createSocket(String,int)}
- * method; in that case, {@link #equals(Object) equals} and {@link
- * #hashCode() hashCode} may also need to be overridden.</p>
+ * <p>This clbss crebtes SSL sockets using the defbult
+ * <code>SSLSocketFbctory</code> (see {@link
+ * SSLSocketFbctory#getDefbult}).  All instbnces of this clbss bre
+ * functionblly equivblent.  In pbrticulbr, they bll shbre the sbme
+ * truststore, bnd the sbme keystore when client buthenticbtion is
+ * required by the server.  This behbvior cbn be modified in
+ * subclbsses by overriding the {@link #crebteSocket(String,int)}
+ * method; in thbt cbse, {@link #equbls(Object) equbls} bnd {@link
+ * #hbshCode() hbshCode} mby blso need to be overridden.</p>
  *
  * <p>If the system property
- * <code>javax.rmi.ssl.client.enabledCipherSuites</code> is specified,
- * the {@link #createSocket(String,int)} method will call {@link
- * SSLSocket#setEnabledCipherSuites(String[])} before returning the
- * socket.  The value of this system property is a string that is a
- * comma-separated list of SSL/TLS cipher suites to enable.</p>
+ * <code>jbvbx.rmi.ssl.client.enbbledCipherSuites</code> is specified,
+ * the {@link #crebteSocket(String,int)} method will cbll {@link
+ * SSLSocket#setEnbbledCipherSuites(String[])} before returning the
+ * socket.  The vblue of this system property is b string thbt is b
+ * commb-sepbrbted list of SSL/TLS cipher suites to enbble.</p>
  *
  * <p>If the system property
- * <code>javax.rmi.ssl.client.enabledProtocols</code> is specified,
- * the {@link #createSocket(String,int)} method will call {@link
- * SSLSocket#setEnabledProtocols(String[])} before returning the
- * socket.  The value of this system property is a string that is a
- * comma-separated list of SSL/TLS protocol versions to enable.</p>
+ * <code>jbvbx.rmi.ssl.client.enbbledProtocols</code> is specified,
+ * the {@link #crebteSocket(String,int)} method will cbll {@link
+ * SSLSocket#setEnbbledProtocols(String[])} before returning the
+ * socket.  The vblue of this system property is b string thbt is b
+ * commb-sepbrbted list of SSL/TLS protocol versions to enbble.</p>
  *
- * @see javax.net.ssl.SSLSocketFactory
- * @see javax.rmi.ssl.SslRMIServerSocketFactory
+ * @see jbvbx.net.ssl.SSLSocketFbctory
+ * @see jbvbx.rmi.ssl.SslRMIServerSocketFbctory
  * @since 1.5
  */
-public class SslRMIClientSocketFactory
-    implements RMIClientSocketFactory, Serializable {
+public clbss SslRMIClientSocketFbctory
+    implements RMIClientSocketFbctory, Seriblizbble {
 
     /**
-     * <p>Creates a new <code>SslRMIClientSocketFactory</code>.</p>
+     * <p>Crebtes b new <code>SslRMIClientSocketFbctory</code>.</p>
      */
-    public SslRMIClientSocketFactory() {
-        // We don't force the initialization of the default SSLSocketFactory
-        // at construction time - because the RMI client socket factory is
-        // created on the server side, where that initialization is a priori
-        // meaningless, unless both server and client run in the same JVM.
-        // We could possibly override readObject() to force this initialization,
-        // but it might not be a good idea to actually mix this with possible
-        // deserialization problems.
-        // So contrarily to what we do for the server side, the initialization
-        // of the SSLSocketFactory will be delayed until the first time
-        // createSocket() is called - note that the default SSLSocketFactory
-        // might already have been initialized anyway if someone in the JVM
-        // already called SSLSocketFactory.getDefault().
+    public SslRMIClientSocketFbctory() {
+        // We don't force the initiblizbtion of the defbult SSLSocketFbctory
+        // bt construction time - becbuse the RMI client socket fbctory is
+        // crebted on the server side, where thbt initiblizbtion is b priori
+        // mebningless, unless both server bnd client run in the sbme JVM.
+        // We could possibly override rebdObject() to force this initiblizbtion,
+        // but it might not be b good ideb to bctublly mix this with possible
+        // deseriblizbtion problems.
+        // So contrbrily to whbt we do for the server side, the initiblizbtion
+        // of the SSLSocketFbctory will be delbyed until the first time
+        // crebteSocket() is cblled - note thbt the defbult SSLSocketFbctory
+        // might blrebdy hbve been initiblized bnywby if someone in the JVM
+        // blrebdy cblled SSLSocketFbctory.getDefbult().
         //
     }
 
     /**
-     * <p>Creates an SSL socket.</p>
+     * <p>Crebtes bn SSL socket.</p>
      *
      * <p>If the system property
-     * <code>javax.rmi.ssl.client.enabledCipherSuites</code> is
-     * specified, this method will call {@link
-     * SSLSocket#setEnabledCipherSuites(String[])} before returning
-     * the socket. The value of this system property is a string that
-     * is a comma-separated list of SSL/TLS cipher suites to
-     * enable.</p>
+     * <code>jbvbx.rmi.ssl.client.enbbledCipherSuites</code> is
+     * specified, this method will cbll {@link
+     * SSLSocket#setEnbbledCipherSuites(String[])} before returning
+     * the socket. The vblue of this system property is b string thbt
+     * is b commb-sepbrbted list of SSL/TLS cipher suites to
+     * enbble.</p>
      *
      * <p>If the system property
-     * <code>javax.rmi.ssl.client.enabledProtocols</code> is
-     * specified, this method will call {@link
-     * SSLSocket#setEnabledProtocols(String[])} before returning the
-     * socket. The value of this system property is a string that is a
-     * comma-separated list of SSL/TLS protocol versions to
-     * enable.</p>
+     * <code>jbvbx.rmi.ssl.client.enbbledProtocols</code> is
+     * specified, this method will cbll {@link
+     * SSLSocket#setEnbbledProtocols(String[])} before returning the
+     * socket. The vblue of this system property is b string thbt is b
+     * commb-sepbrbted list of SSL/TLS protocol versions to
+     * enbble.</p>
      */
-    public Socket createSocket(String host, int port) throws IOException {
-        // Retrieve the SSLSocketFactory
+    public Socket crebteSocket(String host, int port) throws IOException {
+        // Retrieve the SSLSocketFbctory
         //
-        final SocketFactory sslSocketFactory = getDefaultClientSocketFactory();
-        // Create the SSLSocket
+        finbl SocketFbctory sslSocketFbctory = getDefbultClientSocketFbctory();
+        // Crebte the SSLSocket
         //
-        final SSLSocket sslSocket = (SSLSocket)
-            sslSocketFactory.createSocket(host, port);
-        // Set the SSLSocket Enabled Cipher Suites
+        finbl SSLSocket sslSocket = (SSLSocket)
+            sslSocketFbctory.crebteSocket(host, port);
+        // Set the SSLSocket Enbbled Cipher Suites
         //
-        final String enabledCipherSuites =
-            System.getProperty("javax.rmi.ssl.client.enabledCipherSuites");
-        if (enabledCipherSuites != null) {
-            StringTokenizer st = new StringTokenizer(enabledCipherSuites, ",");
+        finbl String enbbledCipherSuites =
+            System.getProperty("jbvbx.rmi.ssl.client.enbbledCipherSuites");
+        if (enbbledCipherSuites != null) {
+            StringTokenizer st = new StringTokenizer(enbbledCipherSuites, ",");
             int tokens = st.countTokens();
-            String enabledCipherSuitesList[] = new String[tokens];
+            String enbbledCipherSuitesList[] = new String[tokens];
             for (int i = 0 ; i < tokens; i++) {
-                enabledCipherSuitesList[i] = st.nextToken();
+                enbbledCipherSuitesList[i] = st.nextToken();
             }
             try {
-                sslSocket.setEnabledCipherSuites(enabledCipherSuitesList);
-            } catch (IllegalArgumentException e) {
+                sslSocket.setEnbbledCipherSuites(enbbledCipherSuitesList);
+            } cbtch (IllegblArgumentException e) {
                 throw (IOException)
-                    new IOException(e.getMessage()).initCause(e);
+                    new IOException(e.getMessbge()).initCbuse(e);
             }
         }
-        // Set the SSLSocket Enabled Protocols
+        // Set the SSLSocket Enbbled Protocols
         //
-        final String enabledProtocols =
-            System.getProperty("javax.rmi.ssl.client.enabledProtocols");
-        if (enabledProtocols != null) {
-            StringTokenizer st = new StringTokenizer(enabledProtocols, ",");
+        finbl String enbbledProtocols =
+            System.getProperty("jbvbx.rmi.ssl.client.enbbledProtocols");
+        if (enbbledProtocols != null) {
+            StringTokenizer st = new StringTokenizer(enbbledProtocols, ",");
             int tokens = st.countTokens();
-            String enabledProtocolsList[] = new String[tokens];
+            String enbbledProtocolsList[] = new String[tokens];
             for (int i = 0 ; i < tokens; i++) {
-                enabledProtocolsList[i] = st.nextToken();
+                enbbledProtocolsList[i] = st.nextToken();
             }
             try {
-                sslSocket.setEnabledProtocols(enabledProtocolsList);
-            } catch (IllegalArgumentException e) {
+                sslSocket.setEnbbledProtocols(enbbledProtocolsList);
+            } cbtch (IllegblArgumentException e) {
                 throw (IOException)
-                    new IOException(e.getMessage()).initCause(e);
+                    new IOException(e.getMessbge()).initCbuse(e);
             }
         }
         // Return the preconfigured SSLSocket
@@ -161,52 +161,52 @@ public class SslRMIClientSocketFactory
     }
 
     /**
-     * <p>Indicates whether some other object is "equal to" this one.</p>
+     * <p>Indicbtes whether some other object is "equbl to" this one.</p>
      *
-     * <p>Because all instances of this class are functionally equivalent
-     * (they all use the default
-     * <code>SSLSocketFactory</code>), this method simply returns
-     * <code>this.getClass().equals(obj.getClass())</code>.</p>
+     * <p>Becbuse bll instbnces of this clbss bre functionblly equivblent
+     * (they bll use the defbult
+     * <code>SSLSocketFbctory</code>), this method simply returns
+     * <code>this.getClbss().equbls(obj.getClbss())</code>.</p>
      *
-     * <p>A subclass should override this method (as well
-     * as {@link #hashCode()}) if its instances are not all
-     * functionally equivalent.</p>
+     * <p>A subclbss should override this method (bs well
+     * bs {@link #hbshCode()}) if its instbnces bre not bll
+     * functionblly equivblent.</p>
      */
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
+    public boolebn equbls(Object obj) {
+        if (obj == null) return fblse;
         if (obj == this) return true;
-        return this.getClass().equals(obj.getClass());
+        return this.getClbss().equbls(obj.getClbss());
     }
 
     /**
-     * <p>Returns a hash code value for this
-     * <code>SslRMIClientSocketFactory</code>.</p>
+     * <p>Returns b hbsh code vblue for this
+     * <code>SslRMIClientSocketFbctory</code>.</p>
      *
-     * @return a hash code value for this
-     * <code>SslRMIClientSocketFactory</code>.
+     * @return b hbsh code vblue for this
+     * <code>SslRMIClientSocketFbctory</code>.
      */
-    public int hashCode() {
-        return this.getClass().hashCode();
+    public int hbshCode() {
+        return this.getClbss().hbshCode();
     }
 
-    // We use a static field because:
+    // We use b stbtic field becbuse:
     //
-    //    SSLSocketFactory.getDefault() always returns the same object
-    //    (at least on Sun's implementation), and we want to make sure
-    //    that the Javadoc & the implementation stay in sync.
+    //    SSLSocketFbctory.getDefbult() blwbys returns the sbme object
+    //    (bt lebst on Sun's implementbtion), bnd we wbnt to mbke sure
+    //    thbt the Jbvbdoc & the implementbtion stby in sync.
     //
-    // If someone needs to have different SslRMIClientSocketFactory factories
-    // with different underlying SSLSocketFactory objects using different key
-    // and trust stores, he can always do so by subclassing this class and
-    // overriding createSocket(String host, int port).
+    // If someone needs to hbve different SslRMIClientSocketFbctory fbctories
+    // with different underlying SSLSocketFbctory objects using different key
+    // bnd trust stores, he cbn blwbys do so by subclbssing this clbss bnd
+    // overriding crebteSocket(String host, int port).
     //
-    private static SocketFactory defaultSocketFactory = null;
+    privbte stbtic SocketFbctory defbultSocketFbctory = null;
 
-    private static synchronized SocketFactory getDefaultClientSocketFactory() {
-        if (defaultSocketFactory == null)
-            defaultSocketFactory = SSLSocketFactory.getDefault();
-        return defaultSocketFactory;
+    privbte stbtic synchronized SocketFbctory getDefbultClientSocketFbctory() {
+        if (defbultSocketFbctory == null)
+            defbultSocketFbctory = SSLSocketFbctory.getDefbult();
+        return defbultSocketFbctory;
     }
 
-    private static final long serialVersionUID = -8310631444933958385L;
+    privbte stbtic finbl long seriblVersionUID = -8310631444933958385L;
 }

@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2011-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,162 +59,162 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.format;
+pbckbge jbvb.time.formbt;
 
-import static java.time.temporal.ChronoField.EPOCH_DAY;
-import static java.time.temporal.ChronoField.INSTANT_SECONDS;
-import static java.time.temporal.ChronoField.OFFSET_SECONDS;
+import stbtic jbvb.time.temporbl.ChronoField.EPOCH_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.INSTANT_SECONDS;
+import stbtic jbvb.time.temporbl.ChronoField.OFFSET_SECONDS;
 
-import java.time.DateTimeException;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.Chronology;
-import java.time.chrono.IsoChronology;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.ValueRange;
-import java.util.Locale;
-import java.util.Objects;
+import jbvb.time.DbteTimeException;
+import jbvb.time.Instbnt;
+import jbvb.time.ZoneId;
+import jbvb.time.ZoneOffset;
+import jbvb.time.chrono.ChronoLocblDbte;
+import jbvb.time.chrono.Chronology;
+import jbvb.time.chrono.IsoChronology;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.util.Locble;
+import jbvb.util.Objects;
 
 /**
- * Context object used during date and time printing.
+ * Context object used during dbte bnd time printing.
  * <p>
- * This class provides a single wrapper to items used in the format.
+ * This clbss provides b single wrbpper to items used in the formbt.
  *
  * @implSpec
- * This class is a mutable context intended for use from a single thread.
- * Usage of the class is thread-safe within standard printing as the framework creates
- * a new instance of the class for each format and printing is single-threaded.
+ * This clbss is b mutbble context intended for use from b single threbd.
+ * Usbge of the clbss is threbd-sbfe within stbndbrd printing bs the frbmework crebtes
+ * b new instbnce of the clbss for ebch formbt bnd printing is single-threbded.
  *
  * @since 1.8
  */
-final class DateTimePrintContext {
+finbl clbss DbteTimePrintContext {
 
     /**
-     * The temporal being output.
+     * The temporbl being output.
      */
-    private TemporalAccessor temporal;
+    privbte TemporblAccessor temporbl;
     /**
-     * The formatter, not null.
+     * The formbtter, not null.
      */
-    private DateTimeFormatter formatter;
+    privbte DbteTimeFormbtter formbtter;
     /**
-     * Whether the current formatter is optional.
+     * Whether the current formbtter is optionbl.
      */
-    private int optional;
+    privbte int optionbl;
 
     /**
-     * Creates a new instance of the context.
+     * Crebtes b new instbnce of the context.
      *
-     * @param temporal  the temporal object being output, not null
-     * @param formatter  the formatter controlling the format, not null
+     * @pbrbm temporbl  the temporbl object being output, not null
+     * @pbrbm formbtter  the formbtter controlling the formbt, not null
      */
-    DateTimePrintContext(TemporalAccessor temporal, DateTimeFormatter formatter) {
+    DbteTimePrintContext(TemporblAccessor temporbl, DbteTimeFormbtter formbtter) {
         super();
-        this.temporal = adjust(temporal, formatter);
-        this.formatter = formatter;
+        this.temporbl = bdjust(temporbl, formbtter);
+        this.formbtter = formbtter;
     }
 
-    private static TemporalAccessor adjust(final TemporalAccessor temporal, DateTimeFormatter formatter) {
-        // normal case first (early return is an optimization)
-        Chronology overrideChrono = formatter.getChronology();
-        ZoneId overrideZone = formatter.getZone();
+    privbte stbtic TemporblAccessor bdjust(finbl TemporblAccessor temporbl, DbteTimeFormbtter formbtter) {
+        // normbl cbse first (ebrly return is bn optimizbtion)
+        Chronology overrideChrono = formbtter.getChronology();
+        ZoneId overrideZone = formbtter.getZone();
         if (overrideChrono == null && overrideZone == null) {
-            return temporal;
+            return temporbl;
         }
 
-        // ensure minimal change (early return is an optimization)
-        Chronology temporalChrono = temporal.query(TemporalQueries.chronology());
-        ZoneId temporalZone = temporal.query(TemporalQueries.zoneId());
-        if (Objects.equals(overrideChrono, temporalChrono)) {
+        // ensure minimbl chbnge (ebrly return is bn optimizbtion)
+        Chronology temporblChrono = temporbl.query(TemporblQueries.chronology());
+        ZoneId temporblZone = temporbl.query(TemporblQueries.zoneId());
+        if (Objects.equbls(overrideChrono, temporblChrono)) {
             overrideChrono = null;
         }
-        if (Objects.equals(overrideZone, temporalZone)) {
+        if (Objects.equbls(overrideZone, temporblZone)) {
             overrideZone = null;
         }
         if (overrideChrono == null && overrideZone == null) {
-            return temporal;
+            return temporbl;
         }
 
-        // make adjustment
-        final Chronology effectiveChrono = (overrideChrono != null ? overrideChrono : temporalChrono);
+        // mbke bdjustment
+        finbl Chronology effectiveChrono = (overrideChrono != null ? overrideChrono : temporblChrono);
         if (overrideZone != null) {
-            // if have zone and instant, calculation is simple, defaulting chrono if necessary
-            if (temporal.isSupported(INSTANT_SECONDS)) {
+            // if hbve zone bnd instbnt, cblculbtion is simple, defbulting chrono if necessbry
+            if (temporbl.isSupported(INSTANT_SECONDS)) {
                 Chronology chrono = (effectiveChrono != null ? effectiveChrono : IsoChronology.INSTANCE);
-                return chrono.zonedDateTime(Instant.from(temporal), overrideZone);
+                return chrono.zonedDbteTime(Instbnt.from(temporbl), overrideZone);
             }
-            // block changing zone on OffsetTime, and similar problem cases
-            if (overrideZone.normalized() instanceof ZoneOffset && temporal.isSupported(OFFSET_SECONDS) &&
-                    temporal.get(OFFSET_SECONDS) != overrideZone.getRules().getOffset(Instant.EPOCH).getTotalSeconds()) {
-                throw new DateTimeException("Unable to apply override zone '" + overrideZone +
-                        "' because the temporal object being formatted has a different offset but" +
-                        " does not represent an instant: " + temporal);
+            // block chbnging zone on OffsetTime, bnd similbr problem cbses
+            if (overrideZone.normblized() instbnceof ZoneOffset && temporbl.isSupported(OFFSET_SECONDS) &&
+                    temporbl.get(OFFSET_SECONDS) != overrideZone.getRules().getOffset(Instbnt.EPOCH).getTotblSeconds()) {
+                throw new DbteTimeException("Unbble to bpply override zone '" + overrideZone +
+                        "' becbuse the temporbl object being formbtted hbs b different offset but" +
+                        " does not represent bn instbnt: " + temporbl);
             }
         }
-        final ZoneId effectiveZone = (overrideZone != null ? overrideZone : temporalZone);
-        final ChronoLocalDate effectiveDate;
+        finbl ZoneId effectiveZone = (overrideZone != null ? overrideZone : temporblZone);
+        finbl ChronoLocblDbte effectiveDbte;
         if (overrideChrono != null) {
-            if (temporal.isSupported(EPOCH_DAY)) {
-                effectiveDate = effectiveChrono.date(temporal);
+            if (temporbl.isSupported(EPOCH_DAY)) {
+                effectiveDbte = effectiveChrono.dbte(temporbl);
             } else {
-                // check for date fields other than epoch-day, ignoring case of converting null to ISO
-                if (!(overrideChrono == IsoChronology.INSTANCE && temporalChrono == null)) {
-                    for (ChronoField f : ChronoField.values()) {
-                        if (f.isDateBased() && temporal.isSupported(f)) {
-                            throw new DateTimeException("Unable to apply override chronology '" + overrideChrono +
-                                    "' because the temporal object being formatted contains date fields but" +
-                                    " does not represent a whole date: " + temporal);
+                // check for dbte fields other thbn epoch-dby, ignoring cbse of converting null to ISO
+                if (!(overrideChrono == IsoChronology.INSTANCE && temporblChrono == null)) {
+                    for (ChronoField f : ChronoField.vblues()) {
+                        if (f.isDbteBbsed() && temporbl.isSupported(f)) {
+                            throw new DbteTimeException("Unbble to bpply override chronology '" + overrideChrono +
+                                    "' becbuse the temporbl object being formbtted contbins dbte fields but" +
+                                    " does not represent b whole dbte: " + temporbl);
                         }
                     }
                 }
-                effectiveDate = null;
+                effectiveDbte = null;
             }
         } else {
-            effectiveDate = null;
+            effectiveDbte = null;
         }
 
-        // combine available data
-        // this is a non-standard temporal that is almost a pure delegate
-        // this better handles map-like underlying temporal instances
-        return new TemporalAccessor() {
+        // combine bvbilbble dbtb
+        // this is b non-stbndbrd temporbl thbt is blmost b pure delegbte
+        // this better hbndles mbp-like underlying temporbl instbnces
+        return new TemporblAccessor() {
             @Override
-            public boolean isSupported(TemporalField field) {
-                if (effectiveDate != null && field.isDateBased()) {
-                    return effectiveDate.isSupported(field);
+            public boolebn isSupported(TemporblField field) {
+                if (effectiveDbte != null && field.isDbteBbsed()) {
+                    return effectiveDbte.isSupported(field);
                 }
-                return temporal.isSupported(field);
+                return temporbl.isSupported(field);
             }
             @Override
-            public ValueRange range(TemporalField field) {
-                if (effectiveDate != null && field.isDateBased()) {
-                    return effectiveDate.range(field);
+            public VblueRbnge rbnge(TemporblField field) {
+                if (effectiveDbte != null && field.isDbteBbsed()) {
+                    return effectiveDbte.rbnge(field);
                 }
-                return temporal.range(field);
+                return temporbl.rbnge(field);
             }
             @Override
-            public long getLong(TemporalField field) {
-                if (effectiveDate != null && field.isDateBased()) {
-                    return effectiveDate.getLong(field);
+            public long getLong(TemporblField field) {
+                if (effectiveDbte != null && field.isDbteBbsed()) {
+                    return effectiveDbte.getLong(field);
                 }
-                return temporal.getLong(field);
+                return temporbl.getLong(field);
             }
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             @Override
-            public <R> R query(TemporalQuery<R> query) {
-                if (query == TemporalQueries.chronology()) {
+            public <R> R query(TemporblQuery<R> query) {
+                if (query == TemporblQueries.chronology()) {
                     return (R) effectiveChrono;
                 }
-                if (query == TemporalQueries.zoneId()) {
+                if (query == TemporblQueries.zoneId()) {
                     return (R) effectiveZone;
                 }
-                if (query == TemporalQueries.precision()) {
-                    return temporal.query(query);
+                if (query == TemporblQueries.precision()) {
+                    return temporbl.query(query);
                 }
                 return query.queryFrom(this);
             }
@@ -223,81 +223,81 @@ final class DateTimePrintContext {
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the temporal object being output.
+     * Gets the temporbl object being output.
      *
-     * @return the temporal object, not null
+     * @return the temporbl object, not null
      */
-    TemporalAccessor getTemporal() {
-        return temporal;
+    TemporblAccessor getTemporbl() {
+        return temporbl;
     }
 
     /**
-     * Gets the locale.
+     * Gets the locble.
      * <p>
-     * This locale is used to control localization in the format output except
-     * where localization is controlled by the DecimalStyle.
+     * This locble is used to control locblizbtion in the formbt output except
+     * where locblizbtion is controlled by the DecimblStyle.
      *
-     * @return the locale, not null
+     * @return the locble, not null
      */
-    Locale getLocale() {
-        return formatter.getLocale();
+    Locble getLocble() {
+        return formbtter.getLocble();
     }
 
     /**
-     * Gets the DecimalStyle.
+     * Gets the DecimblStyle.
      * <p>
-     * The DecimalStyle controls the localization of numeric output.
+     * The DecimblStyle controls the locblizbtion of numeric output.
      *
-     * @return the DecimalStyle, not null
+     * @return the DecimblStyle, not null
      */
-    DecimalStyle getDecimalStyle() {
-        return formatter.getDecimalStyle();
+    DecimblStyle getDecimblStyle() {
+        return formbtter.getDecimblStyle();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Starts the printing of an optional segment of the input.
+     * Stbrts the printing of bn optionbl segment of the input.
      */
-    void startOptional() {
-        this.optional++;
+    void stbrtOptionbl() {
+        this.optionbl++;
     }
 
     /**
-     * Ends the printing of an optional segment of the input.
+     * Ends the printing of bn optionbl segment of the input.
      */
-    void endOptional() {
-        this.optional--;
+    void endOptionbl() {
+        this.optionbl--;
     }
 
     /**
-     * Gets a value using a query.
+     * Gets b vblue using b query.
      *
-     * @param query  the query to use, not null
-     * @return the result, null if not found and optional is true
-     * @throws DateTimeException if the type is not available and the section is not optional
+     * @pbrbm query  the query to use, not null
+     * @return the result, null if not found bnd optionbl is true
+     * @throws DbteTimeException if the type is not bvbilbble bnd the section is not optionbl
      */
-    <R> R getValue(TemporalQuery<R> query) {
-        R result = temporal.query(query);
-        if (result == null && optional == 0) {
-            throw new DateTimeException("Unable to extract value: " + temporal.getClass());
+    <R> R getVblue(TemporblQuery<R> query) {
+        R result = temporbl.query(query);
+        if (result == null && optionbl == 0) {
+            throw new DbteTimeException("Unbble to extrbct vblue: " + temporbl.getClbss());
         }
         return result;
     }
 
     /**
-     * Gets the value of the specified field.
+     * Gets the vblue of the specified field.
      * <p>
-     * This will return the value for the specified field.
+     * This will return the vblue for the specified field.
      *
-     * @param field  the field to find, not null
-     * @return the value, null if not found and optional is true
-     * @throws DateTimeException if the field is not available and the section is not optional
+     * @pbrbm field  the field to find, not null
+     * @return the vblue, null if not found bnd optionbl is true
+     * @throws DbteTimeException if the field is not bvbilbble bnd the section is not optionbl
      */
-    Long getValue(TemporalField field) {
+    Long getVblue(TemporblField field) {
         try {
-            return temporal.getLong(field);
-        } catch (DateTimeException ex) {
-            if (optional > 0) {
+            return temporbl.getLong(field);
+        } cbtch (DbteTimeException ex) {
+            if (optionbl > 0) {
                 return null;
             }
             throw ex;
@@ -306,13 +306,13 @@ final class DateTimePrintContext {
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a string version of the context for debugging.
+     * Returns b string version of the context for debugging.
      *
-     * @return a string representation of the context, not null
+     * @return b string representbtion of the context, not null
      */
     @Override
     public String toString() {
-        return temporal.toString();
+        return temporbl.toString();
     }
 
 }

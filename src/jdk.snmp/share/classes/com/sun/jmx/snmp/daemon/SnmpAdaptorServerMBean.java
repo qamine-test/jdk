@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbckbge com.sun.jmx.snmp.dbemon;
 
-// java import
-import java.util.Vector;
-import java.io.IOException;
-import java.net.InetAddress;
+// jbvb import
+import jbvb.util.Vector;
+import jbvb.io.IOException;
+import jbvb.net.InetAddress;
 
 // jmx imports
 //
-import com.sun.jmx.snmp.SnmpPduFactory;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpVarBindList;
+import com.sun.jmx.snmp.SnmpPduFbctory;
+import com.sun.jmx.snmp.SnmpStbtusException;
+import com.sun.jmx.snmp.SnmpVbrBindList;
 import com.sun.jmx.snmp.SnmpOid;
 import com.sun.jmx.snmp.SnmpTimeticks;
 import com.sun.jmx.snmp.SnmpIpAddress;
-import com.sun.jmx.snmp.SnmpPduPacket;
+import com.sun.jmx.snmp.SnmpPduPbcket;
 import com.sun.jmx.snmp.InetAddressAcl;
 import com.sun.jmx.snmp.SnmpPeer;
 
 // SNMP Runtime imports
 //
-import com.sun.jmx.snmp.agent.SnmpMibAgent;
-import com.sun.jmx.snmp.agent.SnmpMibHandler;
-import com.sun.jmx.snmp.agent.SnmpUserDataFactory;
+import com.sun.jmx.snmp.bgent.SnmpMibAgent;
+import com.sun.jmx.snmp.bgent.SnmpMibHbndler;
+import com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory;
 
 /**
- * Exposes the remote management interface of the {@link SnmpAdaptorServer} MBean.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * Exposes the remote mbnbgement interfbce of the {@link SnmpAdbptorServer} MBebn.
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public interface SnmpAdaptorServerMBean extends CommunicatorServerMBean {
+public interfbce SnmpAdbptorServerMBebn extends CommunicbtorServerMBebn {
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Returns the Ip address based ACL used by this SNMP protocol adaptor.
-     * @return The <CODE>InetAddressAcl</CODE> implementation.
+     * Returns the Ip bddress bbsed ACL used by this SNMP protocol bdbptor.
+     * @return The <CODE>InetAddressAcl</CODE> implementbtion.
      *
      * @since 1.5
      */
     public InetAddressAcl getInetAddressAcl();
     /**
-     * Returns the port used by this SNMP protocol adaptor for sending traps.
-     * By default, port 162 is used.
+     * Returns the port used by this SNMP protocol bdbptor for sending trbps.
+     * By defbult, port 162 is used.
      *
-     * @return The port number for sending SNMP traps.
+     * @return The port number for sending SNMP trbps.
      */
-    public Integer getTrapPort();
+    public Integer getTrbpPort();
 
     /**
-     * Sets the port used by this SNMP protocol adaptor for sending traps.
+     * Sets the port used by this SNMP protocol bdbptor for sending trbps.
      *
-     * @param port The port number for sending SNMP traps.
+     * @pbrbm port The port number for sending SNMP trbps.
      */
-    public void setTrapPort(Integer port);
+    public void setTrbpPort(Integer port);
 
     /**
-     * Returns the port used by this SNMP protocol adaptor for sending inform requests.
-     * By default, port 162 is used.
+     * Returns the port used by this SNMP protocol bdbptor for sending inform requests.
+     * By defbult, port 162 is used.
      *
      * @return The port number for sending SNMP inform requests.
      */
     public int getInformPort();
 
     /**
-     * Sets the port used by this SNMP protocol adaptor for sending inform requests.
+     * Sets the port used by this SNMP protocol bdbptor for sending inform requests.
      *
-     * @param port The port number for sending SNMP inform requests.
+     * @pbrbm port The port number for sending SNMP inform requests.
      */
     public void setInformPort(int port);
 
     /**
-     * Gets the number of managers that have been processed by this SNMP protocol adaptor
-     * since its creation.
+     * Gets the number of mbnbgers thbt hbve been processed by this SNMP protocol bdbptor
+     * since its crebtion.
      *
-     * @return The number of managers handled by this SNMP protocol adaptor
-     * since its creation. This counter is not reset by the <CODE>stop</CODE> method.
+     * @return The number of mbnbgers hbndled by this SNMP protocol bdbptor
+     * since its crebtion. This counter is not reset by the <CODE>stop</CODE> method.
      */
     public int getServedClientCount();
 
     /**
-     * Gets the number of managers currently being processed by this
-     * SNMP protocol adaptor.
+     * Gets the number of mbnbgers currently being processed by this
+     * SNMP protocol bdbptor.
      *
-     * @return The number of managers currently being processed by this
-     * SNMP protocol adaptor.
+     * @return The number of mbnbgers currently being processed by this
+     * SNMP protocol bdbptor.
      */
     public int getActiveClientCount();
 
     /**
-     * Gets the maximum number of managers that this SNMP protocol adaptor can
+     * Gets the mbximum number of mbnbgers thbt this SNMP protocol bdbptor cbn
      * process concurrently.
      *
-     * @return The maximum number of managers that this SNMP protocol adaptor can
+     * @return The mbximum number of mbnbgers thbt this SNMP protocol bdbptor cbn
      * process concurrently.
      */
-    public int getMaxActiveClientCount();
+    public int getMbxActiveClientCount();
 
     /**
-     * Sets the maximum number of managers this SNMP protocol adaptor can
+     * Sets the mbximum number of mbnbgers this SNMP protocol bdbptor cbn
      * process concurrently.
      *
-     * @param c The number of managers.
+     * @pbrbm c The number of mbnbgers.
      *
-     * @exception java.lang.IllegalStateException This method has been invoked
-     * while the communicator was <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * @exception jbvb.lbng.IllegblStbteException This method hbs been invoked
+     * while the communicbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
      */
-    public void setMaxActiveClientCount(int c) throws java.lang.IllegalStateException;
+    public void setMbxActiveClientCount(int c) throws jbvb.lbng.IllegblStbteException;
 
     /**
-     * Returns the protocol of this SNMP protocol adaptor.
+     * Returns the protocol of this SNMP protocol bdbptor.
      *
      * @return The string "snmp".
      */
@@ -144,139 +144,139 @@ public interface SnmpAdaptorServerMBean extends CommunicatorServerMBean {
     public String getProtocol();
 
     /**
-     * Returns the buffer size of this SNMP protocol adaptor.
-     * By default, buffer size 1024 is used.
+     * Returns the buffer size of this SNMP protocol bdbptor.
+     * By defbult, buffer size 1024 is used.
      *
      * @return The buffer size.
      */
     public Integer getBufferSize();
 
     /**
-     * Sets the buffer size of this SNMP protocol adaptor.
+     * Sets the buffer size of this SNMP protocol bdbptor.
      *
-     * @param s The buffer size.
+     * @pbrbm s The buffer size.
      *
-     * @exception java.lang.IllegalStateException This method has been invoked
-     * while the communicator was <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * @exception jbvb.lbng.IllegblStbteException This method hbs been invoked
+     * while the communicbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
      */
-    public void setBufferSize(Integer s) throws java.lang.IllegalStateException;
+    public void setBufferSize(Integer s) throws jbvb.lbng.IllegblStbteException;
 
     /**
-     * Gets the number of times to try sending an inform request before giving up.
-     * @return The maximun number of tries.
+     * Gets the number of times to try sending bn inform request before giving up.
+     * @return The mbximun number of tries.
      */
-    public int getMaxTries();
+    public int getMbxTries();
 
     /**
-     * Changes the maximun number of times to try sending an inform request before giving up.
-     * @param newMaxTries The maximun number of tries.
+     * Chbnges the mbximun number of times to try sending bn inform request before giving up.
+     * @pbrbm newMbxTries The mbximun number of tries.
      */
-    public void setMaxTries(int newMaxTries);
+    public void setMbxTries(int newMbxTries);
 
     /**
-     * Gets the timeout to wait for an inform response from the manager.
-     * @return The value of the timeout property.
+     * Gets the timeout to wbit for bn inform response from the mbnbger.
+     * @return The vblue of the timeout property.
      */
     public int getTimeout();
 
     /**
-     * Changes the timeout to wait for an inform response from the manager.
-     * @param newTimeout The timeout (in milliseconds).
+     * Chbnges the timeout to wbit for bn inform response from the mbnbger.
+     * @pbrbm newTimeout The timeout (in milliseconds).
      */
     public void setTimeout(int newTimeout);
 
     /**
-     * Returns the message factory of this SNMP protocol adaptor.
+     * Returns the messbge fbctory of this SNMP protocol bdbptor.
      *
-     * @return The factory object.
+     * @return The fbctory object.
      */
-    public SnmpPduFactory getPduFactory();
+    public SnmpPduFbctory getPduFbctory();
 
     /**
-     * Sets the message factory of this SNMP protocol adaptor.
+     * Sets the messbge fbctory of this SNMP protocol bdbptor.
      *
-     * @param factory The factory object (null means the default factory).
+     * @pbrbm fbctory The fbctory object (null mebns the defbult fbctory).
      */
-    public void setPduFactory(SnmpPduFactory factory);
+    public void setPduFbctory(SnmpPduFbctory fbctory);
 
 
     /**
-     * Set the user-data factory of this SNMP protocol adaptor.
+     * Set the user-dbtb fbctory of this SNMP protocol bdbptor.
      *
-     * @param factory The factory object (null means no factory).
-     * @see com.sun.jmx.snmp.agent.SnmpUserDataFactory
+     * @pbrbm fbctory The fbctory object (null mebns no fbctory).
+     * @see com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory
      */
-    public void setUserDataFactory(SnmpUserDataFactory factory);
+    public void setUserDbtbFbctory(SnmpUserDbtbFbctory fbctory);
 
     /**
-     * Get the user-data factory associated with this SNMP protocol adaptor.
+     * Get the user-dbtb fbctory bssocibted with this SNMP protocol bdbptor.
      *
-     * @return The factory object (null means no factory).
-     * @see com.sun.jmx.snmp.agent.SnmpUserDataFactory
+     * @return The fbctory object (null mebns no fbctory).
+     * @see com.sun.jmx.snmp.bgent.SnmpUserDbtbFbctory
      */
-    public SnmpUserDataFactory getUserDataFactory();
+    public SnmpUserDbtbFbctory getUserDbtbFbctory();
 
     /**
-     * Returns <CODE>true</CODE> if authentication traps are enabled.
+     * Returns <CODE>true</CODE> if buthenticbtion trbps bre enbbled.
      * <P>
-     * When this feature is enabled, the SNMP protocol adaptor sends
-     * an <CODE>authenticationFailure</CODE> trap each time an authentication fails.
+     * When this febture is enbbled, the SNMP protocol bdbptor sends
+     * bn <CODE>buthenticbtionFbilure</CODE> trbp ebch time bn buthenticbtion fbils.
      * <P>
-     * The default behaviour is to send authentication traps.
+     * The defbult behbviour is to send buthenticbtion trbps.
      *
-     * @return <CODE>true</CODE> if authentication traps are enabled, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if buthenticbtion trbps bre enbbled, <CODE>fblse</CODE> otherwise.
      */
-    public boolean getAuthTrapEnabled();
+    public boolebn getAuthTrbpEnbbled();
 
     /**
-     * Sets the flag indicating if traps need to be sent in case of authentication failure.
+     * Sets the flbg indicbting if trbps need to be sent in cbse of buthenticbtion fbilure.
      *
-     * @param enabled Flag indicating if traps need to be sent.
+     * @pbrbm enbbled Flbg indicbting if trbps need to be sent.
      */
-    public void setAuthTrapEnabled(boolean enabled);
+    public void setAuthTrbpEnbbled(boolebn enbbled);
 
     /**
-     * Returns <code>true</code> if this SNMP protocol adaptor sends a response in case
-     * of authentication failure.
+     * Returns <code>true</code> if this SNMP protocol bdbptor sends b response in cbse
+     * of buthenticbtion fbilure.
      * <P>
-     * When this feature is enabled, the SNMP protocol adaptor sends a response with <CODE>noSuchName</CODE>
-     * or <CODE>readOnly</CODE> when the authentication failed. If the flag is disabled, the
-     * SNMP protocol adaptor trashes the PDU silently.
+     * When this febture is enbbled, the SNMP protocol bdbptor sends b response with <CODE>noSuchNbme</CODE>
+     * or <CODE>rebdOnly</CODE> when the buthenticbtion fbiled. If the flbg is disbbled, the
+     * SNMP protocol bdbptor trbshes the PDU silently.
      * <P>
-     * The default behavior is to send responses.
+     * The defbult behbvior is to send responses.
      *
-     * @return <code>true</code> if responses are sent.
+     * @return <code>true</code> if responses bre sent.
      */
-    public boolean getAuthRespEnabled();
+    public boolebn getAuthRespEnbbled();
 
     /**
-     * Sets the flag indicating if responses need to be sent in case of authentication failure.
+     * Sets the flbg indicbting if responses need to be sent in cbse of buthenticbtion fbilure.
      *
-     * @param enabled Flag indicating if responses need to be sent.
+     * @pbrbm enbbled Flbg indicbting if responses need to be sent.
      */
-    public void setAuthRespEnabled(boolean enabled);
+    public void setAuthRespEnbbled(boolebn enbbled);
 
     /**
-     * Returns the enterprise OID. It is used by {@link #snmpV1Trap snmpV1Trap} to fill
-     * the 'enterprise' field of the trap request.
+     * Returns the enterprise OID. It is used by {@link #snmpV1Trbp snmpV1Trbp} to fill
+     * the 'enterprise' field of the trbp request.
      *
-     * @return The OID in string format "x.x.x.x".
+     * @return The OID in string formbt "x.x.x.x".
      */
     public String getEnterpriseOid();
 
     /**
      * Sets the enterprise OID.
      *
-     * @param oid The OID in string format "x.x.x.x".
+     * @pbrbm oid The OID in string formbt "x.x.x.x".
      *
-     * @exception IllegalArgumentException The string format is incorrect
+     * @exception IllegblArgumentException The string formbt is incorrect
      */
-    public void setEnterpriseOid(String oid) throws IllegalArgumentException;
+    public void setEnterpriseOid(String oid) throws IllegblArgumentException;
 
     /**
-     * Returns the names of the MIBs available in this SNMP protocol adaptor.
+     * Returns the nbmes of the MIBs bvbilbble in this SNMP protocol bdbptor.
      *
-     * @return An array of MIB names.
+     * @return An brrby of MIB nbmes.
      */
     public String[] getMibs();
 
@@ -284,137 +284,137 @@ public interface SnmpAdaptorServerMBean extends CommunicatorServerMBean {
     //-------------------------------
 
     /**
-     * Returns the <CODE>snmpOutTraps</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpOutTrbps</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpOutTraps</CODE> value.
+     * @return The <CODE>snmpOutTrbps</CODE> vblue.
      */
-    public Long getSnmpOutTraps();
+    public Long getSnmpOutTrbps();
 
     /**
-     * Returns the <CODE>snmpOutGetResponses</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpOutGetResponses</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpOutGetResponses</CODE> value.
+     * @return The <CODE>snmpOutGetResponses</CODE> vblue.
      */
     public Long getSnmpOutGetResponses();
 
     /**
-     * Returns the <CODE>snmpOutGenErrs</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpOutGenErrs</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpOutGenErrs</CODE> value.
+     * @return The <CODE>snmpOutGenErrs</CODE> vblue.
      */
     public Long getSnmpOutGenErrs();
 
     /**
-     * Returns the <CODE>snmpOutBadValues</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpOutBbdVblues</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpOutBadValues</CODE> value.
+     * @return The <CODE>snmpOutBbdVblues</CODE> vblue.
      */
-    public Long getSnmpOutBadValues();
+    public Long getSnmpOutBbdVblues();
 
     /**
-     * Returns the <CODE>snmpOutNoSuchNames</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpOutNoSuchNbmes</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpOutNoSuchNames</CODE> value.
+     * @return The <CODE>snmpOutNoSuchNbmes</CODE> vblue.
      */
-    public Long getSnmpOutNoSuchNames();
+    public Long getSnmpOutNoSuchNbmes();
 
     /**
-     * Returns the <CODE>snmpOutTooBigs</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpOutTooBigs</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpOutTooBigs</CODE> value.
+     * @return The <CODE>snmpOutTooBigs</CODE> vblue.
      */
     public Long getSnmpOutTooBigs();
 
     /**
-     * Returns the <CODE>snmpInASNParseErrs</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpInASNPbrseErrs</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpInASNParseErrs</CODE> value.
+     * @return The <CODE>snmpInASNPbrseErrs</CODE> vblue.
      */
-    public Long getSnmpInASNParseErrs();
+    public Long getSnmpInASNPbrseErrs();
 
     /**
-     * Returns the <CODE>snmpInBadCommunityUses</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpInBbdCommunityUses</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpInBadCommunityUses</CODE> value.
+     * @return The <CODE>snmpInBbdCommunityUses</CODE> vblue.
      */
-    public Long getSnmpInBadCommunityUses();
+    public Long getSnmpInBbdCommunityUses();
 
     /**
-     * Returns the <CODE>snmpInBadCommunityNames</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpInBbdCommunityNbmes</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpInBadCommunityNames</CODE> value.
+     * @return The <CODE>snmpInBbdCommunityNbmes</CODE> vblue.
      */
-    public Long getSnmpInBadCommunityNames();
+    public Long getSnmpInBbdCommunityNbmes();
 
     /**
-     * Returns the <CODE>snmpInBadVersions</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpInBbdVersions</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpInBadVersions</CODE> value.
+     * @return The <CODE>snmpInBbdVersions</CODE> vblue.
      */
-    public Long getSnmpInBadVersions();
+    public Long getSnmpInBbdVersions();
 
     /**
-     * Returns the <CODE>snmpOutPkts</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpOutPkts</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpOutPkts</CODE> value.
+     * @return The <CODE>snmpOutPkts</CODE> vblue.
      */
     public Long getSnmpOutPkts();
 
     /**
-     * Returns the <CODE>snmpInPkts</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpInPkts</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpInPkts</CODE> value.
+     * @return The <CODE>snmpInPkts</CODE> vblue.
      */
     public Long getSnmpInPkts();
 
     /**
-     * Returns the <CODE>snmpInGetRequests</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpInGetRequests</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpInGetRequests</CODE> value.
+     * @return The <CODE>snmpInGetRequests</CODE> vblue.
      */
     public Long getSnmpInGetRequests();
 
     /**
-     * Returns the <CODE>snmpInGetNexts</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpInGetNexts</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpInGetNexts</CODE> value.
+     * @return The <CODE>snmpInGetNexts</CODE> vblue.
      */
     public Long getSnmpInGetNexts();
 
     /**
-     * Returns the <CODE>snmpInSetRequests</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpInSetRequests</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpInSetRequests</CODE> value.
+     * @return The <CODE>snmpInSetRequests</CODE> vblue.
      */
     public Long getSnmpInSetRequests();
 
     /**
-     * Returns the <CODE>snmpInTotalSetVars</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpInTotblSetVbrs</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpInTotalSetVars</CODE> value.
+     * @return The <CODE>snmpInTotblSetVbrs</CODE> vblue.
      */
-    public Long getSnmpInTotalSetVars();
+    public Long getSnmpInTotblSetVbrs();
 
     /**
-     * Returns the <CODE>snmpInTotalReqVars</CODE> value defined in MIB-II.
+     * Returns the <CODE>snmpInTotblReqVbrs</CODE> vblue defined in MIB-II.
      *
-     * @return The <CODE>snmpInTotalReqVars</CODE> value.
+     * @return The <CODE>snmpInTotblReqVbrs</CODE> vblue.
      */
-    public Long getSnmpInTotalReqVars();
+    public Long getSnmpInTotblReqVbrs();
 
     /**
-     * Returns the <CODE>snmpSilentDrops</CODE> value defined in rfc 1907 NMPv2-MIB .
+     * Returns the <CODE>snmpSilentDrops</CODE> vblue defined in rfc 1907 NMPv2-MIB .
      *
-     * @return The <CODE>snmpSilentDrops</CODE> value.
+     * @return The <CODE>snmpSilentDrops</CODE> vblue.
      *
      * @since 1.5
      */
     public Long getSnmpSilentDrops();
 
     /**
-     * Returns the <CODE>snmpProxyDrops</CODE> value defined in rfc 1907 NMPv2-MIB .
+     * Returns the <CODE>snmpProxyDrops</CODE> vblue defined in rfc 1907 NMPv2-MIB .
      *
-     * @return The <CODE>snmpProxyDrops</CODE> value.
+     * @return The <CODE>snmpProxyDrops</CODE> vblue.
      *
      * @since 1.5
      */
@@ -424,279 +424,279 @@ public interface SnmpAdaptorServerMBean extends CommunicatorServerMBean {
     //---------------
 
     /**
-     * Adds a new MIB in the SNMP MIB handler.
-     * This method is called automatically by {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptor(SnmpMibHandler)}
-     * and {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptorName(ObjectName)}
-     * and should not be called directly.
+     * Adds b new MIB in the SNMP MIB hbndler.
+     * This method is cblled butombticblly by {@link com.sun.jmx.snmp.bgent.SnmpMibAgent#setSnmpAdbptor(SnmpMibHbndler)}
+     * bnd {@link com.sun.jmx.snmp.bgent.SnmpMibAgent#setSnmpAdbptorNbme(ObjectNbme)}
+     * bnd should not be cblled directly.
      *
-     * @param mib The MIB to add.
+     * @pbrbm mib The MIB to bdd.
      *
-     * @return A reference to the SNMP MIB handler.
+     * @return A reference to the SNMP MIB hbndler.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @exception IllegblArgumentException If the pbrbmeter is null.
      */
-    public SnmpMibHandler addMib(SnmpMibAgent mib) throws IllegalArgumentException;
+    public SnmpMibHbndler bddMib(SnmpMibAgent mib) throws IllegblArgumentException;
 
     /**
-     * Adds a new MIB in the SNMP MIB handler.
+     * Adds b new MIB in the SNMP MIB hbndler.
      *
-     * @param mib The MIB to add.
-     * @param oids The set of OIDs this agent implements.
+     * @pbrbm mib The MIB to bdd.
+     * @pbrbm oids The set of OIDs this bgent implements.
      *
-     * @return A reference to the SNMP MIB handler.
+     * @return A reference to the SNMP MIB hbndler.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @exception IllegblArgumentException If the pbrbmeter is null.
      *
      * @since 1.5
      */
-    public SnmpMibHandler addMib(SnmpMibAgent mib, SnmpOid[] oids) throws IllegalArgumentException;
+    public SnmpMibHbndler bddMib(SnmpMibAgent mib, SnmpOid[] oids) throws IllegblArgumentException;
 
     /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
-     * This method is called automatically by {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptor(SnmpMibHandler)}
-     * and {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptorName(ObjectName)}
-     * and should not be called directly.
+     * Removes the specified MIB from the SNMP protocol bdbptor.
+     * This method is cblled butombticblly by {@link com.sun.jmx.snmp.bgent.SnmpMibAgent#setSnmpAdbptor(SnmpMibHbndler)}
+     * bnd {@link com.sun.jmx.snmp.bgent.SnmpMibAgent#setSnmpAdbptorNbme(ObjectNbme)}
+     * bnd should not be cblled directly.
      *
-     * @param mib The MIB to be removed.
+     * @pbrbm mib The MIB to be removed.
      *
-     * @return <code>true</code> if the specified <CODE>mib</CODE> was a MIB included in the SNMP MIB handler,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the specified <CODE>mib</CODE> wbs b MIB included in the SNMP MIB hbndler,
+     * <code>fblse</code> otherwise.
      */
-    public boolean removeMib(SnmpMibAgent mib);
+    public boolebn removeMib(SnmpMibAgent mib);
 
     /**
-     * Sends a trap using SNMP V1 trap format.
-     * <BR>The trap is sent to each destination defined in the ACL file (if available).
-     * If no ACL file or no destinations are available, the trap is sent to the local host.
+     * Sends b trbp using SNMP V1 trbp formbt.
+     * <BR>The trbp is sent to ebch destinbtion defined in the ACL file (if bvbilbble).
+     * If no ACL file or no destinbtions bre bvbilbble, the trbp is sent to the locbl host.
      *
-     * @param generic The generic number of the trap.
-     * @param specific The specific number of the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm generic The generic number of the trbp.
+     * @pbrbm specific The specific number of the trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbnces or null.
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @exception IOException An I/O error occurred while sending the trbp.
+     * @exception SnmpStbtusException If the trbp exceeds the limit defined by <CODE>bufferSize</CODE>.
      */
-    public void snmpV1Trap(int generic, int specific, SnmpVarBindList varBindList) throws IOException, SnmpStatusException;
+    public void snmpV1Trbp(int generic, int specific, SnmpVbrBindList vbrBindList) throws IOException, SnmpStbtusException;
 
 
     /**
-     * Sends a trap using SNMP V1 trap format.
-     * <BR>The trap is sent to the specified <CODE>InetAddress</CODE> destination
-     * using the specified community string (and the ACL file is not used).
+     * Sends b trbp using SNMP V1 trbp formbt.
+     * <BR>The trbp is sent to the specified <CODE>InetAddress</CODE> destinbtion
+     * using the specified community string (bnd the ACL file is not used).
      *
-     * @param address The <CODE>InetAddress</CODE> destination of the trap.
-     * @param cs The community string to be used for the trap.
-     * @param generic The generic number of the trap.
-     * @param specific The specific number of the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm bddress The <CODE>InetAddress</CODE> destinbtion of the trbp.
+     * @pbrbm cs The community string to be used for the trbp.
+     * @pbrbm generic The generic number of the trbp.
+     * @pbrbm specific The specific number of the trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbnces or null.
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @exception IOException An I/O error occurred while sending the trbp.
+     * @exception SnmpStbtusException If the trbp exceeds the limit defined by <CODE>bufferSize</CODE>.
      */
-    public void snmpV1Trap(InetAddress address, String cs, int generic, int specific, SnmpVarBindList varBindList)
-        throws IOException, SnmpStatusException;
+    public void snmpV1Trbp(InetAddress bddress, String cs, int generic, int specific, SnmpVbrBindList vbrBindList)
+        throws IOException, SnmpStbtusException;
 
 
     /**
-     * Sends a trap using SNMP V1 trap format.
-     * <BR>The trap is sent to the specified <CODE>SnmpPeer</CODE> destination.
-     * The community string used is the one located in the <CODE>SnmpPeer</CODE> parameters (<CODE>SnmpParameters.getRdCommunity() </CODE>).
+     * Sends b trbp using SNMP V1 trbp formbt.
+     * <BR>The trbp is sent to the specified <CODE>SnmpPeer</CODE> destinbtion.
+     * The community string used is the one locbted in the <CODE>SnmpPeer</CODE> pbrbmeters (<CODE>SnmpPbrbmeters.getRdCommunity() </CODE>).
      *
-     * @param peer The <CODE>SnmpPeer</CODE> destination of the trap.
-     * @param agentAddr The agent address to be used for the trap.
-     * @param enterpOid The enterprise OID to be used for the trap.
-     * @param generic The generic number of the trap.
-     * @param specific The specific number of the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
-     * @param time The time stamp (overwrite the current time).
+     * @pbrbm peer The <CODE>SnmpPeer</CODE> destinbtion of the trbp.
+     * @pbrbm bgentAddr The bgent bddress to be used for the trbp.
+     * @pbrbm enterpOid The enterprise OID to be used for the trbp.
+     * @pbrbm generic The generic number of the trbp.
+     * @pbrbm specific The specific number of the trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbnces or null.
+     * @pbrbm time The time stbmp (overwrite the current time).
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @exception IOException An I/O error occurred while sending the trbp.
+     * @exception SnmpStbtusException If the trbp exceeds the limit defined by <CODE>bufferSize</CODE>.
      *
      * @since 1.5
      */
-    public void snmpV1Trap(SnmpPeer peer,
-                           SnmpIpAddress agentAddr,
+    public void snmpV1Trbp(SnmpPeer peer,
+                           SnmpIpAddress bgentAddr,
                            SnmpOid enterpOid,
                            int generic,
                            int specific,
-                           SnmpVarBindList varBindList,
-                           SnmpTimeticks time) throws IOException, SnmpStatusException;
+                           SnmpVbrBindList vbrBindList,
+                           SnmpTimeticks time) throws IOException, SnmpStbtusException;
 
     /**
-     * Sends a trap using SNMP V2 trap format.
-     * <BR>The trap is sent to the specified <CODE>SnmpPeer</CODE> destination.
-     * <BR>The community string used is the one located in the <CODE>SnmpPeer</CODE> parameters (<CODE>SnmpParameters.getRdCommunity() </CODE>).
-     * <BR>The variable list included in the outgoing trap is composed of the following items:
+     * Sends b trbp using SNMP V2 trbp formbt.
+     * <BR>The trbp is sent to the specified <CODE>SnmpPeer</CODE> destinbtion.
+     * <BR>The community string used is the one locbted in the <CODE>SnmpPeer</CODE> pbrbmeters (<CODE>SnmpPbrbmeters.getRdCommunity() </CODE>).
+     * <BR>The vbribble list included in the outgoing trbp is composed of the following items:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with the value specified by <CODE>time</CODE>
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by <CODE>trapOid</CODE>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified <CODE>varBindList</CODE>
+     * <LI><CODE>sysUpTime.0</CODE> with the vblue specified by <CODE>time</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> with the vblue specified by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll the (oid,vblues)</CODE> from the specified <CODE>vbrBindList</CODE>
      * </UL>
      *
-     * @param peer The <CODE>SnmpPeer</CODE> destination of the trap.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
-     * @param time The time stamp (overwrite the current time).
+     * @pbrbm peer The <CODE>SnmpPeer</CODE> destinbtion of the trbp.
+     * @pbrbm trbpOid The OID identifying the trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbnces or null.
+     * @pbrbm time The time stbmp (overwrite the current time).
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @exception IOException An I/O error occurred while sending the trbp.
+     * @exception SnmpStbtusException If the trbp exceeds the limit defined by <CODE>bufferSize</CODE>.
      *
      * @since 1.5
      */
-    public void snmpV2Trap(SnmpPeer peer,
-                           SnmpOid trapOid,
-                           SnmpVarBindList varBindList,
-                           SnmpTimeticks time) throws IOException, SnmpStatusException;
+    public void snmpV2Trbp(SnmpPeer peer,
+                           SnmpOid trbpOid,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpTimeticks time) throws IOException, SnmpStbtusException;
 
     /**
-     * Sends a trap using SNMP V2 trap format.
-     * <BR>The trap is sent to each destination defined in the ACL file (if available).
-     * If no ACL file or no destinations are available, the trap is sent to the local host.
-     * <BR>The variable list included in the outgoing trap is composed of the following items:
+     * Sends b trbp using SNMP V2 trbp formbt.
+     * <BR>The trbp is sent to ebch destinbtion defined in the ACL file (if bvbilbble).
+     * If no ACL file or no destinbtions bre bvbilbble, the trbp is sent to the locbl host.
+     * <BR>The vbribble list included in the outgoing trbp is composed of the following items:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by <CODE>trapOid</CODE>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified <CODE>varBindList</CODE>
+     * <LI><CODE>sysUpTime.0</CODE> with its current vblue
+     * <LI><CODE>snmpTrbpOid.0</CODE> with the vblue specified by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll the (oid,vblues)</CODE> from the specified <CODE>vbrBindList</CODE>
      * </UL>
      *
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm trbpOid The OID identifying the trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbnces or null.
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @exception IOException An I/O error occurred while sending the trbp.
+     * @exception SnmpStbtusException If the trbp exceeds the limit defined by <CODE>bufferSize</CODE>.
      */
-    public void snmpV2Trap(SnmpOid trapOid, SnmpVarBindList varBindList) throws IOException, SnmpStatusException;
+    public void snmpV2Trbp(SnmpOid trbpOid, SnmpVbrBindList vbrBindList) throws IOException, SnmpStbtusException;
 
 
     /**
-     * Sends a trap using SNMP V2 trap format.
-     * <BR>The trap is sent to the specified <CODE>InetAddress</CODE> destination
-     * using the specified community string (and the ACL file is not used).
-     * <BR>The variable list included in the outgoing trap is composed of the following items:
+     * Sends b trbp using SNMP V2 trbp formbt.
+     * <BR>The trbp is sent to the specified <CODE>InetAddress</CODE> destinbtion
+     * using the specified community string (bnd the ACL file is not used).
+     * <BR>The vbribble list included in the outgoing trbp is composed of the following items:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by <CODE>trapOid</CODE>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified <CODE>varBindList</CODE>
+     * <LI><CODE>sysUpTime.0</CODE> with its current vblue
+     * <LI><CODE>snmpTrbpOid.0</CODE> with the vblue specified by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll the (oid,vblues)</CODE> from the specified <CODE>vbrBindList</CODE>
      * </UL>
      *
-     * @param address The <CODE>InetAddress</CODE> destination of the trap.
-     * @param cs The community string to be used for the trap.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm bddress The <CODE>InetAddress</CODE> destinbtion of the trbp.
+     * @pbrbm cs The community string to be used for the trbp.
+     * @pbrbm trbpOid The OID identifying the trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbnces or null.
      *
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @exception IOException An I/O error occurred while sending the trbp.
+     * @exception SnmpStbtusException If the trbp exceeds the limit defined by <CODE>bufferSize</CODE>.
      */
-    public void snmpV2Trap(InetAddress address, String cs, SnmpOid trapOid, SnmpVarBindList varBindList)
-        throws IOException, SnmpStatusException;
+    public void snmpV2Trbp(InetAddress bddress, String cs, SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+        throws IOException, SnmpStbtusException;
 
     /**
-     * Send the specified trap PDU to the passed <CODE>InetAddress</CODE>.
-     * @param address The destination address.
-     * @param pdu The pdu to send.
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * Send the specified trbp PDU to the pbssed <CODE>InetAddress</CODE>.
+     * @pbrbm bddress The destinbtion bddress.
+     * @pbrbm pdu The pdu to send.
+     * @exception IOException An I/O error occurred while sending the trbp.
+     * @exception SnmpStbtusException If the trbp exceeds the limit defined by <CODE>bufferSize</CODE>.
      *
      * @since 1.5
      */
-    public void snmpPduTrap(InetAddress address, SnmpPduPacket pdu)
-        throws IOException, SnmpStatusException;
+    public void snmpPduTrbp(InetAddress bddress, SnmpPduPbcket pdu)
+        throws IOException, SnmpStbtusException;
     /**
-     * Send the specified trap PDU to the passed <CODE>SnmpPeer</CODE>.
-     * @param peer The destination peer. The Read community string is used of <CODE>SnmpParameters</CODE> is used as the trap community string.
-     * @param pdu The pdu to send.
-     * @exception IOException An I/O error occurred while sending the trap.
-     * @exception SnmpStatusException If the trap exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * Send the specified trbp PDU to the pbssed <CODE>SnmpPeer</CODE>.
+     * @pbrbm peer The destinbtion peer. The Rebd community string is used of <CODE>SnmpPbrbmeters</CODE> is used bs the trbp community string.
+     * @pbrbm pdu The pdu to send.
+     * @exception IOException An I/O error occurred while sending the trbp.
+     * @exception SnmpStbtusException If the trbp exceeds the limit defined by <CODE>bufferSize</CODE>.
      * @since 1.5
      */
-    public void snmpPduTrap(SnmpPeer peer,
-                            SnmpPduPacket pdu)
-        throws IOException, SnmpStatusException;
+    public void snmpPduTrbp(SnmpPeer peer,
+                            SnmpPduPbcket pdu)
+        throws IOException, SnmpStbtusException;
 
     /**
-     * Sends an inform using SNMP V2 inform request format.
-     * <BR>The inform request is sent to each destination defined in the ACL file (if available).
-     * If no ACL file or no destinations are available, the inform request is sent to the local host.
-     * <BR>The variable list included in the outgoing inform request is composed of the following items:
+     * Sends bn inform using SNMP V2 inform request formbt.
+     * <BR>The inform request is sent to ebch destinbtion defined in the ACL file (if bvbilbble).
+     * If no ACL file or no destinbtions bre bvbilbble, the inform request is sent to the locbl host.
+     * <BR>The vbribble list included in the outgoing inform request is composed of the following items:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by <CODE>trapOid</CODE>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified <CODE>varBindList</CODE>
+     * <LI><CODE>sysUpTime.0</CODE> with its current vblue
+     * <LI><CODE>snmpTrbpOid.0</CODE> with the vblue specified by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll the (oid,vblues)</CODE> from the specified <CODE>vbrBindList</CODE>
      * </UL>
-     * To send an inform request, the SNMP adaptor server must be active.
+     * To send bn inform request, the SNMP bdbptor server must be bctive.
      *
-     * @param cb The callback that is invoked when a request is complete.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm cb The cbllbbck thbt is invoked when b request is complete.
+     * @pbrbm trbpOid The OID identifying the trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbnces or null.
      *
-     * @return A vector of {@link com.sun.jmx.snmp.daemon.SnmpInformRequest} objects.
-     * <P>If there is no destination host for this inform request, the returned vector will be empty.
+     * @return A vector of {@link com.sun.jmx.snmp.dbemon.SnmpInformRequest} objects.
+     * <P>If there is no destinbtion host for this inform request, the returned vector will be empty.
      *
-     * @exception IllegalStateException  This method has been invoked while the SNMP adaptor server was not active.
+     * @exception IllegblStbteException  This method hbs been invoked while the SNMP bdbptor server wbs not bctive.
      * @exception IOException An I/O error occurred while sending the inform request.
-     * @exception SnmpStatusException If the inform request exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @exception SnmpStbtusException If the inform request exceeds the limit defined by <CODE>bufferSize</CODE>.
      */
-    public Vector<?> snmpInformRequest(SnmpInformHandler cb, SnmpOid trapOid,
-            SnmpVarBindList varBindList)
-        throws IllegalStateException, IOException, SnmpStatusException;
+    public Vector<?> snmpInformRequest(SnmpInformHbndler cb, SnmpOid trbpOid,
+            SnmpVbrBindList vbrBindList)
+        throws IllegblStbteException, IOException, SnmpStbtusException;
 
     /**
-     * Sends an inform using SNMP V2 inform request format.
-     * <BR>The inform is sent to the specified <CODE>InetAddress</CODE> destination
+     * Sends bn inform using SNMP V2 inform request formbt.
+     * <BR>The inform is sent to the specified <CODE>InetAddress</CODE> destinbtion
      * using the specified community string.
-     * <BR>The variable list included in the outgoing inform request is composed of the following items:
+     * <BR>The vbribble list included in the outgoing inform request is composed of the following items:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by <CODE>trapOid</CODE>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified <CODE>varBindList</CODE>
+     * <LI><CODE>sysUpTime.0</CODE> with its current vblue
+     * <LI><CODE>snmpTrbpOid.0</CODE> with the vblue specified by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll the (oid,vblues)</CODE> from the specified <CODE>vbrBindList</CODE>
      * </UL>
-     * To send an inform request, the SNMP adaptor server must be active.
+     * To send bn inform request, the SNMP bdbptor server must be bctive.
      *
-     * @param address The <CODE>InetAddress</CODE> destination for this inform request.
-     * @param cs The community string to be used for the inform request.
-     * @param cb The callback that is invoked when a request is complete.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm bddress The <CODE>InetAddress</CODE> destinbtion for this inform request.
+     * @pbrbm cs The community string to be used for the inform request.
+     * @pbrbm cb The cbllbbck thbt is invoked when b request is complete.
+     * @pbrbm trbpOid The OID identifying the trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbnces or null.
      *
      * @return The inform request object.
      *
-     * @exception IllegalStateException  This method has been invoked while the SNMP adaptor server was not active.
+     * @exception IllegblStbteException  This method hbs been invoked while the SNMP bdbptor server wbs not bctive.
      * @exception IOException An I/O error occurred while sending the inform request.
-     * @exception SnmpStatusException If the inform request exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @exception SnmpStbtusException If the inform request exceeds the limit defined by <CODE>bufferSize</CODE>.
      */
-    public SnmpInformRequest snmpInformRequest(InetAddress address, String cs, SnmpInformHandler cb,
-                                               SnmpOid trapOid, SnmpVarBindList varBindList)
-        throws IllegalStateException, IOException, SnmpStatusException;
+    public SnmpInformRequest snmpInformRequest(InetAddress bddress, String cs, SnmpInformHbndler cb,
+                                               SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+        throws IllegblStbteException, IOException, SnmpStbtusException;
 
 
     /**
-     * Sends an inform using SNMP V2 inform request format.
-     * <BR>The inform is sent to the specified <CODE>SnmpPeer</CODE> destination.
-     * <BR> The community string used is the one located in the <CODE>SnmpPeer</CODE> parameters (<CODE>SnmpParameters.getInformCommunity() </CODE>).
-     * <BR>The variable list included in the outgoing inform is composed of the following items:
+     * Sends bn inform using SNMP V2 inform request formbt.
+     * <BR>The inform is sent to the specified <CODE>SnmpPeer</CODE> destinbtion.
+     * <BR> The community string used is the one locbted in the <CODE>SnmpPeer</CODE> pbrbmeters (<CODE>SnmpPbrbmeters.getInformCommunity() </CODE>).
+     * <BR>The vbribble list included in the outgoing inform is composed of the following items:
      * <UL>
-     * <LI><CODE>sysUpTime.0</CODE> with its current value
-     * <LI><CODE>snmpTrapOid.0</CODE> with the value specified by <CODE>trapOid</CODE>
-     * <LI><CODE>all the (oid,values)</CODE> from the specified <CODE>varBindList</CODE>
+     * <LI><CODE>sysUpTime.0</CODE> with its current vblue
+     * <LI><CODE>snmpTrbpOid.0</CODE> with the vblue specified by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll the (oid,vblues)</CODE> from the specified <CODE>vbrBindList</CODE>
      * </UL>
-     * To send an inform request, the SNMP adaptor server must be active.
+     * To send bn inform request, the SNMP bdbptor server must be bctive.
      *
-     * @param peer The <CODE>SnmpPeer</CODE> destination for this inform request.
-     * @param cb The callback that is invoked when a request is complete.
-     * @param trapOid The OID identifying the trap.
-     * @param varBindList A list of <CODE>SnmpVarBind</CODE> instances or null.
+     * @pbrbm peer The <CODE>SnmpPeer</CODE> destinbtion for this inform request.
+     * @pbrbm cb The cbllbbck thbt is invoked when b request is complete.
+     * @pbrbm trbpOid The OID identifying the trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbnces or null.
      *
      * @return The inform request object.
      *
-     * @exception IllegalStateException  This method has been invoked while the SNMP adaptor server was not active.
+     * @exception IllegblStbteException  This method hbs been invoked while the SNMP bdbptor server wbs not bctive.
      * @exception IOException An I/O error occurred while sending the inform request.
-     * @exception SnmpStatusException If the inform request exceeds the limit defined by <CODE>bufferSize</CODE>.
+     * @exception SnmpStbtusException If the inform request exceeds the limit defined by <CODE>bufferSize</CODE>.
      *
      * @since 1.5
      */
     public SnmpInformRequest snmpInformRequest(SnmpPeer peer,
-                                               SnmpInformHandler cb,
-                                               SnmpOid trapOid,
-                                               SnmpVarBindList varBindList) throws IllegalStateException, IOException, SnmpStatusException;
+                                               SnmpInformHbndler cb,
+                                               SnmpOid trbpOid,
+                                               SnmpVbrBindList vbrBindList) throws IllegblStbteException, IOException, SnmpStbtusException;
 }

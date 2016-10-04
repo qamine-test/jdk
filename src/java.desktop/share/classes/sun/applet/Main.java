@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.applet;
+pbckbge sun.bpplet;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.Vector;
-import sun.net.www.ParseUtil;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Properties;
+import jbvb.util.Vector;
+import sun.net.www.PbrseUtil;
 
 /**
- * The main entry point into AppletViewer.
+ * The mbin entry point into AppletViewer.
  */
-public class Main {
+public clbss Mbin {
     /**
-     * The file which contains all of the AppletViewer specific properties.
+     * The file which contbins bll of the AppletViewer specific properties.
      */
-    static File theUserPropertiesFile;
+    stbtic File theUserPropertiesFile;
 
     /**
-     * The default key/value pairs for the required user-specific properties.
+     * The defbult key/vblue pbirs for the required user-specific properties.
      */
-    static final String [][] avDefaultUserProps = {
-        // There's a bootstrapping problem here.  If we don't have a proxyHost,
-        // then we will not be able to connect to a URL outside the firewall;
-        // however, there's no way for us to set the proxyHost without starting
+    stbtic finbl String [][] bvDefbultUserProps = {
+        // There's b bootstrbpping problem here.  If we don't hbve b proxyHost,
+        // then we will not be bble to connect to b URL outside the firewbll;
+        // however, there's no wby for us to set the proxyHost without stbrting
         // AppletViewer.  This problem existed before the re-write.
         {"http.proxyHost", ""},
         {"http.proxyPort", "80"},
-        {"package.restrict.access.sun", "true"}
+        {"pbckbge.restrict.bccess.sun", "true"}
     };
 
-    static {
+    stbtic {
         File userHome = new File(System.getProperty("user.home"));
-        // make sure we can write to this location
-        userHome.canWrite();
+        // mbke sure we cbn write to this locbtion
+        userHome.cbnWrite();
 
-        theUserPropertiesFile = new File(userHome, ".appletviewer");
+        theUserPropertiesFile = new File(userHome, ".bppletviewer");
     }
 
     // i18n
-    private static AppletMessageHandler amh = new AppletMessageHandler("appletviewer");
+    privbte stbtic AppletMessbgeHbndler bmh = new AppletMessbgeHbndler("bppletviewer");
 
     /**
-     * Member variables set according to options passed in to AppletViewer.
+     * Member vbribbles set bccording to options pbssed in to AppletViewer.
      */
-    private boolean debugFlag = false;
-    private boolean helpFlag  = false;
-    private String  encoding  = null;
-    private boolean noSecurityFlag  = false;
-    private static boolean cmdLineTestFlag = false;
+    privbte boolebn debugFlbg = fblse;
+    privbte boolebn helpFlbg  = fblse;
+    privbte String  encoding  = null;
+    privbte boolebn noSecurityFlbg  = fblse;
+    privbte stbtic boolebn cmdLineTestFlbg = fblse;
 
     /**
-     * The list of valid URLs passed in to AppletViewer.
+     * The list of vblid URLs pbssed in to AppletViewer.
      */
-    private static Vector<URL> urlList = new Vector<>(1);
+    privbte stbtic Vector<URL> urlList = new Vector<>(1);
 
-    // This is used in init().  Getting rid of this is desirable but depends
-    // on whether the property that uses it is necessary/standard.
-    public static final String theVersion = System.getProperty("java.version");
+    // This is used in init().  Getting rid of this is desirbble but depends
+    // on whether the property thbt uses it is necessbry/stbndbrd.
+    public stbtic finbl String theVersion = System.getProperty("jbvb.version");
 
     /**
-     * The main entry point into AppletViewer.
+     * The mbin entry point into AppletViewer.
      */
-    public static void main(String [] args) {
-        Main m = new Main();
-        int ret = m.run(args);
+    public stbtic void mbin(String [] brgs) {
+        Mbin m = new Mbin();
+        int ret = m.run(brgs);
 
-        // Exit immediately if we got some sort of error along the way.
-        // For debugging purposes, if we have passed in "-XcmdLineTest" we
-        // force a premature exit.
-        if ((ret != 0) || (cmdLineTestFlag))
+        // Exit immedibtely if we got some sort of error blong the wby.
+        // For debugging purposes, if we hbve pbssed in "-XcmdLineTest" we
+        // force b prembture exit.
+        if ((ret != 0) || (cmdLineTestFlbg))
             System.exit(ret);
     }
 
-    private int run(String [] args) {
+    privbte int run(String [] brgs) {
         // DECODE ARGS
         try {
-            if (args.length == 0) {
-                usage();
+            if (brgs.length == 0) {
+                usbge();
                 return 0;
             }
-            for (int i = 0; i < args.length; ) {
-                int j = decodeArg(args, i);
+            for (int i = 0; i < brgs.length; ) {
+                int j = decodeArg(brgs, i);
                 if (j == 0) {
-                    throw new ParseException(lookup("main.err.unrecognizedarg",
-                                                    args[i]));
+                    throw new PbrseException(lookup("mbin.err.unrecognizedbrg",
+                                                    brgs[i]));
                 }
                 i += j;
             }
-        } catch (ParseException e) {
-            System.err.println(e.getMessage());
+        } cbtch (PbrseException e) {
+            System.err.println(e.getMessbge());
             return 1;
         }
 
         // CHECK ARGUMENTS
-        if (helpFlag) {
-            usage();
+        if (helpFlbg) {
+            usbge();
             return 0;
         }
 
         if (urlList.size() == 0) {
-            System.err.println(lookup("main.err.inputfile"));
+            System.err.println(lookup("mbin.err.inputfile"));
             return 1;
         }
 
-        if (debugFlag) {
+        if (debugFlbg) {
             // START A DEBUG SESSION
-            // Given the current architecture, we will end up decoding the
-            // arguments again, but at least we are guaranteed to have
-            // arguments which are valid.
-            return invokeDebugger(args);
+            // Given the current brchitecture, we will end up decoding the
+            // brguments bgbin, but bt lebst we bre gubrbnteed to hbve
+            // brguments which bre vblid.
+            return invokeDebugger(brgs);
         }
 
-        // INSTALL THE SECURITY MANAGER (if necessary)
-        if (!noSecurityFlag && (System.getSecurityManager() == null))
+        // INSTALL THE SECURITY MANAGER (if necessbry)
+        if (!noSecurityFlbg && (System.getSecurityMbnbger() == null))
             init();
 
         // LAUNCH APPLETVIEWER FOR EACH URL
         for (int i = 0; i < urlList.size(); i++) {
             try {
-                // XXX 5/17 this parsing method should be changed/fixed so that
-                // it doesn't do both parsing of the html file and launching of
-                // the AppletPanel
-                AppletViewer.parse(urlList.elementAt(i), encoding);
-            } catch (IOException e) {
-                System.err.println(lookup("main.err.io", e.getMessage()));
+                // XXX 5/17 this pbrsing method should be chbnged/fixed so thbt
+                // it doesn't do both pbrsing of the html file bnd lbunching of
+                // the AppletPbnel
+                AppletViewer.pbrse(urlList.elementAt(i), encoding);
+            } cbtch (IOException e) {
+                System.err.println(lookup("mbin.err.io", e.getMessbge()));
                 return 1;
             }
         }
         return 0;
     }
 
-    private static void usage() {
-        System.out.println(lookup("usage"));
+    privbte stbtic void usbge() {
+        System.out.println(lookup("usbge"));
     }
 
     /**
-     * Decode a single argument in an array and return the number of elements
+     * Decode b single brgument in bn brrby bnd return the number of elements
      * used.
      *
-     * @param args The array of arguments.
-     * @param i    The argument to decode.
-     * @return     The number of array elements used when the argument was
+     * @pbrbm brgs The brrby of brguments.
+     * @pbrbm i    The brgument to decode.
+     * @return     The number of brrby elements used when the brgument wbs
      *             decoded.
-     * @exception ParseException
-     *             Thrown when there is a problem with something in the
-     *             argument array.
+     * @exception PbrseException
+     *             Thrown when there is b problem with something in the
+     *             brgument brrby.
      */
-    private int decodeArg(String [] args, int i) throws ParseException {
-        String arg = args[i];
-        int argc = args.length;
+    privbte int decodeArg(String [] brgs, int i) throws PbrseException {
+        String brg = brgs[i];
+        int brgc = brgs.length;
 
-        if ("-help".equalsIgnoreCase(arg) || "-?".equals(arg)) {
-            helpFlag = true;
+        if ("-help".equblsIgnoreCbse(brg) || "-?".equbls(brg)) {
+            helpFlbg = true;
             return 1;
-        } else if ("-encoding".equals(arg) && (i < argc - 1)) {
+        } else if ("-encoding".equbls(brg) && (i < brgc - 1)) {
             if (encoding != null)
-                throw new ParseException(lookup("main.err.dupoption", arg));
-            encoding = args[++i];
+                throw new PbrseException(lookup("mbin.err.dupoption", brg));
+            encoding = brgs[++i];
             return 2;
-        } else if ("-debug".equals(arg)) {
-            debugFlag = true;
+        } else if ("-debug".equbls(brg)) {
+            debugFlbg = true;
             return 1;
-        } else if ("-Xnosecurity".equals(arg)) {
-            // This is an undocumented (and, in the future, unsupported)
-            // flag which prevents AppletViewer from installing its own
-            // SecurityManager.
+        } else if ("-Xnosecurity".equbls(brg)) {
+            // This is bn undocumented (bnd, in the future, unsupported)
+            // flbg which prevents AppletViewer from instblling its own
+            // SecurityMbnbger.
 
             System.err.println();
-            System.err.println(lookup("main.warn.nosecmgr"));
+            System.err.println(lookup("mbin.wbrn.nosecmgr"));
             System.err.println();
 
-            noSecurityFlag = true;
+            noSecurityFlbg = true;
             return 1;
-        } else if ("-XcmdLineTest".equals(arg)) {
-            // This is an internal flag which should be used for command-line
-            // testing.  It instructs AppletViewer to force a premature exit
-            // immediately after the applet has been launched.
-            cmdLineTestFlag = true;
+        } else if ("-XcmdLineTest".equbls(brg)) {
+            // This is bn internbl flbg which should be used for commbnd-line
+            // testing.  It instructs AppletViewer to force b prembture exit
+            // immedibtely bfter the bpplet hbs been lbunched.
+            cmdLineTestFlbg = true;
             return 1;
-        } else if (arg.startsWith("-")) {
-            throw new ParseException(lookup("main.err.unsupportedopt", arg));
+        } else if (brg.stbrtsWith("-")) {
+            throw new PbrseException(lookup("mbin.err.unsupportedopt", brg));
         } else {
-            // we found what we hope is a url
-            URL url = parseURL(arg);
+            // we found whbt we hope is b url
+            URL url = pbrseURL(brg);
             if (url != null) {
-                urlList.addElement(url);
+                urlList.bddElement(url);
                 return 1;
             }
         }
@@ -224,17 +224,17 @@ public class Main {
     }
 
     /**
-     * Following the relevant RFC, construct a valid URL based on the passed in
+     * Following the relevbnt RFC, construct b vblid URL bbsed on the pbssed in
      * string.
      *
-     * @param url  a string which represents either a relative or absolute URL.
-     * @return     a URL when the passed in string can be interpreted according
+     * @pbrbm url  b string which represents either b relbtive or bbsolute URL.
+     * @return     b URL when the pbssed in string cbn be interpreted bccording
      *             to the RFC, <code>null</code> otherwise.
-     * @exception  ParseException
-     *             Thrown when we are unable to construct a proper URL from the
-     *             passed in string.
+     * @exception  PbrseException
+     *             Thrown when we bre unbble to construct b proper URL from the
+     *             pbssed in string.
      */
-    private URL parseURL(String url) throws ParseException {
+    privbte URL pbrseURL(String url) throws PbrseException {
         URL u = null;
         // prefix of the urls with 'file' scheme
         String prefix = "file:";
@@ -242,288 +242,288 @@ public class Main {
         try {
             if (url.indexOf(':') <= 1)
             {
-                // appletviewer accepts only unencoded filesystem paths
-                u = ParseUtil.fileToEncodedURL(new File(url));
-            } else if (url.startsWith(prefix) &&
+                // bppletviewer bccepts only unencoded filesystem pbths
+                u = PbrseUtil.fileToEncodedURL(new File(url));
+            } else if (url.stbrtsWith(prefix) &&
                        url.length() != prefix.length() &&
                        !(new File(url.substring(prefix.length())).isAbsolute()))
             {
-                // relative file URL, like this "file:index.html"
-                // ensure that this file URL is absolute
-                // ParseUtil.fileToEncodedURL should be done last (see 6329251)
-                String path = ParseUtil.fileToEncodedURL(new File(System.getProperty("user.dir"))).getPath() +
+                // relbtive file URL, like this "file:index.html"
+                // ensure thbt this file URL is bbsolute
+                // PbrseUtil.fileToEncodedURL should be done lbst (see 6329251)
+                String pbth = PbrseUtil.fileToEncodedURL(new File(System.getProperty("user.dir"))).getPbth() +
                     url.substring(prefix.length());
-                u = new URL("file", "", path);
+                u = new URL("file", "", pbth);
             } else {
-                // appletviewer accepts only encoded urls
+                // bppletviewer bccepts only encoded urls
                 u = new URL(url);
             }
-        } catch (MalformedURLException e) {
-            throw new ParseException(lookup("main.err.badurl",
-                                            url, e.getMessage()));
+        } cbtch (MblformedURLException e) {
+            throw new PbrseException(lookup("mbin.err.bbdurl",
+                                            url, e.getMessbge()));
         }
 
         return u;
     }
 
     /**
-     * Invoke the debugger with the arguments passed in to appletviewer.
+     * Invoke the debugger with the brguments pbssed in to bppletviewer.
      *
-     * @param args The arguments passed into the debugger.
+     * @pbrbm brgs The brguments pbssed into the debugger.
      * @return     <code>0</code> if the debugger is invoked successfully,
      *             <code>1</code> otherwise.
      */
-    private int invokeDebugger(String [] args) {
+    privbte int invokeDebugger(String [] brgs) {
         // CONSTRUCT THE COMMAND LINE
-        String [] newArgs = new String[args.length + 1];
+        String [] newArgs = new String[brgs.length + 1];
         int current = 0;
 
-        // Add a -classpath argument that prevents
-        // the debugger from launching appletviewer with the default of
-        // ".". appletviewer's classpath should never contain valid
-        // classes since they will result in security exceptions.
-        // Ideally, the classpath should be set to "", but the VM won't
-        // allow an empty classpath, so a phony directory name is used.
-        String phonyDir = System.getProperty("java.home") +
-                          File.separator + "phony";
-        newArgs[current++] = "-Djava.class.path=" + phonyDir;
+        // Add b -clbsspbth brgument thbt prevents
+        // the debugger from lbunching bppletviewer with the defbult of
+        // ".". bppletviewer's clbsspbth should never contbin vblid
+        // clbsses since they will result in security exceptions.
+        // Ideblly, the clbsspbth should be set to "", but the VM won't
+        // bllow bn empty clbsspbth, so b phony directory nbme is used.
+        String phonyDir = System.getProperty("jbvb.home") +
+                          File.sepbrbtor + "phony";
+        newArgs[current++] = "-Djbvb.clbss.pbth=" + phonyDir;
 
-        // Appletviewer's main class is the debuggee
-        newArgs[current++] = "sun.applet.Main";
+        // Appletviewer's mbin clbss is the debuggee
+        newArgs[current++] = "sun.bpplet.Mbin";
 
-        // Append all the of the original appletviewer arguments,
-        // leaving out the "-debug" option.
-        for (int i = 0; i < args.length; i++) {
-            if (!("-debug".equals(args[i]))) {
-                newArgs[current++] = args[i];
+        // Append bll the of the originbl bppletviewer brguments,
+        // lebving out the "-debug" option.
+        for (int i = 0; i < brgs.length; i++) {
+            if (!("-debug".equbls(brgs[i]))) {
+                newArgs[current++] = brgs[i];
             }
         }
 
         // LAUNCH THE DEBUGGER
-        // Reflection is used for two reasons:
-        // 1) The debugger classes are on classpath and thus must be loaded
-        // by the application class loader. (Currently, appletviewer are
-        // loaded through the boot class path out of rt.jar.)
-        // 2) Reflection removes any build dependency between appletviewer
-        // and jdb.
+        // Reflection is used for two rebsons:
+        // 1) The debugger clbsses bre on clbsspbth bnd thus must be lobded
+        // by the bpplicbtion clbss lobder. (Currently, bppletviewer bre
+        // lobded through the boot clbss pbth out of rt.jbr.)
+        // 2) Reflection removes bny build dependency between bppletviewer
+        // bnd jdb.
         try {
-            Class<?> c = Class.forName("com.sun.tools.example.debug.tty.TTY", true,
-                                    ClassLoader.getSystemClassLoader());
-            Method m = c.getDeclaredMethod("main",
-                                           new Class<?>[] { String[].class });
+            Clbss<?> c = Clbss.forNbme("com.sun.tools.exbmple.debug.tty.TTY", true,
+                                    ClbssLobder.getSystemClbssLobder());
+            Method m = c.getDeclbredMethod("mbin",
+                                           new Clbss<?>[] { String[].clbss });
             m.invoke(null, new Object[] { newArgs });
-        } catch (ClassNotFoundException cnfe) {
-            System.err.println(lookup("main.debug.cantfinddebug"));
+        } cbtch (ClbssNotFoundException cnfe) {
+            System.err.println(lookup("mbin.debug.cbntfinddebug"));
             return 1;
-        } catch (NoSuchMethodException nsme) {
-            System.err.println(lookup("main.debug.cantfindmain"));
+        } cbtch (NoSuchMethodException nsme) {
+            System.err.println(lookup("mbin.debug.cbntfindmbin"));
             return 1;
-        } catch (InvocationTargetException ite) {
-            System.err.println(lookup("main.debug.exceptionindebug"));
+        } cbtch (InvocbtionTbrgetException ite) {
+            System.err.println(lookup("mbin.debug.exceptionindebug"));
             return 1;
-        } catch (IllegalAccessException iae) {
-            System.err.println(lookup("main.debug.cantaccess"));
+        } cbtch (IllegblAccessException ibe) {
+            System.err.println(lookup("mbin.debug.cbntbccess"));
             return 1;
         }
         return 0;
     }
 
-    private void init() {
+    privbte void init() {
         // GET APPLETVIEWER USER-SPECIFIC PROPERTIES
-        Properties avProps = getAVProps();
+        Properties bvProps = getAVProps();
 
         // ADD OTHER RANDOM PROPERTIES
-        // XXX 5/18 need to revisit why these are here, is there some
-        // standard for what is available?
+        // XXX 5/18 need to revisit why these bre here, is there some
+        // stbndbrd for whbt is bvbilbble?
 
-        // Standard browser properties
-        avProps.put("browser", "sun.applet.AppletViewer");
-        avProps.put("browser.version", "1.06");
-        avProps.put("browser.vendor", "Oracle Corporation");
-        avProps.put("http.agent", "Java(tm) 2 SDK, Standard Edition v" + theVersion);
+        // Stbndbrd browser properties
+        bvProps.put("browser", "sun.bpplet.AppletViewer");
+        bvProps.put("browser.version", "1.06");
+        bvProps.put("browser.vendor", "Orbcle Corporbtion");
+        bvProps.put("http.bgent", "Jbvb(tm) 2 SDK, Stbndbrd Edition v" + theVersion);
 
-        // Define which packages can be extended by applets
-        // XXX 5/19 probably not needed, not checked in AppletSecurity
-        avProps.put("package.restrict.definition.java", "true");
-        avProps.put("package.restrict.definition.sun", "true");
+        // Define which pbckbges cbn be extended by bpplets
+        // XXX 5/19 probbbly not needed, not checked in AppletSecurity
+        bvProps.put("pbckbge.restrict.definition.jbvb", "true");
+        bvProps.put("pbckbge.restrict.definition.sun", "true");
 
-        // Define which properties can be read by applets.
-        // A property named by "key" can be read only when its twin
-        // property "key.applet" is true.  The following ten properties
-        // are open by default.  Any other property can be explicitly
-        // opened up by the browser user by calling appletviewer with
-        // -J-Dkey.applet=true
-        avProps.put("java.version.applet", "true");
-        avProps.put("java.vendor.applet", "true");
-        avProps.put("java.vendor.url.applet", "true");
-        avProps.put("java.class.version.applet", "true");
-        avProps.put("os.name.applet", "true");
-        avProps.put("os.version.applet", "true");
-        avProps.put("os.arch.applet", "true");
-        avProps.put("file.separator.applet", "true");
-        avProps.put("path.separator.applet", "true");
-        avProps.put("line.separator.applet", "true");
+        // Define which properties cbn be rebd by bpplets.
+        // A property nbmed by "key" cbn be rebd only when its twin
+        // property "key.bpplet" is true.  The following ten properties
+        // bre open by defbult.  Any other property cbn be explicitly
+        // opened up by the browser user by cblling bppletviewer with
+        // -J-Dkey.bpplet=true
+        bvProps.put("jbvb.version.bpplet", "true");
+        bvProps.put("jbvb.vendor.bpplet", "true");
+        bvProps.put("jbvb.vendor.url.bpplet", "true");
+        bvProps.put("jbvb.clbss.version.bpplet", "true");
+        bvProps.put("os.nbme.bpplet", "true");
+        bvProps.put("os.version.bpplet", "true");
+        bvProps.put("os.brch.bpplet", "true");
+        bvProps.put("file.sepbrbtor.bpplet", "true");
+        bvProps.put("pbth.sepbrbtor.bpplet", "true");
+        bvProps.put("line.sepbrbtor.bpplet", "true");
 
-        // Read in the System properties.  If something is going to be
-        // over-written, warn about it.
+        // Rebd in the System properties.  If something is going to be
+        // over-written, wbrn bbout it.
         Properties sysProps = System.getProperties();
-        for (Enumeration<?> e = sysProps.propertyNames(); e.hasMoreElements(); ) {
+        for (Enumerbtion<?> e = sysProps.propertyNbmes(); e.hbsMoreElements(); ) {
             String key = (String) e.nextElement();
-            String val = sysProps.getProperty(key);
-            String oldVal;
-            if ((oldVal = (String) avProps.setProperty(key, val)) != null)
-                System.err.println(lookup("main.warn.prop.overwrite", key,
-                                          oldVal, val));
+            String vbl = sysProps.getProperty(key);
+            String oldVbl;
+            if ((oldVbl = (String) bvProps.setProperty(key, vbl)) != null)
+                System.err.println(lookup("mbin.wbrn.prop.overwrite", key,
+                                          oldVbl, vbl));
         }
 
         // INSTALL THE PROPERTY LIST
-        System.setProperties(avProps);
+        System.setProperties(bvProps);
 
-        // Create and install the security manager
-        if (!noSecurityFlag) {
-            System.setSecurityManager(new AppletSecurity());
+        // Crebte bnd instbll the security mbnbger
+        if (!noSecurityFlbg) {
+            System.setSecurityMbnbger(new AppletSecurity());
         } else {
-            System.err.println(lookup("main.nosecmgr"));
+            System.err.println(lookup("mbin.nosecmgr"));
         }
 
-        // REMIND: Create and install a socket factory!
+        // REMIND: Crebte bnd instbll b socket fbctory!
     }
 
     /**
-     * Read the AppletViewer user-specific properties.  Typically, these
-     * properties should reside in the file $USER/.appletviewer.  If this file
-     * does not exist, one will be created.  Information for this file will
-     * be gleaned from $USER/.hotjava/properties.  If that file does not exist,
-     * then default values will be used.
+     * Rebd the AppletViewer user-specific properties.  Typicblly, these
+     * properties should reside in the file $USER/.bppletviewer.  If this file
+     * does not exist, one will be crebted.  Informbtion for this file will
+     * be glebned from $USER/.hotjbvb/properties.  If thbt file does not exist,
+     * then defbult vblues will be used.
      *
-     * @return     A Properties object containing all of the AppletViewer
+     * @return     A Properties object contbining bll of the AppletViewer
      *             user-specific properties.
      */
-    private Properties getAVProps() {
-        Properties avProps = new Properties();
+    privbte Properties getAVProps() {
+        Properties bvProps = new Properties();
 
         File dotAV = theUserPropertiesFile;
         if (dotAV.exists()) {
-            // we must have already done the conversion
-            if (dotAV.canRead()) {
-                // just read the file
-                avProps = getAVProps(dotAV);
+            // we must hbve blrebdy done the conversion
+            if (dotAV.cbnRebd()) {
+                // just rebd the file
+                bvProps = getAVProps(dotAV);
             } else {
-                // send out warning and use defaults
-                System.err.println(lookup("main.warn.cantreadprops",
+                // send out wbrning bnd use defbults
+                System.err.println(lookup("mbin.wbrn.cbntrebdprops",
                                           dotAV.toString()));
-                avProps = setDefaultAVProps();
+                bvProps = setDefbultAVProps();
             }
         } else {
-            // create the $USER/.appletviewer file
+            // crebte the $USER/.bppletviewer file
 
-            // see if $USER/.hotjava/properties exists
+            // see if $USER/.hotjbvb/properties exists
             File userHome = new File(System.getProperty("user.home"));
-            File dotHJ = new File(userHome, ".hotjava");
+            File dotHJ = new File(userHome, ".hotjbvb");
             dotHJ = new File(dotHJ, "properties");
             if (dotHJ.exists()) {
-                // just read the file
-                avProps = getAVProps(dotHJ);
+                // just rebd the file
+                bvProps = getAVProps(dotHJ);
             } else {
-                // send out warning and use defaults
-                System.err.println(lookup("main.warn.cantreadprops",
+                // send out wbrning bnd use defbults
+                System.err.println(lookup("mbin.wbrn.cbntrebdprops",
                                           dotHJ.toString()));
-                avProps = setDefaultAVProps();
+                bvProps = setDefbultAVProps();
             }
 
             // SAVE THE FILE
-            try (FileOutputStream out = new FileOutputStream(dotAV)) {
-                avProps.store(out, lookup("main.prop.store"));
-            } catch (IOException e) {
-                System.err.println(lookup("main.err.prop.cantsave",
+            try (FileOutputStrebm out = new FileOutputStrebm(dotAV)) {
+                bvProps.store(out, lookup("mbin.prop.store"));
+            } cbtch (IOException e) {
+                System.err.println(lookup("mbin.err.prop.cbntsbve",
                                           dotAV.toString()));
             }
         }
-        return avProps;
+        return bvProps;
     }
 
     /**
-     * Set the AppletViewer user-specific properties to be the default values.
+     * Set the AppletViewer user-specific properties to be the defbult vblues.
      *
-     * @return     A Properties object containing all of the AppletViewer
-     *             user-specific properties, set to the default values.
+     * @return     A Properties object contbining bll of the AppletViewer
+     *             user-specific properties, set to the defbult vblues.
      */
-    private Properties setDefaultAVProps() {
-        Properties avProps = new Properties();
-        for (int i = 0; i < avDefaultUserProps.length; i++) {
-            avProps.setProperty(avDefaultUserProps[i][0],
-                                avDefaultUserProps[i][1]);
+    privbte Properties setDefbultAVProps() {
+        Properties bvProps = new Properties();
+        for (int i = 0; i < bvDefbultUserProps.length; i++) {
+            bvProps.setProperty(bvDefbultUserProps[i][0],
+                                bvDefbultUserProps[i][1]);
         }
-        return avProps;
+        return bvProps;
     }
 
     /**
-     * Given a file, find only the properties that are setable by AppletViewer.
+     * Given b file, find only the properties thbt bre setbble by AppletViewer.
      *
-     * @param inFile A Properties file from which we select the properties of
+     * @pbrbm inFile A Properties file from which we select the properties of
      *             interest.
-     * @return     A Properties object containing all of the AppletViewer
+     * @return     A Properties object contbining bll of the AppletViewer
      *             user-specific properties.
      */
-    private Properties getAVProps(File inFile) {
-        Properties avProps  = new Properties();
+    privbte Properties getAVProps(File inFile) {
+        Properties bvProps  = new Properties();
 
-        // read the file
+        // rebd the file
         Properties tmpProps = new Properties();
-        try (FileInputStream in = new FileInputStream(inFile)) {
-            tmpProps.load(new BufferedInputStream(in));
-        } catch (IOException e) {
-            System.err.println(lookup("main.err.prop.cantread", inFile.toString()));
+        try (FileInputStrebm in = new FileInputStrebm(inFile)) {
+            tmpProps.lobd(new BufferedInputStrebm(in));
+        } cbtch (IOException e) {
+            System.err.println(lookup("mbin.err.prop.cbntrebd", inFile.toString()));
         }
 
-        // pick off the properties we care about
-        for (int i = 0; i < avDefaultUserProps.length; i++) {
-            String value = tmpProps.getProperty(avDefaultUserProps[i][0]);
-            if (value != null) {
-                // the property exists in the file, so replace the default
-                avProps.setProperty(avDefaultUserProps[i][0], value);
+        // pick off the properties we cbre bbout
+        for (int i = 0; i < bvDefbultUserProps.length; i++) {
+            String vblue = tmpProps.getProperty(bvDefbultUserProps[i][0]);
+            if (vblue != null) {
+                // the property exists in the file, so replbce the defbult
+                bvProps.setProperty(bvDefbultUserProps[i][0], vblue);
             } else {
-                // just use the default
-                avProps.setProperty(avDefaultUserProps[i][0],
-                                    avDefaultUserProps[i][1]);
+                // just use the defbult
+                bvProps.setProperty(bvDefbultUserProps[i][0],
+                                    bvDefbultUserProps[i][1]);
             }
         }
-        return avProps;
+        return bvProps;
     }
 
     /**
-     * Methods for easier i18n handling.
+     * Methods for ebsier i18n hbndling.
      */
 
-    private static String lookup(String key) {
-        return amh.getMessage(key);
+    privbte stbtic String lookup(String key) {
+        return bmh.getMessbge(key);
     }
 
-    private static String lookup(String key, String arg0) {
-        return amh.getMessage(key, arg0);
+    privbte stbtic String lookup(String key, String brg0) {
+        return bmh.getMessbge(key, brg0);
     }
 
-    private static String lookup(String key, String arg0, String arg1) {
-        return amh.getMessage(key, arg0, arg1);
+    privbte stbtic String lookup(String key, String brg0, String brg1) {
+        return bmh.getMessbge(key, brg0, brg1);
     }
 
-    private static String lookup(String key, String arg0, String arg1,
-                                 String arg2) {
-        return amh.getMessage(key, arg0, arg1, arg2);
+    privbte stbtic String lookup(String key, String brg0, String brg1,
+                                 String brg2) {
+        return bmh.getMessbge(key, brg0, brg1, brg2);
     }
 
-    @SuppressWarnings("serial") // JDK implementation class
-    class ParseException extends RuntimeException
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    clbss PbrseException extends RuntimeException
     {
-        public ParseException(String msg) {
+        public PbrseException(String msg) {
             super(msg);
         }
 
-        public ParseException(Throwable t) {
-            super(t.getMessage());
+        public PbrseException(Throwbble t) {
+            super(t.getMessbge());
             this.t = t;
         }
 
-        Throwable t = null;
+        Throwbble t = null;
     }
 }

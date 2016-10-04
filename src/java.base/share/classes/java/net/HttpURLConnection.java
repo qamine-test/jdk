@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.security.Permission;
-import java.util.Date;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.security.Permission;
+import jbvb.util.Dbte;
 
 /**
- * A URLConnection with support for HTTP-specific features. See
+ * A URLConnection with support for HTTP-specific febtures. See
  * <A HREF="http://www.w3.org/pub/WWW/Protocols/"> the spec </A> for
- * details.
+ * detbils.
  * <p>
  *
- * Each HttpURLConnection instance is used to make a single request
- * but the underlying network connection to the HTTP server may be
- * transparently shared by other instances. Calling the close() methods
- * on the InputStream or OutputStream of an HttpURLConnection
- * after a request may free network resources associated with this
- * instance but has no effect on any shared persistent connection.
- * Calling the disconnect() method may close the underlying socket
- * if a persistent connection is otherwise idle at that time.
+ * Ebch HttpURLConnection instbnce is used to mbke b single request
+ * but the underlying network connection to the HTTP server mby be
+ * trbnspbrently shbred by other instbnces. Cblling the close() methods
+ * on the InputStrebm or OutputStrebm of bn HttpURLConnection
+ * bfter b request mby free network resources bssocibted with this
+ * instbnce but hbs no effect on bny shbred persistent connection.
+ * Cblling the disconnect() method mby close the underlying socket
+ * if b persistent connection is otherwise idle bt thbt time.
  *
- * <P>The HTTP protocol handler has a few settings that can be accessed through
+ * <P>The HTTP protocol hbndler hbs b few settings thbt cbn be bccessed through
  * System Properties. This covers
- * <a href="doc-files/net-properties.html#Proxies">Proxy settings</a> as well as
- * <a href="doc-files/net-properties.html#MiscHTTP"> various other settings</a>.
+ * <b href="doc-files/net-properties.html#Proxies">Proxy settings</b> bs well bs
+ * <b href="doc-files/net-properties.html#MiscHTTP"> vbrious other settings</b>.
  * </P>
  * <p>
  * <b>Security permissions</b>
  * <p>
- * If a security manager is installed, and if a method is called which results in an
- * attempt to open a connection, the caller must possess either:-
- * <ul><li>a "connect" {@link SocketPermission} to the host/port combination of the
- * destination URL or</li>
- * <li>a {@link URLPermission} that permits this request.</li>
+ * If b security mbnbger is instblled, bnd if b method is cblled which results in bn
+ * bttempt to open b connection, the cbller must possess either:-
+ * <ul><li>b "connect" {@link SocketPermission} to the host/port combinbtion of the
+ * destinbtion URL or</li>
+ * <li>b {@link URLPermission} thbt permits this request.</li>
  * </ul><p>
- * If automatic redirection is enabled, and this request is redirected to another
- * destination, then the caller must also have permission to connect to the
+ * If butombtic redirection is enbbled, bnd this request is redirected to bnother
+ * destinbtion, then the cbller must blso hbve permission to connect to the
  * redirected host/URL.
  *
- * @see     java.net.HttpURLConnection#disconnect()
+ * @see     jbvb.net.HttpURLConnection#disconnect()
  * @since 1.1
  */
-abstract public class HttpURLConnection extends URLConnection {
-    /* instance variables */
+bbstrbct public clbss HttpURLConnection extends URLConnection {
+    /* instbnce vbribbles */
 
     /**
      * The HTTP method (GET,POST,PUT,etc.).
@@ -75,27 +75,27 @@ abstract public class HttpURLConnection extends URLConnection {
     protected String method = "GET";
 
     /**
-     * The chunk-length when using chunked encoding streaming mode for output.
-     * A value of {@code -1} means chunked encoding is disabled for output.
+     * The chunk-length when using chunked encoding strebming mode for output.
+     * A vblue of {@code -1} mebns chunked encoding is disbbled for output.
      * @since 1.5
      */
     protected int chunkLength = -1;
 
     /**
-     * The fixed content-length when using fixed-length streaming mode.
-     * A value of {@code -1} means fixed-length streaming mode is disabled
+     * The fixed content-length when using fixed-length strebming mode.
+     * A vblue of {@code -1} mebns fixed-length strebming mode is disbbled
      * for output.
      *
-     * <P> <B>NOTE:</B> {@link #fixedContentLengthLong} is recommended instead
-     * of this field, as it allows larger content lengths to be set.
+     * <P> <B>NOTE:</B> {@link #fixedContentLengthLong} is recommended instebd
+     * of this field, bs it bllows lbrger content lengths to be set.
      *
      * @since 1.5
      */
     protected int fixedContentLength = -1;
 
     /**
-     * The fixed content-length when using fixed-length streaming mode.
-     * A value of {@code -1} means fixed-length streaming mode is disabled
+     * The fixed content-length when using fixed-length strebming mode.
+     * A vblue of {@code -1} mebns fixed-length strebming mode is disbbled
      * for output.
      *
      * @since 1.7
@@ -103,176 +103,176 @@ abstract public class HttpURLConnection extends URLConnection {
     protected long fixedContentLengthLong = -1;
 
     /**
-     * Returns the key for the {@code n}<sup>th</sup> header field.
-     * Some implementations may treat the {@code 0}<sup>th</sup>
-     * header field as special, i.e. as the status line returned by the HTTP
-     * server. In this case, {@link #getHeaderField(int) getHeaderField(0)} returns the status
-     * line, but {@code getHeaderFieldKey(0)} returns null.
+     * Returns the key for the {@code n}<sup>th</sup> hebder field.
+     * Some implementbtions mby trebt the {@code 0}<sup>th</sup>
+     * hebder field bs specibl, i.e. bs the stbtus line returned by the HTTP
+     * server. In this cbse, {@link #getHebderField(int) getHebderField(0)} returns the stbtus
+     * line, but {@code getHebderFieldKey(0)} returns null.
      *
-     * @param   n   an index, where {@code n >=0}.
-     * @return  the key for the {@code n}<sup>th</sup> header field,
+     * @pbrbm   n   bn index, where {@code n >=0}.
+     * @return  the key for the {@code n}<sup>th</sup> hebder field,
      *          or {@code null} if the key does not exist.
      */
-    public String getHeaderFieldKey (int n) {
+    public String getHebderFieldKey (int n) {
         return null;
     }
 
     /**
-     * This method is used to enable streaming of a HTTP request body
-     * without internal buffering, when the content length is known in
-     * advance.
+     * This method is used to enbble strebming of b HTTP request body
+     * without internbl buffering, when the content length is known in
+     * bdvbnce.
      * <p>
-     * An exception will be thrown if the application
-     * attempts to write more data than the indicated
-     * content-length, or if the application closes the OutputStream
-     * before writing the indicated amount.
+     * An exception will be thrown if the bpplicbtion
+     * bttempts to write more dbtb thbn the indicbted
+     * content-length, or if the bpplicbtion closes the OutputStrebm
+     * before writing the indicbted bmount.
      * <p>
-     * When output streaming is enabled, authentication
-     * and redirection cannot be handled automatically.
-     * A HttpRetryException will be thrown when reading
-     * the response if authentication or redirection are required.
-     * This exception can be queried for the details of the error.
+     * When output strebming is enbbled, buthenticbtion
+     * bnd redirection cbnnot be hbndled butombticblly.
+     * A HttpRetryException will be thrown when rebding
+     * the response if buthenticbtion or redirection bre required.
+     * This exception cbn be queried for the detbils of the error.
      * <p>
-     * This method must be called before the URLConnection is connected.
+     * This method must be cblled before the URLConnection is connected.
      * <p>
-     * <B>NOTE:</B> {@link #setFixedLengthStreamingMode(long)} is recommended
-     * instead of this method as it allows larger content lengths to be set.
+     * <B>NOTE:</B> {@link #setFixedLengthStrebmingMode(long)} is recommended
+     * instebd of this method bs it bllows lbrger content lengths to be set.
      *
-     * @param   contentLength The number of bytes which will be written
-     *          to the OutputStream.
+     * @pbrbm   contentLength The number of bytes which will be written
+     *          to the OutputStrebm.
      *
-     * @throws  IllegalStateException if URLConnection is already connected
-     *          or if a different streaming mode is already enabled.
+     * @throws  IllegblStbteException if URLConnection is blrebdy connected
+     *          or if b different strebming mode is blrebdy enbbled.
      *
-     * @throws  IllegalArgumentException if a content length less than
+     * @throws  IllegblArgumentException if b content length less thbn
      *          zero is specified.
      *
-     * @see     #setChunkedStreamingMode(int)
+     * @see     #setChunkedStrebmingMode(int)
      * @since 1.5
      */
-    public void setFixedLengthStreamingMode (int contentLength) {
+    public void setFixedLengthStrebmingMode (int contentLength) {
         if (connected) {
-            throw new IllegalStateException ("Already connected");
+            throw new IllegblStbteException ("Alrebdy connected");
         }
         if (chunkLength != -1) {
-            throw new IllegalStateException ("Chunked encoding streaming mode set");
+            throw new IllegblStbteException ("Chunked encoding strebming mode set");
         }
         if (contentLength < 0) {
-            throw new IllegalArgumentException ("invalid content length");
+            throw new IllegblArgumentException ("invblid content length");
         }
         fixedContentLength = contentLength;
     }
 
     /**
-     * This method is used to enable streaming of a HTTP request body
-     * without internal buffering, when the content length is known in
-     * advance.
+     * This method is used to enbble strebming of b HTTP request body
+     * without internbl buffering, when the content length is known in
+     * bdvbnce.
      *
-     * <P> An exception will be thrown if the application attempts to write
-     * more data than the indicated content-length, or if the application
-     * closes the OutputStream before writing the indicated amount.
+     * <P> An exception will be thrown if the bpplicbtion bttempts to write
+     * more dbtb thbn the indicbted content-length, or if the bpplicbtion
+     * closes the OutputStrebm before writing the indicbted bmount.
      *
-     * <P> When output streaming is enabled, authentication and redirection
-     * cannot be handled automatically. A {@linkplain HttpRetryException} will
-     * be thrown when reading the response if authentication or redirection
-     * are required. This exception can be queried for the details of the
+     * <P> When output strebming is enbbled, buthenticbtion bnd redirection
+     * cbnnot be hbndled butombticblly. A {@linkplbin HttpRetryException} will
+     * be thrown when rebding the response if buthenticbtion or redirection
+     * bre required. This exception cbn be queried for the detbils of the
      * error.
      *
-     * <P> This method must be called before the URLConnection is connected.
+     * <P> This method must be cblled before the URLConnection is connected.
      *
-     * <P> The content length set by invoking this method takes precedence
-     * over any value set by {@link #setFixedLengthStreamingMode(int)}.
+     * <P> The content length set by invoking this method tbkes precedence
+     * over bny vblue set by {@link #setFixedLengthStrebmingMode(int)}.
      *
-     * @param  contentLength
-     *         The number of bytes which will be written to the OutputStream.
+     * @pbrbm  contentLength
+     *         The number of bytes which will be written to the OutputStrebm.
      *
-     * @throws  IllegalStateException
-     *          if URLConnection is already connected or if a different
-     *          streaming mode is already enabled.
+     * @throws  IllegblStbteException
+     *          if URLConnection is blrebdy connected or if b different
+     *          strebming mode is blrebdy enbbled.
      *
-     * @throws  IllegalArgumentException
-     *          if a content length less than zero is specified.
+     * @throws  IllegblArgumentException
+     *          if b content length less thbn zero is specified.
      *
      * @since 1.7
      */
-    public void setFixedLengthStreamingMode(long contentLength) {
+    public void setFixedLengthStrebmingMode(long contentLength) {
         if (connected) {
-            throw new IllegalStateException("Already connected");
+            throw new IllegblStbteException("Alrebdy connected");
         }
         if (chunkLength != -1) {
-            throw new IllegalStateException(
-                "Chunked encoding streaming mode set");
+            throw new IllegblStbteException(
+                "Chunked encoding strebming mode set");
         }
         if (contentLength < 0) {
-            throw new IllegalArgumentException("invalid content length");
+            throw new IllegblArgumentException("invblid content length");
         }
         fixedContentLengthLong = contentLength;
     }
 
-    /* Default chunk size (including chunk header) if not specified;
-     * we want to keep this in sync with the one defined in
-     * sun.net.www.http.ChunkedOutputStream
+    /* Defbult chunk size (including chunk hebder) if not specified;
+     * we wbnt to keep this in sync with the one defined in
+     * sun.net.www.http.ChunkedOutputStrebm
      */
-    private static final int DEFAULT_CHUNK_SIZE = 4096;
+    privbte stbtic finbl int DEFAULT_CHUNK_SIZE = 4096;
 
     /**
-     * This method is used to enable streaming of a HTTP request body
-     * without internal buffering, when the content length is <b>not</b>
-     * known in advance. In this mode, chunked transfer encoding
-     * is used to send the request body. Note, not all HTTP servers
+     * This method is used to enbble strebming of b HTTP request body
+     * without internbl buffering, when the content length is <b>not</b>
+     * known in bdvbnce. In this mode, chunked trbnsfer encoding
+     * is used to send the request body. Note, not bll HTTP servers
      * support this mode.
      * <p>
-     * When output streaming is enabled, authentication
-     * and redirection cannot be handled automatically.
-     * A HttpRetryException will be thrown when reading
-     * the response if authentication or redirection are required.
-     * This exception can be queried for the details of the error.
+     * When output strebming is enbbled, buthenticbtion
+     * bnd redirection cbnnot be hbndled butombticblly.
+     * A HttpRetryException will be thrown when rebding
+     * the response if buthenticbtion or redirection bre required.
+     * This exception cbn be queried for the detbils of the error.
      * <p>
-     * This method must be called before the URLConnection is connected.
+     * This method must be cblled before the URLConnection is connected.
      *
-     * @param   chunklen The number of bytes to write in each chunk.
-     *          If chunklen is less than or equal to zero, a default
-     *          value will be used.
+     * @pbrbm   chunklen The number of bytes to write in ebch chunk.
+     *          If chunklen is less thbn or equbl to zero, b defbult
+     *          vblue will be used.
      *
-     * @throws  IllegalStateException if URLConnection is already connected
-     *          or if a different streaming mode is already enabled.
+     * @throws  IllegblStbteException if URLConnection is blrebdy connected
+     *          or if b different strebming mode is blrebdy enbbled.
      *
-     * @see     #setFixedLengthStreamingMode(int)
+     * @see     #setFixedLengthStrebmingMode(int)
      * @since 1.5
      */
-    public void setChunkedStreamingMode (int chunklen) {
+    public void setChunkedStrebmingMode (int chunklen) {
         if (connected) {
-            throw new IllegalStateException ("Can't set streaming mode: already connected");
+            throw new IllegblStbteException ("Cbn't set strebming mode: blrebdy connected");
         }
         if (fixedContentLength != -1 || fixedContentLengthLong != -1) {
-            throw new IllegalStateException ("Fixed length streaming mode set");
+            throw new IllegblStbteException ("Fixed length strebming mode set");
         }
         chunkLength = chunklen <=0? DEFAULT_CHUNK_SIZE : chunklen;
     }
 
     /**
-     * Returns the value for the {@code n}<sup>th</sup> header field.
-     * Some implementations may treat the {@code 0}<sup>th</sup>
-     * header field as special, i.e. as the status line returned by the HTTP
+     * Returns the vblue for the {@code n}<sup>th</sup> hebder field.
+     * Some implementbtions mby trebt the {@code 0}<sup>th</sup>
+     * hebder field bs specibl, i.e. bs the stbtus line returned by the HTTP
      * server.
      * <p>
-     * This method can be used in conjunction with the
-     * {@link #getHeaderFieldKey getHeaderFieldKey} method to iterate through all
-     * the headers in the message.
+     * This method cbn be used in conjunction with the
+     * {@link #getHebderFieldKey getHebderFieldKey} method to iterbte through bll
+     * the hebders in the messbge.
      *
-     * @param   n   an index, where {@code n>=0}.
-     * @return  the value of the {@code n}<sup>th</sup> header field,
-     *          or {@code null} if the value does not exist.
-     * @see     java.net.HttpURLConnection#getHeaderFieldKey(int)
+     * @pbrbm   n   bn index, where {@code n>=0}.
+     * @return  the vblue of the {@code n}<sup>th</sup> hebder field,
+     *          or {@code null} if the vblue does not exist.
+     * @see     jbvb.net.HttpURLConnection#getHebderFieldKey(int)
      */
-    public String getHeaderField(int n) {
+    public String getHebderField(int n) {
         return null;
     }
 
     /**
-     * An {@code int} representing the three digit HTTP Status-Code.
+     * An {@code int} representing the three digit HTTP Stbtus-Code.
      * <ul>
-     * <li> 1xx: Informational
+     * <li> 1xx: Informbtionbl
      * <li> 2xx: Success
      * <li> 3xx: Redirection
      * <li> 4xx: Client Error
@@ -282,41 +282,41 @@ abstract public class HttpURLConnection extends URLConnection {
     protected int responseCode = -1;
 
     /**
-     * The HTTP response message.
+     * The HTTP response messbge.
      */
-    protected String responseMessage = null;
+    protected String responseMessbge = null;
 
-    /* static variables */
+    /* stbtic vbribbles */
 
-    /* do we automatically follow redirects? The default is true. */
-    private static boolean followRedirects = true;
+    /* do we butombticblly follow redirects? The defbult is true. */
+    privbte stbtic boolebn followRedirects = true;
 
     /**
-     * If {@code true}, the protocol will automatically follow redirects.
-     * If {@code false}, the protocol will not automatically follow
+     * If {@code true}, the protocol will butombticblly follow redirects.
+     * If {@code fblse}, the protocol will not butombticblly follow
      * redirects.
      * <p>
-     * This field is set by the {@code setInstanceFollowRedirects}
-     * method. Its value is returned by the {@code getInstanceFollowRedirects}
+     * This field is set by the {@code setInstbnceFollowRedirects}
+     * method. Its vblue is returned by the {@code getInstbnceFollowRedirects}
      * method.
      * <p>
-     * Its default value is based on the value of the static followRedirects
-     * at HttpURLConnection construction time.
+     * Its defbult vblue is bbsed on the vblue of the stbtic followRedirects
+     * bt HttpURLConnection construction time.
      *
-     * @see     java.net.HttpURLConnection#setInstanceFollowRedirects(boolean)
-     * @see     java.net.HttpURLConnection#getInstanceFollowRedirects()
-     * @see     java.net.HttpURLConnection#setFollowRedirects(boolean)
+     * @see     jbvb.net.HttpURLConnection#setInstbnceFollowRedirects(boolebn)
+     * @see     jbvb.net.HttpURLConnection#getInstbnceFollowRedirects()
+     * @see     jbvb.net.HttpURLConnection#setFollowRedirects(boolebn)
      */
-    protected boolean instanceFollowRedirects = followRedirects;
+    protected boolebn instbnceFollowRedirects = followRedirects;
 
-    /* valid HTTP methods */
-    private static final String[] methods = {
+    /* vblid HTTP methods */
+    privbte stbtic finbl String[] methods = {
         "GET", "POST", "HEAD", "OPTIONS", "PUT", "DELETE", "TRACE"
     };
 
     /**
      * Constructor for the HttpURLConnection.
-     * @param u the URL
+     * @pbrbm u the URL
      */
     protected HttpURLConnection (URL u) {
         super(u);
@@ -324,75 +324,75 @@ abstract public class HttpURLConnection extends URLConnection {
 
     /**
      * Sets whether HTTP redirects  (requests with response code 3xx) should
-     * be automatically followed by this class.  True by default.  Applets
-     * cannot change this variable.
+     * be butombticblly followed by this clbss.  True by defbult.  Applets
+     * cbnnot chbnge this vbribble.
      * <p>
-     * If there is a security manager, this method first calls
-     * the security manager's {@code checkSetFactory} method
-     * to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * If there is b security mbnbger, this method first cblls
+     * the security mbnbger's {@code checkSetFbctory} method
+     * to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      *
-     * @param set a {@code boolean} indicating whether or not
+     * @pbrbm set b {@code boolebn} indicbting whether or not
      * to follow HTTP redirects.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkSetFactory} method doesn't
-     *             allow the operation.
-     * @see        SecurityManager#checkSetFactory
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkSetFbctory} method doesn't
+     *             bllow the operbtion.
+     * @see        SecurityMbnbger#checkSetFbctory
      * @see #getFollowRedirects()
      */
-    public static void setFollowRedirects(boolean set) {
-        SecurityManager sec = System.getSecurityManager();
+    public stbtic void setFollowRedirects(boolebn set) {
+        SecurityMbnbger sec = System.getSecurityMbnbger();
         if (sec != null) {
             // seems to be the best check here...
-            sec.checkSetFactory();
+            sec.checkSetFbctory();
         }
         followRedirects = set;
     }
 
     /**
-     * Returns a {@code boolean} indicating
+     * Returns b {@code boolebn} indicbting
      * whether or not HTTP redirects (3xx) should
-     * be automatically followed.
+     * be butombticblly followed.
      *
      * @return {@code true} if HTTP redirects should
-     * be automatically followed, {@code false} if not.
-     * @see #setFollowRedirects(boolean)
+     * be butombticblly followed, {@code fblse} if not.
+     * @see #setFollowRedirects(boolebn)
      */
-    public static boolean getFollowRedirects() {
+    public stbtic boolebn getFollowRedirects() {
         return followRedirects;
     }
 
     /**
      * Sets whether HTTP redirects (requests with response code 3xx) should
-     * be automatically followed by this {@code HttpURLConnection}
-     * instance.
+     * be butombticblly followed by this {@code HttpURLConnection}
+     * instbnce.
      * <p>
-     * The default value comes from followRedirects, which defaults to
+     * The defbult vblue comes from followRedirects, which defbults to
      * true.
      *
-     * @param followRedirects a {@code boolean} indicating
+     * @pbrbm followRedirects b {@code boolebn} indicbting
      * whether or not to follow HTTP redirects.
      *
-     * @see    java.net.HttpURLConnection#instanceFollowRedirects
-     * @see #getInstanceFollowRedirects
+     * @see    jbvb.net.HttpURLConnection#instbnceFollowRedirects
+     * @see #getInstbnceFollowRedirects
      * @since 1.3
      */
-     public void setInstanceFollowRedirects(boolean followRedirects) {
-        instanceFollowRedirects = followRedirects;
+     public void setInstbnceFollowRedirects(boolebn followRedirects) {
+        instbnceFollowRedirects = followRedirects;
      }
 
      /**
-     * Returns the value of this {@code HttpURLConnection}'s
-     * {@code instanceFollowRedirects} field.
+     * Returns the vblue of this {@code HttpURLConnection}'s
+     * {@code instbnceFollowRedirects} field.
      *
-     * @return  the value of this {@code HttpURLConnection}'s
-     *          {@code instanceFollowRedirects} field.
-     * @see     java.net.HttpURLConnection#instanceFollowRedirects
-     * @see #setInstanceFollowRedirects(boolean)
+     * @return  the vblue of this {@code HttpURLConnection}'s
+     *          {@code instbnceFollowRedirects} field.
+     * @see     jbvb.net.HttpURLConnection#instbnceFollowRedirects
+     * @see #setInstbnceFollowRedirects(boolebn)
      * @since 1.3
      */
-     public boolean getInstanceFollowRedirects() {
-         return instanceFollowRedirects;
+     public boolebn getInstbnceFollowRedirects() {
+         return instbnceFollowRedirects;
      }
 
     /**
@@ -405,91 +405,91 @@ abstract public class HttpURLConnection extends URLConnection {
      *  <LI>PUT
      *  <LI>DELETE
      *  <LI>TRACE
-     * </UL> are legal, subject to protocol restrictions.  The default
+     * </UL> bre legbl, subject to protocol restrictions.  The defbult
      * method is GET.
      *
-     * @param method the HTTP method
-     * @exception ProtocolException if the method cannot be reset or if
-     *              the requested method isn't valid for HTTP.
-     * @exception SecurityException if a security manager is set and the
-     *              method is "TRACE", but the "allowHttpTrace"
-     *              NetPermission is not granted.
+     * @pbrbm method the HTTP method
+     * @exception ProtocolException if the method cbnnot be reset or if
+     *              the requested method isn't vblid for HTTP.
+     * @exception SecurityException if b security mbnbger is set bnd the
+     *              method is "TRACE", but the "bllowHttpTrbce"
+     *              NetPermission is not grbnted.
      * @see #getRequestMethod()
      */
     public void setRequestMethod(String method) throws ProtocolException {
         if (connected) {
-            throw new ProtocolException("Can't reset method: already connected");
+            throw new ProtocolException("Cbn't reset method: blrebdy connected");
         }
-        // This restriction will prevent people from using this class to
-        // experiment w/ new HTTP methods using java.  But it should
-        // be placed for security - the request String could be
-        // arbitrarily long.
+        // This restriction will prevent people from using this clbss to
+        // experiment w/ new HTTP methods using jbvb.  But it should
+        // be plbced for security - the request String could be
+        // brbitrbrily long.
 
         for (int i = 0; i < methods.length; i++) {
-            if (methods[i].equals(method)) {
-                if (method.equals("TRACE")) {
-                    SecurityManager s = System.getSecurityManager();
+            if (methods[i].equbls(method)) {
+                if (method.equbls("TRACE")) {
+                    SecurityMbnbger s = System.getSecurityMbnbger();
                     if (s != null) {
-                        s.checkPermission(new NetPermission("allowHttpTrace"));
+                        s.checkPermission(new NetPermission("bllowHttpTrbce"));
                     }
                 }
                 this.method = method;
                 return;
             }
         }
-        throw new ProtocolException("Invalid HTTP method: " + method);
+        throw new ProtocolException("Invblid HTTP method: " + method);
     }
 
     /**
      * Get the request method.
      * @return the HTTP request method
-     * @see #setRequestMethod(java.lang.String)
+     * @see #setRequestMethod(jbvb.lbng.String)
      */
     public String getRequestMethod() {
         return method;
     }
 
     /**
-     * Gets the status code from an HTTP response message.
-     * For example, in the case of the following status lines:
+     * Gets the stbtus code from bn HTTP response messbge.
+     * For exbmple, in the cbse of the following stbtus lines:
      * <PRE>
      * HTTP/1.0 200 OK
-     * HTTP/1.0 401 Unauthorized
+     * HTTP/1.0 401 Unbuthorized
      * </PRE>
-     * It will return 200 and 401 respectively.
-     * Returns -1 if no code can be discerned
-     * from the response (i.e., the response is not valid HTTP).
-     * @throws IOException if an error occurred connecting to the server.
-     * @return the HTTP Status-Code, or -1
+     * It will return 200 bnd 401 respectively.
+     * Returns -1 if no code cbn be discerned
+     * from the response (i.e., the response is not vblid HTTP).
+     * @throws IOException if bn error occurred connecting to the server.
+     * @return the HTTP Stbtus-Code, or -1
      */
     public int getResponseCode() throws IOException {
         /*
-         * We're got the response code already
+         * We're got the response code blrebdy
          */
         if (responseCode != -1) {
             return responseCode;
         }
 
         /*
-         * Ensure that we have connected to the server. Record
-         * exception as we need to re-throw it if there isn't
-         * a status line.
+         * Ensure thbt we hbve connected to the server. Record
+         * exception bs we need to re-throw it if there isn't
+         * b stbtus line.
          */
         Exception exc = null;
         try {
-            getInputStream();
-        } catch (Exception e) {
+            getInputStrebm();
+        } cbtch (Exception e) {
             exc = e;
         }
 
         /*
-         * If we can't a status-line then re-throw any exception
-         * that getInputStream threw.
+         * If we cbn't b stbtus-line then re-throw bny exception
+         * thbt getInputStrebm threw.
          */
-        String statusLine = getHeaderField(0);
-        if (statusLine == null) {
+        String stbtusLine = getHebderField(0);
+        if (stbtusLine == null) {
             if (exc != null) {
-                if (exc instanceof RuntimeException)
+                if (exc instbnceof RuntimeException)
                     throw (RuntimeException)exc;
                 else
                     throw (IOException)exc;
@@ -498,94 +498,94 @@ abstract public class HttpURLConnection extends URLConnection {
         }
 
         /*
-         * Examine the status-line - should be formatted as per
+         * Exbmine the stbtus-line - should be formbtted bs per
          * section 6.1 of RFC 2616 :-
          *
-         * Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase
+         * Stbtus-Line = HTTP-Version SP Stbtus-Code SP Rebson-Phrbse
          *
-         * If status line can't be parsed return -1.
+         * If stbtus line cbn't be pbrsed return -1.
          */
-        if (statusLine.startsWith("HTTP/1.")) {
-            int codePos = statusLine.indexOf(' ');
+        if (stbtusLine.stbrtsWith("HTTP/1.")) {
+            int codePos = stbtusLine.indexOf(' ');
             if (codePos > 0) {
 
-                int phrasePos = statusLine.indexOf(' ', codePos+1);
-                if (phrasePos > 0 && phrasePos < statusLine.length()) {
-                    responseMessage = statusLine.substring(phrasePos+1);
+                int phrbsePos = stbtusLine.indexOf(' ', codePos+1);
+                if (phrbsePos > 0 && phrbsePos < stbtusLine.length()) {
+                    responseMessbge = stbtusLine.substring(phrbsePos+1);
                 }
 
-                // deviation from RFC 2616 - don't reject status line
-                // if SP Reason-Phrase is not included.
-                if (phrasePos < 0)
-                    phrasePos = statusLine.length();
+                // devibtion from RFC 2616 - don't reject stbtus line
+                // if SP Rebson-Phrbse is not included.
+                if (phrbsePos < 0)
+                    phrbsePos = stbtusLine.length();
 
                 try {
-                    responseCode = Integer.parseInt
-                            (statusLine.substring(codePos+1, phrasePos));
+                    responseCode = Integer.pbrseInt
+                            (stbtusLine.substring(codePos+1, phrbsePos));
                     return responseCode;
-                } catch (NumberFormatException e) { }
+                } cbtch (NumberFormbtException e) { }
             }
         }
         return -1;
     }
 
     /**
-     * Gets the HTTP response message, if any, returned along with the
-     * response code from a server.  From responses like:
+     * Gets the HTTP response messbge, if bny, returned blong with the
+     * response code from b server.  From responses like:
      * <PRE>
      * HTTP/1.0 200 OK
      * HTTP/1.0 404 Not Found
      * </PRE>
-     * Extracts the Strings "OK" and "Not Found" respectively.
+     * Extrbcts the Strings "OK" bnd "Not Found" respectively.
      * Returns null if none could be discerned from the responses
-     * (the result was not valid HTTP).
-     * @throws IOException if an error occurred connecting to the server.
-     * @return the HTTP response message, or {@code null}
+     * (the result wbs not vblid HTTP).
+     * @throws IOException if bn error occurred connecting to the server.
+     * @return the HTTP response messbge, or {@code null}
      */
-    public String getResponseMessage() throws IOException {
+    public String getResponseMessbge() throws IOException {
         getResponseCode();
-        return responseMessage;
+        return responseMessbge;
     }
 
-    @SuppressWarnings("deprecation")
-    public long getHeaderFieldDate(String name, long Default) {
-        String dateString = getHeaderField(name);
+    @SuppressWbrnings("deprecbtion")
+    public long getHebderFieldDbte(String nbme, long Defbult) {
+        String dbteString = getHebderField(nbme);
         try {
-            if (dateString.indexOf("GMT") == -1) {
-                dateString = dateString+" GMT";
+            if (dbteString.indexOf("GMT") == -1) {
+                dbteString = dbteString+" GMT";
             }
-            return Date.parse(dateString);
-        } catch (Exception e) {
+            return Dbte.pbrse(dbteString);
+        } cbtch (Exception e) {
         }
-        return Default;
+        return Defbult;
     }
 
 
     /**
-     * Indicates that other requests to the server
-     * are unlikely in the near future. Calling disconnect()
-     * should not imply that this HttpURLConnection
-     * instance can be reused for other requests.
+     * Indicbtes thbt other requests to the server
+     * bre unlikely in the nebr future. Cblling disconnect()
+     * should not imply thbt this HttpURLConnection
+     * instbnce cbn be reused for other requests.
      */
-    public abstract void disconnect();
+    public bbstrbct void disconnect();
 
     /**
-     * Indicates if the connection is going through a proxy.
-     * @return a boolean indicating if the connection is
-     * using a proxy.
+     * Indicbtes if the connection is going through b proxy.
+     * @return b boolebn indicbting if the connection is
+     * using b proxy.
      */
-    public abstract boolean usingProxy();
+    public bbstrbct boolebn usingProxy();
 
     /**
-     * Returns a {@link SocketPermission} object representing the
-     * permission necessary to connect to the destination host and port.
+     * Returns b {@link SocketPermission} object representing the
+     * permission necessbry to connect to the destinbtion host bnd port.
      *
-     * @exception IOException if an error occurs while computing
+     * @exception IOException if bn error occurs while computing
      *            the permission.
      *
-     * @return a {@code SocketPermission} object representing the
-     *         permission necessary to connect to the destination
-     *         host and port.
+     * @return b {@code SocketPermission} object representing the
+     *         permission necessbry to connect to the destinbtion
+     *         host bnd port.
      */
     public Permission getPermission() throws IOException {
         int port = url.getPort();
@@ -596,222 +596,222 @@ abstract public class HttpURLConnection extends URLConnection {
     }
 
    /**
-    * Returns the error stream if the connection failed
-    * but the server sent useful data nonetheless. The
-    * typical example is when an HTTP server responds
-    * with a 404, which will cause a FileNotFoundException
-    * to be thrown in connect, but the server sent an HTML
-    * help page with suggestions as to what to do.
+    * Returns the error strebm if the connection fbiled
+    * but the server sent useful dbtb nonetheless. The
+    * typicbl exbmple is when bn HTTP server responds
+    * with b 404, which will cbuse b FileNotFoundException
+    * to be thrown in connect, but the server sent bn HTML
+    * help pbge with suggestions bs to whbt to do.
     *
-    * <p>This method will not cause a connection to be initiated.  If
-    * the connection was not connected, or if the server did not have
-    * an error while connecting or if the server had an error but
-    * no error data was sent, this method will return null. This is
-    * the default.
+    * <p>This method will not cbuse b connection to be initibted.  If
+    * the connection wbs not connected, or if the server did not hbve
+    * bn error while connecting or if the server hbd bn error but
+    * no error dbtb wbs sent, this method will return null. This is
+    * the defbult.
     *
-    * @return an error stream if any, null if there have been no
+    * @return bn error strebm if bny, null if there hbve been no
     * errors, the connection is not connected or the server sent no
-    * useful data.
+    * useful dbtb.
     */
-    public InputStream getErrorStream() {
+    public InputStrebm getErrorStrebm() {
         return null;
     }
 
     /**
-     * The response codes for HTTP, as of version 1.1.
+     * The response codes for HTTP, bs of version 1.1.
      */
 
-    // REMIND: do we want all these??
-    // Others not here that we do want??
+    // REMIND: do we wbnt bll these??
+    // Others not here thbt we do wbnt??
 
-    /* 2XX: generally "OK" */
+    /* 2XX: generblly "OK" */
 
     /**
-     * HTTP Status-Code 200: OK.
+     * HTTP Stbtus-Code 200: OK.
      */
-    public static final int HTTP_OK = 200;
+    public stbtic finbl int HTTP_OK = 200;
 
     /**
-     * HTTP Status-Code 201: Created.
+     * HTTP Stbtus-Code 201: Crebted.
      */
-    public static final int HTTP_CREATED = 201;
+    public stbtic finbl int HTTP_CREATED = 201;
 
     /**
-     * HTTP Status-Code 202: Accepted.
+     * HTTP Stbtus-Code 202: Accepted.
      */
-    public static final int HTTP_ACCEPTED = 202;
+    public stbtic finbl int HTTP_ACCEPTED = 202;
 
     /**
-     * HTTP Status-Code 203: Non-Authoritative Information.
+     * HTTP Stbtus-Code 203: Non-Authoritbtive Informbtion.
      */
-    public static final int HTTP_NOT_AUTHORITATIVE = 203;
+    public stbtic finbl int HTTP_NOT_AUTHORITATIVE = 203;
 
     /**
-     * HTTP Status-Code 204: No Content.
+     * HTTP Stbtus-Code 204: No Content.
      */
-    public static final int HTTP_NO_CONTENT = 204;
+    public stbtic finbl int HTTP_NO_CONTENT = 204;
 
     /**
-     * HTTP Status-Code 205: Reset Content.
+     * HTTP Stbtus-Code 205: Reset Content.
      */
-    public static final int HTTP_RESET = 205;
+    public stbtic finbl int HTTP_RESET = 205;
 
     /**
-     * HTTP Status-Code 206: Partial Content.
+     * HTTP Stbtus-Code 206: Pbrtibl Content.
      */
-    public static final int HTTP_PARTIAL = 206;
+    public stbtic finbl int HTTP_PARTIAL = 206;
 
-    /* 3XX: relocation/redirect */
-
-    /**
-     * HTTP Status-Code 300: Multiple Choices.
-     */
-    public static final int HTTP_MULT_CHOICE = 300;
+    /* 3XX: relocbtion/redirect */
 
     /**
-     * HTTP Status-Code 301: Moved Permanently.
+     * HTTP Stbtus-Code 300: Multiple Choices.
      */
-    public static final int HTTP_MOVED_PERM = 301;
+    public stbtic finbl int HTTP_MULT_CHOICE = 300;
 
     /**
-     * HTTP Status-Code 302: Temporary Redirect.
+     * HTTP Stbtus-Code 301: Moved Permbnently.
      */
-    public static final int HTTP_MOVED_TEMP = 302;
+    public stbtic finbl int HTTP_MOVED_PERM = 301;
 
     /**
-     * HTTP Status-Code 303: See Other.
+     * HTTP Stbtus-Code 302: Temporbry Redirect.
      */
-    public static final int HTTP_SEE_OTHER = 303;
+    public stbtic finbl int HTTP_MOVED_TEMP = 302;
 
     /**
-     * HTTP Status-Code 304: Not Modified.
+     * HTTP Stbtus-Code 303: See Other.
      */
-    public static final int HTTP_NOT_MODIFIED = 304;
+    public stbtic finbl int HTTP_SEE_OTHER = 303;
 
     /**
-     * HTTP Status-Code 305: Use Proxy.
+     * HTTP Stbtus-Code 304: Not Modified.
      */
-    public static final int HTTP_USE_PROXY = 305;
+    public stbtic finbl int HTTP_NOT_MODIFIED = 304;
+
+    /**
+     * HTTP Stbtus-Code 305: Use Proxy.
+     */
+    public stbtic finbl int HTTP_USE_PROXY = 305;
 
     /* 4XX: client error */
 
     /**
-     * HTTP Status-Code 400: Bad Request.
+     * HTTP Stbtus-Code 400: Bbd Request.
      */
-    public static final int HTTP_BAD_REQUEST = 400;
+    public stbtic finbl int HTTP_BAD_REQUEST = 400;
 
     /**
-     * HTTP Status-Code 401: Unauthorized.
+     * HTTP Stbtus-Code 401: Unbuthorized.
      */
-    public static final int HTTP_UNAUTHORIZED = 401;
+    public stbtic finbl int HTTP_UNAUTHORIZED = 401;
 
     /**
-     * HTTP Status-Code 402: Payment Required.
+     * HTTP Stbtus-Code 402: Pbyment Required.
      */
-    public static final int HTTP_PAYMENT_REQUIRED = 402;
+    public stbtic finbl int HTTP_PAYMENT_REQUIRED = 402;
 
     /**
-     * HTTP Status-Code 403: Forbidden.
+     * HTTP Stbtus-Code 403: Forbidden.
      */
-    public static final int HTTP_FORBIDDEN = 403;
+    public stbtic finbl int HTTP_FORBIDDEN = 403;
 
     /**
-     * HTTP Status-Code 404: Not Found.
+     * HTTP Stbtus-Code 404: Not Found.
      */
-    public static final int HTTP_NOT_FOUND = 404;
+    public stbtic finbl int HTTP_NOT_FOUND = 404;
 
     /**
-     * HTTP Status-Code 405: Method Not Allowed.
+     * HTTP Stbtus-Code 405: Method Not Allowed.
      */
-    public static final int HTTP_BAD_METHOD = 405;
+    public stbtic finbl int HTTP_BAD_METHOD = 405;
 
     /**
-     * HTTP Status-Code 406: Not Acceptable.
+     * HTTP Stbtus-Code 406: Not Acceptbble.
      */
-    public static final int HTTP_NOT_ACCEPTABLE = 406;
+    public stbtic finbl int HTTP_NOT_ACCEPTABLE = 406;
 
     /**
-     * HTTP Status-Code 407: Proxy Authentication Required.
+     * HTTP Stbtus-Code 407: Proxy Authenticbtion Required.
      */
-    public static final int HTTP_PROXY_AUTH = 407;
+    public stbtic finbl int HTTP_PROXY_AUTH = 407;
 
     /**
-     * HTTP Status-Code 408: Request Time-Out.
+     * HTTP Stbtus-Code 408: Request Time-Out.
      */
-    public static final int HTTP_CLIENT_TIMEOUT = 408;
+    public stbtic finbl int HTTP_CLIENT_TIMEOUT = 408;
 
     /**
-     * HTTP Status-Code 409: Conflict.
+     * HTTP Stbtus-Code 409: Conflict.
      */
-    public static final int HTTP_CONFLICT = 409;
+    public stbtic finbl int HTTP_CONFLICT = 409;
 
     /**
-     * HTTP Status-Code 410: Gone.
+     * HTTP Stbtus-Code 410: Gone.
      */
-    public static final int HTTP_GONE = 410;
+    public stbtic finbl int HTTP_GONE = 410;
 
     /**
-     * HTTP Status-Code 411: Length Required.
+     * HTTP Stbtus-Code 411: Length Required.
      */
-    public static final int HTTP_LENGTH_REQUIRED = 411;
+    public stbtic finbl int HTTP_LENGTH_REQUIRED = 411;
 
     /**
-     * HTTP Status-Code 412: Precondition Failed.
+     * HTTP Stbtus-Code 412: Precondition Fbiled.
      */
-    public static final int HTTP_PRECON_FAILED = 412;
+    public stbtic finbl int HTTP_PRECON_FAILED = 412;
 
     /**
-     * HTTP Status-Code 413: Request Entity Too Large.
+     * HTTP Stbtus-Code 413: Request Entity Too Lbrge.
      */
-    public static final int HTTP_ENTITY_TOO_LARGE = 413;
+    public stbtic finbl int HTTP_ENTITY_TOO_LARGE = 413;
 
     /**
-     * HTTP Status-Code 414: Request-URI Too Large.
+     * HTTP Stbtus-Code 414: Request-URI Too Lbrge.
      */
-    public static final int HTTP_REQ_TOO_LONG = 414;
+    public stbtic finbl int HTTP_REQ_TOO_LONG = 414;
 
     /**
-     * HTTP Status-Code 415: Unsupported Media Type.
+     * HTTP Stbtus-Code 415: Unsupported Medib Type.
      */
-    public static final int HTTP_UNSUPPORTED_TYPE = 415;
+    public stbtic finbl int HTTP_UNSUPPORTED_TYPE = 415;
 
     /* 5XX: server error */
 
     /**
-     * HTTP Status-Code 500: Internal Server Error.
-     * @deprecated   it is misplaced and shouldn't have existed.
+     * HTTP Stbtus-Code 500: Internbl Server Error.
+     * @deprecbted   it is misplbced bnd shouldn't hbve existed.
      */
-    @Deprecated
-    public static final int HTTP_SERVER_ERROR = 500;
+    @Deprecbted
+    public stbtic finbl int HTTP_SERVER_ERROR = 500;
 
     /**
-     * HTTP Status-Code 500: Internal Server Error.
+     * HTTP Stbtus-Code 500: Internbl Server Error.
      */
-    public static final int HTTP_INTERNAL_ERROR = 500;
+    public stbtic finbl int HTTP_INTERNAL_ERROR = 500;
 
     /**
-     * HTTP Status-Code 501: Not Implemented.
+     * HTTP Stbtus-Code 501: Not Implemented.
      */
-    public static final int HTTP_NOT_IMPLEMENTED = 501;
+    public stbtic finbl int HTTP_NOT_IMPLEMENTED = 501;
 
     /**
-     * HTTP Status-Code 502: Bad Gateway.
+     * HTTP Stbtus-Code 502: Bbd Gbtewby.
      */
-    public static final int HTTP_BAD_GATEWAY = 502;
+    public stbtic finbl int HTTP_BAD_GATEWAY = 502;
 
     /**
-     * HTTP Status-Code 503: Service Unavailable.
+     * HTTP Stbtus-Code 503: Service Unbvbilbble.
      */
-    public static final int HTTP_UNAVAILABLE = 503;
+    public stbtic finbl int HTTP_UNAVAILABLE = 503;
 
     /**
-     * HTTP Status-Code 504: Gateway Timeout.
+     * HTTP Stbtus-Code 504: Gbtewby Timeout.
      */
-    public static final int HTTP_GATEWAY_TIMEOUT = 504;
+    public stbtic finbl int HTTP_GATEWAY_TIMEOUT = 504;
 
     /**
-     * HTTP Status-Code 505: HTTP Version Not Supported.
+     * HTTP Stbtus-Code 505: HTTP Version Not Supported.
      */
-    public static final int HTTP_VERSION = 505;
+    public stbtic finbl int HTTP_VERSION = 505;
 
 }

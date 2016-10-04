@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import javax.management.MalformedObjectNameException;
-import javax.management.ObjectName;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.IdentityHbshMbp;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.SortedMbp;
+import jbvb.util.TreeMbp;
+import jbvbx.mbnbgement.MblformedObjectNbmeException;
+import jbvbx.mbnbgement.ObjectNbme;
 
-public class Util {
-    public static ObjectName newObjectName(String string) {
+public clbss Util {
+    public stbtic ObjectNbme newObjectNbme(String string) {
         try {
-            return new ObjectName(string);
-        } catch (MalformedObjectNameException e) {
-            throw new IllegalArgumentException(e);
+            return new ObjectNbme(string);
+        } cbtch (MblformedObjectNbmeException e) {
+            throw new IllegblArgumentException(e);
         }
     }
 
-    static <K, V> Map<K, V> newMap() {
-        return new HashMap<K, V>();
+    stbtic <K, V> Mbp<K, V> newMbp() {
+        return new HbshMbp<K, V>();
     }
 
-    static <K, V> Map<K, V> newSynchronizedMap() {
-        return Collections.synchronizedMap(Util.<K, V>newMap());
+    stbtic <K, V> Mbp<K, V> newSynchronizedMbp() {
+        return Collections.synchronizedMbp(Util.<K, V>newMbp());
     }
 
-    static <K, V> IdentityHashMap<K, V> newIdentityHashMap() {
-        return new IdentityHashMap<K, V>();
+    stbtic <K, V> IdentityHbshMbp<K, V> newIdentityHbshMbp() {
+        return new IdentityHbshMbp<K, V>();
     }
 
-    static <K, V> Map<K, V> newSynchronizedIdentityHashMap() {
-        Map<K, V> map = newIdentityHashMap();
-        return Collections.synchronizedMap(map);
+    stbtic <K, V> Mbp<K, V> newSynchronizedIdentityHbshMbp() {
+        Mbp<K, V> mbp = newIdentityHbshMbp();
+        return Collections.synchronizedMbp(mbp);
     }
 
-    static <K, V> SortedMap<K, V> newSortedMap() {
-        return new TreeMap<K, V>();
+    stbtic <K, V> SortedMbp<K, V> newSortedMbp() {
+        return new TreeMbp<K, V>();
     }
 
-    static <K, V> SortedMap<K, V> newSortedMap(Comparator<? super K> comp) {
-        return new TreeMap<K, V>(comp);
+    stbtic <K, V> SortedMbp<K, V> newSortedMbp(Compbrbtor<? super K> comp) {
+        return new TreeMbp<K, V>(comp);
     }
 
-    static <K, V> Map<K, V> newInsertionOrderMap() {
-        return new LinkedHashMap<K, V>();
+    stbtic <K, V> Mbp<K, V> newInsertionOrderMbp() {
+        return new LinkedHbshMbp<K, V>();
     }
 
-    static <E> Set<E> newSet() {
-        return new HashSet<E>();
+    stbtic <E> Set<E> newSet() {
+        return new HbshSet<E>();
     }
 
-    static <E> Set<E> newSet(Collection<E> c) {
-        return new HashSet<E>(c);
+    stbtic <E> Set<E> newSet(Collection<E> c) {
+        return new HbshSet<E>(c);
     }
 
-    static <E> List<E> newList() {
-        return new ArrayList<E>();
+    stbtic <E> List<E> newList() {
+        return new ArrbyList<E>();
     }
 
-    static <E> List<E> newList(Collection<E> c) {
-        return new ArrayList<E>(c);
+    stbtic <E> List<E> newList(Collection<E> c) {
+        return new ArrbyList<E>(c);
     }
 
-    /* This method can be used by code that is deliberately violating the
-     * allowed checked casts.  Rather than marking the whole method containing
-     * the code with @SuppressWarnings, you can use a call to this method for
-     * the exact place where you need to escape the constraints.  Typically
-     * you will "import static" this method and then write either
-     *    X x = cast(y);
-     * or, if that doesn't work (e.g. X is a type variable)
-     *    Util.<X>cast(y);
+    /* This method cbn be used by code thbt is deliberbtely violbting the
+     * bllowed checked cbsts.  Rbther thbn mbrking the whole method contbining
+     * the code with @SuppressWbrnings, you cbn use b cbll to this method for
+     * the exbct plbce where you need to escbpe the constrbints.  Typicblly
+     * you will "import stbtic" this method bnd then write either
+     *    X x = cbst(y);
+     * or, if thbt doesn't work (e.g. X is b type vbribble)
+     *    Util.<X>cbst(y);
      */
-    @SuppressWarnings("unchecked")
-    public static <T> T cast(Object x) {
+    @SuppressWbrnings("unchecked")
+    public stbtic <T> T cbst(Object x) {
         return (T) x;
     }
 
     /**
-     * Computes a descriptor hashcode from its names and values.
-     * @param names  the sorted array of descriptor names.
-     * @param values the array of descriptor values.
-     * @return a hash code value, as described in {@link #hashCode(Descriptor)}
+     * Computes b descriptor hbshcode from its nbmes bnd vblues.
+     * @pbrbm nbmes  the sorted brrby of descriptor nbmes.
+     * @pbrbm vblues the brrby of descriptor vblues.
+     * @return b hbsh code vblue, bs described in {@link #hbshCode(Descriptor)}
      */
-    public static int hashCode(String[] names, Object[] values) {
-        int hash = 0;
-        for (int i = 0; i < names.length; i++) {
-            Object v = values[i];
+    public stbtic int hbshCode(String[] nbmes, Object[] vblues) {
+        int hbsh = 0;
+        for (int i = 0; i < nbmes.length; i++) {
+            Object v = vblues[i];
             int h;
             if (v == null) {
                 h = 0;
-            } else if (v instanceof Object[]) {
-                h = Arrays.deepHashCode((Object[]) v);
-            } else if (v.getClass().isArray()) {
-                h = Arrays.deepHashCode(new Object[]{v}) - 31;
-            // hashcode of a list containing just v is
-            // v.hashCode() + 31, see List.hashCode()
+            } else if (v instbnceof Object[]) {
+                h = Arrbys.deepHbshCode((Object[]) v);
+            } else if (v.getClbss().isArrby()) {
+                h = Arrbys.deepHbshCode(new Object[]{v}) - 31;
+            // hbshcode of b list contbining just v is
+            // v.hbshCode() + 31, see List.hbshCode()
             } else {
-                h = v.hashCode();
+                h = v.hbshCode();
             }
-            hash += names[i].toLowerCase().hashCode() ^ h;
+            hbsh += nbmes[i].toLowerCbse().hbshCode() ^ h;
         }
-        return hash;
+        return hbsh;
     }
 
-    /** Match a part of a string against a shell-style pattern.
-        The only pattern characters recognized are <code>?</code>,
-        standing for any one character,
-        and <code>*</code>, standing for any string of
-        characters, including the empty string. For instance,
-        {@code wildmatch("sandwich","sa?d*ch",1,4,1,4)} will match
-        {@code "and"} against {@code "a?d"}.
+    /** Mbtch b pbrt of b string bgbinst b shell-style pbttern.
+        The only pbttern chbrbcters recognized bre <code>?</code>,
+        stbnding for bny one chbrbcter,
+        bnd <code>*</code>, stbnding for bny string of
+        chbrbcters, including the empty string. For instbnce,
+        {@code wildmbtch("sbndwich","sb?d*ch",1,4,1,4)} will mbtch
+        {@code "bnd"} bgbinst {@code "b?d"}.
 
-        @param str  the string containing the sequence to match.
-        @param pat  a string containing a pattern to match the sub string
-                    against.
-        @param stri   the index in the string at which matching should begin.
-        @param strend the index in the string at which the matching should
+        @pbrbm str  the string contbining the sequence to mbtch.
+        @pbrbm pbt  b string contbining b pbttern to mbtch the sub string
+                    bgbinst.
+        @pbrbm stri   the index in the string bt which mbtching should begin.
+        @pbrbm strend the index in the string bt which the mbtching should
                       end.
-        @param pati   the index in the pattern at which matching should begin.
-        @param patend the index in the pattern at which the matching should
+        @pbrbm pbti   the index in the pbttern bt which mbtching should begin.
+        @pbrbm pbtend the index in the pbttern bt which the mbtching should
                       end.
 
-        @return true if and only if the string matches the pattern.
+        @return true if bnd only if the string mbtches the pbttern.
     */
-    /* The algorithm is a classical one.  We advance pointers in
-       parallel through str and pat.  If we encounter a star in pat,
-       we remember its position and continue advancing.  If at any
-       stage we get a mismatch between str and pat, we look to see if
-       there is a remembered star.  If not, we fail.  If so, we
-       retreat pat to just past that star and str to the position
-       after the last one we tried, and we let the match advance
-       again.
+    /* The blgorithm is b clbssicbl one.  We bdvbnce pointers in
+       pbrbllel through str bnd pbt.  If we encounter b stbr in pbt,
+       we remember its position bnd continue bdvbncing.  If bt bny
+       stbge we get b mismbtch between str bnd pbt, we look to see if
+       there is b remembered stbr.  If not, we fbil.  If so, we
+       retrebt pbt to just pbst thbt stbr bnd str to the position
+       bfter the lbst one we tried, bnd we let the mbtch bdvbnce
+       bgbin.
 
-       Even though there is only one remembered star position, the
-       algorithm works when there are several stars in the pattern.
-       When we encounter the second star, we forget the first one.
-       This is OK, because if we get to the second star in A*B*C
-       (where A etc are arbitrary strings), we have already seen AXB.
-       We're therefore setting up a match of *C against the remainder
-       of the string, which will match if that remainder looks like
+       Even though there is only one remembered stbr position, the
+       blgorithm works when there bre severbl stbrs in the pbttern.
+       When we encounter the second stbr, we forget the first one.
+       This is OK, becbuse if we get to the second stbr in A*B*C
+       (where A etc bre brbitrbry strings), we hbve blrebdy seen AXB.
+       We're therefore setting up b mbtch of *C bgbinst the rembinder
+       of the string, which will mbtch if thbt rembinder looks like
        YC, so the whole string looks like AXBYC.
     */
-    private static boolean wildmatch(final String str, final String pat,
-            int stri, final int strend, int pati, final int patend) {
+    privbte stbtic boolebn wildmbtch(finbl String str, finbl String pbt,
+            int stri, finbl int strend, int pbti, finbl int pbtend) {
 
-        // System.out.println("matching "+pat.substring(pati,patend)+
-        //        " against "+str.substring(stri, strend));
-        int starstri; // index for backtrack if "*" attempt fails
-        int starpati; // index for backtrack if "*" attempt fails, +1
+        // System.out.println("mbtching "+pbt.substring(pbti,pbtend)+
+        //        " bgbinst "+str.substring(stri, strend));
+        int stbrstri; // index for bbcktrbck if "*" bttempt fbils
+        int stbrpbti; // index for bbcktrbck if "*" bttempt fbils, +1
 
-        starstri = starpati = -1;
+        stbrstri = stbrpbti = -1;
 
-        /* On each pass through this loop, we either advance pati,
-           or we backtrack pati and advance starstri.  Since starstri
-           is only ever assigned from pati, the loop must terminate.  */
+        /* On ebch pbss through this loop, we either bdvbnce pbti,
+           or we bbcktrbck pbti bnd bdvbnce stbrstri.  Since stbrstri
+           is only ever bssigned from pbti, the loop must terminbte.  */
         while (true) {
-            if (pati < patend) {
-                final char patc = pat.charAt(pati);
-                switch (patc) {
-                case '?':
+            if (pbti < pbtend) {
+                finbl chbr pbtc = pbt.chbrAt(pbti);
+                switch (pbtc) {
+                cbse '?':
                     if (stri == strend)
-                        break;
+                        brebk;
                     stri++;
-                    pati++;
+                    pbti++;
                     continue;
-                case '*':
-                    pati++;
-                    starpati = pati;
-                    starstri = stri;
+                cbse '*':
+                    pbti++;
+                    stbrpbti = pbti;
+                    stbrstri = stri;
                     continue;
-                default:
-                    if (stri < strend && str.charAt(stri) == patc) {
+                defbult:
+                    if (stri < strend && str.chbrAt(stri) == pbtc) {
                         stri++;
-                        pati++;
+                        pbti++;
                         continue;
                     }
-                    break;
+                    brebk;
                 }
             } else if (stri == strend)
                 return true;
 
-            // Mismatched, can we backtrack to a "*"?
-            if (starpati < 0 || starstri == strend)
-                return false;
+            // Mismbtched, cbn we bbcktrbck to b "*"?
+            if (stbrpbti < 0 || stbrstri == strend)
+                return fblse;
 
-            // Retry the match one position later in str
-            pati = starpati;
-            starstri++;
-            stri = starstri;
+            // Retry the mbtch one position lbter in str
+            pbti = stbrpbti;
+            stbrstri++;
+            stri = stbrstri;
         }
     }
 
-    /** Match a string against a shell-style pattern.  The only pattern
-        characters recognized are <code>?</code>, standing for any one
-        character, and <code>*</code>, standing for any string of
-        characters, including the empty string.
+    /** Mbtch b string bgbinst b shell-style pbttern.  The only pbttern
+        chbrbcters recognized bre <code>?</code>, stbnding for bny one
+        chbrbcter, bnd <code>*</code>, stbnding for bny string of
+        chbrbcters, including the empty string.
 
-        @param str the string to match.
-        @param pat the pattern to match the string against.
+        @pbrbm str the string to mbtch.
+        @pbrbm pbt the pbttern to mbtch the string bgbinst.
 
-        @return true if and only if the string matches the pattern.
+        @return true if bnd only if the string mbtches the pbttern.
     */
-    public static boolean wildmatch(String str, String pat) {
-        return wildmatch(str,pat,0,str.length(),0,pat.length());
+    public stbtic boolebn wildmbtch(String str, String pbt) {
+        return wildmbtch(str,pbt,0,str.length(),0,pbt.length());
     }
 }

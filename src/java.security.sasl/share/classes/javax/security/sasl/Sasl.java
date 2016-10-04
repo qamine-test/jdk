@@ -1,389 +1,389 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.sasl;
+pbckbge jbvbx.security.sbsl;
 
-import javax.security.auth.callback.CallbackHandler;
+import jbvbx.security.buth.cbllbbck.CbllbbckHbndler;
 
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collections;
-import java.security.Provider;
-import java.security.Security;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
+import jbvb.util.Collections;
+import jbvb.security.Provider;
+import jbvb.security.Security;
 
 /**
- * A static class for creating SASL clients and servers.
+ * A stbtic clbss for crebting SASL clients bnd servers.
  *<p>
- * This class defines the policy of how to locate, load, and instantiate
- * SASL clients and servers.
+ * This clbss defines the policy of how to locbte, lobd, bnd instbntibte
+ * SASL clients bnd servers.
  *<p>
- * For example, an application or library gets a SASL client by doing
+ * For exbmple, bn bpplicbtion or librbry gets b SASL client by doing
  * something like:
  *<blockquote><pre>
- * SaslClient sc = Sasl.createSaslClient(mechanisms,
- *     authorizationId, protocol, serverName, props, callbackHandler);
+ * SbslClient sc = Sbsl.crebteSbslClient(mechbnisms,
+ *     buthorizbtionId, protocol, serverNbme, props, cbllbbckHbndler);
  *</pre></blockquote>
- * It can then proceed to use the instance to create an authentication connection.
+ * It cbn then proceed to use the instbnce to crebte bn buthenticbtion connection.
  *<p>
- * Similarly, a server gets a SASL server by using code that looks as follows:
+ * Similbrly, b server gets b SASL server by using code thbt looks bs follows:
  *<blockquote><pre>
- * SaslServer ss = Sasl.createSaslServer(mechanism,
- *     protocol, serverName, props, callbackHandler);
+ * SbslServer ss = Sbsl.crebteSbslServer(mechbnism,
+ *     protocol, serverNbme, props, cbllbbckHbndler);
  *</pre></blockquote>
  *
  * @since 1.5
  *
- * @author Rosanna Lee
- * @author Rob Weltman
+ * @buthor Rosbnnb Lee
+ * @buthor Rob Weltmbn
  */
-public class Sasl {
-    // Cannot create one of these
-    private Sasl() {
+public clbss Sbsl {
+    // Cbnnot crebte one of these
+    privbte Sbsl() {
     }
 
     /**
-     * The name of a property that specifies the quality-of-protection to use.
-     * The property contains a comma-separated, ordered list
-     * of quality-of-protection values that the
-     * client or server is willing to support.  A qop value is one of
+     * The nbme of b property thbt specifies the qublity-of-protection to use.
+     * The property contbins b commb-sepbrbted, ordered list
+     * of qublity-of-protection vblues thbt the
+     * client or server is willing to support.  A qop vblue is one of
      * <ul>
-     * <li>{@code "auth"} - authentication only</li>
-     * <li>{@code "auth-int"} - authentication plus integrity protection</li>
-     * <li>{@code "auth-conf"} - authentication plus integrity and confidentiality
+     * <li>{@code "buth"} - buthenticbtion only</li>
+     * <li>{@code "buth-int"} - buthenticbtion plus integrity protection</li>
+     * <li>{@code "buth-conf"} - buthenticbtion plus integrity bnd confidentiblity
      * protection</li>
      * </ul>
      *
      * The order of the list specifies the preference order of the client or
-     * server. If this property is absent, the default qop is {@code "auth"}.
-     * The value of this constant is {@code "javax.security.sasl.qop"}.
+     * server. If this property is bbsent, the defbult qop is {@code "buth"}.
+     * The vblue of this constbnt is {@code "jbvbx.security.sbsl.qop"}.
      */
-    public static final String QOP = "javax.security.sasl.qop";
+    public stbtic finbl String QOP = "jbvbx.security.sbsl.qop";
 
     /**
-     * The name of a property that specifies the cipher strength to use.
-     * The property contains a comma-separated, ordered list
-     * of cipher strength values that
-     * the client or server is willing to support. A strength value is one of
+     * The nbme of b property thbt specifies the cipher strength to use.
+     * The property contbins b commb-sepbrbted, ordered list
+     * of cipher strength vblues thbt
+     * the client or server is willing to support. A strength vblue is one of
      * <ul>
      * <li>{@code "low"}</li>
      * <li>{@code "medium"}</li>
      * <li>{@code "high"}</li>
      * </ul>
      * The order of the list specifies the preference order of the client or
-     * server.  An implementation should allow configuration of the meaning
-     * of these values.  An application may use the Java Cryptography
-     * Extension (JCE) with JCE-aware mechanisms to control the selection of
-     * cipher suites that match the strength values.
+     * server.  An implementbtion should bllow configurbtion of the mebning
+     * of these vblues.  An bpplicbtion mby use the Jbvb Cryptogrbphy
+     * Extension (JCE) with JCE-bwbre mechbnisms to control the selection of
+     * cipher suites thbt mbtch the strength vblues.
      * <BR>
-     * If this property is absent, the default strength is
+     * If this property is bbsent, the defbult strength is
      * {@code "high,medium,low"}.
-     * The value of this constant is {@code "javax.security.sasl.strength"}.
+     * The vblue of this constbnt is {@code "jbvbx.security.sbsl.strength"}.
      */
-    public static final String STRENGTH = "javax.security.sasl.strength";
+    public stbtic finbl String STRENGTH = "jbvbx.security.sbsl.strength";
 
     /**
-     * The name of a property that specifies whether the
-     * server must authenticate to the client. The property contains
+     * The nbme of b property thbt specifies whether the
+     * server must buthenticbte to the client. The property contbins
      * {@code "true"} if the server must
-     * authenticate the to client; {@code "false"} otherwise.
-     * The default is {@code "false"}.
-     * <br>The value of this constant is
-     * {@code "javax.security.sasl.server.authentication"}.
+     * buthenticbte the to client; {@code "fblse"} otherwise.
+     * The defbult is {@code "fblse"}.
+     * <br>The vblue of this constbnt is
+     * {@code "jbvbx.security.sbsl.server.buthenticbtion"}.
      */
-    public static final String SERVER_AUTH =
-    "javax.security.sasl.server.authentication";
+    public stbtic finbl String SERVER_AUTH =
+    "jbvbx.security.sbsl.server.buthenticbtion";
 
     /**
-     * The name of a property that specifies the bound server name for
-     * an unbound server. A server is created as an unbound server by setting
-     * the {@code serverName} argument in {@link #createSaslServer} as null.
-     * The property contains the bound host name after the authentication
-     * exchange has completed. It is only available on the server side.
-     * <br>The value of this constant is
-     * {@code "javax.security.sasl.bound.server.name"}.
+     * The nbme of b property thbt specifies the bound server nbme for
+     * bn unbound server. A server is crebted bs bn unbound server by setting
+     * the {@code serverNbme} brgument in {@link #crebteSbslServer} bs null.
+     * The property contbins the bound host nbme bfter the buthenticbtion
+     * exchbnge hbs completed. It is only bvbilbble on the server side.
+     * <br>The vblue of this constbnt is
+     * {@code "jbvbx.security.sbsl.bound.server.nbme"}.
      */
-    public static final String BOUND_SERVER_NAME =
-    "javax.security.sasl.bound.server.name";
+    public stbtic finbl String BOUND_SERVER_NAME =
+    "jbvbx.security.sbsl.bound.server.nbme";
 
     /**
-     * The name of a property that specifies the maximum size of the receive
-     * buffer in bytes of {@code SaslClient}/{@code SaslServer}.
-     * The property contains the string representation of an integer.
-     * <br>If this property is absent, the default size
-     * is defined by the mechanism.
-     * <br>The value of this constant is {@code "javax.security.sasl.maxbuffer"}.
+     * The nbme of b property thbt specifies the mbximum size of the receive
+     * buffer in bytes of {@code SbslClient}/{@code SbslServer}.
+     * The property contbins the string representbtion of bn integer.
+     * <br>If this property is bbsent, the defbult size
+     * is defined by the mechbnism.
+     * <br>The vblue of this constbnt is {@code "jbvbx.security.sbsl.mbxbuffer"}.
      */
-    public static final String MAX_BUFFER = "javax.security.sasl.maxbuffer";
+    public stbtic finbl String MAX_BUFFER = "jbvbx.security.sbsl.mbxbuffer";
 
     /**
-     * The name of a property that specifies the maximum size of the raw send
-     * buffer in bytes of {@code SaslClient}/{@code SaslServer}.
-     * The property contains the string representation of an integer.
-     * The value of this property is negotiated between the client and server
-     * during the authentication exchange.
-     * <br>The value of this constant is {@code "javax.security.sasl.rawsendsize"}.
+     * The nbme of b property thbt specifies the mbximum size of the rbw send
+     * buffer in bytes of {@code SbslClient}/{@code SbslServer}.
+     * The property contbins the string representbtion of bn integer.
+     * The vblue of this property is negotibted between the client bnd server
+     * during the buthenticbtion exchbnge.
+     * <br>The vblue of this constbnt is {@code "jbvbx.security.sbsl.rbwsendsize"}.
      */
-    public static final String RAW_SEND_SIZE = "javax.security.sasl.rawsendsize";
+    public stbtic finbl String RAW_SEND_SIZE = "jbvbx.security.sbsl.rbwsendsize";
 
     /**
-     * The name of a property that specifies whether to reuse previously
-     * authenticated session information. The property contains "true" if the
-     * mechanism implementation may attempt to reuse previously authenticated
-     * session information; it contains "false" if the implementation must
-     * not reuse previously authenticated session information.  A setting of
-     * "true" serves only as a hint: it does not necessarily entail actual
-     * reuse because reuse might not be possible due to a number of reasons,
-     * including, but not limited to, lack of mechanism support for reuse,
-     * expiration of reusable information, and the peer's refusal to support
+     * The nbme of b property thbt specifies whether to reuse previously
+     * buthenticbted session informbtion. The property contbins "true" if the
+     * mechbnism implementbtion mby bttempt to reuse previously buthenticbted
+     * session informbtion; it contbins "fblse" if the implementbtion must
+     * not reuse previously buthenticbted session informbtion.  A setting of
+     * "true" serves only bs b hint: it does not necessbrily entbil bctubl
+     * reuse becbuse reuse might not be possible due to b number of rebsons,
+     * including, but not limited to, lbck of mechbnism support for reuse,
+     * expirbtion of reusbble informbtion, bnd the peer's refusbl to support
      * reuse.
      *
-     * The property's default value is "false".  The value of this constant
-     * is "javax.security.sasl.reuse".
+     * The property's defbult vblue is "fblse".  The vblue of this constbnt
+     * is "jbvbx.security.sbsl.reuse".
      *
-     * Note that all other parameters and properties required to create a
-     * SASL client/server instance must be provided regardless of whether
-     * this property has been supplied. That is, you cannot supply any less
-     * information in anticipation of reuse.
+     * Note thbt bll other pbrbmeters bnd properties required to crebte b
+     * SASL client/server instbnce must be provided regbrdless of whether
+     * this property hbs been supplied. Thbt is, you cbnnot supply bny less
+     * informbtion in bnticipbtion of reuse.
      *
-     * Mechanism implementations that support reuse might allow customization
-     * of its implementation, for factors such as cache size, timeouts, and
-     * criteria for reusability. Such customizations are
-     * implementation-dependent.
+     * Mechbnism implementbtions thbt support reuse might bllow customizbtion
+     * of its implementbtion, for fbctors such bs cbche size, timeouts, bnd
+     * criterib for reusbbility. Such customizbtions bre
+     * implementbtion-dependent.
      */
-     public static final String REUSE = "javax.security.sasl.reuse";
+     public stbtic finbl String REUSE = "jbvbx.security.sbsl.reuse";
 
     /**
-     * The name of a property that specifies
-     * whether mechanisms susceptible to simple plain passive attacks (e.g.,
-     * "PLAIN") are not permitted. The property
-     * contains {@code "true"} if such mechanisms are not permitted;
-     * {@code "false"} if such mechanisms are permitted.
-     * The default is {@code "false"}.
-     * <br>The value of this constant is
-     * {@code "javax.security.sasl.policy.noplaintext"}.
+     * The nbme of b property thbt specifies
+     * whether mechbnisms susceptible to simple plbin pbssive bttbcks (e.g.,
+     * "PLAIN") bre not permitted. The property
+     * contbins {@code "true"} if such mechbnisms bre not permitted;
+     * {@code "fblse"} if such mechbnisms bre permitted.
+     * The defbult is {@code "fblse"}.
+     * <br>The vblue of this constbnt is
+     * {@code "jbvbx.security.sbsl.policy.noplbintext"}.
      */
-    public static final String POLICY_NOPLAINTEXT =
-    "javax.security.sasl.policy.noplaintext";
+    public stbtic finbl String POLICY_NOPLAINTEXT =
+    "jbvbx.security.sbsl.policy.noplbintext";
 
     /**
-     * The name of a property that specifies whether
-     * mechanisms susceptible to active (non-dictionary) attacks
-     * are not permitted.
-     * The property contains {@code "true"}
-     * if mechanisms susceptible to active attacks
-     * are not permitted; {@code "false"} if such mechanisms are permitted.
-     * The default is {@code "false"}.
-     * <br>The value of this constant is
-     * {@code "javax.security.sasl.policy.noactive"}.
+     * The nbme of b property thbt specifies whether
+     * mechbnisms susceptible to bctive (non-dictionbry) bttbcks
+     * bre not permitted.
+     * The property contbins {@code "true"}
+     * if mechbnisms susceptible to bctive bttbcks
+     * bre not permitted; {@code "fblse"} if such mechbnisms bre permitted.
+     * The defbult is {@code "fblse"}.
+     * <br>The vblue of this constbnt is
+     * {@code "jbvbx.security.sbsl.policy.nobctive"}.
      */
-    public static final String POLICY_NOACTIVE =
-    "javax.security.sasl.policy.noactive";
+    public stbtic finbl String POLICY_NOACTIVE =
+    "jbvbx.security.sbsl.policy.nobctive";
 
     /**
-     * The name of a property that specifies whether
-     * mechanisms susceptible to passive dictionary attacks are not permitted.
-     * The property contains {@code "true"}
-     * if mechanisms susceptible to dictionary attacks are not permitted;
-     * {@code "false"} if such mechanisms are permitted.
-     * The default is {@code "false"}.
+     * The nbme of b property thbt specifies whether
+     * mechbnisms susceptible to pbssive dictionbry bttbcks bre not permitted.
+     * The property contbins {@code "true"}
+     * if mechbnisms susceptible to dictionbry bttbcks bre not permitted;
+     * {@code "fblse"} if such mechbnisms bre permitted.
+     * The defbult is {@code "fblse"}.
      *<br>
-     * The value of this constant is
-     * {@code "javax.security.sasl.policy.nodictionary"}.
+     * The vblue of this constbnt is
+     * {@code "jbvbx.security.sbsl.policy.nodictionbry"}.
      */
-    public static final String POLICY_NODICTIONARY =
-    "javax.security.sasl.policy.nodictionary";
+    public stbtic finbl String POLICY_NODICTIONARY =
+    "jbvbx.security.sbsl.policy.nodictionbry";
 
     /**
-     * The name of a property that specifies whether mechanisms that accept
-     * anonymous login are not permitted. The property contains {@code "true"}
-     * if mechanisms that accept anonymous login are not permitted;
-     * {@code "false"}
-     * if such mechanisms are permitted. The default is {@code "false"}.
+     * The nbme of b property thbt specifies whether mechbnisms thbt bccept
+     * bnonymous login bre not permitted. The property contbins {@code "true"}
+     * if mechbnisms thbt bccept bnonymous login bre not permitted;
+     * {@code "fblse"}
+     * if such mechbnisms bre permitted. The defbult is {@code "fblse"}.
      *<br>
-     * The value of this constant is
-     * {@code "javax.security.sasl.policy.noanonymous"}.
+     * The vblue of this constbnt is
+     * {@code "jbvbx.security.sbsl.policy.nobnonymous"}.
      */
-    public static final String POLICY_NOANONYMOUS =
-    "javax.security.sasl.policy.noanonymous";
+    public stbtic finbl String POLICY_NOANONYMOUS =
+    "jbvbx.security.sbsl.policy.nobnonymous";
 
      /**
-      * The name of a property that specifies whether mechanisms that implement
-      * forward secrecy between sessions are required. Forward secrecy
-      * means that breaking into one session will not automatically
-      * provide information for breaking into future sessions.
+      * The nbme of b property thbt specifies whether mechbnisms thbt implement
+      * forwbrd secrecy between sessions bre required. Forwbrd secrecy
+      * mebns thbt brebking into one session will not butombticblly
+      * provide informbtion for brebking into future sessions.
       * The property
-      * contains {@code "true"} if mechanisms that implement forward secrecy
-      * between sessions are required; {@code "false"} if such mechanisms
-      * are not required. The default is {@code "false"}.
+      * contbins {@code "true"} if mechbnisms thbt implement forwbrd secrecy
+      * between sessions bre required; {@code "fblse"} if such mechbnisms
+      * bre not required. The defbult is {@code "fblse"}.
       *<br>
-      * The value of this constant is
-      * {@code "javax.security.sasl.policy.forward"}.
+      * The vblue of this constbnt is
+      * {@code "jbvbx.security.sbsl.policy.forwbrd"}.
       */
-    public static final String POLICY_FORWARD_SECRECY =
-    "javax.security.sasl.policy.forward";
+    public stbtic finbl String POLICY_FORWARD_SECRECY =
+    "jbvbx.security.sbsl.policy.forwbrd";
 
     /**
-     * The name of a property that specifies whether
-     * mechanisms that pass client credentials are required. The property
-     * contains {@code "true"} if mechanisms that pass
-     * client credentials are required; {@code "false"}
-     * if such mechanisms are not required. The default is {@code "false"}.
+     * The nbme of b property thbt specifies whether
+     * mechbnisms thbt pbss client credentibls bre required. The property
+     * contbins {@code "true"} if mechbnisms thbt pbss
+     * client credentibls bre required; {@code "fblse"}
+     * if such mechbnisms bre not required. The defbult is {@code "fblse"}.
      *<br>
-     * The value of this constant is
-     * {@code "javax.security.sasl.policy.credentials"}.
+     * The vblue of this constbnt is
+     * {@code "jbvbx.security.sbsl.policy.credentibls"}.
      */
-    public static final String POLICY_PASS_CREDENTIALS =
-    "javax.security.sasl.policy.credentials";
+    public stbtic finbl String POLICY_PASS_CREDENTIALS =
+    "jbvbx.security.sbsl.policy.credentibls";
 
     /**
-     * The name of a property that specifies the credentials to use.
-     * The property contains a mechanism-specific Java credential object.
-     * Mechanism implementations may examine the value of this property
-     * to determine whether it is a class that they support.
-     * The property may be used to supply credentials to a mechanism that
-     * supports delegated authentication.
+     * The nbme of b property thbt specifies the credentibls to use.
+     * The property contbins b mechbnism-specific Jbvb credentibl object.
+     * Mechbnism implementbtions mby exbmine the vblue of this property
+     * to determine whether it is b clbss thbt they support.
+     * The property mby be used to supply credentibls to b mechbnism thbt
+     * supports delegbted buthenticbtion.
      *<br>
-     * The value of this constant is
-     * {@code "javax.security.sasl.credentials"}.
+     * The vblue of this constbnt is
+     * {@code "jbvbx.security.sbsl.credentibls"}.
      */
-    public static final String CREDENTIALS = "javax.security.sasl.credentials";
+    public stbtic finbl String CREDENTIALS = "jbvbx.security.sbsl.credentibls";
 
     /**
-     * Creates a {@code SaslClient} using the parameters supplied.
+     * Crebtes b {@code SbslClient} using the pbrbmeters supplied.
      *
      * This method uses the
-<a href="{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#Provider">JCA Security Provider Framework</a>, described in the
-     * "Java Cryptography Architecture API Specification &amp; Reference", for
-     * locating and selecting a {@code SaslClient} implementation.
+<b href="{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#Provider">JCA Security Provider Frbmework</b>, described in the
+     * "Jbvb Cryptogrbphy Architecture API Specificbtion &bmp; Reference", for
+     * locbting bnd selecting b {@code SbslClient} implementbtion.
      *
      * First, it
-     * obtains an ordered list of {@code SaslClientFactory} instances from
-     * the registered security providers for the "SaslClientFactory" service
-     * and the specified SASL mechanism(s). It then invokes
-     * {@code createSaslClient()} on each factory instance on the list
-     * until one produces a non-null {@code SaslClient} instance. It returns
-     * the non-null {@code SaslClient} instance, or null if the search fails
-     * to produce a non-null {@code SaslClient} instance.
+     * obtbins bn ordered list of {@code SbslClientFbctory} instbnces from
+     * the registered security providers for the "SbslClientFbctory" service
+     * bnd the specified SASL mechbnism(s). It then invokes
+     * {@code crebteSbslClient()} on ebch fbctory instbnce on the list
+     * until one produces b non-null {@code SbslClient} instbnce. It returns
+     * the non-null {@code SbslClient} instbnce, or null if the sebrch fbils
+     * to produce b non-null {@code SbslClient} instbnce.
      *<p>
-     * A security provider for SaslClientFactory registers with the
-     * JCA Security Provider Framework keys of the form <br>
-     * {@code SaslClientFactory.}<em>{@code mechanism_name}</em>
+     * A security provider for SbslClientFbctory registers with the
+     * JCA Security Provider Frbmework keys of the form <br>
+     * {@code SbslClientFbctory.}<em>{@code mechbnism_nbme}</em>
      * <br>
-     * and values that are class names of implementations of
-     * {@code javax.security.sasl.SaslClientFactory}.
+     * bnd vblues thbt bre clbss nbmes of implementbtions of
+     * {@code jbvbx.security.sbsl.SbslClientFbctory}.
      *
-     * For example, a provider that contains a factory class,
-     * {@code com.wiz.sasl.digest.ClientFactory}, that supports the
-     * "DIGEST-MD5" mechanism would register the following entry with the JCA:
-     * {@code SaslClientFactory.DIGEST-MD5 com.wiz.sasl.digest.ClientFactory}
+     * For exbmple, b provider thbt contbins b fbctory clbss,
+     * {@code com.wiz.sbsl.digest.ClientFbctory}, thbt supports the
+     * "DIGEST-MD5" mechbnism would register the following entry with the JCA:
+     * {@code SbslClientFbctory.DIGEST-MD5 com.wiz.sbsl.digest.ClientFbctory}
      *<p>
      * See the
-     * "Java Cryptography Architecture API Specification &amp; Reference"
-     * for information about how to install and configure security service
+     * "Jbvb Cryptogrbphy Architecture API Specificbtion &bmp; Reference"
+     * for informbtion bbout how to instbll bnd configure security service
      *  providers.
      *
-     * @param mechanisms The non-null list of mechanism names to try. Each is the
-     * IANA-registered name of a SASL mechanism. (e.g. "GSSAPI", "CRAM-MD5").
-     * @param authorizationId The possibly null protocol-dependent
-     * identification to be used for authorization.
-     * If null or empty, the server derives an authorization
-     * ID from the client's authentication credentials.
-     * When the SASL authentication completes successfully,
-     * the specified entity is granted access.
+     * @pbrbm mechbnisms The non-null list of mechbnism nbmes to try. Ebch is the
+     * IANA-registered nbme of b SASL mechbnism. (e.g. "GSSAPI", "CRAM-MD5").
+     * @pbrbm buthorizbtionId The possibly null protocol-dependent
+     * identificbtion to be used for buthorizbtion.
+     * If null or empty, the server derives bn buthorizbtion
+     * ID from the client's buthenticbtion credentibls.
+     * When the SASL buthenticbtion completes successfully,
+     * the specified entity is grbnted bccess.
      *
-     * @param protocol The non-null string name of the protocol for which
-     * the authentication is being performed (e.g., "ldap").
+     * @pbrbm protocol The non-null string nbme of the protocol for which
+     * the buthenticbtion is being performed (e.g., "ldbp").
      *
-     * @param serverName The non-null fully-qualified host name of the server
-     * to authenticate to.
+     * @pbrbm serverNbme The non-null fully-qublified host nbme of the server
+     * to buthenticbte to.
      *
-     * @param props The possibly null set of properties used to
-     * select the SASL mechanism and to configure the authentication
-     * exchange of the selected mechanism.
-     * For example, if {@code props} contains the
-     * {@code Sasl.POLICY_NOPLAINTEXT} property with the value
+     * @pbrbm props The possibly null set of properties used to
+     * select the SASL mechbnism bnd to configure the buthenticbtion
+     * exchbnge of the selected mechbnism.
+     * For exbmple, if {@code props} contbins the
+     * {@code Sbsl.POLICY_NOPLAINTEXT} property with the vblue
      * {@code "true"}, then the selected
-     * SASL mechanism must not be susceptible to simple plain passive attacks.
-     * In addition to the standard properties declared in this class,
-     * other, possibly mechanism-specific, properties can be included.
-     * Properties not relevant to the selected mechanism are ignored,
-     * including any map entries with non-String keys.
+     * SASL mechbnism must not be susceptible to simple plbin pbssive bttbcks.
+     * In bddition to the stbndbrd properties declbred in this clbss,
+     * other, possibly mechbnism-specific, properties cbn be included.
+     * Properties not relevbnt to the selected mechbnism bre ignored,
+     * including bny mbp entries with non-String keys.
      *
-     * @param cbh The possibly null callback handler to used by the SASL
-     * mechanisms to get further information from the application/library
-     * to complete the authentication. For example, a SASL mechanism might
-     * require the authentication ID, password and realm from the caller.
-     * The authentication ID is requested by using a {@code NameCallback}.
-     * The password is requested by using a {@code PasswordCallback}.
-     * The realm is requested by using a {@code RealmChoiceCallback} if there is a list
-     * of realms to choose from, and by using a {@code RealmCallback} if
-     * the realm must be entered.
+     * @pbrbm cbh The possibly null cbllbbck hbndler to used by the SASL
+     * mechbnisms to get further informbtion from the bpplicbtion/librbry
+     * to complete the buthenticbtion. For exbmple, b SASL mechbnism might
+     * require the buthenticbtion ID, pbssword bnd reblm from the cbller.
+     * The buthenticbtion ID is requested by using b {@code NbmeCbllbbck}.
+     * The pbssword is requested by using b {@code PbsswordCbllbbck}.
+     * The reblm is requested by using b {@code ReblmChoiceCbllbbck} if there is b list
+     * of reblms to choose from, bnd by using b {@code ReblmCbllbbck} if
+     * the reblm must be entered.
      *
-     *@return A possibly null {@code SaslClient} created using the parameters
-     * supplied. If null, cannot find a {@code SaslClientFactory}
-     * that will produce one.
-     *@exception SaslException If cannot create a {@code SaslClient} because
-     * of an error.
+     *@return A possibly null {@code SbslClient} crebted using the pbrbmeters
+     * supplied. If null, cbnnot find b {@code SbslClientFbctory}
+     * thbt will produce one.
+     *@exception SbslException If cbnnot crebte b {@code SbslClient} becbuse
+     * of bn error.
      */
-    public static SaslClient createSaslClient(
-        String[] mechanisms,
-        String authorizationId,
+    public stbtic SbslClient crebteSbslClient(
+        String[] mechbnisms,
+        String buthorizbtionId,
         String protocol,
-        String serverName,
-        Map<String,?> props,
-        CallbackHandler cbh) throws SaslException {
+        String serverNbme,
+        Mbp<String,?> props,
+        CbllbbckHbndler cbh) throws SbslException {
 
-        SaslClient mech = null;
-        SaslClientFactory fac;
-        String className;
-        String mechName;
+        SbslClient mech = null;
+        SbslClientFbctory fbc;
+        String clbssNbme;
+        String mechNbme;
 
-        for (int i = 0; i < mechanisms.length; i++) {
-            if ((mechName=mechanisms[i]) == null) {
+        for (int i = 0; i < mechbnisms.length; i++) {
+            if ((mechNbme=mechbnisms[i]) == null) {
                 throw new NullPointerException(
-                    "Mechanism name cannot be null");
-            } else if (mechName.length() == 0) {
+                    "Mechbnism nbme cbnnot be null");
+            } else if (mechNbme.length() == 0) {
                 continue;
             }
-            String mechFilter = "SaslClientFactory." + mechName;
+            String mechFilter = "SbslClientFbctory." + mechNbme;
             Provider[] provs = Security.getProviders(mechFilter);
             for (int j = 0; provs != null && j < provs.length; j++) {
-                className = provs[j].getProperty(mechFilter);
-                if (className == null) {
-                    // Case is ignored
+                clbssNbme = provs[j].getProperty(mechFilter);
+                if (clbssNbme == null) {
+                    // Cbse is ignored
                     continue;
                 }
 
-                fac = (SaslClientFactory) loadFactory(provs[j], className);
-                if (fac != null) {
-                    mech = fac.createSaslClient(
-                        new String[]{mechanisms[i]}, authorizationId,
-                        protocol, serverName, props, cbh);
+                fbc = (SbslClientFbctory) lobdFbctory(provs[j], clbssNbme);
+                if (fbc != null) {
+                    mech = fbc.crebteSbslClient(
+                        new String[]{mechbnisms[i]}, buthorizbtionId,
+                        protocol, serverNbme, props, cbh);
                     if (mech != null) {
                         return mech;
                     }
@@ -394,135 +394,135 @@ public class Sasl {
         return null;
     }
 
-    private static Object loadFactory(Provider p, String className)
-        throws SaslException {
+    privbte stbtic Object lobdFbctory(Provider p, String clbssNbme)
+        throws SbslException {
         try {
             /*
-             * Load the implementation class with the same class loader
-             * that was used to load the provider.
-             * In order to get the class loader of a class, the
-             * caller's class loader must be the same as or an ancestor of
-             * the class loader being returned. Otherwise, the caller must
-             * have "getClassLoader" permission, or a SecurityException
+             * Lobd the implementbtion clbss with the sbme clbss lobder
+             * thbt wbs used to lobd the provider.
+             * In order to get the clbss lobder of b clbss, the
+             * cbller's clbss lobder must be the sbme bs or bn bncestor of
+             * the clbss lobder being returned. Otherwise, the cbller must
+             * hbve "getClbssLobder" permission, or b SecurityException
              * will be thrown.
              */
-            ClassLoader cl = p.getClass().getClassLoader();
-            Class<?> implClass;
-            implClass = Class.forName(className, true, cl);
-            return implClass.newInstance();
-        } catch (ClassNotFoundException e) {
-            throw new SaslException("Cannot load class " + className, e);
-        } catch (InstantiationException e) {
-            throw new SaslException("Cannot instantiate class " + className, e);
-        } catch (IllegalAccessException e) {
-            throw new SaslException("Cannot access class " + className, e);
-        } catch (SecurityException e) {
-            throw new SaslException("Cannot access class " + className, e);
+            ClbssLobder cl = p.getClbss().getClbssLobder();
+            Clbss<?> implClbss;
+            implClbss = Clbss.forNbme(clbssNbme, true, cl);
+            return implClbss.newInstbnce();
+        } cbtch (ClbssNotFoundException e) {
+            throw new SbslException("Cbnnot lobd clbss " + clbssNbme, e);
+        } cbtch (InstbntibtionException e) {
+            throw new SbslException("Cbnnot instbntibte clbss " + clbssNbme, e);
+        } cbtch (IllegblAccessException e) {
+            throw new SbslException("Cbnnot bccess clbss " + clbssNbme, e);
+        } cbtch (SecurityException e) {
+            throw new SbslException("Cbnnot bccess clbss " + clbssNbme, e);
         }
     }
 
 
     /**
-     * Creates a {@code SaslServer} for the specified mechanism.
+     * Crebtes b {@code SbslServer} for the specified mechbnism.
      *
      * This method uses the
-<a href="{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#Provider">JCA Security Provider Framework</a>,
+<b href="{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#Provider">JCA Security Provider Frbmework</b>,
      * described in the
-     * "Java Cryptography Architecture API Specification &amp; Reference", for
-     * locating and selecting a {@code SaslServer} implementation.
+     * "Jbvb Cryptogrbphy Architecture API Specificbtion &bmp; Reference", for
+     * locbting bnd selecting b {@code SbslServer} implementbtion.
      *
      * First, it
-     * obtains an ordered list of {@code SaslServerFactory} instances from
-     * the registered security providers for the "SaslServerFactory" service
-     * and the specified mechanism. It then invokes
-     * {@code createSaslServer()} on each factory instance on the list
-     * until one produces a non-null {@code SaslServer} instance. It returns
-     * the non-null {@code SaslServer} instance, or null if the search fails
-     * to produce a non-null {@code SaslServer} instance.
+     * obtbins bn ordered list of {@code SbslServerFbctory} instbnces from
+     * the registered security providers for the "SbslServerFbctory" service
+     * bnd the specified mechbnism. It then invokes
+     * {@code crebteSbslServer()} on ebch fbctory instbnce on the list
+     * until one produces b non-null {@code SbslServer} instbnce. It returns
+     * the non-null {@code SbslServer} instbnce, or null if the sebrch fbils
+     * to produce b non-null {@code SbslServer} instbnce.
      *<p>
-     * A security provider for SaslServerFactory registers with the
-     * JCA Security Provider Framework keys of the form <br>
-     * {@code SaslServerFactory.}<em>{@code mechanism_name}</em>
+     * A security provider for SbslServerFbctory registers with the
+     * JCA Security Provider Frbmework keys of the form <br>
+     * {@code SbslServerFbctory.}<em>{@code mechbnism_nbme}</em>
      * <br>
-     * and values that are class names of implementations of
-     * {@code javax.security.sasl.SaslServerFactory}.
+     * bnd vblues thbt bre clbss nbmes of implementbtions of
+     * {@code jbvbx.security.sbsl.SbslServerFbctory}.
      *
-     * For example, a provider that contains a factory class,
-     * {@code com.wiz.sasl.digest.ServerFactory}, that supports the
-     * "DIGEST-MD5" mechanism would register the following entry with the JCA:
-     * {@code SaslServerFactory.DIGEST-MD5  com.wiz.sasl.digest.ServerFactory}
+     * For exbmple, b provider thbt contbins b fbctory clbss,
+     * {@code com.wiz.sbsl.digest.ServerFbctory}, thbt supports the
+     * "DIGEST-MD5" mechbnism would register the following entry with the JCA:
+     * {@code SbslServerFbctory.DIGEST-MD5  com.wiz.sbsl.digest.ServerFbctory}
      *<p>
      * See the
-     * "Java Cryptography Architecture API Specification &amp; Reference"
-     * for information about how to install and configure security
+     * "Jbvb Cryptogrbphy Architecture API Specificbtion &bmp; Reference"
+     * for informbtion bbout how to instbll bnd configure security
      * service providers.
      *
-     * @param mechanism The non-null mechanism name. It must be an
-     * IANA-registered name of a SASL mechanism. (e.g. "GSSAPI", "CRAM-MD5").
-     * @param protocol The non-null string name of the protocol for which
-     * the authentication is being performed (e.g., "ldap").
-     * @param serverName The fully qualified host name of the server, or null
-     * if the server is not bound to any specific host name. If the mechanism
-     * does not allow an unbound server, a {@code SaslException} will
+     * @pbrbm mechbnism The non-null mechbnism nbme. It must be bn
+     * IANA-registered nbme of b SASL mechbnism. (e.g. "GSSAPI", "CRAM-MD5").
+     * @pbrbm protocol The non-null string nbme of the protocol for which
+     * the buthenticbtion is being performed (e.g., "ldbp").
+     * @pbrbm serverNbme The fully qublified host nbme of the server, or null
+     * if the server is not bound to bny specific host nbme. If the mechbnism
+     * does not bllow bn unbound server, b {@code SbslException} will
      * be thrown.
-     * @param props The possibly null set of properties used to
-     * select the SASL mechanism and to configure the authentication
-     * exchange of the selected mechanism.
-     * For example, if {@code props} contains the
-     * {@code Sasl.POLICY_NOPLAINTEXT} property with the value
+     * @pbrbm props The possibly null set of properties used to
+     * select the SASL mechbnism bnd to configure the buthenticbtion
+     * exchbnge of the selected mechbnism.
+     * For exbmple, if {@code props} contbins the
+     * {@code Sbsl.POLICY_NOPLAINTEXT} property with the vblue
      * {@code "true"}, then the selected
-     * SASL mechanism must not be susceptible to simple plain passive attacks.
-     * In addition to the standard properties declared in this class,
-     * other, possibly mechanism-specific, properties can be included.
-     * Properties not relevant to the selected mechanism are ignored,
-     * including any map entries with non-String keys.
+     * SASL mechbnism must not be susceptible to simple plbin pbssive bttbcks.
+     * In bddition to the stbndbrd properties declbred in this clbss,
+     * other, possibly mechbnism-specific, properties cbn be included.
+     * Properties not relevbnt to the selected mechbnism bre ignored,
+     * including bny mbp entries with non-String keys.
      *
-     * @param cbh The possibly null callback handler to used by the SASL
-     * mechanisms to get further information from the application/library
-     * to complete the authentication. For example, a SASL mechanism might
-     * require the authentication ID, password and realm from the caller.
-     * The authentication ID is requested by using a {@code NameCallback}.
-     * The password is requested by using a {@code PasswordCallback}.
-     * The realm is requested by using a {@code RealmChoiceCallback} if there is a list
-     * of realms to choose from, and by using a {@code RealmCallback} if
-     * the realm must be entered.
+     * @pbrbm cbh The possibly null cbllbbck hbndler to used by the SASL
+     * mechbnisms to get further informbtion from the bpplicbtion/librbry
+     * to complete the buthenticbtion. For exbmple, b SASL mechbnism might
+     * require the buthenticbtion ID, pbssword bnd reblm from the cbller.
+     * The buthenticbtion ID is requested by using b {@code NbmeCbllbbck}.
+     * The pbssword is requested by using b {@code PbsswordCbllbbck}.
+     * The reblm is requested by using b {@code ReblmChoiceCbllbbck} if there is b list
+     * of reblms to choose from, bnd by using b {@code ReblmCbllbbck} if
+     * the reblm must be entered.
      *
-     *@return A possibly null {@code SaslServer} created using the parameters
-     * supplied. If null, cannot find a {@code SaslServerFactory}
-     * that will produce one.
-     *@exception SaslException If cannot create a {@code SaslServer} because
-     * of an error.
+     *@return A possibly null {@code SbslServer} crebted using the pbrbmeters
+     * supplied. If null, cbnnot find b {@code SbslServerFbctory}
+     * thbt will produce one.
+     *@exception SbslException If cbnnot crebte b {@code SbslServer} becbuse
+     * of bn error.
      **/
-    public static SaslServer
-        createSaslServer(String mechanism,
+    public stbtic SbslServer
+        crebteSbslServer(String mechbnism,
                     String protocol,
-                    String serverName,
-                    Map<String,?> props,
-                    javax.security.auth.callback.CallbackHandler cbh)
-        throws SaslException {
+                    String serverNbme,
+                    Mbp<String,?> props,
+                    jbvbx.security.buth.cbllbbck.CbllbbckHbndler cbh)
+        throws SbslException {
 
-        SaslServer mech = null;
-        SaslServerFactory fac;
-        String className;
+        SbslServer mech = null;
+        SbslServerFbctory fbc;
+        String clbssNbme;
 
-        if (mechanism == null) {
-            throw new NullPointerException("Mechanism name cannot be null");
-        } else if (mechanism.length() == 0) {
+        if (mechbnism == null) {
+            throw new NullPointerException("Mechbnism nbme cbnnot be null");
+        } else if (mechbnism.length() == 0) {
             return null;
         }
 
-        String mechFilter = "SaslServerFactory." + mechanism;
+        String mechFilter = "SbslServerFbctory." + mechbnism;
         Provider[] provs = Security.getProviders(mechFilter);
         for (int j = 0; provs != null && j < provs.length; j++) {
-            className = provs[j].getProperty(mechFilter);
-            if (className == null) {
-                throw new SaslException("Provider does not support " +
+            clbssNbme = provs[j].getProperty(mechFilter);
+            if (clbssNbme == null) {
+                throw new SbslException("Provider does not support " +
                     mechFilter);
             }
-            fac = (SaslServerFactory) loadFactory(provs[j], className);
-            if (fac != null) {
-                mech = fac.createSaslServer(
-                    mechanism, protocol, serverName, props, cbh);
+            fbc = (SbslServerFbctory) lobdFbctory(provs[j], clbssNbme);
+            if (fbc != null) {
+                mech = fbc.crebteSbslServer(
+                    mechbnism, protocol, serverNbme, props, cbh);
                 if (mech != null) {
                     return mech;
                 }
@@ -533,89 +533,89 @@ public class Sasl {
     }
 
     /**
-     * Gets an enumeration of known factories for producing {@code SaslClient}.
-     * This method uses the same algorithm for locating factories as
-     * {@code createSaslClient()}.
-     * @return A non-null enumeration of known factories for producing
-     * {@code SaslClient}.
-     * @see #createSaslClient
+     * Gets bn enumerbtion of known fbctories for producing {@code SbslClient}.
+     * This method uses the sbme blgorithm for locbting fbctories bs
+     * {@code crebteSbslClient()}.
+     * @return A non-null enumerbtion of known fbctories for producing
+     * {@code SbslClient}.
+     * @see #crebteSbslClient
      */
-    public static Enumeration<SaslClientFactory> getSaslClientFactories() {
-        Set<Object> facs = getFactories("SaslClientFactory");
-        final Iterator<Object> iter = facs.iterator();
-        return new Enumeration<SaslClientFactory>() {
-            public boolean hasMoreElements() {
-                return iter.hasNext();
+    public stbtic Enumerbtion<SbslClientFbctory> getSbslClientFbctories() {
+        Set<Object> fbcs = getFbctories("SbslClientFbctory");
+        finbl Iterbtor<Object> iter = fbcs.iterbtor();
+        return new Enumerbtion<SbslClientFbctory>() {
+            public boolebn hbsMoreElements() {
+                return iter.hbsNext();
             }
-            public SaslClientFactory nextElement() {
-                return (SaslClientFactory)iter.next();
+            public SbslClientFbctory nextElement() {
+                return (SbslClientFbctory)iter.next();
             }
         };
     }
 
     /**
-     * Gets an enumeration of known factories for producing {@code SaslServer}.
-     * This method uses the same algorithm for locating factories as
-     * {@code createSaslServer()}.
-     * @return A non-null enumeration of known factories for producing
-     * {@code SaslServer}.
-     * @see #createSaslServer
+     * Gets bn enumerbtion of known fbctories for producing {@code SbslServer}.
+     * This method uses the sbme blgorithm for locbting fbctories bs
+     * {@code crebteSbslServer()}.
+     * @return A non-null enumerbtion of known fbctories for producing
+     * {@code SbslServer}.
+     * @see #crebteSbslServer
      */
-    public static Enumeration<SaslServerFactory> getSaslServerFactories() {
-        Set<Object> facs = getFactories("SaslServerFactory");
-        final Iterator<Object> iter = facs.iterator();
-        return new Enumeration<SaslServerFactory>() {
-            public boolean hasMoreElements() {
-                return iter.hasNext();
+    public stbtic Enumerbtion<SbslServerFbctory> getSbslServerFbctories() {
+        Set<Object> fbcs = getFbctories("SbslServerFbctory");
+        finbl Iterbtor<Object> iter = fbcs.iterbtor();
+        return new Enumerbtion<SbslServerFbctory>() {
+            public boolebn hbsMoreElements() {
+                return iter.hbsNext();
             }
-            public SaslServerFactory nextElement() {
-                return (SaslServerFactory)iter.next();
+            public SbslServerFbctory nextElement() {
+                return (SbslServerFbctory)iter.next();
             }
         };
     }
 
-    private static Set<Object> getFactories(String serviceName) {
-        HashSet<Object> result = new HashSet<Object>();
+    privbte stbtic Set<Object> getFbctories(String serviceNbme) {
+        HbshSet<Object> result = new HbshSet<Object>();
 
-        if ((serviceName == null) || (serviceName.length() == 0) ||
-            (serviceName.endsWith("."))) {
+        if ((serviceNbme == null) || (serviceNbme.length() == 0) ||
+            (serviceNbme.endsWith("."))) {
             return result;
         }
 
 
         Provider[] providers = Security.getProviders();
-        HashSet<String> classes = new HashSet<String>();
-        Object fac;
+        HbshSet<String> clbsses = new HbshSet<String>();
+        Object fbc;
 
         for (int i = 0; i < providers.length; i++) {
-            classes.clear();
+            clbsses.clebr();
 
-            // Check the keys for each provider.
-            for (Enumeration<Object> e = providers[i].keys(); e.hasMoreElements(); ) {
+            // Check the keys for ebch provider.
+            for (Enumerbtion<Object> e = providers[i].keys(); e.hbsMoreElements(); ) {
                 String currentKey = (String)e.nextElement();
-                if (currentKey.startsWith(serviceName)) {
-                    // We should skip the currentKey if it contains a
-                    // whitespace. The reason is: such an entry in the
-                    // provider property contains attributes for the
-                    // implementation of an algorithm. We are only interested
-                    // in entries which lead to the implementation
-                    // classes.
+                if (currentKey.stbrtsWith(serviceNbme)) {
+                    // We should skip the currentKey if it contbins b
+                    // whitespbce. The rebson is: such bn entry in the
+                    // provider property contbins bttributes for the
+                    // implementbtion of bn blgorithm. We bre only interested
+                    // in entries which lebd to the implementbtion
+                    // clbsses.
                     if (currentKey.indexOf(' ') < 0) {
-                        String className = providers[i].getProperty(currentKey);
-                        if (!classes.contains(className)) {
-                            classes.add(className);
+                        String clbssNbme = providers[i].getProperty(currentKey);
+                        if (!clbsses.contbins(clbssNbme)) {
+                            clbsses.bdd(clbssNbme);
                             try {
-                                fac = loadFactory(providers[i], className);
-                                if (fac != null) {
-                                    result.add(fac);
+                                fbc = lobdFbctory(providers[i], clbssNbme);
+                                if (fbc != null) {
+                                    result.bdd(fbc);
                                 }
-                            }catch (Exception ignore) {
+                            }cbtch (Exception ignore) {
                             }
                         }
                     }
                 }
             }
         }
-        return Collections.unmodifiableSet(result);
+        return Collections.unmodifibbleSet(result);
     }
 }

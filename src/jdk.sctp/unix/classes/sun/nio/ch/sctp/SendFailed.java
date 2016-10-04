@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.nio.ch.sctp;
+pbckbge sun.nio.ch.sctp;
 
-import java.nio.ByteBuffer;
-import java.net.SocketAddress;
-import com.sun.nio.sctp.Association;
-import com.sun.nio.sctp.SendFailedNotification;
+import jbvb.nio.ByteBuffer;
+import jbvb.net.SocketAddress;
+import com.sun.nio.sctp.Associbtion;
+import com.sun.nio.sctp.SendFbiledNotificbtion;
 
 /**
- * An implementation of SendFailedNotification
+ * An implementbtion of SendFbiledNotificbtion
  */
-public class SendFailed extends SendFailedNotification
-    implements SctpNotification
+public clbss SendFbiled extends SendFbiledNotificbtion
+    implements SctpNotificbtion
 {
-    private Association association;
-    /* assocId is used to lookup the association before the notification is
+    privbte Associbtion bssocibtion;
+    /* bssocId is used to lookup the bssocibtion before the notificbtion is
      * returned to user code */
-    private int assocId;
-    private SocketAddress address;
-    private ByteBuffer buffer;
-    private int errorCode;
-    private int streamNumber;
+    privbte int bssocId;
+    privbte SocketAddress bddress;
+    privbte ByteBuffer buffer;
+    privbte int errorCode;
+    privbte int strebmNumber;
 
-    /* Invoked from native */
-    private SendFailed(int assocId,
-                       SocketAddress address,
+    /* Invoked from nbtive */
+    privbte SendFbiled(int bssocId,
+                       SocketAddress bddress,
                        ByteBuffer buffer,
                        int errorCode,
-                       int streamNumber) {
-        this.assocId = assocId;
+                       int strebmNumber) {
+        this.bssocId = bssocId;
         this.errorCode = errorCode;
-        this.streamNumber = streamNumber;
-        this.address = address;
+        this.strebmNumber = strebmNumber;
+        this.bddress = bddress;
         this.buffer = buffer;
     }
 
     @Override
-    public int assocId() {
-        return assocId;
+    public int bssocId() {
+        return bssocId;
     }
 
     @Override
-    public void setAssociation(Association association) {
-        this.association = association;
+    public void setAssocibtion(Associbtion bssocibtion) {
+        this.bssocibtion = bssocibtion;
     }
 
     @Override
-    public Association association() {
-        /* may be null */
-        return association;
+    public Associbtion bssocibtion() {
+        /* mby be null */
+        return bssocibtion;
     }
 
     @Override
-    public SocketAddress address() {
-        assert address != null;
-        return address;
+    public SocketAddress bddress() {
+        bssert bddress != null;
+        return bddress;
     }
 
     @Override
     public ByteBuffer buffer() {
-        assert buffer != null;
+        bssert buffer != null;
         return buffer;
     }
 
@@ -91,20 +91,20 @@ public class SendFailed extends SendFailedNotification
     }
 
     @Override
-    public int streamNumber() {
-        return streamNumber;
+    public int strebmNumber() {
+        return strebmNumber;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toString()).append(" [");
-        sb.append("Association:").append(association);
-        sb.append(", Address: ").append(address);
-        sb.append(", buffer: ").append(buffer);
-        sb.append(", errorCode: ").append(errorCode);
-        sb.append(", streamNumber: ").append(streamNumber);
-        sb.append("]");
+        sb.bppend(super.toString()).bppend(" [");
+        sb.bppend("Associbtion:").bppend(bssocibtion);
+        sb.bppend(", Address: ").bppend(bddress);
+        sb.bppend(", buffer: ").bppend(buffer);
+        sb.bppend(", errorCode: ").bppend(errorCode);
+        sb.bppend(", strebmNumber: ").bppend(strebmNumber);
+        sb.bppend("]");
         return sb.toString();
     }
 }

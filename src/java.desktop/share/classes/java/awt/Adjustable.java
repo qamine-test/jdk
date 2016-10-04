@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.event.*;
+import jbvb.bwt.event.*;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * The interface for objects which have an adjustable numeric value
- * contained within a bounded range of values.
+ * The interfbce for objects which hbve bn bdjustbble numeric vblue
+ * contbined within b bounded rbnge of vblues.
  *
- * @author Amy Fowler
- * @author Tim Prinzing
+ * @buthor Amy Fowler
+ * @buthor Tim Prinzing
  */
-public interface Adjustable {
+public interfbce Adjustbble {
 
     /**
-     * Indicates that the <code>Adjustable</code> has horizontal orientation.
+     * Indicbtes thbt the <code>Adjustbble</code> hbs horizontbl orientbtion.
      */
-    @Native public static final int HORIZONTAL = 0;
+    @Nbtive public stbtic finbl int HORIZONTAL = 0;
 
     /**
-     * Indicates that the <code>Adjustable</code> has vertical orientation.
+     * Indicbtes thbt the <code>Adjustbble</code> hbs verticbl orientbtion.
      */
-    @Native public static final int VERTICAL = 1;
+    @Nbtive public stbtic finbl int VERTICAL = 1;
 
     /**
-     * Indicates that the <code>Adjustable</code> has no orientation.
+     * Indicbtes thbt the <code>Adjustbble</code> hbs no orientbtion.
      */
-    @Native public static final int NO_ORIENTATION = 2;
+    @Nbtive public stbtic finbl int NO_ORIENTATION = 2;
 
     /**
-     * Gets the orientation of the adjustable object.
-     * @return the orientation of the adjustable object;
+     * Gets the orientbtion of the bdjustbble object.
+     * @return the orientbtion of the bdjustbble object;
      *   either <code>HORIZONTAL</code>, <code>VERTICAL</code>,
      *   or <code>NO_ORIENTATION</code>
      */
-    int getOrientation();
+    int getOrientbtion();
 
     /**
-     * Sets the minimum value of the adjustable object.
-     * @param min the minimum value
+     * Sets the minimum vblue of the bdjustbble object.
+     * @pbrbm min the minimum vblue
      */
     void setMinimum(int min);
 
     /**
-     * Gets the minimum value of the adjustable object.
-     * @return the minimum value of the adjustable object
+     * Gets the minimum vblue of the bdjustbble object.
+     * @return the minimum vblue of the bdjustbble object
      */
     int getMinimum();
 
     /**
-     * Sets the maximum value of the adjustable object.
-     * @param max the maximum value
+     * Sets the mbximum vblue of the bdjustbble object.
+     * @pbrbm mbx the mbximum vblue
      */
-    void setMaximum(int max);
+    void setMbximum(int mbx);
 
     /**
-     * Gets the maximum value of the adjustable object.
-     * @return the maximum value of the adjustable object
+     * Gets the mbximum vblue of the bdjustbble object.
+     * @return the mbximum vblue of the bdjustbble object
      */
-    int getMaximum();
+    int getMbximum();
 
     /**
-     * Sets the unit value increment for the adjustable object.
-     * @param u the unit increment
+     * Sets the unit vblue increment for the bdjustbble object.
+     * @pbrbm u the unit increment
      */
     void setUnitIncrement(int u);
 
     /**
-     * Gets the unit value increment for the adjustable object.
-     * @return the unit value increment for the adjustable object
+     * Gets the unit vblue increment for the bdjustbble object.
+     * @return the unit vblue increment for the bdjustbble object
      */
     int getUnitIncrement();
 
     /**
-     * Sets the block value increment for the adjustable object.
-     * @param b the block increment
+     * Sets the block vblue increment for the bdjustbble object.
+     * @pbrbm b the block increment
      */
     void setBlockIncrement(int b);
 
     /**
-     * Gets the block value increment for the adjustable object.
-     * @return the block value increment for the adjustable object
+     * Gets the block vblue increment for the bdjustbble object.
+     * @return the block vblue increment for the bdjustbble object
      */
     int getBlockIncrement();
 
     /**
-     * Sets the length of the proportional indicator of the
-     * adjustable object.
-     * @param v the length of the indicator
+     * Sets the length of the proportionbl indicbtor of the
+     * bdjustbble object.
+     * @pbrbm v the length of the indicbtor
      */
     void setVisibleAmount(int v);
 
     /**
-     * Gets the length of the proportional indicator.
-     * @return the length of the proportional indicator
+     * Gets the length of the proportionbl indicbtor.
+     * @return the length of the proportionbl indicbtor
      */
     int getVisibleAmount();
 
     /**
-     * Sets the current value of the adjustable object. If
-     * the value supplied is less than <code>minimum</code>
-     * or greater than <code>maximum</code> - <code>visibleAmount</code>,
-     * then one of those values is substituted, as appropriate.
+     * Sets the current vblue of the bdjustbble object. If
+     * the vblue supplied is less thbn <code>minimum</code>
+     * or grebter thbn <code>mbximum</code> - <code>visibleAmount</code>,
+     * then one of those vblues is substituted, bs bppropribte.
      * <p>
-     * Calling this method does not fire an
+     * Cblling this method does not fire bn
      * <code>AdjustmentEvent</code>.
      *
-     * @param v the current value, between <code>minimum</code>
-     *    and <code>maximum</code> - <code>visibleAmount</code>
+     * @pbrbm v the current vblue, between <code>minimum</code>
+     *    bnd <code>mbximum</code> - <code>visibleAmount</code>
      */
-    void setValue(int v);
+    void setVblue(int v);
 
     /**
-     * Gets the current value of the adjustable object.
-     * @return the current value of the adjustable object
+     * Gets the current vblue of the bdjustbble object.
+     * @return the current vblue of the bdjustbble object
      */
-    int getValue();
+    int getVblue();
 
     /**
-     * Adds a listener to receive adjustment events when the value of
-     * the adjustable object changes.
-     * @param l the listener to receive events
+     * Adds b listener to receive bdjustment events when the vblue of
+     * the bdjustbble object chbnges.
+     * @pbrbm l the listener to receive events
      * @see AdjustmentEvent
      */
-    void addAdjustmentListener(AdjustmentListener l);
+    void bddAdjustmentListener(AdjustmentListener l);
 
     /**
-     * Removes an adjustment listener.
-     * @param l the listener being removed
+     * Removes bn bdjustment listener.
+     * @pbrbm l the listener being removed
      * @see AdjustmentEvent
      */
     void removeAdjustmentListener(AdjustmentListener l);

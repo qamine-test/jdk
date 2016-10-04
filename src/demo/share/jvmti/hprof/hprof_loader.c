@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,29 +30,29 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* The Class Loader table. */
+/* The Clbss Lobder tbble. */
 
 /*
- * The Class Loader objects show up so early in the VM process that a
- *   separate table was designated for Class Loaders.
+ * The Clbss Lobder objects show up so ebrly in the VM process thbt b
+ *   sepbrbte tbble wbs designbted for Clbss Lobders.
  *
- * The Class Loader is unique by way of it's jobject uniqueness, unfortunately
- *   use of JNI too early for jobject comparisons is problematic.
- *   It is assumed that the number of class loaders will be limited, and
- *   a simple linear search will be performed for now.
- *   That logic is isolated here and can be changed to use the standard
- *   table hash table search once we know JNI can be called safely.
+ * The Clbss Lobder is unique by wby of it's jobject uniqueness, unfortunbtely
+ *   use of JNI too ebrly for jobject compbrisons is problembtic.
+ *   It is bssumed thbt the number of clbss lobders will be limited, bnd
+ *   b simple linebr sebrch will be performed for now.
+ *   Thbt logic is isolbted here bnd cbn be chbnged to use the stbndbrd
+ *   tbble hbsh tbble sebrch once we know JNI cbn be cblled sbfely.
  *
- * A weak global reference is created to keep tabs on loaders, and as
- *   each search for a loader happens, NULL weak global references will
+ * A webk globbl reference is crebted to keep tbbs on lobders, bnd bs
+ *   ebch sebrch for b lobder hbppens, NULL webk globbl references will
  *   trigger the freedom of those entries.
  *
  */
@@ -60,209 +60,209 @@
 #include "hprof.h"
 
 typedef struct {
-    jobject         globalref;    /* Weak Global reference for object */
+    jobject         globblref;    /* Webk Globbl reference for object */
     ObjectIndex     object_index;
-} LoaderInfo;
+} LobderInfo;
 
-static LoaderInfo *
-get_info(LoaderIndex index)
+stbtic LobderInfo *
+get_info(LobderIndex index)
 {
-    return (LoaderInfo*)table_get_info(gdata->loader_table, index);
+    return (LobderInfo*)tbble_get_info(gdbtb->lobder_tbble, index);
 }
 
-static void
-delete_globalref(JNIEnv *env, LoaderInfo *info)
+stbtic void
+delete_globblref(JNIEnv *env, LobderInfo *info)
 {
     jobject     ref;
 
     HPROF_ASSERT(env!=NULL);
     HPROF_ASSERT(info!=NULL);
-    ref = info->globalref;
-    info->globalref = NULL;
+    ref = info->globblref;
+    info->globblref = NULL;
     if ( ref != NULL ) {
-        deleteWeakGlobalReference(env, ref);
+        deleteWebkGlobblReference(env, ref);
     }
     info->object_index = 0;
 }
 
-static void
-cleanup_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtic void
+clebnup_item(TbbleIndex index, void *key_ptr, int key_len,
+                        void *info_ptr, void *brg)
 {
 }
 
-static void
-delete_ref_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtic void
+delete_ref_item(TbbleIndex index, void *key_ptr, int key_len,
+                        void *info_ptr, void *brg)
 {
-    delete_globalref((JNIEnv*)arg, (LoaderInfo*)info_ptr);
+    delete_globblref((JNIEnv*)brg, (LobderInfo*)info_ptr);
 }
 
-static void
-list_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtic void
+list_item(TbbleIndex index, void *key_ptr, int key_len,
+                        void *info_ptr, void *brg)
 {
-    LoaderInfo     *info;
+    LobderInfo     *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
 
-    info        = (LoaderInfo*)info_ptr;
-    debug_message( "Loader 0x%08x: globalref=%p, object_index=%d\n",
-                index, (void*)info->globalref, info->object_index);
+    info        = (LobderInfo*)info_ptr;
+    debug_messbge( "Lobder 0x%08x: globblref=%p, object_index=%d\n",
+                index, (void*)info->globblref, info->object_index);
 }
 
-static void
-free_entry(JNIEnv *env, LoaderIndex index)
+stbtic void
+free_entry(JNIEnv *env, LobderIndex index)
 {
-    LoaderInfo *info;
+    LobderInfo *info;
 
     info = get_info(index);
-    delete_globalref(env, info);
-    table_free_entry(gdata->loader_table, index);
+    delete_globblref(env, info);
+    tbble_free_entry(gdbtb->lobder_tbble, index);
 }
 
-typedef struct SearchData {
+typedef struct SebrchDbtb {
     JNIEnv *env;
-    jobject loader;
-    LoaderIndex found;
-} SearchData;
+    jobject lobder;
+    LobderIndex found;
+} SebrchDbtb;
 
-static void
-search_item(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+sebrch_item(TbbleIndex index, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
-    LoaderInfo  *info;
-    SearchData  *data;
+    LobderInfo  *info;
+    SebrchDbtb  *dbtb;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    HPROF_ASSERT(arg!=NULL);
-    info        = (LoaderInfo*)info_ptr;
-    data        = (SearchData*)arg;
-    if ( data->loader == info->globalref ) {
+    HPROF_ASSERT(brg!=NULL);
+    info        = (LobderInfo*)info_ptr;
+    dbtb        = (SebrchDbtb*)brg;
+    if ( dbtb->lobder == info->globblref ) {
         /* Covers when looking for NULL too. */
-        HPROF_ASSERT(data->found==0); /* Did we find more than one? */
-        data->found = index;
-    } else if ( data->env != NULL && data->loader != NULL &&
-                info->globalref != NULL ) {
+        HPROF_ASSERT(dbtb->found==0); /* Did we find more thbn one? */
+        dbtb->found = index;
+    } else if ( dbtb->env != NULL && dbtb->lobder != NULL &&
+                info->globblref != NULL ) {
         jobject lref;
 
-        lref = newLocalReference(data->env, info->globalref);
+        lref = newLocblReference(dbtb->env, info->globblref);
         if ( lref == NULL ) {
-            /* Object went away, free reference and entry */
-            free_entry(data->env, index);
-        } else if ( isSameObject(data->env, data->loader, lref) ) {
-            HPROF_ASSERT(data->found==0); /* Did we find more than one? */
-            data->found = index;
+            /* Object went bwby, free reference bnd entry */
+            free_entry(dbtb->env, index);
+        } else if ( isSbmeObject(dbtb->env, dbtb->lobder, lref) ) {
+            HPROF_ASSERT(dbtb->found==0); /* Did we find more thbn one? */
+            dbtb->found = index;
         }
         if ( lref != NULL ) {
-            deleteLocalReference(data->env, lref);
+            deleteLocblReference(dbtb->env, lref);
         }
     }
 
 }
 
-static LoaderIndex
-search(JNIEnv *env, jobject loader)
+stbtic LobderIndex
+sebrch(JNIEnv *env, jobject lobder)
 {
-    SearchData  data;
+    SebrchDbtb  dbtb;
 
-    data.env    = env;
-    data.loader = loader;
-    data.found  = 0;
-    table_walk_items(gdata->loader_table, &search_item, (void*)&data);
-    return data.found;
+    dbtb.env    = env;
+    dbtb.lobder = lobder;
+    dbtb.found  = 0;
+    tbble_wblk_items(gdbtb->lobder_tbble, &sebrch_item, (void*)&dbtb);
+    return dbtb.found;
 }
 
-LoaderIndex
-loader_find_or_create(JNIEnv *env, jobject loader)
+LobderIndex
+lobder_find_or_crebte(JNIEnv *env, jobject lobder)
 {
-    LoaderIndex index;
+    LobderIndex index;
 
-    /* See if we remembered the system loader */
-    if ( loader==NULL && gdata->system_loader != 0 ) {
-        return gdata->system_loader;
+    /* See if we remembered the system lobder */
+    if ( lobder==NULL && gdbtb->system_lobder != 0 ) {
+        return gdbtb->system_lobder;
     }
-    if ( loader==NULL ) {
+    if ( lobder==NULL ) {
         env = NULL;
     }
-    index = search(env, loader);
+    index = sebrch(env, lobder);
     if ( index == 0 ) {
-        static LoaderInfo  empty_info;
-        LoaderInfo  info;
+        stbtic LobderInfo  empty_info;
+        LobderInfo  info;
 
         info = empty_info;
-        if ( loader != NULL ) {
+        if ( lobder != NULL ) {
             HPROF_ASSERT(env!=NULL);
-            info.globalref = newWeakGlobalReference(env, loader);
+            info.globblref = newWebkGlobblReference(env, lobder);
             info.object_index = 0;
         }
-        index = table_create_entry(gdata->loader_table, NULL, 0, (void*)&info);
+        index = tbble_crebte_entry(gdbtb->lobder_tbble, NULL, 0, (void*)&info);
     }
-    HPROF_ASSERT(search(env,loader)==index);
-    /* Remember the system loader */
-    if ( loader==NULL && gdata->system_loader == 0 ) {
-        gdata->system_loader = index;
+    HPROF_ASSERT(sebrch(env,lobder)==index);
+    /* Remember the system lobder */
+    if ( lobder==NULL && gdbtb->system_lobder == 0 ) {
+        gdbtb->system_lobder = index;
     }
     return index;
 }
 
 void
-loader_init(void)
+lobder_init(void)
 {
-    gdata->loader_table = table_initialize("Loader",
-                            16, 16, 0, (int)sizeof(LoaderInfo));
+    gdbtb->lobder_tbble = tbble_initiblize("Lobder",
+                            16, 16, 0, (int)sizeof(LobderInfo));
 }
 
 void
-loader_list(void)
+lobder_list(void)
 {
-    debug_message(
-        "--------------------- Loader Table ------------------------\n");
-    table_walk_items(gdata->loader_table, &list_item, NULL);
-    debug_message(
+    debug_messbge(
+        "--------------------- Lobder Tbble ------------------------\n");
+    tbble_wblk_items(gdbtb->lobder_tbble, &list_item, NULL);
+    debug_messbge(
         "----------------------------------------------------------\n");
 }
 
 void
-loader_cleanup(void)
+lobder_clebnup(void)
 {
-    table_cleanup(gdata->loader_table, &cleanup_item, NULL);
-    gdata->loader_table = NULL;
+    tbble_clebnup(gdbtb->lobder_tbble, &clebnup_item, NULL);
+    gdbtb->lobder_tbble = NULL;
 }
 
 void
-loader_delete_global_references(JNIEnv *env)
+lobder_delete_globbl_references(JNIEnv *env)
 {
-    table_walk_items(gdata->loader_table, &delete_ref_item, (void*)env);
+    tbble_wblk_items(gdbtb->lobder_tbble, &delete_ref_item, (void*)env);
 }
 
-/* Get the object index for a class loader */
+/* Get the object index for b clbss lobder */
 ObjectIndex
-loader_object_index(JNIEnv *env, LoaderIndex index)
+lobder_object_index(JNIEnv *env, LobderIndex index)
 {
-    LoaderInfo *info;
+    LobderInfo *info;
     ObjectIndex object_index;
     jobject     wref;
 
-    /* Assume no object index at first (default class loader) */
+    /* Assume no object index bt first (defbult clbss lobder) */
     info = get_info(index);
     object_index = info->object_index;
-    wref = info->globalref;
+    wref = info->globblref;
     if ( wref != NULL && object_index == 0 ) {
         jobject lref;
 
         object_index = 0;
-        lref = newLocalReference(env, wref);
-        if ( lref != NULL && !isSameObject(env, lref, NULL) ) {
-            jlong tag;
+        lref = newLocblReference(env, wref);
+        if ( lref != NULL && !isSbmeObject(env, lref, NULL) ) {
+            jlong tbg;
 
-            /* Get the tag on the object and extract the object_index */
-            tag = getTag(lref);
-            if ( tag != (jlong)0 ) {
-                object_index = tag_extract(tag);
+            /* Get the tbg on the object bnd extrbct the object_index */
+            tbg = getTbg(lref);
+            if ( tbg != (jlong)0 ) {
+                object_index = tbg_extrbct(tbg);
             }
         }
         if ( lref != NULL ) {
-            deleteLocalReference(env, lref);
+            deleteLocblReference(env, lref);
         }
         info->object_index = object_index;
     }

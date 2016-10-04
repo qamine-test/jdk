@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.generics.parser;
+pbckbge sun.reflect.generics.pbrser;
 
-import java.lang.reflect.GenericSignatureFormatError;
-import java.util.*;
+import jbvb.lbng.reflect.GenericSignbtureFormbtError;
+import jbvb.util.*;
 import sun.reflect.generics.tree.*;
 
 /**
- * Parser for type signatures, as defined in the Java Virtual
- * Machine Specification (JVMS) chapter 4.
- * Converts the signatures into an abstract syntax tree (AST) representation.
- * See the package sun.reflect.generics.tree for details of the AST.
+ * Pbrser for type signbtures, bs defined in the Jbvb Virtubl
+ * Mbchine Specificbtion (JVMS) chbpter 4.
+ * Converts the signbtures into bn bbstrbct syntbx tree (AST) representbtion.
+ * See the pbckbge sun.reflect.generics.tree for detbils of the AST.
  */
-public class SignatureParser {
-    // The input is conceptually a character stream (though currently it's
-    // a string). This is slightly different than traditional parsers,
-    // because there is no lexical scanner performing tokenization.
-    // Having a separate tokenizer does not fit with the nature of the
-    // input format.
-    // Other than the absence of a tokenizer, this parser is a classic
-    // recursive descent parser. Its structure corresponds as closely
-    // as possible to the grammar in the JVMS.
+public clbss SignbturePbrser {
+    // The input is conceptublly b chbrbcter strebm (though currently it's
+    // b string). This is slightly different thbn trbditionbl pbrsers,
+    // becbuse there is no lexicbl scbnner performing tokenizbtion.
+    // Hbving b sepbrbte tokenizer does not fit with the nbture of the
+    // input formbt.
+    // Other thbn the bbsence of b tokenizer, this pbrser is b clbssic
+    // recursive descent pbrser. Its structure corresponds bs closely
+    // bs possible to the grbmmbr in the JVMS.
     //
-    // A note on asserts vs. errors: The code contains assertions
-    // in situations that should never occur. An assertion failure
-    // indicates a failure of the parser logic. A common pattern
-    // is an assertion that the current input is a particular
-    // character. This is often paired with a separate check
-    // that this is the case, which seems redundant. For example:
+    // A note on bsserts vs. errors: The code contbins bssertions
+    // in situbtions thbt should never occur. An bssertion fbilure
+    // indicbtes b fbilure of the pbrser logic. A common pbttern
+    // is bn bssertion thbt the current input is b pbrticulbr
+    // chbrbcter. This is often pbired with b sepbrbte check
+    // thbt this is the cbse, which seems redundbnt. For exbmple:
     //
-    // assert(current() != x);
-    // if (current != x {error("expected an x");
+    // bssert(current() != x);
+    // if (current != x {error("expected bn x");
     //
-    // where x is some character constant.
-    // The assertion indicates, that, as currently written,
-    // the code should never reach this point unless the input is an
-    // x. On the other hand, the test is there to check the legality
-    // of the input wrt to a given production. It may be that at a later
-    // time the code might be called directly, and if the input is
-    // invalid, the parser should flag an error in accordance
+    // where x is some chbrbcter constbnt.
+    // The bssertion indicbtes, thbt, bs currently written,
+    // the code should never rebch this point unless the input is bn
+    // x. On the other hbnd, the test is there to check the legblity
+    // of the input wrt to b given production. It mby be thbt bt b lbter
+    // time the code might be cblled directly, bnd if the input is
+    // invblid, the pbrser should flbg bn error in bccordbnce
     // with its logic.
 
-    private char[] input; // the input signature
-    private int index = 0; // index into the input
-    // used to mark end of input
-    private static final char EOI = ':';
-    private static final boolean DEBUG = false;
+    privbte chbr[] input; // the input signbture
+    privbte int index = 0; // index into the input
+    // used to mbrk end of input
+    privbte stbtic finbl chbr EOI = ':';
+    privbte stbtic finbl boolebn DEBUG = fblse;
 
-    // private constructor - enforces use of static factory
-    private SignatureParser(){}
+    // privbte constructor - enforces use of stbtic fbctory
+    privbte SignbturePbrser(){}
 
     // Utility methods.
 
-    // Most parsing routines use the following routines to access the
-    // input stream, and advance it as necessary.
-    // This makes it easy to adapt the parser to operate on streams
-    // of various kinds as well as strings.
+    // Most pbrsing routines use the following routines to bccess the
+    // input strebm, bnd bdvbnce it bs necessbry.
+    // This mbkes it ebsy to bdbpt the pbrser to operbte on strebms
+    // of vbrious kinds bs well bs strings.
 
-    // returns current element of the input and advances the input
-    private char getNext(){
-        assert(index <= input.length);
+    // returns current element of the input bnd bdvbnces the input
+    privbte chbr getNext(){
+        bssert(index <= input.length);
         try {
             return input[index++];
-        } catch (ArrayIndexOutOfBoundsException e) { return EOI;}
+        } cbtch (ArrbyIndexOutOfBoundsException e) { return EOI;}
     }
 
     // returns current element of the input
-    private char current(){
-        assert(index <= input.length);
+    privbte chbr current(){
+        bssert(index <= input.length);
         try {
             return input[index];
-        } catch (ArrayIndexOutOfBoundsException e) { return EOI;}
+        } cbtch (ArrbyIndexOutOfBoundsException e) { return EOI;}
     }
 
-    // advance the input
-    private void advance(){
-        assert(index <= input.length);
+    // bdvbnce the input
+    privbte void bdvbnce(){
+        bssert(index <= input.length);
         index++;
     }
 
-    // For debugging, prints current character to the end of the input.
-    private String remainder() {
+    // For debugging, prints current chbrbcter to the end of the input.
+    privbte String rembinder() {
         return new String(input, index, input.length-index);
     }
 
-    // Match c against a "set" of characters
-    private boolean matches(char c, char... set) {
-        for (char e : set) {
+    // Mbtch c bgbinst b "set" of chbrbcters
+    privbte boolebn mbtches(chbr c, chbr... set) {
+        for (chbr e : set) {
             if (c == e) return true;
         }
-        return false;
+        return fblse;
     }
 
-    // Error handling routine. Encapsulates error handling.
-    // Takes a string error message as argument.
-    // Currently throws a GenericSignatureFormatError.
+    // Error hbndling routine. Encbpsulbtes error hbndling.
+    // Tbkes b string error messbge bs brgument.
+    // Currently throws b GenericSignbtureFormbtError.
 
-    private Error error(String errorMsg) {
-        return new GenericSignatureFormatError("Signature Parse error: " + errorMsg +
-                                               "\n\tRemaining input: " + remainder());
+    privbte Error error(String errorMsg) {
+        return new GenericSignbtureFormbtError("Signbture Pbrse error: " + errorMsg +
+                                               "\n\tRembining input: " + rembinder());
     }
 
     /**
-     * Verify the parse has made forward progress; throw an exception
+     * Verify the pbrse hbs mbde forwbrd progress; throw bn exception
      * if no progress.
      */
-    private void progress(int startingPosition) {
-        if (index <= startingPosition)
-            throw error("Failure to make progress!");
+    privbte void progress(int stbrtingPosition) {
+        if (index <= stbrtingPosition)
+            throw error("Fbilure to mbke progress!");
     }
 
     /**
-     * Static factory method. Produces a parser instance.
-     * @return an instance of <tt>SignatureParser</tt>
+     * Stbtic fbctory method. Produces b pbrser instbnce.
+     * @return bn instbnce of <tt>SignbturePbrser</tt>
      */
-    public static SignatureParser make() {
-        return new SignatureParser();
+    public stbtic SignbturePbrser mbke() {
+        return new SignbturePbrser();
     }
 
     /**
-     * Parses a class signature (as defined in the JVMS, chapter 4)
-     * and produces an abstract syntax tree representing it.
-     * @param s a string representing the input class signature
-     * @return An abstract syntax tree for a class signature
+     * Pbrses b clbss signbture (bs defined in the JVMS, chbpter 4)
+     * bnd produces bn bbstrbct syntbx tree representing it.
+     * @pbrbm s b string representing the input clbss signbture
+     * @return An bbstrbct syntbx tree for b clbss signbture
      * corresponding to the input string
-     * @throws GenericSignatureFormatError if the input is not a valid
-     * class signature
+     * @throws GenericSignbtureFormbtError if the input is not b vblid
+     * clbss signbture
      */
-    public ClassSignature parseClassSig(String s) {
-        if (DEBUG) System.out.println("Parsing class sig:" + s);
-        input = s.toCharArray();
-        return parseClassSignature();
+    public ClbssSignbture pbrseClbssSig(String s) {
+        if (DEBUG) System.out.println("Pbrsing clbss sig:" + s);
+        input = s.toChbrArrby();
+        return pbrseClbssSignbture();
     }
 
     /**
-     * Parses a method signature (as defined in the JVMS, chapter 4)
-     * and produces an abstract syntax tree representing it.
-     * @param s a string representing the input method signature
-     * @return An abstract syntax tree for a method signature
+     * Pbrses b method signbture (bs defined in the JVMS, chbpter 4)
+     * bnd produces bn bbstrbct syntbx tree representing it.
+     * @pbrbm s b string representing the input method signbture
+     * @return An bbstrbct syntbx tree for b method signbture
      * corresponding to the input string
-     * @throws GenericSignatureFormatError if the input is not a valid
-     * method signature
+     * @throws GenericSignbtureFormbtError if the input is not b vblid
+     * method signbture
      */
-    public MethodTypeSignature parseMethodSig(String s) {
-        if (DEBUG) System.out.println("Parsing method sig:" + s);
-        input = s.toCharArray();
-        return parseMethodTypeSignature();
+    public MethodTypeSignbture pbrseMethodSig(String s) {
+        if (DEBUG) System.out.println("Pbrsing method sig:" + s);
+        input = s.toChbrArrby();
+        return pbrseMethodTypeSignbture();
     }
 
 
     /**
-     * Parses a type signature
-     * and produces an abstract syntax tree representing it.
+     * Pbrses b type signbture
+     * bnd produces bn bbstrbct syntbx tree representing it.
      *
-     * @param s a string representing the input type signature
-     * @return An abstract syntax tree for a type signature
+     * @pbrbm s b string representing the input type signbture
+     * @return An bbstrbct syntbx tree for b type signbture
      * corresponding to the input string
-     * @throws GenericSignatureFormatError if the input is not a valid
-     * type signature
+     * @throws GenericSignbtureFormbtError if the input is not b vblid
+     * type signbture
      */
-    public TypeSignature parseTypeSig(String s) {
-        if (DEBUG) System.out.println("Parsing type sig:" + s);
-        input = s.toCharArray();
-        return parseTypeSignature();
+    public TypeSignbture pbrseTypeSig(String s) {
+        if (DEBUG) System.out.println("Pbrsing type sig:" + s);
+        input = s.toChbrArrby();
+        return pbrseTypeSignbture();
     }
 
-    // Parsing routines.
-    // As a rule, the parsing routines access the input using the
-    // utilities current(), getNext() and/or advance().
-    // The convention is that when a parsing routine is invoked
-    // it expects the current input to be the first character it should parse
-    // and when it completes parsing, it leaves the input at the first
-    // character after the input parses.
+    // Pbrsing routines.
+    // As b rule, the pbrsing routines bccess the input using the
+    // utilities current(), getNext() bnd/or bdvbnce().
+    // The convention is thbt when b pbrsing routine is invoked
+    // it expects the current input to be the first chbrbcter it should pbrse
+    // bnd when it completes pbrsing, it lebves the input bt the first
+    // chbrbcter bfter the input pbrses.
 
     /*
-     * Note on grammar conventions: a trailing "*" matches zero or
-     * more occurrences, a trailing "+" matches one or more occurrences,
-     * "_opt" indicates an optional component.
+     * Note on grbmmbr conventions: b trbiling "*" mbtches zero or
+     * more occurrences, b trbiling "+" mbtches one or more occurrences,
+     * "_opt" indicbtes bn optionbl component.
      */
 
     /**
-     * ClassSignature:
-     *     FormalTypeParameters_opt SuperclassSignature SuperinterfaceSignature*
+     * ClbssSignbture:
+     *     FormblTypePbrbmeters_opt SuperclbssSignbture SuperinterfbceSignbture*
      */
-    private ClassSignature parseClassSignature() {
-        // parse a class signature based on the implicit input.
-        assert(index == 0);
-        return ClassSignature.make(parseZeroOrMoreFormalTypeParameters(),
-                                   parseClassTypeSignature(), // Only rule for SuperclassSignature
-                                   parseSuperInterfaces());
+    privbte ClbssSignbture pbrseClbssSignbture() {
+        // pbrse b clbss signbture bbsed on the implicit input.
+        bssert(index == 0);
+        return ClbssSignbture.mbke(pbrseZeroOrMoreFormblTypePbrbmeters(),
+                                   pbrseClbssTypeSignbture(), // Only rule for SuperclbssSignbture
+                                   pbrseSuperInterfbces());
     }
 
-    private FormalTypeParameter[] parseZeroOrMoreFormalTypeParameters(){
+    privbte FormblTypePbrbmeter[] pbrseZeroOrMoreFormblTypePbrbmeters(){
         if (current() == '<') {
-            return parseFormalTypeParameters();
+            return pbrseFormblTypePbrbmeters();
         } else {
-            return new FormalTypeParameter[0];
+            return new FormblTypePbrbmeter[0];
         }
     }
 
     /**
-     * FormalTypeParameters:
-     *     "<" FormalTypeParameter+ ">"
+     * FormblTypePbrbmeters:
+     *     "<" FormblTypePbrbmeter+ ">"
      */
-    private FormalTypeParameter[] parseFormalTypeParameters(){
-        List<FormalTypeParameter> ftps =  new ArrayList<>(3);
-        assert(current() == '<'); // should not have been called at all
+    privbte FormblTypePbrbmeter[] pbrseFormblTypePbrbmeters(){
+        List<FormblTypePbrbmeter> ftps =  new ArrbyList<>(3);
+        bssert(current() == '<'); // should not hbve been cblled bt bll
         if (current() != '<') { throw error("expected '<'");}
-        advance();
-        ftps.add(parseFormalTypeParameter());
+        bdvbnce();
+        ftps.bdd(pbrseFormblTypePbrbmeter());
         while (current() != '>') {
-            int startingPosition = index;
-            ftps.add(parseFormalTypeParameter());
-            progress(startingPosition);
+            int stbrtingPosition = index;
+            ftps.bdd(pbrseFormblTypePbrbmeter());
+            progress(stbrtingPosition);
         }
-        advance();
-        return ftps.toArray(new FormalTypeParameter[ftps.size()]);
+        bdvbnce();
+        return ftps.toArrby(new FormblTypePbrbmeter[ftps.size()]);
     }
 
     /**
-     * FormalTypeParameter:
-     *     Identifier ClassBound InterfaceBound*
+     * FormblTypePbrbmeter:
+     *     Identifier ClbssBound InterfbceBound*
      */
-    private FormalTypeParameter parseFormalTypeParameter(){
-        String id = parseIdentifier();
-        FieldTypeSignature[] bs = parseBounds();
-        return FormalTypeParameter.make(id, bs);
+    privbte FormblTypePbrbmeter pbrseFormblTypePbrbmeter(){
+        String id = pbrseIdentifier();
+        FieldTypeSignbture[] bs = pbrseBounds();
+        return FormblTypePbrbmeter.mbke(id, bs);
     }
 
-    private String parseIdentifier(){
+    privbte String pbrseIdentifier(){
         StringBuilder result = new StringBuilder();
-        while (!Character.isWhitespace(current())) {
-            char c = current();
+        while (!Chbrbcter.isWhitespbce(current())) {
+            chbr c = current();
             switch(c) {
-            case ';':
-            case '.':
-            case '/':
-            case '[':
-            case ':':
-            case '>':
-            case '<':
+            cbse ';':
+            cbse '.':
+            cbse '/':
+            cbse '[':
+            cbse ':':
+            cbse '>':
+            cbse '<':
                 return result.toString();
-            default:{
-                result.append(c);
-                advance();
+            defbult:{
+                result.bppend(c);
+                bdvbnce();
             }
 
             }
@@ -274,113 +274,113 @@ public class SignatureParser {
         return result.toString();
     }
     /**
-     * FieldTypeSignature:
-     *     ClassTypeSignature
-     *     ArrayTypeSignature
-     *     TypeVariableSignature
+     * FieldTypeSignbture:
+     *     ClbssTypeSignbture
+     *     ArrbyTypeSignbture
+     *     TypeVbribbleSignbture
      */
-    private FieldTypeSignature parseFieldTypeSignature() {
-        return parseFieldTypeSignature(true);
+    privbte FieldTypeSignbture pbrseFieldTypeSignbture() {
+        return pbrseFieldTypeSignbture(true);
     }
 
-    private FieldTypeSignature parseFieldTypeSignature(boolean allowArrays) {
+    privbte FieldTypeSignbture pbrseFieldTypeSignbture(boolebn bllowArrbys) {
         switch(current()) {
-        case 'L':
-           return parseClassTypeSignature();
-        case 'T':
-            return parseTypeVariableSignature();
-        case '[':
-            if (allowArrays)
-                return parseArrayTypeSignature();
+        cbse 'L':
+           return pbrseClbssTypeSignbture();
+        cbse 'T':
+            return pbrseTypeVbribbleSignbture();
+        cbse '[':
+            if (bllowArrbys)
+                return pbrseArrbyTypeSignbture();
             else
-                throw error("Array signature not allowed here.");
-        default: throw error("Expected Field Type Signature");
+                throw error("Arrby signbture not bllowed here.");
+        defbult: throw error("Expected Field Type Signbture");
         }
     }
 
     /**
-     * ClassTypeSignature:
-     *     "L" PackageSpecifier_opt SimpleClassTypeSignature ClassTypeSignatureSuffix* ";"
+     * ClbssTypeSignbture:
+     *     "L" PbckbgeSpecifier_opt SimpleClbssTypeSignbture ClbssTypeSignbtureSuffix* ";"
      */
-    private ClassTypeSignature parseClassTypeSignature(){
-        assert(current() == 'L');
-        if (current() != 'L') { throw error("expected a class type");}
-        advance();
-        List<SimpleClassTypeSignature> scts = new ArrayList<>(5);
-        scts.add(parsePackageNameAndSimpleClassTypeSignature());
+    privbte ClbssTypeSignbture pbrseClbssTypeSignbture(){
+        bssert(current() == 'L');
+        if (current() != 'L') { throw error("expected b clbss type");}
+        bdvbnce();
+        List<SimpleClbssTypeSignbture> scts = new ArrbyList<>(5);
+        scts.bdd(pbrsePbckbgeNbmeAndSimpleClbssTypeSignbture());
 
-        parseClassTypeSignatureSuffix(scts);
+        pbrseClbssTypeSignbtureSuffix(scts);
         if (current() != ';')
             throw error("expected ';' got '" + current() + "'");
 
-        advance();
-        return ClassTypeSignature.make(scts);
+        bdvbnce();
+        return ClbssTypeSignbture.mbke(scts);
     }
 
     /**
-     * PackageSpecifier:
-     *     Identifier "/" PackageSpecifier*
+     * PbckbgeSpecifier:
+     *     Identifier "/" PbckbgeSpecifier*
      */
-    private SimpleClassTypeSignature parsePackageNameAndSimpleClassTypeSignature() {
-        // Parse both any optional leading PackageSpecifier as well as
-        // the following SimpleClassTypeSignature.
+    privbte SimpleClbssTypeSignbture pbrsePbckbgeNbmeAndSimpleClbssTypeSignbture() {
+        // Pbrse both bny optionbl lebding PbckbgeSpecifier bs well bs
+        // the following SimpleClbssTypeSignbture.
 
-        String id = parseIdentifier();
+        String id = pbrseIdentifier();
 
-        if (current() == '/') { // package name
+        if (current() == '/') { // pbckbge nbme
             StringBuilder idBuild = new StringBuilder(id);
 
             while(current() == '/') {
-                advance();
-                idBuild.append(".");
-                idBuild.append(parseIdentifier());
+                bdvbnce();
+                idBuild.bppend(".");
+                idBuild.bppend(pbrseIdentifier());
             }
             id = idBuild.toString();
         }
 
         switch (current()) {
-        case ';':
-            return SimpleClassTypeSignature.make(id, false, new TypeArgument[0]); // all done!
-        case '<':
-            if (DEBUG) System.out.println("\t remainder: " + remainder());
-            return SimpleClassTypeSignature.make(id, false, parseTypeArguments());
-        default:
+        cbse ';':
+            return SimpleClbssTypeSignbture.mbke(id, fblse, new TypeArgument[0]); // bll done!
+        cbse '<':
+            if (DEBUG) System.out.println("\t rembinder: " + rembinder());
+            return SimpleClbssTypeSignbture.mbke(id, fblse, pbrseTypeArguments());
+        defbult:
             throw error("expected '<' or ';' but got " + current());
         }
     }
 
     /**
-     * SimpleClassTypeSignature:
+     * SimpleClbssTypeSignbture:
      *     Identifier TypeArguments_opt
      */
-    private SimpleClassTypeSignature parseSimpleClassTypeSignature(boolean dollar){
-        String id = parseIdentifier();
-        char c = current();
+    privbte SimpleClbssTypeSignbture pbrseSimpleClbssTypeSignbture(boolebn dollbr){
+        String id = pbrseIdentifier();
+        chbr c = current();
 
         switch (c) {
-        case ';':
-        case '.':
-            return SimpleClassTypeSignature.make(id, dollar, new TypeArgument[0]) ;
-        case '<':
-            return SimpleClassTypeSignature.make(id, dollar, parseTypeArguments());
-        default:
+        cbse ';':
+        cbse '.':
+            return SimpleClbssTypeSignbture.mbke(id, dollbr, new TypeArgument[0]) ;
+        cbse '<':
+            return SimpleClbssTypeSignbture.mbke(id, dollbr, pbrseTypeArguments());
+        defbult:
             throw error("expected '<' or ';' or '.', got '" + c + "'.");
         }
     }
 
     /**
-     * ClassTypeSignatureSuffix:
-     *     "." SimpleClassTypeSignature
+     * ClbssTypeSignbtureSuffix:
+     *     "." SimpleClbssTypeSignbture
      */
-    private void parseClassTypeSignatureSuffix(List<SimpleClassTypeSignature> scts) {
+    privbte void pbrseClbssTypeSignbtureSuffix(List<SimpleClbssTypeSignbture> scts) {
         while (current() == '.') {
-            advance();
-            scts.add(parseSimpleClassTypeSignature(true));
+            bdvbnce();
+            scts.bdd(pbrseSimpleClbssTypeSignbture(true));
         }
     }
 
-    private TypeArgument[] parseTypeArgumentsOpt() {
-        if (current() == '<') {return parseTypeArguments();}
+    privbte TypeArgument[] pbrseTypeArgumentsOpt() {
+        if (current() == '<') {return pbrseTypeArguments();}
         else {return new TypeArgument[0];}
     }
 
@@ -388,263 +388,263 @@ public class SignatureParser {
      * TypeArguments:
      *     "<" TypeArgument+ ">"
      */
-    private TypeArgument[] parseTypeArguments() {
-        List<TypeArgument> tas = new ArrayList<>(3);
-        assert(current() == '<');
+    privbte TypeArgument[] pbrseTypeArguments() {
+        List<TypeArgument> tbs = new ArrbyList<>(3);
+        bssert(current() == '<');
         if (current() != '<') { throw error("expected '<'");}
-        advance();
-        tas.add(parseTypeArgument());
+        bdvbnce();
+        tbs.bdd(pbrseTypeArgument());
         while (current() != '>') {
-                //(matches(current(),  '+', '-', 'L', '[', 'T', '*')) {
-            tas.add(parseTypeArgument());
+                //(mbtches(current(),  '+', '-', 'L', '[', 'T', '*')) {
+            tbs.bdd(pbrseTypeArgument());
         }
-        advance();
-        return tas.toArray(new TypeArgument[tas.size()]);
+        bdvbnce();
+        return tbs.toArrby(new TypeArgument[tbs.size()]);
     }
 
     /**
      * TypeArgument:
-     *     WildcardIndicator_opt FieldTypeSignature
+     *     WildcbrdIndicbtor_opt FieldTypeSignbture
      *     "*"
      */
-    private TypeArgument parseTypeArgument() {
-        FieldTypeSignature[] ub, lb;
-        ub = new FieldTypeSignature[1];
-        lb = new FieldTypeSignature[1];
-        TypeArgument[] ta = new TypeArgument[0];
-        char c = current();
+    privbte TypeArgument pbrseTypeArgument() {
+        FieldTypeSignbture[] ub, lb;
+        ub = new FieldTypeSignbture[1];
+        lb = new FieldTypeSignbture[1];
+        TypeArgument[] tb = new TypeArgument[0];
+        chbr c = current();
         switch (c) {
-        case '+': {
-            advance();
-            ub[0] = parseFieldTypeSignature();
-            lb[0] = BottomSignature.make(); // bottom
-            return Wildcard.make(ub, lb);
+        cbse '+': {
+            bdvbnce();
+            ub[0] = pbrseFieldTypeSignbture();
+            lb[0] = BottomSignbture.mbke(); // bottom
+            return Wildcbrd.mbke(ub, lb);
         }
-        case '*':{
-            advance();
-            ub[0] = SimpleClassTypeSignature.make("java.lang.Object", false, ta);
-            lb[0] = BottomSignature.make(); // bottom
-            return Wildcard.make(ub, lb);
+        cbse '*':{
+            bdvbnce();
+            ub[0] = SimpleClbssTypeSignbture.mbke("jbvb.lbng.Object", fblse, tb);
+            lb[0] = BottomSignbture.mbke(); // bottom
+            return Wildcbrd.mbke(ub, lb);
         }
-        case '-': {
-            advance();
-            lb[0] = parseFieldTypeSignature();
-            ub[0] = SimpleClassTypeSignature.make("java.lang.Object", false, ta);
-            return Wildcard.make(ub, lb);
+        cbse '-': {
+            bdvbnce();
+            lb[0] = pbrseFieldTypeSignbture();
+            ub[0] = SimpleClbssTypeSignbture.mbke("jbvb.lbng.Object", fblse, tb);
+            return Wildcbrd.mbke(ub, lb);
         }
-        default:
-            return parseFieldTypeSignature();
+        defbult:
+            return pbrseFieldTypeSignbture();
         }
     }
 
     /**
-     * TypeVariableSignature:
+     * TypeVbribbleSignbture:
      *     "T" Identifier ";"
      */
-    private TypeVariableSignature parseTypeVariableSignature() {
-        assert(current() == 'T');
-        if (current() != 'T') { throw error("expected a type variable usage");}
-        advance();
-        TypeVariableSignature ts = TypeVariableSignature.make(parseIdentifier());
+    privbte TypeVbribbleSignbture pbrseTypeVbribbleSignbture() {
+        bssert(current() == 'T');
+        if (current() != 'T') { throw error("expected b type vbribble usbge");}
+        bdvbnce();
+        TypeVbribbleSignbture ts = TypeVbribbleSignbture.mbke(pbrseIdentifier());
         if (current() != ';') {
-            throw error("; expected in signature of type variable named" +
+            throw error("; expected in signbture of type vbribble nbmed" +
                   ts.getIdentifier());
         }
-        advance();
+        bdvbnce();
         return ts;
     }
 
     /**
-     * ArrayTypeSignature:
-     *     "[" TypeSignature
+     * ArrbyTypeSignbture:
+     *     "[" TypeSignbture
      */
-    private ArrayTypeSignature parseArrayTypeSignature() {
-        if (current() != '[') {throw error("expected array type signature");}
-        advance();
-        return ArrayTypeSignature.make(parseTypeSignature());
+    privbte ArrbyTypeSignbture pbrseArrbyTypeSignbture() {
+        if (current() != '[') {throw error("expected brrby type signbture");}
+        bdvbnce();
+        return ArrbyTypeSignbture.mbke(pbrseTypeSignbture());
     }
 
     /**
-     * TypeSignature:
-     *     FieldTypeSignature
-     *     BaseType
+     * TypeSignbture:
+     *     FieldTypeSignbture
+     *     BbseType
      */
-    private TypeSignature parseTypeSignature() {
+    privbte TypeSignbture pbrseTypeSignbture() {
         switch (current()) {
-        case 'B':
-        case 'C':
-        case 'D':
-        case 'F':
-        case 'I':
-        case 'J':
-        case 'S':
-        case 'Z':
-            return parseBaseType();
+        cbse 'B':
+        cbse 'C':
+        cbse 'D':
+        cbse 'F':
+        cbse 'I':
+        cbse 'J':
+        cbse 'S':
+        cbse 'Z':
+            return pbrseBbseType();
 
-        default:
-            return parseFieldTypeSignature();
+        defbult:
+            return pbrseFieldTypeSignbture();
         }
     }
 
-    private BaseType parseBaseType() {
+    privbte BbseType pbrseBbseType() {
         switch(current()) {
-        case 'B':
-            advance();
-            return ByteSignature.make();
-        case 'C':
-            advance();
-            return CharSignature.make();
-        case 'D':
-            advance();
-            return DoubleSignature.make();
-        case 'F':
-            advance();
-            return FloatSignature.make();
-        case 'I':
-            advance();
-            return IntSignature.make();
-        case 'J':
-            advance();
-            return LongSignature.make();
-        case 'S':
-            advance();
-            return ShortSignature.make();
-        case 'Z':
-            advance();
-            return BooleanSignature.make();
-        default: {
-            assert(false);
+        cbse 'B':
+            bdvbnce();
+            return ByteSignbture.mbke();
+        cbse 'C':
+            bdvbnce();
+            return ChbrSignbture.mbke();
+        cbse 'D':
+            bdvbnce();
+            return DoubleSignbture.mbke();
+        cbse 'F':
+            bdvbnce();
+            return FlobtSignbture.mbke();
+        cbse 'I':
+            bdvbnce();
+            return IntSignbture.mbke();
+        cbse 'J':
+            bdvbnce();
+            return LongSignbture.mbke();
+        cbse 'S':
+            bdvbnce();
+            return ShortSignbture.mbke();
+        cbse 'Z':
+            bdvbnce();
+            return BoolebnSignbture.mbke();
+        defbult: {
+            bssert(fblse);
             throw error("expected primitive type");
         }
         }
     }
 
     /**
-     * ClassBound:
-     *     ":" FieldTypeSignature_opt
+     * ClbssBound:
+     *     ":" FieldTypeSignbture_opt
      *
-     * InterfaceBound:
-     *     ":" FieldTypeSignature
+     * InterfbceBound:
+     *     ":" FieldTypeSignbture
      */
-    private FieldTypeSignature[] parseBounds() {
-        List<FieldTypeSignature> fts = new ArrayList<>(3);
+    privbte FieldTypeSignbture[] pbrseBounds() {
+        List<FieldTypeSignbture> fts = new ArrbyList<>(3);
 
         if (current() == ':') {
-            advance();
+            bdvbnce();
             switch(current()) {
-            case ':': // empty class bound
-                break;
+            cbse ':': // empty clbss bound
+                brebk;
 
-            default: // parse class bound
-                fts.add(parseFieldTypeSignature());
+            defbult: // pbrse clbss bound
+                fts.bdd(pbrseFieldTypeSignbture());
             }
 
-            // zero or more interface bounds
+            // zero or more interfbce bounds
             while (current() == ':') {
-                advance();
-                fts.add(parseFieldTypeSignature());
+                bdvbnce();
+                fts.bdd(pbrseFieldTypeSignbture());
             }
         } else
             error("Bound expected");
 
-        return fts.toArray(new FieldTypeSignature[fts.size()]);
+        return fts.toArrby(new FieldTypeSignbture[fts.size()]);
     }
 
     /**
-     * SuperclassSignature:
-     *     ClassTypeSignature
+     * SuperclbssSignbture:
+     *     ClbssTypeSignbture
      */
-    private ClassTypeSignature[] parseSuperInterfaces() {
-        List<ClassTypeSignature> cts = new ArrayList<>(5);
+    privbte ClbssTypeSignbture[] pbrseSuperInterfbces() {
+        List<ClbssTypeSignbture> cts = new ArrbyList<>(5);
         while(current() == 'L') {
-            cts.add(parseClassTypeSignature());
+            cts.bdd(pbrseClbssTypeSignbture());
         }
-        return cts.toArray(new ClassTypeSignature[cts.size()]);
+        return cts.toArrby(new ClbssTypeSignbture[cts.size()]);
     }
 
 
     /**
-     * MethodTypeSignature:
-     *     FormalTypeParameters_opt "(" TypeSignature* ")" ReturnType ThrowsSignature*
+     * MethodTypeSignbture:
+     *     FormblTypePbrbmeters_opt "(" TypeSignbture* ")" ReturnType ThrowsSignbture*
      */
-    private MethodTypeSignature parseMethodTypeSignature() {
-        // Parse a method signature based on the implicit input.
-        FieldTypeSignature[] ets;
+    privbte MethodTypeSignbture pbrseMethodTypeSignbture() {
+        // Pbrse b method signbture bbsed on the implicit input.
+        FieldTypeSignbture[] ets;
 
-        assert(index == 0);
-        return MethodTypeSignature.make(parseZeroOrMoreFormalTypeParameters(),
-                                        parseFormalParameters(),
-                                        parseReturnType(),
-                                        parseZeroOrMoreThrowsSignatures());
+        bssert(index == 0);
+        return MethodTypeSignbture.mbke(pbrseZeroOrMoreFormblTypePbrbmeters(),
+                                        pbrseFormblPbrbmeters(),
+                                        pbrseReturnType(),
+                                        pbrseZeroOrMoreThrowsSignbtures());
     }
 
-    // "(" TypeSignature* ")"
-    private TypeSignature[] parseFormalParameters() {
+    // "(" TypeSignbture* ")"
+    privbte TypeSignbture[] pbrseFormblPbrbmeters() {
         if (current() != '(') {throw error("expected '('");}
-        advance();
-        TypeSignature[] pts = parseZeroOrMoreTypeSignatures();
+        bdvbnce();
+        TypeSignbture[] pts = pbrseZeroOrMoreTypeSignbtures();
         if (current() != ')') {throw error("expected ')'");}
-        advance();
+        bdvbnce();
         return pts;
     }
 
-    // TypeSignature*
-    private TypeSignature[] parseZeroOrMoreTypeSignatures() {
-        List<TypeSignature> ts = new ArrayList<>();
-        boolean stop = false;
+    // TypeSignbture*
+    privbte TypeSignbture[] pbrseZeroOrMoreTypeSignbtures() {
+        List<TypeSignbture> ts = new ArrbyList<>();
+        boolebn stop = fblse;
         while (!stop) {
             switch(current()) {
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'F':
-            case 'I':
-            case 'J':
-            case 'S':
-            case 'Z':
-            case 'L':
-            case 'T':
-            case '[': {
-                ts.add(parseTypeSignature());
-                break;
+            cbse 'B':
+            cbse 'C':
+            cbse 'D':
+            cbse 'F':
+            cbse 'I':
+            cbse 'J':
+            cbse 'S':
+            cbse 'Z':
+            cbse 'L':
+            cbse 'T':
+            cbse '[': {
+                ts.bdd(pbrseTypeSignbture());
+                brebk;
             }
-            default: stop = true;
+            defbult: stop = true;
             }
         }
-        return ts.toArray(new TypeSignature[ts.size()]);
+        return ts.toArrby(new TypeSignbture[ts.size()]);
     }
 
     /**
      * ReturnType:
-     *     TypeSignature
+     *     TypeSignbture
      *     VoidDescriptor
      */
-    private ReturnType parseReturnType(){
+    privbte ReturnType pbrseReturnType(){
         if (current() == 'V') {
-            advance();
-            return VoidDescriptor.make();
+            bdvbnce();
+            return VoidDescriptor.mbke();
         } else
-            return parseTypeSignature();
+            return pbrseTypeSignbture();
     }
 
-    // ThrowSignature*
-    private FieldTypeSignature[] parseZeroOrMoreThrowsSignatures(){
-        List<FieldTypeSignature> ets = new ArrayList<>(3);
+    // ThrowSignbture*
+    privbte FieldTypeSignbture[] pbrseZeroOrMoreThrowsSignbtures(){
+        List<FieldTypeSignbture> ets = new ArrbyList<>(3);
         while( current() == '^') {
-            ets.add(parseThrowsSignature());
+            ets.bdd(pbrseThrowsSignbture());
         }
-        return ets.toArray(new FieldTypeSignature[ets.size()]);
+        return ets.toArrby(new FieldTypeSignbture[ets.size()]);
     }
 
     /**
-     * ThrowsSignature:
-     *     "^" ClassTypeSignature
-     *     "^" TypeVariableSignature
+     * ThrowsSignbture:
+     *     "^" ClbssTypeSignbture
+     *     "^" TypeVbribbleSignbture
      */
-    private FieldTypeSignature parseThrowsSignature() {
-        assert(current() == '^');
-        if (current() != '^') { throw error("expected throws signature");}
-        advance();
-        return parseFieldTypeSignature(false);
+    privbte FieldTypeSignbture pbrseThrowsSignbture() {
+        bssert(current() == '^');
+        if (current() != '^') { throw error("expected throws signbture");}
+        bdvbnce();
+        return pbrseFieldTypeSignbture(fblse);
     }
  }

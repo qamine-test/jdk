@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.util.Enumeration;
-import java.util.WeakHashMap;
-import java.util.concurrent.atomic.AtomicReference;
-import sun.security.jca.GetInstance;
+import jbvb.util.Enumerbtion;
+import jbvb.util.WebkHbshMbp;
+import jbvb.util.concurrent.btomic.AtomicReference;
+import sun.security.jcb.GetInstbnce;
 import sun.security.util.Debug;
-import sun.security.util.SecurityConstants;
+import sun.security.util.SecurityConstbnts;
 
 
 /**
  * A Policy object is responsible for determining whether code executing
- * in the Java runtime environment has permission to perform a
- * security-sensitive operation.
+ * in the Jbvb runtime environment hbs permission to perform b
+ * security-sensitive operbtion.
  *
- * <p> There is only one Policy object installed in the runtime at any
- * given time.  A Policy object can be installed by calling the
- * {@code setPolicy} method.  The installed Policy object can be
- * obtained by calling the {@code getPolicy} method.
+ * <p> There is only one Policy object instblled in the runtime bt bny
+ * given time.  A Policy object cbn be instblled by cblling the
+ * {@code setPolicy} method.  The instblled Policy object cbn be
+ * obtbined by cblling the {@code getPolicy} method.
  *
- * <p> If no Policy object has been installed in the runtime, a call to
- * {@code getPolicy} installs an instance of the default Policy
- * implementation (a default subclass implementation of this abstract class).
- * The default Policy implementation can be changed by setting the value
- * of the {@code policy.provider} security property to the fully qualified
- * name of the desired Policy subclass implementation.
+ * <p> If no Policy object hbs been instblled in the runtime, b cbll to
+ * {@code getPolicy} instblls bn instbnce of the defbult Policy
+ * implementbtion (b defbult subclbss implementbtion of this bbstrbct clbss).
+ * The defbult Policy implementbtion cbn be chbnged by setting the vblue
+ * of the {@code policy.provider} security property to the fully qublified
+ * nbme of the desired Policy subclbss implementbtion.
  *
- * <p> Application code can directly subclass Policy to provide a custom
- * implementation.  In addition, an instance of a Policy object can be
- * constructed by invoking one of the {@code getInstance} factory methods
- * with a standard type.  The default policy type is "JavaPolicy".
+ * <p> Applicbtion code cbn directly subclbss Policy to provide b custom
+ * implementbtion.  In bddition, bn instbnce of b Policy object cbn be
+ * constructed by invoking one of the {@code getInstbnce} fbctory methods
+ * with b stbndbrd type.  The defbult policy type is "JbvbPolicy".
  *
- * <p> Once a Policy instance has been installed (either by default, or by
- * calling {@code setPolicy}), the Java runtime invokes its
+ * <p> Once b Policy instbnce hbs been instblled (either by defbult, or by
+ * cblling {@code setPolicy}), the Jbvb runtime invokes its
  * {@code implies} method when it needs to
- * determine whether executing code (encapsulated in a ProtectionDomain)
- * can perform SecurityManager-protected operations.  How a Policy object
- * retrieves its policy data is up to the Policy implementation itself.
- * The policy data may be stored, for example, in a flat ASCII file,
- * in a serialized binary file of the Policy class, or in a database.
+ * determine whether executing code (encbpsulbted in b ProtectionDombin)
+ * cbn perform SecurityMbnbger-protected operbtions.  How b Policy object
+ * retrieves its policy dbtb is up to the Policy implementbtion itself.
+ * The policy dbtb mby be stored, for exbmple, in b flbt ASCII file,
+ * in b seriblized binbry file of the Policy clbss, or in b dbtbbbse.
  *
- * <p> The {@code refresh} method causes the policy object to
- * refresh/reload its data.  This operation is implementation-dependent.
- * For example, if the policy object stores its data in configuration files,
- * calling {@code refresh} will cause it to re-read the configuration
- * policy files.  If a refresh operation is not supported, this method does
- * nothing.  Note that refreshed policy may not have an effect on classes
- * in a particular ProtectionDomain. This is dependent on the Policy
- * provider's implementation of the {@code implies}
- * method and its PermissionCollection caching strategy.
+ * <p> The {@code refresh} method cbuses the policy object to
+ * refresh/relobd its dbtb.  This operbtion is implementbtion-dependent.
+ * For exbmple, if the policy object stores its dbtb in configurbtion files,
+ * cblling {@code refresh} will cbuse it to re-rebd the configurbtion
+ * policy files.  If b refresh operbtion is not supported, this method does
+ * nothing.  Note thbt refreshed policy mby not hbve bn effect on clbsses
+ * in b pbrticulbr ProtectionDombin. This is dependent on the Policy
+ * provider's implementbtion of the {@code implies}
+ * method bnd its PermissionCollection cbching strbtegy.
  *
- * @author Roland Schemers
- * @author Gary Ellison
- * @see java.security.Provider
- * @see java.security.ProtectionDomain
- * @see java.security.Permission
- * @see java.security.Security security properties
+ * @buthor Rolbnd Schemers
+ * @buthor Gbry Ellison
+ * @see jbvb.security.Provider
+ * @see jbvb.security.ProtectionDombin
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Security security properties
  */
 
-public abstract class Policy {
+public bbstrbct clbss Policy {
 
     /**
-     * A read-only empty PermissionCollection instance.
+     * A rebd-only empty PermissionCollection instbnce.
      * @since 1.6
      */
-    public static final PermissionCollection UNSUPPORTED_EMPTY_COLLECTION =
+    public stbtic finbl PermissionCollection UNSUPPORTED_EMPTY_COLLECTION =
                         new UnsupportedEmptyCollection();
 
-    // Information about the system-wide policy.
-    private static class PolicyInfo {
+    // Informbtion bbout the system-wide policy.
+    privbte stbtic clbss PolicyInfo {
         // the system-wide policy
-        final Policy policy;
-        // a flag indicating if the system-wide policy has been initialized
-        final boolean initialized;
+        finbl Policy policy;
+        // b flbg indicbting if the system-wide policy hbs been initiblized
+        finbl boolebn initiblized;
 
-        PolicyInfo(Policy policy, boolean initialized) {
+        PolicyInfo(Policy policy, boolebn initiblized) {
             this.policy = policy;
-            this.initialized = initialized;
+            this.initiblized = initiblized;
         }
     }
 
-    // PolicyInfo is stored in an AtomicReference
-    private static AtomicReference<PolicyInfo> policy =
-        new AtomicReference<>(new PolicyInfo(null, false));
+    // PolicyInfo is stored in bn AtomicReference
+    privbte stbtic AtomicReference<PolicyInfo> policy =
+        new AtomicReference<>(new PolicyInfo(null, fblse));
 
-    private static final Debug debug = Debug.getInstance("policy");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("policy");
 
-    // Cache mapping ProtectionDomain.Key to PermissionCollection
-    private WeakHashMap<ProtectionDomain.Key, PermissionCollection> pdMapping;
+    // Cbche mbpping ProtectionDombin.Key to PermissionCollection
+    privbte WebkHbshMbp<ProtectionDombin.Key, PermissionCollection> pdMbpping;
 
-    /** package private for AccessControlContext and ProtectionDomain */
-    static boolean isSet()
+    /** pbckbge privbte for AccessControlContext bnd ProtectionDombin */
+    stbtic boolebn isSet()
     {
         PolicyInfo pi = policy.get();
-        return pi.policy != null && pi.initialized == true;
+        return pi.policy != null && pi.initiblized == true;
     }
 
-    private static void checkPermission(String type) {
-        SecurityManager sm = System.getSecurityManager();
+    privbte stbtic void checkPermission(String type) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(new SecurityPermission("createPolicy." + type));
+            sm.checkPermission(new SecurityPermission("crebtePolicy." + type));
         }
     }
 
     /**
-     * Returns the installed Policy object. This value should not be cached,
-     * as it may be changed by a call to {@code setPolicy}.
-     * This method first calls
-     * {@code SecurityManager.checkPermission} with a
+     * Returns the instblled Policy object. This vblue should not be cbched,
+     * bs it mby be chbnged by b cbll to {@code setPolicy}.
+     * This method first cblls
+     * {@code SecurityMbnbger.checkPermission} with b
      * {@code SecurityPermission("getPolicy")} permission
      * to ensure it's ok to get the Policy object.
      *
-     * @return the installed Policy.
+     * @return the instblled Policy.
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
+     *        if b security mbnbger exists bnd its
+     *        {@code checkPermission} method doesn't bllow
      *        getting the Policy object.
      *
-     * @see SecurityManager#checkPermission(Permission)
-     * @see #setPolicy(java.security.Policy)
+     * @see SecurityMbnbger#checkPermission(Permission)
+     * @see #setPolicy(jbvb.security.Policy)
      */
-    public static Policy getPolicy()
+    public stbtic Policy getPolicy()
     {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkPermission(SecurityConstants.GET_POLICY_PERMISSION);
+            sm.checkPermission(SecurityConstbnts.GET_POLICY_PERMISSION);
         return getPolicyNoCheck();
     }
 
     /**
-     * Returns the installed Policy object, skipping the security check.
-     * Used by ProtectionDomain and getPolicy.
+     * Returns the instblled Policy object, skipping the security check.
+     * Used by ProtectionDombin bnd getPolicy.
      *
-     * @return the installed Policy.
+     * @return the instblled Policy.
      */
-    static Policy getPolicyNoCheck()
+    stbtic Policy getPolicyNoCheck()
     {
         PolicyInfo pi = policy.get();
-        // Use double-check idiom to avoid locking if system-wide policy is
-        // already initialized
-        if (pi.initialized == false || pi.policy == null) {
-            synchronized (Policy.class) {
+        // Use double-check idiom to bvoid locking if system-wide policy is
+        // blrebdy initiblized
+        if (pi.initiblized == fblse || pi.policy == null) {
+            synchronized (Policy.clbss) {
                 PolicyInfo pinfo = policy.get();
                 if (pinfo.policy == null) {
-                    String policy_class = AccessController.doPrivileged(
+                    String policy_clbss = AccessController.doPrivileged(
                         new PrivilegedAction<String>() {
                         public String run() {
                             return Security.getProperty("policy.provider");
                         }
                     });
-                    if (policy_class == null) {
-                        policy_class = "sun.security.provider.PolicyFile";
+                    if (policy_clbss == null) {
+                        policy_clbss = "sun.security.provider.PolicyFile";
                     }
 
                     try {
                         pinfo = new PolicyInfo(
-                            (Policy) Class.forName(policy_class).newInstance(),
+                            (Policy) Clbss.forNbme(policy_clbss).newInstbnce(),
                             true);
-                    } catch (Exception e) {
+                    } cbtch (Exception e) {
                         /*
-                         * The policy_class seems to be an extension
-                         * so we have to bootstrap loading it via a policy
-                         * provider that is on the bootclasspath.
-                         * If it loads then shift gears to using the configured
+                         * The policy_clbss seems to be bn extension
+                         * so we hbve to bootstrbp lobding it vib b policy
+                         * provider thbt is on the bootclbsspbth.
+                         * If it lobds then shift gebrs to using the configured
                          * provider.
                          */
 
-                        // install the bootstrap provider to avoid recursion
+                        // instbll the bootstrbp provider to bvoid recursion
                         Policy polFile = new sun.security.provider.PolicyFile();
-                        pinfo = new PolicyInfo(polFile, false);
+                        pinfo = new PolicyInfo(polFile, fblse);
                         policy.set(pinfo);
 
-                        final String pc = policy_class;
+                        finbl String pc = policy_clbss;
                         Policy pol = AccessController.doPrivileged(
                             new PrivilegedAction<Policy>() {
                             public Policy run() {
                                 try {
-                                    ClassLoader cl =
-                                            ClassLoader.getSystemClassLoader();
-                                    // we want the extension loader
-                                    ClassLoader extcl = null;
+                                    ClbssLobder cl =
+                                            ClbssLobder.getSystemClbssLobder();
+                                    // we wbnt the extension lobder
+                                    ClbssLobder extcl = null;
                                     while (cl != null) {
                                         extcl = cl;
-                                        cl = cl.getParent();
+                                        cl = cl.getPbrent();
                                     }
-                                    return (extcl != null ? (Policy)Class.forName(
-                                            pc, true, extcl).newInstance() : null);
-                                } catch (Exception e) {
+                                    return (extcl != null ? (Policy)Clbss.forNbme(
+                                            pc, true, extcl).newInstbnce() : null);
+                                } cbtch (Exception e) {
                                     if (debug != null) {
                                         debug.println("policy provider " +
                                                     pc +
-                                                    " not available");
-                                        e.printStackTrace();
+                                                    " not bvbilbble");
+                                        e.printStbckTrbce();
                                     }
                                     return null;
                                 }
                             }
                         });
                         /*
-                         * if it loaded install it as the policy provider. Otherwise
-                         * continue to use the system default implementation
+                         * if it lobded instbll it bs the policy provider. Otherwise
+                         * continue to use the system defbult implementbtion
                          */
                         if (pol != null) {
                             pinfo = new PolicyInfo(pol, true);
@@ -245,96 +245,96 @@ public abstract class Policy {
     }
 
     /**
-     * Sets the system-wide Policy object. This method first calls
-     * {@code SecurityManager.checkPermission} with a
+     * Sets the system-wide Policy object. This method first cblls
+     * {@code SecurityMbnbger.checkPermission} with b
      * {@code SecurityPermission("setPolicy")}
      * permission to ensure it's ok to set the Policy.
      *
-     * @param p the new system Policy object.
+     * @pbrbm p the new system Policy object.
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
+     *        if b security mbnbger exists bnd its
+     *        {@code checkPermission} method doesn't bllow
      *        setting the Policy.
      *
-     * @see SecurityManager#checkPermission(Permission)
+     * @see SecurityMbnbger#checkPermission(Permission)
      * @see #getPolicy()
      *
      */
-    public static void setPolicy(Policy p)
+    public stbtic void setPolicy(Policy p)
     {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) sm.checkPermission(
                                  new SecurityPermission("setPolicy"));
         if (p != null) {
             initPolicy(p);
         }
-        synchronized (Policy.class) {
+        synchronized (Policy.clbss) {
             policy.set(new PolicyInfo(p, p != null));
         }
     }
 
     /**
-     * Initialize superclass state such that a legacy provider can
-     * handle queries for itself.
+     * Initiblize superclbss stbte such thbt b legbcy provider cbn
+     * hbndle queries for itself.
      *
      * @since 1.4
      */
-    private static void initPolicy (final Policy p) {
+    privbte stbtic void initPolicy (finbl Policy p) {
         /*
-         * A policy provider not on the bootclasspath could trigger
-         * security checks fulfilling a call to either Policy.implies
+         * A policy provider not on the bootclbsspbth could trigger
+         * security checks fulfilling b cbll to either Policy.implies
          * or Policy.getPermissions. If this does occur the provider
-         * must be able to answer for it's own ProtectionDomain
-         * without triggering additional security checks, otherwise
-         * the policy implementation will end up in an infinite
+         * must be bble to bnswer for it's own ProtectionDombin
+         * without triggering bdditionbl security checks, otherwise
+         * the policy implementbtion will end up in bn infinite
          * recursion.
          *
-         * To mitigate this, the provider can collect it's own
-         * ProtectionDomain and associate a PermissionCollection while
-         * it is being installed. The currently installed policy
-         * provider (if there is one) will handle calls to
+         * To mitigbte this, the provider cbn collect it's own
+         * ProtectionDombin bnd bssocibte b PermissionCollection while
+         * it is being instblled. The currently instblled policy
+         * provider (if there is one) will hbndle cblls to
          * Policy.implies or Policy.getPermissions during this
          * process.
          *
-         * This Policy superclass caches away the ProtectionDomain and
-         * statically binds permissions so that legacy Policy
-         * implementations will continue to function.
+         * This Policy superclbss cbches bwby the ProtectionDombin bnd
+         * stbticblly binds permissions so thbt legbcy Policy
+         * implementbtions will continue to function.
          */
 
-        ProtectionDomain policyDomain =
-        AccessController.doPrivileged(new PrivilegedAction<ProtectionDomain>() {
-            public ProtectionDomain run() {
-                return p.getClass().getProtectionDomain();
+        ProtectionDombin policyDombin =
+        AccessController.doPrivileged(new PrivilegedAction<ProtectionDombin>() {
+            public ProtectionDombin run() {
+                return p.getClbss().getProtectionDombin();
             }
         });
 
         /*
-         * Collect the permissions granted to this protection domain
-         * so that the provider can be security checked while processing
-         * calls to Policy.implies or Policy.getPermissions.
+         * Collect the permissions grbnted to this protection dombin
+         * so thbt the provider cbn be security checked while processing
+         * cblls to Policy.implies or Policy.getPermissions.
          */
         PermissionCollection policyPerms = null;
         synchronized (p) {
-            if (p.pdMapping == null) {
-                p.pdMapping = new WeakHashMap<>();
+            if (p.pdMbpping == null) {
+                p.pdMbpping = new WebkHbshMbp<>();
            }
         }
 
-        if (policyDomain.getCodeSource() != null) {
+        if (policyDombin.getCodeSource() != null) {
             Policy pol = policy.get().policy;
             if (pol != null) {
-                policyPerms = pol.getPermissions(policyDomain);
+                policyPerms = pol.getPermissions(policyDombin);
             }
 
-            if (policyPerms == null) { // assume it has all
+            if (policyPerms == null) { // bssume it hbs bll
                 policyPerms = new Permissions();
-                policyPerms.add(SecurityConstants.ALL_PERMISSION);
+                policyPerms.bdd(SecurityConstbnts.ALL_PERMISSION);
             }
 
-            synchronized (p.pdMapping) {
-                // cache of pd to permissions
-                p.pdMapping.put(policyDomain.key, policyPerms);
+            synchronized (p.pdMbpping) {
+                // cbche of pd to permissions
+                p.pdMbpping.put(policyDombin.key, policyPerms);
             }
         }
         return;
@@ -342,201 +342,201 @@ public abstract class Policy {
 
 
     /**
-     * Returns a Policy object of the specified type.
+     * Returns b Policy object of the specified type.
      *
-     * <p> This method traverses the list of registered security providers,
-     * starting with the most preferred Provider.
-     * A new Policy object encapsulating the
-     * PolicySpi implementation from the first
-     * Provider that supports the specified type is returned.
+     * <p> This method trbverses the list of registered security providers,
+     * stbrting with the most preferred Provider.
+     * A new Policy object encbpsulbting the
+     * PolicySpi implementbtion from the first
+     * Provider thbt supports the specified type is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param type the specified Policy type.  See the Policy section in the
-     *    <a href=
-     *    "{@docRoot}/../technotes/guides/security/StandardNames.html#Policy">
-     *    Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     *    for a list of standard Policy types.
+     * @pbrbm type the specified Policy type.  See the Policy section in the
+     *    <b href=
+     *    "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Policy">
+     *    Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     *    for b list of stbndbrd Policy types.
      *
-     * @param params parameters for the Policy, which may be null.
+     * @pbrbm pbrbms pbrbmeters for the Policy, which mby be null.
      *
      * @return the new Policy object.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to get a Policy instance for the specified type.
+     * @exception SecurityException if the cbller does not hbve permission
+     *          to get b Policy instbnce for the specified type.
      *
      * @exception NullPointerException if the specified type is null.
      *
-     * @exception IllegalArgumentException if the specified parameters
-     *          are not understood by the PolicySpi implementation
+     * @exception IllegblArgumentException if the specified pbrbmeters
+     *          bre not understood by the PolicySpi implementbtion
      *          from the selected Provider.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports a PolicySpi
-     *          implementation for the specified type.
+     * @exception NoSuchAlgorithmException if no Provider supports b PolicySpi
+     *          implementbtion for the specified type.
      *
      * @see Provider
      * @since 1.6
      */
-    public static Policy getInstance(String type, Policy.Parameters params)
+    public stbtic Policy getInstbnce(String type, Policy.Pbrbmeters pbrbms)
                 throws NoSuchAlgorithmException {
 
         checkPermission(type);
         try {
-            GetInstance.Instance instance = GetInstance.getInstance("Policy",
-                                                        PolicySpi.class,
+            GetInstbnce.Instbnce instbnce = GetInstbnce.getInstbnce("Policy",
+                                                        PolicySpi.clbss,
                                                         type,
-                                                        params);
-            return new PolicyDelegate((PolicySpi)instance.impl,
-                                                        instance.provider,
+                                                        pbrbms);
+            return new PolicyDelegbte((PolicySpi)instbnce.impl,
+                                                        instbnce.provider,
                                                         type,
-                                                        params);
-        } catch (NoSuchAlgorithmException nsae) {
-            return handleException(nsae);
+                                                        pbrbms);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            return hbndleException(nsbe);
         }
     }
 
     /**
-     * Returns a Policy object of the specified type.
+     * Returns b Policy object of the specified type.
      *
-     * <p> A new Policy object encapsulating the
-     * PolicySpi implementation from the specified provider
+     * <p> A new Policy object encbpsulbting the
+     * PolicySpi implementbtion from the specified provider
      * is returned.   The specified provider must be registered
      * in the provider list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param type the specified Policy type.  See the Policy section in the
-     *    <a href=
-     *    "{@docRoot}/../technotes/guides/security/StandardNames.html#Policy">
-     *    Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     *    for a list of standard Policy types.
+     * @pbrbm type the specified Policy type.  See the Policy section in the
+     *    <b href=
+     *    "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Policy">
+     *    Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     *    for b list of stbndbrd Policy types.
      *
-     * @param params parameters for the Policy, which may be null.
+     * @pbrbm pbrbms pbrbmeters for the Policy, which mby be null.
      *
-     * @param provider the provider.
+     * @pbrbm provider the provider.
      *
      * @return the new Policy object.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to get a Policy instance for the specified type.
+     * @exception SecurityException if the cbller does not hbve permission
+     *          to get b Policy instbnce for the specified type.
      *
      * @exception NullPointerException if the specified type is null.
      *
-     * @exception IllegalArgumentException if the specified provider
+     * @exception IllegblArgumentException if the specified provider
      *          is null or empty,
-     *          or if the specified parameters are not understood by
-     *          the PolicySpi implementation from the specified provider.
+     *          or if the specified pbrbmeters bre not understood by
+     *          the PolicySpi implementbtion from the specified provider.
      *
      * @exception NoSuchProviderException if the specified provider is not
      *          registered in the security provider list.
      *
      * @exception NoSuchAlgorithmException if the specified provider does not
-     *          support a PolicySpi implementation for the specified type.
+     *          support b PolicySpi implementbtion for the specified type.
      *
      * @see Provider
      * @since 1.6
      */
-    public static Policy getInstance(String type,
-                                Policy.Parameters params,
+    public stbtic Policy getInstbnce(String type,
+                                Policy.Pbrbmeters pbrbms,
                                 String provider)
                 throws NoSuchProviderException, NoSuchAlgorithmException {
 
         if (provider == null || provider.length() == 0) {
-            throw new IllegalArgumentException("missing provider");
+            throw new IllegblArgumentException("missing provider");
         }
 
         checkPermission(type);
         try {
-            GetInstance.Instance instance = GetInstance.getInstance("Policy",
-                                                        PolicySpi.class,
+            GetInstbnce.Instbnce instbnce = GetInstbnce.getInstbnce("Policy",
+                                                        PolicySpi.clbss,
                                                         type,
-                                                        params,
+                                                        pbrbms,
                                                         provider);
-            return new PolicyDelegate((PolicySpi)instance.impl,
-                                                        instance.provider,
+            return new PolicyDelegbte((PolicySpi)instbnce.impl,
+                                                        instbnce.provider,
                                                         type,
-                                                        params);
-        } catch (NoSuchAlgorithmException nsae) {
-            return handleException(nsae);
+                                                        pbrbms);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            return hbndleException(nsbe);
         }
     }
 
     /**
-     * Returns a Policy object of the specified type.
+     * Returns b Policy object of the specified type.
      *
-     * <p> A new Policy object encapsulating the
-     * PolicySpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A new Policy object encbpsulbting the
+     * PolicySpi implementbtion from the specified Provider
+     * object is returned.  Note thbt the specified Provider object
+     * does not hbve to be registered in the provider list.
      *
-     * @param type the specified Policy type.  See the Policy section in the
-     *    <a href=
-     *    "{@docRoot}/../technotes/guides/security/StandardNames.html#Policy">
-     *    Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     *    for a list of standard Policy types.
+     * @pbrbm type the specified Policy type.  See the Policy section in the
+     *    <b href=
+     *    "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Policy">
+     *    Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     *    for b list of stbndbrd Policy types.
      *
-     * @param params parameters for the Policy, which may be null.
+     * @pbrbm pbrbms pbrbmeters for the Policy, which mby be null.
      *
-     * @param provider the Provider.
+     * @pbrbm provider the Provider.
      *
      * @return the new Policy object.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to get a Policy instance for the specified type.
+     * @exception SecurityException if the cbller does not hbve permission
+     *          to get b Policy instbnce for the specified type.
      *
      * @exception NullPointerException if the specified type is null.
      *
-     * @exception IllegalArgumentException if the specified Provider is null,
-     *          or if the specified parameters are not understood by
-     *          the PolicySpi implementation from the specified Provider.
+     * @exception IllegblArgumentException if the specified Provider is null,
+     *          or if the specified pbrbmeters bre not understood by
+     *          the PolicySpi implementbtion from the specified Provider.
      *
      * @exception NoSuchAlgorithmException if the specified Provider does not
-     *          support a PolicySpi implementation for the specified type.
+     *          support b PolicySpi implementbtion for the specified type.
      *
      * @see Provider
      * @since 1.6
      */
-    public static Policy getInstance(String type,
-                                Policy.Parameters params,
+    public stbtic Policy getInstbnce(String type,
+                                Policy.Pbrbmeters pbrbms,
                                 Provider provider)
                 throws NoSuchAlgorithmException {
 
         if (provider == null) {
-            throw new IllegalArgumentException("missing provider");
+            throw new IllegblArgumentException("missing provider");
         }
 
         checkPermission(type);
         try {
-            GetInstance.Instance instance = GetInstance.getInstance("Policy",
-                                                        PolicySpi.class,
+            GetInstbnce.Instbnce instbnce = GetInstbnce.getInstbnce("Policy",
+                                                        PolicySpi.clbss,
                                                         type,
-                                                        params,
+                                                        pbrbms,
                                                         provider);
-            return new PolicyDelegate((PolicySpi)instance.impl,
-                                                        instance.provider,
+            return new PolicyDelegbte((PolicySpi)instbnce.impl,
+                                                        instbnce.provider,
                                                         type,
-                                                        params);
-        } catch (NoSuchAlgorithmException nsae) {
-            return handleException(nsae);
+                                                        pbrbms);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            return hbndleException(nsbe);
         }
     }
 
-    private static Policy handleException(NoSuchAlgorithmException nsae)
+    privbte stbtic Policy hbndleException(NoSuchAlgorithmException nsbe)
                 throws NoSuchAlgorithmException {
-        Throwable cause = nsae.getCause();
-        if (cause instanceof IllegalArgumentException) {
-            throw (IllegalArgumentException)cause;
+        Throwbble cbuse = nsbe.getCbuse();
+        if (cbuse instbnceof IllegblArgumentException) {
+            throw (IllegblArgumentException)cbuse;
         }
-        throw nsae;
+        throw nsbe;
     }
 
     /**
      * Return the Provider of this Policy.
      *
-     * <p> This Policy instance will only have a Provider if it
-     * was obtained via a call to {@code Policy.getInstance}.
+     * <p> This Policy instbnce will only hbve b Provider if it
+     * wbs obtbined vib b cbll to {@code Policy.getInstbnce}.
      * Otherwise this method returns null.
      *
      * @return the Provider of this Policy, or null.
@@ -550,8 +550,8 @@ public abstract class Policy {
     /**
      * Return the type of this Policy.
      *
-     * <p> This Policy instance will only have a type if it
-     * was obtained via a call to {@code Policy.getInstance}.
+     * <p> This Policy instbnce will only hbve b type if it
+     * wbs obtbined vib b cbll to {@code Policy.getInstbnce}.
      * Otherwise this method returns null.
      *
      * @return the type of this Policy, or null.
@@ -563,44 +563,44 @@ public abstract class Policy {
     }
 
     /**
-     * Return Policy parameters.
+     * Return Policy pbrbmeters.
      *
-     * <p> This Policy instance will only have parameters if it
-     * was obtained via a call to {@code Policy.getInstance}.
+     * <p> This Policy instbnce will only hbve pbrbmeters if it
+     * wbs obtbined vib b cbll to {@code Policy.getInstbnce}.
      * Otherwise this method returns null.
      *
-     * @return Policy parameters, or null.
+     * @return Policy pbrbmeters, or null.
      *
      * @since 1.6
      */
-    public Policy.Parameters getParameters() {
+    public Policy.Pbrbmeters getPbrbmeters() {
         return null;
     }
 
     /**
-     * Return a PermissionCollection object containing the set of
-     * permissions granted to the specified CodeSource.
+     * Return b PermissionCollection object contbining the set of
+     * permissions grbnted to the specified CodeSource.
      *
-     * <p> Applications are discouraged from calling this method
-     * since this operation may not be supported by all policy implementations.
-     * Applications should solely rely on the {@code implies} method
-     * to perform policy checks.  If an application absolutely must call
-     * a getPermissions method, it should call
-     * {@code getPermissions(ProtectionDomain)}.
+     * <p> Applicbtions bre discourbged from cblling this method
+     * since this operbtion mby not be supported by bll policy implementbtions.
+     * Applicbtions should solely rely on the {@code implies} method
+     * to perform policy checks.  If bn bpplicbtion bbsolutely must cbll
+     * b getPermissions method, it should cbll
+     * {@code getPermissions(ProtectionDombin)}.
      *
-     * <p> The default implementation of this method returns
-     * Policy.UNSUPPORTED_EMPTY_COLLECTION.  This method can be
-     * overridden if the policy implementation can return a set of
-     * permissions granted to a CodeSource.
+     * <p> The defbult implementbtion of this method returns
+     * Policy.UNSUPPORTED_EMPTY_COLLECTION.  This method cbn be
+     * overridden if the policy implementbtion cbn return b set of
+     * permissions grbnted to b CodeSource.
      *
-     * @param codesource the CodeSource to which the returned
-     *          PermissionCollection has been granted.
+     * @pbrbm codesource the CodeSource to which the returned
+     *          PermissionCollection hbs been grbnted.
      *
-     * @return a set of permissions granted to the specified CodeSource.
-     *          If this operation is supported, the returned
-     *          set of permissions must be a new mutable instance
-     *          and it must support heterogeneous Permission types.
-     *          If this operation is not supported,
+     * @return b set of permissions grbnted to the specified CodeSource.
+     *          If this operbtion is supported, the returned
+     *          set of permissions must be b new mutbble instbnce
+     *          bnd it must support heterogeneous Permission types.
+     *          If this operbtion is not supported,
      *          Policy.UNSUPPORTED_EMPTY_COLLECTION is returned.
      */
     public PermissionCollection getPermissions(CodeSource codesource) {
@@ -608,162 +608,162 @@ public abstract class Policy {
     }
 
     /**
-     * Return a PermissionCollection object containing the set of
-     * permissions granted to the specified ProtectionDomain.
+     * Return b PermissionCollection object contbining the set of
+     * permissions grbnted to the specified ProtectionDombin.
      *
-     * <p> Applications are discouraged from calling this method
-     * since this operation may not be supported by all policy implementations.
-     * Applications should rely on the {@code implies} method
+     * <p> Applicbtions bre discourbged from cblling this method
+     * since this operbtion mby not be supported by bll policy implementbtions.
+     * Applicbtions should rely on the {@code implies} method
      * to perform policy checks.
      *
-     * <p> The default implementation of this method first retrieves
-     * the permissions returned via {@code getPermissions(CodeSource)}
-     * (the CodeSource is taken from the specified ProtectionDomain),
-     * as well as the permissions located inside the specified ProtectionDomain.
-     * All of these permissions are then combined and returned in a new
+     * <p> The defbult implementbtion of this method first retrieves
+     * the permissions returned vib {@code getPermissions(CodeSource)}
+     * (the CodeSource is tbken from the specified ProtectionDombin),
+     * bs well bs the permissions locbted inside the specified ProtectionDombin.
+     * All of these permissions bre then combined bnd returned in b new
      * PermissionCollection object.  If {@code getPermissions(CodeSource)}
      * returns Policy.UNSUPPORTED_EMPTY_COLLECTION, then this method
-     * returns the permissions contained inside the specified ProtectionDomain
-     * in a new PermissionCollection object.
+     * returns the permissions contbined inside the specified ProtectionDombin
+     * in b new PermissionCollection object.
      *
-     * <p> This method can be overridden if the policy implementation
-     * supports returning a set of permissions granted to a ProtectionDomain.
+     * <p> This method cbn be overridden if the policy implementbtion
+     * supports returning b set of permissions grbnted to b ProtectionDombin.
      *
-     * @param domain the ProtectionDomain to which the returned
-     *          PermissionCollection has been granted.
+     * @pbrbm dombin the ProtectionDombin to which the returned
+     *          PermissionCollection hbs been grbnted.
      *
-     * @return a set of permissions granted to the specified ProtectionDomain.
-     *          If this operation is supported, the returned
-     *          set of permissions must be a new mutable instance
-     *          and it must support heterogeneous Permission types.
-     *          If this operation is not supported,
+     * @return b set of permissions grbnted to the specified ProtectionDombin.
+     *          If this operbtion is supported, the returned
+     *          set of permissions must be b new mutbble instbnce
+     *          bnd it must support heterogeneous Permission types.
+     *          If this operbtion is not supported,
      *          Policy.UNSUPPORTED_EMPTY_COLLECTION is returned.
      *
      * @since 1.4
      */
-    public PermissionCollection getPermissions(ProtectionDomain domain) {
+    public PermissionCollection getPermissions(ProtectionDombin dombin) {
         PermissionCollection pc = null;
 
-        if (domain == null)
+        if (dombin == null)
             return new Permissions();
 
-        if (pdMapping == null) {
+        if (pdMbpping == null) {
             initPolicy(this);
         }
 
-        synchronized (pdMapping) {
-            pc = pdMapping.get(domain.key);
+        synchronized (pdMbpping) {
+            pc = pdMbpping.get(dombin.key);
         }
 
         if (pc != null) {
             Permissions perms = new Permissions();
             synchronized (pc) {
-                for (Enumeration<Permission> e = pc.elements() ; e.hasMoreElements() ;) {
-                    perms.add(e.nextElement());
+                for (Enumerbtion<Permission> e = pc.elements() ; e.hbsMoreElements() ;) {
+                    perms.bdd(e.nextElement());
                 }
             }
             return perms;
         }
 
-        pc = getPermissions(domain.getCodeSource());
+        pc = getPermissions(dombin.getCodeSource());
         if (pc == null || pc == UNSUPPORTED_EMPTY_COLLECTION) {
             pc = new Permissions();
         }
 
-        addStaticPerms(pc, domain.getPermissions());
+        bddStbticPerms(pc, dombin.getPermissions());
         return pc;
     }
 
     /**
-     * add static permissions to provided permission collection
+     * bdd stbtic permissions to provided permission collection
      */
-    private void addStaticPerms(PermissionCollection perms,
-                                PermissionCollection statics) {
-        if (statics != null) {
-            synchronized (statics) {
-                Enumeration<Permission> e = statics.elements();
-                while (e.hasMoreElements()) {
-                    perms.add(e.nextElement());
+    privbte void bddStbticPerms(PermissionCollection perms,
+                                PermissionCollection stbtics) {
+        if (stbtics != null) {
+            synchronized (stbtics) {
+                Enumerbtion<Permission> e = stbtics.elements();
+                while (e.hbsMoreElements()) {
+                    perms.bdd(e.nextElement());
                 }
             }
         }
     }
 
     /**
-     * Evaluates the global policy for the permissions granted to
-     * the ProtectionDomain and tests whether the permission is
-     * granted.
+     * Evblubtes the globbl policy for the permissions grbnted to
+     * the ProtectionDombin bnd tests whether the permission is
+     * grbnted.
      *
-     * @param domain the ProtectionDomain to test
-     * @param permission the Permission object to be tested for implication.
+     * @pbrbm dombin the ProtectionDombin to test
+     * @pbrbm permission the Permission object to be tested for implicbtion.
      *
-     * @return true if "permission" is a proper subset of a permission
-     * granted to this ProtectionDomain.
+     * @return true if "permission" is b proper subset of b permission
+     * grbnted to this ProtectionDombin.
      *
-     * @see java.security.ProtectionDomain
+     * @see jbvb.security.ProtectionDombin
      * @since 1.4
      */
-    public boolean implies(ProtectionDomain domain, Permission permission) {
+    public boolebn implies(ProtectionDombin dombin, Permission permission) {
         PermissionCollection pc;
 
-        if (pdMapping == null) {
+        if (pdMbpping == null) {
             initPolicy(this);
         }
 
-        synchronized (pdMapping) {
-            pc = pdMapping.get(domain.key);
+        synchronized (pdMbpping) {
+            pc = pdMbpping.get(dombin.key);
         }
 
         if (pc != null) {
             return pc.implies(permission);
         }
 
-        pc = getPermissions(domain);
+        pc = getPermissions(dombin);
         if (pc == null) {
-            return false;
+            return fblse;
         }
 
-        synchronized (pdMapping) {
-            // cache it
-            pdMapping.put(domain.key, pc);
+        synchronized (pdMbpping) {
+            // cbche it
+            pdMbpping.put(dombin.key, pc);
         }
 
         return pc.implies(permission);
     }
 
     /**
-     * Refreshes/reloads the policy configuration. The behavior of this method
-     * depends on the implementation. For example, calling {@code refresh}
-     * on a file-based policy will cause the file to be re-read.
+     * Refreshes/relobds the policy configurbtion. The behbvior of this method
+     * depends on the implementbtion. For exbmple, cblling {@code refresh}
+     * on b file-bbsed policy will cbuse the file to be re-rebd.
      *
-     * <p> The default implementation of this method does nothing.
-     * This method should be overridden if a refresh operation is supported
-     * by the policy implementation.
+     * <p> The defbult implementbtion of this method does nothing.
+     * This method should be overridden if b refresh operbtion is supported
+     * by the policy implementbtion.
      */
     public void refresh() { }
 
     /**
-     * This subclass is returned by the getInstance calls.  All Policy calls
-     * are delegated to the underlying PolicySpi.
+     * This subclbss is returned by the getInstbnce cblls.  All Policy cblls
+     * bre delegbted to the underlying PolicySpi.
      */
-    private static class PolicyDelegate extends Policy {
+    privbte stbtic clbss PolicyDelegbte extends Policy {
 
-        private PolicySpi spi;
-        private Provider p;
-        private String type;
-        private Policy.Parameters params;
+        privbte PolicySpi spi;
+        privbte Provider p;
+        privbte String type;
+        privbte Policy.Pbrbmeters pbrbms;
 
-        private PolicyDelegate(PolicySpi spi, Provider p,
-                        String type, Policy.Parameters params) {
+        privbte PolicyDelegbte(PolicySpi spi, Provider p,
+                        String type, Policy.Pbrbmeters pbrbms) {
             this.spi = spi;
             this.p = p;
             this.type = type;
-            this.params = params;
+            this.pbrbms = pbrbms;
         }
 
         @Override public String getType() { return type; }
 
-        @Override public Policy.Parameters getParameters() { return params; }
+        @Override public Policy.Pbrbmeters getPbrbmeters() { return pbrbms; }
 
         @Override public Provider getProvider() { return p; }
 
@@ -772,12 +772,12 @@ public abstract class Policy {
             return spi.engineGetPermissions(codesource);
         }
         @Override
-        public PermissionCollection getPermissions(ProtectionDomain domain) {
-            return spi.engineGetPermissions(domain);
+        public PermissionCollection getPermissions(ProtectionDombin dombin) {
+            return spi.engineGetPermissions(dombin);
         }
         @Override
-        public boolean implies(ProtectionDomain domain, Permission perm) {
-            return spi.engineImplies(domain, perm);
+        public boolebn implies(ProtectionDombin dombin, Permission perm) {
+            return spi.engineImplies(dombin, perm);
         }
         @Override
         public void refresh() {
@@ -786,67 +786,67 @@ public abstract class Policy {
     }
 
     /**
-     * This represents a marker interface for Policy parameters.
+     * This represents b mbrker interfbce for Policy pbrbmeters.
      *
      * @since 1.6
      */
-    public static interface Parameters { }
+    public stbtic interfbce Pbrbmeters { }
 
     /**
-     * This class represents a read-only empty PermissionCollection object that
-     * is returned from the {@code getPermissions(CodeSource)} and
-     * {@code getPermissions(ProtectionDomain)}
-     * methods in the Policy class when those operations are not
-     * supported by the Policy implementation.
+     * This clbss represents b rebd-only empty PermissionCollection object thbt
+     * is returned from the {@code getPermissions(CodeSource)} bnd
+     * {@code getPermissions(ProtectionDombin)}
+     * methods in the Policy clbss when those operbtions bre not
+     * supported by the Policy implementbtion.
      */
-    private static class UnsupportedEmptyCollection
+    privbte stbtic clbss UnsupportedEmptyCollection
         extends PermissionCollection {
 
-        private static final long serialVersionUID = -8492269157353014774L;
+        privbte stbtic finbl long seriblVersionUID = -8492269157353014774L;
 
-        private Permissions perms;
+        privbte Permissions perms;
 
         /**
-         * Create a read-only empty PermissionCollection object.
+         * Crebte b rebd-only empty PermissionCollection object.
          */
         public UnsupportedEmptyCollection() {
             this.perms = new Permissions();
-            perms.setReadOnly();
+            perms.setRebdOnly();
         }
 
         /**
-         * Adds a permission object to the current collection of permission
+         * Adds b permission object to the current collection of permission
          * objects.
          *
-         * @param permission the Permission object to add.
+         * @pbrbm permission the Permission object to bdd.
          *
          * @exception SecurityException - if this PermissionCollection object
-         *                                has been marked readonly
+         *                                hbs been mbrked rebdonly
          */
-        @Override public void add(Permission permission) {
-            perms.add(permission);
+        @Override public void bdd(Permission permission) {
+            perms.bdd(permission);
         }
 
         /**
          * Checks to see if the specified permission is implied by the
          * collection of Permission objects held in this PermissionCollection.
          *
-         * @param permission the Permission object to compare.
+         * @pbrbm permission the Permission object to compbre.
          *
          * @return true if "permission" is implied by the permissions in
-         * the collection, false if not.
+         * the collection, fblse if not.
          */
-        @Override public boolean implies(Permission permission) {
+        @Override public boolebn implies(Permission permission) {
             return perms.implies(permission);
         }
 
         /**
-         * Returns an enumeration of all the Permission objects in the
+         * Returns bn enumerbtion of bll the Permission objects in the
          * collection.
          *
-         * @return an enumeration of all the Permissions.
+         * @return bn enumerbtion of bll the Permissions.
          */
-        @Override public Enumeration<Permission> elements() {
+        @Override public Enumerbtion<Permission> elements() {
             return perms.elements();
         }
     }

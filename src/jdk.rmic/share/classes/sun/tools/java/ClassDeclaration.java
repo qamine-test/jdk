@@ -1,270 +1,270 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
 /**
- * This class represents an Java class declaration. It refers
- * to either a binary or source definition.
+ * This clbss represents bn Jbvb clbss declbrbtion. It refers
+ * to either b binbry or source definition.
  *
- * ClassDefinitions are loaded on demand, this means that
- * class declarations are late bound. The definition of the
- * class is obtained in stages. The status field describes
- * the state of the class definition:
+ * ClbssDefinitions bre lobded on dembnd, this mebns thbt
+ * clbss declbrbtions bre lbte bound. The definition of the
+ * clbss is obtbined in stbges. The stbtus field describes
+ * the stbte of the clbss definition:
  *
- * CS_UNDEFINED - the definition is not yet loaded
- * CS_UNDECIDED - a binary definition is loaded, but it is
- *                still unclear if the source definition need to
- *                be loaded
- * CS_BINARY    - the binary class is loaded
- * CS_PARSED    - the class is loaded from the source file, the
- *                type information is available, but the class has
+ * CS_UNDEFINED - the definition is not yet lobded
+ * CS_UNDECIDED - b binbry definition is lobded, but it is
+ *                still unclebr if the source definition need to
+ *                be lobded
+ * CS_BINARY    - the binbry clbss is lobded
+ * CS_PARSED    - the clbss is lobded from the source file, the
+ *                type informbtion is bvbilbble, but the clbss hbs
  *                not yet been compiled.
- * CS_CHECKED   - the class is loaded from the source file and has
+ * CS_CHECKED   - the clbss is lobded from the source file bnd hbs
  *                been type-checked.
- * CS_COMPILED  - the class has been type checked, compiled,
- *                and written out.
- * CS_NOTFOUND  - no class definition could be found
+ * CS_COMPILED  - the clbss hbs been type checked, compiled,
+ *                bnd written out.
+ * CS_NOTFOUND  - no clbss definition could be found
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 
-public final
-class ClassDeclaration implements Constants {
-    int status;
+public finbl
+clbss ClbssDeclbrbtion implements Constbnts {
+    int stbtus;
     Type type;
-    ClassDefinition definition;
+    ClbssDefinition definition;
 
     /**
      * Constructor
      */
-    public ClassDeclaration(Identifier name) {
-        this.type = Type.tClass(name);
+    public ClbssDeclbrbtion(Identifier nbme) {
+        this.type = Type.tClbss(nbme);
     }
 
     /**
-     * Get the status of the class
+     * Get the stbtus of the clbss
      */
-    public int getStatus() {
-        return status;
+    public int getStbtus() {
+        return stbtus;
     }
 
     /**
-     * Get the name of the class
+     * Get the nbme of the clbss
      */
-    public Identifier getName() {
-       return type.getClassName();
+    public Identifier getNbme() {
+       return type.getClbssNbme();
     }
 
     /**
-     * Get the type of the class
+     * Get the type of the clbss
      */
     public Type getType() {
         return type;
     }
 
     /**
-     * Check if the class is defined
+     * Check if the clbss is defined
      */
-    public boolean isDefined() {
-        switch (status) {
-          case CS_BINARY:
-          case CS_PARSED:
-          case CS_CHECKED:
-          case CS_COMPILED:
+    public boolebn isDefined() {
+        switch (stbtus) {
+          cbse CS_BINARY:
+          cbse CS_PARSED:
+          cbse CS_CHECKED:
+          cbse CS_COMPILED:
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Get the definition of this class. Returns null if
-     * the class is not yet defined.
+     * Get the definition of this clbss. Returns null if
+     * the clbss is not yet defined.
      */
-    public ClassDefinition getClassDefinition() {
+    public ClbssDefinition getClbssDefinition() {
         return definition;
     }
 
     /**
-     * This is a flag for use by getClassDefinition(env).  It is
-     * used to mark that a class has been successfully looked up
-     * by that method before.
+     * This is b flbg for use by getClbssDefinition(env).  It is
+     * used to mbrk thbt b clbss hbs been successfully looked up
+     * by thbt method before.
      */
-    private boolean found = false;
+    privbte boolebn found = fblse;
 
     /**
-     * Get the definition of this class, if the class is not
-     * yet defined, load the definition. Loading a class may
-     * throw various exceptions.
+     * Get the definition of this clbss, if the clbss is not
+     * yet defined, lobd the definition. Lobding b clbss mby
+     * throw vbrious exceptions.
      */
-    public ClassDefinition getClassDefinition(Environment env)
-    throws ClassNotFound {
-        if (tracing) env.dtEvent("getClassDefinition: " +
-                                 getName() + ", status " + getStatus());
+    public ClbssDefinition getClbssDefinition(Environment env)
+    throws ClbssNotFound {
+        if (trbcing) env.dtEvent("getClbssDefinition: " +
+                                 getNbme() + ", stbtus " + getStbtus());
 
-        // The majority of calls to getClassDefinition() are duplicates.
-        // This check makes them fast.  It also allows us to avoid
-        // duplicate, useless calls to basicCheck().  In the future it
-        // would be good to add an additional status value, CS_BASICCHECKED.
+        // The mbjority of cblls to getClbssDefinition() bre duplicbtes.
+        // This check mbkes them fbst.  It blso bllows us to bvoid
+        // duplicbte, useless cblls to bbsicCheck().  In the future it
+        // would be good to bdd bn bdditionbl stbtus vblue, CS_BASICCHECKED.
         if (found) {
             return definition;
         }
 
         for(;;) {
-            switch (status) {
-                case CS_UNDEFINED:
-                case CS_UNDECIDED:
-                case CS_SOURCE:
-                    env.loadDefinition(this);
-                    break;
+            switch (stbtus) {
+                cbse CS_UNDEFINED:
+                cbse CS_UNDECIDED:
+                cbse CS_SOURCE:
+                    env.lobdDefinition(this);
+                    brebk;
 
-                case CS_BINARY:
-                case CS_PARSED:
+                cbse CS_BINARY:
+                cbse CS_PARSED:
                     //+FIX FOR BUGID 4056065
-                    //definition.basicCheck(env);
-                    if (!definition.isInsideLocal()) {
-                        // Classes inside a block, including anonymous classes,
-                        // are checked when their surrounding member is checked.
-                        definition.basicCheck(env);
+                    //definition.bbsicCheck(env);
+                    if (!definition.isInsideLocbl()) {
+                        // Clbsses inside b block, including bnonymous clbsses,
+                        // bre checked when their surrounding member is checked.
+                        definition.bbsicCheck(env);
                     }
                     //-FIX FOR BUGID 4056065
                     found = true;
                     return definition;
 
-                case CS_CHECKED:
-                case CS_COMPILED:
+                cbse CS_CHECKED:
+                cbse CS_COMPILED:
                     found = true;
                     return definition;
 
-                default:
-                    throw new ClassNotFound(getName());
+                defbult:
+                    throw new ClbssNotFound(getNbme());
                 }
         }
     }
 
     /**
-     * Get the definition of this class, if the class is not
-     * yet defined, load the definition. Loading a class may
-     * throw various exceptions.  Perform no basicCheck() on this
-     * class.
+     * Get the definition of this clbss, if the clbss is not
+     * yet defined, lobd the definition. Lobding b clbss mby
+     * throw vbrious exceptions.  Perform no bbsicCheck() on this
+     * clbss.
      */
-    public ClassDefinition getClassDefinitionNoCheck(Environment env) throws ClassNotFound {
-        if (tracing) env.dtEvent("getClassDefinition: " +
-                                 getName() + ", status " + getStatus());
+    public ClbssDefinition getClbssDefinitionNoCheck(Environment env) throws ClbssNotFound {
+        if (trbcing) env.dtEvent("getClbssDefinition: " +
+                                 getNbme() + ", stbtus " + getStbtus());
         for(;;) {
-            switch (status) {
-                case CS_UNDEFINED:
-                case CS_UNDECIDED:
-                case CS_SOURCE:
-                    env.loadDefinition(this);
-                    break;
+            switch (stbtus) {
+                cbse CS_UNDEFINED:
+                cbse CS_UNDECIDED:
+                cbse CS_SOURCE:
+                    env.lobdDefinition(this);
+                    brebk;
 
-                case CS_BINARY:
-                case CS_PARSED:
-                case CS_CHECKED:
-                case CS_COMPILED:
+                cbse CS_BINARY:
+                cbse CS_PARSED:
+                cbse CS_CHECKED:
+                cbse CS_COMPILED:
                     return definition;
 
-                default:
-                    throw new ClassNotFound(getName());
+                defbult:
+                    throw new ClbssNotFound(getNbme());
                 }
         }
     }
 
    /**
-     * Set the class definition
+     * Set the clbss definition
      */
-    public void setDefinition(ClassDefinition definition, int status) {
+    public void setDefinition(ClbssDefinition definition, int stbtus) {
 
-        // Sanity checks.
+        // Sbnity checks.
 
-        // The name of the definition should match that of the declaration.
-        if ((definition != null) && !getName().equals(definition.getName())) {
-            throw new CompilerError("setDefinition: name mismatch: " +
+        // The nbme of the definition should mbtch thbt of the declbrbtion.
+        if ((definition != null) && !getNbme().equbls(definition.getNbme())) {
+            throw new CompilerError("setDefinition: nbme mismbtch: " +
                                     this + ", " + definition);
         }
 
-        // The status states can be considered ordered in the same
-        // manner as their numerical values. We expect classes to
-        // progress through a sequence of monotonically increasing
-        // states. NOTE: There are currently exceptions to this rule
-        // which are believed to be legitimate.  In particular, a
-        // class may be checked more than once, though we believe that
-        // this is unnecessary and may be avoided.
+        // The stbtus stbtes cbn be considered ordered in the sbme
+        // mbnner bs their numericbl vblues. We expect clbsses to
+        // progress through b sequence of monotonicblly increbsing
+        // stbtes. NOTE: There bre currently exceptions to this rule
+        // which bre believed to be legitimbte.  In pbrticulbr, b
+        // clbss mby be checked more thbn once, though we believe thbt
+        // this is unnecessbry bnd mby be bvoided.
         /*-----------------*
-        if (status <= this.status) {
+        if (stbtus <= this.stbtus) {
             System.out.println("STATUS REGRESSION: " +
-                               this + " FROM " + this.status + " TO " + status);
+                               this + " FROM " + this.stbtus + " TO " + stbtus);
         }
         *------------------*/
 
         this.definition = definition;
-        this.status = status;
+        this.stbtus = stbtus;
     }
 
     /**
-     * Equality
+     * Equblity
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof ClassDeclaration) {
-            return type.equals(((ClassDeclaration)obj).type);
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof ClbssDeclbrbtion) {
+            return type.equbls(((ClbssDeclbrbtion)obj).type);
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public int hashCode() {
-        return type.hashCode();
+    public int hbshCode() {
+        return type.hbshCode();
     }
 
     /**
      * toString
      */
     public String toString() {
-        String name = getName().toString();
+        String nbme = getNbme().toString();
         String type = "type ";
-        String nested = getName().isInner() ? "nested " : "";
-        if (getClassDefinition() != null) {
-            if (getClassDefinition().isInterface()) {
-                type = "interface ";
+        String nested = getNbme().isInner() ? "nested " : "";
+        if (getClbssDefinition() != null) {
+            if (getClbssDefinition().isInterfbce()) {
+                type = "interfbce ";
             } else {
-                type = "class ";
+                type = "clbss ";
             }
-            if (!getClassDefinition().isTopLevel()) {
+            if (!getClbssDefinition().isTopLevel()) {
                 nested = "inner ";
-                if (getClassDefinition().isLocal()) {
-                    nested = "local ";
-                    if (!getClassDefinition().isAnonymous()) {
-                        name = getClassDefinition().getLocalName() +
-                            " (" + name + ")";
+                if (getClbssDefinition().isLocbl()) {
+                    nested = "locbl ";
+                    if (!getClbssDefinition().isAnonymous()) {
+                        nbme = getClbssDefinition().getLocblNbme() +
+                            " (" + nbme + ")";
                     }
                 }
             }
         }
-        return nested + type + name;
+        return nested + type + nbme;
     }
 }

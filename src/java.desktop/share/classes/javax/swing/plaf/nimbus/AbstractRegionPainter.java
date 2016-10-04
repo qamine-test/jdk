@@ -1,237 +1,237 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.nimbus;
+pbckbge jbvbx.swing.plbf.nimbus;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.lang.reflect.Method;
-import javax.swing.*;
-import javax.swing.plaf.UIResource;
-import javax.swing.Painter;
-import java.awt.print.PrinterGraphics;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import jbvb.lbng.reflect.Method;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.Pbinter;
+import jbvb.bwt.print.PrinterGrbphics;
 import sun.reflect.misc.MethodUtil;
 
 /**
- * Convenient base class for defining Painter instances for rendering a
+ * Convenient bbse clbss for defining Pbinter instbnces for rendering b
  * region or component in Nimbus.
  *
- * @author Jasper Potts
- * @author Richard Bair
+ * @buthor Jbsper Potts
+ * @buthor Richbrd Bbir
  */
-public abstract class AbstractRegionPainter implements Painter<JComponent> {
+public bbstrbct clbss AbstrbctRegionPbinter implements Pbinter<JComponent> {
     /**
-     * PaintContext, which holds a lot of the state needed for cache hinting and x/y value decoding
-     * The data contained within the context is typically only computed once and reused over
-     * multiple paint calls, whereas the other values (w, h, f, leftWidth, etc) are recomputed
-     * for each call to paint.
+     * PbintContext, which holds b lot of the stbte needed for cbche hinting bnd x/y vblue decoding
+     * The dbtb contbined within the context is typicblly only computed once bnd reused over
+     * multiple pbint cblls, wherebs the other vblues (w, h, f, leftWidth, etc) bre recomputed
+     * for ebch cbll to pbint.
      *
-     * This field is retrieved from subclasses on each paint operation. It is up
-     * to the subclass to compute and cache the PaintContext over multiple calls.
+     * This field is retrieved from subclbsses on ebch pbint operbtion. It is up
+     * to the subclbss to compute bnd cbche the PbintContext over multiple cblls.
      */
-    private PaintContext ctx;
+    privbte PbintContext ctx;
     /**
-     * The scaling factor. Recomputed on each call to paint.
+     * The scbling fbctor. Recomputed on ebch cbll to pbint.
      */
-    private float f;
+    privbte flobt f;
     /*
-      Various metrics used for decoding x/y values based on the canvas size
-      and stretching insets.
+      Vbrious metrics used for decoding x/y vblues bbsed on the cbnvbs size
+      bnd stretching insets.
 
-      On each call to paint, we first ask the subclass for the PaintContext.
-      From the context we get the canvas size and stretching insets, and whether
-      the algorithm should be "inverted", meaning the center section remains
-      a fixed size and the other sections scale.
+      On ebch cbll to pbint, we first bsk the subclbss for the PbintContext.
+      From the context we get the cbnvbs size bnd stretching insets, bnd whether
+      the blgorithm should be "inverted", mebning the center section rembins
+      b fixed size bnd the other sections scble.
 
-      We then use these values to compute a series of metrics (listed below)
-      which are used to decode points in a specific axis (x or y).
+      We then use these vblues to compute b series of metrics (listed below)
+      which bre used to decode points in b specific bxis (x or y).
 
-      The leftWidth represents the distance from the left edge of the region
-      to the first stretching inset, after accounting for any scaling factor
-      (such as DPI scaling). The centerWidth is the distance between the leftWidth
-      and the rightWidth. The rightWidth is the distance from the right edge,
-      to the right inset (after scaling has been applied).
+      The leftWidth represents the distbnce from the left edge of the region
+      to the first stretching inset, bfter bccounting for bny scbling fbctor
+      (such bs DPI scbling). The centerWidth is the distbnce between the leftWidth
+      bnd the rightWidth. The rightWidth is the distbnce from the right edge,
+      to the right inset (bfter scbling hbs been bpplied).
 
-      The same logic goes for topHeight, centerHeight, and bottomHeight.
+      The sbme logic goes for topHeight, centerHeight, bnd bottomHeight.
 
-      The leftScale represents the proportion of the width taken by the left section.
-      The same logic is applied to the other scales.
+      The leftScble represents the proportion of the width tbken by the left section.
+      The sbme logic is bpplied to the other scbles.
 
-      The various widths/heights are used to decode control points. The
-      various scales are used to decode bezier handles (or anchors).
+      The vbrious widths/heights bre used to decode control points. The
+      vbrious scbles bre used to decode bezier hbndles (or bnchors).
     */
     /**
-     * The width of the left section. Recomputed on each call to paint.
+     * The width of the left section. Recomputed on ebch cbll to pbint.
      */
-    private float leftWidth;
+    privbte flobt leftWidth;
     /**
-     * The height of the top section. Recomputed on each call to paint.
+     * The height of the top section. Recomputed on ebch cbll to pbint.
      */
-    private float topHeight;
+    privbte flobt topHeight;
     /**
-     * The width of the center section. Recomputed on each call to paint.
+     * The width of the center section. Recomputed on ebch cbll to pbint.
      */
-    private float centerWidth;
+    privbte flobt centerWidth;
     /**
-     * The height of the center section. Recomputed on each call to paint.
+     * The height of the center section. Recomputed on ebch cbll to pbint.
      */
-    private float centerHeight;
+    privbte flobt centerHeight;
     /**
-     * The width of the right section. Recomputed on each call to paint.
+     * The width of the right section. Recomputed on ebch cbll to pbint.
      */
-    private float rightWidth;
+    privbte flobt rightWidth;
     /**
-     * The height of the bottom section. Recomputed on each call to paint.
+     * The height of the bottom section. Recomputed on ebch cbll to pbint.
      */
-    private float bottomHeight;
+    privbte flobt bottomHeight;
     /**
-     * The scaling factor to use for the left section. Recomputed on each call to paint.
+     * The scbling fbctor to use for the left section. Recomputed on ebch cbll to pbint.
      */
-    private float leftScale;
+    privbte flobt leftScble;
     /**
-     * The scaling factor to use for the top section. Recomputed on each call to paint.
+     * The scbling fbctor to use for the top section. Recomputed on ebch cbll to pbint.
      */
-    private float topScale;
+    privbte flobt topScble;
     /**
-     * The scaling factor to use for the center section, in the horizontal
-     * direction. Recomputed on each call to paint.
+     * The scbling fbctor to use for the center section, in the horizontbl
+     * direction. Recomputed on ebch cbll to pbint.
      */
-    private float centerHScale;
+    privbte flobt centerHScble;
     /**
-     * The scaling factor to use for the center section, in the vertical
-     * direction. Recomputed on each call to paint.
+     * The scbling fbctor to use for the center section, in the verticbl
+     * direction. Recomputed on ebch cbll to pbint.
      */
-    private float centerVScale;
+    privbte flobt centerVScble;
     /**
-     * The scaling factor to use for the right section. Recomputed on each call to paint.
+     * The scbling fbctor to use for the right section. Recomputed on ebch cbll to pbint.
      */
-    private float rightScale;
+    privbte flobt rightScble;
     /**
-     * The scaling factor to use for the bottom section. Recomputed on each call to paint.
+     * The scbling fbctor to use for the bottom section. Recomputed on ebch cbll to pbint.
      */
-    private float bottomScale;
+    privbte flobt bottomScble;
 
     /**
-     * Create a new AbstractRegionPainter
+     * Crebte b new AbstrbctRegionPbinter
      */
-    protected AbstractRegionPainter() { }
+    protected AbstrbctRegionPbinter() { }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void paint(Graphics2D g, JComponent c, int w, int h) {
-        //don't render if the width/height are too small
+    public finbl void pbint(Grbphics2D g, JComponent c, int w, int h) {
+        //don't render if the width/height bre too smbll
         if (w <= 0 || h <=0) return;
 
-        Object[] extendedCacheKeys = getExtendedCacheKeys(c);
-        ctx = getPaintContext();
-        PaintContext.CacheMode cacheMode = ctx == null ? PaintContext.CacheMode.NO_CACHING : ctx.cacheMode;
-        if (cacheMode == PaintContext.CacheMode.NO_CACHING ||
-                !ImageCache.getInstance().isImageCachable(w, h) ||
-                g instanceof PrinterGraphics) {
-            // no caching so paint directly
-            paint0(g, c, w, h, extendedCacheKeys);
-        } else if (cacheMode == PaintContext.CacheMode.FIXED_SIZES) {
-            paintWithFixedSizeCaching(g, c, w, h, extendedCacheKeys);
+        Object[] extendedCbcheKeys = getExtendedCbcheKeys(c);
+        ctx = getPbintContext();
+        PbintContext.CbcheMode cbcheMode = ctx == null ? PbintContext.CbcheMode.NO_CACHING : ctx.cbcheMode;
+        if (cbcheMode == PbintContext.CbcheMode.NO_CACHING ||
+                !ImbgeCbche.getInstbnce().isImbgeCbchbble(w, h) ||
+                g instbnceof PrinterGrbphics) {
+            // no cbching so pbint directly
+            pbint0(g, c, w, h, extendedCbcheKeys);
+        } else if (cbcheMode == PbintContext.CbcheMode.FIXED_SIZES) {
+            pbintWithFixedSizeCbching(g, c, w, h, extendedCbcheKeys);
         } else {
-            // 9 Square caching
-            paintWith9SquareCaching(g, ctx, c, w, h, extendedCacheKeys);
+            // 9 Squbre cbching
+            pbintWith9SqubreCbching(g, ctx, c, w, h, extendedCbcheKeys);
         }
     }
 
     /**
-     * Get any extra attributes which the painter implementation would like
-     * to include in the image cache lookups. This is checked for every call
-     * of the paint(g, c, w, h) method.
+     * Get bny extrb bttributes which the pbinter implementbtion would like
+     * to include in the imbge cbche lookups. This is checked for every cbll
+     * of the pbint(g, c, w, h) method.
      *
-     * @param c The component on the current paint call
-     * @return Array of extra objects to be included in the cache key
+     * @pbrbm c The component on the current pbint cbll
+     * @return Arrby of extrb objects to be included in the cbche key
      */
-    protected Object[] getExtendedCacheKeys(JComponent c) {
+    protected Object[] getExtendedCbcheKeys(JComponent c) {
         return null;
     }
 
     /**
-     * <p>Gets the PaintContext for this painting operation. This method is called on every
-     * paint, and so should be fast and produce no garbage. The PaintContext contains
-     * information such as cache hints. It also contains data necessary for decoding
-     * points at runtime, such as the stretching insets, the canvas size at which the
-     * encoded points were defined, and whether the stretching insets are inverted.</p>
+     * <p>Gets the PbintContext for this pbinting operbtion. This method is cblled on every
+     * pbint, bnd so should be fbst bnd produce no gbrbbge. The PbintContext contbins
+     * informbtion such bs cbche hints. It blso contbins dbtb necessbry for decoding
+     * points bt runtime, such bs the stretching insets, the cbnvbs size bt which the
+     * encoded points were defined, bnd whether the stretching insets bre inverted.</p>
      *
-     * <p> This method allows for subclasses to package the painting of different states
-     * with possibly different canvas sizes, etc, into one AbstractRegionPainter implementation.</p>
+     * <p> This method bllows for subclbsses to pbckbge the pbinting of different stbtes
+     * with possibly different cbnvbs sizes, etc, into one AbstrbctRegionPbinter implementbtion.</p>
      *
-     * @return a PaintContext associated with this paint operation.
+     * @return b PbintContext bssocibted with this pbint operbtion.
      */
-    protected abstract PaintContext getPaintContext();
+    protected bbstrbct PbintContext getPbintContext();
 
     /**
-     * <p>Configures the given Graphics2D. Often, rendering hints or compositing rules are
-     * applied to a Graphics2D object prior to painting, which should affect all of the
-     * subsequent painting operations. This method provides a convenient hook for configuring
-     * the Graphics object prior to rendering, regardless of whether the render operation is
-     * performed to an intermediate buffer or directly to the display.</p>
+     * <p>Configures the given Grbphics2D. Often, rendering hints or compositing rules bre
+     * bpplied to b Grbphics2D object prior to pbinting, which should bffect bll of the
+     * subsequent pbinting operbtions. This method provides b convenient hook for configuring
+     * the Grbphics object prior to rendering, regbrdless of whether the render operbtion is
+     * performed to bn intermedibte buffer or directly to the displby.</p>
      *
-     * @param g The Graphics2D object to configure. Will not be null.
+     * @pbrbm g The Grbphics2D object to configure. Will not be null.
      */
-    protected void configureGraphics(Graphics2D g) {
+    protected void configureGrbphics(Grbphics2D g) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
     /**
-     * Actually performs the painting operation. Subclasses must implement this method.
-     * The graphics object passed may represent the actual surface being rendered to,
-     * or it may be an intermediate buffer. It has also been pre-translated. Simply render
-     * the component as if it were located at 0, 0 and had a width of <code>width</code>
-     * and a height of <code>height</code>. For performance reasons, you may want to read
-     * the clip from the Graphics2D object and only render within that space.
+     * Actublly performs the pbinting operbtion. Subclbsses must implement this method.
+     * The grbphics object pbssed mby represent the bctubl surfbce being rendered to,
+     * or it mby be bn intermedibte buffer. It hbs blso been pre-trbnslbted. Simply render
+     * the component bs if it were locbted bt 0, 0 bnd hbd b width of <code>width</code>
+     * bnd b height of <code>height</code>. For performbnce rebsons, you mby wbnt to rebd
+     * the clip from the Grbphics2D object bnd only render within thbt spbce.
      *
-     * @param g The Graphics2D surface to paint to
-     * @param c The JComponent related to the drawing event. For example, if the
-     *          region being rendered is Button, then <code>c</code> will be a
-     *          JButton. If the region being drawn is ScrollBarSlider, then the
-     *          component will be JScrollBar. This value may be null.
-     * @param width The width of the region to paint. Note that in the case of
-     *              painting the foreground, this value may differ from c.getWidth().
-     * @param height The height of the region to paint. Note that in the case of
-     *               painting the foreground, this value may differ from c.getHeight().
-     * @param extendedCacheKeys The result of the call to getExtendedCacheKeys()
+     * @pbrbm g The Grbphics2D surfbce to pbint to
+     * @pbrbm c The JComponent relbted to the drbwing event. For exbmple, if the
+     *          region being rendered is Button, then <code>c</code> will be b
+     *          JButton. If the region being drbwn is ScrollBbrSlider, then the
+     *          component will be JScrollBbr. This vblue mby be null.
+     * @pbrbm width The width of the region to pbint. Note thbt in the cbse of
+     *              pbinting the foreground, this vblue mby differ from c.getWidth().
+     * @pbrbm height The height of the region to pbint. Note thbt in the cbse of
+     *               pbinting the foreground, this vblue mby differ from c.getHeight().
+     * @pbrbm extendedCbcheKeys The result of the cbll to getExtendedCbcheKeys()
      */
-    protected abstract void doPaint(Graphics2D g, JComponent c, int width,
-                                    int height, Object[] extendedCacheKeys);
+    protected bbstrbct void doPbint(Grbphics2D g, JComponent c, int width,
+                                    int height, Object[] extendedCbcheKeys);
 
     /**
-     * Decodes and returns a float value representing the actual pixel location for
-     * the given encoded X value.
+     * Decodes bnd returns b flobt vblue representing the bctubl pixel locbtion for
+     * the given encoded X vblue.
      *
-     * @param x an encoded x value (0...1, or 1...2, or 2...3)
-     * @return the decoded x value
-     * @throws IllegalArgumentException
+     * @pbrbm x bn encoded x vblue (0...1, or 1...2, or 2...3)
+     * @return the decoded x vblue
+     * @throws IllegblArgumentException
      *      if {@code x < 0} or {@code x > 3}
      */
-    protected final float decodeX(float x) {
+    protected finbl flobt decodeX(flobt x) {
         if (x >= 0 && x <= 1) {
             return x * leftWidth;
         } else if (x > 1 && x < 2) {
@@ -239,20 +239,20 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
         } else if (x >= 2 && x <= 3) {
             return ((x-2) * rightWidth) + leftWidth + centerWidth;
         } else {
-            throw new IllegalArgumentException("Invalid x");
+            throw new IllegblArgumentException("Invblid x");
         }
     }
 
     /**
-     * Decodes and returns a float value representing the actual pixel location for
-     * the given encoded y value.
+     * Decodes bnd returns b flobt vblue representing the bctubl pixel locbtion for
+     * the given encoded y vblue.
      *
-     * @param y an encoded y value (0...1, or 1...2, or 2...3)
-     * @return the decoded y value
-     * @throws IllegalArgumentException
+     * @pbrbm y bn encoded y vblue (0...1, or 1...2, or 2...3)
+     * @return the decoded y vblue
+     * @throws IllegblArgumentException
      *      if {@code y < 0} or {@code y > 3}
      */
-    protected final float decodeY(float y) {
+    protected finbl flobt decodeY(flobt y) {
         if (y >= 0 && y <= 1) {
             return y * topHeight;
         } else if (y > 1 && y < 2) {
@@ -260,501 +260,501 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
         } else if (y >= 2 && y <= 3) {
             return ((y-2) * bottomHeight) + topHeight + centerHeight;
         } else {
-            throw new IllegalArgumentException("Invalid y");
+            throw new IllegblArgumentException("Invblid y");
         }
     }
 
     /**
-     * Decodes and returns a float value representing the actual pixel location for
-     * the anchor point given the encoded X value of the control point, and the offset
-     * distance to the anchor from that control point.
+     * Decodes bnd returns b flobt vblue representing the bctubl pixel locbtion for
+     * the bnchor point given the encoded X vblue of the control point, bnd the offset
+     * distbnce to the bnchor from thbt control point.
      *
-     * @param x an encoded x value of the bezier control point (0...1, or 1...2, or 2...3)
-     * @param dx the offset distance to the anchor from the control point x
-     * @return the decoded x location of the control point
-     * @throws IllegalArgumentException
+     * @pbrbm x bn encoded x vblue of the bezier control point (0...1, or 1...2, or 2...3)
+     * @pbrbm dx the offset distbnce to the bnchor from the control point x
+     * @return the decoded x locbtion of the control point
+     * @throws IllegblArgumentException
      *      if {@code x < 0} or {@code x > 3}
      */
-    protected final float decodeAnchorX(float x, float dx) {
+    protected finbl flobt decodeAnchorX(flobt x, flobt dx) {
         if (x >= 0 && x <= 1) {
-            return decodeX(x) + (dx * leftScale);
+            return decodeX(x) + (dx * leftScble);
         } else if (x > 1 && x < 2) {
-            return decodeX(x) + (dx * centerHScale);
+            return decodeX(x) + (dx * centerHScble);
         } else if (x >= 2 && x <= 3) {
-            return decodeX(x) + (dx * rightScale);
+            return decodeX(x) + (dx * rightScble);
         } else {
-            throw new IllegalArgumentException("Invalid x");
+            throw new IllegblArgumentException("Invblid x");
         }
     }
 
     /**
-     * Decodes and returns a float value representing the actual pixel location for
-     * the anchor point given the encoded Y value of the control point, and the offset
-     * distance to the anchor from that control point.
+     * Decodes bnd returns b flobt vblue representing the bctubl pixel locbtion for
+     * the bnchor point given the encoded Y vblue of the control point, bnd the offset
+     * distbnce to the bnchor from thbt control point.
      *
-     * @param y an encoded y value of the bezier control point (0...1, or 1...2, or 2...3)
-     * @param dy the offset distance to the anchor from the control point y
+     * @pbrbm y bn encoded y vblue of the bezier control point (0...1, or 1...2, or 2...3)
+     * @pbrbm dy the offset distbnce to the bnchor from the control point y
      * @return the decoded y position of the control point
-     * @throws IllegalArgumentException
+     * @throws IllegblArgumentException
      *      if {@code y < 0} or {@code y > 3}
      */
-    protected final float decodeAnchorY(float y, float dy) {
+    protected finbl flobt decodeAnchorY(flobt y, flobt dy) {
         if (y >= 0 && y <= 1) {
-            return decodeY(y) + (dy * topScale);
+            return decodeY(y) + (dy * topScble);
         } else if (y > 1 && y < 2) {
-            return decodeY(y) + (dy * centerVScale);
+            return decodeY(y) + (dy * centerVScble);
         } else if (y >= 2 && y <= 3) {
-            return decodeY(y) + (dy * bottomScale);
+            return decodeY(y) + (dy * bottomScble);
         } else {
-            throw new IllegalArgumentException("Invalid y");
+            throw new IllegblArgumentException("Invblid y");
         }
     }
 
     /**
-     * Decodes and returns a color, which is derived from a base color in UI
-     * defaults.
+     * Decodes bnd returns b color, which is derived from b bbse color in UI
+     * defbults.
      *
-     * @param key     A key corresponding to the value in the UI Defaults table
-     *                of UIManager where the base color is defined
-     * @param hOffset The hue offset used for derivation.
-     * @param sOffset The saturation offset used for derivation.
-     * @param bOffset The brightness offset used for derivation.
-     * @param aOffset The alpha offset used for derivation. Between 0...255
-     * @return The derived color, whose color value will change if the parent
-     *         uiDefault color changes.
+     * @pbrbm key     A key corresponding to the vblue in the UI Defbults tbble
+     *                of UIMbnbger where the bbse color is defined
+     * @pbrbm hOffset The hue offset used for derivbtion.
+     * @pbrbm sOffset The sbturbtion offset used for derivbtion.
+     * @pbrbm bOffset The brightness offset used for derivbtion.
+     * @pbrbm bOffset The blphb offset used for derivbtion. Between 0...255
+     * @return The derived color, whose color vblue will chbnge if the pbrent
+     *         uiDefbult color chbnges.
      */
-    protected final Color decodeColor(String key, float hOffset, float sOffset,
-                                      float bOffset, int aOffset) {
-        if (UIManager.getLookAndFeel() instanceof NimbusLookAndFeel){
-            NimbusLookAndFeel laf = (NimbusLookAndFeel) UIManager.getLookAndFeel();
-            return laf.getDerivedColor(key, hOffset, sOffset, bOffset, aOffset, true);
+    protected finbl Color decodeColor(String key, flobt hOffset, flobt sOffset,
+                                      flobt bOffset, int bOffset) {
+        if (UIMbnbger.getLookAndFeel() instbnceof NimbusLookAndFeel){
+            NimbusLookAndFeel lbf = (NimbusLookAndFeel) UIMbnbger.getLookAndFeel();
+            return lbf.getDerivedColor(key, hOffset, sOffset, bOffset, bOffset, true);
         } else {
-            // can not give a right answer as painter sould not be used outside
-            // of nimbus laf but do the best we can
+            // cbn not give b right bnswer bs pbinter sould not be used outside
+            // of nimbus lbf but do the best we cbn
             return Color.getHSBColor(hOffset,sOffset,bOffset);
         }
     }
 
     /**
-     * Decodes and returns a color, which is derived from a offset between two
+     * Decodes bnd returns b color, which is derived from b offset between two
      * other colors.
      *
-     * @param color1   The first color
-     * @param color2   The second color
-     * @param midPoint The offset between color 1 and color 2, a value of 0.0 is
-     *                 color 1 and 1.0 is color 2;
+     * @pbrbm color1   The first color
+     * @pbrbm color2   The second color
+     * @pbrbm midPoint The offset between color 1 bnd color 2, b vblue of 0.0 is
+     *                 color 1 bnd 1.0 is color 2;
      * @return The derived color
      */
-    protected final Color decodeColor(Color color1, Color color2,
-                                      float midPoint) {
+    protected finbl Color decodeColor(Color color1, Color color2,
+                                      flobt midPoint) {
         return new Color(NimbusLookAndFeel.deriveARGB(color1, color2, midPoint));
     }
 
     /**
-     * Given parameters for creating a LinearGradientPaint, this method will
-     * create and return a linear gradient paint. One primary purpose for this
-     * method is to avoid creating a LinearGradientPaint where the start and
-     * end points are equal. In such a case, the end y point is slightly
-     * increased to avoid the overlap.
+     * Given pbrbmeters for crebting b LinebrGrbdientPbint, this method will
+     * crebte bnd return b linebr grbdient pbint. One primbry purpose for this
+     * method is to bvoid crebting b LinebrGrbdientPbint where the stbrt bnd
+     * end points bre equbl. In such b cbse, the end y point is slightly
+     * increbsed to bvoid the overlbp.
      *
-     * @param x1 x1
-     * @param y1 y1
-     * @param x2 x2
-     * @param y2 y2
-     * @param midpoints the midpoints
-     * @param colors the colors
-     * @return a valid LinearGradientPaint. This method never returns null.
+     * @pbrbm x1 x1
+     * @pbrbm y1 y1
+     * @pbrbm x2 x2
+     * @pbrbm y2 y2
+     * @pbrbm midpoints the midpoints
+     * @pbrbm colors the colors
+     * @return b vblid LinebrGrbdientPbint. This method never returns null.
      * @throws NullPointerException
-     *      if {@code midpoints} array is null,
-     *      or {@code colors} array is null,
-     * @throws IllegalArgumentException
-     *      if start and end points are the same points,
+     *      if {@code midpoints} brrby is null,
+     *      or {@code colors} brrby is null,
+     * @throws IllegblArgumentException
+     *      if stbrt bnd end points bre the sbme points,
      *      or {@code midpoints.length != colors.length},
-     *      or {@code colors} is less than 2 in size,
-     *      or a {@code midpoints} value is less than 0.0 or greater than 1.0,
-     *      or the {@code midpoints} are not provided in strictly increasing order
+     *      or {@code colors} is less thbn 2 in size,
+     *      or b {@code midpoints} vblue is less thbn 0.0 or grebter thbn 1.0,
+     *      or the {@code midpoints} bre not provided in strictly increbsing order
      */
-    protected final LinearGradientPaint decodeGradient(float x1, float y1, float x2, float y2, float[] midpoints, Color[] colors) {
+    protected finbl LinebrGrbdientPbint decodeGrbdient(flobt x1, flobt y1, flobt x2, flobt y2, flobt[] midpoints, Color[] colors) {
         if (x1 == x2 && y1 == y2) {
             y2 += .00001f;
         }
-        return new LinearGradientPaint(x1, y1, x2, y2, midpoints, colors);
+        return new LinebrGrbdientPbint(x1, y1, x2, y2, midpoints, colors);
     }
 
     /**
-     * Given parameters for creating a RadialGradientPaint, this method will
-     * create and return a radial gradient paint. One primary purpose for this
-     * method is to avoid creating a RadialGradientPaint where the radius
-     * is non-positive. In such a case, the radius is just slightly
-     * increased to avoid 0.
+     * Given pbrbmeters for crebting b RbdiblGrbdientPbint, this method will
+     * crebte bnd return b rbdibl grbdient pbint. One primbry purpose for this
+     * method is to bvoid crebting b RbdiblGrbdientPbint where the rbdius
+     * is non-positive. In such b cbse, the rbdius is just slightly
+     * increbsed to bvoid 0.
      *
-     * @param x x-coordinate
-     * @param y y-coordinate
-     * @param r radius
-     * @param midpoints the midpoints
-     * @param colors the colors
-     * @return a valid RadialGradientPaint. This method never returns null.
+     * @pbrbm x x-coordinbte
+     * @pbrbm y y-coordinbte
+     * @pbrbm r rbdius
+     * @pbrbm midpoints the midpoints
+     * @pbrbm colors the colors
+     * @return b vblid RbdiblGrbdientPbint. This method never returns null.
      * @throws NullPointerException
-     *      if {@code midpoints} array is null,
-     *      or {@code colors} array is null
-     * @throws IllegalArgumentException
+     *      if {@code midpoints} brrby is null,
+     *      or {@code colors} brrby is null
+     * @throws IllegblArgumentException
      *      if {@code r} is non-positive,
      *      or {@code midpoints.length != colors.length},
-     *      or {@code colors} is less than 2 in size,
-     *      or a {@code midpoints} value is less than 0.0 or greater than 1.0,
-     *      or the {@code midpoints} are not provided in strictly increasing order
+     *      or {@code colors} is less thbn 2 in size,
+     *      or b {@code midpoints} vblue is less thbn 0.0 or grebter thbn 1.0,
+     *      or the {@code midpoints} bre not provided in strictly increbsing order
      */
-    protected final RadialGradientPaint decodeRadialGradient(float x, float y, float r, float[] midpoints, Color[] colors) {
+    protected finbl RbdiblGrbdientPbint decodeRbdiblGrbdient(flobt x, flobt y, flobt r, flobt[] midpoints, Color[] colors) {
         if (r == 0f) {
             r = .00001f;
         }
-        return new RadialGradientPaint(x, y, r, midpoints, colors);
+        return new RbdiblGrbdientPbint(x, y, r, midpoints, colors);
     }
 
     /**
-     * Get a color property from the given JComponent. First checks for a
-     * <code>getXXX()</code> method and if that fails checks for a client
-     * property with key <code>property</code>. If that still fails to return
-     * a Color then <code>defaultColor</code> is returned.
+     * Get b color property from the given JComponent. First checks for b
+     * <code>getXXX()</code> method bnd if thbt fbils checks for b client
+     * property with key <code>property</code>. If thbt still fbils to return
+     * b Color then <code>defbultColor</code> is returned.
      *
-     * @param c The component to get the color property from
-     * @param property The name of a bean style property or client property
-     * @param defaultColor The color to return if no color was obtained from
+     * @pbrbm c The component to get the color property from
+     * @pbrbm property The nbme of b bebn style property or client property
+     * @pbrbm defbultColor The color to return if no color wbs obtbined from
      *        the component.
-     * @param saturationOffset additively modifies the HSB saturation component
-     * of the color returned (ignored if default color is returned).
-     * @param brightnessOffset additively modifies the HSB brightness component
-     * of the color returned (ignored if default color is returned).
-     * @param alphaOffset additively modifies the ARGB alpha component of the
-     * color returned (ignored if default color is returned).
+     * @pbrbm sbturbtionOffset bdditively modifies the HSB sbturbtion component
+     * of the color returned (ignored if defbult color is returned).
+     * @pbrbm brightnessOffset bdditively modifies the HSB brightness component
+     * of the color returned (ignored if defbult color is returned).
+     * @pbrbm blphbOffset bdditively modifies the ARGB blphb component of the
+     * color returned (ignored if defbult color is returned).
      *
-     * @return The color that was obtained from the component or defaultColor
+     * @return The color thbt wbs obtbined from the component or defbultColor
      */
-    protected final Color getComponentColor(JComponent c, String property,
-                                            Color defaultColor,
-                                            float saturationOffset,
-                                            float brightnessOffset,
-                                            int alphaOffset) {
+    protected finbl Color getComponentColor(JComponent c, String property,
+                                            Color defbultColor,
+                                            flobt sbturbtionOffset,
+                                            flobt brightnessOffset,
+                                            int blphbOffset) {
         Color color = null;
         if (c != null) {
-            // handle some special cases for performance
-            if ("background".equals(property)) {
-                color = c.getBackground();
-            } else if ("foreground".equals(property)) {
+            // hbndle some specibl cbses for performbnce
+            if ("bbckground".equbls(property)) {
+                color = c.getBbckground();
+            } else if ("foreground".equbls(property)) {
                 color = c.getForeground();
-            } else if (c instanceof JList && "selectionForeground".equals(property)) {
+            } else if (c instbnceof JList && "selectionForeground".equbls(property)) {
                 color = ((JList) c).getSelectionForeground();
-            } else if (c instanceof JList && "selectionBackground".equals(property)) {
-                color = ((JList) c).getSelectionBackground();
-            } else if (c instanceof JTable && "selectionForeground".equals(property)) {
-                color = ((JTable) c).getSelectionForeground();
-            } else if (c instanceof JTable && "selectionBackground".equals(property)) {
-                color = ((JTable) c).getSelectionBackground();
+            } else if (c instbnceof JList && "selectionBbckground".equbls(property)) {
+                color = ((JList) c).getSelectionBbckground();
+            } else if (c instbnceof JTbble && "selectionForeground".equbls(property)) {
+                color = ((JTbble) c).getSelectionForeground();
+            } else if (c instbnceof JTbble && "selectionBbckground".equbls(property)) {
+                color = ((JTbble) c).getSelectionBbckground();
             } else {
-                String s = "get" + Character.toUpperCase(property.charAt(0)) + property.substring(1);
+                String s = "get" + Chbrbcter.toUpperCbse(property.chbrAt(0)) + property.substring(1);
                 try {
-                    Method method = MethodUtil.getMethod(c.getClass(), s, null);
+                    Method method = MethodUtil.getMethod(c.getClbss(), s, null);
                     color = (Color) MethodUtil.invoke(method, c, null);
-                } catch (Exception e) {
-                    //don't do anything, it just didn't work, that's all.
-                    //This could be a normal occurance if you use a property
-                    //name referring to a key in clientProperties instead of
-                    //a real property
+                } cbtch (Exception e) {
+                    //don't do bnything, it just didn't work, thbt's bll.
+                    //This could be b normbl occurbnce if you use b property
+                    //nbme referring to b key in clientProperties instebd of
+                    //b rebl property
                 }
                 if (color == null) {
-                    Object value = c.getClientProperty(property);
-                    if (value instanceof Color) {
-                        color = (Color) value;
+                    Object vblue = c.getClientProperty(property);
+                    if (vblue instbnceof Color) {
+                        color = (Color) vblue;
                     }
                 }
             }
         }
-        // we return the defaultColor if the color found is null, or if
-        // it is a UIResource. This is done because the color for the
-        // ENABLED state is set on the component, but you don't want to use
-        // that color for the over state. So we only respect the color
-        // specified for the property if it was set by the user, as opposed
+        // we return the defbultColor if the color found is null, or if
+        // it is b UIResource. This is done becbuse the color for the
+        // ENABLED stbte is set on the component, but you don't wbnt to use
+        // thbt color for the over stbte. So we only respect the color
+        // specified for the property if it wbs set by the user, bs opposed
         // to set by us.
-        if (color == null || color instanceof UIResource) {
-            return defaultColor;
-        } else if (saturationOffset != 0 || brightnessOffset != 0 || alphaOffset != 0) {
-            float[] tmp = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-            tmp[1] = clamp(tmp[1] + saturationOffset);
-            tmp[2] = clamp(tmp[2] + brightnessOffset);
-            int alpha = clamp(color.getAlpha() + alphaOffset);
-            return new Color((Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF) | (alpha <<24));
+        if (color == null || color instbnceof UIResource) {
+            return defbultColor;
+        } else if (sbturbtionOffset != 0 || brightnessOffset != 0 || blphbOffset != 0) {
+            flobt[] tmp = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
+            tmp[1] = clbmp(tmp[1] + sbturbtionOffset);
+            tmp[2] = clbmp(tmp[2] + brightnessOffset);
+            int blphb = clbmp(color.getAlphb() + blphbOffset);
+            return new Color((Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF) | (blphb <<24));
         } else {
             return color;
         }
     }
 
     /**
-     * A class encapsulating state useful when painting. Generally, instances of this
-     * class are created once, and reused for each paint request without modification.
-     * This class contains values useful when hinting the cache engine, and when decoding
-     * control points and bezier curve anchors.
+     * A clbss encbpsulbting stbte useful when pbinting. Generblly, instbnces of this
+     * clbss bre crebted once, bnd reused for ebch pbint request without modificbtion.
+     * This clbss contbins vblues useful when hinting the cbche engine, bnd when decoding
+     * control points bnd bezier curve bnchors.
      */
-    protected static class PaintContext {
-        protected static enum CacheMode {
+    protected stbtic clbss PbintContext {
+        protected stbtic enum CbcheMode {
             NO_CACHING, FIXED_SIZES, NINE_SQUARE_SCALE
         }
 
-        private static Insets EMPTY_INSETS = new Insets(0, 0, 0, 0);
+        privbte stbtic Insets EMPTY_INSETS = new Insets(0, 0, 0, 0);
 
-        private Insets stretchingInsets;
-        private Dimension canvasSize;
-        private boolean inverted;
-        private CacheMode cacheMode;
-        private double maxHorizontalScaleFactor;
-        private double maxVerticalScaleFactor;
+        privbte Insets stretchingInsets;
+        privbte Dimension cbnvbsSize;
+        privbte boolebn inverted;
+        privbte CbcheMode cbcheMode;
+        privbte double mbxHorizontblScbleFbctor;
+        privbte double mbxVerticblScbleFbctor;
 
-        private float a; // insets.left
-        private float b; // canvasSize.width - insets.right
-        private float c; // insets.top
-        private float d; // canvasSize.height - insets.bottom;
-        private float aPercent; // only used if inverted == true
-        private float bPercent; // only used if inverted == true
-        private float cPercent; // only used if inverted == true
-        private float dPercent; // only used if inverted == true
+        privbte flobt b; // insets.left
+        privbte flobt b; // cbnvbsSize.width - insets.right
+        privbte flobt c; // insets.top
+        privbte flobt d; // cbnvbsSize.height - insets.bottom;
+        privbte flobt bPercent; // only used if inverted == true
+        privbte flobt bPercent; // only used if inverted == true
+        privbte flobt cPercent; // only used if inverted == true
+        privbte flobt dPercent; // only used if inverted == true
 
         /**
-         * Creates a new PaintContext which does not attempt to cache or scale any cached
-         * images.
+         * Crebtes b new PbintContext which does not bttempt to cbche or scble bny cbched
+         * imbges.
          *
-         * @param insets The stretching insets. May be null. If null, then assumed to be 0, 0, 0, 0.
-         * @param canvasSize The size of the canvas used when encoding the various x/y values. May be null.
-         *                   If null, then it is assumed that there are no encoded values, and any calls
-         *                   to one of the "decode" methods will return the passed in value.
-         * @param inverted Whether to "invert" the meaning of the 9-square grid and stretching insets
+         * @pbrbm insets The stretching insets. Mby be null. If null, then bssumed to be 0, 0, 0, 0.
+         * @pbrbm cbnvbsSize The size of the cbnvbs used when encoding the vbrious x/y vblues. Mby be null.
+         *                   If null, then it is bssumed thbt there bre no encoded vblues, bnd bny cblls
+         *                   to one of the "decode" methods will return the pbssed in vblue.
+         * @pbrbm inverted Whether to "invert" the mebning of the 9-squbre grid bnd stretching insets
          */
-        public PaintContext(Insets insets, Dimension canvasSize, boolean inverted) {
-            this(insets, canvasSize, inverted, null, 1, 1);
+        public PbintContext(Insets insets, Dimension cbnvbsSize, boolebn inverted) {
+            this(insets, cbnvbsSize, inverted, null, 1, 1);
         }
 
         /**
-         * Creates a new PaintContext.
+         * Crebtes b new PbintContext.
          *
-         * @param insets The stretching insets. May be null. If null, then assumed to be 0, 0, 0, 0.
-         * @param canvasSize The size of the canvas used when encoding the various x/y values. May be null.
-         *                   If null, then it is assumed that there are no encoded values, and any calls
-         *                   to one of the "decode" methods will return the passed in value.
-         * @param inverted Whether to "invert" the meaning of the 9-square grid and stretching insets
-         * @param cacheMode A hint as to which caching mode to use. If null, then set to no caching.
-         * @param maxH The maximum scale in the horizontal direction to use before punting and redrawing from scratch.
-         *             For example, if maxH is 2, then we will attempt to scale any cached images up to 2x the canvas
-         *             width before redrawing from scratch. Reasonable maxH values may improve painting performance.
-         *             If set too high, then you may get poor looking graphics at higher zoom levels. Must be &gt;= 1.
-         * @param maxV The maximum scale in the vertical direction to use before punting and redrawing from scratch.
-         *             For example, if maxV is 2, then we will attempt to scale any cached images up to 2x the canvas
-         *             height before redrawing from scratch. Reasonable maxV values may improve painting performance.
-         *             If set too high, then you may get poor looking graphics at higher zoom levels. Must be &gt;= 1.
+         * @pbrbm insets The stretching insets. Mby be null. If null, then bssumed to be 0, 0, 0, 0.
+         * @pbrbm cbnvbsSize The size of the cbnvbs used when encoding the vbrious x/y vblues. Mby be null.
+         *                   If null, then it is bssumed thbt there bre no encoded vblues, bnd bny cblls
+         *                   to one of the "decode" methods will return the pbssed in vblue.
+         * @pbrbm inverted Whether to "invert" the mebning of the 9-squbre grid bnd stretching insets
+         * @pbrbm cbcheMode A hint bs to which cbching mode to use. If null, then set to no cbching.
+         * @pbrbm mbxH The mbximum scble in the horizontbl direction to use before punting bnd redrbwing from scrbtch.
+         *             For exbmple, if mbxH is 2, then we will bttempt to scble bny cbched imbges up to 2x the cbnvbs
+         *             width before redrbwing from scrbtch. Rebsonbble mbxH vblues mby improve pbinting performbnce.
+         *             If set too high, then you mby get poor looking grbphics bt higher zoom levels. Must be &gt;= 1.
+         * @pbrbm mbxV The mbximum scble in the verticbl direction to use before punting bnd redrbwing from scrbtch.
+         *             For exbmple, if mbxV is 2, then we will bttempt to scble bny cbched imbges up to 2x the cbnvbs
+         *             height before redrbwing from scrbtch. Rebsonbble mbxV vblues mby improve pbinting performbnce.
+         *             If set too high, then you mby get poor looking grbphics bt higher zoom levels. Must be &gt;= 1.
          */
-        public PaintContext(Insets insets, Dimension canvasSize, boolean inverted,
-                            CacheMode cacheMode, double maxH, double maxV) {
-            if (maxH < 1 || maxH < 1) {
-                throw new IllegalArgumentException("Both maxH and maxV must be >= 1");
+        public PbintContext(Insets insets, Dimension cbnvbsSize, boolebn inverted,
+                            CbcheMode cbcheMode, double mbxH, double mbxV) {
+            if (mbxH < 1 || mbxH < 1) {
+                throw new IllegblArgumentException("Both mbxH bnd mbxV must be >= 1");
             }
 
             this.stretchingInsets = insets == null ? EMPTY_INSETS : insets;
-            this.canvasSize = canvasSize;
+            this.cbnvbsSize = cbnvbsSize;
             this.inverted = inverted;
-            this.cacheMode = cacheMode == null ? CacheMode.NO_CACHING : cacheMode;
-            this.maxHorizontalScaleFactor = maxH;
-            this.maxVerticalScaleFactor = maxV;
+            this.cbcheMode = cbcheMode == null ? CbcheMode.NO_CACHING : cbcheMode;
+            this.mbxHorizontblScbleFbctor = mbxH;
+            this.mbxVerticblScbleFbctor = mbxV;
 
-            if (canvasSize != null) {
-                a = stretchingInsets.left;
-                b = canvasSize.width - stretchingInsets.right;
+            if (cbnvbsSize != null) {
+                b = stretchingInsets.left;
+                b = cbnvbsSize.width - stretchingInsets.right;
                 c = stretchingInsets.top;
-                d = canvasSize.height - stretchingInsets.bottom;
-                this.canvasSize = canvasSize;
+                d = cbnvbsSize.height - stretchingInsets.bottom;
+                this.cbnvbsSize = cbnvbsSize;
                 this.inverted = inverted;
                 if (inverted) {
-                    float available = canvasSize.width - (b - a);
-                    aPercent = available > 0f ? a / available : 0f;
-                    bPercent = available > 0f ? b / available : 0f;
-                    available = canvasSize.height - (d - c);
-                    cPercent = available > 0f ? c / available : 0f;
-                    dPercent = available > 0f ? d / available : 0f;
+                    flobt bvbilbble = cbnvbsSize.width - (b - b);
+                    bPercent = bvbilbble > 0f ? b / bvbilbble : 0f;
+                    bPercent = bvbilbble > 0f ? b / bvbilbble : 0f;
+                    bvbilbble = cbnvbsSize.height - (d - c);
+                    cPercent = bvbilbble > 0f ? c / bvbilbble : 0f;
+                    dPercent = bvbilbble > 0f ? d / bvbilbble : 0f;
                 }
             }
         }
     }
 
-    //---------------------- private methods
+    //---------------------- privbte methods
 
-    //initializes the class to prepare it for being able to decode points
-    private void prepare(float w, float h) {
-        //if no PaintContext has been specified, reset the values and bail
-        //also bail if the canvasSize was not set (since decoding will not work)
-        if (ctx == null || ctx.canvasSize == null) {
+    //initiblizes the clbss to prepbre it for being bble to decode points
+    privbte void prepbre(flobt w, flobt h) {
+        //if no PbintContext hbs been specified, reset the vblues bnd bbil
+        //blso bbil if the cbnvbsSize wbs not set (since decoding will not work)
+        if (ctx == null || ctx.cbnvbsSize == null) {
             f = 1f;
             leftWidth = centerWidth = rightWidth = 0f;
             topHeight = centerHeight = bottomHeight = 0f;
-            leftScale = centerHScale = rightScale = 0f;
-            topScale = centerVScale = bottomScale = 0f;
+            leftScble = centerHScble = rightScble = 0f;
+            topScble = centerVScble = bottomScble = 0f;
             return;
         }
 
-        //calculate the scaling factor, and the sizes for the various 9-square sections
-        Number scale = (Number)UIManager.get("scale");
-        f = scale == null ? 1f : scale.floatValue();
+        //cblculbte the scbling fbctor, bnd the sizes for the vbrious 9-squbre sections
+        Number scble = (Number)UIMbnbger.get("scble");
+        f = scble == null ? 1f : scble.flobtVblue();
 
         if (ctx.inverted) {
-            centerWidth = (ctx.b - ctx.a) * f;
-            float availableSpace = w - centerWidth;
-            leftWidth = availableSpace * ctx.aPercent;
-            rightWidth = availableSpace * ctx.bPercent;
+            centerWidth = (ctx.b - ctx.b) * f;
+            flobt bvbilbbleSpbce = w - centerWidth;
+            leftWidth = bvbilbbleSpbce * ctx.bPercent;
+            rightWidth = bvbilbbleSpbce * ctx.bPercent;
             centerHeight = (ctx.d - ctx.c) * f;
-            availableSpace = h - centerHeight;
-            topHeight = availableSpace * ctx.cPercent;
-            bottomHeight = availableSpace * ctx.dPercent;
+            bvbilbbleSpbce = h - centerHeight;
+            topHeight = bvbilbbleSpbce * ctx.cPercent;
+            bottomHeight = bvbilbbleSpbce * ctx.dPercent;
         } else {
-            leftWidth = ctx.a * f;
-            rightWidth = (float)(ctx.canvasSize.getWidth() - ctx.b) * f;
+            leftWidth = ctx.b * f;
+            rightWidth = (flobt)(ctx.cbnvbsSize.getWidth() - ctx.b) * f;
             centerWidth = w - leftWidth - rightWidth;
             topHeight = ctx.c * f;
-            bottomHeight = (float)(ctx.canvasSize.getHeight() - ctx.d) * f;
+            bottomHeight = (flobt)(ctx.cbnvbsSize.getHeight() - ctx.d) * f;
             centerHeight = h - topHeight - bottomHeight;
         }
 
-        leftScale = ctx.a == 0f ? 0f : leftWidth / ctx.a;
-        centerHScale = (ctx.b - ctx.a) == 0f ? 0f : centerWidth / (ctx.b - ctx.a);
-        rightScale = (ctx.canvasSize.width - ctx.b) == 0f ? 0f : rightWidth / (ctx.canvasSize.width - ctx.b);
-        topScale = ctx.c == 0f ? 0f : topHeight / ctx.c;
-        centerVScale = (ctx.d - ctx.c) == 0f ? 0f : centerHeight / (ctx.d - ctx.c);
-        bottomScale = (ctx.canvasSize.height - ctx.d) == 0f ? 0f : bottomHeight / (ctx.canvasSize.height - ctx.d);
+        leftScble = ctx.b == 0f ? 0f : leftWidth / ctx.b;
+        centerHScble = (ctx.b - ctx.b) == 0f ? 0f : centerWidth / (ctx.b - ctx.b);
+        rightScble = (ctx.cbnvbsSize.width - ctx.b) == 0f ? 0f : rightWidth / (ctx.cbnvbsSize.width - ctx.b);
+        topScble = ctx.c == 0f ? 0f : topHeight / ctx.c;
+        centerVScble = (ctx.d - ctx.c) == 0f ? 0f : centerHeight / (ctx.d - ctx.c);
+        bottomScble = (ctx.cbnvbsSize.height - ctx.d) == 0f ? 0f : bottomHeight / (ctx.cbnvbsSize.height - ctx.d);
     }
 
-    private void paintWith9SquareCaching(Graphics2D g, PaintContext ctx,
+    privbte void pbintWith9SqubreCbching(Grbphics2D g, PbintContext ctx,
                                          JComponent c, int w, int h,
-                                         Object[] extendedCacheKeys) {
-        // check if we can scale to the requested size
-        Dimension canvas = ctx.canvasSize;
+                                         Object[] extendedCbcheKeys) {
+        // check if we cbn scble to the requested size
+        Dimension cbnvbs = ctx.cbnvbsSize;
         Insets insets = ctx.stretchingInsets;
 
-        if (w <= (canvas.width * ctx.maxHorizontalScaleFactor) && h <= (canvas.height * ctx.maxVerticalScaleFactor)) {
-            // get image at canvas size
-            VolatileImage img = getImage(g.getDeviceConfiguration(), c, canvas.width, canvas.height, extendedCacheKeys);
+        if (w <= (cbnvbs.width * ctx.mbxHorizontblScbleFbctor) && h <= (cbnvbs.height * ctx.mbxVerticblScbleFbctor)) {
+            // get imbge bt cbnvbs size
+            VolbtileImbge img = getImbge(g.getDeviceConfigurbtion(), c, cbnvbs.width, cbnvbs.height, extendedCbcheKeys);
             if (img != null) {
-                // calculate dst inserts
-                // todo: destination inserts need to take into acount scale factor for high dpi. Note: You can use f for this, I think
+                // cblculbte dst inserts
+                // todo: destinbtion inserts need to tbke into bcount scble fbctor for high dpi. Note: You cbn use f for this, I think
                 Insets dstInsets;
                 if (ctx.inverted){
-                    int leftRight = (w-(canvas.width-(insets.left+insets.right)))/2;
-                    int topBottom = (h-(canvas.height-(insets.top+insets.bottom)))/2;
+                    int leftRight = (w-(cbnvbs.width-(insets.left+insets.right)))/2;
+                    int topBottom = (h-(cbnvbs.height-(insets.top+insets.bottom)))/2;
                     dstInsets = new Insets(topBottom,leftRight,topBottom,leftRight);
                 } else {
                     dstInsets = insets;
                 }
-                // paint 9 square scaled
-                Object oldScaleingHints = g.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
+                // pbint 9 squbre scbled
+                Object oldScbleingHints = g.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
                 g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-                ImageScalingHelper.paint(g, 0, 0, w, h, img, insets, dstInsets,
-                        ImageScalingHelper.PaintType.PAINT9_STRETCH, ImageScalingHelper.PAINT_ALL);
+                ImbgeScblingHelper.pbint(g, 0, 0, w, h, img, insets, dstInsets,
+                        ImbgeScblingHelper.PbintType.PAINT9_STRETCH, ImbgeScblingHelper.PAINT_ALL);
                 g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                    oldScaleingHints!=null?oldScaleingHints:RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+                    oldScbleingHints!=null?oldScbleingHints:RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
             } else {
                 // render directly
-                paint0(g, c, w, h, extendedCacheKeys);
+                pbint0(g, c, w, h, extendedCbcheKeys);
             }
         } else {
-            // paint directly
-            paint0(g, c, w, h, extendedCacheKeys);
+            // pbint directly
+            pbint0(g, c, w, h, extendedCbcheKeys);
         }
     }
 
-    private void paintWithFixedSizeCaching(Graphics2D g, JComponent c, int w,
-                                           int h, Object[] extendedCacheKeys) {
-        VolatileImage img = getImage(g.getDeviceConfiguration(), c, w, h, extendedCacheKeys);
+    privbte void pbintWithFixedSizeCbching(Grbphics2D g, JComponent c, int w,
+                                           int h, Object[] extendedCbcheKeys) {
+        VolbtileImbge img = getImbge(g.getDeviceConfigurbtion(), c, w, h, extendedCbcheKeys);
         if (img != null) {
-            //render cached image
-            g.drawImage(img, 0, 0, null);
+            //render cbched imbge
+            g.drbwImbge(img, 0, 0, null);
         } else {
             // render directly
-            paint0(g, c, w, h, extendedCacheKeys);
+            pbint0(g, c, w, h, extendedCbcheKeys);
         }
     }
 
-    /** Gets the rendered image for this painter at the requested size, either from cache or create a new one */
-    private VolatileImage getImage(GraphicsConfiguration config, JComponent c,
-                                   int w, int h, Object[] extendedCacheKeys) {
-        ImageCache imageCache = ImageCache.getInstance();
+    /** Gets the rendered imbge for this pbinter bt the requested size, either from cbche or crebte b new one */
+    privbte VolbtileImbge getImbge(GrbphicsConfigurbtion config, JComponent c,
+                                   int w, int h, Object[] extendedCbcheKeys) {
+        ImbgeCbche imbgeCbche = ImbgeCbche.getInstbnce();
         //get the buffer for this component
-        VolatileImage buffer = (VolatileImage) imageCache.getImage(config, w, h, this, extendedCacheKeys);
+        VolbtileImbge buffer = (VolbtileImbge) imbgeCbche.getImbge(config, w, h, this, extendedCbcheKeys);
 
-        int renderCounter = 0; //to avoid any potential, though unlikely, infinite loop
+        int renderCounter = 0; //to bvoid bny potentibl, though unlikely, infinite loop
         do {
-            //validate the buffer so we can check for surface loss
-            int bufferStatus = VolatileImage.IMAGE_INCOMPATIBLE;
+            //vblidbte the buffer so we cbn check for surfbce loss
+            int bufferStbtus = VolbtileImbge.IMAGE_INCOMPATIBLE;
             if (buffer != null) {
-                bufferStatus = buffer.validate(config);
+                bufferStbtus = buffer.vblidbte(config);
             }
 
-            //If the buffer status is incompatible or restored, then we need to re-render to the volatile image
-            if (bufferStatus == VolatileImage.IMAGE_INCOMPATIBLE || bufferStatus == VolatileImage.IMAGE_RESTORED) {
-                //if the buffer is null (hasn't been created), or isn't the right size, or has lost its contents,
-                //then recreate the buffer
+            //If the buffer stbtus is incompbtible or restored, then we need to re-render to the volbtile imbge
+            if (bufferStbtus == VolbtileImbge.IMAGE_INCOMPATIBLE || bufferStbtus == VolbtileImbge.IMAGE_RESTORED) {
+                //if the buffer is null (hbsn't been crebted), or isn't the right size, or hbs lost its contents,
+                //then recrebte the buffer
                 if (buffer == null || buffer.getWidth() != w || buffer.getHeight() != h ||
-                        bufferStatus == VolatileImage.IMAGE_INCOMPATIBLE) {
-                    //clear any resources related to the old back buffer
+                        bufferStbtus == VolbtileImbge.IMAGE_INCOMPATIBLE) {
+                    //clebr bny resources relbted to the old bbck buffer
                     if (buffer != null) {
                         buffer.flush();
                         buffer = null;
                     }
-                    //recreate the buffer
-                    buffer = config.createCompatibleVolatileImage(w, h,
-                            Transparency.TRANSLUCENT);
-                    // put in cache for future
-                    imageCache.setImage(buffer, config, w, h, this, extendedCacheKeys);
+                    //recrebte the buffer
+                    buffer = config.crebteCompbtibleVolbtileImbge(w, h,
+                            Trbnspbrency.TRANSLUCENT);
+                    // put in cbche for future
+                    imbgeCbche.setImbge(buffer, config, w, h, this, extendedCbcheKeys);
                 }
-                //create the graphics context with which to paint to the buffer
-                Graphics2D bg = buffer.createGraphics();
-                //clear the background before configuring the graphics
-                bg.setComposite(AlphaComposite.Clear);
+                //crebte the grbphics context with which to pbint to the buffer
+                Grbphics2D bg = buffer.crebteGrbphics();
+                //clebr the bbckground before configuring the grbphics
+                bg.setComposite(AlphbComposite.Clebr);
                 bg.fillRect(0, 0, w, h);
-                bg.setComposite(AlphaComposite.SrcOver);
-                configureGraphics(bg);
-                // paint the painter into buffer
-                paint0(bg, c, w, h, extendedCacheKeys);
-                //close buffer graphics
+                bg.setComposite(AlphbComposite.SrcOver);
+                configureGrbphics(bg);
+                // pbint the pbinter into buffer
+                pbint0(bg, c, w, h, extendedCbcheKeys);
+                //close buffer grbphics
                 bg.dispose();
             }
         } while (buffer.contentsLost() && renderCounter++ < 3);
-        // check if we failed
+        // check if we fbiled
         if (renderCounter == 3) return null;
-        // return image
+        // return imbge
         return buffer;
     }
 
-    //convenience method which creates a temporary graphics object by creating a
-    //clone of the passed in one, configuring it, drawing with it, disposing it.
-    //These steps have to be taken to ensure that any hints set on the graphics
-    //are removed subsequent to painting.
-    private void paint0(Graphics2D g, JComponent c, int width, int height,
-                        Object[] extendedCacheKeys) {
-        prepare(width, height);
-        g = (Graphics2D)g.create();
-        configureGraphics(g);
-        doPaint(g, c, width, height, extendedCacheKeys);
+    //convenience method which crebtes b temporbry grbphics object by crebting b
+    //clone of the pbssed in one, configuring it, drbwing with it, disposing it.
+    //These steps hbve to be tbken to ensure thbt bny hints set on the grbphics
+    //bre removed subsequent to pbinting.
+    privbte void pbint0(Grbphics2D g, JComponent c, int width, int height,
+                        Object[] extendedCbcheKeys) {
+        prepbre(width, height);
+        g = (Grbphics2D)g.crebte();
+        configureGrbphics(g);
+        doPbint(g, c, width, height, extendedCbcheKeys);
         g.dispose();
     }
 
-    private float clamp(float value) {
-        if (value < 0) {
-            value = 0;
-        } else if (value > 1) {
-            value = 1;
+    privbte flobt clbmp(flobt vblue) {
+        if (vblue < 0) {
+            vblue = 0;
+        } else if (vblue > 1) {
+            vblue = 1;
         }
-        return value;
+        return vblue;
     }
 
-    private int clamp(int value) {
-        if (value < 0) {
-            value = 0;
-        } else if (value > 255) {
-            value = 255;
+    privbte int clbmp(int vblue) {
+        if (vblue < 0) {
+            vblue = 0;
+        } else if (vblue > 255) {
+            vblue = 255;
         }
-        return value;
+        return vblue;
     }
 }

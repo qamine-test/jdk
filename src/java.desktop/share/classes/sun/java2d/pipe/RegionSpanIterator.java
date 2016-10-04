@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
 /**
- * This class implements the ShapeIterator interface for a Region.
- * This is useful as the source iterator of a device clip region
- * (in its native guise), and also as the result of clipping a
- * Region to a rectangle.
+ * This clbss implements the ShbpeIterbtor interfbce for b Region.
+ * This is useful bs the source iterbtor of b device clip region
+ * (in its nbtive guise), bnd blso bs the result of clipping b
+ * Region to b rectbngle.
  */
-public class RegionSpanIterator implements SpanIterator {
-    // The RegionIterator that we use to do the work
-    RegionIterator ri;
+public clbss RegionSpbnIterbtor implements SpbnIterbtor {
+    // The RegionIterbtor thbt we use to do the work
+    RegionIterbtor ri;
 
     // Clipping bounds
     int lox, loy, hix, hiy;
 
-    // Current Y band limits
+    // Current Y bbnd limits
     int curloy, curhiy;
 
     // Are we done?
-    boolean done = false;
+    boolebn done = fblse;
 
-    // Is the associated Region rectangular?
-    boolean isrect;
+    // Is the bssocibted Region rectbngulbr?
+    boolebn isrect;
 
 /*
-    REMIND: For native implementation
-    long pData;     // Private storage of rect info
+    REMIND: For nbtive implementbtion
+    long pDbtb;     // Privbte storbge of rect info
 
-    static {
+    stbtic {
         initIDs();
     }
 
-    public static native void initIDs();
+    public stbtic nbtive void initIDs();
 */
 
     /**
-     * Constructs an instance based on the given Region
+     * Constructs bn instbnce bbsed on the given Region
      */
-    public RegionSpanIterator(Region r) {
+    public RegionSpbnIterbtor(Region r) {
         int[] bounds = new int[4];
 
         r.getBounds(bounds);
@@ -69,23 +69,23 @@ public class RegionSpanIterator implements SpanIterator {
         loy = bounds[1];
         hix = bounds[2];
         hiy = bounds[3];
-        isrect = r.isRectangular();
+        isrect = r.isRectbngulbr();
 
-        ri = r.getIterator();
+        ri = r.getIterbtor();
     }
 
     /**
-     * Gets the bbox of the available region spans.
+     * Gets the bbox of the bvbilbble region spbns.
      */
-    public void getPathBox(int pathbox[]) {
-        pathbox[0] = lox;
-        pathbox[1] = loy;
-        pathbox[2] = hix;
-        pathbox[3] = hiy;
+    public void getPbthBox(int pbthbox[]) {
+        pbthbox[0] = lox;
+        pbthbox[1] = loy;
+        pbthbox[2] = hix;
+        pbthbox[3] = hiy;
     }
 
     /**
-     * Intersect the box used for clipping the output spans with the
+     * Intersect the box used for clipping the output spbns with the
      * given box.
      */
     public void intersectClipBox(int clox, int cloy, int chix, int chiy) {
@@ -105,40 +105,40 @@ public class RegionSpanIterator implements SpanIterator {
     }
 
     /**
-     * Fetches the next span that needs to be operated on.
-     * If the return value is false then there are no more spans.
+     * Fetches the next spbn thbt needs to be operbted on.
+     * If the return vblue is fblse then there bre no more spbns.
      */
-    public boolean nextSpan(int spanbox[]) {
+    public boolebn nextSpbn(int spbnbox[]) {
 
         // Quick test for end conditions
         if (done) {
-            return false;
+            return fblse;
         }
 
-        // If the Region is rectangular, we store our bounds (possibly
-        // clipped via intersectClipBox()) in spanbox and return true
-        // so that the caller will process the single span.  We set done
-        // to true to ensure that this will be the last span processed.
+        // If the Region is rectbngulbr, we store our bounds (possibly
+        // clipped vib intersectClipBox()) in spbnbox bnd return true
+        // so thbt the cbller will process the single spbn.  We set done
+        // to true to ensure thbt this will be the lbst spbn processed.
         if (isrect) {
-            getPathBox(spanbox);
+            getPbthBox(spbnbox);
             done = true;
             return true;
         }
 
-        // Local cache of current span's bounds
+        // Locbl cbche of current spbn's bounds
         int curlox, curhix;
         int curloy = this.curloy;
         int curhiy = this.curhiy;
 
         while (true) {
-            if (!ri.nextXBand(spanbox)) {
-                if (!ri.nextYRange(spanbox)) {
+            if (!ri.nextXBbnd(spbnbox)) {
+                if (!ri.nextYRbnge(spbnbox)) {
                     done = true;
-                    return false;
+                    return fblse;
                 }
-                // Update the current y band and clip it
-                curloy = spanbox[1];
-                curhiy = spanbox[3];
+                // Updbte the current y bbnd bnd clip it
+                curloy = spbnbox[1];
+                curhiy = spbnbox[3];
                 if (curloy < loy) {
                     curloy = loy;
                 }
@@ -148,13 +148,13 @@ public class RegionSpanIterator implements SpanIterator {
                 // Check for moving below the clip rect
                 if (curloy >= hiy) {
                     done = true;
-                    return false;
+                    return fblse;
                 }
                 continue;
             }
             // Clip the x box
-            curlox = spanbox[0];
-            curhix = spanbox[2];
+            curlox = spbnbox[0];
+            curhix = spbnbox[2];
             if (curlox < lox) {
                 curlox = lox;
             }
@@ -163,47 +163,47 @@ public class RegionSpanIterator implements SpanIterator {
             }
             // If it's non- box, we're done
             if (curlox < curhix && curloy < curhiy) {
-                break;
+                brebk;
             }
         }
 
-        // Update the result and the store y range
-        spanbox[0] = curlox;
-        spanbox[1] = this.curloy = curloy;
-        spanbox[2] = curhix;
-        spanbox[3] = this.curhiy = curhiy;
+        // Updbte the result bnd the store y rbnge
+        spbnbox[0] = curlox;
+        spbnbox[1] = this.curloy = curloy;
+        spbnbox[2] = curhix;
+        spbnbox[3] = this.curhiy = curhiy;
         return true;
     }
 
     /**
-     * This method tells the iterator that it may skip all spans
-     * whose Y range is completely above the indicated Y coordinate.
+     * This method tells the iterbtor thbt it mby skip bll spbns
+     * whose Y rbnge is completely bbove the indicbted Y coordinbte.
      */
     public void skipDownTo(int y) {
         loy = y;
     }
 
     /**
-     * This method returns a native pointer to a function block that
-     * can be used by a native method to perform the same iteration
-     * cycle that the above methods provide while avoiding upcalls to
-     * the Java object.
+     * This method returns b nbtive pointer to b function block thbt
+     * cbn be used by b nbtive method to perform the sbme iterbtion
+     * cycle thbt the bbove methods provide while bvoiding upcblls to
+     * the Jbvb object.
      * The definition of the structure whose pointer is returned by
      * this method is defined in:
      * <pre>
-     *     src/share/native/sun/java2d/pipe/SpanIterator.h
+     *     src/shbre/nbtive/sun/jbvb2d/pipe/SpbnIterbtor.h
      * </pre>
      */
-    public long getNativeIterator() {
+    public long getNbtiveIterbtor() {
         return 0;
     }
 
     /*
-     * Cleans out all internal data structures.
-     * REMIND: Native implementation
-    public native void dispose();
+     * Clebns out bll internbl dbtb structures.
+     * REMIND: Nbtive implementbtion
+    public nbtive void dispose();
 
-    protected void finalize() {
+    protected void finblize() {
         dispose();
     }
      */

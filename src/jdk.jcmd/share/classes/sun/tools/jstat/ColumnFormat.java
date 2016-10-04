@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * A class to represent the format for a column of data.
+ * A clbss to represent the formbt for b column of dbtb.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class ColumnFormat extends OptionFormat {
-    private int number;
-    private int width;
-    private Alignment align = Alignment.CENTER;
-    private Scale scale = Scale.RAW;
-    private String format;
-    private String header;
-    private Expression expression;
-    private Object previousValue;
+public clbss ColumnFormbt extends OptionFormbt {
+    privbte int number;
+    privbte int width;
+    privbte Alignment blign = Alignment.CENTER;
+    privbte Scble scble = Scble.RAW;
+    privbte String formbt;
+    privbte String hebder;
+    privbte Expression expression;
+    privbte Object previousVblue;
 
-    public ColumnFormat(int number) {
+    public ColumnFormbt(int number) {
         super("Column" + number);
         this.number = number;
     }
 
     /*
-     * method to apply various validation rules to the ColumnFormat object.
+     * method to bpply vbrious vblidbtion rules to the ColumnFormbt object.
      */
-    public void validate() throws ParserException {
+    public void vblidbte() throws PbrserException {
 
-        // if we allow column spanning, then this method must change. it
-        // should allow null data statments
+        // if we bllow column spbnning, then this method must chbnge. it
+        // should bllow null dbtb stbtments
 
         if (expression == null) {
-            // current policy is that a data statement must be specified
-            throw new ParserException("Missing data statement in column " + number);
+            // current policy is thbt b dbtb stbtement must be specified
+            throw new PbrserException("Missing dbtb stbtement in column " + number);
         }
-        if (header == null) {
-            // current policy is that if a header is not specified, then we
-            // will use the last component of the name as the header and
-            // insert the default anchor characters for center alignment..
-            throw new ParserException("Missing header statement in column " + number);
+        if (hebder == null) {
+            // current policy is thbt if b hebder is not specified, then we
+            // will use the lbst component of the nbme bs the hebder bnd
+            // insert the defbult bnchor chbrbcters for center blignment..
+            throw new PbrserException("Missing hebder stbtement in column " + number);
         }
-        if (format == null) {
-            // if no formating is specified, then the format is set to output
-            // the raw data.
-            format="0";
+        if (formbt == null) {
+            // if no formbting is specified, then the formbt is set to output
+            // the rbw dbtb.
+            formbt="0";
         }
     }
 
@@ -77,28 +77,28 @@ public class ColumnFormat extends OptionFormat {
         this.width = width;
     }
 
-    public void setAlignment(Alignment align) {
-        this.align = align;
+    public void setAlignment(Alignment blign) {
+        this.blign = blign;
     }
 
-    public void setScale(Scale scale) {
-        this.scale = scale;
+    public void setScble(Scble scble) {
+        this.scble = scble;
     }
 
-    public void setFormat(String format) {
-        this.format = format;
+    public void setFormbt(String formbt) {
+        this.formbt = formbt;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setHebder(String hebder) {
+        this.hebder = hebder;
     }
 
-    public String getHeader() {
-        return header;
+    public String getHebder() {
+        return hebder;
     }
 
-    public String getFormat() {
-        return format;
+    public String getFormbt() {
+        return formbt;
     }
 
     public int getWidth() {
@@ -106,11 +106,11 @@ public class ColumnFormat extends OptionFormat {
     }
 
     public Alignment getAlignment() {
-        return align;
+        return blign;
     }
 
-    public Scale getScale() {
-        return scale;
+    public Scble getScble() {
+        return scble;
     }
 
     public Expression getExpression() {
@@ -121,37 +121,37 @@ public class ColumnFormat extends OptionFormat {
         this.expression = e;
     }
 
-    public void setPreviousValue(Object o) {
-        this.previousValue = o;
+    public void setPreviousVblue(Object o) {
+        this.previousVblue = o;
     }
 
-    public Object getPreviousValue() {
-        return previousValue;
+    public Object getPreviousVblue() {
+        return previousVblue;
     }
 
-    public void printFormat(int indentLevel) {
+    public void printFormbt(int indentLevel) {
         String indentAmount = "  ";
 
         StringBuilder indent = new StringBuilder("");
         for (int j = 0; j < indentLevel; j++) {
-            indent.append(indentAmount);
+            indent.bppend(indentAmount);
         }
 
-        System.out.println(indent + name + " {");
-        System.out.println(indent + indentAmount + "name=" + name
-                + ";data=" + expression.toString() + ";header=" + header
-                + ";format=" + format + ";width=" + width
-                + ";scale=" + scale.toString() + ";align=" + align.toString());
+        System.out.println(indent + nbme + " {");
+        System.out.println(indent + indentAmount + "nbme=" + nbme
+                + ";dbtb=" + expression.toString() + ";hebder=" + hebder
+                + ";formbt=" + formbt + ";width=" + width
+                + ";scble=" + scble.toString() + ";blign=" + blign.toString());
 
-        for (Iterator<OptionFormat> i = children.iterator();  i.hasNext(); /* empty */) {
-            OptionFormat of = i.next();
-            of.printFormat(indentLevel+1);
+        for (Iterbtor<OptionFormbt> i = children.iterbtor();  i.hbsNext(); /* empty */) {
+            OptionFormbt of = i.next();
+            of.printFormbt(indentLevel+1);
         }
 
         System.out.println(indent + "}");
     }
 
-    public String getValue() {
+    public String getVblue() {
         return null;
     }
 }

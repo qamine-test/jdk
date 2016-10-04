@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// SAX exception class.
-// http://www.saxproject.org
-// No warranty; no copyright -- use this as you will.
-// $Id: SAXParseException.java,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
+// SAX exception clbss.
+// http://www.sbxproject.org
+// No wbrrbnty; no copyright -- use this bs you will.
+// $Id: SAXPbrseException.jbvb,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbckbge jdk.internbl.org.xml.sbx;
 
 /**
- * Encapsulate an XML parse error or warning.
+ * Encbpsulbte bn XML pbrse error or wbrning.
  *
  * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
+ * <em>This module, both source code bnd documentbtion, is in the
+ * Public Dombin, bnd comes with <strong>NO WARRANTY</strong>.</em>
+ * See <b href='http://www.sbxproject.org'>http://www.sbxproject.org</b>
+ * for further informbtion.
  * </blockquote>
  *
- * <p>This exception may include information for locating the error
- * in the original XML document, as if it came from a {@link Locator}
- * object.  Note that although the application
- * will receive a SAXParseException as the argument to the handlers
- * in the {@link org.xml.sax.ErrorHandler ErrorHandler} interface,
- * the application is not actually required to throw the exception;
- * instead, it can simply read the information in it and take a
- * different action.</p>
+ * <p>This exception mby include informbtion for locbting the error
+ * in the originbl XML document, bs if it cbme from b {@link Locbtor}
+ * object.  Note thbt blthough the bpplicbtion
+ * will receive b SAXPbrseException bs the brgument to the hbndlers
+ * in the {@link org.xml.sbx.ErrorHbndler ErrorHbndler} interfbce,
+ * the bpplicbtion is not bctublly required to throw the exception;
+ * instebd, it cbn simply rebd the informbtion in it bnd tbke b
+ * different bction.</p>
  *
- * <p>Since this exception is a subclass of {@link org.xml.sax.SAXException
- * SAXException}, it inherits the ability to wrap another exception.</p>
+ * <p>Since this exception is b subclbss of {@link org.xml.sbx.SAXException
+ * SAXException}, it inherits the bbility to wrbp bnother exception.</p>
  *
  * @since SAX 1.0
- * @author David Megginson
- * @version 2.0.1 (sax2r2)
- * @see org.xml.sax.SAXException
- * @see org.xml.sax.Locator
- * @see org.xml.sax.ErrorHandler
+ * @buthor Dbvid Megginson
+ * @version 2.0.1 (sbx2r2)
+ * @see org.xml.sbx.SAXException
+ * @see org.xml.sbx.Locbtor
+ * @see org.xml.sbx.ErrorHbndler
  */
-public class SAXParseException extends SAXException {
+public clbss SAXPbrseException extends SAXException {
 
 
     //////////////////////////////////////////////////////////////////////
@@ -68,22 +68,22 @@ public class SAXParseException extends SAXException {
 
 
     /**
-     * Create a new SAXParseException from a message and a Locator.
+     * Crebte b new SAXPbrseException from b messbge bnd b Locbtor.
      *
-     * <p>This constructor is especially useful when an application is
-     * creating its own exception from within a {@link org.xml.sax.ContentHandler
-     * ContentHandler} callback.</p>
+     * <p>This constructor is especiblly useful when bn bpplicbtion is
+     * crebting its own exception from within b {@link org.xml.sbx.ContentHbndler
+     * ContentHbndler} cbllbbck.</p>
      *
-     * @param message The error or warning message.
-     * @param locator The locator object for the error or warning (may be
+     * @pbrbm messbge The error or wbrning messbge.
+     * @pbrbm locbtor The locbtor object for the error or wbrning (mby be
      *        null).
-     * @see org.xml.sax.Locator
+     * @see org.xml.sbx.Locbtor
      */
-    public SAXParseException (String message, Locator locator) {
-        super(message);
-        if (locator != null) {
-            init(locator.getPublicId(), locator.getSystemId(),
-                 locator.getLineNumber(), locator.getColumnNumber());
+    public SAXPbrseException (String messbge, Locbtor locbtor) {
+        super(messbge);
+        if (locbtor != null) {
+            init(locbtor.getPublicId(), locbtor.getSystemId(),
+                 locbtor.getLineNumber(), locbtor.getColumnNumber());
         } else {
             init(null, null, -1, -1);
         }
@@ -91,26 +91,26 @@ public class SAXParseException extends SAXException {
 
 
     /**
-     * Wrap an existing exception in a SAXParseException.
+     * Wrbp bn existing exception in b SAXPbrseException.
      *
-     * <p>This constructor is especially useful when an application is
-     * creating its own exception from within a {@link org.xml.sax.ContentHandler
-     * ContentHandler} callback, and needs to wrap an existing exception that is not a
-     * subclass of {@link org.xml.sax.SAXException SAXException}.</p>
+     * <p>This constructor is especiblly useful when bn bpplicbtion is
+     * crebting its own exception from within b {@link org.xml.sbx.ContentHbndler
+     * ContentHbndler} cbllbbck, bnd needs to wrbp bn existing exception thbt is not b
+     * subclbss of {@link org.xml.sbx.SAXException SAXException}.</p>
      *
-     * @param message The error or warning message, or null to
-     *                use the message from the embedded exception.
-     * @param locator The locator object for the error or warning (may be
+     * @pbrbm messbge The error or wbrning messbge, or null to
+     *                use the messbge from the embedded exception.
+     * @pbrbm locbtor The locbtor object for the error or wbrning (mby be
      *        null).
-     * @param e Any exception.
-     * @see org.xml.sax.Locator
+     * @pbrbm e Any exception.
+     * @see org.xml.sbx.Locbtor
      */
-    public SAXParseException (String message, Locator locator,
+    public SAXPbrseException (String messbge, Locbtor locbtor,
                               Exception e) {
-        super(message, e);
-        if (locator != null) {
-            init(locator.getPublicId(), locator.getSystemId(),
-                 locator.getLineNumber(), locator.getColumnNumber());
+        super(messbge, e);
+        if (locbtor != null) {
+            init(locbtor.getPublicId(), locbtor.getSystemId(),
+                 locbtor.getLineNumber(), locbtor.getColumnNumber());
         } else {
             init(null, null, -1, -1);
         }
@@ -118,77 +118,77 @@ public class SAXParseException extends SAXException {
 
 
     /**
-     * Create a new SAXParseException.
+     * Crebte b new SAXPbrseException.
      *
-     * <p>This constructor is most useful for parser writers.</p>
+     * <p>This constructor is most useful for pbrser writers.</p>
      *
-     * <p>All parameters except the message are as if
-     * they were provided by a {@link Locator}.  For example, if the
-     * system identifier is a URL (including relative filename), the
-     * caller must resolve it fully before creating the exception.</p>
+     * <p>All pbrbmeters except the messbge bre bs if
+     * they were provided by b {@link Locbtor}.  For exbmple, if the
+     * system identifier is b URL (including relbtive filenbme), the
+     * cbller must resolve it fully before crebting the exception.</p>
      *
      *
-     * @param message The error or warning message.
-     * @param publicId The public identifier of the entity that generated
-     *                 the error or warning.
-     * @param systemId The system identifier of the entity that generated
-     *                 the error or warning.
-     * @param lineNumber The line number of the end of the text that
-     *                   caused the error or warning.
-     * @param columnNumber The column number of the end of the text that
-     *                     cause the error or warning.
+     * @pbrbm messbge The error or wbrning messbge.
+     * @pbrbm publicId The public identifier of the entity thbt generbted
+     *                 the error or wbrning.
+     * @pbrbm systemId The system identifier of the entity thbt generbted
+     *                 the error or wbrning.
+     * @pbrbm lineNumber The line number of the end of the text thbt
+     *                   cbused the error or wbrning.
+     * @pbrbm columnNumber The column number of the end of the text thbt
+     *                     cbuse the error or wbrning.
      */
-    public SAXParseException (String message, String publicId, String systemId,
+    public SAXPbrseException (String messbge, String publicId, String systemId,
                               int lineNumber, int columnNumber)
     {
-        super(message);
+        super(messbge);
         init(publicId, systemId, lineNumber, columnNumber);
     }
 
 
     /**
-     * Create a new SAXParseException with an embedded exception.
+     * Crebte b new SAXPbrseException with bn embedded exception.
      *
-     * <p>This constructor is most useful for parser writers who
-     * need to wrap an exception that is not a subclass of
-     * {@link org.xml.sax.SAXException SAXException}.</p>
+     * <p>This constructor is most useful for pbrser writers who
+     * need to wrbp bn exception thbt is not b subclbss of
+     * {@link org.xml.sbx.SAXException SAXException}.</p>
      *
-     * <p>All parameters except the message and exception are as if
-     * they were provided by a {@link Locator}.  For example, if the
-     * system identifier is a URL (including relative filename), the
-     * caller must resolve it fully before creating the exception.</p>
+     * <p>All pbrbmeters except the messbge bnd exception bre bs if
+     * they were provided by b {@link Locbtor}.  For exbmple, if the
+     * system identifier is b URL (including relbtive filenbme), the
+     * cbller must resolve it fully before crebting the exception.</p>
      *
-     * @param message The error or warning message, or null to use
-     *                the message from the embedded exception.
-     * @param publicId The public identifier of the entity that generated
-     *                 the error or warning.
-     * @param systemId The system identifier of the entity that generated
-     *                 the error or warning.
-     * @param lineNumber The line number of the end of the text that
-     *                   caused the error or warning.
-     * @param columnNumber The column number of the end of the text that
-     *                     cause the error or warning.
-     * @param e Another exception to embed in this one.
+     * @pbrbm messbge The error or wbrning messbge, or null to use
+     *                the messbge from the embedded exception.
+     * @pbrbm publicId The public identifier of the entity thbt generbted
+     *                 the error or wbrning.
+     * @pbrbm systemId The system identifier of the entity thbt generbted
+     *                 the error or wbrning.
+     * @pbrbm lineNumber The line number of the end of the text thbt
+     *                   cbused the error or wbrning.
+     * @pbrbm columnNumber The column number of the end of the text thbt
+     *                     cbuse the error or wbrning.
+     * @pbrbm e Another exception to embed in this one.
      */
-    public SAXParseException (String message, String publicId, String systemId,
+    public SAXPbrseException (String messbge, String publicId, String systemId,
                               int lineNumber, int columnNumber, Exception e)
     {
-        super(message, e);
+        super(messbge, e);
         init(publicId, systemId, lineNumber, columnNumber);
     }
 
 
     /**
-     * Internal initialization method.
+     * Internbl initiblizbtion method.
      *
-     * @param publicId The public identifier of the entity which generated the exception,
+     * @pbrbm publicId The public identifier of the entity which generbted the exception,
      *        or null.
-     * @param systemId The system identifier of the entity which generated the exception,
+     * @pbrbm systemId The system identifier of the entity which generbted the exception,
      *        or null.
-     * @param lineNumber The line number of the error, or -1.
-     * @param columnNumber The column number of the error, or -1.
+     * @pbrbm lineNumber The line number of the error, or -1.
+     * @pbrbm columnNumber The column number of the error, or -1.
      */
-    private void init (String publicId, String systemId,
+    privbte void init (String publicId, String systemId,
                        int lineNumber, int columnNumber)
     {
         this.publicId = publicId;
@@ -201,9 +201,9 @@ public class SAXParseException extends SAXException {
     /**
      * Get the public identifier of the entity where the exception occurred.
      *
-     * @return A string containing the public identifier, or null
-     *         if none is available.
-     * @see org.xml.sax.Locator#getPublicId
+     * @return A string contbining the public identifier, or null
+     *         if none is bvbilbble.
+     * @see org.xml.sbx.Locbtor#getPublicId
      */
     public String getPublicId ()
     {
@@ -214,12 +214,12 @@ public class SAXParseException extends SAXException {
     /**
      * Get the system identifier of the entity where the exception occurred.
      *
-     * <p>If the system identifier is a URL, it will have been resolved
+     * <p>If the system identifier is b URL, it will hbve been resolved
      * fully.</p>
      *
-     * @return A string containing the system identifier, or null
-     *         if none is available.
-     * @see org.xml.sax.Locator#getSystemId
+     * @return A string contbining the system identifier, or null
+     *         if none is bvbilbble.
+     * @see org.xml.sbx.Locbtor#getSystemId
      */
     public String getSystemId ()
     {
@@ -233,8 +233,8 @@ public class SAXParseException extends SAXException {
      * <p>The first line is line 1.</p>
      *
      * @return An integer representing the line number, or -1
-     *         if none is available.
-     * @see org.xml.sax.Locator#getLineNumber
+     *         if none is bvbilbble.
+     * @see org.xml.sbx.Locbtor#getLineNumber
      */
     public int getLineNumber ()
     {
@@ -245,11 +245,11 @@ public class SAXParseException extends SAXException {
     /**
      * The column number of the end of the text where the exception occurred.
      *
-     * <p>The first column in a line is position 1.</p>
+     * <p>The first column in b line is position 1.</p>
      *
      * @return An integer representing the column number, or -1
-     *         if none is available.
-     * @see org.xml.sax.Locator#getColumnNumber
+     *         if none is bvbilbble.
+     * @see org.xml.sbx.Locbtor#getColumnNumber
      */
     public int getColumnNumber ()
     {
@@ -257,57 +257,57 @@ public class SAXParseException extends SAXException {
     }
 
     /**
-     * Override toString to provide more detailed error message.
+     * Override toString to provide more detbiled error messbge.
      *
-     * @return A string representation of this exception.
+     * @return A string representbtion of this exception.
      */
     public String toString() {
-        StringBuilder buf = new StringBuilder(getClass().getName());
-        String message = getLocalizedMessage();
-        if (publicId!=null)    buf.append("publicId: ").append(publicId);
-        if (systemId!=null)    buf.append("; systemId: ").append(systemId);
-        if (lineNumber!=-1)    buf.append("; lineNumber: ").append(lineNumber);
-        if (columnNumber!=-1)  buf.append("; columnNumber: ").append(columnNumber);
+        StringBuilder buf = new StringBuilder(getClbss().getNbme());
+        String messbge = getLocblizedMessbge();
+        if (publicId!=null)    buf.bppend("publicId: ").bppend(publicId);
+        if (systemId!=null)    buf.bppend("; systemId: ").bppend(systemId);
+        if (lineNumber!=-1)    buf.bppend("; lineNumber: ").bppend(lineNumber);
+        if (columnNumber!=-1)  buf.bppend("; columnNumber: ").bppend(columnNumber);
 
-       //append the exception message at the end
-        if (message!=null)     buf.append("; ").append(message);
+       //bppend the exception messbge bt the end
+        if (messbge!=null)     buf.bppend("; ").bppend(messbge);
         return buf.toString();
     }
 
     //////////////////////////////////////////////////////////////////////
-    // Internal state.
+    // Internbl stbte.
     //////////////////////////////////////////////////////////////////////
 
 
     /**
-     * @serial The public identifier, or null.
+     * @seribl The public identifier, or null.
      * @see #getPublicId
      */
-    private String publicId;
+    privbte String publicId;
 
 
     /**
-     * @serial The system identifier, or null.
+     * @seribl The system identifier, or null.
      * @see #getSystemId
      */
-    private String systemId;
+    privbte String systemId;
 
 
     /**
-     * @serial The line number, or -1.
+     * @seribl The line number, or -1.
      * @see #getLineNumber
      */
-    private int lineNumber;
+    privbte int lineNumber;
 
 
     /**
-     * @serial The column number, or -1.
+     * @seribl The column number, or -1.
      * @see #getColumnNumber
      */
-    private int columnNumber;
+    privbte int columnNumber;
 
-    // Added serialVersionUID to preserve binary compatibility
-    static final long serialVersionUID = -5651165872476709336L;
+    // Added seriblVersionUID to preserve binbry compbtibility
+    stbtic finbl long seriblVersionUID = -5651165872476709336L;
 }
 
-// end of SAXParseException.java
+// end of SAXPbrseException.jbvb

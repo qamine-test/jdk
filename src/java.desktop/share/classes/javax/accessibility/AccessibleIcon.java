@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
 /**
- * The AccessibleIcon interface should be supported by any object
- * that has an associated icon (e.g., buttons). This interface
- * provides the standard mechanism for an assistive technology
- * to get descriptive information about icons.
- * Applications can determine
- * if an object supports the AccessibleIcon interface by first
- * obtaining its AccessibleContext (see
- * {@link Accessible}) and then calling the
+ * The AccessibleIcon interfbce should be supported by bny object
+ * thbt hbs bn bssocibted icon (e.g., buttons). This interfbce
+ * provides the stbndbrd mechbnism for bn bssistive technology
+ * to get descriptive informbtion bbout icons.
+ * Applicbtions cbn determine
+ * if bn object supports the AccessibleIcon interfbce by first
+ * obtbining its AccessibleContext (see
+ * {@link Accessible}) bnd then cblling the
  * {@link AccessibleContext#getAccessibleIcon} method.
- * If the return value is not null, the object supports this interface.
+ * If the return vblue is not null, the object supports this interfbce.
  *
  * @see Accessible
  * @see AccessibleContext
  *
- * @author      Lynn Monsanto
+ * @buthor      Lynn Monsbnto
  * @since 1.3
  */
-public interface AccessibleIcon {
+public interfbce AccessibleIcon {
 
     /**
-     * Gets the description of the icon.  This is meant to be a brief
-     * textual description of the object.  For example, it might be
-     * presented to a blind user to give an indication of the purpose
+     * Gets the description of the icon.  This is mebnt to be b brief
+     * textubl description of the object.  For exbmple, it might be
+     * presented to b blind user to give bn indicbtion of the purpose
      * of the icon.
      *
      * @return the description of the icon
@@ -56,12 +56,12 @@ public interface AccessibleIcon {
     public String getAccessibleIconDescription();
 
     /**
-     * Sets the description of the icon.  This is meant to be a brief
-     * textual description of the object.  For example, it might be
-     * presented to a blind user to give an indication of the purpose
+     * Sets the description of the icon.  This is mebnt to be b brief
+     * textubl description of the object.  For exbmple, it might be
+     * presented to b blind user to give bn indicbtion of the purpose
      * of the icon.
      *
-     * @param description the description of the icon
+     * @pbrbm description the description of the icon
      */
     public void setAccessibleIconDescription(String description);
 

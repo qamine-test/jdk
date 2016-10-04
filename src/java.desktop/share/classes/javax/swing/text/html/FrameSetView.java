@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.event.*;
 
 /**
- * Implements a FrameSetView, intended to support the HTML
- * &lt;FRAMESET&gt; tag.  Supports the ROWS and COLS attributes.
+ * Implements b FrbmeSetView, intended to support the HTML
+ * &lt;FRAMESET&gt; tbg.  Supports the ROWS bnd COLS bttributes.
  *
- * @author  Sunita Mani
+ * @buthor  Sunitb Mbni
  *
- *          Credit also to the hotjava browser engineers that
- *          worked on making the allocation of space algorithms
- *          conform to the HTML 4.0 standard and also be netscape
- *          compatible.
+ *          Credit blso to the hotjbvb browser engineers thbt
+ *          worked on mbking the bllocbtion of spbce blgorithms
+ *          conform to the HTML 4.0 stbndbrd bnd blso be netscbpe
+ *          compbtible.
  *
  */
 
-class FrameSetView extends javax.swing.text.BoxView {
+clbss FrbmeSetView extends jbvbx.swing.text.BoxView {
 
     String[] children;
     int[] percentChildren;
-    int[] absoluteChildren;
-    int[] relativeChildren;
-    int percentTotals;
-    int absoluteTotals;
-    int relativeTotals;
+    int[] bbsoluteChildren;
+    int[] relbtiveChildren;
+    int percentTotbls;
+    int bbsoluteTotbls;
+    int relbtiveTotbls;
 
     /**
-     * Constructs a FrameSetView for the given element.
+     * Constructs b FrbmeSetView for the given element.
      *
-     * @param elem the element that this view is responsible for
+     * @pbrbm elem the element thbt this view is responsible for
      */
-    public FrameSetView(Element elem, int axis) {
-        super(elem, axis);
+    public FrbmeSetView(Element elem, int bxis) {
+        super(elem, bxis);
         children = null;
     }
 
     /**
-     * Parses the ROW or COL attributes and returns
-     * an array of strings that represent the space
+     * Pbrses the ROW or COL bttributes bnd returns
+     * bn brrby of strings thbt represent the spbce
      * distribution.
      *
      */
-    private String[] parseRowColSpec(HTML.Attribute key) {
+    privbte String[] pbrseRowColSpec(HTML.Attribute key) {
 
-        AttributeSet attributes = getElement().getAttributes();
+        AttributeSet bttributes = getElement().getAttributes();
         String spec = "*";
-        if (attributes != null) {
-            if (attributes.getAttribute(key) != null) {
-                spec = (String)attributes.getAttribute(key);
+        if (bttributes != null) {
+            if (bttributes.getAttribute(key) != null) {
+                spec = (String)bttributes.getAttribute(key);
             }
         }
 
         StringTokenizer tokenizer = new StringTokenizer(spec, ",");
         int nTokens = tokenizer.countTokens();
         int n = getViewCount();
-        String[] items = new String[Math.max(nTokens, n)];
+        String[] items = new String[Mbth.mbx(nTokens, n)];
         int i = 0;
         for (; i < nTokens; i++) {
             items[i] = tokenizer.nextToken().trim();
-            // As per the spec, 100% is the same as *
-            // hence the mapping.
+            // As per the spec, 100% is the sbme bs *
+            // hence the mbpping.
             //
-            if (items[i].equals("100%")) {
+            if (items[i].equbls("100%")) {
                 items[i] = "*";
             }
         }
-        // extend spec if we have more children than specified
-        // in ROWS or COLS attribute
+        // extend spec if we hbve more children thbn specified
+        // in ROWS or COLS bttribute
         for (; i < items.length; i++) {
             items[i] = "*";
         }
@@ -103,102 +103,102 @@ class FrameSetView extends javax.swing.text.BoxView {
 
 
     /**
-     * Initializes a number of internal state variables
-     * that store information about space allocation
-     * for the frames contained within the frameset.
+     * Initiblizes b number of internbl stbte vbribbles
+     * thbt store informbtion bbout spbce bllocbtion
+     * for the frbmes contbined within the frbmeset.
      */
-    private void init() {
+    privbte void init() {
         if (getAxis() == View.Y_AXIS) {
-            children = parseRowColSpec(HTML.Attribute.ROWS);
+            children = pbrseRowColSpec(HTML.Attribute.ROWS);
         } else {
-            children = parseRowColSpec(HTML.Attribute.COLS);
+            children = pbrseRowColSpec(HTML.Attribute.COLS);
         }
         percentChildren = new int[children.length];
-        relativeChildren = new int[children.length];
-        absoluteChildren = new int[children.length];
+        relbtiveChildren = new int[children.length];
+        bbsoluteChildren = new int[children.length];
 
         for (int i = 0; i < children.length; i++) {
             percentChildren[i] = -1;
-            relativeChildren[i] = -1;
-            absoluteChildren[i] = -1;
+            relbtiveChildren[i] = -1;
+            bbsoluteChildren[i] = -1;
 
             if (children[i].endsWith("*")) {
                 if (children[i].length() > 1) {
-                    relativeChildren[i] =
-                        Integer.parseInt(children[i].substring(
+                    relbtiveChildren[i] =
+                        Integer.pbrseInt(children[i].substring(
                             0, children[i].length()-1));
-                    relativeTotals += relativeChildren[i];
+                    relbtiveTotbls += relbtiveChildren[i];
                 } else {
-                    relativeChildren[i] = 1;
-                    relativeTotals += 1;
+                    relbtiveChildren[i] = 1;
+                    relbtiveTotbls += 1;
                 }
             } else if (children[i].indexOf('%') != -1) {
-                percentChildren[i] = parseDigits(children[i]);
-                percentTotals += percentChildren[i];
+                percentChildren[i] = pbrseDigits(children[i]);
+                percentTotbls += percentChildren[i];
             } else {
-                absoluteChildren[i] = Integer.parseInt(children[i]);
+                bbsoluteChildren[i] = Integer.pbrseInt(children[i]);
             }
         }
-        if (percentTotals > 100) {
+        if (percentTotbls > 100) {
             for (int i = 0; i < percentChildren.length; i++) {
                 if (percentChildren[i] > 0) {
                     percentChildren[i] =
-                        (percentChildren[i] * 100) / percentTotals;
+                        (percentChildren[i] * 100) / percentTotbls;
                 }
             }
-            percentTotals = 100;
+            percentTotbls = 100;
         }
     }
 
     /**
-     * Perform layout for the major axis of the box (i.e. the
-     * axis that it represents).  The results of the layout should
-     * be placed in the given arrays which represent the allocations
-     * to the children along the major axis.
+     * Perform lbyout for the mbjor bxis of the box (i.e. the
+     * bxis thbt it represents).  The results of the lbyout should
+     * be plbced in the given brrbys which represent the bllocbtions
+     * to the children blong the mbjor bxis.
      *
-     * @param targetSpan the total span given to the view, which
-     *  would be used to layout the children
-     * @param axis the axis being layed out
-     * @param offsets the offsets from the origin of the view for
-     *  each of the child views; this is a return value and is
-     *  filled in by the implementation of this method
-     * @param spans the span of each child view; this is a return
-     *  value and is filled in by the implementation of this method
-     * @return the offset and span for each child view in the
-     *  offsets and spans parameters
+     * @pbrbm tbrgetSpbn the totbl spbn given to the view, which
+     *  would be used to lbyout the children
+     * @pbrbm bxis the bxis being lbyed out
+     * @pbrbm offsets the offsets from the origin of the view for
+     *  ebch of the child views; this is b return vblue bnd is
+     *  filled in by the implementbtion of this method
+     * @pbrbm spbns the spbn of ebch child view; this is b return
+     *  vblue bnd is filled in by the implementbtion of this method
+     * @return the offset bnd spbn for ebch child view in the
+     *  offsets bnd spbns pbrbmeters
      */
-    protected void layoutMajorAxis(int targetSpan, int axis, int[] offsets,
-                                   int[] spans) {
+    protected void lbyoutMbjorAxis(int tbrgetSpbn, int bxis, int[] offsets,
+                                   int[] spbns) {
         if (children == null) {
             init();
         }
-        SizeRequirements.calculateTiledPositions(targetSpan, null,
-                                                 getChildRequests(targetSpan,
-                                                                  axis),
-                                                 offsets, spans);
+        SizeRequirements.cblculbteTiledPositions(tbrgetSpbn, null,
+                                                 getChildRequests(tbrgetSpbn,
+                                                                  bxis),
+                                                 offsets, spbns);
     }
 
-    protected SizeRequirements[] getChildRequests(int targetSpan, int axis) {
+    protected SizeRequirements[] getChildRequests(int tbrgetSpbn, int bxis) {
 
-        int span[] = new int[children.length];
+        int spbn[] = new int[children.length];
 
-        spread(targetSpan, span);
+        sprebd(tbrgetSpbn, spbn);
         int n = getViewCount();
         SizeRequirements[] reqs = new SizeRequirements[n];
         for (int i = 0, sIndex = 0; i < n; i++) {
             View v = getView(i);
-            if ((v instanceof FrameView) || (v instanceof FrameSetView)) {
-                reqs[i] = new SizeRequirements((int) v.getMinimumSpan(axis),
-                                               span[sIndex],
-                                               (int) v.getMaximumSpan(axis),
+            if ((v instbnceof FrbmeView) || (v instbnceof FrbmeSetView)) {
+                reqs[i] = new SizeRequirements((int) v.getMinimumSpbn(bxis),
+                                               spbn[sIndex],
+                                               (int) v.getMbximumSpbn(bxis),
                                                0.5f);
                 sIndex++;
             } else {
-                int min = (int) v.getMinimumSpan(axis);
-                int pref = (int) v.getPreferredSpan(axis);
-                int max = (int) v.getMaximumSpan(axis);
-                float a = v.getAlignment(axis);
-                reqs[i] = new SizeRequirements(min, pref, max, a);
+                int min = (int) v.getMinimumSpbn(bxis);
+                int pref = (int) v.getPreferredSpbn(bxis);
+                int mbx = (int) v.getMbximumSpbn(bxis);
+                flobt b = v.getAlignment(bxis);
+                reqs[i] = new SizeRequirements(min, pref, mbx, b);
             }
         }
         return reqs;
@@ -206,114 +206,114 @@ class FrameSetView extends javax.swing.text.BoxView {
 
 
     /**
-     * This method is responsible for returning in span[] the
-     * span for each child view along the major axis.  it
-     * computes this based on the information that extracted
-     * from the value of the ROW/COL attribute.
+     * This method is responsible for returning in spbn[] the
+     * spbn for ebch child view blong the mbjor bxis.  it
+     * computes this bbsed on the informbtion thbt extrbcted
+     * from the vblue of the ROW/COL bttribute.
      */
-    private void spread(int targetSpan, int span[]) {
+    privbte void sprebd(int tbrgetSpbn, int spbn[]) {
 
-        if (targetSpan == 0) {
+        if (tbrgetSpbn == 0) {
             return;
         }
 
-        int tempSpace = 0;
-        int remainingSpace = targetSpan;
+        int tempSpbce = 0;
+        int rembiningSpbce = tbrgetSpbn;
 
-        // allocate the absolute's first, they have
+        // bllocbte the bbsolute's first, they hbve
         // precedence
         //
-        for (int i = 0; i < span.length; i++) {
-            if (absoluteChildren[i] > 0) {
-                span[i] = absoluteChildren[i];
-                remainingSpace -= span[i];
+        for (int i = 0; i < spbn.length; i++) {
+            if (bbsoluteChildren[i] > 0) {
+                spbn[i] = bbsoluteChildren[i];
+                rembiningSpbce -= spbn[i];
             }
         }
 
-        // then deal with percents.
+        // then debl with percents.
         //
-        tempSpace = remainingSpace;
-        for (int i = 0; i < span.length; i++) {
-            if (percentChildren[i] > 0 && tempSpace > 0) {
-                span[i] = (percentChildren[i] * tempSpace) / 100;
-                remainingSpace -= span[i];
-            } else if (percentChildren[i] > 0 && tempSpace <= 0) {
-                span[i] = targetSpan / span.length;
-                remainingSpace -= span[i];
+        tempSpbce = rembiningSpbce;
+        for (int i = 0; i < spbn.length; i++) {
+            if (percentChildren[i] > 0 && tempSpbce > 0) {
+                spbn[i] = (percentChildren[i] * tempSpbce) / 100;
+                rembiningSpbce -= spbn[i];
+            } else if (percentChildren[i] > 0 && tempSpbce <= 0) {
+                spbn[i] = tbrgetSpbn / spbn.length;
+                rembiningSpbce -= spbn[i];
             }
         }
 
-        // allocate remainingSpace to relative
-        if (remainingSpace > 0 && relativeTotals > 0) {
-            for (int i = 0; i < span.length; i++) {
-                if (relativeChildren[i] > 0) {
-                    span[i] = (remainingSpace *
-                                relativeChildren[i]) / relativeTotals;
+        // bllocbte rembiningSpbce to relbtive
+        if (rembiningSpbce > 0 && relbtiveTotbls > 0) {
+            for (int i = 0; i < spbn.length; i++) {
+                if (relbtiveChildren[i] > 0) {
+                    spbn[i] = (rembiningSpbce *
+                                relbtiveChildren[i]) / relbtiveTotbls;
                 }
             }
-        } else if (remainingSpace > 0) {
-            // There are no relative columns and the space has been
-            // under- or overallocated.  In this case, turn all the
-            // percentage and pixel specified columns to percentage
-            // columns based on the ratio of their pixel count to the
-            // total "virtual" size. (In the case of percentage columns,
-            // the pixel count would equal the specified percentage
+        } else if (rembiningSpbce > 0) {
+            // There bre no relbtive columns bnd the spbce hbs been
+            // under- or overbllocbted.  In this cbse, turn bll the
+            // percentbge bnd pixel specified columns to percentbge
+            // columns bbsed on the rbtio of their pixel count to the
+            // totbl "virtubl" size. (In the cbse of percentbge columns,
+            // the pixel count would equbl the specified percentbge
             // of the screen size.
 
-            // This action is in accordance with the HTML
+            // This bction is in bccordbnce with the HTML
             // 4.0 spec (see section 8.3, the end of the discussion of
-            // the FRAMESET tag).  The precedence of percentage and pixel
-            // specified columns is unclear (spec seems to indicate that
-            // they share priority, however, unspecified what happens when
-            // overallocation occurs.)
+            // the FRAMESET tbg).  The precedence of percentbge bnd pixel
+            // specified columns is unclebr (spec seems to indicbte thbt
+            // they shbre priority, however, unspecified whbt hbppens when
+            // overbllocbtion occurs.)
 
-            // addendum is that we behave similar to netscape in that specified
-            // widths have precedance over percentage widths...
+            // bddendum is thbt we behbve similbr to netscbpe in thbt specified
+            // widths hbve precedbnce over percentbge widths...
 
-            float vTotal = (float)(targetSpan - remainingSpace);
-            float[] tempPercents = new float[span.length];
-            remainingSpace = targetSpan;
-            for (int i = 0; i < span.length; i++) {
-                // ok we know what our total space is, and we know how large each
-                // column should be relative to each other... therefore we can use
-                // that relative information to deduce their percentages of a whole
-                // and then scale them appropriately for the correct size
-                tempPercents[i] = ((float)span[i] / vTotal) * 100.00f;
-                span[i] = (int) ( ((float)targetSpan * tempPercents[i]) / 100.00f);
-                remainingSpace -= span[i];
+            flobt vTotbl = (flobt)(tbrgetSpbn - rembiningSpbce);
+            flobt[] tempPercents = new flobt[spbn.length];
+            rembiningSpbce = tbrgetSpbn;
+            for (int i = 0; i < spbn.length; i++) {
+                // ok we know whbt our totbl spbce is, bnd we know how lbrge ebch
+                // column should be relbtive to ebch other... therefore we cbn use
+                // thbt relbtive informbtion to deduce their percentbges of b whole
+                // bnd then scble them bppropribtely for the correct size
+                tempPercents[i] = ((flobt)spbn[i] / vTotbl) * 100.00f;
+                spbn[i] = (int) ( ((flobt)tbrgetSpbn * tempPercents[i]) / 100.00f);
+                rembiningSpbce -= spbn[i];
             }
 
 
-            // this is for just in case there is something left over.. if there is we just
-            // add it one pixel at a time to the frames in order.. We shouldn't really ever get
-            // here and if we do it shouldn't be with more than 1 pixel, maybe two.
+            // this is for just in cbse there is something left over.. if there is we just
+            // bdd it one pixel bt b time to the frbmes in order.. We shouldn't reblly ever get
+            // here bnd if we do it shouldn't be with more thbn 1 pixel, mbybe two.
             int i = 0;
-            while (remainingSpace != 0) {
-                if (remainingSpace < 0) {
-                    span[i++]--;
-                    remainingSpace++;
+            while (rembiningSpbce != 0) {
+                if (rembiningSpbce < 0) {
+                    spbn[i++]--;
+                    rembiningSpbce++;
                 }
                 else {
-                    span[i++]++;
-                    remainingSpace--;
+                    spbn[i++]++;
+                    rembiningSpbce--;
                 }
 
-                // just in case there are more pixels than frames...should never happen..
-                if (i == span.length)i = 0;
+                // just in cbse there bre more pixels thbn frbmes...should never hbppen..
+                if (i == spbn.length)i = 0;
             }
         }
     }
 
     /*
-     * Users have been known to type things like "%25" and "25 %".  Deal
+     * Users hbve been known to type things like "%25" bnd "25 %".  Debl
      * with it.
      */
-    private int parseDigits(String mixedStr) {
+    privbte int pbrseDigits(String mixedStr) {
         int result = 0;
         for (int i = 0; i < mixedStr.length(); i++) {
-            char ch = mixedStr.charAt(i);
-            if (Character.isDigit(ch)) {
-                result = (result * 10) + Character.digit(ch, 10);
+            chbr ch = mixedStr.chbrAt(i);
+            if (Chbrbcter.isDigit(ch)) {
+                result = (result * 10) + Chbrbcter.digit(ch, 10);
             }
         }
         return result;

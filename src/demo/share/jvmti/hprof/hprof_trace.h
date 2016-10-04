@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,45 +30,45 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 #ifndef HPROF_TRACE_H
 #define HPROF_TRACE_H
 
-void         trace_increment_all_sample_costs(jint count, jthread *threads,
-                        SerialNumber *thread_serial_nums, int depth,
-                        jboolean skip_init);
+void         trbce_increment_bll_sbmple_costs(jint count, jthrebd *threbds,
+                        SeriblNumber *threbd_seribl_nums, int depth,
+                        jboolebn skip_init);
 
-void         trace_get_all_current(jint count, jthread *threads,
-                        SerialNumber *thread_serial_nums, int depth,
-                        jboolean skip_init, TraceIndex *traces,
-                        jboolean always_care);
+void         trbce_get_bll_current(jint count, jthrebd *threbds,
+                        SeriblNumber *threbd_seribl_nums, int depth,
+                        jboolebn skip_init, TrbceIndex *trbces,
+                        jboolebn blwbys_cbre);
 
-TraceIndex   trace_get_current(jthread thread,
-                        SerialNumber thread_serial_num, int depth,
-                        jboolean skip_init,
-                        FrameIndex *frames_buffer,
-                        jvmtiFrameInfo *jframes_buffer);
+TrbceIndex   trbce_get_current(jthrebd threbd,
+                        SeriblNumber threbd_seribl_num, int depth,
+                        jboolebn skip_init,
+                        FrbmeIndex *frbmes_buffer,
+                        jvmtiFrbmeInfo *jfrbmes_buffer);
 
-void         trace_init(void);
-TraceIndex   trace_find_or_create(SerialNumber thread_serial_num,
-                        jint n_frames, FrameIndex *frames,
-                        jvmtiFrameInfo *jframes_buffer);
-SerialNumber trace_get_serial_number(TraceIndex index);
-void         trace_increment_cost(TraceIndex index,
-                        jint num_hits, jlong self_cost, jlong total_cost);
-void         trace_list(void);
-void         trace_cleanup(void);
+void         trbce_init(void);
+TrbceIndex   trbce_find_or_crebte(SeriblNumber threbd_seribl_num,
+                        jint n_frbmes, FrbmeIndex *frbmes,
+                        jvmtiFrbmeInfo *jfrbmes_buffer);
+SeriblNumber trbce_get_seribl_number(TrbceIndex index);
+void         trbce_increment_cost(TrbceIndex index,
+                        jint num_hits, jlong self_cost, jlong totbl_cost);
+void         trbce_list(void);
+void         trbce_clebnup(void);
 
-void         trace_clear_cost(void);
-void         trace_output_unmarked(JNIEnv *env);
-void         trace_output_cost(JNIEnv *env, double cutoff);
-void         trace_output_cost_in_prof_format(JNIEnv *env);
+void         trbce_clebr_cost(void);
+void         trbce_output_unmbrked(JNIEnv *env);
+void         trbce_output_cost(JNIEnv *env, double cutoff);
+void         trbce_output_cost_in_prof_formbt(JNIEnv *env);
 
 #endif

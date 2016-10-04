@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
-import java.lang.management.MemoryUsage;
-import java.lang.management.MemoryNotificationInfo;
-import java.lang.management.MemoryManagerMXBean;
-import java.lang.management.MemoryPoolMXBean;
-import javax.management.ObjectName;
-import javax.management.MBeanNotificationInfo;
-import javax.management.Notification;
-import javax.management.openmbean.CompositeData;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.lbng.mbnbgement.MemoryMXBebn;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import jbvb.lbng.mbnbgement.MemoryNotificbtionInfo;
+import jbvb.lbng.mbnbgement.MemoryMbnbgerMXBebn;
+import jbvb.lbng.mbnbgement.MemoryPoolMXBebn;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
 
 /**
- * Implementation class for the memory subsystem.
- * Standard and committed hotspot-specific metrics if any.
+ * Implementbtion clbss for the memory subsystem.
+ * Stbndbrd bnd committed hotspot-specific metrics if bny.
  *
- * ManagementFactory.getMemoryMXBean() returns an instance
- * of this class.
+ * MbnbgementFbctory.getMemoryMXBebn() returns bn instbnce
+ * of this clbss.
  */
-class MemoryImpl extends NotificationEmitterSupport
-                 implements MemoryMXBean {
+clbss MemoryImpl extends NotificbtionEmitterSupport
+                 implements MemoryMXBebn {
 
-    private final VMManagement jvm;
+    privbte finbl VMMbnbgement jvm;
 
-    private static MemoryPoolMXBean[] pools = null;
-    private static MemoryManagerMXBean[] mgrs = null;
+    privbte stbtic MemoryPoolMXBebn[] pools = null;
+    privbte stbtic MemoryMbnbgerMXBebn[] mgrs = null;
 
     /**
-     * Constructor of MemoryImpl class
+     * Constructor of MemoryImpl clbss
      */
-    MemoryImpl(VMManagement vm) {
+    MemoryImpl(VMMbnbgement vm) {
         this.jvm = vm;
     }
 
-    public int getObjectPendingFinalizationCount() {
-        return sun.misc.VM.getFinalRefCount();
+    public int getObjectPendingFinblizbtionCount() {
+        return sun.misc.VM.getFinblRefCount();
     }
 
     public void gc() {
         Runtime.getRuntime().gc();
     }
 
-    // Need to make a VM call to get coherent value
-    public MemoryUsage getHeapMemoryUsage() {
-        return getMemoryUsage0(true);
+    // Need to mbke b VM cbll to get coherent vblue
+    public MemoryUsbge getHebpMemoryUsbge() {
+        return getMemoryUsbge0(true);
     }
 
-    public MemoryUsage getNonHeapMemoryUsage() {
-        return getMemoryUsage0(false);
+    public MemoryUsbge getNonHebpMemoryUsbge() {
+        return getMemoryUsbge0(fblse);
     }
 
-    public boolean isVerbose() {
+    public boolebn isVerbose() {
         return jvm.getVerboseGC();
     }
 
-    public void setVerbose(boolean value) {
+    public void setVerbose(boolebn vblue) {
         Util.checkControlAccess();
 
-        setVerboseGC(value);
+        setVerboseGC(vblue);
     }
 
-    // The current Hotspot implementation does not support
-    // dynamically add or remove memory pools & managers.
-    static synchronized MemoryPoolMXBean[] getMemoryPools() {
+    // The current Hotspot implementbtion does not support
+    // dynbmicblly bdd or remove memory pools & mbnbgers.
+    stbtic synchronized MemoryPoolMXBebn[] getMemoryPools() {
         if (pools == null) {
             pools = getMemoryPools0();
         }
         return pools;
     }
-    static synchronized MemoryManagerMXBean[] getMemoryManagers() {
+    stbtic synchronized MemoryMbnbgerMXBebn[] getMemoryMbnbgers() {
         if (mgrs == null) {
-            mgrs = getMemoryManagers0();
+            mgrs = getMemoryMbnbgers0();
         }
         return mgrs;
     }
-    private static native MemoryPoolMXBean[] getMemoryPools0();
-    private static native MemoryManagerMXBean[] getMemoryManagers0();
-    private native MemoryUsage getMemoryUsage0(boolean heap);
-    private native void setVerboseGC(boolean value);
+    privbte stbtic nbtive MemoryPoolMXBebn[] getMemoryPools0();
+    privbte stbtic nbtive MemoryMbnbgerMXBebn[] getMemoryMbnbgers0();
+    privbte nbtive MemoryUsbge getMemoryUsbge0(boolebn hebp);
+    privbte nbtive void setVerboseGC(boolebn vblue);
 
-    private final static String notifName =
-        "javax.management.Notification";
-    private final static String[] notifTypes = {
-        MemoryNotificationInfo.MEMORY_THRESHOLD_EXCEEDED,
-        MemoryNotificationInfo.MEMORY_COLLECTION_THRESHOLD_EXCEEDED
+    privbte finbl stbtic String notifNbme =
+        "jbvbx.mbnbgement.Notificbtion";
+    privbte finbl stbtic String[] notifTypes = {
+        MemoryNotificbtionInfo.MEMORY_THRESHOLD_EXCEEDED,
+        MemoryNotificbtionInfo.MEMORY_COLLECTION_THRESHOLD_EXCEEDED
     };
-    private final static String[] notifMsgs  = {
-        "Memory usage exceeds usage threshold",
-        "Memory usage exceeds collection usage threshold"
+    privbte finbl stbtic String[] notifMsgs  = {
+        "Memory usbge exceeds usbge threshold",
+        "Memory usbge exceeds collection usbge threshold"
     };
 
-    private MBeanNotificationInfo[] notifInfo = null;
-    public MBeanNotificationInfo[] getNotificationInfo() {
+    privbte MBebnNotificbtionInfo[] notifInfo = null;
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
         synchronized (this) {
             if (notifInfo == null) {
-                 notifInfo = new MBeanNotificationInfo[1];
-                 notifInfo[0] = new MBeanNotificationInfo(notifTypes,
-                                                          notifName,
-                                                          "Memory Notification");
+                 notifInfo = new MBebnNotificbtionInfo[1];
+                 notifInfo[0] = new MBebnNotificbtionInfo(notifTypes,
+                                                          notifNbme,
+                                                          "Memory Notificbtion");
             }
         }
         return notifInfo;
     }
 
-    private static String getNotifMsg(String notifType) {
+    privbte stbtic String getNotifMsg(String notifType) {
         for (int i = 0; i < notifTypes.length; i++) {
             if (notifType == notifTypes[i]) {
                 return notifMsgs[i];
             }
         }
-        return "Unknown message";
+        return "Unknown messbge";
     }
 
-    private static long seqNumber = 0;
-    private static long getNextSeqNumber() {
+    privbte stbtic long seqNumber = 0;
+    privbte stbtic long getNextSeqNumber() {
         return ++seqNumber;
     }
 
-    static void createNotification(String notifType,
-                                   String poolName,
-                                   MemoryUsage usage,
+    stbtic void crebteNotificbtion(String notifType,
+                                   String poolNbme,
+                                   MemoryUsbge usbge,
                                    long count) {
-        MemoryImpl mbean = (MemoryImpl) ManagementFactory.getMemoryMXBean();
-        if (!mbean.hasListeners()) {
+        MemoryImpl mbebn = (MemoryImpl) MbnbgementFbctory.getMemoryMXBebn();
+        if (!mbebn.hbsListeners()) {
             // if no listener is registered.
             return;
         }
-        long timestamp = System.currentTimeMillis();
+        long timestbmp = System.currentTimeMillis();
         String msg = getNotifMsg(notifType);
-        Notification notif = new Notification(notifType,
-                                              mbean.getObjectName(),
+        Notificbtion notif = new Notificbtion(notifType,
+                                              mbebn.getObjectNbme(),
                                               getNextSeqNumber(),
-                                              timestamp,
+                                              timestbmp,
                                               msg);
-        MemoryNotificationInfo info =
-            new MemoryNotificationInfo(poolName,
-                                       usage,
+        MemoryNotificbtionInfo info =
+            new MemoryNotificbtionInfo(poolNbme,
+                                       usbge,
                                        count);
-        CompositeData cd =
-            MemoryNotifInfoCompositeData.toCompositeData(info);
-        notif.setUserData(cd);
-        mbean.sendNotification(notif);
+        CompositeDbtb cd =
+            MemoryNotifInfoCompositeDbtb.toCompositeDbtb(info);
+        notif.setUserDbtb(cd);
+        mbebn.sendNotificbtion(notif);
     }
 
-    public ObjectName getObjectName() {
-        return Util.newObjectName(ManagementFactory.MEMORY_MXBEAN_NAME);
+    public ObjectNbme getObjectNbme() {
+        return Util.newObjectNbme(MbnbgementFbctory.MEMORY_MXBEAN_NAME);
     }
 
 }

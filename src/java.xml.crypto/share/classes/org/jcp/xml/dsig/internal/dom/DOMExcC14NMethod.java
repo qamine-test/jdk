@@ -3,160 +3,160 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMExcC14NMethod.java 1197150 2011-11-03 14:34:57Z coheigea $
+ * $Id: DOMExcC14NMethod.jbvb 1197150 2011-11-03 14:34:57Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
-import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
-import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.spec.C14NMethodPbrbmeterSpec;
+import jbvbx.xml.crypto.dsig.spec.ExcC14NPbrbmeterSpec;
+import jbvbx.xml.crypto.dsig.spec.TrbnsformPbrbmeterSpec;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.spec.AlgorithmParameterSpec;
-import java.util.*;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.util.*;
 import org.w3c.dom.Element;
 
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.Cbnonicblizer;
+import com.sun.org.bpbche.xml.internbl.security.c14n.InvblidCbnonicblizerException;
 
 /**
- * DOM-based implementation of CanonicalizationMethod for Exclusive
- * Canonical XML algorithm (with or without comments).
- * Uses Apache XML-Sec Canonicalizer.
+ * DOM-bbsed implementbtion of CbnonicblizbtionMethod for Exclusive
+ * Cbnonicbl XML blgorithm (with or without comments).
+ * Uses Apbche XML-Sec Cbnonicblizer.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public final class DOMExcC14NMethod extends ApacheCanonicalizer {
+public finbl clbss DOMExcC14NMethod extends ApbcheCbnonicblizer {
 
-    public void init(TransformParameterSpec params)
-        throws InvalidAlgorithmParameterException
+    public void init(TrbnsformPbrbmeterSpec pbrbms)
+        throws InvblidAlgorithmPbrbmeterException
     {
-        if (params != null) {
-            if (!(params instanceof ExcC14NParameterSpec)) {
-                throw new InvalidAlgorithmParameterException
-                    ("params must be of type ExcC14NParameterSpec");
+        if (pbrbms != null) {
+            if (!(pbrbms instbnceof ExcC14NPbrbmeterSpec)) {
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("pbrbms must be of type ExcC14NPbrbmeterSpec");
             }
-            this.params = (C14NMethodParameterSpec)params;
+            this.pbrbms = (C14NMethodPbrbmeterSpec)pbrbms;
         }
     }
 
-    public void init(XMLStructure parent, XMLCryptoContext context)
-        throws InvalidAlgorithmParameterException
+    public void init(XMLStructure pbrent, XMLCryptoContext context)
+        throws InvblidAlgorithmPbrbmeterException
     {
-        super.init(parent, context);
-        Element paramsElem = DOMUtils.getFirstChildElement(transformElem);
-        if (paramsElem == null) {
-            this.params = null;
-            this.inclusiveNamespaces = null;
+        super.init(pbrent, context);
+        Element pbrbmsElem = DOMUtils.getFirstChildElement(trbnsformElem);
+        if (pbrbmsElem == null) {
+            this.pbrbms = null;
+            this.inclusiveNbmespbces = null;
             return;
         }
-        unmarshalParams(paramsElem);
+        unmbrshblPbrbms(pbrbmsElem);
     }
 
-    private void unmarshalParams(Element paramsElem) {
-        String prefixListAttr = paramsElem.getAttributeNS(null, "PrefixList");
-        this.inclusiveNamespaces = prefixListAttr;
+    privbte void unmbrshblPbrbms(Element pbrbmsElem) {
+        String prefixListAttr = pbrbmsElem.getAttributeNS(null, "PrefixList");
+        this.inclusiveNbmespbces = prefixListAttr;
         int begin = 0;
         int end = prefixListAttr.indexOf(' ');
-        List<String> prefixList = new ArrayList<String>();
+        List<String> prefixList = new ArrbyList<String>();
         while (end != -1) {
-            prefixList.add(prefixListAttr.substring(begin, end));
+            prefixList.bdd(prefixListAttr.substring(begin, end));
             begin = end + 1;
             end = prefixListAttr.indexOf(' ', begin);
         }
         if (begin <= prefixListAttr.length()) {
-            prefixList.add(prefixListAttr.substring(begin));
+            prefixList.bdd(prefixListAttr.substring(begin));
         }
-        this.params = new ExcC14NParameterSpec(prefixList);
+        this.pbrbms = new ExcC14NPbrbmeterSpec(prefixList);
     }
 
-    public void marshalParams(XMLStructure parent, XMLCryptoContext context)
-        throws MarshalException
+    public void mbrshblPbrbms(XMLStructure pbrent, XMLCryptoContext context)
+        throws MbrshblException
     {
-        super.marshalParams(parent, context);
-        AlgorithmParameterSpec spec = getParameterSpec();
+        super.mbrshblPbrbms(pbrent, context);
+        AlgorithmPbrbmeterSpec spec = getPbrbmeterSpec();
         if (spec == null) {
             return;
         }
 
         String prefix = DOMUtils.getNSPrefix(context,
-                                             CanonicalizationMethod.EXCLUSIVE);
-        Element eElem = DOMUtils.createElement(ownerDoc,
-                                               "InclusiveNamespaces",
-                                               CanonicalizationMethod.EXCLUSIVE,
+                                             CbnonicblizbtionMethod.EXCLUSIVE);
+        Element eElem = DOMUtils.crebteElement(ownerDoc,
+                                               "InclusiveNbmespbces",
+                                               CbnonicblizbtionMethod.EXCLUSIVE,
                                                prefix);
         if (prefix == null || prefix.length() == 0) {
             eElem.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
-                                 CanonicalizationMethod.EXCLUSIVE);
+                                 CbnonicblizbtionMethod.EXCLUSIVE);
         } else {
             eElem.setAttributeNS("http://www.w3.org/2000/xmlns/",
                                    "xmlns:" + prefix,
-                                   CanonicalizationMethod.EXCLUSIVE);
+                                   CbnonicblizbtionMethod.EXCLUSIVE);
         }
 
-        ExcC14NParameterSpec params = (ExcC14NParameterSpec)spec;
+        ExcC14NPbrbmeterSpec pbrbms = (ExcC14NPbrbmeterSpec)spec;
         StringBuilder prefixListAttr = new StringBuilder("");
-        @SuppressWarnings("unchecked")
-        List<String> prefixList = params.getPrefixList();
+        @SuppressWbrnings("unchecked")
+        List<String> prefixList = pbrbms.getPrefixList();
         for (int i = 0, size = prefixList.size(); i < size; i++) {
-            prefixListAttr.append(prefixList.get(i));
+            prefixListAttr.bppend(prefixList.get(i));
             if (i < size - 1) {
-                prefixListAttr.append(" ");
+                prefixListAttr.bppend(" ");
             }
         }
         DOMUtils.setAttribute(eElem, "PrefixList", prefixListAttr.toString());
-        this.inclusiveNamespaces = prefixListAttr.toString();
-        transformElem.appendChild(eElem);
+        this.inclusiveNbmespbces = prefixListAttr.toString();
+        trbnsformElem.bppendChild(eElem);
     }
 
-    public String getParamsNSURI() {
-        return CanonicalizationMethod.EXCLUSIVE;
+    public String getPbrbmsNSURI() {
+        return CbnonicblizbtionMethod.EXCLUSIVE;
     }
 
-    public Data transform(Data data, XMLCryptoContext xc)
-        throws TransformException
+    public Dbtb trbnsform(Dbtb dbtb, XMLCryptoContext xc)
+        throws TrbnsformException
     {
-        // ignore comments if dereferencing same-document URI that require
-        // you to omit comments, even if the Transform says otherwise -
-        // this is to be compliant with section 4.3.3.3 of W3C Rec.
-        if (data instanceof DOMSubTreeData) {
-            DOMSubTreeData subTree = (DOMSubTreeData)data;
+        // ignore comments if dereferencing sbme-document URI thbt require
+        // you to omit comments, even if the Trbnsform sbys otherwise -
+        // this is to be complibnt with section 4.3.3.3 of W3C Rec.
+        if (dbtb instbnceof DOMSubTreeDbtb) {
+            DOMSubTreeDbtb subTree = (DOMSubTreeDbtb)dbtb;
             if (subTree.excludeComments()) {
                 try {
-                    apacheCanonicalizer = Canonicalizer.getInstance
-                        (CanonicalizationMethod.EXCLUSIVE);
-                } catch (InvalidCanonicalizerException ice) {
-                    throw new TransformException
-                        ("Couldn't find Canonicalizer for: " +
-                         CanonicalizationMethod.EXCLUSIVE + ": " +
-                         ice.getMessage(), ice);
+                    bpbcheCbnonicblizer = Cbnonicblizer.getInstbnce
+                        (CbnonicblizbtionMethod.EXCLUSIVE);
+                } cbtch (InvblidCbnonicblizerException ice) {
+                    throw new TrbnsformException
+                        ("Couldn't find Cbnonicblizer for: " +
+                         CbnonicblizbtionMethod.EXCLUSIVE + ": " +
+                         ice.getMessbge(), ice);
                 }
             }
         }
 
-        return canonicalize(data, xc);
+        return cbnonicblize(dbtb, xc);
     }
 }

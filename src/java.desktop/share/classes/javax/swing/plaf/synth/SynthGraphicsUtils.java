@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
 import sun.swing.SwingUtilities2;
-import sun.swing.MenuItemLayoutHelper;
+import sun.swing.MenuItemLbyoutHelper;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicHTML;
-import javax.swing.text.*;
-import sun.swing.plaf.synth.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsic.BbsicHTML;
+import jbvbx.swing.text.*;
+import sun.swing.plbf.synth.*;
 
 /**
- * Wrapper for primitive graphics calls.
+ * Wrbpper for primitive grbphics cblls.
  *
  * @since 1.5
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-public class SynthGraphicsUtils {
-    // These are used in the text painting code to avoid allocating a bunch of
-    // garbage.
-    private Rectangle paintIconR = new Rectangle();
-    private Rectangle paintTextR = new Rectangle();
-    private Rectangle paintViewR = new Rectangle();
-    private Insets paintInsets = new Insets(0, 0, 0, 0);
+public clbss SynthGrbphicsUtils {
+    // These bre used in the text pbinting code to bvoid bllocbting b bunch of
+    // gbrbbge.
+    privbte Rectbngle pbintIconR = new Rectbngle();
+    privbte Rectbngle pbintTextR = new Rectbngle();
+    privbte Rectbngle pbintViewR = new Rectbngle();
+    privbte Insets pbintInsets = new Insets(0, 0, 0, 0);
 
-    // These Rectangles/Insets are used in the text size calculation to avoid a
-    // a bunch of garbage.
-    private Rectangle iconR = new Rectangle();
-    private Rectangle textR = new Rectangle();
-    private Rectangle viewR = new Rectangle();
-    private Insets viewSizingInsets = new Insets(0, 0, 0, 0);
+    // These Rectbngles/Insets bre used in the text size cblculbtion to bvoid b
+    // b bunch of gbrbbge.
+    privbte Rectbngle iconR = new Rectbngle();
+    privbte Rectbngle textR = new Rectbngle();
+    privbte Rectbngle viewR = new Rectbngle();
+    privbte Insets viewSizingInsets = new Insets(0, 0, 0, 0);
 
     /**
-     * Creates a <code>SynthGraphicsUtils</code>.
+     * Crebtes b <code>SynthGrbphicsUtils</code>.
      */
-    public SynthGraphicsUtils() {
+    public SynthGrbphicsUtils() {
     }
 
     /**
-     * Draws a line between the two end points.
+     * Drbws b line between the two end points.
      *
-     * @param context Identifies hosting region.
-     * @param paintKey Identifies the portion of the component being asked
-     *                 to paint, may be null.
-     * @param g Graphics object to paint to
-     * @param x1 x origin
-     * @param y1 y origin
-     * @param x2 x destination
-     * @param y2 y destination
+     * @pbrbm context Identifies hosting region.
+     * @pbrbm pbintKey Identifies the portion of the component being bsked
+     *                 to pbint, mby be null.
+     * @pbrbm g Grbphics object to pbint to
+     * @pbrbm x1 x origin
+     * @pbrbm y1 y origin
+     * @pbrbm x2 x destinbtion
+     * @pbrbm y2 y destinbtion
      */
-    public void drawLine(SynthContext context, Object paintKey,
-                         Graphics g, int x1, int y1, int x2, int y2) {
-        g.drawLine(x1, y1, x2, y2);
+    public void drbwLine(SynthContext context, Object pbintKey,
+                         Grbphics g, int x1, int y1, int x2, int y2) {
+        g.drbwLine(x1, y1, x2, y2);
     }
 
     /**
-     * Draws a line between the two end points.
-     * <p>This implementation supports only one line style key,
-     * <code>"dashed"</code>. The <code>"dashed"</code> line style is applied
-     * only to vertical and horizontal lines.
-     * <p>Specifying <code>null</code> or any key different from
-     * <code>"dashed"</code> will draw solid lines.
+     * Drbws b line between the two end points.
+     * <p>This implementbtion supports only one line style key,
+     * <code>"dbshed"</code>. The <code>"dbshed"</code> line style is bpplied
+     * only to verticbl bnd horizontbl lines.
+     * <p>Specifying <code>null</code> or bny key different from
+     * <code>"dbshed"</code> will drbw solid lines.
      *
-     * @param context identifies hosting region
-     * @param paintKey identifies the portion of the component being asked
-     *                 to paint, may be null
-     * @param g Graphics object to paint to
-     * @param x1 x origin
-     * @param y1 y origin
-     * @param x2 x destination
-     * @param y2 y destination
-     * @param styleKey identifies the requested style of the line (e.g. "dashed")
+     * @pbrbm context identifies hosting region
+     * @pbrbm pbintKey identifies the portion of the component being bsked
+     *                 to pbint, mby be null
+     * @pbrbm g Grbphics object to pbint to
+     * @pbrbm x1 x origin
+     * @pbrbm y1 y origin
+     * @pbrbm x2 x destinbtion
+     * @pbrbm y2 y destinbtion
+     * @pbrbm styleKey identifies the requested style of the line (e.g. "dbshed")
      * @since 1.6
      */
-    public void drawLine(SynthContext context, Object paintKey,
-                         Graphics g, int x1, int y1, int x2, int y2,
+    public void drbwLine(SynthContext context, Object pbintKey,
+                         Grbphics g, int x1, int y1, int x2, int y2,
                          Object styleKey) {
-        if ("dashed".equals(styleKey)) {
-            // draw vertical line
+        if ("dbshed".equbls(styleKey)) {
+            // drbw verticbl line
             if (x1 == x2) {
                 y1 += (y1 % 2);
 
                 for (int y = y1; y <= y2; y+=2) {
-                    g.drawLine(x1, y, x2, y);
+                    g.drbwLine(x1, y, x2, y);
                 }
-            // draw horizontal line
+            // drbw horizontbl line
             } else if (y1 == y2) {
                 x1 += (x1 % 2);
 
                 for (int x = x1; x <= x2; x+=2) {
-                    g.drawLine(x, y1, x, y2);
+                    g.drbwLine(x, y1, x, y2);
                 }
-            // oblique lines are not supported
+            // oblique lines bre not supported
             }
         } else {
-            drawLine(context, paintKey, g, x1, y1, x2, y2);
+            drbwLine(context, pbintKey, g, x1, y1, x2, y2);
         }
     }
 
     /**
-     * Lays out text and an icon returning, by reference, the location to
-     * place the icon and text.
+     * Lbys out text bnd bn icon returning, by reference, the locbtion to
+     * plbce the icon bnd text.
      *
-     * @param ss SynthContext
-     * @param fm FontMetrics for the Font to use, this may be ignored
-     * @param text Text to layout
-     * @param icon Icon to layout
-     * @param hAlign horizontal alignment
-     * @param vAlign vertical alignment
-     * @param hTextPosition horizontal text position
-     * @param vTextPosition vertical text position
-     * @param viewR Rectangle to layout text and icon in.
-     * @param iconR Rectangle to place icon bounds in
-     * @param textR Rectangle to place text in
-     * @param iconTextGap gap between icon and text
+     * @pbrbm ss SynthContext
+     * @pbrbm fm FontMetrics for the Font to use, this mby be ignored
+     * @pbrbm text Text to lbyout
+     * @pbrbm icon Icon to lbyout
+     * @pbrbm hAlign horizontbl blignment
+     * @pbrbm vAlign verticbl blignment
+     * @pbrbm hTextPosition horizontbl text position
+     * @pbrbm vTextPosition verticbl text position
+     * @pbrbm viewR Rectbngle to lbyout text bnd icon in.
+     * @pbrbm iconR Rectbngle to plbce icon bounds in
+     * @pbrbm textR Rectbngle to plbce text in
+     * @pbrbm iconTextGbp gbp between icon bnd text
      *
-     * @return by reference, the location to
-     * place the icon and text.
+     * @return by reference, the locbtion to
+     * plbce the icon bnd text.
      */
-    public String layoutText(SynthContext ss, FontMetrics fm,
+    public String lbyoutText(SynthContext ss, FontMetrics fm,
                          String text, Icon icon, int hAlign,
                          int vAlign, int hTextPosition,
-                         int vTextPosition, Rectangle viewR,
-                         Rectangle iconR, Rectangle textR, int iconTextGap) {
-        if (icon instanceof SynthIcon) {
-            SynthIconWrapper wrapper = SynthIconWrapper.get((SynthIcon)icon,
+                         int vTextPosition, Rectbngle viewR,
+                         Rectbngle iconR, Rectbngle textR, int iconTextGbp) {
+        if (icon instbnceof SynthIcon) {
+            SynthIconWrbpper wrbpper = SynthIconWrbpper.get((SynthIcon)icon,
                                                             ss);
-            String formattedText = SwingUtilities.layoutCompoundLabel(
-                      ss.getComponent(), fm, text, wrapper, vAlign, hAlign,
+            String formbttedText = SwingUtilities.lbyoutCompoundLbbel(
+                      ss.getComponent(), fm, text, wrbpper, vAlign, hAlign,
                       vTextPosition, hTextPosition, viewR, iconR, textR,
-                      iconTextGap);
-            SynthIconWrapper.release(wrapper);
-            return formattedText;
+                      iconTextGbp);
+            SynthIconWrbpper.relebse(wrbpper);
+            return formbttedText;
         }
-        return SwingUtilities.layoutCompoundLabel(
+        return SwingUtilities.lbyoutCompoundLbbel(
                       ss.getComponent(), fm, text, icon, vAlign, hAlign,
                       vTextPosition, hTextPosition, viewR, iconR, textR,
-                      iconTextGap);
+                      iconTextGbp);
     }
 
     /**
-     * Returns the size of the passed in string.
+     * Returns the size of the pbssed in string.
      *
-     * @param ss SynthContext
-     * @param font Font to use
-     * @param metrics FontMetrics, may be ignored
-     * @param text Text to get size of.
+     * @pbrbm ss SynthContext
+     * @pbrbm font Font to use
+     * @pbrbm metrics FontMetrics, mby be ignored
+     * @pbrbm text Text to get size of.
      *
-     * @return the size of the passed in string.
+     * @return the size of the pbssed in string.
      */
     public int computeStringWidth(SynthContext ss, Font font,
                                   FontMetrics metrics, String text) {
@@ -179,105 +179,105 @@ public class SynthGraphicsUtils {
     }
 
     /**
-     * Returns the minimum size needed to properly render an icon and text.
+     * Returns the minimum size needed to properly render bn icon bnd text.
      *
-     * @param ss SynthContext
-     * @param font Font to use
-     * @param text Text to layout
-     * @param icon Icon to layout
-     * @param hAlign horizontal alignment
-     * @param vAlign vertical alignment
-     * @param hTextPosition horizontal text position
-     * @param vTextPosition vertical text position
-     * @param iconTextGap gap between icon and text
-     * @param mnemonicIndex Index into text to render the mnemonic at, -1
-     *        indicates no mnemonic.
+     * @pbrbm ss SynthContext
+     * @pbrbm font Font to use
+     * @pbrbm text Text to lbyout
+     * @pbrbm icon Icon to lbyout
+     * @pbrbm hAlign horizontbl blignment
+     * @pbrbm vAlign verticbl blignment
+     * @pbrbm hTextPosition horizontbl text position
+     * @pbrbm vTextPosition verticbl text position
+     * @pbrbm iconTextGbp gbp between icon bnd text
+     * @pbrbm mnemonicIndex Index into text to render the mnemonic bt, -1
+     *        indicbtes no mnemonic.
      *
-     * @return the minimum size needed to properly render an icon and text.
+     * @return the minimum size needed to properly render bn icon bnd text.
      */
     public Dimension getMinimumSize(SynthContext ss, Font font, String text,
                       Icon icon, int hAlign, int vAlign, int hTextPosition,
-                      int vTextPosition, int iconTextGap, int mnemonicIndex) {
+                      int vTextPosition, int iconTextGbp, int mnemonicIndex) {
         JComponent c = ss.getComponent();
         Dimension size = getPreferredSize(ss, font, text, icon, hAlign,
                                           vAlign, hTextPosition, vTextPosition,
-                                          iconTextGap, mnemonicIndex);
-        View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+                                          iconTextGbp, mnemonicIndex);
+        View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
 
         if (v != null) {
-            size.width -= v.getPreferredSpan(View.X_AXIS) -
-                          v.getMinimumSpan(View.X_AXIS);
+            size.width -= v.getPreferredSpbn(View.X_AXIS) -
+                          v.getMinimumSpbn(View.X_AXIS);
         }
         return size;
     }
 
     /**
-     * Returns the maximum size needed to properly render an icon and text.
+     * Returns the mbximum size needed to properly render bn icon bnd text.
      *
-     * @param ss SynthContext
-     * @param font Font to use
-     * @param text Text to layout
-     * @param icon Icon to layout
-     * @param hAlign horizontal alignment
-     * @param vAlign vertical alignment
-     * @param hTextPosition horizontal text position
-     * @param vTextPosition vertical text position
-     * @param iconTextGap gap between icon and text
-     * @param mnemonicIndex Index into text to render the mnemonic at, -1
-     *        indicates no mnemonic.
+     * @pbrbm ss SynthContext
+     * @pbrbm font Font to use
+     * @pbrbm text Text to lbyout
+     * @pbrbm icon Icon to lbyout
+     * @pbrbm hAlign horizontbl blignment
+     * @pbrbm vAlign verticbl blignment
+     * @pbrbm hTextPosition horizontbl text position
+     * @pbrbm vTextPosition verticbl text position
+     * @pbrbm iconTextGbp gbp between icon bnd text
+     * @pbrbm mnemonicIndex Index into text to render the mnemonic bt, -1
+     *        indicbtes no mnemonic.
      *
-     * @return the maximum size needed to properly render an icon and text.
+     * @return the mbximum size needed to properly render bn icon bnd text.
      */
-    public Dimension getMaximumSize(SynthContext ss, Font font, String text,
+    public Dimension getMbximumSize(SynthContext ss, Font font, String text,
                       Icon icon, int hAlign, int vAlign, int hTextPosition,
-                      int vTextPosition, int iconTextGap, int mnemonicIndex) {
+                      int vTextPosition, int iconTextGbp, int mnemonicIndex) {
         JComponent c = ss.getComponent();
         Dimension size = getPreferredSize(ss, font, text, icon, hAlign,
                                           vAlign, hTextPosition, vTextPosition,
-                                          iconTextGap, mnemonicIndex);
-        View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+                                          iconTextGbp, mnemonicIndex);
+        View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
 
         if (v != null) {
-            size.width += v.getMaximumSpan(View.X_AXIS) -
-                          v.getPreferredSpan(View.X_AXIS);
+            size.width += v.getMbximumSpbn(View.X_AXIS) -
+                          v.getPreferredSpbn(View.X_AXIS);
         }
         return size;
     }
 
     /**
-     * Returns the maximum height of the the Font from the passed in
+     * Returns the mbximum height of the the Font from the pbssed in
      * SynthContext.
      *
-     * @param context SynthContext used to determine font.
-     * @return maximum height of the characters for the font from the passed
+     * @pbrbm context SynthContext used to determine font.
+     * @return mbximum height of the chbrbcters for the font from the pbssed
      *         in context.
      */
-    public int getMaximumCharHeight(SynthContext context) {
+    public int getMbximumChbrHeight(SynthContext context) {
         FontMetrics fm = context.getComponent().getFontMetrics(
             context.getStyle().getFont(context));
         return (fm.getAscent() + fm.getDescent());
     }
 
     /**
-     * Returns the preferred size needed to properly render an icon and text.
+     * Returns the preferred size needed to properly render bn icon bnd text.
      *
-     * @param ss SynthContext
-     * @param font Font to use
-     * @param text Text to layout
-     * @param icon Icon to layout
-     * @param hAlign horizontal alignment
-     * @param vAlign vertical alignment
-     * @param hTextPosition horizontal text position
-     * @param vTextPosition vertical text position
-     * @param iconTextGap gap between icon and text
-     * @param mnemonicIndex Index into text to render the mnemonic at, -1
-     *        indicates no mnemonic.
+     * @pbrbm ss SynthContext
+     * @pbrbm font Font to use
+     * @pbrbm text Text to lbyout
+     * @pbrbm icon Icon to lbyout
+     * @pbrbm hAlign horizontbl blignment
+     * @pbrbm vAlign verticbl blignment
+     * @pbrbm hTextPosition horizontbl text position
+     * @pbrbm vTextPosition verticbl text position
+     * @pbrbm iconTextGbp gbp between icon bnd text
+     * @pbrbm mnemonicIndex Index into text to render the mnemonic bt, -1
+     *        indicbtes no mnemonic.
      *
-     * @return the preferred size needed to properly render an icon and text.
+     * @return the preferred size needed to properly render bn icon bnd text.
      */
     public Dimension getPreferredSize(SynthContext ss, Font font, String text,
                       Icon icon, int hAlign, int vAlign, int hTextPosition,
-                      int vTextPosition, int iconTextGap, int mnemonicIndex) {
+                      int vTextPosition, int iconTextGbp, int mnemonicIndex) {
         JComponent c = ss.getComponent();
         Insets insets = c.getInsets(viewSizingInsets);
         int dx = insets.left + insets.right;
@@ -299,13 +299,13 @@ public class SynthGraphicsUtils {
             viewR.y = dy;
             viewR.width = viewR.height = Short.MAX_VALUE;
 
-            layoutText(ss, fm, text, icon, hAlign, vAlign,
+            lbyoutText(ss, fm, text, icon, hAlign, vAlign,
                    hTextPosition, vTextPosition, viewR, iconR, textR,
-                   iconTextGap);
-            int x1 = Math.min(iconR.x, textR.x);
-            int x2 = Math.max(iconR.x + iconR.width, textR.x + textR.width);
-            int y1 = Math.min(iconR.y, textR.y);
-            int y2 = Math.max(iconR.y + iconR.height, textR.y + textR.height);
+                   iconTextGbp);
+            int x1 = Mbth.min(iconR.x, textR.x);
+            int x2 = Mbth.mbx(iconR.x + iconR.width, textR.x + textR.width);
+            int y1 = Mbth.min(iconR.y, textR.y);
+            int y2 = Mbth.mbx(iconR.y + iconR.height, textR.y + textR.height);
             Dimension rv = new Dimension(x2 - x1, y2 - y1);
 
             rv.width += dx;
@@ -315,169 +315,169 @@ public class SynthGraphicsUtils {
     }
 
     /**
-     * Paints text at the specified location. This will not attempt to
-     * render the text as html nor will it offset by the insets of the
+     * Pbints text bt the specified locbtion. This will not bttempt to
+     * render the text bs html nor will it offset by the insets of the
      * component.
      *
-     * @param ss SynthContext
-     * @param g Graphics used to render string in.
-     * @param text Text to render
-     * @param bounds Bounds of the text to be drawn.
-     * @param mnemonicIndex Index to draw string at.
+     * @pbrbm ss SynthContext
+     * @pbrbm g Grbphics used to render string in.
+     * @pbrbm text Text to render
+     * @pbrbm bounds Bounds of the text to be drbwn.
+     * @pbrbm mnemonicIndex Index to drbw string bt.
      */
-    public void paintText(SynthContext ss, Graphics g, String text,
-                          Rectangle bounds, int mnemonicIndex) {
-        paintText(ss, g, text, bounds.x, bounds.y, mnemonicIndex);
+    public void pbintText(SynthContext ss, Grbphics g, String text,
+                          Rectbngle bounds, int mnemonicIndex) {
+        pbintText(ss, g, text, bounds.x, bounds.y, mnemonicIndex);
     }
 
     /**
-     * Paints text at the specified location. This will not attempt to
-     * render the text as html nor will it offset by the insets of the
+     * Pbints text bt the specified locbtion. This will not bttempt to
+     * render the text bs html nor will it offset by the insets of the
      * component.
      *
-     * @param ss SynthContext
-     * @param g Graphics used to render string in.
-     * @param text Text to render
-     * @param x X location to draw text at.
-     * @param y Upper left corner to draw text at.
-     * @param mnemonicIndex Index to draw string at.
+     * @pbrbm ss SynthContext
+     * @pbrbm g Grbphics used to render string in.
+     * @pbrbm text Text to render
+     * @pbrbm x X locbtion to drbw text bt.
+     * @pbrbm y Upper left corner to drbw text bt.
+     * @pbrbm mnemonicIndex Index to drbw string bt.
      */
-    public void paintText(SynthContext ss, Graphics g, String text,
+    public void pbintText(SynthContext ss, Grbphics g, String text,
                           int x, int y, int mnemonicIndex) {
         if (text != null) {
             JComponent c = ss.getComponent();
             FontMetrics fm = SwingUtilities2.getFontMetrics(c, g);
             y += fm.getAscent();
-            SwingUtilities2.drawStringUnderlineCharAt(c, g, text,
+            SwingUtilities2.drbwStringUnderlineChbrAt(c, g, text,
                                                       mnemonicIndex, x, y);
         }
     }
 
     /**
-     * Paints an icon and text. This will render the text as html, if
-     * necessary, and offset the location by the insets of the component.
+     * Pbints bn icon bnd text. This will render the text bs html, if
+     * necessbry, bnd offset the locbtion by the insets of the component.
      *
-     * @param ss SynthContext
-     * @param g Graphics to render string and icon into
-     * @param text Text to layout
-     * @param icon Icon to layout
-     * @param hAlign horizontal alignment
-     * @param vAlign vertical alignment
-     * @param hTextPosition horizontal text position
-     * @param vTextPosition vertical text position
-     * @param iconTextGap gap between icon and text
-     * @param mnemonicIndex Index into text to render the mnemonic at, -1
-     *        indicates no mnemonic.
-     * @param textOffset Amount to offset the text when painting
+     * @pbrbm ss SynthContext
+     * @pbrbm g Grbphics to render string bnd icon into
+     * @pbrbm text Text to lbyout
+     * @pbrbm icon Icon to lbyout
+     * @pbrbm hAlign horizontbl blignment
+     * @pbrbm vAlign verticbl blignment
+     * @pbrbm hTextPosition horizontbl text position
+     * @pbrbm vTextPosition verticbl text position
+     * @pbrbm iconTextGbp gbp between icon bnd text
+     * @pbrbm mnemonicIndex Index into text to render the mnemonic bt, -1
+     *        indicbtes no mnemonic.
+     * @pbrbm textOffset Amount to offset the text when pbinting
      */
-    public void paintText(SynthContext ss, Graphics g, String text,
+    public void pbintText(SynthContext ss, Grbphics g, String text,
                       Icon icon, int hAlign, int vAlign, int hTextPosition,
-                      int vTextPosition, int iconTextGap, int mnemonicIndex,
+                      int vTextPosition, int iconTextGbp, int mnemonicIndex,
                       int textOffset) {
         if ((icon == null) && (text == null)) {
             return;
         }
         JComponent c = ss.getComponent();
         FontMetrics fm = SwingUtilities2.getFontMetrics(c, g);
-        Insets insets = SynthLookAndFeel.getPaintingInsets(ss, paintInsets);
+        Insets insets = SynthLookAndFeel.getPbintingInsets(ss, pbintInsets);
 
-        paintViewR.x = insets.left;
-        paintViewR.y = insets.top;
-        paintViewR.width = c.getWidth() - (insets.left + insets.right);
-        paintViewR.height = c.getHeight() - (insets.top + insets.bottom);
+        pbintViewR.x = insets.left;
+        pbintViewR.y = insets.top;
+        pbintViewR.width = c.getWidth() - (insets.left + insets.right);
+        pbintViewR.height = c.getHeight() - (insets.top + insets.bottom);
 
-        paintIconR.x = paintIconR.y = paintIconR.width = paintIconR.height = 0;
-        paintTextR.x = paintTextR.y = paintTextR.width = paintTextR.height = 0;
+        pbintIconR.x = pbintIconR.y = pbintIconR.width = pbintIconR.height = 0;
+        pbintTextR.x = pbintTextR.y = pbintTextR.width = pbintTextR.height = 0;
 
         String clippedText =
-            layoutText(ss, fm, text, icon, hAlign, vAlign,
-                   hTextPosition, vTextPosition, paintViewR, paintIconR,
-                   paintTextR, iconTextGap);
+            lbyoutText(ss, fm, text, icon, hAlign, vAlign,
+                   hTextPosition, vTextPosition, pbintViewR, pbintIconR,
+                   pbintTextR, iconTextGbp);
 
         if (icon != null) {
             Color color = g.getColor();
 
-            if (ss.getStyle().getBoolean(ss, "TableHeader.alignSorterArrow", false) &&
-                "TableHeader.renderer".equals(c.getName())) {
-                paintIconR.x = paintViewR.width - paintIconR.width;
+            if (ss.getStyle().getBoolebn(ss, "TbbleHebder.blignSorterArrow", fblse) &&
+                "TbbleHebder.renderer".equbls(c.getNbme())) {
+                pbintIconR.x = pbintViewR.width - pbintIconR.width;
             } else {
-                paintIconR.x += textOffset;
+                pbintIconR.x += textOffset;
             }
-            paintIconR.y += textOffset;
-            SynthIcon.paintIcon(icon, ss, g, paintIconR.x, paintIconR.y,
-                                paintIconR.width, paintIconR.height);
+            pbintIconR.y += textOffset;
+            SynthIcon.pbintIcon(icon, ss, g, pbintIconR.x, pbintIconR.y,
+                                pbintIconR.width, pbintIconR.height);
             g.setColor(color);
         }
 
         if (text != null) {
-            View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+            View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
 
             if (v != null) {
-                v.paint(g, paintTextR);
+                v.pbint(g, pbintTextR);
             } else {
-                paintTextR.x += textOffset;
-                paintTextR.y += textOffset;
+                pbintTextR.x += textOffset;
+                pbintTextR.y += textOffset;
 
-                paintText(ss, g, clippedText, paintTextR, mnemonicIndex);
+                pbintText(ss, g, clippedText, pbintTextR, mnemonicIndex);
             }
         }
     }
 
 
      /**
-      * A quick note about how preferred sizes are calculated... Generally
-      * speaking, SynthPopupMenuUI will run through the list of its children
-      * (from top to bottom) and ask each for its preferred size.  Each menu
-      * item will add up the max width of each element (icons, text,
-      * accelerator spacing, accelerator text or arrow icon) encountered thus
-      * far, so by the time all menu items have been calculated, we will
-      * know the maximum (preferred) menu item size for that popup menu.
-      * Later when it comes time to paint each menu item, we can use those
-      * same accumulated max element sizes in order to layout the item.
+      * A quick note bbout how preferred sizes bre cblculbted... Generblly
+      * spebking, SynthPopupMenuUI will run through the list of its children
+      * (from top to bottom) bnd bsk ebch for its preferred size.  Ebch menu
+      * item will bdd up the mbx width of ebch element (icons, text,
+      * bccelerbtor spbcing, bccelerbtor text or brrow icon) encountered thus
+      * fbr, so by the time bll menu items hbve been cblculbted, we will
+      * know the mbximum (preferred) menu item size for thbt popup menu.
+      * Lbter when it comes time to pbint ebch menu item, we cbn use those
+      * sbme bccumulbted mbx element sizes in order to lbyout the item.
       */
-    static Dimension getPreferredMenuItemSize(SynthContext context,
-           SynthContext accContext, JComponent c,
-           Icon checkIcon, Icon arrowIcon, int defaultTextIconGap,
-           String acceleratorDelimiter, boolean useCheckAndArrow,
+    stbtic Dimension getPreferredMenuItemSize(SynthContext context,
+           SynthContext bccContext, JComponent c,
+           Icon checkIcon, Icon brrowIcon, int defbultTextIconGbp,
+           String bccelerbtorDelimiter, boolebn useCheckAndArrow,
            String propertyPrefix) {
 
          JMenuItem mi = (JMenuItem) c;
-         SynthMenuItemLayoutHelper lh = new SynthMenuItemLayoutHelper(
-                 context, accContext, mi, checkIcon, arrowIcon,
-                 MenuItemLayoutHelper.createMaxRect(), defaultTextIconGap,
-                 acceleratorDelimiter, SynthLookAndFeel.isLeftToRight(mi),
+         SynthMenuItemLbyoutHelper lh = new SynthMenuItemLbyoutHelper(
+                 context, bccContext, mi, checkIcon, brrowIcon,
+                 MenuItemLbyoutHelper.crebteMbxRect(), defbultTextIconGbp,
+                 bccelerbtorDelimiter, SynthLookAndFeel.isLeftToRight(mi),
                  useCheckAndArrow, propertyPrefix);
 
          Dimension result = new Dimension();
 
-         // Calculate the result width
-         int gap = lh.getGap();
+         // Cblculbte the result width
+         int gbp = lh.getGbp();
          result.width = 0;
-         MenuItemLayoutHelper.addMaxWidth(lh.getCheckSize(), gap, result);
-         MenuItemLayoutHelper.addMaxWidth(lh.getLabelSize(), gap, result);
-         MenuItemLayoutHelper.addWidth(lh.getMaxAccOrArrowWidth(), 5 * gap, result);
-         // The last gap is unnecessary
-         result.width -= gap;
+         MenuItemLbyoutHelper.bddMbxWidth(lh.getCheckSize(), gbp, result);
+         MenuItemLbyoutHelper.bddMbxWidth(lh.getLbbelSize(), gbp, result);
+         MenuItemLbyoutHelper.bddWidth(lh.getMbxAccOrArrowWidth(), 5 * gbp, result);
+         // The lbst gbp is unnecessbry
+         result.width -= gbp;
 
-         // Calculate the result height
-         result.height = MenuItemLayoutHelper.max(lh.getCheckSize().getHeight(),
-                 lh.getLabelSize().getHeight(), lh.getAccSize().getHeight(),
+         // Cblculbte the result height
+         result.height = MenuItemLbyoutHelper.mbx(lh.getCheckSize().getHeight(),
+                 lh.getLbbelSize().getHeight(), lh.getAccSize().getHeight(),
                  lh.getArrowSize().getHeight());
 
-         // Take into account menu item insets
+         // Tbke into bccount menu item insets
          Insets insets = lh.getMenuItem().getInsets();
          if (insets != null) {
              result.width += insets.left + insets.right;
              result.height += insets.top + insets.bottom;
          }
 
-         // if the width is even, bump it up one. This is critical
-         // for the focus dash lhne to draw properly
+         // if the width is even, bump it up one. This is criticbl
+         // for the focus dbsh lhne to drbw properly
          if (result.width % 2 == 0) {
              result.width++;
          }
 
-         // if the height is even, bump it up one. This is critical
+         // if the height is even, bump it up one. This is criticbl
          // for the text to center properly
          if (result.height % 2 == 0) {
              result.height++;
@@ -486,7 +486,7 @@ public class SynthGraphicsUtils {
          return result;
      }
 
-    static void applyInsets(Rectangle rect, Insets insets, boolean leftToRight) {
+    stbtic void bpplyInsets(Rectbngle rect, Insets insets, boolebn leftToRight) {
         if (insets != null) {
             rect.x += (leftToRight ? insets.left : insets.right);
             rect.y += insets.top;
@@ -495,64 +495,64 @@ public class SynthGraphicsUtils {
         }
     }
 
-    static void paint(SynthContext context, SynthContext accContext, Graphics g,
-               Icon checkIcon, Icon arrowIcon, String acceleratorDelimiter,
-               int defaultTextIconGap, String propertyPrefix) {
+    stbtic void pbint(SynthContext context, SynthContext bccContext, Grbphics g,
+               Icon checkIcon, Icon brrowIcon, String bccelerbtorDelimiter,
+               int defbultTextIconGbp, String propertyPrefix) {
         JMenuItem mi = (JMenuItem) context.getComponent();
         SynthStyle style = context.getStyle();
         g.setFont(style.getFont(context));
 
-        Rectangle viewRect = new Rectangle(0, 0, mi.getWidth(), mi.getHeight());
-        boolean leftToRight = SynthLookAndFeel.isLeftToRight(mi);
-        applyInsets(viewRect, mi.getInsets(), leftToRight);
+        Rectbngle viewRect = new Rectbngle(0, 0, mi.getWidth(), mi.getHeight());
+        boolebn leftToRight = SynthLookAndFeel.isLeftToRight(mi);
+        bpplyInsets(viewRect, mi.getInsets(), leftToRight);
 
-        SynthMenuItemLayoutHelper lh = new SynthMenuItemLayoutHelper(
-                context, accContext, mi, checkIcon, arrowIcon, viewRect,
-                defaultTextIconGap, acceleratorDelimiter, leftToRight,
-                MenuItemLayoutHelper.useCheckAndArrow(mi), propertyPrefix);
-        MenuItemLayoutHelper.LayoutResult lr = lh.layoutMenuItem();
+        SynthMenuItemLbyoutHelper lh = new SynthMenuItemLbyoutHelper(
+                context, bccContext, mi, checkIcon, brrowIcon, viewRect,
+                defbultTextIconGbp, bccelerbtorDelimiter, leftToRight,
+                MenuItemLbyoutHelper.useCheckAndArrow(mi), propertyPrefix);
+        MenuItemLbyoutHelper.LbyoutResult lr = lh.lbyoutMenuItem();
 
-        paintMenuItem(g, lh, lr);
+        pbintMenuItem(g, lh, lr);
     }
 
-    static void paintMenuItem(Graphics g, SynthMenuItemLayoutHelper lh,
-                              MenuItemLayoutHelper.LayoutResult lr) {
-        // Save original graphics font and color
+    stbtic void pbintMenuItem(Grbphics g, SynthMenuItemLbyoutHelper lh,
+                              MenuItemLbyoutHelper.LbyoutResult lr) {
+        // Sbve originbl grbphics font bnd color
         Font holdf = g.getFont();
         Color holdc = g.getColor();
 
-        paintCheckIcon(g, lh, lr);
-        paintIcon(g, lh, lr);
-        paintText(g, lh, lr);
-        paintAccText(g, lh, lr);
-        paintArrowIcon(g, lh, lr);
+        pbintCheckIcon(g, lh, lr);
+        pbintIcon(g, lh, lr);
+        pbintText(g, lh, lr);
+        pbintAccText(g, lh, lr);
+        pbintArrowIcon(g, lh, lr);
 
-        // Restore original graphics font and color
+        // Restore originbl grbphics font bnd color
         g.setColor(holdc);
         g.setFont(holdf);
     }
 
-    static void paintBackground(Graphics g, SynthMenuItemLayoutHelper lh) {
-        paintBackground(lh.getContext(), g, lh.getMenuItem());
+    stbtic void pbintBbckground(Grbphics g, SynthMenuItemLbyoutHelper lh) {
+        pbintBbckground(lh.getContext(), g, lh.getMenuItem());
     }
 
-    static void paintBackground(SynthContext context, Graphics g, JComponent c) {
-        context.getPainter().paintMenuItemBackground(context, g, 0, 0,
+    stbtic void pbintBbckground(SynthContext context, Grbphics g, JComponent c) {
+        context.getPbinter().pbintMenuItemBbckground(context, g, 0, 0,
                 c.getWidth(), c.getHeight());
     }
 
-    static void paintIcon(Graphics g, SynthMenuItemLayoutHelper lh,
-                          MenuItemLayoutHelper.LayoutResult lr) {
+    stbtic void pbintIcon(Grbphics g, SynthMenuItemLbyoutHelper lh,
+                          MenuItemLbyoutHelper.LbyoutResult lr) {
         if (lh.getIcon() != null) {
             Icon icon;
             JMenuItem mi = lh.getMenuItem();
             ButtonModel model = mi.getModel();
-            if (!model.isEnabled()) {
-                icon = mi.getDisabledIcon();
+            if (!model.isEnbbled()) {
+                icon = mi.getDisbbledIcon();
             } else if (model.isPressed() && model.isArmed()) {
                 icon = mi.getPressedIcon();
                 if (icon == null) {
-                    // Use default icon
+                    // Use defbult icon
                     icon = mi.getIcon();
                 }
             } else {
@@ -560,91 +560,91 @@ public class SynthGraphicsUtils {
             }
 
             if (icon != null) {
-                Rectangle iconRect = lr.getIconRect();
-                SynthIcon.paintIcon(icon, lh.getContext(), g, iconRect.x,
+                Rectbngle iconRect = lr.getIconRect();
+                SynthIcon.pbintIcon(icon, lh.getContext(), g, iconRect.x,
                         iconRect.y, iconRect.width, iconRect.height);
             }
         }
     }
 
-    static void paintCheckIcon(Graphics g, SynthMenuItemLayoutHelper lh,
-                               MenuItemLayoutHelper.LayoutResult lr) {
+    stbtic void pbintCheckIcon(Grbphics g, SynthMenuItemLbyoutHelper lh,
+                               MenuItemLbyoutHelper.LbyoutResult lr) {
         if (lh.getCheckIcon() != null) {
-            Rectangle checkRect = lr.getCheckRect();
-            SynthIcon.paintIcon(lh.getCheckIcon(), lh.getContext(), g,
+            Rectbngle checkRect = lr.getCheckRect();
+            SynthIcon.pbintIcon(lh.getCheckIcon(), lh.getContext(), g,
                     checkRect.x, checkRect.y, checkRect.width, checkRect.height);
         }
     }
 
-    static void paintAccText(Graphics g, SynthMenuItemLayoutHelper lh,
-                             MenuItemLayoutHelper.LayoutResult lr) {
-        String accText = lh.getAccText();
-        if (accText != null && !accText.equals("")) {
+    stbtic void pbintAccText(Grbphics g, SynthMenuItemLbyoutHelper lh,
+                             MenuItemLbyoutHelper.LbyoutResult lr) {
+        String bccText = lh.getAccText();
+        if (bccText != null && !bccText.equbls("")) {
             g.setColor(lh.getAccStyle().getColor(lh.getAccContext(),
                     ColorType.TEXT_FOREGROUND));
             g.setFont(lh.getAccStyle().getFont(lh.getAccContext()));
-            lh.getAccGraphicsUtils().paintText(lh.getAccContext(), g, accText,
+            lh.getAccGrbphicsUtils().pbintText(lh.getAccContext(), g, bccText,
                     lr.getAccRect().x, lr.getAccRect().y, -1);
         }
     }
 
-    static void paintText(Graphics g, SynthMenuItemLayoutHelper lh,
-                          MenuItemLayoutHelper.LayoutResult lr) {
-        if (!lh.getText().equals("")) {
+    stbtic void pbintText(Grbphics g, SynthMenuItemLbyoutHelper lh,
+                          MenuItemLbyoutHelper.LbyoutResult lr) {
+        if (!lh.getText().equbls("")) {
             if (lh.getHtmlView() != null) {
                 // Text is HTML
-                lh.getHtmlView().paint(g, lr.getTextRect());
+                lh.getHtmlView().pbint(g, lr.getTextRect());
             } else {
                 // Text isn't HTML
                 g.setColor(lh.getStyle().getColor(
                         lh.getContext(), ColorType.TEXT_FOREGROUND));
                 g.setFont(lh.getStyle().getFont(lh.getContext()));
-                lh.getGraphicsUtils().paintText(lh.getContext(), g, lh.getText(),
+                lh.getGrbphicsUtils().pbintText(lh.getContext(), g, lh.getText(),
                         lr.getTextRect().x, lr.getTextRect().y,
-                        lh.getMenuItem().getDisplayedMnemonicIndex());
+                        lh.getMenuItem().getDisplbyedMnemonicIndex());
             }
         }
     }
 
-    static void paintArrowIcon(Graphics g, SynthMenuItemLayoutHelper lh,
-                               MenuItemLayoutHelper.LayoutResult lr) {
+    stbtic void pbintArrowIcon(Grbphics g, SynthMenuItemLbyoutHelper lh,
+                               MenuItemLbyoutHelper.LbyoutResult lr) {
         if (lh.getArrowIcon() != null) {
-            Rectangle arrowRect = lr.getArrowRect();
-            SynthIcon.paintIcon(lh.getArrowIcon(), lh.getContext(), g,
-                    arrowRect.x, arrowRect.y, arrowRect.width, arrowRect.height);
+            Rectbngle brrowRect = lr.getArrowRect();
+            SynthIcon.pbintIcon(lh.getArrowIcon(), lh.getContext(), g,
+                    brrowRect.x, brrowRect.y, brrowRect.width, brrowRect.height);
         }
     }
 
     /**
-     * Wraps a SynthIcon around the Icon interface, forwarding calls to
-     * the SynthIcon with a given SynthContext.
+     * Wrbps b SynthIcon bround the Icon interfbce, forwbrding cblls to
+     * the SynthIcon with b given SynthContext.
      */
-    private static class SynthIconWrapper implements Icon {
-        private static final java.util.List<SynthIconWrapper> CACHE = new java.util.ArrayList<SynthIconWrapper>(1);
+    privbte stbtic clbss SynthIconWrbpper implements Icon {
+        privbte stbtic finbl jbvb.util.List<SynthIconWrbpper> CACHE = new jbvb.util.ArrbyList<SynthIconWrbpper>(1);
 
-        private SynthIcon synthIcon;
-        private SynthContext context;
+        privbte SynthIcon synthIcon;
+        privbte SynthContext context;
 
-        static SynthIconWrapper get(SynthIcon icon, SynthContext context) {
+        stbtic SynthIconWrbpper get(SynthIcon icon, SynthContext context) {
             synchronized(CACHE) {
                 int size = CACHE.size();
                 if (size > 0) {
-                    SynthIconWrapper wrapper = CACHE.remove(size - 1);
-                    wrapper.reset(icon, context);
-                    return wrapper;
+                    SynthIconWrbpper wrbpper = CACHE.remove(size - 1);
+                    wrbpper.reset(icon, context);
+                    return wrbpper;
                 }
             }
-            return new SynthIconWrapper(icon, context);
+            return new SynthIconWrbpper(icon, context);
         }
 
-        static void release(SynthIconWrapper wrapper) {
-            wrapper.reset(null, null);
+        stbtic void relebse(SynthIconWrbpper wrbpper) {
+            wrbpper.reset(null, null);
             synchronized(CACHE) {
-                CACHE.add(wrapper);
+                CACHE.bdd(wrbpper);
             }
         }
 
-        SynthIconWrapper(SynthIcon icon, SynthContext context) {
+        SynthIconWrbpper(SynthIcon icon, SynthContext context) {
             reset(icon, context);
         }
 
@@ -653,8 +653,8 @@ public class SynthGraphicsUtils {
             this.context = context;
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            // This is a noop as this should only be for sizing calls.
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
+            // This is b noop bs this should only be for sizing cblls.
         }
 
         public int getIconWidth() {

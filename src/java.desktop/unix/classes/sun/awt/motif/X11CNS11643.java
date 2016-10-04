@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 2001, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.motif;
+pbckbge sun.bwt.motif;
 
-import java.nio.CharBuffer;
-import java.nio.ByteBuffer;
-import java.nio.charset.*;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbrset.*;
 import sun.nio.cs.ext.EUC_TW;
 
-public abstract class X11CNS11643 extends Charset {
-    private final int plane;
-    public X11CNS11643 (int plane, String name) {
-        super(name, null);
-        switch (plane) {
-        case 1:
-            this.plane = 0; // CS1
-            break;
-        case 2:
-        case 3:
-            this.plane = plane;
-            break;
-        default:
-            throw new IllegalArgumentException
-                ("Only planes 1, 2, and 3 supported");
+public bbstrbct clbss X11CNS11643 extends Chbrset {
+    privbte finbl int plbne;
+    public X11CNS11643 (int plbne, String nbme) {
+        super(nbme, null);
+        switch (plbne) {
+        cbse 1:
+            this.plbne = 0; // CS1
+            brebk;
+        cbse 2:
+        cbse 3:
+            this.plbne = plbne;
+            brebk;
+        defbult:
+            throw new IllegblArgumentException
+                ("Only plbnes 1, 2, bnd 3 supported");
         }
     }
 
-    public CharsetEncoder newEncoder() {
-        return new Encoder(this, plane);
+    public ChbrsetEncoder newEncoder() {
+        return new Encoder(this, plbne);
     }
 
-    public CharsetDecoder newDecoder() {
-        return new Decoder(this, plane);
+    public ChbrsetDecoder newDecoder() {
+        return new Decoder(this, plbne);
     }
 
-    public boolean contains(Charset cs) {
-        return cs instanceof X11CNS11643;
+    public boolebn contbins(Chbrset cs) {
+        return cs instbnceof X11CNS11643;
     }
 
-    private class Encoder extends EUC_TW.Encoder {
-        private int plane;
-        public Encoder(Charset cs, int plane) {
+    privbte clbss Encoder extends EUC_TW.Encoder {
+        privbte int plbne;
+        public Encoder(Chbrset cs, int plbne) {
             super(cs);
-            this.plane = plane;
+            this.plbne = plbne;
         }
 
-        private byte[] bb = new byte[4];
-        public boolean canEncode(char c) {
+        privbte byte[] bb = new byte[4];
+        public boolebn cbnEncode(chbr c) {
             if (c <= 0x7F) {
-                return false;
+                return fblse;
             }
             int nb = toEUC(c, bb);
             if (nb == -1)
-                return false;
+                return fblse;
             int p = 0;
             if (nb == 4)
-                p = (bb[1] & 0xff) - 0xa0;
-            return (p == plane);
+                p = (bb[1] & 0xff) - 0xb0;
+            return (p == plbne);
         }
 
-        public boolean isLegalReplacement(byte[] repl) {
+        public boolebn isLegblReplbcement(byte[] repl) {
             return true;
         }
 
-        protected CoderResult encodeLoop(CharBuffer src, ByteBuffer dst) {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
+        protected CoderResult encodeLoop(ChbrBuffer src, ByteBuffer dst) {
+            chbr[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            byte[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
 
             try {
                 while (sp < sl) {
-                    char c = sa[sp];
+                    chbr c = sb[sp];
                     if ( c > '\u007f'&& c < '\uFFFE') {
                         int nb = toEUC(c, bb);
                         if (nb != -1) {
                             int p = 0;
                             if (nb == 4)
-                                p = (bb[1] & 0xff) - 0xa0;
-                            if (p == plane) {
+                                p = (bb[1] & 0xff) - 0xb0;
+                            if (p == plbne) {
                                 if (dl - dp < 2)
                                     return CoderResult.OVERFLOW;
                                 if (nb == 2) {
-                                    da[dp++] = (byte)(bb[0] & 0x7f);
-                                    da[dp++] = (byte)(bb[1] & 0x7f);
+                                    db[dp++] = (byte)(bb[0] & 0x7f);
+                                    db[dp++] = (byte)(bb[1] & 0x7f);
                                 } else {
-                                    da[dp++] = (byte)(bb[2] & 0x7f);
-                                    da[dp++] = (byte)(bb[3] & 0x7f);
+                                    db[dp++] = (byte)(bb[2] & 0x7f);
+                                    db[dp++] = (byte)(bb[3] & 0x7f);
                                 }
                                 sp++;
                                 continue;
                             }
                         }
                     }
-                    return CoderResult.unmappableForLength(1);
+                    return CoderResult.unmbppbbleForLength(1);
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
     }
 
-    private class Decoder extends EUC_TW.Decoder {
-        int plane;
-        private String table;
-        protected Decoder(Charset cs, int plane) {
+    privbte clbss Decoder extends EUC_TW.Decoder {
+        int plbne;
+        privbte String tbble;
+        protected Decoder(Chbrset cs, int plbne) {
             super(cs);
-            if (plane == 0)
-                this.plane = plane;
-            else if (plane == 2 || plane == 3)
-                this.plane = plane - 1;
+            if (plbne == 0)
+                this.plbne = plbne;
+            else if (plbne == 2 || plbne == 3)
+                this.plbne = plbne - 1;
             else
-                throw new IllegalArgumentException
-                    ("Only planes 1, 2, and 3 supported");
+                throw new IllegblArgumentException
+                    ("Only plbnes 1, 2, bnd 3 supported");
         }
 
-        //we only work on array backed buffer.
-        protected CoderResult decodeLoop(ByteBuffer src, CharBuffer dst) {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
+        //we only work on brrby bbcked buffer.
+        protected CoderResult decodeLoop(ByteBuffer src, ChbrBuffer dst) {
+            byte[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
 
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
+            chbr[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
 
             try {
                 while (sp < sl) {
                     if ( sl - sp < 2) {
                         return CoderResult.UNDERFLOW;
                     }
-                    int b1 = (sa[sp] & 0xff) | 0x80;
-                    int b2 = (sa[sp + 1] & 0xff) | 0x80;
-                    char[] cc = toUnicode(b1, b2, plane);
-                    // plane3 has non-bmp characters(added), x11cnsp3
+                    int b1 = (sb[sp] & 0xff) | 0x80;
+                    int b2 = (sb[sp + 1] & 0xff) | 0x80;
+                    chbr[] cc = toUnicode(b1, b2, plbne);
+                    // plbne3 hbs non-bmp chbrbcters(bdded), x11cnsp3
                     // however does not support them
                     if (cc == null || cc.length == 2)
-                        return CoderResult.unmappableForLength(2);
+                        return CoderResult.unmbppbbleForLength(2);
                     if (dl - dp < 1)
                         return CoderResult.OVERFLOW;
-                    da[dp++] = cc[0];
+                    db[dp++] = cc[0];
                     sp +=2;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
     }

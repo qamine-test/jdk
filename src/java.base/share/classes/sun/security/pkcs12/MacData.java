@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs12;
+pbckbge sun.security.pkcs12;
 
-import java.io.*;
-import java.security.*;
+import jbvb.io.*;
+import jbvb.security.*;
 
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
+import sun.security.util.DerInputStrebm;
+import sun.security.util.DerOutputStrebm;
+import sun.security.util.DerVblue;
 import sun.security.x509.AlgorithmId;
-import sun.security.pkcs.ParsingException;
+import sun.security.pkcs.PbrsingException;
 
 
 /**
- * A MacData type, as defined in PKCS#12.
+ * A MbcDbtb type, bs defined in PKCS#12.
  *
- * @author Sharon Liu
+ * @buthor Shbron Liu
  */
 
-class MacData {
+clbss MbcDbtb {
 
-    private String digestAlgorithmName;
-    private AlgorithmParameters digestAlgorithmParams;
-    private byte[] digest;
-    private byte[] macSalt;
-    private int iterations;
+    privbte String digestAlgorithmNbme;
+    privbte AlgorithmPbrbmeters digestAlgorithmPbrbms;
+    privbte byte[] digest;
+    privbte byte[] mbcSblt;
+    privbte int iterbtions;
 
-    // the ASN.1 encoded contents of this class
-    private byte[] encoded = null;
+    // the ASN.1 encoded contents of this clbss
+    privbte byte[] encoded = null;
 
     /**
-     * Parses a PKCS#12 MAC data.
+     * Pbrses b PKCS#12 MAC dbtb.
      */
-    MacData(DerInputStream derin)
-        throws IOException, ParsingException
+    MbcDbtb(DerInputStrebm derin)
+        throws IOException, PbrsingException
     {
-        DerValue[] macData = derin.getSequence(2);
+        DerVblue[] mbcDbtb = derin.getSequence(2);
 
-        // Parse the digest info
-        DerInputStream digestIn = new DerInputStream(macData[0].toByteArray());
-        DerValue[] digestInfo = digestIn.getSequence(2);
+        // Pbrse the digest info
+        DerInputStrebm digestIn = new DerInputStrebm(mbcDbtb[0].toByteArrby());
+        DerVblue[] digestInfo = digestIn.getSequence(2);
 
-        // Parse the DigestAlgorithmIdentifier.
-        AlgorithmId digestAlgorithmId = AlgorithmId.parse(digestInfo[0]);
-        this.digestAlgorithmName = digestAlgorithmId.getName();
-        this.digestAlgorithmParams = digestAlgorithmId.getParameters();
+        // Pbrse the DigestAlgorithmIdentifier.
+        AlgorithmId digestAlgorithmId = AlgorithmId.pbrse(digestInfo[0]);
+        this.digestAlgorithmNbme = digestAlgorithmId.getNbme();
+        this.digestAlgorithmPbrbms = digestAlgorithmId.getPbrbmeters();
         // Get the digest.
         this.digest = digestInfo[1].getOctetString();
 
-        // Get the salt.
-        this.macSalt = macData[1].getOctetString();
+        // Get the sblt.
+        this.mbcSblt = mbcDbtb[1].getOctetString();
 
-        // Iterations is optional. The default value is 1.
-        if (macData.length > 2) {
-            this.iterations = macData[2].getInteger();
+        // Iterbtions is optionbl. The defbult vblue is 1.
+        if (mbcDbtb.length > 2) {
+            this.iterbtions = mbcDbtb[2].getInteger();
         } else {
-            this.iterations = 1;
+            this.iterbtions = 1;
         }
     }
 
-    MacData(String algName, byte[] digest, byte[] salt, int iterations)
+    MbcDbtb(String blgNbme, byte[] digest, byte[] sblt, int iterbtions)
         throws NoSuchAlgorithmException
     {
-        if (algName == null)
-           throw new NullPointerException("the algName parameter " +
+        if (blgNbme == null)
+           throw new NullPointerException("the blgNbme pbrbmeter " +
                                                "must be non-null");
 
-        AlgorithmId algid = AlgorithmId.get(algName);
-        this.digestAlgorithmName = algid.getName();
-        this.digestAlgorithmParams = algid.getParameters();
+        AlgorithmId blgid = AlgorithmId.get(blgNbme);
+        this.digestAlgorithmNbme = blgid.getNbme();
+        this.digestAlgorithmPbrbms = blgid.getPbrbmeters();
 
         if (digest == null) {
             throw new NullPointerException("the digest " +
-                                           "parameter must be non-null");
+                                           "pbrbmeter must be non-null");
         } else if (digest.length == 0) {
-            throw new IllegalArgumentException("the digest " +
-                                                "parameter must not be empty");
+            throw new IllegblArgumentException("the digest " +
+                                                "pbrbmeter must not be empty");
         } else {
             this.digest = digest.clone();
         }
 
-        this.macSalt = salt;
-        this.iterations = iterations;
+        this.mbcSblt = sblt;
+        this.iterbtions = iterbtions;
 
-        // delay the generation of ASN.1 encoding until
-        // getEncoded() is called
+        // delby the generbtion of ASN.1 encoding until
+        // getEncoded() is cblled
         this.encoded = null;
 
     }
 
-    MacData(AlgorithmParameters algParams, byte[] digest,
-        byte[] salt, int iterations) throws NoSuchAlgorithmException
+    MbcDbtb(AlgorithmPbrbmeters blgPbrbms, byte[] digest,
+        byte[] sblt, int iterbtions) throws NoSuchAlgorithmException
     {
-        if (algParams == null)
-           throw new NullPointerException("the algParams parameter " +
+        if (blgPbrbms == null)
+           throw new NullPointerException("the blgPbrbms pbrbmeter " +
                                                "must be non-null");
 
-        AlgorithmId algid = AlgorithmId.get(algParams);
-        this.digestAlgorithmName = algid.getName();
-        this.digestAlgorithmParams = algid.getParameters();
+        AlgorithmId blgid = AlgorithmId.get(blgPbrbms);
+        this.digestAlgorithmNbme = blgid.getNbme();
+        this.digestAlgorithmPbrbms = blgid.getPbrbmeters();
 
         if (digest == null) {
             throw new NullPointerException("the digest " +
-                                           "parameter must be non-null");
+                                           "pbrbmeter must be non-null");
         } else if (digest.length == 0) {
-            throw new IllegalArgumentException("the digest " +
-                                                "parameter must not be empty");
+            throw new IllegblArgumentException("the digest " +
+                                                "pbrbmeter must not be empty");
         } else {
             this.digest = digest.clone();
         }
 
-        this.macSalt = salt;
-        this.iterations = iterations;
+        this.mbcSblt = sblt;
+        this.iterbtions = iterbtions;
 
-        // delay the generation of ASN.1 encoding until
-        // getEncoded() is called
+        // delby the generbtion of ASN.1 encoding until
+        // getEncoded() is cblled
         this.encoded = null;
 
     }
 
-    String getDigestAlgName() {
-        return digestAlgorithmName;
+    String getDigestAlgNbme() {
+        return digestAlgorithmNbme;
     }
 
-    byte[] getSalt() {
-        return macSalt;
+    byte[] getSblt() {
+        return mbcSblt;
     }
 
-    int getIterations() {
-        return iterations;
+    int getIterbtions() {
+        return iterbtions;
     }
 
     byte[] getDigest() {
@@ -169,28 +169,28 @@ class MacData {
         if (this.encoded != null)
             return this.encoded.clone();
 
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
+        DerOutputStrebm out = new DerOutputStrebm();
+        DerOutputStrebm tmp = new DerOutputStrebm();
 
-        DerOutputStream tmp2 = new DerOutputStream();
-        // encode encryption algorithm
-        AlgorithmId algid = AlgorithmId.get(digestAlgorithmName);
-        algid.encode(tmp2);
+        DerOutputStrebm tmp2 = new DerOutputStrebm();
+        // encode encryption blgorithm
+        AlgorithmId blgid = AlgorithmId.get(digestAlgorithmNbme);
+        blgid.encode(tmp2);
 
-        // encode digest data
+        // encode digest dbtb
         tmp2.putOctetString(digest);
 
-        tmp.write(DerValue.tag_Sequence, tmp2);
+        tmp.write(DerVblue.tbg_Sequence, tmp2);
 
-        // encode salt
-        tmp.putOctetString(macSalt);
+        // encode sblt
+        tmp.putOctetString(mbcSblt);
 
-        // encode iterations
-        tmp.putInteger(iterations);
+        // encode iterbtions
+        tmp.putInteger(iterbtions);
 
-        // wrap everything into a SEQUENCE
-        out.write(DerValue.tag_Sequence, tmp);
-        this.encoded = out.toByteArray();
+        // wrbp everything into b SEQUENCE
+        out.write(DerVblue.tbg_Sequence, tmp);
+        this.encoded = out.toByteArrby();
 
         return this.encoded.clone();
     }

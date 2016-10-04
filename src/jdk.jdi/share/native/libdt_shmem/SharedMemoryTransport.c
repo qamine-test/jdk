@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <stdlib.h>
 #include <jni.h>
-#include "SharedMemory.h"
-#include "com_sun_tools_jdi_SharedMemoryTransportService.h"
-#include "jdwpTransport.h"
-#include "shmemBase.h"
+#include "ShbredMemory.h"
+#include "com_sun_tools_jdi_ShbredMemoryTrbnsportService.h"
+#include "jdwpTrbnsport.h"
+#include "shmemBbse.h"
 #include "sys.h"
 
 /*
- * JNI interface to the shared memory transport. These JNI methods
- * call the base shared memory support to do the real work.
+ * JNI interfbce to the shbred memory trbnsport. These JNI methods
+ * cbll the bbse shbred memory support to do the rebl work.
  *
- * That is, this is the front-ends interface to our shared memory
- * transport establishment code.
+ * Thbt is, this is the front-ends interfbce to our shbred memory
+ * trbnsport estbblishment code.
  */
 
 /*
- * When initializing the transport from the front end, we use
- * standard malloc and free for allocation.
+ * When initiblizing the trbnsport from the front end, we use
+ * stbndbrd mblloc bnd free for bllocbtion.
  */
-static void *allocateWrapper(jint size) {
-    return malloc(size);
+stbtic void *bllocbteWrbpper(jint size) {
+    return mblloc(size);
 }
-static jdwpTransportCallback callbacks = {allocateWrapper, free};
+stbtic jdwpTrbnsportCbllbbck cbllbbcks = {bllocbteWrbpper, free};
 
 void
-throwException(JNIEnv *env, char *exceptionClassName, char *message)
+throwException(JNIEnv *env, chbr *exceptionClbssNbme, chbr *messbge)
 {
-    jclass excClass = (*env)->FindClass(env, exceptionClassName);
+    jclbss excClbss = (*env)->FindClbss(env, exceptionClbssNbme);
     if ((*env)->ExceptionOccurred(env)) {
         return;
     }
-    (*env)->ThrowNew(env, excClass, message);
+    (*env)->ThrowNew(env, excClbss, messbge);
 }
 
 void
-throwShmemException(JNIEnv *env, char *message, jint errorCode)
+throwShmemException(JNIEnv *env, chbr *messbge, jint errorCode)
 {
-    char msg[80];
-    char buf[255];
+    chbr msg[80];
+    chbr buf[255];
 
-    if (shmemBase_getlasterror(msg, sizeof(msg)) == SYS_OK) {
-        sprintf(buf, "%s: %s\n", message, msg);
+    if (shmemBbse_getlbsterror(msg, sizeof(msg)) == SYS_OK) {
+        sprintf(buf, "%s: %s\n", messbge, msg);
     } else {
-        sprintf(buf, "%s, error code = %d", message, errorCode);
+        sprintf(buf, "%s, error code = %d", messbge, errorCode);
     }
-    throwException(env, "java/io/IOException", buf);
+    throwException(env, "jbvb/io/IOException", buf);
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryTransport
- * Method:    accept0
- * Signature: (J)J
+ * Clbss:     com_sun_tools_jdi_ShbredMemoryTrbnsport
+ * Method:    bccept0
+ * Signbture: (J)J
  */
-JNIEXPORT jlong JNICALL Java_com_sun_tools_jdi_SharedMemoryTransportService_accept0
+JNIEXPORT jlong JNICALL Jbvb_com_sun_tools_jdi_ShbredMemoryTrbnsportService_bccept0
   (JNIEnv *env, jobject thisObject, jlong id, jlong timeout)
 {
-    SharedMemoryConnection *connection = NULL;
-    SharedMemoryTransport *transport = ID_TO_TRANSPORT(id);
+    ShbredMemoryConnection *connection = NULL;
+    ShbredMemoryTrbnsport *trbnsport = ID_TO_TRANSPORT(id);
     jint rc;
 
-    rc = shmemBase_accept(transport, (long)timeout, &connection);
+    rc = shmemBbse_bccept(trbnsport, (long)timeout, &connection);
     if (rc != SYS_OK) {
         if (rc == SYS_TIMEOUT) {
-            throwException(env, "com/sun/jdi/connect/TransportTimeoutException",
-                "Timed out waiting for target VM to connect");
+            throwException(env, "com/sun/jdi/connect/TrbnsportTimeoutException",
+                "Timed out wbiting for tbrget VM to connect");
         } else {
-            throwShmemException(env, "shmemBase_accept failed", rc);
+            throwShmemException(env, "shmemBbse_bccept fbiled", rc);
         }
         return -1;
     }
@@ -97,128 +97,128 @@ JNIEXPORT jlong JNICALL Java_com_sun_tools_jdi_SharedMemoryTransportService_acce
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryTransport
- * Method:    attach0
- * Signature: (Ljava/lang/String;)J
+ * Clbss:     com_sun_tools_jdi_ShbredMemoryTrbnsport
+ * Method:    bttbch0
+ * Signbture: (Ljbvb/lbng/String;)J
  */
-JNIEXPORT jlong JNICALL Java_com_sun_tools_jdi_SharedMemoryTransportService_attach0
-  (JNIEnv *env, jobject thisObject, jstring address, jlong timeout)
+JNIEXPORT jlong JNICALL Jbvb_com_sun_tools_jdi_ShbredMemoryTrbnsportService_bttbch0
+  (JNIEnv *env, jobject thisObject, jstring bddress, jlong timeout)
 {
-    SharedMemoryConnection *connection = NULL;
+    ShbredMemoryConnection *connection = NULL;
     jint rc;
-    const char *addrChars;
+    const chbr *bddrChbrs;
 
-    addrChars = (*env)->GetStringUTFChars(env, address, NULL);
+    bddrChbrs = (*env)->GetStringUTFChbrs(env, bddress, NULL);
     if ((*env)->ExceptionOccurred(env)) {
         return CONNECTION_TO_ID(connection);
-    } else if (addrChars == NULL) {
-        throwException(env, "java/lang/InternalError", "GetStringUTFChars failed");
+    } else if (bddrChbrs == NULL) {
+        throwException(env, "jbvb/lbng/InternblError", "GetStringUTFChbrs fbiled");
         return CONNECTION_TO_ID(connection);
     }
 
-    rc = shmemBase_attach(addrChars, (long)timeout, &connection);
+    rc = shmemBbse_bttbch(bddrChbrs, (long)timeout, &connection);
     if (rc != SYS_OK) {
-        throwShmemException(env, "shmemBase_attach failed", rc);
+        throwShmemException(env, "shmemBbse_bttbch fbiled", rc);
     }
 
-    (*env)->ReleaseStringUTFChars(env, address, addrChars);
+    (*env)->RelebseStringUTFChbrs(env, bddress, bddrChbrs);
 
     return CONNECTION_TO_ID(connection);
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryTransport
- * Method:    name
- * Signature: (J)Ljava/lang/String;
+ * Clbss:     com_sun_tools_jdi_ShbredMemoryTrbnsport
+ * Method:    nbme
+ * Signbture: (J)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_com_sun_tools_jdi_SharedMemoryTransportService_name
+JNIEXPORT jstring JNICALL Jbvb_com_sun_tools_jdi_ShbredMemoryTrbnsportService_nbme
   (JNIEnv *env, jobject thisObject, jlong id)
 {
-    char *namePtr;
-    jstring nameString = NULL;
+    chbr *nbmePtr;
+    jstring nbmeString = NULL;
 
-    SharedMemoryTransport *transport = ID_TO_TRANSPORT(id);
-    jint rc = shmemBase_name(transport, &namePtr);
+    ShbredMemoryTrbnsport *trbnsport = ID_TO_TRANSPORT(id);
+    jint rc = shmemBbse_nbme(trbnsport, &nbmePtr);
     if (rc != SYS_OK) {
-        throwShmemException(env, "shmemBase_name failed", rc);
+        throwShmemException(env, "shmemBbse_nbme fbiled", rc);
     } else {
-        nameString = (*env)->NewStringUTF(env, namePtr);
-        if ((nameString == NULL) && !(*env)->ExceptionOccurred(env)) {
-            throwException(env, "java/lang/InternalError", "Unable to create string");
+        nbmeString = (*env)->NewStringUTF(env, nbmePtr);
+        if ((nbmeString == NULL) && !(*env)->ExceptionOccurred(env)) {
+            throwException(env, "jbvb/lbng/InternblError", "Unbble to crebte string");
         }
     }
-    return nameString;
+    return nbmeString;
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryTransport
- * Method:    initialize
- * Signature: ()V
+ * Clbss:     com_sun_tools_jdi_ShbredMemoryTrbnsport
+ * Method:    initiblize
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_com_sun_tools_jdi_SharedMemoryTransportService_initialize
+JNIEXPORT void JNICALL Jbvb_com_sun_tools_jdi_ShbredMemoryTrbnsportService_initiblize
   (JNIEnv *env, jobject thisObject)
 {
-    JavaVM *vm;
+    JbvbVM *vm;
     jint rc;
 
-    rc = (*env)->GetJavaVM(env, &vm);
+    rc = (*env)->GetJbvbVM(env, &vm);
     if (rc != 0) {
-        throwException(env, "java/lang/InternalError", "Unable to access Java VM");
+        throwException(env, "jbvb/lbng/InternblError", "Unbble to bccess Jbvb VM");
         return;
     }
 
-    rc = shmemBase_initialize(vm, &callbacks);
+    rc = shmemBbse_initiblize(vm, &cbllbbcks);
     if (rc != SYS_OK) {
-        throwException(env, "java/lang/InternalError", "Unable to initialize Shared Memory transport");
+        throwException(env, "jbvb/lbng/InternblError", "Unbble to initiblize Shbred Memory trbnsport");
         return;
     }
 }
 
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryTransport
- * Method:    startListening0
- * Signature: (Ljava/lang/String;)J
+ * Clbss:     com_sun_tools_jdi_ShbredMemoryTrbnsport
+ * Method:    stbrtListening0
+ * Signbture: (Ljbvb/lbng/String;)J
  */
-JNIEXPORT jlong JNICALL Java_com_sun_tools_jdi_SharedMemoryTransportService_startListening0
-  (JNIEnv *env, jobject thisObject, jstring address)
+JNIEXPORT jlong JNICALL Jbvb_com_sun_tools_jdi_ShbredMemoryTrbnsportService_stbrtListening0
+  (JNIEnv *env, jobject thisObject, jstring bddress)
 {
-    const char *addrChars = NULL;
+    const chbr *bddrChbrs = NULL;
     jint rc;
     jstring retAddress = NULL;
-    SharedMemoryTransport *transport = NULL;
+    ShbredMemoryTrbnsport *trbnsport = NULL;
 
 
-    if (address != NULL) {
-        addrChars = (*env)->GetStringUTFChars(env, address, NULL);
+    if (bddress != NULL) {
+        bddrChbrs = (*env)->GetStringUTFChbrs(env, bddress, NULL);
         if ((*env)->ExceptionOccurred(env)) {
-            return TRANSPORT_TO_ID(transport);
-        } else if (addrChars == NULL) {
-            throwException(env, "java/lang/InternalError", "GetStringUTFChars failed");
-            return TRANSPORT_TO_ID(transport);
+            return TRANSPORT_TO_ID(trbnsport);
+        } else if (bddrChbrs == NULL) {
+            throwException(env, "jbvb/lbng/InternblError", "GetStringUTFChbrs fbiled");
+            return TRANSPORT_TO_ID(trbnsport);
         }
     }
 
-    rc = shmemBase_listen(addrChars, &transport);
+    rc = shmemBbse_listen(bddrChbrs, &trbnsport);
     if (rc != SYS_OK) {
-        throwShmemException(env, "shmemBase_listen failed", rc);
+        throwShmemException(env, "shmemBbse_listen fbiled", rc);
     }
 
-    if (addrChars != NULL) {
-        (*env)->ReleaseStringUTFChars(env, address, addrChars);
+    if (bddrChbrs != NULL) {
+        (*env)->RelebseStringUTFChbrs(env, bddress, bddrChbrs);
     }
 
-    return TRANSPORT_TO_ID(transport);
+    return TRANSPORT_TO_ID(trbnsport);
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryTransport
+ * Clbss:     com_sun_tools_jdi_ShbredMemoryTrbnsport
  * Method:    stopListening0
- * Signature: (J)V
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_com_sun_tools_jdi_SharedMemoryTransportService_stopListening0
+JNIEXPORT void JNICALL Jbvb_com_sun_tools_jdi_ShbredMemoryTrbnsportService_stopListening0
   (JNIEnv *env, jobject thisObject, jlong id)
 {
-    SharedMemoryTransport *transport = ID_TO_TRANSPORT(id);
-    shmemBase_closeTransport(transport);
+    ShbredMemoryTrbnsport *trbnsport = ID_TO_TRANSPORT(id);
+    shmemBbse_closeTrbnsport(trbnsport);
 }

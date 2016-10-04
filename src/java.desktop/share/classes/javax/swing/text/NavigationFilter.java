@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.Shape;
+import jbvb.bwt.Shbpe;
 
 /**
- * <code>NavigationFilter</code> can be used to restrict where the cursor can
- * be positioned. When the default cursor positioning actions attempt to
- * reposition the cursor they will call into the
- * <code>NavigationFilter</code>, assuming
- * the <code>JTextComponent</code> has a non-null
- * <code>NavigationFilter</code> set. In this manner
- * the <code>NavigationFilter</code> can effectively restrict where the
- * cursor can be positioned. Similarly <code>DefaultCaret</code> will call
- * into the <code>NavigationFilter</code> when the user is changing the
- * selection to further restrict where the cursor can be positioned.
+ * <code>NbvigbtionFilter</code> cbn be used to restrict where the cursor cbn
+ * be positioned. When the defbult cursor positioning bctions bttempt to
+ * reposition the cursor they will cbll into the
+ * <code>NbvigbtionFilter</code>, bssuming
+ * the <code>JTextComponent</code> hbs b non-null
+ * <code>NbvigbtionFilter</code> set. In this mbnner
+ * the <code>NbvigbtionFilter</code> cbn effectively restrict where the
+ * cursor cbn be positioned. Similbrly <code>DefbultCbret</code> will cbll
+ * into the <code>NbvigbtionFilter</code> when the user is chbnging the
+ * selection to further restrict where the cursor cbn be positioned.
  * <p>
- * Subclasses can conditionally call into supers implementation to restrict
- * where the cursor can be placed, or call directly into the
- * <code>FilterBypass</code>.
+ * Subclbsses cbn conditionblly cbll into supers implementbtion to restrict
+ * where the cursor cbn be plbced, or cbll directly into the
+ * <code>FilterBypbss</code>.
  *
- * @see javax.swing.text.Caret
- * @see javax.swing.text.DefaultCaret
- * @see javax.swing.text.View
+ * @see jbvbx.swing.text.Cbret
+ * @see jbvbx.swing.text.DefbultCbret
+ * @see jbvbx.swing.text.View
  *
  * @since 1.4
  */
-public class NavigationFilter {
+public clbss NbvigbtionFilter {
     /**
-     * Invoked prior to the Caret setting the dot. The default implementation
-     * calls directly into the <code>FilterBypass</code> with the passed
-     * in arguments. Subclasses may wish to conditionally
-     * call super with a different location, or invoke the necessary method
-     * on the <code>FilterBypass</code>
+     * Invoked prior to the Cbret setting the dot. The defbult implementbtion
+     * cblls directly into the <code>FilterBypbss</code> with the pbssed
+     * in brguments. Subclbsses mby wish to conditionblly
+     * cbll super with b different locbtion, or invoke the necessbry method
+     * on the <code>FilterBypbss</code>
      *
-     * @param fb FilterBypass that can be used to mutate caret position
-     * @param dot the position &gt;= 0
-     * @param bias Bias to place the dot at
+     * @pbrbm fb FilterBypbss thbt cbn be used to mutbte cbret position
+     * @pbrbm dot the position &gt;= 0
+     * @pbrbm bibs Bibs to plbce the dot bt
      */
-    public void setDot(FilterBypass fb, int dot, Position.Bias bias) {
-        fb.setDot(dot, bias);
+    public void setDot(FilterBypbss fb, int dot, Position.Bibs bibs) {
+        fb.setDot(dot, bibs);
     }
 
     /**
-     * Invoked prior to the Caret moving the dot. The default implementation
-     * calls directly into the <code>FilterBypass</code> with the passed
-     * in arguments. Subclasses may wish to conditionally
-     * call super with a different location, or invoke the necessary
-     * methods on the <code>FilterBypass</code>.
+     * Invoked prior to the Cbret moving the dot. The defbult implementbtion
+     * cblls directly into the <code>FilterBypbss</code> with the pbssed
+     * in brguments. Subclbsses mby wish to conditionblly
+     * cbll super with b different locbtion, or invoke the necessbry
+     * methods on the <code>FilterBypbss</code>.
      *
-     * @param fb FilterBypass that can be used to mutate caret position
-     * @param dot the position &gt;= 0
-     * @param bias Bias for new location
+     * @pbrbm fb FilterBypbss thbt cbn be used to mutbte cbret position
+     * @pbrbm dot the position &gt;= 0
+     * @pbrbm bibs Bibs for new locbtion
      */
-    public void moveDot(FilterBypass fb, int dot, Position.Bias bias) {
-        fb.moveDot(dot, bias);
+    public void moveDot(FilterBypbss fb, int dot, Position.Bibs bibs) {
+        fb.moveDot(dot, bibs);
     }
 
     /**
-     * Returns the next visual position to place the caret at from an
-     * existing position. The default implementation simply forwards the
-     * method to the root View. Subclasses may wish to further restrict the
-     * location based on additional criteria.
+     * Returns the next visubl position to plbce the cbret bt from bn
+     * existing position. The defbult implementbtion simply forwbrds the
+     * method to the root View. Subclbsses mby wish to further restrict the
+     * locbtion bbsed on bdditionbl criterib.
      *
-     * @param text JTextComponent containing text
-     * @param pos Position used in determining next position
-     * @param bias Bias used in determining next position
-     * @param direction the direction from the current position that can
-     *  be thought of as the arrow keys typically found on a keyboard.
-     *  This will be one of the following values:
+     * @pbrbm text JTextComponent contbining text
+     * @pbrbm pos Position used in determining next position
+     * @pbrbm bibs Bibs used in determining next position
+     * @pbrbm direction the direction from the current position thbt cbn
+     *  be thought of bs the brrow keys typicblly found on b keybobrd.
+     *  This will be one of the following vblues:
      * <ul>
-     * <li>SwingConstants.WEST
-     * <li>SwingConstants.EAST
-     * <li>SwingConstants.NORTH
-     * <li>SwingConstants.SOUTH
+     * <li>SwingConstbnts.WEST
+     * <li>SwingConstbnts.EAST
+     * <li>SwingConstbnts.NORTH
+     * <li>SwingConstbnts.SOUTH
      * </ul>
-     * @param biasRet Used to return resulting Bias of next position
-     * @return the location within the model that best represents the next
-     *  location visual position
-     * @exception BadLocationException for a bad location within a document model
-     * @exception IllegalArgumentException if <code>direction</code>
-     *          doesn't have one of the legal values above
+     * @pbrbm bibsRet Used to return resulting Bibs of next position
+     * @return the locbtion within the model thbt best represents the next
+     *  locbtion visubl position
+     * @exception BbdLocbtionException for b bbd locbtion within b document model
+     * @exception IllegblArgumentException if <code>direction</code>
+     *          doesn't hbve one of the legbl vblues bbove
      */
-    public int getNextVisualPositionFrom(JTextComponent text, int pos,
-                                         Position.Bias bias, int direction,
-                                         Position.Bias[] biasRet)
-                                           throws BadLocationException {
-        return text.getUI().getNextVisualPositionFrom(text, pos, bias,
-                                                      direction, biasRet);
+    public int getNextVisublPositionFrom(JTextComponent text, int pos,
+                                         Position.Bibs bibs, int direction,
+                                         Position.Bibs[] bibsRet)
+                                           throws BbdLocbtionException {
+        return text.getUI().getNextVisublPositionFrom(text, pos, bibs,
+                                                      direction, bibsRet);
     }
 
 
     /**
-     * Used as a way to circumvent calling back into the caret to
-     * position the cursor. Caret implementations that wish to support
-     * a NavigationFilter must provide an implementation that will
-     * not callback into the NavigationFilter.
+     * Used bs b wby to circumvent cblling bbck into the cbret to
+     * position the cursor. Cbret implementbtions thbt wish to support
+     * b NbvigbtionFilter must provide bn implementbtion thbt will
+     * not cbllbbck into the NbvigbtionFilter.
      * @since 1.4
      */
-    public static abstract class FilterBypass {
+    public stbtic bbstrbct clbss FilterBypbss {
         /**
-         * Returns the Caret that is changing.
+         * Returns the Cbret thbt is chbnging.
          *
-         * @return Caret that is changing
+         * @return Cbret thbt is chbnging
          */
-        public abstract Caret getCaret();
+        public bbstrbct Cbret getCbret();
 
         /**
-         * Sets the caret location, bypassing the NavigationFilter.
+         * Sets the cbret locbtion, bypbssing the NbvigbtionFilter.
          *
-         * @param dot the position &gt;= 0
-         * @param bias Bias to place the dot at
+         * @pbrbm dot the position &gt;= 0
+         * @pbrbm bibs Bibs to plbce the dot bt
          */
-        public abstract void setDot(int dot, Position.Bias bias);
+        public bbstrbct void setDot(int dot, Position.Bibs bibs);
 
         /**
-         * Moves the caret location, bypassing the NavigationFilter.
+         * Moves the cbret locbtion, bypbssing the NbvigbtionFilter.
          *
-         * @param dot the position &gt;= 0
-         * @param bias Bias for new location
+         * @pbrbm dot the position &gt;= 0
+         * @pbrbm bibs Bibs for new locbtion
          */
-        public abstract void moveDot(int dot, Position.Bias bias);
+        public bbstrbct void moveDot(int dot, Position.Bibs bibs);
     }
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -29,7 +29,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <malloc.h>
+#include <mblloc.h>
 #include <sys/types.h>
 
 #ifndef IPTOS_TOS_MASK
@@ -39,11 +39,11 @@
 #define IPTOS_PREC_MASK 0xe0
 #endif
 
-#include "java_net_TwoStacksPlainDatagramSocketImpl.h"
-#include "java_net_SocketOptions.h"
-#include "java_net_NetworkInterface.h"
+#include "jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl.h"
+#include "jbvb_net_SocketOptions.h"
+#include "jbvb_net_NetworkInterfbce.h"
 
-#include "NetworkInterface.h"
+#include "NetworkInterfbce.h"
 #include "jvm.h"
 #include "jni_util.h"
 #include "net_util.h"
@@ -52,80 +52,80 @@
 #define IN_MULTICAST(i) IN_CLASSD(i)
 
 /************************************************************************
- * TwoStacksPlainDatagramSocketImpl
+ * TwoStbcksPlbinDbtbgrbmSocketImpl
  */
 
-static jfieldID IO_fd_fdID;
-static jfieldID pdsi_trafficClassID;
+stbtic jfieldID IO_fd_fdID;
+stbtic jfieldID pdsi_trbfficClbssID;
 jfieldID pdsi_fdID;
 jfieldID pdsi_fd1ID;
 jfieldID pdsi_fduseID;
-jfieldID pdsi_lastfdID;
+jfieldID pdsi_lbstfdID;
 jfieldID pdsi_timeoutID;
 
-jfieldID pdsi_localPortID;
+jfieldID pdsi_locblPortID;
 jfieldID pdsi_connected;
 
-static jclass ia4_clazz;
-static jmethodID ia4_ctor;
+stbtic jclbss ib4_clbzz;
+stbtic jmethodID ib4_ctor;
 
-static CRITICAL_SECTION sizeCheckLock;
+stbtic CRITICAL_SECTION sizeCheckLock;
 
 /* Windows OS version is XP or better */
-static int xp_or_later = 0;
+stbtic int xp_or_lbter = 0;
 /* Windows OS version is Windows 2000 or better */
-static int w2k_or_later = 0;
+stbtic int w2k_or_lbter = 0;
 
 /*
- * Notes about UDP/IPV6 on Windows (XP and 2003 server):
+ * Notes bbout UDP/IPV6 on Windows (XP bnd 2003 server):
  *
- * fd always points to the IPv4 fd, and fd1 points to the IPv6 fd.
- * Both fds are used when we bind to a wild-card address. When a specific
- * address is used, only one of them is used.
+ * fd blwbys points to the IPv4 fd, bnd fd1 points to the IPv6 fd.
+ * Both fds bre used when we bind to b wild-cbrd bddress. When b specific
+ * bddress is used, only one of them is used.
  */
 
 /*
- * Returns a java.lang.Integer based on 'i'
+ * Returns b jbvb.lbng.Integer bbsed on 'i'
  */
-jobject createInteger(JNIEnv *env, int i) {
-    static jclass i_class;
-    static jmethodID i_ctrID;
-    static jfieldID i_valueID;
+jobject crebteInteger(JNIEnv *env, int i) {
+    stbtic jclbss i_clbss;
+    stbtic jmethodID i_ctrID;
+    stbtic jfieldID i_vblueID;
 
-    if (i_class == NULL) {
-        jclass c = (*env)->FindClass(env, "java/lang/Integer");
+    if (i_clbss == NULL) {
+        jclbss c = (*env)->FindClbss(env, "jbvb/lbng/Integer");
         CHECK_NULL_RETURN(c, NULL);
         i_ctrID = (*env)->GetMethodID(env, c, "<init>", "(I)V");
         CHECK_NULL_RETURN(i_ctrID, NULL);
-        i_class = (*env)->NewGlobalRef(env, c);
-        CHECK_NULL_RETURN(i_class, NULL);
+        i_clbss = (*env)->NewGlobblRef(env, c);
+        CHECK_NULL_RETURN(i_clbss, NULL);
     }
 
-    return ( (*env)->NewObject(env, i_class, i_ctrID, i) );
+    return ( (*env)->NewObject(env, i_clbss, i_ctrID, i) );
 }
 
 /*
- * Returns a java.lang.Boolean based on 'b'
+ * Returns b jbvb.lbng.Boolebn bbsed on 'b'
  */
-jobject createBoolean(JNIEnv *env, int b) {
-    static jclass b_class;
-    static jmethodID b_ctrID;
-    static jfieldID b_valueID;
+jobject crebteBoolebn(JNIEnv *env, int b) {
+    stbtic jclbss b_clbss;
+    stbtic jmethodID b_ctrID;
+    stbtic jfieldID b_vblueID;
 
-    if (b_class == NULL) {
-        jclass c = (*env)->FindClass(env, "java/lang/Boolean");
+    if (b_clbss == NULL) {
+        jclbss c = (*env)->FindClbss(env, "jbvb/lbng/Boolebn");
         CHECK_NULL_RETURN(c, NULL);
         b_ctrID = (*env)->GetMethodID(env, c, "<init>", "(Z)V");
         CHECK_NULL_RETURN(b_ctrID, NULL);
-        b_class = (*env)->NewGlobalRef(env, c);
-        CHECK_NULL_RETURN(b_class, NULL);
+        b_clbss = (*env)->NewGlobblRef(env, c);
+        CHECK_NULL_RETURN(b_clbss, NULL);
     }
 
-    return( (*env)->NewObject(env, b_class, b_ctrID, (jboolean)(b!=0)) );
+    return( (*env)->NewObject(env, b_clbss, b_ctrID, (jboolebn)(b!=0)) );
 }
 
 
-static int getFD(JNIEnv *env, jobject this) {
+stbtic int getFD(JNIEnv *env, jobject this) {
     jobject fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
 
     if (fdObj == NULL) {
@@ -134,7 +134,7 @@ static int getFD(JNIEnv *env, jobject this) {
     return (*env)->GetIntField(env, fdObj, IO_fd_fdID);
 }
 
-static int getFD1(JNIEnv *env, jobject this) {
+stbtic int getFD1(JNIEnv *env, jobject this) {
     jobject fdObj = (*env)->GetObjectField(env, this, pdsi_fd1ID);
 
     if (fdObj == NULL) {
@@ -144,49 +144,49 @@ static int getFD1(JNIEnv *env, jobject this) {
 }
 
 /*
- * This function returns JNI_TRUE if the datagram size exceeds the underlying
- * provider's ability to send to the target address. The following OS
- * oddities have been observed :-
+ * This function returns JNI_TRUE if the dbtbgrbm size exceeds the underlying
+ * provider's bbility to send to the tbrget bddress. The following OS
+ * oddities hbve been observed :-
  *
- * 1. On Windows 95/98 if we try to send a datagram > 12k to an application
- *    on the same machine then the send will fail silently.
+ * 1. On Windows 95/98 if we try to send b dbtbgrbm > 12k to bn bpplicbtion
+ *    on the sbme mbchine then the send will fbil silently.
  *
- * 2. On Windows ME if we try to send a datagram > supported by underlying
- *    provider then send will not return an error.
+ * 2. On Windows ME if we try to send b dbtbgrbm > supported by underlying
+ *    provider then send will not return bn error.
  *
- * 3. On Windows NT/2000 if we exceeds the maximum size then send will fail
+ * 3. On Windows NT/2000 if we exceeds the mbximum size then send will fbil
  *    with WSAEADDRNOTAVAIL.
  *
- * 4. On Windows 95/98 if we exceed the maximum size when sending to
- *    another machine then WSAEINVAL is returned.
+ * 4. On Windows 95/98 if we exceed the mbximum size when sending to
+ *    bnother mbchine then WSAEINVAL is returned.
  *
  */
-jboolean exceedSizeLimit(JNIEnv *env, jint fd, jint addr, jint size)
+jboolebn exceedSizeLimit(JNIEnv *env, jint fd, jint bddr, jint size)
 {
 #define DEFAULT_MSG_SIZE        65527
-    static jboolean initDone;
-    static jboolean is95or98;
-    static int maxmsg;
+    stbtic jboolebn initDone;
+    stbtic jboolebn is95or98;
+    stbtic int mbxmsg;
 
-    typedef struct _netaddr  {          /* Windows 95/98 only */
-        unsigned long addr;
-        struct _netaddr *next;
-    } netaddr;
-    static netaddr *addrList;
-    netaddr *curr;
+    typedef struct _netbddr  {          /* Windows 95/98 only */
+        unsigned long bddr;
+        struct _netbddr *next;
+    } netbddr;
+    stbtic netbddr *bddrList;
+    netbddr *curr;
 
     /*
-     * First time we are called we must determine which OS this is and also
-     * get the maximum size supported by the underlying provider.
+     * First time we bre cblled we must determine which OS this is bnd blso
+     * get the mbximum size supported by the underlying provider.
      *
-     * In addition on 95/98 we must enumerate our IP addresses.
+     * In bddition on 95/98 we must enumerbte our IP bddresses.
      */
     if (!initDone) {
-        EnterCriticalSection(&sizeCheckLock);
+        EnterCriticblSection(&sizeCheckLock);
 
         if (initDone) {
-            /* another thread got there first */
-            LeaveCriticalSection(&sizeCheckLock);
+            /* bnother threbd got there first */
+            LebveCriticblSection(&sizeCheckLock);
 
         } else {
             OSVERSIONINFO ver;
@@ -199,81 +199,81 @@ jboolean exceedSizeLimit(JNIEnv *env, jint fd, jint addr, jint size)
             GetVersionEx(&ver);
 
             is95or98 = JNI_FALSE;
-            if (ver.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS &&
-                ver.dwMajorVersion == 4 &&
+            if (ver.dwPlbtformId == VER_PLATFORM_WIN32_WINDOWS &&
+                ver.dwMbjorVersion == 4 &&
                 (ver.dwMinorVersion == 0 || ver.dwMinorVersion == 10)) {
 
                 is95or98 = JNI_TRUE;
             }
 
             /*
-             * Step 2: Determine the maximum datagram supported by the
-             * underlying provider. On Windows 95 if winsock hasn't been
-             * upgraded (ie: unsupported configuration) then we assume
-             * the default 64k limit.
+             * Step 2: Determine the mbximum dbtbgrbm supported by the
+             * underlying provider. On Windows 95 if winsock hbsn't been
+             * upgrbded (ie: unsupported configurbtion) then we bssume
+             * the defbult 64k limit.
              */
-            len = sizeof(maxmsg);
-            if (NET_GetSockOpt(fd, SOL_SOCKET, SO_MAX_MSG_SIZE, (char *)&maxmsg, &len) < 0) {
-                maxmsg = DEFAULT_MSG_SIZE;
+            len = sizeof(mbxmsg);
+            if (NET_GetSockOpt(fd, SOL_SOCKET, SO_MAX_MSG_SIZE, (chbr *)&mbxmsg, &len) < 0) {
+                mbxmsg = DEFAULT_MSG_SIZE;
             }
 
             /*
-             * Step 3: On Windows 95/98 then enumerate the IP addresses on
-             * this machine. This is neccesary because we need to check if the
-             * datagram is being sent to an application on the same machine.
+             * Step 3: On Windows 95/98 then enumerbte the IP bddresses on
+             * this mbchine. This is neccesbry becbuse we need to check if the
+             * dbtbgrbm is being sent to bn bpplicbtion on the sbme mbchine.
              */
             if (is95or98) {
-                char hostname[255];
+                chbr hostnbme[255];
                 struct hostent *hp;
 
-                if (gethostname(hostname, sizeof(hostname)) == -1) {
-                    LeaveCriticalSection(&sizeCheckLock);
-                    JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Unable to obtain hostname");
+                if (gethostnbme(hostnbme, sizeof(hostnbme)) == -1) {
+                    LebveCriticblSection(&sizeCheckLock);
+                    JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Unbble to obtbin hostnbme");
                     return JNI_TRUE;
                 }
-                hp = (struct hostent *)gethostbyname(hostname);
+                hp = (struct hostent *)gethostbynbme(hostnbme);
                 if (hp != NULL) {
-                    struct in_addr **addrp = (struct in_addr **) hp->h_addr_list;
+                    struct in_bddr **bddrp = (struct in_bddr **) hp->h_bddr_list;
 
-                    while (*addrp != (struct in_addr *) 0) {
-                        curr = (netaddr *)malloc(sizeof(netaddr));
+                    while (*bddrp != (struct in_bddr *) 0) {
+                        curr = (netbddr *)mblloc(sizeof(netbddr));
                         if (curr == NULL) {
-                            while (addrList != NULL) {
-                                curr = addrList->next;
-                                free(addrList);
-                                addrList = curr;
+                            while (bddrList != NULL) {
+                                curr = bddrList->next;
+                                free(bddrList);
+                                bddrList = curr;
                             }
-                            LeaveCriticalSection(&sizeCheckLock);
-                            JNU_ThrowOutOfMemoryError(env, "Native heap allocation failed");
+                            LebveCriticblSection(&sizeCheckLock);
+                            JNU_ThrowOutOfMemoryError(env, "Nbtive hebp bllocbtion fbiled");
                             return JNI_TRUE;
                         }
-                        curr->addr = htonl((*addrp)->S_un.S_addr);
-                        curr->next = addrList;
-                        addrList = curr;
-                        addrp++;
+                        curr->bddr = htonl((*bddrp)->S_un.S_bddr);
+                        curr->next = bddrList;
+                        bddrList = curr;
+                        bddrp++;
                     }
                 }
             }
 
             /*
-             * Step 4: initialization is done so set flag and unlock cs
+             * Step 4: initiblizbtion is done so set flbg bnd unlock cs
              */
             initDone = JNI_TRUE;
-            LeaveCriticalSection(&sizeCheckLock);
+            LebveCriticblSection(&sizeCheckLock);
         }
     }
 
     /*
-     * Now examine the size of the datagram :-
+     * Now exbmine the size of the dbtbgrbm :-
      *
-     * (a) If exceeds size of service provider return 'false' to indicate that
+     * (b) If exceeds size of service provider return 'fblse' to indicbte thbt
      *     we exceed the limit.
-     * (b) If not 95/98 then return 'true' to indicate that the size is okay.
-     * (c) On 95/98 if the size is <12k we are okay.
-     * (d) On 95/98 if size > 12k then check if the destination is the current
-     *     machine.
+     * (b) If not 95/98 then return 'true' to indicbte thbt the size is okby.
+     * (c) On 95/98 if the size is <12k we bre okby.
+     * (d) On 95/98 if size > 12k then check if the destinbtion is the current
+     *     mbchine.
      */
-    if (size > maxmsg) {        /* step (a) */
+    if (size > mbxmsg) {        /* step (b) */
         return JNI_TRUE;
     }
     if (!is95or98) {            /* step (b) */
@@ -285,12 +285,12 @@ jboolean exceedSizeLimit(JNIEnv *env, jint fd, jint addr, jint size)
 
     /* step (d) */
 
-    if ((addr & 0x7f000000) == 0x7f000000) {
+    if ((bddr & 0x7f000000) == 0x7f000000) {
         return JNI_TRUE;
     }
-    curr = addrList;
+    curr = bddrList;
     while (curr != NULL) {
-        if (curr->addr == addr) {
+        if (curr->bddr == bddr) {
             return JNI_TRUE;
         }
         curr = curr->next;
@@ -299,71 +299,71 @@ jboolean exceedSizeLimit(JNIEnv *env, jint fd, jint addr, jint size)
 }
 
 /*
- * Return JNI_TRUE if this Windows edition supports ICMP Port Unreachable
+ * Return JNI_TRUE if this Windows edition supports ICMP Port Unrebchbble
  */
-__inline static jboolean supportPortUnreachable() {
-    static jboolean initDone;
-    static jboolean portUnreachableSupported;
+__inline stbtic jboolebn supportPortUnrebchbble() {
+    stbtic jboolebn initDone;
+    stbtic jboolebn portUnrebchbbleSupported;
 
     if (!initDone) {
         OSVERSIONINFO ver;
         ver.dwOSVersionInfoSize = sizeof(ver);
         GetVersionEx(&ver);
-        if (ver.dwPlatformId == VER_PLATFORM_WIN32_NT && ver.dwMajorVersion >= 5) {
-            portUnreachableSupported = JNI_TRUE;
+        if (ver.dwPlbtformId == VER_PLATFORM_WIN32_NT && ver.dwMbjorVersion >= 5) {
+            portUnrebchbbleSupported = JNI_TRUE;
         } else {
-            portUnreachableSupported = JNI_FALSE;
+            portUnrebchbbleSupported = JNI_FALSE;
         }
         initDone = JNI_TRUE;
     }
-    return portUnreachableSupported;
+    return portUnrebchbbleSupported;
 }
 
 /*
- * This function "purges" all outstanding ICMP port unreachable packets
- * outstanding on a socket and returns JNI_TRUE if any ICMP messages
- * have been purged. The rational for purging is to emulate normal BSD
- * behaviour whereby receiving a "connection reset" status resets the
+ * This function "purges" bll outstbnding ICMP port unrebchbble pbckets
+ * outstbnding on b socket bnd returns JNI_TRUE if bny ICMP messbges
+ * hbve been purged. The rbtionbl for purging is to emulbte normbl BSD
+ * behbviour whereby receiving b "connection reset" stbtus resets the
  * socket.
  */
-static jboolean purgeOutstandingICMP(JNIEnv *env, jobject this, jint fd)
+stbtic jboolebn purgeOutstbndingICMP(JNIEnv *env, jobject this, jint fd)
 {
-    jboolean got_icmp = JNI_FALSE;
-    char buf[1];
+    jboolebn got_icmp = JNI_FALSE;
+    chbr buf[1];
     fd_set tbl;
-    struct timeval t = { 0, 0 };
-    SOCKETADDRESS rmtaddr;
-    int addrlen = sizeof(rmtaddr);
+    struct timevbl t = { 0, 0 };
+    SOCKETADDRESS rmtbddr;
+    int bddrlen = sizeof(rmtbddr);
 
-    memset((char *)&rmtaddr, 0, sizeof(rmtaddr));
+    memset((chbr *)&rmtbddr, 0, sizeof(rmtbddr));
 
     /*
      * A no-op if this OS doesn't support it.
      */
-    if (!supportPortUnreachable()) {
+    if (!supportPortUnrebchbble()) {
         return JNI_FALSE;
     }
 
     /*
-     * Peek at the queue to see if there is an ICMP port unreachable. If there
+     * Peek bt the queue to see if there is bn ICMP port unrebchbble. If there
      * is then receive it.
      */
     FD_ZERO(&tbl);
     FD_SET(fd, &tbl);
     while(1) {
         if (select(/*ignored*/fd+1, &tbl, 0, 0, &t) <= 0) {
-            break;
+            brebk;
         }
         if (recvfrom(fd, buf, 1, MSG_PEEK,
-                         (struct sockaddr *)&rmtaddr, &addrlen) != SOCKET_ERROR) {
-            break;
+                         (struct sockbddr *)&rmtbddr, &bddrlen) != SOCKET_ERROR) {
+            brebk;
         }
-        if (WSAGetLastError() != WSAECONNRESET) {
-            /* some other error - we don't care here */
-            break;
+        if (WSAGetLbstError() != WSAECONNRESET) {
+            /* some other error - we don't cbre here */
+            brebk;
         }
 
-        recvfrom(fd, buf, 1, 0,  (struct sockaddr *)&rmtaddr, &addrlen);
+        recvfrom(fd, buf, 1, 0,  (struct sockbddr *)&rmtbddr, &bddrlen);
         got_icmp = JNI_TRUE;
     }
 
@@ -372,81 +372,81 @@ static jboolean purgeOutstandingICMP(JNIEnv *env, jobject this, jint fd)
 
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
  * Method:    init
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_init(JNIEnv *env, jclass cls) {
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_init(JNIEnv *env, jclbss cls) {
 
     OSVERSIONINFO ver;
     int version;
     ver.dwOSVersionInfoSize = sizeof(ver);
     GetVersionEx(&ver);
 
-    version = ver.dwMajorVersion * 10 + ver.dwMinorVersion;
-    xp_or_later = (ver.dwPlatformId == VER_PLATFORM_WIN32_NT) && (version >= 51);
-    w2k_or_later = (ver.dwPlatformId == VER_PLATFORM_WIN32_NT) && (version >= 50);
+    version = ver.dwMbjorVersion * 10 + ver.dwMinorVersion;
+    xp_or_lbter = (ver.dwPlbtformId == VER_PLATFORM_WIN32_NT) && (version >= 51);
+    w2k_or_lbter = (ver.dwPlbtformId == VER_PLATFORM_WIN32_NT) && (version >= 50);
 
     /* get fieldIDs */
-    pdsi_fdID = (*env)->GetFieldID(env, cls, "fd", "Ljava/io/FileDescriptor;");
+    pdsi_fdID = (*env)->GetFieldID(env, cls, "fd", "Ljbvb/io/FileDescriptor;");
     CHECK_NULL(pdsi_fdID);
-    pdsi_fd1ID = (*env)->GetFieldID(env, cls, "fd1", "Ljava/io/FileDescriptor;");
+    pdsi_fd1ID = (*env)->GetFieldID(env, cls, "fd1", "Ljbvb/io/FileDescriptor;");
     CHECK_NULL(pdsi_fd1ID);
     pdsi_timeoutID = (*env)->GetFieldID(env, cls, "timeout", "I");
     CHECK_NULL(pdsi_timeoutID);
     pdsi_fduseID = (*env)->GetFieldID(env, cls, "fduse", "I");
     CHECK_NULL(pdsi_fduseID);
-    pdsi_lastfdID = (*env)->GetFieldID(env, cls, "lastfd", "I");
-    CHECK_NULL(pdsi_lastfdID);
-    pdsi_trafficClassID = (*env)->GetFieldID(env, cls, "trafficClass", "I");
-    CHECK_NULL(pdsi_trafficClassID);
-    pdsi_localPortID = (*env)->GetFieldID(env, cls, "localPort", "I");
-    CHECK_NULL(pdsi_localPortID);
+    pdsi_lbstfdID = (*env)->GetFieldID(env, cls, "lbstfd", "I");
+    CHECK_NULL(pdsi_lbstfdID);
+    pdsi_trbfficClbssID = (*env)->GetFieldID(env, cls, "trbfficClbss", "I");
+    CHECK_NULL(pdsi_trbfficClbssID);
+    pdsi_locblPortID = (*env)->GetFieldID(env, cls, "locblPort", "I");
+    CHECK_NULL(pdsi_locblPortID);
     pdsi_connected = (*env)->GetFieldID(env, cls, "connected", "Z");
     CHECK_NULL(pdsi_connected);
 
-    cls = (*env)->FindClass(env, "java/io/FileDescriptor");
+    cls = (*env)->FindClbss(env, "jbvb/io/FileDescriptor");
     CHECK_NULL(cls);
     IO_fd_fdID = NET_GetFileDescriptorID(env);
     CHECK_NULL(IO_fd_fdID);
 
-    ia4_clazz = (*env)->FindClass(env, "java/net/Inet4Address");
-    CHECK_NULL(ia4_clazz);
-    ia4_clazz = (*env)->NewGlobalRef(env, ia4_clazz);
-    CHECK_NULL(ia4_clazz);
-    ia4_ctor = (*env)->GetMethodID(env, ia4_clazz, "<init>", "()V");
-    CHECK_NULL(ia4_ctor);
+    ib4_clbzz = (*env)->FindClbss(env, "jbvb/net/Inet4Address");
+    CHECK_NULL(ib4_clbzz);
+    ib4_clbzz = (*env)->NewGlobblRef(env, ib4_clbzz);
+    CHECK_NULL(ib4_clbzz);
+    ib4_ctor = (*env)->GetMethodID(env, ib4_clbzz, "<init>", "()V");
+    CHECK_NULL(ib4_ctor);
 
 
-    InitializeCriticalSection(&sizeCheckLock);
+    InitiblizeCriticblSection(&sizeCheckLock);
 }
 
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_bind0(JNIEnv *env, jobject this,
-                                           jint port, jobject addressObj,
-                                           jboolean exclBind) {
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_bind0(JNIEnv *env, jobject this,
+                                           jint port, jobject bddressObj,
+                                           jboolebn exclBind) {
     jobject fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
     jobject fd1Obj = (*env)->GetObjectField(env, this, pdsi_fd1ID);
 
-    int fd, fd1, family;
-    int ipv6_supported = ipv6_available();
+    int fd, fd1, fbmily;
+    int ipv6_supported = ipv6_bvbilbble();
 
-    SOCKETADDRESS lcladdr;
-    int lcladdrlen = sizeof(lcladdr);
-    int address;
+    SOCKETADDRESS lclbddr;
+    int lclbddrlen = sizeof(lclbddr);
+    int bddress;
 
-    memset((char *)&lcladdr, 0, sizeof(lcladdr));
+    memset((chbr *)&lclbddr, 0, sizeof(lclbddr));
 
-    family = getInetAddress_family(env, addressObj);
-    if (family == IPv6 && !ipv6_supported) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                        "Protocol family not supported");
+    fbmily = getInetAddress_fbmily(env, bddressObj);
+    if (fbmily == IPv6 && !ipv6_supported) {
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                        "Protocol fbmily not supported");
         return;
     }
 
     if (IS_NULL(fdObj) || (ipv6_supported && IS_NULL(fd1Obj))) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "socket closed");
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "socket closed");
         return;
     } else {
         fd = (*env)->GetIntField(env, fdObj, IO_fd_fdID);
@@ -454,31 +454,31 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_bind0(JNIEnv *env, jobject this,
             fd1 = (*env)->GetIntField(env, fd1Obj, IO_fd_fdID);
         }
     }
-    if (IS_NULL(addressObj)) {
-        JNU_ThrowNullPointerException(env, "argument address");
+    if (IS_NULL(bddressObj)) {
+        JNU_ThrowNullPointerException(env, "brgument bddress");
         return;
     } else {
-        address = getInetAddress_addr(env, addressObj);
+        bddress = getInetAddress_bddr(env, bddressObj);
     }
 
-    if (NET_InetAddressToSockaddr(env, addressObj, port, (struct sockaddr *)&lcladdr, &lcladdrlen, JNI_FALSE) != 0) {
+    if (NET_InetAddressToSockbddr(env, bddressObj, port, (struct sockbddr *)&lclbddr, &lclbddrlen, JNI_FALSE) != 0) {
       return;
     }
 
     if (ipv6_supported) {
         struct ipv6bind v6bind;
-        v6bind.addr = &lcladdr;
+        v6bind.bddr = &lclbddr;
         v6bind.ipv4_fd = fd;
         v6bind.ipv6_fd = fd1;
         if (NET_BindV6(&v6bind, exclBind) != -1) {
-            /* check if the fds have changed */
+            /* check if the fds hbve chbnged */
             if (v6bind.ipv4_fd != fd) {
                 fd = v6bind.ipv4_fd;
                 if (fd == -1) {
                     /* socket is closed. */
                     (*env)->SetObjectField(env, this, pdsi_fdID, NULL);
                 } else {
-                    /* socket was re-created */
+                    /* socket wbs re-crebted */
                     (*env)->SetIntField(env, fdObj, IO_fd_fdID, fd);
                 }
             }
@@ -488,61 +488,61 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_bind0(JNIEnv *env, jobject this,
                     /* socket is closed. */
                     (*env)->SetObjectField(env, this, pdsi_fd1ID, NULL);
                 } else {
-                    /* socket was re-created */
+                    /* socket wbs re-crebted */
                     (*env)->SetIntField(env, fd1Obj, IO_fd_fdID, fd1);
                 }
             }
         } else {
-            NET_ThrowCurrent (env, "Cannot bind");
+            NET_ThrowCurrent (env, "Cbnnot bind");
             return;
         }
     } else {
-        if (NET_WinBind(fd, (struct sockaddr *)&lcladdr, lcladdrlen, exclBind) == -1) {
-            if (WSAGetLastError() == WSAEACCES) {
-                WSASetLastError(WSAEADDRINUSE);
+        if (NET_WinBind(fd, (struct sockbddr *)&lclbddr, lclbddrlen, exclBind) == -1) {
+            if (WSAGetLbstError() == WSAEACCES) {
+                WSASetLbstError(WSAEADDRINUSE);
             }
-            NET_ThrowCurrent(env, "Cannot bind");
+            NET_ThrowCurrent(env, "Cbnnot bind");
             return;
         }
     }
 
     if (port == 0) {
         if (fd == -1) {
-            /* must be an IPV6 only socket. */
+            /* must be bn IPV6 only socket. */
             fd = fd1;
         }
-        if (getsockname(fd, (struct sockaddr *)&lcladdr, &lcladdrlen) == -1) {
-            NET_ThrowCurrent(env, "getsockname");
+        if (getsocknbme(fd, (struct sockbddr *)&lclbddr, &lclbddrlen) == -1) {
+            NET_ThrowCurrent(env, "getsocknbme");
             return;
         }
-        port = ntohs((u_short) GET_PORT (&lcladdr));
+        port = ntohs((u_short) GET_PORT (&lclbddr));
     }
-    (*env)->SetIntField(env, this, pdsi_localPortID, port);
+    (*env)->SetIntField(env, this, pdsi_locblPortID, port);
 }
 
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
  * Method:    connect0
- * Signature: (Ljava/net/InetAddress;I)V
+ * Signbture: (Ljbvb/net/InetAddress;I)V
  */
 
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_connect0(JNIEnv *env, jobject this,
-                                               jobject address, jint port) {
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_connect0(JNIEnv *env, jobject this,
+                                               jobject bddress, jint port) {
     /* The object's field */
     jobject fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
     jobject fd1Obj = (*env)->GetObjectField(env, this, pdsi_fd1ID);
     /* The fdObj'fd */
     jint fd=-1, fd1=-1, fdc;
-    /* The packetAddress address, family and port */
-    jint addr, family;
-    SOCKETADDRESS rmtaddr;
-    int rmtaddrlen;
-    int ipv6_supported = ipv6_available();
+    /* The pbcketAddress bddress, fbmily bnd port */
+    jint bddr, fbmily;
+    SOCKETADDRESS rmtbddr;
+    int rmtbddrlen;
+    int ipv6_supported = ipv6_bvbilbble();
 
     if (IS_NULL(fdObj) && IS_NULL(fd1Obj)) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                         "Socket closed");
         return;
     }
@@ -553,26 +553,26 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_connect0(JNIEnv *env, jobject thi
         fd1 = (*env)->GetIntField(env, fd1Obj, IO_fd_fdID);
     }
 
-    if (IS_NULL(address)) {
-        JNU_ThrowNullPointerException(env, "address");
+    if (IS_NULL(bddress)) {
+        JNU_ThrowNullPointerException(env, "bddress");
         return;
     }
 
-    addr = getInetAddress_addr(env, address);
+    bddr = getInetAddress_bddr(env, bddress);
 
-    family = getInetAddress_family(env, address);
-    if (family == IPv6 && !ipv6_supported) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                        "Protocol family not supported");
+    fbmily = getInetAddress_fbmily(env, bddress);
+    if (fbmily == IPv6 && !ipv6_supported) {
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                        "Protocol fbmily not supported");
         return;
     }
 
-    fdc = family == IPv4? fd: fd1;
+    fdc = fbmily == IPv4? fd: fd1;
 
-    if (xp_or_later) {
-        /* SIO_UDP_CONNRESET fixes a bug introduced in Windows 2000, which
-         * returns connection reset errors on connected UDP sockets (as well
-         * as connected sockets). The solution is to only enable this feature
+    if (xp_or_lbter) {
+        /* SIO_UDP_CONNRESET fixes b bug introduced in Windows 2000, which
+         * returns connection reset errors on connected UDP sockets (bs well
+         * bs connected sockets). The solution is to only enbble this febture
          * when the socket is connected
          */
         DWORD x1, x2; /* ignored result codes */
@@ -580,52 +580,52 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_connect0(JNIEnv *env, jobject thi
         res = WSAIoctl(fdc,SIO_UDP_CONNRESET,&t,sizeof(t),&x1,sizeof(x1),&x2,0,0);
     }
 
-    if (NET_InetAddressToSockaddr(env, address, port,(struct sockaddr *)&rmtaddr, &rmtaddrlen, JNI_FALSE) != 0) {
+    if (NET_InetAddressToSockbddr(env, bddress, port,(struct sockbddr *)&rmtbddr, &rmtbddrlen, JNI_FALSE) != 0) {
       return;
     }
 
-    if (connect(fdc, (struct sockaddr *)&rmtaddr, sizeof(rmtaddr)) == -1) {
+    if (connect(fdc, (struct sockbddr *)&rmtbddr, sizeof(rmtbddr)) == -1) {
         NET_ThrowCurrent(env, "connect");
         return;
     }
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
  * Method:    disconnect0
- * Signature: ()V
+ * Signbture: ()V
  */
 
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_disconnect0(JNIEnv *env, jobject this, jint family) {
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_disconnect0(JNIEnv *env, jobject this, jint fbmily) {
     /* The object's field */
     jobject fdObj;
     /* The fdObj'fd */
     jint fd, len;
-    SOCKETADDRESS addr;
+    SOCKETADDRESS bddr;
 
-    if (family == IPv4) {
+    if (fbmily == IPv4) {
         fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
-        len = sizeof (struct sockaddr_in);
+        len = sizeof (struct sockbddr_in);
     } else {
         fdObj = (*env)->GetObjectField(env, this, pdsi_fd1ID);
         len = sizeof (struct SOCKADDR_IN6);
     }
 
     if (IS_NULL(fdObj)) {
-        /* disconnect doesn't throw any exceptions */
+        /* disconnect doesn't throw bny exceptions */
         return;
     }
     fd = (*env)->GetIntField(env, fdObj, IO_fd_fdID);
 
-    memset((char *)&addr, 0, len);
-    connect(fd, (struct sockaddr *)&addr, len);
+    memset((chbr *)&bddr, 0, len);
+    connect(fd, (struct sockbddr *)&bddr, len);
 
     /*
      * use SIO_UDP_CONNRESET
-     * to disable ICMP port unreachable handling here.
+     * to disbble ICMP port unrebchbble hbndling here.
      */
-    if (xp_or_later) {
+    if (xp_or_lbter) {
         DWORD x1 = 0, x2 = 0; /* ignored result codes */
         int t = FALSE;
         WSAIoctl(fd,SIO_UDP_CONNRESET,&t,sizeof(t),&x1,sizeof(x1),&x2,0,0);
@@ -633,261 +633,261 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_disconnect0(JNIEnv *env, jobject 
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
  * Method:    send
- * Signature: (Ljava/net/DatagramPacket;)V
+ * Signbture: (Ljbvb/net/DbtbgrbmPbcket;)V
  */
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_send(JNIEnv *env, jobject this,
-                                           jobject packet) {
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_send(JNIEnv *env, jobject this,
+                                           jobject pbcket) {
 
-    char BUF[MAX_BUFFER_LEN];
-    char *fullPacket;
+    chbr BUF[MAX_BUFFER_LEN];
+    chbr *fullPbcket;
     jobject fdObj;
     jint fd;
 
-    jobject iaObj;
-    jint address;
-    jint family;
+    jobject ibObj;
+    jint bddress;
+    jint fbmily;
 
-    jint packetBufferOffset, packetBufferLen, packetPort;
-    jbyteArray packetBuffer;
-    jboolean connected;
+    jint pbcketBufferOffset, pbcketBufferLen, pbcketPort;
+    jbyteArrby pbcketBuffer;
+    jboolebn connected;
 
-    SOCKETADDRESS rmtaddr;
-    SOCKETADDRESS *addrp = &rmtaddr;
-    int addrlen = 0;
+    SOCKETADDRESS rmtbddr;
+    SOCKETADDRESS *bddrp = &rmtbddr;
+    int bddrlen = 0;
 
-    memset((char *)&rmtaddr, 0, sizeof(rmtaddr));
+    memset((chbr *)&rmtbddr, 0, sizeof(rmtbddr));
 
-    if (IS_NULL(packet)) {
-        JNU_ThrowNullPointerException(env, "null packet");
+    if (IS_NULL(pbcket)) {
+        JNU_ThrowNullPointerException(env, "null pbcket");
         return;
     }
 
-    iaObj = (*env)->GetObjectField(env, packet, dp_addressID);
+    ibObj = (*env)->GetObjectField(env, pbcket, dp_bddressID);
 
-    packetPort = (*env)->GetIntField(env, packet, dp_portID);
-    packetBufferOffset = (*env)->GetIntField(env, packet, dp_offsetID);
-    packetBuffer = (jbyteArray)(*env)->GetObjectField(env, packet, dp_bufID);
-    connected = (*env)->GetBooleanField(env, this, pdsi_connected);
+    pbcketPort = (*env)->GetIntField(env, pbcket, dp_portID);
+    pbcketBufferOffset = (*env)->GetIntField(env, pbcket, dp_offsetID);
+    pbcketBuffer = (jbyteArrby)(*env)->GetObjectField(env, pbcket, dp_bufID);
+    connected = (*env)->GetBoolebnField(env, this, pdsi_connected);
 
-    if (IS_NULL(iaObj) || IS_NULL(packetBuffer)) {
-        JNU_ThrowNullPointerException(env, "null address || null buffer");
+    if (IS_NULL(ibObj) || IS_NULL(pbcketBuffer)) {
+        JNU_ThrowNullPointerException(env, "null bddress || null buffer");
         return;
     }
 
-    family = getInetAddress_family(env, iaObj);
-    if (family == IPv4) {
+    fbmily = getInetAddress_fbmily(env, ibObj);
+    if (fbmily == IPv4) {
         fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
     } else {
-        if (!ipv6_available()) {
-            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                        "Protocol not allowed");
+        if (!ipv6_bvbilbble()) {
+            JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                        "Protocol not bllowed");
             return;
         }
         fdObj = (*env)->GetObjectField(env, this, pdsi_fd1ID);
     }
 
     if (IS_NULL(fdObj)) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                         "Socket closed");
         return;
     }
     fd = (*env)->GetIntField(env, fdObj, IO_fd_fdID);
 
-    packetBufferLen = (*env)->GetIntField(env, packet, dp_lengthID);
-    /* Note: the buffer needn't be greater than 65,536 (0xFFFF)...
-     * the maximum size of an IP packet. Anything bigger is truncated anyway.
+    pbcketBufferLen = (*env)->GetIntField(env, pbcket, dp_lengthID);
+    /* Note: the buffer needn't be grebter thbn 65,536 (0xFFFF)...
+     * the mbximum size of bn IP pbcket. Anything bigger is truncbted bnywby.
      */
-    if (packetBufferLen > MAX_PACKET_LEN) {
-        packetBufferLen = MAX_PACKET_LEN;
+    if (pbcketBufferLen > MAX_PACKET_LEN) {
+        pbcketBufferLen = MAX_PACKET_LEN;
     }
 
     if (connected) {
-        addrp = 0; /* arg to sendto () null in this case */
-        addrlen = 0;
+        bddrp = 0; /* brg to sendto () null in this cbse */
+        bddrlen = 0;
     } else {
-      if (NET_InetAddressToSockaddr(env, iaObj, packetPort, (struct sockaddr *)&rmtaddr, &addrlen, JNI_FALSE) != 0) {
+      if (NET_InetAddressToSockbddr(env, ibObj, pbcketPort, (struct sockbddr *)&rmtbddr, &bddrlen, JNI_FALSE) != 0) {
         return;
       }
     }
 
-    if (packetBufferLen > MAX_BUFFER_LEN) {
+    if (pbcketBufferLen > MAX_BUFFER_LEN) {
 
         /*
-         * On 95/98 if we try to send a datagram >12k to an application
-         * on the same machine then this will fail silently. Thus we
-         * catch this situation here so that we can throw an exception
-         * when this arises.
-         * On ME if we try to send a datagram with a size greater than
-         * that supported by the service provider then no error is
+         * On 95/98 if we try to send b dbtbgrbm >12k to bn bpplicbtion
+         * on the sbme mbchine then this will fbil silently. Thus we
+         * cbtch this situbtion here so thbt we cbn throw bn exception
+         * when this brises.
+         * On ME if we try to send b dbtbgrbm with b size grebter thbn
+         * thbt supported by the service provider then no error is
          * returned.
          */
-        if (!w2k_or_later) { /* avoid this check on Win 2K or better. Does not work with IPv6.
-                      * Check is not necessary on these OSes */
+        if (!w2k_or_lbter) { /* bvoid this check on Win 2K or better. Does not work with IPv6.
+                      * Check is not necessbry on these OSes */
             if (connected) {
-                address = getInetAddress_addr(env, iaObj);
+                bddress = getInetAddress_bddr(env, ibObj);
             } else {
-                address = ntohl(rmtaddr.him4.sin_addr.s_addr);
+                bddress = ntohl(rmtbddr.him4.sin_bddr.s_bddr);
             }
 
-            if (exceedSizeLimit(env, fd, address, packetBufferLen)) {
+            if (exceedSizeLimit(env, fd, bddress, pbcketBufferLen)) {
                 if (!((*env)->ExceptionOccurred(env))) {
-                    NET_ThrowNew(env, WSAEMSGSIZE, "Datagram send failed");
+                    NET_ThrowNew(env, WSAEMSGSIZE, "Dbtbgrbm send fbiled");
                 }
                 return;
             }
         }
 
         /* When JNI-ifying the JDK's IO routines, we turned
-         * reads and writes of byte arrays of size greater
-         * than 2048 bytes into several operations of size 2048.
-         * This saves a malloc()/memcpy()/free() for big
-         * buffers.  This is OK for file IO and TCP, but that
-         * strategy violates the semantics of a datagram protocol.
-         * (one big send) != (several smaller sends).  So here
-         * we *must* alloc the buffer.  Note it needn't be bigger
-         * than 65,536 (0xFFFF) the max size of an IP packet.
-         * anything bigger is truncated anyway.
+         * rebds bnd writes of byte brrbys of size grebter
+         * thbn 2048 bytes into severbl operbtions of size 2048.
+         * This sbves b mblloc()/memcpy()/free() for big
+         * buffers.  This is OK for file IO bnd TCP, but thbt
+         * strbtegy violbtes the sembntics of b dbtbgrbm protocol.
+         * (one big send) != (severbl smbller sends).  So here
+         * we *must* blloc the buffer.  Note it needn't be bigger
+         * thbn 65,536 (0xFFFF) the mbx size of bn IP pbcket.
+         * bnything bigger is truncbted bnywby.
          */
-        fullPacket = (char *)malloc(packetBufferLen);
-        if (!fullPacket) {
-            JNU_ThrowOutOfMemoryError(env, "Send buf native heap allocation failed");
+        fullPbcket = (chbr *)mblloc(pbcketBufferLen);
+        if (!fullPbcket) {
+            JNU_ThrowOutOfMemoryError(env, "Send buf nbtive hebp bllocbtion fbiled");
             return;
         }
     } else {
-        fullPacket = &(BUF[0]);
+        fullPbcket = &(BUF[0]);
     }
 
-    (*env)->GetByteArrayRegion(env, packetBuffer, packetBufferOffset, packetBufferLen,
-                               (jbyte *)fullPacket);
-    if (sendto(fd, fullPacket, packetBufferLen, 0,
-               (struct sockaddr *)addrp, addrlen) == SOCKET_ERROR) {
-         NET_ThrowCurrent(env, "Datagram send failed");
+    (*env)->GetByteArrbyRegion(env, pbcketBuffer, pbcketBufferOffset, pbcketBufferLen,
+                               (jbyte *)fullPbcket);
+    if (sendto(fd, fullPbcket, pbcketBufferLen, 0,
+               (struct sockbddr *)bddrp, bddrlen) == SOCKET_ERROR) {
+         NET_ThrowCurrent(env, "Dbtbgrbm send fbiled");
     }
 
-    if (packetBufferLen > MAX_BUFFER_LEN) {
-        free(fullPacket);
+    if (pbcketBufferLen > MAX_BUFFER_LEN) {
+        free(fullPbcket);
     }
 }
 
 /*
- * check which socket was last serviced when there was data on both sockets.
- * Only call this if sure that there is data on both sockets.
+ * check which socket wbs lbst serviced when there wbs dbtb on both sockets.
+ * Only cbll this if sure thbt there is dbtb on both sockets.
  */
-static int checkLastFD (JNIEnv *env, jobject this, int fd, int fd1) {
-    int nextfd, lastfd = (*env)->GetIntField(env, this, pdsi_lastfdID);
-    if (lastfd == -1) {
-        /* arbitrary. Choose fd */
-        (*env)->SetIntField(env, this, pdsi_lastfdID, fd);
+stbtic int checkLbstFD (JNIEnv *env, jobject this, int fd, int fd1) {
+    int nextfd, lbstfd = (*env)->GetIntField(env, this, pdsi_lbstfdID);
+    if (lbstfd == -1) {
+        /* brbitrbry. Choose fd */
+        (*env)->SetIntField(env, this, pdsi_lbstfdID, fd);
         return fd;
     } else {
-        if (lastfd == fd) {
+        if (lbstfd == fd) {
             nextfd = fd1;
         } else {
             nextfd = fd;
         }
-        (*env)->SetIntField(env, this, pdsi_lastfdID, nextfd);
+        (*env)->SetIntField(env, this, pdsi_lbstfdID, nextfd);
         return nextfd;
     }
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
  * Method:    peek
- * Signature: (Ljava/net/InetAddress;)I
+ * Signbture: (Ljbvb/net/InetAddress;)I
  */
 JNIEXPORT jint JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_peek(JNIEnv *env, jobject this,
-                                           jobject addressObj) {
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_peek(JNIEnv *env, jobject this,
+                                           jobject bddressObj) {
 
     jobject fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
     jint timeout = (*env)->GetIntField(env, this, pdsi_timeoutID);
     jint fd;
 
-    /* The address and family fields of addressObj */
-    jint address, family;
+    /* The bddress bnd fbmily fields of bddressObj */
+    jint bddress, fbmily;
 
     int n;
-    struct sockaddr_in remote_addr;
-    jint remote_addrsize = sizeof (remote_addr);
-    char buf[1];
+    struct sockbddr_in remote_bddr;
+    jint remote_bddrsize = sizeof (remote_bddr);
+    chbr buf[1];
     BOOL retry;
     jlong prevTime = 0;
 
     if (IS_NULL(fdObj)) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Socket closed");
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Socket closed");
         return -1;
     } else {
         fd = (*env)->GetIntField(env, fdObj, IO_fd_fdID);
         if (fd < 0) {
-           JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+           JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                            "socket closed");
            return -1;
         }
     }
-    if (IS_NULL(addressObj)) {
-        JNU_ThrowNullPointerException(env, "Null address in peek()");
+    if (IS_NULL(bddressObj)) {
+        JNU_ThrowNullPointerException(env, "Null bddress in peek()");
     } else {
-        address = getInetAddress_addr(env, addressObj);
-        /* We only handle IPv4 for now. Will support IPv6 once its in the os */
-        family = AF_INET;
+        bddress = getInetAddress_bddr(env, bddressObj);
+        /* We only hbndle IPv4 for now. Will support IPv6 once its in the os */
+        fbmily = AF_INET;
     }
 
     do {
         retry = FALSE;
 
         /*
-         * If a timeout has been specified then we select on the socket
-         * waiting for a read event or a timeout.
+         * If b timeout hbs been specified then we select on the socket
+         * wbiting for b rebd event or b timeout.
          */
         if (timeout) {
             int ret;
             prevTime = JVM_CurrentTimeMillis(env, 0);
             ret = NET_Timeout (fd, timeout);
             if (ret == 0) {
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketTimeoutException",
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketTimeoutException",
                                 "Peek timed out");
                 return ret;
             } else if (ret == -1) {
-                NET_ThrowCurrent(env, "timeout in datagram socket peek");
+                NET_ThrowCurrent(env, "timeout in dbtbgrbm socket peek");
                 return ret;
             }
         }
 
         /* now try the peek */
         n = recvfrom(fd, buf, 1, MSG_PEEK,
-                         (struct sockaddr *)&remote_addr, &remote_addrsize);
+                         (struct sockbddr *)&remote_bddr, &remote_bddrsize);
 
         if (n == SOCKET_ERROR) {
-            if (WSAGetLastError() == WSAECONNRESET) {
-                jboolean connected;
+            if (WSAGetLbstError() == WSAECONNRESET) {
+                jboolebn connected;
 
                 /*
-                 * An icmp port unreachable - we must receive this as Windows
-                 * does not reset the state of the socket until this has been
+                 * An icmp port unrebchbble - we must receive this bs Windows
+                 * does not reset the stbte of the socket until this hbs been
                  * received.
                  */
-                purgeOutstandingICMP(env, this, fd);
+                purgeOutstbndingICMP(env, this, fd);
 
-                connected =  (*env)->GetBooleanField(env, this, pdsi_connected);
+                connected =  (*env)->GetBoolebnField(env, this, pdsi_connected);
                 if (connected) {
-                    JNU_ThrowByName(env, JNU_JAVANETPKG "PortUnreachableException",
-                                       "ICMP Port Unreachable");
+                    JNU_ThrowByNbme(env, JNU_JAVANETPKG "PortUnrebchbbleException",
+                                       "ICMP Port Unrebchbble");
                     return 0;
                 }
 
                 /*
-                 * If a timeout was specified then we need to adjust it because
-                 * we may have used up some of the timeout befor the icmp port
-                 * unreachable arrived.
+                 * If b timeout wbs specified then we need to bdjust it becbuse
+                 * we mby hbve used up some of the timeout befor the icmp port
+                 * unrebchbble brrived.
                  */
                 if (timeout) {
                     jlong newTime = JVM_CurrentTimeMillis(env, 0);
                     timeout -= (jint)(newTime - prevTime);
                     if (timeout <= 0) {
-                        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketTimeoutException",
+                        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketTimeoutException",
                                 "Receive timed out");
                         return 0;
                     }
@@ -900,44 +900,44 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_peek(JNIEnv *env, jobject this,
         }
     } while (retry);
 
-    if (n == SOCKET_ERROR && WSAGetLastError() != WSAEMSGSIZE) {
-        NET_ThrowCurrent(env, "Datagram peek failed");
+    if (n == SOCKET_ERROR && WSAGetLbstError() != WSAEMSGSIZE) {
+        NET_ThrowCurrent(env, "Dbtbgrbm peek fbiled");
         return 0;
     }
-    setInetAddress_addr(env, addressObj, ntohl(remote_addr.sin_addr.s_addr));
-    setInetAddress_family(env, addressObj, IPv4);
+    setInetAddress_bddr(env, bddressObj, ntohl(remote_bddr.sin_bddr.s_bddr));
+    setInetAddress_fbmily(env, bddressObj, IPv4);
 
     /* return port */
-    return ntohs(remote_addr.sin_port);
+    return ntohs(remote_bddr.sin_port);
 }
 
 JNIEXPORT jint JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_peekData(JNIEnv *env, jobject this,
-                                           jobject packet) {
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_peekDbtb(JNIEnv *env, jobject this,
+                                           jobject pbcket) {
 
-     char BUF[MAX_BUFFER_LEN];
-    char *fullPacket;
+     chbr BUF[MAX_BUFFER_LEN];
+    chbr *fullPbcket;
     jobject fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
     jobject fd1Obj = (*env)->GetObjectField(env, this, pdsi_fd1ID);
     jint timeout = (*env)->GetIntField(env, this, pdsi_timeoutID);
 
-    jbyteArray packetBuffer;
-    jint packetBufferOffset, packetBufferLen;
+    jbyteArrby pbcketBuffer;
+    jint pbcketBufferOffset, pbcketBufferLen;
 
     int fd, fd1, fduse, nsockets=0, errorCode;
     int port;
 
     int checkBoth = 0;
     int n;
-    SOCKETADDRESS remote_addr;
-    jint remote_addrsize=sizeof(remote_addr);
+    SOCKETADDRESS remote_bddr;
+    jint remote_bddrsize=sizeof(remote_bddr);
     BOOL retry;
     jlong prevTime = 0;
 
     if (!IS_NULL(fdObj)) {
         fd = (*env)->GetIntField(env, fdObj, IO_fd_fdID);
         if (fd < 0) {
-           JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+           JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                            "socket closed");
            return -1;
         }
@@ -947,7 +947,7 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_peekData(JNIEnv *env, jobject thi
     if (!IS_NULL(fd1Obj)) {
         fd1 = (*env)->GetIntField(env, fd1Obj, IO_fd_fdID);
         if (fd1 < 0) {
-           JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+           JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                            "socket closed");
            return -1;
         }
@@ -955,57 +955,57 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_peekData(JNIEnv *env, jobject thi
     }
 
     switch (nsockets) {
-      case 0:
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+      cbse 0:
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                        "socket closed");
         return -1;
-      case 1:
+      cbse 1:
         if (!IS_NULL(fdObj)) {
            fduse = fd;
         } else {
            fduse = fd1;
         }
-        break;
-      case 2:
+        brebk;
+      cbse 2:
         checkBoth = TRUE;
-        break;
+        brebk;
     }
 
-    if (IS_NULL(packet)) {
-        JNU_ThrowNullPointerException(env, "packet");
+    if (IS_NULL(pbcket)) {
+        JNU_ThrowNullPointerException(env, "pbcket");
         return -1;
     }
 
-    packetBuffer = (*env)->GetObjectField(env, packet, dp_bufID);
+    pbcketBuffer = (*env)->GetObjectField(env, pbcket, dp_bufID);
 
-    if (IS_NULL(packetBuffer)) {
-        JNU_ThrowNullPointerException(env, "packet buffer");
+    if (IS_NULL(pbcketBuffer)) {
+        JNU_ThrowNullPointerException(env, "pbcket buffer");
         return -1;
     }
 
-    packetBufferOffset = (*env)->GetIntField(env, packet, dp_offsetID);
-    packetBufferLen = (*env)->GetIntField(env, packet, dp_bufLengthID);
+    pbcketBufferOffset = (*env)->GetIntField(env, pbcket, dp_offsetID);
+    pbcketBufferLen = (*env)->GetIntField(env, pbcket, dp_bufLengthID);
 
-    if (packetBufferLen > MAX_BUFFER_LEN) {
+    if (pbcketBufferLen > MAX_BUFFER_LEN) {
 
         /* When JNI-ifying the JDK's IO routines, we turned
-         * read's and write's of byte arrays of size greater
-         * than 2048 bytes into several operations of size 2048.
-         * This saves a malloc()/memcpy()/free() for big
-         * buffers.  This is OK for file IO and TCP, but that
-         * strategy violates the semantics of a datagram protocol.
-         * (one big send) != (several smaller sends).  So here
-         * we *must* alloc the buffer.  Note it needn't be bigger
-         * than 65,536 (0xFFFF) the max size of an IP packet.
-         * anything bigger is truncated anyway.
+         * rebd's bnd write's of byte brrbys of size grebter
+         * thbn 2048 bytes into severbl operbtions of size 2048.
+         * This sbves b mblloc()/memcpy()/free() for big
+         * buffers.  This is OK for file IO bnd TCP, but thbt
+         * strbtegy violbtes the sembntics of b dbtbgrbm protocol.
+         * (one big send) != (severbl smbller sends).  So here
+         * we *must* blloc the buffer.  Note it needn't be bigger
+         * thbn 65,536 (0xFFFF) the mbx size of bn IP pbcket.
+         * bnything bigger is truncbted bnywby.
          */
-        fullPacket = (char *)malloc(packetBufferLen);
-        if (!fullPacket) {
-            JNU_ThrowOutOfMemoryError(env, "Native heap allocation failed");
+        fullPbcket = (chbr *)mblloc(pbcketBufferLen);
+        if (!fullPbcket) {
+            JNU_ThrowOutOfMemoryError(env, "Nbtive hebp bllocbtion fbiled");
             return -1;
         }
     } else {
-        fullPacket = &(BUF[0]);
+        fullPbcket = &(BUF[0]);
     }
 
     do {
@@ -1013,29 +1013,29 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_peekData(JNIEnv *env, jobject thi
         retry = FALSE;
 
         /*
-         * If a timeout has been specified then we select on the socket
-         * waiting for a read event or a timeout.
+         * If b timeout hbs been specified then we select on the socket
+         * wbiting for b rebd event or b timeout.
          */
         if (checkBoth) {
             int t = timeout == 0 ? -1: timeout;
             prevTime = JVM_CurrentTimeMillis(env, 0);
             ret = NET_Timeout2 (fd, fd1, t, &fduse);
-            /* all subsequent calls to recv() or select() will use the same fd
-             * for this call to peek() */
+            /* bll subsequent cblls to recv() or select() will use the sbme fd
+             * for this cbll to peek() */
             if (ret <= 0) {
                 if (ret == 0) {
-                    JNU_ThrowByName(env,JNU_JAVANETPKG "SocketTimeoutException",
+                    JNU_ThrowByNbme(env,JNU_JAVANETPKG "SocketTimeoutException",
                                         "Peek timed out");
                 } else if (ret == -1) {
-                    NET_ThrowCurrent(env, "timeout in datagram socket peek");
+                    NET_ThrowCurrent(env, "timeout in dbtbgrbm socket peek");
                 }
-                if (packetBufferLen > MAX_BUFFER_LEN) {
-                    free(fullPacket);
+                if (pbcketBufferLen > MAX_BUFFER_LEN) {
+                    free(fullPbcket);
                 }
                 return -1;
             }
             if (ret == 2) {
-                fduse = checkLastFD (env, this, fd, fd1);
+                fduse = checkLbstFD (env, this, fd, fd1);
             }
             checkBoth = FALSE;
         } else if (timeout) {
@@ -1045,58 +1045,58 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_peekData(JNIEnv *env, jobject thi
             ret = NET_Timeout (fduse, timeout);
             if (ret <= 0) {
                 if (ret == 0) {
-                    JNU_ThrowByName(env,JNU_JAVANETPKG "SocketTimeoutException",
+                    JNU_ThrowByNbme(env,JNU_JAVANETPKG "SocketTimeoutException",
                                     "Receive timed out");
                 } else if (ret == -1) {
-                    JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+                    JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                                     "Socket closed");
                 }
-                if (packetBufferLen > MAX_BUFFER_LEN) {
-                    free(fullPacket);
+                if (pbcketBufferLen > MAX_BUFFER_LEN) {
+                    free(fullPbcket);
                 }
                 return -1;
             }
         }
 
-        /* receive the packet */
-        n = recvfrom(fduse, fullPacket, packetBufferLen, MSG_PEEK,
-                         (struct sockaddr *)&remote_addr, &remote_addrsize);
-        port = (int) ntohs ((u_short) GET_PORT((SOCKETADDRESS *)&remote_addr));
+        /* receive the pbcket */
+        n = recvfrom(fduse, fullPbcket, pbcketBufferLen, MSG_PEEK,
+                         (struct sockbddr *)&remote_bddr, &remote_bddrsize);
+        port = (int) ntohs ((u_short) GET_PORT((SOCKETADDRESS *)&remote_bddr));
         if (n == SOCKET_ERROR) {
-            if (WSAGetLastError() == WSAECONNRESET) {
-                jboolean connected;
+            if (WSAGetLbstError() == WSAECONNRESET) {
+                jboolebn connected;
 
                 /*
-                 * An icmp port unreachable - we must receive this as Windows
-                 * does not reset the state of the socket until this has been
+                 * An icmp port unrebchbble - we must receive this bs Windows
+                 * does not reset the stbte of the socket until this hbs been
                  * received.
                  */
-                purgeOutstandingICMP(env, this, fduse);
+                purgeOutstbndingICMP(env, this, fduse);
 
-                connected = (*env)->GetBooleanField(env, this, pdsi_connected);
+                connected = (*env)->GetBoolebnField(env, this, pdsi_connected);
                 if (connected) {
-                    JNU_ThrowByName(env, JNU_JAVANETPKG "PortUnreachableException",
-                                       "ICMP Port Unreachable");
+                    JNU_ThrowByNbme(env, JNU_JAVANETPKG "PortUnrebchbbleException",
+                                       "ICMP Port Unrebchbble");
 
-                    if (packetBufferLen > MAX_BUFFER_LEN) {
-                        free(fullPacket);
+                    if (pbcketBufferLen > MAX_BUFFER_LEN) {
+                        free(fullPbcket);
                     }
                     return -1;
                 }
 
                 /*
-                 * If a timeout was specified then we need to adjust it because
-                 * we may have used up some of the timeout befor the icmp port
-                 * unreachable arrived.
+                 * If b timeout wbs specified then we need to bdjust it becbuse
+                 * we mby hbve used up some of the timeout befor the icmp port
+                 * unrebchbble brrived.
                  */
                 if (timeout) {
                     jlong newTime = JVM_CurrentTimeMillis(env, 0);
                     timeout -= (jint)(newTime - prevTime);
                     if (timeout <= 0) {
-                        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketTimeoutException",
+                        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketTimeoutException",
                                 "Receive timed out");
-                        if (packetBufferLen > MAX_BUFFER_LEN) {
-                            free(fullPacket);
+                        if (pbcketBufferLen > MAX_BUFFER_LEN) {
+                            free(fullPbcket);
                         }
                         return -1;
                     }
@@ -1107,102 +1107,102 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_peekData(JNIEnv *env, jobject thi
         }
     } while (retry);
 
-    /* truncate the data if the packet's length is too small */
-    if (n > packetBufferLen) {
-        n = packetBufferLen;
+    /* truncbte the dbtb if the pbcket's length is too smbll */
+    if (n > pbcketBufferLen) {
+        n = pbcketBufferLen;
     }
     if (n < 0) {
-        errorCode = WSAGetLastError();
-        /* check to see if it's because the buffer was too small */
+        errorCode = WSAGetLbstError();
+        /* check to see if it's becbuse the buffer wbs too smbll */
         if (errorCode == WSAEMSGSIZE) {
-            /* it is because the buffer is too small. It's UDP, it's
-             * unreliable, it's all good. discard the rest of the
-             * data..
+            /* it is becbuse the buffer is too smbll. It's UDP, it's
+             * unrelibble, it's bll good. discbrd the rest of the
+             * dbtb..
              */
-            n = packetBufferLen;
+            n = pbcketBufferLen;
         } else {
-            /* failure */
-            (*env)->SetIntField(env, packet, dp_lengthID, 0);
+            /* fbilure */
+            (*env)->SetIntField(env, pbcket, dp_lengthID, 0);
         }
     }
     if (n == -1) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "socket closed");
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "socket closed");
     } else if (n == -2) {
-        JNU_ThrowByName(env, JNU_JAVAIOPKG "InterruptedIOException",
-                        "operation interrupted");
+        JNU_ThrowByNbme(env, JNU_JAVAIOPKG "InterruptedIOException",
+                        "operbtion interrupted");
     } else if (n < 0) {
-        NET_ThrowCurrent(env, "Datagram receive failed");
+        NET_ThrowCurrent(env, "Dbtbgrbm receive fbiled");
     } else {
-        jobject packetAddress;
+        jobject pbcketAddress;
 
         /*
-         * Check if there is an InetAddress already associated with this
-         * packet. If so we check if it is the same source address. We
-         * can't update any existing InetAddress because it is immutable
+         * Check if there is bn InetAddress blrebdy bssocibted with this
+         * pbcket. If so we check if it is the sbme source bddress. We
+         * cbn't updbte bny existing InetAddress becbuse it is immutbble
          */
-        packetAddress = (*env)->GetObjectField(env, packet, dp_addressID);
-        if (packetAddress != NULL) {
-            if (!NET_SockaddrEqualsInetAddress(env, (struct sockaddr *)
-                                                &remote_addr, packetAddress)) {
-                /* force a new InetAddress to be created */
-                packetAddress = NULL;
+        pbcketAddress = (*env)->GetObjectField(env, pbcket, dp_bddressID);
+        if (pbcketAddress != NULL) {
+            if (!NET_SockbddrEqublsInetAddress(env, (struct sockbddr *)
+                                                &remote_bddr, pbcketAddress)) {
+                /* force b new InetAddress to be crebted */
+                pbcketAddress = NULL;
             }
         }
-        if (packetAddress == NULL) {
-            packetAddress = NET_SockaddrToInetAddress(env, (struct sockaddr *)
-                                &remote_addr, &port);
-            /* stuff the new Inetaddress in the packet */
-            (*env)->SetObjectField(env, packet, dp_addressID, packetAddress);
+        if (pbcketAddress == NULL) {
+            pbcketAddress = NET_SockbddrToInetAddress(env, (struct sockbddr *)
+                                &remote_bddr, &port);
+            /* stuff the new Inetbddress in the pbcket */
+            (*env)->SetObjectField(env, pbcket, dp_bddressID, pbcketAddress);
         }
 
-        /* populate the packet */
-        (*env)->SetByteArrayRegion(env, packetBuffer, packetBufferOffset, n,
-                                   (jbyte *)fullPacket);
-        (*env)->SetIntField(env, packet, dp_portID, port);
-        (*env)->SetIntField(env, packet, dp_lengthID, n);
+        /* populbte the pbcket */
+        (*env)->SetByteArrbyRegion(env, pbcketBuffer, pbcketBufferOffset, n,
+                                   (jbyte *)fullPbcket);
+        (*env)->SetIntField(env, pbcket, dp_portID, port);
+        (*env)->SetIntField(env, pbcket, dp_lengthID, n);
     }
 
-    /* make sure receive() picks up the right fd */
+    /* mbke sure receive() picks up the right fd */
     (*env)->SetIntField(env, this, pdsi_fduseID, fduse);
 
-    if (packetBufferLen > MAX_BUFFER_LEN) {
-        free(fullPacket);
+    if (pbcketBufferLen > MAX_BUFFER_LEN) {
+        free(fullPbcket);
     }
     return port;
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
  * Method:    receive
- * Signature: (Ljava/net/DatagramPacket;)V
+ * Signbture: (Ljbvb/net/DbtbgrbmPbcket;)V
  */
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_receive0(JNIEnv *env, jobject this,
-                                              jobject packet) {
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_receive0(JNIEnv *env, jobject this,
+                                              jobject pbcket) {
 
-    char BUF[MAX_BUFFER_LEN];
-    char *fullPacket;
+    chbr BUF[MAX_BUFFER_LEN];
+    chbr *fullPbcket;
     jobject fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
     jobject fd1Obj = (*env)->GetObjectField(env, this, pdsi_fd1ID);
     jint timeout = (*env)->GetIntField(env, this, pdsi_timeoutID);
-    jbyteArray packetBuffer;
-    jint packetBufferOffset, packetBufferLen;
-    int ipv6_supported = ipv6_available();
+    jbyteArrby pbcketBuffer;
+    jint pbcketBufferOffset, pbcketBufferLen;
+    int ipv6_supported = ipv6_bvbilbble();
 
-    /* as a result of the changes for ipv6, peek() or peekData()
-     * must be called prior to receive() so that fduse can be set.
+    /* bs b result of the chbnges for ipv6, peek() or peekDbtb()
+     * must be cblled prior to receive() so thbt fduse cbn be set.
      */
     int fd, fd1, fduse, errorCode;
 
     int n, nsockets=0;
-    SOCKETADDRESS remote_addr;
-    jint remote_addrsize=sizeof(remote_addr);
+    SOCKETADDRESS remote_bddr;
+    jint remote_bddrsize=sizeof(remote_bddr);
     BOOL retry;
     jlong prevTime = 0, selectTime=0;
-    jboolean connected;
+    jboolebn connected;
 
     if (IS_NULL(fdObj) && IS_NULL(fd1Obj)) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                         "Socket closed");
         return;
     }
@@ -1217,20 +1217,20 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_receive0(JNIEnv *env, jobject thi
     }
 
     if (nsockets == 2) { /* need to choose one of them */
-        /* was fduse set in peek? */
+        /* wbs fduse set in peek? */
         fduse = (*env)->GetIntField(env, this, pdsi_fduseID);
         if (fduse == -1) {
             /* not set in peek(), must select on both sockets */
             int ret, t = (timeout == 0) ? -1: timeout;
             ret = NET_Timeout2 (fd, fd1, t, &fduse);
             if (ret == 2) {
-                fduse = checkLastFD (env, this, fd, fd1);
+                fduse = checkLbstFD (env, this, fd, fd1);
             } else if (ret <= 0) {
                 if (ret == 0) {
-                    JNU_ThrowByName(env, JNU_JAVANETPKG "SocketTimeoutException",
+                    JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketTimeoutException",
                                     "Receive timed out");
                 } else if (ret == -1) {
-                    JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+                    JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                                     "Socket closed");
                 }
                 return;
@@ -1239,63 +1239,63 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_receive0(JNIEnv *env, jobject thi
     } else if (!ipv6_supported) {
         fduse = fd;
     } else if (IS_NULL(fdObj)) {
-        /* ipv6 supported: and this socket bound to an IPV6 only address */
+        /* ipv6 supported: bnd this socket bound to bn IPV6 only bddress */
         fduse = fd1;
     } else {
-        /* ipv6 supported: and this socket bound to an IPV4 only address */
+        /* ipv6 supported: bnd this socket bound to bn IPV4 only bddress */
         fduse = fd;
     }
 
-    if (IS_NULL(packet)) {
-        JNU_ThrowNullPointerException(env, "packet");
+    if (IS_NULL(pbcket)) {
+        JNU_ThrowNullPointerException(env, "pbcket");
         return;
     }
 
-    packetBuffer = (*env)->GetObjectField(env, packet, dp_bufID);
+    pbcketBuffer = (*env)->GetObjectField(env, pbcket, dp_bufID);
 
-    if (IS_NULL(packetBuffer)) {
-        JNU_ThrowNullPointerException(env, "packet buffer");
+    if (IS_NULL(pbcketBuffer)) {
+        JNU_ThrowNullPointerException(env, "pbcket buffer");
         return;
     }
 
-    packetBufferOffset = (*env)->GetIntField(env, packet, dp_offsetID);
-    packetBufferLen = (*env)->GetIntField(env, packet, dp_bufLengthID);
+    pbcketBufferOffset = (*env)->GetIntField(env, pbcket, dp_offsetID);
+    pbcketBufferLen = (*env)->GetIntField(env, pbcket, dp_bufLengthID);
 
-    if (packetBufferLen > MAX_BUFFER_LEN) {
+    if (pbcketBufferLen > MAX_BUFFER_LEN) {
 
         /* When JNI-ifying the JDK's IO routines, we turned
-         * read's and write's of byte arrays of size greater
-         * than 2048 bytes into several operations of size 2048.
-         * This saves a malloc()/memcpy()/free() for big
-         * buffers.  This is OK for file IO and TCP, but that
-         * strategy violates the semantics of a datagram protocol.
-         * (one big send) != (several smaller sends).  So here
-         * we *must* alloc the buffer.  Note it needn't be bigger
-         * than 65,536 (0xFFFF) the max size of an IP packet.
-         * anything bigger is truncated anyway.
+         * rebd's bnd write's of byte brrbys of size grebter
+         * thbn 2048 bytes into severbl operbtions of size 2048.
+         * This sbves b mblloc()/memcpy()/free() for big
+         * buffers.  This is OK for file IO bnd TCP, but thbt
+         * strbtegy violbtes the sembntics of b dbtbgrbm protocol.
+         * (one big send) != (severbl smbller sends).  So here
+         * we *must* blloc the buffer.  Note it needn't be bigger
+         * thbn 65,536 (0xFFFF) the mbx size of bn IP pbcket.
+         * bnything bigger is truncbted bnywby.
          */
-        fullPacket = (char *)malloc(packetBufferLen);
-        if (!fullPacket) {
-            JNU_ThrowOutOfMemoryError(env, "Receive buf native heap allocation failed");
+        fullPbcket = (chbr *)mblloc(pbcketBufferLen);
+        if (!fullPbcket) {
+            JNU_ThrowOutOfMemoryError(env, "Receive buf nbtive hebp bllocbtion fbiled");
             return;
         }
     } else {
-        fullPacket = &(BUF[0]);
+        fullPbcket = &(BUF[0]);
     }
 
 
 
     /*
-     * If this Windows edition supports ICMP port unreachable and if we
-     * are not connected then we need to know if a timeout has been specified
-     * and if so we need to pick up the current time. These are required in
-     * order to implement the semantics of timeout, viz :-
-     * timeout set to t1 but ICMP port unreachable arrives in t2 where
-     * t2 < t1. In this case we must discard the ICMP packets and then
-     * wait for the next packet up to a maximum of t1 minus t2.
+     * If this Windows edition supports ICMP port unrebchbble bnd if we
+     * bre not connected then we need to know if b timeout hbs been specified
+     * bnd if so we need to pick up the current time. These bre required in
+     * order to implement the sembntics of timeout, viz :-
+     * timeout set to t1 but ICMP port unrebchbble brrives in t2 where
+     * t2 < t1. In this cbse we must discbrd the ICMP pbckets bnd then
+     * wbit for the next pbcket up to b mbximum of t1 minus t2.
      */
-    connected = (*env)->GetBooleanField(env, this, pdsi_connected);
-    if (supportPortUnreachable() && !connected && timeout &&!ipv6_supported) {
+    connected = (*env)->GetBoolebnField(env, this, pdsi_connected);
+    if (supportPortUnrebchbble() && !connected && timeout &&!ipv6_supported) {
         prevTime = JVM_CurrentTimeMillis(env, 0);
     }
 
@@ -1304,56 +1304,56 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_receive0(JNIEnv *env, jobject thi
         ret = NET_Timeout(fduse, timeout);
         if (ret <= 0) {
             if (ret == 0) {
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketTimeoutException",
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketTimeoutException",
                                 "Receive timed out");
             } else if (ret == -1) {
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                                 "Socket closed");
             }
-            if (packetBufferLen > MAX_BUFFER_LEN) {
-                free(fullPacket);
+            if (pbcketBufferLen > MAX_BUFFER_LEN) {
+                free(fullPbcket);
             }
             return;
         }
     }
 
     /*
-     * Loop only if we discarding ICMP port unreachable packets
+     * Loop only if we discbrding ICMP port unrebchbble pbckets
      */
     do {
         retry = FALSE;
 
-        /* receive the packet */
-        n = recvfrom(fduse, fullPacket, packetBufferLen, 0,
-                         (struct sockaddr *)&remote_addr, &remote_addrsize);
+        /* receive the pbcket */
+        n = recvfrom(fduse, fullPbcket, pbcketBufferLen, 0,
+                         (struct sockbddr *)&remote_bddr, &remote_bddrsize);
 
         if (n == SOCKET_ERROR) {
-            if (WSAGetLastError() == WSAECONNRESET) {
+            if (WSAGetLbstError() == WSAECONNRESET) {
                 /*
-                 * An icmp port unreachable has been received - consume any other
-                 * outstanding packets.
+                 * An icmp port unrebchbble hbs been received - consume bny other
+                 * outstbnding pbckets.
                  */
-                purgeOutstandingICMP(env, this, fduse);
+                purgeOutstbndingICMP(env, this, fduse);
 
                 /*
-                 * If connected throw a PortUnreachableException
+                 * If connected throw b PortUnrebchbbleException
                  */
 
                 if (connected) {
-                    JNU_ThrowByName(env, JNU_JAVANETPKG "PortUnreachableException",
-                                       "ICMP Port Unreachable");
+                    JNU_ThrowByNbme(env, JNU_JAVANETPKG "PortUnrebchbbleException",
+                                       "ICMP Port Unrebchbble");
 
-                    if (packetBufferLen > MAX_BUFFER_LEN) {
-                        free(fullPacket);
+                    if (pbcketBufferLen > MAX_BUFFER_LEN) {
+                        free(fullPbcket);
                     }
 
                     return;
                 }
 
                 /*
-                 * If a timeout was specified then we need to adjust it because
-                 * we may have used up some of the timeout before the icmp port
-                 * unreachable arrived.
+                 * If b timeout wbs specified then we need to bdjust it becbuse
+                 * we mby hbve used up some of the timeout before the icmp port
+                 * unrebchbble brrived.
                  */
                 if (timeout) {
                     int ret;
@@ -1369,21 +1369,21 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_receive0(JNIEnv *env, jobject thi
 
                     if (ret <= 0) {
                         if (ret == 0) {
-                            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketTimeoutException",
+                            JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketTimeoutException",
                                             "Receive timed out");
                         } else if (ret == -1) {
-                            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+                            JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                                             "Socket closed");
                         }
-                        if (packetBufferLen > MAX_BUFFER_LEN) {
-                            free(fullPacket);
+                        if (pbcketBufferLen > MAX_BUFFER_LEN) {
+                            free(fullPbcket);
                         }
                         return;
                     }
                 }
 
                 /*
-                 * An ICMP port unreachable was received but we are
+                 * An ICMP port unrebchbble wbs received but we bre
                  * not connected so ignore it.
                  */
                 retry = TRUE;
@@ -1391,74 +1391,74 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_receive0(JNIEnv *env, jobject thi
         }
     } while (retry);
 
-    /* truncate the data if the packet's length is too small */
-    if (n > packetBufferLen) {
-        n = packetBufferLen;
+    /* truncbte the dbtb if the pbcket's length is too smbll */
+    if (n > pbcketBufferLen) {
+        n = pbcketBufferLen;
     }
     if (n < 0) {
-        errorCode = WSAGetLastError();
-        /* check to see if it's because the buffer was too small */
+        errorCode = WSAGetLbstError();
+        /* check to see if it's becbuse the buffer wbs too smbll */
         if (errorCode == WSAEMSGSIZE) {
-            /* it is because the buffer is too small. It's UDP, it's
-             * unreliable, it's all good. discard the rest of the
-             * data..
+            /* it is becbuse the buffer is too smbll. It's UDP, it's
+             * unrelibble, it's bll good. discbrd the rest of the
+             * dbtb..
              */
-            n = packetBufferLen;
+            n = pbcketBufferLen;
         } else {
-            /* failure */
-            (*env)->SetIntField(env, packet, dp_lengthID, 0);
+            /* fbilure */
+            (*env)->SetIntField(env, pbcket, dp_lengthID, 0);
         }
     }
     if (n == -1) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "socket closed");
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "socket closed");
     } else if (n == -2) {
-        JNU_ThrowByName(env, JNU_JAVAIOPKG "InterruptedIOException",
-                        "operation interrupted");
+        JNU_ThrowByNbme(env, JNU_JAVAIOPKG "InterruptedIOException",
+                        "operbtion interrupted");
     } else if (n < 0) {
-        NET_ThrowCurrent(env, "Datagram receive failed");
+        NET_ThrowCurrent(env, "Dbtbgrbm receive fbiled");
     } else {
         int port = 0;
-        jobject packetAddress;
+        jobject pbcketAddress;
 
         /*
-         * Check if there is an InetAddress already associated with this
-         * packet. If so we check if it is the same source address. We
-         * can't update any existing InetAddress because it is immutable
+         * Check if there is bn InetAddress blrebdy bssocibted with this
+         * pbcket. If so we check if it is the sbme source bddress. We
+         * cbn't updbte bny existing InetAddress becbuse it is immutbble
          */
-        packetAddress = (*env)->GetObjectField(env, packet, dp_addressID);
+        pbcketAddress = (*env)->GetObjectField(env, pbcket, dp_bddressID);
 
-        if (packetAddress != NULL) {
-            if (!NET_SockaddrEqualsInetAddress(env, (struct sockaddr *)&remote_addr, packetAddress)) {
-                /* force a new InetAddress to be created */
-                packetAddress = NULL;
+        if (pbcketAddress != NULL) {
+            if (!NET_SockbddrEqublsInetAddress(env, (struct sockbddr *)&remote_bddr, pbcketAddress)) {
+                /* force b new InetAddress to be crebted */
+                pbcketAddress = NULL;
             }
         }
-        if (packetAddress == NULL) {
-            packetAddress = NET_SockaddrToInetAddress(env, (struct sockaddr *)&remote_addr, &port);
-            /* stuff the new Inetaddress in the packet */
-            (*env)->SetObjectField(env, packet, dp_addressID, packetAddress);
+        if (pbcketAddress == NULL) {
+            pbcketAddress = NET_SockbddrToInetAddress(env, (struct sockbddr *)&remote_bddr, &port);
+            /* stuff the new Inetbddress in the pbcket */
+            (*env)->SetObjectField(env, pbcket, dp_bddressID, pbcketAddress);
         } else {
             /* only get the new port number */
-            port = NET_GetPortFromSockaddr((struct sockaddr *)&remote_addr);
+            port = NET_GetPortFromSockbddr((struct sockbddr *)&remote_bddr);
         }
-        /* populate the packet */
-        (*env)->SetByteArrayRegion(env, packetBuffer, packetBufferOffset, n,
-                                   (jbyte *)fullPacket);
-        (*env)->SetIntField(env, packet, dp_portID, port);
-        (*env)->SetIntField(env, packet, dp_lengthID, n);
+        /* populbte the pbcket */
+        (*env)->SetByteArrbyRegion(env, pbcketBuffer, pbcketBufferOffset, n,
+                                   (jbyte *)fullPbcket);
+        (*env)->SetIntField(env, pbcket, dp_portID, port);
+        (*env)->SetIntField(env, pbcket, dp_lengthID, n);
     }
-    if (packetBufferLen > MAX_BUFFER_LEN) {
-        free(fullPacket);
+    if (pbcketBufferLen > MAX_BUFFER_LEN) {
+        free(fullPbcket);
     }
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
- * Method:    datagramSocketCreate
- * Signature: ()V
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
+ * Method:    dbtbgrbmSocketCrebte
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_datagramSocketCreate(JNIEnv *env,
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_dbtbgrbmSocketCrebte(JNIEnv *env,
                                                            jobject this) {
     jobject fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
     jobject fd1Obj = (*env)->GetObjectField(env, this, pdsi_fd1ID);
@@ -1466,28 +1466,28 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_datagramSocketCreate(JNIEnv *env,
     int fd, fd1;
     int t = TRUE;
     DWORD x1, x2; /* ignored result codes */
-    int ipv6_supported = ipv6_available();
+    int ipv6_supported = ipv6_bvbilbble();
 
-    int arg = -1;
+    int brg = -1;
 
     if (IS_NULL(fdObj) || (ipv6_supported && IS_NULL(fd1Obj))) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Socket closed");
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Socket closed");
         return;
     } else {
         fd =  (int) socket (AF_INET, SOCK_DGRAM, 0);
     }
     if (fd == SOCKET_ERROR) {
-        NET_ThrowCurrent(env, "Socket creation failed");
+        NET_ThrowCurrent(env, "Socket crebtion fbiled");
         return;
     }
-    SetHandleInformation((HANDLE)(UINT_PTR)fd, HANDLE_FLAG_INHERIT, FALSE);
+    SetHbndleInformbtion((HANDLE)(UINT_PTR)fd, HANDLE_FLAG_INHERIT, FALSE);
     (*env)->SetIntField(env, fdObj, IO_fd_fdID, fd);
-    NET_SetSockOpt(fd, SOL_SOCKET, SO_BROADCAST, (char*)&t, sizeof(BOOL));
+    NET_SetSockOpt(fd, SOL_SOCKET, SO_BROADCAST, (chbr*)&t, sizeof(BOOL));
 
     if (ipv6_supported) {
-        /* SIO_UDP_CONNRESET fixes a bug introduced in Windows 2000, which
-         * returns connection reset errors un connected UDP sockets (as well
-         * as connected sockets. The solution is to only enable this feature
+        /* SIO_UDP_CONNRESET fixes b bug introduced in Windows 2000, which
+         * returns connection reset errors un connected UDP sockets (bs well
+         * bs connected sockets. The solution is to only enbble this febture
          * when the socket is connected
          */
         t = FALSE;
@@ -1495,14 +1495,14 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_datagramSocketCreate(JNIEnv *env,
         t = TRUE;
         fd1 = socket (AF_INET6, SOCK_DGRAM, 0);
         if (fd1 == SOCKET_ERROR) {
-            NET_ThrowCurrent(env, "Socket creation failed");
+            NET_ThrowCurrent(env, "Socket crebtion fbiled");
             return;
         }
-        NET_SetSockOpt(fd1, SOL_SOCKET, SO_BROADCAST, (char*)&t, sizeof(BOOL));
+        NET_SetSockOpt(fd1, SOL_SOCKET, SO_BROADCAST, (chbr*)&t, sizeof(BOOL));
         t = FALSE;
         WSAIoctl(fd1,SIO_UDP_CONNRESET,&t,sizeof(t),&x1,sizeof(x1),&x2,0,0);
         (*env)->SetIntField(env, fd1Obj, IO_fd_fdID, fd1);
-        SetHandleInformation((HANDLE)(UINT_PTR)fd1, HANDLE_FLAG_INHERIT, FALSE);
+        SetHbndleInformbtion((HANDLE)(UINT_PTR)fd1, HANDLE_FLAG_INHERIT, FALSE);
     } else {
         /* drop the second fd */
         (*env)->SetObjectField(env, this, pdsi_fd1ID, NULL);
@@ -1510,19 +1510,19 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_datagramSocketCreate(JNIEnv *env,
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
- * Method:    datagramSocketClose
- * Signature: ()V
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
+ * Method:    dbtbgrbmSocketClose
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_datagramSocketClose(JNIEnv *env,
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_dbtbgrbmSocketClose(JNIEnv *env,
                                                           jobject this) {
     /*
      * REMIND: PUT A LOCK AROUND THIS CODE
      */
     jobject fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
     jobject fd1Obj = (*env)->GetObjectField(env, this, pdsi_fd1ID);
-    int ipv6_supported = ipv6_available();
+    int ipv6_supported = ipv6_bvbilbble();
     int fd=-1, fd1=-1;
 
     if (IS_NULL(fdObj) && (!ipv6_supported || IS_NULL(fd1Obj))) {
@@ -1548,71 +1548,71 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_datagramSocketClose(JNIEnv *env,
 }
 
 /*
- * check the addresses attached to the NetworkInterface object
- * and return the first one (of the requested family Ipv4 or Ipv6)
- * in *iaddr
+ * check the bddresses bttbched to the NetworkInterfbce object
+ * bnd return the first one (of the requested fbmily Ipv4 or Ipv6)
+ * in *ibddr
  */
 
-static int getInetAddrFromIf (JNIEnv *env, int family, jobject nif, jobject *iaddr)
+stbtic int getInetAddrFromIf (JNIEnv *env, int fbmily, jobject nif, jobject *ibddr)
 {
-    jobjectArray addrArray;
-    static jfieldID ni_addrsID=0;
+    jobjectArrby bddrArrby;
+    stbtic jfieldID ni_bddrsID=0;
     jsize len;
-    jobject addr;
+    jobject bddr;
     int i;
 
-    if (ni_addrsID == NULL ) {
-        jclass c = (*env)->FindClass(env, "java/net/NetworkInterface");
+    if (ni_bddrsID == NULL ) {
+        jclbss c = (*env)->FindClbss(env, "jbvb/net/NetworkInterfbce");
         CHECK_NULL_RETURN (c, -1);
-        ni_addrsID = (*env)->GetFieldID(env, c, "addrs",
-                                        "[Ljava/net/InetAddress;");
-        CHECK_NULL_RETURN (ni_addrsID, -1);
+        ni_bddrsID = (*env)->GetFieldID(env, c, "bddrs",
+                                        "[Ljbvb/net/InetAddress;");
+        CHECK_NULL_RETURN (ni_bddrsID, -1);
     }
 
-    addrArray = (*env)->GetObjectField(env, nif, ni_addrsID);
-    len = (*env)->GetArrayLength(env, addrArray);
+    bddrArrby = (*env)->GetObjectField(env, nif, ni_bddrsID);
+    len = (*env)->GetArrbyLength(env, bddrArrby);
 
     /*
-     * Check that there is at least one address bound to this
-     * interface.
+     * Check thbt there is bt lebst one bddress bound to this
+     * interfbce.
      */
     if (len < 1) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-            "bad argument for IP_MULTICAST_IF2: No IP addresses bound to interface");
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+            "bbd brgument for IP_MULTICAST_IF2: No IP bddresses bound to interfbce");
         return -1;
     }
     for (i=0; i<len; i++) {
-        int fam;
-        addr = (*env)->GetObjectArrayElement(env, addrArray, i);
-        fam = getInetAddress_family(env, addr);
-        if (fam == family) {
-            *iaddr = addr;
+        int fbm;
+        bddr = (*env)->GetObjectArrbyElement(env, bddrArrby, i);
+        fbm = getInetAddress_fbmily(env, bddr);
+        if (fbm == fbmily) {
+            *ibddr = bddr;
             return 0;
         }
     }
     return -1;
 }
 
-static int getInet4AddrFromIf (JNIEnv *env, jobject nif, struct in_addr *iaddr)
+stbtic int getInet4AddrFromIf (JNIEnv *env, jobject nif, struct in_bddr *ibddr)
 {
-    jobject addr;
+    jobject bddr;
 
-    int ret = getInetAddrFromIf (env, IPv4, nif, &addr);
+    int ret = getInetAddrFromIf (env, IPv4, nif, &bddr);
     if (ret == -1) {
         return -1;
     }
 
-    iaddr->s_addr = htonl(getInetAddress_addr(env, addr));
+    ibddr->s_bddr = htonl(getInetAddress_bddr(env, bddr));
     return 0;
 }
 
-/* Get the multicasting index from the interface */
+/* Get the multicbsting index from the interfbce */
 
-static int getIndexFromIf (JNIEnv *env, jobject nif) {
-    static jfieldID ni_indexID;
+stbtic int getIndexFromIf (JNIEnv *env, jobject nif) {
+    stbtic jfieldID ni_indexID;
 
     if (ni_indexID == NULL) {
-        jclass c = (*env)->FindClass(env, "java/net/NetworkInterface");
+        jclbss c = (*env)->FindClbss(env, "jbvb/net/NetworkInterfbce");
         CHECK_NULL_RETURN(c, -1);
         ni_indexID = (*env)->GetFieldID(env, c, "index", "I");
         CHECK_NULL_RETURN(ni_indexID, -1);
@@ -1621,164 +1621,164 @@ static int getIndexFromIf (JNIEnv *env, jobject nif) {
     return (*env)->GetIntField(env, nif, ni_indexID);
 }
 
-static int isAdapterIpv6Enabled(JNIEnv *env, int index) {
-  extern int getAllInterfacesAndAddresses (JNIEnv *env, netif **netifPP);
+stbtic int isAdbpterIpv6Enbbled(JNIEnv *env, int index) {
+  extern int getAllInterfbcesAndAddresses (JNIEnv *env, netif **netifPP);
   netif *ifList, *curr;
-  int ipv6Enabled = 0;
-  if (getAllInterfacesAndAddresses (env, &ifList) < 0) {
-      return ipv6Enabled;
+  int ipv6Enbbled = 0;
+  if (getAllInterfbcesAndAddresses (env, &ifList) < 0) {
+      return ipv6Enbbled;
   }
 
-  /* search by index */
+  /* sebrch by index */
   curr = ifList;
   while (curr != NULL) {
       if (index == curr->index) {
-          break;
+          brebk;
       }
       curr = curr->next;
   }
 
-  /* if found ipv6Index != 0 then interface is configured with IPV6 */
+  /* if found ipv6Index != 0 then interfbce is configured with IPV6 */
   if ((curr != NULL) && (curr->ipv6Index !=0)) {
-      ipv6Enabled = 1;
+      ipv6Enbbled = 1;
   }
 
-  /* release the interface list */
+  /* relebse the interfbce list */
   free_netif(ifList);
 
-  return ipv6Enabled;
+  return ipv6Enbbled;
 }
 
 /*
- * Sets the multicast interface.
+ * Sets the multicbst interfbce.
  *
- * SocketOptions.IP_MULTICAST_IF (argument is an InetAddress) :-
- *      IPv4:   set outgoing multicast interface using
+ * SocketOptions.IP_MULTICAST_IF (brgument is bn InetAddress) :-
+ *      IPv4:   set outgoing multicbst interfbce using
  *              IPPROTO_IP/IP_MULTICAST_IF
  *
- *      IPv6:   Get the interface to which the
+ *      IPv6:   Get the interfbce to which the
  *              InetAddress is bound
- *              and do same as SockOptions.IF_MULTICAST_IF2
+ *              bnd do sbme bs SockOptions.IF_MULTICAST_IF2
  *
- * SockOptions.IF_MULTICAST_IF2 (argument is a NetworkInterface ) :-
- *      For each stack:
- *      IPv4:   Obtain IP address bound to network interface
- *              (NetworkInterface.addres[0])
- *              set outgoing multicast interface using
+ * SockOptions.IF_MULTICAST_IF2 (brgument is b NetworkInterfbce ) :-
+ *      For ebch stbck:
+ *      IPv4:   Obtbin IP bddress bound to network interfbce
+ *              (NetworkInterfbce.bddres[0])
+ *              set outgoing multicbst interfbce using
  *              IPPROTO_IP/IP_MULTICAST_IF
  *
- *      IPv6:   Obtain NetworkInterface.index
- *              Set outgoing multicast interface using
+ *      IPv6:   Obtbin NetworkInterfbce.index
+ *              Set outgoing multicbst interfbce using
  *              IPPROTO_IPV6/IPV6_MULTICAST_IF
  *
  */
-static void setMulticastInterface(JNIEnv *env, jobject this, int fd, int fd1,
-                                  jint opt, jobject value)
+stbtic void setMulticbstInterfbce(JNIEnv *env, jobject this, int fd, int fd1,
+                                  jint opt, jobject vblue)
 {
-    int ipv6_supported = ipv6_available();
+    int ipv6_supported = ipv6_bvbilbble();
 
-    if (opt == java_net_SocketOptions_IP_MULTICAST_IF) {
+    if (opt == jbvb_net_SocketOptions_IP_MULTICAST_IF) {
         /*
-         * value is an InetAddress.
+         * vblue is bn InetAddress.
          * On IPv4 system use IP_MULTICAST_IF socket option
-         * On IPv6 system get the NetworkInterface that this IP
-         * address is bound to and use the IPV6_MULTICAST_IF
-         * option instead of IP_MULTICAST_IF
+         * On IPv6 system get the NetworkInterfbce thbt this IP
+         * bddress is bound to bnd use the IPV6_MULTICAST_IF
+         * option instebd of IP_MULTICAST_IF
          */
         if (ipv6_supported) {
-            static jclass ni_class;
-            if (ni_class == NULL) {
-                jclass c = (*env)->FindClass(env, "java/net/NetworkInterface");
+            stbtic jclbss ni_clbss;
+            if (ni_clbss == NULL) {
+                jclbss c = (*env)->FindClbss(env, "jbvb/net/NetworkInterfbce");
                 CHECK_NULL(c);
-                ni_class = (*env)->NewGlobalRef(env, c);
-                CHECK_NULL(ni_class);
+                ni_clbss = (*env)->NewGlobblRef(env, c);
+                CHECK_NULL(ni_clbss);
             }
 
-            value = Java_java_net_NetworkInterface_getByInetAddress0(env, ni_class, value);
-            if (value == NULL) {
+            vblue = Jbvb_jbvb_net_NetworkInterfbce_getByInetAddress0(env, ni_clbss, vblue);
+            if (vblue == NULL) {
                 if (!(*env)->ExceptionOccurred(env)) {
-                    JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                         "bad argument for IP_MULTICAST_IF"
-                         ": address not bound to any interface");
+                    JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                         "bbd brgument for IP_MULTICAST_IF"
+                         ": bddress not bound to bny interfbce");
                 }
                 return;
             }
-            opt = java_net_SocketOptions_IP_MULTICAST_IF2;
+            opt = jbvb_net_SocketOptions_IP_MULTICAST_IF2;
         } else {
-            struct in_addr in;
+            struct in_bddr in;
 
-            in.s_addr = htonl(getInetAddress_addr(env, value));
+            in.s_bddr = htonl(getInetAddress_bddr(env, vblue));
             if (setsockopt(fd, IPPROTO_IP, IP_MULTICAST_IF,
-                               (const char*)&in, sizeof(in)) < 0) {
-                NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
+                               (const chbr*)&in, sizeof(in)) < 0) {
+                NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException",
                                  "Error setting socket option");
             }
             return;
         }
     }
 
-    if (opt == java_net_SocketOptions_IP_MULTICAST_IF2) {
+    if (opt == jbvb_net_SocketOptions_IP_MULTICAST_IF2) {
         /*
-         * value is a NetworkInterface.
-         * On IPv6 system get the index of the interface and use the
+         * vblue is b NetworkInterfbce.
+         * On IPv6 system get the index of the interfbce bnd use the
          * IPV6_MULTICAST_IF socket option
-         * On IPv4 system extract addr[0] and use the IP_MULTICAST_IF
+         * On IPv4 system extrbct bddr[0] bnd use the IP_MULTICAST_IF
          * option. For IPv6 both must be done.
          */
         if (ipv6_supported) {
-            static jfieldID ni_indexID;
-            struct in_addr in;
+            stbtic jfieldID ni_indexID;
+            struct in_bddr in;
             int index;
 
             if (ni_indexID == NULL) {
-                jclass c = (*env)->FindClass(env, "java/net/NetworkInterface");
+                jclbss c = (*env)->FindClbss(env, "jbvb/net/NetworkInterfbce");
                 CHECK_NULL(c);
                 ni_indexID = (*env)->GetFieldID(env, c, "index", "I");
                 CHECK_NULL(ni_indexID);
             }
-            index = (*env)->GetIntField(env, value, ni_indexID);
+            index = (*env)->GetIntField(env, vblue, ni_indexID);
 
-            if ( isAdapterIpv6Enabled(env, index) != 0 ) {
+            if ( isAdbpterIpv6Enbbled(env, index) != 0 ) {
                 if (setsockopt(fd1, IPPROTO_IPV6, IPV6_MULTICAST_IF,
-                               (const char*)&index, sizeof(index)) < 0) {
+                               (const chbr*)&index, sizeof(index)) < 0) {
                     if (errno == EINVAL && index > 0) {
-                        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                            "IPV6_MULTICAST_IF failed (interface has IPv4 "
-                            "address only?)");
+                        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                            "IPV6_MULTICAST_IF fbiled (interfbce hbs IPv4 "
+                            "bddress only?)");
                     } else {
-                        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
+                        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException",
                                    "Error setting socket option");
                     }
                     return;
                 }
             }
-            /* If there are any IPv4 addresses on this interface then
-             * repeat the operation on the IPv4 fd */
+            /* If there bre bny IPv4 bddresses on this interfbce then
+             * repebt the operbtion on the IPv4 fd */
 
-            if (getInet4AddrFromIf (env, value, &in) < 0) {
+            if (getInet4AddrFromIf (env, vblue, &in) < 0) {
                 return;
             }
             if (setsockopt(fd, IPPROTO_IP, IP_MULTICAST_IF,
-                               (const char*)&in, sizeof(in)) < 0) {
-                NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
+                               (const chbr*)&in, sizeof(in)) < 0) {
+                NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException",
                                  "Error setting socket option");
             }
             return;
         } else {
-            struct in_addr in;
+            struct in_bddr in;
 
-            if (getInet4AddrFromIf (env, value, &in) < 0) {
+            if (getInet4AddrFromIf (env, vblue, &in) < 0) {
                 if ((*env)->ExceptionOccurred(env)) {
                     return;
                 }
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                        "no InetAddress instances of requested type");
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                        "no InetAddress instbnces of requested type");
                 return;
             }
 
             if (setsockopt(fd, IPPROTO_IP, IP_MULTICAST_IF,
-                               (const char*)&in, sizeof(in)) < 0) {
-                NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
+                               (const chbr*)&in, sizeof(in)) < 0) {
+                NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException",
                                "Error setting socket option");
             }
             return;
@@ -1787,114 +1787,114 @@ static void setMulticastInterface(JNIEnv *env, jobject this, int fd, int fd1,
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
- * Method:    socketNativeSetOption
- * Signature: (ILjava/lang/Object;)V
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
+ * Method:    socketNbtiveSetOption
+ * Signbture: (ILjbvb/lbng/Object;)V
  */
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_socketNativeSetOption(JNIEnv *env,jobject this,
-                                                      jint opt,jobject value) {
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_socketNbtiveSetOption(JNIEnv *env,jobject this,
+                                                      jint opt,jobject vblue) {
 
     int fd=-1, fd1=-1;
-    int levelv4 = 0, levelv6 = 0, optnamev4 = 0, optnamev6 = 0, optlen = 0;
+    int levelv4 = 0, levelv6 = 0, optnbmev4 = 0, optnbmev6 = 0, optlen = 0;
     union {
         int i;
-        char c;
-    } optval = { 0 };
-    int ipv6_supported = ipv6_available();
+        chbr c;
+    } optvbl = { 0 };
+    int ipv6_supported = ipv6_bvbilbble();
     fd = getFD(env, this);
 
     if (ipv6_supported) {
         fd1 = getFD1(env, this);
     }
     if (fd < 0 && fd1 < 0) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "socket closed");
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "socket closed");
         return;
     }
 
-    if ((opt == java_net_SocketOptions_IP_MULTICAST_IF) ||
-        (opt == java_net_SocketOptions_IP_MULTICAST_IF2)) {
+    if ((opt == jbvb_net_SocketOptions_IP_MULTICAST_IF) ||
+        (opt == jbvb_net_SocketOptions_IP_MULTICAST_IF2)) {
 
-        setMulticastInterface(env, this, fd, fd1, opt, value);
+        setMulticbstInterfbce(env, this, fd, fd1, opt, vblue);
         return;
     }
 
     /*
-     * Map the Java level socket option to the platform specific
-     * level(s) and option name(s).
+     * Mbp the Jbvb level socket option to the plbtform specific
+     * level(s) bnd option nbme(s).
      */
     if (fd1 != -1) {
-        if (NET_MapSocketOptionV6(opt, &levelv6, &optnamev6)) {
-            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Invalid option");
+        if (NET_MbpSocketOptionV6(opt, &levelv6, &optnbmev6)) {
+            JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Invblid option");
             return;
         }
     }
     if (fd != -1) {
-        if (NET_MapSocketOption(opt, &levelv4, &optnamev4)) {
-            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Invalid option");
+        if (NET_MbpSocketOption(opt, &levelv4, &optnbmev4)) {
+            JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Invblid option");
             return;
         }
     }
 
     switch (opt) {
-        case java_net_SocketOptions_SO_SNDBUF :
-        case java_net_SocketOptions_SO_RCVBUF :
-        case java_net_SocketOptions_IP_TOS :
+        cbse jbvb_net_SocketOptions_SO_SNDBUF :
+        cbse jbvb_net_SocketOptions_SO_RCVBUF :
+        cbse jbvb_net_SocketOptions_IP_TOS :
             {
-                jclass cls;
+                jclbss cls;
                 jfieldID fid;
 
-                cls = (*env)->FindClass(env, "java/lang/Integer");
+                cls = (*env)->FindClbss(env, "jbvb/lbng/Integer");
                 CHECK_NULL(cls);
-                fid =  (*env)->GetFieldID(env, cls, "value", "I");
+                fid =  (*env)->GetFieldID(env, cls, "vblue", "I");
                 CHECK_NULL(fid);
 
-                optval.i = (*env)->GetIntField(env, value, fid);
-                optlen = sizeof(optval.i);
+                optvbl.i = (*env)->GetIntField(env, vblue, fid);
+                optlen = sizeof(optvbl.i);
             }
-            break;
+            brebk;
 
-        case java_net_SocketOptions_SO_REUSEADDR:
-        case java_net_SocketOptions_SO_BROADCAST:
-        case java_net_SocketOptions_IP_MULTICAST_LOOP:
+        cbse jbvb_net_SocketOptions_SO_REUSEADDR:
+        cbse jbvb_net_SocketOptions_SO_BROADCAST:
+        cbse jbvb_net_SocketOptions_IP_MULTICAST_LOOP:
             {
-                jclass cls;
+                jclbss cls;
                 jfieldID fid;
-                jboolean on;
+                jboolebn on;
 
-                cls = (*env)->FindClass(env, "java/lang/Boolean");
+                cls = (*env)->FindClbss(env, "jbvb/lbng/Boolebn");
                 CHECK_NULL(cls);
-                fid =  (*env)->GetFieldID(env, cls, "value", "Z");
+                fid =  (*env)->GetFieldID(env, cls, "vblue", "Z");
                 CHECK_NULL(fid);
 
-                on = (*env)->GetBooleanField(env, value, fid);
-                optval.i = (on ? 1 : 0);
+                on = (*env)->GetBoolebnField(env, vblue, fid);
+                optvbl.i = (on ? 1 : 0);
                 /*
-                 * setLoopbackMode (true) disables IP_MULTICAST_LOOP rather
-                 * than enabling it.
+                 * setLoopbbckMode (true) disbbles IP_MULTICAST_LOOP rbther
+                 * thbn enbbling it.
                  */
-                if (opt == java_net_SocketOptions_IP_MULTICAST_LOOP) {
-                    optval.i = !optval.i;
+                if (opt == jbvb_net_SocketOptions_IP_MULTICAST_LOOP) {
+                    optvbl.i = !optvbl.i;
                 }
-                optlen = sizeof(optval.i);
+                optlen = sizeof(optvbl.i);
             }
-            break;
+            brebk;
 
-        default :
-            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                "Socket option not supported by PlainDatagramSocketImp");
-            break;
+        defbult :
+            JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                "Socket option not supported by PlbinDbtbgrbmSocketImp");
+            brebk;
 
     }
 
     if (fd1 != -1) {
-        if (NET_SetSockOpt(fd1, levelv6, optnamev6, (void *)&optval, optlen) < 0) {
+        if (NET_SetSockOpt(fd1, levelv6, optnbmev6, (void *)&optvbl, optlen) < 0) {
             NET_ThrowCurrent(env, "setsockopt IPv6");
             return;
         }
     }
     if (fd != -1) {
-        if (NET_SetSockOpt(fd, levelv4, optnamev4, (void *)&optval, optlen) < 0) {
+        if (NET_SetSockOpt(fd, levelv4, optnbmev4, (void *)&optvbl, optlen) < 0) {
             NET_ThrowCurrent(env, "setsockopt");
             return;
         }
@@ -1903,90 +1903,90 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_socketNativeSetOption(JNIEnv *env
 
 /*
  *
- * called by getMulticastInterface to retrieve a NetworkInterface
+ * cblled by getMulticbstInterfbce to retrieve b NetworkInterfbce
  * configured for IPv4.
- * The ipv4Mode parameter, is a closet boolean, which allows for a NULL return,
- * or forces the creation of a NetworkInterface object with null data.
- * It relates to its calling context in getMulticastInterface.
+ * The ipv4Mode pbrbmeter, is b closet boolebn, which bllows for b NULL return,
+ * or forces the crebtion of b NetworkInterfbce object with null dbtb.
+ * It relbtes to its cblling context in getMulticbstInterfbce.
  * ipv4Mode == 1, the context is IPV4 processing only.
  * ipv4Mode == 0, the context is IPV6 processing
  *
  */
-static jobject getIPv4NetworkInterface (JNIEnv *env, jobject this, int fd, jint opt, int ipv4Mode) {
-        static jclass inet4_class;
-        static jmethodID inet4_ctrID;
+stbtic jobject getIPv4NetworkInterfbce (JNIEnv *env, jobject this, int fd, jint opt, int ipv4Mode) {
+        stbtic jclbss inet4_clbss;
+        stbtic jmethodID inet4_ctrID;
 
-        static jclass ni_class; static jmethodID ni_ctrID;
-        static jfieldID ni_indexID;
-        static jfieldID ni_addrsID;
+        stbtic jclbss ni_clbss; stbtic jmethodID ni_ctrID;
+        stbtic jfieldID ni_indexID;
+        stbtic jfieldID ni_bddrsID;
 
-        jobjectArray addrArray;
-        jobject addr;
+        jobjectArrby bddrArrby;
+        jobject bddr;
         jobject ni;
 
-        struct in_addr in;
-        struct in_addr *inP = &in;
-        int len = sizeof(struct in_addr);
+        struct in_bddr in;
+        struct in_bddr *inP = &in;
+        int len = sizeof(struct in_bddr);
         if (getsockopt(fd, IPPROTO_IP, IP_MULTICAST_IF,
-                           (char *)inP, &len) < 0) {
-            NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
+                           (chbr *)inP, &len) < 0) {
+            NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException",
                              "Error getting socket option");
             return NULL;
         }
 
         /*
-         * Construct and populate an Inet4Address
+         * Construct bnd populbte bn Inet4Address
          */
-        if (inet4_class == NULL) {
-            jclass c = (*env)->FindClass(env, "java/net/Inet4Address");
+        if (inet4_clbss == NULL) {
+            jclbss c = (*env)->FindClbss(env, "jbvb/net/Inet4Address");
             CHECK_NULL_RETURN(c, NULL);
             inet4_ctrID = (*env)->GetMethodID(env, c, "<init>", "()V");
             CHECK_NULL_RETURN(inet4_ctrID, NULL);
-            inet4_class = (*env)->NewGlobalRef(env, c);
-            CHECK_NULL_RETURN(inet4_class, NULL);
+            inet4_clbss = (*env)->NewGlobblRef(env, c);
+            CHECK_NULL_RETURN(inet4_clbss, NULL);
         }
-        addr = (*env)->NewObject(env, inet4_class, inet4_ctrID, 0);
-        CHECK_NULL_RETURN(addr, NULL);
+        bddr = (*env)->NewObject(env, inet4_clbss, inet4_ctrID, 0);
+        CHECK_NULL_RETURN(bddr, NULL);
 
-        setInetAddress_addr(env, addr, ntohl(in.s_addr));
+        setInetAddress_bddr(env, bddr, ntohl(in.s_bddr));
 
         /*
          * For IP_MULTICAST_IF return InetAddress
          */
-        if (opt == java_net_SocketOptions_IP_MULTICAST_IF) {
-            return addr;
+        if (opt == jbvb_net_SocketOptions_IP_MULTICAST_IF) {
+            return bddr;
         }
 
         /*
-         * For IP_MULTICAST_IF2 we get the NetworkInterface for
-         * this address and return it
+         * For IP_MULTICAST_IF2 we get the NetworkInterfbce for
+         * this bddress bnd return it
          */
-        if (ni_class == NULL) {
-            jclass c = (*env)->FindClass(env, "java/net/NetworkInterface");
+        if (ni_clbss == NULL) {
+            jclbss c = (*env)->FindClbss(env, "jbvb/net/NetworkInterfbce");
             CHECK_NULL_RETURN(c, NULL);
             ni_ctrID = (*env)->GetMethodID(env, c, "<init>", "()V");
             CHECK_NULL_RETURN(ni_ctrID, NULL);
             ni_indexID = (*env)->GetFieldID(env, c, "index", "I");
             CHECK_NULL_RETURN(ni_indexID, NULL);
-            ni_addrsID = (*env)->GetFieldID(env, c, "addrs",
-                                            "[Ljava/net/InetAddress;");
-            CHECK_NULL_RETURN(ni_addrsID, NULL);
-            ni_class = (*env)->NewGlobalRef(env, c);
-            CHECK_NULL_RETURN(ni_class, NULL);
+            ni_bddrsID = (*env)->GetFieldID(env, c, "bddrs",
+                                            "[Ljbvb/net/InetAddress;");
+            CHECK_NULL_RETURN(ni_bddrsID, NULL);
+            ni_clbss = (*env)->NewGlobblRef(env, c);
+            CHECK_NULL_RETURN(ni_clbss, NULL);
         }
-        ni = Java_java_net_NetworkInterface_getByInetAddress0(env, ni_class, addr);
+        ni = Jbvb_jbvb_net_NetworkInterfbce_getByInetAddress0(env, ni_clbss, bddr);
         if (ni) {
             return ni;
         }
         if (ipv4Mode) {
-            ni = (*env)->NewObject(env, ni_class, ni_ctrID, 0);
+            ni = (*env)->NewObject(env, ni_clbss, ni_ctrID, 0);
             CHECK_NULL_RETURN(ni, NULL);
 
             (*env)->SetIntField(env, ni, ni_indexID, -1);
-            addrArray = (*env)->NewObjectArray(env, 1, inet4_class, NULL);
-            CHECK_NULL_RETURN(addrArray, NULL);
-            (*env)->SetObjectArrayElement(env, addrArray, 0, addr);
-            (*env)->SetObjectField(env, ni, ni_addrsID, addrArray);
+            bddrArrby = (*env)->NewObjectArrby(env, 1, inet4_clbss, NULL);
+            CHECK_NULL_RETURN(bddrArrby, NULL);
+            (*env)->SetObjectArrbyElement(env, bddrArrby, 0, bddr);
+            (*env)->SetObjectField(env, ni, ni_bddrsID, bddrArrby);
         } else {
             ni = NULL;
         }
@@ -1994,158 +1994,158 @@ static jobject getIPv4NetworkInterface (JNIEnv *env, jobject this, int fd, jint 
 }
 
 /*
- * Return the multicast interface:
+ * Return the multicbst interfbce:
  *
  * SocketOptions.IP_MULTICAST_IF
  *      IPv4:   Query IPPROTO_IP/IP_MULTICAST_IF
- *              Create InetAddress
+ *              Crebte InetAddress
  *              IP_MULTICAST_IF returns struct ip_mreqn on 2.2
- *              kernel but struct in_addr on 2.4 kernel
+ *              kernel but struct in_bddr on 2.4 kernel
  *      IPv6:   Query IPPROTO_IPV6 / IPV6_MULTICAST_IF or
- *              obtain from impl is Linux 2.2 kernel
+ *              obtbin from impl is Linux 2.2 kernel
  *              If index == 0 return InetAddress representing
- *              anyLocalAddress.
- *              If index > 0 query NetworkInterface by index
- *              and returns addrs[0]
+ *              bnyLocblAddress.
+ *              If index > 0 query NetworkInterfbce by index
+ *              bnd returns bddrs[0]
  *
  * SocketOptions.IP_MULTICAST_IF2
  *      IPv4:   Query IPPROTO_IP/IP_MULTICAST_IF
- *              Query NetworkInterface by IP address and
- *              return the NetworkInterface that the address
+ *              Query NetworkInterfbce by IP bddress bnd
+ *              return the NetworkInterfbce thbt the bddress
  *              is bound too.
  *      IPv6:   Query IPPROTO_IPV6 / IPV6_MULTICAST_IF
  *              (except Linux .2 kernel)
- *              Query NetworkInterface by index and
- *              return NetworkInterface.
+ *              Query NetworkInterfbce by index bnd
+ *              return NetworkInterfbce.
  */
-jobject getMulticastInterface(JNIEnv *env, jobject this, int fd, int fd1, jint opt) {
-    jboolean isIPV4 = !ipv6_available() || fd1 == -1;
+jobject getMulticbstInterfbce(JNIEnv *env, jobject this, int fd, int fd1, jint opt) {
+    jboolebn isIPV4 = !ipv6_bvbilbble() || fd1 == -1;
 
     /*
-     * IPv4 implementation
+     * IPv4 implementbtion
      */
     if (isIPV4) {
-        jobject netObject = NULL; // return is either an addr or a netif
-        netObject = getIPv4NetworkInterface(env, this, fd, opt, 1);
+        jobject netObject = NULL; // return is either bn bddr or b netif
+        netObject = getIPv4NetworkInterfbce(env, this, fd, opt, 1);
         return netObject;
     }
 
     /*
-     * IPv6 implementation
+     * IPv6 implementbtion
      */
-    if ((opt == java_net_SocketOptions_IP_MULTICAST_IF) ||
-        (opt == java_net_SocketOptions_IP_MULTICAST_IF2)) {
+    if ((opt == jbvb_net_SocketOptions_IP_MULTICAST_IF) ||
+        (opt == jbvb_net_SocketOptions_IP_MULTICAST_IF2)) {
 
-        static jclass ni_class;
-        static jmethodID ni_ctrID;
-        static jfieldID ni_indexID;
-        static jfieldID ni_addrsID;
-        static jclass ia_class;
-        static jmethodID ia_anyLocalAddressID;
+        stbtic jclbss ni_clbss;
+        stbtic jmethodID ni_ctrID;
+        stbtic jfieldID ni_indexID;
+        stbtic jfieldID ni_bddrsID;
+        stbtic jclbss ib_clbss;
+        stbtic jmethodID ib_bnyLocblAddressID;
 
         int index;
         int len = sizeof(index);
 
-        jobjectArray addrArray;
-        jobject addr;
+        jobjectArrby bddrArrby;
+        jobject bddr;
         jobject ni;
 
         {
             if (getsockopt(fd1, IPPROTO_IPV6, IPV6_MULTICAST_IF,
-                               (char*)&index, &len) < 0) {
-                NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
+                               (chbr*)&index, &len) < 0) {
+                NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException",
                                "Error getting socket option");
                 return NULL;
             }
         }
 
-        if (ni_class == NULL) {
-            jclass c = (*env)->FindClass(env, "java/net/NetworkInterface");
+        if (ni_clbss == NULL) {
+            jclbss c = (*env)->FindClbss(env, "jbvb/net/NetworkInterfbce");
             CHECK_NULL_RETURN(c, NULL);
             ni_ctrID = (*env)->GetMethodID(env, c, "<init>", "()V");
             CHECK_NULL_RETURN(ni_ctrID, NULL);
             ni_indexID = (*env)->GetFieldID(env, c, "index", "I");
             CHECK_NULL_RETURN(ni_indexID, NULL);
-            ni_addrsID = (*env)->GetFieldID(env, c, "addrs",
-                                            "[Ljava/net/InetAddress;");
-            CHECK_NULL_RETURN(ni_addrsID, NULL);
+            ni_bddrsID = (*env)->GetFieldID(env, c, "bddrs",
+                                            "[Ljbvb/net/InetAddress;");
+            CHECK_NULL_RETURN(ni_bddrsID, NULL);
 
-            ia_class = (*env)->FindClass(env, "java/net/InetAddress");
-            CHECK_NULL_RETURN(ia_class, NULL);
-            ia_class = (*env)->NewGlobalRef(env, ia_class);
-            CHECK_NULL_RETURN(ia_class, NULL);
-            ia_anyLocalAddressID = (*env)->GetStaticMethodID(env,
-                                                             ia_class,
-                                                             "anyLocalAddress",
-                                                             "()Ljava/net/InetAddress;");
-            CHECK_NULL_RETURN(ia_anyLocalAddressID, NULL);
-            ni_class = (*env)->NewGlobalRef(env, c);
-            CHECK_NULL_RETURN(ni_class, NULL);
+            ib_clbss = (*env)->FindClbss(env, "jbvb/net/InetAddress");
+            CHECK_NULL_RETURN(ib_clbss, NULL);
+            ib_clbss = (*env)->NewGlobblRef(env, ib_clbss);
+            CHECK_NULL_RETURN(ib_clbss, NULL);
+            ib_bnyLocblAddressID = (*env)->GetStbticMethodID(env,
+                                                             ib_clbss,
+                                                             "bnyLocblAddress",
+                                                             "()Ljbvb/net/InetAddress;");
+            CHECK_NULL_RETURN(ib_bnyLocblAddressID, NULL);
+            ni_clbss = (*env)->NewGlobblRef(env, c);
+            CHECK_NULL_RETURN(ni_clbss, NULL);
         }
 
         /*
-         * If multicast to a specific interface then return the
-         * interface (for IF2) or the any address on that interface
+         * If multicbst to b specific interfbce then return the
+         * interfbce (for IF2) or the bny bddress on thbt interfbce
          * (for IF).
          */
         if (index > 0) {
-            ni = Java_java_net_NetworkInterface_getByIndex0(env, ni_class,
+            ni = Jbvb_jbvb_net_NetworkInterfbce_getByIndex0(env, ni_clbss,
                                                                    index);
             if (ni == NULL) {
-                char errmsg[255];
+                chbr errmsg[255];
                 sprintf(errmsg,
-                        "IPV6_MULTICAST_IF returned index to unrecognized interface: %d",
+                        "IPV6_MULTICAST_IF returned index to unrecognized interfbce: %d",
                         index);
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", errmsg);
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", errmsg);
                 return NULL;
             }
 
             /*
-             * For IP_MULTICAST_IF2 return the NetworkInterface
+             * For IP_MULTICAST_IF2 return the NetworkInterfbce
              */
-            if (opt == java_net_SocketOptions_IP_MULTICAST_IF2) {
+            if (opt == jbvb_net_SocketOptions_IP_MULTICAST_IF2) {
                 return ni;
             }
 
             /*
-             * For IP_MULTICAST_IF return addrs[0]
+             * For IP_MULTICAST_IF return bddrs[0]
              */
-            addrArray = (*env)->GetObjectField(env, ni, ni_addrsID);
-            if ((*env)->GetArrayLength(env, addrArray) < 1) {
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                    "IPV6_MULTICAST_IF returned interface without IP bindings");
+            bddrArrby = (*env)->GetObjectField(env, ni, ni_bddrsID);
+            if ((*env)->GetArrbyLength(env, bddrArrby) < 1) {
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                    "IPV6_MULTICAST_IF returned interfbce without IP bindings");
                 return NULL;
             }
 
-            addr = (*env)->GetObjectArrayElement(env, addrArray, 0);
-            return addr;
-        } else if (index == 0) { // index == 0 typically means IPv6 not configured on the interfaces
-            // falling back to treat interface as configured for IPv4
+            bddr = (*env)->GetObjectArrbyElement(env, bddrArrby, 0);
+            return bddr;
+        } else if (index == 0) { // index == 0 typicblly mebns IPv6 not configured on the interfbces
+            // fblling bbck to trebt interfbce bs configured for IPv4
             jobject netObject = NULL;
-            netObject = getIPv4NetworkInterface(env, this, fd, opt, 0);
+            netObject = getIPv4NetworkInterfbce(env, this, fd, opt, 0);
             if (netObject != NULL) {
                 return netObject;
             }
         }
 
         /*
-         * Multicast to any address - return anyLocalAddress
-         * or a NetworkInterface with addrs[0] set to anyLocalAddress
+         * Multicbst to bny bddress - return bnyLocblAddress
+         * or b NetworkInterfbce with bddrs[0] set to bnyLocblAddress
          */
 
-        addr = (*env)->CallStaticObjectMethod(env, ia_class, ia_anyLocalAddressID,
+        bddr = (*env)->CbllStbticObjectMethod(env, ib_clbss, ib_bnyLocblAddressID,
                                               NULL);
-        if (opt == java_net_SocketOptions_IP_MULTICAST_IF) {
-            return addr;
+        if (opt == jbvb_net_SocketOptions_IP_MULTICAST_IF) {
+            return bddr;
         }
 
-        ni = (*env)->NewObject(env, ni_class, ni_ctrID, 0);
+        ni = (*env)->NewObject(env, ni_clbss, ni_ctrID, 0);
         CHECK_NULL_RETURN(ni, NULL);
         (*env)->SetIntField(env, ni, ni_indexID, -1);
-        addrArray = (*env)->NewObjectArray(env, 1, ia_class, NULL);
-        CHECK_NULL_RETURN(addrArray, NULL);
-        (*env)->SetObjectArrayElement(env, addrArray, 0, addr);
-        (*env)->SetObjectField(env, ni, ni_addrsID, addrArray);
+        bddrArrby = (*env)->NewObjectArrby(env, 1, ib_clbss, NULL);
+        CHECK_NULL_RETURN(bddrArrby, NULL);
+        (*env)->SetObjectArrbyElement(env, bddrArrby, 0, bddr);
+        (*env)->SetObjectField(env, ni, ni_bddrsID, bddrArrby);
         return ni;
     }
     return NULL;
@@ -2153,22 +2153,22 @@ jobject getMulticastInterface(JNIEnv *env, jobject this, int fd, int fd1, jint o
 
 
 /*
- * Returns relevant info as a jint.
+ * Returns relevbnt info bs b jint.
  *
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
  * Method:    socketGetOption
- * Signature: (I)Ljava/lang/Object;
+ * Signbture: (I)Ljbvb/lbng/Object;
  */
 JNIEXPORT jobject JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_socketGetOption(JNIEnv *env, jobject this,
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_socketGetOption(JNIEnv *env, jobject this,
                                                       jint opt) {
 
     int fd=-1, fd1=-1;
-    int level, optname, optlen;
+    int level, optnbme, optlen;
     union {
         int i;
-    } optval = {0};
-    int ipv6_supported = ipv6_available();
+    } optvbl = {0};
+    int ipv6_supported = ipv6_bvbilbble();
 
     fd = getFD(env, this);
     if (ipv6_supported) {
@@ -2176,83 +2176,83 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_socketGetOption(JNIEnv *env, jobj
     }
 
     if (fd < 0 && fd1 < 0) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                         "Socket closed");
         return NULL;
     }
 
     /*
-     * Handle IP_MULTICAST_IF separately
+     * Hbndle IP_MULTICAST_IF sepbrbtely
      */
-    if (opt == java_net_SocketOptions_IP_MULTICAST_IF ||
-        opt == java_net_SocketOptions_IP_MULTICAST_IF2) {
-        return getMulticastInterface(env, this, fd, fd1, opt);
+    if (opt == jbvb_net_SocketOptions_IP_MULTICAST_IF ||
+        opt == jbvb_net_SocketOptions_IP_MULTICAST_IF2) {
+        return getMulticbstInterfbce(env, this, fd, fd1, opt);
     }
 
     /*
-     * Map the Java level socket option to the platform specific
-     * level and option name.
+     * Mbp the Jbvb level socket option to the plbtform specific
+     * level bnd option nbme.
      */
-    if (NET_MapSocketOption(opt, &level, &optname)) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Invalid option");
+    if (NET_MbpSocketOption(opt, &level, &optnbme)) {
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Invblid option");
         return NULL;
     }
 
     if (fd == -1) {
-        if (NET_MapSocketOptionV6(opt, &level, &optname)) {
-            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Invalid option");
+        if (NET_MbpSocketOptionV6(opt, &level, &optnbme)) {
+            JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Invblid option");
             return NULL;
         }
         fd = fd1; /* must be IPv6 only */
     }
 
-    optlen = sizeof(optval.i);
-    if (NET_GetSockOpt(fd, level, optname, (void *)&optval, &optlen) < 0) {
-        char errmsg[255];
+    optlen = sizeof(optvbl.i);
+    if (NET_GetSockOpt(fd, level, optnbme, (void *)&optvbl, &optlen) < 0) {
+        chbr errmsg[255];
         sprintf(errmsg, "error getting socket option: %s\n", strerror(errno));
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", errmsg);
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", errmsg);
         return NULL;
     }
 
     switch (opt) {
-        case java_net_SocketOptions_SO_BROADCAST:
-        case java_net_SocketOptions_SO_REUSEADDR:
-            return createBoolean(env, optval.i);
+        cbse jbvb_net_SocketOptions_SO_BROADCAST:
+        cbse jbvb_net_SocketOptions_SO_REUSEADDR:
+            return crebteBoolebn(env, optvbl.i);
 
-        case java_net_SocketOptions_IP_MULTICAST_LOOP:
-            /* getLoopbackMode() returns true if IP_MULTICAST_LOOP is disabled */
-            return createBoolean(env, !optval.i);
+        cbse jbvb_net_SocketOptions_IP_MULTICAST_LOOP:
+            /* getLoopbbckMode() returns true if IP_MULTICAST_LOOP is disbbled */
+            return crebteBoolebn(env, !optvbl.i);
 
-        case java_net_SocketOptions_SO_SNDBUF:
-        case java_net_SocketOptions_SO_RCVBUF:
-        case java_net_SocketOptions_IP_TOS:
-            return createInteger(env, optval.i);
+        cbse jbvb_net_SocketOptions_SO_SNDBUF:
+        cbse jbvb_net_SocketOptions_SO_RCVBUF:
+        cbse jbvb_net_SocketOptions_IP_TOS:
+            return crebteInteger(env, optvbl.i);
 
-        default :
-            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                "Socket option not supported by TwoStacksPlainDatagramSocketImpl");
+        defbult :
+            JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                "Socket option not supported by TwoStbcksPlbinDbtbgrbmSocketImpl");
             return NULL;
 
     }
 }
 
 /*
- * Returns local address of the socket.
+ * Returns locbl bddress of the socket.
  *
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
- * Method:    socketLocalAddress
- * Signature: (I)Ljava/lang/Object;
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
+ * Method:    socketLocblAddress
+ * Signbture: (I)Ljbvb/lbng/Object;
  */
 JNIEXPORT jobject JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_socketLocalAddress(JNIEnv *env, jobject this,
-                                                      jint family) {
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_socketLocblAddress(JNIEnv *env, jobject this,
+                                                      jint fbmily) {
 
     int fd=-1, fd1=-1;
     SOCKETADDRESS him;
     int len = 0;
     int port;
-    jobject iaObj;
-    int ipv6_supported = ipv6_available();
+    jobject ibObj;
+    int ipv6_supported = ipv6_bvbilbble();
 
     fd = getFD(env, this);
     if (ipv6_supported) {
@@ -2260,44 +2260,44 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_socketLocalAddress(JNIEnv *env, j
     }
 
     if (fd < 0 && fd1 < 0) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                         "Socket closed");
         return NULL;
     }
 
-    /* find out local IP address */
+    /* find out locbl IP bddress */
 
-    len = sizeof (struct sockaddr_in);
+    len = sizeof (struct sockbddr_in);
 
-    /* family==-1 when socket is not connected */
-    if ((family == IPv6) || (family == -1 && fd == -1)) {
+    /* fbmily==-1 when socket is not connected */
+    if ((fbmily == IPv6) || (fbmily == -1 && fd == -1)) {
         fd = fd1; /* must be IPv6 only */
         len = sizeof (struct SOCKADDR_IN6);
     }
 
     if (fd == -1) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                         "Socket closed");
         return NULL;
     }
 
-    if (getsockname(fd, (struct sockaddr *)&him, &len) == -1) {
-        NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
-                       "Error getting socket name");
+    if (getsocknbme(fd, (struct sockbddr *)&him, &len) == -1) {
+        NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException",
+                       "Error getting socket nbme");
         return NULL;
     }
-    iaObj = NET_SockaddrToInetAddress(env, (struct sockaddr *)&him, &port);
+    ibObj = NET_SockbddrToInetAddress(env, (struct sockbddr *)&him, &port);
 
-    return iaObj;
+    return ibObj;
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
  * Method:    setTimeToLive
- * Signature: (I)V
+ * Signbture: (I)V
  */
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_setTimeToLive(JNIEnv *env, jobject this,
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_setTimeToLive(JNIEnv *env, jobject this,
                                                     jint ttl) {
 
     jobject fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
@@ -2306,7 +2306,7 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_setTimeToLive(JNIEnv *env, jobjec
     int ittl = (int)ttl;
 
     if (IS_NULL(fdObj) && IS_NULL(fd1Obj)) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                         "Socket closed");
         return;
     } else {
@@ -2320,39 +2320,39 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_setTimeToLive(JNIEnv *env, jobjec
 
     /* setsockopt to be correct ttl */
     if (fd >= 0) {
-      if (NET_SetSockOpt(fd, IPPROTO_IP, IP_MULTICAST_TTL, (char*)&ittl,
+      if (NET_SetSockOpt(fd, IPPROTO_IP, IP_MULTICAST_TTL, (chbr*)&ittl,
                          sizeof (ittl)) < 0) {
-        NET_ThrowCurrent(env, "set IP_MULTICAST_TTL failed");
+        NET_ThrowCurrent(env, "set IP_MULTICAST_TTL fbiled");
       }
     }
 
     if (fd1 >= 0) {
-      if (NET_SetSockOpt(fd1, IPPROTO_IPV6, IPV6_MULTICAST_HOPS, (char *)&ittl,
+      if (NET_SetSockOpt(fd1, IPPROTO_IPV6, IPV6_MULTICAST_HOPS, (chbr *)&ittl,
                          sizeof(ittl)) <0) {
-        NET_ThrowCurrent(env, "set IPV6_MULTICAST_HOPS failed");
+        NET_ThrowCurrent(env, "set IPV6_MULTICAST_HOPS fbiled");
       }
     }
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
  * Method:    setTTL
- * Signature: (B)V
+ * Signbture: (B)V
  */
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_setTTL(JNIEnv *env, jobject this,
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_setTTL(JNIEnv *env, jobject this,
                                              jbyte ttl) {
-    Java_java_net_TwoStacksPlainDatagramSocketImpl_setTimeToLive(env, this,
+    Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_setTimeToLive(env, this,
                                                         (jint)ttl & 0xFF);
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
  * Method:    getTimeToLive
- * Signature: ()I
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_getTimeToLive(JNIEnv *env, jobject this) {
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_getTimeToLive(JNIEnv *env, jobject this) {
     jobject fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
     jobject fd1Obj = (*env)->GetObjectField(env, this, pdsi_fd1ID);
     int fd = -1, fd1 = -1;
@@ -2360,7 +2360,7 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_getTimeToLive(JNIEnv *env, jobjec
     int len = sizeof(ttl);
 
     if (IS_NULL(fdObj) && IS_NULL(fd1Obj)) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                         "Socket closed");
         return -1;
     } else {
@@ -2374,15 +2374,15 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_getTimeToLive(JNIEnv *env, jobjec
 
     /* getsockopt of ttl */
     if (fd >= 0) {
-      if (NET_GetSockOpt(fd, IPPROTO_IP, IP_MULTICAST_TTL, (char*)&ttl, &len) < 0) {
-        NET_ThrowCurrent(env, "get IP_MULTICAST_TTL failed");
+      if (NET_GetSockOpt(fd, IPPROTO_IP, IP_MULTICAST_TTL, (chbr*)&ttl, &len) < 0) {
+        NET_ThrowCurrent(env, "get IP_MULTICAST_TTL fbiled");
         return -1;
       }
       return (jint)ttl;
     }
     if (fd1 >= 0) {
-      if (NET_GetSockOpt(fd1, IPPROTO_IPV6, IPV6_MULTICAST_HOPS, (char*)&ttl, &len) < 0) {
-        NET_ThrowCurrent(env, "get IP_MULTICAST_TTL failed");
+      if (NET_GetSockOpt(fd1, IPPROTO_IPV6, IPV6_MULTICAST_HOPS, (chbr*)&ttl, &len) < 0) {
+        NET_ThrowCurrent(env, "get IP_MULTICAST_TTL fbiled");
         return -1;
       }
       return (jint)ttl;
@@ -2391,44 +2391,44 @@ Java_java_net_TwoStacksPlainDatagramSocketImpl_getTimeToLive(JNIEnv *env, jobjec
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
  * Method:    getTTL
- * Signature: ()B
+ * Signbture: ()B
  */
 JNIEXPORT jbyte JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_getTTL(JNIEnv *env, jobject this) {
-    int result = Java_java_net_TwoStacksPlainDatagramSocketImpl_getTimeToLive(env, this);
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_getTTL(JNIEnv *env, jobject this) {
+    int result = Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_getTimeToLive(env, this);
 
     return (jbyte)result;
 }
 
-/* join/leave the named group on the named interface, or if no interface specified
- * then the interface set with setInterfac(), or the default interface otherwise */
+/* join/lebve the nbmed group on the nbmed interfbce, or if no interfbce specified
+ * then the interfbce set with setInterfbc(), or the defbult interfbce otherwise */
 
-static void mcast_join_leave(JNIEnv *env, jobject this,
-                             jobject iaObj, jobject niObj,
-                             jboolean join)
+stbtic void mcbst_join_lebve(JNIEnv *env, jobject this,
+                             jobject ibObj, jobject niObj,
+                             jboolebn join)
 {
     jobject fdObj = (*env)->GetObjectField(env, this, pdsi_fdID);
     jobject fd1Obj = (*env)->GetObjectField(env, this, pdsi_fd1ID);
     jint fd = -1, fd1 = -1;
 
-    SOCKETADDRESS name;
-    struct ip_mreq mname;
-    struct ipv6_mreq mname6;
+    SOCKETADDRESS nbme;
+    struct ip_mreq mnbme;
+    struct ipv6_mreq mnbme6;
 
-    struct in_addr in;
+    struct in_bddr in;
     DWORD ifindex = 0;
 
-    int len, family;
-    int ipv6_supported = ipv6_available();
+    int len, fbmily;
+    int ipv6_supported = ipv6_bvbilbble();
     int cmd ;
 
-    memset((char *)&in, 0, sizeof(in));
-    memset((char *)&name, 0, sizeof(name));
+    memset((chbr *)&in, 0, sizeof(in));
+    memset((chbr *)&nbme, 0, sizeof(nbme));
 
     if (IS_NULL(fdObj) && IS_NULL(fd1Obj)) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                         "Socket closed");
         return;
     }
@@ -2439,97 +2439,97 @@ static void mcast_join_leave(JNIEnv *env, jobject this,
         fd1 = (*env)->GetIntField(env, fd1Obj, IO_fd_fdID);
     }
 
-    if (IS_NULL(iaObj)) {
-        JNU_ThrowNullPointerException(env, "address");
+    if (IS_NULL(ibObj)) {
+        JNU_ThrowNullPointerException(env, "bddress");
         return;
     }
 
-    if (NET_InetAddressToSockaddr(env, iaObj, 0, (struct sockaddr *)&name, &len, JNI_FALSE) != 0) {
+    if (NET_InetAddressToSockbddr(env, ibObj, 0, (struct sockbddr *)&nbme, &len, JNI_FALSE) != 0) {
       return;
     }
 
-    /* Set the multicast group address in the ip_mreq field
-     * eventually this check should be done by the security manager
+    /* Set the multicbst group bddress in the ip_mreq field
+     * eventublly this check should be done by the security mbnbger
      */
-    family = name.him.sa_family;
+    fbmily = nbme.him.sb_fbmily;
 
-    if (family == AF_INET) {
-        int address = name.him4.sin_addr.s_addr;
-        if (!IN_MULTICAST(ntohl(address))) {
-            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "not in multicast");
+    if (fbmily == AF_INET) {
+        int bddress = nbme.him4.sin_bddr.s_bddr;
+        if (!IN_MULTICAST(ntohl(bddress))) {
+            JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "not in multicbst");
             return;
         }
-        mname.imr_multiaddr.s_addr = address;
+        mnbme.imr_multibddr.s_bddr = bddress;
         if (fd < 0) {
-          JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Can't join an IPv4 group on an IPv6 only socket");
+          JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Cbn't join bn IPv4 group on bn IPv6 only socket");
           return;
         }
         if (IS_NULL(niObj)) {
             len = sizeof (in);
             if (NET_GetSockOpt(fd, IPPROTO_IP, IP_MULTICAST_IF,
-                           (char *)&in, &len) < 0) {
-                NET_ThrowCurrent(env, "get IP_MULTICAST_IF failed");
+                           (chbr *)&in, &len) < 0) {
+                NET_ThrowCurrent(env, "get IP_MULTICAST_IF fbiled");
                 return;
             }
-            mname.imr_interface.s_addr = in.s_addr;
+            mnbme.imr_interfbce.s_bddr = in.s_bddr;
         } else {
-            if (getInet4AddrFromIf (env, niObj, &mname.imr_interface) != 0) {
-                NET_ThrowCurrent(env, "no Inet4Address associated with interface");
+            if (getInet4AddrFromIf (env, niObj, &mnbme.imr_interfbce) != 0) {
+                NET_ThrowCurrent(env, "no Inet4Address bssocibted with interfbce");
                 return;
             }
         }
 
         cmd = join ? IP_ADD_MEMBERSHIP: IP_DROP_MEMBERSHIP;
 
-        /* Join the multicast group */
-        if (NET_SetSockOpt(fd, IPPROTO_IP, cmd, (char *) &mname, sizeof (mname)) < 0) {
-            if (WSAGetLastError() == WSAENOBUFS) {
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                    "IP_ADD_MEMBERSHIP failed (out of hardware filters?)");
+        /* Join the multicbst group */
+        if (NET_SetSockOpt(fd, IPPROTO_IP, cmd, (chbr *) &mnbme, sizeof (mnbme)) < 0) {
+            if (WSAGetLbstError() == WSAENOBUFS) {
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                    "IP_ADD_MEMBERSHIP fbiled (out of hbrdwbre filters?)");
             } else {
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException","error setting options");
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException","error setting options");
             }
         }
     } else /* AF_INET6 */ {
         if (ipv6_supported) {
-            struct in6_addr *address;
-            address = &name.him6.sin6_addr;
-            if (!IN6_IS_ADDR_MULTICAST(address)) {
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "not in6 multicast");
+            struct in6_bddr *bddress;
+            bddress = &nbme.him6.sin6_bddr;
+            if (!IN6_IS_ADDR_MULTICAST(bddress)) {
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "not in6 multicbst");
                 return;
             }
-            mname6.ipv6mr_multiaddr = *address;
+            mnbme6.ipv6mr_multibddr = *bddress;
         } else {
-            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "IPv6 not supported");
+            JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "IPv6 not supported");
             return;
         }
         if (fd1 < 0) {
-          JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Can't join an IPv6 group on a IPv4 socket");
+          JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Cbn't join bn IPv6 group on b IPv4 socket");
           return;
         }
         if (IS_NULL(niObj)) {
             len = sizeof (ifindex);
             if (NET_GetSockOpt(fd1, IPPROTO_IPV6, IPV6_MULTICAST_IF, &ifindex, &len) < 0) {
-                NET_ThrowCurrent(env, "get IPV6_MULTICAST_IF failed");
+                NET_ThrowCurrent(env, "get IPV6_MULTICAST_IF fbiled");
                 return;
             }
         } else {
             ifindex = getIndexFromIf (env, niObj);
             if (ifindex == -1) {
-                NET_ThrowCurrent(env, "get ifindex failed");
+                NET_ThrowCurrent(env, "get ifindex fbiled");
                 return;
             }
         }
-        mname6.ipv6mr_interface = ifindex;
+        mnbme6.ipv6mr_interfbce = ifindex;
         cmd = join ? IPV6_ADD_MEMBERSHIP: IPV6_DROP_MEMBERSHIP;
 
-        /* Join the multicast group */
-        if (NET_SetSockOpt(fd1, IPPROTO_IPV6, cmd, (char *) &mname6, sizeof (mname6)) < 0) {
-            if (WSAGetLastError() == WSAENOBUFS) {
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                    "IP_ADD_MEMBERSHIP failed (out of hardware filters?)");
+        /* Join the multicbst group */
+        if (NET_SetSockOpt(fd1, IPPROTO_IPV6, cmd, (chbr *) &mnbme6, sizeof (mnbme6)) < 0) {
+            if (WSAGetLbstError() == WSAENOBUFS) {
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                    "IP_ADD_MEMBERSHIP fbiled (out of hbrdwbre filters?)");
             } else {
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException","error setting options");
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException","error setting options");
             }
         }
     }
@@ -2538,25 +2538,25 @@ static void mcast_join_leave(JNIEnv *env, jobject this,
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
  * Method:    join
- * Signature: (Ljava/net/InetAddress;)V
+ * Signbture: (Ljbvb/net/InetAddress;)V
  */
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_join(JNIEnv *env, jobject this,
-                                           jobject iaObj, jobject niObj)
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_join(JNIEnv *env, jobject this,
+                                           jobject ibObj, jobject niObj)
 {
-    mcast_join_leave (env, this, iaObj, niObj, JNI_TRUE);
+    mcbst_join_lebve (env, this, ibObj, niObj, JNI_TRUE);
 }
 
 /*
- * Class:     java_net_TwoStacksPlainDatagramSocketImpl
- * Method:    leave
- * Signature: (Ljava/net/InetAddress;)V
+ * Clbss:     jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl
+ * Method:    lebve
+ * Signbture: (Ljbvb/net/InetAddress;)V
  */
 JNIEXPORT void JNICALL
-Java_java_net_TwoStacksPlainDatagramSocketImpl_leave(JNIEnv *env, jobject this,
-                                            jobject iaObj, jobject niObj)
+Jbvb_jbvb_net_TwoStbcksPlbinDbtbgrbmSocketImpl_lebve(JNIEnv *env, jobject this,
+                                            jobject ibObj, jobject niObj)
 {
-    mcast_join_leave (env, this, iaObj, niObj, JNI_FALSE);
+    mcbst_join_lebve (env, this, ibObj, niObj, JNI_FALSE);
 }

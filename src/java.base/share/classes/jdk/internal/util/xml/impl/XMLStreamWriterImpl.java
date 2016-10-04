@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.internal.util.xml.impl;
+pbckbge jdk.internbl.util.xml.impl;
 
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException;
-import jdk.internal.util.xml.XMLStreamException;
-import jdk.internal.util.xml.XMLStreamWriter;
+import jbvb.io.OutputStrebm;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.IllegblChbrsetNbmeException;
+import jbvb.nio.chbrset.UnsupportedChbrsetException;
+import jdk.internbl.util.xml.XMLStrebmException;
+import jdk.internbl.util.xml.XMLStrebmWriter;
 
 /**
- * Implementation of a reduced version of XMLStreamWriter
+ * Implementbtion of b reduced version of XMLStrebmWriter
  *
- * @author Joe Wang
+ * @buthor Joe Wbng
  */
-public class XMLStreamWriterImpl implements XMLStreamWriter {
-    //Document state
+public clbss XMLStrebmWriterImpl implements XMLStrebmWriter {
+    //Document stbte
 
-    static final int STATE_XML_DECL = 1;
-    static final int STATE_PROLOG = 2;
-    static final int STATE_DTD_DECL = 3;
-    static final int STATE_ELEMENT = 4;
-    //Element state
-    static final int ELEMENT_STARTTAG_OPEN = 10;
-    static final int ELEMENT_STARTTAG_CLOSE = 11;
-    static final int ELEMENT_ENDTAG_OPEN = 12;
-    static final int ELEMENT_ENDTAG_CLOSE = 13;
-    public static final char CLOSE_START_TAG = '>';
-    public static final char OPEN_START_TAG = '<';
-    public static final String OPEN_END_TAG = "</";
-    public static final char CLOSE_END_TAG = '>';
-    public static final String START_CDATA = "<![CDATA[";
-    public static final String END_CDATA = "]]>";
-    public static final String CLOSE_EMPTY_ELEMENT = "/>";
-    public static final String ENCODING_PREFIX = "&#x";
-    public static final char SPACE = ' ';
-    public static final char AMPERSAND = '&';
-    public static final char DOUBLEQUOT = '"';
-    public static final char SEMICOLON = ';';
-    //current state
-    private int _state = 0;
-    private Element _currentEle;
-    private XMLWriter _writer;
-    private String _encoding;
+    stbtic finbl int STATE_XML_DECL = 1;
+    stbtic finbl int STATE_PROLOG = 2;
+    stbtic finbl int STATE_DTD_DECL = 3;
+    stbtic finbl int STATE_ELEMENT = 4;
+    //Element stbte
+    stbtic finbl int ELEMENT_STARTTAG_OPEN = 10;
+    stbtic finbl int ELEMENT_STARTTAG_CLOSE = 11;
+    stbtic finbl int ELEMENT_ENDTAG_OPEN = 12;
+    stbtic finbl int ELEMENT_ENDTAG_CLOSE = 13;
+    public stbtic finbl chbr CLOSE_START_TAG = '>';
+    public stbtic finbl chbr OPEN_START_TAG = '<';
+    public stbtic finbl String OPEN_END_TAG = "</";
+    public stbtic finbl chbr CLOSE_END_TAG = '>';
+    public stbtic finbl String START_CDATA = "<![CDATA[";
+    public stbtic finbl String END_CDATA = "]]>";
+    public stbtic finbl String CLOSE_EMPTY_ELEMENT = "/>";
+    public stbtic finbl String ENCODING_PREFIX = "&#x";
+    public stbtic finbl chbr SPACE = ' ';
+    public stbtic finbl chbr AMPERSAND = '&';
+    public stbtic finbl chbr DOUBLEQUOT = '"';
+    public stbtic finbl chbr SEMICOLON = ';';
+    //current stbte
+    privbte int _stbte = 0;
+    privbte Element _currentEle;
+    privbte XMLWriter _writer;
+    privbte String _encoding;
     /**
-     * This flag can be used to turn escaping off for content. It does
-     * not apply to attribute content.
+     * This flbg cbn be used to turn escbping off for content. It does
+     * not bpply to bttribute content.
      */
-    boolean _escapeCharacters = true;
-    //pretty print by default
-    private boolean _doIndent = true;
-    //The system line separator for writing out line breaks.
-    private char[] _lineSep =
-            System.getProperty("line.separator").toCharArray();
+    boolebn _escbpeChbrbcters = true;
+    //pretty print by defbult
+    privbte boolebn _doIndent = true;
+    //The system line sepbrbtor for writing out line brebks.
+    privbte chbr[] _lineSep =
+            System.getProperty("line.sepbrbtor").toChbrArrby();
 
-    public XMLStreamWriterImpl(OutputStream os) throws XMLStreamException {
-        this(os, XMLStreamWriter.DEFAULT_ENCODING);
+    public XMLStrebmWriterImpl(OutputStrebm os) throws XMLStrebmException {
+        this(os, XMLStrebmWriter.DEFAULT_ENCODING);
     }
 
-    public XMLStreamWriterImpl(OutputStream os, String encoding)
-        throws XMLStreamException
+    public XMLStrebmWriterImpl(OutputStrebm os, String encoding)
+        throws XMLStrebmException
     {
-        Charset cs = null;
+        Chbrset cs = null;
         if (encoding == null) {
-            _encoding = XMLStreamWriter.DEFAULT_ENCODING;
+            _encoding = XMLStrebmWriter.DEFAULT_ENCODING;
         } else {
             try {
-                cs = getCharset(encoding);
-            } catch (UnsupportedEncodingException e) {
-                throw new XMLStreamException(e);
+                cs = getChbrset(encoding);
+            } cbtch (UnsupportedEncodingException e) {
+                throw new XMLStrebmException(e);
             }
 
             this._encoding = encoding;
@@ -102,71 +102,71 @@ public class XMLStreamWriterImpl implements XMLStreamWriter {
     }
 
     /**
-     * Write the XML Declaration. Defaults the XML version to 1.0, and the
+     * Write the XML Declbrbtion. Defbults the XML version to 1.0, bnd the
      * encoding to utf-8.
      *
-     * @throws XMLStreamException
+     * @throws XMLStrebmException
      */
-    public void writeStartDocument() throws XMLStreamException {
-        writeStartDocument(_encoding, XMLStreamWriter.DEFAULT_XML_VERSION);
+    public void writeStbrtDocument() throws XMLStrebmException {
+        writeStbrtDocument(_encoding, XMLStrebmWriter.DEFAULT_XML_VERSION);
     }
 
     /**
-     * Write the XML Declaration. Defaults the encoding to utf-8
+     * Write the XML Declbrbtion. Defbults the encoding to utf-8
      *
-     * @param version version of the xml document
-     * @throws XMLStreamException
+     * @pbrbm version version of the xml document
+     * @throws XMLStrebmException
      */
-    public void writeStartDocument(String version) throws XMLStreamException {
-        writeStartDocument(_encoding, version, null);
+    public void writeStbrtDocument(String version) throws XMLStrebmException {
+        writeStbrtDocument(_encoding, version, null);
     }
 
     /**
-     * Write the XML Declaration. Note that the encoding parameter does not set
-     * the actual encoding of the underlying output. That must be set when the
-     * instance of the XMLStreamWriter is created
+     * Write the XML Declbrbtion. Note thbt the encoding pbrbmeter does not set
+     * the bctubl encoding of the underlying output. Thbt must be set when the
+     * instbnce of the XMLStrebmWriter is crebted
      *
-     * @param encoding encoding of the xml declaration
-     * @param version version of the xml document
-     * @throws XMLStreamException If given encoding does not match encoding of the
-     * underlying stream
+     * @pbrbm encoding encoding of the xml declbrbtion
+     * @pbrbm version version of the xml document
+     * @throws XMLStrebmException If given encoding does not mbtch encoding of the
+     * underlying strebm
      */
-    public void writeStartDocument(String encoding, String version) throws XMLStreamException {
-        writeStartDocument(encoding, version, null);
+    public void writeStbrtDocument(String encoding, String version) throws XMLStrebmException {
+        writeStbrtDocument(encoding, version, null);
     }
 
     /**
-     * Write the XML Declaration. Note that the encoding parameter does not set
-     * the actual encoding of the underlying output. That must be set when the
-     * instance of the XMLStreamWriter is created
+     * Write the XML Declbrbtion. Note thbt the encoding pbrbmeter does not set
+     * the bctubl encoding of the underlying output. Thbt must be set when the
+     * instbnce of the XMLStrebmWriter is crebted
      *
-     * @param encoding encoding of the xml declaration
-     * @param version version of the xml document
-     * @param standalone indicate if the xml document is standalone
-     * @throws XMLStreamException If given encoding does not match encoding of the
-     * underlying stream
+     * @pbrbm encoding encoding of the xml declbrbtion
+     * @pbrbm version version of the xml document
+     * @pbrbm stbndblone indicbte if the xml document is stbndblone
+     * @throws XMLStrebmException If given encoding does not mbtch encoding of the
+     * underlying strebm
      */
-    public void writeStartDocument(String encoding, String version, String standalone)
-        throws XMLStreamException
+    public void writeStbrtDocument(String encoding, String version, String stbndblone)
+        throws XMLStrebmException
     {
-        if (_state > 0) {
-            throw new XMLStreamException("XML declaration must be as the first line in the XML document.");
+        if (_stbte > 0) {
+            throw new XMLStrebmException("XML declbrbtion must be bs the first line in the XML document.");
         }
-        _state = STATE_XML_DECL;
+        _stbte = STATE_XML_DECL;
         String enc = encoding;
         if (enc == null) {
             enc = _encoding;
         } else {
             //check if the encoding is supported
             try {
-                getCharset(encoding);
-            } catch (UnsupportedEncodingException e) {
-                throw new XMLStreamException(e);
+                getChbrset(encoding);
+            } cbtch (UnsupportedEncodingException e) {
+                throw new XMLStrebmException(e);
             }
         }
 
         if (version == null) {
-            version = XMLStreamWriter.DEFAULT_XML_VERSION;
+            version = XMLStrebmWriter.DEFAULT_XML_VERSION;
         }
 
         _writer.write("<?xml version=\"");
@@ -179,117 +179,117 @@ public class XMLStreamWriterImpl implements XMLStreamWriter {
             _writer.write(DOUBLEQUOT);
         }
 
-        if (standalone != null) {
-            _writer.write(" standalone=\"");
-            _writer.write(standalone);
+        if (stbndblone != null) {
+            _writer.write(" stbndblone=\"");
+            _writer.write(stbndblone);
             _writer.write(DOUBLEQUOT);
         }
         _writer.write("?>");
-        writeLineSeparator();
+        writeLineSepbrbtor();
     }
 
     /**
-     * Write a DTD section.  This string represents the entire doctypedecl production
-     * from the XML 1.0 specification.
+     * Write b DTD section.  This string represents the entire doctypedecl production
+     * from the XML 1.0 specificbtion.
      *
-     * @param dtd the DTD to be written
-     * @throws XMLStreamException
+     * @pbrbm dtd the DTD to be written
+     * @throws XMLStrebmException
      */
-    public void writeDTD(String dtd) throws XMLStreamException {
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+    public void writeDTD(String dtd) throws XMLStrebmException {
+        if (_currentEle != null && _currentEle.getStbte() == ELEMENT_STARTTAG_OPEN) {
+            closeStbrtTbg();
         }
         _writer.write(dtd);
-        writeLineSeparator();
+        writeLineSepbrbtor();
     }
 
     /**
-     * Writes a start tag to the output.
-     * @param localName local name of the tag, may not be null
-     * @throws XMLStreamException
+     * Writes b stbrt tbg to the output.
+     * @pbrbm locblNbme locbl nbme of the tbg, mby not be null
+     * @throws XMLStrebmException
      */
-    public void writeStartElement(String localName) throws XMLStreamException {
-        if (localName == null || localName.length() == 0) {
-            throw new XMLStreamException("Local Name cannot be null or empty");
+    public void writeStbrtElement(String locblNbme) throws XMLStrebmException {
+        if (locblNbme == null || locblNbme.length() == 0) {
+            throw new XMLStrebmException("Locbl Nbme cbnnot be null or empty");
         }
 
-        _state = STATE_ELEMENT;
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+        _stbte = STATE_ELEMENT;
+        if (_currentEle != null && _currentEle.getStbte() == ELEMENT_STARTTAG_OPEN) {
+            closeStbrtTbg();
         }
 
-        _currentEle = new Element(_currentEle, localName, false);
-        openStartTag();
+        _currentEle = new Element(_currentEle, locblNbme, fblse);
+        openStbrtTbg();
 
-        _writer.write(localName);
+        _writer.write(locblNbme);
     }
 
     /**
-     * Writes an empty element tag to the output
-     * @param localName local name of the tag, may not be null
-     * @throws XMLStreamException
+     * Writes bn empty element tbg to the output
+     * @pbrbm locblNbme locbl nbme of the tbg, mby not be null
+     * @throws XMLStrebmException
      */
-    public void writeEmptyElement(String localName) throws XMLStreamException {
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+    public void writeEmptyElement(String locblNbme) throws XMLStrebmException {
+        if (_currentEle != null && _currentEle.getStbte() == ELEMENT_STARTTAG_OPEN) {
+            closeStbrtTbg();
         }
 
-        _currentEle = new Element(_currentEle, localName, true);
+        _currentEle = new Element(_currentEle, locblNbme, true);
 
-        openStartTag();
-        _writer.write(localName);
+        openStbrtTbg();
+        _writer.write(locblNbme);
     }
 
     /**
-     * Writes an attribute to the output stream without a prefix.
-     * @param localName the local name of the attribute
-     * @param value the value of the attribute
-     * @throws IllegalStateException if the current state does not allow Attribute writing
-     * @throws XMLStreamException
+     * Writes bn bttribute to the output strebm without b prefix.
+     * @pbrbm locblNbme the locbl nbme of the bttribute
+     * @pbrbm vblue the vblue of the bttribute
+     * @throws IllegblStbteException if the current stbte does not bllow Attribute writing
+     * @throws XMLStrebmException
      */
-    public void writeAttribute(String localName, String value) throws XMLStreamException {
-        if (_currentEle.getState() != ELEMENT_STARTTAG_OPEN) {
-            throw new XMLStreamException(
-                    "Attribute not associated with any element");
+    public void writeAttribute(String locblNbme, String vblue) throws XMLStrebmException {
+        if (_currentEle.getStbte() != ELEMENT_STARTTAG_OPEN) {
+            throw new XMLStrebmException(
+                    "Attribute not bssocibted with bny element");
         }
 
         _writer.write(SPACE);
-        _writer.write(localName);
+        _writer.write(locblNbme);
         _writer.write("=\"");
         writeXMLContent(
-                value,
-                true, // true = escapeChars
-                true);  // true = escapeDoubleQuotes
+                vblue,
+                true, // true = escbpeChbrs
+                true);  // true = escbpeDoubleQuotes
         _writer.write(DOUBLEQUOT);
     }
 
-    public void writeEndDocument() throws XMLStreamException {
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+    public void writeEndDocument() throws XMLStrebmException {
+        if (_currentEle != null && _currentEle.getStbte() == ELEMENT_STARTTAG_OPEN) {
+            closeStbrtTbg();
         }
 
         /**
-         * close unclosed elements if any
+         * close unclosed elements if bny
          */
         while (_currentEle != null) {
 
             if (!_currentEle.isEmpty()) {
                 _writer.write(OPEN_END_TAG);
-                _writer.write(_currentEle.getLocalName());
+                _writer.write(_currentEle.getLocblNbme());
                 _writer.write(CLOSE_END_TAG);
             }
 
-            _currentEle = _currentEle.getParent();
+            _currentEle = _currentEle.getPbrent();
         }
     }
 
-    public void writeEndElement() throws XMLStreamException {
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+    public void writeEndElement() throws XMLStrebmException {
+        if (_currentEle != null && _currentEle.getStbte() == ELEMENT_STARTTAG_OPEN) {
+            closeStbrtTbg();
         }
 
         if (_currentEle == null) {
-            throw new XMLStreamException("No element was found to write");
+            throw new XMLStrebmException("No element wbs found to write");
         }
 
         if (_currentEle.isEmpty()) {
@@ -297,227 +297,227 @@ public class XMLStreamWriterImpl implements XMLStreamWriter {
         }
 
         _writer.write(OPEN_END_TAG);
-        _writer.write(_currentEle.getLocalName());
+        _writer.write(_currentEle.getLocblNbme());
         _writer.write(CLOSE_END_TAG);
-        writeLineSeparator();
+        writeLineSepbrbtor();
 
-        _currentEle = _currentEle.getParent();
+        _currentEle = _currentEle.getPbrent();
     }
 
-    public void writeCData(String cdata) throws XMLStreamException {
-        if (cdata == null) {
-            throw new XMLStreamException("cdata cannot be null");
+    public void writeCDbtb(String cdbtb) throws XMLStrebmException {
+        if (cdbtb == null) {
+            throw new XMLStrebmException("cdbtb cbnnot be null");
         }
 
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+        if (_currentEle != null && _currentEle.getStbte() == ELEMENT_STARTTAG_OPEN) {
+            closeStbrtTbg();
         }
 
         _writer.write(START_CDATA);
-        _writer.write(cdata);
+        _writer.write(cdbtb);
         _writer.write(END_CDATA);
     }
 
-    public void writeCharacters(String data) throws XMLStreamException {
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+    public void writeChbrbcters(String dbtb) throws XMLStrebmException {
+        if (_currentEle != null && _currentEle.getStbte() == ELEMENT_STARTTAG_OPEN) {
+            closeStbrtTbg();
         }
 
-        writeXMLContent(data);
+        writeXMLContent(dbtb);
     }
 
-    public void writeCharacters(char[] data, int start, int len)
-            throws XMLStreamException {
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+    public void writeChbrbcters(chbr[] dbtb, int stbrt, int len)
+            throws XMLStrebmException {
+        if (_currentEle != null && _currentEle.getStbte() == ELEMENT_STARTTAG_OPEN) {
+            closeStbrtTbg();
         }
 
-        writeXMLContent(data, start, len, _escapeCharacters);
+        writeXMLContent(dbtb, stbrt, len, _escbpeChbrbcters);
     }
 
     /**
-     * Close this XMLStreamWriter by closing underlying writer.
+     * Close this XMLStrebmWriter by closing underlying writer.
      */
-    public void close() throws XMLStreamException {
+    public void close() throws XMLStrebmException {
         if (_writer != null) {
             _writer.close();
         }
         _writer = null;
         _currentEle = null;
-        _state = 0;
+        _stbte = 0;
     }
 
     /**
-     * Flush this XMLStreamWriter by flushing underlying writer.
+     * Flush this XMLStrebmWriter by flushing underlying writer.
      */
-    public void flush() throws XMLStreamException {
+    public void flush() throws XMLStrebmException {
         if (_writer != null) {
             _writer.flush();
         }
     }
 
     /**
-     * Set the flag to indicate if the writer should add line separator
-     * @param doIndent
+     * Set the flbg to indicbte if the writer should bdd line sepbrbtor
+     * @pbrbm doIndent
      */
-    public void setDoIndent(boolean doIndent) {
+    public void setDoIndent(boolebn doIndent) {
         _doIndent = doIndent;
     }
 
     /**
-     * Writes XML content to underlying writer. Escapes characters unless
-     * escaping character feature is turned off.
+     * Writes XML content to underlying writer. Escbpes chbrbcters unless
+     * escbping chbrbcter febture is turned off.
      */
-    private void writeXMLContent(char[] content, int start, int length, boolean escapeChars)
-        throws XMLStreamException
+    privbte void writeXMLContent(chbr[] content, int stbrt, int length, boolebn escbpeChbrs)
+        throws XMLStrebmException
     {
-        if (!escapeChars) {
-            _writer.write(content, start, length);
+        if (!escbpeChbrs) {
+            _writer.write(content, stbrt, length);
             return;
         }
 
-        // Index of the next char to be written
-        int startWritePos = start;
+        // Index of the next chbr to be written
+        int stbrtWritePos = stbrt;
 
-        final int end = start + length;
+        finbl int end = stbrt + length;
 
-        for (int index = start; index < end; index++) {
-            char ch = content[index];
+        for (int index = stbrt; index < end; index++) {
+            chbr ch = content[index];
 
-            if (!_writer.canEncode(ch)) {
-                _writer.write(content, startWritePos, index - startWritePos);
+            if (!_writer.cbnEncode(ch)) {
+                _writer.write(content, stbrtWritePos, index - stbrtWritePos);
 
-                // Escape this char as underlying encoder cannot handle it
+                // Escbpe this chbr bs underlying encoder cbnnot hbndle it
                 _writer.write(ENCODING_PREFIX);
                 _writer.write(Integer.toHexString(ch));
                 _writer.write(SEMICOLON);
-                startWritePos = index + 1;
+                stbrtWritePos = index + 1;
                 continue;
             }
 
             switch (ch) {
-                case OPEN_START_TAG:
-                    _writer.write(content, startWritePos, index - startWritePos);
+                cbse OPEN_START_TAG:
+                    _writer.write(content, stbrtWritePos, index - stbrtWritePos);
                     _writer.write("&lt;");
-                    startWritePos = index + 1;
+                    stbrtWritePos = index + 1;
 
-                    break;
+                    brebk;
 
-                case AMPERSAND:
-                    _writer.write(content, startWritePos, index - startWritePos);
-                    _writer.write("&amp;");
-                    startWritePos = index + 1;
+                cbse AMPERSAND:
+                    _writer.write(content, stbrtWritePos, index - stbrtWritePos);
+                    _writer.write("&bmp;");
+                    stbrtWritePos = index + 1;
 
-                    break;
+                    brebk;
 
-                case CLOSE_START_TAG:
-                    _writer.write(content, startWritePos, index - startWritePos);
+                cbse CLOSE_START_TAG:
+                    _writer.write(content, stbrtWritePos, index - stbrtWritePos);
                     _writer.write("&gt;");
-                    startWritePos = index + 1;
+                    stbrtWritePos = index + 1;
 
-                    break;
+                    brebk;
             }
         }
 
-        // Write any pending data
-        _writer.write(content, startWritePos, end - startWritePos);
+        // Write bny pending dbtb
+        _writer.write(content, stbrtWritePos, end - stbrtWritePos);
     }
 
-    private void writeXMLContent(String content) throws XMLStreamException {
+    privbte void writeXMLContent(String content) throws XMLStrebmException {
         if ((content != null) && (content.length() > 0)) {
             writeXMLContent(content,
-                    _escapeCharacters, // boolean = escapeChars
-                    false);             // false = escapeDoubleQuotes
+                    _escbpeChbrbcters, // boolebn = escbpeChbrs
+                    fblse);             // fblse = escbpeDoubleQuotes
         }
     }
 
     /**
-     * Writes XML content to underlying writer. Escapes characters unless
-     * escaping character feature is turned off.
+     * Writes XML content to underlying writer. Escbpes chbrbcters unless
+     * escbping chbrbcter febture is turned off.
      */
-    private void writeXMLContent(
+    privbte void writeXMLContent(
             String content,
-            boolean escapeChars,
-            boolean escapeDoubleQuotes)
-        throws XMLStreamException
+            boolebn escbpeChbrs,
+            boolebn escbpeDoubleQuotes)
+        throws XMLStrebmException
     {
 
-        if (!escapeChars) {
+        if (!escbpeChbrs) {
             _writer.write(content);
 
             return;
         }
 
-        // Index of the next char to be written
-        int startWritePos = 0;
+        // Index of the next chbr to be written
+        int stbrtWritePos = 0;
 
-        final int end = content.length();
+        finbl int end = content.length();
 
         for (int index = 0; index < end; index++) {
-            char ch = content.charAt(index);
+            chbr ch = content.chbrAt(index);
 
-            if (!_writer.canEncode(ch)) {
-                _writer.write(content, startWritePos, index - startWritePos);
+            if (!_writer.cbnEncode(ch)) {
+                _writer.write(content, stbrtWritePos, index - stbrtWritePos);
 
-                // Escape this char as underlying encoder cannot handle it
+                // Escbpe this chbr bs underlying encoder cbnnot hbndle it
                 _writer.write(ENCODING_PREFIX);
                 _writer.write(Integer.toHexString(ch));
                 _writer.write(SEMICOLON);
-                startWritePos = index + 1;
+                stbrtWritePos = index + 1;
                 continue;
             }
 
             switch (ch) {
-                case OPEN_START_TAG:
-                    _writer.write(content, startWritePos, index - startWritePos);
+                cbse OPEN_START_TAG:
+                    _writer.write(content, stbrtWritePos, index - stbrtWritePos);
                     _writer.write("&lt;");
-                    startWritePos = index + 1;
+                    stbrtWritePos = index + 1;
 
-                    break;
+                    brebk;
 
-                case AMPERSAND:
-                    _writer.write(content, startWritePos, index - startWritePos);
-                    _writer.write("&amp;");
-                    startWritePos = index + 1;
+                cbse AMPERSAND:
+                    _writer.write(content, stbrtWritePos, index - stbrtWritePos);
+                    _writer.write("&bmp;");
+                    stbrtWritePos = index + 1;
 
-                    break;
+                    brebk;
 
-                case CLOSE_START_TAG:
-                    _writer.write(content, startWritePos, index - startWritePos);
+                cbse CLOSE_START_TAG:
+                    _writer.write(content, stbrtWritePos, index - stbrtWritePos);
                     _writer.write("&gt;");
-                    startWritePos = index + 1;
+                    stbrtWritePos = index + 1;
 
-                    break;
+                    brebk;
 
-                case DOUBLEQUOT:
-                    _writer.write(content, startWritePos, index - startWritePos);
-                    if (escapeDoubleQuotes) {
+                cbse DOUBLEQUOT:
+                    _writer.write(content, stbrtWritePos, index - stbrtWritePos);
+                    if (escbpeDoubleQuotes) {
                         _writer.write("&quot;");
                     } else {
                         _writer.write(DOUBLEQUOT);
                     }
-                    startWritePos = index + 1;
+                    stbrtWritePos = index + 1;
 
-                    break;
+                    brebk;
             }
         }
 
-        // Write any pending data
-        _writer.write(content, startWritePos, end - startWritePos);
+        // Write bny pending dbtb
+        _writer.write(content, stbrtWritePos, end - stbrtWritePos);
     }
 
     /**
-     * marks open of start tag and writes the same into the writer.
+     * mbrks open of stbrt tbg bnd writes the sbme into the writer.
      */
-    private void openStartTag() throws XMLStreamException {
-        _currentEle.setState(ELEMENT_STARTTAG_OPEN);
+    privbte void openStbrtTbg() throws XMLStrebmException {
+        _currentEle.setStbte(ELEMENT_STARTTAG_OPEN);
         _writer.write(OPEN_START_TAG);
     }
 
     /**
-     * marks close of start tag and writes the same into the writer.
+     * mbrks close of stbrt tbg bnd writes the sbme into the writer.
      */
-    private void closeStartTag() throws XMLStreamException {
+    privbte void closeStbrtTbg() throws XMLStrebmException {
         if (_currentEle.isEmpty()) {
             _writer.write(CLOSE_EMPTY_ELEMENT);
         } else {
@@ -525,108 +525,108 @@ public class XMLStreamWriterImpl implements XMLStreamWriter {
 
         }
 
-        if (_currentEle.getParent() == null) {
-            writeLineSeparator();
+        if (_currentEle.getPbrent() == null) {
+            writeLineSepbrbtor();
         }
 
-        _currentEle.setState(ELEMENT_STARTTAG_CLOSE);
+        _currentEle.setStbte(ELEMENT_STARTTAG_CLOSE);
 
     }
 
     /**
-     * Write a line separator
-     * @throws XMLStreamException
+     * Write b line sepbrbtor
+     * @throws XMLStrebmException
      */
-    private void writeLineSeparator() throws XMLStreamException {
+    privbte void writeLineSepbrbtor() throws XMLStrebmException {
         if (_doIndent) {
             _writer.write(_lineSep, 0, _lineSep.length);
         }
     }
 
     /**
-     * Returns a charset object for the specified encoding
-     * @param encoding
-     * @return a charset object
+     * Returns b chbrset object for the specified encoding
+     * @pbrbm encoding
+     * @return b chbrset object
      * @throws UnsupportedEncodingException if the encoding is not supported
      */
-    private Charset getCharset(String encoding) throws UnsupportedEncodingException {
-        if (encoding.equalsIgnoreCase("UTF-32")) {
-            throw new UnsupportedEncodingException("The basic XMLWriter does "
+    privbte Chbrset getChbrset(String encoding) throws UnsupportedEncodingException {
+        if (encoding.equblsIgnoreCbse("UTF-32")) {
+            throw new UnsupportedEncodingException("The bbsic XMLWriter does "
                     + "not support " + encoding);
         }
 
-        Charset cs;
+        Chbrset cs;
         try {
-            cs = Charset.forName(encoding);
-        } catch (IllegalCharsetNameException | UnsupportedCharsetException ex) {
+            cs = Chbrset.forNbme(encoding);
+        } cbtch (IllegblChbrsetNbmeException | UnsupportedChbrsetException ex) {
             throw new UnsupportedEncodingException(encoding);
         }
         return cs;
     }
 
     /*
-     * Start of Internal classes.
+     * Stbrt of Internbl clbsses.
      *
      */
-    protected class Element {
+    protected clbss Element {
 
         /**
-         * the parent element
+         * the pbrent element
          */
-        protected Element _parent;
+        protected Element _pbrent;
         /**
-         * The size of the stack.
+         * The size of the stbck.
          */
         protected short _Depth;
         /**
-         * indicate if an element is an empty one
+         * indicbte if bn element is bn empty one
          */
-        boolean _isEmptyElement = false;
-        String _localpart;
-        int _state;
+        boolebn _isEmptyElement = fblse;
+        String _locblpbrt;
+        int _stbte;
 
         /**
-         * Default constructor.
+         * Defbult constructor.
          */
         public Element() {
         }
 
         /**
-         * @param parent the parent of the element
-         * @param localpart name of the element
-         * @param isEmpty indicate if the element is an empty one
+         * @pbrbm pbrent the pbrent of the element
+         * @pbrbm locblpbrt nbme of the element
+         * @pbrbm isEmpty indicbte if the element is bn empty one
          */
-        public Element(Element parent, String localpart, boolean isEmpty) {
-            _parent = parent;
-            _localpart = localpart;
+        public Element(Element pbrent, String locblpbrt, boolebn isEmpty) {
+            _pbrent = pbrent;
+            _locblpbrt = locblpbrt;
             _isEmptyElement = isEmpty;
         }
 
-        public Element getParent() {
-            return _parent;
+        public Element getPbrent() {
+            return _pbrent;
         }
 
-        public String getLocalName() {
-            return _localpart;
+        public String getLocblNbme() {
+            return _locblpbrt;
         }
 
         /**
-         * get the state of the element
+         * get the stbte of the element
          */
-        public int getState() {
-            return _state;
+        public int getStbte() {
+            return _stbte;
         }
 
         /**
-         * Set the state of the element
+         * Set the stbte of the element
          *
-         * @param state the state of the element
+         * @pbrbm stbte the stbte of the element
          */
-        public void setState(int state) {
-            _state = state;
+        public void setStbte(int stbte) {
+            _stbte = stbte;
         }
 
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             return _isEmptyElement;
         }
     }

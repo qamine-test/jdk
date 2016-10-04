@@ -3,54 +3,54 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6177 $"/>
-		<generation date="$Date: 2011-09-28 00:37:06 +0900 (Wed, 28 Sep 2011) $"/>
-		<language type="ar"/>
+		<generbtion dbte="$Dbte: 2011-09-28 00:37:06 +0900 (Wed, 28 Sep 2011) $"/>
+		<lbngubge type="br"/>
 		<territory type="MA"/>
 	</identity>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<dateFormats>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>yyyy/MM/dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>yyyy/M/d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="Md">M/d</dateFormatItem>
-						<dateFormatItem id="MMdd">MM/dd</dateFormatItem>
-						<dateFormatItem id="yM">yyyy/M</dateFormatItem>
-						<dateFormatItem id="yyyyMM">yyyy/MM</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d">d‏-d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d">d‏-d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y">y‏-y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">d‏–d MMM، y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MM ‏- MM ‏–yyyy</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-	</dates>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
+				<dbteFormbts>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>yyyy/MM/dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>yyyy/M/d</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="Md">M/d</dbteFormbtItem>
+						<dbteFormbtItem id="MMdd">MM/dd</dbteFormbtItem>
+						<dbteFormbtItem id="yM">yyyy/M</dbteFormbtItem>
+						<dbteFormbtItem id="yyyyMM">yyyy/MM</dbteFormbtItem>
+					</bvbilbbleFormbts>
+					<intervblFormbts>
+						<intervblFormbtItem id="d">
+							<grebtestDifference id="d">d‏-d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMd">
+							<grebtestDifference id="d">d‏-d MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="y">
+							<grebtestDifference id="y">y‏-y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMd">
+							<grebtestDifference id="d">d‏–d MMM، y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMM">
+							<grebtestDifference id="M">MM ‏- MM ‏–yyyy</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<defbultNumberingSystem>lbtn</defbultNumberingSystem>
 	</numbers>
 </ldml>

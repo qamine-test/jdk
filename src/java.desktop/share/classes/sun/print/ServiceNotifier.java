@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.util.Vector;
+import jbvb.util.Vector;
 
-import javax.print.PrintService;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.print.attribute.HashPrintServiceAttributeSet;
-import javax.print.event.PrintServiceAttributeEvent;
-import javax.print.event.PrintServiceAttributeListener;
+import jbvbx.print.PrintService;
+import jbvbx.print.bttribute.PrintServiceAttributeSet;
+import jbvbx.print.bttribute.HbshPrintServiceAttributeSet;
+import jbvbx.print.event.PrintServiceAttributeEvent;
+import jbvbx.print.event.PrintServiceAttributeListener;
 
 /*
- * A utility class usable by all print services for managing listeners
- * The services create an instance and delegate the listener callback
- * management to this class. The ServiceNotifier calls back to the service
- * to obtain the state of the attributes and notifies the listeners of
- * any changes.
+ * A utility clbss usbble by bll print services for mbnbging listeners
+ * The services crebte bn instbnce bnd delegbte the listener cbllbbck
+ * mbnbgement to this clbss. The ServiceNotifier cblls bbck to the service
+ * to obtbin the stbte of the bttributes bnd notifies the listeners of
+ * bny chbnges.
  */
-class ServiceNotifier extends Thread {
+clbss ServiceNotifier extends Threbd {
 
-    private PrintService service;
-    private Vector<PrintServiceAttributeListener> listeners;
-    private boolean stop = false;
-    private PrintServiceAttributeSet lastSet;
+    privbte PrintService service;
+    privbte Vector<PrintServiceAttributeListener> listeners;
+    privbte boolebn stop = fblse;
+    privbte PrintServiceAttributeSet lbstSet;
 
     ServiceNotifier(PrintService service) {
-        super(service.getName() + " notifier");
+        super(service.getNbme() + " notifier");
         this.service = service;
         listeners = new Vector<>();
         try {
-              setPriority(Thread.NORM_PRIORITY-1);
-              setDaemon(true);
-              start();
-        } catch (SecurityException e) {
+              setPriority(Threbd.NORM_PRIORITY-1);
+              setDbemon(true);
+              stbrt();
+        } cbtch (SecurityException e) {
         }
     }
 
-    void addListener(PrintServiceAttributeListener listener) {
+    void bddListener(PrintServiceAttributeListener listener) {
         synchronized (this) {
             if (listener == null || listeners == null) {
                 return;
             }
-            listeners.add(listener);
+            listeners.bdd(listener);
         }
     }
 
@@ -77,7 +77,7 @@ class ServiceNotifier extends Thread {
         }
     }
 
-   boolean isEmpty() {
+   boolebn isEmpty() {
      return (listeners == null || listeners.isEmpty());
    }
 
@@ -85,59 +85,59 @@ class ServiceNotifier extends Thread {
       stop = true;
    }
 
-    /* If a service submits a job it may call this method which may prompt
-     * immediate notification of listeners.
+    /* If b service submits b job it mby cbll this method which mby prompt
+     * immedibte notificbtion of listeners.
      */
-    void wake() {
+    void wbke() {
         try {
             interrupt();
-        } catch (SecurityException e) {
+        } cbtch (SecurityException e) {
         }
     }
 
-   /* A heuristic is used to calculate sleep time.
-     * 10 times the time taken to loop through all the listeners, with
-     * a minimum of 15 seconds. Ensures this won't take more than 10%
-     * of available time.
+   /* A heuristic is used to cblculbte sleep time.
+     * 10 times the time tbken to loop through bll the listeners, with
+     * b minimum of 15 seconds. Ensures this won't tbke more thbn 10%
+     * of bvbilbble time.
      */
     public void run() {
 
        long minSleepTime = 15000;
        long sleepTime = 2000;
-       HashPrintServiceAttributeSet attrs;
-       PrintServiceAttributeEvent attrEvent;
+       HbshPrintServiceAttributeSet bttrs;
+       PrintServiceAttributeEvent bttrEvent;
        PrintServiceAttributeListener listener;
-       PrintServiceAttributeSet psa;
+       PrintServiceAttributeSet psb;
 
        while (!stop) {
            try {
-                Thread.sleep(sleepTime);
-           } catch (InterruptedException e) {
+                Threbd.sleep(sleepTime);
+           } cbtch (InterruptedException e) {
            }
            synchronized (this) {
                if (listeners == null) {
                    continue;
                }
-               long startTime = System.currentTimeMillis();
+               long stbrtTime = System.currentTimeMillis();
                if (listeners != null) {
-                    if (service instanceof AttributeUpdater) {
-                       psa =
-                          ((AttributeUpdater)service).getUpdatedAttributes();
+                    if (service instbnceof AttributeUpdbter) {
+                       psb =
+                          ((AttributeUpdbter)service).getUpdbtedAttributes();
                     } else {
-                       psa = service.getAttributes();
+                       psb = service.getAttributes();
                     }
-                    if (psa != null && !psa.isEmpty()) {
+                    if (psb != null && !psb.isEmpty()) {
                         for (int i = 0; i < listeners.size() ; i++) {
                             listener = listeners.elementAt(i);
-                            attrs =
-                                new HashPrintServiceAttributeSet(psa);
-                            attrEvent =
-                                new PrintServiceAttributeEvent(service, attrs);
-                            listener.attributeUpdate(attrEvent);
+                            bttrs =
+                                new HbshPrintServiceAttributeSet(psb);
+                            bttrEvent =
+                                new PrintServiceAttributeEvent(service, bttrs);
+                            listener.bttributeUpdbte(bttrEvent);
                         }
                     }
                }
-               sleepTime = (System.currentTimeMillis()-startTime)*10;
+               sleepTime = (System.currentTimeMillis()-stbrtTime)*10;
                if (sleepTime < minSleepTime) {
                    sleepTime = minSleepTime;
                }

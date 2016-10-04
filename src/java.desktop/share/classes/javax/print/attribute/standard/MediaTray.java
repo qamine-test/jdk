@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import java.util.Locale;
+import jbvb.util.Locble;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
 
 
 /**
- * Class MediaTray is a subclass of Media.
- * Class MediaTray is a printing attribute class, an enumeration, that
- * specifies the media tray or bin for the job.
- * This attribute can be used instead of specifying MediaSize or MediaName.
+ * Clbss MedibTrby is b subclbss of Medib.
+ * Clbss MedibTrby is b printing bttribute clbss, bn enumerbtion, thbt
+ * specifies the medib trby or bin for the job.
+ * This bttribute cbn be used instebd of specifying MedibSize or MedibNbme.
  * <p>
- * Class MediaTray declares keywords for standard media kind values.
- * Implementation- or site-defined names for a media kind attribute may also
- * be created by defining a subclass of class MediaTray.
+ * Clbss MedibTrby declbres keywords for stbndbrd medib kind vblues.
+ * Implementbtion- or site-defined nbmes for b medib kind bttribute mby blso
+ * be crebted by defining b subclbss of clbss MedibTrby.
  * <P>
- * <B>IPP Compatibility:</B> MediaTray is a representation class for
- * values of the IPP "media" attribute which name paper trays.
+ * <B>IPP Compbtibility:</B> MedibTrby is b representbtion clbss for
+ * vblues of the IPP "medib" bttribute which nbme pbper trbys.
  */
-public class MediaTray extends Media implements Attribute {
+public clbss MedibTrby extends Medib implements Attribute {
 
-    private static final long serialVersionUID = -982503611095214703L;
+    privbte stbtic finbl long seriblVersionUID = -982503611095214703L;
 
     /**
-     * The top input tray in the printer.
+     * The top input trby in the printer.
      */
-    public static final MediaTray TOP = new MediaTray(0);
+    public stbtic finbl MedibTrby TOP = new MedibTrby(0);
 
     /**
-     * The middle input tray in the printer.
+     * The middle input trby in the printer.
      */
-    public static final MediaTray MIDDLE = new MediaTray(1);
+    public stbtic finbl MedibTrby MIDDLE = new MedibTrby(1);
 
     /**
-     * The bottom input tray in the printer.
+     * The bottom input trby in the printer.
      */
-    public static final MediaTray BOTTOM = new MediaTray(2);
+    public stbtic finbl MedibTrby BOTTOM = new MedibTrby(2);
 
     /**
-     * The envelope input tray in the printer.
+     * The envelope input trby in the printer.
      */
-    public static final MediaTray ENVELOPE = new MediaTray(3);
+    public stbtic finbl MedibTrby ENVELOPE = new MedibTrby(3);
 
     /**
-     * The manual feed input tray in the printer.
+     * The mbnubl feed input trby in the printer.
      */
-    public static final MediaTray MANUAL = new MediaTray(4);
+    public stbtic finbl MedibTrby MANUAL = new MedibTrby(4);
 
     /**
-     * The large capacity input tray in the printer.
+     * The lbrge cbpbcity input trby in the printer.
      */
-    public static final MediaTray LARGE_CAPACITY = new MediaTray(5);
+    public stbtic finbl MedibTrby LARGE_CAPACITY = new MedibTrby(5);
 
     /**
-     * The main input tray in the printer.
+     * The mbin input trby in the printer.
      */
-    public static final MediaTray MAIN = new MediaTray(6);
+    public stbtic finbl MedibTrby MAIN = new MedibTrby(6);
 
     /**
-     * The side input tray.
+     * The side input trby.
      */
-    public static final MediaTray SIDE = new MediaTray(7);
+    public stbtic finbl MedibTrby SIDE = new MedibTrby(7);
 
     /**
-     * Construct a new media tray enumeration value with the given integer
-     * value.
+     * Construct b new medib trby enumerbtion vblue with the given integer
+     * vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected MediaTray(int value) {
-        super (value);
+    protected MedibTrby(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable ={
+    privbte stbtic finbl String[] myStringTbble ={
         "top",
         "middle",
         "bottom",
         "envelope",
-        "manual",
-        "large-capacity",
-        "main",
+        "mbnubl",
+        "lbrge-cbpbcity",
+        "mbin",
         "side"
     };
 
-    private static final MediaTray[] myEnumValueTable = {
+    privbte stbtic finbl MedibTrby[] myEnumVblueTbble = {
         TOP,
         MIDDLE,
         BOTTOM,
@@ -120,18 +120,18 @@ public class MediaTray extends Media implements Attribute {
     };
 
     /**
-     * Returns the string table for class MediaTray.
+     * Returns the string tbble for clbss MedibTrby.
      */
-    protected String[] getStringTable()
+    protected String[] getStringTbble()
     {
-        return myStringTable.clone();
+        return myStringTbble.clone();
     }
 
     /**
-     * Returns the enumeration value table for class MediaTray.
+     * Returns the enumerbtion vblue tbble for clbss MedibTrby.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return (EnumSyntbx[])myEnumVblueTbble.clone();
     }
 
 

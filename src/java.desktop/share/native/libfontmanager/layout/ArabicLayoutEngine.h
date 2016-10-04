@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -34,231 +34,231 @@
 #define __ARABICLAYOUTENGINE_H
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
+#include "LEFontInstbnce.h"
 #include "LEGlyphFilter.h"
-#include "LayoutEngine.h"
-#include "OpenTypeLayoutEngine.h"
+#include "LbyoutEngine.h"
+#include "OpenTypeLbyoutEngine.h"
 
-#include "GlyphSubstitutionTables.h"
-#include "GlyphDefinitionTables.h"
-#include "GlyphPositioningTables.h"
+#include "GlyphSubstitutionTbbles.h"
+#include "GlyphDefinitionTbbles.h"
+#include "GlyphPositioningTbbles.h"
 
 U_NAMESPACE_BEGIN
 
 /**
- * This class implements OpenType layout for Arabic fonts. It overrides
- * the characerProcessing method to assign the correct OpenType feature
- * tags for the Arabic contextual forms. It also overrides the adjustGlyphPositions
- * method to guarantee that all vowel and accent glyphs have zero advance width.
+ * This clbss implements OpenType lbyout for Arbbic fonts. It overrides
+ * the chbrbcerProcessing method to bssign the correct OpenType febture
+ * tbgs for the Arbbic contextubl forms. It blso overrides the bdjustGlyphPositions
+ * method to gubrbntee thbt bll vowel bnd bccent glyphs hbve zero bdvbnce width.
  *
- * @internal
+ * @internbl
  */
-class ArabicOpenTypeLayoutEngine : public OpenTypeLayoutEngine
+clbss ArbbicOpenTypeLbyoutEngine : public OpenTypeLbyoutEngine
 {
 public:
     /**
-     * This is the main constructor. It constructs an instance of ArabicOpenTypeLayoutEngine for
-     * a particular font, script and language. It takes the GSUB table as a parameter since
-     * LayoutEngine::layoutEngineFactory has to read the GSUB table to know that it has an
+     * This is the mbin constructor. It constructs bn instbnce of ArbbicOpenTypeLbyoutEngine for
+     * b pbrticulbr font, script bnd lbngubge. It tbkes the GSUB tbble bs b pbrbmeter since
+     * LbyoutEngine::lbyoutEngineFbctory hbs to rebd the GSUB tbble to know thbt it hbs bn
      * Indic OpenType font.
      *
-     * @param fontInstance - the font
-     * @param scriptCode - the script
-     * @param langaugeCode - the language
-     * @param gsubTable - the GSUB table
-     * @param success - set to an error code if the operation fails
+     * @pbrbm fontInstbnce - the font
+     * @pbrbm scriptCode - the script
+     * @pbrbm lbngbugeCode - the lbngubge
+     * @pbrbm gsubTbble - the GSUB tbble
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @see LayoutEngine::layoutEngineFactory
-     * @see OpenTypeLayoutEngine
-     * @see ScriptAndLanguageTags.h for script and language codes
+     * @see LbyoutEngine::lbyoutEngineFbctory
+     * @see OpenTypeLbyoutEngine
+     * @see ScriptAndLbngubgeTbgs.h for script bnd lbngubge codes
      *
-     * @internal
+     * @internbl
      */
-    ArabicOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode,
-                            le_int32 typoFlags, const LEReferenceTo<GlyphSubstitutionTableHeader> &gsubTable, LEErrorCode &success);
+    ArbbicOpenTypeLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode,
+                            le_int32 typoFlbgs, const LEReferenceTo<GlyphSubstitutionTbbleHebder> &gsubTbble, LEErrorCode &success);
 
     /**
-     * This constructor is used when the font requires a "canned" GSUB table which can't be known
-     * until after this constructor has been invoked.
+     * This constructor is used when the font requires b "cbnned" GSUB tbble which cbn't be known
+     * until bfter this constructor hbs been invoked.
      *
-     * @param fontInstance - the font
-     * @param scriptCode - the script
-     * @param langaugeCode - the language
-     * @param success - set to an error code if the operation fails
+     * @pbrbm fontInstbnce - the font
+     * @pbrbm scriptCode - the script
+     * @pbrbm lbngbugeCode - the lbngubge
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @see OpenTypeLayoutEngine
-     * @see ScriptAndLanguageTags.h for script and language codes
+     * @see OpenTypeLbyoutEngine
+     * @see ScriptAndLbngubgeTbgs.h for script bnd lbngubge codes
      *
-     * @internal
+     * @internbl
      */
-    ArabicOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode,
-                               le_int32 typoFlags, LEErrorCode &success);
+    ArbbicOpenTypeLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode,
+                               le_int32 typoFlbgs, LEErrorCode &success);
 
     /**
-     * The destructor, virtual for correct polymorphic invocation.
+     * The destructor, virtubl for correct polymorphic invocbtion.
      *
-     * @internal
+     * @internbl
      */
-    virtual ~ArabicOpenTypeLayoutEngine();
+    virtubl ~ArbbicOpenTypeLbyoutEngine();
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for the actual class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for the bctubl clbss.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual UClassID getDynamicClassID() const;
+    virtubl UClbssID getDynbmicClbssID() const;
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for this class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for this clbss.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    static UClassID getStaticClassID();
+    stbtic UClbssID getStbticClbssID();
 
 protected:
 
     /**
-     * This method does Arabic OpenType character processing. It assigns the OpenType feature
-     * tags to the characters to generate the correct contextual forms and ligatures.
+     * This method does Arbbic OpenType chbrbcter processing. It bssigns the OpenType febture
+     * tbgs to the chbrbcters to generbte the correct contextubl forms bnd ligbtures.
      *
-     * Input parameters:
-     * @param chars - the input character context
-     * @param offset - the index of the first character to process
-     * @param count - the number of characters to process
-     * @param max - the number of characters in the input context
-     * @param rightToLeft - <code>TRUE</code> if the characters are in a right to left directional run
+     * Input pbrbmeters:
+     * @pbrbm chbrs - the input chbrbcter context
+     * @pbrbm offset - the index of the first chbrbcter to process
+     * @pbrbm count - the number of chbrbcters to process
+     * @pbrbm mbx - the number of chbrbcters in the input context
+     * @pbrbm rightToLeft - <code>TRUE</code> if the chbrbcters bre in b right to left directionbl run
      *
-     * Output parameters:
-     * @param outChars - the output character arrayt
-     * @param charIndices - the output character index array
-     * @param featureTags - the output feature tag array
-     * @param success - set to an error code if the operation fails
+     * Output pbrbmeters:
+     * @pbrbm outChbrs - the output chbrbcter brrbyt
+     * @pbrbm chbrIndices - the output chbrbcter index brrby
+     * @pbrbm febtureTbgs - the output febture tbg brrby
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @return the output character count
+     * @return the output chbrbcter count
      *
-     * @internal
+     * @internbl
      */
-    virtual le_int32 characterProcessing(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-            LEUnicode *&outChars, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl le_int32 chbrbcterProcessing(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft,
+            LEUnicode *&outChbrs, LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
     /**
-     * This method applies the GPOS table if it is present, otherwise it ensures that all vowel
-     * and accent glyphs have a zero advance width by calling the adjustMarkGlyphs method.
-     * If the font contains a GDEF table, that is used to identify voewls and accents. Otherwise
-     * the character codes are used.
+     * This method bpplies the GPOS tbble if it is present, otherwise it ensures thbt bll vowel
+     * bnd bccent glyphs hbve b zero bdvbnce width by cblling the bdjustMbrkGlyphs method.
+     * If the font contbins b GDEF tbble, thbt is used to identify voewls bnd bccents. Otherwise
+     * the chbrbcter codes bre used.
      *
-     * @param chars - the input character context
-     * @param offset - the offset of the first character to process
-     * @param count - the number of characters to process
-     * @param reverse - <code>TRUE</code> if the glyphs in the glyph array have been reordered
-     * @param glyphs - the input glyph array
-     * @param glyphCount - the number of glyphs
-     * @param positions - the position array, will be updated as needed
-     * @param success - output parameter set to an error code if the operation fails
+     * @pbrbm chbrs - the input chbrbcter context
+     * @pbrbm offset - the offset of the first chbrbcter to process
+     * @pbrbm count - the number of chbrbcters to process
+     * @pbrbm reverse - <code>TRUE</code> if the glyphs in the glyph brrby hbve been reordered
+     * @pbrbm glyphs - the input glyph brrby
+     * @pbrbm glyphCount - the number of glyphs
+     * @pbrbm positions - the position brrby, will be updbted bs needed
+     * @pbrbm success - output pbrbmeter set to bn error code if the operbtion fbils
      *
-     * @internal
+     * @internbl
      */
-    virtual void adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl void bdjustGlyphPositions(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse, LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
-    // static void adjustMarkGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool rightToLeft, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    // stbtic void bdjustMbrkGlyphs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool rightToLeft, LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
 };
 
 /**
- * The class implements OpenType layout for Arabic fonts which don't
- * contain a GSUB table, using a canned GSUB table based on Unicode
- * Arabic Presentation Forms. It overrides the mapCharsToGlyphs method
- * to use the Presentation Forms as logical glyph indices. It overrides the
- * glyphPostProcessing method to convert the Presentation Forms to actual
+ * The clbss implements OpenType lbyout for Arbbic fonts which don't
+ * contbin b GSUB tbble, using b cbnned GSUB tbble bbsed on Unicode
+ * Arbbic Presentbtion Forms. It overrides the mbpChbrsToGlyphs method
+ * to use the Presentbtion Forms bs logicbl glyph indices. It overrides the
+ * glyphPostProcessing method to convert the Presentbtion Forms to bctubl
  * glyph indices.
  *
- * @see ArabicOpenTypeLayoutEngine
+ * @see ArbbicOpenTypeLbyoutEngine
  *
- * @internal
+ * @internbl
  */
-class UnicodeArabicOpenTypeLayoutEngine : public ArabicOpenTypeLayoutEngine
+clbss UnicodeArbbicOpenTypeLbyoutEngine : public ArbbicOpenTypeLbyoutEngine
 {
 public:
     /**
-     * This constructs an instance of UnicodeArabicOpenTypeLayoutEngine for a specific font,
-     * script and language.
+     * This constructs bn instbnce of UnicodeArbbicOpenTypeLbyoutEngine for b specific font,
+     * script bnd lbngubge.
      *
-     * @param fontInstance - the font
-     * @param scriptCode - the script
-     * @param languageCode - the language
-     * @param success - set to an error code if the operation fails
+     * @pbrbm fontInstbnce - the font
+     * @pbrbm scriptCode - the script
+     * @pbrbm lbngubgeCode - the lbngubge
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @see LEFontInstance
-     * @see ScriptAndLanguageTags.h for script and language codes
+     * @see LEFontInstbnce
+     * @see ScriptAndLbngubgeTbgs.h for script bnd lbngubge codes
      *
-     * @internal
+     * @internbl
      */
-    UnicodeArabicOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode,
-                le_int32 typoFlags, LEErrorCode &success);
+    UnicodeArbbicOpenTypeLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode,
+                le_int32 typoFlbgs, LEErrorCode &success);
 
     /**
-     * The destructor, virtual for correct polymorphic invocation.
+     * The destructor, virtubl for correct polymorphic invocbtion.
      *
-     * @internal
+     * @internbl
      */
-    virtual ~UnicodeArabicOpenTypeLayoutEngine();
+    virtubl ~UnicodeArbbicOpenTypeLbyoutEngine();
 
 protected:
 
     /**
-     * This method converts the Arabic Presentation Forms in the temp glyph array
-     * into actual glyph indices using ArabicOpenTypeLayoutEngine::mapCharsToGlyps.
+     * This method converts the Arbbic Presentbtion Forms in the temp glyph brrby
+     * into bctubl glyph indices using ArbbicOpenTypeLbyoutEngine::mbpChbrsToGlyps.
      *
-     * Input parameters:
-     * @param tempGlyphs - the input presentation forms
-     * @param tempCharIndices - the input character index array
-     * @param tempGlyphCount - the number of Presentation Froms
+     * Input pbrbmeters:
+     * @pbrbm tempGlyphs - the input presentbtion forms
+     * @pbrbm tempChbrIndices - the input chbrbcter index brrby
+     * @pbrbm tempGlyphCount - the number of Presentbtion Froms
      *
-     * Output parameters:
-     * @param glyphs - the output glyph index array
-     * @param charIndices - the output character index array
-     * @param success - set to an error code if the operation fails
+     * Output pbrbmeters:
+     * @pbrbm glyphs - the output glyph index brrby
+     * @pbrbm chbrIndices - the output chbrbcter index brrby
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @return the number of glyph indices in the output glyph index array
+     * @return the number of glyph indices in the output glyph index brrby
      *
-     * @internal
+     * @internbl
      */
-    virtual le_int32 glyphPostProcessing(LEGlyphStorage &tempGlyphStorage, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl le_int32 glyphPostProcessing(LEGlyphStorbge &tempGlyphStorbge, LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
     /**
-     * This method copies the input characters into the output glyph index array,
-     * for use by the canned GSUB table. It also generates the character index array.
+     * This method copies the input chbrbcters into the output glyph index brrby,
+     * for use by the cbnned GSUB tbble. It blso generbtes the chbrbcter index brrby.
      *
-     * Input parameters:
-     * @param chars - the input character context
-     * @param offset - the offset of the first character to be mapped
-     * @param count - the number of characters to be mapped
-     * @param reverse - if <code>TRUE</code>, the output will be in reverse order
-     * @param mirror - if <code>TRUE</code>, do character mirroring
-     * @param glyphStorage - the glyph storage object. Glyph and char index arrays will be updated.
+     * Input pbrbmeters:
+     * @pbrbm chbrs - the input chbrbcter context
+     * @pbrbm offset - the offset of the first chbrbcter to be mbpped
+     * @pbrbm count - the number of chbrbcters to be mbpped
+     * @pbrbm reverse - if <code>TRUE</code>, the output will be in reverse order
+     * @pbrbm mirror - if <code>TRUE</code>, do chbrbcter mirroring
+     * @pbrbm glyphStorbge - the glyph storbge object. Glyph bnd chbr index brrbys will be updbted.
      *
-     * @param success - set to an error code if the operation fails
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @internal
+     * @internbl
      */
-    virtual void mapCharsToGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, le_bool mirror,
-        LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl void mbpChbrsToGlyphs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse, le_bool mirror,
+        LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
     /**
-     * This method ensures that all vowel and accent glyphs have a zero advance width by calling
-     * the adjustMarkGlyphs method. The character codes are used to identify the vowel and mark
+     * This method ensures thbt bll vowel bnd bccent glyphs hbve b zero bdvbnce width by cblling
+     * the bdjustMbrkGlyphs method. The chbrbcter codes bre used to identify the vowel bnd mbrk
      * glyphs.
      *
-     * @param chars - the input character context
-     * @param offset - the offset of the first character to process
-     * @param count - the number of characters to process
-     * @param reverse - <code>TRUE</code> if the glyphs in the glyph array have been reordered
-     * @param glyphStorage - the glyph storage object. The glyph positions will be updated as needed.
-     * @param success - output parameter set to an error code if the operation fails
+     * @pbrbm chbrs - the input chbrbcter context
+     * @pbrbm offset - the offset of the first chbrbcter to process
+     * @pbrbm count - the number of chbrbcters to process
+     * @pbrbm reverse - <code>TRUE</code> if the glyphs in the glyph brrby hbve been reordered
+     * @pbrbm glyphStorbge - the glyph storbge object. The glyph positions will be updbted bs needed.
+     * @pbrbm success - output pbrbmeter set to bn error code if the operbtion fbils
      *
-     * @internal
+     * @internbl
      */
-    virtual void adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl void bdjustGlyphPositions(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse, LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 };
 
 U_NAMESPACE_END

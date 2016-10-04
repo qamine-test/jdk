@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.math;
+pbckbge jbvb.mbth;
 
 /**
- * A class used to represent multiprecision integers that makes efficient
- * use of allocated space by allowing a number to occupy only part of
- * an array so that the arrays do not have to be reallocated as often.
- * When performing an operation with many iterations the array used to
- * hold a number is only increased when necessary and does not have to
- * be the same size as the number it represents. A mutable number allows
- * calculations to occur on the same number without having to create
- * a new number for every step of the calculation as occurs with
+ * A clbss used to represent multiprecision integers thbt mbkes efficient
+ * use of bllocbted spbce by bllowing b number to occupy only pbrt of
+ * bn brrby so thbt the brrbys do not hbve to be rebllocbted bs often.
+ * When performing bn operbtion with mbny iterbtions the brrby used to
+ * hold b number is only increbsed when necessbry bnd does not hbve to
+ * be the sbme size bs the number it represents. A mutbble number bllows
+ * cblculbtions to occur on the sbme number without hbving to crebte
+ * b new number for every step of the cblculbtion bs occurs with
  * BigIntegers.
  *
- * Note that SignedMutableBigIntegers only support signed addition and
- * subtraction. All other operations occur as with MutableBigIntegers.
+ * Note thbt SignedMutbbleBigIntegers only support signed bddition bnd
+ * subtrbction. All other operbtions occur bs with MutbbleBigIntegers.
  *
  * @see     BigInteger
- * @author  Michael McCloskey
+ * @buthor  Michbel McCloskey
  * @since   1.3
  */
 
-class SignedMutableBigInteger extends MutableBigInteger {
+clbss SignedMutbbleBigInteger extends MutbbleBigInteger {
 
    /**
-     * The sign of this MutableBigInteger.
+     * The sign of this MutbbleBigInteger.
      */
     int sign = 1;
 
     // Constructors
 
     /**
-     * The default constructor. An empty MutableBigInteger is created with
-     * a one word capacity.
+     * The defbult constructor. An empty MutbbleBigInteger is crebted with
+     * b one word cbpbcity.
      */
-    SignedMutableBigInteger() {
+    SignedMutbbleBigInteger() {
         super();
     }
 
     /**
-     * Construct a new MutableBigInteger with a magnitude specified by
-     * the int val.
+     * Construct b new MutbbleBigInteger with b mbgnitude specified by
+     * the int vbl.
      */
-    SignedMutableBigInteger(int val) {
-        super(val);
+    SignedMutbbleBigInteger(int vbl) {
+        super(vbl);
     }
 
     /**
-     * Construct a new MutableBigInteger with a magnitude equal to the
-     * specified MutableBigInteger.
+     * Construct b new MutbbleBigInteger with b mbgnitude equbl to the
+     * specified MutbbleBigInteger.
      */
-    SignedMutableBigInteger(MutableBigInteger val) {
-        super(val);
+    SignedMutbbleBigInteger(MutbbleBigInteger vbl) {
+        super(vbl);
     }
 
-   // Arithmetic Operations
+   // Arithmetic Operbtions
 
    /**
-     * Signed addition built upon unsigned add and subtract.
+     * Signed bddition built upon unsigned bdd bnd subtrbct.
      */
-    void signedAdd(SignedMutableBigInteger addend) {
-        if (sign == addend.sign)
-            add(addend);
+    void signedAdd(SignedMutbbleBigInteger bddend) {
+        if (sign == bddend.sign)
+            bdd(bddend);
         else
-            sign = sign * subtract(addend);
+            sign = sign * subtrbct(bddend);
 
     }
 
    /**
-     * Signed addition built upon unsigned add and subtract.
+     * Signed bddition built upon unsigned bdd bnd subtrbct.
      */
-    void signedAdd(MutableBigInteger addend) {
+    void signedAdd(MutbbleBigInteger bddend) {
         if (sign == 1)
-            add(addend);
+            bdd(bddend);
         else
-            sign = sign * subtract(addend);
+            sign = sign * subtrbct(bddend);
 
     }
 
    /**
-     * Signed subtraction built upon unsigned add and subtract.
+     * Signed subtrbction built upon unsigned bdd bnd subtrbct.
      */
-    void signedSubtract(SignedMutableBigInteger addend) {
-        if (sign == addend.sign)
-            sign = sign * subtract(addend);
+    void signedSubtrbct(SignedMutbbleBigInteger bddend) {
+        if (sign == bddend.sign)
+            sign = sign * subtrbct(bddend);
         else
-            add(addend);
+            bdd(bddend);
 
     }
 
    /**
-     * Signed subtraction built upon unsigned add and subtract.
+     * Signed subtrbction built upon unsigned bdd bnd subtrbct.
      */
-    void signedSubtract(MutableBigInteger addend) {
+    void signedSubtrbct(MutbbleBigInteger bddend) {
         if (sign == 1)
-            sign = sign * subtract(addend);
+            sign = sign * subtrbct(bddend);
         else
-            add(addend);
+            bdd(bddend);
         if (intLen == 0)
              sign = 1;
     }
 
     /**
-     * Print out the first intLen ints of this MutableBigInteger's value
-     * array starting at offset.
+     * Print out the first intLen ints of this MutbbleBigInteger's vblue
+     * brrby stbrting bt offset.
      */
     public String toString() {
         return this.toBigInteger(sign).toString();

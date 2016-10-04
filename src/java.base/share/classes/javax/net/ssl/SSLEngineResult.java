@@ -1,212 +1,212 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
 /**
- * An encapsulation of the result state produced by
- * <code>SSLEngine</code> I/O calls.
+ * An encbpsulbtion of the result stbte produced by
+ * <code>SSLEngine</code> I/O cblls.
  *
- * <p> A <code>SSLEngine</code> provides a means for establishing
- * secure communication sessions between two peers.  <code>SSLEngine</code>
- * operations typically consume bytes from an input buffer and produce
- * bytes in an output buffer.  This class provides operational result
- * values describing the state of the <code>SSLEngine</code>, including
- * indications of what operations are needed to finish an
- * ongoing handshake.  Lastly, it reports the number of bytes consumed
- * and produced as a result of this operation.
+ * <p> A <code>SSLEngine</code> provides b mebns for estbblishing
+ * secure communicbtion sessions between two peers.  <code>SSLEngine</code>
+ * operbtions typicblly consume bytes from bn input buffer bnd produce
+ * bytes in bn output buffer.  This clbss provides operbtionbl result
+ * vblues describing the stbte of the <code>SSLEngine</code>, including
+ * indicbtions of whbt operbtions bre needed to finish bn
+ * ongoing hbndshbke.  Lbstly, it reports the number of bytes consumed
+ * bnd produced bs b result of this operbtion.
  *
  * @see SSLEngine
- * @see SSLEngine#wrap(ByteBuffer, ByteBuffer)
- * @see SSLEngine#unwrap(ByteBuffer, ByteBuffer)
+ * @see SSLEngine#wrbp(ByteBuffer, ByteBuffer)
+ * @see SSLEngine#unwrbp(ByteBuffer, ByteBuffer)
  *
- * @author Brad R. Wetmore
+ * @buthor Brbd R. Wetmore
  * @since 1.5
  */
 
-public class SSLEngineResult {
+public clbss SSLEngineResult {
 
     /**
-     * An <code>SSLEngineResult</code> enum describing the overall result
-     * of the <code>SSLEngine</code> operation.
+     * An <code>SSLEngineResult</code> enum describing the overbll result
+     * of the <code>SSLEngine</code> operbtion.
      *
-     * The <code>Status</code> value does not reflect the
-     * state of a <code>SSLEngine</code> handshake currently
-     * in progress.  The <code>SSLEngineResult's HandshakeStatus</code>
-     * should be consulted for that information.
+     * The <code>Stbtus</code> vblue does not reflect the
+     * stbte of b <code>SSLEngine</code> hbndshbke currently
+     * in progress.  The <code>SSLEngineResult's HbndshbkeStbtus</code>
+     * should be consulted for thbt informbtion.
      *
-     * @author Brad R. Wetmore
+     * @buthor Brbd R. Wetmore
      * @since 1.5
      */
-    public static enum Status {
+    public stbtic enum Stbtus {
 
         /**
-         * The <code>SSLEngine</code> was not able to unwrap the
-         * incoming data because there were not enough source bytes
-         * available to make a complete packet.
+         * The <code>SSLEngine</code> wbs not bble to unwrbp the
+         * incoming dbtb becbuse there were not enough source bytes
+         * bvbilbble to mbke b complete pbcket.
          *
          * <P>
-         * Repeat the call once more bytes are available.
+         * Repebt the cbll once more bytes bre bvbilbble.
          */
         BUFFER_UNDERFLOW,
 
         /**
-         * The <code>SSLEngine</code> was not able to process the
-         * operation because there are not enough bytes available in the
-         * destination buffer to hold the result.
+         * The <code>SSLEngine</code> wbs not bble to process the
+         * operbtion becbuse there bre not enough bytes bvbilbble in the
+         * destinbtion buffer to hold the result.
          * <P>
-         * Repeat the call once more bytes are available.
+         * Repebt the cbll once more bytes bre bvbilbble.
          *
-         * @see SSLSession#getPacketBufferSize()
-         * @see SSLSession#getApplicationBufferSize()
+         * @see SSLSession#getPbcketBufferSize()
+         * @see SSLSession#getApplicbtionBufferSize()
          */
         BUFFER_OVERFLOW,
 
         /**
-         * The <code>SSLEngine</code> completed the operation, and
-         * is available to process similar calls.
+         * The <code>SSLEngine</code> completed the operbtion, bnd
+         * is bvbilbble to process similbr cblls.
          */
         OK,
 
         /**
-         * The operation just closed this side of the
-         * <code>SSLEngine</code>, or the operation
-         * could not be completed because it was already closed.
+         * The operbtion just closed this side of the
+         * <code>SSLEngine</code>, or the operbtion
+         * could not be completed becbuse it wbs blrebdy closed.
          */
         CLOSED;
     }
 
     /**
      * An <code>SSLEngineResult</code> enum describing the current
-     * handshaking state of this <code>SSLEngine</code>.
+     * hbndshbking stbte of this <code>SSLEngine</code>.
      *
-     * @author Brad R. Wetmore
+     * @buthor Brbd R. Wetmore
      * @since 1.5
      */
-    public static enum HandshakeStatus {
+    public stbtic enum HbndshbkeStbtus {
 
         /**
-         * The <code>SSLEngine</code> is not currently handshaking.
+         * The <code>SSLEngine</code> is not currently hbndshbking.
          */
         NOT_HANDSHAKING,
 
         /**
-         * The <code>SSLEngine</code> has just finished handshaking.
+         * The <code>SSLEngine</code> hbs just finished hbndshbking.
          * <P>
-         * This value is only generated by a call to
-         * <code>SSLEngine.wrap()/unwrap()</code> when that call
-         * finishes a handshake.  It is never generated by
-         * <code>SSLEngine.getHandshakeStatus()</code>.
+         * This vblue is only generbted by b cbll to
+         * <code>SSLEngine.wrbp()/unwrbp()</code> when thbt cbll
+         * finishes b hbndshbke.  It is never generbted by
+         * <code>SSLEngine.getHbndshbkeStbtus()</code>.
          *
-         * @see SSLEngine#wrap(ByteBuffer, ByteBuffer)
-         * @see SSLEngine#unwrap(ByteBuffer, ByteBuffer)
-         * @see SSLEngine#getHandshakeStatus()
+         * @see SSLEngine#wrbp(ByteBuffer, ByteBuffer)
+         * @see SSLEngine#unwrbp(ByteBuffer, ByteBuffer)
+         * @see SSLEngine#getHbndshbkeStbtus()
          */
         FINISHED,
 
         /**
          * The <code>SSLEngine</code> needs the results of one (or more)
-         * delegated tasks before handshaking can continue.
+         * delegbted tbsks before hbndshbking cbn continue.
          *
-         * @see SSLEngine#getDelegatedTask()
+         * @see SSLEngine#getDelegbtedTbsk()
          */
         NEED_TASK,
 
         /**
-         * The <code>SSLEngine</code> must send data to the remote side
-         * before handshaking can continue, so <code>SSLEngine.wrap()</code>
-         * should be called.
+         * The <code>SSLEngine</code> must send dbtb to the remote side
+         * before hbndshbking cbn continue, so <code>SSLEngine.wrbp()</code>
+         * should be cblled.
          *
-         * @see SSLEngine#wrap(ByteBuffer, ByteBuffer)
+         * @see SSLEngine#wrbp(ByteBuffer, ByteBuffer)
          */
         NEED_WRAP,
 
         /**
-         * The <code>SSLEngine</code> needs to receive data from the
-         * remote side before handshaking can continue.
+         * The <code>SSLEngine</code> needs to receive dbtb from the
+         * remote side before hbndshbking cbn continue.
          */
         NEED_UNWRAP;
     }
 
 
-    private final Status status;
-    private final HandshakeStatus handshakeStatus;
-    private final int bytesConsumed;
-    private final int bytesProduced;
+    privbte finbl Stbtus stbtus;
+    privbte finbl HbndshbkeStbtus hbndshbkeStbtus;
+    privbte finbl int bytesConsumed;
+    privbte finbl int bytesProduced;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
-     * @param   status
-     *          the return value of the operation.
+     * @pbrbm   stbtus
+     *          the return vblue of the operbtion.
      *
-     * @param   handshakeStatus
-     *          the current handshaking status.
+     * @pbrbm   hbndshbkeStbtus
+     *          the current hbndshbking stbtus.
      *
-     * @param   bytesConsumed
+     * @pbrbm   bytesConsumed
      *          the number of bytes consumed from the source ByteBuffer
      *
-     * @param   bytesProduced
-     *          the number of bytes placed into the destination ByteBuffer
+     * @pbrbm   bytesProduced
+     *          the number of bytes plbced into the destinbtion ByteBuffer
      *
-     * @throws  IllegalArgumentException
-     *          if the <code>status</code> or <code>handshakeStatus</code>
-     *          arguments are null, or if <code>bytesConsumed</code> or
-     *          <code>bytesProduced</code> is negative.
+     * @throws  IllegblArgumentException
+     *          if the <code>stbtus</code> or <code>hbndshbkeStbtus</code>
+     *          brguments bre null, or if <code>bytesConsumed</code> or
+     *          <code>bytesProduced</code> is negbtive.
      */
-    public SSLEngineResult(Status status, HandshakeStatus handshakeStatus,
+    public SSLEngineResult(Stbtus stbtus, HbndshbkeStbtus hbndshbkeStbtus,
             int bytesConsumed, int bytesProduced) {
 
-        if ((status == null) || (handshakeStatus == null) ||
+        if ((stbtus == null) || (hbndshbkeStbtus == null) ||
                 (bytesConsumed < 0) || (bytesProduced < 0)) {
-            throw new IllegalArgumentException("Invalid Parameter(s)");
+            throw new IllegblArgumentException("Invblid Pbrbmeter(s)");
         }
 
-        this.status = status;
-        this.handshakeStatus = handshakeStatus;
+        this.stbtus = stbtus;
+        this.hbndshbkeStbtus = hbndshbkeStbtus;
         this.bytesConsumed = bytesConsumed;
         this.bytesProduced = bytesProduced;
     }
 
     /**
-     * Gets the return value of this <code>SSLEngine</code> operation.
+     * Gets the return vblue of this <code>SSLEngine</code> operbtion.
      *
-     * @return  the return value
+     * @return  the return vblue
      */
-    final public Status getStatus() {
-        return status;
+    finbl public Stbtus getStbtus() {
+        return stbtus;
     }
 
     /**
-     * Gets the handshake status of this <code>SSLEngine</code>
-     * operation.
+     * Gets the hbndshbke stbtus of this <code>SSLEngine</code>
+     * operbtion.
      *
-     * @return  the handshake status
+     * @return  the hbndshbke stbtus
      */
-    final public HandshakeStatus getHandshakeStatus() {
-        return handshakeStatus;
+    finbl public HbndshbkeStbtus getHbndshbkeStbtus() {
+        return hbndshbkeStbtus;
     }
 
     /**
@@ -214,7 +214,7 @@ public class SSLEngineResult {
      *
      * @return  the number of bytes consumed.
      */
-    final public int bytesConsumed() {
+    finbl public int bytesConsumed() {
         return bytesConsumed;
     }
 
@@ -223,17 +223,17 @@ public class SSLEngineResult {
      *
      * @return  the number of bytes produced
      */
-    final public int bytesProduced() {
+    finbl public int bytesProduced() {
         return bytesProduced;
     }
 
     /**
-     * Returns a String representation of this object.
+     * Returns b String representbtion of this object.
      */
     @Override
     public String toString() {
-        return ("Status = " + status +
-            " HandshakeStatus = " + handshakeStatus +
+        return ("Stbtus = " + stbtus +
+            " HbndshbkeStbtus = " + hbndshbkeStbtus +
             "\nbytesConsumed = " + bytesConsumed +
             " bytesProduced = " + bytesProduced);
     }

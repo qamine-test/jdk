@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2008-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2008-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,412 +59,412 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbckbge jbvb.time;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.YEARS;
+import stbtic jbvb.time.temporbl.ChronoUnit.DAYS;
+import stbtic jbvb.time.temporbl.ChronoUnit.MONTHS;
+import stbtic jbvb.time.temporbl.ChronoUnit.YEARS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.ChronoPeriod;
-import java.time.chrono.Chronology;
-import java.time.chrono.IsoChronology;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.chrono.ChronoLocblDbte;
+import jbvb.time.chrono.ChronoPeriod;
+import jbvb.time.chrono.Chronology;
+import jbvb.time.chrono.IsoChronology;
+import jbvb.time.formbt.DbteTimePbrseException;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Objects;
+import jbvb.util.regex.Mbtcher;
+import jbvb.util.regex.Pbttern;
 
 /**
- * A date-based amount of time in the ISO-8601 calendar system,
- * such as '2 years, 3 months and 4 days'.
+ * A dbte-bbsed bmount of time in the ISO-8601 cblendbr system,
+ * such bs '2 yebrs, 3 months bnd 4 dbys'.
  * <p>
- * This class models a quantity or amount of time in terms of years, months and days.
- * See {@link Duration} for the time-based equivalent to this class.
+ * This clbss models b qubntity or bmount of time in terms of yebrs, months bnd dbys.
+ * See {@link Durbtion} for the time-bbsed equivblent to this clbss.
  * <p>
- * Durations and periods differ in their treatment of daylight savings time
- * when added to {@link ZonedDateTime}. A {@code Duration} will add an exact
- * number of seconds, thus a duration of one day is always exactly 24 hours.
- * By contrast, a {@code Period} will add a conceptual day, trying to maintain
- * the local time.
+ * Durbtions bnd periods differ in their trebtment of dbylight sbvings time
+ * when bdded to {@link ZonedDbteTime}. A {@code Durbtion} will bdd bn exbct
+ * number of seconds, thus b durbtion of one dby is blwbys exbctly 24 hours.
+ * By contrbst, b {@code Period} will bdd b conceptubl dby, trying to mbintbin
+ * the locbl time.
  * <p>
- * For example, consider adding a period of one day and a duration of one day to
- * 18:00 on the evening before a daylight savings gap. The {@code Period} will add
- * the conceptual day and result in a {@code ZonedDateTime} at 18:00 the following day.
- * By contrast, the {@code Duration} will add exactly 24 hours, resulting in a
- * {@code ZonedDateTime} at 19:00 the following day (assuming a one hour DST gap).
+ * For exbmple, consider bdding b period of one dby bnd b durbtion of one dby to
+ * 18:00 on the evening before b dbylight sbvings gbp. The {@code Period} will bdd
+ * the conceptubl dby bnd result in b {@code ZonedDbteTime} bt 18:00 the following dby.
+ * By contrbst, the {@code Durbtion} will bdd exbctly 24 hours, resulting in b
+ * {@code ZonedDbteTime} bt 19:00 the following dby (bssuming b one hour DST gbp).
  * <p>
- * The supported units of a period are {@link ChronoUnit#YEARS YEARS},
- * {@link ChronoUnit#MONTHS MONTHS} and {@link ChronoUnit#DAYS DAYS}.
- * All three fields are always present, but may be set to zero.
+ * The supported units of b period bre {@link ChronoUnit#YEARS YEARS},
+ * {@link ChronoUnit#MONTHS MONTHS} bnd {@link ChronoUnit#DAYS DAYS}.
+ * All three fields bre blwbys present, but mby be set to zero.
  * <p>
- * The ISO-8601 calendar system is the modern civil calendar system used today
- * in most of the world. It is equivalent to the proleptic Gregorian calendar
- * system, in which today's rules for leap years are applied for all time.
+ * The ISO-8601 cblendbr system is the modern civil cblendbr system used todby
+ * in most of the world. It is equivblent to the proleptic Gregoribn cblendbr
+ * system, in which todby's rules for lebp yebrs bre bpplied for bll time.
  * <p>
- * The period is modeled as a directed amount of time, meaning that individual parts of the
- * period may be negative.
+ * The period is modeled bs b directed bmount of time, mebning thbt individubl pbrts of the
+ * period mby be negbtive.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code Period} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * This is b <b href="{@docRoot}/jbvb/lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code Period} mby hbve unpredictbble results bnd should be bvoided.
+ * The {@code equbls} method should be used for compbrisons.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class Period
-        implements ChronoPeriod, Serializable {
+public finbl clbss Period
+        implements ChronoPeriod, Seriblizbble {
 
     /**
-     * A constant for a period of zero.
+     * A constbnt for b period of zero.
      */
-    public static final Period ZERO = new Period(0, 0, 0);
+    public stbtic finbl Period ZERO = new Period(0, 0, 0);
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = -3587258372562876L;
+    privbte stbtic finbl long seriblVersionUID = -3587258372562876L;
     /**
-     * The pattern for parsing.
+     * The pbttern for pbrsing.
      */
-    private static final Pattern PATTERN =
-            Pattern.compile("([-+]?)P(?:([-+]?[0-9]+)Y)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)W)?(?:([-+]?[0-9]+)D)?", Pattern.CASE_INSENSITIVE);
+    privbte stbtic finbl Pbttern PATTERN =
+            Pbttern.compile("([-+]?)P(?:([-+]?[0-9]+)Y)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)W)?(?:([-+]?[0-9]+)D)?", Pbttern.CASE_INSENSITIVE);
 
     /**
      * The set of supported units.
      */
-    private static final List<TemporalUnit> SUPPORTED_UNITS =
-            Collections.unmodifiableList(Arrays.<TemporalUnit>asList(YEARS, MONTHS, DAYS));
+    privbte stbtic finbl List<TemporblUnit> SUPPORTED_UNITS =
+            Collections.unmodifibbleList(Arrbys.<TemporblUnit>bsList(YEARS, MONTHS, DAYS));
 
     /**
-     * The number of years.
+     * The number of yebrs.
      */
-    private final int years;
+    privbte finbl int yebrs;
     /**
      * The number of months.
      */
-    private final int months;
+    privbte finbl int months;
     /**
-     * The number of days.
+     * The number of dbys.
      */
-    private final int days;
+    privbte finbl int dbys;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a {@code Period} representing a number of years.
+     * Obtbins b {@code Period} representing b number of yebrs.
      * <p>
-     * The resulting period will have the specified years.
-     * The months and days units will be zero.
+     * The resulting period will hbve the specified yebrs.
+     * The months bnd dbys units will be zero.
      *
-     * @param years  the number of years, positive or negative
-     * @return the period of years, not null
+     * @pbrbm yebrs  the number of yebrs, positive or negbtive
+     * @return the period of yebrs, not null
      */
-    public static Period ofYears(int years) {
-        return create(years, 0, 0);
+    public stbtic Period ofYebrs(int yebrs) {
+        return crebte(yebrs, 0, 0);
     }
 
     /**
-     * Obtains a {@code Period} representing a number of months.
+     * Obtbins b {@code Period} representing b number of months.
      * <p>
-     * The resulting period will have the specified months.
-     * The years and days units will be zero.
+     * The resulting period will hbve the specified months.
+     * The yebrs bnd dbys units will be zero.
      *
-     * @param months  the number of months, positive or negative
+     * @pbrbm months  the number of months, positive or negbtive
      * @return the period of months, not null
      */
-    public static Period ofMonths(int months) {
-        return create(0, months, 0);
+    public stbtic Period ofMonths(int months) {
+        return crebte(0, months, 0);
     }
 
     /**
-     * Obtains a {@code Period} representing a number of weeks.
+     * Obtbins b {@code Period} representing b number of weeks.
      * <p>
-     * The resulting period will be day-based, with the amount of days
-     * equal to the number of weeks multiplied by 7.
-     * The years and months units will be zero.
+     * The resulting period will be dby-bbsed, with the bmount of dbys
+     * equbl to the number of weeks multiplied by 7.
+     * The yebrs bnd months units will be zero.
      *
-     * @param weeks  the number of weeks, positive or negative
-     * @return the period, with the input weeks converted to days, not null
+     * @pbrbm weeks  the number of weeks, positive or negbtive
+     * @return the period, with the input weeks converted to dbys, not null
      */
-    public static Period ofWeeks(int weeks) {
-        return create(0, 0, Math.multiplyExact(weeks, 7));
+    public stbtic Period ofWeeks(int weeks) {
+        return crebte(0, 0, Mbth.multiplyExbct(weeks, 7));
     }
 
     /**
-     * Obtains a {@code Period} representing a number of days.
+     * Obtbins b {@code Period} representing b number of dbys.
      * <p>
-     * The resulting period will have the specified days.
-     * The years and months units will be zero.
+     * The resulting period will hbve the specified dbys.
+     * The yebrs bnd months units will be zero.
      *
-     * @param days  the number of days, positive or negative
-     * @return the period of days, not null
+     * @pbrbm dbys  the number of dbys, positive or negbtive
+     * @return the period of dbys, not null
      */
-    public static Period ofDays(int days) {
-        return create(0, 0, days);
+    public stbtic Period ofDbys(int dbys) {
+        return crebte(0, 0, dbys);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a {@code Period} representing a number of years, months and days.
+     * Obtbins b {@code Period} representing b number of yebrs, months bnd dbys.
      * <p>
-     * This creates an instance based on years, months and days.
+     * This crebtes bn instbnce bbsed on yebrs, months bnd dbys.
      *
-     * @param years  the amount of years, may be negative
-     * @param months  the amount of months, may be negative
-     * @param days  the amount of days, may be negative
-     * @return the period of years, months and days, not null
+     * @pbrbm yebrs  the bmount of yebrs, mby be negbtive
+     * @pbrbm months  the bmount of months, mby be negbtive
+     * @pbrbm dbys  the bmount of dbys, mby be negbtive
+     * @return the period of yebrs, months bnd dbys, not null
      */
-    public static Period of(int years, int months, int days) {
-        return create(years, months, days);
+    public stbtic Period of(int yebrs, int months, int dbys) {
+        return crebte(yebrs, months, dbys);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Period} from a temporal amount.
+     * Obtbins bn instbnce of {@code Period} from b temporbl bmount.
      * <p>
-     * This obtains a period based on the specified amount.
-     * A {@code TemporalAmount} represents an  amount of time, which may be
-     * date-based or time-based, which this factory extracts to a {@code Period}.
+     * This obtbins b period bbsed on the specified bmount.
+     * A {@code TemporblAmount} represents bn  bmount of time, which mby be
+     * dbte-bbsed or time-bbsed, which this fbctory extrbcts to b {@code Period}.
      * <p>
-     * The conversion loops around the set of units from the amount and uses
+     * The conversion loops bround the set of units from the bmount bnd uses
      * the {@link ChronoUnit#YEARS YEARS}, {@link ChronoUnit#MONTHS MONTHS}
-     * and {@link ChronoUnit#DAYS DAYS} units to create a period.
-     * If any other units are found then an exception is thrown.
+     * bnd {@link ChronoUnit#DAYS DAYS} units to crebte b period.
+     * If bny other units bre found then bn exception is thrown.
      * <p>
-     * If the amount is a {@code ChronoPeriod} then it must use the ISO chronology.
+     * If the bmount is b {@code ChronoPeriod} then it must use the ISO chronology.
      *
-     * @param amount  the temporal amount to convert, not null
-     * @return the equivalent period, not null
-     * @throws DateTimeException if unable to convert to a {@code Period}
-     * @throws ArithmeticException if the amount of years, months or days exceeds an int
+     * @pbrbm bmount  the temporbl bmount to convert, not null
+     * @return the equivblent period, not null
+     * @throws DbteTimeException if unbble to convert to b {@code Period}
+     * @throws ArithmeticException if the bmount of yebrs, months or dbys exceeds bn int
      */
-    public static Period from(TemporalAmount amount) {
-        if (amount instanceof Period) {
-            return (Period) amount;
+    public stbtic Period from(TemporblAmount bmount) {
+        if (bmount instbnceof Period) {
+            return (Period) bmount;
         }
-        if (amount instanceof ChronoPeriod) {
-            if (IsoChronology.INSTANCE.equals(((ChronoPeriod) amount).getChronology()) == false) {
-                throw new DateTimeException("Period requires ISO chronology: " + amount);
+        if (bmount instbnceof ChronoPeriod) {
+            if (IsoChronology.INSTANCE.equbls(((ChronoPeriod) bmount).getChronology()) == fblse) {
+                throw new DbteTimeException("Period requires ISO chronology: " + bmount);
             }
         }
-        Objects.requireNonNull(amount, "amount");
-        int years = 0;
+        Objects.requireNonNull(bmount, "bmount");
+        int yebrs = 0;
         int months = 0;
-        int days = 0;
-        for (TemporalUnit unit : amount.getUnits()) {
-            long unitAmount = amount.get(unit);
+        int dbys = 0;
+        for (TemporblUnit unit : bmount.getUnits()) {
+            long unitAmount = bmount.get(unit);
             if (unit == ChronoUnit.YEARS) {
-                years = Math.toIntExact(unitAmount);
+                yebrs = Mbth.toIntExbct(unitAmount);
             } else if (unit == ChronoUnit.MONTHS) {
-                months = Math.toIntExact(unitAmount);
+                months = Mbth.toIntExbct(unitAmount);
             } else if (unit == ChronoUnit.DAYS) {
-                days = Math.toIntExact(unitAmount);
+                dbys = Mbth.toIntExbct(unitAmount);
             } else {
-                throw new DateTimeException("Unit must be Years, Months or Days, but was " + unit);
+                throw new DbteTimeException("Unit must be Yebrs, Months or Dbys, but wbs " + unit);
             }
         }
-        return create(years, months, days);
+        return crebte(yebrs, months, dbys);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a {@code Period} from a text string such as {@code PnYnMnD}.
+     * Obtbins b {@code Period} from b text string such bs {@code PnYnMnD}.
      * <p>
-     * This will parse the string produced by {@code toString()} which is
-     * based on the ISO-8601 period formats {@code PnYnMnD} and {@code PnW}.
+     * This will pbrse the string produced by {@code toString()} which is
+     * bbsed on the ISO-8601 period formbts {@code PnYnMnD} bnd {@code PnW}.
      * <p>
-     * The string starts with an optional sign, denoted by the ASCII negative
-     * or positive symbol. If negative, the whole period is negated.
-     * The ASCII letter "P" is next in upper or lower case.
-     * There are then four sections, each consisting of a number and a suffix.
-     * At least one of the four sections must be present.
-     * The sections have suffixes in ASCII of "Y", "M", "W" and "D" for
-     * years, months, weeks and days, accepted in upper or lower case.
+     * The string stbrts with bn optionbl sign, denoted by the ASCII negbtive
+     * or positive symbol. If negbtive, the whole period is negbted.
+     * The ASCII letter "P" is next in upper or lower cbse.
+     * There bre then four sections, ebch consisting of b number bnd b suffix.
+     * At lebst one of the four sections must be present.
+     * The sections hbve suffixes in ASCII of "Y", "M", "W" bnd "D" for
+     * yebrs, months, weeks bnd dbys, bccepted in upper or lower cbse.
      * The suffixes must occur in order.
-     * The number part of each section must consist of ASCII digits.
-     * The number may be prefixed by the ASCII negative or positive symbol.
-     * The number must parse to an {@code int}.
+     * The number pbrt of ebch section must consist of ASCII digits.
+     * The number mby be prefixed by the ASCII negbtive or positive symbol.
+     * The number must pbrse to bn {@code int}.
      * <p>
-     * The leading plus/minus sign, and negative values for other units are
-     * not part of the ISO-8601 standard. In addition, ISO-8601 does not
-     * permit mixing between the {@code PnYnMnD} and {@code PnW} formats.
-     * Any week-based input is multiplied by 7 and treated as a number of days.
+     * The lebding plus/minus sign, bnd negbtive vblues for other units bre
+     * not pbrt of the ISO-8601 stbndbrd. In bddition, ISO-8601 does not
+     * permit mixing between the {@code PnYnMnD} bnd {@code PnW} formbts.
+     * Any week-bbsed input is multiplied by 7 bnd trebted bs b number of dbys.
      * <p>
-     * For example, the following are valid inputs:
+     * For exbmple, the following bre vblid inputs:
      * <pre>
-     *   "P2Y"             -- Period.ofYears(2)
+     *   "P2Y"             -- Period.ofYebrs(2)
      *   "P3M"             -- Period.ofMonths(3)
      *   "P4W"             -- Period.ofWeeks(4)
-     *   "P5D"             -- Period.ofDays(5)
+     *   "P5D"             -- Period.ofDbys(5)
      *   "P1Y2M3D"         -- Period.of(1, 2, 3)
      *   "P1Y2M3W4D"       -- Period.of(1, 2, 25)
      *   "P-1Y2M"          -- Period.of(-1, 2, 0)
      *   "-P1Y2M"          -- Period.of(-1, -2, 0)
      * </pre>
      *
-     * @param text  the text to parse, not null
-     * @return the parsed period, not null
-     * @throws DateTimeParseException if the text cannot be parsed to a period
+     * @pbrbm text  the text to pbrse, not null
+     * @return the pbrsed period, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed to b period
      */
-    public static Period parse(CharSequence text) {
+    public stbtic Period pbrse(ChbrSequence text) {
         Objects.requireNonNull(text, "text");
-        Matcher matcher = PATTERN.matcher(text);
-        if (matcher.matches()) {
-            int negate = ("-".equals(matcher.group(1)) ? -1 : 1);
-            String yearMatch = matcher.group(2);
-            String monthMatch = matcher.group(3);
-            String weekMatch = matcher.group(4);
-            String dayMatch = matcher.group(5);
-            if (yearMatch != null || monthMatch != null || dayMatch != null || weekMatch != null) {
+        Mbtcher mbtcher = PATTERN.mbtcher(text);
+        if (mbtcher.mbtches()) {
+            int negbte = ("-".equbls(mbtcher.group(1)) ? -1 : 1);
+            String yebrMbtch = mbtcher.group(2);
+            String monthMbtch = mbtcher.group(3);
+            String weekMbtch = mbtcher.group(4);
+            String dbyMbtch = mbtcher.group(5);
+            if (yebrMbtch != null || monthMbtch != null || dbyMbtch != null || weekMbtch != null) {
                 try {
-                    int years = parseNumber(text, yearMatch, negate);
-                    int months = parseNumber(text, monthMatch, negate);
-                    int weeks = parseNumber(text, weekMatch, negate);
-                    int days = parseNumber(text, dayMatch, negate);
-                    days = Math.addExact(days, Math.multiplyExact(weeks, 7));
-                    return create(years, months, days);
-                } catch (NumberFormatException ex) {
-                    throw new DateTimeParseException("Text cannot be parsed to a Period", text, 0, ex);
+                    int yebrs = pbrseNumber(text, yebrMbtch, negbte);
+                    int months = pbrseNumber(text, monthMbtch, negbte);
+                    int weeks = pbrseNumber(text, weekMbtch, negbte);
+                    int dbys = pbrseNumber(text, dbyMbtch, negbte);
+                    dbys = Mbth.bddExbct(dbys, Mbth.multiplyExbct(weeks, 7));
+                    return crebte(yebrs, months, dbys);
+                } cbtch (NumberFormbtException ex) {
+                    throw new DbteTimePbrseException("Text cbnnot be pbrsed to b Period", text, 0, ex);
                 }
             }
         }
-        throw new DateTimeParseException("Text cannot be parsed to a Period", text, 0);
+        throw new DbteTimePbrseException("Text cbnnot be pbrsed to b Period", text, 0);
     }
 
-    private static int parseNumber(CharSequence text, String str, int negate) {
+    privbte stbtic int pbrseNumber(ChbrSequence text, String str, int negbte) {
         if (str == null) {
             return 0;
         }
-        int val = Integer.parseInt(str);
+        int vbl = Integer.pbrseInt(str);
         try {
-            return Math.multiplyExact(val, negate);
-        } catch (ArithmeticException ex) {
-            throw new DateTimeParseException("Text cannot be parsed to a Period", text, 0, ex);
+            return Mbth.multiplyExbct(vbl, negbte);
+        } cbtch (ArithmeticException ex) {
+            throw new DbteTimePbrseException("Text cbnnot be pbrsed to b Period", text, 0, ex);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a {@code Period} consisting of the number of years, months,
-     * and days between two dates.
+     * Obtbins b {@code Period} consisting of the number of yebrs, months,
+     * bnd dbys between two dbtes.
      * <p>
-     * The start date is included, but the end date is not.
-     * The period is calculated by removing complete months, then calculating
-     * the remaining number of days, adjusting to ensure that both have the same sign.
-     * The number of months is then split into years and months based on a 12 month year.
-     * A month is considered if the end day-of-month is greater than or equal to the start day-of-month.
-     * For example, from {@code 2010-01-15} to {@code 2011-03-18} is one year, two months and three days.
+     * The stbrt dbte is included, but the end dbte is not.
+     * The period is cblculbted by removing complete months, then cblculbting
+     * the rembining number of dbys, bdjusting to ensure thbt both hbve the sbme sign.
+     * The number of months is then split into yebrs bnd months bbsed on b 12 month yebr.
+     * A month is considered if the end dby-of-month is grebter thbn or equbl to the stbrt dby-of-month.
+     * For exbmple, from {@code 2010-01-15} to {@code 2011-03-18} is one yebr, two months bnd three dbys.
      * <p>
-     * The result of this method can be a negative period if the end is before the start.
-     * The negative sign will be the same in each of year, month and day.
+     * The result of this method cbn be b negbtive period if the end is before the stbrt.
+     * The negbtive sign will be the sbme in ebch of yebr, month bnd dby.
      *
-     * @param startDateInclusive  the start date, inclusive, not null
-     * @param endDateExclusive  the end date, exclusive, not null
-     * @return the period between this date and the end date, not null
-     * @see ChronoLocalDate#until(ChronoLocalDate)
+     * @pbrbm stbrtDbteInclusive  the stbrt dbte, inclusive, not null
+     * @pbrbm endDbteExclusive  the end dbte, exclusive, not null
+     * @return the period between this dbte bnd the end dbte, not null
+     * @see ChronoLocblDbte#until(ChronoLocblDbte)
      */
-    public static Period between(LocalDate startDateInclusive, LocalDate endDateExclusive) {
-        return startDateInclusive.until(endDateExclusive);
+    public stbtic Period between(LocblDbte stbrtDbteInclusive, LocblDbte endDbteExclusive) {
+        return stbrtDbteInclusive.until(endDbteExclusive);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Creates an instance.
+     * Crebtes bn instbnce.
      *
-     * @param years  the amount
-     * @param months  the amount
-     * @param days  the amount
+     * @pbrbm yebrs  the bmount
+     * @pbrbm months  the bmount
+     * @pbrbm dbys  the bmount
      */
-    private static Period create(int years, int months, int days) {
-        if ((years | months | days) == 0) {
+    privbte stbtic Period crebte(int yebrs, int months, int dbys) {
+        if ((yebrs | months | dbys) == 0) {
             return ZERO;
         }
-        return new Period(years, months, days);
+        return new Period(yebrs, months, dbys);
     }
 
     /**
      * Constructor.
      *
-     * @param years  the amount
-     * @param months  the amount
-     * @param days  the amount
+     * @pbrbm yebrs  the bmount
+     * @pbrbm months  the bmount
+     * @pbrbm dbys  the bmount
      */
-    private Period(int years, int months, int days) {
-        this.years = years;
+    privbte Period(int yebrs, int months, int dbys) {
+        this.yebrs = yebrs;
         this.months = months;
-        this.days = days;
+        this.dbys = dbys;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the value of the requested unit.
+     * Gets the vblue of the requested unit.
      * <p>
-     * This returns a value for each of the three supported units,
-     * {@link ChronoUnit#YEARS YEARS}, {@link ChronoUnit#MONTHS MONTHS} and
+     * This returns b vblue for ebch of the three supported units,
+     * {@link ChronoUnit#YEARS YEARS}, {@link ChronoUnit#MONTHS MONTHS} bnd
      * {@link ChronoUnit#DAYS DAYS}.
-     * All other units throw an exception.
+     * All other units throw bn exception.
      *
-     * @param unit the {@code TemporalUnit} for which to return the value
-     * @return the long value of the unit
-     * @throws DateTimeException if the unit is not supported
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm unit the {@code TemporblUnit} for which to return the vblue
+     * @return the long vblue of the unit
+     * @throws DbteTimeException if the unit is not supported
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      */
     @Override
-    public long get(TemporalUnit unit) {
+    public long get(TemporblUnit unit) {
         if (unit == ChronoUnit.YEARS) {
-            return getYears();
+            return getYebrs();
         } else if (unit == ChronoUnit.MONTHS) {
             return getMonths();
         } else if (unit == ChronoUnit.DAYS) {
-            return getDays();
+            return getDbys();
         } else {
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            throw new UnsupportedTemporblTypeException("Unsupported unit: " + unit);
         }
     }
 
     /**
      * Gets the set of units supported by this period.
      * <p>
-     * The supported units are {@link ChronoUnit#YEARS YEARS},
-     * {@link ChronoUnit#MONTHS MONTHS} and {@link ChronoUnit#DAYS DAYS}.
-     * They are returned in the order years, months, days.
+     * The supported units bre {@link ChronoUnit#YEARS YEARS},
+     * {@link ChronoUnit#MONTHS MONTHS} bnd {@link ChronoUnit#DAYS DAYS}.
+     * They bre returned in the order yebrs, months, dbys.
      * <p>
-     * This set can be used in conjunction with {@link #get(TemporalUnit)}
-     * to access the entire state of the period.
+     * This set cbn be used in conjunction with {@link #get(TemporblUnit)}
+     * to bccess the entire stbte of the period.
      *
-     * @return a list containing the years, months and days units, not null
+     * @return b list contbining the yebrs, months bnd dbys units, not null
      */
     @Override
-    public List<TemporalUnit> getUnits() {
+    public List<TemporblUnit> getUnits() {
         return SUPPORTED_UNITS;
     }
 
     /**
-     * Gets the chronology of this period, which is the ISO calendar system.
+     * Gets the chronology of this period, which is the ISO cblendbr system.
      * <p>
-     * The {@code Chronology} represents the calendar system in use.
-     * The ISO-8601 calendar system is the modern civil calendar system used today
-     * in most of the world. It is equivalent to the proleptic Gregorian calendar
-     * system, in which today's rules for leap years are applied for all time.
+     * The {@code Chronology} represents the cblendbr system in use.
+     * The ISO-8601 cblendbr system is the modern civil cblendbr system used todby
+     * in most of the world. It is equivblent to the proleptic Gregoribn cblendbr
+     * system, in which todby's rules for lebp yebrs bre bpplied for bll time.
      *
      * @return the ISO chronology, not null
      */
@@ -475,547 +475,547 @@ public final class Period
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if all three units of this period are zero.
+     * Checks if bll three units of this period bre zero.
      * <p>
-     * A zero period has the value zero for the years, months and days units.
+     * A zero period hbs the vblue zero for the yebrs, months bnd dbys units.
      *
      * @return true if this period is zero-length
      */
-    public boolean isZero() {
+    public boolebn isZero() {
         return (this == ZERO);
     }
 
     /**
-     * Checks if any of the three units of this period are negative.
+     * Checks if bny of the three units of this period bre negbtive.
      * <p>
-     * This checks whether the years, months or days units are less than zero.
+     * This checks whether the yebrs, months or dbys units bre less thbn zero.
      *
-     * @return true if any unit of this period is negative
+     * @return true if bny unit of this period is negbtive
      */
-    public boolean isNegative() {
-        return years < 0 || months < 0 || days < 0;
+    public boolebn isNegbtive() {
+        return yebrs < 0 || months < 0 || dbys < 0;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the amount of years of this period.
+     * Gets the bmount of yebrs of this period.
      * <p>
-     * This returns the years unit.
+     * This returns the yebrs unit.
      * <p>
-     * The months unit is not automatically normalized with the years unit.
-     * This means that a period of "15 months" is different to a period
-     * of "1 year and 3 months".
+     * The months unit is not butombticblly normblized with the yebrs unit.
+     * This mebns thbt b period of "15 months" is different to b period
+     * of "1 yebr bnd 3 months".
      *
-     * @return the amount of years of this period, may be negative
+     * @return the bmount of yebrs of this period, mby be negbtive
      */
-    public int getYears() {
-        return years;
+    public int getYebrs() {
+        return yebrs;
     }
 
     /**
-     * Gets the amount of months of this period.
+     * Gets the bmount of months of this period.
      * <p>
      * This returns the months unit.
      * <p>
-     * The months unit is not automatically normalized with the years unit.
-     * This means that a period of "15 months" is different to a period
-     * of "1 year and 3 months".
+     * The months unit is not butombticblly normblized with the yebrs unit.
+     * This mebns thbt b period of "15 months" is different to b period
+     * of "1 yebr bnd 3 months".
      *
-     * @return the amount of months of this period, may be negative
+     * @return the bmount of months of this period, mby be negbtive
      */
     public int getMonths() {
         return months;
     }
 
     /**
-     * Gets the amount of days of this period.
+     * Gets the bmount of dbys of this period.
      * <p>
-     * This returns the days unit.
+     * This returns the dbys unit.
      *
-     * @return the amount of days of this period, may be negative
+     * @return the bmount of dbys of this period, mby be negbtive
      */
-    public int getDays() {
-        return days;
+    public int getDbys() {
+        return dbys;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this period with the specified amount of years.
+     * Returns b copy of this period with the specified bmount of yebrs.
      * <p>
-     * This sets the amount of the years unit in a copy of this period.
-     * The months and days units are unaffected.
+     * This sets the bmount of the yebrs unit in b copy of this period.
+     * The months bnd dbys units bre unbffected.
      * <p>
-     * The months unit is not automatically normalized with the years unit.
-     * This means that a period of "15 months" is different to a period
-     * of "1 year and 3 months".
+     * The months unit is not butombticblly normblized with the yebrs unit.
+     * This mebns thbt b period of "15 months" is different to b period
+     * of "1 yebr bnd 3 months".
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param years  the years to represent, may be negative
-     * @return a {@code Period} based on this period with the requested years, not null
+     * @pbrbm yebrs  the yebrs to represent, mby be negbtive
+     * @return b {@code Period} bbsed on this period with the requested yebrs, not null
      */
-    public Period withYears(int years) {
-        if (years == this.years) {
+    public Period withYebrs(int yebrs) {
+        if (yebrs == this.yebrs) {
             return this;
         }
-        return create(years, months, days);
+        return crebte(yebrs, months, dbys);
     }
 
     /**
-     * Returns a copy of this period with the specified amount of months.
+     * Returns b copy of this period with the specified bmount of months.
      * <p>
-     * This sets the amount of the months unit in a copy of this period.
-     * The years and days units are unaffected.
+     * This sets the bmount of the months unit in b copy of this period.
+     * The yebrs bnd dbys units bre unbffected.
      * <p>
-     * The months unit is not automatically normalized with the years unit.
-     * This means that a period of "15 months" is different to a period
-     * of "1 year and 3 months".
+     * The months unit is not butombticblly normblized with the yebrs unit.
+     * This mebns thbt b period of "15 months" is different to b period
+     * of "1 yebr bnd 3 months".
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param months  the months to represent, may be negative
-     * @return a {@code Period} based on this period with the requested months, not null
+     * @pbrbm months  the months to represent, mby be negbtive
+     * @return b {@code Period} bbsed on this period with the requested months, not null
      */
     public Period withMonths(int months) {
         if (months == this.months) {
             return this;
         }
-        return create(years, months, days);
+        return crebte(yebrs, months, dbys);
     }
 
     /**
-     * Returns a copy of this period with the specified amount of days.
+     * Returns b copy of this period with the specified bmount of dbys.
      * <p>
-     * This sets the amount of the days unit in a copy of this period.
-     * The years and months units are unaffected.
+     * This sets the bmount of the dbys unit in b copy of this period.
+     * The yebrs bnd months units bre unbffected.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param days  the days to represent, may be negative
-     * @return a {@code Period} based on this period with the requested days, not null
+     * @pbrbm dbys  the dbys to represent, mby be negbtive
+     * @return b {@code Period} bbsed on this period with the requested dbys, not null
      */
-    public Period withDays(int days) {
-        if (days == this.days) {
+    public Period withDbys(int dbys) {
+        if (dbys == this.dbys) {
             return this;
         }
-        return create(years, months, days);
+        return crebte(yebrs, months, dbys);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this period with the specified period added.
+     * Returns b copy of this period with the specified period bdded.
      * <p>
-     * This operates separately on the years, months and days.
-     * No normalization is performed.
+     * This operbtes sepbrbtely on the yebrs, months bnd dbys.
+     * No normblizbtion is performed.
      * <p>
-     * For example, "1 year, 6 months and 3 days" plus "2 years, 2 months and 2 days"
-     * returns "3 years, 8 months and 5 days".
+     * For exbmple, "1 yebr, 6 months bnd 3 dbys" plus "2 yebrs, 2 months bnd 2 dbys"
+     * returns "3 yebrs, 8 months bnd 5 dbys".
      * <p>
-     * The specified amount is typically an instance of {@code Period}.
-     * Other types are interpreted using {@link Period#from(TemporalAmount)}.
+     * The specified bmount is typicblly bn instbnce of {@code Period}.
+     * Other types bre interpreted using {@link Period#from(TemporblAmount)}.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount to add, not null
-     * @return a {@code Period} based on this period with the requested period added, not null
-     * @throws DateTimeException if the specified amount has a non-ISO chronology or
-     *  contains an invalid unit
+     * @pbrbm bmountToAdd  the bmount to bdd, not null
+     * @return b {@code Period} bbsed on this period with the requested period bdded, not null
+     * @throws DbteTimeException if the specified bmount hbs b non-ISO chronology or
+     *  contbins bn invblid unit
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Period plus(TemporalAmount amountToAdd) {
-        Period isoAmount = Period.from(amountToAdd);
-        return create(
-                Math.addExact(years, isoAmount.years),
-                Math.addExact(months, isoAmount.months),
-                Math.addExact(days, isoAmount.days));
+    public Period plus(TemporblAmount bmountToAdd) {
+        Period isoAmount = Period.from(bmountToAdd);
+        return crebte(
+                Mbth.bddExbct(yebrs, isoAmount.yebrs),
+                Mbth.bddExbct(months, isoAmount.months),
+                Mbth.bddExbct(dbys, isoAmount.dbys));
     }
 
     /**
-     * Returns a copy of this period with the specified years added.
+     * Returns b copy of this period with the specified yebrs bdded.
      * <p>
-     * This adds the amount to the years unit in a copy of this period.
-     * The months and days units are unaffected.
-     * For example, "1 year, 6 months and 3 days" plus 2 years returns "3 years, 6 months and 3 days".
+     * This bdds the bmount to the yebrs unit in b copy of this period.
+     * The months bnd dbys units bre unbffected.
+     * For exbmple, "1 yebr, 6 months bnd 3 dbys" plus 2 yebrs returns "3 yebrs, 6 months bnd 3 dbys".
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param yearsToAdd  the years to add, positive or negative
-     * @return a {@code Period} based on this period with the specified years added, not null
+     * @pbrbm yebrsToAdd  the yebrs to bdd, positive or negbtive
+     * @return b {@code Period} bbsed on this period with the specified yebrs bdded, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Period plusYears(long yearsToAdd) {
-        if (yearsToAdd == 0) {
+    public Period plusYebrs(long yebrsToAdd) {
+        if (yebrsToAdd == 0) {
             return this;
         }
-        return create(Math.toIntExact(Math.addExact(years, yearsToAdd)), months, days);
+        return crebte(Mbth.toIntExbct(Mbth.bddExbct(yebrs, yebrsToAdd)), months, dbys);
     }
 
     /**
-     * Returns a copy of this period with the specified months added.
+     * Returns b copy of this period with the specified months bdded.
      * <p>
-     * This adds the amount to the months unit in a copy of this period.
-     * The years and days units are unaffected.
-     * For example, "1 year, 6 months and 3 days" plus 2 months returns "1 year, 8 months and 3 days".
+     * This bdds the bmount to the months unit in b copy of this period.
+     * The yebrs bnd dbys units bre unbffected.
+     * For exbmple, "1 yebr, 6 months bnd 3 dbys" plus 2 months returns "1 yebr, 8 months bnd 3 dbys".
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param monthsToAdd  the months to add, positive or negative
-     * @return a {@code Period} based on this period with the specified months added, not null
+     * @pbrbm monthsToAdd  the months to bdd, positive or negbtive
+     * @return b {@code Period} bbsed on this period with the specified months bdded, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Period plusMonths(long monthsToAdd) {
         if (monthsToAdd == 0) {
             return this;
         }
-        return create(years, Math.toIntExact(Math.addExact(months, monthsToAdd)), days);
+        return crebte(yebrs, Mbth.toIntExbct(Mbth.bddExbct(months, monthsToAdd)), dbys);
     }
 
     /**
-     * Returns a copy of this period with the specified days added.
+     * Returns b copy of this period with the specified dbys bdded.
      * <p>
-     * This adds the amount to the days unit in a copy of this period.
-     * The years and months units are unaffected.
-     * For example, "1 year, 6 months and 3 days" plus 2 days returns "1 year, 6 months and 5 days".
+     * This bdds the bmount to the dbys unit in b copy of this period.
+     * The yebrs bnd months units bre unbffected.
+     * For exbmple, "1 yebr, 6 months bnd 3 dbys" plus 2 dbys returns "1 yebr, 6 months bnd 5 dbys".
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param daysToAdd  the days to add, positive or negative
-     * @return a {@code Period} based on this period with the specified days added, not null
+     * @pbrbm dbysToAdd  the dbys to bdd, positive or negbtive
+     * @return b {@code Period} bbsed on this period with the specified dbys bdded, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Period plusDays(long daysToAdd) {
-        if (daysToAdd == 0) {
+    public Period plusDbys(long dbysToAdd) {
+        if (dbysToAdd == 0) {
             return this;
         }
-        return create(years, months, Math.toIntExact(Math.addExact(days, daysToAdd)));
+        return crebte(yebrs, months, Mbth.toIntExbct(Mbth.bddExbct(dbys, dbysToAdd)));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this period with the specified period subtracted.
+     * Returns b copy of this period with the specified period subtrbcted.
      * <p>
-     * This operates separately on the years, months and days.
-     * No normalization is performed.
+     * This operbtes sepbrbtely on the yebrs, months bnd dbys.
+     * No normblizbtion is performed.
      * <p>
-     * For example, "1 year, 6 months and 3 days" minus "2 years, 2 months and 2 days"
-     * returns "-1 years, 4 months and 1 day".
+     * For exbmple, "1 yebr, 6 months bnd 3 dbys" minus "2 yebrs, 2 months bnd 2 dbys"
+     * returns "-1 yebrs, 4 months bnd 1 dby".
      * <p>
-     * The specified amount is typically an instance of {@code Period}.
-     * Other types are interpreted using {@link Period#from(TemporalAmount)}.
+     * The specified bmount is typicblly bn instbnce of {@code Period}.
+     * Other types bre interpreted using {@link Period#from(TemporblAmount)}.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount to subtract, not null
-     * @return a {@code Period} based on this period with the requested period subtracted, not null
-     * @throws DateTimeException if the specified amount has a non-ISO chronology or
-     *  contains an invalid unit
+     * @pbrbm bmountToSubtrbct  the bmount to subtrbct, not null
+     * @return b {@code Period} bbsed on this period with the requested period subtrbcted, not null
+     * @throws DbteTimeException if the specified bmount hbs b non-ISO chronology or
+     *  contbins bn invblid unit
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Period minus(TemporalAmount amountToSubtract) {
-        Period isoAmount = Period.from(amountToSubtract);
-        return create(
-                Math.subtractExact(years, isoAmount.years),
-                Math.subtractExact(months, isoAmount.months),
-                Math.subtractExact(days, isoAmount.days));
+    public Period minus(TemporblAmount bmountToSubtrbct) {
+        Period isoAmount = Period.from(bmountToSubtrbct);
+        return crebte(
+                Mbth.subtrbctExbct(yebrs, isoAmount.yebrs),
+                Mbth.subtrbctExbct(months, isoAmount.months),
+                Mbth.subtrbctExbct(dbys, isoAmount.dbys));
     }
 
     /**
-     * Returns a copy of this period with the specified years subtracted.
+     * Returns b copy of this period with the specified yebrs subtrbcted.
      * <p>
-     * This subtracts the amount from the years unit in a copy of this period.
-     * The months and days units are unaffected.
-     * For example, "1 year, 6 months and 3 days" minus 2 years returns "-1 years, 6 months and 3 days".
+     * This subtrbcts the bmount from the yebrs unit in b copy of this period.
+     * The months bnd dbys units bre unbffected.
+     * For exbmple, "1 yebr, 6 months bnd 3 dbys" minus 2 yebrs returns "-1 yebrs, 6 months bnd 3 dbys".
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param yearsToSubtract  the years to subtract, positive or negative
-     * @return a {@code Period} based on this period with the specified years subtracted, not null
+     * @pbrbm yebrsToSubtrbct  the yebrs to subtrbct, positive or negbtive
+     * @return b {@code Period} bbsed on this period with the specified yebrs subtrbcted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Period minusYears(long yearsToSubtract) {
-        return (yearsToSubtract == Long.MIN_VALUE ? plusYears(Long.MAX_VALUE).plusYears(1) : plusYears(-yearsToSubtract));
+    public Period minusYebrs(long yebrsToSubtrbct) {
+        return (yebrsToSubtrbct == Long.MIN_VALUE ? plusYebrs(Long.MAX_VALUE).plusYebrs(1) : plusYebrs(-yebrsToSubtrbct));
     }
 
     /**
-     * Returns a copy of this period with the specified months subtracted.
+     * Returns b copy of this period with the specified months subtrbcted.
      * <p>
-     * This subtracts the amount from the months unit in a copy of this period.
-     * The years and days units are unaffected.
-     * For example, "1 year, 6 months and 3 days" minus 2 months returns "1 year, 4 months and 3 days".
+     * This subtrbcts the bmount from the months unit in b copy of this period.
+     * The yebrs bnd dbys units bre unbffected.
+     * For exbmple, "1 yebr, 6 months bnd 3 dbys" minus 2 months returns "1 yebr, 4 months bnd 3 dbys".
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param monthsToSubtract  the years to subtract, positive or negative
-     * @return a {@code Period} based on this period with the specified months subtracted, not null
+     * @pbrbm monthsToSubtrbct  the yebrs to subtrbct, positive or negbtive
+     * @return b {@code Period} bbsed on this period with the specified months subtrbcted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Period minusMonths(long monthsToSubtract) {
-        return (monthsToSubtract == Long.MIN_VALUE ? plusMonths(Long.MAX_VALUE).plusMonths(1) : plusMonths(-monthsToSubtract));
+    public Period minusMonths(long monthsToSubtrbct) {
+        return (monthsToSubtrbct == Long.MIN_VALUE ? plusMonths(Long.MAX_VALUE).plusMonths(1) : plusMonths(-monthsToSubtrbct));
     }
 
     /**
-     * Returns a copy of this period with the specified days subtracted.
+     * Returns b copy of this period with the specified dbys subtrbcted.
      * <p>
-     * This subtracts the amount from the days unit in a copy of this period.
-     * The years and months units are unaffected.
-     * For example, "1 year, 6 months and 3 days" minus 2 days returns "1 year, 6 months and 1 day".
+     * This subtrbcts the bmount from the dbys unit in b copy of this period.
+     * The yebrs bnd months units bre unbffected.
+     * For exbmple, "1 yebr, 6 months bnd 3 dbys" minus 2 dbys returns "1 yebr, 6 months bnd 1 dby".
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param daysToSubtract  the months to subtract, positive or negative
-     * @return a {@code Period} based on this period with the specified days subtracted, not null
+     * @pbrbm dbysToSubtrbct  the months to subtrbct, positive or negbtive
+     * @return b {@code Period} bbsed on this period with the specified dbys subtrbcted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Period minusDays(long daysToSubtract) {
-        return (daysToSubtract == Long.MIN_VALUE ? plusDays(Long.MAX_VALUE).plusDays(1) : plusDays(-daysToSubtract));
+    public Period minusDbys(long dbysToSubtrbct) {
+        return (dbysToSubtrbct == Long.MIN_VALUE ? plusDbys(Long.MAX_VALUE).plusDbys(1) : plusDbys(-dbysToSubtrbct));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a new instance with each element in this period multiplied
-     * by the specified scalar.
+     * Returns b new instbnce with ebch element in this period multiplied
+     * by the specified scblbr.
      * <p>
-     * This returns a period with each of the years, months and days units
-     * individually multiplied.
-     * For example, a period of "2 years, -3 months and 4 days" multiplied by
-     * 3 will return "6 years, -9 months and 12 days".
-     * No normalization is performed.
+     * This returns b period with ebch of the yebrs, months bnd dbys units
+     * individublly multiplied.
+     * For exbmple, b period of "2 yebrs, -3 months bnd 4 dbys" multiplied by
+     * 3 will return "6 yebrs, -9 months bnd 12 dbys".
+     * No normblizbtion is performed.
      *
-     * @param scalar  the scalar to multiply by, not null
-     * @return a {@code Period} based on this period with the amounts multiplied by the scalar, not null
+     * @pbrbm scblbr  the scblbr to multiply by, not null
+     * @return b {@code Period} bbsed on this period with the bmounts multiplied by the scblbr, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Period multipliedBy(int scalar) {
-        if (this == ZERO || scalar == 1) {
+    public Period multipliedBy(int scblbr) {
+        if (this == ZERO || scblbr == 1) {
             return this;
         }
-        return create(
-                Math.multiplyExact(years, scalar),
-                Math.multiplyExact(months, scalar),
-                Math.multiplyExact(days, scalar));
+        return crebte(
+                Mbth.multiplyExbct(yebrs, scblbr),
+                Mbth.multiplyExbct(months, scblbr),
+                Mbth.multiplyExbct(dbys, scblbr));
     }
 
     /**
-     * Returns a new instance with each amount in this period negated.
+     * Returns b new instbnce with ebch bmount in this period negbted.
      * <p>
-     * This returns a period with each of the years, months and days units
-     * individually negated.
-     * For example, a period of "2 years, -3 months and 4 days" will be
-     * negated to "-2 years, 3 months and -4 days".
-     * No normalization is performed.
+     * This returns b period with ebch of the yebrs, months bnd dbys units
+     * individublly negbted.
+     * For exbmple, b period of "2 yebrs, -3 months bnd 4 dbys" will be
+     * negbted to "-2 yebrs, 3 months bnd -4 dbys".
+     * No normblizbtion is performed.
      *
-     * @return a {@code Period} based on this period with the amounts negated, not null
-     * @throws ArithmeticException if numeric overflow occurs, which only happens if
-     *  one of the units has the value {@code Long.MIN_VALUE}
+     * @return b {@code Period} bbsed on this period with the bmounts negbted, not null
+     * @throws ArithmeticException if numeric overflow occurs, which only hbppens if
+     *  one of the units hbs the vblue {@code Long.MIN_VALUE}
      */
-    public Period negated() {
+    public Period negbted() {
         return multipliedBy(-1);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this period with the years and months normalized.
+     * Returns b copy of this period with the yebrs bnd months normblized.
      * <p>
-     * This normalizes the years and months units, leaving the days unit unchanged.
-     * The months unit is adjusted to have an absolute value less than 11,
-     * with the years unit being adjusted to compensate. For example, a period of
-     * "1 Year and 15 months" will be normalized to "2 years and 3 months".
+     * This normblizes the yebrs bnd months units, lebving the dbys unit unchbnged.
+     * The months unit is bdjusted to hbve bn bbsolute vblue less thbn 11,
+     * with the yebrs unit being bdjusted to compensbte. For exbmple, b period of
+     * "1 Yebr bnd 15 months" will be normblized to "2 yebrs bnd 3 months".
      * <p>
-     * The sign of the years and months units will be the same after normalization.
-     * For example, a period of "1 year and -25 months" will be normalized to
-     * "-1 year and -1 month".
+     * The sign of the yebrs bnd months units will be the sbme bfter normblizbtion.
+     * For exbmple, b period of "1 yebr bnd -25 months" will be normblized to
+     * "-1 yebr bnd -1 month".
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @return a {@code Period} based on this period with excess months normalized to years, not null
+     * @return b {@code Period} bbsed on this period with excess months normblized to yebrs, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Period normalized() {
-        long totalMonths = toTotalMonths();
-        long splitYears = totalMonths / 12;
-        int splitMonths = (int) (totalMonths % 12);  // no overflow
-        if (splitYears == years && splitMonths == months) {
+    public Period normblized() {
+        long totblMonths = toTotblMonths();
+        long splitYebrs = totblMonths / 12;
+        int splitMonths = (int) (totblMonths % 12);  // no overflow
+        if (splitYebrs == yebrs && splitMonths == months) {
             return this;
         }
-        return create(Math.toIntExact(splitYears), splitMonths, days);
+        return crebte(Mbth.toIntExbct(splitYebrs), splitMonths, dbys);
     }
 
     /**
-     * Gets the total number of months in this period.
+     * Gets the totbl number of months in this period.
      * <p>
-     * This returns the total number of months in the period by multiplying the
-     * number of years by 12 and adding the number of months.
+     * This returns the totbl number of months in the period by multiplying the
+     * number of yebrs by 12 bnd bdding the number of months.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @return the total number of months in the period, may be negative
+     * @return the totbl number of months in the period, mby be negbtive
      */
-    public long toTotalMonths() {
-        return years * 12L + months;  // no overflow
+    public long toTotblMonths() {
+        return yebrs * 12L + months;  // no overflow
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Adds this period to the specified temporal object.
+     * Adds this period to the specified temporbl object.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with this period added.
-     * If the temporal has a chronology, it must be the ISO chronology.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with this period bdded.
+     * If the temporbl hbs b chronology, it must be the ISO chronology.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#plus(TemporalAmount)}.
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#plus(TemporblAmount)}.
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   dateTime = thisPeriod.addTo(dateTime);
-     *   dateTime = dateTime.plus(thisPeriod);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   dbteTime = thisPeriod.bddTo(dbteTime);
+     *   dbteTime = dbteTime.plus(thisPeriod);
      * </pre>
      * <p>
-     * The calculation operates as follows.
-     * First, the chronology of the temporal is checked to ensure it is ISO chronology or null.
-     * Second, if the months are zero, the years are added if non-zero, otherwise
-     * the combination of years and months is added if non-zero.
-     * Finally, any days are added.
+     * The cblculbtion operbtes bs follows.
+     * First, the chronology of the temporbl is checked to ensure it is ISO chronology or null.
+     * Second, if the months bre zero, the yebrs bre bdded if non-zero, otherwise
+     * the combinbtion of yebrs bnd months is bdded if non-zero.
+     * Finblly, bny dbys bre bdded.
      * <p>
-     * This approach ensures that a partial period can be added to a partial date.
-     * For example, a period of years and/or months can be added to a {@code YearMonth},
-     * but a period including days cannot.
-     * The approach also adds years and months together when necessary, which ensures
-     * correct behaviour at the end of the month.
+     * This bpprobch ensures thbt b pbrtibl period cbn be bdded to b pbrtibl dbte.
+     * For exbmple, b period of yebrs bnd/or months cbn be bdded to b {@code YebrMonth},
+     * but b period including dbys cbnnot.
+     * The bpprobch blso bdds yebrs bnd months together when necessbry, which ensures
+     * correct behbviour bt the end of the month.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the temporal object to adjust, not null
-     * @return an object of the same type with the adjustment made, not null
-     * @throws DateTimeException if unable to add
+     * @pbrbm temporbl  the temporbl object to bdjust, not null
+     * @return bn object of the sbme type with the bdjustment mbde, not null
+     * @throws DbteTimeException if unbble to bdd
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Temporal addTo(Temporal temporal) {
-        validateChrono(temporal);
+    public Temporbl bddTo(Temporbl temporbl) {
+        vblidbteChrono(temporbl);
         if (months == 0) {
-            if (years != 0) {
-                temporal = temporal.plus(years, YEARS);
+            if (yebrs != 0) {
+                temporbl = temporbl.plus(yebrs, YEARS);
             }
         } else {
-            long totalMonths = toTotalMonths();
-            if (totalMonths != 0) {
-                temporal = temporal.plus(totalMonths, MONTHS);
+            long totblMonths = toTotblMonths();
+            if (totblMonths != 0) {
+                temporbl = temporbl.plus(totblMonths, MONTHS);
             }
         }
-        if (days != 0) {
-            temporal = temporal.plus(days, DAYS);
+        if (dbys != 0) {
+            temporbl = temporbl.plus(dbys, DAYS);
         }
-        return temporal;
+        return temporbl;
     }
 
     /**
-     * Subtracts this period from the specified temporal object.
+     * Subtrbcts this period from the specified temporbl object.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with this period subtracted.
-     * If the temporal has a chronology, it must be the ISO chronology.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with this period subtrbcted.
+     * If the temporbl hbs b chronology, it must be the ISO chronology.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#minus(TemporalAmount)}.
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#minus(TemporblAmount)}.
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   dateTime = thisPeriod.subtractFrom(dateTime);
-     *   dateTime = dateTime.minus(thisPeriod);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   dbteTime = thisPeriod.subtrbctFrom(dbteTime);
+     *   dbteTime = dbteTime.minus(thisPeriod);
      * </pre>
      * <p>
-     * The calculation operates as follows.
-     * First, the chronology of the temporal is checked to ensure it is ISO chronology or null.
-     * Second, if the months are zero, the years are subtracted if non-zero, otherwise
-     * the combination of years and months is subtracted if non-zero.
-     * Finally, any days are subtracted.
+     * The cblculbtion operbtes bs follows.
+     * First, the chronology of the temporbl is checked to ensure it is ISO chronology or null.
+     * Second, if the months bre zero, the yebrs bre subtrbcted if non-zero, otherwise
+     * the combinbtion of yebrs bnd months is subtrbcted if non-zero.
+     * Finblly, bny dbys bre subtrbcted.
      * <p>
-     * This approach ensures that a partial period can be subtracted from a partial date.
-     * For example, a period of years and/or months can be subtracted from a {@code YearMonth},
-     * but a period including days cannot.
-     * The approach also subtracts years and months together when necessary, which ensures
-     * correct behaviour at the end of the month.
+     * This bpprobch ensures thbt b pbrtibl period cbn be subtrbcted from b pbrtibl dbte.
+     * For exbmple, b period of yebrs bnd/or months cbn be subtrbcted from b {@code YebrMonth},
+     * but b period including dbys cbnnot.
+     * The bpprobch blso subtrbcts yebrs bnd months together when necessbry, which ensures
+     * correct behbviour bt the end of the month.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the temporal object to adjust, not null
-     * @return an object of the same type with the adjustment made, not null
-     * @throws DateTimeException if unable to subtract
+     * @pbrbm temporbl  the temporbl object to bdjust, not null
+     * @return bn object of the sbme type with the bdjustment mbde, not null
+     * @throws DbteTimeException if unbble to subtrbct
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Temporal subtractFrom(Temporal temporal) {
-        validateChrono(temporal);
+    public Temporbl subtrbctFrom(Temporbl temporbl) {
+        vblidbteChrono(temporbl);
         if (months == 0) {
-            if (years != 0) {
-                temporal = temporal.minus(years, YEARS);
+            if (yebrs != 0) {
+                temporbl = temporbl.minus(yebrs, YEARS);
             }
         } else {
-            long totalMonths = toTotalMonths();
-            if (totalMonths != 0) {
-                temporal = temporal.minus(totalMonths, MONTHS);
+            long totblMonths = toTotblMonths();
+            if (totblMonths != 0) {
+                temporbl = temporbl.minus(totblMonths, MONTHS);
             }
         }
-        if (days != 0) {
-            temporal = temporal.minus(days, DAYS);
+        if (dbys != 0) {
+            temporbl = temporbl.minus(dbys, DAYS);
         }
-        return temporal;
+        return temporbl;
     }
 
     /**
-     * Validates that the temporal has the correct chronology.
+     * Vblidbtes thbt the temporbl hbs the correct chronology.
      */
-    private void validateChrono(TemporalAccessor temporal) {
-        Objects.requireNonNull(temporal, "temporal");
-        Chronology temporalChrono = temporal.query(TemporalQueries.chronology());
-        if (temporalChrono != null && IsoChronology.INSTANCE.equals(temporalChrono) == false) {
-            throw new DateTimeException("Chronology mismatch, expected: ISO, actual: " + temporalChrono.getId());
+    privbte void vblidbteChrono(TemporblAccessor temporbl) {
+        Objects.requireNonNull(temporbl, "temporbl");
+        Chronology temporblChrono = temporbl.query(TemporblQueries.chronology());
+        if (temporblChrono != null && IsoChronology.INSTANCE.equbls(temporblChrono) == fblse) {
+            throw new DbteTimeException("Chronology mismbtch, expected: ISO, bctubl: " + temporblChrono.getId());
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this period is equal to another period.
+     * Checks if this period is equbl to bnother period.
      * <p>
-     * The comparison is based on the type {@code Period} and each of the three amounts.
-     * To be equal, the years, months and days units must be individually equal.
-     * Note that this means that a period of "15 Months" is not equal to a period
-     * of "1 Year and 3 Months".
+     * The compbrison is bbsed on the type {@code Period} bnd ebch of the three bmounts.
+     * To be equbl, the yebrs, months bnd dbys units must be individublly equbl.
+     * Note thbt this mebns thbt b period of "15 Months" is not equbl to b period
+     * of "1 Yebr bnd 3 Months".
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other period
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other period
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof Period) {
+        if (obj instbnceof Period) {
             Period other = (Period) obj;
-            return years == other.years &&
+            return yebrs == other.yebrs &&
                     months == other.months &&
-                    days == other.days;
+                    dbys == other.dbys;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this period.
+     * A hbsh code for this period.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    public int hashCode() {
-        return years + Integer.rotateLeft(months, 8) + Integer.rotateLeft(days, 16);
+    public int hbshCode() {
+        return yebrs + Integer.rotbteLeft(months, 8) + Integer.rotbteLeft(dbys, 16);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this period as a {@code String}, such as {@code P6Y3M1D}.
+     * Outputs this period bs b {@code String}, such bs {@code P6Y3M1D}.
      * <p>
-     * The output will be in the ISO-8601 period format.
-     * A zero period will be represented as zero days, 'P0D'.
+     * The output will be in the ISO-8601 period formbt.
+     * A zero period will be represented bs zero dbys, 'P0D'.
      *
-     * @return a string representation of this period, not null
+     * @return b string representbtion of this period, not null
      */
     @Override
     public String toString() {
@@ -1023,15 +1023,15 @@ public final class Period
             return "P0D";
         } else {
             StringBuilder buf = new StringBuilder();
-            buf.append('P');
-            if (years != 0) {
-                buf.append(years).append('Y');
+            buf.bppend('P');
+            if (yebrs != 0) {
+                buf.bppend(yebrs).bppend('Y');
             }
             if (months != 0) {
-                buf.append(months).append('M');
+                buf.bppend(months).bppend('M');
             }
-            if (days != 0) {
-                buf.append(days).append('D');
+            if (dbys != 0) {
+                buf.bppend(dbys).bppend('D');
             }
             return buf.toString();
         }
@@ -1039,43 +1039,43 @@ public final class Period
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the object using b
+     * <b href="../../seriblized-form.html#jbvb.time.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(14);  // identifies a Period
-     *  out.writeInt(years);
+     *  out.writeByte(14);  // identifies b Period
+     *  out.writeInt(yebrs);
      *  out.writeInt(months);
-     *  out.writeInt(days);
+     *  out.writeInt(dbys);
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.PERIOD_TYPE, this);
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws java.io.InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws jbvb.io.InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeInt(years);
+    void writeExternbl(DbtbOutput out) throws IOException {
+        out.writeInt(yebrs);
         out.writeInt(months);
-        out.writeInt(days);
+        out.writeInt(dbys);
     }
 
-    static Period readExternal(DataInput in) throws IOException {
-        int years = in.readInt();
-        int months = in.readInt();
-        int days = in.readInt();
-        return Period.of(years, months, days);
+    stbtic Period rebdExternbl(DbtbInput in) throws IOException {
+        int yebrs = in.rebdInt();
+        int months = in.rebdInt();
+        int dbys = in.rebdInt();
+        return Period.of(yebrs, months, dbys);
     }
 
 }

@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
 /**
- * An entity declared within a user defined
- * type (class or interface).
- * This interface is the root of the type
- * component hierarchy which
- * includes {@link Field} and {@link Method}.
- * Type components of the same name declared in different classes
- * (including those related by inheritance) have different
+ * An entity declbred within b user defined
+ * type (clbss or interfbce).
+ * This interfbce is the root of the type
+ * component hierbrchy which
+ * includes {@link Field} bnd {@link Method}.
+ * Type components of the sbme nbme declbred in different clbsses
+ * (including those relbted by inheritbnce) hbve different
  * TypeComponent objects.
- * TypeComponents can be used alone to retrieve static information
- * about their declaration, or can be used in conjunction with a
- * {@link ReferenceType} or {@link ObjectReference} to access values
- * or invoke, as applicable.
+ * TypeComponents cbn be used blone to retrieve stbtic informbtion
+ * bbout their declbrbtion, or cbn be used in conjunction with b
+ * {@link ReferenceType} or {@link ObjectReference} to bccess vblues
+ * or invoke, bs bpplicbble.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
+ * @buthor Robert Field
+ * @buthor Gordon Hirsch
+ * @buthor Jbmes McIlree
  * @since  1.3
  */
 @jdk.Exported
-public interface TypeComponent extends Mirror, Accessible {
+public interfbce TypeComponent extends Mirror, Accessible {
 
     /**
-     * Gets the name of this type component.
+     * Gets the nbme of this type component.
      * <P>
-     * Note: for fields, this is the field name; for methods,
-     * this is the method name; for constructors, this is &lt;init&gt;;
-     * for static initializers, this is &lt;clinit&gt;.
+     * Note: for fields, this is the field nbme; for methods,
+     * this is the method nbme; for constructors, this is &lt;init&gt;;
+     * for stbtic initiblizers, this is &lt;clinit&gt;.
      *
-     * @return a string containing the name.
+     * @return b string contbining the nbme.
      */
-    String name();
+    String nbme();
 
     /**
-     * Gets the JNI-style signature for this type component. The
-     * signature is encoded type information as defined
-     * in the JNI documentation. It is a convenient, compact format for
-     * for manipulating type information internally, not necessarily
-     * for display to an end user. See {@link Field#typeName} and
-     * {@link Method#returnTypeName} for ways to help get a more readable
-     * representation of the type.
+     * Gets the JNI-style signbture for this type component. The
+     * signbture is encoded type informbtion bs defined
+     * in the JNI documentbtion. It is b convenient, compbct formbt for
+     * for mbnipulbting type informbtion internblly, not necessbrily
+     * for displby to bn end user. See {@link Field#typeNbme} bnd
+     * {@link Method#returnTypeNbme} for wbys to help get b more rebdbble
+     * representbtion of the type.
      *
-     * @see <a href="doc-files/signature.html">Type Signatures</a>
-     * @return a string containing the signature
+     * @see <b href="doc-files/signbture.html">Type Signbtures</b>
+     * @return b string contbining the signbture
      */
-    String signature();
+    String signbture();
 
     /**
-     * Gets the generic signature for this TypeComponent if there is one.
-     * Generic signatures are described in the
-     * <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * Gets the generic signbture for this TypeComponent if there is one.
+     * Generic signbtures bre described in the
+     * <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
      *
-     * @return a string containing the generic signature, or <code>null</code>
-     * if there is no generic signature.
+     * @return b string contbining the generic signbture, or <code>null</code>
+     * if there is no generic signbture.
      *
      * @since 1.5
      */
-    String genericSignature();
+    String genericSignbture();
 
     /**
-     * Returns the type in which this component was declared. The
-     * returned {@link ReferenceType} mirrors either a class or an
-     * interface in the target VM.
+     * Returns the type in which this component wbs declbred. The
+     * returned {@link ReferenceType} mirrors either b clbss or bn
+     * interfbce in the tbrget VM.
      *
-     * @return a {@link ReferenceType} for the type that declared
+     * @return b {@link ReferenceType} for the type thbt declbred
      * this type component.
      */
-    ReferenceType declaringType();
+    ReferenceType declbringType();
 
     /**
-     * Determines if this TypeComponent is static.
-     * Return value is undefined for constructors and static initializers.
+     * Determines if this TypeComponent is stbtic.
+     * Return vblue is undefined for constructors bnd stbtic initiblizers.
      *
-     * @return <code>true</code> if this type component was declared
-     * static; false otherwise.
+     * @return <code>true</code> if this type component wbs declbred
+     * stbtic; fblse otherwise.
      */
-    boolean isStatic();
+    boolebn isStbtic();
 
     /**
-     * Determines if this TypeComponent is final.
-     * Return value is undefined for constructors and static initializers.
+     * Determines if this TypeComponent is finbl.
+     * Return vblue is undefined for constructors bnd stbtic initiblizers.
      *
-     * @return <code>true</code> if this type component was declared
-     * final; false otherwise.
+     * @return <code>true</code> if this type component wbs declbred
+     * finbl; fblse otherwise.
      */
-    boolean isFinal();
+    boolebn isFinbl();
 
     /**
      * Determines if this TypeComponent is synthetic. Synthetic members
-     * are generated by the compiler and are not present in the source
-     * code for the containing class.
+     * bre generbted by the compiler bnd bre not present in the source
+     * code for the contbining clbss.
      * <p>
-     * Not all target VMs support this query. See
-     * {@link VirtualMachine#canGetSyntheticAttribute} to determine if the
-     * operation is supported.
+     * Not bll tbrget VMs support this query. See
+     * {@link VirtublMbchine#cbnGetSyntheticAttribute} to determine if the
+     * operbtion is supported.
      *
      * @return <code>true</code> if this type component is synthetic;
-     * <code>false</code> otherwise.
-     * @throws java.lang.UnsupportedOperationException if the target
-     * VM cannot provide information on synthetic attributes.
+     * <code>fblse</code> otherwise.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the tbrget
+     * VM cbnnot provide informbtion on synthetic bttributes.
      */
-    boolean isSynthetic();
+    boolebn isSynthetic();
 }

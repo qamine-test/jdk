@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,117 +30,117 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
-package j2dbench.tests.cmm;
+pbckbge j2dbench.tests.cmm;
 
 import j2dbench.Group;
 import j2dbench.Option;
 import j2dbench.Result;
 import j2dbench.TestEnvironment;
 import j2dbench.tests.iio.IIOTests;
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorConvertOp;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import javax.imageio.ImageIO;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorConvertOp;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvbx.imbgeio.ImbgeIO;
 
-public class ColorConvertOpTests extends ColorConversionTests {
+public clbss ColorConvertOpTests extends ColorConversionTests {
 
-    private static enum ImageContent {
-        BLANK("bank", "Blank (opaque black)"),
-        RANDOM("random", "Random"),
+    privbte stbtic enum ImbgeContent {
+        BLANK("bbnk", "Blbnk (opbque blbck)"),
+        RANDOM("rbndom", "Rbndom"),
         VECTOR("vector", "Vector Art"),
-        PHOTO("photo", "Photograph");
+        PHOTO("photo", "Photogrbph");
 
-        public final String name;
-        public final String descr;
+        public finbl String nbme;
+        public finbl String descr;
 
-        private ImageContent(String name, String descr) {
-            this.name = name;
+        privbte ImbgeContent(String nbme, String descr) {
+            this.nbme = nbme;
             this.descr = descr;
         }
     }
 
-    private static enum ImageType {
-        INT_ARGB(BufferedImage.TYPE_INT_ARGB, "INT_ARGB", "TYPE_INT_ARGB"),
-        INT_RGB(BufferedImage.TYPE_INT_RGB, "INT_RGB", "TYPE_INT_RGB"),
-        INT_BGR(BufferedImage.TYPE_INT_BGR, "INT_BGR", "TYPE_INT_BGR"),
-        BYTE_3BYTE_BGR(BufferedImage.TYPE_3BYTE_BGR, "3BYTE_BGR", "TYPE_3BYTE_BGR"),
-        BYTE_4BYTE_ABGR(BufferedImage.TYPE_4BYTE_ABGR, "4BYTE_BGR", "TYPE_4BYTE_BGR"),
-        COMPATIBLE_DST(0, "Compatible", "Compatible destination");
+    privbte stbtic enum ImbgeType {
+        INT_ARGB(BufferedImbge.TYPE_INT_ARGB, "INT_ARGB", "TYPE_INT_ARGB"),
+        INT_RGB(BufferedImbge.TYPE_INT_RGB, "INT_RGB", "TYPE_INT_RGB"),
+        INT_BGR(BufferedImbge.TYPE_INT_BGR, "INT_BGR", "TYPE_INT_BGR"),
+        BYTE_3BYTE_BGR(BufferedImbge.TYPE_3BYTE_BGR, "3BYTE_BGR", "TYPE_3BYTE_BGR"),
+        BYTE_4BYTE_ABGR(BufferedImbge.TYPE_4BYTE_ABGR, "4BYTE_BGR", "TYPE_4BYTE_BGR"),
+        COMPATIBLE_DST(0, "Compbtible", "Compbtible destinbtion");
 
-        private ImageType(int type, String abbr, String descr) {
+        privbte ImbgeType(int type, String bbbr, String descr) {
             this.type = type;
-            this.abbrev = abbr;
+            this.bbbrev = bbbr;
             this.descr = descr;
         }
 
-        public final int type;
-        public final String abbrev;
-        public final String descr;
+        public finbl int type;
+        public finbl String bbbrev;
+        public finbl String descr;
     }
 
-    private static enum ListType {
-        SRC("srcType", "Source Images"),
-        DST("dstType", "Destination Images");
+    privbte stbtic enum ListType {
+        SRC("srcType", "Source Imbges"),
+        DST("dstType", "Destinbtion Imbges");
 
-        private ListType(String name, String description) {
-            this.name = name;
+        privbte ListType(String nbme, String description) {
+            this.nbme = nbme;
             this.description = description;
         }
-        public final String name;
-        public final String description;
+        public finbl String nbme;
+        public finbl String description;
     }
 
-    public static Option createImageTypeList(ListType listType) {
+    public stbtic Option crebteImbgeTypeList(ListType listType) {
 
-        ImageType[] allTypes = ImageType.values();
+        ImbgeType[] bllTypes = ImbgeType.vblues();
 
-        int num = allTypes.length;
+        int num = bllTypes.length;
         if (listType == ListType.SRC) {
-            num -= 1; // exclude compatible destination
+            num -= 1; // exclude compbtible destinbtion
         }
 
-        ImageType[] t = new ImageType[num];
-        String[] names = new String[num];
-        String[] abbrev = new String[num];
+        ImbgeType[] t = new ImbgeType[num];
+        String[] nbmes = new String[num];
+        String[] bbbrev = new String[num];
         String[] descr = new String[num];
 
         for (int i = 0; i < num; i++) {
-            t[i] = allTypes[i];
-            names[i] = t[i].toString();
-            abbrev[i] = t[i].abbrev;
+            t[i] = bllTypes[i];
+            nbmes[i] = t[i].toString();
+            bbbrev[i] = t[i].bbbrev;
             descr[i] = t[i].descr;
         }
 
         Option list = new Option.ObjectList(opOptionsRoot,
-                listType.name, listType.description,
-                names, t, abbrev, descr, 1);
+                listType.nbme, listType.description,
+                nbmes, t, bbbrev, descr, 1);
         return list;
     }
 
-    protected static Group opConvRoot;
+    protected stbtic Group opConvRoot;
 
-    protected static Group opOptionsRoot;
-    protected static Option sizeList;
-    protected static Option contentList;
+    protected stbtic Group opOptionsRoot;
+    protected stbtic Option sizeList;
+    protected stbtic Option contentList;
 
-    protected static Option sourceType;
+    protected stbtic Option sourceType;
 
-    protected static Option destinationType;
+    protected stbtic Option destinbtionType;
 
-    public static void init() {
+    public stbtic void init() {
         opConvRoot = new Group(colorConvRoot, "ccop", "ColorConvertOp Tests");
 
         opOptionsRoot = new Group(opConvRoot, "ccopOptions", "Options");
@@ -151,160 +151,160 @@ public class ColorConvertOpTests extends ColorConversionTests {
             "1x1", "20x20", "250x250", "1000x1000", "4000x4000"
         };
         String[] sizeDescs = new String[] {
-            "Tiny Images (1x1)",
-            "Small Images (20x20)",
-            "Medium Images (250x250)",
-            "Large Images (1000x1000)",
-            "Huge Images (4000x4000)",
+            "Tiny Imbges (1x1)",
+            "Smbll Imbges (20x20)",
+            "Medium Imbges (250x250)",
+            "Lbrge Imbges (1000x1000)",
+            "Huge Imbges (4000x4000)",
         };
         sizeList = new Option.IntList(opOptionsRoot,
-                                      "size", "Image Size",
+                                      "size", "Imbge Size",
                                       sizes, sizeStrs, sizeDescs, 0x4);
         ((Option.ObjectList) sizeList).setNumRows(5);
 
-        // image content
-        ImageContent[] c = ImageContent.values();
+        // imbge content
+        ImbgeContent[] c = ImbgeContent.vblues();
 
         String[] contentStrs = new String[c.length];
         String[] contentDescs = new String[c.length];
 
         for (int i = 0; i < c.length; i++) {
-            contentStrs[i] = c[i].name;
+            contentStrs[i] = c[i].nbme;
             contentDescs[i] = c[i].descr;
         };
 
         contentList = new Option.ObjectList(opOptionsRoot,
-                                            "content", "Image Content",
+                                            "content", "Imbge Content",
                                             contentStrs, c,
                                             contentStrs, contentDescs,
                                             0x8);
 
-        sourceType = createImageTypeList(ListType.SRC);
+        sourceType = crebteImbgeTypeList(ListType.SRC);
 
-        destinationType = createImageTypeList(ListType.DST);
+        destinbtionType = crebteImbgeTypeList(ListType.DST);
 
-        new ConvertImageTest();
-        new ConvertRasterTest();
-        new DrawImageTest();
+        new ConvertImbgeTest();
+        new ConvertRbsterTest();
+        new DrbwImbgeTest();
     }
 
-    public ColorConvertOpTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
-        addDependencies(opOptionsRoot, true);
+    public ColorConvertOpTests(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
+        bddDependencies(opOptionsRoot, true);
     }
 
     public Object initTest(TestEnvironment env, Result res) {
         return new Context(env, res);
     }
 
-    public void cleanupTest(TestEnvironment env, Object o) {
+    public void clebnupTest(TestEnvironment env, Object o) {
         Context ctx = (Context)o;
         ctx.cs = null;
         ctx.op_img = null;
         ctx.op_rst = null;
         ctx.dst = null;
         ctx.src = null;
-        ctx.graphics = null;
+        ctx.grbphics = null;
     }
 
-    private static class Context {
-        ColorSpace cs;
-        Graphics2D graphics;
+    privbte stbtic clbss Context {
+        ColorSpbce cs;
+        Grbphics2D grbphics;
         ColorConvertOp op_img;
         ColorConvertOp op_rst;
 
-        BufferedImage src;
-        BufferedImage dst;
+        BufferedImbge src;
+        BufferedImbge dst;
 
-        WritableRaster rsrc;
-        WritableRaster rdst;
+        WritbbleRbster rsrc;
+        WritbbleRbster rdst;
 
         public Context(TestEnvironment env, Result res) {
 
-            graphics = (Graphics2D)env.getGraphics();
-            cs = getColorSpace(env);
+            grbphics = (Grbphics2D)env.getGrbphics();
+            cs = getColorSpbce(env);
 
             // TODO: provide rendering hints
             op_img = new ColorConvertOp(cs, null);
-            ColorSpace sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+            ColorSpbce sRGB = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
             op_rst = new ColorConvertOp(sRGB, cs, null);
 
-            int size = env.getIntValue(sizeList);
+            int size = env.getIntVblue(sizeList);
 
-            ImageContent content = (ImageContent)env.getModifier(contentList);
-            ImageType srcType = (ImageType)env.getModifier(sourceType);
+            ImbgeContent content = (ImbgeContent)env.getModifier(contentList);
+            ImbgeType srcType = (ImbgeType)env.getModifier(sourceType);
 
-            src = createBufferedImage(size, size, content, srcType.type);
-            rsrc = src.getRaster();
+            src = crebteBufferedImbge(size, size, content, srcType.type);
+            rsrc = src.getRbster();
 
-            ImageType dstType = (ImageType)env.getModifier(destinationType);
-            if (dstType == ImageType.COMPATIBLE_DST) {
-                dst = op_img.createCompatibleDestImage(src, null);
+            ImbgeType dstType = (ImbgeType)env.getModifier(destinbtionType);
+            if (dstType == ImbgeType.COMPATIBLE_DST) {
+                dst = op_img.crebteCompbtibleDestImbge(src, null);
             } else {
-                dst = createBufferedImage(size, size, content, dstType.type);
+                dst = crebteBufferedImbge(size, size, content, dstType.type);
             }
-            // raster always has to be comatible
-            rdst = op_rst.createCompatibleDestRaster(rsrc);
+            // rbster blwbys hbs to be combtible
+            rdst = op_rst.crebteCompbtibleDestRbster(rsrc);
         }
     }
 
-    private static class ConvertImageTest extends ColorConvertOpTests {
-        public ConvertImageTest() {
-            super(opConvRoot, "op_img", "op.filetr(BufferedImage)");
+    privbte stbtic clbss ConvertImbgeTest extends ColorConvertOpTests {
+        public ConvertImbgeTest() {
+            super(opConvRoot, "op_img", "op.filetr(BufferedImbge)");
         }
 
         public void runTest(Object octx, int numReps) {
-            final Context ctx = (Context)octx;
-            final ColorConvertOp op = ctx.op_img;
+            finbl Context ctx = (Context)octx;
+            finbl ColorConvertOp op = ctx.op_img;
 
-            final BufferedImage src = ctx.src;
-            BufferedImage dst = ctx.dst;
+            finbl BufferedImbge src = ctx.src;
+            BufferedImbge dst = ctx.dst;
             do {
                 try {
                     dst = op.filter(src, dst);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } cbtch (Exception e) {
+                    e.printStbckTrbce();
                 }
             } while (--numReps >= 0);
         }
     }
 
-    private static class ConvertRasterTest extends ColorConvertOpTests {
-        public ConvertRasterTest() {
-            super(opConvRoot, "op_rst", "op.filetr(Raster)");
+    privbte stbtic clbss ConvertRbsterTest extends ColorConvertOpTests {
+        public ConvertRbsterTest() {
+            super(opConvRoot, "op_rst", "op.filetr(Rbster)");
         }
 
         public void runTest(Object octx, int numReps) {
-            final Context ctx = (Context)octx;
-            final ColorConvertOp op = ctx.op_rst;
+            finbl Context ctx = (Context)octx;
+            finbl ColorConvertOp op = ctx.op_rst;
 
-            final Raster src = ctx.rsrc;
-            WritableRaster dst = ctx.rdst;
+            finbl Rbster src = ctx.rsrc;
+            WritbbleRbster dst = ctx.rdst;
             do {
                 try {
                     dst = op.filter(src, dst);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } cbtch (Exception e) {
+                    e.printStbckTrbce();
                 }
             } while (--numReps >= 0);
         }
     }
 
-    private static class DrawImageTest extends ColorConvertOpTests {
-        public DrawImageTest() {
-            super(opConvRoot, "op_draw", "drawImage(ColorConvertOp)");
+    privbte stbtic clbss DrbwImbgeTest extends ColorConvertOpTests {
+        public DrbwImbgeTest() {
+            super(opConvRoot, "op_drbw", "drbwImbge(ColorConvertOp)");
         }
 
         public void runTest(Object octx, int numReps) {
-            final Context ctx = (Context)octx;
-            final ColorConvertOp op = ctx.op_img;
+            finbl Context ctx = (Context)octx;
+            finbl ColorConvertOp op = ctx.op_img;
 
-            final Graphics2D g = ctx.graphics;
+            finbl Grbphics2D g = ctx.grbphics;
 
-            final BufferedImage src = ctx.src;
+            finbl BufferedImbge src = ctx.src;
 
             do {
-                g.drawImage(src, op, 0, 0);
+                g.drbwImbge(src, op, 0, 0);
             } while (--numReps >= 0);
         }
     }
@@ -312,72 +312,72 @@ public class ColorConvertOpTests extends ColorConversionTests {
     /**************************************************************************
      ******                    Helper routines
      *************************************************************************/
-    protected static BufferedImage createBufferedImage(int width,
+    protected stbtic BufferedImbge crebteBufferedImbge(int width,
                                                        int height,
-                                                       ImageContent contentType,
+                                                       ImbgeContent contentType,
                                                        int type)
     {
-        BufferedImage image;
-        image = new BufferedImage(width, height, type);
-        boolean hasAlpha = image.getColorModel().hasAlpha();
+        BufferedImbge imbge;
+        imbge = new BufferedImbge(width, height, type);
+        boolebn hbsAlphb = imbge.getColorModel().hbsAlphb();
         switch (contentType) {
-            case RANDOM:
+            cbse RANDOM:
                 for (int y = 0; y < height; y++) {
                     for (int x = 0; x < width; x++) {
-                        int rgb = (int)(Math.random() * 0xffffff);
-                        if (hasAlpha) {
+                        int rgb = (int)(Mbth.rbndom() * 0xffffff);
+                        if (hbsAlphb) {
                             rgb |= 0x7f000000;
                         }
-                        image.setRGB(x, y, rgb);
+                        imbge.setRGB(x, y, rgb);
                     }
                 }
-                break;
-            case VECTOR:
+                brebk;
+            cbse VECTOR:
                 {
-                    Graphics2D g = image.createGraphics();
-                    if (hasAlpha) {
-                        // fill background with a translucent color
-                        g.setComposite(AlphaComposite.getInstance(
-                                           AlphaComposite.SRC, 0.5f));
+                    Grbphics2D g = imbge.crebteGrbphics();
+                    if (hbsAlphb) {
+                        // fill bbckground with b trbnslucent color
+                        g.setComposite(AlphbComposite.getInstbnce(
+                                           AlphbComposite.SRC, 0.5f));
                     }
                     g.setColor(Color.blue);
                     g.fillRect(0, 0, width, height);
-                    g.setComposite(AlphaComposite.Src);
+                    g.setComposite(AlphbComposite.Src);
                     g.setColor(Color.yellow);
-                    g.fillOval(2, 2, width-4, height-4);
+                    g.fillOvbl(2, 2, width-4, height-4);
                     g.setColor(Color.red);
-                    g.fillOval(4, 4, width-8, height-8);
+                    g.fillOvbl(4, 4, width-8, height-8);
                     g.setColor(Color.green);
                     g.fillRect(8, 8, width-16, height-16);
                     g.setColor(Color.white);
-                    g.drawLine(0, 0, width, height);
-                    g.drawLine(0, height, width, 0);
+                    g.drbwLine(0, 0, width, height);
+                    g.drbwLine(0, height, width, 0);
                     g.dispose();
-                    break;
+                    brebk;
                 }
-            case PHOTO:
+            cbse PHOTO:
                 {
-                    Image photo = null;
+                    Imbge photo = null;
                     try {
-                        photo = ImageIO.read(
-                            IIOTests.class.getResourceAsStream("images/photo.jpg"));
-                    } catch (Exception e) {
-                        System.err.println("error loading photo");
-                        e.printStackTrace();
+                        photo = ImbgeIO.rebd(
+                            IIOTests.clbss.getResourceAsStrebm("imbges/photo.jpg"));
+                    } cbtch (Exception e) {
+                        System.err.println("error lobding photo");
+                        e.printStbckTrbce();
                     }
-                    Graphics2D g = image.createGraphics();
-                    if (hasAlpha) {
-                        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC,
+                    Grbphics2D g = imbge.crebteGrbphics();
+                    if (hbsAlphb) {
+                        g.setComposite(AlphbComposite.getInstbnce(AlphbComposite.SRC,
                                                                   0.5f));
                     }
-                    g.drawImage(photo, 0, 0, width, height, null);
+                    g.drbwImbge(photo, 0, 0, width, height, null);
                     g.dispose();
-                    break;
+                    brebk;
                 }
-            default:
-                break;
+            defbult:
+                brebk;
         }
 
-        return image;
+        return imbge;
     }
 }

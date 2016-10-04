@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.*;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAccessor;
 
-class XCheckboxMenuItemPeer extends XMenuItemPeer implements CheckboxMenuItemPeer {
+clbss XCheckboxMenuItemPeer extends XMenuItemPeer implements CheckboxMenuItemPeer {
 
     /************************************************
      *
      * Construction
      *
      ************************************************/
-    XCheckboxMenuItemPeer(CheckboxMenuItem target) {
-        super(target);
+    XCheckboxMenuItemPeer(CheckboxMenuItem tbrget) {
+        super(tbrget);
     }
 
     /************************************************
      *
-     * Implementaion of interface methods
+     * Implementbion of interfbce methods
      *
      ************************************************/
 
     //Prom CheckboxMenuItemtPeer
-    public void setState(boolean t) {
-        repaintIfShowing();
+    public void setStbte(boolebn t) {
+        repbintIfShowing();
     }
 
     /************************************************
      *
-     * Access to target's fields
+     * Access to tbrget's fields
      *
      ************************************************/
-    boolean getTargetState() {
+    boolebn getTbrgetStbte() {
         return AWTAccessor.getCheckboxMenuItemAccessor()
-                   .getState((CheckboxMenuItem)getTarget());
+                   .getStbte((CheckboxMenuItem)getTbrget());
     }
 
     /************************************************
@@ -70,12 +70,12 @@ class XCheckboxMenuItemPeer extends XMenuItemPeer implements CheckboxMenuItemPee
      ************************************************/
 
     /**
-     * Toggles state and generates ItemEvent
+     * Toggles stbte bnd generbtes ItemEvent
      */
-    void action(final long when) {
-        XToolkit.executeOnEventHandlerThread((CheckboxMenuItem)getTarget(), new Runnable() {
+    void bction(finbl long when) {
+        XToolkit.executeOnEventHbndlerThrebd((CheckboxMenuItem)getTbrget(), new Runnbble() {
                 public void run() {
-                    doToggleState(when);
+                    doToggleStbte(when);
                 }
             });
     }
@@ -83,25 +83,25 @@ class XCheckboxMenuItemPeer extends XMenuItemPeer implements CheckboxMenuItemPee
 
     /************************************************
      *
-     * Private
+     * Privbte
      *
      ************************************************/
-    private void doToggleState(long when) {
-        CheckboxMenuItem cb = (CheckboxMenuItem)getTarget();
-        boolean newState = !getTargetState();
-        cb.setState(newState);
+    privbte void doToggleStbte(long when) {
+        CheckboxMenuItem cb = (CheckboxMenuItem)getTbrget();
+        boolebn newStbte = !getTbrgetStbte();
+        cb.setStbte(newStbte);
         ItemEvent e = new ItemEvent(cb,
                                     ItemEvent.ITEM_STATE_CHANGED,
-                                    getTargetLabel(),
-                                    getTargetState() ? ItemEvent.SELECTED : ItemEvent.DESELECTED);
-        XWindow.postEventStatic(e);
+                                    getTbrgetLbbel(),
+                                    getTbrgetStbte() ? ItemEvent.SELECTED : ItemEvent.DESELECTED);
+        XWindow.postEventStbtic(e);
         //WToolkit does not post ActionEvent when clicking on menu item
         //MToolkit _does_ post.
-        //Fix for 5005195 MAWT: CheckboxMenuItem fires action events
+        //Fix for 5005195 MAWT: CheckboxMenuItem fires bction events
         //Events should not be fired
-        //XWindow.postEventStatic(new ActionEvent(cb, ActionEvent.ACTION_PERFORMED,
-        //                                        getTargetActionCommand(), when,
+        //XWindow.postEventStbtic(new ActionEvent(cb, ActionEvent.ACTION_PERFORMED,
+        //                                        getTbrgetActionCommbnd(), when,
         //                                        0));
     }
 
-} // class XCheckboxMenuItemPeer
+} // clbss XCheckboxMenuItemPeer

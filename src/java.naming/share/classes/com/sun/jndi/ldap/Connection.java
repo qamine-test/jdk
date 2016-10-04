@@ -1,283 +1,283 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.InterruptedIOException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import javax.net.ssl.SSLSocket;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.io.InterruptedIOException;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.net.InetSocketAddress;
+import jbvb.net.Socket;
+import jbvbx.net.ssl.SSLSocket;
 
-import javax.naming.CommunicationException;
-import javax.naming.ServiceUnavailableException;
-import javax.naming.NamingException;
-import javax.naming.InterruptedNamingException;
+import jbvbx.nbming.CommunicbtionException;
+import jbvbx.nbming.ServiceUnbvbilbbleException;
+import jbvbx.nbming.NbmingException;
+import jbvbx.nbming.InterruptedNbmingException;
 
-import javax.naming.ldap.Control;
+import jbvbx.nbming.ldbp.Control;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.util.Arrbys;
 import sun.misc.IOUtils;
-import javax.net.SocketFactory;
+import jbvbx.net.SocketFbctory;
 
 /**
-  * A thread that creates a connection to an LDAP server.
-  * After the connection, the thread reads from the connection.
-  * A caller can invoke methods on the instance to read LDAP responses
-  * and to send LDAP requests.
+  * A threbd thbt crebtes b connection to bn LDAP server.
+  * After the connection, the threbd rebds from the connection.
+  * A cbller cbn invoke methods on the instbnce to rebd LDAP responses
+  * bnd to send LDAP requests.
   * <p>
-  * There is a one-to-one correspondence between an LdapClient and
-  * a Connection. Access to Connection and its methods is only via
-  * LdapClient with two exceptions: SASL authentication and StartTLS.
-  * SASL needs to access Connection's socket IO streams (in order to do encryption
-  * of the security layer). StartTLS needs to do replace IO streams
-  * and close the IO  streams on nonfatal close. The code for SASL
-  * authentication can be treated as being the same as from LdapClient
-  * because the SASL code is only ever called from LdapClient, from
-  * inside LdapClient's synchronized authenticate() method. StartTLS is called
-  * directly by the application but should only occur when the underlying
+  * There is b one-to-one correspondence between bn LdbpClient bnd
+  * b Connection. Access to Connection bnd its methods is only vib
+  * LdbpClient with two exceptions: SASL buthenticbtion bnd StbrtTLS.
+  * SASL needs to bccess Connection's socket IO strebms (in order to do encryption
+  * of the security lbyer). StbrtTLS needs to do replbce IO strebms
+  * bnd close the IO  strebms on nonfbtbl close. The code for SASL
+  * buthenticbtion cbn be trebted bs being the sbme bs from LdbpClient
+  * becbuse the SASL code is only ever cblled from LdbpClient, from
+  * inside LdbpClient's synchronized buthenticbte() method. StbrtTLS is cblled
+  * directly by the bpplicbtion but should only occur when the underlying
   * connection is quiet.
   * <p>
-  * In terms of synchronization, worry about data structures
-  * used by the Connection thread because that usage might contend
-  * with calls by the main threads (i.e., those that call LdapClient).
-  * Main threads need to worry about contention with each other.
-  * Fields that Connection thread uses:
-  *     inStream - synced access and update; initialized in constructor;
-  *           referenced outside class unsync'ed (by LdapSasl) only
+  * In terms of synchronizbtion, worry bbout dbtb structures
+  * used by the Connection threbd becbuse thbt usbge might contend
+  * with cblls by the mbin threbds (i.e., those thbt cbll LdbpClient).
+  * Mbin threbds need to worry bbout contention with ebch other.
+  * Fields thbt Connection threbd uses:
+  *     inStrebm - synced bccess bnd updbte; initiblized in constructor;
+  *           referenced outside clbss unsync'ed (by LdbpSbsl) only
   *           when connection is quiet
-  *     traceFile, traceTagIn, traceTagOut - no sync; debugging only
-  *     parent - no sync; initialized in constructor; no updates
+  *     trbceFile, trbceTbgIn, trbceTbgOut - no sync; debugging only
+  *     pbrent - no sync; initiblized in constructor; no updbtes
   *     pendingRequests - sync
-  *     pauseLock - per-instance lock;
-  *     paused - sync via pauseLock (pauseReader())
-  * Members used by main threads (LdapClient):
-  *     host, port - unsync; read-only access for StartTLS and debug messages
-  *     setBound(), setV3() - no sync; called only by LdapClient.authenticate(),
-  *             which is a sync method called only when connection is "quiet"
+  *     pbuseLock - per-instbnce lock;
+  *     pbused - sync vib pbuseLock (pbuseRebder())
+  * Members used by mbin threbds (LdbpClient):
+  *     host, port - unsync; rebd-only bccess for StbrtTLS bnd debug messbges
+  *     setBound(), setV3() - no sync; cblled only by LdbpClient.buthenticbte(),
+  *             which is b sync method cblled only when connection is "quiet"
   *     getMsgId() - sync
-  *     writeRequest(), removeRequest(),findRequest(), abandonOutstandingReqs() -
-  *             access to shared pendingRequests is sync
-  *     writeRequest(),  abandonRequest(), ldapUnbind() - access to outStream sync
-  *     cleanup() - sync
-  *     readReply() - access to sock sync
-  *     unpauseReader() - (indirectly via writeRequest) sync on pauseLock
-  * Members used by SASL auth (main thread):
-  *     inStream, outStream - no sync; used to construct new stream; accessed
-  *             only when conn is "quiet" and not shared
-  *     replaceStreams() - sync method
-  * Members used by StartTLS:
-  *     inStream, outStream - no sync; used to record the existing streams;
-  *             accessed only when conn is "quiet" and not shared
-  *     replaceStreams() - sync method
+  *     writeRequest(), removeRequest(),findRequest(), bbbndonOutstbndingReqs() -
+  *             bccess to shbred pendingRequests is sync
+  *     writeRequest(),  bbbndonRequest(), ldbpUnbind() - bccess to outStrebm sync
+  *     clebnup() - sync
+  *     rebdReply() - bccess to sock sync
+  *     unpbuseRebder() - (indirectly vib writeRequest) sync on pbuseLock
+  * Members used by SASL buth (mbin threbd):
+  *     inStrebm, outStrebm - no sync; used to construct new strebm; bccessed
+  *             only when conn is "quiet" bnd not shbred
+  *     replbceStrebms() - sync method
+  * Members used by StbrtTLS:
+  *     inStrebm, outStrebm - no sync; used to record the existing strebms;
+  *             bccessed only when conn is "quiet" bnd not shbred
+  *     replbceStrebms() - sync method
   * <p>
-  * Handles anonymous, simple, and SASL bind for v3; anonymous and simple
+  * Hbndles bnonymous, simple, bnd SASL bind for v3; bnonymous bnd simple
   * for v2.
-  * %%% made public for access by LdapSasl %%%
+  * %%% mbde public for bccess by LdbpSbsl %%%
   *
-  * @author Vincent Ryan
-  * @author Rosanna Lee
-  * @author Jagane Sundar
+  * @buthor Vincent Rybn
+  * @buthor Rosbnnb Lee
+  * @buthor Jbgbne Sundbr
   */
-public final class Connection implements Runnable {
+public finbl clbss Connection implements Runnbble {
 
-    private static final boolean debug = false;
-    private static final int dump = 0; // > 0 r, > 1 rw
-    public static final long DEFAULT_READ_TIMEOUT_MILLIS = 15 * 1000; // 15 second timeout;
+    privbte stbtic finbl boolebn debug = fblse;
+    privbte stbtic finbl int dump = 0; // > 0 r, > 1 rw
+    public stbtic finbl long DEFAULT_READ_TIMEOUT_MILLIS = 15 * 1000; // 15 second timeout;
 
 
-    final private Thread worker;    // Initialized in constructor
+    finbl privbte Threbd worker;    // Initiblized in constructor
 
-    private boolean v3 = true;       // Set in setV3()
+    privbte boolebn v3 = true;       // Set in setV3()
 
-    final public String host;  // used by LdapClient for generating exception messages
-                         // used by StartTlsResponse when creating an SSL socket
-    final public int port;     // used by LdapClient for generating exception messages
-                         // used by StartTlsResponse when creating an SSL socket
+    finbl public String host;  // used by LdbpClient for generbting exception messbges
+                         // used by StbrtTlsResponse when crebting bn SSL socket
+    finbl public int port;     // used by LdbpClient for generbting exception messbges
+                         // used by StbrtTlsResponse when crebting bn SSL socket
 
-    private boolean bound = false;   // Set in setBound()
+    privbte boolebn bound = fblse;   // Set in setBound()
 
-    // All three are initialized in constructor and read-only afterwards
-    private OutputStream traceFile = null;
-    private String traceTagIn = null;
-    private String traceTagOut = null;
+    // All three bre initiblized in constructor bnd rebd-only bfterwbrds
+    privbte OutputStrebm trbceFile = null;
+    privbte String trbceTbgIn = null;
+    privbte String trbceTbgOut = null;
 
-    // Initialized in constructor; read and used externally (LdapSasl);
-    // Updated in replaceStreams() during "quiet", unshared, period
-    public InputStream inStream;   // must be public; used by LdapSasl
+    // Initiblized in constructor; rebd bnd used externblly (LdbpSbsl);
+    // Updbted in replbceStrebms() during "quiet", unshbred, period
+    public InputStrebm inStrebm;   // must be public; used by LdbpSbsl
 
-    // Initialized in constructor; read and used externally (LdapSasl);
-    // Updated in replaceOutputStream() during "quiet", unshared, period
-    public OutputStream outStream; // must be public; used by LdapSasl
+    // Initiblized in constructor; rebd bnd used externblly (LdbpSbsl);
+    // Updbted in replbceOutputStrebm() during "quiet", unshbred, period
+    public OutputStrebm outStrebm; // must be public; used by LdbpSbsl
 
-    // Initialized in constructor; read and used externally (TLS) to
-    // get new IO streams; closed during cleanup
+    // Initiblized in constructor; rebd bnd used externblly (TLS) to
+    // get new IO strebms; closed during clebnup
     public Socket sock;            // for TLS
 
-    // For processing "disconnect" unsolicited notification
-    // Initialized in constructor
-    final private LdapClient parent;
+    // For processing "disconnect" unsolicited notificbtion
+    // Initiblized in constructor
+    finbl privbte LdbpClient pbrent;
 
-    // Incremented and returned in sync getMsgId()
-    private int outMsgId = 0;
+    // Incremented bnd returned in sync getMsgId()
+    privbte int outMsgId = 0;
 
     //
-    // The list of ldapRequests pending on this binding
+    // The list of ldbpRequests pending on this binding
     //
     // Accessed only within sync methods
-    private LdapRequest pendingRequests = null;
+    privbte LdbpRequest pendingRequests = null;
 
-    volatile IOException closureReason = null;
-    volatile boolean useable = true;  // is Connection still useable
+    volbtile IOException closureRebson = null;
+    volbtile boolebn usebble = true;  // is Connection still usebble
 
-    int readTimeout;
+    int rebdTimeout;
     int connectTimeout;
 
-    // true means v3; false means v2
-    // Called in LdapClient.authenticate() (which is synchronized)
-    // when connection is "quiet" and not shared; no need to synchronize
-    void setV3(boolean v) {
+    // true mebns v3; fblse mebns v2
+    // Cblled in LdbpClient.buthenticbte() (which is synchronized)
+    // when connection is "quiet" bnd not shbred; no need to synchronize
+    void setV3(boolebn v) {
         v3 = v;
     }
 
-    // A BIND request has been successfully made on this connection
-    // When cleaning up, remember to do an UNBIND
-    // Called in LdapClient.authenticate() (which is synchronized)
-    // when connection is "quiet" and not shared; no need to synchronize
+    // A BIND request hbs been successfully mbde on this connection
+    // When clebning up, remember to do bn UNBIND
+    // Cblled in LdbpClient.buthenticbte() (which is synchronized)
+    // when connection is "quiet" bnd not shbred; no need to synchronize
     void setBound() {
         bound = true;
     }
 
     ////////////////////////////////////////////////////////////////////////////
     //
-    // Create an LDAP Binding object and bind to a particular server
+    // Crebte bn LDAP Binding object bnd bind to b pbrticulbr server
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    Connection(LdapClient parent, String host, int port, String socketFactory,
-        int connectTimeout, int readTimeout, OutputStream trace) throws NamingException {
+    Connection(LdbpClient pbrent, String host, int port, String socketFbctory,
+        int connectTimeout, int rebdTimeout, OutputStrebm trbce) throws NbmingException {
 
         this.host = host;
         this.port = port;
-        this.parent = parent;
-        this.readTimeout = readTimeout;
+        this.pbrent = pbrent;
+        this.rebdTimeout = rebdTimeout;
         this.connectTimeout = connectTimeout;
 
-        if (trace != null) {
-            traceFile = trace;
-            traceTagIn = "<- " + host + ":" + port + "\n\n";
-            traceTagOut = "-> " + host + ":" + port + "\n\n";
+        if (trbce != null) {
+            trbceFile = trbce;
+            trbceTbgIn = "<- " + host + ":" + port + "\n\n";
+            trbceTbgOut = "-> " + host + ":" + port + "\n\n";
         }
 
         //
         // Connect to server
         //
         try {
-            sock = createSocket(host, port, socketFactory, connectTimeout);
+            sock = crebteSocket(host, port, socketFbctory, connectTimeout);
 
             if (debug) {
                 System.err.println("Connection: opening socket: " + host + "," + port);
             }
 
-            inStream = new BufferedInputStream(sock.getInputStream());
-            outStream = new BufferedOutputStream(sock.getOutputStream());
+            inStrebm = new BufferedInputStrebm(sock.getInputStrebm());
+            outStrebm = new BufferedOutputStrebm(sock.getOutputStrebm());
 
-        } catch (InvocationTargetException e) {
-            Throwable realException = e.getTargetException();
-            // realException.printStackTrace();
+        } cbtch (InvocbtionTbrgetException e) {
+            Throwbble reblException = e.getTbrgetException();
+            // reblException.printStbckTrbce();
 
-            CommunicationException ce =
-                new CommunicationException(host + ":" + port);
-            ce.setRootCause(realException);
+            CommunicbtionException ce =
+                new CommunicbtionException(host + ":" + port);
+            ce.setRootCbuse(reblException);
             throw ce;
-        } catch (Exception e) {
-            // We need to have a catch all here and
+        } cbtch (Exception e) {
+            // We need to hbve b cbtch bll here bnd
             // ignore generic exceptions.
-            // Also catches all IO errors generated by socket creation.
-            CommunicationException ce =
-                new CommunicationException(host + ":" + port);
-            ce.setRootCause(e);
+            // Also cbtches bll IO errors generbted by socket crebtion.
+            CommunicbtionException ce =
+                new CommunicbtionException(host + ":" + port);
+            ce.setRootCbuse(e);
             throw ce;
         }
 
-        worker = Obj.helper.createThread(this);
-        worker.setDaemon(true);
-        worker.start();
+        worker = Obj.helper.crebteThrebd(this);
+        worker.setDbemon(true);
+        worker.stbrt();
     }
 
     /*
-     * Create an InetSocketAddress using the specified hostname and port number.
+     * Crebte bn InetSocketAddress using the specified hostnbme bnd port number.
      */
-    private InetSocketAddress createInetSocketAddress(String host, int port) {
+    privbte InetSocketAddress crebteInetSocketAddress(String host, int port) {
             return new InetSocketAddress(host, port);
     }
 
     /*
-     * Create a Socket object using the specified socket factory and time limit.
+     * Crebte b Socket object using the specified socket fbctory bnd time limit.
      *
-     * If a timeout is supplied and unconnected sockets are supported then
-     * an unconnected socket is created and the timeout is applied when
-     * connecting the socket. If a timeout is supplied but unconnected sockets
-     * are not supported then the timeout is ignored and a connected socket
-     * is created.
+     * If b timeout is supplied bnd unconnected sockets bre supported then
+     * bn unconnected socket is crebted bnd the timeout is bpplied when
+     * connecting the socket. If b timeout is supplied but unconnected sockets
+     * bre not supported then the timeout is ignored bnd b connected socket
+     * is crebted.
      */
-    private Socket createSocket(String host, int port, String socketFactory,
+    privbte Socket crebteSocket(String host, int port, String socketFbctory,
             int connectTimeout) throws Exception {
 
         Socket socket = null;
 
-        if (socketFactory != null) {
+        if (socketFbctory != null) {
 
-            // create the factory
+            // crebte the fbctory
 
-            @SuppressWarnings("unchecked")
-            Class<? extends SocketFactory> socketFactoryClass =
-                (Class<? extends SocketFactory>)Obj.helper.loadClass(socketFactory);
-            Method getDefault =
-                socketFactoryClass.getMethod("getDefault", new Class<?>[]{});
-            SocketFactory factory = (SocketFactory) getDefault.invoke(null, new Object[]{});
+            @SuppressWbrnings("unchecked")
+            Clbss<? extends SocketFbctory> socketFbctoryClbss =
+                (Clbss<? extends SocketFbctory>)Obj.helper.lobdClbss(socketFbctory);
+            Method getDefbult =
+                socketFbctoryClbss.getMethod("getDefbult", new Clbss<?>[]{});
+            SocketFbctory fbctory = (SocketFbctory) getDefbult.invoke(null, new Object[]{});
 
-            // create the socket
+            // crebte the socket
 
             if (connectTimeout > 0) {
 
                 InetSocketAddress endpoint =
-                        createInetSocketAddress(host, port);
+                        crebteInetSocketAddress(host, port);
 
                 // unconnected socket
-                socket = factory.createSocket();
+                socket = fbctory.crebteSocket();
 
                 if (debug) {
-                    System.err.println("Connection: creating socket with " +
-                            "a timeout using supplied socket factory");
+                    System.err.println("Connection: crebting socket with " +
+                            "b timeout using supplied socket fbctory");
                 }
 
                 // connected socket
@@ -287,23 +287,23 @@ public final class Connection implements Runnable {
             // continue (but ignore connectTimeout)
             if (socket == null) {
                 if (debug) {
-                    System.err.println("Connection: creating socket using " +
-                        "supplied socket factory");
+                    System.err.println("Connection: crebting socket using " +
+                        "supplied socket fbctory");
                 }
                 // connected socket
-                socket = factory.createSocket(host, port);
+                socket = fbctory.crebteSocket(host, port);
             }
         } else {
 
             if (connectTimeout > 0) {
 
-                    InetSocketAddress endpoint = createInetSocketAddress(host, port);
+                    InetSocketAddress endpoint = crebteInetSocketAddress(host, port);
 
                     socket = new Socket();
 
                     if (debug) {
-                        System.err.println("Connection: creating socket with " +
-                            "a timeout");
+                        System.err.println("Connection: crebting socket with " +
+                            "b timeout");
                     }
                     socket.connect(endpoint, connectTimeout);
             }
@@ -312,23 +312,23 @@ public final class Connection implements Runnable {
 
             if (socket == null) {
                 if (debug) {
-                    System.err.println("Connection: creating socket");
+                    System.err.println("Connection: crebting socket");
                 }
                 // connected socket
                 socket = new Socket(host, port);
             }
         }
 
-        // For LDAP connect timeouts on LDAP over SSL connections must treat
-        // the SSL handshake following socket connection as part of the timeout.
-        // So explicitly set a socket read timeout, trigger the SSL handshake,
+        // For LDAP connect timeouts on LDAP over SSL connections must trebt
+        // the SSL hbndshbke following socket connection bs pbrt of the timeout.
+        // So explicitly set b socket rebd timeout, trigger the SSL hbndshbke,
         // then reset the timeout.
-        if (connectTimeout > 0 && socket instanceof SSLSocket) {
+        if (connectTimeout > 0 && socket instbnceof SSLSocket) {
             SSLSocket sslSocket = (SSLSocket) socket;
             int socketTimeout = sslSocket.getSoTimeout();
 
-            sslSocket.setSoTimeout(connectTimeout); // reuse full timeout value
-            sslSocket.startHandshake();
+            sslSocket.setSoTimeout(connectTimeout); // reuse full timeout vblue
+            sslSocket.stbrtHbndshbke();
             sslSocket.setSoTimeout(socketTimeout);
         }
 
@@ -345,93 +345,93 @@ public final class Connection implements Runnable {
         return ++outMsgId;
     }
 
-    LdapRequest writeRequest(BerEncoder ber, int msgId) throws IOException {
-        return writeRequest(ber, msgId, false /* pauseAfterReceipt */, -1);
+    LdbpRequest writeRequest(BerEncoder ber, int msgId) throws IOException {
+        return writeRequest(ber, msgId, fblse /* pbuseAfterReceipt */, -1);
     }
 
-    LdapRequest writeRequest(BerEncoder ber, int msgId,
-        boolean pauseAfterReceipt) throws IOException {
-        return writeRequest(ber, msgId, pauseAfterReceipt, -1);
+    LdbpRequest writeRequest(BerEncoder ber, int msgId,
+        boolebn pbuseAfterReceipt) throws IOException {
+        return writeRequest(ber, msgId, pbuseAfterReceipt, -1);
     }
 
-    LdapRequest writeRequest(BerEncoder ber, int msgId,
-        boolean pauseAfterReceipt, int replyQueueCapacity) throws IOException {
+    LdbpRequest writeRequest(BerEncoder ber, int msgId,
+        boolebn pbuseAfterReceipt, int replyQueueCbpbcity) throws IOException {
 
-        LdapRequest req =
-            new LdapRequest(msgId, pauseAfterReceipt, replyQueueCapacity);
-        addRequest(req);
+        LdbpRequest req =
+            new LdbpRequest(msgId, pbuseAfterReceipt, replyQueueCbpbcity);
+        bddRequest(req);
 
-        if (traceFile != null) {
-            Ber.dumpBER(traceFile, traceTagOut, ber.getBuf(), 0, ber.getDataLen());
+        if (trbceFile != null) {
+            Ber.dumpBER(trbceFile, trbceTbgOut, ber.getBuf(), 0, ber.getDbtbLen());
         }
 
 
-        // unpause reader so that it can get response
+        // unpbuse rebder so thbt it cbn get response
         // NOTE: Must do this before writing request, otherwise might
-        // create a race condition where the writer unblocks its own response
-        unpauseReader();
+        // crebte b rbce condition where the writer unblocks its own response
+        unpbuseRebder();
 
         if (debug) {
-            System.err.println("Writing request to: " + outStream);
+            System.err.println("Writing request to: " + outStrebm);
         }
 
         try {
             synchronized (this) {
-                outStream.write(ber.getBuf(), 0, ber.getDataLen());
-                outStream.flush();
+                outStrebm.write(ber.getBuf(), 0, ber.getDbtbLen());
+                outStrebm.flush();
             }
-        } catch (IOException e) {
-            cleanup(null, true);
-            throw (closureReason = e); // rethrow
+        } cbtch (IOException e) {
+            clebnup(null, true);
+            throw (closureRebson = e); // rethrow
         }
 
         return req;
     }
 
     /**
-     * Reads a reply; waits until one is ready.
+     * Rebds b reply; wbits until one is rebdy.
      */
-    BerDecoder readReply(LdapRequest ldr)
-            throws IOException, NamingException {
+    BerDecoder rebdReply(LdbpRequest ldr)
+            throws IOException, NbmingException {
         BerDecoder rber;
-        boolean waited = false;
+        boolebn wbited = fblse;
 
-        while (((rber = ldr.getReplyBer()) == null) && !waited) {
+        while (((rber = ldr.getReplyBer()) == null) && !wbited) {
             try {
                 // If socket closed, don't even try
                 synchronized (this) {
                     if (sock == null) {
-                        throw new ServiceUnavailableException(host + ":" + port +
+                        throw new ServiceUnbvbilbbleException(host + ":" + port +
                             "; socket closed");
                     }
                 }
                 synchronized (ldr) {
-                    // check if condition has changed since our last check
+                    // check if condition hbs chbnged since our lbst check
                     rber = ldr.getReplyBer();
                     if (rber == null) {
-                        if (readTimeout > 0) {  // Socket read timeout is specified
+                        if (rebdTimeout > 0) {  // Socket rebd timeout is specified
 
-                            // will be woken up before readTimeout only if reply is
-                            // available
-                            ldr.wait(readTimeout);
+                            // will be woken up before rebdTimeout only if reply is
+                            // bvbilbble
+                            ldr.wbit(rebdTimeout);
                         } else {
-                            ldr.wait(DEFAULT_READ_TIMEOUT_MILLIS);
+                            ldr.wbit(DEFAULT_READ_TIMEOUT_MILLIS);
                         }
-                        waited = true;
+                        wbited = true;
                     } else {
-                        break;
+                        brebk;
                     }
                 }
-            } catch (InterruptedException ex) {
-                throw new InterruptedNamingException(
-                    "Interrupted during LDAP operation");
+            } cbtch (InterruptedException ex) {
+                throw new InterruptedNbmingException(
+                    "Interrupted during LDAP operbtion");
             }
         }
 
-        if ((rber == null) && waited) {
-            abandonRequest(ldr, null);
-            throw new NamingException("LDAP response read timed out, timeout used:"
-                            + readTimeout + "ms." );
+        if ((rber == null) && wbited) {
+            bbbndonRequest(ldr, null);
+            throw new NbmingException("LDAP response rebd timed out, timeout used:"
+                            + rebdTimeout + "ms." );
 
         }
         return rber;
@@ -440,25 +440,25 @@ public final class Connection implements Runnable {
 
     ////////////////////////////////////////////////////////////////////////////
     //
-    // Methods to add, find, delete, and abandon requests made to server
+    // Methods to bdd, find, delete, bnd bbbndon requests mbde to server
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    private synchronized void addRequest(LdapRequest ldapRequest) {
+    privbte synchronized void bddRequest(LdbpRequest ldbpRequest) {
 
-        LdapRequest ldr = pendingRequests;
+        LdbpRequest ldr = pendingRequests;
         if (ldr == null) {
-            pendingRequests = ldapRequest;
-            ldapRequest.next = null;
+            pendingRequests = ldbpRequest;
+            ldbpRequest.next = null;
         } else {
-            ldapRequest.next = pendingRequests;
-            pendingRequests = ldapRequest;
+            ldbpRequest.next = pendingRequests;
+            pendingRequests = ldbpRequest;
         }
     }
 
-    synchronized LdapRequest findRequest(int msgId) {
+    synchronized LdbpRequest findRequest(int msgId) {
 
-        LdapRequest ldr = pendingRequests;
+        LdbpRequest ldr = pendingRequests;
         while (ldr != null) {
             if (ldr.msgId == msgId) {
                 return ldr;
@@ -469,13 +469,13 @@ public final class Connection implements Runnable {
 
     }
 
-    synchronized void removeRequest(LdapRequest req) {
-        LdapRequest ldr = pendingRequests;
-        LdapRequest ldrprev = null;
+    synchronized void removeRequest(LdbpRequest req) {
+        LdbpRequest ldr = pendingRequests;
+        LdbpRequest ldrprev = null;
 
         while (ldr != null) {
             if (ldr == req) {
-                ldr.cancel();
+                ldr.cbncel();
 
                 if (ldrprev != null) {
                     ldrprev.next = ldr.next;
@@ -489,60 +489,60 @@ public final class Connection implements Runnable {
         }
     }
 
-    void abandonRequest(LdapRequest ldr, Control[] reqCtls) {
+    void bbbndonRequest(LdbpRequest ldr, Control[] reqCtls) {
         // Remove from queue
         removeRequest(ldr);
 
         BerEncoder ber = new BerEncoder(256);
-        int abandonMsgId = getMsgId();
+        int bbbndonMsgId = getMsgId();
 
         //
-        // build the abandon request.
+        // build the bbbndon request.
         //
         try {
             ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
-                ber.encodeInt(abandonMsgId);
-                ber.encodeInt(ldr.msgId, LdapClient.LDAP_REQ_ABANDON);
+                ber.encodeInt(bbbndonMsgId);
+                ber.encodeInt(ldr.msgId, LdbpClient.LDAP_REQ_ABANDON);
 
                 if (v3) {
-                    LdapClient.encodeControls(ber, reqCtls);
+                    LdbpClient.encodeControls(ber, reqCtls);
                 }
             ber.endSeq();
 
-            if (traceFile != null) {
-                Ber.dumpBER(traceFile, traceTagOut, ber.getBuf(), 0,
-                    ber.getDataLen());
+            if (trbceFile != null) {
+                Ber.dumpBER(trbceFile, trbceTbgOut, ber.getBuf(), 0,
+                    ber.getDbtbLen());
             }
 
             synchronized (this) {
-                outStream.write(ber.getBuf(), 0, ber.getDataLen());
-                outStream.flush();
+                outStrebm.write(ber.getBuf(), 0, ber.getDbtbLen());
+                outStrebm.flush();
             }
 
-        } catch (IOException ex) {
-            //System.err.println("ldap.abandon: " + ex);
+        } cbtch (IOException ex) {
+            //System.err.println("ldbp.bbbndon: " + ex);
         }
 
-        // Don't expect any response for the abandon request.
+        // Don't expect bny response for the bbbndon request.
     }
 
-    synchronized void abandonOutstandingReqs(Control[] reqCtls) {
-        LdapRequest ldr = pendingRequests;
+    synchronized void bbbndonOutstbndingReqs(Control[] reqCtls) {
+        LdbpRequest ldr = pendingRequests;
 
         while (ldr != null) {
-            abandonRequest(ldr, reqCtls);
+            bbbndonRequest(ldr, reqCtls);
             pendingRequests = ldr = ldr.next;
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////
     //
-    // Methods to unbind from server and clear up resources when object is
+    // Methods to unbind from server bnd clebr up resources when object is
     // destroyed.
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    private void ldapUnbind(Control[] reqCtls) {
+    privbte void ldbpUnbind(Control[] reqCtls) {
 
         BerEncoder ber = new BerEncoder(256);
         int unbindMsgId = getMsgId();
@@ -556,80 +556,80 @@ public final class Connection implements Runnable {
             ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
                 ber.encodeInt(unbindMsgId);
                 // IMPLICIT TAGS
-                ber.encodeByte(LdapClient.LDAP_REQ_UNBIND);
+                ber.encodeByte(LdbpClient.LDAP_REQ_UNBIND);
                 ber.encodeByte(0);
 
                 if (v3) {
-                    LdapClient.encodeControls(ber, reqCtls);
+                    LdbpClient.encodeControls(ber, reqCtls);
                 }
             ber.endSeq();
 
-            if (traceFile != null) {
-                Ber.dumpBER(traceFile, traceTagOut, ber.getBuf(),
-                    0, ber.getDataLen());
+            if (trbceFile != null) {
+                Ber.dumpBER(trbceFile, trbceTbgOut, ber.getBuf(),
+                    0, ber.getDbtbLen());
             }
 
             synchronized (this) {
-                outStream.write(ber.getBuf(), 0, ber.getDataLen());
-                outStream.flush();
+                outStrebm.write(ber.getBuf(), 0, ber.getDbtbLen());
+                outStrebm.flush();
             }
 
-        } catch (IOException ex) {
-            //System.err.println("ldap.unbind: " + ex);
+        } cbtch (IOException ex) {
+            //System.err.println("ldbp.unbind: " + ex);
         }
 
-        // Don't expect any response for the unbind request.
+        // Don't expect bny response for the unbind request.
     }
 
     /**
-     * @param reqCtls Possibly null request controls that accompanies the
-     *    abandon and unbind LDAP request.
-     * @param notifyParent true means to call parent LdapClient back, notifying
-     *    it that the connection has been closed; false means not to notify
-     *    parent. If LdapClient invokes cleanup(), notifyParent should be set to
-     *    false because LdapClient already knows that it is closing
-     *    the connection. If Connection invokes cleanup(), notifyParent should be
-     *    set to true because LdapClient needs to know about the closure.
+     * @pbrbm reqCtls Possibly null request controls thbt bccompbnies the
+     *    bbbndon bnd unbind LDAP request.
+     * @pbrbm notifyPbrent true mebns to cbll pbrent LdbpClient bbck, notifying
+     *    it thbt the connection hbs been closed; fblse mebns not to notify
+     *    pbrent. If LdbpClient invokes clebnup(), notifyPbrent should be set to
+     *    fblse becbuse LdbpClient blrebdy knows thbt it is closing
+     *    the connection. If Connection invokes clebnup(), notifyPbrent should be
+     *    set to true becbuse LdbpClient needs to know bbout the closure.
      */
-    void cleanup(Control[] reqCtls, boolean notifyParent) {
-        boolean nparent = false;
+    void clebnup(Control[] reqCtls, boolebn notifyPbrent) {
+        boolebn npbrent = fblse;
 
         synchronized (this) {
-            useable = false;
+            usebble = fblse;
 
             if (sock != null) {
                 if (debug) {
                     System.err.println("Connection: closing socket: " + host + "," + port);
                 }
                 try {
-                    if (!notifyParent) {
-                        abandonOutstandingReqs(reqCtls);
+                    if (!notifyPbrent) {
+                        bbbndonOutstbndingReqs(reqCtls);
                     }
                     if (bound) {
-                        ldapUnbind(reqCtls);
+                        ldbpUnbind(reqCtls);
                     }
-                } finally {
+                } finblly {
                     try {
-                        outStream.flush();
+                        outStrebm.flush();
                         sock.close();
-                        unpauseReader();
-                    } catch (IOException ie) {
+                        unpbuseRebder();
+                    } cbtch (IOException ie) {
                         if (debug)
                             System.err.println("Connection: problem closing socket: " + ie);
                     }
-                    if (!notifyParent) {
-                        LdapRequest ldr = pendingRequests;
+                    if (!notifyPbrent) {
+                        LdbpRequest ldr = pendingRequests;
                         while (ldr != null) {
-                            ldr.cancel();
+                            ldr.cbncel();
                             ldr = ldr.next;
                         }
                     }
                     sock = null;
                 }
-                nparent = notifyParent;
+                npbrent = notifyPbrent;
             }
-            if (nparent) {
-                LdapRequest ldr = pendingRequests;
+            if (npbrent) {
+                LdbpRequest ldr = pendingRequests;
                 while (ldr != null) {
 
                     synchronized (ldr) {
@@ -639,173 +639,173 @@ public final class Connection implements Runnable {
                 }
             }
         }
-        if (nparent) {
-            parent.processConnectionClosure();
+        if (npbrent) {
+            pbrent.processConnectionClosure();
         }
     }
 
 
     // Assume everything is "quiet"
-    // "synchronize" might lead to deadlock so don't synchronize method
-    // Use streamLock instead for synchronizing update to stream
+    // "synchronize" might lebd to debdlock so don't synchronize method
+    // Use strebmLock instebd for synchronizing updbte to strebm
 
-    synchronized public void replaceStreams(InputStream newIn, OutputStream newOut) {
+    synchronized public void replbceStrebms(InputStrebm newIn, OutputStrebm newOut) {
         if (debug) {
-            System.err.println("Replacing " + inStream + " with: " + newIn);
-            System.err.println("Replacing " + outStream + " with: " + newOut);
+            System.err.println("Replbcing " + inStrebm + " with: " + newIn);
+            System.err.println("Replbcing " + outStrebm + " with: " + newOut);
         }
 
-        inStream = newIn;
+        inStrebm = newIn;
 
-        // Cleanup old stream
+        // Clebnup old strebm
         try {
-            outStream.flush();
-        } catch (IOException ie) {
+            outStrebm.flush();
+        } cbtch (IOException ie) {
             if (debug)
-                System.err.println("Connection: cannot flush outstream: " + ie);
+                System.err.println("Connection: cbnnot flush outstrebm: " + ie);
         }
 
-        // Replace stream
-        outStream = newOut;
+        // Replbce strebm
+        outStrebm = newOut;
     }
 
     /**
-     * Used by Connection thread to read inStream into a local variable.
-     * This ensures that there is no contention between the main thread
-     * and the Connection thread when the main thread updates inStream.
+     * Used by Connection threbd to rebd inStrebm into b locbl vbribble.
+     * This ensures thbt there is no contention between the mbin threbd
+     * bnd the Connection threbd when the mbin threbd updbtes inStrebm.
      */
-    synchronized private InputStream getInputStream() {
-        return inStream;
+    synchronized privbte InputStrebm getInputStrebm() {
+        return inStrebm;
     }
 
 
     ////////////////////////////////////////////////////////////////////////////
     //
-    // Code for pausing/unpausing the reader thread ('worker')
+    // Code for pbusing/unpbusing the rebder threbd ('worker')
     //
     ////////////////////////////////////////////////////////////////////////////
 
     /*
-     * The main idea is to mark requests that need the reader thread to
-     * pause after getting the response. When the reader thread gets the response,
-     * it waits on a lock instead of returning to the read(). The next time a
-     * request is sent, the reader is automatically unblocked if necessary.
-     * Note that the reader must be unblocked BEFORE the request is sent.
-     * Otherwise, there is a race condition where the request is sent and
-     * the reader thread might read the response and be unblocked
+     * The mbin ideb is to mbrk requests thbt need the rebder threbd to
+     * pbuse bfter getting the response. When the rebder threbd gets the response,
+     * it wbits on b lock instebd of returning to the rebd(). The next time b
+     * request is sent, the rebder is butombticblly unblocked if necessbry.
+     * Note thbt the rebder must be unblocked BEFORE the request is sent.
+     * Otherwise, there is b rbce condition where the request is sent bnd
+     * the rebder threbd might rebd the response bnd be unblocked
      * by writeRequest().
      *
-     * This pause gives the main thread (StartTLS or SASL) an opportunity to
-     * update the reader's state (e.g., its streams) if necessary.
-     * The assumption is that the connection will remain quiet during this pause
+     * This pbuse gives the mbin threbd (StbrtTLS or SASL) bn opportunity to
+     * updbte the rebder's stbte (e.g., its strebms) if necessbry.
+     * The bssumption is thbt the connection will rembin quiet during this pbuse
      * (i.e., no intervening requests being sent).
      *<p>
-     * For dealing with StartTLS close,
-     * when the read() exits either due to EOF or an exception,
-     * the reader thread checks whether there is a new stream to read from.
-     * If so, then it reattempts the read. Otherwise, the EOF or exception
-     * is processed and the reader thread terminates.
-     * In a StartTLS close, the client first replaces the SSL IO streams with
-     * plain ones and then closes the SSL socket.
-     * If the reader thread attempts to read, or was reading, from
-     * the SSL socket (that is, it got to the read BEFORE replaceStreams()),
-     * the SSL socket close will cause the reader thread to
-     * get an EOF/exception and reexamine the input stream.
-     * If the reader thread sees a new stream, it reattempts the read.
-     * If the underlying socket is still alive, then the new read will succeed.
-     * If the underlying socket has been closed also, then the new read will
-     * fail and the reader thread exits.
-     * If the reader thread attempts to read, or was reading, from the plain
-     * socket (that is, it got to the read AFTER replaceStreams()), the
-     * SSL socket close will have no effect on the reader thread.
+     * For debling with StbrtTLS close,
+     * when the rebd() exits either due to EOF or bn exception,
+     * the rebder threbd checks whether there is b new strebm to rebd from.
+     * If so, then it rebttempts the rebd. Otherwise, the EOF or exception
+     * is processed bnd the rebder threbd terminbtes.
+     * In b StbrtTLS close, the client first replbces the SSL IO strebms with
+     * plbin ones bnd then closes the SSL socket.
+     * If the rebder threbd bttempts to rebd, or wbs rebding, from
+     * the SSL socket (thbt is, it got to the rebd BEFORE replbceStrebms()),
+     * the SSL socket close will cbuse the rebder threbd to
+     * get bn EOF/exception bnd reexbmine the input strebm.
+     * If the rebder threbd sees b new strebm, it rebttempts the rebd.
+     * If the underlying socket is still blive, then the new rebd will succeed.
+     * If the underlying socket hbs been closed blso, then the new rebd will
+     * fbil bnd the rebder threbd exits.
+     * If the rebder threbd bttempts to rebd, or wbs rebding, from the plbin
+     * socket (thbt is, it got to the rebd AFTER replbceStrebms()), the
+     * SSL socket close will hbve no effect on the rebder threbd.
      *
-     * The check for new stream is made only
-     * in the first attempt at reading a BER buffer; the reader should
-     * never be in midst of reading a buffer when a nonfatal close occurs.
-     * If this occurs, then the connection is in an inconsistent state and
-     * the safest thing to do is to shut it down.
+     * The check for new strebm is mbde only
+     * in the first bttempt bt rebding b BER buffer; the rebder should
+     * never be in midst of rebding b buffer when b nonfbtbl close occurs.
+     * If this occurs, then the connection is in bn inconsistent stbte bnd
+     * the sbfest thing to do is to shut it down.
      */
 
-    private Object pauseLock = new Object();  // lock for reader to wait on while paused
-    private boolean paused = false;           // paused state of reader
+    privbte Object pbuseLock = new Object();  // lock for rebder to wbit on while pbused
+    privbte boolebn pbused = fblse;           // pbused stbte of rebder
 
     /*
-     * Unpauses reader thread if it was paused
+     * Unpbuses rebder threbd if it wbs pbused
      */
-    private void unpauseReader() throws IOException {
-        synchronized (pauseLock) {
-            if (paused) {
+    privbte void unpbuseRebder() throws IOException {
+        synchronized (pbuseLock) {
+            if (pbused) {
                 if (debug) {
-                    System.err.println("Unpausing reader; read from: " +
-                                        inStream);
+                    System.err.println("Unpbusing rebder; rebd from: " +
+                                        inStrebm);
                 }
-                paused = false;
-                pauseLock.notify();
+                pbused = fblse;
+                pbuseLock.notify();
             }
         }
     }
 
      /*
-     * Pauses reader so that it stops reading from the input stream.
-     * Reader blocks on pauseLock instead of read().
-     * MUST be called from within synchronized (pauseLock) clause.
+     * Pbuses rebder so thbt it stops rebding from the input strebm.
+     * Rebder blocks on pbuseLock instebd of rebd().
+     * MUST be cblled from within synchronized (pbuseLock) clbuse.
      */
-    private void pauseReader() throws IOException {
+    privbte void pbuseRebder() throws IOException {
         if (debug) {
-            System.err.println("Pausing reader;  was reading from: " +
-                                inStream);
+            System.err.println("Pbusing rebder;  wbs rebding from: " +
+                                inStrebm);
         }
-        paused = true;
+        pbused = true;
         try {
-            while (paused) {
-                pauseLock.wait(); // notified by unpauseReader
+            while (pbused) {
+                pbuseLock.wbit(); // notified by unpbuseRebder
             }
-        } catch (InterruptedException e) {
+        } cbtch (InterruptedException e) {
             throw new InterruptedIOException(
-                    "Pause/unpause reader has problems.");
+                    "Pbuse/unpbuse rebder hbs problems.");
         }
     }
 
 
     ////////////////////////////////////////////////////////////////////////////
     //
-    // The LDAP Binding thread. It does the mux/demux of multiple requests
-    // on the same TCP connection.
+    // The LDAP Binding threbd. It does the mux/demux of multiple requests
+    // on the sbme TCP connection.
     //
     ////////////////////////////////////////////////////////////////////////////
 
 
     public void run() {
-        byte inbuf[];   // Buffer for reading incoming bytes
-        int inMsgId;    // Message id of incoming response
-        int bytesread;  // Number of bytes in inbuf
-        int br;         // Temp; number of bytes read from stream
+        byte inbuf[];   // Buffer for rebding incoming bytes
+        int inMsgId;    // Messbge id of incoming response
+        int bytesrebd;  // Number of bytes in inbuf
+        int br;         // Temp; number of bytes rebd from strebm
         int offset;     // Offset of where to store bytes in inbuf
         int seqlen;     // Length of ASN sequence
         int seqlenlen;  // Number of sequence length bytes
-        boolean eos;    // End of stream
-        BerDecoder retBer;    // Decoder for ASN.1 BER data from inbuf
-        InputStream in = null;
+        boolebn eos;    // End of strebm
+        BerDecoder retBer;    // Decoder for ASN.1 BER dbtb from inbuf
+        InputStrebm in = null;
 
         try {
             while (true) {
                 try {
-                    // type and length (at most 128 octets for long form)
+                    // type bnd length (bt most 128 octets for long form)
                     inbuf = new byte[129];
 
                     offset = 0;
                     seqlen = 0;
                     seqlenlen = 0;
 
-                    in = getInputStream();
+                    in = getInputStrebm();
 
-                    // check that it is the beginning of a sequence
-                    bytesread = in.read(inbuf, offset, 1);
-                    if (bytesread < 0) {
-                        if (in != getInputStream()) {
-                            continue;   // a new stream to try
+                    // check thbt it is the beginning of b sequence
+                    bytesrebd = in.rebd(inbuf, offset, 1);
+                    if (bytesrebd < 0) {
+                        if (in != getInputStrebm()) {
+                            continue;   // b new strebm to try
                         } else {
-                            break; // EOF
+                            brebk; // EOF
                         }
                     }
 
@@ -813,54 +813,54 @@ public final class Connection implements Runnable {
                         continue;
 
                     // get length of sequence
-                    bytesread = in.read(inbuf, offset, 1);
-                    if (bytesread < 0)
-                        break; // EOF
+                    bytesrebd = in.rebd(inbuf, offset, 1);
+                    if (bytesrebd < 0)
+                        brebk; // EOF
                     seqlen = inbuf[offset++];
 
                     // if high bit is on, length is encoded in the
-                    // subsequent length bytes and the number of length bytes
-                    // is equal to & 0x80 (i.e. length byte with high bit off).
+                    // subsequent length bytes bnd the number of length bytes
+                    // is equbl to & 0x80 (i.e. length byte with high bit off).
                     if ((seqlen & 0x80) == 0x80) {
                         seqlenlen = seqlen & 0x7f;  // number of length bytes
 
-                        bytesread = 0;
-                        eos = false;
+                        bytesrebd = 0;
+                        eos = fblse;
 
-                        // Read all length bytes
-                        while (bytesread < seqlenlen) {
-                            br = in.read(inbuf, offset+bytesread,
-                                seqlenlen-bytesread);
+                        // Rebd bll length bytes
+                        while (bytesrebd < seqlenlen) {
+                            br = in.rebd(inbuf, offset+bytesrebd,
+                                seqlenlen-bytesrebd);
                             if (br < 0) {
                                 eos = true;
-                                break; // EOF
+                                brebk; // EOF
                             }
-                            bytesread += br;
+                            bytesrebd += br;
                         }
 
-                        // end-of-stream reached before length bytes are read
+                        // end-of-strebm rebched before length bytes bre rebd
                         if (eos)
-                            break;  // EOF
+                            brebk;  // EOF
 
                         // Add contents of length bytes to determine length
                         seqlen = 0;
                         for( int i = 0; i < seqlenlen; i++) {
                             seqlen = (seqlen << 8) + (inbuf[offset+i] & 0xff);
                         }
-                        offset += bytesread;
+                        offset += bytesrebd;
                     }
 
-                    // read in seqlen bytes
-                    byte[] left = IOUtils.readFully(in, seqlen, false);
-                    inbuf = Arrays.copyOf(inbuf, offset + left.length);
-                    System.arraycopy(left, 0, inbuf, offset, left.length);
+                    // rebd in seqlen bytes
+                    byte[] left = IOUtils.rebdFully(in, seqlen, fblse);
+                    inbuf = Arrbys.copyOf(inbuf, offset + left.length);
+                    System.brrbycopy(left, 0, inbuf, offset, left.length);
                     offset += left.length;
 /*
 if (dump > 0) {
 System.err.println("seqlen: " + seqlen);
 System.err.println("bufsize: " + offset);
 System.err.println("bytesleft: " + bytesleft);
-System.err.println("bytesread: " + bytesread);
+System.err.println("bytesrebd: " + bytesrebd);
 }
 */
 
@@ -868,58 +868,58 @@ System.err.println("bytesread: " + bytesread);
                     try {
                         retBer = new BerDecoder(inbuf, 0, offset);
 
-                        if (traceFile != null) {
-                            Ber.dumpBER(traceFile, traceTagIn, inbuf, 0, offset);
+                        if (trbceFile != null) {
+                            Ber.dumpBER(trbceFile, trbceTbgIn, inbuf, 0, offset);
                         }
 
-                        retBer.parseSeq(null);
-                        inMsgId = retBer.parseInt();
+                        retBer.pbrseSeq(null);
+                        inMsgId = retBer.pbrseInt();
                         retBer.reset(); // reset offset
 
-                        boolean needPause = false;
+                        boolebn needPbuse = fblse;
 
                         if (inMsgId == 0) {
-                            // Unsolicited Notification
-                            parent.processUnsolicited(retBer);
+                            // Unsolicited Notificbtion
+                            pbrent.processUnsolicited(retBer);
                         } else {
-                            LdapRequest ldr = findRequest(inMsgId);
+                            LdbpRequest ldr = findRequest(inMsgId);
 
                             if (ldr != null) {
 
                                 /**
-                                 * Grab pauseLock before making reply available
-                                 * to ensure that reader goes into paused state
-                                 * before writer can attempt to unpause reader
+                                 * Grbb pbuseLock before mbking reply bvbilbble
+                                 * to ensure thbt rebder goes into pbused stbte
+                                 * before writer cbn bttempt to unpbuse rebder
                                  */
-                                synchronized (pauseLock) {
-                                    needPause = ldr.addReplyBer(retBer);
-                                    if (needPause) {
+                                synchronized (pbuseLock) {
+                                    needPbuse = ldr.bddReplyBer(retBer);
+                                    if (needPbuse) {
                                         /*
-                                         * Go into paused state; release
-                                         * pauseLock
+                                         * Go into pbused stbte; relebse
+                                         * pbuseLock
                                          */
-                                        pauseReader();
+                                        pbuseRebder();
                                     }
 
-                                    // else release pauseLock
+                                    // else relebse pbuseLock
                                 }
                             } else {
-                                // System.err.println("Cannot find" +
-                                //              "LdapRequest for " + inMsgId);
+                                // System.err.println("Cbnnot find" +
+                                //              "LdbpRequest for " + inMsgId);
                             }
                         }
-                    } catch (Ber.DecodeException e) {
-                        //System.err.println("Cannot parse Ber");
+                    } cbtch (Ber.DecodeException e) {
+                        //System.err.println("Cbnnot pbrse Ber");
                     }
-                } catch (IOException ie) {
+                } cbtch (IOException ie) {
                     if (debug) {
-                        System.err.println("Connection: Inside Caught " + ie);
-                        ie.printStackTrace();
+                        System.err.println("Connection: Inside Cbught " + ie);
+                        ie.printStbckTrbce();
                     }
 
-                    if (in != getInputStream()) {
-                        // A new stream to try
-                        // Go to top of loop and continue
+                    if (in != getInputStrebm()) {
+                        // A new strebm to try
+                        // Go to top of loop bnd continue
                     } else {
                         if (debug) {
                             System.err.println("Connection: rethrowing " + ie);
@@ -930,50 +930,50 @@ System.err.println("bytesread: " + bytesread);
             }
 
             if (debug) {
-                System.err.println("Connection: end-of-stream detected: "
+                System.err.println("Connection: end-of-strebm detected: "
                     + in);
             }
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             if (debug) {
-                System.err.println("Connection: Caught " + ex);
+                System.err.println("Connection: Cbught " + ex);
             }
-            closureReason = ex;
-        } finally {
-            cleanup(null, true); // cleanup
+            closureRebson = ex;
+        } finblly {
+            clebnup(null, true); // clebnup
         }
         if (debug) {
-            System.err.println("Connection: Thread Exiting");
+            System.err.println("Connection: Threbd Exiting");
         }
     }
 
 
-    // This code must be uncommented to run the LdapAbandonTest.
-    /*public void sendSearchReqs(String dn, int numReqs) {
+    // This code must be uncommented to run the LdbpAbbndonTest.
+    /*public void sendSebrchReqs(String dn, int numReqs) {
         int i;
-        String attrs[] = null;
+        String bttrs[] = null;
         for(i = 1; i <= numReqs; i++) {
             BerEncoder ber = new BerEncoder(2048);
 
             try {
             ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
                 ber.encodeInt(i);
-                ber.beginSeq(LdapClient.LDAP_REQ_SEARCH);
+                ber.beginSeq(LdbpClient.LDAP_REQ_SEARCH);
                     ber.encodeString(dn == null ? "" : dn);
-                    ber.encodeInt(0, LdapClient.LBER_ENUMERATED);
-                    ber.encodeInt(3, LdapClient.LBER_ENUMERATED);
+                    ber.encodeInt(0, LdbpClient.LBER_ENUMERATED);
+                    ber.encodeInt(3, LdbpClient.LBER_ENUMERATED);
                     ber.encodeInt(0);
                     ber.encodeInt(0);
-                    ber.encodeBoolean(true);
-                    LdapClient.encodeFilter(ber, "");
+                    ber.encodeBoolebn(true);
+                    LdbpClient.encodeFilter(ber, "");
                     ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
-                        ber.encodeStringArray(attrs);
+                        ber.encodeStringArrby(bttrs);
                     ber.endSeq();
                 ber.endSeq();
             ber.endSeq();
             writeRequest(ber, i);
             //System.err.println("wrote request " + i);
-            } catch (Exception ex) {
-            //System.err.println("ldap.search: Caught " + ex + " building req");
+            } cbtch (Exception ex) {
+            //System.err.println("ldbp.sebrch: Cbught " + ex + " building req");
             }
 
         }

@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import sun.misc.Unsafe;
+import sun.misc.Unsbfe;
 
 /**
- * Factory for native buffers.
+ * Fbctory for nbtive buffers.
  */
 
-class NativeBuffers {
-    private NativeBuffers() { }
+clbss NbtiveBuffers {
+    privbte NbtiveBuffers() { }
 
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    private static final int TEMP_BUF_POOL_SIZE = 3;
-    private static ThreadLocal<NativeBuffer[]> threadLocal =
-        new ThreadLocal<NativeBuffer[]>();
+    privbte stbtic finbl int TEMP_BUF_POOL_SIZE = 3;
+    privbte stbtic ThrebdLocbl<NbtiveBuffer[]> threbdLocbl =
+        new ThrebdLocbl<NbtiveBuffer[]>();
 
     /**
-     * Allocates a native buffer, of at least the given size, from the heap.
+     * Allocbtes b nbtive buffer, of bt lebst the given size, from the hebp.
      */
-    static NativeBuffer allocNativeBuffer(int size) {
-        // Make a new one of at least 2k
+    stbtic NbtiveBuffer bllocNbtiveBuffer(int size) {
+        // Mbke b new one of bt lebst 2k
         if (size < 2048) size = 2048;
-        return new NativeBuffer(size);
+        return new NbtiveBuffer(size);
     }
 
     /**
-     * Returns a native buffer, of at least the given size, from the thread
-     * local cache.
+     * Returns b nbtive buffer, of bt lebst the given size, from the threbd
+     * locbl cbche.
      */
-    static NativeBuffer getNativeBufferFromCache(int size) {
-        // return from cache if possible
-        NativeBuffer[] buffers = threadLocal.get();
+    stbtic NbtiveBuffer getNbtiveBufferFromCbche(int size) {
+        // return from cbche if possible
+        NbtiveBuffer[] buffers = threbdLocbl.get();
         if (buffers != null) {
             for (int i=0; i<TEMP_BUF_POOL_SIZE; i++) {
-                NativeBuffer buffer = buffers[i];
+                NbtiveBuffer buffer = buffers[i];
                 if (buffer != null && buffer.size() >= size) {
                     buffers[i] = null;
                     return buffer;
@@ -69,72 +69,72 @@ class NativeBuffers {
     }
 
     /**
-     * Returns a native buffer, of at least the given size. The native buffer
-     * is taken from the thread local cache if possible; otherwise it is
-     * allocated from the heap.
+     * Returns b nbtive buffer, of bt lebst the given size. The nbtive buffer
+     * is tbken from the threbd locbl cbche if possible; otherwise it is
+     * bllocbted from the hebp.
      */
-    static NativeBuffer getNativeBuffer(int size) {
-        NativeBuffer buffer = getNativeBufferFromCache(size);
+    stbtic NbtiveBuffer getNbtiveBuffer(int size) {
+        NbtiveBuffer buffer = getNbtiveBufferFromCbche(size);
         if (buffer != null) {
             buffer.setOwner(null);
             return buffer;
         } else {
-            return allocNativeBuffer(size);
+            return bllocNbtiveBuffer(size);
         }
     }
 
     /**
-     * Releases the given buffer. If there is space in the thread local cache
-     * then the buffer goes into the cache; otherwise the memory is deallocated.
+     * Relebses the given buffer. If there is spbce in the threbd locbl cbche
+     * then the buffer goes into the cbche; otherwise the memory is debllocbted.
      */
-    static void releaseNativeBuffer(NativeBuffer buffer) {
-        // create cache if it doesn't exist
-        NativeBuffer[] buffers = threadLocal.get();
+    stbtic void relebseNbtiveBuffer(NbtiveBuffer buffer) {
+        // crebte cbche if it doesn't exist
+        NbtiveBuffer[] buffers = threbdLocbl.get();
         if (buffers == null) {
-            buffers = new NativeBuffer[TEMP_BUF_POOL_SIZE];
+            buffers = new NbtiveBuffer[TEMP_BUF_POOL_SIZE];
             buffers[0] = buffer;
-            threadLocal.set(buffers);
+            threbdLocbl.set(buffers);
             return;
         }
-        // Put it in an empty slot if such exists
+        // Put it in bn empty slot if such exists
         for (int i=0; i<TEMP_BUF_POOL_SIZE; i++) {
             if (buffers[i] == null) {
                 buffers[i] = buffer;
                 return;
             }
         }
-        // Otherwise replace a smaller one in the cache if such exists
+        // Otherwise replbce b smbller one in the cbche if such exists
         for (int i=0; i<TEMP_BUF_POOL_SIZE; i++) {
-            NativeBuffer existing = buffers[i];
+            NbtiveBuffer existing = buffers[i];
             if (existing.size() < buffer.size()) {
-                existing.cleaner().clean();
+                existing.clebner().clebn();
                 buffers[i] = buffer;
                 return;
             }
         }
 
         // free it
-        buffer.cleaner().clean();
+        buffer.clebner().clebn();
     }
 
     /**
-     * Copies a byte array and zero terminator into a given native buffer.
+     * Copies b byte brrby bnd zero terminbtor into b given nbtive buffer.
      */
-    static void copyCStringToNativeBuffer(byte[] cstr, NativeBuffer buffer) {
-        long offset = Unsafe.ARRAY_BYTE_BASE_OFFSET;
+    stbtic void copyCStringToNbtiveBuffer(byte[] cstr, NbtiveBuffer buffer) {
+        long offset = Unsbfe.ARRAY_BYTE_BASE_OFFSET;
         long len = cstr.length;
-        assert buffer.size() >= (len + 1);
-        unsafe.copyMemory(cstr, offset, null, buffer.address(), len);
-        unsafe.putByte(buffer.address() + len, (byte)0);
+        bssert buffer.size() >= (len + 1);
+        unsbfe.copyMemory(cstr, offset, null, buffer.bddress(), len);
+        unsbfe.putByte(buffer.bddress() + len, (byte)0);
     }
 
     /**
-     * Copies a byte array and zero terminator into a native buffer, returning
+     * Copies b byte brrby bnd zero terminbtor into b nbtive buffer, returning
      * the buffer.
      */
-    static NativeBuffer asNativeBuffer(byte[] cstr) {
-        NativeBuffer buffer = getNativeBuffer(cstr.length+1);
-        copyCStringToNativeBuffer(cstr, buffer);
+    stbtic NbtiveBuffer bsNbtiveBuffer(byte[] cstr) {
+        NbtiveBuffer buffer = getNbtiveBuffer(cstr.length+1);
+        copyCStringToNbtiveBuffer(cstr, buffer);
         return buffer;
     }
 }

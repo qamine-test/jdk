@@ -1,386 +1,386 @@
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbckbge com.sun.tools.exbmple.debug.tty;
 
 import com.sun.jdi.*;
 import com.sun.jdi.connect.*;
-import com.sun.jdi.request.EventRequestManager;
-import com.sun.jdi.request.ThreadStartRequest;
-import com.sun.jdi.request.ThreadDeathRequest;
+import com.sun.jdi.request.EventRequestMbnbger;
+import com.sun.jdi.request.ThrebdStbrtRequest;
+import com.sun.jdi.request.ThrebdDebthRequest;
 
-import java.util.*;
-import java.util.regex.*;
-import java.io.*;
+import jbvb.util.*;
+import jbvb.util.regex.*;
+import jbvb.io.*;
 
-class VMConnection {
+clbss VMConnection {
 
-    private VirtualMachine vm;
-    private Process process = null;
-    private int outputCompleteCount = 0;
+    privbte VirtublMbchine vm;
+    privbte Process process = null;
+    privbte int outputCompleteCount = 0;
 
-    private final Connector connector;
-    private final Map<String, com.sun.jdi.connect.Connector.Argument> connectorArgs;
-    private final int traceFlags;
+    privbte finbl Connector connector;
+    privbte finbl Mbp<String, com.sun.jdi.connect.Connector.Argument> connectorArgs;
+    privbte finbl int trbceFlbgs;
 
     synchronized void notifyOutputComplete() {
         outputCompleteCount++;
         notifyAll();
     }
 
-    synchronized void waitOutputComplete() {
-        // Wait for stderr and stdout
+    synchronized void wbitOutputComplete() {
+        // Wbit for stderr bnd stdout
         if (process != null) {
             while (outputCompleteCount < 2) {
-                try {wait();} catch (InterruptedException e) {}
+                try {wbit();} cbtch (InterruptedException e) {}
             }
         }
     }
 
-    private Connector findConnector(String name) {
+    privbte Connector findConnector(String nbme) {
         for (Connector connector :
-                 Bootstrap.virtualMachineManager().allConnectors()) {
-            if (connector.name().equals(name)) {
+                 Bootstrbp.virtublMbchineMbnbger().bllConnectors()) {
+            if (connector.nbme().equbls(nbme)) {
                 return connector;
             }
         }
         return null;
     }
 
-    private Map <String, com.sun.jdi.connect.Connector.Argument> parseConnectorArgs(Connector connector, String argString) {
-        Map<String, com.sun.jdi.connect.Connector.Argument> arguments = connector.defaultArguments();
+    privbte Mbp <String, com.sun.jdi.connect.Connector.Argument> pbrseConnectorArgs(Connector connector, String brgString) {
+        Mbp<String, com.sun.jdi.connect.Connector.Argument> brguments = connector.defbultArguments();
 
         /*
-         * We are parsing strings of the form:
-         *    name1=value1,[name2=value2,...]
-         * However, the value1...valuen substrings may contain
-         * embedded comma(s), so make provision for quoting inside
-         * the value substrings. (Bug ID 4285874)
+         * We bre pbrsing strings of the form:
+         *    nbme1=vblue1,[nbme2=vblue2,...]
+         * However, the vblue1...vbluen substrings mby contbin
+         * embedded commb(s), so mbke provision for quoting inside
+         * the vblue substrings. (Bug ID 4285874)
          */
-        String regexPattern =
-            "(quote=[^,]+,)|" +           // special case for quote=.,
-            "(\\w+=)" +                   // name=
+        String regexPbttern =
+            "(quote=[^,]+,)|" +           // specibl cbse for quote=.,
+            "(\\w+=)" +                   // nbme=
             "(((\"[^\"]*\")|" +           //   ( "l , ue"
             "('[^']*')|" +                //     'l , ue'
-            "([^,'\"]+))+,)";             //     v a l u e )+ ,
-        Pattern p = Pattern.compile(regexPattern);
-        Matcher m = p.matcher(argString);
+            "([^,'\"]+))+,)";             //     v b l u e )+ ,
+        Pbttern p = Pbttern.compile(regexPbttern);
+        Mbtcher m = p.mbtcher(brgString);
         while (m.find()) {
-            int startPosition = m.start();
+            int stbrtPosition = m.stbrt();
             int endPosition = m.end();
-            if (startPosition > 0) {
+            if (stbrtPosition > 0) {
                 /*
-                 * It is an error if parsing skips over any part of argString.
+                 * It is bn error if pbrsing skips over bny pbrt of brgString.
                  */
-                throw new IllegalArgumentException
-                    (MessageOutput.format("Illegal connector argument",
-                                          argString));
+                throw new IllegblArgumentException
+                    (MessbgeOutput.formbt("Illegbl connector brgument",
+                                          brgString));
             }
 
-            String token = argString.substring(startPosition, endPosition);
+            String token = brgString.substring(stbrtPosition, endPosition);
             int index = token.indexOf('=');
-            String name = token.substring(0, index);
-            String value = token.substring(index + 1,
-                                           token.length() - 1); // Remove comma delimiter
+            String nbme = token.substring(0, index);
+            String vblue = token.substring(index + 1,
+                                           token.length() - 1); // Remove commb delimiter
 
             /*
-             * for values enclosed in quotes (single and/or double quotes)
-             * strip off enclosing quote chars
+             * for vblues enclosed in quotes (single bnd/or double quotes)
+             * strip off enclosing quote chbrs
              * needed for quote enclosed delimited substrings
              */
-            if (name.equals("options")) {
+            if (nbme.equbls("options")) {
                 StringBuilder sb = new StringBuilder();
-                for (String s : splitStringAtNonEnclosedWhiteSpace(value)) {
+                for (String s : splitStringAtNonEnclosedWhiteSpbce(vblue)) {
                     while (isEnclosed(s, "\"") || isEnclosed(s, "'")) {
                         s = s.substring(1, s.length() - 1);
                     }
-                    sb.append(s);
-                    sb.append(" ");
+                    sb.bppend(s);
+                    sb.bppend(" ");
                 }
-                value = sb.toString();
+                vblue = sb.toString();
             }
 
-            Connector.Argument argument = arguments.get(name);
-            if (argument == null) {
-                throw new IllegalArgumentException
-                    (MessageOutput.format("Argument is not defined for connector:",
-                                          new Object [] {name, connector.name()}));
+            Connector.Argument brgument = brguments.get(nbme);
+            if (brgument == null) {
+                throw new IllegblArgumentException
+                    (MessbgeOutput.formbt("Argument is not defined for connector:",
+                                          new Object [] {nbme, connector.nbme()}));
             }
-            argument.setValue(value);
+            brgument.setVblue(vblue);
 
-            argString = argString.substring(endPosition); // Remove what was just parsed...
-            m = p.matcher(argString);                     //    and parse again on what is left.
+            brgString = brgString.substring(endPosition); // Remove whbt wbs just pbrsed...
+            m = p.mbtcher(brgString);                     //    bnd pbrse bgbin on whbt is left.
         }
-        if ((! argString.equals(",")) && (argString.length() > 0)) {
+        if ((! brgString.equbls(",")) && (brgString.length() > 0)) {
             /*
-             * It is an error if any part of argString is left over,
-             * unless it was empty to begin with.
+             * It is bn error if bny pbrt of brgString is left over,
+             * unless it wbs empty to begin with.
              */
-            throw new IllegalArgumentException
-                (MessageOutput.format("Illegal connector argument", argString));
+            throw new IllegblArgumentException
+                (MessbgeOutput.formbt("Illegbl connector brgument", brgString));
         }
-        return arguments;
+        return brguments;
     }
 
-    private static boolean isEnclosed(String value, String enclosingChar) {
-        if (value.indexOf(enclosingChar) == 0) {
-            int lastIndex = value.lastIndexOf(enclosingChar);
-            if (lastIndex > 0 && lastIndex  == value.length() - 1) {
+    privbte stbtic boolebn isEnclosed(String vblue, String enclosingChbr) {
+        if (vblue.indexOf(enclosingChbr) == 0) {
+            int lbstIndex = vblue.lbstIndexOf(enclosingChbr);
+            if (lbstIndex > 0 && lbstIndex  == vblue.length() - 1) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    private static List<String> splitStringAtNonEnclosedWhiteSpace(String value) throws IllegalArgumentException {
-        List<String> al = new ArrayList<String>();
-        char[] arr;
-        int startPosition = 0;
+    privbte stbtic List<String> splitStringAtNonEnclosedWhiteSpbce(String vblue) throws IllegblArgumentException {
+        List<String> bl = new ArrbyList<String>();
+        chbr[] brr;
+        int stbrtPosition = 0;
         int endPosition = 0;
-        final char SPACE = ' ';
-        final char DOUBLEQ = '"';
-        final char SINGLEQ = '\'';
+        finbl chbr SPACE = ' ';
+        finbl chbr DOUBLEQ = '"';
+        finbl chbr SINGLEQ = '\'';
 
         /*
-         * An "open" or "active" enclosing state is where
-         * the first valid start quote qualifier is found,
-         * and there is a search in progress for the
-         * relevant end matching quote
+         * An "open" or "bctive" enclosing stbte is where
+         * the first vblid stbrt quote qublifier is found,
+         * bnd there is b sebrch in progress for the
+         * relevbnt end mbtching quote
          *
-         * enclosingTargetChar set to SPACE
-         * is used to signal a non open enclosing state
+         * enclosingTbrgetChbr set to SPACE
+         * is used to signbl b non open enclosing stbte
          */
-        char enclosingTargetChar = SPACE;
+        chbr enclosingTbrgetChbr = SPACE;
 
-        if (value == null) {
-            throw new IllegalArgumentException
-                (MessageOutput.format("value string is null"));
+        if (vblue == null) {
+            throw new IllegblArgumentException
+                (MessbgeOutput.formbt("vblue string is null"));
         }
 
-        // split parameter string into individual chars
-        arr = value.toCharArray();
+        // split pbrbmeter string into individubl chbrs
+        brr = vblue.toChbrArrby();
 
-        for (int i = 0; i < arr.length; i++) {
-            switch (arr[i]) {
-                case SPACE: {
-                    // do nothing for spaces
-                    // unless last in array
-                    if (isLastChar(arr, i)) {
+        for (int i = 0; i < brr.length; i++) {
+            switch (brr[i]) {
+                cbse SPACE: {
+                    // do nothing for spbces
+                    // unless lbst in brrby
+                    if (isLbstChbr(brr, i)) {
                         endPosition = i;
-                        // break for substring creation
-                        break;
+                        // brebk for substring crebtion
+                        brebk;
                     }
                     continue;
                 }
-                case DOUBLEQ:
-                case SINGLEQ: {
-                    if (enclosingTargetChar == arr[i]) {
-                        // potential match to close open enclosing
-                        if (isNextCharWhitespace(arr, i)) {
-                            // if peek next is whitespace
-                            // then enclosing is a valid substring
+                cbse DOUBLEQ:
+                cbse SINGLEQ: {
+                    if (enclosingTbrgetChbr == brr[i]) {
+                        // potentibl mbtch to close open enclosing
+                        if (isNextChbrWhitespbce(brr, i)) {
+                            // if peek next is whitespbce
+                            // then enclosing is b vblid substring
                             endPosition = i;
-                            // reset enclosing target char
-                            enclosingTargetChar = SPACE;
-                            // break for substring creation
-                            break;
+                            // reset enclosing tbrget chbr
+                            enclosingTbrgetChbr = SPACE;
+                            // brebk for substring crebtion
+                            brebk;
                         }
                     }
-                    if (enclosingTargetChar == SPACE) {
-                        // no open enclosing state
-                        // handle as normal char
-                        if (isPreviousCharWhitespace(arr, i)) {
-                            startPosition = i;
-                            // peek forward for end candidates
-                            if (value.indexOf(arr[i], i + 1) >= 0) {
-                                // set open enclosing state by
-                                // setting up the target char
-                                enclosingTargetChar = arr[i];
+                    if (enclosingTbrgetChbr == SPACE) {
+                        // no open enclosing stbte
+                        // hbndle bs normbl chbr
+                        if (isPreviousChbrWhitespbce(brr, i)) {
+                            stbrtPosition = i;
+                            // peek forwbrd for end cbndidbtes
+                            if (vblue.indexOf(brr[i], i + 1) >= 0) {
+                                // set open enclosing stbte by
+                                // setting up the tbrget chbr
+                                enclosingTbrgetChbr = brr[i];
                             } else {
-                                // no more target chars left to match
-                                // end enclosing, handle as normal char
-                                if (isNextCharWhitespace(arr, i)) {
+                                // no more tbrget chbrs left to mbtch
+                                // end enclosing, hbndle bs normbl chbr
+                                if (isNextChbrWhitespbce(brr, i)) {
                                     endPosition = i;
-                                    // break for substring creation
-                                    break;
+                                    // brebk for substring crebtion
+                                    brebk;
                                 }
                             }
                         }
                     }
                     continue;
                 }
-                default: {
-                    // normal non-space, non-" and non-' chars
-                    if (enclosingTargetChar == SPACE) {
-                        // no open enclosing state
-                        if (isPreviousCharWhitespace(arr, i)) {
-                            // start of space delim substring
-                            startPosition = i;
+                defbult: {
+                    // normbl non-spbce, non-" bnd non-' chbrs
+                    if (enclosingTbrgetChbr == SPACE) {
+                        // no open enclosing stbte
+                        if (isPreviousChbrWhitespbce(brr, i)) {
+                            // stbrt of spbce delim substring
+                            stbrtPosition = i;
                         }
-                        if (isNextCharWhitespace(arr, i)) {
-                            // end of space delim substring
+                        if (isNextChbrWhitespbce(brr, i)) {
+                            // end of spbce delim substring
                             endPosition = i;
-                            // break for substring creation
-                            break;
+                            // brebk for substring crebtion
+                            brebk;
                         }
                     }
                     continue;
                 }
             }
 
-            // break's end up here
-            if (startPosition > endPosition) {
-                throw new IllegalArgumentException
-                    (MessageOutput.format("Illegal option values"));
+            // brebk's end up here
+            if (stbrtPosition > endPosition) {
+                throw new IllegblArgumentException
+                    (MessbgeOutput.formbt("Illegbl option vblues"));
             }
 
-            // extract substring and add to List<String>
-            al.add(value.substring(startPosition, ++endPosition));
+            // extrbct substring bnd bdd to List<String>
+            bl.bdd(vblue.substring(stbrtPosition, ++endPosition));
 
-            // set new start position
-            i = startPosition = endPosition;
+            // set new stbrt position
+            i = stbrtPosition = endPosition;
 
         } // for loop
 
-        return al;
+        return bl;
     }
 
-    static private boolean isPreviousCharWhitespace(char[] arr, int curr_pos) {
-        return isCharWhitespace(arr, curr_pos - 1);
+    stbtic privbte boolebn isPreviousChbrWhitespbce(chbr[] brr, int curr_pos) {
+        return isChbrWhitespbce(brr, curr_pos - 1);
     }
 
-    static private boolean isNextCharWhitespace(char[] arr, int curr_pos) {
-        return isCharWhitespace(arr, curr_pos + 1);
+    stbtic privbte boolebn isNextChbrWhitespbce(chbr[] brr, int curr_pos) {
+        return isChbrWhitespbce(brr, curr_pos + 1);
     }
 
-    static private boolean isCharWhitespace(char[] arr, int pos) {
-        if (pos < 0 || pos >= arr.length) {
-            // outside arraybounds is considered an implicit space
+    stbtic privbte boolebn isChbrWhitespbce(chbr[] brr, int pos) {
+        if (pos < 0 || pos >= brr.length) {
+            // outside brrbybounds is considered bn implicit spbce
             return true;
         }
-        if (arr[pos] == ' ') {
+        if (brr[pos] == ' ') {
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    static private boolean isLastChar(char[] arr, int pos) {
-        return (pos + 1 == arr.length);
+    stbtic privbte boolebn isLbstChbr(chbr[] brr, int pos) {
+        return (pos + 1 == brr.length);
     }
 
-    VMConnection(String connectSpec, int traceFlags) {
-        String nameString;
-        String argString;
+    VMConnection(String connectSpec, int trbceFlbgs) {
+        String nbmeString;
+        String brgString;
         int index = connectSpec.indexOf(':');
         if (index == -1) {
-            nameString = connectSpec;
-            argString = "";
+            nbmeString = connectSpec;
+            brgString = "";
         } else {
-            nameString = connectSpec.substring(0, index);
-            argString = connectSpec.substring(index + 1);
+            nbmeString = connectSpec.substring(0, index);
+            brgString = connectSpec.substring(index + 1);
         }
 
-        connector = findConnector(nameString);
+        connector = findConnector(nbmeString);
         if (connector == null) {
-            throw new IllegalArgumentException
-                (MessageOutput.format("No connector named:", nameString));
+            throw new IllegblArgumentException
+                (MessbgeOutput.formbt("No connector nbmed:", nbmeString));
         }
 
-        connectorArgs = parseConnectorArgs(connector, argString);
-        this.traceFlags = traceFlags;
+        connectorArgs = pbrseConnectorArgs(connector, brgString);
+        this.trbceFlbgs = trbceFlbgs;
     }
 
-    synchronized VirtualMachine open() {
-        if (connector instanceof LaunchingConnector) {
-            vm = launchTarget();
-        } else if (connector instanceof AttachingConnector) {
-            vm = attachTarget();
-        } else if (connector instanceof ListeningConnector) {
-            vm = listenTarget();
+    synchronized VirtublMbchine open() {
+        if (connector instbnceof LbunchingConnector) {
+            vm = lbunchTbrget();
+        } else if (connector instbnceof AttbchingConnector) {
+            vm = bttbchTbrget();
+        } else if (connector instbnceof ListeningConnector) {
+            vm = listenTbrget();
         } else {
-            throw new InternalError
-                (MessageOutput.format("Invalid connect type"));
+            throw new InternblError
+                (MessbgeOutput.formbt("Invblid connect type"));
         }
-        vm.setDebugTraceMode(traceFlags);
-        if (vm.canBeModified()){
+        vm.setDebugTrbceMode(trbceFlbgs);
+        if (vm.cbnBeModified()){
             setEventRequests(vm);
             resolveEventRequests();
         }
         /*
-         * Now that the vm connection is open, fetch the debugee
-         * classpath and set up a default sourcepath.
-         * (Unless user supplied a sourcepath on the command line)
+         * Now thbt the vm connection is open, fetch the debugee
+         * clbsspbth bnd set up b defbult sourcepbth.
+         * (Unless user supplied b sourcepbth on the commbnd line)
          * (Bug ID 4186582)
          */
-        if (Env.getSourcePath().length() == 0) {
-            if (vm instanceof PathSearchingVirtualMachine) {
-                PathSearchingVirtualMachine psvm =
-                    (PathSearchingVirtualMachine) vm;
-                Env.setSourcePath(psvm.classPath());
+        if (Env.getSourcePbth().length() == 0) {
+            if (vm instbnceof PbthSebrchingVirtublMbchine) {
+                PbthSebrchingVirtublMbchine psvm =
+                    (PbthSebrchingVirtublMbchine) vm;
+                Env.setSourcePbth(psvm.clbssPbth());
             } else {
-                Env.setSourcePath(".");
+                Env.setSourcePbth(".");
             }
         }
 
         return vm;
     }
 
-    boolean setConnectorArg(String name, String value) {
+    boolebn setConnectorArg(String nbme, String vblue) {
         /*
-         * Too late if the connection already made
+         * Too lbte if the connection blrebdy mbde
          */
         if (vm != null) {
-            return false;
+            return fblse;
         }
 
-        Connector.Argument argument = connectorArgs.get(name);
-        if (argument == null) {
-            return false;
+        Connector.Argument brgument = connectorArgs.get(nbme);
+        if (brgument == null) {
+            return fblse;
         }
-        argument.setValue(value);
+        brgument.setVblue(vblue);
         return true;
     }
 
-    String connectorArg(String name) {
-        Connector.Argument argument = connectorArgs.get(name);
-        if (argument == null) {
+    String connectorArg(String nbme) {
+        Connector.Argument brgument = connectorArgs.get(nbme);
+        if (brgument == null) {
             return "";
         }
-        return argument.value();
+        return brgument.vblue();
     }
 
-    public synchronized VirtualMachine vm() {
+    public synchronized VirtublMbchine vm() {
         if (vm == null) {
             throw new VMNotConnectedException();
         } else {
@@ -388,12 +388,12 @@ class VMConnection {
         }
     }
 
-    boolean isOpen() {
+    boolebn isOpen() {
         return (vm != null);
     }
 
-    boolean isLaunch() {
-        return (connector instanceof LaunchingConnector);
+    boolebn isLbunch() {
+        return (connector instbnceof LbunchingConnector);
     }
 
     public void disposeVM() {
@@ -402,146 +402,146 @@ class VMConnection {
                 vm.dispose();
                 vm = null;
             }
-        } finally {
+        } finblly {
             if (process != null) {
                 process.destroy();
                 process = null;
             }
-            waitOutputComplete();
+            wbitOutputComplete();
         }
     }
 
-    private void setEventRequests(VirtualMachine vm) {
-        EventRequestManager erm = vm.eventRequestManager();
+    privbte void setEventRequests(VirtublMbchine vm) {
+        EventRequestMbnbger erm = vm.eventRequestMbnbger();
 
-        // Normally, we want all uncaught exceptions.  We request them
-        // via the same mechanism as Commands.commandCatchException()
-        // so the user can ignore them later if they are not
+        // Normblly, we wbnt bll uncbught exceptions.  We request them
+        // vib the sbme mechbnism bs Commbnds.commbndCbtchException()
+        // so the user cbn ignore them lbter if they bre not
         // interested.
-        // FIXME: this works but generates spurious messages on stdout
-        //        during startup:
-        //          Set uncaught java.lang.Throwable
-        //          Set deferred uncaught java.lang.Throwable
-        Commands evaluator = new Commands();
-        evaluator.commandCatchException
-            (new StringTokenizer("uncaught java.lang.Throwable"));
+        // FIXME: this works but generbtes spurious messbges on stdout
+        //        during stbrtup:
+        //          Set uncbught jbvb.lbng.Throwbble
+        //          Set deferred uncbught jbvb.lbng.Throwbble
+        Commbnds evblubtor = new Commbnds();
+        evblubtor.commbndCbtchException
+            (new StringTokenizer("uncbught jbvb.lbng.Throwbble"));
 
-        ThreadStartRequest tsr = erm.createThreadStartRequest();
-        tsr.enable();
-        ThreadDeathRequest tdr = erm.createThreadDeathRequest();
-        tdr.enable();
+        ThrebdStbrtRequest tsr = erm.crebteThrebdStbrtRequest();
+        tsr.enbble();
+        ThrebdDebthRequest tdr = erm.crebteThrebdDebthRequest();
+        tdr.enbble();
     }
 
-    private void resolveEventRequests() {
+    privbte void resolveEventRequests() {
         Env.specList.resolveAll();
     }
 
-    private void dumpStream(InputStream stream) throws IOException {
-        BufferedReader in =
-            new BufferedReader(new InputStreamReader(stream));
+    privbte void dumpStrebm(InputStrebm strebm) throws IOException {
+        BufferedRebder in =
+            new BufferedRebder(new InputStrebmRebder(strebm));
         int i;
         try {
-            while ((i = in.read()) != -1) {
-                   MessageOutput.printDirect((char)i);// Special case: use
+            while ((i = in.rebd()) != -1) {
+                   MessbgeOutput.printDirect((chbr)i);// Specibl cbse: use
                                                       //   printDirect()
             }
-        } catch (IOException ex) {
-            String s = ex.getMessage();
-            if (!s.startsWith("Bad file number")) {
+        } cbtch (IOException ex) {
+            String s = ex.getMessbge();
+            if (!s.stbrtsWith("Bbd file number")) {
                   throw ex;
             }
-            // else we got a Bad file number IOException which just means
-            // that the debuggee has gone away.  We'll just treat it the
-            // same as if we got an EOF.
+            // else we got b Bbd file number IOException which just mebns
+            // thbt the debuggee hbs gone bwby.  We'll just trebt it the
+            // sbme bs if we got bn EOF.
         }
     }
 
     /**
-     *  Create a Thread that will retrieve and display any output.
-     *  Needs to be high priority, else debugger may exit before
-     *  it can be displayed.
+     *  Crebte b Threbd thbt will retrieve bnd displby bny output.
+     *  Needs to be high priority, else debugger mby exit before
+     *  it cbn be displbyed.
      */
-    private void displayRemoteOutput(final InputStream stream) {
-        Thread thr = new Thread("output reader") {
+    privbte void displbyRemoteOutput(finbl InputStrebm strebm) {
+        Threbd thr = new Threbd("output rebder") {
             @Override
             public void run() {
                 try {
-                    dumpStream(stream);
-                } catch (IOException ex) {
-                    MessageOutput.fatalError("Failed reading output");
-                } finally {
+                    dumpStrebm(strebm);
+                } cbtch (IOException ex) {
+                    MessbgeOutput.fbtblError("Fbiled rebding output");
+                } finblly {
                     notifyOutputComplete();
                 }
             }
         };
-        thr.setPriority(Thread.MAX_PRIORITY-1);
-        thr.start();
+        thr.setPriority(Threbd.MAX_PRIORITY-1);
+        thr.stbrt();
     }
 
-    private void dumpFailedLaunchInfo(Process process) {
+    privbte void dumpFbiledLbunchInfo(Process process) {
         try {
-            dumpStream(process.getErrorStream());
-            dumpStream(process.getInputStream());
-        } catch (IOException e) {
-            MessageOutput.println("Unable to display process output:",
-                                  e.getMessage());
+            dumpStrebm(process.getErrorStrebm());
+            dumpStrebm(process.getInputStrebm());
+        } cbtch (IOException e) {
+            MessbgeOutput.println("Unbble to displby process output:",
+                                  e.getMessbge());
         }
     }
 
-    /* launch child target vm */
-    private VirtualMachine launchTarget() {
-        LaunchingConnector launcher = (LaunchingConnector)connector;
+    /* lbunch child tbrget vm */
+    privbte VirtublMbchine lbunchTbrget() {
+        LbunchingConnector lbuncher = (LbunchingConnector)connector;
         try {
-            VirtualMachine vm = launcher.launch(connectorArgs);
+            VirtublMbchine vm = lbuncher.lbunch(connectorArgs);
             process = vm.process();
-            displayRemoteOutput(process.getErrorStream());
-            displayRemoteOutput(process.getInputStream());
+            displbyRemoteOutput(process.getErrorStrebm());
+            displbyRemoteOutput(process.getInputStrebm());
             return vm;
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            MessageOutput.fatalError("Unable to launch target VM.");
-        } catch (IllegalConnectorArgumentsException icae) {
-            icae.printStackTrace();
-            MessageOutput.fatalError("Internal debugger error.");
-        } catch (VMStartException vmse) {
-            MessageOutput.println("vmstartexception", vmse.getMessage());
-            MessageOutput.println();
-            dumpFailedLaunchInfo(vmse.process());
-            MessageOutput.fatalError("Target VM failed to initialize.");
+        } cbtch (IOException ioe) {
+            ioe.printStbckTrbce();
+            MessbgeOutput.fbtblError("Unbble to lbunch tbrget VM.");
+        } cbtch (IllegblConnectorArgumentsException icbe) {
+            icbe.printStbckTrbce();
+            MessbgeOutput.fbtblError("Internbl debugger error.");
+        } cbtch (VMStbrtException vmse) {
+            MessbgeOutput.println("vmstbrtexception", vmse.getMessbge());
+            MessbgeOutput.println();
+            dumpFbiledLbunchInfo(vmse.process());
+            MessbgeOutput.fbtblError("Tbrget VM fbiled to initiblize.");
         }
         return null; // Shuts up the compiler
     }
 
-    /* attach to running target vm */
-    private VirtualMachine attachTarget() {
-        AttachingConnector attacher = (AttachingConnector)connector;
+    /* bttbch to running tbrget vm */
+    privbte VirtublMbchine bttbchTbrget() {
+        AttbchingConnector bttbcher = (AttbchingConnector)connector;
         try {
-            return attacher.attach(connectorArgs);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            MessageOutput.fatalError("Unable to attach to target VM.");
-        } catch (IllegalConnectorArgumentsException icae) {
-            icae.printStackTrace();
-            MessageOutput.fatalError("Internal debugger error.");
+            return bttbcher.bttbch(connectorArgs);
+        } cbtch (IOException ioe) {
+            ioe.printStbckTrbce();
+            MessbgeOutput.fbtblError("Unbble to bttbch to tbrget VM.");
+        } cbtch (IllegblConnectorArgumentsException icbe) {
+            icbe.printStbckTrbce();
+            MessbgeOutput.fbtblError("Internbl debugger error.");
         }
         return null; // Shuts up the compiler
     }
 
-    /* listen for connection from target vm */
-    private VirtualMachine listenTarget() {
+    /* listen for connection from tbrget vm */
+    privbte VirtublMbchine listenTbrget() {
         ListeningConnector listener = (ListeningConnector)connector;
         try {
-            String retAddress = listener.startListening(connectorArgs);
-            MessageOutput.println("Listening at address:", retAddress);
-            vm = listener.accept(connectorArgs);
+            String retAddress = listener.stbrtListening(connectorArgs);
+            MessbgeOutput.println("Listening bt bddress:", retAddress);
+            vm = listener.bccept(connectorArgs);
             listener.stopListening(connectorArgs);
             return vm;
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            MessageOutput.fatalError("Unable to attach to target VM.");
-        } catch (IllegalConnectorArgumentsException icae) {
-            icae.printStackTrace();
-            MessageOutput.fatalError("Internal debugger error.");
+        } cbtch (IOException ioe) {
+            ioe.printStbckTrbce();
+            MessbgeOutput.fbtblError("Unbble to bttbch to tbrget VM.");
+        } cbtch (IllegblConnectorArgumentsException icbe) {
+            icbe.printStbckTrbce();
+            MessbgeOutput.fbtblError("Internbl debugger error.");
         }
         return null; // Shuts up the compiler
     }

@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-public abstract class PrimitiveValueImpl extends ValueImpl
-                                         implements PrimitiveValue {
+public bbstrbct clbss PrimitiveVblueImpl extends VblueImpl
+                                         implements PrimitiveVblue {
 
-    PrimitiveValueImpl(VirtualMachine aVm) {
-        super(aVm);
+    PrimitiveVblueImpl(VirtublMbchine bVm) {
+        super(bVm);
     }
 
-    abstract public boolean booleanValue();
-    abstract public byte byteValue();
-    abstract public char charValue();
-    abstract public short shortValue();
-    abstract public int intValue();
-    abstract public long longValue();
-    abstract public float floatValue();
-    abstract public double doubleValue();
+    bbstrbct public boolebn boolebnVblue();
+    bbstrbct public byte byteVblue();
+    bbstrbct public chbr chbrVblue();
+    bbstrbct public short shortVblue();
+    bbstrbct public int intVblue();
+    bbstrbct public long longVblue();
+    bbstrbct public flobt flobtVblue();
+    bbstrbct public double doubleVblue();
 
     /*
-     * The checked versions of the value accessors throw
-     * InvalidTypeException if the required conversion is
-     * narrowing and would result in the loss of information
-     * (either magnitude or precision).
+     * The checked versions of the vblue bccessors throw
+     * InvblidTypeException if the required conversion is
+     * nbrrowing bnd would result in the loss of informbtion
+     * (either mbgnitude or precision).
      *
-     * Default implementations here do no checking; subclasses
-     * override as necessary to do the proper checking.
+     * Defbult implementbtions here do no checking; subclbsses
+     * override bs necessbry to do the proper checking.
      */
-    byte checkedByteValue() throws InvalidTypeException {
-        return byteValue();
+    byte checkedByteVblue() throws InvblidTypeException {
+        return byteVblue();
     }
-    char checkedCharValue() throws InvalidTypeException {
-        return charValue();
+    chbr checkedChbrVblue() throws InvblidTypeException {
+        return chbrVblue();
     }
-    short checkedShortValue() throws InvalidTypeException {
-        return shortValue();
+    short checkedShortVblue() throws InvblidTypeException {
+        return shortVblue();
     }
-    int checkedIntValue() throws InvalidTypeException {
-        return intValue();
+    int checkedIntVblue() throws InvblidTypeException {
+        return intVblue();
     }
-    long checkedLongValue() throws InvalidTypeException {
-        return longValue();
+    long checkedLongVblue() throws InvblidTypeException {
+        return longVblue();
     }
-    float checkedFloatValue() throws InvalidTypeException {
-        return floatValue();
+    flobt checkedFlobtVblue() throws InvblidTypeException {
+        return flobtVblue();
     }
 
-    final boolean checkedBooleanValue() throws InvalidTypeException {
+    finbl boolebn checkedBoolebnVblue() throws InvblidTypeException {
         /*
-         * Always disallow a conversion to boolean from any other
+         * Alwbys disbllow b conversion to boolebn from bny other
          * primitive
          */
-        if (this instanceof BooleanValue) {
-            return booleanValue();
+        if (this instbnceof BoolebnVblue) {
+            return boolebnVblue();
         } else {
-            throw new InvalidTypeException("Can't convert non-boolean value to boolean");
+            throw new InvblidTypeException("Cbn't convert non-boolebn vblue to boolebn");
         }
     }
 
-    final double checkedDoubleValue() throws InvalidTypeException {
+    finbl double checkedDoubleVblue() throws InvblidTypeException {
         /*
-         * Can't overflow by converting to double, so this method
+         * Cbn't overflow by converting to double, so this method
          * is never overridden
          */
-        return doubleValue();
+        return doubleVblue();
     }
 
-    ValueImpl prepareForAssignmentTo(ValueContainer destination)
-                    throws InvalidTypeException {
+    VblueImpl prepbreForAssignmentTo(VblueContbiner destinbtion)
+                    throws InvblidTypeException {
 
-        return convertForAssignmentTo(destination);
+        return convertForAssignmentTo(destinbtion);
     }
 
-    ValueImpl convertForAssignmentTo(ValueContainer destination)
-                 throws InvalidTypeException {
+    VblueImpl convertForAssignmentTo(VblueContbiner destinbtion)
+                 throws InvblidTypeException {
 
         /*
-         * TO DO: Centralize JNI signature knowledge
+         * TO DO: Centrblize JNI signbture knowledge
          */
-        if (destination.signature().length() > 1) {
-            throw new InvalidTypeException("Can't assign primitive value to object");
+        if (destinbtion.signbture().length() > 1) {
+            throw new InvblidTypeException("Cbn't bssign primitive vblue to object");
         }
 
-        if ((destination.signature().charAt(0) == 'Z') &&
-            (type().signature().charAt(0) != 'Z')) {
-            throw new InvalidTypeException("Can't assign non-boolean value to a boolean");
+        if ((destinbtion.signbture().chbrAt(0) == 'Z') &&
+            (type().signbture().chbrAt(0) != 'Z')) {
+            throw new InvblidTypeException("Cbn't bssign non-boolebn vblue to b boolebn");
         }
 
-        if ((destination.signature().charAt(0) != 'Z') &&
-            (type().signature().charAt(0) == 'Z')) {
-            throw new InvalidTypeException("Can't assign boolean value to an non-boolean");
+        if ((destinbtion.signbture().chbrAt(0) != 'Z') &&
+            (type().signbture().chbrAt(0) == 'Z')) {
+            throw new InvblidTypeException("Cbn't bssign boolebn vblue to bn non-boolebn");
         }
 
-        if ("void".equals(destination.typeName())) {
-            throw new InvalidTypeException("Can't assign primitive value to a void");
+        if ("void".equbls(destinbtion.typeNbme())) {
+            throw new InvblidTypeException("Cbn't bssign primitive vblue to b void");
         }
 
         try {
-            PrimitiveTypeImpl primitiveType = (PrimitiveTypeImpl)destination.type();
-            return (ValueImpl)(primitiveType.convert(this));
-        } catch (ClassNotLoadedException e) {
-            throw new InternalException("Signature and type inconsistent for: " +
-                                        destination.typeName());
+            PrimitiveTypeImpl primitiveType = (PrimitiveTypeImpl)destinbtion.type();
+            return (VblueImpl)(primitiveType.convert(this));
+        } cbtch (ClbssNotLobdedException e) {
+            throw new InternblException("Signbture bnd type inconsistent for: " +
+                                        destinbtion.typeNbme());
         }
     }
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,93 +30,93 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  */
 
-import javax.management.*;
-import javax.management.remote.*;
-import java.io.IOException;
-import java.net.MalformedURLException;
+import jbvbx.mbnbgement.*;
+import jbvbx.mbnbgement.remote.*;
+import jbvb.io.IOException;
+import jbvb.net.MblformedURLException;
 
 /**
- * This FullThreadDump class demonstrates the capability to get
- * a full thread dump and also detect deadlock remotely.
+ * This FullThrebdDump clbss demonstrbtes the cbpbbility to get
+ * b full threbd dump bnd blso detect debdlock remotely.
  */
-public class FullThreadDump {
-    private MBeanServerConnection server;
-    private JMXConnector jmxc;
-    public FullThreadDump(String hostname, int port) {
-        System.out.println("Connecting to " + hostname + ":" + port);
+public clbss FullThrebdDump {
+    privbte MBebnServerConnection server;
+    privbte JMXConnector jmxc;
+    public FullThrebdDump(String hostnbme, int port) {
+        System.out.println("Connecting to " + hostnbme + ":" + port);
 
-        // Create an RMI connector client and connect it to
+        // Crebte bn RMI connector client bnd connect it to
         // the RMI connector server
-        String urlPath = "/jndi/rmi://" + hostname + ":" + port + "/jmxrmi";
-        connect(urlPath);
+        String urlPbth = "/jndi/rmi://" + hostnbme + ":" + port + "/jmxrmi";
+        connect(urlPbth);
    }
 
    public void dump() {
         try {
-            ThreadMonitor monitor = new ThreadMonitor(server);
-            monitor.threadDump();
-            if (!monitor.findDeadlock()) {
-                System.out.println("No deadlock found.");
+            ThrebdMonitor monitor = new ThrebdMonitor(server);
+            monitor.threbdDump();
+            if (!monitor.findDebdlock()) {
+                System.out.println("No debdlock found.");
             }
-        } catch (IOException e) {
-            System.err.println("\nCommunication error: " + e.getMessage());
+        } cbtch (IOException e) {
+            System.err.println("\nCommunicbtion error: " + e.getMessbge());
             System.exit(1);
         }
     }
 
     /**
-     * Connect to a JMX agent of a given URL.
+     * Connect to b JMX bgent of b given URL.
      */
-    private void connect(String urlPath) {
+    privbte void connect(String urlPbth) {
         try {
-            JMXServiceURL url = new JMXServiceURL("rmi", "", 0, urlPath);
-            this.jmxc = JMXConnectorFactory.connect(url);
-            this.server = jmxc.getMBeanServerConnection();
-        } catch (MalformedURLException e) {
-            // should not reach here
-        } catch (IOException e) {
-            System.err.println("\nCommunication error: " + e.getMessage());
+            JMXServiceURL url = new JMXServiceURL("rmi", "", 0, urlPbth);
+            this.jmxc = JMXConnectorFbctory.connect(url);
+            this.server = jmxc.getMBebnServerConnection();
+        } cbtch (MblformedURLException e) {
+            // should not rebch here
+        } cbtch (IOException e) {
+            System.err.println("\nCommunicbtion error: " + e.getMessbge());
             System.exit(1);
         }
     }
 
-    public static void main(String[] args) {
-        if (args.length != 1) {
-            usage();
+    public stbtic void mbin(String[] brgs) {
+        if (brgs.length != 1) {
+            usbge();
         }
 
-        String[] arg2 = args[0].split(":");
-        if (arg2.length != 2) {
-            usage();
+        String[] brg2 = brgs[0].split(":");
+        if (brg2.length != 2) {
+            usbge();
         }
-        String hostname = arg2[0];
+        String hostnbme = brg2[0];
         int port = -1;
         try {
-            port = Integer.parseInt(arg2[1]);
-        } catch (NumberFormatException x) {
-            usage();
+            port = Integer.pbrseInt(brg2[1]);
+        } cbtch (NumberFormbtException x) {
+            usbge();
         }
         if (port < 0) {
-            usage();
+            usbge();
         }
 
-        // get full thread dump and perform deadlock detection
-        FullThreadDump ftd = new FullThreadDump(hostname, port);
+        // get full threbd dump bnd perform debdlock detection
+        FullThrebdDump ftd = new FullThrebdDump(hostnbme, port);
         ftd.dump();
     }
 
-    private static void usage() {
-        System.out.println("Usage: java FullThreadDump <hostname>:<port>");
+    privbte stbtic void usbge() {
+        System.out.println("Usbge: jbvb FullThrebdDump <hostnbme>:<port>");
     }
 }

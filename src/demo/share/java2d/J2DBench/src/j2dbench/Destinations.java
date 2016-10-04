@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,203 +30,203 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench;
+pbckbge j2dbench;
 
-import java.awt.Image;
-import java.awt.Component;
-import java.awt.GraphicsConfiguration;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Component;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ComponentColorModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.WritbbleRbster;
 
-import j2dbench.tests.GraphicsTests;
-import j2dbench.tests.ImageTests;
+import j2dbench.tests.GrbphicsTests;
+import j2dbench.tests.ImbgeTests;
 
-public abstract class Destinations extends Option.Enable {
-    public static Group.EnableSet destroot;
-    public static Group bufimgdestroot;
-    public static Group compatimgdestroot;
+public bbstrbct clbss Destinbtions extends Option.Enbble {
+    public stbtic Group.EnbbleSet destroot;
+    public stbtic Group bufimgdestroot;
+    public stbtic Group compbtimgdestroot;
 
-    public static void init() {
-        destroot = new Group.EnableSet(TestEnvironment.globaloptroot,
-                                       "dest", "Output Destination Options");
+    public stbtic void init() {
+        destroot = new Group.EnbbleSet(TestEnvironment.globbloptroot,
+                                       "dest", "Output Destinbtion Options");
 
         new Screen();
         new OffScreen();
 
-        if (GraphicsTests.hasGraphics2D) {
-            if (ImageTests.hasCompatImage) {
-                compatimgdestroot =
-                    new Group.EnableSet(destroot, "compatimg",
-                                        "Compatible Image Destinations");
-                compatimgdestroot.setHorizontal();
+        if (GrbphicsTests.hbsGrbphics2D) {
+            if (ImbgeTests.hbsCompbtImbge) {
+                compbtimgdestroot =
+                    new Group.EnbbleSet(destroot, "compbtimg",
+                                        "Compbtible Imbge Destinbtions");
+                compbtimgdestroot.setHorizontbl();
 
-                new CompatImg();
-                new CompatImg(Transparency.OPAQUE);
-                new CompatImg(Transparency.BITMASK);
-                new CompatImg(Transparency.TRANSLUCENT);
+                new CompbtImg();
+                new CompbtImg(Trbnspbrency.OPAQUE);
+                new CompbtImg(Trbnspbrency.BITMASK);
+                new CompbtImg(Trbnspbrency.TRANSLUCENT);
             }
 
-            if (ImageTests.hasVolatileImage) {
-                new VolatileImg();
+            if (ImbgeTests.hbsVolbtileImbge) {
+                new VolbtileImg();
             }
 
-            bufimgdestroot = new Group.EnableSet(destroot, "bufimg",
-                                                 "BufferedImage Destinations");
+            bufimgdestroot = new Group.EnbbleSet(destroot, "bufimg",
+                                                 "BufferedImbge Destinbtions");
 
-            new BufImg(BufferedImage.TYPE_INT_RGB);
-            new BufImg(BufferedImage.TYPE_INT_ARGB);
-            new BufImg(BufferedImage.TYPE_INT_ARGB_PRE);
-            new BufImg(BufferedImage.TYPE_3BYTE_BGR);
-            new BufImg(BufferedImage.TYPE_BYTE_INDEXED);
-            new BufImg(BufferedImage.TYPE_BYTE_GRAY);
+            new BufImg(BufferedImbge.TYPE_INT_RGB);
+            new BufImg(BufferedImbge.TYPE_INT_ARGB);
+            new BufImg(BufferedImbge.TYPE_INT_ARGB_PRE);
+            new BufImg(BufferedImbge.TYPE_3BYTE_BGR);
+            new BufImg(BufferedImbge.TYPE_BYTE_INDEXED);
+            new BufImg(BufferedImbge.TYPE_BYTE_GRAY);
             new CustomImg();
         }
     }
 
-    public Destinations(Group parent,
-                        String nodename, String description,
-                        boolean defenabled)
+    public Destinbtions(Group pbrent,
+                        String nodenbme, String description,
+                        boolebn defenbbled)
     {
-        super(parent, nodename, description, defenabled);
+        super(pbrent, nodenbme, description, defenbbled);
     }
 
     public void modifyTest(TestEnvironment env) {
-        setDestination(env);
+        setDestinbtion(env);
     }
 
     public void restoreTest(TestEnvironment env) {
-        env.setTestImage(null);
+        env.setTestImbge(null);
     }
 
-    public String getAbbreviatedModifierDescription(Object val) {
-        return "to "+getModifierValueName(val);
+    public String getAbbrevibtedModifierDescription(Object vbl) {
+        return "to "+getModifierVblueNbme(vbl);
     }
 
-    public abstract void setDestination(TestEnvironment env);
+    public bbstrbct void setDestinbtion(TestEnvironment env);
 
-    public static class Screen extends Destinations {
+    public stbtic clbss Screen extends Destinbtions {
         public Screen() {
-            super(destroot, "screen", "Output to Screen", false);
+            super(destroot, "screen", "Output to Screen", fblse);
         }
 
-        public String getModifierValueName(Object val) {
+        public String getModifierVblueNbme(Object vbl) {
             return "Screen";
         }
 
-        public void setDestination(TestEnvironment env) {
-            env.setTestImage(null);
+        public void setDestinbtion(TestEnvironment env) {
+            env.setTestImbge(null);
         }
     }
 
-    public static class OffScreen extends Destinations {
+    public stbtic clbss OffScreen extends Destinbtions {
         public OffScreen() {
-            super(destroot, "offscreen", "Output to OffScreen Image", false);
+            super(destroot, "offscreen", "Output to OffScreen Imbge", fblse);
         }
 
-        public String getModifierValueName(Object val) {
+        public String getModifierVblueNbme(Object vbl) {
             return "OffScreen";
         }
 
-        public void setDestination(TestEnvironment env) {
-            Component c = env.getCanvas();
-            env.setTestImage(c.createImage(env.getWidth(), env.getHeight()));
+        public void setDestinbtion(TestEnvironment env) {
+            Component c = env.getCbnvbs();
+            env.setTestImbge(c.crebteImbge(env.getWidth(), env.getHeight()));
         }
     }
 
-    public static class CompatImg extends Destinations {
-        int transparency;
+    public stbtic clbss CompbtImg extends Destinbtions {
+        int trbnspbrency;
 
-        public static String ShortNames[] = {
-            "compatimg",
-            "opqcompatimg",
-            "bmcompatimg",
-            "transcompatimg",
+        public stbtic String ShortNbmes[] = {
+            "compbtimg",
+            "opqcompbtimg",
+            "bmcompbtimg",
+            "trbnscompbtimg",
         };
 
-        public static String ShortDescriptions[] = {
-            "Default",
-            "Opaque",
-            "Bitmask",
-            "Translucent",
+        public stbtic String ShortDescriptions[] = {
+            "Defbult",
+            "Opbque",
+            "Bitmbsk",
+            "Trbnslucent",
         };
 
-        public static String LongDescriptions[] = {
-            "Default Compatible Image",
-            "Opaque Compatible Image",
-            "Bitmask Compatible Image",
-            "Translucent Compatible Image",
+        public stbtic String LongDescriptions[] = {
+            "Defbult Compbtible Imbge",
+            "Opbque Compbtible Imbge",
+            "Bitmbsk Compbtible Imbge",
+            "Trbnslucent Compbtible Imbge",
         };
 
-        public static String ModifierNames[] = {
-            "CompatImage()",
-            "CompatImage(Opaque)",
-            "CompatImage(Bitmask)",
-            "CompatImage(Translucent)",
+        public stbtic String ModifierNbmes[] = {
+            "CompbtImbge()",
+            "CompbtImbge(Opbque)",
+            "CompbtImbge(Bitmbsk)",
+            "CompbtImbge(Trbnslucent)",
         };
 
-        public CompatImg() {
+        public CompbtImg() {
             this(0);
         }
 
-        public CompatImg(int transparency) {
-            super(compatimgdestroot,
-                  ShortNames[transparency],
-                  ShortDescriptions[transparency],
-                  false);
-            this.transparency = transparency;
+        public CompbtImg(int trbnspbrency) {
+            super(compbtimgdestroot,
+                  ShortNbmes[trbnspbrency],
+                  ShortDescriptions[trbnspbrency],
+                  fblse);
+            this.trbnspbrency = trbnspbrency;
         }
 
-        public String getModifierValueName(Object val) {
-            return ModifierNames[transparency];
+        public String getModifierVblueNbme(Object vbl) {
+            return ModifierNbmes[trbnspbrency];
         }
 
-        public void setDestination(TestEnvironment env) {
-            Component c = env.getCanvas();
-            GraphicsConfiguration gc = c.getGraphicsConfiguration();
+        public void setDestinbtion(TestEnvironment env) {
+            Component c = env.getCbnvbs();
+            GrbphicsConfigurbtion gc = c.getGrbphicsConfigurbtion();
             int w = env.getWidth();
             int h = env.getHeight();
-            if (transparency == 0) {
-                env.setTestImage(gc.createCompatibleImage(w, h));
+            if (trbnspbrency == 0) {
+                env.setTestImbge(gc.crebteCompbtibleImbge(w, h));
             } else {
-                env.setTestImage(gc.createCompatibleImage(w, h, transparency));
+                env.setTestImbge(gc.crebteCompbtibleImbge(w, h, trbnspbrency));
             }
         }
     }
 
-    public static class VolatileImg extends Destinations {
-        public VolatileImg() {
-            super(destroot, "volimg", "Output to Volatile Image", false);
+    public stbtic clbss VolbtileImg extends Destinbtions {
+        public VolbtileImg() {
+            super(destroot, "volimg", "Output to Volbtile Imbge", fblse);
         }
 
-        public String getModifierValueName(Object val) {
-            return "VolatileImg";
+        public String getModifierVblueNbme(Object vbl) {
+            return "VolbtileImg";
         }
 
-        public void setDestination(TestEnvironment env) {
-            Component c = env.getCanvas();
-            env.setTestImage(c.createVolatileImage(env.getWidth(),
+        public void setDestinbtion(TestEnvironment env) {
+            Component c = env.getCbnvbs();
+            env.setTestImbge(c.crebteVolbtileImbge(env.getWidth(),
                                                    env.getHeight()));
         }
     }
 
 
-    public static class BufImg extends Destinations {
+    public stbtic clbss BufImg extends Destinbtions {
         int type;
-        Image img;
+        Imbge img;
 
-        public static String ShortNames[] = {
+        public stbtic String ShortNbmes[] = {
             "custom",
             "IntXrgb",
             "IntArgb",
@@ -237,73 +237,73 @@ public abstract class Destinations extends Option.Enable {
             "4ByteAbgrPre",
             "Short565",
             "Short555",
-            "ByteGray",
-            "ShortGray",
-            "ByteBinary",
+            "ByteGrby",
+            "ShortGrby",
+            "ByteBinbry",
             "ByteIndexed",
         };
 
-        public static String Descriptions[] = {
-            "Custom Image",
-            "32-bit XRGB Packed Image",
-            "32-bit ARGB Packed Image",
-            "32-bit ARGB Alpha Premultiplied Packed Image",
-            "32-bit XBGR Packed Image",
-            "3-byte BGR Component Image",
-            "4-byte ABGR Component Image",
-            "4-byte ABGR Alpha Premultiplied Component Image",
-            "16-bit 565 RGB Packed Image",
-            "15-bit 555 RGB Packed Image",
-            "8-bit Grayscale Image",
-            "16-bit Grayscale Image",
-            "1-bit Binary Image",
-            "8-bit Indexed Image",
+        public stbtic String Descriptions[] = {
+            "Custom Imbge",
+            "32-bit XRGB Pbcked Imbge",
+            "32-bit ARGB Pbcked Imbge",
+            "32-bit ARGB Alphb Premultiplied Pbcked Imbge",
+            "32-bit XBGR Pbcked Imbge",
+            "3-byte BGR Component Imbge",
+            "4-byte ABGR Component Imbge",
+            "4-byte ABGR Alphb Premultiplied Component Imbge",
+            "16-bit 565 RGB Pbcked Imbge",
+            "15-bit 555 RGB Pbcked Imbge",
+            "8-bit Grbyscble Imbge",
+            "16-bit Grbyscble Imbge",
+            "1-bit Binbry Imbge",
+            "8-bit Indexed Imbge",
         };
 
         public BufImg(int type) {
-            super(bufimgdestroot, ShortNames[type], Descriptions[type], false);
+            super(bufimgdestroot, ShortNbmes[type], Descriptions[type], fblse);
             this.type = type;
         }
 
-        public String getModifierValueName(Object val) {
-            return "BufImg("+getNodeName()+")";
+        public String getModifierVblueNbme(Object vbl) {
+            return "BufImg("+getNodeNbme()+")";
         }
 
-        public void setDestination(TestEnvironment env) {
+        public void setDestinbtion(TestEnvironment env) {
             if (img == null) {
-                img = new BufferedImage(env.getWidth(), env.getHeight(), type);
+                img = new BufferedImbge(env.getWidth(), env.getHeight(), type);
             }
-            env.setTestImage(img);
+            env.setTestImbge(img);
         }
     }
 
-    public static class CustomImg extends Destinations {
-        private Image img;
+    public stbtic clbss CustomImg extends Destinbtions {
+        privbte Imbge img;
 
         public CustomImg() {
             super(bufimgdestroot,
                   "custom",
-                  "Custom (3-float RGB) Image",
-                  false);
+                  "Custom (3-flobt RGB) Imbge",
+                  fblse);
         }
 
-        public String getModifierValueName(Object val) {
+        public String getModifierVblueNbme(Object vbl) {
             return "CustomImg";
         }
 
-        public void setDestination(TestEnvironment env) {
+        public void setDestinbtion(TestEnvironment env) {
             if (img == null) {
-                ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+                ColorSpbce cs = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
                 ComponentColorModel cm =
-                    new ComponentColorModel(cs, false, false,
-                                            Transparency.OPAQUE,
-                                            DataBuffer.TYPE_FLOAT);
-                WritableRaster raster =
-                    cm.createCompatibleWritableRaster(env.getWidth(),
+                    new ComponentColorModel(cs, fblse, fblse,
+                                            Trbnspbrency.OPAQUE,
+                                            DbtbBuffer.TYPE_FLOAT);
+                WritbbleRbster rbster =
+                    cm.crebteCompbtibleWritbbleRbster(env.getWidth(),
                                                       env.getHeight());
-                img = new BufferedImage(cm, raster, false, null);
+                img = new BufferedImbge(cm, rbster, fblse, null);
             }
-            env.setTestImage(img);
+            env.setTestImbge(img);
         }
     }
 }

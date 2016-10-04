@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.im;
+pbckbge jbvb.bwt.im;
 
-import java.awt.font.TextAttribute;
-import java.util.Map;
+import jbvb.bwt.font.TextAttribute;
+import jbvb.util.Mbp;
 
 /**
 * An InputMethodHighlight is used to describe the highlight
-* attributes of text being composed.
-* The description can be at two levels:
-* at the abstract level it specifies the conversion state and whether the
-* text is selected; at the concrete level it specifies style attributes used
+* bttributes of text being composed.
+* The description cbn be bt two levels:
+* bt the bbstrbct level it specifies the conversion stbte bnd whether the
+* text is selected; bt the concrete level it specifies style bttributes used
 * to render the highlight.
-* An InputMethodHighlight must provide the description at the
-* abstract level; it may or may not provide the description at the concrete
+* An InputMethodHighlight must provide the description bt the
+* bbstrbct level; it mby or mby not provide the description bt the concrete
 * level.
-* If no concrete style is provided, a renderer should use
-* {@link java.awt.Toolkit#mapInputMethodHighlight} to map to a concrete style.
+* If no concrete style is provided, b renderer should use
+* {@link jbvb.bwt.Toolkit#mbpInputMethodHighlight} to mbp to b concrete style.
 * <p>
-* The abstract description consists of three fields: <code>selected</code>,
-* <code>state</code>, and <code>variation</code>.
-* <code>selected</code> indicates whether the text range is the one that the
-* input method is currently working on, for example, the segment for which
-* conversion candidates are currently shown in a menu.
-* <code>state</code> represents the conversion state. State values are defined
-* by the input method framework and should be distinguished in all
-* mappings from abstract to concrete styles. Currently defined state values
-* are raw (unconverted) and converted.
-* These state values are recommended for use before and after the
-* main conversion step of text composition, say, before and after kana-&gt;kanji
-* or pinyin-&gt;hanzi conversion.
-* The <code>variation</code> field allows input methods to express additional
-* information about the conversion results.
+* The bbstrbct description consists of three fields: <code>selected</code>,
+* <code>stbte</code>, bnd <code>vbribtion</code>.
+* <code>selected</code> indicbtes whether the text rbnge is the one thbt the
+* input method is currently working on, for exbmple, the segment for which
+* conversion cbndidbtes bre currently shown in b menu.
+* <code>stbte</code> represents the conversion stbte. Stbte vblues bre defined
+* by the input method frbmework bnd should be distinguished in bll
+* mbppings from bbstrbct to concrete styles. Currently defined stbte vblues
+* bre rbw (unconverted) bnd converted.
+* These stbte vblues bre recommended for use before bnd bfter the
+* mbin conversion step of text composition, sby, before bnd bfter kbnb-&gt;kbnji
+* or pinyin-&gt;hbnzi conversion.
+* The <code>vbribtion</code> field bllows input methods to express bdditionbl
+* informbtion bbout the conversion results.
 * <p>
 *
-* InputMethodHighlight instances are typically used as attribute values
-* returned from AttributedCharacterIterator for the INPUT_METHOD_HIGHLIGHT
-* attribute. They may be wrapped into {@link java.text.Annotation Annotation}
-* instances to indicate separate text segments.
+* InputMethodHighlight instbnces bre typicblly used bs bttribute vblues
+* returned from AttributedChbrbcterIterbtor for the INPUT_METHOD_HIGHLIGHT
+* bttribute. They mby be wrbpped into {@link jbvb.text.Annotbtion Annotbtion}
+* instbnces to indicbte sepbrbte text segments.
 *
-* @see java.text.AttributedCharacterIterator
+* @see jbvb.text.AttributedChbrbcterIterbtor
 * @since 1.2
 */
 
-public class InputMethodHighlight {
+public clbss InputMethodHighlight {
 
     /**
-     * Constant for the raw text state.
+     * Constbnt for the rbw text stbte.
      */
-    public final static int RAW_TEXT = 0;
+    public finbl stbtic int RAW_TEXT = 0;
 
     /**
-     * Constant for the converted text state.
+     * Constbnt for the converted text stbte.
      */
-    public final static int CONVERTED_TEXT = 1;
+    public finbl stbtic int CONVERTED_TEXT = 1;
 
 
     /**
-     * Constant for the default highlight for unselected raw text.
+     * Constbnt for the defbult highlight for unselected rbw text.
      */
-    public final static InputMethodHighlight UNSELECTED_RAW_TEXT_HIGHLIGHT =
-        new InputMethodHighlight(false, RAW_TEXT);
+    public finbl stbtic InputMethodHighlight UNSELECTED_RAW_TEXT_HIGHLIGHT =
+        new InputMethodHighlight(fblse, RAW_TEXT);
 
     /**
-     * Constant for the default highlight for selected raw text.
+     * Constbnt for the defbult highlight for selected rbw text.
      */
-    public final static InputMethodHighlight SELECTED_RAW_TEXT_HIGHLIGHT =
+    public finbl stbtic InputMethodHighlight SELECTED_RAW_TEXT_HIGHLIGHT =
         new InputMethodHighlight(true, RAW_TEXT);
 
     /**
-     * Constant for the default highlight for unselected converted text.
+     * Constbnt for the defbult highlight for unselected converted text.
      */
-    public final static InputMethodHighlight UNSELECTED_CONVERTED_TEXT_HIGHLIGHT =
-        new InputMethodHighlight(false, CONVERTED_TEXT);
+    public finbl stbtic InputMethodHighlight UNSELECTED_CONVERTED_TEXT_HIGHLIGHT =
+        new InputMethodHighlight(fblse, CONVERTED_TEXT);
 
     /**
-     * Constant for the default highlight for selected converted text.
+     * Constbnt for the defbult highlight for selected converted text.
      */
-    public final static InputMethodHighlight SELECTED_CONVERTED_TEXT_HIGHLIGHT =
+    public finbl stbtic InputMethodHighlight SELECTED_CONVERTED_TEXT_HIGHLIGHT =
         new InputMethodHighlight(true, CONVERTED_TEXT);
 
 
     /**
-     * Constructs an input method highlight record.
-     * The variation is set to 0, the style to null.
-     * @param selected Whether the text range is selected
-     * @param state The conversion state for the text range - RAW_TEXT or CONVERTED_TEXT
+     * Constructs bn input method highlight record.
+     * The vbribtion is set to 0, the style to null.
+     * @pbrbm selected Whether the text rbnge is selected
+     * @pbrbm stbte The conversion stbte for the text rbnge - RAW_TEXT or CONVERTED_TEXT
      * @see InputMethodHighlight#RAW_TEXT
      * @see InputMethodHighlight#CONVERTED_TEXT
-     * @exception IllegalArgumentException if a state other than RAW_TEXT or CONVERTED_TEXT is given
+     * @exception IllegblArgumentException if b stbte other thbn RAW_TEXT or CONVERTED_TEXT is given
      */
-    public InputMethodHighlight(boolean selected, int state) {
-        this(selected, state, 0, null);
+    public InputMethodHighlight(boolebn selected, int stbte) {
+        this(selected, stbte, 0, null);
     }
 
     /**
-     * Constructs an input method highlight record.
+     * Constructs bn input method highlight record.
      * The style is set to null.
-     * @param selected Whether the text range is selected
-     * @param state The conversion state for the text range - RAW_TEXT or CONVERTED_TEXT
-     * @param variation The style variation for the text range
+     * @pbrbm selected Whether the text rbnge is selected
+     * @pbrbm stbte The conversion stbte for the text rbnge - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm vbribtion The style vbribtion for the text rbnge
      * @see InputMethodHighlight#RAW_TEXT
      * @see InputMethodHighlight#CONVERTED_TEXT
-     * @exception IllegalArgumentException if a state other than RAW_TEXT or CONVERTED_TEXT is given
+     * @exception IllegblArgumentException if b stbte other thbn RAW_TEXT or CONVERTED_TEXT is given
      */
-    public InputMethodHighlight(boolean selected, int state, int variation) {
-        this(selected, state, variation, null);
+    public InputMethodHighlight(boolebn selected, int stbte, int vbribtion) {
+        this(selected, stbte, vbribtion, null);
     }
 
     /**
-     * Constructs an input method highlight record.
-     * The style attributes map provided must be unmodifiable.
-     * @param selected whether the text range is selected
-     * @param state the conversion state for the text range - RAW_TEXT or CONVERTED_TEXT
-     * @param variation the variation for the text range
-     * @param style the rendering style attributes for the text range, or null
+     * Constructs bn input method highlight record.
+     * The style bttributes mbp provided must be unmodifibble.
+     * @pbrbm selected whether the text rbnge is selected
+     * @pbrbm stbte the conversion stbte for the text rbnge - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm vbribtion the vbribtion for the text rbnge
+     * @pbrbm style the rendering style bttributes for the text rbnge, or null
      * @see InputMethodHighlight#RAW_TEXT
      * @see InputMethodHighlight#CONVERTED_TEXT
-     * @exception IllegalArgumentException if a state other than RAW_TEXT or CONVERTED_TEXT is given
+     * @exception IllegblArgumentException if b stbte other thbn RAW_TEXT or CONVERTED_TEXT is given
      * @since 1.3
      */
-    public InputMethodHighlight(boolean selected, int state, int variation,
-                                Map<TextAttribute,?> style)
+    public InputMethodHighlight(boolebn selected, int stbte, int vbribtion,
+                                Mbp<TextAttribute,?> style)
     {
         this.selected = selected;
-        if (!(state == RAW_TEXT || state == CONVERTED_TEXT)) {
-            throw new IllegalArgumentException("unknown input method highlight state");
+        if (!(stbte == RAW_TEXT || stbte == CONVERTED_TEXT)) {
+            throw new IllegblArgumentException("unknown input method highlight stbte");
         }
-        this.state = state;
-        this.variation = variation;
+        this.stbte = stbte;
+        this.vbribtion = vbribtion;
         this.style = style;
     }
 
     /**
-     * Returns whether the text range is selected.
-     * @return whether the text range is selected
+     * Returns whether the text rbnge is selected.
+     * @return whether the text rbnge is selected
      */
-    public boolean isSelected() {
+    public boolebn isSelected() {
         return selected;
     }
 
     /**
-     * Returns the conversion state of the text range.
-     * @return The conversion state for the text range - RAW_TEXT or CONVERTED_TEXT.
+     * Returns the conversion stbte of the text rbnge.
+     * @return The conversion stbte for the text rbnge - RAW_TEXT or CONVERTED_TEXT.
      * @see InputMethodHighlight#RAW_TEXT
      * @see InputMethodHighlight#CONVERTED_TEXT
      */
-    public int getState() {
-        return state;
+    public int getStbte() {
+        return stbte;
     }
 
     /**
-     * Returns the variation of the text range.
-     * @return the variation of the text range
+     * Returns the vbribtion of the text rbnge.
+     * @return the vbribtion of the text rbnge
      */
-    public int getVariation() {
-        return variation;
+    public int getVbribtion() {
+        return vbribtion;
     }
 
     /**
-     * Returns the rendering style attributes for the text range, or null.
-     * @return the rendering style attributes for the text range, or null
+     * Returns the rendering style bttributes for the text rbnge, or null.
+     * @return the rendering style bttributes for the text rbnge, or null
      * @since 1.3
      */
-    public Map<TextAttribute,?> getStyle() {
+    public Mbp<TextAttribute,?> getStyle() {
         return style;
     }
 
-    private boolean selected;
-    private int state;
-    private int variation;
-    private Map<TextAttribute, ?> style;
+    privbte boolebn selected;
+    privbte int stbte;
+    privbte int vbribtion;
+    privbte Mbp<TextAttribute, ?> style;
 
 };

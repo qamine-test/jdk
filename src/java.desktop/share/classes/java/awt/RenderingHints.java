@@ -1,355 +1,355 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import sun.awt.SunHints;
-import java.lang.ref.WeakReference;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import sun.bwt.SunHints;
+import jbvb.lbng.ref.WebkReference;
 
 /**
- * The {@code RenderingHints} class defines and manages collections of
- * keys and associated values which allow an application to provide input
- * into the choice of algorithms used by other classes which perform
- * rendering and image manipulation services.
- * The {@link java.awt.Graphics2D} class, and classes that implement
- * {@link java.awt.image.BufferedImageOp} and
- * {@link java.awt.image.RasterOp} all provide methods to get and
- * possibly to set individual or groups of {@code RenderingHints}
- * keys and their associated values.
- * When those implementations perform any rendering or image manipulation
- * operations they should examine the values of any {@code RenderingHints}
- * that were requested by the caller and tailor the algorithms used
- * accordingly and to the best of their ability.
+ * The {@code RenderingHints} clbss defines bnd mbnbges collections of
+ * keys bnd bssocibted vblues which bllow bn bpplicbtion to provide input
+ * into the choice of blgorithms used by other clbsses which perform
+ * rendering bnd imbge mbnipulbtion services.
+ * The {@link jbvb.bwt.Grbphics2D} clbss, bnd clbsses thbt implement
+ * {@link jbvb.bwt.imbge.BufferedImbgeOp} bnd
+ * {@link jbvb.bwt.imbge.RbsterOp} bll provide methods to get bnd
+ * possibly to set individubl or groups of {@code RenderingHints}
+ * keys bnd their bssocibted vblues.
+ * When those implementbtions perform bny rendering or imbge mbnipulbtion
+ * operbtions they should exbmine the vblues of bny {@code RenderingHints}
+ * thbt were requested by the cbller bnd tbilor the blgorithms used
+ * bccordingly bnd to the best of their bbility.
  * <p>
- * Note that since these keys and values are <i>hints</i>, there is
- * no requirement that a given implementation supports all possible
- * choices indicated below or that it can respond to requests to
- * modify its choice of algorithm.
- * The values of the various hint keys may also interact such that
- * while all variants of a given key are supported in one situation,
- * the implementation may be more restricted when the values associated
- * with other keys are modified.
- * For example, some implementations may be able to provide several
- * types of dithering when the antialiasing hint is turned off, but
- * have little control over dithering when antialiasing is on.
- * The full set of supported keys and hints may also vary by destination
- * since runtimes may use different underlying modules to render to
- * the screen, or to {@link java.awt.image.BufferedImage} objects,
+ * Note thbt since these keys bnd vblues bre <i>hints</i>, there is
+ * no requirement thbt b given implementbtion supports bll possible
+ * choices indicbted below or thbt it cbn respond to requests to
+ * modify its choice of blgorithm.
+ * The vblues of the vbrious hint keys mby blso interbct such thbt
+ * while bll vbribnts of b given key bre supported in one situbtion,
+ * the implementbtion mby be more restricted when the vblues bssocibted
+ * with other keys bre modified.
+ * For exbmple, some implementbtions mby be bble to provide severbl
+ * types of dithering when the bntiblibsing hint is turned off, but
+ * hbve little control over dithering when bntiblibsing is on.
+ * The full set of supported keys bnd hints mby blso vbry by destinbtion
+ * since runtimes mby use different underlying modules to render to
+ * the screen, or to {@link jbvb.bwt.imbge.BufferedImbge} objects,
  * or while printing.
  * <p>
- * Implementations are free to ignore the hints completely, but should
- * try to use an implementation algorithm that is as close as possible
+ * Implementbtions bre free to ignore the hints completely, but should
+ * try to use bn implementbtion blgorithm thbt is bs close bs possible
  * to the request.
- * If an implementation supports a given algorithm when any value is used
- * for an associated hint key, then minimally it must do so when the
- * value for that key is the exact value that specifies the algorithm.
+ * If bn implementbtion supports b given blgorithm when bny vblue is used
+ * for bn bssocibted hint key, then minimblly it must do so when the
+ * vblue for thbt key is the exbct vblue thbt specifies the blgorithm.
  * <p>
- * The keys used to control the hints are all special values that
- * subclass the associated {@link RenderingHints.Key} class.
- * Many common hints are expressed below as static constants in this
- * class, but the list is not meant to be exhaustive.
- * Other hints may be created by other packages by defining new objects
- * which subclass the {@code Key} class and defining the associated values.
+ * The keys used to control the hints bre bll specibl vblues thbt
+ * subclbss the bssocibted {@link RenderingHints.Key} clbss.
+ * Mbny common hints bre expressed below bs stbtic constbnts in this
+ * clbss, but the list is not mebnt to be exhbustive.
+ * Other hints mby be crebted by other pbckbges by defining new objects
+ * which subclbss the {@code Key} clbss bnd defining the bssocibted vblues.
  */
-public class RenderingHints
-    implements Map<Object,Object>, Cloneable
+public clbss RenderingHints
+    implements Mbp<Object,Object>, Clonebble
 {
     /**
-     * Defines the base type of all keys used along with the
-     * {@link RenderingHints} class to control various
-     * algorithm choices in the rendering and imaging pipelines.
-     * Instances of this class are immutable and unique which
-     * means that tests for matches can be made using the
-     * {@code ==} operator instead of the more expensive
-     * {@code equals()} method.
+     * Defines the bbse type of bll keys used blong with the
+     * {@link RenderingHints} clbss to control vbrious
+     * blgorithm choices in the rendering bnd imbging pipelines.
+     * Instbnces of this clbss bre immutbble bnd unique which
+     * mebns thbt tests for mbtches cbn be mbde using the
+     * {@code ==} operbtor instebd of the more expensive
+     * {@code equbls()} method.
      */
-    public abstract static class Key {
-        private static HashMap<Object,Object> identitymap = new HashMap<>(17);
+    public bbstrbct stbtic clbss Key {
+        privbte stbtic HbshMbp<Object,Object> identitymbp = new HbshMbp<>(17);
 
-        private String getIdentity() {
-            // Note that the identity string is dependent on 3 variables:
-            //     - the name of the subclass of Key
-            //     - the identityHashCode of the subclass of Key
+        privbte String getIdentity() {
+            // Note thbt the identity string is dependent on 3 vbribbles:
+            //     - the nbme of the subclbss of Key
+            //     - the identityHbshCode of the subclbss of Key
             //     - the integer key of the Key
-            // It is theoretically possible for 2 distinct keys to collide
-            // along all 3 of those attributes in the context of multiple
-            // class loaders, but that occurrence will be extremely rare and
-            // we account for that possibility below in the recordIdentity
-            // method by slightly relaxing our uniqueness guarantees if we
-            // end up in that situation.
-            return getClass().getName()+"@"+
-                Integer.toHexString(System.identityHashCode(getClass()))+":"+
-                Integer.toHexString(privatekey);
+            // It is theoreticblly possible for 2 distinct keys to collide
+            // blong bll 3 of those bttributes in the context of multiple
+            // clbss lobders, but thbt occurrence will be extremely rbre bnd
+            // we bccount for thbt possibility below in the recordIdentity
+            // method by slightly relbxing our uniqueness gubrbntees if we
+            // end up in thbt situbtion.
+            return getClbss().getNbme()+"@"+
+                Integer.toHexString(System.identityHbshCode(getClbss()))+":"+
+                Integer.toHexString(privbtekey);
         }
 
-        private synchronized static void recordIdentity(Key k) {
+        privbte synchronized stbtic void recordIdentity(Key k) {
             Object identity = k.getIdentity();
-            Object otherref = identitymap.get(identity);
+            Object otherref = identitymbp.get(identity);
             if (otherref != null) {
-                Key otherkey = (Key) ((WeakReference) otherref).get();
-                if (otherkey != null && otherkey.getClass() == k.getClass()) {
-                    throw new IllegalArgumentException(identity+
-                                                       " already registered");
+                Key otherkey = (Key) ((WebkReference) otherref).get();
+                if (otherkey != null && otherkey.getClbss() == k.getClbss()) {
+                    throw new IllegblArgumentException(identity+
+                                                       " blrebdy registered");
                 }
-                // Note that this system can fail in a mostly harmless
-                // way.  If we end up generating the same identity
-                // String for 2 different classes (a very rare case)
-                // then we correctly avoid throwing the exception above,
-                // but we are about to drop through to a statement that
-                // will replace the entry for the old Key subclass with
-                // an entry for the new Key subclass.  At that time the
-                // old subclass will be vulnerable to someone generating
-                // a duplicate Key instance for it.  We could bail out
-                // of the method here and let the old identity keep its
-                // record in the map, but we are more likely to see a
-                // duplicate key go by for the new class than the old
-                // one since the new one is probably still in the
-                // initialization stage.  In either case, the probability
-                // of loading 2 classes in the same VM with the same name
-                // and identityHashCode should be nearly impossible.
+                // Note thbt this system cbn fbil in b mostly hbrmless
+                // wby.  If we end up generbting the sbme identity
+                // String for 2 different clbsses (b very rbre cbse)
+                // then we correctly bvoid throwing the exception bbove,
+                // but we bre bbout to drop through to b stbtement thbt
+                // will replbce the entry for the old Key subclbss with
+                // bn entry for the new Key subclbss.  At thbt time the
+                // old subclbss will be vulnerbble to someone generbting
+                // b duplicbte Key instbnce for it.  We could bbil out
+                // of the method here bnd let the old identity keep its
+                // record in the mbp, but we bre more likely to see b
+                // duplicbte key go by for the new clbss thbn the old
+                // one since the new one is probbbly still in the
+                // initiblizbtion stbge.  In either cbse, the probbbility
+                // of lobding 2 clbsses in the sbme VM with the sbme nbme
+                // bnd identityHbshCode should be nebrly impossible.
             }
-            // Note: Use a weak reference to avoid holding on to extra
-            // objects and classes after they should be unloaded.
-            identitymap.put(identity, new WeakReference<Key>(k));
+            // Note: Use b webk reference to bvoid holding on to extrb
+            // objects bnd clbsses bfter they should be unlobded.
+            identitymbp.put(identity, new WebkReference<Key>(k));
         }
 
-        private int privatekey;
+        privbte int privbtekey;
 
         /**
-         * Construct a key using the indicated private key.  Each
-         * subclass of Key maintains its own unique domain of integer
-         * keys.  No two objects with the same integer key and of the
-         * same specific subclass can be constructed.  An exception
-         * will be thrown if an attempt is made to construct another
-         * object of a given class with the same integer key as a
-         * pre-existing instance of that subclass of Key.
-         * @param privatekey the specified key
+         * Construct b key using the indicbted privbte key.  Ebch
+         * subclbss of Key mbintbins its own unique dombin of integer
+         * keys.  No two objects with the sbme integer key bnd of the
+         * sbme specific subclbss cbn be constructed.  An exception
+         * will be thrown if bn bttempt is mbde to construct bnother
+         * object of b given clbss with the sbme integer key bs b
+         * pre-existing instbnce of thbt subclbss of Key.
+         * @pbrbm privbtekey the specified key
          */
-        protected Key(int privatekey) {
-            this.privatekey = privatekey;
+        protected Key(int privbtekey) {
+            this.privbtekey = privbtekey;
             recordIdentity(this);
         }
 
         /**
-         * Returns true if the specified object is a valid value
+         * Returns true if the specified object is b vblid vblue
          * for this Key.
-         * @param val the <code>Object</code> to test for validity
-         * @return <code>true</code> if <code>val</code> is valid;
-         *         <code>false</code> otherwise.
+         * @pbrbm vbl the <code>Object</code> to test for vblidity
+         * @return <code>true</code> if <code>vbl</code> is vblid;
+         *         <code>fblse</code> otherwise.
          */
-        public abstract boolean isCompatibleValue(Object val);
+        public bbstrbct boolebn isCompbtibleVblue(Object vbl);
 
         /**
-         * Returns the private integer key that the subclass
-         * instantiated this Key with.
-         * @return the private integer key that the subclass
-         * instantiated this Key with.
+         * Returns the privbte integer key thbt the subclbss
+         * instbntibted this Key with.
+         * @return the privbte integer key thbt the subclbss
+         * instbntibted this Key with.
          */
-        protected final int intKey() {
-            return privatekey;
+        protected finbl int intKey() {
+            return privbtekey;
         }
 
         /**
-         * The hash code for all Key objects will be the same as the
-         * system identity code of the object as defined by the
-         * System.identityHashCode() method.
+         * The hbsh code for bll Key objects will be the sbme bs the
+         * system identity code of the object bs defined by the
+         * System.identityHbshCode() method.
          */
-        public final int hashCode() {
-            return super.hashCode();
+        public finbl int hbshCode() {
+            return super.hbshCode();
         }
 
         /**
-         * The equals method for all Key objects will return the same
-         * result as the equality operator '=='.
+         * The equbls method for bll Key objects will return the sbme
+         * result bs the equblity operbtor '=='.
          */
-        public final boolean equals(Object o) {
+        public finbl boolebn equbls(Object o) {
             return this == o;
         }
     }
 
-    HashMap<Object,Object> hintmap = new HashMap<>(7);
+    HbshMbp<Object,Object> hintmbp = new HbshMbp<>(7);
 
     /**
-     * Antialiasing hint key.
+     * Antiblibsing hint key.
      * The {@code ANTIALIASING} hint controls whether or not the
-     * geometry rendering methods of a {@link Graphics2D} object
-     * will attempt to reduce aliasing artifacts along the edges
-     * of shapes.
+     * geometry rendering methods of b {@link Grbphics2D} object
+     * will bttempt to reduce blibsing brtifbcts blong the edges
+     * of shbpes.
      * <p>
-     * A typical antialiasing algorithm works by blending the existing
-     * colors of the pixels along the boundary of a shape with the
-     * requested fill paint according to the estimated partial pixel
-     * coverage of the shape.
+     * A typicbl bntiblibsing blgorithm works by blending the existing
+     * colors of the pixels blong the boundbry of b shbpe with the
+     * requested fill pbint bccording to the estimbted pbrtibl pixel
+     * coverbge of the shbpe.
      * <p>
-     * The allowable values for this hint are
+     * The bllowbble vblues for this hint bre
      * <ul>
      * <li>{@link #VALUE_ANTIALIAS_ON}
      * <li>{@link #VALUE_ANTIALIAS_OFF}
      * <li>{@link #VALUE_ANTIALIAS_DEFAULT}
      * </ul>
      */
-    public static final Key KEY_ANTIALIASING =
+    public stbtic finbl Key KEY_ANTIALIASING =
         SunHints.KEY_ANTIALIASING;
 
     /**
-     * Antialiasing hint value -- rendering is done with antialiasing.
+     * Antiblibsing hint vblue -- rendering is done with bntiblibsing.
      * @see #KEY_ANTIALIASING
      */
-    public static final Object VALUE_ANTIALIAS_ON =
+    public stbtic finbl Object VALUE_ANTIALIAS_ON =
         SunHints.VALUE_ANTIALIAS_ON;
 
     /**
-     * Antialiasing hint value -- rendering is done without antialiasing.
+     * Antiblibsing hint vblue -- rendering is done without bntiblibsing.
      * @see #KEY_ANTIALIASING
      */
-    public static final Object VALUE_ANTIALIAS_OFF =
+    public stbtic finbl Object VALUE_ANTIALIAS_OFF =
         SunHints.VALUE_ANTIALIAS_OFF;
 
     /**
-     * Antialiasing hint value -- rendering is done with a default
-     * antialiasing mode chosen by the implementation.
+     * Antiblibsing hint vblue -- rendering is done with b defbult
+     * bntiblibsing mode chosen by the implementbtion.
      * @see #KEY_ANTIALIASING
      */
-    public static final Object VALUE_ANTIALIAS_DEFAULT =
+    public stbtic finbl Object VALUE_ANTIALIAS_DEFAULT =
          SunHints.VALUE_ANTIALIAS_DEFAULT;
 
     /**
      * Rendering hint key.
-     * The {@code RENDERING} hint is a general hint that provides
-     * a high level recommendation as to whether to bias algorithm
-     * choices more for speed or quality when evaluating tradeoffs.
-     * This hint could be consulted for any rendering or image
-     * manipulation operation, but decisions will usually honor
+     * The {@code RENDERING} hint is b generbl hint thbt provides
+     * b high level recommendbtion bs to whether to bibs blgorithm
+     * choices more for speed or qublity when evblubting trbdeoffs.
+     * This hint could be consulted for bny rendering or imbge
+     * mbnipulbtion operbtion, but decisions will usublly honor
      * other, more specific hints in preference to this hint.
      * <p>
-     * The allowable values for this hint are
+     * The bllowbble vblues for this hint bre
      * <ul>
      * <li>{@link #VALUE_RENDER_SPEED}
      * <li>{@link #VALUE_RENDER_QUALITY}
      * <li>{@link #VALUE_RENDER_DEFAULT}
      * </ul>
      */
-    public static final Key KEY_RENDERING =
+    public stbtic finbl Key KEY_RENDERING =
          SunHints.KEY_RENDERING;
 
     /**
-     * Rendering hint value -- rendering algorithms are chosen
-     * with a preference for output speed.
+     * Rendering hint vblue -- rendering blgorithms bre chosen
+     * with b preference for output speed.
      * @see #KEY_RENDERING
      */
-    public static final Object VALUE_RENDER_SPEED =
+    public stbtic finbl Object VALUE_RENDER_SPEED =
          SunHints.VALUE_RENDER_SPEED;
 
     /**
-     * Rendering hint value -- rendering algorithms are chosen
-     * with a preference for output quality.
+     * Rendering hint vblue -- rendering blgorithms bre chosen
+     * with b preference for output qublity.
      * @see #KEY_RENDERING
      */
-    public static final Object VALUE_RENDER_QUALITY =
+    public stbtic finbl Object VALUE_RENDER_QUALITY =
          SunHints.VALUE_RENDER_QUALITY;
 
     /**
-     * Rendering hint value -- rendering algorithms are chosen
-     * by the implementation for a good tradeoff of performance
-     * vs. quality.
+     * Rendering hint vblue -- rendering blgorithms bre chosen
+     * by the implementbtion for b good trbdeoff of performbnce
+     * vs. qublity.
      * @see #KEY_RENDERING
      */
-    public static final Object VALUE_RENDER_DEFAULT =
+    public stbtic finbl Object VALUE_RENDER_DEFAULT =
          SunHints.VALUE_RENDER_DEFAULT;
 
     /**
      * Dithering hint key.
-     * The {@code DITHERING} hint controls how closely to approximate
-     * a color when storing into a destination with limited color
+     * The {@code DITHERING} hint controls how closely to bpproximbte
+     * b color when storing into b destinbtion with limited color
      * resolution.
      * <p>
-     * Some rendering destinations may support a limited number of
-     * color choices which may not be able to accurately represent
-     * the full spectrum of colors that can result during rendering
-     * operations.
-     * For such a destination the {@code DITHERING} hint controls
-     * whether rendering is done with a flat solid fill of a single
-     * pixel value which is the closest supported color to what was
-     * requested, or whether shapes will be filled with a pattern of
-     * colors which combine to better approximate that color.
+     * Some rendering destinbtions mby support b limited number of
+     * color choices which mby not be bble to bccurbtely represent
+     * the full spectrum of colors thbt cbn result during rendering
+     * operbtions.
+     * For such b destinbtion the {@code DITHERING} hint controls
+     * whether rendering is done with b flbt solid fill of b single
+     * pixel vblue which is the closest supported color to whbt wbs
+     * requested, or whether shbpes will be filled with b pbttern of
+     * colors which combine to better bpproximbte thbt color.
      * <p>
-     * The allowable values for this hint are
+     * The bllowbble vblues for this hint bre
      * <ul>
      * <li>{@link #VALUE_DITHER_DISABLE}
      * <li>{@link #VALUE_DITHER_ENABLE}
      * <li>{@link #VALUE_DITHER_DEFAULT}
      * </ul>
      */
-    public static final Key KEY_DITHERING =
+    public stbtic finbl Key KEY_DITHERING =
          SunHints.KEY_DITHERING;
 
     /**
-     * Dithering hint value -- do not dither when rendering geometry.
+     * Dithering hint vblue -- do not dither when rendering geometry.
      * @see #KEY_DITHERING
      */
-    public static final Object VALUE_DITHER_DISABLE =
+    public stbtic finbl Object VALUE_DITHER_DISABLE =
          SunHints.VALUE_DITHER_DISABLE;
 
     /**
-     * Dithering hint value -- dither when rendering geometry, if needed.
+     * Dithering hint vblue -- dither when rendering geometry, if needed.
      * @see #KEY_DITHERING
      */
-    public static final Object VALUE_DITHER_ENABLE =
+    public stbtic finbl Object VALUE_DITHER_ENABLE =
          SunHints.VALUE_DITHER_ENABLE;
 
     /**
-     * Dithering hint value -- use a default for dithering chosen by
-     * the implementation.
+     * Dithering hint vblue -- use b defbult for dithering chosen by
+     * the implementbtion.
      * @see #KEY_DITHERING
      */
-    public static final Object VALUE_DITHER_DEFAULT =
+    public stbtic finbl Object VALUE_DITHER_DEFAULT =
          SunHints.VALUE_DITHER_DEFAULT;
 
     /**
-     * Text antialiasing hint key.
-     * The {@code TEXT_ANTIALIASING} hint can control the use of
-     * antialiasing algorithms for text independently of the
-     * choice used for shape rendering.
-     * Often an application may want to use antialiasing for text
-     * only and not for other shapes.
-     * Additionally, the algorithms for reducing the aliasing
-     * artifacts for text are often more sophisticated than those
-     * that have been developed for general rendering so this
-     * hint key provides additional values which can control
-     * the choices of some of those text-specific algorithms.
-     * If left in the {@code DEFAULT} state, this hint will
-     * generally defer to the value of the regular
+     * Text bntiblibsing hint key.
+     * The {@code TEXT_ANTIALIASING} hint cbn control the use of
+     * bntiblibsing blgorithms for text independently of the
+     * choice used for shbpe rendering.
+     * Often bn bpplicbtion mby wbnt to use bntiblibsing for text
+     * only bnd not for other shbpes.
+     * Additionblly, the blgorithms for reducing the blibsing
+     * brtifbcts for text bre often more sophisticbted thbn those
+     * thbt hbve been developed for generbl rendering so this
+     * hint key provides bdditionbl vblues which cbn control
+     * the choices of some of those text-specific blgorithms.
+     * If left in the {@code DEFAULT} stbte, this hint will
+     * generblly defer to the vblue of the regulbr
      * {@link #KEY_ANTIALIASING} hint key.
      * <p>
-     * The allowable values for this hint are
+     * The bllowbble vblues for this hint bre
      * <ul>
      * <li>{@link #VALUE_TEXT_ANTIALIAS_ON}
      * <li>{@link #VALUE_TEXT_ANTIALIAS_OFF}
@@ -361,551 +361,551 @@ public class RenderingHints
      * <li>{@link #VALUE_TEXT_ANTIALIAS_LCD_VBGR}
      * </ul>
      */
-    public static final Key KEY_TEXT_ANTIALIASING =
+    public stbtic finbl Key KEY_TEXT_ANTIALIASING =
          SunHints.KEY_TEXT_ANTIALIASING;
 
     /**
-     * Text antialiasing hint value -- text rendering is done with
-     * some form of antialiasing.
+     * Text bntiblibsing hint vblue -- text rendering is done with
+     * some form of bntiblibsing.
      * @see #KEY_TEXT_ANTIALIASING
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_ON =
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_ON =
          SunHints.VALUE_TEXT_ANTIALIAS_ON;
 
     /**
-     * Text antialiasing hint value -- text rendering is done without
-     * any form of antialiasing.
+     * Text bntiblibsing hint vblue -- text rendering is done without
+     * bny form of bntiblibsing.
      * @see #KEY_TEXT_ANTIALIASING
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_OFF =
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_OFF =
          SunHints.VALUE_TEXT_ANTIALIAS_OFF;
 
     /**
-     * Text antialiasing hint value -- text rendering is done according
-     * to the {@link #KEY_ANTIALIASING} hint or a default chosen by the
-     * implementation.
+     * Text bntiblibsing hint vblue -- text rendering is done bccording
+     * to the {@link #KEY_ANTIALIASING} hint or b defbult chosen by the
+     * implementbtion.
      * @see #KEY_TEXT_ANTIALIASING
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_DEFAULT =
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_DEFAULT =
          SunHints.VALUE_TEXT_ANTIALIAS_DEFAULT;
 
     /**
-     * Text antialiasing hint value -- text rendering is requested to
-     * use information in the font resource which specifies for each point
-     * size whether to apply {@link #VALUE_TEXT_ANTIALIAS_ON} or
+     * Text bntiblibsing hint vblue -- text rendering is requested to
+     * use informbtion in the font resource which specifies for ebch point
+     * size whether to bpply {@link #VALUE_TEXT_ANTIALIAS_ON} or
      * {@link #VALUE_TEXT_ANTIALIAS_OFF}.
      * <p>
-     * TrueType fonts typically provide this information in the 'gasp' table.
-     * In the absence of this information, the behaviour for a particular
-     * font and size is determined by implementation defaults.
+     * TrueType fonts typicblly provide this informbtion in the 'gbsp' tbble.
+     * In the bbsence of this informbtion, the behbviour for b pbrticulbr
+     * font bnd size is determined by implementbtion defbults.
      * <p>
-     * <i>Note:</i>A font designer will typically carefully hint a font for
-     * the most common user interface point sizes. Consequently the 'gasp'
-     * table will likely specify to use only hinting at those sizes and not
-     * "smoothing". So in many cases the resulting text display is
-     * equivalent to {@code VALUE_TEXT_ANTIALIAS_OFF}.
-     * This may be unexpected but is correct.
+     * <i>Note:</i>A font designer will typicblly cbrefully hint b font for
+     * the most common user interfbce point sizes. Consequently the 'gbsp'
+     * tbble will likely specify to use only hinting bt those sizes bnd not
+     * "smoothing". So in mbny cbses the resulting text displby is
+     * equivblent to {@code VALUE_TEXT_ANTIALIAS_OFF}.
+     * This mby be unexpected but is correct.
      * <p>
-     * Logical fonts which are composed of multiple physical fonts will for
-     * consistency will use the setting most appropriate for the overall
+     * Logicbl fonts which bre composed of multiple physicbl fonts will for
+     * consistency will use the setting most bppropribte for the overbll
      * composite font.
      *
      * @see #KEY_TEXT_ANTIALIASING
      * @since 1.6
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_GASP =
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_GASP =
          SunHints.VALUE_TEXT_ANTIALIAS_GASP;
 
     /**
-     * Text antialiasing hint value -- request that text be displayed
-     * optimised for an LCD display with subpixels in order from display
-     * left to right of R,G,B such that the horizontal subpixel resolution
-     * is three times that of the full pixel horizontal resolution (HRGB).
-     * This is the most common configuration.
-     * Selecting this hint for displays with one of the other LCD subpixel
-     * configurations will likely result in unfocused text.
+     * Text bntiblibsing hint vblue -- request thbt text be displbyed
+     * optimised for bn LCD displby with subpixels in order from displby
+     * left to right of R,G,B such thbt the horizontbl subpixel resolution
+     * is three times thbt of the full pixel horizontbl resolution (HRGB).
+     * This is the most common configurbtion.
+     * Selecting this hint for displbys with one of the other LCD subpixel
+     * configurbtions will likely result in unfocused text.
      * <p>
      * <i>Notes:</i><br>
-     * An implementation when choosing whether to apply any of the
-     * LCD text hint values may take into account factors including requiring
-     * color depth of the destination to be at least 15 bits per pixel
+     * An implementbtion when choosing whether to bpply bny of the
+     * LCD text hint vblues mby tbke into bccount fbctors including requiring
+     * color depth of the destinbtion to be bt lebst 15 bits per pixel
      * (ie 5 bits per color component),
-     * characteristics of a font such as whether embedded bitmaps may
-     * produce better results, or when displaying to a non-local networked
-     * display device enabling it only if suitable protocols are available,
+     * chbrbcteristics of b font such bs whether embedded bitmbps mby
+     * produce better results, or when displbying to b non-locbl networked
+     * displby device enbbling it only if suitbble protocols bre bvbilbble,
      * or ignoring the hint if performing very high resolution rendering
-     * or the target device is not appropriate: eg when printing.
+     * or the tbrget device is not bppropribte: eg when printing.
      * <p>
-     * These hints can equally be applied when rendering to software images,
-     * but these images may not then be suitable for general export, as the
-     * text will have been rendered appropriately for a specific subpixel
-     * organisation. Also lossy images are not a good choice, nor image
-     * formats such as GIF which have limited colors.
-     * So unless the image is destined solely for rendering on a
-     * display device with the same configuration, some other text
-     * anti-aliasing hint such as
+     * These hints cbn equblly be bpplied when rendering to softwbre imbges,
+     * but these imbges mby not then be suitbble for generbl export, bs the
+     * text will hbve been rendered bppropribtely for b specific subpixel
+     * orgbnisbtion. Also lossy imbges bre not b good choice, nor imbge
+     * formbts such bs GIF which hbve limited colors.
+     * So unless the imbge is destined solely for rendering on b
+     * displby device with the sbme configurbtion, some other text
+     * bnti-blibsing hint such bs
      * {@link #VALUE_TEXT_ANTIALIAS_ON}
-     * may be a better choice.
-     * <p>Selecting a value which does not match the LCD display in use
-     * will likely lead to a degradation in text quality.
-     * On display devices (ie CRTs) which do not have the same characteristics
-     * as LCD displays, the overall effect may appear similar to standard text
-     * anti-aliasing, but the quality may be degraded by color distortion.
-     * Analog connected LCD displays may also show little advantage over
-     * standard text-antialiasing and be similar to CRTs.
+     * mby be b better choice.
+     * <p>Selecting b vblue which does not mbtch the LCD displby in use
+     * will likely lebd to b degrbdbtion in text qublity.
+     * On displby devices (ie CRTs) which do not hbve the sbme chbrbcteristics
+     * bs LCD displbys, the overbll effect mby bppebr similbr to stbndbrd text
+     * bnti-blibsing, but the qublity mby be degrbded by color distortion.
+     * Anblog connected LCD displbys mby blso show little bdvbntbge over
+     * stbndbrd text-bntiblibsing bnd be similbr to CRTs.
      * <p>
-     * In other words for the best results use an LCD display with a digital
-     * display connector and specify the appropriate sub-pixel configuration.
+     * In other words for the best results use bn LCD displby with b digitbl
+     * displby connector bnd specify the bppropribte sub-pixel configurbtion.
      *
      * @see #KEY_TEXT_ANTIALIASING
      * @since 1.6
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_HRGB =
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_LCD_HRGB =
          SunHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB;
 
     /**
-     * Text antialiasing hint value -- request that text be displayed
-     * optimised for an LCD display with subpixels in order from display
-     * left to right of B,G,R such that the horizontal subpixel resolution
-     * is three times that of the full pixel horizontal resolution (HBGR).
-     * This is a much less common configuration than HRGB.
-     * Selecting this hint for displays with one of the other LCD subpixel
-     * configurations will likely result in unfocused text.
+     * Text bntiblibsing hint vblue -- request thbt text be displbyed
+     * optimised for bn LCD displby with subpixels in order from displby
+     * left to right of B,G,R such thbt the horizontbl subpixel resolution
+     * is three times thbt of the full pixel horizontbl resolution (HBGR).
+     * This is b much less common configurbtion thbn HRGB.
+     * Selecting this hint for displbys with one of the other LCD subpixel
+     * configurbtions will likely result in unfocused text.
      * See {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB},
-     * for more information on when this hint is applied.
+     * for more informbtion on when this hint is bpplied.
      *
      * @see #KEY_TEXT_ANTIALIASING
      * @since 1.6
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_HBGR =
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_LCD_HBGR =
          SunHints.VALUE_TEXT_ANTIALIAS_LCD_HBGR;
 
     /**
-     * Text antialiasing hint value -- request that text be displayed
-     * optimised for an LCD display with subpixel organisation from display
-     * top to bottom of R,G,B such that the vertical subpixel resolution is
-     * three times that of the full pixel vertical resolution (VRGB).
-     * Vertical orientation is very uncommon and probably mainly useful
-     * for a physically rotated display.
-     * Selecting this hint for displays with one of the other LCD subpixel
-     * configurations will likely result in unfocused text.
+     * Text bntiblibsing hint vblue -- request thbt text be displbyed
+     * optimised for bn LCD displby with subpixel orgbnisbtion from displby
+     * top to bottom of R,G,B such thbt the verticbl subpixel resolution is
+     * three times thbt of the full pixel verticbl resolution (VRGB).
+     * Verticbl orientbtion is very uncommon bnd probbbly mbinly useful
+     * for b physicblly rotbted displby.
+     * Selecting this hint for displbys with one of the other LCD subpixel
+     * configurbtions will likely result in unfocused text.
      * See {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB},
-     * for more information on when this hint is applied.
+     * for more informbtion on when this hint is bpplied.
      *
      * @see #KEY_TEXT_ANTIALIASING
      * @since 1.6
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_VRGB =
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_LCD_VRGB =
          SunHints.VALUE_TEXT_ANTIALIAS_LCD_VRGB;
 
     /**
-     * Text antialiasing hint value -- request that text be displayed
-     * optimised for an LCD display with subpixel organisation from display
-     * top to bottom of B,G,R such that the vertical subpixel resolution is
-     * three times that of the full pixel vertical resolution (VBGR).
-     * Vertical orientation is very uncommon and probably mainly useful
-     * for a physically rotated display.
-     * Selecting this hint for displays with one of the other LCD subpixel
-     * configurations will likely result in unfocused text.
+     * Text bntiblibsing hint vblue -- request thbt text be displbyed
+     * optimised for bn LCD displby with subpixel orgbnisbtion from displby
+     * top to bottom of B,G,R such thbt the verticbl subpixel resolution is
+     * three times thbt of the full pixel verticbl resolution (VBGR).
+     * Verticbl orientbtion is very uncommon bnd probbbly mbinly useful
+     * for b physicblly rotbted displby.
+     * Selecting this hint for displbys with one of the other LCD subpixel
+     * configurbtions will likely result in unfocused text.
      * See {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB},
-     * for more information on when this hint is applied.
+     * for more informbtion on when this hint is bpplied.
      *
      * @see #KEY_TEXT_ANTIALIASING
      * @since 1.6
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_VBGR =
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_LCD_VBGR =
          SunHints.VALUE_TEXT_ANTIALIAS_LCD_VBGR;
 
 
     /**
-     * LCD text contrast rendering hint key.
-     * The value is an <code>Integer</code> object which is used as a text
-     * contrast adjustment when used in conjunction with an LCD text
-     * anti-aliasing hint such as
+     * LCD text contrbst rendering hint key.
+     * The vblue is bn <code>Integer</code> object which is used bs b text
+     * contrbst bdjustment when used in conjunction with bn LCD text
+     * bnti-blibsing hint such bs
      * {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB}.
      * <ul>
-     * <li>Values should be a positive integer in the range 100 to 250.
-     * <li>A lower value (eg 100) corresponds to higher contrast text when
-     * displaying dark text on a light background.
-     * <li>A higher value (eg 200) corresponds to lower contrast text when
-     * displaying dark text on a light background.
-     * <li>A typical useful value is in the narrow range 140-180.
-     * <li>If no value is specified, a system or implementation default value
-     * will be applied.
+     * <li>Vblues should be b positive integer in the rbnge 100 to 250.
+     * <li>A lower vblue (eg 100) corresponds to higher contrbst text when
+     * displbying dbrk text on b light bbckground.
+     * <li>A higher vblue (eg 200) corresponds to lower contrbst text when
+     * displbying dbrk text on b light bbckground.
+     * <li>A typicbl useful vblue is in the nbrrow rbnge 140-180.
+     * <li>If no vblue is specified, b system or implementbtion defbult vblue
+     * will be bpplied.
      * </ul>
-     * The default value can be expected to be adequate for most purposes,
-     * so clients should rarely need to specify a value for this hint unless
-     * they have concrete information as to an appropriate value.
-     * A higher value does not mean a higher contrast, in fact the opposite
+     * The defbult vblue cbn be expected to be bdequbte for most purposes,
+     * so clients should rbrely need to specify b vblue for this hint unless
+     * they hbve concrete informbtion bs to bn bppropribte vblue.
+     * A higher vblue does not mebn b higher contrbst, in fbct the opposite
      * is true.
-     * The correction is applied in a similar manner to a gamma adjustment
-     * for non-linear perceptual luminance response of display systems, but
-     * does not indicate a full correction for this.
+     * The correction is bpplied in b similbr mbnner to b gbmmb bdjustment
+     * for non-linebr perceptubl luminbnce response of displby systems, but
+     * does not indicbte b full correction for this.
      *
      * @see #KEY_TEXT_ANTIALIASING
      * @since 1.6
      */
-    public static final Key KEY_TEXT_LCD_CONTRAST =
+    public stbtic finbl Key KEY_TEXT_LCD_CONTRAST =
         SunHints.KEY_TEXT_ANTIALIAS_LCD_CONTRAST;
 
     /**
-     * Font fractional metrics hint key.
+     * Font frbctionbl metrics hint key.
      * The {@code FRACTIONALMETRICS} hint controls whether the positioning
-     * of individual character glyphs takes into account the sub-pixel
-     * accuracy of the scaled character advances of the font or whether
-     * such advance vectors are rounded to an integer number of whole
+     * of individubl chbrbcter glyphs tbkes into bccount the sub-pixel
+     * bccurbcy of the scbled chbrbcter bdvbnces of the font or whether
+     * such bdvbnce vectors bre rounded to bn integer number of whole
      * device pixels.
-     * This hint only recommends how much accuracy should be used to
-     * position the glyphs and does not specify or recommend whether or
-     * not the actual rasterization or pixel bounds of the glyph should
-     * be modified to match.
+     * This hint only recommends how much bccurbcy should be used to
+     * position the glyphs bnd does not specify or recommend whether or
+     * not the bctubl rbsterizbtion or pixel bounds of the glyph should
+     * be modified to mbtch.
      * <p>
-     * Rendering text to a low resolution device like a screen will
-     * necessarily involve a number of rounding operations as the
-     * high quality and very precise definition of the shape and
-     * metrics of the character glyphs must be matched to discrete
+     * Rendering text to b low resolution device like b screen will
+     * necessbrily involve b number of rounding operbtions bs the
+     * high qublity bnd very precise definition of the shbpe bnd
+     * metrics of the chbrbcter glyphs must be mbtched to discrete
      * device pixels.
-     * Ideally the positioning of glyphs during text layout would be
-     * calculated by scaling the design metrics in the font according
-     * to the point size, but then the scaled advance width will not
-     * necessarily be an integer number of pixels.
-     * If the glyphs are positioned with sub-pixel accuracy according
-     * to these scaled design metrics then the rasterization would
-     * ideally need to be adjusted for each possible sub-pixel origin.
+     * Ideblly the positioning of glyphs during text lbyout would be
+     * cblculbted by scbling the design metrics in the font bccording
+     * to the point size, but then the scbled bdvbnce width will not
+     * necessbrily be bn integer number of pixels.
+     * If the glyphs bre positioned with sub-pixel bccurbcy bccording
+     * to these scbled design metrics then the rbsterizbtion would
+     * ideblly need to be bdjusted for ebch possible sub-pixel origin.
      * <p>
-     * Unfortunately, scaling each glyph customized to its exact
-     * subpixel origin during text layout would be prohibitively
-     * expensive so a simplified system based on integer device
-     * positions is typically used to lay out the text.
-     * The rasterization of the glyph and the scaled advance width
-     * are both adjusted together to yield text that looks good at
-     * device resolution and has consistent integer pixel distances
-     * between glyphs that help the glyphs look uniformly and
-     * consistently spaced and readable.
+     * Unfortunbtely, scbling ebch glyph customized to its exbct
+     * subpixel origin during text lbyout would be prohibitively
+     * expensive so b simplified system bbsed on integer device
+     * positions is typicblly used to lby out the text.
+     * The rbsterizbtion of the glyph bnd the scbled bdvbnce width
+     * bre both bdjusted together to yield text thbt looks good bt
+     * device resolution bnd hbs consistent integer pixel distbnces
+     * between glyphs thbt help the glyphs look uniformly bnd
+     * consistently spbced bnd rebdbble.
      * <p>
-     * This process of rounding advance widths for rasterized glyphs
-     * to integer distances means that the character density and the
-     * overall length of a string of text will be different from the
-     * theoretical design measurements due to the accumulation of
-     * a series of small differences in the adjusted widths of
-     * each glyph.
-     * The specific differences will be different for each glyph,
-     * some being wider and some being narrower than their theoretical
-     * design measurements.
-     * Thus the overall difference in character density and length
-     * will vary by a number of factors including the font, the
-     * specific device resolution being targeted, and the glyphs
+     * This process of rounding bdvbnce widths for rbsterized glyphs
+     * to integer distbnces mebns thbt the chbrbcter density bnd the
+     * overbll length of b string of text will be different from the
+     * theoreticbl design mebsurements due to the bccumulbtion of
+     * b series of smbll differences in the bdjusted widths of
+     * ebch glyph.
+     * The specific differences will be different for ebch glyph,
+     * some being wider bnd some being nbrrower thbn their theoreticbl
+     * design mebsurements.
+     * Thus the overbll difference in chbrbcter density bnd length
+     * will vbry by b number of fbctors including the font, the
+     * specific device resolution being tbrgeted, bnd the glyphs
      * chosen to represent the string being rendered.
-     * As a result, rendering the same string at multiple device
-     * resolutions can yield widely varying metrics for whole strings.
+     * As b result, rendering the sbme string bt multiple device
+     * resolutions cbn yield widely vbrying metrics for whole strings.
      * <p>
-     * When {@code FRACTIONALMETRICS} are enabled, the true font design
-     * metrics are scaled by the point size and used for layout with
-     * sub-pixel accuracy.
-     * The average density of glyphs and total length of a long
-     * string of characters will therefore more closely match the
-     * theoretical design of the font, but readability may be affected
-     * since individual pairs of characters may not always appear to
-     * be consistent distances apart depending on how the sub-pixel
-     * accumulation of the glyph origins meshes with the device pixel
+     * When {@code FRACTIONALMETRICS} bre enbbled, the true font design
+     * metrics bre scbled by the point size bnd used for lbyout with
+     * sub-pixel bccurbcy.
+     * The bverbge density of glyphs bnd totbl length of b long
+     * string of chbrbcters will therefore more closely mbtch the
+     * theoreticbl design of the font, but rebdbbility mby be bffected
+     * since individubl pbirs of chbrbcters mby not blwbys bppebr to
+     * be consistent distbnces bpbrt depending on how the sub-pixel
+     * bccumulbtion of the glyph origins meshes with the device pixel
      * grid.
-     * Enabling this hint may be desirable when text layout is being
-     * performed that must be consistent across a wide variety of
+     * Enbbling this hint mby be desirbble when text lbyout is being
+     * performed thbt must be consistent bcross b wide vbriety of
      * output resolutions.
-     * Specifically, this hint may be desirable in situations where
-     * the layout of text is being previewed on a low resolution
-     * device like a screen for output that will eventually be
-     * rendered on a high resolution printer or typesetting device.
+     * Specificblly, this hint mby be desirbble in situbtions where
+     * the lbyout of text is being previewed on b low resolution
+     * device like b screen for output thbt will eventublly be
+     * rendered on b high resolution printer or typesetting device.
      * <p>
-     * When disabled, the scaled design metrics are rounded or adjusted
-     * to integer distances for layout.
-     * The distances between any specific pair of glyphs will be more
-     * uniform on the device, but the density and total length of long
-     * strings may no longer match the theoretical intentions of the
+     * When disbbled, the scbled design metrics bre rounded or bdjusted
+     * to integer distbnces for lbyout.
+     * The distbnces between bny specific pbir of glyphs will be more
+     * uniform on the device, but the density bnd totbl length of long
+     * strings mby no longer mbtch the theoreticbl intentions of the
      * font designer.
-     * Disabling this hint will typically produce more readable results
+     * Disbbling this hint will typicblly produce more rebdbble results
      * on low resolution devices like computer monitors.
      * <p>
-     * The allowable values for this key are
+     * The bllowbble vblues for this key bre
      * <ul>
      * <li>{@link #VALUE_FRACTIONALMETRICS_OFF}
      * <li>{@link #VALUE_FRACTIONALMETRICS_ON}
      * <li>{@link #VALUE_FRACTIONALMETRICS_DEFAULT}
      * </ul>
      */
-    public static final Key KEY_FRACTIONALMETRICS =
+    public stbtic finbl Key KEY_FRACTIONALMETRICS =
          SunHints.KEY_FRACTIONALMETRICS;
 
     /**
-     * Font fractional metrics hint value -- character glyphs are
-     * positioned with advance widths rounded to pixel boundaries.
+     * Font frbctionbl metrics hint vblue -- chbrbcter glyphs bre
+     * positioned with bdvbnce widths rounded to pixel boundbries.
      * @see #KEY_FRACTIONALMETRICS
      */
-    public static final Object VALUE_FRACTIONALMETRICS_OFF =
+    public stbtic finbl Object VALUE_FRACTIONALMETRICS_OFF =
          SunHints.VALUE_FRACTIONALMETRICS_OFF;
 
     /**
-     * Font fractional metrics hint value -- character glyphs are
-     * positioned with sub-pixel accuracy.
+     * Font frbctionbl metrics hint vblue -- chbrbcter glyphs bre
+     * positioned with sub-pixel bccurbcy.
      * @see #KEY_FRACTIONALMETRICS
      */
-    public static final Object VALUE_FRACTIONALMETRICS_ON =
+    public stbtic finbl Object VALUE_FRACTIONALMETRICS_ON =
          SunHints.VALUE_FRACTIONALMETRICS_ON;
 
     /**
-     * Font fractional metrics hint value -- character glyphs are
-     * positioned with accuracy chosen by the implementation.
+     * Font frbctionbl metrics hint vblue -- chbrbcter glyphs bre
+     * positioned with bccurbcy chosen by the implementbtion.
      * @see #KEY_FRACTIONALMETRICS
      */
-    public static final Object VALUE_FRACTIONALMETRICS_DEFAULT =
+    public stbtic finbl Object VALUE_FRACTIONALMETRICS_DEFAULT =
          SunHints.VALUE_FRACTIONALMETRICS_DEFAULT;
 
     /**
-     * Interpolation hint key.
-     * The {@code INTERPOLATION} hint controls how image pixels are
-     * filtered or resampled during an image rendering operation.
+     * Interpolbtion hint key.
+     * The {@code INTERPOLATION} hint controls how imbge pixels bre
+     * filtered or resbmpled during bn imbge rendering operbtion.
      * <p>
-     * Implicitly images are defined to provide color samples at
-     * integer coordinate locations.
-     * When images are rendered upright with no scaling onto a
-     * destination, the choice of which image pixels map to which
-     * device pixels is obvious and the samples at the integer
-     * coordinate locations in the image are transfered to the
-     * pixels at the corresponding integer locations on the device
+     * Implicitly imbges bre defined to provide color sbmples bt
+     * integer coordinbte locbtions.
+     * When imbges bre rendered upright with no scbling onto b
+     * destinbtion, the choice of which imbge pixels mbp to which
+     * device pixels is obvious bnd the sbmples bt the integer
+     * coordinbte locbtions in the imbge bre trbnsfered to the
+     * pixels bt the corresponding integer locbtions on the device
      * pixel grid one for one.
-     * When images are rendered in a scaled, rotated, or otherwise
-     * transformed coordinate system, then the mapping of device
-     * pixel coordinates back to the image can raise the question
-     * of what color sample to use for the continuous coordinates
-     * that lie between the integer locations of the provided image
-     * samples.
-     * Interpolation algorithms define functions which provide a
-     * color sample for any continuous coordinate in an image based
-     * on the color samples at the surrounding integer coordinates.
+     * When imbges bre rendered in b scbled, rotbted, or otherwise
+     * trbnsformed coordinbte system, then the mbpping of device
+     * pixel coordinbtes bbck to the imbge cbn rbise the question
+     * of whbt color sbmple to use for the continuous coordinbtes
+     * thbt lie between the integer locbtions of the provided imbge
+     * sbmples.
+     * Interpolbtion blgorithms define functions which provide b
+     * color sbmple for bny continuous coordinbte in bn imbge bbsed
+     * on the color sbmples bt the surrounding integer coordinbtes.
      * <p>
-     * The allowable values for this hint are
+     * The bllowbble vblues for this hint bre
      * <ul>
      * <li>{@link #VALUE_INTERPOLATION_NEAREST_NEIGHBOR}
      * <li>{@link #VALUE_INTERPOLATION_BILINEAR}
      * <li>{@link #VALUE_INTERPOLATION_BICUBIC}
      * </ul>
      */
-    public static final Key KEY_INTERPOLATION =
+    public stbtic finbl Key KEY_INTERPOLATION =
          SunHints.KEY_INTERPOLATION;
 
     /**
-     * Interpolation hint value -- the color sample of the nearest
-     * neighboring integer coordinate sample in the image is used.
-     * Conceptually the image is viewed as a grid of unit-sized
-     * square regions of color centered around the center of each
-     * image pixel.
+     * Interpolbtion hint vblue -- the color sbmple of the nebrest
+     * neighboring integer coordinbte sbmple in the imbge is used.
+     * Conceptublly the imbge is viewed bs b grid of unit-sized
+     * squbre regions of color centered bround the center of ebch
+     * imbge pixel.
      * <p>
-     * As the image is scaled up, it will look correspondingly blocky.
-     * As the image is scaled down, the colors for source pixels will
+     * As the imbge is scbled up, it will look correspondingly blocky.
+     * As the imbge is scbled down, the colors for source pixels will
      * be either used unmodified, or skipped entirely in the output
-     * representation.
+     * representbtion.
      *
      * @see #KEY_INTERPOLATION
      */
-    public static final Object VALUE_INTERPOLATION_NEAREST_NEIGHBOR =
+    public stbtic finbl Object VALUE_INTERPOLATION_NEAREST_NEIGHBOR =
          SunHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
 
     /**
-     * Interpolation hint value -- the color samples of the 4 nearest
-     * neighboring integer coordinate samples in the image are
-     * interpolated linearly to produce a color sample.
-     * Conceptually the image is viewed as a set of infinitely small
-     * point color samples which have value only at the centers of
-     * integer coordinate pixels and the space between those pixel
-     * centers is filled with linear ramps of colors that connect
-     * adjacent discrete samples in a straight line.
+     * Interpolbtion hint vblue -- the color sbmples of the 4 nebrest
+     * neighboring integer coordinbte sbmples in the imbge bre
+     * interpolbted linebrly to produce b color sbmple.
+     * Conceptublly the imbge is viewed bs b set of infinitely smbll
+     * point color sbmples which hbve vblue only bt the centers of
+     * integer coordinbte pixels bnd the spbce between those pixel
+     * centers is filled with linebr rbmps of colors thbt connect
+     * bdjbcent discrete sbmples in b strbight line.
      * <p>
-     * As the image is scaled up, there are no blocky edges between
-     * the colors in the image as there are with
+     * As the imbge is scbled up, there bre no blocky edges between
+     * the colors in the imbge bs there bre with
      * {@link #VALUE_INTERPOLATION_NEAREST_NEIGHBOR NEAREST_NEIGHBOR},
-     * but the blending may show some subtle discontinuities along the
-     * horizontal and vertical edges that line up with the samples
-     * caused by a sudden change in the slope of the interpolation
-     * from one side of a sample to the other.
-     * As the image is scaled down, more image pixels have their
-     * color samples represented in the resulting output since each
-     * output pixel receives color information from up to 4 image
+     * but the blending mby show some subtle discontinuities blong the
+     * horizontbl bnd verticbl edges thbt line up with the sbmples
+     * cbused by b sudden chbnge in the slope of the interpolbtion
+     * from one side of b sbmple to the other.
+     * As the imbge is scbled down, more imbge pixels hbve their
+     * color sbmples represented in the resulting output since ebch
+     * output pixel receives color informbtion from up to 4 imbge
      * pixels.
      *
      * @see #KEY_INTERPOLATION
      */
-    public static final Object VALUE_INTERPOLATION_BILINEAR =
+    public stbtic finbl Object VALUE_INTERPOLATION_BILINEAR =
          SunHints.VALUE_INTERPOLATION_BILINEAR;
 
     /**
-     * Interpolation hint value -- the color samples of 9 nearby
-     * integer coordinate samples in the image are interpolated using
-     * a cubic function in both {@code X} and {@code Y} to produce
-     * a color sample.
-     * Conceptually the view of the image is very similar to the view
+     * Interpolbtion hint vblue -- the color sbmples of 9 nebrby
+     * integer coordinbte sbmples in the imbge bre interpolbted using
+     * b cubic function in both {@code X} bnd {@code Y} to produce
+     * b color sbmple.
+     * Conceptublly the view of the imbge is very similbr to the view
      * used in the {@link #VALUE_INTERPOLATION_BILINEAR BILINEAR}
-     * algorithm except that the ramps of colors that connect between
-     * the samples are curved and have better continuity of slope
-     * as they cross over between sample boundaries.
+     * blgorithm except thbt the rbmps of colors thbt connect between
+     * the sbmples bre curved bnd hbve better continuity of slope
+     * bs they cross over between sbmple boundbries.
      * <p>
-     * As the image is scaled up, there are no blocky edges and the
-     * interpolation should appear smoother and with better depictions
-     * of any edges in the original image than with {@code BILINEAR}.
-     * As the image is scaled down, even more of the original color
-     * samples from the original image will have their color information
-     * carried through and represented.
+     * As the imbge is scbled up, there bre no blocky edges bnd the
+     * interpolbtion should bppebr smoother bnd with better depictions
+     * of bny edges in the originbl imbge thbn with {@code BILINEAR}.
+     * As the imbge is scbled down, even more of the originbl color
+     * sbmples from the originbl imbge will hbve their color informbtion
+     * cbrried through bnd represented.
      *
      * @see #KEY_INTERPOLATION
      */
-    public static final Object VALUE_INTERPOLATION_BICUBIC =
+    public stbtic finbl Object VALUE_INTERPOLATION_BICUBIC =
          SunHints.VALUE_INTERPOLATION_BICUBIC;
 
     /**
-     * Alpha interpolation hint key.
-     * The {@code ALPHA_INTERPOLATION} hint is a general hint that
-     * provides a high level recommendation as to whether to bias
-     * alpha blending algorithm choices more for speed or quality
-     * when evaluating tradeoffs.
+     * Alphb interpolbtion hint key.
+     * The {@code ALPHA_INTERPOLATION} hint is b generbl hint thbt
+     * provides b high level recommendbtion bs to whether to bibs
+     * blphb blending blgorithm choices more for speed or qublity
+     * when evblubting trbdeoffs.
      * <p>
-     * This hint could control the choice of alpha blending
-     * calculations that sacrifice some precision to use fast
-     * lookup tables or lower precision SIMD instructions.
-     * This hint could also control whether or not the color
-     * and alpha values are converted into a linear color space
-     * during the calculations for a more linear visual effect
-     * at the expense of additional per-pixel calculations.
+     * This hint could control the choice of blphb blending
+     * cblculbtions thbt sbcrifice some precision to use fbst
+     * lookup tbbles or lower precision SIMD instructions.
+     * This hint could blso control whether or not the color
+     * bnd blphb vblues bre converted into b linebr color spbce
+     * during the cblculbtions for b more linebr visubl effect
+     * bt the expense of bdditionbl per-pixel cblculbtions.
      * <p>
-     * The allowable values for this hint are
+     * The bllowbble vblues for this hint bre
      * <ul>
      * <li>{@link #VALUE_ALPHA_INTERPOLATION_SPEED}
      * <li>{@link #VALUE_ALPHA_INTERPOLATION_QUALITY}
      * <li>{@link #VALUE_ALPHA_INTERPOLATION_DEFAULT}
      * </ul>
      */
-    public static final Key KEY_ALPHA_INTERPOLATION =
+    public stbtic finbl Key KEY_ALPHA_INTERPOLATION =
          SunHints.KEY_ALPHA_INTERPOLATION;
 
     /**
-     * Alpha interpolation hint value -- alpha blending algorithms
-     * are chosen with a preference for calculation speed.
+     * Alphb interpolbtion hint vblue -- blphb blending blgorithms
+     * bre chosen with b preference for cblculbtion speed.
      * @see #KEY_ALPHA_INTERPOLATION
      */
-    public static final Object VALUE_ALPHA_INTERPOLATION_SPEED =
+    public stbtic finbl Object VALUE_ALPHA_INTERPOLATION_SPEED =
          SunHints.VALUE_ALPHA_INTERPOLATION_SPEED;
 
     /**
-     * Alpha interpolation hint value -- alpha blending algorithms
-     * are chosen with a preference for precision and visual quality.
+     * Alphb interpolbtion hint vblue -- blphb blending blgorithms
+     * bre chosen with b preference for precision bnd visubl qublity.
      * @see #KEY_ALPHA_INTERPOLATION
      */
-    public static final Object VALUE_ALPHA_INTERPOLATION_QUALITY =
+    public stbtic finbl Object VALUE_ALPHA_INTERPOLATION_QUALITY =
          SunHints.VALUE_ALPHA_INTERPOLATION_QUALITY;
 
     /**
-     * Alpha interpolation hint value -- alpha blending algorithms
-     * are chosen by the implementation for a good tradeoff of
-     * performance vs. quality.
+     * Alphb interpolbtion hint vblue -- blphb blending blgorithms
+     * bre chosen by the implementbtion for b good trbdeoff of
+     * performbnce vs. qublity.
      * @see #KEY_ALPHA_INTERPOLATION
      */
-    public static final Object VALUE_ALPHA_INTERPOLATION_DEFAULT =
+    public stbtic finbl Object VALUE_ALPHA_INTERPOLATION_DEFAULT =
          SunHints.VALUE_ALPHA_INTERPOLATION_DEFAULT;
 
     /**
      * Color rendering hint key.
-     * The {@code COLOR_RENDERING} hint controls the accuracy of
-     * approximation and conversion when storing colors into a
-     * destination image or surface.
+     * The {@code COLOR_RENDERING} hint controls the bccurbcy of
+     * bpproximbtion bnd conversion when storing colors into b
+     * destinbtion imbge or surfbce.
      * <p>
-     * When a rendering or image manipulation operation produces
-     * a color value that must be stored into a destination, it
-     * must first convert that color into a form suitable for
-     * storing into the destination image or surface.
-     * Minimally, the color components must be converted to bit
-     * representations and ordered in the correct order or an
-     * index into a color lookup table must be chosen before
-     * the data can be stored into the destination memory.
-     * Without this minimal conversion, the data in the destination
-     * would likely represent random, incorrect or possibly even
-     * unsupported values.
+     * When b rendering or imbge mbnipulbtion operbtion produces
+     * b color vblue thbt must be stored into b destinbtion, it
+     * must first convert thbt color into b form suitbble for
+     * storing into the destinbtion imbge or surfbce.
+     * Minimblly, the color components must be converted to bit
+     * representbtions bnd ordered in the correct order or bn
+     * index into b color lookup tbble must be chosen before
+     * the dbtb cbn be stored into the destinbtion memory.
+     * Without this minimbl conversion, the dbtb in the destinbtion
+     * would likely represent rbndom, incorrect or possibly even
+     * unsupported vblues.
      * Algorithms to quickly convert the results of rendering
-     * operations into the color format of most common destinations
-     * are well known and fairly optimal to execute.
+     * operbtions into the color formbt of most common destinbtions
+     * bre well known bnd fbirly optimbl to execute.
      * <p>
-     * Simply performing the most basic color format conversion to
-     * store colors into a destination can potentially ignore a
-     * difference in the calibration of the
-     * {@link java.awt.color.ColorSpace}
-     * of the source and destination or other factors such as the
-     * linearity of the gamma correction.
-     * Unless the source and destination {@code ColorSpace} are
-     * identical, to correctly perform a rendering operation with
-     * the most care taken for the accuracy of the colors being
-     * represented, the source colors should be converted to a
-     * device independent {@code ColorSpace} and the results then
-     * converted back to the destination {@code ColorSpace}.
-     * Furthermore, if calculations such as the blending of multiple
-     * source colors are to be performed during the rendering
-     * operation, greater visual clarity can be achieved if the
-     * intermediate device independent {@code ColorSpace} is
-     * chosen to have a linear relationship between the values
-     * being calculated and the perception of the human eye to
+     * Simply performing the most bbsic color formbt conversion to
+     * store colors into b destinbtion cbn potentiblly ignore b
+     * difference in the cblibrbtion of the
+     * {@link jbvb.bwt.color.ColorSpbce}
+     * of the source bnd destinbtion or other fbctors such bs the
+     * linebrity of the gbmmb correction.
+     * Unless the source bnd destinbtion {@code ColorSpbce} bre
+     * identicbl, to correctly perform b rendering operbtion with
+     * the most cbre tbken for the bccurbcy of the colors being
+     * represented, the source colors should be converted to b
+     * device independent {@code ColorSpbce} bnd the results then
+     * converted bbck to the destinbtion {@code ColorSpbce}.
+     * Furthermore, if cblculbtions such bs the blending of multiple
+     * source colors bre to be performed during the rendering
+     * operbtion, grebter visubl clbrity cbn be bchieved if the
+     * intermedibte device independent {@code ColorSpbce} is
+     * chosen to hbve b linebr relbtionship between the vblues
+     * being cblculbted bnd the perception of the humbn eye to
      * the response curves of the output device.
      * <p>
-     * The allowable values for this hint are
+     * The bllowbble vblues for this hint bre
      * <ul>
      * <li>{@link #VALUE_COLOR_RENDER_SPEED}
      * <li>{@link #VALUE_COLOR_RENDER_QUALITY}
      * <li>{@link #VALUE_COLOR_RENDER_DEFAULT}
      * </ul>
      */
-    public static final Key KEY_COLOR_RENDERING =
+    public stbtic finbl Key KEY_COLOR_RENDERING =
          SunHints.KEY_COLOR_RENDERING;
 
     /**
-     * Color rendering hint value -- perform the fastest color
-     * conversion to the format of the output device.
+     * Color rendering hint vblue -- perform the fbstest color
+     * conversion to the formbt of the output device.
      * @see #KEY_COLOR_RENDERING
      */
-    public static final Object VALUE_COLOR_RENDER_SPEED =
+    public stbtic finbl Object VALUE_COLOR_RENDER_SPEED =
          SunHints.VALUE_COLOR_RENDER_SPEED;
 
     /**
-     * Color rendering hint value -- perform the color conversion
-     * calculations with the highest accuracy and visual quality.
+     * Color rendering hint vblue -- perform the color conversion
+     * cblculbtions with the highest bccurbcy bnd visubl qublity.
      * @see #KEY_COLOR_RENDERING
      */
-    public static final Object VALUE_COLOR_RENDER_QUALITY =
+    public stbtic finbl Object VALUE_COLOR_RENDER_QUALITY =
          SunHints.VALUE_COLOR_RENDER_QUALITY;
 
     /**
-     * Color rendering hint value -- perform color conversion
-     * calculations as chosen by the implementation to represent
-     * the best available tradeoff between performance and
-     * accuracy.
+     * Color rendering hint vblue -- perform color conversion
+     * cblculbtions bs chosen by the implementbtion to represent
+     * the best bvbilbble trbdeoff between performbnce bnd
+     * bccurbcy.
      * @see #KEY_COLOR_RENDERING
      */
-    public static final Object VALUE_COLOR_RENDER_DEFAULT =
+    public stbtic finbl Object VALUE_COLOR_RENDER_DEFAULT =
          SunHints.VALUE_COLOR_RENDER_DEFAULT;
 
     /**
-     * Stroke normalization control hint key.
-     * The {@code STROKE_CONTROL} hint controls whether a rendering
-     * implementation should or is allowed to modify the geometry
-     * of rendered shapes for various purposes.
+     * Stroke normblizbtion control hint key.
+     * The {@code STROKE_CONTROL} hint controls whether b rendering
+     * implementbtion should or is bllowed to modify the geometry
+     * of rendered shbpes for vbrious purposes.
      * <p>
-     * Some implementations may be able to use an optimized platform
-     * rendering library which may be faster than traditional software
-     * rendering algorithms on a given platform, but which may also
-     * not support floating point coordinates.
-     * Some implementations may also have sophisticated algorithms
-     * which perturb the coordinates of a path so that wide lines
-     * appear more uniform in width and spacing.
+     * Some implementbtions mby be bble to use bn optimized plbtform
+     * rendering librbry which mby be fbster thbn trbditionbl softwbre
+     * rendering blgorithms on b given plbtform, but which mby blso
+     * not support flobting point coordinbtes.
+     * Some implementbtions mby blso hbve sophisticbted blgorithms
+     * which perturb the coordinbtes of b pbth so thbt wide lines
+     * bppebr more uniform in width bnd spbcing.
      * <p>
-     * If an implementation performs any type of modification or
-     * "normalization" of a path, it should never move the coordinates
-     * by more than half a pixel in any direction.
+     * If bn implementbtion performs bny type of modificbtion or
+     * "normblizbtion" of b pbth, it should never move the coordinbtes
+     * by more thbn hblf b pixel in bny direction.
      * <p>
-     * The allowable values for this hint are
+     * The bllowbble vblues for this hint bre
      * <ul>
      * <li>{@link #VALUE_STROKE_NORMALIZE}
      * <li>{@link #VALUE_STROKE_PURE}
@@ -913,389 +913,389 @@ public class RenderingHints
      * </ul>
      * @since 1.3
      */
-    public static final Key KEY_STROKE_CONTROL =
+    public stbtic finbl Key KEY_STROKE_CONTROL =
         SunHints.KEY_STROKE_CONTROL;
 
     /**
-     * Stroke normalization control hint value -- geometry may be
-     * modified or left pure depending on the tradeoffs in a given
-     * implementation.
-     * Typically this setting allows an implementation to use a fast
-     * integer coordinate based platform rendering library, but does
-     * not specifically request normalization for uniformity or
-     * aesthetics.
+     * Stroke normblizbtion control hint vblue -- geometry mby be
+     * modified or left pure depending on the trbdeoffs in b given
+     * implementbtion.
+     * Typicblly this setting bllows bn implementbtion to use b fbst
+     * integer coordinbte bbsed plbtform rendering librbry, but does
+     * not specificblly request normblizbtion for uniformity or
+     * besthetics.
      *
      * @see #KEY_STROKE_CONTROL
      * @since 1.3
      */
-    public static final Object VALUE_STROKE_DEFAULT =
+    public stbtic finbl Object VALUE_STROKE_DEFAULT =
         SunHints.VALUE_STROKE_DEFAULT;
 
     /**
-     * Stroke normalization control hint value -- geometry should
-     * be normalized to improve uniformity or spacing of lines and
-     * overall aesthetics.
-     * Note that different normalization algorithms may be more
-     * successful than others for given input paths.
+     * Stroke normblizbtion control hint vblue -- geometry should
+     * be normblized to improve uniformity or spbcing of lines bnd
+     * overbll besthetics.
+     * Note thbt different normblizbtion blgorithms mby be more
+     * successful thbn others for given input pbths.
      *
      * @see #KEY_STROKE_CONTROL
      * @since 1.3
      */
-    public static final Object VALUE_STROKE_NORMALIZE =
+    public stbtic finbl Object VALUE_STROKE_NORMALIZE =
         SunHints.VALUE_STROKE_NORMALIZE;
 
     /**
-     * Stroke normalization control hint value -- geometry should
-     * be left unmodified and rendered with sub-pixel accuracy.
+     * Stroke normblizbtion control hint vblue -- geometry should
+     * be left unmodified bnd rendered with sub-pixel bccurbcy.
      *
      * @see #KEY_STROKE_CONTROL
      * @since 1.3
      */
-    public static final Object VALUE_STROKE_PURE =
+    public stbtic finbl Object VALUE_STROKE_PURE =
         SunHints.VALUE_STROKE_PURE;
 
     /**
-     * Constructs a new object with keys and values initialized
-     * from the specified Map object which may be null.
-     * @param init a map of key/value pairs to initialize the hints
+     * Constructs b new object with keys bnd vblues initiblized
+     * from the specified Mbp object which mby be null.
+     * @pbrbm init b mbp of key/vblue pbirs to initiblize the hints
      *          or null if the object should be empty
      */
-    public RenderingHints(Map<Key,?> init) {
+    public RenderingHints(Mbp<Key,?> init) {
         if (init != null) {
-            hintmap.putAll(init);
+            hintmbp.putAll(init);
         }
     }
 
     /**
-     * Constructs a new object with the specified key/value pair.
-     * @param key the key of the particular hint property
-     * @param value the value of the hint property specified with
+     * Constructs b new object with the specified key/vblue pbir.
+     * @pbrbm key the key of the pbrticulbr hint property
+     * @pbrbm vblue the vblue of the hint property specified with
      * <code>key</code>
      */
-    public RenderingHints(Key key, Object value) {
-        hintmap.put(key, value);
+    public RenderingHints(Key key, Object vblue) {
+        hintmbp.put(key, vblue);
     }
 
     /**
-     * Returns the number of key-value mappings in this
+     * Returns the number of key-vblue mbppings in this
      * <code>RenderingHints</code>.
      *
-     * @return the number of key-value mappings in this
+     * @return the number of key-vblue mbppings in this
      * <code>RenderingHints</code>.
      */
     public int size() {
-        return hintmap.size();
+        return hintmbp.size();
     }
 
     /**
      * Returns <code>true</code> if this
-     * <code>RenderingHints</code> contains no key-value mappings.
+     * <code>RenderingHints</code> contbins no key-vblue mbppings.
      *
      * @return <code>true</code> if this
-     * <code>RenderingHints</code> contains no key-value mappings.
+     * <code>RenderingHints</code> contbins no key-vblue mbppings.
      */
-    public boolean isEmpty() {
-        return hintmap.isEmpty();
+    public boolebn isEmpty() {
+        return hintmbp.isEmpty();
     }
 
     /**
      * Returns {@code true} if this {@code RenderingHints}
-     *  contains a mapping for the specified key.
+     *  contbins b mbpping for the specified key.
      *
-     * @param key key whose presence in this
+     * @pbrbm key key whose presence in this
      * {@code RenderingHints} is to be tested.
      * @return {@code true} if this {@code RenderingHints}
-     *          contains a mapping for the specified key.
-     * @exception ClassCastException if the key can not
-     *            be cast to {@code RenderingHints.Key}
+     *          contbins b mbpping for the specified key.
+     * @exception ClbssCbstException if the key cbn not
+     *            be cbst to {@code RenderingHints.Key}
      */
-    public boolean containsKey(Object key) {
-        return hintmap.containsKey((Key) key);
+    public boolebn contbinsKey(Object key) {
+        return hintmbp.contbinsKey((Key) key);
     }
 
     /**
-     * Returns true if this RenderingHints maps one or more keys to the
-     * specified value.
-     * More formally, returns <code>true</code> if and only
+     * Returns true if this RenderingHints mbps one or more keys to the
+     * specified vblue.
+     * More formblly, returns <code>true</code> if bnd only
      * if this <code>RenderingHints</code>
-     * contains at least one mapping to a value <code>v</code> such that
+     * contbins bt lebst one mbpping to b vblue <code>v</code> such thbt
      * <pre>
-     * (value==null ? v==null : value.equals(v))
+     * (vblue==null ? v==null : vblue.equbls(v))
      * </pre>.
-     * This operation will probably require time linear in the
-     * <code>RenderingHints</code> size for most implementations
+     * This operbtion will probbbly require time linebr in the
+     * <code>RenderingHints</code> size for most implementbtions
      * of <code>RenderingHints</code>.
      *
-     * @param value value whose presence in this
+     * @pbrbm vblue vblue whose presence in this
      *          <code>RenderingHints</code> is to be tested.
      * @return <code>true</code> if this <code>RenderingHints</code>
-     *           maps one or more keys to the specified value.
+     *           mbps one or more keys to the specified vblue.
      */
-    public boolean containsValue(Object value) {
-        return hintmap.containsValue(value);
+    public boolebn contbinsVblue(Object vblue) {
+        return hintmbp.contbinsVblue(vblue);
     }
 
     /**
-     * Returns the value to which the specified key is mapped.
-     * @param   key   a rendering hint key
-     * @return  the value to which the key is mapped in this object or
-     *          {@code null} if the key is not mapped to any value in
+     * Returns the vblue to which the specified key is mbpped.
+     * @pbrbm   key   b rendering hint key
+     * @return  the vblue to which the key is mbpped in this object or
+     *          {@code null} if the key is not mbpped to bny vblue in
      *          this object.
-     * @exception ClassCastException if the key can not
-     *            be cast to {@code RenderingHints.Key}
+     * @exception ClbssCbstException if the key cbn not
+     *            be cbst to {@code RenderingHints.Key}
      * @see     #put(Object, Object)
      */
     public Object get(Object key) {
-        return hintmap.get((Key) key);
+        return hintmbp.get((Key) key);
     }
 
     /**
-     * Maps the specified {@code key} to the specified
-     * {@code value} in this {@code RenderingHints} object.
-     * Neither the key nor the value can be {@code null}.
-     * The value can be retrieved by calling the {@code get} method
-     * with a key that is equal to the original key.
-     * @param      key     the rendering hint key.
-     * @param      value   the rendering hint value.
-     * @return     the previous value of the specified key in this object
-     *             or {@code null} if it did not have one.
+     * Mbps the specified {@code key} to the specified
+     * {@code vblue} in this {@code RenderingHints} object.
+     * Neither the key nor the vblue cbn be {@code null}.
+     * The vblue cbn be retrieved by cblling the {@code get} method
+     * with b key thbt is equbl to the originbl key.
+     * @pbrbm      key     the rendering hint key.
+     * @pbrbm      vblue   the rendering hint vblue.
+     * @return     the previous vblue of the specified key in this object
+     *             or {@code null} if it did not hbve one.
      * @exception NullPointerException if the key is
      *            {@code null}.
-     * @exception ClassCastException if the key can not
-     *            be cast to {@code RenderingHints.Key}
-     * @exception IllegalArgumentException if the
-     *            {@link Key#isCompatibleValue(java.lang.Object)
-     *                   Key.isCompatibleValue()}
-     *            method of the specified key returns false for the
-     *            specified value
+     * @exception ClbssCbstException if the key cbn not
+     *            be cbst to {@code RenderingHints.Key}
+     * @exception IllegblArgumentException if the
+     *            {@link Key#isCompbtibleVblue(jbvb.lbng.Object)
+     *                   Key.isCompbtibleVblue()}
+     *            method of the specified key returns fblse for the
+     *            specified vblue
      * @see     #get(Object)
      */
-    public Object put(Object key, Object value) {
-        if (!((Key) key).isCompatibleValue(value)) {
-            throw new IllegalArgumentException(value+
-                                               " incompatible with "+
+    public Object put(Object key, Object vblue) {
+        if (!((Key) key).isCompbtibleVblue(vblue)) {
+            throw new IllegblArgumentException(vblue+
+                                               " incompbtible with "+
                                                key);
         }
-        return hintmap.put((Key) key, value);
+        return hintmbp.put((Key) key, vblue);
     }
 
     /**
-     * Adds all of the keys and corresponding values from the specified
+     * Adds bll of the keys bnd corresponding vblues from the specified
      * <code>RenderingHints</code> object to this
-     * <code>RenderingHints</code> object. Keys that are present in
+     * <code>RenderingHints</code> object. Keys thbt bre present in
      * this <code>RenderingHints</code> object, but not in the specified
-     * <code>RenderingHints</code> object are not affected.
-     * @param hints the set of key/value pairs to be added to this
+     * <code>RenderingHints</code> object bre not bffected.
+     * @pbrbm hints the set of key/vblue pbirs to be bdded to this
      * <code>RenderingHints</code> object
      */
-    public void add(RenderingHints hints) {
-        hintmap.putAll(hints.hintmap);
+    public void bdd(RenderingHints hints) {
+        hintmbp.putAll(hints.hintmbp);
     }
 
     /**
-     * Clears this <code>RenderingHints</code> object of all key/value
-     * pairs.
+     * Clebrs this <code>RenderingHints</code> object of bll key/vblue
+     * pbirs.
      */
-    public void clear() {
-        hintmap.clear();
+    public void clebr() {
+        hintmbp.clebr();
     }
 
     /**
-     * Removes the key and its corresponding value from this
+     * Removes the key bnd its corresponding vblue from this
      * {@code RenderingHints} object. This method does nothing if the
      * key is not in this {@code RenderingHints} object.
-     * @param   key   the rendering hints key that needs to be removed
-     * @exception ClassCastException if the key can not
-     *            be cast to {@code RenderingHints.Key}
-     * @return  the value to which the key had previously been mapped in this
+     * @pbrbm   key   the rendering hints key thbt needs to be removed
+     * @exception ClbssCbstException if the key cbn not
+     *            be cbst to {@code RenderingHints.Key}
+     * @return  the vblue to which the key hbd previously been mbpped in this
      *          {@code RenderingHints} object, or {@code null}
-     *          if the key did not have a mapping.
+     *          if the key did not hbve b mbpping.
      */
     public Object remove(Object key) {
-        return hintmap.remove((Key) key);
+        return hintmbp.remove((Key) key);
     }
 
     /**
-     * Copies all of the mappings from the specified {@code Map}
-     * to this {@code RenderingHints}.  These mappings replace
-     * any mappings that this {@code RenderingHints} had for any
-     * of the keys currently in the specified {@code Map}.
-     * @param m the specified {@code Map}
-     * @exception ClassCastException class of a key or value
-     *          in the specified {@code Map} prevents it from being
+     * Copies bll of the mbppings from the specified {@code Mbp}
+     * to this {@code RenderingHints}.  These mbppings replbce
+     * bny mbppings thbt this {@code RenderingHints} hbd for bny
+     * of the keys currently in the specified {@code Mbp}.
+     * @pbrbm m the specified {@code Mbp}
+     * @exception ClbssCbstException clbss of b key or vblue
+     *          in the specified {@code Mbp} prevents it from being
      *          stored in this {@code RenderingHints}.
-     * @exception IllegalArgumentException some aspect
-     *          of a key or value in the specified {@code Map}
+     * @exception IllegblArgumentException some bspect
+     *          of b key or vblue in the specified {@code Mbp}
      *           prevents it from being stored in
      *            this {@code RenderingHints}.
      */
-    public void putAll(Map<?,?> m) {
-        // ## javac bug?
-        //if (m instanceof RenderingHints) {
-        if (RenderingHints.class.isInstance(m)) {
-            //hintmap.putAll(((RenderingHints) m).hintmap);
-            for (Map.Entry<?,?> entry : m.entrySet())
-                hintmap.put(entry.getKey(), entry.getValue());
+    public void putAll(Mbp<?,?> m) {
+        // ## jbvbc bug?
+        //if (m instbnceof RenderingHints) {
+        if (RenderingHints.clbss.isInstbnce(m)) {
+            //hintmbp.putAll(((RenderingHints) m).hintmbp);
+            for (Mbp.Entry<?,?> entry : m.entrySet())
+                hintmbp.put(entry.getKey(), entry.getVblue());
         } else {
-            // Funnel each key/value pair through our protected put method
-            for (Map.Entry<?,?> entry : m.entrySet())
-                put(entry.getKey(), entry.getValue());
+            // Funnel ebch key/vblue pbir through our protected put method
+            for (Mbp.Entry<?,?> entry : m.entrySet())
+                put(entry.getKey(), entry.getVblue());
         }
     }
 
     /**
-     * Returns a <code>Set</code> view of the Keys contained in this
-     * <code>RenderingHints</code>.  The Set is backed by the
-     * <code>RenderingHints</code>, so changes to the
-     * <code>RenderingHints</code> are reflected in the <code>Set</code>,
-     * and vice-versa.  If the <code>RenderingHints</code> is modified
-     * while an iteration over the <code>Set</code> is in progress,
-     * the results of the iteration are undefined.  The <code>Set</code>
-     * supports element removal, which removes the corresponding
-     * mapping from the <code>RenderingHints</code>, via the
-     * <code>Iterator.remove</code>, <code>Set.remove</code>,
-     * <code>removeAll</code> <code>retainAll</code>, and
-     * <code>clear</code> operations.  It does not support
-     * the <code>add</code> or <code>addAll</code> operations.
+     * Returns b <code>Set</code> view of the Keys contbined in this
+     * <code>RenderingHints</code>.  The Set is bbcked by the
+     * <code>RenderingHints</code>, so chbnges to the
+     * <code>RenderingHints</code> bre reflected in the <code>Set</code>,
+     * bnd vice-versb.  If the <code>RenderingHints</code> is modified
+     * while bn iterbtion over the <code>Set</code> is in progress,
+     * the results of the iterbtion bre undefined.  The <code>Set</code>
+     * supports element removbl, which removes the corresponding
+     * mbpping from the <code>RenderingHints</code>, vib the
+     * <code>Iterbtor.remove</code>, <code>Set.remove</code>,
+     * <code>removeAll</code> <code>retbinAll</code>, bnd
+     * <code>clebr</code> operbtions.  It does not support
+     * the <code>bdd</code> or <code>bddAll</code> operbtions.
      *
-     * @return a <code>Set</code> view of the keys contained
+     * @return b <code>Set</code> view of the keys contbined
      * in this <code>RenderingHints</code>.
      */
     public Set<Object> keySet() {
-        return hintmap.keySet();
+        return hintmbp.keySet();
     }
 
     /**
-     * Returns a <code>Collection</code> view of the values
-     * contained in this <code>RenderinHints</code>.
-     * The <code>Collection</code> is backed by the
-     * <code>RenderingHints</code>, so changes to
-     * the <code>RenderingHints</code> are reflected in
-     * the <code>Collection</code>, and vice-versa.
+     * Returns b <code>Collection</code> view of the vblues
+     * contbined in this <code>RenderinHints</code>.
+     * The <code>Collection</code> is bbcked by the
+     * <code>RenderingHints</code>, so chbnges to
+     * the <code>RenderingHints</code> bre reflected in
+     * the <code>Collection</code>, bnd vice-versb.
      * If the <code>RenderingHints</code> is modified while
-     * an iteration over the <code>Collection</code> is
-     * in progress, the results of the iteration are undefined.
-     * The <code>Collection</code> supports element removal,
-     * which removes the corresponding mapping from the
-     * <code>RenderingHints</code>, via the
-     * <code>Iterator.remove</code>,
+     * bn iterbtion over the <code>Collection</code> is
+     * in progress, the results of the iterbtion bre undefined.
+     * The <code>Collection</code> supports element removbl,
+     * which removes the corresponding mbpping from the
+     * <code>RenderingHints</code>, vib the
+     * <code>Iterbtor.remove</code>,
      * <code>Collection.remove</code>, <code>removeAll</code>,
-     * <code>retainAll</code> and <code>clear</code> operations.
-     * It does not support the <code>add</code> or
-     * <code>addAll</code> operations.
+     * <code>retbinAll</code> bnd <code>clebr</code> operbtions.
+     * It does not support the <code>bdd</code> or
+     * <code>bddAll</code> operbtions.
      *
-     * @return a <code>Collection</code> view of the values
-     *          contained in this <code>RenderingHints</code>.
+     * @return b <code>Collection</code> view of the vblues
+     *          contbined in this <code>RenderingHints</code>.
      */
-    public Collection<Object> values() {
-        return hintmap.values();
+    public Collection<Object> vblues() {
+        return hintmbp.vblues();
     }
 
     /**
-     * Returns a <code>Set</code> view of the mappings contained
-     * in this <code>RenderingHints</code>.  Each element in the
-     * returned <code>Set</code> is a <code>Map.Entry</code>.
-     * The <code>Set</code> is backed by the <code>RenderingHints</code>,
-     * so changes to the <code>RenderingHints</code> are reflected
-     * in the <code>Set</code>, and vice-versa.  If the
+     * Returns b <code>Set</code> view of the mbppings contbined
+     * in this <code>RenderingHints</code>.  Ebch element in the
+     * returned <code>Set</code> is b <code>Mbp.Entry</code>.
+     * The <code>Set</code> is bbcked by the <code>RenderingHints</code>,
+     * so chbnges to the <code>RenderingHints</code> bre reflected
+     * in the <code>Set</code>, bnd vice-versb.  If the
      * <code>RenderingHints</code> is modified while
-     * while an iteration over the <code>Set</code> is in progress,
-     * the results of the iteration are undefined.
+     * while bn iterbtion over the <code>Set</code> is in progress,
+     * the results of the iterbtion bre undefined.
      * <p>
-     * The entrySet returned from a <code>RenderingHints</code> object
-     * is not modifiable.
+     * The entrySet returned from b <code>RenderingHints</code> object
+     * is not modifibble.
      *
-     * @return a <code>Set</code> view of the mappings contained in
+     * @return b <code>Set</code> view of the mbppings contbined in
      * this <code>RenderingHints</code>.
      */
-    public Set<Map.Entry<Object,Object>> entrySet() {
-        return Collections.unmodifiableMap(hintmap).entrySet();
+    public Set<Mbp.Entry<Object,Object>> entrySet() {
+        return Collections.unmodifibbleMbp(hintmbp).entrySet();
     }
 
     /**
-     * Compares the specified <code>Object</code> with this
-     * <code>RenderingHints</code> for equality.
-     * Returns <code>true</code> if the specified object is also a
-     * <code>Map</code> and the two <code>Map</code> objects represent
-     * the same mappings.  More formally, two <code>Map</code> objects
-     * <code>t1</code> and <code>t2</code> represent the same mappings
-     * if <code>t1.keySet().equals(t2.keySet())</code> and for every
+     * Compbres the specified <code>Object</code> with this
+     * <code>RenderingHints</code> for equblity.
+     * Returns <code>true</code> if the specified object is blso b
+     * <code>Mbp</code> bnd the two <code>Mbp</code> objects represent
+     * the sbme mbppings.  More formblly, two <code>Mbp</code> objects
+     * <code>t1</code> bnd <code>t2</code> represent the sbme mbppings
+     * if <code>t1.keySet().equbls(t2.keySet())</code> bnd for every
      * key <code>k</code> in <code>t1.keySet()</code>,
      * <pre>
-     * (t1.get(k)==null ? t2.get(k)==null : t1.get(k).equals(t2.get(k)))
+     * (t1.get(k)==null ? t2.get(k)==null : t1.get(k).equbls(t2.get(k)))
      * </pre>.
-     * This ensures that the <code>equals</code> method works properly across
-     * different implementations of the <code>Map</code> interface.
+     * This ensures thbt the <code>equbls</code> method works properly bcross
+     * different implementbtions of the <code>Mbp</code> interfbce.
      *
-     * @param o <code>Object</code> to be compared for equality with
+     * @pbrbm o <code>Object</code> to be compbred for equblity with
      * this <code>RenderingHints</code>.
      * @return <code>true</code> if the specified <code>Object</code>
-     * is equal to this <code>RenderingHints</code>.
+     * is equbl to this <code>RenderingHints</code>.
      */
-    public boolean equals(Object o) {
-        if (o instanceof RenderingHints) {
-            return hintmap.equals(((RenderingHints) o).hintmap);
-        } else if (o instanceof Map) {
-            return hintmap.equals(o);
+    public boolebn equbls(Object o) {
+        if (o instbnceof RenderingHints) {
+            return hintmbp.equbls(((RenderingHints) o).hintmbp);
+        } else if (o instbnceof Mbp) {
+            return hintmbp.equbls(o);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the hash code value for this <code>RenderingHints</code>.
-     * The hash code of a <code>RenderingHints</code> is defined to be
-     * the sum of the hashCodes of each <code>Entry</code> in the
-     * <code>RenderingHints</code> object's entrySet view.  This ensures that
-     * <code>t1.equals(t2)</code> implies that
-     * <code>t1.hashCode()==t2.hashCode()</code> for any two <code>Map</code>
-     * objects <code>t1</code> and <code>t2</code>, as required by the general
-     * contract of <code>Object.hashCode</code>.
+     * Returns the hbsh code vblue for this <code>RenderingHints</code>.
+     * The hbsh code of b <code>RenderingHints</code> is defined to be
+     * the sum of the hbshCodes of ebch <code>Entry</code> in the
+     * <code>RenderingHints</code> object's entrySet view.  This ensures thbt
+     * <code>t1.equbls(t2)</code> implies thbt
+     * <code>t1.hbshCode()==t2.hbshCode()</code> for bny two <code>Mbp</code>
+     * objects <code>t1</code> bnd <code>t2</code>, bs required by the generbl
+     * contrbct of <code>Object.hbshCode</code>.
      *
-     * @return the hash code value for this <code>RenderingHints</code>.
-     * @see java.util.Map.Entry#hashCode()
-     * @see Object#hashCode()
-     * @see Object#equals(Object)
-     * @see #equals(Object)
+     * @return the hbsh code vblue for this <code>RenderingHints</code>.
+     * @see jbvb.util.Mbp.Entry#hbshCode()
+     * @see Object#hbshCode()
+     * @see Object#equbls(Object)
+     * @see #equbls(Object)
      */
-    public int hashCode() {
-        return hintmap.hashCode();
+    public int hbshCode() {
+        return hintmbp.hbshCode();
     }
 
     /**
-     * Creates a clone of this <code>RenderingHints</code> object
-     * that has the same contents as this <code>RenderingHints</code>
+     * Crebtes b clone of this <code>RenderingHints</code> object
+     * thbt hbs the sbme contents bs this <code>RenderingHints</code>
      * object.
-     * @return a clone of this instance.
+     * @return b clone of this instbnce.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public Object clone() {
         RenderingHints rh;
         try {
             rh = (RenderingHints) super.clone();
-            if (hintmap != null) {
-                rh.hintmap = (HashMap<Object,Object>) hintmap.clone();
+            if (hintmbp != null) {
+                rh.hintmbp = (HbshMbp<Object,Object>) hintmbp.clone();
             }
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError(e);
         }
 
         return rh;
     }
 
     /**
-     * Returns a rather long string representation of the hashmap
-     * which contains the mappings of keys to values for this
+     * Returns b rbther long string representbtion of the hbshmbp
+     * which contbins the mbppings of keys to vblues for this
      * <code>RenderingHints</code> object.
-     * @return  a string representation of this object.
+     * @return  b string representbtion of this object.
      */
     public String toString() {
-        if (hintmap == null) {
-            return getClass().getName() + "@" +
-                Integer.toHexString(hashCode()) +
+        if (hintmbp == null) {
+            return getClbss().getNbme() + "@" +
+                Integer.toHexString(hbshCode()) +
                 " (0 hints)";
         }
 
-        return hintmap.toString();
+        return hintmbp.toString();
     }
 }

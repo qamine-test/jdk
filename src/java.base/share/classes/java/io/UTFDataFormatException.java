@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * Signals that a malformed string in
- * <a href="DataInput.html#modified-utf-8">modified UTF-8</a>
- * format has been read in a data
- * input stream or by any class that implements the data input
- * interface.
+ * Signbls thbt b mblformed string in
+ * <b href="DbtbInput.html#modified-utf-8">modified UTF-8</b>
+ * formbt hbs been rebd in b dbtb
+ * input strebm or by bny clbss thbt implements the dbtb input
+ * interfbce.
  * See the
- * <a href="DataInput.html#modified-utf-8"><code>DataInput</code></a>
- * class description for the format in
- * which modified UTF-8 strings are read and written.
+ * <b href="DbtbInput.html#modified-utf-8"><code>DbtbInput</code></b>
+ * clbss description for the formbt in
+ * which modified UTF-8 strings bre rebd bnd written.
  *
- * @author  Frank Yellin
- * @see     java.io.DataInput
- * @see     java.io.DataInputStream#readUTF(java.io.DataInput)
- * @see     java.io.IOException
+ * @buthor  Frbnk Yellin
+ * @see     jbvb.io.DbtbInput
+ * @see     jbvb.io.DbtbInputStrebm#rebdUTF(jbvb.io.DbtbInput)
+ * @see     jbvb.io.IOException
  * @since   1.0
  */
 public
-class UTFDataFormatException extends IOException {
-    private static final long serialVersionUID = 420743449228280612L;
+clbss UTFDbtbFormbtException extends IOException {
+    privbte stbtic finbl long seriblVersionUID = 420743449228280612L;
 
     /**
-     * Constructs a <code>UTFDataFormatException</code> with
-     * <code>null</code> as its error detail message.
+     * Constructs b <code>UTFDbtbFormbtException</code> with
+     * <code>null</code> bs its error detbil messbge.
      */
-    public UTFDataFormatException() {
+    public UTFDbtbFormbtException() {
         super();
     }
 
     /**
-     * Constructs a <code>UTFDataFormatException</code> with the
-     * specified detail message. The string <code>s</code> can be
-     * retrieved later by the
-     * <code>{@link java.lang.Throwable#getMessage}</code>
-     * method of class <code>java.lang.Throwable</code>.
+     * Constructs b <code>UTFDbtbFormbtException</code> with the
+     * specified detbil messbge. The string <code>s</code> cbn be
+     * retrieved lbter by the
+     * <code>{@link jbvb.lbng.Throwbble#getMessbge}</code>
+     * method of clbss <code>jbvb.lbng.Throwbble</code>.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   the detbil messbge.
      */
-    public UTFDataFormatException(String s) {
+    public UTFDbtbFormbtException(String s) {
         super(s);
     }
 }

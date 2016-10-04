@@ -1,301 +1,301 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.ActionMapUIResource;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.OptionPaneUI;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Locale;
-import java.security.AccessController;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.border.EmptyBorder;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.ActionMbpUIResource;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.OptionPbneUI;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.util.Locble;
+import jbvb.security.AccessController;
 
-import sun.security.action.GetPropertyAction;
+import sun.security.bction.GetPropertyAction;
 
 
 /**
- * Provides the basic look and feel for a <code>JOptionPane</code>.
- * <code>BasicMessagePaneUI</code> provides a means to place an icon,
- * message and buttons into a <code>Container</code>.
- * Generally, the layout will look like:
+ * Provides the bbsic look bnd feel for b <code>JOptionPbne</code>.
+ * <code>BbsicMessbgePbneUI</code> provides b mebns to plbce bn icon,
+ * messbge bnd buttons into b <code>Contbiner</code>.
+ * Generblly, the lbyout will look like:
  * <pre>
  *        ------------------
- *        | i | message    |
- *        | c | message    |
- *        | o | message    |
- *        | n | message    |
+ *        | i | messbge    |
+ *        | c | messbge    |
+ *        | o | messbge    |
+ *        | n | messbge    |
  *        ------------------
  *        |     buttons    |
  *        |________________|
  * </pre>
- * icon is an instance of <code>Icon</code> that is wrapped inside a
- * <code>JLabel</code>.  The message is an opaque object and is tested
- * for the following: if the message is a <code>Component</code> it is
- * added to the <code>Container</code>, if it is an <code>Icon</code>
- * it is wrapped inside a <code>JLabel</code> and added to the
- * <code>Container</code> otherwise it is wrapped inside a <code>JLabel</code>.
+ * icon is bn instbnce of <code>Icon</code> thbt is wrbpped inside b
+ * <code>JLbbel</code>.  The messbge is bn opbque object bnd is tested
+ * for the following: if the messbge is b <code>Component</code> it is
+ * bdded to the <code>Contbiner</code>, if it is bn <code>Icon</code>
+ * it is wrbpped inside b <code>JLbbel</code> bnd bdded to the
+ * <code>Contbiner</code> otherwise it is wrbpped inside b <code>JLbbel</code>.
  * <p>
- * The above layout is used when the option pane's
- * <code>ComponentOrientation</code> property is horizontal, left-to-right.
- * The layout will be adjusted appropriately for other orientations.
+ * The bbove lbyout is used when the option pbne's
+ * <code>ComponentOrientbtion</code> property is horizontbl, left-to-right.
+ * The lbyout will be bdjusted bppropribtely for other orientbtions.
  * <p>
- * The <code>Container</code>, message, icon, and buttons are all
- * determined from abstract methods.
+ * The <code>Contbiner</code>, messbge, icon, bnd buttons bre bll
+ * determined from bbstrbct methods.
  *
- * @author James Gosling
- * @author Scott Violet
- * @author Amy Fowler
+ * @buthor Jbmes Gosling
+ * @buthor Scott Violet
+ * @buthor Amy Fowler
  */
-public class BasicOptionPaneUI extends OptionPaneUI {
+public clbss BbsicOptionPbneUI extends OptionPbneUI {
 
     /**
-     * The mininum width of {@code JOptionPane}.
+     * The mininum width of {@code JOptionPbne}.
      */
-    public static final int MinimumWidth = 262;
+    public stbtic finbl int MinimumWidth = 262;
     /**
-     * The mininum height of {@code JOptionPane}.
+     * The mininum height of {@code JOptionPbne}.
      */
-    public static final int MinimumHeight = 90;
+    public stbtic finbl int MinimumHeight = 90;
 
-    private static String newline;
+    privbte stbtic String newline;
 
     /**
-     * {@code JOptionPane} that the receiver is providing the
-     * look and feel for.
+     * {@code JOptionPbne} thbt the receiver is providing the
+     * look bnd feel for.
      */
-    protected JOptionPane         optionPane;
+    protected JOptionPbne         optionPbne;
 
     /**
-     * The size of {@code JOptionPane}.
+     * The size of {@code JOptionPbne}.
      */
     protected Dimension minimumSize;
 
-    /** JComponent provide for input if optionPane.getWantsInput() returns
+    /** JComponent provide for input if optionPbne.getWbntsInput() returns
      * true. */
     protected JComponent          inputComponent;
 
-    /** Component to receive focus when messaged with selectInitialValue. */
-    protected Component           initialFocusComponent;
+    /** Component to receive focus when messbged with selectInitiblVblue. */
+    protected Component           initiblFocusComponent;
 
-    /** This is set to true in validateComponent if a Component is contained
-     * in either the message or the buttons. */
-    protected boolean             hasCustomComponents;
+    /** This is set to true in vblidbteComponent if b Component is contbined
+     * in either the messbge or the buttons. */
+    protected boolebn             hbsCustomComponents;
 
     /**
-     * The instance of {@code PropertyChangeListener}.
+     * The instbnce of {@code PropertyChbngeListener}.
      */
-    protected PropertyChangeListener propertyChangeListener;
+    protected PropertyChbngeListener propertyChbngeListener;
 
-    private Handler handler;
+    privbte Hbndler hbndler;
 
 
-    static {
-        newline = System.lineSeparator();
+    stbtic {
+        newline = System.lineSepbrbtor();
         if (newline == null) {
             newline = "\n";
         }
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.CLOSE));
-        BasicLookAndFeel.installAudioActionMap(map);
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        mbp.put(new Actions(Actions.CLOSE));
+        BbsicLookAndFeel.instbllAudioActionMbp(mbp);
     }
 
 
 
     /**
-     * Creates a new {@code BasicOptionPaneUI} instance.
+     * Crebtes b new {@code BbsicOptionPbneUI} instbnce.
      *
-     * @return a new {@code BasicOptionPaneUI} instance
+     * @return b new {@code BbsicOptionPbneUI} instbnce
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new BasicOptionPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent x) {
+        return new BbsicOptionPbneUI();
     }
 
     /**
-      * Installs the receiver as the L&amp;F for the passed in
-      * <code>JOptionPane</code>.
+      * Instblls the receiver bs the L&bmp;F for the pbssed in
+      * <code>JOptionPbne</code>.
       */
-    public void installUI(JComponent c) {
-        optionPane = (JOptionPane)c;
-        installDefaults();
-        optionPane.setLayout(createLayoutManager());
-        installComponents();
-        installListeners();
-        installKeyboardActions();
+    public void instbllUI(JComponent c) {
+        optionPbne = (JOptionPbne)c;
+        instbllDefbults();
+        optionPbne.setLbyout(crebteLbyoutMbnbger());
+        instbllComponents();
+        instbllListeners();
+        instbllKeybobrdActions();
     }
 
     /**
-      * Removes the receiver from the L&amp;F controller of the passed in split
-      * pane.
+      * Removes the receiver from the L&bmp;F controller of the pbssed in split
+      * pbne.
       */
-    public void uninstallUI(JComponent c) {
-        uninstallComponents();
-        optionPane.setLayout(null);
-        uninstallKeyboardActions();
-        uninstallListeners();
-        uninstallDefaults();
-        optionPane = null;
+    public void uninstbllUI(JComponent c) {
+        uninstbllComponents();
+        optionPbne.setLbyout(null);
+        uninstbllKeybobrdActions();
+        uninstbllListeners();
+        uninstbllDefbults();
+        optionPbne = null;
     }
 
     /**
-     * Installs default properties.
+     * Instblls defbult properties.
      */
-    protected void installDefaults() {
-        LookAndFeel.installColorsAndFont(optionPane, "OptionPane.background",
-                                         "OptionPane.foreground", "OptionPane.font");
-        LookAndFeel.installBorder(optionPane, "OptionPane.border");
-        minimumSize = UIManager.getDimension("OptionPane.minimumSize");
-        LookAndFeel.installProperty(optionPane, "opaque", Boolean.TRUE);
+    protected void instbllDefbults() {
+        LookAndFeel.instbllColorsAndFont(optionPbne, "OptionPbne.bbckground",
+                                         "OptionPbne.foreground", "OptionPbne.font");
+        LookAndFeel.instbllBorder(optionPbne, "OptionPbne.border");
+        minimumSize = UIMbnbger.getDimension("OptionPbne.minimumSize");
+        LookAndFeel.instbllProperty(optionPbne, "opbque", Boolebn.TRUE);
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls defbult properties.
      */
-    protected void uninstallDefaults() {
-        LookAndFeel.uninstallBorder(optionPane);
+    protected void uninstbllDefbults() {
+        LookAndFeel.uninstbllBorder(optionPbne);
     }
 
     /**
      * Registers components.
      */
-    protected void installComponents() {
-        optionPane.add(createMessageArea());
+    protected void instbllComponents() {
+        optionPbne.bdd(crebteMessbgeAreb());
 
-        Container separator = createSeparator();
-        if (separator != null) {
-            optionPane.add(separator);
+        Contbiner sepbrbtor = crebteSepbrbtor();
+        if (sepbrbtor != null) {
+            optionPbne.bdd(sepbrbtor);
         }
-        optionPane.add(createButtonArea());
-        optionPane.applyComponentOrientation(optionPane.getComponentOrientation());
+        optionPbne.bdd(crebteButtonAreb());
+        optionPbne.bpplyComponentOrientbtion(optionPbne.getComponentOrientbtion());
     }
 
     /**
      * Unregisters components.
      */
-    protected void uninstallComponents() {
-        hasCustomComponents = false;
+    protected void uninstbllComponents() {
+        hbsCustomComponents = fblse;
         inputComponent = null;
-        initialFocusComponent = null;
-        optionPane.removeAll();
+        initiblFocusComponent = null;
+        optionPbne.removeAll();
     }
 
     /**
-     * Returns a layout manager.
+     * Returns b lbyout mbnbger.
      *
-     * @return a layout manager
+     * @return b lbyout mbnbger
      */
-    protected LayoutManager createLayoutManager() {
-        return new BoxLayout(optionPane, BoxLayout.Y_AXIS);
+    protected LbyoutMbnbger crebteLbyoutMbnbger() {
+        return new BoxLbyout(optionPbne, BoxLbyout.Y_AXIS);
     }
 
     /**
      * Registers listeners.
      */
-    protected void installListeners() {
-        if ((propertyChangeListener = createPropertyChangeListener()) != null) {
-            optionPane.addPropertyChangeListener(propertyChangeListener);
+    protected void instbllListeners() {
+        if ((propertyChbngeListener = crebtePropertyChbngeListener()) != null) {
+            optionPbne.bddPropertyChbngeListener(propertyChbngeListener);
         }
     }
 
     /**
      * Unregisters listeners.
      */
-    protected void uninstallListeners() {
-        if (propertyChangeListener != null) {
-            optionPane.removePropertyChangeListener(propertyChangeListener);
-            propertyChangeListener = null;
+    protected void uninstbllListeners() {
+        if (propertyChbngeListener != null) {
+            optionPbne.removePropertyChbngeListener(propertyChbngeListener);
+            propertyChbngeListener = null;
         }
-        handler = null;
+        hbndler = null;
     }
 
     /**
-     * Returns an instance of {@code PropertyChangeListener}.
+     * Returns bn instbnce of {@code PropertyChbngeListener}.
      *
-     * @return an instance of {@code PropertyChangeListener}
+     * @return bn instbnce of {@code PropertyChbngeListener}
      */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return getHbndler();
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbte Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
     /**
-     * Registers keyboard actions.
+     * Registers keybobrd bctions.
      */
-    protected void installKeyboardActions() {
-        InputMap map = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+    protected void instbllKeybobrdActions() {
+        InputMbp mbp = getInputMbp(JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-        SwingUtilities.replaceUIInputMap(optionPane, JComponent.
-                                       WHEN_IN_FOCUSED_WINDOW, map);
+        SwingUtilities.replbceUIInputMbp(optionPbne, JComponent.
+                                       WHEN_IN_FOCUSED_WINDOW, mbp);
 
-        LazyActionMap.installLazyActionMap(optionPane, BasicOptionPaneUI.class,
-                                           "OptionPane.actionMap");
+        LbzyActionMbp.instbllLbzyActionMbp(optionPbne, BbsicOptionPbneUI.clbss,
+                                           "OptionPbne.bctionMbp");
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unregisters keybobrd bctions.
      */
-    protected void uninstallKeyboardActions() {
-        SwingUtilities.replaceUIInputMap(optionPane, JComponent.
+    protected void uninstbllKeybobrdActions() {
+        SwingUtilities.replbceUIInputMbp(optionPbne, JComponent.
                                        WHEN_IN_FOCUSED_WINDOW, null);
-        SwingUtilities.replaceUIActionMap(optionPane, null);
+        SwingUtilities.replbceUIActionMbp(optionPbne, null);
     }
 
-    InputMap getInputMap(int condition) {
+    InputMbp getInputMbp(int condition) {
         if (condition == JComponent.WHEN_IN_FOCUSED_WINDOW) {
-            Object[] bindings = (Object[])DefaultLookup.get(
-                             optionPane, this, "OptionPane.windowBindings");
+            Object[] bindings = (Object[])DefbultLookup.get(
+                             optionPbne, this, "OptionPbne.windowBindings");
             if (bindings != null) {
-                return LookAndFeel.makeComponentInputMap(optionPane, bindings);
+                return LookAndFeel.mbkeComponentInputMbp(optionPbne, bindings);
             }
         }
         return null;
     }
 
     /**
-     * Returns the minimum size the option pane should be. Primarily
-     * provided for subclassers wishing to offer a different minimum size.
+     * Returns the minimum size the option pbne should be. Primbrily
+     * provided for subclbssers wishing to offer b different minimum size.
      *
-     * @return the minimum size of the option pane
+     * @return the minimum size of the option pbne
      */
-    public Dimension getMinimumOptionPaneSize() {
+    public Dimension getMinimumOptionPbneSize() {
         if (minimumSize == null) {
             return new Dimension(MinimumWidth, MinimumHeight);
         }
@@ -304,24 +304,24 @@ public class BasicOptionPaneUI extends OptionPaneUI {
     }
 
     /**
-     * If <code>c</code> is the <code>JOptionPane</code> the receiver
-     * is contained in, the preferred
-     * size that is returned is the maximum of the preferred size of
-     * the <code>LayoutManager</code> for the <code>JOptionPane</code>, and
-     * <code>getMinimumOptionPaneSize</code>.
+     * If <code>c</code> is the <code>JOptionPbne</code> the receiver
+     * is contbined in, the preferred
+     * size thbt is returned is the mbximum of the preferred size of
+     * the <code>LbyoutMbnbger</code> for the <code>JOptionPbne</code>, bnd
+     * <code>getMinimumOptionPbneSize</code>.
      */
     public Dimension getPreferredSize(JComponent c) {
-        if (c == optionPane) {
-            Dimension            ourMin = getMinimumOptionPaneSize();
-            LayoutManager        lm = c.getLayout();
+        if (c == optionPbne) {
+            Dimension            ourMin = getMinimumOptionPbneSize();
+            LbyoutMbnbger        lm = c.getLbyout();
 
             if (lm != null) {
-                Dimension         lmSize = lm.preferredLayoutSize(c);
+                Dimension         lmSize = lm.preferredLbyoutSize(c);
 
                 if (ourMin != null)
                     return new Dimension
-                        (Math.max(lmSize.width, ourMin.width),
-                         Math.max(lmSize.height, ourMin.height));
+                        (Mbth.mbx(lmSize.width, ourMin.width),
+                         Mbth.mbx(lmSize.height, ourMin.height));
                 return lmSize;
             }
             return ourMin;
@@ -330,107 +330,107 @@ public class BasicOptionPaneUI extends OptionPaneUI {
     }
 
     /**
-     * Messaged from {@code installComponents} to create a {@code Container}
-     * containing the body of the message. The icon is the created
-     * by calling {@code addIcon}.
+     * Messbged from {@code instbllComponents} to crebte b {@code Contbiner}
+     * contbining the body of the messbge. The icon is the crebted
+     * by cblling {@code bddIcon}.
      *
-     * @return a instance of {@code Container}
+     * @return b instbnce of {@code Contbiner}
      */
-    protected Container createMessageArea() {
-        JPanel top = new JPanel();
-        Border topBorder = (Border)DefaultLookup.get(optionPane, this,
-                                             "OptionPane.messageAreaBorder");
+    protected Contbiner crebteMessbgeAreb() {
+        JPbnel top = new JPbnel();
+        Border topBorder = (Border)DefbultLookup.get(optionPbne, this,
+                                             "OptionPbne.messbgeArebBorder");
         if (topBorder != null) {
             top.setBorder(topBorder);
         }
-        top.setLayout(new BorderLayout());
+        top.setLbyout(new BorderLbyout());
 
         /* Fill the body. */
-        Container          body = new JPanel(new GridBagLayout());
-        Container          realBody = new JPanel(new BorderLayout());
+        Contbiner          body = new JPbnel(new GridBbgLbyout());
+        Contbiner          reblBody = new JPbnel(new BorderLbyout());
 
-        body.setName("OptionPane.body");
-        realBody.setName("OptionPane.realBody");
+        body.setNbme("OptionPbne.body");
+        reblBody.setNbme("OptionPbne.reblBody");
 
         if (getIcon() != null) {
-            JPanel sep = new JPanel();
-            sep.setName("OptionPane.separator");
+            JPbnel sep = new JPbnel();
+            sep.setNbme("OptionPbne.sepbrbtor");
             sep.setPreferredSize(new Dimension(15, 1));
-            realBody.add(sep, BorderLayout.BEFORE_LINE_BEGINS);
+            reblBody.bdd(sep, BorderLbyout.BEFORE_LINE_BEGINS);
         }
-        realBody.add(body, BorderLayout.CENTER);
+        reblBody.bdd(body, BorderLbyout.CENTER);
 
-        GridBagConstraints cons = new GridBagConstraints();
+        GridBbgConstrbints cons = new GridBbgConstrbints();
         cons.gridx = cons.gridy = 0;
-        cons.gridwidth = GridBagConstraints.REMAINDER;
+        cons.gridwidth = GridBbgConstrbints.REMAINDER;
         cons.gridheight = 1;
-        cons.anchor = DefaultLookup.getInt(optionPane, this,
-                      "OptionPane.messageAnchor", GridBagConstraints.CENTER);
+        cons.bnchor = DefbultLookup.getInt(optionPbne, this,
+                      "OptionPbne.messbgeAnchor", GridBbgConstrbints.CENTER);
         cons.insets = new Insets(0,0,3,0);
 
-        addMessageComponents(body, cons, getMessage(),
-                          getMaxCharactersPerLineCount(), false);
-        top.add(realBody, BorderLayout.CENTER);
+        bddMessbgeComponents(body, cons, getMessbge(),
+                          getMbxChbrbctersPerLineCount(), fblse);
+        top.bdd(reblBody, BorderLbyout.CENTER);
 
-        addIcon(top);
+        bddIcon(top);
         return top;
     }
 
     /**
-     * Creates the appropriate object to represent {@code msg} and
-     * places it into {@code container}. If {@code msg} is an instance of
-     * {@code Component}, it is added directly, if it is an {@code Icon},
-     * a {@code JLabel} is created to represent it, otherwise a {@code JLabel} is
-     * created for the string, if {@code d} is an Object[], this method
-     * will be recursively invoked for the children. {@code internallyCreated} is
-     * {@code true} if Objc is an instance of {@code Component} and was created
-     * internally by this method (this is used to correctly set
-     * {@code hasCustomComponents} only if {@code internallyCreated} is {@code false}).
+     * Crebtes the bppropribte object to represent {@code msg} bnd
+     * plbces it into {@code contbiner}. If {@code msg} is bn instbnce of
+     * {@code Component}, it is bdded directly, if it is bn {@code Icon},
+     * b {@code JLbbel} is crebted to represent it, otherwise b {@code JLbbel} is
+     * crebted for the string, if {@code d} is bn Object[], this method
+     * will be recursively invoked for the children. {@code internbllyCrebted} is
+     * {@code true} if Objc is bn instbnce of {@code Component} bnd wbs crebted
+     * internblly by this method (this is used to correctly set
+     * {@code hbsCustomComponents} only if {@code internbllyCrebted} is {@code fblse}).
      *
-     * @param container a container
-     * @param cons an instance of {@code GridBagConstraints}
-     * @param msg a message
-     * @param maxll a maximum length
-     * @param internallyCreated {@code true} if the component was internally created
+     * @pbrbm contbiner b contbiner
+     * @pbrbm cons bn instbnce of {@code GridBbgConstrbints}
+     * @pbrbm msg b messbge
+     * @pbrbm mbxll b mbximum length
+     * @pbrbm internbllyCrebted {@code true} if the component wbs internblly crebted
      */
-    protected void addMessageComponents(Container container,
-                                     GridBagConstraints cons,
-                                     Object msg, int maxll,
-                                     boolean internallyCreated) {
+    protected void bddMessbgeComponents(Contbiner contbiner,
+                                     GridBbgConstrbints cons,
+                                     Object msg, int mbxll,
+                                     boolebn internbllyCrebted) {
         if (msg == null) {
             return;
         }
-        if (msg instanceof Component) {
-            // To workaround problem where Gridbad will set child
+        if (msg instbnceof Component) {
+            // To workbround problem where Gridbbd will set child
             // to its minimum size if its preferred size will not fit
-            // within allocated cells
-            if (msg instanceof JScrollPane || msg instanceof JPanel) {
-                cons.fill = GridBagConstraints.BOTH;
+            // within bllocbted cells
+            if (msg instbnceof JScrollPbne || msg instbnceof JPbnel) {
+                cons.fill = GridBbgConstrbints.BOTH;
                 cons.weighty = 1;
             } else {
-                cons.fill = GridBagConstraints.HORIZONTAL;
+                cons.fill = GridBbgConstrbints.HORIZONTAL;
             }
             cons.weightx = 1;
 
-            container.add((Component) msg, cons);
+            contbiner.bdd((Component) msg, cons);
             cons.weightx = 0;
             cons.weighty = 0;
-            cons.fill = GridBagConstraints.NONE;
+            cons.fill = GridBbgConstrbints.NONE;
             cons.gridy++;
-            if (!internallyCreated) {
-                hasCustomComponents = true;
+            if (!internbllyCrebted) {
+                hbsCustomComponents = true;
             }
 
-        } else if (msg instanceof Object[]) {
+        } else if (msg instbnceof Object[]) {
             Object [] msgs = (Object[]) msg;
             for (Object o : msgs) {
-                addMessageComponents(container, cons, o, maxll, false);
+                bddMessbgeComponents(contbiner, cons, o, mbxll, fblse);
             }
 
-        } else if (msg instanceof Icon) {
-            JLabel label = new JLabel( (Icon)msg, SwingConstants.CENTER );
-            configureMessageLabel(label);
-            addMessageComponents(container, cons, label, maxll, true);
+        } else if (msg instbnceof Icon) {
+            JLbbel lbbel = new JLbbel( (Icon)msg, SwingConstbnts.CENTER );
+            configureMessbgeLbbel(lbbel);
+            bddMessbgeComponents(contbiner, cons, lbbel, mbxll, true);
 
         } else {
             String s = msg.toString();
@@ -449,10 +449,10 @@ public class BasicOptionPaneUI extends OptionPaneUI {
                 nll = 1;
             }
             if (nl >= 0) {
-                // break up newlines
+                // brebk up newlines
                 if (nl == 0) {
-                    @SuppressWarnings("serial") // anonymous class
-                    JPanel breakPanel = new JPanel() {
+                    @SuppressWbrnings("seribl") // bnonymous clbss
+                    JPbnel brebkPbnel = new JPbnel() {
                         public Dimension getPreferredSize() {
                             Font       f = getFont();
 
@@ -462,78 +462,78 @@ public class BasicOptionPaneUI extends OptionPaneUI {
                             return new Dimension(0, 0);
                         }
                     };
-                    breakPanel.setName("OptionPane.break");
-                    addMessageComponents(container, cons, breakPanel, maxll,
+                    brebkPbnel.setNbme("OptionPbne.brebk");
+                    bddMessbgeComponents(contbiner, cons, brebkPbnel, mbxll,
                                          true);
                 } else {
-                    addMessageComponents(container, cons, s.substring(0, nl),
-                                      maxll, false);
+                    bddMessbgeComponents(contbiner, cons, s.substring(0, nl),
+                                      mbxll, fblse);
                 }
-                addMessageComponents(container, cons, s.substring(nl + nll), maxll,
-                                  false);
+                bddMessbgeComponents(contbiner, cons, s.substring(nl + nll), mbxll,
+                                  fblse);
 
-            } else if (len > maxll) {
-                Container c = Box.createVerticalBox();
-                c.setName("OptionPane.verticalBox");
-                burstStringInto(c, s, maxll);
-                addMessageComponents(container, cons, c, maxll, true );
+            } else if (len > mbxll) {
+                Contbiner c = Box.crebteVerticblBox();
+                c.setNbme("OptionPbne.verticblBox");
+                burstStringInto(c, s, mbxll);
+                bddMessbgeComponents(contbiner, cons, c, mbxll, true );
 
             } else {
-                JLabel label;
-                label = new JLabel( s, JLabel.LEADING );
-                label.setName("OptionPane.label");
-                configureMessageLabel(label);
-                addMessageComponents(container, cons, label, maxll, true);
+                JLbbel lbbel;
+                lbbel = new JLbbel( s, JLbbel.LEADING );
+                lbbel.setNbme("OptionPbne.lbbel");
+                configureMessbgeLbbel(lbbel);
+                bddMessbgeComponents(contbiner, cons, lbbel, mbxll, true);
             }
         }
     }
 
     /**
-     * Returns the message to display from the {@code JOptionPane} the receiver is
-     * providing the look and feel for.
+     * Returns the messbge to displby from the {@code JOptionPbne} the receiver is
+     * providing the look bnd feel for.
      *
-     * @return the message to display
+     * @return the messbge to displby
      */
-    protected Object getMessage() {
+    protected Object getMessbge() {
         inputComponent = null;
-        if (optionPane != null) {
-            if (optionPane.getWantsInput()) {
-                /* Create a user component to capture the input. If the
-                   selectionValues are non null the component and there
-                   are < 20 values it'll be a combobox, if non null and
-                   >= 20, it'll be a list, otherwise it'll be a textfield. */
-                Object             message = optionPane.getMessage();
-                Object[]           sValues = optionPane.getSelectionValues();
-                Object             inputValue = optionPane
-                                           .getInitialSelectionValue();
+        if (optionPbne != null) {
+            if (optionPbne.getWbntsInput()) {
+                /* Crebte b user component to cbpture the input. If the
+                   selectionVblues bre non null the component bnd there
+                   bre < 20 vblues it'll be b combobox, if non null bnd
+                   >= 20, it'll be b list, otherwise it'll be b textfield. */
+                Object             messbge = optionPbne.getMessbge();
+                Object[]           sVblues = optionPbne.getSelectionVblues();
+                Object             inputVblue = optionPbne
+                                           .getInitiblSelectionVblue();
                 JComponent         toAdd;
 
-                if (sValues != null) {
-                    if (sValues.length < 20) {
+                if (sVblues != null) {
+                    if (sVblues.length < 20) {
                         JComboBox<Object> cBox = new JComboBox<>();
 
-                        cBox.setName("OptionPane.comboBox");
-                        for(int counter = 0, maxCounter = sValues.length;
-                            counter < maxCounter; counter++) {
-                            cBox.addItem(sValues[counter]);
+                        cBox.setNbme("OptionPbne.comboBox");
+                        for(int counter = 0, mbxCounter = sVblues.length;
+                            counter < mbxCounter; counter++) {
+                            cBox.bddItem(sVblues[counter]);
                         }
-                        if (inputValue != null) {
-                            cBox.setSelectedItem(inputValue);
+                        if (inputVblue != null) {
+                            cBox.setSelectedItem(inputVblue);
                         }
                         inputComponent = cBox;
                         toAdd = cBox;
 
                     } else {
-                        JList<Object>      list = new JList<>(sValues);
-                        JScrollPane          sp = new JScrollPane(list);
+                        JList<Object>      list = new JList<>(sVblues);
+                        JScrollPbne          sp = new JScrollPbne(list);
 
-                        sp.setName("OptionPane.scrollPane");
-                        list.setName("OptionPane.list");
+                        sp.setNbme("OptionPbne.scrollPbne");
+                        list.setNbme("OptionPbne.list");
                         list.setVisibleRowCount(10);
                         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                        if(inputValue != null)
-                            list.setSelectedValue(inputValue, true);
-                        list.addMouseListener(getHandler());
+                        if(inputVblue != null)
+                            list.setSelectedVblue(inputVblue, true);
+                        list.bddMouseListener(getHbndler());
                         toAdd = sp;
                         inputComponent = list;
                     }
@@ -541,254 +541,254 @@ public class BasicOptionPaneUI extends OptionPaneUI {
                 } else {
                     MultiplexingTextField   tf = new MultiplexingTextField(20);
 
-                    tf.setName("OptionPane.textField");
+                    tf.setNbme("OptionPbne.textField");
                     tf.setKeyStrokes(new KeyStroke[] {
                                      KeyStroke.getKeyStroke("ENTER") } );
-                    if (inputValue != null) {
-                        String inputString = inputValue.toString();
+                    if (inputVblue != null) {
+                        String inputString = inputVblue.toString();
                         tf.setText(inputString);
-                        tf.setSelectionStart(0);
+                        tf.setSelectionStbrt(0);
                         tf.setSelectionEnd(inputString.length());
                     }
-                    tf.addActionListener(getHandler());
+                    tf.bddActionListener(getHbndler());
                     toAdd = inputComponent = tf;
                 }
 
-                Object[]           newMessage;
+                Object[]           newMessbge;
 
-                if (message == null) {
-                    newMessage = new Object[1];
-                    newMessage[0] = toAdd;
+                if (messbge == null) {
+                    newMessbge = new Object[1];
+                    newMessbge[0] = toAdd;
 
                 } else {
-                    newMessage = new Object[2];
-                    newMessage[0] = message;
-                    newMessage[1] = toAdd;
+                    newMessbge = new Object[2];
+                    newMessbge[0] = messbge;
+                    newMessbge[1] = toAdd;
                 }
-                return newMessage;
+                return newMessbge;
             }
-            return optionPane.getMessage();
+            return optionPbne.getMessbge();
         }
         return null;
     }
 
     /**
-     * Creates and adds a JLabel representing the icon returned from
-     * {@code getIcon} to {@code top}. This is messaged from
-     * {@code createMessageArea}.
+     * Crebtes bnd bdds b JLbbel representing the icon returned from
+     * {@code getIcon} to {@code top}. This is messbged from
+     * {@code crebteMessbgeAreb}.
      *
-     * @param top a container
+     * @pbrbm top b contbiner
      */
-    protected void addIcon(Container top) {
-        /* Create the icon. */
+    protected void bddIcon(Contbiner top) {
+        /* Crebte the icon. */
         Icon                  sideIcon = getIcon();
 
         if (sideIcon != null) {
-            JLabel            iconLabel = new JLabel(sideIcon);
+            JLbbel            iconLbbel = new JLbbel(sideIcon);
 
-            iconLabel.setName("OptionPane.iconLabel");
-            iconLabel.setVerticalAlignment(SwingConstants.TOP);
-            top.add(iconLabel, BorderLayout.BEFORE_LINE_BEGINS);
+            iconLbbel.setNbme("OptionPbne.iconLbbel");
+            iconLbbel.setVerticblAlignment(SwingConstbnts.TOP);
+            top.bdd(iconLbbel, BorderLbyout.BEFORE_LINE_BEGINS);
         }
     }
 
     /**
-     * Returns the icon from the {@code JOptionPane} the receiver is providing
-     * the look and feel for, or the default icon as returned from
-     * {@code getDefaultIcon}.
+     * Returns the icon from the {@code JOptionPbne} the receiver is providing
+     * the look bnd feel for, or the defbult icon bs returned from
+     * {@code getDefbultIcon}.
      *
      * @return the icon
      */
     protected Icon getIcon() {
-        Icon      mIcon = (optionPane == null ? null : optionPane.getIcon());
+        Icon      mIcon = (optionPbne == null ? null : optionPbne.getIcon());
 
-        if(mIcon == null && optionPane != null)
-            mIcon = getIconForType(optionPane.getMessageType());
+        if(mIcon == null && optionPbne != null)
+            mIcon = getIconForType(optionPbne.getMessbgeType());
         return mIcon;
     }
 
     /**
-     * Returns the icon to use for the passed in type.
+     * Returns the icon to use for the pbssed in type.
      *
-     * @param messageType a type of message
-     * @return the icon to use for the passed in type
+     * @pbrbm messbgeType b type of messbge
+     * @return the icon to use for the pbssed in type
      */
-    protected Icon getIconForType(int messageType) {
-        if(messageType < 0 || messageType > 3)
+    protected Icon getIconForType(int messbgeType) {
+        if(messbgeType < 0 || messbgeType > 3)
             return null;
-        String propertyName = null;
-        switch(messageType) {
-        case 0:
-            propertyName = "OptionPane.errorIcon";
-            break;
-        case 1:
-            propertyName = "OptionPane.informationIcon";
-            break;
-        case 2:
-            propertyName = "OptionPane.warningIcon";
-            break;
-        case 3:
-            propertyName = "OptionPane.questionIcon";
-            break;
+        String propertyNbme = null;
+        switch(messbgeType) {
+        cbse 0:
+            propertyNbme = "OptionPbne.errorIcon";
+            brebk;
+        cbse 1:
+            propertyNbme = "OptionPbne.informbtionIcon";
+            brebk;
+        cbse 2:
+            propertyNbme = "OptionPbne.wbrningIcon";
+            brebk;
+        cbse 3:
+            propertyNbme = "OptionPbne.questionIcon";
+            brebk;
         }
-        if (propertyName != null) {
-            return (Icon)DefaultLookup.get(optionPane, this, propertyName);
+        if (propertyNbme != null) {
+            return (Icon)DefbultLookup.get(optionPbne, this, propertyNbme);
         }
         return null;
     }
 
     /**
-     * Returns the maximum number of characters to place on a line.
+     * Returns the mbximum number of chbrbcters to plbce on b line.
      *
-     * @return the maximum number of characters to place on a line
+     * @return the mbximum number of chbrbcters to plbce on b line
      */
-    protected int getMaxCharactersPerLineCount() {
-        return optionPane.getMaxCharactersPerLineCount();
+    protected int getMbxChbrbctersPerLineCount() {
+        return optionPbne.getMbxChbrbctersPerLineCount();
     }
 
     /**
-     * Recursively creates new {@code JLabel} instances to represent {@code d}.
-     * Each {@code JLabel} instance is added to {@code c}.
+     * Recursively crebtes new {@code JLbbel} instbnces to represent {@code d}.
+     * Ebch {@code JLbbel} instbnce is bdded to {@code c}.
      *
-     * @param c a container
-     * @param d a text
-     * @param maxll a maximum length of a text
+     * @pbrbm c b contbiner
+     * @pbrbm d b text
+     * @pbrbm mbxll b mbximum length of b text
      */
-    protected void burstStringInto(Container c, String d, int maxll) {
-        // Primitive line wrapping
+    protected void burstStringInto(Contbiner c, String d, int mbxll) {
+        // Primitive line wrbpping
         int len = d.length();
         if (len <= 0)
             return;
-        if (len > maxll) {
-            int p = d.lastIndexOf(' ', maxll);
+        if (len > mbxll) {
+            int p = d.lbstIndexOf(' ', mbxll);
             if (p <= 0)
-                p = d.indexOf(' ', maxll);
+                p = d.indexOf(' ', mbxll);
             if (p > 0 && p < len) {
-                burstStringInto(c, d.substring(0, p), maxll);
-                burstStringInto(c, d.substring(p + 1), maxll);
+                burstStringInto(c, d.substring(0, p), mbxll);
+                burstStringInto(c, d.substring(p + 1), mbxll);
                 return;
             }
         }
-        JLabel label = new JLabel(d, JLabel.LEFT);
-        label.setName("OptionPane.label");
-        configureMessageLabel(label);
-        c.add(label);
+        JLbbel lbbel = new JLbbel(d, JLbbel.LEFT);
+        lbbel.setNbme("OptionPbne.lbbel");
+        configureMessbgeLbbel(lbbel);
+        c.bdd(lbbel);
     }
 
     /**
-     * Returns a separator.
+     * Returns b sepbrbtor.
      *
-     * @return a separator
+     * @return b sepbrbtor
      */
-    protected Container createSeparator() {
+    protected Contbiner crebteSepbrbtor() {
         return null;
     }
 
     /**
-     * Creates and returns a {@code Container} containing the buttons.
-     * The buttons are created by calling {@code getButtons}.
+     * Crebtes bnd returns b {@code Contbiner} contbining the buttons.
+     * The buttons bre crebted by cblling {@code getButtons}.
      *
-     * @return a {@code Container} containing the buttons
+     * @return b {@code Contbiner} contbining the buttons
      */
-    protected Container createButtonArea() {
-        JPanel bottom = new JPanel();
-        Border border = (Border)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.buttonAreaBorder");
-        bottom.setName("OptionPane.buttonArea");
+    protected Contbiner crebteButtonAreb() {
+        JPbnel bottom = new JPbnel();
+        Border border = (Border)DefbultLookup.get(optionPbne, this,
+                                          "OptionPbne.buttonArebBorder");
+        bottom.setNbme("OptionPbne.buttonAreb");
         if (border != null) {
             bottom.setBorder(border);
         }
-        bottom.setLayout(new ButtonAreaLayout(
-           DefaultLookup.getBoolean(optionPane, this,
-                                    "OptionPane.sameSizeButtons", true),
-           DefaultLookup.getInt(optionPane, this, "OptionPane.buttonPadding",
+        bottom.setLbyout(new ButtonArebLbyout(
+           DefbultLookup.getBoolebn(optionPbne, this,
+                                    "OptionPbne.sbmeSizeButtons", true),
+           DefbultLookup.getInt(optionPbne, this, "OptionPbne.buttonPbdding",
                                 6),
-           DefaultLookup.getInt(optionPane, this,
-                        "OptionPane.buttonOrientation", SwingConstants.CENTER),
-           DefaultLookup.getBoolean(optionPane, this, "OptionPane.isYesLast",
-                                    false)));
-        addButtonComponents(bottom, getButtons(), getInitialValueIndex());
+           DefbultLookup.getInt(optionPbne, this,
+                        "OptionPbne.buttonOrientbtion", SwingConstbnts.CENTER),
+           DefbultLookup.getBoolebn(optionPbne, this, "OptionPbne.isYesLbst",
+                                    fblse)));
+        bddButtonComponents(bottom, getButtons(), getInitiblVblueIndex());
         return bottom;
     }
 
     /**
-     * Creates the appropriate object to represent each of the objects in
-     * {@code buttons} and adds it to {@code container}. This
-     * differs from addMessageComponents in that it will recurse on
-     * {@code buttons} and that if button is not a Component
-     * it will create an instance of JButton.
+     * Crebtes the bppropribte object to represent ebch of the objects in
+     * {@code buttons} bnd bdds it to {@code contbiner}. This
+     * differs from bddMessbgeComponents in thbt it will recurse on
+     * {@code buttons} bnd thbt if button is not b Component
+     * it will crebte bn instbnce of JButton.
      *
-     * @param container a container
-     * @param buttons an array of buttons
-     * @param initialIndex an initial index
+     * @pbrbm contbiner b contbiner
+     * @pbrbm buttons bn brrby of buttons
+     * @pbrbm initiblIndex bn initibl index
      */
-    protected void addButtonComponents(Container container, Object[] buttons,
-                                 int initialIndex) {
+    protected void bddButtonComponents(Contbiner contbiner, Object[] buttons,
+                                 int initiblIndex) {
         if (buttons != null && buttons.length > 0) {
-            boolean            sizeButtonsToSame = getSizeButtonsToSameWidth();
-            boolean            createdAll = true;
+            boolebn            sizeButtonsToSbme = getSizeButtonsToSbmeWidth();
+            boolebn            crebtedAll = true;
             int                numButtons = buttons.length;
-            JButton[]          createdButtons = null;
-            int                maxWidth = 0;
+            JButton[]          crebtedButtons = null;
+            int                mbxWidth = 0;
 
-            if (sizeButtonsToSame) {
-                createdButtons = new JButton[numButtons];
+            if (sizeButtonsToSbme) {
+                crebtedButtons = new JButton[numButtons];
             }
 
             for(int counter = 0; counter < numButtons; counter++) {
                 Object       button = buttons[counter];
                 Component    newComponent;
 
-                if (button instanceof Component) {
-                    createdAll = false;
+                if (button instbnceof Component) {
+                    crebtedAll = fblse;
                     newComponent = (Component)button;
-                    container.add(newComponent);
-                    hasCustomComponents = true;
+                    contbiner.bdd(newComponent);
+                    hbsCustomComponents = true;
 
                 } else {
-                    JButton      aButton;
+                    JButton      bButton;
 
-                    if (button instanceof ButtonFactory) {
-                        aButton = ((ButtonFactory)button).createButton();
+                    if (button instbnceof ButtonFbctory) {
+                        bButton = ((ButtonFbctory)button).crebteButton();
                     }
-                    else if (button instanceof Icon)
-                        aButton = new JButton((Icon)button);
+                    else if (button instbnceof Icon)
+                        bButton = new JButton((Icon)button);
                     else
-                        aButton = new JButton(button.toString());
+                        bButton = new JButton(button.toString());
 
-                    aButton.setName("OptionPane.button");
-                    aButton.setMultiClickThreshhold(DefaultLookup.getInt(
-                          optionPane, this, "OptionPane.buttonClickThreshhold",
+                    bButton.setNbme("OptionPbne.button");
+                    bButton.setMultiClickThreshhold(DefbultLookup.getInt(
+                          optionPbne, this, "OptionPbne.buttonClickThreshhold",
                           0));
-                    configureButton(aButton);
+                    configureButton(bButton);
 
-                    container.add(aButton);
+                    contbiner.bdd(bButton);
 
-                    ActionListener buttonListener = createButtonActionListener(counter);
+                    ActionListener buttonListener = crebteButtonActionListener(counter);
                     if (buttonListener != null) {
-                        aButton.addActionListener(buttonListener);
+                        bButton.bddActionListener(buttonListener);
                     }
-                    newComponent = aButton;
+                    newComponent = bButton;
                 }
-                if (sizeButtonsToSame && createdAll &&
-                   (newComponent instanceof JButton)) {
-                    createdButtons[counter] = (JButton)newComponent;
-                    maxWidth = Math.max(maxWidth,
+                if (sizeButtonsToSbme && crebtedAll &&
+                   (newComponent instbnceof JButton)) {
+                    crebtedButtons[counter] = (JButton)newComponent;
+                    mbxWidth = Mbth.mbx(mbxWidth,
                                         newComponent.getMinimumSize().width);
                 }
-                if (counter == initialIndex) {
-                    initialFocusComponent = newComponent;
-                    if (initialFocusComponent instanceof JButton) {
-                        JButton defaultB = (JButton)initialFocusComponent;
-                        defaultB.addHierarchyListener(new HierarchyListener() {
-                            public void hierarchyChanged(HierarchyEvent e) {
-                                if ((e.getChangeFlags() &
-                                        HierarchyEvent.PARENT_CHANGED) != 0) {
-                                    JButton defaultButton = (JButton) e.getComponent();
-                                    JRootPane root =
-                                            SwingUtilities.getRootPane(defaultButton);
+                if (counter == initiblIndex) {
+                    initiblFocusComponent = newComponent;
+                    if (initiblFocusComponent instbnceof JButton) {
+                        JButton defbultB = (JButton)initiblFocusComponent;
+                        defbultB.bddHierbrchyListener(new HierbrchyListener() {
+                            public void hierbrchyChbnged(HierbrchyEvent e) {
+                                if ((e.getChbngeFlbgs() &
+                                        HierbrchyEvent.PARENT_CHANGED) != 0) {
+                                    JButton defbultButton = (JButton) e.getComponent();
+                                    JRootPbne root =
+                                            SwingUtilities.getRootPbne(defbultButton);
                                     if (root != null) {
-                                        root.setDefaultButton(defaultButton);
+                                        root.setDefbultButton(defbultButton);
                                     }
                                 }
                             }
@@ -796,108 +796,108 @@ public class BasicOptionPaneUI extends OptionPaneUI {
                     }
                 }
             }
-            ((ButtonAreaLayout)container.getLayout()).
-                              setSyncAllWidths((sizeButtonsToSame && createdAll));
-            /* Set the padding, windows seems to use 8 if <= 2 components,
-               otherwise 4 is used. It may actually just be the size of the
-               buttons is always the same, not sure. */
-            if (DefaultLookup.getBoolean(optionPane, this,
-                   "OptionPane.setButtonMargin", true) && sizeButtonsToSame &&
-                   createdAll) {
-                JButton               aButton;
-                int                   padSize;
+            ((ButtonArebLbyout)contbiner.getLbyout()).
+                              setSyncAllWidths((sizeButtonsToSbme && crebtedAll));
+            /* Set the pbdding, windows seems to use 8 if <= 2 components,
+               otherwise 4 is used. It mby bctublly just be the size of the
+               buttons is blwbys the sbme, not sure. */
+            if (DefbultLookup.getBoolebn(optionPbne, this,
+                   "OptionPbne.setButtonMbrgin", true) && sizeButtonsToSbme &&
+                   crebtedAll) {
+                JButton               bButton;
+                int                   pbdSize;
 
-                padSize = (numButtons <= 2? 8 : 4);
+                pbdSize = (numButtons <= 2? 8 : 4);
 
                 for(int counter = 0; counter < numButtons; counter++) {
-                    aButton = createdButtons[counter];
-                    aButton.setMargin(new Insets(2, padSize, 2, padSize));
+                    bButton = crebtedButtons[counter];
+                    bButton.setMbrgin(new Insets(2, pbdSize, 2, pbdSize));
                 }
             }
         }
     }
 
     /**
-     * Constructs a new instance of a {@code ButtonActionListener}.
+     * Constructs b new instbnce of b {@code ButtonActionListener}.
      *
-     * @param buttonIndex an index of the button
-     * @return a new instance of a {@code ButtonActionListener}
+     * @pbrbm buttonIndex bn index of the button
+     * @return b new instbnce of b {@code ButtonActionListener}
      */
-    protected ActionListener createButtonActionListener(int buttonIndex) {
+    protected ActionListener crebteButtonActionListener(int buttonIndex) {
         return new ButtonActionListener(buttonIndex);
     }
 
     /**
-     * Returns the buttons to display from the {@code JOptionPane} the receiver is
-     * providing the look and feel for. If the {@code JOptionPane} has options
+     * Returns the buttons to displby from the {@code JOptionPbne} the receiver is
+     * providing the look bnd feel for. If the {@code JOptionPbne} hbs options
      * set, they will be provided, otherwise if the optionType is
      * {@code YES_NO_OPTION}, {@code yesNoOptions} is returned, if the type is
-     * {@code YES_NO_CANCEL_OPTION} {@code yesNoCancelOptions} is returned, otherwise
-     * {@code defaultButtons} are returned.
+     * {@code YES_NO_CANCEL_OPTION} {@code yesNoCbncelOptions} is returned, otherwise
+     * {@code defbultButtons} bre returned.
      *
-     * @return the buttons to display from the JOptionPane
+     * @return the buttons to displby from the JOptionPbne
      */
     protected Object[] getButtons() {
-        if (optionPane != null) {
-            Object[] suppliedOptions = optionPane.getOptions();
+        if (optionPbne != null) {
+            Object[] suppliedOptions = optionPbne.getOptions();
 
             if (suppliedOptions == null) {
-                Object[] defaultOptions;
-                int type = optionPane.getOptionType();
-                Locale l = optionPane.getLocale();
+                Object[] defbultOptions;
+                int type = optionPbne.getOptionType();
+                Locble l = optionPbne.getLocble();
                 int minimumWidth =
-                    DefaultLookup.getInt(optionPane, this,
-                                        "OptionPane.buttonMinimumWidth",-1);
-                if (type == JOptionPane.YES_NO_OPTION) {
-                    defaultOptions = new ButtonFactory[2];
-                    defaultOptions[0] = new ButtonFactory(
-                        UIManager.getString("OptionPane.yesButtonText", l),
-                        getMnemonic("OptionPane.yesButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.yesIcon"), minimumWidth);
-                    defaultOptions[1] = new ButtonFactory(
-                        UIManager.getString("OptionPane.noButtonText", l),
-                        getMnemonic("OptionPane.noButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.noIcon"), minimumWidth);
-                } else if (type == JOptionPane.YES_NO_CANCEL_OPTION) {
-                    defaultOptions = new ButtonFactory[3];
-                    defaultOptions[0] = new ButtonFactory(
-                        UIManager.getString("OptionPane.yesButtonText", l),
-                        getMnemonic("OptionPane.yesButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.yesIcon"), minimumWidth);
-                    defaultOptions[1] = new ButtonFactory(
-                        UIManager.getString("OptionPane.noButtonText",l),
-                        getMnemonic("OptionPane.noButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.noIcon"), minimumWidth);
-                    defaultOptions[2] = new ButtonFactory(
-                        UIManager.getString("OptionPane.cancelButtonText",l),
-                        getMnemonic("OptionPane.cancelButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.cancelIcon"), minimumWidth);
-                } else if (type == JOptionPane.OK_CANCEL_OPTION) {
-                    defaultOptions = new ButtonFactory[2];
-                    defaultOptions[0] = new ButtonFactory(
-                        UIManager.getString("OptionPane.okButtonText",l),
-                        getMnemonic("OptionPane.okButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.okIcon"), minimumWidth);
-                    defaultOptions[1] = new ButtonFactory(
-                        UIManager.getString("OptionPane.cancelButtonText",l),
-                        getMnemonic("OptionPane.cancelButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.cancelIcon"), minimumWidth);
+                    DefbultLookup.getInt(optionPbne, this,
+                                        "OptionPbne.buttonMinimumWidth",-1);
+                if (type == JOptionPbne.YES_NO_OPTION) {
+                    defbultOptions = new ButtonFbctory[2];
+                    defbultOptions[0] = new ButtonFbctory(
+                        UIMbnbger.getString("OptionPbne.yesButtonText", l),
+                        getMnemonic("OptionPbne.yesButtonMnemonic", l),
+                        (Icon)DefbultLookup.get(optionPbne, this,
+                                          "OptionPbne.yesIcon"), minimumWidth);
+                    defbultOptions[1] = new ButtonFbctory(
+                        UIMbnbger.getString("OptionPbne.noButtonText", l),
+                        getMnemonic("OptionPbne.noButtonMnemonic", l),
+                        (Icon)DefbultLookup.get(optionPbne, this,
+                                          "OptionPbne.noIcon"), minimumWidth);
+                } else if (type == JOptionPbne.YES_NO_CANCEL_OPTION) {
+                    defbultOptions = new ButtonFbctory[3];
+                    defbultOptions[0] = new ButtonFbctory(
+                        UIMbnbger.getString("OptionPbne.yesButtonText", l),
+                        getMnemonic("OptionPbne.yesButtonMnemonic", l),
+                        (Icon)DefbultLookup.get(optionPbne, this,
+                                          "OptionPbne.yesIcon"), minimumWidth);
+                    defbultOptions[1] = new ButtonFbctory(
+                        UIMbnbger.getString("OptionPbne.noButtonText",l),
+                        getMnemonic("OptionPbne.noButtonMnemonic", l),
+                        (Icon)DefbultLookup.get(optionPbne, this,
+                                          "OptionPbne.noIcon"), minimumWidth);
+                    defbultOptions[2] = new ButtonFbctory(
+                        UIMbnbger.getString("OptionPbne.cbncelButtonText",l),
+                        getMnemonic("OptionPbne.cbncelButtonMnemonic", l),
+                        (Icon)DefbultLookup.get(optionPbne, this,
+                                          "OptionPbne.cbncelIcon"), minimumWidth);
+                } else if (type == JOptionPbne.OK_CANCEL_OPTION) {
+                    defbultOptions = new ButtonFbctory[2];
+                    defbultOptions[0] = new ButtonFbctory(
+                        UIMbnbger.getString("OptionPbne.okButtonText",l),
+                        getMnemonic("OptionPbne.okButtonMnemonic", l),
+                        (Icon)DefbultLookup.get(optionPbne, this,
+                                          "OptionPbne.okIcon"), minimumWidth);
+                    defbultOptions[1] = new ButtonFbctory(
+                        UIMbnbger.getString("OptionPbne.cbncelButtonText",l),
+                        getMnemonic("OptionPbne.cbncelButtonMnemonic", l),
+                        (Icon)DefbultLookup.get(optionPbne, this,
+                                          "OptionPbne.cbncelIcon"), minimumWidth);
                 } else {
-                    defaultOptions = new ButtonFactory[1];
-                    defaultOptions[0] = new ButtonFactory(
-                        UIManager.getString("OptionPane.okButtonText",l),
-                        getMnemonic("OptionPane.okButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.okIcon"), minimumWidth);
+                    defbultOptions = new ButtonFbctory[1];
+                    defbultOptions[0] = new ButtonFbctory(
+                        UIMbnbger.getString("OptionPbne.okButtonText",l),
+                        getMnemonic("OptionPbne.okButtonMnemonic", l),
+                        (Icon)DefbultLookup.get(optionPbne, this,
+                                          "OptionPbne.okIcon"), minimumWidth);
                 }
-                return defaultOptions;
+                return defbultOptions;
 
             }
             return suppliedOptions;
@@ -905,47 +905,47 @@ public class BasicOptionPaneUI extends OptionPaneUI {
         return null;
     }
 
-    private int getMnemonic(String key, Locale l) {
-        String value = (String)UIManager.get(key, l);
+    privbte int getMnemonic(String key, Locble l) {
+        String vblue = (String)UIMbnbger.get(key, l);
 
-        if (value == null) {
+        if (vblue == null) {
             return 0;
         }
         try {
-            return Integer.parseInt(value);
+            return Integer.pbrseInt(vblue);
         }
-        catch (NumberFormatException nfe) { }
+        cbtch (NumberFormbtException nfe) { }
         return 0;
     }
 
     /**
-     * Returns {@code true}, basic L&amp;F wants all the buttons to have the same
+     * Returns {@code true}, bbsic L&bmp;F wbnts bll the buttons to hbve the sbme
      * width.
      *
-     * @return {@code true} if all the buttons should have the same width
+     * @return {@code true} if bll the buttons should hbve the sbme width
      */
-    protected boolean getSizeButtonsToSameWidth() {
+    protected boolebn getSizeButtonsToSbmeWidth() {
         return true;
     }
 
     /**
-     * Returns the initial index into the buttons to select. The index
-     * is calculated from the initial value from the JOptionPane and
-     * options of the JOptionPane or 0.
+     * Returns the initibl index into the buttons to select. The index
+     * is cblculbted from the initibl vblue from the JOptionPbne bnd
+     * options of the JOptionPbne or 0.
      *
-     * @return the initial index into the buttons to select
+     * @return the initibl index into the buttons to select
      */
-    protected int getInitialValueIndex() {
-        if (optionPane != null) {
-            Object             iv = optionPane.getInitialValue();
-            Object[]           options = optionPane.getOptions();
+    protected int getInitiblVblueIndex() {
+        if (optionPbne != null) {
+            Object             iv = optionPbne.getInitiblVblue();
+            Object[]           options = optionPbne.getOptions();
 
             if(options == null) {
                 return 0;
             }
             else if(iv != null) {
                 for(int counter = options.length - 1; counter >= 0; counter--){
-                    if(options[counter].equals(iv))
+                    if(options[counter].equbls(iv))
                         return counter;
                 }
             }
@@ -954,110 +954,110 @@ public class BasicOptionPaneUI extends OptionPaneUI {
     }
 
     /**
-     * Sets the input value in the option pane the receiver is providing
-     * the look and feel for based on the value in the inputComponent.
+     * Sets the input vblue in the option pbne the receiver is providing
+     * the look bnd feel for bbsed on the vblue in the inputComponent.
      */
-    protected void resetInputValue() {
-        if(inputComponent != null && (inputComponent instanceof JTextField)) {
-            optionPane.setInputValue(((JTextField)inputComponent).getText());
+    protected void resetInputVblue() {
+        if(inputComponent != null && (inputComponent instbnceof JTextField)) {
+            optionPbne.setInputVblue(((JTextField)inputComponent).getText());
 
         } else if(inputComponent != null &&
-                  (inputComponent instanceof JComboBox)) {
-            optionPane.setInputValue(((JComboBox)inputComponent)
+                  (inputComponent instbnceof JComboBox)) {
+            optionPbne.setInputVblue(((JComboBox)inputComponent)
                                      .getSelectedItem());
         } else if(inputComponent != null) {
-            optionPane.setInputValue(((JList)inputComponent)
-                                     .getSelectedValue());
+            optionPbne.setInputVblue(((JList)inputComponent)
+                                     .getSelectedVblue());
         }
     }
 
 
     /**
-     * If inputComponent is non-null, the focus is requested on that,
-     * otherwise request focus on the default value
+     * If inputComponent is non-null, the focus is requested on thbt,
+     * otherwise request focus on the defbult vblue
      */
-    public void selectInitialValue(JOptionPane op) {
+    public void selectInitiblVblue(JOptionPbne op) {
         if (inputComponent != null)
             inputComponent.requestFocus();
         else {
-            if (initialFocusComponent != null)
-                initialFocusComponent.requestFocus();
+            if (initiblFocusComponent != null)
+                initiblFocusComponent.requestFocus();
 
-            if (initialFocusComponent instanceof JButton) {
-                JRootPane root = SwingUtilities.getRootPane(initialFocusComponent);
+            if (initiblFocusComponent instbnceof JButton) {
+                JRootPbne root = SwingUtilities.getRootPbne(initiblFocusComponent);
                 if (root != null) {
-                    root.setDefaultButton((JButton)initialFocusComponent);
+                    root.setDefbultButton((JButton)initiblFocusComponent);
                 }
             }
         }
     }
 
     /**
-     * Returns true if in the last call to validateComponent the message
-     * or buttons contained a subclass of Component.
+     * Returns true if in the lbst cbll to vblidbteComponent the messbge
+     * or buttons contbined b subclbss of Component.
      */
-    public boolean containsCustomComponents(JOptionPane op) {
-        return hasCustomComponents;
+    public boolebn contbinsCustomComponents(JOptionPbne op) {
+        return hbsCustomComponents;
     }
 
 
     /**
-     * <code>ButtonAreaLayout</code> behaves in a similar manner to
-     * <code>FlowLayout</code>. It lays out all components from left to
-     * right. If <code>syncAllWidths</code> is true, the widths of each
-     * component will be set to the largest preferred size width.
+     * <code>ButtonArebLbyout</code> behbves in b similbr mbnner to
+     * <code>FlowLbyout</code>. It lbys out bll components from left to
+     * right. If <code>syncAllWidths</code> is true, the widths of ebch
+     * component will be set to the lbrgest preferred size width.
      *
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicOptionPaneUI}.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of {@code BbsicOptionPbneUI}.
      */
-    public static class ButtonAreaLayout implements LayoutManager {
+    public stbtic clbss ButtonArebLbyout implements LbyoutMbnbger {
         /**
-         * The value represents if the width of children should be synchronized.
+         * The vblue represents if the width of children should be synchronized.
          */
-        protected boolean           syncAllWidths;
+        protected boolebn           syncAllWidths;
         /**
-         * The padding value.
+         * The pbdding vblue.
          */
-        protected int               padding;
-        /** If true, children are lumped together in parent. */
-        protected boolean           centersChildren;
-        private int orientation;
-        private boolean reverseButtons;
+        protected int               pbdding;
+        /** If true, children bre lumped together in pbrent. */
+        protected boolebn           centersChildren;
+        privbte int orientbtion;
+        privbte boolebn reverseButtons;
         /**
-         * Indicates whether or not centersChildren should be used vs
-         * the orientation. This is done for backward compatibility
-         * for subclassers.
+         * Indicbtes whether or not centersChildren should be used vs
+         * the orientbtion. This is done for bbckwbrd compbtibility
+         * for subclbssers.
          */
-        private boolean useOrientation;
+        privbte boolebn useOrientbtion;
 
         /**
-         * Constructs a new instance of {@code ButtonAreaLayout}.
+         * Constructs b new instbnce of {@code ButtonArebLbyout}.
          *
-         * @param syncAllWidths if the width of children should be synchronized
-         * @param padding the padding value
+         * @pbrbm syncAllWidths if the width of children should be synchronized
+         * @pbrbm pbdding the pbdding vblue
          */
-        public ButtonAreaLayout(boolean syncAllWidths, int padding) {
+        public ButtonArebLbyout(boolebn syncAllWidths, int pbdding) {
             this.syncAllWidths = syncAllWidths;
-            this.padding = padding;
+            this.pbdding = pbdding;
             centersChildren = true;
-            useOrientation = false;
+            useOrientbtion = fblse;
         }
 
-        ButtonAreaLayout(boolean syncAllSizes, int padding, int orientation,
-                         boolean reverseButtons) {
-            this(syncAllSizes, padding);
-            useOrientation = true;
-            this.orientation = orientation;
+        ButtonArebLbyout(boolebn syncAllSizes, int pbdding, int orientbtion,
+                         boolebn reverseButtons) {
+            this(syncAllSizes, pbdding);
+            useOrientbtion = true;
+            this.orientbtion = orientbtion;
             this.reverseButtons = reverseButtons;
         }
 
         /**
          * Sets if the width of children should be synchronized.
          *
-         * @param newValue if the width of children should be synchronized
+         * @pbrbm newVblue if the width of children should be synchronized
          */
-        public void setSyncAllWidths(boolean newValue) {
-            syncAllWidths = newValue;
+        public void setSyncAllWidths(boolebn newVblue) {
+            syncAllWidths = newVblue;
         }
 
         /**
@@ -1065,36 +1065,36 @@ public class BasicOptionPaneUI extends OptionPaneUI {
          *
          * @return if the width of children should be synchronized
          */
-        public boolean getSyncAllWidths() {
+        public boolebn getSyncAllWidths() {
             return syncAllWidths;
         }
 
         /**
-         * Sets the padding value.
+         * Sets the pbdding vblue.
          *
-         * @param newPadding the new padding
+         * @pbrbm newPbdding the new pbdding
          */
-        public void setPadding(int newPadding) {
-            this.padding = newPadding;
+        public void setPbdding(int newPbdding) {
+            this.pbdding = newPbdding;
         }
 
         /**
-         * Returns the padding.
+         * Returns the pbdding.
          *
-         * @return the padding
+         * @return the pbdding
          */
-        public int getPadding() {
-            return padding;
+        public int getPbdding() {
+            return pbdding;
         }
 
         /**
          * Sets whether or not center children should be used.
          *
-         * @param newValue a new value
+         * @pbrbm newVblue b new vblue
          */
-        public void setCentersChildren(boolean newValue) {
-            centersChildren = newValue;
-            useOrientation = false;
+        public void setCentersChildren(boolebn newVblue) {
+            centersChildren = newVblue;
+            useOrientbtion = fblse;
         }
 
         /**
@@ -1102,82 +1102,82 @@ public class BasicOptionPaneUI extends OptionPaneUI {
          *
          * @return whether or not center children should be used
          */
-        public boolean getCentersChildren() {
+        public boolebn getCentersChildren() {
             return centersChildren;
         }
 
-        private int getOrientation(Container container) {
-            if (!useOrientation) {
-                return SwingConstants.CENTER;
+        privbte int getOrientbtion(Contbiner contbiner) {
+            if (!useOrientbtion) {
+                return SwingConstbnts.CENTER;
             }
-            if (container.getComponentOrientation().isLeftToRight()) {
-                return orientation;
+            if (contbiner.getComponentOrientbtion().isLeftToRight()) {
+                return orientbtion;
             }
-            switch (orientation) {
-            case SwingConstants.LEFT:
-                return SwingConstants.RIGHT;
-            case SwingConstants.RIGHT:
-                return SwingConstants.LEFT;
-            case SwingConstants.CENTER:
-                return SwingConstants.CENTER;
+            switch (orientbtion) {
+            cbse SwingConstbnts.LEFT:
+                return SwingConstbnts.RIGHT;
+            cbse SwingConstbnts.RIGHT:
+                return SwingConstbnts.LEFT;
+            cbse SwingConstbnts.CENTER:
+                return SwingConstbnts.CENTER;
             }
-            return SwingConstants.LEFT;
+            return SwingConstbnts.LEFT;
         }
 
-        public void addLayoutComponent(String string, Component comp) {
+        public void bddLbyoutComponent(String string, Component comp) {
         }
 
-        public void layoutContainer(Container container) {
-            Component[]      children = container.getComponents();
+        public void lbyoutContbiner(Contbiner contbiner) {
+            Component[]      children = contbiner.getComponents();
 
             if(children != null && children.length > 0) {
                 int               numChildren = children.length;
-                Insets            insets = container.getInsets();
-                int maxWidth = 0;
-                int maxHeight = 0;
-                int totalButtonWidth = 0;
+                Insets            insets = contbiner.getInsets();
+                int mbxWidth = 0;
+                int mbxHeight = 0;
+                int totblButtonWidth = 0;
                 int x = 0;
                 int xOffset = 0;
-                boolean ltr = container.getComponentOrientation().
+                boolebn ltr = contbiner.getComponentOrientbtion().
                                         isLeftToRight();
-                boolean reverse = (ltr) ? reverseButtons : !reverseButtons;
+                boolebn reverse = (ltr) ? reverseButtons : !reverseButtons;
 
                 for(int counter = 0; counter < numChildren; counter++) {
                     Dimension pref = children[counter].getPreferredSize();
-                    maxWidth = Math.max(maxWidth, pref.width);
-                    maxHeight = Math.max(maxHeight, pref.height);
-                    totalButtonWidth += pref.width;
+                    mbxWidth = Mbth.mbx(mbxWidth, pref.width);
+                    mbxHeight = Mbth.mbx(mbxHeight, pref.height);
+                    totblButtonWidth += pref.width;
                 }
                 if (getSyncAllWidths()) {
-                    totalButtonWidth = maxWidth * numChildren;
+                    totblButtonWidth = mbxWidth * numChildren;
                 }
-                totalButtonWidth += (numChildren - 1) * padding;
+                totblButtonWidth += (numChildren - 1) * pbdding;
 
-                switch (getOrientation(container)) {
-                case SwingConstants.LEFT:
+                switch (getOrientbtion(contbiner)) {
+                cbse SwingConstbnts.LEFT:
                     x = insets.left;
-                    break;
-                case SwingConstants.RIGHT:
-                    x = container.getWidth() - insets.right - totalButtonWidth;
-                    break;
-                case SwingConstants.CENTER:
+                    brebk;
+                cbse SwingConstbnts.RIGHT:
+                    x = contbiner.getWidth() - insets.right - totblButtonWidth;
+                    brebk;
+                cbse SwingConstbnts.CENTER:
                     if (getCentersChildren() || numChildren < 2) {
-                        x = (container.getWidth() - totalButtonWidth) / 2;
+                        x = (contbiner.getWidth() - totblButtonWidth) / 2;
                     }
                     else {
                         x = insets.left;
                         if (getSyncAllWidths()) {
-                            xOffset = (container.getWidth() - insets.left -
-                                       insets.right - totalButtonWidth) /
-                                (numChildren - 1) + maxWidth;
+                            xOffset = (contbiner.getWidth() - insets.left -
+                                       insets.right - totblButtonWidth) /
+                                (numChildren - 1) + mbxWidth;
                         }
                         else {
-                            xOffset = (container.getWidth() - insets.left -
-                                       insets.right - totalButtonWidth) /
+                            xOffset = (contbiner.getWidth() - insets.left -
+                                       insets.right - totblButtonWidth) /
                                       (numChildren - 1);
                         }
                     }
-                    break;
+                    brebk;
                 }
 
                 for (int counter = 0; counter < numChildren; counter++) {
@@ -1187,7 +1187,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
 
                     if (getSyncAllWidths()) {
                         children[index].setBounds(x, insets.top,
-                                                  maxWidth, maxHeight);
+                                                  mbxWidth, mbxHeight);
                     }
                     else {
                         children[index].setBounds(x, insets.top, pref.width,
@@ -1197,167 +1197,167 @@ public class BasicOptionPaneUI extends OptionPaneUI {
                         x += xOffset;
                     }
                     else {
-                        x += children[index].getWidth() + padding;
+                        x += children[index].getWidth() + pbdding;
                     }
                 }
             }
         }
 
-        public Dimension minimumLayoutSize(Container c) {
+        public Dimension minimumLbyoutSize(Contbiner c) {
             if(c != null) {
                 Component[]       children = c.getComponents();
 
                 if(children != null && children.length > 0) {
-                    Dimension     aSize;
+                    Dimension     bSize;
                     int           numChildren = children.length;
                     int           height = 0;
                     Insets        cInsets = c.getInsets();
-                    int           extraHeight = cInsets.top + cInsets.bottom;
-                    int           extraWidth = cInsets.left + cInsets.right;
+                    int           extrbHeight = cInsets.top + cInsets.bottom;
+                    int           extrbWidth = cInsets.left + cInsets.right;
 
                     if (syncAllWidths) {
-                        int              maxWidth = 0;
+                        int              mbxWidth = 0;
 
                         for(int counter = 0; counter < numChildren; counter++){
-                            aSize = children[counter].getPreferredSize();
-                            height = Math.max(height, aSize.height);
-                            maxWidth = Math.max(maxWidth, aSize.width);
+                            bSize = children[counter].getPreferredSize();
+                            height = Mbth.mbx(height, bSize.height);
+                            mbxWidth = Mbth.mbx(mbxWidth, bSize.width);
                         }
-                        return new Dimension(extraWidth + (maxWidth * numChildren) +
-                                             (numChildren - 1) * padding,
-                                             extraHeight + height);
+                        return new Dimension(extrbWidth + (mbxWidth * numChildren) +
+                                             (numChildren - 1) * pbdding,
+                                             extrbHeight + height);
                     }
                     else {
-                        int        totalWidth = 0;
+                        int        totblWidth = 0;
 
                         for(int counter = 0; counter < numChildren; counter++){
-                            aSize = children[counter].getPreferredSize();
-                            height = Math.max(height, aSize.height);
-                            totalWidth += aSize.width;
+                            bSize = children[counter].getPreferredSize();
+                            height = Mbth.mbx(height, bSize.height);
+                            totblWidth += bSize.width;
                         }
-                        totalWidth += ((numChildren - 1) * padding);
-                        return new Dimension(extraWidth + totalWidth, extraHeight + height);
+                        totblWidth += ((numChildren - 1) * pbdding);
+                        return new Dimension(extrbWidth + totblWidth, extrbHeight + height);
                     }
                 }
             }
             return new Dimension(0, 0);
         }
 
-        public Dimension preferredLayoutSize(Container c) {
-            return minimumLayoutSize(c);
+        public Dimension preferredLbyoutSize(Contbiner c) {
+            return minimumLbyoutSize(c);
         }
 
-        public void removeLayoutComponent(Component c) { }
+        public void removeLbyoutComponent(Component c) { }
     }
 
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicOptionPaneUI}.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of {@code BbsicOptionPbneUI}.
      */
-    public class PropertyChangeHandler implements PropertyChangeListener {
+    public clbss PropertyChbngeHbndler implements PropertyChbngeListener {
         /**
-         * If the source of the PropertyChangeEvent <code>e</code> equals the
-         * optionPane and is one of the ICON_PROPERTY, MESSAGE_PROPERTY,
+         * If the source of the PropertyChbngeEvent <code>e</code> equbls the
+         * optionPbne bnd is one of the ICON_PROPERTY, MESSAGE_PROPERTY,
          * OPTIONS_PROPERTY or INITIAL_VALUE_PROPERTY,
-         * validateComponent is invoked.
+         * vblidbteComponent is invoked.
          */
-        public void propertyChange(PropertyChangeEvent e) {
-            getHandler().propertyChange(e);
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            getHbndler().propertyChbnge(e);
         }
     }
 
     /**
-     * Configures any necessary colors/fonts for the specified label
-     * used representing the message.
+     * Configures bny necessbry colors/fonts for the specified lbbel
+     * used representing the messbge.
      */
-    private void configureMessageLabel(JLabel label) {
-        Color color = (Color)DefaultLookup.get(optionPane, this,
-                                               "OptionPane.messageForeground");
+    privbte void configureMessbgeLbbel(JLbbel lbbel) {
+        Color color = (Color)DefbultLookup.get(optionPbne, this,
+                                               "OptionPbne.messbgeForeground");
         if (color != null) {
-            label.setForeground(color);
+            lbbel.setForeground(color);
         }
-        Font messageFont = (Font)DefaultLookup.get(optionPane, this,
-                                                   "OptionPane.messageFont");
-        if (messageFont != null) {
-            label.setFont(messageFont);
+        Font messbgeFont = (Font)DefbultLookup.get(optionPbne, this,
+                                                   "OptionPbne.messbgeFont");
+        if (messbgeFont != null) {
+            lbbel.setFont(messbgeFont);
         }
     }
 
     /**
-     * Configures any necessary colors/fonts for the specified button
-     * used representing the button portion of the optionpane.
+     * Configures bny necessbry colors/fonts for the specified button
+     * used representing the button portion of the optionpbne.
      */
-    private void configureButton(JButton button) {
-        Font buttonFont = (Font)DefaultLookup.get(optionPane, this,
-                                            "OptionPane.buttonFont");
+    privbte void configureButton(JButton button) {
+        Font buttonFont = (Font)DefbultLookup.get(optionPbne, this,
+                                            "OptionPbne.buttonFont");
         if (buttonFont != null) {
             button.setFont(buttonFont);
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicOptionPaneUI}.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of {@code BbsicOptionPbneUI}.
      */
-    public class ButtonActionListener implements ActionListener {
+    public clbss ButtonActionListener implements ActionListener {
         /**
          * The index of the button.
          */
         protected int buttonIndex;
 
         /**
-         * Constructs a new instance of {@code ButtonActionListener}.
+         * Constructs b new instbnce of {@code ButtonActionListener}.
          *
-         * @param buttonIndex an index of the button
+         * @pbrbm buttonIndex bn index of the button
          */
         public ButtonActionListener(int buttonIndex) {
             this.buttonIndex = buttonIndex;
         }
 
-        public void actionPerformed(ActionEvent e) {
-            if (optionPane != null) {
-                int optionType = optionPane.getOptionType();
-                Object[] options = optionPane.getOptions();
+        public void bctionPerformed(ActionEvent e) {
+            if (optionPbne != null) {
+                int optionType = optionPbne.getOptionType();
+                Object[] options = optionPbne.getOptions();
 
-                /* If the option pane takes input, then store the input value
+                /* If the option pbne tbkes input, then store the input vblue
                  * if custom options were specified, if the option type is
-                 * DEFAULT_OPTION, OR if option type is set to a predefined
-                 * one and the user chose the affirmative answer.
+                 * DEFAULT_OPTION, OR if option type is set to b predefined
+                 * one bnd the user chose the bffirmbtive bnswer.
                  */
                 if (inputComponent != null) {
                     if (options != null ||
-                        optionType == JOptionPane.DEFAULT_OPTION ||
-                        ((optionType == JOptionPane.YES_NO_OPTION ||
-                         optionType == JOptionPane.YES_NO_CANCEL_OPTION ||
-                         optionType == JOptionPane.OK_CANCEL_OPTION) &&
+                        optionType == JOptionPbne.DEFAULT_OPTION ||
+                        ((optionType == JOptionPbne.YES_NO_OPTION ||
+                         optionType == JOptionPbne.YES_NO_CANCEL_OPTION ||
+                         optionType == JOptionPbne.OK_CANCEL_OPTION) &&
                          buttonIndex == 0)) {
-                        resetInputValue();
+                        resetInputVblue();
                     }
                 }
                 if (options == null) {
-                    if (optionType == JOptionPane.OK_CANCEL_OPTION &&
+                    if (optionType == JOptionPbne.OK_CANCEL_OPTION &&
                         buttonIndex == 1) {
-                        optionPane.setValue(Integer.valueOf(2));
+                        optionPbne.setVblue(Integer.vblueOf(2));
 
                     } else {
-                        optionPane.setValue(Integer.valueOf(buttonIndex));
+                        optionPbne.setVblue(Integer.vblueOf(buttonIndex));
                     }
                 } else {
-                    optionPane.setValue(options[buttonIndex]);
+                    optionPbne.setVblue(options[buttonIndex]);
                 }
             }
         }
     }
 
 
-    private class Handler implements ActionListener, MouseListener,
-                                     PropertyChangeListener {
+    privbte clbss Hbndler implements ActionListener, MouseListener,
+                                     PropertyChbngeListener {
         //
         // ActionListener
         //
-        public void actionPerformed(ActionEvent e) {
-            optionPane.setInputValue(((JTextField)e.getSource()).getText());
+        public void bctionPerformed(ActionEvent e) {
+            optionPbne.setInputVblue(((JTextField)e.getSource()).getText());
         }
 
 
@@ -1367,7 +1367,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
         public void mouseClicked(MouseEvent e) {
         }
 
-        public void mouseReleased(MouseEvent e) {
+        public void mouseRelebsed(MouseEvent e) {
         }
 
         public void mouseEntered(MouseEvent e) {
@@ -1379,93 +1379,93 @@ public class BasicOptionPaneUI extends OptionPaneUI {
         public void mousePressed(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 JList<?>  list = (JList)e.getSource();
-                int       index = list.locationToIndex(e.getPoint());
+                int       index = list.locbtionToIndex(e.getPoint());
 
-                optionPane.setInputValue(list.getModel().getElementAt(index));
-                optionPane.setValue(JOptionPane.OK_OPTION);
+                optionPbne.setInputVblue(list.getModel().getElementAt(index));
+                optionPbne.setVblue(JOptionPbne.OK_OPTION);
             }
         }
 
         //
-        // PropertyChangeListener
+        // PropertyChbngeListener
         //
-        public void propertyChange(PropertyChangeEvent e) {
-            if(e.getSource() == optionPane) {
-                // Option Pane Auditory Cue Activation
-                // only respond to "ancestor" changes
-                // the idea being that a JOptionPane gets a JDialog when it is
-                // set to appear and loses it's JDialog when it is dismissed.
-                if ("ancestor" == e.getPropertyName()) {
-                    JOptionPane op = (JOptionPane)e.getSource();
-                    boolean isComingUp;
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            if(e.getSource() == optionPbne) {
+                // Option Pbne Auditory Cue Activbtion
+                // only respond to "bncestor" chbnges
+                // the ideb being thbt b JOptionPbne gets b JDiblog when it is
+                // set to bppebr bnd loses it's JDiblog when it is dismissed.
+                if ("bncestor" == e.getPropertyNbme()) {
+                    JOptionPbne op = (JOptionPbne)e.getSource();
+                    boolebn isComingUp;
 
-                    // if the old value is null, then the JOptionPane is being
-                    // created since it didn't previously have an ancestor.
-                    if (e.getOldValue() == null) {
+                    // if the old vblue is null, then the JOptionPbne is being
+                    // crebted since it didn't previously hbve bn bncestor.
+                    if (e.getOldVblue() == null) {
                         isComingUp = true;
                     } else {
-                        isComingUp = false;
+                        isComingUp = fblse;
                     }
 
-                    // figure out what to do based on the message type
-                    switch (op.getMessageType()) {
-                    case JOptionPane.PLAIN_MESSAGE:
+                    // figure out whbt to do bbsed on the messbge type
+                    switch (op.getMessbgeType()) {
+                    cbse JOptionPbne.PLAIN_MESSAGE:
                         if (isComingUp) {
-                            BasicLookAndFeel.playSound(optionPane,
-                                               "OptionPane.informationSound");
+                            BbsicLookAndFeel.plbySound(optionPbne,
+                                               "OptionPbne.informbtionSound");
                         }
-                        break;
-                    case JOptionPane.QUESTION_MESSAGE:
+                        brebk;
+                    cbse JOptionPbne.QUESTION_MESSAGE:
                         if (isComingUp) {
-                            BasicLookAndFeel.playSound(optionPane,
-                                             "OptionPane.questionSound");
+                            BbsicLookAndFeel.plbySound(optionPbne,
+                                             "OptionPbne.questionSound");
                         }
-                        break;
-                    case JOptionPane.INFORMATION_MESSAGE:
+                        brebk;
+                    cbse JOptionPbne.INFORMATION_MESSAGE:
                         if (isComingUp) {
-                            BasicLookAndFeel.playSound(optionPane,
-                                             "OptionPane.informationSound");
+                            BbsicLookAndFeel.plbySound(optionPbne,
+                                             "OptionPbne.informbtionSound");
                         }
-                        break;
-                    case JOptionPane.WARNING_MESSAGE:
+                        brebk;
+                    cbse JOptionPbne.WARNING_MESSAGE:
                         if (isComingUp) {
-                            BasicLookAndFeel.playSound(optionPane,
-                                             "OptionPane.warningSound");
+                            BbsicLookAndFeel.plbySound(optionPbne,
+                                             "OptionPbne.wbrningSound");
                         }
-                        break;
-                    case JOptionPane.ERROR_MESSAGE:
+                        brebk;
+                    cbse JOptionPbne.ERROR_MESSAGE:
                         if (isComingUp) {
-                            BasicLookAndFeel.playSound(optionPane,
-                                             "OptionPane.errorSound");
+                            BbsicLookAndFeel.plbySound(optionPbne,
+                                             "OptionPbne.errorSound");
                         }
-                        break;
-                    default:
-                        System.err.println("Undefined JOptionPane type: " +
-                                           op.getMessageType());
-                        break;
+                        brebk;
+                    defbult:
+                        System.err.println("Undefined JOptionPbne type: " +
+                                           op.getMessbgeType());
+                        brebk;
                     }
                 }
-                // Visual activity
-                String         changeName = e.getPropertyName();
+                // Visubl bctivity
+                String         chbngeNbme = e.getPropertyNbme();
 
-                if(changeName == JOptionPane.OPTIONS_PROPERTY ||
-                   changeName == JOptionPane.INITIAL_VALUE_PROPERTY ||
-                   changeName == JOptionPane.ICON_PROPERTY ||
-                   changeName == JOptionPane.MESSAGE_TYPE_PROPERTY ||
-                   changeName == JOptionPane.OPTION_TYPE_PROPERTY ||
-                   changeName == JOptionPane.MESSAGE_PROPERTY ||
-                   changeName == JOptionPane.SELECTION_VALUES_PROPERTY ||
-                   changeName == JOptionPane.INITIAL_SELECTION_VALUE_PROPERTY ||
-                   changeName == JOptionPane.WANTS_INPUT_PROPERTY) {
-                   uninstallComponents();
-                   installComponents();
-                   optionPane.validate();
+                if(chbngeNbme == JOptionPbne.OPTIONS_PROPERTY ||
+                   chbngeNbme == JOptionPbne.INITIAL_VALUE_PROPERTY ||
+                   chbngeNbme == JOptionPbne.ICON_PROPERTY ||
+                   chbngeNbme == JOptionPbne.MESSAGE_TYPE_PROPERTY ||
+                   chbngeNbme == JOptionPbne.OPTION_TYPE_PROPERTY ||
+                   chbngeNbme == JOptionPbne.MESSAGE_PROPERTY ||
+                   chbngeNbme == JOptionPbne.SELECTION_VALUES_PROPERTY ||
+                   chbngeNbme == JOptionPbne.INITIAL_SELECTION_VALUE_PROPERTY ||
+                   chbngeNbme == JOptionPbne.WANTS_INPUT_PROPERTY) {
+                   uninstbllComponents();
+                   instbllComponents();
+                   optionPbne.vblidbte();
                 }
-                else if (changeName == "componentOrientation") {
-                    ComponentOrientation o = (ComponentOrientation)e.getNewValue();
-                    JOptionPane op = (JOptionPane)e.getSource();
-                    if (o != e.getOldValue()) {
-                        op.applyComponentOrientation(o);
+                else if (chbngeNbme == "componentOrientbtion") {
+                    ComponentOrientbtion o = (ComponentOrientbtion)e.getNewVblue();
+                    JOptionPbne op = (JOptionPbne)e.getSource();
+                    if (o != e.getOldVblue()) {
+                        op.bpplyComponentOrientbtion(o);
                     }
                 }
             }
@@ -1474,46 +1474,46 @@ public class BasicOptionPaneUI extends OptionPaneUI {
 
 
     //
-    // Classes used when optionPane.getWantsInput returns true.
+    // Clbsses used when optionPbne.getWbntsInput returns true.
     //
 
     /**
-     * A JTextField that allows you to specify an array of KeyStrokes that
-     * that will have their bindings processed regardless of whether or
-     * not they are registered on the JTextField. This is used as we really
-     * want the ActionListener to be notified so that we can push the
-     * change to the JOptionPane, but we also want additional bindings
-     * (those of the JRootPane) to be processed as well.
+     * A JTextField thbt bllows you to specify bn brrby of KeyStrokes thbt
+     * thbt will hbve their bindings processed regbrdless of whether or
+     * not they bre registered on the JTextField. This is used bs we reblly
+     * wbnt the ActionListener to be notified so thbt we cbn push the
+     * chbnge to the JOptionPbne, but we blso wbnt bdditionbl bindings
+     * (those of the JRootPbne) to be processed bs well.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class MultiplexingTextField extends JTextField {
-        private KeyStroke[] strokes;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte stbtic clbss MultiplexingTextField extends JTextField {
+        privbte KeyStroke[] strokes;
 
         MultiplexingTextField(int cols) {
             super(cols);
         }
 
         /**
-         * Sets the KeyStrokes that will be additional processed for
-         * ancestor bindings.
+         * Sets the KeyStrokes thbt will be bdditionbl processed for
+         * bncestor bindings.
          */
         void setKeyStrokes(KeyStroke[] strokes) {
             this.strokes = strokes;
         }
 
-        protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
-                                            int condition, boolean pressed) {
-            boolean processed = super.processKeyBinding(ks, e, condition,
+        protected boolebn processKeyBinding(KeyStroke ks, KeyEvent e,
+                                            int condition, boolebn pressed) {
+            boolebn processed = super.processKeyBinding(ks, e, condition,
                                                         pressed);
 
             if (processed && condition != JComponent.WHEN_IN_FOCUSED_WINDOW) {
                 for (int counter = strokes.length - 1; counter >= 0;
                          counter--) {
-                    if (strokes[counter].equals(ks)) {
-                        // Returning false will allow further processing
-                        // of the bindings, eg our parent Containers will get a
-                        // crack at them.
-                        return false;
+                    if (strokes[counter].equbls(ks)) {
+                        // Returning fblse will bllow further processing
+                        // of the bindings, eg our pbrent Contbiners will get b
+                        // crbck bt them.
+                        return fblse;
                     }
                 }
             }
@@ -1524,49 +1524,49 @@ public class BasicOptionPaneUI extends OptionPaneUI {
 
 
     /**
-     * Registered in the ActionMap. Sets the value of the option pane
-     * to <code>JOptionPane.CLOSED_OPTION</code>.
+     * Registered in the ActionMbp. Sets the vblue of the option pbne
+     * to <code>JOptionPbne.CLOSED_OPTION</code>.
      */
-    private static class Actions extends UIAction {
-        private static final String CLOSE = "close";
+    privbte stbtic clbss Actions extends UIAction {
+        privbte stbtic finbl String CLOSE = "close";
 
         Actions(String key) {
             super(key);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            if (getName() == CLOSE) {
-                JOptionPane optionPane = (JOptionPane)e.getSource();
+        public void bctionPerformed(ActionEvent e) {
+            if (getNbme() == CLOSE) {
+                JOptionPbne optionPbne = (JOptionPbne)e.getSource();
 
-                optionPane.setValue(Integer.valueOf(JOptionPane.CLOSED_OPTION));
+                optionPbne.setVblue(Integer.vblueOf(JOptionPbne.CLOSED_OPTION));
             }
         }
     }
 
 
     /**
-     * This class is used to create the default buttons. This indirection is
-     * used so that addButtonComponents can tell which Buttons were created
-     * by us vs subclassers or from the JOptionPane itself.
+     * This clbss is used to crebte the defbult buttons. This indirection is
+     * used so thbt bddButtonComponents cbn tell which Buttons were crebted
+     * by us vs subclbssers or from the JOptionPbne itself.
      */
-    private static class ButtonFactory {
-        private String text;
-        private int mnemonic;
-        private Icon icon;
-        private int minimumWidth = -1;
+    privbte stbtic clbss ButtonFbctory {
+        privbte String text;
+        privbte int mnemonic;
+        privbte Icon icon;
+        privbte int minimumWidth = -1;
 
-        ButtonFactory(String text, int mnemonic, Icon icon, int minimumWidth) {
+        ButtonFbctory(String text, int mnemonic, Icon icon, int minimumWidth) {
             this.text = text;
             this.mnemonic = mnemonic;
             this.icon = icon;
             this.minimumWidth = minimumWidth;
         }
 
-        JButton createButton() {
+        JButton crebteButton() {
             JButton button;
 
             if (minimumWidth > 0) {
-                button = new ConstrainedButton(text, minimumWidth);
+                button = new ConstrbinedButton(text, minimumWidth);
             } else {
                 button = new JButton(text);
             }
@@ -1579,24 +1579,24 @@ public class BasicOptionPaneUI extends OptionPaneUI {
             return button;
         }
 
-        @SuppressWarnings("serial") // Superclass is not serializable across versions
-        private static class ConstrainedButton extends JButton {
+        @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+        privbte stbtic clbss ConstrbinedButton extends JButton {
             int minimumWidth;
 
-            ConstrainedButton(String text, int minimumWidth) {
+            ConstrbinedButton(String text, int minimumWidth) {
                 super(text);
                 this.minimumWidth = minimumWidth;
             }
 
             public Dimension getMinimumSize() {
                 Dimension min = super.getMinimumSize();
-                min.width = Math.max(min.width, minimumWidth);
+                min.width = Mbth.mbx(min.width, minimumWidth);
                 return min;
             }
 
             public Dimension getPreferredSize() {
                 Dimension pref = super.getPreferredSize();
-                pref.width = Math.max(pref.width, minimumWidth);
+                pref.width = Mbth.mbx(pref.width, minimumWidth);
                 return pref;
             }
         }

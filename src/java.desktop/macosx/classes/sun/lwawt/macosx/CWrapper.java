@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-final class CWrapper {
-    private CWrapper() { }
+finbl clbss CWrbpper {
+    privbte CWrbpper() { }
 
-    static final class NSWindow {
+    stbtic finbl clbss NSWindow {
         // NSWindowOrderingMode
-        static final int NSWindowAbove = 1;
-        static final int NSWindowBelow = -1;
-        static final int NSWindowOut = 0;
+        stbtic finbl int NSWindowAbove = 1;
+        stbtic finbl int NSWindowBelow = -1;
+        stbtic finbl int NSWindowOut = 0;
 
-        // Window level constants
+        // Window level constbnts
         // The number of supported levels: (we'll use more in the future)
-        static final int MAX_WINDOW_LEVELS = 3;
-        // The levels: (these are NOT real constants, these are keys. See native code.)
-        static final int NSNormalWindowLevel = 0;
-        static final int NSFloatingWindowLevel = 1;
-        static final int NSPopUpMenuWindowLevel = 2;
+        stbtic finbl int MAX_WINDOW_LEVELS = 3;
+        // The levels: (these bre NOT rebl constbnts, these bre keys. See nbtive code.)
+        stbtic finbl int NSNormblWindowLevel = 0;
+        stbtic finbl int NSFlobtingWindowLevel = 1;
+        stbtic finbl int NSPopUpMenuWindowLevel = 2;
 
-        // 'level' is one of the keys defined above
-        static native void setLevel(long window, int level);
+        // 'level' is one of the keys defined bbove
+        stbtic nbtive void setLevel(long window, int level);
 
-        static native void makeKeyAndOrderFront(long window);
-        static native void makeKeyWindow(long window);
-        static native void makeMainWindow(long window);
-        static native boolean canBecomeMainWindow(long window);
-        static native boolean isKeyWindow(long window);
+        stbtic nbtive void mbkeKeyAndOrderFront(long window);
+        stbtic nbtive void mbkeKeyWindow(long window);
+        stbtic nbtive void mbkeMbinWindow(long window);
+        stbtic nbtive boolebn cbnBecomeMbinWindow(long window);
+        stbtic nbtive boolebn isKeyWindow(long window);
 
-        static native void orderFront(long window);
-        static native void orderFrontRegardless(long window);
-        static native void orderWindow(long window, int ordered, long relativeTo);
-        static native void orderOut(long window);
+        stbtic nbtive void orderFront(long window);
+        stbtic nbtive void orderFrontRegbrdless(long window);
+        stbtic nbtive void orderWindow(long window, int ordered, long relbtiveTo);
+        stbtic nbtive void orderOut(long window);
 
-        static native void addChildWindow(long parent, long child, int ordered);
-        static native void removeChildWindow(long parent, long child);
+        stbtic nbtive void bddChildWindow(long pbrent, long child, int ordered);
+        stbtic nbtive void removeChildWindow(long pbrent, long child);
 
-        static native void setAlphaValue(long window, float alpha);
-        static native void setOpaque(long window, boolean opaque);
+        stbtic nbtive void setAlphbVblue(long window, flobt blphb);
+        stbtic nbtive void setOpbque(long window, boolebn opbque);
 
         /**
-         * Sets background color of the NSWindow.
+         * Sets bbckground color of the NSWindow.
          *
-         * @param window the pointer of the NSWindow
-         * @param color the color in argb format
+         * @pbrbm window the pointer of the NSWindow
+         * @pbrbm color the color in brgb formbt
          */
-        static native void setBackgroundColor(long window, int color);
+        stbtic nbtive void setBbckgroundColor(long window, int color);
 
-        static native void miniaturize(long window);
-        static native void deminiaturize(long window);
-        static native boolean isZoomed(long window);
-        static native void zoom(long window);
+        stbtic nbtive void minibturize(long window);
+        stbtic nbtive void deminibturize(long window);
+        stbtic nbtive boolebn isZoomed(long window);
+        stbtic nbtive void zoom(long window);
 
-        static native void makeFirstResponder(long window, long responder);
+        stbtic nbtive void mbkeFirstResponder(long window, long responder);
     }
 
-    static final class NSView {
-        static native void addSubview(long view, long subview);
-        static native void removeFromSuperview(long view);
+    stbtic finbl clbss NSView {
+        stbtic nbtive void bddSubview(long view, long subview);
+        stbtic nbtive void removeFromSuperview(long view);
 
-        static native void setFrame(long view, int x, int y, int w, int h);
-        static native long window(long view);
+        stbtic nbtive void setFrbme(long view, int x, int y, int w, int h);
+        stbtic nbtive long window(long view);
 
-        static native void setHidden(long view, boolean hidden);
+        stbtic nbtive void setHidden(long view, boolebn hidden);
 
-        static native void setToolTip(long view, String msg);
+        stbtic nbtive void setToolTip(long view, String msg);
     }
 }

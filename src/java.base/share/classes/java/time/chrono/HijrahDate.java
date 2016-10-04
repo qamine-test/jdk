@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -54,645 +54,645 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import static java.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_MONTH;
-import static java.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_YEAR;
-import static java.time.temporal.ChronoField.ALIGNED_WEEK_OF_MONTH;
-import static java.time.temporal.ChronoField.ALIGNED_WEEK_OF_YEAR;
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.ALIGNED_DAY_OF_WEEK_IN_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.ALIGNED_DAY_OF_WEEK_IN_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.ALIGNED_WEEK_OF_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.ALIGNED_WEEK_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.MONTH_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.YEAR;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.Serializable;
-import java.time.Clock;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutput;
+import jbvb.io.Seriblizbble;
+import jbvb.time.Clock;
+import jbvb.time.DbteTimeException;
+import jbvb.time.LocblDbte;
+import jbvb.time.LocblTime;
+import jbvb.time.ZoneId;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
 
 /**
- * A date in the Hijrah calendar system.
+ * A dbte in the Hijrbh cblendbr system.
  * <p>
- * This date operates using one of several variants of the
- * {@linkplain HijrahChronology Hijrah calendar}.
+ * This dbte operbtes using one of severbl vbribnts of the
+ * {@linkplbin HijrbhChronology Hijrbh cblendbr}.
  * <p>
- * The Hijrah calendar has a different total of days in a year than
- * Gregorian calendar, and the length of each month is based on the period
- * of a complete revolution of the moon around the earth
- * (as between successive new moons).
- * Refer to the {@link HijrahChronology} for details of supported variants.
+ * The Hijrbh cblendbr hbs b different totbl of dbys in b yebr thbn
+ * Gregoribn cblendbr, bnd the length of ebch month is bbsed on the period
+ * of b complete revolution of the moon bround the ebrth
+ * (bs between successive new moons).
+ * Refer to the {@link HijrbhChronology} for detbils of supported vbribnts.
  * <p>
- * Each HijrahDate is created bound to a particular HijrahChronology,
- * The same chronology is propagated to each HijrahDate computed from the date.
- * To use a different Hijrah variant, its HijrahChronology can be used
- * to create new HijrahDate instances.
- * Alternatively, the {@link #withVariant} method can be used to convert
- * to a new HijrahChronology.
+ * Ebch HijrbhDbte is crebted bound to b pbrticulbr HijrbhChronology,
+ * The sbme chronology is propbgbted to ebch HijrbhDbte computed from the dbte.
+ * To use b different Hijrbh vbribnt, its HijrbhChronology cbn be used
+ * to crebte new HijrbhDbte instbnces.
+ * Alternbtively, the {@link #withVbribnt} method cbn be used to convert
+ * to b new HijrbhChronology.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code HijrahDate} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * This is b <b href="{@docRoot}/jbvb/lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code HijrbhDbte} mby hbve unpredictbble results bnd should be bvoided.
+ * The {@code equbls} method should be used for compbrisons.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class HijrahDate
-        extends ChronoLocalDateImpl<HijrahDate>
-        implements ChronoLocalDate, Serializable {
+public finbl clbss HijrbhDbte
+        extends ChronoLocblDbteImpl<HijrbhDbte>
+        implements ChronoLocblDbte, Seriblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = -5207853542612002020L;
+    privbte stbtic finbl long seriblVersionUID = -5207853542612002020L;
     /**
-     * The Chronology of this HijrahDate.
+     * The Chronology of this HijrbhDbte.
      */
-    private final transient HijrahChronology chrono;
+    privbte finbl trbnsient HijrbhChronology chrono;
     /**
-     * The proleptic year.
+     * The proleptic yebr.
      */
-    private final transient int prolepticYear;
+    privbte finbl trbnsient int prolepticYebr;
     /**
-     * The month-of-year.
+     * The month-of-yebr.
      */
-    private final transient int monthOfYear;
+    privbte finbl trbnsient int monthOfYebr;
     /**
-     * The day-of-month.
+     * The dby-of-month.
      */
-    private final transient int dayOfMonth;
+    privbte finbl trbnsient int dbyOfMonth;
 
     //-------------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code HijrahDate} from the Hijrah proleptic year,
-     * month-of-year and day-of-month.
+     * Obtbins bn instbnce of {@code HijrbhDbte} from the Hijrbh proleptic yebr,
+     * month-of-yebr bnd dby-of-month.
      *
-     * @param prolepticYear  the proleptic year to represent in the Hijrah calendar
-     * @param monthOfYear  the month-of-year to represent, from 1 to 12
-     * @param dayOfMonth  the day-of-month to represent, from 1 to 30
-     * @return the Hijrah date, never null
-     * @throws DateTimeException if the value of any field is out of range
+     * @pbrbm prolepticYebr  the proleptic yebr to represent in the Hijrbh cblendbr
+     * @pbrbm monthOfYebr  the month-of-yebr to represent, from 1 to 12
+     * @pbrbm dbyOfMonth  the dby-of-month to represent, from 1 to 30
+     * @return the Hijrbh dbte, never null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge
      */
-    static HijrahDate of(HijrahChronology chrono, int prolepticYear, int monthOfYear, int dayOfMonth) {
-        return new HijrahDate(chrono, prolepticYear, monthOfYear, dayOfMonth);
+    stbtic HijrbhDbte of(HijrbhChronology chrono, int prolepticYebr, int monthOfYebr, int dbyOfMonth) {
+        return new HijrbhDbte(chrono, prolepticYebr, monthOfYebr, dbyOfMonth);
     }
 
     /**
-     * Returns a HijrahDate for the chronology and epochDay.
-     * @param chrono The Hijrah chronology
-     * @param epochDay the epoch day
-     * @return a HijrahDate for the epoch day; non-null
+     * Returns b HijrbhDbte for the chronology bnd epochDby.
+     * @pbrbm chrono The Hijrbh chronology
+     * @pbrbm epochDby the epoch dby
+     * @return b HijrbhDbte for the epoch dby; non-null
      */
-    static HijrahDate ofEpochDay(HijrahChronology chrono, long epochDay) {
-        return new HijrahDate(chrono, epochDay);
+    stbtic HijrbhDbte ofEpochDby(HijrbhChronology chrono, long epochDby) {
+        return new HijrbhDbte(chrono, epochDby);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains the current {@code HijrahDate} of the Islamic Umm Al-Qura calendar
-     * in the default time-zone.
+     * Obtbins the current {@code HijrbhDbte} of the Islbmic Umm Al-Qurb cblendbr
+     * in the defbult time-zone.
      * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current date.
+     * This will query the {@link Clock#systemDefbultZone() system clock} in the defbult
+     * time-zone to obtbin the current dbte.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @return the current date using the system clock and default time-zone, not null
+     * @return the current dbte using the system clock bnd defbult time-zone, not null
      */
-    public static HijrahDate now() {
-        return now(Clock.systemDefaultZone());
+    public stbtic HijrbhDbte now() {
+        return now(Clock.systemDefbultZone());
     }
 
     /**
-     * Obtains the current {@code HijrahDate} of the Islamic Umm Al-Qura calendar
+     * Obtbins the current {@code HijrbhDbte} of the Islbmic Umm Al-Qurb cblendbr
      * in the specified time-zone.
      * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current date.
-     * Specifying the time-zone avoids dependence on the default time-zone.
+     * This will query the {@link Clock#system(ZoneId) system clock} to obtbin the current dbte.
+     * Specifying the time-zone bvoids dependence on the defbult time-zone.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @param zone  the zone ID to use, not null
-     * @return the current date using the system clock, not null
+     * @pbrbm zone  the zone ID to use, not null
+     * @return the current dbte using the system clock, not null
      */
-    public static HijrahDate now(ZoneId zone) {
+    public stbtic HijrbhDbte now(ZoneId zone) {
         return now(Clock.system(zone));
     }
 
     /**
-     * Obtains the current {@code HijrahDate} of the Islamic Umm Al-Qura calendar
+     * Obtbins the current {@code HijrbhDbte} of the Islbmic Umm Al-Qurb cblendbr
      * from the specified clock.
      * <p>
-     * This will query the specified clock to obtain the current date - today.
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@linkplain Clock dependency injection}.
+     * This will query the specified clock to obtbin the current dbte - todby.
+     * Using this method bllows the use of bn blternbte clock for testing.
+     * The blternbte clock mby be introduced using {@linkplbin Clock dependency injection}.
      *
-     * @param clock  the clock to use, not null
-     * @return the current date, not null
-     * @throws DateTimeException if the current date cannot be obtained
+     * @pbrbm clock  the clock to use, not null
+     * @return the current dbte, not null
+     * @throws DbteTimeException if the current dbte cbnnot be obtbined
      */
-    public static HijrahDate now(Clock clock) {
-        return HijrahDate.ofEpochDay(HijrahChronology.INSTANCE, LocalDate.now(clock).toEpochDay());
+    public stbtic HijrbhDbte now(Clock clock) {
+        return HijrbhDbte.ofEpochDby(HijrbhChronology.INSTANCE, LocblDbte.now(clock).toEpochDby());
     }
 
     /**
-     * Obtains a {@code HijrahDate} of the Islamic Umm Al-Qura calendar
-     * from the proleptic-year, month-of-year and day-of-month fields.
+     * Obtbins b {@code HijrbhDbte} of the Islbmic Umm Al-Qurb cblendbr
+     * from the proleptic-yebr, month-of-yebr bnd dby-of-month fields.
      * <p>
-     * This returns a {@code HijrahDate} with the specified fields.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
+     * This returns b {@code HijrbhDbte} with the specified fields.
+     * The dby must be vblid for the yebr bnd month, otherwise bn exception will be thrown.
      *
-     * @param prolepticYear  the Hijrah proleptic-year
-     * @param month  the Hijrah month-of-year, from 1 to 12
-     * @param dayOfMonth  the Hijrah day-of-month, from 1 to 30
-     * @return the date in Hijrah calendar system, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm prolepticYebr  the Hijrbh proleptic-yebr
+     * @pbrbm month  the Hijrbh month-of-yebr, from 1 to 12
+     * @pbrbm dbyOfMonth  the Hijrbh dby-of-month, from 1 to 30
+     * @return the dbte in Hijrbh cblendbr system, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge,
+     *  or if the dby-of-month is invblid for the month-yebr
      */
-    public static HijrahDate of(int prolepticYear, int month, int dayOfMonth) {
-        return HijrahChronology.INSTANCE.date(prolepticYear, month, dayOfMonth);
+    public stbtic HijrbhDbte of(int prolepticYebr, int month, int dbyOfMonth) {
+        return HijrbhChronology.INSTANCE.dbte(prolepticYebr, month, dbyOfMonth);
     }
 
     /**
-     * Obtains a {@code HijrahDate} of the Islamic Umm Al-Qura calendar from a temporal object.
+     * Obtbins b {@code HijrbhDbte} of the Islbmic Umm Al-Qurb cblendbr from b temporbl object.
      * <p>
-     * This obtains a date in the Hijrah calendar system based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code HijrahDate}.
+     * This obtbins b dbte in the Hijrbh cblendbr system bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code HijrbhDbte}.
      * <p>
-     * The conversion typically uses the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
-     * field, which is standardized across calendar systems.
+     * The conversion typicblly uses the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
+     * field, which is stbndbrdized bcross cblendbr systems.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code HijrahDate::from}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code HijrbhDbte::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the date in Hijrah calendar system, not null
-     * @throws DateTimeException if unable to convert to a {@code HijrahDate}
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the dbte in Hijrbh cblendbr system, not null
+     * @throws DbteTimeException if unbble to convert to b {@code HijrbhDbte}
      */
-    public static HijrahDate from(TemporalAccessor temporal) {
-        return HijrahChronology.INSTANCE.date(temporal);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Constructs an {@code HijrahDate} with the proleptic-year, month-of-year and
-     * day-of-month fields.
-     *
-     * @param chrono The chronology to create the date with
-     * @param prolepticYear the proleptic year
-     * @param monthOfYear the month of year
-     * @param dayOfMonth the day of month
-     */
-    private HijrahDate(HijrahChronology chrono, int prolepticYear, int monthOfYear, int dayOfMonth) {
-        // Computing the Gregorian day checks the valid ranges
-        chrono.getEpochDay(prolepticYear, monthOfYear, dayOfMonth);
-
-        this.chrono = chrono;
-        this.prolepticYear = prolepticYear;
-        this.monthOfYear = monthOfYear;
-        this.dayOfMonth = dayOfMonth;
-    }
-
-    /**
-     * Constructs an instance with the Epoch Day.
-     *
-     * @param epochDay  the epochDay
-     */
-    private HijrahDate(HijrahChronology chrono, long epochDay) {
-        int[] dateInfo = chrono.getHijrahDateInfo((int)epochDay);
-
-        this.chrono = chrono;
-        this.prolepticYear = dateInfo[0];
-        this.monthOfYear = dateInfo[1];
-        this.dayOfMonth = dateInfo[2];
+    public stbtic HijrbhDbte from(TemporblAccessor temporbl) {
+        return HijrbhChronology.INSTANCE.dbte(temporbl);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the chronology of this date, which is the Hijrah calendar system.
-     * <p>
-     * The {@code Chronology} represents the calendar system in use.
-     * The era and other fields in {@link ChronoField} are defined by the chronology.
+     * Constructs bn {@code HijrbhDbte} with the proleptic-yebr, month-of-yebr bnd
+     * dby-of-month fields.
      *
-     * @return the Hijrah chronology, not null
+     * @pbrbm chrono The chronology to crebte the dbte with
+     * @pbrbm prolepticYebr the proleptic yebr
+     * @pbrbm monthOfYebr the month of yebr
+     * @pbrbm dbyOfMonth the dby of month
+     */
+    privbte HijrbhDbte(HijrbhChronology chrono, int prolepticYebr, int monthOfYebr, int dbyOfMonth) {
+        // Computing the Gregoribn dby checks the vblid rbnges
+        chrono.getEpochDby(prolepticYebr, monthOfYebr, dbyOfMonth);
+
+        this.chrono = chrono;
+        this.prolepticYebr = prolepticYebr;
+        this.monthOfYebr = monthOfYebr;
+        this.dbyOfMonth = dbyOfMonth;
+    }
+
+    /**
+     * Constructs bn instbnce with the Epoch Dby.
+     *
+     * @pbrbm epochDby  the epochDby
+     */
+    privbte HijrbhDbte(HijrbhChronology chrono, long epochDby) {
+        int[] dbteInfo = chrono.getHijrbhDbteInfo((int)epochDby);
+
+        this.chrono = chrono;
+        this.prolepticYebr = dbteInfo[0];
+        this.monthOfYebr = dbteInfo[1];
+        this.dbyOfMonth = dbteInfo[2];
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gets the chronology of this dbte, which is the Hijrbh cblendbr system.
+     * <p>
+     * The {@code Chronology} represents the cblendbr system in use.
+     * The erb bnd other fields in {@link ChronoField} bre defined by the chronology.
+     *
+     * @return the Hijrbh chronology, not null
      */
     @Override
-    public HijrahChronology getChronology() {
+    public HijrbhChronology getChronology() {
         return chrono;
     }
 
     /**
-     * Gets the era applicable at this date.
+     * Gets the erb bpplicbble bt this dbte.
      * <p>
-     * The Hijrah calendar system has one era, 'AH',
-     * defined by {@link HijrahEra}.
+     * The Hijrbh cblendbr system hbs one erb, 'AH',
+     * defined by {@link HijrbhErb}.
      *
-     * @return the era applicable at this date, not null
+     * @return the erb bpplicbble bt this dbte, not null
      */
     @Override
-    public HijrahEra getEra() {
-        return HijrahEra.AH;
+    public HijrbhErb getErb() {
+        return HijrbhErb.AH;
     }
 
     /**
-     * Returns the length of the month represented by this date.
+     * Returns the length of the month represented by this dbte.
      * <p>
-     * This returns the length of the month in days.
-     * Month lengths in the Hijrah calendar system vary between 29 and 30 days.
+     * This returns the length of the month in dbys.
+     * Month lengths in the Hijrbh cblendbr system vbry between 29 bnd 30 dbys.
      *
-     * @return the length of the month in days
+     * @return the length of the month in dbys
      */
     @Override
     public int lengthOfMonth() {
-        return chrono.getMonthLength(prolepticYear, monthOfYear);
+        return chrono.getMonthLength(prolepticYebr, monthOfYebr);
     }
 
     /**
-     * Returns the length of the year represented by this date.
+     * Returns the length of the yebr represented by this dbte.
      * <p>
-     * This returns the length of the year in days.
-     * A Hijrah calendar system year is typically shorter than
-     * that of the ISO calendar system.
+     * This returns the length of the yebr in dbys.
+     * A Hijrbh cblendbr system yebr is typicblly shorter thbn
+     * thbt of the ISO cblendbr system.
      *
-     * @return the length of the year in days
+     * @return the length of the yebr in dbys
      */
     @Override
-    public int lengthOfYear() {
-        return chrono.getYearLength(prolepticYear);
+    public int lengthOfYebr() {
+        return chrono.getYebrLength(prolepticYebr);
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public VblueRbnge rbnge(TemporblField field) {
+        if (field instbnceof ChronoField) {
             if (isSupported(field)) {
                 ChronoField f = (ChronoField) field;
                 switch (f) {
-                    case DAY_OF_MONTH: return ValueRange.of(1, lengthOfMonth());
-                    case DAY_OF_YEAR: return ValueRange.of(1, lengthOfYear());
-                    case ALIGNED_WEEK_OF_MONTH: return ValueRange.of(1, 5);  // TODO
-                    // TODO does the limited range of valid years cause years to
-                    // start/end part way through? that would affect range
+                    cbse DAY_OF_MONTH: return VblueRbnge.of(1, lengthOfMonth());
+                    cbse DAY_OF_YEAR: return VblueRbnge.of(1, lengthOfYebr());
+                    cbse ALIGNED_WEEK_OF_MONTH: return VblueRbnge.of(1, 5);  // TODO
+                    // TODO does the limited rbnge of vblid yebrs cbuse yebrs to
+                    // stbrt/end pbrt wby through? thbt would bffect rbnge
                 }
-                return getChronology().range(f);
+                return getChronology().rbnge(f);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
-        return field.rangeRefinedBy(this);
+        return field.rbngeRefinedBy(this);
     }
 
     @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public long getLong(TemporblField field) {
+        if (field instbnceof ChronoField) {
             switch ((ChronoField) field) {
-                case DAY_OF_WEEK: return getDayOfWeek();
-                case ALIGNED_DAY_OF_WEEK_IN_MONTH: return ((getDayOfWeek() - 1) % 7) + 1;
-                case ALIGNED_DAY_OF_WEEK_IN_YEAR: return ((getDayOfYear() - 1) % 7) + 1;
-                case DAY_OF_MONTH: return this.dayOfMonth;
-                case DAY_OF_YEAR: return this.getDayOfYear();
-                case EPOCH_DAY: return toEpochDay();
-                case ALIGNED_WEEK_OF_MONTH: return ((dayOfMonth - 1) / 7) + 1;
-                case ALIGNED_WEEK_OF_YEAR: return ((getDayOfYear() - 1) / 7) + 1;
-                case MONTH_OF_YEAR: return monthOfYear;
-                case PROLEPTIC_MONTH: return getProlepticMonth();
-                case YEAR_OF_ERA: return prolepticYear;
-                case YEAR: return prolepticYear;
-                case ERA: return getEraValue();
+                cbse DAY_OF_WEEK: return getDbyOfWeek();
+                cbse ALIGNED_DAY_OF_WEEK_IN_MONTH: return ((getDbyOfWeek() - 1) % 7) + 1;
+                cbse ALIGNED_DAY_OF_WEEK_IN_YEAR: return ((getDbyOfYebr() - 1) % 7) + 1;
+                cbse DAY_OF_MONTH: return this.dbyOfMonth;
+                cbse DAY_OF_YEAR: return this.getDbyOfYebr();
+                cbse EPOCH_DAY: return toEpochDby();
+                cbse ALIGNED_WEEK_OF_MONTH: return ((dbyOfMonth - 1) / 7) + 1;
+                cbse ALIGNED_WEEK_OF_YEAR: return ((getDbyOfYebr() - 1) / 7) + 1;
+                cbse MONTH_OF_YEAR: return monthOfYebr;
+                cbse PROLEPTIC_MONTH: return getProlepticMonth();
+                cbse YEAR_OF_ERA: return prolepticYebr;
+                cbse YEAR: return prolepticYebr;
+                cbse ERA: return getErbVblue();
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
         return field.getFrom(this);
     }
 
-    private long getProlepticMonth() {
-        return prolepticYear * 12L + monthOfYear - 1;
+    privbte long getProlepticMonth() {
+        return prolepticYebr * 12L + monthOfYebr - 1;
     }
 
     @Override
-    public HijrahDate with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
+    public HijrbhDbte with(TemporblField field, long newVblue) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            // not using checkValidIntValue so EPOCH_DAY and PROLEPTIC_MONTH work
-            chrono.range(f).checkValidValue(newValue, f);    // TODO: validate value
-            int nvalue = (int) newValue;
+            // not using checkVblidIntVblue so EPOCH_DAY bnd PROLEPTIC_MONTH work
+            chrono.rbnge(f).checkVblidVblue(newVblue, f);    // TODO: vblidbte vblue
+            int nvblue = (int) newVblue;
             switch (f) {
-                case DAY_OF_WEEK: return plusDays(newValue - getDayOfWeek());
-                case ALIGNED_DAY_OF_WEEK_IN_MONTH: return plusDays(newValue - getLong(ALIGNED_DAY_OF_WEEK_IN_MONTH));
-                case ALIGNED_DAY_OF_WEEK_IN_YEAR: return plusDays(newValue - getLong(ALIGNED_DAY_OF_WEEK_IN_YEAR));
-                case DAY_OF_MONTH: return resolvePreviousValid(prolepticYear, monthOfYear, nvalue);
-                case DAY_OF_YEAR: return plusDays(Math.min(nvalue, lengthOfYear()) - getDayOfYear());
-                case EPOCH_DAY: return new HijrahDate(chrono, newValue);
-                case ALIGNED_WEEK_OF_MONTH: return plusDays((newValue - getLong(ALIGNED_WEEK_OF_MONTH)) * 7);
-                case ALIGNED_WEEK_OF_YEAR: return plusDays((newValue - getLong(ALIGNED_WEEK_OF_YEAR)) * 7);
-                case MONTH_OF_YEAR: return resolvePreviousValid(prolepticYear, nvalue, dayOfMonth);
-                case PROLEPTIC_MONTH: return plusMonths(newValue - getProlepticMonth());
-                case YEAR_OF_ERA: return resolvePreviousValid(prolepticYear >= 1 ? nvalue : 1 - nvalue, monthOfYear, dayOfMonth);
-                case YEAR: return resolvePreviousValid(nvalue, monthOfYear, dayOfMonth);
-                case ERA: return resolvePreviousValid(1 - prolepticYear, monthOfYear, dayOfMonth);
+                cbse DAY_OF_WEEK: return plusDbys(newVblue - getDbyOfWeek());
+                cbse ALIGNED_DAY_OF_WEEK_IN_MONTH: return plusDbys(newVblue - getLong(ALIGNED_DAY_OF_WEEK_IN_MONTH));
+                cbse ALIGNED_DAY_OF_WEEK_IN_YEAR: return plusDbys(newVblue - getLong(ALIGNED_DAY_OF_WEEK_IN_YEAR));
+                cbse DAY_OF_MONTH: return resolvePreviousVblid(prolepticYebr, monthOfYebr, nvblue);
+                cbse DAY_OF_YEAR: return plusDbys(Mbth.min(nvblue, lengthOfYebr()) - getDbyOfYebr());
+                cbse EPOCH_DAY: return new HijrbhDbte(chrono, newVblue);
+                cbse ALIGNED_WEEK_OF_MONTH: return plusDbys((newVblue - getLong(ALIGNED_WEEK_OF_MONTH)) * 7);
+                cbse ALIGNED_WEEK_OF_YEAR: return plusDbys((newVblue - getLong(ALIGNED_WEEK_OF_YEAR)) * 7);
+                cbse MONTH_OF_YEAR: return resolvePreviousVblid(prolepticYebr, nvblue, dbyOfMonth);
+                cbse PROLEPTIC_MONTH: return plusMonths(newVblue - getProlepticMonth());
+                cbse YEAR_OF_ERA: return resolvePreviousVblid(prolepticYebr >= 1 ? nvblue : 1 - nvblue, monthOfYebr, dbyOfMonth);
+                cbse YEAR: return resolvePreviousVblid(nvblue, monthOfYebr, dbyOfMonth);
+                cbse ERA: return resolvePreviousVblid(1 - prolepticYebr, monthOfYebr, dbyOfMonth);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
-        return super.with(field, newValue);
+        return super.with(field, newVblue);
     }
 
-    private HijrahDate resolvePreviousValid(int prolepticYear, int month, int day) {
-        int monthDays = chrono.getMonthLength(prolepticYear, month);
-        if (day > monthDays) {
-            day = monthDays;
+    privbte HijrbhDbte resolvePreviousVblid(int prolepticYebr, int month, int dby) {
+        int monthDbys = chrono.getMonthLength(prolepticYebr, month);
+        if (dby > monthDbys) {
+            dby = monthDbys;
         }
-        return HijrahDate.of(chrono, prolepticYear, month, day);
+        return HijrbhDbte.of(chrono, prolepticYebr, month, dby);
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException if unable to make the adjustment.
-     *     For example, if the adjuster requires an ISO chronology
+     * @throws DbteTimeException if unbble to mbke the bdjustment.
+     *     For exbmple, if the bdjuster requires bn ISO chronology
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    public  HijrahDate with(TemporalAdjuster adjuster) {
-        return super.with(adjuster);
+    public  HijrbhDbte with(TemporblAdjuster bdjuster) {
+        return super.with(bdjuster);
     }
 
     /**
-     * Returns a {@code HijrahDate} with the Chronology requested.
+     * Returns b {@code HijrbhDbte} with the Chronology requested.
      * <p>
-     * The year, month, and day are checked against the new requested
-     * HijrahChronology.  If the chronology has a shorter month length
-     * for the month, the day is reduced to be the last day of the month.
+     * The yebr, month, bnd dby bre checked bgbinst the new requested
+     * HijrbhChronology.  If the chronology hbs b shorter month length
+     * for the month, the dby is reduced to be the lbst dby of the month.
      *
-     * @param chronology the new HijrahChonology, non-null
-     * @return a HijrahDate with the requested HijrahChronology, non-null
+     * @pbrbm chronology the new HijrbhChonology, non-null
+     * @return b HijrbhDbte with the requested HijrbhChronology, non-null
      */
-    public HijrahDate withVariant(HijrahChronology chronology) {
+    public HijrbhDbte withVbribnt(HijrbhChronology chronology) {
         if (chrono == chronology) {
             return this;
         }
-        // Like resolvePreviousValid the day is constrained to stay in the same month
-        int monthDays = chronology.getDayOfYear(prolepticYear, monthOfYear);
-        return HijrahDate.of(chronology, prolepticYear, monthOfYear,(dayOfMonth > monthDays) ? monthDays : dayOfMonth );
+        // Like resolvePreviousVblid the dby is constrbined to stby in the sbme month
+        int monthDbys = chronology.getDbyOfYebr(prolepticYebr, monthOfYebr);
+        return HijrbhDbte.of(chronology, prolepticYebr, monthOfYebr,(dbyOfMonth > monthDbys) ? monthDbys : dbyOfMonth );
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    public HijrahDate plus(TemporalAmount amount) {
-        return super.plus(amount);
+    public HijrbhDbte plus(TemporblAmount bmount) {
+        return super.plus(bmount);
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    public HijrahDate minus(TemporalAmount amount) {
-        return super.minus(amount);
+    public HijrbhDbte minus(TemporblAmount bmount) {
+        return super.minus(bmount);
     }
 
     @Override
-    public long toEpochDay() {
-        return chrono.getEpochDay(prolepticYear, monthOfYear, dayOfMonth);
+    public long toEpochDby() {
+        return chrono.getEpochDby(prolepticYebr, monthOfYebr, dbyOfMonth);
     }
 
     /**
-     * Gets the day-of-year field.
+     * Gets the dby-of-yebr field.
      * <p>
-     * This method returns the primitive {@code int} value for the day-of-year.
+     * This method returns the primitive {@code int} vblue for the dby-of-yebr.
      *
-     * @return the day-of-year
+     * @return the dby-of-yebr
      */
-    private int getDayOfYear() {
-        return chrono.getDayOfYear(prolepticYear, monthOfYear) + dayOfMonth;
+    privbte int getDbyOfYebr() {
+        return chrono.getDbyOfYebr(prolepticYebr, monthOfYebr) + dbyOfMonth;
     }
 
     /**
-     * Gets the day-of-week value.
+     * Gets the dby-of-week vblue.
      *
-     * @return the day-of-week; computed from the epochday
+     * @return the dby-of-week; computed from the epochdby
      */
-    private int getDayOfWeek() {
-        int dow0 = (int)Math.floorMod(toEpochDay() + 3, 7);
+    privbte int getDbyOfWeek() {
+        int dow0 = (int)Mbth.floorMod(toEpochDby() + 3, 7);
         return dow0 + 1;
     }
 
     /**
-     * Gets the Era of this date.
+     * Gets the Erb of this dbte.
      *
-     * @return the Era of this date; computed from epochDay
+     * @return the Erb of this dbte; computed from epochDby
      */
-    private int getEraValue() {
-        return (prolepticYear > 1 ? 1 : 0);
+    privbte int getErbVblue() {
+        return (prolepticYebr > 1 ? 1 : 0);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if the year is a leap year, according to the Hijrah calendar system rules.
+     * Checks if the yebr is b lebp yebr, bccording to the Hijrbh cblendbr system rules.
      *
-     * @return true if this date is in a leap year
+     * @return true if this dbte is in b lebp yebr
      */
     @Override
-    public boolean isLeapYear() {
-        return chrono.isLeapYear(prolepticYear);
+    public boolebn isLebpYebr() {
+        return chrono.isLebpYebr(prolepticYebr);
     }
 
     //-----------------------------------------------------------------------
     @Override
-    HijrahDate plusYears(long years) {
-        if (years == 0) {
+    HijrbhDbte plusYebrs(long yebrs) {
+        if (yebrs == 0) {
             return this;
         }
-        int newYear = Math.addExact(this.prolepticYear, (int)years);
-        return resolvePreviousValid(newYear, monthOfYear, dayOfMonth);
+        int newYebr = Mbth.bddExbct(this.prolepticYebr, (int)yebrs);
+        return resolvePreviousVblid(newYebr, monthOfYebr, dbyOfMonth);
     }
 
     @Override
-    HijrahDate plusMonths(long monthsToAdd) {
+    HijrbhDbte plusMonths(long monthsToAdd) {
         if (monthsToAdd == 0) {
             return this;
         }
-        long monthCount = prolepticYear * 12L + (monthOfYear - 1);
-        long calcMonths = monthCount + monthsToAdd;  // safe overflow
-        int newYear = chrono.checkValidYear(Math.floorDiv(calcMonths, 12L));
-        int newMonth = (int)Math.floorMod(calcMonths, 12L) + 1;
-        return resolvePreviousValid(newYear, newMonth, dayOfMonth);
+        long monthCount = prolepticYebr * 12L + (monthOfYebr - 1);
+        long cblcMonths = monthCount + monthsToAdd;  // sbfe overflow
+        int newYebr = chrono.checkVblidYebr(Mbth.floorDiv(cblcMonths, 12L));
+        int newMonth = (int)Mbth.floorMod(cblcMonths, 12L) + 1;
+        return resolvePreviousVblid(newYebr, newMonth, dbyOfMonth);
     }
 
     @Override
-    HijrahDate plusWeeks(long weeksToAdd) {
+    HijrbhDbte plusWeeks(long weeksToAdd) {
         return super.plusWeeks(weeksToAdd);
     }
 
     @Override
-    HijrahDate plusDays(long days) {
-        return new HijrahDate(chrono, toEpochDay() + days);
+    HijrbhDbte plusDbys(long dbys) {
+        return new HijrbhDbte(chrono, toEpochDby() + dbys);
     }
 
     @Override
-    public HijrahDate plus(long amountToAdd, TemporalUnit unit) {
-        return super.plus(amountToAdd, unit);
+    public HijrbhDbte plus(long bmountToAdd, TemporblUnit unit) {
+        return super.plus(bmountToAdd, unit);
     }
 
     @Override
-    public HijrahDate minus(long amountToSubtract, TemporalUnit unit) {
-        return super.minus(amountToSubtract, unit);
+    public HijrbhDbte minus(long bmountToSubtrbct, TemporblUnit unit) {
+        return super.minus(bmountToSubtrbct, unit);
     }
 
     @Override
-    HijrahDate minusYears(long yearsToSubtract) {
-        return super.minusYears(yearsToSubtract);
+    HijrbhDbte minusYebrs(long yebrsToSubtrbct) {
+        return super.minusYebrs(yebrsToSubtrbct);
     }
 
     @Override
-    HijrahDate minusMonths(long monthsToSubtract) {
-        return super.minusMonths(monthsToSubtract);
+    HijrbhDbte minusMonths(long monthsToSubtrbct) {
+        return super.minusMonths(monthsToSubtrbct);
     }
 
     @Override
-    HijrahDate minusWeeks(long weeksToSubtract) {
-        return super.minusWeeks(weeksToSubtract);
+    HijrbhDbte minusWeeks(long weeksToSubtrbct) {
+        return super.minusWeeks(weeksToSubtrbct);
     }
 
     @Override
-    HijrahDate minusDays(long daysToSubtract) {
-        return super.minusDays(daysToSubtract);
+    HijrbhDbte minusDbys(long dbysToSubtrbct) {
+        return super.minusDbys(dbysToSubtrbct);
     }
 
-    @Override        // for javadoc and covariant return type
-    @SuppressWarnings("unchecked")
-    public final ChronoLocalDateTime<HijrahDate> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<HijrahDate>)super.atTime(localTime);
+    @Override        // for jbvbdoc bnd covbribnt return type
+    @SuppressWbrnings("unchecked")
+    public finbl ChronoLocblDbteTime<HijrbhDbte> btTime(LocblTime locblTime) {
+        return (ChronoLocblDbteTime<HijrbhDbte>)super.btTime(locblTime);
     }
 
     @Override
-    public ChronoPeriod until(ChronoLocalDate endDate) {
+    public ChronoPeriod until(ChronoLocblDbte endDbte) {
         // TODO: untested
-        HijrahDate end = getChronology().date(endDate);
-        long totalMonths = (end.prolepticYear - this.prolepticYear) * 12 + (end.monthOfYear - this.monthOfYear);  // safe
-        int days = end.dayOfMonth - this.dayOfMonth;
-        if (totalMonths > 0 && days < 0) {
-            totalMonths--;
-            HijrahDate calcDate = this.plusMonths(totalMonths);
-            days = (int) (end.toEpochDay() - calcDate.toEpochDay());  // safe
-        } else if (totalMonths < 0 && days > 0) {
-            totalMonths++;
-            days -= end.lengthOfMonth();
+        HijrbhDbte end = getChronology().dbte(endDbte);
+        long totblMonths = (end.prolepticYebr - this.prolepticYebr) * 12 + (end.monthOfYebr - this.monthOfYebr);  // sbfe
+        int dbys = end.dbyOfMonth - this.dbyOfMonth;
+        if (totblMonths > 0 && dbys < 0) {
+            totblMonths--;
+            HijrbhDbte cblcDbte = this.plusMonths(totblMonths);
+            dbys = (int) (end.toEpochDby() - cblcDbte.toEpochDby());  // sbfe
+        } else if (totblMonths < 0 && dbys > 0) {
+            totblMonths++;
+            dbys -= end.lengthOfMonth();
         }
-        long years = totalMonths / 12;  // safe
-        int months = (int) (totalMonths % 12);  // safe
-        return getChronology().period(Math.toIntExact(years), months, days);
+        long yebrs = totblMonths / 12;  // sbfe
+        int months = (int) (totblMonths % 12);  // sbfe
+        return getChronology().period(Mbth.toIntExbct(yebrs), months, dbys);
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Compares this date to another date, including the chronology.
+     * Compbres this dbte to bnother dbte, including the chronology.
      * <p>
-     * Compares this {@code HijrahDate} with another ensuring that the date is the same.
+     * Compbres this {@code HijrbhDbte} with bnother ensuring thbt the dbte is the sbme.
      * <p>
-     * Only objects of type {@code HijrahDate} are compared, other types return false.
-     * To compare the dates of two {@code TemporalAccessor} instances, including dates
-     * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
+     * Only objects of type {@code HijrbhDbte} bre compbred, other types return fblse.
+     * To compbre the dbtes of two {@code TemporblAccessor} instbnces, including dbtes
+     * in two different chronologies, use {@link ChronoField#EPOCH_DAY} bs b compbrbtor.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date and the Chronologies are equal
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other dbte bnd the Chronologies bre equbl
      */
-    @Override  // override for performance
-    public boolean equals(Object obj) {
+    @Override  // override for performbnce
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof HijrahDate) {
-            HijrahDate otherDate = (HijrahDate) obj;
-            return prolepticYear == otherDate.prolepticYear
-                && this.monthOfYear == otherDate.monthOfYear
-                && this.dayOfMonth == otherDate.dayOfMonth
-                && getChronology().equals(otherDate.getChronology());
+        if (obj instbnceof HijrbhDbte) {
+            HijrbhDbte otherDbte = (HijrbhDbte) obj;
+            return prolepticYebr == otherDbte.prolepticYebr
+                && this.monthOfYebr == otherDbte.monthOfYebr
+                && this.dbyOfMonth == otherDbte.dbyOfMonth
+                && getChronology().equbls(otherDbte.getChronology());
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this date.
+     * A hbsh code for this dbte.
      *
-     * @return a suitable hash code based only on the Chronology and the date
+     * @return b suitbble hbsh code bbsed only on the Chronology bnd the dbte
      */
-    @Override  // override for performance
-    public int hashCode() {
-        int yearValue = prolepticYear;
-        int monthValue = monthOfYear;
-        int dayValue = dayOfMonth;
-        return getChronology().getId().hashCode() ^ (yearValue & 0xFFFFF800)
-                ^ ((yearValue << 11) + (monthValue << 6) + (dayValue));
+    @Override  // override for performbnce
+    public int hbshCode() {
+        int yebrVblue = prolepticYebr;
+        int monthVblue = monthOfYebr;
+        int dbyVblue = dbyOfMonth;
+        return getChronology().getId().hbshCode() ^ (yebrVblue & 0xFFFFF800)
+                ^ ((yebrVblue << 11) + (monthVblue << 6) + (dbyVblue));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
     /**
-     * Writes the object using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the object using b
+     * <b href="../../../seriblized-form.html#jbvb.time.chrono.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(6);                 // identifies a HijrahDate
-     *  out.writeObject(chrono);          // the HijrahChronology variant
+     *  out.writeByte(6);                 // identifies b HijrbhDbte
+     *  out.writeObject(chrono);          // the HijrbhChronology vbribnt
      *  out.writeInt(get(YEAR));
      *  out.writeByte(get(MONTH_OF_YEAR));
      *  out.writeByte(get(DAY_OF_MONTH));
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.HIJRAH_DATE_TYPE, this);
     }
 
-    void writeExternal(ObjectOutput out) throws IOException {
-        // HijrahChronology is implicit in the Hijrah_DATE_TYPE
+    void writeExternbl(ObjectOutput out) throws IOException {
+        // HijrbhChronology is implicit in the Hijrbh_DATE_TYPE
         out.writeObject(getChronology());
         out.writeInt(get(YEAR));
         out.writeByte(get(MONTH_OF_YEAR));
         out.writeByte(get(DAY_OF_MONTH));
     }
 
-    static HijrahDate readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        HijrahChronology chrono = (HijrahChronology) in.readObject();
-        int year = in.readInt();
-        int month = in.readByte();
-        int dayOfMonth = in.readByte();
-        return chrono.date(year, month, dayOfMonth);
+    stbtic HijrbhDbte rebdExternbl(ObjectInput in) throws IOException, ClbssNotFoundException {
+        HijrbhChronology chrono = (HijrbhChronology) in.rebdObject();
+        int yebr = in.rebdInt();
+        int month = in.rebdByte();
+        int dbyOfMonth = in.rebdByte();
+        return chrono.dbte(yebr, month, dbyOfMonth);
     }
 
 }

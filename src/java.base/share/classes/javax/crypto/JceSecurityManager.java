@@ -1,259 +1,259 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.security.*;
-import java.net.*;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import jbvb.security.*;
+import jbvb.net.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
 
 /**
- * The JCE security manager.
+ * The JCE security mbnbger.
  *
- * <p>The JCE security manager is responsible for determining the maximum
- * allowable cryptographic strength for a given applet/application, for a given
- * algorithm, by consulting the configured jurisdiction policy files and
- * the cryptographic permissions bundled with the applet/application.
+ * <p>The JCE security mbnbger is responsible for determining the mbximum
+ * bllowbble cryptogrbphic strength for b given bpplet/bpplicbtion, for b given
+ * blgorithm, by consulting the configured jurisdiction policy files bnd
+ * the cryptogrbphic permissions bundled with the bpplet/bpplicbtion.
  *
- * <p>Note that this security manager is never installed, only instantiated.
+ * <p>Note thbt this security mbnbger is never instblled, only instbntibted.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @since 1.4
  */
 
-final class JceSecurityManager extends SecurityManager {
+finbl clbss JceSecurityMbnbger extends SecurityMbnbger {
 
-    private static final CryptoPermissions defaultPolicy;
-    private static final CryptoPermissions exemptPolicy;
-    private static final CryptoAllPermission allPerm;
-    private static final Vector<Class<?>> TrustedCallersCache =
+    privbte stbtic finbl CryptoPermissions defbultPolicy;
+    privbte stbtic finbl CryptoPermissions exemptPolicy;
+    privbte stbtic finbl CryptoAllPermission bllPerm;
+    privbte stbtic finbl Vector<Clbss<?>> TrustedCbllersCbche =
             new Vector<>(2);
-    private static final ConcurrentMap<URL,CryptoPermissions> exemptCache =
-            new ConcurrentHashMap<>();
-    private static final CryptoPermissions CACHE_NULL_MARK =
+    privbte stbtic finbl ConcurrentMbp<URL,CryptoPermissions> exemptCbche =
+            new ConcurrentHbshMbp<>();
+    privbte stbtic finbl CryptoPermissions CACHE_NULL_MARK =
             new CryptoPermissions();
 
-    // singleton instance
-    static final JceSecurityManager INSTANCE;
+    // singleton instbnce
+    stbtic finbl JceSecurityMbnbger INSTANCE;
 
-    static {
-        defaultPolicy = JceSecurity.getDefaultPolicy();
+    stbtic {
+        defbultPolicy = JceSecurity.getDefbultPolicy();
         exemptPolicy = JceSecurity.getExemptPolicy();
-        allPerm = CryptoAllPermission.INSTANCE;
+        bllPerm = CryptoAllPermission.INSTANCE;
         INSTANCE = AccessController.doPrivileged(
-                new PrivilegedAction<JceSecurityManager>() {
-                    public JceSecurityManager run() {
-                        return new JceSecurityManager();
+                new PrivilegedAction<JceSecurityMbnbger>() {
+                    public JceSecurityMbnbger run() {
+                        return new JceSecurityMbnbger();
                     }
                 });
     }
 
-    private JceSecurityManager() {
+    privbte JceSecurityMbnbger() {
         // empty
     }
 
     /**
-     * Returns the maximum allowable crypto strength for the given
-     * applet/application, for the given algorithm.
+     * Returns the mbximum bllowbble crypto strength for the given
+     * bpplet/bpplicbtion, for the given blgorithm.
      */
-    CryptoPermission getCryptoPermission(String alg) {
-        // Need to convert to uppercase since the crypto perm
-        // lookup is case sensitive.
-        alg = alg.toUpperCase(Locale.ENGLISH);
+    CryptoPermission getCryptoPermission(String blg) {
+        // Need to convert to uppercbse since the crypto perm
+        // lookup is cbse sensitive.
+        blg = blg.toUpperCbse(Locble.ENGLISH);
 
-        // If CryptoAllPermission is granted by default, we return that.
-        // Otherwise, this will be the permission we return if anything goes
+        // If CryptoAllPermission is grbnted by defbult, we return thbt.
+        // Otherwise, this will be the permission we return if bnything goes
         // wrong.
-        CryptoPermission defaultPerm = getDefaultPermission(alg);
-        if (defaultPerm == CryptoAllPermission.INSTANCE) {
-            return defaultPerm;
+        CryptoPermission defbultPerm = getDefbultPermission(blg);
+        if (defbultPerm == CryptoAllPermission.INSTANCE) {
+            return defbultPerm;
         }
 
-        // Determine the codebase of the caller of the JCE API.
-        // This is the codebase of the first class which is not in
-        // javax.crypto.* packages.
-        // NOTE: javax.crypto.* package maybe subject to package
-        // insertion, so need to check its classloader as well.
-        Class<?>[] context = getClassContext();
-        URL callerCodeBase = null;
+        // Determine the codebbse of the cbller of the JCE API.
+        // This is the codebbse of the first clbss which is not in
+        // jbvbx.crypto.* pbckbges.
+        // NOTE: jbvbx.crypto.* pbckbge mbybe subject to pbckbge
+        // insertion, so need to check its clbsslobder bs well.
+        Clbss<?>[] context = getClbssContext();
+        URL cbllerCodeBbse = null;
         int i;
         for (i=0; i<context.length; i++) {
-            Class<?> cls = context[i];
-            callerCodeBase = JceSecurity.getCodeBase(cls);
-            if (callerCodeBase != null) {
-                break;
+            Clbss<?> cls = context[i];
+            cbllerCodeBbse = JceSecurity.getCodeBbse(cls);
+            if (cbllerCodeBbse != null) {
+                brebk;
             } else {
-                if (cls.getName().startsWith("javax.crypto.")) {
-                    // skip jce classes since they aren't the callers
+                if (cls.getNbme().stbrtsWith("jbvbx.crypto.")) {
+                    // skip jce clbsses since they bren't the cbllers
                     continue;
                 }
-                // use default permission when the caller is system classes
-                return defaultPerm;
+                // use defbult permission when the cbller is system clbsses
+                return defbultPerm;
             }
         }
 
         if (i == context.length) {
-            return defaultPerm;
+            return defbultPerm;
         }
 
-        CryptoPermissions appPerms = exemptCache.get(callerCodeBase);
-        if (appPerms == null) {
-            // no match found in cache
-            synchronized (this.getClass()) {
-                appPerms = exemptCache.get(callerCodeBase);
-                if (appPerms == null) {
-                    appPerms = getAppPermissions(callerCodeBase);
-                    exemptCache.putIfAbsent(callerCodeBase,
-                        (appPerms == null? CACHE_NULL_MARK:appPerms));
+        CryptoPermissions bppPerms = exemptCbche.get(cbllerCodeBbse);
+        if (bppPerms == null) {
+            // no mbtch found in cbche
+            synchronized (this.getClbss()) {
+                bppPerms = exemptCbche.get(cbllerCodeBbse);
+                if (bppPerms == null) {
+                    bppPerms = getAppPermissions(cbllerCodeBbse);
+                    exemptCbche.putIfAbsent(cbllerCodeBbse,
+                        (bppPerms == null? CACHE_NULL_MARK:bppPerms));
                 }
             }
         }
-        if (appPerms == null || appPerms == CACHE_NULL_MARK) {
-            return defaultPerm;
+        if (bppPerms == null || bppPerms == CACHE_NULL_MARK) {
+            return defbultPerm;
         }
 
-        // If the app was granted the special CryptoAllPermission, return that.
-        if (appPerms.implies(allPerm)) {
-            return allPerm;
+        // If the bpp wbs grbnted the specibl CryptoAllPermission, return thbt.
+        if (bppPerms.implies(bllPerm)) {
+            return bllPerm;
         }
 
-        // Check if the crypto permissions granted to the app contain a
-        // crypto permission for the requested algorithm that does not require
-        // any exemption mechanism to be enforced.
-        // Return that permission, if present.
-        PermissionCollection appPc = appPerms.getPermissionCollection(alg);
-        if (appPc == null) {
-            return defaultPerm;
+        // Check if the crypto permissions grbnted to the bpp contbin b
+        // crypto permission for the requested blgorithm thbt does not require
+        // bny exemption mechbnism to be enforced.
+        // Return thbt permission, if present.
+        PermissionCollection bppPc = bppPerms.getPermissionCollection(blg);
+        if (bppPc == null) {
+            return defbultPerm;
         }
-        Enumeration<Permission> enum_ = appPc.elements();
-        while (enum_.hasMoreElements()) {
+        Enumerbtion<Permission> enum_ = bppPc.elements();
+        while (enum_.hbsMoreElements()) {
             CryptoPermission cp = (CryptoPermission)enum_.nextElement();
-            if (cp.getExemptionMechanism() == null) {
+            if (cp.getExemptionMechbnism() == null) {
                 return cp;
             }
         }
 
-        // Check if the jurisdiction file for exempt applications contains
-        // any entries for the requested algorithm.
-        // If not, return the default permission.
+        // Check if the jurisdiction file for exempt bpplicbtions contbins
+        // bny entries for the requested blgorithm.
+        // If not, return the defbult permission.
         PermissionCollection exemptPc =
-            exemptPolicy.getPermissionCollection(alg);
+            exemptPolicy.getPermissionCollection(blg);
         if (exemptPc == null) {
-            return defaultPerm;
+            return defbultPerm;
         }
 
-        // In the jurisdiction file for exempt applications, go through the
-        // list of CryptoPermission entries for the requested algorithm, and
-        // stop at the first entry:
-        //  - that is implied by the collection of crypto permissions granted
-        //    to the app, and
-        //  - whose exemption mechanism is available from one of the
+        // In the jurisdiction file for exempt bpplicbtions, go through the
+        // list of CryptoPermission entries for the requested blgorithm, bnd
+        // stop bt the first entry:
+        //  - thbt is implied by the collection of crypto permissions grbnted
+        //    to the bpp, bnd
+        //  - whose exemption mechbnism is bvbilbble from one of the
         //    registered CSPs
         enum_ = exemptPc.elements();
-        while (enum_.hasMoreElements()) {
+        while (enum_.hbsMoreElements()) {
             CryptoPermission cp = (CryptoPermission)enum_.nextElement();
             try {
-                ExemptionMechanism.getInstance(cp.getExemptionMechanism());
-                if (cp.getAlgorithm().equals(
+                ExemptionMechbnism.getInstbnce(cp.getExemptionMechbnism());
+                if (cp.getAlgorithm().equbls(
                                       CryptoPermission.ALG_NAME_WILDCARD)) {
                     CryptoPermission newCp;
-                    if (cp.getCheckParam()) {
+                    if (cp.getCheckPbrbm()) {
                         newCp = new CryptoPermission(
-                                alg, cp.getMaxKeySize(),
-                                cp.getAlgorithmParameterSpec(),
-                                cp.getExemptionMechanism());
+                                blg, cp.getMbxKeySize(),
+                                cp.getAlgorithmPbrbmeterSpec(),
+                                cp.getExemptionMechbnism());
                     } else {
                         newCp = new CryptoPermission(
-                                alg, cp.getMaxKeySize(),
-                                cp.getExemptionMechanism());
+                                blg, cp.getMbxKeySize(),
+                                cp.getExemptionMechbnism());
                     }
-                    if (appPerms.implies(newCp)) {
+                    if (bppPerms.implies(newCp)) {
                         return newCp;
                     }
                 }
 
-                if (appPerms.implies(cp)) {
+                if (bppPerms.implies(cp)) {
                     return cp;
                 }
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 continue;
             }
         }
-        return defaultPerm;
+        return defbultPerm;
     }
 
-    private static CryptoPermissions getAppPermissions(URL callerCodeBase) {
-        // Check if app is exempt, and retrieve the permissions bundled with it
+    privbte stbtic CryptoPermissions getAppPermissions(URL cbllerCodeBbse) {
+        // Check if bpp is exempt, bnd retrieve the permissions bundled with it
         try {
-            return JceSecurity.verifyExemptJar(callerCodeBase);
-        } catch (Exception e) {
-            // Jar verification fails
+            return JceSecurity.verifyExemptJbr(cbllerCodeBbse);
+        } cbtch (Exception e) {
+            // Jbr verificbtion fbils
             return null;
         }
 
     }
 
     /**
-     * Returns the default permission for the given algorithm.
+     * Returns the defbult permission for the given blgorithm.
      */
-    private CryptoPermission getDefaultPermission(String alg) {
-        Enumeration<Permission> enum_ =
-            defaultPolicy.getPermissionCollection(alg).elements();
+    privbte CryptoPermission getDefbultPermission(String blg) {
+        Enumerbtion<Permission> enum_ =
+            defbultPolicy.getPermissionCollection(blg).elements();
         return (CryptoPermission)enum_.nextElement();
     }
 
     // See  bug 4341369 & 4334690 for more info.
-    boolean isCallerTrusted() {
-        // Get the caller and its codebase.
-        Class<?>[] context = getClassContext();
-        URL callerCodeBase = null;
+    boolebn isCbllerTrusted() {
+        // Get the cbller bnd its codebbse.
+        Clbss<?>[] context = getClbssContext();
+        URL cbllerCodeBbse = null;
         int i;
         for (i=0; i<context.length; i++) {
-            callerCodeBase = JceSecurity.getCodeBase(context[i]);
-            if (callerCodeBase != null) {
-                break;
+            cbllerCodeBbse = JceSecurity.getCodeBbse(context[i]);
+            if (cbllerCodeBbse != null) {
+                brebk;
             }
         }
-        // The caller is in the JCE framework.
+        // The cbller is in the JCE frbmework.
         if (i == context.length) {
             return true;
         }
-        //The caller has been verified.
-        if (TrustedCallersCache.contains(context[i])) {
+        //The cbller hbs been verified.
+        if (TrustedCbllersCbche.contbins(context[i])) {
             return true;
         }
-        // Check whether the caller is a trusted provider.
+        // Check whether the cbller is b trusted provider.
         try {
-            JceSecurity.verifyProviderJar(callerCodeBase);
-        } catch (Exception e2) {
-            return false;
+            JceSecurity.verifyProviderJbr(cbllerCodeBbse);
+        } cbtch (Exception e2) {
+            return fblse;
         }
-        TrustedCallersCache.addElement(context[i]);
+        TrustedCbllersCbche.bddElement(context[i]);
         return true;
     }
 }

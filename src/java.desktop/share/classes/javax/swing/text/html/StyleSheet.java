@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
 import sun.swing.SwingUtilities2;
-import java.util.*;
-import java.awt.*;
-import java.io.*;
-import java.net.*;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.UIManager;
-import javax.swing.border.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.text.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvbx.swing.Icon;
+import jbvbx.swing.ImbgeIcon;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.ChbngeListener;
+import jbvbx.swing.text.*;
 
 /**
- * Support for defining the visual characteristics of
+ * Support for defining the visubl chbrbcteristics of
  * HTML views being rendered.  The StyleSheet is used to
- * translate the HTML model into visual characteristics.
- * This enables views to be customized by a look-and-feel,
- * multiple views over the same model can be rendered
- * differently, etc.  This can be thought of as a CSS
- * rule repository.  The key for CSS attributes is an
- * object of type CSS.Attribute.  The type of the value
- * is up to the StyleSheet implementation, but the
+ * trbnslbte the HTML model into visubl chbrbcteristics.
+ * This enbbles views to be customized by b look-bnd-feel,
+ * multiple views over the sbme model cbn be rendered
+ * differently, etc.  This cbn be thought of bs b CSS
+ * rule repository.  The key for CSS bttributes is bn
+ * object of type CSS.Attribute.  The type of the vblue
+ * is up to the StyleSheet implementbtion, but the
  * <code>toString</code> method is required
- * to return a string representation of CSS value.
+ * to return b string representbtion of CSS vblue.
  * <p>
- * The primary entry point for HTML View implementations
- * to get their attributes is the
+ * The primbry entry point for HTML View implementbtions
+ * to get their bttributes is the
  * {@link #getViewAttributes getViewAttributes}
- * method.  This should be implemented to establish the
- * desired policy used to associate attributes with the view.
- * Each HTMLEditorKit (i.e. and therefore each associated
- * JEditorPane) can have its own StyleSheet, but by default one
- * sheet will be shared by all of the HTMLEditorKit instances.
- * HTMLDocument instance can also have a StyleSheet, which
- * holds the document-specific CSS specifications.
+ * method.  This should be implemented to estbblish the
+ * desired policy used to bssocibte bttributes with the view.
+ * Ebch HTMLEditorKit (i.e. bnd therefore ebch bssocibted
+ * JEditorPbne) cbn hbve its own StyleSheet, but by defbult one
+ * sheet will be shbred by bll of the HTMLEditorKit instbnces.
+ * HTMLDocument instbnce cbn blso hbve b StyleSheet, which
+ * holds the document-specific CSS specificbtions.
  * <p>
- * In order for Views to store less state and therefore be
- * more lightweight, the StyleSheet can act as a factory for
- * painters that handle some of the rendering tasks.  This allows
- * implementations to determine what they want to cache
- * and have the sharing potentially at the level that a
+ * In order for Views to store less stbte bnd therefore be
+ * more lightweight, the StyleSheet cbn bct bs b fbctory for
+ * pbinters thbt hbndle some of the rendering tbsks.  This bllows
+ * implementbtions to determine whbt they wbnt to cbche
+ * bnd hbve the shbring potentiblly bt the level thbt b
  * selector is common to multiple views.  Since the StyleSheet
- * may be used by views over multiple documents and typically
- * the HTML attributes don't effect the selector being used,
- * the potential for sharing is significant.
+ * mby be used by views over multiple documents bnd typicblly
+ * the HTML bttributes don't effect the selector being used,
+ * the potentibl for shbring is significbnt.
  * <p>
- * The rules are stored as named styles, and other information
- * is stored to translate the context of an element to a
- * rule quickly.  The following code fragment will display
- * the named styles, and therefore the CSS rules contained.
+ * The rules bre stored bs nbmed styles, bnd other informbtion
+ * is stored to trbnslbte the context of bn element to b
+ * rule quickly.  The following code frbgment will displby
+ * the nbmed styles, bnd therefore the CSS rules contbined.
  * <pre><code>
  * &nbsp;
- * &nbsp; import java.util.*;
- * &nbsp; import javax.swing.text.*;
- * &nbsp; import javax.swing.text.html.*;
+ * &nbsp; import jbvb.util.*;
+ * &nbsp; import jbvbx.swing.text.*;
+ * &nbsp; import jbvbx.swing.text.html.*;
  * &nbsp;
- * &nbsp; public class ShowStyles {
+ * &nbsp; public clbss ShowStyles {
  * &nbsp;
- * &nbsp;     public static void main(String[] args) {
+ * &nbsp;     public stbtic void mbin(String[] brgs) {
  * &nbsp;       HTMLEditorKit kit = new HTMLEditorKit();
- * &nbsp;       HTMLDocument doc = (HTMLDocument) kit.createDefaultDocument();
+ * &nbsp;       HTMLDocument doc = (HTMLDocument) kit.crebteDefbultDocument();
  * &nbsp;       StyleSheet styles = doc.getStyleSheet();
  * &nbsp;
- * &nbsp;       Enumeration rules = styles.getStyleNames();
- * &nbsp;       while (rules.hasMoreElements()) {
- * &nbsp;           String name = (String) rules.nextElement();
- * &nbsp;           Style rule = styles.getStyle(name);
+ * &nbsp;       Enumerbtion rules = styles.getStyleNbmes();
+ * &nbsp;       while (rules.hbsMoreElements()) {
+ * &nbsp;           String nbme = (String) rules.nextElement();
+ * &nbsp;           Style rule = styles.getStyle(nbme);
  * &nbsp;           System.out.println(rule.toString());
  * &nbsp;       }
  * &nbsp;       System.exit(0);
@@ -99,74 +99,74 @@ import javax.swing.text.*;
  * &nbsp;
  * </code></pre>
  * <p>
- * The semantics for when a CSS style should overide visual attributes
- * defined by an element are not well defined. For example, the html
- * <code>&lt;body bgcolor=red&gt;</code> makes the body have a red
- * background. But if the html file also contains the CSS rule
- * <code>body { background: blue }</code> it becomes less clear as to
- * what color the background of the body should be. The current
- * implementation gives visual attributes defined in the element the
- * highest precedence, that is they are always checked before any styles.
- * Therefore, in the previous example the background would have a
- * red color as the body element defines the background color to be red.
+ * The sembntics for when b CSS style should overide visubl bttributes
+ * defined by bn element bre not well defined. For exbmple, the html
+ * <code>&lt;body bgcolor=red&gt;</code> mbkes the body hbve b red
+ * bbckground. But if the html file blso contbins the CSS rule
+ * <code>body { bbckground: blue }</code> it becomes less clebr bs to
+ * whbt color the bbckground of the body should be. The current
+ * implementbtion gives visubl bttributes defined in the element the
+ * highest precedence, thbt is they bre blwbys checked before bny styles.
+ * Therefore, in the previous exbmple the bbckground would hbve b
+ * red color bs the body element defines the bbckground color to be red.
  * <p>
- * As already mentioned this supports CSS. We don't support the full CSS
- * spec. Refer to the javadoc of the CSS class to see what properties
- * we support. The two major CSS parsing related
+ * As blrebdy mentioned this supports CSS. We don't support the full CSS
+ * spec. Refer to the jbvbdoc of the CSS clbss to see whbt properties
+ * we support. The two mbjor CSS pbrsing relbted
  * concepts we do not currently
- * support are pseudo selectors, such as <code>A:link { color: red }</code>,
- * and the <code>important</code> modifier.
+ * support bre pseudo selectors, such bs <code>A:link { color: red }</code>,
+ * bnd the <code>importbnt</code> modifier.
  *
- * @implNote This implementation is currently
- * incomplete.  It can be replaced with alternative implementations
- * that are complete.  Future versions of this class will provide
+ * @implNote This implementbtion is currently
+ * incomplete.  It cbn be replbced with blternbtive implementbtions
+ * thbt bre complete.  Future versions of this clbss will provide
  * better CSS support.
  *
- * @author  Timothy Prinzing
- * @author  Sunita Mani
- * @author  Sara Swanson
- * @author  Jill Nakata
+ * @buthor  Timothy Prinzing
+ * @buthor  Sunitb Mbni
+ * @buthor  Sbrb Swbnson
+ * @buthor  Jill Nbkbtb
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class StyleSheet extends StyleContext {
-    // As the javadoc states, this class maintains a mapping between
-    // a CSS selector (such as p.bar) and a Style.
-    // This consists of a number of parts:
-    // . Each selector is broken down into its constituent simple selectors,
-    //   and stored in an inverted graph, for example:
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss StyleSheet extends StyleContext {
+    // As the jbvbdoc stbtes, this clbss mbintbins b mbpping between
+    // b CSS selector (such bs p.bbr) bnd b Style.
+    // This consists of b number of pbrts:
+    // . Ebch selector is broken down into its constituent simple selectors,
+    //   bnd stored in bn inverted grbph, for exbmple:
     //     p { color: red } ol p { font-size: 10pt } ul p { font-size: 12pt }
-    //   results in the graph:
+    //   results in the grbph:
     //          root
     //           |
     //           p
     //          / \
     //         ol ul
-    //   each node (an instance of SelectorMapping) has an associated
-    //   specificity and potentially a Style.
-    // . Every rule that is asked for (either by way of getRule(String) or
-    //   getRule(HTML.Tag, Element)) results in a unique instance of
-    //   ResolvedStyle. ResolvedStyles contain the AttributeSets from the
-    //   SelectorMapping.
-    // . When a new rule is created it is inserted into the graph, and
-    //   the AttributeSets of each ResolvedStyles are updated appropriately.
-    // . This class creates special AttributeSets, LargeConversionSet and
-    //   SmallConversionSet, that maintain a mapping between StyleConstants
-    //   and CSS so that developers that wish to use the StyleConstants
-    //   methods can do so.
-    // . When one of the AttributeSets is mutated by way of a
-    //   StyleConstants key, all the associated CSS keys are removed. This is
-    //   done so that the two representations don't get out of sync. For
-    //   example, if the developer adds StyleConstants.BOLD, FALSE to an
-    //   AttributeSet that contains HTML.Tag.B, the HTML.Tag.B entry will
+    //   ebch node (bn instbnce of SelectorMbpping) hbs bn bssocibted
+    //   specificity bnd potentiblly b Style.
+    // . Every rule thbt is bsked for (either by wby of getRule(String) or
+    //   getRule(HTML.Tbg, Element)) results in b unique instbnce of
+    //   ResolvedStyle. ResolvedStyles contbin the AttributeSets from the
+    //   SelectorMbpping.
+    // . When b new rule is crebted it is inserted into the grbph, bnd
+    //   the AttributeSets of ebch ResolvedStyles bre updbted bppropribtely.
+    // . This clbss crebtes specibl AttributeSets, LbrgeConversionSet bnd
+    //   SmbllConversionSet, thbt mbintbin b mbpping between StyleConstbnts
+    //   bnd CSS so thbt developers thbt wish to use the StyleConstbnts
+    //   methods cbn do so.
+    // . When one of the AttributeSets is mutbted by wby of b
+    //   StyleConstbnts key, bll the bssocibted CSS keys bre removed. This is
+    //   done so thbt the two representbtions don't get out of sync. For
+    //   exbmple, if the developer bdds StyleConstbnts.BOLD, FALSE to bn
+    //   AttributeSet thbt contbins HTML.Tbg.B, the HTML.Tbg.B entry will
     //   be removed.
 
     /**
-     * Construct a StyleSheet
+     * Construct b StyleSheet
      */
     public StyleSheet() {
         super();
-        selectorMapping = new SelectorMapping(0);
-        resolvedStyles = new Hashtable<String, ResolvedStyle>();
+        selectorMbpping = new SelectorMbpping(0);
+        resolvedStyles = new Hbshtbble<String, ResolvedStyle>();
         if (css == null) {
             css = new CSS();
         }
@@ -174,109 +174,109 @@ public class StyleSheet extends StyleContext {
 
     /**
      * Fetches the style to use to render the given type
-     * of HTML tag.  The element given is representing
-     * the tag and can be used to determine the nesting
-     * for situations where the attributes will differ
+     * of HTML tbg.  The element given is representing
+     * the tbg bnd cbn be used to determine the nesting
+     * for situbtions where the bttributes will differ
      * if nesting inside of elements.
      *
-     * @param t the type to translate to visual attributes
-     * @param e the element representing the tag; the element
-     *  can be used to determine the nesting for situations where
-     *  the attributes will differ if nested inside of other
+     * @pbrbm t the type to trbnslbte to visubl bttributes
+     * @pbrbm e the element representing the tbg; the element
+     *  cbn be used to determine the nesting for situbtions where
+     *  the bttributes will differ if nested inside of other
      *  elements
-     * @return the set of CSS attributes to use to render
-     *  the tag
+     * @return the set of CSS bttributes to use to render
+     *  the tbg
      */
-    public Style getRule(HTML.Tag t, Element e) {
-        SearchBuffer sb = SearchBuffer.obtainSearchBuffer();
+    public Style getRule(HTML.Tbg t, Element e) {
+        SebrchBuffer sb = SebrchBuffer.obtbinSebrchBuffer();
 
         try {
-            // Build an array of all the parent elements.
-            @SuppressWarnings("unchecked")
-            Vector<Element> searchContext = sb.getVector();
+            // Build bn brrby of bll the pbrent elements.
+            @SuppressWbrnings("unchecked")
+            Vector<Element> sebrchContext = sb.getVector();
 
-            for (Element p = e; p != null; p = p.getParentElement()) {
-                searchContext.addElement(p);
+            for (Element p = e; p != null; p = p.getPbrentElement()) {
+                sebrchContext.bddElement(p);
             }
 
-            // Build a fully qualified selector.
-            int              n = searchContext.size();
-            StringBuffer     cacheLookup = sb.getStringBuffer();
-            AttributeSet     attr;
-            String           eName;
-            Object           name;
+            // Build b fully qublified selector.
+            int              n = sebrchContext.size();
+            StringBuffer     cbcheLookup = sb.getStringBuffer();
+            AttributeSet     bttr;
+            String           eNbme;
+            Object           nbme;
 
-            // >= 1 as the HTML.Tag for the 0th element is passed in.
+            // >= 1 bs the HTML.Tbg for the 0th element is pbssed in.
             for (int counter = n - 1; counter >= 1; counter--) {
-                e = searchContext.elementAt(counter);
-                attr = e.getAttributes();
-                name = attr.getAttribute(StyleConstants.NameAttribute);
-                eName = name.toString();
-                cacheLookup.append(eName);
-                if (attr != null) {
-                    if (attr.isDefined(HTML.Attribute.ID)) {
-                        cacheLookup.append('#');
-                        cacheLookup.append(attr.getAttribute
+                e = sebrchContext.elementAt(counter);
+                bttr = e.getAttributes();
+                nbme = bttr.getAttribute(StyleConstbnts.NbmeAttribute);
+                eNbme = nbme.toString();
+                cbcheLookup.bppend(eNbme);
+                if (bttr != null) {
+                    if (bttr.isDefined(HTML.Attribute.ID)) {
+                        cbcheLookup.bppend('#');
+                        cbcheLookup.bppend(bttr.getAttribute
                                            (HTML.Attribute.ID));
                     }
-                    else if (attr.isDefined(HTML.Attribute.CLASS)) {
-                        cacheLookup.append('.');
-                        cacheLookup.append(attr.getAttribute
+                    else if (bttr.isDefined(HTML.Attribute.CLASS)) {
+                        cbcheLookup.bppend('.');
+                        cbcheLookup.bppend(bttr.getAttribute
                                            (HTML.Attribute.CLASS));
                     }
                 }
-                cacheLookup.append(' ');
+                cbcheLookup.bppend(' ');
             }
-            cacheLookup.append(t.toString());
-            e = searchContext.elementAt(0);
-            attr = e.getAttributes();
-            if (e.isLeaf()) {
-                // For leafs, we use the second tier attributes.
-                Object testAttr = attr.getAttribute(t);
-                if (testAttr instanceof AttributeSet) {
-                    attr = (AttributeSet)testAttr;
+            cbcheLookup.bppend(t.toString());
+            e = sebrchContext.elementAt(0);
+            bttr = e.getAttributes();
+            if (e.isLebf()) {
+                // For lebfs, we use the second tier bttributes.
+                Object testAttr = bttr.getAttribute(t);
+                if (testAttr instbnceof AttributeSet) {
+                    bttr = (AttributeSet)testAttr;
                 }
                 else {
-                    attr = null;
+                    bttr = null;
                 }
             }
-            if (attr != null) {
-                if (attr.isDefined(HTML.Attribute.ID)) {
-                    cacheLookup.append('#');
-                    cacheLookup.append(attr.getAttribute(HTML.Attribute.ID));
+            if (bttr != null) {
+                if (bttr.isDefined(HTML.Attribute.ID)) {
+                    cbcheLookup.bppend('#');
+                    cbcheLookup.bppend(bttr.getAttribute(HTML.Attribute.ID));
                 }
-                else if (attr.isDefined(HTML.Attribute.CLASS)) {
-                    cacheLookup.append('.');
-                    cacheLookup.append(attr.getAttribute
+                else if (bttr.isDefined(HTML.Attribute.CLASS)) {
+                    cbcheLookup.bppend('.');
+                    cbcheLookup.bppend(bttr.getAttribute
                                        (HTML.Attribute.CLASS));
                 }
             }
 
-            Style style = getResolvedStyle(cacheLookup.toString(),
-                                           searchContext, t);
+            Style style = getResolvedStyle(cbcheLookup.toString(),
+                                           sebrchContext, t);
             return style;
         }
-        finally {
-            SearchBuffer.releaseSearchBuffer(sb);
+        finblly {
+            SebrchBuffer.relebseSebrchBuffer(sb);
         }
     }
 
     /**
-     * Fetches the rule that best matches the selector given
-     * in string form. Where <code>selector</code> is a space separated
-     * String of the element names. For example, <code>selector</code>
+     * Fetches the rule thbt best mbtches the selector given
+     * in string form. Where <code>selector</code> is b spbce sepbrbted
+     * String of the element nbmes. For exbmple, <code>selector</code>
      * might be 'html body tr td''<p>
-     * The attributes of the returned Style will change
-     * as rules are added and removed. That is if you to ask for a rule
-     * with a selector "table p" and a new rule was added with a selector
-     * of "p" the returned Style would include the new attributes from
+     * The bttributes of the returned Style will chbnge
+     * bs rules bre bdded bnd removed. Thbt is if you to bsk for b rule
+     * with b selector "tbble p" bnd b new rule wbs bdded with b selector
+     * of "p" the returned Style would include the new bttributes from
      * the rule "p".
      *
-     * @param selector a space separated String of the element names.
-     * @return the rule that best matches the selector.
+     * @pbrbm selector b spbce sepbrbted String of the element nbmes.
+     * @return the rule thbt best mbtches the selector.
      */
     public Style getRule(String selector) {
-        selector = cleanSelectorString(selector);
+        selector = clebnSelectorString(selector);
         if (selector != null) {
             Style style = getResolvedStyle(selector);
             return style;
@@ -285,107 +285,107 @@ public class StyleSheet extends StyleContext {
     }
 
     /**
-     * Adds a set of rules to the sheet.  The rules are expected to
-     * be in valid CSS format.  Typically this would be called as
-     * a result of parsing a &lt;style&gt; tag.
+     * Adds b set of rules to the sheet.  The rules bre expected to
+     * be in vblid CSS formbt.  Typicblly this would be cblled bs
+     * b result of pbrsing b &lt;style&gt; tbg.
      *
-     * @param rule a set of rules
+     * @pbrbm rule b set of rules
      */
-    public void addRule(String rule) {
+    public void bddRule(String rule) {
         if (rule != null) {
-            //tweaks to control display properties
-            //see BasicEditorPaneUI
-            final String baseUnitsDisable = "BASE_SIZE_DISABLE";
-            final String baseUnits = "BASE_SIZE ";
-            final String w3cLengthUnitsEnable = "W3C_LENGTH_UNITS_ENABLE";
-            final String w3cLengthUnitsDisable = "W3C_LENGTH_UNITS_DISABLE";
-            if (rule == baseUnitsDisable) {
-                sizeMap = sizeMapDefault;
-            } else if (rule.startsWith(baseUnits)) {
-                rebaseSizeMap(Integer.
-                              parseInt(rule.substring(baseUnits.length())));
-            } else if (rule == w3cLengthUnitsEnable) {
+            //twebks to control displby properties
+            //see BbsicEditorPbneUI
+            finbl String bbseUnitsDisbble = "BASE_SIZE_DISABLE";
+            finbl String bbseUnits = "BASE_SIZE ";
+            finbl String w3cLengthUnitsEnbble = "W3C_LENGTH_UNITS_ENABLE";
+            finbl String w3cLengthUnitsDisbble = "W3C_LENGTH_UNITS_DISABLE";
+            if (rule == bbseUnitsDisbble) {
+                sizeMbp = sizeMbpDefbult;
+            } else if (rule.stbrtsWith(bbseUnits)) {
+                rebbseSizeMbp(Integer.
+                              pbrseInt(rule.substring(bbseUnits.length())));
+            } else if (rule == w3cLengthUnitsEnbble) {
                 w3cLengthUnits = true;
-            } else if (rule == w3cLengthUnitsDisable) {
-                w3cLengthUnits = false;
+            } else if (rule == w3cLengthUnitsDisbble) {
+                w3cLengthUnits = fblse;
             } else {
-                CssParser parser = new CssParser();
+                CssPbrser pbrser = new CssPbrser();
                 try {
-                    parser.parse(getBase(), new StringReader(rule), false, false);
-                } catch (IOException ioe) { }
+                    pbrser.pbrse(getBbse(), new StringRebder(rule), fblse, fblse);
+                } cbtch (IOException ioe) { }
             }
         }
     }
 
     /**
-     * Translates a CSS declaration to an AttributeSet that represents
-     * the CSS declaration.  Typically this would be called as a
-     * result of encountering an HTML style attribute.
+     * Trbnslbtes b CSS declbrbtion to bn AttributeSet thbt represents
+     * the CSS declbrbtion.  Typicblly this would be cblled bs b
+     * result of encountering bn HTML style bttribute.
      *
-     * @param decl a CSS declaration
-     * @return a set of attributes that represents the CSS declaration.
+     * @pbrbm decl b CSS declbrbtion
+     * @return b set of bttributes thbt represents the CSS declbrbtion.
      */
-    public AttributeSet getDeclaration(String decl) {
+    public AttributeSet getDeclbrbtion(String decl) {
         if (decl == null) {
             return SimpleAttributeSet.EMPTY;
         }
-        CssParser parser = new CssParser();
-        return parser.parseDeclaration(decl);
+        CssPbrser pbrser = new CssPbrser();
+        return pbrser.pbrseDeclbrbtion(decl);
     }
 
     /**
-     * Loads a set of rules that have been specified in terms of
-     * CSS1 grammar.  If there are collisions with existing rules,
+     * Lobds b set of rules thbt hbve been specified in terms of
+     * CSS1 grbmmbr.  If there bre collisions with existing rules,
      * the newly specified rule will win.
      *
-     * @param in the stream to read the CSS grammar from
-     * @param ref the reference URL.  This value represents the
-     *  location of the stream and may be null.  All relative
-     *  URLs specified in the stream will be based upon this
-     *  parameter.
-     * @throws java.io.IOException if I/O error occured.
+     * @pbrbm in the strebm to rebd the CSS grbmmbr from
+     * @pbrbm ref the reference URL.  This vblue represents the
+     *  locbtion of the strebm bnd mby be null.  All relbtive
+     *  URLs specified in the strebm will be bbsed upon this
+     *  pbrbmeter.
+     * @throws jbvb.io.IOException if I/O error occured.
      */
-    public void loadRules(Reader in, URL ref) throws IOException {
-        CssParser parser = new CssParser();
-        parser.parse(ref, in, false, false);
+    public void lobdRules(Rebder in, URL ref) throws IOException {
+        CssPbrser pbrser = new CssPbrser();
+        pbrser.pbrse(ref, in, fblse, fblse);
     }
 
     /**
-     * Fetches a set of attributes to use in the view for
-     * displaying.  This is basically a set of attributes that
-     * can be used for View.getAttributes.
+     * Fetches b set of bttributes to use in the view for
+     * displbying.  This is bbsicblly b set of bttributes thbt
+     * cbn be used for View.getAttributes.
      *
-     * @param v a view
-     * @return the of attributes
+     * @pbrbm v b view
+     * @return the of bttributes
      */
     public AttributeSet getViewAttributes(View v) {
         return new ViewAttributeSet(v);
     }
 
     /**
-     * Removes a named style previously added to the document.
+     * Removes b nbmed style previously bdded to the document.
      *
-     * @param nm  the name of the style to remove
+     * @pbrbm nm  the nbme of the style to remove
      */
     public void removeStyle(String nm) {
-        Style       aStyle = getStyle(nm);
+        Style       bStyle = getStyle(nm);
 
-        if (aStyle != null) {
-            String selector = cleanSelectorString(nm);
+        if (bStyle != null) {
+            String selector = clebnSelectorString(nm);
             String[] selectors = getSimpleSelectors(selector);
             synchronized(this) {
-                SelectorMapping mapping = getRootSelectorMapping();
+                SelectorMbpping mbpping = getRootSelectorMbpping();
                 for (int i = selectors.length - 1; i >= 0; i--) {
-                    mapping = mapping.getChildSelectorMapping(selectors[i],
+                    mbpping = mbpping.getChildSelectorMbpping(selectors[i],
                                                               true);
                 }
-                Style rule = mapping.getStyle();
+                Style rule = mbpping.getStyle();
                 if (rule != null) {
-                    mapping.setStyle(null);
+                    mbpping.setStyle(null);
                     if (resolvedStyles.size() > 0) {
-                        Enumeration<ResolvedStyle> values = resolvedStyles.elements();
-                        while (values.hasMoreElements()) {
-                            ResolvedStyle style = values.nextElement();
+                        Enumerbtion<ResolvedStyle> vblues = resolvedStyles.elements();
+                        while (vblues.hbsMoreElements()) {
+                            ResolvedStyle style = vblues.nextElement();
                             style.removeStyle(rule);
                         }
                     }
@@ -398,20 +398,20 @@ public class StyleSheet extends StyleContext {
     /**
      * Adds the rules from the StyleSheet <code>ss</code> to those of
      * the receiver. <code>ss's</code> rules will override the rules of
-     * any previously added style sheets. An added StyleSheet will never
+     * bny previously bdded style sheets. An bdded StyleSheet will never
      * override the rules of the receiving style sheet.
      *
-     * @param ss a StyleSheet
+     * @pbrbm ss b StyleSheet
      * @since 1.3
      */
-    public void addStyleSheet(StyleSheet ss) {
+    public void bddStyleSheet(StyleSheet ss) {
         synchronized(this) {
             if (linkedStyleSheets == null) {
                 linkedStyleSheets = new Vector<StyleSheet>();
             }
-            if (!linkedStyleSheets.contains(ss)) {
+            if (!linkedStyleSheets.contbins(ss)) {
                 int index = 0;
-                if (ss instanceof javax.swing.plaf.UIResource
+                if (ss instbnceof jbvbx.swing.plbf.UIResource
                     && linkedStyleSheets.size() > 1) {
                     index = linkedStyleSheets.size() - 1;
                 }
@@ -424,7 +424,7 @@ public class StyleSheet extends StyleContext {
     /**
      * Removes the StyleSheet <code>ss</code> from those of the receiver.
      *
-     * @param ss a StyleSheet
+     * @pbrbm ss b StyleSheet
      * @since 1.3
      */
     public void removeStyleSheet(StyleSheet ss) {
@@ -447,202 +447,202 @@ public class StyleSheet extends StyleContext {
     //
 
     /**
-     * Returns an array of the linked StyleSheets. Will return null
-     * if there are no linked StyleSheets.
+     * Returns bn brrby of the linked StyleSheets. Will return null
+     * if there bre no linked StyleSheets.
      *
-     * @return an array of StyleSheets.
+     * @return bn brrby of StyleSheets.
      * @since 1.3
      */
     public StyleSheet[] getStyleSheets() {
-        StyleSheet[] retValue;
+        StyleSheet[] retVblue;
 
         synchronized(this) {
             if (linkedStyleSheets != null) {
-                retValue = new StyleSheet[linkedStyleSheets.size()];
-                linkedStyleSheets.copyInto(retValue);
+                retVblue = new StyleSheet[linkedStyleSheets.size()];
+                linkedStyleSheets.copyInto(retVblue);
             }
             else {
-                retValue = null;
+                retVblue = null;
             }
         }
-        return retValue;
+        return retVblue;
     }
 
     /**
-     * Imports a style sheet from <code>url</code>. The resulting rules
-     * are directly added to the receiver. If you do not want the rules
-     * to become part of the receiver, create a new StyleSheet and use
-     * addStyleSheet to link it in.
+     * Imports b style sheet from <code>url</code>. The resulting rules
+     * bre directly bdded to the receiver. If you do not wbnt the rules
+     * to become pbrt of the receiver, crebte b new StyleSheet bnd use
+     * bddStyleSheet to link it in.
      *
-     * @param url an url
+     * @pbrbm url bn url
      * @since 1.3
      */
     public void importStyleSheet(URL url) {
         try {
-            InputStream is;
+            InputStrebm is;
 
-            is = url.openStream();
-            Reader r = new BufferedReader(new InputStreamReader(is));
-            CssParser parser = new CssParser();
-            parser.parse(url, r, false, true);
+            is = url.openStrebm();
+            Rebder r = new BufferedRebder(new InputStrebmRebder(is));
+            CssPbrser pbrser = new CssPbrser();
+            pbrser.pbrse(url, r, fblse, true);
             r.close();
             is.close();
-        } catch (Throwable e) {
-            // on error we simply have no styles... the html
+        } cbtch (Throwbble e) {
+            // on error we simply hbve no styles... the html
             // will look mighty wrong but still function.
         }
     }
 
     /**
-     * Sets the base. All import statements that are relative, will be
-     * relative to <code>base</code>.
+     * Sets the bbse. All import stbtements thbt bre relbtive, will be
+     * relbtive to <code>bbse</code>.
      *
-     * @param base a base.
+     * @pbrbm bbse b bbse.
      * @since 1.3
      */
-    public void setBase(URL base) {
-        this.base = base;
+    public void setBbse(URL bbse) {
+        this.bbse = bbse;
     }
 
     /**
-     * Returns the base.
+     * Returns the bbse.
      *
-     * @return the base.
+     * @return the bbse.
      * @since 1.3
      */
-    public URL getBase() {
-        return base;
+    public URL getBbse() {
+        return bbse;
     }
 
     /**
-     * Adds a CSS attribute to the given set.
+     * Adds b CSS bttribute to the given set.
      *
-     * @param attr a set of attributes
-     * @param key a CSS property
-     * @param value an HTML attribute value
+     * @pbrbm bttr b set of bttributes
+     * @pbrbm key b CSS property
+     * @pbrbm vblue bn HTML bttribute vblue
      * @since 1.3
      */
-    public void addCSSAttribute(MutableAttributeSet attr, CSS.Attribute key,
-                                String value) {
-        css.addInternalCSSValue(attr, key, value);
+    public void bddCSSAttribute(MutbbleAttributeSet bttr, CSS.Attribute key,
+                                String vblue) {
+        css.bddInternblCSSVblue(bttr, key, vblue);
     }
 
     /**
-     * Adds a CSS attribute to the given set.
+     * Adds b CSS bttribute to the given set.
      *
-     * @param attr a set of attributes
-     * @param key a CSS property
-     * @param value an HTML attribute value
-     * @return {@code true} if an HTML attribute {@code value} can be converted
-     *         to a CSS attribute, false otherwise.
+     * @pbrbm bttr b set of bttributes
+     * @pbrbm key b CSS property
+     * @pbrbm vblue bn HTML bttribute vblue
+     * @return {@code true} if bn HTML bttribute {@code vblue} cbn be converted
+     *         to b CSS bttribute, fblse otherwise.
      * @since 1.3
      */
-    public boolean addCSSAttributeFromHTML(MutableAttributeSet attr,
-                                           CSS.Attribute key, String value) {
-        Object iValue = css.getCssValue(key, value);
-        if (iValue != null) {
-            attr.addAttribute(key, iValue);
+    public boolebn bddCSSAttributeFromHTML(MutbbleAttributeSet bttr,
+                                           CSS.Attribute key, String vblue) {
+        Object iVblue = css.getCssVblue(key, vblue);
+        if (iVblue != null) {
+            bttr.bddAttribute(key, iVblue);
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    // ---- Conversion functionality ---------------------------------
+    // ---- Conversion functionblity ---------------------------------
 
     /**
-     * Converts a set of HTML attributes to an equivalent
-     * set of CSS attributes.
+     * Converts b set of HTML bttributes to bn equivblent
+     * set of CSS bttributes.
      *
-     * @param htmlAttrSet AttributeSet containing the HTML attributes.
-     * @return the set of CSS attributes.
+     * @pbrbm htmlAttrSet AttributeSet contbining the HTML bttributes.
+     * @return the set of CSS bttributes.
      */
-    public AttributeSet translateHTMLToCSS(AttributeSet htmlAttrSet) {
-        AttributeSet cssAttrSet = css.translateHTMLToCSS(htmlAttrSet);
+    public AttributeSet trbnslbteHTMLToCSS(AttributeSet htmlAttrSet) {
+        AttributeSet cssAttrSet = css.trbnslbteHTMLToCSS(htmlAttrSet);
 
-        MutableAttributeSet cssStyleSet = addStyle(null, null);
-        cssStyleSet.addAttributes(cssAttrSet);
+        MutbbleAttributeSet cssStyleSet = bddStyle(null, null);
+        cssStyleSet.bddAttributes(cssAttrSet);
 
         return cssStyleSet;
     }
 
     /**
-     * Adds an attribute to the given set, and returns
-     * the new representative set.  This is reimplemented to
-     * convert StyleConstant attributes to CSS prior to forwarding
-     * to the superclass behavior.  The StyleConstants attribute
-     * has no corresponding CSS entry, the StyleConstants attribute
+     * Adds bn bttribute to the given set, bnd returns
+     * the new representbtive set.  This is reimplemented to
+     * convert StyleConstbnt bttributes to CSS prior to forwbrding
+     * to the superclbss behbvior.  The StyleConstbnts bttribute
+     * hbs no corresponding CSS entry, the StyleConstbnts bttribute
      * is stored (but will likely be unused).
      *
-     * @param old the old attribute set
-     * @param key the non-null attribute key
-     * @param value the attribute value
-     * @return the updated attribute set
-     * @see MutableAttributeSet#addAttribute
+     * @pbrbm old the old bttribute set
+     * @pbrbm key the non-null bttribute key
+     * @pbrbm vblue the bttribute vblue
+     * @return the updbted bttribute set
+     * @see MutbbleAttributeSet#bddAttribute
      */
-    public AttributeSet addAttribute(AttributeSet old, Object key,
-                                     Object value) {
+    public AttributeSet bddAttribute(AttributeSet old, Object key,
+                                     Object vblue) {
         if (css == null) {
-            // supers constructor will call this before returning,
-            // and we need to make sure CSS is non null.
+            // supers constructor will cbll this before returning,
+            // bnd we need to mbke sure CSS is non null.
             css = new CSS();
         }
-        if (key instanceof StyleConstants) {
-            HTML.Tag tag = HTML.getTagForStyleConstantsKey(
-                                (StyleConstants)key);
+        if (key instbnceof StyleConstbnts) {
+            HTML.Tbg tbg = HTML.getTbgForStyleConstbntsKey(
+                                (StyleConstbnts)key);
 
-            if (tag != null && old.isDefined(tag)) {
-                old = removeAttribute(old, tag);
+            if (tbg != null && old.isDefined(tbg)) {
+                old = removeAttribute(old, tbg);
             }
 
-            Object cssValue = css.styleConstantsValueToCSSValue
-                              ((StyleConstants)key, value);
-            if (cssValue != null) {
-                Object cssKey = css.styleConstantsKeyToCSSKey
-                                    ((StyleConstants)key);
+            Object cssVblue = css.styleConstbntsVblueToCSSVblue
+                              ((StyleConstbnts)key, vblue);
+            if (cssVblue != null) {
+                Object cssKey = css.styleConstbntsKeyToCSSKey
+                                    ((StyleConstbnts)key);
                 if (cssKey != null) {
-                    return super.addAttribute(old, cssKey, cssValue);
+                    return super.bddAttribute(old, cssKey, cssVblue);
                 }
             }
         }
-        return super.addAttribute(old, key, value);
+        return super.bddAttribute(old, key, vblue);
     }
 
     /**
-     * Adds a set of attributes to the element.  If any of these attributes
-     * are StyleConstants attributes, they will be converted to CSS prior
-     * to forwarding to the superclass behavior.
+     * Adds b set of bttributes to the element.  If bny of these bttributes
+     * bre StyleConstbnts bttributes, they will be converted to CSS prior
+     * to forwbrding to the superclbss behbvior.
      *
-     * @param old the old attribute set
-     * @param attr the attributes to add
-     * @return the updated attribute set
-     * @see MutableAttributeSet#addAttribute
+     * @pbrbm old the old bttribute set
+     * @pbrbm bttr the bttributes to bdd
+     * @return the updbted bttribute set
+     * @see MutbbleAttributeSet#bddAttribute
      */
-    public AttributeSet addAttributes(AttributeSet old, AttributeSet attr) {
-        if (!(attr instanceof HTMLDocument.TaggedAttributeSet)) {
-            old = removeHTMLTags(old, attr);
+    public AttributeSet bddAttributes(AttributeSet old, AttributeSet bttr) {
+        if (!(bttr instbnceof HTMLDocument.TbggedAttributeSet)) {
+            old = removeHTMLTbgs(old, bttr);
         }
-        return super.addAttributes(old, convertAttributeSet(attr));
+        return super.bddAttributes(old, convertAttributeSet(bttr));
     }
 
     /**
-     * Removes an attribute from the set.  If the attribute is a StyleConstants
-     * attribute, the request will be converted to a CSS attribute prior to
-     * forwarding to the superclass behavior.
+     * Removes bn bttribute from the set.  If the bttribute is b StyleConstbnts
+     * bttribute, the request will be converted to b CSS bttribute prior to
+     * forwbrding to the superclbss behbvior.
      *
-     * @param old the old set of attributes
-     * @param key the non-null attribute name
-     * @return the updated attribute set
-     * @see MutableAttributeSet#removeAttribute
+     * @pbrbm old the old set of bttributes
+     * @pbrbm key the non-null bttribute nbme
+     * @return the updbted bttribute set
+     * @see MutbbleAttributeSet#removeAttribute
      */
     public AttributeSet removeAttribute(AttributeSet old, Object key) {
-        if (key instanceof StyleConstants) {
-            HTML.Tag tag = HTML.getTagForStyleConstantsKey(
-                                   (StyleConstants)key);
-            if (tag != null) {
-                old = super.removeAttribute(old, tag);
+        if (key instbnceof StyleConstbnts) {
+            HTML.Tbg tbg = HTML.getTbgForStyleConstbntsKey(
+                                   (StyleConstbnts)key);
+            if (tbg != null) {
+                old = super.removeAttribute(old, tbg);
             }
 
-            Object cssKey = css.styleConstantsKeyToCSSKey((StyleConstants)key);
+            Object cssKey = css.styleConstbntsKeyToCSSKey((StyleConstbnts)key);
             if (cssKey != null) {
                 return super.removeAttribute(old, cssKey);
             }
@@ -651,87 +651,87 @@ public class StyleSheet extends StyleContext {
     }
 
     /**
-     * Removes a set of attributes for the element.  If any of the attributes
-     * is a StyleConstants attribute, the request will be converted to a CSS
-     * attribute prior to forwarding to the superclass behavior.
+     * Removes b set of bttributes for the element.  If bny of the bttributes
+     * is b StyleConstbnts bttribute, the request will be converted to b CSS
+     * bttribute prior to forwbrding to the superclbss behbvior.
      *
-     * @param old the old attribute set
-     * @param names the attribute names
-     * @return the updated attribute set
-     * @see MutableAttributeSet#removeAttributes
+     * @pbrbm old the old bttribute set
+     * @pbrbm nbmes the bttribute nbmes
+     * @return the updbted bttribute set
+     * @see MutbbleAttributeSet#removeAttributes
      */
-    public AttributeSet removeAttributes(AttributeSet old, Enumeration<?> names) {
-        // PENDING: Should really be doing something similar to
-        // removeHTMLTags here, but it is rather expensive to have to
-        // clone names
-        return super.removeAttributes(old, names);
+    public AttributeSet removeAttributes(AttributeSet old, Enumerbtion<?> nbmes) {
+        // PENDING: Should reblly be doing something similbr to
+        // removeHTMLTbgs here, but it is rbther expensive to hbve to
+        // clone nbmes
+        return super.removeAttributes(old, nbmes);
     }
 
     /**
-     * Removes a set of attributes. If any of the attributes
-     * is a StyleConstants attribute, the request will be converted to a CSS
-     * attribute prior to forwarding to the superclass behavior.
+     * Removes b set of bttributes. If bny of the bttributes
+     * is b StyleConstbnts bttribute, the request will be converted to b CSS
+     * bttribute prior to forwbrding to the superclbss behbvior.
      *
-     * @param old the old attribute set
-     * @param attrs the attributes
-     * @return the updated attribute set
-     * @see MutableAttributeSet#removeAttributes
+     * @pbrbm old the old bttribute set
+     * @pbrbm bttrs the bttributes
+     * @return the updbted bttribute set
+     * @see MutbbleAttributeSet#removeAttributes
      */
-    public AttributeSet removeAttributes(AttributeSet old, AttributeSet attrs) {
-        if (old != attrs) {
-            old = removeHTMLTags(old, attrs);
+    public AttributeSet removeAttributes(AttributeSet old, AttributeSet bttrs) {
+        if (old != bttrs) {
+            old = removeHTMLTbgs(old, bttrs);
         }
-        return super.removeAttributes(old, convertAttributeSet(attrs));
+        return super.removeAttributes(old, convertAttributeSet(bttrs));
     }
 
     /**
-     * Creates a compact set of attributes that might be shared.
-     * This is a hook for subclasses that want to alter the
-     * behavior of SmallAttributeSet.  This can be reimplemented
-     * to return an AttributeSet that provides some sort of
-     * attribute conversion.
+     * Crebtes b compbct set of bttributes thbt might be shbred.
+     * This is b hook for subclbsses thbt wbnt to blter the
+     * behbvior of SmbllAttributeSet.  This cbn be reimplemented
+     * to return bn AttributeSet thbt provides some sort of
+     * bttribute conversion.
      *
-     * @param a The set of attributes to be represented in the
-     *  the compact form.
+     * @pbrbm b The set of bttributes to be represented in the
+     *  the compbct form.
      */
-    protected SmallAttributeSet createSmallAttributeSet(AttributeSet a) {
-        return new SmallConversionSet(a);
+    protected SmbllAttributeSet crebteSmbllAttributeSet(AttributeSet b) {
+        return new SmbllConversionSet(b);
     }
 
     /**
-     * Creates a large set of attributes that should trade off
-     * space for time.  This set will not be shared.  This is
-     * a hook for subclasses that want to alter the behavior
-     * of the larger attribute storage format (which is
-     * SimpleAttributeSet by default).   This can be reimplemented
-     * to return a MutableAttributeSet that provides some sort of
-     * attribute conversion.
+     * Crebtes b lbrge set of bttributes thbt should trbde off
+     * spbce for time.  This set will not be shbred.  This is
+     * b hook for subclbsses thbt wbnt to blter the behbvior
+     * of the lbrger bttribute storbge formbt (which is
+     * SimpleAttributeSet by defbult).   This cbn be reimplemented
+     * to return b MutbbleAttributeSet thbt provides some sort of
+     * bttribute conversion.
      *
-     * @param a The set of attributes to be represented in the
-     *  the larger form.
+     * @pbrbm b The set of bttributes to be represented in the
+     *  the lbrger form.
      */
-    protected MutableAttributeSet createLargeAttributeSet(AttributeSet a) {
-        return new LargeConversionSet(a);
+    protected MutbbleAttributeSet crebteLbrgeAttributeSet(AttributeSet b) {
+        return new LbrgeConversionSet(b);
     }
 
     /**
-     * For any StyleConstants key in attr that has an associated HTML.Tag,
+     * For bny StyleConstbnts key in bttr thbt hbs bn bssocibted HTML.Tbg,
      * it is removed from old. The resulting AttributeSet is then returned.
      */
-    private AttributeSet removeHTMLTags(AttributeSet old, AttributeSet attr) {
-        if (!(attr instanceof LargeConversionSet) &&
-            !(attr instanceof SmallConversionSet)) {
-            Enumeration<?> names = attr.getAttributeNames();
+    privbte AttributeSet removeHTMLTbgs(AttributeSet old, AttributeSet bttr) {
+        if (!(bttr instbnceof LbrgeConversionSet) &&
+            !(bttr instbnceof SmbllConversionSet)) {
+            Enumerbtion<?> nbmes = bttr.getAttributeNbmes();
 
-            while (names.hasMoreElements()) {
-                Object key = names.nextElement();
+            while (nbmes.hbsMoreElements()) {
+                Object key = nbmes.nextElement();
 
-                if (key instanceof StyleConstants) {
-                    HTML.Tag tag = HTML.getTagForStyleConstantsKey(
-                        (StyleConstants)key);
+                if (key instbnceof StyleConstbnts) {
+                    HTML.Tbg tbg = HTML.getTbgForStyleConstbntsKey(
+                        (StyleConstbnts)key);
 
-                    if (tag != null && old.isDefined(tag)) {
-                        old = super.removeAttribute(old, tag);
+                    if (tbg != null && old.isDefined(tbg)) {
+                        old = super.removeAttribute(old, tbg);
                     }
                 }
             }
@@ -740,85 +740,85 @@ public class StyleSheet extends StyleContext {
     }
 
     /**
-     * Converts a set of attributes (if necessary) so that
-     * any attributes that were specified as StyleConstants
-     * attributes and have a CSS mapping, will be converted
-     * to CSS attributes.
+     * Converts b set of bttributes (if necessbry) so thbt
+     * bny bttributes thbt were specified bs StyleConstbnts
+     * bttributes bnd hbve b CSS mbpping, will be converted
+     * to CSS bttributes.
      */
-    AttributeSet convertAttributeSet(AttributeSet a) {
-        if ((a instanceof LargeConversionSet) ||
-            (a instanceof SmallConversionSet)) {
+    AttributeSet convertAttributeSet(AttributeSet b) {
+        if ((b instbnceof LbrgeConversionSet) ||
+            (b instbnceof SmbllConversionSet)) {
             // known to be converted.
-            return a;
+            return b;
         }
-        // in most cases, there are no StyleConstants attributes
-        // so we iterate the collection of keys to avoid creating
-        // a new set.
-        Enumeration<?> names = a.getAttributeNames();
-        while (names.hasMoreElements()) {
-            Object name = names.nextElement();
-            if (name instanceof StyleConstants) {
-                // we really need to do a conversion, iterate again
-                // building a new set.
-                MutableAttributeSet converted = new LargeConversionSet();
-                Enumeration<?> keys = a.getAttributeNames();
-                while (keys.hasMoreElements()) {
+        // in most cbses, there bre no StyleConstbnts bttributes
+        // so we iterbte the collection of keys to bvoid crebting
+        // b new set.
+        Enumerbtion<?> nbmes = b.getAttributeNbmes();
+        while (nbmes.hbsMoreElements()) {
+            Object nbme = nbmes.nextElement();
+            if (nbme instbnceof StyleConstbnts) {
+                // we reblly need to do b conversion, iterbte bgbin
+                // building b new set.
+                MutbbleAttributeSet converted = new LbrgeConversionSet();
+                Enumerbtion<?> keys = b.getAttributeNbmes();
+                while (keys.hbsMoreElements()) {
                     Object key = keys.nextElement();
-                    Object cssValue = null;
-                    if (key instanceof StyleConstants) {
-                        // convert the StyleConstants attribute if possible
-                        Object cssKey = css.styleConstantsKeyToCSSKey
-                                            ((StyleConstants)key);
+                    Object cssVblue = null;
+                    if (key instbnceof StyleConstbnts) {
+                        // convert the StyleConstbnts bttribute if possible
+                        Object cssKey = css.styleConstbntsKeyToCSSKey
+                                            ((StyleConstbnts)key);
                         if (cssKey != null) {
-                            Object value = a.getAttribute(key);
-                            cssValue = css.styleConstantsValueToCSSValue
-                                           ((StyleConstants)key, value);
-                            if (cssValue != null) {
-                                converted.addAttribute(cssKey, cssValue);
+                            Object vblue = b.getAttribute(key);
+                            cssVblue = css.styleConstbntsVblueToCSSVblue
+                                           ((StyleConstbnts)key, vblue);
+                            if (cssVblue != null) {
+                                converted.bddAttribute(cssKey, cssVblue);
                             }
                         }
                     }
-                    if (cssValue == null) {
-                        converted.addAttribute(key, a.getAttribute(key));
+                    if (cssVblue == null) {
+                        converted.bddAttribute(key, b.getAttribute(key));
                     }
                 }
                 return converted;
             }
         }
-        return a;
+        return b;
     }
 
     /**
-     * Large set of attributes that does conversion of requests
-     * for attributes of type StyleConstants.
+     * Lbrge set of bttributes thbt does conversion of requests
+     * for bttributes of type StyleConstbnts.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class LargeConversionSet extends SimpleAttributeSet {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss LbrgeConversionSet extends SimpleAttributeSet {
 
         /**
-         * Creates a new attribute set based on a supplied set of attributes.
+         * Crebtes b new bttribute set bbsed on b supplied set of bttributes.
          *
-         * @param source the set of attributes
+         * @pbrbm source the set of bttributes
          */
-        public LargeConversionSet(AttributeSet source) {
+        public LbrgeConversionSet(AttributeSet source) {
             super(source);
         }
 
-        public LargeConversionSet() {
+        public LbrgeConversionSet() {
             super();
         }
 
         /**
-         * Checks whether a given attribute is defined.
+         * Checks whether b given bttribute is defined.
          *
-         * @param key the attribute key
-         * @return true if the attribute is defined
+         * @pbrbm key the bttribute key
+         * @return true if the bttribute is defined
          * @see AttributeSet#isDefined
          */
-        public boolean isDefined(Object key) {
-            if (key instanceof StyleConstants) {
-                Object cssKey = css.styleConstantsKeyToCSSKey
-                                    ((StyleConstants)key);
+        public boolebn isDefined(Object key) {
+            if (key instbnceof StyleConstbnts) {
+                Object cssKey = css.styleConstbntsKeyToCSSKey
+                                    ((StyleConstbnts)key);
                 if (cssKey != null) {
                     return super.isDefined(cssKey);
                 }
@@ -827,21 +827,21 @@ public class StyleSheet extends StyleContext {
         }
 
         /**
-         * Gets the value of an attribute.
+         * Gets the vblue of bn bttribute.
          *
-         * @param key the attribute name
-         * @return the attribute value
+         * @pbrbm key the bttribute nbme
+         * @return the bttribute vblue
          * @see AttributeSet#getAttribute
          */
         public Object getAttribute(Object key) {
-            if (key instanceof StyleConstants) {
-                Object cssKey = css.styleConstantsKeyToCSSKey
-                                    ((StyleConstants)key);
+            if (key instbnceof StyleConstbnts) {
+                Object cssKey = css.styleConstbntsKeyToCSSKey
+                                    ((StyleConstbnts)key);
                 if (cssKey != null) {
-                    Object value = super.getAttribute(cssKey);
-                    if (value != null) {
-                        return css.cssValueToStyleConstantsValue
-                                           ((StyleConstants)key, value);
+                    Object vblue = super.getAttribute(cssKey);
+                    if (vblue != null) {
+                        return css.cssVblueToStyleConstbntsVblue
+                                           ((StyleConstbnts)key, vblue);
                     }
                 }
             }
@@ -850,31 +850,31 @@ public class StyleSheet extends StyleContext {
     }
 
     /**
-     * Small set of attributes that does conversion of requests
-     * for attributes of type StyleConstants.
+     * Smbll set of bttributes thbt does conversion of requests
+     * for bttributes of type StyleConstbnts.
      */
-    class SmallConversionSet extends SmallAttributeSet {
+    clbss SmbllConversionSet extends SmbllAttributeSet {
 
         /**
-         * Creates a new attribute set based on a supplied set of attributes.
+         * Crebtes b new bttribute set bbsed on b supplied set of bttributes.
          *
-         * @param attrs the set of attributes
+         * @pbrbm bttrs the set of bttributes
          */
-        public SmallConversionSet(AttributeSet attrs) {
-            super(attrs);
+        public SmbllConversionSet(AttributeSet bttrs) {
+            super(bttrs);
         }
 
         /**
-         * Checks whether a given attribute is defined.
+         * Checks whether b given bttribute is defined.
          *
-         * @param key the attribute key
-         * @return true if the attribute is defined
+         * @pbrbm key the bttribute key
+         * @return true if the bttribute is defined
          * @see AttributeSet#isDefined
          */
-        public boolean isDefined(Object key) {
-            if (key instanceof StyleConstants) {
-                Object cssKey = css.styleConstantsKeyToCSSKey
-                                    ((StyleConstants)key);
+        public boolebn isDefined(Object key) {
+            if (key instbnceof StyleConstbnts) {
+                Object cssKey = css.styleConstbntsKeyToCSSKey
+                                    ((StyleConstbnts)key);
                 if (cssKey != null) {
                     return super.isDefined(cssKey);
                 }
@@ -883,21 +883,21 @@ public class StyleSheet extends StyleContext {
         }
 
         /**
-         * Gets the value of an attribute.
+         * Gets the vblue of bn bttribute.
          *
-         * @param key the attribute name
-         * @return the attribute value
+         * @pbrbm key the bttribute nbme
+         * @return the bttribute vblue
          * @see AttributeSet#getAttribute
          */
         public Object getAttribute(Object key) {
-            if (key instanceof StyleConstants) {
-                Object cssKey = css.styleConstantsKeyToCSSKey
-                                    ((StyleConstants)key);
+            if (key instbnceof StyleConstbnts) {
+                Object cssKey = css.styleConstbntsKeyToCSSKey
+                                    ((StyleConstbnts)key);
                 if (cssKey != null) {
-                    Object value = super.getAttribute(cssKey);
-                    if (value != null) {
-                        return css.cssValueToStyleConstantsValue
-                                           ((StyleConstants)key, value);
+                    Object vblue = super.getAttribute(cssKey);
+                    if (vblue != null) {
+                        return css.cssVblueToStyleConstbntsVblue
+                                           ((StyleConstbnts)key, vblue);
                     }
                 }
             }
@@ -905,124 +905,124 @@ public class StyleSheet extends StyleContext {
         }
     }
 
-    // ---- Resource handling ----------------------------------------
+    // ---- Resource hbndling ----------------------------------------
 
     /**
-     * Fetches the font to use for the given set of attributes.
+     * Fetches the font to use for the given set of bttributes.
      */
-    public Font getFont(AttributeSet a) {
-        return css.getFont(this, a, 12, this);
+    public Font getFont(AttributeSet b) {
+        return css.getFont(this, b, 12, this);
     }
 
     /**
-     * Takes a set of attributes and turn it into a foreground color
-     * specification.  This might be used to specify things
+     * Tbkes b set of bttributes bnd turn it into b foreground color
+     * specificbtion.  This might be used to specify things
      * like brighter, more hue, etc.
      *
-     * @param a the set of attributes
+     * @pbrbm b the set of bttributes
      * @return the color
      */
-    public Color getForeground(AttributeSet a) {
-        Color c = css.getColor(a, CSS.Attribute.COLOR);
+    public Color getForeground(AttributeSet b) {
+        Color c = css.getColor(b, CSS.Attribute.COLOR);
         if (c == null) {
-            return Color.black;
+            return Color.blbck;
         }
         return c;
     }
 
     /**
-     * Takes a set of attributes and turn it into a background color
-     * specification.  This might be used to specify things
+     * Tbkes b set of bttributes bnd turn it into b bbckground color
+     * specificbtion.  This might be used to specify things
      * like brighter, more hue, etc.
      *
-     * @param a the set of attributes
+     * @pbrbm b the set of bttributes
      * @return the color
      */
-    public Color getBackground(AttributeSet a) {
-        return css.getColor(a, CSS.Attribute.BACKGROUND_COLOR);
+    public Color getBbckground(AttributeSet b) {
+        return css.getColor(b, CSS.Attribute.BACKGROUND_COLOR);
     }
 
     /**
-     * Fetches the box formatter to use for the given set
-     * of CSS attributes.
+     * Fetches the box formbtter to use for the given set
+     * of CSS bttributes.
      *
-     * @param a a set of CSS attributes
-     * @return the box formatter.
+     * @pbrbm b b set of CSS bttributes
+     * @return the box formbtter.
      */
-    public BoxPainter getBoxPainter(AttributeSet a) {
-        return new BoxPainter(a, css, this);
+    public BoxPbinter getBoxPbinter(AttributeSet b) {
+        return new BoxPbinter(b, css, this);
     }
 
     /**
-     * Fetches the list formatter to use for the given set
-     * of CSS attributes.
+     * Fetches the list formbtter to use for the given set
+     * of CSS bttributes.
      *
-     * @param a a set of CSS attributes
-     * @return the list formatter.
+     * @pbrbm b b set of CSS bttributes
+     * @return the list formbtter.
      */
-    public ListPainter getListPainter(AttributeSet a) {
-        return new ListPainter(a, this);
+    public ListPbinter getListPbinter(AttributeSet b) {
+        return new ListPbinter(b, this);
     }
 
     /**
-     * Sets the base font size, with valid values between 1 and 7.
+     * Sets the bbse font size, with vblid vblues between 1 bnd 7.
      *
-     * @param sz a font size.
+     * @pbrbm sz b font size.
      */
-    public void setBaseFontSize(int sz) {
-        css.setBaseFontSize(sz);
+    public void setBbseFontSize(int sz) {
+        css.setBbseFontSize(sz);
     }
 
     /**
-     * Sets the base font size from the passed in String. The string
-     * can either identify a specific font size, with legal values between
-     * 1 and 7, or identify a relative font size such as +1 or -2.
+     * Sets the bbse font size from the pbssed in String. The string
+     * cbn either identify b specific font size, with legbl vblues between
+     * 1 bnd 7, or identify b relbtive font size such bs +1 or -2.
      *
-     * @param size a font size.
+     * @pbrbm size b font size.
      */
-    public void setBaseFontSize(String size) {
-        css.setBaseFontSize(size);
+    public void setBbseFontSize(String size) {
+        css.setBbseFontSize(size);
     }
 
     /**
      *
      * Returns the index of HTML/CSS size model.
      *
-     * @param pt a size of point
+     * @pbrbm pt b size of point
      * @return the index of HTML/CSS size model.
      */
-    public static int getIndexOfSize(float pt) {
-        return CSS.getIndexOfSize(pt, sizeMapDefault);
+    public stbtic int getIndexOfSize(flobt pt) {
+        return CSS.getIndexOfSize(pt, sizeMbpDefbult);
     }
 
     /**
-     * Returns the point size, given a size index.
+     * Returns the point size, given b size index.
      *
-     * @param index a size index
-     * @return the point size value.
+     * @pbrbm index b size index
+     * @return the point size vblue.
      */
-    public float getPointSize(int index) {
+    public flobt getPointSize(int index) {
         return css.getPointSize(index, this);
     }
 
     /**
-     *  Given a string such as "+2", "-2", or "2",
-     *  returns a point size value.
+     *  Given b string such bs "+2", "-2", or "2",
+     *  returns b point size vblue.
      *
-     * @param size a CSS string describing font size
-     * @return the point size value.
+     * @pbrbm size b CSS string describing font size
+     * @return the point size vblue.
      */
-    public float getPointSize(String size) {
+    public flobt getPointSize(String size) {
         return css.getPointSize(size, this);
     }
 
     /**
-     * Converts a color string such as "RED" or "#NNNNNN" to a Color.
+     * Converts b color string such bs "RED" or "#NNNNNN" to b Color.
      * Note: This will only convert the HTML3.2 color strings
-     *       or a string of length 7;
+     *       or b string of length 7;
      *       otherwise, it will return null.
      *
-     * @param string color string such as "RED" or "#NNNNNN"
+     * @pbrbm string color string such bs "RED" or "#NNNNNN"
      * @return the color
      */
     public Color stringToColor(String string) {
@@ -1030,81 +1030,81 @@ public class StyleSheet extends StyleContext {
     }
 
     /**
-     * Returns the ImageIcon to draw in the background for
-     * <code>attr</code>.
+     * Returns the ImbgeIcon to drbw in the bbckground for
+     * <code>bttr</code>.
      */
-    ImageIcon getBackgroundImage(AttributeSet attr) {
-        Object value = attr.getAttribute(CSS.Attribute.BACKGROUND_IMAGE);
+    ImbgeIcon getBbckgroundImbge(AttributeSet bttr) {
+        Object vblue = bttr.getAttribute(CSS.Attribute.BACKGROUND_IMAGE);
 
-        if (value != null) {
-            return ((CSS.BackgroundImage)value).getImage(getBase());
+        if (vblue != null) {
+            return ((CSS.BbckgroundImbge)vblue).getImbge(getBbse());
         }
         return null;
     }
 
     /**
-     * Adds a rule into the StyleSheet.
+     * Adds b rule into the StyleSheet.
      *
-     * @param selector the selector to use for the rule.
-     *  This will be a set of simple selectors, and must
-     *  be a length of 1 or greater.
-     * @param declaration the set of CSS attributes that
-     *  make up the rule.
+     * @pbrbm selector the selector to use for the rule.
+     *  This will be b set of simple selectors, bnd must
+     *  be b length of 1 or grebter.
+     * @pbrbm declbrbtion the set of CSS bttributes thbt
+     *  mbke up the rule.
      */
-    void addRule(String[] selector, AttributeSet declaration,
-                 boolean isLinked) {
+    void bddRule(String[] selector, AttributeSet declbrbtion,
+                 boolebn isLinked) {
         int n = selector.length;
         StringBuilder sb = new StringBuilder();
-        sb.append(selector[0]);
+        sb.bppend(selector[0]);
         for (int counter = 1; counter < n; counter++) {
-            sb.append(' ');
-            sb.append(selector[counter]);
+            sb.bppend(' ');
+            sb.bppend(selector[counter]);
         }
-        String selectorName = sb.toString();
-        Style rule = getStyle(selectorName);
+        String selectorNbme = sb.toString();
+        Style rule = getStyle(selectorNbme);
         if (rule == null) {
-            // Notice how the rule is first created, and it not part of
-            // the synchronized block. It is done like this as creating
-            // a new rule will fire a ChangeEvent. We do not want to be
-            // holding the lock when calling to other objects, it can
-            // result in deadlock.
-            Style altRule = addStyle(selectorName, null);
+            // Notice how the rule is first crebted, bnd it not pbrt of
+            // the synchronized block. It is done like this bs crebting
+            // b new rule will fire b ChbngeEvent. We do not wbnt to be
+            // holding the lock when cblling to other objects, it cbn
+            // result in debdlock.
+            Style bltRule = bddStyle(selectorNbme, null);
             synchronized(this) {
-                SelectorMapping mapping = getRootSelectorMapping();
+                SelectorMbpping mbpping = getRootSelectorMbpping();
                 for (int i = n - 1; i >= 0; i--) {
-                    mapping = mapping.getChildSelectorMapping
+                    mbpping = mbpping.getChildSelectorMbpping
                                       (selector[i], true);
                 }
-                rule = mapping.getStyle();
+                rule = mbpping.getStyle();
                 if (rule == null) {
-                    rule = altRule;
-                    mapping.setStyle(rule);
-                    refreshResolvedRules(selectorName, selector, rule,
-                                         mapping.getSpecificity());
+                    rule = bltRule;
+                    mbpping.setStyle(rule);
+                    refreshResolvedRules(selectorNbme, selector, rule,
+                                         mbpping.getSpecificity());
                 }
             }
         }
         if (isLinked) {
             rule = getLinkedStyle(rule);
         }
-        rule.addAttributes(declaration);
+        rule.bddAttributes(declbrbtion);
     }
 
     //
-    // The following gaggle of methods is used in maintaining the rules from
+    // The following gbggle of methods is used in mbintbining the rules from
     // the sheet.
     //
 
     /**
-     * Updates the attributes of the rules to reference any related
+     * Updbtes the bttributes of the rules to reference bny relbted
      * rules in <code>ss</code>.
      */
-    private synchronized void linkStyleSheetAt(StyleSheet ss, int index) {
+    privbte synchronized void linkStyleSheetAt(StyleSheet ss, int index) {
         if (resolvedStyles.size() > 0) {
-            Enumeration<ResolvedStyle> values = resolvedStyles.elements();
-            while (values.hasMoreElements()) {
-                ResolvedStyle rule = values.nextElement();
-                rule.insertExtendedStyleAt(ss.getRule(rule.getName()),
+            Enumerbtion<ResolvedStyle> vblues = resolvedStyles.elements();
+            while (vblues.hbsMoreElements()) {
+                ResolvedStyle rule = vblues.nextElement();
+                rule.insertExtendedStyleAt(ss.getRule(rule.getNbme()),
                                            index);
             }
         }
@@ -1112,174 +1112,174 @@ public class StyleSheet extends StyleContext {
 
     /**
      * Removes references to the rules in <code>ss</code>.
-     * <code>index</code> gives the index the StyleSheet was at, that is
-     * how many StyleSheets had been added before it.
+     * <code>index</code> gives the index the StyleSheet wbs bt, thbt is
+     * how mbny StyleSheets hbd been bdded before it.
      */
-    private synchronized void unlinkStyleSheet(StyleSheet ss, int index) {
+    privbte synchronized void unlinkStyleSheet(StyleSheet ss, int index) {
         if (resolvedStyles.size() > 0) {
-            Enumeration<ResolvedStyle> values = resolvedStyles.elements();
-            while (values.hasMoreElements()) {
-                ResolvedStyle rule = values.nextElement();
+            Enumerbtion<ResolvedStyle> vblues = resolvedStyles.elements();
+            while (vblues.hbsMoreElements()) {
+                ResolvedStyle rule = vblues.nextElement();
                 rule.removeExtendedStyleAt(index);
             }
         }
     }
 
     /**
-     * Returns the simple selectors that comprise selector.
+     * Returns the simple selectors thbt comprise selector.
      */
     /* protected */
     String[] getSimpleSelectors(String selector) {
-        selector = cleanSelectorString(selector);
-        SearchBuffer sb = SearchBuffer.obtainSearchBuffer();
-        @SuppressWarnings("unchecked")
+        selector = clebnSelectorString(selector);
+        SebrchBuffer sb = SebrchBuffer.obtbinSebrchBuffer();
+        @SuppressWbrnings("unchecked")
         Vector<String> selectors = sb.getVector();
-        int lastIndex = 0;
+        int lbstIndex = 0;
         int length = selector.length();
-        while (lastIndex != -1) {
-            int newIndex = selector.indexOf(' ', lastIndex);
+        while (lbstIndex != -1) {
+            int newIndex = selector.indexOf(' ', lbstIndex);
             if (newIndex != -1) {
-                selectors.addElement(selector.substring(lastIndex, newIndex));
+                selectors.bddElement(selector.substring(lbstIndex, newIndex));
                 if (++newIndex == length) {
-                    lastIndex = -1;
+                    lbstIndex = -1;
                 }
                 else {
-                    lastIndex = newIndex;
+                    lbstIndex = newIndex;
                 }
             }
             else {
-                selectors.addElement(selector.substring(lastIndex));
-                lastIndex = -1;
+                selectors.bddElement(selector.substring(lbstIndex));
+                lbstIndex = -1;
             }
         }
-        String[] retValue = new String[selectors.size()];
-        selectors.copyInto(retValue);
-        SearchBuffer.releaseSearchBuffer(sb);
-        return retValue;
+        String[] retVblue = new String[selectors.size()];
+        selectors.copyInto(retVblue);
+        SebrchBuffer.relebseSebrchBuffer(sb);
+        return retVblue;
     }
 
     /**
-     * Returns a string that only has one space between simple selectors,
-     * which may be the passed in String.
+     * Returns b string thbt only hbs one spbce between simple selectors,
+     * which mby be the pbssed in String.
      */
-    /*protected*/ String cleanSelectorString(String selector) {
-        boolean lastWasSpace = true;
-        for (int counter = 0, maxCounter = selector.length();
-             counter < maxCounter; counter++) {
-            switch(selector.charAt(counter)) {
-            case ' ':
-                if (lastWasSpace) {
-                    return _cleanSelectorString(selector);
+    /*protected*/ String clebnSelectorString(String selector) {
+        boolebn lbstWbsSpbce = true;
+        for (int counter = 0, mbxCounter = selector.length();
+             counter < mbxCounter; counter++) {
+            switch(selector.chbrAt(counter)) {
+            cbse ' ':
+                if (lbstWbsSpbce) {
+                    return _clebnSelectorString(selector);
                 }
-                lastWasSpace = true;
-                break;
-            case '\n':
-            case '\r':
-            case '\t':
-                return _cleanSelectorString(selector);
-            default:
-                lastWasSpace = false;
+                lbstWbsSpbce = true;
+                brebk;
+            cbse '\n':
+            cbse '\r':
+            cbse '\t':
+                return _clebnSelectorString(selector);
+            defbult:
+                lbstWbsSpbce = fblse;
             }
         }
-        if (lastWasSpace) {
-            return _cleanSelectorString(selector);
+        if (lbstWbsSpbce) {
+            return _clebnSelectorString(selector);
         }
-        // It was fine.
+        // It wbs fine.
         return selector;
     }
 
     /**
-     * Returns a new String that contains only one space between non
-     * white space characters.
+     * Returns b new String thbt contbins only one spbce between non
+     * white spbce chbrbcters.
      */
-    private String _cleanSelectorString(String selector) {
-        SearchBuffer sb = SearchBuffer.obtainSearchBuffer();
+    privbte String _clebnSelectorString(String selector) {
+        SebrchBuffer sb = SebrchBuffer.obtbinSebrchBuffer();
         StringBuffer buff = sb.getStringBuffer();
-        boolean lastWasSpace = true;
-        int lastIndex = 0;
-        char[] chars = selector.toCharArray();
-        int numChars = chars.length;
-        String retValue = null;
+        boolebn lbstWbsSpbce = true;
+        int lbstIndex = 0;
+        chbr[] chbrs = selector.toChbrArrby();
+        int numChbrs = chbrs.length;
+        String retVblue = null;
         try {
-            for (int counter = 0; counter < numChars; counter++) {
-                switch(chars[counter]) {
-                case ' ':
-                    if (!lastWasSpace) {
-                        lastWasSpace = true;
-                        if (lastIndex < counter) {
-                            buff.append(chars, lastIndex,
-                                        1 + counter - lastIndex);
+            for (int counter = 0; counter < numChbrs; counter++) {
+                switch(chbrs[counter]) {
+                cbse ' ':
+                    if (!lbstWbsSpbce) {
+                        lbstWbsSpbce = true;
+                        if (lbstIndex < counter) {
+                            buff.bppend(chbrs, lbstIndex,
+                                        1 + counter - lbstIndex);
                         }
                     }
-                    lastIndex = counter + 1;
-                    break;
-                case '\n':
-                case '\r':
-                case '\t':
-                    if (!lastWasSpace) {
-                        lastWasSpace = true;
-                        if (lastIndex < counter) {
-                            buff.append(chars, lastIndex,
-                                        counter - lastIndex);
-                            buff.append(' ');
+                    lbstIndex = counter + 1;
+                    brebk;
+                cbse '\n':
+                cbse '\r':
+                cbse '\t':
+                    if (!lbstWbsSpbce) {
+                        lbstWbsSpbce = true;
+                        if (lbstIndex < counter) {
+                            buff.bppend(chbrs, lbstIndex,
+                                        counter - lbstIndex);
+                            buff.bppend(' ');
                         }
                     }
-                    lastIndex = counter + 1;
-                    break;
-                default:
-                    lastWasSpace = false;
-                    break;
+                    lbstIndex = counter + 1;
+                    brebk;
+                defbult:
+                    lbstWbsSpbce = fblse;
+                    brebk;
                 }
             }
-            if (lastWasSpace && buff.length() > 0) {
-                // Remove last space.
+            if (lbstWbsSpbce && buff.length() > 0) {
+                // Remove lbst spbce.
                 buff.setLength(buff.length() - 1);
             }
-            else if (lastIndex < numChars) {
-                buff.append(chars, lastIndex, numChars - lastIndex);
+            else if (lbstIndex < numChbrs) {
+                buff.bppend(chbrs, lbstIndex, numChbrs - lbstIndex);
             }
-            retValue = buff.toString();
+            retVblue = buff.toString();
         }
-        finally {
-            SearchBuffer.releaseSearchBuffer(sb);
+        finblly {
+            SebrchBuffer.relebseSebrchBuffer(sb);
         }
-        return retValue;
+        return retVblue;
     }
 
     /**
-     * Returns the root selector mapping that all selectors are relative
-     * to. This is an inverted graph of the selectors.
+     * Returns the root selector mbpping thbt bll selectors bre relbtive
+     * to. This is bn inverted grbph of the selectors.
      */
-    private SelectorMapping getRootSelectorMapping() {
-        return selectorMapping;
+    privbte SelectorMbpping getRootSelectorMbpping() {
+        return selectorMbpping;
     }
 
     /**
-     * Returns the specificity of the passed in String. It assumes the
-     * passed in string doesn't contain junk, that is each selector is
-     * separated by a space and each selector at most contains one . or one
-     * #. A simple selector has a weight of 1, an id selector has a weight
-     * of 100, and a class selector has a weight of 10000.
+     * Returns the specificity of the pbssed in String. It bssumes the
+     * pbssed in string doesn't contbin junk, thbt is ebch selector is
+     * sepbrbted by b spbce bnd ebch selector bt most contbins one . or one
+     * #. A simple selector hbs b weight of 1, bn id selector hbs b weight
+     * of 100, bnd b clbss selector hbs b weight of 10000.
      */
-    /*protected*/ static int getSpecificity(String selector) {
+    /*protected*/ stbtic int getSpecificity(String selector) {
         int specificity = 0;
-        boolean lastWasSpace = true;
+        boolebn lbstWbsSpbce = true;
 
-        for (int counter = 0, maxCounter = selector.length();
-             counter < maxCounter; counter++) {
-            switch(selector.charAt(counter)) {
-            case '.':
+        for (int counter = 0, mbxCounter = selector.length();
+             counter < mbxCounter; counter++) {
+            switch(selector.chbrAt(counter)) {
+            cbse '.':
                 specificity += 100;
-                break;
-            case '#':
+                brebk;
+            cbse '#':
                 specificity += 10000;
-                break;
-            case ' ':
-                lastWasSpace = true;
-                break;
-            default:
-                if (lastWasSpace) {
-                    lastWasSpace = false;
+                brebk;
+            cbse ' ':
+                lbstWbsSpbce = true;
+                brebk;
+            defbult:
+                if (lbstWbsSpbce) {
+                    lbstWbsSpbce = fblse;
                     specificity += 1;
                 }
             }
@@ -1288,127 +1288,127 @@ public class StyleSheet extends StyleContext {
     }
 
     /**
-     * Returns the style that linked attributes should be added to. This
-     * will create the style if necessary.
+     * Returns the style thbt linked bttributes should be bdded to. This
+     * will crebte the style if necessbry.
      */
-    private Style getLinkedStyle(Style localStyle) {
-        // NOTE: This is not synchronized, and the caller of this does
-        // not synchronize. There is the chance for one of the callers to
-        // overwrite the existing resolved parent, but it is quite rare.
-        // The reason this is left like this is because setResolveParent
-        // will fire a ChangeEvent. It is really, REALLY bad for us to
-        // hold a lock when calling outside of us, it may cause a deadlock.
-        Style retStyle = (Style)localStyle.getResolveParent();
+    privbte Style getLinkedStyle(Style locblStyle) {
+        // NOTE: This is not synchronized, bnd the cbller of this does
+        // not synchronize. There is the chbnce for one of the cbllers to
+        // overwrite the existing resolved pbrent, but it is quite rbre.
+        // The rebson this is left like this is becbuse setResolvePbrent
+        // will fire b ChbngeEvent. It is reblly, REALLY bbd for us to
+        // hold b lock when cblling outside of us, it mby cbuse b debdlock.
+        Style retStyle = (Style)locblStyle.getResolvePbrent();
         if (retStyle == null) {
-            retStyle = addStyle(null, null);
-            localStyle.setResolveParent(retStyle);
+            retStyle = bddStyle(null, null);
+            locblStyle.setResolvePbrent(retStyle);
         }
         return retStyle;
     }
 
     /**
      * Returns the resolved style for <code>selector</code>. This will
-     * create the resolved style, if necessary.
+     * crebte the resolved style, if necessbry.
      */
-    private synchronized Style getResolvedStyle(String selector,
+    privbte synchronized Style getResolvedStyle(String selector,
                                                 Vector<Element> elements,
-                                                HTML.Tag t) {
+                                                HTML.Tbg t) {
         Style retStyle = resolvedStyles.get(selector);
         if (retStyle == null) {
-            retStyle = createResolvedStyle(selector, elements, t);
+            retStyle = crebteResolvedStyle(selector, elements, t);
         }
         return retStyle;
     }
 
     /**
      * Returns the resolved style for <code>selector</code>. This will
-     * create the resolved style, if necessary.
+     * crebte the resolved style, if necessbry.
      */
-    private synchronized Style getResolvedStyle(String selector) {
+    privbte synchronized Style getResolvedStyle(String selector) {
         Style retStyle = resolvedStyles.get(selector);
         if (retStyle == null) {
-            retStyle = createResolvedStyle(selector);
+            retStyle = crebteResolvedStyle(selector);
         }
         return retStyle;
     }
 
     /**
-     * Adds <code>mapping</code> to <code>elements</code>. It is added
-     * such that <code>elements</code> will remain ordered by
+     * Adds <code>mbpping</code> to <code>elements</code>. It is bdded
+     * such thbt <code>elements</code> will rembin ordered by
      * specificity.
      */
-    private void addSortedStyle(SelectorMapping mapping, Vector<SelectorMapping> elements) {
+    privbte void bddSortedStyle(SelectorMbpping mbpping, Vector<SelectorMbpping> elements) {
         int       size = elements.size();
 
         if (size > 0) {
-            int     specificity = mapping.getSpecificity();
+            int     specificity = mbpping.getSpecificity();
 
             for (int counter = 0; counter < size; counter++) {
                 if (specificity >= elements.elementAt(counter).getSpecificity()) {
-                    elements.insertElementAt(mapping, counter);
+                    elements.insertElementAt(mbpping, counter);
                     return;
                 }
             }
         }
-        elements.addElement(mapping);
+        elements.bddElement(mbpping);
     }
 
     /**
-     * Adds <code>parentMapping</code> to <code>styles</code>, and
-     * recursively calls this method if <code>parentMapping</code> has
-     * any child mappings for any of the Elements in <code>elements</code>.
+     * Adds <code>pbrentMbpping</code> to <code>styles</code>, bnd
+     * recursively cblls this method if <code>pbrentMbpping</code> hbs
+     * bny child mbppings for bny of the Elements in <code>elements</code>.
      */
-    private synchronized void getStyles(SelectorMapping parentMapping,
-                           Vector<SelectorMapping> styles,
-                           String[] tags, String[] ids, String[] classes,
+    privbte synchronized void getStyles(SelectorMbpping pbrentMbpping,
+                           Vector<SelectorMbpping> styles,
+                           String[] tbgs, String[] ids, String[] clbsses,
                            int index, int numElements,
-                           Hashtable<SelectorMapping, SelectorMapping> alreadyChecked) {
-        // Avoid desending the same mapping twice.
-        if (alreadyChecked.contains(parentMapping)) {
+                           Hbshtbble<SelectorMbpping, SelectorMbpping> blrebdyChecked) {
+        // Avoid desending the sbme mbpping twice.
+        if (blrebdyChecked.contbins(pbrentMbpping)) {
             return;
         }
-        alreadyChecked.put(parentMapping, parentMapping);
-        Style style = parentMapping.getStyle();
+        blrebdyChecked.put(pbrentMbpping, pbrentMbpping);
+        Style style = pbrentMbpping.getStyle();
         if (style != null) {
-            addSortedStyle(parentMapping, styles);
+            bddSortedStyle(pbrentMbpping, styles);
         }
         for (int counter = index; counter < numElements; counter++) {
-            String tagString = tags[counter];
-            if (tagString != null) {
-                SelectorMapping childMapping = parentMapping.
-                                getChildSelectorMapping(tagString, false);
-                if (childMapping != null) {
-                    getStyles(childMapping, styles, tags, ids, classes,
-                              counter + 1, numElements, alreadyChecked);
+            String tbgString = tbgs[counter];
+            if (tbgString != null) {
+                SelectorMbpping childMbpping = pbrentMbpping.
+                                getChildSelectorMbpping(tbgString, fblse);
+                if (childMbpping != null) {
+                    getStyles(childMbpping, styles, tbgs, ids, clbsses,
+                              counter + 1, numElements, blrebdyChecked);
                 }
-                if (classes[counter] != null) {
-                    String className = classes[counter];
-                    childMapping = parentMapping.getChildSelectorMapping(
-                                         tagString + "." + className, false);
-                    if (childMapping != null) {
-                        getStyles(childMapping, styles, tags, ids, classes,
-                                  counter + 1, numElements, alreadyChecked);
+                if (clbsses[counter] != null) {
+                    String clbssNbme = clbsses[counter];
+                    childMbpping = pbrentMbpping.getChildSelectorMbpping(
+                                         tbgString + "." + clbssNbme, fblse);
+                    if (childMbpping != null) {
+                        getStyles(childMbpping, styles, tbgs, ids, clbsses,
+                                  counter + 1, numElements, blrebdyChecked);
                     }
-                    childMapping = parentMapping.getChildSelectorMapping(
-                                         "." + className, false);
-                    if (childMapping != null) {
-                        getStyles(childMapping, styles, tags, ids, classes,
-                                  counter + 1, numElements, alreadyChecked);
+                    childMbpping = pbrentMbpping.getChildSelectorMbpping(
+                                         "." + clbssNbme, fblse);
+                    if (childMbpping != null) {
+                        getStyles(childMbpping, styles, tbgs, ids, clbsses,
+                                  counter + 1, numElements, blrebdyChecked);
                     }
                 }
                 if (ids[counter] != null) {
-                    String idName = ids[counter];
-                    childMapping = parentMapping.getChildSelectorMapping(
-                                         tagString + "#" + idName, false);
-                    if (childMapping != null) {
-                        getStyles(childMapping, styles, tags, ids, classes,
-                                  counter + 1, numElements, alreadyChecked);
+                    String idNbme = ids[counter];
+                    childMbpping = pbrentMbpping.getChildSelectorMbpping(
+                                         tbgString + "#" + idNbme, fblse);
+                    if (childMbpping != null) {
+                        getStyles(childMbpping, styles, tbgs, ids, clbsses,
+                                  counter + 1, numElements, blrebdyChecked);
                     }
-                    childMapping = parentMapping.getChildSelectorMapping(
-                                   "#" + idName, false);
-                    if (childMapping != null) {
-                        getStyles(childMapping, styles, tags, ids, classes,
-                                  counter + 1, numElements, alreadyChecked);
+                    childMbpping = pbrentMbpping.getChildSelectorMbpping(
+                                   "#" + idNbme, fblse);
+                    if (childMbpping != null) {
+                        getStyles(childMbpping, styles, tbgs, ids, clbsses,
+                                  counter + 1, numElements, blrebdyChecked);
                     }
                 }
             }
@@ -1416,138 +1416,138 @@ public class StyleSheet extends StyleContext {
     }
 
     /**
-     * Creates and returns a Style containing all the rules that match
+     * Crebtes bnd returns b Style contbining bll the rules thbt mbtch
      *  <code>selector</code>.
      */
-    private synchronized Style createResolvedStyle(String selector,
-                                      String[] tags,
-                                      String[] ids, String[] classes) {
-        SearchBuffer sb = SearchBuffer.obtainSearchBuffer();
-        @SuppressWarnings("unchecked")
-        Vector<SelectorMapping> tempVector = sb.getVector();
-        @SuppressWarnings("unchecked")
-        Hashtable<SelectorMapping, SelectorMapping> tempHashtable = sb.getHashtable();
-        // Determine all the Styles that are appropriate, placing them
+    privbte synchronized Style crebteResolvedStyle(String selector,
+                                      String[] tbgs,
+                                      String[] ids, String[] clbsses) {
+        SebrchBuffer sb = SebrchBuffer.obtbinSebrchBuffer();
+        @SuppressWbrnings("unchecked")
+        Vector<SelectorMbpping> tempVector = sb.getVector();
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<SelectorMbpping, SelectorMbpping> tempHbshtbble = sb.getHbshtbble();
+        // Determine bll the Styles thbt bre bppropribte, plbcing them
         // in tempVector
         try {
-            SelectorMapping mapping = getRootSelectorMapping();
-            int numElements = tags.length;
-            String tagString = tags[0];
-            SelectorMapping childMapping = mapping.getChildSelectorMapping(
-                                                   tagString, false);
-            if (childMapping != null) {
-                getStyles(childMapping, tempVector, tags, ids, classes, 1,
-                          numElements, tempHashtable);
+            SelectorMbpping mbpping = getRootSelectorMbpping();
+            int numElements = tbgs.length;
+            String tbgString = tbgs[0];
+            SelectorMbpping childMbpping = mbpping.getChildSelectorMbpping(
+                                                   tbgString, fblse);
+            if (childMbpping != null) {
+                getStyles(childMbpping, tempVector, tbgs, ids, clbsses, 1,
+                          numElements, tempHbshtbble);
             }
-            if (classes[0] != null) {
-                String className = classes[0];
-                childMapping = mapping.getChildSelectorMapping(
-                                       tagString + "." + className, false);
-                if (childMapping != null) {
-                    getStyles(childMapping, tempVector, tags, ids, classes, 1,
-                              numElements, tempHashtable);
+            if (clbsses[0] != null) {
+                String clbssNbme = clbsses[0];
+                childMbpping = mbpping.getChildSelectorMbpping(
+                                       tbgString + "." + clbssNbme, fblse);
+                if (childMbpping != null) {
+                    getStyles(childMbpping, tempVector, tbgs, ids, clbsses, 1,
+                              numElements, tempHbshtbble);
                 }
-                childMapping = mapping.getChildSelectorMapping(
-                                       "." + className, false);
-                if (childMapping != null) {
-                    getStyles(childMapping, tempVector, tags, ids, classes,
-                              1, numElements, tempHashtable);
+                childMbpping = mbpping.getChildSelectorMbpping(
+                                       "." + clbssNbme, fblse);
+                if (childMbpping != null) {
+                    getStyles(childMbpping, tempVector, tbgs, ids, clbsses,
+                              1, numElements, tempHbshtbble);
                 }
             }
             if (ids[0] != null) {
-                String idName = ids[0];
-                childMapping = mapping.getChildSelectorMapping(
-                                       tagString + "#" + idName, false);
-                if (childMapping != null) {
-                    getStyles(childMapping, tempVector, tags, ids, classes,
-                              1, numElements, tempHashtable);
+                String idNbme = ids[0];
+                childMbpping = mbpping.getChildSelectorMbpping(
+                                       tbgString + "#" + idNbme, fblse);
+                if (childMbpping != null) {
+                    getStyles(childMbpping, tempVector, tbgs, ids, clbsses,
+                              1, numElements, tempHbshtbble);
                 }
-                childMapping = mapping.getChildSelectorMapping(
-                                       "#" + idName, false);
-                if (childMapping != null) {
-                    getStyles(childMapping, tempVector, tags, ids, classes,
-                              1, numElements, tempHashtable);
+                childMbpping = mbpping.getChildSelectorMbpping(
+                                       "#" + idNbme, fblse);
+                if (childMbpping != null) {
+                    getStyles(childMbpping, tempVector, tbgs, ids, clbsses,
+                              1, numElements, tempHbshtbble);
                 }
             }
-            // Create a new Style that will delegate to all the matching
+            // Crebte b new Style thbt will delegbte to bll the mbtching
             // Styles.
             int numLinkedSS = (linkedStyleSheets != null) ?
                               linkedStyleSheets.size() : 0;
             int numStyles = tempVector.size();
-            AttributeSet[] attrs = new AttributeSet[numStyles + numLinkedSS];
+            AttributeSet[] bttrs = new AttributeSet[numStyles + numLinkedSS];
             for (int counter = 0; counter < numStyles; counter++) {
-                attrs[counter] = tempVector.elementAt(counter).getStyle();
+                bttrs[counter] = tempVector.elementAt(counter).getStyle();
             }
             // Get the AttributeSet from linked style sheets.
             for (int counter = 0; counter < numLinkedSS; counter++) {
-                AttributeSet attr = linkedStyleSheets.elementAt(counter).getRule(selector);
-                if (attr == null) {
-                    attrs[counter + numStyles] = SimpleAttributeSet.EMPTY;
+                AttributeSet bttr = linkedStyleSheets.elementAt(counter).getRule(selector);
+                if (bttr == null) {
+                    bttrs[counter + numStyles] = SimpleAttributeSet.EMPTY;
                 }
                 else {
-                    attrs[counter + numStyles] = attr;
+                    bttrs[counter + numStyles] = bttr;
                 }
             }
-            ResolvedStyle retStyle = new ResolvedStyle(selector, attrs,
+            ResolvedStyle retStyle = new ResolvedStyle(selector, bttrs,
                                                        numStyles);
             resolvedStyles.put(selector, retStyle);
             return retStyle;
         }
-        finally {
-            SearchBuffer.releaseSearchBuffer(sb);
+        finblly {
+            SebrchBuffer.relebseSebrchBuffer(sb);
         }
     }
 
     /**
-     * Creates and returns a Style containing all the rules that
-     * matches <code>selector</code>.
+     * Crebtes bnd returns b Style contbining bll the rules thbt
+     * mbtches <code>selector</code>.
      *
-     * @param elements  a Vector of all the Elements
-     *                  the style is being asked for. The
-     *                  first Element is the deepest Element, with the last Element
+     * @pbrbm elements  b Vector of bll the Elements
+     *                  the style is being bsked for. The
+     *                  first Element is the deepest Element, with the lbst Element
      *                  representing the root.
-     * @param t         the Tag to use for
+     * @pbrbm t         the Tbg to use for
      *                  the first Element in <code>elements</code>
      */
-    private Style createResolvedStyle(String selector, Vector<Element> elements,
-                                      HTML.Tag t) {
+    privbte Style crebteResolvedStyle(String selector, Vector<Element> elements,
+                                      HTML.Tbg t) {
         int numElements = elements.size();
-        // Build three arrays, one for tags, one for class's, and one for
+        // Build three brrbys, one for tbgs, one for clbss's, bnd one for
         // id's
-        String tags[] = new String[numElements];
+        String tbgs[] = new String[numElements];
         String ids[] = new String[numElements];
-        String classes[] = new String[numElements];
+        String clbsses[] = new String[numElements];
         for (int counter = 0; counter < numElements; counter++) {
             Element e = elements.elementAt(counter);
-            AttributeSet attr = e.getAttributes();
-            if (counter == 0 && e.isLeaf()) {
-                // For leafs, we use the second tier attributes.
-                Object testAttr = attr.getAttribute(t);
-                if (testAttr instanceof AttributeSet) {
-                    attr = (AttributeSet)testAttr;
+            AttributeSet bttr = e.getAttributes();
+            if (counter == 0 && e.isLebf()) {
+                // For lebfs, we use the second tier bttributes.
+                Object testAttr = bttr.getAttribute(t);
+                if (testAttr instbnceof AttributeSet) {
+                    bttr = (AttributeSet)testAttr;
                 }
                 else {
-                    attr = null;
+                    bttr = null;
                 }
             }
-            if (attr != null) {
-                HTML.Tag tag = (HTML.Tag)attr.getAttribute(StyleConstants.
-                                                           NameAttribute);
-                if (tag != null) {
-                    tags[counter] = tag.toString();
+            if (bttr != null) {
+                HTML.Tbg tbg = (HTML.Tbg)bttr.getAttribute(StyleConstbnts.
+                                                           NbmeAttribute);
+                if (tbg != null) {
+                    tbgs[counter] = tbg.toString();
                 }
                 else {
-                    tags[counter] = null;
+                    tbgs[counter] = null;
                 }
-                if (attr.isDefined(HTML.Attribute.CLASS)) {
-                    classes[counter] = attr.getAttribute
+                if (bttr.isDefined(HTML.Attribute.CLASS)) {
+                    clbsses[counter] = bttr.getAttribute
                                       (HTML.Attribute.CLASS).toString();
                 }
                 else {
-                    classes[counter] = null;
+                    clbsses[counter] = null;
                 }
-                if (attr.isDefined(HTML.Attribute.ID)) {
-                    ids[counter] = attr.getAttribute(HTML.Attribute.ID).
+                if (bttr.isDefined(HTML.Attribute.ID)) {
+                    ids[counter] = bttr.getAttribute(HTML.Attribute.ID).
                                         toString();
                 }
                 else {
@@ -1555,173 +1555,173 @@ public class StyleSheet extends StyleContext {
                 }
             }
             else {
-                tags[counter] = ids[counter] = classes[counter] = null;
+                tbgs[counter] = ids[counter] = clbsses[counter] = null;
             }
         }
-        tags[0] = t.toString();
-        return createResolvedStyle(selector, tags, ids, classes);
+        tbgs[0] = t.toString();
+        return crebteResolvedStyle(selector, tbgs, ids, clbsses);
     }
 
     /**
-     * Creates and returns a Style containing all the rules that match
-     *  <code>selector</code>. It is assumed that each simple selector
-     * in <code>selector</code> is separated by a space.
+     * Crebtes bnd returns b Style contbining bll the rules thbt mbtch
+     *  <code>selector</code>. It is bssumed thbt ebch simple selector
+     * in <code>selector</code> is sepbrbted by b spbce.
      */
-    private Style createResolvedStyle(String selector) {
-        SearchBuffer sb = SearchBuffer.obtainSearchBuffer();
-        // Will contain the tags, ids, and classes, in that order.
-        @SuppressWarnings("unchecked")
+    privbte Style crebteResolvedStyle(String selector) {
+        SebrchBuffer sb = SebrchBuffer.obtbinSebrchBuffer();
+        // Will contbin the tbgs, ids, bnd clbsses, in thbt order.
+        @SuppressWbrnings("unchecked")
         Vector<String> elements = sb.getVector();
         try {
-            boolean done;
+            boolebn done;
             int dotIndex = 0;
-            int spaceIndex;
+            int spbceIndex;
             int poundIndex = 0;
-            int lastIndex = 0;
+            int lbstIndex = 0;
             int length = selector.length();
-            while (lastIndex < length) {
-                if (dotIndex == lastIndex) {
-                    dotIndex = selector.indexOf('.', lastIndex);
+            while (lbstIndex < length) {
+                if (dotIndex == lbstIndex) {
+                    dotIndex = selector.indexOf('.', lbstIndex);
                 }
-                if (poundIndex == lastIndex) {
-                    poundIndex = selector.indexOf('#', lastIndex);
+                if (poundIndex == lbstIndex) {
+                    poundIndex = selector.indexOf('#', lbstIndex);
                 }
-                spaceIndex = selector.indexOf(' ', lastIndex);
-                if (spaceIndex == -1) {
-                    spaceIndex = length;
+                spbceIndex = selector.indexOf(' ', lbstIndex);
+                if (spbceIndex == -1) {
+                    spbceIndex = length;
                 }
                 if (dotIndex != -1 && poundIndex != -1 &&
-                    dotIndex < spaceIndex && poundIndex < spaceIndex) {
+                    dotIndex < spbceIndex && poundIndex < spbceIndex) {
                     if (poundIndex < dotIndex) {
                         // #.
-                        if (lastIndex == poundIndex) {
-                            elements.addElement("");
+                        if (lbstIndex == poundIndex) {
+                            elements.bddElement("");
                         }
                         else {
-                            elements.addElement(selector.substring(lastIndex,
+                            elements.bddElement(selector.substring(lbstIndex,
                                                                   poundIndex));
                         }
-                        if ((dotIndex + 1) < spaceIndex) {
-                            elements.addElement(selector.substring
-                                                (dotIndex + 1, spaceIndex));
+                        if ((dotIndex + 1) < spbceIndex) {
+                            elements.bddElement(selector.substring
+                                                (dotIndex + 1, spbceIndex));
                         }
                         else {
-                            elements.addElement(null);
+                            elements.bddElement(null);
                         }
                         if ((poundIndex + 1) == dotIndex) {
-                            elements.addElement(null);
+                            elements.bddElement(null);
                         }
                         else {
-                            elements.addElement(selector.substring
+                            elements.bddElement(selector.substring
                                                 (poundIndex + 1, dotIndex));
                         }
                     }
-                    else if(poundIndex < spaceIndex) {
+                    else if(poundIndex < spbceIndex) {
                         // .#
-                        if (lastIndex == dotIndex) {
-                            elements.addElement("");
+                        if (lbstIndex == dotIndex) {
+                            elements.bddElement("");
                         }
                         else {
-                            elements.addElement(selector.substring(lastIndex,
+                            elements.bddElement(selector.substring(lbstIndex,
                                                                   dotIndex));
                         }
                         if ((dotIndex + 1) < poundIndex) {
-                            elements.addElement(selector.substring
+                            elements.bddElement(selector.substring
                                                 (dotIndex + 1, poundIndex));
                         }
                         else {
-                            elements.addElement(null);
+                            elements.bddElement(null);
                         }
-                        if ((poundIndex + 1) == spaceIndex) {
-                            elements.addElement(null);
+                        if ((poundIndex + 1) == spbceIndex) {
+                            elements.bddElement(null);
                         }
                         else {
-                            elements.addElement(selector.substring
-                                                (poundIndex + 1, spaceIndex));
+                            elements.bddElement(selector.substring
+                                                (poundIndex + 1, spbceIndex));
                         }
                     }
-                    dotIndex = poundIndex = spaceIndex + 1;
+                    dotIndex = poundIndex = spbceIndex + 1;
                 }
-                else if (dotIndex != -1 && dotIndex < spaceIndex) {
+                else if (dotIndex != -1 && dotIndex < spbceIndex) {
                     // .
-                    if (dotIndex == lastIndex) {
-                        elements.addElement("");
+                    if (dotIndex == lbstIndex) {
+                        elements.bddElement("");
                     }
                     else {
-                        elements.addElement(selector.substring(lastIndex,
+                        elements.bddElement(selector.substring(lbstIndex,
                                                                dotIndex));
                     }
-                    if ((dotIndex + 1) == spaceIndex) {
-                        elements.addElement(null);
+                    if ((dotIndex + 1) == spbceIndex) {
+                        elements.bddElement(null);
                     }
                     else {
-                        elements.addElement(selector.substring(dotIndex + 1,
-                                                               spaceIndex));
+                        elements.bddElement(selector.substring(dotIndex + 1,
+                                                               spbceIndex));
                     }
-                    elements.addElement(null);
-                    dotIndex = spaceIndex + 1;
+                    elements.bddElement(null);
+                    dotIndex = spbceIndex + 1;
                 }
-                else if (poundIndex != -1 && poundIndex < spaceIndex) {
+                else if (poundIndex != -1 && poundIndex < spbceIndex) {
                     // #
-                    if (poundIndex == lastIndex) {
-                        elements.addElement("");
+                    if (poundIndex == lbstIndex) {
+                        elements.bddElement("");
                     }
                     else {
-                        elements.addElement(selector.substring(lastIndex,
+                        elements.bddElement(selector.substring(lbstIndex,
                                                                poundIndex));
                     }
-                    elements.addElement(null);
-                    if ((poundIndex + 1) == spaceIndex) {
-                        elements.addElement(null);
+                    elements.bddElement(null);
+                    if ((poundIndex + 1) == spbceIndex) {
+                        elements.bddElement(null);
                     }
                     else {
-                        elements.addElement(selector.substring(poundIndex + 1,
-                                                               spaceIndex));
+                        elements.bddElement(selector.substring(poundIndex + 1,
+                                                               spbceIndex));
                     }
-                    poundIndex = spaceIndex + 1;
+                    poundIndex = spbceIndex + 1;
                 }
                 else {
                     // id
-                    elements.addElement(selector.substring(lastIndex,
-                                                           spaceIndex));
-                    elements.addElement(null);
-                    elements.addElement(null);
+                    elements.bddElement(selector.substring(lbstIndex,
+                                                           spbceIndex));
+                    elements.bddElement(null);
+                    elements.bddElement(null);
                 }
-                lastIndex = spaceIndex + 1;
+                lbstIndex = spbceIndex + 1;
             }
-            // Create the tag, id, and class arrays.
-            int total = elements.size();
-            int numTags = total / 3;
-            String[] tags = new String[numTags];
-            String[] ids = new String[numTags];
-            String[] classes = new String[numTags];
-            for (int index = 0, eIndex = total - 3; index < numTags;
+            // Crebte the tbg, id, bnd clbss brrbys.
+            int totbl = elements.size();
+            int numTbgs = totbl / 3;
+            String[] tbgs = new String[numTbgs];
+            String[] ids = new String[numTbgs];
+            String[] clbsses = new String[numTbgs];
+            for (int index = 0, eIndex = totbl - 3; index < numTbgs;
                  index++, eIndex -= 3) {
-                tags[index] = elements.elementAt(eIndex);
-                classes[index] = elements.elementAt(eIndex + 1);
+                tbgs[index] = elements.elementAt(eIndex);
+                clbsses[index] = elements.elementAt(eIndex + 1);
                 ids[index] = elements.elementAt(eIndex + 2);
             }
-            return createResolvedStyle(selector, tags, ids, classes);
+            return crebteResolvedStyle(selector, tbgs, ids, clbsses);
         }
-        finally {
-            SearchBuffer.releaseSearchBuffer(sb);
+        finblly {
+            SebrchBuffer.relebseSebrchBuffer(sb);
         }
     }
 
     /**
-     * Should be invoked when a new rule is added that did not previously
-     * exist. Goes through and refreshes the necessary resolved
+     * Should be invoked when b new rule is bdded thbt did not previously
+     * exist. Goes through bnd refreshes the necessbry resolved
      * rules.
      */
-    private synchronized void refreshResolvedRules(String selectorName,
+    privbte synchronized void refreshResolvedRules(String selectorNbme,
                                                    String[] selector,
                                                    Style newStyle,
                                                    int specificity) {
         if (resolvedStyles.size() > 0) {
-            Enumeration<ResolvedStyle> values = resolvedStyles.elements();
-            while (values.hasMoreElements()) {
-                ResolvedStyle style = values.nextElement();
-                if (style.matches(selectorName)) {
+            Enumerbtion<ResolvedStyle> vblues = resolvedStyles.elements();
+            while (vblues.hbsMoreElements()) {
+                ResolvedStyle style = vblues.nextElement();
+                if (style.mbtches(selectorNbme)) {
                     style.insertStyle(newStyle, specificity);
                 }
             }
@@ -1730,47 +1730,47 @@ public class StyleSheet extends StyleContext {
 
 
     /**
-     * A temporary class used to hold a Vector, a StringBuffer and a
-     * Hashtable. This is used to avoid allocing a lot of garbage when
-     * searching for rules. Use the static method obtainSearchBuffer and
-     * releaseSearchBuffer to get a SearchBuffer, and release it when
+     * A temporbry clbss used to hold b Vector, b StringBuffer bnd b
+     * Hbshtbble. This is used to bvoid bllocing b lot of gbrbbge when
+     * sebrching for rules. Use the stbtic method obtbinSebrchBuffer bnd
+     * relebseSebrchBuffer to get b SebrchBuffer, bnd relebse it when
      * done.
      */
-    @SuppressWarnings("rawtypes")
-    private static class SearchBuffer {
-        /** A stack containing instances of SearchBuffer. Used in getting
+    @SuppressWbrnings("rbwtypes")
+    privbte stbtic clbss SebrchBuffer {
+        /** A stbck contbining instbnces of SebrchBuffer. Used in getting
          * rules. */
-        static Stack<SearchBuffer> searchBuffers = new Stack<SearchBuffer>();
-        // A set of temporary variables that can be used in whatever way.
+        stbtic Stbck<SebrchBuffer> sebrchBuffers = new Stbck<SebrchBuffer>();
+        // A set of temporbry vbribbles thbt cbn be used in whbtever wby.
         Vector vector = null;
         StringBuffer stringBuffer = null;
-        Hashtable hashtable = null;
+        Hbshtbble hbshtbble = null;
 
         /**
-         * Returns an instance of SearchBuffer. Be sure and issue
-         * a releaseSearchBuffer when done with it.
+         * Returns bn instbnce of SebrchBuffer. Be sure bnd issue
+         * b relebseSebrchBuffer when done with it.
          */
-        static SearchBuffer obtainSearchBuffer() {
-            SearchBuffer sb;
+        stbtic SebrchBuffer obtbinSebrchBuffer() {
+            SebrchBuffer sb;
             try {
-                if(!searchBuffers.empty()) {
-                   sb = searchBuffers.pop();
+                if(!sebrchBuffers.empty()) {
+                   sb = sebrchBuffers.pop();
                 } else {
-                   sb = new SearchBuffer();
+                   sb = new SebrchBuffer();
                 }
-            } catch (EmptyStackException ese) {
-                sb = new SearchBuffer();
+            } cbtch (EmptyStbckException ese) {
+                sb = new SebrchBuffer();
             }
             return sb;
         }
 
         /**
-         * Adds <code>sb</code> to the stack of SearchBuffers that can
+         * Adds <code>sb</code> to the stbck of SebrchBuffers thbt cbn
          * be used.
          */
-        static void releaseSearchBuffer(SearchBuffer sb) {
+        stbtic void relebseSebrchBuffer(SebrchBuffer sb) {
             sb.empty();
-            searchBuffers.push(sb);
+            sebrchBuffers.push(sb);
         }
 
         StringBuffer getStringBuffer() {
@@ -1787,11 +1787,11 @@ public class StyleSheet extends StyleContext {
             return vector;
         }
 
-        Hashtable getHashtable() {
-            if (hashtable == null) {
-                hashtable = new Hashtable();
+        Hbshtbble getHbshtbble() {
+            if (hbshtbble == null) {
+                hbshtbble = new Hbshtbble();
             }
-            return hashtable;
+            return hbshtbble;
         }
 
         void empty() {
@@ -1801,153 +1801,153 @@ public class StyleSheet extends StyleContext {
             if (vector != null) {
                 vector.removeAllElements();
             }
-            if (hashtable != null) {
-                hashtable.clear();
+            if (hbshtbble != null) {
+                hbshtbble.clebr();
             }
         }
     }
 
 
-    static final Border noBorder = new EmptyBorder(0,0,0,0);
+    stbtic finbl Border noBorder = new EmptyBorder(0,0,0,0);
 
     /**
-     * Class to carry out some of the duties of
-     * CSS formatting.  Implementations of this
-     * class enable views to present the CSS formatting
-     * while not knowing anything about how the CSS values
-     * are being cached.
+     * Clbss to cbrry out some of the duties of
+     * CSS formbtting.  Implementbtions of this
+     * clbss enbble views to present the CSS formbtting
+     * while not knowing bnything bbout how the CSS vblues
+     * bre being cbched.
      * <p>
-     * As a delegate of Views, this object is responsible for
-     * the insets of a View and making sure the background
-     * is maintained according to the CSS attributes.
+     * As b delegbte of Views, this object is responsible for
+     * the insets of b View bnd mbking sure the bbckground
+     * is mbintbined bccording to the CSS bttributes.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class BoxPainter implements Serializable {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss BoxPbinter implements Seriblizbble {
 
-        BoxPainter(AttributeSet a, CSS css, StyleSheet ss) {
+        BoxPbinter(AttributeSet b, CSS css, StyleSheet ss) {
             this.ss = ss;
             this.css = css;
-            border = getBorder(a);
+            border = getBorder(b);
             binsets = border.getBorderInsets(null);
-            topMargin = getLength(CSS.Attribute.MARGIN_TOP, a);
-            bottomMargin = getLength(CSS.Attribute.MARGIN_BOTTOM, a);
-            leftMargin = getLength(CSS.Attribute.MARGIN_LEFT, a);
-            rightMargin = getLength(CSS.Attribute.MARGIN_RIGHT, a);
-            bg = ss.getBackground(a);
-            if (ss.getBackgroundImage(a) != null) {
-                bgPainter = new BackgroundImagePainter(a, css, ss);
+            topMbrgin = getLength(CSS.Attribute.MARGIN_TOP, b);
+            bottomMbrgin = getLength(CSS.Attribute.MARGIN_BOTTOM, b);
+            leftMbrgin = getLength(CSS.Attribute.MARGIN_LEFT, b);
+            rightMbrgin = getLength(CSS.Attribute.MARGIN_RIGHT, b);
+            bg = ss.getBbckground(b);
+            if (ss.getBbckgroundImbge(b) != null) {
+                bgPbinter = new BbckgroundImbgePbinter(b, css, ss);
             }
         }
 
         /**
-         * Fetches a border to render for the given attributes.
-         * PENDING(prinz) This is pretty badly hacked at the
+         * Fetches b border to render for the given bttributes.
+         * PENDING(prinz) This is pretty bbdly hbcked bt the
          * moment.
          */
-        Border getBorder(AttributeSet a) {
-            return new CSSBorder(a);
+        Border getBorder(AttributeSet b) {
+            return new CSSBorder(b);
         }
 
         /**
          * Fetches the color to use for borders.  This will either be
-         * the value specified by the border-color attribute (which
-         * is not inherited), or it will default to the color attribute
+         * the vblue specified by the border-color bttribute (which
+         * is not inherited), or it will defbult to the color bttribute
          * (which is inherited).
          */
-        Color getBorderColor(AttributeSet a) {
-            Color color = css.getColor(a, CSS.Attribute.BORDER_COLOR);
+        Color getBorderColor(AttributeSet b) {
+            Color color = css.getColor(b, CSS.Attribute.BORDER_COLOR);
             if (color == null) {
-                color = css.getColor(a, CSS.Attribute.COLOR);
+                color = css.getColor(b, CSS.Attribute.COLOR);
                 if (color == null) {
-                    return Color.black;
+                    return Color.blbck;
                 }
             }
             return color;
         }
 
         /**
-         * Fetches the inset needed on a given side to
-         * account for the margin, border, and padding.
+         * Fetches the inset needed on b given side to
+         * bccount for the mbrgin, border, bnd pbdding.
          *
-         * @param side The size of the box to fetch the
-         *  inset for.  This can be View.TOP,
+         * @pbrbm side The size of the box to fetch the
+         *  inset for.  This cbn be View.TOP,
          *  View.LEFT, View.BOTTOM, or View.RIGHT.
-         * @param v the view making the request.  This is
-         *  used to get the AttributeSet, and may be used to
-         *  resolve percentage arguments.
-         * @return the inset needed for the margin, border and padding.
-         * @exception IllegalArgumentException for an invalid direction
+         * @pbrbm v the view mbking the request.  This is
+         *  used to get the AttributeSet, bnd mby be used to
+         *  resolve percentbge brguments.
+         * @return the inset needed for the mbrgin, border bnd pbdding.
+         * @exception IllegblArgumentException for bn invblid direction
          */
-        public float getInset(int side, View v) {
-            AttributeSet a = v.getAttributes();
-            float inset = 0;
+        public flobt getInset(int side, View v) {
+            AttributeSet b = v.getAttributes();
+            flobt inset = 0;
             switch(side) {
-            case View.LEFT:
-                inset += getOrientationMargin(HorizontalMargin.LEFT,
-                                              leftMargin, a, isLeftToRight(v));
+            cbse View.LEFT:
+                inset += getOrientbtionMbrgin(HorizontblMbrgin.LEFT,
+                                              leftMbrgin, b, isLeftToRight(v));
                 inset += binsets.left;
-                inset += getLength(CSS.Attribute.PADDING_LEFT, a);
-                break;
-            case View.RIGHT:
-                inset += getOrientationMargin(HorizontalMargin.RIGHT,
-                                              rightMargin, a, isLeftToRight(v));
+                inset += getLength(CSS.Attribute.PADDING_LEFT, b);
+                brebk;
+            cbse View.RIGHT:
+                inset += getOrientbtionMbrgin(HorizontblMbrgin.RIGHT,
+                                              rightMbrgin, b, isLeftToRight(v));
                 inset += binsets.right;
-                inset += getLength(CSS.Attribute.PADDING_RIGHT, a);
-                break;
-            case View.TOP:
-                inset += topMargin;
+                inset += getLength(CSS.Attribute.PADDING_RIGHT, b);
+                brebk;
+            cbse View.TOP:
+                inset += topMbrgin;
                 inset += binsets.top;
-                inset += getLength(CSS.Attribute.PADDING_TOP, a);
-                break;
-            case View.BOTTOM:
-                inset += bottomMargin;
+                inset += getLength(CSS.Attribute.PADDING_TOP, b);
+                brebk;
+            cbse View.BOTTOM:
+                inset += bottomMbrgin;
                 inset += binsets.bottom;
-                inset += getLength(CSS.Attribute.PADDING_BOTTOM, a);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid side: " + side);
+                inset += getLength(CSS.Attribute.PADDING_BOTTOM, b);
+                brebk;
+            defbult:
+                throw new IllegblArgumentException("Invblid side: " + side);
             }
             return inset;
         }
 
         /**
-         * Paints the CSS box according to the attributes
-         * given.  This should paint the border, padding,
-         * and background.
+         * Pbints the CSS box bccording to the bttributes
+         * given.  This should pbint the border, pbdding,
+         * bnd bbckground.
          *
-         * @param g the rendering surface.
-         * @param x the x coordinate of the allocated area to
+         * @pbrbm g the rendering surfbce.
+         * @pbrbm x the x coordinbte of the bllocbted breb to
          *  render into.
-         * @param y the y coordinate of the allocated area to
+         * @pbrbm y the y coordinbte of the bllocbted breb to
          *  render into.
-         * @param w the width of the allocated area to render into.
-         * @param h the height of the allocated area to render into.
-         * @param v the view making the request.  This is
-         *  used to get the AttributeSet, and may be used to
-         *  resolve percentage arguments.
+         * @pbrbm w the width of the bllocbted breb to render into.
+         * @pbrbm h the height of the bllocbted breb to render into.
+         * @pbrbm v the view mbking the request.  This is
+         *  used to get the AttributeSet, bnd mby be used to
+         *  resolve percentbge brguments.
          */
-        public void paint(Graphics g, float x, float y, float w, float h, View v) {
-            // PENDING(prinz) implement real rendering... which would
-            // do full set of border and background capabilities.
-            // remove margin
+        public void pbint(Grbphics g, flobt x, flobt y, flobt w, flobt h, View v) {
+            // PENDING(prinz) implement rebl rendering... which would
+            // do full set of border bnd bbckground cbpbbilities.
+            // remove mbrgin
 
-            float dx = 0;
-            float dy = 0;
-            float dw = 0;
-            float dh = 0;
-            AttributeSet a = v.getAttributes();
-            boolean isLeftToRight = isLeftToRight(v);
-            float localLeftMargin = getOrientationMargin(HorizontalMargin.LEFT,
-                                                         leftMargin,
-                                                         a, isLeftToRight);
-            float localRightMargin = getOrientationMargin(HorizontalMargin.RIGHT,
-                                                          rightMargin,
-                                                          a, isLeftToRight);
-            if (!(v instanceof HTMLEditorKit.HTMLFactory.BodyBlockView)) {
-                dx = localLeftMargin;
-                dy = topMargin;
-                dw = -(localLeftMargin + localRightMargin);
-                dh = -(topMargin + bottomMargin);
+            flobt dx = 0;
+            flobt dy = 0;
+            flobt dw = 0;
+            flobt dh = 0;
+            AttributeSet b = v.getAttributes();
+            boolebn isLeftToRight = isLeftToRight(v);
+            flobt locblLeftMbrgin = getOrientbtionMbrgin(HorizontblMbrgin.LEFT,
+                                                         leftMbrgin,
+                                                         b, isLeftToRight);
+            flobt locblRightMbrgin = getOrientbtionMbrgin(HorizontblMbrgin.RIGHT,
+                                                          rightMbrgin,
+                                                          b, isLeftToRight);
+            if (!(v instbnceof HTMLEditorKit.HTMLFbctory.BodyBlockView)) {
+                dx = locblLeftMbrgin;
+                dy = topMbrgin;
+                dw = -(locblLeftMbrgin + locblRightMbrgin);
+                dh = -(topMbrgin + bottomMbrgin);
             }
             if (bg != null) {
                 g.setColor(bg);
@@ -1956,157 +1956,157 @@ public class StyleSheet extends StyleContext {
                            (int) (w + dw),
                            (int) (h + dh));
             }
-            if (bgPainter != null) {
-                bgPainter.paint(g, x + dx, y + dy, w + dw, h + dh, v);
+            if (bgPbinter != null) {
+                bgPbinter.pbint(g, x + dx, y + dy, w + dw, h + dh, v);
             }
-            x += localLeftMargin;
-            y += topMargin;
-            w -= localLeftMargin + localRightMargin;
-            h -= topMargin + bottomMargin;
-            if (border instanceof BevelBorder) {
+            x += locblLeftMbrgin;
+            y += topMbrgin;
+            w -= locblLeftMbrgin + locblRightMbrgin;
+            h -= topMbrgin + bottomMbrgin;
+            if (border instbnceof BevelBorder) {
                 //BevelBorder does not support border width
-                int bw = (int) getLength(CSS.Attribute.BORDER_TOP_WIDTH, a);
+                int bw = (int) getLength(CSS.Attribute.BORDER_TOP_WIDTH, b);
                 for (int i = bw - 1; i >= 0; i--) {
-                    border.paintBorder(null, g, (int) x + i, (int) y + i,
+                    border.pbintBorder(null, g, (int) x + i, (int) y + i,
                                        (int) w - 2 * i, (int) h - 2 * i);
                 }
             } else {
-                border.paintBorder(null, g, (int) x, (int) y, (int) w, (int) h);
+                border.pbintBorder(null, g, (int) x, (int) y, (int) w, (int) h);
             }
         }
 
-        float getLength(CSS.Attribute key, AttributeSet a) {
-            return css.getLength(a, key, ss);
+        flobt getLength(CSS.Attribute key, AttributeSet b) {
+            return css.getLength(b, key, ss);
         }
 
-        static boolean isLeftToRight(View v) {
-            boolean ret = true;
-            if (isOrientationAware(v)) {
-                Container container;
-                if (v != null && (container = v.getContainer()) != null) {
-                    ret = container.getComponentOrientation().isLeftToRight();
+        stbtic boolebn isLeftToRight(View v) {
+            boolebn ret = true;
+            if (isOrientbtionAwbre(v)) {
+                Contbiner contbiner;
+                if (v != null && (contbiner = v.getContbiner()) != null) {
+                    ret = contbiner.getComponentOrientbtion().isLeftToRight();
                 }
             }
             return ret;
         }
 
         /*
-         * only certain tags are concerned about orientation
+         * only certbin tbgs bre concerned bbout orientbtion
          * <dir>, <menu>, <ul>, <ol>
-         * for all others we return true. It is implemented this way
-         * for performance purposes
+         * for bll others we return true. It is implemented this wby
+         * for performbnce purposes
          */
-        static boolean isOrientationAware(View v) {
-            boolean ret = false;
-            AttributeSet attr;
+        stbtic boolebn isOrientbtionAwbre(View v) {
+            boolebn ret = fblse;
+            AttributeSet bttr;
             Object obj;
             if (v != null
-                && (attr = v.getElement().getAttributes()) != null
-                && (obj = attr.getAttribute(StyleConstants.NameAttribute)) instanceof HTML.Tag
-                && (obj == HTML.Tag.DIR
-                    || obj == HTML.Tag.MENU
-                    || obj == HTML.Tag.UL
-                    || obj == HTML.Tag.OL)) {
+                && (bttr = v.getElement().getAttributes()) != null
+                && (obj = bttr.getAttribute(StyleConstbnts.NbmeAttribute)) instbnceof HTML.Tbg
+                && (obj == HTML.Tbg.DIR
+                    || obj == HTML.Tbg.MENU
+                    || obj == HTML.Tbg.UL
+                    || obj == HTML.Tbg.OL)) {
                 ret = true;
             }
 
             return ret;
         }
 
-        static enum HorizontalMargin { LEFT, RIGHT }
+        stbtic enum HorizontblMbrgin { LEFT, RIGHT }
 
         /**
          * for <dir>, <menu>, <ul> etc.
-         * margins are Left-To-Right/Right-To-Left depended.
-         * see 5088268 for more details
-         * margin-(left|right)-(ltr|rtl) were introduced to describe it
-         * if margin-(left|right) is present we are to use it.
+         * mbrgins bre Left-To-Right/Right-To-Left depended.
+         * see 5088268 for more detbils
+         * mbrgin-(left|right)-(ltr|rtl) were introduced to describe it
+         * if mbrgin-(left|right) is present we bre to use it.
          *
-         * @param side The horizontal side to fetch margin for
-         *  This can be HorizontalMargin.LEFT or HorizontalMargin.RIGHT
-         * @param cssMargin margin from css
-         * @param a AttributeSet for the View we getting margin for
-         * @param isLeftToRight
-         * @return orientation depended margin
+         * @pbrbm side The horizontbl side to fetch mbrgin for
+         *  This cbn be HorizontblMbrgin.LEFT or HorizontblMbrgin.RIGHT
+         * @pbrbm cssMbrgin mbrgin from css
+         * @pbrbm b AttributeSet for the View we getting mbrgin for
+         * @pbrbm isLeftToRight
+         * @return orientbtion depended mbrgin
          */
-        float getOrientationMargin(HorizontalMargin side, float cssMargin,
-                                   AttributeSet a, boolean isLeftToRight) {
-            float margin = cssMargin;
-            float orientationMargin = cssMargin;
-            Object cssMarginValue = null;
+        flobt getOrientbtionMbrgin(HorizontblMbrgin side, flobt cssMbrgin,
+                                   AttributeSet b, boolebn isLeftToRight) {
+            flobt mbrgin = cssMbrgin;
+            flobt orientbtionMbrgin = cssMbrgin;
+            Object cssMbrginVblue = null;
             switch (side) {
-            case RIGHT:
+            cbse RIGHT:
                 {
-                    orientationMargin = (isLeftToRight) ?
-                        getLength(CSS.Attribute.MARGIN_RIGHT_LTR, a) :
-                        getLength(CSS.Attribute.MARGIN_RIGHT_RTL, a);
-                    cssMarginValue = a.getAttribute(CSS.Attribute.MARGIN_RIGHT);
+                    orientbtionMbrgin = (isLeftToRight) ?
+                        getLength(CSS.Attribute.MARGIN_RIGHT_LTR, b) :
+                        getLength(CSS.Attribute.MARGIN_RIGHT_RTL, b);
+                    cssMbrginVblue = b.getAttribute(CSS.Attribute.MARGIN_RIGHT);
                 }
-                break;
-            case LEFT :
+                brebk;
+            cbse LEFT :
                 {
-                    orientationMargin = (isLeftToRight) ?
-                        getLength(CSS.Attribute.MARGIN_LEFT_LTR, a) :
-                        getLength(CSS.Attribute.MARGIN_LEFT_RTL, a);
-                    cssMarginValue = a.getAttribute(CSS.Attribute.MARGIN_LEFT);
+                    orientbtionMbrgin = (isLeftToRight) ?
+                        getLength(CSS.Attribute.MARGIN_LEFT_LTR, b) :
+                        getLength(CSS.Attribute.MARGIN_LEFT_RTL, b);
+                    cssMbrginVblue = b.getAttribute(CSS.Attribute.MARGIN_LEFT);
                 }
-                break;
+                brebk;
             }
 
-            if (cssMarginValue == null
-                && orientationMargin != Integer.MIN_VALUE) {
-                margin = orientationMargin;
+            if (cssMbrginVblue == null
+                && orientbtionMbrgin != Integer.MIN_VALUE) {
+                mbrgin = orientbtionMbrgin;
             }
-            return margin;
+            return mbrgin;
         }
 
-        float topMargin;
-        float bottomMargin;
-        float leftMargin;
-        float rightMargin;
-        // Bitmask, used to indicate what margins are relative:
-        // bit 0 for top, 1 for bottom, 2 for left and 3 for right.
-        short marginFlags;
+        flobt topMbrgin;
+        flobt bottomMbrgin;
+        flobt leftMbrgin;
+        flobt rightMbrgin;
+        // Bitmbsk, used to indicbte whbt mbrgins bre relbtive:
+        // bit 0 for top, 1 for bottom, 2 for left bnd 3 for right.
+        short mbrginFlbgs;
         Border border;
         Insets binsets;
         CSS css;
         StyleSheet ss;
         Color bg;
-        BackgroundImagePainter bgPainter;
+        BbckgroundImbgePbinter bgPbinter;
     }
 
     /**
-     * Class to carry out some of the duties of CSS list
-     * formatting.  Implementations of this
-     * class enable views to present the CSS formatting
-     * while not knowing anything about how the CSS values
-     * are being cached.
+     * Clbss to cbrry out some of the duties of CSS list
+     * formbtting.  Implementbtions of this
+     * clbss enbble views to present the CSS formbtting
+     * while not knowing bnything bbout how the CSS vblues
+     * bre being cbched.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class ListPainter implements Serializable {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss ListPbinter implements Seriblizbble {
 
-        ListPainter(AttributeSet attr, StyleSheet ss) {
+        ListPbinter(AttributeSet bttr, StyleSheet ss) {
             this.ss = ss;
-            /* Get the image to use as a list bullet */
-            String imgstr = (String)attr.getAttribute(CSS.Attribute.
+            /* Get the imbge to use bs b list bullet */
+            String imgstr = (String)bttr.getAttribute(CSS.Attribute.
                                                       LIST_STYLE_IMAGE);
             type = null;
-            if (imgstr != null && !imgstr.equals("none")) {
+            if (imgstr != null && !imgstr.equbls("none")) {
                 String tmpstr = null;
                 try {
                     StringTokenizer st = new StringTokenizer(imgstr, "()");
-                    if (st.hasMoreTokens())
+                    if (st.hbsMoreTokens())
                         tmpstr = st.nextToken();
-                    if (st.hasMoreTokens())
+                    if (st.hbsMoreTokens())
                         tmpstr = st.nextToken();
                     URL u = new URL(tmpstr);
-                    img = new ImageIcon(u);
-                } catch (MalformedURLException e) {
-                    if (tmpstr != null && ss != null && ss.getBase() != null) {
+                    img = new ImbgeIcon(u);
+                } cbtch (MblformedURLException e) {
+                    if (tmpstr != null && ss != null && ss.getBbse() != null) {
                         try {
-                            URL u = new URL(ss.getBase(), tmpstr);
-                            img = new ImageIcon(u);
-                        } catch (MalformedURLException murle) {
+                            URL u = new URL(ss.getBbse(), tmpstr);
+                            img = new ImbgeIcon(u);
+                        } cbtch (MblformedURLException murle) {
                             img = null;
                         }
                     }
@@ -2118,36 +2118,36 @@ public class StyleSheet extends StyleContext {
 
             /* Get the type of bullet to use in the list */
             if (img == null) {
-                type = (CSS.Value)attr.getAttribute(CSS.Attribute.
+                type = (CSS.Vblue)bttr.getAttribute(CSS.Attribute.
                                                     LIST_STYLE_TYPE);
             }
-            start = 1;
+            stbrt = 1;
 
-            paintRect = new Rectangle();
+            pbintRect = new Rectbngle();
         }
 
         /**
-         * Returns a string that represents the value
-         * of the HTML.Attribute.TYPE attribute.
-         * If this attributes is not defined, then
-         * then the type defaults to "disc" unless
-         * the tag is on Ordered list.  In the case
-         * of the latter, the default type is "decimal".
+         * Returns b string thbt represents the vblue
+         * of the HTML.Attribute.TYPE bttribute.
+         * If this bttributes is not defined, then
+         * then the type defbults to "disc" unless
+         * the tbg is on Ordered list.  In the cbse
+         * of the lbtter, the defbult type is "decimbl".
          */
-        private CSS.Value getChildType(View childView) {
-            CSS.Value childtype = (CSS.Value)childView.getAttributes().
+        privbte CSS.Vblue getChildType(View childView) {
+            CSS.Vblue childtype = (CSS.Vblue)childView.getAttributes().
                                   getAttribute(CSS.Attribute.LIST_STYLE_TYPE);
 
             if (childtype == null) {
                 if (type == null) {
-                    // Parent view.
-                    View v = childView.getParent();
+                    // Pbrent view.
+                    View v = childView.getPbrent();
                     HTMLDocument doc = (HTMLDocument)v.getDocument();
-                    if (HTMLDocument.matchNameAttribute(v.getElement().getAttributes(),
-                                                        HTML.Tag.OL)) {
-                        childtype = CSS.Value.DECIMAL;
+                    if (HTMLDocument.mbtchNbmeAttribute(v.getElement().getAttributes(),
+                                                        HTML.Tbg.OL)) {
+                        childtype = CSS.Vblue.DECIMAL;
                     } else {
-                        childtype = CSS.Value.DISC;
+                        childtype = CSS.Vblue.DISC;
                     }
                 } else {
                     childtype = type;
@@ -2157,289 +2157,289 @@ public class StyleSheet extends StyleContext {
         }
 
         /**
-         * Obtains the starting index from <code>parent</code>.
+         * Obtbins the stbrting index from <code>pbrent</code>.
          */
-        private void getStart(View parent) {
-            checkedForStart = true;
-            Element element = parent.getElement();
+        privbte void getStbrt(View pbrent) {
+            checkedForStbrt = true;
+            Element element = pbrent.getElement();
             if (element != null) {
-                AttributeSet attr = element.getAttributes();
-                Object startValue;
-                if (attr != null && attr.isDefined(HTML.Attribute.START) &&
-                    (startValue = attr.getAttribute
+                AttributeSet bttr = element.getAttributes();
+                Object stbrtVblue;
+                if (bttr != null && bttr.isDefined(HTML.Attribute.START) &&
+                    (stbrtVblue = bttr.getAttribute
                      (HTML.Attribute.START)) != null &&
-                    (startValue instanceof String)) {
+                    (stbrtVblue instbnceof String)) {
 
                     try {
-                        start = Integer.parseInt((String)startValue);
+                        stbrt = Integer.pbrseInt((String)stbrtVblue);
                     }
-                    catch (NumberFormatException nfe) {}
+                    cbtch (NumberFormbtException nfe) {}
                 }
             }
         }
 
         /**
-         * Returns an integer that should be used to render the child at
-         * <code>childIndex</code> with. The retValue will usually be
-         * <code>childIndex</code> + 1, unless <code>parentView</code>
-         * has some Views that do not represent LI's, or one of the views
-         * has a HTML.Attribute.START specified.
+         * Returns bn integer thbt should be used to render the child bt
+         * <code>childIndex</code> with. The retVblue will usublly be
+         * <code>childIndex</code> + 1, unless <code>pbrentView</code>
+         * hbs some Views thbt do not represent LI's, or one of the views
+         * hbs b HTML.Attribute.START specified.
          */
-        private int getRenderIndex(View parentView, int childIndex) {
-            if (!checkedForStart) {
-                getStart(parentView);
+        privbte int getRenderIndex(View pbrentView, int childIndex) {
+            if (!checkedForStbrt) {
+                getStbrt(pbrentView);
             }
             int retIndex = childIndex;
             for (int counter = childIndex; counter >= 0; counter--) {
-                AttributeSet as = parentView.getElement().getElement(counter).
+                AttributeSet bs = pbrentView.getElement().getElement(counter).
                                   getAttributes();
-                if (as.getAttribute(StyleConstants.NameAttribute) !=
-                    HTML.Tag.LI) {
+                if (bs.getAttribute(StyleConstbnts.NbmeAttribute) !=
+                    HTML.Tbg.LI) {
                     retIndex--;
-                } else if (as.isDefined(HTML.Attribute.VALUE)) {
-                    Object value = as.getAttribute(HTML.Attribute.VALUE);
-                    if (value != null &&
-                        (value instanceof String)) {
+                } else if (bs.isDefined(HTML.Attribute.VALUE)) {
+                    Object vblue = bs.getAttribute(HTML.Attribute.VALUE);
+                    if (vblue != null &&
+                        (vblue instbnceof String)) {
                         try {
-                            int iValue = Integer.parseInt((String)value);
-                            return retIndex - counter + iValue;
+                            int iVblue = Integer.pbrseInt((String)vblue);
+                            return retIndex - counter + iVblue;
                         }
-                        catch (NumberFormatException nfe) {}
+                        cbtch (NumberFormbtException nfe) {}
                     }
                 }
             }
-            return retIndex + start;
+            return retIndex + stbrt;
         }
 
         /**
-         * Paints the CSS list decoration according to the
-         * attributes given.
+         * Pbints the CSS list decorbtion bccording to the
+         * bttributes given.
          *
-         * @param g the rendering surface.
-         * @param x the x coordinate of the list item allocation
-         * @param y the y coordinate of the list item allocation
-         * @param w the width of the list item allocation
-         * @param h the height of the list item allocation
-         * @param v the allocated area to paint into.
-         * @param item which list item is being painted.  This
-         *  is a number greater than or equal to 0.
+         * @pbrbm g the rendering surfbce.
+         * @pbrbm x the x coordinbte of the list item bllocbtion
+         * @pbrbm y the y coordinbte of the list item bllocbtion
+         * @pbrbm w the width of the list item bllocbtion
+         * @pbrbm h the height of the list item bllocbtion
+         * @pbrbm v the bllocbted breb to pbint into.
+         * @pbrbm item which list item is being pbinted.  This
+         *  is b number grebter thbn or equbl to 0.
          */
-        public void paint(Graphics g, float x, float y, float w, float h, View v, int item) {
+        public void pbint(Grbphics g, flobt x, flobt y, flobt w, flobt h, View v, int item) {
             View cv = v.getView(item);
-            Container host = v.getContainer();
-            Object name = cv.getElement().getAttributes().getAttribute
-                         (StyleConstants.NameAttribute);
-            // Only draw something if the View is a list item. This won't
-            // be the case for comments.
-            if (!(name instanceof HTML.Tag) ||
-                name != HTML.Tag.LI) {
+            Contbiner host = v.getContbiner();
+            Object nbme = cv.getElement().getAttributes().getAttribute
+                         (StyleConstbnts.NbmeAttribute);
+            // Only drbw something if the View is b list item. This won't
+            // be the cbse for comments.
+            if (!(nbme instbnceof HTML.Tbg) ||
+                nbme != HTML.Tbg.LI) {
                 return;
             }
-            // deside on what side draw bullets, etc.
+            // deside on whbt side drbw bullets, etc.
             isLeftToRight =
-                host.getComponentOrientation().isLeftToRight();
+                host.getComponentOrientbtion().isLeftToRight();
 
-            // How the list indicator is aligned is not specified, it is
-            // left up to the UA. IE and NS differ on this behavior.
-            // This is closer to NS where we align to the first line of text.
-            // If the child is not text we draw the indicator at the
+            // How the list indicbtor is bligned is not specified, it is
+            // left up to the UA. IE bnd NS differ on this behbvior.
+            // This is closer to NS where we blign to the first line of text.
+            // If the child is not text we drbw the indicbtor bt the
             // origin (0).
-            float align = 0;
+            flobt blign = 0;
             if (cv.getViewCount() > 0) {
                 View pView = cv.getView(0);
-                Object cName = pView.getElement().getAttributes().
-                               getAttribute(StyleConstants.NameAttribute);
-                if ((cName == HTML.Tag.P || cName == HTML.Tag.IMPLIED) &&
+                Object cNbme = pView.getElement().getAttributes().
+                               getAttribute(StyleConstbnts.NbmeAttribute);
+                if ((cNbme == HTML.Tbg.P || cNbme == HTML.Tbg.IMPLIED) &&
                               pView.getViewCount() > 0) {
-                    paintRect.setBounds((int)x, (int)y, (int)w, (int)h);
-                    Shape shape = cv.getChildAllocation(0, paintRect);
-                    if (shape != null && (shape = pView.getView(0).
-                                 getChildAllocation(0, shape)) != null) {
-                        Rectangle rect = (shape instanceof Rectangle) ?
-                                         (Rectangle)shape : shape.getBounds();
+                    pbintRect.setBounds((int)x, (int)y, (int)w, (int)h);
+                    Shbpe shbpe = cv.getChildAllocbtion(0, pbintRect);
+                    if (shbpe != null && (shbpe = pView.getView(0).
+                                 getChildAllocbtion(0, shbpe)) != null) {
+                        Rectbngle rect = (shbpe instbnceof Rectbngle) ?
+                                         (Rectbngle)shbpe : shbpe.getBounds();
 
-                        align = pView.getView(0).getAlignment(View.Y_AXIS);
+                        blign = pView.getView(0).getAlignment(View.Y_AXIS);
                         y = rect.y;
                         h = rect.height;
                     }
                 }
             }
 
-            // set the color of a decoration
-            Color c = (host.isEnabled()
+            // set the color of b decorbtion
+            Color c = (host.isEnbbled()
                 ? (ss != null
                     ? ss.getForeground(cv.getAttributes())
                     : host.getForeground())
-                : UIManager.getColor("textInactiveText"));
+                : UIMbnbger.getColor("textInbctiveText"));
             g.setColor(c);
 
             if (img != null) {
-                drawIcon(g, (int) x, (int) y, (int) w, (int) h, align, host);
+                drbwIcon(g, (int) x, (int) y, (int) w, (int) h, blign, host);
                 return;
             }
-            CSS.Value childtype = getChildType(cv);
+            CSS.Vblue childtype = getChildType(cv);
             Font font = ((StyledDocument)cv.getDocument()).
                                          getFont(cv.getAttributes());
             if (font != null) {
                 g.setFont(font);
             }
-            if (childtype == CSS.Value.SQUARE || childtype == CSS.Value.CIRCLE
-                || childtype == CSS.Value.DISC) {
-                drawShape(g, childtype, (int) x, (int) y,
-                          (int) w, (int) h, align);
-            } else if (childtype == CSS.Value.DECIMAL) {
-                drawLetter(g, '1', (int) x, (int) y, (int) w, (int) h, align,
+            if (childtype == CSS.Vblue.SQUARE || childtype == CSS.Vblue.CIRCLE
+                || childtype == CSS.Vblue.DISC) {
+                drbwShbpe(g, childtype, (int) x, (int) y,
+                          (int) w, (int) h, blign);
+            } else if (childtype == CSS.Vblue.DECIMAL) {
+                drbwLetter(g, '1', (int) x, (int) y, (int) w, (int) h, blign,
                            getRenderIndex(v, item));
-            } else if (childtype == CSS.Value.LOWER_ALPHA) {
-                drawLetter(g, 'a', (int) x, (int) y, (int) w, (int) h, align,
+            } else if (childtype == CSS.Vblue.LOWER_ALPHA) {
+                drbwLetter(g, 'b', (int) x, (int) y, (int) w, (int) h, blign,
                            getRenderIndex(v, item));
-            } else if (childtype == CSS.Value.UPPER_ALPHA) {
-                drawLetter(g, 'A', (int) x, (int) y, (int) w, (int) h, align,
+            } else if (childtype == CSS.Vblue.UPPER_ALPHA) {
+                drbwLetter(g, 'A', (int) x, (int) y, (int) w, (int) h, blign,
                            getRenderIndex(v, item));
-            } else if (childtype == CSS.Value.LOWER_ROMAN) {
-                drawLetter(g, 'i', (int) x, (int) y, (int) w, (int) h, align,
+            } else if (childtype == CSS.Vblue.LOWER_ROMAN) {
+                drbwLetter(g, 'i', (int) x, (int) y, (int) w, (int) h, blign,
                            getRenderIndex(v, item));
-            } else if (childtype == CSS.Value.UPPER_ROMAN) {
-                drawLetter(g, 'I', (int) x, (int) y, (int) w, (int) h, align,
+            } else if (childtype == CSS.Vblue.UPPER_ROMAN) {
+                drbwLetter(g, 'I', (int) x, (int) y, (int) w, (int) h, blign,
                            getRenderIndex(v, item));
             }
         }
 
         /**
-         * Draws the bullet icon specified by the list-style-image argument.
+         * Drbws the bullet icon specified by the list-style-imbge brgument.
          *
-         * @param g     the graphics context
-         * @param ax    x coordinate to place the bullet
-         * @param ay    y coordinate to place the bullet
-         * @param aw    width of the container the bullet is placed in
-         * @param ah    height of the container the bullet is placed in
-         * @param align preferred alignment factor for the child view
+         * @pbrbm g     the grbphics context
+         * @pbrbm bx    x coordinbte to plbce the bullet
+         * @pbrbm by    y coordinbte to plbce the bullet
+         * @pbrbm bw    width of the contbiner the bullet is plbced in
+         * @pbrbm bh    height of the contbiner the bullet is plbced in
+         * @pbrbm blign preferred blignment fbctor for the child view
          */
-        void drawIcon(Graphics g, int ax, int ay, int aw, int ah,
-                      float align, Component c) {
+        void drbwIcon(Grbphics g, int bx, int by, int bw, int bh,
+                      flobt blign, Component c) {
             // Align to bottom of icon.
-            int gap = isLeftToRight ? - (img.getIconWidth() + bulletgap) :
-                                        (aw + bulletgap);
-            int x = ax + gap;
-            int y = Math.max(ay, ay + (int)(align * ah) -img.getIconHeight());
+            int gbp = isLeftToRight ? - (img.getIconWidth() + bulletgbp) :
+                                        (bw + bulletgbp);
+            int x = bx + gbp;
+            int y = Mbth.mbx(by, by + (int)(blign * bh) -img.getIconHeight());
 
-            img.paintIcon(c, g, x, y);
+            img.pbintIcon(c, g, x, y);
         }
 
         /**
-         * Draws the graphical bullet item specified by the type argument.
+         * Drbws the grbphicbl bullet item specified by the type brgument.
          *
-         * @param g     the graphics context
-         * @param type  type of bullet to draw (circle, square, disc)
-         * @param ax    x coordinate to place the bullet
-         * @param ay    y coordinate to place the bullet
-         * @param aw    width of the container the bullet is placed in
-         * @param ah    height of the container the bullet is placed in
-         * @param align preferred alignment factor for the child view
+         * @pbrbm g     the grbphics context
+         * @pbrbm type  type of bullet to drbw (circle, squbre, disc)
+         * @pbrbm bx    x coordinbte to plbce the bullet
+         * @pbrbm by    y coordinbte to plbce the bullet
+         * @pbrbm bw    width of the contbiner the bullet is plbced in
+         * @pbrbm bh    height of the contbiner the bullet is plbced in
+         * @pbrbm blign preferred blignment fbctor for the child view
          */
-        void drawShape(Graphics g, CSS.Value type, int ax, int ay, int aw,
-                       int ah, float align) {
-            // Align to bottom of shape.
-            int gap = isLeftToRight ? - (bulletgap + 8) : (aw + bulletgap);
-            int x = ax + gap;
-            int y = Math.max(ay, ay + (int)(align * ah) - 8);
+        void drbwShbpe(Grbphics g, CSS.Vblue type, int bx, int by, int bw,
+                       int bh, flobt blign) {
+            // Align to bottom of shbpe.
+            int gbp = isLeftToRight ? - (bulletgbp + 8) : (bw + bulletgbp);
+            int x = bx + gbp;
+            int y = Mbth.mbx(by, by + (int)(blign * bh) - 8);
 
-            if (type == CSS.Value.SQUARE) {
-                g.drawRect(x, y, 8, 8);
-            } else if (type == CSS.Value.CIRCLE) {
-                g.drawOval(x, y, 8, 8);
+            if (type == CSS.Vblue.SQUARE) {
+                g.drbwRect(x, y, 8, 8);
+            } else if (type == CSS.Vblue.CIRCLE) {
+                g.drbwOvbl(x, y, 8, 8);
             } else {
-                g.fillOval(x, y, 8, 8);
+                g.fillOvbl(x, y, 8, 8);
             }
         }
 
         /**
-         * Draws the letter or number for an ordered list.
+         * Drbws the letter or number for bn ordered list.
          *
-         * @param g     the graphics context
-         * @param letter type of ordered list to draw
-         * @param ax    x coordinate to place the bullet
-         * @param ay    y coordinate to place the bullet
-         * @param aw    width of the container the bullet is placed in
-         * @param ah    height of the container the bullet is placed in
-         * @param index position of the list item in the list
+         * @pbrbm g     the grbphics context
+         * @pbrbm letter type of ordered list to drbw
+         * @pbrbm bx    x coordinbte to plbce the bullet
+         * @pbrbm by    y coordinbte to plbce the bullet
+         * @pbrbm bw    width of the contbiner the bullet is plbced in
+         * @pbrbm bh    height of the contbiner the bullet is plbced in
+         * @pbrbm index position of the list item in the list
          */
-        void drawLetter(Graphics g, char letter, int ax, int ay, int aw,
-                        int ah, float align, int index) {
-            String str = formatItemNum(index, letter);
+        void drbwLetter(Grbphics g, chbr letter, int bx, int by, int bw,
+                        int bh, flobt blign, int index) {
+            String str = formbtItemNum(index, letter);
             str = isLeftToRight ? str + "." : "." + str;
             FontMetrics fm = SwingUtilities2.getFontMetrics(null, g);
             int stringwidth = SwingUtilities2.stringWidth(null, fm, str);
-            int gap = isLeftToRight ? - (stringwidth + bulletgap) :
-                                        (aw + bulletgap);
-            int x = ax + gap;
-            int y = Math.max(ay + fm.getAscent(), ay + (int)(ah * align));
-            SwingUtilities2.drawString(null, g, str, x, y);
+            int gbp = isLeftToRight ? - (stringwidth + bulletgbp) :
+                                        (bw + bulletgbp);
+            int x = bx + gbp;
+            int y = Mbth.mbx(by + fm.getAscent(), by + (int)(bh * blign));
+            SwingUtilities2.drbwString(null, g, str, x, y);
         }
 
         /**
          * Converts the item number into the ordered list number
-         * (i.e.  1 2 3, i ii iii, a b c, etc.
+         * (i.e.  1 2 3, i ii iii, b b c, etc.
          *
-         * @param itemNum number to format
-         * @param type    type of ordered list
+         * @pbrbm itemNum number to formbt
+         * @pbrbm type    type of ordered list
          */
-        @SuppressWarnings("fallthrough")
-        String formatItemNum(int itemNum, char type) {
+        @SuppressWbrnings("fbllthrough")
+        String formbtItemNum(int itemNum, chbr type) {
             String numStyle = "1";
 
-            boolean uppercase = false;
+            boolebn uppercbse = fblse;
 
-            String formattedNum;
+            String formbttedNum;
 
             switch (type) {
-            case '1':
-            default:
-                formattedNum = String.valueOf(itemNum);
-                break;
+            cbse '1':
+            defbult:
+                formbttedNum = String.vblueOf(itemNum);
+                brebk;
 
-            case 'A':
-                uppercase = true;
-                // fall through
-            case 'a':
-                formattedNum = formatAlphaNumerals(itemNum);
-                break;
+            cbse 'A':
+                uppercbse = true;
+                // fbll through
+            cbse 'b':
+                formbttedNum = formbtAlphbNumerbls(itemNum);
+                brebk;
 
-            case 'I':
-                uppercase = true;
-                // fall through
-            case 'i':
-                formattedNum = formatRomanNumerals(itemNum);
+            cbse 'I':
+                uppercbse = true;
+                // fbll through
+            cbse 'i':
+                formbttedNum = formbtRombnNumerbls(itemNum);
             }
 
-            if (uppercase) {
-                formattedNum = formattedNum.toUpperCase();
+            if (uppercbse) {
+                formbttedNum = formbttedNum.toUpperCbse();
             }
 
-            return formattedNum;
+            return formbttedNum;
         }
 
         /**
-         * Converts the item number into an alphabetic character
+         * Converts the item number into bn blphbbetic chbrbcter
          *
-         * @param itemNum number to format
+         * @pbrbm itemNum number to formbt
          */
-        String formatAlphaNumerals(int itemNum) {
+        String formbtAlphbNumerbls(int itemNum) {
             String result;
 
             if (itemNum > 26) {
-                result = formatAlphaNumerals(itemNum / 26) +
-                    formatAlphaNumerals(itemNum % 26);
+                result = formbtAlphbNumerbls(itemNum / 26) +
+                    formbtAlphbNumerbls(itemNum % 26);
             } else {
-                // -1 because item is 1 based.
-                result = String.valueOf((char)('a' + itemNum - 1));
+                // -1 becbuse item is 1 bbsed.
+                result = String.vblueOf((chbr)('b' + itemNum - 1));
             }
 
             return result;
         }
 
-        /* list of roman numerals */
-        static final char romanChars[][] = {
+        /* list of rombn numerbls */
+        stbtic finbl chbr rombnChbrs[][] = {
             {'i', 'v'},
             {'x', 'l' },
             {'c', 'd' },
@@ -2447,171 +2447,171 @@ public class StyleSheet extends StyleContext {
         };
 
         /**
-         * Converts the item number into a roman numeral
+         * Converts the item number into b rombn numerbl
          *
-         * @param num  number to format
+         * @pbrbm num  number to formbt
          */
-        String formatRomanNumerals(int num) {
-            return formatRomanNumerals(0, num);
+        String formbtRombnNumerbls(int num) {
+            return formbtRombnNumerbls(0, num);
         }
 
         /**
-         * Converts the item number into a roman numeral
+         * Converts the item number into b rombn numerbl
          *
-         * @param num  number to format
+         * @pbrbm num  number to formbt
          */
-        String formatRomanNumerals(int level, int num) {
+        String formbtRombnNumerbls(int level, int num) {
             if (num < 10) {
-                return formatRomanDigit(level, num);
+                return formbtRombnDigit(level, num);
             } else {
-                return formatRomanNumerals(level + 1, num / 10) +
-                    formatRomanDigit(level, num % 10);
+                return formbtRombnNumerbls(level + 1, num / 10) +
+                    formbtRombnDigit(level, num % 10);
             }
         }
 
 
         /**
-         * Converts the item number into a roman numeral
+         * Converts the item number into b rombn numerbl
          *
-         * @param level position
-         * @param digit digit to format
+         * @pbrbm level position
+         * @pbrbm digit digit to formbt
          */
-        String formatRomanDigit(int level, int digit) {
+        String formbtRombnDigit(int level, int digit) {
             String result = "";
             if (digit == 9) {
-                result = result + romanChars[level][0];
-                result = result + romanChars[level + 1][0];
+                result = result + rombnChbrs[level][0];
+                result = result + rombnChbrs[level + 1][0];
                 return result;
             } else if (digit == 4) {
-                result = result + romanChars[level][0];
-                result = result + romanChars[level][1];
+                result = result + rombnChbrs[level][0];
+                result = result + rombnChbrs[level][1];
                 return result;
             } else if (digit >= 5) {
-                result = result + romanChars[level][1];
+                result = result + rombnChbrs[level][1];
                 digit -= 5;
             }
 
             for (int i = 0; i < digit; i++) {
-                result = result + romanChars[level][0];
+                result = result + rombnChbrs[level][0];
             }
 
             return result;
         }
 
-        private Rectangle paintRect;
-        private boolean checkedForStart;
-        private int start;
-        private CSS.Value type;
-        URL imageurl;
-        private StyleSheet ss = null;
+        privbte Rectbngle pbintRect;
+        privbte boolebn checkedForStbrt;
+        privbte int stbrt;
+        privbte CSS.Vblue type;
+        URL imbgeurl;
+        privbte StyleSheet ss = null;
         Icon img = null;
-        private int bulletgap = 5;
-        private boolean isLeftToRight;
+        privbte int bulletgbp = 5;
+        privbte boolebn isLeftToRight;
     }
 
 
     /**
-     * Paints the background image.
+     * Pbints the bbckground imbge.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class BackgroundImagePainter implements Serializable {
-        ImageIcon   backgroundImage;
-        float       hPosition;
-        float       vPosition;
-        // bit mask: 0 for repeat x, 1 for repeat y, 2 for horiz relative,
-        // 3 for vert relative
-        short       flags;
-        // These are used when painting, updatePaintCoordinates updates them.
-        private int paintX;
-        private int paintY;
-        private int paintMaxX;
-        private int paintMaxY;
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss BbckgroundImbgePbinter implements Seriblizbble {
+        ImbgeIcon   bbckgroundImbge;
+        flobt       hPosition;
+        flobt       vPosition;
+        // bit mbsk: 0 for repebt x, 1 for repebt y, 2 for horiz relbtive,
+        // 3 for vert relbtive
+        short       flbgs;
+        // These bre used when pbinting, updbtePbintCoordinbtes updbtes them.
+        privbte int pbintX;
+        privbte int pbintY;
+        privbte int pbintMbxX;
+        privbte int pbintMbxY;
 
-        BackgroundImagePainter(AttributeSet a, CSS css, StyleSheet ss) {
-            backgroundImage = ss.getBackgroundImage(a);
+        BbckgroundImbgePbinter(AttributeSet b, CSS css, StyleSheet ss) {
+            bbckgroundImbge = ss.getBbckgroundImbge(b);
             // Determine the position.
-            CSS.BackgroundPosition pos = (CSS.BackgroundPosition)a.getAttribute
+            CSS.BbckgroundPosition pos = (CSS.BbckgroundPosition)b.getAttribute
                                            (CSS.Attribute.BACKGROUND_POSITION);
             if (pos != null) {
-                hPosition = pos.getHorizontalPosition();
-                vPosition = pos.getVerticalPosition();
-                if (pos.isHorizontalPositionRelativeToSize()) {
-                    flags |= 4;
+                hPosition = pos.getHorizontblPosition();
+                vPosition = pos.getVerticblPosition();
+                if (pos.isHorizontblPositionRelbtiveToSize()) {
+                    flbgs |= 4;
                 }
-                else if (pos.isHorizontalPositionRelativeToSize()) {
-                    hPosition *= CSS.getFontSize(a, 12, ss);
+                else if (pos.isHorizontblPositionRelbtiveToSize()) {
+                    hPosition *= CSS.getFontSize(b, 12, ss);
                 }
-                if (pos.isVerticalPositionRelativeToSize()) {
-                    flags |= 8;
+                if (pos.isVerticblPositionRelbtiveToSize()) {
+                    flbgs |= 8;
                 }
-                else if (pos.isVerticalPositionRelativeToFontSize()) {
-                    vPosition *= CSS.getFontSize(a, 12, ss);
+                else if (pos.isVerticblPositionRelbtiveToFontSize()) {
+                    vPosition *= CSS.getFontSize(b, 12, ss);
                 }
             }
-            // Determine any repeating values.
-            CSS.Value repeats = (CSS.Value)a.getAttribute(CSS.Attribute.
+            // Determine bny repebting vblues.
+            CSS.Vblue repebts = (CSS.Vblue)b.getAttribute(CSS.Attribute.
                                                           BACKGROUND_REPEAT);
-            if (repeats == null || repeats == CSS.Value.BACKGROUND_REPEAT) {
-                flags |= 3;
+            if (repebts == null || repebts == CSS.Vblue.BACKGROUND_REPEAT) {
+                flbgs |= 3;
             }
-            else if (repeats == CSS.Value.BACKGROUND_REPEAT_X) {
-                flags |= 1;
+            else if (repebts == CSS.Vblue.BACKGROUND_REPEAT_X) {
+                flbgs |= 1;
             }
-            else if (repeats == CSS.Value.BACKGROUND_REPEAT_Y) {
-                flags |= 2;
+            else if (repebts == CSS.Vblue.BACKGROUND_REPEAT_Y) {
+                flbgs |= 2;
             }
         }
 
-        void paint(Graphics g, float x, float y, float w, float h, View v) {
-            Rectangle clip = g.getClipRect();
+        void pbint(Grbphics g, flobt x, flobt y, flobt w, flobt h, View v) {
+            Rectbngle clip = g.getClipRect();
             if (clip != null) {
-                // Constrain the clip so that images don't draw outside the
-                // legal bounds.
+                // Constrbin the clip so thbt imbges don't drbw outside the
+                // legbl bounds.
                 g.clipRect((int)x, (int)y, (int)w, (int)h);
             }
-            if ((flags & 3) == 0) {
-                // no repeating
-                int width = backgroundImage.getIconWidth();
-                int height = backgroundImage.getIconWidth();
-                if ((flags & 4) == 4) {
-                    paintX = (int)(x + w * hPosition -
-                                  (float)width * hPosition);
+            if ((flbgs & 3) == 0) {
+                // no repebting
+                int width = bbckgroundImbge.getIconWidth();
+                int height = bbckgroundImbge.getIconWidth();
+                if ((flbgs & 4) == 4) {
+                    pbintX = (int)(x + w * hPosition -
+                                  (flobt)width * hPosition);
                 }
                 else {
-                    paintX = (int)x + (int)hPosition;
+                    pbintX = (int)x + (int)hPosition;
                 }
-                if ((flags & 8) == 8) {
-                    paintY = (int)(y + h * vPosition -
-                                  (float)height * vPosition);
+                if ((flbgs & 8) == 8) {
+                    pbintY = (int)(y + h * vPosition -
+                                  (flobt)height * vPosition);
                 }
                 else {
-                    paintY = (int)y + (int)vPosition;
+                    pbintY = (int)y + (int)vPosition;
                 }
                 if (clip == null ||
-                    !((paintX + width <= clip.x) ||
-                      (paintY + height <= clip.y) ||
-                      (paintX >= clip.x + clip.width) ||
-                      (paintY >= clip.y + clip.height))) {
-                    backgroundImage.paintIcon(null, g, paintX, paintY);
+                    !((pbintX + width <= clip.x) ||
+                      (pbintY + height <= clip.y) ||
+                      (pbintX >= clip.x + clip.width) ||
+                      (pbintY >= clip.y + clip.height))) {
+                    bbckgroundImbge.pbintIcon(null, g, pbintX, pbintY);
                 }
             }
             else {
-                int width = backgroundImage.getIconWidth();
-                int height = backgroundImage.getIconHeight();
+                int width = bbckgroundImbge.getIconWidth();
+                int height = bbckgroundImbge.getIconHeight();
                 if (width > 0 && height > 0) {
-                    paintX = (int)x;
-                    paintY = (int)y;
-                    paintMaxX = (int)(x + w);
-                    paintMaxY = (int)(y + h);
-                    if (updatePaintCoordinates(clip, width, height)) {
-                        while (paintX < paintMaxX) {
-                            int ySpot = paintY;
-                            while (ySpot < paintMaxY) {
-                                backgroundImage.paintIcon(null, g, paintX,
+                    pbintX = (int)x;
+                    pbintY = (int)y;
+                    pbintMbxX = (int)(x + w);
+                    pbintMbxY = (int)(y + h);
+                    if (updbtePbintCoordinbtes(clip, width, height)) {
+                        while (pbintX < pbintMbxX) {
+                            int ySpot = pbintY;
+                            while (ySpot < pbintMbxY) {
+                                bbckgroundImbge.pbintIcon(null, g, pbintX,
                                                           ySpot);
                                 ySpot += height;
                             }
-                            paintX += width;
+                            pbintX += width;
                         }
                     }
                 }
@@ -2622,153 +2622,153 @@ public class StyleSheet extends StyleContext {
             }
         }
 
-        private boolean updatePaintCoordinates
-                 (Rectangle clip, int width, int height){
-            if ((flags & 3) == 1) {
-                paintMaxY = paintY + 1;
+        privbte boolebn updbtePbintCoordinbtes
+                 (Rectbngle clip, int width, int height){
+            if ((flbgs & 3) == 1) {
+                pbintMbxY = pbintY + 1;
             }
-            else if ((flags & 3) == 2) {
-                paintMaxX = paintX + 1;
+            else if ((flbgs & 3) == 2) {
+                pbintMbxX = pbintX + 1;
             }
             if (clip != null) {
-                if ((flags & 3) == 1 && ((paintY + height <= clip.y) ||
-                                         (paintY > clip.y + clip.height))) {
+                if ((flbgs & 3) == 1 && ((pbintY + height <= clip.y) ||
+                                         (pbintY > clip.y + clip.height))) {
                     // not visible.
-                    return false;
+                    return fblse;
                 }
-                if ((flags & 3) == 2 && ((paintX + width <= clip.x) ||
-                                         (paintX > clip.x + clip.width))) {
+                if ((flbgs & 3) == 2 && ((pbintX + width <= clip.x) ||
+                                         (pbintX > clip.x + clip.width))) {
                     // not visible.
-                    return false;
+                    return fblse;
                 }
-                if ((flags & 1) == 1) {
-                    if ((clip.x + clip.width) < paintMaxX) {
-                        if ((clip.x + clip.width - paintX) % width == 0) {
-                            paintMaxX = clip.x + clip.width;
+                if ((flbgs & 1) == 1) {
+                    if ((clip.x + clip.width) < pbintMbxX) {
+                        if ((clip.x + clip.width - pbintX) % width == 0) {
+                            pbintMbxX = clip.x + clip.width;
                         }
                         else {
-                            paintMaxX = ((clip.x + clip.width - paintX) /
-                                         width + 1) * width + paintX;
+                            pbintMbxX = ((clip.x + clip.width - pbintX) /
+                                         width + 1) * width + pbintX;
                         }
                     }
-                    if (clip.x > paintX) {
-                        paintX = (clip.x - paintX) / width * width + paintX;
+                    if (clip.x > pbintX) {
+                        pbintX = (clip.x - pbintX) / width * width + pbintX;
                     }
                 }
-                if ((flags & 2) == 2) {
-                    if ((clip.y + clip.height) < paintMaxY) {
-                        if ((clip.y + clip.height - paintY) % height == 0) {
-                            paintMaxY = clip.y + clip.height;
+                if ((flbgs & 2) == 2) {
+                    if ((clip.y + clip.height) < pbintMbxY) {
+                        if ((clip.y + clip.height - pbintY) % height == 0) {
+                            pbintMbxY = clip.y + clip.height;
                         }
                         else {
-                            paintMaxY = ((clip.y + clip.height - paintY) /
-                                         height + 1) * height + paintY;
+                            pbintMbxY = ((clip.y + clip.height - pbintY) /
+                                         height + 1) * height + pbintY;
                         }
                     }
-                    if (clip.y > paintY) {
-                        paintY = (clip.y - paintY) / height * height + paintY;
+                    if (clip.y > pbintY) {
+                        pbintY = (clip.y - pbintY) / height * height + pbintY;
                     }
                 }
             }
-            // Valid
+            // Vblid
             return true;
         }
     }
 
 
     /**
-     * A subclass of MuxingAttributeSet that translates between
-     * CSS and HTML and StyleConstants. The AttributeSets used are
-     * the CSS rules that match the Views Elements.
+     * A subclbss of MuxingAttributeSet thbt trbnslbtes between
+     * CSS bnd HTML bnd StyleConstbnts. The AttributeSets used bre
+     * the CSS rules thbt mbtch the Views Elements.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    class ViewAttributeSet extends MuxingAttributeSet {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    clbss ViewAttributeSet extends MuxingAttributeSet {
         ViewAttributeSet(View v) {
             host = v;
 
-            // PENDING(prinz) fix this up to be a more realistic
-            // implementation.
+            // PENDING(prinz) fix this up to be b more reblistic
+            // implementbtion.
             Document doc = v.getDocument();
-            SearchBuffer sb = SearchBuffer.obtainSearchBuffer();
-            @SuppressWarnings("unchecked")
+            SebrchBuffer sb = SebrchBuffer.obtbinSebrchBuffer();
+            @SuppressWbrnings("unchecked")
             Vector<AttributeSet> muxList = sb.getVector();
             try {
-                if (doc instanceof HTMLDocument) {
+                if (doc instbnceof HTMLDocument) {
                     StyleSheet styles = StyleSheet.this;
                     Element elem = v.getElement();
-                    AttributeSet a = elem.getAttributes();
-                    AttributeSet htmlAttr = styles.translateHTMLToCSS(a);
+                    AttributeSet b = elem.getAttributes();
+                    AttributeSet htmlAttr = styles.trbnslbteHTMLToCSS(b);
 
                     if (htmlAttr.getAttributeCount() != 0) {
-                        muxList.addElement(htmlAttr);
+                        muxList.bddElement(htmlAttr);
                     }
-                    if (elem.isLeaf()) {
-                        Enumeration<?> keys = a.getAttributeNames();
-                        while (keys.hasMoreElements()) {
+                    if (elem.isLebf()) {
+                        Enumerbtion<?> keys = b.getAttributeNbmes();
+                        while (keys.hbsMoreElements()) {
                             Object key = keys.nextElement();
-                            if (key instanceof HTML.Tag) {
-                                if (key == HTML.Tag.A) {
-                                    Object o = a.getAttribute(key);
+                            if (key instbnceof HTML.Tbg) {
+                                if (key == HTML.Tbg.A) {
+                                    Object o = b.getAttribute(key);
                                 /**
-                                   In the case of an A tag, the css rules
-                                   apply only for tags that have their
-                                   href attribute defined and not for
-                                   anchors that only have their name attributes
-                                   defined, i.e anchors that function as
-                                   destinations.  Hence we do not add the
-                                   attributes for that latter kind of
-                                   anchors.  When CSS2 support is added,
+                                   In the cbse of bn A tbg, the css rules
+                                   bpply only for tbgs thbt hbve their
+                                   href bttribute defined bnd not for
+                                   bnchors thbt only hbve their nbme bttributes
+                                   defined, i.e bnchors thbt function bs
+                                   destinbtions.  Hence we do not bdd the
+                                   bttributes for thbt lbtter kind of
+                                   bnchors.  When CSS2 support is bdded,
                                    it will be possible to specificity this
-                                   kind of conditional behaviour in the
+                                   kind of conditionbl behbviour in the
                                    stylesheet.
                                  **/
-                                    if (o != null && o instanceof AttributeSet) {
-                                        AttributeSet attr = (AttributeSet)o;
-                                        if (attr.getAttribute(HTML.Attribute.HREF) == null) {
+                                    if (o != null && o instbnceof AttributeSet) {
+                                        AttributeSet bttr = (AttributeSet)o;
+                                        if (bttr.getAttribute(HTML.Attribute.HREF) == null) {
                                             continue;
                                         }
                                     }
                                 }
-                                AttributeSet cssRule = styles.getRule((HTML.Tag) key, elem);
+                                AttributeSet cssRule = styles.getRule((HTML.Tbg) key, elem);
                                 if (cssRule != null) {
-                                    muxList.addElement(cssRule);
+                                    muxList.bddElement(cssRule);
                                 }
                             }
                         }
                     } else {
-                        HTML.Tag t = (HTML.Tag) a.getAttribute
-                                     (StyleConstants.NameAttribute);
+                        HTML.Tbg t = (HTML.Tbg) b.getAttribute
+                                     (StyleConstbnts.NbmeAttribute);
                         AttributeSet cssRule = styles.getRule(t, elem);
                         if (cssRule != null) {
-                            muxList.addElement(cssRule);
+                            muxList.bddElement(cssRule);
                         }
                     }
                 }
-                AttributeSet[] attrs = new AttributeSet[muxList.size()];
-                muxList.copyInto(attrs);
-                setAttributes(attrs);
+                AttributeSet[] bttrs = new AttributeSet[muxList.size()];
+                muxList.copyInto(bttrs);
+                setAttributes(bttrs);
             }
-            finally {
-                SearchBuffer.releaseSearchBuffer(sb);
+            finblly {
+                SebrchBuffer.relebseSebrchBuffer(sb);
             }
         }
 
         //  --- AttributeSet methods ----------------------------
 
         /**
-         * Checks whether a given attribute is defined.
+         * Checks whether b given bttribute is defined.
          * This will convert the key over to CSS if the
-         * key is a StyleConstants key that has a CSS
-         * mapping.
+         * key is b StyleConstbnts key thbt hbs b CSS
+         * mbpping.
          *
-         * @param key the attribute key
-         * @return true if the attribute is defined
+         * @pbrbm key the bttribute key
+         * @return true if the bttribute is defined
          * @see AttributeSet#isDefined
          */
-        public boolean isDefined(Object key) {
-            if (key instanceof StyleConstants) {
-                Object cssKey = css.styleConstantsKeyToCSSKey
-                                    ((StyleConstants)key);
+        public boolebn isDefined(Object key) {
+            if (key instbnceof StyleConstbnts) {
+                Object cssKey = css.styleConstbntsKeyToCSSKey
+                                    ((StyleConstbnts)key);
                 if (cssKey != null) {
                     key = cssKey;
                 }
@@ -2777,23 +2777,23 @@ public class StyleSheet extends StyleContext {
         }
 
         /**
-         * Gets the value of an attribute.  If the requested
-         * attribute is a StyleConstants attribute that has
-         * a CSS mapping, the request will be converted.
+         * Gets the vblue of bn bttribute.  If the requested
+         * bttribute is b StyleConstbnts bttribute thbt hbs
+         * b CSS mbpping, the request will be converted.
          *
-         * @param key the attribute name
-         * @return the attribute value
+         * @pbrbm key the bttribute nbme
+         * @return the bttribute vblue
          * @see AttributeSet#getAttribute
          */
         public Object getAttribute(Object key) {
-            if (key instanceof StyleConstants) {
-                Object cssKey = css.styleConstantsKeyToCSSKey
-                               ((StyleConstants)key);
+            if (key instbnceof StyleConstbnts) {
+                Object cssKey = css.styleConstbntsKeyToCSSKey
+                               ((StyleConstbnts)key);
                 if (cssKey != null) {
-                    Object value = doGetAttribute(cssKey);
-                    if (value instanceof CSS.CssValue) {
-                        return ((CSS.CssValue)value).toStyleConstants
-                                     ((StyleConstants)key, host);
+                    Object vblue = doGetAttribute(cssKey);
+                    if (vblue instbnceof CSS.CssVblue) {
+                        return ((CSS.CssVblue)vblue).toStyleConstbnts
+                                     ((StyleConstbnts)key, host);
                     }
                 }
             }
@@ -2801,75 +2801,75 @@ public class StyleSheet extends StyleContext {
         }
 
         Object doGetAttribute(Object key) {
-            Object retValue = super.getAttribute(key);
-            if (retValue != null) {
-                return retValue;
+            Object retVblue = super.getAttribute(key);
+            if (retVblue != null) {
+                return retVblue;
             }
-            // didn't find it... try parent if it's a css attribute
-            // that is inherited.
-            if (key instanceof CSS.Attribute) {
+            // didn't find it... try pbrent if it's b css bttribute
+            // thbt is inherited.
+            if (key instbnceof CSS.Attribute) {
                 CSS.Attribute css = (CSS.Attribute) key;
                 if (css.isInherited()) {
-                    AttributeSet parent = getResolveParent();
-                    if (parent != null)
-                        return parent.getAttribute(key);
+                    AttributeSet pbrent = getResolvePbrent();
+                    if (pbrent != null)
+                        return pbrent.getAttribute(key);
                 }
             }
             return null;
         }
 
         /**
-         * If not overriden, the resolving parent defaults to
-         * the parent element.
+         * If not overriden, the resolving pbrent defbults to
+         * the pbrent element.
          *
-         * @return the attributes from the parent
-         * @see AttributeSet#getResolveParent
+         * @return the bttributes from the pbrent
+         * @see AttributeSet#getResolvePbrent
          */
-        public AttributeSet getResolveParent() {
+        public AttributeSet getResolvePbrent() {
             if (host == null) {
                 return null;
             }
-            View parent = host.getParent();
-            return (parent != null) ? parent.getAttributes() : null;
+            View pbrent = host.getPbrent();
+            return (pbrent != null) ? pbrent.getAttributes() : null;
         }
 
-        /** View created for. */
+        /** View crebted for. */
         View host;
     }
 
 
     /**
-     * A subclass of MuxingAttributeSet that implements Style. Currently
-     * the MutableAttributeSet methods are unimplemented, that is they
+     * A subclbss of MuxingAttributeSet thbt implements Style. Currently
+     * the MutbbleAttributeSet methods bre unimplemented, thbt is they
      * do nothing.
      */
-    // PENDING(sky): Decide what to do with this. Either make it
-    // contain a SimpleAttributeSet that modify methods are delegated to,
-    // or change getRule to return an AttributeSet and then don't make this
+    // PENDING(sky): Decide whbt to do with this. Either mbke it
+    // contbin b SimpleAttributeSet thbt modify methods bre delegbted to,
+    // or chbnge getRule to return bn AttributeSet bnd then don't mbke this
     // implement Style.
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class ResolvedStyle extends MuxingAttributeSet implements
-                  Serializable, Style {
-        ResolvedStyle(String name, AttributeSet[] attrs, int extendedIndex) {
-            super(attrs);
-            this.name = name;
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss ResolvedStyle extends MuxingAttributeSet implements
+                  Seriblizbble, Style {
+        ResolvedStyle(String nbme, AttributeSet[] bttrs, int extendedIndex) {
+            super(bttrs);
+            this.nbme = nbme;
             this.extendedIndex = extendedIndex;
         }
 
         /**
-         * Inserts a Style into the receiver so that the styles the
-         * receiver represents are still ordered by specificity.
-         * <code>style</code> will be added before any extended styles, that
+         * Inserts b Style into the receiver so thbt the styles the
+         * receiver represents bre still ordered by specificity.
+         * <code>style</code> will be bdded before bny extended styles, thbt
          * is before extendedIndex.
          */
         synchronized void insertStyle(Style style, int specificity) {
-            AttributeSet[] attrs = getAttributes();
-            int maxCounter = attrs.length;
+            AttributeSet[] bttrs = getAttributes();
+            int mbxCounter = bttrs.length;
             int counter = 0;
             for (;counter < extendedIndex; counter++) {
-                if (specificity > getSpecificity(((Style)attrs[counter]).
-                                                 getName())) {
-                    break;
+                if (specificity > getSpecificity(((Style)bttrs[counter]).
+                                                 getNbme())) {
+                    brebk;
                 }
             }
             insertAttributeSetAt(style, counter);
@@ -2877,41 +2877,41 @@ public class StyleSheet extends StyleContext {
         }
 
         /**
-         * Removes a previously added style. This will do nothing if
+         * Removes b previously bdded style. This will do nothing if
          * <code>style</code> is not referenced by the receiver.
          */
         synchronized void removeStyle(Style style) {
-            AttributeSet[] attrs = getAttributes();
+            AttributeSet[] bttrs = getAttributes();
 
-            for (int counter = attrs.length - 1; counter >= 0; counter--) {
-                if (attrs[counter] == style) {
+            for (int counter = bttrs.length - 1; counter >= 0; counter--) {
+                if (bttrs[counter] == style) {
                     removeAttributeSetAt(counter);
                     if (counter < extendedIndex) {
                         extendedIndex--;
                     }
-                    break;
+                    brebk;
                 }
             }
         }
 
         /**
-         * Adds <code>s</code> as one of the Attributesets to look up
-         * attributes in.
+         * Adds <code>s</code> bs one of the Attributesets to look up
+         * bttributes in.
          */
-        synchronized void insertExtendedStyleAt(Style attr, int index) {
-            insertAttributeSetAt(attr, extendedIndex + index);
+        synchronized void insertExtendedStyleAt(Style bttr, int index) {
+            insertAttributeSetAt(bttr, extendedIndex + index);
         }
 
         /**
-         * Adds <code>s</code> as one of the AttributeSets to look up
-         * attributes in. It will be the AttributeSet last checked.
+         * Adds <code>s</code> bs one of the AttributeSets to look up
+         * bttributes in. It will be the AttributeSet lbst checked.
          */
-        synchronized void addExtendedStyle(Style attr) {
-            insertAttributeSetAt(attr, getAttributes().length);
+        synchronized void bddExtendedStyle(Style bttr) {
+            insertAttributeSetAt(bttr, getAttributes().length);
         }
 
         /**
-         * Removes the style at <code>index</code> +
+         * Removes the style bt <code>index</code> +
          * <code>extendedIndex</code>.
          */
         synchronized void removeExtendedStyleAt(int index) {
@@ -2919,234 +2919,234 @@ public class StyleSheet extends StyleContext {
         }
 
         /**
-         * Returns true if the receiver matches <code>selector</code>, where
-         * a match is defined by the CSS rule matching.
-         * Each simple selector must be separated by a single space.
+         * Returns true if the receiver mbtches <code>selector</code>, where
+         * b mbtch is defined by the CSS rule mbtching.
+         * Ebch simple selector must be sepbrbted by b single spbce.
          */
-        protected boolean matches(String selector) {
-            int sLast = selector.length();
+        protected boolebn mbtches(String selector) {
+            int sLbst = selector.length();
 
-            if (sLast == 0) {
-                return false;
+            if (sLbst == 0) {
+                return fblse;
             }
-            int thisLast = name.length();
-            int sCurrent = selector.lastIndexOf(' ');
-            int thisCurrent = name.lastIndexOf(' ');
+            int thisLbst = nbme.length();
+            int sCurrent = selector.lbstIndexOf(' ');
+            int thisCurrent = nbme.lbstIndexOf(' ');
             if (sCurrent >= 0) {
                 sCurrent++;
             }
             if (thisCurrent >= 0) {
                 thisCurrent++;
             }
-            if (!matches(selector, sCurrent, sLast, thisCurrent, thisLast)) {
-                return false;
+            if (!mbtches(selector, sCurrent, sLbst, thisCurrent, thisLbst)) {
+                return fblse;
             }
             while (sCurrent != -1) {
-                sLast = sCurrent - 1;
-                sCurrent = selector.lastIndexOf(' ', sLast - 1);
+                sLbst = sCurrent - 1;
+                sCurrent = selector.lbstIndexOf(' ', sLbst - 1);
                 if (sCurrent >= 0) {
                     sCurrent++;
                 }
-                boolean match = false;
-                while (!match && thisCurrent != -1) {
-                    thisLast = thisCurrent - 1;
-                    thisCurrent = name.lastIndexOf(' ', thisLast - 1);
+                boolebn mbtch = fblse;
+                while (!mbtch && thisCurrent != -1) {
+                    thisLbst = thisCurrent - 1;
+                    thisCurrent = nbme.lbstIndexOf(' ', thisLbst - 1);
                     if (thisCurrent >= 0) {
                         thisCurrent++;
                     }
-                    match = matches(selector, sCurrent, sLast, thisCurrent,
-                                    thisLast);
+                    mbtch = mbtches(selector, sCurrent, sLbst, thisCurrent,
+                                    thisLbst);
                 }
-                if (!match) {
-                    return false;
+                if (!mbtch) {
+                    return fblse;
                 }
             }
             return true;
         }
 
         /**
-         * Returns true if the substring of the receiver, in the range
-         * thisCurrent, thisLast matches the substring of selector in
-         * the ranme sCurrent to sLast based on CSS selector matching.
+         * Returns true if the substring of the receiver, in the rbnge
+         * thisCurrent, thisLbst mbtches the substring of selector in
+         * the rbnme sCurrent to sLbst bbsed on CSS selector mbtching.
          */
-        boolean matches(String selector, int sCurrent, int sLast,
-                       int thisCurrent, int thisLast) {
-            sCurrent = Math.max(sCurrent, 0);
-            thisCurrent = Math.max(thisCurrent, 0);
-            int thisDotIndex = boundedIndexOf(name, '.', thisCurrent,
-                                              thisLast);
-            int thisPoundIndex = boundedIndexOf(name, '#', thisCurrent,
-                                                thisLast);
-            int sDotIndex = boundedIndexOf(selector, '.', sCurrent, sLast);
-            int sPoundIndex = boundedIndexOf(selector, '#', sCurrent, sLast);
+        boolebn mbtches(String selector, int sCurrent, int sLbst,
+                       int thisCurrent, int thisLbst) {
+            sCurrent = Mbth.mbx(sCurrent, 0);
+            thisCurrent = Mbth.mbx(thisCurrent, 0);
+            int thisDotIndex = boundedIndexOf(nbme, '.', thisCurrent,
+                                              thisLbst);
+            int thisPoundIndex = boundedIndexOf(nbme, '#', thisCurrent,
+                                                thisLbst);
+            int sDotIndex = boundedIndexOf(selector, '.', sCurrent, sLbst);
+            int sPoundIndex = boundedIndexOf(selector, '#', sCurrent, sLbst);
             if (sDotIndex != -1) {
-                // Selector has a '.', which indicates name must match it,
-                // or if the '.' starts the selector than name must have
-                // the same class (doesn't matter what element name).
+                // Selector hbs b '.', which indicbtes nbme must mbtch it,
+                // or if the '.' stbrts the selector thbn nbme must hbve
+                // the sbme clbss (doesn't mbtter whbt element nbme).
                 if (thisDotIndex == -1) {
-                    return false;
+                    return fblse;
                 }
                 if (sCurrent == sDotIndex) {
-                    if ((thisLast - thisDotIndex) != (sLast - sDotIndex) ||
-                        !selector.regionMatches(sCurrent, name, thisDotIndex,
-                                                (thisLast - thisDotIndex))) {
-                        return false;
+                    if ((thisLbst - thisDotIndex) != (sLbst - sDotIndex) ||
+                        !selector.regionMbtches(sCurrent, nbme, thisDotIndex,
+                                                (thisLbst - thisDotIndex))) {
+                        return fblse;
                     }
                 }
                 else {
-                    // Has to fully match.
-                    if ((sLast - sCurrent) != (thisLast - thisCurrent) ||
-                        !selector.regionMatches(sCurrent, name, thisCurrent,
-                                                (thisLast - thisCurrent))) {
-                        return false;
+                    // Hbs to fully mbtch.
+                    if ((sLbst - sCurrent) != (thisLbst - thisCurrent) ||
+                        !selector.regionMbtches(sCurrent, nbme, thisCurrent,
+                                                (thisLbst - thisCurrent))) {
+                        return fblse;
                     }
                 }
                 return true;
             }
             if (sPoundIndex != -1) {
-                // Selector has a '#', which indicates name must match it,
-                // or if the '#' starts the selector than name must have
-                // the same id (doesn't matter what element name).
+                // Selector hbs b '#', which indicbtes nbme must mbtch it,
+                // or if the '#' stbrts the selector thbn nbme must hbve
+                // the sbme id (doesn't mbtter whbt element nbme).
                 if (thisPoundIndex == -1) {
-                    return false;
+                    return fblse;
                 }
                 if (sCurrent == sPoundIndex) {
-                    if ((thisLast - thisPoundIndex) !=(sLast - sPoundIndex) ||
-                        !selector.regionMatches(sCurrent, name, thisPoundIndex,
-                                                (thisLast - thisPoundIndex))) {
-                        return false;
+                    if ((thisLbst - thisPoundIndex) !=(sLbst - sPoundIndex) ||
+                        !selector.regionMbtches(sCurrent, nbme, thisPoundIndex,
+                                                (thisLbst - thisPoundIndex))) {
+                        return fblse;
                     }
                 }
                 else {
-                    // Has to fully match.
-                    if ((sLast - sCurrent) != (thisLast - thisCurrent) ||
-                        !selector.regionMatches(sCurrent, name, thisCurrent,
-                                               (thisLast - thisCurrent))) {
-                        return false;
+                    // Hbs to fully mbtch.
+                    if ((sLbst - sCurrent) != (thisLbst - thisCurrent) ||
+                        !selector.regionMbtches(sCurrent, nbme, thisCurrent,
+                                               (thisLbst - thisCurrent))) {
+                        return fblse;
                     }
                 }
                 return true;
             }
             if (thisDotIndex != -1) {
-                // Receiver references a class, just check element name.
-                return (((thisDotIndex - thisCurrent) == (sLast - sCurrent)) &&
-                        selector.regionMatches(sCurrent, name, thisCurrent,
+                // Receiver references b clbss, just check element nbme.
+                return (((thisDotIndex - thisCurrent) == (sLbst - sCurrent)) &&
+                        selector.regionMbtches(sCurrent, nbme, thisCurrent,
                                                thisDotIndex - thisCurrent));
             }
             if (thisPoundIndex != -1) {
-                // Receiver references an id, just check element name.
-                return (((thisPoundIndex - thisCurrent) ==(sLast - sCurrent))&&
-                        selector.regionMatches(sCurrent, name, thisCurrent,
+                // Receiver references bn id, just check element nbme.
+                return (((thisPoundIndex - thisCurrent) ==(sLbst - sCurrent))&&
+                        selector.regionMbtches(sCurrent, nbme, thisCurrent,
                                                thisPoundIndex - thisCurrent));
             }
-            // Fail through, no classes or ides, just check string.
-            return (((thisLast - thisCurrent) == (sLast - sCurrent)) &&
-                    selector.regionMatches(sCurrent, name, thisCurrent,
-                                           thisLast - thisCurrent));
+            // Fbil through, no clbsses or ides, just check string.
+            return (((thisLbst - thisCurrent) == (sLbst - sCurrent)) &&
+                    selector.regionMbtches(sCurrent, nbme, thisCurrent,
+                                           thisLbst - thisCurrent));
         }
 
         /**
-         * Similar to String.indexOf, but allows an upper bound
-         * (this is slower in that it will still check string starting at
-         * start.
+         * Similbr to String.indexOf, but bllows bn upper bound
+         * (this is slower in thbt it will still check string stbrting bt
+         * stbrt.
          */
-        int boundedIndexOf(String string, char search, int start,
+        int boundedIndexOf(String string, chbr sebrch, int stbrt,
                            int end) {
-            int retValue = string.indexOf(search, start);
-            if (retValue >= end) {
+            int retVblue = string.indexOf(sebrch, stbrt);
+            if (retVblue >= end) {
                 return -1;
             }
-            return retValue;
+            return retVblue;
         }
 
-        public void addAttribute(Object name, Object value) {}
-        public void addAttributes(AttributeSet attributes) {}
-        public void removeAttribute(Object name) {}
-        public void removeAttributes(Enumeration<?> names) {}
-        public void removeAttributes(AttributeSet attributes) {}
-        public void setResolveParent(AttributeSet parent) {}
-        public String getName() {return name;}
-        public void addChangeListener(ChangeListener l) {}
-        public void removeChangeListener(ChangeListener l) {}
-        public ChangeListener[] getChangeListeners() {
-            return new ChangeListener[0];
+        public void bddAttribute(Object nbme, Object vblue) {}
+        public void bddAttributes(AttributeSet bttributes) {}
+        public void removeAttribute(Object nbme) {}
+        public void removeAttributes(Enumerbtion<?> nbmes) {}
+        public void removeAttributes(AttributeSet bttributes) {}
+        public void setResolvePbrent(AttributeSet pbrent) {}
+        public String getNbme() {return nbme;}
+        public void bddChbngeListener(ChbngeListener l) {}
+        public void removeChbngeListener(ChbngeListener l) {}
+        public ChbngeListener[] getChbngeListeners() {
+            return new ChbngeListener[0];
         }
 
-        /** The name of the Style, which is the selector.
-         * This will NEVER change!
+        /** The nbme of the Style, which is the selector.
+         * This will NEVER chbnge!
          */
-        String name;
-        /** Start index of styles coming from other StyleSheets. */
-        private int extendedIndex;
+        String nbme;
+        /** Stbrt index of styles coming from other StyleSheets. */
+        privbte int extendedIndex;
     }
 
 
     /**
-     * SelectorMapping contains a specifitiy, as an integer, and an associated
-     * Style. It can also reference children <code>SelectorMapping</code>s,
-     * so that it behaves like a tree.
+     * SelectorMbpping contbins b specifitiy, bs bn integer, bnd bn bssocibted
+     * Style. It cbn blso reference children <code>SelectorMbpping</code>s,
+     * so thbt it behbves like b tree.
      * <p>
-     * This is not thread safe, it is assumed the caller will take the
-     * necessary precations if this is to be used in a threaded environment.
+     * This is not threbd sbfe, it is bssumed the cbller will tbke the
+     * necessbry precbtions if this is to be used in b threbded environment.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class SelectorMapping implements Serializable {
-        public SelectorMapping(int specificity) {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss SelectorMbpping implements Seriblizbble {
+        public SelectorMbpping(int specificity) {
             this.specificity = specificity;
         }
 
         /**
-         * Returns the specificity this mapping represents.
+         * Returns the specificity this mbpping represents.
          */
         public int getSpecificity() {
             return specificity;
         }
 
         /**
-         * Sets the Style associated with this mapping.
+         * Sets the Style bssocibted with this mbpping.
          */
         public void setStyle(Style style) {
             this.style = style;
         }
 
         /**
-         * Returns the Style associated with this mapping.
+         * Returns the Style bssocibted with this mbpping.
          */
         public Style getStyle() {
             return style;
         }
 
         /**
-         * Returns the child mapping identified by the simple selector
-         * <code>selector</code>. If a child mapping does not exist for
-         *<code>selector</code>, and <code>create</code> is true, a new
-         * one will be created.
+         * Returns the child mbpping identified by the simple selector
+         * <code>selector</code>. If b child mbpping does not exist for
+         *<code>selector</code>, bnd <code>crebte</code> is true, b new
+         * one will be crebted.
          */
-        public SelectorMapping getChildSelectorMapping(String selector,
-                                                       boolean create) {
-            SelectorMapping retValue = null;
+        public SelectorMbpping getChildSelectorMbpping(String selector,
+                                                       boolebn crebte) {
+            SelectorMbpping retVblue = null;
 
             if (children != null) {
-                retValue = children.get(selector);
+                retVblue = children.get(selector);
             }
-            else if (create) {
-                children = new HashMap<String, SelectorMapping>(7);
+            else if (crebte) {
+                children = new HbshMbp<String, SelectorMbpping>(7);
             }
-            if (retValue == null && create) {
+            if (retVblue == null && crebte) {
                 int specificity = getChildSpecificity(selector);
 
-                retValue = createChildSelectorMapping(specificity);
-                children.put(selector, retValue);
+                retVblue = crebteChildSelectorMbpping(specificity);
+                children.put(selector, retVblue);
             }
-            return retValue;
+            return retVblue;
         }
 
         /**
-         * Creates a child <code>SelectorMapping</code> with the specified
+         * Crebtes b child <code>SelectorMbpping</code> with the specified
          * <code>specificity</code>.
          */
-        protected SelectorMapping createChildSelectorMapping(int specificity) {
-            return new SelectorMapping(specificity);
+        protected SelectorMbpping crebteChildSelectorMbpping(int specificity) {
+            return new SelectorMbpping(specificity);
         }
 
         /**
@@ -3154,15 +3154,15 @@ public class StyleSheet extends StyleContext {
          * <code>selector</code>.
          */
         protected int getChildSpecificity(String selector) {
-            // class (.) 100
+            // clbss (.) 100
             // id (#)    10000
-            char    firstChar = selector.charAt(0);
+            chbr    firstChbr = selector.chbrAt(0);
             int     specificity = getSpecificity();
 
-            if (firstChar == '.') {
+            if (firstChbr == '.') {
                 specificity += 100;
             }
-            else if (firstChar == '#') {
+            else if (firstChbr == '#') {
                 specificity += 10000;
             }
             else {
@@ -3180,229 +3180,229 @@ public class StyleSheet extends StyleContext {
         /**
          * The specificity for this selector.
          */
-        private int specificity;
+        privbte int specificity;
         /**
          * Style for this selector.
          */
-        private Style style;
+        privbte Style style;
         /**
-         * Any sub selectors. Key will be String, and value will be
-         * another SelectorMapping.
+         * Any sub selectors. Key will be String, bnd vblue will be
+         * bnother SelectorMbpping.
          */
-        private HashMap<String, SelectorMapping> children;
+        privbte HbshMbp<String, SelectorMbpping> children;
     }
 
 
-    // ---- Variables ---------------------------------------------
+    // ---- Vbribbles ---------------------------------------------
 
-    final static int DEFAULT_FONT_SIZE = 3;
+    finbl stbtic int DEFAULT_FONT_SIZE = 3;
 
-    private CSS css;
-
-    /**
-     * An inverted graph of the selectors.
-     */
-    private SelectorMapping selectorMapping;
-
-    /** Maps from selector (as a string) to Style that includes all
-     * relevant styles. */
-    private Hashtable<String, ResolvedStyle> resolvedStyles;
-
-    /** Vector of StyleSheets that the rules are to reference.
-     */
-    private Vector<StyleSheet> linkedStyleSheets;
-
-    /** Where the style sheet was found. Used for relative imports. */
-    private URL base;
-
+    privbte CSS css;
 
     /**
-     * Default parser for CSS specifications that get loaded into
+     * An inverted grbph of the selectors.
+     */
+    privbte SelectorMbpping selectorMbpping;
+
+    /** Mbps from selector (bs b string) to Style thbt includes bll
+     * relevbnt styles. */
+    privbte Hbshtbble<String, ResolvedStyle> resolvedStyles;
+
+    /** Vector of StyleSheets thbt the rules bre to reference.
+     */
+    privbte Vector<StyleSheet> linkedStyleSheets;
+
+    /** Where the style sheet wbs found. Used for relbtive imports. */
+    privbte URL bbse;
+
+
+    /**
+     * Defbult pbrser for CSS specificbtions thbt get lobded into
      * the StyleSheet.<p>
-     * This class is NOT thread safe, do not ask it to parse while it is
-     * in the middle of parsing.
+     * This clbss is NOT threbd sbfe, do not bsk it to pbrse while it is
+     * in the middle of pbrsing.
      */
-    class CssParser implements CSSParser.CSSParserCallback {
+    clbss CssPbrser implements CSSPbrser.CSSPbrserCbllbbck {
 
         /**
-         * Parses the passed in CSS declaration into an AttributeSet.
+         * Pbrses the pbssed in CSS declbrbtion into bn AttributeSet.
          */
-        public AttributeSet parseDeclaration(String string) {
+        public AttributeSet pbrseDeclbrbtion(String string) {
             try {
-                return parseDeclaration(new StringReader(string));
-            } catch (IOException ioe) {}
+                return pbrseDeclbrbtion(new StringRebder(string));
+            } cbtch (IOException ioe) {}
             return null;
         }
 
         /**
-         * Parses the passed in CSS declaration into an AttributeSet.
+         * Pbrses the pbssed in CSS declbrbtion into bn AttributeSet.
          */
-        public AttributeSet parseDeclaration(Reader r) throws IOException {
-            parse(base, r, true, false);
-            return declaration.copyAttributes();
+        public AttributeSet pbrseDeclbrbtion(Rebder r) throws IOException {
+            pbrse(bbse, r, true, fblse);
+            return declbrbtion.copyAttributes();
         }
 
         /**
-         * Parse the given CSS stream
+         * Pbrse the given CSS strebm
          */
-        public void parse(URL base, Reader r, boolean parseDeclaration,
-                          boolean isLink) throws IOException {
-            this.base = base;
+        public void pbrse(URL bbse, Rebder r, boolebn pbrseDeclbrbtion,
+                          boolebn isLink) throws IOException {
+            this.bbse = bbse;
             this.isLink = isLink;
-            this.parsingDeclaration = parseDeclaration;
-            declaration.removeAttributes(declaration);
+            this.pbrsingDeclbrbtion = pbrseDeclbrbtion;
+            declbrbtion.removeAttributes(declbrbtion);
             selectorTokens.removeAllElements();
             selectors.removeAllElements();
-            propertyName = null;
-            parser.parse(r, this, parseDeclaration);
+            propertyNbme = null;
+            pbrser.pbrse(r, this, pbrseDeclbrbtion);
         }
 
         //
-        // CSSParserCallback methods, public to implement the interface.
+        // CSSPbrserCbllbbck methods, public to implement the interfbce.
         //
 
         /**
-         * Invoked when a valid @import is encountered, will call
-         * <code>importStyleSheet</code> if a
-         * <code>MalformedURLException</code> is not thrown in creating
+         * Invoked when b vblid @import is encountered, will cbll
+         * <code>importStyleSheet</code> if b
+         * <code>MblformedURLException</code> is not thrown in crebting
          * the URL.
          */
-        public void handleImport(String importString) {
-            URL url = CSS.getURL(base, importString);
+        public void hbndleImport(String importString) {
+            URL url = CSS.getURL(bbse, importString);
             if (url != null) {
                 importStyleSheet(url);
             }
         }
 
         /**
-         * A selector has been encountered.
+         * A selector hbs been encountered.
          */
-        public void handleSelector(String selector) {
-            //class and index selectors are case sensitive
-            if (!(selector.startsWith(".")
-                  || selector.startsWith("#"))) {
-                selector = selector.toLowerCase();
+        public void hbndleSelector(String selector) {
+            //clbss bnd index selectors bre cbse sensitive
+            if (!(selector.stbrtsWith(".")
+                  || selector.stbrtsWith("#"))) {
+                selector = selector.toLowerCbse();
             }
             int length = selector.length();
 
             if (selector.endsWith(",")) {
                 if (length > 1) {
                     selector = selector.substring(0, length - 1);
-                    selectorTokens.addElement(selector);
+                    selectorTokens.bddElement(selector);
                 }
-                addSelector();
+                bddSelector();
             }
             else if (length > 0) {
-                selectorTokens.addElement(selector);
+                selectorTokens.bddElement(selector);
             }
         }
 
         /**
-         * Invoked when the start of a rule is encountered.
+         * Invoked when the stbrt of b rule is encountered.
          */
-        public void startRule() {
+        public void stbrtRule() {
             if (selectorTokens.size() > 0) {
-                addSelector();
+                bddSelector();
             }
-            propertyName = null;
+            propertyNbme = null;
         }
 
         /**
-         * Invoked when a property name is encountered.
+         * Invoked when b property nbme is encountered.
          */
-        public void handleProperty(String property) {
-            propertyName = property;
+        public void hbndleProperty(String property) {
+            propertyNbme = property;
         }
 
         /**
-         * Invoked when a property value is encountered.
+         * Invoked when b property vblue is encountered.
          */
-        public void handleValue(String value) {
-            if (propertyName != null && value != null && value.length() > 0) {
-                CSS.Attribute cssKey = CSS.getAttribute(propertyName);
+        public void hbndleVblue(String vblue) {
+            if (propertyNbme != null && vblue != null && vblue.length() > 0) {
+                CSS.Attribute cssKey = CSS.getAttribute(propertyNbme);
                 if (cssKey != null) {
-                    // There is currently no mechanism to determine real
-                    // base that style sheet was loaded from. For the time
-                    // being, this maps for LIST_STYLE_IMAGE, which appear
-                    // to be the only one that currently matters. A more
-                    // general mechanism is definately needed.
+                    // There is currently no mechbnism to determine rebl
+                    // bbse thbt style sheet wbs lobded from. For the time
+                    // being, this mbps for LIST_STYLE_IMAGE, which bppebr
+                    // to be the only one thbt currently mbtters. A more
+                    // generbl mechbnism is definbtely needed.
                     if (cssKey == CSS.Attribute.LIST_STYLE_IMAGE) {
-                        if (value != null && !value.equals("none")) {
-                            URL url = CSS.getURL(base, value);
+                        if (vblue != null && !vblue.equbls("none")) {
+                            URL url = CSS.getURL(bbse, vblue);
 
                             if (url != null) {
-                                value = url.toString();
+                                vblue = url.toString();
                             }
                         }
                     }
-                    addCSSAttribute(declaration, cssKey, value);
+                    bddCSSAttribute(declbrbtion, cssKey, vblue);
                 }
-                propertyName = null;
+                propertyNbme = null;
             }
         }
 
         /**
-         * Invoked when the end of a rule is encountered.
+         * Invoked when the end of b rule is encountered.
          */
         public void endRule() {
             int n = selectors.size();
             for (int i = 0; i < n; i++) {
                 String[] selector = selectors.elementAt(i);
                 if (selector.length > 0) {
-                    StyleSheet.this.addRule(selector, declaration, isLink);
+                    StyleSheet.this.bddRule(selector, declbrbtion, isLink);
                 }
             }
-            declaration.removeAttributes(declaration);
+            declbrbtion.removeAttributes(declbrbtion);
             selectors.removeAllElements();
         }
 
-        private void addSelector() {
+        privbte void bddSelector() {
             String[] selector = new String[selectorTokens.size()];
             selectorTokens.copyInto(selector);
-            selectors.addElement(selector);
+            selectors.bddElement(selector);
             selectorTokens.removeAllElements();
         }
 
 
         Vector<String[]> selectors = new Vector<String[]>();
         Vector<String> selectorTokens = new Vector<String>();
-        /** Name of the current property. */
-        String propertyName;
-        MutableAttributeSet declaration = new SimpleAttributeSet();
-        /** True if parsing a declaration, that is the Reader will not
-         * contain a selector. */
-        boolean parsingDeclaration;
-        /** True if the attributes are coming from a linked/imported style. */
-        boolean isLink;
+        /** Nbme of the current property. */
+        String propertyNbme;
+        MutbbleAttributeSet declbrbtion = new SimpleAttributeSet();
+        /** True if pbrsing b declbrbtion, thbt is the Rebder will not
+         * contbin b selector. */
+        boolebn pbrsingDeclbrbtion;
+        /** True if the bttributes bre coming from b linked/imported style. */
+        boolebn isLink;
         /** Where the CSS stylesheet lives. */
-        URL base;
-        CSSParser parser = new CSSParser();
+        URL bbse;
+        CSSPbrser pbrser = new CSSPbrser();
     }
 
-    void rebaseSizeMap(int base) {
-        final int minimalFontSize = 4;
-        sizeMap = new int[sizeMapDefault.length];
-        for (int i = 0; i < sizeMapDefault.length; i++) {
-            sizeMap[i] = Math.max(base * sizeMapDefault[i] /
-                                  sizeMapDefault[CSS.baseFontSizeIndex],
-                                  minimalFontSize);
+    void rebbseSizeMbp(int bbse) {
+        finbl int minimblFontSize = 4;
+        sizeMbp = new int[sizeMbpDefbult.length];
+        for (int i = 0; i < sizeMbpDefbult.length; i++) {
+            sizeMbp[i] = Mbth.mbx(bbse * sizeMbpDefbult[i] /
+                                  sizeMbpDefbult[CSS.bbseFontSizeIndex],
+                                  minimblFontSize);
         }
 
     }
 
-    int[] getSizeMap() {
-        return sizeMap;
+    int[] getSizeMbp() {
+        return sizeMbp;
     }
-    boolean isW3CLengthUnits() {
+    boolebn isW3CLengthUnits() {
         return w3cLengthUnits;
     }
 
     /**
-     * The HTML/CSS size model has seven slots
-     * that one can assign sizes to.
+     * The HTML/CSS size model hbs seven slots
+     * thbt one cbn bssign sizes to.
      */
-    static final int sizeMapDefault[] = { 8, 10, 12, 14, 18, 24, 36 };
+    stbtic finbl int sizeMbpDefbult[] = { 8, 10, 12, 14, 18, 24, 36 };
 
-    private int sizeMap[] = sizeMapDefault;
-    private boolean w3cLengthUnits = false;
+    privbte int sizeMbp[] = sizeMbpDefbult;
+    privbte boolebn w3cLengthUnits = fblse;
 }

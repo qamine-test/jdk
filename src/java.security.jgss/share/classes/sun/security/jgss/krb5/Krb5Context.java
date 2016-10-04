@@ -1,367 +1,367 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.krb5;
+pbckbge sun.security.jgss.krb5;
 
 import com.sun.security.jgss.InquireType;
 import org.ietf.jgss.*;
 import sun.misc.HexDumpEncoder;
 import sun.security.jgss.GSSUtil;
-import sun.security.jgss.GSSCaller;
+import sun.security.jgss.GSSCbller;
 import sun.security.jgss.spi.*;
-import sun.security.jgss.TokenTracker;
+import sun.security.jgss.TokenTrbcker;
 import sun.security.krb5.*;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.security.Provider;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.Key;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import javax.security.auth.Subject;
-import javax.security.auth.kerberos.ServicePermission;
-import javax.security.auth.kerberos.KerberosCredMessage;
-import javax.security.auth.kerberos.KerberosPrincipal;
-import javax.security.auth.kerberos.KerberosTicket;
-import sun.security.krb5.internal.Ticket;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
+import jbvb.security.Provider;
+import jbvb.security.AccessController;
+import jbvb.security.AccessControlContext;
+import jbvb.security.Key;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvbx.security.buth.Subject;
+import jbvbx.security.buth.kerberos.ServicePermission;
+import jbvbx.security.buth.kerberos.KerberosCredMessbge;
+import jbvbx.security.buth.kerberos.KerberosPrincipbl;
+import jbvbx.security.buth.kerberos.KerberosTicket;
+import sun.security.krb5.internbl.Ticket;
 
 /**
- * Implements the mechanism specific context class for the Kerberos v5
- * GSS-API mechanism.
+ * Implements the mechbnism specific context clbss for the Kerberos v5
+ * GSS-API mechbnism.
  *
- * @author Mayank Upadhyay
- * @author Ram Marti
+ * @buthor Mbybnk Upbdhyby
+ * @buthor Rbm Mbrti
  * @since 1.4
  */
-class Krb5Context implements GSSContextSpi {
+clbss Krb5Context implements GSSContextSpi {
 
     /*
-     * The different states that this context can be in.
+     * The different stbtes thbt this context cbn be in.
      */
 
-    private static final int STATE_NEW = 1;
-    private static final int STATE_IN_PROCESS = 2;
-    private static final int STATE_DONE = 3;
-    private static final int STATE_DELETED = 4;
+    privbte stbtic finbl int STATE_NEW = 1;
+    privbte stbtic finbl int STATE_IN_PROCESS = 2;
+    privbte stbtic finbl int STATE_DONE = 3;
+    privbte stbtic finbl int STATE_DELETED = 4;
 
-    private int state = STATE_NEW;
+    privbte int stbte = STATE_NEW;
 
-    public static final int SESSION_KEY = 0;
-    public static final int INITIATOR_SUBKEY = 1;
-    public static final int ACCEPTOR_SUBKEY = 2;
+    public stbtic finbl int SESSION_KEY = 0;
+    public stbtic finbl int INITIATOR_SUBKEY = 1;
+    public stbtic finbl int ACCEPTOR_SUBKEY = 2;
 
     /*
-     * Optional features that the application can set and their default
-     * values.
+     * Optionbl febtures thbt the bpplicbtion cbn set bnd their defbult
+     * vblues.
      */
 
-    private boolean credDelegState  = false;    // now only useful at client
-    private boolean mutualAuthState  = true;
-    private boolean replayDetState  = true;
-    private boolean sequenceDetState  = true;
-    private boolean confState  = true;
-    private boolean integState  = true;
-    private boolean delegPolicyState = false;
+    privbte boolebn credDelegStbte  = fblse;    // now only useful bt client
+    privbte boolebn mutublAuthStbte  = true;
+    privbte boolebn replbyDetStbte  = true;
+    privbte boolebn sequenceDetStbte  = true;
+    privbte boolebn confStbte  = true;
+    privbte boolebn integStbte  = true;
+    privbte boolebn delegPolicyStbte = fblse;
 
-    private boolean isConstrainedDelegationTried = false;
+    privbte boolebn isConstrbinedDelegbtionTried = fblse;
 
-    private int mySeqNumber;
-    private int peerSeqNumber;
-    private int keySrc;
-    private TokenTracker peerTokenTracker;
+    privbte int mySeqNumber;
+    privbte int peerSeqNumber;
+    privbte int keySrc;
+    privbte TokenTrbcker peerTokenTrbcker;
 
-    private CipherHelper cipherHelper = null;
+    privbte CipherHelper cipherHelper = null;
 
     /*
-     * Separate locks for the sequence numbers allow the application to
-     * receive tokens at the same time that it is sending tokens. Note
-     * that the application must synchronize the generation and
-     * transmission of tokens such that tokens are processed in the same
-     * order that they are generated. This is important when sequence
-     * checking of per-message tokens is enabled.
+     * Sepbrbte locks for the sequence numbers bllow the bpplicbtion to
+     * receive tokens bt the sbme time thbt it is sending tokens. Note
+     * thbt the bpplicbtion must synchronize the generbtion bnd
+     * trbnsmission of tokens such thbt tokens bre processed in the sbme
+     * order thbt they bre generbted. This is importbnt when sequence
+     * checking of per-messbge tokens is enbbled.
      */
 
-    private Object mySeqNumberLock = new Object();
-    private Object peerSeqNumberLock = new Object();
+    privbte Object mySeqNumberLock = new Object();
+    privbte Object peerSeqNumberLock = new Object();
 
-    private EncryptionKey key;
-    private Krb5NameElement myName;
-    private Krb5NameElement peerName;
-    private int lifetime;
-    private boolean initiator;
-    private ChannelBinding channelBinding;
+    privbte EncryptionKey key;
+    privbte Krb5NbmeElement myNbme;
+    privbte Krb5NbmeElement peerNbme;
+    privbte int lifetime;
+    privbte boolebn initibtor;
+    privbte ChbnnelBinding chbnnelBinding;
 
-    private Krb5CredElement myCred;
-    private Krb5CredElement delegatedCred; // Set only on acceptor side
+    privbte Krb5CredElement myCred;
+    privbte Krb5CredElement delegbtedCred; // Set only on bcceptor side
 
-    // XXX See if the required info from these can be extracted and
+    // XXX See if the required info from these cbn be extrbcted bnd
     // stored elsewhere
-    private Credentials tgt;
-    private Credentials serviceCreds;
-    private KrbApReq apReq;
+    privbte Credentibls tgt;
+    privbte Credentibls serviceCreds;
+    privbte KrbApReq bpReq;
     Ticket serviceTicket;
-    final private GSSCaller caller;
-    private static final boolean DEBUG = Krb5Util.DEBUG;
+    finbl privbte GSSCbller cbller;
+    privbte stbtic finbl boolebn DEBUG = Krb5Util.DEBUG;
 
     /**
-     * Constructor for Krb5Context to be called on the context initiator's
+     * Constructor for Krb5Context to be cblled on the context initibtor's
      * side.
      */
-    Krb5Context(GSSCaller caller, Krb5NameElement peerName, Krb5CredElement myCred,
+    Krb5Context(GSSCbller cbller, Krb5NbmeElement peerNbme, Krb5CredElement myCred,
                 int lifetime)
         throws GSSException {
 
-        if (peerName == null)
-            throw new IllegalArgumentException("Cannot have null peer name");
+        if (peerNbme == null)
+            throw new IllegblArgumentException("Cbnnot hbve null peer nbme");
 
-        this.caller = caller;
-        this.peerName = peerName;
+        this.cbller = cbller;
+        this.peerNbme = peerNbme;
         this.myCred = myCred;
         this.lifetime = lifetime;
-        this.initiator = true;
+        this.initibtor = true;
     }
 
     /**
-     * Constructor for Krb5Context to be called on the context acceptor's
+     * Constructor for Krb5Context to be cblled on the context bcceptor's
      * side.
      */
-    Krb5Context(GSSCaller caller, Krb5CredElement myCred)
+    Krb5Context(GSSCbller cbller, Krb5CredElement myCred)
         throws GSSException {
-        this.caller = caller;
+        this.cbller = cbller;
         this.myCred = myCred;
-        this.initiator = false;
+        this.initibtor = fblse;
     }
 
     /**
-     * Constructor for Krb5Context to import a previously exported context.
+     * Constructor for Krb5Context to import b previously exported context.
      */
-    public Krb5Context(GSSCaller caller, byte [] interProcessToken)
+    public Krb5Context(GSSCbller cbller, byte [] interProcessToken)
         throws GSSException {
         throw new GSSException(GSSException.UNAVAILABLE,
-                               -1, "GSS Import Context not available");
+                               -1, "GSS Import Context not bvbilbble");
     }
 
     /**
-     * Method to determine if the context can be exported and then
+     * Method to determine if the context cbn be exported bnd then
      * re-imported.
      */
-    public final boolean isTransferable() throws GSSException {
-        return false;
+    public finbl boolebn isTrbnsferbble() throws GSSException {
+        return fblse;
     }
 
     /**
-     * The lifetime remaining for this context.
+     * The lifetime rembining for this context.
      */
-    public final int getLifetime() {
+    public finbl int getLifetime() {
         // XXX Return service ticket lifetime
         return GSSContext.INDEFINITE_LIFETIME;
     }
 
     /*
-     * Methods that may be invoked by the GSS framework in response
-     * to an application request for setting/getting these
+     * Methods thbt mby be invoked by the GSS frbmework in response
+     * to bn bpplicbtion request for setting/getting these
      * properties.
      *
-     * These can only be called on the initiator side.
+     * These cbn only be cblled on the initibtor side.
      *
-     * Notice that an application can only request these
-     * properties. The mechanism may or may not support them. The
-     * application must make getXXX calls after context establishment
-     * to see if the mechanism implementations on both sides support
-     * these features. requestAnonymity is an exception where the
-     * application will want to call getAnonymityState prior to sending any
-     * GSS token during context establishment.
+     * Notice thbt bn bpplicbtion cbn only request these
+     * properties. The mechbnism mby or mby not support them. The
+     * bpplicbtion must mbke getXXX cblls bfter context estbblishment
+     * to see if the mechbnism implementbtions on both sides support
+     * these febtures. requestAnonymity is bn exception where the
+     * bpplicbtion will wbnt to cbll getAnonymityStbte prior to sending bny
+     * GSS token during context estbblishment.
      *
-     * Also note that the requests can only be placed before context
-     * establishment starts. i.e. when state is STATE_NEW
+     * Also note thbt the requests cbn only be plbced before context
+     * estbblishment stbrts. i.e. when stbte is STATE_NEW
      */
 
     /**
-     * Requests the desired lifetime. Can only be used on the context
-     * initiator's side.
+     * Requests the desired lifetime. Cbn only be used on the context
+     * initibtor's side.
      */
     public void requestLifetime(int lifetime) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
+        if (stbte == STATE_NEW && isInitibtor())
             this.lifetime = lifetime;
     }
 
     /**
-     * Requests that confidentiality be available.
+     * Requests thbt confidentiblity be bvbilbble.
      */
-    public final void requestConf(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            confState  = value;
+    public finbl void requestConf(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor())
+            confStbte  = vblue;
     }
 
     /**
-     * Is confidentiality available?
+     * Is confidentiblity bvbilbble?
      */
-    public final boolean getConfState() {
-        return confState;
+    public finbl boolebn getConfStbte() {
+        return confStbte;
     }
 
     /**
-     * Requests that integrity be available.
+     * Requests thbt integrity be bvbilbble.
      */
-    public final void requestInteg(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            integState  = value;
+    public finbl void requestInteg(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor())
+            integStbte  = vblue;
     }
 
     /**
-     * Is integrity available?
+     * Is integrity bvbilbble?
      */
-    public final boolean getIntegState() {
-        return integState;
+    public finbl boolebn getIntegStbte() {
+        return integStbte;
     }
 
     /**
-     * Requests that credential delegation be done during context
-     * establishment.
+     * Requests thbt credentibl delegbtion be done during context
+     * estbblishment.
      */
-    public final void requestCredDeleg(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            credDelegState  = value;
+    public finbl void requestCredDeleg(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor())
+            credDelegStbte  = vblue;
     }
 
     /**
-     * Is credential delegation enabled?
+     * Is credentibl delegbtion enbbled?
      */
-    public final boolean getCredDelegState() {
-        if (isInitiator()) {
-            return credDelegState;
+    public finbl boolebn getCredDelegStbte() {
+        if (isInitibtor()) {
+            return credDelegStbte;
         } else {
-            // Server side deleg state is not flagged by credDelegState.
-            // It can use constrained delegation.
-            tryConstrainedDelegation();
-            return delegatedCred != null;
+            // Server side deleg stbte is not flbgged by credDelegStbte.
+            // It cbn use constrbined delegbtion.
+            tryConstrbinedDelegbtion();
+            return delegbtedCred != null;
         }
     }
 
     /**
-     * Requests that mutual authentication be done during context
-     * establishment. Since this is fromm the client's perspective, it
-     * essentially requests that the server be authenticated.
+     * Requests thbt mutubl buthenticbtion be done during context
+     * estbblishment. Since this is fromm the client's perspective, it
+     * essentiblly requests thbt the server be buthenticbted.
      */
-    public final void requestMutualAuth(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator()) {
-            mutualAuthState  = value;
+    public finbl void requestMutublAuth(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor()) {
+            mutublAuthStbte  = vblue;
         }
     }
 
     /**
-     * Is mutual authentication enabled? Since this is from the client's
-     * perspective, it essentially meas that the server is being
-     * authenticated.
+     * Is mutubl buthenticbtion enbbled? Since this is from the client's
+     * perspective, it essentiblly mebs thbt the server is being
+     * buthenticbted.
      */
-    public final boolean getMutualAuthState() {
-        return mutualAuthState;
+    public finbl boolebn getMutublAuthStbte() {
+        return mutublAuthStbte;
     }
 
     /**
-     * Requests that replay detection be done on the GSS wrap and MIC
+     * Requests thbt replby detection be done on the GSS wrbp bnd MIC
      * tokens.
      */
-    public final void requestReplayDet(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            replayDetState  = value;
+    public finbl void requestReplbyDet(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor())
+            replbyDetStbte  = vblue;
     }
 
     /**
-     * Is replay detection enabled on the GSS wrap and MIC tokens?
-     * We enable replay detection if sequence checking is enabled.
+     * Is replby detection enbbled on the GSS wrbp bnd MIC tokens?
+     * We enbble replby detection if sequence checking is enbbled.
      */
-    public final boolean getReplayDetState() {
-        return replayDetState || sequenceDetState;
+    public finbl boolebn getReplbyDetStbte() {
+        return replbyDetStbte || sequenceDetStbte;
     }
 
     /**
-     * Requests that sequence checking be done on the GSS wrap and MIC
+     * Requests thbt sequence checking be done on the GSS wrbp bnd MIC
      * tokens.
      */
-    public final void requestSequenceDet(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            sequenceDetState  = value;
+    public finbl void requestSequenceDet(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor())
+            sequenceDetStbte  = vblue;
     }
 
     /**
-     * Is sequence checking enabled on the GSS Wrap and MIC tokens?
-     * We enable sequence checking if replay detection is enabled.
+     * Is sequence checking enbbled on the GSS Wrbp bnd MIC tokens?
+     * We enbble sequence checking if replby detection is enbbled.
      */
-    public final boolean getSequenceDetState() {
-        return sequenceDetState || replayDetState;
+    public finbl boolebn getSequenceDetStbte() {
+        return sequenceDetStbte || replbyDetStbte;
     }
 
     /**
-     * Requests that the deleg policy be respected.
+     * Requests thbt the deleg policy be respected.
      */
-    public final void requestDelegPolicy(boolean value) {
-        if (state == STATE_NEW && isInitiator())
-            delegPolicyState = value;
+    public finbl void requestDelegPolicy(boolebn vblue) {
+        if (stbte == STATE_NEW && isInitibtor())
+            delegPolicyStbte = vblue;
     }
 
     /**
      * Is deleg policy respected?
      */
-    public final boolean getDelegPolicyState() {
-        return delegPolicyState;
+    public finbl boolebn getDelegPolicyStbte() {
+        return delegPolicyStbte;
     }
 
     /*
-     * Anonymity is a little different in that after an application
-     * requests anonymity it will want to know whether the mechanism
-     * can support it or not, prior to sending any tokens across for
-     * context establishment. Since this is from the initiator's
-     * perspective, it essentially requests that the initiator be
-     * anonymous.
+     * Anonymity is b little different in thbt bfter bn bpplicbtion
+     * requests bnonymity it will wbnt to know whether the mechbnism
+     * cbn support it or not, prior to sending bny tokens bcross for
+     * context estbblishment. Since this is from the initibtor's
+     * perspective, it essentiblly requests thbt the initibtor be
+     * bnonymous.
      */
 
-    public final void requestAnonymity(boolean value) throws GSSException {
-        // Ignore silently. Application will check back with
-        // getAnonymityState.
+    public finbl void requestAnonymity(boolebn vblue) throws GSSException {
+        // Ignore silently. Applicbtion will check bbck with
+        // getAnonymityStbte.
     }
 
-    // RFC 2853 actually calls for this to be called after context
-    // establishment to get the right answer, but that is
-    // incorrect. The application may not want to send over any
-    // tokens if anonymity is not available.
-    public final boolean getAnonymityState() {
-        return false;
+    // RFC 2853 bctublly cblls for this to be cblled bfter context
+    // estbblishment to get the right bnswer, but thbt is
+    // incorrect. The bpplicbtion mby not wbnt to send over bny
+    // tokens if bnonymity is not bvbilbble.
+    public finbl boolebn getAnonymityStbte() {
+        return fblse;
     }
 
     /*
-     * Package private methods invoked by other Krb5 plugin classes.
+     * Pbckbge privbte methods invoked by other Krb5 plugin clbsses.
      */
 
     /**
-     * Get the context specific DESCipher instance, invoked in
-     * MessageToken.init()
+     * Get the context specific DESCipher instbnce, invoked in
+     * MessbgeToken.init()
      */
-    final CipherHelper getCipherHelper(EncryptionKey ckey) throws GSSException {
+    finbl CipherHelper getCipherHelper(EncryptionKey ckey) throws GSSException {
          EncryptionKey cipherKey = null;
          if (cipherHelper == null) {
             cipherKey = (getKey() == null) ? ckey: getKey();
@@ -370,16 +370,16 @@ class Krb5Context implements GSSContextSpi {
          return cipherHelper;
     }
 
-    final int incrementMySequenceNumber() {
-        int retVal;
+    finbl int incrementMySequenceNumber() {
+        int retVbl;
         synchronized (mySeqNumberLock) {
-            retVal = mySeqNumber;
-            mySeqNumber = retVal + 1;
+            retVbl = mySeqNumber;
+            mySeqNumber = retVbl + 1;
         }
-        return retVal;
+        return retVbl;
     }
 
-    final void resetMySequenceNumber(int seqNumber) {
+    finbl void resetMySequenceNumber(int seqNumber) {
         if (DEBUG) {
             System.out.println("Krb5Context setting mySeqNumber to: "
                                + seqNumber);
@@ -389,282 +389,282 @@ class Krb5Context implements GSSContextSpi {
         }
     }
 
-    final void resetPeerSequenceNumber(int seqNumber) {
+    finbl void resetPeerSequenceNumber(int seqNumber) {
         if (DEBUG) {
             System.out.println("Krb5Context setting peerSeqNumber to: "
                                + seqNumber);
         }
         synchronized (peerSeqNumberLock) {
             peerSeqNumber = seqNumber;
-            peerTokenTracker = new TokenTracker(peerSeqNumber);
+            peerTokenTrbcker = new TokenTrbcker(peerSeqNumber);
         }
     }
 
-    final void setKey(int keySrc, EncryptionKey key) throws GSSException {
+    finbl void setKey(int keySrc, EncryptionKey key) throws GSSException {
         this.key = key;
         this.keySrc = keySrc;
-        // %%% to do: should clear old cipherHelper first
+        // %%% to do: should clebr old cipherHelper first
         cipherHelper = new CipherHelper(key);  // Need to use new key
     }
 
-    public final int getKeySrc() {
+    public finbl int getKeySrc() {
         return keySrc;
     }
 
-    private final EncryptionKey getKey() {
+    privbte finbl EncryptionKey getKey() {
         return key;
     }
 
     /**
-     * Called on the acceptor side to store the delegated credentials
+     * Cblled on the bcceptor side to store the delegbted credentibls
      * received in the AcceptSecContextToken.
      */
-    final void setDelegCred(Krb5CredElement delegatedCred) {
-        this.delegatedCred = delegatedCred;
+    finbl void setDelegCred(Krb5CredElement delegbtedCred) {
+        this.delegbtedCred = delegbtedCred;
     }
 
     /*
-     * While the application can only request the following features,
-     * other classes in the package can call the actual set methods
-     * for them. They are called as context establishment tokens are
-     * received on an acceptor side and the context feature list that
-     * the initiator wants becomes known.
+     * While the bpplicbtion cbn only request the following febtures,
+     * other clbsses in the pbckbge cbn cbll the bctubl set methods
+     * for them. They bre cblled bs context estbblishment tokens bre
+     * received on bn bcceptor side bnd the context febture list thbt
+     * the initibtor wbnts becomes known.
      */
 
     /*
-     * This method is also called by InitialToken.OverloadedChecksum if the
-     * TGT is not forwardable and the user requested delegation.
+     * This method is blso cblled by InitiblToken.OverlobdedChecksum if the
+     * TGT is not forwbrdbble bnd the user requested delegbtion.
      */
-    final void setCredDelegState(boolean state) {
-        credDelegState = state;
+    finbl void setCredDelegStbte(boolebn stbte) {
+        credDelegStbte = stbte;
     }
 
-    final void setMutualAuthState(boolean state) {
-        mutualAuthState = state;
+    finbl void setMutublAuthStbte(boolebn stbte) {
+        mutublAuthStbte = stbte;
     }
 
-    final void setReplayDetState(boolean state) {
-        replayDetState = state;
+    finbl void setReplbyDetStbte(boolebn stbte) {
+        replbyDetStbte = stbte;
     }
 
-    final void setSequenceDetState(boolean state) {
-        sequenceDetState = state;
+    finbl void setSequenceDetStbte(boolebn stbte) {
+        sequenceDetStbte = stbte;
     }
 
-    final void setConfState(boolean state) {
-        confState = state;
+    finbl void setConfStbte(boolebn stbte) {
+        confStbte = stbte;
     }
 
-    final void setIntegState(boolean state) {
-        integState = state;
+    finbl void setIntegStbte(boolebn stbte) {
+        integStbte = stbte;
     }
 
-    final void setDelegPolicyState(boolean state) {
-        delegPolicyState = state;
+    finbl void setDelegPolicyStbte(boolebn stbte) {
+        delegPolicyStbte = stbte;
     }
 
     /**
-     * Sets the channel bindings to be used during context
-     * establishment.
+     * Sets the chbnnel bindings to be used during context
+     * estbblishment.
      */
-    public final void setChannelBinding(ChannelBinding channelBinding)
+    public finbl void setChbnnelBinding(ChbnnelBinding chbnnelBinding)
         throws GSSException {
-        this.channelBinding = channelBinding;
+        this.chbnnelBinding = chbnnelBinding;
     }
 
-    final ChannelBinding getChannelBinding() {
-        return channelBinding;
+    finbl ChbnnelBinding getChbnnelBinding() {
+        return chbnnelBinding;
     }
 
     /**
-     * Returns the mechanism oid.
+     * Returns the mechbnism oid.
      *
      * @return the Oid of this context
      */
-    public final Oid getMech() {
-        return (Krb5MechFactory.GSS_KRB5_MECH_OID);
+    public finbl Oid getMech() {
+        return (Krb5MechFbctory.GSS_KRB5_MECH_OID);
     }
 
     /**
-     * Returns the context initiator name.
+     * Returns the context initibtor nbme.
      *
-     * @return initiator name
+     * @return initibtor nbme
      * @exception GSSException
      */
-    public final GSSNameSpi getSrcName() throws GSSException {
-        return (isInitiator()? myName : peerName);
+    public finbl GSSNbmeSpi getSrcNbme() throws GSSException {
+        return (isInitibtor()? myNbme : peerNbme);
     }
 
     /**
-     * Returns the context acceptor.
+     * Returns the context bcceptor.
      *
-     * @return context acceptor(target) name
+     * @return context bcceptor(tbrget) nbme
      * @exception GSSException
      */
-    public final GSSNameSpi getTargName() throws GSSException {
-        return (!isInitiator()? myName : peerName);
+    public finbl GSSNbmeSpi getTbrgNbme() throws GSSException {
+        return (!isInitibtor()? myNbme : peerNbme);
     }
 
     /**
-     * Returns the delegated credential for the context. This
-     * is an optional feature of contexts which not all
-     * mechanisms will support. A context can be requested to
-     * support credential delegation by using the <b>CRED_DELEG</b>,
-     * or it can request for a constrained delegation.
-     * This is only valid on the acceptor side of the context.
-     * @return GSSCredentialSpi object for the delegated credential
+     * Returns the delegbted credentibl for the context. This
+     * is bn optionbl febture of contexts which not bll
+     * mechbnisms will support. A context cbn be requested to
+     * support credentibl delegbtion by using the <b>CRED_DELEG</b>,
+     * or it cbn request for b constrbined delegbtion.
+     * This is only vblid on the bcceptor side of the context.
+     * @return GSSCredentiblSpi object for the delegbted credentibl
      * @exception GSSException
-     * @see GSSContext#getDelegCredState
+     * @see GSSContext#getDelegCredStbte
      */
-    public final GSSCredentialSpi getDelegCred() throws GSSException {
-        if (state != STATE_IN_PROCESS && state != STATE_DONE)
+    public finbl GSSCredentiblSpi getDelegCred() throws GSSException {
+        if (stbte != STATE_IN_PROCESS && stbte != STATE_DONE)
             throw new GSSException(GSSException.NO_CONTEXT);
-        if (isInitiator()) {
+        if (isInitibtor()) {
             throw new GSSException(GSSException.NO_CRED);
         }
-        tryConstrainedDelegation();
-        if (delegatedCred == null) {
+        tryConstrbinedDelegbtion();
+        if (delegbtedCred == null) {
             throw new GSSException(GSSException.NO_CRED);
         }
-        return delegatedCred;
+        return delegbtedCred;
     }
 
-    private void tryConstrainedDelegation() {
-        if (state != STATE_IN_PROCESS && state != STATE_DONE) {
+    privbte void tryConstrbinedDelegbtion() {
+        if (stbte != STATE_IN_PROCESS && stbte != STATE_DONE) {
             return;
         }
-        // We will only try constrained delegation once (if necessary).
-        if (!isConstrainedDelegationTried) {
-            if (delegatedCred == null) {
+        // We will only try constrbined delegbtion once (if necessbry).
+        if (!isConstrbinedDelegbtionTried) {
+            if (delegbtedCred == null) {
                 if (DEBUG) {
-                    System.out.println(">>> Constrained deleg from " + caller);
+                    System.out.println(">>> Constrbined deleg from " + cbller);
                 }
-                // The constrained delegation part. The acceptor needs to have
-                // isInitiator=true in order to get a TGT, either earlier at
-                // logon stage, if useSubjectCredsOnly, or now.
+                // The constrbined delegbtion pbrt. The bcceptor needs to hbve
+                // isInitibtor=true in order to get b TGT, either ebrlier bt
+                // logon stbge, if useSubjectCredsOnly, or now.
                 try {
-                    delegatedCred = new Krb5ProxyCredential(
-                        Krb5InitCredential.getInstance(
-                            GSSCaller.CALLER_ACCEPT, myName, lifetime),
-                        peerName, serviceTicket);
-                } catch (GSSException gsse) {
-                    // OK, delegatedCred is null then
+                    delegbtedCred = new Krb5ProxyCredentibl(
+                        Krb5InitCredentibl.getInstbnce(
+                            GSSCbller.CALLER_ACCEPT, myNbme, lifetime),
+                        peerNbme, serviceTicket);
+                } cbtch (GSSException gsse) {
+                    // OK, delegbtedCred is null then
                 }
             }
-            isConstrainedDelegationTried = true;
+            isConstrbinedDelegbtionTried = true;
         }
     }
     /**
-     * Tests if this is the initiator side of the context.
+     * Tests if this is the initibtor side of the context.
      *
-     * @return boolean indicating if this is initiator (true)
-     *  or target (false)
+     * @return boolebn indicbting if this is initibtor (true)
+     *  or tbrget (fblse)
      */
-    public final boolean isInitiator() {
-        return initiator;
+    public finbl boolebn isInitibtor() {
+        return initibtor;
     }
 
     /**
-     * Tests if the context can be used for per-message service.
-     * Context may allow the calls to the per-message service
-     * functions before being fully established.
+     * Tests if the context cbn be used for per-messbge service.
+     * Context mby bllow the cblls to the per-messbge service
+     * functions before being fully estbblished.
      *
-     * @return boolean indicating if per-message methods can
-     *  be called.
+     * @return boolebn indicbting if per-messbge methods cbn
+     *  be cblled.
      */
-    public final boolean isProtReady() {
-        return (state == STATE_DONE);
+    public finbl boolebn isProtRebdy() {
+        return (stbte == STATE_DONE);
     }
 
     /**
-     * Initiator context establishment call. This method may be
-     * required to be called several times. A CONTINUE_NEEDED return
-     * call indicates that more calls are needed after the next token
+     * Initibtor context estbblishment cbll. This method mby be
+     * required to be cblled severbl times. A CONTINUE_NEEDED return
+     * cbll indicbtes thbt more cblls bre needed bfter the next token
      * is received from the peer.
      *
-     * @param is contains the token received from the peer. On the
-     *  first call it will be ignored.
-     * @return any token required to be sent to the peer
-     *    It is responsibility of the caller
+     * @pbrbm is contbins the token received from the peer. On the
+     *  first cbll it will be ignored.
+     * @return bny token required to be sent to the peer
+     *    It is responsibility of the cbller
      *    to send the token to its peer for processing.
      * @exception GSSException
      */
-    public final byte[] initSecContext(InputStream is, int mechTokenSize)
+    public finbl byte[] initSecContext(InputStrebm is, int mechTokenSize)
         throws GSSException {
 
-            byte[] retVal = null;
-            InitialToken token = null;
+            byte[] retVbl = null;
+            InitiblToken token = null;
             int errorCode = GSSException.FAILURE;
             if (DEBUG) {
                 System.out.println("Entered Krb5Context.initSecContext with " +
-                                   "state=" + printState(state));
+                                   "stbte=" + printStbte(stbte));
             }
-            if (!isInitiator()) {
+            if (!isInitibtor()) {
                 throw new GSSException(GSSException.FAILURE, -1,
-                                       "initSecContext on an acceptor " +
+                                       "initSecContext on bn bcceptor " +
                                         "GSSContext");
             }
 
             try {
-                if (state == STATE_NEW) {
-                    state = STATE_IN_PROCESS;
+                if (stbte == STATE_NEW) {
+                    stbte = STATE_IN_PROCESS;
 
                     errorCode = GSSException.NO_CRED;
 
                     if (myCred == null) {
-                        myCred = Krb5InitCredential.getInstance(caller, myName,
-                                              GSSCredential.DEFAULT_LIFETIME);
-                    } else if (!myCred.isInitiatorCredential()) {
+                        myCred = Krb5InitCredentibl.getInstbnce(cbller, myNbme,
+                                              GSSCredentibl.DEFAULT_LIFETIME);
+                    } else if (!myCred.isInitibtorCredentibl()) {
                         throw new GSSException(errorCode, -1,
-                                           "No TGT available");
+                                           "No TGT bvbilbble");
                     }
-                    myName = (Krb5NameElement) myCred.getName();
-                    final Krb5ProxyCredential second;
-                    if (myCred instanceof Krb5InitCredential) {
+                    myNbme = (Krb5NbmeElement) myCred.getNbme();
+                    finbl Krb5ProxyCredentibl second;
+                    if (myCred instbnceof Krb5InitCredentibl) {
                         second = null;
-                        tgt = ((Krb5InitCredential) myCred).getKrb5Credentials();
+                        tgt = ((Krb5InitCredentibl) myCred).getKrb5Credentibls();
                     } else {
-                        second = (Krb5ProxyCredential) myCred;
-                        tgt = second.self.getKrb5Credentials();
+                        second = (Krb5ProxyCredentibl) myCred;
+                        tgt = second.self.getKrb5Credentibls();
                     }
 
-                    checkPermission(peerName.getKrb5PrincipalName().getName(),
-                                    "initiate");
+                    checkPermission(peerNbme.getKrb5PrincipblNbme().getNbme(),
+                                    "initibte");
                     /*
                      * If useSubjectCredsonly is true then
-                     * we check whether we already have the ticket
-                     * for this service in the Subject and reuse it
+                     * we check whether we blrebdy hbve the ticket
+                     * for this service in the Subject bnd reuse it
                      */
 
-                    final AccessControlContext acc =
+                    finbl AccessControlContext bcc =
                         AccessController.getContext();
 
-                    if (GSSUtil.useSubjectCredsOnly(caller)) {
+                    if (GSSUtil.useSubjectCredsOnly(cbller)) {
                         KerberosTicket kerbTicket = null;
                         try {
-                           // get service ticket from caller's subject
+                           // get service ticket from cbller's subject
                            kerbTicket = AccessController.doPrivileged(
                                 new PrivilegedExceptionAction<KerberosTicket>() {
                                 public KerberosTicket run() throws Exception {
-                                    // XXX to be cleaned
-                                    // highly consider just calling:
+                                    // XXX to be clebned
+                                    // highly consider just cblling:
                                     // Subject.getSubject
                                     // SubjectComber.find
-                                    // instead of Krb5Util.getTicket
+                                    // instebd of Krb5Util.getTicket
                                     return Krb5Util.getTicket(
-                                        GSSCaller.CALLER_UNKNOWN,
+                                        GSSCbller.CALLER_UNKNOWN,
                                         // since it's useSubjectCredsOnly here,
-                                        // don't worry about the null
+                                        // don't worry bbout the null
                                         second == null ?
-                                            myName.getKrb5PrincipalName().getName():
-                                            second.getName().getKrb5PrincipalName().getName(),
-                                        peerName.getKrb5PrincipalName().getName(),
-                                        acc);
+                                            myNbme.getKrb5PrincipblNbme().getNbme():
+                                            second.getNbme().getKrb5PrincipblNbme().getNbme(),
+                                        peerNbme.getKrb5PrincipblNbme().getNbme(),
+                                        bcc);
                                 }});
-                        } catch (PrivilegedActionException e) {
+                        } cbtch (PrivilegedActionException e) {
                             if (DEBUG) {
-                                System.out.println("Attempt to obtain service"
-                                        + " ticket from the subject failed!");
+                                System.out.println("Attempt to obtbin service"
+                                        + " ticket from the subject fbiled!");
                             }
                         }
                         if (kerbTicket != null) {
@@ -676,52 +676,52 @@ class Krb5Context implements GSSContextSpi {
 
                             // convert Ticket to serviceCreds
                             // XXX Should merge these two object types
-                            // avoid converting back and forth
+                            // bvoid converting bbck bnd forth
                             serviceCreds = Krb5Util.ticketToCreds(kerbTicket);
                         }
                     }
                     if (serviceCreds == null) {
                         // either we did not find the serviceCreds in the
-                        // Subject or useSubjectCreds is false
+                        // Subject or useSubjectCreds is fblse
                         if (DEBUG) {
                             System.out.println("Service ticket not found in " +
                                                "the subject");
                         }
                         // Get Service ticket using the Kerberos protocols
                         if (second == null) {
-                            serviceCreds = Credentials.acquireServiceCreds(
-                                     peerName.getKrb5PrincipalName().getName(),
+                            serviceCreds = Credentibls.bcquireServiceCreds(
+                                     peerNbme.getKrb5PrincipblNbme().getNbme(),
                                      tgt);
                         } else {
-                            serviceCreds = Credentials.acquireS4U2proxyCreds(
-                                    peerName.getKrb5PrincipalName().getName(),
+                            serviceCreds = Credentibls.bcquireS4U2proxyCreds(
+                                    peerNbme.getKrb5PrincipblNbme().getNbme(),
                                     second.tkt,
-                                    second.getName().getKrb5PrincipalName(),
+                                    second.getNbme().getKrb5PrincipblNbme(),
                                     tgt);
                         }
-                        if (GSSUtil.useSubjectCredsOnly(caller)) {
-                            final Subject subject =
+                        if (GSSUtil.useSubjectCredsOnly(cbller)) {
+                            finbl Subject subject =
                                 AccessController.doPrivileged(
-                                new java.security.PrivilegedAction<Subject>() {
+                                new jbvb.security.PrivilegedAction<Subject>() {
                                     public Subject run() {
-                                        return (Subject.getSubject(acc));
+                                        return (Subject.getSubject(bcc));
                                     }
                                 });
                             if (subject != null &&
-                                !subject.isReadOnly()) {
+                                !subject.isRebdOnly()) {
                                 /*
-                             * Store the service credentials as
-                             * javax.security.auth.kerberos.KerberosTicket in
-                             * the Subject. We could wait till the context is
-                             * succesfully established; however it is easier
-                             * to do here and there is no harm indoing it here.
+                             * Store the service credentibls bs
+                             * jbvbx.security.buth.kerberos.KerberosTicket in
+                             * the Subject. We could wbit till the context is
+                             * succesfully estbblished; however it is ebsier
+                             * to do here bnd there is no hbrm indoing it here.
                              */
-                                final KerberosTicket kt =
+                                finbl KerberosTicket kt =
                                     Krb5Util.credsToTicket(serviceCreds);
                                 AccessController.doPrivileged (
-                                    new java.security.PrivilegedAction<Void>() {
+                                    new jbvb.security.PrivilegedAction<Void>() {
                                       public Void run() {
-                                        subject.getPrivateCredentials().add(kt);
+                                        subject.getPrivbteCredentibls().bdd(kt);
                                         return null;
                                       }
                                     });
@@ -729,7 +729,7 @@ class Krb5Context implements GSSContextSpi {
                                 // log it for debugging purpose
                                 if (DEBUG) {
                                     System.out.println("Subject is " +
-                                        "readOnly;Kerberos Service "+
+                                        "rebdOnly;Kerberos Service "+
                                         "ticket not stored");
                                 }
                             }
@@ -738,408 +738,408 @@ class Krb5Context implements GSSContextSpi {
 
                     errorCode = GSSException.FAILURE;
                     token = new InitSecContextToken(this, tgt, serviceCreds);
-                    apReq = ((InitSecContextToken)token).getKrbApReq();
-                    retVal = token.encode();
+                    bpReq = ((InitSecContextToken)token).getKrbApReq();
+                    retVbl = token.encode();
                     myCred = null;
-                    if (!getMutualAuthState()) {
-                        state = STATE_DONE;
+                    if (!getMutublAuthStbte()) {
+                        stbte = STATE_DONE;
                     }
                     if (DEBUG) {
-                        System.out.println("Created InitSecContextToken:\n"+
-                            new HexDumpEncoder().encodeBuffer(retVal));
+                        System.out.println("Crebted InitSecContextToken:\n"+
+                            new HexDumpEncoder().encodeBuffer(retVbl));
                     }
-                } else if (state == STATE_IN_PROCESS) {
-                    // No need to write anything;
-                    // just validate the incoming token
-                    new AcceptSecContextToken(this, serviceCreds, apReq, is);
-                    apReq = null;
-                    state = STATE_DONE;
+                } else if (stbte == STATE_IN_PROCESS) {
+                    // No need to write bnything;
+                    // just vblidbte the incoming token
+                    new AcceptSecContextToken(this, serviceCreds, bpReq, is);
+                    bpReq = null;
+                    stbte = STATE_DONE;
                 } else {
                     // XXX Use logging API?
                     if (DEBUG) {
-                        System.out.println(state);
+                        System.out.println(stbte);
                     }
                 }
-            } catch (KrbException e) {
+            } cbtch (KrbException e) {
                 if (DEBUG) {
-                    e.printStackTrace();
+                    e.printStbckTrbce();
                 }
                 GSSException gssException =
-                        new GSSException(errorCode, -1, e.getMessage());
-                gssException.initCause(e);
+                        new GSSException(errorCode, -1, e.getMessbge());
+                gssException.initCbuse(e);
                 throw gssException;
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 GSSException gssException =
-                        new GSSException(errorCode, -1, e.getMessage());
-                gssException.initCause(e);
+                        new GSSException(errorCode, -1, e.getMessbge());
+                gssException.initCbuse(e);
                 throw gssException;
             }
-            return retVal;
+            return retVbl;
         }
 
-    public final boolean isEstablished() {
-        return (state == STATE_DONE);
+    public finbl boolebn isEstbblished() {
+        return (stbte == STATE_DONE);
     }
 
     /**
-     * Acceptor's context establishment call. This method may be
-     * required to be called several times. A CONTINUE_NEEDED return
-     * call indicates that more calls are needed after the next token
+     * Acceptor's context estbblishment cbll. This method mby be
+     * required to be cblled severbl times. A CONTINUE_NEEDED return
+     * cbll indicbtes thbt more cblls bre needed bfter the next token
      * is received from the peer.
      *
-     * @param is contains the token received from the peer.
-     * @return any token required to be sent to the peer
-     *    It is responsibility of the caller
+     * @pbrbm is contbins the token received from the peer.
+     * @return bny token required to be sent to the peer
+     *    It is responsibility of the cbller
      *    to send the token to its peer for processing.
      * @exception GSSException
      */
-    public final byte[] acceptSecContext(InputStream is, int mechTokenSize)
+    public finbl byte[] bcceptSecContext(InputStrebm is, int mechTokenSize)
         throws GSSException {
 
-        byte[] retVal = null;
+        byte[] retVbl = null;
 
         if (DEBUG) {
-            System.out.println("Entered Krb5Context.acceptSecContext with " +
-                               "state=" +  printState(state));
+            System.out.println("Entered Krb5Context.bcceptSecContext with " +
+                               "stbte=" +  printStbte(stbte));
         }
 
-        if (isInitiator()) {
+        if (isInitibtor()) {
             throw new GSSException(GSSException.FAILURE, -1,
-                                   "acceptSecContext on an initiator " +
+                                   "bcceptSecContext on bn initibtor " +
                                    "GSSContext");
         }
         try {
-            if (state == STATE_NEW) {
-                state = STATE_IN_PROCESS;
+            if (stbte == STATE_NEW) {
+                stbte = STATE_IN_PROCESS;
                 if (myCred == null) {
-                    myCred = Krb5AcceptCredential.getInstance(caller, myName);
-                } else if (!myCred.isAcceptorCredential()) {
+                    myCred = Krb5AcceptCredentibl.getInstbnce(cbller, myNbme);
+                } else if (!myCred.isAcceptorCredentibl()) {
                     throw new GSSException(GSSException.NO_CRED, -1,
-                                           "No Secret Key available");
+                                           "No Secret Key bvbilbble");
                 }
-                myName = (Krb5NameElement) myCred.getName();
+                myNbme = (Krb5NbmeElement) myCred.getNbme();
 
-                // If there is already a bound name, check now
-                if (myName != null) {
-                    Krb5MechFactory.checkAcceptCredPermission(myName, myName);
+                // If there is blrebdy b bound nbme, check now
+                if (myNbme != null) {
+                    Krb5MechFbctory.checkAcceptCredPermission(myNbme, myNbme);
                 }
 
                 InitSecContextToken token = new InitSecContextToken(this,
-                                                    (Krb5AcceptCredential) myCred, is);
-                PrincipalName clientName = token.getKrbApReq().getClient();
-                peerName = Krb5NameElement.getInstance(clientName);
+                                                    (Krb5AcceptCredentibl) myCred, is);
+                PrincipblNbme clientNbme = token.getKrbApReq().getClient();
+                peerNbme = Krb5NbmeElement.getInstbnce(clientNbme);
 
-                // If unbound, check after the bound name is found
-                if (myName == null) {
-                    myName = Krb5NameElement.getInstance(
+                // If unbound, check bfter the bound nbme is found
+                if (myNbme == null) {
+                    myNbme = Krb5NbmeElement.getInstbnce(
                         token.getKrbApReq().getCreds().getServer());
-                    Krb5MechFactory.checkAcceptCredPermission(myName, myName);
+                    Krb5MechFbctory.checkAcceptCredPermission(myNbme, myNbme);
                 }
 
-                if (getMutualAuthState()) {
-                        retVal = new AcceptSecContextToken(this,
+                if (getMutublAuthStbte()) {
+                        retVbl = new AcceptSecContextToken(this,
                                           token.getKrbApReq()).encode();
                 }
                 serviceTicket = token.getKrbApReq().getCreds().getTicket();
                 myCred = null;
-                state = STATE_DONE;
+                stbte = STATE_DONE;
             } else  {
                 // XXX Use logging API?
                 if (DEBUG) {
-                    System.out.println(state);
+                    System.out.println(stbte);
                 }
             }
-        } catch (KrbException e) {
+        } cbtch (KrbException e) {
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             if (DEBUG) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
         }
 
-        return retVal;
+        return retVbl;
     }
 
     /**
-     * Queries the context for largest data size to accommodate
-     * the specified protection and be <= maxTokSize.
+     * Queries the context for lbrgest dbtb size to bccommodbte
+     * the specified protection bnd be <= mbxTokSize.
      *
-     * @param qop the quality of protection that the context will be
-     *  asked to provide.
-     * @param confReq a flag indicating whether confidentiality will be
+     * @pbrbm qop the qublity of protection thbt the context will be
+     *  bsked to provide.
+     * @pbrbm confReq b flbg indicbting whether confidentiblity will be
      *  requested or not
-     * @param outputSize the maximum size of the output token
-     * @return the maximum size for the input message that can be
-     *  provided to the wrap() method in order to guarantee that these
-     *  requirements are met.
+     * @pbrbm outputSize the mbximum size of the output token
+     * @return the mbximum size for the input messbge thbt cbn be
+     *  provided to the wrbp() method in order to gubrbntee thbt these
+     *  requirements bre met.
      * @throws GSSException
      */
-    public final int getWrapSizeLimit(int qop, boolean confReq,
-                                       int maxTokSize) throws GSSException {
+    public finbl int getWrbpSizeLimit(int qop, boolebn confReq,
+                                       int mbxTokSize) throws GSSException {
 
-        int retVal = 0;
+        int retVbl = 0;
         if (cipherHelper.getProto() == 0) {
-            retVal = WrapToken.getSizeLimit(qop, confReq, maxTokSize,
+            retVbl = WrbpToken.getSizeLimit(qop, confReq, mbxTokSize,
                                         getCipherHelper(null));
         } else if (cipherHelper.getProto() == 1) {
-            retVal = WrapToken_v2.getSizeLimit(qop, confReq, maxTokSize,
+            retVbl = WrbpToken_v2.getSizeLimit(qop, confReq, mbxTokSize,
                                         getCipherHelper(null));
         }
-        return retVal;
+        return retVbl;
     }
 
     /*
-     * Per-message calls depend on the sequence number. The sequence number
-     * synchronization is at a finer granularity because wrap and getMIC
-     * care about the local sequence number (mySeqNumber) where are unwrap
-     * and verifyMIC care about the remote sequence number (peerSeqNumber).
+     * Per-messbge cblls depend on the sequence number. The sequence number
+     * synchronizbtion is bt b finer grbnulbrity becbuse wrbp bnd getMIC
+     * cbre bbout the locbl sequence number (mySeqNumber) where bre unwrbp
+     * bnd verifyMIC cbre bbout the remote sequence number (peerSeqNumber).
      */
 
-    public final byte[] wrap(byte inBuf[], int offset, int len,
-                             MessageProp msgProp) throws GSSException {
+    public finbl byte[] wrbp(byte inBuf[], int offset, int len,
+                             MessbgeProp msgProp) throws GSSException {
         if (DEBUG) {
-            System.out.println("Krb5Context.wrap: data=["
+            System.out.println("Krb5Context.wrbp: dbtb=["
                                + getHexBytes(inBuf, offset, len)
                                + "]");
         }
 
-        if (state != STATE_DONE)
+        if (stbte != STATE_DONE)
         throw new GSSException(GSSException.NO_CONTEXT, -1,
-                               "Wrap called in invalid state!");
+                               "Wrbp cblled in invblid stbte!");
 
         byte[] encToken = null;
         try {
             if (cipherHelper.getProto() == 0) {
-                WrapToken token =
-                        new WrapToken(this, msgProp, inBuf, offset, len);
+                WrbpToken token =
+                        new WrbpToken(this, msgProp, inBuf, offset, len);
                 encToken = token.encode();
             } else if (cipherHelper.getProto() == 1) {
-                WrapToken_v2 token =
-                        new WrapToken_v2(this, msgProp, inBuf, offset, len);
+                WrbpToken_v2 token =
+                        new WrbpToken_v2(this, msgProp, inBuf, offset, len);
                 encToken = token.encode();
             }
             if (DEBUG) {
-                System.out.println("Krb5Context.wrap: token=["
+                System.out.println("Krb5Context.wrbp: token=["
                                    + getHexBytes(encToken, 0, encToken.length)
                                    + "]");
             }
             return encToken;
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             encToken = null;
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
         }
     }
 
-    public final int wrap(byte inBuf[], int inOffset, int len,
+    public finbl int wrbp(byte inBuf[], int inOffset, int len,
                           byte[] outBuf, int outOffset,
-                          MessageProp msgProp) throws GSSException {
+                          MessbgeProp msgProp) throws GSSException {
 
-        if (state != STATE_DONE)
+        if (stbte != STATE_DONE)
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                   "Wrap called in invalid state!");
+                                   "Wrbp cblled in invblid stbte!");
 
-        int retVal = 0;
+        int retVbl = 0;
         try {
             if (cipherHelper.getProto() == 0) {
-                WrapToken token =
-                        new WrapToken(this, msgProp, inBuf, inOffset, len);
-                retVal = token.encode(outBuf, outOffset);
+                WrbpToken token =
+                        new WrbpToken(this, msgProp, inBuf, inOffset, len);
+                retVbl = token.encode(outBuf, outOffset);
             } else if (cipherHelper.getProto() == 1) {
-                WrapToken_v2 token =
-                        new WrapToken_v2(this, msgProp, inBuf, inOffset, len);
-                retVal = token.encode(outBuf, outOffset);
+                WrbpToken_v2 token =
+                        new WrbpToken_v2(this, msgProp, inBuf, inOffset, len);
+                retVbl = token.encode(outBuf, outOffset);
             }
             if (DEBUG) {
-                System.out.println("Krb5Context.wrap: token=["
-                                   + getHexBytes(outBuf, outOffset, retVal)
+                System.out.println("Krb5Context.wrbp: token=["
+                                   + getHexBytes(outBuf, outOffset, retVbl)
                                    + "]");
             }
-            return retVal;
-        } catch (IOException e) {
-            retVal = 0;
+            return retVbl;
+        } cbtch (IOException e) {
+            retVbl = 0;
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
         }
     }
 
-    public final void wrap(byte inBuf[], int offset, int len,
-                           OutputStream os, MessageProp msgProp)
+    public finbl void wrbp(byte inBuf[], int offset, int len,
+                           OutputStrebm os, MessbgeProp msgProp)
         throws GSSException {
 
-        if (state != STATE_DONE)
+        if (stbte != STATE_DONE)
                 throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                       "Wrap called in invalid state!");
+                                       "Wrbp cblled in invblid stbte!");
 
         byte[] encToken = null;
         try {
             if (cipherHelper.getProto() == 0) {
-                WrapToken token =
-                        new WrapToken(this, msgProp, inBuf, offset, len);
+                WrbpToken token =
+                        new WrbpToken(this, msgProp, inBuf, offset, len);
                 token.encode(os);
                 if (DEBUG) {
                     encToken = token.encode();
                 }
             } else if (cipherHelper.getProto() == 1) {
-                WrapToken_v2 token =
-                        new WrapToken_v2(this, msgProp, inBuf, offset, len);
+                WrbpToken_v2 token =
+                        new WrbpToken_v2(this, msgProp, inBuf, offset, len);
                 token.encode(os);
                 if (DEBUG) {
                     encToken = token.encode();
                 }
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
         }
 
         if (DEBUG) {
-            System.out.println("Krb5Context.wrap: token=["
+            System.out.println("Krb5Context.wrbp: token=["
                         + getHexBytes(encToken, 0, encToken.length)
                         + "]");
         }
     }
 
-    public final void wrap(InputStream is, OutputStream os,
-                            MessageProp msgProp) throws GSSException {
+    public finbl void wrbp(InputStrebm is, OutputStrebm os,
+                            MessbgeProp msgProp) throws GSSException {
 
-        byte[] data;
+        byte[] dbtb;
         try {
-            data = new byte[is.available()];
-            is.read(data);
-        } catch (IOException e) {
+            dbtb = new byte[is.bvbilbble()];
+            is.rebd(dbtb);
+        } cbtch (IOException e) {
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
         }
-        wrap(data, 0, data.length, os, msgProp);
+        wrbp(dbtb, 0, dbtb.length, os, msgProp);
     }
 
-    public final byte[] unwrap(byte inBuf[], int offset, int len,
-                               MessageProp msgProp)
+    public finbl byte[] unwrbp(byte inBuf[], int offset, int len,
+                               MessbgeProp msgProp)
         throws GSSException {
 
             if (DEBUG) {
-                System.out.println("Krb5Context.unwrap: token=["
+                System.out.println("Krb5Context.unwrbp: token=["
                                    + getHexBytes(inBuf, offset, len)
                                    + "]");
             }
 
-            if (state != STATE_DONE) {
+            if (stbte != STATE_DONE) {
                 throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                       " Unwrap called in invalid state!");
+                                       " Unwrbp cblled in invblid stbte!");
             }
 
-            byte[] data = null;
+            byte[] dbtb = null;
             if (cipherHelper.getProto() == 0) {
-                WrapToken token =
-                        new WrapToken(this, inBuf, offset, len, msgProp);
-                data = token.getData();
-                setSequencingAndReplayProps(token, msgProp);
+                WrbpToken token =
+                        new WrbpToken(this, inBuf, offset, len, msgProp);
+                dbtb = token.getDbtb();
+                setSequencingAndReplbyProps(token, msgProp);
             } else if (cipherHelper.getProto() == 1) {
-                WrapToken_v2 token =
-                        new WrapToken_v2(this, inBuf, offset, len, msgProp);
-                data = token.getData();
-                setSequencingAndReplayProps(token, msgProp);
+                WrbpToken_v2 token =
+                        new WrbpToken_v2(this, inBuf, offset, len, msgProp);
+                dbtb = token.getDbtb();
+                setSequencingAndReplbyProps(token, msgProp);
             }
 
             if (DEBUG) {
-                System.out.println("Krb5Context.unwrap: data=["
-                                   + getHexBytes(data, 0, data.length)
+                System.out.println("Krb5Context.unwrbp: dbtb=["
+                                   + getHexBytes(dbtb, 0, dbtb.length)
                                    + "]");
             }
 
-            return data;
+            return dbtb;
         }
 
-    public final int unwrap(byte inBuf[], int inOffset, int len,
+    public finbl int unwrbp(byte inBuf[], int inOffset, int len,
                              byte[] outBuf, int outOffset,
-                             MessageProp msgProp) throws GSSException {
+                             MessbgeProp msgProp) throws GSSException {
 
-        if (state != STATE_DONE)
+        if (stbte != STATE_DONE)
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                   "Unwrap called in invalid state!");
+                                   "Unwrbp cblled in invblid stbte!");
 
         if (cipherHelper.getProto() == 0) {
-            WrapToken token =
-                        new WrapToken(this, inBuf, inOffset, len, msgProp);
-            len = token.getData(outBuf, outOffset);
-            setSequencingAndReplayProps(token, msgProp);
+            WrbpToken token =
+                        new WrbpToken(this, inBuf, inOffset, len, msgProp);
+            len = token.getDbtb(outBuf, outOffset);
+            setSequencingAndReplbyProps(token, msgProp);
         } else if (cipherHelper.getProto() == 1) {
-            WrapToken_v2 token =
-                        new WrapToken_v2(this, inBuf, inOffset, len, msgProp);
-            len = token.getData(outBuf, outOffset);
-            setSequencingAndReplayProps(token, msgProp);
+            WrbpToken_v2 token =
+                        new WrbpToken_v2(this, inBuf, inOffset, len, msgProp);
+            len = token.getDbtb(outBuf, outOffset);
+            setSequencingAndReplbyProps(token, msgProp);
         }
         return len;
     }
 
-    public final int unwrap(InputStream is,
+    public finbl int unwrbp(InputStrebm is,
                             byte[] outBuf, int outOffset,
-                            MessageProp msgProp) throws GSSException {
+                            MessbgeProp msgProp) throws GSSException {
 
-        if (state != STATE_DONE)
+        if (stbte != STATE_DONE)
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                   "Unwrap called in invalid state!");
+                                   "Unwrbp cblled in invblid stbte!");
 
         int len = 0;
         if (cipherHelper.getProto() == 0) {
-            WrapToken token = new WrapToken(this, is, msgProp);
-            len = token.getData(outBuf, outOffset);
-            setSequencingAndReplayProps(token, msgProp);
+            WrbpToken token = new WrbpToken(this, is, msgProp);
+            len = token.getDbtb(outBuf, outOffset);
+            setSequencingAndReplbyProps(token, msgProp);
         } else if (cipherHelper.getProto() == 1) {
-            WrapToken_v2 token = new WrapToken_v2(this, is, msgProp);
-            len = token.getData(outBuf, outOffset);
-            setSequencingAndReplayProps(token, msgProp);
+            WrbpToken_v2 token = new WrbpToken_v2(this, is, msgProp);
+            len = token.getDbtb(outBuf, outOffset);
+            setSequencingAndReplbyProps(token, msgProp);
         }
         return len;
     }
 
 
-    public final void unwrap(InputStream is, OutputStream os,
-                             MessageProp msgProp) throws GSSException {
+    public finbl void unwrbp(InputStrebm is, OutputStrebm os,
+                             MessbgeProp msgProp) throws GSSException {
 
-        if (state != STATE_DONE)
+        if (stbte != STATE_DONE)
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                   "Unwrap called in invalid state!");
+                                   "Unwrbp cblled in invblid stbte!");
 
-        byte[] data = null;
+        byte[] dbtb = null;
         if (cipherHelper.getProto() == 0) {
-            WrapToken token = new WrapToken(this, is, msgProp);
-            data = token.getData();
-            setSequencingAndReplayProps(token, msgProp);
+            WrbpToken token = new WrbpToken(this, is, msgProp);
+            dbtb = token.getDbtb();
+            setSequencingAndReplbyProps(token, msgProp);
         } else if (cipherHelper.getProto() == 1) {
-            WrapToken_v2 token = new WrapToken_v2(this, is, msgProp);
-            data = token.getData();
-            setSequencingAndReplayProps(token, msgProp);
+            WrbpToken_v2 token = new WrbpToken_v2(this, is, msgProp);
+            dbtb = token.getDbtb();
+            setSequencingAndReplbyProps(token, msgProp);
         }
 
         try {
-            os.write(data);
-        } catch (IOException e) {
+            os.write(dbtb);
+        } cbtch (IOException e) {
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
         }
     }
 
-    public final byte[] getMIC(byte []inMsg, int offset, int len,
-                               MessageProp msgProp)
+    public finbl byte[] getMIC(byte []inMsg, int offset, int len,
+                               MessbgeProp msgProp)
         throws GSSException {
 
             byte[] micToken = null;
@@ -1154,50 +1154,50 @@ class Krb5Context implements GSSContextSpi {
                     micToken = token.encode();
                 }
                 return micToken;
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 micToken = null;
                 GSSException gssException =
-                    new GSSException(GSSException.FAILURE, -1, e.getMessage());
-                gssException.initCause(e);
+                    new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+                gssException.initCbuse(e);
                 throw gssException;
             }
         }
 
-    private int getMIC(byte []inMsg, int offset, int len,
+    privbte int getMIC(byte []inMsg, int offset, int len,
                        byte[] outBuf, int outOffset,
-                       MessageProp msgProp)
+                       MessbgeProp msgProp)
         throws GSSException {
 
-        int retVal = 0;
+        int retVbl = 0;
         try {
             if (cipherHelper.getProto() == 0) {
                 MicToken token =
                         new MicToken(this, msgProp, inMsg, offset, len);
-                retVal = token.encode(outBuf, outOffset);
+                retVbl = token.encode(outBuf, outOffset);
             } else if (cipherHelper.getProto() == 1) {
                 MicToken_v2 token =
                         new MicToken_v2(this, msgProp, inMsg, offset, len);
-                retVal = token.encode(outBuf, outOffset);
+                retVbl = token.encode(outBuf, outOffset);
             }
-            return retVal;
-        } catch (IOException e) {
-            retVal = 0;
+            return retVbl;
+        } cbtch (IOException e) {
+            retVbl = 0;
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
         }
     }
 
     /*
-     * Checksum calculation requires a byte[]. Hence might as well pass
-     * a byte[] into the MicToken constructor. However, writing the
-     * token can be optimized for cases where the application passed in
-     * an OutputStream.
+     * Checksum cblculbtion requires b byte[]. Hence might bs well pbss
+     * b byte[] into the MicToken constructor. However, writing the
+     * token cbn be optimized for cbses where the bpplicbtion pbssed in
+     * bn OutputStrebm.
      */
 
-    private void getMIC(byte[] inMsg, int offset, int len,
-                        OutputStream os, MessageProp msgProp)
+    privbte void getMIC(byte[] inMsg, int offset, int len,
+                        OutputStrebm os, MessbgeProp msgProp)
         throws GSSException {
 
         try {
@@ -1210,144 +1210,144 @@ class Krb5Context implements GSSContextSpi {
                         new MicToken_v2(this, msgProp, inMsg, offset, len);
                 token.encode(os);
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
         }
     }
 
-    public final void getMIC(InputStream is, OutputStream os,
-                              MessageProp msgProp) throws GSSException {
-        byte[] data;
+    public finbl void getMIC(InputStrebm is, OutputStrebm os,
+                              MessbgeProp msgProp) throws GSSException {
+        byte[] dbtb;
         try {
-            data = new byte[is.available()];
-            is.read(data);
-        } catch (IOException e) {
+            dbtb = new byte[is.bvbilbble()];
+            is.rebd(dbtb);
+        } cbtch (IOException e) {
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
         }
-        getMIC(data, 0, data.length, os, msgProp);
+        getMIC(dbtb, 0, dbtb.length, os, msgProp);
     }
 
-    public final void verifyMIC(byte []inTok, int tokOffset, int tokLen,
+    public finbl void verifyMIC(byte []inTok, int tokOffset, int tokLen,
                                 byte[] inMsg, int msgOffset, int msgLen,
-                                MessageProp msgProp)
+                                MessbgeProp msgProp)
         throws GSSException {
 
         if (cipherHelper.getProto() == 0) {
             MicToken token =
                 new MicToken(this, inTok, tokOffset, tokLen, msgProp);
             token.verify(inMsg, msgOffset, msgLen);
-            setSequencingAndReplayProps(token, msgProp);
+            setSequencingAndReplbyProps(token, msgProp);
         } else if (cipherHelper.getProto() == 1) {
             MicToken_v2 token =
                 new MicToken_v2(this, inTok, tokOffset, tokLen, msgProp);
             token.verify(inMsg, msgOffset, msgLen);
-            setSequencingAndReplayProps(token, msgProp);
+            setSequencingAndReplbyProps(token, msgProp);
         }
     }
 
-    private void verifyMIC(InputStream is,
+    privbte void verifyMIC(InputStrebm is,
                            byte[] inMsg, int msgOffset, int msgLen,
-                           MessageProp msgProp)
+                           MessbgeProp msgProp)
         throws GSSException {
 
         if (cipherHelper.getProto() == 0) {
             MicToken token = new MicToken(this, is, msgProp);
             token.verify(inMsg, msgOffset, msgLen);
-            setSequencingAndReplayProps(token, msgProp);
+            setSequencingAndReplbyProps(token, msgProp);
         } else if (cipherHelper.getProto() == 1) {
             MicToken_v2 token = new MicToken_v2(this, is, msgProp);
             token.verify(inMsg, msgOffset, msgLen);
-            setSequencingAndReplayProps(token, msgProp);
+            setSequencingAndReplbyProps(token, msgProp);
         }
     }
 
-    public final void verifyMIC(InputStream is, InputStream msgStr,
-                                 MessageProp mProp) throws GSSException {
+    public finbl void verifyMIC(InputStrebm is, InputStrebm msgStr,
+                                 MessbgeProp mProp) throws GSSException {
         byte[] msg;
         try {
-            msg = new byte[msgStr.available()];
-            msgStr.read(msg);
-        } catch (IOException e) {
+            msg = new byte[msgStr.bvbilbble()];
+            msgStr.rebd(msg);
+        } cbtch (IOException e) {
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
         }
         verifyMIC(is, msg, 0, msg.length, mProp);
     }
 
     /**
-     * Produces a token representing this context. After this call
-     * the context will no longer be usable until an import is
+     * Produces b token representing this context. After this cbll
+     * the context will no longer be usbble until bn import is
      * performed on the returned token.
      *
-     * @param os the output token will be written to this stream
+     * @pbrbm os the output token will be written to this strebm
      * @exception GSSException
      */
-    public final byte [] export() throws GSSException {
+    public finbl byte [] export() throws GSSException {
         throw new GSSException(GSSException.UNAVAILABLE, -1,
-                               "GSS Export Context not available");
+                               "GSS Export Context not bvbilbble");
     }
 
     /**
-     * Releases context resources and terminates the
+     * Relebses context resources bnd terminbtes the
      * context between 2 peer.
      *
-     * @exception GSSException with major codes NO_CONTEXT, FAILURE.
+     * @exception GSSException with mbjor codes NO_CONTEXT, FAILURE.
      */
 
-    public final void dispose() throws GSSException {
-        state = STATE_DELETED;
-        delegatedCred = null;
+    public finbl void dispose() throws GSSException {
+        stbte = STATE_DELETED;
+        delegbtedCred = null;
         tgt = null;
         serviceCreds = null;
         key = null;
     }
 
-    public final Provider getProvider() {
-        return Krb5MechFactory.PROVIDER;
+    public finbl Provider getProvider() {
+        return Krb5MechFbctory.PROVIDER;
     }
 
     /**
-     * Sets replay and sequencing information for a message token received
+     * Sets replby bnd sequencing informbtion for b messbge token received
      * form the peer.
      */
-    private void setSequencingAndReplayProps(MessageToken token,
-                                             MessageProp prop) {
-        if (replayDetState || sequenceDetState) {
+    privbte void setSequencingAndReplbyProps(MessbgeToken token,
+                                             MessbgeProp prop) {
+        if (replbyDetStbte || sequenceDetStbte) {
             int seqNum = token.getSequenceNumber();
-            peerTokenTracker.getProps(seqNum, prop);
+            peerTokenTrbcker.getProps(seqNum, prop);
         }
     }
 
     /**
-     * Sets replay and sequencing information for a message token received
+     * Sets replby bnd sequencing informbtion for b messbge token received
      * form the peer.
      */
-    private void setSequencingAndReplayProps(MessageToken_v2 token,
-                                             MessageProp prop) {
-        if (replayDetState || sequenceDetState) {
+    privbte void setSequencingAndReplbyProps(MessbgeToken_v2 token,
+                                             MessbgeProp prop) {
+        if (replbyDetStbte || sequenceDetStbte) {
             int seqNum = token.getSequenceNumber();
-            peerTokenTracker.getProps(seqNum, prop);
+            peerTokenTrbcker.getProps(seqNum, prop);
         }
     }
 
-    private void checkPermission(String principal, String action) {
-        SecurityManager sm = System.getSecurityManager();
+    privbte void checkPermission(String principbl, String bction) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             ServicePermission perm =
-                new ServicePermission(principal, action);
+                new ServicePermission(principbl, bction);
             sm.checkPermission(perm);
         }
     }
 
-    private static String getHexBytes(byte[] bytes, int pos, int len) {
+    privbte stbtic String getHexBytes(byte[] bytes, int pos, int len) {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < len; i++) {
@@ -1355,40 +1355,40 @@ class Krb5Context implements GSSContextSpi {
             int b1 = (bytes[i]>>4) & 0x0f;
             int b2 = bytes[i] & 0x0f;
 
-            sb.append(Integer.toHexString(b1));
-            sb.append(Integer.toHexString(b2));
-            sb.append(' ');
+            sb.bppend(Integer.toHexString(b1));
+            sb.bppend(Integer.toHexString(b2));
+            sb.bppend(' ');
         }
         return sb.toString();
     }
 
-    private static String printState(int state) {
-        switch (state) {
-          case STATE_NEW:
+    privbte stbtic String printStbte(int stbte) {
+        switch (stbte) {
+          cbse STATE_NEW:
                 return ("STATE_NEW");
-          case STATE_IN_PROCESS:
+          cbse STATE_IN_PROCESS:
                 return ("STATE_IN_PROCESS");
-          case STATE_DONE:
+          cbse STATE_DONE:
                 return ("STATE_DONE");
-          case STATE_DELETED:
+          cbse STATE_DELETED:
                 return ("STATE_DELETED");
-          default:
-                return ("Unknown state " + state);
+          defbult:
+                return ("Unknown stbte " + stbte);
         }
     }
 
-    GSSCaller getCaller() {
-        // Currently used by InitialToken only
-        return caller;
+    GSSCbller getCbller() {
+        // Currently used by InitiblToken only
+        return cbller;
     }
 
     /**
      * The session key returned by inquireSecContext(KRB5_INQ_SSPI_SESSION_KEY)
      */
-    static class KerberosSessionKey implements Key {
-        private static final long serialVersionUID = 699307378954123869L;
+    stbtic clbss KerberosSessionKey implements Key {
+        privbte stbtic finbl long seriblVersionUID = 699307378954123869L;
 
-        private final EncryptionKey key;
+        privbte finbl EncryptionKey key;
 
         KerberosSessionKey(EncryptionKey key) {
             this.key = key;
@@ -1400,7 +1400,7 @@ class Krb5Context implements GSSContextSpi {
         }
 
         @Override
-        public String getFormat() {
+        public String getFormbt() {
             return "RAW";
         }
 
@@ -1417,49 +1417,49 @@ class Krb5Context implements GSSContextSpi {
     }
 
     /**
-     * Return the mechanism-specific attribute associated with {@code type}.
+     * Return the mechbnism-specific bttribute bssocibted with {@code type}.
      */
     public Object inquireSecContext(InquireType type)
             throws GSSException {
-        if (!isEstablished()) {
+        if (!isEstbblished()) {
              throw new GSSException(GSSException.NO_CONTEXT, -1,
-                     "Security context not established.");
+                     "Security context not estbblished.");
         }
         switch (type) {
-            case KRB5_GET_SESSION_KEY:
+            cbse KRB5_GET_SESSION_KEY:
                 return new KerberosSessionKey(key);
-            case KRB5_GET_SESSION_KEY_EX:
-                return new javax.security.auth.kerberos.EncryptionKey(
+            cbse KRB5_GET_SESSION_KEY_EX:
+                return new jbvbx.security.buth.kerberos.EncryptionKey(
                         key.getBytes(), key.getEType());
-            case KRB5_GET_TKT_FLAGS:
-                return tktFlags.clone();
-            case KRB5_GET_AUTHZ_DATA:
-                if (isInitiator()) {
+            cbse KRB5_GET_TKT_FLAGS:
+                return tktFlbgs.clone();
+            cbse KRB5_GET_AUTHZ_DATA:
+                if (isInitibtor()) {
                     throw new GSSException(GSSException.UNAVAILABLE, -1,
-                            "AuthzData not available on initiator side.");
+                            "AuthzDbtb not bvbilbble on initibtor side.");
                 } else {
-                    return (authzData==null)?null:authzData.clone();
+                    return (buthzDbtb==null)?null:buthzDbtb.clone();
                 }
-            case KRB5_GET_AUTHTIME:
-                return authTime;
-            case KRB5_GET_KRB_CRED:
-                if (!isInitiator()) {
+            cbse KRB5_GET_AUTHTIME:
+                return buthTime;
+            cbse KRB5_GET_KRB_CRED:
+                if (!isInitibtor()) {
                     throw new GSSException(GSSException.UNAVAILABLE, -1,
-                            "KRB_CRED not available on acceptor side.");
+                            "KRB_CRED not bvbilbble on bcceptor side.");
                 }
-                KerberosPrincipal sender = new KerberosPrincipal(
-                        myName.getKrb5PrincipalName().getName());
-                KerberosPrincipal recipient = new KerberosPrincipal(
-                        peerName.getKrb5PrincipalName().getName());
+                KerberosPrincipbl sender = new KerberosPrincipbl(
+                        myNbme.getKrb5PrincipblNbme().getNbme());
+                KerberosPrincipbl recipient = new KerberosPrincipbl(
+                        peerNbme.getKrb5PrincipblNbme().getNbme());
                 try {
                     byte[] krbCred = new KrbCred(tgt, serviceCreds, key)
-                            .getMessage();
-                    return new KerberosCredMessage(
+                            .getMessbge();
+                    return new KerberosCredMessbge(
                             sender, recipient, krbCred);
-                } catch (KrbException | IOException e) {
+                } cbtch (KrbException | IOException e) {
                     GSSException gsse = new GSSException(GSSException.UNAVAILABLE, -1,
-                            "KRB_CRED not generated correctly.");
-                    gsse.initCause(e);
+                            "KRB_CRED not generbted correctly.");
+                    gsse.initCbuse(e);
                     throw gsse;
                 }
         }
@@ -1468,20 +1468,20 @@ class Krb5Context implements GSSContextSpi {
     }
 
     // Helpers for inquireSecContext
-    private boolean[] tktFlags;
-    private String authTime;
-    private com.sun.security.jgss.AuthorizationDataEntry[] authzData;
+    privbte boolebn[] tktFlbgs;
+    privbte String buthTime;
+    privbte com.sun.security.jgss.AuthorizbtionDbtbEntry[] buthzDbtb;
 
-    public void setTktFlags(boolean[] tktFlags) {
-        this.tktFlags = tktFlags;
+    public void setTktFlbgs(boolebn[] tktFlbgs) {
+        this.tktFlbgs = tktFlbgs;
     }
 
-    public void setAuthTime(String authTime) {
-        this.authTime = authTime;
+    public void setAuthTime(String buthTime) {
+        this.buthTime = buthTime;
     }
 
-    public void setAuthzData(com.sun.security.jgss.AuthorizationDataEntry[] authzData) {
-        this.authzData = authzData;
+    public void setAuthzDbtb(com.sun.security.jgss.AuthorizbtionDbtbEntry[] buthzDbtb) {
+        this.buthzDbtb = buthzDbtb;
     }
 
 }

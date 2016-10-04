@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.rtf;
+pbckbge jbvbx.swing.text.rtf;
 
-import java.awt.*;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import javax.swing.Action;
-import javax.swing.text.*;
-import javax.swing.*;
+import jbvb.bwt.*;
+import jbvb.io.*;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
+import jbvbx.swing.Action;
+import jbvbx.swing.text.*;
+import jbvbx.swing.*;
 
 /**
- * This is the default implementation of RTF editing
- * functionality.  The RTF support was not written by the
- * Swing team.  In the future we hope to improve the support
+ * This is the defbult implementbtion of RTF editing
+ * functionblity.  The RTF support wbs not written by the
+ * Swing tebm.  In the future we hope to improve the support
  * provided.
  *
- * @author  Timothy Prinzing (of this class, not the package!)
+ * @buthor  Timothy Prinzing (of this clbss, not the pbckbge!)
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class RTFEditorKit extends StyledEditorKit {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss RTFEditorKit extends StyledEditorKit {
 
     /**
-     * Constructs an RTFEditorKit.
+     * Constructs bn RTFEditorKit.
      */
     public RTFEditorKit() {
         super();
     }
 
     /**
-     * Get the MIME type of the data that this
+     * Get the MIME type of the dbtb thbt this
      * kit represents support for.  This kit supports
      * the type <code>text/rtf</code>.
      *
@@ -62,95 +62,95 @@ public class RTFEditorKit extends StyledEditorKit {
     }
 
     /**
-     * Insert content from the given stream which is expected
-     * to be in a format appropriate for this kind of content
-     * handler.
+     * Insert content from the given strebm which is expected
+     * to be in b formbt bppropribte for this kind of content
+     * hbndler.
      *
-     * @param in  The stream to read from
-     * @param doc The destination for the insertion.
-     * @param pos The location in the document to place the
+     * @pbrbm in  The strebm to rebd from
+     * @pbrbm doc The destinbtion for the insertion.
+     * @pbrbm pos The locbtion in the document to plbce the
      *   content.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *   locbtion within the document.
      */
-    public void read(InputStream in, Document doc, int pos) throws IOException, BadLocationException {
+    public void rebd(InputStrebm in, Document doc, int pos) throws IOException, BbdLocbtionException {
 
-        if (doc instanceof StyledDocument) {
+        if (doc instbnceof StyledDocument) {
             // PENDING(prinz) this needs to be fixed to
             // insert to the given position.
-            RTFReader rdr = new RTFReader((StyledDocument) doc);
-            rdr.readFromStream(in);
+            RTFRebder rdr = new RTFRebder((StyledDocument) doc);
+            rdr.rebdFromStrebm(in);
             rdr.close();
         } else {
-            // treat as text/plain
-            super.read(in, doc, pos);
+            // trebt bs text/plbin
+            super.rebd(in, doc, pos);
         }
     }
 
     /**
-     * Write content from a document to the given stream
-     * in a format appropriate for this kind of content handler.
+     * Write content from b document to the given strebm
+     * in b formbt bppropribte for this kind of content hbndler.
      *
-     * @param out  The stream to write to
-     * @param doc The source for the write.
-     * @param pos The location in the document to fetch the
+     * @pbrbm out  The strebm to write to
+     * @pbrbm doc The source for the write.
+     * @pbrbm pos The locbtion in the document to fetch the
      *   content.
-     * @param len The amount to write out.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @pbrbm len The bmount to write out.
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *   locbtion within the document.
      */
-    public void write(OutputStream out, Document doc, int pos, int len)
-        throws IOException, BadLocationException {
+    public void write(OutputStrebm out, Document doc, int pos, int len)
+        throws IOException, BbdLocbtionException {
 
             // PENDING(prinz) this needs to be fixed to
-            // use the given document range.
-            RTFGenerator.writeDocument(doc, out);
+            // use the given document rbnge.
+            RTFGenerbtor.writeDocument(doc, out);
     }
 
     /**
-     * Insert content from the given stream, which will be
-     * treated as plain text.
+     * Insert content from the given strebm, which will be
+     * trebted bs plbin text.
      *
-     * @param in  The stream to read from
-     * @param doc The destination for the insertion.
-     * @param pos The location in the document to place the
+     * @pbrbm in  The strebm to rebd from
+     * @pbrbm doc The destinbtion for the insertion.
+     * @pbrbm pos The locbtion in the document to plbce the
      *   content.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *   locbtion within the document.
      */
-    public void read(Reader in, Document doc, int pos)
-        throws IOException, BadLocationException {
+    public void rebd(Rebder in, Document doc, int pos)
+        throws IOException, BbdLocbtionException {
 
-        if (doc instanceof StyledDocument) {
-            RTFReader rdr = new RTFReader((StyledDocument) doc);
-            rdr.readFromReader(in);
+        if (doc instbnceof StyledDocument) {
+            RTFRebder rdr = new RTFRebder((StyledDocument) doc);
+            rdr.rebdFromRebder(in);
             rdr.close();
         } else {
-            // treat as text/plain
-            super.read(in, doc, pos);
+            // trebt bs text/plbin
+            super.rebd(in, doc, pos);
         }
     }
 
     /**
-     * Write content from a document to the given stream
-     * as plain text.
+     * Write content from b document to the given strebm
+     * bs plbin text.
      *
-     * @param out  The stream to write to
-     * @param doc The source for the write.
-     * @param pos The location in the document to fetch the
+     * @pbrbm out  The strebm to write to
+     * @pbrbm doc The source for the write.
+     * @pbrbm pos The locbtion in the document to fetch the
      *   content.
-     * @param len The amount to write out.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @pbrbm len The bmount to write out.
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *   locbtion within the document.
      */
     public void write(Writer out, Document doc, int pos, int len)
-        throws IOException, BadLocationException {
+        throws IOException, BbdLocbtionException {
 
-        throw new IOException("RTF is an 8-bit format");
+        throw new IOException("RTF is bn 8-bit formbt");
     }
 
 }

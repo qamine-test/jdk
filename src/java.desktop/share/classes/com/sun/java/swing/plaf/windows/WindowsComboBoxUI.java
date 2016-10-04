@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.*;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.Part;
-import static com.sun.java.swing.plaf.windows.TMSchema.State;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.Pbrt;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.Stbte;
+import stbtic com.sun.jbvb.swing.plbf.windows.XPStyle.Skin;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DefbultLookup;
 import sun.swing.StringUIClientPropertyKey;
 
 
 /**
  * Windows combo box.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Tom Santos
- * @author Igor Kushnirskiy
+ * @buthor Tom Sbntos
+ * @buthor Igor Kushnirskiy
  */
 
-public class WindowsComboBoxUI extends BasicComboBoxUI {
+public clbss WindowsComboBoxUI extends BbsicComboBoxUI {
 
-    private static final MouseListener rolloverListener =
-        new MouseAdapter() {
-            private void handleRollover(MouseEvent e, boolean isRollover) {
+    privbte stbtic finbl MouseListener rolloverListener =
+        new MouseAdbpter() {
+            privbte void hbndleRollover(MouseEvent e, boolebn isRollover) {
                 JComboBox<?> comboBox = getComboBox(e);
                 WindowsComboBoxUI comboBoxUI = getWindowsComboBoxUI(e);
                 if (comboBox == null || comboBoxUI == null) {
                     return;
                 }
-                if (! comboBox.isEditable()) {
-                    //mouse over editable ComboBox does not switch rollover
-                    //for the arrow button
+                if (! comboBox.isEditbble()) {
+                    //mouse over editbble ComboBox does not switch rollover
+                    //for the brrow button
                     ButtonModel m = null;
-                    if (comboBoxUI.arrowButton != null) {
-                        m = comboBoxUI.arrowButton.getModel();
+                    if (comboBoxUI.brrowButton != null) {
+                        m = comboBoxUI.brrowButton.getModel();
                     }
                     if (m != null ) {
                         m.setRollover(isRollover);
                     }
                 }
                 comboBoxUI.isRollover = isRollover;
-                comboBox.repaint();
+                comboBox.repbint();
             }
 
             public void mouseEntered(MouseEvent e) {
-                handleRollover(e, true);
+                hbndleRollover(e, true);
             }
 
             public void mouseExited(MouseEvent e) {
-                handleRollover(e, false);
+                hbndleRollover(e, fblse);
             }
 
-            private JComboBox<?> getComboBox(MouseEvent event) {
+            privbte JComboBox<?> getComboBox(MouseEvent event) {
                 Object source = event.getSource();
                 JComboBox<?> rv = null;
-                if (source instanceof JComboBox) {
+                if (source instbnceof JComboBox) {
                     rv = (JComboBox) source;
-                } else if (source instanceof XPComboBoxButton) {
+                } else if (source instbnceof XPComboBoxButton) {
                     rv = ((XPComboBoxButton) source)
                         .getWindowsComboBoxUI().comboBox;
                 }
                 return rv;
             }
 
-            private WindowsComboBoxUI getWindowsComboBoxUI(MouseEvent event) {
+            privbte WindowsComboBoxUI getWindowsComboBoxUI(MouseEvent event) {
                 JComboBox<?> comboBox = getComboBox(event);
                 WindowsComboBoxUI rv = null;
                 if (comboBox != null
-                    && comboBox.getUI() instanceof WindowsComboBoxUI) {
+                    && comboBox.getUI() instbnceof WindowsComboBoxUI) {
                     rv = (WindowsComboBoxUI) comboBox.getUI();
                 }
                 return rv;
             }
 
         };
-    private boolean isRollover = false;
+    privbte boolebn isRollover = fblse;
 
-    private static final PropertyChangeListener componentOrientationListener =
-        new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent e) {
-                String propertyName = e.getPropertyName();
+    privbte stbtic finbl PropertyChbngeListener componentOrientbtionListener =
+        new PropertyChbngeListener() {
+            public void propertyChbnge(PropertyChbngeEvent e) {
+                String propertyNbme = e.getPropertyNbme();
                 Object source = null;
-                if ("componentOrientation" == propertyName
-                    && (source = e.getSource()) instanceof JComboBox
-                    && ((JComboBox) source).getUI() instanceof
+                if ("componentOrientbtion" == propertyNbme
+                    && (source = e.getSource()) instbnceof JComboBox
+                    && ((JComboBox) source).getUI() instbnceof
                       WindowsComboBoxUI) {
                     JComboBox<?> comboBox = (JComboBox) source;
                     WindowsComboBoxUI comboBoxUI = (WindowsComboBoxUI) comboBox.getUI();
-                    if (comboBoxUI.arrowButton instanceof XPComboBoxButton) {
-                        ((XPComboBoxButton) comboBoxUI.arrowButton).setPart(
-                                    (comboBox.getComponentOrientation() ==
-                                       ComponentOrientation.RIGHT_TO_LEFT)
-                                    ? Part.CP_DROPDOWNBUTTONLEFT
-                                    : Part.CP_DROPDOWNBUTTONRIGHT);
+                    if (comboBoxUI.brrowButton instbnceof XPComboBoxButton) {
+                        ((XPComboBoxButton) comboBoxUI.brrowButton).setPbrt(
+                                    (comboBox.getComponentOrientbtion() ==
+                                       ComponentOrientbtion.RIGHT_TO_LEFT)
+                                    ? Pbrt.CP_DROPDOWNBUTTONLEFT
+                                    : Pbrt.CP_DROPDOWNBUTTONRIGHT);
                             }
                         }
                     }
                 };
 
-    public static ComponentUI createUI(JComponent c) {
+    public stbtic ComponentUI crebteUI(JComponent c) {
         return new WindowsComboBoxUI();
     }
 
-    public void installUI( JComponent c ) {
-        super.installUI( c );
-        isRollover = false;
-        comboBox.setRequestFocusEnabled( true );
-        if (XPStyle.getXP() != null && arrowButton != null) {
-            //we can not do it in installListeners because arrowButton
-            //is initialized after installListeners is invoked
-            comboBox.addMouseListener(rolloverListener);
-            arrowButton.addMouseListener(rolloverListener);
+    public void instbllUI( JComponent c ) {
+        super.instbllUI( c );
+        isRollover = fblse;
+        comboBox.setRequestFocusEnbbled( true );
+        if (XPStyle.getXP() != null && brrowButton != null) {
+            //we cbn not do it in instbllListeners becbuse brrowButton
+            //is initiblized bfter instbllListeners is invoked
+            comboBox.bddMouseListener(rolloverListener);
+            brrowButton.bddMouseListener(rolloverListener);
         }
     }
 
-    public void uninstallUI(JComponent c ) {
+    public void uninstbllUI(JComponent c ) {
         comboBox.removeMouseListener(rolloverListener);
-        if(arrowButton != null) {
-            arrowButton.removeMouseListener(rolloverListener);
+        if(brrowButton != null) {
+            brrowButton.removeMouseListener(rolloverListener);
         }
-        super.uninstallUI( c );
+        super.uninstbllUI( c );
     }
 
     /**
@@ -165,14 +165,14 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
      * @since 1.6
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
+    protected void instbllListeners() {
+        super.instbllListeners();
         XPStyle xp = XPStyle.getXP();
-        //button glyph for LTR and RTL combobox might differ
+        //button glyph for LTR bnd RTL combobox might differ
         if (xp != null
-              && xp.isSkinDefined(comboBox, Part.CP_DROPDOWNBUTTONRIGHT)) {
-            comboBox.addPropertyChangeListener("componentOrientation",
-                                               componentOrientationListener);
+              && xp.isSkinDefined(comboBox, Pbrt.CP_DROPDOWNBUTTONRIGHT)) {
+            comboBox.bddPropertyChbngeListener("componentOrientbtion",
+                                               componentOrientbtionListener);
         }
     }
 
@@ -181,10 +181,10 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
      * @since 1.6
      */
     @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        comboBox.removePropertyChangeListener("componentOrientation",
-                                              componentOrientationListener);
+    protected void uninstbllListeners() {
+        super.uninstbllListeners();
+        comboBox.removePropertyChbngeListener("componentOrientbtion",
+                                              componentOrientbtionListener);
     }
 
     /**
@@ -194,7 +194,7 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
     protected void configureEditor() {
         super.configureEditor();
         if (XPStyle.getXP() != null) {
-            editor.addMouseListener(rolloverListener);
+            editor.bddMouseListener(rolloverListener);
         }
     }
 
@@ -211,53 +211,53 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
      * {@inheritDoc}
      * @since 1.6
      */
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         if (XPStyle.getXP() != null) {
-            paintXPComboBoxBackground(g, c);
+            pbintXPComboBoxBbckground(g, c);
         }
-        super.paint(g, c);
+        super.pbint(g, c);
     }
 
-    State getXPComboBoxState(JComponent c) {
-        State state = State.NORMAL;
-        if (!c.isEnabled()) {
-            state = State.DISABLED;
+    Stbte getXPComboBoxStbte(JComponent c) {
+        Stbte stbte = Stbte.NORMAL;
+        if (!c.isEnbbled()) {
+            stbte = Stbte.DISABLED;
         } else if (isPopupVisible(comboBox)) {
-            state = State.PRESSED;
+            stbte = Stbte.PRESSED;
         } else if (isRollover) {
-            state = State.HOT;
+            stbte = Stbte.HOT;
         }
-        return state;
+        return stbte;
     }
 
-    private void paintXPComboBoxBackground(Graphics g, JComponent c) {
+    privbte void pbintXPComboBoxBbckground(Grbphics g, JComponent c) {
         XPStyle xp = XPStyle.getXP();
         if (xp == null) {
             return;
         }
-        State state = getXPComboBoxState(c);
+        Stbte stbte = getXPComboBoxStbte(c);
         Skin skin = null;
-        if (! comboBox.isEditable()
-              && xp.isSkinDefined(c, Part.CP_READONLY)) {
-            skin = xp.getSkin(c, Part.CP_READONLY);
+        if (! comboBox.isEditbble()
+              && xp.isSkinDefined(c, Pbrt.CP_READONLY)) {
+            skin = xp.getSkin(c, Pbrt.CP_READONLY);
         }
         if (skin == null) {
-            skin = xp.getSkin(c, Part.CP_COMBOBOX);
+            skin = xp.getSkin(c, Pbrt.CP_COMBOBOX);
         }
-        skin.paintSkin(g, 0, 0, c.getWidth(), c.getHeight(), state);
+        skin.pbintSkin(g, 0, 0, c.getWidth(), c.getHeight(), stbte);
     }
 
     /**
-     * If necessary paints the currently selected item.
+     * If necessbry pbints the currently selected item.
      *
-     * @param g Graphics to paint to
-     * @param bounds Region to paint current value to
-     * @param hasFocus whether or not the JComboBox has focus
-     * @throws NullPointerException if any of the arguments are null.
+     * @pbrbm g Grbphics to pbint to
+     * @pbrbm bounds Region to pbint current vblue to
+     * @pbrbm hbsFocus whether or not the JComboBox hbs focus
+     * @throws NullPointerException if bny of the brguments bre null.
      * @since 1.5
      */
-    public void paintCurrentValue(Graphics g, Rectangle bounds,
-                                  boolean hasFocus) {
+    public void pbintCurrentVblue(Grbphics g, Rectbngle bounds,
+                                  boolebn hbsFocus) {
         XPStyle xp = XPStyle.getXP();
         if ( xp != null) {
             bounds.x += 2;
@@ -270,49 +270,49 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
             bounds.width -= 2;
             bounds.height -= 2;
         }
-        if (! comboBox.isEditable()
+        if (! comboBox.isEditbble()
             && xp != null
-            && xp.isSkinDefined(comboBox, Part.CP_READONLY)) {
-            // On vista for READNLY ComboBox
-            // color for currentValue is the same as for any other item
+            && xp.isSkinDefined(comboBox, Pbrt.CP_READONLY)) {
+            // On vistb for READNLY ComboBox
+            // color for currentVblue is the sbme bs for bny other item
 
-            // mostly copied from javax.swing.plaf.basic.BasicComboBoxUI.paintCurrentValue
+            // mostly copied from jbvbx.swing.plbf.bbsic.BbsicComboBoxUI.pbintCurrentVblue
             ListCellRenderer<Object> renderer = comboBox.getRenderer();
             Component c;
-            if ( hasFocus && !isPopupVisible(comboBox) ) {
+            if ( hbsFocus && !isPopupVisible(comboBox) ) {
                 c = renderer.getListCellRendererComponent(
                         listBox,
                         comboBox.getSelectedItem(),
                         -1,
                         true,
-                        false );
+                        fblse );
             } else {
                 c = renderer.getListCellRendererComponent(
                         listBox,
                         comboBox.getSelectedItem(),
                         -1,
-                        false,
-                        false );
+                        fblse,
+                        fblse );
             }
             c.setFont(comboBox.getFont());
-            if ( comboBox.isEnabled() ) {
+            if ( comboBox.isEnbbled() ) {
                 c.setForeground(comboBox.getForeground());
-                c.setBackground(comboBox.getBackground());
+                c.setBbckground(comboBox.getBbckground());
             } else {
-                c.setForeground(DefaultLookup.getColor(
-                         comboBox, this, "ComboBox.disabledForeground", null));
-                c.setBackground(DefaultLookup.getColor(
-                         comboBox, this, "ComboBox.disabledBackground", null));
+                c.setForeground(DefbultLookup.getColor(
+                         comboBox, this, "ComboBox.disbbledForeground", null));
+                c.setBbckground(DefbultLookup.getColor(
+                         comboBox, this, "ComboBox.disbbledBbckground", null));
             }
-            boolean shouldValidate = false;
-            if (c instanceof JPanel)  {
-                shouldValidate = true;
+            boolebn shouldVblidbte = fblse;
+            if (c instbnceof JPbnel)  {
+                shouldVblidbte = true;
             }
-            currentValuePane.paintComponent(g, c, comboBox, bounds.x, bounds.y,
-                                            bounds.width, bounds.height, shouldValidate);
+            currentVbluePbne.pbintComponent(g, c, comboBox, bounds.x, bounds.y,
+                                            bounds.width, bounds.height, shouldVblidbte);
 
         } else {
-            super.paintCurrentValue(g, bounds, hasFocus);
+            super.pbintCurrentVblue(g, bounds, hbsFocus);
         }
     }
 
@@ -320,10 +320,10 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
      * {@inheritDoc}
      * @since 1.6
      */
-    public void paintCurrentValueBackground(Graphics g, Rectangle bounds,
-                                            boolean hasFocus) {
+    public void pbintCurrentVblueBbckground(Grbphics g, Rectbngle bounds,
+                                            boolebn hbsFocus) {
         if (XPStyle.getXP() == null) {
-            super.paintCurrentValueBackground(g, bounds, hasFocus);
+            super.pbintCurrentVblueBbckground(g, bounds, hbsFocus);
         }
     }
 
@@ -339,21 +339,21 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
     }
 
     /**
-     * Creates a layout manager for managing the components which make up the
+     * Crebtes b lbyout mbnbger for mbnbging the components which mbke up the
      * combo box.
      *
-     * @return an instance of a layout manager
+     * @return bn instbnce of b lbyout mbnbger
      */
-    protected LayoutManager createLayoutManager() {
-        return new BasicComboBoxUI.ComboBoxLayoutManager() {
-            public void layoutContainer(Container parent) {
-                super.layoutContainer(parent);
+    protected LbyoutMbnbger crebteLbyoutMbnbger() {
+        return new BbsicComboBoxUI.ComboBoxLbyoutMbnbger() {
+            public void lbyoutContbiner(Contbiner pbrent) {
+                super.lbyoutContbiner(pbrent);
 
-                if (XPStyle.getXP() != null && arrowButton != null) {
-                    Dimension d = parent.getSize();
+                if (XPStyle.getXP() != null && brrowButton != null) {
+                    Dimension d = pbrent.getSize();
                     Insets insets = getInsets();
-                    int buttonWidth = arrowButton.getPreferredSize().width;
-                    arrowButton.setBounds(WindowsGraphicsUtils.isLeftToRight((JComboBox)parent)
+                    int buttonWidth = brrowButton.getPreferredSize().width;
+                    brrowButton.setBounds(WindowsGrbphicsUtils.isLeftToRight((JComboBox)pbrent)
                                           ? (d.width - insets.right - buttonWidth)
                                           : insets.left,
                                           insets.top,
@@ -363,23 +363,23 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
         };
     }
 
-    protected void installKeyboardActions() {
-        super.installKeyboardActions();
+    protected void instbllKeybobrdActions() {
+        super.instbllKeybobrdActions();
     }
 
-    protected ComboPopup createPopup() {
-        return super.createPopup();
+    protected ComboPopup crebtePopup() {
+        return super.crebtePopup();
     }
 
     /**
-     * Creates the default editor that will be used in editable combo boxes.
-     * A default editor will be used only if an editor has not been
+     * Crebtes the defbult editor thbt will be used in editbble combo boxes.
+     * A defbult editor will be used only if bn editor hbs not been
      * explicitly set with <code>setEditor</code>.
      *
-     * @return a <code>ComboBoxEditor</code> used for the combo box
-     * @see javax.swing.JComboBox#setEditor
+     * @return b <code>ComboBoxEditor</code> used for the combo box
+     * @see jbvbx.swing.JComboBox#setEditor
      */
-    protected ComboBoxEditor createEditor() {
+    protected ComboBoxEditor crebteEditor() {
         return new WindowsComboBoxEditor();
     }
 
@@ -388,57 +388,57 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
      * @since 1.6
      */
     @Override
-    protected ListCellRenderer<Object> createRenderer() {
+    protected ListCellRenderer<Object> crebteRenderer() {
         XPStyle xp = XPStyle.getXP();
-        if (xp != null && xp.isSkinDefined(comboBox, Part.CP_READONLY)) {
+        if (xp != null && xp.isSkinDefined(comboBox, Pbrt.CP_READONLY)) {
             return new WindowsComboBoxRenderer();
         } else {
-            return super.createRenderer();
+            return super.crebteRenderer();
         }
     }
 
     /**
-     * Creates an button which will be used as the control to show or hide
+     * Crebtes bn button which will be used bs the control to show or hide
      * the popup portion of the combo box.
      *
-     * @return a button which represents the popup control
+     * @return b button which represents the popup control
      */
-    protected JButton createArrowButton() {
+    protected JButton crebteArrowButton() {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
             return new XPComboBoxButton(xp);
         } else {
-            return super.createArrowButton();
+            return super.crebteArrowButton();
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class XPComboBoxButton extends XPStyle.GlyphButton {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss XPComboBoxButton extends XPStyle.GlyphButton {
         public XPComboBoxButton(XPStyle xp) {
             super(null,
-                  (! xp.isSkinDefined(comboBox, Part.CP_DROPDOWNBUTTONRIGHT))
-                   ? Part.CP_DROPDOWNBUTTON
-                   : (comboBox.getComponentOrientation() == ComponentOrientation.RIGHT_TO_LEFT)
-                     ? Part.CP_DROPDOWNBUTTONLEFT
-                     : Part.CP_DROPDOWNBUTTONRIGHT
+                  (! xp.isSkinDefined(comboBox, Pbrt.CP_DROPDOWNBUTTONRIGHT))
+                   ? Pbrt.CP_DROPDOWNBUTTON
+                   : (comboBox.getComponentOrientbtion() == ComponentOrientbtion.RIGHT_TO_LEFT)
+                     ? Pbrt.CP_DROPDOWNBUTTONLEFT
+                     : Pbrt.CP_DROPDOWNBUTTONRIGHT
                   );
-            setRequestFocusEnabled(false);
+            setRequestFocusEnbbled(fblse);
         }
 
         @Override
-        protected State getState() {
-            State rv;
-            rv = super.getState();
+        protected Stbte getStbte() {
+            Stbte rv;
+            rv = super.getStbte();
             XPStyle xp = XPStyle.getXP();
-            if (rv != State.DISABLED
-                && comboBox != null && ! comboBox.isEditable()
+            if (rv != Stbte.DISABLED
+                && comboBox != null && ! comboBox.isEditbble()
                 && xp != null && xp.isSkinDefined(comboBox,
-                                                  Part.CP_DROPDOWNBUTTONRIGHT)) {
+                                                  Pbrt.CP_DROPDOWNBUTTONRIGHT)) {
                 /*
-                 * for non editable ComboBoxes Vista seems to have the
-                 * same glyph for all non DISABLED states
+                 * for non editbble ComboBoxes Vistb seems to hbve the
+                 * sbme glyph for bll non DISABLED stbtes
                  */
-                rv = State.NORMAL;
+                rv = Stbte.NORMAL;
             }
             return rv;
         }
@@ -447,8 +447,8 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
             return new Dimension(17, 21);
         }
 
-        void setPart(Part part) {
-            setPart(comboBox, part);
+        void setPbrt(Pbrt pbrt) {
+            setPbrt(comboBox, pbrt);
         }
 
         WindowsComboBoxUI getWindowsComboBoxUI() {
@@ -458,27 +458,27 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
 
 
     /**
-     * Subclassed to add Windows specific Key Bindings.
-     * This class is now obsolete and doesn't do anything.
-     * Only included for backwards API compatibility.
-     * Do not call or override.
+     * Subclbssed to bdd Windows specific Key Bindings.
+     * This clbss is now obsolete bnd doesn't do bnything.
+     * Only included for bbckwbrds API compbtibility.
+     * Do not cbll or override.
      *
-     * @deprecated As of Java 2 platform v1.4.
+     * @deprecbted As of Jbvb 2 plbtform v1.4.
      */
-    @Deprecated
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class WindowsComboPopup extends BasicComboPopup {
+    @Deprecbted
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss WindowsComboPopup extends BbsicComboPopup {
 
         public WindowsComboPopup( JComboBox<Object> cBox ) {
             super( cBox );
         }
 
-        protected KeyListener createKeyListener() {
-            return new InvocationKeyHandler();
+        protected KeyListener crebteKeyListener() {
+            return new InvocbtionKeyHbndler();
         }
 
-        protected class InvocationKeyHandler extends BasicComboPopup.InvocationKeyHandler {
-            protected InvocationKeyHandler() {
+        protected clbss InvocbtionKeyHbndler extends BbsicComboPopup.InvocbtionKeyHbndler {
+            protected InvocbtionKeyHbndler() {
                 WindowsComboPopup.this.super();
             }
         }
@@ -486,74 +486,74 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
 
 
     /**
-     * Subclassed to highlight selected item in an editable combo box.
+     * Subclbssed to highlight selected item in bn editbble combo box.
      */
-    public static class WindowsComboBoxEditor
-        extends BasicComboBoxEditor.UIResource {
+    public stbtic clbss WindowsComboBoxEditor
+        extends BbsicComboBoxEditor.UIResource {
 
         /**
          * {@inheritDoc}
          * @since 1.6
          */
-        protected JTextField createEditorComponent() {
-            JTextField editor = super.createEditorComponent();
-            Border border = (Border)UIManager.get("ComboBox.editorBorder");
+        protected JTextField crebteEditorComponent() {
+            JTextField editor = super.crebteEditorComponent();
+            Border border = (Border)UIMbnbger.get("ComboBox.editorBorder");
             if (border != null) {
                 editor.setBorder(border);
             }
-            editor.setOpaque(false);
+            editor.setOpbque(fblse);
             return editor;
         }
 
         public void setItem(Object item) {
             super.setItem(item);
-            Object focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-            if ((focus == editor) || (focus == editor.getParent())) {
+            Object focus = KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().getFocusOwner();
+            if ((focus == editor) || (focus == editor.getPbrent())) {
                 editor.selectAll();
             }
         }
     }
 
     /**
-     * Subclassed to set opacity {@code false} on the renderer
-     * and to show border for focused cells.
+     * Subclbssed to set opbcity {@code fblse} on the renderer
+     * bnd to show border for focused cells.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class WindowsComboBoxRenderer
-          extends BasicComboBoxRenderer.UIResource {
-        private static final Object BORDER_KEY
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte stbtic clbss WindowsComboBoxRenderer
+          extends BbsicComboBoxRenderer.UIResource {
+        privbte stbtic finbl Object BORDER_KEY
             = new StringUIClientPropertyKey("BORDER_KEY");
-        private static final Border NULL_BORDER = new EmptyBorder(0, 0, 0, 0);
+        privbte stbtic finbl Border NULL_BORDER = new EmptyBorder(0, 0, 0, 0);
         /**
          * {@inheritDoc}
          */
         @Override
         public Component getListCellRendererComponent(
                                                  JList<?> list,
-                                                 Object value,
+                                                 Object vblue,
                                                  int index,
-                                                 boolean isSelected,
-                                                 boolean cellHasFocus) {
+                                                 boolebn isSelected,
+                                                 boolebn cellHbsFocus) {
             Component rv =
-                super.getListCellRendererComponent(list, value, index,
-                                                   isSelected, cellHasFocus);
-            if (rv instanceof JComponent) {
+                super.getListCellRendererComponent(list, vblue, index,
+                                                   isSelected, cellHbsFocus);
+            if (rv instbnceof JComponent) {
                 JComponent component = (JComponent) rv;
                 if (index == -1 && isSelected) {
                     Border border = component.getBorder();
-                    Border dashedBorder =
-                        new WindowsBorders.DashedBorder(list.getForeground());
-                    component.setBorder(dashedBorder);
+                    Border dbshedBorder =
+                        new WindowsBorders.DbshedBorder(list.getForeground());
+                    component.setBorder(dbshedBorder);
                     //store current border in client property if needed
                     if (component.getClientProperty(BORDER_KEY) == null) {
                         component.putClientProperty(BORDER_KEY,
                                        (border == null) ? NULL_BORDER : border);
                     }
                 } else {
-                    if (component.getBorder() instanceof
-                          WindowsBorders.DashedBorder) {
+                    if (component.getBorder() instbnceof
+                          WindowsBorders.DbshedBorder) {
                         Object storedBorder = component.getClientProperty(BORDER_KEY);
-                        if (storedBorder instanceof Border) {
+                        if (storedBorder instbnceof Border) {
                             component.setBorder(
                                 (storedBorder == NULL_BORDER) ? null
                                     : (Border) storedBorder);
@@ -562,10 +562,10 @@ public class WindowsComboBoxUI extends BasicComboBoxUI {
                     }
                 }
                 if (index == -1) {
-                    component.setOpaque(false);
+                    component.setOpbque(fblse);
                     component.setForeground(list.getForeground());
                 } else {
-                    component.setOpaque(true);
+                    component.setOpbque(true);
                 }
             }
             return rv;

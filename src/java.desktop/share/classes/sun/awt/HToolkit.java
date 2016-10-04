@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import sun.awt.datatransfer.DataTransferer;
+import sun.bwt.dbtbtrbnsfer.DbtbTrbnsferer;
 
-import java.awt.*;
-import java.awt.dnd.*;
-import java.awt.dnd.peer.DragSourceContextPeer;
-import java.awt.im.InputMethodHighlight;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.awt.image.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.peer.*;
-import java.util.Map;
-import java.util.Properties;
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.*;
+import jbvb.bwt.dnd.peer.DrbgSourceContextPeer;
+import jbvb.bwt.im.InputMethodHighlight;
+import jbvb.bwt.im.spi.InputMethodDescriptor;
+import jbvb.bwt.imbge.*;
+import jbvb.bwt.dbtbtrbnsfer.Clipbobrd;
+import jbvb.bwt.peer.*;
+import jbvb.util.Mbp;
+import jbvb.util.Properties;
 
 /*
- * HToolkit is a platform independent Toolkit used
- * with the HeadlessToolkit.  It is primarily used
- * in embedded JRE's that do not have sun/awt/X11 classes.
+ * HToolkit is b plbtform independent Toolkit used
+ * with the HebdlessToolkit.  It is primbrily used
+ * in embedded JRE's thbt do not hbve sun/bwt/X11 clbsses.
  */
-public class HToolkit extends SunToolkit
-    implements ComponentFactory {
+public clbss HToolkit extends SunToolkit
+    implements ComponentFbctory {
 
-    private static final KeyboardFocusManagerPeer kfmPeer = new KeyboardFocusManagerPeer() {
+    privbte stbtic finbl KeybobrdFocusMbnbgerPeer kfmPeer = new KeybobrdFocusMbnbgerPeer() {
         public void setCurrentFocusedWindow(Window win) {}
         public Window getCurrentFocusedWindow() { return null; }
         public void setCurrentFocusOwner(Component comp) {}
         public Component getCurrentFocusOwner() { return null; }
-        public void clearGlobalFocusOwner(Window activeWindow) {}
+        public void clebrGlobblFocusOwner(Window bctiveWindow) {}
     };
 
     public HToolkit() {
@@ -61,281 +61,281 @@ public class HToolkit extends SunToolkit
      * Component peer objects - unsupported.
      */
 
-    public WindowPeer createWindow(Window target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public WindowPeer crebteWindow(Window tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public FramePeer createLightweightFrame(LightweightFrame target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public FrbmePeer crebteLightweightFrbme(LightweightFrbme tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public FramePeer createFrame(Frame target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public FrbmePeer crebteFrbme(Frbme tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public DialogPeer createDialog(Dialog target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public DiblogPeer crebteDiblog(Diblog tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public ButtonPeer createButton(Button target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public ButtonPeer crebteButton(Button tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public TextFieldPeer createTextField(TextField target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public TextFieldPeer crebteTextField(TextField tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public ChoicePeer createChoice(Choice target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public ChoicePeer crebteChoice(Choice tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public LabelPeer createLabel(Label target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public LbbelPeer crebteLbbel(Lbbel tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public ListPeer createList(List target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public ListPeer crebteList(List tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public CheckboxPeer createCheckbox(Checkbox target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public CheckboxPeer crebteCheckbox(Checkbox tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public ScrollbarPeer createScrollbar(Scrollbar target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public ScrollbbrPeer crebteScrollbbr(Scrollbbr tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public ScrollPanePeer createScrollPane(ScrollPane target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public ScrollPbnePeer crebteScrollPbne(ScrollPbne tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public TextAreaPeer createTextArea(TextArea target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public TextArebPeer crebteTextAreb(TextAreb tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public FileDialogPeer createFileDialog(FileDialog target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public FileDiblogPeer crebteFileDiblog(FileDiblog tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public MenuBarPeer createMenuBar(MenuBar target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public MenuBbrPeer crebteMenuBbr(MenuBbr tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public MenuPeer createMenu(Menu target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public MenuPeer crebteMenu(Menu tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public PopupMenuPeer createPopupMenu(PopupMenu target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public PopupMenuPeer crebtePopupMenu(PopupMenu tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public MenuItemPeer createMenuItem(MenuItem target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public MenuItemPeer crebteMenuItem(MenuItem tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public CheckboxMenuItemPeer createCheckboxMenuItem(CheckboxMenuItem target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public CheckboxMenuItemPeer crebteCheckboxMenuItem(CheckboxMenuItem tbrget)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public DragSourceContextPeer createDragSourceContextPeer(
-        DragGestureEvent dge)
-        throws InvalidDnDOperationException {
-        throw new InvalidDnDOperationException("Headless environment");
+    public DrbgSourceContextPeer crebteDrbgSourceContextPeer(
+        DrbgGestureEvent dge)
+        throws InvblidDnDOperbtionException {
+        throw new InvblidDnDOperbtionException("Hebdless environment");
     }
 
-    public RobotPeer createRobot(Robot target, GraphicsDevice screen)
-        throws AWTException, HeadlessException {
-        throw new HeadlessException();
+    public RobotPeer crebteRobot(Robot tbrget, GrbphicsDevice screen)
+        throws AWTException, HebdlessException {
+        throw new HebdlessException();
     }
 
-    public KeyboardFocusManagerPeer getKeyboardFocusManagerPeer() {
+    public KeybobrdFocusMbnbgerPeer getKeybobrdFocusMbnbgerPeer() {
         // See 6833019.
         return kfmPeer;
     }
 
-    public TrayIconPeer createTrayIcon(TrayIcon target)
-      throws HeadlessException {
-        throw new HeadlessException();
+    public TrbyIconPeer crebteTrbyIcon(TrbyIcon tbrget)
+      throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public SystemTrayPeer createSystemTray(SystemTray target)
-      throws HeadlessException {
-        throw new HeadlessException();
+    public SystemTrbyPeer crebteSystemTrby(SystemTrby tbrget)
+      throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public boolean isTraySupported() {
-        return false;
+    public boolebn isTrbySupported() {
+        return fblse;
     }
 
     @Override
-    public DataTransferer getDataTransferer() {
+    public DbtbTrbnsferer getDbtbTrbnsferer() {
         return null;
     }
 
-    public GlobalCursorManager getGlobalCursorManager()
-        throws HeadlessException {
-        throw new HeadlessException();
+    public GlobblCursorMbnbger getGlobblCursorMbnbger()
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
     /*
-     * Headless toolkit - unsupported.
+     * Hebdless toolkit - unsupported.
      */
-    protected void loadSystemColors(int[] systemColors)
-        throws HeadlessException {
-        throw new HeadlessException();
+    protected void lobdSystemColors(int[] systemColors)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
     public ColorModel getColorModel()
-        throws HeadlessException {
-        throw new HeadlessException();
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
     public int getScreenResolution()
-        throws HeadlessException {
-        throw new HeadlessException();
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public Map<java.awt.font.TextAttribute, ?> mapInputMethodHighlight(
+    public Mbp<jbvb.bwt.font.TextAttribute, ?> mbpInputMethodHighlight(
             InputMethodHighlight highlight)
-        throws HeadlessException {
-        throw new HeadlessException();
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public int getMenuShortcutKeyMask()
-        throws HeadlessException {
-        throw new HeadlessException();
+    public int getMenuShortcutKeyMbsk()
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public boolean getLockingKeyState(int keyCode)
-        throws UnsupportedOperationException {
-        throw new HeadlessException();
+    public boolebn getLockingKeyStbte(int keyCode)
+        throws UnsupportedOperbtionException {
+        throw new HebdlessException();
     }
 
-    public void setLockingKeyState(int keyCode, boolean on)
-        throws UnsupportedOperationException {
-        throw new HeadlessException();
+    public void setLockingKeyStbte(int keyCode, boolebn on)
+        throws UnsupportedOperbtionException {
+        throw new HebdlessException();
     }
 
-    public Cursor createCustomCursor(Image cursor, Point hotSpot, String name)
-        throws IndexOutOfBoundsException, HeadlessException {
-        throw new HeadlessException();
+    public Cursor crebteCustomCursor(Imbge cursor, Point hotSpot, String nbme)
+        throws IndexOutOfBoundsException, HebdlessException {
+        throw new HebdlessException();
     }
 
     public Dimension getBestCursorSize(int preferredWidth, int preferredHeight)
-        throws HeadlessException {
-        throw new HeadlessException();
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public int getMaximumCursorColors()
-        throws HeadlessException {
-        throw new HeadlessException();
+    public int getMbximumCursorColors()
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public <T extends DragGestureRecognizer> T
-        createDragGestureRecognizer(Class<T> abstractRecognizerClass,
-                                    DragSource ds, Component c,
-                                    int srcActions, DragGestureListener dgl)
+    public <T extends DrbgGestureRecognizer> T
+        crebteDrbgGestureRecognizer(Clbss<T> bbstrbctRecognizerClbss,
+                                    DrbgSource ds, Component c,
+                                    int srcActions, DrbgGestureListener dgl)
     {
         return null;
     }
 
     public int getScreenHeight()
-        throws HeadlessException {
-        throw new HeadlessException();
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
     public int getScreenWidth()
-        throws HeadlessException {
-        throw new HeadlessException();
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
     public Dimension getScreenSize()
-        throws HeadlessException {
-        throw new HeadlessException();
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public Insets getScreenInsets(GraphicsConfiguration gc)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public Insets getScreenInsets(GrbphicsConfigurbtion gc)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public void setDynamicLayout(boolean dynamic)
-        throws HeadlessException {
-        throw new HeadlessException();
+    public void setDynbmicLbyout(boolebn dynbmic)
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    protected boolean isDynamicLayoutSet()
-        throws HeadlessException {
-        throw new HeadlessException();
+    protected boolebn isDynbmicLbyoutSet()
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public boolean isDynamicLayoutActive()
-        throws HeadlessException {
-        throw new HeadlessException();
+    public boolebn isDynbmicLbyoutActive()
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
-    public Clipboard getSystemClipboard()
-        throws HeadlessException {
-        throw new HeadlessException();
+    public Clipbobrd getSystemClipbobrd()
+        throws HebdlessException {
+        throw new HebdlessException();
     }
 
     /*
      * Printing
      */
-    public PrintJob getPrintJob(Frame frame, String jobtitle,
+    public PrintJob getPrintJob(Frbme frbme, String jobtitle,
         JobAttributes jobAttributes,
-        PageAttributes pageAttributes) {
-        if (frame != null) {
-            // Should never happen
-            throw new HeadlessException();
+        PbgeAttributes pbgeAttributes) {
+        if (frbme != null) {
+            // Should never hbppen
+            throw new HebdlessException();
         }
-        throw new IllegalArgumentException(
-                "PrintJob not supported in a headless environment");
+        throw new IllegblArgumentException(
+                "PrintJob not supported in b hebdless environment");
     }
 
-    public PrintJob getPrintJob(Frame frame, String doctitle, Properties props)
+    public PrintJob getPrintJob(Frbme frbme, String doctitle, Properties props)
     {
-        if (frame != null) {
-            // Should never happen
-            throw new HeadlessException();
+        if (frbme != null) {
+            // Should never hbppen
+            throw new HebdlessException();
         }
-        throw new IllegalArgumentException(
-                "PrintJob not supported in a headless environment");
+        throw new IllegblArgumentException(
+                "PrintJob not supported in b hebdless environment");
     }
 
     /*
-     * Headless toolkit - supported.
+     * Hebdless toolkit - supported.
      */
 
     public void sync() {
         // Do nothing
     }
 
-    protected boolean syncNativeQueue(final long timeout) {
-        return false;
+    protected boolebn syncNbtiveQueue(finbl long timeout) {
+        return fblse;
     }
 
     public void beep() {
-        // Send alert character
+        // Send blert chbrbcter
         System.out.write(0x07);
     }
 
@@ -343,49 +343,49 @@ public class HToolkit extends SunToolkit
     /*
      * Fonts
      */
-    public FontPeer getFontPeer(String name, int style) {
+    public FontPeer getFontPeer(String nbme, int style) {
         return (FontPeer)null;
     }
 
     /*
-     * Modality
+     * Modblity
      */
-    public boolean isModalityTypeSupported(Dialog.ModalityType modalityType) {
-        return false;
+    public boolebn isModblityTypeSupported(Diblog.ModblityType modblityType) {
+        return fblse;
     }
 
-    public boolean isModalExclusionTypeSupported(Dialog.ModalExclusionType exclusionType) {
-        return false;
+    public boolebn isModblExclusionTypeSupported(Diblog.ModblExclusionType exclusionType) {
+        return fblse;
     }
 
-    public boolean isDesktopSupported() {
-        return false;
+    public boolebn isDesktopSupported() {
+        return fblse;
     }
 
-    public DesktopPeer createDesktopPeer(Desktop target)
-    throws HeadlessException{
-        throw new HeadlessException();
+    public DesktopPeer crebteDesktopPeer(Desktop tbrget)
+    throws HebdlessException{
+        throw new HebdlessException();
     }
 
-    public boolean isWindowOpacityControlSupported() {
-        return false;
+    public boolebn isWindowOpbcityControlSupported() {
+        return fblse;
     }
 
-    public boolean isWindowShapingSupported() {
-        return false;
+    public boolebn isWindowShbpingSupported() {
+        return fblse;
     }
 
-    public boolean isWindowTranslucencySupported() {
-        return false;
+    public boolebn isWindowTrbnslucencySupported() {
+        return fblse;
     }
 
-    public  void grab(Window w) { }
+    public  void grbb(Window w) { }
 
-    public void ungrab(Window w) { }
+    public void ungrbb(Window w) { }
 
-    protected boolean syncNativeQueue() { return false; }
+    protected boolebn syncNbtiveQueue() { return fblse; }
 
-    public InputMethodDescriptor getInputMethodAdapterDescriptor()
+    public InputMethodDescriptor getInputMethodAdbpterDescriptor()
         throws AWTException
     {
         return (InputMethodDescriptor)null;

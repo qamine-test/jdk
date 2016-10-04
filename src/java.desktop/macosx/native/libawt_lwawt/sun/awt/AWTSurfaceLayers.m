@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "AWTSurfaceLayers.h"
-#import "ThreadUtilities.h"
+#import "AWTSurfbceLbyers.h"
+#import "ThrebdUtilities.h"
 #import "LWCToolkit.h"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <QuartzCore/CATransaction.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
+#import <QubrtzCore/CATrbnsbction.h>
 
-@implementation AWTSurfaceLayers
+@implementbtion AWTSurfbceLbyers
 
-@synthesize windowLayer;
+@synthesize windowLbyer;
 
-- (id) initWithWindowLayer:(CALayer *)aWindowLayer {
+- (id) initWithWindowLbyer:(CALbyer *)bWindowLbyer {
     self = [super init];
     if (self == nil) return self;
 
-    windowLayer = aWindowLayer;
+    windowLbyer = bWindowLbyer;
 
     return self;
 }
 
 
-- (CALayer *) layer {
-    return layer;
+- (CALbyer *) lbyer {
+    return lbyer;
 }
 
-- (void) setLayer:(CALayer *)newLayer {
-    if (layer != newLayer) {
-        if (layer != nil || newLayer == nil) {
-            [layer removeFromSuperlayer];
-            [layer release];
+- (void) setLbyer:(CALbyer *)newLbyer {
+    if (lbyer != newLbyer) {
+        if (lbyer != nil || newLbyer == nil) {
+            [lbyer removeFromSuperlbyer];
+            [lbyer relebse];
         }
 
-        if (newLayer != nil) {
-            layer = [newLayer retain];
-            // REMIND: window layer -> container layer
-            [windowLayer addSublayer: layer];
+        if (newLbyer != nil) {
+            lbyer = [newLbyer retbin];
+            // REMIND: window lbyer -> contbiner lbyer
+            [windowLbyer bddSublbyer: lbyer];
         }
     }
 }
 
-// Updates back buffer size of the layer if it's an OpenGL layer
-// including all OpenGL sublayers
-+ (void) repaintLayersRecursively:(CALayer*)aLayer {
-    if ([aLayer isKindOfClass:[CAOpenGLLayer class]]) {
-        [aLayer setNeedsDisplay];
+// Updbtes bbck buffer size of the lbyer if it's bn OpenGL lbyer
+// including bll OpenGL sublbyers
++ (void) repbintLbyersRecursively:(CALbyer*)bLbyer {
+    if ([bLbyer isKindOfClbss:[CAOpenGLLbyer clbss]]) {
+        [bLbyer setNeedsDisplby];
     }
-    for(CALayer *child in aLayer.sublayers) {
-        [AWTSurfaceLayers repaintLayersRecursively: child];
+    for(CALbyer *child in bLbyer.sublbyers) {
+        [AWTSurfbceLbyers repbintLbyersRecursively: child];
     }
 }
 
 - (void) setBounds:(CGRect)rect {
-    // translates values to the coordinate system of the "root" layer
-    rect.origin.y = windowLayer.bounds.size.height - rect.origin.y - rect.size.height;
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
-    layer.frame = rect;
-    [CATransaction commit];
-    [AWTSurfaceLayers repaintLayersRecursively:layer];
+    // trbnslbtes vblues to the coordinbte system of the "root" lbyer
+    rect.origin.y = windowLbyer.bounds.size.height - rect.origin.y - rect.size.height;
+    [CATrbnsbction begin];
+    [CATrbnsbction setDisbbleActions:YES];
+    lbyer.frbme = rect;
+    [CATrbnsbction commit];
+    [AWTSurfbceLbyers repbintLbyersRecursively:lbyer];
 }
 
 @end
 
 /*
- * Class:     sun_lwawt_macosx_CPlatformComponent
- * Method:    nativeCreateLayer
- * Signature: ()J
+ * Clbss:     sun_lwbwt_mbcosx_CPlbtformComponent
+ * Method:    nbtiveCrebteLbyer
+ * Signbture: ()J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_lwawt_macosx_CPlatformComponent_nativeCreateComponent
-(JNIEnv *env, jobject obj, jlong windowLayerPtr)
+Jbvb_sun_lwbwt_mbcosx_CPlbtformComponent_nbtiveCrebteComponent
+(JNIEnv *env, jobject obj, jlong windowLbyerPtr)
 {
-  __block AWTSurfaceLayers *surfaceLayers = nil;
+  __block AWTSurfbceLbyers *surfbceLbyers = nil;
 
 JNF_COCOA_ENTER(env);
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
 
-        CALayer *windowLayer = jlong_to_ptr(windowLayerPtr);
-        surfaceLayers = [[AWTSurfaceLayers alloc] initWithWindowLayer: windowLayer];
+        CALbyer *windowLbyer = jlong_to_ptr(windowLbyerPtr);
+        surfbceLbyers = [[AWTSurfbceLbyers blloc] initWithWindowLbyer: windowLbyer];
     }];
     
 JNF_COCOA_EXIT(env);
 
-  return ptr_to_jlong(surfaceLayers);
+  return ptr_to_jlong(surfbceLbyers);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPlatformComponent
- * Method:    nativeSetBounds
- * Signature: (JIIII)V
+ * Clbss:     sun_lwbwt_mbcosx_CPlbtformComponent
+ * Method:    nbtiveSetBounds
+ * Signbture: (JIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CPlatformComponent_nativeSetBounds
-(JNIEnv *env, jclass clazz, jlong surfaceLayersPtr, jint x, jint y, jint width, jint height)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CPlbtformComponent_nbtiveSetBounds
+(JNIEnv *env, jclbss clbzz, jlong surfbceLbyersPtr, jint x, jint y, jint width, jint height)
 {
 JNF_COCOA_ENTER(env);
 
-  AWTSurfaceLayers *surfaceLayers = OBJC(surfaceLayersPtr);
+  AWTSurfbceLbyers *surfbceLbyers = OBJC(surfbceLbyersPtr);
     
-  [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
+  [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
 
-      CGRect rect = CGRectMake(x, y, width, height);
-      [surfaceLayers setBounds: rect];
+      CGRect rect = CGRectMbke(x, y, width, height);
+      [surfbceLbyers setBounds: rect];
   }];
 
 JNF_COCOA_EXIT(env);

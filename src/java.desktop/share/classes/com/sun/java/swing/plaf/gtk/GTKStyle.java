@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.gtk;
+pbckbge com.sun.jbvb.swing.plbf.gtk;
 
-import java.awt.*;
-import java.lang.reflect.*;
-import java.security.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.synth.*;
+import jbvb.bwt.*;
+import jbvb.lbng.reflect.*;
+import jbvb.security.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.synth.*;
 
-import sun.awt.AppContext;
-import sun.awt.UNIXToolkit;
+import sun.bwt.AppContext;
+import sun.bwt.UNIXToolkit;
 import sun.swing.SwingUtilities2;
-import sun.swing.plaf.synth.SynthIcon;
+import sun.swing.plbf.synth.SynthIcon;
 
-import com.sun.java.swing.plaf.gtk.GTKEngine.WidgetType;
+import com.sun.jbvb.swing.plbf.gtk.GTKEngine.WidgetType;
 
 /**
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-class GTKStyle extends SynthStyle implements GTKConstants {
+clbss GTKStyle extends SynthStyle implements GTKConstbnts {
 
-    private static native int nativeGetXThickness(int widgetType);
-    private static native int nativeGetYThickness(int widgetType);
-    private static native int nativeGetColorForState(int widgetType,
-                                                     int state, int typeID);
-    private static native Object nativeGetClassValue(int widgetType,
+    privbte stbtic nbtive int nbtiveGetXThickness(int widgetType);
+    privbte stbtic nbtive int nbtiveGetYThickness(int widgetType);
+    privbte stbtic nbtive int nbtiveGetColorForStbte(int widgetType,
+                                                     int stbte, int typeID);
+    privbte stbtic nbtive Object nbtiveGetClbssVblue(int widgetType,
                                                      String key);
-    private static native String nativeGetPangoFontName(int widgetType);
+    privbte stbtic nbtive String nbtiveGetPbngoFontNbme(int widgetType);
 
-    private static final String ICON_PROPERTY_PREFIX = "gtk.icon.";
+    privbte stbtic finbl String ICON_PROPERTY_PREFIX = "gtk.icon.";
 
-    static final Color BLACK_COLOR = new ColorUIResource(Color.BLACK);
-    static final Color WHITE_COLOR = new ColorUIResource(Color.WHITE);
+    stbtic finbl Color BLACK_COLOR = new ColorUIResource(Color.BLACK);
+    stbtic finbl Color WHITE_COLOR = new ColorUIResource(Color.WHITE);
 
-    static final Font DEFAULT_FONT = new FontUIResource("sansserif",
+    stbtic finbl Font DEFAULT_FONT = new FontUIResource("sbnsserif",
                                                         Font.PLAIN, 10  );
-    static final Insets BUTTON_DEFAULT_BORDER_INSETS = new Insets(1, 1, 1, 1);
+    stbtic finbl Insets BUTTON_DEFAULT_BORDER_INSETS = new Insets(1, 1, 1, 1);
 
-    private static final GTKGraphicsUtils GTK_GRAPHICS = new GTKGraphicsUtils();
+    privbte stbtic finbl GTKGrbphicsUtils GTK_GRAPHICS = new GTKGrbphicsUtils();
 
     /**
-     * Maps from a key that is passed to Style.get to the equivalent class
+     * Mbps from b key thbt is pbssed to Style.get to the equivblent clbss
      * specific key.
      */
-    private static final Map<String,String> CLASS_SPECIFIC_MAP;
+    privbte stbtic finbl Mbp<String,String> CLASS_SPECIFIC_MAP;
 
     /**
-     * Backing style properties that are used if the style does not
+     * Bbcking style properties thbt bre used if the style does not
      * defined the property.
      */
-    private static final Map<String,GTKStockIcon> ICONS_MAP;
+    privbte stbtic finbl Mbp<String,GTKStockIcon> ICONS_MAP;
 
     /**
-     * The font used for this particular style, as determined at
+     * The font used for this pbrticulbr style, bs determined bt
      * construction time.
      */
-    private final Font font;
+    privbte finbl Font font;
 
-    /** Widget type used when looking up class specific values. */
-    private final int widgetType;
+    /** Widget type used when looking up clbss specific vblues. */
+    privbte finbl int widgetType;
 
-    /** The x/y thickness values for this particular style. */
-    private final int xThickness, yThickness;
+    /** The x/y thickness vblues for this pbrticulbr style. */
+    privbte finbl int xThickness, yThickness;
 
     GTKStyle(Font userFont, WidgetType widgetType) {
-        this.widgetType = widgetType.ordinal();
+        this.widgetType = widgetType.ordinbl();
 
-        String pangoFontName;
-        synchronized (sun.awt.UNIXToolkit.GTK_LOCK) {
-            xThickness = nativeGetXThickness(this.widgetType);
-            yThickness = nativeGetYThickness(this.widgetType);
-            pangoFontName = nativeGetPangoFontName(this.widgetType);
+        String pbngoFontNbme;
+        synchronized (sun.bwt.UNIXToolkit.GTK_LOCK) {
+            xThickness = nbtiveGetXThickness(this.widgetType);
+            yThickness = nbtiveGetYThickness(this.widgetType);
+            pbngoFontNbme = nbtiveGetPbngoFontNbme(this.widgetType);
         }
 
-        Font pangoFont = null;
-        if (pangoFontName != null) {
-            pangoFont = PangoFonts.lookupFont(pangoFontName);
+        Font pbngoFont = null;
+        if (pbngoFontNbme != null) {
+            pbngoFont = PbngoFonts.lookupFont(pbngoFontNbme);
         }
-        if (pangoFont != null) {
-            this.font = pangoFont;
+        if (pbngoFont != null) {
+            this.font = pbngoFont;
         } else if (userFont != null) {
             this.font = userFont;
         } else {
@@ -113,33 +113,33 @@ class GTKStyle extends SynthStyle implements GTKConstants {
     }
 
     @Override
-    public void installDefaults(SynthContext context) {
-        super.installDefaults(context);
+    public void instbllDefbults(SynthContext context) {
+        super.instbllDefbults(context);
         if (!context.getRegion().isSubregion()) {
             context.getComponent().putClientProperty(
                 SwingUtilities2.AA_TEXT_PROPERTY_KEY,
-                GTKLookAndFeel.aaTextInfo);
+                GTKLookAndFeel.bbTextInfo);
         }
     }
 
     @Override
-    public SynthGraphicsUtils getGraphicsUtils(SynthContext context) {
+    public SynthGrbphicsUtils getGrbphicsUtils(SynthContext context) {
         return GTK_GRAPHICS;
     }
 
     /**
-     * Returns a <code>SynthPainter</code> that will route the appropriate
-     * calls to a <code>GTKEngine</code>.
+     * Returns b <code>SynthPbinter</code> thbt will route the bppropribte
+     * cblls to b <code>GTKEngine</code>.
      *
-     * @param state SynthContext identifying requestor
-     * @return SynthPainter
+     * @pbrbm stbte SynthContext identifying requestor
+     * @return SynthPbinter
      */
     @Override
-    public SynthPainter getPainter(SynthContext state) {
-        return GTKPainter.INSTANCE;
+    public SynthPbinter getPbinter(SynthContext stbte) {
+        return GTKPbinter.INSTANCE;
     }
 
-    protected Color getColorForState(SynthContext context, ColorType type) {
+    protected Color getColorForStbte(SynthContext context, ColorType type) {
         if (type == ColorType.FOCUS || type == GTKColorType.BLACK) {
             return BLACK_COLOR;
         }
@@ -148,8 +148,8 @@ class GTKStyle extends SynthStyle implements GTKConstants {
         }
 
         Region id = context.getRegion();
-        int state = context.getComponentState();
-        state = GTKLookAndFeel.synthStateToGTKState(id, state);
+        int stbte = context.getComponentStbte();
+        stbte = GTKLookAndFeel.synthStbteToGTKStbte(id, stbte);
 
         if (type == ColorType.TEXT_FOREGROUND &&
                (id == Region.BUTTON ||
@@ -171,81 +171,81 @@ class GTKStyle extends SynthStyle implements GTKConstants {
                    id == Region.TREE_CELL) {
             if (type == ColorType.FOREGROUND) {
                 type = ColorType.TEXT_FOREGROUND;
-                if (state == SynthConstants.PRESSED) {
-                    state = SynthConstants.SELECTED;
+                if (stbte == SynthConstbnts.PRESSED) {
+                    stbte = SynthConstbnts.SELECTED;
                 }
             } else if (type == ColorType.BACKGROUND) {
                 type = ColorType.TEXT_BACKGROUND;
             }
         }
 
-        return getStyleSpecificColor(context, state, type);
+        return getStyleSpecificColor(context, stbte, type);
     }
 
     /**
      * Returns color specific to the current style. This method is
-     * invoked when other variants don't fit.
+     * invoked when other vbribnts don't fit.
      */
-    private Color getStyleSpecificColor(SynthContext context, int state,
+    privbte Color getStyleSpecificColor(SynthContext context, int stbte,
                                         ColorType type)
     {
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        synchronized (sun.awt.UNIXToolkit.GTK_LOCK) {
-            int rgb = nativeGetColorForState(widgetType, state,
+        stbte = GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        synchronized (sun.bwt.UNIXToolkit.GTK_LOCK) {
+            int rgb = nbtiveGetColorForStbte(widgetType, stbte,
                                              type.getID());
             return new ColorUIResource(rgb);
         }
     }
 
-    Color getGTKColor(int state, ColorType type) {
-        return getGTKColor(null, state, type);
+    Color getGTKColor(int stbte, ColorType type) {
+        return getGTKColor(null, stbte, type);
     }
 
     /**
-     * Returns the color for the specified state.
+     * Returns the color for the specified stbte.
      *
-     * @param context SynthContext identifying requestor
-     * @param state to get the color for
-     * @param type of the color
+     * @pbrbm context SynthContext identifying requestor
+     * @pbrbm stbte to get the color for
+     * @pbrbm type of the color
      * @return Color to render with
      */
-    Color getGTKColor(SynthContext context, int state, ColorType type) {
+    Color getGTKColor(SynthContext context, int stbte, ColorType type) {
         if (context != null) {
             JComponent c = context.getComponent();
             Region id = context.getRegion();
 
-            state = GTKLookAndFeel.synthStateToGTKState(id, state);
+            stbte = GTKLookAndFeel.synthStbteToGTKStbte(id, stbte);
             if (!id.isSubregion() &&
-                (state & SynthConstants.ENABLED) != 0) {
+                (stbte & SynthConstbnts.ENABLED) != 0) {
                 if (type == ColorType.BACKGROUND ||
                     type == ColorType.TEXT_BACKGROUND) {
-                    Color bg = c.getBackground();
-                    if (!(bg instanceof UIResource)) {
+                    Color bg = c.getBbckground();
+                    if (!(bg instbnceof UIResource)) {
                         return bg;
                     }
                 }
                 else if (type == ColorType.FOREGROUND ||
                          type == ColorType.TEXT_FOREGROUND) {
                     Color fg = c.getForeground();
-                    if (!(fg instanceof UIResource)) {
+                    if (!(fg instbnceof UIResource)) {
                         return fg;
                     }
                 }
             }
         }
 
-        return getStyleSpecificColor(context, state, type);
+        return getStyleSpecificColor(context, stbte, type);
     }
 
     @Override
     public Color getColor(SynthContext context, ColorType type) {
         JComponent c = context.getComponent();
         Region id = context.getRegion();
-        int state = context.getComponentState();
+        int stbte = context.getComponentStbte();
 
-        if (c.getName() == "Table.cellRenderer") {
+        if (c.getNbme() == "Tbble.cellRenderer") {
              if (type == ColorType.BACKGROUND) {
-                 return c.getBackground();
+                 return c.getBbckground();
              }
              if (type == ColorType.FOREGROUND) {
                  return c.getForeground();
@@ -256,29 +256,29 @@ class GTKStyle extends SynthStyle implements GTKConstants {
             type = ColorType.FOREGROUND;
         }
 
-        // For the enabled state, prefer the widget's colors
-        if (!id.isSubregion() && (state & SynthConstants.ENABLED) != 0) {
+        // For the enbbled stbte, prefer the widget's colors
+        if (!id.isSubregion() && (stbte & SynthConstbnts.ENABLED) != 0) {
             if (type == ColorType.BACKGROUND) {
-                return c.getBackground();
+                return c.getBbckground();
             }
             else if (type == ColorType.FOREGROUND) {
                 return c.getForeground();
             }
             else if (type == ColorType.TEXT_FOREGROUND) {
-                // If getForeground returns a non-UIResource it means the
-                // developer has explicitly set the foreground, use it over
-                // that of TEXT_FOREGROUND as that is typically the expected
-                // behavior.
+                // If getForeground returns b non-UIResource it mebns the
+                // developer hbs explicitly set the foreground, use it over
+                // thbt of TEXT_FOREGROUND bs thbt is typicblly the expected
+                // behbvior.
                 Color color = c.getForeground();
-                if (color != null && !(color instanceof UIResource)) {
+                if (color != null && !(color instbnceof UIResource)) {
                     return color;
                 }
             }
         }
-        return getColorForState(context, type);
+        return getColorForStbte(context, type);
     }
 
-    protected Font getFontForState(SynthContext context) {
+    protected Font getFontForStbte(SynthContext context) {
         return font;
     }
 
@@ -302,18 +302,18 @@ class GTKStyle extends SynthStyle implements GTKConstants {
 
     /**
      * Returns the Insets. If <code>insets</code> is non-null the resulting
-     * insets will be placed in it, otherwise a new Insets object will be
-     * created and returned.
+     * insets will be plbced in it, otherwise b new Insets object will be
+     * crebted bnd returned.
      *
-     * @param context SynthContext identifying requestor
-     * @param insets Where to place Insets
+     * @pbrbm context SynthContext identifying requestor
+     * @pbrbm insets Where to plbce Insets
      * @return Insets.
      */
     @Override
-    public Insets getInsets(SynthContext state, Insets insets) {
-        Region id = state.getRegion();
-        JComponent component = state.getComponent();
-        String name = (id.isSubregion()) ? null : component.getName();
+    public Insets getInsets(SynthContext stbte, Insets insets) {
+        Region id = stbte.getRegion();
+        JComponent component = stbte.getComponent();
+        String nbme = (id.isSubregion()) ? null : component.getNbme();
 
         if (insets == null) {
             insets = new Insets(0, 0, 0, 0);
@@ -323,220 +323,220 @@ class GTKStyle extends SynthStyle implements GTKConstants {
 
         if (id == Region.ARROW_BUTTON || id == Region.BUTTON ||
                 id == Region.TOGGLE_BUTTON) {
-            if ("Spinner.previousButton" == name ||
-                    "Spinner.nextButton" == name) {
-                return getSimpleInsets(state, insets, 1);
+            if ("Spinner.previousButton" == nbme ||
+                    "Spinner.nextButton" == nbme) {
+                return getSimpleInsets(stbte, insets, 1);
             } else {
-                return getButtonInsets(state, insets);
+                return getButtonInsets(stbte, insets);
             }
         }
         else if (id == Region.CHECK_BOX || id == Region.RADIO_BUTTON) {
-            return getRadioInsets(state, insets);
+            return getRbdioInsets(stbte, insets);
         }
         else if (id == Region.MENU_BAR) {
-            return getMenuBarInsets(state, insets);
+            return getMenuBbrInsets(stbte, insets);
         }
         else if (id == Region.MENU ||
                  id == Region.MENU_ITEM ||
                  id == Region.CHECK_BOX_MENU_ITEM ||
                  id == Region.RADIO_BUTTON_MENU_ITEM) {
-            return getMenuItemInsets(state, insets);
+            return getMenuItemInsets(stbte, insets);
         }
         else if (id == Region.FORMATTED_TEXT_FIELD) {
-            return getTextFieldInsets(state, insets);
+            return getTextFieldInsets(stbte, insets);
         }
         else if (id == Region.INTERNAL_FRAME) {
-            insets = Metacity.INSTANCE.getBorderInsets(state, insets);
+            insets = Metbcity.INSTANCE.getBorderInsets(stbte, insets);
         }
         else if (id == Region.LABEL) {
-            if ("TableHeader.renderer" == name) {
-                return getButtonInsets(state, insets);
+            if ("TbbleHebder.renderer" == nbme) {
+                return getButtonInsets(stbte, insets);
             }
-            else if (component instanceof ListCellRenderer) {
-                return getTextFieldInsets(state, insets);
+            else if (component instbnceof ListCellRenderer) {
+                return getTextFieldInsets(stbte, insets);
             }
-            else if ("Tree.cellRenderer" == name) {
-                return getSimpleInsets(state, insets, 1);
+            else if ("Tree.cellRenderer" == nbme) {
+                return getSimpleInsets(stbte, insets, 1);
             }
         }
         else if (id == Region.OPTION_PANE) {
-            return getSimpleInsets(state, insets, 6);
+            return getSimpleInsets(stbte, insets, 6);
         }
         else if (id == Region.POPUP_MENU) {
-            return getSimpleInsets(state, insets, 2);
+            return getSimpleInsets(stbte, insets, 2);
         }
         else if (id == Region.PROGRESS_BAR || id == Region.SLIDER ||
                  id == Region.TABBED_PANE  || id == Region.TABBED_PANE_CONTENT ||
                  id == Region.TOOL_BAR     ||
                  id == Region.TOOL_BAR_DRAG_WINDOW ||
                  id == Region.TOOL_TIP) {
-            return getThicknessInsets(state, insets);
+            return getThicknessInsets(stbte, insets);
         }
         else if (id == Region.SCROLL_BAR) {
-            return getScrollBarInsets(state, insets);
+            return getScrollBbrInsets(stbte, insets);
         }
         else if (id == Region.SLIDER_TRACK) {
-            return getSliderTrackInsets(state, insets);
+            return getSliderTrbckInsets(stbte, insets);
         }
         else if (id == Region.TABBED_PANE_TAB) {
-            return getTabbedPaneTabInsets(state, insets);
+            return getTbbbedPbneTbbInsets(stbte, insets);
         }
         else if (id == Region.TEXT_FIELD || id == Region.PASSWORD_FIELD) {
-            if (name == "Tree.cellEditor") {
-                return getSimpleInsets(state, insets, 1);
+            if (nbme == "Tree.cellEditor") {
+                return getSimpleInsets(stbte, insets, 1);
             }
-            return getTextFieldInsets(state, insets);
+            return getTextFieldInsets(stbte, insets);
         } else if (id == Region.SEPARATOR ||
                    id == Region.POPUP_MENU_SEPARATOR ||
                    id == Region.TOOL_BAR_SEPARATOR) {
-            return getSeparatorInsets(state, insets);
+            return getSepbrbtorInsets(stbte, insets);
         } else if (id == GTKEngine.CustomRegion.TITLED_BORDER) {
-            return getThicknessInsets(state, insets);
+            return getThicknessInsets(stbte, insets);
         }
         return insets;
     }
 
-    private Insets getButtonInsets(SynthContext context, Insets insets) {
-        // The following calculations are derived from gtkbutton.c
-        // (GTK+ version 2.8.20), gtk_button_size_allocate() method.
+    privbte Insets getButtonInsets(SynthContext context, Insets insets) {
+        // The following cblculbtions bre derived from gtkbutton.c
+        // (GTK+ version 2.8.20), gtk_button_size_bllocbte() method.
         int CHILD_SPACING = 1;
-        int focusSize = getClassSpecificIntValue(context, "focus-line-width",1);
-        int focusPad = getClassSpecificIntValue(context, "focus-padding", 1);
+        int focusSize = getClbssSpecificIntVblue(context, "focus-line-width",1);
+        int focusPbd = getClbssSpecificIntVblue(context, "focus-pbdding", 1);
         int xThickness = getXThickness();
         int yThickness = getYThickness();
-        int w = focusSize + focusPad + xThickness + CHILD_SPACING;
-        int h = focusSize + focusPad + yThickness + CHILD_SPACING;
+        int w = focusSize + focusPbd + xThickness + CHILD_SPACING;
+        int h = focusSize + focusPbd + yThickness + CHILD_SPACING;
         insets.left = insets.right = w;
         insets.top = insets.bottom = h;
 
         Component component = context.getComponent();
-        if ((component instanceof JButton) &&
-            !(component.getParent() instanceof JToolBar) &&
-            ((JButton)component).isDefaultCapable())
+        if ((component instbnceof JButton) &&
+            !(component.getPbrent() instbnceof JToolBbr) &&
+            ((JButton)component).isDefbultCbpbble())
         {
-            // Include the default border insets, but only for JButtons
-            // that are default capable.  Note that
-            // JButton.getDefaultCapable() returns true by default, but
-            // GtkToolButtons are never default capable, so we skip this
-            // step if the button is contained in a toolbar.
-            Insets defaultInsets = getClassSpecificInsetsValue(context,
-                          "default-border", BUTTON_DEFAULT_BORDER_INSETS);
-            insets.left += defaultInsets.left;
-            insets.right += defaultInsets.right;
-            insets.top += defaultInsets.top;
-            insets.bottom += defaultInsets.bottom;
+            // Include the defbult border insets, but only for JButtons
+            // thbt bre defbult cbpbble.  Note thbt
+            // JButton.getDefbultCbpbble() returns true by defbult, but
+            // GtkToolButtons bre never defbult cbpbble, so we skip this
+            // step if the button is contbined in b toolbbr.
+            Insets defbultInsets = getClbssSpecificInsetsVblue(context,
+                          "defbult-border", BUTTON_DEFAULT_BORDER_INSETS);
+            insets.left += defbultInsets.left;
+            insets.right += defbultInsets.right;
+            insets.top += defbultInsets.top;
+            insets.bottom += defbultInsets.bottom;
         }
 
         return insets;
     }
 
     /*
-     * This is used for both RADIO_BUTTON and CHECK_BOX.
+     * This is used for both RADIO_BUTTON bnd CHECK_BOX.
      */
-    private Insets getRadioInsets(SynthContext context, Insets insets) {
-        // The following calculations are derived from gtkcheckbutton.c
-        // (GTK+ version 2.8.20), gtk_check_button_size_allocate() method.
+    privbte Insets getRbdioInsets(SynthContext context, Insets insets) {
+        // The following cblculbtions bre derived from gtkcheckbutton.c
+        // (GTK+ version 2.8.20), gtk_check_button_size_bllocbte() method.
         int focusSize =
-            getClassSpecificIntValue(context, "focus-line-width", 1);
-        int focusPad =
-            getClassSpecificIntValue(context, "focus-padding", 1);
-        int totalFocus = focusSize + focusPad;
+            getClbssSpecificIntVblue(context, "focus-line-width", 1);
+        int focusPbd =
+            getClbssSpecificIntVblue(context, "focus-pbdding", 1);
+        int totblFocus = focusSize + focusPbd;
 
-        // Note: GTKIconFactory.DelegateIcon will have already included the
-        // "indicator-spacing" value in the size of the indicator icon,
-        // which explains why we use zero as the left inset (or right inset
-        // in the RTL case); see 6489585 for more details.
-        insets.top    = totalFocus;
-        insets.bottom = totalFocus;
-        if (context.getComponent().getComponentOrientation().isLeftToRight()) {
+        // Note: GTKIconFbctory.DelegbteIcon will hbve blrebdy included the
+        // "indicbtor-spbcing" vblue in the size of the indicbtor icon,
+        // which explbins why we use zero bs the left inset (or right inset
+        // in the RTL cbse); see 6489585 for more detbils.
+        insets.top    = totblFocus;
+        insets.bottom = totblFocus;
+        if (context.getComponent().getComponentOrientbtion().isLeftToRight()) {
             insets.left  = 0;
-            insets.right = totalFocus;
+            insets.right = totblFocus;
         } else {
-            insets.left  = totalFocus;
+            insets.left  = totblFocus;
             insets.right = 0;
         }
 
         return insets;
     }
 
-    private Insets getMenuBarInsets(SynthContext context, Insets insets) {
-        // The following calculations are derived from gtkmenubar.c
-        // (GTK+ version 2.8.20), gtk_menu_bar_size_allocate() method.
-        int internalPadding = getClassSpecificIntValue(context,
-                                                       "internal-padding", 1);
+    privbte Insets getMenuBbrInsets(SynthContext context, Insets insets) {
+        // The following cblculbtions bre derived from gtkmenubbr.c
+        // (GTK+ version 2.8.20), gtk_menu_bbr_size_bllocbte() method.
+        int internblPbdding = getClbssSpecificIntVblue(context,
+                                                       "internbl-pbdding", 1);
         int xThickness = getXThickness();
         int yThickness = getYThickness();
-        insets.left = insets.right = xThickness + internalPadding;
-        insets.top = insets.bottom = yThickness + internalPadding;
+        insets.left = insets.right = xThickness + internblPbdding;
+        insets.top = insets.bottom = yThickness + internblPbdding;
         return insets;
     }
 
-    private Insets getMenuItemInsets(SynthContext context, Insets insets) {
-        // The following calculations are derived from gtkmenuitem.c
-        // (GTK+ version 2.8.20), gtk_menu_item_size_allocate() method.
-        int horizPadding = getClassSpecificIntValue(context,
-                                                    "horizontal-padding", 3);
+    privbte Insets getMenuItemInsets(SynthContext context, Insets insets) {
+        // The following cblculbtions bre derived from gtkmenuitem.c
+        // (GTK+ version 2.8.20), gtk_menu_item_size_bllocbte() method.
+        int horizPbdding = getClbssSpecificIntVblue(context,
+                                                    "horizontbl-pbdding", 3);
         int xThickness = getXThickness();
         int yThickness = getYThickness();
-        insets.left = insets.right = xThickness + horizPadding;
+        insets.left = insets.right = xThickness + horizPbdding;
         insets.top = insets.bottom = yThickness;
         return insets;
     }
 
-    private Insets getThicknessInsets(SynthContext context, Insets insets) {
+    privbte Insets getThicknessInsets(SynthContext context, Insets insets) {
         insets.left = insets.right = getXThickness();
         insets.top = insets.bottom = getYThickness();
         return insets;
     }
 
-    private Insets getSeparatorInsets(SynthContext context, Insets insets) {
-        int horizPadding = 0;
+    privbte Insets getSepbrbtorInsets(SynthContext context, Insets insets) {
+        int horizPbdding = 0;
         if (context.getRegion() == Region.POPUP_MENU_SEPARATOR) {
-            horizPadding =
-                getClassSpecificIntValue(context, "horizontal-padding", 3);
+            horizPbdding =
+                getClbssSpecificIntVblue(context, "horizontbl-pbdding", 3);
         }
-        insets.right = insets.left = getXThickness() + horizPadding;
+        insets.right = insets.left = getXThickness() + horizPbdding;
         insets.top = insets.bottom = getYThickness();
         return insets;
     }
 
-    private Insets getSliderTrackInsets(SynthContext context, Insets insets) {
-        int focusSize = getClassSpecificIntValue(context, "focus-line-width", 1);
-        int focusPad = getClassSpecificIntValue(context, "focus-padding", 1);
+    privbte Insets getSliderTrbckInsets(SynthContext context, Insets insets) {
+        int focusSize = getClbssSpecificIntVblue(context, "focus-line-width", 1);
+        int focusPbd = getClbssSpecificIntVblue(context, "focus-pbdding", 1);
         insets.top = insets.bottom =
-                insets.left = insets.right = focusSize + focusPad;
+                insets.left = insets.right = focusSize + focusPbd;
         return insets;
     }
 
-    private Insets getSimpleInsets(SynthContext context, Insets insets, int n) {
+    privbte Insets getSimpleInsets(SynthContext context, Insets insets, int n) {
         insets.top = insets.bottom = insets.right = insets.left = n;
         return insets;
     }
 
-    private Insets getTabbedPaneTabInsets(SynthContext context, Insets insets) {
+    privbte Insets getTbbbedPbneTbbInsets(SynthContext context, Insets insets) {
         int xThickness = getXThickness();
         int yThickness = getYThickness();
-        int focusSize = getClassSpecificIntValue(context, "focus-line-width",1);
-        int pad = 2;
+        int focusSize = getClbssSpecificIntVblue(context, "focus-line-width",1);
+        int pbd = 2;
 
-        insets.left = insets.right = focusSize + pad + xThickness;
-        insets.top = insets.bottom = focusSize + pad + yThickness;
+        insets.left = insets.right = focusSize + pbd + xThickness;
+        insets.top = insets.bottom = focusSize + pbd + yThickness;
         return insets;
     }
 
-    // NOTE: this is called for ComboBox, and FormattedTextField also
-    private Insets getTextFieldInsets(SynthContext context, Insets insets) {
-        insets = getClassSpecificInsetsValue(context, "inner-border",
+    // NOTE: this is cblled for ComboBox, bnd FormbttedTextField blso
+    privbte Insets getTextFieldInsets(SynthContext context, Insets insets) {
+        insets = getClbssSpecificInsetsVblue(context, "inner-border",
                                     getSimpleInsets(context, insets, 2));
 
         int xThickness = getXThickness();
         int yThickness = getYThickness();
-        boolean interiorFocus =
-                getClassSpecificBoolValue(context, "interior-focus", true);
+        boolebn interiorFocus =
+                getClbssSpecificBoolVblue(context, "interior-focus", true);
         int focusSize = 0;
 
         if (!interiorFocus) {
-            focusSize = getClassSpecificIntValue(context, "focus-line-width",1);
+            focusSize = getClbssSpecificIntVblue(context, "focus-line-width",1);
         }
 
         insets.left   += focusSize + xThickness;
@@ -546,167 +546,167 @@ class GTKStyle extends SynthStyle implements GTKConstants {
         return insets;
     }
 
-    private Insets getScrollBarInsets(SynthContext context, Insets insets) {
+    privbte Insets getScrollBbrInsets(SynthContext context, Insets insets) {
         int troughBorder =
-            getClassSpecificIntValue(context, "trough-border", 1);
+            getClbssSpecificIntVblue(context, "trough-border", 1);
         insets.left = insets.right = insets.top = insets.bottom = troughBorder;
 
         JComponent c = context.getComponent();
-        if (c.getParent() instanceof JScrollPane) {
-            // This scrollbar is part of a scrollpane; use only the
-            // "scrollbar-spacing" style property to determine the padding
-            // between the scrollbar and its parent scrollpane.
-            int spacing =
-                getClassSpecificIntValue(WidgetType.SCROLL_PANE,
-                                         "scrollbar-spacing", 3);
-            if (((JScrollBar)c).getOrientation() == JScrollBar.HORIZONTAL) {
-                insets.top += spacing;
+        if (c.getPbrent() instbnceof JScrollPbne) {
+            // This scrollbbr is pbrt of b scrollpbne; use only the
+            // "scrollbbr-spbcing" style property to determine the pbdding
+            // between the scrollbbr bnd its pbrent scrollpbne.
+            int spbcing =
+                getClbssSpecificIntVblue(WidgetType.SCROLL_PANE,
+                                         "scrollbbr-spbcing", 3);
+            if (((JScrollBbr)c).getOrientbtion() == JScrollBbr.HORIZONTAL) {
+                insets.top += spbcing;
             } else {
-                if (c.getComponentOrientation().isLeftToRight()) {
-                    insets.left += spacing;
+                if (c.getComponentOrientbtion().isLeftToRight()) {
+                    insets.left += spbcing;
                 } else {
-                    insets.right += spacing;
+                    insets.right += spbcing;
                 }
             }
         } else {
-            // This is a standalone scrollbar; leave enough room for the
-            // focus line in addition to the trough border.
-            if (c.isFocusable()) {
+            // This is b stbndblone scrollbbr; lebve enough room for the
+            // focus line in bddition to the trough border.
+            if (c.isFocusbble()) {
                 int focusSize =
-                    getClassSpecificIntValue(context, "focus-line-width", 1);
-                int focusPad =
-                    getClassSpecificIntValue(context, "focus-padding", 1);
-                int totalFocus = focusSize + focusPad;
-                insets.left   += totalFocus;
-                insets.right  += totalFocus;
-                insets.top    += totalFocus;
-                insets.bottom += totalFocus;
+                    getClbssSpecificIntVblue(context, "focus-line-width", 1);
+                int focusPbd =
+                    getClbssSpecificIntVblue(context, "focus-pbdding", 1);
+                int totblFocus = focusSize + focusPbd;
+                insets.left   += totblFocus;
+                insets.right  += totblFocus;
+                insets.top    += totblFocus;
+                insets.bottom += totblFocus;
             }
         }
         return insets;
     }
 
     /**
-     * Returns the value for a class specific property for a particular
-     * WidgetType.  This method is useful in those cases where we need to
-     * fetch a value for a Region that is not associated with the component
-     * currently in use (e.g. we need to figure out the insets for a
-     * SCROLL_BAR, but certain values can only be extracted from a
+     * Returns the vblue for b clbss specific property for b pbrticulbr
+     * WidgetType.  This method is useful in those cbses where we need to
+     * fetch b vblue for b Region thbt is not bssocibted with the component
+     * currently in use (e.g. we need to figure out the insets for b
+     * SCROLL_BAR, but certbin vblues cbn only be extrbcted from b
      * SCROLL_PANE region).
      *
-     * @param wt WidgetType for which to fetch the value
-     * @param key Key identifying class specific value
-     * @return Value, or null if one has not been defined
+     * @pbrbm wt WidgetType for which to fetch the vblue
+     * @pbrbm key Key identifying clbss specific vblue
+     * @return Vblue, or null if one hbs not been defined
      */
-    private static Object getClassSpecificValue(WidgetType wt, String key) {
+    privbte stbtic Object getClbssSpecificVblue(WidgetType wt, String key) {
         synchronized (UNIXToolkit.GTK_LOCK) {
-            return nativeGetClassValue(wt.ordinal(), key);
+            return nbtiveGetClbssVblue(wt.ordinbl(), key);
         }
     }
 
     /**
-     * Convenience method to get a class specific integer value for
-     * a particular WidgetType.
+     * Convenience method to get b clbss specific integer vblue for
+     * b pbrticulbr WidgetType.
      *
-     * @param wt WidgetType for which to fetch the value
-     * @param key Key identifying class specific value
-     * @param defaultValue Returned if there is no value for the specified
+     * @pbrbm wt WidgetType for which to fetch the vblue
+     * @pbrbm key Key identifying clbss specific vblue
+     * @pbrbm defbultVblue Returned if there is no vblue for the specified
      *        type
-     * @return Value, or defaultValue if <code>key</code> is not defined
+     * @return Vblue, or defbultVblue if <code>key</code> is not defined
      */
-    private static int getClassSpecificIntValue(WidgetType wt, String key,
-                                                int defaultValue)
+    privbte stbtic int getClbssSpecificIntVblue(WidgetType wt, String key,
+                                                int defbultVblue)
     {
-        Object value = getClassSpecificValue(wt, key);
-        if (value instanceof Number) {
-            return ((Number)value).intValue();
+        Object vblue = getClbssSpecificVblue(wt, key);
+        if (vblue instbnceof Number) {
+            return ((Number)vblue).intVblue();
         }
-        return defaultValue;
+        return defbultVblue;
     }
 
     /**
-     * Returns the value for a class specific property. A class specific value
-     * is a value that will be picked up based on class hierarchy.
+     * Returns the vblue for b clbss specific property. A clbss specific vblue
+     * is b vblue thbt will be picked up bbsed on clbss hierbrchy.
      *
-     * @param key Key identifying class specific value
-     * @return Value, or null if one has not been defined.
+     * @pbrbm key Key identifying clbss specific vblue
+     * @return Vblue, or null if one hbs not been defined.
      */
-    Object getClassSpecificValue(String key) {
-        synchronized (sun.awt.UNIXToolkit.GTK_LOCK) {
-            return nativeGetClassValue(widgetType, key);
+    Object getClbssSpecificVblue(String key) {
+        synchronized (sun.bwt.UNIXToolkit.GTK_LOCK) {
+            return nbtiveGetClbssVblue(widgetType, key);
         }
     }
 
     /**
-     * Convenience method to get a class specific integer value.
+     * Convenience method to get b clbss specific integer vblue.
      *
-     * @param context SynthContext identifying requestor
-     * @param key Key identifying class specific value
-     * @param defaultValue Returned if there is no value for the specified
+     * @pbrbm context SynthContext identifying requestor
+     * @pbrbm key Key identifying clbss specific vblue
+     * @pbrbm defbultVblue Returned if there is no vblue for the specified
      *        type
-     * @return Value, or defaultValue if <code>key</code> is not defined
+     * @return Vblue, or defbultVblue if <code>key</code> is not defined
      */
-    int getClassSpecificIntValue(SynthContext context, String key,
-                                 int defaultValue)
+    int getClbssSpecificIntVblue(SynthContext context, String key,
+                                 int defbultVblue)
     {
-        Object value = getClassSpecificValue(key);
+        Object vblue = getClbssSpecificVblue(key);
 
-        if (value instanceof Number) {
-            return ((Number)value).intValue();
+        if (vblue instbnceof Number) {
+            return ((Number)vblue).intVblue();
         }
-        return defaultValue;
+        return defbultVblue;
     }
 
     /**
-     * Convenience method to get a class specific Insets value.
+     * Convenience method to get b clbss specific Insets vblue.
      *
-     * @param context SynthContext identifying requestor
-     * @param key Key identifying class specific value
-     * @param defaultValue Returned if there is no value for the specified
+     * @pbrbm context SynthContext identifying requestor
+     * @pbrbm key Key identifying clbss specific vblue
+     * @pbrbm defbultVblue Returned if there is no vblue for the specified
      *        type
-     * @return Value, or defaultValue if <code>key</code> is not defined
+     * @return Vblue, or defbultVblue if <code>key</code> is not defined
      */
-    Insets getClassSpecificInsetsValue(SynthContext context, String key,
-                                       Insets defaultValue)
+    Insets getClbssSpecificInsetsVblue(SynthContext context, String key,
+                                       Insets defbultVblue)
     {
-        Object value = getClassSpecificValue(key);
+        Object vblue = getClbssSpecificVblue(key);
 
-        if (value instanceof Insets) {
-            return (Insets)value;
+        if (vblue instbnceof Insets) {
+            return (Insets)vblue;
         }
-        return defaultValue;
+        return defbultVblue;
     }
 
     /**
-     * Convenience method to get a class specific Boolean value.
+     * Convenience method to get b clbss specific Boolebn vblue.
      *
-     * @param context SynthContext identifying requestor
-     * @param key Key identifying class specific value
-     * @param defaultValue Returned if there is no value for the specified
+     * @pbrbm context SynthContext identifying requestor
+     * @pbrbm key Key identifying clbss specific vblue
+     * @pbrbm defbultVblue Returned if there is no vblue for the specified
      *        type
-     * @return Value, or defaultValue if <code>key</code> is not defined
+     * @return Vblue, or defbultVblue if <code>key</code> is not defined
      */
-    boolean getClassSpecificBoolValue(SynthContext context, String key,
-                                      boolean defaultValue)
+    boolebn getClbssSpecificBoolVblue(SynthContext context, String key,
+                                      boolebn defbultVblue)
     {
-        Object value = getClassSpecificValue(key);
+        Object vblue = getClbssSpecificVblue(key);
 
-        if (value instanceof Boolean) {
-            return ((Boolean)value).booleanValue();
+        if (vblue instbnceof Boolebn) {
+            return ((Boolebn)vblue).boolebnVblue();
         }
-        return defaultValue;
+        return defbultVblue;
     }
 
     /**
-     * Returns the value to initialize the opacity property of the Component
-     * to. A Style should NOT assume the opacity will remain this value, the
-     * developer may reset it or override it.
+     * Returns the vblue to initiblize the opbcity property of the Component
+     * to. A Style should NOT bssume the opbcity will rembin this vblue, the
+     * developer mby reset it or override it.
      *
-     * @param context SynthContext identifying requestor
-     * @return opaque Whether or not the JComponent is opaque.
+     * @pbrbm context SynthContext identifying requestor
+     * @return opbque Whether or not the JComponent is opbque.
      */
     @Override
-    public boolean isOpaque(SynthContext context) {
+    public boolebn isOpbque(SynthContext context) {
         Region region = context.getRegion();
         if (region == Region.COMBO_BOX ||
               region == Region.DESKTOP_PANE ||
@@ -735,103 +735,103 @@ class GTKStyle extends SynthStyle implements GTKConstants {
             return true;
         }
         Component c = context.getComponent();
-        String name = c.getName();
-        if (name == "ComboBox.renderer" || name == "ComboBox.listRenderer") {
+        String nbme = c.getNbme();
+        if (nbme == "ComboBox.renderer" || nbme == "ComboBox.listRenderer") {
             return true;
         }
-        return false;
+        return fblse;
     }
 
     @Override
     public Object get(SynthContext context, Object key) {
-        // See if this is a class specific value.
-        String classKey = CLASS_SPECIFIC_MAP.get(key);
-        if (classKey != null) {
-            Object value = getClassSpecificValue(classKey);
-            if (value != null) {
-                return value;
+        // See if this is b clbss specific vblue.
+        String clbssKey = CLASS_SPECIFIC_MAP.get(key);
+        if (clbssKey != null) {
+            Object vblue = getClbssSpecificVblue(clbssKey);
+            if (vblue != null) {
+                return vblue;
             }
         }
 
-        // Is it a specific value ?
-        if (key == "ScrollPane.viewportBorderInsets") {
+        // Is it b specific vblue ?
+        if (key == "ScrollPbne.viewportBorderInsets") {
             return getThicknessInsets(context, new Insets(0, 0, 0, 0));
         }
         else if (key == "Slider.tickColor") {
-            return getColorForState(context, ColorType.FOREGROUND);
+            return getColorForStbte(context, ColorType.FOREGROUND);
         }
-        else if (key == "ScrollBar.minimumThumbSize") {
+        else if (key == "ScrollBbr.minimumThumbSize") {
             int len =
-                getClassSpecificIntValue(context, "min-slider-length", 21);
-            JScrollBar sb = (JScrollBar)context.getComponent();
-            if (sb.getOrientation() == JScrollBar.HORIZONTAL) {
+                getClbssSpecificIntVblue(context, "min-slider-length", 21);
+            JScrollBbr sb = (JScrollBbr)context.getComponent();
+            if (sb.getOrientbtion() == JScrollBbr.HORIZONTAL) {
                 return new DimensionUIResource(len, 0);
             } else {
                 return new DimensionUIResource(0, len);
             }
         }
-        else if (key == "Separator.thickness") {
-            JSeparator sep = (JSeparator)context.getComponent();
-            if (sep.getOrientation() == JSeparator.HORIZONTAL) {
+        else if (key == "Sepbrbtor.thickness") {
+            JSepbrbtor sep = (JSepbrbtor)context.getComponent();
+            if (sep.getOrientbtion() == JSepbrbtor.HORIZONTAL) {
                 return getYThickness();
             } else {
                 return getXThickness();
             }
         }
-        else if (key == "ToolBar.separatorSize") {
-            int size = getClassSpecificIntValue(WidgetType.TOOL_BAR,
-                                                "space-size", 12);
+        else if (key == "ToolBbr.sepbrbtorSize") {
+            int size = getClbssSpecificIntVblue(WidgetType.TOOL_BAR,
+                                                "spbce-size", 12);
             return new DimensionUIResource(size, size);
         }
-        else if (key == "ScrollBar.buttonSize") {
-            JScrollBar sb = (JScrollBar)context.getComponent().getParent();
-            boolean horiz = (sb.getOrientation() == JScrollBar.HORIZONTAL);
+        else if (key == "ScrollBbr.buttonSize") {
+            JScrollBbr sb = (JScrollBbr)context.getComponent().getPbrent();
+            boolebn horiz = (sb.getOrientbtion() == JScrollBbr.HORIZONTAL);
             WidgetType wt = horiz ?
                 WidgetType.HSCROLL_BAR : WidgetType.VSCROLL_BAR;
-            int sliderWidth = getClassSpecificIntValue(wt, "slider-width", 14);
-            int stepperSize = getClassSpecificIntValue(wt, "stepper-size", 14);
+            int sliderWidth = getClbssSpecificIntVblue(wt, "slider-width", 14);
+            int stepperSize = getClbssSpecificIntVblue(wt, "stepper-size", 14);
             return horiz ?
                 new DimensionUIResource(stepperSize, sliderWidth) :
                 new DimensionUIResource(sliderWidth, stepperSize);
         }
         else if (key == "ArrowButton.size") {
-            String name = context.getComponent().getName();
-            if (name != null && name.startsWith("Spinner")) {
-                // Believe it or not, the size of a spinner arrow button is
+            String nbme = context.getComponent().getNbme();
+            if (nbme != null && nbme.stbrtsWith("Spinner")) {
+                // Believe it or not, the size of b spinner brrow button is
                 // dependent upon the size of the spinner's font.  These
-                // calculations come from gtkspinbutton.c (version 2.8.20),
-                // spin_button_get_arrow_size() method.
-                String pangoFontName;
-                synchronized (sun.awt.UNIXToolkit.GTK_LOCK) {
-                    pangoFontName =
-                        nativeGetPangoFontName(WidgetType.SPINNER.ordinal());
+                // cblculbtions come from gtkspinbutton.c (version 2.8.20),
+                // spin_button_get_brrow_size() method.
+                String pbngoFontNbme;
+                synchronized (sun.bwt.UNIXToolkit.GTK_LOCK) {
+                    pbngoFontNbme =
+                        nbtiveGetPbngoFontNbme(WidgetType.SPINNER.ordinbl());
                 }
-                int arrowSize = (pangoFontName != null) ?
-                    PangoFonts.getFontSize(pangoFontName) : 10;
-                return (arrowSize + (getXThickness() * 2));
+                int brrowSize = (pbngoFontNbme != null) ?
+                    PbngoFonts.getFontSize(pbngoFontNbme) : 10;
+                return (brrowSize + (getXThickness() * 2));
             }
-            // For all other kinds of arrow buttons (e.g. combobox arrow
-            // buttons), we will simply fall back on the value of
-            // ArrowButton.size as defined in the UIDefaults for
-            // GTKLookAndFeel when we call UIManager.get() below...
+            // For bll other kinds of brrow buttons (e.g. combobox brrow
+            // buttons), we will simply fbll bbck on the vblue of
+            // ArrowButton.size bs defined in the UIDefbults for
+            // GTKLookAndFeel when we cbll UIMbnbger.get() below...
         }
-        else if ("CheckBox.iconTextGap".equals(key) ||
-                 "RadioButton.iconTextGap".equals(key))
+        else if ("CheckBox.iconTextGbp".equbls(key) ||
+                 "RbdioButton.iconTextGbp".equbls(key))
         {
-            // The iconTextGap value needs to include "indicator-spacing"
-            // and it also needs to leave enough space for the focus line,
-            // which falls between the indicator icon and the text.
-            // See getRadioInsets() and 6489585 for more details.
-            int indicatorSpacing =
-                getClassSpecificIntValue(context, "indicator-spacing", 2);
+            // The iconTextGbp vblue needs to include "indicbtor-spbcing"
+            // bnd it blso needs to lebve enough spbce for the focus line,
+            // which fblls between the indicbtor icon bnd the text.
+            // See getRbdioInsets() bnd 6489585 for more detbils.
+            int indicbtorSpbcing =
+                getClbssSpecificIntVblue(context, "indicbtor-spbcing", 2);
             int focusSize =
-                getClassSpecificIntValue(context, "focus-line-width", 1);
-            int focusPad =
-                getClassSpecificIntValue(context, "focus-padding", 1);
-            return indicatorSpacing + focusSize + focusPad;
+                getClbssSpecificIntVblue(context, "focus-line-width", 1);
+            int focusPbd =
+                getClbssSpecificIntVblue(context, "focus-pbdding", 1);
+            return indicbtorSpbcing + focusSize + focusPbd;
         }
 
-        // Is it a stock icon ?
+        // Is it b stock icon ?
         GTKStockIcon stockIcon = null;
         synchronized (ICONS_MAP) {
             stockIcon = ICONS_MAP.get(key);
@@ -841,78 +841,78 @@ class GTKStyle extends SynthStyle implements GTKConstants {
             return stockIcon;
         }
 
-        // Is it another kind of value ?
+        // Is it bnother kind of vblue ?
         if (key != "engine") {
-            // For backward compatibility we'll fallback to the UIManager.
-            // We don't go to the UIManager for engine as the engine is GTK
+            // For bbckwbrd compbtibility we'll fbllbbck to the UIMbnbger.
+            // We don't go to the UIMbnbger for engine bs the engine is GTK
             // specific.
-            Object value = UIManager.get(key);
-            if (key == "Table.rowHeight") {
-                int focusLineWidth = getClassSpecificIntValue(context,
+            Object vblue = UIMbnbger.get(key);
+            if (key == "Tbble.rowHeight") {
+                int focusLineWidth = getClbssSpecificIntVblue(context,
                         "focus-line-width", 0);
-                if (value == null && focusLineWidth > 0) {
-                    value = Integer.valueOf(16 + 2 * focusLineWidth);
+                if (vblue == null && focusLineWidth > 0) {
+                    vblue = Integer.vblueOf(16 + 2 * focusLineWidth);
                 }
             }
-            return value;
+            return vblue;
         }
 
-        // Don't call super, we don't want to pick up defaults from
+        // Don't cbll super, we don't wbnt to pick up defbults from
         // SynthStyle.
         return null;
     }
 
-    private Icon getStockIcon(SynthContext context, String key, int type) {
+    privbte Icon getStockIcon(SynthContext context, String key, int type) {
         TextDirection direction = TextDirection.LTR;
 
         if (context != null) {
-            ComponentOrientation co = context.getComponent().
-                                              getComponentOrientation();
+            ComponentOrientbtion co = context.getComponent().
+                                              getComponentOrientbtion();
 
             if (co != null && !co.isLeftToRight()) {
                 direction = TextDirection.RTL;
             }
         }
 
-        // First try loading a theme-specific icon using the native
-        // GTK libraries (native GTK handles the resizing for us).
+        // First try lobding b theme-specific icon using the nbtive
+        // GTK librbries (nbtive GTK hbndles the resizing for us).
         Icon icon = getStyleSpecificIcon(key, direction, type);
         if (icon != null) {
             return icon;
         }
 
-        // In a failure case where native GTK (unexpectedly) returns a
-        // null icon, we can try loading a default icon as a fallback.
-        String propName = ICON_PROPERTY_PREFIX + key + '.' + type + '.' +
+        // In b fbilure cbse where nbtive GTK (unexpectedly) returns b
+        // null icon, we cbn try lobding b defbult icon bs b fbllbbck.
+        String propNbme = ICON_PROPERTY_PREFIX + key + '.' + type + '.' +
                           (direction == TextDirection.RTL ? "rtl" : "ltr");
-        Image img = (Image)
-            Toolkit.getDefaultToolkit().getDesktopProperty(propName);
+        Imbge img = (Imbge)
+            Toolkit.getDefbultToolkit().getDesktopProperty(propNbme);
         if (img != null) {
-            return new ImageIcon(img);
+            return new ImbgeIcon(img);
         }
 
-        // In an extreme failure situation, just return null (callers are
-        // already prepared to handle a null icon, so the worst that can
-        // happen is that an icon won't be included in the button/dialog).
+        // In bn extreme fbilure situbtion, just return null (cbllers bre
+        // blrebdy prepbred to hbndle b null icon, so the worst thbt cbn
+        // hbppen is thbt bn icon won't be included in the button/diblog).
         return null;
     }
 
-    private Icon getStyleSpecificIcon(String key,
+    privbte Icon getStyleSpecificIcon(String key,
                                       TextDirection direction, int type)
     {
-        UNIXToolkit tk = (UNIXToolkit)Toolkit.getDefaultToolkit();
-        Image img =
-            tk.getStockIcon(widgetType, key, type, direction.ordinal(), null);
-        return (img != null) ? new ImageIcon(img) : null;
+        UNIXToolkit tk = (UNIXToolkit)Toolkit.getDefbultToolkit();
+        Imbge img =
+            tk.getStockIcon(widgetType, key, type, direction.ordinbl(), null);
+        return (img != null) ? new ImbgeIcon(img) : null;
     }
 
-    static class GTKStockIconInfo {
-        private static Map<String,Integer> ICON_TYPE_MAP;
-        private static final Object ICON_SIZE_KEY = new StringBuffer("IconSize");
+    stbtic clbss GTKStockIconInfo {
+        privbte stbtic Mbp<String,Integer> ICON_TYPE_MAP;
+        privbte stbtic finbl Object ICON_SIZE_KEY = new StringBuffer("IconSize");
 
-        private static Dimension[] getIconSizesMap() {
-            AppContext appContext = AppContext.getAppContext();
-            Dimension[] iconSizes = (Dimension[])appContext.get(ICON_SIZE_KEY);
+        privbte stbtic Dimension[] getIconSizesMbp() {
+            AppContext bppContext = AppContext.getAppContext();
+            Dimension[] iconSizes = (Dimension[])bppContext.get(ICON_SIZE_KEY);
 
             if (iconSizes == null) {
                 iconSizes = new Dimension[7];
@@ -923,95 +923,95 @@ class GTKStyle extends SynthStyle implements GTKConstants {
                 iconSizes[4] = new Dimension(20, 20); // GTK_ICON_SIZE_BUTTON
                 iconSizes[5] = new Dimension(32, 32); // GTK_ICON_SIZE_DND
                 iconSizes[6] = new Dimension(48, 48); // GTK_ICON_SIZE_DIALOG
-                appContext.put(ICON_SIZE_KEY, iconSizes);
+                bppContext.put(ICON_SIZE_KEY, iconSizes);
             }
             return iconSizes;
         }
 
         /**
-         * Return the size of a particular icon type (logical size)
+         * Return the size of b pbrticulbr icon type (logicbl size)
          *
-         * @param type icon type (GtkIconSize value)
-         * @return a Dimension object, or null if lsize is invalid
+         * @pbrbm type icon type (GtkIconSize vblue)
+         * @return b Dimension object, or null if lsize is invblid
          */
-        public static Dimension getIconSize(int type) {
-            Dimension[] iconSizes = getIconSizesMap();
+        public stbtic Dimension getIconSize(int type) {
+            Dimension[] iconSizes = getIconSizesMbp();
             return type >= 0 && type < iconSizes.length ?
                 iconSizes[type] : null;
         }
 
         /**
-         * Change icon size in a type to size mapping. This is called by code
-         * that parses the gtk-icon-sizes setting
+         * Chbnge icon size in b type to size mbpping. This is cblled by code
+         * thbt pbrses the gtk-icon-sizes setting
          *
-         * @param type icon type (GtkIconSize value)
-         * @param w the new icon width
-         * @param h the new icon height
+         * @pbrbm type icon type (GtkIconSize vblue)
+         * @pbrbm w the new icon width
+         * @pbrbm h the new icon height
          */
-        public static void setIconSize(int type, int w, int h) {
-            Dimension[] iconSizes = getIconSizesMap();
+        public stbtic void setIconSize(int type, int w, int h) {
+            Dimension[] iconSizes = getIconSizesMbp();
             if (type >= 0 && type < iconSizes.length) {
                 iconSizes[type] = new Dimension(w, h);
             }
         }
 
         /**
-         * Return icon type (GtkIconSize value) given a symbolic name which can
-         * occur in a theme file.
+         * Return icon type (GtkIconSize vblue) given b symbolic nbme which cbn
+         * occur in b theme file.
          *
-         * @param size symbolic name, e.g. gtk-button
-         * @return icon type. Valid types are 1 to 6
+         * @pbrbm size symbolic nbme, e.g. gtk-button
+         * @return icon type. Vblid types bre 1 to 6
          */
-        public static int getIconType(String size) {
+        public stbtic int getIconType(String size) {
             if (size == null) {
                 return UNDEFINED;
             }
             if (ICON_TYPE_MAP == null) {
-                initIconTypeMap();
+                initIconTypeMbp();
             }
             Integer n = ICON_TYPE_MAP.get(size);
-            return n != null ? n.intValue() : UNDEFINED;
+            return n != null ? n.intVblue() : UNDEFINED;
         }
 
-        private static void initIconTypeMap() {
-            ICON_TYPE_MAP = new HashMap<String,Integer>();
-            ICON_TYPE_MAP.put("gtk-menu", Integer.valueOf(1));
-            ICON_TYPE_MAP.put("gtk-small-toolbar", Integer.valueOf(2));
-            ICON_TYPE_MAP.put("gtk-large-toolbar", Integer.valueOf(3));
-            ICON_TYPE_MAP.put("gtk-button", Integer.valueOf(4));
-            ICON_TYPE_MAP.put("gtk-dnd", Integer.valueOf(5));
-            ICON_TYPE_MAP.put("gtk-dialog", Integer.valueOf(6));
+        privbte stbtic void initIconTypeMbp() {
+            ICON_TYPE_MAP = new HbshMbp<String,Integer>();
+            ICON_TYPE_MAP.put("gtk-menu", Integer.vblueOf(1));
+            ICON_TYPE_MAP.put("gtk-smbll-toolbbr", Integer.vblueOf(2));
+            ICON_TYPE_MAP.put("gtk-lbrge-toolbbr", Integer.vblueOf(3));
+            ICON_TYPE_MAP.put("gtk-button", Integer.vblueOf(4));
+            ICON_TYPE_MAP.put("gtk-dnd", Integer.vblueOf(5));
+            ICON_TYPE_MAP.put("gtk-diblog", Integer.vblueOf(6));
         }
 
     }
 
     /**
-     * An Icon that is fetched using getStockIcon.
+     * An Icon thbt is fetched using getStockIcon.
      */
-    private static class GTKStockIcon extends SynthIcon {
-        private String key;
-        private int size;
-        private boolean loadedLTR;
-        private boolean loadedRTL;
-        private Icon ltrIcon;
-        private Icon rtlIcon;
-        private SynthStyle style;
+    privbte stbtic clbss GTKStockIcon extends SynthIcon {
+        privbte String key;
+        privbte int size;
+        privbte boolebn lobdedLTR;
+        privbte boolebn lobdedRTL;
+        privbte Icon ltrIcon;
+        privbte Icon rtlIcon;
+        privbte SynthStyle style;
 
         GTKStockIcon(String key, int size) {
             this.key = key;
             this.size = size;
         }
 
-        public void paintIcon(SynthContext context, Graphics g, int x,
+        public void pbintIcon(SynthContext context, Grbphics g, int x,
                               int y, int w, int h) {
             Icon icon = getIcon(context);
 
             if (icon != null) {
                 if (context == null) {
-                    icon.paintIcon(null, g, x, y);
+                    icon.pbintIcon(null, g, x, y);
                 }
                 else {
-                    icon.paintIcon(context.getComponent(), g, x, y);
+                    icon.pbintIcon(context.getComponent(), g, x, y);
                 }
             }
         }
@@ -1034,26 +1034,26 @@ class GTKStyle extends SynthStyle implements GTKConstants {
             return 0;
         }
 
-        private Icon getIcon(SynthContext context) {
+        privbte Icon getIcon(SynthContext context) {
             if (context != null) {
-                ComponentOrientation co = context.getComponent().
-                                                  getComponentOrientation();
+                ComponentOrientbtion co = context.getComponent().
+                                                  getComponentOrientbtion();
                 SynthStyle style = context.getStyle();
 
                 if (style != this.style) {
                     this.style = style;
-                    loadedLTR = loadedRTL = false;
+                    lobdedLTR = lobdedRTL = fblse;
                 }
                 if (co == null || co.isLeftToRight()) {
-                    if (!loadedLTR) {
-                        loadedLTR = true;
+                    if (!lobdedLTR) {
+                        lobdedLTR = true;
                         ltrIcon = ((GTKStyle)context.getStyle()).
                                   getStockIcon(context, key, size);
                     }
                     return ltrIcon;
                 }
-                else if (!loadedRTL) {
-                    loadedRTL = true;
+                else if (!lobdedRTL) {
+                    lobdedRTL = true;
                     rtlIcon = ((GTKStyle)context.getStyle()).
                               getStockIcon(context, key,size);
                 }
@@ -1064,78 +1064,78 @@ class GTKStyle extends SynthStyle implements GTKConstants {
     }
 
     /**
-     * GTKLazyValue is a slimmed down version of <code>ProxyLaxyValue</code>.
-     * The code is duplicate so that it can get at the package private
-     * classes in gtk.
+     * GTKLbzyVblue is b slimmed down version of <code>ProxyLbxyVblue</code>.
+     * The code is duplicbte so thbt it cbn get bt the pbckbge privbte
+     * clbsses in gtk.
      */
-    static class GTKLazyValue implements UIDefaults.LazyValue {
+    stbtic clbss GTKLbzyVblue implements UIDefbults.LbzyVblue {
         /**
-         * Name of the class to create.
+         * Nbme of the clbss to crebte.
          */
-        private String className;
-        private String methodName;
+        privbte String clbssNbme;
+        privbte String methodNbme;
 
-        GTKLazyValue(String name) {
-            this(name, null);
+        GTKLbzyVblue(String nbme) {
+            this(nbme, null);
         }
 
-        GTKLazyValue(String name, String methodName) {
-            this.className = name;
-            this.methodName = methodName;
+        GTKLbzyVblue(String nbme, String methodNbme) {
+            this.clbssNbme = nbme;
+            this.methodNbme = methodNbme;
         }
 
-        public Object createValue(UIDefaults table) {
+        public Object crebteVblue(UIDefbults tbble) {
             try {
-                Class<?> c = Class.forName(className, true,Thread.currentThread().
-                                           getContextClassLoader());
+                Clbss<?> c = Clbss.forNbme(clbssNbme, true,Threbd.currentThrebd().
+                                           getContextClbssLobder());
 
-                if (methodName == null) {
-                    return c.newInstance();
+                if (methodNbme == null) {
+                    return c.newInstbnce();
                 }
-                Method m = c.getMethod(methodName, (Class<?>[])null);
+                Method m = c.getMethod(methodNbme, (Clbss<?>[])null);
 
                 return m.invoke(c, (Object[])null);
-            } catch (ClassNotFoundException cnfe) {
-            } catch (IllegalAccessException iae) {
-            } catch (InvocationTargetException ite) {
-            } catch (NoSuchMethodException nsme) {
-            } catch (InstantiationException ie) {
+            } cbtch (ClbssNotFoundException cnfe) {
+            } cbtch (IllegblAccessException ibe) {
+            } cbtch (InvocbtionTbrgetException ite) {
+            } cbtch (NoSuchMethodException nsme) {
+            } cbtch (InstbntibtionException ie) {
             }
             return null;
         }
     }
 
-    static {
-        CLASS_SPECIFIC_MAP = new HashMap<String,String>();
+    stbtic {
+        CLASS_SPECIFIC_MAP = new HbshMbp<String,String>();
         CLASS_SPECIFIC_MAP.put("Slider.thumbHeight", "slider-width");
-        CLASS_SPECIFIC_MAP.put("Slider.trackBorder", "trough-border");
-        CLASS_SPECIFIC_MAP.put("SplitPane.size", "handle-size");
-        CLASS_SPECIFIC_MAP.put("Tree.expanderSize", "expander-size");
-        CLASS_SPECIFIC_MAP.put("ScrollBar.thumbHeight", "slider-width");
-        CLASS_SPECIFIC_MAP.put("ScrollBar.width", "slider-width");
-        CLASS_SPECIFIC_MAP.put("TextArea.caretForeground", "cursor-color");
-        CLASS_SPECIFIC_MAP.put("TextArea.caretAspectRatio", "cursor-aspect-ratio");
-        CLASS_SPECIFIC_MAP.put("TextField.caretForeground", "cursor-color");
-        CLASS_SPECIFIC_MAP.put("TextField.caretAspectRatio", "cursor-aspect-ratio");
-        CLASS_SPECIFIC_MAP.put("PasswordField.caretForeground", "cursor-color");
-        CLASS_SPECIFIC_MAP.put("PasswordField.caretAspectRatio", "cursor-aspect-ratio");
-        CLASS_SPECIFIC_MAP.put("FormattedTextField.caretForeground", "cursor-color");
-        CLASS_SPECIFIC_MAP.put("FormattedTextField.caretAspectRatio", "cursor-aspect-");
-        CLASS_SPECIFIC_MAP.put("TextPane.caretForeground", "cursor-color");
-        CLASS_SPECIFIC_MAP.put("TextPane.caretAspectRatio", "cursor-aspect-ratio");
-        CLASS_SPECIFIC_MAP.put("EditorPane.caretForeground", "cursor-color");
-        CLASS_SPECIFIC_MAP.put("EditorPane.caretAspectRatio", "cursor-aspect-ratio");
+        CLASS_SPECIFIC_MAP.put("Slider.trbckBorder", "trough-border");
+        CLASS_SPECIFIC_MAP.put("SplitPbne.size", "hbndle-size");
+        CLASS_SPECIFIC_MAP.put("Tree.expbnderSize", "expbnder-size");
+        CLASS_SPECIFIC_MAP.put("ScrollBbr.thumbHeight", "slider-width");
+        CLASS_SPECIFIC_MAP.put("ScrollBbr.width", "slider-width");
+        CLASS_SPECIFIC_MAP.put("TextAreb.cbretForeground", "cursor-color");
+        CLASS_SPECIFIC_MAP.put("TextAreb.cbretAspectRbtio", "cursor-bspect-rbtio");
+        CLASS_SPECIFIC_MAP.put("TextField.cbretForeground", "cursor-color");
+        CLASS_SPECIFIC_MAP.put("TextField.cbretAspectRbtio", "cursor-bspect-rbtio");
+        CLASS_SPECIFIC_MAP.put("PbsswordField.cbretForeground", "cursor-color");
+        CLASS_SPECIFIC_MAP.put("PbsswordField.cbretAspectRbtio", "cursor-bspect-rbtio");
+        CLASS_SPECIFIC_MAP.put("FormbttedTextField.cbretForeground", "cursor-color");
+        CLASS_SPECIFIC_MAP.put("FormbttedTextField.cbretAspectRbtio", "cursor-bspect-");
+        CLASS_SPECIFIC_MAP.put("TextPbne.cbretForeground", "cursor-color");
+        CLASS_SPECIFIC_MAP.put("TextPbne.cbretAspectRbtio", "cursor-bspect-rbtio");
+        CLASS_SPECIFIC_MAP.put("EditorPbne.cbretForeground", "cursor-color");
+        CLASS_SPECIFIC_MAP.put("EditorPbne.cbretAspectRbtio", "cursor-bspect-rbtio");
 
-        ICONS_MAP = new HashMap<String, GTKStockIcon>();
-        ICONS_MAP.put("FileChooser.cancelIcon", new GTKStockIcon("gtk-cancel", 4));
+        ICONS_MAP = new HbshMbp<String, GTKStockIcon>();
+        ICONS_MAP.put("FileChooser.cbncelIcon", new GTKStockIcon("gtk-cbncel", 4));
         ICONS_MAP.put("FileChooser.okIcon",     new GTKStockIcon("gtk-ok",     4));
-        ICONS_MAP.put("OptionPane.errorIcon", new GTKStockIcon("gtk-dialog-error", 6));
-        ICONS_MAP.put("OptionPane.informationIcon", new GTKStockIcon("gtk-dialog-info", 6));
-        ICONS_MAP.put("OptionPane.warningIcon", new GTKStockIcon("gtk-dialog-warning", 6));
-        ICONS_MAP.put("OptionPane.questionIcon", new GTKStockIcon("gtk-dialog-question", 6));
-        ICONS_MAP.put("OptionPane.yesIcon", new GTKStockIcon("gtk-yes", 4));
-        ICONS_MAP.put("OptionPane.noIcon", new GTKStockIcon("gtk-no", 4));
-        ICONS_MAP.put("OptionPane.cancelIcon", new GTKStockIcon("gtk-cancel", 4));
-        ICONS_MAP.put("OptionPane.okIcon", new GTKStockIcon("gtk-ok", 4));
+        ICONS_MAP.put("OptionPbne.errorIcon", new GTKStockIcon("gtk-diblog-error", 6));
+        ICONS_MAP.put("OptionPbne.informbtionIcon", new GTKStockIcon("gtk-diblog-info", 6));
+        ICONS_MAP.put("OptionPbne.wbrningIcon", new GTKStockIcon("gtk-diblog-wbrning", 6));
+        ICONS_MAP.put("OptionPbne.questionIcon", new GTKStockIcon("gtk-diblog-question", 6));
+        ICONS_MAP.put("OptionPbne.yesIcon", new GTKStockIcon("gtk-yes", 4));
+        ICONS_MAP.put("OptionPbne.noIcon", new GTKStockIcon("gtk-no", 4));
+        ICONS_MAP.put("OptionPbne.cbncelIcon", new GTKStockIcon("gtk-cbncel", 4));
+        ICONS_MAP.put("OptionPbne.okIcon", new GTKStockIcon("gtk-ok", 4));
     }
 }

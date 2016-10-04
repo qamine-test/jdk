@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
 import sun.swing.SwingUtilities2;
 
-import javax.swing.*;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
-import java.awt.Component;
-import java.awt.Insets;
-import java.awt.event.KeyEvent;
-import java.awt.Container;
+import jbvbx.swing.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Component;
+import jbvb.bwt.Insets;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.Contbiner;
 
-import javax.swing.plaf.basic.*;
-import javax.swing.text.View;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.text.View;
 
 /*
- * @author Jeff Dinkins
- * @author Dave Kloba
+ * @buthor Jeff Dinkins
+ * @buthor Dbve Klobb
  */
 
-public class MotifGraphicsUtils implements SwingConstants
+public clbss MotifGrbphicsUtils implements SwingConstbnts
 {
-    /* Client Property keys for text and accelerator text widths */
-    private static final String MAX_ACC_WIDTH  =  "maxAccWidth";
+    /* Client Property keys for text bnd bccelerbtor text widths */
+    privbte stbtic finbl String MAX_ACC_WIDTH  =  "mbxAccWidth";
 
     /**
-     * Draws the point (<b>x</b>, <b>y</b>) in the current color.
+     * Drbws the point (<b>x</b>, <b>y</b>) in the current color.
      */
-    static void drawPoint(Graphics g, int x, int y) {
-        g.drawLine(x, y, x, y);
+    stbtic void drbwPoint(Grbphics g, int x, int y) {
+        g.drbwLine(x, y, x, y);
     }
 
     /*
-     * Convenience method for drawing a grooved line
+     * Convenience method for drbwing b grooved line
      *
      */
-    public static void drawGroove(Graphics g, int x, int y, int w, int h,
-                                  Color shadow, Color highlight)
+    public stbtic void drbwGroove(Grbphics g, int x, int y, int w, int h,
+                                  Color shbdow, Color highlight)
     {
-        Color oldColor = g.getColor();  // Make no net change to g
-        g.translate(x, y);
+        Color oldColor = g.getColor();  // Mbke no net chbnge to g
+        g.trbnslbte(x, y);
 
-        g.setColor(shadow);
-        g.drawRect(0, 0, w-2, h-2);
+        g.setColor(shbdow);
+        g.drbwRect(0, 0, w-2, h-2);
 
         g.setColor(highlight);
-        g.drawLine(1, h-3, 1, 1);
-        g.drawLine(1, 1, w-3, 1);
+        g.drbwLine(1, h-3, 1, 1);
+        g.drbwLine(1, 1, w-3, 1);
 
-        g.drawLine(0, h-1, w-1, h-1);
-        g.drawLine(w-1, h-1, w-1, 0);
+        g.drbwLine(0, h-1, w-1, h-1);
+        g.drbwLine(w-1, h-1, w-1, 0);
 
-        g.translate(-x, -y);
+        g.trbnslbte(-x, -y);
         g.setColor(oldColor);
     }
 
-    /** Draws <b>aString</b> in the rectangle defined by
+    /** Drbws <b>bString</b> in the rectbngle defined by
       * (<b>x</b>, <b>y</b>, <b>width</b>, <b>height</b>).
-      * <b>justification</b> specifies the text's justification, one of
+      * <b>justificbtion</b> specifies the text's justificbtion, one of
       * LEFT, CENTER, or RIGHT.
-      * <b>drawStringInRect()</b> does not clip to the rectangle, but instead
-      * uses this rectangle and the desired justification to compute the point
-      * at which to begin drawing the text.
-      * @see #drawString
+      * <b>drbwStringInRect()</b> does not clip to the rectbngle, but instebd
+      * uses this rectbngle bnd the desired justificbtion to compute the point
+      * bt which to begin drbwing the text.
+      * @see #drbwString
       */
-    public static void drawStringInRect(Graphics g, String aString, int x, int y,
-                                 int width, int height, int justification) {
-        drawStringInRect(null, g, aString, x, y, width, height, justification);
+    public stbtic void drbwStringInRect(Grbphics g, String bString, int x, int y,
+                                 int width, int height, int justificbtion) {
+        drbwStringInRect(null, g, bString, x, y, width, height, justificbtion);
     }
 
-    static void drawStringInRect(JComponent c, Graphics g, String aString,
+    stbtic void drbwStringInRect(JComponent c, Grbphics g, String bString,
                                  int x, int y, int width, int height,
-                                 int justification) {
+                                 int justificbtion) {
         FontMetrics  fontMetrics;
-        int          drawWidth, startX, startY, delta;
+        int          drbwWidth, stbrtX, stbrtY, deltb;
 
         if (g.getFont() == null) {
 //            throw new InconsistencyException("No font set");
@@ -112,41 +112,41 @@ public class MotifGraphicsUtils implements SwingConstants
             return;
         }
 
-        if (justification == CENTER) {
-            drawWidth = SwingUtilities2.stringWidth(c, fontMetrics, aString);
-            if (drawWidth > width) {
-                drawWidth = width;
+        if (justificbtion == CENTER) {
+            drbwWidth = SwingUtilities2.stringWidth(c, fontMetrics, bString);
+            if (drbwWidth > width) {
+                drbwWidth = width;
             }
-            startX = x + (width - drawWidth) / 2;
-        } else if (justification == RIGHT) {
-            drawWidth = SwingUtilities2.stringWidth(c, fontMetrics, aString);
-            if (drawWidth > width) {
-                drawWidth = width;
+            stbrtX = x + (width - drbwWidth) / 2;
+        } else if (justificbtion == RIGHT) {
+            drbwWidth = SwingUtilities2.stringWidth(c, fontMetrics, bString);
+            if (drbwWidth > width) {
+                drbwWidth = width;
             }
-            startX = x + width - drawWidth;
+            stbrtX = x + width - drbwWidth;
         } else {
-            startX = x;
+            stbrtX = x;
         }
 
-        delta = (height - fontMetrics.getAscent() - fontMetrics.getDescent()) / 2;
-        if (delta < 0) {
-            delta = 0;
+        deltb = (height - fontMetrics.getAscent() - fontMetrics.getDescent()) / 2;
+        if (deltb < 0) {
+            deltb = 0;
         }
 
-        startY = y + height - delta - fontMetrics.getDescent();
+        stbrtY = y + height - deltb - fontMetrics.getDescent();
 
-        SwingUtilities2.drawString(c, g, aString, startX, startY);
+        SwingUtilities2.drbwString(c, g, bString, stbrtX, stbrtY);
     }
 
   /**
-   * This method is not being used to paint menu item since
-   * 6.0 This code left for compatibility only. Do not use or
-   * override it, this will not cause any visible effect.
+   * This method is not being used to pbint menu item since
+   * 6.0 This code left for compbtibility only. Do not use or
+   * override it, this will not cbuse bny visible effect.
    */
-  public static void paintMenuItem(Graphics g, JComponent c,
-                                   Icon checkIcon, Icon arrowIcon,
-                                   Color background, Color foreground,
-                                   int defaultTextIconGap)
+  public stbtic void pbintMenuItem(Grbphics g, JComponent c,
+                                   Icon checkIcon, Icon brrowIcon,
+                                   Color bbckground, Color foreground,
+                                   int defbultTextIconGbp)
     {
 
         JMenuItem b = (JMenuItem) c;
@@ -155,81 +155,81 @@ public class MotifGraphicsUtils implements SwingConstants
         Dimension size = b.getSize();
         Insets i = c.getInsets();
 
-        Rectangle viewRect = new Rectangle(size);
+        Rectbngle viewRect = new Rectbngle(size);
 
         viewRect.x += i.left;
         viewRect.y += i.top;
         viewRect.width -= (i.right + viewRect.x);
         viewRect.height -= (i.bottom + viewRect.y);
 
-        Rectangle iconRect = new Rectangle();
-        Rectangle textRect = new Rectangle();
-        Rectangle acceleratorRect = new Rectangle();
-        Rectangle checkRect = new Rectangle();
-        Rectangle arrowRect = new Rectangle();
+        Rectbngle iconRect = new Rectbngle();
+        Rectbngle textRect = new Rectbngle();
+        Rectbngle bccelerbtorRect = new Rectbngle();
+        Rectbngle checkRect = new Rectbngle();
+        Rectbngle brrowRect = new Rectbngle();
 
         Font holdf = g.getFont();
         Font f = c.getFont();
         g.setFont(f);
         FontMetrics fm = SwingUtilities2.getFontMetrics(c, g, f);
         FontMetrics fmAccel = SwingUtilities2.getFontMetrics(
-            c, g, UIManager.getFont("MenuItem.acceleratorFont"));
+            c, g, UIMbnbger.getFont("MenuItem.bccelerbtorFont"));
 
-        if (c.isOpaque()) {
-            if (model.isArmed()|| (c instanceof JMenu && model.isSelected())) {
-                g.setColor(background);
+        if (c.isOpbque()) {
+            if (model.isArmed()|| (c instbnceof JMenu && model.isSelected())) {
+                g.setColor(bbckground);
             } else {
-                g.setColor(c.getBackground());
+                g.setColor(c.getBbckground());
             }
             g.fillRect(0,0, size.width, size.height);
         }
 
-        // get Accelerator text
-        KeyStroke accelerator =  b.getAccelerator();
-        String acceleratorText = "";
-        if (accelerator != null) {
-            int modifiers = accelerator.getModifiers();
+        // get Accelerbtor text
+        KeyStroke bccelerbtor =  b.getAccelerbtor();
+        String bccelerbtorText = "";
+        if (bccelerbtor != null) {
+            int modifiers = bccelerbtor.getModifiers();
             if (modifiers > 0) {
-                acceleratorText = KeyEvent.getKeyModifiersText(modifiers);
-                acceleratorText += "+";
+                bccelerbtorText = KeyEvent.getKeyModifiersText(modifiers);
+                bccelerbtorText += "+";
             }
-            acceleratorText += KeyEvent.getKeyText(accelerator.getKeyCode());
+            bccelerbtorText += KeyEvent.getKeyText(bccelerbtor.getKeyCode());
         }
 
-        // layout the text and icon
-        String text = layoutMenuItem(c, fm, b.getText(), fmAccel,
-                                     acceleratorText, b.getIcon(),
-                                     checkIcon, arrowIcon,
-                                     b.getVerticalAlignment(),
-                                     b.getHorizontalAlignment(),
-                                     b.getVerticalTextPosition(),
-                                     b.getHorizontalTextPosition(),
+        // lbyout the text bnd icon
+        String text = lbyoutMenuItem(c, fm, b.getText(), fmAccel,
+                                     bccelerbtorText, b.getIcon(),
+                                     checkIcon, brrowIcon,
+                                     b.getVerticblAlignment(),
+                                     b.getHorizontblAlignment(),
+                                     b.getVerticblTextPosition(),
+                                     b.getHorizontblTextPosition(),
                                      viewRect, iconRect,
-                                     textRect, acceleratorRect,
-                                     checkRect, arrowRect,
+                                     textRect, bccelerbtorRect,
+                                     checkRect, brrowRect,
                                      b.getText() == null
-                                     ? 0 : defaultTextIconGap,
-                                     defaultTextIconGap
+                                     ? 0 : defbultTextIconGbp,
+                                     defbultTextIconGbp
                                      );
 
-        // Paint the Check
+        // Pbint the Check
         Color holdc = g.getColor();
         if (checkIcon != null) {
-            if(model.isArmed() || (c instanceof JMenu && model.isSelected()))
+            if(model.isArmed() || (c instbnceof JMenu && model.isSelected()))
                 g.setColor(foreground);
-            checkIcon.paintIcon(c, g, checkRect.x, checkRect.y);
+            checkIcon.pbintIcon(c, g, checkRect.x, checkRect.y);
             g.setColor(holdc);
         }
 
-        // Paint the Icon
+        // Pbint the Icon
         if(b.getIcon() != null) {
             Icon icon;
-            if(!model.isEnabled()) {
-                icon = b.getDisabledIcon();
+            if(!model.isEnbbled()) {
+                icon = b.getDisbbledIcon();
             } else if(model.isPressed() && model.isArmed()) {
                 icon = b.getPressedIcon();
                 if(icon == null) {
-                    // Use default icon
+                    // Use defbult icon
                     icon = b.getIcon();
                 }
             } else {
@@ -237,39 +237,39 @@ public class MotifGraphicsUtils implements SwingConstants
             }
 
             if (icon!=null) {
-                icon.paintIcon(c, g, iconRect.x, iconRect.y);
+                icon.pbintIcon(c, g, iconRect.x, iconRect.y);
             }
         }
 
-        // Draw the Text
-        if(text != null && !text.equals("")) {
-            // Once BasicHTML becomes public, use BasicHTML.propertyKey
-            // instead of the hardcoded string below!
+        // Drbw the Text
+        if(text != null && !text.equbls("")) {
+            // Once BbsicHTML becomes public, use BbsicHTML.propertyKey
+            // instebd of the hbrdcoded string below!
             View v = (View) c.getClientProperty("html");
             if (v != null) {
-                v.paint(g, textRect);
+                v.pbint(g, textRect);
             } else {
-                int mnemIndex = b.getDisplayedMnemonicIndex();
+                int mnemIndex = b.getDisplbyedMnemonicIndex();
 
-                if(!model.isEnabled()) {
-                    // *** paint the text disabled
-                    g.setColor(b.getBackground().brighter());
-                    SwingUtilities2.drawStringUnderlineCharAt(b, g,text,
+                if(!model.isEnbbled()) {
+                    // *** pbint the text disbbled
+                    g.setColor(b.getBbckground().brighter());
+                    SwingUtilities2.drbwStringUnderlineChbrAt(b, g,text,
                         mnemIndex,
                         textRect.x, textRect.y + fmAccel.getAscent());
-                    g.setColor(b.getBackground().darker());
-                    SwingUtilities2.drawStringUnderlineCharAt(b, g,text,
+                    g.setColor(b.getBbckground().dbrker());
+                    SwingUtilities2.drbwStringUnderlineChbrAt(b, g,text,
                         mnemIndex,
                         textRect.x - 1, textRect.y + fmAccel.getAscent() - 1);
 
                 } else {
-                    // *** paint the text normally
-                    if (model.isArmed()|| (c instanceof JMenu && model.isSelected())) {
+                    // *** pbint the text normblly
+                    if (model.isArmed()|| (c instbnceof JMenu && model.isSelected())) {
                         g.setColor(foreground);
                     } else {
                         g.setColor(b.getForeground());
                     }
-                    SwingUtilities2.drawStringUnderlineCharAt(b, g,text,
+                    SwingUtilities2.drbwStringUnderlineChbrAt(b, g,text,
                                                   mnemIndex,
                                                   textRect.x,
                                                   textRect.y + fm.getAscent());
@@ -277,51 +277,51 @@ public class MotifGraphicsUtils implements SwingConstants
             }
         }
 
-        // Draw the Accelerator Text
-        if(acceleratorText != null && !acceleratorText.equals("")) {
+        // Drbw the Accelerbtor Text
+        if(bccelerbtorText != null && !bccelerbtorText.equbls("")) {
 
-            //Get the maxAccWidth from the parent to calculate the offset.
-            int accOffset = 0;
-            Container parent = b.getParent();
-            if (parent != null && parent instanceof JComponent) {
-                JComponent p = (JComponent) parent;
-                Integer maxValueInt = (Integer) p.getClientProperty(MotifGraphicsUtils.MAX_ACC_WIDTH);
-                int maxValue = maxValueInt != null ?
-                    maxValueInt.intValue() : acceleratorRect.width;
+            //Get the mbxAccWidth from the pbrent to cblculbte the offset.
+            int bccOffset = 0;
+            Contbiner pbrent = b.getPbrent();
+            if (pbrent != null && pbrent instbnceof JComponent) {
+                JComponent p = (JComponent) pbrent;
+                Integer mbxVblueInt = (Integer) p.getClientProperty(MotifGrbphicsUtils.MAX_ACC_WIDTH);
+                int mbxVblue = mbxVblueInt != null ?
+                    mbxVblueInt.intVblue() : bccelerbtorRect.width;
 
-                //Calculate the offset, with which the accelerator texts will be drawn with.
-                accOffset = maxValue - acceleratorRect.width;
+                //Cblculbte the offset, with which the bccelerbtor texts will be drbwn with.
+                bccOffset = mbxVblue - bccelerbtorRect.width;
             }
 
-            g.setFont( UIManager.getFont("MenuItem.acceleratorFont") );
-            if(!model.isEnabled()) {
-                // *** paint the acceleratorText disabled
-                g.setColor(b.getBackground().brighter());
-                SwingUtilities2.drawString(c, g,acceleratorText,
-                                              acceleratorRect.x - accOffset, acceleratorRect.y + fm.getAscent());
-                g.setColor(b.getBackground().darker());
-                SwingUtilities2.drawString(c, g,acceleratorText,
-                                              acceleratorRect.x - accOffset - 1, acceleratorRect.y + fm.getAscent() - 1);
+            g.setFont( UIMbnbger.getFont("MenuItem.bccelerbtorFont") );
+            if(!model.isEnbbled()) {
+                // *** pbint the bccelerbtorText disbbled
+                g.setColor(b.getBbckground().brighter());
+                SwingUtilities2.drbwString(c, g,bccelerbtorText,
+                                              bccelerbtorRect.x - bccOffset, bccelerbtorRect.y + fm.getAscent());
+                g.setColor(b.getBbckground().dbrker());
+                SwingUtilities2.drbwString(c, g,bccelerbtorText,
+                                              bccelerbtorRect.x - bccOffset - 1, bccelerbtorRect.y + fm.getAscent() - 1);
             } else {
-                // *** paint the acceleratorText normally
-                if (model.isArmed()|| (c instanceof JMenu && model.isSelected()))
+                // *** pbint the bccelerbtorText normblly
+                if (model.isArmed()|| (c instbnceof JMenu && model.isSelected()))
                     {
                         g.setColor(foreground);
                     } else {
                         g.setColor(b.getForeground());
                     }
-                SwingUtilities2.drawString(c, g,acceleratorText,
-                                              acceleratorRect.x - accOffset,
-                                              acceleratorRect.y + fmAccel.getAscent());
+                SwingUtilities2.drbwString(c, g,bccelerbtorText,
+                                              bccelerbtorRect.x - bccOffset,
+                                              bccelerbtorRect.y + fmAccel.getAscent());
             }
         }
 
-        // Paint the Arrow
-        if (arrowIcon != null) {
-            if(model.isArmed() || (c instanceof JMenu && model.isSelected()))
+        // Pbint the Arrow
+        if (brrowIcon != null) {
+            if(model.isArmed() || (c instbnceof JMenu && model.isSelected()))
                 g.setColor(foreground);
-            if( !(b.getParent() instanceof JMenuBar) )
-                arrowIcon.paintIcon(c, g, arrowRect.x, arrowRect.y);
+            if( !(b.getPbrent() instbnceof JMenuBbr) )
+                brrowIcon.pbintIcon(c, g, brrowRect.x, brrowRect.y);
         }
 
         g.setColor(holdc);
@@ -330,64 +330,64 @@ public class MotifGraphicsUtils implements SwingConstants
 
 
     /**
-     * Compute and return the location of the icons origin, the
-     * location of origin of the text baseline, and a possibly clipped
-     * version of the compound labels string.  Locations are computed
-     * relative to the viewR rectangle.
+     * Compute bnd return the locbtion of the icons origin, the
+     * locbtion of origin of the text bbseline, bnd b possibly clipped
+     * version of the compound lbbels string.  Locbtions bre computed
+     * relbtive to the viewR rectbngle.
      */
 
-    private static String layoutMenuItem(
+    privbte stbtic String lbyoutMenuItem(
         JComponent c,
         FontMetrics fm,
         String text,
         FontMetrics fmAccel,
-        String acceleratorText,
+        String bccelerbtorText,
         Icon icon,
         Icon checkIcon,
-        Icon arrowIcon,
-        int verticalAlignment,
-        int horizontalAlignment,
-        int verticalTextPosition,
-        int horizontalTextPosition,
-        Rectangle viewR,
-        Rectangle iconR,
-        Rectangle textR,
-        Rectangle acceleratorR,
-        Rectangle checkIconR,
-        Rectangle arrowIconR,
-        int textIconGap,
-        int menuItemGap
+        Icon brrowIcon,
+        int verticblAlignment,
+        int horizontblAlignment,
+        int verticblTextPosition,
+        int horizontblTextPosition,
+        Rectbngle viewR,
+        Rectbngle iconR,
+        Rectbngle textR,
+        Rectbngle bccelerbtorR,
+        Rectbngle checkIconR,
+        Rectbngle brrowIconR,
+        int textIconGbp,
+        int menuItemGbp
         )
     {
 
-        SwingUtilities.layoutCompoundLabel(c,
+        SwingUtilities.lbyoutCompoundLbbel(c,
                                            fm,
                                            text,
                                            icon,
-                                           verticalAlignment,
-                                           horizontalAlignment,
-                                           verticalTextPosition,
-                                           horizontalTextPosition,
+                                           verticblAlignment,
+                                           horizontblAlignment,
+                                           verticblTextPosition,
+                                           horizontblTextPosition,
                                            viewR,
                                            iconR,
                                            textR,
-                                           textIconGap);
+                                           textIconGbp);
 
-        /* Initialize the acceelratorText bounds rectangle textR.  If a null
-         * or and empty String was specified we substitute "" here
-         * and use 0,0,0,0 for acceleratorTextR.
+        /* Initiblize the bcceelrbtorText bounds rectbngle textR.  If b null
+         * or bnd empty String wbs specified we substitute "" here
+         * bnd use 0,0,0,0 for bccelerbtorTextR.
          */
-        if( (acceleratorText == null) || acceleratorText.equals("") ) {
-            acceleratorR.width = acceleratorR.height = 0;
-            acceleratorText = "";
+        if( (bccelerbtorText == null) || bccelerbtorText.equbls("") ) {
+            bccelerbtorR.width = bccelerbtorR.height = 0;
+            bccelerbtorText = "";
         }
         else {
-            acceleratorR.width
-                = SwingUtilities2.stringWidth(c, fmAccel, acceleratorText);
-            acceleratorR.height = fmAccel.getHeight();
+            bccelerbtorR.width
+                = SwingUtilities2.stringWidth(c, fmAccel, bccelerbtorText);
+            bccelerbtorR.height = fmAccel.getHeight();
         }
 
-        /* Initialize the checkIcon bounds rectangle checkIconR.
+        /* Initiblize the checkIcon bounds rectbngle checkIconR.
          */
 
         if (checkIcon != null) {
@@ -398,79 +398,79 @@ public class MotifGraphicsUtils implements SwingConstants
             checkIconR.width = checkIconR.height = 0;
         }
 
-        /* Initialize the arrowIcon bounds rectangle arrowIconR.
+        /* Initiblize the brrowIcon bounds rectbngle brrowIconR.
          */
 
-        if (arrowIcon != null) {
-            arrowIconR.width = arrowIcon.getIconWidth();
-            arrowIconR.height = arrowIcon.getIconHeight();
+        if (brrowIcon != null) {
+            brrowIconR.width = brrowIcon.getIconWidth();
+            brrowIconR.height = brrowIcon.getIconHeight();
         }
         else {
-            arrowIconR.width = arrowIconR.height = 0;
+            brrowIconR.width = brrowIconR.height = 0;
         }
 
 
-        Rectangle labelR = iconR.union(textR);
-        if( MotifGraphicsUtils.isLeftToRight(c) ) {
-            textR.x += checkIconR.width + menuItemGap;
-            iconR.x += checkIconR.width + menuItemGap;
+        Rectbngle lbbelR = iconR.union(textR);
+        if( MotifGrbphicsUtils.isLeftToRight(c) ) {
+            textR.x += checkIconR.width + menuItemGbp;
+            iconR.x += checkIconR.width + menuItemGbp;
 
-            // Position the Accelerator text rect
-            acceleratorR.x = viewR.x + viewR.width - arrowIconR.width
-                             - menuItemGap - acceleratorR.width;
+            // Position the Accelerbtor text rect
+            bccelerbtorR.x = viewR.x + viewR.width - brrowIconR.width
+                             - menuItemGbp - bccelerbtorR.width;
 
-            // Position the Check and Arrow Icons
+            // Position the Check bnd Arrow Icons
             checkIconR.x = viewR.x;
-            arrowIconR.x = viewR.x + viewR.width - menuItemGap
-                           - arrowIconR.width;
+            brrowIconR.x = viewR.x + viewR.width - menuItemGbp
+                           - brrowIconR.width;
         } else {
-            textR.x -= (checkIconR.width + menuItemGap);
-            iconR.x -= (checkIconR.width + menuItemGap);
+            textR.x -= (checkIconR.width + menuItemGbp);
+            iconR.x -= (checkIconR.width + menuItemGbp);
 
-            // Position the Accelerator text rect
-            acceleratorR.x = viewR.x + arrowIconR.width + menuItemGap;
+            // Position the Accelerbtor text rect
+            bccelerbtorR.x = viewR.x + brrowIconR.width + menuItemGbp;
 
-            // Position the Check and Arrow Icons
+            // Position the Check bnd Arrow Icons
             checkIconR.x = viewR.x + viewR.width - checkIconR.width;
-            arrowIconR.x = viewR.x + menuItemGap;
+            brrowIconR.x = viewR.x + menuItemGbp;
         }
 
-        // Align the accelertor text and the check and arrow icons vertically
-        // with the center of the label rect.
-        acceleratorR.y = labelR.y + (labelR.height/2) - (acceleratorR.height/2);
-        arrowIconR.y = labelR.y + (labelR.height/2) - (arrowIconR.height/2);
-        checkIconR.y = labelR.y + (labelR.height/2) - (checkIconR.height/2);
+        // Align the bccelertor text bnd the check bnd brrow icons verticblly
+        // with the center of the lbbel rect.
+        bccelerbtorR.y = lbbelR.y + (lbbelR.height/2) - (bccelerbtorR.height/2);
+        brrowIconR.y = lbbelR.y + (lbbelR.height/2) - (brrowIconR.height/2);
+        checkIconR.y = lbbelR.y + (lbbelR.height/2) - (checkIconR.height/2);
 
         /*
-          System.out.println("Layout: v=" +viewR+"  c="+checkIconR+" i="+
-          iconR+" t="+textR+" acc="+acceleratorR+" a="+arrowIconR);
+          System.out.println("Lbyout: v=" +viewR+"  c="+checkIconR+" i="+
+          iconR+" t="+textR+" bcc="+bccelerbtorR+" b="+brrowIconR);
           */
         return text;
     }
 
-  private static void drawMenuBezel(Graphics g, Color background,
+  privbte stbtic void drbwMenuBezel(Grbphics g, Color bbckground,
                                     int x, int y,
                                     int width, int height)
     {
-      // shadowed button region
-      g.setColor(background);
+      // shbdowed button region
+      g.setColor(bbckground);
       g.fillRect(x,y,width,height);
 
-      g.setColor(background.brighter().brighter());
-      g.drawLine(x+1,       y+height-1,  x+width-1, y+height-1);
-      g.drawLine(x+width-1, y+height-2,  x+width-1, y+1);
+      g.setColor(bbckground.brighter().brighter());
+      g.drbwLine(x+1,       y+height-1,  x+width-1, y+height-1);
+      g.drbwLine(x+width-1, y+height-2,  x+width-1, y+1);
 
-      g.setColor(background.darker().darker());
-      g.drawLine(x,   y,   x+width-2, y);
-      g.drawLine(x,   y+1, x,         y+height-2);
+      g.setColor(bbckground.dbrker().dbrker());
+      g.drbwLine(x,   y,   x+width-2, y);
+      g.drbwLine(x,   y+1, x,         y+height-2);
 
     }
 
     /*
-     * Convenience function for determining ComponentOrientation.  Helps us
-     * avoid having Munge directives throughout the code.
+     * Convenience function for determining ComponentOrientbtion.  Helps us
+     * bvoid hbving Munge directives throughout the code.
      */
-    static boolean isLeftToRight( Component c ) {
-        return c.getComponentOrientation().isLeftToRight();
+    stbtic boolebn isLeftToRight( Component c ) {
+        return c.getComponentOrientbtion().isLeftToRight();
     }
 }

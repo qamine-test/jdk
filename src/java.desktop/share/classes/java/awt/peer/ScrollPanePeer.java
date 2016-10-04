@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1996, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt.peer;
+pbckbge jbvb.bwt.peer;
 
-import java.awt.Adjustable;
-import java.awt.ScrollPane;
-import java.awt.ScrollPaneAdjustable;
+import jbvb.bwt.Adjustbble;
+import jbvb.bwt.ScrollPbne;
+import jbvb.bwt.ScrollPbneAdjustbble;
 
 /**
- * The peer interface for {@link ScrollPane}.
+ * The peer interfbce for {@link ScrollPbne}.
  *
- * The peer interfaces are intended only for use in porting
- * the AWT. They are not intended for use by application
- * developers, and developers should not implement peers
- * nor invoke any of the peer methods directly on the peer
- * instances.
+ * The peer interfbces bre intended only for use in porting
+ * the AWT. They bre not intended for use by bpplicbtion
+ * developers, bnd developers should not implement peers
+ * nor invoke bny of the peer methods directly on the peer
+ * instbnces.
  */
-public interface ScrollPanePeer extends ContainerPeer {
+public interfbce ScrollPbnePeer extends ContbinerPeer {
 
     /**
-     * Returns the height of the horizontal scroll bar.
+     * Returns the height of the horizontbl scroll bbr.
      *
-     * @return the height of the horizontal scroll bar
+     * @return the height of the horizontbl scroll bbr
      *
-     * @see ScrollPane#getHScrollbarHeight()
+     * @see ScrollPbne#getHScrollbbrHeight()
      */
-    int getHScrollbarHeight();
+    int getHScrollbbrHeight();
 
     /**
-     * Returns the width of the vertical scroll bar.
+     * Returns the width of the verticbl scroll bbr.
      *
-     * @return the width of the vertical scroll bar
+     * @return the width of the verticbl scroll bbr
      *
-     * @see ScrollPane#getVScrollbarWidth()
+     * @see ScrollPbne#getVScrollbbrWidth()
      */
-    int getVScrollbarWidth();
+    int getVScrollbbrWidth();
 
     /**
      * Sets the scroll position of the child.
      *
-     * @param x the X coordinate of the scroll position
-     * @param y the Y coordinate of the scroll position
+     * @pbrbm x the X coordinbte of the scroll position
+     * @pbrbm y the Y coordinbte of the scroll position
      *
-     * @see ScrollPane#setScrollPosition(int, int)
+     * @see ScrollPbne#setScrollPosition(int, int)
      */
     void setScrollPosition(int x, int y);
 
     /**
-     * Called when the child component changes its size.
+     * Cblled when the child component chbnges its size.
      *
-     * @param w the new width of the child component
-     * @param h the new height of the child component
+     * @pbrbm w the new width of the child component
+     * @pbrbm h the new height of the child component
      *
-     * @see ScrollPane#layout()
+     * @see ScrollPbne#lbyout()
      */
     void childResized(int w, int h);
 
     /**
-     * Sets the unit increment of one of the scroll pane's adjustables.
+     * Sets the unit increment of one of the scroll pbne's bdjustbbles.
      *
-     * @param adj the scroll pane adjustable object
-     * @param u the unit increment
+     * @pbrbm bdj the scroll pbne bdjustbble object
+     * @pbrbm u the unit increment
      *
-     * @see ScrollPaneAdjustable#setUnitIncrement(int)
+     * @see ScrollPbneAdjustbble#setUnitIncrement(int)
      */
-    void setUnitIncrement(Adjustable adj, int u);
+    void setUnitIncrement(Adjustbble bdj, int u);
 
     /**
-     * Sets the value for one of the scroll pane's adjustables.
+     * Sets the vblue for one of the scroll pbne's bdjustbbles.
      *
-     * @param adj the scroll pane adjustable object
-     * @param v the value to set
+     * @pbrbm bdj the scroll pbne bdjustbble object
+     * @pbrbm v the vblue to set
      */
-    void setValue(Adjustable adj, int v);
+    void setVblue(Adjustbble bdj, int v);
 }

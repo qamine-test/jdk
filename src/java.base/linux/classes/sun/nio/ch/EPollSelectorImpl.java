@@ -1,41 +1,41 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.IOException;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.chbnnels.spi.*;
+import jbvb.util.*;
 import sun.misc.*;
 
 /**
- * An implementation of Selector for Linux 2.6+ kernels that uses
- * the epoll event notification facility.
+ * An implementbtion of Selector for Linux 2.6+ kernels thbt uses
+ * the epoll event notificbtion fbcility.
  */
-class EPollSelectorImpl
+clbss EPollSelectorImpl
     extends SelectorImpl
 {
 
@@ -44,30 +44,30 @@ class EPollSelectorImpl
     protected int fd1;
 
     // The poll object
-    EPollArrayWrapper pollWrapper;
+    EPollArrbyWrbpper pollWrbpper;
 
-    // Maps from file descriptors to keys
-    private Map<Integer,SelectionKeyImpl> fdToKey;
+    // Mbps from file descriptors to keys
+    privbte Mbp<Integer,SelectionKeyImpl> fdToKey;
 
-    // True if this Selector has been closed
-    private volatile boolean closed = false;
+    // True if this Selector hbs been closed
+    privbte volbtile boolebn closed = fblse;
 
-    // Lock for interrupt triggering and clearing
-    private final Object interruptLock = new Object();
-    private boolean interruptTriggered = false;
+    // Lock for interrupt triggering bnd clebring
+    privbte finbl Object interruptLock = new Object();
+    privbte boolebn interruptTriggered = fblse;
 
     /**
-     * Package private constructor called by factory method in
-     * the abstract superclass Selector.
+     * Pbckbge privbte constructor cblled by fbctory method in
+     * the bbstrbct superclbss Selector.
      */
     EPollSelectorImpl(SelectorProvider sp) throws IOException {
         super(sp);
-        long pipeFds = IOUtil.makePipe(false);
+        long pipeFds = IOUtil.mbkePipe(fblse);
         fd0 = (int) (pipeFds >>> 32);
         fd1 = (int) pipeFds;
-        pollWrapper = new EPollArrayWrapper();
-        pollWrapper.initInterrupt(fd0, fd1);
-        fdToKey = new HashMap<>();
+        pollWrbpper = new EPollArrbyWrbpper();
+        pollWrbpper.initInterrupt(fd0, fd1);
+        fdToKey = new HbshMbp<>();
     }
 
     protected int doSelect(long timeout) throws IOException {
@@ -76,51 +76,51 @@ class EPollSelectorImpl
         processDeregisterQueue();
         try {
             begin();
-            pollWrapper.poll(timeout);
-        } finally {
+            pollWrbpper.poll(timeout);
+        } finblly {
             end();
         }
         processDeregisterQueue();
-        int numKeysUpdated = updateSelectedKeys();
-        if (pollWrapper.interrupted()) {
-            // Clear the wakeup pipe
-            pollWrapper.putEventOps(pollWrapper.interruptedIndex(), 0);
+        int numKeysUpdbted = updbteSelectedKeys();
+        if (pollWrbpper.interrupted()) {
+            // Clebr the wbkeup pipe
+            pollWrbpper.putEventOps(pollWrbpper.interruptedIndex(), 0);
             synchronized (interruptLock) {
-                pollWrapper.clearInterrupted();
-                IOUtil.drain(fd0);
-                interruptTriggered = false;
+                pollWrbpper.clebrInterrupted();
+                IOUtil.drbin(fd0);
+                interruptTriggered = fblse;
             }
         }
-        return numKeysUpdated;
+        return numKeysUpdbted;
     }
 
     /**
-     * Update the keys whose fd's have been selected by the epoll.
-     * Add the ready keys to the ready queue.
+     * Updbte the keys whose fd's hbve been selected by the epoll.
+     * Add the rebdy keys to the rebdy queue.
      */
-    private int updateSelectedKeys() {
-        int entries = pollWrapper.updated;
-        int numKeysUpdated = 0;
+    privbte int updbteSelectedKeys() {
+        int entries = pollWrbpper.updbted;
+        int numKeysUpdbted = 0;
         for (int i=0; i<entries; i++) {
-            int nextFD = pollWrapper.getDescriptor(i);
-            SelectionKeyImpl ski = fdToKey.get(Integer.valueOf(nextFD));
-            // ski is null in the case of an interrupt
+            int nextFD = pollWrbpper.getDescriptor(i);
+            SelectionKeyImpl ski = fdToKey.get(Integer.vblueOf(nextFD));
+            // ski is null in the cbse of bn interrupt
             if (ski != null) {
-                int rOps = pollWrapper.getEventOps(i);
-                if (selectedKeys.contains(ski)) {
-                    if (ski.channel.translateAndSetReadyOps(rOps, ski)) {
-                        numKeysUpdated++;
+                int rOps = pollWrbpper.getEventOps(i);
+                if (selectedKeys.contbins(ski)) {
+                    if (ski.chbnnel.trbnslbteAndSetRebdyOps(rOps, ski)) {
+                        numKeysUpdbted++;
                     }
                 } else {
-                    ski.channel.translateAndSetReadyOps(rOps, ski);
-                    if ((ski.nioReadyOps() & ski.nioInterestOps()) != 0) {
-                        selectedKeys.add(ski);
-                        numKeysUpdated++;
+                    ski.chbnnel.trbnslbteAndSetRebdyOps(rOps, ski);
+                    if ((ski.nioRebdyOps() & ski.nioInterestOps()) != 0) {
+                        selectedKeys.bdd(ski);
+                        numKeysUpdbted++;
                     }
                 }
             }
         }
-        return numKeysUpdated;
+        return numKeysUpdbted;
     }
 
     protected void implClose() throws IOException {
@@ -128,24 +128,24 @@ class EPollSelectorImpl
             return;
         closed = true;
 
-        // prevent further wakeup
+        // prevent further wbkeup
         synchronized (interruptLock) {
             interruptTriggered = true;
         }
 
-        FileDispatcherImpl.closeIntFD(fd0);
-        FileDispatcherImpl.closeIntFD(fd1);
+        FileDispbtcherImpl.closeIntFD(fd0);
+        FileDispbtcherImpl.closeIntFD(fd1);
 
-        pollWrapper.closeEPollFD();
+        pollWrbpper.closeEPollFD();
         // it is possible
         selectedKeys = null;
 
-        // Deregister channels
-        Iterator<SelectionKey> i = keys.iterator();
-        while (i.hasNext()) {
+        // Deregister chbnnels
+        Iterbtor<SelectionKey> i = keys.iterbtor();
+        while (i.hbsNext()) {
             SelectionKeyImpl ski = (SelectionKeyImpl)i.next();
             deregister(ski);
-            SelectableChannel selch = ski.channel();
+            SelectbbleChbnnel selch = ski.chbnnel();
             if (!selch.isOpen() && !selch.isRegistered())
                 ((SelChImpl)selch).kill();
             i.remove();
@@ -158,24 +158,24 @@ class EPollSelectorImpl
     protected void implRegister(SelectionKeyImpl ski) {
         if (closed)
             throw new ClosedSelectorException();
-        SelChImpl ch = ski.channel;
-        int fd = Integer.valueOf(ch.getFDVal());
+        SelChImpl ch = ski.chbnnel;
+        int fd = Integer.vblueOf(ch.getFDVbl());
         fdToKey.put(fd, ski);
-        pollWrapper.add(fd);
-        keys.add(ski);
+        pollWrbpper.bdd(fd);
+        keys.bdd(ski);
     }
 
     protected void implDereg(SelectionKeyImpl ski) throws IOException {
-        assert (ski.getIndex() >= 0);
-        SelChImpl ch = ski.channel;
-        int fd = ch.getFDVal();
-        fdToKey.remove(Integer.valueOf(fd));
-        pollWrapper.remove(fd);
+        bssert (ski.getIndex() >= 0);
+        SelChImpl ch = ski.chbnnel;
+        int fd = ch.getFDVbl();
+        fdToKey.remove(Integer.vblueOf(fd));
+        pollWrbpper.remove(fd);
         ski.setIndex(-1);
         keys.remove(ski);
         selectedKeys.remove(ski);
-        deregister((AbstractSelectionKey)ski);
-        SelectableChannel selch = ski.channel();
+        deregister((AbstrbctSelectionKey)ski);
+        SelectbbleChbnnel selch = ski.chbnnel();
         if (!selch.isOpen() && !selch.isRegistered())
             ((SelChImpl)selch).kill();
     }
@@ -183,14 +183,14 @@ class EPollSelectorImpl
     public void putEventOps(SelectionKeyImpl ski, int ops) {
         if (closed)
             throw new ClosedSelectorException();
-        SelChImpl ch = ski.channel;
-        pollWrapper.setInterest(ch.getFDVal(), ops);
+        SelChImpl ch = ski.chbnnel;
+        pollWrbpper.setInterest(ch.getFDVbl(), ops);
     }
 
-    public Selector wakeup() {
+    public Selector wbkeup() {
         synchronized (interruptLock) {
             if (!interruptTriggered) {
-                pollWrapper.interrupt();
+                pollWrbpper.interrupt();
                 interruptTriggered = true;
             }
         }

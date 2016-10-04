@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.remote;
+pbckbge jbvbx.mbnbgement.remote;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
 
 /**
- * <p>Result of a query for buffered notifications.  Notifications in
- * a notification buffer have positive, monotonically increasing
- * sequence numbers.  The result of a notification query contains the
+ * <p>Result of b query for buffered notificbtions.  Notificbtions in
+ * b notificbtion buffer hbve positive, monotonicblly increbsing
+ * sequence numbers.  The result of b notificbtion query contbins the
  * following elements:</p>
  *
  * <ul>
  *
- * <li>The sequence number of the earliest notification still in
+ * <li>The sequence number of the ebrliest notificbtion still in
  * the buffer.
  *
- * <li>The sequence number of the next notification available for
- * querying.  This will be the starting sequence number for the next
- * notification query.
+ * <li>The sequence number of the next notificbtion bvbilbble for
+ * querying.  This will be the stbrting sequence number for the next
+ * notificbtion query.
  *
- * <li>An array of (Notification,listenerID) pairs corresponding to
- * the returned notifications and the listeners they correspond to.
+ * <li>An brrby of (Notificbtion,listenerID) pbirs corresponding to
+ * the returned notificbtions bnd the listeners they correspond to.
  *
  * </ul>
  *
  * <p>It is possible for the <code>nextSequenceNumber</code> to be less
- * than the <code>earliestSequenceNumber</code>.  This signifies that
- * notifications between the two might have been lost.</p>
+ * thbn the <code>ebrliestSequenceNumber</code>.  This signifies thbt
+ * notificbtions between the two might hbve been lost.</p>
  *
  * @since 1.5
  */
-public class NotificationResult implements Serializable {
+public clbss NotificbtionResult implements Seriblizbble {
 
-    private static final long serialVersionUID = 1191800228721395279L;
+    privbte stbtic finbl long seriblVersionUID = 1191800228721395279L;
 
     /**
-     * <p>Constructs a notification query result.</p>
+     * <p>Constructs b notificbtion query result.</p>
      *
-     * @param earliestSequenceNumber the sequence number of the
-     * earliest notification still in the buffer.
-     * @param nextSequenceNumber the sequence number of the next
-     * notification available for querying.
-     * @param targetedNotifications the notifications resulting from
-     * the query, and the listeners they correspond to.  This array
-     * can be empty.
+     * @pbrbm ebrliestSequenceNumber the sequence number of the
+     * ebrliest notificbtion still in the buffer.
+     * @pbrbm nextSequenceNumber the sequence number of the next
+     * notificbtion bvbilbble for querying.
+     * @pbrbm tbrgetedNotificbtions the notificbtions resulting from
+     * the query, bnd the listeners they correspond to.  This brrby
+     * cbn be empty.
      *
-     * @exception IllegalArgumentException if
-     * <code>targetedNotifications</code> is null or if
-     * <code>earliestSequenceNumber</code> or
-     * <code>nextSequenceNumber</code> is negative.
+     * @exception IllegblArgumentException if
+     * <code>tbrgetedNotificbtions</code> is null or if
+     * <code>ebrliestSequenceNumber</code> or
+     * <code>nextSequenceNumber</code> is negbtive.
      */
-    public NotificationResult(long earliestSequenceNumber,
+    public NotificbtionResult(long ebrliestSequenceNumber,
                               long nextSequenceNumber,
-                              TargetedNotification[] targetedNotifications) {
-        validate(targetedNotifications, earliestSequenceNumber, nextSequenceNumber);
-        this.earliestSequenceNumber = earliestSequenceNumber;
+                              TbrgetedNotificbtion[] tbrgetedNotificbtions) {
+        vblidbte(tbrgetedNotificbtions, ebrliestSequenceNumber, nextSequenceNumber);
+        this.ebrliestSequenceNumber = ebrliestSequenceNumber;
         this.nextSequenceNumber = nextSequenceNumber;
-        this.targetedNotifications = (targetedNotifications.length == 0 ? targetedNotifications : targetedNotifications.clone());
+        this.tbrgetedNotificbtions = (tbrgetedNotificbtions.length == 0 ? tbrgetedNotificbtions : tbrgetedNotificbtions.clone());
     }
 
     /**
-     * Returns the sequence number of the earliest notification still
+     * Returns the sequence number of the ebrliest notificbtion still
      * in the buffer.
      *
-     * @return the sequence number of the earliest notification still
+     * @return the sequence number of the ebrliest notificbtion still
      * in the buffer.
      */
-    public long getEarliestSequenceNumber() {
-        return earliestSequenceNumber;
+    public long getEbrliestSequenceNumber() {
+        return ebrliestSequenceNumber;
     }
 
     /**
-     * Returns the sequence number of the next notification available
+     * Returns the sequence number of the next notificbtion bvbilbble
      * for querying.
      *
-     * @return the sequence number of the next notification available
+     * @return the sequence number of the next notificbtion bvbilbble
      * for querying.
      */
     public long getNextSequenceNumber() {
@@ -108,63 +108,63 @@ public class NotificationResult implements Serializable {
     }
 
     /**
-     * Returns the notifications resulting from the query, and the
+     * Returns the notificbtions resulting from the query, bnd the
      * listeners they correspond to.
      *
-     * @return the notifications resulting from the query, and the
-     * listeners they correspond to.  This array can be empty.
+     * @return the notificbtions resulting from the query, bnd the
+     * listeners they correspond to.  This brrby cbn be empty.
      */
-    public TargetedNotification[] getTargetedNotifications() {
-        return targetedNotifications.length == 0 ? targetedNotifications : targetedNotifications.clone();
+    public TbrgetedNotificbtion[] getTbrgetedNotificbtions() {
+        return tbrgetedNotificbtions.length == 0 ? tbrgetedNotificbtions : tbrgetedNotificbtions.clone();
     }
 
     /**
-     * Returns a string representation of the object.  The result
-     * should be a concise but informative representation that is easy
-     * for a person to read.
+     * Returns b string representbtion of the object.  The result
+     * should be b concise but informbtive representbtion thbt is ebsy
+     * for b person to rebd.
      *
-     * @return a string representation of the object.
+     * @return b string representbtion of the object.
      */
     public String toString() {
-        return "NotificationResult: earliest=" + getEarliestSequenceNumber() +
+        return "NotificbtionResult: ebrliest=" + getEbrliestSequenceNumber() +
             "; next=" + getNextSequenceNumber() + "; nnotifs=" +
-            getTargetedNotifications().length;
+            getTbrgetedNotificbtions().length;
     }
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+        ois.defbultRebdObject();
         try {
-            validate(
-                this.targetedNotifications,
-                this.earliestSequenceNumber,
+            vblidbte(
+                this.tbrgetedNotificbtions,
+                this.ebrliestSequenceNumber,
                 this.nextSequenceNumber
             );
 
-            this.targetedNotifications = this.targetedNotifications.length == 0 ?
-                                            this.targetedNotifications :
-                                            this.targetedNotifications.clone();
-        } catch (IllegalArgumentException e) {
-            throw new InvalidObjectException(e.getMessage());
+            this.tbrgetedNotificbtions = this.tbrgetedNotificbtions.length == 0 ?
+                                            this.tbrgetedNotificbtions :
+                                            this.tbrgetedNotificbtions.clone();
+        } cbtch (IllegblArgumentException e) {
+            throw new InvblidObjectException(e.getMessbge());
         }
     }
 
-    private long earliestSequenceNumber;
-    private long nextSequenceNumber;
-    private TargetedNotification[] targetedNotifications;
+    privbte long ebrliestSequenceNumber;
+    privbte long nextSequenceNumber;
+    privbte TbrgetedNotificbtion[] tbrgetedNotificbtions;
 
-    private static void validate(TargetedNotification[] targetedNotifications,
-                                 long earliestSequenceNumber,
+    privbte stbtic void vblidbte(TbrgetedNotificbtion[] tbrgetedNotificbtions,
+                                 long ebrliestSequenceNumber,
                                  long nextSequenceNumber)
-        throws IllegalArgumentException {
-        if (targetedNotifications == null) {
-            final String msg = "Notifications null";
-            throw new IllegalArgumentException(msg);
+        throws IllegblArgumentException {
+        if (tbrgetedNotificbtions == null) {
+            finbl String msg = "Notificbtions null";
+            throw new IllegblArgumentException(msg);
         }
 
-        if (earliestSequenceNumber < 0 || nextSequenceNumber < 0)
-            throw new IllegalArgumentException("Bad sequence numbers");
-        /* We used to check nextSequenceNumber >= earliestSequenceNumber
-           here.  But in fact the opposite can legitimately be true if
-           notifications have been lost.  */
+        if (ebrliestSequenceNumber < 0 || nextSequenceNumber < 0)
+            throw new IllegblArgumentException("Bbd sequence numbers");
+        /* We used to check nextSequenceNumber >= ebrliestSequenceNumber
+           here.  But in fbct the opposite cbn legitimbtely be true if
+           notificbtions hbve been lost.  */
     }
 }

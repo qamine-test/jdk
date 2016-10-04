@@ -1,449 +1,449 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.Font;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Locale;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
-import java.util.Vector;
+import jbvb.bwt.Font;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Locble;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Properties;
+import jbvb.util.Set;
+import jbvb.util.Vector;
 import sun.font.CompositeFontDescriptor;
-import sun.font.SunFontManager;
-import sun.font.FontManagerFactory;
+import sun.font.SunFontMbnbger;
+import sun.font.FontMbnbgerFbctory;
 import sun.font.FontUtilities;
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * Provides the definitions of the five logical fonts: Serif, SansSerif,
- * Monospaced, Dialog, and DialogInput. The necessary information
- * is obtained from fontconfig files.
+ * Provides the definitions of the five logicbl fonts: Serif, SbnsSerif,
+ * Monospbced, Diblog, bnd DiblogInput. The necessbry informbtion
+ * is obtbined from fontconfig files.
  */
-public abstract class FontConfiguration {
+public bbstrbct clbss FontConfigurbtion {
 
-    //static global runtime env
-    protected static String osVersion;
-    protected static String osName;
-    protected static String encoding; // canonical name of default nio charset
-    protected static Locale startupLocale = null;
-    protected static Hashtable<String, String> localeMap = null;
-    private static FontConfiguration fontConfig;
-    private static PlatformLogger logger;
-    protected static boolean isProperties = true;
+    //stbtic globbl runtime env
+    protected stbtic String osVersion;
+    protected stbtic String osNbme;
+    protected stbtic String encoding; // cbnonicbl nbme of defbult nio chbrset
+    protected stbtic Locble stbrtupLocble = null;
+    protected stbtic Hbshtbble<String, String> locbleMbp = null;
+    privbte stbtic FontConfigurbtion fontConfig;
+    privbte stbtic PlbtformLogger logger;
+    protected stbtic boolebn isProperties = true;
 
-    protected SunFontManager fontManager;
-    protected boolean preferLocaleFonts;
-    protected boolean preferPropFonts;
+    protected SunFontMbnbger fontMbnbger;
+    protected boolebn preferLocbleFonts;
+    protected boolebn preferPropFonts;
 
-    private File fontConfigFile;
-    private boolean foundOsSpecificFile;
-    private boolean inited;
-    private String javaLib;
+    privbte File fontConfigFile;
+    privbte boolebn foundOsSpecificFile;
+    privbte boolebn inited;
+    privbte String jbvbLib;
 
-    /* A default FontConfiguration must be created before an alternate
-     * one to ensure proper static initialisation takes place.
+    /* A defbult FontConfigurbtion must be crebted before bn blternbte
+     * one to ensure proper stbtic initiblisbtion tbkes plbce.
      */
-    public FontConfiguration(SunFontManager fm) {
+    public FontConfigurbtion(SunFontMbnbger fm) {
         if (FontUtilities.debugFonts()) {
             FontUtilities.getLogger()
-                .info("Creating standard Font Configuration");
+                .info("Crebting stbndbrd Font Configurbtion");
         }
         if (FontUtilities.debugFonts() && logger == null) {
-            logger = PlatformLogger.getLogger("sun.awt.FontConfiguration");
+            logger = PlbtformLogger.getLogger("sun.bwt.FontConfigurbtion");
         }
-        fontManager = fm;
-        setOsNameAndVersion();  /* static initialization */
-        setEncoding();          /* static initialization */
-        /* Separating out the file location from the rest of the
-         * initialisation, so the caller has the option of doing
-         * something else if a suitable file isn't found.
+        fontMbnbger = fm;
+        setOsNbmeAndVersion();  /* stbtic initiblizbtion */
+        setEncoding();          /* stbtic initiblizbtion */
+        /* Sepbrbting out the file locbtion from the rest of the
+         * initiblisbtion, so the cbller hbs the option of doing
+         * something else if b suitbble file isn't found.
          */
         findFontConfigFile();
     }
 
-    public synchronized boolean init() {
+    public synchronized boolebn init() {
         if (!inited) {
-            this.preferLocaleFonts = false;
-            this.preferPropFonts = false;
-            setFontConfiguration();
-            readFontConfigFile(fontConfigFile);
+            this.preferLocbleFonts = fblse;
+            this.preferPropFonts = fblse;
+            setFontConfigurbtion();
+            rebdFontConfigFile(fontConfigFile);
             initFontConfig();
             inited = true;
         }
         return true;
     }
 
-    public FontConfiguration(SunFontManager fm,
-                             boolean preferLocaleFonts,
-                             boolean preferPropFonts) {
-        fontManager = fm;
+    public FontConfigurbtion(SunFontMbnbger fm,
+                             boolebn preferLocbleFonts,
+                             boolebn preferPropFonts) {
+        fontMbnbger = fm;
         if (FontUtilities.debugFonts()) {
             FontUtilities.getLogger()
-                .info("Creating alternate Font Configuration");
+                .info("Crebting blternbte Font Configurbtion");
         }
-        this.preferLocaleFonts = preferLocaleFonts;
+        this.preferLocbleFonts = preferLocbleFonts;
         this.preferPropFonts = preferPropFonts;
-        /* fontConfig should be initialised by default constructor, and
-         * its data tables can be shared, since readFontConfigFile doesn't
-         * update any other state. Also avoid a doPrivileged block.
+        /* fontConfig should be initiblised by defbult constructor, bnd
+         * its dbtb tbbles cbn be shbred, since rebdFontConfigFile doesn't
+         * updbte bny other stbte. Also bvoid b doPrivileged block.
          */
         initFontConfig();
     }
 
     /**
-     * Fills in this instance's osVersion and osName members. By
-     * default uses the system properties os.name and os.version;
-     * subclasses may override.
+     * Fills in this instbnce's osVersion bnd osNbme members. By
+     * defbult uses the system properties os.nbme bnd os.version;
+     * subclbsses mby override.
      */
-    protected void setOsNameAndVersion() {
-        osName = System.getProperty("os.name");
+    protected void setOsNbmeAndVersion() {
+        osNbme = System.getProperty("os.nbme");
         osVersion = System.getProperty("os.version");
     }
 
-    private void setEncoding() {
-        encoding = Charset.defaultCharset().name();
-        startupLocale = SunToolkit.getStartupLocale();
+    privbte void setEncoding() {
+        encoding = Chbrset.defbultChbrset().nbme();
+        stbrtupLocble = SunToolkit.getStbrtupLocble();
     }
 
     /////////////////////////////////////////////////////////////////////
-    // methods for loading the FontConfig file                         //
+    // methods for lobding the FontConfig file                         //
     /////////////////////////////////////////////////////////////////////
 
-    public boolean foundOsSpecificFile() {
+    public boolebn foundOsSpecificFile() {
         return foundOsSpecificFile;
     }
 
-    /* Smoke test to see if we can trust this configuration by testing if
-     * the first slot of a composite font maps to an installed file.
+    /* Smoke test to see if we cbn trust this configurbtion by testing if
+     * the first slot of b composite font mbps to bn instblled file.
      */
-    public boolean fontFilesArePresent() {
+    public boolebn fontFilesArePresent() {
         init();
-        short fontNameID = compFontNameIDs[0][0][0];
-        short fileNameID = getComponentFileID(fontNameID);
-        final String fileName = mapFileName(getComponentFileName(fileNameID));
-        Boolean exists = java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Boolean>() {
-                 public Boolean run() {
+        short fontNbmeID = compFontNbmeIDs[0][0][0];
+        short fileNbmeID = getComponentFileID(fontNbmeID);
+        finbl String fileNbme = mbpFileNbme(getComponentFileNbme(fileNbmeID));
+        Boolebn exists = jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Boolebn>() {
+                 public Boolebn run() {
                      try {
-                         File f = new File(fileName);
-                         return Boolean.valueOf(f.exists());
+                         File f = new File(fileNbme);
+                         return Boolebn.vblueOf(f.exists());
                      }
-                     catch (Exception e) {
-                         return Boolean.FALSE;
+                     cbtch (Exception e) {
+                         return Boolebn.FALSE;
                      }
                  }
                 });
-        return exists.booleanValue();
+        return exists.boolebnVblue();
     }
 
-    private void findFontConfigFile() {
+    privbte void findFontConfigFile() {
 
-        foundOsSpecificFile = true; // default assumption.
-        String javaHome = System.getProperty("java.home");
-        if (javaHome == null) {
-            throw new Error("java.home property not set");
+        foundOsSpecificFile = true; // defbult bssumption.
+        String jbvbHome = System.getProperty("jbvb.home");
+        if (jbvbHome == null) {
+            throw new Error("jbvb.home property not set");
         }
-        javaLib = javaHome + File.separator + "lib";
-        String userConfigFile = System.getProperty("sun.awt.fontconfig");
+        jbvbLib = jbvbHome + File.sepbrbtor + "lib";
+        String userConfigFile = System.getProperty("sun.bwt.fontconfig");
         if (userConfigFile != null) {
             fontConfigFile = new File(userConfigFile);
         } else {
-            fontConfigFile = findFontConfigFile(javaLib);
+            fontConfigFile = findFontConfigFile(jbvbLib);
         }
     }
 
-    private void readFontConfigFile(File f) {
-        /* This is invoked here as readFontConfigFile is only invoked
-         * once per VM, and always in a privileged context, thus the
-         * directory containing installed fall back fonts is accessed
+    privbte void rebdFontConfigFile(File f) {
+        /* This is invoked here bs rebdFontConfigFile is only invoked
+         * once per VM, bnd blwbys in b privileged context, thus the
+         * directory contbining instblled fbll bbck fonts is bccessed
          * from this context
          */
-        getInstalledFallbackFonts(javaLib);
+        getInstblledFbllbbckFonts(jbvbLib);
 
         if (f != null) {
             try {
-                FileInputStream in = new FileInputStream(f.getPath());
+                FileInputStrebm in = new FileInputStrebm(f.getPbth());
                 if (isProperties) {
-                    loadProperties(in);
+                    lobdProperties(in);
                 } else {
-                    loadBinary(in);
+                    lobdBinbry(in);
                 }
                 in.close();
                 if (FontUtilities.debugFonts()) {
-                    logger.config("Read logical font configuration from " + f);
+                    logger.config("Rebd logicbl font configurbtion from " + f);
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 if (FontUtilities.debugFonts()) {
-                    logger.config("Failed to read logical font configuration from " + f);
+                    logger.config("Fbiled to rebd logicbl font configurbtion from " + f);
                 }
             }
         }
         String version = getVersion();
-        if (!"1".equals(version) && FontUtilities.debugFonts()) {
+        if (!"1".equbls(version) && FontUtilities.debugFonts()) {
             logger.config("Unsupported fontconfig version: " + version);
         }
     }
 
-    protected void getInstalledFallbackFonts(String javaLib) {
-        String fallbackDirName = javaLib + File.separator +
-            "fonts" + File.separator + "fallback";
+    protected void getInstblledFbllbbckFonts(String jbvbLib) {
+        String fbllbbckDirNbme = jbvbLib + File.sepbrbtor +
+            "fonts" + File.sepbrbtor + "fbllbbck";
 
-        File fallbackDir = new File(fallbackDirName);
-        if (fallbackDir.exists() && fallbackDir.isDirectory()) {
-            String[] ttfs = fallbackDir.list(fontManager.getTrueTypeFilter());
-            String[] t1s = fallbackDir.list(fontManager.getType1Filter());
+        File fbllbbckDir = new File(fbllbbckDirNbme);
+        if (fbllbbckDir.exists() && fbllbbckDir.isDirectory()) {
+            String[] ttfs = fbllbbckDir.list(fontMbnbger.getTrueTypeFilter());
+            String[] t1s = fbllbbckDir.list(fontMbnbger.getType1Filter());
             int numTTFs = (ttfs == null) ? 0 : ttfs.length;
             int numT1s = (t1s == null) ? 0 : t1s.length;
             int len = numTTFs + numT1s;
             if (numTTFs + numT1s == 0) {
                 return;
             }
-            installedFallbackFontFiles = new String[len];
+            instblledFbllbbckFontFiles = new String[len];
             for (int i=0; i<numTTFs; i++) {
-                installedFallbackFontFiles[i] =
-                    fallbackDir + File.separator + ttfs[i];
+                instblledFbllbbckFontFiles[i] =
+                    fbllbbckDir + File.sepbrbtor + ttfs[i];
             }
             for (int i=0; i<numT1s; i++) {
-                installedFallbackFontFiles[i+numTTFs] =
-                    fallbackDir + File.separator + t1s[i];
+                instblledFbllbbckFontFiles[i+numTTFs] =
+                    fbllbbckDir + File.sepbrbtor + t1s[i];
             }
-            fontManager.registerFontsInDir(fallbackDirName);
+            fontMbnbger.registerFontsInDir(fbllbbckDirNbme);
         }
     }
 
-    private File findImpl(String fname) {
-        File f = new File(fname + ".properties");
-        if (f.canRead()) {
+    privbte File findImpl(String fnbme) {
+        File f = new File(fnbme + ".properties");
+        if (f.cbnRebd()) {
             isProperties = true;
             return f;
         }
-        f = new File(fname + ".bfc");
-        if (f.canRead()) {
-            isProperties = false;
+        f = new File(fnbme + ".bfc");
+        if (f.cbnRebd()) {
+            isProperties = fblse;
             return f;
         }
         return null;
     }
 
-    private File findFontConfigFile(String javaLib) {
-        String baseName = javaLib + File.separator + "fontconfig";
+    privbte File findFontConfigFile(String jbvbLib) {
+        String bbseNbme = jbvbLib + File.sepbrbtor + "fontconfig";
         File configFile;
-        String osMajorVersion = null;
-        if (osVersion != null && osName != null) {
-            configFile = findImpl(baseName + "." + osName + "." + osVersion);
+        String osMbjorVersion = null;
+        if (osVersion != null && osNbme != null) {
+            configFile = findImpl(bbseNbme + "." + osNbme + "." + osVersion);
             if (configFile != null) {
                 return configFile;
             }
-            int decimalPointIndex = osVersion.indexOf('.');
-            if (decimalPointIndex != -1) {
-                osMajorVersion = osVersion.substring(0, osVersion.indexOf('.'));
-                configFile = findImpl(baseName + "." + osName + "." + osMajorVersion);
+            int decimblPointIndex = osVersion.indexOf('.');
+            if (decimblPointIndex != -1) {
+                osMbjorVersion = osVersion.substring(0, osVersion.indexOf('.'));
+                configFile = findImpl(bbseNbme + "." + osNbme + "." + osMbjorVersion);
                 if (configFile != null) {
                     return configFile;
                 }
             }
         }
-        if (osName != null) {
-            configFile = findImpl(baseName + "." + osName);
+        if (osNbme != null) {
+            configFile = findImpl(bbseNbme + "." + osNbme);
             if (configFile != null) {
                 return configFile;
             }
         }
         if (osVersion != null) {
-            configFile = findImpl(baseName + "." + osVersion);
+            configFile = findImpl(bbseNbme + "." + osVersion);
             if (configFile != null) {
                 return configFile;
             }
-            if (osMajorVersion != null) {
-                configFile = findImpl(baseName + "." + osMajorVersion);
+            if (osMbjorVersion != null) {
+                configFile = findImpl(bbseNbme + "." + osMbjorVersion);
                 if (configFile != null) {
                     return configFile;
                 }
             }
         }
-        foundOsSpecificFile = false;
+        foundOsSpecificFile = fblse;
 
-        configFile = findImpl(baseName);
+        configFile = findImpl(bbseNbme);
         if (configFile != null) {
             return configFile;
         }
         return null;
     }
 
-    /* Initialize the internal data tables from binary format font
-     * configuration file.
+    /* Initiblize the internbl dbtb tbbles from binbry formbt font
+     * configurbtion file.
      */
-    public static void loadBinary(InputStream inStream) throws IOException {
-        DataInputStream in = new DataInputStream(inStream);
-        head = readShortTable(in, HEAD_LENGTH);
-        int[] tableSizes = new int[INDEX_TABLEEND];
+    public stbtic void lobdBinbry(InputStrebm inStrebm) throws IOException {
+        DbtbInputStrebm in = new DbtbInputStrebm(inStrebm);
+        hebd = rebdShortTbble(in, HEAD_LENGTH);
+        int[] tbbleSizes = new int[INDEX_TABLEEND];
         for (int i = 0; i < INDEX_TABLEEND; i++) {
-            tableSizes[i] = head[i + 1] - head[i];
+            tbbleSizes[i] = hebd[i + 1] - hebd[i];
         }
-        table_scriptIDs       = readShortTable(in, tableSizes[INDEX_scriptIDs]);
-        table_scriptFonts     = readShortTable(in, tableSizes[INDEX_scriptFonts]);
-        table_elcIDs          = readShortTable(in, tableSizes[INDEX_elcIDs]);
-        table_sequences        = readShortTable(in, tableSizes[INDEX_sequences]);
-        table_fontfileNameIDs = readShortTable(in, tableSizes[INDEX_fontfileNameIDs]);
-        table_componentFontNameIDs = readShortTable(in, tableSizes[INDEX_componentFontNameIDs]);
-        table_filenames       = readShortTable(in, tableSizes[INDEX_filenames]);
-        table_awtfontpaths    = readShortTable(in, tableSizes[INDEX_awtfontpaths]);
-        table_exclusions      = readShortTable(in, tableSizes[INDEX_exclusions]);
-        table_proportionals   = readShortTable(in, tableSizes[INDEX_proportionals]);
-        table_scriptFontsMotif   = readShortTable(in, tableSizes[INDEX_scriptFontsMotif]);
-        table_alphabeticSuffix   = readShortTable(in, tableSizes[INDEX_alphabeticSuffix]);
-        table_stringIDs       = readShortTable(in, tableSizes[INDEX_stringIDs]);
+        tbble_scriptIDs       = rebdShortTbble(in, tbbleSizes[INDEX_scriptIDs]);
+        tbble_scriptFonts     = rebdShortTbble(in, tbbleSizes[INDEX_scriptFonts]);
+        tbble_elcIDs          = rebdShortTbble(in, tbbleSizes[INDEX_elcIDs]);
+        tbble_sequences        = rebdShortTbble(in, tbbleSizes[INDEX_sequences]);
+        tbble_fontfileNbmeIDs = rebdShortTbble(in, tbbleSizes[INDEX_fontfileNbmeIDs]);
+        tbble_componentFontNbmeIDs = rebdShortTbble(in, tbbleSizes[INDEX_componentFontNbmeIDs]);
+        tbble_filenbmes       = rebdShortTbble(in, tbbleSizes[INDEX_filenbmes]);
+        tbble_bwtfontpbths    = rebdShortTbble(in, tbbleSizes[INDEX_bwtfontpbths]);
+        tbble_exclusions      = rebdShortTbble(in, tbbleSizes[INDEX_exclusions]);
+        tbble_proportionbls   = rebdShortTbble(in, tbbleSizes[INDEX_proportionbls]);
+        tbble_scriptFontsMotif   = rebdShortTbble(in, tbbleSizes[INDEX_scriptFontsMotif]);
+        tbble_blphbbeticSuffix   = rebdShortTbble(in, tbbleSizes[INDEX_blphbbeticSuffix]);
+        tbble_stringIDs       = rebdShortTbble(in, tbbleSizes[INDEX_stringIDs]);
 
-        //StringTable cache
-        stringCache = new String[table_stringIDs.length + 1];
+        //StringTbble cbche
+        stringCbche = new String[tbble_stringIDs.length + 1];
 
-        int len = tableSizes[INDEX_stringTable];
+        int len = tbbleSizes[INDEX_stringTbble];
         byte[] bb = new byte[len * 2];
-        table_stringTable = new char[len];
-        in.read(bb);
+        tbble_stringTbble = new chbr[len];
+        in.rebd(bb);
         int i = 0, j = 0;
         while (i < len) {
-           table_stringTable[i++] = (char)(bb[j++] << 8 | (bb[j++] & 0xff));
+           tbble_stringTbble[i++] = (chbr)(bb[j++] << 8 | (bb[j++] & 0xff));
         }
         if (verbose) {
             dump();
         }
     }
 
-    /* Generate a binary format font configuration from internal data
-     * tables.
+    /* Generbte b binbry formbt font configurbtion from internbl dbtb
+     * tbbles.
      */
-    public static void saveBinary(OutputStream out) throws IOException {
-        sanityCheck();
+    public stbtic void sbveBinbry(OutputStrebm out) throws IOException {
+        sbnityCheck();
 
-        DataOutputStream dataOut = new DataOutputStream(out);
-        writeShortTable(dataOut, head);
-        writeShortTable(dataOut, table_scriptIDs);
-        writeShortTable(dataOut, table_scriptFonts);
-        writeShortTable(dataOut, table_elcIDs);
-        writeShortTable(dataOut, table_sequences);
-        writeShortTable(dataOut, table_fontfileNameIDs);
-        writeShortTable(dataOut, table_componentFontNameIDs);
-        writeShortTable(dataOut, table_filenames);
-        writeShortTable(dataOut, table_awtfontpaths);
-        writeShortTable(dataOut, table_exclusions);
-        writeShortTable(dataOut, table_proportionals);
-        writeShortTable(dataOut, table_scriptFontsMotif);
-        writeShortTable(dataOut, table_alphabeticSuffix);
-        writeShortTable(dataOut, table_stringIDs);
-        //stringTable
-        dataOut.writeChars(new String(table_stringTable));
+        DbtbOutputStrebm dbtbOut = new DbtbOutputStrebm(out);
+        writeShortTbble(dbtbOut, hebd);
+        writeShortTbble(dbtbOut, tbble_scriptIDs);
+        writeShortTbble(dbtbOut, tbble_scriptFonts);
+        writeShortTbble(dbtbOut, tbble_elcIDs);
+        writeShortTbble(dbtbOut, tbble_sequences);
+        writeShortTbble(dbtbOut, tbble_fontfileNbmeIDs);
+        writeShortTbble(dbtbOut, tbble_componentFontNbmeIDs);
+        writeShortTbble(dbtbOut, tbble_filenbmes);
+        writeShortTbble(dbtbOut, tbble_bwtfontpbths);
+        writeShortTbble(dbtbOut, tbble_exclusions);
+        writeShortTbble(dbtbOut, tbble_proportionbls);
+        writeShortTbble(dbtbOut, tbble_scriptFontsMotif);
+        writeShortTbble(dbtbOut, tbble_blphbbeticSuffix);
+        writeShortTbble(dbtbOut, tbble_stringIDs);
+        //stringTbble
+        dbtbOut.writeChbrs(new String(tbble_stringTbble));
         out.close();
         if (verbose) {
             dump();
         }
     }
 
-    //private static boolean loadingProperties;
-    private static short stringIDNum;
-    private static short[] stringIDs;
-    private static StringBuilder stringTable;
+    //privbte stbtic boolebn lobdingProperties;
+    privbte stbtic short stringIDNum;
+    privbte stbtic short[] stringIDs;
+    privbte stbtic StringBuilder stringTbble;
 
-    public static void loadProperties(InputStream in) throws IOException {
-        //loadingProperties = true;
-        //StringID starts from "1", "0" is reserved for "not defined"
+    public stbtic void lobdProperties(InputStrebm in) throws IOException {
+        //lobdingProperties = true;
+        //StringID stbrts from "1", "0" is reserved for "not defined"
         stringIDNum = 1;
         stringIDs = new short[1000];
-        stringTable = new StringBuilder(4096);
+        stringTbble = new StringBuilder(4096);
 
         if (verbose && logger == null) {
-            logger = PlatformLogger.getLogger("sun.awt.FontConfiguration");
+            logger = PlbtformLogger.getLogger("sun.bwt.FontConfigurbtion");
         }
-        new PropertiesHandler().load(in);
+        new PropertiesHbndler().lobd(in);
 
-        //loadingProperties = false;
+        //lobdingProperties = fblse;
         stringIDs = null;
-        stringTable = null;
+        stringTbble = null;
     }
 
 
     /////////////////////////////////////////////////////////////////////
-    // methods for initializing the FontConfig                         //
+    // methods for initiblizing the FontConfig                         //
     /////////////////////////////////////////////////////////////////////
 
     /**
-     *  set initLocale, initEncoding and initELC for this FontConfig object
-     *  currently we just simply use the startup locale and encoding
+     *  set initLocble, initEncoding bnd initELC for this FontConfig object
+     *  currently we just simply use the stbrtup locble bnd encoding
      */
-    private void initFontConfig() {
-        initLocale = startupLocale;
+    privbte void initFontConfig() {
+        initLocble = stbrtupLocble;
         initEncoding = encoding;
-        if (preferLocaleFonts && !willReorderForStartupLocale()) {
-            preferLocaleFonts = false;
+        if (preferLocbleFonts && !willReorderForStbrtupLocble()) {
+            preferLocbleFonts = fblse;
         }
         initELC = getInitELC();
         initAllComponentFonts();
     }
 
-    //"ELC" stands for "Encoding.Language.Country". This method returns
-    //the ID of the matched elc setting of "initLocale" in elcIDs table.
-    //If no match is found, it returns the default ID, which is
-    //"NULL.NULL.NULL" in elcIDs table.
-    private short getInitELC() {
+    //"ELC" stbnds for "Encoding.Lbngubge.Country". This method returns
+    //the ID of the mbtched elc setting of "initLocble" in elcIDs tbble.
+    //If no mbtch is found, it returns the defbult ID, which is
+    //"NULL.NULL.NULL" in elcIDs tbble.
+    privbte short getInitELC() {
         if (initELC != -1) {
             return initELC;
         }
-        HashMap <String, Integer> elcIDs = new HashMap<String, Integer>();
-        for (int i = 0; i < table_elcIDs.length; i++) {
-            elcIDs.put(getString(table_elcIDs[i]), i);
+        HbshMbp <String, Integer> elcIDs = new HbshMbp<String, Integer>();
+        for (int i = 0; i < tbble_elcIDs.length; i++) {
+            elcIDs.put(getString(tbble_elcIDs[i]), i);
         }
-        String language = initLocale.getLanguage();
-        String country = initLocale.getCountry();
+        String lbngubge = initLocble.getLbngubge();
+        String country = initLocble.getCountry();
         String elc;
-        if (elcIDs.containsKey(elc=initEncoding + "." + language + "." + country)
-            || elcIDs.containsKey(elc=initEncoding + "." + language)
-            || elcIDs.containsKey(elc=initEncoding)) {
-            initELC = elcIDs.get(elc).shortValue();
+        if (elcIDs.contbinsKey(elc=initEncoding + "." + lbngubge + "." + country)
+            || elcIDs.contbinsKey(elc=initEncoding + "." + lbngubge)
+            || elcIDs.contbinsKey(elc=initEncoding)) {
+            initELC = elcIDs.get(elc).shortVblue();
         } else {
-            initELC = elcIDs.get("NULL.NULL.NULL").shortValue();
+            initELC = elcIDs.get("NULL.NULL.NULL").shortVblue();
         }
         int i = 0;
-        while (i < table_alphabeticSuffix.length) {
-            if (initELC == table_alphabeticSuffix[i]) {
-                alphabeticSuffix = getString(table_alphabeticSuffix[i + 1]);
+        while (i < tbble_blphbbeticSuffix.length) {
+            if (initELC == tbble_blphbbeticSuffix[i]) {
+                blphbbeticSuffix = getString(tbble_blphbbeticSuffix[i + 1]);
                 return initELC;
             }
             i += 2;
@@ -451,122 +451,122 @@ public abstract class FontConfiguration {
         return initELC;
     }
 
-    public static boolean verbose;
-    private short    initELC = -1;
-    private Locale   initLocale;
-    private String   initEncoding;
-    private String   alphabeticSuffix;
+    public stbtic boolebn verbose;
+    privbte short    initELC = -1;
+    privbte Locble   initLocble;
+    privbte String   initEncoding;
+    privbte String   blphbbeticSuffix;
 
-    private short[][][] compFontNameIDs = new short[NUM_FONTS][NUM_STYLES][];
-    private int[][][] compExclusions = new int[NUM_FONTS][][];
-    private int[] compCoreNum = new int[NUM_FONTS];
+    privbte short[][][] compFontNbmeIDs = new short[NUM_FONTS][NUM_STYLES][];
+    privbte int[][][] compExclusions = new int[NUM_FONTS][][];
+    privbte int[] compCoreNum = new int[NUM_FONTS];
 
-    private Set<Short> coreFontNameIDs = new HashSet<Short>();
-    private Set<Short> fallbackFontNameIDs = new HashSet<Short>();
+    privbte Set<Short> coreFontNbmeIDs = new HbshSet<Short>();
+    privbte Set<Short> fbllbbckFontNbmeIDs = new HbshSet<Short>();
 
-    private void initAllComponentFonts() {
-        short[] fallbackScripts = getFallbackScripts();
+    privbte void initAllComponentFonts() {
+        short[] fbllbbckScripts = getFbllbbckScripts();
         for (int fontIndex = 0; fontIndex < NUM_FONTS; fontIndex++) {
             short[] coreScripts = getCoreScripts(fontIndex);
             compCoreNum[fontIndex] = coreScripts.length;
             /*
-            System.out.println("coreScriptID=" + table_sequences[initELC * 5 + fontIndex]);
+            System.out.println("coreScriptID=" + tbble_sequences[initELC * 5 + fontIndex]);
             for (int i = 0; i < coreScripts.length; i++) {
-            System.out.println("  " + i + " :" + getString(table_scriptIDs[coreScripts[i]]));
+            System.out.println("  " + i + " :" + getString(tbble_scriptIDs[coreScripts[i]]));
             }
             */
-            //init exclusionRanges
+            //init exclusionRbnges
             int[][] exclusions = new int[coreScripts.length][];
             for (int i = 0; i < coreScripts.length; i++) {
-                exclusions[i] = getExclusionRanges(coreScripts[i]);
+                exclusions[i] = getExclusionRbnges(coreScripts[i]);
             }
             compExclusions[fontIndex] = exclusions;
-            //init componentFontNames
+            //init componentFontNbmes
             for (int styleIndex = 0; styleIndex < NUM_STYLES; styleIndex++) {
                 int index;
-                short[] nameIDs = new short[coreScripts.length + fallbackScripts.length];
+                short[] nbmeIDs = new short[coreScripts.length + fbllbbckScripts.length];
                 //core
                 for (index = 0; index < coreScripts.length; index++) {
-                    nameIDs[index] = getComponentFontID(coreScripts[index],
+                    nbmeIDs[index] = getComponentFontID(coreScripts[index],
                                                fontIndex, styleIndex);
-                    if (preferLocaleFonts && localeMap != null &&
-                            fontManager.usingAlternateFontforJALocales()) {
-                        nameIDs[index] = remapLocaleMap(fontIndex, styleIndex,
-                                                        coreScripts[index], nameIDs[index]);
+                    if (preferLocbleFonts && locbleMbp != null &&
+                            fontMbnbger.usingAlternbteFontforJALocbles()) {
+                        nbmeIDs[index] = rembpLocbleMbp(fontIndex, styleIndex,
+                                                        coreScripts[index], nbmeIDs[index]);
                     }
                     if (preferPropFonts) {
-                        nameIDs[index] = remapProportional(fontIndex, nameIDs[index]);
+                        nbmeIDs[index] = rembpProportionbl(fontIndex, nbmeIDs[index]);
                     }
-                    //System.out.println("nameid=" + nameIDs[index]);
-                    coreFontNameIDs.add(nameIDs[index]);
+                    //System.out.println("nbmeid=" + nbmeIDs[index]);
+                    coreFontNbmeIDs.bdd(nbmeIDs[index]);
                 }
-                //fallback
-                for (int i = 0; i < fallbackScripts.length; i++) {
-                    short id = getComponentFontID(fallbackScripts[i],
+                //fbllbbck
+                for (int i = 0; i < fbllbbckScripts.length; i++) {
+                    short id = getComponentFontID(fbllbbckScripts[i],
                                                fontIndex, styleIndex);
-                    if (preferLocaleFonts && localeMap != null &&
-                            fontManager.usingAlternateFontforJALocales()) {
-                        id = remapLocaleMap(fontIndex, styleIndex, fallbackScripts[i], id);
+                    if (preferLocbleFonts && locbleMbp != null &&
+                            fontMbnbger.usingAlternbteFontforJALocbles()) {
+                        id = rembpLocbleMbp(fontIndex, styleIndex, fbllbbckScripts[i], id);
                     }
                     if (preferPropFonts) {
-                        id = remapProportional(fontIndex, id);
+                        id = rembpProportionbl(fontIndex, id);
                     }
-                    if (contains(nameIDs, id, index)) {
+                    if (contbins(nbmeIDs, id, index)) {
                         continue;
                     }
                     /*
                       System.out.println("fontIndex=" + fontIndex + ", styleIndex=" + styleIndex
-                           + ", fbIndex=" + i + ",fbS=" + fallbackScripts[i] + ", id=" + id);
+                           + ", fbIndex=" + i + ",fbS=" + fbllbbckScripts[i] + ", id=" + id);
                     */
-                    fallbackFontNameIDs.add(id);
-                    nameIDs[index++] = id;
+                    fbllbbckFontNbmeIDs.bdd(id);
+                    nbmeIDs[index++] = id;
                 }
-                if (index < nameIDs.length) {
-                    short[] newNameIDs = new short[index];
-                    System.arraycopy(nameIDs, 0, newNameIDs, 0, index);
-                    nameIDs = newNameIDs;
+                if (index < nbmeIDs.length) {
+                    short[] newNbmeIDs = new short[index];
+                    System.brrbycopy(nbmeIDs, 0, newNbmeIDs, 0, index);
+                    nbmeIDs = newNbmeIDs;
                 }
-                compFontNameIDs[fontIndex][styleIndex] = nameIDs;
+                compFontNbmeIDs[fontIndex][styleIndex] = nbmeIDs;
             }
         }
    }
 
-   private short remapLocaleMap(int fontIndex, int styleIndex, short scriptID, short fontID) {
-        String scriptName = getString(table_scriptIDs[scriptID]);
+   privbte short rembpLocbleMbp(int fontIndex, int styleIndex, short scriptID, short fontID) {
+        String scriptNbme = getString(tbble_scriptIDs[scriptID]);
 
-        String value = localeMap.get(scriptName);
-        if (value == null) {
-            String fontName = fontNames[fontIndex];
-            String styleName = styleNames[styleIndex];
-            value = localeMap.get(fontName + "." + styleName + "." + scriptName);
+        String vblue = locbleMbp.get(scriptNbme);
+        if (vblue == null) {
+            String fontNbme = fontNbmes[fontIndex];
+            String styleNbme = styleNbmes[styleIndex];
+            vblue = locbleMbp.get(fontNbme + "." + styleNbme + "." + scriptNbme);
         }
-        if (value == null) {
+        if (vblue == null) {
             return fontID;
         }
 
-        for (int i = 0; i < table_componentFontNameIDs.length; i++) {
-            String name = getString(table_componentFontNameIDs[i]);
-            if (value.equalsIgnoreCase(name)) {
+        for (int i = 0; i < tbble_componentFontNbmeIDs.length; i++) {
+            String nbme = getString(tbble_componentFontNbmeIDs[i]);
+            if (vblue.equblsIgnoreCbse(nbme)) {
                 fontID = (short)i;
-                break;
+                brebk;
             }
         }
         return fontID;
     }
 
-    public static boolean hasMonoToPropMap() {
-        return table_proportionals != null && table_proportionals.length != 0;
+    public stbtic boolebn hbsMonoToPropMbp() {
+        return tbble_proportionbls != null && tbble_proportionbls.length != 0;
     }
 
-    private short remapProportional(int fontIndex, short id) {
+    privbte short rembpProportionbl(int fontIndex, short id) {
     if (preferPropFonts &&
-        table_proportionals.length != 0 &&
-        fontIndex != 2 &&         //"monospaced"
-        fontIndex != 4) {         //"dialoginput"
+        tbble_proportionbls.length != 0 &&
+        fontIndex != 2 &&         //"monospbced"
+        fontIndex != 4) {         //"dibloginput"
             int i = 0;
-            while (i < table_proportionals.length) {
-                if (table_proportionals[i] == id) {
-                    return table_proportionals[i + 1];
+            while (i < tbble_proportionbls.length) {
+                if (tbble_proportionbls[i] == id) {
+                    return tbble_proportionbls[i + 1];
                 }
                 i += 2;
             }
@@ -575,186 +575,186 @@ public abstract class FontConfiguration {
     }
 
     /////////////////////////////////////////////////////////////////////
-    // Methods for handling font and style names                       //
+    // Methods for hbndling font bnd style nbmes                       //
     /////////////////////////////////////////////////////////////////////
-    protected static final int NUM_FONTS = 5;
-    protected static final int NUM_STYLES = 4;
-    protected static final String[] fontNames
-            = {"serif", "sansserif", "monospaced", "dialog", "dialoginput"};
-    protected static final String[] publicFontNames
+    protected stbtic finbl int NUM_FONTS = 5;
+    protected stbtic finbl int NUM_STYLES = 4;
+    protected stbtic finbl String[] fontNbmes
+            = {"serif", "sbnsserif", "monospbced", "diblog", "dibloginput"};
+    protected stbtic finbl String[] publicFontNbmes
             = {Font.SERIF, Font.SANS_SERIF, Font.MONOSPACED, Font.DIALOG,
                Font.DIALOG_INPUT};
-    protected static final String[] styleNames
-            = {"plain", "bold", "italic", "bolditalic"};
+    protected stbtic finbl String[] styleNbmes
+            = {"plbin", "bold", "itblic", "bolditblic"};
 
     /**
-     * Checks whether the given font family name is a valid logical font name.
-     * The check is case insensitive.
+     * Checks whether the given font fbmily nbme is b vblid logicbl font nbme.
+     * The check is cbse insensitive.
      */
-    public static boolean isLogicalFontFamilyName(String fontName) {
-        return isLogicalFontFamilyNameLC(fontName.toLowerCase(Locale.ENGLISH));
+    public stbtic boolebn isLogicblFontFbmilyNbme(String fontNbme) {
+        return isLogicblFontFbmilyNbmeLC(fontNbme.toLowerCbse(Locble.ENGLISH));
     }
 
     /**
-     * Checks whether the given font family name is a valid logical font name.
-     * The check is case sensitive.
+     * Checks whether the given font fbmily nbme is b vblid logicbl font nbme.
+     * The check is cbse sensitive.
      */
-    public static boolean isLogicalFontFamilyNameLC(String fontName) {
-        for (int i = 0; i < fontNames.length; i++) {
-            if (fontName.equals(fontNames[i])) {
+    public stbtic boolebn isLogicblFontFbmilyNbmeLC(String fontNbme) {
+        for (int i = 0; i < fontNbmes.length; i++) {
+            if (fontNbme.equbls(fontNbmes[i])) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Checks whether the given style name is a valid logical font style name.
+     * Checks whether the given style nbme is b vblid logicbl font style nbme.
      */
-    private static boolean isLogicalFontStyleName(String styleName) {
-        for (int i = 0; i < styleNames.length; i++) {
-            if (styleName.equals(styleNames[i])) {
+    privbte stbtic boolebn isLogicblFontStyleNbme(String styleNbme) {
+        for (int i = 0; i < styleNbmes.length; i++) {
+            if (styleNbme.equbls(styleNbmes[i])) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Checks whether the given font face name is a valid logical font name.
-     * The check is case insensitive.
+     * Checks whether the given font fbce nbme is b vblid logicbl font nbme.
+     * The check is cbse insensitive.
      */
-    public static boolean isLogicalFontFaceName(String fontName) {
-        return isLogicalFontFaceNameLC(fontName.toLowerCase(Locale.ENGLISH));
+    public stbtic boolebn isLogicblFontFbceNbme(String fontNbme) {
+        return isLogicblFontFbceNbmeLC(fontNbme.toLowerCbse(Locble.ENGLISH));
     }
 
    /**
-    * Checks whether the given font face name is a valid logical font name.
-    * The check is case sensitive.
+    * Checks whether the given font fbce nbme is b vblid logicbl font nbme.
+    * The check is cbse sensitive.
     */
-    public static boolean isLogicalFontFaceNameLC(String fontName) {
-        int period = fontName.indexOf('.');
+    public stbtic boolebn isLogicblFontFbceNbmeLC(String fontNbme) {
+        int period = fontNbme.indexOf('.');
         if (period >= 0) {
-            String familyName = fontName.substring(0, period);
-            String styleName = fontName.substring(period + 1);
-            return isLogicalFontFamilyName(familyName) &&
-                    isLogicalFontStyleName(styleName);
+            String fbmilyNbme = fontNbme.substring(0, period);
+            String styleNbme = fontNbme.substring(period + 1);
+            return isLogicblFontFbmilyNbme(fbmilyNbme) &&
+                    isLogicblFontStyleNbme(styleNbme);
         } else {
-            return isLogicalFontFamilyName(fontName);
+            return isLogicblFontFbmilyNbme(fontNbme);
         }
     }
 
-    protected static int getFontIndex(String fontName) {
-        return getArrayIndex(fontNames, fontName);
+    protected stbtic int getFontIndex(String fontNbme) {
+        return getArrbyIndex(fontNbmes, fontNbme);
     }
 
-    protected static int getStyleIndex(String styleName) {
-        return getArrayIndex(styleNames, styleName);
+    protected stbtic int getStyleIndex(String styleNbme) {
+        return getArrbyIndex(styleNbmes, styleNbme);
     }
 
-    private static int getArrayIndex(String[] names, String name) {
-        for (int i = 0; i < names.length; i++) {
-            if (name.equals(names[i])) {
+    privbte stbtic int getArrbyIndex(String[] nbmes, String nbme) {
+        for (int i = 0; i < nbmes.length; i++) {
+            if (nbme.equbls(nbmes[i])) {
                 return i;
             }
         }
-        assert false;
+        bssert fblse;
         return 0;
     }
 
-    protected static int getStyleIndex(int style) {
+    protected stbtic int getStyleIndex(int style) {
         switch (style) {
-            case Font.PLAIN:
+            cbse Font.PLAIN:
                 return 0;
-            case Font.BOLD:
+            cbse Font.BOLD:
                 return 1;
-            case Font.ITALIC:
+            cbse Font.ITALIC:
                 return 2;
-            case Font.BOLD | Font.ITALIC:
+            cbse Font.BOLD | Font.ITALIC:
                 return 3;
-            default:
+            defbult:
                 return 0;
         }
     }
 
-    protected static String getFontName(int fontIndex) {
-        return fontNames[fontIndex];
+    protected stbtic String getFontNbme(int fontIndex) {
+        return fontNbmes[fontIndex];
     }
 
-    protected static String getStyleName(int styleIndex) {
-        return styleNames[styleIndex];
+    protected stbtic String getStyleNbme(int styleIndex) {
+        return styleNbmes[styleIndex];
     }
 
     /**
-     * Returns the font face name for the given logical font
-     * family name and style.
-     * The style argument is interpreted as in java.awt.Font.Font.
+     * Returns the font fbce nbme for the given logicbl font
+     * fbmily nbme bnd style.
+     * The style brgument is interpreted bs in jbvb.bwt.Font.Font.
      */
-    public static String getLogicalFontFaceName(String familyName, int style) {
-        assert isLogicalFontFamilyName(familyName);
-        return familyName.toLowerCase(Locale.ENGLISH) + "." + getStyleString(style);
+    public stbtic String getLogicblFontFbceNbme(String fbmilyNbme, int style) {
+        bssert isLogicblFontFbmilyNbme(fbmilyNbme);
+        return fbmilyNbme.toLowerCbse(Locble.ENGLISH) + "." + getStyleString(style);
     }
 
     /**
-     * Returns the string typically used in properties files
+     * Returns the string typicblly used in properties files
      * for the given style.
-     * The style argument is interpreted as in java.awt.Font.Font.
+     * The style brgument is interpreted bs in jbvb.bwt.Font.Font.
      */
-    public static String getStyleString(int style) {
-        return getStyleName(getStyleIndex(style));
+    public stbtic String getStyleString(int style) {
+        return getStyleNbme(getStyleIndex(style));
     }
 
     /**
-     * Returns a fallback name for the given font name. For a few known
-     * font names, matching logical font names are returned. For all
-     * other font names, defaultFallback is returned.
-     * defaultFallback differs between AWT and 2D.
+     * Returns b fbllbbck nbme for the given font nbme. For b few known
+     * font nbmes, mbtching logicbl font nbmes bre returned. For bll
+     * other font nbmes, defbultFbllbbck is returned.
+     * defbultFbllbbck differs between AWT bnd 2D.
      */
-    public abstract String getFallbackFamilyName(String fontName, String defaultFallback);
+    public bbstrbct String getFbllbbckFbmilyNbme(String fontNbme, String defbultFbllbbck);
 
     /**
-     * Returns the 1.1 equivalent for some old 1.0 font family names for
-     * which we need to maintain compatibility in some configurations.
-     * Returns null for other font names.
+     * Returns the 1.1 equivblent for some old 1.0 font fbmily nbmes for
+     * which we need to mbintbin compbtibility in some configurbtions.
+     * Returns null for other font nbmes.
      */
-    protected String getCompatibilityFamilyName(String fontName) {
-        fontName = fontName.toLowerCase(Locale.ENGLISH);
-        if (fontName.equals("timesroman")) {
+    protected String getCompbtibilityFbmilyNbme(String fontNbme) {
+        fontNbme = fontNbme.toLowerCbse(Locble.ENGLISH);
+        if (fontNbme.equbls("timesrombn")) {
             return "serif";
-        } else if (fontName.equals("helvetica")) {
-            return "sansserif";
-        } else if (fontName.equals("courier")) {
-            return "monospaced";
+        } else if (fontNbme.equbls("helveticb")) {
+            return "sbnsserif";
+        } else if (fontNbme.equbls("courier")) {
+            return "monospbced";
         }
         return null;
     }
 
-    protected static String[] installedFallbackFontFiles = null;
+    protected stbtic String[] instblledFbllbbckFontFiles = null;
 
     /**
-     * Maps a file name given in the font configuration file
-     * to a format appropriate for the platform.
+     * Mbps b file nbme given in the font configurbtion file
+     * to b formbt bppropribte for the plbtform.
      */
-    protected String mapFileName(String fileName) {
-        return fileName;
+    protected String mbpFileNbme(String fileNbme) {
+        return fileNbme;
     }
 
     //////////////////////////////////////////////////////////////////////
     //  reordering                                                      //
     //////////////////////////////////////////////////////////////////////
 
-    /* Mappings from file encoding to font config name for font supporting
-     * the corresponding language. This is filled in by initReorderMap()
+    /* Mbppings from file encoding to font config nbme for font supporting
+     * the corresponding lbngubge. This is filled in by initReorderMbp()
      */
-    protected HashMap<String, Object> reorderMap = null;
+    protected HbshMbp<String, Object> reorderMbp = null;
 
-    /* Platform-specific mappings */
-    protected abstract void initReorderMap();
+    /* Plbtform-specific mbppings */
+    protected bbstrbct void initReorderMbp();
 
-    /* Move item at index "src" to "dst", shuffling all values in
+    /* Move item bt index "src" to "dst", shuffling bll vblues in
      * between down
      */
-    private void shuffle(String[] seq, int src, int dst) {
+    privbte void shuffle(String[] seq, int src, int dst) {
         if (dst >= src) {
             return;
         }
@@ -765,51 +765,51 @@ public abstract class FontConfiguration {
         seq[dst] = tmp;
     }
 
-    /* Called to determine if there's a re-order sequence for this locale/
-     * encoding. If there's none then the caller can "bail" and avoid
-     * unnecessary work
+    /* Cblled to determine if there's b re-order sequence for this locble/
+     * encoding. If there's none then the cbller cbn "bbil" bnd bvoid
+     * unnecessbry work
      */
-    public static boolean willReorderForStartupLocale() {
+    public stbtic boolebn willReorderForStbrtupLocble() {
         return getReorderSequence() != null;
     }
 
-    private static Object getReorderSequence() {
-        if (fontConfig.reorderMap == null) {
-             fontConfig.initReorderMap();
+    privbte stbtic Object getReorderSequence() {
+        if (fontConfig.reorderMbp == null) {
+             fontConfig.initReorderMbp();
         }
-        HashMap<String, Object> reorderMap = fontConfig.reorderMap;
+        HbshMbp<String, Object> reorderMbp = fontConfig.reorderMbp;
 
-        /* Find the most specific mapping */
-        String language = startupLocale.getLanguage();
-        String country = startupLocale.getCountry();
-        Object val = reorderMap.get(encoding + "." + language + "." + country);
-        if (val == null) {
-            val = reorderMap.get(encoding + "." + language);
+        /* Find the most specific mbpping */
+        String lbngubge = stbrtupLocble.getLbngubge();
+        String country = stbrtupLocble.getCountry();
+        Object vbl = reorderMbp.get(encoding + "." + lbngubge + "." + country);
+        if (vbl == null) {
+            vbl = reorderMbp.get(encoding + "." + lbngubge);
         }
-        if (val == null) {
-            val = reorderMap.get(encoding);
+        if (vbl == null) {
+            vbl = reorderMbp.get(encoding);
         }
-        return val;
+        return vbl;
     }
 
-    /* This method reorders the sequence such that the matches for the
-     * file encoding are moved ahead of other elements.
-     * If an encoding uses more than one font, they are all moved up.
+    /* This method reorders the sequence such thbt the mbtches for the
+     * file encoding bre moved bhebd of other elements.
+     * If bn encoding uses more thbn one font, they bre bll moved up.
      */
-     private void reorderSequenceForLocale(String[] seq) {
-        Object val =  getReorderSequence();
-        if (val instanceof String) {
+     privbte void reorderSequenceForLocble(String[] seq) {
+        Object vbl =  getReorderSequence();
+        if (vbl instbnceof String) {
             for (int i=0; i< seq.length; i++) {
-                if (seq[i].equals(val)) {
+                if (seq[i].equbls(vbl)) {
                     shuffle(seq, i, 0);
                     return;
                 }
             }
-        } else if (val instanceof String[]) {
-            String[] fontLangs = (String[])val;
-            for (int l=0; l<fontLangs.length;l++) {
+        } else if (vbl instbnceof String[]) {
+            String[] fontLbngs = (String[])vbl;
+            for (int l=0; l<fontLbngs.length;l++) {
                 for (int i=0; i<seq.length;i++) {
-                    if (seq[i].equals(fontLangs[l])) {
+                    if (seq[i].equbls(fontLbngs[l])) {
                         shuffle(seq, i, l);
                     }
                 }
@@ -817,48 +817,48 @@ public abstract class FontConfiguration {
         }
     }
 
-    private static Vector<String> splitSequence(String sequence) {
-        //String.split would be more convenient, but incurs big performance penalty
-        Vector<String> parts = new Vector<>();
-        int start = 0;
+    privbte stbtic Vector<String> splitSequence(String sequence) {
+        //String.split would be more convenient, but incurs big performbnce penblty
+        Vector<String> pbrts = new Vector<>();
+        int stbrt = 0;
         int end;
-        while ((end = sequence.indexOf(',', start)) >= 0) {
-            parts.add(sequence.substring(start, end));
-            start = end + 1;
+        while ((end = sequence.indexOf(',', stbrt)) >= 0) {
+            pbrts.bdd(sequence.substring(stbrt, end));
+            stbrt = end + 1;
         }
-        if (sequence.length() > start) {
-            parts.add(sequence.substring(start, sequence.length()));
+        if (sequence.length() > stbrt) {
+            pbrts.bdd(sequence.substring(stbrt, sequence.length()));
         }
-        return parts;
+        return pbrts;
     }
 
     protected String[] split(String sequence) {
         Vector<String> v = splitSequence(sequence);
-        return v.toArray(new String[0]);
+        return v.toArrby(new String[0]);
     }
 
     ////////////////////////////////////////////////////////////////////////
-    // Methods for extracting information from the fontconfig data for AWT//
+    // Methods for extrbcting informbtion from the fontconfig dbtb for AWT//
     ////////////////////////////////////////////////////////////////////////
-    private Hashtable<String, Charset> charsetRegistry = new Hashtable<>(5);
+    privbte Hbshtbble<String, Chbrset> chbrsetRegistry = new Hbshtbble<>(5);
 
     /**
-     * Returns FontDescriptors describing the physical fonts used for the
-     * given logical font name and style. The font name is interpreted
-     * in a case insensitive way.
-     * The style argument is interpreted as in java.awt.Font.Font.
+     * Returns FontDescriptors describing the physicbl fonts used for the
+     * given logicbl font nbme bnd style. The font nbme is interpreted
+     * in b cbse insensitive wby.
+     * The style brgument is interpreted bs in jbvb.bwt.Font.Font.
      */
-    public FontDescriptor[] getFontDescriptors(String fontName, int style) {
-        assert isLogicalFontFamilyName(fontName);
-        fontName = fontName.toLowerCase(Locale.ENGLISH);
-        int fontIndex = getFontIndex(fontName);
+    public FontDescriptor[] getFontDescriptors(String fontNbme, int style) {
+        bssert isLogicblFontFbmilyNbme(fontNbme);
+        fontNbme = fontNbme.toLowerCbse(Locble.ENGLISH);
+        int fontIndex = getFontIndex(fontNbme);
         int styleIndex = getStyleIndex(style);
         return getFontDescriptors(fontIndex, styleIndex);
     }
-    private FontDescriptor[][][] fontDescriptors =
+    privbte FontDescriptor[][][] fontDescriptors =
         new FontDescriptor[NUM_FONTS][NUM_STYLES][];
 
-    private FontDescriptor[] getFontDescriptors(int fontIndex, int styleIndex) {
+    privbte FontDescriptor[] getFontDescriptors(int fontIndex, int styleIndex) {
         FontDescriptor[] descriptors = fontDescriptors[fontIndex][styleIndex];
         if (descriptors == null) {
             descriptors = buildFontDescriptors(fontIndex, styleIndex);
@@ -868,87 +868,87 @@ public abstract class FontConfiguration {
     }
 
     protected FontDescriptor[] buildFontDescriptors(int fontIndex, int styleIndex) {
-        String fontName = fontNames[fontIndex];
-        String styleName = styleNames[styleIndex];
+        String fontNbme = fontNbmes[fontIndex];
+        String styleNbme = styleNbmes[styleIndex];
 
         short[] scriptIDs = getCoreScripts(fontIndex);
-        short[] nameIDs = compFontNameIDs[fontIndex][styleIndex];
+        short[] nbmeIDs = compFontNbmeIDs[fontIndex][styleIndex];
         String[] sequence = new String[scriptIDs.length];
-        String[] names = new String[scriptIDs.length];
+        String[] nbmes = new String[scriptIDs.length];
         for (int i = 0; i < sequence.length; i++) {
-            names[i] = getComponentFontName(nameIDs[i]);
-            sequence[i] = getScriptName(scriptIDs[i]);
-            if (alphabeticSuffix != null && "alphabetic".equals(sequence[i])) {
-                sequence[i] = sequence[i] + "/" + alphabeticSuffix;
+            nbmes[i] = getComponentFontNbme(nbmeIDs[i]);
+            sequence[i] = getScriptNbme(scriptIDs[i]);
+            if (blphbbeticSuffix != null && "blphbbetic".equbls(sequence[i])) {
+                sequence[i] = sequence[i] + "/" + blphbbeticSuffix;
             }
         }
-        int[][] fontExclusionRanges = compExclusions[fontIndex];
+        int[][] fontExclusionRbnges = compExclusions[fontIndex];
 
-        FontDescriptor[] descriptors = new FontDescriptor[names.length];
+        FontDescriptor[] descriptors = new FontDescriptor[nbmes.length];
 
-        for (int i = 0; i < names.length; i++) {
-            String awtFontName;
+        for (int i = 0; i < nbmes.length; i++) {
+            String bwtFontNbme;
             String encoding;
 
-            awtFontName = makeAWTFontName(names[i], sequence[i]);
+            bwtFontNbme = mbkeAWTFontNbme(nbmes[i], sequence[i]);
 
-            // look up character encoding
-            encoding = getEncoding(names[i], sequence[i]);
+            // look up chbrbcter encoding
+            encoding = getEncoding(nbmes[i], sequence[i]);
             if (encoding == null) {
-                encoding = "default";
+                encoding = "defbult";
             }
-            CharsetEncoder enc
-                    = getFontCharsetEncoder(encoding.trim(), awtFontName);
+            ChbrsetEncoder enc
+                    = getFontChbrsetEncoder(encoding.trim(), bwtFontNbme);
 
-            // we already have the exclusion ranges
-            int[] exclusionRanges = fontExclusionRanges[i];
+            // we blrebdy hbve the exclusion rbnges
+            int[] exclusionRbnges = fontExclusionRbnges[i];
 
-            // create descriptor
-            descriptors[i] = new FontDescriptor(awtFontName, enc, exclusionRanges);
+            // crebte descriptor
+            descriptors[i] = new FontDescriptor(bwtFontNbme, enc, exclusionRbnges);
         }
         return descriptors;
     }
 
     /**
-     * Returns the AWT font name for the given platform font name and
-     * character subset.
+     * Returns the AWT font nbme for the given plbtform font nbme bnd
+     * chbrbcter subset.
      */
-    protected String makeAWTFontName(String platformFontName,
-            String characterSubsetName) {
-        return platformFontName;
+    protected String mbkeAWTFontNbme(String plbtformFontNbme,
+            String chbrbcterSubsetNbme) {
+        return plbtformFontNbme;
     }
 
     /**
-     * Returns the java.io name of the platform character encoding for the
-     * given AWT font name and character subset. May return "default"
-     * to indicate that getDefaultFontCharset should be called to obtain
-     * a charset encoder.
+     * Returns the jbvb.io nbme of the plbtform chbrbcter encoding for the
+     * given AWT font nbme bnd chbrbcter subset. Mby return "defbult"
+     * to indicbte thbt getDefbultFontChbrset should be cblled to obtbin
+     * b chbrset encoder.
      */
-    protected abstract String getEncoding(String awtFontName,
-            String characterSubsetName);
+    protected bbstrbct String getEncoding(String bwtFontNbme,
+            String chbrbcterSubsetNbme);
 
-    private CharsetEncoder getFontCharsetEncoder(final String charsetName,
-            String fontName) {
+    privbte ChbrsetEncoder getFontChbrsetEncoder(finbl String chbrsetNbme,
+            String fontNbme) {
 
-        Charset fc = null;
-        if (charsetName.equals("default")) {
-            fc = charsetRegistry.get(fontName);
+        Chbrset fc = null;
+        if (chbrsetNbme.equbls("defbult")) {
+            fc = chbrsetRegistry.get(fontNbme);
         } else {
-            fc = charsetRegistry.get(charsetName);
+            fc = chbrsetRegistry.get(chbrsetNbme);
         }
         if (fc != null) {
             return fc.newEncoder();
         }
 
-        if (!charsetName.startsWith("sun.awt.") && !charsetName.equals("default")) {
-            fc = Charset.forName(charsetName);
+        if (!chbrsetNbme.stbrtsWith("sun.bwt.") && !chbrsetNbme.equbls("defbult")) {
+            fc = Chbrset.forNbme(chbrsetNbme);
         } else {
-            Class<?> fcc = AccessController.doPrivileged(new PrivilegedAction<Class<?>>() {
-                    public Class<?> run() {
+            Clbss<?> fcc = AccessController.doPrivileged(new PrivilegedAction<Clbss<?>>() {
+                    public Clbss<?> run() {
                         try {
-                            return Class.forName(charsetName, true,
-                                                 ClassLoader.getSystemClassLoader());
-                        } catch (ClassNotFoundException e) {
+                            return Clbss.forNbme(chbrsetNbme, true,
+                                                 ClbssLobder.getSystemClbssLobder());
+                        } cbtch (ClbssNotFoundException e) {
                         }
                         return null;
                     }
@@ -956,267 +956,267 @@ public abstract class FontConfiguration {
 
             if (fcc != null) {
                 try {
-                    fc = (Charset) fcc.newInstance();
-                } catch (Exception e) {
+                    fc = (Chbrset) fcc.newInstbnce();
+                } cbtch (Exception e) {
                 }
             }
         }
         if (fc == null) {
-            fc = getDefaultFontCharset(fontName);
+            fc = getDefbultFontChbrset(fontNbme);
         }
 
-        if (charsetName.equals("default")){
-            charsetRegistry.put(fontName, fc);
+        if (chbrsetNbme.equbls("defbult")){
+            chbrsetRegistry.put(fontNbme, fc);
         } else {
-            charsetRegistry.put(charsetName, fc);
+            chbrsetRegistry.put(chbrsetNbme, fc);
         }
         return fc.newEncoder();
     }
 
-    protected abstract Charset getDefaultFontCharset(
-            String fontName);
+    protected bbstrbct Chbrset getDefbultFontChbrset(
+            String fontNbme);
 
-    /* This retrieves the platform font directories (path) calculated
-     * by setAWTFontPathSequence(String[]). The default implementation
-     * returns null, its expected that X11 platforms may return
+    /* This retrieves the plbtform font directories (pbth) cblculbted
+     * by setAWTFontPbthSequence(String[]). The defbult implementbtion
+     * returns null, its expected thbt X11 plbtforms mby return
      * non-null.
      */
-    public HashSet<String> getAWTFontPathSet() {
+    public HbshSet<String> getAWTFontPbthSet() {
         return null;
     }
 
     ////////////////////////////////////////////////////////////////////////
-    // methods for extracting information from the fontconfig data for 2D //
+    // methods for extrbcting informbtion from the fontconfig dbtb for 2D //
     ////////////////////////////////////////////////////////////////////////
 
     /**
-     * Returns an array of composite font descriptors for all logical font
-     * faces.
-     * If the font configuration file doesn't specify Lucida Sans Regular
-     * or the given fallback font as component fonts, they are added here.
+     * Returns bn brrby of composite font descriptors for bll logicbl font
+     * fbces.
+     * If the font configurbtion file doesn't specify Lucidb Sbns Regulbr
+     * or the given fbllbbck font bs component fonts, they bre bdded here.
      */
     public CompositeFontDescriptor[] get2DCompositeFontInfo() {
         CompositeFontDescriptor[] result =
                 new CompositeFontDescriptor[NUM_FONTS * NUM_STYLES];
-        String defaultFontFile = fontManager.getDefaultFontFile();
-        String defaultFontFaceName = fontManager.getDefaultFontFaceName();
+        String defbultFontFile = fontMbnbger.getDefbultFontFile();
+        String defbultFontFbceNbme = fontMbnbger.getDefbultFontFbceNbme();
 
         for (int fontIndex = 0; fontIndex < NUM_FONTS; fontIndex++) {
-            String fontName = publicFontNames[fontIndex];
+            String fontNbme = publicFontNbmes[fontIndex];
 
-            // determine exclusion ranges for font
-            // AWT uses separate exclusion range array per component font.
-            // 2D packs all range boundaries into one array.
-            // Both use separate entries for lower and upper boundary.
+            // determine exclusion rbnges for font
+            // AWT uses sepbrbte exclusion rbnge brrby per component font.
+            // 2D pbcks bll rbnge boundbries into one brrby.
+            // Both use sepbrbte entries for lower bnd upper boundbry.
             int[][] exclusions = compExclusions[fontIndex];
-            int numExclusionRanges = 0;
+            int numExclusionRbnges = 0;
             for (int i = 0; i < exclusions.length; i++) {
-                numExclusionRanges += exclusions[i].length;
+                numExclusionRbnges += exclusions[i].length;
             }
-            int[] exclusionRanges = new int[numExclusionRanges];
-            int[] exclusionRangeLimits = new int[exclusions.length];
-            int exclusionRangeIndex = 0;
-            int exclusionRangeLimitIndex = 0;
+            int[] exclusionRbnges = new int[numExclusionRbnges];
+            int[] exclusionRbngeLimits = new int[exclusions.length];
+            int exclusionRbngeIndex = 0;
+            int exclusionRbngeLimitIndex = 0;
             for (int i = 0; i < exclusions.length; i++) {
-                int[] componentRanges = exclusions[i];
-                for (int j = 0; j < componentRanges.length; ) {
-                    int value = componentRanges[j];
-                    exclusionRanges[exclusionRangeIndex++] = componentRanges[j++];
-                    exclusionRanges[exclusionRangeIndex++] = componentRanges[j++];
+                int[] componentRbnges = exclusions[i];
+                for (int j = 0; j < componentRbnges.length; ) {
+                    int vblue = componentRbnges[j];
+                    exclusionRbnges[exclusionRbngeIndex++] = componentRbnges[j++];
+                    exclusionRbnges[exclusionRbngeIndex++] = componentRbnges[j++];
                 }
-                exclusionRangeLimits[i] = exclusionRangeIndex;
+                exclusionRbngeLimits[i] = exclusionRbngeIndex;
             }
             // other info is per style
             for (int styleIndex = 0; styleIndex < NUM_STYLES; styleIndex++) {
-                int maxComponentFontCount = compFontNameIDs[fontIndex][styleIndex].length;
-                boolean sawDefaultFontFile = false;
-                // fall back fonts listed in the lib/fonts/fallback directory
-                if (installedFallbackFontFiles != null) {
-                    maxComponentFontCount += installedFallbackFontFiles.length;
+                int mbxComponentFontCount = compFontNbmeIDs[fontIndex][styleIndex].length;
+                boolebn sbwDefbultFontFile = fblse;
+                // fbll bbck fonts listed in the lib/fonts/fbllbbck directory
+                if (instblledFbllbbckFontFiles != null) {
+                    mbxComponentFontCount += instblledFbllbbckFontFiles.length;
                 }
-                String faceName = fontName + "." + styleNames[styleIndex];
+                String fbceNbme = fontNbme + "." + styleNbmes[styleIndex];
 
-                // determine face names and file names of component fonts
-                String[] componentFaceNames = new String[maxComponentFontCount];
-                String[] componentFileNames = new String[maxComponentFontCount];
+                // determine fbce nbmes bnd file nbmes of component fonts
+                String[] componentFbceNbmes = new String[mbxComponentFontCount];
+                String[] componentFileNbmes = new String[mbxComponentFontCount];
 
                 int index;
-                for (index = 0; index < compFontNameIDs[fontIndex][styleIndex].length; index++) {
-                    short fontNameID = compFontNameIDs[fontIndex][styleIndex][index];
-                    short fileNameID = getComponentFileID(fontNameID);
-                    componentFaceNames[index] = getFaceNameFromComponentFontName(getComponentFontName(fontNameID));
-                    componentFileNames[index] = mapFileName(getComponentFileName(fileNameID));
-                    if (componentFileNames[index] == null ||
-                        needToSearchForFile(componentFileNames[index])) {
-                        componentFileNames[index] = getFileNameFromComponentFontName(getComponentFontName(fontNameID));
+                for (index = 0; index < compFontNbmeIDs[fontIndex][styleIndex].length; index++) {
+                    short fontNbmeID = compFontNbmeIDs[fontIndex][styleIndex][index];
+                    short fileNbmeID = getComponentFileID(fontNbmeID);
+                    componentFbceNbmes[index] = getFbceNbmeFromComponentFontNbme(getComponentFontNbme(fontNbmeID));
+                    componentFileNbmes[index] = mbpFileNbme(getComponentFileNbme(fileNbmeID));
+                    if (componentFileNbmes[index] == null ||
+                        needToSebrchForFile(componentFileNbmes[index])) {
+                        componentFileNbmes[index] = getFileNbmeFromComponentFontNbme(getComponentFontNbme(fontNbmeID));
                     }
-                    if (!sawDefaultFontFile &&
-                        defaultFontFile.equals(componentFileNames[index])) {
-                        sawDefaultFontFile = true;
+                    if (!sbwDefbultFontFile &&
+                        defbultFontFile.equbls(componentFileNbmes[index])) {
+                        sbwDefbultFontFile = true;
                     }
                     /*
-                    System.out.println(publicFontNames[fontIndex] + "." + styleNames[styleIndex] + "."
-                        + getString(table_scriptIDs[coreScripts[index]]) + "=" + componentFileNames[index]);
+                    System.out.println(publicFontNbmes[fontIndex] + "." + styleNbmes[styleIndex] + "."
+                        + getString(tbble_scriptIDs[coreScripts[index]]) + "=" + componentFileNbmes[index]);
                     */
                 }
 
-                //"Lucida Sans Regular" is not in the list, we add it here
-                if (!sawDefaultFontFile) {
+                //"Lucidb Sbns Regulbr" is not in the list, we bdd it here
+                if (!sbwDefbultFontFile) {
                     int len = 0;
-                    if (installedFallbackFontFiles != null) {
-                        len = installedFallbackFontFiles.length;
+                    if (instblledFbllbbckFontFiles != null) {
+                        len = instblledFbllbbckFontFiles.length;
                     }
-                    if (index + len == maxComponentFontCount) {
-                        String[] newComponentFaceNames = new String[maxComponentFontCount + 1];
-                        System.arraycopy(componentFaceNames, 0, newComponentFaceNames, 0, index);
-                        componentFaceNames = newComponentFaceNames;
-                        String[] newComponentFileNames = new String[maxComponentFontCount + 1];
-                        System.arraycopy(componentFileNames, 0, newComponentFileNames, 0, index);
-                        componentFileNames = newComponentFileNames;
+                    if (index + len == mbxComponentFontCount) {
+                        String[] newComponentFbceNbmes = new String[mbxComponentFontCount + 1];
+                        System.brrbycopy(componentFbceNbmes, 0, newComponentFbceNbmes, 0, index);
+                        componentFbceNbmes = newComponentFbceNbmes;
+                        String[] newComponentFileNbmes = new String[mbxComponentFontCount + 1];
+                        System.brrbycopy(componentFileNbmes, 0, newComponentFileNbmes, 0, index);
+                        componentFileNbmes = newComponentFileNbmes;
                     }
-                    componentFaceNames[index] = defaultFontFaceName;
-                    componentFileNames[index] = defaultFontFile;
+                    componentFbceNbmes[index] = defbultFontFbceNbme;
+                    componentFileNbmes[index] = defbultFontFile;
                     index++;
                 }
 
-                if (installedFallbackFontFiles != null) {
-                    for (int ifb=0; ifb<installedFallbackFontFiles.length; ifb++) {
-                        componentFaceNames[index] = null;
-                        componentFileNames[index] = installedFallbackFontFiles[ifb];
+                if (instblledFbllbbckFontFiles != null) {
+                    for (int ifb=0; ifb<instblledFbllbbckFontFiles.length; ifb++) {
+                        componentFbceNbmes[index] = null;
+                        componentFileNbmes[index] = instblledFbllbbckFontFiles[ifb];
                         index++;
                     }
                 }
 
-                if (index < maxComponentFontCount) {
-                    String[] newComponentFaceNames = new String[index];
-                    System.arraycopy(componentFaceNames, 0, newComponentFaceNames, 0, index);
-                    componentFaceNames = newComponentFaceNames;
-                    String[] newComponentFileNames = new String[index];
-                    System.arraycopy(componentFileNames, 0, newComponentFileNames, 0, index);
-                    componentFileNames = newComponentFileNames;
+                if (index < mbxComponentFontCount) {
+                    String[] newComponentFbceNbmes = new String[index];
+                    System.brrbycopy(componentFbceNbmes, 0, newComponentFbceNbmes, 0, index);
+                    componentFbceNbmes = newComponentFbceNbmes;
+                    String[] newComponentFileNbmes = new String[index];
+                    System.brrbycopy(componentFileNbmes, 0, newComponentFileNbmes, 0, index);
+                    componentFileNbmes = newComponentFileNbmes;
                 }
-                // exclusion range limit array length must match component face name
-                // array length - native code relies on this
+                // exclusion rbnge limit brrby length must mbtch component fbce nbme
+                // brrby length - nbtive code relies on this
 
-                int[] clippedExclusionRangeLimits = exclusionRangeLimits;
-                if (index != clippedExclusionRangeLimits.length) {
-                    int len = exclusionRangeLimits.length;
-                    clippedExclusionRangeLimits = new int[index];
-                    System.arraycopy(exclusionRangeLimits, 0, clippedExclusionRangeLimits, 0, len);
-                    //padding for various fallback fonts
+                int[] clippedExclusionRbngeLimits = exclusionRbngeLimits;
+                if (index != clippedExclusionRbngeLimits.length) {
+                    int len = exclusionRbngeLimits.length;
+                    clippedExclusionRbngeLimits = new int[index];
+                    System.brrbycopy(exclusionRbngeLimits, 0, clippedExclusionRbngeLimits, 0, len);
+                    //pbdding for vbrious fbllbbck fonts
                     for (int i = len; i < index; i++) {
-                        clippedExclusionRangeLimits[i] = exclusionRanges.length;
+                        clippedExclusionRbngeLimits[i] = exclusionRbnges.length;
                     }
                 }
                 /*
-                System.out.println(faceName + ":");
-                for (int i = 0; i < componentFileNames.length; i++) {
-                    System.out.println("    " + componentFaceNames[i]
-                         + "  -> " + componentFileNames[i]);
+                System.out.println(fbceNbme + ":");
+                for (int i = 0; i < componentFileNbmes.length; i++) {
+                    System.out.println("    " + componentFbceNbmes[i]
+                         + "  -> " + componentFileNbmes[i]);
                 }
                 */
                 result[fontIndex * NUM_STYLES + styleIndex]
                         = new CompositeFontDescriptor(
-                            faceName,
+                            fbceNbme,
                             compCoreNum[fontIndex],
-                            componentFaceNames,
-                            componentFileNames,
-                            exclusionRanges,
-                            clippedExclusionRangeLimits);
+                            componentFbceNbmes,
+                            componentFileNbmes,
+                            exclusionRbnges,
+                            clippedExclusionRbngeLimits);
             }
         }
         return result;
     }
 
-    protected abstract String getFaceNameFromComponentFontName(String componentFontName);
-    protected abstract String getFileNameFromComponentFontName(String componentFontName);
+    protected bbstrbct String getFbceNbmeFromComponentFontNbme(String componentFontNbme);
+    protected bbstrbct String getFileNbmeFromComponentFontNbme(String componentFontNbme);
 
     /*
-    public class 2dFont {
-        public String platformName;
-        public String fontfileName;
+    public clbss 2dFont {
+        public String plbtformNbme;
+        public String fontfileNbme;
     }
-    private 2dFont [] componentFonts = null;
+    privbte 2dFont [] componentFonts = null;
     */
 
-    /* Used on Linux to test if a file referenced in a font configuration
-     * file exists in the location that is expected. If it does, no need
-     * to search for it. If it doesn't then unless its a fallback font,
-     * return that expensive code should be invoked to search for the font.
+    /* Used on Linux to test if b file referenced in b font configurbtion
+     * file exists in the locbtion thbt is expected. If it does, no need
+     * to sebrch for it. If it doesn't then unless its b fbllbbck font,
+     * return thbt expensive code should be invoked to sebrch for the font.
      */
-    HashMap<String, Boolean> existsMap;
-    public boolean needToSearchForFile(String fileName) {
+    HbshMbp<String, Boolebn> existsMbp;
+    public boolebn needToSebrchForFile(String fileNbme) {
         if (!FontUtilities.isLinux) {
-            return false;
-        } else if (existsMap == null) {
-           existsMap = new HashMap<String, Boolean>();
+            return fblse;
+        } else if (existsMbp == null) {
+           existsMbp = new HbshMbp<String, Boolebn>();
         }
-        Boolean exists = existsMap.get(fileName);
+        Boolebn exists = existsMbp.get(fileNbme);
         if (exists == null) {
-            /* call getNumberCoreFonts() to ensure these are initialised, and
-             * if this file isn't for a core component, ie, is a for a fallback
-             * font which very typically isn't available, then can't afford
-             * to take the start-up penalty to search for it.
+            /* cbll getNumberCoreFonts() to ensure these bre initiblised, bnd
+             * if this file isn't for b core component, ie, is b for b fbllbbck
+             * font which very typicblly isn't bvbilbble, then cbn't bfford
+             * to tbke the stbrt-up penblty to sebrch for it.
              */
             getNumberCoreFonts();
-            if (!coreFontFileNames.contains(fileName)) {
-                exists = Boolean.TRUE;
+            if (!coreFontFileNbmes.contbins(fileNbme)) {
+                exists = Boolebn.TRUE;
             } else {
-                exists = Boolean.valueOf((new File(fileName)).exists());
-                existsMap.put(fileName, exists);
+                exists = Boolebn.vblueOf((new File(fileNbme)).exists());
+                existsMbp.put(fileNbme, exists);
                 if (FontUtilities.debugFonts() &&
-                    exists == Boolean.FALSE) {
-                    logger.warning("Couldn't locate font file " + fileName);
+                    exists == Boolebn.FALSE) {
+                    logger.wbrning("Couldn't locbte font file " + fileNbme);
                 }
             }
         }
-        return exists == Boolean.FALSE;
+        return exists == Boolebn.FALSE;
     }
 
-    private int numCoreFonts = -1;
-    private String[] componentFonts = null;
-    HashMap <String, String> filenamesMap = new HashMap<String, String>();
-    HashSet <String> coreFontFileNames = new HashSet<String>();
+    privbte int numCoreFonts = -1;
+    privbte String[] componentFonts = null;
+    HbshMbp <String, String> filenbmesMbp = new HbshMbp<String, String>();
+    HbshSet <String> coreFontFileNbmes = new HbshSet<String>();
 
-    /* Return the number of core fonts. Note this isn't thread safe but
-     * a calling thread can call this and getPlatformFontNames() in either
+    /* Return the number of core fonts. Note this isn't threbd sbfe but
+     * b cblling threbd cbn cbll this bnd getPlbtformFontNbmes() in either
      * order.
      */
     public int getNumberCoreFonts() {
         if (numCoreFonts == -1) {
-            numCoreFonts = coreFontNameIDs.size();
-            Short[] emptyShortArray = new Short[0];
-            Short[] core = coreFontNameIDs.toArray(emptyShortArray);
-            Short[] fallback = fallbackFontNameIDs.toArray(emptyShortArray);
+            numCoreFonts = coreFontNbmeIDs.size();
+            Short[] emptyShortArrby = new Short[0];
+            Short[] core = coreFontNbmeIDs.toArrby(emptyShortArrby);
+            Short[] fbllbbck = fbllbbckFontNbmeIDs.toArrby(emptyShortArrby);
 
-            int numFallbackFonts = 0;
+            int numFbllbbckFonts = 0;
             int i;
-            for (i = 0; i < fallback.length; i++) {
-                if (coreFontNameIDs.contains(fallback[i])) {
-                    fallback[i] = null;
+            for (i = 0; i < fbllbbck.length; i++) {
+                if (coreFontNbmeIDs.contbins(fbllbbck[i])) {
+                    fbllbbck[i] = null;
                     continue;
                 }
-                numFallbackFonts++;
+                numFbllbbckFonts++;
             }
-            componentFonts = new String[numCoreFonts + numFallbackFonts];
-            String filename = null;
+            componentFonts = new String[numCoreFonts + numFbllbbckFonts];
+            String filenbme = null;
             for (i = 0; i < core.length; i++) {
                 short fontid = core[i];
                 short fileid = getComponentFileID(fontid);
-                componentFonts[i] = getComponentFontName(fontid);
-                String compFileName = getComponentFileName(fileid);
-                if (compFileName != null) {
-                    coreFontFileNames.add(compFileName);
+                componentFonts[i] = getComponentFontNbme(fontid);
+                String compFileNbme = getComponentFileNbme(fileid);
+                if (compFileNbme != null) {
+                    coreFontFileNbmes.bdd(compFileNbme);
                 }
-                filenamesMap.put(componentFonts[i], mapFileName(compFileName));
+                filenbmesMbp.put(componentFonts[i], mbpFileNbme(compFileNbme));
             }
-            for (int j = 0; j < fallback.length; j++) {
-                if (fallback[j] != null) {
-                    short fontid = fallback[j];
+            for (int j = 0; j < fbllbbck.length; j++) {
+                if (fbllbbck[j] != null) {
+                    short fontid = fbllbbck[j];
                     short fileid = getComponentFileID(fontid);
-                    componentFonts[i] = getComponentFontName(fontid);
-                    filenamesMap.put(componentFonts[i],
-                                     mapFileName(getComponentFileName(fileid)));
+                    componentFonts[i] = getComponentFontNbme(fontid);
+                    filenbmesMbp.put(componentFonts[i],
+                                     mbpFileNbme(getComponentFileNbme(fileid)));
                     i++;
                 }
             }
@@ -1224,11 +1224,11 @@ public abstract class FontConfiguration {
         return numCoreFonts;
     }
 
-    /* Return all platform font names used by this font configuration.
-     * The first getNumberCoreFonts() entries are guaranteed to be the
-     * core fonts - ie no fall back only fonts.
+    /* Return bll plbtform font nbmes used by this font configurbtion.
+     * The first getNumberCoreFonts() entries bre gubrbnteed to be the
+     * core fonts - ie no fbll bbck only fonts.
      */
-    public String[] getPlatformFontNames() {
+    public String[] getPlbtformFontNbmes() {
         if (numCoreFonts == -1) {
             getNumberCoreFonts();
         }
@@ -1236,179 +1236,179 @@ public abstract class FontConfiguration {
     }
 
     /**
-     * Returns a file name for the physical font represented by this platform font name,
-     * if the font configuration has such information available, or null if the
-     * information is unavailable. The file name returned is just a hint; a null return
-     * value doesn't necessarily mean that the font is unavailable, nor does a non-null
-     * return value guarantee that the file exists and contains the physical font.
-     * The file name can be an absolute or a relative path name.
+     * Returns b file nbme for the physicbl font represented by this plbtform font nbme,
+     * if the font configurbtion hbs such informbtion bvbilbble, or null if the
+     * informbtion is unbvbilbble. The file nbme returned is just b hint; b null return
+     * vblue doesn't necessbrily mebn thbt the font is unbvbilbble, nor does b non-null
+     * return vblue gubrbntee thbt the file exists bnd contbins the physicbl font.
+     * The file nbme cbn be bn bbsolute or b relbtive pbth nbme.
      */
-    public String getFileNameFromPlatformName(String platformName) {
+    public String getFileNbmeFromPlbtformNbme(String plbtformNbme) {
         // get2DCompositeFontInfo
-        //     ->  getFileNameFromComponentfontName()  (W/M)
-        //       ->   getFileNameFromPlatformName()
-        // it's a waste of time on Win32, but I have to give X11 a chance to
-        // call getFileNameFromXLFD()
-        return filenamesMap.get(platformName);
+        //     ->  getFileNbmeFromComponentfontNbme()  (W/M)
+        //       ->   getFileNbmeFromPlbtformNbme()
+        // it's b wbste of time on Win32, but I hbve to give X11 b chbnce to
+        // cbll getFileNbmeFromXLFD()
+        return filenbmesMbp.get(plbtformNbme);
     }
 
     /**
-     * Returns a configuration specific path to be appended to the font
-     * search path.
+     * Returns b configurbtion specific pbth to be bppended to the font
+     * sebrch pbth.
      */
-    public String getExtraFontPath() {
-        return getString(head[INDEX_appendedfontpath]);
+    public String getExtrbFontPbth() {
+        return getString(hebd[INDEX_bppendedfontpbth]);
     }
 
     public String getVersion() {
-        return getString(head[INDEX_version]);
+        return getString(hebd[INDEX_version]);
     }
 
-    /* subclass support */
-    protected static FontConfiguration getFontConfiguration() {
+    /* subclbss support */
+    protected stbtic FontConfigurbtion getFontConfigurbtion() {
         return fontConfig;
     }
 
-    protected void setFontConfiguration() {
-        fontConfig = this;      /* static initialization */
+    protected void setFontConfigurbtion() {
+        fontConfig = this;      /* stbtic initiblizbtion */
     }
 
     //////////////////////////////////////////////////////////////////////
-    // FontConfig data tables and the index constants in binary file    //
+    // FontConfig dbtb tbbles bnd the index constbnts in binbry file    //
     //////////////////////////////////////////////////////////////////////
-    /* The binary font configuration file begins with a short[] "head", which
-     * contains the offsets to the starts of the individual data table which
-     * immediately follow. The current implementation includes the tables shown
+    /* The binbry font configurbtion file begins with b short[] "hebd", which
+     * contbins the offsets to the stbrts of the individubl dbtb tbble which
+     * immedibtely follow. The current implementbtion includes the tbbles shown
      * below.
      *
-     * (00) table_scriptIDs    :stringIDs of all defined CharacterSubsetNames
-     * (01) table_scriptFonts  :scriptID x fontIndex x styleIndex->
-     *                          PlatformFontNameID mapping. Each scriptID might
-     *                          have 1 or 20 entries depends on if it is defined
-     *                          via a "allfonts.CharacterSubsetname" or a list of
-     *                          "LogicalFontName.StyleName.CharacterSubsetName"
-     *                          entries, positive entry means it's a "allfonts"
-     *                          entry, a negative value means this is a offset to
-     *                          a NUM_FONTS x NUM_STYLES subtable.
-     * (02) table_elcIDs       :stringIDs of all defined ELC names, string
-     *                          "NULL.NULL.NULL" is used for "default"
-     * (03) table_sequences    :elcID x logicalFont -> scriptIDs table defined
-     *                          by "sequence.allfonts/LogicalFontName.ELC" in
-     *                          font configuration file, each "elcID" has
-     *                          NUM_FONTS (5) entries in this table.
-     * (04) table_fontfileNameIDs
-     *                         :stringIDs of all defined font file names
-     * (05) table_componentFontNameIDs
-     *                         :stringIDs of all defined PlatformFontNames
-     * (06) table_filenames    :platformFontNamesID->fontfileNameID mapping
-     *                          table, the index is the platformFontNamesID.
-     * (07) table_awtfontpaths :CharacterSubsetNames->awtfontpaths mapping table,
-     *                          the index is the CharacterSubsetName's stringID
-     *                          and content is the stringID of awtfontpath.
-     * (08) table_exclusions   :scriptID -> exclusionRanges mapping table,
-     *                          the index is the scriptID and the content is
-                                a id of an exclusionRanges int[].
-     * (09) table_proportionals:list of pairs of PlatformFontNameIDs, stores
-     *                          the replacement info defined by "proportional"
+     * (00) tbble_scriptIDs    :stringIDs of bll defined ChbrbcterSubsetNbmes
+     * (01) tbble_scriptFonts  :scriptID x fontIndex x styleIndex->
+     *                          PlbtformFontNbmeID mbpping. Ebch scriptID might
+     *                          hbve 1 or 20 entries depends on if it is defined
+     *                          vib b "bllfonts.ChbrbcterSubsetnbme" or b list of
+     *                          "LogicblFontNbme.StyleNbme.ChbrbcterSubsetNbme"
+     *                          entries, positive entry mebns it's b "bllfonts"
+     *                          entry, b negbtive vblue mebns this is b offset to
+     *                          b NUM_FONTS x NUM_STYLES subtbble.
+     * (02) tbble_elcIDs       :stringIDs of bll defined ELC nbmes, string
+     *                          "NULL.NULL.NULL" is used for "defbult"
+     * (03) tbble_sequences    :elcID x logicblFont -> scriptIDs tbble defined
+     *                          by "sequence.bllfonts/LogicblFontNbme.ELC" in
+     *                          font configurbtion file, ebch "elcID" hbs
+     *                          NUM_FONTS (5) entries in this tbble.
+     * (04) tbble_fontfileNbmeIDs
+     *                         :stringIDs of bll defined font file nbmes
+     * (05) tbble_componentFontNbmeIDs
+     *                         :stringIDs of bll defined PlbtformFontNbmes
+     * (06) tbble_filenbmes    :plbtformFontNbmesID->fontfileNbmeID mbpping
+     *                          tbble, the index is the plbtformFontNbmesID.
+     * (07) tbble_bwtfontpbths :ChbrbcterSubsetNbmes->bwtfontpbths mbpping tbble,
+     *                          the index is the ChbrbcterSubsetNbme's stringID
+     *                          bnd content is the stringID of bwtfontpbth.
+     * (08) tbble_exclusions   :scriptID -> exclusionRbnges mbpping tbble,
+     *                          the index is the scriptID bnd the content is
+                                b id of bn exclusionRbnges int[].
+     * (09) tbble_proportionbls:list of pbirs of PlbtformFontNbmeIDs, stores
+     *                          the replbcement info defined by "proportionbl"
      *                          keyword.
-     * (10) table_scriptFontsMotif
-     *                         :same as (01) except this table stores the
+     * (10) tbble_scriptFontsMotif
+     *                         :sbme bs (01) except this tbble stores the
      *                          info defined with ".motif" keyword
-     * (11) table_alphabeticSuffix
-     *                         :elcID -> stringID of alphabetic/XXXX entries
-     * (12) table_stringIDs    :The index of this table is the string ID, the
-     *                          content is the "start index" of this string in
-     *                          stringTable, use the start index of next entry
-     *                          as the "end index".
-     * (13) table_stringTable  :The real storage of all character strings defined
-     *                          /used this font configuration, need a pair of
-     *                          "start" and "end" indices to access.
+     * (11) tbble_blphbbeticSuffix
+     *                         :elcID -> stringID of blphbbetic/XXXX entries
+     * (12) tbble_stringIDs    :The index of this tbble is the string ID, the
+     *                          content is the "stbrt index" of this string in
+     *                          stringTbble, use the stbrt index of next entry
+     *                          bs the "end index".
+     * (13) tbble_stringTbble  :The rebl storbge of bll chbrbcter strings defined
+     *                          /used this font configurbtion, need b pbir of
+     *                          "stbrt" bnd "end" indices to bccess.
      * (14) reserved
-     * (15) table_fallbackScripts
-     *                         :stringIDs of fallback CharacterSubsetnames, stored
-     *                          in the order of they are defined in sequence.fallback.
-     * (16) table_appendedfontpath
-     *                         :stringtID of the "appendedfontpath" defined.
-     * (17) table_version   :stringID of the version number of this fontconfig file.
+     * (15) tbble_fbllbbckScripts
+     *                         :stringIDs of fbllbbck ChbrbcterSubsetnbmes, stored
+     *                          in the order of they bre defined in sequence.fbllbbck.
+     * (16) tbble_bppendedfontpbth
+     *                         :stringtID of the "bppendedfontpbth" defined.
+     * (17) tbble_version   :stringID of the version number of this fontconfig file.
      */
-    private static final int HEAD_LENGTH = 20;
-    private static final int INDEX_scriptIDs = 0;
-    private static final int INDEX_scriptFonts = 1;
-    private static final int INDEX_elcIDs = 2;
-    private static final int INDEX_sequences = 3;
-    private static final int INDEX_fontfileNameIDs = 4;
-    private static final int INDEX_componentFontNameIDs = 5;
-    private static final int INDEX_filenames = 6;
-    private static final int INDEX_awtfontpaths = 7;
-    private static final int INDEX_exclusions = 8;
-    private static final int INDEX_proportionals = 9;
-    private static final int INDEX_scriptFontsMotif = 10;
-    private static final int INDEX_alphabeticSuffix = 11;
-    private static final int INDEX_stringIDs = 12;
-    private static final int INDEX_stringTable = 13;
-    private static final int INDEX_TABLEEND = 14;
-    private static final int INDEX_fallbackScripts = 15;
-    private static final int INDEX_appendedfontpath = 16;
-    private static final int INDEX_version = 17;
+    privbte stbtic finbl int HEAD_LENGTH = 20;
+    privbte stbtic finbl int INDEX_scriptIDs = 0;
+    privbte stbtic finbl int INDEX_scriptFonts = 1;
+    privbte stbtic finbl int INDEX_elcIDs = 2;
+    privbte stbtic finbl int INDEX_sequences = 3;
+    privbte stbtic finbl int INDEX_fontfileNbmeIDs = 4;
+    privbte stbtic finbl int INDEX_componentFontNbmeIDs = 5;
+    privbte stbtic finbl int INDEX_filenbmes = 6;
+    privbte stbtic finbl int INDEX_bwtfontpbths = 7;
+    privbte stbtic finbl int INDEX_exclusions = 8;
+    privbte stbtic finbl int INDEX_proportionbls = 9;
+    privbte stbtic finbl int INDEX_scriptFontsMotif = 10;
+    privbte stbtic finbl int INDEX_blphbbeticSuffix = 11;
+    privbte stbtic finbl int INDEX_stringIDs = 12;
+    privbte stbtic finbl int INDEX_stringTbble = 13;
+    privbte stbtic finbl int INDEX_TABLEEND = 14;
+    privbte stbtic finbl int INDEX_fbllbbckScripts = 15;
+    privbte stbtic finbl int INDEX_bppendedfontpbth = 16;
+    privbte stbtic finbl int INDEX_version = 17;
 
-    private static short[] head;
-    private static short[] table_scriptIDs;
-    private static short[] table_scriptFonts;
-    private static short[] table_elcIDs;
-    private static short[] table_sequences;
-    private static short[] table_fontfileNameIDs;
-    private static short[] table_componentFontNameIDs;
-    private static short[] table_filenames;
-    protected static short[] table_awtfontpaths;
-    private static short[] table_exclusions;
-    private static short[] table_proportionals;
-    private static short[] table_scriptFontsMotif;
-    private static short[] table_alphabeticSuffix;
-    private static short[] table_stringIDs;
-    private static char[]  table_stringTable;
+    privbte stbtic short[] hebd;
+    privbte stbtic short[] tbble_scriptIDs;
+    privbte stbtic short[] tbble_scriptFonts;
+    privbte stbtic short[] tbble_elcIDs;
+    privbte stbtic short[] tbble_sequences;
+    privbte stbtic short[] tbble_fontfileNbmeIDs;
+    privbte stbtic short[] tbble_componentFontNbmeIDs;
+    privbte stbtic short[] tbble_filenbmes;
+    protected stbtic short[] tbble_bwtfontpbths;
+    privbte stbtic short[] tbble_exclusions;
+    privbte stbtic short[] tbble_proportionbls;
+    privbte stbtic short[] tbble_scriptFontsMotif;
+    privbte stbtic short[] tbble_blphbbeticSuffix;
+    privbte stbtic short[] tbble_stringIDs;
+    privbte stbtic chbr[]  tbble_stringTbble;
 
     /**
-     * Checks consistencies of complied fontconfig data. This method
-     * is called only at the build-time from
+     * Checks consistencies of complied fontconfig dbtb. This method
+     * is cblled only bt the build-time from
      * build.tools.compilefontconfig.CompileFontConfig.
      */
-    private static void sanityCheck() {
+    privbte stbtic void sbnityCheck() {
         int errors = 0;
 
-        //This method will only be called during build time, do we
+        //This method will only be cblled during build time, do we
         //need do PrivilegedAction?
-        String osName = java.security.AccessController.doPrivileged(
-                            new java.security.PrivilegedAction<String>() {
+        String osNbme = jbvb.security.AccessController.doPrivileged(
+                            new jbvb.security.PrivilegedAction<String>() {
             public String run() {
-                return System.getProperty("os.name");
+                return System.getProperty("os.nbme");
             }
         });
 
-        //componentFontNameID starts from "1"
-        for (int ii = 1; ii < table_filenames.length; ii++) {
-            if (table_filenames[ii] == -1) {
-                // The corresponding finename entry for a component
-                // font name is mandatory on Windows, but it's
-                // optional on Solaris and Linux.
-                if (osName.contains("Windows")) {
-                    System.err.println("\n Error: <filename."
-                                       + getString(table_componentFontNameIDs[ii])
+        //componentFontNbmeID stbrts from "1"
+        for (int ii = 1; ii < tbble_filenbmes.length; ii++) {
+            if (tbble_filenbmes[ii] == -1) {
+                // The corresponding finenbme entry for b component
+                // font nbme is mbndbtory on Windows, but it's
+                // optionbl on Solbris bnd Linux.
+                if (osNbme.contbins("Windows")) {
+                    System.err.println("\n Error: <filenbme."
+                                       + getString(tbble_componentFontNbmeIDs[ii])
                                        + "> entry is missing!!!");
                     errors++;
                 } else {
-                    if (verbose && !isEmpty(table_filenames)) {
-                        System.err.println("\n Note: 'filename' entry is undefined for \""
-                                           + getString(table_componentFontNameIDs[ii])
+                    if (verbose && !isEmpty(tbble_filenbmes)) {
+                        System.err.println("\n Note: 'filenbme' entry is undefined for \""
+                                           + getString(tbble_componentFontNbmeIDs[ii])
                                            + "\"");
                     }
                 }
             }
         }
-        for (int ii = 0; ii < table_scriptIDs.length; ii++) {
-            short fid = table_scriptFonts[ii];
+        for (int ii = 0; ii < tbble_scriptIDs.length; ii++) {
+            short fid = tbble_scriptFonts[ii];
             if (fid == 0) {
-                System.out.println("\n Error: <allfonts."
-                                   + getString(table_scriptIDs[ii])
+                System.out.println("\n Error: <bllfonts."
+                                   + getString(tbble_scriptIDs[ii])
                                    + "> entry is missing!!!");
                 errors++;
                 continue;
@@ -1417,12 +1417,12 @@ public abstract class FontConfiguration {
                 for (int iii = 0; iii < NUM_FONTS; iii++) {
                     for (int iij = 0; iij < NUM_STYLES; iij++) {
                         int jj = iii * NUM_STYLES + iij;
-                        short ffid = table_scriptFonts[fid + jj];
+                        short ffid = tbble_scriptFonts[fid + jj];
                         if (ffid == 0) {
                             System.err.println("\n Error: <"
-                                           + getFontName(iii) + "."
-                                           + getStyleName(iij) + "."
-                                           + getString(table_scriptIDs[ii])
+                                           + getFontNbme(iii) + "."
+                                           + getStyleNbme(iij) + "."
+                                           + getString(tbble_scriptIDs[ii])
                                            + "> entry is missing!!!");
                             errors++;
                         }
@@ -1430,17 +1430,17 @@ public abstract class FontConfiguration {
                 }
             }
         }
-        if ("SunOS".equals(osName)) {
-            for (int ii = 0; ii < table_awtfontpaths.length; ii++) {
-                if (table_awtfontpaths[ii] == 0) {
-                    String script = getString(table_scriptIDs[ii]);
-                    if (script.contains("lucida") ||
-                        script.contains("dingbats") ||
-                        script.contains("symbol")) {
+        if ("SunOS".equbls(osNbme)) {
+            for (int ii = 0; ii < tbble_bwtfontpbths.length; ii++) {
+                if (tbble_bwtfontpbths[ii] == 0) {
+                    String script = getString(tbble_scriptIDs[ii]);
+                    if (script.contbins("lucidb") ||
+                        script.contbins("dingbbts") ||
+                        script.contbins("symbol")) {
                         continue;
                     }
                     System.err.println("\nError: "
-                                       + "<awtfontpath."
+                                       + "<bwtfontpbth."
                                        + script
                                        + "> entry is missing!!!");
                     errors++;
@@ -1454,215 +1454,215 @@ public abstract class FontConfiguration {
         }
     }
 
-    private static boolean isEmpty(short[] a) {
-        for (short s : a) {
+    privbte stbtic boolebn isEmpty(short[] b) {
+        for (short s : b) {
             if (s != -1) {
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
-    //dump the fontconfig data tables
-    private static void dump() {
-        System.out.println("\n----Head Table------------");
+    //dump the fontconfig dbtb tbbles
+    privbte stbtic void dump() {
+        System.out.println("\n----Hebd Tbble------------");
         for (int ii = 0; ii < HEAD_LENGTH; ii++) {
-            System.out.println("  " + ii + " : " + head[ii]);
+            System.out.println("  " + ii + " : " + hebd[ii]);
         }
         System.out.println("\n----scriptIDs-------------");
-        printTable(table_scriptIDs, 0);
+        printTbble(tbble_scriptIDs, 0);
         System.out.println("\n----scriptFonts----------------");
-        for (int ii = 0; ii < table_scriptIDs.length; ii++) {
-            short fid = table_scriptFonts[ii];
+        for (int ii = 0; ii < tbble_scriptIDs.length; ii++) {
+            short fid = tbble_scriptFonts[ii];
             if (fid >= 0) {
-                System.out.println("  allfonts."
-                                   + getString(table_scriptIDs[ii])
+                System.out.println("  bllfonts."
+                                   + getString(tbble_scriptIDs[ii])
                                    + "="
-                                   + getString(table_componentFontNameIDs[fid]));
+                                   + getString(tbble_componentFontNbmeIDs[fid]));
             }
         }
-        for (int ii = 0; ii < table_scriptIDs.length; ii++) {
-            short fid = table_scriptFonts[ii];
+        for (int ii = 0; ii < tbble_scriptIDs.length; ii++) {
+            short fid = tbble_scriptFonts[ii];
             if (fid < 0) {
                 fid = (short)-fid;
                 for (int iii = 0; iii < NUM_FONTS; iii++) {
                     for (int iij = 0; iij < NUM_STYLES; iij++) {
                         int jj = iii * NUM_STYLES + iij;
-                        short ffid = table_scriptFonts[fid + jj];
+                        short ffid = tbble_scriptFonts[fid + jj];
                         System.out.println("  "
-                                           + getFontName(iii) + "."
-                                           + getStyleName(iij) + "."
-                                           + getString(table_scriptIDs[ii])
+                                           + getFontNbme(iii) + "."
+                                           + getStyleNbme(iij) + "."
+                                           + getString(tbble_scriptIDs[ii])
                                            + "="
-                                           + getString(table_componentFontNameIDs[ffid]));
+                                           + getString(tbble_componentFontNbmeIDs[ffid]));
                     }
                 }
 
             }
         }
         System.out.println("\n----elcIDs----------------");
-        printTable(table_elcIDs, 0);
+        printTbble(tbble_elcIDs, 0);
         System.out.println("\n----sequences-------------");
-        for (int ii = 0; ii< table_elcIDs.length; ii++) {
-            System.out.println("  " + ii + "/" + getString(table_elcIDs[ii]));
-            short[] ss = getShortArray(table_sequences[ii * NUM_FONTS + 0]);
+        for (int ii = 0; ii< tbble_elcIDs.length; ii++) {
+            System.out.println("  " + ii + "/" + getString(tbble_elcIDs[ii]));
+            short[] ss = getShortArrby(tbble_sequences[ii * NUM_FONTS + 0]);
             for (int jj = 0; jj < ss.length; jj++) {
-                System.out.println("     " + getString(table_scriptIDs[ss[jj]]));
+                System.out.println("     " + getString(tbble_scriptIDs[ss[jj]]));
             }
         }
-        System.out.println("\n----fontfileNameIDs-------");
-        printTable(table_fontfileNameIDs, 0);
+        System.out.println("\n----fontfileNbmeIDs-------");
+        printTbble(tbble_fontfileNbmeIDs, 0);
 
-        System.out.println("\n----componentFontNameIDs--");
-        printTable(table_componentFontNameIDs, 1);
-        System.out.println("\n----filenames-------------");
-        for (int ii = 0; ii < table_filenames.length; ii++) {
-            if (table_filenames[ii] == -1) {
+        System.out.println("\n----componentFontNbmeIDs--");
+        printTbble(tbble_componentFontNbmeIDs, 1);
+        System.out.println("\n----filenbmes-------------");
+        for (int ii = 0; ii < tbble_filenbmes.length; ii++) {
+            if (tbble_filenbmes[ii] == -1) {
                 System.out.println("  " + ii + " : null");
             } else {
                 System.out.println("  " + ii + " : "
-                   + getString(table_fontfileNameIDs[table_filenames[ii]]));
+                   + getString(tbble_fontfileNbmeIDs[tbble_filenbmes[ii]]));
             }
         }
-        System.out.println("\n----awtfontpaths---------");
-        for (int ii = 0; ii < table_awtfontpaths.length; ii++) {
-            System.out.println("  " + getString(table_scriptIDs[ii])
+        System.out.println("\n----bwtfontpbths---------");
+        for (int ii = 0; ii < tbble_bwtfontpbths.length; ii++) {
+            System.out.println("  " + getString(tbble_scriptIDs[ii])
                                + " : "
-                               + getString(table_awtfontpaths[ii]));
+                               + getString(tbble_bwtfontpbths[ii]));
         }
-        System.out.println("\n----proportionals--------");
-        for (int ii = 0; ii < table_proportionals.length; ii++) {
+        System.out.println("\n----proportionbls--------");
+        for (int ii = 0; ii < tbble_proportionbls.length; ii++) {
             System.out.println("  "
-                   + getString(table_componentFontNameIDs[table_proportionals[ii++]])
+                   + getString(tbble_componentFontNbmeIDs[tbble_proportionbls[ii++]])
                    + " -> "
-                   + getString(table_componentFontNameIDs[table_proportionals[ii]]));
+                   + getString(tbble_componentFontNbmeIDs[tbble_proportionbls[ii]]));
         }
         int i = 0;
-        System.out.println("\n----alphabeticSuffix----");
-        while (i < table_alphabeticSuffix.length) {
-          System.out.println("    " + getString(table_elcIDs[table_alphabeticSuffix[i++]])
-                             + " -> " + getString(table_alphabeticSuffix[i++]));
+        System.out.println("\n----blphbbeticSuffix----");
+        while (i < tbble_blphbbeticSuffix.length) {
+          System.out.println("    " + getString(tbble_elcIDs[tbble_blphbbeticSuffix[i++]])
+                             + " -> " + getString(tbble_blphbbeticSuffix[i++]));
         }
-        System.out.println("\n----String Table---------");
-        System.out.println("    stringID:    Num =" + table_stringIDs.length);
-        System.out.println("    stringTable: Size=" + table_stringTable.length * 2);
+        System.out.println("\n----String Tbble---------");
+        System.out.println("    stringID:    Num =" + tbble_stringIDs.length);
+        System.out.println("    stringTbble: Size=" + tbble_stringTbble.length * 2);
 
-        System.out.println("\n----fallbackScriptIDs---");
-        short[] fbsIDs = getShortArray(head[INDEX_fallbackScripts]);
+        System.out.println("\n----fbllbbckScriptIDs---");
+        short[] fbsIDs = getShortArrby(hebd[INDEX_fbllbbckScripts]);
         for (int ii = 0; ii < fbsIDs.length; ii++) {
-          System.out.println("  " + getString(table_scriptIDs[fbsIDs[ii]]));
+          System.out.println("  " + getString(tbble_scriptIDs[fbsIDs[ii]]));
         }
-        System.out.println("\n----appendedfontpath-----");
-        System.out.println("  " + getString(head[INDEX_appendedfontpath]));
+        System.out.println("\n----bppendedfontpbth-----");
+        System.out.println("  " + getString(hebd[INDEX_bppendedfontpbth]));
         System.out.println("\n----Version--------------");
-        System.out.println("  " + getString(head[INDEX_version]));
+        System.out.println("  " + getString(hebd[INDEX_version]));
     }
 
 
     //////////////////////////////////////////////////////////////////////
-    // Data table access methods                                        //
+    // Dbtb tbble bccess methods                                        //
     //////////////////////////////////////////////////////////////////////
 
-    /* Return the fontID of the platformFontName defined in this font config
-     * by "LogicalFontName.StyleName.CharacterSubsetName" entry or
-     * "allfonts.CharacterSubsetName" entry in properties format fc file.
+    /* Return the fontID of the plbtformFontNbme defined in this font config
+     * by "LogicblFontNbme.StyleNbme.ChbrbcterSubsetNbme" entry or
+     * "bllfonts.ChbrbcterSubsetNbme" entry in properties formbt fc file.
      */
-    protected static short getComponentFontID(short scriptID, int fontIndex, int styleIndex) {
-        short fid = table_scriptFonts[scriptID];
+    protected stbtic short getComponentFontID(short scriptID, int fontIndex, int styleIndex) {
+        short fid = tbble_scriptFonts[scriptID];
         //System.out.println("fid=" + fid + "/ scriptID=" + scriptID + ", fi=" + fontIndex + ", si=" + styleIndex);
         if (fid >= 0) {
-            //"allfonts"
+            //"bllfonts"
             return fid;
         } else {
-            return table_scriptFonts[-fid + fontIndex * NUM_STYLES + styleIndex];
+            return tbble_scriptFonts[-fid + fontIndex * NUM_STYLES + styleIndex];
         }
     }
 
-    /* Same as getCompoentFontID() except this method returns the fontID define by
+    /* Sbme bs getCompoentFontID() except this method returns the fontID define by
      * "xxxx.motif" entry.
      */
-    protected static short getComponentFontIDMotif(short scriptID, int fontIndex, int styleIndex) {
-        if (table_scriptFontsMotif.length == 0) {
+    protected stbtic short getComponentFontIDMotif(short scriptID, int fontIndex, int styleIndex) {
+        if (tbble_scriptFontsMotif.length == 0) {
             return 0;
         }
-        short fid = table_scriptFontsMotif[scriptID];
+        short fid = tbble_scriptFontsMotif[scriptID];
         if (fid >= 0) {
-            //"allfonts" > 0 or "not defined" == 0
+            //"bllfonts" > 0 or "not defined" == 0
             return fid;
         } else {
-            return table_scriptFontsMotif[-fid + fontIndex * NUM_STYLES + styleIndex];
+            return tbble_scriptFontsMotif[-fid + fontIndex * NUM_STYLES + styleIndex];
         }
     }
 
-    private static int[] getExclusionRanges(short scriptID) {
-        short exID = table_exclusions[scriptID];
+    privbte stbtic int[] getExclusionRbnges(short scriptID) {
+        short exID = tbble_exclusions[scriptID];
         if (exID == 0) {
             return EMPTY_INT_ARRAY;
         } else {
-            char[] exChar = getString(exID).toCharArray();
-            int[] exInt = new int[exChar.length / 2];
+            chbr[] exChbr = getString(exID).toChbrArrby();
+            int[] exInt = new int[exChbr.length / 2];
             int i = 0;
             for (int j = 0; j < exInt.length; j++) {
-                exInt[j] = (exChar[i++] << 16) + (exChar[i++] & 0xffff);
+                exInt[j] = (exChbr[i++] << 16) + (exChbr[i++] & 0xffff);
             }
             return exInt;
         }
     }
 
-    private static boolean contains(short IDs[], short id, int limit) {
+    privbte stbtic boolebn contbins(short IDs[], short id, int limit) {
         for (int i = 0; i < limit; i++) {
             if (IDs[i] == id) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    /* Return the PlatformFontName from its fontID*/
-    protected static String getComponentFontName(short id) {
+    /* Return the PlbtformFontNbme from its fontID*/
+    protected stbtic String getComponentFontNbme(short id) {
         if (id < 0) {
             return null;
         }
-        return getString(table_componentFontNameIDs[id]);
+        return getString(tbble_componentFontNbmeIDs[id]);
     }
 
-    private static String getComponentFileName(short id) {
+    privbte stbtic String getComponentFileNbme(short id) {
         if (id < 0) {
             return null;
         }
-        return getString(table_fontfileNameIDs[id]);
+        return getString(tbble_fontfileNbmeIDs[id]);
     }
 
     //componentFontID -> componentFileID
-    private static short getComponentFileID(short nameID) {
-        return table_filenames[nameID];
+    privbte stbtic short getComponentFileID(short nbmeID) {
+        return tbble_filenbmes[nbmeID];
     }
 
-    private static String getScriptName(short scriptID) {
-        return getString(table_scriptIDs[scriptID]);
+    privbte stbtic String getScriptNbme(short scriptID) {
+        return getString(tbble_scriptIDs[scriptID]);
     }
 
-   private HashMap<String, Short> reorderScripts;
+   privbte HbshMbp<String, Short> reorderScripts;
    protected short[] getCoreScripts(int fontIndex) {
         short elc = getInitELC();
         /*
           System.out.println("getCoreScripts: elc=" + elc + ", fontIndex=" + fontIndex);
-          short[] ss = getShortArray(table_sequences[elc * NUM_FONTS + fontIndex]);
+          short[] ss = getShortArrby(tbble_sequences[elc * NUM_FONTS + fontIndex]);
           for (int i = 0; i < ss.length; i++) {
-              System.out.println("     " + getString((short)table_scriptIDs[ss[i]]));
+              System.out.println("     " + getString((short)tbble_scriptIDs[ss[i]]));
           }
           */
-        short[] scripts = getShortArray(table_sequences[elc * NUM_FONTS + fontIndex]);
-        if (preferLocaleFonts) {
+        short[] scripts = getShortArrby(tbble_sequences[elc * NUM_FONTS + fontIndex]);
+        if (preferLocbleFonts) {
             if (reorderScripts == null) {
-                reorderScripts = new HashMap<String, Short>();
+                reorderScripts = new HbshMbp<String, Short>();
             }
             String[] ss = new String[scripts.length];
             for (int i = 0; i < ss.length; i++) {
-                ss[i] = getScriptName(scripts[i]);
+                ss[i] = getScriptNbme(scripts[i]);
                 reorderScripts.put(ss[i], scripts[i]);
             }
-            reorderSequenceForLocale(ss);
+            reorderSequenceForLocble(ss);
             for (int i = 0; i < ss.length; i++) {
                 scripts[i] = reorderScripts.get(ss[i]);
             }
@@ -1670,71 +1670,71 @@ public abstract class FontConfiguration {
          return scripts;
     }
 
-    private static short[] getFallbackScripts() {
-        return getShortArray(head[INDEX_fallbackScripts]);
+    privbte stbtic short[] getFbllbbckScripts() {
+        return getShortArrby(hebd[INDEX_fbllbbckScripts]);
     }
 
-    private static void printTable(short[] list, int start) {
-        for (int i = start; i < list.length; i++) {
+    privbte stbtic void printTbble(short[] list, int stbrt) {
+        for (int i = stbrt; i < list.length; i++) {
             System.out.println("  " + i + " : " + getString(list[i]));
         }
     }
 
-    private static short[] readShortTable(DataInputStream in, int len )
+    privbte stbtic short[] rebdShortTbble(DbtbInputStrebm in, int len )
         throws IOException {
         if (len == 0) {
             return EMPTY_SHORT_ARRAY;
         }
-        short[] data = new short[len];
+        short[] dbtb = new short[len];
         byte[] bb = new byte[len * 2];
-        in.read(bb);
+        in.rebd(bb);
         int i = 0,j = 0;
         while (i < len) {
-            data[i++] = (short)(bb[j++] << 8 | (bb[j++] & 0xff));
+            dbtb[i++] = (short)(bb[j++] << 8 | (bb[j++] & 0xff));
         }
-        return data;
+        return dbtb;
     }
 
-    private static void writeShortTable(DataOutputStream out, short[] data)
+    privbte stbtic void writeShortTbble(DbtbOutputStrebm out, short[] dbtb)
         throws IOException {
-        for (short val : data) {
-            out.writeShort(val);
+        for (short vbl : dbtb) {
+            out.writeShort(vbl);
         }
     }
 
-    private static short[] toList(HashMap<String, Short> map) {
-        short[] list = new short[map.size()];
-        Arrays.fill(list, (short) -1);
-        for (Entry<String, Short> entry : map.entrySet()) {
-            list[entry.getValue()] = getStringID(entry.getKey());
+    privbte stbtic short[] toList(HbshMbp<String, Short> mbp) {
+        short[] list = new short[mbp.size()];
+        Arrbys.fill(list, (short) -1);
+        for (Entry<String, Short> entry : mbp.entrySet()) {
+            list[entry.getVblue()] = getStringID(entry.getKey());
         }
         return list;
     }
 
-    //runtime cache
-    private static String[] stringCache;
-    protected static String getString(short stringID) {
+    //runtime cbche
+    privbte stbtic String[] stringCbche;
+    protected stbtic String getString(short stringID) {
         if (stringID == 0)
             return null;
         /*
-        if (loadingProperties) {
-            return stringTable.substring(stringIDs[stringID],
+        if (lobdingProperties) {
+            return stringTbble.substring(stringIDs[stringID],
                                          stringIDs[stringID+1]);
         }
         */
-        //sync if we want it to be MT-enabled
-        if (stringCache[stringID] == null){
-            stringCache[stringID] =
-              new String (table_stringTable,
-                          table_stringIDs[stringID],
-                          table_stringIDs[stringID+1] - table_stringIDs[stringID]);
+        //sync if we wbnt it to be MT-enbbled
+        if (stringCbche[stringID] == null){
+            stringCbche[stringID] =
+              new String (tbble_stringTbble,
+                          tbble_stringIDs[stringID],
+                          tbble_stringIDs[stringID+1] - tbble_stringIDs[stringID]);
         }
-        return stringCache[stringID];
+        return stringCbche[stringID];
     }
 
-    private static short[] getShortArray(short shortArrayID) {
-        String s = getString(shortArrayID);
-        char[] cc = s.toCharArray();
+    privbte stbtic short[] getShortArrby(short shortArrbyID) {
+        String s = getString(shortArrbyID);
+        chbr[] cc = s.toChbrArrby();
         short[] ss = new short[cc.length];
         for (int i = 0; i < cc.length; i++) {
             ss[i] = (short)(cc[i] & 0xffff);
@@ -1742,323 +1742,323 @@ public abstract class FontConfiguration {
         return ss;
     }
 
-    private static short getStringID(String s) {
+    privbte stbtic short getStringID(String s) {
         if (s == null) {
             return (short)0;
         }
-        short pos0 = (short)stringTable.length();
-        stringTable.append(s);
-        short pos1 = (short)stringTable.length();
+        short pos0 = (short)stringTbble.length();
+        stringTbble.bppend(s);
+        short pos1 = (short)stringTbble.length();
 
         stringIDs[stringIDNum] = pos0;
         stringIDs[stringIDNum + 1] = pos1;
         stringIDNum++;
         if (stringIDNum + 1 >= stringIDs.length) {
             short[] tmp = new short[stringIDNum + 1000];
-            System.arraycopy(stringIDs, 0, tmp, 0, stringIDNum);
+            System.brrbycopy(stringIDs, 0, tmp, 0, stringIDNum);
             stringIDs = tmp;
         }
         return (short)(stringIDNum - 1);
     }
 
-    private static short getShortArrayID(short sa[]) {
-        char[] cc = new char[sa.length];
-        for (int i = 0; i < sa.length; i ++) {
-            cc[i] = (char)sa[i];
+    privbte stbtic short getShortArrbyID(short sb[]) {
+        chbr[] cc = new chbr[sb.length];
+        for (int i = 0; i < sb.length; i ++) {
+            cc[i] = (chbr)sb[i];
         }
         String s = new String(cc);
         return getStringID(s);
     }
 
     //utility "empty" objects
-    private static final int[] EMPTY_INT_ARRAY = new int[0];
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
-    private static final short[] EMPTY_SHORT_ARRAY = new short[0];
-    private static final String UNDEFINED_COMPONENT_FONT = "unknown";
+    privbte stbtic finbl int[] EMPTY_INT_ARRAY = new int[0];
+    privbte stbtic finbl String[] EMPTY_STRING_ARRAY = new String[0];
+    privbte stbtic finbl short[] EMPTY_SHORT_ARRAY = new short[0];
+    privbte stbtic finbl String UNDEFINED_COMPONENT_FONT = "unknown";
 
     //////////////////////////////////////////////////////////////////////////
-    //Convert the FontConfig data in Properties file to binary data tables  //
+    //Convert the FontConfig dbtb in Properties file to binbry dbtb tbbles  //
     //////////////////////////////////////////////////////////////////////////
-    static class PropertiesHandler {
-        public void load(InputStream in) throws IOException {
-            initLogicalNameStyle();
-            initHashMaps();
+    stbtic clbss PropertiesHbndler {
+        public void lobd(InputStrebm in) throws IOException {
+            initLogicblNbmeStyle();
+            initHbshMbps();
             FontProperties fp = new FontProperties();
-            fp.load(in);
-            initBinaryTable();
+            fp.lobd(in);
+            initBinbryTbble();
         }
 
-        private void initBinaryTable() {
+        privbte void initBinbryTbble() {
             //(0)
-            head = new short[HEAD_LENGTH];
-            head[INDEX_scriptIDs] = (short)HEAD_LENGTH;
+            hebd = new short[HEAD_LENGTH];
+            hebd[INDEX_scriptIDs] = (short)HEAD_LENGTH;
 
-            table_scriptIDs = toList(scriptIDs);
-            //(1)a: scriptAllfonts scriptID/allfonts -> componentFontNameID
-            //   b: scriptFonts    scriptID -> componentFontNameID[20]
-            //if we have a "allfonts.script" def, then we just put
-            //the "-platformFontID" value in the slot, otherwise the slot
-            //value is "offset" which "offset" is where 20 entries located
-            //in the table attached.
-            head[INDEX_scriptFonts] = (short)(head[INDEX_scriptIDs]  + table_scriptIDs.length);
-            int len = table_scriptIDs.length + scriptFonts.size() * 20;
-            table_scriptFonts = new short[len];
+            tbble_scriptIDs = toList(scriptIDs);
+            //(1)b: scriptAllfonts scriptID/bllfonts -> componentFontNbmeID
+            //   b: scriptFonts    scriptID -> componentFontNbmeID[20]
+            //if we hbve b "bllfonts.script" def, then we just put
+            //the "-plbtformFontID" vblue in the slot, otherwise the slot
+            //vblue is "offset" which "offset" is where 20 entries locbted
+            //in the tbble bttbched.
+            hebd[INDEX_scriptFonts] = (short)(hebd[INDEX_scriptIDs]  + tbble_scriptIDs.length);
+            int len = tbble_scriptIDs.length + scriptFonts.size() * 20;
+            tbble_scriptFonts = new short[len];
 
             for (Entry<Short, Short> entry : scriptAllfonts.entrySet()) {
-                table_scriptFonts[entry.getKey().intValue()] = entry.getValue();
+                tbble_scriptFonts[entry.getKey().intVblue()] = entry.getVblue();
             }
-            int off = table_scriptIDs.length;
+            int off = tbble_scriptIDs.length;
             for (Entry<Short, Short[]> entry : scriptFonts.entrySet()) {
-                table_scriptFonts[entry.getKey().intValue()] = (short)-off;
-                Short[] v = entry.getValue();
+                tbble_scriptFonts[entry.getKey().intVblue()] = (short)-off;
+                Short[] v = entry.getVblue();
                 for (int i = 0; i < 20; i++) {
                     if (v[i] != null) {
-                        table_scriptFonts[off++] = v[i];
+                        tbble_scriptFonts[off++] = v[i];
                     } else {
-                        table_scriptFonts[off++] = 0;
+                        tbble_scriptFonts[off++] = 0;
                     }
                 }
             }
 
             //(2)
-            head[INDEX_elcIDs] = (short)(head[INDEX_scriptFonts]  + table_scriptFonts.length);
-            table_elcIDs = toList(elcIDs);
+            hebd[INDEX_elcIDs] = (short)(hebd[INDEX_scriptFonts]  + tbble_scriptFonts.length);
+            tbble_elcIDs = toList(elcIDs);
 
             //(3) sequences  elcID -> XXXX[1|5] -> scriptID[]
-            head[INDEX_sequences] = (short)(head[INDEX_elcIDs]  + table_elcIDs.length);
-            table_sequences = new short[elcIDs.size() * NUM_FONTS];
+            hebd[INDEX_sequences] = (short)(hebd[INDEX_elcIDs]  + tbble_elcIDs.length);
+            tbble_sequences = new short[elcIDs.size() * NUM_FONTS];
             for (Entry<Short, short[]> entry : sequences.entrySet()) {
-                //table_sequences[entry.getKey().intValue()] = (short)-off;
-                int k = entry.getKey().intValue();
-                short[] v = entry.getValue();
+                //tbble_sequences[entry.getKey().intVblue()] = (short)-off;
+                int k = entry.getKey().intVblue();
+                short[] v = entry.getVblue();
                 /*
-                  System.out.println("elc=" + k + "/" + getString((short)table_elcIDs[k]));
-                  short[] ss = getShortArray(v[0]);
+                  System.out.println("elc=" + k + "/" + getString((short)tbble_elcIDs[k]));
+                  short[] ss = getShortArrby(v[0]);
                   for (int i = 0; i < ss.length; i++) {
-                  System.out.println("     " + getString((short)table_scriptIDs[ss[i]]));
+                  System.out.println("     " + getString((short)tbble_scriptIDs[ss[i]]));
                   }
                   */
                 if (v.length == 1) {
-                    //the "allfonts" entries
+                    //the "bllfonts" entries
                     for (int i = 0; i < NUM_FONTS; i++) {
-                        table_sequences[k * NUM_FONTS + i] = v[0];
+                        tbble_sequences[k * NUM_FONTS + i] = v[0];
                     }
                 } else {
                     for (int i = 0; i < NUM_FONTS; i++) {
-                        table_sequences[k * NUM_FONTS + i] = v[i];
+                        tbble_sequences[k * NUM_FONTS + i] = v[i];
                     }
                 }
             }
             //(4)
-            head[INDEX_fontfileNameIDs] = (short)(head[INDEX_sequences]  + table_sequences.length);
-            table_fontfileNameIDs = toList(fontfileNameIDs);
+            hebd[INDEX_fontfileNbmeIDs] = (short)(hebd[INDEX_sequences]  + tbble_sequences.length);
+            tbble_fontfileNbmeIDs = toList(fontfileNbmeIDs);
 
             //(5)
-            head[INDEX_componentFontNameIDs] = (short)(head[INDEX_fontfileNameIDs]  + table_fontfileNameIDs.length);
-            table_componentFontNameIDs = toList(componentFontNameIDs);
+            hebd[INDEX_componentFontNbmeIDs] = (short)(hebd[INDEX_fontfileNbmeIDs]  + tbble_fontfileNbmeIDs.length);
+            tbble_componentFontNbmeIDs = toList(componentFontNbmeIDs);
 
-            //(6)componentFontNameID -> filenameID
-            head[INDEX_filenames] = (short)(head[INDEX_componentFontNameIDs]  + table_componentFontNameIDs.length);
-            table_filenames = new short[table_componentFontNameIDs.length];
-            Arrays.fill(table_filenames, (short) -1);
+            //(6)componentFontNbmeID -> filenbmeID
+            hebd[INDEX_filenbmes] = (short)(hebd[INDEX_componentFontNbmeIDs]  + tbble_componentFontNbmeIDs.length);
+            tbble_filenbmes = new short[tbble_componentFontNbmeIDs.length];
+            Arrbys.fill(tbble_filenbmes, (short) -1);
 
-            for (Entry<Short, Short> entry : filenames.entrySet()) {
-                table_filenames[entry.getKey()] = entry.getValue();
+            for (Entry<Short, Short> entry : filenbmes.entrySet()) {
+                tbble_filenbmes[entry.getKey()] = entry.getVblue();
             }
 
-            //(7)scriptID-> awtfontpath
-            //the paths are stored as scriptID -> stringID in awtfontpahts
-            head[INDEX_awtfontpaths] = (short)(head[INDEX_filenames]  + table_filenames.length);
-            table_awtfontpaths = new short[table_scriptIDs.length];
-            for (Entry<Short, Short> entry : awtfontpaths.entrySet()) {
-                table_awtfontpaths[entry.getKey()] = entry.getValue();
+            //(7)scriptID-> bwtfontpbth
+            //the pbths bre stored bs scriptID -> stringID in bwtfontpbhts
+            hebd[INDEX_bwtfontpbths] = (short)(hebd[INDEX_filenbmes]  + tbble_filenbmes.length);
+            tbble_bwtfontpbths = new short[tbble_scriptIDs.length];
+            for (Entry<Short, Short> entry : bwtfontpbths.entrySet()) {
+                tbble_bwtfontpbths[entry.getKey()] = entry.getVblue();
             }
 
             //(8)exclusions
-            head[INDEX_exclusions] = (short)(head[INDEX_awtfontpaths]  + table_awtfontpaths.length);
-            table_exclusions = new short[scriptIDs.size()];
+            hebd[INDEX_exclusions] = (short)(hebd[INDEX_bwtfontpbths]  + tbble_bwtfontpbths.length);
+            tbble_exclusions = new short[scriptIDs.size()];
             for (Entry<Short, int[]> entry : exclusions.entrySet()) {
-                int[] exI = entry.getValue();
-                char[] exC = new char[exI.length * 2];
+                int[] exI = entry.getVblue();
+                chbr[] exC = new chbr[exI.length * 2];
                 int j = 0;
                 for (int i = 0; i < exI.length; i++) {
-                    exC[j++] = (char) (exI[i] >> 16);
-                    exC[j++] = (char) (exI[i] & 0xffff);
+                    exC[j++] = (chbr) (exI[i] >> 16);
+                    exC[j++] = (chbr) (exI[i] & 0xffff);
                 }
-                table_exclusions[entry.getKey()] = getStringID(new String (exC));
+                tbble_exclusions[entry.getKey()] = getStringID(new String (exC));
             }
-            //(9)proportionals
-            head[INDEX_proportionals] = (short)(head[INDEX_exclusions]  + table_exclusions.length);
-            table_proportionals = new short[proportionals.size() * 2];
+            //(9)proportionbls
+            hebd[INDEX_proportionbls] = (short)(hebd[INDEX_exclusions]  + tbble_exclusions.length);
+            tbble_proportionbls = new short[proportionbls.size() * 2];
             int j = 0;
-            for (Entry<Short, Short> entry : proportionals.entrySet()) {
-                table_proportionals[j++] = entry.getKey();
-                table_proportionals[j++] = entry.getValue();
+            for (Entry<Short, Short> entry : proportionbls.entrySet()) {
+                tbble_proportionbls[j++] = entry.getKey();
+                tbble_proportionbls[j++] = entry.getVblue();
             }
 
             //(10) see (1) for info, the only difference is "xxx.motif"
-            head[INDEX_scriptFontsMotif] = (short)(head[INDEX_proportionals] + table_proportionals.length);
+            hebd[INDEX_scriptFontsMotif] = (short)(hebd[INDEX_proportionbls] + tbble_proportionbls.length);
             if (scriptAllfontsMotif.size() != 0 || scriptFontsMotif.size() != 0) {
-                len = table_scriptIDs.length + scriptFontsMotif.size() * 20;
-                table_scriptFontsMotif = new short[len];
+                len = tbble_scriptIDs.length + scriptFontsMotif.size() * 20;
+                tbble_scriptFontsMotif = new short[len];
 
                 for (Entry<Short, Short> entry : scriptAllfontsMotif.entrySet()) {
-                    table_scriptFontsMotif[entry.getKey().intValue()] =
-                      (short)entry.getValue();
+                    tbble_scriptFontsMotif[entry.getKey().intVblue()] =
+                      (short)entry.getVblue();
                 }
-                off = table_scriptIDs.length;
+                off = tbble_scriptIDs.length;
                 for (Entry<Short, Short[]> entry : scriptFontsMotif.entrySet()) {
-                    table_scriptFontsMotif[entry.getKey().intValue()] = (short)-off;
-                    Short[] v = entry.getValue();
+                    tbble_scriptFontsMotif[entry.getKey().intVblue()] = (short)-off;
+                    Short[] v = entry.getVblue();
                     int i = 0;
                     while (i < 20) {
                         if (v[i] != null) {
-                            table_scriptFontsMotif[off++] = v[i];
+                            tbble_scriptFontsMotif[off++] = v[i];
                         } else {
-                            table_scriptFontsMotif[off++] = 0;
+                            tbble_scriptFontsMotif[off++] = 0;
                         }
                         i++;
                     }
                 }
             } else {
-                table_scriptFontsMotif = EMPTY_SHORT_ARRAY;
+                tbble_scriptFontsMotif = EMPTY_SHORT_ARRAY;
             }
 
-            //(11)short[] alphabeticSuffix
-            head[INDEX_alphabeticSuffix] = (short)(head[INDEX_scriptFontsMotif] + table_scriptFontsMotif.length);
-            table_alphabeticSuffix = new short[alphabeticSuffix.size() * 2];
+            //(11)short[] blphbbeticSuffix
+            hebd[INDEX_blphbbeticSuffix] = (short)(hebd[INDEX_scriptFontsMotif] + tbble_scriptFontsMotif.length);
+            tbble_blphbbeticSuffix = new short[blphbbeticSuffix.size() * 2];
             j = 0;
-            for (Entry<Short, Short> entry : alphabeticSuffix.entrySet()) {
-                table_alphabeticSuffix[j++] = entry.getKey();
-                table_alphabeticSuffix[j++] = entry.getValue();
+            for (Entry<Short, Short> entry : blphbbeticSuffix.entrySet()) {
+                tbble_blphbbeticSuffix[j++] = entry.getKey();
+                tbble_blphbbeticSuffix[j++] = entry.getVblue();
             }
 
-            //(15)short[] fallbackScriptIDs; just put the ID in head
-            head[INDEX_fallbackScripts] = getShortArrayID(fallbackScriptIDs);
+            //(15)short[] fbllbbckScriptIDs; just put the ID in hebd
+            hebd[INDEX_fbllbbckScripts] = getShortArrbyID(fbllbbckScriptIDs);
 
-            //(16)appendedfontpath
-            head[INDEX_appendedfontpath] = getStringID(appendedfontpath);
+            //(16)bppendedfontpbth
+            hebd[INDEX_bppendedfontpbth] = getStringID(bppendedfontpbth);
 
             //(17)version
-            head[INDEX_version] = getStringID(version);
+            hebd[INDEX_version] = getStringID(version);
 
             //(12)short[] StringIDs
-            head[INDEX_stringIDs] = (short)(head[INDEX_alphabeticSuffix] + table_alphabeticSuffix.length);
-            table_stringIDs = new short[stringIDNum + 1];
-            System.arraycopy(stringIDs, 0, table_stringIDs, 0, stringIDNum + 1);
+            hebd[INDEX_stringIDs] = (short)(hebd[INDEX_blphbbeticSuffix] + tbble_blphbbeticSuffix.length);
+            tbble_stringIDs = new short[stringIDNum + 1];
+            System.brrbycopy(stringIDs, 0, tbble_stringIDs, 0, stringIDNum + 1);
 
-            //(13)StringTable
-            head[INDEX_stringTable] = (short)(head[INDEX_stringIDs] + stringIDNum + 1);
-            table_stringTable = stringTable.toString().toCharArray();
+            //(13)StringTbble
+            hebd[INDEX_stringTbble] = (short)(hebd[INDEX_stringIDs] + stringIDNum + 1);
+            tbble_stringTbble = stringTbble.toString().toChbrArrby();
             //(14)
-            head[INDEX_TABLEEND] = (short)(head[INDEX_stringTable] + stringTable.length());
+            hebd[INDEX_TABLEEND] = (short)(hebd[INDEX_stringTbble] + stringTbble.length());
 
-            //StringTable cache
-            stringCache = new String[table_stringIDs.length];
+            //StringTbble cbche
+            stringCbche = new String[tbble_stringIDs.length];
         }
 
         //////////////////////////////////////////////
-        private HashMap<String, Short> scriptIDs;
-        //elc -> Encoding.Language.Country
-        private HashMap<String, Short> elcIDs;
-        //componentFontNameID starts from "1", "0" reserves for "undefined"
-        private HashMap<String, Short> componentFontNameIDs;
-        private HashMap<String, Short> fontfileNameIDs;
-        private HashMap<String, Integer> logicalFontIDs;
-        private HashMap<String, Integer> fontStyleIDs;
+        privbte HbshMbp<String, Short> scriptIDs;
+        //elc -> Encoding.Lbngubge.Country
+        privbte HbshMbp<String, Short> elcIDs;
+        //componentFontNbmeID stbrts from "1", "0" reserves for "undefined"
+        privbte HbshMbp<String, Short> componentFontNbmeIDs;
+        privbte HbshMbp<String, Short> fontfileNbmeIDs;
+        privbte HbshMbp<String, Integer> logicblFontIDs;
+        privbte HbshMbp<String, Integer> fontStyleIDs;
 
-        //componentFontNameID -> fontfileNameID
-        private HashMap<Short, Short>  filenames;
+        //componentFontNbmeID -> fontfileNbmeID
+        privbte HbshMbp<Short, Short>  filenbmes;
 
-        //elcID -> allfonts/logicalFont -> scriptID list
-        //(1)if we have a "allfonts", then the length of the
-        //   value array is "1", otherwise it's 5, each font
-        //   must have their own individual entry.
-        //scriptID list "short[]" is stored as an ID
-        private HashMap<Short, short[]> sequences;
+        //elcID -> bllfonts/logicblFont -> scriptID list
+        //(1)if we hbve b "bllfonts", then the length of the
+        //   vblue brrby is "1", otherwise it's 5, ebch font
+        //   must hbve their own individubl entry.
+        //scriptID list "short[]" is stored bs bn ID
+        privbte HbshMbp<Short, short[]> sequences;
 
-        //scriptID ->logicFontID/fontStyleID->componentFontNameID,
-        //a 20-entry array (5-name x 4-style) for each script
-        private HashMap<Short, Short[]> scriptFonts;
+        //scriptID ->logicFontID/fontStyleID->componentFontNbmeID,
+        //b 20-entry brrby (5-nbme x 4-style) for ebch script
+        privbte HbshMbp<Short, Short[]> scriptFonts;
 
-        //scriptID -> componentFontNameID
-        private HashMap<Short, Short> scriptAllfonts;
+        //scriptID -> componentFontNbmeID
+        privbte HbshMbp<Short, Short> scriptAllfonts;
 
-        //scriptID -> exclusionRanges[]
-        private HashMap<Short, int[]> exclusions;
+        //scriptID -> exclusionRbnges[]
+        privbte HbshMbp<Short, int[]> exclusions;
 
-        //scriptID -> fontpath
-        private HashMap<Short, Short> awtfontpaths;
+        //scriptID -> fontpbth
+        privbte HbshMbp<Short, Short> bwtfontpbths;
 
         //fontID -> fontID
-        private HashMap<Short, Short> proportionals;
+        privbte HbshMbp<Short, Short> proportionbls;
 
-        //scriptID -> componentFontNameID
-        private HashMap<Short, Short> scriptAllfontsMotif;
+        //scriptID -> componentFontNbmeID
+        privbte HbshMbp<Short, Short> scriptAllfontsMotif;
 
-        //scriptID ->logicFontID/fontStyleID->componentFontNameID,
-        private HashMap<Short, Short[]> scriptFontsMotif;
+        //scriptID ->logicFontID/fontStyleID->componentFontNbmeID,
+        privbte HbshMbp<Short, Short[]> scriptFontsMotif;
 
-        //elcID -> stringID of alphabetic/XXXX
-        private HashMap<Short, Short> alphabeticSuffix;
+        //elcID -> stringID of blphbbetic/XXXX
+        privbte HbshMbp<Short, Short> blphbbeticSuffix;
 
-        private short[] fallbackScriptIDs;
-        private String version;
-        private String appendedfontpath;
+        privbte short[] fbllbbckScriptIDs;
+        privbte String version;
+        privbte String bppendedfontpbth;
 
-        private void initLogicalNameStyle() {
-            logicalFontIDs = new HashMap<String, Integer>();
-            fontStyleIDs = new HashMap<String, Integer>();
-            logicalFontIDs.put("serif",      0);
-            logicalFontIDs.put("sansserif",  1);
-            logicalFontIDs.put("monospaced", 2);
-            logicalFontIDs.put("dialog",     3);
-            logicalFontIDs.put("dialoginput",4);
-            fontStyleIDs.put("plain",      0);
+        privbte void initLogicblNbmeStyle() {
+            logicblFontIDs = new HbshMbp<String, Integer>();
+            fontStyleIDs = new HbshMbp<String, Integer>();
+            logicblFontIDs.put("serif",      0);
+            logicblFontIDs.put("sbnsserif",  1);
+            logicblFontIDs.put("monospbced", 2);
+            logicblFontIDs.put("diblog",     3);
+            logicblFontIDs.put("dibloginput",4);
+            fontStyleIDs.put("plbin",      0);
             fontStyleIDs.put("bold",       1);
-            fontStyleIDs.put("italic",     2);
-            fontStyleIDs.put("bolditalic", 3);
+            fontStyleIDs.put("itblic",     2);
+            fontStyleIDs.put("bolditblic", 3);
         }
 
-        private void initHashMaps() {
-            scriptIDs = new HashMap<String, Short>();
-            elcIDs = new HashMap<String, Short>();
-            componentFontNameIDs = new HashMap<String, Short>();
-            /*Init these tables to allow componentFontNameID, fontfileNameIDs
-              to start from "1".
+        privbte void initHbshMbps() {
+            scriptIDs = new HbshMbp<String, Short>();
+            elcIDs = new HbshMbp<String, Short>();
+            componentFontNbmeIDs = new HbshMbp<String, Short>();
+            /*Init these tbbles to bllow componentFontNbmeID, fontfileNbmeIDs
+              to stbrt from "1".
             */
-            componentFontNameIDs.put("", Short.valueOf((short)0));
+            componentFontNbmeIDs.put("", Short.vblueOf((short)0));
 
-            fontfileNameIDs = new HashMap<String, Short>();
-            filenames = new HashMap<Short, Short>();
-            sequences = new HashMap<Short, short[]>();
-            scriptFonts = new HashMap<Short, Short[]>();
-            scriptAllfonts = new HashMap<Short, Short>();
-            exclusions = new HashMap<Short, int[]>();
-            awtfontpaths = new HashMap<Short, Short>();
-            proportionals = new HashMap<Short, Short>();
-            scriptFontsMotif = new HashMap<Short, Short[]>();
-            scriptAllfontsMotif = new HashMap<Short, Short>();
-            alphabeticSuffix = new HashMap<Short, Short>();
-            fallbackScriptIDs = EMPTY_SHORT_ARRAY;
+            fontfileNbmeIDs = new HbshMbp<String, Short>();
+            filenbmes = new HbshMbp<Short, Short>();
+            sequences = new HbshMbp<Short, short[]>();
+            scriptFonts = new HbshMbp<Short, Short[]>();
+            scriptAllfonts = new HbshMbp<Short, Short>();
+            exclusions = new HbshMbp<Short, int[]>();
+            bwtfontpbths = new HbshMbp<Short, Short>();
+            proportionbls = new HbshMbp<Short, Short>();
+            scriptFontsMotif = new HbshMbp<Short, Short[]>();
+            scriptAllfontsMotif = new HbshMbp<Short, Short>();
+            blphbbeticSuffix = new HbshMbp<Short, Short>();
+            fbllbbckScriptIDs = EMPTY_SHORT_ARRAY;
             /*
               version
-              appendedfontpath
+              bppendedfontpbth
             */
         }
 
-        private int[] parseExclusions(String key, String exclusions) {
+        privbte int[] pbrseExclusions(String key, String exclusions) {
             if (exclusions == null) {
                 return EMPTY_INT_ARRAY;
             }
-            // range format is xxxx-XXXX,yyyyyy-YYYYYY,.....
+            // rbnge formbt is xxxx-XXXX,yyyyyy-YYYYYY,.....
             int numExclusions = 1;
             int pos = 0;
             while ((pos = exclusions.indexOf(',', pos)) != -1) {
                 numExclusions++;
                 pos++;
             }
-            int[] exclusionRanges = new int[numExclusions * 2];
+            int[] exclusionRbnges = new int[numExclusions * 2];
             pos = 0;
             int newPos = 0;
             for (int j = 0; j < numExclusions * 2; ) {
@@ -2080,90 +2080,90 @@ public abstract class FontConfiguration {
                         || upperLength != 4 && upperLength != 6) {
                         throw new Exception();
                     }
-                    lo = Integer.parseInt(lower, 16);
-                    up = Integer.parseInt(upper, 16);
+                    lo = Integer.pbrseInt(lower, 16);
+                    up = Integer.pbrseInt(upper, 16);
                     if (lo > up) {
                         throw new Exception();
                     }
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                     if (FontUtilities.debugFonts() &&
                         logger != null) {
-                        logger.config("Failed parsing " + key +
-                                  " property of font configuration.");
+                        logger.config("Fbiled pbrsing " + key +
+                                  " property of font configurbtion.");
 
                     }
                     return EMPTY_INT_ARRAY;
                 }
-                exclusionRanges[j++] = lo;
-                exclusionRanges[j++] = up;
+                exclusionRbnges[j++] = lo;
+                exclusionRbnges[j++] = up;
             }
-            return exclusionRanges;
+            return exclusionRbnges;
         }
 
-        private Short getID(HashMap<String, Short> map, String key) {
-            Short ret = map.get(key);
+        privbte Short getID(HbshMbp<String, Short> mbp, String key) {
+            Short ret = mbp.get(key);
             if ( ret == null) {
-                map.put(key, (short)map.size());
-                return map.get(key);
+                mbp.put(key, (short)mbp.size());
+                return mbp.get(key);
             }
             return ret;
         }
 
-        @SuppressWarnings("serial") // JDK-implementation class
-        class FontProperties extends Properties {
+        @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+        clbss FontProperties extends Properties {
             public synchronized Object put(Object k, Object v) {
-                parseProperty((String)k, (String)v);
+                pbrseProperty((String)k, (String)v);
                 return null;
             }
         }
 
-        private void parseProperty(String key, String value) {
-            if (key.startsWith("filename.")) {
-                //the only special case is "MingLiu_HKSCS" which has "_" in its
-                //facename, we don't want to replace the "_" with " "
+        privbte void pbrseProperty(String key, String vblue) {
+            if (key.stbrtsWith("filenbme.")) {
+                //the only specibl cbse is "MingLiu_HKSCS" which hbs "_" in its
+                //fbcenbme, we don't wbnt to replbce the "_" with " "
                 key = key.substring(9);
-                if (!"MingLiU_HKSCS".equals(key)) {
-                    key = key.replace('_', ' ');
+                if (!"MingLiU_HKSCS".equbls(key)) {
+                    key = key.replbce('_', ' ');
                 }
-                Short faceID = getID(componentFontNameIDs, key);
-                Short fileID = getID(fontfileNameIDs, value);
-                //System.out.println("faceID=" + faceID + "/" + key + " -> "
-                //    + "fileID=" + fileID + "/" + value);
-                filenames.put(faceID, fileID);
-            } else if (key.startsWith("exclusion.")) {
+                Short fbceID = getID(componentFontNbmeIDs, key);
+                Short fileID = getID(fontfileNbmeIDs, vblue);
+                //System.out.println("fbceID=" + fbceID + "/" + key + " -> "
+                //    + "fileID=" + fileID + "/" + vblue);
+                filenbmes.put(fbceID, fileID);
+            } else if (key.stbrtsWith("exclusion.")) {
                 key = key.substring(10);
-                exclusions.put(getID(scriptIDs,key), parseExclusions(key,value));
-            } else if (key.startsWith("sequence.")) {
+                exclusions.put(getID(scriptIDs,key), pbrseExclusions(key,vblue));
+            } else if (key.stbrtsWith("sequence.")) {
                 key = key.substring(9);
-                boolean hasDefault = false;
-                boolean has1252 = false;
+                boolebn hbsDefbult = fblse;
+                boolebn hbs1252 = fblse;
 
                 //get the scriptID list
-                String[] ss = splitSequence(value).toArray(EMPTY_STRING_ARRAY);
-                short [] sa = new short[ss.length];
+                String[] ss = splitSequence(vblue).toArrby(EMPTY_STRING_ARRAY);
+                short [] sb = new short[ss.length];
                 for (int i = 0; i < ss.length; i++) {
-                    if ("alphabetic/default".equals(ss[i])) {
+                    if ("blphbbetic/defbult".equbls(ss[i])) {
                         //System.out.println(key + " -> " + ss[i]);
-                        ss[i] = "alphabetic";
-                        hasDefault = true;
-                    } else if ("alphabetic/1252".equals(ss[i])) {
+                        ss[i] = "blphbbetic";
+                        hbsDefbult = true;
+                    } else if ("blphbbetic/1252".equbls(ss[i])) {
                         //System.out.println(key + " -> " + ss[i]);
-                        ss[i] = "alphabetic";
-                        has1252 = true;
+                        ss[i] = "blphbbetic";
+                        hbs1252 = true;
                     }
-                    sa[i] = getID(scriptIDs, ss[i]).shortValue();
+                    sb[i] = getID(scriptIDs, ss[i]).shortVblue();
                     //System.out.println("scriptID=" + si[i] + "/" + ss[i]);
                 }
                 //convert the "short[] -> string -> stringID"
-                short scriptArrayID = getShortArrayID(sa);
+                short scriptArrbyID = getShortArrbyID(sb);
                 Short elcID = null;
                 int dot = key.indexOf('.');
                 if (dot == -1) {
-                    if ("fallback".equals(key)) {
-                        fallbackScriptIDs = sa;
+                    if ("fbllbbck".equbls(key)) {
+                        fbllbbckScriptIDs = sb;
                         return;
                     }
-                    if ("allfonts".equals(key)) {
+                    if ("bllfonts".equbls(key)) {
                         elcID = getID(elcIDs, "NULL.NULL.NULL");
                     } else {
                         if (logger != null) {
@@ -2176,64 +2176,64 @@ public abstract class FontConfiguration {
                     //System.out.println("elcID=" + elcID + "/" + key.substring(dot + 1));
                     key = key.substring(0, dot);
                 }
-                short[] scriptArrayIDs = null;
-                if ("allfonts".equals(key)) {
-                    scriptArrayIDs = new short[1];
-                    scriptArrayIDs[0] = scriptArrayID;
+                short[] scriptArrbyIDs = null;
+                if ("bllfonts".equbls(key)) {
+                    scriptArrbyIDs = new short[1];
+                    scriptArrbyIDs[0] = scriptArrbyID;
                 } else {
-                    scriptArrayIDs = sequences.get(elcID);
-                    if (scriptArrayIDs == null) {
-                       scriptArrayIDs = new short[5];
+                    scriptArrbyIDs = sequences.get(elcID);
+                    if (scriptArrbyIDs == null) {
+                       scriptArrbyIDs = new short[5];
                     }
-                    Integer fid = logicalFontIDs.get(key);
+                    Integer fid = logicblFontIDs.get(key);
                     if (fid == null) {
                         if (logger != null) {
-                            logger.config("Unrecognizable logicfont name " + key);
+                            logger.config("Unrecognizbble logicfont nbme " + key);
                         }
                         return;
                     }
                     //System.out.println("sequence." + key + "/" + id);
-                    scriptArrayIDs[fid.intValue()] = scriptArrayID;
+                    scriptArrbyIDs[fid.intVblue()] = scriptArrbyID;
                 }
-                sequences.put(elcID, scriptArrayIDs);
-                if (hasDefault) {
-                    alphabeticSuffix.put(elcID, getStringID("default"));
+                sequences.put(elcID, scriptArrbyIDs);
+                if (hbsDefbult) {
+                    blphbbeticSuffix.put(elcID, getStringID("defbult"));
                 } else
-                if (has1252) {
-                    alphabeticSuffix.put(elcID, getStringID("1252"));
+                if (hbs1252) {
+                    blphbbeticSuffix.put(elcID, getStringID("1252"));
                 }
-            } else if (key.startsWith("allfonts.")) {
+            } else if (key.stbrtsWith("bllfonts.")) {
                 key = key.substring(9);
                 if (key.endsWith(".motif")) {
                     key = key.substring(0, key.length() - 6);
-                    //System.out.println("motif: all." + key + "=" + value);
-                    scriptAllfontsMotif.put(getID(scriptIDs,key), getID(componentFontNameIDs,value));
+                    //System.out.println("motif: bll." + key + "=" + vblue);
+                    scriptAllfontsMotif.put(getID(scriptIDs,key), getID(componentFontNbmeIDs,vblue));
                 } else {
-                    scriptAllfonts.put(getID(scriptIDs,key), getID(componentFontNameIDs,value));
+                    scriptAllfonts.put(getID(scriptIDs,key), getID(componentFontNbmeIDs,vblue));
                 }
-            } else if (key.startsWith("awtfontpath.")) {
+            } else if (key.stbrtsWith("bwtfontpbth.")) {
                 key = key.substring(12);
                 //System.out.println("scriptID=" + getID(scriptIDs, key) + "/" + key);
-                awtfontpaths.put(getID(scriptIDs, key), getStringID(value));
-            } else if ("version".equals(key)) {
-                version = value;
-            } else if ("appendedfontpath".equals(key)) {
-                appendedfontpath = value;
-            } else if (key.startsWith("proportional.")) {
-                key = key.substring(13).replace('_', ' ');
-                //System.out.println(key + "=" + value);
-                proportionals.put(getID(componentFontNameIDs, key),
-                                  getID(componentFontNameIDs, value));
+                bwtfontpbths.put(getID(scriptIDs, key), getStringID(vblue));
+            } else if ("version".equbls(key)) {
+                version = vblue;
+            } else if ("bppendedfontpbth".equbls(key)) {
+                bppendedfontpbth = vblue;
+            } else if (key.stbrtsWith("proportionbl.")) {
+                key = key.substring(13).replbce('_', ' ');
+                //System.out.println(key + "=" + vblue);
+                proportionbls.put(getID(componentFontNbmeIDs, key),
+                                  getID(componentFontNbmeIDs, vblue));
             } else {
-                //"name.style.script(.motif)", we don't care anything else
+                //"nbme.style.script(.motif)", we don't cbre bnything else
                 int dot1, dot2;
-                boolean isMotif = false;
+                boolebn isMotif = fblse;
 
                 dot1 = key.indexOf('.');
                 if (dot1 == -1) {
                     if (logger != null) {
-                        logger.config("Failed parsing " + key +
-                                  " property of font configuration.");
+                        logger.config("Fbiled pbrsing " + key +
+                                  " property of font configurbtion.");
 
                     }
                     return;
@@ -2241,8 +2241,8 @@ public abstract class FontConfiguration {
                 dot2 = key.indexOf('.', dot1 + 1);
                 if (dot2 == -1) {
                     if (logger != null) {
-                        logger.config("Failed parsing " + key +
-                                  " property of font configuration.");
+                        logger.config("Fbiled pbrsing " + key +
+                                  " property of font configurbtion.");
 
                     }
                     return;
@@ -2250,14 +2250,14 @@ public abstract class FontConfiguration {
                 if (key.endsWith(".motif")) {
                     key = key.substring(0, key.length() - 6);
                     isMotif = true;
-                    //System.out.println("motif: " + key + "=" + value);
+                    //System.out.println("motif: " + key + "=" + vblue);
                 }
-                Integer nameID = logicalFontIDs.get(key.substring(0, dot1));
+                Integer nbmeID = logicblFontIDs.get(key.substring(0, dot1));
                 Integer styleID = fontStyleIDs.get(key.substring(dot1+1, dot2));
                 Short scriptID = getID(scriptIDs, key.substring(dot2 + 1));
-                if (nameID == null || styleID == null) {
+                if (nbmeID == null || styleID == null) {
                     if (logger != null) {
-                        logger.config("unrecognizable logicfont name/style at " + key);
+                        logger.config("unrecognizbble logicfont nbme/style bt " + key);
                     }
                     return;
                 }
@@ -2270,12 +2270,12 @@ public abstract class FontConfiguration {
                 if (pnids == null) {
                     pnids =  new Short[20];
                 }
-                pnids[nameID.intValue() * NUM_STYLES + styleID.intValue()]
-                  = getID(componentFontNameIDs, value);
+                pnids[nbmeID.intVblue() * NUM_STYLES + styleID.intVblue()]
+                  = getID(componentFontNbmeIDs, vblue);
                 /*
-                System.out.println("key=" + key + "/<" + nameID + "><" + styleID
-                                     + "><" + scriptID + ">=" + value
-                                     + "/" + getID(componentFontNameIDs, value));
+                System.out.println("key=" + key + "/<" + nbmeID + "><" + styleID
+                                     + "><" + scriptID + ">=" + vblue
+                                     + "/" + getID(componentFontNbmeIDs, vblue));
                 */
                 if (isMotif) {
                     scriptFontsMotif.put(scriptID, pnids);

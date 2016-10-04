@@ -1,265 +1,265 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbckbge com.sun.imbgeio.plugins.gif;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.WritableRaster;
-import java.io.EOFException;
-import java.io.IOException;
-import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import javax.imageio.IIOException;
-import javax.imageio.ImageReader;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.stream.ImageInputStream;
-import com.sun.imageio.plugins.common.ReaderUtil;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.PixelInterleavedSampleModel;
-import java.awt.image.SampleModel;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.io.EOFException;
+import jbvb.io.IOException;
+import jbvb.nio.ByteOrder;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvbx.imbgeio.IIOException;
+import jbvbx.imbgeio.ImbgeRebder;
+import jbvbx.imbgeio.ImbgeRebdPbrbm;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.spi.ImbgeRebderSpi;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
+import com.sun.imbgeio.plugins.common.RebderUtil;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.MultiPixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.PixelInterlebvedSbmpleModel;
+import jbvb.bwt.imbge.SbmpleModel;
 
-public class GIFImageReader extends ImageReader {
+public clbss GIFImbgeRebder extends ImbgeRebder {
 
-    // The current ImageInputStream source.
-    ImageInputStream stream = null;
+    // The current ImbgeInputStrebm source.
+    ImbgeInputStrebm strebm = null;
 
-    // Per-stream settings
+    // Per-strebm settings
 
-    // True if the file header including stream metadata has been read.
-    boolean gotHeader = false;
+    // True if the file hebder including strebm metbdbtb hbs been rebd.
+    boolebn gotHebder = fblse;
 
-    // Global metadata, read once per input setting.
-    GIFStreamMetadata streamMetadata = null;
+    // Globbl metbdbtb, rebd once per input setting.
+    GIFStrebmMetbdbtb strebmMetbdbtb = null;
 
-    // The current image index
+    // The current imbge index
     int currIndex = -1;
 
-    // Metadata for image at 'currIndex', or null.
-    GIFImageMetadata imageMetadata = null;
+    // Metbdbtb for imbge bt 'currIndex', or null.
+    GIFImbgeMetbdbtb imbgeMetbdbtb = null;
 
-    // A List of Longs indicating the stream positions of the
-    // start of the metadata for each image.  Entries are added
-    // as needed.
-    List<Long> imageStartPosition = new ArrayList<>();
+    // A List of Longs indicbting the strebm positions of the
+    // stbrt of the metbdbtb for ebch imbge.  Entries bre bdded
+    // bs needed.
+    List<Long> imbgeStbrtPosition = new ArrbyList<>();
 
-    // Length of metadata for image at 'currIndex', valid only if
-    // imageMetadata != null.
-    int imageMetadataLength;
+    // Length of metbdbtb for imbge bt 'currIndex', vblid only if
+    // imbgeMetbdbtb != null.
+    int imbgeMetbdbtbLength;
 
-    // The number of images in the stream, if known, otherwise -1.
-    int numImages = -1;
+    // The number of imbges in the strebm, if known, otherwise -1.
+    int numImbges = -1;
 
-    // Variables used by the LZW decoding process
+    // Vbribbles used by the LZW decoding process
     byte[] block = new byte[255];
     int blockLength = 0;
     int bitPos = 0;
     int nextByte = 0;
     int initCodeSize;
-    int clearCode;
+    int clebrCode;
     int eofCode;
 
-    // 32-bit lookahead buffer
+    // 32-bit lookbhebd buffer
     int next32Bits = 0;
 
-    // Try if the end of the data blocks has been found,
-    // and we are simply draining the 32-bit buffer
-    boolean lastBlockFound = false;
+    // Try if the end of the dbtb blocks hbs been found,
+    // bnd we bre simply drbining the 32-bit buffer
+    boolebn lbstBlockFound = fblse;
 
-    // The image to be written.
-    BufferedImage theImage = null;
+    // The imbge to be written.
+    BufferedImbge theImbge = null;
 
-    // The image's tile.
-    WritableRaster theTile = null;
+    // The imbge's tile.
+    WritbbleRbster theTile = null;
 
-    // The image dimensions (from the stream).
+    // The imbge dimensions (from the strebm).
     int width = -1, height = -1;
 
-    // The pixel currently being decoded (in the stream's coordinates).
-    int streamX = -1, streamY = -1;
+    // The pixel currently being decoded (in the strebm's coordinbtes).
+    int strebmX = -1, strebmY = -1;
 
     // The number of rows decoded
     int rowsDone = 0;
 
-    // The current interlace pass, starting with 0.
-    int interlacePass = 0;
+    // The current interlbce pbss, stbrting with 0.
+    int interlbcePbss = 0;
 
-    private byte[] fallbackColorTable = null;
+    privbte byte[] fbllbbckColorTbble = null;
 
-    // End per-stream settings
+    // End per-strebm settings
 
-    // Constants used to control interlacing.
-    static final int[] interlaceIncrement = { 8, 8, 4, 2, -1 };
-    static final int[] interlaceOffset = { 0, 4, 2, 1, -1 };
+    // Constbnts used to control interlbcing.
+    stbtic finbl int[] interlbceIncrement = { 8, 8, 4, 2, -1 };
+    stbtic finbl int[] interlbceOffset = { 0, 4, 2, 1, -1 };
 
-    public GIFImageReader(ImageReaderSpi originatingProvider) {
-        super(originatingProvider);
+    public GIFImbgeRebder(ImbgeRebderSpi originbtingProvider) {
+        super(originbtingProvider);
     }
 
-    // Take input from an ImageInputStream
+    // Tbke input from bn ImbgeInputStrebm
     public void setInput(Object input,
-                         boolean seekForwardOnly,
-                         boolean ignoreMetadata) {
-        super.setInput(input, seekForwardOnly, ignoreMetadata);
+                         boolebn seekForwbrdOnly,
+                         boolebn ignoreMetbdbtb) {
+        super.setInput(input, seekForwbrdOnly, ignoreMetbdbtb);
         if (input != null) {
-            if (!(input instanceof ImageInputStream)) {
-                throw new IllegalArgumentException
-                    ("input not an ImageInputStream!");
+            if (!(input instbnceof ImbgeInputStrebm)) {
+                throw new IllegblArgumentException
+                    ("input not bn ImbgeInputStrebm!");
             }
-            this.stream = (ImageInputStream)input;
+            this.strebm = (ImbgeInputStrebm)input;
         } else {
-            this.stream = null;
+            this.strebm = null;
         }
 
-        // Clear all values based on the previous stream contents
-        resetStreamSettings();
+        // Clebr bll vblues bbsed on the previous strebm contents
+        resetStrebmSettings();
     }
 
-    public int getNumImages(boolean allowSearch) throws IIOException {
-        if (stream == null) {
-            throw new IllegalStateException("Input not set!");
+    public int getNumImbges(boolebn bllowSebrch) throws IIOException {
+        if (strebm == null) {
+            throw new IllegblStbteException("Input not set!");
         }
-        if (seekForwardOnly && allowSearch) {
-            throw new IllegalStateException
-                ("seekForwardOnly and allowSearch can't both be true!");
+        if (seekForwbrdOnly && bllowSebrch) {
+            throw new IllegblStbteException
+                ("seekForwbrdOnly bnd bllowSebrch cbn't both be true!");
         }
 
-        if (numImages > 0) {
-            return numImages;
+        if (numImbges > 0) {
+            return numImbges;
         }
-        if (allowSearch) {
-            this.numImages = locateImage(Integer.MAX_VALUE) + 1;
+        if (bllowSebrch) {
+            this.numImbges = locbteImbge(Integer.MAX_VALUE) + 1;
         }
-        return numImages;
+        return numImbges;
     }
 
-    // Throw an IndexOutOfBoundsException if index < minIndex,
-    // and bump minIndex if required.
-    private void checkIndex(int imageIndex) {
-        if (imageIndex < minIndex) {
-            throw new IndexOutOfBoundsException("imageIndex < minIndex!");
+    // Throw bn IndexOutOfBoundsException if index < minIndex,
+    // bnd bump minIndex if required.
+    privbte void checkIndex(int imbgeIndex) {
+        if (imbgeIndex < minIndex) {
+            throw new IndexOutOfBoundsException("imbgeIndex < minIndex!");
         }
-        if (seekForwardOnly) {
-            minIndex = imageIndex;
+        if (seekForwbrdOnly) {
+            minIndex = imbgeIndex;
         }
     }
 
-    public int getWidth(int imageIndex) throws IIOException {
-        checkIndex(imageIndex);
+    public int getWidth(int imbgeIndex) throws IIOException {
+        checkIndex(imbgeIndex);
 
-        int index = locateImage(imageIndex);
-        if (index != imageIndex) {
+        int index = locbteImbge(imbgeIndex);
+        if (index != imbgeIndex) {
             throw new IndexOutOfBoundsException();
         }
-        readMetadata();
-        return imageMetadata.imageWidth;
+        rebdMetbdbtb();
+        return imbgeMetbdbtb.imbgeWidth;
     }
 
-    public int getHeight(int imageIndex) throws IIOException {
-        checkIndex(imageIndex);
+    public int getHeight(int imbgeIndex) throws IIOException {
+        checkIndex(imbgeIndex);
 
-        int index = locateImage(imageIndex);
-        if (index != imageIndex) {
+        int index = locbteImbge(imbgeIndex);
+        if (index != imbgeIndex) {
             throw new IndexOutOfBoundsException();
         }
-        readMetadata();
-        return imageMetadata.imageHeight;
+        rebdMetbdbtb();
+        return imbgeMetbdbtb.imbgeHeight;
     }
 
-    // We don't check all parameters as ImageTypeSpecifier.createIndexed do
-    // since this method is private and we pass consistent data here
-    private ImageTypeSpecifier createIndexed(byte[] r, byte[] g, byte[] b,
+    // We don't check bll pbrbmeters bs ImbgeTypeSpecifier.crebteIndexed do
+    // since this method is privbte bnd we pbss consistent dbtb here
+    privbte ImbgeTypeSpecifier crebteIndexed(byte[] r, byte[] g, byte[] b,
                                              int bits) {
         ColorModel colorModel;
-        if (imageMetadata.transparentColorFlag) {
-            // Some files erroneously have a transparent color index
-            // of 255 even though there are fewer than 256 colors.
-            int idx = Math.min(imageMetadata.transparentColorIndex,
+        if (imbgeMetbdbtb.trbnspbrentColorFlbg) {
+            // Some files erroneously hbve b trbnspbrent color index
+            // of 255 even though there bre fewer thbn 256 colors.
+            int idx = Mbth.min(imbgeMetbdbtb.trbnspbrentColorIndex,
                     r.length - 1);
             colorModel = new IndexColorModel(bits, r.length, r, g, b, idx);
         } else {
             colorModel = new IndexColorModel(bits, r.length, r, g, b);
         }
 
-        SampleModel sampleModel;
+        SbmpleModel sbmpleModel;
         if (bits == 8) {
-            int[] bandOffsets = {0};
-            sampleModel =
-                    new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE,
+            int[] bbndOffsets = {0};
+            sbmpleModel =
+                    new PixelInterlebvedSbmpleModel(DbtbBuffer.TYPE_BYTE,
                     1, 1, 1, 1,
-                    bandOffsets);
+                    bbndOffsets);
         } else {
-            sampleModel =
-                    new MultiPixelPackedSampleModel(DataBuffer.TYPE_BYTE,
+            sbmpleModel =
+                    new MultiPixelPbckedSbmpleModel(DbtbBuffer.TYPE_BYTE,
                     1, 1, bits);
         }
-        return new ImageTypeSpecifier(colorModel, sampleModel);
+        return new ImbgeTypeSpecifier(colorModel, sbmpleModel);
     }
 
-    public Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex)
+    public Iterbtor<ImbgeTypeSpecifier> getImbgeTypes(int imbgeIndex)
             throws IIOException {
-        checkIndex(imageIndex);
+        checkIndex(imbgeIndex);
 
-        int index = locateImage(imageIndex);
-        if (index != imageIndex) {
+        int index = locbteImbge(imbgeIndex);
+        if (index != imbgeIndex) {
             throw new IndexOutOfBoundsException();
         }
-        readMetadata();
+        rebdMetbdbtb();
 
-        List<ImageTypeSpecifier> l = new ArrayList<>(1);
+        List<ImbgeTypeSpecifier> l = new ArrbyList<>(1);
 
-        byte[] colorTable;
-        if (imageMetadata.localColorTable != null) {
-            colorTable = imageMetadata.localColorTable;
-            fallbackColorTable = imageMetadata.localColorTable;
+        byte[] colorTbble;
+        if (imbgeMetbdbtb.locblColorTbble != null) {
+            colorTbble = imbgeMetbdbtb.locblColorTbble;
+            fbllbbckColorTbble = imbgeMetbdbtb.locblColorTbble;
         } else {
-            colorTable = streamMetadata.globalColorTable;
+            colorTbble = strebmMetbdbtb.globblColorTbble;
         }
 
-        if (colorTable == null) {
-            if (fallbackColorTable == null) {
-                this.processWarningOccurred("Use default color table.");
+        if (colorTbble == null) {
+            if (fbllbbckColorTbble == null) {
+                this.processWbrningOccurred("Use defbult color tbble.");
 
-                // no color table, the spec allows to use any palette.
-                fallbackColorTable = getDefaultPalette();
+                // no color tbble, the spec bllows to use bny pblette.
+                fbllbbckColorTbble = getDefbultPblette();
             }
 
-            colorTable = fallbackColorTable;
+            colorTbble = fbllbbckColorTbble;
         }
 
-        // Normalize color table length to 2^1, 2^2, 2^4, or 2^8
-        int length = colorTable.length/3;
+        // Normblize color tbble length to 2^1, 2^2, 2^4, or 2^8
+        int length = colorTbble.length/3;
         int bits;
         if (length == 2) {
             bits = 1;
@@ -280,38 +280,38 @@ public class GIFImageReader extends ImageReader {
         // Entries from length + 1 to lutLength - 1 will be 0
         int rgbIndex = 0;
         for (int i = 0; i < length; i++) {
-            r[i] = colorTable[rgbIndex++];
-            g[i] = colorTable[rgbIndex++];
-            b[i] = colorTable[rgbIndex++];
+            r[i] = colorTbble[rgbIndex++];
+            g[i] = colorTbble[rgbIndex++];
+            b[i] = colorTbble[rgbIndex++];
         }
 
-        l.add(createIndexed(r, g, b, bits));
-        return l.iterator();
+        l.bdd(crebteIndexed(r, g, b, bits));
+        return l.iterbtor();
     }
 
-    public ImageReadParam getDefaultReadParam() {
-        return new ImageReadParam();
+    public ImbgeRebdPbrbm getDefbultRebdPbrbm() {
+        return new ImbgeRebdPbrbm();
     }
 
-    public IIOMetadata getStreamMetadata() throws IIOException {
-        readHeader();
-        return streamMetadata;
+    public IIOMetbdbtb getStrebmMetbdbtb() throws IIOException {
+        rebdHebder();
+        return strebmMetbdbtb;
     }
 
-    public IIOMetadata getImageMetadata(int imageIndex) throws IIOException {
-        checkIndex(imageIndex);
+    public IIOMetbdbtb getImbgeMetbdbtb(int imbgeIndex) throws IIOException {
+        checkIndex(imbgeIndex);
 
-        int index = locateImage(imageIndex);
-        if (index != imageIndex) {
-            throw new IndexOutOfBoundsException("Bad image index!");
+        int index = locbteImbge(imbgeIndex);
+        if (index != imbgeIndex) {
+            throw new IndexOutOfBoundsException("Bbd imbge index!");
         }
-        readMetadata();
-        return imageMetadata;
+        rebdMetbdbtb();
+        return imbgeMetbdbtb;
     }
 
     // BEGIN LZW STUFF
 
-    private void initNext32Bits() {
+    privbte void initNext32Bits() {
         next32Bits = block[0] & 0xff;
         next32Bits |= (block[1] & 0xff) << 8;
         next32Bits |= (block[2] & 0xff) << 16;
@@ -319,37 +319,37 @@ public class GIFImageReader extends ImageReader {
         nextByte = 4;
     }
 
-    // Load a block (1-255 bytes) at a time, and maintain
-    // a 32-bit lookahead buffer that is filled from the left
-    // and extracted from the right.
+    // Lobd b block (1-255 bytes) bt b time, bnd mbintbin
+    // b 32-bit lookbhebd buffer thbt is filled from the left
+    // bnd extrbcted from the right.
     //
-    // When the last block is found, we continue to
+    // When the lbst block is found, we continue to
     //
-    private int getCode(int codeSize, int codeMask) throws IOException {
+    privbte int getCode(int codeSize, int codeMbsk) throws IOException {
         if (bitPos + codeSize > 32) {
-            return eofCode; // No more data available
+            return eofCode; // No more dbtb bvbilbble
         }
 
-        int code = (next32Bits >> bitPos) & codeMask;
+        int code = (next32Bits >> bitPos) & codeMbsk;
         bitPos += codeSize;
 
-        // Shift in a byte of new data at a time
-        while (bitPos >= 8 && !lastBlockFound) {
+        // Shift in b byte of new dbtb bt b time
+        while (bitPos >= 8 && !lbstBlockFound) {
             next32Bits >>>= 8;
             bitPos -= 8;
 
             // Check if current block is out of bytes
             if (nextByte >= blockLength) {
                 // Get next block size
-                blockLength = stream.readUnsignedByte();
+                blockLength = strebm.rebdUnsignedByte();
                 if (blockLength == 0) {
-                    lastBlockFound = true;
+                    lbstBlockFound = true;
                     return code;
                 } else {
                     int left = blockLength;
                     int off = 0;
                     while (left > 0) {
-                        int nbytes = stream.read(block, off, left);
+                        int nbytes = strebm.rebd(block, off, left);
                         off += nbytes;
                         left -= nbytes;
                     }
@@ -363,128 +363,128 @@ public class GIFImageReader extends ImageReader {
         return code;
     }
 
-    public void initializeStringTable(int[] prefix,
+    public void initiblizeStringTbble(int[] prefix,
                                       byte[] suffix,
-                                      byte[] initial,
+                                      byte[] initibl,
                                       int[] length) {
         int numEntries = 1 << initCodeSize;
         for (int i = 0; i < numEntries; i++) {
             prefix[i] = -1;
             suffix[i] = (byte)i;
-            initial[i] = (byte)i;
+            initibl[i] = (byte)i;
             length[i] = 1;
         }
 
-        // Fill in the entire table for robustness against
+        // Fill in the entire tbble for robustness bgbinst
         // out-of-sequence codes.
         for (int i = numEntries; i < 4096; i++) {
             prefix[i] = -1;
             length[i] = 1;
         }
 
-        // tableIndex = numEntries + 2;
+        // tbbleIndex = numEntries + 2;
         // codeSize = initCodeSize + 1;
-        // codeMask = (1 << codeSize) - 1;
+        // codeMbsk = (1 << codeSize) - 1;
     }
 
-    Rectangle sourceRegion;
-    int sourceXSubsampling;
-    int sourceYSubsampling;
-    int sourceMinProgressivePass;
-    int sourceMaxProgressivePass;
+    Rectbngle sourceRegion;
+    int sourceXSubsbmpling;
+    int sourceYSubsbmpling;
+    int sourceMinProgressivePbss;
+    int sourceMbxProgressivePbss;
 
-    Point destinationOffset;
-    Rectangle destinationRegion;
+    Point destinbtionOffset;
+    Rectbngle destinbtionRegion;
 
-    // Used only if IIOReadUpdateListeners are present
-    int updateMinY;
-    int updateYStep;
+    // Used only if IIORebdUpdbteListeners bre present
+    int updbteMinY;
+    int updbteYStep;
 
-    boolean decodeThisRow = true;
+    boolebn decodeThisRow = true;
     int destY = 0;
 
     byte[] rowBuf;
 
-    private void outputRow() {
-        // Clip against ImageReadParam
-        int width = Math.min(sourceRegion.width,
-                             destinationRegion.width*sourceXSubsampling);
-        int destX = destinationRegion.x;
+    privbte void outputRow() {
+        // Clip bgbinst ImbgeRebdPbrbm
+        int width = Mbth.min(sourceRegion.width,
+                             destinbtionRegion.width*sourceXSubsbmpling);
+        int destX = destinbtionRegion.x;
 
-        if (sourceXSubsampling == 1) {
-            theTile.setDataElements(destX, destY, width, 1, rowBuf);
+        if (sourceXSubsbmpling == 1) {
+            theTile.setDbtbElements(destX, destY, width, 1, rowBuf);
         } else {
-            for (int x = 0; x < width; x += sourceXSubsampling, destX++) {
-                theTile.setSample(destX, destY, 0, rowBuf[x] & 0xff);
+            for (int x = 0; x < width; x += sourceXSubsbmpling, destX++) {
+                theTile.setSbmple(destX, destY, 0, rowBuf[x] & 0xff);
             }
         }
 
-        // Update IIOReadUpdateListeners, if any
-        if (updateListeners != null) {
-            int[] bands = { 0 };
-            // updateYStep will have been initialized if
-            // updateListeners is non-null
-            processImageUpdate(theImage,
+        // Updbte IIORebdUpdbteListeners, if bny
+        if (updbteListeners != null) {
+            int[] bbnds = { 0 };
+            // updbteYStep will hbve been initiblized if
+            // updbteListeners is non-null
+            processImbgeUpdbte(theImbge,
                                destX, destY,
-                               width, 1, 1, updateYStep,
-                               bands);
+                               width, 1, 1, updbteYStep,
+                               bbnds);
         }
     }
 
-    private void computeDecodeThisRow() {
+    privbte void computeDecodeThisRow() {
         this.decodeThisRow =
-            (destY < destinationRegion.y + destinationRegion.height) &&
-            (streamY >= sourceRegion.y) &&
-            (streamY < sourceRegion.y + sourceRegion.height) &&
-            (((streamY - sourceRegion.y) % sourceYSubsampling) == 0);
+            (destY < destinbtionRegion.y + destinbtionRegion.height) &&
+            (strebmY >= sourceRegion.y) &&
+            (strebmY < sourceRegion.y + sourceRegion.height) &&
+            (((strebmY - sourceRegion.y) % sourceYSubsbmpling) == 0);
     }
 
-    private void outputPixels(byte[] string, int len) {
-        if (interlacePass < sourceMinProgressivePass ||
-            interlacePass > sourceMaxProgressivePass) {
+    privbte void outputPixels(byte[] string, int len) {
+        if (interlbcePbss < sourceMinProgressivePbss ||
+            interlbcePbss > sourceMbxProgressivePbss) {
             return;
         }
 
         for (int i = 0; i < len; i++) {
-            if (streamX >= sourceRegion.x) {
-                rowBuf[streamX - sourceRegion.x] = string[i];
+            if (strebmX >= sourceRegion.x) {
+                rowBuf[strebmX - sourceRegion.x] = string[i];
             }
 
             // Process end-of-row
-            ++streamX;
-            if (streamX == width) {
-                // Update IIOReadProgressListeners
+            ++strebmX;
+            if (strebmX == width) {
+                // Updbte IIORebdProgressListeners
                 ++rowsDone;
-                processImageProgress(100.0F*rowsDone/height);
+                processImbgeProgress(100.0F*rowsDone/height);
 
                 if (decodeThisRow) {
                     outputRow();
                 }
 
-                streamX = 0;
-                if (imageMetadata.interlaceFlag) {
-                    streamY += interlaceIncrement[interlacePass];
-                    if (streamY >= height) {
-                        // Inform IIOReadUpdateListeners of end of pass
-                        if (updateListeners != null) {
-                            processPassComplete(theImage);
+                strebmX = 0;
+                if (imbgeMetbdbtb.interlbceFlbg) {
+                    strebmY += interlbceIncrement[interlbcePbss];
+                    if (strebmY >= height) {
+                        // Inform IIORebdUpdbteListeners of end of pbss
+                        if (updbteListeners != null) {
+                            processPbssComplete(theImbge);
                         }
 
-                        ++interlacePass;
-                        if (interlacePass > sourceMaxProgressivePass) {
+                        ++interlbcePbss;
+                        if (interlbcePbss > sourceMbxProgressivePbss) {
                             return;
                         }
-                        streamY = interlaceOffset[interlacePass];
-                        startPass(interlacePass);
+                        strebmY = interlbceOffset[interlbcePbss];
+                        stbrtPbss(interlbcePbss);
                     }
                 } else {
-                    ++streamY;
+                    ++strebmY;
                 }
 
                 // Determine whether pixels from this row will
-                // be written to the destination
-                this.destY = destinationRegion.y +
-                    (streamY - sourceRegion.y)/sourceYSubsampling;
+                // be written to the destinbtion
+                this.destY = destinbtionRegion.y +
+                    (strebmY - sourceRegion.y)/sourceYSubsbmpling;
                 computeDecodeThisRow();
             }
         }
@@ -492,506 +492,506 @@ public class GIFImageReader extends ImageReader {
 
     // END LZW STUFF
 
-    private void readHeader() throws IIOException {
-        if (gotHeader) {
+    privbte void rebdHebder() throws IIOException {
+        if (gotHebder) {
             return;
         }
-        if (stream == null) {
-            throw new IllegalStateException("Input not set!");
+        if (strebm == null) {
+            throw new IllegblStbteException("Input not set!");
         }
 
-        // Create an object to store the stream metadata
-        this.streamMetadata = new GIFStreamMetadata();
+        // Crebte bn object to store the strebm metbdbtb
+        this.strebmMetbdbtb = new GIFStrebmMetbdbtb();
 
         try {
-            stream.setByteOrder(ByteOrder.LITTLE_ENDIAN);
+            strebm.setByteOrder(ByteOrder.LITTLE_ENDIAN);
 
-            byte[] signature = new byte[6];
-            stream.readFully(signature);
+            byte[] signbture = new byte[6];
+            strebm.rebdFully(signbture);
 
             StringBuilder version = new StringBuilder(3);
-            version.append((char)signature[3]);
-            version.append((char)signature[4]);
-            version.append((char)signature[5]);
-            streamMetadata.version = version.toString();
+            version.bppend((chbr)signbture[3]);
+            version.bppend((chbr)signbture[4]);
+            version.bppend((chbr)signbture[5]);
+            strebmMetbdbtb.version = version.toString();
 
-            streamMetadata.logicalScreenWidth = stream.readUnsignedShort();
-            streamMetadata.logicalScreenHeight = stream.readUnsignedShort();
+            strebmMetbdbtb.logicblScreenWidth = strebm.rebdUnsignedShort();
+            strebmMetbdbtb.logicblScreenHeight = strebm.rebdUnsignedShort();
 
-            int packedFields = stream.readUnsignedByte();
-            boolean globalColorTableFlag = (packedFields & 0x80) != 0;
-            streamMetadata.colorResolution = ((packedFields >> 4) & 0x7) + 1;
-            streamMetadata.sortFlag = (packedFields & 0x8) != 0;
-            int numGCTEntries = 1 << ((packedFields & 0x7) + 1);
+            int pbckedFields = strebm.rebdUnsignedByte();
+            boolebn globblColorTbbleFlbg = (pbckedFields & 0x80) != 0;
+            strebmMetbdbtb.colorResolution = ((pbckedFields >> 4) & 0x7) + 1;
+            strebmMetbdbtb.sortFlbg = (pbckedFields & 0x8) != 0;
+            int numGCTEntries = 1 << ((pbckedFields & 0x7) + 1);
 
-            streamMetadata.backgroundColorIndex = stream.readUnsignedByte();
-            streamMetadata.pixelAspectRatio = stream.readUnsignedByte();
+            strebmMetbdbtb.bbckgroundColorIndex = strebm.rebdUnsignedByte();
+            strebmMetbdbtb.pixelAspectRbtio = strebm.rebdUnsignedByte();
 
-            if (globalColorTableFlag) {
-                streamMetadata.globalColorTable = new byte[3*numGCTEntries];
-                stream.readFully(streamMetadata.globalColorTable);
+            if (globblColorTbbleFlbg) {
+                strebmMetbdbtb.globblColorTbble = new byte[3*numGCTEntries];
+                strebm.rebdFully(strebmMetbdbtb.globblColorTbble);
             } else {
-                streamMetadata.globalColorTable = null;
+                strebmMetbdbtb.globblColorTbble = null;
             }
 
-            // Found position of metadata for image 0
-            imageStartPosition.add(Long.valueOf(stream.getStreamPosition()));
-        } catch (IOException e) {
-            throw new IIOException("I/O error reading header!", e);
+            // Found position of metbdbtb for imbge 0
+            imbgeStbrtPosition.bdd(Long.vblueOf(strebm.getStrebmPosition()));
+        } cbtch (IOException e) {
+            throw new IIOException("I/O error rebding hebder!", e);
         }
 
-        gotHeader = true;
+        gotHebder = true;
     }
 
-    private boolean skipImage() throws IIOException {
-        // Stream must be at the beginning of an image descriptor
+    privbte boolebn skipImbge() throws IIOException {
+        // Strebm must be bt the beginning of bn imbge descriptor
         // upon exit
 
         try {
             while (true) {
-                int blockType = stream.readUnsignedByte();
+                int blockType = strebm.rebdUnsignedByte();
 
                 if (blockType == 0x2c) {
-                    stream.skipBytes(8);
+                    strebm.skipBytes(8);
 
-                    int packedFields = stream.readUnsignedByte();
-                    if ((packedFields & 0x80) != 0) {
-                        // Skip color table if any
-                        int bits = (packedFields & 0x7) + 1;
-                        stream.skipBytes(3*(1 << bits));
+                    int pbckedFields = strebm.rebdUnsignedByte();
+                    if ((pbckedFields & 0x80) != 0) {
+                        // Skip color tbble if bny
+                        int bits = (pbckedFields & 0x7) + 1;
+                        strebm.skipBytes(3*(1 << bits));
                     }
 
-                    stream.skipBytes(1);
+                    strebm.skipBytes(1);
 
                     int length = 0;
                     do {
-                        length = stream.readUnsignedByte();
-                        stream.skipBytes(length);
+                        length = strebm.rebdUnsignedByte();
+                        strebm.skipBytes(length);
                     } while (length > 0);
 
                     return true;
                 } else if (blockType == 0x3b) {
-                    return false;
+                    return fblse;
                 } else if (blockType == 0x21) {
-                    int label = stream.readUnsignedByte();
+                    int lbbel = strebm.rebdUnsignedByte();
 
                     int length = 0;
                     do {
-                        length = stream.readUnsignedByte();
-                        stream.skipBytes(length);
+                        length = strebm.rebdUnsignedByte();
+                        strebm.skipBytes(length);
                     } while (length > 0);
                 } else if (blockType == 0x0) {
                     // EOF
-                    return false;
+                    return fblse;
                 } else {
                     int length = 0;
                     do {
-                        length = stream.readUnsignedByte();
-                        stream.skipBytes(length);
+                        length = strebm.rebdUnsignedByte();
+                        strebm.skipBytes(length);
                     } while (length > 0);
                 }
             }
-        } catch (EOFException e) {
-            return false;
-        } catch (IOException e) {
-            throw new IIOException("I/O error locating image!", e);
+        } cbtch (EOFException e) {
+            return fblse;
+        } cbtch (IOException e) {
+            throw new IIOException("I/O error locbting imbge!", e);
         }
     }
 
-    private int locateImage(int imageIndex) throws IIOException {
-        readHeader();
+    privbte int locbteImbge(int imbgeIndex) throws IIOException {
+        rebdHebder();
 
         try {
             // Find closest known index
-            int index = Math.min(imageIndex, imageStartPosition.size() - 1);
+            int index = Mbth.min(imbgeIndex, imbgeStbrtPosition.size() - 1);
 
-            // Seek to that position
-            Long l = imageStartPosition.get(index);
-            stream.seek(l.longValue());
+            // Seek to thbt position
+            Long l = imbgeStbrtPosition.get(index);
+            strebm.seek(l.longVblue());
 
-            // Skip images until at desired index or last image found
-            while (index < imageIndex) {
-                if (!skipImage()) {
+            // Skip imbges until bt desired index or lbst imbge found
+            while (index < imbgeIndex) {
+                if (!skipImbge()) {
                     --index;
                     return index;
                 }
 
-                Long l1 = stream.getStreamPosition();
-                imageStartPosition.add(l1);
+                Long l1 = strebm.getStrebmPosition();
+                imbgeStbrtPosition.bdd(l1);
                 ++index;
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new IIOException("Couldn't seek!", e);
         }
 
-        if (currIndex != imageIndex) {
-            imageMetadata = null;
+        if (currIndex != imbgeIndex) {
+            imbgeMetbdbtb = null;
         }
-        currIndex = imageIndex;
-        return imageIndex;
+        currIndex = imbgeIndex;
+        return imbgeIndex;
     }
 
-    // Read blocks of 1-255 bytes, stop at a 0-length block
-    private byte[] concatenateBlocks() throws IOException {
-        byte[] data = new byte[0];
+    // Rebd blocks of 1-255 bytes, stop bt b 0-length block
+    privbte byte[] concbtenbteBlocks() throws IOException {
+        byte[] dbtb = new byte[0];
         while (true) {
-            int length = stream.readUnsignedByte();
+            int length = strebm.rebdUnsignedByte();
             if (length == 0) {
-                break;
+                brebk;
             }
-            byte[] newData = new byte[data.length + length];
-            System.arraycopy(data, 0, newData, 0, data.length);
-            stream.readFully(newData, data.length, length);
-            data = newData;
+            byte[] newDbtb = new byte[dbtb.length + length];
+            System.brrbycopy(dbtb, 0, newDbtb, 0, dbtb.length);
+            strebm.rebdFully(newDbtb, dbtb.length, length);
+            dbtb = newDbtb;
         }
 
-        return data;
+        return dbtb;
     }
 
-    // Stream must be positioned at start of metadata for 'currIndex'
-    private void readMetadata() throws IIOException {
-        if (stream == null) {
-            throw new IllegalStateException("Input not set!");
+    // Strebm must be positioned bt stbrt of metbdbtb for 'currIndex'
+    privbte void rebdMetbdbtb() throws IIOException {
+        if (strebm == null) {
+            throw new IllegblStbteException("Input not set!");
         }
 
         try {
-            // Create an object to store the image metadata
-            this.imageMetadata = new GIFImageMetadata();
+            // Crebte bn object to store the imbge metbdbtb
+            this.imbgeMetbdbtb = new GIFImbgeMetbdbtb();
 
-            long startPosition = stream.getStreamPosition();
+            long stbrtPosition = strebm.getStrebmPosition();
             while (true) {
-                int blockType = stream.readUnsignedByte();
-                if (blockType == 0x2c) { // Image Descriptor
-                    imageMetadata.imageLeftPosition =
-                        stream.readUnsignedShort();
-                    imageMetadata.imageTopPosition =
-                        stream.readUnsignedShort();
-                    imageMetadata.imageWidth = stream.readUnsignedShort();
-                    imageMetadata.imageHeight = stream.readUnsignedShort();
+                int blockType = strebm.rebdUnsignedByte();
+                if (blockType == 0x2c) { // Imbge Descriptor
+                    imbgeMetbdbtb.imbgeLeftPosition =
+                        strebm.rebdUnsignedShort();
+                    imbgeMetbdbtb.imbgeTopPosition =
+                        strebm.rebdUnsignedShort();
+                    imbgeMetbdbtb.imbgeWidth = strebm.rebdUnsignedShort();
+                    imbgeMetbdbtb.imbgeHeight = strebm.rebdUnsignedShort();
 
-                    int idPackedFields = stream.readUnsignedByte();
-                    boolean localColorTableFlag =
-                        (idPackedFields & 0x80) != 0;
-                    imageMetadata.interlaceFlag = (idPackedFields & 0x40) != 0;
-                    imageMetadata.sortFlag = (idPackedFields & 0x20) != 0;
-                    int numLCTEntries = 1 << ((idPackedFields & 0x7) + 1);
+                    int idPbckedFields = strebm.rebdUnsignedByte();
+                    boolebn locblColorTbbleFlbg =
+                        (idPbckedFields & 0x80) != 0;
+                    imbgeMetbdbtb.interlbceFlbg = (idPbckedFields & 0x40) != 0;
+                    imbgeMetbdbtb.sortFlbg = (idPbckedFields & 0x20) != 0;
+                    int numLCTEntries = 1 << ((idPbckedFields & 0x7) + 1);
 
-                    if (localColorTableFlag) {
-                        // Read color table if any
-                        imageMetadata.localColorTable =
+                    if (locblColorTbbleFlbg) {
+                        // Rebd color tbble if bny
+                        imbgeMetbdbtb.locblColorTbble =
                             new byte[3*numLCTEntries];
-                        stream.readFully(imageMetadata.localColorTable);
+                        strebm.rebdFully(imbgeMetbdbtb.locblColorTbble);
                     } else {
-                        imageMetadata.localColorTable = null;
+                        imbgeMetbdbtb.locblColorTbble = null;
                     }
 
-                    // Record length of this metadata block
-                    this.imageMetadataLength =
-                        (int)(stream.getStreamPosition() - startPosition);
+                    // Record length of this metbdbtb block
+                    this.imbgeMetbdbtbLength =
+                        (int)(strebm.getStrebmPosition() - stbrtPosition);
 
-                    // Now positioned at start of LZW-compressed pixels
+                    // Now positioned bt stbrt of LZW-compressed pixels
                     return;
                 } else if (blockType == 0x21) { // Extension block
-                    int label = stream.readUnsignedByte();
+                    int lbbel = strebm.rebdUnsignedByte();
 
-                    if (label == 0xf9) { // Graphics Control Extension
-                        int gceLength = stream.readUnsignedByte(); // 4
-                        int gcePackedFields = stream.readUnsignedByte();
-                        imageMetadata.disposalMethod =
-                            (gcePackedFields >> 2) & 0x3;
-                        imageMetadata.userInputFlag =
-                            (gcePackedFields & 0x2) != 0;
-                        imageMetadata.transparentColorFlag =
-                            (gcePackedFields & 0x1) != 0;
+                    if (lbbel == 0xf9) { // Grbphics Control Extension
+                        int gceLength = strebm.rebdUnsignedByte(); // 4
+                        int gcePbckedFields = strebm.rebdUnsignedByte();
+                        imbgeMetbdbtb.disposblMethod =
+                            (gcePbckedFields >> 2) & 0x3;
+                        imbgeMetbdbtb.userInputFlbg =
+                            (gcePbckedFields & 0x2) != 0;
+                        imbgeMetbdbtb.trbnspbrentColorFlbg =
+                            (gcePbckedFields & 0x1) != 0;
 
-                        imageMetadata.delayTime = stream.readUnsignedShort();
-                        imageMetadata.transparentColorIndex
-                            = stream.readUnsignedByte();
+                        imbgeMetbdbtb.delbyTime = strebm.rebdUnsignedShort();
+                        imbgeMetbdbtb.trbnspbrentColorIndex
+                            = strebm.rebdUnsignedByte();
 
-                        int terminator = stream.readUnsignedByte();
-                    } else if (label == 0x1) { // Plain text extension
-                        int length = stream.readUnsignedByte();
-                        imageMetadata.hasPlainTextExtension = true;
-                        imageMetadata.textGridLeft =
-                            stream.readUnsignedShort();
-                        imageMetadata.textGridTop =
-                            stream.readUnsignedShort();
-                        imageMetadata.textGridWidth =
-                            stream.readUnsignedShort();
-                        imageMetadata.textGridHeight =
-                            stream.readUnsignedShort();
-                        imageMetadata.characterCellWidth =
-                            stream.readUnsignedByte();
-                        imageMetadata.characterCellHeight =
-                            stream.readUnsignedByte();
-                        imageMetadata.textForegroundColor =
-                            stream.readUnsignedByte();
-                        imageMetadata.textBackgroundColor =
-                            stream.readUnsignedByte();
-                        imageMetadata.text = concatenateBlocks();
-                    } else if (label == 0xfe) { // Comment extension
-                        byte[] comment = concatenateBlocks();
-                        if (imageMetadata.comments == null) {
-                            imageMetadata.comments = new ArrayList<>();
+                        int terminbtor = strebm.rebdUnsignedByte();
+                    } else if (lbbel == 0x1) { // Plbin text extension
+                        int length = strebm.rebdUnsignedByte();
+                        imbgeMetbdbtb.hbsPlbinTextExtension = true;
+                        imbgeMetbdbtb.textGridLeft =
+                            strebm.rebdUnsignedShort();
+                        imbgeMetbdbtb.textGridTop =
+                            strebm.rebdUnsignedShort();
+                        imbgeMetbdbtb.textGridWidth =
+                            strebm.rebdUnsignedShort();
+                        imbgeMetbdbtb.textGridHeight =
+                            strebm.rebdUnsignedShort();
+                        imbgeMetbdbtb.chbrbcterCellWidth =
+                            strebm.rebdUnsignedByte();
+                        imbgeMetbdbtb.chbrbcterCellHeight =
+                            strebm.rebdUnsignedByte();
+                        imbgeMetbdbtb.textForegroundColor =
+                            strebm.rebdUnsignedByte();
+                        imbgeMetbdbtb.textBbckgroundColor =
+                            strebm.rebdUnsignedByte();
+                        imbgeMetbdbtb.text = concbtenbteBlocks();
+                    } else if (lbbel == 0xfe) { // Comment extension
+                        byte[] comment = concbtenbteBlocks();
+                        if (imbgeMetbdbtb.comments == null) {
+                            imbgeMetbdbtb.comments = new ArrbyList<>();
                         }
-                        imageMetadata.comments.add(comment);
-                    } else if (label == 0xff) { // Application extension
-                        int blockSize = stream.readUnsignedByte();
-                        byte[] applicationID = new byte[8];
-                        byte[] authCode = new byte[3];
+                        imbgeMetbdbtb.comments.bdd(comment);
+                    } else if (lbbel == 0xff) { // Applicbtion extension
+                        int blockSize = strebm.rebdUnsignedByte();
+                        byte[] bpplicbtionID = new byte[8];
+                        byte[] buthCode = new byte[3];
 
-                        // read available data
-                        byte[] blockData = new byte[blockSize];
-                        stream.readFully(blockData);
+                        // rebd bvbilbble dbtb
+                        byte[] blockDbtb = new byte[blockSize];
+                        strebm.rebdFully(blockDbtb);
 
-                        int offset = copyData(blockData, 0, applicationID);
-                        offset = copyData(blockData, offset, authCode);
+                        int offset = copyDbtb(blockDbtb, 0, bpplicbtionID);
+                        offset = copyDbtb(blockDbtb, offset, buthCode);
 
-                        byte[] applicationData = concatenateBlocks();
+                        byte[] bpplicbtionDbtb = concbtenbteBlocks();
 
                         if (offset < blockSize) {
                             int len = blockSize - offset;
-                            byte[] data =
-                                new byte[len + applicationData.length];
+                            byte[] dbtb =
+                                new byte[len + bpplicbtionDbtb.length];
 
-                            System.arraycopy(blockData, offset, data, 0, len);
-                            System.arraycopy(applicationData, 0, data, len,
-                                             applicationData.length);
+                            System.brrbycopy(blockDbtb, offset, dbtb, 0, len);
+                            System.brrbycopy(bpplicbtionDbtb, 0, dbtb, len,
+                                             bpplicbtionDbtb.length);
 
-                            applicationData = data;
+                            bpplicbtionDbtb = dbtb;
                         }
 
-                        // Init lists if necessary
-                        if (imageMetadata.applicationIDs == null) {
-                            imageMetadata.applicationIDs = new ArrayList<>();
-                            imageMetadata.authenticationCodes =
-                                new ArrayList<>();
-                            imageMetadata.applicationData = new ArrayList<>();
+                        // Init lists if necessbry
+                        if (imbgeMetbdbtb.bpplicbtionIDs == null) {
+                            imbgeMetbdbtb.bpplicbtionIDs = new ArrbyList<>();
+                            imbgeMetbdbtb.buthenticbtionCodes =
+                                new ArrbyList<>();
+                            imbgeMetbdbtb.bpplicbtionDbtb = new ArrbyList<>();
                         }
-                        imageMetadata.applicationIDs.add(applicationID);
-                        imageMetadata.authenticationCodes.add(authCode);
-                        imageMetadata.applicationData.add(applicationData);
+                        imbgeMetbdbtb.bpplicbtionIDs.bdd(bpplicbtionID);
+                        imbgeMetbdbtb.buthenticbtionCodes.bdd(buthCode);
+                        imbgeMetbdbtb.bpplicbtionDbtb.bdd(bpplicbtionDbtb);
                     } else {
                         // Skip over unknown extension blocks
                         int length = 0;
                         do {
-                            length = stream.readUnsignedByte();
-                            stream.skipBytes(length);
+                            length = strebm.rebdUnsignedByte();
+                            strebm.skipBytes(length);
                         } while (length > 0);
                     }
-                } else if (blockType == 0x3b) { // Trailer
+                } else if (blockType == 0x3b) { // Trbiler
                     throw new IndexOutOfBoundsException
-                        ("Attempt to read past end of image sequence!");
+                        ("Attempt to rebd pbst end of imbge sequence!");
                 } else {
                     throw new IIOException("Unexpected block type " +
                                            blockType + "!");
                 }
             }
-        } catch (IIOException iioe) {
+        } cbtch (IIOException iioe) {
             throw iioe;
-        } catch (IOException ioe) {
-            throw new IIOException("I/O error reading image metadata!", ioe);
+        } cbtch (IOException ioe) {
+            throw new IIOException("I/O error rebding imbge metbdbtb!", ioe);
         }
     }
 
-    private int copyData(byte[] src, int offset, byte[] dst) {
+    privbte int copyDbtb(byte[] src, int offset, byte[] dst) {
         int len = dst.length;
         int rest = src.length - offset;
         if (len > rest) {
             len = rest;
         }
-        System.arraycopy(src, offset, dst, 0, len);
+        System.brrbycopy(src, offset, dst, 0, len);
         return offset + len;
     }
 
-    private void startPass(int pass) {
-        if (updateListeners == null || !imageMetadata.interlaceFlag) {
+    privbte void stbrtPbss(int pbss) {
+        if (updbteListeners == null || !imbgeMetbdbtb.interlbceFlbg) {
             return;
         }
 
-        int y = interlaceOffset[interlacePass];
-        int yStep = interlaceIncrement[interlacePass];
+        int y = interlbceOffset[interlbcePbss];
+        int yStep = interlbceIncrement[interlbcePbss];
 
-        int[] vals = ReaderUtil.
-            computeUpdatedPixels(sourceRegion,
-                                 destinationOffset,
-                                 destinationRegion.x,
-                                 destinationRegion.y,
-                                 destinationRegion.x +
-                                 destinationRegion.width - 1,
-                                 destinationRegion.y +
-                                 destinationRegion.height - 1,
-                                 sourceXSubsampling,
-                                 sourceYSubsampling,
+        int[] vbls = RebderUtil.
+            computeUpdbtedPixels(sourceRegion,
+                                 destinbtionOffset,
+                                 destinbtionRegion.x,
+                                 destinbtionRegion.y,
+                                 destinbtionRegion.x +
+                                 destinbtionRegion.width - 1,
+                                 destinbtionRegion.y +
+                                 destinbtionRegion.height - 1,
+                                 sourceXSubsbmpling,
+                                 sourceYSubsbmpling,
                                  0,
                                  y,
-                                 destinationRegion.width,
-                                 (destinationRegion.height + yStep - 1)/yStep,
+                                 destinbtionRegion.width,
+                                 (destinbtionRegion.height + yStep - 1)/yStep,
                                  1,
                                  yStep);
 
-        // Initialized updateMinY and updateYStep
-        this.updateMinY = vals[1];
-        this.updateYStep = vals[5];
+        // Initiblized updbteMinY bnd updbteYStep
+        this.updbteMinY = vbls[1];
+        this.updbteYStep = vbls[5];
 
-        // Inform IIOReadUpdateListeners of new pass
-        int[] bands = { 0 };
+        // Inform IIORebdUpdbteListeners of new pbss
+        int[] bbnds = { 0 };
 
-        processPassStarted(theImage,
-                           interlacePass,
-                           sourceMinProgressivePass,
-                           sourceMaxProgressivePass,
+        processPbssStbrted(theImbge,
+                           interlbcePbss,
+                           sourceMinProgressivePbss,
+                           sourceMbxProgressivePbss,
                            0,
-                           updateMinY,
+                           updbteMinY,
                            1,
-                           updateYStep,
-                           bands);
+                           updbteYStep,
+                           bbnds);
     }
 
-    public BufferedImage read(int imageIndex, ImageReadParam param)
+    public BufferedImbge rebd(int imbgeIndex, ImbgeRebdPbrbm pbrbm)
         throws IIOException {
-        if (stream == null) {
-            throw new IllegalStateException("Input not set!");
+        if (strebm == null) {
+            throw new IllegblStbteException("Input not set!");
         }
-        checkIndex(imageIndex);
+        checkIndex(imbgeIndex);
 
-        int index = locateImage(imageIndex);
-        if (index != imageIndex) {
-            throw new IndexOutOfBoundsException("imageIndex out of bounds!");
-        }
-
-        clearAbortRequest();
-        readMetadata();
-
-        // A null ImageReadParam means we use the default
-        if (param == null) {
-            param = getDefaultReadParam();
+        int index = locbteImbge(imbgeIndex);
+        if (index != imbgeIndex) {
+            throw new IndexOutOfBoundsException("imbgeIndex out of bounds!");
         }
 
-        // Initialize the destination image
-        Iterator<ImageTypeSpecifier> imageTypes = getImageTypes(imageIndex);
-        this.theImage = getDestination(param,
-                                       imageTypes,
-                                       imageMetadata.imageWidth,
-                                       imageMetadata.imageHeight);
-        this.theTile = theImage.getWritableTile(0, 0);
-        this.width = imageMetadata.imageWidth;
-        this.height = imageMetadata.imageHeight;
-        this.streamX = 0;
-        this.streamY = 0;
+        clebrAbortRequest();
+        rebdMetbdbtb();
+
+        // A null ImbgeRebdPbrbm mebns we use the defbult
+        if (pbrbm == null) {
+            pbrbm = getDefbultRebdPbrbm();
+        }
+
+        // Initiblize the destinbtion imbge
+        Iterbtor<ImbgeTypeSpecifier> imbgeTypes = getImbgeTypes(imbgeIndex);
+        this.theImbge = getDestinbtion(pbrbm,
+                                       imbgeTypes,
+                                       imbgeMetbdbtb.imbgeWidth,
+                                       imbgeMetbdbtb.imbgeHeight);
+        this.theTile = theImbge.getWritbbleTile(0, 0);
+        this.width = imbgeMetbdbtb.imbgeWidth;
+        this.height = imbgeMetbdbtb.imbgeHeight;
+        this.strebmX = 0;
+        this.strebmY = 0;
         this.rowsDone = 0;
-        this.interlacePass = 0;
+        this.interlbcePbss = 0;
 
-        // Get source region, taking subsampling offsets into account,
-        // and clipping against the true source bounds
+        // Get source region, tbking subsbmpling offsets into bccount,
+        // bnd clipping bgbinst the true source bounds
 
-        this.sourceRegion = new Rectangle(0, 0, 0, 0);
-        this.destinationRegion = new Rectangle(0, 0, 0, 0);
-        computeRegions(param, width, height, theImage,
-                       sourceRegion, destinationRegion);
-        this.destinationOffset = new Point(destinationRegion.x,
-                                           destinationRegion.y);
+        this.sourceRegion = new Rectbngle(0, 0, 0, 0);
+        this.destinbtionRegion = new Rectbngle(0, 0, 0, 0);
+        computeRegions(pbrbm, width, height, theImbge,
+                       sourceRegion, destinbtionRegion);
+        this.destinbtionOffset = new Point(destinbtionRegion.x,
+                                           destinbtionRegion.y);
 
-        this.sourceXSubsampling = param.getSourceXSubsampling();
-        this.sourceYSubsampling = param.getSourceYSubsampling();
-        this.sourceMinProgressivePass =
-            Math.max(param.getSourceMinProgressivePass(), 0);
-        this.sourceMaxProgressivePass =
-            Math.min(param.getSourceMaxProgressivePass(), 3);
+        this.sourceXSubsbmpling = pbrbm.getSourceXSubsbmpling();
+        this.sourceYSubsbmpling = pbrbm.getSourceYSubsbmpling();
+        this.sourceMinProgressivePbss =
+            Mbth.mbx(pbrbm.getSourceMinProgressivePbss(), 0);
+        this.sourceMbxProgressivePbss =
+            Mbth.min(pbrbm.getSourceMbxProgressivePbss(), 3);
 
-        this.destY = destinationRegion.y +
-            (streamY - sourceRegion.y)/sourceYSubsampling;
+        this.destY = destinbtionRegion.y +
+            (strebmY - sourceRegion.y)/sourceYSubsbmpling;
         computeDecodeThisRow();
 
-        // Inform IIOReadProgressListeners of start of image
-        processImageStarted(imageIndex);
-        startPass(0);
+        // Inform IIORebdProgressListeners of stbrt of imbge
+        processImbgeStbrted(imbgeIndex);
+        stbrtPbss(0);
 
         this.rowBuf = new byte[width];
 
         try {
-            // Read and decode the image data, fill in theImage
-            this.initCodeSize = stream.readUnsignedByte();
+            // Rebd bnd decode the imbge dbtb, fill in theImbge
+            this.initCodeSize = strebm.rebdUnsignedByte();
 
-            // Read first data block
-            this.blockLength = stream.readUnsignedByte();
+            // Rebd first dbtb block
+            this.blockLength = strebm.rebdUnsignedByte();
             int left = blockLength;
             int off = 0;
             while (left > 0) {
-                int nbytes = stream.read(block, off, left);
+                int nbytes = strebm.rebd(block, off, left);
                 left -= nbytes;
                 off += nbytes;
             }
 
             this.bitPos = 0;
             this.nextByte = 0;
-            this.lastBlockFound = false;
-            this.interlacePass = 0;
+            this.lbstBlockFound = fblse;
+            this.interlbcePbss = 0;
 
             // Init 32-bit buffer
             initNext32Bits();
 
-            this.clearCode = 1 << initCodeSize;
-            this.eofCode = clearCode + 1;
+            this.clebrCode = 1 << initCodeSize;
+            this.eofCode = clebrCode + 1;
 
             int code, oldCode = 0;
 
             int[] prefix = new int[4096];
             byte[] suffix = new byte[4096];
-            byte[] initial = new byte[4096];
+            byte[] initibl = new byte[4096];
             int[] length = new int[4096];
             byte[] string = new byte[4096];
 
-            initializeStringTable(prefix, suffix, initial, length);
-            int tableIndex = (1 << initCodeSize) + 2;
+            initiblizeStringTbble(prefix, suffix, initibl, length);
+            int tbbleIndex = (1 << initCodeSize) + 2;
             int codeSize = initCodeSize + 1;
-            int codeMask = (1 << codeSize) - 1;
+            int codeMbsk = (1 << codeSize) - 1;
 
-            while (!abortRequested()) {
-                code = getCode(codeSize, codeMask);
+            while (!bbortRequested()) {
+                code = getCode(codeSize, codeMbsk);
 
-                if (code == clearCode) {
-                    initializeStringTable(prefix, suffix, initial, length);
-                    tableIndex = (1 << initCodeSize) + 2;
+                if (code == clebrCode) {
+                    initiblizeStringTbble(prefix, suffix, initibl, length);
+                    tbbleIndex = (1 << initCodeSize) + 2;
                     codeSize = initCodeSize + 1;
-                    codeMask = (1 << codeSize) - 1;
+                    codeMbsk = (1 << codeSize) - 1;
 
-                    code = getCode(codeSize, codeMask);
+                    code = getCode(codeSize, codeMbsk);
                     if (code == eofCode) {
-                        // Inform IIOReadProgressListeners of end of image
-                        processImageComplete();
-                        return theImage;
+                        // Inform IIORebdProgressListeners of end of imbge
+                        processImbgeComplete();
+                        return theImbge;
                     }
                 } else if (code == eofCode) {
-                    // Inform IIOReadProgressListeners of end of image
-                    processImageComplete();
-                    return theImage;
+                    // Inform IIORebdProgressListeners of end of imbge
+                    processImbgeComplete();
+                    return theImbge;
                 } else {
                     int newSuffixIndex;
-                    if (code < tableIndex) {
+                    if (code < tbbleIndex) {
                         newSuffixIndex = code;
-                    } else { // code == tableIndex
+                    } else { // code == tbbleIndex
                         newSuffixIndex = oldCode;
-                        if (code != tableIndex) {
-                            // warning - code out of sequence
-                            // possibly data corruption
-                            processWarningOccurred("Out-of-sequence code!");
+                        if (code != tbbleIndex) {
+                            // wbrning - code out of sequence
+                            // possibly dbtb corruption
+                            processWbrningOccurred("Out-of-sequence code!");
                         }
                     }
 
-                    int ti = tableIndex;
+                    int ti = tbbleIndex;
                     int oc = oldCode;
 
                     prefix[ti] = oc;
-                    suffix[ti] = initial[newSuffixIndex];
-                    initial[ti] = initial[oc];
+                    suffix[ti] = initibl[newSuffixIndex];
+                    initibl[ti] = initibl[oc];
                     length[ti] = length[oc] + 1;
 
-                    ++tableIndex;
-                    if ((tableIndex == (1 << codeSize)) &&
-                        (tableIndex < 4096)) {
+                    ++tbbleIndex;
+                    if ((tbbleIndex == (1 << codeSize)) &&
+                        (tbbleIndex < 4096)) {
                         ++codeSize;
-                        codeMask = (1 << codeSize) - 1;
+                        codeMbsk = (1 << codeSize) - 1;
                     }
                 }
 
@@ -1007,63 +1007,63 @@ public class GIFImageReader extends ImageReader {
                 oldCode = code;
             }
 
-            processReadAborted();
-            return theImage;
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IIOException("I/O error reading image!", e);
+            processRebdAborted();
+            return theImbge;
+        } cbtch (IOException e) {
+            e.printStbckTrbce();
+            throw new IIOException("I/O error rebding imbge!", e);
         }
     }
 
     /**
-     * Remove all settings including global settings such as
-     * <code>Locale</code>s and listeners, as well as stream settings.
+     * Remove bll settings including globbl settings such bs
+     * <code>Locble</code>s bnd listeners, bs well bs strebm settings.
      */
     public void reset() {
         super.reset();
-        resetStreamSettings();
+        resetStrebmSettings();
     }
 
     /**
-     * Remove local settings based on parsing of a stream.
+     * Remove locbl settings bbsed on pbrsing of b strebm.
      */
-    private void resetStreamSettings() {
-        gotHeader = false;
-        streamMetadata = null;
+    privbte void resetStrebmSettings() {
+        gotHebder = fblse;
+        strebmMetbdbtb = null;
         currIndex = -1;
-        imageMetadata = null;
-        imageStartPosition = new ArrayList<>();
-        numImages = -1;
+        imbgeMetbdbtb = null;
+        imbgeStbrtPosition = new ArrbyList<>();
+        numImbges = -1;
 
-        // No need to reinitialize 'block'
+        // No need to reinitiblize 'block'
         blockLength = 0;
         bitPos = 0;
         nextByte = 0;
 
         next32Bits = 0;
-        lastBlockFound = false;
+        lbstBlockFound = fblse;
 
-        theImage = null;
+        theImbge = null;
         theTile = null;
         width = -1;
         height = -1;
-        streamX = -1;
-        streamY = -1;
+        strebmX = -1;
+        strebmY = -1;
         rowsDone = 0;
-        interlacePass = 0;
+        interlbcePbss = 0;
 
-        fallbackColorTable = null;
+        fbllbbckColorTbble = null;
     }
 
-    private static byte[] defaultPalette = null;
+    privbte stbtic byte[] defbultPblette = null;
 
-    private static synchronized byte[] getDefaultPalette() {
-        if (defaultPalette == null) {
-            BufferedImage img = new BufferedImage(1, 1,
-                    BufferedImage.TYPE_BYTE_INDEXED);
+    privbte stbtic synchronized byte[] getDefbultPblette() {
+        if (defbultPblette == null) {
+            BufferedImbge img = new BufferedImbge(1, 1,
+                    BufferedImbge.TYPE_BYTE_INDEXED);
             IndexColorModel icm = (IndexColorModel) img.getColorModel();
 
-            final int size = icm.getMapSize();
+            finbl int size = icm.getMbpSize();
             byte[] r = new byte[size];
             byte[] g = new byte[size];
             byte[] b = new byte[size];
@@ -1071,14 +1071,14 @@ public class GIFImageReader extends ImageReader {
             icm.getGreens(g);
             icm.getBlues(b);
 
-            defaultPalette = new byte[size * 3];
+            defbultPblette = new byte[size * 3];
 
             for (int i = 0; i < size; i++) {
-                defaultPalette[3 * i + 0] = r[i];
-                defaultPalette[3 * i + 1] = g[i];
-                defaultPalette[3 * i + 2] = b[i];
+                defbultPblette[3 * i + 0] = r[i];
+                defbultPblette[3 * i + 1] = g[i];
+                defbultPblette[3 * i + 2] = b[i];
             }
         }
-        return defaultPalette;
+        return defbultPblette;
     }
 }

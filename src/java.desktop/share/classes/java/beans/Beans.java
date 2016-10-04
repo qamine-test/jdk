@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans;
+pbckbge jbvb.bebns;
 
-import com.sun.beans.finder.ClassFinder;
+import com.sun.bebns.finder.ClbssFinder;
 
-import java.applet.Applet;
-import java.applet.AppletContext;
-import java.applet.AppletStub;
-import java.applet.AudioClip;
+import jbvb.bpplet.Applet;
+import jbvb.bpplet.AppletContext;
+import jbvb.bpplet.AppletStub;
+import jbvb.bpplet.AudioClip;
 
-import java.awt.Image;
+import jbvb.bwt.Imbge;
 
-import java.beans.beancontext.BeanContext;
+import jbvb.bebns.bebncontext.BebnContext;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamClass;
-import java.io.StreamCorruptedException;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectStrebmClbss;
+import jbvb.io.StrebmCorruptedException;
 
-import java.lang.reflect.Modifier;
+import jbvb.lbng.reflect.Modifier;
 
-import java.net.URL;
+import jbvb.net.URL;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Iterbtor;
+import jbvb.util.Vector;
 
 /**
- * This class provides some general purpose beans control methods.
+ * This clbss provides some generbl purpose bebns control methods.
  *
  * @since 1.1
  */
 
-public class Beans {
+public clbss Bebns {
 
     /**
      * <p>
-     * Instantiate a JavaBean.
+     * Instbntibte b JbvbBebn.
      * </p>
-     * @return a JavaBean
-     * @param     cls         the class-loader from which we should create
-     *                        the bean.  If this is null, then the system
-     *                        class-loader is used.
-     * @param     beanName    the name of the bean within the class-loader.
-     *                        For example "sun.beanbox.foobah"
+     * @return b JbvbBebn
+     * @pbrbm     cls         the clbss-lobder from which we should crebte
+     *                        the bebn.  If this is null, then the system
+     *                        clbss-lobder is used.
+     * @pbrbm     bebnNbme    the nbme of the bebn within the clbss-lobder.
+     *                        For exbmple "sun.bebnbox.foobbh"
      *
-     * @exception ClassNotFoundException if the class of a serialized
+     * @exception ClbssNotFoundException if the clbss of b seriblized
      *              object could not be found.
-     * @exception IOException if an I/O error occurs.
+     * @exception IOException if bn I/O error occurs.
      */
 
-    public static Object instantiate(ClassLoader cls, String beanName) throws IOException, ClassNotFoundException {
-        return Beans.instantiate(cls, beanName, null, null);
+    public stbtic Object instbntibte(ClbssLobder cls, String bebnNbme) throws IOException, ClbssNotFoundException {
+        return Bebns.instbntibte(cls, bebnNbme, null, null);
     }
 
     /**
      * <p>
-     * Instantiate a JavaBean.
+     * Instbntibte b JbvbBebn.
      * </p>
-     * @return a JavaBean
+     * @return b JbvbBebn
      *
-     * @param     cls         the class-loader from which we should create
-     *                        the bean.  If this is null, then the system
-     *                        class-loader is used.
-     * @param     beanName    the name of the bean within the class-loader.
-     *                        For example "sun.beanbox.foobah"
-     * @param     beanContext The BeanContext in which to nest the new bean
+     * @pbrbm     cls         the clbss-lobder from which we should crebte
+     *                        the bebn.  If this is null, then the system
+     *                        clbss-lobder is used.
+     * @pbrbm     bebnNbme    the nbme of the bebn within the clbss-lobder.
+     *                        For exbmple "sun.bebnbox.foobbh"
+     * @pbrbm     bebnContext The BebnContext in which to nest the new bebn
      *
-     * @exception ClassNotFoundException if the class of a serialized
+     * @exception ClbssNotFoundException if the clbss of b seriblized
      *              object could not be found.
-     * @exception IOException if an I/O error occurs.
+     * @exception IOException if bn I/O error occurs.
      * @since 1.2
      */
 
-    public static Object instantiate(ClassLoader cls, String beanName, BeanContext beanContext) throws IOException, ClassNotFoundException {
-        return Beans.instantiate(cls, beanName, beanContext, null);
+    public stbtic Object instbntibte(ClbssLobder cls, String bebnNbme, BebnContext bebnContext) throws IOException, ClbssNotFoundException {
+        return Bebns.instbntibte(cls, bebnNbme, bebnContext, null);
     }
 
     /**
-     * Instantiate a bean.
+     * Instbntibte b bebn.
      * <p>
-     * The bean is created based on a name relative to a class-loader.
-     * This name should be a dot-separated name such as "a.b.c".
+     * The bebn is crebted bbsed on b nbme relbtive to b clbss-lobder.
+     * This nbme should be b dot-sepbrbted nbme such bs "b.b.c".
      * <p>
-     * In Beans 1.0 the given name can indicate either a serialized object
-     * or a class.  Other mechanisms may be added in the future.  In
-     * beans 1.0 we first try to treat the beanName as a serialized object
-     * name then as a class name.
+     * In Bebns 1.0 the given nbme cbn indicbte either b seriblized object
+     * or b clbss.  Other mechbnisms mby be bdded in the future.  In
+     * bebns 1.0 we first try to trebt the bebnNbme bs b seriblized object
+     * nbme then bs b clbss nbme.
      * <p>
-     * When using the beanName as a serialized object name we convert the
-     * given beanName to a resource pathname and add a trailing ".ser" suffix.
-     * We then try to load a serialized object from that resource.
+     * When using the bebnNbme bs b seriblized object nbme we convert the
+     * given bebnNbme to b resource pbthnbme bnd bdd b trbiling ".ser" suffix.
+     * We then try to lobd b seriblized object from thbt resource.
      * <p>
-     * For example, given a beanName of "x.y", Beans.instantiate would first
-     * try to read a serialized object from the resource "x/y.ser" and if
-     * that failed it would try to load the class "x.y" and create an
-     * instance of that class.
+     * For exbmple, given b bebnNbme of "x.y", Bebns.instbntibte would first
+     * try to rebd b seriblized object from the resource "x/y.ser" bnd if
+     * thbt fbiled it would try to lobd the clbss "x.y" bnd crebte bn
+     * instbnce of thbt clbss.
      * <p>
-     * If the bean is a subtype of java.applet.Applet, then it is given
-     * some special initialization.  First, it is supplied with a default
-     * AppletStub and AppletContext.  Second, if it was instantiated from
-     * a classname the applet's "init" method is called.  (If the bean was
-     * deserialized this step is skipped.)
+     * If the bebn is b subtype of jbvb.bpplet.Applet, then it is given
+     * some specibl initiblizbtion.  First, it is supplied with b defbult
+     * AppletStub bnd AppletContext.  Second, if it wbs instbntibted from
+     * b clbssnbme the bpplet's "init" method is cblled.  (If the bebn wbs
+     * deseriblized this step is skipped.)
      * <p>
-     * Note that for beans which are applets, it is the caller's responsiblity
-     * to call "start" on the applet.  For correct behaviour, this should be done
-     * after the applet has been added into a visible AWT container.
+     * Note thbt for bebns which bre bpplets, it is the cbller's responsiblity
+     * to cbll "stbrt" on the bpplet.  For correct behbviour, this should be done
+     * bfter the bpplet hbs been bdded into b visible AWT contbiner.
      * <p>
-     * Note that applets created via beans.instantiate run in a slightly
-     * different environment than applets running inside browsers.  In
-     * particular, bean applets have no access to "parameters", so they may
-     * wish to provide property get/set methods to set parameter values.  We
-     * advise bean-applet developers to test their bean-applets against both
-     * the JDK appletviewer (for a reference browser environment) and the
-     * BDK BeanBox (for a reference bean container).
+     * Note thbt bpplets crebted vib bebns.instbntibte run in b slightly
+     * different environment thbn bpplets running inside browsers.  In
+     * pbrticulbr, bebn bpplets hbve no bccess to "pbrbmeters", so they mby
+     * wish to provide property get/set methods to set pbrbmeter vblues.  We
+     * bdvise bebn-bpplet developers to test their bebn-bpplets bgbinst both
+     * the JDK bppletviewer (for b reference browser environment) bnd the
+     * BDK BebnBox (for b reference bebn contbiner).
      *
-     * @return a JavaBean
-     * @param     cls         the class-loader from which we should create
-     *                        the bean.  If this is null, then the system
-     *                        class-loader is used.
-     * @param     beanName    the name of the bean within the class-loader.
-     *                        For example "sun.beanbox.foobah"
-     * @param     beanContext The BeanContext in which to nest the new bean
-     * @param     initializer The AppletInitializer for the new bean
+     * @return b JbvbBebn
+     * @pbrbm     cls         the clbss-lobder from which we should crebte
+     *                        the bebn.  If this is null, then the system
+     *                        clbss-lobder is used.
+     * @pbrbm     bebnNbme    the nbme of the bebn within the clbss-lobder.
+     *                        For exbmple "sun.bebnbox.foobbh"
+     * @pbrbm     bebnContext The BebnContext in which to nest the new bebn
+     * @pbrbm     initiblizer The AppletInitiblizer for the new bebn
      *
-     * @exception ClassNotFoundException if the class of a serialized
+     * @exception ClbssNotFoundException if the clbss of b seriblized
      *              object could not be found.
-     * @exception IOException if an I/O error occurs.
+     * @exception IOException if bn I/O error occurs.
      * @since 1.2
      */
 
-    public static Object instantiate(ClassLoader cls, String beanName, BeanContext beanContext, AppletInitializer initializer)
-                        throws IOException, ClassNotFoundException {
+    public stbtic Object instbntibte(ClbssLobder cls, String bebnNbme, BebnContext bebnContext, AppletInitiblizer initiblizer)
+                        throws IOException, ClbssNotFoundException {
 
-        InputStream ins;
-        ObjectInputStream oins = null;
+        InputStrebm ins;
+        ObjectInputStrebm oins = null;
         Object result = null;
-        boolean serialized = false;
+        boolebn seriblized = fblse;
         IOException serex = null;
 
-        // If the given classloader is null, we check if an
-        // system classloader is available and (if so)
-        // use that instead.
-        // Note that calls on the system class loader will
-        // look in the bootstrap class loader first.
+        // If the given clbsslobder is null, we check if bn
+        // system clbsslobder is bvbilbble bnd (if so)
+        // use thbt instebd.
+        // Note thbt cblls on the system clbss lobder will
+        // look in the bootstrbp clbss lobder first.
         if (cls == null) {
             try {
-                cls = ClassLoader.getSystemClassLoader();
-            } catch (SecurityException ex) {
-                // We're not allowed to access the system class loader.
+                cls = ClbssLobder.getSystemClbssLobder();
+            } cbtch (SecurityException ex) {
+                // We're not bllowed to bccess the system clbss lobder.
                 // Drop through.
             }
         }
 
-        // Try to find a serialized object with this name
-        final String serName = beanName.replace('.','/').concat(".ser");
-        final ClassLoader loader = cls;
+        // Try to find b seriblized object with this nbme
+        finbl String serNbme = bebnNbme.replbce('.','/').concbt(".ser");
+        finbl ClbssLobder lobder = cls;
         ins = AccessController.doPrivileged
-            (new PrivilegedAction<InputStream>() {
-                public InputStream run() {
-                    if (loader == null)
-                        return ClassLoader.getSystemResourceAsStream(serName);
+            (new PrivilegedAction<InputStrebm>() {
+                public InputStrebm run() {
+                    if (lobder == null)
+                        return ClbssLobder.getSystemResourceAsStrebm(serNbme);
                     else
-                        return loader.getResourceAsStream(serName);
+                        return lobder.getResourceAsStrebm(serNbme);
                 }
         });
         if (ins != null) {
             try {
                 if (cls == null) {
-                    oins = new ObjectInputStream(ins);
+                    oins = new ObjectInputStrebm(ins);
                 } else {
-                    oins = new ObjectInputStreamWithLoader(ins, cls);
+                    oins = new ObjectInputStrebmWithLobder(ins, cls);
                 }
-                result = oins.readObject();
-                serialized = true;
+                result = oins.rebdObject();
+                seriblized = true;
                 oins.close();
-            } catch (IOException ex) {
+            } cbtch (IOException ex) {
                 ins.close();
-                // Drop through and try opening the class.  But remember
-                // the exception in case we can't find the class either.
+                // Drop through bnd try opening the clbss.  But remember
+                // the exception in cbse we cbn't find the clbss either.
                 serex = ex;
-            } catch (ClassNotFoundException ex) {
+            } cbtch (ClbssNotFoundException ex) {
                 ins.close();
                 throw ex;
             }
         }
 
         if (result == null) {
-            // No serialized object, try just instantiating the class
-            Class<?> cl;
+            // No seriblized object, try just instbntibting the clbss
+            Clbss<?> cl;
 
             try {
-                cl = ClassFinder.findClass(beanName, cls);
-            } catch (ClassNotFoundException ex) {
-                // There is no appropriate class.  If we earlier tried to
-                // deserialize an object and got an IO exception, throw that,
-                // otherwise rethrow the ClassNotFoundException.
+                cl = ClbssFinder.findClbss(bebnNbme, cls);
+            } cbtch (ClbssNotFoundException ex) {
+                // There is no bppropribte clbss.  If we ebrlier tried to
+                // deseriblize bn object bnd got bn IO exception, throw thbt,
+                // otherwise rethrow the ClbssNotFoundException.
                 if (serex != null) {
                     throw serex;
                 }
@@ -231,410 +231,410 @@ public class Beans {
             }
 
             if (!Modifier.isPublic(cl.getModifiers())) {
-                throw new ClassNotFoundException("" + cl + " : no public access");
+                throw new ClbssNotFoundException("" + cl + " : no public bccess");
             }
 
             /*
-             * Try to instantiate the class.
+             * Try to instbntibte the clbss.
              */
 
             try {
-                result = cl.newInstance();
-            } catch (Exception ex) {
-                // We have to remap the exception to one in our signature.
-                // But we pass extra information in the detail message.
-                throw new ClassNotFoundException("" + cl + " : " + ex, ex);
+                result = cl.newInstbnce();
+            } cbtch (Exception ex) {
+                // We hbve to rembp the exception to one in our signbture.
+                // But we pbss extrb informbtion in the detbil messbge.
+                throw new ClbssNotFoundException("" + cl + " : " + ex, ex);
             }
         }
 
         if (result != null) {
 
-            // Ok, if the result is an applet initialize it.
+            // Ok, if the result is bn bpplet initiblize it.
 
             AppletStub stub = null;
 
-            if (result instanceof Applet) {
-                Applet  applet      = (Applet) result;
-                boolean needDummies = initializer == null;
+            if (result instbnceof Applet) {
+                Applet  bpplet      = (Applet) result;
+                boolebn needDummies = initiblizer == null;
 
                 if (needDummies) {
 
-                    // Figure our the codebase and docbase URLs.  We do this
-                    // by locating the URL for a known resource, and then
-                    // massaging the URL.
+                    // Figure our the codebbse bnd docbbse URLs.  We do this
+                    // by locbting the URL for b known resource, bnd then
+                    // mbssbging the URL.
 
-                    // First find the "resource name" corresponding to the bean
-                    // itself.  So a serialzied bean "a.b.c" would imply a
-                    // resource name of "a/b/c.ser" and a classname of "x.y"
-                    // would imply a resource name of "x/y.class".
+                    // First find the "resource nbme" corresponding to the bebn
+                    // itself.  So b seriblzied bebn "b.b.c" would imply b
+                    // resource nbme of "b/b/c.ser" bnd b clbssnbme of "x.y"
+                    // would imply b resource nbme of "x/y.clbss".
 
-                    final String resourceName;
+                    finbl String resourceNbme;
 
-                    if (serialized) {
-                        // Serialized bean
-                        resourceName = beanName.replace('.','/').concat(".ser");
+                    if (seriblized) {
+                        // Seriblized bebn
+                        resourceNbme = bebnNbme.replbce('.','/').concbt(".ser");
                     } else {
-                        // Regular class
-                        resourceName = beanName.replace('.','/').concat(".class");
+                        // Regulbr clbss
+                        resourceNbme = bebnNbme.replbce('.','/').concbt(".clbss");
                     }
 
                     URL objectUrl = null;
-                    URL codeBase  = null;
-                    URL docBase   = null;
+                    URL codeBbse  = null;
+                    URL docBbse   = null;
 
-                    // Now get the URL correponding to the resource name.
+                    // Now get the URL correponding to the resource nbme.
 
-                    final ClassLoader cloader = cls;
+                    finbl ClbssLobder clobder = cls;
                     objectUrl =
                         AccessController.doPrivileged
                         (new PrivilegedAction<URL>() {
                             public URL run() {
-                                if (cloader == null)
-                                    return ClassLoader.getSystemResource
-                                                                (resourceName);
+                                if (clobder == null)
+                                    return ClbssLobder.getSystemResource
+                                                                (resourceNbme);
                                 else
-                                    return cloader.getResource(resourceName);
+                                    return clobder.getResource(resourceNbme);
                             }
                     });
 
-                    // If we found a URL, we try to locate the docbase by taking
-                    // of the final path name component, and the code base by taking
-                    // of the complete resourceName.
-                    // So if we had a resourceName of "a/b/c.class" and we got an
-                    // objectURL of "file://bert/classes/a/b/c.class" then we would
-                    // want to set the codebase to "file://bert/classes/" and the
-                    // docbase to "file://bert/classes/a/b/"
+                    // If we found b URL, we try to locbte the docbbse by tbking
+                    // of the finbl pbth nbme component, bnd the code bbse by tbking
+                    // of the complete resourceNbme.
+                    // So if we hbd b resourceNbme of "b/b/c.clbss" bnd we got bn
+                    // objectURL of "file://bert/clbsses/b/b/c.clbss" then we would
+                    // wbnt to set the codebbse to "file://bert/clbsses/" bnd the
+                    // docbbse to "file://bert/clbsses/b/b/"
 
                     if (objectUrl != null) {
-                        String s = objectUrl.toExternalForm();
+                        String s = objectUrl.toExternblForm();
 
-                        if (s.endsWith(resourceName)) {
-                            int ix   = s.length() - resourceName.length();
-                            codeBase = new URL(s.substring(0,ix));
-                            docBase  = codeBase;
+                        if (s.endsWith(resourceNbme)) {
+                            int ix   = s.length() - resourceNbme.length();
+                            codeBbse = new URL(s.substring(0,ix));
+                            docBbse  = codeBbse;
 
-                            ix = s.lastIndexOf('/');
+                            ix = s.lbstIndexOf('/');
 
                             if (ix >= 0) {
-                                docBase = new URL(s.substring(0,ix+1));
+                                docBbse = new URL(s.substring(0,ix+1));
                             }
                         }
                     }
 
-                    // Setup a default context and stub.
-                    BeansAppletContext context = new BeansAppletContext(applet);
+                    // Setup b defbult context bnd stub.
+                    BebnsAppletContext context = new BebnsAppletContext(bpplet);
 
-                    stub = (AppletStub)new BeansAppletStub(applet, context, codeBase, docBase);
-                    applet.setStub(stub);
+                    stub = (AppletStub)new BebnsAppletStub(bpplet, context, codeBbse, docBbse);
+                    bpplet.setStub(stub);
                 } else {
-                    initializer.initialize(applet, beanContext);
+                    initiblizer.initiblize(bpplet, bebnContext);
                 }
 
-                // now, if there is a BeanContext, add the bean, if applicable.
+                // now, if there is b BebnContext, bdd the bebn, if bpplicbble.
 
-                if (beanContext != null) {
-                    unsafeBeanContextAdd(beanContext, result);
+                if (bebnContext != null) {
+                    unsbfeBebnContextAdd(bebnContext, result);
                 }
 
-                // If it was deserialized then it was already init-ed.
-                // Otherwise we need to initialize it.
+                // If it wbs deseriblized then it wbs blrebdy init-ed.
+                // Otherwise we need to initiblize it.
 
-                if (!serialized) {
-                    // We need to set a reasonable initial size, as many
-                    // applets are unhappy if they are started without
-                    // having been explicitly sized.
-                    applet.setSize(100,100);
-                    applet.init();
+                if (!seriblized) {
+                    // We need to set b rebsonbble initibl size, bs mbny
+                    // bpplets bre unhbppy if they bre stbrted without
+                    // hbving been explicitly sized.
+                    bpplet.setSize(100,100);
+                    bpplet.init();
                 }
 
                 if (needDummies) {
-                  ((BeansAppletStub)stub).active = true;
-                } else initializer.activate(applet);
+                  ((BebnsAppletStub)stub).bctive = true;
+                } else initiblizer.bctivbte(bpplet);
 
-            } else if (beanContext != null) unsafeBeanContextAdd(beanContext, result);
+            } else if (bebnContext != null) unsbfeBebnContextAdd(bebnContext, result);
         }
 
         return result;
     }
 
-    @SuppressWarnings("unchecked")
-    private static void unsafeBeanContextAdd(BeanContext beanContext, Object res) {
-        beanContext.add(res);
+    @SuppressWbrnings("unchecked")
+    privbte stbtic void unsbfeBebnContextAdd(BebnContext bebnContext, Object res) {
+        bebnContext.bdd(res);
     }
 
     /**
-     * From a given bean, obtain an object representing a specified
-     * type view of that source object.
+     * From b given bebn, obtbin bn object representing b specified
+     * type view of thbt source object.
      * <p>
-     * The result may be the same object or a different object.  If
-     * the requested target view isn't available then the given
-     * bean is returned.
+     * The result mby be the sbme object or b different object.  If
+     * the requested tbrget view isn't bvbilbble then the given
+     * bebn is returned.
      * <p>
-     * This method is provided in Beans 1.0 as a hook to allow the
-     * addition of more flexible bean behaviour in the future.
+     * This method is provided in Bebns 1.0 bs b hook to bllow the
+     * bddition of more flexible bebn behbviour in the future.
      *
-     * @return an object representing a specified type view of the
+     * @return bn object representing b specified type view of the
      * source object
-     * @param bean        Object from which we want to obtain a view.
-     * @param targetType  The type of view we'd like to get.
+     * @pbrbm bebn        Object from which we wbnt to obtbin b view.
+     * @pbrbm tbrgetType  The type of view we'd like to get.
      *
      */
-    public static Object getInstanceOf(Object bean, Class<?> targetType) {
-        return bean;
+    public stbtic Object getInstbnceOf(Object bebn, Clbss<?> tbrgetType) {
+        return bebn;
     }
 
     /**
-     * Check if a bean can be viewed as a given target type.
-     * The result will be true if the Beans.getInstanceof method
-     * can be used on the given bean to obtain an object that
-     * represents the specified targetType type view.
+     * Check if b bebn cbn be viewed bs b given tbrget type.
+     * The result will be true if the Bebns.getInstbnceof method
+     * cbn be used on the given bebn to obtbin bn object thbt
+     * represents the specified tbrgetType type view.
      *
-     * @param bean  Bean from which we want to obtain a view.
-     * @param targetType  The type of view we'd like to get.
-     * @return "true" if the given bean supports the given targetType.
+     * @pbrbm bebn  Bebn from which we wbnt to obtbin b view.
+     * @pbrbm tbrgetType  The type of view we'd like to get.
+     * @return "true" if the given bebn supports the given tbrgetType.
      *
      */
-    public static boolean isInstanceOf(Object bean, Class<?> targetType) {
-        return Introspector.isSubclass(bean.getClass(), targetType);
+    public stbtic boolebn isInstbnceOf(Object bebn, Clbss<?> tbrgetType) {
+        return Introspector.isSubclbss(bebn.getClbss(), tbrgetType);
     }
 
     /**
-     * Test if we are in design-mode.
+     * Test if we bre in design-mode.
      *
-     * @return  True if we are running in an application construction
+     * @return  True if we bre running in bn bpplicbtion construction
      *          environment.
      *
      * @see DesignMode
      */
-    public static boolean isDesignTime() {
-        return ThreadGroupContext.getContext().isDesignTime();
+    public stbtic boolebn isDesignTime() {
+        return ThrebdGroupContext.getContext().isDesignTime();
     }
 
     /**
-     * Determines whether beans can assume a GUI is available.
+     * Determines whether bebns cbn bssume b GUI is bvbilbble.
      *
-     * @return  True if we are running in an environment where beans
-     *     can assume that an interactive GUI is available, so they
-     *     can pop up dialog boxes, etc.  This will normally return
-     *     true in a windowing environment, and will normally return
-     *     false in a server environment or if an application is
-     *     running as part of a batch job.
+     * @return  True if we bre running in bn environment where bebns
+     *     cbn bssume thbt bn interbctive GUI is bvbilbble, so they
+     *     cbn pop up diblog boxes, etc.  This will normblly return
+     *     true in b windowing environment, bnd will normblly return
+     *     fblse in b server environment or if bn bpplicbtion is
+     *     running bs pbrt of b bbtch job.
      *
      * @see Visibility
      *
      */
-    public static boolean isGuiAvailable() {
-        return ThreadGroupContext.getContext().isGuiAvailable();
+    public stbtic boolebn isGuiAvbilbble() {
+        return ThrebdGroupContext.getContext().isGuiAvbilbble();
     }
 
     /**
-     * Used to indicate whether of not we are running in an application
+     * Used to indicbte whether of not we bre running in bn bpplicbtion
      * builder environment.
      *
-     * <p>Note that this method is security checked
-     * and is not available to (for example) untrusted applets.
-     * More specifically, if there is a security manager,
+     * <p>Note thbt this method is security checked
+     * bnd is not bvbilbble to (for exbmple) untrusted bpplets.
+     * More specificblly, if there is b security mbnbger,
      * its <code>checkPropertiesAccess</code>
-     * method is called. This could result in a SecurityException.
+     * method is cblled. This could result in b SecurityException.
      *
-     * @param isDesignTime  True if we're in an application builder tool.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertiesAccess</code> method doesn't allow setting
+     * @pbrbm isDesignTime  True if we're in bn bpplicbtion builder tool.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkPropertiesAccess</code> method doesn't bllow setting
      *              of system properties.
-     * @see SecurityManager#checkPropertiesAccess
+     * @see SecurityMbnbger#checkPropertiesAccess
      */
 
-    public static void setDesignTime(boolean isDesignTime)
+    public stbtic void setDesignTime(boolebn isDesignTime)
                         throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPropertiesAccess();
         }
-        ThreadGroupContext.getContext().setDesignTime(isDesignTime);
+        ThrebdGroupContext.getContext().setDesignTime(isDesignTime);
     }
 
     /**
-     * Used to indicate whether of not we are running in an environment
-     * where GUI interaction is available.
+     * Used to indicbte whether of not we bre running in bn environment
+     * where GUI interbction is bvbilbble.
      *
-     * <p>Note that this method is security checked
-     * and is not available to (for example) untrusted applets.
-     * More specifically, if there is a security manager,
+     * <p>Note thbt this method is security checked
+     * bnd is not bvbilbble to (for exbmple) untrusted bpplets.
+     * More specificblly, if there is b security mbnbger,
      * its <code>checkPropertiesAccess</code>
-     * method is called. This could result in a SecurityException.
+     * method is cblled. This could result in b SecurityException.
      *
-     * @param isGuiAvailable  True if GUI interaction is available.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertiesAccess</code> method doesn't allow setting
+     * @pbrbm isGuiAvbilbble  True if GUI interbction is bvbilbble.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkPropertiesAccess</code> method doesn't bllow setting
      *              of system properties.
-     * @see SecurityManager#checkPropertiesAccess
+     * @see SecurityMbnbger#checkPropertiesAccess
      */
 
-    public static void setGuiAvailable(boolean isGuiAvailable)
+    public stbtic void setGuiAvbilbble(boolebn isGuiAvbilbble)
                         throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPropertiesAccess();
         }
-        ThreadGroupContext.getContext().setGuiAvailable(isGuiAvailable);
+        ThrebdGroupContext.getContext().setGuiAvbilbble(isGuiAvbilbble);
     }
 }
 
 /**
- * This subclass of ObjectInputStream delegates loading of classes to
- * an existing ClassLoader.
+ * This subclbss of ObjectInputStrebm delegbtes lobding of clbsses to
+ * bn existing ClbssLobder.
  */
 
-class ObjectInputStreamWithLoader extends ObjectInputStream
+clbss ObjectInputStrebmWithLobder extends ObjectInputStrebm
 {
-    private ClassLoader loader;
+    privbte ClbssLobder lobder;
 
     /**
-     * Loader must be non-null;
+     * Lobder must be non-null;
      */
 
-    public ObjectInputStreamWithLoader(InputStream in, ClassLoader loader)
-            throws IOException, StreamCorruptedException {
+    public ObjectInputStrebmWithLobder(InputStrebm in, ClbssLobder lobder)
+            throws IOException, StrebmCorruptedException {
 
         super(in);
-        if (loader == null) {
-            throw new IllegalArgumentException("Illegal null argument to ObjectInputStreamWithLoader");
+        if (lobder == null) {
+            throw new IllegblArgumentException("Illegbl null brgument to ObjectInputStrebmWithLobder");
         }
-        this.loader = loader;
+        this.lobder = lobder;
     }
 
     /**
-     * Use the given ClassLoader rather than using the system class
+     * Use the given ClbssLobder rbther thbn using the system clbss
      */
-    @SuppressWarnings("rawtypes")
-    protected Class resolveClass(ObjectStreamClass classDesc)
-        throws IOException, ClassNotFoundException {
+    @SuppressWbrnings("rbwtypes")
+    protected Clbss resolveClbss(ObjectStrebmClbss clbssDesc)
+        throws IOException, ClbssNotFoundException {
 
-        String cname = classDesc.getName();
-        return ClassFinder.resolveClass(cname, this.loader);
+        String cnbme = clbssDesc.getNbme();
+        return ClbssFinder.resolveClbss(cnbme, this.lobder);
     }
 }
 
 /**
- * Package private support class.  This provides a default AppletContext
- * for beans which are applets.
+ * Pbckbge privbte support clbss.  This provides b defbult AppletContext
+ * for bebns which bre bpplets.
  */
 
-class BeansAppletContext implements AppletContext {
-    Applet target;
-    Hashtable<URL,Object> imageCache = new Hashtable<>();
+clbss BebnsAppletContext implements AppletContext {
+    Applet tbrget;
+    Hbshtbble<URL,Object> imbgeCbche = new Hbshtbble<>();
 
-    BeansAppletContext(Applet target) {
-        this.target = target;
+    BebnsAppletContext(Applet tbrget) {
+        this.tbrget = tbrget;
     }
 
     public AudioClip getAudioClip(URL url) {
-        // We don't currently support audio clips in the Beans.instantiate
-        // applet context, unless by some luck there exists a URL content
-        // class that can generate an AudioClip from the audio URL.
+        // We don't currently support budio clips in the Bebns.instbntibte
+        // bpplet context, unless by some luck there exists b URL content
+        // clbss thbt cbn generbte bn AudioClip from the budio URL.
         try {
             return (AudioClip) url.getContent();
-        } catch (Exception ex) {
+        } cbtch (Exception ex) {
             return null;
         }
     }
 
-    public synchronized Image getImage(URL url) {
-        Object o = imageCache.get(url);
+    public synchronized Imbge getImbge(URL url) {
+        Object o = imbgeCbche.get(url);
         if (o != null) {
-            return (Image)o;
+            return (Imbge)o;
         }
         try {
             o = url.getContent();
             if (o == null) {
                 return null;
             }
-            if (o instanceof Image) {
-                imageCache.put(url, o);
-                return (Image) o;
+            if (o instbnceof Imbge) {
+                imbgeCbche.put(url, o);
+                return (Imbge) o;
             }
-            // Otherwise it must be an ImageProducer.
-            Image img = target.createImage((java.awt.image.ImageProducer)o);
-            imageCache.put(url, img);
+            // Otherwise it must be bn ImbgeProducer.
+            Imbge img = tbrget.crebteImbge((jbvb.bwt.imbge.ImbgeProducer)o);
+            imbgeCbche.put(url, img);
             return img;
 
-        } catch (Exception ex) {
+        } cbtch (Exception ex) {
             return null;
         }
     }
 
-    public Applet getApplet(String name) {
+    public Applet getApplet(String nbme) {
         return null;
     }
 
-    public Enumeration<Applet> getApplets() {
-        Vector<Applet> applets = new Vector<>();
-        applets.addElement(target);
-        return applets.elements();
+    public Enumerbtion<Applet> getApplets() {
+        Vector<Applet> bpplets = new Vector<>();
+        bpplets.bddElement(tbrget);
+        return bpplets.elements();
     }
 
     public void showDocument(URL url) {
         // We do nothing.
     }
 
-    public void showDocument(URL url, String target) {
+    public void showDocument(URL url, String tbrget) {
         // We do nothing.
     }
 
-    public void showStatus(String status) {
+    public void showStbtus(String stbtus) {
         // We do nothing.
     }
 
-    public void setStream(String key, InputStream stream)throws IOException{
+    public void setStrebm(String key, InputStrebm strebm)throws IOException{
         // We do nothing.
     }
 
-    public InputStream getStream(String key){
+    public InputStrebm getStrebm(String key){
         // We do nothing.
         return null;
     }
 
-    public Iterator<String> getStreamKeys(){
+    public Iterbtor<String> getStrebmKeys(){
         // We do nothing.
         return null;
     }
 }
 
 /**
- * Package private support class.  This provides an AppletStub
- * for beans which are applets.
+ * Pbckbge privbte support clbss.  This provides bn AppletStub
+ * for bebns which bre bpplets.
  */
-class BeansAppletStub implements AppletStub {
-    transient boolean active;
-    transient Applet target;
-    transient AppletContext context;
-    transient URL codeBase;
-    transient URL docBase;
+clbss BebnsAppletStub implements AppletStub {
+    trbnsient boolebn bctive;
+    trbnsient Applet tbrget;
+    trbnsient AppletContext context;
+    trbnsient URL codeBbse;
+    trbnsient URL docBbse;
 
-    BeansAppletStub(Applet target,
-                AppletContext context, URL codeBase,
-                                URL docBase) {
-        this.target = target;
+    BebnsAppletStub(Applet tbrget,
+                AppletContext context, URL codeBbse,
+                                URL docBbse) {
+        this.tbrget = tbrget;
         this.context = context;
-        this.codeBase = codeBase;
-        this.docBase = docBase;
+        this.codeBbse = codeBbse;
+        this.docBbse = docBbse;
     }
 
-    public boolean isActive() {
-        return active;
+    public boolebn isActive() {
+        return bctive;
     }
 
-    public URL getDocumentBase() {
-        // use the root directory of the applet's class-loader
-        return docBase;
+    public URL getDocumentBbse() {
+        // use the root directory of the bpplet's clbss-lobder
+        return docBbse;
     }
 
-    public URL getCodeBase() {
-        // use the directory where we found the class or serialized object.
-        return codeBase;
+    public URL getCodeBbse() {
+        // use the directory where we found the clbss or seriblized object.
+        return codeBbse;
     }
 
-    public String getParameter(String name) {
+    public String getPbrbmeter(String nbme) {
         return null;
     }
 
@@ -642,7 +642,7 @@ class BeansAppletStub implements AppletStub {
         return context;
     }
 
-    public void appletResize(int width, int height) {
+    public void bppletResize(int width, int height) {
         // we do nothing.
     }
 }

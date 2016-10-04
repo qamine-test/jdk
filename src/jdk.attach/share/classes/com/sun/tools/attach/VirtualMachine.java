@@ -1,721 +1,721 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.attach;
+pbckbge com.sun.tools.bttbch;
 
-import com.sun.tools.attach.spi.AttachProvider;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.io.IOException;
+import com.sun.tools.bttbch.spi.AttbchProvider;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Properties;
+import jbvb.io.IOException;
 
 
 /**
- * A Java virtual machine.
+ * A Jbvb virtubl mbchine.
  *
- * <p> A <code>VirtualMachine</code> represents a Java virtual machine to which this
- * Java virtual machine has attached. The Java virtual machine to which it is
- * attached is sometimes called the <i>target virtual machine</i>, or <i>target VM</i>.
- * An application (typically a tool such as a managemet console or profiler) uses a
- * VirtualMachine to load an agent into the target VM. For example, a profiler tool
- * written in the Java Language might attach to a running application and load its
- * profiler agent to profile the running application. </p>
+ * <p> A <code>VirtublMbchine</code> represents b Jbvb virtubl mbchine to which this
+ * Jbvb virtubl mbchine hbs bttbched. The Jbvb virtubl mbchine to which it is
+ * bttbched is sometimes cblled the <i>tbrget virtubl mbchine</i>, or <i>tbrget VM</i>.
+ * An bpplicbtion (typicblly b tool such bs b mbnbgemet console or profiler) uses b
+ * VirtublMbchine to lobd bn bgent into the tbrget VM. For exbmple, b profiler tool
+ * written in the Jbvb Lbngubge might bttbch to b running bpplicbtion bnd lobd its
+ * profiler bgent to profile the running bpplicbtion. </p>
  *
- * <p> A VirtualMachine is obtained by invoking the {@link #attach(String) attach} method
- * with an identifier that identifies the target virtual machine. The identifier is
- * implementation-dependent but is typically the process identifier (or pid) in
- * environments where each Java virtual machine runs in its own operating system process.
- * Alternatively, a <code>VirtualMachine</code> instance is obtained by invoking the
- * {@link #attach(VirtualMachineDescriptor) attach} method with a {@link
- * com.sun.tools.attach.VirtualMachineDescriptor VirtualMachineDescriptor} obtained
- * from the list of virtual machine descriptors returned by the {@link #list list} method.
- * Once a reference to a virtual machine is obtained, the {@link #loadAgent loadAgent},
- * {@link #loadAgentLibrary loadAgentLibrary}, and {@link #loadAgentPath loadAgentPath}
- * methods are used to load agents into target virtual machine. The {@link
- * #loadAgent loadAgent} method is used to load agents that are written in the Java
- * Language and deployed in a {@link java.util.jar.JarFile JAR file}. (See
- * {@link java.lang.instrument} for a detailed description on how these agents
- * are loaded and started). The {@link #loadAgentLibrary loadAgentLibrary} and
- * {@link #loadAgentPath loadAgentPath} methods are used to load agents that
- * are deployed either in a dynamic library or statically linked into the VM and make use of the <a
+ * <p> A VirtublMbchine is obtbined by invoking the {@link #bttbch(String) bttbch} method
+ * with bn identifier thbt identifies the tbrget virtubl mbchine. The identifier is
+ * implementbtion-dependent but is typicblly the process identifier (or pid) in
+ * environments where ebch Jbvb virtubl mbchine runs in its own operbting system process.
+ * Alternbtively, b <code>VirtublMbchine</code> instbnce is obtbined by invoking the
+ * {@link #bttbch(VirtublMbchineDescriptor) bttbch} method with b {@link
+ * com.sun.tools.bttbch.VirtublMbchineDescriptor VirtublMbchineDescriptor} obtbined
+ * from the list of virtubl mbchine descriptors returned by the {@link #list list} method.
+ * Once b reference to b virtubl mbchine is obtbined, the {@link #lobdAgent lobdAgent},
+ * {@link #lobdAgentLibrbry lobdAgentLibrbry}, bnd {@link #lobdAgentPbth lobdAgentPbth}
+ * methods bre used to lobd bgents into tbrget virtubl mbchine. The {@link
+ * #lobdAgent lobdAgent} method is used to lobd bgents thbt bre written in the Jbvb
+ * Lbngubge bnd deployed in b {@link jbvb.util.jbr.JbrFile JAR file}. (See
+ * {@link jbvb.lbng.instrument} for b detbiled description on how these bgents
+ * bre lobded bnd stbrted). The {@link #lobdAgentLibrbry lobdAgentLibrbry} bnd
+ * {@link #lobdAgentPbth lobdAgentPbth} methods bre used to lobd bgents thbt
+ * bre deployed either in b dynbmic librbry or stbticblly linked into the VM bnd mbke use of the <b
  * href="../../../../../../../../technotes/guides/jvmti/index.html">JVM Tools
- * Interface</a>. </p>
+ * Interfbce</b>. </p>
  *
- * <p> In addition to loading agents a VirtualMachine provides read access to the
- * {@link java.lang.System#getProperties() system properties} in the target VM.
- * This can be useful in some environments where properties such as
- * <code>java.home</code>, <code>os.name</code>, or <code>os.arch</code> are
- * used to construct the path to agent that will be loaded into the target VM.
+ * <p> In bddition to lobding bgents b VirtublMbchine provides rebd bccess to the
+ * {@link jbvb.lbng.System#getProperties() system properties} in the tbrget VM.
+ * This cbn be useful in some environments where properties such bs
+ * <code>jbvb.home</code>, <code>os.nbme</code>, or <code>os.brch</code> bre
+ * used to construct the pbth to bgent thbt will be lobded into the tbrget VM.
  *
- * <p> The following example demonstrates how VirtualMachine may be used:</p>
+ * <p> The following exbmple demonstrbtes how VirtublMbchine mby be used:</p>
  *
  * <pre>
  *
- *      // attach to target VM
- *      VirtualMachine vm = VirtualMachine.attach("2177");
+ *      // bttbch to tbrget VM
+ *      VirtublMbchine vm = VirtublMbchine.bttbch("2177");
  *
- *      // start management agent
+ *      // stbrt mbnbgement bgent
  *      Properties props = new Properties();
- *      props.put("com.sun.management.jmxremote.port", "5000");
- *      vm.startManagementAgent(props);
+ *      props.put("com.sun.mbnbgement.jmxremote.port", "5000");
+ *      vm.stbrtMbnbgementAgent(props);
  *
- *      // detach
- *      vm.detach();
+ *      // detbch
+ *      vm.detbch();
  *
  * </pre>
  *
- * <p> In this example we attach to a Java virtual machine that is identified by
- * the process identifier <code>2177</code>. Then the JMX management agent is
- * started in the target process using the supplied arguments. Finally, the
- * client detaches from the target VM. </p>
+ * <p> In this exbmple we bttbch to b Jbvb virtubl mbchine thbt is identified by
+ * the process identifier <code>2177</code>. Then the JMX mbnbgement bgent is
+ * stbrted in the tbrget process using the supplied brguments. Finblly, the
+ * client detbches from the tbrget VM. </p>
  *
- * <p> A VirtualMachine is safe for use by multiple concurrent threads. </p>
+ * <p> A VirtublMbchine is sbfe for use by multiple concurrent threbds. </p>
  *
  * @since 1.6
  */
 
 @jdk.Exported
-public abstract class VirtualMachine {
-    private AttachProvider provider;
-    private String id;
-    private volatile int hash;        // 0 => not computed
+public bbstrbct clbss VirtublMbchine {
+    privbte AttbchProvider provider;
+    privbte String id;
+    privbte volbtile int hbsh;        // 0 => not computed
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
-     * @param   provider
-     *          The attach provider creating this class.
-     * @param   id
-     *          The abstract identifier that identifies the Java virtual machine.
+     * @pbrbm   provider
+     *          The bttbch provider crebting this clbss.
+     * @pbrbm   id
+     *          The bbstrbct identifier thbt identifies the Jbvb virtubl mbchine.
      *
      * @throws  NullPointerException
      *          If <code>provider</code> or <code>id</code> is <code>null</code>.
      */
-    protected VirtualMachine(AttachProvider provider, String id) {
+    protected VirtublMbchine(AttbchProvider provider, String id) {
         if (provider == null) {
-            throw new NullPointerException("provider cannot be null");
+            throw new NullPointerException("provider cbnnot be null");
         }
         if (id == null) {
-            throw new NullPointerException("id cannot be null");
+            throw new NullPointerException("id cbnnot be null");
         }
         this.provider = provider;
         this.id = id;
     }
 
     /**
-     * Return a list of Java virtual machines.
+     * Return b list of Jbvb virtubl mbchines.
      *
-     * <p> This method returns a list of Java {@link
-     * com.sun.tools.attach.VirtualMachineDescriptor} elements.
-     * The list is an aggregation of the virtual machine
-     * descriptor lists obtained by invoking the {@link
-     * com.sun.tools.attach.spi.AttachProvider#listVirtualMachines
-     * listVirtualMachines} method of all installed
-     * {@link com.sun.tools.attach.spi.AttachProvider attach providers}.
-     * If there are no Java virtual machines known to any provider
-     * then an empty list is returned.
+     * <p> This method returns b list of Jbvb {@link
+     * com.sun.tools.bttbch.VirtublMbchineDescriptor} elements.
+     * The list is bn bggregbtion of the virtubl mbchine
+     * descriptor lists obtbined by invoking the {@link
+     * com.sun.tools.bttbch.spi.AttbchProvider#listVirtublMbchines
+     * listVirtublMbchines} method of bll instblled
+     * {@link com.sun.tools.bttbch.spi.AttbchProvider bttbch providers}.
+     * If there bre no Jbvb virtubl mbchines known to bny provider
+     * then bn empty list is returned.
      *
-     * @return  The list of virtual machine descriptors.
+     * @return  The list of virtubl mbchine descriptors.
      */
-    public static List<VirtualMachineDescriptor> list() {
-        ArrayList<VirtualMachineDescriptor> l =
-            new ArrayList<VirtualMachineDescriptor>();
-        List<AttachProvider> providers = AttachProvider.providers();
-        for (AttachProvider provider: providers) {
-            l.addAll(provider.listVirtualMachines());
+    public stbtic List<VirtublMbchineDescriptor> list() {
+        ArrbyList<VirtublMbchineDescriptor> l =
+            new ArrbyList<VirtublMbchineDescriptor>();
+        List<AttbchProvider> providers = AttbchProvider.providers();
+        for (AttbchProvider provider: providers) {
+            l.bddAll(provider.listVirtublMbchines());
         }
         return l;
     }
 
     /**
-     * Attaches to a Java virtual machine.
+     * Attbches to b Jbvb virtubl mbchine.
      *
-     * <p> This method obtains the list of attach providers by invoking the
-     * {@link com.sun.tools.attach.spi.AttachProvider#providers()
-     * AttachProvider.providers()} method. It then iterates overs the list
-     * and invokes each provider's {@link
-     * com.sun.tools.attach.spi.AttachProvider#attachVirtualMachine(java.lang.String)
-     * attachVirtualMachine} method in turn. If a provider successfully
-     * attaches then the iteration terminates, and the VirtualMachine created
-     * by the provider that successfully attached is returned by this method.
-     * If the <code>attachVirtualMachine</code> method of all providers throws
-     * {@link com.sun.tools.attach.AttachNotSupportedException AttachNotSupportedException}
-     * then this method also throws <code>AttachNotSupportedException</code>.
-     * This means that <code>AttachNotSupportedException</code> is thrown when
-     * the identifier provided to this method is invalid, or the identifier
-     * corresponds to a Java virtual machine that does not exist, or none
-     * of the providers can attach to it. This exception is also thrown if
-     * {@link com.sun.tools.attach.spi.AttachProvider#providers()
-     * AttachProvider.providers()} returns an empty list. </p>
+     * <p> This method obtbins the list of bttbch providers by invoking the
+     * {@link com.sun.tools.bttbch.spi.AttbchProvider#providers()
+     * AttbchProvider.providers()} method. It then iterbtes overs the list
+     * bnd invokes ebch provider's {@link
+     * com.sun.tools.bttbch.spi.AttbchProvider#bttbchVirtublMbchine(jbvb.lbng.String)
+     * bttbchVirtublMbchine} method in turn. If b provider successfully
+     * bttbches then the iterbtion terminbtes, bnd the VirtublMbchine crebted
+     * by the provider thbt successfully bttbched is returned by this method.
+     * If the <code>bttbchVirtublMbchine</code> method of bll providers throws
+     * {@link com.sun.tools.bttbch.AttbchNotSupportedException AttbchNotSupportedException}
+     * then this method blso throws <code>AttbchNotSupportedException</code>.
+     * This mebns thbt <code>AttbchNotSupportedException</code> is thrown when
+     * the identifier provided to this method is invblid, or the identifier
+     * corresponds to b Jbvb virtubl mbchine thbt does not exist, or none
+     * of the providers cbn bttbch to it. This exception is blso thrown if
+     * {@link com.sun.tools.bttbch.spi.AttbchProvider#providers()
+     * AttbchProvider.providers()} returns bn empty list. </p>
      *
-     * @param   id
-     *          The abstract identifier that identifies the Java virtual machine.
+     * @pbrbm   id
+     *          The bbstrbct identifier thbt identifies the Jbvb virtubl mbchine.
      *
-     * @return  A VirtualMachine representing the target VM.
+     * @return  A VirtublMbchine representing the tbrget VM.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link com.sun.tools.attach.AttachPermission AttachPermission}
-     *          <tt>("attachVirtualMachine")</tt>, or another permission
-     *          required by the implementation.
+     *          If b security mbnbger hbs been instblled bnd it denies
+     *          {@link com.sun.tools.bttbch.AttbchPermission AttbchPermission}
+     *          <tt>("bttbchVirtublMbchine")</tt>, or bnother permission
+     *          required by the implementbtion.
      *
-     * @throws  AttachNotSupportedException
-     *          If the <code>attachVirtualmachine</code> method of all installed
-     *          providers throws <code>AttachNotSupportedException</code>, or
-     *          there aren't any providers installed.
+     * @throws  AttbchNotSupportedException
+     *          If the <code>bttbchVirtublmbchine</code> method of bll instblled
+     *          providers throws <code>AttbchNotSupportedException</code>, or
+     *          there bren't bny providers instblled.
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
      *          If <code>id</code> is <code>null</code>.
      */
-    public static VirtualMachine attach(String id)
-        throws AttachNotSupportedException, IOException
+    public stbtic VirtublMbchine bttbch(String id)
+        throws AttbchNotSupportedException, IOException
     {
         if (id == null) {
-            throw new NullPointerException("id cannot be null");
+            throw new NullPointerException("id cbnnot be null");
         }
-        List<AttachProvider> providers = AttachProvider.providers();
+        List<AttbchProvider> providers = AttbchProvider.providers();
         if (providers.size() == 0) {
-            throw new AttachNotSupportedException("no providers installed");
+            throw new AttbchNotSupportedException("no providers instblled");
         }
-        AttachNotSupportedException lastExc = null;
-        for (AttachProvider provider: providers) {
+        AttbchNotSupportedException lbstExc = null;
+        for (AttbchProvider provider: providers) {
             try {
-                return provider.attachVirtualMachine(id);
-            } catch (AttachNotSupportedException x) {
-                lastExc = x;
+                return provider.bttbchVirtublMbchine(id);
+            } cbtch (AttbchNotSupportedException x) {
+                lbstExc = x;
             }
         }
-        throw lastExc;
+        throw lbstExc;
     }
 
     /**
-     * Attaches to a Java virtual machine.
+     * Attbches to b Jbvb virtubl mbchine.
      *
      * <p> This method first invokes the {@link
-     * com.sun.tools.attach.VirtualMachineDescriptor#provider() provider()} method
-     * of the given virtual machine descriptor to obtain the attach provider. It
-     * then invokes the attach provider's {@link
-     * com.sun.tools.attach.spi.AttachProvider#attachVirtualMachine(VirtualMachineDescriptor)
-     * attachVirtualMachine} to attach to the target VM.
+     * com.sun.tools.bttbch.VirtublMbchineDescriptor#provider() provider()} method
+     * of the given virtubl mbchine descriptor to obtbin the bttbch provider. It
+     * then invokes the bttbch provider's {@link
+     * com.sun.tools.bttbch.spi.AttbchProvider#bttbchVirtublMbchine(VirtublMbchineDescriptor)
+     * bttbchVirtublMbchine} to bttbch to the tbrget VM.
      *
-     * @param   vmd
-     *          The virtual machine descriptor.
+     * @pbrbm   vmd
+     *          The virtubl mbchine descriptor.
      *
-     * @return  A VirtualMachine representing the target VM.
+     * @return  A VirtublMbchine representing the tbrget VM.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link com.sun.tools.attach.AttachPermission AttachPermission}
-     *          <tt>("attachVirtualMachine")</tt>, or another permission
-     *          required by the implementation.
+     *          If b security mbnbger hbs been instblled bnd it denies
+     *          {@link com.sun.tools.bttbch.AttbchPermission AttbchPermission}
+     *          <tt>("bttbchVirtublMbchine")</tt>, or bnother permission
+     *          required by the implementbtion.
      *
-     * @throws  AttachNotSupportedException
-     *          If the attach provider's <code>attachVirtualmachine</code>
-     *          throws <code>AttachNotSupportedException</code>.
+     * @throws  AttbchNotSupportedException
+     *          If the bttbch provider's <code>bttbchVirtublmbchine</code>
+     *          throws <code>AttbchNotSupportedException</code>.
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
      *          If <code>vmd</code> is <code>null</code>.
      */
-    public static VirtualMachine attach(VirtualMachineDescriptor vmd)
-        throws AttachNotSupportedException, IOException
+    public stbtic VirtublMbchine bttbch(VirtublMbchineDescriptor vmd)
+        throws AttbchNotSupportedException, IOException
     {
-        return vmd.provider().attachVirtualMachine(vmd);
+        return vmd.provider().bttbchVirtublMbchine(vmd);
     }
 
     /**
-     * Detach from the virtual machine.
+     * Detbch from the virtubl mbchine.
      *
-     * <p> After detaching from the virtual machine, any further attempt to invoke
-     * operations on that virtual machine will cause an {@link java.io.IOException
-     * IOException} to be thrown. If an operation (such as {@link #loadAgent
-     * loadAgent} for example) is in progress when this method is invoked then
-     * the behaviour is implementation dependent. In other words, it is
-     * implementation specific if the operation completes or throws
+     * <p> After detbching from the virtubl mbchine, bny further bttempt to invoke
+     * operbtions on thbt virtubl mbchine will cbuse bn {@link jbvb.io.IOException
+     * IOException} to be thrown. If bn operbtion (such bs {@link #lobdAgent
+     * lobdAgent} for exbmple) is in progress when this method is invoked then
+     * the behbviour is implementbtion dependent. In other words, it is
+     * implementbtion specific if the operbtion completes or throws
      * <tt>IOException</tt>.
      *
-     * <p> If already detached from the virtual machine then invoking this
-     * method has no effect. </p>
+     * <p> If blrebdy detbched from the virtubl mbchine then invoking this
+     * method hbs no effect. </p>
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract void detach() throws IOException;
+    public bbstrbct void detbch() throws IOException;
 
     /**
-     * Returns the provider that created this virtual machine.
+     * Returns the provider thbt crebted this virtubl mbchine.
      *
-     * @return  The provider that created this virtual machine.
+     * @return  The provider thbt crebted this virtubl mbchine.
      */
-    public final AttachProvider provider() {
+    public finbl AttbchProvider provider() {
         return provider;
     }
 
     /**
-     * Returns the identifier for this Java virtual machine.
+     * Returns the identifier for this Jbvb virtubl mbchine.
      *
-     * @return  The identifier for this Java virtual machine.
+     * @return  The identifier for this Jbvb virtubl mbchine.
      */
-    public final String id() {
+    public finbl String id() {
         return id;
     }
 
     /**
-     * Loads an agent library.
+     * Lobds bn bgent librbry.
      *
-     * <p> A <a href="../../../../../../../../technotes/guides/jvmti/index.html">JVM
-     * TI</a> client is called an <i>agent</i>. It is developed in a native language.
-     * A JVM TI agent is deployed in a platform specific manner but it is typically the
-     * platform equivalent of a dynamic library. Alternatively, it may be statically linked into the VM.
-     * This method causes the given agent library to be loaded into the target
-     * VM (if not already loaded or if not statically linked into the VM).
-     * It then causes the target VM to invoke the <code>Agent_OnAttach</code> function
-     * or, for a statically linked agent named 'L', the <code>Agent_OnAttach_L</code> function
-     * as specified in the
-     * <a href="../../../../../../../../technotes/guides/jvmti/index.html"> JVM Tools
-     * Interface</a> specification. Note that the <code>Agent_OnAttach[_L]</code>
-     * function is invoked even if the agent library was loaded prior to invoking
+     * <p> A <b href="../../../../../../../../technotes/guides/jvmti/index.html">JVM
+     * TI</b> client is cblled bn <i>bgent</i>. It is developed in b nbtive lbngubge.
+     * A JVM TI bgent is deployed in b plbtform specific mbnner but it is typicblly the
+     * plbtform equivblent of b dynbmic librbry. Alternbtively, it mby be stbticblly linked into the VM.
+     * This method cbuses the given bgent librbry to be lobded into the tbrget
+     * VM (if not blrebdy lobded or if not stbticblly linked into the VM).
+     * It then cbuses the tbrget VM to invoke the <code>Agent_OnAttbch</code> function
+     * or, for b stbticblly linked bgent nbmed 'L', the <code>Agent_OnAttbch_L</code> function
+     * bs specified in the
+     * <b href="../../../../../../../../technotes/guides/jvmti/index.html"> JVM Tools
+     * Interfbce</b> specificbtion. Note thbt the <code>Agent_OnAttbch[_L]</code>
+     * function is invoked even if the bgent librbry wbs lobded prior to invoking
      * this method.
      *
-     * <p> The agent library provided is the name of the agent library. It is interpreted
-     * in the target virtual machine in an implementation-dependent manner. Typically an
-     * implementation will expand the library name into an operating system specific file
-     * name. For example, on UNIX systems, the name <tt>L</tt> might be expanded to
-     * <tt>libL.so</tt>, and located using the search path specified by the
-     * <tt>LD_LIBRARY_PATH</tt> environment variable. If the agent named 'L' is
-     * statically linked into the VM then the VM must export a function named
-     * <code>Agent_OnAttach_L</code>.</p>
+     * <p> The bgent librbry provided is the nbme of the bgent librbry. It is interpreted
+     * in the tbrget virtubl mbchine in bn implementbtion-dependent mbnner. Typicblly bn
+     * implementbtion will expbnd the librbry nbme into bn operbting system specific file
+     * nbme. For exbmple, on UNIX systems, the nbme <tt>L</tt> might be expbnded to
+     * <tt>libL.so</tt>, bnd locbted using the sebrch pbth specified by the
+     * <tt>LD_LIBRARY_PATH</tt> environment vbribble. If the bgent nbmed 'L' is
+     * stbticblly linked into the VM then the VM must export b function nbmed
+     * <code>Agent_OnAttbch_L</code>.</p>
      *
-     * <p> If the <code>Agent_OnAttach[_L]</code> function in the agent library returns
-     * an error then an {@link com.sun.tools.attach.AgentInitializationException} is
-     * thrown. The return value from the <code>Agent_OnAttach[_L]</code> can then be
-     * obtained by invoking the {@link
-     * com.sun.tools.attach.AgentInitializationException#returnValue() returnValue}
+     * <p> If the <code>Agent_OnAttbch[_L]</code> function in the bgent librbry returns
+     * bn error then bn {@link com.sun.tools.bttbch.AgentInitiblizbtionException} is
+     * thrown. The return vblue from the <code>Agent_OnAttbch[_L]</code> cbn then be
+     * obtbined by invoking the {@link
+     * com.sun.tools.bttbch.AgentInitiblizbtionException#returnVblue() returnVblue}
      * method on the exception. </p>
      *
-     * @param   agentLibrary
-     *          The name of the agent library.
+     * @pbrbm   bgentLibrbry
+     *          The nbme of the bgent librbry.
      *
-     * @param   options
-     *          The options to provide to the <code>Agent_OnAttach[_L]</code>
-     *          function (can be <code>null</code>).
+     * @pbrbm   options
+     *          The options to provide to the <code>Agent_OnAttbch[_L]</code>
+     *          function (cbn be <code>null</code>).
      *
-     * @throws  AgentLoadException
-     *          If the agent library does not exist, the agent library is not
-     *          statically linked with the VM, or the agent library cannot be
-     *          loaded for another reason.
+     * @throws  AgentLobdException
+     *          If the bgent librbry does not exist, the bgent librbry is not
+     *          stbticblly linked with the VM, or the bgent librbry cbnnot be
+     *          lobded for bnother rebson.
      *
-     * @throws  AgentInitializationException
-     *          If the <code>Agent_OnAttach[_L]</code> function returns an error.
+     * @throws  AgentInitiblizbtionException
+     *          If the <code>Agent_OnAttbch[_L]</code> function returns bn error.
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
-     *          If <code>agentLibrary</code> is <code>null</code>.
+     *          If <code>bgentLibrbry</code> is <code>null</code>.
      *
-     * @see     com.sun.tools.attach.AgentInitializationException#returnValue()
+     * @see     com.sun.tools.bttbch.AgentInitiblizbtionException#returnVblue()
      */
-    public abstract void loadAgentLibrary(String agentLibrary, String options)
-        throws AgentLoadException, AgentInitializationException, IOException;
+    public bbstrbct void lobdAgentLibrbry(String bgentLibrbry, String options)
+        throws AgentLobdException, AgentInitiblizbtionException, IOException;
 
     /**
-     * Loads an agent library.
+     * Lobds bn bgent librbry.
      *
-     * <p> This convenience method works as if by invoking:
+     * <p> This convenience method works bs if by invoking:
      *
      * <blockquote><tt>
-     * {@link #loadAgentLibrary(String, String) loadAgentLibrary}(agentLibrary,&nbsp;null);
+     * {@link #lobdAgentLibrbry(String, String) lobdAgentLibrbry}(bgentLibrbry,&nbsp;null);
      * </tt></blockquote>
      *
-     * @param   agentLibrary
-     *          The name of the agent library.
+     * @pbrbm   bgentLibrbry
+     *          The nbme of the bgent librbry.
      *
-     * @throws  AgentLoadException
-     *          If the agent library does not exist, the agent library is not
-     *          statically linked with the VM, or the agent library cannot be
-     *          loaded for another reason.
+     * @throws  AgentLobdException
+     *          If the bgent librbry does not exist, the bgent librbry is not
+     *          stbticblly linked with the VM, or the bgent librbry cbnnot be
+     *          lobded for bnother rebson.
      *
-     * @throws  AgentInitializationException
-     *          If the <code>Agent_OnAttach[_L]</code> function returns an error.
+     * @throws  AgentInitiblizbtionException
+     *          If the <code>Agent_OnAttbch[_L]</code> function returns bn error.
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
-     *          If <code>agentLibrary</code> is <code>null</code>.
+     *          If <code>bgentLibrbry</code> is <code>null</code>.
      */
-    public void loadAgentLibrary(String agentLibrary)
-        throws AgentLoadException, AgentInitializationException, IOException
+    public void lobdAgentLibrbry(String bgentLibrbry)
+        throws AgentLobdException, AgentInitiblizbtionException, IOException
     {
-        loadAgentLibrary(agentLibrary, null);
+        lobdAgentLibrbry(bgentLibrbry, null);
     }
 
     /**
-     * Load a native agent library by full pathname.
+     * Lobd b nbtive bgent librbry by full pbthnbme.
      *
-     * <p> A <a href="../../../../../../../../technotes/guides/jvmti/index.html">JVM
-     * TI</a> client is called an <i>agent</i>. It is developed in a native language.
-     * A JVM TI agent is deployed in a platform specific manner but it is typically the
-     * platform equivalent of a dynamic library. Alternatively, the native
-     * library specified by the agentPath parameter may be statically
-     * linked with the VM. The parsing of the agentPath parameter into
-     * a statically linked library name is done in a platform
-     * specific manner in the VM. For example, in UNIX, an agentPath parameter
-     * of <code>/a/b/libL.so</code> would name a library 'L'.
+     * <p> A <b href="../../../../../../../../technotes/guides/jvmti/index.html">JVM
+     * TI</b> client is cblled bn <i>bgent</i>. It is developed in b nbtive lbngubge.
+     * A JVM TI bgent is deployed in b plbtform specific mbnner but it is typicblly the
+     * plbtform equivblent of b dynbmic librbry. Alternbtively, the nbtive
+     * librbry specified by the bgentPbth pbrbmeter mby be stbticblly
+     * linked with the VM. The pbrsing of the bgentPbth pbrbmeter into
+     * b stbticblly linked librbry nbme is done in b plbtform
+     * specific mbnner in the VM. For exbmple, in UNIX, bn bgentPbth pbrbmeter
+     * of <code>/b/b/libL.so</code> would nbme b librbry 'L'.
      *
-     * See the JVM TI Specification for more details.
+     * See the JVM TI Specificbtion for more detbils.
      *
-     * This method causes the given agent library to be loaded into the target
-     * VM (if not already loaded or if not statically linked into the VM).
-     * It then causes the target VM to invoke the <code>Agent_OnAttach</code>
-     * function or, for a statically linked agent named 'L', the
-     * <code>Agent_OnAttach_L</code> function as specified in the
-     * <a href="../../../../../../../../technotes/guides/jvmti/index.html"> JVM Tools
-     * Interface</a> specification.
-     * Note that the <code>Agent_OnAttach[_L]</code>
-     * function is invoked even if the agent library was loaded prior to invoking
+     * This method cbuses the given bgent librbry to be lobded into the tbrget
+     * VM (if not blrebdy lobded or if not stbticblly linked into the VM).
+     * It then cbuses the tbrget VM to invoke the <code>Agent_OnAttbch</code>
+     * function or, for b stbticblly linked bgent nbmed 'L', the
+     * <code>Agent_OnAttbch_L</code> function bs specified in the
+     * <b href="../../../../../../../../technotes/guides/jvmti/index.html"> JVM Tools
+     * Interfbce</b> specificbtion.
+     * Note thbt the <code>Agent_OnAttbch[_L]</code>
+     * function is invoked even if the bgent librbry wbs lobded prior to invoking
      * this method.
      *
-     * <p> The agent library provided is the absolute path from which to load the
-     * agent library. Unlike {@link #loadAgentLibrary loadAgentLibrary}, the library name
-     * is not expanded in the target virtual machine. </p>
+     * <p> The bgent librbry provided is the bbsolute pbth from which to lobd the
+     * bgent librbry. Unlike {@link #lobdAgentLibrbry lobdAgentLibrbry}, the librbry nbme
+     * is not expbnded in the tbrget virtubl mbchine. </p>
      *
-     * <p> If the <code>Agent_OnAttach[_L]</code> function in the agent library returns
-     * an error then an {@link com.sun.tools.attach.AgentInitializationException} is
-     * thrown. The return value from the <code>Agent_OnAttach[_L]</code> can then be
-     * obtained by invoking the {@link
-     * com.sun.tools.attach.AgentInitializationException#returnValue() returnValue}
+     * <p> If the <code>Agent_OnAttbch[_L]</code> function in the bgent librbry returns
+     * bn error then bn {@link com.sun.tools.bttbch.AgentInitiblizbtionException} is
+     * thrown. The return vblue from the <code>Agent_OnAttbch[_L]</code> cbn then be
+     * obtbined by invoking the {@link
+     * com.sun.tools.bttbch.AgentInitiblizbtionException#returnVblue() returnVblue}
      * method on the exception. </p>
      *
-     * @param   agentPath
-     *          The full path of the agent library.
+     * @pbrbm   bgentPbth
+     *          The full pbth of the bgent librbry.
      *
-     * @param   options
-     *          The options to provide to the <code>Agent_OnAttach[_L]</code>
-     *          function (can be <code>null</code>).
+     * @pbrbm   options
+     *          The options to provide to the <code>Agent_OnAttbch[_L]</code>
+     *          function (cbn be <code>null</code>).
      *
-     * @throws  AgentLoadException
-     *          If the agent library does not exist, the agent library is not
-     *          statically linked with the VM, or the agent library cannot be
-     *          loaded for another reason.
+     * @throws  AgentLobdException
+     *          If the bgent librbry does not exist, the bgent librbry is not
+     *          stbticblly linked with the VM, or the bgent librbry cbnnot be
+     *          lobded for bnother rebson.
      *
-     * @throws  AgentInitializationException
-     *          If the <code>Agent_OnAttach[_L]</code> function returns an error.
+     * @throws  AgentInitiblizbtionException
+     *          If the <code>Agent_OnAttbch[_L]</code> function returns bn error.
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
-     *          If <code>agentPath</code> is <code>null</code>.
+     *          If <code>bgentPbth</code> is <code>null</code>.
      *
-     * @see     com.sun.tools.attach.AgentInitializationException#returnValue()
+     * @see     com.sun.tools.bttbch.AgentInitiblizbtionException#returnVblue()
      */
-    public abstract void loadAgentPath(String agentPath, String options)
-        throws AgentLoadException, AgentInitializationException, IOException;
+    public bbstrbct void lobdAgentPbth(String bgentPbth, String options)
+        throws AgentLobdException, AgentInitiblizbtionException, IOException;
 
     /**
-     * Load a native agent library by full pathname.
+     * Lobd b nbtive bgent librbry by full pbthnbme.
      *
-     * <p> This convenience method works as if by invoking:
+     * <p> This convenience method works bs if by invoking:
      *
      * <blockquote><tt>
-     * {@link #loadAgentPath(String, String) loadAgentPath}(agentLibrary,&nbsp;null);
+     * {@link #lobdAgentPbth(String, String) lobdAgentPbth}(bgentLibrbry,&nbsp;null);
      * </tt></blockquote>
      *
-     * @param   agentPath
-     *          The full path to the agent library.
+     * @pbrbm   bgentPbth
+     *          The full pbth to the bgent librbry.
      *
-     * @throws  AgentLoadException
-     *          If the agent library does not exist, the agent library is not
-     *          statically linked with the VM, or the agent library cannot be
-     *          loaded for another reason.
+     * @throws  AgentLobdException
+     *          If the bgent librbry does not exist, the bgent librbry is not
+     *          stbticblly linked with the VM, or the bgent librbry cbnnot be
+     *          lobded for bnother rebson.
      *
-     * @throws  AgentInitializationException
-     *          If the <code>Agent_OnAttach[_L]</code> function returns an error.
+     * @throws  AgentInitiblizbtionException
+     *          If the <code>Agent_OnAttbch[_L]</code> function returns bn error.
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
-     *          If <code>agentPath</code> is <code>null</code>.
+     *          If <code>bgentPbth</code> is <code>null</code>.
      */
-    public void loadAgentPath(String agentPath)
-       throws AgentLoadException, AgentInitializationException, IOException
+    public void lobdAgentPbth(String bgentPbth)
+       throws AgentLobdException, AgentInitiblizbtionException, IOException
     {
-        loadAgentPath(agentPath, null);
+        lobdAgentPbth(bgentPbth, null);
     }
 
 
    /**
-     * Loads an agent.
+     * Lobds bn bgent.
      *
-     * <p> The agent provided to this method is a path name to a JAR file on the file
-     * system of the target virtual machine. This path is passed to the target virtual
-     * machine where it is interpreted. The target virtual machine attempts to start
-     * the agent as specified by the {@link java.lang.instrument} specification.
-     * That is, the specified JAR file is added to the system class path (of the target
-     * virtual machine), and the <code>agentmain</code> method of the agent class, specified
-     * by the <code>Agent-Class</code> attribute in the JAR manifest, is invoked. This
-     * method completes when the <code>agentmain</code> method completes.
+     * <p> The bgent provided to this method is b pbth nbme to b JAR file on the file
+     * system of the tbrget virtubl mbchine. This pbth is pbssed to the tbrget virtubl
+     * mbchine where it is interpreted. The tbrget virtubl mbchine bttempts to stbrt
+     * the bgent bs specified by the {@link jbvb.lbng.instrument} specificbtion.
+     * Thbt is, the specified JAR file is bdded to the system clbss pbth (of the tbrget
+     * virtubl mbchine), bnd the <code>bgentmbin</code> method of the bgent clbss, specified
+     * by the <code>Agent-Clbss</code> bttribute in the JAR mbnifest, is invoked. This
+     * method completes when the <code>bgentmbin</code> method completes.
      *
-     * @param   agent
-     *          Path to the JAR file containing the agent.
+     * @pbrbm   bgent
+     *          Pbth to the JAR file contbining the bgent.
      *
-     * @param   options
-     *          The options to provide to the agent's <code>agentmain</code>
-     *          method (can be <code>null</code>).
+     * @pbrbm   options
+     *          The options to provide to the bgent's <code>bgentmbin</code>
+     *          method (cbn be <code>null</code>).
      *
-     * @throws  AgentLoadException
-     *          If the agent does not exist, or cannot be started in the manner
-     *          specified in the {@link java.lang.instrument} specification.
+     * @throws  AgentLobdException
+     *          If the bgent does not exist, or cbnnot be stbrted in the mbnner
+     *          specified in the {@link jbvb.lbng.instrument} specificbtion.
      *
-     * @throws  AgentInitializationException
-     *          If the <code>agentmain</code> throws an exception
+     * @throws  AgentInitiblizbtionException
+     *          If the <code>bgentmbin</code> throws bn exception
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
-     *          If <code>agent</code> is <code>null</code>.
+     *          If <code>bgent</code> is <code>null</code>.
      */
-    public abstract void loadAgent(String agent, String options)
-        throws AgentLoadException, AgentInitializationException, IOException;
+    public bbstrbct void lobdAgent(String bgent, String options)
+        throws AgentLobdException, AgentInitiblizbtionException, IOException;
 
     /**
-     * Loads an agent.
+     * Lobds bn bgent.
      *
-     * <p> This convenience method works as if by invoking:
+     * <p> This convenience method works bs if by invoking:
      *
      * <blockquote><tt>
-     * {@link #loadAgent(String, String) loadAgent}(agent,&nbsp;null);
+     * {@link #lobdAgent(String, String) lobdAgent}(bgent,&nbsp;null);
      * </tt></blockquote>
      *
-     * @param   agent
-     *          Path to the JAR file containing the agent.
+     * @pbrbm   bgent
+     *          Pbth to the JAR file contbining the bgent.
      *
-     * @throws  AgentLoadException
-     *          If the agent does not exist, or cannot be started in the manner
-     *          specified in the {@link java.lang.instrument} specification.
+     * @throws  AgentLobdException
+     *          If the bgent does not exist, or cbnnot be stbrted in the mbnner
+     *          specified in the {@link jbvb.lbng.instrument} specificbtion.
      *
-     * @throws  AgentInitializationException
-     *          If the <code>agentmain</code> throws an exception
+     * @throws  AgentInitiblizbtionException
+     *          If the <code>bgentmbin</code> throws bn exception
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @throws  NullPointerException
-     *          If <code>agent</code> is <code>null</code>.
+     *          If <code>bgent</code> is <code>null</code>.
      */
-    public void loadAgent(String agent)
-        throws AgentLoadException, AgentInitializationException, IOException
+    public void lobdAgent(String bgent)
+        throws AgentLobdException, AgentInitiblizbtionException, IOException
     {
-        loadAgent(agent, null);
+        lobdAgent(bgent, null);
     }
 
     /**
-     * Returns the current system properties in the target virtual machine.
+     * Returns the current system properties in the tbrget virtubl mbchine.
      *
-     * <p> This method returns the system properties in the target virtual
-     * machine. Properties whose key or value is not a <tt>String</tt> are
-     * omitted. The method is approximately equivalent to the invocation of the
-     * method {@link java.lang.System#getProperties System.getProperties}
-     * in the target virtual machine except that properties with a key or
-     * value that is not a <tt>String</tt> are not included.
+     * <p> This method returns the system properties in the tbrget virtubl
+     * mbchine. Properties whose key or vblue is not b <tt>String</tt> bre
+     * omitted. The method is bpproximbtely equivblent to the invocbtion of the
+     * method {@link jbvb.lbng.System#getProperties System.getProperties}
+     * in the tbrget virtubl mbchine except thbt properties with b key or
+     * vblue thbt is not b <tt>String</tt> bre not included.
      *
-     * <p> This method is typically used to decide which agent to load into
-     * the target virtual machine with {@link #loadAgent loadAgent}, or
-     * {@link #loadAgentLibrary loadAgentLibrary}. For example, the
-     * <code>java.home</code> or <code>user.dir</code> properties might be
-     * use to create the path to the agent library or JAR file.
+     * <p> This method is typicblly used to decide which bgent to lobd into
+     * the tbrget virtubl mbchine with {@link #lobdAgent lobdAgent}, or
+     * {@link #lobdAgentLibrbry lobdAgentLibrbry}. For exbmple, the
+     * <code>jbvb.home</code> or <code>user.dir</code> properties might be
+     * use to crebte the pbth to the bgent librbry or JAR file.
      *
      * @return  The system properties
      *
-     * @throws  AttachOperationFailedException
-     *          If the target virtual machine is unable to complete the
-     *          attach operation. A more specific error message will be
-     *          given by {@link AttachOperationFailedException#getMessage()}.
+     * @throws  AttbchOperbtionFbiledException
+     *          If the tbrget virtubl mbchine is unbble to complete the
+     *          bttbch operbtion. A more specific error messbge will be
+     *          given by {@link AttbchOperbtionFbiledException#getMessbge()}.
      *
      * @throws  IOException
-     *          If an I/O error occurs, a communication error for example,
-     *          that cannot be identified as an error to indicate that the
-     *          operation failed in the target VM.
+     *          If bn I/O error occurs, b communicbtion error for exbmple,
+     *          thbt cbnnot be identified bs bn error to indicbte thbt the
+     *          operbtion fbiled in the tbrget VM.
      *
-     * @see     java.lang.System#getProperties
-     * @see     #loadAgentLibrary
-     * @see     #loadAgent
+     * @see     jbvb.lbng.System#getProperties
+     * @see     #lobdAgentLibrbry
+     * @see     #lobdAgent
      */
-    public abstract Properties getSystemProperties() throws IOException;
+    public bbstrbct Properties getSystemProperties() throws IOException;
 
     /**
-     * Returns the current <i>agent properties</i> in the target virtual
-     * machine.
+     * Returns the current <i>bgent properties</i> in the tbrget virtubl
+     * mbchine.
      *
-     * <p> The target virtual machine can maintain a list of properties on
-     * behalf of agents. The manner in which this is done, the names of the
-     * properties, and the types of values that are allowed, is implementation
-     * specific. Agent properties are typically used to store communication
-     * end-points and other agent configuration details. For example, a debugger
-     * agent might create an agent property for its transport address.
+     * <p> The tbrget virtubl mbchine cbn mbintbin b list of properties on
+     * behblf of bgents. The mbnner in which this is done, the nbmes of the
+     * properties, bnd the types of vblues thbt bre bllowed, is implementbtion
+     * specific. Agent properties bre typicblly used to store communicbtion
+     * end-points bnd other bgent configurbtion detbils. For exbmple, b debugger
+     * bgent might crebte bn bgent property for its trbnsport bddress.
      *
-     * <p> This method returns the agent properties whose key and value is a
-     * <tt>String</tt>. Properties whose key or value is not a <tt>String</tt>
-     * are omitted. If there are no agent properties maintained in the target
-     * virtual machine then an empty property list is returned.
+     * <p> This method returns the bgent properties whose key bnd vblue is b
+     * <tt>String</tt>. Properties whose key or vblue is not b <tt>String</tt>
+     * bre omitted. If there bre no bgent properties mbintbined in the tbrget
+     * virtubl mbchine then bn empty property list is returned.
      *
-     * @return       The agent properties
+     * @return       The bgent properties
      *
-     * @throws       AttachOperationFailedException
-     *               If the target virtual machine is unable to complete the
-     *               attach operation. A more specific error message will be
-     *               given by {@link AttachOperationFailedException#getMessage()}.
+     * @throws       AttbchOperbtionFbiledException
+     *               If the tbrget virtubl mbchine is unbble to complete the
+     *               bttbch operbtion. A more specific error messbge will be
+     *               given by {@link AttbchOperbtionFbiledException#getMessbge()}.
      *
      * @throws       IOException
-     *               If an I/O error occurs, a communication error for example,
-     *               that cannot be identified as an error to indicate that the
-     *               operation failed in the target VM.
+     *               If bn I/O error occurs, b communicbtion error for exbmple,
+     *               thbt cbnnot be identified bs bn error to indicbte thbt the
+     *               operbtion fbiled in the tbrget VM.
      */
-    public abstract Properties getAgentProperties() throws IOException;
+    public bbstrbct Properties getAgentProperties() throws IOException;
 
     /**
-     * Starts the JMX management agent in the target virtual machine.
+     * Stbrts the JMX mbnbgement bgent in the tbrget virtubl mbchine.
      *
-     * <p> The configuration properties are the same as those specified on
-     * the command line when starting the JMX management agent. In the same
-     * way as on the command line, you need to specify at least the
-     * {@code com.sun.management.jmxremote.port} property.
+     * <p> The configurbtion properties bre the sbme bs those specified on
+     * the commbnd line when stbrting the JMX mbnbgement bgent. In the sbme
+     * wby bs on the commbnd line, you need to specify bt lebst the
+     * {@code com.sun.mbnbgement.jmxremote.port} property.
      *
-     * <p> See the online documentation for <a
-     * href="../../../../../../../../technotes/guides/management/agent.html">
-     * Monitoring and Management Using JMX Technology</a> for further details.
+     * <p> See the online documentbtion for <b
+     * href="../../../../../../../../technotes/guides/mbnbgement/bgent.html">
+     * Monitoring bnd Mbnbgement Using JMX Technology</b> for further detbils.
      *
-     * @param   agentProperties
-     *          A Properties object containing the configuration properties
-     *          for the agent.
+     * @pbrbm   bgentProperties
+     *          A Properties object contbining the configurbtion properties
+     *          for the bgent.
      *
-     * @throws  AttachOperationFailedException
-     *          If the target virtual machine is unable to complete the
-     *          attach operation. A more specific error message will be
-     *          given by {@link AttachOperationFailedException#getMessage()}.
+     * @throws  AttbchOperbtionFbiledException
+     *          If the tbrget virtubl mbchine is unbble to complete the
+     *          bttbch operbtion. A more specific error messbge will be
+     *          given by {@link AttbchOperbtionFbiledException#getMessbge()}.
      *
      * @throws  IOException
-     *          If an I/O error occurs, a communication error for example,
-     *          that cannot be identified as an error to indicate that the
-     *          operation failed in the target VM.
+     *          If bn I/O error occurs, b communicbtion error for exbmple,
+     *          thbt cbnnot be identified bs bn error to indicbte thbt the
+     *          operbtion fbiled in the tbrget VM.
      *
-     * @throws  IllegalArgumentException
-     *          If keys or values in agentProperties are invalid.
+     * @throws  IllegblArgumentException
+     *          If keys or vblues in bgentProperties bre invblid.
      *
      * @throws  NullPointerException
-     *          If agentProperties is null.
+     *          If bgentProperties is null.
      *
      * @since   1.9
      */
-    public abstract void startManagementAgent(Properties agentProperties) throws IOException;
+    public bbstrbct void stbrtMbnbgementAgent(Properties bgentProperties) throws IOException;
 
     /**
-     * Starts the local JMX management agent in the target virtual machine.
+     * Stbrts the locbl JMX mbnbgement bgent in the tbrget virtubl mbchine.
      *
-     * <p> See the online documentation for <a
-     * href="../../../../../../../../technotes/guides/management/agent.html">
-     * Monitoring and Management Using JMX Technology</a> for further details.
+     * <p> See the online documentbtion for <b
+     * href="../../../../../../../../technotes/guides/mbnbgement/bgent.html">
+     * Monitoring bnd Mbnbgement Using JMX Technology</b> for further detbils.
      *
-     * @return  The String representation of the local connector's service address.
-     *          The value can be parsed by the
-     *          {@link javax.management.remote.JMXServiceURL#JMXServiceURL(String)}
+     * @return  The String representbtion of the locbl connector's service bddress.
+     *          The vblue cbn be pbrsed by the
+     *          {@link jbvbx.mbnbgement.remote.JMXServiceURL#JMXServiceURL(String)}
      *          constructor.
      *
-     * @throws  AttachOperationFailedException
-     *          If the target virtual machine is unable to complete the
-     *          attach operation. A more specific error message will be
-     *          given by {@link AttachOperationFailedException#getMessage()}.
+     * @throws  AttbchOperbtionFbiledException
+     *          If the tbrget virtubl mbchine is unbble to complete the
+     *          bttbch operbtion. A more specific error messbge will be
+     *          given by {@link AttbchOperbtionFbiledException#getMessbge()}.
      *
      * @throws  IOException
-     *          If an I/O error occurs, a communication error for example,
-     *          that cannot be identified as an error to indicate that the
-     *          operation failed in the target VM.
+     *          If bn I/O error occurs, b communicbtion error for exbmple,
+     *          thbt cbnnot be identified bs bn error to indicbte thbt the
+     *          operbtion fbiled in the tbrget VM.
      *
      * @since   1.9
      */
-    public abstract String startLocalManagementAgent() throws IOException;
+    public bbstrbct String stbrtLocblMbnbgementAgent() throws IOException;
 
     /**
-     * Returns a hash-code value for this VirtualMachine. The hash
-     * code is based upon the VirtualMachine's components, and satifies
-     * the general contract of the {@link java.lang.Object#hashCode()
-     * Object.hashCode} method.
+     * Returns b hbsh-code vblue for this VirtublMbchine. The hbsh
+     * code is bbsed upon the VirtublMbchine's components, bnd sbtifies
+     * the generbl contrbct of the {@link jbvb.lbng.Object#hbshCode()
+     * Object.hbshCode} method.
      *
-     * @return  A hash-code value for this virtual machine
+     * @return  A hbsh-code vblue for this virtubl mbchine
      */
-    public int hashCode() {
-        if (hash != 0) {
-            return hash;
+    public int hbshCode() {
+        if (hbsh != 0) {
+            return hbsh;
         }
-        hash = provider.hashCode() * 127 + id.hashCode();
-        return hash;
+        hbsh = provider.hbshCode() * 127 + id.hbshCode();
+        return hbsh;
     }
 
     /**
-     * Tests this VirtualMachine for equality with another object.
+     * Tests this VirtublMbchine for equblity with bnother object.
      *
-     * <p> If the given object is not a VirtualMachine then this
-     * method returns <tt>false</tt>. For two VirtualMachines to
-     * be considered equal requires that they both reference the same
-     * provider, and their {@link VirtualMachineDescriptor#id() identifiers} are equal. </p>
+     * <p> If the given object is not b VirtublMbchine then this
+     * method returns <tt>fblse</tt>. For two VirtublMbchines to
+     * be considered equbl requires thbt they both reference the sbme
+     * provider, bnd their {@link VirtublMbchineDescriptor#id() identifiers} bre equbl. </p>
      *
-     * <p> This method satisfies the general contract of the {@link
-     * java.lang.Object#equals(Object) Object.equals} method. </p>
+     * <p> This method sbtisfies the generbl contrbct of the {@link
+     * jbvb.lbng.Object#equbls(Object) Object.equbls} method. </p>
      *
-     * @param   ob   The object to which this object is to be compared
+     * @pbrbm   ob   The object to which this object is to be compbred
      *
-     * @return  <tt>true</tt> if, and only if, the given object is
-     *                a VirtualMachine that is equal to this
-     *                VirtualMachine.
+     * @return  <tt>true</tt> if, bnd only if, the given object is
+     *                b VirtublMbchine thbt is equbl to this
+     *                VirtublMbchine.
      */
-    public boolean equals(Object ob) {
+    public boolebn equbls(Object ob) {
         if (ob == this)
             return true;
-        if (!(ob instanceof VirtualMachine))
-            return false;
-        VirtualMachine other = (VirtualMachine)ob;
+        if (!(ob instbnceof VirtublMbchine))
+            return fblse;
+        VirtublMbchine other = (VirtublMbchine)ob;
         if (other.provider() != this.provider()) {
-            return false;
+            return fblse;
         }
-        if (!other.id().equals(this.id())) {
-            return false;
+        if (!other.id().equbls(this.id())) {
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Returns the string representation of the <code>VirtualMachine</code>.
+     * Returns the string representbtion of the <code>VirtublMbchine</code>.
      */
     public String toString() {
         return provider.toString() + ": " + id;

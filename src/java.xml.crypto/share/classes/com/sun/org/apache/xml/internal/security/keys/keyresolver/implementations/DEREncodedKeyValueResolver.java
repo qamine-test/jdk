@@ -2,58 +2,58 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions;
 
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
+import jbvb.security.PrivbteKey;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.X509Certificbte;
 
-import javax.crypto.SecretKey;
+import jbvbx.crypto.SecretKey;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.content.DEREncodedKeyValue;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverException;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverSpi;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.DEREncodedKeyVblue;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverException;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolver;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Element;
 
 /**
- * KeyResolverSpi implementation which resolves public keys from a
- * <code>dsig11:DEREncodedKeyValue</code> element.
+ * KeyResolverSpi implementbtion which resolves public keys from b
+ * <code>dsig11:DEREncodedKeyVblue</code> element.
  *
- * @author Brent Putman (putmanb@georgetown.edu)
+ * @buthor Brent Putmbn (putmbnb@georgetown.edu)
  */
-public class DEREncodedKeyValueResolver extends KeyResolverSpi {
+public clbss DEREncodedKeyVblueResolver extends KeyResolverSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(DEREncodedKeyValueResolver.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(DEREncodedKeyVblueResolver.clbss.getNbme());
 
     /** {@inheritDoc}. */
-    public boolean engineCanResolve(Element element, String baseURI, StorageResolver storage) {
-        return XMLUtils.elementIsInSignature11Space(element, Constants._TAG_DERENCODEDKEYVALUE);
+    public boolebn engineCbnResolve(Element element, String bbseURI, StorbgeResolver storbge) {
+        return XMLUtils.elementIsInSignbture11Spbce(element, Constbnts._TAG_DERENCODEDKEYVALUE);
     }
 
     /** {@inheritDoc}. */
-    public PublicKey engineLookupAndResolvePublicKey(Element element, String baseURI, StorageResolver storage)
+    public PublicKey engineLookupAndResolvePublicKey(Element element, String bbseURI, StorbgeResolver storbge)
         throws KeyResolverException {
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName());
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve " + element.getTbgNbme());
         }
 
-        if (!engineCanResolve(element, baseURI, storage)) {
+        if (!engineCbnResolve(element, bbseURI, storbge)) {
             return null;
         }
 
         try {
-            DEREncodedKeyValue derKeyValue = new DEREncodedKeyValue(element, baseURI);
-            return derKeyValue.getPublicKey();
-        } catch (XMLSecurityException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "XMLSecurityException", e);
+            DEREncodedKeyVblue derKeyVblue = new DEREncodedKeyVblue(element, bbseURI);
+            return derKeyVblue.getPublicKey();
+        } cbtch (XMLSecurityException e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "XMLSecurityException", e);
             }
         }
 
@@ -61,19 +61,19 @@ public class DEREncodedKeyValueResolver extends KeyResolverSpi {
     }
 
     /** {@inheritDoc}. */
-    public X509Certificate engineLookupResolveX509Certificate(Element element, String baseURI, StorageResolver storage)
+    public X509Certificbte engineLookupResolveX509Certificbte(Element element, String bbseURI, StorbgeResolver storbge)
         throws KeyResolverException {
         return null;
     }
 
     /** {@inheritDoc}. */
-    public SecretKey engineLookupAndResolveSecretKey(Element element, String baseURI, StorageResolver storage)
+    public SecretKey engineLookupAndResolveSecretKey(Element element, String bbseURI, StorbgeResolver storbge)
         throws KeyResolverException {
         return null;
     }
 
     /** {@inheritDoc}. */
-    public PrivateKey engineLookupAndResolvePrivateKey(Element element, String baseURI, StorageResolver storage)
+    public PrivbteKey engineLookupAndResolvePrivbteKey(Element element, String bbseURI, StorbgeResolver storbge)
         throws KeyResolverException {
         return null;
     }

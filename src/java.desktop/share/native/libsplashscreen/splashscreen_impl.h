@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef SPLASHSCREEN_IMPL_H
 #define SPLASHSCREEN_IMPL_H
 
-#include "splashscreen_config.h"
-#include "splashscreen_gfx.h"
+#include "splbshscreen_config.h"
+#include "splbshscreen_gfx.h"
 
-SPLASHEXPORT int SplashLoadMemory(void *pdata, int size); /* requires preloading the file */
-SPLASHEXPORT int SplashLoadFile(const char *filename);  // FIXME: range checking for SplashLoadMemory
+SPLASHEXPORT int SplbshLobdMemory(void *pdbtb, int size); /* requires prelobding the file */
+SPLASHEXPORT int SplbshLobdFile(const chbr *filenbme);  // FIXME: rbnge checking for SplbshLobdMemory
 
-SPLASHEXPORT void SplashInit(void);
-SPLASHEXPORT void SplashClose(void);
+SPLASHEXPORT void SplbshInit(void);
+SPLASHEXPORT void SplbshClose(void);
 
-SPLASHEXPORT void SplashSetScaleFactor(float);
-SPLASHEXPORT char* SplashGetScaledImageName(const char*, const char*, float*);
+SPLASHEXPORT void SplbshSetScbleFbctor(flobt);
+SPLASHEXPORT chbr* SplbshGetScbledImbgeNbme(const chbr*, const chbr*, flobt*);
 
 SPLASHEXPORT void
-SplashSetFileJarName(const char* fileName, const char* jarName);
+SplbshSetFileJbrNbme(const chbr* fileNbme, const chbr* jbrNbme);
 
-typedef struct SplashImage
+typedef struct SplbshImbge
 {
-    rgbquad_t *bitmapBits;
-    int delay;                  /* before next image display, in msec                                                       */
+    rgbqubd_t *bitmbpBits;
+    int delby;                  /* before next imbge displby, in msec                                                       */
 #if defined(WITH_WIN32)
     HRGN hRgn;
 #elif defined(WITH_X11)
-    XRectangle *rects;
+    XRectbngle *rects;
     int numRects;
 #endif
-} SplashImage;
+} SplbshImbge;
 
 #define SPLASH_COLOR_MAP_SIZE 0x100
 
-typedef struct Splash
+typedef struct Splbsh
 {
-    ImageFormat screenFormat;   /* must be preset before image decoding */
+    ImbgeFormbt screenFormbt;   /* must be preset before imbge decoding */
     DitherSettings dithers[3];
-    ImageFormat imageFormat;
-    rgbquad_t colorMap[SPLASH_COLOR_MAP_SIZE];
-    int byteAlignment;          /* must be preset before image decoding */
-    int maskRequired;           /* must be preset before image decoding */
+    ImbgeFormbt imbgeFormbt;
+    rgbqubd_t colorMbp[SPLASH_COLOR_MAP_SIZE];
+    int byteAlignment;          /* must be preset before imbge decoding */
+    int mbskRequired;           /* must be preset before imbge decoding */
     int width;                  /* in pixels */
     int height;                 /* in pixels */
-    int frameCount;
-    SplashImage *frames;        /* dynamically allocated array of frame descriptors */
-    unsigned time;              /* in msec, origin is not important */
-    rgbquad_t *overlayData;     /* overlay image data, always rgbquads */
-    ImageRect overlayRect;
-    ImageFormat overlayFormat;
-    void *screenData;
-    int screenStride;           /* stored scanline length in bytes */
-    int currentFrame;           // currentFrame==-1 means image is not loaded
+    int frbmeCount;
+    SplbshImbge *frbmes;        /* dynbmicblly bllocbted brrby of frbme descriptors */
+    unsigned time;              /* in msec, origin is not importbnt */
+    rgbqubd_t *overlbyDbtb;     /* overlby imbge dbtb, blwbys rgbqubds */
+    ImbgeRect overlbyRect;
+    ImbgeFormbt overlbyFormbt;
+    void *screenDbtb;
+    int screenStride;           /* stored scbnline length in bytes */
+    int currentFrbme;           // currentFrbme==-1 mebns imbge is not lobded
     int loopCount;
     int x, y;
-    rgbquad_t colorIndex[SPLASH_COLOR_MAP_SIZE];
+    rgbqubd_t colorIndex[SPLASH_COLOR_MAP_SIZE];
     int isVisible;
-    char*       fileName;       /* stored in 16-bit unicode (jchars) */
-    int         fileNameLen;
-    char*       jarName;        /* stored in 16-bit unicode (jchars) */
-    int         jarNameLen;
-    float       scaleFactor;
+    chbr*       fileNbme;       /* stored in 16-bit unicode (jchbrs) */
+    int         fileNbmeLen;
+    chbr*       jbrNbme;        /* stored in 16-bit unicode (jchbrs) */
+    int         jbrNbmeLen;
+    flobt       scbleFbctor;
 #if defined(WITH_WIN32)
-    BOOL isLayered;
+    BOOL isLbyered;
     HWND hWnd;
-    HPALETTE hPalette;
+    HPALETTE hPblette;
     CRITICAL_SECTION lock;
 #elif defined(WITH_X11)
     int controlpipe[2];
-    Display *display;
+    Displby *displby;
     Window window;
     Screen *screen;
-    Visual *visual;
-    Colormap cmap;
-    pthread_mutex_t lock;
+    Visubl *visubl;
+    Colormbp cmbp;
+    pthrebd_mutex_t lock;
     Cursor cursor;
     XWMHints* wmHints;
 #elif defined(WITH_MACOSX)
-    pthread_mutex_t lock;
+    pthrebd_mutex_t lock;
     int controlpipe[2];
     NSWindow * window;
 #endif
-} Splash;
+} Splbsh;
 
-/* various shared and/or platform dependent splash screen functions */
+/* vbrious shbred bnd/or plbtform dependent splbsh screen functions */
 
-/*************** Platform-specific ******************/
+/*************** Plbtform-specific ******************/
 
-/* To be implemented in the platform-specific native code. */
-
-
-void SplashInitPlatform(Splash * splash);
-void SplashCreateThread(Splash * splash);
-void SplashCleanupPlatform(Splash * splash);
-void SplashDonePlatform(Splash * splash);
-
-unsigned SplashTime();
-char* SplashConvertStringAlloc(const char* in, int *size);
-char* SplashGetScaledImageName(const char* jarName,
-                               const char* fileName, float *scaleFactor);
-
-void SplashLock(Splash * splash);
-void SplashUnlock(Splash * splash);
-
-void SplashInitFrameShape(Splash * splash, int imageIndex);
-
-void SplashUpdate(Splash * splash);
-void SplashReconfigure(Splash * splash);
-void SplashClosePlatform(Splash * splash);
+/* To be implemented in the plbtform-specific nbtive code. */
 
 
+void SplbshInitPlbtform(Splbsh * splbsh);
+void SplbshCrebteThrebd(Splbsh * splbsh);
+void SplbshClebnupPlbtform(Splbsh * splbsh);
+void SplbshDonePlbtform(Splbsh * splbsh);
 
-/********************* Shared **********************/
-Splash *SplashGetInstance();
+unsigned SplbshTime();
+chbr* SplbshConvertStringAlloc(const chbr* in, int *size);
+chbr* SplbshGetScbledImbgeNbme(const chbr* jbrNbme,
+                               const chbr* fileNbme, flobt *scbleFbctor);
 
-int SplashIsStillLooping(Splash * splash);
-void SplashNextFrame(Splash * splash);
-void SplashStart(Splash * splash);
-void SplashDone(Splash * splash);
+void SplbshLock(Splbsh * splbsh);
+void SplbshUnlock(Splbsh * splbsh);
 
-void SplashUpdateScreenData(Splash * splash);
+void SplbshInitFrbmeShbpe(Splbsh * splbsh, int imbgeIndex);
 
-void SplashCleanup(Splash * splash);
-void SplashSetScaleFactor(float scaleFactor);
+void SplbshUpdbte(Splbsh * splbsh);
+void SplbshReconfigure(Splbsh * splbsh);
+void SplbshClosePlbtform(Splbsh * splbsh);
 
 
-typedef struct SplashStream {
-    int (*read)(void* pStream, void* pData, int nBytes);
-    int (*peek)(void* pStream);
-    void (*close)(void* pStream);
+
+/********************* Shbred **********************/
+Splbsh *SplbshGetInstbnce();
+
+int SplbshIsStillLooping(Splbsh * splbsh);
+void SplbshNextFrbme(Splbsh * splbsh);
+void SplbshStbrt(Splbsh * splbsh);
+void SplbshDone(Splbsh * splbsh);
+
+void SplbshUpdbteScreenDbtb(Splbsh * splbsh);
+
+void SplbshClebnup(Splbsh * splbsh);
+void SplbshSetScbleFbctor(flobt scbleFbctor);
+
+
+typedef struct SplbshStrebm {
+    int (*rebd)(void* pStrebm, void* pDbtb, int nBytes);
+    int (*peek)(void* pStrebm);
+    void (*close)(void* pStrebm);
     union {
         struct {
             FILE* f;
         } stdio;
         struct {
-            unsigned char* pData;
-            unsigned char* pDataEnd;
+            unsigned chbr* pDbtb;
+            unsigned chbr* pDbtbEnd;
         } mem;
-    } arg;
-} SplashStream;
+    } brg;
+} SplbshStrebm;
 
-int SplashStreamInitFile(SplashStream * stream, const char* filename);
-int SplashStreamInitMemory(SplashStream * stream, void * pData, int size);
+int SplbshStrebmInitFile(SplbshStrebm * strebm, const chbr* filenbme);
+int SplbshStrebmInitMemory(SplbshStrebm * strebm, void * pDbtb, int size);
 
-/* image decoding */
-int SplashDecodeGifStream(Splash * splash, SplashStream * stream);
-int SplashDecodeJpegStream(Splash * splash, SplashStream * stream);
-int SplashDecodePngStream(Splash * splash, SplashStream * stream);
+/* imbge decoding */
+int SplbshDecodeGifStrebm(Splbsh * splbsh, SplbshStrebm * strebm);
+int SplbshDecodeJpegStrebm(Splbsh * splbsh, SplbshStrebm * strebm);
+int SplbshDecodePngStrebm(Splbsh * splbsh, SplbshStrebm * strebm);
 
 /* utility functions */
 
-int BitmapToYXBandedRectangles(ImageRect * pSrcRect, RECT_T * out);
+int BitmbpToYXBbndedRectbngles(ImbgeRect * pSrcRect, RECT_T * out);
 
 #define SAFE_TO_ALLOC(c, sz)                                               \
     (((c) > 0) && ((sz) > 0) &&                                            \

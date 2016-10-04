@@ -1,232 +1,232 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.util.logging;
+pbckbge jbvb.util.logging;
 
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.util.*;
 
 /**
- * Format a LogRecord into a standard XML format.
+ * Formbt b LogRecord into b stbndbrd XML formbt.
  * <p>
- * The DTD specification is provided as Appendix A to the
- * Java Logging APIs specification.
+ * The DTD specificbtion is provided bs Appendix A to the
+ * Jbvb Logging APIs specificbtion.
  * <p>
- * The XMLFormatter can be used with arbitrary character encodings,
- * but it is recommended that it normally be used with UTF-8.  The
- * character encoding can be set on the output Handler.
+ * The XMLFormbtter cbn be used with brbitrbry chbrbcter encodings,
+ * but it is recommended thbt it normblly be used with UTF-8.  The
+ * chbrbcter encoding cbn be set on the output Hbndler.
  *
  * @since 1.4
  */
 
-public class XMLFormatter extends Formatter {
-    private LogManager manager = LogManager.getLogManager();
+public clbss XMLFormbtter extends Formbtter {
+    privbte LogMbnbger mbnbger = LogMbnbger.getLogMbnbger();
 
-    // Append a two digit number.
-    private void a2(StringBuilder sb, int x) {
+    // Append b two digit number.
+    privbte void b2(StringBuilder sb, int x) {
         if (x < 10) {
-            sb.append('0');
+            sb.bppend('0');
         }
-        sb.append(x);
+        sb.bppend(x);
     }
 
-    // Append the time and date in ISO 8601 format
-    private void appendISO8601(StringBuilder sb, long millis) {
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.setTimeInMillis(millis);
-        sb.append(cal.get(Calendar.YEAR));
-        sb.append('-');
-        a2(sb, cal.get(Calendar.MONTH) + 1);
-        sb.append('-');
-        a2(sb, cal.get(Calendar.DAY_OF_MONTH));
-        sb.append('T');
-        a2(sb, cal.get(Calendar.HOUR_OF_DAY));
-        sb.append(':');
-        a2(sb, cal.get(Calendar.MINUTE));
-        sb.append(':');
-        a2(sb, cal.get(Calendar.SECOND));
+    // Append the time bnd dbte in ISO 8601 formbt
+    privbte void bppendISO8601(StringBuilder sb, long millis) {
+        GregoribnCblendbr cbl = new GregoribnCblendbr();
+        cbl.setTimeInMillis(millis);
+        sb.bppend(cbl.get(Cblendbr.YEAR));
+        sb.bppend('-');
+        b2(sb, cbl.get(Cblendbr.MONTH) + 1);
+        sb.bppend('-');
+        b2(sb, cbl.get(Cblendbr.DAY_OF_MONTH));
+        sb.bppend('T');
+        b2(sb, cbl.get(Cblendbr.HOUR_OF_DAY));
+        sb.bppend(':');
+        b2(sb, cbl.get(Cblendbr.MINUTE));
+        sb.bppend(':');
+        b2(sb, cbl.get(Cblendbr.SECOND));
     }
 
-    // Append to the given StringBuilder an escaped version of the
-    // given text string where XML special characters have been escaped.
-    // For a null string we append "<null>"
-    private void escape(StringBuilder sb, String text) {
+    // Append to the given StringBuilder bn escbped version of the
+    // given text string where XML specibl chbrbcters hbve been escbped.
+    // For b null string we bppend "<null>"
+    privbte void escbpe(StringBuilder sb, String text) {
         if (text == null) {
             text = "<null>";
         }
         for (int i = 0; i < text.length(); i++) {
-            char ch = text.charAt(i);
+            chbr ch = text.chbrAt(i);
             if (ch == '<') {
-                sb.append("&lt;");
+                sb.bppend("&lt;");
             } else if (ch == '>') {
-                sb.append("&gt;");
+                sb.bppend("&gt;");
             } else if (ch == '&') {
-                sb.append("&amp;");
+                sb.bppend("&bmp;");
             } else {
-                sb.append(ch);
+                sb.bppend(ch);
             }
         }
     }
 
     /**
-     * Format the given message to XML.
+     * Formbt the given messbge to XML.
      * <p>
-     * This method can be overridden in a subclass.
-     * It is recommended to use the {@link Formatter#formatMessage}
-     * convenience method to localize and format the message field.
+     * This method cbn be overridden in b subclbss.
+     * It is recommended to use the {@link Formbtter#formbtMessbge}
+     * convenience method to locblize bnd formbt the messbge field.
      *
-     * @param record the log record to be formatted.
-     * @return a formatted log record
+     * @pbrbm record the log record to be formbtted.
+     * @return b formbtted log record
      */
-    public String format(LogRecord record) {
+    public String formbt(LogRecord record) {
         StringBuilder sb = new StringBuilder(500);
-        sb.append("<record>\n");
+        sb.bppend("<record>\n");
 
-        sb.append("  <date>");
-        appendISO8601(sb, record.getMillis());
-        sb.append("</date>\n");
+        sb.bppend("  <dbte>");
+        bppendISO8601(sb, record.getMillis());
+        sb.bppend("</dbte>\n");
 
-        sb.append("  <millis>");
-        sb.append(record.getMillis());
-        sb.append("</millis>\n");
+        sb.bppend("  <millis>");
+        sb.bppend(record.getMillis());
+        sb.bppend("</millis>\n");
 
-        sb.append("  <sequence>");
-        sb.append(record.getSequenceNumber());
-        sb.append("</sequence>\n");
+        sb.bppend("  <sequence>");
+        sb.bppend(record.getSequenceNumber());
+        sb.bppend("</sequence>\n");
 
-        String name = record.getLoggerName();
-        if (name != null) {
-            sb.append("  <logger>");
-            escape(sb, name);
-            sb.append("</logger>\n");
+        String nbme = record.getLoggerNbme();
+        if (nbme != null) {
+            sb.bppend("  <logger>");
+            escbpe(sb, nbme);
+            sb.bppend("</logger>\n");
         }
 
-        sb.append("  <level>");
-        escape(sb, record.getLevel().toString());
-        sb.append("</level>\n");
+        sb.bppend("  <level>");
+        escbpe(sb, record.getLevel().toString());
+        sb.bppend("</level>\n");
 
-        if (record.getSourceClassName() != null) {
-            sb.append("  <class>");
-            escape(sb, record.getSourceClassName());
-            sb.append("</class>\n");
+        if (record.getSourceClbssNbme() != null) {
+            sb.bppend("  <clbss>");
+            escbpe(sb, record.getSourceClbssNbme());
+            sb.bppend("</clbss>\n");
         }
 
-        if (record.getSourceMethodName() != null) {
-            sb.append("  <method>");
-            escape(sb, record.getSourceMethodName());
-            sb.append("</method>\n");
+        if (record.getSourceMethodNbme() != null) {
+            sb.bppend("  <method>");
+            escbpe(sb, record.getSourceMethodNbme());
+            sb.bppend("</method>\n");
         }
 
-        sb.append("  <thread>");
-        sb.append(record.getThreadID());
-        sb.append("</thread>\n");
+        sb.bppend("  <threbd>");
+        sb.bppend(record.getThrebdID());
+        sb.bppend("</threbd>\n");
 
-        if (record.getMessage() != null) {
-            // Format the message string and its accompanying parameters.
-            String message = formatMessage(record);
-            sb.append("  <message>");
-            escape(sb, message);
-            sb.append("</message>");
-            sb.append("\n");
+        if (record.getMessbge() != null) {
+            // Formbt the messbge string bnd its bccompbnying pbrbmeters.
+            String messbge = formbtMessbge(record);
+            sb.bppend("  <messbge>");
+            escbpe(sb, messbge);
+            sb.bppend("</messbge>");
+            sb.bppend("\n");
         }
 
-        // If the message is being localized, output the key, resource
-        // bundle name, and params.
+        // If the messbge is being locblized, output the key, resource
+        // bundle nbme, bnd pbrbms.
         ResourceBundle bundle = record.getResourceBundle();
         try {
-            if (bundle != null && bundle.getString(record.getMessage()) != null) {
-                sb.append("  <key>");
-                escape(sb, record.getMessage());
-                sb.append("</key>\n");
-                sb.append("  <catalog>");
-                escape(sb, record.getResourceBundleName());
-                sb.append("</catalog>\n");
+            if (bundle != null && bundle.getString(record.getMessbge()) != null) {
+                sb.bppend("  <key>");
+                escbpe(sb, record.getMessbge());
+                sb.bppend("</key>\n");
+                sb.bppend("  <cbtblog>");
+                escbpe(sb, record.getResourceBundleNbme());
+                sb.bppend("</cbtblog>\n");
             }
-        } catch (Exception ex) {
-            // The message is not in the catalog.  Drop through.
+        } cbtch (Exception ex) {
+            // The messbge is not in the cbtblog.  Drop through.
         }
 
-        Object parameters[] = record.getParameters();
-        //  Check to see if the parameter was not a messagetext format
-        //  or was not null or empty
-        if (parameters != null && parameters.length != 0
-                && record.getMessage().indexOf('{') == -1 ) {
-            for (Object parameter : parameters) {
-                sb.append("  <param>");
+        Object pbrbmeters[] = record.getPbrbmeters();
+        //  Check to see if the pbrbmeter wbs not b messbgetext formbt
+        //  or wbs not null or empty
+        if (pbrbmeters != null && pbrbmeters.length != 0
+                && record.getMessbge().indexOf('{') == -1 ) {
+            for (Object pbrbmeter : pbrbmeters) {
+                sb.bppend("  <pbrbm>");
                 try {
-                    escape(sb, parameter.toString());
-                } catch (Exception ex) {
-                    sb.append("???");
+                    escbpe(sb, pbrbmeter.toString());
+                } cbtch (Exception ex) {
+                    sb.bppend("???");
                 }
-                sb.append("</param>\n");
+                sb.bppend("</pbrbm>\n");
             }
         }
 
         if (record.getThrown() != null) {
-            // Report on the state of the throwable.
-            Throwable th = record.getThrown();
-            sb.append("  <exception>\n");
-            sb.append("    <message>");
-            escape(sb, th.toString());
-            sb.append("</message>\n");
-            StackTraceElement trace[] = th.getStackTrace();
-            for (StackTraceElement frame : trace) {
-                sb.append("    <frame>\n");
-                sb.append("      <class>");
-                escape(sb, frame.getClassName());
-                sb.append("</class>\n");
-                sb.append("      <method>");
-                escape(sb, frame.getMethodName());
-                sb.append("</method>\n");
-                // Check for a line number.
-                if (frame.getLineNumber() >= 0) {
-                    sb.append("      <line>");
-                    sb.append(frame.getLineNumber());
-                    sb.append("</line>\n");
+            // Report on the stbte of the throwbble.
+            Throwbble th = record.getThrown();
+            sb.bppend("  <exception>\n");
+            sb.bppend("    <messbge>");
+            escbpe(sb, th.toString());
+            sb.bppend("</messbge>\n");
+            StbckTrbceElement trbce[] = th.getStbckTrbce();
+            for (StbckTrbceElement frbme : trbce) {
+                sb.bppend("    <frbme>\n");
+                sb.bppend("      <clbss>");
+                escbpe(sb, frbme.getClbssNbme());
+                sb.bppend("</clbss>\n");
+                sb.bppend("      <method>");
+                escbpe(sb, frbme.getMethodNbme());
+                sb.bppend("</method>\n");
+                // Check for b line number.
+                if (frbme.getLineNumber() >= 0) {
+                    sb.bppend("      <line>");
+                    sb.bppend(frbme.getLineNumber());
+                    sb.bppend("</line>\n");
                 }
-                sb.append("    </frame>\n");
+                sb.bppend("    </frbme>\n");
             }
-            sb.append("  </exception>\n");
+            sb.bppend("  </exception>\n");
         }
 
-        sb.append("</record>\n");
+        sb.bppend("</record>\n");
         return sb.toString();
     }
 
     /**
-     * Return the header string for a set of XML formatted records.
+     * Return the hebder string for b set of XML formbtted records.
      *
-     * @param   h  The target handler (can be null)
-     * @return  a valid XML string
+     * @pbrbm   h  The tbrget hbndler (cbn be null)
+     * @return  b vblid XML string
      */
-    public String getHead(Handler h) {
+    public String getHebd(Hbndler h) {
         StringBuilder sb = new StringBuilder();
         String encoding;
-        sb.append("<?xml version=\"1.0\"");
+        sb.bppend("<?xml version=\"1.0\"");
 
         if (h != null) {
             encoding = h.getEncoding();
@@ -235,34 +235,34 @@ public class XMLFormatter extends Formatter {
         }
 
         if (encoding == null) {
-            // Figure out the default encoding.
-            encoding = java.nio.charset.Charset.defaultCharset().name();
+            // Figure out the defbult encoding.
+            encoding = jbvb.nio.chbrset.Chbrset.defbultChbrset().nbme();
         }
-        // Try to map the encoding name to a canonical name.
+        // Try to mbp the encoding nbme to b cbnonicbl nbme.
         try {
-            Charset cs = Charset.forName(encoding);
-            encoding = cs.name();
-        } catch (Exception ex) {
-            // We hit problems finding a canonical name.
-            // Just use the raw encoding name.
+            Chbrset cs = Chbrset.forNbme(encoding);
+            encoding = cs.nbme();
+        } cbtch (Exception ex) {
+            // We hit problems finding b cbnonicbl nbme.
+            // Just use the rbw encoding nbme.
         }
 
-        sb.append(" encoding=\"");
-        sb.append(encoding);
-        sb.append("\"");
-        sb.append(" standalone=\"no\"?>\n");
-        sb.append("<!DOCTYPE log SYSTEM \"logger.dtd\">\n");
-        sb.append("<log>\n");
+        sb.bppend(" encoding=\"");
+        sb.bppend(encoding);
+        sb.bppend("\"");
+        sb.bppend(" stbndblone=\"no\"?>\n");
+        sb.bppend("<!DOCTYPE log SYSTEM \"logger.dtd\">\n");
+        sb.bppend("<log>\n");
         return sb.toString();
     }
 
     /**
-     * Return the tail string for a set of XML formatted records.
+     * Return the tbil string for b set of XML formbtted records.
      *
-     * @param   h  The target handler (can be null)
-     * @return  a valid XML string
+     * @pbrbm   h  The tbrget hbndler (cbn be null)
+     * @return  b vblid XML string
      */
-    public String getTail(Handler h) {
+    public String getTbil(Hbndler h) {
         return "</log>\n";
     }
 }

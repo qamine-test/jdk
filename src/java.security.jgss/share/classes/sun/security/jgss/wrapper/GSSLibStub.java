@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.wrapper;
+pbckbge sun.security.jgss.wrbpper;
 
-import java.util.Hashtable;
+import jbvb.util.Hbshtbble;
 import org.ietf.jgss.Oid;
-import org.ietf.jgss.GSSName;
-import org.ietf.jgss.ChannelBinding;
-import org.ietf.jgss.MessageProp;
+import org.ietf.jgss.GSSNbme;
+import org.ietf.jgss.ChbnnelBinding;
+import org.ietf.jgss.MessbgeProp;
 import org.ietf.jgss.GSSException;
 import sun.security.jgss.GSSUtil;
 
 /**
- * This class is essentially a JNI calling stub for all wrapper classes.
+ * This clbss is essentiblly b JNI cblling stub for bll wrbpper clbsses.
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  * @since 1.6
  */
 
-class GSSLibStub {
+clbss GSSLibStub {
 
-    private Oid mech;
-    private long pMech;
+    privbte Oid mech;
+    privbte long pMech;
 
     /**
-     * Initialization routine to dynamically load function pointers.
+     * Initiblizbtion routine to dynbmicblly lobd function pointers.
      *
-     * @param lib library name to dlopen
-     * @param debug set to true for reporting native debugging info
-     * @return true if succeeded, false otherwise.
+     * @pbrbm lib librbry nbme to dlopen
+     * @pbrbm debug set to true for reporting nbtive debugging info
+     * @return true if succeeded, fblse otherwise.
      */
-    static native boolean init(String lib, boolean debug);
-    private static native long getMechPtr(byte[] oidDerEncoding);
+    stbtic nbtive boolebn init(String lib, boolebn debug);
+    privbte stbtic nbtive long getMechPtr(byte[] oidDerEncoding);
 
-    // Miscellaneous routines
-    static native Oid[] indicateMechs();
-    native Oid[] inquireNamesForMech() throws GSSException;
+    // Miscellbneous routines
+    stbtic nbtive Oid[] indicbteMechs();
+    nbtive Oid[] inquireNbmesForMech() throws GSSException;
 
-    // Name related routines
-    native void releaseName(long pName);
-    native long importName(byte[] name, Oid type);
-    native boolean compareName(long pName1, long pName2);
-    native long canonicalizeName(long pName);
-    native byte[] exportName(long pName) throws GSSException;
-    native Object[] displayName(long pName) throws GSSException;
+    // Nbme relbted routines
+    nbtive void relebseNbme(long pNbme);
+    nbtive long importNbme(byte[] nbme, Oid type);
+    nbtive boolebn compbreNbme(long pNbme1, long pNbme2);
+    nbtive long cbnonicblizeNbme(long pNbme);
+    nbtive byte[] exportNbme(long pNbme) throws GSSException;
+    nbtive Object[] displbyNbme(long pNbme) throws GSSException;
 
-    // Credential related routines
-    native long acquireCred(long pName, int lifetime, int usage)
+    // Credentibl relbted routines
+    nbtive long bcquireCred(long pNbme, int lifetime, int usbge)
                                         throws GSSException;
-    native long releaseCred(long pCred);
-    native long getCredName(long pCred);
-    native int getCredTime(long pCred);
-    native int getCredUsage(long pCred);
+    nbtive long relebseCred(long pCred);
+    nbtive long getCredNbme(long pCred);
+    nbtive int getCredTime(long pCred);
+    nbtive int getCredUsbge(long pCred);
 
-    // Context related routines
-    native NativeGSSContext importContext(byte[] interProcToken);
-    native byte[] initContext(long pCred, long targetName, ChannelBinding cb,
-                              byte[] inToken, NativeGSSContext context);
-    native byte[] acceptContext(long pCred, ChannelBinding cb,
-                                byte[] inToken, NativeGSSContext context);
-    native long[] inquireContext(long pContext);
-    native Oid getContextMech(long pContext);
-    native long getContextName(long pContext, boolean isSrc);
-    native int getContextTime(long pContext);
-    native long deleteContext(long pContext);
-    native int wrapSizeLimit(long pContext, int flags, int qop, int outSize);
-    native byte[] exportContext(long pContext);
-    native byte[] getMic(long pContext, int qop, byte[] msg);
-    native void verifyMic(long pContext, byte[] token, byte[] msg,
-                          MessageProp prop) ;
-    native byte[] wrap(long pContext, byte[] msg, MessageProp prop);
-    native byte[] unwrap(long pContext, byte[] msgToken, MessageProp prop);
+    // Context relbted routines
+    nbtive NbtiveGSSContext importContext(byte[] interProcToken);
+    nbtive byte[] initContext(long pCred, long tbrgetNbme, ChbnnelBinding cb,
+                              byte[] inToken, NbtiveGSSContext context);
+    nbtive byte[] bcceptContext(long pCred, ChbnnelBinding cb,
+                                byte[] inToken, NbtiveGSSContext context);
+    nbtive long[] inquireContext(long pContext);
+    nbtive Oid getContextMech(long pContext);
+    nbtive long getContextNbme(long pContext, boolebn isSrc);
+    nbtive int getContextTime(long pContext);
+    nbtive long deleteContext(long pContext);
+    nbtive int wrbpSizeLimit(long pContext, int flbgs, int qop, int outSize);
+    nbtive byte[] exportContext(long pContext);
+    nbtive byte[] getMic(long pContext, int qop, byte[] msg);
+    nbtive void verifyMic(long pContext, byte[] token, byte[] msg,
+                          MessbgeProp prop) ;
+    nbtive byte[] wrbp(long pContext, byte[] msg, MessbgeProp prop);
+    nbtive byte[] unwrbp(long pContext, byte[] msgToken, MessbgeProp prop);
 
-    private static Hashtable<Oid, GSSLibStub>
-        table = new Hashtable<Oid, GSSLibStub>(5);
+    privbte stbtic Hbshtbble<Oid, GSSLibStub>
+        tbble = new Hbshtbble<Oid, GSSLibStub>(5);
 
-    static GSSLibStub getInstance(Oid mech) throws GSSException {
-        GSSLibStub s = table.get(mech);
+    stbtic GSSLibStub getInstbnce(Oid mech) throws GSSException {
+        GSSLibStub s = tbble.get(mech);
         if (s == null) {
             s = new GSSLibStub(mech);
-            table.put(mech, s);
+            tbble.put(mech, s);
         }
         return s;
     }
-    private GSSLibStub(Oid mech) throws GSSException {
-        SunNativeProvider.debug("Created GSSLibStub for mech " + mech);
+    privbte GSSLibStub(Oid mech) throws GSSException {
+        SunNbtiveProvider.debug("Crebted GSSLibStub for mech " + mech);
         this.mech = mech;
         this.pMech = getMechPtr(mech.getDER());
     }
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this) return true;
-        if (!(obj instanceof GSSLibStub)) {
-            return false;
+        if (!(obj instbnceof GSSLibStub)) {
+            return fblse;
         }
-        return (mech.equals(((GSSLibStub) obj).getMech()));
+        return (mech.equbls(((GSSLibStub) obj).getMech()));
     }
-    public int hashCode() {
-        return mech.hashCode();
+    public int hbshCode() {
+        return mech.hbshCode();
     }
     Oid getMech() {
         return mech;

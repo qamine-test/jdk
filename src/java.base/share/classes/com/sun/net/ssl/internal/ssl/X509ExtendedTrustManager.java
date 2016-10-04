@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2005, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.net.ssl.internal.ssl;
+pbckbge com.sun.net.ssl.internbl.ssl;
 
-import javax.net.ssl.X509TrustManager;
+import jbvbx.net.ssl.X509TrustMbnbger;
 
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateException;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.CertificbteException;
 
 /**
- * Instance of this class is an extension of <code>X509TrustManager</code>.
+ * Instbnce of this clbss is bn extension of <code>X509TrustMbnbger</code>.
  * <p>
- * Note that this class is referenced by the Deploy workspace. Any updates
- * must make sure that they do not cause any breakage there.
+ * Note thbt this clbss is referenced by the Deploy workspbce. Any updbtes
+ * must mbke sure thbt they do not cbuse bny brebkbge there.
  * <p>
- * It takes the responsiblity of checking the peer identity with its
- * principal declared in the cerificate.
+ * It tbkes the responsiblity of checking the peer identity with its
+ * principbl declbred in the cerificbte.
  * <p>
- * The class provides an alternative to <code>HostnameVerifer</code>.
- * If application customizes its <code>HostnameVerifer</code> for
+ * The clbss provides bn blternbtive to <code>HostnbmeVerifer</code>.
+ * If bpplicbtion customizes its <code>HostnbmeVerifer</code> for
  * <code>HttpsURLConnection</code>, the peer identity will be checked
- * by the customized <code>HostnameVerifer</code>; otherwise, it will
- * be checked by the extended trust manager.
+ * by the customized <code>HostnbmeVerifer</code>; otherwise, it will
+ * be checked by the extended trust mbnbger.
  * <p>
- * RFC2830 defines the server identification specification for "LDAP"
- * algorithm. RFC2818 defines both the server identification and the
- * client identification specification for "HTTPS" algorithm.
+ * RFC2830 defines the server identificbtion specificbtion for "LDAP"
+ * blgorithm. RFC2818 defines both the server identificbtion bnd the
+ * client identificbtion specificbtion for "HTTPS" blgorithm.
  *
- * @see X509TrustManager
- * @see HostnameVerifier
+ * @see X509TrustMbnbger
+ * @see HostnbmeVerifier
  *
  * @since 1.6
- * @author Xuelei Fan
+ * @buthor Xuelei Fbn
  */
-public abstract class X509ExtendedTrustManager implements X509TrustManager {
+public bbstrbct clbss X509ExtendedTrustMbnbger implements X509TrustMbnbger {
     /**
-     * Constructor used by subclasses only.
+     * Constructor used by subclbsses only.
      */
-    protected X509ExtendedTrustManager() {
+    protected X509ExtendedTrustMbnbger() {
     }
 
     /**
-     * Given the partial or complete certificate chain provided by the
-     * peer, check its identity and build a certificate path to a trusted
-     * root, return if it can be validated and is trusted for client SSL
-     * authentication based on the authentication type.
+     * Given the pbrtibl or complete certificbte chbin provided by the
+     * peer, check its identity bnd build b certificbte pbth to b trusted
+     * root, return if it cbn be vblidbted bnd is trusted for client SSL
+     * buthenticbtion bbsed on the buthenticbtion type.
      * <p>
-     * The authentication type is determined by the actual certificate
-     * used. For instance, if RSAPublicKey is used, the authType
-     * should be "RSA". Checking is case-sensitive.
+     * The buthenticbtion type is determined by the bctubl certificbte
+     * used. For instbnce, if RSAPublicKey is used, the buthType
+     * should be "RSA". Checking is cbse-sensitive.
      * <p>
-     * The algorithm parameter specifies the client identification protocol
-     * to use. If the algorithm and the peer hostname are available, the
-     * peer hostname is checked against the peer's identity presented in
-     * the X509 certificate, in order to prevent masquerade attacks.
+     * The blgorithm pbrbmeter specifies the client identificbtion protocol
+     * to use. If the blgorithm bnd the peer hostnbme bre bvbilbble, the
+     * peer hostnbme is checked bgbinst the peer's identity presented in
+     * the X509 certificbte, in order to prevent mbsquerbde bttbcks.
      *
-     * @param chain the peer certificate chain
-     * @param authType the authentication type based on the client certificate
-     * @param hostname the peer hostname
-     * @param algorithm the identification algorithm
-     * @throws IllegalArgumentException if null or zero-length chain
-     *         is passed in for the chain parameter or if null or zero-length
-     *         string is passed in for the  authType parameter
-     * @throws CertificateException if the certificate chain is not trusted
-     *         by this TrustManager.
+     * @pbrbm chbin the peer certificbte chbin
+     * @pbrbm buthType the buthenticbtion type bbsed on the client certificbte
+     * @pbrbm hostnbme the peer hostnbme
+     * @pbrbm blgorithm the identificbtion blgorithm
+     * @throws IllegblArgumentException if null or zero-length chbin
+     *         is pbssed in for the chbin pbrbmeter or if null or zero-length
+     *         string is pbssed in for the  buthType pbrbmeter
+     * @throws CertificbteException if the certificbte chbin is not trusted
+     *         by this TrustMbnbger.
      */
-    public abstract void checkClientTrusted(X509Certificate[] chain,
-        String authType, String hostname, String algorithm)
-        throws CertificateException;
+    public bbstrbct void checkClientTrusted(X509Certificbte[] chbin,
+        String buthType, String hostnbme, String blgorithm)
+        throws CertificbteException;
 
     /**
-     * Given the partial or complete certificate chain provided by the
-     * peer, check its identity and build a certificate path to a trusted
-     * root, return if it can be validated and is trusted for server SSL
-     * authentication based on the authentication type.
+     * Given the pbrtibl or complete certificbte chbin provided by the
+     * peer, check its identity bnd build b certificbte pbth to b trusted
+     * root, return if it cbn be vblidbted bnd is trusted for server SSL
+     * buthenticbtion bbsed on the buthenticbtion type.
      * <p>
-     * The authentication type is the key exchange algorithm portion
-     * of the cipher suites represented as a String, such as "RSA",
-     * "DHE_DSS". Checking is case-sensitive.
+     * The buthenticbtion type is the key exchbnge blgorithm portion
+     * of the cipher suites represented bs b String, such bs "RSA",
+     * "DHE_DSS". Checking is cbse-sensitive.
      * <p>
-     * The algorithm parameter specifies the server identification protocol
-     * to use. If the algorithm and the peer hostname are available, the
-     * peer hostname is checked against the peer's identity presented in
-     * the X509 certificate, in order to prevent masquerade attacks.
+     * The blgorithm pbrbmeter specifies the server identificbtion protocol
+     * to use. If the blgorithm bnd the peer hostnbme bre bvbilbble, the
+     * peer hostnbme is checked bgbinst the peer's identity presented in
+     * the X509 certificbte, in order to prevent mbsquerbde bttbcks.
      *
-     * @param chain the peer certificate chain
-     * @param authType the key exchange algorithm used
-     * @param hostname the peer hostname
-     * @param algorithm the identification algorithm
-     * @throws IllegalArgumentException if null or zero-length chain
-     *         is passed in for the chain parameter or if null or zero-length
-     *         string is passed in for the  authType parameter
-     * @throws CertificateException if the certificate chain is not trusted
-     *         by this TrustManager.
+     * @pbrbm chbin the peer certificbte chbin
+     * @pbrbm buthType the key exchbnge blgorithm used
+     * @pbrbm hostnbme the peer hostnbme
+     * @pbrbm blgorithm the identificbtion blgorithm
+     * @throws IllegblArgumentException if null or zero-length chbin
+     *         is pbssed in for the chbin pbrbmeter or if null or zero-length
+     *         string is pbssed in for the  buthType pbrbmeter
+     * @throws CertificbteException if the certificbte chbin is not trusted
+     *         by this TrustMbnbger.
      */
-    public abstract void checkServerTrusted(X509Certificate[] chain,
-        String authType, String hostname, String algorithm)
-        throws CertificateException;
+    public bbstrbct void checkServerTrusted(X509Certificbte[] chbin,
+        String buthType, String hostnbme, String blgorithm)
+        throws CertificbteException;
 }

@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1999, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import java.awt.Font;
-import java.awt.geom.AffineTransform;
+import jbvb.bwt.Font;
+import jbvb.bwt.geom.AffineTrbnsform;
 
 import sun.font.Font2D;
 import sun.font.FontStrike;
 import sun.font.FontStrikeDesc;
 
 /*
- * A FontInfo object holds all calculated or derived data needed
- * to handle rendering operations based on a particular set of
- * Graphics2D rendering attributes.
- * Note that this does not use a Font2DHandle, and also has a reference
- * to the strike which also references the Font2D.
+ * A FontInfo object holds bll cblculbted or derived dbtb needed
+ * to hbndle rendering operbtions bbsed on b pbrticulbr set of
+ * Grbphics2D rendering bttributes.
+ * Note thbt this does not use b Font2DHbndle, bnd blso hbs b reference
+ * to the strike which blso references the Font2D.
  * So presently, until SG2D objects no longer reference this FontInfo,
- * there is still some potential for a bad Font2D to be used for a short
- * time. I am reluctant to add the overhead of that machinery here without
- * a proven benefit.
+ * there is still some potentibl for b bbd Font2D to be used for b short
+ * time. I bm reluctbnt to bdd the overhebd of thbt mbchinery here without
+ * b proven benefit.
  */
-public class FontInfo implements Cloneable {
+public clbss FontInfo implements Clonebble {
     public Font font;
     public Font2D font2D;
     public FontStrike fontStrike;
     public double[] devTx;
     public double[] glyphTx;
     public int pixelHeight;
-    public float originX;
-    public float originY;
-    public int aaHint;
-    public boolean lcdRGBOrder;
+    public flobt originX;
+    public flobt originY;
+    public int bbHint;
+    public boolebn lcdRGBOrder;
     /* lcdSubPixPos is used if FM is ON for HRGB/HBGR LCD text mode */
-    public boolean lcdSubPixPos;
+    public boolebn lcdSubPixPos;
 
-    public String mtx(double[] matrix) {
+    public String mtx(double[] mbtrix) {
         return ("["+
-                matrix[0]+", "+
-                matrix[1]+", "+
-                matrix[2]+", "+
-                matrix[3]+
+                mbtrix[0]+", "+
+                mbtrix[1]+", "+
+                mbtrix[2]+", "+
+                mbtrix[3]+
                 "]");
     }
 
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
+        } cbtch (CloneNotSupportedException e) {
             return null;
         }
     }
@@ -81,7 +81,7 @@ public class FontInfo implements Cloneable {
                 "glyphTx="+mtx(glyphTx)+", "+
                 "pixelHeight="+pixelHeight+", "+
                 "origin=("+originX+","+originY+"), "+
-                "aaHint="+aaHint+", "+
+                "bbHint="+bbHint+", "+
                 "lcdRGBOrder="+(lcdRGBOrder ? "RGB" : "BGR")+
                 "lcdSubPixPos="+lcdSubPixPos+
                 "]");

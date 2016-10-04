@@ -3,13 +3,13 @@
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jcmarker.c
+ * jcmbrker.c
  *
- * Copyright (C) 1991-1998, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1991-1998, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains routines to write JPEG datastream markers.
+ * This file contbins routines to write JPEG dbtbstrebm mbrkers.
  */
 
 #define JPEG_INTERNALS
@@ -17,7 +17,7 @@
 #include "jpeglib.h"
 
 
-typedef enum {                  /* JPEG marker codes */
+typedef enum {                  /* JPEG mbrker codes */
   M_SOF0  = 0xc0,
   M_SOF1  = 0xc1,
   M_SOF2  = 0xc2,
@@ -29,7 +29,7 @@ typedef enum {                  /* JPEG marker codes */
 
   M_JPG   = 0xc8,
   M_SOF9  = 0xc9,
-  M_SOF10 = 0xca,
+  M_SOF10 = 0xcb,
   M_SOF11 = 0xcb,
 
   M_SOF13 = 0xcd,
@@ -51,7 +51,7 @@ typedef enum {                  /* JPEG marker codes */
 
   M_SOI   = 0xd8,
   M_EOI   = 0xd9,
-  M_SOS   = 0xda,
+  M_SOS   = 0xdb,
   M_DQT   = 0xdb,
   M_DNL   = 0xdc,
   M_DRI   = 0xdd,
@@ -68,7 +68,7 @@ typedef enum {                  /* JPEG marker codes */
   M_APP7  = 0xe7,
   M_APP8  = 0xe8,
   M_APP9  = 0xe9,
-  M_APP10 = 0xea,
+  M_APP10 = 0xeb,
   M_APP11 = 0xeb,
   M_APP12 = 0xec,
   M_APP13 = 0xed,
@@ -85,36 +85,36 @@ typedef enum {                  /* JPEG marker codes */
 } JPEG_MARKER;
 
 
-/* Private state */
+/* Privbte stbte */
 
 typedef struct {
-  struct jpeg_marker_writer pub; /* public fields */
+  struct jpeg_mbrker_writer pub; /* public fields */
 
-  unsigned int last_restart_interval; /* last DRI value emitted; 0 after SOI */
-} my_marker_writer;
+  unsigned int lbst_restbrt_intervbl; /* lbst DRI vblue emitted; 0 bfter SOI */
+} my_mbrker_writer;
 
-typedef my_marker_writer * my_marker_ptr;
+typedef my_mbrker_writer * my_mbrker_ptr;
 
 
 /*
- * Basic output routines.
+ * Bbsic output routines.
  *
- * Note that we do not support suspension while writing a marker.
- * Therefore, an application using suspension must ensure that there is
- * enough buffer space for the initial markers (typ. 600-700 bytes) before
- * calling jpeg_start_compress, and enough space to write the trailing EOI
- * (a few bytes) before calling jpeg_finish_compress.  Multipass compression
- * modes are not supported at all with suspension, so those two are the only
- * points where markers will be written.
+ * Note thbt we do not support suspension while writing b mbrker.
+ * Therefore, bn bpplicbtion using suspension must ensure thbt there is
+ * enough buffer spbce for the initibl mbrkers (typ. 600-700 bytes) before
+ * cblling jpeg_stbrt_compress, bnd enough spbce to write the trbiling EOI
+ * (b few bytes) before cblling jpeg_finish_compress.  Multipbss compression
+ * modes bre not supported bt bll with suspension, so those two bre the only
+ * points where mbrkers will be written.
  */
 
 LOCAL(void)
-emit_byte (j_compress_ptr cinfo, int val)
-/* Emit a byte */
+emit_byte (j_compress_ptr cinfo, int vbl)
+/* Emit b byte */
 {
-  struct jpeg_destination_mgr * dest = cinfo->dest;
+  struct jpeg_destinbtion_mgr * dest = cinfo->dest;
 
-  *(dest->next_output_byte)++ = (JOCTET) val;
+  *(dest->next_output_byte)++ = (JOCTET) vbl;
   if (--dest->free_in_buffer == 0) {
     if (! (*dest->empty_output_buffer) (cinfo))
       ERREXIT(cinfo, JERR_CANT_SUSPEND);
@@ -123,33 +123,33 @@ emit_byte (j_compress_ptr cinfo, int val)
 
 
 LOCAL(void)
-emit_marker (j_compress_ptr cinfo, JPEG_MARKER mark)
-/* Emit a marker code */
+emit_mbrker (j_compress_ptr cinfo, JPEG_MARKER mbrk)
+/* Emit b mbrker code */
 {
   emit_byte(cinfo, 0xFF);
-  emit_byte(cinfo, (int) mark);
+  emit_byte(cinfo, (int) mbrk);
 }
 
 
 LOCAL(void)
-emit_2bytes (j_compress_ptr cinfo, int value)
-/* Emit a 2-byte integer; these are always MSB first in JPEG files */
+emit_2bytes (j_compress_ptr cinfo, int vblue)
+/* Emit b 2-byte integer; these bre blwbys MSB first in JPEG files */
 {
-  emit_byte(cinfo, (value >> 8) & 0xFF);
-  emit_byte(cinfo, value & 0xFF);
+  emit_byte(cinfo, (vblue >> 8) & 0xFF);
+  emit_byte(cinfo, vblue & 0xFF);
 }
 
 
 /*
- * Routines to write specific marker types.
+ * Routines to write specific mbrker types.
  */
 
 LOCAL(int)
 emit_dqt (j_compress_ptr cinfo, int index)
-/* Emit a DQT marker */
-/* Returns the precision used (0 = 8bits, 1 = 16bits) for baseline checking */
+/* Emit b DQT mbrker */
+/* Returns the precision used (0 = 8bits, 1 = 16bits) for bbseline checking */
 {
-  JQUANT_TBL * qtbl = cinfo->quant_tbl_ptrs[index];
+  JQUANT_TBL * qtbl = cinfo->qubnt_tbl_ptrs[index];
   int prec;
   int i;
 
@@ -158,26 +158,26 @@ emit_dqt (j_compress_ptr cinfo, int index)
 
   prec = 0;
   for (i = 0; i < DCTSIZE2; i++) {
-    if (qtbl->quantval[i] > 255)
+    if (qtbl->qubntvbl[i] > 255)
       prec = 1;
   }
 
-  if (! qtbl->sent_table) {
-    emit_marker(cinfo, M_DQT);
+  if (! qtbl->sent_tbble) {
+    emit_mbrker(cinfo, M_DQT);
 
     emit_2bytes(cinfo, prec ? DCTSIZE2*2 + 1 + 2 : DCTSIZE2 + 1 + 2);
 
     emit_byte(cinfo, index + (prec<<4));
 
     for (i = 0; i < DCTSIZE2; i++) {
-      /* The table entries must be emitted in zigzag order. */
-      unsigned int qval = qtbl->quantval[jpeg_natural_order[i]];
+      /* The tbble entries must be emitted in zigzbg order. */
+      unsigned int qvbl = qtbl->qubntvbl[jpeg_nbturbl_order[i]];
       if (prec)
-        emit_byte(cinfo, (int) (qval >> 8));
-      emit_byte(cinfo, (int) (qval & 0xFF));
+        emit_byte(cinfo, (int) (qvbl >> 8));
+      emit_byte(cinfo, (int) (qvbl & 0xFF));
     }
 
-    qtbl->sent_table = TRUE;
+    qtbl->sent_tbble = TRUE;
   }
 
   return prec;
@@ -185,15 +185,15 @@ emit_dqt (j_compress_ptr cinfo, int index)
 
 
 LOCAL(void)
-emit_dht (j_compress_ptr cinfo, int index, boolean is_ac)
-/* Emit a DHT marker */
+emit_dht (j_compress_ptr cinfo, int index, boolebn is_bc)
+/* Emit b DHT mbrker */
 {
   JHUFF_TBL * htbl;
   int length, i;
 
-  if (is_ac) {
-    htbl = cinfo->ac_huff_tbl_ptrs[index];
-    index += 0x10;              /* output index has AC bit set */
+  if (is_bc) {
+    htbl = cinfo->bc_huff_tbl_ptrs[index];
+    index += 0x10;              /* output index hbs AC bit set */
   } else {
     htbl = cinfo->dc_huff_tbl_ptrs[index];
   }
@@ -201,8 +201,8 @@ emit_dht (j_compress_ptr cinfo, int index, boolean is_ac)
   if (htbl == NULL)
     ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, index);
 
-  if (! htbl->sent_table) {
-    emit_marker(cinfo, M_DHT);
+  if (! htbl->sent_tbble) {
+    emit_mbrker(cinfo, M_DHT);
 
     length = 0;
     for (i = 1; i <= 16; i++)
@@ -215,50 +215,50 @@ emit_dht (j_compress_ptr cinfo, int index, boolean is_ac)
       emit_byte(cinfo, htbl->bits[i]);
 
     for (i = 0; i < length; i++)
-      emit_byte(cinfo, htbl->huffval[i]);
+      emit_byte(cinfo, htbl->huffvbl[i]);
 
-    htbl->sent_table = TRUE;
+    htbl->sent_tbble = TRUE;
   }
 }
 
 
 LOCAL(void)
-emit_dac (j_compress_ptr cinfo)
-/* Emit a DAC marker */
-/* Since the useful info is so small, we want to emit all the tables in */
-/* one DAC marker.  Therefore this routine does its own scan of the table. */
+emit_dbc (j_compress_ptr cinfo)
+/* Emit b DAC mbrker */
+/* Since the useful info is so smbll, we wbnt to emit bll the tbbles in */
+/* one DAC mbrker.  Therefore this routine does its own scbn of the tbble. */
 {
 #ifdef C_ARITH_CODING_SUPPORTED
-  char dc_in_use[NUM_ARITH_TBLS];
-  char ac_in_use[NUM_ARITH_TBLS];
+  chbr dc_in_use[NUM_ARITH_TBLS];
+  chbr bc_in_use[NUM_ARITH_TBLS];
   int length, i;
   jpeg_component_info *compptr;
 
   for (i = 0; i < NUM_ARITH_TBLS; i++)
-    dc_in_use[i] = ac_in_use[i] = 0;
+    dc_in_use[i] = bc_in_use[i] = 0;
 
-  for (i = 0; i < cinfo->comps_in_scan; i++) {
+  for (i = 0; i < cinfo->comps_in_scbn; i++) {
     compptr = cinfo->cur_comp_info[i];
     dc_in_use[compptr->dc_tbl_no] = 1;
-    ac_in_use[compptr->ac_tbl_no] = 1;
+    bc_in_use[compptr->bc_tbl_no] = 1;
   }
 
   length = 0;
   for (i = 0; i < NUM_ARITH_TBLS; i++)
-    length += dc_in_use[i] + ac_in_use[i];
+    length += dc_in_use[i] + bc_in_use[i];
 
-  emit_marker(cinfo, M_DAC);
+  emit_mbrker(cinfo, M_DAC);
 
   emit_2bytes(cinfo, length*2 + 2);
 
   for (i = 0; i < NUM_ARITH_TBLS; i++) {
     if (dc_in_use[i]) {
       emit_byte(cinfo, i);
-      emit_byte(cinfo, cinfo->arith_dc_L[i] + (cinfo->arith_dc_U[i]<<4));
+      emit_byte(cinfo, cinfo->brith_dc_L[i] + (cinfo->brith_dc_U[i]<<4));
     }
-    if (ac_in_use[i]) {
+    if (bc_in_use[i]) {
       emit_byte(cinfo, i + 0x10);
-      emit_byte(cinfo, cinfo->arith_ac_K[i]);
+      emit_byte(cinfo, cinfo->brith_bc_K[i]);
     }
   }
 #endif /* C_ARITH_CODING_SUPPORTED */
@@ -267,80 +267,80 @@ emit_dac (j_compress_ptr cinfo)
 
 LOCAL(void)
 emit_dri (j_compress_ptr cinfo)
-/* Emit a DRI marker */
+/* Emit b DRI mbrker */
 {
-  emit_marker(cinfo, M_DRI);
+  emit_mbrker(cinfo, M_DRI);
 
   emit_2bytes(cinfo, 4);        /* fixed length */
 
-  emit_2bytes(cinfo, (int) cinfo->restart_interval);
+  emit_2bytes(cinfo, (int) cinfo->restbrt_intervbl);
 }
 
 
 LOCAL(void)
 emit_sof (j_compress_ptr cinfo, JPEG_MARKER code)
-/* Emit a SOF marker */
+/* Emit b SOF mbrker */
 {
   int ci;
   jpeg_component_info *compptr;
 
-  emit_marker(cinfo, code);
+  emit_mbrker(cinfo, code);
 
   emit_2bytes(cinfo, 3 * cinfo->num_components + 2 + 5 + 1); /* length */
 
-  /* Make sure image isn't bigger than SOF field can handle */
-  if ((long) cinfo->image_height > 65535L ||
-      (long) cinfo->image_width > 65535L)
+  /* Mbke sure imbge isn't bigger thbn SOF field cbn hbndle */
+  if ((long) cinfo->imbge_height > 65535L ||
+      (long) cinfo->imbge_width > 65535L)
     ERREXIT1(cinfo, JERR_IMAGE_TOO_BIG, (unsigned int) 65535);
 
-  emit_byte(cinfo, cinfo->data_precision);
-  emit_2bytes(cinfo, (int) cinfo->image_height);
-  emit_2bytes(cinfo, (int) cinfo->image_width);
+  emit_byte(cinfo, cinfo->dbtb_precision);
+  emit_2bytes(cinfo, (int) cinfo->imbge_height);
+  emit_2bytes(cinfo, (int) cinfo->imbge_width);
 
   emit_byte(cinfo, cinfo->num_components);
 
   for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
        ci++, compptr++) {
     emit_byte(cinfo, compptr->component_id);
-    emit_byte(cinfo, (compptr->h_samp_factor << 4) + compptr->v_samp_factor);
-    emit_byte(cinfo, compptr->quant_tbl_no);
+    emit_byte(cinfo, (compptr->h_sbmp_fbctor << 4) + compptr->v_sbmp_fbctor);
+    emit_byte(cinfo, compptr->qubnt_tbl_no);
   }
 }
 
 
 LOCAL(void)
 emit_sos (j_compress_ptr cinfo)
-/* Emit a SOS marker */
+/* Emit b SOS mbrker */
 {
-  int i, td, ta;
+  int i, td, tb;
   jpeg_component_info *compptr;
 
-  emit_marker(cinfo, M_SOS);
+  emit_mbrker(cinfo, M_SOS);
 
-  emit_2bytes(cinfo, 2 * cinfo->comps_in_scan + 2 + 1 + 3); /* length */
+  emit_2bytes(cinfo, 2 * cinfo->comps_in_scbn + 2 + 1 + 3); /* length */
 
-  emit_byte(cinfo, cinfo->comps_in_scan);
+  emit_byte(cinfo, cinfo->comps_in_scbn);
 
-  for (i = 0; i < cinfo->comps_in_scan; i++) {
+  for (i = 0; i < cinfo->comps_in_scbn; i++) {
     compptr = cinfo->cur_comp_info[i];
     emit_byte(cinfo, compptr->component_id);
     td = compptr->dc_tbl_no;
-    ta = compptr->ac_tbl_no;
+    tb = compptr->bc_tbl_no;
     if (cinfo->progressive_mode) {
-      /* Progressive mode: only DC or only AC tables are used in one scan;
-       * furthermore, Huffman coding of DC refinement uses no table at all.
+      /* Progressive mode: only DC or only AC tbbles bre used in one scbn;
+       * furthermore, Huffmbn coding of DC refinement uses no tbble bt bll.
        * We emit 0 for unused field(s); this is recommended by the P&M text
-       * but does not seem to be specified in the standard.
+       * but does not seem to be specified in the stbndbrd.
        */
       if (cinfo->Ss == 0) {
-        ta = 0;                 /* DC scan */
-        if (cinfo->Ah != 0 && !cinfo->arith_code)
-          td = 0;               /* no DC table either */
+        tb = 0;                 /* DC scbn */
+        if (cinfo->Ah != 0 && !cinfo->brith_code)
+          td = 0;               /* no DC tbble either */
       } else {
-        td = 0;                 /* AC scan */
+        td = 0;                 /* AC scbn */
       }
     }
-    emit_byte(cinfo, (td << 4) + ta);
+    emit_byte(cinfo, (td << 4) + tb);
   }
 
   emit_byte(cinfo, cinfo->Ss);
@@ -350,22 +350,22 @@ emit_sos (j_compress_ptr cinfo)
 
 
 LOCAL(void)
-emit_jfif_app0 (j_compress_ptr cinfo)
-/* Emit a JFIF-compliant APP0 marker */
+emit_jfif_bpp0 (j_compress_ptr cinfo)
+/* Emit b JFIF-complibnt APP0 mbrker */
 {
   /*
    * Length of APP0 block       (2 bytes)
    * Block ID                   (4 bytes - ASCII "JFIF")
-   * Zero byte                  (1 byte to terminate the ID string)
-   * Version Major, Minor       (2 bytes - major first)
+   * Zero byte                  (1 byte to terminbte the ID string)
+   * Version Mbjor, Minor       (2 bytes - mbjor first)
    * Units                      (1 byte - 0x00 = none, 0x01 = inch, 0x02 = cm)
-   * Xdpu                       (2 bytes - dots per unit horizontal)
-   * Ydpu                       (2 bytes - dots per unit vertical)
-   * Thumbnail X size           (1 byte)
-   * Thumbnail Y size           (1 byte)
+   * Xdpu                       (2 bytes - dots per unit horizontbl)
+   * Ydpu                       (2 bytes - dots per unit verticbl)
+   * Thumbnbil X size           (1 byte)
+   * Thumbnbil Y size           (1 byte)
    */
 
-  emit_marker(cinfo, M_APP0);
+  emit_mbrker(cinfo, M_APP0);
 
   emit_2bytes(cinfo, 2 + 4 + 1 + 2 + 1 + 2 + 2 + 1 + 1); /* length */
 
@@ -374,37 +374,37 @@ emit_jfif_app0 (j_compress_ptr cinfo)
   emit_byte(cinfo, 0x49);
   emit_byte(cinfo, 0x46);
   emit_byte(cinfo, 0);
-  emit_byte(cinfo, cinfo->JFIF_major_version); /* Version fields */
+  emit_byte(cinfo, cinfo->JFIF_mbjor_version); /* Version fields */
   emit_byte(cinfo, cinfo->JFIF_minor_version);
-  emit_byte(cinfo, cinfo->density_unit); /* Pixel size information */
+  emit_byte(cinfo, cinfo->density_unit); /* Pixel size informbtion */
   emit_2bytes(cinfo, (int) cinfo->X_density);
   emit_2bytes(cinfo, (int) cinfo->Y_density);
-  emit_byte(cinfo, 0);          /* No thumbnail image */
+  emit_byte(cinfo, 0);          /* No thumbnbil imbge */
   emit_byte(cinfo, 0);
 }
 
 
 LOCAL(void)
-emit_adobe_app14 (j_compress_ptr cinfo)
-/* Emit an Adobe APP14 marker */
+emit_bdobe_bpp14 (j_compress_ptr cinfo)
+/* Emit bn Adobe APP14 mbrker */
 {
   /*
    * Length of APP14 block      (2 bytes)
    * Block ID                   (5 bytes - ASCII "Adobe")
    * Version Number             (2 bytes - currently 100)
-   * Flags0                     (2 bytes - currently 0)
-   * Flags1                     (2 bytes - currently 0)
-   * Color transform            (1 byte)
+   * Flbgs0                     (2 bytes - currently 0)
+   * Flbgs1                     (2 bytes - currently 0)
+   * Color trbnsform            (1 byte)
    *
-   * Although Adobe TN 5116 mentions Version = 101, all the Adobe files
-   * now in circulation seem to use Version = 100, so that's what we write.
+   * Although Adobe TN 5116 mentions Version = 101, bll the Adobe files
+   * now in circulbtion seem to use Version = 100, so thbt's whbt we write.
    *
-   * We write the color transform byte as 1 if the JPEG color space is
-   * YCbCr, 2 if it's YCCK, 0 otherwise.  Adobe's definition has to do with
-   * whether the encoder performed a transformation, which is pretty useless.
+   * We write the color trbnsform byte bs 1 if the JPEG color spbce is
+   * YCbCr, 2 if it's YCCK, 0 otherwise.  Adobe's definition hbs to do with
+   * whether the encoder performed b trbnsformbtion, which is pretty useless.
    */
 
-  emit_marker(cinfo, M_APP14);
+  emit_mbrker(cinfo, M_APP14);
 
   emit_2bytes(cinfo, 2 + 5 + 2 + 2 + 2 + 1); /* length */
 
@@ -414,184 +414,184 @@ emit_adobe_app14 (j_compress_ptr cinfo)
   emit_byte(cinfo, 0x62);
   emit_byte(cinfo, 0x65);
   emit_2bytes(cinfo, 100);      /* Version */
-  emit_2bytes(cinfo, 0);        /* Flags0 */
-  emit_2bytes(cinfo, 0);        /* Flags1 */
-  switch (cinfo->jpeg_color_space) {
-  case JCS_YCbCr:
-    emit_byte(cinfo, 1);        /* Color transform = 1 */
-    break;
-  case JCS_YCCK:
-    emit_byte(cinfo, 2);        /* Color transform = 2 */
-    break;
-  default:
-    emit_byte(cinfo, 0);        /* Color transform = 0 */
-    break;
+  emit_2bytes(cinfo, 0);        /* Flbgs0 */
+  emit_2bytes(cinfo, 0);        /* Flbgs1 */
+  switch (cinfo->jpeg_color_spbce) {
+  cbse JCS_YCbCr:
+    emit_byte(cinfo, 1);        /* Color trbnsform = 1 */
+    brebk;
+  cbse JCS_YCCK:
+    emit_byte(cinfo, 2);        /* Color trbnsform = 2 */
+    brebk;
+  defbult:
+    emit_byte(cinfo, 0);        /* Color trbnsform = 0 */
+    brebk;
   }
 }
 
 
 /*
- * These routines allow writing an arbitrary marker with parameters.
- * The only intended use is to emit COM or APPn markers after calling
- * write_file_header and before calling write_frame_header.
- * Other uses are not guaranteed to produce desirable results.
- * Counting the parameter bytes properly is the caller's responsibility.
+ * These routines bllow writing bn brbitrbry mbrker with pbrbmeters.
+ * The only intended use is to emit COM or APPn mbrkers bfter cblling
+ * write_file_hebder bnd before cblling write_frbme_hebder.
+ * Other uses bre not gubrbnteed to produce desirbble results.
+ * Counting the pbrbmeter bytes properly is the cbller's responsibility.
  */
 
 METHODDEF(void)
-write_marker_header (j_compress_ptr cinfo, int marker, unsigned int datalen)
-/* Emit an arbitrary marker header */
+write_mbrker_hebder (j_compress_ptr cinfo, int mbrker, unsigned int dbtblen)
+/* Emit bn brbitrbry mbrker hebder */
 {
-  if (datalen > (unsigned int) 65533)           /* safety check */
+  if (dbtblen > (unsigned int) 65533)           /* sbfety check */
     ERREXIT(cinfo, JERR_BAD_LENGTH);
 
-  emit_marker(cinfo, (JPEG_MARKER) marker);
+  emit_mbrker(cinfo, (JPEG_MARKER) mbrker);
 
-  emit_2bytes(cinfo, (int) (datalen + 2));      /* total length */
+  emit_2bytes(cinfo, (int) (dbtblen + 2));      /* totbl length */
 }
 
 METHODDEF(void)
-write_marker_byte (j_compress_ptr cinfo, int val)
-/* Emit one byte of marker parameters following write_marker_header */
+write_mbrker_byte (j_compress_ptr cinfo, int vbl)
+/* Emit one byte of mbrker pbrbmeters following write_mbrker_hebder */
 {
-  emit_byte(cinfo, val);
+  emit_byte(cinfo, vbl);
 }
 
 
 /*
- * Write datastream header.
- * This consists of an SOI and optional APPn markers.
- * We recommend use of the JFIF marker, but not the Adobe marker,
- * when using YCbCr or grayscale data.  The JFIF marker should NOT
- * be used for any other JPEG colorspace.  The Adobe marker is helpful
- * to distinguish RGB, CMYK, and YCCK colorspaces.
- * Note that an application can write additional header markers after
- * jpeg_start_compress returns.
+ * Write dbtbstrebm hebder.
+ * This consists of bn SOI bnd optionbl APPn mbrkers.
+ * We recommend use of the JFIF mbrker, but not the Adobe mbrker,
+ * when using YCbCr or grbyscble dbtb.  The JFIF mbrker should NOT
+ * be used for bny other JPEG colorspbce.  The Adobe mbrker is helpful
+ * to distinguish RGB, CMYK, bnd YCCK colorspbces.
+ * Note thbt bn bpplicbtion cbn write bdditionbl hebder mbrkers bfter
+ * jpeg_stbrt_compress returns.
  */
 
 METHODDEF(void)
-write_file_header (j_compress_ptr cinfo)
+write_file_hebder (j_compress_ptr cinfo)
 {
-  my_marker_ptr marker = (my_marker_ptr) cinfo->marker;
+  my_mbrker_ptr mbrker = (my_mbrker_ptr) cinfo->mbrker;
 
-  emit_marker(cinfo, M_SOI);    /* first the SOI */
+  emit_mbrker(cinfo, M_SOI);    /* first the SOI */
 
-  /* SOI is defined to reset restart interval to 0 */
-  marker->last_restart_interval = 0;
+  /* SOI is defined to reset restbrt intervbl to 0 */
+  mbrker->lbst_restbrt_intervbl = 0;
 
-  if (cinfo->write_JFIF_header) /* next an optional JFIF APP0 */
-    emit_jfif_app0(cinfo);
-  if (cinfo->write_Adobe_marker) /* next an optional Adobe APP14 */
-    emit_adobe_app14(cinfo);
+  if (cinfo->write_JFIF_hebder) /* next bn optionbl JFIF APP0 */
+    emit_jfif_bpp0(cinfo);
+  if (cinfo->write_Adobe_mbrker) /* next bn optionbl Adobe APP14 */
+    emit_bdobe_bpp14(cinfo);
 }
 
 
 /*
- * Write frame header.
- * This consists of DQT and SOFn markers.
- * Note that we do not emit the SOF until we have emitted the DQT(s).
- * This avoids compatibility problems with incorrect implementations that
- * try to error-check the quant table numbers as soon as they see the SOF.
+ * Write frbme hebder.
+ * This consists of DQT bnd SOFn mbrkers.
+ * Note thbt we do not emit the SOF until we hbve emitted the DQT(s).
+ * This bvoids compbtibility problems with incorrect implementbtions thbt
+ * try to error-check the qubnt tbble numbers bs soon bs they see the SOF.
  */
 
 METHODDEF(void)
-write_frame_header (j_compress_ptr cinfo)
+write_frbme_hebder (j_compress_ptr cinfo)
 {
   int ci, prec;
-  boolean is_baseline;
+  boolebn is_bbseline;
   jpeg_component_info *compptr;
 
-  /* Emit DQT for each quantization table.
-   * Note that emit_dqt() suppresses any duplicate tables.
+  /* Emit DQT for ebch qubntizbtion tbble.
+   * Note thbt emit_dqt() suppresses bny duplicbte tbbles.
    */
   prec = 0;
   for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
        ci++, compptr++) {
-    prec += emit_dqt(cinfo, compptr->quant_tbl_no);
+    prec += emit_dqt(cinfo, compptr->qubnt_tbl_no);
   }
-  /* now prec is nonzero iff there are any 16-bit quant tables. */
+  /* now prec is nonzero iff there bre bny 16-bit qubnt tbbles. */
 
-  /* Check for a non-baseline specification.
-   * Note we assume that Huffman table numbers won't be changed later.
+  /* Check for b non-bbseline specificbtion.
+   * Note we bssume thbt Huffmbn tbble numbers won't be chbnged lbter.
    */
-  if (cinfo->arith_code || cinfo->progressive_mode ||
-      cinfo->data_precision != 8) {
-    is_baseline = FALSE;
+  if (cinfo->brith_code || cinfo->progressive_mode ||
+      cinfo->dbtb_precision != 8) {
+    is_bbseline = FALSE;
   } else {
-    is_baseline = TRUE;
+    is_bbseline = TRUE;
     for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
          ci++, compptr++) {
-      if (compptr->dc_tbl_no > 1 || compptr->ac_tbl_no > 1)
-        is_baseline = FALSE;
+      if (compptr->dc_tbl_no > 1 || compptr->bc_tbl_no > 1)
+        is_bbseline = FALSE;
     }
-    if (prec && is_baseline) {
-      is_baseline = FALSE;
-      /* If it's baseline except for quantizer size, warn the user */
+    if (prec && is_bbseline) {
+      is_bbseline = FALSE;
+      /* If it's bbseline except for qubntizer size, wbrn the user */
       TRACEMS(cinfo, 0, JTRC_16BIT_TABLES);
     }
   }
 
-  /* Emit the proper SOF marker */
-  if (cinfo->arith_code) {
-    emit_sof(cinfo, M_SOF9);    /* SOF code for arithmetic coding */
+  /* Emit the proper SOF mbrker */
+  if (cinfo->brith_code) {
+    emit_sof(cinfo, M_SOF9);    /* SOF code for brithmetic coding */
   } else {
     if (cinfo->progressive_mode)
-      emit_sof(cinfo, M_SOF2);  /* SOF code for progressive Huffman */
-    else if (is_baseline)
-      emit_sof(cinfo, M_SOF0);  /* SOF code for baseline implementation */
+      emit_sof(cinfo, M_SOF2);  /* SOF code for progressive Huffmbn */
+    else if (is_bbseline)
+      emit_sof(cinfo, M_SOF0);  /* SOF code for bbseline implementbtion */
     else
-      emit_sof(cinfo, M_SOF1);  /* SOF code for non-baseline Huffman file */
+      emit_sof(cinfo, M_SOF1);  /* SOF code for non-bbseline Huffmbn file */
   }
 }
 
 
 /*
- * Write scan header.
- * This consists of DHT or DAC markers, optional DRI, and SOS.
- * Compressed data will be written following the SOS.
+ * Write scbn hebder.
+ * This consists of DHT or DAC mbrkers, optionbl DRI, bnd SOS.
+ * Compressed dbtb will be written following the SOS.
  */
 
 METHODDEF(void)
-write_scan_header (j_compress_ptr cinfo)
+write_scbn_hebder (j_compress_ptr cinfo)
 {
-  my_marker_ptr marker = (my_marker_ptr) cinfo->marker;
+  my_mbrker_ptr mbrker = (my_mbrker_ptr) cinfo->mbrker;
   int i;
   jpeg_component_info *compptr;
 
-  if (cinfo->arith_code) {
-    /* Emit arith conditioning info.  We may have some duplication
-     * if the file has multiple scans, but it's so small it's hardly
-     * worth worrying about.
+  if (cinfo->brith_code) {
+    /* Emit brith conditioning info.  We mby hbve some duplicbtion
+     * if the file hbs multiple scbns, but it's so smbll it's hbrdly
+     * worth worrying bbout.
      */
-    emit_dac(cinfo);
+    emit_dbc(cinfo);
   } else {
-    /* Emit Huffman tables.
-     * Note that emit_dht() suppresses any duplicate tables.
+    /* Emit Huffmbn tbbles.
+     * Note thbt emit_dht() suppresses bny duplicbte tbbles.
      */
-    for (i = 0; i < cinfo->comps_in_scan; i++) {
+    for (i = 0; i < cinfo->comps_in_scbn; i++) {
       compptr = cinfo->cur_comp_info[i];
       if (cinfo->progressive_mode) {
-        /* Progressive mode: only DC or only AC tables are used in one scan */
+        /* Progressive mode: only DC or only AC tbbles bre used in one scbn */
         if (cinfo->Ss == 0) {
-          if (cinfo->Ah == 0)   /* DC needs no table for refinement scan */
+          if (cinfo->Ah == 0)   /* DC needs no tbble for refinement scbn */
             emit_dht(cinfo, compptr->dc_tbl_no, FALSE);
         } else {
-          emit_dht(cinfo, compptr->ac_tbl_no, TRUE);
+          emit_dht(cinfo, compptr->bc_tbl_no, TRUE);
         }
       } else {
-        /* Sequential mode: need both DC and AC tables */
+        /* Sequentibl mode: need both DC bnd AC tbbles */
         emit_dht(cinfo, compptr->dc_tbl_no, FALSE);
-        emit_dht(cinfo, compptr->ac_tbl_no, TRUE);
+        emit_dht(cinfo, compptr->bc_tbl_no, TRUE);
       }
     }
   }
 
-  /* Emit DRI if required --- note that DRI value could change for each scan.
-   * We avoid wasting space with unnecessary DRIs, however.
+  /* Emit DRI if required --- note thbt DRI vblue could chbnge for ebch scbn.
+   * We bvoid wbsting spbce with unnecessbry DRIs, however.
    */
-  if (cinfo->restart_interval != marker->last_restart_interval) {
+  if (cinfo->restbrt_intervbl != mbrker->lbst_restbrt_intervbl) {
     emit_dri(cinfo);
-    marker->last_restart_interval = cinfo->restart_interval;
+    mbrker->lbst_restbrt_intervbl = cinfo->restbrt_intervbl;
   }
 
   emit_sos(cinfo);
@@ -599,84 +599,84 @@ write_scan_header (j_compress_ptr cinfo)
 
 
 /*
- * Write datastream trailer.
+ * Write dbtbstrebm trbiler.
  */
 
 METHODDEF(void)
-write_file_trailer (j_compress_ptr cinfo)
+write_file_trbiler (j_compress_ptr cinfo)
 {
-  emit_marker(cinfo, M_EOI);
+  emit_mbrker(cinfo, M_EOI);
 }
 
 
 /*
- * Write an abbreviated table-specification datastream.
- * This consists of SOI, DQT and DHT tables, and EOI.
- * Any table that is defined and not marked sent_table = TRUE will be
- * emitted.  Note that all tables will be marked sent_table = TRUE at exit.
+ * Write bn bbbrevibted tbble-specificbtion dbtbstrebm.
+ * This consists of SOI, DQT bnd DHT tbbles, bnd EOI.
+ * Any tbble thbt is defined bnd not mbrked sent_tbble = TRUE will be
+ * emitted.  Note thbt bll tbbles will be mbrked sent_tbble = TRUE bt exit.
  */
 
 METHODDEF(void)
-write_tables_only (j_compress_ptr cinfo)
+write_tbbles_only (j_compress_ptr cinfo)
 {
   int i;
 
-  emit_marker(cinfo, M_SOI);
+  emit_mbrker(cinfo, M_SOI);
 
-  /* Emit DQT for each quantization table.
-   * Only emit those tables that are actually associated with image components,
-   * if there are any image components, which will usually not be the case.
-   * Note that emit_dqt() suppresses any duplicate tables.
+  /* Emit DQT for ebch qubntizbtion tbble.
+   * Only emit those tbbles thbt bre bctublly bssocibted with imbge components,
+   * if there bre bny imbge components, which will usublly not be the cbse.
+   * Note thbt emit_dqt() suppresses bny duplicbte tbbles.
    */
   if (cinfo->num_components > 0) {
       int ci;
       jpeg_component_info *compptr;
       for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
            ci++, compptr++) {
-          (void) emit_dqt(cinfo, compptr->quant_tbl_no);
+          (void) emit_dqt(cinfo, compptr->qubnt_tbl_no);
       }
   } else {
       for (i = 0; i < NUM_QUANT_TBLS; i++) {
-          if (cinfo->quant_tbl_ptrs[i] != NULL)
+          if (cinfo->qubnt_tbl_ptrs[i] != NULL)
               (void) emit_dqt(cinfo, i);
       }
   }
 
-  if (! cinfo->arith_code) {
+  if (! cinfo->brith_code) {
     for (i = 0; i < NUM_HUFF_TBLS; i++) {
       if (cinfo->dc_huff_tbl_ptrs[i] != NULL)
         emit_dht(cinfo, i, FALSE);
-      if (cinfo->ac_huff_tbl_ptrs[i] != NULL)
+      if (cinfo->bc_huff_tbl_ptrs[i] != NULL)
         emit_dht(cinfo, i, TRUE);
     }
   }
 
-  emit_marker(cinfo, M_EOI);
+  emit_mbrker(cinfo, M_EOI);
 }
 
 
 /*
- * Initialize the marker writer module.
+ * Initiblize the mbrker writer module.
  */
 
 GLOBAL(void)
-jinit_marker_writer (j_compress_ptr cinfo)
+jinit_mbrker_writer (j_compress_ptr cinfo)
 {
-  my_marker_ptr marker;
+  my_mbrker_ptr mbrker;
 
-  /* Create the subobject */
-  marker = (my_marker_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                SIZEOF(my_marker_writer));
-  cinfo->marker = (struct jpeg_marker_writer *) marker;
-  /* Initialize method pointers */
-  marker->pub.write_file_header = write_file_header;
-  marker->pub.write_frame_header = write_frame_header;
-  marker->pub.write_scan_header = write_scan_header;
-  marker->pub.write_file_trailer = write_file_trailer;
-  marker->pub.write_tables_only = write_tables_only;
-  marker->pub.write_marker_header = write_marker_header;
-  marker->pub.write_marker_byte = write_marker_byte;
-  /* Initialize private state */
-  marker->last_restart_interval = 0;
+  /* Crebte the subobject */
+  mbrker = (my_mbrker_ptr)
+    (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+                                SIZEOF(my_mbrker_writer));
+  cinfo->mbrker = (struct jpeg_mbrker_writer *) mbrker;
+  /* Initiblize method pointers */
+  mbrker->pub.write_file_hebder = write_file_hebder;
+  mbrker->pub.write_frbme_hebder = write_frbme_hebder;
+  mbrker->pub.write_scbn_hebder = write_scbn_hebder;
+  mbrker->pub.write_file_trbiler = write_file_trbiler;
+  mbrker->pub.write_tbbles_only = write_tbbles_only;
+  mbrker->pub.write_mbrker_hebder = write_mbrker_hebder;
+  mbrker->pub.write_mbrker_byte = write_mbrker_byte;
+  /* Initiblize privbte stbte */
+  mbrker->lbst_restbrt_intervbl = 0;
 }

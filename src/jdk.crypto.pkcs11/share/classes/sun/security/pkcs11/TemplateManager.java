@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.util.*;
-import java.util.concurrent.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.*;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 /**
- * TemplateManager class.
+ * TemplbteMbnbger clbss.
  *
- * Not all PKCS#11 tokens are created equal. One token may require that one
- * value is specified when creating a certain type of object. Another token
- * may require a different value. Yet another token may only work if the
- * attribute is not specified at all.
+ * Not bll PKCS#11 tokens bre crebted equbl. One token mby require thbt one
+ * vblue is specified when crebting b certbin type of object. Another token
+ * mby require b different vblue. Yet bnother token mby only work if the
+ * bttribute is not specified bt bll.
  *
- * In order to allow an application to work unmodified with all those
- * different tokens, the SunPKCS11 provider makes the attributes that are
- * specified and their value configurable. Hence, only the SunPKCS11
- * configuration file has to be tweaked at deployment time to allow all
- * existing applications to be used.
+ * In order to bllow bn bpplicbtion to work unmodified with bll those
+ * different tokens, the SunPKCS11 provider mbkes the bttributes thbt bre
+ * specified bnd their vblue configurbble. Hence, only the SunPKCS11
+ * configurbtion file hbs to be twebked bt deployment time to bllow bll
+ * existing bpplicbtions to be used.
  *
- * The template manager is responsible for reading the attribute configuration
- * information and to make it available to the various internal components
+ * The templbte mbnbger is responsible for rebding the bttribute configurbtion
+ * informbtion bnd to mbke it bvbilbble to the vbrious internbl components
  * of the SunPKCS11 provider.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class TemplateManager {
+finbl clbss TemplbteMbnbger {
 
-    private final static boolean DEBUG = false;
+    privbte finbl stbtic boolebn DEBUG = fblse;
 
-    // constant for any operation (either O_IMPORT or O_GENERATE)
-    final static String O_ANY      = "*";
-    // constant for operation create ("importing" existing key material)
-    final static String O_IMPORT   = "import";
-    // constant for operation generate (generating new key material)
-    final static String O_GENERATE = "generate";
+    // constbnt for bny operbtion (either O_IMPORT or O_GENERATE)
+    finbl stbtic String O_ANY      = "*";
+    // constbnt for operbtion crebte ("importing" existing key mbteribl)
+    finbl stbtic String O_IMPORT   = "import";
+    // constbnt for operbtion generbte (generbting new key mbteribl)
+    finbl stbtic String O_GENERATE = "generbte";
 
-    private static class KeyAndTemplate {
-        final TemplateKey key;
-        final Template template;
+    privbte stbtic clbss KeyAndTemplbte {
+        finbl TemplbteKey key;
+        finbl Templbte templbte;
 
-        KeyAndTemplate(TemplateKey key, Template template) {
+        KeyAndTemplbte(TemplbteKey key, Templbte templbte) {
             this.key = key;
-            this.template = template;
+            this.templbte = templbte;
         }
     }
 
-    // primitive templates contains the individual template configuration
-    // entries from the configuration file
-    private final List<KeyAndTemplate> primitiveTemplates;
+    // primitive templbtes contbins the individubl templbte configurbtion
+    // entries from the configurbtion file
+    privbte finbl List<KeyAndTemplbte> primitiveTemplbtes;
 
-    // composite templates is a cache of the exact configuration template for
-    // each specific TemplateKey (no wildcards). the entries are created
-    // on demand during first use by compositing all applicable
-    // primitive template entries. the result is then stored in this map
-    // for performance
-    private final Map<TemplateKey,Template> compositeTemplates;
+    // composite templbtes is b cbche of the exbct configurbtion templbte for
+    // ebch specific TemplbteKey (no wildcbrds). the entries bre crebted
+    // on dembnd during first use by compositing bll bpplicbble
+    // primitive templbte entries. the result is then stored in this mbp
+    // for performbnce
+    privbte finbl Mbp<TemplbteKey,Templbte> compositeTemplbtes;
 
-    TemplateManager() {
-        primitiveTemplates = new ArrayList<KeyAndTemplate>();
-        compositeTemplates = new ConcurrentHashMap<TemplateKey,Template>();
+    TemplbteMbnbger() {
+        primitiveTemplbtes = new ArrbyList<KeyAndTemplbte>();
+        compositeTemplbtes = new ConcurrentHbshMbp<TemplbteKey,Templbte>();
     }
 
-    // add a template. Called by Config.
-    void addTemplate(String op, long objectClass, long keyAlgorithm,
-            CK_ATTRIBUTE[] attrs) {
-        TemplateKey key = new TemplateKey(op, objectClass, keyAlgorithm);
-        Template template = new Template(attrs);
+    // bdd b templbte. Cblled by Config.
+    void bddTemplbte(String op, long objectClbss, long keyAlgorithm,
+            CK_ATTRIBUTE[] bttrs) {
+        TemplbteKey key = new TemplbteKey(op, objectClbss, keyAlgorithm);
+        Templbte templbte = new Templbte(bttrs);
         if (DEBUG) {
-            System.out.println("Adding " + key + " -> " + template);
+            System.out.println("Adding " + key + " -> " + templbte);
         }
-        primitiveTemplates.add(new KeyAndTemplate(key, template));
+        primitiveTemplbtes.bdd(new KeyAndTemplbte(key, templbte));
     }
 
-    private Template getTemplate(TemplateKey key) {
-        Template template = compositeTemplates.get(key);
-        if (template == null) {
-            template = buildCompositeTemplate(key);
-            compositeTemplates.put(key, template);
+    privbte Templbte getTemplbte(TemplbteKey key) {
+        Templbte templbte = compositeTemplbtes.get(key);
+        if (templbte == null) {
+            templbte = buildCompositeTemplbte(key);
+            compositeTemplbtes.put(key, templbte);
         }
-        return template;
+        return templbte;
     }
 
-    // Get the attributes for the requested op and combine them with attrs.
-    // This is the method called by the implementation to obtain the
-    // attributes.
-    CK_ATTRIBUTE[] getAttributes(String op, long type, long alg,
-            CK_ATTRIBUTE[] attrs) {
-        TemplateKey key = new TemplateKey(op, type, alg);
-        Template template = getTemplate(key);
-        CK_ATTRIBUTE[] newAttrs = template.getAttributes(attrs);
+    // Get the bttributes for the requested op bnd combine them with bttrs.
+    // This is the method cblled by the implementbtion to obtbin the
+    // bttributes.
+    CK_ATTRIBUTE[] getAttributes(String op, long type, long blg,
+            CK_ATTRIBUTE[] bttrs) {
+        TemplbteKey key = new TemplbteKey(op, type, blg);
+        Templbte templbte = getTemplbte(key);
+        CK_ATTRIBUTE[] newAttrs = templbte.getAttributes(bttrs);
         if (DEBUG) {
-            System.out.println(key + " -> " + Arrays.asList(newAttrs));
+            System.out.println(key + " -> " + Arrbys.bsList(newAttrs));
         }
         return newAttrs;
     }
 
-    // build a composite template for the given key
-    private Template buildCompositeTemplate(TemplateKey key) {
-        Template comp = new Template();
-        // iterate through primitive templates and add all that apply
-        for (KeyAndTemplate entry : primitiveTemplates) {
-            if (entry.key.appliesTo(key)) {
-                comp.add(entry.template);
+    // build b composite templbte for the given key
+    privbte Templbte buildCompositeTemplbte(TemplbteKey key) {
+        Templbte comp = new Templbte();
+        // iterbte through primitive templbtes bnd bdd bll thbt bpply
+        for (KeyAndTemplbte entry : primitiveTemplbtes) {
+            if (entry.key.bppliesTo(key)) {
+                comp.bdd(entry.templbte);
             }
         }
         return comp;
     }
 
     /**
-     * Nested class representing a template identifier.
+     * Nested clbss representing b templbte identifier.
      */
-    private static final class TemplateKey {
-        final String operation;
-        final long keyType;
-        final long keyAlgorithm;
-        TemplateKey(String operation, long keyType, long keyAlgorithm) {
-            this.operation = operation;
+    privbte stbtic finbl clbss TemplbteKey {
+        finbl String operbtion;
+        finbl long keyType;
+        finbl long keyAlgorithm;
+        TemplbteKey(String operbtion, long keyType, long keyAlgorithm) {
+            this.operbtion = operbtion;
             this.keyType = keyType;
             this.keyAlgorithm = keyAlgorithm;
         }
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof TemplateKey == false) {
-                return false;
+            if (obj instbnceof TemplbteKey == fblse) {
+                return fblse;
             }
-            TemplateKey other = (TemplateKey)obj;
-            boolean match = this.operation.equals(other.operation)
+            TemplbteKey other = (TemplbteKey)obj;
+            boolebn mbtch = this.operbtion.equbls(other.operbtion)
                         && (this.keyType == other.keyType)
                         && (this.keyAlgorithm == other.keyAlgorithm);
-            return match;
+            return mbtch;
         }
-        public int hashCode() {
-            return operation.hashCode() + (int)keyType + (int)keyAlgorithm;
+        public int hbshCode() {
+            return operbtion.hbshCode() + (int)keyType + (int)keyAlgorithm;
         }
-        boolean appliesTo(TemplateKey key) {
-            if (operation.equals(O_ANY) || operation.equals(key.operation)) {
+        boolebn bppliesTo(TemplbteKey key) {
+            if (operbtion.equbls(O_ANY) || operbtion.equbls(key.operbtion)) {
                 if ((keyType == PCKO_ANY) || (keyType == key.keyType)) {
                     if ((keyAlgorithm == PCKK_ANY)
                                 || (keyAlgorithm == key.keyAlgorithm)) {
@@ -172,68 +172,68 @@ final class TemplateManager {
                     }
                 }
             }
-            return false;
+            return fblse;
         }
         public String toString() {
-            return "(" + operation + ","
-                + Functions.getObjectClassName(keyType)
-                + "," + Functions.getKeyName(keyAlgorithm) + ")";
+            return "(" + operbtion + ","
+                + Functions.getObjectClbssNbme(keyType)
+                + "," + Functions.getKeyNbme(keyAlgorithm) + ")";
         }
     }
 
     /**
-     * Nested class representing template attributes.
+     * Nested clbss representing templbte bttributes.
      */
-    private static final class Template {
+    privbte stbtic finbl clbss Templbte {
 
-        private final static CK_ATTRIBUTE[] A0 = new CK_ATTRIBUTE[0];
+        privbte finbl stbtic CK_ATTRIBUTE[] A0 = new CK_ATTRIBUTE[0];
 
-        private CK_ATTRIBUTE[] attributes;
+        privbte CK_ATTRIBUTE[] bttributes;
 
-        Template() {
-            attributes = A0;
+        Templbte() {
+            bttributes = A0;
         }
 
-        Template(CK_ATTRIBUTE[] attributes) {
-            this.attributes = attributes;
+        Templbte(CK_ATTRIBUTE[] bttributes) {
+            this.bttributes = bttributes;
         }
 
-        void add(Template template) {
-            attributes = getAttributes(template.attributes);
+        void bdd(Templbte templbte) {
+            bttributes = getAttributes(templbte.bttributes);
         }
 
-        CK_ATTRIBUTE[] getAttributes(CK_ATTRIBUTE[] attrs) {
-            return combine(attributes, attrs);
+        CK_ATTRIBUTE[] getAttributes(CK_ATTRIBUTE[] bttrs) {
+            return combine(bttributes, bttrs);
         }
 
         /**
-         * Combine two sets of attributes. The second set has precedence
-         * over the first and overrides its settings.
+         * Combine two sets of bttributes. The second set hbs precedence
+         * over the first bnd overrides its settings.
          */
-        private static CK_ATTRIBUTE[] combine(CK_ATTRIBUTE[] attrs1,
-                CK_ATTRIBUTE[] attrs2) {
-            List<CK_ATTRIBUTE> attrs = new ArrayList<CK_ATTRIBUTE>();
-            for (CK_ATTRIBUTE attr : attrs1) {
-                if (attr.pValue != null) {
-                    attrs.add(attr);
+        privbte stbtic CK_ATTRIBUTE[] combine(CK_ATTRIBUTE[] bttrs1,
+                CK_ATTRIBUTE[] bttrs2) {
+            List<CK_ATTRIBUTE> bttrs = new ArrbyList<CK_ATTRIBUTE>();
+            for (CK_ATTRIBUTE bttr : bttrs1) {
+                if (bttr.pVblue != null) {
+                    bttrs.bdd(bttr);
                 }
             }
-            for (CK_ATTRIBUTE attr2 : attrs2) {
-                long type = attr2.type;
-                for (CK_ATTRIBUTE attr1 : attrs1) {
-                    if (attr1.type == type) {
-                        attrs.remove(attr1);
+            for (CK_ATTRIBUTE bttr2 : bttrs2) {
+                long type = bttr2.type;
+                for (CK_ATTRIBUTE bttr1 : bttrs1) {
+                    if (bttr1.type == type) {
+                        bttrs.remove(bttr1);
                     }
                 }
-                if (attr2.pValue != null) {
-                    attrs.add(attr2);
+                if (bttr2.pVblue != null) {
+                    bttrs.bdd(bttr2);
                 }
             }
-            return attrs.toArray(A0);
+            return bttrs.toArrby(A0);
         }
 
         public String toString() {
-            return Arrays.asList(attributes).toString();
+            return Arrbys.bsList(bttributes).toString();
         }
 
     }

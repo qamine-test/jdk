@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "sun_lwawt_macosx_CCursorManager.h"
+#include "sun_lwbwt_mbcosx_CCursorMbnbger.h"
 
-#include <Cocoa/Cocoa.h>
-#include <JavaNativeFoundation/JavaNativeFoundation.h>
+#include <Cocob/Cocob.h>
+#include <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 #include "GeomUtilities.h"
-#include "ThreadUtilities.h"
+#include "ThrebdUtilities.h"
 
-#include "java_awt_Cursor.h"
+#include "jbvb_bwt_Cursor.h"
 
 
-static SEL lookupCursorSelectorForType(jint type) {
+stbtic SEL lookupCursorSelectorForType(jint type) {
     switch (type) {
-        case java_awt_Cursor_DEFAULT_CURSOR:        return @selector(arrowCursor);
-        case java_awt_Cursor_CROSSHAIR_CURSOR:      return @selector(crosshairCursor);
-        case java_awt_Cursor_TEXT_CURSOR:           return @selector(IBeamCursor);
-        case java_awt_Cursor_WAIT_CURSOR:           return @selector(javaBusyButClickableCursor);
-        case java_awt_Cursor_SW_RESIZE_CURSOR:      return @selector(javaResizeSWCursor);
-        case java_awt_Cursor_SE_RESIZE_CURSOR:      return @selector(javaResizeSECursor);
-        case java_awt_Cursor_NW_RESIZE_CURSOR:      return @selector(javaResizeNWCursor);
-        case java_awt_Cursor_NE_RESIZE_CURSOR:      return @selector(javaResizeNECursor);
-        case java_awt_Cursor_N_RESIZE_CURSOR:       return @selector(resizeUpDownCursor);
-        case java_awt_Cursor_S_RESIZE_CURSOR:       return @selector(resizeUpDownCursor);
-        case java_awt_Cursor_W_RESIZE_CURSOR:       return @selector(resizeLeftRightCursor);
-        case java_awt_Cursor_E_RESIZE_CURSOR:       return @selector(resizeLeftRightCursor);
-        case java_awt_Cursor_HAND_CURSOR:           return @selector(pointingHandCursor);
-        case java_awt_Cursor_MOVE_CURSOR:           return @selector(javaMoveCursor);
+        cbse jbvb_bwt_Cursor_DEFAULT_CURSOR:        return @selector(brrowCursor);
+        cbse jbvb_bwt_Cursor_CROSSHAIR_CURSOR:      return @selector(crosshbirCursor);
+        cbse jbvb_bwt_Cursor_TEXT_CURSOR:           return @selector(IBebmCursor);
+        cbse jbvb_bwt_Cursor_WAIT_CURSOR:           return @selector(jbvbBusyButClickbbleCursor);
+        cbse jbvb_bwt_Cursor_SW_RESIZE_CURSOR:      return @selector(jbvbResizeSWCursor);
+        cbse jbvb_bwt_Cursor_SE_RESIZE_CURSOR:      return @selector(jbvbResizeSECursor);
+        cbse jbvb_bwt_Cursor_NW_RESIZE_CURSOR:      return @selector(jbvbResizeNWCursor);
+        cbse jbvb_bwt_Cursor_NE_RESIZE_CURSOR:      return @selector(jbvbResizeNECursor);
+        cbse jbvb_bwt_Cursor_N_RESIZE_CURSOR:       return @selector(resizeUpDownCursor);
+        cbse jbvb_bwt_Cursor_S_RESIZE_CURSOR:       return @selector(resizeUpDownCursor);
+        cbse jbvb_bwt_Cursor_W_RESIZE_CURSOR:       return @selector(resizeLeftRightCursor);
+        cbse jbvb_bwt_Cursor_E_RESIZE_CURSOR:       return @selector(resizeLeftRightCursor);
+        cbse jbvb_bwt_Cursor_HAND_CURSOR:           return @selector(pointingHbndCursor);
+        cbse jbvb_bwt_Cursor_MOVE_CURSOR:           return @selector(jbvbMoveCursor);
     }
 
     return nil;
 }
 
-static SEL lookupCursorSelectorForName(NSString *name) {
-    if ([@"DnD.Cursor.CopyDrop" isEqual:name]) return @selector(dragCopyCursor);
-    if ([@"DnD.Cursor.LinkDrop" isEqual:name]) return @selector(dragLinkCursor);
-    if ([@"DnD.Cursor.MoveDrop" isEqual:name]) return @selector(_genericDragCursor);
-    if ([@"DnD.Cursor.CopyNoDrop" isEqual:name]) return @selector(operationNotAllowedCursor);
-    if ([@"DnD.Cursor.LinkNoDrop" isEqual:name]) return @selector(operationNotAllowedCursor);
-    if ([@"DnD.Cursor.MoveNoDrop" isEqual:name]) return @selector(operationNotAllowedCursor);
+stbtic SEL lookupCursorSelectorForNbme(NSString *nbme) {
+    if ([@"DnD.Cursor.CopyDrop" isEqubl:nbme]) return @selector(drbgCopyCursor);
+    if ([@"DnD.Cursor.LinkDrop" isEqubl:nbme]) return @selector(drbgLinkCursor);
+    if ([@"DnD.Cursor.MoveDrop" isEqubl:nbme]) return @selector(_genericDrbgCursor);
+    if ([@"DnD.Cursor.CopyNoDrop" isEqubl:nbme]) return @selector(operbtionNotAllowedCursor);
+    if ([@"DnD.Cursor.LinkNoDrop" isEqubl:nbme]) return @selector(operbtionNotAllowedCursor);
+    if ([@"DnD.Cursor.MoveNoDrop" isEqubl:nbme]) return @selector(operbtionNotAllowedCursor);
     return nil;
 }
 
-static void setCursorOnAppKitThread(NSCursor *cursor) {
+stbtic void setCursorOnAppKitThrebd(NSCursor *cursor) {
     [cursor set];
 }
 
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CCursorManager_nativeSetBuiltInCursor
-(JNIEnv *env, jclass class, jint type, jstring name)
+Jbvb_sun_lwbwt_mbcosx_CCursorMbnbger_nbtiveSetBuiltInCursor
+(JNIEnv *env, jclbss clbss, jint type, jstring nbme)
 {
 JNF_COCOA_ENTER(env);
 
-    NSString *cursorName = JNFJavaToNSString(env, name);
-    SEL cursorSelector = (type == sun_lwawt_macosx_CCursorManager_NAMED_CURSOR) ? lookupCursorSelectorForName(cursorName) : lookupCursorSelectorForType(type);
+    NSString *cursorNbme = JNFJbvbToNSString(env, nbme);
+    SEL cursorSelector = (type == sun_lwbwt_mbcosx_CCursorMbnbger_NAMED_CURSOR) ? lookupCursorSelectorForNbme(cursorNbme) : lookupCursorSelectorForType(type);
     if (cursorSelector == nil) {
-        NSString *reason = [NSString stringWithFormat:@"unimplemented built-in cursor type: %d / %@", type, cursorName];
-        [JNFException raise:env as:kIllegalArgumentException reason:[reason UTF8String]];
+        NSString *rebson = [NSString stringWithFormbt:@"unimplemented built-in cursor type: %d / %@", type, cursorNbme];
+        [JNFException rbise:env bs:kIllegblArgumentException rebson:[rebson UTF8String]];
     }
 
-    if (![[NSCursor class] respondsToSelector:cursorSelector]) {
-        [JNFException raise:env as:kNoSuchMethodException reason:"missing NSCursor selector"];
+    if (![[NSCursor clbss] respondsToSelector:cursorSelector]) {
+        [JNFException rbise:env bs:kNoSuchMethodException rebson:"missing NSCursor selector"];
     }
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        setCursorOnAppKitThread([[NSCursor class] performSelector:cursorSelector]);
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
+        setCursorOnAppKitThrebd([[NSCursor clbss] performSelector:cursorSelector]);
     }];
 
 JNF_COCOA_EXIT(env);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CCursorManager_nativeSetCustomCursor
-(JNIEnv *env, jclass class, jlong imgPtr, jdouble x, jdouble y)
+Jbvb_sun_lwbwt_mbcosx_CCursorMbnbger_nbtiveSetCustomCursor
+(JNIEnv *env, jclbss clbss, jlong imgPtr, jdouble x, jdouble y)
 {
 JNF_COCOA_ENTER(env);
-    NSImage *image = (NSImage *)jlong_to_ptr(imgPtr);
+    NSImbge *imbge = (NSImbge *)jlong_to_ptr(imgPtr);
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        NSCursor *cursor = [[NSCursor alloc] initWithImage:image
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
+        NSCursor *cursor = [[NSCursor blloc] initWithImbge:imbge
                                                    hotSpot:(NSPoint){ x, y }];
-        setCursorOnAppKitThread(cursor);
-        [cursor release];
+        setCursorOnAppKitThrebd(cursor);
+        [cursor relebse];
     }];
 
 JNF_COCOA_EXIT(env);
 }
 
 JNIEXPORT jobject JNICALL
-Java_sun_lwawt_macosx_CCursorManager_nativeGetCursorPosition
-(JNIEnv *env, jclass class)
+Jbvb_sun_lwbwt_mbcosx_CCursorMbnbger_nbtiveGetCursorPosition
+(JNIEnv *env, jclbss clbss)
 {
     jobject jpt = NULL;
 
@@ -120,11 +120,11 @@ JNF_COCOA_ENTER(env);
 
     __block NSPoint pt = NSZeroPoint;
     
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-            pt = ConvertNSScreenPoint(env, [NSEvent mouseLocation]);
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+            pt = ConvertNSScreenPoint(env, [NSEvent mouseLocbtion]);
     }];
     
-    jpt = NSToJavaPoint(env, pt);
+    jpt = NSToJbvbPoint(env, pt);
 
 JNF_COCOA_EXIT(env);
 
@@ -133,22 +133,22 @@ JNF_COCOA_EXIT(env);
 
 
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CCursorManager_nativeSetAllowsCursorSetInBackground
-(JNIEnv *env, jclass class, jboolean allows)
+Jbvb_sun_lwbwt_mbcosx_CCursorMbnbger_nbtiveSetAllowsCursorSetInBbckground
+(JNIEnv *env, jclbss clbss, jboolebn bllows)
 {
 JNF_COCOA_ENTER(env);
 
-    SEL allowsSetInBackground_SEL = @selector(javaSetAllowsCursorSetInBackground:);
-    if ([[NSCursor class] respondsToSelector:allowsSetInBackground_SEL]) {
-        [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-            NSMethodSignature *allowsSetInBackground_sig =
-                [[NSCursor class] methodSignatureForSelector:allowsSetInBackground_SEL];
-            NSInvocation *invocation =
-                [NSInvocation invocationWithMethodSignature:allowsSetInBackground_sig];
-            BOOL arg = (BOOL)allows;
-            [invocation setSelector:allowsSetInBackground_SEL];
-            [invocation setArgument:&arg atIndex:2];
-            [invocation invokeWithTarget:[NSCursor class]];
+    SEL bllowsSetInBbckground_SEL = @selector(jbvbSetAllowsCursorSetInBbckground:);
+    if ([[NSCursor clbss] respondsToSelector:bllowsSetInBbckground_SEL]) {
+        [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+            NSMethodSignbture *bllowsSetInBbckground_sig =
+                [[NSCursor clbss] methodSignbtureForSelector:bllowsSetInBbckground_SEL];
+            NSInvocbtion *invocbtion =
+                [NSInvocbtion invocbtionWithMethodSignbture:bllowsSetInBbckground_sig];
+            BOOL brg = (BOOL)bllows;
+            [invocbtion setSelector:bllowsSetInBbckground_SEL];
+            [invocbtion setArgument:&brg btIndex:2];
+            [invocbtion invokeWithTbrget:[NSCursor clbss]];
         }];
     }
 

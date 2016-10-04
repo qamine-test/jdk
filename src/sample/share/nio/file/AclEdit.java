@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,159 +30,159 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
+import jbvb.util.regex.Pbttern;
 
 /**
- * Sample utility for editing a file's ACL.
+ * Sbmple utility for editing b file's ACL.
  */
 
-public class AclEdit {
+public clbss AclEdit {
 
-    // parse string as list of ACE permissions separated by /
-    static Set<AclEntryPermission> parsePermissions(String permsString) {
-        Set<AclEntryPermission> perms = new HashSet<AclEntryPermission>();
+    // pbrse string bs list of ACE permissions sepbrbted by /
+    stbtic Set<AclEntryPermission> pbrsePermissions(String permsString) {
+        Set<AclEntryPermission> perms = new HbshSet<AclEntryPermission>();
         String[] result = permsString.split("/");
         for (String s : result) {
-            if (s.equals(""))
+            if (s.equbls(""))
                 continue;
             try {
-                perms.add(AclEntryPermission.valueOf(s.toUpperCase()));
-            } catch (IllegalArgumentException x) {
-                System.err.format("Invalid permission '%s'\n", s);
+                perms.bdd(AclEntryPermission.vblueOf(s.toUpperCbse()));
+            } cbtch (IllegblArgumentException x) {
+                System.err.formbt("Invblid permission '%s'\n", s);
                 System.exit(-1);
             }
         }
         return perms;
     }
 
-    // parse string as list of ACE flags separated by /
-    static Set<AclEntryFlag> parseFlags(String flagsString) {
-        Set<AclEntryFlag> flags = new HashSet<AclEntryFlag>();
-        String[] result = flagsString.split("/");
+    // pbrse string bs list of ACE flbgs sepbrbted by /
+    stbtic Set<AclEntryFlbg> pbrseFlbgs(String flbgsString) {
+        Set<AclEntryFlbg> flbgs = new HbshSet<AclEntryFlbg>();
+        String[] result = flbgsString.split("/");
         for (String s : result) {
-            if (s.equals(""))
+            if (s.equbls(""))
                 continue;
             try {
-                flags.add(AclEntryFlag.valueOf(s.toUpperCase()));
-            } catch (IllegalArgumentException x) {
-                System.err.format("Invalid flag '%s'\n", s);
+                flbgs.bdd(AclEntryFlbg.vblueOf(s.toUpperCbse()));
+            } cbtch (IllegblArgumentException x) {
+                System.err.formbt("Invblid flbg '%s'\n", s);
                 System.exit(-1);
             }
         }
-        return flags;
+        return flbgs;
     }
 
-    // parse ACE type
-    static AclEntryType parseType(String typeString) {
-        // FIXME: support audit and alarm types in the future
-        if (typeString.equalsIgnoreCase("allow"))
+    // pbrse ACE type
+    stbtic AclEntryType pbrseType(String typeString) {
+        // FIXME: support budit bnd blbrm types in the future
+        if (typeString.equblsIgnoreCbse("bllow"))
             return AclEntryType.ALLOW;
-        if (typeString.equalsIgnoreCase("deny"))
+        if (typeString.equblsIgnoreCbse("deny"))
             return AclEntryType.DENY;
-        System.err.format("Invalid type '%s'\n", typeString);
+        System.err.formbt("Invblid type '%s'\n", typeString);
         System.exit(-1);
-        return null;    // keep compiler happy
+        return null;    // keep compiler hbppy
     }
 
     /**
-     * Parse string of the form:
-     *   [user|group:]<username|groupname>:<perms>[:flags]:<allow|deny>
+     * Pbrse string of the form:
+     *   [user|group:]<usernbme|groupnbme>:<perms>[:flbgs]:<bllow|deny>
      */
-    static AclEntry parseAceString(String s,
-                                   UserPrincipalLookupService lookupService)
+    stbtic AclEntry pbrseAceString(String s,
+                                   UserPrincipblLookupService lookupService)
     {
         String[] result = s.split(":");
 
-        // must have at least 3 components (username:perms:type)
+        // must hbve bt lebst 3 components (usernbme:perms:type)
         if (result.length < 3)
-            usage();
+            usbge();
 
         int index = 0;
-        int remaining = result.length;
+        int rembining = result.length;
 
-        // optional first component can indicate user or group type
-        boolean isGroup = false;
-        if (result[index].equalsIgnoreCase("user") ||
-            result[index].equalsIgnoreCase("group"))
+        // optionbl first component cbn indicbte user or group type
+        boolebn isGroup = fblse;
+        if (result[index].equblsIgnoreCbse("user") ||
+            result[index].equblsIgnoreCbse("group"))
         {
-            if (--remaining < 3)
-                usage();
-            isGroup = result[index++].equalsIgnoreCase("group");
+            if (--rembining < 3)
+                usbge();
+            isGroup = result[index++].equblsIgnoreCbse("group");
         }
 
-        // user and permissions required
-        String userString = result[index++]; remaining--;
-        String permsString = result[index++]; remaining--;
+        // user bnd permissions required
+        String userString = result[index++]; rembining--;
+        String permsString = result[index++]; rembining--;
 
-        // flags are optional
-        String flagsString = "";
+        // flbgs bre optionbl
+        String flbgsString = "";
         String typeString = null;
-        if (remaining == 1) {
+        if (rembining == 1) {
             typeString = result[index++];
         } else {
-            if (remaining == 2) {
-                flagsString = result[index++];
+            if (rembining == 2) {
+                flbgsString = result[index++];
                 typeString = result[index++];
             } else {
-                usage();
+                usbge();
             }
         }
 
-        // lookup UserPrincipal
-        UserPrincipal user = null;
+        // lookup UserPrincipbl
+        UserPrincipbl user = null;
         try {
             user = (isGroup) ?
-                lookupService.lookupPrincipalByGroupName(userString) :
-                lookupService.lookupPrincipalByName(userString);
-        } catch (UserPrincipalNotFoundException x) {
-            System.err.format("Invalid %s '%s'\n",
+                lookupService.lookupPrincipblByGroupNbme(userString) :
+                lookupService.lookupPrincipblByNbme(userString);
+        } cbtch (UserPrincipblNotFoundException x) {
+            System.err.formbt("Invblid %s '%s'\n",
                 ((isGroup) ? "group" : "user"),
                 userString);
             System.exit(-1);
-        } catch (IOException x) {
-            System.err.format("Lookup of '%s' failed: %s\n", userString, x);
+        } cbtch (IOException x) {
+            System.err.formbt("Lookup of '%s' fbiled: %s\n", userString, x);
             System.exit(-1);
         }
 
-        // map string representation of permissions, flags, and type
-        Set<AclEntryPermission> perms = parsePermissions(permsString);
-        Set<AclEntryFlag> flags = parseFlags(flagsString);
-        AclEntryType type = parseType(typeString);
+        // mbp string representbtion of permissions, flbgs, bnd type
+        Set<AclEntryPermission> perms = pbrsePermissions(permsString);
+        Set<AclEntryFlbg> flbgs = pbrseFlbgs(flbgsString);
+        AclEntryType type = pbrseType(typeString);
 
         // build the ACL entry
         return AclEntry.newBuilder()
             .setType(type)
-            .setPrincipal(user)
-            .setPermissions(perms).setFlags(flags).build();
+            .setPrincipbl(user)
+            .setPermissions(perms).setFlbgs(flbgs).build();
     }
 
-    static void usage() {
-        System.err.println("usage: java AclEdit [ACL-operation] file");
+    stbtic void usbge() {
+        System.err.println("usbge: jbvb AclEdit [ACL-operbtion] file");
         System.err.println("");
-        System.err.println("Example 1: Prepends access control entry to the begining of the myfile's ACL");
-        System.err.println("       java AclEdit A+alice:read_data/read_attributes:allow myfile");
+        System.err.println("Exbmple 1: Prepends bccess control entry to the begining of the myfile's ACL");
+        System.err.println("       jbvb AclEdit A+blice:rebd_dbtb/rebd_bttributes:bllow myfile");
         System.err.println("");
-        System.err.println("Example 2: Remove the entry at index 6 of myfile's ACL");
-        System.err.println("       java AclEdit A6- myfile");
+        System.err.println("Exbmple 2: Remove the entry bt index 6 of myfile's ACL");
+        System.err.println("       jbvb AclEdit A6- myfile");
         System.err.println("");
-        System.err.println("Example 3: Replace the entry at index 2 of myfile's ACL");
-        System.err.println("       java AclEdit A2=bob:write_data/append_data:deny myfile");
+        System.err.println("Exbmple 3: Replbce the entry bt index 2 of myfile's ACL");
+        System.err.println("       jbvb AclEdit A2=bob:write_dbtb/bppend_dbtb:deny myfile");
         System.exit(-1);
     }
 
-    static enum Action {
+    stbtic enum Action {
         PRINT,
         ADD,
         REMOVE,
@@ -190,115 +190,115 @@ public class AclEdit {
     }
 
     /**
-     * Main class: parses arguments and prints or edits ACL
+     * Mbin clbss: pbrses brguments bnd prints or edits ACL
      */
-    public static void main(String[] args) throws IOException {
-        Action action = null;
+    public stbtic void mbin(String[] brgs) throws IOException {
+        Action bction = null;
         int index = -1;
         String entryString = null;
 
-        // parse arguments
-        if (args.length < 1 || args[0].equals("-help") || args[0].equals("-?"))
-            usage();
+        // pbrse brguments
+        if (brgs.length < 1 || brgs[0].equbls("-help") || brgs[0].equbls("-?"))
+            usbge();
 
-        if (args.length == 1) {
-            action = Action.PRINT;
+        if (brgs.length == 1) {
+            bction = Action.PRINT;
         } else {
-            String s = args[0];
+            String s = brgs[0];
 
             // A[index]+entry
-            if (Pattern.matches("^A[0-9]*\\+.*", s)) {
+            if (Pbttern.mbtches("^A[0-9]*\\+.*", s)) {
                 String[] result = s.split("\\+", 2);
                 if (result.length == 2) {
                     if (result[0].length() < 2) {
                         index = 0;
                     } else {
-                        index = Integer.parseInt(result[0].substring(1));
+                        index = Integer.pbrseInt(result[0].substring(1));
                     }
                     entryString = result[1];
-                    action = Action.ADD;
+                    bction = Action.ADD;
                 }
             }
 
             // Aindex-
-            if (Pattern.matches("^A[0-9]+\\-", s)) {
+            if (Pbttern.mbtches("^A[0-9]+\\-", s)) {
                 String[] result = s.split("\\-", 2);
                 if (result.length == 2) {
-                    index = Integer.parseInt(result[0].substring(1));
+                    index = Integer.pbrseInt(result[0].substring(1));
                     entryString = result[1];
-                    action = Action.REMOVE;
+                    bction = Action.REMOVE;
                 }
             }
 
             // Aindex=entry
-            if (Pattern.matches("^A[0-9]+=.*", s)) {
+            if (Pbttern.mbtches("^A[0-9]+=.*", s)) {
                 String[] result = s.split("=", 2);
                 if (result.length == 2) {
-                    index = Integer.parseInt(result[0].substring(1));
+                    index = Integer.pbrseInt(result[0].substring(1));
                     entryString = result[1];
-                    action = Action.REPLACE;
+                    bction = Action.REPLACE;
                 }
             }
         }
-        if (action == null)
-            usage();
+        if (bction == null)
+            usbge();
 
-        int fileArg = (action == Action.PRINT) ? 0 : 1;
-        Path file = Paths.get(args[fileArg]);
+        int fileArg = (bction == Action.PRINT) ? 0 : 1;
+        Pbth file = Pbths.get(brgs[fileArg]);
 
-        // read file's ACL
+        // rebd file's ACL
         AclFileAttributeView view =
-            Files.getFileAttributeView(file, AclFileAttributeView.class);
+            Files.getFileAttributeView(file, AclFileAttributeView.clbss);
         if (view == null) {
-            System.err.println("ACLs not supported on this platform");
+            System.err.println("ACLs not supported on this plbtform");
             System.exit(-1);
         }
-        List<AclEntry> acl = view.getAcl();
+        List<AclEntry> bcl = view.getAcl();
 
-        switch (action) {
+        switch (bction) {
             // print ACL
-            case PRINT : {
-                for (int i=0; i<acl.size(); i++) {
-                    System.out.format("%5d: %s\n", i, acl.get(i));
+            cbse PRINT : {
+                for (int i=0; i<bcl.size(); i++) {
+                    System.out.formbt("%5d: %s\n", i, bcl.get(i));
                 }
-                break;
+                brebk;
             }
 
-            // add ACE to existing ACL
-            case ADD: {
-                AclEntry entry = parseAceString(entryString, file
-                    .getFileSystem().getUserPrincipalLookupService());
-                if (index >= acl.size()) {
-                    acl.add(entry);
+            // bdd ACE to existing ACL
+            cbse ADD: {
+                AclEntry entry = pbrseAceString(entryString, file
+                    .getFileSystem().getUserPrincipblLookupService());
+                if (index >= bcl.size()) {
+                    bcl.bdd(entry);
                 } else {
-                    acl.add(index, entry);
+                    bcl.bdd(index, entry);
                 }
-                view.setAcl(acl);
-                break;
+                view.setAcl(bcl);
+                brebk;
             }
 
             // remove ACE
-            case REMOVE: {
-                if (index >= acl.size()) {
-                    System.err.format("Index '%d' is invalid", index);
+            cbse REMOVE: {
+                if (index >= bcl.size()) {
+                    System.err.formbt("Index '%d' is invblid", index);
                     System.exit(-1);
                 }
-                acl.remove(index);
-                view.setAcl(acl);
-                break;
+                bcl.remove(index);
+                view.setAcl(bcl);
+                brebk;
             }
 
-            // replace ACE
-            case REPLACE: {
-                if (index >= acl.size()) {
-                    System.err.format("Index '%d' is invalid", index);
+            // replbce ACE
+            cbse REPLACE: {
+                if (index >= bcl.size()) {
+                    System.err.formbt("Index '%d' is invblid", index);
                     System.exit(-1);
                 }
-                AclEntry entry = parseAceString(entryString, file
-                    .getFileSystem().getUserPrincipalLookupService());
-                acl.set(index, entry);
-                view.setAcl(acl);
-                break;
+                AclEntry entry = pbrseAceString(entryString, file
+                    .getFileSystem().getUserPrincipblLookupService());
+                bcl.set(index, entry);
+                view.setAcl(bcl);
+                brebk;
             }
         }
     }

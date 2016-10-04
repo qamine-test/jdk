@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.instrument;
+pbckbge sun.instrument;
 
 
-import java.lang.instrument.Instrumentation;
-import java.lang.instrument.ClassFileTransformer;
-import java.security.ProtectionDomain;
+import jbvb.lbng.instrument.Instrumentbtion;
+import jbvb.lbng.instrument.ClbssFileTrbnsformer;
+import jbvb.security.ProtectionDombin;
 
 /*
  * Copyright 2003 Wily Technology, Inc.
  */
 
 /**
- * Support class for the InstrumentationImpl. Manages the list of registered transformers.
- * Keeps everything in the right order, deals with sync of the list,
- * and actually does the calling of the transformers.
+ * Support clbss for the InstrumentbtionImpl. Mbnbges the list of registered trbnsformers.
+ * Keeps everything in the right order, debls with sync of the list,
+ * bnd bctublly does the cblling of the trbnsformers.
  */
-public class TransformerManager
+public clbss TrbnsformerMbnbger
 {
-    private class TransformerInfo {
-        final ClassFileTransformer  mTransformer;
+    privbte clbss TrbnsformerInfo {
+        finbl ClbssFileTrbnsformer  mTrbnsformer;
         String                      mPrefix;
 
-        TransformerInfo(ClassFileTransformer transformer) {
-            mTransformer = transformer;
+        TrbnsformerInfo(ClbssFileTrbnsformer trbnsformer) {
+            mTrbnsformer = trbnsformer;
             mPrefix = null;
         }
 
-        ClassFileTransformer transformer() {
-            return  mTransformer;
+        ClbssFileTrbnsformer trbnsformer() {
+            return  mTrbnsformer;
         }
 
         String getPrefix() {
@@ -64,146 +64,146 @@ public class TransformerManager
     }
 
     /**
-     * a given instance of this list is treated as immutable to simplify sync;
-     * we pay copying overhead whenever the list is changed rather than every time
+     * b given instbnce of this list is trebted bs immutbble to simplify sync;
+     * we pby copying overhebd whenever the list is chbnged rbther thbn every time
      * the list is referenced.
-     * The array is kept in the order the transformers are added via addTransformer
-     * (first added is 0, last added is length-1)
-     * Use an array, not a List or other Collection. This keeps the set of classes
-     * used by this code to a minimum. We want as few dependencies as possible in this
-     * code, since it is used inside the class definition system. Any class referenced here
-     * cannot be transformed by Java code.
+     * The brrby is kept in the order the trbnsformers bre bdded vib bddTrbnsformer
+     * (first bdded is 0, lbst bdded is length-1)
+     * Use bn brrby, not b List or other Collection. This keeps the set of clbsses
+     * used by this code to b minimum. We wbnt bs few dependencies bs possible in this
+     * code, since it is used inside the clbss definition system. Any clbss referenced here
+     * cbnnot be trbnsformed by Jbvb code.
      */
-    private TransformerInfo[]  mTransformerList;
+    privbte TrbnsformerInfo[]  mTrbnsformerList;
 
     /***
-     * Is this TransformerManager for transformers capable of retransformation?
+     * Is this TrbnsformerMbnbger for trbnsformers cbpbble of retrbnsformbtion?
      */
-    private boolean            mIsRetransformable;
+    privbte boolebn            mIsRetrbnsformbble;
 
-    TransformerManager(boolean isRetransformable) {
-        mTransformerList    = new TransformerInfo[0];
-        mIsRetransformable  = isRetransformable;
+    TrbnsformerMbnbger(boolebn isRetrbnsformbble) {
+        mTrbnsformerList    = new TrbnsformerInfo[0];
+        mIsRetrbnsformbble  = isRetrbnsformbble;
     }
 
-    boolean isRetransformable() {
-        return mIsRetransformable;
+    boolebn isRetrbnsformbble() {
+        return mIsRetrbnsformbble;
     }
 
     public synchronized void
-    addTransformer( ClassFileTransformer    transformer) {
-        TransformerInfo[] oldList = mTransformerList;
-        TransformerInfo[] newList = new TransformerInfo[oldList.length + 1];
-        System.arraycopy(   oldList,
+    bddTrbnsformer( ClbssFileTrbnsformer    trbnsformer) {
+        TrbnsformerInfo[] oldList = mTrbnsformerList;
+        TrbnsformerInfo[] newList = new TrbnsformerInfo[oldList.length + 1];
+        System.brrbycopy(   oldList,
                             0,
                             newList,
                             0,
                             oldList.length);
-        newList[oldList.length] = new TransformerInfo(transformer);
-        mTransformerList = newList;
+        newList[oldList.length] = new TrbnsformerInfo(trbnsformer);
+        mTrbnsformerList = newList;
     }
 
-    public synchronized boolean
-    removeTransformer(ClassFileTransformer  transformer) {
-        boolean                 found           = false;
-        TransformerInfo[]       oldList         = mTransformerList;
+    public synchronized boolebn
+    removeTrbnsformer(ClbssFileTrbnsformer  trbnsformer) {
+        boolebn                 found           = fblse;
+        TrbnsformerInfo[]       oldList         = mTrbnsformerList;
         int                     oldLength       = oldList.length;
         int                     newLength       = oldLength - 1;
 
-        // look for it in the list, starting at the last added, and remember
-        // where it was if we found it
-        int matchingIndex   = 0;
+        // look for it in the list, stbrting bt the lbst bdded, bnd remember
+        // where it wbs if we found it
+        int mbtchingIndex   = 0;
         for ( int x = oldLength - 1; x >= 0; x-- ) {
-            if ( oldList[x].transformer() == transformer ) {
+            if ( oldList[x].trbnsformer() == trbnsformer ) {
                 found           = true;
-                matchingIndex   = x;
-                break;
+                mbtchingIndex   = x;
+                brebk;
             }
         }
 
-        // make a copy of the array without the matching element
+        // mbke b copy of the brrby without the mbtching element
         if ( found ) {
-            TransformerInfo[]  newList = new TransformerInfo[newLength];
+            TrbnsformerInfo[]  newList = new TrbnsformerInfo[newLength];
 
-            // copy up to but not including the match
-            if ( matchingIndex > 0 ) {
-                System.arraycopy(   oldList,
+            // copy up to but not including the mbtch
+            if ( mbtchingIndex > 0 ) {
+                System.brrbycopy(   oldList,
                                     0,
                                     newList,
                                     0,
-                                    matchingIndex);
+                                    mbtchingIndex);
             }
 
-            // if there is anything after the match, copy it as well
-            if ( matchingIndex < (newLength) ) {
-                System.arraycopy(   oldList,
-                                    matchingIndex + 1,
+            // if there is bnything bfter the mbtch, copy it bs well
+            if ( mbtchingIndex < (newLength) ) {
+                System.brrbycopy(   oldList,
+                                    mbtchingIndex + 1,
                                     newList,
-                                    matchingIndex,
-                                    (newLength) - matchingIndex);
+                                    mbtchingIndex,
+                                    (newLength) - mbtchingIndex);
             }
-            mTransformerList = newList;
+            mTrbnsformerList = newList;
         }
         return found;
     }
 
-    synchronized boolean
-    includesTransformer(ClassFileTransformer transformer) {
-        for (TransformerInfo info : mTransformerList) {
-            if ( info.transformer() == transformer ) {
+    synchronized boolebn
+    includesTrbnsformer(ClbssFileTrbnsformer trbnsformer) {
+        for (TrbnsformerInfo info : mTrbnsformerList) {
+            if ( info.trbnsformer() == trbnsformer ) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    // This function doesn't actually snapshot anything, but should be
-    // used to set a local variable, which will snapshot the transformer
-    // list because of the copying semantics of mTransformerList (see
-    // the comment for mTransformerList).
-    private TransformerInfo[]
-    getSnapshotTransformerList() {
-        return mTransformerList;
+    // This function doesn't bctublly snbpshot bnything, but should be
+    // used to set b locbl vbribble, which will snbpshot the trbnsformer
+    // list becbuse of the copying sembntics of mTrbnsformerList (see
+    // the comment for mTrbnsformerList).
+    privbte TrbnsformerInfo[]
+    getSnbpshotTrbnsformerList() {
+        return mTrbnsformerList;
     }
 
     public byte[]
-    transform(  ClassLoader         loader,
-                String              classname,
-                Class<?>            classBeingRedefined,
-                ProtectionDomain    protectionDomain,
-                byte[]              classfileBuffer) {
-        boolean someoneTouchedTheBytecode = false;
+    trbnsform(  ClbssLobder         lobder,
+                String              clbssnbme,
+                Clbss<?>            clbssBeingRedefined,
+                ProtectionDombin    protectionDombin,
+                byte[]              clbssfileBuffer) {
+        boolebn someoneTouchedTheBytecode = fblse;
 
-        TransformerInfo[]  transformerList = getSnapshotTransformerList();
+        TrbnsformerInfo[]  trbnsformerList = getSnbpshotTrbnsformerList();
 
-        byte[]  bufferToUse = classfileBuffer;
+        byte[]  bufferToUse = clbssfileBuffer;
 
-        // order matters, gotta run 'em in the order they were added
-        for ( int x = 0; x < transformerList.length; x++ ) {
-            TransformerInfo         transformerInfo = transformerList[x];
-            ClassFileTransformer    transformer = transformerInfo.transformer();
-            byte[]                  transformedBytes = null;
+        // order mbtters, gottb run 'em in the order they were bdded
+        for ( int x = 0; x < trbnsformerList.length; x++ ) {
+            TrbnsformerInfo         trbnsformerInfo = trbnsformerList[x];
+            ClbssFileTrbnsformer    trbnsformer = trbnsformerInfo.trbnsformer();
+            byte[]                  trbnsformedBytes = null;
 
             try {
-                transformedBytes = transformer.transform(   loader,
-                                                            classname,
-                                                            classBeingRedefined,
-                                                            protectionDomain,
+                trbnsformedBytes = trbnsformer.trbnsform(   lobder,
+                                                            clbssnbme,
+                                                            clbssBeingRedefined,
+                                                            protectionDombin,
                                                             bufferToUse);
             }
-            catch (Throwable t) {
-                // don't let any one transformer mess it up for the others.
-                // This is where we need to put some logging. What should go here? FIXME
+            cbtch (Throwbble t) {
+                // don't let bny one trbnsformer mess it up for the others.
+                // This is where we need to put some logging. Whbt should go here? FIXME
             }
 
-            if ( transformedBytes != null ) {
+            if ( trbnsformedBytes != null ) {
                 someoneTouchedTheBytecode = true;
-                bufferToUse = transformedBytes;
+                bufferToUse = trbnsformedBytes;
             }
         }
 
         // if someone modified it, return the modified buffer.
-        // otherwise return null to mean "no transforms occurred"
+        // otherwise return null to mebn "no trbnsforms occurred"
         byte [] result;
         if ( someoneTouchedTheBytecode ) {
             result = bufferToUse;
@@ -217,36 +217,36 @@ public class TransformerManager
 
 
     int
-    getTransformerCount() {
-        TransformerInfo[]  transformerList = getSnapshotTransformerList();
-        return transformerList.length;
+    getTrbnsformerCount() {
+        TrbnsformerInfo[]  trbnsformerList = getSnbpshotTrbnsformerList();
+        return trbnsformerList.length;
     }
 
-    boolean
-    setNativeMethodPrefix(ClassFileTransformer transformer, String prefix) {
-        TransformerInfo[]  transformerList = getSnapshotTransformerList();
+    boolebn
+    setNbtiveMethodPrefix(ClbssFileTrbnsformer trbnsformer, String prefix) {
+        TrbnsformerInfo[]  trbnsformerList = getSnbpshotTrbnsformerList();
 
-        for ( int x = 0; x < transformerList.length; x++ ) {
-            TransformerInfo         transformerInfo = transformerList[x];
-            ClassFileTransformer    aTransformer = transformerInfo.transformer();
+        for ( int x = 0; x < trbnsformerList.length; x++ ) {
+            TrbnsformerInfo         trbnsformerInfo = trbnsformerList[x];
+            ClbssFileTrbnsformer    bTrbnsformer = trbnsformerInfo.trbnsformer();
 
-            if ( aTransformer == transformer ) {
-                transformerInfo.setPrefix(prefix);
+            if ( bTrbnsformer == trbnsformer ) {
+                trbnsformerInfo.setPrefix(prefix);
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
 
     String[]
-    getNativeMethodPrefixes() {
-        TransformerInfo[]  transformerList = getSnapshotTransformerList();
-        String[] prefixes                  = new String[transformerList.length];
+    getNbtiveMethodPrefixes() {
+        TrbnsformerInfo[]  trbnsformerList = getSnbpshotTrbnsformerList();
+        String[] prefixes                  = new String[trbnsformerList.length];
 
-        for ( int x = 0; x < transformerList.length; x++ ) {
-            TransformerInfo         transformerInfo = transformerList[x];
-            prefixes[x] = transformerInfo.getPrefix();
+        for ( int x = 0; x < trbnsformerList.length; x++ ) {
+            TrbnsformerInfo         trbnsformerInfo = trbnsformerList[x];
+            prefixes[x] = trbnsformerInfo.getPrefix();
         }
         return prefixes;
     }

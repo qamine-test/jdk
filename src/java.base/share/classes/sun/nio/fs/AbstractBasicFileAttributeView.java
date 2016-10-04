@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.util.*;
-import java.io.IOException;
+import jbvb.nio.file.bttribute.*;
+import jbvb.util.*;
+import jbvb.io.IOException;
 
 /**
- * Base implementation of BasicFileAttributeView
+ * Bbse implementbtion of BbsicFileAttributeView
  */
 
-abstract class AbstractBasicFileAttributeView
-    implements BasicFileAttributeView, DynamicFileAttributeView
+bbstrbct clbss AbstrbctBbsicFileAttributeView
+    implements BbsicFileAttributeView, DynbmicFileAttributeView
 {
-    private static final String SIZE_NAME = "size";
-    private static final String CREATION_TIME_NAME = "creationTime";
-    private static final String LAST_ACCESS_TIME_NAME = "lastAccessTime";
-    private static final String LAST_MODIFIED_TIME_NAME = "lastModifiedTime";
-    private static final String FILE_KEY_NAME = "fileKey";
-    private static final String IS_DIRECTORY_NAME = "isDirectory";
-    private static final String IS_REGULAR_FILE_NAME = "isRegularFile";
-    private static final String IS_SYMBOLIC_LINK_NAME = "isSymbolicLink";
-    private static final String IS_OTHER_NAME = "isOther";
+    privbte stbtic finbl String SIZE_NAME = "size";
+    privbte stbtic finbl String CREATION_TIME_NAME = "crebtionTime";
+    privbte stbtic finbl String LAST_ACCESS_TIME_NAME = "lbstAccessTime";
+    privbte stbtic finbl String LAST_MODIFIED_TIME_NAME = "lbstModifiedTime";
+    privbte stbtic finbl String FILE_KEY_NAME = "fileKey";
+    privbte stbtic finbl String IS_DIRECTORY_NAME = "isDirectory";
+    privbte stbtic finbl String IS_REGULAR_FILE_NAME = "isRegulbrFile";
+    privbte stbtic finbl String IS_SYMBOLIC_LINK_NAME = "isSymbolicLink";
+    privbte stbtic finbl String IS_OTHER_NAME = "isOther";
 
-    // the names of the basic attributes
-    static final Set<String> basicAttributeNames =
+    // the nbmes of the bbsic bttributes
+    stbtic finbl Set<String> bbsicAttributeNbmes =
         Util.newSet(SIZE_NAME,
                     CREATION_TIME_NAME,
                     LAST_ACCESS_TIME_NAME,
@@ -58,114 +58,114 @@ abstract class AbstractBasicFileAttributeView
                     IS_SYMBOLIC_LINK_NAME,
                     IS_OTHER_NAME);
 
-    protected AbstractBasicFileAttributeView() { }
+    protected AbstrbctBbsicFileAttributeView() { }
 
     @Override
-    public String name() {
-        return "basic";
+    public String nbme() {
+        return "bbsic";
     }
 
     @Override
-    public void setAttribute(String attribute, Object value)
+    public void setAttribute(String bttribute, Object vblue)
         throws IOException
     {
-        if (attribute.equals(LAST_MODIFIED_TIME_NAME)) {
-            setTimes((FileTime)value, null, null);
+        if (bttribute.equbls(LAST_MODIFIED_TIME_NAME)) {
+            setTimes((FileTime)vblue, null, null);
             return;
         }
-        if (attribute.equals(LAST_ACCESS_TIME_NAME)) {
-            setTimes(null, (FileTime)value, null);
+        if (bttribute.equbls(LAST_ACCESS_TIME_NAME)) {
+            setTimes(null, (FileTime)vblue, null);
             return;
         }
-        if (attribute.equals(CREATION_TIME_NAME)) {
-            setTimes(null, null, (FileTime)value);
+        if (bttribute.equbls(CREATION_TIME_NAME)) {
+            setTimes(null, null, (FileTime)vblue);
             return;
         }
-        throw new IllegalArgumentException("'" + name() + ":" +
-            attribute + "' not recognized");
+        throw new IllegblArgumentException("'" + nbme() + ":" +
+            bttribute + "' not recognized");
     }
 
     /**
-     * Used to build a map of attribute name/values.
+     * Used to build b mbp of bttribute nbme/vblues.
      */
-    static class AttributesBuilder {
-        private Set<String> names = new HashSet<>();
-        private Map<String,Object> map = new HashMap<>();
-        private boolean copyAll;
+    stbtic clbss AttributesBuilder {
+        privbte Set<String> nbmes = new HbshSet<>();
+        privbte Mbp<String,Object> mbp = new HbshMbp<>();
+        privbte boolebn copyAll;
 
-        private AttributesBuilder(Set<String> allowed, String[] requested) {
-            for (String name: requested) {
-                if (name.equals("*")) {
+        privbte AttributesBuilder(Set<String> bllowed, String[] requested) {
+            for (String nbme: requested) {
+                if (nbme.equbls("*")) {
                     copyAll = true;
                 } else {
-                    if (!allowed.contains(name))
-                        throw new IllegalArgumentException("'" + name + "' not recognized");
-                    names.add(name);
+                    if (!bllowed.contbins(nbme))
+                        throw new IllegblArgumentException("'" + nbme + "' not recognized");
+                    nbmes.bdd(nbme);
                 }
             }
         }
 
         /**
-         * Creates builder to build up a map of the matching attributes
+         * Crebtes builder to build up b mbp of the mbtching bttributes
          */
-        static AttributesBuilder create(Set<String> allowed, String[] requested) {
-            return new AttributesBuilder(allowed, requested);
+        stbtic AttributesBuilder crebte(Set<String> bllowed, String[] requested) {
+            return new AttributesBuilder(bllowed, requested);
         }
 
         /**
-         * Returns true if the attribute should be returned in the map
+         * Returns true if the bttribute should be returned in the mbp
          */
-        boolean match(String name) {
-            return copyAll || names.contains(name);
+        boolebn mbtch(String nbme) {
+            return copyAll || nbmes.contbins(nbme);
         }
 
-        void add(String name, Object value) {
-            map.put(name, value);
+        void bdd(String nbme, Object vblue) {
+            mbp.put(nbme, vblue);
         }
 
         /**
-         * Returns the map. Discard all references to the AttributesBuilder
-         * after invoking this method.
+         * Returns the mbp. Discbrd bll references to the AttributesBuilder
+         * bfter invoking this method.
          */
-        Map<String,Object> unmodifiableMap() {
-            return Collections.unmodifiableMap(map);
+        Mbp<String,Object> unmodifibbleMbp() {
+            return Collections.unmodifibbleMbp(mbp);
         }
     }
 
     /**
-     * Invoked by readAttributes or sub-classes to add all matching basic
-     * attributes to the builder
+     * Invoked by rebdAttributes or sub-clbsses to bdd bll mbtching bbsic
+     * bttributes to the builder
      */
-    final void addRequestedBasicAttributes(BasicFileAttributes attrs,
+    finbl void bddRequestedBbsicAttributes(BbsicFileAttributes bttrs,
                                            AttributesBuilder builder)
     {
-        if (builder.match(SIZE_NAME))
-            builder.add(SIZE_NAME, attrs.size());
-        if (builder.match(CREATION_TIME_NAME))
-            builder.add(CREATION_TIME_NAME, attrs.creationTime());
-        if (builder.match(LAST_ACCESS_TIME_NAME))
-            builder.add(LAST_ACCESS_TIME_NAME, attrs.lastAccessTime());
-        if (builder.match(LAST_MODIFIED_TIME_NAME))
-            builder.add(LAST_MODIFIED_TIME_NAME, attrs.lastModifiedTime());
-        if (builder.match(FILE_KEY_NAME))
-            builder.add(FILE_KEY_NAME, attrs.fileKey());
-        if (builder.match(IS_DIRECTORY_NAME))
-            builder.add(IS_DIRECTORY_NAME, attrs.isDirectory());
-        if (builder.match(IS_REGULAR_FILE_NAME))
-            builder.add(IS_REGULAR_FILE_NAME, attrs.isRegularFile());
-        if (builder.match(IS_SYMBOLIC_LINK_NAME))
-            builder.add(IS_SYMBOLIC_LINK_NAME, attrs.isSymbolicLink());
-        if (builder.match(IS_OTHER_NAME))
-            builder.add(IS_OTHER_NAME, attrs.isOther());
+        if (builder.mbtch(SIZE_NAME))
+            builder.bdd(SIZE_NAME, bttrs.size());
+        if (builder.mbtch(CREATION_TIME_NAME))
+            builder.bdd(CREATION_TIME_NAME, bttrs.crebtionTime());
+        if (builder.mbtch(LAST_ACCESS_TIME_NAME))
+            builder.bdd(LAST_ACCESS_TIME_NAME, bttrs.lbstAccessTime());
+        if (builder.mbtch(LAST_MODIFIED_TIME_NAME))
+            builder.bdd(LAST_MODIFIED_TIME_NAME, bttrs.lbstModifiedTime());
+        if (builder.mbtch(FILE_KEY_NAME))
+            builder.bdd(FILE_KEY_NAME, bttrs.fileKey());
+        if (builder.mbtch(IS_DIRECTORY_NAME))
+            builder.bdd(IS_DIRECTORY_NAME, bttrs.isDirectory());
+        if (builder.mbtch(IS_REGULAR_FILE_NAME))
+            builder.bdd(IS_REGULAR_FILE_NAME, bttrs.isRegulbrFile());
+        if (builder.mbtch(IS_SYMBOLIC_LINK_NAME))
+            builder.bdd(IS_SYMBOLIC_LINK_NAME, bttrs.isSymbolicLink());
+        if (builder.mbtch(IS_OTHER_NAME))
+            builder.bdd(IS_OTHER_NAME, bttrs.isOther());
     }
 
     @Override
-    public Map<String,Object> readAttributes(String[] requested)
+    public Mbp<String,Object> rebdAttributes(String[] requested)
         throws IOException
     {
         AttributesBuilder builder =
-            AttributesBuilder.create(basicAttributeNames, requested);
-        addRequestedBasicAttributes(readAttributes(), builder);
-        return builder.unmodifiableMap();
+            AttributesBuilder.crebte(bbsicAttributeNbmes, requested);
+        bddRequestedBbsicAttributes(rebdAttributes(), builder);
+        return builder.unmodifibbleMbp();
     }
 }

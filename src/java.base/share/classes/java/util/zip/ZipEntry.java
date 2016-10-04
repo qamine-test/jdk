@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.zip;
+pbckbge jbvb.util.zip;
 
-import static java.util.zip.ZipUtils.*;
-import java.nio.file.attribute.FileTime;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import stbtic jbvb.util.zip.ZipUtils.*;
+import jbvb.nio.file.bttribute.FileTime;
+import jbvb.util.Objects;
+import jbvb.util.concurrent.TimeUnit;
 
-import static java.util.zip.ZipConstants64.*;
+import stbtic jbvb.util.zip.ZipConstbnts64.*;
 
 /**
- * This class is used to represent a ZIP file entry.
+ * This clbss is used to represent b ZIP file entry.
  *
- * @author      David Connelly
+ * @buthor      Dbvid Connelly
  */
 public
-class ZipEntry implements ZipConstants, Cloneable {
+clbss ZipEntry implements ZipConstbnts, Clonebble {
 
-    String name;        // entry name
-    long time = -1;     // last modification time
-    FileTime mtime;     // last modification time, from extra field data
-    FileTime atime;     // last access time, from extra field data
-    FileTime ctime;     // creation time, from extra field data
-    long crc = -1;      // crc-32 of entry data
-    long size = -1;     // uncompressed size of entry data
-    long csize = -1;    // compressed size of entry data
+    String nbme;        // entry nbme
+    long time = -1;     // lbst modificbtion time
+    FileTime mtime;     // lbst modificbtion time, from extrb field dbtb
+    FileTime btime;     // lbst bccess time, from extrb field dbtb
+    FileTime ctime;     // crebtion time, from extrb field dbtb
+    long crc = -1;      // crc-32 of entry dbtb
+    long size = -1;     // uncompressed size of entry dbtb
+    long csize = -1;    // compressed size of entry dbtb
     int method = -1;    // compression method
-    int flag = 0;       // general purpose flag
-    byte[] extra;       // optional extra field data for entry
-    String comment;     // optional comment string for entry
+    int flbg = 0;       // generbl purpose flbg
+    byte[] extrb;       // optionbl extrb field dbtb for entry
+    String comment;     // optionbl comment string for entry
 
     /**
      * Compression method for uncompressed entries.
      */
-    public static final int STORED = 0;
+    public stbtic finbl int STORED = 0;
 
     /**
-     * Compression method for compressed (deflated) entries.
+     * Compression method for compressed (deflbted) entries.
      */
-    public static final int DEFLATED = 8;
+    public stbtic finbl int DEFLATED = 8;
 
     /**
-     * Creates a new zip entry with the specified name.
+     * Crebtes b new zip entry with the specified nbme.
      *
-     * @param  name
-     *         The entry name
+     * @pbrbm  nbme
+     *         The entry nbme
      *
-     * @throws NullPointerException if the entry name is null
-     * @throws IllegalArgumentException if the entry name is longer than
+     * @throws NullPointerException if the entry nbme is null
+     * @throws IllegblArgumentException if the entry nbme is longer thbn
      *         0xFFFF bytes
      */
-    public ZipEntry(String name) {
-        Objects.requireNonNull(name, "name");
-        if (name.length() > 0xFFFF) {
-            throw new IllegalArgumentException("entry name too long");
+    public ZipEntry(String nbme) {
+        Objects.requireNonNull(nbme, "nbme");
+        if (nbme.length() > 0xFFFF) {
+            throw new IllegblArgumentException("entry nbme too long");
         }
-        this.name = name;
+        this.nbme = nbme;
     }
 
     /**
-     * Creates a new zip entry with fields taken from the specified
+     * Crebtes b new zip entry with fields tbken from the specified
      * zip entry.
      *
-     * @param  e
+     * @pbrbm  e
      *         A zip Entry object
      *
      * @throws NullPointerException if the entry object is null
      */
     public ZipEntry(ZipEntry e) {
         Objects.requireNonNull(e, "entry");
-        name = e.name;
+        nbme = e.nbme;
         time = e.time;
         mtime = e.mtime;
-        atime = e.atime;
+        btime = e.btime;
         ctime = e.ctime;
         crc = e.crc;
         size = e.size;
         csize = e.csize;
         method = e.method;
-        flag = e.flag;
-        extra = e.extra;
+        flbg = e.flbg;
+        extrb = e.extrb;
         comment = e.comment;
     }
 
     /**
-     * Creates a new un-initialized zip entry
+     * Crebtes b new un-initiblized zip entry
      */
     ZipEntry() {}
 
     /**
-     * Returns the name of the entry.
-     * @return the name of the entry
+     * Returns the nbme of the entry.
+     * @return the nbme of the entry
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Sets the last modification time of the entry.
+     * Sets the lbst modificbtion time of the entry.
      *
-     * <p> If the entry is output to a ZIP file or ZIP file formatted
-     * output stream the last modification time set by this method will
-     * be stored into the {@code date and time fields} of the zip file
-     * entry and encoded in standard {@code MS-DOS date and time format}.
-     * The {@link java.util.TimeZone#getDefault() default TimeZone} is
-     * used to convert the epoch time to the MS-DOS data and time.
+     * <p> If the entry is output to b ZIP file or ZIP file formbtted
+     * output strebm the lbst modificbtion time set by this method will
+     * be stored into the {@code dbte bnd time fields} of the zip file
+     * entry bnd encoded in stbndbrd {@code MS-DOS dbte bnd time formbt}.
+     * The {@link jbvb.util.TimeZone#getDefbult() defbult TimeZone} is
+     * used to convert the epoch time to the MS-DOS dbtb bnd time.
      *
-     * @param  time
-     *         The last modification time of the entry in milliseconds
+     * @pbrbm  time
+     *         The lbst modificbtion time of the entry in milliseconds
      *         since the epoch
      *
      * @see #getTime()
-     * @see #getLastModifiedTime()
+     * @see #getLbstModifiedTime()
      */
     public void setTime(long time) {
         this.time = time;
@@ -142,67 +142,67 @@ class ZipEntry implements ZipConstants, Cloneable {
     }
 
     /**
-     * Returns the last modification time of the entry.
+     * Returns the lbst modificbtion time of the entry.
      *
-     * <p> If the entry is read from a ZIP file or ZIP file formatted
-     * input stream, this is the last modification time from the {@code
-     * date and time fields} of the zip file entry. The
-     * {@link java.util.TimeZone#getDefault() default TimeZone} is used
-     * to convert the standard MS-DOS formatted date and time to the
+     * <p> If the entry is rebd from b ZIP file or ZIP file formbtted
+     * input strebm, this is the lbst modificbtion time from the {@code
+     * dbte bnd time fields} of the zip file entry. The
+     * {@link jbvb.util.TimeZone#getDefbult() defbult TimeZone} is used
+     * to convert the stbndbrd MS-DOS formbtted dbte bnd time to the
      * epoch time.
      *
-     * @return  The last modification time of the entry in milliseconds
+     * @return  The lbst modificbtion time of the entry in milliseconds
      *          since the epoch, or -1 if not specified
      *
      * @see #setTime(long)
-     * @see #setLastModifiedTime(FileTime)
+     * @see #setLbstModifiedTime(FileTime)
      */
     public long getTime() {
         return time;
     }
 
     /**
-     * Sets the last modification time of the entry.
+     * Sets the lbst modificbtion time of the entry.
      *
-     * <p> When output to a ZIP file or ZIP file formatted output stream
-     * the last modification time set by this method will be stored into
-     * zip file entry's {@code date and time fields} in {@code standard
-     * MS-DOS date and time format}), and the extended timestamp fields
-     * in {@code optional extra data} in UTC time.
+     * <p> When output to b ZIP file or ZIP file formbtted output strebm
+     * the lbst modificbtion time set by this method will be stored into
+     * zip file entry's {@code dbte bnd time fields} in {@code stbndbrd
+     * MS-DOS dbte bnd time formbt}), bnd the extended timestbmp fields
+     * in {@code optionbl extrb dbtb} in UTC time.
      *
-     * @param  time
-     *         The last modification time of the entry
+     * @pbrbm  time
+     *         The lbst modificbtion time of the entry
      * @return This zip entry
      *
      * @throws NullPointerException if the {@code time} is null
      *
-     * @see #getLastModifiedTime()
+     * @see #getLbstModifiedTime()
      * @since 1.8
      */
-    public ZipEntry setLastModifiedTime(FileTime time) {
-        Objects.requireNonNull(name, "time");
+    public ZipEntry setLbstModifiedTime(FileTime time) {
+        Objects.requireNonNull(nbme, "time");
         this.mtime = time;
         this.time = time.to(TimeUnit.MILLISECONDS);
         return this;
     }
 
     /**
-     * Returns the last modification time of the entry.
+     * Returns the lbst modificbtion time of the entry.
      *
-     * <p> If the entry is read from a ZIP file or ZIP file formatted
-     * input stream, this is the last modification time from the zip
-     * file entry's {@code optional extra data} if the extended timestamp
-     * fields are present. Otherwise the last modification time is read
-     * from the entry's {@code date and time fields}, the {@link
-     * java.util.TimeZone#getDefault() default TimeZone} is used to convert
-     * the standard MS-DOS formatted date and time to the epoch time.
+     * <p> If the entry is rebd from b ZIP file or ZIP file formbtted
+     * input strebm, this is the lbst modificbtion time from the zip
+     * file entry's {@code optionbl extrb dbtb} if the extended timestbmp
+     * fields bre present. Otherwise the lbst modificbtion time is rebd
+     * from the entry's {@code dbte bnd time fields}, the {@link
+     * jbvb.util.TimeZone#getDefbult() defbult TimeZone} is used to convert
+     * the stbndbrd MS-DOS formbtted dbte bnd time to the epoch time.
      *
-     * @return The last modification time of the entry, null if not specified
+     * @return The lbst modificbtion time of the entry, null if not specified
      *
-     * @see #setLastModifiedTime(FileTime)
+     * @see #setLbstModifiedTime(FileTime)
      * @since 1.8
      */
-    public FileTime getLastModifiedTime() {
+    public FileTime getLbstModifiedTime() {
         if (mtime != null)
             return mtime;
         if (time == -1)
@@ -211,102 +211,102 @@ class ZipEntry implements ZipConstants, Cloneable {
     }
 
     /**
-     * Sets the last access time of the entry.
+     * Sets the lbst bccess time of the entry.
      *
-     * <p> If set, the last access time will be stored into the extended
-     * timestamp fields of entry's {@code optional extra data}, when output
-     * to a ZIP file or ZIP file formatted stream.
+     * <p> If set, the lbst bccess time will be stored into the extended
+     * timestbmp fields of entry's {@code optionbl extrb dbtb}, when output
+     * to b ZIP file or ZIP file formbtted strebm.
      *
-     * @param  time
-     *         The last access time of the entry
+     * @pbrbm  time
+     *         The lbst bccess time of the entry
      * @return This zip entry
      *
      * @throws NullPointerException if the {@code time} is null
      *
-     * @see #getLastAccessTime()
+     * @see #getLbstAccessTime()
      * @since 1.8
      */
-    public ZipEntry setLastAccessTime(FileTime time) {
-        Objects.requireNonNull(name, "time");
-        this.atime = time;
+    public ZipEntry setLbstAccessTime(FileTime time) {
+        Objects.requireNonNull(nbme, "time");
+        this.btime = time;
         return this;
     }
 
     /**
-     * Returns the last access time of the entry.
+     * Returns the lbst bccess time of the entry.
      *
-     * <p> The last access time is from the extended timestamp fields
-     * of entry's {@code optional extra data} when read from a ZIP file
-     * or ZIP file formatted stream.
+     * <p> The lbst bccess time is from the extended timestbmp fields
+     * of entry's {@code optionbl extrb dbtb} when rebd from b ZIP file
+     * or ZIP file formbtted strebm.
      *
-     * @return The last access time of the entry, null if not specified
+     * @return The lbst bccess time of the entry, null if not specified
 
-     * @see #setLastAccessTime(FileTime)
+     * @see #setLbstAccessTime(FileTime)
      * @since 1.8
      */
-    public FileTime getLastAccessTime() {
-        return atime;
+    public FileTime getLbstAccessTime() {
+        return btime;
     }
 
     /**
-     * Sets the creation time of the entry.
+     * Sets the crebtion time of the entry.
      *
-     * <p> If set, the creation time will be stored into the extended
-     * timestamp fields of entry's {@code optional extra data}, when
-     * output to a ZIP file or ZIP file formatted stream.
+     * <p> If set, the crebtion time will be stored into the extended
+     * timestbmp fields of entry's {@code optionbl extrb dbtb}, when
+     * output to b ZIP file or ZIP file formbtted strebm.
      *
-     * @param  time
-     *         The creation time of the entry
+     * @pbrbm  time
+     *         The crebtion time of the entry
      * @return This zip entry
      *
      * @throws NullPointerException if the {@code time} is null
      *
-     * @see #getCreationTime()
+     * @see #getCrebtionTime()
      * @since 1.8
      */
-    public ZipEntry setCreationTime(FileTime time) {
-        Objects.requireNonNull(name, "time");
+    public ZipEntry setCrebtionTime(FileTime time) {
+        Objects.requireNonNull(nbme, "time");
         this.ctime = time;
         return this;
     }
 
     /**
-     * Returns the creation time of the entry.
+     * Returns the crebtion time of the entry.
      *
-     * <p> The creation time is from the extended timestamp fields of
-     * entry's {@code optional extra data} when read from a ZIP file
-     * or ZIP file formatted stream.
+     * <p> The crebtion time is from the extended timestbmp fields of
+     * entry's {@code optionbl extrb dbtb} when rebd from b ZIP file
+     * or ZIP file formbtted strebm.
      *
-     * @return the creation time of the entry, null if not specified
-     * @see #setCreationTime(FileTime)
+     * @return the crebtion time of the entry, null if not specified
+     * @see #setCrebtionTime(FileTime)
      * @since 1.8
      */
-    public FileTime getCreationTime() {
+    public FileTime getCrebtionTime() {
         return ctime;
     }
 
     /**
-     * Sets the uncompressed size of the entry data.
+     * Sets the uncompressed size of the entry dbtb.
      *
-     * @param size the uncompressed size in bytes
+     * @pbrbm size the uncompressed size in bytes
      *
-     * @throws IllegalArgumentException if the specified size is less
-     *         than 0, is greater than 0xFFFFFFFF when
-     *         <a href="package-summary.html#zip64">ZIP64 format</a> is not supported,
-     *         or is less than 0 when ZIP64 is supported
+     * @throws IllegblArgumentException if the specified size is less
+     *         thbn 0, is grebter thbn 0xFFFFFFFF when
+     *         <b href="pbckbge-summbry.html#zip64">ZIP64 formbt</b> is not supported,
+     *         or is less thbn 0 when ZIP64 is supported
      * @see #getSize()
      */
     public void setSize(long size) {
         if (size < 0) {
-            throw new IllegalArgumentException("invalid entry size");
+            throw new IllegblArgumentException("invblid entry size");
         }
         this.size = size;
     }
 
     /**
-     * Returns the uncompressed size of the entry data.
+     * Returns the uncompressed size of the entry dbtb.
      *
-     * @return the uncompressed size of the entry data, or -1 if not known
+     * @return the uncompressed size of the entry dbtb, or -1 if not known
      * @see #setSize(long)
      */
     public long getSize() {
@@ -314,12 +314,12 @@ class ZipEntry implements ZipConstants, Cloneable {
     }
 
     /**
-     * Returns the size of the compressed entry data.
+     * Returns the size of the compressed entry dbtb.
      *
-     * <p> In the case of a stored entry, the compressed size will be the same
-     * as the uncompressed size of the entry.
+     * <p> In the cbse of b stored entry, the compressed size will be the sbme
+     * bs the uncompressed size of the entry.
      *
-     * @return the size of the compressed entry data, or -1 if not known
+     * @return the size of the compressed entry dbtb, or -1 if not known
      * @see #setCompressedSize(long)
      */
     public long getCompressedSize() {
@@ -327,9 +327,9 @@ class ZipEntry implements ZipConstants, Cloneable {
     }
 
     /**
-     * Sets the size of the compressed entry data.
+     * Sets the size of the compressed entry dbtb.
      *
-     * @param csize the compressed size to set to
+     * @pbrbm csize the compressed size to set to
      *
      * @see #getCompressedSize()
      */
@@ -338,25 +338,25 @@ class ZipEntry implements ZipConstants, Cloneable {
     }
 
     /**
-     * Sets the CRC-32 checksum of the uncompressed entry data.
+     * Sets the CRC-32 checksum of the uncompressed entry dbtb.
      *
-     * @param crc the CRC-32 value
+     * @pbrbm crc the CRC-32 vblue
      *
-     * @throws IllegalArgumentException if the specified CRC-32 value is
-     *         less than 0 or greater than 0xFFFFFFFF
+     * @throws IllegblArgumentException if the specified CRC-32 vblue is
+     *         less thbn 0 or grebter thbn 0xFFFFFFFF
      * @see #getCrc()
      */
     public void setCrc(long crc) {
         if (crc < 0 || crc > 0xFFFFFFFFL) {
-            throw new IllegalArgumentException("invalid entry crc-32");
+            throw new IllegblArgumentException("invblid entry crc-32");
         }
         this.crc = crc;
     }
 
     /**
-     * Returns the CRC-32 checksum of the uncompressed entry data.
+     * Returns the CRC-32 checksum of the uncompressed entry dbtb.
      *
-     * @return the CRC-32 checksum of the uncompressed entry data, or -1 if
+     * @return the CRC-32 checksum of the uncompressed entry dbtb, or -1 if
      * not known
      *
      * @see #setCrc(long)
@@ -368,15 +368,15 @@ class ZipEntry implements ZipConstants, Cloneable {
     /**
      * Sets the compression method for the entry.
      *
-     * @param method the compression method, either STORED or DEFLATED
+     * @pbrbm method the compression method, either STORED or DEFLATED
      *
-     * @throws  IllegalArgumentException if the specified compression
-     *          method is invalid
+     * @throws  IllegblArgumentException if the specified compression
+     *          method is invblid
      * @see #getMethod()
      */
     public void setMethod(int method) {
         if (method != STORED && method != DEFLATED) {
-            throw new IllegalArgumentException("invalid compression method");
+            throw new IllegblArgumentException("invblid compression method");
         }
         this.method = method;
     }
@@ -392,119 +392,119 @@ class ZipEntry implements ZipConstants, Cloneable {
     }
 
     /**
-     * Sets the optional extra field data for the entry.
+     * Sets the optionbl extrb field dbtb for the entry.
      *
-     * <p> Invoking this method may change this entry's last modification
-     * time, last access time and creation time, if the {@code extra} field
-     * data includes the extensible timestamp fields, such as {@code NTFS tag
-     * 0x0001} or {@code Info-ZIP Extended Timestamp}, as specified in
-     * <a href="http://www.info-zip.org/doc/appnote-19970311-iz.zip">Info-ZIP
-     * Application Note 970311</a>.
+     * <p> Invoking this method mby chbnge this entry's lbst modificbtion
+     * time, lbst bccess time bnd crebtion time, if the {@code extrb} field
+     * dbtb includes the extensible timestbmp fields, such bs {@code NTFS tbg
+     * 0x0001} or {@code Info-ZIP Extended Timestbmp}, bs specified in
+     * <b href="http://www.info-zip.org/doc/bppnote-19970311-iz.zip">Info-ZIP
+     * Applicbtion Note 970311</b>.
      *
-     * @param  extra
-     *         The extra field data bytes
+     * @pbrbm  extrb
+     *         The extrb field dbtb bytes
      *
-     * @throws IllegalArgumentException if the length of the specified
-     *         extra field data is greater than 0xFFFF bytes
+     * @throws IllegblArgumentException if the length of the specified
+     *         extrb field dbtb is grebter thbn 0xFFFF bytes
      *
-     * @see #getExtra()
+     * @see #getExtrb()
      */
-    public void setExtra(byte[] extra) {
-        setExtra0(extra, false);
+    public void setExtrb(byte[] extrb) {
+        setExtrb0(extrb, fblse);
     }
 
     /**
-     * Sets the optional extra field data for the entry.
+     * Sets the optionbl extrb field dbtb for the entry.
      *
-     * @param extra
-     *        the extra field data bytes
-     * @param doZIP64
-     *        if true, set size and csize from ZIP64 fields if present
+     * @pbrbm extrb
+     *        the extrb field dbtb bytes
+     * @pbrbm doZIP64
+     *        if true, set size bnd csize from ZIP64 fields if present
      */
-    void setExtra0(byte[] extra, boolean doZIP64) {
-        if (extra != null) {
-            if (extra.length > 0xFFFF) {
-                throw new IllegalArgumentException("invalid extra field length");
+    void setExtrb0(byte[] extrb, boolebn doZIP64) {
+        if (extrb != null) {
+            if (extrb.length > 0xFFFF) {
+                throw new IllegblArgumentException("invblid extrb field length");
             }
-            // extra fields are in "HeaderID(2)DataSize(2)Data... format
+            // extrb fields bre in "HebderID(2)DbtbSize(2)Dbtb... formbt
             int off = 0;
-            int len = extra.length;
+            int len = extrb.length;
             while (off + 4 < len) {
-                int tag = get16(extra, off);
-                int sz = get16(extra, off + 2);
+                int tbg = get16(extrb, off);
+                int sz = get16(extrb, off + 2);
                 off += 4;
-                if (off + sz > len)         // invalid data
-                    break;
-                switch (tag) {
-                case EXTID_ZIP64:
+                if (off + sz > len)         // invblid dbtb
+                    brebk;
+                switch (tbg) {
+                cbse EXTID_ZIP64:
                     if (doZIP64) {
-                        // LOC extra zip64 entry MUST include BOTH original
-                        // and compressed file size fields.
-                        // If invalid zip64 extra fields, simply skip. Even
-                        // it's rare, it's possible the entry size happens to
-                        // be the magic value and it "accidently" has some
-                        // bytes in extra match the id.
+                        // LOC extrb zip64 entry MUST include BOTH originbl
+                        // bnd compressed file size fields.
+                        // If invblid zip64 extrb fields, simply skip. Even
+                        // it's rbre, it's possible the entry size hbppens to
+                        // be the mbgic vblue bnd it "bccidently" hbs some
+                        // bytes in extrb mbtch the id.
                         if (sz >= 16) {
-                            size = get64(extra, off);
-                            csize = get64(extra, off + 8);
+                            size = get64(extrb, off);
+                            csize = get64(extrb, off + 8);
                         }
                     }
-                    break;
-                case EXTID_NTFS:
+                    brebk;
+                cbse EXTID_NTFS:
                     int pos = off + 4;               // reserved 4 bytes
-                    if (get16(extra, pos) !=  0x0001 || get16(extra, pos + 2) != 24)
-                        break;
-                    mtime = winTimeToFileTime(get64(extra, pos + 4));
-                    atime = winTimeToFileTime(get64(extra, pos + 12));
-                    ctime = winTimeToFileTime(get64(extra, pos + 20));
-                    break;
-                case EXTID_EXTT:
-                    int flag = Byte.toUnsignedInt(extra[off]);
+                    if (get16(extrb, pos) !=  0x0001 || get16(extrb, pos + 2) != 24)
+                        brebk;
+                    mtime = winTimeToFileTime(get64(extrb, pos + 4));
+                    btime = winTimeToFileTime(get64(extrb, pos + 12));
+                    ctime = winTimeToFileTime(get64(extrb, pos + 20));
+                    brebk;
+                cbse EXTID_EXTT:
+                    int flbg = Byte.toUnsignedInt(extrb[off]);
                     int sz0 = 1;
-                    // The CEN-header extra field contains the modification
-                    // time only, or no timestamp at all. 'sz' is used to
-                    // flag its presence or absence. But if mtime is present
-                    // in LOC it must be present in CEN as well.
-                    if ((flag & 0x1) != 0 && (sz0 + 4) <= sz) {
-                        mtime = unixTimeToFileTime(get32(extra, off + sz0));
+                    // The CEN-hebder extrb field contbins the modificbtion
+                    // time only, or no timestbmp bt bll. 'sz' is used to
+                    // flbg its presence or bbsence. But if mtime is present
+                    // in LOC it must be present in CEN bs well.
+                    if ((flbg & 0x1) != 0 && (sz0 + 4) <= sz) {
+                        mtime = unixTimeToFileTime(get32(extrb, off + sz0));
                         sz0 += 4;
                     }
-                    if ((flag & 0x2) != 0 && (sz0 + 4) <= sz) {
-                        atime = unixTimeToFileTime(get32(extra, off + sz0));
+                    if ((flbg & 0x2) != 0 && (sz0 + 4) <= sz) {
+                        btime = unixTimeToFileTime(get32(extrb, off + sz0));
                         sz0 += 4;
                     }
-                    if ((flag & 0x4) != 0 && (sz0 + 4) <= sz) {
-                        ctime = unixTimeToFileTime(get32(extra, off + sz0));
+                    if ((flbg & 0x4) != 0 && (sz0 + 4) <= sz) {
+                        ctime = unixTimeToFileTime(get32(extrb, off + sz0));
                         sz0 += 4;
                     }
-                    break;
-                 default:
+                    brebk;
+                 defbult:
                 }
                 off += sz;
             }
         }
-        this.extra = extra;
+        this.extrb = extrb;
     }
 
     /**
-     * Returns the extra field data for the entry.
+     * Returns the extrb field dbtb for the entry.
      *
-     * @return the extra field data for the entry, or null if none
+     * @return the extrb field dbtb for the entry, or null if none
      *
-     * @see #setExtra(byte[])
+     * @see #setExtrb(byte[])
      */
-    public byte[] getExtra() {
-        return extra;
+    public byte[] getExtrb() {
+        return extrb;
     }
 
     /**
-     * Sets the optional comment string for the entry.
+     * Sets the optionbl comment string for the entry.
      *
-     * <p>ZIP entry comments have maximum length of 0xffff. If the length of the
-     * specified comment string is greater than 0xFFFF bytes after encoding, only
-     * the first 0xFFFF bytes are output to the ZIP file entry.
+     * <p>ZIP entry comments hbve mbximum length of 0xffff. If the length of the
+     * specified comment string is grebter thbn 0xFFFF bytes bfter encoding, only
+     * the first 0xFFFF bytes bre output to the ZIP file entry.
      *
-     * @param comment the comment string
+     * @pbrbm comment the comment string
      *
      * @see #getComment()
      */
@@ -524,39 +524,39 @@ class ZipEntry implements ZipConstants, Cloneable {
     }
 
     /**
-     * Returns true if this is a directory entry. A directory entry is
-     * defined to be one whose name ends with a '/'.
-     * @return true if this is a directory entry
+     * Returns true if this is b directory entry. A directory entry is
+     * defined to be one whose nbme ends with b '/'.
+     * @return true if this is b directory entry
      */
-    public boolean isDirectory() {
-        return name.endsWith("/");
+    public boolebn isDirectory() {
+        return nbme.endsWith("/");
     }
 
     /**
-     * Returns a string representation of the ZIP entry.
+     * Returns b string representbtion of the ZIP entry.
      */
     public String toString() {
-        return getName();
+        return getNbme();
     }
 
     /**
-     * Returns the hash code value for this entry.
+     * Returns the hbsh code vblue for this entry.
      */
-    public int hashCode() {
-        return name.hashCode();
+    public int hbshCode() {
+        return nbme.hbshCode();
     }
 
     /**
-     * Returns a copy of this entry.
+     * Returns b copy of this entry.
      */
     public Object clone() {
         try {
             ZipEntry e = (ZipEntry)super.clone();
-            e.extra = (extra == null) ? null : extra.clone();
+            e.extrb = (extrb == null) ? null : extrb.clone();
             return e;
-        } catch (CloneNotSupportedException e) {
-            // This should never happen, since we are Cloneable
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            // This should never hbppen, since we bre Clonebble
+            throw new InternblError(e);
         }
     }
 }

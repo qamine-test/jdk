@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import jbvb.io.IOException;
+import jbvb.nio.chbrset.StbndbrdChbrsets;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.Mbp;
 
-import javax.net.ssl.SNIHostName;
-import javax.net.ssl.SNIMatcher;
-import javax.net.ssl.SNIServerName;
-import javax.net.ssl.SSLProtocolException;
-import javax.net.ssl.StandardConstants;
+import jbvbx.net.ssl.SNIHostNbme;
+import jbvbx.net.ssl.SNIMbtcher;
+import jbvbx.net.ssl.SNIServerNbme;
+import jbvbx.net.ssl.SSLProtocolException;
+import jbvbx.net.ssl.StbndbrdConstbnts;
 
 /*
- * [RFC 4366/6066] To facilitate secure connections to servers that host
- * multiple 'virtual' servers at a single underlying network address, clients
- * MAY include an extension of type "server_name" in the (extended) client
- * hello.  The "extension_data" field of this extension SHALL contain
- * "ServerNameList" where:
+ * [RFC 4366/6066] To fbcilitbte secure connections to servers thbt host
+ * multiple 'virtubl' servers bt b single underlying network bddress, clients
+ * MAY include bn extension of type "server_nbme" in the (extended) client
+ * hello.  The "extension_dbtb" field of this extension SHALL contbin
+ * "ServerNbmeList" where:
  *
  *     struct {
- *         NameType name_type;
- *         select (name_type) {
- *             case host_name: HostName;
- *         } name;
- *     } ServerName;
+ *         NbmeType nbme_type;
+ *         select (nbme_type) {
+ *             cbse host_nbme: HostNbme;
+ *         } nbme;
+ *     } ServerNbme;
  *
  *     enum {
- *         host_name(0), (255)
- *     } NameType;
+ *         host_nbme(0), (255)
+ *     } NbmeType;
  *
- *     opaque HostName<1..2^16-1>;
+ *     opbque HostNbme<1..2^16-1>;
  *
  *     struct {
- *         ServerName server_name_list<1..2^16-1>
- *     } ServerNameList;
+ *         ServerNbme server_nbme_list<1..2^16-1>
+ *     } ServerNbmeList;
  */
-final class ServerNameExtension extends HelloExtension {
+finbl clbss ServerNbmeExtension extends HelloExtension {
 
-    // For backward compatibility, all future data structures associated with
-    // new NameTypes MUST begin with a 16-bit length field.
-    final static int NAME_HEADER_LENGTH = 3;    // NameType: 1 byte
-                                                // Name length: 2 bytes
-    private Map<Integer, SNIServerName> sniMap;
-    private int listLength;     // ServerNameList length
+    // For bbckwbrd compbtibility, bll future dbtb structures bssocibted with
+    // new NbmeTypes MUST begin with b 16-bit length field.
+    finbl stbtic int NAME_HEADER_LENGTH = 3;    // NbmeType: 1 byte
+                                                // Nbme length: 2 bytes
+    privbte Mbp<Integer, SNIServerNbme> sniMbp;
+    privbte int listLength;     // ServerNbmeList length
 
     // constructor for ServerHello
-    ServerNameExtension() throws IOException {
+    ServerNbmeExtension() throws IOException {
         super(ExtensionType.EXT_SERVER_NAME);
 
         listLength = 0;
-        sniMap = Collections.<Integer, SNIServerName>emptyMap();
+        sniMbp = Collections.<Integer, SNIServerNbme>emptyMbp();
     }
 
     // constructor for ClientHello
-    ServerNameExtension(List<SNIServerName> serverNames)
+    ServerNbmeExtension(List<SNIServerNbme> serverNbmes)
             throws IOException {
         super(ExtensionType.EXT_SERVER_NAME);
 
         listLength = 0;
-        sniMap = new LinkedHashMap<>();
-        for (SNIServerName serverName : serverNames) {
-            // check for duplicated server name type
-            if (sniMap.put(serverName.getType(), serverName) != null) {
-                // unlikely to happen, but in case ...
+        sniMbp = new LinkedHbshMbp<>();
+        for (SNIServerNbme serverNbme : serverNbmes) {
+            // check for duplicbted server nbme type
+            if (sniMbp.put(serverNbme.getType(), serverNbme) != null) {
+                // unlikely to hbppen, but in cbse ...
                 throw new RuntimeException(
-                    "Duplicated server name of type " + serverName.getType());
+                    "Duplicbted server nbme of type " + serverNbme.getType());
             }
 
-            listLength += serverName.getEncoded().length + NAME_HEADER_LENGTH;
+            listLength += serverNbme.getEncoded().length + NAME_HEADER_LENGTH;
         }
 
         // This constructor is used for ClientHello only.  Empty list is
-        // not allowed in client mode.
+        // not bllowed in client mode.
         if (listLength == 0) {
-            throw new RuntimeException("The ServerNameList cannot be empty");
+            throw new RuntimeException("The ServerNbmeList cbnnot be empty");
         }
     }
 
-    // constructor for ServerHello for parsing SNI extension
-    ServerNameExtension(HandshakeInStream s, int len)
+    // constructor for ServerHello for pbrsing SNI extension
+    ServerNbmeExtension(HbndshbkeInStrebm s, int len)
             throws IOException {
         super(ExtensionType.EXT_SERVER_NAME);
 
-        int remains = len;
-        if (len >= 2) {    // "server_name" extension in ClientHello
-            listLength = s.getInt16();     // ServerNameList length
+        int rembins = len;
+        if (len >= 2) {    // "server_nbme" extension in ClientHello
+            listLength = s.getInt16();     // ServerNbmeList length
             if (listLength == 0 || listLength + 2 != len) {
                 throw new SSLProtocolException(
-                        "Invalid " + type + " extension");
+                        "Invblid " + type + " extension");
             }
 
-            remains -= 2;
-            sniMap = new LinkedHashMap<>();
-            while (remains > 0) {
-                int code = s.getInt8();       // NameType
+            rembins -= 2;
+            sniMbp = new LinkedHbshMbp<>();
+            while (rembins > 0) {
+                int code = s.getInt8();       // NbmeType
 
-                // HostName (length read in getBytes16);
+                // HostNbme (length rebd in getBytes16);
                 byte[] encoded = s.getBytes16();
-                SNIServerName serverName;
+                SNIServerNbme serverNbme;
                 switch (code) {
-                    case StandardConstants.SNI_HOST_NAME:
+                    cbse StbndbrdConstbnts.SNI_HOST_NAME:
                         if (encoded.length == 0) {
                             throw new SSLProtocolException(
-                                "Empty HostName in server name indication");
+                                "Empty HostNbme in server nbme indicbtion");
                         }
                         try {
-                            serverName = new SNIHostName(encoded);
-                        } catch (IllegalArgumentException iae) {
+                            serverNbme = new SNIHostNbme(encoded);
+                        } cbtch (IllegblArgumentException ibe) {
                             SSLProtocolException spe = new SSLProtocolException(
-                                "Illegal server name, type=host_name(" +
-                                code + "), name=" +
-                                (new String(encoded, StandardCharsets.UTF_8)) +
-                                ", value=" + Debug.toString(encoded));
-                            spe.initCause(iae);
+                                "Illegbl server nbme, type=host_nbme(" +
+                                code + "), nbme=" +
+                                (new String(encoded, StbndbrdChbrsets.UTF_8)) +
+                                ", vblue=" + Debug.toString(encoded));
+                            spe.initCbuse(ibe);
                             throw spe;
                         }
-                        break;
-                    default:
+                        brebk;
+                    defbult:
                         try {
-                            serverName = new UnknownServerName(code, encoded);
-                        } catch (IllegalArgumentException iae) {
+                            serverNbme = new UnknownServerNbme(code, encoded);
+                        } cbtch (IllegblArgumentException ibe) {
                             SSLProtocolException spe = new SSLProtocolException(
-                                "Illegal server name, type=(" + code +
-                                "), value=" + Debug.toString(encoded));
-                            spe.initCause(iae);
+                                "Illegbl server nbme, type=(" + code +
+                                "), vblue=" + Debug.toString(encoded));
+                            spe.initCbuse(ibe);
                             throw spe;
                         }
                 }
-                // check for duplicated server name type
-                if (sniMap.put(serverName.getType(), serverName) != null) {
+                // check for duplicbted server nbme type
+                if (sniMbp.put(serverNbme.getType(), serverNbme) != null) {
                     throw new SSLProtocolException(
-                            "Duplicated server name of type " +
-                            serverName.getType());
+                            "Duplicbted server nbme of type " +
+                            serverNbme.getType());
                 }
 
-                remains -= encoded.length + NAME_HEADER_LENGTH;
+                rembins -= encoded.length + NAME_HEADER_LENGTH;
             }
-        } else if (len == 0) {     // "server_name" extension in ServerHello
+        } else if (len == 0) {     // "server_nbme" extension in ServerHello
             listLength = 0;
-            sniMap = Collections.<Integer, SNIServerName>emptyMap();
+            sniMbp = Collections.<Integer, SNIServerNbme>emptyMbp();
         }
 
-        if (remains != 0) {
-            throw new SSLProtocolException("Invalid server_name extension");
+        if (rembins != 0) {
+            throw new SSLProtocolException("Invblid server_nbme extension");
         }
     }
 
-    List<SNIServerName> getServerNames() {
-        if (sniMap != null && !sniMap.isEmpty()) {
-            return Collections.<SNIServerName>unmodifiableList(
-                                        new ArrayList<>(sniMap.values()));
+    List<SNIServerNbme> getServerNbmes() {
+        if (sniMbp != null && !sniMbp.isEmpty()) {
+            return Collections.<SNIServerNbme>unmodifibbleList(
+                                        new ArrbyList<>(sniMbp.vblues()));
         }
 
-        return Collections.<SNIServerName>emptyList();
+        return Collections.<SNIServerNbme>emptyList();
     }
 
     /*
-     * Is the extension recognized by the corresponding matcher?
+     * Is the extension recognized by the corresponding mbtcher?
      *
-     * This method is used to check whether the server name indication can
-     * be recognized by the server name matchers.
+     * This method is used to check whether the server nbme indicbtion cbn
+     * be recognized by the server nbme mbtchers.
      *
      * Per RFC 6066, if the server understood the ClientHello extension but
-     * does not recognize the server name, the server SHOULD take one of two
-     * actions: either abort the handshake by sending a fatal-level
-     * unrecognized_name(112) alert or continue the handshake.
+     * does not recognize the server nbme, the server SHOULD tbke one of two
+     * bctions: either bbort the hbndshbke by sending b fbtbl-level
+     * unrecognized_nbme(112) blert or continue the hbndshbke.
      *
-     * If there is an instance of SNIMatcher defined for a particular name
-     * type, it must be used to perform match operations on the server name.
+     * If there is bn instbnce of SNIMbtcher defined for b pbrticulbr nbme
+     * type, it must be used to perform mbtch operbtions on the server nbme.
      */
-    boolean isMatched(Collection<SNIMatcher> matchers) {
-        if (sniMap != null && !sniMap.isEmpty()) {
-            for (SNIMatcher matcher : matchers) {
-                SNIServerName sniName = sniMap.get(matcher.getType());
-                if (sniName != null && (!matcher.matches(sniName))) {
-                    return false;
+    boolebn isMbtched(Collection<SNIMbtcher> mbtchers) {
+        if (sniMbp != null && !sniMbp.isEmpty()) {
+            for (SNIMbtcher mbtcher : mbtchers) {
+                SNIServerNbme sniNbme = sniMbp.get(mbtcher.getType());
+                if (sniNbme != null && (!mbtcher.mbtches(sniNbme))) {
+                    return fblse;
                 }
             }
         }
@@ -212,35 +212,35 @@ final class ServerNameExtension extends HelloExtension {
     }
 
     /*
-     * Is the extension is identical to a server name list?
+     * Is the extension is identicbl to b server nbme list?
      *
-     * This method is used to check the server name indication during session
+     * This method is used to check the server nbme indicbtion during session
      * resumption.
      *
-     * Per RFC 6066, when the server is deciding whether or not to accept a
-     * request to resume a session, the contents of a server_name extension
-     * MAY be used in the lookup of the session in the session cache.  The
-     * client SHOULD include the same server_name extension in the session
-     * resumption request as it did in the full handshake that established
-     * the session.  A server that implements this extension MUST NOT accept
-     * the request to resume the session if the server_name extension contains
-     * a different name.  Instead, it proceeds with a full handshake to
-     * establish a new session.  When resuming a session, the server MUST NOT
-     * include a server_name extension in the server hello.
+     * Per RFC 6066, when the server is deciding whether or not to bccept b
+     * request to resume b session, the contents of b server_nbme extension
+     * MAY be used in the lookup of the session in the session cbche.  The
+     * client SHOULD include the sbme server_nbme extension in the session
+     * resumption request bs it did in the full hbndshbke thbt estbblished
+     * the session.  A server thbt implements this extension MUST NOT bccept
+     * the request to resume the session if the server_nbme extension contbins
+     * b different nbme.  Instebd, it proceeds with b full hbndshbke to
+     * estbblish b new session.  When resuming b session, the server MUST NOT
+     * include b server_nbme extension in the server hello.
      */
-    boolean isIdentical(List<SNIServerName> other) {
-        if (other.size() == sniMap.size()) {
-            for(SNIServerName sniInOther : other) {
-                SNIServerName sniName = sniMap.get(sniInOther.getType());
-                if (sniName == null || !sniInOther.equals(sniName)) {
-                    return false;
+    boolebn isIdenticbl(List<SNIServerNbme> other) {
+        if (other.size() == sniMbp.size()) {
+            for(SNIServerNbme sniInOther : other) {
+                SNIServerNbme sniNbme = sniMbp.get(sniInOther.getType());
+                if (sniNbme == null || !sniInOther.equbls(sniNbme)) {
+                    return fblse;
                 }
             }
 
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
     @Override
@@ -249,17 +249,17 @@ final class ServerNameExtension extends HelloExtension {
     }
 
     @Override
-    void send(HandshakeOutStream s) throws IOException {
+    void send(HbndshbkeOutStrebm s) throws IOException {
         s.putInt16(type.id);
         if (listLength == 0) {
-            s.putInt16(listLength);     // in ServerHello, empty extension_data
+            s.putInt16(listLength);     // in ServerHello, empty extension_dbtb
         } else {
-            s.putInt16(listLength + 2); // length of extension_data
-            s.putInt16(listLength);     // length of ServerNameList
+            s.putInt16(listLength + 2); // length of extension_dbtb
+            s.putInt16(listLength);     // length of ServerNbmeList
 
-            for (SNIServerName sniName : sniMap.values()) {
-                s.putInt8(sniName.getType());         // server name type
-                s.putBytes16(sniName.getEncoded());   // server name value
+            for (SNIServerNbme sniNbme : sniMbp.vblues()) {
+                s.putInt8(sniNbme.getType());         // server nbme type
+                s.putBytes16(sniNbme.getEncoded());   // server nbme vblue
             }
         }
     }
@@ -267,15 +267,15 @@ final class ServerNameExtension extends HelloExtension {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (SNIServerName sniName : sniMap.values()) {
-            sb.append("[" + sniName + "]");
+        for (SNIServerNbme sniNbme : sniMbp.vblues()) {
+            sb.bppend("[" + sniNbme + "]");
         }
 
-        return "Extension " + type + ", server_name: " + sb;
+        return "Extension " + type + ", server_nbme: " + sb;
     }
 
-    private static class UnknownServerName extends SNIServerName {
-        UnknownServerName(int code, byte[] encoded) {
+    privbte stbtic clbss UnknownServerNbme extends SNIServerNbme {
+        UnknownServerNbme(int code, byte[] encoded) {
             super(code, encoded);
         }
     }

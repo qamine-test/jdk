@@ -1,510 +1,510 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.dnd.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.File;
-import java.net.URI;
-import java.text.DateFormat;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.dbtbtrbnsfer.*;
+import jbvb.bwt.dnd.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.io.File;
+import jbvb.net.URI;
+import jbvb.text.DbteFormbt;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.*;
-import javax.swing.filechooser.*;
-import javax.swing.plaf.*;
-import javax.swing.table.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.event.*;
+import jbvbx.swing.filechooser.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tbble.*;
 
 import sun.swing.SwingUtilities2;
 
-public class AquaFileChooserUI extends FileChooserUI {
+public clbss AqubFileChooserUI extends FileChooserUI {
     /* FileView icons */
     protected Icon directoryIcon = null;
     protected Icon fileIcon = null;
     protected Icon computerIcon = null;
-    protected Icon hardDriveIcon = null;
+    protected Icon hbrdDriveIcon = null;
     protected Icon floppyDriveIcon = null;
 
     protected Icon upFolderIcon = null;
     protected Icon homeFolderIcon = null;
     protected Icon listViewIcon = null;
-    protected Icon detailsViewIcon = null;
+    protected Icon detbilsViewIcon = null;
 
-    protected int saveButtonMnemonic = 0;
+    protected int sbveButtonMnemonic = 0;
     protected int openButtonMnemonic = 0;
-    protected int cancelButtonMnemonic = 0;
-    protected int updateButtonMnemonic = 0;
+    protected int cbncelButtonMnemonic = 0;
+    protected int updbteButtonMnemonic = 0;
     protected int helpButtonMnemonic = 0;
     protected int chooseButtonMnemonic = 0;
 
-    private String saveTitleText = null;
-    private String openTitleText = null;
+    privbte String sbveTitleText = null;
+    privbte String openTitleText = null;
     String newFolderTitleText = null;
 
-    protected String saveButtonText = null;
+    protected String sbveButtonText = null;
     protected String openButtonText = null;
-    protected String cancelButtonText = null;
-    protected String updateButtonText = null;
+    protected String cbncelButtonText = null;
+    protected String updbteButtonText = null;
     protected String helpButtonText = null;
     protected String newFolderButtonText = null;
     protected String chooseButtonText = null;
 
-    //private String newFolderErrorSeparator = null;
+    //privbte String newFolderErrorSepbrbtor = null;
     String newFolderErrorText = null;
     String newFolderExistsErrorText = null;
     protected String fileDescriptionText = null;
     protected String directoryDescriptionText = null;
 
-    protected String saveButtonToolTipText = null;
+    protected String sbveButtonToolTipText = null;
     protected String openButtonToolTipText = null;
-    protected String cancelButtonToolTipText = null;
-    protected String updateButtonToolTipText = null;
+    protected String cbncelButtonToolTipText = null;
+    protected String updbteButtonToolTipText = null;
     protected String helpButtonToolTipText = null;
-    protected String chooseItemButtonToolTipText = null; // Choose anything
+    protected String chooseItemButtonToolTipText = null; // Choose bnything
     protected String chooseFolderButtonToolTipText = null; // Choose folder
     protected String directoryComboBoxToolTipText = null;
-    protected String filenameTextFieldToolTipText = null;
+    protected String filenbmeTextFieldToolTipText = null;
     protected String filterComboBoxToolTipText = null;
     protected String openDirectoryButtonToolTipText = null;
 
-    protected String cancelOpenButtonToolTipText = null;
-    protected String cancelSaveButtonToolTipText = null;
-    protected String cancelChooseButtonToolTipText = null;
-    protected String cancelNewFolderButtonToolTipText = null;
+    protected String cbncelOpenButtonToolTipText = null;
+    protected String cbncelSbveButtonToolTipText = null;
+    protected String cbncelChooseButtonToolTipText = null;
+    protected String cbncelNewFolderButtonToolTipText = null;
 
-    protected String desktopName = null;
-    String newFolderDialogPrompt = null;
-    String newFolderDefaultName = null;
-    private String newFileDefaultName = null;
-    String createButtonText = null;
+    protected String desktopNbme = null;
+    String newFolderDiblogPrompt = null;
+    String newFolderDefbultNbme = null;
+    privbte String newFileDefbultNbme = null;
+    String crebteButtonText = null;
 
     JFileChooser filechooser = null;
 
-    private MouseListener doubleClickListener = null;
-    private PropertyChangeListener propertyChangeListener = null;
-    private AncestorListener ancestorListener = null;
-    private DropTarget dragAndDropTarget = null;
+    privbte MouseListener doubleClickListener = null;
+    privbte PropertyChbngeListener propertyChbngeListener = null;
+    privbte AncestorListener bncestorListener = null;
+    privbte DropTbrget drbgAndDropTbrget = null;
 
-    private final AcceptAllFileFilter acceptAllFileFilter = new AcceptAllFileFilter();
+    privbte finbl AcceptAllFileFilter bcceptAllFileFilter = new AcceptAllFileFilter();
 
-    private AquaFileSystemModel model;
+    privbte AqubFileSystemModel model;
 
-    final AquaFileView fileView = new AquaFileView(this);
+    finbl AqubFileView fileView = new AqubFileView(this);
 
-    boolean selectionInProgress = false;
+    boolebn selectionInProgress = fblse;
 
-    // The accessoryPanel is a container to place the JFileChooser accessory component
-    private JPanel accessoryPanel = null;
+    // The bccessoryPbnel is b contbiner to plbce the JFileChooser bccessory component
+    privbte JPbnel bccessoryPbnel = null;
 
     //
-    // ComponentUI Interface Implementation methods
+    // ComponentUI Interfbce Implementbtion methods
     //
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaFileChooserUI((JFileChooser)c);
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubFileChooserUI((JFileChooser)c);
     }
 
-    public AquaFileChooserUI(final JFileChooser filechooser) {
+    public AqubFileChooserUI(finbl JFileChooser filechooser) {
         super();
     }
 
-    public void installUI(final JComponent c) {
-        accessoryPanel = new JPanel(new BorderLayout());
+    public void instbllUI(finbl JComponent c) {
+        bccessoryPbnel = new JPbnel(new BorderLbyout());
         filechooser = (JFileChooser)c;
 
-        createModel();
+        crebteModel();
 
-        installDefaults(filechooser);
-        installComponents(filechooser);
-        installListeners(filechooser);
+        instbllDefbults(filechooser);
+        instbllComponents(filechooser);
+        instbllListeners(filechooser);
 
-        AquaUtils.enforceComponentOrientation(filechooser, ComponentOrientation.getOrientation(Locale.getDefault()));
+        AqubUtils.enforceComponentOrientbtion(filechooser, ComponentOrientbtion.getOrientbtion(Locble.getDefbult()));
     }
 
-    public void uninstallUI(final JComponent c) {
-        uninstallListeners(filechooser);
-        uninstallComponents(filechooser);
-        uninstallDefaults(filechooser);
+    public void uninstbllUI(finbl JComponent c) {
+        uninstbllListeners(filechooser);
+        uninstbllComponents(filechooser);
+        uninstbllDefbults(filechooser);
 
-        if (accessoryPanel != null) {
-            accessoryPanel.removeAll();
+        if (bccessoryPbnel != null) {
+            bccessoryPbnel.removeAll();
         }
 
-        accessoryPanel = null;
+        bccessoryPbnel = null;
         getFileChooser().removeAll();
     }
 
-    protected void installListeners(final JFileChooser fc) {
-        doubleClickListener = createDoubleClickListener(fc, fFileList);
-        fFileList.addMouseListener(doubleClickListener);
+    protected void instbllListeners(finbl JFileChooser fc) {
+        doubleClickListener = crebteDoubleClickListener(fc, fFileList);
+        fFileList.bddMouseListener(doubleClickListener);
 
-        propertyChangeListener = createPropertyChangeListener(fc);
-        if (propertyChangeListener != null) {
-            fc.addPropertyChangeListener(propertyChangeListener);
+        propertyChbngeListener = crebtePropertyChbngeListener(fc);
+        if (propertyChbngeListener != null) {
+            fc.bddPropertyChbngeListener(propertyChbngeListener);
         }
-        if (model != null) fc.addPropertyChangeListener(model);
+        if (model != null) fc.bddPropertyChbngeListener(model);
 
-        ancestorListener = new AncestorListener(){
-            public void ancestorAdded(final AncestorEvent e) {
-                // Request defaultness for the appropriate button based on mode
+        bncestorListener = new AncestorListener(){
+            public void bncestorAdded(finbl AncestorEvent e) {
+                // Request defbultness for the bppropribte button bbsed on mode
                 setFocusForMode(getFileChooser());
-                // Request defaultness for the appropriate button based on mode
-                setDefaultButtonForMode(getFileChooser());
+                // Request defbultness for the bppropribte button bbsed on mode
+                setDefbultButtonForMode(getFileChooser());
             }
 
-            public void ancestorRemoved(final AncestorEvent e) {
+            public void bncestorRemoved(finbl AncestorEvent e) {
             }
 
-            public void ancestorMoved(final AncestorEvent e) {
+            public void bncestorMoved(finbl AncestorEvent e) {
             }
         };
-        fc.addAncestorListener(ancestorListener);
+        fc.bddAncestorListener(bncestorListener);
 
-        fc.registerKeyboardAction(new CancelSelectionAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        dragAndDropTarget = new DropTarget(fc, DnDConstants.ACTION_COPY, new DnDHandler(), true);
-        fc.setDropTarget(dragAndDropTarget);
+        fc.registerKeybobrdAction(new CbncelSelectionAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        drbgAndDropTbrget = new DropTbrget(fc, DnDConstbnts.ACTION_COPY, new DnDHbndler(), true);
+        fc.setDropTbrget(drbgAndDropTbrget);
     }
 
-    protected void uninstallListeners(final JFileChooser fc) {
-        if (propertyChangeListener != null) {
-            fc.removePropertyChangeListener(propertyChangeListener);
+    protected void uninstbllListeners(finbl JFileChooser fc) {
+        if (propertyChbngeListener != null) {
+            fc.removePropertyChbngeListener(propertyChbngeListener);
         }
         fFileList.removeMouseListener(doubleClickListener);
-        fc.removePropertyChangeListener(model);
-        fc.unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
-        fc.removeAncestorListener(ancestorListener);
-        fc.setDropTarget(null);
-        ancestorListener = null;
+        fc.removePropertyChbngeListener(model);
+        fc.unregisterKeybobrdAction(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+        fc.removeAncestorListener(bncestorListener);
+        fc.setDropTbrget(null);
+        bncestorListener = null;
     }
 
-    protected void installDefaults(final JFileChooser fc) {
-        installIcons(fc);
-        installStrings(fc);
-        setPackageIsTraversable(fc.getClientProperty(PACKAGE_TRAVERSABLE_PROPERTY));
-        setApplicationIsTraversable(fc.getClientProperty(APPLICATION_TRAVERSABLE_PROPERTY));
+    protected void instbllDefbults(finbl JFileChooser fc) {
+        instbllIcons(fc);
+        instbllStrings(fc);
+        setPbckbgeIsTrbversbble(fc.getClientProperty(PACKAGE_TRAVERSABLE_PROPERTY));
+        setApplicbtionIsTrbversbble(fc.getClientProperty(APPLICATION_TRAVERSABLE_PROPERTY));
     }
 
-    protected void installIcons(final JFileChooser fc) {
-        directoryIcon = UIManager.getIcon("FileView.directoryIcon");
-        fileIcon = UIManager.getIcon("FileView.fileIcon");
-        computerIcon = UIManager.getIcon("FileView.computerIcon");
-        hardDriveIcon = UIManager.getIcon("FileView.hardDriveIcon");
+    protected void instbllIcons(finbl JFileChooser fc) {
+        directoryIcon = UIMbnbger.getIcon("FileView.directoryIcon");
+        fileIcon = UIMbnbger.getIcon("FileView.fileIcon");
+        computerIcon = UIMbnbger.getIcon("FileView.computerIcon");
+        hbrdDriveIcon = UIMbnbger.getIcon("FileView.hbrdDriveIcon");
     }
 
-    String getString(final String uiKey, final String fallback) {
-        final String result = UIManager.getString(uiKey);
-        return (result == null ? fallback : result);
+    String getString(finbl String uiKey, finbl String fbllbbck) {
+        finbl String result = UIMbnbger.getString(uiKey);
+        return (result == null ? fbllbbck : result);
     }
 
-    protected void installStrings(final JFileChooser fc) {
-        // Exist in basic.properties (though we might want to override)
-        fileDescriptionText = UIManager.getString("FileChooser.fileDescriptionText");
-        directoryDescriptionText = UIManager.getString("FileChooser.directoryDescriptionText");
-        newFolderErrorText = getString("FileChooser.newFolderErrorText", "Error occurred during folder creation");
+    protected void instbllStrings(finbl JFileChooser fc) {
+        // Exist in bbsic.properties (though we might wbnt to override)
+        fileDescriptionText = UIMbnbger.getString("FileChooser.fileDescriptionText");
+        directoryDescriptionText = UIMbnbger.getString("FileChooser.directoryDescriptionText");
+        newFolderErrorText = getString("FileChooser.newFolderErrorText", "Error occurred during folder crebtion");
 
-        saveButtonText = UIManager.getString("FileChooser.saveButtonText");
-        openButtonText = UIManager.getString("FileChooser.openButtonText");
-        cancelButtonText = UIManager.getString("FileChooser.cancelButtonText");
-        updateButtonText = UIManager.getString("FileChooser.updateButtonText");
-        helpButtonText = UIManager.getString("FileChooser.helpButtonText");
+        sbveButtonText = UIMbnbger.getString("FileChooser.sbveButtonText");
+        openButtonText = UIMbnbger.getString("FileChooser.openButtonText");
+        cbncelButtonText = UIMbnbger.getString("FileChooser.cbncelButtonText");
+        updbteButtonText = UIMbnbger.getString("FileChooser.updbteButtonText");
+        helpButtonText = UIMbnbger.getString("FileChooser.helpButtonText");
 
-        saveButtonMnemonic = UIManager.getInt("FileChooser.saveButtonMnemonic");
-        openButtonMnemonic = UIManager.getInt("FileChooser.openButtonMnemonic");
-        cancelButtonMnemonic = UIManager.getInt("FileChooser.cancelButtonMnemonic");
-        updateButtonMnemonic = UIManager.getInt("FileChooser.updateButtonMnemonic");
-        helpButtonMnemonic = UIManager.getInt("FileChooser.helpButtonMnemonic");
-        chooseButtonMnemonic = UIManager.getInt("FileChooser.chooseButtonMnemonic");
+        sbveButtonMnemonic = UIMbnbger.getInt("FileChooser.sbveButtonMnemonic");
+        openButtonMnemonic = UIMbnbger.getInt("FileChooser.openButtonMnemonic");
+        cbncelButtonMnemonic = UIMbnbger.getInt("FileChooser.cbncelButtonMnemonic");
+        updbteButtonMnemonic = UIMbnbger.getInt("FileChooser.updbteButtonMnemonic");
+        helpButtonMnemonic = UIMbnbger.getInt("FileChooser.helpButtonMnemonic");
+        chooseButtonMnemonic = UIMbnbger.getInt("FileChooser.chooseButtonMnemonic");
 
-        saveButtonToolTipText = UIManager.getString("FileChooser.saveButtonToolTipText");
-        openButtonToolTipText = UIManager.getString("FileChooser.openButtonToolTipText");
-        cancelButtonToolTipText = UIManager.getString("FileChooser.cancelButtonToolTipText");
-        updateButtonToolTipText = UIManager.getString("FileChooser.updateButtonToolTipText");
-        helpButtonToolTipText = UIManager.getString("FileChooser.helpButtonToolTipText");
+        sbveButtonToolTipText = UIMbnbger.getString("FileChooser.sbveButtonToolTipText");
+        openButtonToolTipText = UIMbnbger.getString("FileChooser.openButtonToolTipText");
+        cbncelButtonToolTipText = UIMbnbger.getString("FileChooser.cbncelButtonToolTipText");
+        updbteButtonToolTipText = UIMbnbger.getString("FileChooser.updbteButtonToolTipText");
+        helpButtonToolTipText = UIMbnbger.getString("FileChooser.helpButtonToolTipText");
 
-        // Mac-specific, but fallback to basic if it's missing
-        saveTitleText = getString("FileChooser.saveTitleText", saveButtonText);
+        // Mbc-specific, but fbllbbck to bbsic if it's missing
+        sbveTitleText = getString("FileChooser.sbveTitleText", sbveButtonText);
         openTitleText = getString("FileChooser.openTitleText", openButtonText);
 
-        // Mac-specific, required
-        newFolderExistsErrorText = getString("FileChooser.newFolderExistsErrorText", "That name is already taken");
+        // Mbc-specific, required
+        newFolderExistsErrorText = getString("FileChooser.newFolderExistsErrorText", "Thbt nbme is blrebdy tbken");
         chooseButtonText = getString("FileChooser.chooseButtonText", "Choose");
         newFolderButtonText = getString("FileChooser.newFolderButtonText", "New");
         newFolderTitleText = getString("FileChooser.newFolderTitleText", "New Folder");
 
-        if (fc.getDialogType() == JFileChooser.SAVE_DIALOG) {
-            fileNameLabelText = getString("FileChooser.saveDialogFileNameLabelText", "Save As:");
+        if (fc.getDiblogType() == JFileChooser.SAVE_DIALOG) {
+            fileNbmeLbbelText = getString("FileChooser.sbveDiblogFileNbmeLbbelText", "Sbve As:");
         } else {
-            fileNameLabelText = getString("FileChooser.fileNameLabelText", "Name:");
+            fileNbmeLbbelText = getString("FileChooser.fileNbmeLbbelText", "Nbme:");
         }
 
-        filesOfTypeLabelText = getString("FileChooser.filesOfTypeLabelText", "Format:");
+        filesOfTypeLbbelText = getString("FileChooser.filesOfTypeLbbelText", "Formbt:");
 
-        desktopName = getString("FileChooser.desktopName", "Desktop");
-        newFolderDialogPrompt = getString("FileChooser.newFolderPromptText", "Name of new folder:");
-        newFolderDefaultName = getString("FileChooser.untitledFolderName", "untitled folder");
-        newFileDefaultName = getString("FileChooser.untitledFileName", "untitled");
-        createButtonText = getString("FileChooser.createButtonText", "Create");
+        desktopNbme = getString("FileChooser.desktopNbme", "Desktop");
+        newFolderDiblogPrompt = getString("FileChooser.newFolderPromptText", "Nbme of new folder:");
+        newFolderDefbultNbme = getString("FileChooser.untitledFolderNbme", "untitled folder");
+        newFileDefbultNbme = getString("FileChooser.untitledFileNbme", "untitled");
+        crebteButtonText = getString("FileChooser.crebteButtonText", "Crebte");
 
-        fColumnNames[1] = getString("FileChooser.byDateText", "Date Modified");
-        fColumnNames[0] = getString("FileChooser.byNameText", "Name");
+        fColumnNbmes[1] = getString("FileChooser.byDbteText", "Dbte Modified");
+        fColumnNbmes[0] = getString("FileChooser.byNbmeText", "Nbme");
 
-        // Mac-specific, optional
-        chooseItemButtonToolTipText = UIManager.getString("FileChooser.chooseItemButtonToolTipText");
-        chooseFolderButtonToolTipText = UIManager.getString("FileChooser.chooseFolderButtonToolTipText");
-        openDirectoryButtonToolTipText = UIManager.getString("FileChooser.openDirectoryButtonToolTipText");
+        // Mbc-specific, optionbl
+        chooseItemButtonToolTipText = UIMbnbger.getString("FileChooser.chooseItemButtonToolTipText");
+        chooseFolderButtonToolTipText = UIMbnbger.getString("FileChooser.chooseFolderButtonToolTipText");
+        openDirectoryButtonToolTipText = UIMbnbger.getString("FileChooser.openDirectoryButtonToolTipText");
 
-        directoryComboBoxToolTipText = UIManager.getString("FileChooser.directoryComboBoxToolTipText");
-        filenameTextFieldToolTipText = UIManager.getString("FileChooser.filenameTextFieldToolTipText");
-        filterComboBoxToolTipText = UIManager.getString("FileChooser.filterComboBoxToolTipText");
+        directoryComboBoxToolTipText = UIMbnbger.getString("FileChooser.directoryComboBoxToolTipText");
+        filenbmeTextFieldToolTipText = UIMbnbger.getString("FileChooser.filenbmeTextFieldToolTipText");
+        filterComboBoxToolTipText = UIMbnbger.getString("FileChooser.filterComboBoxToolTipText");
 
-        cancelOpenButtonToolTipText = UIManager.getString("FileChooser.cancelOpenButtonToolTipText");
-        cancelSaveButtonToolTipText = UIManager.getString("FileChooser.cancelSaveButtonToolTipText");
-        cancelChooseButtonToolTipText = UIManager.getString("FileChooser.cancelChooseButtonToolTipText");
-        cancelNewFolderButtonToolTipText = UIManager.getString("FileChooser.cancelNewFolderButtonToolTipText");
+        cbncelOpenButtonToolTipText = UIMbnbger.getString("FileChooser.cbncelOpenButtonToolTipText");
+        cbncelSbveButtonToolTipText = UIMbnbger.getString("FileChooser.cbncelSbveButtonToolTipText");
+        cbncelChooseButtonToolTipText = UIMbnbger.getString("FileChooser.cbncelChooseButtonToolTipText");
+        cbncelNewFolderButtonToolTipText = UIMbnbger.getString("FileChooser.cbncelNewFolderButtonToolTipText");
 
-        newFolderTitleText = UIManager.getString("FileChooser.newFolderTitleText");
-        newFolderToolTipText = UIManager.getString("FileChooser.newFolderToolTipText");
-        newFolderAccessibleName = getString("FileChooser.newFolderAccessibleName", newFolderTitleText);
+        newFolderTitleText = UIMbnbger.getString("FileChooser.newFolderTitleText");
+        newFolderToolTipText = UIMbnbger.getString("FileChooser.newFolderToolTipText");
+        newFolderAccessibleNbme = getString("FileChooser.newFolderAccessibleNbme", newFolderTitleText);
     }
 
-    protected void uninstallDefaults(final JFileChooser fc) {
-        uninstallIcons(fc);
-        uninstallStrings(fc);
+    protected void uninstbllDefbults(finbl JFileChooser fc) {
+        uninstbllIcons(fc);
+        uninstbllStrings(fc);
     }
 
-    protected void uninstallIcons(final JFileChooser fc) {
+    protected void uninstbllIcons(finbl JFileChooser fc) {
         directoryIcon = null;
         fileIcon = null;
         computerIcon = null;
-        hardDriveIcon = null;
+        hbrdDriveIcon = null;
         floppyDriveIcon = null;
 
         upFolderIcon = null;
         homeFolderIcon = null;
-        detailsViewIcon = null;
+        detbilsViewIcon = null;
         listViewIcon = null;
     }
 
-    protected void uninstallStrings(final JFileChooser fc) {
-        saveTitleText = null;
+    protected void uninstbllStrings(finbl JFileChooser fc) {
+        sbveTitleText = null;
         openTitleText = null;
         newFolderTitleText = null;
 
-        saveButtonText = null;
+        sbveButtonText = null;
         openButtonText = null;
-        cancelButtonText = null;
-        updateButtonText = null;
+        cbncelButtonText = null;
+        updbteButtonText = null;
         helpButtonText = null;
         newFolderButtonText = null;
         chooseButtonText = null;
 
-        cancelOpenButtonToolTipText = null;
-        cancelSaveButtonToolTipText = null;
-        cancelChooseButtonToolTipText = null;
-        cancelNewFolderButtonToolTipText = null;
+        cbncelOpenButtonToolTipText = null;
+        cbncelSbveButtonToolTipText = null;
+        cbncelChooseButtonToolTipText = null;
+        cbncelNewFolderButtonToolTipText = null;
 
-        saveButtonToolTipText = null;
+        sbveButtonToolTipText = null;
         openButtonToolTipText = null;
-        cancelButtonToolTipText = null;
-        updateButtonToolTipText = null;
+        cbncelButtonToolTipText = null;
+        updbteButtonToolTipText = null;
         helpButtonToolTipText = null;
         chooseItemButtonToolTipText = null;
         chooseFolderButtonToolTipText = null;
         openDirectoryButtonToolTipText = null;
         directoryComboBoxToolTipText = null;
-        filenameTextFieldToolTipText = null;
+        filenbmeTextFieldToolTipText = null;
         filterComboBoxToolTipText = null;
 
-        newFolderDefaultName = null;
-        newFileDefaultName = null;
+        newFolderDefbultNbme = null;
+        newFileDefbultNbme = null;
 
-        desktopName = null;
+        desktopNbme = null;
     }
 
-    protected void createModel() {
+    protected void crebteModel() {
     }
 
-    AquaFileSystemModel getModel() {
+    AqubFileSystemModel getModel() {
         return model;
     }
 
     /*
-     * Listen for filechooser property changes, such as
-     * the selected file changing, or the type of the dialog changing.
+     * Listen for filechooser property chbnges, such bs
+     * the selected file chbnging, or the type of the diblog chbnging.
      */
-    // Taken almost verbatim from Metal
-    protected PropertyChangeListener createPropertyChangeListener(final JFileChooser fc) {
-        return new PropertyChangeListener(){
-            public void propertyChange(final PropertyChangeEvent e) {
-                final String prop = e.getPropertyName();
-                if (prop.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
-                    final File f = (File)e.getNewValue();
+    // Tbken blmost verbbtim from Metbl
+    protected PropertyChbngeListener crebtePropertyChbngeListener(finbl JFileChooser fc) {
+        return new PropertyChbngeListener(){
+            public void propertyChbnge(finbl PropertyChbngeEvent e) {
+                finbl String prop = e.getPropertyNbme();
+                if (prop.equbls(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
+                    finbl File f = (File)e.getNewVblue();
                     if (f != null) {
-                        // Select the file in the list if the selected file didn't change as
-                        // a result of a list click.
-                        if (!selectionInProgress && getModel().contains(f)) {
+                        // Select the file in the list if the selected file didn't chbnge bs
+                        // b result of b list click.
+                        if (!selectionInProgress && getModel().contbins(f)) {
                             fFileList.setSelectedIndex(getModel().indexOf(f));
                         }
 
-                        // [3643835] Need to populate the text field here.  No-op on Open dialogs
-                        // Note that this was removed for 3514735, but should not have been.
+                        // [3643835] Need to populbte the text field here.  No-op on Open diblogs
+                        // Note thbt this wbs removed for 3514735, but should not hbve been.
                         if (!f.isDirectory()) {
-                            setFileName(getFileChooser().getName(f));
+                            setFileNbme(getFileChooser().getNbme(f));
                         }
                     }
-                    updateButtonState(getFileChooser());
-                } else if (prop.equals(JFileChooser.SELECTED_FILES_CHANGED_PROPERTY)) {
+                    updbteButtonStbte(getFileChooser());
+                } else if (prop.equbls(JFileChooser.SELECTED_FILES_CHANGED_PROPERTY)) {
                     JFileChooser fileChooser = getFileChooser();
-                    if (!fileChooser.isDirectorySelectionEnabled()) {
-                        final File[] files = (File[]) e.getNewValue();
+                    if (!fileChooser.isDirectorySelectionEnbbled()) {
+                        finbl File[] files = (File[]) e.getNewVblue();
                         if (files != null) {
                             for (int selectedRow : fFileList.getSelectedRows()) {
-                                File file = (File) fFileList.getValueAt(selectedRow, 0);
-                                if (fileChooser.isTraversable(file)) {
+                                File file = (File) fFileList.getVblueAt(selectedRow, 0);
+                                if (fileChooser.isTrbversbble(file)) {
                                     fFileList.removeSelectedIndex(selectedRow);
                                 }
                             }
                         }
                     }
-                } else if (prop.equals(JFileChooser.DIRECTORY_CHANGED_PROPERTY)) {
-                    fFileList.clearSelection();
-                    final File currentDirectory = getFileChooser().getCurrentDirectory();
+                } else if (prop.equbls(JFileChooser.DIRECTORY_CHANGED_PROPERTY)) {
+                    fFileList.clebrSelection();
+                    finbl File currentDirectory = getFileChooser().getCurrentDirectory();
                     if (currentDirectory != null) {
-                        fDirectoryComboBoxModel.addItem(currentDirectory);
-                        // Enable the newFolder action if the current directory
-                        // is writable.
+                        fDirectoryComboBoxModel.bddItem(currentDirectory);
+                        // Enbble the newFolder bction if the current directory
+                        // is writbble.
                         // PENDING(jeff) - broken - fix
-                        getAction(kNewFolder).setEnabled(currentDirectory.canWrite());
+                        getAction(kNewFolder).setEnbbled(currentDirectory.cbnWrite());
                     }
-                    updateButtonState(getFileChooser());
-                } else if (prop.equals(JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY)) {
-                    fFileList.clearSelection();
-                    setBottomPanelForMode(getFileChooser()); // Also updates approve button
+                    updbteButtonStbte(getFileChooser());
+                } else if (prop.equbls(JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY)) {
+                    fFileList.clebrSelection();
+                    setBottomPbnelForMode(getFileChooser()); // Also updbtes bpprove button
                 } else if (prop == JFileChooser.ACCESSORY_CHANGED_PROPERTY) {
-                    if (getAccessoryPanel() != null) {
-                        if (e.getOldValue() != null) {
-                            getAccessoryPanel().remove((JComponent)e.getOldValue());
+                    if (getAccessoryPbnel() != null) {
+                        if (e.getOldVblue() != null) {
+                            getAccessoryPbnel().remove((JComponent)e.getOldVblue());
                         }
-                        final JComponent accessory = (JComponent)e.getNewValue();
-                        if (accessory != null) {
-                            getAccessoryPanel().add(accessory, BorderLayout.CENTER);
+                        finbl JComponent bccessory = (JComponent)e.getNewVblue();
+                        if (bccessory != null) {
+                            getAccessoryPbnel().bdd(bccessory, BorderLbyout.CENTER);
                         }
                     }
                 } else if (prop == JFileChooser.APPROVE_BUTTON_TEXT_CHANGED_PROPERTY) {
-                    updateApproveButton(getFileChooser());
-                    getFileChooser().invalidate();
+                    updbteApproveButton(getFileChooser());
+                    getFileChooser().invblidbte();
                 } else if (prop == JFileChooser.DIALOG_TYPE_CHANGED_PROPERTY) {
-                    if (getFileChooser().getDialogType() == JFileChooser.SAVE_DIALOG) {
-                        fileNameLabelText = getString("FileChooser.saveDialogFileNameLabelText", "Save As:");
+                    if (getFileChooser().getDiblogType() == JFileChooser.SAVE_DIALOG) {
+                        fileNbmeLbbelText = getString("FileChooser.sbveDiblogFileNbmeLbbelText", "Sbve As:");
                     } else {
-                        fileNameLabelText = getString("FileChooser.fileNameLabelText", "Name:");
+                        fileNbmeLbbelText = getString("FileChooser.fileNbmeLbbelText", "Nbme:");
                     }
-                    fTextFieldLabel.setText(fileNameLabelText);
+                    fTextFieldLbbel.setText(fileNbmeLbbelText);
 
-                    // Mac doesn't show the text field or "new folder" button in 'Open' dialogs
-                    setBottomPanelForMode(getFileChooser()); // Also updates approve button
-                } else if (prop.equals(JFileChooser.APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY)) {
+                    // Mbc doesn't show the text field or "new folder" button in 'Open' diblogs
+                    setBottomPbnelForMode(getFileChooser()); // Also updbtes bpprove button
+                } else if (prop.equbls(JFileChooser.APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY)) {
                     getApproveButton(getFileChooser()).setMnemonic(getApproveButtonMnemonic(getFileChooser()));
-                } else if (prop.equals(PACKAGE_TRAVERSABLE_PROPERTY)) {
-                    setPackageIsTraversable(e.getNewValue());
-                } else if (prop.equals(APPLICATION_TRAVERSABLE_PROPERTY)) {
-                    setApplicationIsTraversable(e.getNewValue());
-                } else if (prop.equals(JFileChooser.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
-                    if (getFileChooser().isMultiSelectionEnabled()) {
+                } else if (prop.equbls(PACKAGE_TRAVERSABLE_PROPERTY)) {
+                    setPbckbgeIsTrbversbble(e.getNewVblue());
+                } else if (prop.equbls(APPLICATION_TRAVERSABLE_PROPERTY)) {
+                    setApplicbtionIsTrbversbble(e.getNewVblue());
+                } else if (prop.equbls(JFileChooser.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
+                    if (getFileChooser().isMultiSelectionEnbbled()) {
                         fFileList.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                     } else {
                         fFileList.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                     }
-                } else if (prop.equals(JFileChooser.CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY)) {
-                    doControlButtonsChanged(e);
+                } else if (prop.equbls(JFileChooser.CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY)) {
+                    doControlButtonsChbnged(e);
                 }
             }
         };
     }
 
-    void setPackageIsTraversable(final Object o) {
+    void setPbckbgeIsTrbversbble(finbl Object o) {
         int newProp = -1;
-        if (o != null && o instanceof String) newProp = parseTraversableProperty((String)o);
-        if (newProp != -1) fPackageIsTraversable = newProp;
-        else fPackageIsTraversable = sGlobalPackageIsTraversable;
+        if (o != null && o instbnceof String) newProp = pbrseTrbversbbleProperty((String)o);
+        if (newProp != -1) fPbckbgeIsTrbversbble = newProp;
+        else fPbckbgeIsTrbversbble = sGlobblPbckbgeIsTrbversbble;
     }
 
-    void setApplicationIsTraversable(final Object o) {
+    void setApplicbtionIsTrbversbble(finbl Object o) {
         int newProp = -1;
-        if (o != null && o instanceof String) newProp = parseTraversableProperty((String)o);
-        if (newProp != -1) fApplicationIsTraversable = newProp;
-        else fApplicationIsTraversable = sGlobalApplicationIsTraversable;
+        if (o != null && o instbnceof String) newProp = pbrseTrbversbbleProperty((String)o);
+        if (newProp != -1) fApplicbtionIsTrbversbble = newProp;
+        else fApplicbtionIsTrbversbble = sGlobblApplicbtionIsTrbversbble;
     }
 
-    void doControlButtonsChanged(final PropertyChangeEvent e) {
+    void doControlButtonsChbnged(finbl PropertyChbngeEvent e) {
         if (getFileChooser().getControlButtonsAreShown()) {
-            fBottomPanel.add(fDirectoryPanelSpacer);
-            fBottomPanel.add(fDirectoryPanel);
+            fBottomPbnel.bdd(fDirectoryPbnelSpbcer);
+            fBottomPbnel.bdd(fDirectoryPbnel);
         } else {
-            fBottomPanel.remove(fDirectoryPanelSpacer);
-            fBottomPanel.remove(fDirectoryPanel);
+            fBottomPbnel.remove(fDirectoryPbnelSpbcer);
+            fBottomPbnel.remove(fDirectoryPbnel);
         }
     }
 
-    public String getFileName() {
-        if (filenameTextField != null) { return filenameTextField.getText(); }
+    public String getFileNbme() {
+        if (filenbmeTextField != null) { return filenbmeTextField.getText(); }
         return null;
     }
 
-    public String getDirectoryName() {
-        // PENDING(jeff) - get the name from the directory combobox
+    public String getDirectoryNbme() {
+        // PENDING(jeff) - get the nbme from the directory combobox
         return null;
     }
 
-    public void setFileName(final String filename) {
-        if (filenameTextField != null) {
-            filenameTextField.setText(filename);
+    public void setFileNbme(finbl String filenbme) {
+        if (filenbmeTextField != null) {
+            filenbmeTextField.setText(filenbme);
         }
     }
 
-    public void setDirectoryName(final String dirname) {
-        // PENDING(jeff) - set the name in the directory combobox
+    public void setDirectoryNbme(finbl String dirnbme) {
+        // PENDING(jeff) - set the nbme in the directory combobox
     }
 
-    public void rescanCurrentDirectory(final JFileChooser fc) {
-        getModel().invalidateFileCache();
-        getModel().validateFileCache();
+    public void rescbnCurrentDirectory(finbl JFileChooser fc) {
+        getModel().invblidbteFileCbche();
+        getModel().vblidbteFileCbche();
     }
 
-    public void ensureFileIsVisible(final JFileChooser fc, final File f) {
+    public void ensureFileIsVisible(finbl JFileChooser fc, finbl File f) {
         if (f == null) {
             fFileList.requestFocusInWindow();
             fFileList.ensureIndexIsVisible(-1);
             return;
         }
 
-        getModel().runWhenDone(new Runnable() {
+        getModel().runWhenDone(new Runnbble() {
             public void run() {
                 fFileList.requestFocusInWindow();
                 fFileList.ensureIndexIsVisible(getModel().indexOf(f));
@@ -516,86 +516,86 @@ public class AquaFileChooserUI extends FileChooserUI {
         return filechooser;
     }
 
-    public JPanel getAccessoryPanel() {
-        return accessoryPanel;
+    public JPbnel getAccessoryPbnel() {
+        return bccessoryPbnel;
     }
 
-    protected JButton getApproveButton(final JFileChooser fc) {
+    protected JButton getApproveButton(finbl JFileChooser fc) {
         return fApproveButton;
     }
 
-    public int getApproveButtonMnemonic(final JFileChooser fc) {
-        return fSubPanel.getApproveButtonMnemonic(fc);
+    public int getApproveButtonMnemonic(finbl JFileChooser fc) {
+        return fSubPbnel.getApproveButtonMnemonic(fc);
     }
 
-    public String getApproveButtonToolTipText(final JFileChooser fc) {
-        return fSubPanel.getApproveButtonToolTipText(fc);
+    public String getApproveButtonToolTipText(finbl JFileChooser fc) {
+        return fSubPbnel.getApproveButtonToolTipText(fc);
     }
 
-    public String getApproveButtonText(final JFileChooser fc) {
-        return fSubPanel.getApproveButtonText(fc);
+    public String getApproveButtonText(finbl JFileChooser fc) {
+        return fSubPbnel.getApproveButtonText(fc);
     }
 
-    protected String getCancelButtonToolTipText(final JFileChooser fc) {
-        return fSubPanel.getCancelButtonToolTipText(fc);
+    protected String getCbncelButtonToolTipText(finbl JFileChooser fc) {
+        return fSubPbnel.getCbncelButtonToolTipText(fc);
     }
 
-    // If the item's not selectable, it'll be visible but disabled in the list
-    boolean isSelectableInList(final File f) {
-        return fSubPanel.isSelectableInList(getFileChooser(), f);
+    // If the item's not selectbble, it'll be visible but disbbled in the list
+    boolebn isSelectbbleInList(finbl File f) {
+        return fSubPbnel.isSelectbbleInList(getFileChooser(), f);
     }
 
-    // Is this a file that the JFileChooser wants?
-    // Directories can be selected in the list regardless of mode
-    boolean isSelectableForMode(final JFileChooser fc, final File f) {
-        if (f == null) return false;
-        final int mode = fc.getFileSelectionMode();
+    // Is this b file thbt the JFileChooser wbnts?
+    // Directories cbn be selected in the list regbrdless of mode
+    boolebn isSelectbbleForMode(finbl JFileChooser fc, finbl File f) {
+        if (f == null) return fblse;
+        finbl int mode = fc.getFileSelectionMode();
         if (mode == JFileChooser.FILES_AND_DIRECTORIES) return true;
-        boolean traversable = fc.isTraversable(f);
-        if (mode == JFileChooser.DIRECTORIES_ONLY) return traversable;
-        return !traversable;
+        boolebn trbversbble = fc.isTrbversbble(f);
+        if (mode == JFileChooser.DIRECTORIES_ONLY) return trbversbble;
+        return !trbversbble;
     }
 
     // ********************************************
-    // ************ Create Listeners **************
+    // ************ Crebte Listeners **************
     // ********************************************
 
-    // From Basic
-    public ListSelectionListener createListSelectionListener(final JFileChooser fc) {
+    // From Bbsic
+    public ListSelectionListener crebteListSelectionListener(finbl JFileChooser fc) {
         return new SelectionListener();
     }
 
-    protected class SelectionListener implements ListSelectionListener {
-        public void valueChanged(final ListSelectionEvent e) {
-            if (e.getValueIsAdjusting()) return;
+    protected clbss SelectionListener implements ListSelectionListener {
+        public void vblueChbnged(finbl ListSelectionEvent e) {
+            if (e.getVblueIsAdjusting()) return;
 
             File f = null;
-            final int selectedRow = fFileList.getSelectedRow();
-            final JFileChooser chooser = getFileChooser();
-            boolean isSave = (chooser.getDialogType() == JFileChooser.SAVE_DIALOG);
+            finbl int selectedRow = fFileList.getSelectedRow();
+            finbl JFileChooser chooser = getFileChooser();
+            boolebn isSbve = (chooser.getDiblogType() == JFileChooser.SAVE_DIALOG);
             if (selectedRow >= 0) {
-                f = (File)fFileList.getValueAt(selectedRow, 0);
+                f = (File)fFileList.getVblueAt(selectedRow, 0);
             }
 
-            // Save dialog lists can't be multi select, because all we're selecting is the next folder to open
+            // Sbve diblog lists cbn't be multi select, becbuse bll we're selecting is the next folder to open
             selectionInProgress = true;
-            if (!isSave && chooser.isMultiSelectionEnabled()) {
-                final int[] rows = fFileList.getSelectedRows();
-                int selectableCount = 0;
-                // Double-check that all the list selections are valid for this mode
-                // Directories can be selected in the list regardless of mode
+            if (!isSbve && chooser.isMultiSelectionEnbbled()) {
+                finbl int[] rows = fFileList.getSelectedRows();
+                int selectbbleCount = 0;
+                // Double-check thbt bll the list selections bre vblid for this mode
+                // Directories cbn be selected in the list regbrdless of mode
                 if (rows.length > 0) {
-                    for (final int element : rows) {
-                        if (isSelectableForMode(chooser, (File)fFileList.getValueAt(element, 0))) selectableCount++;
+                    for (finbl int element : rows) {
+                        if (isSelectbbleForMode(chooser, (File)fFileList.getVblueAt(element, 0))) selectbbleCount++;
                     }
                 }
-                if (selectableCount > 0) {
-                    final File[] files = new File[selectableCount];
+                if (selectbbleCount > 0) {
+                    finbl File[] files = new File[selectbbleCount];
                     for (int i = 0, si = 0; i < rows.length; i++) {
-                        f = (File)fFileList.getValueAt(rows[i], 0);
-                        if (isSelectableForMode(chooser, f)) {
-                            if (fileView.isAlias(f)) {
-                                f = fileView.resolveAlias(f);
+                        f = (File)fFileList.getVblueAt(rows[i], 0);
+                        if (isSelectbbleForMode(chooser, f)) {
+                            if (fileView.isAlibs(f)) {
+                                f = fileView.resolveAlibs(f);
                             }
                             files[si++] = f;
                         }
@@ -608,170 +608,170 @@ public class AquaFileChooserUI extends FileChooserUI {
                 chooser.setSelectedFiles(null);
                 chooser.setSelectedFile(f);
             }
-            selectionInProgress = false;
+            selectionInProgress = fblse;
         }
     }
 
-    // When the Save textfield has the focus, the button should say "Save"
+    // When the Sbve textfield hbs the focus, the button should sby "Sbve"
     // Otherwise, it depends on the list selection
-    protected class SaveTextFocusListener implements FocusListener {
-        public void focusGained(final FocusEvent e) {
-            updateButtonState(getFileChooser());
+    protected clbss SbveTextFocusListener implements FocusListener {
+        public void focusGbined(finbl FocusEvent e) {
+            updbteButtonStbte(getFileChooser());
         }
 
-        // Do nothing, we might be losing focus due to window deactivation
-        public void focusLost(final FocusEvent e) {
+        // Do nothing, we might be losing focus due to window debctivbtion
+        public void focusLost(finbl FocusEvent e) {
 
         }
     }
 
-    // When the Save textfield is empty and the button says "Save", it should be disabled
+    // When the Sbve textfield is empty bnd the button sbys "Sbve", it should be disbbled
     // Otherwise, it depends on the list selection
-    protected class SaveTextDocumentListener implements DocumentListener {
-        public void insertUpdate(final DocumentEvent e) {
-            textChanged();
+    protected clbss SbveTextDocumentListener implements DocumentListener {
+        public void insertUpdbte(finbl DocumentEvent e) {
+            textChbnged();
         }
 
-        public void removeUpdate(final DocumentEvent e) {
-            textChanged();
+        public void removeUpdbte(finbl DocumentEvent e) {
+            textChbnged();
         }
 
-        public void changedUpdate(final DocumentEvent e) {
+        public void chbngedUpdbte(finbl DocumentEvent e) {
 
         }
 
-        void textChanged() {
-            updateButtonState(getFileChooser());
+        void textChbnged() {
+            updbteButtonStbte(getFileChooser());
         }
     }
 
-    // Opens the File object if it's a traversable directory
-    protected boolean openDirectory(final File f) {
-        if (getFileChooser().isTraversable(f)) {
-            fFileList.clearSelection();
-            // Resolve any aliases
-            final File original = fileView.resolveAlias(f);
-            getFileChooser().setCurrentDirectory(original);
-            updateButtonState(getFileChooser());
+    // Opens the File object if it's b trbversbble directory
+    protected boolebn openDirectory(finbl File f) {
+        if (getFileChooser().isTrbversbble(f)) {
+            fFileList.clebrSelection();
+            // Resolve bny blibses
+            finbl File originbl = fileView.resolveAlibs(f);
+            getFileChooser().setCurrentDirectory(originbl);
+            updbteButtonStbte(getFileChooser());
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    // From Basic
-    protected class DoubleClickListener extends MouseAdapter {
-        JTableExtension list;
+    // From Bbsic
+    protected clbss DoubleClickListener extends MouseAdbpter {
+        JTbbleExtension list;
 
-        public DoubleClickListener(final JTableExtension list) {
+        public DoubleClickListener(finbl JTbbleExtension list) {
             this.list = list;
         }
 
-        public void mouseClicked(final MouseEvent e) {
+        public void mouseClicked(finbl MouseEvent e) {
             if (e.getClickCount() != 2) return;
 
-            final int index = list.locationToIndex(e.getPoint());
+            finbl int index = list.locbtionToIndex(e.getPoint());
             if (index < 0) return;
 
-            final File f = (File)((AquaFileSystemModel)list.getModel()).getElementAt(index);
+            finbl File f = (File)((AqubFileSystemModel)list.getModel()).getElementAt(index);
             if (openDirectory(f)) return;
 
-            if (!isSelectableInList(f)) return;
-            getFileChooser().approveSelection();
+            if (!isSelectbbleInList(f)) return;
+            getFileChooser().bpproveSelection();
         }
     }
 
-    protected MouseListener createDoubleClickListener(final JFileChooser fc, final JTableExtension list) {
+    protected MouseListener crebteDoubleClickListener(finbl JFileChooser fc, finbl JTbbleExtension list) {
         return new DoubleClickListener(list);
     }
 
-    // listens for drag events onto the JFileChooser and sets the selected file or directory
-    class DnDHandler extends DropTargetAdapter {
-        public void dragEnter(final DropTargetDragEvent dtde) {
-            tryToAcceptDrag(dtde);
+    // listens for drbg events onto the JFileChooser bnd sets the selected file or directory
+    clbss DnDHbndler extends DropTbrgetAdbpter {
+        public void drbgEnter(finbl DropTbrgetDrbgEvent dtde) {
+            tryToAcceptDrbg(dtde);
         }
 
-        public void dragOver(final DropTargetDragEvent dtde) {
-            tryToAcceptDrag(dtde);
+        public void drbgOver(finbl DropTbrgetDrbgEvent dtde) {
+            tryToAcceptDrbg(dtde);
         }
 
-        public void dropActionChanged(final DropTargetDragEvent dtde) {
-            tryToAcceptDrag(dtde);
+        public void dropActionChbnged(finbl DropTbrgetDrbgEvent dtde) {
+            tryToAcceptDrbg(dtde);
         }
 
-        public void drop(final DropTargetDropEvent dtde) {
-            if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-                handleFileDropEvent(dtde);
+        public void drop(finbl DropTbrgetDropEvent dtde) {
+            if (dtde.isDbtbFlbvorSupported(DbtbFlbvor.jbvbFileListFlbvor)) {
+                hbndleFileDropEvent(dtde);
                 return;
             }
 
-            if (dtde.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-                handleStringDropEvent(dtde);
+            if (dtde.isDbtbFlbvorSupported(DbtbFlbvor.stringFlbvor)) {
+                hbndleStringDropEvent(dtde);
                 return;
             }
         }
 
-        protected void tryToAcceptDrag(final DropTargetDragEvent dtde) {
-            if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor) || dtde.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-                dtde.acceptDrag(DnDConstants.ACTION_COPY);
+        protected void tryToAcceptDrbg(finbl DropTbrgetDrbgEvent dtde) {
+            if (dtde.isDbtbFlbvorSupported(DbtbFlbvor.jbvbFileListFlbvor) || dtde.isDbtbFlbvorSupported(DbtbFlbvor.stringFlbvor)) {
+                dtde.bcceptDrbg(DnDConstbnts.ACTION_COPY);
                 return;
             }
 
-            dtde.rejectDrag();
+            dtde.rejectDrbg();
         }
 
-        protected void handleFileDropEvent(final DropTargetDropEvent dtde) {
-            dtde.acceptDrop(dtde.getDropAction());
-            final Transferable transferable = dtde.getTransferable();
+        protected void hbndleFileDropEvent(finbl DropTbrgetDropEvent dtde) {
+            dtde.bcceptDrop(dtde.getDropAction());
+            finbl Trbnsferbble trbnsferbble = dtde.getTrbnsferbble();
 
             try {
-                @SuppressWarnings("unchecked")
-                final java.util.List<File> fileList = (java.util.List<File>)transferable.getTransferData(DataFlavor.javaFileListFlavor);
-                dropFiles(fileList.toArray(new File[fileList.size()]));
+                @SuppressWbrnings("unchecked")
+                finbl jbvb.util.List<File> fileList = (jbvb.util.List<File>)trbnsferbble.getTrbnsferDbtb(DbtbFlbvor.jbvbFileListFlbvor);
+                dropFiles(fileList.toArrby(new File[fileList.size()]));
                 dtde.dropComplete(true);
-            } catch (final Exception e) {
-                dtde.dropComplete(false);
+            } cbtch (finbl Exception e) {
+                dtde.dropComplete(fblse);
             }
         }
 
-        protected void handleStringDropEvent(final DropTargetDropEvent dtde) {
-            dtde.acceptDrop(dtde.getDropAction());
-            final Transferable transferable = dtde.getTransferable();
+        protected void hbndleStringDropEvent(finbl DropTbrgetDropEvent dtde) {
+            dtde.bcceptDrop(dtde.getDropAction());
+            finbl Trbnsferbble trbnsferbble = dtde.getTrbnsferbble();
 
-            final String stringData;
+            finbl String stringDbtb;
             try {
-                stringData = (String)transferable.getTransferData(DataFlavor.stringFlavor);
-            } catch (final Exception e) {
-                dtde.dropComplete(false);
+                stringDbtb = (String)trbnsferbble.getTrbnsferDbtb(DbtbFlbvor.stringFlbvor);
+            } cbtch (finbl Exception e) {
+                dtde.dropComplete(fblse);
                 return;
             }
 
             try {
-                final File fileAsPath = new File(stringData);
-                if (fileAsPath.exists()) {
-                    dropFiles(new File[] {fileAsPath});
+                finbl File fileAsPbth = new File(stringDbtb);
+                if (fileAsPbth.exists()) {
+                    dropFiles(new File[] {fileAsPbth});
                     dtde.dropComplete(true);
                     return;
                 }
-            } catch (final Exception e) {
-                // try again
+            } cbtch (finbl Exception e) {
+                // try bgbin
             }
 
             try {
-                final File fileAsURI = new File(new URI(stringData));
+                finbl File fileAsURI = new File(new URI(stringDbtb));
                 if (fileAsURI.exists()) {
                     dropFiles(new File[] {fileAsURI});
                     dtde.dropComplete(true);
                     return;
                 }
-            } catch (final Exception e) {
+            } cbtch (finbl Exception e) {
                 // nothing more to do
             }
 
-            dtde.dropComplete(false);
+            dtde.dropComplete(fblse);
         }
 
-        protected void dropFiles(final File[] files) {
-            final JFileChooser jfc = getFileChooser();
+        protected void dropFiles(finbl File[] files) {
+            finbl JFileChooser jfc = getFileChooser();
 
             if (files.length == 1) {
                 if (files[0].isDirectory()) {
@@ -779,21 +779,21 @@ public class AquaFileChooserUI extends FileChooserUI {
                     return;
                 }
 
-                if (!isSelectableForMode(jfc, files[0])) {
+                if (!isSelectbbleForMode(jfc, files[0])) {
                     return;
                 }
             }
 
             jfc.setSelectedFiles(files);
-            for (final File file : files) {
+            for (finbl File file : files) {
                 jfc.ensureFileIsVisible(file);
             }
-            getModel().runWhenDone(new Runnable() {
+            getModel().runWhenDone(new Runnbble() {
                 public void run() {
-                    final AquaFileSystemModel fileSystemModel = getModel();
-                    for (final File element : files) {
-                        final int index = fileSystemModel.indexOf(element);
-                        if (index >= 0) fFileList.addRowSelectionInterval(index, index);
+                    finbl AqubFileSystemModel fileSystemModel = getModel();
+                    for (finbl File element : files) {
+                        finbl int index = fileSystemModel.indexOf(element);
+                        if (index >= 0) fFileList.bddRowSelectionIntervbl(index, index);
                     }
                 }
             });
@@ -803,139 +803,139 @@ public class AquaFileChooserUI extends FileChooserUI {
     // FileChooser UI PLAF methods
 
     /**
-     * Returns the default accept all file filter
+     * Returns the defbult bccept bll file filter
      */
-    public FileFilter getAcceptAllFileFilter(final JFileChooser fc) {
-        return acceptAllFileFilter;
+    public FileFilter getAcceptAllFileFilter(finbl JFileChooser fc) {
+        return bcceptAllFileFilter;
     }
 
-    public FileView getFileView(final JFileChooser fc) {
+    public FileView getFileView(finbl JFileChooser fc) {
         return fileView;
     }
 
     /**
-     * Returns the title of this dialog
+     * Returns the title of this diblog
      */
-    public String getDialogTitle(final JFileChooser fc) {
-        if (fc.getDialogTitle() == null) {
-            if (getFileChooser().getDialogType() == JFileChooser.OPEN_DIALOG) {
+    public String getDiblogTitle(finbl JFileChooser fc) {
+        if (fc.getDiblogTitle() == null) {
+            if (getFileChooser().getDiblogType() == JFileChooser.OPEN_DIALOG) {
                 return openTitleText;
-            } else if (getFileChooser().getDialogType() == JFileChooser.SAVE_DIALOG) { return saveTitleText; }
+            } else if (getFileChooser().getDiblogType() == JFileChooser.SAVE_DIALOG) { return sbveTitleText; }
         }
-        return fc.getDialogTitle();
+        return fc.getDiblogTitle();
     }
 
-    // Utility to get the first selected item regardless of whether we're single or multi select
+    // Utility to get the first selected item regbrdless of whether we're single or multi select
     File getFirstSelectedItem() {
         // Get the selected item
         File selectedFile = null;
-        final int index = fFileList.getSelectedRow();
+        finbl int index = fFileList.getSelectedRow();
         if (index >= 0) {
-            selectedFile = (File)((AquaFileSystemModel)fFileList.getModel()).getElementAt(index);
+            selectedFile = (File)((AqubFileSystemModel)fFileList.getModel()).getElementAt(index);
         }
         return selectedFile;
     }
 
-    // Make a file from the filename
-    File makeFile(final JFileChooser fc, final String filename) {
+    // Mbke b file from the filenbme
+    File mbkeFile(finbl JFileChooser fc, finbl String filenbme) {
         File selectedFile = null;
-        // whitespace is legal on Macs, even on beginning and end of filename
-        if (filename != null && !filename.equals("")) {
-            final FileSystemView fs = fc.getFileSystemView();
-            selectedFile = fs.createFileObject(filename);
+        // whitespbce is legbl on Mbcs, even on beginning bnd end of filenbme
+        if (filenbme != null && !filenbme.equbls("")) {
+            finbl FileSystemView fs = fc.getFileSystemView();
+            selectedFile = fs.crebteFileObject(filenbme);
             if (!selectedFile.isAbsolute()) {
-                selectedFile = fs.createFileObject(fc.getCurrentDirectory(), filename);
+                selectedFile = fs.crebteFileObject(fc.getCurrentDirectory(), filenbme);
             }
         }
         return selectedFile;
     }
 
-    // Utility to tell if the textfield has anything in it
-    boolean textfieldIsValid() {
-        final String s = getFileName();
-        return (s != null && !s.equals(""));
+    // Utility to tell if the textfield hbs bnything in it
+    boolebn textfieldIsVblid() {
+        finbl String s = getFileNbme();
+        return (s != null && !s.equbls(""));
     }
 
-    // Action to attach to the file list so we can override the default action
-    // of the table for the return key, which is to select the next line.
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class DefaultButtonAction extends AbstractAction {
-        public void actionPerformed(final ActionEvent e) {
-            final JRootPane root = AquaFileChooserUI.this.getFileChooser().getRootPane();
-            final JFileChooser fc = AquaFileChooserUI.this.getFileChooser();
-            final JButton owner = root.getDefaultButton();
-            if (owner != null && SwingUtilities.getRootPane(owner) == root && owner.isEnabled()) {
+    // Action to bttbch to the file list so we cbn override the defbult bction
+    // of the tbble for the return key, which is to select the next line.
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss DefbultButtonAction extends AbstrbctAction {
+        public void bctionPerformed(finbl ActionEvent e) {
+            finbl JRootPbne root = AqubFileChooserUI.this.getFileChooser().getRootPbne();
+            finbl JFileChooser fc = AqubFileChooserUI.this.getFileChooser();
+            finbl JButton owner = root.getDefbultButton();
+            if (owner != null && SwingUtilities.getRootPbne(owner) == root && owner.isEnbbled()) {
                 owner.doClick(20);
             } else if (!fc.getControlButtonsAreShown()) {
-                final JButton defaultButton = AquaFileChooserUI.this.fSubPanel.getDefaultButton(fc);
+                finbl JButton defbultButton = AqubFileChooserUI.this.fSubPbnel.getDefbultButton(fc);
 
-                if (defaultButton != null) {
-                    defaultButton.doClick(20);
+                if (defbultButton != null) {
+                    defbultButton.doClick(20);
                 }
             } else {
-                Toolkit.getDefaultToolkit().beep();
+                Toolkit.getDefbultToolkit().beep();
             }
         }
 
-        public boolean isEnabled() {
+        public boolebn isEnbbled() {
             return true;
         }
     }
 
     /**
-     * Creates a new folder.
+     * Crebtes b new folder.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class NewFolderAction extends AbstractAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss NewFolderAction extends AbstrbctAction {
         protected NewFolderAction() {
-            super(newFolderAccessibleName);
+            super(newFolderAccessibleNbme);
         }
 
-        // Muchlike showInputDialog, but we give it options instead of selectionValues
-        private Object showNewFolderDialog(final Component parentComponent, final Object message, final String title, final int messageType, final Icon icon, final Object[] options, final Object initialSelectionValue) {
-            final JOptionPane pane = new JOptionPane(message, messageType, JOptionPane.OK_CANCEL_OPTION, icon, options, null);
+        // Muchlike showInputDiblog, but we give it options instebd of selectionVblues
+        privbte Object showNewFolderDiblog(finbl Component pbrentComponent, finbl Object messbge, finbl String title, finbl int messbgeType, finbl Icon icon, finbl Object[] options, finbl Object initiblSelectionVblue) {
+            finbl JOptionPbne pbne = new JOptionPbne(messbge, messbgeType, JOptionPbne.OK_CANCEL_OPTION, icon, options, null);
 
-            pane.setWantsInput(true);
-            pane.setInitialSelectionValue(initialSelectionValue);
+            pbne.setWbntsInput(true);
+            pbne.setInitiblSelectionVblue(initiblSelectionVblue);
 
-            final JDialog dialog = pane.createDialog(parentComponent, title);
+            finbl JDiblog diblog = pbne.crebteDiblog(pbrentComponent, title);
 
-            pane.selectInitialValue();
-            dialog.setVisible(true);
-            dialog.dispose();
+            pbne.selectInitiblVblue();
+            diblog.setVisible(true);
+            diblog.dispose();
 
-            final Object value = pane.getValue();
+            finbl Object vblue = pbne.getVblue();
 
-            if (value == null || value.equals(cancelButtonText)) {
+            if (vblue == null || vblue.equbls(cbncelButtonText)) {
                 return null;
             }
-            return pane.getInputValue();
+            return pbne.getInputVblue();
         }
 
-        public void actionPerformed(final ActionEvent e) {
-            final JFileChooser fc = getFileChooser();
-            final File currentDirectory = fc.getCurrentDirectory();
+        public void bctionPerformed(finbl ActionEvent e) {
+            finbl JFileChooser fc = getFileChooser();
+            finbl File currentDirectory = fc.getCurrentDirectory();
             File newFolder = null;
-            final String[] options = {createButtonText, cancelButtonText};
-            final String filename = (String)showNewFolderDialog(fc, //parentComponent
-                    newFolderDialogPrompt, // message
+            finbl String[] options = {crebteButtonText, cbncelButtonText};
+            finbl String filenbme = (String)showNewFolderDiblog(fc, //pbrentComponent
+                    newFolderDiblogPrompt, // messbge
                     newFolderTitleText, // title
-                    JOptionPane.PLAIN_MESSAGE, // messageType
+                    JOptionPbne.PLAIN_MESSAGE, // messbgeType
                     null, // icon
-                    options, // selectionValues
-                    newFolderDefaultName); // initialSelectionValue
+                    options, // selectionVblues
+                    newFolderDefbultNbme); // initiblSelectionVblue
 
-            if (filename != null) {
+            if (filenbme != null) {
                 try {
-                    newFolder = fc.getFileSystemView().createFileObject(currentDirectory, filename);
+                    newFolder = fc.getFileSystemView().crebteFileObject(currentDirectory, filenbme);
                     if (newFolder.exists()) {
-                        JOptionPane.showMessageDialog(fc, newFolderExistsErrorText, "", JOptionPane.ERROR_MESSAGE);
+                        JOptionPbne.showMessbgeDiblog(fc, newFolderExistsErrorText, "", JOptionPbne.ERROR_MESSAGE);
                         return;
                     }
 
                     newFolder.mkdirs();
-                } catch(final Exception exc) {
-                    JOptionPane.showMessageDialog(fc, newFolderErrorText, "", JOptionPane.ERROR_MESSAGE);
+                } cbtch(finbl Exception exc) {
+                    JOptionPbne.showMessbgeDiblog(fc, newFolderErrorText, "", JOptionPbne.ERROR_MESSAGE);
                     return;
                 }
 
@@ -945,185 +945,185 @@ public class AquaFileChooserUI extends FileChooserUI {
     }
 
     /**
-     * Responds to an Open, Save, or Choose request
+     * Responds to bn Open, Sbve, or Choose request
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class ApproveSelectionAction extends AbstractAction {
-        public void actionPerformed(final ActionEvent e) {
-            fSubPanel.approveSelection(getFileChooser());
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss ApproveSelectionAction extends AbstrbctAction {
+        public void bctionPerformed(finbl ActionEvent e) {
+            fSubPbnel.bpproveSelection(getFileChooser());
         }
     }
 
     /**
-     * Responds to an OpenDirectory request
+     * Responds to bn OpenDirectory request
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class OpenSelectionAction extends AbstractAction {
-        public void actionPerformed(final ActionEvent e) {
-            final int index = fFileList.getSelectedRow();
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss OpenSelectionAction extends AbstrbctAction {
+        public void bctionPerformed(finbl ActionEvent e) {
+            finbl int index = fFileList.getSelectedRow();
             if (index >= 0) {
-                final File selectedFile = (File)((AquaFileSystemModel)fFileList.getModel()).getElementAt(index);
+                finbl File selectedFile = (File)((AqubFileSystemModel)fFileList.getModel()).getElementAt(index);
                 if (selectedFile != null) openDirectory(selectedFile);
             }
         }
     }
 
     /**
-     * Responds to a cancel request.
+     * Responds to b cbncel request.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class CancelSelectionAction extends AbstractAction {
-        public void actionPerformed(final ActionEvent e) {
-            getFileChooser().cancelSelection();
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss CbncelSelectionAction extends AbstrbctAction {
+        public void bctionPerformed(finbl ActionEvent e) {
+            getFileChooser().cbncelSelection();
         }
 
-        public boolean isEnabled() {
-            return getFileChooser().isEnabled();
+        public boolebn isEnbbled() {
+            return getFileChooser().isEnbbled();
         }
     }
 
     /**
-     * Rescans the files in the current directory
+     * Rescbns the files in the current directory
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class UpdateAction extends AbstractAction {
-        public void actionPerformed(final ActionEvent e) {
-            final JFileChooser fc = getFileChooser();
-            fc.setCurrentDirectory(fc.getFileSystemView().createFileObject(getDirectoryName()));
-            fc.rescanCurrentDirectory();
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss UpdbteAction extends AbstrbctAction {
+        public void bctionPerformed(finbl ActionEvent e) {
+            finbl JFileChooser fc = getFileChooser();
+            fc.setCurrentDirectory(fc.getFileSystemView().crebteFileObject(getDirectoryNbme()));
+            fc.rescbnCurrentDirectory();
         }
     }
 
     // *****************************************
-    // ***** default AcceptAll file filter *****
+    // ***** defbult AcceptAll file filter *****
     // *****************************************
-    protected class AcceptAllFileFilter extends FileFilter {
+    protected clbss AcceptAllFileFilter extends FileFilter {
         public AcceptAllFileFilter() {
         }
 
-        public boolean accept(final File f) {
+        public boolebn bccept(finbl File f) {
             return true;
         }
 
         public String getDescription() {
-            return UIManager.getString("FileChooser.acceptAllFileFilterText");
+            return UIMbnbger.getString("FileChooser.bcceptAllFileFilterText");
         }
     }
 
-    // Penultimate superclass is JLabel
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class MacFCTableCellRenderer extends DefaultTableCellRenderer {
-        boolean fIsSelected = false;
+    // Penultimbte superclbss is JLbbel
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss MbcFCTbbleCellRenderer extends DefbultTbbleCellRenderer {
+        boolebn fIsSelected = fblse;
 
-        public MacFCTableCellRenderer(final Font f) {
+        public MbcFCTbbleCellRenderer(finbl Font f) {
             super();
             setFont(f);
-            setIconTextGap(10);
+            setIconTextGbp(10);
         }
 
-        public Component getTableCellRendererComponent(final JTable list, final Object value, final boolean isSelected, final boolean cellHasFocus, final int index, final int col) {
-            super.getTableCellRendererComponent(list, value, isSelected, false, index, col); // No focus border, thanks
+        public Component getTbbleCellRendererComponent(finbl JTbble list, finbl Object vblue, finbl boolebn isSelected, finbl boolebn cellHbsFocus, finbl int index, finbl int col) {
+            super.getTbbleCellRendererComponent(list, vblue, isSelected, fblse, index, col); // No focus border, thbnks
             fIsSelected = isSelected;
             return this;
         }
 
-        public boolean isSelected() {
-            return fIsSelected && isEnabled();
+        public boolebn isSelected() {
+            return fIsSelected && isEnbbled();
         }
 
-        protected String layoutCL(final JLabel label, final FontMetrics fontMetrics, final String text, final Icon icon, final Rectangle viewR, final Rectangle iconR, final Rectangle textR) {
-            return SwingUtilities.layoutCompoundLabel(label, fontMetrics, text, icon, label.getVerticalAlignment(), label.getHorizontalAlignment(), label.getVerticalTextPosition(), label.getHorizontalTextPosition(), viewR, iconR, textR, label.getIconTextGap());
+        protected String lbyoutCL(finbl JLbbel lbbel, finbl FontMetrics fontMetrics, finbl String text, finbl Icon icon, finbl Rectbngle viewR, finbl Rectbngle iconR, finbl Rectbngle textR) {
+            return SwingUtilities.lbyoutCompoundLbbel(lbbel, fontMetrics, text, icon, lbbel.getVerticblAlignment(), lbbel.getHorizontblAlignment(), lbbel.getVerticblTextPosition(), lbbel.getHorizontblTextPosition(), viewR, iconR, textR, lbbel.getIconTextGbp());
         }
 
-        protected void paintComponent(final Graphics g) {
-            final String text = getText();
+        protected void pbintComponent(finbl Grbphics g) {
+            finbl String text = getText();
             Icon icon = getIcon();
-            if (icon != null && !isEnabled()) {
-                final Icon disabledIcon = getDisabledIcon();
-                if (disabledIcon != null) icon = disabledIcon;
+            if (icon != null && !isEnbbled()) {
+                finbl Icon disbbledIcon = getDisbbledIcon();
+                if (disbbledIcon != null) icon = disbbledIcon;
             }
 
             if ((icon == null) && (text == null)) { return; }
 
-            // from ComponentUI update
-            g.setColor(getBackground());
+            // from ComponentUI updbte
+            g.setColor(getBbckground());
             g.fillRect(0, 0, getWidth(), getHeight());
 
-            // from BasicLabelUI paint
-            final FontMetrics fm = g.getFontMetrics();
-            Insets paintViewInsets = getInsets(null);
-            paintViewInsets.left += 10;
+            // from BbsicLbbelUI pbint
+            finbl FontMetrics fm = g.getFontMetrics();
+            Insets pbintViewInsets = getInsets(null);
+            pbintViewInsets.left += 10;
 
-            Rectangle paintViewR = new Rectangle(paintViewInsets.left, paintViewInsets.top, getWidth() - (paintViewInsets.left + paintViewInsets.right), getHeight() - (paintViewInsets.top + paintViewInsets.bottom));
+            Rectbngle pbintViewR = new Rectbngle(pbintViewInsets.left, pbintViewInsets.top, getWidth() - (pbintViewInsets.left + pbintViewInsets.right), getHeight() - (pbintViewInsets.top + pbintViewInsets.bottom));
 
-            Rectangle paintIconR = new Rectangle();
-            Rectangle paintTextR = new Rectangle();
+            Rectbngle pbintIconR = new Rectbngle();
+            Rectbngle pbintTextR = new Rectbngle();
 
-            final String clippedText = layoutCL(this, fm, text, icon, paintViewR, paintIconR, paintTextR);
+            finbl String clippedText = lbyoutCL(this, fm, text, icon, pbintViewR, pbintIconR, pbintTextR);
 
             if (icon != null) {
-                icon.paintIcon(this, g, paintIconR.x + 5, paintIconR.y);
+                icon.pbintIcon(this, g, pbintIconR.x + 5, pbintIconR.y);
             }
 
             if (text != null) {
-                final int textX = paintTextR.x;
-                final int textY = paintTextR.y + fm.getAscent() + 1;
-                if (isEnabled()) {
-                    // Color background = fIsSelected ? getForeground() : getBackground();
-                    final Color background = getBackground();
+                finbl int textX = pbintTextR.x;
+                finbl int textY = pbintTextR.y + fm.getAscent() + 1;
+                if (isEnbbled()) {
+                    // Color bbckground = fIsSelected ? getForeground() : getBbckground();
+                    finbl Color bbckground = getBbckground();
 
-                    g.setColor(background);
-                    g.fillRect(textX - 1, paintTextR.y, paintTextR.width + 2, fm.getAscent() + 2);
+                    g.setColor(bbckground);
+                    g.fillRect(textX - 1, pbintTextR.y, pbintTextR.width + 2, fm.getAscent() + 2);
 
                     g.setColor(getForeground());
-                    SwingUtilities2.drawString(filechooser, g, clippedText, textX, textY);
+                    SwingUtilities2.drbwString(filechooser, g, clippedText, textX, textY);
                 } else {
-                    final Color background = getBackground();
-                    g.setColor(background);
-                    g.fillRect(textX - 1, paintTextR.y, paintTextR.width + 2, fm.getAscent() + 2);
+                    finbl Color bbckground = getBbckground();
+                    g.setColor(bbckground);
+                    g.fillRect(textX - 1, pbintTextR.y, pbintTextR.width + 2, fm.getAscent() + 2);
 
-                    g.setColor(background.brighter());
-                    SwingUtilities2.drawString(filechooser, g, clippedText, textX, textY);
-                    g.setColor(background.darker());
-                    SwingUtilities2.drawString(filechooser, g, clippedText, textX + 1, textY + 1);
+                    g.setColor(bbckground.brighter());
+                    SwingUtilities2.drbwString(filechooser, g, clippedText, textX, textY);
+                    g.setColor(bbckground.dbrker());
+                    SwingUtilities2.drbwString(filechooser, g, clippedText, textX + 1, textY + 1);
                 }
             }
         }
 
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class FileRenderer extends MacFCTableCellRenderer {
-        public FileRenderer(final Font f) {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss FileRenderer extends MbcFCTbbleCellRenderer {
+        public FileRenderer(finbl Font f) {
             super(f);
         }
 
-        public Component getTableCellRendererComponent(final JTable list, final Object value, final boolean isSelected, final boolean cellHasFocus, final int index, final int col) {
-            super.getTableCellRendererComponent(list, value, isSelected, false, index, col); // No focus border, thanks
-            final File file = (File)value;
-            final JFileChooser fc = getFileChooser();
-            setText(fc.getName(file));
+        public Component getTbbleCellRendererComponent(finbl JTbble list, finbl Object vblue, finbl boolebn isSelected, finbl boolebn cellHbsFocus, finbl int index, finbl int col) {
+            super.getTbbleCellRendererComponent(list, vblue, isSelected, fblse, index, col); // No focus border, thbnks
+            finbl File file = (File)vblue;
+            finbl JFileChooser fc = getFileChooser();
+            setText(fc.getNbme(file));
             setIcon(fc.getIcon(file));
-            setEnabled(isSelectableInList(file));
+            setEnbbled(isSelectbbleInList(file));
             return this;
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class DateRenderer extends MacFCTableCellRenderer {
-        public DateRenderer(final Font f) {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss DbteRenderer extends MbcFCTbbleCellRenderer {
+        public DbteRenderer(finbl Font f) {
             super(f);
         }
 
-        public Component getTableCellRendererComponent(final JTable list, final Object value, final boolean isSelected, final boolean cellHasFocus, final int index, final int col) {
-            super.getTableCellRendererComponent(list, value, isSelected, false, index, col);
-            final File file = (File)fFileList.getValueAt(index, 0);
-            setEnabled(isSelectableInList(file));
-            final DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT);
-            final Date date = (Date)value;
+        public Component getTbbleCellRendererComponent(finbl JTbble list, finbl Object vblue, finbl boolebn isSelected, finbl boolebn cellHbsFocus, finbl int index, finbl int col) {
+            super.getTbbleCellRendererComponent(list, vblue, isSelected, fblse, index, col);
+            finbl File file = (File)fFileList.getVblueAt(index, 0);
+            setEnbbled(isSelectbbleInList(file));
+            finbl DbteFormbt formbtter = DbteFormbt.getDbteTimeInstbnce(DbteFormbt.FULL, DbteFormbt.SHORT);
+            finbl Dbte dbte = (Dbte)vblue;
 
-            if (date != null) {
-                setText(formatter.format(date));
+            if (dbte != null) {
+                setText(formbtter.formbt(dbte));
             } else {
                 setText("");
             }
@@ -1132,34 +1132,34 @@ public class AquaFileChooserUI extends FileChooserUI {
         }
     }
 
-    public Dimension getPreferredSize(final JComponent c) {
+    public Dimension getPreferredSize(finbl JComponent c) {
         return PREF_SIZE;
     }
 
-    public Dimension getMinimumSize(final JComponent c) {
+    public Dimension getMinimumSize(finbl JComponent c) {
         return MIN_SIZE;
     }
 
-    public Dimension getMaximumSize(final JComponent c) {
+    public Dimension getMbximumSize(finbl JComponent c) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
-    @SuppressWarnings("serial") // anonymous class
-    protected ListCellRenderer<File> createDirectoryComboBoxRenderer(final JFileChooser fc) {
-        return new AquaComboBoxRendererInternal<File>(directoryComboBox) {
-            public Component getListCellRendererComponent(final JList<? extends File> list,
-                                                          final File directory,
-                                                          final int index,
-                                                          final boolean isSelected,
-                                                          final boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, directory, index, isSelected, cellHasFocus);
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    protected ListCellRenderer<File> crebteDirectoryComboBoxRenderer(finbl JFileChooser fc) {
+        return new AqubComboBoxRendererInternbl<File>(directoryComboBox) {
+            public Component getListCellRendererComponent(finbl JList<? extends File> list,
+                                                          finbl File directory,
+                                                          finbl int index,
+                                                          finbl boolebn isSelected,
+                                                          finbl boolebn cellHbsFocus) {
+                super.getListCellRendererComponent(list, directory, index, isSelected, cellHbsFocus);
                 if (directory == null) {
                     setText("");
                     return this;
                 }
 
-                final JFileChooser chooser = getFileChooser();
-                setText(chooser.getName(directory));
+                finbl JFileChooser chooser = getFileChooser();
+                setText(chooser.getNbme(directory));
                 setIcon(chooser.getIcon(directory));
                 return this;
             }
@@ -1167,71 +1167,71 @@ public class AquaFileChooserUI extends FileChooserUI {
     }
 
     //
-    // DataModel for DirectoryComboxbox
+    // DbtbModel for DirectoryComboxbox
     //
-    protected DirectoryComboBoxModel createDirectoryComboBoxModel(final JFileChooser fc) {
+    protected DirectoryComboBoxModel crebteDirectoryComboBoxModel(finbl JFileChooser fc) {
         return new DirectoryComboBoxModel();
     }
 
     /**
-     * Data model for a type-face selection combo-box.
+     * Dbtb model for b type-fbce selection combo-box.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class DirectoryComboBoxModel extends AbstractListModel<File> implements ComboBoxModel<File> {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss DirectoryComboBoxModel extends AbstrbctListModel<File> implements ComboBoxModel<File> {
         Vector<File> fDirectories = new Vector<File>();
         int topIndex = -1;
-        int fPathCount = 0;
+        int fPbthCount = 0;
 
         File fSelectedDirectory = null;
 
         public DirectoryComboBoxModel() {
             super();
-            // Add the current directory to the model, and make it the
+            // Add the current directory to the model, bnd mbke it the
             // selectedDirectory
-            addItem(getFileChooser().getCurrentDirectory());
+            bddItem(getFileChooser().getCurrentDirectory());
         }
 
         /**
-         * Removes the selected directory, and clears out the
-         * path file entries leading up to that directory.
+         * Removes the selected directory, bnd clebrs out the
+         * pbth file entries lebding up to thbt directory.
          */
-        private void removeSelectedDirectory() {
+        privbte void removeSelectedDirectory() {
             fDirectories.removeAllElements();
-            fPathCount = 0;
+            fPbthCount = 0;
             fSelectedDirectory = null;
             // dump();
         }
 
         /**
-         * Adds the directory to the model and sets it to be selected,
-         * additionally clears out the previous selected directory and
-         * the paths leading up to it, if any.
+         * Adds the directory to the model bnd sets it to be selected,
+         * bdditionblly clebrs out the previous selected directory bnd
+         * the pbths lebding up to it, if bny.
          */
-        void addItem(final File directory) {
+        void bddItem(finbl File directory) {
             if (directory == null) { return; }
             if (fSelectedDirectory != null) {
                 removeSelectedDirectory();
             }
 
-            // create File instances of each directory leading up to the top
+            // crebte File instbnces of ebch directory lebding up to the top
             File f = directory.getAbsoluteFile();
-            final Vector<File> path = new Vector<File>(10);
-            while (f.getParent() != null) {
-                path.addElement(f);
-                f = getFileChooser().getFileSystemView().createFileObject(f.getParent());
+            finbl Vector<File> pbth = new Vector<File>(10);
+            while (f.getPbrent() != null) {
+                pbth.bddElement(f);
+                f = getFileChooser().getFileSystemView().crebteFileObject(f.getPbrent());
             };
 
             // Add root file (the desktop) to the model
-            final File[] roots = getFileChooser().getFileSystemView().getRoots();
-            for (final File element : roots) {
-                path.addElement(element);
+            finbl File[] roots = getFileChooser().getFileSystemView().getRoots();
+            for (finbl File element : roots) {
+                pbth.bddElement(element);
             }
-            fPathCount = path.size();
+            fPbthCount = pbth.size();
 
-            // insert all the path fDirectories leading up to the
-            // selected directory in reverse order (current directory at top)
-            for (int i = 0; i < path.size(); i++) {
-                fDirectories.addElement(path.elementAt(i));
+            // insert bll the pbth fDirectories lebding up to the
+            // selected directory in reverse order (current directory bt top)
+            for (int i = 0; i < pbth.size(); i++) {
+                fDirectories.bddElement(pbth.elementAt(i));
             }
 
             setSelectedItem(fDirectories.elementAt(0));
@@ -1239,9 +1239,9 @@ public class AquaFileChooserUI extends FileChooserUI {
             // dump();
         }
 
-        public void setSelectedItem(final Object selectedDirectory) {
+        public void setSelectedItem(finbl Object selectedDirectory) {
             this.fSelectedDirectory = (File)selectedDirectory;
-            fireContentsChanged(this, -1, -1);
+            fireContentsChbnged(this, -1, -1);
         }
 
         public Object getSelectedItem() {
@@ -1252,7 +1252,7 @@ public class AquaFileChooserUI extends FileChooserUI {
             return fDirectories.size();
         }
 
-        public File getElementAt(final int index) {
+        public File getElementAt(finbl int index) {
             return fDirectories.elementAt(index);
         }
     }
@@ -1260,15 +1260,15 @@ public class AquaFileChooserUI extends FileChooserUI {
     //
     // Renderer for Types ComboBox
     //
-    @SuppressWarnings("serial") // anonymous class
-    protected ListCellRenderer<FileFilter> createFilterComboBoxRenderer() {
-        return new AquaComboBoxRendererInternal<FileFilter>(filterComboBox) {
-            public Component getListCellRendererComponent(final JList<? extends FileFilter> list,
-                                                          final FileFilter filter,
-                                                          final int index,
-                                                          final boolean isSelected,
-                                                          final boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, filter, index, isSelected, cellHasFocus);
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    protected ListCellRenderer<FileFilter> crebteFilterComboBoxRenderer() {
+        return new AqubComboBoxRendererInternbl<FileFilter>(filterComboBox) {
+            public Component getListCellRendererComponent(finbl JList<? extends FileFilter> list,
+                                                          finbl FileFilter filter,
+                                                          finbl int index,
+                                                          finbl boolebn isSelected,
+                                                          finbl boolebn cellHbsFocus) {
+                super.getListCellRendererComponent(list, filter, index, isSelected, cellHbsFocus);
                 if (filter != null) setText(filter.getDescription());
                 return this;
             }
@@ -1276,57 +1276,57 @@ public class AquaFileChooserUI extends FileChooserUI {
     }
 
     //
-    // DataModel for Types Comboxbox
+    // DbtbModel for Types Comboxbox
     //
-    protected FilterComboBoxModel createFilterComboBoxModel() {
+    protected FilterComboBoxModel crebteFilterComboBoxModel() {
         return new FilterComboBoxModel();
     }
 
     /**
-     * Data model for a type-face selection combo-box.
+     * Dbtb model for b type-fbce selection combo-box.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class FilterComboBoxModel extends AbstractListModel<FileFilter> implements ComboBoxModel<FileFilter>,
-            PropertyChangeListener {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss FilterComboBoxModel extends AbstrbctListModel<FileFilter> implements ComboBoxModel<FileFilter>,
+            PropertyChbngeListener {
         protected FileFilter[] filters;
         protected FilterComboBoxModel() {
             super();
-            filters = getFileChooser().getChoosableFileFilters();
+            filters = getFileChooser().getChoosbbleFileFilters();
         }
 
-        public void propertyChange(PropertyChangeEvent e) {
-            String prop = e.getPropertyName();
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String prop = e.getPropertyNbme();
             if(prop == JFileChooser.CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY) {
-                filters = (FileFilter[]) e.getNewValue();
-                fireContentsChanged(this, -1, -1);
+                filters = (FileFilter[]) e.getNewVblue();
+                fireContentsChbnged(this, -1, -1);
             } else if (prop == JFileChooser.FILE_FILTER_CHANGED_PROPERTY) {
-                fireContentsChanged(this, -1, -1);
+                fireContentsChbnged(this, -1, -1);
             }
         }
 
         public void setSelectedItem(Object filter) {
             if(filter != null) {
                 getFileChooser().setFileFilter((FileFilter) filter);
-                fireContentsChanged(this, -1, -1);
+                fireContentsChbnged(this, -1, -1);
             }
         }
 
         public Object getSelectedItem() {
-            // Ensure that the current filter is in the list.
-            // NOTE: we shouldnt' have to do this, since JFileChooser adds
-            // the filter to the choosable filters list when the filter
-            // is set. Lets be paranoid just in case someone overrides
+            // Ensure thbt the current filter is in the list.
+            // NOTE: we shouldnt' hbve to do this, since JFileChooser bdds
+            // the filter to the choosbble filters list when the filter
+            // is set. Lets be pbrbnoid just in cbse someone overrides
             // setFileFilter in JFileChooser.
             FileFilter currentFilter = getFileChooser().getFileFilter();
-            boolean found = false;
+            boolebn found = fblse;
             if(currentFilter != null) {
                 for (FileFilter filter : filters) {
                     if (filter == currentFilter) {
                         found = true;
                     }
                 }
-                if(found == false) {
-                    getFileChooser().addChoosableFileFilter(currentFilter);
+                if(found == fblse) {
+                    getFileChooser().bddChoosbbleFileFilter(currentFilter);
                 }
             }
             return getFileChooser().getFileFilter();
@@ -1342,7 +1342,7 @@ public class AquaFileChooserUI extends FileChooserUI {
 
         public FileFilter getElementAt(int index) {
             if(index > getSize() - 1) {
-                // This shouldn't happen. Try to recover gracefully.
+                // This shouldn't hbppen. Try to recover grbcefully.
                 return getFileChooser().getFileFilter();
             }
             if(filters != null) {
@@ -1354,96 +1354,96 @@ public class AquaFileChooserUI extends FileChooserUI {
     }
 
     /**
-     * Acts when FilterComboBox has changed the selected item.
+     * Acts when FilterComboBox hbs chbnged the selected item.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class FilterComboBoxAction extends AbstractAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss FilterComboBoxAction extends AbstrbctAction {
         protected FilterComboBoxAction() {
             super("FilterComboBoxAction");
         }
 
-        public void actionPerformed(final ActionEvent e) {
+        public void bctionPerformed(finbl ActionEvent e) {
             getFileChooser().setFileFilter((FileFilter) filterComboBox.getSelectedItem());
         }
     }
 
     /**
-     * Acts when DirectoryComboBox has changed the selected item.
+     * Acts when DirectoryComboBox hbs chbnged the selected item.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class DirectoryComboBoxAction extends AbstractAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss DirectoryComboBoxAction extends AbstrbctAction {
         protected DirectoryComboBoxAction() {
             super("DirectoryComboBoxAction");
         }
 
-        public void actionPerformed(final ActionEvent e) {
+        public void bctionPerformed(finbl ActionEvent e) {
             getFileChooser().setCurrentDirectory((File)directoryComboBox.getSelectedItem());
         }
     }
 
-    // Sorting Table operations
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class JSortingTableHeader extends JTableHeader {
-        public JSortingTableHeader(final TableColumnModel cm) {
+    // Sorting Tbble operbtions
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss JSortingTbbleHebder extends JTbbleHebder {
+        public JSortingTbbleHebder(finbl TbbleColumnModel cm) {
             super(cm);
-            setReorderingAllowed(true); // This causes mousePress to call setDraggedColumn
+            setReorderingAllowed(true); // This cbuses mousePress to cbll setDrbggedColumn
         }
 
-        // One sort state for each column.  Both are ascending by default
-        final boolean fSortAscending[] = {true, true};
+        // One sort stbte for ebch column.  Both bre bscending by defbult
+        finbl boolebn fSortAscending[] = {true, true};
 
-        // Instead of dragging, it selects which one to sort by
-        public void setDraggedColumn(final TableColumn aColumn) {
-            if (aColumn != null) {
-                final int colIndex = aColumn.getModelIndex();
+        // Instebd of drbgging, it selects which one to sort by
+        public void setDrbggedColumn(finbl TbbleColumn bColumn) {
+            if (bColumn != null) {
+                finbl int colIndex = bColumn.getModelIndex();
                 if (colIndex != fSortColumn) {
-                    filechooser.firePropertyChange(AquaFileSystemModel.SORT_BY_CHANGED, fSortColumn, colIndex);
+                    filechooser.firePropertyChbnge(AqubFileSystemModel.SORT_BY_CHANGED, fSortColumn, colIndex);
                     fSortColumn = colIndex;
                 } else {
                     fSortAscending[colIndex] = !fSortAscending[colIndex];
-                    filechooser.firePropertyChange(AquaFileSystemModel.SORT_ASCENDING_CHANGED, !fSortAscending[colIndex], fSortAscending[colIndex]);
+                    filechooser.firePropertyChbnge(AqubFileSystemModel.SORT_ASCENDING_CHANGED, !fSortAscending[colIndex], fSortAscending[colIndex]);
                 }
-                // Need to repaint the highlighted column.
-                repaint();
+                // Need to repbint the highlighted column.
+                repbint();
             }
         }
 
-        // This stops mouseDrags from moving the column
-        public TableColumn getDraggedColumn() {
+        // This stops mouseDrbgs from moving the column
+        public TbbleColumn getDrbggedColumn() {
             return null;
         }
 
-        protected TableCellRenderer createDefaultRenderer() {
-            final DefaultTableCellRenderer label = new AquaTableCellRenderer();
-            label.setHorizontalAlignment(SwingConstants.LEFT);
-            return label;
+        protected TbbleCellRenderer crebteDefbultRenderer() {
+            finbl DefbultTbbleCellRenderer lbbel = new AqubTbbleCellRenderer();
+            lbbel.setHorizontblAlignment(SwingConstbnts.LEFT);
+            return lbbel;
         }
 
-        @SuppressWarnings("serial") // Superclass is not serializable across versions
-        class AquaTableCellRenderer extends DefaultTableCellRenderer implements UIResource {
-            public Component getTableCellRendererComponent(final JTable localTable, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
-                if (localTable != null) {
-                    final JTableHeader header = localTable.getTableHeader();
-                    if (header != null) {
-                        setForeground(header.getForeground());
-                        setBackground(header.getBackground());
-                        setFont(UIManager.getFont("TableHeader.font"));
+        @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+        clbss AqubTbbleCellRenderer extends DefbultTbbleCellRenderer implements UIResource {
+            public Component getTbbleCellRendererComponent(finbl JTbble locblTbble, finbl Object vblue, finbl boolebn isSelected, finbl boolebn hbsFocus, finbl int row, finbl int column) {
+                if (locblTbble != null) {
+                    finbl JTbbleHebder hebder = locblTbble.getTbbleHebder();
+                    if (hebder != null) {
+                        setForeground(hebder.getForeground());
+                        setBbckground(hebder.getBbckground());
+                        setFont(UIMbnbger.getFont("TbbleHebder.font"));
                     }
                 }
 
-                setText((value == null) ? "" : value.toString());
+                setText((vblue == null) ? "" : vblue.toString());
 
-                // Modify the table "border" to draw smaller, and with the titles in the right position
-                // and sort indicators, just like an NSSave/Open panel.
-                final AquaTableHeaderBorder cellBorder = AquaTableHeaderBorder.getListHeaderBorder();
+                // Modify the tbble "border" to drbw smbller, bnd with the titles in the right position
+                // bnd sort indicbtors, just like bn NSSbve/Open pbnel.
+                finbl AqubTbbleHebderBorder cellBorder = AqubTbbleHebderBorder.getListHebderBorder();
                 cellBorder.setSelected(column == fSortColumn);
-                final int horizontalShift = (column == 0 ? 35 : 10);
-                cellBorder.setHorizontalShift(horizontalShift);
+                finbl int horizontblShift = (column == 0 ? 35 : 10);
+                cellBorder.setHorizontblShift(horizontblShift);
 
                 if (column == fSortColumn) {
-                    cellBorder.setSortOrder(fSortAscending[column] ? AquaTableHeaderBorder.SORT_ASCENDING : AquaTableHeaderBorder.SORT_DECENDING);
+                    cellBorder.setSortOrder(fSortAscending[column] ? AqubTbbleHebderBorder.SORT_ASCENDING : AqubTbbleHebderBorder.SORT_DECENDING);
                 } else {
-                    cellBorder.setSortOrder(AquaTableHeaderBorder.SORT_NONE);
+                    cellBorder.setSortOrder(AqubTbbleHebderBorder.SORT_NONE);
                 }
                 setBorder(cellBorder);
                 return this;
@@ -1451,300 +1451,300 @@ public class AquaFileChooserUI extends FileChooserUI {
         }
     }
 
-    public void installComponents(final JFileChooser fc) {
-        JPanel tPanel; // temp panel
-        // set to a Y BoxLayout. The chooser will be laid out top to bottom.
-        fc.setLayout(new BoxLayout(fc, BoxLayout.Y_AXIS));
-        fc.add(Box.createRigidArea(vstrut10));
+    public void instbllComponents(finbl JFileChooser fc) {
+        JPbnel tPbnel; // temp pbnel
+        // set to b Y BoxLbyout. The chooser will be lbid out top to bottom.
+        fc.setLbyout(new BoxLbyout(fc, BoxLbyout.Y_AXIS));
+        fc.bdd(Box.crebteRigidAreb(vstrut10));
 
-        // construct the top panel
+        // construct the top pbnel
 
-        final JPanel topPanel = new JPanel();
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-        fc.add(topPanel);
-        fc.add(Box.createRigidArea(vstrut10));
+        finbl JPbnel topPbnel = new JPbnel();
+        topPbnel.setLbyout(new BoxLbyout(topPbnel, BoxLbyout.Y_AXIS));
+        fc.bdd(topPbnel);
+        fc.bdd(Box.crebteRigidAreb(vstrut10));
 
-        // Add the textfield pane
+        // Add the textfield pbne
 
-        fTextfieldPanel = new JPanel();
-        fTextfieldPanel.setLayout(new BorderLayout());
-        // setBottomPanelForMode will make this visible if we need it
-        fTextfieldPanel.setVisible(false);
-        topPanel.add(fTextfieldPanel);
+        fTextfieldPbnel = new JPbnel();
+        fTextfieldPbnel.setLbyout(new BorderLbyout());
+        // setBottomPbnelForMode will mbke this visible if we need it
+        fTextfieldPbnel.setVisible(fblse);
+        topPbnel.bdd(fTextfieldPbnel);
 
-        tPanel = new JPanel();
-        tPanel.setLayout(new BoxLayout(tPanel, BoxLayout.Y_AXIS));
-        final JPanel labelArea = new JPanel();
-        labelArea.setLayout(new FlowLayout(FlowLayout.CENTER));
-        fTextFieldLabel = new JLabel(fileNameLabelText);
-        labelArea.add(fTextFieldLabel);
+        tPbnel = new JPbnel();
+        tPbnel.setLbyout(new BoxLbyout(tPbnel, BoxLbyout.Y_AXIS));
+        finbl JPbnel lbbelAreb = new JPbnel();
+        lbbelAreb.setLbyout(new FlowLbyout(FlowLbyout.CENTER));
+        fTextFieldLbbel = new JLbbel(fileNbmeLbbelText);
+        lbbelAreb.bdd(fTextFieldLbbel);
 
         // text field
-        filenameTextField = new JTextField();
-        fTextFieldLabel.setLabelFor(filenameTextField);
-        filenameTextField.addActionListener(getAction(kOpen));
-        filenameTextField.addFocusListener(new SaveTextFocusListener());
-        final Dimension minSize = filenameTextField.getMinimumSize();
+        filenbmeTextField = new JTextField();
+        fTextFieldLbbel.setLbbelFor(filenbmeTextField);
+        filenbmeTextField.bddActionListener(getAction(kOpen));
+        filenbmeTextField.bddFocusListener(new SbveTextFocusListener());
+        finbl Dimension minSize = filenbmeTextField.getMinimumSize();
         Dimension d = new Dimension(250, (int)minSize.getHeight());
-        filenameTextField.setPreferredSize(d);
-        filenameTextField.setMaximumSize(d);
-        labelArea.add(filenameTextField);
-        final File f = fc.getSelectedFile();
+        filenbmeTextField.setPreferredSize(d);
+        filenbmeTextField.setMbximumSize(d);
+        lbbelAreb.bdd(filenbmeTextField);
+        finbl File f = fc.getSelectedFile();
         if (f != null) {
-            setFileName(fc.getName(f));
-        } else if (fc.getDialogType() == JFileChooser.SAVE_DIALOG) {
-            setFileName(newFileDefaultName);
+            setFileNbme(fc.getNbme(f));
+        } else if (fc.getDiblogType() == JFileChooser.SAVE_DIALOG) {
+            setFileNbme(newFileDefbultNbme);
         }
 
-        tPanel.add(labelArea);
-        // separator line
-        @SuppressWarnings("serial") // anonymous class
-        final JSeparator sep = new JSeparator(){
+        tPbnel.bdd(lbbelAreb);
+        // sepbrbtor line
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        finbl JSepbrbtor sep = new JSepbrbtor(){
             public Dimension getPreferredSize() {
-                return new Dimension(((JComponent)getParent()).getWidth(), 3);
+                return new Dimension(((JComponent)getPbrent()).getWidth(), 3);
             }
         };
-        tPanel.add(Box.createRigidArea(new Dimension(1, 8)));
-        tPanel.add(sep);
-        tPanel.add(Box.createRigidArea(new Dimension(1, 7)));
-        fTextfieldPanel.add(tPanel, BorderLayout.CENTER);
+        tPbnel.bdd(Box.crebteRigidAreb(new Dimension(1, 8)));
+        tPbnel.bdd(sep);
+        tPbnel.bdd(Box.crebteRigidAreb(new Dimension(1, 7)));
+        fTextfieldPbnel.bdd(tPbnel, BorderLbyout.CENTER);
 
-        // DirectoryComboBox, left-justified, 200x20 not including drop shadow
+        // DirectoryComboBox, left-justified, 200x20 not including drop shbdow
         directoryComboBox = new JComboBox<>();
-        directoryComboBox.putClientProperty("JComboBox.lightweightKeyboardNavigation", "Lightweight");
-        fDirectoryComboBoxModel = createDirectoryComboBoxModel(fc);
+        directoryComboBox.putClientProperty("JComboBox.lightweightKeybobrdNbvigbtion", "Lightweight");
+        fDirectoryComboBoxModel = crebteDirectoryComboBoxModel(fc);
         directoryComboBox.setModel(fDirectoryComboBoxModel);
-        directoryComboBox.addActionListener(directoryComboBoxAction);
-        directoryComboBox.setRenderer(createDirectoryComboBoxRenderer(fc));
+        directoryComboBox.bddActionListener(directoryComboBoxAction);
+        directoryComboBox.setRenderer(crebteDirectoryComboBoxRenderer(fc));
         directoryComboBox.setToolTipText(directoryComboBoxToolTipText);
         d = new Dimension(250, (int)directoryComboBox.getMinimumSize().getHeight());
         directoryComboBox.setPreferredSize(d);
-        directoryComboBox.setMaximumSize(d);
-        topPanel.add(directoryComboBox);
+        directoryComboBox.setMbximumSize(d);
+        topPbnel.bdd(directoryComboBox);
 
         // ************************************** //
-        // ** Add the directory/Accessory pane ** //
+        // ** Add the directory/Accessory pbne ** //
         // ************************************** //
-        final JPanel centerPanel = new JPanel(new BorderLayout());
-        fc.add(centerPanel);
+        finbl JPbnel centerPbnel = new JPbnel(new BorderLbyout());
+        fc.bdd(centerPbnel);
 
-        // Accessory pane (equiv to Preview pane in NavServices)
-        final JComponent accessory = fc.getAccessory();
-        if (accessory != null) {
-            getAccessoryPanel().add(accessory);
+        // Accessory pbne (equiv to Preview pbne in NbvServices)
+        finbl JComponent bccessory = fc.getAccessory();
+        if (bccessory != null) {
+            getAccessoryPbnel().bdd(bccessory);
         }
-        centerPanel.add(getAccessoryPanel(), BorderLayout.LINE_START);
+        centerPbnel.bdd(getAccessoryPbnel(), BorderLbyout.LINE_START);
 
-        // Directory list(table), right-justified, resizable
-        final JPanel p = createList(fc);
+        // Directory list(tbble), right-justified, resizbble
+        finbl JPbnel p = crebteList(fc);
         p.setMinimumSize(LIST_MIN_SIZE);
-        centerPanel.add(p, BorderLayout.CENTER);
+        centerPbnel.bdd(p, BorderLbyout.CENTER);
 
         // ********************************** //
-        // **** Construct the bottom panel ** //
+        // **** Construct the bottom pbnel ** //
         // ********************************** //
-        fBottomPanel = new JPanel();
-        fBottomPanel.setLayout(new BoxLayout(fBottomPanel, BoxLayout.Y_AXIS));
-        fc.add(fBottomPanel);
+        fBottomPbnel = new JPbnel();
+        fBottomPbnel.setLbyout(new BoxLbyout(fBottomPbnel, BoxLbyout.Y_AXIS));
+        fc.bdd(fBottomPbnel);
 
-        // Filter label and combobox.
-        // I know it's unMaclike, but the filter goes on Directory_only too.
-        tPanel = new JPanel();
-        tPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        tPanel.setBorder(AquaGroupBorder.getTitlelessBorder());
-        final JLabel formatLabel = new JLabel(filesOfTypeLabelText);
-        tPanel.add(formatLabel);
+        // Filter lbbel bnd combobox.
+        // I know it's unMbclike, but the filter goes on Directory_only too.
+        tPbnel = new JPbnel();
+        tPbnel.setLbyout(new FlowLbyout(FlowLbyout.CENTER));
+        tPbnel.setBorder(AqubGroupBorder.getTitlelessBorder());
+        finbl JLbbel formbtLbbel = new JLbbel(filesOfTypeLbbelText);
+        tPbnel.bdd(formbtLbbel);
 
         // Combobox
-        filterComboBoxModel = createFilterComboBoxModel();
-        fc.addPropertyChangeListener(filterComboBoxModel);
+        filterComboBoxModel = crebteFilterComboBoxModel();
+        fc.bddPropertyChbngeListener(filterComboBoxModel);
         filterComboBox = new JComboBox<>(filterComboBoxModel);
-        formatLabel.setLabelFor(filterComboBox);
-        filterComboBox.setRenderer(createFilterComboBoxRenderer());
+        formbtLbbel.setLbbelFor(filterComboBox);
+        filterComboBox.setRenderer(crebteFilterComboBoxRenderer());
         d = new Dimension(220, (int)filterComboBox.getMinimumSize().getHeight());
         filterComboBox.setPreferredSize(d);
-        filterComboBox.setMaximumSize(d);
-        filterComboBox.addActionListener(filterComboBoxAction);
-        filterComboBox.setOpaque(false);
-        tPanel.add(filterComboBox);
+        filterComboBox.setMbximumSize(d);
+        filterComboBox.bddActionListener(filterComboBoxAction);
+        filterComboBox.setOpbque(fblse);
+        tPbnel.bdd(filterComboBox);
 
-        fBottomPanel.add(tPanel);
+        fBottomPbnel.bdd(tPbnel);
 
-        // fDirectoryPanel: New, Open, Cancel, Approve buttons, right-justified, 82x22
-        // (sometimes the NewFolder and OpenFolder buttons are invisible)
-        fDirectoryPanel = new JPanel();
-        fDirectoryPanel.setLayout(new BoxLayout(fDirectoryPanel, BoxLayout.PAGE_AXIS));
-        JPanel directoryPanel = new JPanel(new BorderLayout());
-        JPanel newFolderButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
-        newFolderButtonPanel.add(Box.createHorizontalStrut(20));
-        fNewFolderButton = createNewFolderButton(); // Because we hide it depending on style
-        newFolderButtonPanel.add(fNewFolderButton);
-        directoryPanel.add(newFolderButtonPanel, BorderLayout.LINE_START);
-        JPanel approveCancelButtonPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING, 0, 0));
-        fOpenButton = createButton(kOpenDirectory, openButtonText);
-        approveCancelButtonPanel.add(fOpenButton);
-        approveCancelButtonPanel.add(Box.createHorizontalStrut(8));
-        fCancelButton = createButton(kCancel, null);
-        approveCancelButtonPanel.add(fCancelButton);
-        approveCancelButtonPanel.add(Box.createHorizontalStrut(8));
+        // fDirectoryPbnel: New, Open, Cbncel, Approve buttons, right-justified, 82x22
+        // (sometimes the NewFolder bnd OpenFolder buttons bre invisible)
+        fDirectoryPbnel = new JPbnel();
+        fDirectoryPbnel.setLbyout(new BoxLbyout(fDirectoryPbnel, BoxLbyout.PAGE_AXIS));
+        JPbnel directoryPbnel = new JPbnel(new BorderLbyout());
+        JPbnel newFolderButtonPbnel = new JPbnel(new FlowLbyout(FlowLbyout.LEADING, 0, 0));
+        newFolderButtonPbnel.bdd(Box.crebteHorizontblStrut(20));
+        fNewFolderButton = crebteNewFolderButton(); // Becbuse we hide it depending on style
+        newFolderButtonPbnel.bdd(fNewFolderButton);
+        directoryPbnel.bdd(newFolderButtonPbnel, BorderLbyout.LINE_START);
+        JPbnel bpproveCbncelButtonPbnel = new JPbnel(new FlowLbyout(FlowLbyout.TRAILING, 0, 0));
+        fOpenButton = crebteButton(kOpenDirectory, openButtonText);
+        bpproveCbncelButtonPbnel.bdd(fOpenButton);
+        bpproveCbncelButtonPbnel.bdd(Box.crebteHorizontblStrut(8));
+        fCbncelButton = crebteButton(kCbncel, null);
+        bpproveCbncelButtonPbnel.bdd(fCbncelButton);
+        bpproveCbncelButtonPbnel.bdd(Box.crebteHorizontblStrut(8));
         // The ApproveSelection button
         fApproveButton = new JButton();
-        fApproveButton.addActionListener(fApproveSelectionAction);
-        approveCancelButtonPanel.add(fApproveButton);
-        approveCancelButtonPanel.add(Box.createHorizontalStrut(20));
-        directoryPanel.add(approveCancelButtonPanel, BorderLayout.LINE_END);
-        fDirectoryPanel.add(Box.createVerticalStrut(5));
-        fDirectoryPanel.add(directoryPanel);
-        fDirectoryPanel.add(Box.createVerticalStrut(12));
-        fDirectoryPanelSpacer = Box.createRigidArea(hstrut10);
+        fApproveButton.bddActionListener(fApproveSelectionAction);
+        bpproveCbncelButtonPbnel.bdd(fApproveButton);
+        bpproveCbncelButtonPbnel.bdd(Box.crebteHorizontblStrut(20));
+        directoryPbnel.bdd(bpproveCbncelButtonPbnel, BorderLbyout.LINE_END);
+        fDirectoryPbnel.bdd(Box.crebteVerticblStrut(5));
+        fDirectoryPbnel.bdd(directoryPbnel);
+        fDirectoryPbnel.bdd(Box.crebteVerticblStrut(12));
+        fDirectoryPbnelSpbcer = Box.crebteRigidAreb(hstrut10);
 
         if (fc.getControlButtonsAreShown()) {
-            fBottomPanel.add(fDirectoryPanelSpacer);
-            fBottomPanel.add(fDirectoryPanel);
+            fBottomPbnel.bdd(fDirectoryPbnelSpbcer);
+            fBottomPbnel.bdd(fDirectoryPbnel);
         }
 
-        setBottomPanelForMode(fc); // updates ApproveButtonText etc
+        setBottomPbnelForMode(fc); // updbtes ApproveButtonText etc
 
-        // don't create til after the FCSubpanel and buttons are made
-        filenameTextField.getDocument().addDocumentListener(new SaveTextDocumentListener());
+        // don't crebte til bfter the FCSubpbnel bnd buttons bre mbde
+        filenbmeTextField.getDocument().bddDocumentListener(new SbveTextDocumentListener());
     }
 
-    void setDefaultButtonForMode(final JFileChooser fc) {
-        final JButton defaultButton = fSubPanel.getDefaultButton(fc);
-        final JRootPane root = defaultButton.getRootPane();
+    void setDefbultButtonForMode(finbl JFileChooser fc) {
+        finbl JButton defbultButton = fSubPbnel.getDefbultButton(fc);
+        finbl JRootPbne root = defbultButton.getRootPbne();
         if (root != null) {
-            root.setDefaultButton(defaultButton);
+            root.setDefbultButton(defbultButton);
         }
     }
 
-    // Macs start with their focus in text areas if they have them,
-    // lists otherwise (the other plafs start with the focus on approveButton)
-    void setFocusForMode(final JFileChooser fc) {
-        final JComponent focusComponent = fSubPanel.getFocusComponent(fc);
+    // Mbcs stbrt with their focus in text brebs if they hbve them,
+    // lists otherwise (the other plbfs stbrt with the focus on bpproveButton)
+    void setFocusForMode(finbl JFileChooser fc) {
+        finbl JComponent focusComponent = fSubPbnel.getFocusComponent(fc);
         if (focusComponent != null) {
             focusComponent.requestFocus();
         }
     }
 
-    // Enable/disable buttons as needed for the current selection/focus state
-    void updateButtonState(final JFileChooser fc) {
-        fSubPanel.updateButtonState(fc, getFirstSelectedItem());
-        updateApproveButton(fc);
+    // Enbble/disbble buttons bs needed for the current selection/focus stbte
+    void updbteButtonStbte(finbl JFileChooser fc) {
+        fSubPbnel.updbteButtonStbte(fc, getFirstSelectedItem());
+        updbteApproveButton(fc);
     }
 
-    void updateApproveButton(final JFileChooser chooser) {
+    void updbteApproveButton(finbl JFileChooser chooser) {
         fApproveButton.setText(getApproveButtonText(chooser));
         fApproveButton.setToolTipText(getApproveButtonToolTipText(chooser));
         fApproveButton.setMnemonic(getApproveButtonMnemonic(chooser));
-        fCancelButton.setToolTipText(getCancelButtonToolTipText(chooser));
+        fCbncelButton.setToolTipText(getCbncelButtonToolTipText(chooser));
     }
 
-    // Lazy-init the subpanels
-    synchronized FCSubpanel getSaveFilePanel() {
-        if (fSaveFilePanel == null) fSaveFilePanel = new SaveFilePanel();
-        return fSaveFilePanel;
+    // Lbzy-init the subpbnels
+    synchronized FCSubpbnel getSbveFilePbnel() {
+        if (fSbveFilePbnel == null) fSbveFilePbnel = new SbveFilePbnel();
+        return fSbveFilePbnel;
     }
 
-    synchronized FCSubpanel getOpenFilePanel() {
-        if (fOpenFilePanel == null) fOpenFilePanel = new OpenFilePanel();
-        return fOpenFilePanel;
+    synchronized FCSubpbnel getOpenFilePbnel() {
+        if (fOpenFilePbnel == null) fOpenFilePbnel = new OpenFilePbnel();
+        return fOpenFilePbnel;
     }
 
-    synchronized FCSubpanel getOpenDirOrAnyPanel() {
-        if (fOpenDirOrAnyPanel == null) fOpenDirOrAnyPanel = new OpenDirOrAnyPanel();
-        return fOpenDirOrAnyPanel;
+    synchronized FCSubpbnel getOpenDirOrAnyPbnel() {
+        if (fOpenDirOrAnyPbnel == null) fOpenDirOrAnyPbnel = new OpenDirOrAnyPbnel();
+        return fOpenDirOrAnyPbnel;
     }
 
-    synchronized FCSubpanel getCustomFilePanel() {
-        if (fCustomFilePanel == null) fCustomFilePanel = new CustomFilePanel();
-        return fCustomFilePanel;
+    synchronized FCSubpbnel getCustomFilePbnel() {
+        if (fCustomFilePbnel == null) fCustomFilePbnel = new CustomFilePbnel();
+        return fCustomFilePbnel;
     }
 
-    synchronized FCSubpanel getCustomDirOrAnyPanel() {
-        if (fCustomDirOrAnyPanel == null) fCustomDirOrAnyPanel = new CustomDirOrAnyPanel();
-        return fCustomDirOrAnyPanel;
+    synchronized FCSubpbnel getCustomDirOrAnyPbnel() {
+        if (fCustomDirOrAnyPbnel == null) fCustomDirOrAnyPbnel = new CustomDirOrAnyPbnel();
+        return fCustomDirOrAnyPbnel;
     }
 
-    void setBottomPanelForMode(final JFileChooser fc) {
-        if (fc.getDialogType() == JFileChooser.SAVE_DIALOG) fSubPanel = getSaveFilePanel();
-        else if (fc.getDialogType() == JFileChooser.OPEN_DIALOG) {
-            if (fc.getFileSelectionMode() == JFileChooser.FILES_ONLY) fSubPanel = getOpenFilePanel();
-            else fSubPanel = getOpenDirOrAnyPanel();
-        } else if (fc.getDialogType() == JFileChooser.CUSTOM_DIALOG) {
-            if (fc.getFileSelectionMode() == JFileChooser.FILES_ONLY) fSubPanel = getCustomFilePanel();
-            else fSubPanel = getCustomDirOrAnyPanel();
+    void setBottomPbnelForMode(finbl JFileChooser fc) {
+        if (fc.getDiblogType() == JFileChooser.SAVE_DIALOG) fSubPbnel = getSbveFilePbnel();
+        else if (fc.getDiblogType() == JFileChooser.OPEN_DIALOG) {
+            if (fc.getFileSelectionMode() == JFileChooser.FILES_ONLY) fSubPbnel = getOpenFilePbnel();
+            else fSubPbnel = getOpenDirOrAnyPbnel();
+        } else if (fc.getDiblogType() == JFileChooser.CUSTOM_DIALOG) {
+            if (fc.getFileSelectionMode() == JFileChooser.FILES_ONLY) fSubPbnel = getCustomFilePbnel();
+            else fSubPbnel = getCustomDirOrAnyPbnel();
         }
 
-        fSubPanel.installPanel(fc, true);
-        updateApproveButton(fc);
-        updateButtonState(fc);
-        setDefaultButtonForMode(fc);
+        fSubPbnel.instbllPbnel(fc, true);
+        updbteApproveButton(fc);
+        updbteButtonStbte(fc);
+        setDefbultButtonForMode(fc);
         setFocusForMode(fc);
-        fc.invalidate();
+        fc.invblidbte();
     }
 
-    // fTextfieldPanel and fDirectoryPanel both have NewFolder buttons; only one should be visible at a time
-    JButton createNewFolderButton() {
-        final JButton b = new JButton(newFolderButtonText);
+    // fTextfieldPbnel bnd fDirectoryPbnel both hbve NewFolder buttons; only one should be visible bt b time
+    JButton crebteNewFolderButton() {
+        finbl JButton b = new JButton(newFolderButtonText);
         b.setToolTipText(newFolderToolTipText);
-        b.getAccessibleContext().setAccessibleName(newFolderAccessibleName);
-        b.setHorizontalTextPosition(SwingConstants.LEFT);
+        b.getAccessibleContext().setAccessibleNbme(newFolderAccessibleNbme);
+        b.setHorizontblTextPosition(SwingConstbnts.LEFT);
         b.setAlignmentX(Component.LEFT_ALIGNMENT);
         b.setAlignmentY(Component.CENTER_ALIGNMENT);
-        b.addActionListener(getAction(kNewFolder));
+        b.bddActionListener(getAction(kNewFolder));
         return b;
     }
 
-    JButton createButton(final int which, String label) {
-        if (label == null) label = UIManager.getString(sDataPrefix + sButtonKinds[which] + sButtonData[0]);
-        final int mnemonic = UIManager.getInt(sDataPrefix + sButtonKinds[which] + sButtonData[1]);
-        final String tipText = UIManager.getString(sDataPrefix + sButtonKinds[which] + sButtonData[2]);
-        final JButton b = new JButton(label);
+    JButton crebteButton(finbl int which, String lbbel) {
+        if (lbbel == null) lbbel = UIMbnbger.getString(sDbtbPrefix + sButtonKinds[which] + sButtonDbtb[0]);
+        finbl int mnemonic = UIMbnbger.getInt(sDbtbPrefix + sButtonKinds[which] + sButtonDbtb[1]);
+        finbl String tipText = UIMbnbger.getString(sDbtbPrefix + sButtonKinds[which] + sButtonDbtb[2]);
+        finbl JButton b = new JButton(lbbel);
         b.setMnemonic(mnemonic);
         b.setToolTipText(tipText);
-        b.addActionListener(getAction(which));
+        b.bddActionListener(getAction(which));
         return b;
     }
 
-    AbstractAction getAction(final int which) {
+    AbstrbctAction getAction(finbl int which) {
         return fButtonActions[which];
     }
 
-    public void uninstallComponents(final JFileChooser fc) { //$ Metal (on which this is based) doesn't uninstall its components.
+    public void uninstbllComponents(finbl JFileChooser fc) { //$ Metbl (on which this is bbsed) doesn't uninstbll its components.
     }
 
-    // Consistent with the AppKit NSSavePanel, clicks on a file (not a directory) should populate the text field
-    // with that file's display name.
-    protected class FileListMouseListener extends MouseAdapter {
-        public void mouseClicked(final MouseEvent e) {
-            final Point p = e.getPoint();
-            final int row = fFileList.rowAtPoint(p);
-            final int column = fFileList.columnAtPoint(p);
+    // Consistent with the AppKit NSSbvePbnel, clicks on b file (not b directory) should populbte the text field
+    // with thbt file's displby nbme.
+    protected clbss FileListMouseListener extends MouseAdbpter {
+        public void mouseClicked(finbl MouseEvent e) {
+            finbl Point p = e.getPoint();
+            finbl int row = fFileList.rowAtPoint(p);
+            finbl int column = fFileList.columnAtPoint(p);
 
-            // The autoscroller can generate drag events outside the Table's range.
+            // The butoscroller cbn generbte drbg events outside the Tbble's rbnge.
             if ((column == -1) || (row == -1)) { return; }
 
-            final File clickedFile = (File)(fFileList.getValueAt(row, 0));
+            finbl File clickedFile = (File)(fFileList.getVblueAt(row, 0));
 
-            // rdar://problem/3734130 -- don't populate the text field if this file isn't selectable in this mode.
-            if (isSelectableForMode(getFileChooser(), clickedFile)) {
-                // [3188387] Populate the file name field with the selected file name
-                // [3484163] It should also use the display name, not the actual name.
-                setFileName(fileView.getName(clickedFile));
+            // rdbr://problem/3734130 -- don't populbte the text field if this file isn't selectbble in this mode.
+            if (isSelectbbleForMode(getFileChooser(), clickedFile)) {
+                // [3188387] Populbte the file nbme field with the selected file nbme
+                // [3484163] It should blso use the displby nbme, not the bctubl nbme.
+                setFileNbme(fileView.getNbme(clickedFile));
             }
         }
     }
 
-    protected JPanel createList(final JFileChooser fc) {
-        // The first part is similar to MetalFileChooserUI.createList - same kind of listeners
-        final JPanel p = new JPanel(new BorderLayout());
-        fFileList = new JTableExtension();
-        fFileList.setToolTipText(null); // Workaround for 2487689
-        fFileList.addMouseListener(new FileListMouseListener());
-        model = new AquaFileSystemModel(fc, fFileList, fColumnNames);
-        final MacListSelectionModel listSelectionModel = new MacListSelectionModel(model);
+    protected JPbnel crebteList(finbl JFileChooser fc) {
+        // The first pbrt is similbr to MetblFileChooserUI.crebteList - sbme kind of listeners
+        finbl JPbnel p = new JPbnel(new BorderLbyout());
+        fFileList = new JTbbleExtension();
+        fFileList.setToolTipText(null); // Workbround for 2487689
+        fFileList.bddMouseListener(new FileListMouseListener());
+        model = new AqubFileSystemModel(fc, fFileList, fColumnNbmes);
+        finbl MbcListSelectionModel listSelectionModel = new MbcListSelectionModel(model);
 
-        if (getFileChooser().isMultiSelectionEnabled()) {
+        if (getFileChooser().isMultiSelectionEnbbled()) {
             listSelectionModel.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         } else {
             listSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -1752,615 +1752,615 @@ public class AquaFileChooserUI extends FileChooserUI {
 
         fFileList.setModel(model);
         fFileList.setSelectionModel(listSelectionModel);
-        fFileList.getSelectionModel().addListSelectionListener(createListSelectionListener(fc));
+        fFileList.getSelectionModel().bddListSelectionListener(crebteListSelectionListener(fc));
 
-        // Now we're different, because we're a table, not a list
-        fc.addPropertyChangeListener(model);
-        fFileList.addFocusListener(new SaveTextFocusListener());
-        final JTableHeader th = new JSortingTableHeader(fFileList.getColumnModel());
-        fFileList.setTableHeader(th);
-        fFileList.setRowMargin(0);
-        fFileList.setIntercellSpacing(new Dimension(0, 1));
-        fFileList.setShowVerticalLines(false);
-        fFileList.setShowHorizontalLines(false);
-        final Font f = fFileList.getFont(); //ThemeFont.GetThemeFont(AppearanceConstants.kThemeViewsFont);
+        // Now we're different, becbuse we're b tbble, not b list
+        fc.bddPropertyChbngeListener(model);
+        fFileList.bddFocusListener(new SbveTextFocusListener());
+        finbl JTbbleHebder th = new JSortingTbbleHebder(fFileList.getColumnModel());
+        fFileList.setTbbleHebder(th);
+        fFileList.setRowMbrgin(0);
+        fFileList.setIntercellSpbcing(new Dimension(0, 1));
+        fFileList.setShowVerticblLines(fblse);
+        fFileList.setShowHorizontblLines(fblse);
+        finbl Font f = fFileList.getFont(); //ThemeFont.GetThemeFont(AppebrbnceConstbnts.kThemeViewsFont);
         //fc.setFont(f);
         //fFileList.setFont(f);
-        fFileList.setDefaultRenderer(File.class, new FileRenderer(f));
-        fFileList.setDefaultRenderer(Date.class, new DateRenderer(f));
-        final FontMetrics fm = fFileList.getFontMetrics(f);
+        fFileList.setDefbultRenderer(File.clbss, new FileRenderer(f));
+        fFileList.setDefbultRenderer(Dbte.clbss, new DbteRenderer(f));
+        finbl FontMetrics fm = fFileList.getFontMetrics(f);
 
-        // Row height isn't based on the renderers.  It defaults to 16 so we have to set it
-        fFileList.setRowHeight(Math.max(fm.getHeight(), fileIcon.getIconHeight() + 2));
+        // Row height isn't bbsed on the renderers.  It defbults to 16 so we hbve to set it
+        fFileList.setRowHeight(Mbth.mbx(fm.getHeight(), fileIcon.getIconHeight() + 2));
 
-        // Add a binding for the file list that triggers return and escape
-        fFileList.registerKeyboardAction(new CancelSelectionAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_FOCUSED);
-        // Add a binding for the file list that triggers the default button (see DefaultButtonAction)
-        fFileList.registerKeyboardAction(new DefaultButtonAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_FOCUSED);
-        fFileList.setDropTarget(dragAndDropTarget);
+        // Add b binding for the file list thbt triggers return bnd escbpe
+        fFileList.registerKeybobrdAction(new CbncelSelectionAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_FOCUSED);
+        // Add b binding for the file list thbt triggers the defbult button (see DefbultButtonAction)
+        fFileList.registerKeybobrdAction(new DefbultButtonAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_FOCUSED);
+        fFileList.setDropTbrget(drbgAndDropTbrget);
 
-        final JScrollPane scrollpane = new JScrollPane(fFileList, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollpane.setComponentOrientation(ComponentOrientation.getOrientation(Locale.getDefault()));
-        scrollpane.setCorner(ScrollPaneConstants.UPPER_TRAILING_CORNER, new ScrollPaneCornerPanel());
-        p.add(scrollpane, BorderLayout.CENTER);
+        finbl JScrollPbne scrollpbne = new JScrollPbne(fFileList, ScrollPbneConstbnts.VERTICAL_SCROLLBAR_ALWAYS, ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollpbne.setComponentOrientbtion(ComponentOrientbtion.getOrientbtion(Locble.getDefbult()));
+        scrollpbne.setCorner(ScrollPbneConstbnts.UPPER_TRAILING_CORNER, new ScrollPbneCornerPbnel());
+        p.bdd(scrollpbne, BorderLbyout.CENTER);
         return p;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class ScrollPaneCornerPanel extends JPanel {
-        final Border border = UIManager.getBorder("TableHeader.cellBorder");
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss ScrollPbneCornerPbnel extends JPbnel {
+        finbl Border border = UIMbnbger.getBorder("TbbleHebder.cellBorder");
 
-        protected void paintComponent(final Graphics g) {
-            border.paintBorder(this, g, 0, 0, getWidth() + 1, getHeight());
+        protected void pbintComponent(finbl Grbphics g) {
+            border.pbintBorder(this, g, 0, 0, getWidth() + 1, getHeight());
         }
     }
 
     JComboBox<File> directoryComboBox;
     DirectoryComboBoxModel fDirectoryComboBoxModel;
-    private final Action directoryComboBoxAction = new DirectoryComboBoxAction();
+    privbte finbl Action directoryComboBoxAction = new DirectoryComboBoxAction();
 
-    JTextField filenameTextField;
+    JTextField filenbmeTextField;
 
-    JTableExtension fFileList;
+    JTbbleExtension fFileList;
 
-    private FilterComboBoxModel filterComboBoxModel;
+    privbte FilterComboBoxModel filterComboBoxModel;
     JComboBox<FileFilter> filterComboBox;
-    private final Action filterComboBoxAction = new FilterComboBoxAction();
+    privbte finbl Action filterComboBoxAction = new FilterComboBoxAction();
 
-    private static final Dimension hstrut10 = new Dimension(10, 1);
-    private static final Dimension vstrut10 = new Dimension(1, 10);
+    privbte stbtic finbl Dimension hstrut10 = new Dimension(10, 1);
+    privbte stbtic finbl Dimension vstrut10 = new Dimension(1, 10);
 
-    private static final int PREF_WIDTH = 550;
-    private static final int PREF_HEIGHT = 400;
-    private static final Dimension PREF_SIZE = new Dimension(PREF_WIDTH, PREF_HEIGHT);
+    privbte stbtic finbl int PREF_WIDTH = 550;
+    privbte stbtic finbl int PREF_HEIGHT = 400;
+    privbte stbtic finbl Dimension PREF_SIZE = new Dimension(PREF_WIDTH, PREF_HEIGHT);
 
-    private static final int MIN_WIDTH = 400;
-    private static final int MIN_HEIGHT = 250;
-    private static final Dimension MIN_SIZE = new Dimension(MIN_WIDTH, MIN_HEIGHT);
+    privbte stbtic finbl int MIN_WIDTH = 400;
+    privbte stbtic finbl int MIN_HEIGHT = 250;
+    privbte stbtic finbl Dimension MIN_SIZE = new Dimension(MIN_WIDTH, MIN_HEIGHT);
 
-    private static final int LIST_MIN_WIDTH = 400;
-    private static final int LIST_MIN_HEIGHT = 100;
-    private static final Dimension LIST_MIN_SIZE = new Dimension(LIST_MIN_WIDTH, LIST_MIN_HEIGHT);
+    privbte stbtic finbl int LIST_MIN_WIDTH = 400;
+    privbte stbtic finbl int LIST_MIN_HEIGHT = 100;
+    privbte stbtic finbl Dimension LIST_MIN_SIZE = new Dimension(LIST_MIN_WIDTH, LIST_MIN_HEIGHT);
 
-    static String fileNameLabelText = null;
-    JLabel fTextFieldLabel = null;
+    stbtic String fileNbmeLbbelText = null;
+    JLbbel fTextFieldLbbel = null;
 
-    private static String filesOfTypeLabelText = null;
+    privbte stbtic String filesOfTypeLbbelText = null;
 
-    private static String newFolderToolTipText = null;
-    static String newFolderAccessibleName = null;
+    privbte stbtic String newFolderToolTipText = null;
+    stbtic String newFolderAccessibleNbme = null;
 
-    private static final String[] fColumnNames = new String[2];
+    privbte stbtic finbl String[] fColumnNbmes = new String[2];
 
-    JPanel fTextfieldPanel; // Filename textfield for Save or Custom
-    private JPanel fDirectoryPanel; // NewFolder/OpenFolder/Cancel/Approve buttons
-    private Component fDirectoryPanelSpacer;
-    private JPanel fBottomPanel; // The panel that holds fDirectoryPanel and filterComboBox
+    JPbnel fTextfieldPbnel; // Filenbme textfield for Sbve or Custom
+    privbte JPbnel fDirectoryPbnel; // NewFolder/OpenFolder/Cbncel/Approve buttons
+    privbte Component fDirectoryPbnelSpbcer;
+    privbte JPbnel fBottomPbnel; // The pbnel thbt holds fDirectoryPbnel bnd filterComboBox
 
-    private FCSubpanel fSaveFilePanel = null;
-    private FCSubpanel fOpenFilePanel = null;
-    private FCSubpanel fOpenDirOrAnyPanel = null;
-    private FCSubpanel fCustomFilePanel = null;
-    private FCSubpanel fCustomDirOrAnyPanel = null;
+    privbte FCSubpbnel fSbveFilePbnel = null;
+    privbte FCSubpbnel fOpenFilePbnel = null;
+    privbte FCSubpbnel fOpenDirOrAnyPbnel = null;
+    privbte FCSubpbnel fCustomFilePbnel = null;
+    privbte FCSubpbnel fCustomDirOrAnyPbnel = null;
 
-    FCSubpanel fSubPanel = null; // Current FCSubpanel
+    FCSubpbnel fSubPbnel = null; // Current FCSubpbnel
 
-    JButton fApproveButton; // mode-specific behavior is managed by FCSubpanel.approveSelection
+    JButton fApproveButton; // mode-specific behbvior is mbnbged by FCSubpbnel.bpproveSelection
     JButton fOpenButton; // for Directories
-    JButton fNewFolderButton; // for fDirectoryPanel
+    JButton fNewFolderButton; // for fDirectoryPbnel
 
-    // ToolTip text varies with type of dialog
-    private JButton fCancelButton;
+    // ToolTip text vbries with type of diblog
+    privbte JButton fCbncelButton;
 
-    private final ApproveSelectionAction fApproveSelectionAction = new ApproveSelectionAction();
+    privbte finbl ApproveSelectionAction fApproveSelectionAction = new ApproveSelectionAction();
     protected int fSortColumn = 0;
-    protected int fPackageIsTraversable = -1;
-    protected int fApplicationIsTraversable = -1;
+    protected int fPbckbgeIsTrbversbble = -1;
+    protected int fApplicbtionIsTrbversbble = -1;
 
-    protected static final int sGlobalPackageIsTraversable;
-    protected static final int sGlobalApplicationIsTraversable;
+    protected stbtic finbl int sGlobblPbckbgeIsTrbversbble;
+    protected stbtic finbl int sGlobblApplicbtionIsTrbversbble;
 
-    protected static final String PACKAGE_TRAVERSABLE_PROPERTY = "JFileChooser.packageIsTraversable";
-    protected static final String APPLICATION_TRAVERSABLE_PROPERTY = "JFileChooser.appBundleIsTraversable";
-    protected static final String[] sTraversableProperties = {"always", // Bundle is always traversable
-            "never", // Bundle is never traversable
-            "conditional"}; // Bundle is traversable on command click
-    protected static final int kOpenAlways = 0, kOpenNever = 1, kOpenConditional = 2;
+    protected stbtic finbl String PACKAGE_TRAVERSABLE_PROPERTY = "JFileChooser.pbckbgeIsTrbversbble";
+    protected stbtic finbl String APPLICATION_TRAVERSABLE_PROPERTY = "JFileChooser.bppBundleIsTrbversbble";
+    protected stbtic finbl String[] sTrbversbbleProperties = {"blwbys", // Bundle is blwbys trbversbble
+            "never", // Bundle is never trbversbble
+            "conditionbl"}; // Bundle is trbversbble on commbnd click
+    protected stbtic finbl int kOpenAlwbys = 0, kOpenNever = 1, kOpenConditionbl = 2;
 
-    AbstractAction[] fButtonActions = {fApproveSelectionAction, fApproveSelectionAction, new CancelSelectionAction(), new OpenSelectionAction(), null, new NewFolderAction()};
+    AbstrbctAction[] fButtonActions = {fApproveSelectionAction, fApproveSelectionAction, new CbncelSelectionAction(), new OpenSelectionAction(), null, new NewFolderAction()};
 
-    static int parseTraversableProperty(final String s) {
+    stbtic int pbrseTrbversbbleProperty(finbl String s) {
         if (s == null) return -1;
-        for (int i = 0; i < sTraversableProperties.length; i++) {
-            if (s.equals(sTraversableProperties[i])) return i;
+        for (int i = 0; i < sTrbversbbleProperties.length; i++) {
+            if (s.equbls(sTrbversbbleProperties[i])) return i;
         }
         return -1;
     }
 
-    static {
-        Object o = UIManager.get(PACKAGE_TRAVERSABLE_PROPERTY);
-        if (o != null && o instanceof String) sGlobalPackageIsTraversable = parseTraversableProperty((String)o);
-        else sGlobalPackageIsTraversable = kOpenConditional;
+    stbtic {
+        Object o = UIMbnbger.get(PACKAGE_TRAVERSABLE_PROPERTY);
+        if (o != null && o instbnceof String) sGlobblPbckbgeIsTrbversbble = pbrseTrbversbbleProperty((String)o);
+        else sGlobblPbckbgeIsTrbversbble = kOpenConditionbl;
 
-        o = UIManager.get(APPLICATION_TRAVERSABLE_PROPERTY);
-        if (o != null && o instanceof String) sGlobalApplicationIsTraversable = parseTraversableProperty((String)o);
-        else sGlobalApplicationIsTraversable = kOpenConditional;
+        o = UIMbnbger.get(APPLICATION_TRAVERSABLE_PROPERTY);
+        if (o != null && o instbnceof String) sGlobblApplicbtionIsTrbversbble = pbrseTrbversbbleProperty((String)o);
+        else sGlobblApplicbtionIsTrbversbble = kOpenConditionbl;
     }
-    static final String sDataPrefix = "FileChooser.";
-    static final String[] sButtonKinds = {"openButton", "saveButton", "cancelButton", "openDirectoryButton", "helpButton", "newFolderButton"};
-    static final String[] sButtonData = {"Text", "Mnemonic", "ToolTipText"};
-    static final int kOpen = 0, kSave = 1, kCancel = 2, kOpenDirectory = 3, kHelp = 4, kNewFolder = 5;
+    stbtic finbl String sDbtbPrefix = "FileChooser.";
+    stbtic finbl String[] sButtonKinds = {"openButton", "sbveButton", "cbncelButton", "openDirectoryButton", "helpButton", "newFolderButton"};
+    stbtic finbl String[] sButtonDbtb = {"Text", "Mnemonic", "ToolTipText"};
+    stbtic finbl int kOpen = 0, kSbve = 1, kCbncel = 2, kOpenDirectory = 3, kHelp = 4, kNewFolder = 5;
 
     /*-------
 
-     Possible states: Save, {Open, Custom}x{Files, File and Directory, Directory}
+     Possible stbtes: Sbve, {Open, Custom}x{Files, File bnd Directory, Directory}
      --------- */
 
-    // This class returns the values for the Custom type, to avoid duplicating code in the two Custom subclasses
-    abstract class FCSubpanel {
-        // Install the appropriate panels for this mode
-        abstract void installPanel(JFileChooser fc, boolean controlButtonsAreShown);
+    // This clbss returns the vblues for the Custom type, to bvoid duplicbting code in the two Custom subclbsses
+    bbstrbct clbss FCSubpbnel {
+        // Instbll the bppropribte pbnels for this mode
+        bbstrbct void instbllPbnel(JFileChooser fc, boolebn controlButtonsAreShown);
 
-        abstract void updateButtonState(JFileChooser fc, File f);
+        bbstrbct void updbteButtonStbte(JFileChooser fc, File f);
 
-        // Can this item be selected?
-        // if not, it's disabled in the list
-        boolean isSelectableInList(final JFileChooser fc, final File f) {
-            if (f == null) return false;
-            if (fc.getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) return fc.isTraversable(f);
-            return fc.accept(f);
+        // Cbn this item be selected?
+        // if not, it's disbbled in the list
+        boolebn isSelectbbleInList(finbl JFileChooser fc, finbl File f) {
+            if (f == null) return fblse;
+            if (fc.getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) return fc.isTrbversbble(f);
+            return fc.bccept(f);
         }
 
-        void approveSelection(final JFileChooser fc) {
-            fc.approveSelection();
+        void bpproveSelection(finbl JFileChooser fc) {
+            fc.bpproveSelection();
         }
 
-        JButton getDefaultButton(final JFileChooser fc) {
+        JButton getDefbultButton(finbl JFileChooser fc) {
             return fApproveButton;
         }
 
-        // Default to the textfield, panels without one should subclass
-        JComponent getFocusComponent(final JFileChooser fc) {
-            return filenameTextField;
+        // Defbult to the textfield, pbnels without one should subclbss
+        JComponent getFocusComponent(finbl JFileChooser fc) {
+            return filenbmeTextField;
         }
 
-        String getApproveButtonText(final JFileChooser fc) {
-            // Fallback to "choose"
+        String getApproveButtonText(finbl JFileChooser fc) {
+            // Fbllbbck to "choose"
             return this.getApproveButtonText(fc, chooseButtonText);
         }
 
-        // Try to get the custom text.  If none, use the fallback
-        String getApproveButtonText(final JFileChooser fc, final String fallbackText) {
-            final String buttonText = fc.getApproveButtonText();
+        // Try to get the custom text.  If none, use the fbllbbck
+        String getApproveButtonText(finbl JFileChooser fc, finbl String fbllbbckText) {
+            finbl String buttonText = fc.getApproveButtonText();
             if (buttonText != null) {
                 buttonText.trim();
-                if (!buttonText.equals("")) return buttonText;
+                if (!buttonText.equbls("")) return buttonText;
             }
-            return fallbackText;
+            return fbllbbckText;
         }
 
-        int getApproveButtonMnemonic(final JFileChooser fc) {
-            // Don't use a default
+        int getApproveButtonMnemonic(finbl JFileChooser fc) {
+            // Don't use b defbult
             return fc.getApproveButtonMnemonic();
         }
 
-        // No fallback
-        String getApproveButtonToolTipText(final JFileChooser fc) {
+        // No fbllbbck
+        String getApproveButtonToolTipText(finbl JFileChooser fc) {
             return getApproveButtonToolTipText(fc, null);
         }
 
-        String getApproveButtonToolTipText(final JFileChooser fc, final String fallbackText) {
-            final String tooltipText = fc.getApproveButtonToolTipText();
+        String getApproveButtonToolTipText(finbl JFileChooser fc, finbl String fbllbbckText) {
+            finbl String tooltipText = fc.getApproveButtonToolTipText();
             if (tooltipText != null) {
                 tooltipText.trim();
-                if (!tooltipText.equals("")) return tooltipText;
+                if (!tooltipText.equbls("")) return tooltipText;
             }
-            return fallbackText;
+            return fbllbbckText;
         }
 
-        String getCancelButtonToolTipText(final JFileChooser fc) {
-            return cancelChooseButtonToolTipText;
+        String getCbncelButtonToolTipText(finbl JFileChooser fc) {
+            return cbncelChooseButtonToolTipText;
         }
     }
 
-    // Custom FILES_ONLY dialog
+    // Custom FILES_ONLY diblog
     /*
-     NavServices Save appearance with Open behavior
-     Approve button label = Open when list has focus and a directory is selected, Custom otherwise
-     No OpenDirectory button - Approve button is overloaded
-     Default button / double click = Approve
-     Has text field
-     List - everything is enabled
+     NbvServices Sbve bppebrbnce with Open behbvior
+     Approve button lbbel = Open when list hbs focus bnd b directory is selected, Custom otherwise
+     No OpenDirectory button - Approve button is overlobded
+     Defbult button / double click = Approve
+     Hbs text field
+     List - everything is enbbled
      */
-    class CustomFilePanel extends FCSubpanel {
-        void installPanel(final JFileChooser fc, final boolean controlButtonsAreShown) {
-            fTextfieldPanel.setVisible(true); // do we really want one in multi-select?  It's confusing
-            fOpenButton.setVisible(false);
+    clbss CustomFilePbnel extends FCSubpbnel {
+        void instbllPbnel(finbl JFileChooser fc, finbl boolebn controlButtonsAreShown) {
+            fTextfieldPbnel.setVisible(true); // do we reblly wbnt one in multi-select?  It's confusing
+            fOpenButton.setVisible(fblse);
             fNewFolderButton.setVisible(true);
         }
 
-        // If the list has focus, the mode depends on the selection
-        // - directory = open, file = approve
-        // If something else has focus and we have text, it's approve
-        // otherwise, it depends on selection again.
-        boolean inOpenDirectoryMode(final JFileChooser fc, final File f) {
-            final boolean selectionIsDirectory = (f != null && fc.isTraversable(f));
-            if (fFileList.hasFocus()) return selectionIsDirectory;
-            else if (textfieldIsValid()) return false;
+        // If the list hbs focus, the mode depends on the selection
+        // - directory = open, file = bpprove
+        // If something else hbs focus bnd we hbve text, it's bpprove
+        // otherwise, it depends on selection bgbin.
+        boolebn inOpenDirectoryMode(finbl JFileChooser fc, finbl File f) {
+            finbl boolebn selectionIsDirectory = (f != null && fc.isTrbversbble(f));
+            if (fFileList.hbsFocus()) return selectionIsDirectory;
+            else if (textfieldIsVblid()) return fblse;
             return selectionIsDirectory;
         }
 
-        // The approve button is overloaded to mean OpenDirectory or Save
-        void approveSelection(final JFileChooser fc) {
+        // The bpprove button is overlobded to mebn OpenDirectory or Sbve
+        void bpproveSelection(finbl JFileChooser fc) {
             File f = getFirstSelectedItem();
             if (inOpenDirectoryMode(fc, f)) {
                 openDirectory(f);
             } else {
-                f = makeFile(fc, getFileName());
+                f = mbkeFile(fc, getFileNbme());
                 if (f != null) {
                     selectionInProgress = true;
                     getFileChooser().setSelectedFile(f);
-                    selectionInProgress = false;
+                    selectionInProgress = fblse;
                 }
-                getFileChooser().approveSelection();
+                getFileChooser().bpproveSelection();
             }
         }
 
-        // The approve button should be enabled
-        // - if something in the list can be opened
-        // - if the textfield has something in it
-        void updateButtonState(final JFileChooser fc, final File f) {
-            boolean enabled = true;
+        // The bpprove button should be enbbled
+        // - if something in the list cbn be opened
+        // - if the textfield hbs something in it
+        void updbteButtonStbte(finbl JFileChooser fc, finbl File f) {
+            boolebn enbbled = true;
             if (!inOpenDirectoryMode(fc, f)) {
-                enabled = (f != null) || textfieldIsValid();
+                enbbled = (f != null) || textfieldIsVblid();
             }
-            getApproveButton(fc).setEnabled(enabled);
+            getApproveButton(fc).setEnbbled(enbbled);
 
-            // The OpenDirectory button should be disabled if there's no directory selected
-            fOpenButton.setEnabled(f != null && fc.isTraversable(f));
+            // The OpenDirectory button should be disbbled if there's no directory selected
+            fOpenButton.setEnbbled(f != null && fc.isTrbversbble(f));
 
-            // Update the default button, since we may have disabled the current default.
-            setDefaultButtonForMode(fc);
+            // Updbte the defbult button, since we mby hbve disbbled the current defbult.
+            setDefbultButtonForMode(fc);
         }
 
-        // everything's enabled, because we don't know what they're doing with them
-        boolean isSelectableInList(final JFileChooser fc, final File f) {
-            if (f == null) return false;
-            return fc.accept(f);
+        // everything's enbbled, becbuse we don't know whbt they're doing with them
+        boolebn isSelectbbleInList(finbl JFileChooser fc, finbl File f) {
+            if (f == null) return fblse;
+            return fc.bccept(f);
         }
 
-        String getApproveButtonToolTipText(final JFileChooser fc) {
-            // The approve Button should have openDirectoryButtonToolTipText when the selection is a folder...
+        String getApproveButtonToolTipText(finbl JFileChooser fc) {
+            // The bpprove Button should hbve openDirectoryButtonToolTipText when the selection is b folder...
             if (inOpenDirectoryMode(fc, getFirstSelectedItem())) return openDirectoryButtonToolTipText;
             return super.getApproveButtonToolTipText(fc);
         }
     }
 
-    // All Save dialogs
+    // All Sbve diblogs
     /*
-     NavServices Save
-     Approve button label = Open when list has focus and a directory is selected, Save otherwise
-     No OpenDirectory button - Approve button is overloaded
-     Default button / double click = Approve
-     Has text field
-     Has NewFolder button (by text field)
-     List - only traversables are enabled
-     List is always SINGLE_SELECT
+     NbvServices Sbve
+     Approve button lbbel = Open when list hbs focus bnd b directory is selected, Sbve otherwise
+     No OpenDirectory button - Approve button is overlobded
+     Defbult button / double click = Approve
+     Hbs text field
+     Hbs NewFolder button (by text field)
+     List - only trbversbbles bre enbbled
+     List is blwbys SINGLE_SELECT
      */
-    // Subclasses CustomFilePanel because they look alike and have some common behavior
-    class SaveFilePanel extends CustomFilePanel {
-        void installPanel(final JFileChooser fc, final boolean controlButtonsAreShown) {
-            fTextfieldPanel.setVisible(true);
-            fOpenButton.setVisible(false);
+    // Subclbsses CustomFilePbnel becbuse they look blike bnd hbve some common behbvior
+    clbss SbveFilePbnel extends CustomFilePbnel {
+        void instbllPbnel(finbl JFileChooser fc, finbl boolebn controlButtonsAreShown) {
+            fTextfieldPbnel.setVisible(true);
+            fOpenButton.setVisible(fblse);
             fNewFolderButton.setVisible(true);
         }
 
-        // only traversables are enabled, regardless of mode
-        // because all you can do is select the next folder to open
-        boolean isSelectableInList(final JFileChooser fc, final File f) {
-            return fc.accept(f) && fc.isTraversable(f);
+        // only trbversbbles bre enbbled, regbrdless of mode
+        // becbuse bll you cbn do is select the next folder to open
+        boolebn isSelectbbleInList(finbl JFileChooser fc, finbl File f) {
+            return fc.bccept(f) && fc.isTrbversbble(f);
         }
 
-        // The approve button means 'approve the file name in the text field.'
-        void approveSelection(final JFileChooser fc) {
-            final File f = makeFile(fc, getFileName());
+        // The bpprove button mebns 'bpprove the file nbme in the text field.'
+        void bpproveSelection(finbl JFileChooser fc) {
+            finbl File f = mbkeFile(fc, getFileNbme());
             if (f != null) {
                 selectionInProgress = true;
                 getFileChooser().setSelectedFile(f);
-                selectionInProgress = false;
-                getFileChooser().approveSelection();
+                selectionInProgress = fblse;
+                getFileChooser().bpproveSelection();
             }
         }
 
-        // The approve button should be enabled if the textfield has something in it
-        void updateButtonState(final JFileChooser fc, final File f) {
-            final boolean enabled = textfieldIsValid();
-            getApproveButton(fc).setEnabled(enabled);
+        // The bpprove button should be enbbled if the textfield hbs something in it
+        void updbteButtonStbte(finbl JFileChooser fc, finbl File f) {
+            finbl boolebn enbbled = textfieldIsVblid();
+            getApproveButton(fc).setEnbbled(enbbled);
         }
 
-        String getApproveButtonText(final JFileChooser fc) {
-            // Get the custom text, or fallback to "Save"
-            return this.getApproveButtonText(fc, saveButtonText);
+        String getApproveButtonText(finbl JFileChooser fc) {
+            // Get the custom text, or fbllbbck to "Sbve"
+            return this.getApproveButtonText(fc, sbveButtonText);
         }
 
-        int getApproveButtonMnemonic(final JFileChooser fc) {
-            return saveButtonMnemonic;
+        int getApproveButtonMnemonic(finbl JFileChooser fc) {
+            return sbveButtonMnemonic;
         }
 
-        String getApproveButtonToolTipText(final JFileChooser fc) {
-            // The approve Button should have openDirectoryButtonToolTipText when the selection is a folder...
+        String getApproveButtonToolTipText(finbl JFileChooser fc) {
+            // The bpprove Button should hbve openDirectoryButtonToolTipText when the selection is b folder...
             if (inOpenDirectoryMode(fc, getFirstSelectedItem())) return openDirectoryButtonToolTipText;
-            return this.getApproveButtonToolTipText(fc, saveButtonToolTipText);
+            return this.getApproveButtonToolTipText(fc, sbveButtonToolTipText);
         }
 
-        String getCancelButtonToolTipText(final JFileChooser fc) {
-            return cancelSaveButtonToolTipText;
+        String getCbncelButtonToolTipText(finbl JFileChooser fc) {
+            return cbncelSbveButtonToolTipText;
         }
     }
 
     // Open FILES_ONLY
     /*
-     NSOpenPanel-style
-     Approve button label = Open
-     Default button / double click = Approve
+     NSOpenPbnel-style
+     Approve button lbbel = Open
+     Defbult button / double click = Approve
      No text field
      No NewFolder button
-     List - all items are enabled
+     List - bll items bre enbbled
      */
-    class OpenFilePanel extends FCSubpanel {
-        void installPanel(final JFileChooser fc, final boolean controlButtonsAreShown) {
-            fTextfieldPanel.setVisible(false);
-            fOpenButton.setVisible(false);
-            fNewFolderButton.setVisible(false);
-            setDefaultButtonForMode(fc);
+    clbss OpenFilePbnel extends FCSubpbnel {
+        void instbllPbnel(finbl JFileChooser fc, finbl boolebn controlButtonsAreShown) {
+            fTextfieldPbnel.setVisible(fblse);
+            fOpenButton.setVisible(fblse);
+            fNewFolderButton.setVisible(fblse);
+            setDefbultButtonForMode(fc);
         }
 
-        boolean inOpenDirectoryMode(final JFileChooser fc, final File f) {
-            return (f != null && fc.isTraversable(f));
+        boolebn inOpenDirectoryMode(finbl JFileChooser fc, finbl File f) {
+            return (f != null && fc.isTrbversbble(f));
         }
 
-        // Default to the list
-        JComponent getFocusComponent(final JFileChooser fc) {
+        // Defbult to the list
+        JComponent getFocusComponent(finbl JFileChooser fc) {
             return fFileList;
         }
 
-        void updateButtonState(final JFileChooser fc, final File f) {
-            // Button is disabled if there's nothing selected
-            final boolean enabled = (f != null) && !fc.isTraversable(f);
-            getApproveButton(fc).setEnabled(enabled);
+        void updbteButtonStbte(finbl JFileChooser fc, finbl File f) {
+            // Button is disbbled if there's nothing selected
+            finbl boolebn enbbled = (f != null) && !fc.isTrbversbble(f);
+            getApproveButton(fc).setEnbbled(enbbled);
         }
 
-        // all items are enabled
-        boolean isSelectableInList(final JFileChooser fc, final File f) {
-            return f != null && fc.accept(f);
+        // bll items bre enbbled
+        boolebn isSelectbbleInList(finbl JFileChooser fc, finbl File f) {
+            return f != null && fc.bccept(f);
         }
 
-        String getApproveButtonText(final JFileChooser fc) {
-            // Get the custom text, or fallback to "Open"
+        String getApproveButtonText(finbl JFileChooser fc) {
+            // Get the custom text, or fbllbbck to "Open"
             return this.getApproveButtonText(fc, openButtonText);
         }
 
-        int getApproveButtonMnemonic(final JFileChooser fc) {
+        int getApproveButtonMnemonic(finbl JFileChooser fc) {
             return openButtonMnemonic;
         }
 
-        String getApproveButtonToolTipText(final JFileChooser fc) {
+        String getApproveButtonToolTipText(finbl JFileChooser fc) {
             return this.getApproveButtonToolTipText(fc, openButtonToolTipText);
         }
 
-        String getCancelButtonToolTipText(final JFileChooser fc) {
-            return cancelOpenButtonToolTipText;
+        String getCbncelButtonToolTipText(finbl JFileChooser fc) {
+            return cbncelOpenButtonToolTipText;
         }
     }
 
-    // used by open and custom panels for Directory only or files and directories
-    abstract class DirOrAnyPanel extends FCSubpanel {
-        void installPanel(final JFileChooser fc, final boolean controlButtonsAreShown) {
-            fOpenButton.setVisible(false);
+    // used by open bnd custom pbnels for Directory only or files bnd directories
+    bbstrbct clbss DirOrAnyPbnel extends FCSubpbnel {
+        void instbllPbnel(finbl JFileChooser fc, finbl boolebn controlButtonsAreShown) {
+            fOpenButton.setVisible(fblse);
         }
 
-        JButton getDefaultButton(final JFileChooser fc) {
+        JButton getDefbultButton(finbl JFileChooser fc) {
             return getApproveButton(fc);
         }
 
-        void updateButtonState(final JFileChooser fc, final File f) {
-            // Button is disabled if there's nothing selected
-            // Approve button is handled by the subclasses
-            // getApproveButton(fc).setEnabled(f != null);
+        void updbteButtonStbte(finbl JFileChooser fc, finbl File f) {
+            // Button is disbbled if there's nothing selected
+            // Approve button is hbndled by the subclbsses
+            // getApproveButton(fc).setEnbbled(f != null);
 
-            // The OpenDirectory button should be disabled if there's no directory selected
+            // The OpenDirectory button should be disbbled if there's no directory selected
             // - we only check the first item
 
-            fOpenButton.setEnabled(false);
-            setDefaultButtonForMode(fc);
+            fOpenButton.setEnbbled(fblse);
+            setDefbultButtonForMode(fc);
         }
     }
 
     // Open FILES_AND_DIRECTORIES or DIRECTORIES_ONLY
     /*
-     NavServices Choose
-     Approve button label = Choose/Custom
-     Has OpenDirectory button
-     Default button / double click = OpenDirectory
+     NbvServices Choose
+     Approve button lbbel = Choose/Custom
+     Hbs OpenDirectory button
+     Defbult button / double click = OpenDirectory
      No text field
-     List - files are disabled in DIRECTORIES_ONLY
+     List - files bre disbbled in DIRECTORIES_ONLY
      */
-    class OpenDirOrAnyPanel extends DirOrAnyPanel {
-        void installPanel(final JFileChooser fc, final boolean controlButtonsAreShown) {
-            super.installPanel(fc, controlButtonsAreShown);
-            fTextfieldPanel.setVisible(false);
-            fNewFolderButton.setVisible(false);
+    clbss OpenDirOrAnyPbnel extends DirOrAnyPbnel {
+        void instbllPbnel(finbl JFileChooser fc, finbl boolebn controlButtonsAreShown) {
+            super.instbllPbnel(fc, controlButtonsAreShown);
+            fTextfieldPbnel.setVisible(fblse);
+            fNewFolderButton.setVisible(fblse);
         }
 
-        // Default to the list
-        JComponent getFocusComponent(final JFileChooser fc) {
+        // Defbult to the list
+        JComponent getFocusComponent(finbl JFileChooser fc) {
             return fFileList;
         }
 
-        int getApproveButtonMnemonic(final JFileChooser fc) {
+        int getApproveButtonMnemonic(finbl JFileChooser fc) {
             return chooseButtonMnemonic;
         }
 
-        String getApproveButtonToolTipText(final JFileChooser fc) {
-            String fallbackText;
-            if (fc.getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) fallbackText = chooseFolderButtonToolTipText;
-            else fallbackText = chooseItemButtonToolTipText;
-            return this.getApproveButtonToolTipText(fc, fallbackText);
+        String getApproveButtonToolTipText(finbl JFileChooser fc) {
+            String fbllbbckText;
+            if (fc.getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) fbllbbckText = chooseFolderButtonToolTipText;
+            else fbllbbckText = chooseItemButtonToolTipText;
+            return this.getApproveButtonToolTipText(fc, fbllbbckText);
         }
 
-        void updateButtonState(final JFileChooser fc, final File f) {
-            // Button is disabled if there's nothing selected
-            getApproveButton(fc).setEnabled(f != null);
-            super.updateButtonState(fc, f);
+        void updbteButtonStbte(finbl JFileChooser fc, finbl File f) {
+            // Button is disbbled if there's nothing selected
+            getApproveButton(fc).setEnbbled(f != null);
+            super.updbteButtonStbte(fc, f);
         }
     }
 
     // Custom FILES_AND_DIRECTORIES or DIRECTORIES_ONLY
     /*
-     No NavServices equivalent
-     Approve button label = user defined or Choose
-     Has OpenDirectory button
-     Default button / double click = OpenDirectory
-     Has text field
-     Has NewFolder button (by text field)
-     List - files are disabled in DIRECTORIES_ONLY
+     No NbvServices equivblent
+     Approve button lbbel = user defined or Choose
+     Hbs OpenDirectory button
+     Defbult button / double click = OpenDirectory
+     Hbs text field
+     Hbs NewFolder button (by text field)
+     List - files bre disbbled in DIRECTORIES_ONLY
      */
-    class CustomDirOrAnyPanel extends DirOrAnyPanel {
-        void installPanel(final JFileChooser fc, final boolean controlButtonsAreShown) {
-            super.installPanel(fc, controlButtonsAreShown);
-            fTextfieldPanel.setVisible(true);
+    clbss CustomDirOrAnyPbnel extends DirOrAnyPbnel {
+        void instbllPbnel(finbl JFileChooser fc, finbl boolebn controlButtonsAreShown) {
+            super.instbllPbnel(fc, controlButtonsAreShown);
+            fTextfieldPbnel.setVisible(true);
             fNewFolderButton.setVisible(true);
         }
 
-        // If there's text, make a file and select it
-        void approveSelection(final JFileChooser fc) {
-            final File f = makeFile(fc, getFileName());
+        // If there's text, mbke b file bnd select it
+        void bpproveSelection(finbl JFileChooser fc) {
+            finbl File f = mbkeFile(fc, getFileNbme());
             if (f != null) {
                 selectionInProgress = true;
                 getFileChooser().setSelectedFile(f);
-                selectionInProgress = false;
+                selectionInProgress = fblse;
             }
-            getFileChooser().approveSelection();
+            getFileChooser().bpproveSelection();
         }
 
-        void updateButtonState(final JFileChooser fc, final File f) {
-            // Button is disabled if there's nothing selected
-            getApproveButton(fc).setEnabled(f != null || textfieldIsValid());
-            super.updateButtonState(fc, f);
+        void updbteButtonStbte(finbl JFileChooser fc, finbl File f) {
+            // Button is disbbled if there's nothing selected
+            getApproveButton(fc).setEnbbled(f != null || textfieldIsVblid());
+            super.updbteButtonStbte(fc, f);
         }
     }
 
-    // See FileRenderer - documents in Save dialogs draw disabled, so they shouldn't be selected
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class MacListSelectionModel extends DefaultListSelectionModel {
-        AquaFileSystemModel fModel;
+    // See FileRenderer - documents in Sbve diblogs drbw disbbled, so they shouldn't be selected
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss MbcListSelectionModel extends DefbultListSelectionModel {
+        AqubFileSystemModel fModel;
 
-        MacListSelectionModel(final AquaFileSystemModel model) {
+        MbcListSelectionModel(finbl AqubFileSystemModel model) {
             fModel = model;
         }
 
-        // Can the file be selected in this mode?
-        // (files are visible even if they can't be selected)
-        boolean isSelectableInListIndex(final int index) {
-            final File file = (File)fModel.getValueAt(index, 0);
-            return (file != null && isSelectableInList(file));
+        // Cbn the file be selected in this mode?
+        // (files bre visible even if they cbn't be selected)
+        boolebn isSelectbbleInListIndex(finbl int index) {
+            finbl File file = (File)fModel.getVblueAt(index, 0);
+            return (file != null && isSelectbbleInList(file));
         }
 
-        // Make sure everything in the selection interval is valid
-        void verifySelectionInterval(int index0, int index1, boolean isSetSelection) {
+        // Mbke sure everything in the selection intervbl is vblid
+        void verifySelectionIntervbl(int index0, int index1, boolebn isSetSelection) {
             if (index0 > index1) {
-                final int tmp = index1;
+                finbl int tmp = index1;
                 index1 = index0;
                 index0 = tmp;
             }
-            int start = index0;
+            int stbrt = index0;
             int end;
             do {
-                // Find the first selectable file in the range
-                for (; start <= index1; start++) {
-                    if (isSelectableInListIndex(start)) break;
+                // Find the first selectbble file in the rbnge
+                for (; stbrt <= index1; stbrt++) {
+                    if (isSelectbbleInListIndex(stbrt)) brebk;
                 }
                 end = -1;
-                // Find the last selectable file in the range
-                for (int i = start; i <= index1; i++) {
-                    if (!isSelectableInListIndex(i)) {
-                        break;
+                // Find the lbst selectbble file in the rbnge
+                for (int i = stbrt; i <= index1; i++) {
+                    if (!isSelectbbleInListIndex(i)) {
+                        brebk;
                     }
                     end = i;
                 }
-                // Select the range
+                // Select the rbnge
                 if (end >= 0) {
-                    // If setting the selection, do "set" the first time to clear the old one
-                    // after that do "add" to extend it
+                    // If setting the selection, do "set" the first time to clebr the old one
+                    // bfter thbt do "bdd" to extend it
                     if (isSetSelection) {
-                        super.setSelectionInterval(start, end);
-                        isSetSelection = false;
+                        super.setSelectionIntervbl(stbrt, end);
+                        isSetSelection = fblse;
                     } else {
-                        super.addSelectionInterval(start, end);
+                        super.bddSelectionIntervbl(stbrt, end);
                     }
-                    start = end + 1;
+                    stbrt = end + 1;
                 } else {
-                    break;
+                    brebk;
                 }
-            } while (start <= index1);
+            } while (stbrt <= index1);
         }
 
-        public void setAnchorSelectionIndex(final int anchorIndex) {
-            if (isSelectableInListIndex(anchorIndex)) super.setAnchorSelectionIndex(anchorIndex);
+        public void setAnchorSelectionIndex(finbl int bnchorIndex) {
+            if (isSelectbbleInListIndex(bnchorIndex)) super.setAnchorSelectionIndex(bnchorIndex);
         }
 
-        public void setLeadSelectionIndex(final int leadIndex) {
-            if (isSelectableInListIndex(leadIndex)) super.setLeadSelectionIndex(leadIndex);
+        public void setLebdSelectionIndex(finbl int lebdIndex) {
+            if (isSelectbbleInListIndex(lebdIndex)) super.setLebdSelectionIndex(lebdIndex);
         }
 
-        public void setSelectionInterval(final int index0, final int index1) {
+        public void setSelectionIntervbl(finbl int index0, finbl int index1) {
             if (index0 == -1 || index1 == -1) { return; }
 
             if ((getSelectionMode() == SINGLE_SELECTION) || (index0 == index1)) {
-                if (isSelectableInListIndex(index1)) super.setSelectionInterval(index1, index1);
+                if (isSelectbbleInListIndex(index1)) super.setSelectionIntervbl(index1, index1);
             } else {
-                verifySelectionInterval(index0, index1, true);
+                verifySelectionIntervbl(index0, index1, true);
             }
         }
 
-        public void addSelectionInterval(final int index0, final int index1) {
+        public void bddSelectionIntervbl(finbl int index0, finbl int index1) {
             if (index0 == -1 || index1 == -1) { return; }
 
             if (index0 == index1) {
-                if (isSelectableInListIndex(index1)) super.addSelectionInterval(index1, index1);
+                if (isSelectbbleInListIndex(index1)) super.bddSelectionIntervbl(index1, index1);
                 return;
             }
 
             if (getSelectionMode() != MULTIPLE_INTERVAL_SELECTION) {
-                setSelectionInterval(index0, index1);
+                setSelectionIntervbl(index0, index1);
                 return;
             }
 
-            verifySelectionInterval(index0, index1, false);
+            verifySelectionIntervbl(index0, index1, fblse);
         }
     }
 
-    // Convenience, to translate from the JList directory view to the Mac-style JTable
-    //   & minimize diffs between this and BasicFileChooserUI
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class JTableExtension extends JTable {
-        public void setSelectedIndex(final int index) {
-            getSelectionModel().setSelectionInterval(index, index);
+    // Convenience, to trbnslbte from the JList directory view to the Mbc-style JTbble
+    //   & minimize diffs between this bnd BbsicFileChooserUI
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss JTbbleExtension extends JTbble {
+        public void setSelectedIndex(finbl int index) {
+            getSelectionModel().setSelectionIntervbl(index, index);
         }
 
-        public void removeSelectedIndex(final int index) {
-            getSelectionModel().removeSelectionInterval(index, index);
+        public void removeSelectedIndex(finbl int index) {
+            getSelectionModel().removeSelectionIntervbl(index, index);
         }
 
-        public void ensureIndexIsVisible(final int index) {
-            final Rectangle cellBounds = getCellRect(index, 0, false);
+        public void ensureIndexIsVisible(finbl int index) {
+            finbl Rectbngle cellBounds = getCellRect(index, 0, fblse);
             if (cellBounds != null) {
                 scrollRectToVisible(cellBounds);
             }
         }
 
-        public int locationToIndex(final Point location) {
-            return rowAtPoint(location);
+        public int locbtionToIndex(finbl Point locbtion) {
+            return rowAtPoint(locbtion);
         }
     }
 }

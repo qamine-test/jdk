@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.nio.ch.sctp;
+pbckbge sun.nio.ch.sctp;
 
-import java.net.SocketAddress;
-import com.sun.nio.sctp.MessageInfo;
-import com.sun.nio.sctp.Association;
+import jbvb.net.SocketAddress;
+import com.sun.nio.sctp.MessbgeInfo;
+import com.sun.nio.sctp.Associbtion;
 
 /**
- * An implementation of a MessageInfo.
+ * An implementbtion of b MessbgeInfo.
  */
-public class MessageInfoImpl extends MessageInfo {
-    private final SocketAddress address;
-    private final int bytes;          /* 0 */
+public clbss MessbgeInfoImpl extends MessbgeInfo {
+    privbte finbl SocketAddress bddress;
+    privbte finbl int bytes;          /* 0 */
 
-    private Association association;
-    private int assocId;
-    private int streamNumber;
-    private boolean complete = true;
-    private boolean unordered;  /* false */
-    private long timeToLive;    /* 0L */
-    private int ppid;           /* 0 */
+    privbte Associbtion bssocibtion;
+    privbte int bssocId;
+    privbte int strebmNumber;
+    privbte boolebn complete = true;
+    privbte boolebn unordered;  /* fblse */
+    privbte long timeToLive;    /* 0L */
+    privbte int ppid;           /* 0 */
 
-    public MessageInfoImpl(Association association,
-                           SocketAddress address,
-                           int streamNumber) {
-        this.association = association;
-        this.address = address;
-        this.streamNumber = streamNumber;
+    public MessbgeInfoImpl(Associbtion bssocibtion,
+                           SocketAddress bddress,
+                           int strebmNumber) {
+        this.bssocibtion = bssocibtion;
+        this.bddress = bddress;
+        this.strebmNumber = strebmNumber;
         bytes = 0;
     }
 
-    /* Invoked from native */
-    private MessageInfoImpl(int assocId,
-                            SocketAddress address,
+    /* Invoked from nbtive */
+    privbte MessbgeInfoImpl(int bssocId,
+                            SocketAddress bddress,
                             int bytes,
-                            int streamNumber,
-                            boolean complete,
-                            boolean unordered,
+                            int strebmNumber,
+                            boolebn complete,
+                            boolebn unordered,
                             int ppid) {
-        this.assocId = assocId;
-        this.address = address;
+        this.bssocId = bssocId;
+        this.bddress = bddress;
         this.bytes = bytes;
-        this.streamNumber = streamNumber;
+        this.strebmNumber = strebmNumber;
         this.complete = complete;
         this.unordered = unordered;
         this.ppid = ppid;
     }
 
     @Override
-    public Association association() {
-        return association;
+    public Associbtion bssocibtion() {
+        return bssocibtion;
     }
 
     /**
-     * MessageInfoImpl instances created from native will need to have their
-     * association set from the channel.
+     * MessbgeInfoImpl instbnces crebted from nbtive will need to hbve their
+     * bssocibtion set from the chbnnel.
      */
-    void setAssociation(Association association) {
-        this.association = association;
+    void setAssocibtion(Associbtion bssocibtion) {
+        this.bssocibtion = bssocibtion;
     }
 
-    int associationID() {
-        return assocId;
+    int bssocibtionID() {
+        return bssocId;
     }
 
     @Override
-    public SocketAddress address() {
-        return address;
+    public SocketAddress bddress() {
+        return bddress;
     }
 
     @Override
@@ -97,48 +97,48 @@ public class MessageInfoImpl extends MessageInfo {
     }
 
     @Override
-    public int streamNumber() {
-        return streamNumber;
+    public int strebmNumber() {
+        return strebmNumber;
     }
 
     @Override
-    public MessageInfo streamNumber(int streamNumber) {
-        if (streamNumber < 0 || streamNumber > 65536)
-            throw new IllegalArgumentException("Invalid stream number");
+    public MessbgeInfo strebmNumber(int strebmNumber) {
+        if (strebmNumber < 0 || strebmNumber > 65536)
+            throw new IllegblArgumentException("Invblid strebm number");
 
-        this.streamNumber = streamNumber;
+        this.strebmNumber = strebmNumber;
         return this;
     }
 
     @Override
-    public int payloadProtocolID() {
+    public int pbylobdProtocolID() {
         return ppid;
     }
 
     @Override
-    public MessageInfo payloadProtocolID(int ppid) {
+    public MessbgeInfo pbylobdProtocolID(int ppid) {
         this.ppid = ppid;
         return this;
     }
 
     @Override
-    public boolean isComplete() {
+    public boolebn isComplete() {
         return complete;
     }
 
     @Override
-    public MessageInfo complete(boolean complete) {
+    public MessbgeInfo complete(boolebn complete) {
         this.complete = complete;
         return this;
     }
 
     @Override
-    public boolean isUnordered() {
+    public boolebn isUnordered() {
         return unordered;
     }
 
     @Override
-    public MessageInfo unordered(boolean unordered) {
+    public MessbgeInfo unordered(boolebn unordered) {
         this.unordered = unordered;
         return this;
     }
@@ -149,7 +149,7 @@ public class MessageInfoImpl extends MessageInfo {
     }
 
     @Override
-    public MessageInfo timeToLive(long millis) {
+    public MessbgeInfo timeToLive(long millis) {
         timeToLive = millis;
         return this;
     }
@@ -157,14 +157,14 @@ public class MessageInfoImpl extends MessageInfo {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(super.toString());
-        sb.append( "[Address: ").append(address)
-          .append(", Association: ").append(association)
-          .append(", Assoc ID: ").append(assocId)
-          .append(", Bytes: ").append(bytes)
-          .append(", Stream Number: ").append(streamNumber)
-          .append(", Complete: ").append(complete)
-          .append(", isUnordered: ").append(unordered)
-          .append("]");
+        sb.bppend( "[Address: ").bppend(bddress)
+          .bppend(", Associbtion: ").bppend(bssocibtion)
+          .bppend(", Assoc ID: ").bppend(bssocId)
+          .bppend(", Bytes: ").bppend(bytes)
+          .bppend(", Strebm Number: ").bppend(strebmNumber)
+          .bppend(", Complete: ").bppend(complete)
+          .bppend(", isUnordered: ").bppend(unordered)
+          .bppend("]");
         return sb.toString();
     }
 }

@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
 /**
- * This class is used by the query-building mechanism to represent binary
- * operations.
- * @serial include
+ * This clbss is used by the query-building mechbnism to represent binbry
+ * operbtions.
+ * @seribl include
  *
  * @since 1.5
  */
-class BinaryRelQueryExp extends QueryEval implements QueryExp {
+clbss BinbryRelQueryExp extends QueryEvbl implements QueryExp {
 
-    /* Serial version */
-    private static final long serialVersionUID = -5690656271650491000L;
-
-    /**
-     * @serial The operator
-     */
-    private int relOp;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = -5690656271650491000L;
 
     /**
-     * @serial The first value
+     * @seribl The operbtor
      */
-    private ValueExp exp1;
+    privbte int relOp;
 
     /**
-     * @serial The second value
+     * @seribl The first vblue
      */
-    private ValueExp exp2;
+    privbte VblueExp exp1;
+
+    /**
+     * @seribl The second vblue
+     */
+    privbte VblueExp exp2;
 
 
     /**
-     * Basic Constructor.
+     * Bbsic Constructor.
      */
-    public BinaryRelQueryExp() {
+    public BinbryRelQueryExp() {
     }
 
     /**
-     * Creates a new BinaryRelQueryExp with operator op applied on v1 and
-     * v2 values.
+     * Crebtes b new BinbryRelQueryExp with operbtor op bpplied on v1 bnd
+     * v2 vblues.
      */
-    public BinaryRelQueryExp(int op, ValueExp v1, ValueExp v2) {
+    public BinbryRelQueryExp(int op, VblueExp v1, VblueExp v2) {
         relOp = op;
         exp1  = v1;
         exp2  = v2;
@@ -72,116 +72,116 @@ class BinaryRelQueryExp extends QueryEval implements QueryExp {
 
 
     /**
-     * Returns the operator of the query.
+     * Returns the operbtor of the query.
      */
-    public int getOperator()  {
+    public int getOperbtor()  {
         return relOp;
     }
 
     /**
-     * Returns the left value of the query.
+     * Returns the left vblue of the query.
      */
-    public ValueExp getLeftValue()  {
+    public VblueExp getLeftVblue()  {
         return exp1;
     }
 
     /**
-     * Returns the right value of the query.
+     * Returns the right vblue of the query.
      */
-    public ValueExp getRightValue()  {
+    public VblueExp getRightVblue()  {
         return exp2;
     }
 
     /**
-     * Applies the BinaryRelQueryExp on an MBean.
+     * Applies the BinbryRelQueryExp on bn MBebn.
      *
-     * @param name The name of the MBean on which the BinaryRelQueryExp will be applied.
+     * @pbrbm nbme The nbme of the MBebn on which the BinbryRelQueryExp will be bpplied.
      *
-     * @return  True if the query was successfully applied to the MBean, false otherwise.
+     * @return  True if the query wbs successfully bpplied to the MBebn, fblse otherwise.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @exception BbdStringOperbtionException
+     * @exception BbdBinbryOpVblueExpException
+     * @exception BbdAttributeVblueExpException
+     * @exception InvblidApplicbtionException
      */
-    public boolean apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
-        BadAttributeValueExpException, InvalidApplicationException  {
-        Object val1 = exp1.apply(name);
-        Object val2 = exp2.apply(name);
-        boolean numeric = val1 instanceof NumericValueExp;
-        boolean bool = val1 instanceof BooleanValueExp;
+    public boolebn bpply(ObjectNbme nbme) throws BbdStringOperbtionException, BbdBinbryOpVblueExpException,
+        BbdAttributeVblueExpException, InvblidApplicbtionException  {
+        Object vbl1 = exp1.bpply(nbme);
+        Object vbl2 = exp2.bpply(nbme);
+        boolebn numeric = vbl1 instbnceof NumericVblueExp;
+        boolebn bool = vbl1 instbnceof BoolebnVblueExp;
         if (numeric) {
-            if (((NumericValueExp)val1).isLong()) {
-                long lval1 = ((NumericValueExp)val1).longValue();
-                long lval2 = ((NumericValueExp)val2).longValue();
+            if (((NumericVblueExp)vbl1).isLong()) {
+                long lvbl1 = ((NumericVblueExp)vbl1).longVblue();
+                long lvbl2 = ((NumericVblueExp)vbl2).longVblue();
 
                 switch (relOp) {
-                case Query.GT:
-                    return lval1 > lval2;
-                case Query.LT:
-                    return lval1 < lval2;
-                case Query.GE:
-                    return lval1 >= lval2;
-                case Query.LE:
-                    return lval1 <= lval2;
-                case Query.EQ:
-                    return lval1 == lval2;
+                cbse Query.GT:
+                    return lvbl1 > lvbl2;
+                cbse Query.LT:
+                    return lvbl1 < lvbl2;
+                cbse Query.GE:
+                    return lvbl1 >= lvbl2;
+                cbse Query.LE:
+                    return lvbl1 <= lvbl2;
+                cbse Query.EQ:
+                    return lvbl1 == lvbl2;
                 }
             } else {
-                double dval1 = ((NumericValueExp)val1).doubleValue();
-                double dval2 = ((NumericValueExp)val2).doubleValue();
+                double dvbl1 = ((NumericVblueExp)vbl1).doubleVblue();
+                double dvbl2 = ((NumericVblueExp)vbl2).doubleVblue();
 
                 switch (relOp) {
-                case Query.GT:
-                    return dval1 > dval2;
-                case Query.LT:
-                    return dval1 < dval2;
-                case Query.GE:
-                    return dval1 >= dval2;
-                case Query.LE:
-                    return dval1 <= dval2;
-                case Query.EQ:
-                    return dval1 == dval2;
+                cbse Query.GT:
+                    return dvbl1 > dvbl2;
+                cbse Query.LT:
+                    return dvbl1 < dvbl2;
+                cbse Query.GE:
+                    return dvbl1 >= dvbl2;
+                cbse Query.LE:
+                    return dvbl1 <= dvbl2;
+                cbse Query.EQ:
+                    return dvbl1 == dvbl2;
                 }
             }
 
         } else if (bool) {
 
-            boolean bval1 = ((BooleanValueExp)val1).getValue().booleanValue();
-            boolean bval2 = ((BooleanValueExp)val2).getValue().booleanValue();
+            boolebn bvbl1 = ((BoolebnVblueExp)vbl1).getVblue().boolebnVblue();
+            boolebn bvbl2 = ((BoolebnVblueExp)vbl2).getVblue().boolebnVblue();
 
             switch (relOp) {
-            case Query.GT:
-                return bval1 && !bval2;
-            case Query.LT:
-                return !bval1 && bval2;
-            case Query.GE:
-                return bval1 || !bval2;
-            case Query.LE:
-                return !bval1 || bval2;
-            case Query.EQ:
-                return bval1 == bval2;
+            cbse Query.GT:
+                return bvbl1 && !bvbl2;
+            cbse Query.LT:
+                return !bvbl1 && bvbl2;
+            cbse Query.GE:
+                return bvbl1 || !bvbl2;
+            cbse Query.LE:
+                return !bvbl1 || bvbl2;
+            cbse Query.EQ:
+                return bvbl1 == bvbl2;
             }
 
         } else {
-            String sval1 = ((StringValueExp)val1).getValue();
-            String sval2 = ((StringValueExp)val2).getValue();
+            String svbl1 = ((StringVblueExp)vbl1).getVblue();
+            String svbl2 = ((StringVblueExp)vbl2).getVblue();
 
             switch (relOp) {
-            case Query.GT:
-                return sval1.compareTo(sval2) > 0;
-            case Query.LT:
-                return sval1.compareTo(sval2) < 0;
-            case Query.GE:
-                return sval1.compareTo(sval2) >= 0;
-            case Query.LE:
-                return sval1.compareTo(sval2) <= 0;
-            case Query.EQ:
-                return sval1.compareTo(sval2) == 0;
+            cbse Query.GT:
+                return svbl1.compbreTo(svbl2) > 0;
+            cbse Query.LT:
+                return svbl1.compbreTo(svbl2) < 0;
+            cbse Query.GE:
+                return svbl1.compbreTo(svbl2) >= 0;
+            cbse Query.LE:
+                return svbl1.compbreTo(svbl2) <= 0;
+            cbse Query.EQ:
+                return svbl1.compbreTo(svbl2) == 0;
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
@@ -192,17 +192,17 @@ class BinaryRelQueryExp extends QueryEval implements QueryExp {
         return "(" + exp1 + ") " + relOpString() + " (" + exp2 + ")";
     }
 
-    private String relOpString() {
+    privbte String relOpString() {
         switch (relOp) {
-        case Query.GT:
+        cbse Query.GT:
             return ">";
-        case Query.LT:
+        cbse Query.LT:
             return "<";
-        case Query.GE:
+        cbse Query.GE:
             return ">=";
-        case Query.LE:
+        cbse Query.LE:
             return "<=";
-        case Query.EQ:
+        cbse Query.EQ:
             return "=";
         }
 

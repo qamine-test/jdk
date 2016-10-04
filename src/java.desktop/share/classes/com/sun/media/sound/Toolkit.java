@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.AudioSystem;
 
 /**
  * Common conversions etc.
  *
- * @author Kara Kytle
- * @author Florian Bomers
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
  */
-public final class Toolkit {
+public finbl clbss Toolkit {
 
     /**
-     * Suppresses default constructor, ensuring non-instantiability.
+     * Suppresses defbult constructor, ensuring non-instbntibbility.
      */
-    private Toolkit() {
+    privbte Toolkit() {
     }
 
     /**
      * Converts bytes from signed to unsigned.
      */
-    static void getUnsigned8(byte[] b, int off, int len) {
+    stbtic void getUnsigned8(byte[] b, int off, int len) {
         for (int i = off; i < (off+len); i++) {
             b[i] += 128;
         }
@@ -54,10 +54,10 @@ public final class Toolkit {
 
 
     /**
-     * Swaps bytes.
-     * @throws ArrayOutOfBoundsException if len is not a multiple of 2.
+     * Swbps bytes.
+     * @throws ArrbyOutOfBoundsException if len is not b multiple of 2.
      */
-    static void getByteSwapped(byte[] b, int off, int len) {
+    stbtic void getByteSwbpped(byte[] b, int off, int len) {
 
         byte tempByte;
         for (int i = off; i < (off+len); i+=2) {
@@ -70,29 +70,29 @@ public final class Toolkit {
 
 
     /**
-     * Linear to DB scale conversion.
+     * Linebr to DB scble conversion.
      */
-    static float linearToDB(float linear) {
+    stbtic flobt linebrToDB(flobt linebr) {
 
-        float dB = (float) (Math.log(((linear==0.0)?0.0001:linear))/Math.log(10.0) * 20.0);
+        flobt dB = (flobt) (Mbth.log(((linebr==0.0)?0.0001:linebr))/Mbth.log(10.0) * 20.0);
         return dB;
     }
 
 
     /**
-     * DB to linear scale conversion.
+     * DB to linebr scble conversion.
      */
-    static float dBToLinear(float dB) {
+    stbtic flobt dBToLinebr(flobt dB) {
 
-        float linear = (float) Math.pow(10.0, dB/20.0);
-        return linear;
+        flobt linebr = (flobt) Mbth.pow(10.0, dB/20.0);
+        return linebr;
     }
 
     /*
-     * returns bytes aligned to a multiple of blocksize
-     * the return value will be in the range of (bytes-blocksize+1) ... bytes
+     * returns bytes bligned to b multiple of blocksize
+     * the return vblue will be in the rbnge of (bytes-blocksize+1) ... bytes
      */
-    static long align(long bytes, int blockSize) {
+    stbtic long blign(long bytes, int blockSize) {
         // prevent null pointers
         if (blockSize <= 1) {
             return bytes;
@@ -100,7 +100,7 @@ public final class Toolkit {
         return bytes - (bytes % blockSize);
     }
 
-    static int align(int bytes, int blockSize) {
+    stbtic int blign(int bytes, int blockSize) {
         // prevent null pointers
         if (blockSize <= 1) {
             return bytes;
@@ -110,126 +110,126 @@ public final class Toolkit {
 
 
     /*
-     * gets the number of bytes needed to play the specified number of milliseconds
+     * gets the number of bytes needed to plby the specified number of milliseconds
      */
-    static long millis2bytes(AudioFormat format, long millis) {
-        long result = (long) (millis * format.getFrameRate() / 1000.0f * format.getFrameSize());
-        return align(result, format.getFrameSize());
+    stbtic long millis2bytes(AudioFormbt formbt, long millis) {
+        long result = (long) (millis * formbt.getFrbmeRbte() / 1000.0f * formbt.getFrbmeSize());
+        return blign(result, formbt.getFrbmeSize());
     }
 
     /*
      * gets the time in milliseconds for the given number of bytes
      */
-    static long bytes2millis(AudioFormat format, long bytes) {
-        return (long) (bytes / format.getFrameRate() * 1000.0f / format.getFrameSize());
+    stbtic long bytes2millis(AudioFormbt formbt, long bytes) {
+        return (long) (bytes / formbt.getFrbmeRbte() * 1000.0f / formbt.getFrbmeSize());
     }
 
     /*
-     * gets the number of bytes needed to play the specified number of microseconds
+     * gets the number of bytes needed to plby the specified number of microseconds
      */
-    static long micros2bytes(AudioFormat format, long micros) {
-        long result = (long) (micros * format.getFrameRate() / 1000000.0f * format.getFrameSize());
-        return align(result, format.getFrameSize());
+    stbtic long micros2bytes(AudioFormbt formbt, long micros) {
+        long result = (long) (micros * formbt.getFrbmeRbte() / 1000000.0f * formbt.getFrbmeSize());
+        return blign(result, formbt.getFrbmeSize());
     }
 
     /*
      * gets the time in microseconds for the given number of bytes
      */
-    static long bytes2micros(AudioFormat format, long bytes) {
-        return (long) (bytes / format.getFrameRate() * 1000000.0f / format.getFrameSize());
+    stbtic long bytes2micros(AudioFormbt formbt, long bytes) {
+        return (long) (bytes / formbt.getFrbmeRbte() * 1000000.0f / formbt.getFrbmeSize());
     }
 
     /*
-     * gets the number of frames needed to play the specified number of microseconds
+     * gets the number of frbmes needed to plby the specified number of microseconds
      */
-    static long micros2frames(AudioFormat format, long micros) {
-        return (long) (micros * format.getFrameRate() / 1000000.0f);
+    stbtic long micros2frbmes(AudioFormbt formbt, long micros) {
+        return (long) (micros * formbt.getFrbmeRbte() / 1000000.0f);
     }
 
     /*
-     * gets the time in microseconds for the given number of frames
+     * gets the time in microseconds for the given number of frbmes
      */
-    static long frames2micros(AudioFormat format, long frames) {
-        return (long) (((double) frames) / format.getFrameRate() * 1000000.0d);
+    stbtic long frbmes2micros(AudioFormbt formbt, long frbmes) {
+        return (long) (((double) frbmes) / formbt.getFrbmeRbte() * 1000000.0d);
     }
 
-    static void isFullySpecifiedAudioFormat(AudioFormat format) {
-        if (!format.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED)
-            && !format.getEncoding().equals(AudioFormat.Encoding.PCM_UNSIGNED)
-            && !format.getEncoding().equals(AudioFormat.Encoding.ULAW)
-            && !format.getEncoding().equals(AudioFormat.Encoding.ALAW)) {
-            // we don't know how to verify possibly non-linear encodings
+    stbtic void isFullySpecifiedAudioFormbt(AudioFormbt formbt) {
+        if (!formbt.getEncoding().equbls(AudioFormbt.Encoding.PCM_SIGNED)
+            && !formbt.getEncoding().equbls(AudioFormbt.Encoding.PCM_UNSIGNED)
+            && !formbt.getEncoding().equbls(AudioFormbt.Encoding.ULAW)
+            && !formbt.getEncoding().equbls(AudioFormbt.Encoding.ALAW)) {
+            // we don't know how to verify possibly non-linebr encodings
             return;
         }
-        if (format.getFrameRate() <= 0) {
-            throw new IllegalArgumentException("invalid frame rate: "
-                                               +((format.getFrameRate()==-1)?
-                                                 "NOT_SPECIFIED":String.valueOf(format.getFrameRate())));
+        if (formbt.getFrbmeRbte() <= 0) {
+            throw new IllegblArgumentException("invblid frbme rbte: "
+                                               +((formbt.getFrbmeRbte()==-1)?
+                                                 "NOT_SPECIFIED":String.vblueOf(formbt.getFrbmeRbte())));
         }
-        if (format.getSampleRate() <= 0) {
-            throw new IllegalArgumentException("invalid sample rate: "
-                                               +((format.getSampleRate()==-1)?
-                                                 "NOT_SPECIFIED":String.valueOf(format.getSampleRate())));
+        if (formbt.getSbmpleRbte() <= 0) {
+            throw new IllegblArgumentException("invblid sbmple rbte: "
+                                               +((formbt.getSbmpleRbte()==-1)?
+                                                 "NOT_SPECIFIED":String.vblueOf(formbt.getSbmpleRbte())));
         }
-        if (format.getSampleSizeInBits() <= 0) {
-            throw new IllegalArgumentException("invalid sample size in bits: "
-                                               +((format.getSampleSizeInBits()==-1)?
-                                                 "NOT_SPECIFIED":String.valueOf(format.getSampleSizeInBits())));
+        if (formbt.getSbmpleSizeInBits() <= 0) {
+            throw new IllegblArgumentException("invblid sbmple size in bits: "
+                                               +((formbt.getSbmpleSizeInBits()==-1)?
+                                                 "NOT_SPECIFIED":String.vblueOf(formbt.getSbmpleSizeInBits())));
         }
-        if (format.getFrameSize() <= 0) {
-            throw new IllegalArgumentException("invalid frame size: "
-                                               +((format.getFrameSize()==-1)?
-                                                 "NOT_SPECIFIED":String.valueOf(format.getFrameSize())));
+        if (formbt.getFrbmeSize() <= 0) {
+            throw new IllegblArgumentException("invblid frbme size: "
+                                               +((formbt.getFrbmeSize()==-1)?
+                                                 "NOT_SPECIFIED":String.vblueOf(formbt.getFrbmeSize())));
         }
-        if (format.getChannels() <= 0) {
-            throw new IllegalArgumentException("invalid number of channels: "
-                                               +((format.getChannels()==-1)?
-                                                 "NOT_SPECIFIED":String.valueOf(format.getChannels())));
+        if (formbt.getChbnnels() <= 0) {
+            throw new IllegblArgumentException("invblid number of chbnnels: "
+                                               +((formbt.getChbnnels()==-1)?
+                                                 "NOT_SPECIFIED":String.vblueOf(formbt.getChbnnels())));
         }
     }
 
 
-    static boolean isFullySpecifiedPCMFormat(AudioFormat format) {
-        if (!format.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED)
-            && !format.getEncoding().equals(AudioFormat.Encoding.PCM_UNSIGNED)) {
-            return false;
+    stbtic boolebn isFullySpecifiedPCMFormbt(AudioFormbt formbt) {
+        if (!formbt.getEncoding().equbls(AudioFormbt.Encoding.PCM_SIGNED)
+            && !formbt.getEncoding().equbls(AudioFormbt.Encoding.PCM_UNSIGNED)) {
+            return fblse;
         }
-        if ((format.getFrameRate() <= 0)
-            || (format.getSampleRate() <= 0)
-            || (format.getSampleSizeInBits() <= 0)
-            || (format.getFrameSize() <= 0)
-            || (format.getChannels() <= 0)) {
-            return false;
+        if ((formbt.getFrbmeRbte() <= 0)
+            || (formbt.getSbmpleRbte() <= 0)
+            || (formbt.getSbmpleSizeInBits() <= 0)
+            || (formbt.getFrbmeSize() <= 0)
+            || (formbt.getChbnnels() <= 0)) {
+            return fblse;
         }
         return true;
     }
 
 
-    public static AudioInputStream getPCMConvertedAudioInputStream(AudioInputStream ais) {
-        // we can't open the device for non-PCM playback, so we have
-        // convert any other encodings to PCM here (at least we try!)
-        AudioFormat af = ais.getFormat();
+    public stbtic AudioInputStrebm getPCMConvertedAudioInputStrebm(AudioInputStrebm bis) {
+        // we cbn't open the device for non-PCM plbybbck, so we hbve
+        // convert bny other encodings to PCM here (bt lebst we try!)
+        AudioFormbt bf = bis.getFormbt();
 
-        if( (!af.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED)) &&
-            (!af.getEncoding().equals(AudioFormat.Encoding.PCM_UNSIGNED))) {
+        if( (!bf.getEncoding().equbls(AudioFormbt.Encoding.PCM_SIGNED)) &&
+            (!bf.getEncoding().equbls(AudioFormbt.Encoding.PCM_UNSIGNED))) {
 
             try {
-                AudioFormat newFormat =
-                    new AudioFormat( AudioFormat.Encoding.PCM_SIGNED,
-                                     af.getSampleRate(),
+                AudioFormbt newFormbt =
+                    new AudioFormbt( AudioFormbt.Encoding.PCM_SIGNED,
+                                     bf.getSbmpleRbte(),
                                      16,
-                                     af.getChannels(),
-                                     af.getChannels() * 2,
-                                     af.getSampleRate(),
-                                     Platform.isBigEndian());
-                ais = AudioSystem.getAudioInputStream(newFormat, ais);
-            } catch (Exception e) {
-                if (Printer.err) e.printStackTrace();
-                ais = null;
+                                     bf.getChbnnels(),
+                                     bf.getChbnnels() * 2,
+                                     bf.getSbmpleRbte(),
+                                     Plbtform.isBigEndibn());
+                bis = AudioSystem.getAudioInputStrebm(newFormbt, bis);
+            } cbtch (Exception e) {
+                if (Printer.err) e.printStbckTrbce();
+                bis = null;
             }
         }
 
-        return ais;
+        return bis;
     }
 
 }

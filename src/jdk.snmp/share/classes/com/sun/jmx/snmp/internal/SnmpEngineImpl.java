@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 2001, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.snmp.internal;
+pbckbge com.sun.jmx.snmp.internbl;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Hashtable;
-import java.util.logging.Level;
-import java.io.Serializable;
+import jbvb.net.InetAddress;
+import jbvb.net.UnknownHostException;
+import jbvb.util.Hbshtbble;
+import jbvb.util.logging.Level;
+import jbvb.io.Seriblizbble;
 
 import com.sun.jmx.snmp.SnmpDefinitions;
 import com.sun.jmx.snmp.SnmpEngineId;
 import com.sun.jmx.snmp.SnmpEngine;
-import com.sun.jmx.snmp.SnmpUsmKeyHandler;
-import com.sun.jmx.snmp.SnmpEngineFactory;
+import com.sun.jmx.snmp.SnmpUsmKeyHbndler;
+import com.sun.jmx.snmp.SnmpEngineFbctory;
 import com.sun.jmx.snmp.SnmpUnknownModelException;
 
-import com.sun.jmx.snmp.internal.SnmpTools;
-import com.sun.jmx.snmp.SnmpBadSecurityLevelException;
-import static com.sun.jmx.defaults.JmxProperties.SNMP_LOGGER;
+import com.sun.jmx.snmp.internbl.SnmpTools;
+import com.sun.jmx.snmp.SnmpBbdSecurityLevelException;
+import stbtic com.sun.jmx.defbults.JmxProperties.SNMP_LOGGER;
 
 /**
- * This engine is conformant with the RFC 2571. It is the main object within
- * an SNMP entity (agent, manager...).
- * To an engine is associated an {@link com.sun.jmx.snmp.SnmpEngineId}.
- * The way the engineId is retrieved is linked to the way the engine is
- * instantiated. See each <CODE>SnmpEngine</CODE> constructor for more details.
- * An engine is composed of a set of sub systems
- * {@link com.sun.jmx.snmp.internal.SnmpSubSystem}. An <CODE>SNMP</CODE>
- * engine can contain a:
+ * This engine is conformbnt with the RFC 2571. It is the mbin object within
+ * bn SNMP entity (bgent, mbnbger...).
+ * To bn engine is bssocibted bn {@link com.sun.jmx.snmp.SnmpEngineId}.
+ * The wby the engineId is retrieved is linked to the wby the engine is
+ * instbntibted. See ebch <CODE>SnmpEngine</CODE> constructor for more detbils.
+ * An engine is composed of b set of sub systems
+ * {@link com.sun.jmx.snmp.internbl.SnmpSubSystem}. An <CODE>SNMP</CODE>
+ * engine cbn contbin b:
  *<ul>
- *<li> Message Processing Sub System :
- * {@link com.sun.jmx.snmp.internal.SnmpMsgProcessingSubSystem}</li>
+ *<li> Messbge Processing Sub System :
+ * {@link com.sun.jmx.snmp.internbl.SnmpMsgProcessingSubSystem}</li>
  *<li> Security Sub System :
- * {@link com.sun.jmx.snmp.internal.SnmpSecuritySubSystem} </li>
+ * {@link com.sun.jmx.snmp.internbl.SnmpSecuritySubSystem} </li>
  *<li> Access Control Sub System :
- * {@link com.sun.jmx.snmp.internal.SnmpAccessControlSubSystem}</li>
+ * {@link com.sun.jmx.snmp.internbl.SnmpAccessControlSubSystem}</li>
  *</ul>
- *<P> Each sub system contains a set of models. A model is an implementation
- * of a particular treatement (eg: the User based Security Model defined in
- * RFC 2574 is a functional element dealing with authentication and privacy).
+ *<P> Ebch sub system contbins b set of models. A model is bn implementbtion
+ * of b pbrticulbr trebtement (eg: the User bbsed Security Model defined in
+ * RFC 2574 is b functionbl element debling with buthenticbtion bnd privbcy).
  *</P>
- * Engine instantiation is based on a factory. This factory, implementing
- * mandatorily {@link com.sun.jmx.snmp.SnmpEngineFactory  SnmpEngineFactory}
- * is set in the method <CODE>setFactory</CODE>.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * Engine instbntibtion is bbsed on b fbctory. This fbctory, implementing
+ * mbndbtorily {@link com.sun.jmx.snmp.SnmpEngineFbctory  SnmpEngineFbctory}
+ * is set in the method <CODE>setFbctory</CODE>.
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  * @since 1.5
  */
-public class SnmpEngineImpl implements SnmpEngine, Serializable {
-    private static final long serialVersionUID = -2564301391365614725L;
+public clbss SnmpEngineImpl implements SnmpEngine, Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = -2564301391365614725L;
 
     /**
-     * Security level. No authentication, no privacy. Value is 0,
-     * as defined in RFC 2572
+     * Security level. No buthenticbtion, no privbcy. Vblue is 0,
+     * bs defined in RFC 2572
      */
-    public static final int noAuthNoPriv = 0;
+    public stbtic finbl int noAuthNoPriv = 0;
     /**
-     * Security level. Authentication, no privacy. Value is 1, as
+     * Security level. Authenticbtion, no privbcy. Vblue is 1, bs
      * defined in RFC 2572
      */
-    public static final int authNoPriv = 1;
+    public stbtic finbl int buthNoPriv = 1;
     /**
-     * Security level. Authentication, privacy. Value is 3,
-     * as defined in RFC 2572
+     * Security level. Authenticbtion, privbcy. Vblue is 3,
+     * bs defined in RFC 2572
      */
-    public static final int authPriv = 3;
+    public stbtic finbl int buthPriv = 3;
     /**
-     * Flag that indicates that a report is to be sent. Value is 4, as defined in RFC 2572
+     * Flbg thbt indicbtes thbt b report is to be sent. Vblue is 4, bs defined in RFC 2572
      */
-    public static final int reportableFlag = 4;
+    public stbtic finbl int reportbbleFlbg = 4;
 
     /**
-     * Mask used to isolate authentication information within a message flag.
+     * Mbsk used to isolbte buthenticbtion informbtion within b messbge flbg.
      */
-    public static final int authMask = 1;
+    public stbtic finbl int buthMbsk = 1;
     /**
-     * Mask used to isolate privacy information within a message flag.
+     * Mbsk used to isolbte privbcy informbtion within b messbge flbg.
      */
-    public static final int privMask = 2;
+    public stbtic finbl int privMbsk = 2;
     /**
-     * Mask used to isolate authentication and privacy information within a message flag.
+     * Mbsk used to isolbte buthenticbtion bnd privbcy informbtion within b messbge flbg.
      */
-    public static final int authPrivMask = 3;
+    public stbtic finbl int buthPrivMbsk = 3;
 
-    private SnmpEngineId engineid = null;
-    private SnmpEngineFactory factory = null;
-    private long startTime = 0;
+    privbte SnmpEngineId engineid = null;
+    privbte SnmpEngineFbctory fbctory = null;
+    privbte long stbrtTime = 0;
 
-    private int boot = 0;
-    private boolean checkOid = false;
+    privbte int boot = 0;
+    privbte boolebn checkOid = fblse;
 
-    transient private SnmpUsmKeyHandler usmKeyHandler = null;
-    transient private SnmpLcd lcd = null;
+    trbnsient privbte SnmpUsmKeyHbndler usmKeyHbndler = null;
+    trbnsient privbte SnmpLcd lcd = null;
 
-    transient private SnmpSecuritySubSystem securitySub = null;
+    trbnsient privbte SnmpSecuritySubSystem securitySub = null;
 
-    transient private SnmpMsgProcessingSubSystem messageSub = null;
+    trbnsient privbte SnmpMsgProcessingSubSystem messbgeSub = null;
 
-    transient private SnmpAccessControlSubSystem accessSub = null;
+    trbnsient privbte SnmpAccessControlSubSystem bccessSub = null;
 
     /**
-     * Gets the engine time in seconds. This is the time from the last reboot.
-     * @return The time from the last reboot.
+     * Gets the engine time in seconds. This is the time from the lbst reboot.
+     * @return The time from the lbst reboot.
      */
     public synchronized int getEngineTime() {
-        //We do the counter wrap in a lazt way. Each time Engine is asked for his time it checks. So if nobody use the Engine, the time can wrap and wrap again without incrementing nb boot. We can imagine that it is irrelevant due to the amount of time needed to wrap.
-        long delta = (System.currentTimeMillis() / 1000) - startTime;
-        if(delta >  0x7FFFFFFF) {
-            //67 years of running. That is a great thing!
-            //Reinitialize startTime.
-            startTime = System.currentTimeMillis() / 1000;
+        //We do the counter wrbp in b lbzt wby. Ebch time Engine is bsked for his time it checks. So if nobody use the Engine, the time cbn wrbp bnd wrbp bgbin without incrementing nb boot. We cbn imbgine thbt it is irrelevbnt due to the bmount of time needed to wrbp.
+        long deltb = (System.currentTimeMillis() / 1000) - stbrtTime;
+        if(deltb >  0x7FFFFFFF) {
+            //67 yebrs of running. Thbt is b grebt thing!
+            //Reinitiblize stbrtTime.
+            stbrtTime = System.currentTimeMillis() / 1000;
 
-            //Can't do anything with this counter.
+            //Cbn't do bnything with this counter.
             if(boot != 0x7FFFFFFF)
                 boot += 1;
             //Store for future use.
             storeNBBoots(boot);
         }
 
-        return (int) ((System.currentTimeMillis() / 1000) - startTime);
+        return (int) ((System.currentTimeMillis() / 1000) - stbrtTime);
     }
 
     /**
-     * Gets the engine Id. This is unique for each engine.
+     * Gets the engine Id. This is unique for ebch engine.
      * @return The engine Id object.
      */
     public SnmpEngineId getEngineId() {
@@ -152,11 +152,11 @@ public class SnmpEngineImpl implements SnmpEngine, Serializable {
     }
 
     /**
-     * Gets the Usm key handler.
-     * @return The key handler.
+     * Gets the Usm key hbndler.
+     * @return The key hbndler.
      */
-    public SnmpUsmKeyHandler getUsmKeyHandler() {
-        return usmKeyHandler;
+    public SnmpUsmKeyHbndler getUsmKeyHbndler() {
+        return usmKeyHbndler;
     }
 
     /**
@@ -167,7 +167,7 @@ public class SnmpEngineImpl implements SnmpEngine, Serializable {
         return lcd;
     }
     /**
-     * Gets the engine boot number. This is the number of time this engine has rebooted. Each time an <CODE>SnmpEngine</CODE> is instantiated, it will read this value in its Lcd, and store back the value incremented by one.
+     * Gets the engine boot number. This is the number of time this engine hbs rebooted. Ebch time bn <CODE>SnmpEngine</CODE> is instbntibted, it will rebd this vblue in its Lcd, bnd store bbck the vblue incremented by one.
      * @return The engine's number of reboot.
      */
     public int getEngineBoots() {
@@ -175,66 +175,66 @@ public class SnmpEngineImpl implements SnmpEngine, Serializable {
     }
 
      /**
-     * Constructor. A Local Configuration Datastore is passed to the engine. It will be used to store and retrieve data (engine Id, engine boots).
-     * <P> WARNING : The SnmpEngineId is computed as follow:
+     * Constructor. A Locbl Configurbtion Dbtbstore is pbssed to the engine. It will be used to store bnd retrieve dbtb (engine Id, engine boots).
+     * <P> WARNING : The SnmpEngineId is computed bs follow:
      * <ul>
-     * <li> If an lcd file is provided containing the property "localEngineID", this property value is used.</li>.
-     * <li> If not, if the passed engineID is not null, this engine ID is used.</li>
-     * <li> If not, a time based engineID is computed.</li>
+     * <li> If bn lcd file is provided contbining the property "locblEngineID", this property vblue is used.</li>.
+     * <li> If not, if the pbssed engineID is not null, this engine ID is used.</li>
+     * <li> If not, b time bbsed engineID is computed.</li>
      * </ul>
-     * This constructor should be called by an <CODE>SnmpEngineFactory</CODE>. Don't call it directly.
-     * @param fact The factory used to instantiate this engine.
-     * @param lcd The local configuration datastore.
-     * @param engineid The engine ID to use. If null is provided, an SnmpEngineId is computed using the current time.
-     * @throws UnknownHostException Exception thrown, if the host name located in the property "localEngineID" is invalid.
+     * This constructor should be cblled by bn <CODE>SnmpEngineFbctory</CODE>. Don't cbll it directly.
+     * @pbrbm fbct The fbctory used to instbntibte this engine.
+     * @pbrbm lcd The locbl configurbtion dbtbstore.
+     * @pbrbm engineid The engine ID to use. If null is provided, bn SnmpEngineId is computed using the current time.
+     * @throws UnknownHostException Exception thrown, if the host nbme locbted in the property "locblEngineID" is invblid.
      */
-    public SnmpEngineImpl(SnmpEngineFactory fact,
+    public SnmpEngineImpl(SnmpEngineFbctory fbct,
                           SnmpLcd lcd,
                           SnmpEngineId engineid) throws UnknownHostException {
 
-        init(lcd, fact);
+        init(lcd, fbct);
         initEngineID();
         if(this.engineid == null) {
             if(engineid != null)
                 this.engineid = engineid;
             else
-                this.engineid = SnmpEngineId.createEngineId();
+                this.engineid = SnmpEngineId.crebteEngineId();
         }
         lcd.storeEngineId(this.engineid);
-        if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_LOGGER.logp(Level.FINER, SnmpEngineImpl.class.getName(),
-                    "SnmpEngineImpl(SnmpEngineFactory,SnmpLcd,SnmpEngineId)",
+        if (SNMP_LOGGER.isLoggbble(Level.FINER)) {
+            SNMP_LOGGER.logp(Level.FINER, SnmpEngineImpl.clbss.getNbme(),
+                    "SnmpEngineImpl(SnmpEngineFbctory,SnmpLcd,SnmpEngineId)",
                     "LOCAL ENGINE ID: " + this.engineid);
         }
     }
     /**
-     * Constructor. A Local Configuration Datastore is passed to the engine. It will be used to store and retrieve data (engine ID, engine boots).
-     * <P> WARNING : The SnmpEngineId is computed as follow:
+     * Constructor. A Locbl Configurbtion Dbtbstore is pbssed to the engine. It will be used to store bnd retrieve dbtb (engine ID, engine boots).
+     * <P> WARNING : The SnmpEngineId is computed bs follow:
      * <ul>
-     * <li> If an lcd file is provided containing the property "localEngineID", this property value is used.</li>.
-     * <li> If not, the passed address and port are used to compute one.</li>
+     * <li> If bn lcd file is provided contbining the property "locblEngineID", this property vblue is used.</li>.
+     * <li> If not, the pbssed bddress bnd port bre used to compute one.</li>
      * </ul>
-     * This constructor should be called by an <CODE>SnmpEngineFactory</CODE>. Don't call it directly.
-     * @param fact The factory used to instantiate this engine.
-     * @param lcd The local configuration datastore.
-     * @param port UDP port to use in order to calculate the engine ID.
-     * @param address An IP address used to calculate the engine ID.
-     * @throws UnknownHostException Exception thrown, if the host name located in the property "localEngineID" is invalid.
+     * This constructor should be cblled by bn <CODE>SnmpEngineFbctory</CODE>. Don't cbll it directly.
+     * @pbrbm fbct The fbctory used to instbntibte this engine.
+     * @pbrbm lcd The locbl configurbtion dbtbstore.
+     * @pbrbm port UDP port to use in order to cblculbte the engine ID.
+     * @pbrbm bddress An IP bddress used to cblculbte the engine ID.
+     * @throws UnknownHostException Exception thrown, if the host nbme locbted in the property "locblEngineID" is invblid.
      */
-    public SnmpEngineImpl(SnmpEngineFactory fact,
+    public SnmpEngineImpl(SnmpEngineFbctory fbct,
                           SnmpLcd lcd,
-                          InetAddress address,
+                          InetAddress bddress,
                           int port) throws UnknownHostException {
-        init(lcd, fact);
+        init(lcd, fbct);
         initEngineID();
         if(engineid == null)
-            engineid = SnmpEngineId.createEngineId(address, port);
+            engineid = SnmpEngineId.crebteEngineId(bddress, port);
 
         lcd.storeEngineId(engineid);
 
-        if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_LOGGER.logp(Level.FINER, SnmpEngineImpl.class.getName(),
-                    "SnmpEngineImpl(SnmpEngineFactory,SnmpLcd,InetAddress,int)",
+        if (SNMP_LOGGER.isLoggbble(Level.FINER)) {
+            SNMP_LOGGER.logp(Level.FINER, SnmpEngineImpl.clbss.getNbme(),
+                    "SnmpEngineImpl(SnmpEngineFbctory,SnmpLcd,InetAddress,int)",
                     "LOCAL ENGINE ID: " + engineid + " / " +
                     "LOCAL ENGINE NB BOOTS: " + boot + " / " +
                     "LOCAL ENGINE START TIME: " + getEngineTime());
@@ -242,31 +242,31 @@ public class SnmpEngineImpl implements SnmpEngine, Serializable {
     }
 
     /**
-     * Constructor. A Local Configuration Datastore is passed to the engine. It will be used to store and retrieve data (engine ID, engine boots).
-     * <P> WARNING : The SnmpEngineId is computed as follow:
+     * Constructor. A Locbl Configurbtion Dbtbstore is pbssed to the engine. It will be used to store bnd retrieve dbtb (engine ID, engine boots).
+     * <P> WARNING : The SnmpEngineId is computed bs follow:
      * <ul>
-     * <li> If an lcd file is provided containing the property "localEngineID", this property value is used.</li>.
-     * <li> If not, The passed port is used to compute one.</li>
+     * <li> If bn lcd file is provided contbining the property "locblEngineID", this property vblue is used.</li>.
+     * <li> If not, The pbssed port is used to compute one.</li>
      * </ul>
-     * This constructor should be called by an <CODE>SnmpEngineFactory</CODE>. Don't call it directly.
-     * @param fact The factory used to instantiate this engine.
-     * @param lcd The local configuration datastore
-     * @param port UDP port to use in order to calculate the engine ID.
-     * @throws UnknownHostException Exception thrown, if the host name located in the property "localEngineID" is invalid.
+     * This constructor should be cblled by bn <CODE>SnmpEngineFbctory</CODE>. Don't cbll it directly.
+     * @pbrbm fbct The fbctory used to instbntibte this engine.
+     * @pbrbm lcd The locbl configurbtion dbtbstore
+     * @pbrbm port UDP port to use in order to cblculbte the engine ID.
+     * @throws UnknownHostException Exception thrown, if the host nbme locbted in the property "locblEngineID" is invblid.
      */
-    public SnmpEngineImpl(SnmpEngineFactory fact,
+    public SnmpEngineImpl(SnmpEngineFbctory fbct,
                           SnmpLcd lcd,
                           int port) throws UnknownHostException {
-        init(lcd, fact);
+        init(lcd, fbct);
         initEngineID();
         if(engineid == null)
-           engineid = SnmpEngineId.createEngineId(port);
+           engineid = SnmpEngineId.crebteEngineId(port);
 
         lcd.storeEngineId(engineid);
 
-        if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_LOGGER.logp(Level.FINER, SnmpEngineImpl.class.getName(),
-                    "SnmpEngineImpl(SnmpEngineFactory,SnmpLcd,int)",
+        if (SNMP_LOGGER.isLoggbble(Level.FINER)) {
+            SNMP_LOGGER.logp(Level.FINER, SnmpEngineImpl.clbss.getNbme(),
+                    "SnmpEngineImpl(SnmpEngineFbctory,SnmpLcd,int)",
                     "LOCAL ENGINE ID: " + engineid + " / " +
                     "LOCAL ENGINE NB BOOTS: " + boot + " / " +
                     "LOCAL ENGINE START TIME: " + getEngineTime());
@@ -274,29 +274,29 @@ public class SnmpEngineImpl implements SnmpEngine, Serializable {
     }
 
     /**
-     * Constructor. A Local Configuration Datastore is passed to the engine. It will be used to store and retrieve data (engine ID, engine boots).
-     * <P> WARNING : The SnmpEngineId is computed as follow:
+     * Constructor. A Locbl Configurbtion Dbtbstore is pbssed to the engine. It will be used to store bnd retrieve dbtb (engine ID, engine boots).
+     * <P> WARNING : The SnmpEngineId is computed bs follow:
      * <ul>
-     * <li> If an lcd file is provided containing the property "localEngineID", this property value is used.</li>.
-     * <li> If not, a time based engineID is computed.</li>
+     * <li> If bn lcd file is provided contbining the property "locblEngineID", this property vblue is used.</li>.
+     * <li> If not, b time bbsed engineID is computed.</li>
      * </ul>
-     * When no configuration nor java property is set for the engine ID value, a unique time based engine ID will be generated.
-     * This constructor should be called by an <CODE>SnmpEngineFactory</CODE>. Don't call it directly.
-     * @param fact The factory used to instantiate this engine.
-     * @param lcd The local configuration datastore.
+     * When no configurbtion nor jbvb property is set for the engine ID vblue, b unique time bbsed engine ID will be generbted.
+     * This constructor should be cblled by bn <CODE>SnmpEngineFbctory</CODE>. Don't cbll it directly.
+     * @pbrbm fbct The fbctory used to instbntibte this engine.
+     * @pbrbm lcd The locbl configurbtion dbtbstore.
      */
-    public SnmpEngineImpl(SnmpEngineFactory fact,
+    public SnmpEngineImpl(SnmpEngineFbctory fbct,
                           SnmpLcd lcd) throws UnknownHostException {
-        init(lcd, fact);
+        init(lcd, fbct);
         initEngineID();
         if(engineid == null)
-            engineid = SnmpEngineId.createEngineId();
+            engineid = SnmpEngineId.crebteEngineId();
 
         lcd.storeEngineId(engineid);
 
-        if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_LOGGER.logp(Level.FINER, SnmpEngineImpl.class.getName(),
-                    "SnmpEngineImpl(SnmpEngineFactory,SnmpLcd)",
+        if (SNMP_LOGGER.isLoggbble(Level.FINER)) {
+            SNMP_LOGGER.logp(Level.FINER, SnmpEngineImpl.clbss.getNbme(),
+                    "SnmpEngineImpl(SnmpEngineFbctory,SnmpLcd)",
                     "LOCAL ENGINE ID: " + engineid + " / " +
                     "LOCAL ENGINE NB BOOTS: " + boot + " / " +
                     "LOCAL ENGINE START TIME: " + getEngineTime());
@@ -304,28 +304,28 @@ public class SnmpEngineImpl implements SnmpEngine, Serializable {
     }
 
     /**
-     * Access Control will check the oids. By default is false.
+     * Access Control will check the oids. By defbult is fblse.
      */
-    public synchronized void activateCheckOid() {
+    public synchronized void bctivbteCheckOid() {
         checkOid = true;
     }
 
     /**
-     * Access Control will not check the oids. By default is false.
+     * Access Control will not check the oids. By defbult is fblse.
      */
-    public synchronized void deactivateCheckOid() {
-        checkOid = false;
+    public synchronized void debctivbteCheckOid() {
+        checkOid = fblse;
     }
 
     /**
-     * Access Control check or not the oids. By default is false.
+     * Access Control check or not the oids. By defbult is fblse.
      */
-    public synchronized boolean isCheckOidActivated() {
+    public synchronized boolebn isCheckOidActivbted() {
         return checkOid;
     }
 
-    //Do some check and store the nb boots value.
-    private void storeNBBoots(int boot) {
+    //Do some check bnd store the nb boots vblue.
+    privbte void storeNBBoots(int boot) {
         if(boot < 0 || boot == 0x7FFFFFFF) {
             boot = 0x7FFFFFFF;
             lcd.storeEngineBoots(boot);
@@ -334,9 +334,9 @@ public class SnmpEngineImpl implements SnmpEngine, Serializable {
             lcd.storeEngineBoots(boot + 1);
     }
 
-    // Initialize internal status.
-    private void init(SnmpLcd lcd, SnmpEngineFactory fact) {
-        this.factory = fact;
+    // Initiblize internbl stbtus.
+    privbte void init(SnmpLcd lcd, SnmpEngineFbctory fbct) {
+        this.fbctory = fbct;
         this.lcd = lcd;
         boot = lcd.getEngineBoots();
 
@@ -345,37 +345,37 @@ public class SnmpEngineImpl implements SnmpEngine, Serializable {
 
         storeNBBoots(boot);
 
-        startTime = System.currentTimeMillis() / 1000;
+        stbrtTime = System.currentTimeMillis() / 1000;
 
     }
 
-    void setUsmKeyHandler(SnmpUsmKeyHandler usmKeyHandler) {
-        this.usmKeyHandler = usmKeyHandler;
+    void setUsmKeyHbndler(SnmpUsmKeyHbndler usmKeyHbndler) {
+        this.usmKeyHbndler = usmKeyHbndler;
     }
 
-    //Initialize the engineID.
-    private void initEngineID() throws UnknownHostException {
+    //Initiblize the engineID.
+    privbte void initEngineID() throws UnknownHostException {
         String id = lcd.getEngineId();
         if(id != null) {
-            engineid = SnmpEngineId.createEngineId(id);
+            engineid = SnmpEngineId.crebteEngineId(id);
         }
     }
 
 
     /**
-     * Returns the Message Processing Sub System.
-     * @return The Message Processing Sub System.
+     * Returns the Messbge Processing Sub System.
+     * @return The Messbge Processing Sub System.
      */
     public SnmpMsgProcessingSubSystem getMsgProcessingSubSystem() {
-        return messageSub;
+        return messbgeSub;
     }
 
     /**
-     * Sets the Message Processing Sub System.
-     * @param sys The Message Processing Sub System.
+     * Sets the Messbge Processing Sub System.
+     * @pbrbm sys The Messbge Processing Sub System.
      */
     public void setMsgProcessingSubSystem(SnmpMsgProcessingSubSystem sys) {
-        messageSub = sys;
+        messbgeSub = sys;
     }
 
      /**
@@ -387,17 +387,17 @@ public class SnmpEngineImpl implements SnmpEngine, Serializable {
     }
     /**
      * Sets the Security Sub System.
-     * @param sys The Security Sub System.
+     * @pbrbm sys The Security Sub System.
      */
     public void setSecuritySubSystem(SnmpSecuritySubSystem sys) {
         securitySub = sys;
     }
      /**
      * Sets the Access Control Sub System.
-     * @param sys The Access Control Sub System.
+     * @pbrbm sys The Access Control Sub System.
      */
     public void setAccessControlSubSystem(SnmpAccessControlSubSystem sys) {
-        accessSub = sys;
+        bccessSub = sys;
     }
 
     /**
@@ -405,18 +405,18 @@ public class SnmpEngineImpl implements SnmpEngine, Serializable {
      * @return The Access Control Sub System.
      */
     public SnmpAccessControlSubSystem getAccessControlSubSystem() {
-        return accessSub;
+        return bccessSub;
     }
     /**
-     * Checks the passed msg flags according to the rules specified in RFC 2572.
-     * @param msgFlags The msg flags.
+     * Checks the pbssed msg flbgs bccording to the rules specified in RFC 2572.
+     * @pbrbm msgFlbgs The msg flbgs.
      */
-    public static void checkSecurityLevel(byte msgFlags)
-        throws SnmpBadSecurityLevelException {
-        int secLevel = msgFlags & SnmpDefinitions.authPriv;
-        if((secLevel & SnmpDefinitions.privMask) != 0)
-            if((secLevel & SnmpDefinitions.authMask) == 0) {
-                throw new SnmpBadSecurityLevelException("Security level:"+
+    public stbtic void checkSecurityLevel(byte msgFlbgs)
+        throws SnmpBbdSecurityLevelException {
+        int secLevel = msgFlbgs & SnmpDefinitions.buthPriv;
+        if((secLevel & SnmpDefinitions.privMbsk) != 0)
+            if((secLevel & SnmpDefinitions.buthMbsk) == 0) {
+                throw new SnmpBbdSecurityLevelException("Security level:"+
                                                         " noAuthPriv!!!");
             }
     }

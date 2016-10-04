@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.*;
 
-import java.util.Vector;
-import sun.util.logging.PlatformLogger;
-import sun.awt.AWTAccessor;
+import jbvb.util.Vector;
+import sun.util.logging.PlbtformLogger;
+import sun.bwt.AWTAccessor;
 
-public class XMenuBarPeer extends XBaseMenuWindow implements MenuBarPeer {
+public clbss XMenuBbrPeer extends XBbseMenuWindow implements MenuBbrPeer {
 
     /************************************************
      *
-     * Data members
+     * Dbtb members
      *
      ************************************************/
 
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XMenuBarPeer");
+    privbte stbtic PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XMenuBbrPeer");
 
     /*
-     * Primary members
+     * Primbry members
      */
-    private XFramePeer framePeer;
-    private MenuBar menuBarTarget;
+    privbte XFrbmePeer frbmePeer;
+    privbte MenuBbr menuBbrTbrget;
 
     /*
      * Index of help menu
      */
-    private XMenuPeer helpMenu = null;
+    privbte XMenuPeer helpMenu = null;
 
     /*
-     * dimension constants
+     * dimension constbnts
      */
-    private final static int BAR_SPACING_TOP = 3;
-    private final static int BAR_SPACING_BOTTOM = 3;
-    private final static int BAR_SPACING_LEFT = 3;
-    private final static int BAR_SPACING_RIGHT = 3;
-    private final static int BAR_ITEM_SPACING = 2;
-    private final static int BAR_ITEM_MARGIN_LEFT = 10;
-    private final static int BAR_ITEM_MARGIN_RIGHT = 10;
-    private final static int BAR_ITEM_MARGIN_TOP = 2;
-    private final static int BAR_ITEM_MARGIN_BOTTOM = 2;
+    privbte finbl stbtic int BAR_SPACING_TOP = 3;
+    privbte finbl stbtic int BAR_SPACING_BOTTOM = 3;
+    privbte finbl stbtic int BAR_SPACING_LEFT = 3;
+    privbte finbl stbtic int BAR_SPACING_RIGHT = 3;
+    privbte finbl stbtic int BAR_ITEM_SPACING = 2;
+    privbte finbl stbtic int BAR_ITEM_MARGIN_LEFT = 10;
+    privbte finbl stbtic int BAR_ITEM_MARGIN_RIGHT = 10;
+    privbte finbl stbtic int BAR_ITEM_MARGIN_TOP = 2;
+    privbte finbl stbtic int BAR_ITEM_MARGIN_BOTTOM = 2;
 
     /************************************************
      *
-     * Mapping data
+     * Mbpping dbtb
      *
      ************************************************/
 
     /**
-     * XBaseMenuWindow's mappingData is extended with
-     * desired height of menu bar
+     * XBbseMenuWindow's mbppingDbtb is extended with
+     * desired height of menu bbr
      */
-    static class MappingData extends XBaseMenuWindow.MappingData {
+    stbtic clbss MbppingDbtb extends XBbseMenuWindow.MbppingDbtb {
         int desiredHeight;
 
-        MappingData(XMenuItemPeer[] items, int desiredHeight) {
+        MbppingDbtb(XMenuItemPeer[] items, int desiredHeight) {
             super(items);
             this.desiredHeight = desiredHeight;
         }
 
         /**
-         * Constructs MappingData without items
-         * This constructor should be used in case of errors
+         * Constructs MbppingDbtb without items
+         * This constructor should be used in cbse of errors
          */
-        MappingData() {
+        MbppingDbtb() {
             this.desiredHeight = 0;
         }
 
@@ -102,13 +102,13 @@ public class XMenuBarPeer extends XBaseMenuWindow implements MenuBarPeer {
      * Construction
      *
      ************************************************/
-    XMenuBarPeer(MenuBar menuBarTarget) {
-        this.menuBarTarget = menuBarTarget;
+    XMenuBbrPeer(MenuBbr menuBbrTbrget) {
+        this.menuBbrTbrget = menuBbrTbrget;
     }
 
     /************************************************
      *
-     * Implementaion of interface methods
+     * Implementbion of interfbce methods
      *
      ************************************************/
 
@@ -116,40 +116,40 @@ public class XMenuBarPeer extends XBaseMenuWindow implements MenuBarPeer {
      * From MenuComponentPeer
      */
     public void setFont(Font f) {
-        resetMapping();
+        resetMbpping();
         setItemsFont(f);
-        postPaintEvent();
+        postPbintEvent();
     }
 
     /*
-     * From MenuBarPeer
+     * From MenuBbrPeer
      */
 
     /*
-     * Functions addMenu, delMenu, addHelpMenu
-     * need to have somewhat strange behaivour
-     * deduced from java.awt.MenuBar.
-     * We can not get index of particular item in
-     * MenuBar.menus array, because MenuBar firstly
-     * performs array operations and then calls peer.
+     * Functions bddMenu, delMenu, bddHelpMenu
+     * need to hbve somewhbt strbnge behbivour
+     * deduced from jbvb.bwt.MenuBbr.
+     * We cbn not get index of pbrticulbr item in
+     * MenuBbr.menus brrby, becbuse MenuBbr firstly
+     * performs brrby operbtions bnd then cblls peer.
      * So we need to synchronize indicies in 'items'
-     * array with MenuBar.menus. We have to follow
+     * brrby with MenuBbr.menus. We hbve to follow
      * these rules:
-     * 1. Menus are always added to the end of array,
+     * 1. Menus bre blwbys bdded to the end of brrby,
      * even when helpMenu is present
-     * 2. Removal of any menu item acts as casual
-     * remove from array
-     * 3. MenuBar.setHelpMenu _firstly_ removes
-     * previous helpMenu by calling delMenu() if
-     * necessary, then it performs addMenu(),
-     * and then - addHelpMenu().
+     * 2. Removbl of bny menu item bcts bs cbsubl
+     * remove from brrby
+     * 3. MenuBbr.setHelpMenu _firstly_ removes
+     * previous helpMenu by cblling delMenu() if
+     * necessbry, then it performs bddMenu(),
+     * bnd then - bddHelpMenu().
      *
-     * Note that these functions don't perform
-     * type checks and checks for nulls or duplicates
+     * Note thbt these functions don't perform
+     * type checks bnd checks for nulls or duplicbtes
      */
-    public void addMenu(Menu m) {
-        addItem(m);
-        postPaintEvent();
+    public void bddMenu(Menu m) {
+        bddItem(m);
+        postPbintEvent();
     }
 
     public void delMenu(int index) {
@@ -160,48 +160,48 @@ public class XMenuBarPeer extends XBaseMenuWindow implements MenuBarPeer {
             }
             delItem(index);
         }
-        postPaintEvent();
+        postPbintEvent();
     }
 
-    public void addHelpMenu(Menu m) {
+    public void bddHelpMenu(Menu m) {
         XMenuPeer mp = (XMenuPeer)m.getPeer();
         synchronized(getMenuTreeLock()) {
             helpMenu = mp;
         }
-        postPaintEvent();
+        postPbintEvent();
     }
 
     /************************************************
      *
-     * Initialization
+     * Initiblizbtion
      *
      ************************************************/
     /**
-     * called from XFramePeer.setMenuBar
+     * cblled from XFrbmePeer.setMenuBbr
      */
-    public void init(Frame frame) {
-        this.target = frame;
-        this.framePeer = (XFramePeer)frame.getPeer();
-        XCreateWindowParams params = getDelayedParams();
-        params.remove(DELAYED);
-        params.add(PARENT_WINDOW, framePeer.getShell());
-        params.add(TARGET, frame);
-        init(params);
+    public void init(Frbme frbme) {
+        this.tbrget = frbme;
+        this.frbmePeer = (XFrbmePeer)frbme.getPeer();
+        XCrebteWindowPbrbms pbrbms = getDelbyedPbrbms();
+        pbrbms.remove(DELAYED);
+        pbrbms.bdd(PARENT_WINDOW, frbmePeer.getShell());
+        pbrbms.bdd(TARGET, frbme);
+        init(pbrbms);
     }
 
     /**
-     * Overriden initialization
+     * Overriden initiblizbtion
      */
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
-        // Get menus from the target.
-        Vector<Menu> targetMenuVector = AWTAccessor.getMenuBarAccessor()
-                                                   .getMenus(menuBarTarget);
-        Menu targetHelpMenu = AWTAccessor.getMenuBarAccessor()
-                                         .getHelpMenu(menuBarTarget);
-        reloadItems(targetMenuVector);
-        if (targetHelpMenu != null) {
-            addHelpMenu(targetHelpMenu);
+    void postInit(XCrebteWindowPbrbms pbrbms) {
+        super.postInit(pbrbms);
+        // Get menus from the tbrget.
+        Vector<Menu> tbrgetMenuVector = AWTAccessor.getMenuBbrAccessor()
+                                                   .getMenus(menuBbrTbrget);
+        Menu tbrgetHelpMenu = AWTAccessor.getMenuBbrAccessor()
+                                         .getHelpMenu(menuBbrTbrget);
+        relobdItems(tbrgetMenuVector);
+        if (tbrgetHelpMenu != null) {
+            bddHelpMenu(tbrgetHelpMenu);
         }
         xSetVisible(true);
         toFront();
@@ -209,108 +209,108 @@ public class XMenuBarPeer extends XBaseMenuWindow implements MenuBarPeer {
 
     /************************************************
      *
-     * Implementation of abstract methods
+     * Implementbtion of bbstrbct methods
      *
      ************************************************/
 
     /**
-     * Menu bar is always root window in menu window's
-     * hierarchy
+     * Menu bbr is blwbys root window in menu window's
+     * hierbrchy
      */
-    protected XBaseMenuWindow getParentMenuWindow() {
+    protected XBbseMenuWindow getPbrentMenuWindow() {
         return null;
     }
 
     /**
-     * @see XBaseMenuWindow.map
+     * @see XBbseMenuWindow.mbp
      */
-    protected MappingData map() {
+    protected MbppingDbtb mbp() {
         XMenuItemPeer[] itemVector = copyItems();
         int itemCnt = itemVector.length;
         XMenuItemPeer helpMenu = this.helpMenu;
         int helpMenuPos = -1;
-        //find helpMenu and move it to the end of array
+        //find helpMenu bnd move it to the end of brrby
         if (helpMenu != null) {
-            //Fixed 6270847: PIT: HELP menu is not shown at the right place when normal menus added to MB are removed, XToolkit
+            //Fixed 6270847: PIT: HELP menu is not shown bt the right plbce when normbl menus bdded to MB bre removed, XToolkit
             for (int i = 0; i < itemCnt; i++) {
                 if (itemVector[i] == helpMenu) {
                     helpMenuPos = i;
-                    break;
+                    brebk;
                 }
             }
             if (helpMenuPos != -1 && helpMenuPos != itemCnt - 1) {
-                System.arraycopy(itemVector, helpMenuPos + 1, itemVector, helpMenuPos, itemCnt - 1 - helpMenuPos);
+                System.brrbycopy(itemVector, helpMenuPos + 1, itemVector, helpMenuPos, itemCnt - 1 - helpMenuPos);
                 itemVector[itemCnt - 1] = helpMenu;
             }
         }
-        //We need maximum height before calculating item's bounds
-        int maxHeight = 0;
+        //We need mbximum height before cblculbting item's bounds
+        int mbxHeight = 0;
         XMenuItemPeer.TextMetrics[] itemMetrics = new XMenuItemPeer.TextMetrics[itemCnt];
         for (int i = 0; i < itemCnt; i++) {
             itemMetrics[i] = itemVector[i].getTextMetrics();
             Dimension dim = itemMetrics[i].getTextDimension();
             if (dim != null) {
-                maxHeight = Math.max(maxHeight, dim.height);
+                mbxHeight = Mbth.mbx(mbxHeight, dim.height);
             }
         }
-        //Calculate bounds
+        //Cblculbte bounds
         int nextOffset = 0;
-        int itemHeight = BAR_ITEM_MARGIN_TOP + maxHeight + BAR_ITEM_MARGIN_BOTTOM;
-        int mappedCnt = itemCnt;
+        int itemHeight = BAR_ITEM_MARGIN_TOP + mbxHeight + BAR_ITEM_MARGIN_BOTTOM;
+        int mbppedCnt = itemCnt;
         for (int i = 0; i < itemCnt; i++) {
             XMenuItemPeer item = itemVector[i];
             XMenuItemPeer.TextMetrics metrics = itemMetrics[i];
             Dimension dim = metrics.getTextDimension();
             if (dim != null) {
                 int itemWidth = BAR_ITEM_MARGIN_LEFT + dim.width + BAR_ITEM_MARGIN_RIGHT;
-                //Fix for 6270757: PIT: Menus and Sub-menus are shown outside the frame, XToolkit
-                //Cut-off items that don't fit in window
-                //At least one item must remain in menu
+                //Fix for 6270757: PIT: Menus bnd Sub-menus bre shown outside the frbme, XToolkit
+                //Cut-off items thbt don't fit in window
+                //At lebst one item must rembin in menu
                 if ((nextOffset + itemWidth > this.width) && (i > 0)) {
-                    mappedCnt = i;
-                    break;
+                    mbppedCnt = i;
+                    brebk;
                 }
                 //If this item is help menu, move it to the right edge
                 if ((i == itemCnt - 1) && helpMenuPos != -1) {
-                    nextOffset = Math.max(nextOffset, this.width - itemWidth - BAR_SPACING_RIGHT);
+                    nextOffset = Mbth.mbx(nextOffset, this.width - itemWidth - BAR_SPACING_RIGHT);
                 }
-                Rectangle bounds = new Rectangle(nextOffset, BAR_SPACING_TOP, itemWidth, itemHeight);
-                //text should be centered vertically in menu item's bounds
-                int y = (maxHeight + dim.height) / 2  - metrics.getTextBaseline();
+                Rectbngle bounds = new Rectbngle(nextOffset, BAR_SPACING_TOP, itemWidth, itemHeight);
+                //text should be centered verticblly in menu item's bounds
+                int y = (mbxHeight + dim.height) / 2  - metrics.getTextBbseline();
                 Point textOrigin = new Point(nextOffset + BAR_ITEM_MARGIN_LEFT, BAR_SPACING_TOP + BAR_ITEM_MARGIN_TOP + y);
                 nextOffset += itemWidth + BAR_ITEM_SPACING;
-                item.map(bounds, textOrigin);
+                item.mbp(bounds, textOrigin);
             } else {
-                Rectangle bounds = new Rectangle(nextOffset, BAR_SPACING_TOP, 0, 0);
+                Rectbngle bounds = new Rectbngle(nextOffset, BAR_SPACING_TOP, 0, 0);
                 Point textOrigin = new Point(nextOffset + BAR_ITEM_MARGIN_LEFT, BAR_SPACING_TOP + BAR_ITEM_MARGIN_TOP);
             }
         }
-        XMenuItemPeer mappedVector[] = new XMenuItemPeer[mappedCnt];
-        System.arraycopy(itemVector, 0, mappedVector, 0, mappedCnt);
-        MappingData mappingData = new MappingData(mappedVector, BAR_SPACING_TOP + itemHeight + BAR_SPACING_BOTTOM);
-        return mappingData;
+        XMenuItemPeer mbppedVector[] = new XMenuItemPeer[mbppedCnt];
+        System.brrbycopy(itemVector, 0, mbppedVector, 0, mbppedCnt);
+        MbppingDbtb mbppingDbtb = new MbppingDbtb(mbppedVector, BAR_SPACING_TOP + itemHeight + BAR_SPACING_BOTTOM);
+        return mbppingDbtb;
     }
 
     /**
-     * @see XBaseMenuWindow.getSubmenuBounds
+     * @see XBbseMenuWindow.getSubmenuBounds
      */
-    protected Rectangle getSubmenuBounds(Rectangle itemBounds, Dimension windowSize) {
-        Rectangle globalBounds = toGlobal(itemBounds);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Rectangle res;
-        res = fitWindowBelow(globalBounds, windowSize, screenSize);
+    protected Rectbngle getSubmenuBounds(Rectbngle itemBounds, Dimension windowSize) {
+        Rectbngle globblBounds = toGlobbl(itemBounds);
+        Dimension screenSize = Toolkit.getDefbultToolkit().getScreenSize();
+        Rectbngle res;
+        res = fitWindowBelow(globblBounds, windowSize, screenSize);
         if (res != null) {
             return res;
         }
-        res = fitWindowAbove(globalBounds, windowSize, screenSize);
+        res = fitWindowAbove(globblBounds, windowSize, screenSize);
         if (res != null) {
             return res;
         }
-        res = fitWindowRight(globalBounds, windowSize, screenSize);
+        res = fitWindowRight(globblBounds, windowSize, screenSize);
         if (res != null) {
             return res;
         }
-        res = fitWindowLeft(globalBounds, windowSize, screenSize);
+        res = fitWindowLeft(globblBounds, windowSize, screenSize);
         if (res != null) {
             return res;
         }
@@ -318,14 +318,14 @@ public class XMenuBarPeer extends XBaseMenuWindow implements MenuBarPeer {
     }
 
     /**
-     * This function is called when it's likely that
-     * size of items has changed.
-     * Invokes framePeer's updateChildrenSizes()
+     * This function is cblled when it's likely thbt
+     * size of items hbs chbnged.
+     * Invokes frbmePeer's updbteChildrenSizes()
      */
-    protected void updateSize() {
-        resetMapping();
-        if (framePeer != null) {
-            framePeer.reshapeMenubarPeer();
+    protected void updbteSize() {
+        resetMbpping();
+        if (frbmePeer != null) {
+            frbmePeer.reshbpeMenubbrPeer();
         }
     }
 
@@ -336,156 +336,156 @@ public class XMenuBarPeer extends XBaseMenuWindow implements MenuBarPeer {
      ************************************************/
 
     /**
-     * Returns desired height of menu bar
+     * Returns desired height of menu bbr
      */
     int getDesiredHeight() {
-        MappingData mappingData = (MappingData)getMappingData();
-        return mappingData.getDesiredHeight();
+        MbppingDbtb mbppingDbtb = (MbppingDbtb)getMbppingDbtb();
+        return mbppingDbtb.getDesiredHeight();
     }
 
     /**
-     * Returns true if framePeer is not null and is enabled
-     * Used to fix 6185057: Disabling a frame does not disable
-     * the menus on the frame, on solaris/linux
+     * Returns true if frbmePeer is not null bnd is enbbled
+     * Used to fix 6185057: Disbbling b frbme does not disbble
+     * the menus on the frbme, on solbris/linux
      */
-    boolean isFramePeerEnabled() {
-        if (framePeer != null) {
-            return framePeer.isEnabled();
+    boolebn isFrbmePeerEnbbled() {
+        if (frbmePeer != null) {
+            return frbmePeer.isEnbbled();
         }
-        return false;
+        return fblse;
     }
 
     /************************************************
      *
-     * Overriden XBaseMenuWindow functions
+     * Overriden XBbseMenuWindow functions
      *
      ************************************************/
 
     /**
-     * @see XBaseMenuWindow.doDispose()
+     * @see XBbseMenuWindow.doDispose()
      */
     protected void doDispose() {
         super.doDispose();
-        XToolkit.targetDisposedPeer(menuBarTarget, this);
+        XToolkit.tbrgetDisposedPeer(menuBbrTbrget, this);
     }
 
     /************************************************
      *
-     * Overriden XWindow general-purpose functions
+     * Overriden XWindow generbl-purpose functions
      *
      ************************************************/
 
     /**
-     * For menu bars this function is called from framePeer's
-     * reshape(...) and updateChildrenSizes()
+     * For menu bbrs this function is cblled from frbmePeer's
+     * reshbpe(...) bnd updbteChildrenSizes()
      */
-    public void reshape(int x, int y, int width, int height) {
+    public void reshbpe(int x, int y, int width, int height) {
         if ((width != this.width) || (height != this.height)) {
-            resetMapping();
+            resetMbpping();
         }
-        super.reshape(x, y, width, height);
+        super.reshbpe(x, y, width, height);
     }
 
     /**
-     * Performs ungrabbing of input
-     * @see XBaseWindow.ungrabInputImpl()
+     * Performs ungrbbbing of input
+     * @see XBbseWindow.ungrbbInputImpl()
      */
-    void ungrabInputImpl() {
-        selectItem(null, false);
-        super.ungrabInputImpl();
-        postPaintEvent();
+    void ungrbbInputImpl() {
+        selectItem(null, fblse);
+        super.ungrbbInputImpl();
+        postPbintEvent();
     }
 
     /************************************************
      *
-     * Overriden XWindow painting & printing
+     * Overriden XWindow pbinting & printing
      *
      ************************************************/
-    public void paintPeer(Graphics g) {
+    public void pbintPeer(Grbphics g) {
         resetColors();
-        /* Calculate menubar dimension. */
+        /* Cblculbte menubbr dimension. */
         int width = getWidth();
         int height = getHeight();
 
         flush();
-        //Fill background of rectangle
-        g.setColor(getBackgroundColor());
+        //Fill bbckground of rectbngle
+        g.setColor(getBbckgroundColor());
         g.fillRect(1, 1, width - 2, height - 2);
 
-        draw3DRect(g, 0, 0, width, height, true);
+        drbw3DRect(g, 0, 0, width, height, true);
 
-        //Paint menus
-        MappingData mappingData = (MappingData)getMappingData();
-        XMenuItemPeer[] itemVector = mappingData.getItems();
+        //Pbint menus
+        MbppingDbtb mbppingDbtb = (MbppingDbtb)getMbppingDbtb();
+        XMenuItemPeer[] itemVector = mbppingDbtb.getItems();
         XMenuItemPeer selectedItem = getSelectedItem();
         for (int i = 0; i < itemVector.length; i++) {
             XMenuItemPeer item = itemVector[i];
-            //paint item
-            g.setFont(item.getTargetFont());
-            Rectangle bounds = item.getBounds();
+            //pbint item
+            g.setFont(item.getTbrgetFont());
+            Rectbngle bounds = item.getBounds();
             Point textOrigin = item.getTextOrigin();
             if (item == selectedItem) {
                 g.setColor(getSelectedColor());
                 g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-                draw3DRect(g, bounds.x, bounds.y, bounds.width, bounds.height, false);
+                drbw3DRect(g, bounds.x, bounds.y, bounds.width, bounds.height, fblse);
             }
-            if (isFramePeerEnabled() && item.isTargetItemEnabled()) {
+            if (isFrbmePeerEnbbled() && item.isTbrgetItemEnbbled()) {
                 g.setColor(getForegroundColor());
             } else {
-                g.setColor(getDisabledColor());
+                g.setColor(getDisbbledColor());
             }
-            g.drawString(item.getTargetLabel(), textOrigin.x, textOrigin.y);
+            g.drbwString(item.getTbrgetLbbel(), textOrigin.x, textOrigin.y);
         }
         flush();
     }
 
-    static final int W_DIFF = (XFramePeer.CROSSHAIR_INSET + 1) * 2;
-    static final int H_DIFF = XFramePeer.BUTTON_Y + XFramePeer.BUTTON_H;
+    stbtic finbl int W_DIFF = (XFrbmePeer.CROSSHAIR_INSET + 1) * 2;
+    stbtic finbl int H_DIFF = XFrbmePeer.BUTTON_Y + XFrbmePeer.BUTTON_H;
 
-    void print(Graphics g) {
+    void print(Grbphics g) {
         //TODO:Implement
     }
 
     /************************************************
      *
-     * Overriden XBaseMenuWindow event handling
+     * Overriden XBbseMenuWindow event hbndling
      *
      ************************************************/
-    protected void handleEvent(AWTEvent event) {
-        // explicitly block all events except PaintEvent.PAINT for menus,
-        // that are in the modal blocked window
-        if ((framePeer != null) &&
-            (event.getID() != PaintEvent.PAINT))
+    protected void hbndleEvent(AWTEvent event) {
+        // explicitly block bll events except PbintEvent.PAINT for menus,
+        // thbt bre in the modbl blocked window
+        if ((frbmePeer != null) &&
+            (event.getID() != PbintEvent.PAINT))
         {
-            if (framePeer.isModalBlocked()) {
+            if (frbmePeer.isModblBlocked()) {
                 return;
             }
         }
         switch(event.getID()) {
-        case MouseEvent.MOUSE_PRESSED:
-        case MouseEvent.MOUSE_RELEASED:
-        case MouseEvent.MOUSE_CLICKED:
-        case MouseEvent.MOUSE_MOVED:
-        case MouseEvent.MOUSE_ENTERED:
-        case MouseEvent.MOUSE_EXITED:
-        case MouseEvent.MOUSE_DRAGGED:
-            //Fix for 6185057: Disabling a frame does not disable
-            //the menus on the frame, on solaris/linux
-            if (isFramePeerEnabled()) {
-                doHandleJavaMouseEvent((MouseEvent)event);
+        cbse MouseEvent.MOUSE_PRESSED:
+        cbse MouseEvent.MOUSE_RELEASED:
+        cbse MouseEvent.MOUSE_CLICKED:
+        cbse MouseEvent.MOUSE_MOVED:
+        cbse MouseEvent.MOUSE_ENTERED:
+        cbse MouseEvent.MOUSE_EXITED:
+        cbse MouseEvent.MOUSE_DRAGGED:
+            //Fix for 6185057: Disbbling b frbme does not disbble
+            //the menus on the frbme, on solbris/linux
+            if (isFrbmePeerEnbbled()) {
+                doHbndleJbvbMouseEvent((MouseEvent)event);
             }
-            break;
-        case KeyEvent.KEY_PRESSED:
-        case KeyEvent.KEY_RELEASED:
-            //Fix for 6185057: Disabling a frame does not disable
-            //the menus on the frame, on solaris/linux
-            if (isFramePeerEnabled()) {
-                doHandleJavaKeyEvent((KeyEvent)event);
+            brebk;
+        cbse KeyEvent.KEY_PRESSED:
+        cbse KeyEvent.KEY_RELEASED:
+            //Fix for 6185057: Disbbling b frbme does not disbble
+            //the menus on the frbme, on solbris/linux
+            if (isFrbmePeerEnbbled()) {
+                doHbndleJbvbKeyEvent((KeyEvent)event);
             }
-            break;
-        default:
-            super.handleEvent(event);
-            break;
+            brebk;
+        defbult:
+            super.hbndleEvent(event);
+            brebk;
         }
     }
 
@@ -493,42 +493,42 @@ public class XMenuBarPeer extends XBaseMenuWindow implements MenuBarPeer {
 
     /************************************************
      *
-     * Overriden XWindow keyboard processing
+     * Overriden XWindow keybobrd processing
      *
      ************************************************/
 
     /*
-     * This function is called from XWindow
-     * @see XWindow.handleF10onEDT()
+     * This function is cblled from XWindow
+     * @see XWindow.hbndleF10onEDT()
      */
-    void handleF10KeyPress(KeyEvent event) {
-        int keyState = event.getModifiers();
-        if (((keyState & InputEvent.ALT_MASK) != 0) ||
-            ((keyState & InputEvent.SHIFT_MASK) != 0) ||
-            ((keyState & InputEvent.CTRL_MASK) != 0)) {
+    void hbndleF10KeyPress(KeyEvent event) {
+        int keyStbte = event.getModifiers();
+        if (((keyStbte & InputEvent.ALT_MASK) != 0) ||
+            ((keyStbte & InputEvent.SHIFT_MASK) != 0) ||
+            ((keyStbte & InputEvent.CTRL_MASK) != 0)) {
             return;
         }
-        grabInput();
-        selectItem(getFirstSelectableItem(), true);
+        grbbInput();
+        selectItem(getFirstSelectbbleItem(), true);
     }
 
     /*
-     * In previous version keys were handled in handleKeyPress.
-     * Now we override this function do disable F10 explicit
+     * In previous version keys were hbndled in hbndleKeyPress.
+     * Now we override this function do disbble F10 explicit
      * processing. All processing is done using KeyEvent.
      */
-    public void handleKeyPress(XEvent xev) {
+    public void hbndleKeyPress(XEvent xev) {
         XKeyEvent xkey = xev.get_xkey();
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine(xkey.toString());
         }
-        if (isEventDisabled(xev)) {
+        if (isEventDisbbled(xev)) {
             return;
         }
-        final Component currentSource = getEventSource();
-        //This is the only difference from XWindow.handleKeyPress
-        //Ancestor's function can invoke handleF10KeyPress here
-        handleKeyPress(xkey);
+        finbl Component currentSource = getEventSource();
+        //This is the only difference from XWindow.hbndleKeyPress
+        //Ancestor's function cbn invoke hbndleF10KeyPress here
+        hbndleKeyPress(xkey);
     }
 
-} //class XMenuBarPeer
+} //clbss XMenuBbrPeer

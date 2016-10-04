@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.function;
+pbckbge jbvb.util.function;
 
-import java.util.Objects;
+import jbvb.util.Objects;
 
 /**
- * Represents an operation on a single {@code long}-valued operand that produces
- * a {@code long}-valued result.  This is the primitive type specialization of
- * {@link UnaryOperator} for {@code long}.
+ * Represents bn operbtion on b single {@code long}-vblued operbnd thbt produces
+ * b {@code long}-vblued result.  This is the primitive type speciblizbtion of
+ * {@link UnbryOperbtor} for {@code long}.
  *
- * <p>This is a <a href="package-summary.html">functional interface</a>
- * whose functional method is {@link #applyAsLong(long)}.
+ * <p>This is b <b href="pbckbge-summbry.html">functionbl interfbce</b>
+ * whose functionbl method is {@link #bpplyAsLong(long)}.
  *
- * @see UnaryOperator
+ * @see UnbryOperbtor
  * @since 1.8
  */
-@FunctionalInterface
-public interface LongUnaryOperator {
+@FunctionblInterfbce
+public interfbce LongUnbryOperbtor {
 
     /**
-     * Applies this operator to the given operand.
+     * Applies this operbtor to the given operbnd.
      *
-     * @param operand the operand
-     * @return the operator result
+     * @pbrbm operbnd the operbnd
+     * @return the operbtor result
      */
-    long applyAsLong(long operand);
+    long bpplyAsLong(long operbnd);
 
     /**
-     * Returns a composed operator that first applies the {@code before}
-     * operator to its input, and then applies this operator to the result.
-     * If evaluation of either operator throws an exception, it is relayed to
-     * the caller of the composed operator.
+     * Returns b composed operbtor thbt first bpplies the {@code before}
+     * operbtor to its input, bnd then bpplies this operbtor to the result.
+     * If evblubtion of either operbtor throws bn exception, it is relbyed to
+     * the cbller of the composed operbtor.
      *
-     * @param before the operator to apply before this operator is applied
-     * @return a composed operator that first applies the {@code before}
-     * operator and then applies this operator
+     * @pbrbm before the operbtor to bpply before this operbtor is bpplied
+     * @return b composed operbtor thbt first bpplies the {@code before}
+     * operbtor bnd then bpplies this operbtor
      * @throws NullPointerException if before is null
      *
-     * @see #andThen(LongUnaryOperator)
+     * @see #bndThen(LongUnbryOperbtor)
      */
-    default LongUnaryOperator compose(LongUnaryOperator before) {
+    defbult LongUnbryOperbtor compose(LongUnbryOperbtor before) {
         Objects.requireNonNull(before);
-        return (long v) -> applyAsLong(before.applyAsLong(v));
+        return (long v) -> bpplyAsLong(before.bpplyAsLong(v));
     }
 
     /**
-     * Returns a composed operator that first applies this operator to
-     * its input, and then applies the {@code after} operator to the result.
-     * If evaluation of either operator throws an exception, it is relayed to
-     * the caller of the composed operator.
+     * Returns b composed operbtor thbt first bpplies this operbtor to
+     * its input, bnd then bpplies the {@code bfter} operbtor to the result.
+     * If evblubtion of either operbtor throws bn exception, it is relbyed to
+     * the cbller of the composed operbtor.
      *
-     * @param after the operator to apply after this operator is applied
-     * @return a composed operator that first applies this operator and then
-     * applies the {@code after} operator
-     * @throws NullPointerException if after is null
+     * @pbrbm bfter the operbtor to bpply bfter this operbtor is bpplied
+     * @return b composed operbtor thbt first bpplies this operbtor bnd then
+     * bpplies the {@code bfter} operbtor
+     * @throws NullPointerException if bfter is null
      *
-     * @see #compose(LongUnaryOperator)
+     * @see #compose(LongUnbryOperbtor)
      */
-    default LongUnaryOperator andThen(LongUnaryOperator after) {
-        Objects.requireNonNull(after);
-        return (long t) -> after.applyAsLong(applyAsLong(t));
+    defbult LongUnbryOperbtor bndThen(LongUnbryOperbtor bfter) {
+        Objects.requireNonNull(bfter);
+        return (long t) -> bfter.bpplyAsLong(bpplyAsLong(t));
     }
 
     /**
-     * Returns a unary operator that always returns its input argument.
+     * Returns b unbry operbtor thbt blwbys returns its input brgument.
      *
-     * @return a unary operator that always returns its input argument
+     * @return b unbry operbtor thbt blwbys returns its input brgument
      */
-    static LongUnaryOperator identity() {
+    stbtic LongUnbryOperbtor identity() {
         return t -> t;
     }
 }

@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
 
-import static com.sun.jmx.mbeanserver.Util.*;
+import stbtic com.sun.jmx.mbebnserver.Util.*;
 
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.List;
-import java.util.WeakHashMap;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Type;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.WebkHbshMbp;
 
-import javax.management.Descriptor;
-import javax.management.ImmutableDescriptor;
-import javax.management.IntrospectionException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanConstructorInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanOperationInfo;
-import javax.management.NotCompliantMBeanException;
-import javax.management.NotificationBroadcaster;
-import javax.management.ReflectionException;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.ImmutbbleDescriptor;
+import jbvbx.mbnbgement.IntrospectionException;
+import jbvbx.mbnbgement.InvblidAttributeVblueException;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.MBebnConstructorInfo;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.MBebnOperbtionInfo;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
+import jbvbx.mbnbgement.NotificbtionBrobdcbster;
+import jbvbx.mbnbgement.ReflectionException;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * An introspector for MBeans of a certain type.  There is one instance
- * of this class for Standard MBeans, and one for every MXBeanMappingFactory;
- * these two cases correspond to the two concrete subclasses of this abstract
- * class.
+ * An introspector for MBebns of b certbin type.  There is one instbnce
+ * of this clbss for Stbndbrd MBebns, bnd one for every MXBebnMbppingFbctory;
+ * these two cbses correspond to the two concrete subclbsses of this bbstrbct
+ * clbss.
  *
- * @param <M> the representation of methods for this kind of MBean:
- * Method for Standard MBeans, ConvertingMethod for MXBeans.
+ * @pbrbm <M> the representbtion of methods for this kind of MBebn:
+ * Method for Stbndbrd MBebns, ConvertingMethod for MXBebns.
  *
  * @since 1.6
  */
 /*
- * Using a type parameter <M> allows us to deal with the fact that
- * Method and ConvertingMethod have no useful common ancestor, on
- * which we could call getName, getGenericReturnType, etc.  A simpler approach
- * would be to wrap every Method in an object that does have a common
- * ancestor with ConvertingMethod.  But that would mean an extra object
- * for every Method in every Standard MBean interface.
+ * Using b type pbrbmeter <M> bllows us to debl with the fbct thbt
+ * Method bnd ConvertingMethod hbve no useful common bncestor, on
+ * which we could cbll getNbme, getGenericReturnType, etc.  A simpler bpprobch
+ * would be to wrbp every Method in bn object thbt does hbve b common
+ * bncestor with ConvertingMethod.  But thbt would mebn bn extrb object
+ * for every Method in every Stbndbrd MBebn interfbce.
  */
-abstract class MBeanIntrospector<M> {
-    static final class PerInterfaceMap<M>
-            extends WeakHashMap<Class<?>, WeakReference<PerInterface<M>>> {}
+bbstrbct clbss MBebnIntrospector<M> {
+    stbtic finbl clbss PerInterfbceMbp<M>
+            extends WebkHbshMbp<Clbss<?>, WebkReference<PerInterfbce<M>>> {}
 
-    /** The map from interface to PerInterface for this type of MBean. */
-    abstract PerInterfaceMap<M> getPerInterfaceMap();
+    /** The mbp from interfbce to PerInterfbce for this type of MBebn. */
+    bbstrbct PerInterfbceMbp<M> getPerInterfbceMbp();
     /**
-     * The map from concrete implementation class and interface to
-     * MBeanInfo for this type of MBean.
+     * The mbp from concrete implementbtion clbss bnd interfbce to
+     * MBebnInfo for this type of MBebn.
      */
-    abstract MBeanInfoMap getMBeanInfoMap();
+    bbstrbct MBebnInfoMbp getMBebnInfoMbp();
 
-    /** Make an interface analyzer for this type of MBean. */
-    abstract MBeanAnalyzer<M> getAnalyzer(Class<?> mbeanInterface)
-    throws NotCompliantMBeanException;
+    /** Mbke bn interfbce bnblyzer for this type of MBebn. */
+    bbstrbct MBebnAnblyzer<M> getAnblyzer(Clbss<?> mbebnInterfbce)
+    throws NotComplibntMBebnException;
 
-    /** True if MBeans with this kind of introspector are MXBeans. */
-    abstract boolean isMXBean();
+    /** True if MBebns with this kind of introspector bre MXBebns. */
+    bbstrbct boolebn isMXBebn();
 
     /** Find the M corresponding to the given Method. */
-    abstract M mFrom(Method m);
+    bbstrbct M mFrom(Method m);
 
-    /** Get the name of this method. */
-    abstract String getName(M m);
+    /** Get the nbme of this method. */
+    bbstrbct String getNbme(M m);
 
     /**
      * Get the return type of this method.  This is the return type
-     * of a method in a Java interface, so for MXBeans it is the
-     * declared Java type, not the mapped Open Type.
+     * of b method in b Jbvb interfbce, so for MXBebns it is the
+     * declbred Jbvb type, not the mbpped Open Type.
      */
-    abstract Type getGenericReturnType(M m);
+    bbstrbct Type getGenericReturnType(M m);
 
     /**
-     * Get the parameter types of this method in the Java interface
-     * it came from.
+     * Get the pbrbmeter types of this method in the Jbvb interfbce
+     * it cbme from.
      */
-    abstract Type[] getGenericParameterTypes(M m);
+    bbstrbct Type[] getGenericPbrbmeterTypes(M m);
 
     /**
-     * Get the signature of this method as a caller would have to supply
-     * it in MBeanServer.invoke.  For MXBeans, the named types will be
-     * the mapped Open Types for the parameters.
+     * Get the signbture of this method bs b cbller would hbve to supply
+     * it in MBebnServer.invoke.  For MXBebns, the nbmed types will be
+     * the mbpped Open Types for the pbrbmeters.
      */
-    abstract String[] getSignature(M m);
+    bbstrbct String[] getSignbture(M m);
 
     /**
-     * Check that this method is valid.  For example, a method in an
-     * MXBean interface is not valid if one of its parameters cannot be
-     * mapped to an Open Type.
+     * Check thbt this method is vblid.  For exbmple, b method in bn
+     * MXBebn interfbce is not vblid if one of its pbrbmeters cbnnot be
+     * mbpped to bn Open Type.
      */
-    abstract void checkMethod(M m);
+    bbstrbct void checkMethod(M m);
 
     /**
-     * Invoke the method with the given target and arguments.
+     * Invoke the method with the given tbrget bnd brguments.
      *
-     * @param cookie Additional information about the target.  For an
-     * MXBean, this is the MXBeanLookup associated with the MXBean.
+     * @pbrbm cookie Additionbl informbtion bbout the tbrget.  For bn
+     * MXBebn, this is the MXBebnLookup bssocibted with the MXBebn.
      */
     /*
-     * It would be cleaner if the type of the cookie were a
-     * type parameter to this class, but that would involve a lot of
-     * messy type parameter propagation just to avoid a couple of casts.
+     * It would be clebner if the type of the cookie were b
+     * type pbrbmeter to this clbss, but thbt would involve b lot of
+     * messy type pbrbmeter propbgbtion just to bvoid b couple of cbsts.
      */
-    abstract Object invokeM2(M m, Object target, Object[] args, Object cookie)
-    throws InvocationTargetException, IllegalAccessException,
-            MBeanException;
+    bbstrbct Object invokeM2(M m, Object tbrget, Object[] brgs, Object cookie)
+    throws InvocbtionTbrgetException, IllegblAccessException,
+            MBebnException;
 
     /**
-     * Test whether the given value is valid for the given parameter of this
+     * Test whether the given vblue is vblid for the given pbrbmeter of this
      * M.
      */
-    abstract boolean validParameter(M m, Object value, int paramNo,
+    bbstrbct boolebn vblidPbrbmeter(M m, Object vblue, int pbrbmNo,
             Object cookie);
 
     /**
-     * Construct an MBeanAttributeInfo for the given attribute based on the
-     * given getter and setter.  One but not both of the getter and setter
-     * may be null.
+     * Construct bn MBebnAttributeInfo for the given bttribute bbsed on the
+     * given getter bnd setter.  One but not both of the getter bnd setter
+     * mby be null.
      */
-    abstract MBeanAttributeInfo getMBeanAttributeInfo(String attributeName,
+    bbstrbct MBebnAttributeInfo getMBebnAttributeInfo(String bttributeNbme,
             M getter, M setter);
     /**
-     * Construct an MBeanOperationInfo for the given operation based on
-     * the M it was derived from.
+     * Construct bn MBebnOperbtionInfo for the given operbtion bbsed on
+     * the M it wbs derived from.
      */
-    abstract MBeanOperationInfo getMBeanOperationInfo(String operationName,
-            M operation);
+    bbstrbct MBebnOperbtionInfo getMBebnOperbtionInfo(String operbtionNbme,
+            M operbtion);
 
     /**
-     * Get a Descriptor containing fields that MBeans of this kind will
-     * always have.  For example, MXBeans will always have "mxbean=true".
+     * Get b Descriptor contbining fields thbt MBebns of this kind will
+     * blwbys hbve.  For exbmple, MXBebns will blwbys hbve "mxbebn=true".
      */
-    abstract Descriptor getBasicMBeanDescriptor();
+    bbstrbct Descriptor getBbsicMBebnDescriptor();
 
     /**
-     * Get a Descriptor containing additional fields beyond the ones
-     * from getBasicMBeanDescriptor that MBeans whose concrete class
-     * is resourceClass will always have.
+     * Get b Descriptor contbining bdditionbl fields beyond the ones
+     * from getBbsicMBebnDescriptor thbt MBebns whose concrete clbss
+     * is resourceClbss will blwbys hbve.
      */
-    abstract Descriptor getMBeanDescriptor(Class<?> resourceClass);
+    bbstrbct Descriptor getMBebnDescriptor(Clbss<?> resourceClbss);
 
     /**
-     * Get the methods to be analyzed to build the MBean interface.
+     * Get the methods to be bnblyzed to build the MBebn interfbce.
      */
-    final List<Method> getMethods(final Class<?> mbeanType) {
-        ReflectUtil.checkPackageAccess(mbeanType);
-        return Arrays.asList(mbeanType.getMethods());
+    finbl List<Method> getMethods(finbl Clbss<?> mbebnType) {
+        ReflectUtil.checkPbckbgeAccess(mbebnType);
+        return Arrbys.bsList(mbebnType.getMethods());
     }
 
-    final PerInterface<M> getPerInterface(Class<?> mbeanInterface)
-    throws NotCompliantMBeanException {
-        PerInterfaceMap<M> map = getPerInterfaceMap();
-        synchronized (map) {
-            WeakReference<PerInterface<M>> wr = map.get(mbeanInterface);
-            PerInterface<M> pi = (wr == null) ? null : wr.get();
+    finbl PerInterfbce<M> getPerInterfbce(Clbss<?> mbebnInterfbce)
+    throws NotComplibntMBebnException {
+        PerInterfbceMbp<M> mbp = getPerInterfbceMbp();
+        synchronized (mbp) {
+            WebkReference<PerInterfbce<M>> wr = mbp.get(mbebnInterfbce);
+            PerInterfbce<M> pi = (wr == null) ? null : wr.get();
             if (pi == null) {
                 try {
-                    MBeanAnalyzer<M> analyzer = getAnalyzer(mbeanInterface);
-                    MBeanInfo mbeanInfo =
-                            makeInterfaceMBeanInfo(mbeanInterface, analyzer);
-                    pi = new PerInterface<M>(mbeanInterface, this, analyzer,
-                            mbeanInfo);
-                    wr = new WeakReference<PerInterface<M>>(pi);
-                    map.put(mbeanInterface, wr);
-                } catch (Exception x) {
-                    throw Introspector.throwException(mbeanInterface,x);
+                    MBebnAnblyzer<M> bnblyzer = getAnblyzer(mbebnInterfbce);
+                    MBebnInfo mbebnInfo =
+                            mbkeInterfbceMBebnInfo(mbebnInterfbce, bnblyzer);
+                    pi = new PerInterfbce<M>(mbebnInterfbce, this, bnblyzer,
+                            mbebnInfo);
+                    wr = new WebkReference<PerInterfbce<M>>(pi);
+                    mbp.put(mbebnInterfbce, wr);
+                } cbtch (Exception x) {
+                    throw Introspector.throwException(mbebnInterfbce,x);
                 }
             }
             return pi;
@@ -205,265 +205,265 @@ abstract class MBeanIntrospector<M> {
     }
 
     /**
-     * Make the MBeanInfo skeleton for the given MBean interface using
-     * the given analyzer.  This will never be the MBeanInfo of any real
-     * MBean (because the getClassName() must be a concrete class), but
-     * its MBeanAttributeInfo[] and MBeanOperationInfo[] can be inserted
-     * into such an MBeanInfo, and its Descriptor can be the basis for
-     * the MBeanInfo's Descriptor.
+     * Mbke the MBebnInfo skeleton for the given MBebn interfbce using
+     * the given bnblyzer.  This will never be the MBebnInfo of bny rebl
+     * MBebn (becbuse the getClbssNbme() must be b concrete clbss), but
+     * its MBebnAttributeInfo[] bnd MBebnOperbtionInfo[] cbn be inserted
+     * into such bn MBebnInfo, bnd its Descriptor cbn be the bbsis for
+     * the MBebnInfo's Descriptor.
      */
-    private MBeanInfo makeInterfaceMBeanInfo(Class<?> mbeanInterface,
-            MBeanAnalyzer<M> analyzer) {
-        final MBeanInfoMaker maker = new MBeanInfoMaker();
-        analyzer.visit(maker);
-        final String description =
-                "Information on the management interface of the MBean";
-        return maker.makeMBeanInfo(mbeanInterface, description);
+    privbte MBebnInfo mbkeInterfbceMBebnInfo(Clbss<?> mbebnInterfbce,
+            MBebnAnblyzer<M> bnblyzer) {
+        finbl MBebnInfoMbker mbker = new MBebnInfoMbker();
+        bnblyzer.visit(mbker);
+        finbl String description =
+                "Informbtion on the mbnbgement interfbce of the MBebn";
+        return mbker.mbkeMBebnInfo(mbebnInterfbce, description);
     }
 
-    /** True if the given getter and setter are consistent. */
-    final boolean consistent(M getter, M setter) {
+    /** True if the given getter bnd setter bre consistent. */
+    finbl boolebn consistent(M getter, M setter) {
         return (getter == null || setter == null ||
-                getGenericReturnType(getter).equals(getGenericParameterTypes(setter)[0]));
+                getGenericReturnType(getter).equbls(getGenericPbrbmeterTypes(setter)[0]));
     }
 
     /**
-     * Invoke the given M on the given target with the given args and cookie.
-     * Wrap exceptions appropriately.
+     * Invoke the given M on the given tbrget with the given brgs bnd cookie.
+     * Wrbp exceptions bppropribtely.
      */
-    final Object invokeM(M m, Object target, Object[] args, Object cookie)
-    throws MBeanException, ReflectionException {
+    finbl Object invokeM(M m, Object tbrget, Object[] brgs, Object cookie)
+    throws MBebnException, ReflectionException {
         try {
-            return invokeM2(m, target, args, cookie);
-        } catch (InvocationTargetException e) {
-            unwrapInvocationTargetException(e);
-            throw new RuntimeException(e); // not reached
-        } catch (IllegalAccessException e) {
+            return invokeM2(m, tbrget, brgs, cookie);
+        } cbtch (InvocbtionTbrgetException e) {
+            unwrbpInvocbtionTbrgetException(e);
+            throw new RuntimeException(e); // not rebched
+        } cbtch (IllegblAccessException e) {
             throw new ReflectionException(e, e.toString());
         }
-        /* We do not catch and wrap RuntimeException or Error,
-         * because we're in a DynamicMBean, so the logic for DynamicMBeans
-         * will do the wrapping.
+        /* We do not cbtch bnd wrbp RuntimeException or Error,
+         * becbuse we're in b DynbmicMBebn, so the logic for DynbmicMBebns
+         * will do the wrbpping.
          */
     }
 
     /**
-     * Invoke the given setter on the given target with the given argument
-     * and cookie.  Wrap exceptions appropriately.
+     * Invoke the given setter on the given tbrget with the given brgument
+     * bnd cookie.  Wrbp exceptions bppropribtely.
      */
-    /* If the value is of the wrong type for the method we are about to
-     * invoke, we are supposed to throw an InvalidAttributeValueException.
-     * Rather than making the check always, we invoke the method, then
-     * if it throws an exception we check the type to see if that was
-     * what caused the exception.  The assumption is that an exception
-     * from an invalid type will arise before any user method is ever
-     * called (either in reflection or in OpenConverter).
+    /* If the vblue is of the wrong type for the method we bre bbout to
+     * invoke, we bre supposed to throw bn InvblidAttributeVblueException.
+     * Rbther thbn mbking the check blwbys, we invoke the method, then
+     * if it throws bn exception we check the type to see if thbt wbs
+     * whbt cbused the exception.  The bssumption is thbt bn exception
+     * from bn invblid type will brise before bny user method is ever
+     * cblled (either in reflection or in OpenConverter).
      */
-    final void invokeSetter(String name, M setter, Object target, Object arg,
+    finbl void invokeSetter(String nbme, M setter, Object tbrget, Object brg,
             Object cookie)
-            throws MBeanException, ReflectionException,
-            InvalidAttributeValueException {
+            throws MBebnException, ReflectionException,
+            InvblidAttributeVblueException {
         try {
-            invokeM2(setter, target, new Object[] {arg}, cookie);
-        } catch (IllegalAccessException e) {
+            invokeM2(setter, tbrget, new Object[] {brg}, cookie);
+        } cbtch (IllegblAccessException e) {
             throw new ReflectionException(e, e.toString());
-        } catch (RuntimeException e) {
-            maybeInvalidParameter(name, setter, arg, cookie);
+        } cbtch (RuntimeException e) {
+            mbybeInvblidPbrbmeter(nbme, setter, brg, cookie);
             throw e;
-        } catch (InvocationTargetException e) {
-            maybeInvalidParameter(name, setter, arg, cookie);
-            unwrapInvocationTargetException(e);
+        } cbtch (InvocbtionTbrgetException e) {
+            mbybeInvblidPbrbmeter(nbme, setter, brg, cookie);
+            unwrbpInvocbtionTbrgetException(e);
         }
     }
 
-    private void maybeInvalidParameter(String name, M setter, Object arg,
+    privbte void mbybeInvblidPbrbmeter(String nbme, M setter, Object brg,
             Object cookie)
-            throws InvalidAttributeValueException {
-        if (!validParameter(setter, arg, 0, cookie)) {
-            final String msg =
-                    "Invalid value for attribute " + name + ": " + arg;
-            throw new InvalidAttributeValueException(msg);
+            throws InvblidAttributeVblueException {
+        if (!vblidPbrbmeter(setter, brg, 0, cookie)) {
+            finbl String msg =
+                    "Invblid vblue for bttribute " + nbme + ": " + brg;
+            throw new InvblidAttributeVblueException(msg);
         }
     }
 
-    static boolean isValidParameter(Method m, Object value, int paramNo) {
-        Class<?> c = m.getParameterTypes()[paramNo];
+    stbtic boolebn isVblidPbrbmeter(Method m, Object vblue, int pbrbmNo) {
+        Clbss<?> c = m.getPbrbmeterTypes()[pbrbmNo];
         try {
-            // Following is expensive but we only call this method to determine
-            // if an exception is due to an incompatible parameter type.
-            // Plain old c.isInstance doesn't work for primitive types.
-            Object a = Array.newInstance(c, 1);
-            Array.set(a, 0, value);
+            // Following is expensive but we only cbll this method to determine
+            // if bn exception is due to bn incompbtible pbrbmeter type.
+            // Plbin old c.isInstbnce doesn't work for primitive types.
+            Object b = Arrby.newInstbnce(c, 1);
+            Arrby.set(b, 0, vblue);
             return true;
-        } catch (IllegalArgumentException e) {
-            return false;
+        } cbtch (IllegblArgumentException e) {
+            return fblse;
         }
     }
 
-    private static void
-            unwrapInvocationTargetException(InvocationTargetException e)
-            throws MBeanException {
-        Throwable t = e.getCause();
-        if (t instanceof RuntimeException)
+    privbte stbtic void
+            unwrbpInvocbtionTbrgetException(InvocbtionTbrgetException e)
+            throws MBebnException {
+        Throwbble t = e.getCbuse();
+        if (t instbnceof RuntimeException)
             throw (RuntimeException) t;
-        else if (t instanceof Error)
+        else if (t instbnceof Error)
             throw (Error) t;
         else
-            throw new MBeanException((Exception) t,
+            throw new MBebnException((Exception) t,
                     (t == null ? null : t.toString()));
     }
 
-    /** A visitor that constructs the per-interface MBeanInfo. */
-    private class MBeanInfoMaker
-            implements MBeanAnalyzer.MBeanVisitor<M> {
+    /** A visitor thbt constructs the per-interfbce MBebnInfo. */
+    privbte clbss MBebnInfoMbker
+            implements MBebnAnblyzer.MBebnVisitor<M> {
 
-        public void visitAttribute(String attributeName,
+        public void visitAttribute(String bttributeNbme,
                 M getter,
                 M setter) {
-            MBeanAttributeInfo mbai =
-                    getMBeanAttributeInfo(attributeName, getter, setter);
+            MBebnAttributeInfo mbbi =
+                    getMBebnAttributeInfo(bttributeNbme, getter, setter);
 
-            attrs.add(mbai);
+            bttrs.bdd(mbbi);
         }
 
-        public void visitOperation(String operationName,
-                M operation) {
-            MBeanOperationInfo mboi =
-                    getMBeanOperationInfo(operationName, operation);
+        public void visitOperbtion(String operbtionNbme,
+                M operbtion) {
+            MBebnOperbtionInfo mboi =
+                    getMBebnOperbtionInfo(operbtionNbme, operbtion);
 
-            ops.add(mboi);
+            ops.bdd(mboi);
         }
 
-        /** Make an MBeanInfo based on the attributes and operations
-         *  found in the interface. */
-        MBeanInfo makeMBeanInfo(Class<?> mbeanInterface,
+        /** Mbke bn MBebnInfo bbsed on the bttributes bnd operbtions
+         *  found in the interfbce. */
+        MBebnInfo mbkeMBebnInfo(Clbss<?> mbebnInterfbce,
                 String description) {
-            final MBeanAttributeInfo[] attrArray =
-                    attrs.toArray(new MBeanAttributeInfo[0]);
-            final MBeanOperationInfo[] opArray =
-                    ops.toArray(new MBeanOperationInfo[0]);
-            final String interfaceClassName =
-                    "interfaceClassName=" + mbeanInterface.getName();
-            final Descriptor classNameDescriptor =
-                    new ImmutableDescriptor(interfaceClassName);
-            final Descriptor mbeanDescriptor = getBasicMBeanDescriptor();
-            final Descriptor annotatedDescriptor =
-                    Introspector.descriptorForElement(mbeanInterface);
-            final Descriptor descriptor =
-                DescriptorCache.getInstance().union(
-                    classNameDescriptor,
-                    mbeanDescriptor,
-                    annotatedDescriptor);
+            finbl MBebnAttributeInfo[] bttrArrby =
+                    bttrs.toArrby(new MBebnAttributeInfo[0]);
+            finbl MBebnOperbtionInfo[] opArrby =
+                    ops.toArrby(new MBebnOperbtionInfo[0]);
+            finbl String interfbceClbssNbme =
+                    "interfbceClbssNbme=" + mbebnInterfbce.getNbme();
+            finbl Descriptor clbssNbmeDescriptor =
+                    new ImmutbbleDescriptor(interfbceClbssNbme);
+            finbl Descriptor mbebnDescriptor = getBbsicMBebnDescriptor();
+            finbl Descriptor bnnotbtedDescriptor =
+                    Introspector.descriptorForElement(mbebnInterfbce);
+            finbl Descriptor descriptor =
+                DescriptorCbche.getInstbnce().union(
+                    clbssNbmeDescriptor,
+                    mbebnDescriptor,
+                    bnnotbtedDescriptor);
 
-            return new MBeanInfo(mbeanInterface.getName(),
+            return new MBebnInfo(mbebnInterfbce.getNbme(),
                     description,
-                    attrArray,
+                    bttrArrby,
                     null,
-                    opArray,
+                    opArrby,
                     null,
                     descriptor);
         }
 
-        private final List<MBeanAttributeInfo> attrs = newList();
-        private final List<MBeanOperationInfo> ops = newList();
+        privbte finbl List<MBebnAttributeInfo> bttrs = newList();
+        privbte finbl List<MBebnOperbtionInfo> ops = newList();
     }
 
     /*
-     * Looking up the MBeanInfo for a given base class (implementation class)
-     * is complicated by the fact that we may use the same base class with
-     * several different explicit MBean interfaces via the
-     * javax.management.StandardMBean class.  It is further complicated
-     * by the fact that we have to be careful not to retain a strong reference
-     * to any Class object for fear we would prevent a ClassLoader from being
-     * garbage-collected.  So we have a first lookup from the base class
-     * to a map for each interface that base class might specify giving
-     * the MBeanInfo constructed for that base class and interface.
+     * Looking up the MBebnInfo for b given bbse clbss (implementbtion clbss)
+     * is complicbted by the fbct thbt we mby use the sbme bbse clbss with
+     * severbl different explicit MBebn interfbces vib the
+     * jbvbx.mbnbgement.StbndbrdMBebn clbss.  It is further complicbted
+     * by the fbct thbt we hbve to be cbreful not to retbin b strong reference
+     * to bny Clbss object for febr we would prevent b ClbssLobder from being
+     * gbrbbge-collected.  So we hbve b first lookup from the bbse clbss
+     * to b mbp for ebch interfbce thbt bbse clbss might specify giving
+     * the MBebnInfo constructed for thbt bbse clbss bnd interfbce.
      */
-    static class MBeanInfoMap
-            extends WeakHashMap<Class<?>, WeakHashMap<Class<?>, MBeanInfo>> {
+    stbtic clbss MBebnInfoMbp
+            extends WebkHbshMbp<Clbss<?>, WebkHbshMbp<Clbss<?>, MBebnInfo>> {
     }
 
     /**
-     * Return the MBeanInfo for the given resource, based on the given
-     * per-interface data.
+     * Return the MBebnInfo for the given resource, bbsed on the given
+     * per-interfbce dbtb.
      */
-    final MBeanInfo getMBeanInfo(Object resource, PerInterface<M> perInterface) {
-        MBeanInfo mbi =
-                getClassMBeanInfo(resource.getClass(), perInterface);
-        MBeanNotificationInfo[] notifs = findNotifications(resource);
+    finbl MBebnInfo getMBebnInfo(Object resource, PerInterfbce<M> perInterfbce) {
+        MBebnInfo mbi =
+                getClbssMBebnInfo(resource.getClbss(), perInterfbce);
+        MBebnNotificbtionInfo[] notifs = findNotificbtions(resource);
         if (notifs == null || notifs.length == 0)
             return mbi;
         else {
-            return new MBeanInfo(mbi.getClassName(),
+            return new MBebnInfo(mbi.getClbssNbme(),
                     mbi.getDescription(),
                     mbi.getAttributes(),
                     mbi.getConstructors(),
-                    mbi.getOperations(),
+                    mbi.getOperbtions(),
                     notifs,
                     mbi.getDescriptor());
         }
     }
 
     /**
-     * Return the basic MBeanInfo for resources of the given class and
-     * per-interface data.  This MBeanInfo might not be the final MBeanInfo
-     * for instances of the class, because if the class is a
-     * NotificationBroadcaster then each instance gets to decide what
-     * MBeanNotificationInfo[] to put in its own MBeanInfo.
+     * Return the bbsic MBebnInfo for resources of the given clbss bnd
+     * per-interfbce dbtb.  This MBebnInfo might not be the finbl MBebnInfo
+     * for instbnces of the clbss, becbuse if the clbss is b
+     * NotificbtionBrobdcbster then ebch instbnce gets to decide whbt
+     * MBebnNotificbtionInfo[] to put in its own MBebnInfo.
      */
-    final MBeanInfo getClassMBeanInfo(Class<?> resourceClass,
-            PerInterface<M> perInterface) {
-        MBeanInfoMap map = getMBeanInfoMap();
-        synchronized (map) {
-            WeakHashMap<Class<?>, MBeanInfo> intfMap = map.get(resourceClass);
-            if (intfMap == null) {
-                intfMap = new WeakHashMap<Class<?>, MBeanInfo>();
-                map.put(resourceClass, intfMap);
+    finbl MBebnInfo getClbssMBebnInfo(Clbss<?> resourceClbss,
+            PerInterfbce<M> perInterfbce) {
+        MBebnInfoMbp mbp = getMBebnInfoMbp();
+        synchronized (mbp) {
+            WebkHbshMbp<Clbss<?>, MBebnInfo> intfMbp = mbp.get(resourceClbss);
+            if (intfMbp == null) {
+                intfMbp = new WebkHbshMbp<Clbss<?>, MBebnInfo>();
+                mbp.put(resourceClbss, intfMbp);
             }
-            Class<?> intfClass = perInterface.getMBeanInterface();
-            MBeanInfo mbi = intfMap.get(intfClass);
+            Clbss<?> intfClbss = perInterfbce.getMBebnInterfbce();
+            MBebnInfo mbi = intfMbp.get(intfClbss);
             if (mbi == null) {
-                MBeanInfo imbi = perInterface.getMBeanInfo();
+                MBebnInfo imbi = perInterfbce.getMBebnInfo();
                 Descriptor descriptor =
-                        ImmutableDescriptor.union(imbi.getDescriptor(),
-                        getMBeanDescriptor(resourceClass));
-                mbi = new MBeanInfo(resourceClass.getName(),
+                        ImmutbbleDescriptor.union(imbi.getDescriptor(),
+                        getMBebnDescriptor(resourceClbss));
+                mbi = new MBebnInfo(resourceClbss.getNbme(),
                         imbi.getDescription(),
                         imbi.getAttributes(),
-                        findConstructors(resourceClass),
-                        imbi.getOperations(),
-                        (MBeanNotificationInfo[]) null,
+                        findConstructors(resourceClbss),
+                        imbi.getOperbtions(),
+                        (MBebnNotificbtionInfo[]) null,
                         descriptor);
-                intfMap.put(intfClass, mbi);
+                intfMbp.put(intfClbss, mbi);
             }
             return mbi;
         }
     }
 
-    static MBeanNotificationInfo[] findNotifications(Object moi) {
-        if (!(moi instanceof NotificationBroadcaster))
+    stbtic MBebnNotificbtionInfo[] findNotificbtions(Object moi) {
+        if (!(moi instbnceof NotificbtionBrobdcbster))
             return null;
-        MBeanNotificationInfo[] mbn =
-                ((NotificationBroadcaster) moi).getNotificationInfo();
+        MBebnNotificbtionInfo[] mbn =
+                ((NotificbtionBrobdcbster) moi).getNotificbtionInfo();
         if (mbn == null)
             return null;
-        MBeanNotificationInfo[] result =
-                new MBeanNotificationInfo[mbn.length];
+        MBebnNotificbtionInfo[] result =
+                new MBebnNotificbtionInfo[mbn.length];
         for (int i = 0; i < mbn.length; i++) {
-            MBeanNotificationInfo ni = mbn[i];
-            if (ni.getClass() != MBeanNotificationInfo.class)
-                ni = (MBeanNotificationInfo) ni.clone();
+            MBebnNotificbtionInfo ni = mbn[i];
+            if (ni.getClbss() != MBebnNotificbtionInfo.clbss)
+                ni = (MBebnNotificbtionInfo) ni.clone();
             result[i] = ni;
         }
         return result;
     }
 
-    private static MBeanConstructorInfo[] findConstructors(Class<?> c) {
+    privbte stbtic MBebnConstructorInfo[] findConstructors(Clbss<?> c) {
         Constructor<?>[] cons = c.getConstructors();
-        MBeanConstructorInfo[] mbc = new MBeanConstructorInfo[cons.length];
+        MBebnConstructorInfo[] mbc = new MBebnConstructorInfo[cons.length];
         for (int i = 0; i < cons.length; i++) {
-            final String descr = "Public constructor of the MBean";
-            mbc[i] = new MBeanConstructorInfo(descr, cons[i]);
+            finbl String descr = "Public constructor of the MBebn";
+            mbc[i] = new MBebnConstructorInfo(descr, cons[i]);
         }
         return mbc;
     }

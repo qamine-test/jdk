@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyright IBM Corp. bnd others, 1996-2009 - All Rights Reserved         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
-import java.util.HashMap;
+import jbvb.util.HbshMbp;
 
 /**
- * Class to store version numbers of the form major.minor.milli.micro.
- * @author synwee
- * @stable ICU 2.6
+ * Clbss to store version numbers of the form mbjor.minor.milli.micro.
+ * @buthor synwee
+ * @stbble ICU 2.6
  */
-public final class VersionInfo
+public finbl clbss VersionInfo
 {
 
     // public methods ------------------------------------------------------
 
     /**
-     * Returns an instance of VersionInfo with the argument version.
-     * @param version version String in the format of "major.minor.milli.micro"
-     *                or "major.minor.milli" or "major.minor" or "major",
-     *                where major, minor, milli, micro are non-negative numbers
-     *                <= 255. If the trailing version numbers are
-     *                not specified they are taken as 0s. E.g. Version "3.1" is
-     *                equivalent to "3.1.0.0".
-     * @return an instance of VersionInfo with the argument version.
-     * @exception throws an IllegalArgumentException when the argument version
-     *                is not in the right format
-     * @stable ICU 2.6
+     * Returns bn instbnce of VersionInfo with the brgument version.
+     * @pbrbm version version String in the formbt of "mbjor.minor.milli.micro"
+     *                or "mbjor.minor.milli" or "mbjor.minor" or "mbjor",
+     *                where mbjor, minor, milli, micro bre non-negbtive numbers
+     *                <= 255. If the trbiling version numbers bre
+     *                not specified they bre tbken bs 0s. E.g. Version "3.1" is
+     *                equivblent to "3.1.0.0".
+     * @return bn instbnce of VersionInfo with the brgument version.
+     * @exception throws bn IllegblArgumentException when the brgument version
+     *                is not in the right formbt
+     * @stbble ICU 2.6
      */
-    public static VersionInfo getInstance(String version)
+    public stbtic VersionInfo getInstbnce(String version)
     {
         int length  = version.length();
-        int array[] = {0, 0, 0, 0};
+        int brrby[] = {0, 0, 0, 0};
         int count   = 0;
         int index   = 0;
 
         while (count < 4 && index < length) {
-            char c = version.charAt(index);
+            chbr c = version.chbrAt(index);
             if (c == '.') {
                 count ++;
             }
             else {
                 c -= '0';
                 if (c < 0 || c > 9) {
-                    throw new IllegalArgumentException(INVALID_VERSION_NUMBER_);
+                    throw new IllegblArgumentException(INVALID_VERSION_NUMBER_);
                 }
-                array[count] *= 10;
-                array[count] += c;
+                brrby[count] *= 10;
+                brrby[count] += c;
             }
             index ++;
         }
         if (index != length) {
-            throw new IllegalArgumentException(
-                                               "Invalid version number: String '" + version + "' exceeds version format");
+            throw new IllegblArgumentException(
+                                               "Invblid version number: String '" + version + "' exceeds version formbt");
         }
         for (int i = 0; i < 4; i ++) {
-            if (array[i] < 0 || array[i] > 255) {
-                throw new IllegalArgumentException(INVALID_VERSION_NUMBER_);
+            if (brrby[i] < 0 || brrby[i] > 255) {
+                throw new IllegblArgumentException(INVALID_VERSION_NUMBER_);
             }
         }
 
-        return getInstance(array[0], array[1], array[2], array[3]);
+        return getInstbnce(brrby[0], brrby[1], brrby[2], brrby[3]);
     }
 
     /**
-     * Returns an instance of VersionInfo with the argument version.
-     * @param major major version, non-negative number <= 255.
-     * @param minor minor version, non-negative number <= 255.
-     * @param milli milli version, non-negative number <= 255.
-     * @param micro micro version, non-negative number <= 255.
-     * @exception throws an IllegalArgumentException when either arguments are
-     *                                     negative or > 255
-     * @stable ICU 2.6
+     * Returns bn instbnce of VersionInfo with the brgument version.
+     * @pbrbm mbjor mbjor version, non-negbtive number <= 255.
+     * @pbrbm minor minor version, non-negbtive number <= 255.
+     * @pbrbm milli milli version, non-negbtive number <= 255.
+     * @pbrbm micro micro version, non-negbtive number <= 255.
+     * @exception throws bn IllegblArgumentException when either brguments bre
+     *                                     negbtive or > 255
+     * @stbble ICU 2.6
      */
-    public static VersionInfo getInstance(int major, int minor, int milli,
+    public stbtic VersionInfo getInstbnce(int mbjor, int minor, int milli,
                                           int micro)
     {
-        // checks if it is in the hashmap
+        // checks if it is in the hbshmbp
         // else
-        if (major < 0 || major > 255 || minor < 0 || minor > 255 ||
+        if (mbjor < 0 || mbjor > 255 || minor < 0 || minor > 255 ||
             milli < 0 || milli > 255 || micro < 0 || micro > 255) {
-            throw new IllegalArgumentException(INVALID_VERSION_NUMBER_);
+            throw new IllegblArgumentException(INVALID_VERSION_NUMBER_);
         }
-        int     version = getInt(major, minor, milli, micro);
-        Integer key     = Integer.valueOf(version);
+        int     version = getInt(mbjor, minor, milli, micro);
+        Integer key     = Integer.vblueOf(version);
         Object  result  = MAP_.get(key);
         if (result == null) {
             result = new VersionInfo(version);
@@ -126,60 +126,60 @@ public final class VersionInfo
     }
 
     /**
-     * Compares other with this VersionInfo.
-     * @param other VersionInfo to be compared
-     * @return 0 if the argument is a VersionInfo object that has version
-     *           information equals to this object.
-     *           Less than 0 if the argument is a VersionInfo object that has
-     *           version information greater than this object.
-     *           Greater than 0 if the argument is a VersionInfo object that
-     *           has version information less than this object.
-     * @stable ICU 2.6
+     * Compbres other with this VersionInfo.
+     * @pbrbm other VersionInfo to be compbred
+     * @return 0 if the brgument is b VersionInfo object thbt hbs version
+     *           informbtion equbls to this object.
+     *           Less thbn 0 if the brgument is b VersionInfo object thbt hbs
+     *           version informbtion grebter thbn this object.
+     *           Grebter thbn 0 if the brgument is b VersionInfo object thbt
+     *           hbs version informbtion less thbn this object.
+     * @stbble ICU 2.6
      */
-    public int compareTo(VersionInfo other)
+    public int compbreTo(VersionInfo other)
     {
         return m_version_ - other.m_version_;
     }
 
-    // private data members ----------------------------------------------
+    // privbte dbtb members ----------------------------------------------
 
     /**
-     * Version number stored as a byte for each of the major, minor, milli and
+     * Version number stored bs b byte for ebch of the mbjor, minor, milli bnd
      * micro numbers in the 32 bit int.
-     * Most significant for the major and the least significant contains the
+     * Most significbnt for the mbjor bnd the lebst significbnt contbins the
      * micro numbers.
      */
-    private int m_version_;
+    privbte int m_version_;
     /**
-     * Map of singletons
+     * Mbp of singletons
      */
-    private static final HashMap<Integer, Object> MAP_ = new HashMap<>();
+    privbte stbtic finbl HbshMbp<Integer, Object> MAP_ = new HbshMbp<>();
     /**
-     * Error statement string
+     * Error stbtement string
      */
-    private static final String INVALID_VERSION_NUMBER_ =
-        "Invalid version number: Version number may be negative or greater than 255";
+    privbte stbtic finbl String INVALID_VERSION_NUMBER_ =
+        "Invblid version number: Version number mby be negbtive or grebter thbn 255";
 
-    // private constructor -----------------------------------------------
+    // privbte constructor -----------------------------------------------
 
     /**
      * Constructor with int
-     * @param compactversion a 32 bit int with each byte representing a number
+     * @pbrbm compbctversion b 32 bit int with ebch byte representing b number
      */
-    private VersionInfo(int compactversion)
+    privbte VersionInfo(int compbctversion)
     {
-        m_version_ = compactversion;
+        m_version_ = compbctversion;
     }
 
     /**
      * Gets the int from the version numbers
-     * @param major non-negative version number
-     * @param minor non-negativeversion number
-     * @param milli non-negativeversion number
-     * @param micro non-negativeversion number
+     * @pbrbm mbjor non-negbtive version number
+     * @pbrbm minor non-negbtiveversion number
+     * @pbrbm milli non-negbtiveversion number
+     * @pbrbm micro non-negbtiveversion number
      */
-    private static int getInt(int major, int minor, int milli, int micro)
+    privbte stbtic int getInt(int mbjor, int minor, int milli, int micro)
     {
-        return (major << 24) | (minor << 16) | (milli << 8) | micro;
+        return (mbjor << 24) | (minor << 16) | (milli << 8) | micro;
     }
 }

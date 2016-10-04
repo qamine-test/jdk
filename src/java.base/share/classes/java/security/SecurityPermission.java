@@ -1,348 +1,348 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.security.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
+import jbvb.security.*;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.StringTokenizer;
 
 /**
- * This class is for security permissions.
- * A SecurityPermission contains a name (also referred to as a "target name")
- * but no actions list; you either have the named permission
+ * This clbss is for security permissions.
+ * A SecurityPermission contbins b nbme (blso referred to bs b "tbrget nbme")
+ * but no bctions list; you either hbve the nbmed permission
  * or you don't.
  * <P>
- * The target name is the name of a security configuration parameter (see below).
- * Currently the SecurityPermission object is used to guard access
- * to the Policy, Security, Provider, Signer, and Identity
+ * The tbrget nbme is the nbme of b security configurbtion pbrbmeter (see below).
+ * Currently the SecurityPermission object is used to gubrd bccess
+ * to the Policy, Security, Provider, Signer, bnd Identity
  * objects.
  * <P>
- * The following table lists all the possible SecurityPermission target names,
- * and for each provides a description of what the permission allows
- * and a discussion of the risks of granting code the permission.
+ * The following tbble lists bll the possible SecurityPermission tbrget nbmes,
+ * bnd for ebch provides b description of whbt the permission bllows
+ * bnd b discussion of the risks of grbnting code the permission.
  *
- * <table border=1 cellpadding=5 summary="target name,what the permission allows, and associated risks">
+ * <tbble border=1 cellpbdding=5 summbry="tbrget nbme,whbt the permission bllows, bnd bssocibted risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
+ * <th>Permission Tbrget Nbme</th>
+ * <th>Whbt the Permission Allows</th>
  * <th>Risks of Allowing this Permission</th>
  * </tr>
  *
  * <tr>
- *   <td>createAccessControlContext</td>
- *   <td>Creation of an AccessControlContext</td>
- *   <td>This allows someone to instantiate an AccessControlContext
- * with a {@code DomainCombiner}.  Extreme care must be taken when
- * granting this permission. Malicious code could create a DomainCombiner
- * that augments the set of permissions granted to code, and even grant the
- * code {@link java.security.AllPermission}.</td>
+ *   <td>crebteAccessControlContext</td>
+ *   <td>Crebtion of bn AccessControlContext</td>
+ *   <td>This bllows someone to instbntibte bn AccessControlContext
+ * with b {@code DombinCombiner}.  Extreme cbre must be tbken when
+ * grbnting this permission. Mblicious code could crebte b DombinCombiner
+ * thbt bugments the set of permissions grbnted to code, bnd even grbnt the
+ * code {@link jbvb.security.AllPermission}.</td>
  * </tr>
  *
  * <tr>
- *   <td>getDomainCombiner</td>
- *   <td>Retrieval of an AccessControlContext's DomainCombiner</td>
- *   <td>This allows someone to retrieve an AccessControlContext's
- * {@code DomainCombiner}.  Since DomainCombiners may contain
- * sensitive information, this could potentially lead to a privacy leak.</td>
+ *   <td>getDombinCombiner</td>
+ *   <td>Retrievbl of bn AccessControlContext's DombinCombiner</td>
+ *   <td>This bllows someone to retrieve bn AccessControlContext's
+ * {@code DombinCombiner}.  Since DombinCombiners mby contbin
+ * sensitive informbtion, this could potentiblly lebd to b privbcy lebk.</td>
  * </tr>
  *
  * <tr>
  *   <td>getPolicy</td>
- *   <td>Retrieval of the system-wide security policy (specifically, of the
- * currently-installed Policy object)</td>
- *   <td>This allows someone to query the policy via the
- * {@code getPermissions} call,
- * which discloses which permissions would be granted to a given CodeSource.
- * While revealing the policy does not compromise the security of
- * the system, it does provide malicious code with additional information
- * which it may use to better aim an attack. It is wise
- * not to divulge more information than necessary.</td>
+ *   <td>Retrievbl of the system-wide security policy (specificblly, of the
+ * currently-instblled Policy object)</td>
+ *   <td>This bllows someone to query the policy vib the
+ * {@code getPermissions} cbll,
+ * which discloses which permissions would be grbnted to b given CodeSource.
+ * While revebling the policy does not compromise the security of
+ * the system, it does provide mblicious code with bdditionbl informbtion
+ * which it mby use to better bim bn bttbck. It is wise
+ * not to divulge more informbtion thbn necessbry.</td>
  * </tr>
  *
  * <tr>
  *   <td>setPolicy</td>
- *   <td>Setting of the system-wide security policy (specifically,
+ *   <td>Setting of the system-wide security policy (specificblly,
  * the Policy object)</td>
- *   <td>Granting this permission is extremely dangerous, as malicious
- * code may grant itself all the necessary permissions it needs
- * to successfully mount an attack on the system.</td>
+ *   <td>Grbnting this permission is extremely dbngerous, bs mblicious
+ * code mby grbnt itself bll the necessbry permissions it needs
+ * to successfully mount bn bttbck on the system.</td>
  * </tr>
  *
  * <tr>
- *   <td>createPolicy.{policy type}</td>
- *   <td>Getting an instance of a Policy implementation from a provider</td>
- *   <td>Granting this permission enables code to obtain a Policy object.
- * Malicious code may query the Policy object to determine what permissions
- * have been granted to code other than itself. </td>
+ *   <td>crebtePolicy.{policy type}</td>
+ *   <td>Getting bn instbnce of b Policy implementbtion from b provider</td>
+ *   <td>Grbnting this permission enbbles code to obtbin b Policy object.
+ * Mblicious code mby query the Policy object to determine whbt permissions
+ * hbve been grbnted to code other thbn itself. </td>
  * </tr>
  *
  * <tr>
  *   <td>getProperty.{key}</td>
- *   <td>Retrieval of the security property with the specified key</td>
- *   <td>Depending on the particular key for which access has
- * been granted, the code may have access to the list of security
- * providers, as well as the location of the system-wide and user
- * security policies.  while revealing this information does not
- * compromise the security of the system, it does provide malicious
- * code with additional information which it may use to better aim
- * an attack.
+ *   <td>Retrievbl of the security property with the specified key</td>
+ *   <td>Depending on the pbrticulbr key for which bccess hbs
+ * been grbnted, the code mby hbve bccess to the list of security
+ * providers, bs well bs the locbtion of the system-wide bnd user
+ * security policies.  while revebling this informbtion does not
+ * compromise the security of the system, it does provide mblicious
+ * code with bdditionbl informbtion which it mby use to better bim
+ * bn bttbck.
 </td>
  * </tr>
  *
  * <tr>
  *   <td>setProperty.{key}</td>
  *   <td>Setting of the security property with the specified key</td>
- *   <td>This could include setting a security provider or defining
- * the location of the system-wide security policy.  Malicious
- * code that has permission to set a new security provider may
- * set a rogue provider that steals confidential information such
- * as cryptographic private keys. In addition, malicious code with
- * permission to set the location of the system-wide security policy
- * may point it to a security policy that grants the attacker
- * all the necessary permissions it requires to successfully mount
- * an attack on the system.
+ *   <td>This could include setting b security provider or defining
+ * the locbtion of the system-wide security policy.  Mblicious
+ * code thbt hbs permission to set b new security provider mby
+ * set b rogue provider thbt stebls confidentibl informbtion such
+ * bs cryptogrbphic privbte keys. In bddition, mblicious code with
+ * permission to set the locbtion of the system-wide security policy
+ * mby point it to b security policy thbt grbnts the bttbcker
+ * bll the necessbry permissions it requires to successfully mount
+ * bn bttbck on the system.
 </td>
  * </tr>
  *
  * <tr>
  *   <td>insertProvider</td>
- *   <td>Addition of a new provider</td>
- *   <td>This would allow somebody to introduce a possibly
- * malicious provider (e.g., one that discloses the private keys passed
- * to it) as the highest-priority provider. This would be possible
- * because the Security object (which manages the installed providers)
- * currently does not check the integrity or authenticity of a provider
- * before attaching it. The "insertProvider" permission subsumes the
- * "insertProvider.{provider name}" permission (see the section below for
- * more information).
+ *   <td>Addition of b new provider</td>
+ *   <td>This would bllow somebody to introduce b possibly
+ * mblicious provider (e.g., one thbt discloses the privbte keys pbssed
+ * to it) bs the highest-priority provider. This would be possible
+ * becbuse the Security object (which mbnbges the instblled providers)
+ * currently does not check the integrity or buthenticity of b provider
+ * before bttbching it. The "insertProvider" permission subsumes the
+ * "insertProvider.{provider nbme}" permission (see the section below for
+ * more informbtion).
  * </td>
  * </tr>
  *
  * <tr>
- *   <td>removeProvider.{provider name}</td>
- *   <td>Removal of the specified provider</td>
- *   <td>This may change the behavior or disable execution of other
- * parts of the program. If a provider subsequently requested by the
- * program has been removed, execution may fail. Also, if the removed
- * provider is not explicitly requested by the rest of the program, but
- * it would normally be the provider chosen when a cryptography service
+ *   <td>removeProvider.{provider nbme}</td>
+ *   <td>Removbl of the specified provider</td>
+ *   <td>This mby chbnge the behbvior or disbble execution of other
+ * pbrts of the progrbm. If b provider subsequently requested by the
+ * progrbm hbs been removed, execution mby fbil. Also, if the removed
+ * provider is not explicitly requested by the rest of the progrbm, but
+ * it would normblly be the provider chosen when b cryptogrbphy service
  * is requested (due to its previous order in the list of providers),
- * a different provider will be chosen instead, or no suitable provider
- * will be found, thereby resulting in program failure.</td>
+ * b different provider will be chosen instebd, or no suitbble provider
+ * will be found, thereby resulting in progrbm fbilure.</td>
  * </tr>
  *
  * <tr>
- *   <td>clearProviderProperties.{provider name}</td>
- *   <td>"Clearing" of a Provider so that it no longer contains the properties
+ *   <td>clebrProviderProperties.{provider nbme}</td>
+ *   <td>"Clebring" of b Provider so thbt it no longer contbins the properties
  * used to look up services implemented by the provider</td>
- *   <td>This disables the lookup of services implemented by the provider.
- * This may thus change the behavior or disable execution of other
- * parts of the program that would normally utilize the Provider, as
- * described under the "removeProvider.{provider name}" permission.</td>
+ *   <td>This disbbles the lookup of services implemented by the provider.
+ * This mby thus chbnge the behbvior or disbble execution of other
+ * pbrts of the progrbm thbt would normblly utilize the Provider, bs
+ * described under the "removeProvider.{provider nbme}" permission.</td>
  * </tr>
  *
  * <tr>
- *   <td>putProviderProperty.{provider name}</td>
+ *   <td>putProviderProperty.{provider nbme}</td>
  *   <td>Setting of properties for the specified Provider</td>
- *   <td>The provider properties each specify the name and location
- * of a particular service implemented by the provider. By granting
- * this permission, you let code replace the service specification
- * with another one, thereby specifying a different implementation.</td>
+ *   <td>The provider properties ebch specify the nbme bnd locbtion
+ * of b pbrticulbr service implemented by the provider. By grbnting
+ * this permission, you let code replbce the service specificbtion
+ * with bnother one, thereby specifying b different implementbtion.</td>
  * </tr>
  *
  * <tr>
- *   <td>removeProviderProperty.{provider name}</td>
- *   <td>Removal of properties from the specified Provider</td>
- *   <td>This disables the lookup of services implemented by the
- * provider. They are no longer accessible due to removal of the properties
- * specifying their names and locations. This
- * may change the behavior or disable execution of other
- * parts of the program that would normally utilize the Provider, as
- * described under the "removeProvider.{provider name}" permission.</td>
+ *   <td>removeProviderProperty.{provider nbme}</td>
+ *   <td>Removbl of properties from the specified Provider</td>
+ *   <td>This disbbles the lookup of services implemented by the
+ * provider. They bre no longer bccessible due to removbl of the properties
+ * specifying their nbmes bnd locbtions. This
+ * mby chbnge the behbvior or disbble execution of other
+ * pbrts of the progrbm thbt would normblly utilize the Provider, bs
+ * described under the "removeProvider.{provider nbme}" permission.</td>
  * </tr>
  *
- * </table>
+ * </tbble>
  *
  * <P>
- * The following permissions have been superseded by newer permissions or are
- * associated with classes that have been deprecated: {@link Identity},
- * {@link IdentityScope}, {@link Signer}. Use of them is discouraged. See the
- * applicable classes for more information.
+ * The following permissions hbve been superseded by newer permissions or bre
+ * bssocibted with clbsses thbt hbve been deprecbted: {@link Identity},
+ * {@link IdentityScope}, {@link Signer}. Use of them is discourbged. See the
+ * bpplicbble clbsses for more informbtion.
  *
- * <table border=1 cellpadding=5 summary="target name,what the permission allows, and associated risks">
+ * <tbble border=1 cellpbdding=5 summbry="tbrget nbme,whbt the permission bllows, bnd bssocibted risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
+ * <th>Permission Tbrget Nbme</th>
+ * <th>Whbt the Permission Allows</th>
  * <th>Risks of Allowing this Permission</th>
  * </tr>
  *
  * <tr>
- *   <td>insertProvider.{provider name}</td>
- *   <td>Addition of a new provider, with the specified name</td>
- *   <td>Use of this permission is discouraged from further use because it is
- * possible to circumvent the name restrictions by overriding the
- * {@link java.security.Provider#getName} method. Also, there is an equivalent
- * level of risk associated with granting code permission to insert a provider
- * with a specific name, or any name it chooses. Users should use the
- * "insertProvider" permission instead.
- * <p>This would allow somebody to introduce a possibly
- * malicious provider (e.g., one that discloses the private keys passed
- * to it) as the highest-priority provider. This would be possible
- * because the Security object (which manages the installed providers)
- * currently does not check the integrity or authenticity of a provider
- * before attaching it.</td>
+ *   <td>insertProvider.{provider nbme}</td>
+ *   <td>Addition of b new provider, with the specified nbme</td>
+ *   <td>Use of this permission is discourbged from further use becbuse it is
+ * possible to circumvent the nbme restrictions by overriding the
+ * {@link jbvb.security.Provider#getNbme} method. Also, there is bn equivblent
+ * level of risk bssocibted with grbnting code permission to insert b provider
+ * with b specific nbme, or bny nbme it chooses. Users should use the
+ * "insertProvider" permission instebd.
+ * <p>This would bllow somebody to introduce b possibly
+ * mblicious provider (e.g., one thbt discloses the privbte keys pbssed
+ * to it) bs the highest-priority provider. This would be possible
+ * becbuse the Security object (which mbnbges the instblled providers)
+ * currently does not check the integrity or buthenticity of b provider
+ * before bttbching it.</td>
  * </tr>
  *
  * <tr>
  *   <td>setSystemScope</td>
  *   <td>Setting of the system identity scope</td>
- *   <td>This would allow an attacker to configure the system identity scope with
- * certificates that should not be trusted, thereby granting applet or
- * application code signed with those certificates privileges that
- * would have been denied by the system's original identity scope.</td>
+ *   <td>This would bllow bn bttbcker to configure the system identity scope with
+ * certificbtes thbt should not be trusted, thereby grbnting bpplet or
+ * bpplicbtion code signed with those certificbtes privileges thbt
+ * would hbve been denied by the system's originbl identity scope.</td>
  * </tr>
  *
  * <tr>
  *   <td>setIdentityPublicKey</td>
- *   <td>Setting of the public key for an Identity</td>
- *   <td>If the identity is marked as "trusted", this allows an attacker to
- * introduce a different public key (e.g., its own) that is not trusted
- * by the system's identity scope, thereby granting applet or
- * application code signed with that public key privileges that
- * would have been denied otherwise.</td>
+ *   <td>Setting of the public key for bn Identity</td>
+ *   <td>If the identity is mbrked bs "trusted", this bllows bn bttbcker to
+ * introduce b different public key (e.g., its own) thbt is not trusted
+ * by the system's identity scope, thereby grbnting bpplet or
+ * bpplicbtion code signed with thbt public key privileges thbt
+ * would hbve been denied otherwise.</td>
  * </tr>
  *
  * <tr>
  *   <td>setIdentityInfo</td>
- *   <td>Setting of a general information string for an Identity</td>
- *   <td>This allows attackers to set the general description for
- * an identity.  This may trick applications into using a different
- * identity than intended or may prevent applications from finding a
- * particular identity.</td>
+ *   <td>Setting of b generbl informbtion string for bn Identity</td>
+ *   <td>This bllows bttbckers to set the generbl description for
+ * bn identity.  This mby trick bpplicbtions into using b different
+ * identity thbn intended or mby prevent bpplicbtions from finding b
+ * pbrticulbr identity.</td>
  * </tr>
  *
  * <tr>
- *   <td>addIdentityCertificate</td>
- *   <td>Addition of a certificate for an Identity</td>
- *   <td>This allows attackers to set a certificate for
- * an identity's public key.  This is dangerous because it affects
- * the trust relationship across the system. This public key suddenly
- * becomes trusted to a wider audience than it otherwise would be.</td>
+ *   <td>bddIdentityCertificbte</td>
+ *   <td>Addition of b certificbte for bn Identity</td>
+ *   <td>This bllows bttbckers to set b certificbte for
+ * bn identity's public key.  This is dbngerous becbuse it bffects
+ * the trust relbtionship bcross the system. This public key suddenly
+ * becomes trusted to b wider budience thbn it otherwise would be.</td>
  * </tr>
  *
  * <tr>
- *   <td>removeIdentityCertificate</td>
- *   <td>Removal of a certificate for an Identity</td>
- *   <td>This allows attackers to remove a certificate for
- * an identity's public key. This is dangerous because it affects
- * the trust relationship across the system. This public key suddenly
- * becomes considered less trustworthy than it otherwise would be.</td>
+ *   <td>removeIdentityCertificbte</td>
+ *   <td>Removbl of b certificbte for bn Identity</td>
+ *   <td>This bllows bttbckers to remove b certificbte for
+ * bn identity's public key. This is dbngerous becbuse it bffects
+ * the trust relbtionship bcross the system. This public key suddenly
+ * becomes considered less trustworthy thbn it otherwise would be.</td>
  * </tr>
  *
  * <tr>
  *  <td>printIdentity</td>
- *  <td>Viewing the name of a principal
- * and optionally the scope in which it is used, and whether
- * or not it is considered "trusted" in that scope</td>
- *  <td>The scope that is printed out may be a filename, in which case
- * it may convey local system information. For example, here's a sample
- * printout of an identity named "carol", who is
- * marked not trusted in the user's identity database:<br>
- *   carol[/home/luehe/identitydb.obj][not trusted]</td>
+ *  <td>Viewing the nbme of b principbl
+ * bnd optionblly the scope in which it is used, bnd whether
+ * or not it is considered "trusted" in thbt scope</td>
+ *  <td>The scope thbt is printed out mby be b filenbme, in which cbse
+ * it mby convey locbl system informbtion. For exbmple, here's b sbmple
+ * printout of bn identity nbmed "cbrol", who is
+ * mbrked not trusted in the user's identity dbtbbbse:<br>
+ *   cbrol[/home/luehe/identitydb.obj][not trusted]</td>
  *</tr>
  *
  * <tr>
- *   <td>getSignerPrivateKey</td>
- *   <td>Retrieval of a Signer's private key</td>
- *   <td>It is very dangerous to allow access to a private key; private
- * keys are supposed to be kept secret. Otherwise, code can use the
- * private key to sign various files and claim the signature came from
+ *   <td>getSignerPrivbteKey</td>
+ *   <td>Retrievbl of b Signer's privbte key</td>
+ *   <td>It is very dbngerous to bllow bccess to b privbte key; privbte
+ * keys bre supposed to be kept secret. Otherwise, code cbn use the
+ * privbte key to sign vbrious files bnd clbim the signbture cbme from
  * the Signer.</td>
  * </tr>
  *
  * <tr>
- *   <td>setSignerKeyPair</td>
- *   <td>Setting of the key pair (public key and private key) for a Signer</td>
- *   <td>This would allow an attacker to replace somebody else's (the "target's")
- * keypair with a possibly weaker keypair (e.g., a keypair of a smaller
- * keysize).  This also would allow the attacker to listen in on encrypted
- * communication between the target and its peers. The target's peers
- * might wrap an encryption session key under the target's "new" public
- * key, which would allow the attacker (who possesses the corresponding
- * private key) to unwrap the session key and decipher the communication
- * data encrypted under that session key.</td>
+ *   <td>setSignerKeyPbir</td>
+ *   <td>Setting of the key pbir (public key bnd privbte key) for b Signer</td>
+ *   <td>This would bllow bn bttbcker to replbce somebody else's (the "tbrget's")
+ * keypbir with b possibly webker keypbir (e.g., b keypbir of b smbller
+ * keysize).  This blso would bllow the bttbcker to listen in on encrypted
+ * communicbtion between the tbrget bnd its peers. The tbrget's peers
+ * might wrbp bn encryption session key under the tbrget's "new" public
+ * key, which would bllow the bttbcker (who possesses the corresponding
+ * privbte key) to unwrbp the session key bnd decipher the communicbtion
+ * dbtb encrypted under thbt session key.</td>
  * </tr>
  *
- * </table>
+ * </tbble>
  *
- * @see java.security.BasicPermission
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @see jbvb.security.BbsicPermission
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
+ * @see jbvb.lbng.SecurityMbnbger
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @buthor Mbribnne Mueller
+ * @buthor Rolbnd Schemers
  */
 
-public final class SecurityPermission extends BasicPermission {
+public finbl clbss SecurityPermission extends BbsicPermission {
 
-    private static final long serialVersionUID = 5236109936224050470L;
+    privbte stbtic finbl long seriblVersionUID = 5236109936224050470L;
 
     /**
-     * Creates a new SecurityPermission with the specified name.
-     * The name is the symbolic name of the SecurityPermission. An asterisk
-     * may appear at the end of the name, following a ".", or by itself, to
-     * signify a wildcard match.
+     * Crebtes b new SecurityPermission with the specified nbme.
+     * The nbme is the symbolic nbme of the SecurityPermission. An bsterisk
+     * mby bppebr bt the end of the nbme, following b ".", or by itself, to
+     * signify b wildcbrd mbtch.
      *
-     * @param name the name of the SecurityPermission
+     * @pbrbm nbme the nbme of the SecurityPermission
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @throws NullPointerException if {@code nbme} is {@code null}.
+     * @throws IllegblArgumentException if {@code nbme} is empty.
      */
-    public SecurityPermission(String name)
+    public SecurityPermission(String nbme)
     {
-        super(name);
+        super(nbme);
     }
 
     /**
-     * Creates a new SecurityPermission object with the specified name.
-     * The name is the symbolic name of the SecurityPermission, and the
-     * actions String is currently unused and should be null.
+     * Crebtes b new SecurityPermission object with the specified nbme.
+     * The nbme is the symbolic nbme of the SecurityPermission, bnd the
+     * bctions String is currently unused bnd should be null.
      *
-     * @param name the name of the SecurityPermission
-     * @param actions should be null.
+     * @pbrbm nbme the nbme of the SecurityPermission
+     * @pbrbm bctions should be null.
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @throws NullPointerException if {@code nbme} is {@code null}.
+     * @throws IllegblArgumentException if {@code nbme} is empty.
      */
-    public SecurityPermission(String name, String actions)
+    public SecurityPermission(String nbme, String bctions)
     {
-        super(name, actions);
+        super(nbme, bctions);
     }
 }

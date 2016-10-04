@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.IntegerSyntax;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.IntegerSyntbx;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class JobKOctets is an integer valued printing attribute class that specifies
- * the total size of the document(s) in K octets, i.e., in units of 1024 octets
- * requested to be processed in the job. The value must be rounded up, so that a
- * job between 1 and 1024 octets must be indicated as being 1K octets, 1025 to
- * 2048 must be 2K octets, etc. For a multidoc print job (a job with multiple
- * documents), the JobKOctets value is computed by adding up the individual
- * documents' sizes in octets, then rounding up to the next K octets value.
+ * Clbss JobKOctets is bn integer vblued printing bttribute clbss thbt specifies
+ * the totbl size of the document(s) in K octets, i.e., in units of 1024 octets
+ * requested to be processed in the job. The vblue must be rounded up, so thbt b
+ * job between 1 bnd 1024 octets must be indicbted bs being 1K octets, 1025 to
+ * 2048 must be 2K octets, etc. For b multidoc print job (b job with multiple
+ * documents), the JobKOctets vblue is computed by bdding up the individubl
+ * documents' sizes in octets, then rounding up to the next K octets vblue.
  * <P>
- * The JobKOctets attribute describes the size of the job. This attribute is not
- * intended to be a counter; it is intended to be useful routing and scheduling
- * information if known. The printer may try to compute the JobKOctets
- * attribute's value if it is not supplied in the Print Request. Even if the
- * client does supply a value for the JobKOctets attribute in the Print Request,
- * the printer may choose to change the value if the printer is able to compute
- * a value which is more accurate than the client supplied value. The printer
- * may be able to determine the correct value for the JobKOctets attribute
- * either right at job submission time or at any later point in time.
+ * The JobKOctets bttribute describes the size of the job. This bttribute is not
+ * intended to be b counter; it is intended to be useful routing bnd scheduling
+ * informbtion if known. The printer mby try to compute the JobKOctets
+ * bttribute's vblue if it is not supplied in the Print Request. Even if the
+ * client does supply b vblue for the JobKOctets bttribute in the Print Request,
+ * the printer mby choose to chbnge the vblue if the printer is bble to compute
+ * b vblue which is more bccurbte thbn the client supplied vblue. The printer
+ * mby be bble to determine the correct vblue for the JobKOctets bttribute
+ * either right bt job submission time or bt bny lbter point in time.
  * <P>
- * The JobKOctets value must not include the multiplicative factors contributed
- * by the number of copies specified by the {@link Copies Copies} attribute,
- * independent of whether the device can process multiple copies without making
- * multiple passes over the job or document data and independent of whether the
- * output is collated or not. Thus the value is independent of the
- * implementation and indicates the size of the document(s) measured in K octets
+ * The JobKOctets vblue must not include the multiplicbtive fbctors contributed
+ * by the number of copies specified by the {@link Copies Copies} bttribute,
+ * independent of whether the device cbn process multiple copies without mbking
+ * multiple pbsses over the job or document dbtb bnd independent of whether the
+ * output is collbted or not. Thus the vblue is independent of the
+ * implementbtion bnd indicbtes the size of the document(s) mebsured in K octets
  * independent of the number of copies.
  * <P>
- * The JobKOctets value must also not include the multiplicative factor due to a
- * copies instruction embedded in the document data. If the document data
- * actually includes replications of the document data, this value will include
- * such replication. In other words, this value is always the size of the source
- * document data, rather than a measure of the hardcopy output to be produced.
+ * The JobKOctets vblue must blso not include the multiplicbtive fbctor due to b
+ * copies instruction embedded in the document dbtb. If the document dbtb
+ * bctublly includes replicbtions of the document dbtb, this vblue will include
+ * such replicbtion. In other words, this vblue is blwbys the size of the source
+ * document dbtb, rbther thbn b mebsure of the hbrdcopy output to be produced.
  * <P>
- * The size of a doc is computed based on the print data representation class as
- * specified by the doc's {@link javax.print.DocFlavor DocFlavor}, as
- * shown in the table below.
+ * The size of b doc is computed bbsed on the print dbtb representbtion clbss bs
+ * specified by the doc's {@link jbvbx.print.DocFlbvor DocFlbvor}, bs
+ * shown in the tbble below.
  *
- * <TABLE BORDER=1 CELLPADDING=2 CELLSPACING=1 SUMMARY="Table showing computation of doc sizes">
+ * <TABLE BORDER=1 CELLPADDING=2 CELLSPACING=1 SUMMARY="Tbble showing computbtion of doc sizes">
  * <TR>
- * <TH>Representation Class</TH>
+ * <TH>Representbtion Clbss</TH>
  * <TH>Document Size</TH>
  * </TR>
  * <TR>
  * <TD>byte[]</TD>
- * <TD>Length of the byte array</TD>
+ * <TD>Length of the byte brrby</TD>
  * </TR>
  * <TR>
- * <TD>java.io.InputStream</TD>
- * <TD>Number of bytes read from the stream</TD>
+ * <TD>jbvb.io.InputStrebm</TD>
+ * <TD>Number of bytes rebd from the strebm</TD>
  * </TR>
  * <TR>
- * <TD>char[]</TD>
- * <TD>Length of the character array x 2</TD>
+ * <TD>chbr[]</TD>
+ * <TD>Length of the chbrbcter brrby x 2</TD>
  * </TR>
  * <TR>
- * <TD>java.lang.String</TD>
+ * <TD>jbvb.lbng.String</TD>
  * <TD>Length of the string x 2</TD>
  * </TR>
  * <TR>
- * <TD>java.io.Reader</TD>
- * <TD>Number of characters read from the stream x 2</TD>
+ * <TD>jbvb.io.Rebder</TD>
+ * <TD>Number of chbrbcters rebd from the strebm x 2</TD>
  * </TR>
  * <TR>
- * <TD>java.net.URL</TD>
- * <TD>Number of bytes read from the file at the given URL address</TD>
+ * <TD>jbvb.net.URL</TD>
+ * <TD>Number of bytes rebd from the file bt the given URL bddress</TD>
  * </TR>
  * <TR>
- * <TD>java.awt.image.renderable.RenderableImage</TD>
- * <TD>Implementation dependent&#42;</TD>
+ * <TD>jbvb.bwt.imbge.renderbble.RenderbbleImbge</TD>
+ * <TD>Implementbtion dependent&#42;</TD>
  * </TR>
  * <TR>
- * <TD>java.awt.print.Printable</TD>
- * <TD>Implementation dependent&#42;</TD>
+ * <TD>jbvb.bwt.print.Printbble</TD>
+ * <TD>Implementbtion dependent&#42;</TD>
  * </TR>
  * <TR>
- * <TD>java.awt.print.Pageable</TD>
- * <TD>Implementation dependent&#42;</TD>
+ * <TD>jbvb.bwt.print.Pbgebble</TD>
+ * <TD>Implementbtion dependent&#42;</TD>
  * </TR>
  * </TABLE>
  * <P>
- * &#42; In these cases the Print Service itself generates the print data sent
- * to the printer. If the Print Service supports the JobKOctets attribute, for
- * these cases the Print Service itself must calculate the size of the print
- * data, replacing any JobKOctets value the client specified.
+ * &#42; In these cbses the Print Service itself generbtes the print dbtb sent
+ * to the printer. If the Print Service supports the JobKOctets bttribute, for
+ * these cbses the Print Service itself must cblculbte the size of the print
+ * dbtb, replbcing bny JobKOctets vblue the client specified.
  * <P>
- * <B>IPP Compatibility:</B> The integer value gives the IPP integer value. The
- * category name returned by <CODE>getName()</CODE> gives the IPP attribute
- * name.
+ * <B>IPP Compbtibility:</B> The integer vblue gives the IPP integer vblue. The
+ * cbtegory nbme returned by <CODE>getNbme()</CODE> gives the IPP bttribute
+ * nbme.
  *
  * @see JobKOctetsSupported
  * @see JobKOctetsProcessed
  * @see JobImpressions
- * @see JobMediaSheets
+ * @see JobMedibSheets
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class JobKOctets   extends IntegerSyntax
+public finbl clbss JobKOctets   extends IntegerSyntbx
         implements PrintRequestAttribute, PrintJobAttribute {
 
-    private static final long serialVersionUID = -8959710146498202869L;
+    privbte stbtic finbl long seriblVersionUID = -8959710146498202869L;
 
     /**
-     * Construct a new job K octets attribute with the given integer value.
+     * Construct b new job K octets bttribute with the given integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      *
-     * @exception  IllegalArgumentException
-     *  (Unchecked exception) Thrown if <CODE>value</CODE> is less than 0.
+     * @exception  IllegblArgumentException
+     *  (Unchecked exception) Thrown if <CODE>vblue</CODE> is less thbn 0.
      */
-    public JobKOctets(int value) {
-        super (value, 0, Integer.MAX_VALUE);
+    public JobKOctets(int vblue) {
+        super (vblue, 0, Integer.MAX_VALUE);
     }
 
     /**
-     * Returns whether this job K octets attribute is equivalent to the passed
-     * in object. To be equivalent, all of the following conditions must be
+     * Returns whether this job K octets bttribute is equivblent to the pbssed
+     * in object. To be equivblent, bll of the following conditions must be
      * true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class JobKOctets.
+     * <CODE>object</CODE> is bn instbnce of clbss JobKOctets.
      * <LI>
-     * This job K octets attribute's value and <CODE>object</CODE>'s value
-     * are equal.
+     * This job K octets bttribute's vblue bnd <CODE>object</CODE>'s vblue
+     * bre equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this job K
-     *          octets attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this job K
+     *          octets bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return super.equals(object) && object instanceof JobKOctets;
+    public boolebn equbls(Object object) {
+        return super.equbls(object) && object instbnceof JobKOctets;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class JobKOctets, the category is class JobKOctets itself.
+     * For clbss JobKOctets, the cbtegory is clbss JobKOctets itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobKOctets.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return JobKOctets.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class JobKOctets, the category name is <CODE>"job-k-octets"</CODE>.
+     * For clbss JobKOctets, the cbtegory nbme is <CODE>"job-k-octets"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "job-k-octets";
     }
 

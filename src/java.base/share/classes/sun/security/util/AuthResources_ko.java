@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
- * for the following packages:
+ * <p> This clbss represents the <code>ResourceBundle</code>
+ * for the following pbckbges:
  *
  * <ol>
- * <li> com.sun.security.auth
- * <li> com.sun.security.auth.login
+ * <li> com.sun.security.buth
+ * <li> com.sun.security.buth.login
  * </ol>
  *
  */
-public class AuthResources_ko extends java.util.ListResourceBundle {
+public clbss AuthResources_ko extends jbvb.util.ListResourceBundle {
 
-    private static final Object[][] contents = {
+    privbte stbtic finbl Object[][] contents = {
 
-        // NT principals
-        {"invalid.null.input.value", "\uBD80\uC801\uD569\uD55C \uB110 \uC785\uB825: {0}"},
-        {"NTDomainPrincipal.name", "NTDomainPrincipal: {0}"},
-        {"NTNumericCredential.name", "NTNumericCredential: {0}"},
-        {"Invalid.NTSid.value", "NTSid \uAC12\uC774 \uBD80\uC801\uD569\uD569\uB2C8\uB2E4."},
-        {"NTSid.name", "NTSid: {0}"},
-        {"NTSidDomainPrincipal.name", "NTSidDomainPrincipal: {0}"},
-        {"NTSidGroupPrincipal.name", "NTSidGroupPrincipal: {0}"},
-        {"NTSidPrimaryGroupPrincipal.name", "NTSidPrimaryGroupPrincipal: {0}"},
-        {"NTSidUserPrincipal.name", "NTSidUserPrincipal: {0}"},
-        {"NTUserPrincipal.name", "NTUserPrincipal: {0}"},
+        // NT principbls
+        {"invblid.null.input.vblue", "\uBD80\uC801\uD569\uD55C \uB110 \uC785\uB825: {0}"},
+        {"NTDombinPrincipbl.nbme", "NTDombinPrincipbl: {0}"},
+        {"NTNumericCredentibl.nbme", "NTNumericCredentibl: {0}"},
+        {"Invblid.NTSid.vblue", "NTSid \uAC12\uC774 \uBD80\uC801\uD569\uD569\uB2C8\uB2E4."},
+        {"NTSid.nbme", "NTSid: {0}"},
+        {"NTSidDombinPrincipbl.nbme", "NTSidDombinPrincipbl: {0}"},
+        {"NTSidGroupPrincipbl.nbme", "NTSidGroupPrincipbl: {0}"},
+        {"NTSidPrimbryGroupPrincipbl.nbme", "NTSidPrimbryGroupPrincipbl: {0}"},
+        {"NTSidUserPrincipbl.nbme", "NTSidUserPrincipbl: {0}"},
+        {"NTUserPrincipbl.nbme", "NTUserPrincipbl: {0}"},
 
-        // UnixPrincipals
-        {"UnixNumericGroupPrincipal.Primary.Group.name",
-                "UnixNumericGroupPrincipal [\uAE30\uBCF8 \uADF8\uB8F9]: {0}"},
-        {"UnixNumericGroupPrincipal.Supplementary.Group.name",
-                "UnixNumericGroupPrincipal [\uBCF4\uC870 \uADF8\uB8F9]: {0}"},
-        {"UnixNumericUserPrincipal.name", "UnixNumericUserPrincipal: {0}"},
-        {"UnixPrincipal.name", "UnixPrincipal: {0}"},
+        // UnixPrincipbls
+        {"UnixNumericGroupPrincipbl.Primbry.Group.nbme",
+                "UnixNumericGroupPrincipbl [\uAE30\uBCF8 \uADF8\uB8F9]: {0}"},
+        {"UnixNumericGroupPrincipbl.Supplementbry.Group.nbme",
+                "UnixNumericGroupPrincipbl [\uBCF4\uC870 \uADF8\uB8F9]: {0}"},
+        {"UnixNumericUserPrincipbl.nbme", "UnixNumericUserPrincipbl: {0}"},
+        {"UnixPrincipbl.nbme", "UnixPrincipbl: {0}"},
 
-        // com.sun.security.auth.login.ConfigFile
-        {"Unable.to.properly.expand.config", "{0}\uC744(\uB97C) \uC81C\uB300\uB85C \uD655\uC7A5\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."},
-        {"extra.config.No.such.file.or.directory.",
+        // com.sun.security.buth.login.ConfigFile
+        {"Unbble.to.properly.expbnd.config", "{0}\uC744(\uB97C) \uC81C\uB300\uB85C \uD655\uC7A5\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."},
+        {"extrb.config.No.such.file.or.directory.",
                 "{0}(\uD574\uB2F9 \uD30C\uC77C \uB610\uB294 \uB514\uB809\uD1A0\uB9AC\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.)"},
-        {"Configuration.Error.No.such.file.or.directory",
+        {"Configurbtion.Error.No.such.file.or.directory",
                 "\uAD6C\uC131 \uC624\uB958:\n\t\uD574\uB2F9 \uD30C\uC77C \uB610\uB294 \uB514\uB809\uD1A0\uB9AC\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4."},
-        {"Configuration.Error.Invalid.control.flag.flag",
+        {"Configurbtion.Error.Invblid.control.flbg.flbg",
                 "\uAD6C\uC131 \uC624\uB958:\n\t\uC81C\uC5B4 \uD50C\uB798\uADF8\uAC00 \uBD80\uC801\uD569\uD568, {0}"},
-        {"Configuration.Error.Can.not.specify.multiple.entries.for.appName",
+        {"Configurbtion.Error.Cbn.not.specify.multiple.entries.for.bppNbme",
             "\uAD6C\uC131 \uC624\uB958:\n\t{0}\uC5D0 \uB300\uD574 \uC5EC\uB7EC \uD56D\uBAA9\uC744 \uC9C0\uC815\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."},
-        {"Configuration.Error.expected.expect.read.end.of.file.",
+        {"Configurbtion.Error.expected.expect.rebd.end.of.file.",
                 "\uAD6C\uC131 \uC624\uB958:\n\t[{0}]\uC774(\uAC00) \uD544\uC694\uD558\uC9C0\uB9CC [\uD30C\uC77C\uC758 \uB05D]\uC5D0 \uB3C4\uB2EC\uD588\uC2B5\uB2C8\uB2E4."},
-        {"Configuration.Error.Line.line.expected.expect.found.value.",
+        {"Configurbtion.Error.Line.line.expected.expect.found.vblue.",
             "\uAD6C\uC131 \uC624\uB958:\n\t{0} \uD589: [{1}]\uC774(\uAC00) \uD544\uC694\uD558\uC9C0\uB9CC [{2}]\uC774(\uAC00) \uBC1C\uACAC\uB418\uC5C8\uC2B5\uB2C8\uB2E4."},
-        {"Configuration.Error.Line.line.expected.expect.",
+        {"Configurbtion.Error.Line.line.expected.expect.",
             "\uAD6C\uC131 \uC624\uB958:\n\t{0} \uD589: [{1}]\uC774(\uAC00) \uD544\uC694\uD569\uB2C8\uB2E4."},
-        {"Configuration.Error.Line.line.system.property.value.expanded.to.empty.value",
+        {"Configurbtion.Error.Line.line.system.property.vblue.expbnded.to.empty.vblue",
             "\uAD6C\uC131 \uC624\uB958:\n\t{0} \uD589: \uC2DC\uC2A4\uD15C \uC18D\uC131 [{1}]\uC774(\uAC00) \uBE48 \uAC12\uC73C\uB85C \uD655\uC7A5\uB418\uC5C8\uC2B5\uB2C8\uB2E4."},
 
-        // com.sun.security.auth.module.JndiLoginModule
-        {"username.","\uC0AC\uC6A9\uC790 \uC774\uB984: "},
-        {"password.","\uBE44\uBC00\uBC88\uD638: "},
+        // com.sun.security.buth.module.JndiLoginModule
+        {"usernbme.","\uC0AC\uC6A9\uC790 \uC774\uB984: "},
+        {"pbssword.","\uBE44\uBC00\uBC88\uD638: "},
 
-        // com.sun.security.auth.module.KeyStoreLoginModule
-        {"Please.enter.keystore.information",
+        // com.sun.security.buth.module.KeyStoreLoginModule
+        {"Plebse.enter.keystore.informbtion",
                 "\uD0A4 \uC800\uC7A5\uC18C \uC815\uBCF4\uB97C \uC785\uB825\uD558\uC2ED\uC2DC\uC624."},
-        {"Keystore.alias.","\uD0A4 \uC800\uC7A5\uC18C \uBCC4\uCE6D: "},
-        {"Keystore.password.","\uD0A4 \uC800\uC7A5\uC18C \uBE44\uBC00\uBC88\uD638: "},
-        {"Private.key.password.optional.",
+        {"Keystore.blibs.","\uD0A4 \uC800\uC7A5\uC18C \uBCC4\uCE6D: "},
+        {"Keystore.pbssword.","\uD0A4 \uC800\uC7A5\uC18C \uBE44\uBC00\uBC88\uD638: "},
+        {"Privbte.key.pbssword.optionbl.",
             "\uC804\uC6A9 \uD0A4 \uBE44\uBC00\uBC88\uD638(\uC120\uD0DD \uC0AC\uD56D): "},
 
-        // com.sun.security.auth.module.Krb5LoginModule
-        {"Kerberos.username.defUsername.",
+        // com.sun.security.buth.module.Krb5LoginModule
+        {"Kerberos.usernbme.defUsernbme.",
                 "Kerberos \uC0AC\uC6A9\uC790 \uC774\uB984 [{0}]: "},
-        {"Kerberos.password.for.username.",
+        {"Kerberos.pbssword.for.usernbme.",
                 "{0}\uC758 Kerberos \uBE44\uBC00\uBC88\uD638: "},
 
         /***    EVERYTHING BELOW IS DEPRECATED  ***/
 
-        // com.sun.security.auth.PolicyFile
-        {".error.parsing.", ": \uAD6C\uBB38 \uBD84\uC11D \uC624\uB958 "},
+        // com.sun.security.buth.PolicyFile
+        {".error.pbrsing.", ": \uAD6C\uBB38 \uBD84\uC11D \uC624\uB958 "},
         {"COLON", ": "},
-        {".error.adding.Permission.", ": \uAD8C\uD55C \uCD94\uAC00 \uC624\uB958 "},
+        {".error.bdding.Permission.", ": \uAD8C\uD55C \uCD94\uAC00 \uC624\uB958 "},
         {"SPACE", " "},
-        {".error.adding.Entry.", ": \uD56D\uBAA9 \uCD94\uAC00 \uC624\uB958 "},
+        {".error.bdding.Entry.", ": \uD56D\uBAA9 \uCD94\uAC00 \uC624\uB958 "},
         {"LPARAM", "("},
         {"RPARAM", ")"},
-        {"attempt.to.add.a.Permission.to.a.readonly.PermissionCollection",
+        {"bttempt.to.bdd.b.Permission.to.b.rebdonly.PermissionCollection",
             "\uC77D\uAE30 \uC804\uC6A9 PermissionCollection\uC5D0 \uAD8C\uD55C\uC744 \uCD94\uAC00\uD558\uB824\uACE0 \uC2DC\uB3C4\uD588\uC2B5\uB2C8\uB2E4."},
 
-        // com.sun.security.auth.PolicyParser
+        // com.sun.security.buth.PolicyPbrser
         {"expected.keystore.type", "\uD0A4 \uC800\uC7A5\uC18C \uC720\uD615\uC774 \uD544\uC694\uD569\uB2C8\uB2E4."},
-        {"can.not.specify.Principal.with.a.wildcard.class.without.a.wildcard.name",
+        {"cbn.not.specify.Principbl.with.b.wildcbrd.clbss.without.b.wildcbrd.nbme",
                 "\uC640\uC77C\uB4DC \uCE74\uB4DC \uBB38\uC790 \uC774\uB984 \uC5C6\uC774 \uC640\uC77C\uB4DC \uCE74\uB4DC \uBB38\uC790 \uD074\uB798\uC2A4\uB97C \uC0AC\uC6A9\uD558\uB294 \uC8FC\uCCB4\uB97C \uC9C0\uC815\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."},
-        {"expected.codeBase.or.SignedBy", "codeBase \uB610\uB294 SignedBy\uAC00 \uD544\uC694\uD569\uB2C8\uB2E4."},
-        {"only.Principal.based.grant.entries.permitted",
+        {"expected.codeBbse.or.SignedBy", "codeBbse \uB610\uB294 SignedBy\uAC00 \uD544\uC694\uD569\uB2C8\uB2E4."},
+        {"only.Principbl.bbsed.grbnt.entries.permitted",
                 "\uC8FC\uCCB4 \uAE30\uBC18 \uAD8C\uD55C \uBD80\uC5EC \uD56D\uBAA9\uB9CC \uD5C8\uC6A9\uB429\uB2C8\uB2E4."},
         {"expected.permission.entry", "\uAD8C\uD55C \uD56D\uBAA9\uC774 \uD544\uC694\uD569\uB2C8\uB2E4."},
         {"number.", "\uC22B\uC790 "},
-        {"expected.expect.read.end.of.file.",
+        {"expected.expect.rebd.end.of.file.",
                 "{0}\uC774(\uAC00) \uD544\uC694\uD558\uC9C0\uB9CC \uD30C\uC77C\uC758 \uB05D\uC5D0 \uB3C4\uB2EC\uD588\uC2B5\uB2C8\uB2E4."},
-        {"expected.read.end.of.file", "';'\uC774 \uD544\uC694\uD558\uC9C0\uB9CC \uD30C\uC77C\uC758 \uB05D\uC5D0 \uB3C4\uB2EC\uD588\uC2B5\uB2C8\uB2E4."},
+        {"expected.rebd.end.of.file", "';'\uC774 \uD544\uC694\uD558\uC9C0\uB9CC \uD30C\uC77C\uC758 \uB05D\uC5D0 \uB3C4\uB2EC\uD588\uC2B5\uB2C8\uB2E4."},
         {"line.", "\uD589 "},
         {".expected.", ": \uD544\uC694\uD55C \uD56D\uBAA9: '"},
         {".found.", "', \uBC1C\uACAC\uB41C \uD56D\uBAA9: '"},
         {"QUOTE", "'"},
 
-        // SolarisPrincipals
-        {"SolarisNumericGroupPrincipal.Primary.Group.",
-                "SolarisNumericGroupPrincipal [\uAE30\uBCF8 \uADF8\uB8F9]: "},
-        {"SolarisNumericGroupPrincipal.Supplementary.Group.",
-                "SolarisNumericGroupPrincipal [\uBCF4\uC870 \uADF8\uB8F9]: "},
-        {"SolarisNumericUserPrincipal.",
-                "SolarisNumericUserPrincipal: "},
-        {"SolarisPrincipal.", "SolarisPrincipal: "},
-        // provided.null.name is the NullPointerException message when a
-        // developer incorrectly passes a null name to the constructor of
-        // subclasses of java.security.Principal
-        {"provided.null.name", "\uB110 \uC774\uB984\uC744 \uC81C\uACF5\uD588\uC2B5\uB2C8\uB2E4."}
+        // SolbrisPrincipbls
+        {"SolbrisNumericGroupPrincipbl.Primbry.Group.",
+                "SolbrisNumericGroupPrincipbl [\uAE30\uBCF8 \uADF8\uB8F9]: "},
+        {"SolbrisNumericGroupPrincipbl.Supplementbry.Group.",
+                "SolbrisNumericGroupPrincipbl [\uBCF4\uC870 \uADF8\uB8F9]: "},
+        {"SolbrisNumericUserPrincipbl.",
+                "SolbrisNumericUserPrincipbl: "},
+        {"SolbrisPrincipbl.", "SolbrisPrincipbl: "},
+        // provided.null.nbme is the NullPointerException messbge when b
+        // developer incorrectly pbsses b null nbme to the constructor of
+        // subclbsses of jbvb.security.Principbl
+        {"provided.null.nbme", "\uB110 \uC774\uB984\uC744 \uC81C\uACF5\uD588\uC2B5\uB2C8\uB2E4."}
 
     };
 

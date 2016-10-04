@@ -3,206 +3,206 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
 
-import javax.xml.transform.ErrorListener;
-import javax.xml.transform.SourceLocator;
-import javax.xml.transform.TransformerException;
+import jbvbx.xml.trbnsform.ErrorListener;
+import jbvbx.xml.trbnsform.SourceLocbtor;
+import jbvbx.xml.trbnsform.TrbnsformerException;
 
-import com.sun.org.apache.xml.internal.security.transforms.implementations.FuncHere;
-import com.sun.org.apache.xml.internal.utils.PrefixResolver;
-import com.sun.org.apache.xml.internal.utils.PrefixResolverDefault;
-import com.sun.org.apache.xpath.internal.Expression;
-import com.sun.org.apache.xpath.internal.XPath;
-import com.sun.org.apache.xpath.internal.XPathContext;
-import com.sun.org.apache.xpath.internal.compiler.FunctionTable;
-import com.sun.org.apache.xpath.internal.objects.XObject;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions.FuncHere;
+import com.sun.org.bpbche.xml.internbl.utils.PrefixResolver;
+import com.sun.org.bpbche.xml.internbl.utils.PrefixResolverDefbult;
+import com.sun.org.bpbche.xpbth.internbl.Expression;
+import com.sun.org.bpbche.xpbth.internbl.XPbth;
+import com.sun.org.bpbche.xpbth.internbl.XPbthContext;
+import com.sun.org.bpbche.xpbth.internbl.compiler.FunctionTbble;
+import com.sun.org.bpbche.xpbth.internbl.objects.XObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * An implementation of XPathAPI using Xalan. This supports the "here()" function defined in the digital
- * signature spec.
+ * An implementbtion of XPbthAPI using Xblbn. This supports the "here()" function defined in the digitbl
+ * signbture spec.
  */
-public class XalanXPathAPI implements XPathAPI {
+public clbss XblbnXPbthAPI implements XPbthAPI {
 
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(XalanXPathAPI.class.getName());
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(XblbnXPbthAPI.clbss.getNbme());
 
-    private String xpathStr = null;
+    privbte String xpbthStr = null;
 
-    private XPath xpath = null;
+    privbte XPbth xpbth = null;
 
-    private static FunctionTable funcTable = null;
+    privbte stbtic FunctionTbble funcTbble = null;
 
-    private static boolean installed;
+    privbte stbtic boolebn instblled;
 
-    private XPathContext context;
+    privbte XPbthContext context;
 
-    static {
-        fixupFunctionTable();
+    stbtic {
+        fixupFunctionTbble();
     }
 
 
     /**
-     *  Use an XPath string to select a nodelist.
-     *  XPath namespace prefixes are resolved from the namespaceNode.
+     *  Use bn XPbth string to select b nodelist.
+     *  XPbth nbmespbce prefixes bre resolved from the nbmespbceNode.
      *
-     *  @param contextNode The node to start searching from.
-     *  @param xpathnode
-     *  @param str
-     *  @param namespaceNode The node from which prefixes in the XPath will be resolved to namespaces.
-     *  @return A NodeIterator, should never be null.
+     *  @pbrbm contextNode The node to stbrt sebrching from.
+     *  @pbrbm xpbthnode
+     *  @pbrbm str
+     *  @pbrbm nbmespbceNode The node from which prefixes in the XPbth will be resolved to nbmespbces.
+     *  @return A NodeIterbtor, should never be null.
      *
-     * @throws TransformerException
+     * @throws TrbnsformerException
      */
     public NodeList selectNodeList(
-        Node contextNode, Node xpathnode, String str, Node namespaceNode
-    ) throws TransformerException {
+        Node contextNode, Node xpbthnode, String str, Node nbmespbceNode
+    ) throws TrbnsformerException {
 
-        // Execute the XPath, and have it return the result
-        XObject list = eval(contextNode, xpathnode, str, namespaceNode);
+        // Execute the XPbth, bnd hbve it return the result
+        XObject list = evbl(contextNode, xpbthnode, str, nbmespbceNode);
 
-        // Return a NodeList.
+        // Return b NodeList.
         return list.nodelist();
     }
 
     /**
-     * Evaluate an XPath string and return true if the output is to be included or not.
-     *  @param contextNode The node to start searching from.
-     *  @param xpathnode The XPath node
-     *  @param str The XPath expression
-     *  @param namespaceNode The node from which prefixes in the XPath will be resolved to namespaces.
+     * Evblubte bn XPbth string bnd return true if the output is to be included or not.
+     *  @pbrbm contextNode The node to stbrt sebrching from.
+     *  @pbrbm xpbthnode The XPbth node
+     *  @pbrbm str The XPbth expression
+     *  @pbrbm nbmespbceNode The node from which prefixes in the XPbth will be resolved to nbmespbces.
      */
-    public boolean evaluate(Node contextNode, Node xpathnode, String str, Node namespaceNode)
-        throws TransformerException {
-        XObject object = eval(contextNode, xpathnode, str, namespaceNode);
+    public boolebn evblubte(Node contextNode, Node xpbthnode, String str, Node nbmespbceNode)
+        throws TrbnsformerException {
+        XObject object = evbl(contextNode, xpbthnode, str, nbmespbceNode);
         return object.bool();
     }
 
     /**
-     * Clear any context information from this object
+     * Clebr bny context informbtion from this object
      */
-    public void clear() {
-        xpathStr = null;
-        xpath = null;
+    public void clebr() {
+        xpbthStr = null;
+        xpbth = null;
         context = null;
     }
 
-    public synchronized static boolean isInstalled() {
-        return installed;
+    public synchronized stbtic boolebn isInstblled() {
+        return instblled;
     }
 
-    private XObject eval(Node contextNode, Node xpathnode, String str, Node namespaceNode)
-        throws TransformerException {
+    privbte XObject evbl(Node contextNode, Node xpbthnode, String str, Node nbmespbceNode)
+        throws TrbnsformerException {
         if (context == null) {
-            context = new XPathContext(xpathnode);
+            context = new XPbthContext(xpbthnode);
             context.setSecureProcessing(true);
         }
 
-        // Create an object to resolve namespace prefixes.
-        // XPath namespaces are resolved from the input context node's document element
-        // if it is a root node, or else the current context node (for lack of a better
-        // resolution space, given the simplicity of this sample code).
+        // Crebte bn object to resolve nbmespbce prefixes.
+        // XPbth nbmespbces bre resolved from the input context node's document element
+        // if it is b root node, or else the current context node (for lbck of b better
+        // resolution spbce, given the simplicity of this sbmple code).
         Node resolverNode =
-            (namespaceNode.getNodeType() == Node.DOCUMENT_NODE)
-                ? ((Document) namespaceNode).getDocumentElement() : namespaceNode;
-        PrefixResolverDefault prefixResolver = new PrefixResolverDefault(resolverNode);
+            (nbmespbceNode.getNodeType() == Node.DOCUMENT_NODE)
+                ? ((Document) nbmespbceNode).getDocumentElement() : nbmespbceNode;
+        PrefixResolverDefbult prefixResolver = new PrefixResolverDefbult(resolverNode);
 
-        if (!str.equals(xpathStr)) {
+        if (!str.equbls(xpbthStr)) {
             if (str.indexOf("here()") > 0) {
                 context.reset();
             }
-            xpath = createXPath(str, prefixResolver);
-            xpathStr = str;
+            xpbth = crebteXPbth(str, prefixResolver);
+            xpbthStr = str;
         }
 
-        // Execute the XPath, and have it return the result
-        int ctxtNode = context.getDTMHandleFromNode(contextNode);
+        // Execute the XPbth, bnd hbve it return the result
+        int ctxtNode = context.getDTMHbndleFromNode(contextNode);
 
-        return xpath.execute(context, ctxtNode, prefixResolver);
+        return xpbth.execute(context, ctxtNode, prefixResolver);
     }
 
-    private XPath createXPath(String str, PrefixResolver prefixResolver) throws TransformerException {
-        XPath xpath = null;
-        Class<?>[] classes = new Class<?>[]{String.class, SourceLocator.class, PrefixResolver.class, int.class,
-                                      ErrorListener.class, FunctionTable.class};
+    privbte XPbth crebteXPbth(String str, PrefixResolver prefixResolver) throws TrbnsformerException {
+        XPbth xpbth = null;
+        Clbss<?>[] clbsses = new Clbss<?>[]{String.clbss, SourceLocbtor.clbss, PrefixResolver.clbss, int.clbss,
+                                      ErrorListener.clbss, FunctionTbble.clbss};
         Object[] objects =
-            new Object[]{str, null, prefixResolver, Integer.valueOf(XPath.SELECT), null, funcTable};
+            new Object[]{str, null, prefixResolver, Integer.vblueOf(XPbth.SELECT), null, funcTbble};
         try {
-            Constructor<?> constructor = XPath.class.getConstructor(classes);
-            xpath = (XPath) constructor.newInstance(objects);
-        } catch (Exception ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+            Constructor<?> constructor = XPbth.clbss.getConstructor(clbsses);
+            xpbth = (XPbth) constructor.newInstbnce(objects);
+        } cbtch (Exception ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, ex.getMessbge(), ex);
             }
         }
-        if (xpath == null) {
-            xpath = new XPath(str, null, prefixResolver, XPath.SELECT, null);
+        if (xpbth == null) {
+            xpbth = new XPbth(str, null, prefixResolver, XPbth.SELECT, null);
         }
-        return xpath;
+        return xpbth;
     }
 
-    private synchronized static void fixupFunctionTable() {
-        installed = false;
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Registering Here function");
+    privbte synchronized stbtic void fixupFunctionTbble() {
+        instblled = fblse;
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Registering Here function");
         }
         /**
-         * Try to register our here() implementation as internal function.
+         * Try to register our here() implementbtion bs internbl function.
          */
         try {
-            Class<?>[] args = {String.class, Expression.class};
-            Method installFunction = FunctionTable.class.getMethod("installFunction", args);
-            if ((installFunction.getModifiers() & Modifier.STATIC) != 0) {
-                Object[] params = {"here", new FuncHere()};
-                installFunction.invoke(null, params);
-                installed = true;
+            Clbss<?>[] brgs = {String.clbss, Expression.clbss};
+            Method instbllFunction = FunctionTbble.clbss.getMethod("instbllFunction", brgs);
+            if ((instbllFunction.getModifiers() & Modifier.STATIC) != 0) {
+                Object[] pbrbms = {"here", new FuncHere()};
+                instbllFunction.invoke(null, pbrbms);
+                instblled = true;
             }
-        } catch (Exception ex) {
-            log.log(java.util.logging.Level.FINE, "Error installing function using the static installFunction method", ex);
+        } cbtch (Exception ex) {
+            log.log(jbvb.util.logging.Level.FINE, "Error instblling function using the stbtic instbllFunction method", ex);
         }
-        if (!installed) {
+        if (!instblled) {
             try {
-                funcTable = new FunctionTable();
-                Class<?>[] args = {String.class, Class.class};
-                Method installFunction = FunctionTable.class.getMethod("installFunction", args);
-                Object[] params = {"here", FuncHere.class};
-                installFunction.invoke(funcTable, params);
-                installed = true;
-            } catch (Exception ex) {
-                log.log(java.util.logging.Level.FINE, "Error installing function using the static installFunction method", ex);
+                funcTbble = new FunctionTbble();
+                Clbss<?>[] brgs = {String.clbss, Clbss.clbss};
+                Method instbllFunction = FunctionTbble.clbss.getMethod("instbllFunction", brgs);
+                Object[] pbrbms = {"here", FuncHere.clbss};
+                instbllFunction.invoke(funcTbble, pbrbms);
+                instblled = true;
+            } cbtch (Exception ex) {
+                log.log(jbvb.util.logging.Level.FINE, "Error instblling function using the stbtic instbllFunction method", ex);
             }
         }
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            if (installed) {
-                log.log(java.util.logging.Level.FINE, "Registered class " + FuncHere.class.getName()
-                          + " for XPath function 'here()' function in internal table");
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            if (instblled) {
+                log.log(jbvb.util.logging.Level.FINE, "Registered clbss " + FuncHere.clbss.getNbme()
+                          + " for XPbth function 'here()' function in internbl tbble");
             } else {
-                log.log(java.util.logging.Level.FINE, "Unable to register class " + FuncHere.class.getName()
-                          + " for XPath function 'here()' function in internal table");
+                log.log(jbvb.util.logging.Level.FINE, "Unbble to register clbss " + FuncHere.clbss.getNbme()
+                          + " for XPbth function 'here()' function in internbl tbble");
             }
         }
     }

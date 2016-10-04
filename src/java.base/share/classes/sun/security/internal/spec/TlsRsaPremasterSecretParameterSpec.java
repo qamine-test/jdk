@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.internal.spec;
+pbckbge sun.security.internbl.spec;
 
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Parameters for SSL/TLS RSA premaster secret.
+ * Pbrbmeters for SSL/TLS RSA prembster secret.
  *
- * <p>Instances of this class are immutable.
+ * <p>Instbnces of this clbss bre immutbble.
  *
  * @since   1.6
- * @author  Andreas Sterbenz
- * @deprecated Sun JDK internal use only --- WILL BE REMOVED in a future
- * release.
+ * @buthor  Andrebs Sterbenz
+ * @deprecbted Sun JDK internbl use only --- WILL BE REMOVED in b future
+ * relebse.
  */
-@Deprecated
-public class TlsRsaPremasterSecretParameterSpec
-        implements AlgorithmParameterSpec {
+@Deprecbted
+public clbss TlsRsbPrembsterSecretPbrbmeterSpec
+        implements AlgorithmPbrbmeterSpec {
 
     /*
-     * The TLS spec says that the version in the RSA premaster secret must
-     * be the maximum version supported by the client (i.e. the version it
-     * requested in its client hello version). However, we (and other
-     * implementations) used to send the active negotiated version. The
-     * system property below allows to toggle the behavior.
+     * The TLS spec sbys thbt the version in the RSA prembster secret must
+     * be the mbximum version supported by the client (i.e. the version it
+     * requested in its client hello version). However, we (bnd other
+     * implementbtions) used to send the bctive negotibted version. The
+     * system property below bllows to toggle the behbvior.
      */
-    private final static String PROP_NAME =
-                                "com.sun.net.ssl.rsaPreMasterSecretFix";
+    privbte finbl stbtic String PROP_NAME =
+                                "com.sun.net.ssl.rsbPreMbsterSecretFix";
 
     /*
-     * Default is "false" (old behavior) for compatibility reasons in
-     * SSLv3/TLSv1.  Later protocols (TLSv1.1+) do not use this property.
+     * Defbult is "fblse" (old behbvior) for compbtibility rebsons in
+     * SSLv3/TLSv1.  Lbter protocols (TLSv1.1+) do not use this property.
      */
-    private final static boolean rsaPreMasterSecretFix =
-            AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    String value = System.getProperty(PROP_NAME);
-                    if (value != null && value.equalsIgnoreCase("true")) {
-                        return Boolean.TRUE;
+    privbte finbl stbtic boolebn rsbPreMbsterSecretFix =
+            AccessController.doPrivileged(new PrivilegedAction<Boolebn>() {
+                public Boolebn run() {
+                    String vblue = System.getProperty(PROP_NAME);
+                    if (vblue != null && vblue.equblsIgnoreCbse("true")) {
+                        return Boolebn.TRUE;
                     }
 
-                    return Boolean.FALSE;
+                    return Boolebn.FALSE;
                 }
             });
 
-    private final int clientVersion;
-    private final int serverVersion;
+    privbte finbl int clientVersion;
+    privbte finbl int serverVersion;
 
     /**
-     * Constructs a new TlsRsaPremasterSecretParameterSpec.
+     * Constructs b new TlsRsbPrembsterSecretPbrbmeterSpec.
      *
-     * @param clientVersion the version of the TLS protocol by which the
-     *        client wishes to communicate during this session
-     * @param serverVersion the negotiated version of the TLS protocol which
-     *        contains the lower of that suggested by the client in the client
-     *        hello and the highest supported by the server.
+     * @pbrbm clientVersion the version of the TLS protocol by which the
+     *        client wishes to communicbte during this session
+     * @pbrbm serverVersion the negotibted version of the TLS protocol which
+     *        contbins the lower of thbt suggested by the client in the client
+     *        hello bnd the highest supported by the server.
      *
-     * @throws IllegalArgumentException if clientVersion or serverVersion are
-     *   negative or larger than (2^16 - 1)
+     * @throws IllegblArgumentException if clientVersion or serverVersion bre
+     *   negbtive or lbrger thbn (2^16 - 1)
      */
-    public TlsRsaPremasterSecretParameterSpec(
+    public TlsRsbPrembsterSecretPbrbmeterSpec(
             int clientVersion, int serverVersion) {
 
         this.clientVersion = checkVersion(clientVersion);
@@ -93,32 +93,32 @@ public class TlsRsaPremasterSecretParameterSpec
 
     /**
      * Returns the version of the TLS protocol by which the client wishes to
-     * communicate during this session.
+     * communicbte during this session.
      *
-     * @return the version of the TLS protocol in ClientHello message
+     * @return the version of the TLS protocol in ClientHello messbge
      */
     public int getClientVersion() {
         return clientVersion;
     }
 
     /**
-     * Returns the negotiated version of the TLS protocol which contains the
-     * lower of that suggested by the client in the client hello and the
+     * Returns the negotibted version of the TLS protocol which contbins the
+     * lower of thbt suggested by the client in the client hello bnd the
      * highest supported by the server.
      *
-     * @return the negotiated version of the TLS protocol in ServerHello message
+     * @return the negotibted version of the TLS protocol in ServerHello messbge
      */
     public int getServerVersion() {
         return serverVersion;
     }
 
     /**
-     * Returns the major version used in RSA premaster secret.
+     * Returns the mbjor version used in RSA prembster secret.
      *
-     * @return the major version used in RSA premaster secret.
+     * @return the mbjor version used in RSA prembster secret.
      */
-    public int getMajorVersion() {
-        if (rsaPreMasterSecretFix || clientVersion >= 0x0302) {
+    public int getMbjorVersion() {
+        if (rsbPreMbsterSecretFix || clientVersion >= 0x0302) {
                                                         // 0x0302: TLSv1.1
             return (clientVersion >>> 8) & 0xFF;
         }
@@ -127,12 +127,12 @@ public class TlsRsaPremasterSecretParameterSpec
     }
 
     /**
-     * Returns the minor version used in RSA premaster secret.
+     * Returns the minor version used in RSA prembster secret.
      *
-     * @return the minor version used in RSA premaster secret.
+     * @return the minor version used in RSA prembster secret.
      */
     public int getMinorVersion() {
-        if (rsaPreMasterSecretFix || clientVersion >= 0x0302) {
+        if (rsbPreMbsterSecretFix || clientVersion >= 0x0302) {
                                                         // 0x0302: TLSv1.1
             return clientVersion & 0xFF;
         }
@@ -140,10 +140,10 @@ public class TlsRsaPremasterSecretParameterSpec
         return serverVersion & 0xFF;
     }
 
-    private int checkVersion(int version) {
+    privbte int checkVersion(int version) {
         if ((version < 0) || (version > 0xFFFF)) {
-            throw new IllegalArgumentException(
-                        "Version must be between 0 and 65,535");
+            throw new IllegblArgumentException(
+                        "Version must be between 0 bnd 65,535");
         }
         return version;
     }

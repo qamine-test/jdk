@@ -1,36 +1,36 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Debug Memory Manager
+ * Debug Memory Mbnbger
  *
- * - inits allocated memory to predefined byte to expose uninitialized variables
- * - fills freed memory with predefined byte to expose dangling pointers
- * - catches under/overwrites with 'guard' bytes around allocated blocks
- * - tags blocks with the file name and line number where they were allocated
- * - reports unfreed blocks to help find memory leaks
+ * - inits bllocbted memory to predefined byte to expose uninitiblized vbribbles
+ * - fills freed memory with predefined byte to expose dbngling pointers
+ * - cbtches under/overwrites with 'gubrd' bytes bround bllocbted blocks
+ * - tbgs blocks with the file nbme bnd line number where they were bllocbted
+ * - reports unfreed blocks to help find memory lebks
  *
  */
 
@@ -45,44 +45,44 @@ extern "C" {
 
 #include "debug_util.h"
 
-/* prototype for allocation callback function */
+/* prototype for bllocbtion cbllbbck function */
 typedef void * (*DMEM_ALLOCFN)(size_t size);
 
-/* prototype for deallocation callback function */
+/* prototype for debllocbtion cbllbbck function */
 typedef void (*DMEM_FREEFN)(void * pointer);
 
-/* prototype for pointer validation function */
+/* prototype for pointer vblidbtion function */
 typedef dbool_t (*DMEM_CHECKPTRFN)(void * ptr, size_t size);
 
-/* Debug memory manager global state */
+/* Debug memory mbnbger globbl stbte */
 /* DO NOT REFERENCE this structure in code, it is only exported */
-/* to ease it's use inside a source level debugger */
-typedef struct DMemState {
-    DMEM_ALLOCFN        pfnAlloc;       /* block allocate callback */
-    DMEM_FREEFN         pfnFree;        /* block free callback */
-    DMEM_CHECKPTRFN     pfnCheckPtr;    /* pointer validation callback */
-    size_t              biggestBlock;   /* largest block allocated so far */
-    size_t              maxHeap;        /* maximum size of the debug heap */
-    size_t              totalHeapUsed;  /* total memory allocated so far */
-    dbool_t             failNextAlloc;  /* whether the next allocation fails (automatically resets)*/
-    int                 totalAllocs;    /* total number of allocations so far */
-} DMemState;
+/* to ebse it's use inside b source level debugger */
+typedef struct DMemStbte {
+    DMEM_ALLOCFN        pfnAlloc;       /* block bllocbte cbllbbck */
+    DMEM_FREEFN         pfnFree;        /* block free cbllbbck */
+    DMEM_CHECKPTRFN     pfnCheckPtr;    /* pointer vblidbtion cbllbbck */
+    size_t              biggestBlock;   /* lbrgest block bllocbted so fbr */
+    size_t              mbxHebp;        /* mbximum size of the debug hebp */
+    size_t              totblHebpUsed;  /* totbl memory bllocbted so fbr */
+    dbool_t             fbilNextAlloc;  /* whether the next bllocbtion fbils (butombticblly resets)*/
+    int                 totblAllocs;    /* totbl number of bllocbtions so fbr */
+} DMemStbte;
 
-/* Exported global var so you can view/change settings in the debugger */
-extern const DMemState  * DMemStatePtr;
+/* Exported globbl vbr so you cbn view/chbnge settings in the debugger */
+extern const DMemStbte  * DMemStbtePtr;
 
-/* General memory manager functions */
-extern void DMem_Initialize();
+/* Generbl memory mbnbger functions */
+extern void DMem_Initiblize();
 extern void DMem_Shutdown();
-extern void * DMem_AllocateBlock(size_t size, const char * filename, int linenumber);
+extern void * DMem_AllocbteBlock(size_t size, const chbr * filenbme, int linenumber);
 extern void DMem_FreeBlock(void *ptr);
-extern void DMem_ReportLeaks();
+extern void DMem_ReportLebks();
 
-/* Routines to customize behaviour with callbacks */
-extern void DMem_SetAllocCallback( DMEM_ALLOCFN pfn );
-extern void DMem_SetFreeCallback( DMEM_FREEFN pfn );
-extern void DMem_SetCheckPtrCallback( DMEM_CHECKPTRFN pfn );
-extern void DMem_DisableMutex();
+/* Routines to customize behbviour with cbllbbcks */
+extern void DMem_SetAllocCbllbbck( DMEM_ALLOCFN pfn );
+extern void DMem_SetFreeCbllbbck( DMEM_FREEFN pfn );
+extern void DMem_SetCheckPtrCbllbbck( DMEM_CHECKPTRFN pfn );
+extern void DMem_DisbbleMutex();
 
 #endif /* defined(DEBUG) */
 

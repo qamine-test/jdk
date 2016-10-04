@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -31,10 +31,10 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <direct.h>
-#include <malloc.h>
+#include <mblloc.h>
 #include <io.h>
 #include <windows.h>
-#include <aclapi.h>
+#include <bclbpi.h>
 #include <winioctl.h>
 #include <Sddl.h>
 
@@ -42,168 +42,168 @@
 #include "jni_util.h"
 #include "jlong.h"
 
-#include "sun_nio_fs_WindowsNativeDispatcher.h"
+#include "sun_nio_fs_WindowsNbtiveDispbtcher.h"
 
 /**
  * jfieldIDs
  */
-static jfieldID findFirst_handle;
-static jfieldID findFirst_name;
-static jfieldID findFirst_attributes;
+stbtic jfieldID findFirst_hbndle;
+stbtic jfieldID findFirst_nbme;
+stbtic jfieldID findFirst_bttributes;
 
-static jfieldID findStream_handle;
-static jfieldID findStream_name;
+stbtic jfieldID findStrebm_hbndle;
+stbtic jfieldID findStrebm_nbme;
 
-static jfieldID volumeInfo_fsName;
-static jfieldID volumeInfo_volName;
-static jfieldID volumeInfo_volSN;
-static jfieldID volumeInfo_flags;
+stbtic jfieldID volumeInfo_fsNbme;
+stbtic jfieldID volumeInfo_volNbme;
+stbtic jfieldID volumeInfo_volSN;
+stbtic jfieldID volumeInfo_flbgs;
 
-static jfieldID diskSpace_bytesAvailable;
-static jfieldID diskSpace_totalBytes;
-static jfieldID diskSpace_totalFree;
+stbtic jfieldID diskSpbce_bytesAvbilbble;
+stbtic jfieldID diskSpbce_totblBytes;
+stbtic jfieldID diskSpbce_totblFree;
 
-static jfieldID account_domain;
-static jfieldID account_name;
-static jfieldID account_use;
+stbtic jfieldID bccount_dombin;
+stbtic jfieldID bccount_nbme;
+stbtic jfieldID bccount_use;
 
-static jfieldID aclInfo_aceCount;
+stbtic jfieldID bclInfo_bceCount;
 
-static jfieldID completionStatus_error;
-static jfieldID completionStatus_bytesTransferred;
-static jfieldID completionStatus_completionKey;
+stbtic jfieldID completionStbtus_error;
+stbtic jfieldID completionStbtus_bytesTrbnsferred;
+stbtic jfieldID completionStbtus_completionKey;
 
-static jfieldID backupResult_bytesTransferred;
-static jfieldID backupResult_context;
+stbtic jfieldID bbckupResult_bytesTrbnsferred;
+stbtic jfieldID bbckupResult_context;
 
 
 /**
- * Win32 APIs not available in Windows XP
+ * Win32 APIs not bvbilbble in Windows XP
  */
-typedef HANDLE (WINAPI* FindFirstStream_Proc)(LPCWSTR, STREAM_INFO_LEVELS, LPVOID, DWORD);
-typedef BOOL (WINAPI* FindNextStream_Proc)(HANDLE, LPVOID);
+typedef HANDLE (WINAPI* FindFirstStrebm_Proc)(LPCWSTR, STREAM_INFO_LEVELS, LPVOID, DWORD);
+typedef BOOL (WINAPI* FindNextStrebm_Proc)(HANDLE, LPVOID);
 
-typedef BOOLEAN (WINAPI* CreateSymbolicLinkProc) (LPCWSTR, LPCWSTR, DWORD);
-typedef BOOL (WINAPI* GetFinalPathNameByHandleProc) (HANDLE, LPWSTR, DWORD, DWORD);
+typedef BOOLEAN (WINAPI* CrebteSymbolicLinkProc) (LPCWSTR, LPCWSTR, DWORD);
+typedef BOOL (WINAPI* GetFinblPbthNbmeByHbndleProc) (HANDLE, LPWSTR, DWORD, DWORD);
 
-static FindFirstStream_Proc FindFirstStream_func;
-static FindNextStream_Proc FindNextStream_func;
+stbtic FindFirstStrebm_Proc FindFirstStrebm_func;
+stbtic FindNextStrebm_Proc FindNextStrebm_func;
 
-static CreateSymbolicLinkProc CreateSymbolicLink_func;
-static GetFinalPathNameByHandleProc GetFinalPathNameByHandle_func;
+stbtic CrebteSymbolicLinkProc CrebteSymbolicLink_func;
+stbtic GetFinblPbthNbmeByHbndleProc GetFinblPbthNbmeByHbndle_func;
 
-static void throwWindowsException(JNIEnv* env, DWORD lastError) {
-    jobject x = JNU_NewObjectByName(env, "sun/nio/fs/WindowsException",
-        "(I)V", lastError);
+stbtic void throwWindowsException(JNIEnv* env, DWORD lbstError) {
+    jobject x = JNU_NewObjectByNbme(env, "sun/nio/fs/WindowsException",
+        "(I)V", lbstError);
     if (x != NULL) {
         (*env)->Throw(env, x);
     }
 }
 
 /**
- * Initializes jfieldIDs and get address of Win32 calls that are located
- * at runtime.
+ * Initiblizes jfieldIDs bnd get bddress of Win32 cblls thbt bre locbted
+ * bt runtime.
  */
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_initIDs(JNIEnv* env, jclass this)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_initIDs(JNIEnv* env, jclbss this)
 {
-    jclass clazz;
+    jclbss clbzz;
     HMODULE h;
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/WindowsNativeDispatcher$FirstFile");
-    CHECK_NULL(clazz);
-    findFirst_handle = (*env)->GetFieldID(env, clazz, "handle", "J");
-    CHECK_NULL(findFirst_handle);
-    findFirst_name = (*env)->GetFieldID(env, clazz, "name", "Ljava/lang/String;");
-    CHECK_NULL(findFirst_name);
-    findFirst_attributes = (*env)->GetFieldID(env, clazz, "attributes", "I");
-    CHECK_NULL(findFirst_attributes);
+    clbzz = (*env)->FindClbss(env, "sun/nio/fs/WindowsNbtiveDispbtcher$FirstFile");
+    CHECK_NULL(clbzz);
+    findFirst_hbndle = (*env)->GetFieldID(env, clbzz, "hbndle", "J");
+    CHECK_NULL(findFirst_hbndle);
+    findFirst_nbme = (*env)->GetFieldID(env, clbzz, "nbme", "Ljbvb/lbng/String;");
+    CHECK_NULL(findFirst_nbme);
+    findFirst_bttributes = (*env)->GetFieldID(env, clbzz, "bttributes", "I");
+    CHECK_NULL(findFirst_bttributes);
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/WindowsNativeDispatcher$FirstStream");
-    CHECK_NULL(clazz);
-    findStream_handle = (*env)->GetFieldID(env, clazz, "handle", "J");
-    CHECK_NULL(findStream_handle);
-    findStream_name = (*env)->GetFieldID(env, clazz, "name", "Ljava/lang/String;");
-    CHECK_NULL(findStream_name);
+    clbzz = (*env)->FindClbss(env, "sun/nio/fs/WindowsNbtiveDispbtcher$FirstStrebm");
+    CHECK_NULL(clbzz);
+    findStrebm_hbndle = (*env)->GetFieldID(env, clbzz, "hbndle", "J");
+    CHECK_NULL(findStrebm_hbndle);
+    findStrebm_nbme = (*env)->GetFieldID(env, clbzz, "nbme", "Ljbvb/lbng/String;");
+    CHECK_NULL(findStrebm_nbme);
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/WindowsNativeDispatcher$VolumeInformation");
-    CHECK_NULL(clazz);
-    volumeInfo_fsName = (*env)->GetFieldID(env, clazz, "fileSystemName", "Ljava/lang/String;");
-    CHECK_NULL(volumeInfo_fsName);
-    volumeInfo_volName = (*env)->GetFieldID(env, clazz, "volumeName", "Ljava/lang/String;");
-    CHECK_NULL(volumeInfo_volName);
-    volumeInfo_volSN = (*env)->GetFieldID(env, clazz, "volumeSerialNumber", "I");
+    clbzz = (*env)->FindClbss(env, "sun/nio/fs/WindowsNbtiveDispbtcher$VolumeInformbtion");
+    CHECK_NULL(clbzz);
+    volumeInfo_fsNbme = (*env)->GetFieldID(env, clbzz, "fileSystemNbme", "Ljbvb/lbng/String;");
+    CHECK_NULL(volumeInfo_fsNbme);
+    volumeInfo_volNbme = (*env)->GetFieldID(env, clbzz, "volumeNbme", "Ljbvb/lbng/String;");
+    CHECK_NULL(volumeInfo_volNbme);
+    volumeInfo_volSN = (*env)->GetFieldID(env, clbzz, "volumeSeriblNumber", "I");
     CHECK_NULL(volumeInfo_volSN);
-    volumeInfo_flags = (*env)->GetFieldID(env, clazz, "flags", "I");
-    CHECK_NULL(volumeInfo_flags);
+    volumeInfo_flbgs = (*env)->GetFieldID(env, clbzz, "flbgs", "I");
+    CHECK_NULL(volumeInfo_flbgs);
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/WindowsNativeDispatcher$DiskFreeSpace");
-    CHECK_NULL(clazz);
-    diskSpace_bytesAvailable = (*env)->GetFieldID(env, clazz, "freeBytesAvailable", "J");
-    CHECK_NULL(diskSpace_bytesAvailable);
-    diskSpace_totalBytes = (*env)->GetFieldID(env, clazz, "totalNumberOfBytes", "J");
-    CHECK_NULL(diskSpace_totalBytes);
-    diskSpace_totalFree = (*env)->GetFieldID(env, clazz, "totalNumberOfFreeBytes", "J");
-    CHECK_NULL(diskSpace_totalFree);
+    clbzz = (*env)->FindClbss(env, "sun/nio/fs/WindowsNbtiveDispbtcher$DiskFreeSpbce");
+    CHECK_NULL(clbzz);
+    diskSpbce_bytesAvbilbble = (*env)->GetFieldID(env, clbzz, "freeBytesAvbilbble", "J");
+    CHECK_NULL(diskSpbce_bytesAvbilbble);
+    diskSpbce_totblBytes = (*env)->GetFieldID(env, clbzz, "totblNumberOfBytes", "J");
+    CHECK_NULL(diskSpbce_totblBytes);
+    diskSpbce_totblFree = (*env)->GetFieldID(env, clbzz, "totblNumberOfFreeBytes", "J");
+    CHECK_NULL(diskSpbce_totblFree);
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/WindowsNativeDispatcher$Account");
-    CHECK_NULL(clazz);
-    account_domain = (*env)->GetFieldID(env, clazz, "domain", "Ljava/lang/String;");
-    CHECK_NULL(account_domain);
-    account_name = (*env)->GetFieldID(env, clazz, "name", "Ljava/lang/String;");
-    CHECK_NULL(account_name);
-    account_use = (*env)->GetFieldID(env, clazz, "use", "I");
-    CHECK_NULL(account_use);
+    clbzz = (*env)->FindClbss(env, "sun/nio/fs/WindowsNbtiveDispbtcher$Account");
+    CHECK_NULL(clbzz);
+    bccount_dombin = (*env)->GetFieldID(env, clbzz, "dombin", "Ljbvb/lbng/String;");
+    CHECK_NULL(bccount_dombin);
+    bccount_nbme = (*env)->GetFieldID(env, clbzz, "nbme", "Ljbvb/lbng/String;");
+    CHECK_NULL(bccount_nbme);
+    bccount_use = (*env)->GetFieldID(env, clbzz, "use", "I");
+    CHECK_NULL(bccount_use);
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/WindowsNativeDispatcher$AclInformation");
-    CHECK_NULL(clazz);
-    aclInfo_aceCount = (*env)->GetFieldID(env, clazz, "aceCount", "I");
-    CHECK_NULL(aclInfo_aceCount);
+    clbzz = (*env)->FindClbss(env, "sun/nio/fs/WindowsNbtiveDispbtcher$AclInformbtion");
+    CHECK_NULL(clbzz);
+    bclInfo_bceCount = (*env)->GetFieldID(env, clbzz, "bceCount", "I");
+    CHECK_NULL(bclInfo_bceCount);
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/WindowsNativeDispatcher$CompletionStatus");
-    CHECK_NULL(clazz);
-    completionStatus_error = (*env)->GetFieldID(env, clazz, "error", "I");
-    CHECK_NULL(completionStatus_error);
-    completionStatus_bytesTransferred = (*env)->GetFieldID(env, clazz, "bytesTransferred", "I");
-    CHECK_NULL(completionStatus_bytesTransferred);
-    completionStatus_completionKey = (*env)->GetFieldID(env, clazz, "completionKey", "J");
-    CHECK_NULL(completionStatus_completionKey);
+    clbzz = (*env)->FindClbss(env, "sun/nio/fs/WindowsNbtiveDispbtcher$CompletionStbtus");
+    CHECK_NULL(clbzz);
+    completionStbtus_error = (*env)->GetFieldID(env, clbzz, "error", "I");
+    CHECK_NULL(completionStbtus_error);
+    completionStbtus_bytesTrbnsferred = (*env)->GetFieldID(env, clbzz, "bytesTrbnsferred", "I");
+    CHECK_NULL(completionStbtus_bytesTrbnsferred);
+    completionStbtus_completionKey = (*env)->GetFieldID(env, clbzz, "completionKey", "J");
+    CHECK_NULL(completionStbtus_completionKey);
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/WindowsNativeDispatcher$BackupResult");
-    CHECK_NULL(clazz);
-    backupResult_bytesTransferred = (*env)->GetFieldID(env, clazz, "bytesTransferred", "I");
-    CHECK_NULL(backupResult_bytesTransferred);
-    backupResult_context = (*env)->GetFieldID(env, clazz, "context", "J");
-    CHECK_NULL(backupResult_context);
+    clbzz = (*env)->FindClbss(env, "sun/nio/fs/WindowsNbtiveDispbtcher$BbckupResult");
+    CHECK_NULL(clbzz);
+    bbckupResult_bytesTrbnsferred = (*env)->GetFieldID(env, clbzz, "bytesTrbnsferred", "I");
+    CHECK_NULL(bbckupResult_bytesTrbnsferred);
+    bbckupResult_context = (*env)->GetFieldID(env, clbzz, "context", "J");
+    CHECK_NULL(bbckupResult_context);
 
-    // get handle to kernel32
-    if (GetModuleHandleExW((GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+    // get hbndle to kernel32
+    if (GetModuleHbndleExW((GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
                             GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT),
-                           (LPCWSTR)&CreateFileW, &h) != 0)
+                           (LPCWSTR)&CrebteFileW, &h) != 0)
     {
         // requires Windows Server 2003 or newer
-        FindFirstStream_func =
-            (FindFirstStream_Proc)GetProcAddress(h, "FindFirstStreamW");
-        FindNextStream_func =
-            (FindNextStream_Proc)GetProcAddress(h, "FindNextStreamW");
+        FindFirstStrebm_func =
+            (FindFirstStrebm_Proc)GetProcAddress(h, "FindFirstStrebmW");
+        FindNextStrebm_func =
+            (FindNextStrebm_Proc)GetProcAddress(h, "FindNextStrebmW");
 
-        // requires Windows Vista or newer
-        CreateSymbolicLink_func =
-            (CreateSymbolicLinkProc)GetProcAddress(h, "CreateSymbolicLinkW");
-        GetFinalPathNameByHandle_func =
-            (GetFinalPathNameByHandleProc)GetProcAddress(h, "GetFinalPathNameByHandleW");
+        // requires Windows Vistb or newer
+        CrebteSymbolicLink_func =
+            (CrebteSymbolicLinkProc)GetProcAddress(h, "CrebteSymbolicLinkW");
+        GetFinblPbthNbmeByHbndle_func =
+            (GetFinblPbthNbmeByHbndleProc)GetProcAddress(h, "GetFinblPbthNbmeByHbndleW");
     }
 }
 
 JNIEXPORT jstring JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_FormatMessage(JNIEnv* env, jclass this, jint errorCode) {
-    WCHAR message[255];
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_FormbtMessbge(JNIEnv* env, jclbss this, jint errorCode) {
+    WCHAR messbge[255];
 
-    DWORD len = FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM,
+    DWORD len = FormbtMessbgeW(FORMAT_MESSAGE_FROM_SYSTEM,
                                NULL,
                                (DWORD)errorCode,
                                0,
-                               &message[0],
+                               &messbge[0],
                                255,
                                NULL);
 
@@ -211,24 +211,24 @@ Java_sun_nio_fs_WindowsNativeDispatcher_FormatMessage(JNIEnv* env, jclass this, 
     if (len == 0) {
         return NULL;
     } else {
-        return (*env)->NewString(env, (const jchar *)message, (jsize)wcslen(message));
+        return (*env)->NewString(env, (const jchbr *)messbge, (jsize)wcslen(messbge));
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_LocalFree(JNIEnv* env, jclass this, jlong address)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_LocblFree(JNIEnv* env, jclbss this, jlong bddress)
 {
-    HLOCAL hMem = (HLOCAL)jlong_to_ptr(address);
-    LocalFree(hMem);
+    HLOCAL hMem = (HLOCAL)jlong_to_ptr(bddress);
+    LocblFree(hMem);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_CreateFile0(JNIEnv* env, jclass this,
-    jlong address, jint dwDesiredAccess, jint dwShareMode, jlong sdAddress,
-    jint dwCreationDisposition, jint dwFlagsAndAttributes)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_CrebteFile0(JNIEnv* env, jclbss this,
+    jlong bddress, jint dwDesiredAccess, jint dwShbreMode, jlong sdAddress,
+    jint dwCrebtionDisposition, jint dwFlbgsAndAttributes)
 {
-    HANDLE handle;
-    LPCWSTR lpFileName = jlong_to_ptr(address);
+    HANDLE hbndle;
+    LPCWSTR lpFileNbme = jlong_to_ptr(bddress);
 
     SECURITY_ATTRIBUTES securityAttributes;
     LPSECURITY_ATTRIBUTES lpSecurityAttributes;
@@ -240,64 +240,64 @@ Java_sun_nio_fs_WindowsNativeDispatcher_CreateFile0(JNIEnv* env, jclass this,
     } else {
         securityAttributes.nLength = sizeof(SECURITY_ATTRIBUTES);
         securityAttributes.lpSecurityDescriptor = lpSecurityDescriptor;
-        securityAttributes.bInheritHandle = FALSE;
+        securityAttributes.bInheritHbndle = FALSE;
         lpSecurityAttributes = &securityAttributes;
     }
 
-    handle = CreateFileW(lpFileName,
+    hbndle = CrebteFileW(lpFileNbme,
                         (DWORD)dwDesiredAccess,
-                        (DWORD)dwShareMode,
+                        (DWORD)dwShbreMode,
                         lpSecurityAttributes,
-                        (DWORD)dwCreationDisposition,
-                        (DWORD)dwFlagsAndAttributes,
+                        (DWORD)dwCrebtionDisposition,
+                        (DWORD)dwFlbgsAndAttributes,
                         NULL);
-    if (handle == INVALID_HANDLE_VALUE) {
-        throwWindowsException(env, GetLastError());
+    if (hbndle == INVALID_HANDLE_VALUE) {
+        throwWindowsException(env, GetLbstError());
     }
-    return ptr_to_jlong(handle);
+    return ptr_to_jlong(hbndle);
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_DeviceIoControlSetSparse(JNIEnv* env, jclass this,
-    jlong handle)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_DeviceIoControlSetSpbrse(JNIEnv* env, jclbss this,
+    jlong hbndle)
 {
     DWORD bytesReturned;
-    HANDLE h = (HANDLE)jlong_to_ptr(handle);
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndle);
     if (DeviceIoControl(h, FSCTL_SET_SPARSE, NULL, 0, NULL, 0, &bytesReturned, NULL) == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_DeviceIoControlGetReparsePoint(JNIEnv* env, jclass this,
-    jlong handle, jlong bufferAddress, jint bufferSize)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_DeviceIoControlGetRepbrsePoint(JNIEnv* env, jclbss this,
+    jlong hbndle, jlong bufferAddress, jint bufferSize)
 {
     DWORD bytesReturned;
-    HANDLE h = (HANDLE)jlong_to_ptr(handle);
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndle);
     LPVOID outBuffer = (LPVOID)jlong_to_ptr(bufferAddress);
 
     if (DeviceIoControl(h, FSCTL_GET_REPARSE_POINT, NULL, 0, outBuffer, (DWORD)bufferSize,
                         &bytesReturned, NULL) == 0)
     {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_DeleteFile0(JNIEnv* env, jclass this, jlong address)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_DeleteFile0(JNIEnv* env, jclbss this, jlong bddress)
 {
-    LPCWSTR lpFileName = jlong_to_ptr(address);
-    if (DeleteFileW(lpFileName) == 0) {
-        throwWindowsException(env, GetLastError());
+    LPCWSTR lpFileNbme = jlong_to_ptr(bddress);
+    if (DeleteFileW(lpFileNbme) == 0) {
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_CreateDirectory0(JNIEnv* env, jclass this,
-    jlong address, jlong sdAddress)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_CrebteDirectory0(JNIEnv* env, jclbss this,
+    jlong bddress, jlong sdAddress)
 {
-    LPCWSTR lpFileName = jlong_to_ptr(address);
+    LPCWSTR lpFileNbme = jlong_to_ptr(bddress);
 
     SECURITY_ATTRIBUTES securityAttributes;
     LPSECURITY_ATTRIBUTES lpSecurityAttributes;
@@ -309,407 +309,407 @@ Java_sun_nio_fs_WindowsNativeDispatcher_CreateDirectory0(JNIEnv* env, jclass thi
     } else {
         securityAttributes.nLength = sizeof(SECURITY_ATTRIBUTES);
         securityAttributes.lpSecurityDescriptor = lpSecurityDescriptor;
-        securityAttributes.bInheritHandle = FALSE;
+        securityAttributes.bInheritHbndle = FALSE;
         lpSecurityAttributes = &securityAttributes;
     }
 
-    if (CreateDirectoryW(lpFileName, lpSecurityAttributes) == 0) {
-        throwWindowsException(env, GetLastError());
+    if (CrebteDirectoryW(lpFileNbme, lpSecurityAttributes) == 0) {
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_RemoveDirectory0(JNIEnv* env, jclass this, jlong address)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_RemoveDirectory0(JNIEnv* env, jclbss this, jlong bddress)
 {
-    LPCWSTR lpFileName = jlong_to_ptr(address);
-    if (RemoveDirectoryW(lpFileName) == 0) {
-        throwWindowsException(env, GetLastError());
+    LPCWSTR lpFileNbme = jlong_to_ptr(bddress);
+    if (RemoveDirectoryW(lpFileNbme) == 0) {
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_CloseHandle(JNIEnv* env, jclass this,
-    jlong handle)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_CloseHbndle(JNIEnv* env, jclbss this,
+    jlong hbndle)
 {
-    HANDLE h = (HANDLE)jlong_to_ptr(handle);
-    CloseHandle(h);
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndle);
+    CloseHbndle(h);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_FindFirstFile0(JNIEnv* env, jclass this,
-    jlong address, jobject obj)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_FindFirstFile0(JNIEnv* env, jclbss this,
+    jlong bddress, jobject obj)
 {
-    WIN32_FIND_DATAW data;
-    LPCWSTR lpFileName = jlong_to_ptr(address);
+    WIN32_FIND_DATAW dbtb;
+    LPCWSTR lpFileNbme = jlong_to_ptr(bddress);
 
-    HANDLE handle = FindFirstFileW(lpFileName, &data);
-    if (handle != INVALID_HANDLE_VALUE) {
-        jstring name = (*env)->NewString(env, data.cFileName, (jsize)wcslen(data.cFileName));
-        if (name == NULL)
+    HANDLE hbndle = FindFirstFileW(lpFileNbme, &dbtb);
+    if (hbndle != INVALID_HANDLE_VALUE) {
+        jstring nbme = (*env)->NewString(env, dbtb.cFileNbme, (jsize)wcslen(dbtb.cFileNbme));
+        if (nbme == NULL)
             return;
-        (*env)->SetLongField(env, obj, findFirst_handle, ptr_to_jlong(handle));
-        (*env)->SetObjectField(env, obj, findFirst_name, name);
-        (*env)->SetIntField(env, obj, findFirst_attributes, data.dwFileAttributes);
+        (*env)->SetLongField(env, obj, findFirst_hbndle, ptr_to_jlong(hbndle));
+        (*env)->SetObjectField(env, obj, findFirst_nbme, nbme);
+        (*env)->SetIntField(env, obj, findFirst_bttributes, dbtb.dwFileAttributes);
     } else {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_FindFirstFile1(JNIEnv* env, jclass this,
-    jlong pathAddress, jlong dataAddress)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_FindFirstFile1(JNIEnv* env, jclbss this,
+    jlong pbthAddress, jlong dbtbAddress)
 {
-    LPCWSTR lpFileName = jlong_to_ptr(pathAddress);
-    WIN32_FIND_DATAW* data = (WIN32_FIND_DATAW*)jlong_to_ptr(dataAddress);
+    LPCWSTR lpFileNbme = jlong_to_ptr(pbthAddress);
+    WIN32_FIND_DATAW* dbtb = (WIN32_FIND_DATAW*)jlong_to_ptr(dbtbAddress);
 
-    HANDLE handle = FindFirstFileW(lpFileName, data);
-    if (handle == INVALID_HANDLE_VALUE) {
-        throwWindowsException(env, GetLastError());
+    HANDLE hbndle = FindFirstFileW(lpFileNbme, dbtb);
+    if (hbndle == INVALID_HANDLE_VALUE) {
+        throwWindowsException(env, GetLbstError());
     }
-    return ptr_to_jlong(handle);
+    return ptr_to_jlong(hbndle);
 }
 
 JNIEXPORT jstring JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_FindNextFile(JNIEnv* env, jclass this,
-    jlong handle, jlong dataAddress)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_FindNextFile(JNIEnv* env, jclbss this,
+    jlong hbndle, jlong dbtbAddress)
 {
-    HANDLE h = (HANDLE)jlong_to_ptr(handle);
-    WIN32_FIND_DATAW* data = (WIN32_FIND_DATAW*)jlong_to_ptr(dataAddress);
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndle);
+    WIN32_FIND_DATAW* dbtb = (WIN32_FIND_DATAW*)jlong_to_ptr(dbtbAddress);
 
-    if (FindNextFileW(h, data) != 0) {
-        return (*env)->NewString(env, data->cFileName, (jsize)wcslen(data->cFileName));
+    if (FindNextFileW(h, dbtb) != 0) {
+        return (*env)->NewString(env, dbtb->cFileNbme, (jsize)wcslen(dbtb->cFileNbme));
     } else {
-    if (GetLastError() != ERROR_NO_MORE_FILES)
-        throwWindowsException(env, GetLastError());
+    if (GetLbstError() != ERROR_NO_MORE_FILES)
+        throwWindowsException(env, GetLbstError());
         return NULL;
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_FindFirstStream0(JNIEnv* env, jclass this,
-    jlong address, jobject obj)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_FindFirstStrebm0(JNIEnv* env, jclbss this,
+    jlong bddress, jobject obj)
 {
-    WIN32_FIND_STREAM_DATA data;
-    LPCWSTR lpFileName = jlong_to_ptr(address);
-    HANDLE handle;
+    WIN32_FIND_STREAM_DATA dbtb;
+    LPCWSTR lpFileNbme = jlong_to_ptr(bddress);
+    HANDLE hbndle;
 
-    if (FindFirstStream_func == NULL) {
-        JNU_ThrowInternalError(env, "Should not get here");
+    if (FindFirstStrebm_func == NULL) {
+        JNU_ThrowInternblError(env, "Should not get here");
         return;
     }
 
-    handle = (*FindFirstStream_func)(lpFileName, FindStreamInfoStandard, &data, 0);
-    if (handle != INVALID_HANDLE_VALUE) {
-        jstring name = (*env)->NewString(env, data.cStreamName, (jsize)wcslen(data.cStreamName));
-        if (name == NULL)
+    hbndle = (*FindFirstStrebm_func)(lpFileNbme, FindStrebmInfoStbndbrd, &dbtb, 0);
+    if (hbndle != INVALID_HANDLE_VALUE) {
+        jstring nbme = (*env)->NewString(env, dbtb.cStrebmNbme, (jsize)wcslen(dbtb.cStrebmNbme));
+        if (nbme == NULL)
             return;
-        (*env)->SetLongField(env, obj, findStream_handle, ptr_to_jlong(handle));
-        (*env)->SetObjectField(env, obj, findStream_name, name);
+        (*env)->SetLongField(env, obj, findStrebm_hbndle, ptr_to_jlong(hbndle));
+        (*env)->SetObjectField(env, obj, findStrebm_nbme, nbme);
     } else {
-        if (GetLastError() == ERROR_HANDLE_EOF) {
-             (*env)->SetLongField(env, obj, findStream_handle, ptr_to_jlong(handle));
+        if (GetLbstError() == ERROR_HANDLE_EOF) {
+             (*env)->SetLongField(env, obj, findStrebm_hbndle, ptr_to_jlong(hbndle));
         } else {
-            throwWindowsException(env, GetLastError());
+            throwWindowsException(env, GetLbstError());
         }
     }
 
 }
 
 JNIEXPORT jstring JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_FindNextStream(JNIEnv* env, jclass this,
-    jlong handle)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_FindNextStrebm(JNIEnv* env, jclbss this,
+    jlong hbndle)
 {
-    WIN32_FIND_STREAM_DATA data;
-    HANDLE h = (HANDLE)jlong_to_ptr(handle);
+    WIN32_FIND_STREAM_DATA dbtb;
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndle);
 
-    if (FindNextStream_func == NULL) {
-        JNU_ThrowInternalError(env, "Should not get here");
+    if (FindNextStrebm_func == NULL) {
+        JNU_ThrowInternblError(env, "Should not get here");
         return NULL;
     }
 
-    if ((*FindNextStream_func)(h, &data) != 0) {
-        return (*env)->NewString(env, data.cStreamName, (jsize)wcslen(data.cStreamName));
+    if ((*FindNextStrebm_func)(h, &dbtb) != 0) {
+        return (*env)->NewString(env, dbtb.cStrebmNbme, (jsize)wcslen(dbtb.cStrebmNbme));
     } else {
-        if (GetLastError() != ERROR_HANDLE_EOF)
-            throwWindowsException(env, GetLastError());
+        if (GetLbstError() != ERROR_HANDLE_EOF)
+            throwWindowsException(env, GetLbstError());
         return NULL;
     }
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_FindClose(JNIEnv* env, jclass this,
-    jlong handle)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_FindClose(JNIEnv* env, jclbss this,
+    jlong hbndle)
 {
-    HANDLE h = (HANDLE)jlong_to_ptr(handle);
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndle);
     if (FindClose(h) == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetFileInformationByHandle(JNIEnv* env, jclass this,
-    jlong handle, jlong address)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetFileInformbtionByHbndle(JNIEnv* env, jclbss this,
+    jlong hbndle, jlong bddress)
 {
-    HANDLE h = (HANDLE)jlong_to_ptr(handle);
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndle);
     BY_HANDLE_FILE_INFORMATION* info =
-        (BY_HANDLE_FILE_INFORMATION*)jlong_to_ptr(address);
-    if (GetFileInformationByHandle(h, info) == 0) {
-        throwWindowsException(env, GetLastError());
+        (BY_HANDLE_FILE_INFORMATION*)jlong_to_ptr(bddress);
+    if (GetFileInformbtionByHbndle(h, info) == 0) {
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_CopyFileEx0(JNIEnv* env, jclass this,
-    jlong existingAddress, jlong newAddress, jint flags, jlong cancelAddress)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_CopyFileEx0(JNIEnv* env, jclbss this,
+    jlong existingAddress, jlong newAddress, jint flbgs, jlong cbncelAddress)
 {
-    LPCWSTR lpExistingFileName = jlong_to_ptr(existingAddress);
-    LPCWSTR lpNewFileName = jlong_to_ptr(newAddress);
-    LPBOOL cancel = (LPBOOL)jlong_to_ptr(cancelAddress);
-    if (CopyFileExW(lpExistingFileName, lpNewFileName, NULL, NULL, cancel,
-                    (DWORD)flags) == 0)
+    LPCWSTR lpExistingFileNbme = jlong_to_ptr(existingAddress);
+    LPCWSTR lpNewFileNbme = jlong_to_ptr(newAddress);
+    LPBOOL cbncel = (LPBOOL)jlong_to_ptr(cbncelAddress);
+    if (CopyFileExW(lpExistingFileNbme, lpNewFileNbme, NULL, NULL, cbncel,
+                    (DWORD)flbgs) == 0)
     {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_MoveFileEx0(JNIEnv* env, jclass this,
-    jlong existingAddress, jlong newAddress, jint flags)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_MoveFileEx0(JNIEnv* env, jclbss this,
+    jlong existingAddress, jlong newAddress, jint flbgs)
 {
-    LPCWSTR lpExistingFileName = jlong_to_ptr(existingAddress);
-    LPCWSTR lpNewFileName = jlong_to_ptr(newAddress);
-    if (MoveFileExW(lpExistingFileName, lpNewFileName, (DWORD)flags) == 0) {
-        throwWindowsException(env, GetLastError());
+    LPCWSTR lpExistingFileNbme = jlong_to_ptr(existingAddress);
+    LPCWSTR lpNewFileNbme = jlong_to_ptr(newAddress);
+    if (MoveFileExW(lpExistingFileNbme, lpNewFileNbme, (DWORD)flbgs) == 0) {
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetLogicalDrives(JNIEnv* env, jclass this)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetLogicblDrives(JNIEnv* env, jclbss this)
 {
-    DWORD res = GetLogicalDrives();
+    DWORD res = GetLogicblDrives();
     if (res == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
     return (jint)res;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetFileAttributes0(JNIEnv* env, jclass this,
-    jlong address)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetFileAttributes0(JNIEnv* env, jclbss this,
+    jlong bddress)
 {
-    LPCWSTR lpFileName = jlong_to_ptr(address);
-    DWORD value = GetFileAttributesW(lpFileName);
+    LPCWSTR lpFileNbme = jlong_to_ptr(bddress);
+    DWORD vblue = GetFileAttributesW(lpFileNbme);
 
-    if (value == INVALID_FILE_ATTRIBUTES) {
-        throwWindowsException(env, GetLastError());
+    if (vblue == INVALID_FILE_ATTRIBUTES) {
+        throwWindowsException(env, GetLbstError());
     }
-    return (jint)value;
+    return (jint)vblue;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_SetFileAttributes0(JNIEnv* env, jclass this,
-    jlong address, jint value)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_SetFileAttributes0(JNIEnv* env, jclbss this,
+    jlong bddress, jint vblue)
 {
-    LPCWSTR lpFileName = jlong_to_ptr(address);
-    if (SetFileAttributesW(lpFileName, (DWORD)value) == 0) {
-        throwWindowsException(env, GetLastError());
+    LPCWSTR lpFileNbme = jlong_to_ptr(bddress);
+    if (SetFileAttributesW(lpFileNbme, (DWORD)vblue) == 0) {
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetFileAttributesEx0(JNIEnv* env, jclass this,
-    jlong pathAddress, jlong dataAddress)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetFileAttributesEx0(JNIEnv* env, jclbss this,
+    jlong pbthAddress, jlong dbtbAddress)
 {
-    LPCWSTR lpFileName = jlong_to_ptr(pathAddress);
-    WIN32_FILE_ATTRIBUTE_DATA* data = (WIN32_FILE_ATTRIBUTE_DATA*)jlong_to_ptr(dataAddress);
+    LPCWSTR lpFileNbme = jlong_to_ptr(pbthAddress);
+    WIN32_FILE_ATTRIBUTE_DATA* dbtb = (WIN32_FILE_ATTRIBUTE_DATA*)jlong_to_ptr(dbtbAddress);
 
-    BOOL res = GetFileAttributesExW(lpFileName, GetFileExInfoStandard, (LPVOID)data);
+    BOOL res = GetFileAttributesExW(lpFileNbme, GetFileExInfoStbndbrd, (LPVOID)dbtb);
     if (res == 0)
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_SetFileTime(JNIEnv* env, jclass this,
-    jlong handle, jlong createTime, jlong lastAccessTime, jlong lastWriteTime)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_SetFileTime(JNIEnv* env, jclbss this,
+    jlong hbndle, jlong crebteTime, jlong lbstAccessTime, jlong lbstWriteTime)
 {
-    HANDLE h = (HANDLE)jlong_to_ptr(handle);
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndle);
 
     if (SetFileTime(h,
-        (createTime == (jlong)-1) ? NULL : (CONST FILETIME *)&createTime,
-        (lastAccessTime == (jlong)-1) ? NULL : (CONST FILETIME *)&lastAccessTime,
-        (lastWriteTime == (jlong)-1) ? NULL : (CONST FILETIME *)&lastWriteTime) == 0)
+        (crebteTime == (jlong)-1) ? NULL : (CONST FILETIME *)&crebteTime,
+        (lbstAccessTime == (jlong)-1) ? NULL : (CONST FILETIME *)&lbstAccessTime,
+        (lbstWriteTime == (jlong)-1) ? NULL : (CONST FILETIME *)&lbstWriteTime) == 0)
     {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_SetEndOfFile(JNIEnv* env, jclass this,
-    jlong handle)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_SetEndOfFile(JNIEnv* env, jclbss this,
+    jlong hbndle)
 {
-    HANDLE h = (HANDLE)jlong_to_ptr(handle);
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndle);
 
     if (SetEndOfFile(h) == 0)
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetVolumeInformation0(JNIEnv* env, jclass this,
-    jlong address, jobject obj)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetVolumeInformbtion0(JNIEnv* env, jclbss this,
+    jlong bddress, jobject obj)
 {
-    WCHAR volumeName[MAX_PATH+1];
-    DWORD volumeSerialNumber;
-    DWORD maxComponentLength;
-    DWORD flags;
-    WCHAR fileSystemName[MAX_PATH+1];
-    LPCWSTR lpFileName = jlong_to_ptr(address);
+    WCHAR volumeNbme[MAX_PATH+1];
+    DWORD volumeSeriblNumber;
+    DWORD mbxComponentLength;
+    DWORD flbgs;
+    WCHAR fileSystemNbme[MAX_PATH+1];
+    LPCWSTR lpFileNbme = jlong_to_ptr(bddress);
     jstring str;
 
-    BOOL res = GetVolumeInformationW(lpFileName,
-                                     &volumeName[0],
+    BOOL res = GetVolumeInformbtionW(lpFileNbme,
+                                     &volumeNbme[0],
                                      MAX_PATH+1,
-                                     &volumeSerialNumber,
-                                     &maxComponentLength,
-                                     &flags,
-                                     &fileSystemName[0],
+                                     &volumeSeriblNumber,
+                                     &mbxComponentLength,
+                                     &flbgs,
+                                     &fileSystemNbme[0],
                                      MAX_PATH+1);
     if (res == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
         return;
     }
 
-    str = (*env)->NewString(env, (const jchar *)fileSystemName, (jsize)wcslen(fileSystemName));
+    str = (*env)->NewString(env, (const jchbr *)fileSystemNbme, (jsize)wcslen(fileSystemNbme));
     if (str == NULL) return;
-    (*env)->SetObjectField(env, obj, volumeInfo_fsName, str);
+    (*env)->SetObjectField(env, obj, volumeInfo_fsNbme, str);
 
-    str = (*env)->NewString(env, (const jchar *)volumeName, (jsize)wcslen(volumeName));
+    str = (*env)->NewString(env, (const jchbr *)volumeNbme, (jsize)wcslen(volumeNbme));
     if (str == NULL) return;
-    (*env)->SetObjectField(env, obj, volumeInfo_volName, str);
+    (*env)->SetObjectField(env, obj, volumeInfo_volNbme, str);
 
-    (*env)->SetIntField(env, obj, volumeInfo_volSN, (jint)volumeSerialNumber);
-    (*env)->SetIntField(env, obj, volumeInfo_flags, (jint)flags);
+    (*env)->SetIntField(env, obj, volumeInfo_volSN, (jint)volumeSeriblNumber);
+    (*env)->SetIntField(env, obj, volumeInfo_flbgs, (jint)flbgs);
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetDriveType0(JNIEnv* env, jclass this, jlong address) {
-    LPCWSTR lpRootPathName = jlong_to_ptr(address);
-    return (jint)GetDriveTypeW(lpRootPathName);
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetDriveType0(JNIEnv* env, jclbss this, jlong bddress) {
+    LPCWSTR lpRootPbthNbme = jlong_to_ptr(bddress);
+    return (jint)GetDriveTypeW(lpRootPbthNbme);
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetDiskFreeSpaceEx0(JNIEnv* env, jclass this,
-    jlong address, jobject obj)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetDiskFreeSpbceEx0(JNIEnv* env, jclbss this,
+    jlong bddress, jobject obj)
 {
-    ULARGE_INTEGER freeBytesAvailable;
-    ULARGE_INTEGER totalNumberOfBytes;
-    ULARGE_INTEGER totalNumberOfFreeBytes;
-    LPCWSTR lpDirName = jlong_to_ptr(address);
+    ULARGE_INTEGER freeBytesAvbilbble;
+    ULARGE_INTEGER totblNumberOfBytes;
+    ULARGE_INTEGER totblNumberOfFreeBytes;
+    LPCWSTR lpDirNbme = jlong_to_ptr(bddress);
 
 
-    BOOL res = GetDiskFreeSpaceExW(lpDirName,
-                                   &freeBytesAvailable,
-                                   &totalNumberOfBytes,
-                                   &totalNumberOfFreeBytes);
+    BOOL res = GetDiskFreeSpbceExW(lpDirNbme,
+                                   &freeBytesAvbilbble,
+                                   &totblNumberOfBytes,
+                                   &totblNumberOfFreeBytes);
     if (res == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
         return;
     }
 
-    (*env)->SetLongField(env, obj, diskSpace_bytesAvailable,
-        long_to_jlong(freeBytesAvailable.QuadPart));
-    (*env)->SetLongField(env, obj, diskSpace_totalBytes,
-        long_to_jlong(totalNumberOfBytes.QuadPart));
-    (*env)->SetLongField(env, obj, diskSpace_totalFree,
-        long_to_jlong(totalNumberOfFreeBytes.QuadPart));
+    (*env)->SetLongField(env, obj, diskSpbce_bytesAvbilbble,
+        long_to_jlong(freeBytesAvbilbble.QubdPbrt));
+    (*env)->SetLongField(env, obj, diskSpbce_totblBytes,
+        long_to_jlong(totblNumberOfBytes.QubdPbrt));
+    (*env)->SetLongField(env, obj, diskSpbce_totblFree,
+        long_to_jlong(totblNumberOfFreeBytes.QubdPbrt));
 }
 
 
 JNIEXPORT jstring JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetVolumePathName0(JNIEnv* env, jclass this,
-    jlong address)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetVolumePbthNbme0(JNIEnv* env, jclbss this,
+    jlong bddress)
 {
-    WCHAR volumeName[MAX_PATH+1];
-    LPCWSTR lpFileName = jlong_to_ptr(address);
+    WCHAR volumeNbme[MAX_PATH+1];
+    LPCWSTR lpFileNbme = jlong_to_ptr(bddress);
 
 
-    BOOL res = GetVolumePathNameW(lpFileName,
-                                  &volumeName[0],
+    BOOL res = GetVolumePbthNbmeW(lpFileNbme,
+                                  &volumeNbme[0],
                                   MAX_PATH+1);
     if (res == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
         return NULL;
     } else {
-        return (*env)->NewString(env, (const jchar *)volumeName, (jsize)wcslen(volumeName));
+        return (*env)->NewString(env, (const jchbr *)volumeNbme, (jsize)wcslen(volumeNbme));
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_InitializeSecurityDescriptor(JNIEnv* env, jclass this,
-    jlong address)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_InitiblizeSecurityDescriptor(JNIEnv* env, jclbss this,
+    jlong bddress)
 {
     PSECURITY_DESCRIPTOR pSecurityDescriptor =
-        (PSECURITY_DESCRIPTOR)jlong_to_ptr(address);
+        (PSECURITY_DESCRIPTOR)jlong_to_ptr(bddress);
 
-    if (InitializeSecurityDescriptor(pSecurityDescriptor, SECURITY_DESCRIPTOR_REVISION) == 0) {
-        throwWindowsException(env, GetLastError());
+    if (InitiblizeSecurityDescriptor(pSecurityDescriptor, SECURITY_DESCRIPTOR_REVISION) == 0) {
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_InitializeAcl(JNIEnv* env, jclass this,
-    jlong address, jint size)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_InitiblizeAcl(JNIEnv* env, jclbss this,
+    jlong bddress, jint size)
 {
-    PACL pAcl = (PACL)jlong_to_ptr(address);
+    PACL pAcl = (PACL)jlong_to_ptr(bddress);
 
-    if (InitializeAcl(pAcl, (DWORD)size, ACL_REVISION) == 0) {
-        throwWindowsException(env, GetLastError());
+    if (InitiblizeAcl(pAcl, (DWORD)size, ACL_REVISION) == 0) {
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_SetFileSecurity0(JNIEnv* env, jclass this,
-    jlong pathAddress, jint requestedInformation, jlong descAddress)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_SetFileSecurity0(JNIEnv* env, jclbss this,
+    jlong pbthAddress, jint requestedInformbtion, jlong descAddress)
 {
-    LPCWSTR lpFileName = jlong_to_ptr(pathAddress);
+    LPCWSTR lpFileNbme = jlong_to_ptr(pbthAddress);
     PSECURITY_DESCRIPTOR pSecurityDescriptor = jlong_to_ptr(descAddress);
     DWORD lengthNeeded = 0;
 
-    BOOL res = SetFileSecurityW(lpFileName,
-                                (SECURITY_INFORMATION)requestedInformation,
+    BOOL res = SetFileSecurityW(lpFileNbme,
+                                (SECURITY_INFORMATION)requestedInformbtion,
                                 pSecurityDescriptor);
 
     if (res == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetFileSecurity0(JNIEnv* env, jclass this,
-    jlong pathAddress, jint requestedInformation, jlong descAddress, jint nLength)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetFileSecurity0(JNIEnv* env, jclbss this,
+    jlong pbthAddress, jint requestedInformbtion, jlong descAddress, jint nLength)
 {
-    LPCWSTR lpFileName = jlong_to_ptr(pathAddress);
+    LPCWSTR lpFileNbme = jlong_to_ptr(pbthAddress);
     PSECURITY_DESCRIPTOR pSecurityDescriptor = jlong_to_ptr(descAddress);
     DWORD lengthNeeded = 0;
 
-    BOOL res = GetFileSecurityW(lpFileName,
-                                (SECURITY_INFORMATION)requestedInformation,
+    BOOL res = GetFileSecurityW(lpFileNbme,
+                                (SECURITY_INFORMATION)requestedInformbtion,
                                 pSecurityDescriptor,
                                 (DWORD)nLength,
                                 &lengthNeeded);
 
     if (res == 0) {
-        if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+        if (GetLbstError() == ERROR_INSUFFICIENT_BUFFER) {
             return (jint)lengthNeeded;
         } else {
-            throwWindowsException(env, GetLastError());
+            throwWindowsException(env, GetLbstError());
             return 0;
         }
     } else {
@@ -718,86 +718,86 @@ Java_sun_nio_fs_WindowsNativeDispatcher_GetFileSecurity0(JNIEnv* env, jclass thi
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetSecurityDescriptorOwner(JNIEnv* env,
-    jclass this, jlong address)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetSecurityDescriptorOwner(JNIEnv* env,
+    jclbss this, jlong bddress)
 {
-    PSECURITY_DESCRIPTOR pSecurityDescriptor = jlong_to_ptr(address);
+    PSECURITY_DESCRIPTOR pSecurityDescriptor = jlong_to_ptr(bddress);
     PSID pOwner;
-    BOOL bOwnerDefaulted;
+    BOOL bOwnerDefbulted;
 
 
-    if (GetSecurityDescriptorOwner(pSecurityDescriptor, &pOwner, &bOwnerDefaulted) == 0) {
-        throwWindowsException(env, GetLastError());
+    if (GetSecurityDescriptorOwner(pSecurityDescriptor, &pOwner, &bOwnerDefbulted) == 0) {
+        throwWindowsException(env, GetLbstError());
     }
     return ptr_to_jlong(pOwner);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_SetSecurityDescriptorOwner(JNIEnv* env,
-    jclass this, jlong descAddress, jlong ownerAddress)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_SetSecurityDescriptorOwner(JNIEnv* env,
+    jclbss this, jlong descAddress, jlong ownerAddress)
 {
     PSECURITY_DESCRIPTOR pSecurityDescriptor = jlong_to_ptr(descAddress);
     PSID pOwner = jlong_to_ptr(ownerAddress);
 
     if (SetSecurityDescriptorOwner(pSecurityDescriptor, pOwner, FALSE) == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetSecurityDescriptorDacl(JNIEnv* env,
-    jclass this, jlong address)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetSecurityDescriptorDbcl(JNIEnv* env,
+    jclbss this, jlong bddress)
 {
-    PSECURITY_DESCRIPTOR pSecurityDescriptor = jlong_to_ptr(address);
-    BOOL bDaclPresent;
-    PACL pDacl;
-    BOOL bDaclDefaulted;
+    PSECURITY_DESCRIPTOR pSecurityDescriptor = jlong_to_ptr(bddress);
+    BOOL bDbclPresent;
+    PACL pDbcl;
+    BOOL bDbclDefbulted;
 
-    if (GetSecurityDescriptorDacl(pSecurityDescriptor, &bDaclPresent, &pDacl, &bDaclDefaulted) == 0) {
-        throwWindowsException(env, GetLastError());
+    if (GetSecurityDescriptorDbcl(pSecurityDescriptor, &bDbclPresent, &pDbcl, &bDbclDefbulted) == 0) {
+        throwWindowsException(env, GetLbstError());
         return (jlong)0;
     } else {
-        return (bDaclPresent) ? ptr_to_jlong(pDacl) : (jlong)0;
+        return (bDbclPresent) ? ptr_to_jlong(pDbcl) : (jlong)0;
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_SetSecurityDescriptorDacl(JNIEnv* env,
-    jclass this, jlong descAddress, jlong aclAddress)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_SetSecurityDescriptorDbcl(JNIEnv* env,
+    jclbss this, jlong descAddress, jlong bclAddress)
 {
     PSECURITY_DESCRIPTOR pSecurityDescriptor = (PSECURITY_DESCRIPTOR)jlong_to_ptr(descAddress);
-    PACL pAcl = (PACL)jlong_to_ptr(aclAddress);
+    PACL pAcl = (PACL)jlong_to_ptr(bclAddress);
 
-    if (SetSecurityDescriptorDacl(pSecurityDescriptor, TRUE, pAcl, FALSE) == 0) {
-        throwWindowsException(env, GetLastError());
+    if (SetSecurityDescriptorDbcl(pSecurityDescriptor, TRUE, pAcl, FALSE) == 0) {
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetAclInformation0(JNIEnv* env,
-    jclass this, jlong address, jobject obj)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetAclInformbtion0(JNIEnv* env,
+    jclbss this, jlong bddress, jobject obj)
 {
-    PACL pAcl = (PACL)jlong_to_ptr(address);
-    ACL_SIZE_INFORMATION acl_size_info;
+    PACL pAcl = (PACL)jlong_to_ptr(bddress);
+    ACL_SIZE_INFORMATION bcl_size_info;
 
-    if (GetAclInformation(pAcl, (void *) &acl_size_info, sizeof(acl_size_info), AclSizeInformation) == 0) {
-        throwWindowsException(env, GetLastError());
+    if (GetAclInformbtion(pAcl, (void *) &bcl_size_info, sizeof(bcl_size_info), AclSizeInformbtion) == 0) {
+        throwWindowsException(env, GetLbstError());
     } else {
-        (*env)->SetIntField(env, obj, aclInfo_aceCount, (jint)acl_size_info.AceCount);
+        (*env)->SetIntField(env, obj, bclInfo_bceCount, (jint)bcl_size_info.AceCount);
     }
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetAce(JNIEnv* env, jclass this, jlong address,
-    jint aceIndex)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetAce(JNIEnv* env, jclbss this, jlong bddress,
+    jint bceIndex)
 {
-    PACL pAcl = (PACL)jlong_to_ptr(address);
+    PACL pAcl = (PACL)jlong_to_ptr(bddress);
     LPVOID pAce;
 
-    if (GetAce(pAcl, (DWORD)aceIndex, &pAce) == 0) {
-        throwWindowsException(env, GetLastError());
+    if (GetAce(pAcl, (DWORD)bceIndex, &pAce) == 0) {
+        throwWindowsException(env, GetLbstError());
         return (jlong)0;
     } else {
         return ptr_to_jlong(pAce);
@@ -805,75 +805,75 @@ Java_sun_nio_fs_WindowsNativeDispatcher_GetAce(JNIEnv* env, jclass this, jlong a
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_AddAccessAllowedAceEx(JNIEnv* env,
-    jclass this, jlong aclAddress, jint flags, jint mask, jlong sidAddress)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_AddAccessAllowedAceEx(JNIEnv* env,
+    jclbss this, jlong bclAddress, jint flbgs, jint mbsk, jlong sidAddress)
 {
-    PACL pAcl = (PACL)jlong_to_ptr(aclAddress);
+    PACL pAcl = (PACL)jlong_to_ptr(bclAddress);
     PSID pSid = (PSID)jlong_to_ptr(sidAddress);
 
-    if (AddAccessAllowedAceEx(pAcl, ACL_REVISION, (DWORD)flags, (DWORD)mask, pSid) == 0) {
-        throwWindowsException(env, GetLastError());
+    if (AddAccessAllowedAceEx(pAcl, ACL_REVISION, (DWORD)flbgs, (DWORD)mbsk, pSid) == 0) {
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_AddAccessDeniedAceEx(JNIEnv* env,
-    jclass this, jlong aclAddress, jint flags, jint mask, jlong sidAddress)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_AddAccessDeniedAceEx(JNIEnv* env,
+    jclbss this, jlong bclAddress, jint flbgs, jint mbsk, jlong sidAddress)
 {
-    PACL pAcl = (PACL)jlong_to_ptr(aclAddress);
+    PACL pAcl = (PACL)jlong_to_ptr(bclAddress);
     PSID pSid = (PSID)jlong_to_ptr(sidAddress);
 
-    if (AddAccessDeniedAceEx(pAcl, ACL_REVISION, (DWORD)flags, (DWORD)mask, pSid) == 0) {
-        throwWindowsException(env, GetLastError());
+    if (AddAccessDeniedAceEx(pAcl, ACL_REVISION, (DWORD)flbgs, (DWORD)mbsk, pSid) == 0) {
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_LookupAccountSid0(JNIEnv* env,
-    jclass this, jlong address, jobject obj)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_LookupAccountSid0(JNIEnv* env,
+    jclbss this, jlong bddress, jobject obj)
 {
-    WCHAR domain[255];
-    WCHAR name[255];
-    DWORD domainLen = sizeof(domain);
-    DWORD nameLen = sizeof(name);
+    WCHAR dombin[255];
+    WCHAR nbme[255];
+    DWORD dombinLen = sizeof(dombin);
+    DWORD nbmeLen = sizeof(nbme);
     SID_NAME_USE use;
-    PSID sid = jlong_to_ptr(address);
+    PSID sid = jlong_to_ptr(bddress);
     jstring s;
 
-    if (LookupAccountSidW(NULL, sid, &name[0], &nameLen, &domain[0], &domainLen, &use) == 0) {
-        throwWindowsException(env, GetLastError());
+    if (LookupAccountSidW(NULL, sid, &nbme[0], &nbmeLen, &dombin[0], &dombinLen, &use) == 0) {
+        throwWindowsException(env, GetLbstError());
         return;
     }
 
-    s = (*env)->NewString(env, (const jchar *)domain, (jsize)wcslen(domain));
+    s = (*env)->NewString(env, (const jchbr *)dombin, (jsize)wcslen(dombin));
     if (s == NULL)
         return;
-    (*env)->SetObjectField(env, obj, account_domain, s);
+    (*env)->SetObjectField(env, obj, bccount_dombin, s);
 
-    s = (*env)->NewString(env, (const jchar *)name, (jsize)wcslen(name));
+    s = (*env)->NewString(env, (const jchbr *)nbme, (jsize)wcslen(nbme));
     if (s == NULL)
         return;
-    (*env)->SetObjectField(env, obj, account_name, s);
-    (*env)->SetIntField(env, obj, account_use, (jint)use);
+    (*env)->SetObjectField(env, obj, bccount_nbme, s);
+    (*env)->SetIntField(env, obj, bccount_use, (jint)use);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_LookupAccountName0(JNIEnv* env,
-    jclass this, jlong nameAddress, jlong sidAddress, jint cbSid)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_LookupAccountNbme0(JNIEnv* env,
+    jclbss this, jlong nbmeAddress, jlong sidAddress, jint cbSid)
 {
 
-    LPCWSTR accountName = jlong_to_ptr(nameAddress);
+    LPCWSTR bccountNbme = jlong_to_ptr(nbmeAddress);
     PSID sid = jlong_to_ptr(sidAddress);
-    WCHAR domain[255];
-    DWORD domainLen = sizeof(domain);
+    WCHAR dombin[255];
+    DWORD dombinLen = sizeof(dombin);
     SID_NAME_USE use;
 
-    if (LookupAccountNameW(NULL, accountName, sid, (LPDWORD)&cbSid,
-                           &domain[0], &domainLen, &use) == 0)
+    if (LookupAccountNbmeW(NULL, bccountNbme, sid, (LPDWORD)&cbSid,
+                           &dombin[0], &dombinLen, &use) == 0)
     {
-        if (GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
-            throwWindowsException(env, GetLastError());
+        if (GetLbstError() != ERROR_INSUFFICIENT_BUFFER) {
+            throwWindowsException(env, GetLbstError());
         }
     }
 
@@ -881,128 +881,128 @@ Java_sun_nio_fs_WindowsNativeDispatcher_LookupAccountName0(JNIEnv* env,
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetLengthSid(JNIEnv* env,
-    jclass this, jlong address)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetLengthSid(JNIEnv* env,
+    jclbss this, jlong bddress)
 {
-    PSID sid = jlong_to_ptr(address);
+    PSID sid = jlong_to_ptr(bddress);
     return (jint)GetLengthSid(sid);
 }
 
 
 JNIEXPORT jstring JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_ConvertSidToStringSid(JNIEnv* env,
-    jclass this, jlong address)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_ConvertSidToStringSid(JNIEnv* env,
+    jclbss this, jlong bddress)
 {
-    PSID sid = jlong_to_ptr(address);
+    PSID sid = jlong_to_ptr(bddress);
     LPWSTR string;
     if (ConvertSidToStringSidW(sid, &string) == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
         return NULL;
     } else {
-        jstring s = (*env)->NewString(env, (const jchar *)string,
+        jstring s = (*env)->NewString(env, (const jchbr *)string,
             (jsize)wcslen(string));
-        LocalFree(string);
+        LocblFree(string);
         return s;
     }
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_ConvertStringSidToSid0(JNIEnv* env,
-    jclass this, jlong address)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_ConvertStringSidToSid0(JNIEnv* env,
+    jclbss this, jlong bddress)
 {
-    LPWSTR lpStringSid = jlong_to_ptr(address);
+    LPWSTR lpStringSid = jlong_to_ptr(bddress);
     PSID pSid;
     if (ConvertStringSidToSidW(lpStringSid, &pSid) == 0)
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     return ptr_to_jlong(pSid);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetCurrentProcess(JNIEnv* env, jclass this) {
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetCurrentProcess(JNIEnv* env, jclbss this) {
     HANDLE hProcess = GetCurrentProcess();
     return ptr_to_jlong(hProcess);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetCurrentThread(JNIEnv* env, jclass this) {
-    HANDLE hThread = GetCurrentThread();
-    return ptr_to_jlong(hThread);
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetCurrentThrebd(JNIEnv* env, jclbss this) {
+    HANDLE hThrebd = GetCurrentThrebd();
+    return ptr_to_jlong(hThrebd);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_OpenProcessToken(JNIEnv* env,
-    jclass this, jlong process, jint desiredAccess)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_OpenProcessToken(JNIEnv* env,
+    jclbss this, jlong process, jint desiredAccess)
 {
     HANDLE hProcess = (HANDLE)jlong_to_ptr(process);
     HANDLE hToken;
 
     if (OpenProcessToken(hProcess, (DWORD)desiredAccess, &hToken) == 0)
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     return ptr_to_jlong(hToken);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_OpenThreadToken(JNIEnv* env,
-    jclass this, jlong thread, jint desiredAccess, jboolean openAsSelf)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_OpenThrebdToken(JNIEnv* env,
+    jclbss this, jlong threbd, jint desiredAccess, jboolebn openAsSelf)
 {
-    HANDLE hThread = (HANDLE)jlong_to_ptr(thread);
+    HANDLE hThrebd = (HANDLE)jlong_to_ptr(threbd);
     HANDLE hToken;
     BOOL bOpenAsSelf = (openAsSelf == JNI_TRUE) ? TRUE : FALSE;
 
-    if (OpenThreadToken(hThread, (DWORD)desiredAccess, bOpenAsSelf, &hToken) == 0) {
-        if (GetLastError() == ERROR_NO_TOKEN)
+    if (OpenThrebdToken(hThrebd, (DWORD)desiredAccess, bOpenAsSelf, &hToken) == 0) {
+        if (GetLbstError() == ERROR_NO_TOKEN)
             return (jlong)0;
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
     return ptr_to_jlong(hToken);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_DuplicateTokenEx(JNIEnv* env,
-    jclass this, jlong token, jint desiredAccess)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_DuplicbteTokenEx(JNIEnv* env,
+    jclbss this, jlong token, jint desiredAccess)
 {
     HANDLE hToken = (HANDLE)jlong_to_ptr(token);
     HANDLE resultToken;
     BOOL res;
 
-    res = DuplicateTokenEx(hToken,
+    res = DuplicbteTokenEx(hToken,
                            (DWORD)desiredAccess,
                            NULL,
-                           SecurityImpersonation,
-                           TokenImpersonation,
+                           SecurityImpersonbtion,
+                           TokenImpersonbtion,
                            &resultToken);
     if (res == 0)
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     return ptr_to_jlong(resultToken);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_SetThreadToken(JNIEnv* env,
-    jclass this, jlong thread, jlong token)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_SetThrebdToken(JNIEnv* env,
+    jclbss this, jlong threbd, jlong token)
 {
-    HANDLE hThread = (HANDLE)jlong_to_ptr(thread);
+    HANDLE hThrebd = (HANDLE)jlong_to_ptr(threbd);
     HANDLE hToken = (HANDLE)jlong_to_ptr(token);
 
-    if (SetThreadToken(hThread, hToken) == 0)
-        throwWindowsException(env, GetLastError());
+    if (SetThrebdToken(hThrebd, hToken) == 0)
+        throwWindowsException(env, GetLbstError());
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetTokenInformation(JNIEnv* env,
-    jclass this, jlong token, jint tokenInfoClass, jlong tokenInfo, jint tokenInfoLength)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetTokenInformbtion(JNIEnv* env,
+    jclbss this, jlong token, jint tokenInfoClbss, jlong tokenInfo, jint tokenInfoLength)
 {
     BOOL res;
     DWORD lengthNeeded;
     HANDLE hToken = (HANDLE)jlong_to_ptr(token);
     LPVOID result = (LPVOID)jlong_to_ptr(tokenInfo);
 
-    res = GetTokenInformation(hToken, (TOKEN_INFORMATION_CLASS)tokenInfoClass, (LPVOID)result,
+    res = GetTokenInformbtion(hToken, (TOKEN_INFORMATION_CLASS)tokenInfoClbss, (LPVOID)result,
                               tokenInfoLength, &lengthNeeded);
     if (res == 0) {
-        if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+        if (GetLbstError() == ERROR_INSUFFICIENT_BUFFER) {
             return (jint)lengthNeeded;
         } else {
-            throwWindowsException(env, GetLastError());
+            throwWindowsException(env, GetLbstError());
             return 0;
         }
     } else {
@@ -1011,8 +1011,8 @@ Java_sun_nio_fs_WindowsNativeDispatcher_GetTokenInformation(JNIEnv* env,
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_AdjustTokenPrivileges(JNIEnv* env,
-    jclass this, jlong token, jlong luid, jint attributes)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_AdjustTokenPrivileges(JNIEnv* env,
+    jclbss this, jlong token, jlong luid, jint bttributes)
 {
     TOKEN_PRIVILEGES privs[1];
     HANDLE hToken = (HANDLE)jlong_to_ptr(token);
@@ -1020,276 +1020,276 @@ Java_sun_nio_fs_WindowsNativeDispatcher_AdjustTokenPrivileges(JNIEnv* env,
 
     privs[0].PrivilegeCount = 1;
     privs[0].Privileges[0].Luid = *pLuid;
-    privs[0].Privileges[0].Attributes = (DWORD)attributes;
+    privs[0].Privileges[0].Attributes = (DWORD)bttributes;
 
     if (AdjustTokenPrivileges(hToken, FALSE, &privs[0], 1, NULL, NULL) == 0)
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_AccessCheck(JNIEnv* env,
-    jclass this, jlong token, jlong securityInfo, jint accessMask,
-    jint genericRead, jint genericWrite, jint genericExecute, jint genericAll)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_AccessCheck(JNIEnv* env,
+    jclbss this, jlong token, jlong securityInfo, jint bccessMbsk,
+    jint genericRebd, jint genericWrite, jint genericExecute, jint genericAll)
 {
-    HANDLE hImpersonatedToken = (HANDLE)jlong_to_ptr(token);
+    HANDLE hImpersonbtedToken = (HANDLE)jlong_to_ptr(token);
     PSECURITY_DESCRIPTOR security = (PSECURITY_DESCRIPTOR)jlong_to_ptr(securityInfo);
-    DWORD checkAccessRights = (DWORD)accessMask;
-    GENERIC_MAPPING mapping = {
-        genericRead,
+    DWORD checkAccessRights = (DWORD)bccessMbsk;
+    GENERIC_MAPPING mbpping = {
+        genericRebd,
         genericWrite,
         genericExecute,
         genericAll};
     PRIVILEGE_SET privileges = {0};
     DWORD privilegesLength = sizeof(privileges);
-    DWORD grantedAccess = 0;
+    DWORD grbntedAccess = 0;
     BOOL result = FALSE;
 
-    /* checkAccessRights is in-out parameter */
-    MapGenericMask(&checkAccessRights, &mapping);
-    if (AccessCheck(security, hImpersonatedToken, checkAccessRights,
-            &mapping, &privileges, &privilegesLength, &grantedAccess, &result) == 0)
-        throwWindowsException(env, GetLastError());
+    /* checkAccessRights is in-out pbrbmeter */
+    MbpGenericMbsk(&checkAccessRights, &mbpping);
+    if (AccessCheck(security, hImpersonbtedToken, checkAccessRights,
+            &mbpping, &privileges, &privilegesLength, &grbntedAccess, &result) == 0)
+        throwWindowsException(env, GetLbstError());
 
     return (result == FALSE) ? JNI_FALSE : JNI_TRUE;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_LookupPrivilegeValue0(JNIEnv* env,
-    jclass this, jlong name)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_LookupPrivilegeVblue0(JNIEnv* env,
+    jclbss this, jlong nbme)
 {
-    LPCWSTR lpName = (LPCWSTR)jlong_to_ptr(name);
-    PLUID pLuid = LocalAlloc(0, sizeof(LUID));
+    LPCWSTR lpNbme = (LPCWSTR)jlong_to_ptr(nbme);
+    PLUID pLuid = LocblAlloc(0, sizeof(LUID));
 
     if (pLuid == NULL) {
-        JNU_ThrowInternalError(env, "Unable to allocate LUID structure");
+        JNU_ThrowInternblError(env, "Unbble to bllocbte LUID structure");
     } else {
-        if (LookupPrivilegeValueW(NULL, lpName, pLuid) == 0)
-            throwWindowsException(env, GetLastError());
+        if (LookupPrivilegeVblueW(NULL, lpNbme, pLuid) == 0)
+            throwWindowsException(env, GetLbstError());
     }
     return ptr_to_jlong(pLuid);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_CreateSymbolicLink0(JNIEnv* env,
-    jclass this, jlong linkAddress, jlong targetAddress, jint flags)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_CrebteSymbolicLink0(JNIEnv* env,
+    jclbss this, jlong linkAddress, jlong tbrgetAddress, jint flbgs)
 {
     LPCWSTR link = jlong_to_ptr(linkAddress);
-    LPCWSTR target = jlong_to_ptr(targetAddress);
+    LPCWSTR tbrget = jlong_to_ptr(tbrgetAddress);
 
-    if (CreateSymbolicLink_func == NULL) {
-        JNU_ThrowInternalError(env, "Should not get here");
+    if (CrebteSymbolicLink_func == NULL) {
+        JNU_ThrowInternblError(env, "Should not get here");
         return;
     }
 
-    /* On Windows 64-bit this appears to succeed even when there is insufficient privileges */
-    if ((*CreateSymbolicLink_func)(link, target, (DWORD)flags) == 0)
-        throwWindowsException(env, GetLastError());
+    /* On Windows 64-bit this bppebrs to succeed even when there is insufficient privileges */
+    if ((*CrebteSymbolicLink_func)(link, tbrget, (DWORD)flbgs) == 0)
+        throwWindowsException(env, GetLbstError());
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_CreateHardLink0(JNIEnv* env,
-    jclass this, jlong newFileAddress, jlong existingFileAddress)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_CrebteHbrdLink0(JNIEnv* env,
+    jclbss this, jlong newFileAddress, jlong existingFileAddress)
 {
     LPCWSTR newFile = jlong_to_ptr(newFileAddress);
     LPCWSTR existingFile = jlong_to_ptr(existingFileAddress);
 
-    if (CreateHardLinkW(newFile, existingFile, NULL) == 0)
-        throwWindowsException(env, GetLastError());
+    if (CrebteHbrdLinkW(newFile, existingFile, NULL) == 0)
+        throwWindowsException(env, GetLbstError());
 }
 
 JNIEXPORT jstring JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetFullPathName0(JNIEnv *env,
-                                                         jclass clz,
-                                                         jlong pathAddress)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetFullPbthNbme0(JNIEnv *env,
+                                                         jclbss clz,
+                                                         jlong pbthAddress)
 {
     jstring rv = NULL;
     WCHAR *lpBuf = NULL;
     WCHAR buf[MAX_PATH];
     DWORD len;
-    LPCWSTR lpFileName = jlong_to_ptr(pathAddress);
+    LPCWSTR lpFileNbme = jlong_to_ptr(pbthAddress);
 
-    len = GetFullPathNameW(lpFileName, MAX_PATH, buf, NULL);
+    len = GetFullPbthNbmeW(lpFileNbme, MAX_PATH, buf, NULL);
     if (len > 0) {
         if (len < MAX_PATH) {
             rv = (*env)->NewString(env, buf, len);
         } else {
-            len += 1;  /* return length does not include terminator */
-            lpBuf = (WCHAR*)malloc(len * sizeof(WCHAR));
+            len += 1;  /* return length does not include terminbtor */
+            lpBuf = (WCHAR*)mblloc(len * sizeof(WCHAR));
             if (lpBuf != NULL) {
-                len = GetFullPathNameW(lpFileName, len, lpBuf, NULL);
+                len = GetFullPbthNbmeW(lpFileNbme, len, lpBuf, NULL);
                 if (len > 0) {
                     rv = (*env)->NewString(env, lpBuf, len);
                 } else {
-                    JNU_ThrowInternalError(env, "GetFullPathNameW failed");
+                    JNU_ThrowInternblError(env, "GetFullPbthNbmeW fbiled");
                 }
                 free(lpBuf);
             } else {
-                JNU_ThrowOutOfMemoryError(env, "native memory allocation failure");
+                JNU_ThrowOutOfMemoryError(env, "nbtive memory bllocbtion fbilure");
             }
         }
     } else {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
 
     return rv;
 }
 
 JNIEXPORT jstring JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetFinalPathNameByHandle(JNIEnv* env,
-    jclass this, jlong handle)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetFinblPbthNbmeByHbndle(JNIEnv* env,
+    jclbss this, jlong hbndle)
 {
     jstring rv = NULL;
     WCHAR *lpBuf = NULL;
-    WCHAR path[MAX_PATH];
-    HANDLE h = (HANDLE)jlong_to_ptr(handle);
+    WCHAR pbth[MAX_PATH];
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndle);
     DWORD len;
 
-    if (GetFinalPathNameByHandle_func == NULL) {
-        JNU_ThrowInternalError(env, "Should not get here");
+    if (GetFinblPbthNbmeByHbndle_func == NULL) {
+        JNU_ThrowInternblError(env, "Should not get here");
         return NULL;
     }
 
-    len = (*GetFinalPathNameByHandle_func)(h, path, MAX_PATH, 0);
+    len = (*GetFinblPbthNbmeByHbndle_func)(h, pbth, MAX_PATH, 0);
     if (len > 0) {
         if (len < MAX_PATH) {
-            rv = (*env)->NewString(env, (const jchar *)path, (jsize)len);
+            rv = (*env)->NewString(env, (const jchbr *)pbth, (jsize)len);
         } else {
-            len += 1;  /* return length does not include terminator */
-            lpBuf = (WCHAR*)malloc(len * sizeof(WCHAR));
+            len += 1;  /* return length does not include terminbtor */
+            lpBuf = (WCHAR*)mblloc(len * sizeof(WCHAR));
             if (lpBuf != NULL) {
-                len = (*GetFinalPathNameByHandle_func)(h, lpBuf, len, 0);
+                len = (*GetFinblPbthNbmeByHbndle_func)(h, lpBuf, len, 0);
                 if (len > 0)  {
-                    rv = (*env)->NewString(env, (const jchar *)lpBuf, (jsize)len);
+                    rv = (*env)->NewString(env, (const jchbr *)lpBuf, (jsize)len);
                 } else {
-                    JNU_ThrowInternalError(env, "GetFinalPathNameByHandleW failed");
+                    JNU_ThrowInternblError(env, "GetFinblPbthNbmeByHbndleW fbiled");
                 }
                 free(lpBuf);
             } else {
-                JNU_ThrowOutOfMemoryError(env, "native memory allocation failure");
+                JNU_ThrowOutOfMemoryError(env, "nbtive memory bllocbtion fbilure");
             }
         }
     } else {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
     return rv;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_CreateIoCompletionPort(JNIEnv* env, jclass this,
-    jlong fileHandle, jlong existingPort, jlong completionKey)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_CrebteIoCompletionPort(JNIEnv* env, jclbss this,
+    jlong fileHbndle, jlong existingPort, jlong completionKey)
 {
-    HANDLE port = CreateIoCompletionPort((HANDLE)jlong_to_ptr(fileHandle),
+    HANDLE port = CrebteIoCompletionPort((HANDLE)jlong_to_ptr(fileHbndle),
                                          (HANDLE)jlong_to_ptr(existingPort),
                                          (ULONG_PTR)completionKey,
                                          0);
     if (port == NULL) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
     return ptr_to_jlong(port);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_GetQueuedCompletionStatus0(JNIEnv* env, jclass this,
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_GetQueuedCompletionStbtus0(JNIEnv* env, jclbss this,
     jlong completionPort, jobject obj)
 {
-    DWORD bytesTransferred;
+    DWORD bytesTrbnsferred;
     ULONG_PTR completionKey;
-    OVERLAPPED *lpOverlapped;
+    OVERLAPPED *lpOverlbpped;
     BOOL res;
 
-    res = GetQueuedCompletionStatus((HANDLE)jlong_to_ptr(completionPort),
-                                  &bytesTransferred,
+    res = GetQueuedCompletionStbtus((HANDLE)jlong_to_ptr(completionPort),
+                                  &bytesTrbnsferred,
                                   &completionKey,
-                                  &lpOverlapped,
+                                  &lpOverlbpped,
                                   INFINITE);
-    if (res == 0 && lpOverlapped == NULL) {
-        throwWindowsException(env, GetLastError());
+    if (res == 0 && lpOverlbpped == NULL) {
+        throwWindowsException(env, GetLbstError());
     } else {
-        DWORD ioResult = (res == 0) ? GetLastError() : 0;
-        (*env)->SetIntField(env, obj, completionStatus_error, ioResult);
-        (*env)->SetIntField(env, obj, completionStatus_bytesTransferred,
-            (jint)bytesTransferred);
-        (*env)->SetLongField(env, obj, completionStatus_completionKey,
+        DWORD ioResult = (res == 0) ? GetLbstError() : 0;
+        (*env)->SetIntField(env, obj, completionStbtus_error, ioResult);
+        (*env)->SetIntField(env, obj, completionStbtus_bytesTrbnsferred,
+            (jint)bytesTrbnsferred);
+        (*env)->SetLongField(env, obj, completionStbtus_completionKey,
             (jlong)completionKey);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_PostQueuedCompletionStatus(JNIEnv* env, jclass this,
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_PostQueuedCompletionStbtus(JNIEnv* env, jclbss this,
     jlong completionPort, jlong completionKey)
 {
     BOOL res;
 
-    res = PostQueuedCompletionStatus((HANDLE)jlong_to_ptr(completionPort),
-                                     (DWORD)0,  /* dwNumberOfBytesTransferred */
+    res = PostQueuedCompletionStbtus((HANDLE)jlong_to_ptr(completionPort),
+                                     (DWORD)0,  /* dwNumberOfBytesTrbnsferred */
                                      (ULONG_PTR)completionKey,
-                                     NULL);  /* lpOverlapped */
+                                     NULL);  /* lpOverlbpped */
     if (res == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_ReadDirectoryChangesW(JNIEnv* env, jclass this,
-    jlong hDirectory, jlong bufferAddress, jint bufferLength, jboolean watchSubTree, jint filter,
-    jlong bytesReturnedAddress, jlong pOverlapped)
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_RebdDirectoryChbngesW(JNIEnv* env, jclbss this,
+    jlong hDirectory, jlong bufferAddress, jint bufferLength, jboolebn wbtchSubTree, jint filter,
+    jlong bytesReturnedAddress, jlong pOverlbpped)
 {
     BOOL res;
-    BOOL subtree = (watchSubTree == JNI_TRUE) ? TRUE : FALSE;
+    BOOL subtree = (wbtchSubTree == JNI_TRUE) ? TRUE : FALSE;
 
-    /* Any unused members of [OVERLAPPED] structure should always be initialized to zero
-       before the structure is used in a function call.
-       Otherwise, the function may fail and return ERROR_INVALID_PARAMETER.
-       http://msdn.microsoft.com/en-us/library/windows/desktop/ms684342%28v=vs.85%29.aspx
+    /* Any unused members of [OVERLAPPED] structure should blwbys be initiblized to zero
+       before the structure is used in b function cbll.
+       Otherwise, the function mby fbil bnd return ERROR_INVALID_PARAMETER.
+       http://msdn.microsoft.com/en-us/librbry/windows/desktop/ms684342%28v=vs.85%29.bspx
 
-       The [Offset] and [OffsetHigh] members of this structure are not used.
-       http://msdn.microsoft.com/en-us/library/windows/desktop/aa365465%28v=vs.85%29.aspx
+       The [Offset] bnd [OffsetHigh] members of this structure bre not used.
+       http://msdn.microsoft.com/en-us/librbry/windows/desktop/bb365465%28v=vs.85%29.bspx
 
-       [hEvent] should be zero, other fields are the return values. */
-    ZeroMemory((LPOVERLAPPED)jlong_to_ptr(pOverlapped), sizeof(OVERLAPPED));
+       [hEvent] should be zero, other fields bre the return vblues. */
+    ZeroMemory((LPOVERLAPPED)jlong_to_ptr(pOverlbpped), sizeof(OVERLAPPED));
 
-    res = ReadDirectoryChangesW((HANDLE)jlong_to_ptr(hDirectory),
+    res = RebdDirectoryChbngesW((HANDLE)jlong_to_ptr(hDirectory),
                                 (LPVOID)jlong_to_ptr(bufferAddress),
                                 (DWORD)bufferLength,
                                 subtree,
                                 (DWORD)filter,
                                 (LPDWORD)jlong_to_ptr(bytesReturnedAddress),
-                                (LPOVERLAPPED)jlong_to_ptr(pOverlapped),
+                                (LPOVERLAPPED)jlong_to_ptr(pOverlbpped),
                                 NULL);
     if (res == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_BackupRead0(JNIEnv* env, jclass this,
-    jlong hFile, jlong bufferAddress, jint bufferSize, jboolean abort,
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_BbckupRebd0(JNIEnv* env, jclbss this,
+    jlong hFile, jlong bufferAddress, jint bufferSize, jboolebn bbort,
     jlong context, jobject obj)
 {
     BOOL res;
-    DWORD bytesTransferred;
-    BOOL a = (abort == JNI_TRUE) ? TRUE : FALSE;
+    DWORD bytesTrbnsferred;
+    BOOL b = (bbort == JNI_TRUE) ? TRUE : FALSE;
     VOID* pContext = (VOID*)jlong_to_ptr(context);
 
-    res = BackupRead((HANDLE)jlong_to_ptr(hFile),
+    res = BbckupRebd((HANDLE)jlong_to_ptr(hFile),
                      (LPBYTE)jlong_to_ptr(bufferAddress),
                      (DWORD)bufferSize,
-                     &bytesTransferred,
-                     a,
+                     &bytesTrbnsferred,
+                     b,
                      FALSE,
                      &pContext);
     if (res == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     } else {
-        (*env)->SetIntField(env, obj, backupResult_bytesTransferred,
-            bytesTransferred);
-        (*env)->SetLongField(env, obj, backupResult_context,
+        (*env)->SetIntField(env, obj, bbckupResult_bytesTrbnsferred,
+            bytesTrbnsferred);
+        (*env)->SetLongField(env, obj, bbckupResult_context,
             ptr_to_jlong(pContext));
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_WindowsNativeDispatcher_BackupSeek(JNIEnv* env, jclass this,
+Jbvb_sun_nio_fs_WindowsNbtiveDispbtcher_BbckupSeek(JNIEnv* env, jclbss this,
     jlong hFile, jlong bytesToSeek, jlong context)
 {
     BOOL res;
@@ -1299,13 +1299,13 @@ Java_sun_nio_fs_WindowsNativeDispatcher_BackupSeek(JNIEnv* env, jclass this,
     DWORD highBytesSeeked;
     VOID* pContext = jlong_to_ptr(context);
 
-    res = BackupSeek((HANDLE)jlong_to_ptr(hFile),
+    res = BbckupSeek((HANDLE)jlong_to_ptr(hFile),
                      (DWORD)lowBytesToSeek,
                      (DWORD)highBytesToSeek,
                      &lowBytesSeeked,
                      &highBytesSeeked,
                      &pContext);
     if (res == 0) {
-        throwWindowsException(env, GetLastError());
+        throwWindowsException(env, GetLbstError());
     }
 }

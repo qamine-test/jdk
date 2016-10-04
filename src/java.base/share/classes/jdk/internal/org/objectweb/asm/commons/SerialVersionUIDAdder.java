@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,170 +56,170 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.commons;
+pbckbge jdk.internbl.org.objectweb.bsm.commons;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.DbtbOutput;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.security.MessbgeDigest;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collection;
 
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.FieldVisitor;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.ClbssVisitor;
+import jdk.internbl.org.objectweb.bsm.FieldVisitor;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
 
 /**
- * A {@link ClassVisitor} that adds a serial version unique identifier to a
- * class if missing. Here is typical usage of this class:
+ * A {@link ClbssVisitor} thbt bdds b seribl version unique identifier to b
+ * clbss if missing. Here is typicbl usbge of this clbss:
  *
  * <pre>
- *   ClassWriter cw = new ClassWriter(...);
- *   ClassVisitor sv = new SerialVersionUIDAdder(cw);
- *   ClassVisitor ca = new MyClassAdapter(sv);
- *   new ClassReader(orginalClass).accept(ca, false);
+ *   ClbssWriter cw = new ClbssWriter(...);
+ *   ClbssVisitor sv = new SeriblVersionUIDAdder(cw);
+ *   ClbssVisitor cb = new MyClbssAdbpter(sv);
+ *   new ClbssRebder(orginblClbss).bccept(cb, fblse);
  * </pre>
  *
- * The SVUID algorithm can be found <a href=
- * "http://java.sun.com/j2se/1.4.2/docs/guide/serialization/spec/class.html"
- * >http://java.sun.com/j2se/1.4.2/docs/guide/serialization/spec/class.html</a>:
+ * The SVUID blgorithm cbn be found <b href=
+ * "http://jbvb.sun.com/j2se/1.4.2/docs/guide/seriblizbtion/spec/clbss.html"
+ * >http://jbvb.sun.com/j2se/1.4.2/docs/guide/seriblizbtion/spec/clbss.html</b>:
  *
  * <pre>
- * The serialVersionUID is computed using the signature of a stream of bytes
- * that reflect the class definition. The National Institute of Standards and
- * Technology (NIST) Secure Hash Algorithm (SHA-1) is used to compute a
- * signature for the stream. The first two 32-bit quantities are used to form a
- * 64-bit hash. A java.lang.DataOutputStream is used to convert primitive data
- * types to a sequence of bytes. The values input to the stream are defined by
- * the Java Virtual Machine (VM) specification for classes.
+ * The seriblVersionUID is computed using the signbture of b strebm of bytes
+ * thbt reflect the clbss definition. The Nbtionbl Institute of Stbndbrds bnd
+ * Technology (NIST) Secure Hbsh Algorithm (SHA-1) is used to compute b
+ * signbture for the strebm. The first two 32-bit qubntities bre used to form b
+ * 64-bit hbsh. A jbvb.lbng.DbtbOutputStrebm is used to convert primitive dbtb
+ * types to b sequence of bytes. The vblues input to the strebm bre defined by
+ * the Jbvb Virtubl Mbchine (VM) specificbtion for clbsses.
  *
- * The sequence of items in the stream is as follows:
+ * The sequence of items in the strebm is bs follows:
  *
- * 1. The class name written using UTF encoding.
- * 2. The class modifiers written as a 32-bit integer.
- * 3. The name of each interface sorted by name written using UTF encoding.
- * 4. For each field of the class sorted by field name (except private static
- * and private transient fields):
- * 1. The name of the field in UTF encoding.
- * 2. The modifiers of the field written as a 32-bit integer.
+ * 1. The clbss nbme written using UTF encoding.
+ * 2. The clbss modifiers written bs b 32-bit integer.
+ * 3. The nbme of ebch interfbce sorted by nbme written using UTF encoding.
+ * 4. For ebch field of the clbss sorted by field nbme (except privbte stbtic
+ * bnd privbte trbnsient fields):
+ * 1. The nbme of the field in UTF encoding.
+ * 2. The modifiers of the field written bs b 32-bit integer.
  * 3. The descriptor of the field in UTF encoding
- * 5. If a class initializer exists, write out the following:
- * 1. The name of the method, &lt;clinit&gt;, in UTF encoding.
- * 2. The modifier of the method, java.lang.reflect.Modifier.STATIC,
- * written as a 32-bit integer.
+ * 5. If b clbss initiblizer exists, write out the following:
+ * 1. The nbme of the method, &lt;clinit&gt;, in UTF encoding.
+ * 2. The modifier of the method, jbvb.lbng.reflect.Modifier.STATIC,
+ * written bs b 32-bit integer.
  * 3. The descriptor of the method, ()V, in UTF encoding.
- * 6. For each non-private constructor sorted by method name and signature:
- * 1. The name of the method, &lt;init&gt;, in UTF encoding.
- * 2. The modifiers of the method written as a 32-bit integer.
+ * 6. For ebch non-privbte constructor sorted by method nbme bnd signbture:
+ * 1. The nbme of the method, &lt;init&gt;, in UTF encoding.
+ * 2. The modifiers of the method written bs b 32-bit integer.
  * 3. The descriptor of the method in UTF encoding.
- * 7. For each non-private method sorted by method name and signature:
- * 1. The name of the method in UTF encoding.
- * 2. The modifiers of the method written as a 32-bit integer.
+ * 7. For ebch non-privbte method sorted by method nbme bnd signbture:
+ * 1. The nbme of the method in UTF encoding.
+ * 2. The modifiers of the method written bs b 32-bit integer.
  * 3. The descriptor of the method in UTF encoding.
- * 8. The SHA-1 algorithm is executed on the stream of bytes produced by
- * DataOutputStream and produces five 32-bit values sha[0..4].
+ * 8. The SHA-1 blgorithm is executed on the strebm of bytes produced by
+ * DbtbOutputStrebm bnd produces five 32-bit vblues shb[0..4].
  *
- * 9. The hash value is assembled from the first and second 32-bit values of
- * the SHA-1 message digest. If the result of the message digest, the five
- * 32-bit words H0 H1 H2 H3 H4, is in an array of five int values named
- * sha, the hash value would be computed as follows:
+ * 9. The hbsh vblue is bssembled from the first bnd second 32-bit vblues of
+ * the SHA-1 messbge digest. If the result of the messbge digest, the five
+ * 32-bit words H0 H1 H2 H3 H4, is in bn brrby of five int vblues nbmed
+ * shb, the hbsh vblue would be computed bs follows:
  *
- * long hash = ((sha[0] &gt;&gt;&gt; 24) &amp; 0xFF) |
- * ((sha[0] &gt;&gt;&gt; 16) &amp; 0xFF) &lt;&lt; 8 |
- * ((sha[0] &gt;&gt;&gt; 8) &amp; 0xFF) &lt;&lt; 16 |
- * ((sha[0] &gt;&gt;&gt; 0) &amp; 0xFF) &lt;&lt; 24 |
- * ((sha[1] &gt;&gt;&gt; 24) &amp; 0xFF) &lt;&lt; 32 |
- * ((sha[1] &gt;&gt;&gt; 16) &amp; 0xFF) &lt;&lt; 40 |
- * ((sha[1] &gt;&gt;&gt; 8) &amp; 0xFF) &lt;&lt; 48 |
- * ((sha[1] &gt;&gt;&gt; 0) &amp; 0xFF) &lt;&lt; 56;
+ * long hbsh = ((shb[0] &gt;&gt;&gt; 24) &bmp; 0xFF) |
+ * ((shb[0] &gt;&gt;&gt; 16) &bmp; 0xFF) &lt;&lt; 8 |
+ * ((shb[0] &gt;&gt;&gt; 8) &bmp; 0xFF) &lt;&lt; 16 |
+ * ((shb[0] &gt;&gt;&gt; 0) &bmp; 0xFF) &lt;&lt; 24 |
+ * ((shb[1] &gt;&gt;&gt; 24) &bmp; 0xFF) &lt;&lt; 32 |
+ * ((shb[1] &gt;&gt;&gt; 16) &bmp; 0xFF) &lt;&lt; 40 |
+ * ((shb[1] &gt;&gt;&gt; 8) &bmp; 0xFF) &lt;&lt; 48 |
+ * ((shb[1] &gt;&gt;&gt; 0) &bmp; 0xFF) &lt;&lt; 56;
  * </pre>
  *
- * @author Rajendra Inamdar, Vishal Vishnoi
+ * @buthor Rbjendrb Inbmdbr, Vishbl Vishnoi
  */
-public class SerialVersionUIDAdder extends ClassVisitor {
+public clbss SeriblVersionUIDAdder extends ClbssVisitor {
 
     /**
-     * Flag that indicates if we need to compute SVUID.
+     * Flbg thbt indicbtes if we need to compute SVUID.
      */
-    private boolean computeSVUID;
+    privbte boolebn computeSVUID;
 
     /**
-     * Set to true if the class already has SVUID.
+     * Set to true if the clbss blrebdy hbs SVUID.
      */
-    private boolean hasSVUID;
+    privbte boolebn hbsSVUID;
 
     /**
-     * Classes access flags.
+     * Clbsses bccess flbgs.
      */
-    private int access;
+    privbte int bccess;
 
     /**
-     * Internal name of the class
+     * Internbl nbme of the clbss
      */
-    private String name;
+    privbte String nbme;
 
     /**
-     * Interfaces implemented by the class.
+     * Interfbces implemented by the clbss.
      */
-    private String[] interfaces;
+    privbte String[] interfbces;
 
     /**
-     * Collection of fields. (except private static and private transient
+     * Collection of fields. (except privbte stbtic bnd privbte trbnsient
      * fields)
      */
-    private Collection<Item> svuidFields;
+    privbte Collection<Item> svuidFields;
 
     /**
-     * Set to true if the class has static initializer.
+     * Set to true if the clbss hbs stbtic initiblizer.
      */
-    private boolean hasStaticInitializer;
+    privbte boolebn hbsStbticInitiblizer;
 
     /**
-     * Collection of non-private constructors.
+     * Collection of non-privbte constructors.
      */
-    private Collection<Item> svuidConstructors;
+    privbte Collection<Item> svuidConstructors;
 
     /**
-     * Collection of non-private methods.
+     * Collection of non-privbte methods.
      */
-    private Collection<Item> svuidMethods;
+    privbte Collection<Item> svuidMethods;
 
     /**
-     * Creates a new {@link SerialVersionUIDAdder}. <i>Subclasses must not use
-     * this constructor</i>. Instead, they must use the
-     * {@link #SerialVersionUIDAdder(int, ClassVisitor)} version.
+     * Crebtes b new {@link SeriblVersionUIDAdder}. <i>Subclbsses must not use
+     * this constructor</i>. Instebd, they must use the
+     * {@link #SeriblVersionUIDAdder(int, ClbssVisitor)} version.
      *
-     * @param cv
-     *            a {@link ClassVisitor} to which this visitor will delegate
-     *            calls.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm cv
+     *            b {@link ClbssVisitor} to which this visitor will delegbte
+     *            cblls.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public SerialVersionUIDAdder(final ClassVisitor cv) {
+    public SeriblVersionUIDAdder(finbl ClbssVisitor cv) {
         this(Opcodes.ASM5, cv);
-        if (getClass() != SerialVersionUIDAdder.class) {
-            throw new IllegalStateException();
+        if (getClbss() != SeriblVersionUIDAdder.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Creates a new {@link SerialVersionUIDAdder}.
+     * Crebtes b new {@link SeriblVersionUIDAdder}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param cv
-     *            a {@link ClassVisitor} to which this visitor will delegate
-     *            calls.
+     * @pbrbm cv
+     *            b {@link ClbssVisitor} to which this visitor will delegbte
+     *            cblls.
      */
-    protected SerialVersionUIDAdder(final int api, final ClassVisitor cv) {
-        super(api, cv);
-        svuidFields = new ArrayList<Item>();
-        svuidConstructors = new ArrayList<Item>();
-        svuidMethods = new ArrayList<Item>();
+    protected SeriblVersionUIDAdder(finbl int bpi, finbl ClbssVisitor cv) {
+        super(bpi, cv);
+        svuidFields = new ArrbyList<Item>();
+        svuidConstructors = new ArrbyList<Item>();
+        svuidMethods = new ArrbyList<Item>();
     }
 
     // ------------------------------------------------------------------------
@@ -227,123 +227,123 @@ public class SerialVersionUIDAdder extends ClassVisitor {
     // ------------------------------------------------------------------------
 
     /*
-     * Visit class header and get class name, access , and interfaces
-     * information (step 1,2, and 3) for SVUID computation.
+     * Visit clbss hebder bnd get clbss nbme, bccess , bnd interfbces
+     * informbtion (step 1,2, bnd 3) for SVUID computbtion.
      */
     @Override
-    public void visit(final int version, final int access, final String name,
-            final String signature, final String superName,
-            final String[] interfaces) {
-        computeSVUID = (access & Opcodes.ACC_INTERFACE) == 0;
+    public void visit(finbl int version, finbl int bccess, finbl String nbme,
+            finbl String signbture, finbl String superNbme,
+            finbl String[] interfbces) {
+        computeSVUID = (bccess & Opcodes.ACC_INTERFACE) == 0;
 
         if (computeSVUID) {
-            this.name = name;
-            this.access = access;
-            this.interfaces = new String[interfaces.length];
-            System.arraycopy(interfaces, 0, this.interfaces, 0,
-                    interfaces.length);
+            this.nbme = nbme;
+            this.bccess = bccess;
+            this.interfbces = new String[interfbces.length];
+            System.brrbycopy(interfbces, 0, this.interfbces, 0,
+                    interfbces.length);
         }
 
-        super.visit(version, access, name, signature, superName, interfaces);
+        super.visit(version, bccess, nbme, signbture, superNbme, interfbces);
     }
 
     /*
-     * Visit the methods and get constructor and method information (step 5 and
-     * 7). Also determine if there is a class initializer (step 6).
+     * Visit the methods bnd get constructor bnd method informbtion (step 5 bnd
+     * 7). Also determine if there is b clbss initiblizer (step 6).
      */
     @Override
-    public MethodVisitor visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions) {
+    public MethodVisitor visitMethod(finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl String[] exceptions) {
         if (computeSVUID) {
-            if ("<clinit>".equals(name)) {
-                hasStaticInitializer = true;
+            if ("<clinit>".equbls(nbme)) {
+                hbsStbticInitiblizer = true;
             }
             /*
-             * Remembers non private constructors and methods for SVUID
-             * computation For constructor and method modifiers, only the
+             * Remembers non privbte constructors bnd methods for SVUID
+             * computbtion For constructor bnd method modifiers, only the
              * ACC_PUBLIC, ACC_PRIVATE, ACC_PROTECTED, ACC_STATIC, ACC_FINAL,
-             * ACC_SYNCHRONIZED, ACC_NATIVE, ACC_ABSTRACT and ACC_STRICT flags
-             * are used.
+             * ACC_SYNCHRONIZED, ACC_NATIVE, ACC_ABSTRACT bnd ACC_STRICT flbgs
+             * bre used.
              */
-            int mods = access
+            int mods = bccess
                     & (Opcodes.ACC_PUBLIC | Opcodes.ACC_PRIVATE
                             | Opcodes.ACC_PROTECTED | Opcodes.ACC_STATIC
                             | Opcodes.ACC_FINAL | Opcodes.ACC_SYNCHRONIZED
                             | Opcodes.ACC_NATIVE | Opcodes.ACC_ABSTRACT | Opcodes.ACC_STRICT);
 
-            // all non private methods
-            if ((access & Opcodes.ACC_PRIVATE) == 0) {
-                if ("<init>".equals(name)) {
-                    svuidConstructors.add(new Item(name, mods, desc));
-                } else if (!"<clinit>".equals(name)) {
-                    svuidMethods.add(new Item(name, mods, desc));
+            // bll non privbte methods
+            if ((bccess & Opcodes.ACC_PRIVATE) == 0) {
+                if ("<init>".equbls(nbme)) {
+                    svuidConstructors.bdd(new Item(nbme, mods, desc));
+                } else if (!"<clinit>".equbls(nbme)) {
+                    svuidMethods.bdd(new Item(nbme, mods, desc));
                 }
             }
         }
 
-        return super.visitMethod(access, name, desc, signature, exceptions);
+        return super.visitMethod(bccess, nbme, desc, signbture, exceptions);
     }
 
     /*
-     * Gets class field information for step 4 of the algorithm. Also determines
-     * if the class already has a SVUID.
+     * Gets clbss field informbtion for step 4 of the blgorithm. Also determines
+     * if the clbss blrebdy hbs b SVUID.
      */
     @Override
-    public FieldVisitor visitField(final int access, final String name,
-            final String desc, final String signature, final Object value) {
+    public FieldVisitor visitField(finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl Object vblue) {
         if (computeSVUID) {
-            if ("serialVersionUID".equals(name)) {
-                // since the class already has SVUID, we won't be computing it.
-                computeSVUID = false;
-                hasSVUID = true;
+            if ("seriblVersionUID".equbls(nbme)) {
+                // since the clbss blrebdy hbs SVUID, we won't be computing it.
+                computeSVUID = fblse;
+                hbsSVUID = true;
             }
             /*
-             * Remember field for SVUID computation For field modifiers, only
+             * Remember field for SVUID computbtion For field modifiers, only
              * the ACC_PUBLIC, ACC_PRIVATE, ACC_PROTECTED, ACC_STATIC,
-             * ACC_FINAL, ACC_VOLATILE, and ACC_TRANSIENT flags are used when
-             * computing serialVersionUID values.
+             * ACC_FINAL, ACC_VOLATILE, bnd ACC_TRANSIENT flbgs bre used when
+             * computing seriblVersionUID vblues.
              */
-            if ((access & Opcodes.ACC_PRIVATE) == 0
-                    || (access & (Opcodes.ACC_STATIC | Opcodes.ACC_TRANSIENT)) == 0) {
-                int mods = access
+            if ((bccess & Opcodes.ACC_PRIVATE) == 0
+                    || (bccess & (Opcodes.ACC_STATIC | Opcodes.ACC_TRANSIENT)) == 0) {
+                int mods = bccess
                         & (Opcodes.ACC_PUBLIC | Opcodes.ACC_PRIVATE
                                 | Opcodes.ACC_PROTECTED | Opcodes.ACC_STATIC
                                 | Opcodes.ACC_FINAL | Opcodes.ACC_VOLATILE | Opcodes.ACC_TRANSIENT);
-                svuidFields.add(new Item(name, mods, desc));
+                svuidFields.bdd(new Item(nbme, mods, desc));
             }
         }
 
-        return super.visitField(access, name, desc, signature, value);
+        return super.visitField(bccess, nbme, desc, signbture, vblue);
     }
 
     /**
-     * Handle a bizarre special case. Nested classes (static classes declared
-     * inside another class) that are protected have their access bit set to
-     * public in their class files to deal with some odd reflection situation.
-     * Our SVUID computation must do as the JVM does and ignore access bits in
-     * the class file in favor of the access bits InnerClass attribute.
+     * Hbndle b bizbrre specibl cbse. Nested clbsses (stbtic clbsses declbred
+     * inside bnother clbss) thbt bre protected hbve their bccess bit set to
+     * public in their clbss files to debl with some odd reflection situbtion.
+     * Our SVUID computbtion must do bs the JVM does bnd ignore bccess bits in
+     * the clbss file in fbvor of the bccess bits InnerClbss bttribute.
      */
     @Override
-    public void visitInnerClass(final String aname, final String outerName,
-            final String innerName, final int attr_access) {
-        if ((name != null) && name.equals(aname)) {
-            this.access = attr_access;
+    public void visitInnerClbss(finbl String bnbme, finbl String outerNbme,
+            finbl String innerNbme, finbl int bttr_bccess) {
+        if ((nbme != null) && nbme.equbls(bnbme)) {
+            this.bccess = bttr_bccess;
         }
-        super.visitInnerClass(aname, outerName, innerName, attr_access);
+        super.visitInnerClbss(bnbme, outerNbme, innerNbme, bttr_bccess);
     }
 
     /*
-     * Add the SVUID if class doesn't have one
+     * Add the SVUID if clbss doesn't hbve one
      */
     @Override
     public void visitEnd() {
-        // compute SVUID and add it to the class
-        if (computeSVUID && !hasSVUID) {
+        // compute SVUID bnd bdd it to the clbss
+        if (computeSVUID && !hbsSVUID) {
             try {
-                addSVUID(computeSVUID());
-            } catch (Throwable e) {
+                bddSVUID(computeSVUID());
+            } cbtch (Throwbble e) {
                 throw new RuntimeException("Error while computing SVUID for "
-                        + name, e);
+                        + nbme, e);
             }
         }
 
@@ -355,18 +355,18 @@ public class SerialVersionUIDAdder extends ClassVisitor {
     // ------------------------------------------------------------------------
 
     /**
-     * Returns true if the class already has a SVUID field. The result of this
-     * method is only valid when visitEnd is or has been called.
+     * Returns true if the clbss blrebdy hbs b SVUID field. The result of this
+     * method is only vblid when visitEnd is or hbs been cblled.
      *
-     * @return true if the class already has a SVUID field.
+     * @return true if the clbss blrebdy hbs b SVUID field.
      */
-    public boolean hasSVUID() {
-        return hasSVUID;
+    public boolebn hbsSVUID() {
+        return hbsSVUID;
     }
 
-    protected void addSVUID(long svuid) {
+    protected void bddSVUID(long svuid) {
         FieldVisitor fv = super.visitField(Opcodes.ACC_FINAL
-                + Opcodes.ACC_STATIC, "serialVersionUID", "J", null, new Long(
+                + Opcodes.ACC_STATIC, "seriblVersionUID", "J", null, new Long(
                 svuid));
         if (fv != null) {
             fv.visitEnd();
@@ -374,80 +374,80 @@ public class SerialVersionUIDAdder extends ClassVisitor {
     }
 
     /**
-     * Computes and returns the value of SVUID.
+     * Computes bnd returns the vblue of SVUID.
      *
-     * @return Returns the serial version UID
+     * @return Returns the seribl version UID
      * @throws IOException
-     *             if an I/O error occurs
+     *             if bn I/O error occurs
      */
     protected long computeSVUID() throws IOException {
-        ByteArrayOutputStream bos;
-        DataOutputStream dos = null;
+        ByteArrbyOutputStrebm bos;
+        DbtbOutputStrebm dos = null;
         long svuid = 0;
 
         try {
-            bos = new ByteArrayOutputStream();
-            dos = new DataOutputStream(bos);
+            bos = new ByteArrbyOutputStrebm();
+            dos = new DbtbOutputStrebm(bos);
 
             /*
-             * 1. The class name written using UTF encoding.
+             * 1. The clbss nbme written using UTF encoding.
              */
-            dos.writeUTF(name.replace('/', '.'));
+            dos.writeUTF(nbme.replbce('/', '.'));
 
             /*
-             * 2. The class modifiers written as a 32-bit integer.
+             * 2. The clbss modifiers written bs b 32-bit integer.
              */
-            dos.writeInt(access
+            dos.writeInt(bccess
                     & (Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL
                             | Opcodes.ACC_INTERFACE | Opcodes.ACC_ABSTRACT));
 
             /*
-             * 3. The name of each interface sorted by name written using UTF
+             * 3. The nbme of ebch interfbce sorted by nbme written using UTF
              * encoding.
              */
-            Arrays.sort(interfaces);
-            for (int i = 0; i < interfaces.length; i++) {
-                dos.writeUTF(interfaces[i].replace('/', '.'));
+            Arrbys.sort(interfbces);
+            for (int i = 0; i < interfbces.length; i++) {
+                dos.writeUTF(interfbces[i].replbce('/', '.'));
             }
 
             /*
-             * 4. For each field of the class sorted by field name (except
-             * private static and private transient fields):
+             * 4. For ebch field of the clbss sorted by field nbme (except
+             * privbte stbtic bnd privbte trbnsient fields):
              *
-             * 1. The name of the field in UTF encoding. 2. The modifiers of the
-             * field written as a 32-bit integer. 3. The descriptor of the field
+             * 1. The nbme of the field in UTF encoding. 2. The modifiers of the
+             * field written bs b 32-bit integer. 3. The descriptor of the field
              * in UTF encoding
              *
-             * Note that field signatures are not dot separated. Method and
-             * constructor signatures are dot separated. Go figure...
+             * Note thbt field signbtures bre not dot sepbrbted. Method bnd
+             * constructor signbtures bre dot sepbrbted. Go figure...
              */
-            writeItems(svuidFields, dos, false);
+            writeItems(svuidFields, dos, fblse);
 
             /*
-             * 5. If a class initializer exists, write out the following: 1. The
-             * name of the method, <clinit>, in UTF encoding. 2. The modifier of
-             * the method, java.lang.reflect.Modifier.STATIC, written as a
+             * 5. If b clbss initiblizer exists, write out the following: 1. The
+             * nbme of the method, <clinit>, in UTF encoding. 2. The modifier of
+             * the method, jbvb.lbng.reflect.Modifier.STATIC, written bs b
              * 32-bit integer. 3. The descriptor of the method, ()V, in UTF
              * encoding.
              */
-            if (hasStaticInitializer) {
+            if (hbsStbticInitiblizer) {
                 dos.writeUTF("<clinit>");
                 dos.writeInt(Opcodes.ACC_STATIC);
                 dos.writeUTF("()V");
             } // if..
 
             /*
-             * 6. For each non-private constructor sorted by method name and
-             * signature: 1. The name of the method, <init>, in UTF encoding. 2.
-             * The modifiers of the method written as a 32-bit integer. 3. The
+             * 6. For ebch non-privbte constructor sorted by method nbme bnd
+             * signbture: 1. The nbme of the method, <init>, in UTF encoding. 2.
+             * The modifiers of the method written bs b 32-bit integer. 3. The
              * descriptor of the method in UTF encoding.
              */
             writeItems(svuidConstructors, dos, true);
 
             /*
-             * 7. For each non-private method sorted by method name and
-             * signature: 1. The name of the method in UTF encoding. 2. The
-             * modifiers of the method written as a 32-bit integer. 3. The
+             * 7. For ebch non-privbte method sorted by method nbme bnd
+             * signbture: 1. The nbme of the method in UTF encoding. 2. The
+             * modifiers of the method written bs b 32-bit integer. 3. The
              * descriptor of the method in UTF encoding.
              */
             writeItems(svuidMethods, dos, true);
@@ -455,30 +455,30 @@ public class SerialVersionUIDAdder extends ClassVisitor {
             dos.flush();
 
             /*
-             * 8. The SHA-1 algorithm is executed on the stream of bytes
-             * produced by DataOutputStream and produces five 32-bit values
-             * sha[0..4].
+             * 8. The SHA-1 blgorithm is executed on the strebm of bytes
+             * produced by DbtbOutputStrebm bnd produces five 32-bit vblues
+             * shb[0..4].
              */
-            byte[] hashBytes = computeSHAdigest(bos.toByteArray());
+            byte[] hbshBytes = computeSHAdigest(bos.toByteArrby());
 
             /*
-             * 9. The hash value is assembled from the first and second 32-bit
-             * values of the SHA-1 message digest. If the result of the message
-             * digest, the five 32-bit words H0 H1 H2 H3 H4, is in an array of
-             * five int values named sha, the hash value would be computed as
+             * 9. The hbsh vblue is bssembled from the first bnd second 32-bit
+             * vblues of the SHA-1 messbge digest. If the result of the messbge
+             * digest, the five 32-bit words H0 H1 H2 H3 H4, is in bn brrby of
+             * five int vblues nbmed shb, the hbsh vblue would be computed bs
              * follows:
              *
-             * long hash = ((sha[0] >>> 24) & 0xFF) | ((sha[0] >>> 16) & 0xFF)
-             * << 8 | ((sha[0] >>> 8) & 0xFF) << 16 | ((sha[0] >>> 0) & 0xFF) <<
-             * 24 | ((sha[1] >>> 24) & 0xFF) << 32 | ((sha[1] >>> 16) & 0xFF) <<
-             * 40 | ((sha[1] >>> 8) & 0xFF) << 48 | ((sha[1] >>> 0) & 0xFF) <<
+             * long hbsh = ((shb[0] >>> 24) & 0xFF) | ((shb[0] >>> 16) & 0xFF)
+             * << 8 | ((shb[0] >>> 8) & 0xFF) << 16 | ((shb[0] >>> 0) & 0xFF) <<
+             * 24 | ((shb[1] >>> 24) & 0xFF) << 32 | ((shb[1] >>> 16) & 0xFF) <<
+             * 40 | ((shb[1] >>> 8) & 0xFF) << 48 | ((shb[1] >>> 0) & 0xFF) <<
              * 56;
              */
-            for (int i = Math.min(hashBytes.length, 8) - 1; i >= 0; i--) {
-                svuid = (svuid << 8) | (hashBytes[i] & 0xFF);
+            for (int i = Mbth.min(hbshBytes.length, 8) - 1; i >= 0; i--) {
+                svuid = (svuid << 8) | (hbshBytes[i] & 0xFF);
             }
-        } finally {
-            // close the stream (if open)
+        } finblly {
+            // close the strebm (if open)
             if (dos != null) {
                 dos.close();
             }
@@ -488,82 +488,82 @@ public class SerialVersionUIDAdder extends ClassVisitor {
     }
 
     /**
-     * Returns the SHA-1 message digest of the given value.
+     * Returns the SHA-1 messbge digest of the given vblue.
      *
-     * @param value
-     *            the value whose SHA message digest must be computed.
-     * @return the SHA-1 message digest of the given value.
+     * @pbrbm vblue
+     *            the vblue whose SHA messbge digest must be computed.
+     * @return the SHA-1 messbge digest of the given vblue.
      */
-    protected byte[] computeSHAdigest(final byte[] value) {
+    protected byte[] computeSHAdigest(finbl byte[] vblue) {
         try {
-            return MessageDigest.getInstance("SHA").digest(value);
-        } catch (Exception e) {
-            throw new UnsupportedOperationException(e.toString());
+            return MessbgeDigest.getInstbnce("SHA").digest(vblue);
+        } cbtch (Exception e) {
+            throw new UnsupportedOperbtionException(e.toString());
         }
     }
 
     /**
-     * Sorts the items in the collection and writes it to the data output stream
+     * Sorts the items in the collection bnd writes it to the dbtb output strebm
      *
-     * @param itemCollection
+     * @pbrbm itemCollection
      *            collection of items
-     * @param dos
-     *            a <code>DataOutputStream</code> value
-     * @param dotted
-     *            a <code>boolean</code> value
+     * @pbrbm dos
+     *            b <code>DbtbOutputStrebm</code> vblue
+     * @pbrbm dotted
+     *            b <code>boolebn</code> vblue
      * @exception IOException
-     *                if an error occurs
+     *                if bn error occurs
      */
-    private static void writeItems(final Collection<Item> itemCollection,
-            final DataOutput dos, final boolean dotted) throws IOException {
+    privbte stbtic void writeItems(finbl Collection<Item> itemCollection,
+            finbl DbtbOutput dos, finbl boolebn dotted) throws IOException {
         int size = itemCollection.size();
-        Item[] items = itemCollection.toArray(new Item[size]);
-        Arrays.sort(items);
+        Item[] items = itemCollection.toArrby(new Item[size]);
+        Arrbys.sort(items);
         for (int i = 0; i < size; i++) {
-            dos.writeUTF(items[i].name);
-            dos.writeInt(items[i].access);
-            dos.writeUTF(dotted ? items[i].desc.replace('/', '.')
+            dos.writeUTF(items[i].nbme);
+            dos.writeInt(items[i].bccess);
+            dos.writeUTF(dotted ? items[i].desc.replbce('/', '.')
                     : items[i].desc);
         }
     }
 
     // ------------------------------------------------------------------------
-    // Inner classes
+    // Inner clbsses
     // ------------------------------------------------------------------------
 
-    private static class Item implements Comparable<Item> {
+    privbte stbtic clbss Item implements Compbrbble<Item> {
 
-        final String name;
+        finbl String nbme;
 
-        final int access;
+        finbl int bccess;
 
-        final String desc;
+        finbl String desc;
 
-        Item(final String name, final int access, final String desc) {
-            this.name = name;
-            this.access = access;
+        Item(finbl String nbme, finbl int bccess, finbl String desc) {
+            this.nbme = nbme;
+            this.bccess = bccess;
             this.desc = desc;
         }
 
-        public int compareTo(final Item other) {
-            int retVal = name.compareTo(other.name);
-            if (retVal == 0) {
-                retVal = desc.compareTo(other.desc);
+        public int compbreTo(finbl Item other) {
+            int retVbl = nbme.compbreTo(other.nbme);
+            if (retVbl == 0) {
+                retVbl = desc.compbreTo(other.desc);
             }
-            return retVal;
+            return retVbl;
         }
 
         @Override
-        public boolean equals(final Object o) {
-            if (o instanceof Item) {
-                return compareTo((Item) o) == 0;
+        public boolebn equbls(finbl Object o) {
+            if (o instbnceof Item) {
+                return compbreTo((Item) o) == 0;
             }
-            return false;
+            return fblse;
         }
 
         @Override
-        public int hashCode() {
-            return (name + desc).hashCode();
+        public int hbshCode() {
+            return (nbme + desc).hbshCode();
         }
     }
 }

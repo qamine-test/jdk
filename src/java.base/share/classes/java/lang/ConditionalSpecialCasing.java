@@ -1,166 +1,166 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.text.BreakIterator;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Locale;
-import sun.text.Normalizer;
+import jbvb.text.BrebkIterbtor;
+import jbvb.util.HbshSet;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
+import sun.text.Normblizer;
 
 
 /**
- * This is a utility class for <code>String.toLowerCase()</code> and
- * <code>String.toUpperCase()</code>, that handles special casing with
- * conditions.  In other words, it handles the mappings with conditions
- * that are defined in
- * <a href="http://www.unicode.org/Public/UNIDATA/SpecialCasing.txt">Special
- * Casing Properties</a> file.
+ * This is b utility clbss for <code>String.toLowerCbse()</code> bnd
+ * <code>String.toUpperCbse()</code>, thbt hbndles specibl cbsing with
+ * conditions.  In other words, it hbndles the mbppings with conditions
+ * thbt bre defined in
+ * <b href="http://www.unicode.org/Public/UNIDATA/SpeciblCbsing.txt">Specibl
+ * Cbsing Properties</b> file.
  * <p>
- * Note that the unconditional case mappings (including 1:M mappings)
- * are handled in <code>Character.toLower/UpperCase()</code>.
+ * Note thbt the unconditionbl cbse mbppings (including 1:M mbppings)
+ * bre hbndled in <code>Chbrbcter.toLower/UpperCbse()</code>.
  */
-final class ConditionalSpecialCasing {
+finbl clbss ConditionblSpeciblCbsing {
 
     // context conditions.
-    final static int FINAL_CASED =              1;
-    final static int AFTER_SOFT_DOTTED =        2;
-    final static int MORE_ABOVE =               3;
-    final static int AFTER_I =                  4;
-    final static int NOT_BEFORE_DOT =           5;
+    finbl stbtic int FINAL_CASED =              1;
+    finbl stbtic int AFTER_SOFT_DOTTED =        2;
+    finbl stbtic int MORE_ABOVE =               3;
+    finbl stbtic int AFTER_I =                  4;
+    finbl stbtic int NOT_BEFORE_DOT =           5;
 
-    // combining class definitions
-    final static int COMBINING_CLASS_ABOVE = 230;
+    // combining clbss definitions
+    finbl stbtic int COMBINING_CLASS_ABOVE = 230;
 
-    // Special case mapping entries
-    static Entry[] entry = {
+    // Specibl cbse mbpping entries
+    stbtic Entry[] entry = {
         //# ================================================================================
-        //# Conditional mappings
+        //# Conditionbl mbppings
         //# ================================================================================
-        new Entry(0x03A3, new char[]{0x03C2}, new char[]{0x03A3}, null, FINAL_CASED), // # GREEK CAPITAL LETTER SIGMA
-        new Entry(0x0130, new char[]{0x0069, 0x0307}, new char[]{0x0130}, null, 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
-
-        //# ================================================================================
-        //# Locale-sensitive mappings
-        //# ================================================================================
-        //# Lithuanian
-        new Entry(0x0307, new char[]{0x0307}, new char[]{}, "lt",  AFTER_SOFT_DOTTED), // # COMBINING DOT ABOVE
-        new Entry(0x0049, new char[]{0x0069, 0x0307}, new char[]{0x0049}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER I
-        new Entry(0x004A, new char[]{0x006A, 0x0307}, new char[]{0x004A}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER J
-        new Entry(0x012E, new char[]{0x012F, 0x0307}, new char[]{0x012E}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER I WITH OGONEK
-        new Entry(0x00CC, new char[]{0x0069, 0x0307, 0x0300}, new char[]{0x00CC}, "lt", 0), // # LATIN CAPITAL LETTER I WITH GRAVE
-        new Entry(0x00CD, new char[]{0x0069, 0x0307, 0x0301}, new char[]{0x00CD}, "lt", 0), // # LATIN CAPITAL LETTER I WITH ACUTE
-        new Entry(0x0128, new char[]{0x0069, 0x0307, 0x0303}, new char[]{0x0128}, "lt", 0), // # LATIN CAPITAL LETTER I WITH TILDE
+        new Entry(0x03A3, new chbr[]{0x03C2}, new chbr[]{0x03A3}, null, FINAL_CASED), // # GREEK CAPITAL LETTER SIGMA
+        new Entry(0x0130, new chbr[]{0x0069, 0x0307}, new chbr[]{0x0130}, null, 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
 
         //# ================================================================================
-        //# Turkish and Azeri
-        new Entry(0x0130, new char[]{0x0069}, new char[]{0x0130}, "tr", 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
-        new Entry(0x0130, new char[]{0x0069}, new char[]{0x0130}, "az", 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
-        new Entry(0x0307, new char[]{}, new char[]{0x0307}, "tr", AFTER_I), // # COMBINING DOT ABOVE
-        new Entry(0x0307, new char[]{}, new char[]{0x0307}, "az", AFTER_I), // # COMBINING DOT ABOVE
-        new Entry(0x0049, new char[]{0x0131}, new char[]{0x0049}, "tr", NOT_BEFORE_DOT), // # LATIN CAPITAL LETTER I
-        new Entry(0x0049, new char[]{0x0131}, new char[]{0x0049}, "az", NOT_BEFORE_DOT), // # LATIN CAPITAL LETTER I
-        new Entry(0x0069, new char[]{0x0069}, new char[]{0x0130}, "tr", 0), // # LATIN SMALL LETTER I
-        new Entry(0x0069, new char[]{0x0069}, new char[]{0x0130}, "az", 0)  // # LATIN SMALL LETTER I
+        //# Locble-sensitive mbppings
+        //# ================================================================================
+        //# Lithubnibn
+        new Entry(0x0307, new chbr[]{0x0307}, new chbr[]{}, "lt",  AFTER_SOFT_DOTTED), // # COMBINING DOT ABOVE
+        new Entry(0x0049, new chbr[]{0x0069, 0x0307}, new chbr[]{0x0049}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER I
+        new Entry(0x004A, new chbr[]{0x006A, 0x0307}, new chbr[]{0x004A}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER J
+        new Entry(0x012E, new chbr[]{0x012F, 0x0307}, new chbr[]{0x012E}, "lt", MORE_ABOVE), // # LATIN CAPITAL LETTER I WITH OGONEK
+        new Entry(0x00CC, new chbr[]{0x0069, 0x0307, 0x0300}, new chbr[]{0x00CC}, "lt", 0), // # LATIN CAPITAL LETTER I WITH GRAVE
+        new Entry(0x00CD, new chbr[]{0x0069, 0x0307, 0x0301}, new chbr[]{0x00CD}, "lt", 0), // # LATIN CAPITAL LETTER I WITH ACUTE
+        new Entry(0x0128, new chbr[]{0x0069, 0x0307, 0x0303}, new chbr[]{0x0128}, "lt", 0), // # LATIN CAPITAL LETTER I WITH TILDE
+
+        //# ================================================================================
+        //# Turkish bnd Azeri
+        new Entry(0x0130, new chbr[]{0x0069}, new chbr[]{0x0130}, "tr", 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
+        new Entry(0x0130, new chbr[]{0x0069}, new chbr[]{0x0130}, "bz", 0), // # LATIN CAPITAL LETTER I WITH DOT ABOVE
+        new Entry(0x0307, new chbr[]{}, new chbr[]{0x0307}, "tr", AFTER_I), // # COMBINING DOT ABOVE
+        new Entry(0x0307, new chbr[]{}, new chbr[]{0x0307}, "bz", AFTER_I), // # COMBINING DOT ABOVE
+        new Entry(0x0049, new chbr[]{0x0131}, new chbr[]{0x0049}, "tr", NOT_BEFORE_DOT), // # LATIN CAPITAL LETTER I
+        new Entry(0x0049, new chbr[]{0x0131}, new chbr[]{0x0049}, "bz", NOT_BEFORE_DOT), // # LATIN CAPITAL LETTER I
+        new Entry(0x0069, new chbr[]{0x0069}, new chbr[]{0x0130}, "tr", 0), // # LATIN SMALL LETTER I
+        new Entry(0x0069, new chbr[]{0x0069}, new chbr[]{0x0130}, "bz", 0)  // # LATIN SMALL LETTER I
     };
 
-    // A hash table that contains the above entries
-    static Hashtable<Integer, HashSet<Entry>> entryTable = new Hashtable<>();
-    static {
-        // create hashtable from the entry
+    // A hbsh tbble thbt contbins the bbove entries
+    stbtic Hbshtbble<Integer, HbshSet<Entry>> entryTbble = new Hbshtbble<>();
+    stbtic {
+        // crebte hbshtbble from the entry
         for (Entry cur : entry) {
             Integer cp = cur.getCodePoint();
-            HashSet<Entry> set = entryTable.get(cp);
+            HbshSet<Entry> set = entryTbble.get(cp);
             if (set == null) {
-                set = new HashSet<>();
-                entryTable.put(cp, set);
+                set = new HbshSet<>();
+                entryTbble.put(cp, set);
             }
-            set.add(cur);
+            set.bdd(cur);
         }
     }
 
-    static int toLowerCaseEx(String src, int index, Locale locale) {
-        char[] result = lookUpTable(src, index, locale, true);
+    stbtic int toLowerCbseEx(String src, int index, Locble locble) {
+        chbr[] result = lookUpTbble(src, index, locble, true);
 
         if (result != null) {
             if (result.length == 1) {
                 return result[0];
             } else {
-                return Character.ERROR;
+                return Chbrbcter.ERROR;
             }
         } else {
-            // default to Character class' one
-            return Character.toLowerCase(src.codePointAt(index));
+            // defbult to Chbrbcter clbss' one
+            return Chbrbcter.toLowerCbse(src.codePointAt(index));
         }
     }
 
-    static int toUpperCaseEx(String src, int index, Locale locale) {
-        char[] result = lookUpTable(src, index, locale, false);
+    stbtic int toUpperCbseEx(String src, int index, Locble locble) {
+        chbr[] result = lookUpTbble(src, index, locble, fblse);
 
         if (result != null) {
             if (result.length == 1) {
                 return result[0];
             } else {
-                return Character.ERROR;
+                return Chbrbcter.ERROR;
             }
         } else {
-            // default to Character class' one
-            return Character.toUpperCaseEx(src.codePointAt(index));
+            // defbult to Chbrbcter clbss' one
+            return Chbrbcter.toUpperCbseEx(src.codePointAt(index));
         }
     }
 
-    static char[] toLowerCaseCharArray(String src, int index, Locale locale) {
-        return lookUpTable(src, index, locale, true);
+    stbtic chbr[] toLowerCbseChbrArrby(String src, int index, Locble locble) {
+        return lookUpTbble(src, index, locble, true);
     }
 
-    static char[] toUpperCaseCharArray(String src, int index, Locale locale) {
-        char[] result = lookUpTable(src, index, locale, false);
+    stbtic chbr[] toUpperCbseChbrArrby(String src, int index, Locble locble) {
+        chbr[] result = lookUpTbble(src, index, locble, fblse);
         if (result != null) {
             return result;
         } else {
-            return Character.toUpperCaseCharArray(src.codePointAt(index));
+            return Chbrbcter.toUpperCbseChbrArrby(src.codePointAt(index));
         }
     }
 
-    private static char[] lookUpTable(String src, int index, Locale locale, boolean bLowerCasing) {
-        HashSet<Entry> set = entryTable.get(src.codePointAt(index));
-        char[] ret = null;
+    privbte stbtic chbr[] lookUpTbble(String src, int index, Locble locble, boolebn bLowerCbsing) {
+        HbshSet<Entry> set = entryTbble.get(src.codePointAt(index));
+        chbr[] ret = null;
 
         if (set != null) {
-            Iterator<Entry> iter = set.iterator();
-            String currentLang = locale.getLanguage();
-            while (iter.hasNext()) {
+            Iterbtor<Entry> iter = set.iterbtor();
+            String currentLbng = locble.getLbngubge();
+            while (iter.hbsNext()) {
                 Entry entry = iter.next();
-                String conditionLang = entry.getLanguage();
-                if (((conditionLang == null) || (conditionLang.equals(currentLang))) &&
-                        isConditionMet(src, index, locale, entry.getCondition())) {
-                    ret = bLowerCasing ? entry.getLowerCase() : entry.getUpperCase();
-                    if (conditionLang != null) {
-                        break;
+                String conditionLbng = entry.getLbngubge();
+                if (((conditionLbng == null) || (conditionLbng.equbls(currentLbng))) &&
+                        isConditionMet(src, index, locble, entry.getCondition())) {
+                    ret = bLowerCbsing ? entry.getLowerCbse() : entry.getUpperCbse();
+                    if (conditionLbng != null) {
+                        brebk;
                     }
                 }
             }
@@ -169,59 +169,59 @@ final class ConditionalSpecialCasing {
         return ret;
     }
 
-    private static boolean isConditionMet(String src, int index, Locale locale, int condition) {
+    privbte stbtic boolebn isConditionMet(String src, int index, Locble locble, int condition) {
         switch (condition) {
-        case FINAL_CASED:
-            return isFinalCased(src, index, locale);
+        cbse FINAL_CASED:
+            return isFinblCbsed(src, index, locble);
 
-        case AFTER_SOFT_DOTTED:
+        cbse AFTER_SOFT_DOTTED:
             return isAfterSoftDotted(src, index);
 
-        case MORE_ABOVE:
+        cbse MORE_ABOVE:
             return isMoreAbove(src, index);
 
-        case AFTER_I:
+        cbse AFTER_I:
             return isAfterI(src, index);
 
-        case NOT_BEFORE_DOT:
+        cbse NOT_BEFORE_DOT:
             return !isBeforeDot(src, index);
 
-        default:
+        defbult:
             return true;
         }
     }
 
     /**
-     * Implements the "Final_Cased" condition
+     * Implements the "Finbl_Cbsed" condition
      *
-     * Specification: Within the closest word boundaries containing C, there is a cased
-     * letter before C, and there is no cased letter after C.
+     * Specificbtion: Within the closest word boundbries contbining C, there is b cbsed
+     * letter before C, bnd there is no cbsed letter bfter C.
      *
-     * Regular Expression:
-     *   Before C: [{cased==true}][{wordBoundary!=true}]*
-     *   After C: !([{wordBoundary!=true}]*[{cased}])
+     * Regulbr Expression:
+     *   Before C: [{cbsed==true}][{wordBoundbry!=true}]*
+     *   After C: !([{wordBoundbry!=true}]*[{cbsed}])
      */
-    private static boolean isFinalCased(String src, int index, Locale locale) {
-        BreakIterator wordBoundary = BreakIterator.getWordInstance(locale);
-        wordBoundary.setText(src);
+    privbte stbtic boolebn isFinblCbsed(String src, int index, Locble locble) {
+        BrebkIterbtor wordBoundbry = BrebkIterbtor.getWordInstbnce(locble);
+        wordBoundbry.setText(src);
         int ch;
 
-        // Look for a preceding 'cased' letter
-        for (int i = index; (i >= 0) && !wordBoundary.isBoundary(i);
-                i -= Character.charCount(ch)) {
+        // Look for b preceding 'cbsed' letter
+        for (int i = index; (i >= 0) && !wordBoundbry.isBoundbry(i);
+                i -= Chbrbcter.chbrCount(ch)) {
 
             ch = src.codePointBefore(i);
-            if (isCased(ch)) {
+            if (isCbsed(ch)) {
 
                 int len = src.length();
-                // Check that there is no 'cased' letter after the index
-                for (i = index + Character.charCount(src.codePointAt(index));
-                        (i < len) && !wordBoundary.isBoundary(i);
-                        i += Character.charCount(ch)) {
+                // Check thbt there is no 'cbsed' letter bfter the index
+                for (i = index + Chbrbcter.chbrCount(src.codePointAt(index));
+                        (i < len) && !wordBoundbry.isBoundbry(i);
+                        i += Chbrbcter.chbrCount(ch)) {
 
                     ch = src.codePointAt(i);
-                    if (isCased(ch)) {
-                        return false;
+                    if (isCbsed(ch)) {
+                        return fblse;
                     }
                 }
 
@@ -229,156 +229,156 @@ final class ConditionalSpecialCasing {
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
      * Implements the "After_I" condition
      *
-     * Specification: The last preceding base character was an uppercase I,
-     * and there is no intervening combining character class 230 (ABOVE).
+     * Specificbtion: The lbst preceding bbse chbrbcter wbs bn uppercbse I,
+     * bnd there is no intervening combining chbrbcter clbss 230 (ABOVE).
      *
-     * Regular Expression:
+     * Regulbr Expression:
      *   Before C: [I]([{cc!=230}&{cc!=0}])*
      */
-    private static boolean isAfterI(String src, int index) {
+    privbte stbtic boolebn isAfterI(String src, int index) {
         int ch;
         int cc;
 
-        // Look for the last preceding base character
-        for (int i = index; i > 0; i -= Character.charCount(ch)) {
+        // Look for the lbst preceding bbse chbrbcter
+        for (int i = index; i > 0; i -= Chbrbcter.chbrCount(ch)) {
 
             ch = src.codePointBefore(i);
 
             if (ch == 'I') {
                 return true;
             } else {
-                cc = Normalizer.getCombiningClass(ch);
+                cc = Normblizer.getCombiningClbss(ch);
                 if ((cc == 0) || (cc == COMBINING_CLASS_ABOVE)) {
-                    return false;
+                    return fblse;
                 }
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
      * Implements the "After_Soft_Dotted" condition
      *
-     * Specification: The last preceding character with combining class
-     * of zero before C was Soft_Dotted, and there is no intervening
-     * combining character class 230 (ABOVE).
+     * Specificbtion: The lbst preceding chbrbcter with combining clbss
+     * of zero before C wbs Soft_Dotted, bnd there is no intervening
+     * combining chbrbcter clbss 230 (ABOVE).
      *
-     * Regular Expression:
+     * Regulbr Expression:
      *   Before C: [{Soft_Dotted==true}]([{cc!=230}&{cc!=0}])*
      */
-    private static boolean isAfterSoftDotted(String src, int index) {
+    privbte stbtic boolebn isAfterSoftDotted(String src, int index) {
         int ch;
         int cc;
 
-        // Look for the last preceding character
-        for (int i = index; i > 0; i -= Character.charCount(ch)) {
+        // Look for the lbst preceding chbrbcter
+        for (int i = index; i > 0; i -= Chbrbcter.chbrCount(ch)) {
 
             ch = src.codePointBefore(i);
 
             if (isSoftDotted(ch)) {
                 return true;
             } else {
-                cc = Normalizer.getCombiningClass(ch);
+                cc = Normblizer.getCombiningClbss(ch);
                 if ((cc == 0) || (cc == COMBINING_CLASS_ABOVE)) {
-                    return false;
+                    return fblse;
                 }
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
      * Implements the "More_Above" condition
      *
-     * Specification: C is followed by one or more characters of combining
-     * class 230 (ABOVE) in the combining character sequence.
+     * Specificbtion: C is followed by one or more chbrbcters of combining
+     * clbss 230 (ABOVE) in the combining chbrbcter sequence.
      *
-     * Regular Expression:
+     * Regulbr Expression:
      *   After C: [{cc!=0}]*[{cc==230}]
      */
-    private static boolean isMoreAbove(String src, int index) {
+    privbte stbtic boolebn isMoreAbove(String src, int index) {
         int ch;
         int cc;
         int len = src.length();
 
-        // Look for a following ABOVE combining class character
-        for (int i = index + Character.charCount(src.codePointAt(index));
-                i < len; i += Character.charCount(ch)) {
+        // Look for b following ABOVE combining clbss chbrbcter
+        for (int i = index + Chbrbcter.chbrCount(src.codePointAt(index));
+                i < len; i += Chbrbcter.chbrCount(ch)) {
 
             ch = src.codePointAt(i);
-            cc = Normalizer.getCombiningClass(ch);
+            cc = Normblizer.getCombiningClbss(ch);
 
             if (cc == COMBINING_CLASS_ABOVE) {
                 return true;
             } else if (cc == 0) {
-                return false;
+                return fblse;
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
      * Implements the "Before_Dot" condition
      *
-     * Specification: C is followed by <code>U+0307 COMBINING DOT ABOVE</code>.
-     * Any sequence of characters with a combining class that is
-     * neither 0 nor 230 may intervene between the current character
-     * and the combining dot above.
+     * Specificbtion: C is followed by <code>U+0307 COMBINING DOT ABOVE</code>.
+     * Any sequence of chbrbcters with b combining clbss thbt is
+     * neither 0 nor 230 mby intervene between the current chbrbcter
+     * bnd the combining dot bbove.
      *
-     * Regular Expression:
+     * Regulbr Expression:
      *   After C: ([{cc!=230}&{cc!=0}])*[\u0307]
      */
-    private static boolean isBeforeDot(String src, int index) {
+    privbte stbtic boolebn isBeforeDot(String src, int index) {
         int ch;
         int cc;
         int len = src.length();
 
-        // Look for a following COMBINING DOT ABOVE
-        for (int i = index + Character.charCount(src.codePointAt(index));
-                i < len; i += Character.charCount(ch)) {
+        // Look for b following COMBINING DOT ABOVE
+        for (int i = index + Chbrbcter.chbrCount(src.codePointAt(index));
+                i < len; i += Chbrbcter.chbrCount(ch)) {
 
             ch = src.codePointAt(i);
 
             if (ch == '\u0307') {
                 return true;
             } else {
-                cc = Normalizer.getCombiningClass(ch);
+                cc = Normblizer.getCombiningClbss(ch);
                 if ((cc == 0) || (cc == COMBINING_CLASS_ABOVE)) {
-                    return false;
+                    return fblse;
                 }
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Examines whether a character is 'cased'.
+     * Exbmines whether b chbrbcter is 'cbsed'.
      *
-     * A character C is defined to be 'cased' if and only if at least one of
-     * following are true for C: uppercase==true, or lowercase==true, or
-     * general_category==titlecase_letter.
+     * A chbrbcter C is defined to be 'cbsed' if bnd only if bt lebst one of
+     * following bre true for C: uppercbse==true, or lowercbse==true, or
+     * generbl_cbtegory==titlecbse_letter.
      *
-     * The uppercase and lowercase property values are specified in the data
-     * file DerivedCoreProperties.txt in the Unicode Character Database.
+     * The uppercbse bnd lowercbse property vblues bre specified in the dbtb
+     * file DerivedCoreProperties.txt in the Unicode Chbrbcter Dbtbbbse.
      */
-    private static boolean isCased(int ch) {
-        int type = Character.getType(ch);
-        if (type == Character.LOWERCASE_LETTER ||
-                type == Character.UPPERCASE_LETTER ||
-                type == Character.TITLECASE_LETTER) {
+    privbte stbtic boolebn isCbsed(int ch) {
+        int type = Chbrbcter.getType(ch);
+        if (type == Chbrbcter.LOWERCASE_LETTER ||
+                type == Chbrbcter.UPPERCASE_LETTER ||
+                type == Chbrbcter.TITLECASE_LETTER) {
             return true;
         } else {
-            // Check for Other_Lowercase and Other_Uppercase
+            // Check for Other_Lowercbse bnd Other_Uppercbse
             //
             if ((ch >= 0x02B0) && (ch <= 0x02B8)) {
                 // MODIFIER LETTER SMALL H..MODIFIER LETTER SMALL Y
@@ -407,44 +407,44 @@ final class ConditionalSpecialCasing {
                 // CIRCLED LATIN SMALL LETTER A..CIRCLED LATIN SMALL LETTER Z
                 return true;
             } else {
-                return false;
+                return fblse;
             }
         }
     }
 
-    private static boolean isSoftDotted(int ch) {
+    privbte stbtic boolebn isSoftDotted(int ch) {
         switch (ch) {
-        case 0x0069: // Soft_Dotted # L&       LATIN SMALL LETTER I
-        case 0x006A: // Soft_Dotted # L&       LATIN SMALL LETTER J
-        case 0x012F: // Soft_Dotted # L&       LATIN SMALL LETTER I WITH OGONEK
-        case 0x0268: // Soft_Dotted # L&       LATIN SMALL LETTER I WITH STROKE
-        case 0x0456: // Soft_Dotted # L&       CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I
-        case 0x0458: // Soft_Dotted # L&       CYRILLIC SMALL LETTER JE
-        case 0x1D62: // Soft_Dotted # L&       LATIN SUBSCRIPT SMALL LETTER I
-        case 0x1E2D: // Soft_Dotted # L&       LATIN SMALL LETTER I WITH TILDE BELOW
-        case 0x1ECB: // Soft_Dotted # L&       LATIN SMALL LETTER I WITH DOT BELOW
-        case 0x2071: // Soft_Dotted # L&       SUPERSCRIPT LATIN SMALL LETTER I
+        cbse 0x0069: // Soft_Dotted # L&       LATIN SMALL LETTER I
+        cbse 0x006A: // Soft_Dotted # L&       LATIN SMALL LETTER J
+        cbse 0x012F: // Soft_Dotted # L&       LATIN SMALL LETTER I WITH OGONEK
+        cbse 0x0268: // Soft_Dotted # L&       LATIN SMALL LETTER I WITH STROKE
+        cbse 0x0456: // Soft_Dotted # L&       CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I
+        cbse 0x0458: // Soft_Dotted # L&       CYRILLIC SMALL LETTER JE
+        cbse 0x1D62: // Soft_Dotted # L&       LATIN SUBSCRIPT SMALL LETTER I
+        cbse 0x1E2D: // Soft_Dotted # L&       LATIN SMALL LETTER I WITH TILDE BELOW
+        cbse 0x1ECB: // Soft_Dotted # L&       LATIN SMALL LETTER I WITH DOT BELOW
+        cbse 0x2071: // Soft_Dotted # L&       SUPERSCRIPT LATIN SMALL LETTER I
             return true;
-        default:
-            return false;
+        defbult:
+            return fblse;
         }
     }
 
     /**
-     * An internal class that represents an entry in the Special Casing Properties.
+     * An internbl clbss thbt represents bn entry in the Specibl Cbsing Properties.
      */
-    static class Entry {
+    stbtic clbss Entry {
         int ch;
-        char [] lower;
-        char [] upper;
-        String lang;
+        chbr [] lower;
+        chbr [] upper;
+        String lbng;
         int condition;
 
-        Entry(int ch, char[] lower, char[] upper, String lang, int condition) {
+        Entry(int ch, chbr[] lower, chbr[] upper, String lbng, int condition) {
             this.ch = ch;
             this.lower = lower;
             this.upper = upper;
-            this.lang = lang;
+            this.lbng = lbng;
             this.condition = condition;
         }
 
@@ -452,16 +452,16 @@ final class ConditionalSpecialCasing {
             return ch;
         }
 
-        char[] getLowerCase() {
+        chbr[] getLowerCbse() {
             return lower;
         }
 
-        char[] getUpperCase() {
+        chbr[] getUpperCbse() {
             return upper;
         }
 
-        String getLanguage() {
-            return lang;
+        String getLbngubge() {
+            return lbng;
         }
 
         int getCondition() {

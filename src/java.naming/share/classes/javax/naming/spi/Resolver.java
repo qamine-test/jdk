@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.naming.spi;
+pbckbge jbvbx.nbming.spi;
 
-import javax.naming.Context;
-import javax.naming.Name;
-import javax.naming.NamingException;
+import jbvbx.nbming.Context;
+import jbvbx.nbming.Nbme;
+import jbvbx.nbming.NbmingException;
 
 /**
-  * This interface represents an "intermediate context" for name resolution.
+  * This interfbce represents bn "intermedibte context" for nbme resolution.
   *<p>
-  * The Resolver interface contains methods that are implemented by contexts
-  * that do not support subtypes of Context, but which can act as
-  * intermediate contexts for resolution purposes.
+  * The Resolver interfbce contbins methods thbt bre implemented by contexts
+  * thbt do not support subtypes of Context, but which cbn bct bs
+  * intermedibte contexts for resolution purposes.
   *<p>
-  * A <tt>Name</tt> parameter passed to any method is owned
-  * by the caller.  The service provider will not modify the object
-  * or keep a reference to it.
-  * A <tt>ResolveResult</tt> object returned by any
-  * method is owned by the caller.  The caller may subsequently modify it;
-  * the service provider may not.
+  * A <tt>Nbme</tt> pbrbmeter pbssed to bny method is owned
+  * by the cbller.  The service provider will not modify the object
+  * or keep b reference to it.
+  * A <tt>ResolveResult</tt> object returned by bny
+  * method is owned by the cbller.  The cbller mby subsequently modify it;
+  * the service provider mby not.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   * @since 1.3
   */
 
-public interface Resolver {
+public interfbce Resolver {
 
     /**
-     * Partially resolves a name.  Stops at the first
-     * context that is an instance of a given subtype of
+     * Pbrtiblly resolves b nbme.  Stops bt the first
+     * context thbt is bn instbnce of b given subtype of
      * <code>Context</code>.
      *
-     * @param name
-     *          the name to resolve
-     * @param contextType
+     * @pbrbm nbme
+     *          the nbme to resolve
+     * @pbrbm contextType
      *          the type of object to resolve.  This should
-     *          be a subtype of <code>Context</code>.
-     * @return  the object that was found, along with the unresolved
-     *          suffix of <code>name</code>.  Cannot be null.
+     *          be b subtype of <code>Context</code>.
+     * @return  the object thbt wbs found, blong with the unresolved
+     *          suffix of <code>nbme</code>.  Cbnnot be null.
      *
-     * @throws  javax.naming.NotContextException
-     *          if no context of the appropriate type is found
-     * @throws  NamingException if a naming exception was encountered
+     * @throws  jbvbx.nbming.NotContextException
+     *          if no context of the bppropribte type is found
+     * @throws  NbmingException if b nbming exception wbs encountered
      *
-     * @see #resolveToClass(String, Class)
+     * @see #resolveToClbss(String, Clbss)
      */
-    public ResolveResult resolveToClass(Name name,
-                                        Class<? extends Context> contextType)
-            throws NamingException;
+    public ResolveResult resolveToClbss(Nbme nbme,
+                                        Clbss<? extends Context> contextType)
+            throws NbmingException;
 
     /**
-     * Partially resolves a name.
-     * See {@link #resolveToClass(Name, Class)} for details.
+     * Pbrtiblly resolves b nbme.
+     * See {@link #resolveToClbss(Nbme, Clbss)} for detbils.
      *
-     * @param name
-     *          the name to resolve
-     * @param contextType
+     * @pbrbm nbme
+     *          the nbme to resolve
+     * @pbrbm contextType
      *          the type of object to resolve.  This should
-     *          be a subtype of <code>Context</code>.
-     * @return  the object that was found, along with the unresolved
-     *          suffix of <code>name</code>.  Cannot be null.
+     *          be b subtype of <code>Context</code>.
+     * @return  the object thbt wbs found, blong with the unresolved
+     *          suffix of <code>nbme</code>.  Cbnnot be null.
      *
-     * @throws  javax.naming.NotContextException
-     *          if no context of the appropriate type is found
-     * @throws  NamingException if a naming exception was encountered
+     * @throws  jbvbx.nbming.NotContextException
+     *          if no context of the bppropribte type is found
+     * @throws  NbmingException if b nbming exception wbs encountered
      */
-    public ResolveResult resolveToClass(String name,
-                                        Class<? extends Context> contextType)
-            throws NamingException;
+    public ResolveResult resolveToClbss(String nbme,
+                                        Clbss<? extends Context> contextType)
+            throws NbmingException;
 };

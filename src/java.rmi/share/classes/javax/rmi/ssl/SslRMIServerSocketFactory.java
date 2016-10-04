@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.rmi.ssl;
+pbckbge jbvbx.rmi.ssl;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.rmi.server.RMIServerSocketFactory;
-import java.util.Arrays;
-import java.util.List;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLServerSocketFactory;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
+import jbvb.io.IOException;
+import jbvb.net.ServerSocket;
+import jbvb.net.Socket;
+import jbvb.rmi.server.RMIServerSocketFbctory;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvbx.net.ssl.SSLContext;
+import jbvbx.net.ssl.SSLServerSocketFbctory;
+import jbvbx.net.ssl.SSLSocket;
+import jbvbx.net.ssl.SSLSocketFbctory;
 
 /**
- * <p>An <code>SslRMIServerSocketFactory</code> instance is used by the RMI
- * runtime in order to obtain server sockets for RMI calls via SSL.</p>
+ * <p>An <code>SslRMIServerSocketFbctory</code> instbnce is used by the RMI
+ * runtime in order to obtbin server sockets for RMI cblls vib SSL.</p>
  *
- * <p>This class implements <code>RMIServerSocketFactory</code> over
- * the Secure Sockets Layer (SSL) or Transport Layer Security (TLS)
+ * <p>This clbss implements <code>RMIServerSocketFbctory</code> over
+ * the Secure Sockets Lbyer (SSL) or Trbnsport Lbyer Security (TLS)
  * protocols.</p>
  *
- * <p>This class creates SSL sockets using the default
- * <code>SSLSocketFactory</code> (see {@link
- * SSLSocketFactory#getDefault}) or the default
- * <code>SSLServerSocketFactory</code> (see {@link
- * SSLServerSocketFactory#getDefault}) unless the
- * constructor taking an <code>SSLContext</code> is
- * used in which case the SSL sockets are created using
- * the <code>SSLSocketFactory</code> returned by
- * {@link SSLContext#getSocketFactory} or the
- * <code>SSLServerSocketFactory</code> returned by
- * {@link SSLContext#getServerSocketFactory}.
+ * <p>This clbss crebtes SSL sockets using the defbult
+ * <code>SSLSocketFbctory</code> (see {@link
+ * SSLSocketFbctory#getDefbult}) or the defbult
+ * <code>SSLServerSocketFbctory</code> (see {@link
+ * SSLServerSocketFbctory#getDefbult}) unless the
+ * constructor tbking bn <code>SSLContext</code> is
+ * used in which cbse the SSL sockets bre crebted using
+ * the <code>SSLSocketFbctory</code> returned by
+ * {@link SSLContext#getSocketFbctory} or the
+ * <code>SSLServerSocketFbctory</code> returned by
+ * {@link SSLContext#getServerSocketFbctory}.
  *
- * When an <code>SSLContext</code> is not supplied all the instances of this
- * class share the same keystore, and the same truststore (when client
- * authentication is required by the server). This behavior can be modified
- * by supplying an already initialized <code>SSLContext</code> instance.
+ * When bn <code>SSLContext</code> is not supplied bll the instbnces of this
+ * clbss shbre the sbme keystore, bnd the sbme truststore (when client
+ * buthenticbtion is required by the server). This behbvior cbn be modified
+ * by supplying bn blrebdy initiblized <code>SSLContext</code> instbnce.
  *
- * @see javax.net.ssl.SSLSocketFactory
- * @see javax.net.ssl.SSLServerSocketFactory
- * @see javax.rmi.ssl.SslRMIClientSocketFactory
+ * @see jbvbx.net.ssl.SSLSocketFbctory
+ * @see jbvbx.net.ssl.SSLServerSocketFbctory
+ * @see jbvbx.rmi.ssl.SslRMIClientSocketFbctory
  * @since 1.5
  */
-public class SslRMIServerSocketFactory implements RMIServerSocketFactory {
+public clbss SslRMIServerSocketFbctory implements RMIServerSocketFbctory {
 
     /**
-     * <p>Creates a new <code>SslRMIServerSocketFactory</code> with
-     * the default SSL socket configuration.</p>
+     * <p>Crebtes b new <code>SslRMIServerSocketFbctory</code> with
+     * the defbult SSL socket configurbtion.</p>
      *
-     * <p>SSL connections accepted by server sockets created by this
-     * factory have the default cipher suites and protocol versions
-     * enabled and do not require client authentication.</p>
+     * <p>SSL connections bccepted by server sockets crebted by this
+     * fbctory hbve the defbult cipher suites bnd protocol versions
+     * enbbled bnd do not require client buthenticbtion.</p>
      */
-    public SslRMIServerSocketFactory() {
-        this(null, null, false);
+    public SslRMIServerSocketFbctory() {
+        this(null, null, fblse);
     }
 
     /**
-     * <p>Creates a new <code>SslRMIServerSocketFactory</code> with
-     * the specified SSL socket configuration.</p>
+     * <p>Crebtes b new <code>SslRMIServerSocketFbctory</code> with
+     * the specified SSL socket configurbtion.</p>
      *
-     * @param enabledCipherSuites names of all the cipher suites to
-     * enable on SSL connections accepted by server sockets created by
-     * this factory, or <code>null</code> to use the cipher suites
-     * that are enabled by default
+     * @pbrbm enbbledCipherSuites nbmes of bll the cipher suites to
+     * enbble on SSL connections bccepted by server sockets crebted by
+     * this fbctory, or <code>null</code> to use the cipher suites
+     * thbt bre enbbled by defbult
      *
-     * @param enabledProtocols names of all the protocol versions to
-     * enable on SSL connections accepted by server sockets created by
-     * this factory, or <code>null</code> to use the protocol versions
-     * that are enabled by default
+     * @pbrbm enbbledProtocols nbmes of bll the protocol versions to
+     * enbble on SSL connections bccepted by server sockets crebted by
+     * this fbctory, or <code>null</code> to use the protocol versions
+     * thbt bre enbbled by defbult
      *
-     * @param needClientAuth <code>true</code> to require client
-     * authentication on SSL connections accepted by server sockets
-     * created by this factory; <code>false</code> to not require
-     * client authentication
+     * @pbrbm needClientAuth <code>true</code> to require client
+     * buthenticbtion on SSL connections bccepted by server sockets
+     * crebted by this fbctory; <code>fblse</code> to not require
+     * client buthenticbtion
      *
-     * @exception IllegalArgumentException when one or more of the cipher
-     * suites named by the <code>enabledCipherSuites</code> parameter is
-     * not supported, when one or more of the protocols named by the
-     * <code>enabledProtocols</code> parameter is not supported or when
-     * a problem is encountered while trying to check if the supplied
-     * cipher suites and protocols to be enabled are supported.
+     * @exception IllegblArgumentException when one or more of the cipher
+     * suites nbmed by the <code>enbbledCipherSuites</code> pbrbmeter is
+     * not supported, when one or more of the protocols nbmed by the
+     * <code>enbbledProtocols</code> pbrbmeter is not supported or when
+     * b problem is encountered while trying to check if the supplied
+     * cipher suites bnd protocols to be enbbled bre supported.
      *
-     * @see SSLSocket#setEnabledCipherSuites
-     * @see SSLSocket#setEnabledProtocols
+     * @see SSLSocket#setEnbbledCipherSuites
+     * @see SSLSocket#setEnbbledProtocols
      * @see SSLSocket#setNeedClientAuth
      */
-    public SslRMIServerSocketFactory(
-            String[] enabledCipherSuites,
-            String[] enabledProtocols,
-            boolean needClientAuth)
-            throws IllegalArgumentException {
-        this(null, enabledCipherSuites, enabledProtocols, needClientAuth);
+    public SslRMIServerSocketFbctory(
+            String[] enbbledCipherSuites,
+            String[] enbbledProtocols,
+            boolebn needClientAuth)
+            throws IllegblArgumentException {
+        this(null, enbbledCipherSuites, enbbledProtocols, needClientAuth);
     }
 
     /**
-     * <p>Creates a new <code>SslRMIServerSocketFactory</code> with the
-     * specified <code>SSLContext</code> and SSL socket configuration.</p>
+     * <p>Crebtes b new <code>SslRMIServerSocketFbctory</code> with the
+     * specified <code>SSLContext</code> bnd SSL socket configurbtion.</p>
      *
-     * @param context the SSL context to be used for creating SSL sockets.
-     * If <code>context</code> is null the default <code>SSLSocketFactory</code>
-     * or the default <code>SSLServerSocketFactory</code> will be used to
-     * create SSL sockets. Otherwise, the socket factory returned by
-     * <code>SSLContext.getSocketFactory()</code> or
-     * <code>SSLContext.getServerSocketFactory()</code> will be used instead.
+     * @pbrbm context the SSL context to be used for crebting SSL sockets.
+     * If <code>context</code> is null the defbult <code>SSLSocketFbctory</code>
+     * or the defbult <code>SSLServerSocketFbctory</code> will be used to
+     * crebte SSL sockets. Otherwise, the socket fbctory returned by
+     * <code>SSLContext.getSocketFbctory()</code> or
+     * <code>SSLContext.getServerSocketFbctory()</code> will be used instebd.
      *
-     * @param enabledCipherSuites names of all the cipher suites to
-     * enable on SSL connections accepted by server sockets created by
-     * this factory, or <code>null</code> to use the cipher suites
-     * that are enabled by default
+     * @pbrbm enbbledCipherSuites nbmes of bll the cipher suites to
+     * enbble on SSL connections bccepted by server sockets crebted by
+     * this fbctory, or <code>null</code> to use the cipher suites
+     * thbt bre enbbled by defbult
      *
-     * @param enabledProtocols names of all the protocol versions to
-     * enable on SSL connections accepted by server sockets created by
-     * this factory, or <code>null</code> to use the protocol versions
-     * that are enabled by default
+     * @pbrbm enbbledProtocols nbmes of bll the protocol versions to
+     * enbble on SSL connections bccepted by server sockets crebted by
+     * this fbctory, or <code>null</code> to use the protocol versions
+     * thbt bre enbbled by defbult
      *
-     * @param needClientAuth <code>true</code> to require client
-     * authentication on SSL connections accepted by server sockets
-     * created by this factory; <code>false</code> to not require
-     * client authentication
+     * @pbrbm needClientAuth <code>true</code> to require client
+     * buthenticbtion on SSL connections bccepted by server sockets
+     * crebted by this fbctory; <code>fblse</code> to not require
+     * client buthenticbtion
      *
-     * @exception IllegalArgumentException when one or more of the cipher
-     * suites named by the <code>enabledCipherSuites</code> parameter is
-     * not supported, when one or more of the protocols named by the
-     * <code>enabledProtocols</code> parameter is not supported or when
-     * a problem is encountered while trying to check if the supplied
-     * cipher suites and protocols to be enabled are supported.
+     * @exception IllegblArgumentException when one or more of the cipher
+     * suites nbmed by the <code>enbbledCipherSuites</code> pbrbmeter is
+     * not supported, when one or more of the protocols nbmed by the
+     * <code>enbbledProtocols</code> pbrbmeter is not supported or when
+     * b problem is encountered while trying to check if the supplied
+     * cipher suites bnd protocols to be enbbled bre supported.
      *
-     * @see SSLSocket#setEnabledCipherSuites
-     * @see SSLSocket#setEnabledProtocols
+     * @see SSLSocket#setEnbbledCipherSuites
+     * @see SSLSocket#setEnbbledProtocols
      * @see SSLSocket#setNeedClientAuth
      * @since 1.7
      */
-    public SslRMIServerSocketFactory(
+    public SslRMIServerSocketFbctory(
             SSLContext context,
-            String[] enabledCipherSuites,
-            String[] enabledProtocols,
-            boolean needClientAuth)
-            throws IllegalArgumentException {
-        // Initialize the configuration parameters.
+            String[] enbbledCipherSuites,
+            String[] enbbledProtocols,
+            boolebn needClientAuth)
+            throws IllegblArgumentException {
+        // Initiblize the configurbtion pbrbmeters.
         //
-        this.enabledCipherSuites = enabledCipherSuites == null ?
-            null : enabledCipherSuites.clone();
-        this.enabledProtocols = enabledProtocols == null ?
-            null : enabledProtocols.clone();
+        this.enbbledCipherSuites = enbbledCipherSuites == null ?
+            null : enbbledCipherSuites.clone();
+        this.enbbledProtocols = enbbledProtocols == null ?
+            null : enbbledProtocols.clone();
         this.needClientAuth = needClientAuth;
 
-        // Force the initialization of the default at construction time,
-        // rather than delaying it to the first time createServerSocket()
-        // is called.
+        // Force the initiblizbtion of the defbult bt construction time,
+        // rbther thbn delbying it to the first time crebteServerSocket()
+        // is cblled.
         //
         this.context = context;
-        final SSLSocketFactory sslSocketFactory =
+        finbl SSLSocketFbctory sslSocketFbctory =
                 context == null ?
-                    getDefaultSSLSocketFactory() : context.getSocketFactory();
+                    getDefbultSSLSocketFbctory() : context.getSocketFbctory();
         SSLSocket sslSocket = null;
-        if (this.enabledCipherSuites != null || this.enabledProtocols != null) {
+        if (this.enbbledCipherSuites != null || this.enbbledProtocols != null) {
             try {
-                sslSocket = (SSLSocket) sslSocketFactory.createSocket();
-            } catch (Exception e) {
-                final String msg = "Unable to check if the cipher suites " +
-                        "and protocols to enable are supported";
-                throw (IllegalArgumentException)
-                new IllegalArgumentException(msg).initCause(e);
+                sslSocket = (SSLSocket) sslSocketFbctory.crebteSocket();
+            } cbtch (Exception e) {
+                finbl String msg = "Unbble to check if the cipher suites " +
+                        "bnd protocols to enbble bre supported";
+                throw (IllegblArgumentException)
+                new IllegblArgumentException(msg).initCbuse(e);
             }
         }
 
-        // Check if all the cipher suites and protocol versions to enable
-        // are supported by the underlying SSL/TLS implementation and if
-        // true create lists from arrays.
+        // Check if bll the cipher suites bnd protocol versions to enbble
+        // bre supported by the underlying SSL/TLS implementbtion bnd if
+        // true crebte lists from brrbys.
         //
-        if (this.enabledCipherSuites != null) {
-            sslSocket.setEnabledCipherSuites(this.enabledCipherSuites);
-            enabledCipherSuitesList = Arrays.asList(this.enabledCipherSuites);
+        if (this.enbbledCipherSuites != null) {
+            sslSocket.setEnbbledCipherSuites(this.enbbledCipherSuites);
+            enbbledCipherSuitesList = Arrbys.bsList(this.enbbledCipherSuites);
         }
-        if (this.enabledProtocols != null) {
-            sslSocket.setEnabledProtocols(this.enabledProtocols);
-            enabledProtocolsList = Arrays.asList(this.enabledProtocols);
+        if (this.enbbledProtocols != null) {
+            sslSocket.setEnbbledProtocols(this.enbbledProtocols);
+            enbbledProtocolsList = Arrbys.bsList(this.enbbledProtocols);
         }
     }
 
     /**
-     * <p>Returns the names of the cipher suites enabled on SSL
-     * connections accepted by server sockets created by this factory,
-     * or <code>null</code> if this factory uses the cipher suites
-     * that are enabled by default.</p>
+     * <p>Returns the nbmes of the cipher suites enbbled on SSL
+     * connections bccepted by server sockets crebted by this fbctory,
+     * or <code>null</code> if this fbctory uses the cipher suites
+     * thbt bre enbbled by defbult.</p>
      *
-     * @return an array of cipher suites enabled, or <code>null</code>
+     * @return bn brrby of cipher suites enbbled, or <code>null</code>
      *
-     * @see SSLSocket#setEnabledCipherSuites
+     * @see SSLSocket#setEnbbledCipherSuites
      */
-    public final String[] getEnabledCipherSuites() {
-        return enabledCipherSuites == null ?
-            null : enabledCipherSuites.clone();
+    public finbl String[] getEnbbledCipherSuites() {
+        return enbbledCipherSuites == null ?
+            null : enbbledCipherSuites.clone();
     }
 
     /**
-     * <p>Returns the names of the protocol versions enabled on SSL
-     * connections accepted by server sockets created by this factory,
-     * or <code>null</code> if this factory uses the protocol versions
-     * that are enabled by default.</p>
+     * <p>Returns the nbmes of the protocol versions enbbled on SSL
+     * connections bccepted by server sockets crebted by this fbctory,
+     * or <code>null</code> if this fbctory uses the protocol versions
+     * thbt bre enbbled by defbult.</p>
      *
-     * @return an array of protocol versions enabled, or
+     * @return bn brrby of protocol versions enbbled, or
      * <code>null</code>
      *
-     * @see SSLSocket#setEnabledProtocols
+     * @see SSLSocket#setEnbbledProtocols
      */
-    public final String[] getEnabledProtocols() {
-        return enabledProtocols == null ?
-            null : enabledProtocols.clone();
+    public finbl String[] getEnbbledProtocols() {
+        return enbbledProtocols == null ?
+            null : enbbledProtocols.clone();
     }
 
     /**
-     * <p>Returns <code>true</code> if client authentication is
-     * required on SSL connections accepted by server sockets created
-     * by this factory.</p>
+     * <p>Returns <code>true</code> if client buthenticbtion is
+     * required on SSL connections bccepted by server sockets crebted
+     * by this fbctory.</p>
      *
-     * @return <code>true</code> if client authentication is required
+     * @return <code>true</code> if client buthenticbtion is required
      *
      * @see SSLSocket#setNeedClientAuth
      */
-    public final boolean getNeedClientAuth() {
+    public finbl boolebn getNeedClientAuth() {
         return needClientAuth;
     }
 
     /**
-     * <p>Creates a server socket that accepts SSL connections
-     * configured according to this factory's SSL socket configuration
-     * parameters.</p>
+     * <p>Crebtes b server socket thbt bccepts SSL connections
+     * configured bccording to this fbctory's SSL socket configurbtion
+     * pbrbmeters.</p>
      */
-    public ServerSocket createServerSocket(int port) throws IOException {
-        final SSLSocketFactory sslSocketFactory =
+    public ServerSocket crebteServerSocket(int port) throws IOException {
+        finbl SSLSocketFbctory sslSocketFbctory =
                 context == null ?
-                    getDefaultSSLSocketFactory() : context.getSocketFactory();
+                    getDefbultSSLSocketFbctory() : context.getSocketFbctory();
         return new ServerSocket(port) {
-            public Socket accept() throws IOException {
-                Socket socket = super.accept();
-                SSLSocket sslSocket = (SSLSocket) sslSocketFactory.createSocket(
-                        socket, socket.getInetAddress().getHostName(),
+            public Socket bccept() throws IOException {
+                Socket socket = super.bccept();
+                SSLSocket sslSocket = (SSLSocket) sslSocketFbctory.crebteSocket(
+                        socket, socket.getInetAddress().getHostNbme(),
                         socket.getPort(), true);
-                sslSocket.setUseClientMode(false);
-                if (enabledCipherSuites != null) {
-                    sslSocket.setEnabledCipherSuites(enabledCipherSuites);
+                sslSocket.setUseClientMode(fblse);
+                if (enbbledCipherSuites != null) {
+                    sslSocket.setEnbbledCipherSuites(enbbledCipherSuites);
                 }
-                if (enabledProtocols != null) {
-                    sslSocket.setEnabledProtocols(enabledProtocols);
+                if (enbbledProtocols != null) {
+                    sslSocket.setEnbbledProtocols(enbbledProtocols);
                 }
                 sslSocket.setNeedClientAuth(needClientAuth);
                 return sslSocket;
@@ -277,102 +277,102 @@ public class SslRMIServerSocketFactory implements RMIServerSocketFactory {
     }
 
     /**
-     * <p>Indicates whether some other object is "equal to" this one.</p>
+     * <p>Indicbtes whether some other object is "equbl to" this one.</p>
      *
-     * <p>Two <code>SslRMIServerSocketFactory</code> objects are equal
-     * if they have been constructed with the same SSL context and
-     * SSL socket configuration parameters.</p>
+     * <p>Two <code>SslRMIServerSocketFbctory</code> objects bre equbl
+     * if they hbve been constructed with the sbme SSL context bnd
+     * SSL socket configurbtion pbrbmeters.</p>
      *
-     * <p>A subclass should override this method (as well as
-     * {@link #hashCode()}) if it adds instance state that affects
-     * equality.</p>
+     * <p>A subclbss should override this method (bs well bs
+     * {@link #hbshCode()}) if it bdds instbnce stbte thbt bffects
+     * equblity.</p>
      */
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
+    public boolebn equbls(Object obj) {
+        if (obj == null) return fblse;
         if (obj == this) return true;
-        if (!(obj instanceof SslRMIServerSocketFactory))
-            return false;
-        SslRMIServerSocketFactory that = (SslRMIServerSocketFactory) obj;
-        return (getClass().equals(that.getClass()) && checkParameters(that));
+        if (!(obj instbnceof SslRMIServerSocketFbctory))
+            return fblse;
+        SslRMIServerSocketFbctory thbt = (SslRMIServerSocketFbctory) obj;
+        return (getClbss().equbls(thbt.getClbss()) && checkPbrbmeters(thbt));
     }
 
-    private boolean checkParameters(SslRMIServerSocketFactory that) {
+    privbte boolebn checkPbrbmeters(SslRMIServerSocketFbctory thbt) {
         // SSL context
         //
-        if (context == null ? that.context != null : !context.equals(that.context))
-            return false;
+        if (context == null ? thbt.context != null : !context.equbls(thbt.context))
+            return fblse;
 
-        // needClientAuth flag
+        // needClientAuth flbg
         //
-        if (needClientAuth != that.needClientAuth)
-            return false;
+        if (needClientAuth != thbt.needClientAuth)
+            return fblse;
 
-        // enabledCipherSuites
+        // enbbledCipherSuites
         //
-        if ((enabledCipherSuites == null && that.enabledCipherSuites != null) ||
-                (enabledCipherSuites != null && that.enabledCipherSuites == null))
-            return false;
-        if (enabledCipherSuites != null && that.enabledCipherSuites != null) {
-            List<String> thatEnabledCipherSuitesList =
-                    Arrays.asList(that.enabledCipherSuites);
-            if (!enabledCipherSuitesList.equals(thatEnabledCipherSuitesList))
-                return false;
+        if ((enbbledCipherSuites == null && thbt.enbbledCipherSuites != null) ||
+                (enbbledCipherSuites != null && thbt.enbbledCipherSuites == null))
+            return fblse;
+        if (enbbledCipherSuites != null && thbt.enbbledCipherSuites != null) {
+            List<String> thbtEnbbledCipherSuitesList =
+                    Arrbys.bsList(thbt.enbbledCipherSuites);
+            if (!enbbledCipherSuitesList.equbls(thbtEnbbledCipherSuitesList))
+                return fblse;
         }
 
-        // enabledProtocols
+        // enbbledProtocols
         //
-        if ((enabledProtocols == null && that.enabledProtocols != null) ||
-                (enabledProtocols != null && that.enabledProtocols == null))
-            return false;
-        if (enabledProtocols != null && that.enabledProtocols != null) {
-            List<String> thatEnabledProtocolsList =
-                    Arrays.asList(that.enabledProtocols);
-            if (!enabledProtocolsList.equals(thatEnabledProtocolsList))
-                return false;
+        if ((enbbledProtocols == null && thbt.enbbledProtocols != null) ||
+                (enbbledProtocols != null && thbt.enbbledProtocols == null))
+            return fblse;
+        if (enbbledProtocols != null && thbt.enbbledProtocols != null) {
+            List<String> thbtEnbbledProtocolsList =
+                    Arrbys.bsList(thbt.enbbledProtocols);
+            if (!enbbledProtocolsList.equbls(thbtEnbbledProtocolsList))
+                return fblse;
         }
 
         return true;
     }
 
     /**
-     * <p>Returns a hash code value for this
-     * <code>SslRMIServerSocketFactory</code>.</p>
+     * <p>Returns b hbsh code vblue for this
+     * <code>SslRMIServerSocketFbctory</code>.</p>
      *
-     * @return a hash code value for this
-     * <code>SslRMIServerSocketFactory</code>.
+     * @return b hbsh code vblue for this
+     * <code>SslRMIServerSocketFbctory</code>.
      */
-    public int hashCode() {
-        return getClass().hashCode() +
-                (context == null ? 0 : context.hashCode()) +
-                (needClientAuth ? Boolean.TRUE.hashCode() : Boolean.FALSE.hashCode()) +
-                (enabledCipherSuites == null ? 0 : enabledCipherSuitesList.hashCode()) +
-                (enabledProtocols == null ? 0 : enabledProtocolsList.hashCode());
+    public int hbshCode() {
+        return getClbss().hbshCode() +
+                (context == null ? 0 : context.hbshCode()) +
+                (needClientAuth ? Boolebn.TRUE.hbshCode() : Boolebn.FALSE.hbshCode()) +
+                (enbbledCipherSuites == null ? 0 : enbbledCipherSuitesList.hbshCode()) +
+                (enbbledProtocols == null ? 0 : enbbledProtocolsList.hbshCode());
     }
 
-    // We use a static field because:
+    // We use b stbtic field becbuse:
     //
-    //    SSLSocketFactory.getDefault() always returns the same object
-    //    (at least on Sun's implementation), and we want to make sure
-    //    that the Javadoc & the implementation stay in sync.
+    //    SSLSocketFbctory.getDefbult() blwbys returns the sbme object
+    //    (bt lebst on Sun's implementbtion), bnd we wbnt to mbke sure
+    //    thbt the Jbvbdoc & the implementbtion stby in sync.
     //
-    // If someone needs to have different SslRMIServerSocketFactory
-    // factories with different underlying SSLSocketFactory objects
-    // using different keystores and truststores, he/she can always
-    // use the constructor that takes an SSLContext as input.
+    // If someone needs to hbve different SslRMIServerSocketFbctory
+    // fbctories with different underlying SSLSocketFbctory objects
+    // using different keystores bnd truststores, he/she cbn blwbys
+    // use the constructor thbt tbkes bn SSLContext bs input.
     //
-    private static SSLSocketFactory defaultSSLSocketFactory = null;
+    privbte stbtic SSLSocketFbctory defbultSSLSocketFbctory = null;
 
-    private static synchronized SSLSocketFactory getDefaultSSLSocketFactory() {
-        if (defaultSSLSocketFactory == null)
-            defaultSSLSocketFactory =
-                    (SSLSocketFactory) SSLSocketFactory.getDefault();
-        return defaultSSLSocketFactory;
+    privbte stbtic synchronized SSLSocketFbctory getDefbultSSLSocketFbctory() {
+        if (defbultSSLSocketFbctory == null)
+            defbultSSLSocketFbctory =
+                    (SSLSocketFbctory) SSLSocketFbctory.getDefbult();
+        return defbultSSLSocketFbctory;
     }
 
-    private final String[] enabledCipherSuites;
-    private final String[] enabledProtocols;
-    private final boolean needClientAuth;
-    private List<String> enabledCipherSuitesList;
-    private List<String> enabledProtocolsList;
-    private SSLContext context;
+    privbte finbl String[] enbbledCipherSuites;
+    privbte finbl String[] enbbledProtocols;
+    privbte finbl boolebn needClientAuth;
+    privbte List<String> enbbledCipherSuitesList;
+    privbte List<String> enbbledProtocolsList;
+    privbte SSLContext context;
 }

@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import javax.swing.event.*;
-import java.io.Serializable;
-import java.util.EventListener;
+import jbvbx.swing.event.*;
+import jbvb.io.Seriblizbble;
+import jbvb.util.EventListener;
 
 /**
- * The abstract definition for the data model that provides
- * a <code>List</code> with its contents.
+ * The bbstrbct definition for the dbtb model thbt provides
+ * b <code>List</code> with its contents.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @param <E> the type of the elements of this model
+ * @pbrbm <E> the type of the elements of this model
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class AbstractListModel<E> implements ListModel<E>, Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public bbstrbct clbss AbstrbctListModel<E> implements ListModel<E>, Seriblizbble
 {
     protected EventListenerList listenerList = new EventListenerList();
 
 
     /**
-     * Adds a listener to the list that's notified each time a change
-     * to the data model occurs.
+     * Adds b listener to the list thbt's notified ebch time b chbnge
+     * to the dbtb model occurs.
      *
-     * @param l the <code>ListDataListener</code> to be added
+     * @pbrbm l the <code>ListDbtbListener</code> to be bdded
      */
-    public void addListDataListener(ListDataListener l) {
-        listenerList.add(ListDataListener.class, l);
+    public void bddListDbtbListener(ListDbtbListener l) {
+        listenerList.bdd(ListDbtbListener.clbss, l);
     }
 
 
     /**
-     * Removes a listener from the list that's notified each time a
-     * change to the data model occurs.
+     * Removes b listener from the list thbt's notified ebch time b
+     * chbnge to the dbtb model occurs.
      *
-     * @param l the <code>ListDataListener</code> to be removed
+     * @pbrbm l the <code>ListDbtbListener</code> to be removed
      */
-    public void removeListDataListener(ListDataListener l) {
-        listenerList.remove(ListDataListener.class, l);
+    public void removeListDbtbListener(ListDbtbListener l) {
+        listenerList.remove(ListDbtbListener.clbss, l);
     }
 
 
     /**
-     * Returns an array of all the list data listeners
-     * registered on this <code>AbstractListModel</code>.
+     * Returns bn brrby of bll the list dbtb listeners
+     * registered on this <code>AbstrbctListModel</code>.
      *
-     * @return all of this model's <code>ListDataListener</code>s,
-     *         or an empty array if no list data listeners
-     *         are currently registered
+     * @return bll of this model's <code>ListDbtbListener</code>s,
+     *         or bn empty brrby if no list dbtb listeners
+     *         bre currently registered
      *
-     * @see #addListDataListener
-     * @see #removeListDataListener
+     * @see #bddListDbtbListener
+     * @see #removeListDbtbListener
      *
      * @since 1.4
      */
-    public ListDataListener[] getListDataListeners() {
-        return listenerList.getListeners(ListDataListener.class);
+    public ListDbtbListener[] getListDbtbListeners() {
+        return listenerList.getListeners(ListDbtbListener.clbss);
     }
 
 
     /**
-     * <code>AbstractListModel</code> subclasses must call this method
-     * <b>after</b>
-     * one or more elements of the list change.  The changed elements
-     * are specified by the closed interval index0, index1 -- the endpoints
-     * are included.  Note that
-     * index0 need not be less than or equal to index1.
+     * <code>AbstrbctListModel</code> subclbsses must cbll this method
+     * <b>bfter</b>
+     * one or more elements of the list chbnge.  The chbnged elements
+     * bre specified by the closed intervbl index0, index1 -- the endpoints
+     * bre included.  Note thbt
+     * index0 need not be less thbn or equbl to index1.
      *
-     * @param source the <code>ListModel</code> that changed, typically "this"
-     * @param index0 one end of the new interval
-     * @param index1 the other end of the new interval
+     * @pbrbm source the <code>ListModel</code> thbt chbnged, typicblly "this"
+     * @pbrbm index0 one end of the new intervbl
+     * @pbrbm index1 the other end of the new intervbl
      * @see EventListenerList
-     * @see DefaultListModel
+     * @see DefbultListModel
      */
-    protected void fireContentsChanged(Object source, int index0, int index1)
+    protected void fireContentsChbnged(Object source, int index0, int index1)
     {
         Object[] listeners = listenerList.getListenerList();
-        ListDataEvent e = null;
+        ListDbtbEvent e = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ListDataListener.class) {
+            if (listeners[i] == ListDbtbListener.clbss) {
                 if (e == null) {
-                    e = new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index0, index1);
+                    e = new ListDbtbEvent(source, ListDbtbEvent.CONTENTS_CHANGED, index0, index1);
                 }
-                ((ListDataListener)listeners[i+1]).contentsChanged(e);
+                ((ListDbtbListener)listeners[i+1]).contentsChbnged(e);
             }
         }
     }
 
 
     /**
-     * <code>AbstractListModel</code> subclasses must call this method
-     * <b>after</b>
-     * one or more elements are added to the model.  The new elements
-     * are specified by a closed interval index0, index1 -- the enpoints
-     * are included.  Note that
-     * index0 need not be less than or equal to index1.
+     * <code>AbstrbctListModel</code> subclbsses must cbll this method
+     * <b>bfter</b>
+     * one or more elements bre bdded to the model.  The new elements
+     * bre specified by b closed intervbl index0, index1 -- the enpoints
+     * bre included.  Note thbt
+     * index0 need not be less thbn or equbl to index1.
      *
-     * @param source the <code>ListModel</code> that changed, typically "this"
-     * @param index0 one end of the new interval
-     * @param index1 the other end of the new interval
+     * @pbrbm source the <code>ListModel</code> thbt chbnged, typicblly "this"
+     * @pbrbm index0 one end of the new intervbl
+     * @pbrbm index1 the other end of the new intervbl
      * @see EventListenerList
-     * @see DefaultListModel
+     * @see DefbultListModel
      */
-    protected void fireIntervalAdded(Object source, int index0, int index1)
+    protected void fireIntervblAdded(Object source, int index0, int index1)
     {
         Object[] listeners = listenerList.getListenerList();
-        ListDataEvent e = null;
+        ListDbtbEvent e = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ListDataListener.class) {
+            if (listeners[i] == ListDbtbListener.clbss) {
                 if (e == null) {
-                    e = new ListDataEvent(source, ListDataEvent.INTERVAL_ADDED, index0, index1);
+                    e = new ListDbtbEvent(source, ListDbtbEvent.INTERVAL_ADDED, index0, index1);
                 }
-                ((ListDataListener)listeners[i+1]).intervalAdded(e);
+                ((ListDbtbListener)listeners[i+1]).intervblAdded(e);
             }
         }
     }
 
 
     /**
-     * <code>AbstractListModel</code> subclasses must call this method
-     * <b>after</b> one or more elements are removed from the model.
-     * <code>index0</code> and <code>index1</code> are the end points
-     * of the interval that's been removed.  Note that <code>index0</code>
-     * need not be less than or equal to <code>index1</code>.
+     * <code>AbstrbctListModel</code> subclbsses must cbll this method
+     * <b>bfter</b> one or more elements bre removed from the model.
+     * <code>index0</code> bnd <code>index1</code> bre the end points
+     * of the intervbl thbt's been removed.  Note thbt <code>index0</code>
+     * need not be less thbn or equbl to <code>index1</code>.
      *
-     * @param source the <code>ListModel</code> that changed, typically "this"
-     * @param index0 one end of the removed interval,
+     * @pbrbm source the <code>ListModel</code> thbt chbnged, typicblly "this"
+     * @pbrbm index0 one end of the removed intervbl,
      *               including <code>index0</code>
-     * @param index1 the other end of the removed interval,
+     * @pbrbm index1 the other end of the removed intervbl,
      *               including <code>index1</code>
      * @see EventListenerList
-     * @see DefaultListModel
+     * @see DefbultListModel
      */
-    protected void fireIntervalRemoved(Object source, int index0, int index1)
+    protected void fireIntervblRemoved(Object source, int index0, int index1)
     {
         Object[] listeners = listenerList.getListenerList();
-        ListDataEvent e = null;
+        ListDbtbEvent e = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ListDataListener.class) {
+            if (listeners[i] == ListDbtbListener.clbss) {
                 if (e == null) {
-                    e = new ListDataEvent(source, ListDataEvent.INTERVAL_REMOVED, index0, index1);
+                    e = new ListDbtbEvent(source, ListDbtbEvent.INTERVAL_REMOVED, index0, index1);
                 }
-                ((ListDataListener)listeners[i+1]).intervalRemoved(e);
+                ((ListDbtbListener)listeners[i+1]).intervblRemoved(e);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered as
+     * Returns bn brrby of bll the objects currently registered bs
      * <code><em>Foo</em>Listener</code>s
      * upon this model.
      * <code><em>Foo</em>Listener</code>s
-     * are registered using the <code>add<em>Foo</em>Listener</code> method.
+     * bre registered using the <code>bdd<em>Foo</em>Listener</code> method.
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a list model
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl, such bs <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b list model
      * <code>m</code>
-     * for its list data listeners
+     * for its list dbtb listeners
      * with the following code:
      *
-     * <pre>ListDataListener[] ldls = (ListDataListener[])(m.getListeners(ListDataListener.class));</pre>
+     * <pre>ListDbtbListener[] ldls = (ListDbtbListener[])(m.getListeners(ListDbtbListener.clbss));</pre>
      *
      * If no such listeners exist,
-     * this method returns an empty array.
+     * this method returns bn empty brrby.
      *
-     * @param <T> the type of {@code EventListener} class being requested
-     * @param listenerType  the type of listeners requested;
-     *          this parameter should specify an interface
-     *          that descends from <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm <T> the type of {@code EventListener} clbss being requested
+     * @pbrbm listenerType  the type of listeners requested;
+     *          this pbrbmeter should specify bn interfbce
+     *          thbt descends from <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s
      *          on this model,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code> doesn't
-     *          specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code> doesn't
+     *          specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
-     * @see #getListDataListeners
+     * @see #getListDbtbListeners
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         return listenerList.getListeners(listenerType);
     }
 }

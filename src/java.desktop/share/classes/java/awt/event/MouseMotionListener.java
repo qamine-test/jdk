@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.event;
+pbckbge jbvb.bwt.event;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
 /**
- * The listener interface for receiving mouse motion events on a component.
- * (For clicks and other mouse events, use the <code>MouseListener</code>.)
+ * The listener interfbce for receiving mouse motion events on b component.
+ * (For clicks bnd other mouse events, use the <code>MouseListener</code>.)
  * <P>
- * The class that is interested in processing a mouse motion event
- * either implements this interface (and all the methods it
- * contains) or extends the abstract <code>MouseMotionAdapter</code> class
+ * The clbss thbt is interested in processing b mouse motion event
+ * either implements this interfbce (bnd bll the methods it
+ * contbins) or extends the bbstrbct <code>MouseMotionAdbpter</code> clbss
  * (overriding only the methods of interest).
  * <P>
- * The listener object created from that class is then registered with a
- * component using the component's <code>addMouseMotionListener</code>
- * method. A mouse motion event is generated when the mouse is moved
- * or dragged. (Many such events will be generated). When a mouse motion event
- * occurs, the relevant method in the listener object is invoked, and
- * the <code>MouseEvent</code> is passed to it.
+ * The listener object crebted from thbt clbss is then registered with b
+ * component using the component's <code>bddMouseMotionListener</code>
+ * method. A mouse motion event is generbted when the mouse is moved
+ * or drbgged. (Mbny such events will be generbted). When b mouse motion event
+ * occurs, the relevbnt method in the listener object is invoked, bnd
+ * the <code>MouseEvent</code> is pbssed to it.
  *
- * @author Amy Fowler
+ * @buthor Amy Fowler
  *
- * @see MouseMotionAdapter
+ * @see MouseMotionAdbpter
  * @see MouseEvent
- * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/mousemotionlistener.html">Tutorial: Writing a Mouse Motion Listener</a>
+ * @see <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/events/mousemotionlistener.html">Tutoribl: Writing b Mouse Motion Listener</b>
  *
  * @since 1.1
  */
-public interface MouseMotionListener extends EventListener {
+public interfbce MouseMotionListener extends EventListener {
 
     /**
-     * Invoked when a mouse button is pressed on a component and then
-     * dragged.  <code>MOUSE_DRAGGED</code> events will continue to be
-     * delivered to the component where the drag originated until the
-     * mouse button is released (regardless of whether the mouse position
+     * Invoked when b mouse button is pressed on b component bnd then
+     * drbgged.  <code>MOUSE_DRAGGED</code> events will continue to be
+     * delivered to the component where the drbg originbted until the
+     * mouse button is relebsed (regbrdless of whether the mouse position
      * is within the bounds of the component).
      * <p>
-     * Due to platform-dependent Drag&amp;Drop implementations,
-     * <code>MOUSE_DRAGGED</code> events may not be delivered during a native
-     * Drag&amp;Drop operation.
-     * @param e the event to be processed
+     * Due to plbtform-dependent Drbg&bmp;Drop implementbtions,
+     * <code>MOUSE_DRAGGED</code> events mby not be delivered during b nbtive
+     * Drbg&bmp;Drop operbtion.
+     * @pbrbm e the event to be processed
      */
-    public void mouseDragged(MouseEvent e);
+    public void mouseDrbgged(MouseEvent e);
 
     /**
-     * Invoked when the mouse cursor has been moved onto a component
-     * but no buttons have been pushed.
-     * @param e the event to be processed
+     * Invoked when the mouse cursor hbs been moved onto b component
+     * but no buttons hbve been pushed.
+     * @pbrbm e the event to be processed
      */
     public void mouseMoved(MouseEvent e);
 

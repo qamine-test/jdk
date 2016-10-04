@@ -1,190 +1,190 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.protocol.iiop;
+pbckbge com.sun.jmx.remote.protocol.iiop;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.math.BigDecimal;
+import jbvb.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.mbth.BigDecimbl;
 
 import org.omg.CORBA.Any;
 import org.omg.CORBA.Context;
 import org.omg.CORBA.NO_IMPLEMENT;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.TypeCode;
-import org.omg.CORBA.portable.BoxedValueHelper;
+import org.omg.CORBA.portbble.BoxedVblueHelper;
 
-@SuppressWarnings({"deprecation", "rawtypes"})
-public class ProxyInputStream extends org.omg.CORBA_2_3.portable.InputStream {
-    public ProxyInputStream(org.omg.CORBA.portable.InputStream in) {
+@SuppressWbrnings({"deprecbtion", "rbwtypes"})
+public clbss ProxyInputStrebm extends org.omg.CORBA_2_3.portbble.InputStrebm {
+    public ProxyInputStrebm(org.omg.CORBA.portbble.InputStrebm in) {
         this.in = in;
     }
 
-    public boolean read_boolean() {
-        return in.read_boolean();
+    public boolebn rebd_boolebn() {
+        return in.rebd_boolebn();
     }
 
-    public char read_char() {
-        return in.read_char();
+    public chbr rebd_chbr() {
+        return in.rebd_chbr();
     }
 
-    public char read_wchar() {
-        return in.read_wchar();
+    public chbr rebd_wchbr() {
+        return in.rebd_wchbr();
     }
 
-    public byte read_octet() {
-        return in.read_octet();
+    public byte rebd_octet() {
+        return in.rebd_octet();
     }
 
-    public short read_short() {
-        return in.read_short();
+    public short rebd_short() {
+        return in.rebd_short();
     }
 
-    public short read_ushort() {
-        return in.read_ushort();
+    public short rebd_ushort() {
+        return in.rebd_ushort();
     }
 
-    public int read_long() {
-        return in.read_long();
+    public int rebd_long() {
+        return in.rebd_long();
     }
 
-    public int read_ulong() {
-        return in.read_ulong();
+    public int rebd_ulong() {
+        return in.rebd_ulong();
     }
 
-    public long read_longlong() {
-        return in.read_longlong();
+    public long rebd_longlong() {
+        return in.rebd_longlong();
     }
 
-    public long read_ulonglong() {
-        return in.read_ulonglong();
+    public long rebd_ulonglong() {
+        return in.rebd_ulonglong();
     }
 
-    public float read_float() {
-        return in.read_float();
+    public flobt rebd_flobt() {
+        return in.rebd_flobt();
     }
 
-    public double read_double() {
-        return in.read_double();
+    public double rebd_double() {
+        return in.rebd_double();
     }
 
-    public String read_string() {
-        return in.read_string();
+    public String rebd_string() {
+        return in.rebd_string();
     }
 
-    public String read_wstring() {
-        return in.read_wstring();
+    public String rebd_wstring() {
+        return in.rebd_wstring();
     }
 
-    public void read_boolean_array(boolean[] value, int offset, int length) {
-        in.read_boolean_array(value, offset, length);
+    public void rebd_boolebn_brrby(boolebn[] vblue, int offset, int length) {
+        in.rebd_boolebn_brrby(vblue, offset, length);
     }
 
-    public void read_char_array(char[] value, int offset, int length) {
-        in.read_char_array(value, offset, length);
+    public void rebd_chbr_brrby(chbr[] vblue, int offset, int length) {
+        in.rebd_chbr_brrby(vblue, offset, length);
     }
 
-    public void read_wchar_array(char[] value, int offset, int length) {
-        in.read_wchar_array(value, offset, length);
+    public void rebd_wchbr_brrby(chbr[] vblue, int offset, int length) {
+        in.rebd_wchbr_brrby(vblue, offset, length);
     }
 
-    public void read_octet_array(byte[] value, int offset, int length) {
-        in.read_octet_array(value, offset, length);
+    public void rebd_octet_brrby(byte[] vblue, int offset, int length) {
+        in.rebd_octet_brrby(vblue, offset, length);
     }
 
-    public void read_short_array(short[] value, int offset, int length) {
-        in.read_short_array(value, offset, length);
+    public void rebd_short_brrby(short[] vblue, int offset, int length) {
+        in.rebd_short_brrby(vblue, offset, length);
     }
 
-    public void read_ushort_array(short[] value, int offset, int length) {
-        in.read_ushort_array(value, offset, length);
+    public void rebd_ushort_brrby(short[] vblue, int offset, int length) {
+        in.rebd_ushort_brrby(vblue, offset, length);
     }
 
-    public void read_long_array(int[] value, int offset, int length) {
-        in.read_long_array(value, offset, length);
+    public void rebd_long_brrby(int[] vblue, int offset, int length) {
+        in.rebd_long_brrby(vblue, offset, length);
     }
 
-    public void read_ulong_array(int[] value, int offset, int length) {
-        in.read_ulong_array(value, offset, length);
+    public void rebd_ulong_brrby(int[] vblue, int offset, int length) {
+        in.rebd_ulong_brrby(vblue, offset, length);
     }
 
-    public void read_longlong_array(long[] value, int offset, int length) {
-        in.read_longlong_array(value, offset, length);
+    public void rebd_longlong_brrby(long[] vblue, int offset, int length) {
+        in.rebd_longlong_brrby(vblue, offset, length);
     }
 
-    public void read_ulonglong_array(long[] value, int offset, int length) {
-        in.read_ulonglong_array(value, offset, length);
+    public void rebd_ulonglong_brrby(long[] vblue, int offset, int length) {
+        in.rebd_ulonglong_brrby(vblue, offset, length);
     }
 
-    public void read_float_array(float[] value, int offset, int length) {
-        in.read_float_array(value, offset, length);
+    public void rebd_flobt_brrby(flobt[] vblue, int offset, int length) {
+        in.rebd_flobt_brrby(vblue, offset, length);
     }
 
-    public void read_double_array(double[] value, int offset, int length) {
-        in.read_double_array(value, offset, length);
+    public void rebd_double_brrby(double[] vblue, int offset, int length) {
+        in.rebd_double_brrby(vblue, offset, length);
     }
 
-    public org.omg.CORBA.Object read_Object() {
-        return in.read_Object();
+    public org.omg.CORBA.Object rebd_Object() {
+        return in.rebd_Object();
     }
 
-    public TypeCode read_TypeCode() {
-        return in.read_TypeCode();
+    public TypeCode rebd_TypeCode() {
+        return in.rebd_TypeCode();
     }
 
-    public Any read_any() {
-        return in.read_any();
+    public Any rebd_bny() {
+        return in.rebd_bny();
     }
 
     /**
-     * @deprecated
+     * @deprecbted
      */
     @Override
-    @Deprecated
-    public org.omg.CORBA.Principal read_Principal() {
-        return in.read_Principal();
+    @Deprecbted
+    public org.omg.CORBA.Principbl rebd_Principbl() {
+        return in.rebd_Principbl();
     }
 
     @Override
-    public int read() throws IOException {
-        return in.read();
+    public int rebd() throws IOException {
+        return in.rebd();
     }
 
     @Override
-    public BigDecimal read_fixed() {
-        return in.read_fixed();
+    public BigDecimbl rebd_fixed() {
+        return in.rebd_fixed();
     }
 
     @Override
-    public Context read_Context() {
-        return in.read_Context();
+    public Context rebd_Context() {
+        return in.rebd_Context();
     }
 
     @Override
-    public org.omg.CORBA.Object read_Object(java.lang.Class clz) {
-        return in.read_Object(clz);
+    public org.omg.CORBA.Object rebd_Object(jbvb.lbng.Clbss clz) {
+        return in.rebd_Object(clz);
     }
 
     @Override
@@ -193,49 +193,49 @@ public class ProxyInputStream extends org.omg.CORBA_2_3.portable.InputStream {
     }
 
     @Override
-    public Serializable read_value() {
-        return narrow().read_value();
+    public Seriblizbble rebd_vblue() {
+        return nbrrow().rebd_vblue();
     }
 
     @Override
-    public Serializable read_value(Class clz) {
-        return narrow().read_value(clz);
+    public Seriblizbble rebd_vblue(Clbss clz) {
+        return nbrrow().rebd_vblue(clz);
     }
 
     @Override
-    public Serializable read_value(BoxedValueHelper factory) {
-        return narrow().read_value(factory);
+    public Seriblizbble rebd_vblue(BoxedVblueHelper fbctory) {
+        return nbrrow().rebd_vblue(fbctory);
     }
 
     @Override
-    public Serializable read_value(String rep_id) {
-        return narrow().read_value(rep_id);
+    public Seriblizbble rebd_vblue(String rep_id) {
+        return nbrrow().rebd_vblue(rep_id);
     }
 
     @Override
-    public Serializable read_value(Serializable value) {
-        return narrow().read_value(value);
+    public Seriblizbble rebd_vblue(Seriblizbble vblue) {
+        return nbrrow().rebd_vblue(vblue);
     }
 
     @Override
-    public Object read_abstract_interface() {
-        return narrow().read_abstract_interface();
+    public Object rebd_bbstrbct_interfbce() {
+        return nbrrow().rebd_bbstrbct_interfbce();
     }
 
     @Override
-    public Object read_abstract_interface(Class clz) {
-        return narrow().read_abstract_interface(clz);
+    public Object rebd_bbstrbct_interfbce(Clbss clz) {
+        return nbrrow().rebd_bbstrbct_interfbce(clz);
     }
 
-    protected org.omg.CORBA_2_3.portable.InputStream narrow() {
-        if (in instanceof org.omg.CORBA_2_3.portable.InputStream)
-            return (org.omg.CORBA_2_3.portable.InputStream) in;
+    protected org.omg.CORBA_2_3.portbble.InputStrebm nbrrow() {
+        if (in instbnceof org.omg.CORBA_2_3.portbble.InputStrebm)
+            return (org.omg.CORBA_2_3.portbble.InputStrebm) in;
         throw new NO_IMPLEMENT();
     }
 
-    public org.omg.CORBA.portable.InputStream getProxiedInputStream() {
+    public org.omg.CORBA.portbble.InputStrebm getProxiedInputStrebm() {
         return in;
     }
 
-    protected final org.omg.CORBA.portable.InputStream in;
+    protected finbl org.omg.CORBA.portbble.InputStrebm in;
 }

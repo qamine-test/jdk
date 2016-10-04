@@ -1,228 +1,228 @@
 
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  */
 
-package sun.nio.cs.ext;
+pbckbge sun.nio.cs.ext;
 
-import java.nio.CharBuffer;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import sun.nio.cs.HistoricallyNamedCharset;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.CoderResult;
+import sun.nio.cs.HistoricbllyNbmedChbrset;
 
-public class IBM33722
-    extends Charset
-    implements HistoricallyNamedCharset
+public clbss IBM33722
+    extends Chbrset
+    implements HistoricbllyNbmedChbrset
 {
 
     public IBM33722() {
-        super("x-IBM33722", ExtendedCharsets.aliasesFor("x-IBM33722"));
+        super("x-IBM33722", ExtendedChbrsets.blibsesFor("x-IBM33722"));
     }
 
-    public String historicalName() {
+    public String historicblNbme() {
         return "Cp33722";
     }
 
-    public boolean contains(Charset cs) {
-        return (cs instanceof IBM33722);
+    public boolebn contbins(Chbrset cs) {
+        return (cs instbnceof IBM33722);
     }
 
-    public CharsetDecoder newDecoder() {
+    public ChbrsetDecoder newDecoder() {
         return new Decoder(this);
     }
 
-    public CharsetEncoder newEncoder() {
+    public ChbrsetEncoder newEncoder() {
         return new Encoder(this);
     }
 
-    protected static class Decoder extends CharsetDecoder {
+    protected stbtic clbss Decoder extends ChbrsetDecoder {
 
-        private final int G0 = 0;
-        private final int G1 = 1;
-        private final int G2 = 2;
-        private final int G3 = 3;
-        private final int G4 = 4;
-        private final int SS2 =  0x8E;
-        private final int SS3 =  0x8F;
+        privbte finbl int G0 = 0;
+        privbte finbl int G1 = 1;
+        privbte finbl int G2 = 2;
+        privbte finbl int G3 = 3;
+        privbte finbl int G4 = 4;
+        privbte finbl int SS2 =  0x8E;
+        privbte finbl int SS3 =  0x8F;
 
-        private int firstByte, state;
+        privbte int firstByte, stbte;
 
-        public Decoder(Charset cs) {
+        public Decoder(Chbrset cs) {
                 super(cs, 1.0f, 1.0f);
         }
 
-        private CoderResult decodeArrayLoop(ByteBuffer src, CharBuffer dst) {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+        privbte CoderResult decodeArrbyLoop(ByteBuffer src, ChbrBuffer dst) {
+            byte[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            chbr[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             try {
             while (sp < sl) {
                 int byte1, byte2;
                 int inputSize = 1;
-                char outputChar = '\uFFFD';
-                byte1 = sa[sp] & 0xff;
+                chbr outputChbr = '\uFFFD';
+                byte1 = sb[sp] & 0xff;
 
                 if (byte1 == SS2) {
                     if (sl - sp < 2) {
                         return CoderResult.UNDERFLOW;
                     }
-                    byte1 = sa[sp + 1] & 0xff;
+                    byte1 = sb[sp + 1] & 0xff;
                     inputSize = 2;
-                    if ( byte1 < 0xa1 || byte1 > 0xfe) {   //valid first byte for G2
-                        return CoderResult.malformedForLength(2);
+                    if ( byte1 < 0xb1 || byte1 > 0xfe) {   //vblid first byte for G2
+                        return CoderResult.mblformedForLength(2);
                     }
-                    outputChar = mappingTableG2.charAt(byte1 - 0xa1);
+                    outputChbr = mbppingTbbleG2.chbrAt(byte1 - 0xb1);
                 } else if(byte1 == SS3 ) {                 //G3
                     if (sl - sp < 3) {
                         return CoderResult.UNDERFLOW;
                     }
-                    byte1 = sa[sp + 1] & 0xff;
-                    byte2 = sa[sp + 2] & 0xff;
+                    byte1 = sb[sp + 1] & 0xff;
+                    byte2 = sb[sp + 2] & 0xff;
                     inputSize = 3;
-                    if ( byte1 < 0xa1 || byte1 > 0xfe) {
-                        return CoderResult.malformedForLength(2);
+                    if ( byte1 < 0xb1 || byte1 > 0xfe) {
+                        return CoderResult.mblformedForLength(2);
                     }
-                    if ( byte2 < 0xa1 || byte2 > 0xfe) {
-                        return CoderResult.malformedForLength(3);
+                    if ( byte2 < 0xb1 || byte2 > 0xfe) {
+                        return CoderResult.mblformedForLength(3);
                     }
-                    outputChar = mappingTableG3.charAt(((byte1 - 0xa1) * 94) + byte2 - 0xa1);
-                } else if ( byte1 <= 0x9f ) {                // valid single byte
-                    outputChar = byteToCharTable.charAt(byte1);
-                } else if (byte1 < 0xa1 || byte1 > 0xfe) {   // invalid range?
-                    return CoderResult.malformedForLength(1);
+                    outputChbr = mbppingTbbleG3.chbrAt(((byte1 - 0xb1) * 94) + byte2 - 0xb1);
+                } else if ( byte1 <= 0x9f ) {                // vblid single byte
+                    outputChbr = byteToChbrTbble.chbrAt(byte1);
+                } else if (byte1 < 0xb1 || byte1 > 0xfe) {   // invblid rbnge?
+                    return CoderResult.mblformedForLength(1);
                 } else {                                     // G1
                     if (sl - sp < 2) {
                         return CoderResult.UNDERFLOW;
                     }
-                    byte2 = sa[sp + 1] & 0xff;
+                    byte2 = sb[sp + 1] & 0xff;
                     inputSize = 2;
-                    if ( byte2 < 0xa1 || byte2 > 0xfe) {
-                        return CoderResult.malformedForLength(2);
+                    if ( byte2 < 0xb1 || byte2 > 0xfe) {
+                        return CoderResult.mblformedForLength(2);
                     }
-                    outputChar = mappingTableG1.charAt(((byte1 - 0xa1) * 94) + byte2 - 0xa1);
+                    outputChbr = mbppingTbbleG1.chbrAt(((byte1 - 0xb1) * 94) + byte2 - 0xb1);
                 }
-                if  (outputChar == '\uFFFD')
-                    return CoderResult.unmappableForLength(inputSize);
+                if  (outputChbr == '\uFFFD')
+                    return CoderResult.unmbppbbleForLength(inputSize);
                 if (dl - dp < 1)
                     return CoderResult.OVERFLOW;
-                da[dp++] = outputChar;
+                db[dp++] = outputChbr;
                 sp += inputSize;
             }
             return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        private CoderResult decodeBufferLoop(ByteBuffer src, CharBuffer dst) {
-            int mark = src.position();
+        privbte CoderResult decodeBufferLoop(ByteBuffer src, ChbrBuffer dst) {
+            int mbrk = src.position();
             try {
-                while (src.hasRemaining()) {
+                while (src.hbsRembining()) {
                     int byte1, byte2;
                     int inputSize = 1;
-                    char outputChar = '\uFFFD';
+                    chbr outputChbr = '\uFFFD';
                     byte1 = src.get() & 0xff;
 
                     if (byte1 == SS2) {
-                        if (!src.hasRemaining())
+                        if (!src.hbsRembining())
                             return CoderResult.UNDERFLOW;
                         byte1 = src.get() & 0xff;
                         inputSize = 2;
-                        if ( byte1 < 0xa1 || byte1 > 0xfe) {   //valid first byte for G2
-                            return CoderResult.malformedForLength(2);
+                        if ( byte1 < 0xb1 || byte1 > 0xfe) {   //vblid first byte for G2
+                            return CoderResult.mblformedForLength(2);
                         }
-                        outputChar = mappingTableG2.charAt(byte1 - 0xa1);
+                        outputChbr = mbppingTbbleG2.chbrAt(byte1 - 0xb1);
                     } else if (byte1 == SS3 ) {                 //G3
-                        if (src.remaining() < 2)
+                        if (src.rembining() < 2)
                             return CoderResult.UNDERFLOW;
 
                         byte1 = src.get() & 0xff;
-                        if ( byte1 < 0xa1 || byte1 > 0xfe) {
-                            return CoderResult.malformedForLength(2);
+                        if ( byte1 < 0xb1 || byte1 > 0xfe) {
+                            return CoderResult.mblformedForLength(2);
                         }
                         byte2 = src.get() & 0xff;
-                        if ( byte2 < 0xa1 || byte2 > 0xfe) {
-                            return CoderResult.malformedForLength(3);
+                        if ( byte2 < 0xb1 || byte2 > 0xfe) {
+                            return CoderResult.mblformedForLength(3);
                         }
                         inputSize = 3;
-                        outputChar = mappingTableG3.charAt(((byte1 - 0xa1) * 94) + byte2 - 0xa1);
-                    } else if ( byte1 <= 0x9f ) {                // valid single byte
-                        outputChar = byteToCharTable.charAt(byte1);
-                    } else if (byte1 < 0xa1 || byte1 > 0xfe) {   // invalid range?
-                        return CoderResult.malformedForLength(1);
+                        outputChbr = mbppingTbbleG3.chbrAt(((byte1 - 0xb1) * 94) + byte2 - 0xb1);
+                    } else if ( byte1 <= 0x9f ) {                // vblid single byte
+                        outputChbr = byteToChbrTbble.chbrAt(byte1);
+                    } else if (byte1 < 0xb1 || byte1 > 0xfe) {   // invblid rbnge?
+                        return CoderResult.mblformedForLength(1);
                     } else {                                     // G1
-                        if (src.remaining() < 1)
+                        if (src.rembining() < 1)
                             return CoderResult.UNDERFLOW;
                         byte2 = src.get() & 0xff;
-                        if ( byte2 < 0xa1 || byte2 > 0xfe) {
-                            return CoderResult.malformedForLength(2);
+                        if ( byte2 < 0xb1 || byte2 > 0xfe) {
+                            return CoderResult.mblformedForLength(2);
                         }
                         inputSize = 2;
-                        outputChar = mappingTableG1.charAt(((byte1 - 0xa1) * 94) + byte2 - 0xa1);
+                        outputChbr = mbppingTbbleG1.chbrAt(((byte1 - 0xb1) * 94) + byte2 - 0xb1);
                     }
 
-                    if (outputChar == '\uFFFD')
-                        return CoderResult.unmappableForLength(inputSize);
-                    if (!dst.hasRemaining())
+                    if (outputChbr == '\uFFFD')
+                        return CoderResult.unmbppbbleForLength(inputSize);
+                    if (!dst.hbsRembining())
                         return CoderResult.OVERFLOW;
-                    dst.put(outputChar);
-                    mark += inputSize;
+                    dst.put(outputChbr);
+                    mbrk += inputSize;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                    src.position(mark);
+            } finblly {
+                    src.position(mbrk);
             }
         }
 
-        protected CoderResult decodeLoop(ByteBuffer src, CharBuffer dst) {
-            if (true && src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
+        protected CoderResult decodeLoop(ByteBuffer src, ChbrBuffer dst) {
+            if (true && src.hbsArrby() && dst.hbsArrby())
+                return decodeArrbyLoop(src, dst);
             else
                 return decodeBufferLoop(src, dst);
         }
 
-        private final static String byteToCharTable;
-        private final static String mappingTableG1;
-        private final static String mappingTableG2;
-        private final static String mappingTableG3;
-        static {
-            byteToCharTable =
+        privbte finbl stbtic String byteToChbrTbble;
+        privbte finbl stbtic String mbppingTbbleG1;
+        privbte finbl stbtic String mbppingTbbleG2;
+        privbte finbl stbtic String mbppingTbbleG3;
+        stbtic {
+            byteToChbrTbble =
                 "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007" +
                 "\u0008\u0009\n\u000B\u000C\r\u000E\u000F" +
                 "\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017" +
@@ -244,7 +244,7 @@ public class IBM33722
                 "\u0090\u0091\u0092\u0093\u0094\u0095\u0096\u0097" +
                 "\u0098\u0099\u009A\u009B\u009C\u009D\u009E\u009F"
                 ;
-            mappingTableG1 =
+            mbppingTbbleG1 =
                 "\u3000\u3001\u3002\uFF0C\uFF0E\u30FB\uFF1A\uFF1B" +
                 "\uFF1F\uFF01\u309B\u309C\u00B4\uFF40\u00A8\uFF3E" +
                 "\uFFE3\uFF3F\u30FD\u30FE\u309D\u309E\u3003\u4EDD" +
@@ -1351,7 +1351,7 @@ public class IBM33722
                 "\uE3A0\uE3A1\uE3A2\uE3A3\uE3A4\uE3A5\uE3A6\uE3A7" +
                 "\uE3A8\uE3A9\uE3AA\uE3AB"
                 ;
-            mappingTableG2 =
+            mbppingTbbleG2 =
                 "\uFF61\uFF62\uFF63\uFF64\uFF65\uFF66\uFF67\uFF68" +
                 "\uFF69\uFF6A\uFF6B\uFF6C\uFF6D\uFF6E\uFF6F\uFF70" +
                 "\uFF71\uFF72\uFF73\uFF74\uFF75\uFF76\uFF77\uFF78" +
@@ -1365,7 +1365,7 @@ public class IBM33722
                 "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD" +
                 "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
                 ;
-          mappingTableG3 =
+          mbppingTbbleG3 =
                 "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD" +
                 "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD" +
                 "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD" +
@@ -2475,20 +2475,20 @@ public class IBM33722
         }
     }
 
-    protected static class Encoder extends SimpleEUCEncoder {
+    protected stbtic clbss Encoder extends SimpleEUCEncoder {
 
-        public Encoder(Charset cs) {
+        public Encoder(Chbrset cs) {
             super(cs);
-            super.mask1 = 0xFFE0;
-            super.mask2 = 0x001F;
+            super.mbsk1 = 0xFFE0;
+            super.mbsk2 = 0x001F;
             super.shift = 5;
             super.index1 = index1;
             super.index2 = index2;
-            super.index2a = index2a;
+            super.index2b = index2b;
             super.index2b = index2b;
         }
 
-        private static final short index1[] =
+        privbte stbtic finbl short index1[] =
         {
                  3780, 20704, 20672, 20640, 20608,  6664, 21617,  3165, // 0000 - 00FF
                  2344,  2344,  2344,  2344,  2344,  2344,  2344,  2344, // 0100 - 01FF
@@ -2748,10 +2748,10 @@ public class IBM33722
                 21792,   192,    73, 21824,    41,  2344,  2344,     0,
         };
 
-        private final static String index2;
-        private final static String index2a;
-        private final static String index2b;
-        static {
+        privbte finbl stbtic String index2;
+        privbte finbl stbtic String index2b;
+        privbte finbl stbtic String index2b;
+        stbtic {
             index2 =
                 "\u0000\uA1F1\u0000\uA1F2\u0000\uA2CC\u0000\uA1B1\u0000\uA2C3" + //     0 -     4
                 "\u0000\uA1EF\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" + //     5 -     9
@@ -4255,7 +4255,7 @@ public class IBM33722
                 "\u0000\u0000\u0000\uE8A9\u0000\uB7D5\u0000\u0000\u0000\u0000"   //  7495 -  7499
                 ;
 
-            index2a =
+            index2b =
                 "\u0000\uC1F0\u0000\uB7D5\u0000\u0000\u0000\u0000\u0000\u0000" + //  7500 -  7504
                 "\u0000\u0000\u0000\uB1C1\u0000\uE8A8\u0000\u0000\u0000\uB9D3" + //  7505 -  7509
                 "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" + //  7510 -  7514

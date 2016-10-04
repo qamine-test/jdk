@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text.html.parser;
+pbckbge jbvbx.swing.text.html.pbrser;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
-import java.io.PrintStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.BitSet;
-import java.util.StringTokenizer;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.net.URL;
+import jbvb.io.PrintStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.util.BitSet;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Properties;
+import jbvb.net.URL;
 
 /**
- * The representation of an SGML DTD.  DTD describes a document
- * syntax and is used in parsing of HTML documents.  It contains
- * a list of elements and their attributes as well as a list of
+ * The representbtion of bn SGML DTD.  DTD describes b document
+ * syntbx bnd is used in pbrsing of HTML documents.  It contbins
+ * b list of elements bnd their bttributes bs well bs b list of
  * entities defined in the DTD.
  *
  * @see Element
  * @see AttributeList
  * @see ContentModel
- * @see Parser
- * @author Arthur van Hoff
+ * @see Pbrser
+ * @buthor Arthur vbn Hoff
  */
 public
-class DTD implements DTDConstants {
+clbss DTD implements DTDConstbnts {
 
     /**
-     * the name of the DTD
+     * the nbme of the DTD
      */
-    public String name;
+    public String nbme;
 
     /**
      * The vector of elements
@@ -69,155 +69,155 @@ class DTD implements DTDConstants {
     public Vector<Element> elements = new Vector<Element>();
 
     /**
-     * The hash table contains the name of element and
+     * The hbsh tbble contbins the nbme of element bnd
      * the corresponding element.
      */
-    public Hashtable<String,Element> elementHash
-        = new Hashtable<String,Element>();
+    public Hbshtbble<String,Element> elementHbsh
+        = new Hbshtbble<String,Element>();
 
     /**
-     * The hash table contains an {@code Object} and the corresponding {@code Entity}
+     * The hbsh tbble contbins bn {@code Object} bnd the corresponding {@code Entity}
      */
-    public Hashtable<Object,Entity> entityHash
-        = new Hashtable<Object,Entity>();
+    public Hbshtbble<Object,Entity> entityHbsh
+        = new Hbshtbble<Object,Entity>();
 
     /**
-     * The element corresponding to pcdata.
+     * The element corresponding to pcdbtb.
      */
-    public final Element pcdata = getElement("#pcdata");
+    public finbl Element pcdbtb = getElement("#pcdbtb");
 
     /**
      * The element corresponding to html.
      */
-    public final Element html = getElement("html");
+    public finbl Element html = getElement("html");
 
     /**
-     * The element corresponding to meta.
+     * The element corresponding to metb.
      */
-    public final Element meta = getElement("meta");
+    public finbl Element metb = getElement("metb");
 
     /**
-     * The element corresponding to base.
+     * The element corresponding to bbse.
      */
-    public final Element base = getElement("base");
+    public finbl Element bbse = getElement("bbse");
 
     /**
      * The element corresponding to isindex.
      */
-    public final Element isindex = getElement("isindex");
+    public finbl Element isindex = getElement("isindex");
 
     /**
-     * The element corresponding to head.
+     * The element corresponding to hebd.
      */
-    public final Element head = getElement("head");
+    public finbl Element hebd = getElement("hebd");
 
     /**
      * The element corresponding to body.
      */
-    public final Element body = getElement("body");
+    public finbl Element body = getElement("body");
 
     /**
-     * The element corresponding to applet.
+     * The element corresponding to bpplet.
      */
-    public final Element applet = getElement("applet");
+    public finbl Element bpplet = getElement("bpplet");
 
     /**
-     * The element corresponding to param.
+     * The element corresponding to pbrbm.
      */
-    public final Element param = getElement("param");
+    public finbl Element pbrbm = getElement("pbrbm");
 
     /**
      * The element corresponding to p.
      */
-    public final Element p = getElement("p");
+    public finbl Element p = getElement("p");
 
     /**
      * The element corresponding to title.
      */
-    public final Element title = getElement("title");
-    final Element style = getElement("style");
-    final Element link = getElement("link");
-    final Element script = getElement("script");
+    public finbl Element title = getElement("title");
+    finbl Element style = getElement("style");
+    finbl Element link = getElement("link");
+    finbl Element script = getElement("script");
 
     /**
-     * The version of a file
+     * The version of b file
      */
-    public static final int FILE_VERSION = 1;
+    public stbtic finbl int FILE_VERSION = 1;
 
     /**
-     * Creates a new DTD with the specified name.
-     * @param name the name, as a <code>String</code> of the new DTD
+     * Crebtes b new DTD with the specified nbme.
+     * @pbrbm nbme the nbme, bs b <code>String</code> of the new DTD
      */
-    protected DTD(String name) {
-        this.name = name;
+    protected DTD(String nbme) {
+        this.nbme = nbme;
         defEntity("#RE", GENERAL, '\r');
         defEntity("#RS", GENERAL, '\n');
         defEntity("#SPACE", GENERAL, ' ');
-        defineElement("unknown", EMPTY, false, true, null, null, null, null);
+        defineElement("unknown", EMPTY, fblse, true, null, null, null, null);
     }
 
     /**
-     * Gets the name of the DTD.
-     * @return the name of the DTD
+     * Gets the nbme of the DTD.
+     * @return the nbme of the DTD
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Gets an entity by name.
-     * @param name  the entity name
+     * Gets bn entity by nbme.
+     * @pbrbm nbme  the entity nbme
      * @return the <code>Entity</code> corresponding to the
-     *   <code>name</code> <code>String</code>
+     *   <code>nbme</code> <code>String</code>
      */
-    public Entity getEntity(String name) {
-        return entityHash.get(name);
+    public Entity getEntity(String nbme) {
+        return entityHbsh.get(nbme);
     }
 
     /**
-     * Gets a character entity.
-     * @param ch  the character
+     * Gets b chbrbcter entity.
+     * @pbrbm ch  the chbrbcter
      * @return the <code>Entity</code> corresponding to the
-     *    <code>ch</code> character
+     *    <code>ch</code> chbrbcter
      */
     public Entity getEntity(int ch) {
-        return entityHash.get(Integer.valueOf(ch));
+        return entityHbsh.get(Integer.vblueOf(ch));
     }
 
     /**
-     * Returns <code>true</code> if the element is part of the DTD,
-     * otherwise returns <code>false</code>.
+     * Returns <code>true</code> if the element is pbrt of the DTD,
+     * otherwise returns <code>fblse</code>.
      *
-     * @param  name the requested <code>String</code>
-     * @return <code>true</code> if <code>name</code> exists as
-     *   part of the DTD, otherwise returns <code>false</code>
+     * @pbrbm  nbme the requested <code>String</code>
+     * @return <code>true</code> if <code>nbme</code> exists bs
+     *   pbrt of the DTD, otherwise returns <code>fblse</code>
      */
-    boolean elementExists(String name) {
-        return !"unknown".equals(name) && (elementHash.get(name) != null);
+    boolebn elementExists(String nbme) {
+        return !"unknown".equbls(nbme) && (elementHbsh.get(nbme) != null);
     }
 
     /**
-     * Gets an element by name. A new element is
-     * created if the element doesn't exist.
+     * Gets bn element by nbme. A new element is
+     * crebted if the element doesn't exist.
      *
-     * @param name the requested <code>String</code>
+     * @pbrbm nbme the requested <code>String</code>
      * @return the <code>Element</code> corresponding to
-     *   <code>name</code>, which may be newly created
+     *   <code>nbme</code>, which mby be newly crebted
      */
-    public Element getElement(String name) {
-        Element e = elementHash.get(name);
+    public Element getElement(String nbme) {
+        Element e = elementHbsh.get(nbme);
         if (e == null) {
-            e = new Element(name, elements.size());
-            elements.addElement(e);
-            elementHash.put(name, e);
+            e = new Element(nbme, elements.size());
+            elements.bddElement(e);
+            elementHbsh.put(nbme, e);
         }
         return e;
     }
 
     /**
-     * Gets an element by index.
+     * Gets bn element by index.
      *
-     * @param index the requested index
+     * @pbrbm index the requested index
      * @return the <code>Element</code> corresponding to
      *   <code>index</code>
      */
@@ -226,28 +226,28 @@ class DTD implements DTDConstants {
     }
 
     /**
-     * Defines an entity.  If the <code>Entity</code> specified
-     * by <code>name</code>, <code>type</code>, and <code>data</code>
-     * exists, it is returned; otherwise a new <code>Entity</code>
-     * is created and is returned.
+     * Defines bn entity.  If the <code>Entity</code> specified
+     * by <code>nbme</code>, <code>type</code>, bnd <code>dbtb</code>
+     * exists, it is returned; otherwise b new <code>Entity</code>
+     * is crebted bnd is returned.
      *
-     * @param name the name of the <code>Entity</code> as a <code>String</code>
-     * @param type the type of the <code>Entity</code>
-     * @param data the <code>Entity</code>'s data
-     * @return the <code>Entity</code> requested or a new <code>Entity</code>
+     * @pbrbm nbme the nbme of the <code>Entity</code> bs b <code>String</code>
+     * @pbrbm type the type of the <code>Entity</code>
+     * @pbrbm dbtb the <code>Entity</code>'s dbtb
+     * @return the <code>Entity</code> requested or b new <code>Entity</code>
      *   if not found
      */
-    public Entity defineEntity(String name, int type, char data[]) {
-        Entity ent = entityHash.get(name);
+    public Entity defineEntity(String nbme, int type, chbr dbtb[]) {
+        Entity ent = entityHbsh.get(nbme);
         if (ent == null) {
-            ent = new Entity(name, type, data);
-            entityHash.put(name, ent);
-            if (((type & GENERAL) != 0) && (data.length == 1)) {
+            ent = new Entity(nbme, type, dbtb);
+            entityHbsh.put(nbme, ent);
+            if (((type & GENERAL) != 0) && (dbtb.length == 1)) {
                 switch (type & ~GENERAL) {
-                  case CDATA:
-                  case SDATA:
-                      entityHash.put(Integer.valueOf(data[0]), ent);
-                    break;
+                  cbse CDATA:
+                  cbse SDATA:
+                      entityHbsh.put(Integer.vblueOf(dbtb[0]), ent);
+                    brebk;
                 }
             }
         }
@@ -255,88 +255,88 @@ class DTD implements DTDConstants {
     }
 
     /**
-     * Returns the <code>Element</code> which matches the
-     * specified parameters.  If one doesn't exist, a new
-     * one is created and returned.
+     * Returns the <code>Element</code> which mbtches the
+     * specified pbrbmeters.  If one doesn't exist, b new
+     * one is crebted bnd returned.
      *
-     * @param name        the name of the <code>Element</code>
-     * @param type        the type of the <code>Element</code>
-     * @param omitStart   <code>true</code> if start should be omitted
-     * @param omitEnd     <code>true</code> if end should be omitted
-     * @param content     the <code>ContentModel</code>
-     * @param exclusions  the set of elements that must not occur inside the element
-     * @param inclusions  the set of elements that can occur inside the element
-     * @param atts        the <code>AttributeList</code> specifying the
+     * @pbrbm nbme        the nbme of the <code>Element</code>
+     * @pbrbm type        the type of the <code>Element</code>
+     * @pbrbm omitStbrt   <code>true</code> if stbrt should be omitted
+     * @pbrbm omitEnd     <code>true</code> if end should be omitted
+     * @pbrbm content     the <code>ContentModel</code>
+     * @pbrbm exclusions  the set of elements thbt must not occur inside the element
+     * @pbrbm inclusions  the set of elements thbt cbn occur inside the element
+     * @pbrbm btts        the <code>AttributeList</code> specifying the
      *                    <code>Element</code>
      * @return the <code>Element</code> specified
      */
-    public Element defineElement(String name, int type,
-                       boolean omitStart, boolean omitEnd, ContentModel content,
-                       BitSet exclusions, BitSet inclusions, AttributeList atts) {
-        Element e = getElement(name);
+    public Element defineElement(String nbme, int type,
+                       boolebn omitStbrt, boolebn omitEnd, ContentModel content,
+                       BitSet exclusions, BitSet inclusions, AttributeList btts) {
+        Element e = getElement(nbme);
         e.type = type;
-        e.oStart = omitStart;
+        e.oStbrt = omitStbrt;
         e.oEnd = omitEnd;
         e.content = content;
         e.exclusions = exclusions;
         e.inclusions = inclusions;
-        e.atts = atts;
+        e.btts = btts;
         return e;
     }
 
     /**
-     * Defines attributes for an {@code Element}.
+     * Defines bttributes for bn {@code Element}.
      *
-     * @param name the name of the <code>Element</code>
-     * @param atts the <code>AttributeList</code> specifying the
+     * @pbrbm nbme the nbme of the <code>Element</code>
+     * @pbrbm btts the <code>AttributeList</code> specifying the
      *    <code>Element</code>
      */
-    public void defineAttributes(String name, AttributeList atts) {
-        Element e = getElement(name);
-        e.atts = atts;
+    public void defineAttributes(String nbme, AttributeList btts) {
+        Element e = getElement(nbme);
+        e.btts = btts;
     }
 
     /**
-     * Creates and returns a character <code>Entity</code>.
-     * @param name the entity's name
-     * @param type the entity's type
-     * @param ch   the entity's value (character)
-     * @return the new character <code>Entity</code>
+     * Crebtes bnd returns b chbrbcter <code>Entity</code>.
+     * @pbrbm nbme the entity's nbme
+     * @pbrbm type the entity's type
+     * @pbrbm ch   the entity's vblue (chbrbcter)
+     * @return the new chbrbcter <code>Entity</code>
      */
-    public Entity defEntity(String name, int type, int ch) {
-        char data[] = {(char)ch};
-        return defineEntity(name, type, data);
+    public Entity defEntity(String nbme, int type, int ch) {
+        chbr dbtb[] = {(chbr)ch};
+        return defineEntity(nbme, type, dbtb);
     }
 
     /**
-     * Creates and returns an <code>Entity</code>.
-     * @param name the entity's name
-     * @param type the entity's type
-     * @param str  the entity's data section
+     * Crebtes bnd returns bn <code>Entity</code>.
+     * @pbrbm nbme the entity's nbme
+     * @pbrbm type the entity's type
+     * @pbrbm str  the entity's dbtb section
      * @return the new <code>Entity</code>
      */
-    protected Entity defEntity(String name, int type, String str) {
+    protected Entity defEntity(String nbme, int type, String str) {
         int len = str.length();
-        char data[] = new char[len];
-        str.getChars(0, len, data, 0);
-        return defineEntity(name, type, data);
+        chbr dbtb[] = new chbr[len];
+        str.getChbrs(0, len, dbtb, 0);
+        return defineEntity(nbme, type, dbtb);
     }
 
     /**
-     * Creates and returns an <code>Element</code>.
-     * @param name        the element's name
-     * @param type        the element's type
-     * @param omitStart   {@code true} if the element needs no starting tag
-     * @param omitEnd     {@code true} if the element needs no closing tag
-     * @param content     the element's content
-     * @param exclusions  the elements that must be excluded from the content of the element
-     * @param inclusions  the elements that can be included as the content of the element
-     * @param atts        the attributes of the element
+     * Crebtes bnd returns bn <code>Element</code>.
+     * @pbrbm nbme        the element's nbme
+     * @pbrbm type        the element's type
+     * @pbrbm omitStbrt   {@code true} if the element needs no stbrting tbg
+     * @pbrbm omitEnd     {@code true} if the element needs no closing tbg
+     * @pbrbm content     the element's content
+     * @pbrbm exclusions  the elements thbt must be excluded from the content of the element
+     * @pbrbm inclusions  the elements thbt cbn be included bs the content of the element
+     * @pbrbm btts        the bttributes of the element
      * @return the new <code>Element</code>
      */
-    protected Element defElement(String name, int type,
-                       boolean omitStart, boolean omitEnd, ContentModel content,
-                       String[] exclusions, String[] inclusions, AttributeList atts) {
+    protected Element defElement(String nbme, int type,
+                       boolebn omitStbrt, boolebn omitEnd, ContentModel content,
+                       String[] exclusions, String[] inclusions, AttributeList btts) {
         BitSet excl = null;
         if (exclusions != null && exclusions.length > 0) {
             excl = new BitSet();
@@ -355,40 +355,40 @@ class DTD implements DTDConstants {
                 }
             }
         }
-        return defineElement(name, type, omitStart, omitEnd, content, excl, incl, atts);
+        return defineElement(nbme, type, omitStbrt, omitEnd, content, excl, incl, btts);
     }
 
     /**
-     * Creates and returns an <code>AttributeList</code> responding to a new attribute.
-     * @param name      the attribute's name
-     * @param type      the attribute's type
-     * @param modifier  the attribute's modifier
-     * @param value     the default value of the attribute
-     * @param values    the allowed values for the attribute (multiple values could be separated by '|')
-     * @param atts      the previous attribute of the element; to be placed to {@code AttributeList.next},
-     *                  creating a linked list
+     * Crebtes bnd returns bn <code>AttributeList</code> responding to b new bttribute.
+     * @pbrbm nbme      the bttribute's nbme
+     * @pbrbm type      the bttribute's type
+     * @pbrbm modifier  the bttribute's modifier
+     * @pbrbm vblue     the defbult vblue of the bttribute
+     * @pbrbm vblues    the bllowed vblues for the bttribute (multiple vblues could be sepbrbted by '|')
+     * @pbrbm btts      the previous bttribute of the element; to be plbced to {@code AttributeList.next},
+     *                  crebting b linked list
      * @return the new <code>AttributeList</code>
      */
-    protected AttributeList defAttributeList(String name, int type, int modifier,
-                                             String value, String values, AttributeList atts) {
-        Vector<String> vals = null;
-        if (values != null) {
-            vals = new Vector<String>();
-            for (StringTokenizer s = new StringTokenizer(values, "|") ; s.hasMoreTokens() ;) {
+    protected AttributeList defAttributeList(String nbme, int type, int modifier,
+                                             String vblue, String vblues, AttributeList btts) {
+        Vector<String> vbls = null;
+        if (vblues != null) {
+            vbls = new Vector<String>();
+            for (StringTokenizer s = new StringTokenizer(vblues, "|") ; s.hbsMoreTokens() ;) {
                 String str = s.nextToken();
                 if (str.length() > 0) {
-                    vals.addElement(str);
+                    vbls.bddElement(str);
                 }
             }
         }
-        return new AttributeList(name, type, modifier, value, vals, atts);
+        return new AttributeList(nbme, type, modifier, vblue, vbls, btts);
     }
 
     /**
-     * Creates and returns a new content model.
-     * @param type the type of the new content model
-     * @param obj  the content of the content model
-     * @param next pointer to the next content model
+     * Crebtes bnd returns b new content model.
+     * @pbrbm type the type of the new content model
+     * @pbrbm obj  the content of the content model
+     * @pbrbm next pointer to the next content model
      * @return the new <code>ContentModel</code>
      */
     protected ContentModel defContentModel(int type, Object obj, ContentModel next) {
@@ -396,166 +396,166 @@ class DTD implements DTDConstants {
     }
 
     /**
-     * Returns a string representation of this DTD.
-     * @return the string representation of this DTD
+     * Returns b string representbtion of this DTD.
+     * @return the string representbtion of this DTD
      */
     public String toString() {
-        return name;
+        return nbme;
     }
 
     /**
-     * The hashtable key of DTDs in AppContext.
+     * The hbshtbble key of DTDs in AppContext.
      */
-    private static final Object DTD_HASH_KEY = new Object();
+    privbte stbtic finbl Object DTD_HASH_KEY = new Object();
 
     /**
-     * Put a name and appropriate DTD to hashtable.
+     * Put b nbme bnd bppropribte DTD to hbshtbble.
      *
-     * @param name the name of the DTD
-     * @param dtd the DTD
+     * @pbrbm nbme the nbme of the DTD
+     * @pbrbm dtd the DTD
      */
-    public static void putDTDHash(String name, DTD dtd) {
-        getDtdHash().put(name, dtd);
+    public stbtic void putDTDHbsh(String nbme, DTD dtd) {
+        getDtdHbsh().put(nbme, dtd);
     }
 
     /**
-     * Returns a DTD with the specified <code>name</code>.  If
-     * a DTD with that name doesn't exist, one is created
-     * and returned.  Any uppercase characters in the name
-     * are converted to lowercase.
+     * Returns b DTD with the specified <code>nbme</code>.  If
+     * b DTD with thbt nbme doesn't exist, one is crebted
+     * bnd returned.  Any uppercbse chbrbcters in the nbme
+     * bre converted to lowercbse.
      *
-     * @param name the name of the DTD
-     * @return the DTD which corresponds to <code>name</code>
-     * @throws IOException if an I/O error occurs
+     * @pbrbm nbme the nbme of the DTD
+     * @return the DTD which corresponds to <code>nbme</code>
+     * @throws IOException if bn I/O error occurs
      */
-    public static DTD getDTD(String name) throws IOException {
-        name = name.toLowerCase();
-        DTD dtd = getDtdHash().get(name);
+    public stbtic DTD getDTD(String nbme) throws IOException {
+        nbme = nbme.toLowerCbse();
+        DTD dtd = getDtdHbsh().get(nbme);
         if (dtd == null)
-          dtd = new DTD(name);
+          dtd = new DTD(nbme);
 
         return dtd;
     }
 
-    private static Hashtable<String, DTD> getDtdHash() {
-        AppContext appContext = AppContext.getAppContext();
+    privbte stbtic Hbshtbble<String, DTD> getDtdHbsh() {
+        AppContext bppContext = AppContext.getAppContext();
 
-        @SuppressWarnings("unchecked")
-        Hashtable<String, DTD> result = (Hashtable<String, DTD>) appContext.get(DTD_HASH_KEY);
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<String, DTD> result = (Hbshtbble<String, DTD>) bppContext.get(DTD_HASH_KEY);
 
         if (result == null) {
-            result = new Hashtable<String, DTD>();
+            result = new Hbshtbble<String, DTD>();
 
-            appContext.put(DTD_HASH_KEY, result);
+            bppContext.put(DTD_HASH_KEY, result);
         }
 
         return result;
     }
 
     /**
-     * Recreates a DTD from an archived format.
-     * @param in  the <code>DataInputStream</code> to read from
-     * @throws IOException if an I/O error occurs
+     * Recrebtes b DTD from bn brchived formbt.
+     * @pbrbm in  the <code>DbtbInputStrebm</code> to rebd from
+     * @throws IOException if bn I/O error occurs
      */
-    public void read(DataInputStream in) throws IOException {
-        if (in.readInt() != FILE_VERSION) {
+    public void rebd(DbtbInputStrebm in) throws IOException {
+        if (in.rebdInt() != FILE_VERSION) {
         }
 
         //
-        // Read the list of names
+        // Rebd the list of nbmes
         //
-        String[] names = new String[in.readShort()];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = in.readUTF();
+        String[] nbmes = new String[in.rebdShort()];
+        for (int i = 0; i < nbmes.length; i++) {
+            nbmes[i] = in.rebdUTF();
         }
 
 
         //
-        // Read the entities
+        // Rebd the entities
         //
-        int num = in.readShort();
+        int num = in.rebdShort();
         for (int i = 0; i < num; i++) {
-            short nameId = in.readShort();
-            int type = in.readByte();
-            String name = in.readUTF();
-            defEntity(names[nameId], type | GENERAL, name);
+            short nbmeId = in.rebdShort();
+            int type = in.rebdByte();
+            String nbme = in.rebdUTF();
+            defEntity(nbmes[nbmeId], type | GENERAL, nbme);
         }
 
-        // Read the elements
+        // Rebd the elements
         //
-        num = in.readShort();
+        num = in.rebdShort();
         for (int i = 0; i < num; i++) {
-            short nameId = in.readShort();
-            int type = in.readByte();
-            byte flags = in.readByte();
-            ContentModel m = readContentModel(in, names);
-            String[] exclusions = readNameArray(in, names);
-            String[] inclusions = readNameArray(in, names);
-            AttributeList atts = readAttributeList(in, names);
-            defElement(names[nameId], type,
-                       ((flags & 0x01) != 0), ((flags & 0x02) != 0),
-                       m, exclusions, inclusions, atts);
+            short nbmeId = in.rebdShort();
+            int type = in.rebdByte();
+            byte flbgs = in.rebdByte();
+            ContentModel m = rebdContentModel(in, nbmes);
+            String[] exclusions = rebdNbmeArrby(in, nbmes);
+            String[] inclusions = rebdNbmeArrby(in, nbmes);
+            AttributeList btts = rebdAttributeList(in, nbmes);
+            defElement(nbmes[nbmeId], type,
+                       ((flbgs & 0x01) != 0), ((flbgs & 0x02) != 0),
+                       m, exclusions, inclusions, btts);
         }
     }
 
-    private ContentModel readContentModel(DataInputStream in, String[] names)
+    privbte ContentModel rebdContentModel(DbtbInputStrebm in, String[] nbmes)
                 throws IOException {
-        byte flag = in.readByte();
-        switch(flag) {
-            case 0:             // null
+        byte flbg = in.rebdByte();
+        switch(flbg) {
+            cbse 0:             // null
                 return null;
-            case 1: {           // content_c
-                int type = in.readByte();
-                ContentModel m = readContentModel(in, names);
-                ContentModel next = readContentModel(in, names);
+            cbse 1: {           // content_c
+                int type = in.rebdByte();
+                ContentModel m = rebdContentModel(in, nbmes);
+                ContentModel next = rebdContentModel(in, nbmes);
                 return defContentModel(type, m, next);
             }
-            case 2: {           // content_e
-                int type = in.readByte();
-                Element el = getElement(names[in.readShort()]);
-                ContentModel next = readContentModel(in, names);
+            cbse 2: {           // content_e
+                int type = in.rebdByte();
+                Element el = getElement(nbmes[in.rebdShort()]);
+                ContentModel next = rebdContentModel(in, nbmes);
                 return defContentModel(type, el, next);
             }
-        default:
-                throw new IOException("bad bdtd");
+        defbult:
+                throw new IOException("bbd bdtd");
         }
     }
 
-    private String[] readNameArray(DataInputStream in, String[] names)
+    privbte String[] rebdNbmeArrby(DbtbInputStrebm in, String[] nbmes)
                 throws IOException {
-        int num = in.readShort();
+        int num = in.rebdShort();
         if (num == 0) {
             return null;
         }
         String[] result = new String[num];
         for (int i = 0; i < num; i++) {
-            result[i] = names[in.readShort()];
+            result[i] = nbmes[in.rebdShort()];
         }
         return result;
     }
 
 
-    private AttributeList readAttributeList(DataInputStream in, String[] names)
+    privbte AttributeList rebdAttributeList(DbtbInputStrebm in, String[] nbmes)
                 throws IOException  {
         AttributeList result = null;
-        for (int num = in.readByte(); num > 0; --num) {
-            short nameId = in.readShort();
-            int type = in.readByte();
-            int modifier = in.readByte();
-            short valueId = in.readShort();
-            String value = (valueId == -1) ? null : names[valueId];
-            Vector<String> values = null;
-            short numValues = in.readShort();
-            if (numValues > 0) {
-                values = new Vector<String>(numValues);
-                for (int i = 0; i < numValues; i++) {
-                    values.addElement(names[in.readShort()]);
+        for (int num = in.rebdByte(); num > 0; --num) {
+            short nbmeId = in.rebdShort();
+            int type = in.rebdByte();
+            int modifier = in.rebdByte();
+            short vblueId = in.rebdShort();
+            String vblue = (vblueId == -1) ? null : nbmes[vblueId];
+            Vector<String> vblues = null;
+            short numVblues = in.rebdShort();
+            if (numVblues > 0) {
+                vblues = new Vector<String>(numVblues);
+                for (int i = 0; i < numVblues; i++) {
+                    vblues.bddElement(nbmes[in.rebdShort()]);
                 }
             }
-result = new AttributeList(names[nameId], type, modifier, value,
-                                       values, result);
+result = new AttributeList(nbmes[nbmeId], type, modifier, vblue,
+                                       vblues, result);
             // We reverse the order of the linked list by doing this, but
-            // that order isn't important.
+            // thbt order isn't importbnt.
         }
         return result;
     }

@@ -1,325 +1,325 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.text.*;
-import java.awt.*;
-import java.awt.font.*;
-import java.awt.geom.Rectangle2D;
+import jbvb.text.*;
+import jbvb.bwt.*;
+import jbvb.bwt.font.*;
+import jbvb.bwt.geom.Rectbngle2D;
 
 /**
- * A class to perform rendering of the glyphs.
- * This can be implemented to be stateless, or
- * to hold some information as a cache to
- * facilitate faster rendering and model/view
- * translation.  At a minimum, the GlyphPainter
- * allows a View implementation to perform its
- * duties independent of a particular version
- * of JVM and selection of capabilities (i.e.
- * shaping for i18n, etc).
+ * A clbss to perform rendering of the glyphs.
+ * This cbn be implemented to be stbteless, or
+ * to hold some informbtion bs b cbche to
+ * fbcilitbte fbster rendering bnd model/view
+ * trbnslbtion.  At b minimum, the GlyphPbinter
+ * bllows b View implementbtion to perform its
+ * duties independent of b pbrticulbr version
+ * of JVM bnd selection of cbpbbilities (i.e.
+ * shbping for i18n, etc).
  * <p>
- * This implementation is intended for operation
+ * This implementbtion is intended for operbtion
  * under the JDK.  It uses the
- * java.awt.font.TextLayout class to do i18n capable
+ * jbvb.bwt.font.TextLbyout clbss to do i18n cbpbble
  * rendering.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @see GlyphView
  */
-class GlyphPainter2 extends GlyphView.GlyphPainter {
+clbss GlyphPbinter2 extends GlyphView.GlyphPbinter {
 
-    public GlyphPainter2(TextLayout layout) {
-        this.layout = layout;
+    public GlyphPbinter2(TextLbyout lbyout) {
+        this.lbyout = lbyout;
     }
 
     /**
-     * Create a painter to use for the given GlyphView.
+     * Crebte b pbinter to use for the given GlyphView.
      */
-    public GlyphView.GlyphPainter getPainter(GlyphView v, int p0, int p1) {
+    public GlyphView.GlyphPbinter getPbinter(GlyphView v, int p0, int p1) {
         return null;
     }
 
     /**
-     * Determine the span the glyphs given a start location
-     * (for tab expansion).  This implementation assumes it
-     * has no tabs (i.e. TextLayout doesn't deal with tab
-     * expansion).
+     * Determine the spbn the glyphs given b stbrt locbtion
+     * (for tbb expbnsion).  This implementbtion bssumes it
+     * hbs no tbbs (i.e. TextLbyout doesn't debl with tbb
+     * expbnsion).
      */
-    public float getSpan(GlyphView v, int p0, int p1,
-                         TabExpander e, float x) {
+    public flobt getSpbn(GlyphView v, int p0, int p1,
+                         TbbExpbnder e, flobt x) {
 
-        if ((p0 == v.getStartOffset()) && (p1 == v.getEndOffset())) {
-            return layout.getAdvance();
+        if ((p0 == v.getStbrtOffset()) && (p1 == v.getEndOffset())) {
+            return lbyout.getAdvbnce();
         }
-        int p = v.getStartOffset();
+        int p = v.getStbrtOffset();
         int index0 = p0 - p;
         int index1 = p1 - p;
 
-        TextHitInfo hit0 = TextHitInfo.afterOffset(index0);
+        TextHitInfo hit0 = TextHitInfo.bfterOffset(index0);
         TextHitInfo hit1 = TextHitInfo.beforeOffset(index1);
-        float[] locs = layout.getCaretInfo(hit0);
-        float x0 = locs[0];
-        locs = layout.getCaretInfo(hit1);
-        float x1 = locs[0];
+        flobt[] locs = lbyout.getCbretInfo(hit0);
+        flobt x0 = locs[0];
+        locs = lbyout.getCbretInfo(hit1);
+        flobt x1 = locs[0];
         return (x1 > x0) ? x1 - x0 : x0 - x1;
     }
 
-    public float getHeight(GlyphView v) {
-        return layout.getAscent() + layout.getDescent() + layout.getLeading();
+    public flobt getHeight(GlyphView v) {
+        return lbyout.getAscent() + lbyout.getDescent() + lbyout.getLebding();
     }
 
     /**
-     * Fetch the ascent above the baseline for the glyphs
-     * corresponding to the given range in the model.
+     * Fetch the bscent bbove the bbseline for the glyphs
+     * corresponding to the given rbnge in the model.
      */
-    public float getAscent(GlyphView v) {
-        return layout.getAscent();
+    public flobt getAscent(GlyphView v) {
+        return lbyout.getAscent();
     }
 
     /**
-     * Fetch the descent below the baseline for the glyphs
-     * corresponding to the given range in the model.
+     * Fetch the descent below the bbseline for the glyphs
+     * corresponding to the given rbnge in the model.
      */
-    public float getDescent(GlyphView v) {
-        return layout.getDescent();
+    public flobt getDescent(GlyphView v) {
+        return lbyout.getDescent();
     }
 
     /**
-     * Paint the glyphs for the given view.  This is implemented
-     * to only render if the Graphics is of type Graphics2D which
-     * is required by TextLayout (and this should be the case if
+     * Pbint the glyphs for the given view.  This is implemented
+     * to only render if the Grbphics is of type Grbphics2D which
+     * is required by TextLbyout (bnd this should be the cbse if
      * running on the JDK).
      */
-    public void paint(GlyphView v, Graphics g, Shape a, int p0, int p1) {
-        if (g instanceof Graphics2D) {
-            Rectangle2D alloc = a.getBounds2D();
-            Graphics2D g2d = (Graphics2D)g;
-            float y = (float) alloc.getY() + layout.getAscent() + layout.getLeading();
-            float x = (float) alloc.getX();
-            if( p0 > v.getStartOffset() || p1 < v.getEndOffset() ) {
+    public void pbint(GlyphView v, Grbphics g, Shbpe b, int p0, int p1) {
+        if (g instbnceof Grbphics2D) {
+            Rectbngle2D blloc = b.getBounds2D();
+            Grbphics2D g2d = (Grbphics2D)g;
+            flobt y = (flobt) blloc.getY() + lbyout.getAscent() + lbyout.getLebding();
+            flobt x = (flobt) blloc.getX();
+            if( p0 > v.getStbrtOffset() || p1 < v.getEndOffset() ) {
                 try {
-                    //TextLayout can't render only part of it's range, so if a
-                    //partial range is required, add a clip region.
-                    Shape s = v.modelToView(p0, Position.Bias.Forward,
-                                            p1, Position.Bias.Backward, a);
-                    Shape savedClip = g.getClip();
+                    //TextLbyout cbn't render only pbrt of it's rbnge, so if b
+                    //pbrtibl rbnge is required, bdd b clip region.
+                    Shbpe s = v.modelToView(p0, Position.Bibs.Forwbrd,
+                                            p1, Position.Bibs.Bbckwbrd, b);
+                    Shbpe sbvedClip = g.getClip();
                     g2d.clip(s);
-                    layout.draw(g2d, x, y);
-                    g.setClip(savedClip);
-                } catch (BadLocationException e) {}
+                    lbyout.drbw(g2d, x, y);
+                    g.setClip(sbvedClip);
+                } cbtch (BbdLocbtionException e) {}
             } else {
-                layout.draw(g2d, x, y);
+                lbyout.drbw(g2d, x, y);
             }
         }
     }
 
-    public Shape modelToView(GlyphView v, int pos, Position.Bias bias,
-                             Shape a) throws BadLocationException {
-        int offs = pos - v.getStartOffset();
-        Rectangle2D alloc = a.getBounds2D();
-        TextHitInfo hit = (bias == Position.Bias.Forward) ?
-            TextHitInfo.afterOffset(offs) : TextHitInfo.beforeOffset(offs);
-        float[] locs = layout.getCaretInfo(hit);
+    public Shbpe modelToView(GlyphView v, int pos, Position.Bibs bibs,
+                             Shbpe b) throws BbdLocbtionException {
+        int offs = pos - v.getStbrtOffset();
+        Rectbngle2D blloc = b.getBounds2D();
+        TextHitInfo hit = (bibs == Position.Bibs.Forwbrd) ?
+            TextHitInfo.bfterOffset(offs) : TextHitInfo.beforeOffset(offs);
+        flobt[] locs = lbyout.getCbretInfo(hit);
 
-        // vertical at the baseline, should use slope and check if glyphs
-        // are being rendered vertically.
-        alloc.setRect(alloc.getX() + locs[0], alloc.getY(), 1, alloc.getHeight());
-        return alloc;
+        // verticbl bt the bbseline, should use slope bnd check if glyphs
+        // bre being rendered verticblly.
+        blloc.setRect(blloc.getX() + locs[0], blloc.getY(), 1, blloc.getHeight());
+        return blloc;
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Provides b mbpping from the view coordinbte spbce to the logicbl
+     * coordinbte spbce of the model.
      *
-     * @param v the view containing the view coordinates
-     * @param x the X coordinate
-     * @param y the Y coordinate
-     * @param a the allocated region to render into
-     * @param biasReturn either <code>Position.Bias.Forward</code>
-     *  or <code>Position.Bias.Backward</code> is returned as the
-     *  zero-th element of this array
-     * @return the location within the model that best represents the
+     * @pbrbm v the view contbining the view coordinbtes
+     * @pbrbm x the X coordinbte
+     * @pbrbm y the Y coordinbte
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm bibsReturn either <code>Position.Bibs.Forwbrd</code>
+     *  or <code>Position.Bibs.Bbckwbrd</code> is returned bs the
+     *  zero-th element of this brrby
+     * @return the locbtion within the model thbt best represents the
      *  given point of view
      * @see View#viewToModel
      */
-    public int viewToModel(GlyphView v, float x, float y, Shape a,
-                           Position.Bias[] biasReturn) {
+    public int viewToModel(GlyphView v, flobt x, flobt y, Shbpe b,
+                           Position.Bibs[] bibsReturn) {
 
-        Rectangle2D alloc = (a instanceof Rectangle2D) ? (Rectangle2D)a : a.getBounds2D();
-        //Move the y co-ord of the hit onto the baseline.  This is because TextLayout supports
-        //italic carets and we do not.
-        TextHitInfo hit = layout.hitTestChar(x - (float)alloc.getX(), 0);
+        Rectbngle2D blloc = (b instbnceof Rectbngle2D) ? (Rectbngle2D)b : b.getBounds2D();
+        //Move the y co-ord of the hit onto the bbseline.  This is becbuse TextLbyout supports
+        //itblic cbrets bnd we do not.
+        TextHitInfo hit = lbyout.hitTestChbr(x - (flobt)blloc.getX(), 0);
         int pos = hit.getInsertionIndex();
 
         if (pos == v.getEndOffset()) {
             pos--;
         }
 
-        biasReturn[0] = hit.isLeadingEdge() ? Position.Bias.Forward : Position.Bias.Backward;
-        return pos + v.getStartOffset();
+        bibsReturn[0] = hit.isLebdingEdge() ? Position.Bibs.Forwbrd : Position.Bibs.Bbckwbrd;
+        return pos + v.getStbrtOffset();
     }
 
     /**
-     * Determines the model location that represents the
-     * maximum advance that fits within the given span.
-     * This could be used to break the given view.  The result
-     * should be a location just shy of the given advance.  This
+     * Determines the model locbtion thbt represents the
+     * mbximum bdvbnce thbt fits within the given spbn.
+     * This could be used to brebk the given view.  The result
+     * should be b locbtion just shy of the given bdvbnce.  This
      * differs from viewToModel which returns the closest
-     * position which might be proud of the maximum advance.
+     * position which might be proud of the mbximum bdvbnce.
      *
-     * @param v the view to find the model location to break at.
-     * @param p0 the location in the model where the
-     *  fragment should start it's representation >= 0.
-     * @param pos the graphic location along the axis that the
-     *  broken view would occupy >= 0.  This may be useful for
-     *  things like tab calculations.
-     * @param len specifies the distance into the view
-     *  where a potential break is desired >= 0.
-     * @return the maximum model location possible for a break.
-     * @see View#breakView
+     * @pbrbm v the view to find the model locbtion to brebk bt.
+     * @pbrbm p0 the locbtion in the model where the
+     *  frbgment should stbrt it's representbtion >= 0.
+     * @pbrbm pos the grbphic locbtion blong the bxis thbt the
+     *  broken view would occupy >= 0.  This mby be useful for
+     *  things like tbb cblculbtions.
+     * @pbrbm len specifies the distbnce into the view
+     *  where b potentibl brebk is desired >= 0.
+     * @return the mbximum model locbtion possible for b brebk.
+     * @see View#brebkView
      */
-    public int getBoundedPosition(GlyphView v, int p0, float x, float len) {
+    public int getBoundedPosition(GlyphView v, int p0, flobt x, flobt len) {
         if( len < 0 )
-            throw new IllegalArgumentException("Length must be >= 0.");
-        // note: this only works because swing uses TextLayouts that are
+            throw new IllegblArgumentException("Length must be >= 0.");
+        // note: this only works becbuse swing uses TextLbyouts thbt bre
         // only pure rtl or pure ltr
         TextHitInfo hit;
-        if (layout.isLeftToRight()) {
-            hit = layout.hitTestChar(len, 0);
+        if (lbyout.isLeftToRight()) {
+            hit = lbyout.hitTestChbr(len, 0);
         } else {
-            hit = layout.hitTestChar(layout.getAdvance() - len, 0);
+            hit = lbyout.hitTestChbr(lbyout.getAdvbnce() - len, 0);
         }
-        return v.getStartOffset() + hit.getCharIndex();
+        return v.getStbrtOffset() + hit.getChbrIndex();
     }
 
     /**
-         * Provides a way to determine the next visually represented model
-         * location that one might place a caret.  Some views may not be
-         * visible, they might not be in the same order found in the model, or
-         * they just might not allow access to some of the locations in the
+         * Provides b wby to determine the next visublly represented model
+         * locbtion thbt one might plbce b cbret.  Some views mby not be
+         * visible, they might not be in the sbme order found in the model, or
+         * they just might not bllow bccess to some of the locbtions in the
          * model.
          *
-         * @param v the view to use
-         * @param pos the position to convert >= 0
-         * @param a the allocated region to render into
-         * @param direction the direction from the current position that can
-         *  be thought of as the arrow keys typically found on a keyboard.
-         *  This may be SwingConstants.WEST, SwingConstants.EAST,
-         *  SwingConstants.NORTH, or SwingConstants.SOUTH.
-         * @return the location within the model that best represents the next
-         *  location visual position.
-         * @exception BadLocationException
-         * @exception IllegalArgumentException for an invalid direction
+         * @pbrbm v the view to use
+         * @pbrbm pos the position to convert >= 0
+         * @pbrbm b the bllocbted region to render into
+         * @pbrbm direction the direction from the current position thbt cbn
+         *  be thought of bs the brrow keys typicblly found on b keybobrd.
+         *  This mby be SwingConstbnts.WEST, SwingConstbnts.EAST,
+         *  SwingConstbnts.NORTH, or SwingConstbnts.SOUTH.
+         * @return the locbtion within the model thbt best represents the next
+         *  locbtion visubl position.
+         * @exception BbdLocbtionException
+         * @exception IllegblArgumentException for bn invblid direction
          */
-        public int getNextVisualPositionFrom(GlyphView v, int pos,
-                                             Position.Bias b, Shape a,
+        public int getNextVisublPositionFrom(GlyphView v, int pos,
+                                             Position.Bibs b, Shbpe b,
                                              int direction,
-                                             Position.Bias[] biasRet)
-            throws BadLocationException {
+                                             Position.Bibs[] bibsRet)
+            throws BbdLocbtionException {
 
             Document doc = v.getDocument();
-            int startOffset = v.getStartOffset();
+            int stbrtOffset = v.getStbrtOffset();
             int endOffset = v.getEndOffset();
             Segment text;
-            boolean viewIsLeftToRight;
+            boolebn viewIsLeftToRight;
             TextHitInfo currentHit, nextHit;
 
             switch (direction) {
-            case View.NORTH:
-                break;
-            case View.SOUTH:
-                break;
-            case View.EAST:
-                viewIsLeftToRight = AbstractDocument.isLeftToRight(doc, startOffset, endOffset);
+            cbse View.NORTH:
+                brebk;
+            cbse View.SOUTH:
+                brebk;
+            cbse View.EAST:
+                viewIsLeftToRight = AbstrbctDocument.isLeftToRight(doc, stbrtOffset, endOffset);
 
-                if(startOffset == doc.getLength()) {
+                if(stbrtOffset == doc.getLength()) {
                     if(pos == -1) {
-                        biasRet[0] = Position.Bias.Forward;
-                        return startOffset;
+                        bibsRet[0] = Position.Bibs.Forwbrd;
+                        return stbrtOffset;
                     }
-                    // End case for bidi text where newline is at beginning
+                    // End cbse for bidi text where newline is bt beginning
                     // of line.
                     return -1;
                 }
                 if(pos == -1) {
                     // Entering view from the left.
                     if( viewIsLeftToRight ) {
-                        biasRet[0] = Position.Bias.Forward;
-                        return startOffset;
+                        bibsRet[0] = Position.Bibs.Forwbrd;
+                        return stbrtOffset;
                     } else {
                         text = v.getText(endOffset - 1, endOffset);
-                        char c = text.array[text.offset];
-                        SegmentCache.releaseSharedSegment(text);
+                        chbr c = text.brrby[text.offset];
+                        SegmentCbche.relebseShbredSegment(text);
                         if(c == '\n') {
-                            biasRet[0] = Position.Bias.Forward;
+                            bibsRet[0] = Position.Bibs.Forwbrd;
                             return endOffset-1;
                         }
-                        biasRet[0] = Position.Bias.Backward;
+                        bibsRet[0] = Position.Bibs.Bbckwbrd;
                         return endOffset;
                     }
                 }
-                if( b==Position.Bias.Forward )
-                    currentHit = TextHitInfo.afterOffset(pos-startOffset);
+                if( b==Position.Bibs.Forwbrd )
+                    currentHit = TextHitInfo.bfterOffset(pos-stbrtOffset);
                 else
-                    currentHit = TextHitInfo.beforeOffset(pos-startOffset);
-                nextHit = layout.getNextRightHit(currentHit);
+                    currentHit = TextHitInfo.beforeOffset(pos-stbrtOffset);
+                nextHit = lbyout.getNextRightHit(currentHit);
                 if( nextHit == null ) {
                     return -1;
                 }
-                if( viewIsLeftToRight != layout.isLeftToRight() ) {
-                    // If the layout's base direction is different from
-                    // this view's run direction, we need to use the weak
-                    // carrat.
-                    nextHit = layout.getVisualOtherHit(nextHit);
+                if( viewIsLeftToRight != lbyout.isLeftToRight() ) {
+                    // If the lbyout's bbse direction is different from
+                    // this view's run direction, we need to use the webk
+                    // cbrrbt.
+                    nextHit = lbyout.getVisublOtherHit(nextHit);
                 }
-                pos = nextHit.getInsertionIndex() + startOffset;
+                pos = nextHit.getInsertionIndex() + stbrtOffset;
 
                 if(pos == endOffset) {
-                    // A move to the right from an internal position will
-                    // only take us to the endOffset in a left to right run.
+                    // A move to the right from bn internbl position will
+                    // only tbke us to the endOffset in b left to right run.
                     text = v.getText(endOffset - 1, endOffset);
-                    char c = text.array[text.offset];
-                    SegmentCache.releaseSharedSegment(text);
+                    chbr c = text.brrby[text.offset];
+                    SegmentCbche.relebseShbredSegment(text);
                     if(c == '\n') {
                         return -1;
                     }
-                    biasRet[0] = Position.Bias.Backward;
+                    bibsRet[0] = Position.Bibs.Bbckwbrd;
                 }
                 else {
-                    biasRet[0] = Position.Bias.Forward;
+                    bibsRet[0] = Position.Bibs.Forwbrd;
                 }
                 return pos;
-            case View.WEST:
-                viewIsLeftToRight = AbstractDocument.isLeftToRight(doc, startOffset, endOffset);
+            cbse View.WEST:
+                viewIsLeftToRight = AbstrbctDocument.isLeftToRight(doc, stbrtOffset, endOffset);
 
-                if(startOffset == doc.getLength()) {
+                if(stbrtOffset == doc.getLength()) {
                     if(pos == -1) {
-                        biasRet[0] = Position.Bias.Forward;
-                        return startOffset;
+                        bibsRet[0] = Position.Bibs.Forwbrd;
+                        return stbrtOffset;
                     }
-                    // End case for bidi text where newline is at beginning
+                    // End cbse for bidi text where newline is bt beginning
                     // of line.
                     return -1;
                 }
@@ -327,58 +327,58 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
                     // Entering view from the right
                     if( viewIsLeftToRight ) {
                         text = v.getText(endOffset - 1, endOffset);
-                        char c = text.array[text.offset];
-                        SegmentCache.releaseSharedSegment(text);
-                        if ((c == '\n') || Character.isSpaceChar(c)) {
-                            biasRet[0] = Position.Bias.Forward;
+                        chbr c = text.brrby[text.offset];
+                        SegmentCbche.relebseShbredSegment(text);
+                        if ((c == '\n') || Chbrbcter.isSpbceChbr(c)) {
+                            bibsRet[0] = Position.Bibs.Forwbrd;
                             return endOffset - 1;
                         }
-                        biasRet[0] = Position.Bias.Backward;
+                        bibsRet[0] = Position.Bibs.Bbckwbrd;
                         return endOffset;
                     } else {
-                        biasRet[0] = Position.Bias.Forward;
-                        return startOffset;
+                        bibsRet[0] = Position.Bibs.Forwbrd;
+                        return stbrtOffset;
                    }
                 }
-                if( b==Position.Bias.Forward )
-                    currentHit = TextHitInfo.afterOffset(pos-startOffset);
+                if( b==Position.Bibs.Forwbrd )
+                    currentHit = TextHitInfo.bfterOffset(pos-stbrtOffset);
                 else
-                    currentHit = TextHitInfo.beforeOffset(pos-startOffset);
-                nextHit = layout.getNextLeftHit(currentHit);
+                    currentHit = TextHitInfo.beforeOffset(pos-stbrtOffset);
+                nextHit = lbyout.getNextLeftHit(currentHit);
                 if( nextHit == null ) {
                     return -1;
                 }
-                if( viewIsLeftToRight != layout.isLeftToRight() ) {
-                    // If the layout's base direction is different from
-                    // this view's run direction, we need to use the weak
-                    // carrat.
-                    nextHit = layout.getVisualOtherHit(nextHit);
+                if( viewIsLeftToRight != lbyout.isLeftToRight() ) {
+                    // If the lbyout's bbse direction is different from
+                    // this view's run direction, we need to use the webk
+                    // cbrrbt.
+                    nextHit = lbyout.getVisublOtherHit(nextHit);
                 }
-                pos = nextHit.getInsertionIndex() + startOffset;
+                pos = nextHit.getInsertionIndex() + stbrtOffset;
 
                 if(pos == endOffset) {
-                    // A move to the left from an internal position will
-                    // only take us to the endOffset in a right to left run.
+                    // A move to the left from bn internbl position will
+                    // only tbke us to the endOffset in b right to left run.
                     text = v.getText(endOffset - 1, endOffset);
-                    char c = text.array[text.offset];
-                    SegmentCache.releaseSharedSegment(text);
+                    chbr c = text.brrby[text.offset];
+                    SegmentCbche.relebseShbredSegment(text);
                     if(c == '\n') {
                         return -1;
                     }
-                    biasRet[0] = Position.Bias.Backward;
+                    bibsRet[0] = Position.Bibs.Bbckwbrd;
                 }
                 else {
-                    biasRet[0] = Position.Bias.Forward;
+                    bibsRet[0] = Position.Bibs.Forwbrd;
                 }
                 return pos;
-            default:
-                throw new IllegalArgumentException("Bad direction: " + direction);
+            defbult:
+                throw new IllegblArgumentException("Bbd direction: " + direction);
             }
             return pos;
 
         }
-    // --- variables ---------------------------------------------
+    // --- vbribbles ---------------------------------------------
 
-    TextLayout layout;
+    TextLbyout lbyout;
 
 }

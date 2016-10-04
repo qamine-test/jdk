@@ -3,75 +3,75 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
 
-import javax.xml.namespace.NamespaceContext;
+import jbvbx.xml.nbmespbce.NbmespbceContext;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 import org.w3c.dom.Node;
 
 /**
  */
-public class DOMNamespaceContext implements NamespaceContext {
+public clbss DOMNbmespbceContext implements NbmespbceContext {
 
-    private Map<String, String> namespaceMap = new HashMap<String, String>();
+    privbte Mbp<String, String> nbmespbceMbp = new HbshMbp<String, String>();
 
-    public DOMNamespaceContext(Node contextNode) {
-        addNamespaces(contextNode);
+    public DOMNbmespbceContext(Node contextNode) {
+        bddNbmespbces(contextNode);
     }
 
-    public String getNamespaceURI(String arg0) {
-        return namespaceMap.get(arg0);
+    public String getNbmespbceURI(String brg0) {
+        return nbmespbceMbp.get(brg0);
     }
 
-    public String getPrefix(String arg0) {
-        for (String key : namespaceMap.keySet()) {
-            String value = namespaceMap.get(key);
-            if (value.equals(arg0)) {
+    public String getPrefix(String brg0) {
+        for (String key : nbmespbceMbp.keySet()) {
+            String vblue = nbmespbceMbp.get(key);
+            if (vblue.equbls(brg0)) {
                 return key;
             }
         }
         return null;
     }
 
-    public Iterator<String> getPrefixes(String arg0) {
-        return namespaceMap.keySet().iterator();
+    public Iterbtor<String> getPrefixes(String brg0) {
+        return nbmespbceMbp.keySet().iterbtor();
     }
 
-    private void addNamespaces(Node element) {
-        if (element.getParentNode() != null) {
-            addNamespaces(element.getParentNode());
+    privbte void bddNbmespbces(Node element) {
+        if (element.getPbrentNode() != null) {
+            bddNbmespbces(element.getPbrentNode());
         }
-        if (element instanceof Element) {
+        if (element instbnceof Element) {
             Element el = (Element)element;
-            NamedNodeMap map = el.getAttributes();
-            for (int x = 0; x < map.getLength(); x++) {
-                Attr attr = (Attr)map.item(x);
-                if ("xmlns".equals(attr.getPrefix())) {
-                    namespaceMap.put(attr.getLocalName(), attr.getValue());
+            NbmedNodeMbp mbp = el.getAttributes();
+            for (int x = 0; x < mbp.getLength(); x++) {
+                Attr bttr = (Attr)mbp.item(x);
+                if ("xmlns".equbls(bttr.getPrefix())) {
+                    nbmespbceMbp.put(bttr.getLocblNbme(), bttr.getVblue());
                 }
             }
         }

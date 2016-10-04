@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.JSplitPane;
-import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
-import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.JSplitPbne;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.plbf.bbsic.BbsicSplitPbneUI;
+import jbvbx.swing.plbf.bbsic.BbsicSplitPbneDivider;
 
 
 /**
- * Divider used for Motif split pane.
+ * Divider used for Motif split pbne.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MotifSplitPaneDivider extends BasicSplitPaneDivider
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss MotifSplitPbneDivider extends BbsicSplitPbneDivider
 {
     /**
-     * Default cursor, supers is package private, so we have to have one
+     * Defbult cursor, supers is pbckbge privbte, so we hbve to hbve one
      * too.
      */
-    private static final Cursor defaultCursor =
+    privbte stbtic finbl Cursor defbultCursor =
                             Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 
 
-    public static final int minimumThumbSize = 6;
-    public static final int defaultDividerSize = 18;
+    public stbtic finbl int minimumThumbSize = 6;
+    public stbtic finbl int defbultDividerSize = 18;
 
-    protected  static final int pad = 6;
+    protected  stbtic finbl int pbd = 6;
 
-    private int hThumbOffset = 30;
-    private int vThumbOffset = 40;
+    privbte int hThumbOffset = 30;
+    privbte int vThumbOffset = 40;
     protected int hThumbWidth = 12;
     protected int hThumbHeight = 18;
     protected int vThumbWidth = 18;
     protected int vThumbHeight = 12;
 
     protected Color highlightColor;
-    protected Color shadowColor;
+    protected Color shbdowColor;
     protected Color focusedColor;
 
     /**
-     * Creates a new Motif SplitPaneDivider
+     * Crebtes b new Motif SplitPbneDivider
      */
-    public MotifSplitPaneDivider(BasicSplitPaneUI ui) {
+    public MotifSplitPbneDivider(BbsicSplitPbneUI ui) {
         super(ui);
-        highlightColor = UIManager.getColor("SplitPane.highlight");
-        shadowColor = UIManager.getColor("SplitPane.shadow");
-        focusedColor = UIManager.getColor("SplitPane.activeThumb");
-        setDividerSize(hThumbWidth + pad);
+        highlightColor = UIMbnbger.getColor("SplitPbne.highlight");
+        shbdowColor = UIMbnbger.getColor("SplitPbne.shbdow");
+        focusedColor = UIMbnbger.getColor("SplitPbne.bctiveThumb");
+        setDividerSize(hThumbWidth + pbd);
     }
 
     /**
-     * overrides to hardcode the size of the divider
-     * PENDING(jeff) - rewrite JSplitPane so that this ins't needed
+     * overrides to hbrdcode the size of the divider
+     * PENDING(jeff) - rewrite JSplitPbne so thbt this ins't needed
      */
     public void setDividerSize(int newSize) {
         Insets          insets = getInsets();
         int             borderSize = 0;
-        if (getBasicSplitPaneUI().getOrientation() ==
-            JSplitPane.HORIZONTAL_SPLIT) {
+        if (getBbsicSplitPbneUI().getOrientbtion() ==
+            JSplitPbne.HORIZONTAL_SPLIT) {
             if (insets != null) {
                 borderSize = insets.left + insets.right;
             }
@@ -99,53 +99,53 @@ public class MotifSplitPaneDivider extends BasicSplitPaneDivider
         else if (insets != null) {
             borderSize = insets.top + insets.bottom;
         }
-        if (newSize < pad + minimumThumbSize + borderSize) {
-            setDividerSize(pad + minimumThumbSize + borderSize);
+        if (newSize < pbd + minimumThumbSize + borderSize) {
+            setDividerSize(pbd + minimumThumbSize + borderSize);
         } else {
-            vThumbHeight = hThumbWidth = newSize - pad - borderSize;
+            vThumbHeight = hThumbWidth = newSize - pbd - borderSize;
             super.setDividerSize(newSize);
         }
     }
 
     /**
-      * Paints the divider.
+      * Pbints the divider.
       */
-    // PENDING(jeff) - the thumb's location and size is currently hard coded.
-    // It should be dynamic.
-    public void paint(Graphics g) {
-        Color               bgColor = getBackground();
+    // PENDING(jeff) - the thumb's locbtion bnd size is currently hbrd coded.
+    // It should be dynbmic.
+    public void pbint(Grbphics g) {
+        Color               bgColor = getBbckground();
         Dimension           size = getSize();
 
         // fill
-        g.setColor(getBackground());
+        g.setColor(getBbckground());
         g.fillRect(0, 0, size.width, size.height);
 
-        if(getBasicSplitPaneUI().getOrientation() ==
-           JSplitPane.HORIZONTAL_SPLIT) {
+        if(getBbsicSplitPbneUI().getOrientbtion() ==
+           JSplitPbne.HORIZONTAL_SPLIT) {
             int center = size.width/2;
             int x = center - hThumbWidth/2;
             int y = hThumbOffset;
 
             // split line
-            g.setColor(shadowColor);
-            g.drawLine(center-1, 0, center-1, size.height);
+            g.setColor(shbdowColor);
+            g.drbwLine(center-1, 0, center-1, size.height);
 
             g.setColor(highlightColor);
-            g.drawLine(center, 0, center, size.height);
+            g.drbwLine(center, 0, center, size.height);
 
-            // draw thumb
-            g.setColor((splitPane.hasFocus()) ? focusedColor :
-                                                getBackground());
+            // drbw thumb
+            g.setColor((splitPbne.hbsFocus()) ? focusedColor :
+                                                getBbckground());
             g.fillRect(x+1, y+1, hThumbWidth-2, hThumbHeight-1);
 
             g.setColor(highlightColor);
-            g.drawLine(x, y, x+hThumbWidth-1, y);       // top
-            g.drawLine(x, y+1, x, y+hThumbHeight-1);    // left
+            g.drbwLine(x, y, x+hThumbWidth-1, y);       // top
+            g.drbwLine(x, y+1, x, y+hThumbHeight-1);    // left
 
-            g.setColor(shadowColor);
-            g.drawLine(x+1, y+hThumbHeight-1,
+            g.setColor(shbdowColor);
+            g.drbwLine(x+1, y+hThumbHeight-1,
                        x+hThumbWidth-1, y+hThumbHeight-1);      // bottom
-            g.drawLine(x+hThumbWidth-1, y+1,
+            g.drbwLine(x+hThumbWidth-1, y+1,
                        x+hThumbWidth-1, y+hThumbHeight-2);      // right
 
         } else {
@@ -154,86 +154,86 @@ public class MotifSplitPaneDivider extends BasicSplitPaneDivider
             int y = size.height/2 - vThumbHeight/2;
 
             // split line
-            g.setColor(shadowColor);
-            g.drawLine(0, center-1, size.width, center-1);
+            g.setColor(shbdowColor);
+            g.drbwLine(0, center-1, size.width, center-1);
 
             g.setColor(highlightColor);
-            g.drawLine(0, center, size.width, center);
+            g.drbwLine(0, center, size.width, center);
 
-            // draw thumb
-            g.setColor((splitPane.hasFocus()) ? focusedColor :
-                                                getBackground());
+            // drbw thumb
+            g.setColor((splitPbne.hbsFocus()) ? focusedColor :
+                                                getBbckground());
             g.fillRect(x+1, y+1, vThumbWidth-1, vThumbHeight-1);
 
             g.setColor(highlightColor);
-            g.drawLine(x, y, x+vThumbWidth, y);    // top
-            g.drawLine(x, y+1, x, y+vThumbHeight); // left
+            g.drbwLine(x, y, x+vThumbWidth, y);    // top
+            g.drbwLine(x, y+1, x, y+vThumbHeight); // left
 
-            g.setColor(shadowColor);
-            g.drawLine(x+1, y+vThumbHeight,
+            g.setColor(shbdowColor);
+            g.drbwLine(x+1, y+vThumbHeight,
                        x+vThumbWidth, y+vThumbHeight);          // bottom
-            g.drawLine(x+vThumbWidth, y+1,
+            g.drbwLine(x+vThumbWidth, y+1,
                        x+vThumbWidth, y+vThumbHeight-1);        // right
         }
-        super.paint(g);
+        super.pbint(g);
 
     }
 
     /**
-      * The minimums size is the same as the preferredSize
+      * The minimums size is the sbme bs the preferredSize
       */
     public Dimension getMinimumSize() {
         return getPreferredSize();
     }
 
     /**
-     * Sets the SplitPaneUI that is using the receiver. This is completely
-     * overriden from super to create a different MouseHandler.
+     * Sets the SplitPbneUI thbt is using the receiver. This is completely
+     * overriden from super to crebte b different MouseHbndler.
      */
-    public void setBasicSplitPaneUI(BasicSplitPaneUI newUI) {
-        if (splitPane != null) {
-            splitPane.removePropertyChangeListener(this);
-           if (mouseHandler != null) {
-               splitPane.removeMouseListener(mouseHandler);
-               splitPane.removeMouseMotionListener(mouseHandler);
-               removeMouseListener(mouseHandler);
-               removeMouseMotionListener(mouseHandler);
-               mouseHandler = null;
+    public void setBbsicSplitPbneUI(BbsicSplitPbneUI newUI) {
+        if (splitPbne != null) {
+            splitPbne.removePropertyChbngeListener(this);
+           if (mouseHbndler != null) {
+               splitPbne.removeMouseListener(mouseHbndler);
+               splitPbne.removeMouseMotionListener(mouseHbndler);
+               removeMouseListener(mouseHbndler);
+               removeMouseMotionListener(mouseHbndler);
+               mouseHbndler = null;
            }
         }
-        splitPaneUI = newUI;
+        splitPbneUI = newUI;
         if (newUI != null) {
-            splitPane = newUI.getSplitPane();
-            if (splitPane != null) {
-                if (mouseHandler == null) mouseHandler=new MotifMouseHandler();
-                splitPane.addMouseListener(mouseHandler);
-                splitPane.addMouseMotionListener(mouseHandler);
-                addMouseListener(mouseHandler);
-                addMouseMotionListener(mouseHandler);
-                splitPane.addPropertyChangeListener(this);
-                if (splitPane.isOneTouchExpandable()) {
-                    oneTouchExpandableChanged();
+            splitPbne = newUI.getSplitPbne();
+            if (splitPbne != null) {
+                if (mouseHbndler == null) mouseHbndler=new MotifMouseHbndler();
+                splitPbne.bddMouseListener(mouseHbndler);
+                splitPbne.bddMouseMotionListener(mouseHbndler);
+                bddMouseListener(mouseHbndler);
+                bddMouseMotionListener(mouseHbndler);
+                splitPbne.bddPropertyChbngeListener(this);
+                if (splitPbne.isOneTouchExpbndbble()) {
+                    oneTouchExpbndbbleChbnged();
                 }
             }
         }
         else {
-            splitPane = null;
+            splitPbne = null;
         }
     }
 
     /**
-     * Returns true if the point at <code>x</code>, <code>y</code>
+     * Returns true if the point bt <code>x</code>, <code>y</code>
      * is inside the thumb.
      */
-    private boolean isInThumb(int x, int y) {
+    privbte boolebn isInThumb(int x, int y) {
         Dimension           size = getSize();
         int                 thumbX;
         int                 thumbY;
         int                 thumbWidth;
         int                 thumbHeight;
 
-        if (getBasicSplitPaneUI().getOrientation() ==
-            JSplitPane.HORIZONTAL_SPLIT) {
+        if (getBbsicSplitPbneUI().getOrientbtion() ==
+            JSplitPbne.HORIZONTAL_SPLIT) {
             int center = size.width/2;
             thumbX = center - hThumbWidth/2;
             thumbY = hThumbOffset;
@@ -252,41 +252,41 @@ public class MotifSplitPaneDivider extends BasicSplitPaneDivider
     }
 
     //
-    // Two methods are exposed so that MotifMouseHandler can see the
-    // superclass protected ivars
+    // Two methods bre exposed so thbt MotifMouseHbndler cbn see the
+    // superclbss protected ivbrs
     //
 
-    private DragController getDragger() {
-        return dragger;
+    privbte DrbgController getDrbgger() {
+        return drbgger;
     }
 
-    private JSplitPane getSplitPane() {
-        return splitPane;
+    privbte JSplitPbne getSplitPbne() {
+        return splitPbne;
     }
 
 
     /**
-     * MouseHandler is subclassed to only pass off to super if the mouse
-     * is in the thumb. Motif only allows dragging when the thumb is clicked
+     * MouseHbndler is subclbssed to only pbss off to super if the mouse
+     * is in the thumb. Motif only bllows drbgging when the thumb is clicked
      * in.
      */
-    private class MotifMouseHandler extends MouseHandler {
+    privbte clbss MotifMouseHbndler extends MouseHbndler {
         public void mousePressed(MouseEvent e) {
-            // Constrain the mouse pressed to the thumb.
-            if (e.getSource() == MotifSplitPaneDivider.this &&
-                getDragger() == null && getSplitPane().isEnabled() &&
+            // Constrbin the mouse pressed to the thumb.
+            if (e.getSource() == MotifSplitPbneDivider.this &&
+                getDrbgger() == null && getSplitPbne().isEnbbled() &&
                 isInThumb(e.getX(), e.getY())) {
                 super.mousePressed(e);
             }
         }
 
         public void mouseMoved(MouseEvent e) {
-            if (getDragger() != null) {
+            if (getDrbgger() != null) {
                 return;
             }
             if (!isInThumb(e.getX(), e.getY())) {
-                if (getCursor() != defaultCursor) {
-                    setCursor(defaultCursor);
+                if (getCursor() != defbultCursor) {
+                    setCursor(defbultCursor);
                 }
                 return;
             }

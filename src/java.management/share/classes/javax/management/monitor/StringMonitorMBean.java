@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.monitor;
+pbckbge jbvbx.mbnbgement.monitor;
 
 // jmx imports
 //
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * Exposes the remote management interface of the string monitor MBean.
+ * Exposes the remote mbnbgement interfbce of the string monitor MBebn.
  *
  *
  * @since 1.5
  */
-public interface StringMonitorMBean extends MonitorMBean {
+public interfbce StringMonitorMBebn extends MonitorMBebn {
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Gets the derived gauge.
+     * Gets the derived gbuge.
      *
-     * @return The derived gauge.
-     * @deprecated As of JMX 1.2, replaced by {@link #getDerivedGauge(ObjectName)}
+     * @return The derived gbuge.
+     * @deprecbted As of JMX 1.2, replbced by {@link #getDerivedGbuge(ObjectNbme)}
      */
-    @Deprecated
-    public String getDerivedGauge();
+    @Deprecbted
+    public String getDerivedGbuge();
 
     /**
-     * Gets the derived gauge timestamp.
+     * Gets the derived gbuge timestbmp.
      *
-     * @return The derived gauge timestamp.
-     * @deprecated As of JMX 1.2, replaced by {@link #getDerivedGaugeTimeStamp(ObjectName)}
+     * @return The derived gbuge timestbmp.
+     * @deprecbted As of JMX 1.2, replbced by {@link #getDerivedGbugeTimeStbmp(ObjectNbme)}
      */
-    @Deprecated
-    public long getDerivedGaugeTimeStamp();
+    @Deprecbted
+    public long getDerivedGbugeTimeStbmp();
 
     /**
-     * Gets the derived gauge for the specified MBean.
+     * Gets the derived gbuge for the specified MBebn.
      *
-     * @param object the MBean for which the derived gauge is to be returned
-     * @return The derived gauge for the specified MBean if this MBean is in the
-     *         set of observed MBeans, or <code>null</code> otherwise.
-     *
-     */
-    public String getDerivedGauge(ObjectName object);
-
-    /**
-     * Gets the derived gauge timestamp for the specified MBean.
-     *
-     * @param object the MBean for which the derived gauge timestamp is to be returned
-     * @return The derived gauge timestamp for the specified MBean if this MBean
-     *         is in the set of observed MBeans, or <code>null</code> otherwise.
+     * @pbrbm object the MBebn for which the derived gbuge is to be returned
+     * @return The derived gbuge for the specified MBebn if this MBebn is in the
+     *         set of observed MBebns, or <code>null</code> otherwise.
      *
      */
-    public long getDerivedGaugeTimeStamp(ObjectName object);
+    public String getDerivedGbuge(ObjectNbme object);
 
     /**
-     * Gets the string to compare with the observed attribute.
+     * Gets the derived gbuge timestbmp for the specified MBebn.
      *
-     * @return The string value.
+     * @pbrbm object the MBebn for which the derived gbuge timestbmp is to be returned
+     * @return The derived gbuge timestbmp for the specified MBebn if this MBebn
+     *         is in the set of observed MBebns, or <code>null</code> otherwise.
      *
-     * @see #setStringToCompare
      */
-    public String getStringToCompare();
+    public long getDerivedGbugeTimeStbmp(ObjectNbme object);
 
     /**
-     * Sets the string to compare with the observed attribute.
+     * Gets the string to compbre with the observed bttribute.
      *
-     * @param value The string value.
-     * @exception java.lang.IllegalArgumentException The specified
-     * string to compare is null.
+     * @return The string vblue.
      *
-     * @see #getStringToCompare
+     * @see #setStringToCompbre
      */
-    public void setStringToCompare(String value) throws java.lang.IllegalArgumentException;
+    public String getStringToCompbre();
 
     /**
-     * Gets the matching notification's on/off switch value.
+     * Sets the string to compbre with the observed bttribute.
+     *
+     * @pbrbm vblue The string vblue.
+     * @exception jbvb.lbng.IllegblArgumentException The specified
+     * string to compbre is null.
+     *
+     * @see #getStringToCompbre
+     */
+    public void setStringToCompbre(String vblue) throws jbvb.lbng.IllegblArgumentException;
+
+    /**
+     * Gets the mbtching notificbtion's on/off switch vblue.
      *
      * @return <CODE>true</CODE> if the string monitor notifies when
-     * matching, <CODE>false</CODE> otherwise.
+     * mbtching, <CODE>fblse</CODE> otherwise.
      *
-     * @see #setNotifyMatch
+     * @see #setNotifyMbtch
      */
-    public boolean getNotifyMatch();
+    public boolebn getNotifyMbtch();
 
     /**
-     * Sets the matching notification's on/off switch value.
+     * Sets the mbtching notificbtion's on/off switch vblue.
      *
-     * @param value The matching notification's on/off switch value.
+     * @pbrbm vblue The mbtching notificbtion's on/off switch vblue.
      *
-     * @see #getNotifyMatch
+     * @see #getNotifyMbtch
      */
-    public void setNotifyMatch(boolean value);
+    public void setNotifyMbtch(boolebn vblue);
 
     /**
-     * Gets the differing notification's on/off switch value.
+     * Gets the differing notificbtion's on/off switch vblue.
      *
      * @return <CODE>true</CODE> if the string monitor notifies when
-     * differing, <CODE>false</CODE> otherwise.
+     * differing, <CODE>fblse</CODE> otherwise.
      *
      * @see #setNotifyDiffer
      */
-    public boolean getNotifyDiffer();
+    public boolebn getNotifyDiffer();
 
     /**
-     * Sets the differing notification's on/off switch value.
+     * Sets the differing notificbtion's on/off switch vblue.
      *
-     * @param value The differing notification's on/off switch value.
+     * @pbrbm vblue The differing notificbtion's on/off switch vblue.
      *
      * @see #getNotifyDiffer
      */
-    public void setNotifyDiffer(boolean value);
+    public void setNotifyDiffer(boolebn vblue);
 }

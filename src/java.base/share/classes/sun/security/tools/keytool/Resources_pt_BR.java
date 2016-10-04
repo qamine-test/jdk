@@ -1,432 +1,432 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.tools.keytool;
+pbckbge sun.security.tools.keytool;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
+ * <p> This clbss represents the <code>ResourceBundle</code>
  * for the keytool.
  *
  */
-public class Resources_pt_BR extends java.util.ListResourceBundle {
+public clbss Resources_pt_BR extends jbvb.util.ListResourceBundle {
 
-    private static final Object[][] contents = {
+    privbte stbtic finbl Object[][] contents = {
         {"NEWLINE", "\n"},
         {"STAR",
                 "*******************************************"},
         {"STARNN",
                 "*******************************************\n\n"},
 
-        // keytool: Help part
+        // keytool: Help pbrt
         {".OPTION.", " [OPTION]..."},
         {"Options.", "Op\u00E7\u00F5es:"},
-        {"Use.keytool.help.for.all.available.commands",
-                 "Use \"keytool -help\" para todos os comandos dispon\u00EDveis"},
-        {"Key.and.Certificate.Management.Tool",
-                 "Ferramenta de Gerenciamento de Chave e Certificado"},
-        {"Commands.", "Comandos:"},
-        {"Use.keytool.command.name.help.for.usage.of.command.name",
-                "Use \"keytool -command_name -help\" para uso de command_name"},
-        // keytool: help: commands
-        {"Generates.a.certificate.request",
-                "Gera uma solicita\u00E7\u00E3o de certificado"}, //-certreq
-        {"Changes.an.entry.s.alias",
-                "Altera um alias de entrada"}, //-changealias
-        {"Deletes.an.entry",
-                "Deleta uma entrada"}, //-delete
-        {"Exports.certificate",
-                "Exporta o certificado"}, //-exportcert
-        {"Generates.a.key.pair",
-                "Gera um par de chaves"}, //-genkeypair
-        {"Generates.a.secret.key",
-                "Gera uma chave secreta"}, //-genseckey
-        {"Generates.certificate.from.a.certificate.request",
-                "Gera um certificado de uma solicita\u00E7\u00E3o de certificado"}, //-gencert
-        {"Generates.CRL", "Gera CRL"}, //-gencrl
-        {"Generated.keyAlgName.secret.key",
-                "Chave secreta {0} gerada"}, //-genseckey
-        {"Generated.keysize.bit.keyAlgName.secret.key",
-                "Chave secreta {1} de {0} bits gerada"}, //-genseckey
-        {"Imports.entries.from.a.JDK.1.1.x.style.identity.database",
-                "Importa entradas de um banco de dados de identidade JDK 1.1.x-style"}, //-identitydb
-        {"Imports.a.certificate.or.a.certificate.chain",
-                "Importa um certificado ou uma cadeia de certificados"}, //-importcert
-        {"Imports.a.password",
-                "Importa uma senha"}, //-importpass
-        {"Imports.one.or.all.entries.from.another.keystore",
-                "Importa uma ou todas as entradas de outra \u00E1rea de armazenamento de chaves"}, //-importkeystore
-        {"Clones.a.key.entry",
-                "Clona uma entrada de chave"}, //-keyclone
-        {"Changes.the.key.password.of.an.entry",
-                "Altera a senha da chave de uma entrada"}, //-keypasswd
-        {"Lists.entries.in.a.keystore",
-                "Lista entradas em uma \u00E1rea de armazenamento de chaves"}, //-list
-        {"Prints.the.content.of.a.certificate",
-                "Imprime o conte\u00FAdo de um certificado"}, //-printcert
-        {"Prints.the.content.of.a.certificate.request",
-                "Imprime o conte\u00FAdo de uma solicita\u00E7\u00E3o de certificado"}, //-printcertreq
-        {"Prints.the.content.of.a.CRL.file",
-                "Imprime o conte\u00FAdo de um arquivo CRL"}, //-printcrl
-        {"Generates.a.self.signed.certificate",
-                "Gera um certificado autoassinado"}, //-selfcert
-        {"Changes.the.store.password.of.a.keystore",
-                "Altera a senha de armazenamento de uma \u00E1rea de armazenamento de chaves"}, //-storepasswd
+        {"Use.keytool.help.for.bll.bvbilbble.commbnds",
+                 "Use \"keytool -help\" pbrb todos os combndos dispon\u00EDveis"},
+        {"Key.bnd.Certificbte.Mbnbgement.Tool",
+                 "Ferrbmentb de Gerencibmento de Chbve e Certificbdo"},
+        {"Commbnds.", "Combndos:"},
+        {"Use.keytool.commbnd.nbme.help.for.usbge.of.commbnd.nbme",
+                "Use \"keytool -commbnd_nbme -help\" pbrb uso de commbnd_nbme"},
+        // keytool: help: commbnds
+        {"Generbtes.b.certificbte.request",
+                "Gerb umb solicitb\u00E7\u00E3o de certificbdo"}, //-certreq
+        {"Chbnges.bn.entry.s.blibs",
+                "Alterb um blibs de entrbdb"}, //-chbngeblibs
+        {"Deletes.bn.entry",
+                "Deletb umb entrbdb"}, //-delete
+        {"Exports.certificbte",
+                "Exportb o certificbdo"}, //-exportcert
+        {"Generbtes.b.key.pbir",
+                "Gerb um pbr de chbves"}, //-genkeypbir
+        {"Generbtes.b.secret.key",
+                "Gerb umb chbve secretb"}, //-genseckey
+        {"Generbtes.certificbte.from.b.certificbte.request",
+                "Gerb um certificbdo de umb solicitb\u00E7\u00E3o de certificbdo"}, //-gencert
+        {"Generbtes.CRL", "Gerb CRL"}, //-gencrl
+        {"Generbted.keyAlgNbme.secret.key",
+                "Chbve secretb {0} gerbdb"}, //-genseckey
+        {"Generbted.keysize.bit.keyAlgNbme.secret.key",
+                "Chbve secretb {1} de {0} bits gerbdb"}, //-genseckey
+        {"Imports.entries.from.b.JDK.1.1.x.style.identity.dbtbbbse",
+                "Importb entrbdbs de um bbnco de dbdos de identidbde JDK 1.1.x-style"}, //-identitydb
+        {"Imports.b.certificbte.or.b.certificbte.chbin",
+                "Importb um certificbdo ou umb cbdeib de certificbdos"}, //-importcert
+        {"Imports.b.pbssword",
+                "Importb umb senhb"}, //-importpbss
+        {"Imports.one.or.bll.entries.from.bnother.keystore",
+                "Importb umb ou todbs bs entrbdbs de outrb \u00E1reb de brmbzenbmento de chbves"}, //-importkeystore
+        {"Clones.b.key.entry",
+                "Clonb umb entrbdb de chbve"}, //-keyclone
+        {"Chbnges.the.key.pbssword.of.bn.entry",
+                "Alterb b senhb db chbve de umb entrbdb"}, //-keypbsswd
+        {"Lists.entries.in.b.keystore",
+                "Listb entrbdbs em umb \u00E1reb de brmbzenbmento de chbves"}, //-list
+        {"Prints.the.content.of.b.certificbte",
+                "Imprime o conte\u00FAdo de um certificbdo"}, //-printcert
+        {"Prints.the.content.of.b.certificbte.request",
+                "Imprime o conte\u00FAdo de umb solicitb\u00E7\u00E3o de certificbdo"}, //-printcertreq
+        {"Prints.the.content.of.b.CRL.file",
+                "Imprime o conte\u00FAdo de um brquivo CRL"}, //-printcrl
+        {"Generbtes.b.self.signed.certificbte",
+                "Gerb um certificbdo butobssinbdo"}, //-selfcert
+        {"Chbnges.the.store.pbssword.of.b.keystore",
+                "Alterb b senhb de brmbzenbmento de umb \u00E1reb de brmbzenbmento de chbves"}, //-storepbsswd
         // keytool: help: options
-        {"alias.name.of.the.entry.to.process",
-                "nome do alias da entrada a ser processada"}, //-alias
-        {"destination.alias",
-                "alias de destino"}, //-destalias
-        {"destination.key.password",
-                "senha da chave de destino"}, //-destkeypass
-        {"destination.keystore.name",
-                "nome da \u00E1rea de armazenamento de chaves de destino"}, //-destkeystore
-        {"destination.keystore.password.protected",
-                "senha protegida da \u00E1rea de armazenamento de chaves de destino"}, //-destprotected
-        {"destination.keystore.provider.name",
-                "nome do fornecedor da \u00E1rea de armazenamento de chaves de destino"}, //-destprovidername
-        {"destination.keystore.password",
-                "senha da \u00E1rea de armazenamento de chaves de destino"}, //-deststorepass
-        {"destination.keystore.type",
-                "tipo de \u00E1rea de armazenamento de chaves de destino"}, //-deststoretype
-        {"distinguished.name",
-                "nome distinto"}, //-dname
+        {"blibs.nbme.of.the.entry.to.process",
+                "nome do blibs db entrbdb b ser processbdb"}, //-blibs
+        {"destinbtion.blibs",
+                "blibs de destino"}, //-destblibs
+        {"destinbtion.key.pbssword",
+                "senhb db chbve de destino"}, //-destkeypbss
+        {"destinbtion.keystore.nbme",
+                "nome db \u00E1reb de brmbzenbmento de chbves de destino"}, //-destkeystore
+        {"destinbtion.keystore.pbssword.protected",
+                "senhb protegidb db \u00E1reb de brmbzenbmento de chbves de destino"}, //-destprotected
+        {"destinbtion.keystore.provider.nbme",
+                "nome do fornecedor db \u00E1reb de brmbzenbmento de chbves de destino"}, //-destprovidernbme
+        {"destinbtion.keystore.pbssword",
+                "senhb db \u00E1reb de brmbzenbmento de chbves de destino"}, //-deststorepbss
+        {"destinbtion.keystore.type",
+                "tipo de \u00E1reb de brmbzenbmento de chbves de destino"}, //-deststoretype
+        {"distinguished.nbme",
+                "nome distinto"}, //-dnbme
         {"X.509.extension",
                 "extens\u00E3o X.509"}, //-ext
-        {"output.file.name",
-                "nome do arquivo de sa\u00EDda"}, //-file and -outfile
-        {"input.file.name",
-                "nome do arquivo de entrada"}, //-file and -infile
-        {"key.algorithm.name",
-                "nome do algoritmo da chave"}, //-keyalg
-        {"key.password",
-                "senha da chave"}, //-keypass
+        {"output.file.nbme",
+                "nome do brquivo de sb\u00EDdb"}, //-file bnd -outfile
+        {"input.file.nbme",
+                "nome do brquivo de entrbdb"}, //-file bnd -infile
+        {"key.blgorithm.nbme",
+                "nome do blgoritmo db chbve"}, //-keyblg
+        {"key.pbssword",
+                "senhb db chbve"}, //-keypbss
         {"key.bit.size",
-                "tamanho do bit da chave"}, //-keysize
-        {"keystore.name",
-                "nome da \u00E1rea de armazenamento de chaves"}, //-keystore
-        {"new.password",
-                "nova senha"}, //-new
+                "tbmbnho do bit db chbve"}, //-keysize
+        {"keystore.nbme",
+                "nome db \u00E1reb de brmbzenbmento de chbves"}, //-keystore
+        {"new.pbssword",
+                "novb senhb"}, //-new
         {"do.not.prompt",
-                "n\u00E3o perguntar"}, //-noprompt
-        {"password.through.protected.mechanism",
-                "senha por meio de mecanismo protegido"}, //-protected
-        {"provider.argument",
-                "argumento do fornecedor"}, //-providerarg
-        {"provider.class.name",
-                "nome da classe do fornecedor"}, //-providerclass
-        {"provider.name",
-                "nome do fornecedor"}, //-providername
-        {"provider.classpath",
-                "classpath do fornecedor"}, //-providerpath
+                "n\u00E3o perguntbr"}, //-noprompt
+        {"pbssword.through.protected.mechbnism",
+                "senhb por meio de mecbnismo protegido"}, //-protected
+        {"provider.brgument",
+                "brgumento do fornecedor"}, //-providerbrg
+        {"provider.clbss.nbme",
+                "nome db clbsse do fornecedor"}, //-providerclbss
+        {"provider.nbme",
+                "nome do fornecedor"}, //-providernbme
+        {"provider.clbsspbth",
+                "clbsspbth do fornecedor"}, //-providerpbth
         {"output.in.RFC.style",
-                "sa\u00EDda no estilo RFC"}, //-rfc
-        {"signature.algorithm.name",
-                "nome do algoritmo de assinatura"}, //-sigalg
-        {"source.alias",
-                "alias de origem"}, //-srcalias
-        {"source.key.password",
-                "senha da chave de origem"}, //-srckeypass
-        {"source.keystore.name",
-                "nome da \u00E1rea de armazenamento de chaves de origem"}, //-srckeystore
-        {"source.keystore.password.protected",
-                "senha protegida da \u00E1rea de armazenamento de chaves de origem"}, //-srcprotected
-        {"source.keystore.provider.name",
-                "nome do fornecedor da \u00E1rea de armazenamento de chaves de origem"}, //-srcprovidername
-        {"source.keystore.password",
-                "senha da \u00E1rea de armazenamento de chaves de origem"}, //-srcstorepass
+                "sb\u00EDdb no estilo RFC"}, //-rfc
+        {"signbture.blgorithm.nbme",
+                "nome do blgoritmo de bssinbturb"}, //-sigblg
+        {"source.blibs",
+                "blibs de origem"}, //-srcblibs
+        {"source.key.pbssword",
+                "senhb db chbve de origem"}, //-srckeypbss
+        {"source.keystore.nbme",
+                "nome db \u00E1reb de brmbzenbmento de chbves de origem"}, //-srckeystore
+        {"source.keystore.pbssword.protected",
+                "senhb protegidb db \u00E1reb de brmbzenbmento de chbves de origem"}, //-srcprotected
+        {"source.keystore.provider.nbme",
+                "nome do fornecedor db \u00E1reb de brmbzenbmento de chbves de origem"}, //-srcprovidernbme
+        {"source.keystore.pbssword",
+                "senhb db \u00E1reb de brmbzenbmento de chbves de origem"}, //-srcstorepbss
         {"source.keystore.type",
-                "tipo de \u00E1rea de armazenamento de chaves de origem"}, //-srcstoretype
-        {"SSL.server.host.and.port",
-                "porta e host do servidor SSL"}, //-sslserver
-        {"signed.jar.file",
-                "arquivo jar assinado"}, //=jarfile
-        {"certificate.validity.start.date.time",
-                "data/hora inicial de validade do certificado"}, //-startdate
-        {"keystore.password",
-                "senha da \u00E1rea de armazenamento de chaves"}, //-storepass
+                "tipo de \u00E1reb de brmbzenbmento de chbves de origem"}, //-srcstoretype
+        {"SSL.server.host.bnd.port",
+                "portb e host do servidor SSL"}, //-sslserver
+        {"signed.jbr.file",
+                "brquivo jbr bssinbdo"}, //=jbrfile
+        {"certificbte.vblidity.stbrt.dbte.time",
+                "dbtb/horb inicibl de vblidbde do certificbdo"}, //-stbrtdbte
+        {"keystore.pbssword",
+                "senhb db \u00E1reb de brmbzenbmento de chbves"}, //-storepbss
         {"keystore.type",
-                "tipo de \u00E1rea de armazenamento de chaves"}, //-storetype
-        {"trust.certificates.from.cacerts",
-                "certificados confi\u00E1veis do cacerts"}, //-trustcacerts
+                "tipo de \u00E1reb de brmbzenbmento de chbves"}, //-storetype
+        {"trust.certificbtes.from.cbcerts",
+                "certificbdos confi\u00E1veis do cbcerts"}, //-trustcbcerts
         {"verbose.output",
-                "sa\u00EDda detalhada"}, //-v
-        {"validity.number.of.days",
-                "n\u00FAmero de dias da validade"}, //-validity
-        {"Serial.ID.of.cert.to.revoke",
-                 "ID de s\u00E9rie do certificado a ser revogado"}, //-id
-        // keytool: Running part
+                "sb\u00EDdb detblhbdb"}, //-v
+        {"vblidity.number.of.dbys",
+                "n\u00FAmero de dibs db vblidbde"}, //-vblidity
+        {"Seribl.ID.of.cert.to.revoke",
+                 "ID de s\u00E9rie do certificbdo b ser revogbdo"}, //-id
+        // keytool: Running pbrt
         {"keytool.error.", "erro de keytool: "},
-        {"Illegal.option.", "Op\u00E7\u00E3o inv\u00E1lida:  "},
-        {"Illegal.value.", "Valor inv\u00E1lido: "},
-        {"Unknown.password.type.", "Tipo de senha desconhecido: "},
-        {"Cannot.find.environment.variable.",
-                "N\u00E3o \u00E9 poss\u00EDvel localizar a vari\u00E1vel do ambiente: "},
-        {"Cannot.find.file.", "N\u00E3o \u00E9 poss\u00EDvel localizar o arquivo: "},
-        {"Command.option.flag.needs.an.argument.", "A op\u00E7\u00E3o de comando {0} precisa de um argumento."},
-        {"Warning.Different.store.and.key.passwords.not.supported.for.PKCS12.KeyStores.Ignoring.user.specified.command.value.",
-                "Advert\u00EAncia: Senhas de chave e de armazenamento diferentes n\u00E3o suportadas para KeyStores PKCS12. Ignorando valor {0} especificado pelo usu\u00E1rio."},
+        {"Illegbl.option.", "Op\u00E7\u00E3o inv\u00E1lidb:  "},
+        {"Illegbl.vblue.", "Vblor inv\u00E1lido: "},
+        {"Unknown.pbssword.type.", "Tipo de senhb desconhecido: "},
+        {"Cbnnot.find.environment.vbribble.",
+                "N\u00E3o \u00E9 poss\u00EDvel locblizbr b vbri\u00E1vel do bmbiente: "},
+        {"Cbnnot.find.file.", "N\u00E3o \u00E9 poss\u00EDvel locblizbr o brquivo: "},
+        {"Commbnd.option.flbg.needs.bn.brgument.", "A op\u00E7\u00E3o de combndo {0} precisb de um brgumento."},
+        {"Wbrning.Different.store.bnd.key.pbsswords.not.supported.for.PKCS12.KeyStores.Ignoring.user.specified.commbnd.vblue.",
+                "Advert\u00EAncib: Senhbs de chbve e de brmbzenbmento diferentes n\u00E3o suportbdbs pbrb KeyStores PKCS12. Ignorbndo vblor {0} especificbdo pelo usu\u00E1rio."},
         {".keystore.must.be.NONE.if.storetype.is.{0}",
                 "-keystore deve ser NONE se -storetype for {0}"},
-        {"Too.many.retries.program.terminated",
-                 "Excesso de tentativas de repeti\u00E7\u00E3o; programa finalizado"},
-        {".storepasswd.and.keypasswd.commands.not.supported.if.storetype.is.{0}",
-                "comandos -storepasswd e -keypasswd n\u00E3o suportados se -storetype for {0}"},
-        {".keypasswd.commands.not.supported.if.storetype.is.PKCS12",
-                "comandos -keypasswd n\u00E3o suportados se -storetype for PKCS12"},
-        {".keypass.and.new.can.not.be.specified.if.storetype.is.{0}",
-                "-keypass e -new n\u00E3o podem ser especificados se -storetype for {0}"},
-        {"if.protected.is.specified.then.storepass.keypass.and.new.must.not.be.specified",
-                "se -protected for especificado, ent\u00E3o -storepass, -keypass e -new n\u00E3o dever\u00E3o ser especificados"},
-        {"if.srcprotected.is.specified.then.srcstorepass.and.srckeypass.must.not.be.specified",
-                "se -srcprotected for especificado, ent\u00E3o -srcstorepass e -srckeypass n\u00E3o dever\u00E3o ser especificados"},
-        {"if.keystore.is.not.password.protected.then.storepass.keypass.and.new.must.not.be.specified",
-                "se a \u00E1rea de armazenamento de chaves n\u00E3o estiver protegida por senha, ent\u00E3o -storepass, -keypass e -new n\u00E3o dever\u00E3o ser especificados"},
-        {"if.source.keystore.is.not.password.protected.then.srcstorepass.and.srckeypass.must.not.be.specified",
-                "se a \u00E1rea de armazenamento de chaves de origem n\u00E3o estiver protegida por senha, ent\u00E3o -srcstorepass e -srckeypass n\u00E3o dever\u00E3o ser especificados"},
-        {"Illegal.startdate.value", "valor da data inicial inv\u00E1lido"},
-        {"Validity.must.be.greater.than.zero",
-                "A validade deve ser maior do que zero"},
-        {"provName.not.a.provider", "{0} n\u00E3o \u00E9 um fornecedor"},
-        {"Usage.error.no.command.provided", "Erro de uso: nenhum comando fornecido"},
-        {"Source.keystore.file.exists.but.is.empty.", "O arquivo da \u00E1rea de armazenamento de chaves de origem existe, mas est\u00E1 vazio: "},
-        {"Please.specify.srckeystore", "Especifique -srckeystore"},
-        {"Must.not.specify.both.v.and.rfc.with.list.command",
-                "N\u00E3o devem ser especificados -v e -rfc com o comando 'list'"},
-        {"Key.password.must.be.at.least.6.characters",
-                "A senha da chave deve ter, no m\u00EDnimo, 6 caracteres"},
-        {"New.password.must.be.at.least.6.characters",
-                "A nova senha deve ter, no m\u00EDnimo, 6 caracteres"},
+        {"Too.mbny.retries.progrbm.terminbted",
+                 "Excesso de tentbtivbs de repeti\u00E7\u00E3o; progrbmb finblizbdo"},
+        {".storepbsswd.bnd.keypbsswd.commbnds.not.supported.if.storetype.is.{0}",
+                "combndos -storepbsswd e -keypbsswd n\u00E3o suportbdos se -storetype for {0}"},
+        {".keypbsswd.commbnds.not.supported.if.storetype.is.PKCS12",
+                "combndos -keypbsswd n\u00E3o suportbdos se -storetype for PKCS12"},
+        {".keypbss.bnd.new.cbn.not.be.specified.if.storetype.is.{0}",
+                "-keypbss e -new n\u00E3o podem ser especificbdos se -storetype for {0}"},
+        {"if.protected.is.specified.then.storepbss.keypbss.bnd.new.must.not.be.specified",
+                "se -protected for especificbdo, ent\u00E3o -storepbss, -keypbss e -new n\u00E3o dever\u00E3o ser especificbdos"},
+        {"if.srcprotected.is.specified.then.srcstorepbss.bnd.srckeypbss.must.not.be.specified",
+                "se -srcprotected for especificbdo, ent\u00E3o -srcstorepbss e -srckeypbss n\u00E3o dever\u00E3o ser especificbdos"},
+        {"if.keystore.is.not.pbssword.protected.then.storepbss.keypbss.bnd.new.must.not.be.specified",
+                "se b \u00E1reb de brmbzenbmento de chbves n\u00E3o estiver protegidb por senhb, ent\u00E3o -storepbss, -keypbss e -new n\u00E3o dever\u00E3o ser especificbdos"},
+        {"if.source.keystore.is.not.pbssword.protected.then.srcstorepbss.bnd.srckeypbss.must.not.be.specified",
+                "se b \u00E1reb de brmbzenbmento de chbves de origem n\u00E3o estiver protegidb por senhb, ent\u00E3o -srcstorepbss e -srckeypbss n\u00E3o dever\u00E3o ser especificbdos"},
+        {"Illegbl.stbrtdbte.vblue", "vblor db dbtb inicibl inv\u00E1lido"},
+        {"Vblidity.must.be.grebter.thbn.zero",
+                "A vblidbde deve ser mbior do que zero"},
+        {"provNbme.not.b.provider", "{0} n\u00E3o \u00E9 um fornecedor"},
+        {"Usbge.error.no.commbnd.provided", "Erro de uso: nenhum combndo fornecido"},
+        {"Source.keystore.file.exists.but.is.empty.", "O brquivo db \u00E1reb de brmbzenbmento de chbves de origem existe, mbs est\u00E1 vbzio: "},
+        {"Plebse.specify.srckeystore", "Especifique -srckeystore"},
+        {"Must.not.specify.both.v.bnd.rfc.with.list.commbnd",
+                "N\u00E3o devem ser especificbdos -v e -rfc com o combndo 'list'"},
+        {"Key.pbssword.must.be.bt.lebst.6.chbrbcters",
+                "A senhb db chbve deve ter, no m\u00EDnimo, 6 cbrbcteres"},
+        {"New.pbssword.must.be.bt.lebst.6.chbrbcters",
+                "A novb senhb deve ter, no m\u00EDnimo, 6 cbrbcteres"},
         {"Keystore.file.exists.but.is.empty.",
-                "O arquivo da \u00E1rea de armazenamento de chaves existe, mas est\u00E1 vazio: "},
+                "O brquivo db \u00E1reb de brmbzenbmento de chbves existe, mbs est\u00E1 vbzio: "},
         {"Keystore.file.does.not.exist.",
-                "O arquivo da \u00E1rea de armazenamento de chaves n\u00E3o existe. "},
-        {"Must.specify.destination.alias", "Deve ser especificado um alias de destino"},
-        {"Must.specify.alias", "Deve ser especificado um alias"},
-        {"Keystore.password.must.be.at.least.6.characters",
-                "A senha da \u00E1rea de armazenamento de chaves deve ter, no m\u00EDnimo, 6 caracteres"},
-        {"Enter.the.password.to.be.stored.",
-                "Digite a senha a ser armazenada:  "},
-        {"Enter.keystore.password.", "Informe a senha da \u00E1rea de armazenamento de chaves:  "},
-        {"Enter.source.keystore.password.", "Informe a senha da \u00E1rea de armazenamento de chaves de origem:  "},
-        {"Enter.destination.keystore.password.", "Informe a senha da \u00E1rea de armazenamento de chaves de destino:  "},
-        {"Keystore.password.is.too.short.must.be.at.least.6.characters",
-         "A senha da \u00E1rea de armazenamento de chaves \u00E9 muito curta - ela deve ter, no m\u00EDnimo, 6 caracteres"},
-        {"Unknown.Entry.Type", "Tipo de Entrada Desconhecido"},
-        {"Too.many.failures.Alias.not.changed", "Excesso de falhas. Alias n\u00E3o alterado"},
-        {"Entry.for.alias.alias.successfully.imported.",
-                 "Entrada do alias {0} importada com \u00EAxito."},
-        {"Entry.for.alias.alias.not.imported.", "Entrada do alias {0} n\u00E3o importada."},
-        {"Problem.importing.entry.for.alias.alias.exception.Entry.for.alias.alias.not.imported.",
-                 "Problema ao importar a entrada do alias {0}: {1}.\nEntrada do alias {0} n\u00E3o importada."},
-        {"Import.command.completed.ok.entries.successfully.imported.fail.entries.failed.or.cancelled",
-                 "Comando de importa\u00E7\u00E3o conclu\u00EDdo:  {0} entradas importadas com \u00EAxito, {1} entradas falharam ou foram canceladas"},
-        {"Warning.Overwriting.existing.alias.alias.in.destination.keystore",
-                 "Advert\u00EAncia: Substitui\u00E7\u00E3o do alias {0} existente na \u00E1rea de armazenamento de chaves de destino"},
-        {"Existing.entry.alias.alias.exists.overwrite.no.",
-                 "Entrada j\u00E1 existente no alias {0}, substituir? [n\u00E3o]:  "},
-        {"Too.many.failures.try.later", "Excesso de falhas - tente mais tarde"},
-        {"Certification.request.stored.in.file.filename.",
-                "Solicita\u00E7\u00E3o de certificado armazenada no arquivo <{0}>"},
+                "O brquivo db \u00E1reb de brmbzenbmento de chbves n\u00E3o existe. "},
+        {"Must.specify.destinbtion.blibs", "Deve ser especificbdo um blibs de destino"},
+        {"Must.specify.blibs", "Deve ser especificbdo um blibs"},
+        {"Keystore.pbssword.must.be.bt.lebst.6.chbrbcters",
+                "A senhb db \u00E1reb de brmbzenbmento de chbves deve ter, no m\u00EDnimo, 6 cbrbcteres"},
+        {"Enter.the.pbssword.to.be.stored.",
+                "Digite b senhb b ser brmbzenbdb:  "},
+        {"Enter.keystore.pbssword.", "Informe b senhb db \u00E1reb de brmbzenbmento de chbves:  "},
+        {"Enter.source.keystore.pbssword.", "Informe b senhb db \u00E1reb de brmbzenbmento de chbves de origem:  "},
+        {"Enter.destinbtion.keystore.pbssword.", "Informe b senhb db \u00E1reb de brmbzenbmento de chbves de destino:  "},
+        {"Keystore.pbssword.is.too.short.must.be.bt.lebst.6.chbrbcters",
+         "A senhb db \u00E1reb de brmbzenbmento de chbves \u00E9 muito curtb - elb deve ter, no m\u00EDnimo, 6 cbrbcteres"},
+        {"Unknown.Entry.Type", "Tipo de Entrbdb Desconhecido"},
+        {"Too.mbny.fbilures.Alibs.not.chbnged", "Excesso de fblhbs. Alibs n\u00E3o blterbdo"},
+        {"Entry.for.blibs.blibs.successfully.imported.",
+                 "Entrbdb do blibs {0} importbdb com \u00EAxito."},
+        {"Entry.for.blibs.blibs.not.imported.", "Entrbdb do blibs {0} n\u00E3o importbdb."},
+        {"Problem.importing.entry.for.blibs.blibs.exception.Entry.for.blibs.blibs.not.imported.",
+                 "Problemb bo importbr b entrbdb do blibs {0}: {1}.\nEntrbdb do blibs {0} n\u00E3o importbdb."},
+        {"Import.commbnd.completed.ok.entries.successfully.imported.fbil.entries.fbiled.or.cbncelled",
+                 "Combndo de importb\u00E7\u00E3o conclu\u00EDdo:  {0} entrbdbs importbdbs com \u00EAxito, {1} entrbdbs fblhbrbm ou forbm cbncelbdbs"},
+        {"Wbrning.Overwriting.existing.blibs.blibs.in.destinbtion.keystore",
+                 "Advert\u00EAncib: Substitui\u00E7\u00E3o do blibs {0} existente nb \u00E1reb de brmbzenbmento de chbves de destino"},
+        {"Existing.entry.blibs.blibs.exists.overwrite.no.",
+                 "Entrbdb j\u00E1 existente no blibs {0}, substituir? [n\u00E3o]:  "},
+        {"Too.mbny.fbilures.try.lbter", "Excesso de fblhbs - tente mbis tbrde"},
+        {"Certificbtion.request.stored.in.file.filenbme.",
+                "Solicitb\u00E7\u00E3o de certificbdo brmbzenbdb no brquivo <{0}>"},
         {"Submit.this.to.your.CA", "Submeter \u00E0 CA"},
-        {"if.alias.not.specified.destalias.and.srckeypass.must.not.be.specified",
-            "se o alias n\u00E3o estiver especificado, destalias e srckeypass n\u00E3o dever\u00E3o ser especificados"},
-        {"The.destination.pkcs12.keystore.has.different.storepass.and.keypass.Please.retry.with.destkeypass.specified.",
-            "O armazenamento de chaves pkcs12 de destino tem storepass e keypass diferentes. Tente novamente especificando -destkeypass."},
-        {"Certificate.stored.in.file.filename.",
-                "Certificado armazenado no arquivo <{0}>"},
-        {"Certificate.reply.was.installed.in.keystore",
-                "A resposta do certificado foi instalada na \u00E1rea de armazenamento de chaves"},
-        {"Certificate.reply.was.not.installed.in.keystore",
-                "A resposta do certificado n\u00E3o foi instalada na \u00E1rea de armazenamento de chaves"},
-        {"Certificate.was.added.to.keystore",
-                "O certificado foi adicionado \u00E0 \u00E1rea de armazenamento de chaves"},
-        {"Certificate.was.not.added.to.keystore",
-                "O certificado n\u00E3o foi adicionado \u00E0 \u00E1rea de armazenamento de chaves"},
-        {".Storing.ksfname.", "[Armazenando {0}]"},
-        {"alias.has.no.public.key.certificate.",
-                "{0} n\u00E3o tem chave p\u00FAblica (certificado)"},
-        {"Cannot.derive.signature.algorithm",
-                "N\u00E3o \u00E9 poss\u00EDvel obter um algoritmo de assinatura"},
-        {"Alias.alias.does.not.exist",
-                "O alias <{0}> n\u00E3o existe"},
-        {"Alias.alias.has.no.certificate",
-                "O alias <{0}> n\u00E3o tem certificado"},
-        {"Key.pair.not.generated.alias.alias.already.exists",
-                "Par de chaves n\u00E3o gerado; o alias <{0}> j\u00E1 existe"},
-        {"Generating.keysize.bit.keyAlgName.key.pair.and.self.signed.certificate.sigAlgName.with.a.validity.of.validality.days.for",
-                "Gerando o par de chaves {1} de {0} bit e o certificado autoassinado ({2}) com uma validade de {3} dias\n\tpara: {4}"},
-        {"Enter.key.password.for.alias.", "Informar a senha da chave de <{0}>"},
-        {".RETURN.if.same.as.keystore.password.",
-                "\t(RETURN se for igual \u00E0 senha da \u00E1rea do armazenamento de chaves):  "},
-        {"Key.password.is.too.short.must.be.at.least.6.characters",
-                "A senha da chave \u00E9 muito curta - deve ter, no m\u00EDnimo, 6 caracteres"},
-        {"Too.many.failures.key.not.added.to.keystore",
-                "Excesso de falhas - chave n\u00E3o adicionada a \u00E1rea de armazenamento de chaves"},
-        {"Destination.alias.dest.already.exists",
-                "O alias de destino <{0}> j\u00E1 existe"},
-        {"Password.is.too.short.must.be.at.least.6.characters",
-                "A senha \u00E9 muito curta - deve ter, no m\u00EDnimo, 6 caracteres"},
-        {"Too.many.failures.Key.entry.not.cloned",
-                "Excesso de falhas. Entrada da chave n\u00E3o clonada"},
-        {"key.password.for.alias.", "senha da chave de <{0}>"},
-        {"Keystore.entry.for.id.getName.already.exists",
-                "A entrada da \u00E1rea do armazenamento de chaves de <{0}> j\u00E1 existe"},
-        {"Creating.keystore.entry.for.id.getName.",
-                "Criando entrada da \u00E1rea do armazenamento de chaves para <{0}> ..."},
-        {"No.entries.from.identity.database.added",
-                "Nenhuma entrada adicionada do banco de dados de identidades"},
-        {"Alias.name.alias", "Nome do alias: {0}"},
-        {"Creation.date.keyStore.getCreationDate.alias.",
-                "Data de cria\u00E7\u00E3o: {0,date}"},
-        {"alias.keyStore.getCreationDate.alias.",
-                "{0}, {1,date}, "},
-        {"alias.", "{0}, "},
-        {"Entry.type.type.", "Tipo de entrada: {0}"},
-        {"Certificate.chain.length.", "Comprimento da cadeia de certificados: "},
-        {"Certificate.i.1.", "Certificado[{0,number,integer}]:"},
-        {"Certificate.fingerprint.SHA1.", "Fingerprint (SHA1) do certificado: "},
-        {"Keystore.type.", "Tipo de \u00E1rea de armazenamento de chaves: "},
-        {"Keystore.provider.", "Fornecedor da \u00E1rea de armazenamento de chaves: "},
-        {"Your.keystore.contains.keyStore.size.entry",
-                "Sua \u00E1rea de armazenamento de chaves cont\u00E9m {0,number,integer} entrada"},
-        {"Your.keystore.contains.keyStore.size.entries",
-                "Sua \u00E1rea de armazenamento de chaves cont\u00E9m {0,number,integer} entradas"},
-        {"Failed.to.parse.input", "Falha durante o parsing da entrada"},
-        {"Empty.input", "Entrada vazia"},
-        {"Not.X.509.certificate", "N\u00E3o \u00E9 um certificado X.509"},
-        {"alias.has.no.public.key", "{0} n\u00E3o tem chave p\u00FAblica"},
-        {"alias.has.no.X.509.certificate", "{0} n\u00E3o tem certificado X.509"},
-        {"New.certificate.self.signed.", "Novo certificado (autoassinado):"},
-        {"Reply.has.no.certificates", "A resposta n\u00E3o tem certificado"},
-        {"Certificate.not.imported.alias.alias.already.exists",
-                "Certificado n\u00E3o importado, o alias <{0}> j\u00E1 existe"},
-        {"Input.not.an.X.509.certificate", "A entrada n\u00E3o \u00E9 um certificado X.509"},
-        {"Certificate.already.exists.in.keystore.under.alias.trustalias.",
-                "O certificado j\u00E1 existe no armazenamento de chaves no alias <{0}>"},
-        {"Do.you.still.want.to.add.it.no.",
-                "Ainda deseja adicion\u00E1-lo? [n\u00E3o]:  "},
-        {"Certificate.already.exists.in.system.wide.CA.keystore.under.alias.trustalias.",
-                "O certificado j\u00E1 existe na \u00E1rea de armazenamento de chaves da CA em todo o sistema no alias <{0}>"},
-        {"Do.you.still.want.to.add.it.to.your.own.keystore.no.",
-                "Ainda deseja adicion\u00E1-lo \u00E0 sua \u00E1rea de armazenamento de chaves? [n\u00E3o]:  "},
-        {"Trust.this.certificate.no.", "Confiar neste certificado? [n\u00E3o]:  "},
+        {"if.blibs.not.specified.destblibs.bnd.srckeypbss.must.not.be.specified",
+            "se o blibs n\u00E3o estiver especificbdo, destblibs e srckeypbss n\u00E3o dever\u00E3o ser especificbdos"},
+        {"The.destinbtion.pkcs12.keystore.hbs.different.storepbss.bnd.keypbss.Plebse.retry.with.destkeypbss.specified.",
+            "O brmbzenbmento de chbves pkcs12 de destino tem storepbss e keypbss diferentes. Tente novbmente especificbndo -destkeypbss."},
+        {"Certificbte.stored.in.file.filenbme.",
+                "Certificbdo brmbzenbdo no brquivo <{0}>"},
+        {"Certificbte.reply.wbs.instblled.in.keystore",
+                "A respostb do certificbdo foi instblbdb nb \u00E1reb de brmbzenbmento de chbves"},
+        {"Certificbte.reply.wbs.not.instblled.in.keystore",
+                "A respostb do certificbdo n\u00E3o foi instblbdb nb \u00E1reb de brmbzenbmento de chbves"},
+        {"Certificbte.wbs.bdded.to.keystore",
+                "O certificbdo foi bdicionbdo \u00E0 \u00E1reb de brmbzenbmento de chbves"},
+        {"Certificbte.wbs.not.bdded.to.keystore",
+                "O certificbdo n\u00E3o foi bdicionbdo \u00E0 \u00E1reb de brmbzenbmento de chbves"},
+        {".Storing.ksfnbme.", "[Armbzenbndo {0}]"},
+        {"blibs.hbs.no.public.key.certificbte.",
+                "{0} n\u00E3o tem chbve p\u00FAblicb (certificbdo)"},
+        {"Cbnnot.derive.signbture.blgorithm",
+                "N\u00E3o \u00E9 poss\u00EDvel obter um blgoritmo de bssinbturb"},
+        {"Alibs.blibs.does.not.exist",
+                "O blibs <{0}> n\u00E3o existe"},
+        {"Alibs.blibs.hbs.no.certificbte",
+                "O blibs <{0}> n\u00E3o tem certificbdo"},
+        {"Key.pbir.not.generbted.blibs.blibs.blrebdy.exists",
+                "Pbr de chbves n\u00E3o gerbdo; o blibs <{0}> j\u00E1 existe"},
+        {"Generbting.keysize.bit.keyAlgNbme.key.pbir.bnd.self.signed.certificbte.sigAlgNbme.with.b.vblidity.of.vblidblity.dbys.for",
+                "Gerbndo o pbr de chbves {1} de {0} bit e o certificbdo butobssinbdo ({2}) com umb vblidbde de {3} dibs\n\tpbrb: {4}"},
+        {"Enter.key.pbssword.for.blibs.", "Informbr b senhb db chbve de <{0}>"},
+        {".RETURN.if.sbme.bs.keystore.pbssword.",
+                "\t(RETURN se for igubl \u00E0 senhb db \u00E1reb do brmbzenbmento de chbves):  "},
+        {"Key.pbssword.is.too.short.must.be.bt.lebst.6.chbrbcters",
+                "A senhb db chbve \u00E9 muito curtb - deve ter, no m\u00EDnimo, 6 cbrbcteres"},
+        {"Too.mbny.fbilures.key.not.bdded.to.keystore",
+                "Excesso de fblhbs - chbve n\u00E3o bdicionbdb b \u00E1reb de brmbzenbmento de chbves"},
+        {"Destinbtion.blibs.dest.blrebdy.exists",
+                "O blibs de destino <{0}> j\u00E1 existe"},
+        {"Pbssword.is.too.short.must.be.bt.lebst.6.chbrbcters",
+                "A senhb \u00E9 muito curtb - deve ter, no m\u00EDnimo, 6 cbrbcteres"},
+        {"Too.mbny.fbilures.Key.entry.not.cloned",
+                "Excesso de fblhbs. Entrbdb db chbve n\u00E3o clonbdb"},
+        {"key.pbssword.for.blibs.", "senhb db chbve de <{0}>"},
+        {"Keystore.entry.for.id.getNbme.blrebdy.exists",
+                "A entrbdb db \u00E1reb do brmbzenbmento de chbves de <{0}> j\u00E1 existe"},
+        {"Crebting.keystore.entry.for.id.getNbme.",
+                "Cribndo entrbdb db \u00E1reb do brmbzenbmento de chbves pbrb <{0}> ..."},
+        {"No.entries.from.identity.dbtbbbse.bdded",
+                "Nenhumb entrbdb bdicionbdb do bbnco de dbdos de identidbdes"},
+        {"Alibs.nbme.blibs", "Nome do blibs: {0}"},
+        {"Crebtion.dbte.keyStore.getCrebtionDbte.blibs.",
+                "Dbtb de crib\u00E7\u00E3o: {0,dbte}"},
+        {"blibs.keyStore.getCrebtionDbte.blibs.",
+                "{0}, {1,dbte}, "},
+        {"blibs.", "{0}, "},
+        {"Entry.type.type.", "Tipo de entrbdb: {0}"},
+        {"Certificbte.chbin.length.", "Comprimento db cbdeib de certificbdos: "},
+        {"Certificbte.i.1.", "Certificbdo[{0,number,integer}]:"},
+        {"Certificbte.fingerprint.SHA1.", "Fingerprint (SHA1) do certificbdo: "},
+        {"Keystore.type.", "Tipo de \u00E1reb de brmbzenbmento de chbves: "},
+        {"Keystore.provider.", "Fornecedor db \u00E1reb de brmbzenbmento de chbves: "},
+        {"Your.keystore.contbins.keyStore.size.entry",
+                "Sub \u00E1reb de brmbzenbmento de chbves cont\u00E9m {0,number,integer} entrbdb"},
+        {"Your.keystore.contbins.keyStore.size.entries",
+                "Sub \u00E1reb de brmbzenbmento de chbves cont\u00E9m {0,number,integer} entrbdbs"},
+        {"Fbiled.to.pbrse.input", "Fblhb durbnte o pbrsing db entrbdb"},
+        {"Empty.input", "Entrbdb vbzib"},
+        {"Not.X.509.certificbte", "N\u00E3o \u00E9 um certificbdo X.509"},
+        {"blibs.hbs.no.public.key", "{0} n\u00E3o tem chbve p\u00FAblicb"},
+        {"blibs.hbs.no.X.509.certificbte", "{0} n\u00E3o tem certificbdo X.509"},
+        {"New.certificbte.self.signed.", "Novo certificbdo (butobssinbdo):"},
+        {"Reply.hbs.no.certificbtes", "A respostb n\u00E3o tem certificbdo"},
+        {"Certificbte.not.imported.blibs.blibs.blrebdy.exists",
+                "Certificbdo n\u00E3o importbdo, o blibs <{0}> j\u00E1 existe"},
+        {"Input.not.bn.X.509.certificbte", "A entrbdb n\u00E3o \u00E9 um certificbdo X.509"},
+        {"Certificbte.blrebdy.exists.in.keystore.under.blibs.trustblibs.",
+                "O certificbdo j\u00E1 existe no brmbzenbmento de chbves no blibs <{0}>"},
+        {"Do.you.still.wbnt.to.bdd.it.no.",
+                "Aindb desejb bdicion\u00E1-lo? [n\u00E3o]:  "},
+        {"Certificbte.blrebdy.exists.in.system.wide.CA.keystore.under.blibs.trustblibs.",
+                "O certificbdo j\u00E1 existe nb \u00E1reb de brmbzenbmento de chbves db CA em todo o sistemb no blibs <{0}>"},
+        {"Do.you.still.wbnt.to.bdd.it.to.your.own.keystore.no.",
+                "Aindb desejb bdicion\u00E1-lo \u00E0 sub \u00E1reb de brmbzenbmento de chbves? [n\u00E3o]:  "},
+        {"Trust.this.certificbte.no.", "Confibr neste certificbdo? [n\u00E3o]:  "},
         {"YES", "SIM"},
-        {"New.prompt.", "Nova {0}: "},
-        {"Passwords.must.differ", "As senhas devem ser diferentes"},
-        {"Re.enter.new.prompt.", "Informe novamente a nova {0}: "},
-        {"Re.enter.passpword.", "Redigite a senha: "},
-        {"Re.enter.new.password.", "Informe novamente a nova senha: "},
-        {"They.don.t.match.Try.again", "Elas n\u00E3o correspondem. Tente novamente"},
-        {"Enter.prompt.alias.name.", "Informe o nome do alias {0}:  "},
-        {"Enter.new.alias.name.RETURN.to.cancel.import.for.this.entry.",
-                 "Informe o novo nome do alias\t(RETURN para cancelar a importa\u00E7\u00E3o desta entrada):  "},
-        {"Enter.alias.name.", "Informe o nome do alias:  "},
-        {".RETURN.if.same.as.for.otherAlias.",
-                "\t(RETURN se for igual ao de <{0}>)"},
+        {"New.prompt.", "Novb {0}: "},
+        {"Pbsswords.must.differ", "As senhbs devem ser diferentes"},
+        {"Re.enter.new.prompt.", "Informe novbmente b novb {0}: "},
+        {"Re.enter.pbsspword.", "Redigite b senhb: "},
+        {"Re.enter.new.pbssword.", "Informe novbmente b novb senhb: "},
+        {"They.don.t.mbtch.Try.bgbin", "Elbs n\u00E3o correspondem. Tente novbmente"},
+        {"Enter.prompt.blibs.nbme.", "Informe o nome do blibs {0}:  "},
+        {"Enter.new.blibs.nbme.RETURN.to.cbncel.import.for.this.entry.",
+                 "Informe o novo nome do blibs\t(RETURN pbrb cbncelbr b importb\u00E7\u00E3o destb entrbdb):  "},
+        {"Enter.blibs.nbme.", "Informe o nome do blibs:  "},
+        {".RETURN.if.sbme.bs.for.otherAlibs.",
+                "\t(RETURN se for igubl bo de <{0}>)"},
         {".PATTERN.printX509Cert",
-                "Propriet\u00E1rio: {0}\nEmissor: {1}\nN\u00FAmero de s\u00E9rie: {2}\nV\u00E1lido de: {3} a: {4}\nFingerprints do certificado:\n\t MD5:  {5}\n\t SHA1: {6}\n\t SHA256: {7}\n\t Nome do algoritmo de assinatura: {8}\n\t Vers\u00E3o: {9}"},
-        {"What.is.your.first.and.last.name.",
-                "Qual \u00E9 o seu nome e o seu sobrenome?"},
-        {"What.is.the.name.of.your.organizational.unit.",
-                "Qual \u00E9 o nome da sua unidade organizacional?"},
-        {"What.is.the.name.of.your.organization.",
-                "Qual \u00E9 o nome da sua empresa?"},
-        {"What.is.the.name.of.your.City.or.Locality.",
-                "Qual \u00E9 o nome da sua Cidade ou Localidade?"},
-        {"What.is.the.name.of.your.State.or.Province.",
-                "Qual \u00E9 o nome do seu Estado ou Munic\u00EDpio?"},
-        {"What.is.the.two.letter.country.code.for.this.unit.",
-                "Quais s\u00E3o as duas letras do c\u00F3digo do pa\u00EDs desta unidade?"},
-        {"Is.name.correct.", "{0} Est\u00E1 correto?"},
+                "Propriet\u00E1rio: {0}\nEmissor: {1}\nN\u00FAmero de s\u00E9rie: {2}\nV\u00E1lido de: {3} b: {4}\nFingerprints do certificbdo:\n\t MD5:  {5}\n\t SHA1: {6}\n\t SHA256: {7}\n\t Nome do blgoritmo de bssinbturb: {8}\n\t Vers\u00E3o: {9}"},
+        {"Whbt.is.your.first.bnd.lbst.nbme.",
+                "Qubl \u00E9 o seu nome e o seu sobrenome?"},
+        {"Whbt.is.the.nbme.of.your.orgbnizbtionbl.unit.",
+                "Qubl \u00E9 o nome db sub unidbde orgbnizbcionbl?"},
+        {"Whbt.is.the.nbme.of.your.orgbnizbtion.",
+                "Qubl \u00E9 o nome db sub empresb?"},
+        {"Whbt.is.the.nbme.of.your.City.or.Locblity.",
+                "Qubl \u00E9 o nome db sub Cidbde ou Locblidbde?"},
+        {"Whbt.is.the.nbme.of.your.Stbte.or.Province.",
+                "Qubl \u00E9 o nome do seu Estbdo ou Munic\u00EDpio?"},
+        {"Whbt.is.the.two.letter.country.code.for.this.unit.",
+                "Qubis s\u00E3o bs dubs letrbs do c\u00F3digo do pb\u00EDs destb unidbde?"},
+        {"Is.nbme.correct.", "{0} Est\u00E1 correto?"},
         {"no", "n\u00E3o"},
         {"yes", "sim"},
         {"y", "s"},
-        {".defaultValue.", "  [{0}]:  "},
-        {"Alias.alias.has.no.key",
-                "O alias <{0}> n\u00E3o tem chave"},
-        {"Alias.alias.references.an.entry.type.that.is.not.a.private.key.entry.The.keyclone.command.only.supports.cloning.of.private.key",
-                 "O alias <{0}> faz refer\u00EAncia a um tipo de entrada que n\u00E3o \u00E9 uma entrada de chave privada. O comando -keyclone oferece suporte somente \u00E0 clonagem de entradas de chave privada"},
+        {".defbultVblue.", "  [{0}]:  "},
+        {"Alibs.blibs.hbs.no.key",
+                "O blibs <{0}> n\u00E3o tem chbve"},
+        {"Alibs.blibs.references.bn.entry.type.thbt.is.not.b.privbte.key.entry.The.keyclone.commbnd.only.supports.cloning.of.privbte.key",
+                 "O blibs <{0}> fbz refer\u00EAncib b um tipo de entrbdb que n\u00E3o \u00E9 umb entrbdb de chbve privbdb. O combndo -keyclone oferece suporte somente \u00E0 clonbgem de entrbdbs de chbve privbdb"},
 
         {".WARNING.WARNING.WARNING.",
             "*****************  WARNING WARNING WARNING  *****************"},
-        {"Signer.d.", "Signat\u00E1rio #%d:"},
-        {"Timestamp.", "Timestamp:"},
-        {"Signature.", "Assinatura:"},
+        {"Signer.d.", "Signbt\u00E1rio #%d:"},
+        {"Timestbmp.", "Timestbmp:"},
+        {"Signbture.", "Assinbturb:"},
         {"CRLs.", "CRLs:"},
-        {"Certificate.owner.", "Propriet\u00E1rio do certificado: "},
-        {"Not.a.signed.jar.file", "N\u00E3o \u00E9 um arquivo jar assinado"},
-        {"No.certificate.from.the.SSL.server",
-                "N\u00E3o \u00E9 um certificado do servidor SSL"},
+        {"Certificbte.owner.", "Propriet\u00E1rio do certificbdo: "},
+        {"Not.b.signed.jbr.file", "N\u00E3o \u00E9 um brquivo jbr bssinbdo"},
+        {"No.certificbte.from.the.SSL.server",
+                "N\u00E3o \u00E9 um certificbdo do servidor SSL"},
 
-        {".The.integrity.of.the.information.stored.in.your.keystore.",
-            "* A integridade das informa\u00E7\u00F5es armazenadas na sua \u00E1rea de armazenamento de chaves  *\n* N\u00C3O foi verificada!  Para que seja poss\u00EDvel verificar sua integridade, *\n* voc\u00EA deve fornecer a senha da \u00E1rea de armazenamento de chaves.                  *"},
-        {".The.integrity.of.the.information.stored.in.the.srckeystore.",
-            "* A integridade das informa\u00E7\u00F5es armazenadas no srckeystore  *\n* N\u00C3O foi verificada!  Para que seja poss\u00EDvel verificar sua integridade, *\n* voc\u00EA deve fornecer a senha do srckeystore.                  *"},
+        {".The.integrity.of.the.informbtion.stored.in.your.keystore.",
+            "* A integridbde dbs informb\u00E7\u00F5es brmbzenbdbs nb sub \u00E1reb de brmbzenbmento de chbves  *\n* N\u00C3O foi verificbdb!  Pbrb que sejb poss\u00EDvel verificbr sub integridbde, *\n* voc\u00EA deve fornecer b senhb db \u00E1reb de brmbzenbmento de chbves.                  *"},
+        {".The.integrity.of.the.informbtion.stored.in.the.srckeystore.",
+            "* A integridbde dbs informb\u00E7\u00F5es brmbzenbdbs no srckeystore  *\n* N\u00C3O foi verificbdb!  Pbrb que sejb poss\u00EDvel verificbr sub integridbde, *\n* voc\u00EA deve fornecer b senhb do srckeystore.                  *"},
 
-        {"Certificate.reply.does.not.contain.public.key.for.alias.",
-                "A resposta do certificado n\u00E3o cont\u00E9m a chave p\u00FAblica de <{0}>"},
-        {"Incomplete.certificate.chain.in.reply",
-                "Cadeia de certificados incompleta na resposta"},
-        {"Certificate.chain.in.reply.does.not.verify.",
-                "A cadeia de certificados da resposta n\u00E3o verifica: "},
-        {"Top.level.certificate.in.reply.",
-                "Certificado de n\u00EDvel superior na resposta:\n"},
+        {"Certificbte.reply.does.not.contbin.public.key.for.blibs.",
+                "A respostb do certificbdo n\u00E3o cont\u00E9m b chbve p\u00FAblicb de <{0}>"},
+        {"Incomplete.certificbte.chbin.in.reply",
+                "Cbdeib de certificbdos incompletb nb respostb"},
+        {"Certificbte.chbin.in.reply.does.not.verify.",
+                "A cbdeib de certificbdos db respostb n\u00E3o verificb: "},
+        {"Top.level.certificbte.in.reply.",
+                "Certificbdo de n\u00EDvel superior nb respostb:\n"},
         {".is.not.trusted.", "... n\u00E3o \u00E9 confi\u00E1vel. "},
-        {"Install.reply.anyway.no.", "Instalar resposta assim mesmo? [n\u00E3o]:  "},
+        {"Instbll.reply.bnywby.no.", "Instblbr respostb bssim mesmo? [n\u00E3o]:  "},
         {"NO", "N\u00C3O"},
-        {"Public.keys.in.reply.and.keystore.don.t.match",
-                "As chaves p\u00FAblicas da resposta e da \u00E1rea de armazenamento de chaves n\u00E3o correspondem"},
-        {"Certificate.reply.and.certificate.in.keystore.are.identical",
-                "O certificado da resposta e o certificado da \u00E1rea de armazenamento de chaves s\u00E3o id\u00EAnticos"},
-        {"Failed.to.establish.chain.from.reply",
-                "Falha ao estabelecer a cadeia a partir da resposta"},
+        {"Public.keys.in.reply.bnd.keystore.don.t.mbtch",
+                "As chbves p\u00FAblicbs db respostb e db \u00E1reb de brmbzenbmento de chbves n\u00E3o correspondem"},
+        {"Certificbte.reply.bnd.certificbte.in.keystore.bre.identicbl",
+                "O certificbdo db respostb e o certificbdo db \u00E1reb de brmbzenbmento de chbves s\u00E3o id\u00EAnticos"},
+        {"Fbiled.to.estbblish.chbin.from.reply",
+                "Fblhb bo estbbelecer b cbdeib b pbrtir db respostb"},
         {"n", "n"},
-        {"Wrong.answer.try.again", "Resposta errada; tente novamente"},
-        {"Secret.key.not.generated.alias.alias.already.exists",
-                "Chave secreta n\u00E3o gerada; o alias <{0}> j\u00E1 existe"},
-        {"Please.provide.keysize.for.secret.key.generation",
-                "Forne\u00E7a o -keysize para a gera\u00E7\u00E3o da chave secreta"},
+        {"Wrong.bnswer.try.bgbin", "Respostb errbdb; tente novbmente"},
+        {"Secret.key.not.generbted.blibs.blibs.blrebdy.exists",
+                "Chbve secretb n\u00E3o gerbdb; o blibs <{0}> j\u00E1 existe"},
+        {"Plebse.provide.keysize.for.secret.key.generbtion",
+                "Forne\u00E7b o -keysize pbrb b gerb\u00E7\u00E3o db chbve secretb"},
 
-        {"verified.by.s.in.s", "Verificado por %s em %s"},
-        {"warning.not.verified.make.sure.keystore.is.correct",
-            "ADVERT\u00CANCIA: n\u00E3o verificado. Certifique-se que -keystore esteja correto."},
+        {"verified.by.s.in.s", "Verificbdo por %s em %s"},
+        {"wbrning.not.verified.mbke.sure.keystore.is.correct",
+            "ADVERT\u00CANCIA: n\u00E3o verificbdo. Certifique-se que -keystore estejb correto."},
 
         {"Extensions.", "Extens\u00F5es: "},
-        {".Empty.value.", "(Valor vazio)"},
-        {"Extension.Request.", "Solicita\u00E7\u00E3o de Extens\u00E3o:"},
-        {"PKCS.10.Certificate.Request.Version.1.0.Subject.s.Public.Key.s.format.s.key.",
-                "Solicita\u00E7\u00E3o do Certificado PKCS #10 (Vers\u00E3o 1.0)\nAssunto: %s\nChave P\u00FAblica: %s formato %s chave\n"},
-        {"Unknown.keyUsage.type.", "Tipo de keyUsage desconhecido: "},
-        {"Unknown.extendedkeyUsage.type.", "Tipo de extendedkeyUsage desconhecido: "},
+        {".Empty.vblue.", "(Vblor vbzio)"},
+        {"Extension.Request.", "Solicitb\u00E7\u00E3o de Extens\u00E3o:"},
+        {"PKCS.10.Certificbte.Request.Version.1.0.Subject.s.Public.Key.s.formbt.s.key.",
+                "Solicitb\u00E7\u00E3o do Certificbdo PKCS #10 (Vers\u00E3o 1.0)\nAssunto: %s\nChbve P\u00FAblicb: %s formbto %s chbve\n"},
+        {"Unknown.keyUsbge.type.", "Tipo de keyUsbge desconhecido: "},
+        {"Unknown.extendedkeyUsbge.type.", "Tipo de extendedkeyUsbge desconhecido: "},
         {"Unknown.AccessDescription.type.", "Tipo de AccessDescription desconhecido: "},
-        {"Unrecognized.GeneralName.type.", "Tipo de GeneralName n\u00E3o reconhecido: "},
-        {"This.extension.cannot.be.marked.as.critical.",
-                 "Esta extens\u00E3o n\u00E3o pode ser marcada como cr\u00EDtica. "},
-        {"Odd.number.of.hex.digits.found.", "Encontrado n\u00FAmero \u00EDmpar de seis d\u00EDgitos: "},
+        {"Unrecognized.GenerblNbme.type.", "Tipo de GenerblNbme n\u00E3o reconhecido: "},
+        {"This.extension.cbnnot.be.mbrked.bs.criticbl.",
+                 "Estb extens\u00E3o n\u00E3o pode ser mbrcbdb como cr\u00EDticb. "},
+        {"Odd.number.of.hex.digits.found.", "Encontrbdo n\u00FAmero \u00EDmpbr de seis d\u00EDgitos: "},
         {"Unknown.extension.type.", "Tipo de extens\u00E3o desconhecido: "},
-        {"command.{0}.is.ambiguous.", "o comando {0} \u00E9 amb\u00EDguo:"}
+        {"commbnd.{0}.is.bmbiguous.", "o combndo {0} \u00E9 bmb\u00EDguo:"}
     };
 
 

@@ -1,247 +1,247 @@
 /*
- * Copyright (c) 1997, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - 1997, All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by Tbligent, Inc., b wholly-owned subsidibry
+ * of IBM. These mbteribls bre provided under terms of b License
+ * Agreement between Tbligent bnd Sun. This technology is protected
+ * by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.awt.font;
-import java.lang.String;
+pbckbge jbvb.bwt.font;
+import jbvb.lbng.String;
 
 /**
- * The <code>TextHitInfo</code> class represents a character position in a
- * text model, and a <b>bias</b>, or "side," of the character.  Biases are
- * either <EM>leading</EM> (the left edge, for a left-to-right character)
- * or <EM>trailing</EM> (the right edge, for a left-to-right character).
- * Instances of <code>TextHitInfo</code> are used to specify caret and
+ * The <code>TextHitInfo</code> clbss represents b chbrbcter position in b
+ * text model, bnd b <b>bibs</b>, or "side," of the chbrbcter.  Bibses bre
+ * either <EM>lebding</EM> (the left edge, for b left-to-right chbrbcter)
+ * or <EM>trbiling</EM> (the right edge, for b left-to-right chbrbcter).
+ * Instbnces of <code>TextHitInfo</code> bre used to specify cbret bnd
  * insertion positions within text.
  * <p>
- * For example, consider the text "abc".  TextHitInfo.trailing(1)
+ * For exbmple, consider the text "bbc".  TextHitInfo.trbiling(1)
  * corresponds to the right side of the 'b' in the text.
  * <p>
- * <code>TextHitInfo</code> is used primarily by {@link TextLayout} and
- * clients of <code>TextLayout</code>.  Clients of <code>TextLayout</code>
- * query <code>TextHitInfo</code> instances for an insertion offset, where
- * new text is inserted into the text model.  The insertion offset is equal
- * to the character position in the <code>TextHitInfo</code> if the bias
- * is leading, and one character after if the bias is trailing.  The
- * insertion offset for TextHitInfo.trailing(1) is 2.
+ * <code>TextHitInfo</code> is used primbrily by {@link TextLbyout} bnd
+ * clients of <code>TextLbyout</code>.  Clients of <code>TextLbyout</code>
+ * query <code>TextHitInfo</code> instbnces for bn insertion offset, where
+ * new text is inserted into the text model.  The insertion offset is equbl
+ * to the chbrbcter position in the <code>TextHitInfo</code> if the bibs
+ * is lebding, bnd one chbrbcter bfter if the bibs is trbiling.  The
+ * insertion offset for TextHitInfo.trbiling(1) is 2.
  * <p>
- * Sometimes it is convenient to construct a <code>TextHitInfo</code> with
- * the same insertion offset as an existing one, but on the opposite
- * character.  The <code>getOtherHit</code> method constructs a new
- * <code>TextHitInfo</code> with the same insertion offset as an existing
- * one, with a hit on the character on the other side of the insertion offset.
- * Calling <code>getOtherHit</code> on trailing(1) would return leading(2).
- * In general, <code>getOtherHit</code> for trailing(n) returns
- * leading(n+1) and <code>getOtherHit</code> for leading(n)
- * returns trailing(n-1).
+ * Sometimes it is convenient to construct b <code>TextHitInfo</code> with
+ * the sbme insertion offset bs bn existing one, but on the opposite
+ * chbrbcter.  The <code>getOtherHit</code> method constructs b new
+ * <code>TextHitInfo</code> with the sbme insertion offset bs bn existing
+ * one, with b hit on the chbrbcter on the other side of the insertion offset.
+ * Cblling <code>getOtherHit</code> on trbiling(1) would return lebding(2).
+ * In generbl, <code>getOtherHit</code> for trbiling(n) returns
+ * lebding(n+1) bnd <code>getOtherHit</code> for lebding(n)
+ * returns trbiling(n-1).
  * <p>
- * <strong>Example</strong>:<p>
- * Converting a graphical point to an insertion point within a text
+ * <strong>Exbmple</strong>:<p>
+ * Converting b grbphicbl point to bn insertion point within b text
  * model
  * <blockquote><pre>
- * TextLayout layout = ...;
- * Point2D.Float hitPoint = ...;
- * TextHitInfo hitInfo = layout.hitTestChar(hitPoint.x, hitPoint.y);
+ * TextLbyout lbyout = ...;
+ * Point2D.Flobt hitPoint = ...;
+ * TextHitInfo hitInfo = lbyout.hitTestChbr(hitPoint.x, hitPoint.y);
  * int insPoint = hitInfo.getInsertionIndex();
- * // insPoint is relative to layout;  may need to adjust for use
- * // in a text model
+ * // insPoint is relbtive to lbyout;  mby need to bdjust for use
+ * // in b text model
  * </pre></blockquote>
  *
- * @see TextLayout
+ * @see TextLbyout
  */
 
-public final class TextHitInfo {
-    private int charIndex;
-    private boolean isLeadingEdge;
+public finbl clbss TextHitInfo {
+    privbte int chbrIndex;
+    privbte boolebn isLebdingEdge;
 
     /**
-     * Constructs a new <code>TextHitInfo</code>.
-     * @param charIndex the index of the character hit
-     * @param isLeadingEdge <code>true</code> if the leading edge of the
-     * character was hit
+     * Constructs b new <code>TextHitInfo</code>.
+     * @pbrbm chbrIndex the index of the chbrbcter hit
+     * @pbrbm isLebdingEdge <code>true</code> if the lebding edge of the
+     * chbrbcter wbs hit
      */
-    private TextHitInfo(int charIndex, boolean isLeadingEdge) {
-        this.charIndex = charIndex;
-        this.isLeadingEdge = isLeadingEdge;
+    privbte TextHitInfo(int chbrIndex, boolebn isLebdingEdge) {
+        this.chbrIndex = chbrIndex;
+        this.isLebdingEdge = isLebdingEdge;
     }
 
     /**
-     * Returns the index of the character hit.
-     * @return the index of the character hit.
+     * Returns the index of the chbrbcter hit.
+     * @return the index of the chbrbcter hit.
      */
-    public int getCharIndex() {
-        return charIndex;
+    public int getChbrIndex() {
+        return chbrIndex;
     }
 
     /**
-     * Returns <code>true</code> if the leading edge of the character was
+     * Returns <code>true</code> if the lebding edge of the chbrbcter wbs
      * hit.
-     * @return <code>true</code> if the leading edge of the character was
-     * hit; <code>false</code> otherwise.
+     * @return <code>true</code> if the lebding edge of the chbrbcter wbs
+     * hit; <code>fblse</code> otherwise.
      */
-    public boolean isLeadingEdge() {
-        return isLeadingEdge;
+    public boolebn isLebdingEdge() {
+        return isLebdingEdge;
     }
 
     /**
-     * Returns the insertion index.  This is the character index if
-     * the leading edge of the character was hit, and one greater
-     * than the character index if the trailing edge was hit.
+     * Returns the insertion index.  This is the chbrbcter index if
+     * the lebding edge of the chbrbcter wbs hit, bnd one grebter
+     * thbn the chbrbcter index if the trbiling edge wbs hit.
      * @return the insertion index.
      */
     public int getInsertionIndex() {
-        return isLeadingEdge ? charIndex : charIndex + 1;
+        return isLebdingEdge ? chbrIndex : chbrIndex + 1;
     }
 
     /**
-     * Returns the hash code.
-     * @return the hash code of this <code>TextHitInfo</code>, which is
-     * also the <code>charIndex</code> of this <code>TextHitInfo</code>.
+     * Returns the hbsh code.
+     * @return the hbsh code of this <code>TextHitInfo</code>, which is
+     * blso the <code>chbrIndex</code> of this <code>TextHitInfo</code>.
      */
-    public int hashCode() {
-        return charIndex;
+    public int hbshCode() {
+        return chbrIndex;
     }
 
     /**
-     * Returns <code>true</code> if the specified <code>Object</code> is a
-     * <code>TextHitInfo</code> and equals this <code>TextHitInfo</code>.
-     * @param obj the <code>Object</code> to test for equality
+     * Returns <code>true</code> if the specified <code>Object</code> is b
+     * <code>TextHitInfo</code> bnd equbls this <code>TextHitInfo</code>.
+     * @pbrbm obj the <code>Object</code> to test for equblity
      * @return <code>true</code> if the specified <code>Object</code>
-     * equals this <code>TextHitInfo</code>; <code>false</code> otherwise.
+     * equbls this <code>TextHitInfo</code>; <code>fblse</code> otherwise.
      */
-    public boolean equals(Object obj) {
-        return (obj instanceof TextHitInfo) && equals((TextHitInfo)obj);
+    public boolebn equbls(Object obj) {
+        return (obj instbnceof TextHitInfo) && equbls((TextHitInfo)obj);
     }
 
     /**
      * Returns <code>true</code> if the specified <code>TextHitInfo</code>
-     * has the same <code>charIndex</code> and <code>isLeadingEdge</code>
-     * as this <code>TextHitInfo</code>.  This is not the same as having
-     * the same insertion offset.
-     * @param hitInfo a specified <code>TextHitInfo</code>
+     * hbs the sbme <code>chbrIndex</code> bnd <code>isLebdingEdge</code>
+     * bs this <code>TextHitInfo</code>.  This is not the sbme bs hbving
+     * the sbme insertion offset.
+     * @pbrbm hitInfo b specified <code>TextHitInfo</code>
      * @return <code>true</code> if the specified <code>TextHitInfo</code>
-     * has the same <code>charIndex</code> and <code>isLeadingEdge</code>
-     * as this <code>TextHitInfo</code>.
+     * hbs the sbme <code>chbrIndex</code> bnd <code>isLebdingEdge</code>
+     * bs this <code>TextHitInfo</code>.
      */
-    public boolean equals(TextHitInfo hitInfo) {
-        return hitInfo != null && charIndex == hitInfo.charIndex &&
-            isLeadingEdge == hitInfo.isLeadingEdge;
+    public boolebn equbls(TextHitInfo hitInfo) {
+        return hitInfo != null && chbrIndex == hitInfo.chbrIndex &&
+            isLebdingEdge == hitInfo.isLebdingEdge;
     }
 
     /**
-     * Returns a <code>String</code> representing the hit for debugging
+     * Returns b <code>String</code> representing the hit for debugging
      * use only.
-     * @return a <code>String</code> representing this
+     * @return b <code>String</code> representing this
      * <code>TextHitInfo</code>.
      */
     public String toString() {
-        return "TextHitInfo[" + charIndex + (isLeadingEdge ? "L" : "T")+"]";
+        return "TextHitInfo[" + chbrIndex + (isLebdingEdge ? "L" : "T")+"]";
     }
 
     /**
-     * Creates a <code>TextHitInfo</code> on the leading edge of the
-     * character at the specified <code>charIndex</code>.
-     * @param charIndex the index of the character hit
-     * @return a <code>TextHitInfo</code> on the leading edge of the
-     * character at the specified <code>charIndex</code>.
+     * Crebtes b <code>TextHitInfo</code> on the lebding edge of the
+     * chbrbcter bt the specified <code>chbrIndex</code>.
+     * @pbrbm chbrIndex the index of the chbrbcter hit
+     * @return b <code>TextHitInfo</code> on the lebding edge of the
+     * chbrbcter bt the specified <code>chbrIndex</code>.
      */
-    public static TextHitInfo leading(int charIndex) {
-        return new TextHitInfo(charIndex, true);
+    public stbtic TextHitInfo lebding(int chbrIndex) {
+        return new TextHitInfo(chbrIndex, true);
     }
 
     /**
-     * Creates a hit on the trailing edge of the character at
-     * the specified <code>charIndex</code>.
-     * @param charIndex the index of the character hit
-     * @return a <code>TextHitInfo</code> on the trailing edge of the
-     * character at the specified <code>charIndex</code>.
+     * Crebtes b hit on the trbiling edge of the chbrbcter bt
+     * the specified <code>chbrIndex</code>.
+     * @pbrbm chbrIndex the index of the chbrbcter hit
+     * @return b <code>TextHitInfo</code> on the trbiling edge of the
+     * chbrbcter bt the specified <code>chbrIndex</code>.
      */
-    public static TextHitInfo trailing(int charIndex) {
-        return new TextHitInfo(charIndex, false);
+    public stbtic TextHitInfo trbiling(int chbrIndex) {
+        return new TextHitInfo(chbrIndex, fblse);
     }
 
     /**
-     * Creates a <code>TextHitInfo</code> at the specified offset,
-     * associated with the character before the offset.
-     * @param offset an offset associated with the character before
+     * Crebtes b <code>TextHitInfo</code> bt the specified offset,
+     * bssocibted with the chbrbcter before the offset.
+     * @pbrbm offset bn offset bssocibted with the chbrbcter before
      * the offset
-     * @return a <code>TextHitInfo</code> at the specified offset.
+     * @return b <code>TextHitInfo</code> bt the specified offset.
      */
-    public static TextHitInfo beforeOffset(int offset) {
-        return new TextHitInfo(offset-1, false);
+    public stbtic TextHitInfo beforeOffset(int offset) {
+        return new TextHitInfo(offset-1, fblse);
     }
 
     /**
-     * Creates a <code>TextHitInfo</code> at the specified offset,
-     * associated with the character after the offset.
-     * @param offset an offset associated with the character after
+     * Crebtes b <code>TextHitInfo</code> bt the specified offset,
+     * bssocibted with the chbrbcter bfter the offset.
+     * @pbrbm offset bn offset bssocibted with the chbrbcter bfter
      * the offset
-     * @return a <code>TextHitInfo</code> at the specified offset.
+     * @return b <code>TextHitInfo</code> bt the specified offset.
      */
-    public static TextHitInfo afterOffset(int offset) {
+    public stbtic TextHitInfo bfterOffset(int offset) {
         return new TextHitInfo(offset, true);
     }
 
     /**
-     * Creates a <code>TextHitInfo</code> on the other side of the
-     * insertion point.  This <code>TextHitInfo</code> remains unchanged.
-     * @return a <code>TextHitInfo</code> on the other side of the
+     * Crebtes b <code>TextHitInfo</code> on the other side of the
+     * insertion point.  This <code>TextHitInfo</code> rembins unchbnged.
+     * @return b <code>TextHitInfo</code> on the other side of the
      * insertion point.
      */
     public TextHitInfo getOtherHit() {
-        if (isLeadingEdge) {
-            return trailing(charIndex - 1);
+        if (isLebdingEdge) {
+            return trbiling(chbrIndex - 1);
         } else {
-            return leading(charIndex + 1);
+            return lebding(chbrIndex + 1);
         }
     }
 
     /**
-     * Creates a <code>TextHitInfo</code> whose character index is offset
-     * by <code>delta</code> from the <code>charIndex</code> of this
-     * <code>TextHitInfo</code>. This <code>TextHitInfo</code> remains
-     * unchanged.
-     * @param delta the value to offset this <code>charIndex</code>
-     * @return a <code>TextHitInfo</code> whose <code>charIndex</code> is
-     * offset by <code>delta</code> from the <code>charIndex</code> of
+     * Crebtes b <code>TextHitInfo</code> whose chbrbcter index is offset
+     * by <code>deltb</code> from the <code>chbrIndex</code> of this
+     * <code>TextHitInfo</code>. This <code>TextHitInfo</code> rembins
+     * unchbnged.
+     * @pbrbm deltb the vblue to offset this <code>chbrIndex</code>
+     * @return b <code>TextHitInfo</code> whose <code>chbrIndex</code> is
+     * offset by <code>deltb</code> from the <code>chbrIndex</code> of
      * this <code>TextHitInfo</code>.
      */
-    public TextHitInfo getOffsetHit(int delta) {
-        return new TextHitInfo(charIndex + delta, isLeadingEdge);
+    public TextHitInfo getOffsetHit(int deltb) {
+        return new TextHitInfo(chbrIndex + deltb, isLebdingEdge);
     }
 }

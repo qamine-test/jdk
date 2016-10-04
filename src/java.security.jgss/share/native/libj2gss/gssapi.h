@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* This is the gssapi.h prologue. */
-/* It contains some choice pieces of autoconf.h */
+/* This is the gssbpi.h prologue. */
+/* It contbins some choice pieces of butoconf.h */
 #define GSS_SIZEOF_INT 4
 #define GSS_SIZEOF_LONG 4
 #define GSS_SIZEOF_SHORT 2
@@ -33,9 +33,9 @@
 #define _GSSAPI_H_
 
 #if defined(__MACH__) && defined(__APPLE__)
-#       include <TargetConditionals.h>
+#       include <TbrgetConditionbls.h>
 #       if TARGET_RT_MAC_CFM
-#               error "Use KfM 4.0 SDK headers for CFM compilation."
+#               error "Use KfM 4.0 SDK hebders for CFM compilbtion."
 #       endif
 #endif
 
@@ -44,7 +44,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #if TARGET_OS_MAC
-#    pragma pack(push,2)
+#    prbgmb pbck(push,2)
 #endif
 
 /*
@@ -53,17 +53,17 @@ extern "C" {
 #include <stddef.h>
 
 /*
- * POSIX says that sys/types.h is where size_t is defined.
+ * POSIX sbys thbt sys/types.h is where size_t is defined.
  */
 #include <sys/types.h>
 
-typedef void * gss_name_t;
+typedef void * gss_nbme_t;
 typedef void * gss_cred_id_t;
 typedef void * gss_ctx_id_t;
 
 /*
- * The following type must be defined as the smallest natural unsigned integer
- * supported by the platform that has at least 32 bits of precision.
+ * The following type must be defined bs the smbllest nbturbl unsigned integer
+ * supported by the plbtform thbt hbs bt lebst 32 bits of precision.
  */
 #if (GSS_SIZEOF_SHORT == 4)
 typedef unsigned short gss_uint32;
@@ -90,25 +90,25 @@ typedef struct gss_OID_set_desc_struct  {
 
 typedef struct gss_buffer_desc_struct {
       size_t length;
-      void *value;
+      void *vblue;
 } gss_buffer_desc, *gss_buffer_t;
 
-typedef struct gss_channel_bindings_struct {
-      OM_uint32 initiator_addrtype;
-      gss_buffer_desc initiator_address;
-      OM_uint32 acceptor_addrtype;
-      gss_buffer_desc acceptor_address;
-      gss_buffer_desc application_data;
-} *gss_channel_bindings_t;
+typedef struct gss_chbnnel_bindings_struct {
+      OM_uint32 initibtor_bddrtype;
+      gss_buffer_desc initibtor_bddress;
+      OM_uint32 bcceptor_bddrtype;
+      gss_buffer_desc bcceptor_bddress;
+      gss_buffer_desc bpplicbtion_dbtb;
+} *gss_chbnnel_bindings_t;
 
 /*
- * For now, define a QOP-type as an OM_uint32
+ * For now, define b QOP-type bs bn OM_uint32
  */
 typedef OM_uint32       gss_qop_t;
-typedef int             gss_cred_usage_t;
+typedef int             gss_cred_usbge_t;
 
 /*
- * Flag bits for context-level services.
+ * Flbg bits for context-level services.
  */
 #define GSS_C_DELEG_FLAG 1
 #define GSS_C_MUTUAL_FLAG 2
@@ -121,20 +121,20 @@ typedef int             gss_cred_usage_t;
 #define GSS_C_TRANS_FLAG 256
 
 /*
- * Credential usage options
+ * Credentibl usbge options
  */
 #define GSS_C_BOTH 0
 #define GSS_C_INITIATE 1
 #define GSS_C_ACCEPT 2
 
 /*
- * Status code types for gss_display_status
+ * Stbtus code types for gss_displby_stbtus
  */
 #define GSS_C_GSS_CODE 1
 #define GSS_C_MECH_CODE 2
 
 /*
- * The constant definitions for channel-bindings address families
+ * The constbnt definitions for chbnnel-bindings bddress fbmilies
  */
 #define GSS_C_AF_UNSPEC     0
 #define GSS_C_AF_LOCAL      1
@@ -161,47 +161,47 @@ typedef int             gss_cred_usage_t;
 #define GSS_C_AF_NULLADDR   255
 
 /*
- * Various Null values.
+ * Vbrious Null vblues.
  */
-#define GSS_C_NO_NAME ((gss_name_t) 0)
+#define GSS_C_NO_NAME ((gss_nbme_t) 0)
 #define GSS_C_NO_BUFFER ((gss_buffer_t) 0)
 #define GSS_C_NO_OID ((gss_OID) 0)
 #define GSS_C_NO_OID_SET ((gss_OID_set) 0)
 #define GSS_C_NO_CONTEXT ((gss_ctx_id_t) 0)
 #define GSS_C_NO_CREDENTIAL ((gss_cred_id_t) 0)
-#define GSS_C_NO_CHANNEL_BINDINGS ((gss_channel_bindings_t) 0)
+#define GSS_C_NO_CHANNEL_BINDINGS ((gss_chbnnel_bindings_t) 0)
 #define GSS_C_EMPTY_BUFFER {0, NULL}
 
 /*
- * Some alternate names for a couple of the above values.  These are defined
- * for V1 compatibility.
+ * Some blternbte nbmes for b couple of the bbove vblues.  These bre defined
+ * for V1 compbtibility.
  */
 #define GSS_C_NULL_OID          GSS_C_NO_OID
 #define GSS_C_NULL_OID_SET      GSS_C_NO_OID_SET
 
 /*
- * Define the default Quality of Protection for per-message services.  Note
- * that an implementation that offers multiple levels of QOP may either reserve
- * a value (for example zero, as assumed here) to mean "default protection", or
- * alternatively may simply equate GSS_C_QOP_DEFAULT to a specific explicit
- * QOP value.  However a value of 0 should always be interpreted by a GSSAPI
- * implementation as a request for the default protection level.
+ * Define the defbult Qublity of Protection for per-messbge services.  Note
+ * thbt bn implementbtion thbt offers multiple levels of QOP mby either reserve
+ * b vblue (for exbmple zero, bs bssumed here) to mebn "defbult protection", or
+ * blternbtively mby simply equbte GSS_C_QOP_DEFAULT to b specific explicit
+ * QOP vblue.  However b vblue of 0 should blwbys be interpreted by b GSSAPI
+ * implementbtion bs b request for the defbult protection level.
  */
 #define GSS_C_QOP_DEFAULT 0
 
 /*
- * Expiration time of 2^32-1 seconds means infinite lifetime for a
- * credential or security context
+ * Expirbtion time of 2^32-1 seconds mebns infinite lifetime for b
+ * credentibl or security context
  */
 #define GSS_C_INDEFINITE ((OM_uint32) 0xfffffffful)
 
 
-/* Major status codes */
+/* Mbjor stbtus codes */
 
 #define GSS_S_COMPLETE 0
 
 /*
- * Some "helper" definitions to make the status code macros obvious.
+ * Some "helper" definitions to mbke the stbtus code mbcros obvious.
  */
 #define GSS_C_CALLING_ERROR_OFFSET 24
 #define GSS_C_ROUTINE_ERROR_OFFSET 16
@@ -211,9 +211,9 @@ typedef int             gss_cred_usage_t;
 #define GSS_C_SUPPLEMENTARY_MASK ((OM_uint32) 0177777ul)
 
 /*
- * The macros that test status codes for error conditions.  Note that the
- * GSS_ERROR() macro has changed slightly from the V1 GSSAPI so that it now
- * evaluates its argument only once.
+ * The mbcros thbt test stbtus codes for error conditions.  Note thbt the
+ * GSS_ERROR() mbcro hbs chbnged slightly from the V1 GSSAPI so thbt it now
+ * evblubtes its brgument only once.
  */
 #define GSS_CALLING_ERROR(x) \
   ((x) & (GSS_C_CALLING_ERROR_MASK << GSS_C_CALLING_ERROR_OFFSET))
@@ -226,11 +226,11 @@ typedef int             gss_cred_usage_t;
           (GSS_C_ROUTINE_ERROR_MASK << GSS_C_ROUTINE_ERROR_OFFSET)))
 
 /*
- * Now the actual status code definitions
+ * Now the bctubl stbtus code definitions
  */
 
 /*
- * Calling errors:
+ * Cblling errors:
  */
 #define GSS_S_CALL_INACCESSIBLE_READ \
                              (((OM_uint32) 1ul) << GSS_C_CALLING_ERROR_OFFSET)
@@ -267,7 +267,7 @@ typedef int             gss_cred_usage_t;
      (((OM_uint32) 18ul) << GSS_C_ROUTINE_ERROR_OFFSET)
 
 /*
- * Supplementary info bits:
+ * Supplementbry info bits:
  */
 #define GSS_S_CONTINUE_NEEDED (1 << (GSS_C_SUPPLEMENTARY_OFFSET + 0))
 #define GSS_S_DUPLICATE_TOKEN (1 << (GSS_C_SUPPLEMENTARY_OFFSET + 1))
@@ -277,7 +277,7 @@ typedef int             gss_cred_usage_t;
 
 
 /*
- * Finally, function prototypes for the GSSAPI routines.
+ * Finblly, function prototypes for the GSSAPI routines.
  */
 
 #if defined (_WIN32) && defined (_MSC_VER)
@@ -290,350 +290,350 @@ typedef int             gss_cred_usage_t;
 # define GSS_DLLIMP
 #endif
 
-/* Reserved static storage for GSS_oids.  Comments are quotes from RFC 2744.
+/* Reserved stbtic storbge for GSS_oids.  Comments bre quotes from RFC 2744.
  *
- * The implementation must reserve static storage for a
- * gss_OID_desc object containing the value
- * {10, (void *)"\x2a\x86\x48\x86\xf7\x12\x01\x02\x01\x01"},
- * corresponding to an object-identifier value of
- * {iso(1) member-body(2) United States(840) mit(113554)
- * infosys(1) gssapi(2) generic(1) user_name(1)}.  The constant
- * GSS_C_NT_USER_NAME should be initialized to point
- * to that gss_OID_desc.
+ * The implementbtion must reserve stbtic storbge for b
+ * gss_OID_desc object contbining the vblue
+ * {10, (void *)"\x2b\x86\x48\x86\xf7\x12\x01\x02\x01\x01"},
+ * corresponding to bn object-identifier vblue of
+ * {iso(1) member-body(2) United Stbtes(840) mit(113554)
+ * infosys(1) gssbpi(2) generic(1) user_nbme(1)}.  The constbnt
+ * GSS_C_NT_USER_NAME should be initiblized to point
+ * to thbt gss_OID_desc.
  */
 GSS_DLLIMP extern gss_OID GSS_C_NT_USER_NAME;
 
 /*
- * The implementation must reserve static storage for a
- * gss_OID_desc object containing the value
- * {10, (void *)"\x2a\x86\x48\x86\xf7\x12\x01\x02\x01\x02"},
- * corresponding to an object-identifier value of
- * {iso(1) member-body(2) United States(840) mit(113554)
- * infosys(1) gssapi(2) generic(1) machine_uid_name(2)}.
- * The constant GSS_C_NT_MACHINE_UID_NAME should be
- * initialized to point to that gss_OID_desc.
+ * The implementbtion must reserve stbtic storbge for b
+ * gss_OID_desc object contbining the vblue
+ * {10, (void *)"\x2b\x86\x48\x86\xf7\x12\x01\x02\x01\x02"},
+ * corresponding to bn object-identifier vblue of
+ * {iso(1) member-body(2) United Stbtes(840) mit(113554)
+ * infosys(1) gssbpi(2) generic(1) mbchine_uid_nbme(2)}.
+ * The constbnt GSS_C_NT_MACHINE_UID_NAME should be
+ * initiblized to point to thbt gss_OID_desc.
  */
 GSS_DLLIMP extern gss_OID GSS_C_NT_MACHINE_UID_NAME;
 
 /*
- * The implementation must reserve static storage for a
- * gss_OID_desc object containing the value
- * {10, (void *)"\x2a\x86\x48\x86\xf7\x12\x01\x02\x01\x03"},
- * corresponding to an object-identifier value of
- * {iso(1) member-body(2) United States(840) mit(113554)
- * infosys(1) gssapi(2) generic(1) string_uid_name(3)}.
- * The constant GSS_C_NT_STRING_UID_NAME should be
- * initialized to point to that gss_OID_desc.
+ * The implementbtion must reserve stbtic storbge for b
+ * gss_OID_desc object contbining the vblue
+ * {10, (void *)"\x2b\x86\x48\x86\xf7\x12\x01\x02\x01\x03"},
+ * corresponding to bn object-identifier vblue of
+ * {iso(1) member-body(2) United Stbtes(840) mit(113554)
+ * infosys(1) gssbpi(2) generic(1) string_uid_nbme(3)}.
+ * The constbnt GSS_C_NT_STRING_UID_NAME should be
+ * initiblized to point to thbt gss_OID_desc.
  */
 GSS_DLLIMP extern gss_OID GSS_C_NT_STRING_UID_NAME;
 
 /*
- * The implementation must reserve static storage for a
- * gss_OID_desc object containing the value
+ * The implementbtion must reserve stbtic storbge for b
+ * gss_OID_desc object contbining the vblue
  * {6, (void *)"\x2b\x06\x01\x05\x06\x02"},
- * corresponding to an object-identifier value of
+ * corresponding to bn object-identifier vblue of
  * {iso(1) org(3) dod(6) internet(1) security(5)
- * nametypes(6) gss-host-based-services(2)).  The constant
- * GSS_C_NT_HOSTBASED_SERVICE_X should be initialized to point
- * to that gss_OID_desc.  This is a deprecated OID value, and
- * implementations wishing to support hostbased-service names
- * should instead use the GSS_C_NT_HOSTBASED_SERVICE OID,
- * defined below, to identify such names;
- * GSS_C_NT_HOSTBASED_SERVICE_X should be accepted a synonym
- * for GSS_C_NT_HOSTBASED_SERVICE when presented as an input
- * parameter, but should not be emitted by GSS-API
- * implementations
+ * nbmetypes(6) gss-host-bbsed-services(2)).  The constbnt
+ * GSS_C_NT_HOSTBASED_SERVICE_X should be initiblized to point
+ * to thbt gss_OID_desc.  This is b deprecbted OID vblue, bnd
+ * implementbtions wishing to support hostbbsed-service nbmes
+ * should instebd use the GSS_C_NT_HOSTBASED_SERVICE OID,
+ * defined below, to identify such nbmes;
+ * GSS_C_NT_HOSTBASED_SERVICE_X should be bccepted b synonym
+ * for GSS_C_NT_HOSTBASED_SERVICE when presented bs bn input
+ * pbrbmeter, but should not be emitted by GSS-API
+ * implementbtions
  */
 GSS_DLLIMP extern gss_OID GSS_C_NT_HOSTBASED_SERVICE_X;
 
 /*
- * The implementation must reserve static storage for a
- * gss_OID_desc object containing the value
- * {10, (void *)"\x2a\x86\x48\x86\xf7\x12"
- *              "\x01\x02\x01\x04"}, corresponding to an
- * object-identifier value of {iso(1) member-body(2)
- * Unites States(840) mit(113554) infosys(1) gssapi(2)
- * generic(1) service_name(4)}.  The constant
- * GSS_C_NT_HOSTBASED_SERVICE should be initialized
- * to point to that gss_OID_desc.
+ * The implementbtion must reserve stbtic storbge for b
+ * gss_OID_desc object contbining the vblue
+ * {10, (void *)"\x2b\x86\x48\x86\xf7\x12"
+ *              "\x01\x02\x01\x04"}, corresponding to bn
+ * object-identifier vblue of {iso(1) member-body(2)
+ * Unites Stbtes(840) mit(113554) infosys(1) gssbpi(2)
+ * generic(1) service_nbme(4)}.  The constbnt
+ * GSS_C_NT_HOSTBASED_SERVICE should be initiblized
+ * to point to thbt gss_OID_desc.
  */
 GSS_DLLIMP extern gss_OID GSS_C_NT_HOSTBASED_SERVICE;
 
 /*
- * The implementation must reserve static storage for a
- * gss_OID_desc object containing the value
+ * The implementbtion must reserve stbtic storbge for b
+ * gss_OID_desc object contbining the vblue
  * {6, (void *)"\x2b\x06\01\x05\x06\x03"},
- * corresponding to an object identifier value of
+ * corresponding to bn object identifier vblue of
  * {1(iso), 3(org), 6(dod), 1(internet), 5(security),
- * 6(nametypes), 3(gss-anonymous-name)}.  The constant
- * and GSS_C_NT_ANONYMOUS should be initialized to point
- * to that gss_OID_desc.
+ * 6(nbmetypes), 3(gss-bnonymous-nbme)}.  The constbnt
+ * bnd GSS_C_NT_ANONYMOUS should be initiblized to point
+ * to thbt gss_OID_desc.
  */
 GSS_DLLIMP extern gss_OID GSS_C_NT_ANONYMOUS;
 
 
 /*
- * The implementation must reserve static storage for a
- * gss_OID_desc object containing the value
+ * The implementbtion must reserve stbtic storbge for b
+ * gss_OID_desc object contbining the vblue
  * {6, (void *)"\x2b\x06\x01\x05\x06\x04"},
- * corresponding to an object-identifier value of
+ * corresponding to bn object-identifier vblue of
  * {1(iso), 3(org), 6(dod), 1(internet), 5(security),
- * 6(nametypes), 4(gss-api-exported-name)}.  The constant
- * GSS_C_NT_EXPORT_NAME should be initialized to point
- * to that gss_OID_desc.
+ * 6(nbmetypes), 4(gss-bpi-exported-nbme)}.  The constbnt
+ * GSS_C_NT_EXPORT_NAME should be initiblized to point
+ * to thbt gss_OID_desc.
  */
 GSS_DLLIMP extern gss_OID GSS_C_NT_EXPORT_NAME;
 
 
 /* Function Prototypes */
 
-OM_uint32 gss_acquire_cred(
-        OM_uint32 *,            /* minor_status */
-        gss_name_t,             /* desired_name */
+OM_uint32 gss_bcquire_cred(
+        OM_uint32 *,            /* minor_stbtus */
+        gss_nbme_t,             /* desired_nbme */
         OM_uint32,              /* time_req */
         gss_OID_set,            /* desired_mechs */
-        gss_cred_usage_t,       /* cred_usage */
-        gss_cred_id_t *,        /* output_cred_handle */
-        gss_OID_set *,          /* actual_mechs */
+        gss_cred_usbge_t,       /* cred_usbge */
+        gss_cred_id_t *,        /* output_cred_hbndle */
+        gss_OID_set *,          /* bctubl_mechs */
         OM_uint32 *             /* time_rec */
 );
 
-OM_uint32 gss_release_cred(
-        OM_uint32 *,            /* minor_status */
-        gss_cred_id_t *         /* cred_handle */
+OM_uint32 gss_relebse_cred(
+        OM_uint32 *,            /* minor_stbtus */
+        gss_cred_id_t *         /* cred_hbndle */
 );
 
 OM_uint32 gss_init_sec_context(
-        OM_uint32 *,            /* minor_status */
-        gss_cred_id_t,          /* claimant_cred_handle */
-        gss_ctx_id_t *,         /* context_handle */
-        gss_name_t,             /* target_name */
+        OM_uint32 *,            /* minor_stbtus */
+        gss_cred_id_t,          /* clbimbnt_cred_hbndle */
+        gss_ctx_id_t *,         /* context_hbndle */
+        gss_nbme_t,             /* tbrget_nbme */
         gss_OID,                /* mech_type (used to be const) */
-        OM_uint32,              /* req_flags */
+        OM_uint32,              /* req_flbgs */
         OM_uint32,              /* time_req */
-        gss_channel_bindings_t, /* input_chan_bindings */
+        gss_chbnnel_bindings_t, /* input_chbn_bindings */
         gss_buffer_t,           /* input_token */
-        gss_OID *,              /* actual_mech_type */
+        gss_OID *,              /* bctubl_mech_type */
         gss_buffer_t,           /* output_token */
-        OM_uint32 *,            /* ret_flags */
+        OM_uint32 *,            /* ret_flbgs */
         OM_uint32 *             /* time_rec */
 );
 
-OM_uint32 gss_accept_sec_context(
-        OM_uint32 *,            /* minor_status */
-        gss_ctx_id_t *,         /* context_handle */
-        gss_cred_id_t,          /* acceptor_cred_handle */
+OM_uint32 gss_bccept_sec_context(
+        OM_uint32 *,            /* minor_stbtus */
+        gss_ctx_id_t *,         /* context_hbndle */
+        gss_cred_id_t,          /* bcceptor_cred_hbndle */
         gss_buffer_t,           /* input_token_buffer */
-        gss_channel_bindings_t, /* input_chan_bindings */
-        gss_name_t *,           /* src_name */
+        gss_chbnnel_bindings_t, /* input_chbn_bindings */
+        gss_nbme_t *,           /* src_nbme */
         gss_OID *,              /* mech_type */
         gss_buffer_t,           /* output_token */
-        OM_uint32 *,            /* ret_flags */
+        OM_uint32 *,            /* ret_flbgs */
         OM_uint32 *,            /* time_rec */
-        gss_cred_id_t *         /* delegated_cred_handle */
+        gss_cred_id_t *         /* delegbted_cred_hbndle */
 );
 
 OM_uint32 gss_process_context_token(
-        OM_uint32 *,            /* minor_status */
-        gss_ctx_id_t,           /* context_handle */
+        OM_uint32 *,            /* minor_stbtus */
+        gss_ctx_id_t,           /* context_hbndle */
         gss_buffer_t            /* token_buffer */
 );
 
 OM_uint32 gss_delete_sec_context(
-        OM_uint32 *,            /* minor_status */
-        gss_ctx_id_t *,         /* context_handle */
+        OM_uint32 *,            /* minor_stbtus */
+        gss_ctx_id_t *,         /* context_hbndle */
         gss_buffer_t            /* output_token */
 );
 
 OM_uint32 gss_context_time(
-        OM_uint32 *,            /* minor_status */
-        gss_ctx_id_t,           /* context_handle */
+        OM_uint32 *,            /* minor_stbtus */
+        gss_ctx_id_t,           /* context_hbndle */
         OM_uint32 *             /* time_rec */
 );
 
 /* New for V2 */
 OM_uint32 gss_get_mic(
-        OM_uint32 *,            /* minor_status */
-        gss_ctx_id_t,           /* context_handle */
+        OM_uint32 *,            /* minor_stbtus */
+        gss_ctx_id_t,           /* context_hbndle */
         gss_qop_t,              /* qop_req */
-        gss_buffer_t,           /* message_buffer */
-        gss_buffer_t            /* message_token */
+        gss_buffer_t,           /* messbge_buffer */
+        gss_buffer_t            /* messbge_token */
 );
 
 /* New for V2 */
 OM_uint32 gss_verify_mic(
-        OM_uint32 *,            /* minor_status */
-        gss_ctx_id_t,           /* context_handle */
-        gss_buffer_t,           /* message_buffer */
-        gss_buffer_t,           /* message_token */
-        gss_qop_t *             /* qop_state */
+        OM_uint32 *,            /* minor_stbtus */
+        gss_ctx_id_t,           /* context_hbndle */
+        gss_buffer_t,           /* messbge_buffer */
+        gss_buffer_t,           /* messbge_token */
+        gss_qop_t *             /* qop_stbte */
 );
 
 /* New for V2 */
-OM_uint32 gss_wrap(
-        OM_uint32 *,            /* minor_status */
-        gss_ctx_id_t,           /* context_handle */
-        int,                    /* conf_req_flag */
+OM_uint32 gss_wrbp(
+        OM_uint32 *,            /* minor_stbtus */
+        gss_ctx_id_t,           /* context_hbndle */
+        int,                    /* conf_req_flbg */
         gss_qop_t,              /* qop_req */
-        gss_buffer_t,           /* input_message_buffer */
-        int *,                  /* conf_state */
-        gss_buffer_t            /* output_message_buffer */
+        gss_buffer_t,           /* input_messbge_buffer */
+        int *,                  /* conf_stbte */
+        gss_buffer_t            /* output_messbge_buffer */
 );
 
 /* New for V2 */
-OM_uint32 gss_unwrap(
-        OM_uint32 *,            /* minor_status */
-        gss_ctx_id_t,           /* context_handle */
-        gss_buffer_t,           /* input_message_buffer */
-        gss_buffer_t,           /* output_message_buffer */
-        int *,                  /* conf_state */
-        gss_qop_t *             /* qop_state */
+OM_uint32 gss_unwrbp(
+        OM_uint32 *,            /* minor_stbtus */
+        gss_ctx_id_t,           /* context_hbndle */
+        gss_buffer_t,           /* input_messbge_buffer */
+        gss_buffer_t,           /* output_messbge_buffer */
+        int *,                  /* conf_stbte */
+        gss_qop_t *             /* qop_stbte */
 );
 
-OM_uint32 gss_display_status(
-        OM_uint32 *,            /* minor_status */
-        OM_uint32,              /* status_value */
-        int,                    /* status_type */
+OM_uint32 gss_displby_stbtus(
+        OM_uint32 *,            /* minor_stbtus */
+        OM_uint32,              /* stbtus_vblue */
+        int,                    /* stbtus_type */
         gss_OID,                /* mech_type (used to be const) */
-        OM_uint32 *,            /* message_context */
-        gss_buffer_t            /* status_string */
+        OM_uint32 *,            /* messbge_context */
+        gss_buffer_t            /* stbtus_string */
 );
 
-OM_uint32 gss_indicate_mechs(
-        OM_uint32 *,            /* minor_status */
+OM_uint32 gss_indicbte_mechs(
+        OM_uint32 *,            /* minor_stbtus */
         gss_OID_set *           /* mech_set */
 );
 
-OM_uint32 gss_compare_name(
-        OM_uint32 *,            /* minor_status */
-        gss_name_t,             /* name1 */
-        gss_name_t,             /* name2 */
-        int *                   /* name_equal */
+OM_uint32 gss_compbre_nbme(
+        OM_uint32 *,            /* minor_stbtus */
+        gss_nbme_t,             /* nbme1 */
+        gss_nbme_t,             /* nbme2 */
+        int *                   /* nbme_equbl */
 );
 
-OM_uint32 gss_display_name(
-        OM_uint32 *,            /* minor_status */
-        gss_name_t,             /* input_name */
-        gss_buffer_t,           /* output_name_buffer */
-        gss_OID *               /* output_name_type */
+OM_uint32 gss_displby_nbme(
+        OM_uint32 *,            /* minor_stbtus */
+        gss_nbme_t,             /* input_nbme */
+        gss_buffer_t,           /* output_nbme_buffer */
+        gss_OID *               /* output_nbme_type */
 );
 
-OM_uint32 gss_import_name(
-        OM_uint32 *,            /* minor_status */
-        gss_buffer_t,           /* input_name_buffer */
-        gss_OID,                /* input_name_type(used to be const) */
-        gss_name_t *            /* output_name */
+OM_uint32 gss_import_nbme(
+        OM_uint32 *,            /* minor_stbtus */
+        gss_buffer_t,           /* input_nbme_buffer */
+        gss_OID,                /* input_nbme_type(used to be const) */
+        gss_nbme_t *            /* output_nbme */
 );
 
-OM_uint32 gss_release_name(
-        OM_uint32 *,            /* minor_status */
-        gss_name_t *            /* input_name */
+OM_uint32 gss_relebse_nbme(
+        OM_uint32 *,            /* minor_stbtus */
+        gss_nbme_t *            /* input_nbme */
 );
 
-OM_uint32 gss_release_buffer(
-        OM_uint32 *,            /* minor_status */
+OM_uint32 gss_relebse_buffer(
+        OM_uint32 *,            /* minor_stbtus */
         gss_buffer_t            /* buffer */
 );
 
-OM_uint32 gss_release_oid_set(
-        OM_uint32 *,            /* minor_status */
+OM_uint32 gss_relebse_oid_set(
+        OM_uint32 *,            /* minor_stbtus */
         gss_OID_set *           /* set */
 );
 
 OM_uint32 gss_inquire_cred(
-        OM_uint32 *,            /* minor_status */
-        gss_cred_id_t,          /* cred_handle */
-        gss_name_t *,           /* name */
+        OM_uint32 *,            /* minor_stbtus */
+        gss_cred_id_t,          /* cred_hbndle */
+        gss_nbme_t *,           /* nbme */
         OM_uint32 *,            /* lifetime */
-        gss_cred_usage_t *,     /* cred_usage */
-        gss_OID_set *           /* mechanisms */
+        gss_cred_usbge_t *,     /* cred_usbge */
+        gss_OID_set *           /* mechbnisms */
 );
 
-/* Last argument new for V2 */
+/* Lbst brgument new for V2 */
 OM_uint32 gss_inquire_context(
-        OM_uint32 *,            /* minor_status */
-        gss_ctx_id_t,           /* context_handle */
-        gss_name_t *,           /* src_name */
-        gss_name_t *,           /* targ_name */
+        OM_uint32 *,            /* minor_stbtus */
+        gss_ctx_id_t,           /* context_hbndle */
+        gss_nbme_t *,           /* src_nbme */
+        gss_nbme_t *,           /* tbrg_nbme */
         OM_uint32 *,            /* lifetime_rec */
         gss_OID *,              /* mech_type */
-        OM_uint32 *,            /* ctx_flags */
-        int *,                  /* locally_initiated */
+        OM_uint32 *,            /* ctx_flbgs */
+        int *,                  /* locblly_initibted */
         int *                   /* open */
 );
 
 /* New for V2 */
-OM_uint32 gss_wrap_size_limit(
-        OM_uint32 *,            /* minor_status */
-        gss_ctx_id_t,           /* context_handle */
-        int,                    /* conf_req_flag */
+OM_uint32 gss_wrbp_size_limit(
+        OM_uint32 *,            /* minor_stbtus */
+        gss_ctx_id_t,           /* context_hbndle */
+        int,                    /* conf_req_flbg */
         gss_qop_t,              /* qop_req */
         OM_uint32,              /* req_output_size */
-        OM_uint32 *             /* max_input_size */
+        OM_uint32 *             /* mbx_input_size */
 );
 
 /* New for V2 */
-OM_uint32 gss_add_cred(
-        OM_uint32 *,            /* minor_status */
-        gss_cred_id_t,          /* input_cred_handle */
-        gss_name_t,             /* desired_name */
+OM_uint32 gss_bdd_cred(
+        OM_uint32 *,            /* minor_stbtus */
+        gss_cred_id_t,          /* input_cred_hbndle */
+        gss_nbme_t,             /* desired_nbme */
         gss_OID,                /* desired_mech */
-        gss_cred_usage_t,       /* cred_usage */
-        OM_uint32,              /* initiator_time_req */
-        OM_uint32,              /* acceptor_time_req */
-        gss_cred_id_t *,        /* output_cred_handle */
-        gss_OID_set *,          /* actual_mechs */
-        OM_uint32 *,            /* initiator_time_rec */
-        OM_uint32 *             /* acceptor_time_rec */
+        gss_cred_usbge_t,       /* cred_usbge */
+        OM_uint32,              /* initibtor_time_req */
+        OM_uint32,              /* bcceptor_time_req */
+        gss_cred_id_t *,        /* output_cred_hbndle */
+        gss_OID_set *,          /* bctubl_mechs */
+        OM_uint32 *,            /* initibtor_time_rec */
+        OM_uint32 *             /* bcceptor_time_rec */
 );
 
 /* New for V2 */
 OM_uint32 gss_inquire_cred_by_mech(
-        OM_uint32 *,            /* minor_status */
-        gss_cred_id_t,          /* cred_handle */
+        OM_uint32 *,            /* minor_stbtus */
+        gss_cred_id_t,          /* cred_hbndle */
         gss_OID,                /* mech_type */
-        gss_name_t *,           /* name */
-        OM_uint32 *,            /* initiator_lifetime */
-        OM_uint32 *,            /* acceptor_lifetime */
-        gss_cred_usage_t *      /* cred_usage */
+        gss_nbme_t *,           /* nbme */
+        OM_uint32 *,            /* initibtor_lifetime */
+        OM_uint32 *,            /* bcceptor_lifetime */
+        gss_cred_usbge_t *      /* cred_usbge */
 );
 
 /* New for V2 */
 OM_uint32 gss_export_sec_context(
-        OM_uint32 *,            /* minor_status */
-        gss_ctx_id_t *,         /* context_handle */
+        OM_uint32 *,            /* minor_stbtus */
+        gss_ctx_id_t *,         /* context_hbndle */
         gss_buffer_t            /* interprocess_token */
 );
 
 /* New for V2 */
 OM_uint32 gss_import_sec_context(
-        OM_uint32 *,            /* minor_status */
+        OM_uint32 *,            /* minor_stbtus */
         gss_buffer_t,           /* interprocess_token */
-        gss_ctx_id_t *          /* context_handle */
+        gss_ctx_id_t *          /* context_hbndle */
 );
 
 /* New for V2 */
-OM_uint32 gss_release_oid(
-        OM_uint32 *,            /* minor_status */
+OM_uint32 gss_relebse_oid(
+        OM_uint32 *,            /* minor_stbtus */
         gss_OID *               /* oid */
 );
 
 /* New for V2 */
-OM_uint32 gss_create_empty_oid_set(
-        OM_uint32 *,            /* minor_status */
+OM_uint32 gss_crebte_empty_oid_set(
+        OM_uint32 *,            /* minor_stbtus */
         gss_OID_set *           /* oid_set */
 );
 
 /* New for V2 */
-OM_uint32 gss_add_oid_set_member(
-        OM_uint32 *,            /* minor_status */
+OM_uint32 gss_bdd_oid_set_member(
+        OM_uint32 *,            /* minor_stbtus */
         gss_OID,                /* member_oid */
         gss_OID_set *           /* oid_set */
 );
 
 /* New for V2 */
 OM_uint32 gss_test_oid_set_member(
-        OM_uint32 *,            /* minor_status */
+        OM_uint32 *,            /* minor_stbtus */
         gss_OID,                /* member */
         gss_OID_set,            /* set */
         int *                   /* present */
@@ -641,49 +641,49 @@ OM_uint32 gss_test_oid_set_member(
 
 /* New for V2 */
 OM_uint32 gss_str_to_oid(
-        OM_uint32 *,            /* minor_status */
+        OM_uint32 *,            /* minor_stbtus */
         gss_buffer_t,           /* oid_str */
         gss_OID *               /* oid */
 );
 
 /* New for V2 */
 OM_uint32 gss_oid_to_str(
-        OM_uint32 *,            /* minor_status */
+        OM_uint32 *,            /* minor_stbtus */
         gss_OID,                /* oid */
         gss_buffer_t            /* oid_str */
 );
 
 /* New for V2 */
-OM_uint32 gss_inquire_names_for_mech(
-        OM_uint32 *,            /* minor_status */
-        gss_OID,                /* mechanism */
-        gss_OID_set *           /* name_types */
+OM_uint32 gss_inquire_nbmes_for_mech(
+        OM_uint32 *,            /* minor_stbtus */
+        gss_OID,                /* mechbnism */
+        gss_OID_set *           /* nbme_types */
 );
 
 /* New for V2 */
-OM_uint32 gss_export_name(
-        OM_uint32  *,           /* minor_status */
-        const gss_name_t,       /* input_name */
-        gss_buffer_t            /* exported_name */
+OM_uint32 gss_export_nbme(
+        OM_uint32  *,           /* minor_stbtus */
+        const gss_nbme_t,       /* input_nbme */
+        gss_buffer_t            /* exported_nbme */
 );
 
 /* New for V2 */
-OM_uint32 gss_duplicate_name(
-        OM_uint32  *,           /* minor_status */
-        const gss_name_t,       /* input_name */
-        gss_name_t *            /* dest_name */
+OM_uint32 gss_duplicbte_nbme(
+        OM_uint32  *,           /* minor_stbtus */
+        const gss_nbme_t,       /* input_nbme */
+        gss_nbme_t *            /* dest_nbme */
 );
 
 /* New for V2 */
-OM_uint32 gss_canonicalize_name(
-        OM_uint32  *,           /* minor_status */
-        const gss_name_t,       /* input_name */
+OM_uint32 gss_cbnonicblize_nbme(
+        OM_uint32  *,           /* minor_stbtus */
+        const gss_nbme_t,       /* input_nbme */
         const gss_OID,          /* mech_type */
-        gss_name_t *            /* output_name */
+        gss_nbme_t *            /* output_nbme */
 );
 
 #if TARGET_OS_MAC
-#    pragma pack(pop)
+#    prbgmb pbck(pop)
 #endif
 
 #ifdef __cplusplus

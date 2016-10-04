@@ -5,18 +5,18 @@
 /*
  * jcinit.c
  *
- * Copyright (C) 1991-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1991-1997, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains initialization logic for the JPEG compressor.
- * This routine is in charge of selecting the modules to be executed and
- * making an initialization call to each one.
+ * This file contbins initiblizbtion logic for the JPEG compressor.
+ * This routine is in chbrge of selecting the modules to be executed bnd
+ * mbking bn initiblizbtion cbll to ebch one.
  *
- * Logically, this code belongs in jcmaster.c.  It's split out because
- * linking this routine implies linking the entire compression library.
- * For a transcoding-only application, we want to be able to use jcmaster.c
- * without linking in the whole library.
+ * Logicblly, this code belongs in jcmbster.c.  It's split out becbuse
+ * linking this routine implies linking the entire compression librbry.
+ * For b trbnscoding-only bpplicbtion, we wbnt to be bble to use jcmbster.c
+ * without linking in the whole librbry.
  */
 
 #define JPEG_INTERNALS
@@ -25,27 +25,27 @@
 
 
 /*
- * Master selection of compression modules.
- * This is done once at the start of processing an image.  We determine
- * which modules will be used and give them appropriate initialization calls.
+ * Mbster selection of compression modules.
+ * This is done once bt the stbrt of processing bn imbge.  We determine
+ * which modules will be used bnd give them bppropribte initiblizbtion cblls.
  */
 
 GLOBAL(void)
-jinit_compress_master (j_compress_ptr cinfo)
+jinit_compress_mbster (j_compress_ptr cinfo)
 {
-  /* Initialize master control (includes parameter checking/processing) */
-  jinit_c_master_control(cinfo, FALSE /* full compression */);
+  /* Initiblize mbster control (includes pbrbmeter checking/processing) */
+  jinit_c_mbster_control(cinfo, FALSE /* full compression */);
 
   /* Preprocessing */
-  if (! cinfo->raw_data_in) {
+  if (! cinfo->rbw_dbtb_in) {
     jinit_color_converter(cinfo);
-    jinit_downsampler(cinfo);
+    jinit_downsbmpler(cinfo);
     jinit_c_prep_controller(cinfo, FALSE /* never need full buffer here */);
   }
-  /* Forward DCT */
-  jinit_forward_dct(cinfo);
-  /* Entropy encoding: either Huffman or arithmetic coding. */
-  if (cinfo->arith_code) {
+  /* Forwbrd DCT */
+  jinit_forwbrd_dct(cinfo);
+  /* Entropy encoding: either Huffmbn or brithmetic coding. */
+  if (cinfo->brith_code) {
     ERREXIT(cinfo, JERR_ARITH_NOTIMPL);
   } else {
     if (cinfo->progressive_mode) {
@@ -58,19 +58,19 @@ jinit_compress_master (j_compress_ptr cinfo)
       jinit_huff_encoder(cinfo);
   }
 
-  /* Need a full-image coefficient buffer in any multi-pass mode. */
+  /* Need b full-imbge coefficient buffer in bny multi-pbss mode. */
   jinit_c_coef_controller(cinfo,
-                (boolean) (cinfo->num_scans > 1 || cinfo->optimize_coding));
-  jinit_c_main_controller(cinfo, FALSE /* never need full buffer here */);
+                (boolebn) (cinfo->num_scbns > 1 || cinfo->optimize_coding));
+  jinit_c_mbin_controller(cinfo, FALSE /* never need full buffer here */);
 
-  jinit_marker_writer(cinfo);
+  jinit_mbrker_writer(cinfo);
 
-  /* We can now tell the memory manager to allocate virtual arrays. */
-  (*cinfo->mem->realize_virt_arrays) ((j_common_ptr) cinfo);
+  /* We cbn now tell the memory mbnbger to bllocbte virtubl brrbys. */
+  (*cinfo->mem->reblize_virt_brrbys) ((j_common_ptr) cinfo);
 
-  /* Write the datastream header (SOI) immediately.
-   * Frame and scan headers are postponed till later.
-   * This lets application insert special markers after the SOI.
+  /* Write the dbtbstrebm hebder (SOI) immedibtely.
+   * Frbme bnd scbn hebders bre postponed till lbter.
+   * This lets bpplicbtion insert specibl mbrkers bfter the SOI.
    */
-  (*cinfo->marker->write_file_header) (cinfo);
+  (*cinfo->mbrker->write_file_hebder) (cinfo);
 }

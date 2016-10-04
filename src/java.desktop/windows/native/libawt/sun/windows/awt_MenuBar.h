@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_MENUBAR_H
 #define AWT_MENUBAR_H
 
-#include "awt.h"
-#include "awt_Menu.h"
-#include <java_awt_MenuBar.h>
-#include <sun_awt_windows_WMenuBarPeer.h>
-#include <sun_awt_windows_WFramePeer.h>
+#include "bwt.h"
+#include "bwt_Menu.h"
+#include <jbvb_bwt_MenuBbr.h>
+#include <sun_bwt_windows_WMenuBbrPeer.h>
+#include <sun_bwt_windows_WFrbmePeer.h>
 
 
-class AwtFrame;
+clbss AwtFrbme;
 
 
 /************************************************************************
- * AwtMenuBar class
+ * AwtMenuBbr clbss
  */
 
-class AwtMenuBar : public AwtMenu {
+clbss AwtMenuBbr : public AwtMenu {
 public:
-    // id's for methods executed on toolkit thread
+    // id's for methods executed on toolkit threbd
     enum MenuExecIds {
         MENUBAR_DELITEM = MENU_LAST+1
     };
 
-    /* java.awt.MenuBar method ids */
-    static jmethodID getMenuCountMID;
-    static jmethodID getMenuMID;
+    /* jbvb.bwt.MenuBbr method ids */
+    stbtic jmethodID getMenuCountMID;
+    stbtic jmethodID getMenuMID;
 
-    AwtMenuBar();
-    virtual ~AwtMenuBar();
+    AwtMenuBbr();
+    virtubl ~AwtMenuBbr();
 
-    virtual void Dispose();
+    virtubl void Dispose();
 
-    virtual LPCTSTR GetClassName();
+    virtubl LPCTSTR GetClbssNbme();
 
-    /* Create a new AwtMenuBar.  This must be run on the main thread. */
-    static AwtMenuBar* Create(jobject self, jobject framePeer);
+    /* Crebte b new AwtMenuBbr.  This must be run on the mbin threbd. */
+    stbtic AwtMenuBbr* Crebte(jobject self, jobject frbmePeer);
 
-    virtual AwtMenuBar* GetMenuBar() { return this; }
-    INLINE AwtFrame* GetFrame() { return m_frame; }
+    virtubl AwtMenuBbr* GetMenuBbr() { return this; }
+    INLINE AwtFrbme* GetFrbme() { return m_frbme; }
 
-    virtual HWND GetOwnerHWnd();
-    virtual void RedrawMenuBar();
+    virtubl HWND GetOwnerHWnd();
+    virtubl void RedrbwMenuBbr();
 
-    AwtMenuItem* GetItem(jobject target, long index);
-    int CountItem(jobject menuBar);
+    AwtMenuItem* GetItem(jobject tbrget, long index);
+    int CountItem(jobject menuBbr);
 
-    void SendDrawItem(AwtMenuItem* awtMenuItem,
-                      DRAWITEMSTRUCT& drawInfo);
-    void SendMeasureItem(AwtMenuItem* awtMenuItem,
-                         HDC hDC, MEASUREITEMSTRUCT& measureInfo);
-    void DrawItem(DRAWITEMSTRUCT& drawInfo);
-    void MeasureItem(HDC hDC, MEASUREITEMSTRUCT& measureInfo);
+    void SendDrbwItem(AwtMenuItem* bwtMenuItem,
+                      DRAWITEMSTRUCT& drbwInfo);
+    void SendMebsureItem(AwtMenuItem* bwtMenuItem,
+                         HDC hDC, MEASUREITEMSTRUCT& mebsureInfo);
+    void DrbwItem(DRAWITEMSTRUCT& drbwInfo);
+    void MebsureItem(HDC hDC, MEASUREITEMSTRUCT& mebsureInfo);
 
     void AddItem(AwtMenuItem* item);
     void DeleteItem(UINT index);
 
-    virtual LRESULT WinThreadExecProc(ExecuteArgs * args);
+    virtubl LRESULT WinThrebdExecProc(ExecuteArgs * brgs);
 
-    // called on Toolkit thread
-    static void _AddMenu(void *param);
+    // cblled on Toolkit threbd
+    stbtic void _AddMenu(void *pbrbm);
 protected:
-    AwtFrame* m_frame;
+    AwtFrbme* m_frbme;
 };
 
 #endif /* AWT_MENUBAR_H */

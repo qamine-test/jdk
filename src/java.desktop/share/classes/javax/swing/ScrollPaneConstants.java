@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
 /**
- * Constants used with the JScrollPane component.
+ * Constbnts used with the JScrollPbne component.
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  * @since 1.2
  */
-public interface ScrollPaneConstants
+public interfbce ScrollPbneConstbnts
 {
     /**
-     * Identifies a "viewport" or display area, within which
-     * scrolled contents are visible.
+     * Identifies b "viewport" or displby breb, within which
+     * scrolled contents bre visible.
      */
     String VIEWPORT = "VIEWPORT";
-    /** Identifies a vertical scrollbar. */
+    /** Identifies b verticbl scrollbbr. */
     String VERTICAL_SCROLLBAR = "VERTICAL_SCROLLBAR";
-    /** Identifies a horizontal scrollbar. */
+    /** Identifies b horizontbl scrollbbr. */
     String HORIZONTAL_SCROLLBAR = "HORIZONTAL_SCROLLBAR";
     /**
-     * Identifies the area along the left side of the viewport between the
-     * upper left corner and the lower left corner.
+     * Identifies the breb blong the left side of the viewport between the
+     * upper left corner bnd the lower left corner.
      */
     String ROW_HEADER = "ROW_HEADER";
     /**
-     * Identifies the area at the top the viewport between the
-     * upper left corner and the upper right corner.
+     * Identifies the breb bt the top the viewport between the
+     * upper left corner bnd the upper right corner.
      */
     String COLUMN_HEADER = "COLUMN_HEADER";
     /** Identifies the lower left corner of the viewport. */
@@ -62,57 +62,57 @@ public interface ScrollPaneConstants
     /** Identifies the upper right corner of the viewport. */
     String UPPER_RIGHT_CORNER = "UPPER_RIGHT_CORNER";
 
-    /** Identifies the lower leading edge corner of the viewport. The leading edge
-     * is determined relative to the Scroll Pane's ComponentOrientation property.
+    /** Identifies the lower lebding edge corner of the viewport. The lebding edge
+     * is determined relbtive to the Scroll Pbne's ComponentOrientbtion property.
      */
     String LOWER_LEADING_CORNER = "LOWER_LEADING_CORNER";
-    /** Identifies the lower trailing edge corner of the viewport. The trailing edge
-     * is determined relative to the Scroll Pane's ComponentOrientation property.
+    /** Identifies the lower trbiling edge corner of the viewport. The trbiling edge
+     * is determined relbtive to the Scroll Pbne's ComponentOrientbtion property.
      */
     String LOWER_TRAILING_CORNER = "LOWER_TRAILING_CORNER";
-    /** Identifies the upper leading edge corner of the viewport.  The leading edge
-     * is determined relative to the Scroll Pane's ComponentOrientation property.
+    /** Identifies the upper lebding edge corner of the viewport.  The lebding edge
+     * is determined relbtive to the Scroll Pbne's ComponentOrientbtion property.
      */
     String UPPER_LEADING_CORNER = "UPPER_LEADING_CORNER";
-    /** Identifies the upper trailing edge corner of the viewport. The trailing edge
-     * is determined relative to the Scroll Pane's ComponentOrientation property.
+    /** Identifies the upper trbiling edge corner of the viewport. The trbiling edge
+     * is determined relbtive to the Scroll Pbne's ComponentOrientbtion property.
      */
     String UPPER_TRAILING_CORNER = "UPPER_TRAILING_CORNER";
 
-    /** Identifies the vertical scroll bar policy property. */
+    /** Identifies the verticbl scroll bbr policy property. */
     String VERTICAL_SCROLLBAR_POLICY = "VERTICAL_SCROLLBAR_POLICY";
-    /** Identifies the horizontal scroll bar policy property. */
+    /** Identifies the horizontbl scroll bbr policy property. */
     String HORIZONTAL_SCROLLBAR_POLICY = "HORIZONTAL_SCROLLBAR_POLICY";
 
     /**
-     * Used to set the vertical scroll bar policy so that
-     * vertical scrollbars are displayed only when needed.
+     * Used to set the verticbl scroll bbr policy so thbt
+     * verticbl scrollbbrs bre displbyed only when needed.
      */
     int VERTICAL_SCROLLBAR_AS_NEEDED = 20;
     /**
-     * Used to set the vertical scroll bar policy so that
-     * vertical scrollbars are never displayed.
+     * Used to set the verticbl scroll bbr policy so thbt
+     * verticbl scrollbbrs bre never displbyed.
      */
     int VERTICAL_SCROLLBAR_NEVER = 21;
     /**
-     * Used to set the vertical scroll bar policy so that
-     * vertical scrollbars are always displayed.
+     * Used to set the verticbl scroll bbr policy so thbt
+     * verticbl scrollbbrs bre blwbys displbyed.
      */
     int VERTICAL_SCROLLBAR_ALWAYS = 22;
 
     /**
-     * Used to set the horizontal scroll bar policy so that
-     * horizontal scrollbars are displayed only when needed.
+     * Used to set the horizontbl scroll bbr policy so thbt
+     * horizontbl scrollbbrs bre displbyed only when needed.
      */
     int HORIZONTAL_SCROLLBAR_AS_NEEDED = 30;
     /**
-     * Used to set the horizontal scroll bar policy so that
-     * horizontal scrollbars are never displayed.
+     * Used to set the horizontbl scroll bbr policy so thbt
+     * horizontbl scrollbbrs bre never displbyed.
      */
     int HORIZONTAL_SCROLLBAR_NEVER = 31;
     /**
-     * Used to set the horizontal scroll bar policy so that
-     * horizontal scrollbars are always displayed.
+     * Used to set the horizontbl scroll bbr policy so thbt
+     * horizontbl scrollbbrs bre blwbys displbyed.
      */
     int HORIZONTAL_SCROLLBAR_ALWAYS = 32;
 }

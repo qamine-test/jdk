@@ -1,265 +1,265 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.calendar;
+pbckbge sun.util.cblendbr;
 
-import java.util.Locale;
-import java.util.TimeZone;
+import jbvb.util.Locble;
+import jbvb.util.TimeZone;
 
 /**
- * The <code>AbstractCalendar</code> class provides a framework for
- * implementing a concrete calendar system.
+ * The <code>AbstrbctCblendbr</code> clbss provides b frbmework for
+ * implementing b concrete cblendbr system.
  *
- * <p><a name="fixed_date"></a><B>Fixed Date</B><br>
+ * <p><b nbme="fixed_dbte"></b><B>Fixed Dbte</B><br>
  *
- * For implementing a concrete calendar system, each calendar must
- * have the common date numbering, starting from midnight the onset of
- * Monday, January 1, 1 (Gregorian). It is called a <I>fixed date</I>
- * in this class. January 1, 1 (Gregorian) is fixed date 1. (See
- * Nachum Dershowitz and Edward M. Reingold, <I>CALENDRICAL
- * CALCULATION The Millennium Edition</I>, Section 1.2 for details.)
+ * For implementing b concrete cblendbr system, ebch cblendbr must
+ * hbve the common dbte numbering, stbrting from midnight the onset of
+ * Mondby, Jbnubry 1, 1 (Gregoribn). It is cblled b <I>fixed dbte</I>
+ * in this clbss. Jbnubry 1, 1 (Gregoribn) is fixed dbte 1. (See
+ * Nbchum Dershowitz bnd Edwbrd M. Reingold, <I>CALENDRICAL
+ * CALCULATION The Millennium Edition</I>, Section 1.2 for detbils.)
  *
- * @author Masayoshi Okutsu
+ * @buthor Mbsbyoshi Okutsu
  * @since 1.5
  */
 
-public abstract class AbstractCalendar extends CalendarSystem {
+public bbstrbct clbss AbstrbctCblendbr extends CblendbrSystem {
 
-    // The constants assume no leap seconds support.
-    static final int SECOND_IN_MILLIS = 1000;
-    static final int MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;
-    static final int HOUR_IN_MILLIS = MINUTE_IN_MILLIS * 60;
-    static final int DAY_IN_MILLIS = HOUR_IN_MILLIS * 24;
+    // The constbnts bssume no lebp seconds support.
+    stbtic finbl int SECOND_IN_MILLIS = 1000;
+    stbtic finbl int MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;
+    stbtic finbl int HOUR_IN_MILLIS = MINUTE_IN_MILLIS * 60;
+    stbtic finbl int DAY_IN_MILLIS = HOUR_IN_MILLIS * 24;
 
-    // The number of days between January 1, 1 and January 1, 1970 (Gregorian)
-    static final int EPOCH_OFFSET = 719163;
+    // The number of dbys between Jbnubry 1, 1 bnd Jbnubry 1, 1970 (Gregoribn)
+    stbtic finbl int EPOCH_OFFSET = 719163;
 
-    private Era[] eras;
+    privbte Erb[] erbs;
 
-    protected AbstractCalendar() {
+    protected AbstrbctCblendbr() {
     }
 
-    public Era getEra(String eraName) {
-        if (eras != null) {
-            for (int i = 0; i < eras.length; i++) {
-                if (eras[i].equals(eraName)) {
-                    return eras[i];
+    public Erb getErb(String erbNbme) {
+        if (erbs != null) {
+            for (int i = 0; i < erbs.length; i++) {
+                if (erbs[i].equbls(erbNbme)) {
+                    return erbs[i];
                 }
             }
         }
         return null;
     }
 
-    public Era[] getEras() {
-        Era[] e = null;
-        if (eras != null) {
-            e = new Era[eras.length];
-            System.arraycopy(eras, 0, e, 0, eras.length);
+    public Erb[] getErbs() {
+        Erb[] e = null;
+        if (erbs != null) {
+            e = new Erb[erbs.length];
+            System.brrbycopy(erbs, 0, e, 0, erbs.length);
         }
         return e;
     }
 
-    public void setEra(CalendarDate date, String eraName) {
-        if (eras == null) {
-            return; // should report an error???
+    public void setErb(CblendbrDbte dbte, String erbNbme) {
+        if (erbs == null) {
+            return; // should report bn error???
         }
-        for (int i = 0; i < eras.length; i++) {
-            Era e = eras[i];
-            if (e != null && e.getName().equals(eraName)) {
-                date.setEra(e);
+        for (int i = 0; i < erbs.length; i++) {
+            Erb e = erbs[i];
+            if (e != null && e.getNbme().equbls(erbNbme)) {
+                dbte.setErb(e);
                 return;
             }
         }
-        throw new IllegalArgumentException("unknown era name: " + eraName);
+        throw new IllegblArgumentException("unknown erb nbme: " + erbNbme);
     }
 
-    protected void setEras(Era[] eras) {
-        this.eras = eras;
+    protected void setErbs(Erb[] erbs) {
+        this.erbs = erbs;
     }
 
-    public CalendarDate getCalendarDate() {
-        return getCalendarDate(System.currentTimeMillis(), newCalendarDate());
+    public CblendbrDbte getCblendbrDbte() {
+        return getCblendbrDbte(System.currentTimeMillis(), newCblendbrDbte());
     }
 
-    public CalendarDate getCalendarDate(long millis) {
-        return getCalendarDate(millis, newCalendarDate());
+    public CblendbrDbte getCblendbrDbte(long millis) {
+        return getCblendbrDbte(millis, newCblendbrDbte());
     }
 
-    public CalendarDate getCalendarDate(long millis, TimeZone zone) {
-        CalendarDate date = newCalendarDate(zone);
-        return getCalendarDate(millis, date);
+    public CblendbrDbte getCblendbrDbte(long millis, TimeZone zone) {
+        CblendbrDbte dbte = newCblendbrDbte(zone);
+        return getCblendbrDbte(millis, dbte);
     }
 
-    public CalendarDate getCalendarDate(long millis, CalendarDate date) {
-        int ms = 0;             // time of day
+    public CblendbrDbte getCblendbrDbte(long millis, CblendbrDbte dbte) {
+        int ms = 0;             // time of dby
         int zoneOffset = 0;
-        int saving = 0;
-        long days = 0;          // fixed date
+        int sbving = 0;
+        long dbys = 0;          // fixed dbte
 
-        // adjust to local time if `date' has time zone.
-        TimeZone zi = date.getZone();
+        // bdjust to locbl time if `dbte' hbs time zone.
+        TimeZone zi = dbte.getZone();
         if (zi != null) {
             int[] offsets = new int[2];
-            if (zi instanceof ZoneInfo) {
+            if (zi instbnceof ZoneInfo) {
                 zoneOffset = ((ZoneInfo)zi).getOffsets(millis, offsets);
             } else {
                 zoneOffset = zi.getOffset(millis);
-                offsets[0] = zi.getRawOffset();
+                offsets[0] = zi.getRbwOffset();
                 offsets[1] = zoneOffset - offsets[0];
             }
 
-            // We need to calculate the given millis and time zone
-            // offset separately for java.util.GregorianCalendar
-            // compatibility. (i.e., millis + zoneOffset could cause
-            // overflow or underflow, which must be avoided.) Usually
-            // days should be 0 and ms is in the range of -13:00 to
-            // +14:00. However, we need to deal with extreme cases.
-            days = zoneOffset / DAY_IN_MILLIS;
+            // We need to cblculbte the given millis bnd time zone
+            // offset sepbrbtely for jbvb.util.GregoribnCblendbr
+            // compbtibility. (i.e., millis + zoneOffset could cbuse
+            // overflow or underflow, which must be bvoided.) Usublly
+            // dbys should be 0 bnd ms is in the rbnge of -13:00 to
+            // +14:00. However, we need to debl with extreme cbses.
+            dbys = zoneOffset / DAY_IN_MILLIS;
             ms = zoneOffset % DAY_IN_MILLIS;
-            saving = offsets[1];
+            sbving = offsets[1];
         }
-        date.setZoneOffset(zoneOffset);
-        date.setDaylightSaving(saving);
+        dbte.setZoneOffset(zoneOffset);
+        dbte.setDbylightSbving(sbving);
 
-        days += millis / DAY_IN_MILLIS;
+        dbys += millis / DAY_IN_MILLIS;
         ms += (int) (millis % DAY_IN_MILLIS);
         if (ms >= DAY_IN_MILLIS) {
-            // at most ms is (DAY_IN_MILLIS - 1) * 2.
+            // bt most ms is (DAY_IN_MILLIS - 1) * 2.
             ms -= DAY_IN_MILLIS;
-            ++days;
+            ++dbys;
         } else {
-            // at most ms is (1 - DAY_IN_MILLIS) * 2. Adding one
-            // DAY_IN_MILLIS results in still negative.
+            // bt most ms is (1 - DAY_IN_MILLIS) * 2. Adding one
+            // DAY_IN_MILLIS results in still negbtive.
             while (ms < 0) {
                 ms += DAY_IN_MILLIS;
-                --days;
+                --dbys;
             }
         }
 
-        // convert to fixed date (offset from Jan. 1, 1 (Gregorian))
-        days += EPOCH_OFFSET;
+        // convert to fixed dbte (offset from Jbn. 1, 1 (Gregoribn))
+        dbys += EPOCH_OFFSET;
 
-        // calculate date fields from the fixed date
-        getCalendarDateFromFixedDate(date, days);
+        // cblculbte dbte fields from the fixed dbte
+        getCblendbrDbteFromFixedDbte(dbte, dbys);
 
-        // calculate time fields from the time of day
-        setTimeOfDay(date, ms);
-        date.setLeapYear(isLeapYear(date));
-        date.setNormalized(true);
-        return date;
+        // cblculbte time fields from the time of dby
+        setTimeOfDby(dbte, ms);
+        dbte.setLebpYebr(isLebpYebr(dbte));
+        dbte.setNormblized(true);
+        return dbte;
     }
 
-    public long getTime(CalendarDate date) {
-        long gd = getFixedDate(date);
-        long ms = (gd - EPOCH_OFFSET) * DAY_IN_MILLIS + getTimeOfDay(date);
+    public long getTime(CblendbrDbte dbte) {
+        long gd = getFixedDbte(dbte);
+        long ms = (gd - EPOCH_OFFSET) * DAY_IN_MILLIS + getTimeOfDby(dbte);
         int zoneOffset = 0;
-        TimeZone zi = date.getZone();
+        TimeZone zi = dbte.getZone();
         if (zi != null) {
-            if (date.isNormalized()) {
-                return ms - date.getZoneOffset();
+            if (dbte.isNormblized()) {
+                return ms - dbte.getZoneOffset();
             }
-            // adjust time zone and daylight saving
+            // bdjust time zone bnd dbylight sbving
             int[] offsets = new int[2];
-            if (date.isStandardTime()) {
-                // 1) 2:30am during starting-DST transition is
-                //    intrepreted as 2:30am ST
-                // 2) 5:00pm during DST is still interpreted as 5:00pm ST
-                // 3) 1:30am during ending-DST transition is interpreted
-                //    as 1:30am ST (after transition)
-                if (zi instanceof ZoneInfo) {
-                    ((ZoneInfo)zi).getOffsetsByStandard(ms, offsets);
+            if (dbte.isStbndbrdTime()) {
+                // 1) 2:30bm during stbrting-DST trbnsition is
+                //    intrepreted bs 2:30bm ST
+                // 2) 5:00pm during DST is still interpreted bs 5:00pm ST
+                // 3) 1:30bm during ending-DST trbnsition is interpreted
+                //    bs 1:30bm ST (bfter trbnsition)
+                if (zi instbnceof ZoneInfo) {
+                    ((ZoneInfo)zi).getOffsetsByStbndbrd(ms, offsets);
                     zoneOffset = offsets[0];
                 } else {
-                    zoneOffset = zi.getOffset(ms - zi.getRawOffset());
+                    zoneOffset = zi.getOffset(ms - zi.getRbwOffset());
                 }
             } else {
-                // 1) 2:30am during starting-DST transition is
-                //    intrepreted as 3:30am DT
-                // 2) 5:00pm during DST is intrepreted as 5:00pm DT
-                // 3) 1:30am during ending-DST transition is interpreted
-                //    as 1:30am DT/0:30am ST (before transition)
-                if (zi instanceof ZoneInfo) {
-                    zoneOffset = ((ZoneInfo)zi).getOffsetsByWall(ms, offsets);
+                // 1) 2:30bm during stbrting-DST trbnsition is
+                //    intrepreted bs 3:30bm DT
+                // 2) 5:00pm during DST is intrepreted bs 5:00pm DT
+                // 3) 1:30bm during ending-DST trbnsition is interpreted
+                //    bs 1:30bm DT/0:30bm ST (before trbnsition)
+                if (zi instbnceof ZoneInfo) {
+                    zoneOffset = ((ZoneInfo)zi).getOffsetsByWbll(ms, offsets);
                 } else {
-                    zoneOffset = zi.getOffset(ms - zi.getRawOffset());
+                    zoneOffset = zi.getOffset(ms - zi.getRbwOffset());
                 }
             }
         }
         ms -= zoneOffset;
-        getCalendarDate(ms, date);
+        getCblendbrDbte(ms, dbte);
         return ms;
     }
 
-    protected long getTimeOfDay(CalendarDate date) {
-        long fraction = date.getTimeOfDay();
-        if (fraction != CalendarDate.TIME_UNDEFINED) {
-            return fraction;
+    protected long getTimeOfDby(CblendbrDbte dbte) {
+        long frbction = dbte.getTimeOfDby();
+        if (frbction != CblendbrDbte.TIME_UNDEFINED) {
+            return frbction;
         }
-        fraction = getTimeOfDayValue(date);
-        date.setTimeOfDay(fraction);
-        return fraction;
+        frbction = getTimeOfDbyVblue(dbte);
+        dbte.setTimeOfDby(frbction);
+        return frbction;
     }
 
-    public long getTimeOfDayValue(CalendarDate date) {
-        long fraction = date.getHours();
-        fraction *= 60;
-        fraction += date.getMinutes();
-        fraction *= 60;
-        fraction += date.getSeconds();
-        fraction *= 1000;
-        fraction += date.getMillis();
-        return fraction;
+    public long getTimeOfDbyVblue(CblendbrDbte dbte) {
+        long frbction = dbte.getHours();
+        frbction *= 60;
+        frbction += dbte.getMinutes();
+        frbction *= 60;
+        frbction += dbte.getSeconds();
+        frbction *= 1000;
+        frbction += dbte.getMillis();
+        return frbction;
     }
 
-    public CalendarDate setTimeOfDay(CalendarDate cdate, int fraction) {
-        if (fraction < 0) {
-            throw new IllegalArgumentException();
+    public CblendbrDbte setTimeOfDby(CblendbrDbte cdbte, int frbction) {
+        if (frbction < 0) {
+            throw new IllegblArgumentException();
         }
-        boolean normalizedState = cdate.isNormalized();
-        int time = fraction;
+        boolebn normblizedStbte = cdbte.isNormblized();
+        int time = frbction;
         int hours = time / HOUR_IN_MILLIS;
         time %= HOUR_IN_MILLIS;
         int minutes = time / MINUTE_IN_MILLIS;
         time %= MINUTE_IN_MILLIS;
         int seconds = time / SECOND_IN_MILLIS;
         time %= SECOND_IN_MILLIS;
-        cdate.setHours(hours);
-        cdate.setMinutes(minutes);
-        cdate.setSeconds(seconds);
-        cdate.setMillis(time);
-        cdate.setTimeOfDay(fraction);
-        if (hours < 24 && normalizedState) {
-            // If this time of day setting doesn't affect the date,
-            // then restore the normalized state.
-            cdate.setNormalized(normalizedState);
+        cdbte.setHours(hours);
+        cdbte.setMinutes(minutes);
+        cdbte.setSeconds(seconds);
+        cdbte.setMillis(time);
+        cdbte.setTimeOfDby(frbction);
+        if (hours < 24 && normblizedStbte) {
+            // If this time of dby setting doesn't bffect the dbte,
+            // then restore the normblized stbte.
+            cdbte.setNormblized(normblizedStbte);
         }
-        return cdate;
+        return cdbte;
     }
 
     /**
-     * Returns 7 in this default implementation.
+     * Returns 7 in this defbult implementbtion.
      *
      * @return 7
      */
@@ -267,132 +267,132 @@ public abstract class AbstractCalendar extends CalendarSystem {
         return 7;
     }
 
-    protected abstract boolean isLeapYear(CalendarDate date);
+    protected bbstrbct boolebn isLebpYebr(CblendbrDbte dbte);
 
-    public CalendarDate getNthDayOfWeek(int nth, int dayOfWeek, CalendarDate date) {
-        CalendarDate ndate = (CalendarDate) date.clone();
-        normalize(ndate);
-        long fd = getFixedDate(ndate);
+    public CblendbrDbte getNthDbyOfWeek(int nth, int dbyOfWeek, CblendbrDbte dbte) {
+        CblendbrDbte ndbte = (CblendbrDbte) dbte.clone();
+        normblize(ndbte);
+        long fd = getFixedDbte(ndbte);
         long nfd;
         if (nth > 0) {
-            nfd = 7 * nth + getDayOfWeekDateBefore(fd, dayOfWeek);
+            nfd = 7 * nth + getDbyOfWeekDbteBefore(fd, dbyOfWeek);
         } else {
-            nfd = 7 * nth + getDayOfWeekDateAfter(fd, dayOfWeek);
+            nfd = 7 * nth + getDbyOfWeekDbteAfter(fd, dbyOfWeek);
         }
-        getCalendarDateFromFixedDate(ndate, nfd);
-        return ndate;
+        getCblendbrDbteFromFixedDbte(ndbte, nfd);
+        return ndbte;
     }
 
     /**
-     * Returns a date of the given day of week before the given fixed
-     * date.
+     * Returns b dbte of the given dby of week before the given fixed
+     * dbte.
      *
-     * @param fixedDate the fixed date
-     * @param dayOfWeek the day of week
-     * @return the calculated date
+     * @pbrbm fixedDbte the fixed dbte
+     * @pbrbm dbyOfWeek the dby of week
+     * @return the cblculbted dbte
      */
-    static long getDayOfWeekDateBefore(long fixedDate, int dayOfWeek) {
-        return getDayOfWeekDateOnOrBefore(fixedDate - 1, dayOfWeek);
+    stbtic long getDbyOfWeekDbteBefore(long fixedDbte, int dbyOfWeek) {
+        return getDbyOfWeekDbteOnOrBefore(fixedDbte - 1, dbyOfWeek);
     }
 
     /**
-     * Returns a date of the given day of week that is closest to and
-     * after the given fixed date.
+     * Returns b dbte of the given dby of week thbt is closest to bnd
+     * bfter the given fixed dbte.
      *
-     * @param fixedDate the fixed date
-     * @param dayOfWeek the day of week
-     * @return the calculated date
+     * @pbrbm fixedDbte the fixed dbte
+     * @pbrbm dbyOfWeek the dby of week
+     * @return the cblculbted dbte
      */
-    static long getDayOfWeekDateAfter(long fixedDate, int dayOfWeek) {
-        return getDayOfWeekDateOnOrBefore(fixedDate + 7, dayOfWeek);
+    stbtic long getDbyOfWeekDbteAfter(long fixedDbte, int dbyOfWeek) {
+        return getDbyOfWeekDbteOnOrBefore(fixedDbte + 7, dbyOfWeek);
     }
 
     /**
-     * Returns a date of the given day of week on or before the given fixed
-     * date.
+     * Returns b dbte of the given dby of week on or before the given fixed
+     * dbte.
      *
-     * @param fixedDate the fixed date
-     * @param dayOfWeek the day of week
-     * @return the calculated date
+     * @pbrbm fixedDbte the fixed dbte
+     * @pbrbm dbyOfWeek the dby of week
+     * @return the cblculbted dbte
      */
-    // public for java.util.GregorianCalendar
-    public static long getDayOfWeekDateOnOrBefore(long fixedDate, int dayOfWeek) {
-        long fd = fixedDate - (dayOfWeek - 1);
+    // public for jbvb.util.GregoribnCblendbr
+    public stbtic long getDbyOfWeekDbteOnOrBefore(long fixedDbte, int dbyOfWeek) {
+        long fd = fixedDbte - (dbyOfWeek - 1);
         if (fd >= 0) {
-            return fixedDate - (fd % 7);
+            return fixedDbte - (fd % 7);
         }
-        return fixedDate - CalendarUtils.mod(fd, 7);
+        return fixedDbte - CblendbrUtils.mod(fd, 7);
     }
 
     /**
-     * Returns the fixed date calculated with the specified calendar
-     * date. If the specified date is not normalized, its date fields
-     * are normalized.
+     * Returns the fixed dbte cblculbted with the specified cblendbr
+     * dbte. If the specified dbte is not normblized, its dbte fields
+     * bre normblized.
      *
-     * @param date a <code>CalendarDate</code> with which the fixed
-     * date is calculated
-     * @return the calculated fixed date
-     * @see AbstractCalendar.html#fixed_date
+     * @pbrbm dbte b <code>CblendbrDbte</code> with which the fixed
+     * dbte is cblculbted
+     * @return the cblculbted fixed dbte
+     * @see AbstrbctCblendbr.html#fixed_dbte
      */
-    protected abstract long getFixedDate(CalendarDate date);
+    protected bbstrbct long getFixedDbte(CblendbrDbte dbte);
 
     /**
-     * Calculates calendar fields from the specified fixed date. This
-     * method stores the calculated calendar field values in the specified
-     * <code>CalendarDate</code>.
+     * Cblculbtes cblendbr fields from the specified fixed dbte. This
+     * method stores the cblculbted cblendbr field vblues in the specified
+     * <code>CblendbrDbte</code>.
      *
-     * @param date a <code>CalendarDate</code> to stored the
-     * calculated calendar fields.
-     * @param fixedDate a fixed date to calculate calendar fields
-     * @see AbstractCalendar.html#fixed_date
+     * @pbrbm dbte b <code>CblendbrDbte</code> to stored the
+     * cblculbted cblendbr fields.
+     * @pbrbm fixedDbte b fixed dbte to cblculbte cblendbr fields
+     * @see AbstrbctCblendbr.html#fixed_dbte
      */
-    protected abstract void getCalendarDateFromFixedDate(CalendarDate date,
-                                                         long fixedDate);
+    protected bbstrbct void getCblendbrDbteFromFixedDbte(CblendbrDbte dbte,
+                                                         long fixedDbte);
 
-    public boolean validateTime(CalendarDate date) {
-        int t = date.getHours();
+    public boolebn vblidbteTime(CblendbrDbte dbte) {
+        int t = dbte.getHours();
         if (t < 0 || t >= 24) {
-            return false;
+            return fblse;
         }
-        t = date.getMinutes();
+        t = dbte.getMinutes();
         if (t < 0 || t >= 60) {
-            return false;
+            return fblse;
         }
-        t = date.getSeconds();
-        // TODO: Leap second support.
+        t = dbte.getSeconds();
+        // TODO: Lebp second support.
         if (t < 0 || t >= 60) {
-            return false;
+            return fblse;
         }
-        t = date.getMillis();
+        t = dbte.getMillis();
         if (t < 0 || t >= 1000) {
-            return false;
+            return fblse;
         }
         return true;
     }
 
 
-    int normalizeTime(CalendarDate date) {
-        long fraction = getTimeOfDay(date);
-        long days = 0;
+    int normblizeTime(CblendbrDbte dbte) {
+        long frbction = getTimeOfDby(dbte);
+        long dbys = 0;
 
-        if (fraction >= DAY_IN_MILLIS) {
-            days = fraction / DAY_IN_MILLIS;
-            fraction %= DAY_IN_MILLIS;
-        } else if (fraction < 0) {
-            days = CalendarUtils.floorDivide(fraction, DAY_IN_MILLIS);
-            if (days != 0) {
-                fraction -= DAY_IN_MILLIS * days; // mod(fraction, DAY_IN_MILLIS)
+        if (frbction >= DAY_IN_MILLIS) {
+            dbys = frbction / DAY_IN_MILLIS;
+            frbction %= DAY_IN_MILLIS;
+        } else if (frbction < 0) {
+            dbys = CblendbrUtils.floorDivide(frbction, DAY_IN_MILLIS);
+            if (dbys != 0) {
+                frbction -= DAY_IN_MILLIS * dbys; // mod(frbction, DAY_IN_MILLIS)
             }
         }
-        if (days != 0) {
-            date.setTimeOfDay(fraction);
+        if (dbys != 0) {
+            dbte.setTimeOfDby(frbction);
         }
-        date.setMillis((int)(fraction % 1000));
-        fraction /= 1000;
-        date.setSeconds((int)(fraction % 60));
-        fraction /= 60;
-        date.setMinutes((int)(fraction % 60));
-        date.setHours((int)(fraction / 60));
-        return (int)days;
+        dbte.setMillis((int)(frbction % 1000));
+        frbction /= 1000;
+        dbte.setSeconds((int)(frbction % 60));
+        frbction /= 60;
+        dbte.setMinutes((int)(frbction % 60));
+        dbte.setHours((int)(frbction / 60));
+        return (int)dbys;
     }
 }

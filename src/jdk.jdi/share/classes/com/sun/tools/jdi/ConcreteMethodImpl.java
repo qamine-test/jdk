@@ -1,245 +1,245 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.lang.ref.SoftReference;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.ListIterbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.lbng.ref.SoftReference;
 
 /**
  * Represents methods with method bodies.
- * That is, non-native non-abstract methods.
- * Private to MethodImpl.
+ * Thbt is, non-nbtive non-bbstrbct methods.
+ * Privbte to MethodImpl.
  */
-public class ConcreteMethodImpl extends MethodImpl {
+public clbss ConcreteMethodImpl extends MethodImpl {
 
     /*
-     * A subset of the line number info that is softly cached
+     * A subset of the line number info thbt is softly cbched
      */
-    static private class SoftLocationXRefs {
-        final String stratumID;   // The stratum of this information
-        final Map<Integer, List<Location>> lineMapper;     // Maps line number to location(s)
-        final List<Location> lineLocations; // List of locations ordered by code index
+    stbtic privbte clbss SoftLocbtionXRefs {
+        finbl String strbtumID;   // The strbtum of this informbtion
+        finbl Mbp<Integer, List<Locbtion>> lineMbpper;     // Mbps line number to locbtion(s)
+        finbl List<Locbtion> lineLocbtions; // List of locbtions ordered by code index
 
         /*
-         * Note: these do not necessarily correspond to
-         * the line numbers of the first and last elements
-         * in the lineLocations list. Use these only for bounds
-         * checking and with lineMapper.
+         * Note: these do not necessbrily correspond to
+         * the line numbers of the first bnd lbst elements
+         * in the lineLocbtions list. Use these only for bounds
+         * checking bnd with lineMbpper.
          */
-        final int lowestLine;
-        final int highestLine;
+        finbl int lowestLine;
+        finbl int highestLine;
 
-        SoftLocationXRefs(String stratumID, Map<Integer, List<Location>> lineMapper, List<Location> lineLocations,
+        SoftLocbtionXRefs(String strbtumID, Mbp<Integer, List<Locbtion>> lineMbpper, List<Locbtion> lineLocbtions,
                      int lowestLine, int highestLine) {
-            this.stratumID = stratumID;
-            this.lineMapper = Collections.unmodifiableMap(lineMapper);
-            this.lineLocations =
-                Collections.unmodifiableList(lineLocations);
+            this.strbtumID = strbtumID;
+            this.lineMbpper = Collections.unmodifibbleMbp(lineMbpper);
+            this.lineLocbtions =
+                Collections.unmodifibbleList(lineLocbtions);
             this.lowestLine = lowestLine;
             this.highestLine = highestLine;
         }
     }
 
-    private Location location = null;
-    private SoftReference<SoftLocationXRefs> softBaseLocationXRefsRef;
-    private SoftReference<SoftLocationXRefs> softOtherLocationXRefsRef;
-    private SoftReference<List<LocalVariable>> variablesRef = null;
-    private boolean absentVariableInformation = false;
-    private long firstIndex = -1;
-    private long lastIndex = -1;
-    private SoftReference<byte[]> bytecodesRef = null;
-    private int argSlotCount = -1;
+    privbte Locbtion locbtion = null;
+    privbte SoftReference<SoftLocbtionXRefs> softBbseLocbtionXRefsRef;
+    privbte SoftReference<SoftLocbtionXRefs> softOtherLocbtionXRefsRef;
+    privbte SoftReference<List<LocblVbribble>> vbribblesRef = null;
+    privbte boolebn bbsentVbribbleInformbtion = fblse;
+    privbte long firstIndex = -1;
+    privbte long lbstIndex = -1;
+    privbte SoftReference<byte[]> bytecodesRef = null;
+    privbte int brgSlotCount = -1;
 
-    ConcreteMethodImpl(VirtualMachine vm, ReferenceTypeImpl declaringType,
+    ConcreteMethodImpl(VirtublMbchine vm, ReferenceTypeImpl declbringType,
                        long ref,
-                       String name, String signature,
-                       String genericSignature, int modifiers) {
+                       String nbme, String signbture,
+                       String genericSignbture, int modifiers) {
 
-        // The generic signature is set when this is created
-        super(vm, declaringType, ref, name, signature,
-              genericSignature, modifiers);
+        // The generic signbture is set when this is crebted
+        super(vm, declbringType, ref, nbme, signbture,
+              genericSignbture, modifiers);
     }
 
-    public Location location() {
-        if (location == null) {
-            getBaseLocations();
+    public Locbtion locbtion() {
+        if (locbtion == null) {
+            getBbseLocbtions();
         }
-        return location;
+        return locbtion;
     }
 
-    List<Location> sourceNameFilter(List<Location> list,
-                          SDE.Stratum stratum,
-                          String sourceName)
-                            throws AbsentInformationException {
-        if (sourceName == null) {
+    List<Locbtion> sourceNbmeFilter(List<Locbtion> list,
+                          SDE.Strbtum strbtum,
+                          String sourceNbme)
+                            throws AbsentInformbtionException {
+        if (sourceNbme == null) {
             return list;
         } else {
-            /* needs sourceName filteration */
-            List<Location> locs = new ArrayList<Location>();
-            for (Location loc : list) {
-                if (((LocationImpl)loc).sourceName(stratum).equals(sourceName)) {
-                    locs.add(loc);
+            /* needs sourceNbme filterbtion */
+            List<Locbtion> locs = new ArrbyList<Locbtion>();
+            for (Locbtion loc : list) {
+                if (((LocbtionImpl)loc).sourceNbme(strbtum).equbls(sourceNbme)) {
+                    locs.bdd(loc);
                 }
             }
             return locs;
         }
     }
 
-    List<Location> allLineLocations(SDE.Stratum stratum,
-                          String sourceName)
-                            throws AbsentInformationException {
-        List<Location> lineLocations = getLocations(stratum).lineLocations;
+    List<Locbtion> bllLineLocbtions(SDE.Strbtum strbtum,
+                          String sourceNbme)
+                            throws AbsentInformbtionException {
+        List<Locbtion> lineLocbtions = getLocbtions(strbtum).lineLocbtions;
 
-        if (lineLocations.size() == 0) {
-            throw new AbsentInformationException();
+        if (lineLocbtions.size() == 0) {
+            throw new AbsentInformbtionException();
         }
 
-        return Collections.unmodifiableList(
-          sourceNameFilter(lineLocations, stratum, sourceName));
+        return Collections.unmodifibbleList(
+          sourceNbmeFilter(lineLocbtions, strbtum, sourceNbme));
     }
 
-    List<Location> locationsOfLine(SDE.Stratum stratum,
-                         String sourceName,
+    List<Locbtion> locbtionsOfLine(SDE.Strbtum strbtum,
+                         String sourceNbme,
                          int lineNumber)
-                            throws AbsentInformationException {
-        SoftLocationXRefs info = getLocations(stratum);
+                            throws AbsentInformbtionException {
+        SoftLocbtionXRefs info = getLocbtions(strbtum);
 
-        if (info.lineLocations.size() == 0) {
-            throw new AbsentInformationException();
+        if (info.lineLocbtions.size() == 0) {
+            throw new AbsentInformbtionException();
         }
 
         /*
-         * Find the locations which match the line number
-         * passed in.
+         * Find the locbtions which mbtch the line number
+         * pbssed in.
          */
-        List<Location> list = info.lineMapper.get(lineNumber);
+        List<Locbtion> list = info.lineMbpper.get(lineNumber);
 
         if (list == null) {
-            list = new ArrayList<Location>(0);
+            list = new ArrbyList<Locbtion>(0);
         }
-        return Collections.unmodifiableList(
-          sourceNameFilter(list, stratum, sourceName));
+        return Collections.unmodifibbleList(
+          sourceNbmeFilter(list, strbtum, sourceNbme));
     }
 
 
-    public Location locationOfCodeIndex(long codeIndex) {
+    public Locbtion locbtionOfCodeIndex(long codeIndex) {
         if (firstIndex == -1) {
-            getBaseLocations();
+            getBbseLocbtions();
         }
 
         /*
-         * Check for invalid code index.
+         * Check for invblid code index.
          */
-        if (codeIndex < firstIndex || codeIndex > lastIndex) {
+        if (codeIndex < firstIndex || codeIndex > lbstIndex) {
             return null;
         }
 
-        return new LocationImpl(virtualMachine(), this, codeIndex);
+        return new LocbtionImpl(virtublMbchine(), this, codeIndex);
     }
 
 
-    LineInfo codeIndexToLineInfo(SDE.Stratum stratum,
+    LineInfo codeIndexToLineInfo(SDE.Strbtum strbtum,
                                  long codeIndex) {
         if (firstIndex == -1) {
-            getBaseLocations();
+            getBbseLocbtions();
         }
 
         /*
-         * Check for invalid code index.
+         * Check for invblid code index.
          */
-        if (codeIndex < firstIndex || codeIndex > lastIndex) {
-            throw new InternalError(
-                    "Location with invalid code index");
+        if (codeIndex < firstIndex || codeIndex > lbstIndex) {
+            throw new InternblError(
+                    "Locbtion with invblid code index");
         }
 
-        List<Location> lineLocations = getLocations(stratum).lineLocations;
+        List<Locbtion> lineLocbtions = getLocbtions(strbtum).lineLocbtions;
 
         /*
-         * Check for absent line numbers.
+         * Check for bbsent line numbers.
          */
-        if (lineLocations.size() == 0) {
-            return super.codeIndexToLineInfo(stratum, codeIndex);
+        if (lineLocbtions.size() == 0) {
+            return super.codeIndexToLineInfo(strbtum, codeIndex);
         }
 
-        Iterator<Location> iter = lineLocations.iterator();
+        Iterbtor<Locbtion> iter = lineLocbtions.iterbtor();
         /*
-         * Treat code before the beginning of the first line table
-         * entry as part of the first line.  javac will generate
-         * code like this for some local classes. This "prolog"
-         * code contains assignments from locals in the enclosing
-         * scope to synthetic fields in the local class.  Same for
-         * other language prolog code.
+         * Trebt code before the beginning of the first line tbble
+         * entry bs pbrt of the first line.  jbvbc will generbte
+         * code like this for some locbl clbsses. This "prolog"
+         * code contbins bssignments from locbls in the enclosing
+         * scope to synthetic fields in the locbl clbss.  Sbme for
+         * other lbngubge prolog code.
          */
-        LocationImpl bestMatch = (LocationImpl)iter.next();
-        while (iter.hasNext()) {
-            LocationImpl current = (LocationImpl)iter.next();
+        LocbtionImpl bestMbtch = (LocbtionImpl)iter.next();
+        while (iter.hbsNext()) {
+            LocbtionImpl current = (LocbtionImpl)iter.next();
             if (current.codeIndex() > codeIndex) {
-                break;
+                brebk;
             }
-            bestMatch = current;
+            bestMbtch = current;
         }
-        return bestMatch.getLineInfo(stratum);
+        return bestMbtch.getLineInfo(strbtum);
     }
 
 
-    public List<LocalVariable> variables() throws AbsentInformationException {
-        return getVariables();
+    public List<LocblVbribble> vbribbles() throws AbsentInformbtionException {
+        return getVbribbles();
     }
 
-    public List<LocalVariable> variablesByName(String name) throws AbsentInformationException {
-        List<LocalVariable> variables = getVariables();
+    public List<LocblVbribble> vbribblesByNbme(String nbme) throws AbsentInformbtionException {
+        List<LocblVbribble> vbribbles = getVbribbles();
 
-        List<LocalVariable> retList = new ArrayList<LocalVariable>(2);
-        Iterator<LocalVariable> iter = variables.iterator();
-        while(iter.hasNext()) {
-            LocalVariable variable = iter.next();
-            if (variable.name().equals(name)) {
-                retList.add(variable);
+        List<LocblVbribble> retList = new ArrbyList<LocblVbribble>(2);
+        Iterbtor<LocblVbribble> iter = vbribbles.iterbtor();
+        while(iter.hbsNext()) {
+            LocblVbribble vbribble = iter.next();
+            if (vbribble.nbme().equbls(nbme)) {
+                retList.bdd(vbribble);
             }
         }
         return retList;
     }
 
-    public List<LocalVariable> arguments() throws AbsentInformationException {
-        List<LocalVariable> variables = getVariables();
+    public List<LocblVbribble> brguments() throws AbsentInformbtionException {
+        List<LocblVbribble> vbribbles = getVbribbles();
 
-        List<LocalVariable> retList = new ArrayList<LocalVariable>(variables.size());
-        Iterator<LocalVariable> iter = variables.iterator();
-        while(iter.hasNext()) {
-            LocalVariable variable = iter.next();
-            if (variable.isArgument()) {
-                retList.add(variable);
+        List<LocblVbribble> retList = new ArrbyList<LocblVbribble>(vbribbles.size());
+        Iterbtor<LocblVbribble> iter = vbribbles.iterbtor();
+        while(iter.hbsNext()) {
+            LocblVbribble vbribble = iter.next();
+            if (vbribble.isArgument()) {
+                retList.bdd(vbribble);
             }
         }
         return retList;
@@ -251,67 +251,67 @@ public class ConcreteMethodImpl extends MethodImpl {
         if (bytecodes == null) {
             try {
                 bytecodes = JDWP.Method.Bytecodes.
-                                 process(vm, declaringType, ref).bytes;
-            } catch (JDWPException exc) {
+                                 process(vm, declbringType, ref).bytes;
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
             bytecodesRef = new SoftReference<byte[]>(bytecodes);
         }
         /*
-         * Arrays are always modifiable, so it is a little unsafe
-         * to return the cached bytecodes directly; instead, we
-         * make a clone at the cost of using more memory.
+         * Arrbys bre blwbys modifibble, so it is b little unsbfe
+         * to return the cbched bytecodes directly; instebd, we
+         * mbke b clone bt the cost of using more memory.
          */
         return bytecodes.clone();
     }
 
-    int argSlotCount() throws AbsentInformationException {
-        if (argSlotCount == -1) {
-            getVariables();
+    int brgSlotCount() throws AbsentInformbtionException {
+        if (brgSlotCount == -1) {
+            getVbribbles();
         }
-        return argSlotCount;
+        return brgSlotCount;
     }
 
-    private SoftLocationXRefs getLocations(SDE.Stratum stratum) {
-        if (stratum.isJava()) {
-            return getBaseLocations();
+    privbte SoftLocbtionXRefs getLocbtions(SDE.Strbtum strbtum) {
+        if (strbtum.isJbvb()) {
+            return getBbseLocbtions();
         }
-        String stratumID = stratum.id();
-        SoftLocationXRefs info =
-            (softOtherLocationXRefsRef == null) ? null :
-               softOtherLocationXRefsRef.get();
-        if (info != null && info.stratumID.equals(stratumID)) {
+        String strbtumID = strbtum.id();
+        SoftLocbtionXRefs info =
+            (softOtherLocbtionXRefsRef == null) ? null :
+               softOtherLocbtionXRefsRef.get();
+        if (info != null && info.strbtumID.equbls(strbtumID)) {
             return info;
         }
 
-        List<Location> lineLocations = new ArrayList<Location>();
-        Map<Integer, List<Location>> lineMapper = new HashMap<Integer, List<Location>>();
+        List<Locbtion> lineLocbtions = new ArrbyList<Locbtion>();
+        Mbp<Integer, List<Locbtion>> lineMbpper = new HbshMbp<Integer, List<Locbtion>>();
         int lowestLine = -1;
         int highestLine = -1;
-        SDE.LineStratum lastLineStratum = null;
-        SDE.Stratum baseStratum =
-            declaringType.stratum(SDE.BASE_STRATUM_NAME);
-        Iterator<Location> it = getBaseLocations().lineLocations.iterator();
-        while(it.hasNext()) {
-            LocationImpl loc = (LocationImpl)it.next();
-            int baseLineNumber = loc.lineNumber(baseStratum);
-            SDE.LineStratum lineStratum =
-                  stratum.lineStratum(declaringType,
-                                      baseLineNumber);
+        SDE.LineStrbtum lbstLineStrbtum = null;
+        SDE.Strbtum bbseStrbtum =
+            declbringType.strbtum(SDE.BASE_STRATUM_NAME);
+        Iterbtor<Locbtion> it = getBbseLocbtions().lineLocbtions.iterbtor();
+        while(it.hbsNext()) {
+            LocbtionImpl loc = (LocbtionImpl)it.next();
+            int bbseLineNumber = loc.lineNumber(bbseStrbtum);
+            SDE.LineStrbtum lineStrbtum =
+                  strbtum.lineStrbtum(declbringType,
+                                      bbseLineNumber);
 
-            if (lineStratum == null) {
-                // location not mapped in this stratum
+            if (lineStrbtum == null) {
+                // locbtion not mbpped in this strbtum
                 continue;
             }
 
-            int lineNumber = lineStratum.lineNumber();
+            int lineNumber = lineStrbtum.lineNumber();
 
-            // remove unmapped and dup lines
+            // remove unmbpped bnd dup lines
             if ((lineNumber != -1) &&
-                          (!lineStratum.equals(lastLineStratum))) {
-                lastLineStratum = lineStratum;
+                          (!lineStrbtum.equbls(lbstLineStrbtum))) {
+                lbstLineStrbtum = lineStrbtum;
 
-                // Remember the largest/smallest line number
+                // Remember the lbrgest/smbllest line number
                 if (lineNumber > highestLine) {
                     highestLine = lineNumber;
                 }
@@ -319,227 +319,227 @@ public class ConcreteMethodImpl extends MethodImpl {
                     lowestLine = lineNumber;
                 }
 
-                loc.addStratumLineInfo(
-                  new StratumLineInfo(stratumID,
+                loc.bddStrbtumLineInfo(
+                  new StrbtumLineInfo(strbtumID,
                                       lineNumber,
-                                      lineStratum.sourceName(),
-                                      lineStratum.sourcePath()));
+                                      lineStrbtum.sourceNbme(),
+                                      lineStrbtum.sourcePbth()));
 
-                // Add to the location list
-                lineLocations.add(loc);
+                // Add to the locbtion list
+                lineLocbtions.bdd(loc);
 
-                // Add to the line -> locations map
+                // Add to the line -> locbtions mbp
                 Integer key = lineNumber;
-                List<Location> mappedLocs = lineMapper.get(key);
-                if (mappedLocs == null) {
-                    mappedLocs = new ArrayList<Location>(1);
-                    lineMapper.put(key, mappedLocs);
+                List<Locbtion> mbppedLocs = lineMbpper.get(key);
+                if (mbppedLocs == null) {
+                    mbppedLocs = new ArrbyList<Locbtion>(1);
+                    lineMbpper.put(key, mbppedLocs);
                 }
-                mappedLocs.add(loc);
+                mbppedLocs.bdd(loc);
             }
         }
 
-        info = new SoftLocationXRefs(stratumID,
-                                lineMapper, lineLocations,
+        info = new SoftLocbtionXRefs(strbtumID,
+                                lineMbpper, lineLocbtions,
                                 lowestLine, highestLine);
-        softOtherLocationXRefsRef = new SoftReference<SoftLocationXRefs>(info);
+        softOtherLocbtionXRefsRef = new SoftReference<SoftLocbtionXRefs>(info);
         return info;
     }
 
-    private SoftLocationXRefs getBaseLocations() {
-        SoftLocationXRefs info = (softBaseLocationXRefsRef == null) ? null :
-                                     softBaseLocationXRefsRef.get();
+    privbte SoftLocbtionXRefs getBbseLocbtions() {
+        SoftLocbtionXRefs info = (softBbseLocbtionXRefsRef == null) ? null :
+                                     softBbseLocbtionXRefsRef.get();
         if (info != null) {
             return info;
         }
 
-        JDWP.Method.LineTable lntab = null;
+        JDWP.Method.LineTbble lntbb = null;
         try {
-            lntab = JDWP.Method.LineTable.process(vm, declaringType, ref);
-        } catch (JDWPException exc) {
+            lntbb = JDWP.Method.LineTbble.process(vm, declbringType, ref);
+        } cbtch (JDWPException exc) {
             /*
-             * Note: the absent info error shouldn't happen here
-             * because the first and last index are always available.
+             * Note: the bbsent info error shouldn't hbppen here
+             * becbuse the first bnd lbst index bre blwbys bvbilbble.
              */
             throw exc.toJDIException();
         }
 
-        int count  = lntab.lines.length;
+        int count  = lntbb.lines.length;
 
-        List<Location> lineLocations = new ArrayList<Location>(count);
-        Map<Integer, List<Location>>lineMapper = new HashMap<Integer, List<Location>>();
+        List<Locbtion> lineLocbtions = new ArrbyList<Locbtion>(count);
+        Mbp<Integer, List<Locbtion>>lineMbpper = new HbshMbp<Integer, List<Locbtion>>();
         int lowestLine = -1;
         int highestLine = -1;
         for (int i = 0; i < count; i++) {
-            long bci = lntab.lines[i].lineCodeIndex;
-            int lineNumber = lntab.lines[i].lineNumber;
+            long bci = lntbb.lines[i].lineCodeIndex;
+            int lineNumber = lntbb.lines[i].lineNumber;
 
             /*
              * Some compilers will point multiple consecutive
-             * lines at the same location. We need to choose
-             * one of them so that we can consistently map back
-             * and forth between line and location. So we choose
-             * to record only the last line entry at a particular
-             * location.
+             * lines bt the sbme locbtion. We need to choose
+             * one of them so thbt we cbn consistently mbp bbck
+             * bnd forth between line bnd locbtion. So we choose
+             * to record only the lbst line entry bt b pbrticulbr
+             * locbtion.
              */
-            if ((i + 1 == count) || (bci != lntab.lines[i+1].lineCodeIndex)) {
-                // Remember the largest/smallest line number
+            if ((i + 1 == count) || (bci != lntbb.lines[i+1].lineCodeIndex)) {
+                // Remember the lbrgest/smbllest line number
                 if (lineNumber > highestLine) {
                     highestLine = lineNumber;
                 }
                 if ((lineNumber < lowestLine) || (lowestLine == -1)) {
                     lowestLine = lineNumber;
                 }
-                LocationImpl loc =
-                    new LocationImpl(virtualMachine(), this, bci);
-                loc.addBaseLineInfo(
-                    new BaseLineInfo(lineNumber, declaringType));
+                LocbtionImpl loc =
+                    new LocbtionImpl(virtublMbchine(), this, bci);
+                loc.bddBbseLineInfo(
+                    new BbseLineInfo(lineNumber, declbringType));
 
-                // Add to the location list
-                lineLocations.add(loc);
+                // Add to the locbtion list
+                lineLocbtions.bdd(loc);
 
-                // Add to the line -> locations map
+                // Add to the line -> locbtions mbp
                 Integer key = lineNumber;
-                List<Location> mappedLocs = lineMapper.get(key);
-                if (mappedLocs == null) {
-                    mappedLocs = new ArrayList<Location>(1);
-                    lineMapper.put(key, mappedLocs);
+                List<Locbtion> mbppedLocs = lineMbpper.get(key);
+                if (mbppedLocs == null) {
+                    mbppedLocs = new ArrbyList<Locbtion>(1);
+                    lineMbpper.put(key, mbppedLocs);
                 }
-                mappedLocs.add(loc);
+                mbppedLocs.bdd(loc);
             }
         }
 
         /*
-         * firstIndex, lastIndex, and startLocation need to be
-         * retrieved only once since they are strongly referenced.
+         * firstIndex, lbstIndex, bnd stbrtLocbtion need to be
+         * retrieved only once since they bre strongly referenced.
          */
-        if (location == null) {
-            firstIndex = lntab.start;
-            lastIndex = lntab.end;
+        if (locbtion == null) {
+            firstIndex = lntbb.stbrt;
+            lbstIndex = lntbb.end;
             /*
-             * The startLocation is the first one in the
-             * location list if we have one;
-             * otherwise, we construct a location for a
-             * method start with no line info
+             * The stbrtLocbtion is the first one in the
+             * locbtion list if we hbve one;
+             * otherwise, we construct b locbtion for b
+             * method stbrt with no line info
              */
             if (count > 0) {
-                location = lineLocations.get(0);
+                locbtion = lineLocbtions.get(0);
             } else {
-                location = new LocationImpl(virtualMachine(), this,
+                locbtion = new LocbtionImpl(virtublMbchine(), this,
                                             firstIndex);
             }
         }
 
-        info = new SoftLocationXRefs(SDE.BASE_STRATUM_NAME,
-                                lineMapper, lineLocations,
+        info = new SoftLocbtionXRefs(SDE.BASE_STRATUM_NAME,
+                                lineMbpper, lineLocbtions,
                                 lowestLine, highestLine);
-        softBaseLocationXRefsRef = new SoftReference<SoftLocationXRefs>(info);
+        softBbseLocbtionXRefsRef = new SoftReference<SoftLocbtionXRefs>(info);
         return info;
     }
 
-    private List<LocalVariable> getVariables1_4() throws AbsentInformationException {
-        JDWP.Method.VariableTable vartab = null;
+    privbte List<LocblVbribble> getVbribbles1_4() throws AbsentInformbtionException {
+        JDWP.Method.VbribbleTbble vbrtbb = null;
         try {
-            vartab = JDWP.Method.VariableTable.
-                                     process(vm, declaringType, ref);
-        } catch (JDWPException exc) {
+            vbrtbb = JDWP.Method.VbribbleTbble.
+                                     process(vm, declbringType, ref);
+        } cbtch (JDWPException exc) {
             if (exc.errorCode() == JDWP.Error.ABSENT_INFORMATION) {
-                absentVariableInformation = true;
-                throw new AbsentInformationException();
+                bbsentVbribbleInformbtion = true;
+                throw new AbsentInformbtionException();
             } else {
                 throw exc.toJDIException();
             }
         }
 
-        // Get the number of slots used by argument variables
-        argSlotCount = vartab.argCnt;
-        int count = vartab.slots.length;
-        List<LocalVariable> variables = new ArrayList<LocalVariable>(count);
+        // Get the number of slots used by brgument vbribbles
+        brgSlotCount = vbrtbb.brgCnt;
+        int count = vbrtbb.slots.length;
+        List<LocblVbribble> vbribbles = new ArrbyList<LocblVbribble>(count);
         for (int i=0; i<count; i++) {
-            JDWP.Method.VariableTable.SlotInfo si = vartab.slots[i];
+            JDWP.Method.VbribbleTbble.SlotInfo si = vbrtbb.slots[i];
 
             /*
-             * Skip "this*" entries because they are never real
-             * variables from the JLS perspective.
+             * Skip "this*" entries becbuse they bre never rebl
+             * vbribbles from the JLS perspective.
              */
-            if (!si.name.startsWith("this$") && !si.name.equals("this")) {
-                Location scopeStart = new LocationImpl(virtualMachine(),
+            if (!si.nbme.stbrtsWith("this$") && !si.nbme.equbls("this")) {
+                Locbtion scopeStbrt = new LocbtionImpl(virtublMbchine(),
                                                        this, si.codeIndex);
-                Location scopeEnd =
-                    new LocationImpl(virtualMachine(), this,
+                Locbtion scopeEnd =
+                    new LocbtionImpl(virtublMbchine(), this,
                                      si.codeIndex + si.length - 1);
-                LocalVariable variable =
-                    new LocalVariableImpl(virtualMachine(), this,
-                                          si.slot, scopeStart, scopeEnd,
-                                          si.name, si.signature, null);
-                // Add to the variable list
-                variables.add(variable);
+                LocblVbribble vbribble =
+                    new LocblVbribbleImpl(virtublMbchine(), this,
+                                          si.slot, scopeStbrt, scopeEnd,
+                                          si.nbme, si.signbture, null);
+                // Add to the vbribble list
+                vbribbles.bdd(vbribble);
             }
         }
-        return variables;
+        return vbribbles;
     }
 
-    private List<LocalVariable> getVariables1() throws AbsentInformationException {
+    privbte List<LocblVbribble> getVbribbles1() throws AbsentInformbtionException {
 
-        if (!vm.canGet1_5LanguageFeatures()) {
-            return getVariables1_4();
+        if (!vm.cbnGet1_5LbngubgeFebtures()) {
+            return getVbribbles1_4();
         }
 
-        JDWP.Method.VariableTableWithGeneric vartab = null;
+        JDWP.Method.VbribbleTbbleWithGeneric vbrtbb = null;
         try {
-            vartab = JDWP.Method.VariableTableWithGeneric.
-                                     process(vm, declaringType, ref);
-        } catch (JDWPException exc) {
+            vbrtbb = JDWP.Method.VbribbleTbbleWithGeneric.
+                                     process(vm, declbringType, ref);
+        } cbtch (JDWPException exc) {
             if (exc.errorCode() == JDWP.Error.ABSENT_INFORMATION) {
-                absentVariableInformation = true;
-                throw new AbsentInformationException();
+                bbsentVbribbleInformbtion = true;
+                throw new AbsentInformbtionException();
             } else {
                 throw exc.toJDIException();
             }
         }
 
-        // Get the number of slots used by argument variables
-        argSlotCount = vartab.argCnt;
-        int count = vartab.slots.length;
-        List<LocalVariable> variables = new ArrayList<LocalVariable>(count);
+        // Get the number of slots used by brgument vbribbles
+        brgSlotCount = vbrtbb.brgCnt;
+        int count = vbrtbb.slots.length;
+        List<LocblVbribble> vbribbles = new ArrbyList<LocblVbribble>(count);
         for (int i=0; i<count; i++) {
-            JDWP.Method.VariableTableWithGeneric.SlotInfo si = vartab.slots[i];
+            JDWP.Method.VbribbleTbbleWithGeneric.SlotInfo si = vbrtbb.slots[i];
 
             /*
-             * Skip "this*" entries because they are never real
-             * variables from the JLS perspective.
+             * Skip "this*" entries becbuse they bre never rebl
+             * vbribbles from the JLS perspective.
              */
-            if (!si.name.startsWith("this$") && !si.name.equals("this")) {
-                Location scopeStart = new LocationImpl(virtualMachine(),
+            if (!si.nbme.stbrtsWith("this$") && !si.nbme.equbls("this")) {
+                Locbtion scopeStbrt = new LocbtionImpl(virtublMbchine(),
                                                        this, si.codeIndex);
-                Location scopeEnd =
-                    new LocationImpl(virtualMachine(), this,
+                Locbtion scopeEnd =
+                    new LocbtionImpl(virtublMbchine(), this,
                                      si.codeIndex + si.length - 1);
-                LocalVariable variable =
-                    new LocalVariableImpl(virtualMachine(), this,
-                                          si.slot, scopeStart, scopeEnd,
-                                          si.name, si.signature,
-                                          si.genericSignature);
-                // Add to the variable list
-                variables.add(variable);
+                LocblVbribble vbribble =
+                    new LocblVbribbleImpl(virtublMbchine(), this,
+                                          si.slot, scopeStbrt, scopeEnd,
+                                          si.nbme, si.signbture,
+                                          si.genericSignbture);
+                // Add to the vbribble list
+                vbribbles.bdd(vbribble);
             }
         }
-        return variables;
+        return vbribbles;
     }
 
-    private List<LocalVariable> getVariables() throws AbsentInformationException {
-        if (absentVariableInformation) {
-            throw new AbsentInformationException();
+    privbte List<LocblVbribble> getVbribbles() throws AbsentInformbtionException {
+        if (bbsentVbribbleInformbtion) {
+            throw new AbsentInformbtionException();
         }
 
-        List<LocalVariable> variables = (variablesRef == null) ? null :
-                                        variablesRef.get();
-        if (variables != null) {
-            return variables;
+        List<LocblVbribble> vbribbles = (vbribblesRef == null) ? null :
+                                        vbribblesRef.get();
+        if (vbribbles != null) {
+            return vbribbles;
         }
-        variables = getVariables1();
-        variables = Collections.unmodifiableList(variables);
-        variablesRef = new SoftReference<List<LocalVariable>>(variables);
-        return variables;
+        vbribbles = getVbribbles1();
+        vbribbles = Collections.unmodifibbleList(vbribbles);
+        vbribblesRef = new SoftReference<List<LocblVbribble>>(vbribbles);
+        return vbribbles;
     }
 }

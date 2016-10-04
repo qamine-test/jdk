@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import javax.swing.*;
-import javax.swing.filechooser.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.beans.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import sun.awt.shell.ShellFolder;
+import jbvbx.swing.*;
+import jbvbx.swing.filechooser.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.MouseAdbpter;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bebns.*;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.util.*;
+import sun.bwt.shell.ShellFolder;
 import sun.swing.SwingUtilities2;
 
 /**
  * Motif FileChooserUI.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  */
-public class MotifFileChooserUI extends BasicFileChooserUI {
+public clbss MotifFileChooserUI extends BbsicFileChooserUI {
 
-    private FilterComboBoxModel filterComboBoxModel;
+    privbte FilterComboBoxModel filterComboBoxModel;
 
     protected JList<File> directoryList = null;
     protected JList<File> fileList = null;
 
-    protected JTextField pathField = null;
+    protected JTextField pbthField = null;
     protected JComboBox<FileFilter> filterComboBox = null;
-    protected JTextField filenameTextField = null;
+    protected JTextField filenbmeTextField = null;
 
-    private static final Dimension hstrut10 = new Dimension(10, 1);
-    private static final Dimension vstrut10 = new Dimension(1, 10);
+    privbte stbtic finbl Dimension hstrut10 = new Dimension(10, 1);
+    privbte stbtic finbl Dimension vstrut10 = new Dimension(1, 10);
 
-    private static final Insets insets = new Insets(10, 10, 10, 10);
+    privbte stbtic finbl Insets insets = new Insets(10, 10, 10, 10);
 
-    private static Dimension prefListSize = new Dimension(75, 150);
+    privbte stbtic Dimension prefListSize = new Dimension(75, 150);
 
-    private static Dimension WITH_ACCELERATOR_PREF_SIZE = new Dimension(650, 450);
-    private static Dimension PREF_SIZE = new Dimension(350, 450);
-    private static Dimension MIN_SIZE = new Dimension(200, 300);
+    privbte stbtic Dimension WITH_ACCELERATOR_PREF_SIZE = new Dimension(650, 450);
+    privbte stbtic Dimension PREF_SIZE = new Dimension(350, 450);
+    privbte stbtic Dimension MIN_SIZE = new Dimension(200, 300);
 
-    private static Dimension PREF_ACC_SIZE = new Dimension(10, 10);
-    private static Dimension ZERO_ACC_SIZE = new Dimension(1, 1);
+    privbte stbtic Dimension PREF_ACC_SIZE = new Dimension(10, 10);
+    privbte stbtic Dimension ZERO_ACC_SIZE = new Dimension(1, 1);
 
-    private static Dimension MAX_SIZE = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
+    privbte stbtic Dimension MAX_SIZE = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
 
-    private static final Insets buttonMargin = new Insets(3, 3, 3, 3);
+    privbte stbtic finbl Insets buttonMbrgin = new Insets(3, 3, 3, 3);
 
-    private JPanel bottomPanel;
+    privbte JPbnel bottomPbnel;
 
-    protected JButton approveButton;
+    protected JButton bpproveButton;
 
-    private String enterFolderNameLabelText = null;
-    private int enterFolderNameLabelMnemonic = 0;
-    private String enterFileNameLabelText = null;
-    private int enterFileNameLabelMnemonic = 0;
+    privbte String enterFolderNbmeLbbelText = null;
+    privbte int enterFolderNbmeLbbelMnemonic = 0;
+    privbte String enterFileNbmeLbbelText = null;
+    privbte int enterFileNbmeLbbelMnemonic = 0;
 
-    private String filesLabelText = null;
-    private int filesLabelMnemonic = 0;
+    privbte String filesLbbelText = null;
+    privbte int filesLbbelMnemonic = 0;
 
-    private String foldersLabelText = null;
-    private int foldersLabelMnemonic = 0;
+    privbte String foldersLbbelText = null;
+    privbte int foldersLbbelMnemonic = 0;
 
-    private String pathLabelText = null;
-    private int pathLabelMnemonic = 0;
+    privbte String pbthLbbelText = null;
+    privbte int pbthLbbelMnemonic = 0;
 
-    private String filterLabelText = null;
-    private int filterLabelMnemonic = 0;
+    privbte String filterLbbelText = null;
+    privbte int filterLbbelMnemonic = 0;
 
-    private JLabel fileNameLabel;
+    privbte JLbbel fileNbmeLbbel;
 
-    private void populateFileNameLabel() {
+    privbte void populbteFileNbmeLbbel() {
         if (getFileChooser().getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) {
-            fileNameLabel.setText(enterFolderNameLabelText);
-            fileNameLabel.setDisplayedMnemonic(enterFolderNameLabelMnemonic);
+            fileNbmeLbbel.setText(enterFolderNbmeLbbelText);
+            fileNbmeLbbel.setDisplbyedMnemonic(enterFolderNbmeLbbelMnemonic);
         } else {
-            fileNameLabel.setText(enterFileNameLabelText);
-            fileNameLabel.setDisplayedMnemonic(enterFileNameLabelMnemonic);
+            fileNbmeLbbel.setText(enterFileNbmeLbbelText);
+            fileNbmeLbbel.setDisplbyedMnemonic(enterFileNbmeLbbelMnemonic);
         }
     }
 
-    private String fileNameString(File file) {
+    privbte String fileNbmeString(File file) {
         if (file == null) {
             return null;
         } else {
             JFileChooser fc = getFileChooser();
-            if (fc.isDirectorySelectionEnabled() && !fc.isFileSelectionEnabled()) {
-                return file.getPath();
+            if (fc.isDirectorySelectionEnbbled() && !fc.isFileSelectionEnbbled()) {
+                return file.getPbth();
             } else {
-                return file.getName();
+                return file.getNbme();
             }
         }
     }
 
-    private String fileNameString(File[] files) {
+    privbte String fileNbmeString(File[] files) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; files != null && i < files.length; i++) {
             if (i > 0) {
-                sb.append(" ");
+                sb.bppend(" ");
             }
             if (files.length > 1) {
-                sb.append("\"");
+                sb.bppend("\"");
             }
-            sb.append(fileNameString(files[i]));
+            sb.bppend(fileNbmeString(files[i]));
             if (files.length > 1) {
-                sb.append("\"");
+                sb.bppend("\"");
             }
         }
         return sb.toString();
@@ -141,118 +141,118 @@ public class MotifFileChooserUI extends BasicFileChooserUI {
         super(filechooser);
     }
 
-    public String getFileName() {
-        if(filenameTextField != null) {
-            return filenameTextField.getText();
+    public String getFileNbme() {
+        if(filenbmeTextField != null) {
+            return filenbmeTextField.getText();
         } else {
             return null;
         }
     }
 
-    public void setFileName(String filename) {
-        if(filenameTextField != null) {
-            filenameTextField.setText(filename);
+    public void setFileNbme(String filenbme) {
+        if(filenbmeTextField != null) {
+            filenbmeTextField.setText(filenbme);
         }
     }
 
-    public String getDirectoryName() {
-        return pathField.getText();
+    public String getDirectoryNbme() {
+        return pbthField.getText();
     }
 
-    public void setDirectoryName(String dirname) {
-        pathField.setText(dirname);
+    public void setDirectoryNbme(String dirnbme) {
+        pbthField.setText(dirnbme);
     }
 
     public void ensureFileIsVisible(JFileChooser fc, File f) {
         // PENDING(jeff)
     }
 
-    public void rescanCurrentDirectory(JFileChooser fc) {
-        getModel().validateFileCache();
+    public void rescbnCurrentDirectory(JFileChooser fc) {
+        getModel().vblidbteFileCbche();
     }
 
-    public PropertyChangeListener createPropertyChangeListener(JFileChooser fc) {
-        return new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent e) {
-                String prop = e.getPropertyName();
-                if(prop.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
-                    File f = (File) e.getNewValue();
+    public PropertyChbngeListener crebtePropertyChbngeListener(JFileChooser fc) {
+        return new PropertyChbngeListener() {
+            public void propertyChbnge(PropertyChbngeEvent e) {
+                String prop = e.getPropertyNbme();
+                if(prop.equbls(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
+                    File f = (File) e.getNewVblue();
                     if(f != null) {
-                        setFileName(getFileChooser().getName(f));
+                        setFileNbme(getFileChooser().getNbme(f));
                     }
-                } else if (prop.equals(JFileChooser.SELECTED_FILES_CHANGED_PROPERTY)) {
-                    File[] files = (File[]) e.getNewValue();
+                } else if (prop.equbls(JFileChooser.SELECTED_FILES_CHANGED_PROPERTY)) {
+                    File[] files = (File[]) e.getNewVblue();
                     JFileChooser fc = getFileChooser();
-                    if (files != null && files.length > 0 && (files.length > 1 || fc.isDirectorySelectionEnabled()
+                    if (files != null && files.length > 0 && (files.length > 1 || fc.isDirectorySelectionEnbbled()
                             || !files[0].isDirectory())) {
-                        setFileName(fileNameString(files));
+                        setFileNbme(fileNbmeString(files));
                     }
-                } else if (prop.equals(JFileChooser.FILE_FILTER_CHANGED_PROPERTY)) {
-                    fileList.clearSelection();
-                } else if(prop.equals(JFileChooser.DIRECTORY_CHANGED_PROPERTY)) {
-                    directoryList.clearSelection();
+                } else if (prop.equbls(JFileChooser.FILE_FILTER_CHANGED_PROPERTY)) {
+                    fileList.clebrSelection();
+                } else if(prop.equbls(JFileChooser.DIRECTORY_CHANGED_PROPERTY)) {
+                    directoryList.clebrSelection();
                     ListSelectionModel sm = directoryList.getSelectionModel();
-                    if (sm instanceof DefaultListSelectionModel) {
-                        ((DefaultListSelectionModel)sm).moveLeadSelectionIndex(0);
+                    if (sm instbnceof DefbultListSelectionModel) {
+                        ((DefbultListSelectionModel)sm).moveLebdSelectionIndex(0);
                         sm.setAnchorSelectionIndex(0);
                     }
-                    fileList.clearSelection();
+                    fileList.clebrSelection();
                     sm = fileList.getSelectionModel();
-                    if (sm instanceof DefaultListSelectionModel) {
-                        ((DefaultListSelectionModel)sm).moveLeadSelectionIndex(0);
+                    if (sm instbnceof DefbultListSelectionModel) {
+                        ((DefbultListSelectionModel)sm).moveLebdSelectionIndex(0);
                         sm.setAnchorSelectionIndex(0);
                     }
                     File currentDirectory = getFileChooser().getCurrentDirectory();
                     if(currentDirectory != null) {
                         try {
-                            setDirectoryName(ShellFolder.getNormalizedFile((File)e.getNewValue()).getPath());
-                        } catch (IOException ioe) {
-                            setDirectoryName(((File)e.getNewValue()).getAbsolutePath());
+                            setDirectoryNbme(ShellFolder.getNormblizedFile((File)e.getNewVblue()).getPbth());
+                        } cbtch (IOException ioe) {
+                            setDirectoryNbme(((File)e.getNewVblue()).getAbsolutePbth());
                         }
-                        if ((getFileChooser().getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) && !getFileChooser().isMultiSelectionEnabled()) {
-                            setFileName(getDirectoryName());
+                        if ((getFileChooser().getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) && !getFileChooser().isMultiSelectionEnbbled()) {
+                            setFileNbme(getDirectoryNbme());
                         }
                     }
-                } else if(prop.equals(JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY)) {
-                    if (fileNameLabel != null) {
-                        populateFileNameLabel();
+                } else if(prop.equbls(JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY)) {
+                    if (fileNbmeLbbel != null) {
+                        populbteFileNbmeLbbel();
                     }
-                    directoryList.clearSelection();
-                } else if (prop.equals(JFileChooser.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
-                    if(getFileChooser().isMultiSelectionEnabled()) {
+                    directoryList.clebrSelection();
+                } else if (prop.equbls(JFileChooser.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
+                    if(getFileChooser().isMultiSelectionEnbbled()) {
                         fileList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                     } else {
                         fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                        fileList.clearSelection();
+                        fileList.clebrSelection();
                         getFileChooser().setSelectedFiles(null);
                     }
-                } else if (prop.equals(JFileChooser.ACCESSORY_CHANGED_PROPERTY)) {
-                    if(getAccessoryPanel() != null) {
-                        if(e.getOldValue() != null) {
-                            getAccessoryPanel().remove((JComponent) e.getOldValue());
+                } else if (prop.equbls(JFileChooser.ACCESSORY_CHANGED_PROPERTY)) {
+                    if(getAccessoryPbnel() != null) {
+                        if(e.getOldVblue() != null) {
+                            getAccessoryPbnel().remove((JComponent) e.getOldVblue());
                         }
-                        JComponent accessory = (JComponent) e.getNewValue();
-                        if(accessory != null) {
-                            getAccessoryPanel().add(accessory, BorderLayout.CENTER);
-                            getAccessoryPanel().setPreferredSize(PREF_ACC_SIZE);
-                            getAccessoryPanel().setMaximumSize(MAX_SIZE);
+                        JComponent bccessory = (JComponent) e.getNewVblue();
+                        if(bccessory != null) {
+                            getAccessoryPbnel().bdd(bccessory, BorderLbyout.CENTER);
+                            getAccessoryPbnel().setPreferredSize(PREF_ACC_SIZE);
+                            getAccessoryPbnel().setMbximumSize(MAX_SIZE);
                         } else {
-                            getAccessoryPanel().setPreferredSize(ZERO_ACC_SIZE);
-                            getAccessoryPanel().setMaximumSize(ZERO_ACC_SIZE);
+                            getAccessoryPbnel().setPreferredSize(ZERO_ACC_SIZE);
+                            getAccessoryPbnel().setMbximumSize(ZERO_ACC_SIZE);
                         }
                     }
-                } else if (prop.equals(JFileChooser.APPROVE_BUTTON_TEXT_CHANGED_PROPERTY) ||
-                        prop.equals(JFileChooser.APPROVE_BUTTON_TOOL_TIP_TEXT_CHANGED_PROPERTY) ||
-                        prop.equals(JFileChooser.DIALOG_TYPE_CHANGED_PROPERTY)) {
-                    approveButton.setText(getApproveButtonText(getFileChooser()));
-                    approveButton.setToolTipText(getApproveButtonToolTipText(getFileChooser()));
-                } else if (prop.equals(JFileChooser.CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY)) {
-                    doControlButtonsChanged(e);
-                } else if (prop.equals("componentOrientation")) {
-                    ComponentOrientation o = (ComponentOrientation)e.getNewValue();
+                } else if (prop.equbls(JFileChooser.APPROVE_BUTTON_TEXT_CHANGED_PROPERTY) ||
+                        prop.equbls(JFileChooser.APPROVE_BUTTON_TOOL_TIP_TEXT_CHANGED_PROPERTY) ||
+                        prop.equbls(JFileChooser.DIALOG_TYPE_CHANGED_PROPERTY)) {
+                    bpproveButton.setText(getApproveButtonText(getFileChooser()));
+                    bpproveButton.setToolTipText(getApproveButtonToolTipText(getFileChooser()));
+                } else if (prop.equbls(JFileChooser.CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY)) {
+                    doControlButtonsChbnged(e);
+                } else if (prop.equbls("componentOrientbtion")) {
+                    ComponentOrientbtion o = (ComponentOrientbtion)e.getNewVblue();
                     JFileChooser cc = (JFileChooser)e.getSource();
-                    if (o != (ComponentOrientation)e.getOldValue()) {
-                        cc.applyComponentOrientation(o);
+                    if (o != (ComponentOrientbtion)e.getOldVblue()) {
+                        cc.bpplyComponentOrientbtion(o);
                     }
                 }
             }
@@ -260,378 +260,378 @@ public class MotifFileChooserUI extends BasicFileChooserUI {
     }
 
     //
-    // ComponentUI Interface Implementation methods
+    // ComponentUI Interfbce Implementbtion methods
     //
-    public static ComponentUI createUI(JComponent c) {
+    public stbtic ComponentUI crebteUI(JComponent c) {
         return new MotifFileChooserUI((JFileChooser)c);
     }
 
-    public void installUI(JComponent c) {
-        super.installUI(c);
+    public void instbllUI(JComponent c) {
+        super.instbllUI(c);
     }
 
-    public void uninstallUI(JComponent c) {
-        c.removePropertyChangeListener(filterComboBoxModel);
-        approveButton.removeActionListener(getApproveSelectionAction());
-        filenameTextField.removeActionListener(getApproveSelectionAction());
-        super.uninstallUI(c);
+    public void uninstbllUI(JComponent c) {
+        c.removePropertyChbngeListener(filterComboBoxModel);
+        bpproveButton.removeActionListener(getApproveSelectionAction());
+        filenbmeTextField.removeActionListener(getApproveSelectionAction());
+        super.uninstbllUI(c);
     }
 
-    public void installComponents(JFileChooser fc) {
-        fc.setLayout(new BorderLayout(10, 10));
+    public void instbllComponents(JFileChooser fc) {
+        fc.setLbyout(new BorderLbyout(10, 10));
         fc.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
-        @SuppressWarnings("serial") // anonymous class
-        JPanel interior = new JPanel() {
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        JPbnel interior = new JPbnel() {
             public Insets getInsets() {
                 return insets;
             }
         };
         interior.setInheritsPopupMenu(true);
-        align(interior);
-        interior.setLayout(new BoxLayout(interior, BoxLayout.PAGE_AXIS));
+        blign(interior);
+        interior.setLbyout(new BoxLbyout(interior, BoxLbyout.PAGE_AXIS));
 
-        fc.add(interior, BorderLayout.CENTER);
+        fc.bdd(interior, BorderLbyout.CENTER);
 
         // PENDING(jeff) - I18N
-        JLabel l = new JLabel(pathLabelText);
-        l.setDisplayedMnemonic(pathLabelMnemonic);
-        align(l);
-        interior.add(l);
+        JLbbel l = new JLbbel(pbthLbbelText);
+        l.setDisplbyedMnemonic(pbthLbbelMnemonic);
+        blign(l);
+        interior.bdd(l);
 
         File currentDirectory = fc.getCurrentDirectory();
-        String curDirName = null;
+        String curDirNbme = null;
         if(currentDirectory != null) {
-            curDirName = currentDirectory.getPath();
+            curDirNbme = currentDirectory.getPbth();
         }
 
-        @SuppressWarnings("serial") // anonymous class
-        JTextField tmp1 = new JTextField(curDirName) {
-            public Dimension getMaximumSize() {
-                Dimension d = super.getMaximumSize();
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        JTextField tmp1 = new JTextField(curDirNbme) {
+            public Dimension getMbximumSize() {
+                Dimension d = super.getMbximumSize();
                 d.height = getPreferredSize().height;
                 return d;
             }
         };
-        pathField = tmp1;
-        pathField.setInheritsPopupMenu(true);
-        l.setLabelFor(pathField);
-        align(pathField);
+        pbthField = tmp1;
+        pbthField.setInheritsPopupMenu(true);
+        l.setLbbelFor(pbthField);
+        blign(pbthField);
 
-        // Change to folder on return
-        pathField.addActionListener(getUpdateAction());
-        interior.add(pathField);
+        // Chbnge to folder on return
+        pbthField.bddActionListener(getUpdbteAction());
+        interior.bdd(pbthField);
 
-        interior.add(Box.createRigidArea(vstrut10));
+        interior.bdd(Box.crebteRigidAreb(vstrut10));
 
 
-        // CENTER: left, right accessory
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.LINE_AXIS));
-        align(centerPanel);
+        // CENTER: left, right bccessory
+        JPbnel centerPbnel = new JPbnel();
+        centerPbnel.setLbyout(new BoxLbyout(centerPbnel, BoxLbyout.LINE_AXIS));
+        blign(centerPbnel);
 
-        // left panel - Filter & folderList
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
-        align(leftPanel);
+        // left pbnel - Filter & folderList
+        JPbnel leftPbnel = new JPbnel();
+        leftPbnel.setLbyout(new BoxLbyout(leftPbnel, BoxLbyout.PAGE_AXIS));
+        blign(leftPbnel);
 
-        // add the filter PENDING(jeff) - I18N
-        l = new JLabel(filterLabelText);
-        l.setDisplayedMnemonic(filterLabelMnemonic);
-        align(l);
-        leftPanel.add(l);
+        // bdd the filter PENDING(jeff) - I18N
+        l = new JLbbel(filterLbbelText);
+        l.setDisplbyedMnemonic(filterLbbelMnemonic);
+        blign(l);
+        leftPbnel.bdd(l);
 
-        @SuppressWarnings("serial") // anonymous class
+        @SuppressWbrnings("seribl") // bnonymous clbss
         JComboBox<FileFilter> tmp2 = new JComboBox<FileFilter>() {
-            public Dimension getMaximumSize() {
-                Dimension d = super.getMaximumSize();
+            public Dimension getMbximumSize() {
+                Dimension d = super.getMbximumSize();
                 d.height = getPreferredSize().height;
                 return d;
             }
         };
         filterComboBox = tmp2;
         filterComboBox.setInheritsPopupMenu(true);
-        l.setLabelFor(filterComboBox);
-        filterComboBoxModel = createFilterComboBoxModel();
+        l.setLbbelFor(filterComboBox);
+        filterComboBoxModel = crebteFilterComboBoxModel();
         filterComboBox.setModel(filterComboBoxModel);
-        filterComboBox.setRenderer(createFilterComboBoxRenderer());
-        fc.addPropertyChangeListener(filterComboBoxModel);
-        align(filterComboBox);
-        leftPanel.add(filterComboBox);
+        filterComboBox.setRenderer(crebteFilterComboBoxRenderer());
+        fc.bddPropertyChbngeListener(filterComboBoxModel);
+        blign(filterComboBox);
+        leftPbnel.bdd(filterComboBox);
 
-        // leftPanel.add(Box.createRigidArea(vstrut10));
+        // leftPbnel.bdd(Box.crebteRigidAreb(vstrut10));
 
         // Add the Folder List PENDING(jeff) - I18N
-        l = new JLabel(foldersLabelText);
-        l.setDisplayedMnemonic(foldersLabelMnemonic);
-        align(l);
-        leftPanel.add(l);
-        JScrollPane sp = createDirectoryList();
-        sp.getVerticalScrollBar().setFocusable(false);
-        sp.getHorizontalScrollBar().setFocusable(false);
+        l = new JLbbel(foldersLbbelText);
+        l.setDisplbyedMnemonic(foldersLbbelMnemonic);
+        blign(l);
+        leftPbnel.bdd(l);
+        JScrollPbne sp = crebteDirectoryList();
+        sp.getVerticblScrollBbr().setFocusbble(fblse);
+        sp.getHorizontblScrollBbr().setFocusbble(fblse);
         sp.setInheritsPopupMenu(true);
-        l.setLabelFor(sp.getViewport().getView());
-        leftPanel.add(sp);
-        leftPanel.setInheritsPopupMenu(true);
+        l.setLbbelFor(sp.getViewport().getView());
+        leftPbnel.bdd(sp);
+        leftPbnel.setInheritsPopupMenu(true);
 
 
-        // create files list
-        JPanel rightPanel = new JPanel();
-        align(rightPanel);
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
-        rightPanel.setInheritsPopupMenu(true);
+        // crebte files list
+        JPbnel rightPbnel = new JPbnel();
+        blign(rightPbnel);
+        rightPbnel.setLbyout(new BoxLbyout(rightPbnel, BoxLbyout.PAGE_AXIS));
+        rightPbnel.setInheritsPopupMenu(true);
 
-        l = new JLabel(filesLabelText);
-        l.setDisplayedMnemonic(filesLabelMnemonic);
-        align(l);
-        rightPanel.add(l);
-        sp = createFilesList();
-        l.setLabelFor(sp.getViewport().getView());
-        rightPanel.add(sp);
+        l = new JLbbel(filesLbbelText);
+        l.setDisplbyedMnemonic(filesLbbelMnemonic);
+        blign(l);
+        rightPbnel.bdd(l);
+        sp = crebteFilesList();
+        l.setLbbelFor(sp.getViewport().getView());
+        rightPbnel.bdd(sp);
         sp.setInheritsPopupMenu(true);
 
-        centerPanel.add(leftPanel);
-        centerPanel.add(Box.createRigidArea(hstrut10));
-        centerPanel.add(rightPanel);
-        centerPanel.setInheritsPopupMenu(true);
+        centerPbnel.bdd(leftPbnel);
+        centerPbnel.bdd(Box.crebteRigidAreb(hstrut10));
+        centerPbnel.bdd(rightPbnel);
+        centerPbnel.setInheritsPopupMenu(true);
 
-        JComponent accessoryPanel = getAccessoryPanel();
-        JComponent accessory = fc.getAccessory();
-        if(accessoryPanel != null) {
-            if(accessory == null) {
-                accessoryPanel.setPreferredSize(ZERO_ACC_SIZE);
-                accessoryPanel.setMaximumSize(ZERO_ACC_SIZE);
+        JComponent bccessoryPbnel = getAccessoryPbnel();
+        JComponent bccessory = fc.getAccessory();
+        if(bccessoryPbnel != null) {
+            if(bccessory == null) {
+                bccessoryPbnel.setPreferredSize(ZERO_ACC_SIZE);
+                bccessoryPbnel.setMbximumSize(ZERO_ACC_SIZE);
             } else {
-                getAccessoryPanel().add(accessory, BorderLayout.CENTER);
-                accessoryPanel.setPreferredSize(PREF_ACC_SIZE);
-                accessoryPanel.setMaximumSize(MAX_SIZE);
+                getAccessoryPbnel().bdd(bccessory, BorderLbyout.CENTER);
+                bccessoryPbnel.setPreferredSize(PREF_ACC_SIZE);
+                bccessoryPbnel.setMbximumSize(MAX_SIZE);
             }
-            align(accessoryPanel);
-            centerPanel.add(accessoryPanel);
-            accessoryPanel.setInheritsPopupMenu(true);
+            blign(bccessoryPbnel);
+            centerPbnel.bdd(bccessoryPbnel);
+            bccessoryPbnel.setInheritsPopupMenu(true);
         }
-        interior.add(centerPanel);
-        interior.add(Box.createRigidArea(vstrut10));
+        interior.bdd(centerPbnel);
+        interior.bdd(Box.crebteRigidAreb(vstrut10));
 
-        // add the filename field PENDING(jeff) - I18N
-        fileNameLabel = new JLabel();
-        populateFileNameLabel();
-        align(fileNameLabel);
-        interior.add(fileNameLabel);
+        // bdd the filenbme field PENDING(jeff) - I18N
+        fileNbmeLbbel = new JLbbel();
+        populbteFileNbmeLbbel();
+        blign(fileNbmeLbbel);
+        interior.bdd(fileNbmeLbbel);
 
-        @SuppressWarnings("serial") // anonymous class
+        @SuppressWbrnings("seribl") // bnonymous clbss
         JTextField tmp3 = new JTextField() {
-            public Dimension getMaximumSize() {
-                Dimension d = super.getMaximumSize();
+            public Dimension getMbximumSize() {
+                Dimension d = super.getMbximumSize();
                 d.height = getPreferredSize().height;
                 return d;
             }
         };
-        filenameTextField = tmp3;
-        filenameTextField.setInheritsPopupMenu(true);
-        fileNameLabel.setLabelFor(filenameTextField);
-        filenameTextField.addActionListener(getApproveSelectionAction());
-        align(filenameTextField);
-        filenameTextField.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        interior.add(filenameTextField);
+        filenbmeTextField = tmp3;
+        filenbmeTextField.setInheritsPopupMenu(true);
+        fileNbmeLbbel.setLbbelFor(filenbmeTextField);
+        filenbmeTextField.bddActionListener(getApproveSelectionAction());
+        blign(filenbmeTextField);
+        filenbmeTextField.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        interior.bdd(filenbmeTextField);
 
-        bottomPanel = getBottomPanel();
-        bottomPanel.add(new JSeparator(), BorderLayout.NORTH);
+        bottomPbnel = getBottomPbnel();
+        bottomPbnel.bdd(new JSepbrbtor(), BorderLbyout.NORTH);
 
         // Add buttons
-        JPanel buttonPanel = new JPanel();
-        align(buttonPanel);
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
-        buttonPanel.add(Box.createGlue());
+        JPbnel buttonPbnel = new JPbnel();
+        blign(buttonPbnel);
+        buttonPbnel.setLbyout(new BoxLbyout(buttonPbnel, BoxLbyout.LINE_AXIS));
+        buttonPbnel.bdd(Box.crebteGlue());
 
-        @SuppressWarnings("serial") // anonymous class
+        @SuppressWbrnings("seribl") // bnonymous clbss
         JButton tmp4 = new JButton(getApproveButtonText(fc)) {
-            public Dimension getMaximumSize() {
+            public Dimension getMbximumSize() {
                 return new Dimension(MAX_SIZE.width, this.getPreferredSize().height);
             }
         };
-        approveButton = tmp4;
-        approveButton.setMnemonic(getApproveButtonMnemonic(fc));
-        approveButton.setToolTipText(getApproveButtonToolTipText(fc));
-        approveButton.setInheritsPopupMenu(true);
-        align(approveButton);
-        approveButton.setMargin(buttonMargin);
-        approveButton.addActionListener(getApproveSelectionAction());
-        buttonPanel.add(approveButton);
-        buttonPanel.add(Box.createGlue());
+        bpproveButton = tmp4;
+        bpproveButton.setMnemonic(getApproveButtonMnemonic(fc));
+        bpproveButton.setToolTipText(getApproveButtonToolTipText(fc));
+        bpproveButton.setInheritsPopupMenu(true);
+        blign(bpproveButton);
+        bpproveButton.setMbrgin(buttonMbrgin);
+        bpproveButton.bddActionListener(getApproveSelectionAction());
+        buttonPbnel.bdd(bpproveButton);
+        buttonPbnel.bdd(Box.crebteGlue());
 
-        @SuppressWarnings("serial") // anonymous class
-        JButton updateButton = new JButton(updateButtonText) {
-            public Dimension getMaximumSize() {
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        JButton updbteButton = new JButton(updbteButtonText) {
+            public Dimension getMbximumSize() {
                 return new Dimension(MAX_SIZE.width, this.getPreferredSize().height);
             }
         };
-        updateButton.setMnemonic(updateButtonMnemonic);
-        updateButton.setToolTipText(updateButtonToolTipText);
-        updateButton.setInheritsPopupMenu(true);
-        align(updateButton);
-        updateButton.setMargin(buttonMargin);
-        updateButton.addActionListener(getUpdateAction());
-        buttonPanel.add(updateButton);
-        buttonPanel.add(Box.createGlue());
+        updbteButton.setMnemonic(updbteButtonMnemonic);
+        updbteButton.setToolTipText(updbteButtonToolTipText);
+        updbteButton.setInheritsPopupMenu(true);
+        blign(updbteButton);
+        updbteButton.setMbrgin(buttonMbrgin);
+        updbteButton.bddActionListener(getUpdbteAction());
+        buttonPbnel.bdd(updbteButton);
+        buttonPbnel.bdd(Box.crebteGlue());
 
-        @SuppressWarnings("serial") // anonymous class
-        JButton cancelButton = new JButton(cancelButtonText) {
-            public Dimension getMaximumSize() {
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        JButton cbncelButton = new JButton(cbncelButtonText) {
+            public Dimension getMbximumSize() {
                 return new Dimension(MAX_SIZE.width, this.getPreferredSize().height);
             }
         };
-        cancelButton.setMnemonic(cancelButtonMnemonic);
-        cancelButton.setToolTipText(cancelButtonToolTipText);
-        cancelButton.setInheritsPopupMenu(true);
-        align(cancelButton);
-        cancelButton.setMargin(buttonMargin);
-        cancelButton.addActionListener(getCancelSelectionAction());
-        buttonPanel.add(cancelButton);
-        buttonPanel.add(Box.createGlue());
+        cbncelButton.setMnemonic(cbncelButtonMnemonic);
+        cbncelButton.setToolTipText(cbncelButtonToolTipText);
+        cbncelButton.setInheritsPopupMenu(true);
+        blign(cbncelButton);
+        cbncelButton.setMbrgin(buttonMbrgin);
+        cbncelButton.bddActionListener(getCbncelSelectionAction());
+        buttonPbnel.bdd(cbncelButton);
+        buttonPbnel.bdd(Box.crebteGlue());
 
-        @SuppressWarnings("serial") // anonymous class
+        @SuppressWbrnings("seribl") // bnonymous clbss
         JButton helpButton = new JButton(helpButtonText) {
-            public Dimension getMaximumSize() {
+            public Dimension getMbximumSize() {
                 return new Dimension(MAX_SIZE.width, this.getPreferredSize().height);
             }
         };
         helpButton.setMnemonic(helpButtonMnemonic);
         helpButton.setToolTipText(helpButtonToolTipText);
-        align(helpButton);
-        helpButton.setMargin(buttonMargin);
-        helpButton.setEnabled(false);
+        blign(helpButton);
+        helpButton.setMbrgin(buttonMbrgin);
+        helpButton.setEnbbled(fblse);
         helpButton.setInheritsPopupMenu(true);
-        buttonPanel.add(helpButton);
-        buttonPanel.add(Box.createGlue());
-        buttonPanel.setInheritsPopupMenu(true);
+        buttonPbnel.bdd(helpButton);
+        buttonPbnel.bdd(Box.crebteGlue());
+        buttonPbnel.setInheritsPopupMenu(true);
 
-        bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
-        bottomPanel.setInheritsPopupMenu(true);
+        bottomPbnel.bdd(buttonPbnel, BorderLbyout.SOUTH);
+        bottomPbnel.setInheritsPopupMenu(true);
         if (fc.getControlButtonsAreShown()) {
-           fc.add(bottomPanel, BorderLayout.SOUTH);
+           fc.bdd(bottomPbnel, BorderLbyout.SOUTH);
         }
     }
 
-    protected JPanel getBottomPanel() {
-        if (bottomPanel == null) {
-            bottomPanel = new JPanel(new BorderLayout(0, 4));
+    protected JPbnel getBottomPbnel() {
+        if (bottomPbnel == null) {
+            bottomPbnel = new JPbnel(new BorderLbyout(0, 4));
         }
-        return bottomPanel;
+        return bottomPbnel;
     }
 
-    private void doControlButtonsChanged(PropertyChangeEvent e) {
+    privbte void doControlButtonsChbnged(PropertyChbngeEvent e) {
         if (getFileChooser().getControlButtonsAreShown()) {
-            getFileChooser().add(bottomPanel,BorderLayout.SOUTH);
+            getFileChooser().bdd(bottomPbnel,BorderLbyout.SOUTH);
         } else {
-            getFileChooser().remove(getBottomPanel());
+            getFileChooser().remove(getBottomPbnel());
         }
     }
 
-    public void uninstallComponents(JFileChooser fc) {
+    public void uninstbllComponents(JFileChooser fc) {
         fc.removeAll();
-        bottomPanel = null;
+        bottomPbnel = null;
         if (filterComboBoxModel != null) {
-            fc.removePropertyChangeListener(filterComboBoxModel);
+            fc.removePropertyChbngeListener(filterComboBoxModel);
         }
     }
 
-    protected void installStrings(JFileChooser fc) {
-        super.installStrings(fc);
+    protected void instbllStrings(JFileChooser fc) {
+        super.instbllStrings(fc);
 
-        Locale l = fc.getLocale();
+        Locble l = fc.getLocble();
 
-        enterFolderNameLabelText = UIManager.getString("FileChooser.enterFolderNameLabelText",l);
-        enterFolderNameLabelMnemonic = getMnemonic("FileChooser.enterFolderNameLabelMnemonic", l);
-        enterFileNameLabelText = UIManager.getString("FileChooser.enterFileNameLabelText",l);
-        enterFileNameLabelMnemonic = getMnemonic("FileChooser.enterFileNameLabelMnemonic", l);
+        enterFolderNbmeLbbelText = UIMbnbger.getString("FileChooser.enterFolderNbmeLbbelText",l);
+        enterFolderNbmeLbbelMnemonic = getMnemonic("FileChooser.enterFolderNbmeLbbelMnemonic", l);
+        enterFileNbmeLbbelText = UIMbnbger.getString("FileChooser.enterFileNbmeLbbelText",l);
+        enterFileNbmeLbbelMnemonic = getMnemonic("FileChooser.enterFileNbmeLbbelMnemonic", l);
 
-        filesLabelText = UIManager.getString("FileChooser.filesLabelText",l);
-        filesLabelMnemonic = getMnemonic("FileChooser.filesLabelMnemonic", l);
+        filesLbbelText = UIMbnbger.getString("FileChooser.filesLbbelText",l);
+        filesLbbelMnemonic = getMnemonic("FileChooser.filesLbbelMnemonic", l);
 
-        foldersLabelText = UIManager.getString("FileChooser.foldersLabelText",l);
-        foldersLabelMnemonic = getMnemonic("FileChooser.foldersLabelMnemonic", l);
+        foldersLbbelText = UIMbnbger.getString("FileChooser.foldersLbbelText",l);
+        foldersLbbelMnemonic = getMnemonic("FileChooser.foldersLbbelMnemonic", l);
 
-        pathLabelText = UIManager.getString("FileChooser.pathLabelText",l);
-        pathLabelMnemonic = getMnemonic("FileChooser.pathLabelMnemonic", l);
+        pbthLbbelText = UIMbnbger.getString("FileChooser.pbthLbbelText",l);
+        pbthLbbelMnemonic = getMnemonic("FileChooser.pbthLbbelMnemonic", l);
 
-        filterLabelText = UIManager.getString("FileChooser.filterLabelText",l);
-        filterLabelMnemonic = getMnemonic("FileChooser.filterLabelMnemonic", l);
+        filterLbbelText = UIMbnbger.getString("FileChooser.filterLbbelText",l);
+        filterLbbelMnemonic = getMnemonic("FileChooser.filterLbbelMnemonic", l);
     }
 
-    private Integer getMnemonic(String key, Locale l) {
-        return SwingUtilities2.getUIDefaultsInt(key, l);
+    privbte Integer getMnemonic(String key, Locble l) {
+        return SwingUtilities2.getUIDefbultsInt(key, l);
     }
 
-    protected void installIcons(JFileChooser fc) {
-        // Since motif doesn't have button icons, leave this empty
-        // which overrides the supertype icon loading
+    protected void instbllIcons(JFileChooser fc) {
+        // Since motif doesn't hbve button icons, lebve this empty
+        // which overrides the supertype icon lobding
     }
 
-    protected void uninstallIcons(JFileChooser fc) {
-        // Since motif doesn't have button icons, leave this empty
-        // which overrides the supertype icon loading
+    protected void uninstbllIcons(JFileChooser fc) {
+        // Since motif doesn't hbve button icons, lebve this empty
+        // which overrides the supertype icon lobding
     }
 
-    protected JScrollPane createFilesList() {
+    protected JScrollPbne crebteFilesList() {
         fileList = new JList<File>();
 
-        if(getFileChooser().isMultiSelectionEnabled()) {
+        if(getFileChooser().isMultiSelectionEnbbled()) {
             fileList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         } else {
             fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         }
 
         fileList.setModel(new MotifFileListModel());
-        fileList.getSelectionModel().removeSelectionInterval(0, 0);
+        fileList.getSelectionModel().removeSelectionIntervbl(0, 0);
         fileList.setCellRenderer(new FileCellRenderer());
-        fileList.addListSelectionListener(createListSelectionListener(getFileChooser()));
-        fileList.addMouseListener(createDoubleClickListener(getFileChooser(), fileList));
-        fileList.addMouseListener(new MouseAdapter() {
+        fileList.bddListSelectionListener(crebteListSelectionListener(getFileChooser()));
+        fileList.bddMouseListener(crebteDoubleClickListener(getFileChooser(), fileList));
+        fileList.bddMouseListener(new MouseAdbpter() {
             public void mouseClicked(MouseEvent e) {
                 JFileChooser chooser = getFileChooser();
-                if (SwingUtilities.isLeftMouseButton(e) && !chooser.isMultiSelectionEnabled()) {
+                if (SwingUtilities.isLeftMouseButton(e) && !chooser.isMultiSelectionEnbbled()) {
                     int index = SwingUtilities2.loc2IndexFileList(fileList, e.getPoint());
                     if (index >= 0) {
                         File file = fileList.getModel().getElementAt(index);
-                        setFileName(chooser.getName(file));
+                        setFileNbme(chooser.getNbme(file));
                     }
                 }
             }
         });
-        align(fileList);
-        JScrollPane scrollpane = new JScrollPane(fileList);
-        scrollpane.setPreferredSize(prefListSize);
-        scrollpane.setMaximumSize(MAX_SIZE);
-        align(scrollpane);
+        blign(fileList);
+        JScrollPbne scrollpbne = new JScrollPbne(fileList);
+        scrollpbne.setPreferredSize(prefListSize);
+        scrollpbne.setMbximumSize(MAX_SIZE);
+        blign(scrollpbne);
         fileList.setInheritsPopupMenu(true);
-        scrollpane.setInheritsPopupMenu(true);
-        return scrollpane;
+        scrollpbne.setInheritsPopupMenu(true);
+        return scrollpbne;
     }
 
-    protected JScrollPane createDirectoryList() {
+    protected JScrollPbne crebteDirectoryList() {
         directoryList = new JList<File>();
-        align(directoryList);
+        blign(directoryList);
 
         directoryList.setCellRenderer(new DirectoryCellRenderer());
         directoryList.setModel(new MotifDirectoryListModel());
-        directoryList.getSelectionModel().removeSelectionInterval(0, 0);
-        directoryList.addMouseListener(createDoubleClickListener(getFileChooser(), directoryList));
-        directoryList.addListSelectionListener(createListSelectionListener(getFileChooser()));
+        directoryList.getSelectionModel().removeSelectionIntervbl(0, 0);
+        directoryList.bddMouseListener(crebteDoubleClickListener(getFileChooser(), directoryList));
+        directoryList.bddListSelectionListener(crebteListSelectionListener(getFileChooser()));
         directoryList.setInheritsPopupMenu(true);
 
-        JScrollPane scrollpane = new JScrollPane(directoryList);
-        scrollpane.setMaximumSize(MAX_SIZE);
-        scrollpane.setPreferredSize(prefListSize);
-        scrollpane.setInheritsPopupMenu(true);
-        align(scrollpane);
-        return scrollpane;
+        JScrollPbne scrollpbne = new JScrollPbne(directoryList);
+        scrollpbne.setMbximumSize(MAX_SIZE);
+        scrollpbne.setPreferredSize(prefListSize);
+        scrollpbne.setInheritsPopupMenu(true);
+        blign(scrollpbne);
+        return scrollpbne;
     }
 
     public Dimension getPreferredSize(JComponent c) {
         Dimension prefSize =
             (getFileChooser().getAccessory() != null) ? WITH_ACCELERATOR_PREF_SIZE : PREF_SIZE;
-        Dimension d = c.getLayout().preferredLayoutSize(c);
+        Dimension d = c.getLbyout().preferredLbyoutSize(c);
         if (d != null) {
             return new Dimension(d.width < prefSize.width ? prefSize.width : d.width,
                                  d.height < prefSize.height ? prefSize.height : d.height);
@@ -644,43 +644,43 @@ public class MotifFileChooserUI extends BasicFileChooserUI {
         return MIN_SIZE;
     }
 
-    public Dimension getMaximumSize(JComponent x) {
+    public Dimension getMbximumSize(JComponent x) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
-    protected void align(JComponent c) {
+    protected void blign(JComponent c) {
         c.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         c.setAlignmentY(JComponent.TOP_ALIGNMENT);
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class FileCellRenderer extends DefaultListCellRenderer  {
-        public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                                                      boolean isSelected, boolean cellHasFocus) {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss FileCellRenderer extends DefbultListCellRenderer  {
+        public Component getListCellRendererComponent(JList<?> list, Object vblue, int index,
+                                                      boolebn isSelected, boolebn cellHbsFocus) {
 
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            setText(getFileChooser().getName((File) value));
+            super.getListCellRendererComponent(list, vblue, index, isSelected, cellHbsFocus);
+            setText(getFileChooser().getNbme((File) vblue));
             setInheritsPopupMenu(true);
             return this;
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class DirectoryCellRenderer extends DefaultListCellRenderer  {
-        public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                                                      boolean isSelected, boolean cellHasFocus) {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss DirectoryCellRenderer extends DefbultListCellRenderer  {
+        public Component getListCellRendererComponent(JList<?> list, Object vblue, int index,
+                                                      boolebn isSelected, boolebn cellHbsFocus) {
 
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            setText(getFileChooser().getName((File) value));
+            super.getListCellRendererComponent(list, vblue, index, isSelected, cellHbsFocus);
+            setText(getFileChooser().getNbme((File) vblue));
             setInheritsPopupMenu(true);
             return this;
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class MotifDirectoryListModel extends AbstractListModel<File> implements ListDataListener {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss MotifDirectoryListModel extends AbstrbctListModel<File> implements ListDbtbListener {
         public MotifDirectoryListModel() {
-            getModel().addListDataListener(this);
+            getModel().bddListDbtbListener(this);
         }
 
         public int getSize() {
@@ -691,41 +691,41 @@ public class MotifFileChooserUI extends BasicFileChooserUI {
             return getModel().getDirectories().elementAt(index);
         }
 
-        public void intervalAdded(ListDataEvent e) {
-            fireIntervalAdded(this, e.getIndex0(), e.getIndex1());
+        public void intervblAdded(ListDbtbEvent e) {
+            fireIntervblAdded(this, e.getIndex0(), e.getIndex1());
         }
 
-        public void intervalRemoved(ListDataEvent e) {
-            fireIntervalRemoved(this, e.getIndex0(), e.getIndex1());
+        public void intervblRemoved(ListDbtbEvent e) {
+            fireIntervblRemoved(this, e.getIndex0(), e.getIndex1());
         }
 
         // PENDING(jeff) - this is inefficient - should sent out
-        // incremental adjustment values instead of saying that the
-        // whole list has changed.
-        public void fireContentsChanged() {
-            fireContentsChanged(this, 0, getModel().getDirectories().size()-1);
+        // incrementbl bdjustment vblues instebd of sbying thbt the
+        // whole list hbs chbnged.
+        public void fireContentsChbnged() {
+            fireContentsChbnged(this, 0, getModel().getDirectories().size()-1);
         }
 
-        // PENDING(jeff) - fire the correct interval changed - currently sending
-        // out that everything has changed
-        public void contentsChanged(ListDataEvent e) {
-            fireContentsChanged();
+        // PENDING(jeff) - fire the correct intervbl chbnged - currently sending
+        // out thbt everything hbs chbnged
+        public void contentsChbnged(ListDbtbEvent e) {
+            fireContentsChbnged();
         }
 
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class MotifFileListModel extends AbstractListModel<File> implements ListDataListener {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss MotifFileListModel extends AbstrbctListModel<File> implements ListDbtbListener {
         public MotifFileListModel() {
-            getModel().addListDataListener(this);
+            getModel().bddListDbtbListener(this);
         }
 
         public int getSize() {
             return getModel().getFiles().size();
         }
 
-        public boolean contains(Object o) {
-            return getModel().getFiles().contains(o);
+        public boolebn contbins(Object o) {
+            return getModel().getFiles().contbins(o);
         }
 
         public int indexOf(Object o) {
@@ -736,56 +736,56 @@ public class MotifFileChooserUI extends BasicFileChooserUI {
             return getModel().getFiles().elementAt(index);
         }
 
-        public void intervalAdded(ListDataEvent e) {
-            fireIntervalAdded(this, e.getIndex0(), e.getIndex1());
+        public void intervblAdded(ListDbtbEvent e) {
+            fireIntervblAdded(this, e.getIndex0(), e.getIndex1());
         }
 
-        public void intervalRemoved(ListDataEvent e) {
-            fireIntervalRemoved(this, e.getIndex0(), e.getIndex1());
+        public void intervblRemoved(ListDbtbEvent e) {
+            fireIntervblRemoved(this, e.getIndex0(), e.getIndex1());
         }
 
         // PENDING(jeff) - this is inefficient - should sent out
-        // incremental adjustment values instead of saying that the
-        // whole list has changed.
-        public void fireContentsChanged() {
-            fireContentsChanged(this, 0, getModel().getFiles().size()-1);
+        // incrementbl bdjustment vblues instebd of sbying thbt the
+        // whole list hbs chbnged.
+        public void fireContentsChbnged() {
+            fireContentsChbnged(this, 0, getModel().getFiles().size()-1);
         }
 
-        // PENDING(jeff) - fire the interval changed
-        public void contentsChanged(ListDataEvent e) {
-            fireContentsChanged();
+        // PENDING(jeff) - fire the intervbl chbnged
+        public void contentsChbnged(ListDbtbEvent e) {
+            fireContentsChbnged();
         }
 
     }
 
     //
-    // DataModel for Types Comboxbox
+    // DbtbModel for Types Comboxbox
     //
-    protected FilterComboBoxModel createFilterComboBoxModel() {
+    protected FilterComboBoxModel crebteFilterComboBoxModel() {
         return new FilterComboBoxModel();
     }
 
     //
     // Renderer for Types ComboBox
     //
-    protected FilterComboBoxRenderer createFilterComboBoxRenderer() {
+    protected FilterComboBoxRenderer crebteFilterComboBoxRenderer() {
         return new FilterComboBoxRenderer();
     }
 
 
     /**
-     * Render different type sizes and styles.
+     * Render different type sizes bnd styles.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public class FilterComboBoxRenderer extends DefaultListCellRenderer {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public clbss FilterComboBoxRenderer extends DefbultListCellRenderer {
         public Component getListCellRendererComponent(JList<?> list,
-            Object value, int index, boolean isSelected,
-            boolean cellHasFocus) {
+            Object vblue, int index, boolebn isSelected,
+            boolebn cellHbsFocus) {
 
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            super.getListCellRendererComponent(list, vblue, index, isSelected, cellHbsFocus);
 
-            if (value != null && value instanceof FileFilter) {
-                setText(((FileFilter)value).getDescription());
+            if (vblue != null && vblue instbnceof FileFilter) {
+                setText(((FileFilter)vblue).getDescription());
             }
 
             return this;
@@ -793,42 +793,42 @@ public class MotifFileChooserUI extends BasicFileChooserUI {
     }
 
     /**
-     * Data model for a type-face selection combo-box.
+     * Dbtb model for b type-fbce selection combo-box.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class FilterComboBoxModel extends AbstractListModel<FileFilter> implements ComboBoxModel<FileFilter>,
-            PropertyChangeListener {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss FilterComboBoxModel extends AbstrbctListModel<FileFilter> implements ComboBoxModel<FileFilter>,
+            PropertyChbngeListener {
         protected FileFilter[] filters;
         protected FilterComboBoxModel() {
             super();
-            filters = getFileChooser().getChoosableFileFilters();
+            filters = getFileChooser().getChoosbbleFileFilters();
         }
 
-        public void propertyChange(PropertyChangeEvent e) {
-            String prop = e.getPropertyName();
-            if(prop.equals(JFileChooser.CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY)) {
-                filters = (FileFilter[]) e.getNewValue();
-                fireContentsChanged(this, -1, -1);
-            } else if (prop.equals(JFileChooser.FILE_FILTER_CHANGED_PROPERTY)) {
-                fireContentsChanged(this, -1, -1);
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String prop = e.getPropertyNbme();
+            if(prop.equbls(JFileChooser.CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY)) {
+                filters = (FileFilter[]) e.getNewVblue();
+                fireContentsChbnged(this, -1, -1);
+            } else if (prop.equbls(JFileChooser.FILE_FILTER_CHANGED_PROPERTY)) {
+                fireContentsChbnged(this, -1, -1);
             }
         }
 
         public void setSelectedItem(Object filter) {
             if(filter != null) {
                 getFileChooser().setFileFilter((FileFilter) filter);
-                fireContentsChanged(this, -1, -1);
+                fireContentsChbnged(this, -1, -1);
             }
         }
 
         public Object getSelectedItem() {
-            // Ensure that the current filter is in the list.
-            // NOTE: we shouldnt' have to do this, since JFileChooser adds
-            // the filter to the choosable filters list when the filter
-            // is set. Lets be paranoid just in case someone overrides
+            // Ensure thbt the current filter is in the list.
+            // NOTE: we shouldnt' hbve to do this, since JFileChooser bdds
+            // the filter to the choosbble filters list when the filter
+            // is set. Lets be pbrbnoid just in cbse someone overrides
             // setFileFilter in JFileChooser.
             FileFilter currentFilter = getFileChooser().getFileFilter();
-            boolean found = false;
+            boolebn found = fblse;
             if(currentFilter != null) {
                 for (FileFilter filter : filters) {
                     if (filter == currentFilter) {
@@ -836,7 +836,7 @@ public class MotifFileChooserUI extends BasicFileChooserUI {
                     }
                 }
                 if (!found) {
-                    getFileChooser().addChoosableFileFilter(currentFilter);
+                    getFileChooser().bddChoosbbleFileFilter(currentFilter);
                 }
             }
             return getFileChooser().getFileFilter();
@@ -852,7 +852,7 @@ public class MotifFileChooserUI extends BasicFileChooserUI {
 
         public FileFilter getElementAt(int index) {
             if(index > getSize() - 1) {
-                // This shouldn't happen. Try to recover gracefully.
+                // This shouldn't hbppen. Try to recover grbcefully.
                 return getFileChooser().getFileFilter();
             }
             if(filters != null) {
@@ -864,7 +864,7 @@ public class MotifFileChooserUI extends BasicFileChooserUI {
     }
 
     protected JButton getApproveButton(JFileChooser fc) {
-        return approveButton;
+        return bpproveButton;
     }
 
 }

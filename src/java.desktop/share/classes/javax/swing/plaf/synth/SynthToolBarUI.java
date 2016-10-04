@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.Rectangle;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.Box;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JSeparator;
-import javax.swing.JToolBar;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicToolBarUI;
-import sun.swing.plaf.synth.SynthIcon;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.LbyoutMbnbger;
+import jbvb.bwt.Rectbngle;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvbx.swing.Box;
+import jbvbx.swing.Icon;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JSepbrbtor;
+import jbvbx.swing.JToolBbr;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.bbsic.BbsicToolBbrUI;
+import sun.swing.plbf.synth.SynthIcon;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JToolBar}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JToolBbr}.
  *
  * @since 1.7
  */
-public class SynthToolBarUI extends BasicToolBarUI
-                            implements PropertyChangeListener, SynthUI {
-    private Icon handleIcon = null;
-    private Rectangle contentRect = new Rectangle();
+public clbss SynthToolBbrUI extends BbsicToolBbrUI
+                            implements PropertyChbngeListener, SynthUI {
+    privbte Icon hbndleIcon = null;
+    privbte Rectbngle contentRect = new Rectbngle();
 
-    private SynthStyle style;
-    private SynthStyle contentStyle;
-    private SynthStyle dragWindowStyle;
+    privbte SynthStyle style;
+    privbte SynthStyle contentStyle;
+    privbte SynthStyle drbgWindowStyle;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param c component to create UI object for
+     * @pbrbm c component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthToolBarUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new SynthToolBbrUI();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults() {
-        toolBar.setLayout(createLayout());
-        updateStyle(toolBar);
+    protected void instbllDefbults() {
+        toolBbr.setLbyout(crebteLbyout());
+        updbteStyle(toolBbr);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        toolBar.addPropertyChangeListener(this);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        toolBbr.bddPropertyChbngeListener(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        toolBar.removePropertyChangeListener(this);
+    protected void uninstbllListeners() {
+        super.uninstbllListeners();
+        toolBbr.removePropertyChbngeListener(this);
     }
 
-    private void updateStyle(JToolBar c) {
+    privbte void updbteStyle(JToolBbr c) {
         SynthContext context = getContext(
                 c, Region.TOOL_BAR_CONTENT, null, ENABLED);
-        contentStyle = SynthLookAndFeel.updateStyle(context, this);
+        contentStyle = SynthLookAndFeel.updbteStyle(context, this);
         context.dispose();
 
         context = getContext(c, Region.TOOL_BAR_DRAG_WINDOW, null, ENABLED);
-        dragWindowStyle = SynthLookAndFeel.updateStyle(context, this);
+        drbgWindowStyle = SynthLookAndFeel.updbteStyle(context, this);
         context.dispose();
 
         context = getContext(c, ENABLED);
         SynthStyle oldStyle = style;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
         if (oldStyle != style) {
-            handleIcon =
-                style.getIcon(context, "ToolBar.handleIcon");
+            hbndleIcon =
+                style.getIcon(context, "ToolBbr.hbndleIcon");
             if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                uninstbllKeybobrdActions();
+                instbllKeybobrdActions();
             }
         }
         context.dispose();
@@ -124,49 +124,49 @@ public class SynthToolBarUI extends BasicToolBarUI
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(toolBar, ENABLED);
+    protected void uninstbllDefbults() {
+        SynthContext context = getContext(toolBbr, ENABLED);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
 
-        handleIcon = null;
+        hbndleIcon = null;
 
-        context = getContext(toolBar, Region.TOOL_BAR_CONTENT,
+        context = getContext(toolBbr, Region.TOOL_BAR_CONTENT,
                              contentStyle, ENABLED);
-        contentStyle.uninstallDefaults(context);
+        contentStyle.uninstbllDefbults(context);
         context.dispose();
         contentStyle = null;
 
-        context = getContext(toolBar, Region.TOOL_BAR_DRAG_WINDOW,
-                             dragWindowStyle, ENABLED);
-        dragWindowStyle.uninstallDefaults(context);
+        context = getContext(toolBbr, Region.TOOL_BAR_DRAG_WINDOW,
+                             drbgWindowStyle, ENABLED);
+        drbgWindowStyle.uninstbllDefbults(context);
         context.dispose();
-        dragWindowStyle = null;
+        drbgWindowStyle = null;
 
-        toolBar.setLayout(null);
+        toolBbr.setLbyout(null);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installComponents() {}
+    protected void instbllComponents() {}
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallComponents() {}
+    protected void uninstbllComponents() {}
 
     /**
-     * Creates a {@code LayoutManager} to use with the toolbar.
+     * Crebtes b {@code LbyoutMbnbger} to use with the toolbbr.
      *
-     * @return a {@code LayoutManager} instance
+     * @return b {@code LbyoutMbnbger} instbnce
      */
-    protected LayoutManager createLayout() {
-        return new SynthToolBarLayoutManager();
+    protected LbyoutMbnbger crebteLbyout() {
+        return new SynthToolBbrLbyoutMbnbger();
     }
 
     /**
@@ -174,65 +174,65 @@ public class SynthToolBarUI extends BasicToolBarUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+        return getContext(c, SynthLookAndFeel.getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
-    private SynthContext getContext(JComponent c, Region region, SynthStyle style) {
+    privbte SynthContext getContext(JComponent c, Region region, SynthStyle style) {
         return SynthContext.getContext(c, region,
-                                       style, getComponentState(c, region));
+                                       style, getComponentStbte(c, region));
     }
 
-    private SynthContext getContext(JComponent c, Region region,
-                                    SynthStyle style, int state) {
-        return SynthContext.getContext(c, region, style, state);
+    privbte SynthContext getContext(JComponent c, Region region,
+                                    SynthStyle style, int stbte) {
+        return SynthContext.getContext(c, region, style, stbte);
     }
 
-    private int getComponentState(JComponent c, Region region) {
-        return SynthLookAndFeel.getComponentState(c);
+    privbte int getComponentStbte(JComponent c, Region region) {
+        return SynthLookAndFeel.getComponentStbte(c);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintToolBarBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintToolBbrBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight(),
-                          toolBar.getOrientation());
-        paint(context, g);
+                          toolBbr.getOrientbtion());
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
@@ -240,143 +240,143 @@ public class SynthToolBarUI extends BasicToolBarUI
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintToolBarBorder(context, g, x, y, w, h,
-                                                toolBar.getOrientation());
+        context.getPbinter().pbintToolBbrBorder(context, g, x, y, w, h,
+                                                toolBbr.getOrientbtion());
     }
 
     /**
-     * This implementation does nothing, because the {@code rollover}
-     * property of the {@code JToolBar} class is not used
-     * in the Synth Look and Feel.
+     * This implementbtion does nothing, becbuse the {@code rollover}
+     * property of the {@code JToolBbr} clbss is not used
+     * in the Synth Look bnd Feel.
      */
     @Override
     protected void setBorderToNonRollover(Component c) {}
 
     /**
-     * This implementation does nothing, because the {@code rollover}
-     * property of the {@code JToolBar} class is not used
-     * in the Synth Look and Feel.
+     * This implementbtion does nothing, becbuse the {@code rollover}
+     * property of the {@code JToolBbr} clbss is not used
+     * in the Synth Look bnd Feel.
      */
     @Override
     protected void setBorderToRollover(Component c) {}
 
     /**
-     * This implementation does nothing, because the {@code rollover}
-     * property of the {@code JToolBar} class is not used
-     * in the Synth Look and Feel.
+     * This implementbtion does nothing, becbuse the {@code rollover}
+     * property of the {@code JToolBbr} clbss is not used
+     * in the Synth Look bnd Feel.
      */
     @Override
-    protected void setBorderToNormal(Component c) {}
+    protected void setBorderToNormbl(Component c) {}
 
     /**
-     * Paints the toolbar.
+     * Pbints the toolbbr.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        if (handleIcon != null && toolBar.isFloatable()) {
-            int startX = toolBar.getComponentOrientation().isLeftToRight() ?
-                0 : toolBar.getWidth() -
-                    SynthIcon.getIconWidth(handleIcon, context);
-            SynthIcon.paintIcon(handleIcon, context, g, startX, 0,
-                    SynthIcon.getIconWidth(handleIcon, context),
-                    SynthIcon.getIconHeight(handleIcon, context));
+    protected void pbint(SynthContext context, Grbphics g) {
+        if (hbndleIcon != null && toolBbr.isFlobtbble()) {
+            int stbrtX = toolBbr.getComponentOrientbtion().isLeftToRight() ?
+                0 : toolBbr.getWidth() -
+                    SynthIcon.getIconWidth(hbndleIcon, context);
+            SynthIcon.pbintIcon(hbndleIcon, context, g, stbrtX, 0,
+                    SynthIcon.getIconWidth(hbndleIcon, context),
+                    SynthIcon.getIconHeight(hbndleIcon, context));
         }
 
         SynthContext subcontext = getContext(
-                toolBar, Region.TOOL_BAR_CONTENT, contentStyle);
-        paintContent(subcontext, g, contentRect);
+                toolBbr, Region.TOOL_BAR_CONTENT, contentStyle);
+        pbintContent(subcontext, g, contentRect);
         subcontext.dispose();
     }
 
     /**
-     * Paints the toolbar content.
+     * Pbints the toolbbr content.
      *
-     * @param context context for the component being painted
-     * @param g {@code Graphics} object used for painting
-     * @param bounds bounding box for the toolbar
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g {@code Grbphics} object used for pbinting
+     * @pbrbm bounds bounding box for the toolbbr
      */
-    protected void paintContent(SynthContext context, Graphics g,
-            Rectangle bounds) {
-        SynthLookAndFeel.updateSubregion(context, g, bounds);
-        context.getPainter().paintToolBarContentBackground(context, g,
+    protected void pbintContent(SynthContext context, Grbphics g,
+            Rectbngle bounds) {
+        SynthLookAndFeel.updbteSubregion(context, g, bounds);
+        context.getPbinter().pbintToolBbrContentBbckground(context, g,
                              bounds.x, bounds.y, bounds.width, bounds.height,
-                             toolBar.getOrientation());
-        context.getPainter().paintToolBarContentBorder(context, g,
+                             toolBbr.getOrientbtion());
+        context.getPbinter().pbintToolBbrContentBorder(context, g,
                              bounds.x, bounds.y, bounds.width, bounds.height,
-                             toolBar.getOrientation());
+                             toolBbr.getOrientbtion());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void paintDragWindow(Graphics g) {
-        int w = dragWindow.getWidth();
-        int h = dragWindow.getHeight();
+    protected void pbintDrbgWindow(Grbphics g) {
+        int w = drbgWindow.getWidth();
+        int h = drbgWindow.getHeight();
         SynthContext context = getContext(
-                toolBar, Region.TOOL_BAR_DRAG_WINDOW, dragWindowStyle);
-        SynthLookAndFeel.updateSubregion(
-                context, g, new Rectangle(0, 0, w, h));
-        context.getPainter().paintToolBarDragWindowBackground(context,
+                toolBbr, Region.TOOL_BAR_DRAG_WINDOW, drbgWindowStyle);
+        SynthLookAndFeel.updbteSubregion(
+                context, g, new Rectbngle(0, 0, w, h));
+        context.getPbinter().pbintToolBbrDrbgWindowBbckground(context,
                                                            g, 0, 0, w, h,
-                                                           dragWindow.getOrientation());
-        context.getPainter().paintToolBarDragWindowBorder(context, g, 0, 0, w, h,
-                                                          dragWindow.getOrientation());
+                                                           drbgWindow.getOrientbtion());
+        context.getPbinter().pbintToolBbrDrbgWindowBorder(context, g, 0, 0, w, h,
+                                                          drbgWindow.getOrientbtion());
         context.dispose();
     }
 
     //
-    // PropertyChangeListener
+    // PropertyChbngeListener
     //
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((JToolBar)e.getSource());
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(e)) {
+            updbteStyle((JToolBbr)e.getSource());
         }
     }
 
 
-    class SynthToolBarLayoutManager implements LayoutManager {
-        public void addLayoutComponent(String name, Component comp) {}
+    clbss SynthToolBbrLbyoutMbnbger implements LbyoutMbnbger {
+        public void bddLbyoutComponent(String nbme, Component comp) {}
 
-        public void removeLayoutComponent(Component comp) {}
+        public void removeLbyoutComponent(Component comp) {}
 
-        public Dimension minimumLayoutSize(Container parent) {
-            JToolBar tb = (JToolBar)parent;
+        public Dimension minimumLbyoutSize(Contbiner pbrent) {
+            JToolBbr tb = (JToolBbr)pbrent;
             Insets insets = tb.getInsets();
             Dimension dim = new Dimension();
             SynthContext context = getContext(tb);
 
-            if (tb.getOrientation() == JToolBar.HORIZONTAL) {
-                dim.width = tb.isFloatable() ?
-                    SynthIcon.getIconWidth(handleIcon, context) : 0;
+            if (tb.getOrientbtion() == JToolBbr.HORIZONTAL) {
+                dim.width = tb.isFlobtbble() ?
+                    SynthIcon.getIconWidth(hbndleIcon, context) : 0;
                 Dimension compDim;
                 for (int i = 0; i < tb.getComponentCount(); i++) {
                     Component component = tb.getComponent(i);
                     if (component.isVisible()) {
                         compDim = component.getMinimumSize();
                         dim.width += compDim.width;
-                        dim.height = Math.max(dim.height, compDim.height);
+                        dim.height = Mbth.mbx(dim.height, compDim.height);
                     }
                 }
             } else {
-                dim.height = tb.isFloatable() ?
-                    SynthIcon.getIconHeight(handleIcon, context) : 0;
+                dim.height = tb.isFlobtbble() ?
+                    SynthIcon.getIconHeight(hbndleIcon, context) : 0;
                 Dimension compDim;
                 for (int i = 0; i < tb.getComponentCount(); i++) {
                     Component component = tb.getComponent(i);
                     if (component.isVisible()) {
                         compDim = component.getMinimumSize();
-                        dim.width = Math.max(dim.width, compDim.width);
+                        dim.width = Mbth.mbx(dim.width, compDim.width);
                         dim.height += compDim.height;
                     }
                 }
@@ -388,33 +388,33 @@ public class SynthToolBarUI extends BasicToolBarUI
             return dim;
         }
 
-        public Dimension preferredLayoutSize(Container parent) {
-            JToolBar tb = (JToolBar)parent;
+        public Dimension preferredLbyoutSize(Contbiner pbrent) {
+            JToolBbr tb = (JToolBbr)pbrent;
             Insets insets = tb.getInsets();
             Dimension dim = new Dimension();
             SynthContext context = getContext(tb);
 
-            if (tb.getOrientation() == JToolBar.HORIZONTAL) {
-                dim.width = tb.isFloatable() ?
-                    SynthIcon.getIconWidth(handleIcon, context) : 0;
+            if (tb.getOrientbtion() == JToolBbr.HORIZONTAL) {
+                dim.width = tb.isFlobtbble() ?
+                    SynthIcon.getIconWidth(hbndleIcon, context) : 0;
                 Dimension compDim;
                 for (int i = 0; i < tb.getComponentCount(); i++) {
                     Component component = tb.getComponent(i);
                     if (component.isVisible()) {
                         compDim = component.getPreferredSize();
                         dim.width += compDim.width;
-                        dim.height = Math.max(dim.height, compDim.height);
+                        dim.height = Mbth.mbx(dim.height, compDim.height);
                     }
                 }
             } else {
-                dim.height = tb.isFloatable() ?
-                    SynthIcon.getIconHeight(handleIcon, context) : 0;
+                dim.height = tb.isFlobtbble() ?
+                    SynthIcon.getIconHeight(hbndleIcon, context) : 0;
                 Dimension compDim;
                 for (int i = 0; i < tb.getComponentCount(); i++) {
                     Component component = tb.getComponent(i);
                     if (component.isVisible()) {
                         compDim = component.getPreferredSize();
-                        dim.width = Math.max(dim.width, compDim.width);
+                        dim.width = Mbth.mbx(dim.width, compDim.width);
                         dim.height += compDim.height;
                     }
                 }
@@ -426,55 +426,55 @@ public class SynthToolBarUI extends BasicToolBarUI
             return dim;
         }
 
-        public void layoutContainer(Container parent) {
-            JToolBar tb = (JToolBar)parent;
+        public void lbyoutContbiner(Contbiner pbrent) {
+            JToolBbr tb = (JToolBbr)pbrent;
             Insets insets = tb.getInsets();
-            boolean ltr = tb.getComponentOrientation().isLeftToRight();
+            boolebn ltr = tb.getComponentOrientbtion().isLeftToRight();
             SynthContext context = getContext(tb);
 
             Component c;
             Dimension d;
 
-            // JToolBar by default uses a somewhat modified BoxLayout as
-            // its layout manager. For compatibility reasons, we want to
-            // support Box "glue" as a way to move things around on the
-            // toolbar. "glue" is represented in BoxLayout as a Box.Filler
-            // with a minimum and preferred size of (0,0).
-            // So what we do here is find the number of such glue fillers
-            // and figure out how much space should be allocated to them.
+            // JToolBbr by defbult uses b somewhbt modified BoxLbyout bs
+            // its lbyout mbnbger. For compbtibility rebsons, we wbnt to
+            // support Box "glue" bs b wby to move things bround on the
+            // toolbbr. "glue" is represented in BoxLbyout bs b Box.Filler
+            // with b minimum bnd preferred size of (0,0).
+            // So whbt we do here is find the number of such glue fillers
+            // bnd figure out how much spbce should be bllocbted to them.
             int glueCount = 0;
             for (int i=0; i<tb.getComponentCount(); i++) {
                 if (isGlue(tb.getComponent(i))) glueCount++;
             }
 
-            if (tb.getOrientation() == JToolBar.HORIZONTAL) {
-                int handleWidth = tb.isFloatable() ?
-                    SynthIcon.getIconWidth(handleIcon, context) : 0;
+            if (tb.getOrientbtion() == JToolBbr.HORIZONTAL) {
+                int hbndleWidth = tb.isFlobtbble() ?
+                    SynthIcon.getIconWidth(hbndleIcon, context) : 0;
 
-                // Note: contentRect does not take insets into account
-                // since it is used for determining the bounds that are
-                // passed to paintToolBarContentBackground().
-                contentRect.x = ltr ? handleWidth : 0;
+                // Note: contentRect does not tbke insets into bccount
+                // since it is used for determining the bounds thbt bre
+                // pbssed to pbintToolBbrContentBbckground().
+                contentRect.x = ltr ? hbndleWidth : 0;
                 contentRect.y = 0;
-                contentRect.width = tb.getWidth() - handleWidth;
+                contentRect.width = tb.getWidth() - hbndleWidth;
                 contentRect.height = tb.getHeight();
 
-                // However, we do take the insets into account here for
-                // the purposes of laying out the toolbar child components.
+                // However, we do tbke the insets into bccount here for
+                // the purposes of lbying out the toolbbr child components.
                 int x = ltr ?
-                    handleWidth + insets.left :
-                    tb.getWidth() - handleWidth - insets.right;
-                int baseY = insets.top;
-                int baseH = tb.getHeight() - insets.top - insets.bottom;
+                    hbndleWidth + insets.left :
+                    tb.getWidth() - hbndleWidth - insets.right;
+                int bbseY = insets.top;
+                int bbseH = tb.getHeight() - insets.top - insets.bottom;
 
-                // we need to get the minimum width for laying things out
-                // so that we can calculate how much empty space needs to
-                // be distributed among the "glue", if any
-                int extraSpacePerGlue = 0;
+                // we need to get the minimum width for lbying things out
+                // so thbt we cbn cblculbte how much empty spbce needs to
+                // be distributed bmong the "glue", if bny
+                int extrbSpbcePerGlue = 0;
                 if (glueCount > 0) {
-                    int minWidth = minimumLayoutSize(parent).width;
-                    extraSpacePerGlue = (tb.getWidth() - minWidth) / glueCount;
-                    if (extraSpacePerGlue < 0) extraSpacePerGlue = 0;
+                    int minWidth = minimumLbyoutSize(pbrent).width;
+                    extrbSpbcePerGlue = (tb.getWidth() - minWidth) / glueCount;
+                    if (extrbSpbcePerGlue < 0) extrbSpbcePerGlue = 0;
                 }
 
                 for (int i = 0; i < tb.getComponentCount(); i++) {
@@ -482,44 +482,44 @@ public class SynthToolBarUI extends BasicToolBarUI
                     if (c.isVisible()) {
                         d = c.getPreferredSize();
                         int y, h;
-                        if (d.height >= baseH || c instanceof JSeparator) {
-                            // Fill available height
-                            y = baseY;
-                            h = baseH;
+                        if (d.height >= bbseH || c instbnceof JSepbrbtor) {
+                            // Fill bvbilbble height
+                            y = bbseY;
+                            h = bbseH;
                         } else {
-                            // Center component vertically in the available space
-                            y = baseY + (baseH / 2) - (d.height / 2);
+                            // Center component verticblly in the bvbilbble spbce
+                            y = bbseY + (bbseH / 2) - (d.height / 2);
                             h = d.height;
                         }
-                        //if the component is a "glue" component then add to its
-                        //width the extraSpacePerGlue it is due
-                        if (isGlue(c)) d.width += extraSpacePerGlue;
+                        //if the component is b "glue" component then bdd to its
+                        //width the extrbSpbcePerGlue it is due
+                        if (isGlue(c)) d.width += extrbSpbcePerGlue;
                         c.setBounds(ltr ? x : x - d.width, y, d.width, h);
                         x = ltr ? x + d.width : x - d.width;
                     }
                 }
             } else {
-                int handleHeight = tb.isFloatable() ?
-                    SynthIcon.getIconHeight(handleIcon, context) : 0;
+                int hbndleHeight = tb.isFlobtbble() ?
+                    SynthIcon.getIconHeight(hbndleIcon, context) : 0;
 
-                // See notes above regarding the use of insets
+                // See notes bbove regbrding the use of insets
                 contentRect.x = 0;
-                contentRect.y = handleHeight;
+                contentRect.y = hbndleHeight;
                 contentRect.width = tb.getWidth();
-                contentRect.height = tb.getHeight() - handleHeight;
+                contentRect.height = tb.getHeight() - hbndleHeight;
 
-                int baseX = insets.left;
-                int baseW = tb.getWidth() - insets.left - insets.right;
-                int y = handleHeight + insets.top;
+                int bbseX = insets.left;
+                int bbseW = tb.getWidth() - insets.left - insets.right;
+                int y = hbndleHeight + insets.top;
 
-                // we need to get the minimum height for laying things out
-                // so that we can calculate how much empty space needs to
-                // be distributed among the "glue", if any
-                int extraSpacePerGlue = 0;
+                // we need to get the minimum height for lbying things out
+                // so thbt we cbn cblculbte how much empty spbce needs to
+                // be distributed bmong the "glue", if bny
+                int extrbSpbcePerGlue = 0;
                 if (glueCount > 0) {
-                    int minHeight = minimumLayoutSize(parent).height;
-                    extraSpacePerGlue = (tb.getHeight() - minHeight) / glueCount;
-                    if (extraSpacePerGlue < 0) extraSpacePerGlue = 0;
+                    int minHeight = minimumLbyoutSize(pbrent).height;
+                    extrbSpbcePerGlue = (tb.getHeight() - minHeight) / glueCount;
+                    if (extrbSpbcePerGlue < 0) extrbSpbcePerGlue = 0;
                 }
 
                 for (int i = 0; i < tb.getComponentCount(); i++) {
@@ -527,18 +527,18 @@ public class SynthToolBarUI extends BasicToolBarUI
                     if (c.isVisible()) {
                         d = c.getPreferredSize();
                         int x, w;
-                        if (d.width >= baseW || c instanceof JSeparator) {
-                            // Fill available width
-                            x = baseX;
-                            w = baseW;
+                        if (d.width >= bbseW || c instbnceof JSepbrbtor) {
+                            // Fill bvbilbble width
+                            x = bbseX;
+                            w = bbseW;
                         } else {
-                            // Center component horizontally in the available space
-                            x = baseX + (baseW / 2) - (d.width / 2);
+                            // Center component horizontblly in the bvbilbble spbce
+                            x = bbseX + (bbseW / 2) - (d.width / 2);
                             w = d.width;
                         }
-                        //if the component is a "glue" component then add to its
-                        //height the extraSpacePerGlue it is due
-                        if (isGlue(c)) d.height += extraSpacePerGlue;
+                        //if the component is b "glue" component then bdd to its
+                        //height the extrbSpbcePerGlue it is due
+                        if (isGlue(c)) d.height += extrbSpbcePerGlue;
                         c.setBounds(x, y, w, d.height);
                         y += d.height;
                     }
@@ -547,15 +547,15 @@ public class SynthToolBarUI extends BasicToolBarUI
             context.dispose();
         }
 
-        private boolean isGlue(Component c) {
-            if (c.isVisible() && c instanceof Box.Filler) {
+        privbte boolebn isGlue(Component c) {
+            if (c.isVisible() && c instbnceof Box.Filler) {
                 Box.Filler f = (Box.Filler)c;
                 Dimension min = f.getMinimumSize();
                 Dimension pref = f.getPreferredSize();
                 return min.width == 0 &&  min.height == 0 &&
                         pref.width == 0 && pref.height == 0;
             }
-            return false;
+            return fblse;
         }
     }
 }

@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.cs.ext;
+pbckbge sun.nio.cs.ext;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import java.util.Arrays;
-import sun.nio.cs.Surrogate;
-import sun.nio.cs.ArrayDecoder;
-import sun.nio.cs.ArrayEncoder;
-import static sun.nio.cs.CharsetMapping.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.CoderResult;
+import jbvb.util.Arrbys;
+import sun.nio.cs.Surrogbte;
+import sun.nio.cs.ArrbyDecoder;
+import sun.nio.cs.ArrbyEncoder;
+import stbtic sun.nio.cs.ChbrsetMbpping.*;
 
 /*
- * Four types of "DoubleByte" charsets are implemented in this class
+ * Four types of "DoubleByte" chbrsets bre implemented in this clbss
  * (1)DoubleByte
- *    The "mostly widely used" multibyte charset, a combination of
- *    a singlebyte character set (usually the ASCII charset) and a
- *    doublebyte character set. The codepoint values of singlebyte
- *    and doublebyte don't overlap. Microsoft's multibyte charsets
- *    and IBM's "DBCS_ASCII" charsets, such as IBM1381, 942, 943,
- *    948, 949 and 950 are such charsets.
+ *    The "mostly widely used" multibyte chbrset, b combinbtion of
+ *    b singlebyte chbrbcter set (usublly the ASCII chbrset) bnd b
+ *    doublebyte chbrbcter set. The codepoint vblues of singlebyte
+ *    bnd doublebyte don't overlbp. Microsoft's multibyte chbrsets
+ *    bnd IBM's "DBCS_ASCII" chbrsets, such bs IBM1381, 942, 943,
+ *    948, 949 bnd 950 bre such chbrsets.
  *
  * (2)DoubleByte_EBCDIC
- *    IBM EBCDIC Mix multibyte charset. Use SO and SI to shift (switch)
- *    in and out between the singlebyte character set and doublebyte
- *    character set.
+ *    IBM EBCDIC Mix multibyte chbrset. Use SO bnd SI to shift (switch)
+ *    in bnd out between the singlebyte chbrbcter set bnd doublebyte
+ *    chbrbcter set.
  *
  * (3)DoubleByte_SIMPLE_EUC
- *    It's a "simple" form of EUC encoding scheme, only have the
- *    singlebyte character set G0 and one doublebyte character set
- *    G1 are defined, G2 (with SS2) and G3 (with SS3) are not used.
- *    So it is actually the same as the "typical" type (1) mentioned
- *    above, except it return "malformed" for the SS2 and SS3 when
+ *    It's b "simple" form of EUC encoding scheme, only hbve the
+ *    singlebyte chbrbcter set G0 bnd one doublebyte chbrbcter set
+ *    G1 bre defined, G2 (with SS2) bnd G3 (with SS3) bre not used.
+ *    So it is bctublly the sbme bs the "typicbl" type (1) mentioned
+ *    bbove, except it return "mblformed" for the SS2 bnd SS3 when
  *    decoding.
  *
  * (4)DoubleByte ONLY
- *    A "pure" doublebyte only character set. From implementation
- *    point of view, this is the type (1) with "decodeSingle" always
- *    returns unmappable.
+ *    A "pure" doublebyte only chbrbcter set. From implementbtion
+ *    point of view, this is the type (1) with "decodeSingle" blwbys
+ *    returns unmbppbble.
  *
- * For simplicity, all implementations share the same decoding and
- * encoding data structure.
+ * For simplicity, bll implementbtions shbre the sbme decoding bnd
+ * encoding dbtb structure.
  *
  * Decoding:
  *
- *    char[][] b2c;
- *    char[] b2cSB;
- *    int b2Min, b2Max
+ *    chbr[][] b2c;
+ *    chbr[] b2cSB;
+ *    int b2Min, b2Mbx
  *
- *    public char decodeSingle(int b) {
+ *    public chbr decodeSingle(int b) {
  *        return b2cSB.[b];
  *    }
  *
- *    public char decodeDouble(int b1, int b2) {
- *        if (b2 < b2Min || b2 > b2Max)
+ *    public chbr decodeDouble(int b1, int b2) {
+ *        if (b2 < b2Min || b2 > b2Mbx)
  *            return UNMAPPABLE_DECODING;
  *         return b2c[b1][b2 - b2Min];
  *    }
  *
- *    (1)b2Min, b2Max are the corresponding min and max value of the
- *       low-half of the double-byte.
- *    (2)The high 8-bit/b1 of the double-byte are used to indexed into
- *       b2c array.
+ *    (1)b2Min, b2Mbx bre the corresponding min bnd mbx vblue of the
+ *       low-hblf of the double-byte.
+ *    (2)The high 8-bit/b1 of the double-byte bre used to indexed into
+ *       b2c brrby.
  *
  * Encoding:
  *
- *    char[] c2b;
- *    char[] c2bIndex;
+ *    chbr[] c2b;
+ *    chbr[] c2bIndex;
  *
- *    public int encodeChar(char ch) {
+ *    public int encodeChbr(chbr ch) {
  *        return c2b[c2bIndex[ch >> 8] + (ch & 0xff)];
  *    }
  *
  */
 
-public class DoubleByte {
+public clbss DoubleByte {
 
-    public final static char[] B2C_UNMAPPABLE;
-    static {
-        B2C_UNMAPPABLE = new char[0x100];
-        Arrays.fill(B2C_UNMAPPABLE, UNMAPPABLE_DECODING);
+    public finbl stbtic chbr[] B2C_UNMAPPABLE;
+    stbtic {
+        B2C_UNMAPPABLE = new chbr[0x100];
+        Arrbys.fill(B2C_UNMAPPABLE, UNMAPPABLE_DECODING);
     }
 
-    public static class Decoder extends CharsetDecoder
-                                implements DelegatableDecoder, ArrayDecoder
+    public stbtic clbss Decoder extends ChbrsetDecoder
+                                implements DelegbtbbleDecoder, ArrbyDecoder
     {
-        final char[][] b2c;
-        final char[] b2cSB;
-        final int b2Min;
-        final int b2Max;
+        finbl chbr[][] b2c;
+        finbl chbr[] b2cSB;
+        finbl int b2Min;
+        finbl int b2Mbx;
 
         // for SimpleEUC override
-        protected CoderResult crMalformedOrUnderFlow(int b) {
+        protected CoderResult crMblformedOrUnderFlow(int b) {
             return CoderResult.UNDERFLOW;
         }
 
-        protected CoderResult crMalformedOrUnmappable(int b1, int b2) {
-            if (b2c[b1] == B2C_UNMAPPABLE ||                // isNotLeadingByte(b1)
-                b2c[b2] != B2C_UNMAPPABLE ||                // isLeadingByte(b2)
+        protected CoderResult crMblformedOrUnmbppbble(int b1, int b2) {
+            if (b2c[b1] == B2C_UNMAPPABLE ||                // isNotLebdingByte(b1)
+                b2c[b2] != B2C_UNMAPPABLE ||                // isLebdingByte(b2)
                 decodeSingle(b2) != UNMAPPABLE_DECODING) {  // isSingle(b2)
-                return CoderResult.malformedForLength(1);
+                return CoderResult.mblformedForLength(1);
             }
-            return CoderResult.unmappableForLength(2);
+            return CoderResult.unmbppbbleForLength(2);
         }
 
-        Decoder(Charset cs, float avgcpb, float maxcpb,
-                char[][] b2c, char[] b2cSB,
-                int b2Min, int b2Max) {
-            super(cs, avgcpb, maxcpb);
+        Decoder(Chbrset cs, flobt bvgcpb, flobt mbxcpb,
+                chbr[][] b2c, chbr[] b2cSB,
+                int b2Min, int b2Mbx) {
+            super(cs, bvgcpb, mbxcpb);
             this.b2c = b2c;
             this.b2cSB = b2cSB;
             this.b2Min = b2Min;
-            this.b2Max = b2Max;
+            this.b2Mbx = b2Mbx;
         }
 
-        Decoder(Charset cs, char[][] b2c, char[] b2cSB, int b2Min, int b2Max) {
-            this(cs, 0.5f, 1.0f, b2c, b2cSB, b2Min, b2Max);
+        Decoder(Chbrset cs, chbr[][] b2c, chbr[] b2cSB, int b2Min, int b2Mbx) {
+            this(cs, 0.5f, 1.0f, b2c, b2cSB, b2Min, b2Mbx);
         }
 
-        protected CoderResult decodeArrayLoop(ByteBuffer src, CharBuffer dst) {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
+        protected CoderResult decodeArrbyLoop(ByteBuffer src, ChbrBuffer dst) {
+            byte[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
 
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
+            chbr[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
 
             try {
                 while (sp < sl && dp < dl) {
-                    // inline the decodeSingle/Double() for better performance
+                    // inline the decodeSingle/Double() for better performbnce
                     int inSize = 1;
-                    int b1 = sa[sp] & 0xff;
-                    char c = b2cSB[b1];
+                    int b1 = sb[sp] & 0xff;
+                    chbr c = b2cSB[b1];
                     if (c == UNMAPPABLE_DECODING) {
                         if (sl - sp < 2)
-                            return crMalformedOrUnderFlow(b1);
-                        int b2 = sa[sp + 1] & 0xff;
-                        if (b2 < b2Min || b2 > b2Max ||
+                            return crMblformedOrUnderFlow(b1);
+                        int b2 = sb[sp + 1] & 0xff;
+                        if (b2 < b2Min || b2 > b2Mbx ||
                             (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
-                            return crMalformedOrUnmappable(b1, b2);
+                            return crMblformedOrUnmbppbble(b1, b2);
                         }
                         inSize++;
                     }
-                    da[dp++] = c;
+                    db[dp++] = c;
                     sp += inSize;
                 }
                 return (sp >= sl) ? CoderResult.UNDERFLOW
                                   : CoderResult.OVERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        protected CoderResult decodeBufferLoop(ByteBuffer src, CharBuffer dst) {
-            int mark = src.position();
+        protected CoderResult decodeBufferLoop(ByteBuffer src, ChbrBuffer dst) {
+            int mbrk = src.position();
             try {
 
-                while (src.hasRemaining() && dst.hasRemaining()) {
+                while (src.hbsRembining() && dst.hbsRembining()) {
                     int b1 = src.get() & 0xff;
-                    char c = b2cSB[b1];
+                    chbr c = b2cSB[b1];
                     int inSize = 1;
                     if (c == UNMAPPABLE_DECODING) {
-                        if (src.remaining() < 1)
-                            return crMalformedOrUnderFlow(b1);
+                        if (src.rembining() < 1)
+                            return crMblformedOrUnderFlow(b1);
                         int b2 = src.get() & 0xff;
-                        if (b2 < b2Min || b2 > b2Max ||
+                        if (b2 < b2Min || b2 > b2Mbx ||
                             (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING)
-                            return crMalformedOrUnmappable(b1, b2);
+                            return crMblformedOrUnmbppbble(b1, b2);
                         inSize++;
                     }
                     dst.put(c);
-                    mark += inSize;
+                    mbrk += inSize;
                 }
-                return src.hasRemaining()? CoderResult.OVERFLOW
+                return src.hbsRembining()? CoderResult.OVERFLOW
                                          : CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
 
-        // Make some protected methods public for use by JISAutoDetect
-        public CoderResult decodeLoop(ByteBuffer src, CharBuffer dst) {
-            if (src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
+        // Mbke some protected methods public for use by JISAutoDetect
+        public CoderResult decodeLoop(ByteBuffer src, ChbrBuffer dst) {
+            if (src.hbsArrby() && dst.hbsArrby())
+                return decodeArrbyLoop(src, dst);
             else
                 return decodeBufferLoop(src, dst);
         }
 
-        public int decode(byte[] src, int sp, int len, char[] dst) {
+        public int decode(byte[] src, int sp, int len, chbr[] dst) {
             int dp = 0;
             int sl = sp + len;
-            char repl = replacement().charAt(0);
+            chbr repl = replbcement().chbrAt(0);
             while (sp < sl) {
                 int b1 = src[sp++] & 0xff;
-                char c = b2cSB[b1];
+                chbr c = b2cSB[b1];
                 if (c == UNMAPPABLE_DECODING) {
                     if (sp < sl) {
                         int b2 = src[sp++] & 0xff;
-                        if (b2 < b2Min || b2 > b2Max ||
+                        if (b2 < b2Min || b2 > b2Mbx ||
                             (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
-                            if (b2c[b1] == B2C_UNMAPPABLE ||  // isNotLeadingByte
-                                b2c[b2] != B2C_UNMAPPABLE ||  // isLeadingByte
+                            if (b2c[b1] == B2C_UNMAPPABLE ||  // isNotLebdingByte
+                                b2c[b2] != B2C_UNMAPPABLE ||  // isLebdingByte
                                 decodeSingle(b2) != UNMAPPABLE_DECODING) {
                                 sp--;
                             }
@@ -247,182 +247,182 @@ public class DoubleByte {
             super.implReset();
         }
 
-        public CoderResult implFlush(CharBuffer out) {
+        public CoderResult implFlush(ChbrBuffer out) {
             return super.implFlush(out);
         }
 
-        // decode loops are not using decodeSingle/Double() for performance
-        // reason.
-        public char decodeSingle(int b) {
+        // decode loops bre not using decodeSingle/Double() for performbnce
+        // rebson.
+        public chbr decodeSingle(int b) {
             return b2cSB[b];
         }
 
-        public char decodeDouble(int b1, int b2) {
+        public chbr decodeDouble(int b1, int b2) {
             if (b1 < 0 || b1 > b2c.length ||
-                b2 < b2Min || b2 > b2Max)
+                b2 < b2Min || b2 > b2Mbx)
                 return UNMAPPABLE_DECODING;
             return  b2c[b1][b2 - b2Min];
         }
     }
 
     // IBM_EBCDIC_DBCS
-    public static class Decoder_EBCDIC extends Decoder {
-        private static final int SBCS = 0;
-        private static final int DBCS = 1;
-        private static final int SO = 0x0e;
-        private static final int SI = 0x0f;
-        private int  currentState;
+    public stbtic clbss Decoder_EBCDIC extends Decoder {
+        privbte stbtic finbl int SBCS = 0;
+        privbte stbtic finbl int DBCS = 1;
+        privbte stbtic finbl int SO = 0x0e;
+        privbte stbtic finbl int SI = 0x0f;
+        privbte int  currentStbte;
 
-        Decoder_EBCDIC(Charset cs,
-                       char[][] b2c, char[] b2cSB, int b2Min, int b2Max) {
-            super(cs, b2c, b2cSB, b2Min, b2Max);
+        Decoder_EBCDIC(Chbrset cs,
+                       chbr[][] b2c, chbr[] b2cSB, int b2Min, int b2Mbx) {
+            super(cs, b2c, b2cSB, b2Min, b2Mbx);
         }
 
         public void implReset() {
-            currentState = SBCS;
+            currentStbte = SBCS;
         }
 
-        // Check validity of dbcs ebcdic byte pair values
+        // Check vblidity of dbcs ebcdic byte pbir vblues
         //
         // First byte : 0x41 -- 0xFE
         // Second byte: 0x41 -- 0xFE
-        // Doublebyte blank: 0x4040
+        // Doublebyte blbnk: 0x4040
         //
-        // The validation implementation in "old" DBCS_IBM_EBCDIC and sun.io
-        // as
+        // The vblidbtion implementbtion in "old" DBCS_IBM_EBCDIC bnd sun.io
+        // bs
         //            if ((b1 != 0x40 || b2 != 0x40) &&
         //                (b2 < 0x41 || b2 > 0xfe)) {...}
-        // is not correct/complete (range check for b1)
+        // is not correct/complete (rbnge check for b1)
         //
-        private static boolean isDoubleByte(int b1, int b2) {
+        privbte stbtic boolebn isDoubleByte(int b1, int b2) {
             return (0x41 <= b1 && b1 <= 0xfe && 0x41 <= b2 && b2 <= 0xfe)
                    || (b1 == 0x40 && b2 == 0x40); // DBCS-HOST SPACE
         }
 
-        protected CoderResult decodeArrayLoop(ByteBuffer src, CharBuffer dst) {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
+        protected CoderResult decodeArrbyLoop(ByteBuffer src, ChbrBuffer dst) {
+            byte[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            chbr[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
 
             try {
                 // don't check dp/dl together here, it's possible to
-                // decdoe a SO/SI without space in output buffer.
+                // decdoe b SO/SI without spbce in output buffer.
                 while (sp < sl) {
-                    int b1 = sa[sp] & 0xff;
+                    int b1 = sb[sp] & 0xff;
                     int inSize = 1;
                     if (b1 == SO) {  // Shift out
-                        if (currentState != SBCS)
-                            return CoderResult.malformedForLength(1);
+                        if (currentStbte != SBCS)
+                            return CoderResult.mblformedForLength(1);
                         else
-                            currentState = DBCS;
+                            currentStbte = DBCS;
                     } else if (b1 == SI) {
-                        if (currentState != DBCS)
-                            return CoderResult.malformedForLength(1);
+                        if (currentStbte != DBCS)
+                            return CoderResult.mblformedForLength(1);
                         else
-                            currentState = SBCS;
+                            currentStbte = SBCS;
                     } else {
-                        char c =  UNMAPPABLE_DECODING;
-                        if (currentState == SBCS) {
+                        chbr c =  UNMAPPABLE_DECODING;
+                        if (currentStbte == SBCS) {
                             c = b2cSB[b1];
                             if (c == UNMAPPABLE_DECODING)
-                                return CoderResult.unmappableForLength(1);
+                                return CoderResult.unmbppbbleForLength(1);
                         } else {
                             if (sl - sp < 2)
                                 return CoderResult.UNDERFLOW;
-                            int b2 = sa[sp + 1] & 0xff;
-                            if (b2 < b2Min || b2 > b2Max ||
+                            int b2 = sb[sp + 1] & 0xff;
+                            if (b2 < b2Min || b2 > b2Mbx ||
                                 (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
                                 if (!isDoubleByte(b1, b2))
-                                    return CoderResult.malformedForLength(2);
-                                return CoderResult.unmappableForLength(2);
+                                    return CoderResult.mblformedForLength(2);
+                                return CoderResult.unmbppbbleForLength(2);
                             }
                             inSize++;
                         }
                         if (dl - dp < 1)
                             return CoderResult.OVERFLOW;
 
-                        da[dp++] = c;
+                        db[dp++] = c;
                     }
                     sp += inSize;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        protected CoderResult decodeBufferLoop(ByteBuffer src, CharBuffer dst) {
-            int mark = src.position();
+        protected CoderResult decodeBufferLoop(ByteBuffer src, ChbrBuffer dst) {
+            int mbrk = src.position();
             try {
-                while (src.hasRemaining()) {
+                while (src.hbsRembining()) {
                     int b1 = src.get() & 0xff;
                     int inSize = 1;
                     if (b1 == SO) {  // Shift out
-                        if (currentState != SBCS)
-                            return CoderResult.malformedForLength(1);
+                        if (currentStbte != SBCS)
+                            return CoderResult.mblformedForLength(1);
                         else
-                            currentState = DBCS;
+                            currentStbte = DBCS;
                     } else if (b1 == SI) {
-                        if (currentState != DBCS)
-                            return CoderResult.malformedForLength(1);
+                        if (currentStbte != DBCS)
+                            return CoderResult.mblformedForLength(1);
                         else
-                            currentState = SBCS;
+                            currentStbte = SBCS;
                     } else {
-                        char c = UNMAPPABLE_DECODING;
-                        if (currentState == SBCS) {
+                        chbr c = UNMAPPABLE_DECODING;
+                        if (currentStbte == SBCS) {
                             c = b2cSB[b1];
                             if (c == UNMAPPABLE_DECODING)
-                                return CoderResult.unmappableForLength(1);
+                                return CoderResult.unmbppbbleForLength(1);
                         } else {
-                            if (src.remaining() < 1)
+                            if (src.rembining() < 1)
                                 return CoderResult.UNDERFLOW;
                             int b2 = src.get()&0xff;
-                            if (b2 < b2Min || b2 > b2Max ||
+                            if (b2 < b2Min || b2 > b2Mbx ||
                                 (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
                                 if (!isDoubleByte(b1, b2))
-                                    return CoderResult.malformedForLength(2);
-                                return CoderResult.unmappableForLength(2);
+                                    return CoderResult.mblformedForLength(2);
+                                return CoderResult.unmbppbbleForLength(2);
                             }
                             inSize++;
                         }
 
-                        if (dst.remaining() < 1)
+                        if (dst.rembining() < 1)
                             return CoderResult.OVERFLOW;
 
                         dst.put(c);
                     }
-                    mark += inSize;
+                    mbrk += inSize;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
 
-        public int decode(byte[] src, int sp, int len, char[] dst) {
+        public int decode(byte[] src, int sp, int len, chbr[] dst) {
             int dp = 0;
             int sl = sp + len;
-            currentState = SBCS;
-            char repl = replacement().charAt(0);
+            currentStbte = SBCS;
+            chbr repl = replbcement().chbrAt(0);
             while (sp < sl) {
                 int b1 = src[sp++] & 0xff;
                 if (b1 == SO) {  // Shift out
-                    if (currentState != SBCS)
+                    if (currentStbte != SBCS)
                         dst[dp++] = repl;
                     else
-                        currentState = DBCS;
+                        currentStbte = DBCS;
                 } else if (b1 == SI) {
-                    if (currentState != DBCS)
+                    if (currentStbte != DBCS)
                         dst[dp++] = repl;
                     else
-                        currentState = SBCS;
+                        currentStbte = SBCS;
                 } else {
-                    char c =  UNMAPPABLE_DECODING;
-                    if (currentState == SBCS) {
+                    chbr c =  UNMAPPABLE_DECODING;
+                    if (currentStbte == SBCS) {
                         c = b2cSB[b1];
                         if (c == UNMAPPABLE_DECODING)
                             c = repl;
@@ -431,7 +431,7 @@ public class DoubleByte {
                             c = repl;
                         } else {
                             int b2 = src[sp++] & 0xff;
-                            if (b2 < b2Min || b2 > b2Max ||
+                            if (b2 < b2Min || b2 > b2Mbx ||
                                 (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
                                 c = repl;
                             }
@@ -445,53 +445,53 @@ public class DoubleByte {
     }
 
     // DBCS_ONLY
-    public static class Decoder_DBCSONLY extends Decoder {
-        static final char[] b2cSB_UNMAPPABLE;
-        static {
-            b2cSB_UNMAPPABLE = new char[0x100];
-            Arrays.fill(b2cSB_UNMAPPABLE, UNMAPPABLE_DECODING);
+    public stbtic clbss Decoder_DBCSONLY extends Decoder {
+        stbtic finbl chbr[] b2cSB_UNMAPPABLE;
+        stbtic {
+            b2cSB_UNMAPPABLE = new chbr[0x100];
+            Arrbys.fill(b2cSB_UNMAPPABLE, UNMAPPABLE_DECODING);
         }
-        Decoder_DBCSONLY(Charset cs, char[][] b2c, char[] b2cSB, int b2Min, int b2Max) {
-            super(cs, 0.5f, 1.0f, b2c, b2cSB_UNMAPPABLE, b2Min, b2Max);
+        Decoder_DBCSONLY(Chbrset cs, chbr[][] b2c, chbr[] b2cSB, int b2Min, int b2Mbx) {
+            super(cs, 0.5f, 1.0f, b2c, b2cSB_UNMAPPABLE, b2Min, b2Mbx);
         }
     }
 
     // EUC_SIMPLE
-    // The only thing we need to "override" is to check SS2/SS3 and
-    // return "malformed" if found
-    public static class Decoder_EUC_SIM extends Decoder {
-        private final int SS2 =  0x8E;
-        private final int SS3 =  0x8F;
+    // The only thing we need to "override" is to check SS2/SS3 bnd
+    // return "mblformed" if found
+    public stbtic clbss Decoder_EUC_SIM extends Decoder {
+        privbte finbl int SS2 =  0x8E;
+        privbte finbl int SS3 =  0x8F;
 
-        Decoder_EUC_SIM(Charset cs,
-                        char[][] b2c, char[] b2cSB, int b2Min, int b2Max) {
-            super(cs, b2c, b2cSB, b2Min, b2Max);
+        Decoder_EUC_SIM(Chbrset cs,
+                        chbr[][] b2c, chbr[] b2cSB, int b2Min, int b2Mbx) {
+            super(cs, b2c, b2cSB, b2Min, b2Mbx);
         }
 
         // No support provided for G2/G3 for SimpleEUC
-        protected CoderResult crMalformedOrUnderFlow(int b) {
+        protected CoderResult crMblformedOrUnderFlow(int b) {
             if (b == SS2 || b == SS3 )
-                return CoderResult.malformedForLength(1);
+                return CoderResult.mblformedForLength(1);
             return CoderResult.UNDERFLOW;
         }
 
-        protected CoderResult crMalformedOrUnmappable(int b1, int b2) {
+        protected CoderResult crMblformedOrUnmbppbble(int b1, int b2) {
             if (b1 == SS2 || b1 == SS3 )
-                return CoderResult.malformedForLength(1);
-            return CoderResult.unmappableForLength(2);
+                return CoderResult.mblformedForLength(1);
+            return CoderResult.unmbppbbleForLength(2);
         }
 
-        public int decode(byte[] src, int sp, int len, char[] dst) {
+        public int decode(byte[] src, int sp, int len, chbr[] dst) {
             int dp = 0;
             int sl = sp + len;
-            char repl = replacement().charAt(0);
+            chbr repl = replbcement().chbrAt(0);
             while (sp < sl) {
                 int b1 = src[sp++] & 0xff;
-                char c = b2cSB[b1];
+                chbr c = b2cSB[b1];
                 if (c == UNMAPPABLE_DECODING) {
                     if (sp < sl) {
                         int b2 = src[sp++] & 0xff;
-                        if (b2 < b2Min || b2 > b2Max ||
+                        if (b2 < b2Min || b2 > b2Mbx ||
                             (c = b2c[b1][b2 - b2Min]) == UNMAPPABLE_DECODING) {
                             if (b1 == SS2 || b1 == SS3) {
                                 sp--;
@@ -508,132 +508,132 @@ public class DoubleByte {
         }
     }
 
-    public static class Encoder extends CharsetEncoder
-                                implements ArrayEncoder
+    public stbtic clbss Encoder extends ChbrsetEncoder
+                                implements ArrbyEncoder
     {
-        final int MAX_SINGLEBYTE = 0xff;
-        private final char[] c2b;
-        private final char[] c2bIndex;
-        Surrogate.Parser sgp;
+        finbl int MAX_SINGLEBYTE = 0xff;
+        privbte finbl chbr[] c2b;
+        privbte finbl chbr[] c2bIndex;
+        Surrogbte.Pbrser sgp;
 
-        protected Encoder(Charset cs, char[] c2b, char[] c2bIndex) {
+        protected Encoder(Chbrset cs, chbr[] c2b, chbr[] c2bIndex) {
             super(cs, 2.0f, 2.0f);
             this.c2b = c2b;
             this.c2bIndex = c2bIndex;
         }
 
-        Encoder(Charset cs, float avg, float max, byte[] repl, char[] c2b, char[] c2bIndex) {
-            super(cs, avg, max, repl);
+        Encoder(Chbrset cs, flobt bvg, flobt mbx, byte[] repl, chbr[] c2b, chbr[] c2bIndex) {
+            super(cs, bvg, mbx, repl);
             this.c2b = c2b;
             this.c2bIndex = c2bIndex;
         }
 
-        public boolean canEncode(char c) {
-            return encodeChar(c) != UNMAPPABLE_ENCODING;
+        public boolebn cbnEncode(chbr c) {
+            return encodeChbr(c) != UNMAPPABLE_ENCODING;
         }
 
-        Surrogate.Parser sgp() {
+        Surrogbte.Pbrser sgp() {
             if (sgp == null)
-                sgp = new Surrogate.Parser();
+                sgp = new Surrogbte.Pbrser();
             return sgp;
         }
 
-        protected CoderResult encodeArrayLoop(CharBuffer src, ByteBuffer dst) {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
+        protected CoderResult encodeArrbyLoop(ChbrBuffer src, ByteBuffer dst) {
+            chbr[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
 
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
+            byte[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
 
             try {
                 while (sp < sl) {
-                    char c = sa[sp];
-                    int bb = encodeChar(c);
+                    chbr c = sb[sp];
+                    int bb = encodeChbr(c);
                     if (bb == UNMAPPABLE_ENCODING) {
-                        if (Character.isSurrogate(c)) {
-                            if (sgp().parse(c, sa, sp, sl) < 0)
+                        if (Chbrbcter.isSurrogbte(c)) {
+                            if (sgp().pbrse(c, sb, sp, sl) < 0)
                                 return sgp.error();
-                            return sgp.unmappableResult();
+                            return sgp.unmbppbbleResult();
                         }
-                        return CoderResult.unmappableForLength(1);
+                        return CoderResult.unmbppbbleForLength(1);
                     }
 
                     if (bb > MAX_SINGLEBYTE) {    // DoubleByte
                         if (dl - dp < 2)
                             return CoderResult.OVERFLOW;
-                        da[dp++] = (byte)(bb >> 8);
-                        da[dp++] = (byte)bb;
+                        db[dp++] = (byte)(bb >> 8);
+                        db[dp++] = (byte)bb;
                     } else {                      // SingleByte
                         if (dl - dp < 1)
                             return CoderResult.OVERFLOW;
-                        da[dp++] = (byte)bb;
+                        db[dp++] = (byte)bb;
                     }
 
                     sp++;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        protected CoderResult encodeBufferLoop(CharBuffer src, ByteBuffer dst) {
-            int mark = src.position();
+        protected CoderResult encodeBufferLoop(ChbrBuffer src, ByteBuffer dst) {
+            int mbrk = src.position();
             try {
-                while (src.hasRemaining()) {
-                    char c = src.get();
-                    int bb = encodeChar(c);
+                while (src.hbsRembining()) {
+                    chbr c = src.get();
+                    int bb = encodeChbr(c);
                     if (bb == UNMAPPABLE_ENCODING) {
-                        if (Character.isSurrogate(c)) {
-                            if (sgp().parse(c, src) < 0)
+                        if (Chbrbcter.isSurrogbte(c)) {
+                            if (sgp().pbrse(c, src) < 0)
                                 return sgp.error();
-                            return sgp.unmappableResult();
+                            return sgp.unmbppbbleResult();
                         }
-                        return CoderResult.unmappableForLength(1);
+                        return CoderResult.unmbppbbleForLength(1);
                     }
                     if (bb > MAX_SINGLEBYTE) {  // DoubleByte
-                        if (dst.remaining() < 2)
+                        if (dst.rembining() < 2)
                             return CoderResult.OVERFLOW;
                         dst.put((byte)(bb >> 8));
                         dst.put((byte)(bb));
                     } else {
-                        if (dst.remaining() < 1)
+                        if (dst.rembining() < 1)
                         return CoderResult.OVERFLOW;
                         dst.put((byte)bb);
                     }
-                    mark++;
+                    mbrk++;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
 
-        protected CoderResult encodeLoop(CharBuffer src, ByteBuffer dst) {
-            if (src.hasArray() && dst.hasArray())
-                return encodeArrayLoop(src, dst);
+        protected CoderResult encodeLoop(ChbrBuffer src, ByteBuffer dst) {
+            if (src.hbsArrby() && dst.hbsArrby())
+                return encodeArrbyLoop(src, dst);
             else
                 return encodeBufferLoop(src, dst);
         }
 
-        protected byte[] repl = replacement();
-        protected void implReplaceWith(byte[] newReplacement) {
-            repl = newReplacement;
+        protected byte[] repl = replbcement();
+        protected void implReplbceWith(byte[] newReplbcement) {
+            repl = newReplbcement;
         }
 
-        public int encode(char[] src, int sp, int len, byte[] dst) {
+        public int encode(chbr[] src, int sp, int len, byte[] dst) {
             int dp = 0;
             int sl = sp + len;
             int dl = dst.length;
             while (sp < sl) {
-                char c = src[sp++];
-                int bb = encodeChar(c);
+                chbr c = src[sp++];
+                int bb = encodeChbr(c);
                 if (bb == UNMAPPABLE_ENCODING) {
-                    if (Character.isHighSurrogate(c) && sp < sl &&
-                        Character.isLowSurrogate(src[sp])) {
+                    if (Chbrbcter.isHighSurrogbte(c) && sp < sl &&
+                        Chbrbcter.isLowSurrogbte(src[sp])) {
                         sp++;
                     }
                     dst[dp++] = repl[0];
@@ -652,85 +652,85 @@ public class DoubleByte {
             return dp;
         }
 
-        public int encodeChar(char ch) {
+        public int encodeChbr(chbr ch) {
             return c2b[c2bIndex[ch >> 8] + (ch & 0xff)];
         }
 
-        // init the c2b and c2bIndex tables from b2c.
-        static void initC2B(String[] b2c, String b2cSB, String b2cNR,  String c2bNR,
-                            int b2Min, int b2Max,
-                            char[] c2b, char[] c2bIndex)
+        // init the c2b bnd c2bIndex tbbles from b2c.
+        stbtic void initC2B(String[] b2c, String b2cSB, String b2cNR,  String c2bNR,
+                            int b2Min, int b2Mbx,
+                            chbr[] c2b, chbr[] c2bIndex)
         {
-            Arrays.fill(c2b, (char)UNMAPPABLE_ENCODING);
+            Arrbys.fill(c2b, (chbr)UNMAPPABLE_ENCODING);
             int off = 0x100;
 
-            char[][] b2c_ca = new char[b2c.length][];
-            char[] b2cSB_ca = null;
+            chbr[][] b2c_cb = new chbr[b2c.length][];
+            chbr[] b2cSB_cb = null;
             if (b2cSB != null)
-                b2cSB_ca = b2cSB.toCharArray();
+                b2cSB_cb = b2cSB.toChbrArrby();
 
             for (int i = 0; i < b2c.length; i++) {
                 if (b2c[i] == null)
                     continue;
-                b2c_ca[i] = b2c[i].toCharArray();
+                b2c_cb[i] = b2c[i].toChbrArrby();
             }
 
             if (b2cNR != null) {
                 int j = 0;
                 while (j < b2cNR.length()) {
-                    char b  = b2cNR.charAt(j++);
-                    char c  = b2cNR.charAt(j++);
-                    if (b < 0x100 && b2cSB_ca != null) {
-                        if (b2cSB_ca[b] == c)
-                            b2cSB_ca[b] = UNMAPPABLE_DECODING;
+                    chbr b  = b2cNR.chbrAt(j++);
+                    chbr c  = b2cNR.chbrAt(j++);
+                    if (b < 0x100 && b2cSB_cb != null) {
+                        if (b2cSB_cb[b] == c)
+                            b2cSB_cb[b] = UNMAPPABLE_DECODING;
                     } else {
-                        if (b2c_ca[b >> 8][(b & 0xff) - b2Min] == c)
-                            b2c_ca[b >> 8][(b & 0xff) - b2Min] = UNMAPPABLE_DECODING;
+                        if (b2c_cb[b >> 8][(b & 0xff) - b2Min] == c)
+                            b2c_cb[b >> 8][(b & 0xff) - b2Min] = UNMAPPABLE_DECODING;
                     }
                 }
             }
 
-            if (b2cSB_ca != null) {      // SingleByte
-                for (int b = 0; b < b2cSB_ca.length; b++) {
-                    char c = b2cSB_ca[b];
+            if (b2cSB_cb != null) {      // SingleByte
+                for (int b = 0; b < b2cSB_cb.length; b++) {
+                    chbr c = b2cSB_cb[b];
                     if (c == UNMAPPABLE_DECODING)
                         continue;
                     int index = c2bIndex[c >> 8];
                     if (index == 0) {
                         index = off;
                         off += 0x100;
-                        c2bIndex[c >> 8] = (char)index;
+                        c2bIndex[c >> 8] = (chbr)index;
                     }
-                    c2b[index + (c & 0xff)] = (char)b;
+                    c2b[index + (c & 0xff)] = (chbr)b;
                 }
             }
 
             for (int b1 = 0; b1 < b2c.length; b1++) {  // DoubleByte
-                char[] db = b2c_ca[b1];
+                chbr[] db = b2c_cb[b1];
                 if (db == null)
                     continue;
-                for (int b2 = b2Min; b2 <= b2Max; b2++) {
-                    char c = db[b2 - b2Min];
+                for (int b2 = b2Min; b2 <= b2Mbx; b2++) {
+                    chbr c = db[b2 - b2Min];
                     if (c == UNMAPPABLE_DECODING)
                         continue;
                     int index = c2bIndex[c >> 8];
                     if (index == 0) {
                         index = off;
                         off += 0x100;
-                        c2bIndex[c >> 8] = (char)index;
+                        c2bIndex[c >> 8] = (chbr)index;
                     }
-                    c2b[index + (c & 0xff)] = (char)((b1 << 8) | b2);
+                    c2b[index + (c & 0xff)] = (chbr)((b1 << 8) | b2);
                 }
             }
 
             if (c2bNR != null) {
-                // add c->b only nr entries
+                // bdd c->b only nr entries
                 for (int i = 0; i < c2bNR.length(); i += 2) {
-                    char b = c2bNR.charAt(i);
-                    char c = c2bNR.charAt(i + 1);
+                    chbr b = c2bNR.chbrAt(i);
+                    chbr c = c2bNR.chbrAt(i + 1);
                     int index = (c >> 8);
                     if (c2bIndex[index] == 0) {
-                        c2bIndex[index] = (char)off;
+                        c2bIndex[index] = (chbr)off;
                         off += 0x100;
                     }
                     index = c2bIndex[index] + (c & 0xff);
@@ -740,14 +740,14 @@ public class DoubleByte {
         }
     }
 
-    public static class Encoder_DBCSONLY extends Encoder {
-        Encoder_DBCSONLY(Charset cs, byte[] repl,
-                         char[] c2b, char[] c2bIndex) {
+    public stbtic clbss Encoder_DBCSONLY extends Encoder {
+        Encoder_DBCSONLY(Chbrset cs, byte[] repl,
+                         chbr[] c2b, chbr[] c2bIndex) {
             super(cs, 2.0f, 2.0f, repl, c2b, c2bIndex);
         }
 
-        public int encodeChar(char ch) {
-            int bb = super.encodeChar(ch);
+        public int encodeChbr(chbr ch) {
+            int bb = super.encodeChbr(ch);
             if (bb <= MAX_SINGLEBYTE)
                 return UNMAPPABLE_ENCODING;
             return bb;
@@ -756,25 +756,25 @@ public class DoubleByte {
 
 
 
-    public static class Encoder_EBCDIC extends Encoder {
-        static final int SBCS = 0;
-        static final int DBCS = 1;
-        static final byte SO = 0x0e;
-        static final byte SI = 0x0f;
+    public stbtic clbss Encoder_EBCDIC extends Encoder {
+        stbtic finbl int SBCS = 0;
+        stbtic finbl int DBCS = 1;
+        stbtic finbl byte SO = 0x0e;
+        stbtic finbl byte SI = 0x0f;
 
-        protected int  currentState = SBCS;
+        protected int  currentStbte = SBCS;
 
-        Encoder_EBCDIC(Charset cs, char[] c2b, char[] c2bIndex) {
+        Encoder_EBCDIC(Chbrset cs, chbr[] c2b, chbr[] c2bIndex) {
             super(cs, 4.0f, 5.0f, new byte[] {(byte)0x6f}, c2b, c2bIndex);
         }
 
         protected void implReset() {
-            currentState = SBCS;
+            currentStbte = SBCS;
         }
 
         protected CoderResult implFlush(ByteBuffer out) {
-            if (currentState == DBCS) {
-                if (out.remaining() < 1)
+            if (currentStbte == DBCS) {
+                if (out.rembining() < 1)
                     return CoderResult.OVERFLOW;
                 out.put(SI);
             }
@@ -782,112 +782,112 @@ public class DoubleByte {
             return CoderResult.UNDERFLOW;
         }
 
-        protected CoderResult encodeArrayLoop(CharBuffer src, ByteBuffer dst) {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
+        protected CoderResult encodeArrbyLoop(ChbrBuffer src, ByteBuffer dst) {
+            chbr[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            byte[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
 
             try {
                 while (sp < sl) {
-                    char c = sa[sp];
-                    int bb = encodeChar(c);
+                    chbr c = sb[sp];
+                    int bb = encodeChbr(c);
                     if (bb == UNMAPPABLE_ENCODING) {
-                        if (Character.isSurrogate(c)) {
-                            if (sgp().parse(c, sa, sp, sl) < 0)
+                        if (Chbrbcter.isSurrogbte(c)) {
+                            if (sgp().pbrse(c, sb, sp, sl) < 0)
                                 return sgp.error();
-                            return sgp.unmappableResult();
+                            return sgp.unmbppbbleResult();
                         }
-                        return CoderResult.unmappableForLength(1);
+                        return CoderResult.unmbppbbleForLength(1);
                     }
                     if (bb > MAX_SINGLEBYTE) {  // DoubleByte
-                        if (currentState == SBCS) {
+                        if (currentStbte == SBCS) {
                             if (dl - dp < 1)
                                 return CoderResult.OVERFLOW;
-                            currentState = DBCS;
-                            da[dp++] = SO;
+                            currentStbte = DBCS;
+                            db[dp++] = SO;
                         }
                         if (dl - dp < 2)
                             return CoderResult.OVERFLOW;
-                        da[dp++] = (byte)(bb >> 8);
-                        da[dp++] = (byte)bb;
+                        db[dp++] = (byte)(bb >> 8);
+                        db[dp++] = (byte)bb;
                     } else {                    // SingleByte
-                        if (currentState == DBCS) {
+                        if (currentStbte == DBCS) {
                             if (dl - dp < 1)
                                 return CoderResult.OVERFLOW;
-                            currentState = SBCS;
-                            da[dp++] = SI;
+                            currentStbte = SBCS;
+                            db[dp++] = SI;
                         }
                         if (dl - dp < 1)
                             return CoderResult.OVERFLOW;
-                        da[dp++] = (byte)bb;
+                        db[dp++] = (byte)bb;
 
                     }
                     sp++;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        protected CoderResult encodeBufferLoop(CharBuffer src, ByteBuffer dst) {
-            int mark = src.position();
+        protected CoderResult encodeBufferLoop(ChbrBuffer src, ByteBuffer dst) {
+            int mbrk = src.position();
             try {
-                while (src.hasRemaining()) {
-                    char c = src.get();
-                    int bb = encodeChar(c);
+                while (src.hbsRembining()) {
+                    chbr c = src.get();
+                    int bb = encodeChbr(c);
                     if (bb == UNMAPPABLE_ENCODING) {
-                        if (Character.isSurrogate(c)) {
-                            if (sgp().parse(c, src) < 0)
+                        if (Chbrbcter.isSurrogbte(c)) {
+                            if (sgp().pbrse(c, src) < 0)
                                 return sgp.error();
-                            return sgp.unmappableResult();
+                            return sgp.unmbppbbleResult();
                         }
-                        return CoderResult.unmappableForLength(1);
+                        return CoderResult.unmbppbbleForLength(1);
                     }
                     if (bb > MAX_SINGLEBYTE) {  // DoubleByte
-                        if (currentState == SBCS) {
-                            if (dst.remaining() < 1)
+                        if (currentStbte == SBCS) {
+                            if (dst.rembining() < 1)
                                 return CoderResult.OVERFLOW;
-                            currentState = DBCS;
+                            currentStbte = DBCS;
                             dst.put(SO);
                         }
-                        if (dst.remaining() < 2)
+                        if (dst.rembining() < 2)
                             return CoderResult.OVERFLOW;
                         dst.put((byte)(bb >> 8));
                         dst.put((byte)(bb));
                     } else {                  // Single-byte
-                        if (currentState == DBCS) {
-                            if (dst.remaining() < 1)
+                        if (currentStbte == DBCS) {
+                            if (dst.rembining() < 1)
                                 return CoderResult.OVERFLOW;
-                            currentState = SBCS;
+                            currentStbte = SBCS;
                             dst.put(SI);
                         }
-                        if (dst.remaining() < 1)
+                        if (dst.rembining() < 1)
                             return CoderResult.OVERFLOW;
                         dst.put((byte)bb);
                     }
-                    mark++;
+                    mbrk++;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
 
-        public int encode(char[] src, int sp, int len, byte[] dst) {
+        public int encode(chbr[] src, int sp, int len, byte[] dst) {
             int dp = 0;
             int sl = sp + len;
             while (sp < sl) {
-                char c = src[sp++];
-                int bb = encodeChar(c);
+                chbr c = src[sp++];
+                int bb = encodeChbr(c);
 
                 if (bb == UNMAPPABLE_ENCODING) {
-                    if (Character.isHighSurrogate(c) && sp < sl &&
-                        Character.isLowSurrogate(src[sp])) {
+                    if (Chbrbcter.isHighSurrogbte(c) && sp < sl &&
+                        Chbrbcter.isLowSurrogbte(src[sp])) {
                         sp++;
                     }
                     dst[dp++] = repl[0];
@@ -896,23 +896,23 @@ public class DoubleByte {
                     continue;
                 } //else
                 if (bb > MAX_SINGLEBYTE) {           // DoubleByte
-                    if (currentState == SBCS) {
-                        currentState = DBCS;
+                    if (currentStbte == SBCS) {
+                        currentStbte = DBCS;
                         dst[dp++] = SO;
                     }
                     dst[dp++] = (byte)(bb >> 8);
                     dst[dp++] = (byte)bb;
                 } else {                             // SingleByte
-                    if (currentState == DBCS) {
-                         currentState = SBCS;
+                    if (currentStbte == DBCS) {
+                         currentStbte = SBCS;
                          dst[dp++] = SI;
                     }
                     dst[dp++] = (byte)bb;
                 }
             }
 
-            if (currentState == DBCS) {
-                 currentState = SBCS;
+            if (currentStbte == DBCS) {
+                 currentStbte = SBCS;
                  dst[dp++] = SI;
             }
             return dp;
@@ -920,8 +920,8 @@ public class DoubleByte {
     }
 
     // EUC_SIMPLE
-    public static class Encoder_EUC_SIM extends Encoder {
-        Encoder_EUC_SIM(Charset cs, char[] c2b, char[] c2bIndex) {
+    public stbtic clbss Encoder_EUC_SIM extends Encoder {
+        Encoder_EUC_SIM(Chbrset cs, chbr[] c2b, chbr[] c2bIndex) {
             super(cs, c2b, c2bIndex);
         }
     }

@@ -1,338 +1,338 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport;
+pbckbge sun.rmi.trbnsport;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.dgc.DGC;
-import java.rmi.dgc.Lease;
-import java.rmi.dgc.VMID;
-import java.rmi.server.LogStream;
-import java.rmi.server.ObjID;
-import java.rmi.server.RemoteServer;
-import java.rmi.server.ServerNotActiveException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.dgc.DGC;
+import jbvb.rmi.dgc.Lebse;
+import jbvb.rmi.dgc.VMID;
+import jbvb.rmi.server.LogStrebm;
+import jbvb.rmi.server.ObjID;
+import jbvb.rmi.server.RemoteServer;
+import jbvb.rmi.server.ServerNotActiveException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSet;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.concurrent.Future;
+import jbvb.util.concurrent.ScheduledExecutorService;
+import jbvb.util.concurrent.TimeUnit;
 import sun.rmi.runtime.Log;
 import sun.rmi.runtime.RuntimeUtil;
-import sun.rmi.server.UnicastRef;
-import sun.rmi.server.UnicastServerRef;
+import sun.rmi.server.UnicbstRef;
+import sun.rmi.server.UnicbstServerRef;
 import sun.rmi.server.Util;
 
 /**
- * This class implements the guts of the server-side distributed GC
- * algorithm
+ * This clbss implements the guts of the server-side distributed GC
+ * blgorithm
  *
- * @author Ann Wollrath
+ * @buthor Ann Wollrbth
  */
-@SuppressWarnings("deprecation")
-final class DGCImpl implements DGC {
+@SuppressWbrnings("deprecbtion")
+finbl clbss DGCImpl implements DGC {
 
     /* dgc system log */
-    static final Log dgcLog = Log.getLog("sun.rmi.dgc", "dgc",
-        LogStream.parseLevel(AccessController.doPrivileged(
+    stbtic finbl Log dgcLog = Log.getLog("sun.rmi.dgc", "dgc",
+        LogStrebm.pbrseLevel(AccessController.doPrivileged(
             (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.dgc.logLevel"))));
 
-    /** lease duration to grant to clients */
-    private static final long leaseValue =              // default 10 minutes
+    /** lebse durbtion to grbnt to clients */
+    privbte stbtic finbl long lebseVblue =              // defbult 10 minutes
         AccessController.doPrivileged(
-            (PrivilegedAction<Long>) () -> Long.getLong("java.rmi.dgc.leaseValue", 600000));
+            (PrivilegedAction<Long>) () -> Long.getLong("jbvb.rmi.dgc.lebseVblue", 600000));
 
-    /** lease check interval; default is half of lease grant duration */
-    private static final long leaseCheckInterval =
+    /** lebse check intervbl; defbult is hblf of lebse grbnt durbtion */
+    privbte stbtic finbl long lebseCheckIntervbl =
         AccessController.doPrivileged(
-            (PrivilegedAction<Long>) () -> Long.getLong("sun.rmi.dgc.checkInterval", leaseValue / 2));
+            (PrivilegedAction<Long>) () -> Long.getLong("sun.rmi.dgc.checkIntervbl", lebseVblue / 2));
 
-    /** thread pool for scheduling delayed tasks */
-    private static final ScheduledExecutorService scheduler =
+    /** threbd pool for scheduling delbyed tbsks */
+    privbte stbtic finbl ScheduledExecutorService scheduler =
         AccessController.doPrivileged(
-            new RuntimeUtil.GetInstanceAction()).getScheduler();
+            new RuntimeUtil.GetInstbnceAction()).getScheduler();
 
-    /** remote implementation of DGC interface for this VM */
-    private static DGCImpl dgc;
-    /** table that maps VMID to LeaseInfo */
-    private Map<VMID,LeaseInfo> leaseTable = new HashMap<>();
-    /** checks for lease expiration */
-    private Future<?> checker = null;
+    /** remote implementbtion of DGC interfbce for this VM */
+    privbte stbtic DGCImpl dgc;
+    /** tbble thbt mbps VMID to LebseInfo */
+    privbte Mbp<VMID,LebseInfo> lebseTbble = new HbshMbp<>();
+    /** checks for lebse expirbtion */
+    privbte Future<?> checker = null;
 
     /**
-     * Return the remote implementation of the DGC interface for
+     * Return the remote implementbtion of the DGC interfbce for
      * this VM.
      */
-    static DGCImpl getDGCImpl() {
+    stbtic DGCImpl getDGCImpl() {
         return dgc;
     }
 
     /**
-     * Construct a new server-side remote object collector at
-     * a particular port. Disallow construction from outside.
+     * Construct b new server-side remote object collector bt
+     * b pbrticulbr port. Disbllow construction from outside.
      */
-    private DGCImpl() {}
+    privbte DGCImpl() {}
 
     /**
-     * The dirty call adds the VMID "vmid" to the set of clients
-     * that hold references to the object associated with the ObjID
-     * id.  The long "sequenceNum" is used to detect late dirty calls.  If
-     * the VMID "vmid" is null, a VMID will be generated on the
-     * server (for use by the client in subsequent calls) and
+     * The dirty cbll bdds the VMID "vmid" to the set of clients
+     * thbt hold references to the object bssocibted with the ObjID
+     * id.  The long "sequenceNum" is used to detect lbte dirty cblls.  If
+     * the VMID "vmid" is null, b VMID will be generbted on the
+     * server (for use by the client in subsequent cblls) bnd
      * returned.
      *
-     * The client must call the "dirty" method to renew the lease
-     * before the "lease" time expires or all references to remote
-     * objects in this VM that the client holds are considered
+     * The client must cbll the "dirty" method to renew the lebse
+     * before the "lebse" time expires or bll references to remote
+     * objects in this VM thbt the client holds bre considered
      * "unreferenced".
      */
-    public Lease dirty(ObjID[] ids, long sequenceNum, Lease lease) {
-        VMID vmid = lease.getVMID();
+    public Lebse dirty(ObjID[] ids, long sequenceNum, Lebse lebse) {
+        VMID vmid = lebse.getVMID();
         /*
-         * The server specifies the lease value; the client has
-         * no say in the matter.
+         * The server specifies the lebse vblue; the client hbs
+         * no sby in the mbtter.
          */
-        long duration = leaseValue;
+        long durbtion = lebseVblue;
 
-        if (dgcLog.isLoggable(Log.VERBOSE)) {
+        if (dgcLog.isLoggbble(Log.VERBOSE)) {
             dgcLog.log(Log.VERBOSE, "vmid = " + vmid);
         }
 
-        // create a VMID if one wasn't supplied
+        // crebte b VMID if one wbsn't supplied
         if (vmid == null) {
             vmid = new VMID();
 
-            if (dgcLog.isLoggable(Log.BRIEF)) {
+            if (dgcLog.isLoggbble(Log.BRIEF)) {
                 String clientHost;
                 try {
                     clientHost = RemoteServer.getClientHost();
-                } catch (ServerNotActiveException e) {
+                } cbtch (ServerNotActiveException e) {
                     clientHost = "<unknown host>";
                 }
-                dgcLog.log(Log.BRIEF, " assigning vmid " + vmid +
+                dgcLog.log(Log.BRIEF, " bssigning vmid " + vmid +
                            " to client " + clientHost);
             }
         }
 
-        lease = new Lease(vmid, duration);
-        // record lease information
-        synchronized (leaseTable) {
-            LeaseInfo info = leaseTable.get(vmid);
+        lebse = new Lebse(vmid, durbtion);
+        // record lebse informbtion
+        synchronized (lebseTbble) {
+            LebseInfo info = lebseTbble.get(vmid);
             if (info == null) {
-                leaseTable.put(vmid, new LeaseInfo(vmid, duration));
+                lebseTbble.put(vmid, new LebseInfo(vmid, durbtion));
                 if (checker == null) {
-                    checker = scheduler.scheduleWithFixedDelay(
-                        new Runnable() {
+                    checker = scheduler.scheduleWithFixedDelby(
+                        new Runnbble() {
                             public void run() {
-                                checkLeases();
+                                checkLebses();
                             }
                         },
-                        leaseCheckInterval,
-                        leaseCheckInterval, TimeUnit.MILLISECONDS);
+                        lebseCheckIntervbl,
+                        lebseCheckIntervbl, TimeUnit.MILLISECONDS);
                 }
             } else {
-                info.renew(duration);
+                info.renew(durbtion);
             }
         }
 
         for (ObjID id : ids) {
-            if (dgcLog.isLoggable(Log.VERBOSE)) {
+            if (dgcLog.isLoggbble(Log.VERBOSE)) {
                 dgcLog.log(Log.VERBOSE, "id = " + id +
-                           ", vmid = " + vmid + ", duration = " + duration);
+                           ", vmid = " + vmid + ", durbtion = " + durbtion);
             }
 
-            ObjectTable.referenced(id, sequenceNum, vmid);
+            ObjectTbble.referenced(id, sequenceNum, vmid);
         }
 
         // return the VMID used
-        return lease;
+        return lebse;
     }
 
     /**
-     * The clean call removes the VMID from the set of clients
-     * that hold references to the object associated with the LiveRef
-     * ref.  The sequence number is used to detect late clean calls.  If the
-     * argument "strong" is true, then the clean call is a result of a
-     * failed "dirty" call, thus the sequence number for the VMID needs
-     * to be remembered until the client goes away.
+     * The clebn cbll removes the VMID from the set of clients
+     * thbt hold references to the object bssocibted with the LiveRef
+     * ref.  The sequence number is used to detect lbte clebn cblls.  If the
+     * brgument "strong" is true, then the clebn cbll is b result of b
+     * fbiled "dirty" cbll, thus the sequence number for the VMID needs
+     * to be remembered until the client goes bwby.
      */
-    public void clean(ObjID[] ids, long sequenceNum, VMID vmid, boolean strong)
+    public void clebn(ObjID[] ids, long sequenceNum, VMID vmid, boolebn strong)
     {
         for (ObjID id : ids) {
-            if (dgcLog.isLoggable(Log.VERBOSE)) {
+            if (dgcLog.isLoggbble(Log.VERBOSE)) {
                 dgcLog.log(Log.VERBOSE, "id = " + id +
                     ", vmid = " + vmid + ", strong = " + strong);
             }
 
-            ObjectTable.unreferenced(id, sequenceNum, vmid, strong);
+            ObjectTbble.unreferenced(id, sequenceNum, vmid, strong);
         }
     }
 
     /**
-     * Register interest in receiving a callback when this VMID
-     * becomes inaccessible.
+     * Register interest in receiving b cbllbbck when this VMID
+     * becomes inbccessible.
      */
-    void registerTarget(VMID vmid, Target target) {
-        synchronized (leaseTable) {
-            LeaseInfo info = leaseTable.get(vmid);
+    void registerTbrget(VMID vmid, Tbrget tbrget) {
+        synchronized (lebseTbble) {
+            LebseInfo info = lebseTbble.get(vmid);
             if (info == null) {
-                target.vmidDead(vmid);
+                tbrget.vmidDebd(vmid);
             } else {
-                info.notifySet.add(target);
+                info.notifySet.bdd(tbrget);
             }
         }
     }
 
     /**
-     * Remove notification request.
+     * Remove notificbtion request.
      */
-    void unregisterTarget(VMID vmid, Target target) {
-        synchronized (leaseTable) {
-            LeaseInfo info = leaseTable.get(vmid);
+    void unregisterTbrget(VMID vmid, Tbrget tbrget) {
+        synchronized (lebseTbble) {
+            LebseInfo info = lebseTbble.get(vmid);
             if (info != null) {
-                info.notifySet.remove(target);
+                info.notifySet.remove(tbrget);
             }
         }
     }
 
     /**
-     * Check if leases have expired.  If a lease has expired, remove
-     * it from the table and notify all interested parties that the
-     * VMID is essentially "dead".
+     * Check if lebses hbve expired.  If b lebse hbs expired, remove
+     * it from the tbble bnd notify bll interested pbrties thbt the
+     * VMID is essentiblly "debd".
      *
-     * @return if true, there are leases outstanding; otherwise leases
+     * @return if true, there bre lebses outstbnding; otherwise lebses
      * no longer need to be checked
      */
-    private void checkLeases() {
+    privbte void checkLebses() {
         long time = System.currentTimeMillis();
 
-        /* List of vmids that need to be removed from the leaseTable */
-        List<LeaseInfo> toUnregister = new ArrayList<>();
+        /* List of vmids thbt need to be removed from the lebseTbble */
+        List<LebseInfo> toUnregister = new ArrbyList<>();
 
-        /* Build a list of leaseInfo objects that need to have
-         * targets removed from their notifySet.  Remove expired
-         * leases from leaseTable.
+        /* Build b list of lebseInfo objects thbt need to hbve
+         * tbrgets removed from their notifySet.  Remove expired
+         * lebses from lebseTbble.
          */
-        synchronized (leaseTable) {
-            Iterator<LeaseInfo> iter = leaseTable.values().iterator();
-            while (iter.hasNext()) {
-                LeaseInfo info = iter.next();
+        synchronized (lebseTbble) {
+            Iterbtor<LebseInfo> iter = lebseTbble.vblues().iterbtor();
+            while (iter.hbsNext()) {
+                LebseInfo info = iter.next();
                 if (info.expired(time)) {
-                    toUnregister.add(info);
+                    toUnregister.bdd(info);
                     iter.remove();
                 }
             }
 
-            if (leaseTable.isEmpty()) {
-                checker.cancel(false);
+            if (lebseTbble.isEmpty()) {
+                checker.cbncel(fblse);
                 checker = null;
             }
         }
 
-        /* Notify and unegister targets without holding the lock on
-         * the leaseTable so we avoid deadlock.
+        /* Notify bnd unegister tbrgets without holding the lock on
+         * the lebseTbble so we bvoid debdlock.
          */
-        for (LeaseInfo info : toUnregister) {
-            for (Target target : info.notifySet) {
-                target.vmidDead(info.vmid);
+        for (LebseInfo info : toUnregister) {
+            for (Tbrget tbrget : info.notifySet) {
+                tbrget.vmidDebd(info.vmid);
             }
         }
     }
 
-    static {
+    stbtic {
         /*
-         * "Export" the singleton DGCImpl in a context isolated from
-         * the arbitrary current thread context.
+         * "Export" the singleton DGCImpl in b context isolbted from
+         * the brbitrbry current threbd context.
          */
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                ClassLoader savedCcl =
-                    Thread.currentThread().getContextClassLoader();
+                ClbssLobder sbvedCcl =
+                    Threbd.currentThrebd().getContextClbssLobder();
                 try {
-                    Thread.currentThread().setContextClassLoader(
-                        ClassLoader.getSystemClassLoader());
+                    Threbd.currentThrebd().setContextClbssLobder(
+                        ClbssLobder.getSystemClbssLobder());
 
                     /*
-                     * Put remote collector object in table by hand to prevent
-                     * listen on port.  (UnicastServerRef.exportObject would
-                     * cause transport to listen.)
+                     * Put remote collector object in tbble by hbnd to prevent
+                     * listen on port.  (UnicbstServerRef.exportObject would
+                     * cbuse trbnsport to listen.)
                      */
                     try {
                         dgc = new DGCImpl();
                         ObjID dgcID = new ObjID(ObjID.DGC_ID);
                         LiveRef ref = new LiveRef(dgcID, 0);
-                        UnicastServerRef disp = new UnicastServerRef(ref);
+                        UnicbstServerRef disp = new UnicbstServerRef(ref);
                         Remote stub =
-                            Util.createProxy(DGCImpl.class,
-                                             new UnicastRef(ref), true);
+                            Util.crebteProxy(DGCImpl.clbss,
+                                             new UnicbstRef(ref), true);
                         disp.setSkeleton(dgc);
-                        Target target =
-                            new Target(dgc, disp, stub, dgcID, true);
-                        ObjectTable.putTarget(target);
-                    } catch (RemoteException e) {
+                        Tbrget tbrget =
+                            new Tbrget(dgc, disp, stub, dgcID, true);
+                        ObjectTbble.putTbrget(tbrget);
+                    } cbtch (RemoteException e) {
                         throw new Error(
-                            "exception initializing server-side DGC", e);
+                            "exception initiblizing server-side DGC", e);
                     }
-                } finally {
-                    Thread.currentThread().setContextClassLoader(savedCcl);
+                } finblly {
+                    Threbd.currentThrebd().setContextClbssLobder(sbvedCcl);
                 }
                 return null;
             }
         });
     }
 
-    private static class LeaseInfo {
+    privbte stbtic clbss LebseInfo {
         VMID vmid;
-        long expiration;
-        Set<Target> notifySet = new HashSet<>();
+        long expirbtion;
+        Set<Tbrget> notifySet = new HbshSet<>();
 
-        LeaseInfo(VMID vmid, long lease) {
+        LebseInfo(VMID vmid, long lebse) {
             this.vmid = vmid;
-            expiration = System.currentTimeMillis() + lease;
+            expirbtion = System.currentTimeMillis() + lebse;
         }
 
-        synchronized void renew(long lease) {
-            long newExpiration = System.currentTimeMillis() + lease;
-            if (newExpiration > expiration)
-                expiration = newExpiration;
+        synchronized void renew(long lebse) {
+            long newExpirbtion = System.currentTimeMillis() + lebse;
+            if (newExpirbtion > expirbtion)
+                expirbtion = newExpirbtion;
         }
 
-        boolean expired(long time) {
-            if (expiration < time) {
-                if (dgcLog.isLoggable(Log.BRIEF)) {
+        boolebn expired(long time) {
+            if (expirbtion < time) {
+                if (dgcLog.isLoggbble(Log.BRIEF)) {
                     dgcLog.log(Log.BRIEF, vmid.toString());
                 }
                 return true;
             } else {
-                return false;
+                return fblse;
             }
         }
     }

@@ -1,466 +1,466 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 #import "CMenuItem.h"
 #import "CMenu.h"
 #import "AWTEvent.h"
-#import "ThreadUtilities.h"
+#import "ThrebdUtilities.h"
 
-#import "java_awt_Event.h"
-#import "java_awt_event_KeyEvent.h"
-#import "sun_lwawt_macosx_CMenuItem.h"
+#import "jbvb_bwt_Event.h"
+#import "jbvb_bwt_event_KeyEvent.h"
+#import "sun_lwbwt_mbcosx_CMenuItem.h"
 
 #define NOT_A_CHECKBOXMENU -2
 
 
-@implementation CMenuItem
+@implementbtion CMenuItem
 
-- (id) initWithPeer:(jobject)peer asSeparator: (NSNumber *) asSeparator{
+- (id) initWithPeer:(jobject)peer bsSepbrbtor: (NSNumber *) bsSepbrbtor{
 AWT_ASSERT_APPKIT_THREAD;
     self = [super initWithPeer:peer];
     if (self) {
-        if ([asSeparator boolValue]) {
-            fMenuItem = (NSMenuItem*)[NSMenuItem separatorItem];
-            [fMenuItem retain];
+        if ([bsSepbrbtor boolVblue]) {
+            fMenuItem = (NSMenuItem*)[NSMenuItem sepbrbtorItem];
+            [fMenuItem retbin];
         } else {
-            fMenuItem = [[NSMenuItem alloc] init];
-            [fMenuItem setAction:@selector(handleAction:)];
-            [fMenuItem setTarget:self];
+            fMenuItem = [[NSMenuItem blloc] init];
+            [fMenuItem setAction:@selector(hbndleAction:)];
+            [fMenuItem setTbrget:self];
         }
         fIsCheckbox = NO;
-        fIsEnabled = YES;
+        fIsEnbbled = YES;
     }
     return self;
 }
 
-// This is because NSApplication doesn't check the target's window when sending
-// actions; they only check the target itself.  We always return YES,
-// since we shouldn't even be installed unless our window is active.
-- (BOOL) worksWhenModal {
+// This is becbuse NSApplicbtion doesn't check the tbrget's window when sending
+// bctions; they only check the tbrget itself.  We blwbys return YES,
+// since we shouldn't even be instblled unless our window is bctive.
+- (BOOL) worksWhenModbl {
     return YES;
 }
 
 // Events
-- (void)handleAction:(NSMenuItem *)sender {
+- (void)hbndleAction:(NSMenuItem *)sender {
 AWT_ASSERT_APPKIT_THREAD;
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
 JNF_COCOA_ENTER(env);
 
-    // If we are called as a result of user pressing a shortcut, do nothing,
-    // because AVTView has already sent corresponding key event to the Java
-    // layer from performKeyEquivalent.
-    // There is an exception from the rule above, though: if a window with
-    // a menu gets minimized by user and there are no other windows to take
-    // focus, the window's menu won't be removed from the global menu bar.
-    // However, the Java layer won't handle invocation by a shortcut coming
-    // from this "frameless" menu, because there are no active windows. This
-    // means we have to handle it here.
-    NSEvent *currEvent = [[NSApplication sharedApplication] currentEvent];
+    // If we bre cblled bs b result of user pressing b shortcut, do nothing,
+    // becbuse AVTView hbs blrebdy sent corresponding key event to the Jbvb
+    // lbyer from performKeyEquivblent.
+    // There is bn exception from the rule bbove, though: if b window with
+    // b menu gets minimized by user bnd there bre no other windows to tbke
+    // focus, the window's menu won't be removed from the globbl menu bbr.
+    // However, the Jbvb lbyer won't hbndle invocbtion by b shortcut coming
+    // from this "frbmeless" menu, becbuse there bre no bctive windows. This
+    // mebns we hbve to hbndle it here.
+    NSEvent *currEvent = [[NSApplicbtion shbredApplicbtion] currentEvent];
     if ([currEvent type] == NSKeyDown) {
-        NSString *menuKey = [sender keyEquivalent];
-        NSString *eventKey = [currEvent charactersIgnoringModifiers];
+        NSString *menuKey = [sender keyEquivblent];
+        NSString *eventKey = [currEvent chbrbctersIgnoringModifiers];
 
-        // Apple uses characters from private Unicode range for some of the
-        // keys, so we need to do the same translation here that we do
-        // for the regular key down events
+        // Apple uses chbrbcters from privbte Unicode rbnge for some of the
+        // keys, so we need to do the sbme trbnslbtion here thbt we do
+        // for the regulbr key down events
         if ([eventKey length] == 1) {
-            unichar origChar = [eventKey characterAtIndex:0];
-            unichar newChar =  NsCharToJavaChar(origChar, 0);
-            if (newChar == java_awt_event_KeyEvent_CHAR_UNDEFINED) {
-                newChar = origChar;
+            unichbr origChbr = [eventKey chbrbcterAtIndex:0];
+            unichbr newChbr =  NsChbrToJbvbChbr(origChbr, 0);
+            if (newChbr == jbvb_bwt_event_KeyEvent_CHAR_UNDEFINED) {
+                newChbr = origChbr;
             }
 
-            eventKey = [NSString stringWithCharacters: &newChar length: 1];
+            eventKey = [NSString stringWithChbrbcters: &newChbr length: 1];
         }
 
         NSWindow *keyWindow = [NSApp keyWindow];
-        if ([menuKey isEqualToString:eventKey] && keyWindow != nil) {
+        if ([menuKey isEqublToString:eventKey] && keyWindow != nil) {
             return;
         }
     }
 
     if (fIsCheckbox) {
-        static JNF_CLASS_CACHE(jc_CCheckboxMenuItem, "sun/lwawt/macosx/CCheckboxMenuItem");
-        static JNF_MEMBER_CACHE(jm_ckHandleAction, jc_CCheckboxMenuItem, "handleAction", "(Z)V");
+        stbtic JNF_CLASS_CACHE(jc_CCheckboxMenuItem, "sun/lwbwt/mbcosx/CCheckboxMenuItem");
+        stbtic JNF_MEMBER_CACHE(jm_ckHbndleAction, jc_CCheckboxMenuItem, "hbndleAction", "(Z)V");
 
-        // Send the opposite of what's currently checked -- the action
-        // indicates what state we're going to.
-        NSInteger state = [sender state];
-        jboolean newState = (state == NSOnState ? JNI_FALSE : JNI_TRUE);
-        JNFCallVoidMethod(env, fPeer, jm_ckHandleAction, newState);
+        // Send the opposite of whbt's currently checked -- the bction
+        // indicbtes whbt stbte we're going to.
+        NSInteger stbte = [sender stbte];
+        jboolebn newStbte = (stbte == NSOnStbte ? JNI_FALSE : JNI_TRUE);
+        JNFCbllVoidMethod(env, fPeer, jm_ckHbndleAction, newStbte);
     } else {
-        static JNF_CLASS_CACHE(jc_CMenuItem, "sun/lwawt/macosx/CMenuItem");
-        static JNF_MEMBER_CACHE(jm_handleAction, jc_CMenuItem, "handleAction", "(JI)V"); // AWT_THREADING Safe (event)
+        stbtic JNF_CLASS_CACHE(jc_CMenuItem, "sun/lwbwt/mbcosx/CMenuItem");
+        stbtic JNF_MEMBER_CACHE(jm_hbndleAction, jc_CMenuItem, "hbndleAction", "(JI)V"); // AWT_THREADING Sbfe (event)
 
-        NSUInteger modifiers = [currEvent modifierFlags];
-        jint javaModifiers = NsKeyModifiersToJavaModifiers(modifiers, NO);
+        NSUInteger modifiers = [currEvent modifierFlbgs];
+        jint jbvbModifiers = NsKeyModifiersToJbvbModifiers(modifiers, NO);
 
-        JNFCallVoidMethod(env, fPeer, jm_handleAction, UTC(currEvent), javaModifiers); // AWT_THREADING Safe (event)
+        JNFCbllVoidMethod(env, fPeer, jm_hbndleAction, UTC(currEvent), jbvbModifiers); // AWT_THREADING Sbfe (event)
     }
 JNF_COCOA_EXIT(env);
 }
 
-- (void) setJavaLabel:(NSString *)theLabel shortcut:(NSString *)theKeyEquivalent modifierMask:(jint)modifiers {
+- (void) setJbvbLbbel:(NSString *)theLbbel shortcut:(NSString *)theKeyEquivblent modifierMbsk:(jint)modifiers {
 
-    NSUInteger modifierMask = 0;
+    NSUInteger modifierMbsk = 0;
 
-    if (![theKeyEquivalent isEqualToString:@""]) {
-        // Force the key equivalent to lower case if not using the shift key.
-        // Otherwise AppKit will draw a Shift glyph in the menu.
-        if ((modifiers & java_awt_event_KeyEvent_SHIFT_MASK) == 0) {
-            theKeyEquivalent = [theKeyEquivalent lowercaseString];
+    if (![theKeyEquivblent isEqublToString:@""]) {
+        // Force the key equivblent to lower cbse if not using the shift key.
+        // Otherwise AppKit will drbw b Shift glyph in the menu.
+        if ((modifiers & jbvb_bwt_event_KeyEvent_SHIFT_MASK) == 0) {
+            theKeyEquivblent = [theKeyEquivblent lowercbseString];
         }
 
-        // Hack for the question mark -- SHIFT and / means use the question mark.
-        if ((modifiers & java_awt_event_KeyEvent_SHIFT_MASK) != 0 &&
-            [theKeyEquivalent isEqualToString:@"/"])
+        // Hbck for the question mbrk -- SHIFT bnd / mebns use the question mbrk.
+        if ((modifiers & jbvb_bwt_event_KeyEvent_SHIFT_MASK) != 0 &&
+            [theKeyEquivblent isEqublToString:@"/"])
         {
-            theKeyEquivalent = @"?";
-            modifiers &= ~java_awt_event_KeyEvent_SHIFT_MASK;
+            theKeyEquivblent = @"?";
+            modifiers &= ~jbvb_bwt_event_KeyEvent_SHIFT_MASK;
         }
 
-        modifierMask = JavaModifiersToNsKeyModifiers(modifiers, NO);
+        modifierMbsk = JbvbModifiersToNsKeyModifiers(modifiers, NO);
     }
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        [fMenuItem setKeyEquivalent:theKeyEquivalent];
-        [fMenuItem setKeyEquivalentModifierMask:modifierMask];
-        [fMenuItem setTitle:theLabel];
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+        [fMenuItem setKeyEquivblent:theKeyEquivblent];
+        [fMenuItem setKeyEquivblentModifierMbsk:modifierMbsk];
+        [fMenuItem setTitle:theLbbel];
     }];
 }
 
-- (void) setJavaImage:(NSImage *)theImage {
+- (void) setJbvbImbge:(NSImbge *)theImbge {
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [fMenuItem setImage:theImage];
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
+        [fMenuItem setImbge:theImbge];
     }];
 }
 
-- (void) setJavaToolTipText:(NSString *)theText {
+- (void) setJbvbToolTipText:(NSString *)theText {
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
         [fMenuItem setToolTip:theText];
     }];
 }
 
 
-- (void)setJavaEnabled:(BOOL) enabled {
+- (void)setJbvbEnbbled:(BOOL) enbbled {
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
         @synchronized(self) {
-            fIsEnabled = enabled;
+            fIsEnbbled = enbbled;
 
-            // Warning:  This won't work if the parent menu is disabled.
-            // See [CMenu syncFromJava]. We still need to call it here so
-            // the NSMenuItem itself gets properly updated.
-            [fMenuItem setEnabled:fIsEnabled];
+            // Wbrning:  This won't work if the pbrent menu is disbbled.
+            // See [CMenu syncFromJbvb]. We still need to cbll it here so
+            // the NSMenuItem itself gets properly updbted.
+            [fMenuItem setEnbbled:fIsEnbbled];
         }
     }];
 }
 
-- (BOOL)isEnabled {
+- (BOOL)isEnbbled {
 
-    BOOL enabled = NO;
+    BOOL enbbled = NO;
     @synchronized(self) {
-        enabled = fIsEnabled;
+        enbbled = fIsEnbbled;
     }
-    return enabled;
+    return enbbled;
 }
 
 
-- (void)setJavaState:(BOOL)newState {
+- (void)setJbvbStbte:(BOOL)newStbte {
 
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [fMenuItem setState:(newState ? NSOnState : NSOffState)];
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
+        [fMenuItem setStbte:(newStbte ? NSOnStbte : NSOffStbte)];
     }];
 }
 
-- (void)cleanup {
+- (void)clebnup {
     [fMenuItem setAction:NULL];
-    [fMenuItem setTarget:nil];
+    [fMenuItem setTbrget:nil];
 }
 
-- (void)dealloc {
-    [fMenuItem release];
+- (void)deblloc {
+    [fMenuItem relebse];
     fMenuItem = nil;
 
-    [super dealloc];
+    [super deblloc];
 }
 
-- (void)addNSMenuItemToMenu:(NSMenu *)inMenu {
-    [inMenu addItem:fMenuItem];
+- (void)bddNSMenuItemToMenu:(NSMenu *)inMenu {
+    [inMenu bddItem:fMenuItem];
 }
 
 - (NSMenuItem *)menuItem {
-    return [[fMenuItem retain] autorelease];
+    return [[fMenuItem retbin] butorelebse];
 }
 
 - (void)setIsCheckbox {
     fIsCheckbox = YES;
 }
 
-- (void) _createMenuItem_OnAppKitThread: (NSMutableArray *)argValue {
-    jobject cPeerObjGlobal = (jobject)[[argValue objectAtIndex: 0] pointerValue];
-    NSNumber * asSeparator = (NSNumber *)[argValue objectAtIndex: 1];
-    CMenuItem *aCMenuItem = [self initWithPeer: cPeerObjGlobal asSeparator: asSeparator];
-    [argValue removeAllObjects];
-    [argValue addObject: aCMenuItem];
+- (void) _crebteMenuItem_OnAppKitThrebd: (NSMutbbleArrby *)brgVblue {
+    jobject cPeerObjGlobbl = (jobject)[[brgVblue objectAtIndex: 0] pointerVblue];
+    NSNumber * bsSepbrbtor = (NSNumber *)[brgVblue objectAtIndex: 1];
+    CMenuItem *bCMenuItem = [self initWithPeer: cPeerObjGlobbl bsSepbrbtor: bsSepbrbtor];
+    [brgVblue removeAllObjects];
+    [brgVblue bddObject: bCMenuItem];
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"CMenuItem[ %@ ]", fMenuItem];
+    return [NSString stringWithFormbt:@"CMenuItem[ %@ ]", fMenuItem];
 }
 
 @end
 
-/** Convert a Java keycode for SetMenuItemCmd */
-static unichar AWTKeyToMacShortcut(jint awtKey, BOOL doShift) {
-    unichar macKey = 0;
+/** Convert b Jbvb keycode for SetMenuItemCmd */
+stbtic unichbr AWTKeyToMbcShortcut(jint bwtKey, BOOL doShift) {
+    unichbr mbcKey = 0;
 
-    if ((awtKey >= java_awt_event_KeyEvent_VK_0 && awtKey <= java_awt_event_KeyEvent_VK_9) ||
-        (awtKey >= java_awt_event_KeyEvent_VK_A && awtKey <= java_awt_event_KeyEvent_VK_Z))
+    if ((bwtKey >= jbvb_bwt_event_KeyEvent_VK_0 && bwtKey <= jbvb_bwt_event_KeyEvent_VK_9) ||
+        (bwtKey >= jbvb_bwt_event_KeyEvent_VK_A && bwtKey <= jbvb_bwt_event_KeyEvent_VK_Z))
     {
-        // These ranges are the same in ASCII
-        macKey = awtKey;
-    } else if (awtKey >= java_awt_event_KeyEvent_VK_F1 && awtKey <= java_awt_event_KeyEvent_VK_F12) {
-        // Support for F1 - F12 has been around since Java 1.0 and fall into a lower range.
-        macKey = awtKey - java_awt_event_KeyEvent_VK_F1 + NSF1FunctionKey;
-    } else if (awtKey >= java_awt_event_KeyEvent_VK_F13 && awtKey <= java_awt_event_KeyEvent_VK_F24) {
-        // Support for F13-F24 came in Java 1.2 and are at a different range.
-        macKey = awtKey - java_awt_event_KeyEvent_VK_F13 + NSF13FunctionKey;
+        // These rbnges bre the sbme in ASCII
+        mbcKey = bwtKey;
+    } else if (bwtKey >= jbvb_bwt_event_KeyEvent_VK_F1 && bwtKey <= jbvb_bwt_event_KeyEvent_VK_F12) {
+        // Support for F1 - F12 hbs been bround since Jbvb 1.0 bnd fbll into b lower rbnge.
+        mbcKey = bwtKey - jbvb_bwt_event_KeyEvent_VK_F1 + NSF1FunctionKey;
+    } else if (bwtKey >= jbvb_bwt_event_KeyEvent_VK_F13 && bwtKey <= jbvb_bwt_event_KeyEvent_VK_F24) {
+        // Support for F13-F24 cbme in Jbvb 1.2 bnd bre bt b different rbnge.
+        mbcKey = bwtKey - jbvb_bwt_event_KeyEvent_VK_F13 + NSF13FunctionKey;
     } else {
-        // Special characters
-        switch (awtKey) {
-        case java_awt_event_KeyEvent_VK_BACK_QUOTE      : macKey = '`'; break;
-        case java_awt_event_KeyEvent_VK_QUOTE           : macKey = '\''; break;
+        // Specibl chbrbcters
+        switch (bwtKey) {
+        cbse jbvb_bwt_event_KeyEvent_VK_BACK_QUOTE      : mbcKey = '`'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_QUOTE           : mbcKey = '\''; brebk;
 
-        case java_awt_event_KeyEvent_VK_ESCAPE          : macKey = 0x1B; break;
-        case java_awt_event_KeyEvent_VK_SPACE           : macKey = ' '; break;
-        case java_awt_event_KeyEvent_VK_PAGE_UP         : macKey = NSPageUpFunctionKey; break;
-        case java_awt_event_KeyEvent_VK_PAGE_DOWN       : macKey = NSPageDownFunctionKey; break;
-        case java_awt_event_KeyEvent_VK_END             : macKey = NSEndFunctionKey; break;
-        case java_awt_event_KeyEvent_VK_HOME            : macKey = NSHomeFunctionKey; break;
+        cbse jbvb_bwt_event_KeyEvent_VK_ESCAPE          : mbcKey = 0x1B; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_SPACE           : mbcKey = ' '; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_PAGE_UP         : mbcKey = NSPbgeUpFunctionKey; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_PAGE_DOWN       : mbcKey = NSPbgeDownFunctionKey; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_END             : mbcKey = NSEndFunctionKey; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_HOME            : mbcKey = NSHomeFunctionKey; brebk;
 
-        case java_awt_event_KeyEvent_VK_LEFT            : macKey = NSLeftArrowFunctionKey; break;
-        case java_awt_event_KeyEvent_VK_UP              : macKey = NSUpArrowFunctionKey; break;
-        case java_awt_event_KeyEvent_VK_RIGHT           : macKey = NSRightArrowFunctionKey; break;
-        case java_awt_event_KeyEvent_VK_DOWN            : macKey = NSDownArrowFunctionKey; break;
+        cbse jbvb_bwt_event_KeyEvent_VK_LEFT            : mbcKey = NSLeftArrowFunctionKey; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_UP              : mbcKey = NSUpArrowFunctionKey; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_RIGHT           : mbcKey = NSRightArrowFunctionKey; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_DOWN            : mbcKey = NSDownArrowFunctionKey; brebk;
 
-        case java_awt_event_KeyEvent_VK_COMMA           : macKey = ','; break;
+        cbse jbvb_bwt_event_KeyEvent_VK_COMMA           : mbcKey = ','; brebk;
 
-        // Mac OS doesn't distinguish between the two '-' keys...
-        case java_awt_event_KeyEvent_VK_MINUS           :
-        case java_awt_event_KeyEvent_VK_SUBTRACT        : macKey = '-'; break;
+        // Mbc OS doesn't distinguish between the two '-' keys...
+        cbse jbvb_bwt_event_KeyEvent_VK_MINUS           :
+        cbse jbvb_bwt_event_KeyEvent_VK_SUBTRACT        : mbcKey = '-'; brebk;
 
         // or the two '.' keys...
-        case java_awt_event_KeyEvent_VK_DECIMAL         :
-        case java_awt_event_KeyEvent_VK_PERIOD          : macKey = '.'; break;
+        cbse jbvb_bwt_event_KeyEvent_VK_DECIMAL         :
+        cbse jbvb_bwt_event_KeyEvent_VK_PERIOD          : mbcKey = '.'; brebk;
 
         // or the two '/' keys.
-        case java_awt_event_KeyEvent_VK_DIVIDE          :
-        case java_awt_event_KeyEvent_VK_SLASH           : macKey = '/'; break;
+        cbse jbvb_bwt_event_KeyEvent_VK_DIVIDE          :
+        cbse jbvb_bwt_event_KeyEvent_VK_SLASH           : mbcKey = '/'; brebk;
 
-        case java_awt_event_KeyEvent_VK_SEMICOLON       : macKey = ';'; break;
-        case java_awt_event_KeyEvent_VK_EQUALS          : macKey = '='; break;
+        cbse jbvb_bwt_event_KeyEvent_VK_SEMICOLON       : mbcKey = ';'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_EQUALS          : mbcKey = '='; brebk;
 
-        case java_awt_event_KeyEvent_VK_OPEN_BRACKET    : macKey = '['; break;
-        case java_awt_event_KeyEvent_VK_BACK_SLASH      : macKey = '\\'; break;
-        case java_awt_event_KeyEvent_VK_CLOSE_BRACKET   : macKey = ']'; break;
+        cbse jbvb_bwt_event_KeyEvent_VK_OPEN_BRACKET    : mbcKey = '['; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_BACK_SLASH      : mbcKey = '\\'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_CLOSE_BRACKET   : mbcKey = ']'; brebk;
 
-        case java_awt_event_KeyEvent_VK_MULTIPLY        : macKey = '*'; break;
-        case java_awt_event_KeyEvent_VK_ADD             : macKey = '+'; break;
+        cbse jbvb_bwt_event_KeyEvent_VK_MULTIPLY        : mbcKey = '*'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_ADD             : mbcKey = '+'; brebk;
 
-        case java_awt_event_KeyEvent_VK_HELP            : macKey = NSHelpFunctionKey; break;
-        case java_awt_event_KeyEvent_VK_TAB             : macKey = NSTabCharacter; break;
-        case java_awt_event_KeyEvent_VK_ENTER           : macKey = NSNewlineCharacter; break;
-        case java_awt_event_KeyEvent_VK_BACK_SPACE      : macKey = NSBackspaceCharacter; break;
-        case java_awt_event_KeyEvent_VK_DELETE          : macKey = NSDeleteCharacter; break;
-        case java_awt_event_KeyEvent_VK_CLEAR           : macKey = NSClearDisplayFunctionKey; break;
-        case java_awt_event_KeyEvent_VK_AMPERSAND       : macKey = '&'; break;
-        case java_awt_event_KeyEvent_VK_ASTERISK        : macKey = '*'; break;
-        case java_awt_event_KeyEvent_VK_QUOTEDBL        : macKey = '\"'; break;
-        case java_awt_event_KeyEvent_VK_LESS            : macKey = '<'; break;
-        case java_awt_event_KeyEvent_VK_GREATER         : macKey = '>'; break;
-        case java_awt_event_KeyEvent_VK_BRACELEFT       : macKey = '{'; break;
-        case java_awt_event_KeyEvent_VK_BRACERIGHT      : macKey = '}'; break;
-        case java_awt_event_KeyEvent_VK_AT              : macKey = '@'; break;
-        case java_awt_event_KeyEvent_VK_COLON           : macKey = ':'; break;
-        case java_awt_event_KeyEvent_VK_CIRCUMFLEX      : macKey = '^'; break;
-        case java_awt_event_KeyEvent_VK_DOLLAR          : macKey = '$'; break;
-        case java_awt_event_KeyEvent_VK_EXCLAMATION_MARK : macKey = '!'; break;
-        case java_awt_event_KeyEvent_VK_LEFT_PARENTHESIS : macKey = '('; break;
-        case java_awt_event_KeyEvent_VK_NUMBER_SIGN     : macKey = '#'; break;
-        case java_awt_event_KeyEvent_VK_PLUS            : macKey = '+'; break;
-        case java_awt_event_KeyEvent_VK_RIGHT_PARENTHESIS: macKey = ')'; break;
-        case java_awt_event_KeyEvent_VK_UNDERSCORE      : macKey = '_'; break;
+        cbse jbvb_bwt_event_KeyEvent_VK_HELP            : mbcKey = NSHelpFunctionKey; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_TAB             : mbcKey = NSTbbChbrbcter; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_ENTER           : mbcKey = NSNewlineChbrbcter; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_BACK_SPACE      : mbcKey = NSBbckspbceChbrbcter; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_DELETE          : mbcKey = NSDeleteChbrbcter; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_CLEAR           : mbcKey = NSClebrDisplbyFunctionKey; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_AMPERSAND       : mbcKey = '&'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_ASTERISK        : mbcKey = '*'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_QUOTEDBL        : mbcKey = '\"'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_LESS            : mbcKey = '<'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_GREATER         : mbcKey = '>'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_BRACELEFT       : mbcKey = '{'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_BRACERIGHT      : mbcKey = '}'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_AT              : mbcKey = '@'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_COLON           : mbcKey = ':'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_CIRCUMFLEX      : mbcKey = '^'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_DOLLAR          : mbcKey = '$'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_EXCLAMATION_MARK : mbcKey = '!'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_LEFT_PARENTHESIS : mbcKey = '('; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_NUMBER_SIGN     : mbcKey = '#'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_PLUS            : mbcKey = '+'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_RIGHT_PARENTHESIS: mbcKey = ')'; brebk;
+        cbse jbvb_bwt_event_KeyEvent_VK_UNDERSCORE      : mbcKey = '_'; brebk;
         }
     }
-    return macKey;
+    return mbcKey;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CMenuItem
- * Method:    nativeSetLabel
- * Signature: (JLjava/lang/String;CII)V
+ * Clbss:     sun_lwbwt_mbcosx_CMenuItem
+ * Method:    nbtiveSetLbbel
+ * Signbture: (JLjbvb/lbng/String;CII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CMenuItem_nativeSetLabel
+Jbvb_sun_lwbwt_mbcosx_CMenuItem_nbtiveSetLbbel
 (JNIEnv *env, jobject peer,
-     jlong menuItemObj, jstring label,
-     jchar shortcutKey, jint shortcutKeyCode, jint mods)
+     jlong menuItemObj, jstring lbbel,
+     jchbr shortcutKey, jint shortcutKeyCode, jint mods)
 {
 JNF_COCOA_ENTER(env);
-    NSString *theLabel = JNFJavaToNSString(env, label);
-    NSString *theKeyEquivalent = nil;
-    unichar macKey = shortcutKey;
+    NSString *theLbbel = JNFJbvbToNSString(env, lbbel);
+    NSString *theKeyEquivblent = nil;
+    unichbr mbcKey = shortcutKey;
 
-    if (macKey == 0) {
-        macKey = AWTKeyToMacShortcut(shortcutKeyCode, (mods & java_awt_event_KeyEvent_SHIFT_MASK) != 0);
+    if (mbcKey == 0) {
+        mbcKey = AWTKeyToMbcShortcut(shortcutKeyCode, (mods & jbvb_bwt_event_KeyEvent_SHIFT_MASK) != 0);
     }
 
-    if (macKey != 0) {
-        unichar equivalent[1] = {macKey};
-        theKeyEquivalent = [NSString stringWithCharacters:equivalent length:1];
+    if (mbcKey != 0) {
+        unichbr equivblent[1] = {mbcKey};
+        theKeyEquivblent = [NSString stringWithChbrbcters:equivblent length:1];
     } else {
-        theKeyEquivalent = @"";
+        theKeyEquivblent = @"";
     }
 
-    [((CMenuItem *)jlong_to_ptr(menuItemObj)) setJavaLabel:theLabel shortcut:theKeyEquivalent modifierMask:mods];
+    [((CMenuItem *)jlong_to_ptr(menuItemObj)) setJbvbLbbel:theLbbel shortcut:theKeyEquivblent modifierMbsk:mods];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CMenuItem
- * Method:    nativeSetTooltip
- * Signature: (JLjava/lang/String;)V
+ * Clbss:     sun_lwbwt_mbcosx_CMenuItem
+ * Method:    nbtiveSetTooltip
+ * Signbture: (JLjbvb/lbng/String;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CMenuItem_nativeSetTooltip
+Jbvb_sun_lwbwt_mbcosx_CMenuItem_nbtiveSetTooltip
 (JNIEnv *env, jobject peer, jlong menuItemObj, jstring tooltip)
 {
 JNF_COCOA_ENTER(env);
-    NSString *theTooltip = JNFJavaToNSString(env, tooltip);
-    [((CMenuItem *)jlong_to_ptr(menuItemObj)) setJavaToolTipText:theTooltip];
+    NSString *theTooltip = JNFJbvbToNSString(env, tooltip);
+    [((CMenuItem *)jlong_to_ptr(menuItemObj)) setJbvbToolTipText:theTooltip];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CMenuItem
- * Method:    nativeSetImage
- * Signature: (JJ)V
+ * Clbss:     sun_lwbwt_mbcosx_CMenuItem
+ * Method:    nbtiveSetImbge
+ * Signbture: (JJ)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CMenuItem_nativeSetImage
-(JNIEnv *env, jobject peer, jlong menuItemObj, jlong image)
+Jbvb_sun_lwbwt_mbcosx_CMenuItem_nbtiveSetImbge
+(JNIEnv *env, jobject peer, jlong menuItemObj, jlong imbge)
 {
 JNF_COCOA_ENTER(env);
-    [((CMenuItem *)jlong_to_ptr(menuItemObj)) setJavaImage:(NSImage*)jlong_to_ptr(image)];
+    [((CMenuItem *)jlong_to_ptr(menuItemObj)) setJbvbImbge:(NSImbge*)jlong_to_ptr(imbge)];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CMenuItem
- * Method:    nativeCreate
- * Signature: (JZ)J
+ * Clbss:     sun_lwbwt_mbcosx_CMenuItem
+ * Method:    nbtiveCrebte
+ * Signbture: (JZ)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_lwawt_macosx_CMenuItem_nativeCreate
-    (JNIEnv *env, jobject peer, jlong parentCMenuObj, jboolean isSeparator)
+Jbvb_sun_lwbwt_mbcosx_CMenuItem_nbtiveCrebte
+    (JNIEnv *env, jobject peer, jlong pbrentCMenuObj, jboolebn isSepbrbtor)
 {
 
-    CMenuItem *aCMenuItem = nil;
-    CMenu *parentCMenu = (CMenu *)jlong_to_ptr(parentCMenuObj);
+    CMenuItem *bCMenuItem = nil;
+    CMenu *pbrentCMenu = (CMenu *)jlong_to_ptr(pbrentCMenuObj);
 JNF_COCOA_ENTER(env);
 
-    jobject cPeerObjGlobal = (*env)->NewGlobalRef(env, peer);
+    jobject cPeerObjGlobbl = (*env)->NewGlobblRef(env, peer);
 
-    NSMutableArray *args = nil;
+    NSMutbbleArrby *brgs = nil;
 
-    // Create a new item....
-    if (isSeparator == JNI_TRUE) {
-        args = [[NSMutableArray alloc] initWithObjects:[NSValue valueWithBytes:&cPeerObjGlobal objCType:@encode(jobject)], [NSNumber numberWithBool:YES],  nil];
+    // Crebte b new item....
+    if (isSepbrbtor == JNI_TRUE) {
+        brgs = [[NSMutbbleArrby blloc] initWithObjects:[NSVblue vblueWithBytes:&cPeerObjGlobbl objCType:@encode(jobject)], [NSNumber numberWithBool:YES],  nil];
     } else {
-        args = [[NSMutableArray alloc] initWithObjects:[NSValue valueWithBytes:&cPeerObjGlobal objCType:@encode(jobject)], [NSNumber numberWithBool:NO],  nil];
+        brgs = [[NSMutbbleArrby blloc] initWithObjects:[NSVblue vblueWithBytes:&cPeerObjGlobbl objCType:@encode(jobject)], [NSNumber numberWithBool:NO],  nil];
     }
 
-    [ThreadUtilities performOnMainThread:@selector(_createMenuItem_OnAppKitThread:) on:[CMenuItem alloc] withObject:args waitUntilDone:YES];
+    [ThrebdUtilities performOnMbinThrebd:@selector(_crebteMenuItem_OnAppKitThrebd:) on:[CMenuItem blloc] withObject:brgs wbitUntilDone:YES];
 
-    aCMenuItem = (CMenuItem *)[args objectAtIndex: 0];
+    bCMenuItem = (CMenuItem *)[brgs objectAtIndex: 0];
 
-    if (aCMenuItem == nil) {
+    if (bCMenuItem == nil) {
         return 0L;
     }
 
-    // and add it to the parent item.
-    [parentCMenu addJavaMenuItem: aCMenuItem];
+    // bnd bdd it to the pbrent item.
+    [pbrentCMenu bddJbvbMenuItem: bCMenuItem];
 
-    // setLabel will be called after creation completes.
+    // setLbbel will be cblled bfter crebtion completes.
 
 JNF_COCOA_EXIT(env);
-    return ptr_to_jlong(aCMenuItem);
+    return ptr_to_jlong(bCMenuItem);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CMenuItem
- * Method:    nativeSetEnabled
- * Signature: (JZ)V
+ * Clbss:     sun_lwbwt_mbcosx_CMenuItem
+ * Method:    nbtiveSetEnbbled
+ * Signbture: (JZ)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CMenuItem_nativeSetEnabled
-(JNIEnv *env, jobject peer, jlong menuItemObj, jboolean enable)
+Jbvb_sun_lwbwt_mbcosx_CMenuItem_nbtiveSetEnbbled
+(JNIEnv *env, jobject peer, jlong menuItemObj, jboolebn enbble)
 {
 JNF_COCOA_ENTER(env);
     CMenuItem *item = (CMenuItem *)jlong_to_ptr(menuItemObj);
-    [item setJavaEnabled: (enable == JNI_TRUE)];
+    [item setJbvbEnbbled: (enbble == JNI_TRUE)];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CCheckboxMenuItem
- * Method:    nativeSetState
- * Signature: (IZ)V
+ * Clbss:     sun_lwbwt_mbcosx_CCheckboxMenuItem
+ * Method:    nbtiveSetStbte
+ * Signbture: (IZ)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CCheckboxMenuItem_nativeSetState
-(JNIEnv *env, jobject peer, jlong menuItemObj, jboolean state)
+Jbvb_sun_lwbwt_mbcosx_CCheckboxMenuItem_nbtiveSetStbte
+(JNIEnv *env, jobject peer, jlong menuItemObj, jboolebn stbte)
 {
 JNF_COCOA_ENTER(env);
     CMenuItem *item = (CMenuItem *)jlong_to_ptr(menuItemObj);
-    [item setJavaState: (state == JNI_TRUE)];
+    [item setJbvbStbte: (stbte == JNI_TRUE)];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CCheckboxMenuItem
- * Method:    nativeSetState
- * Signature: (IZ)V
+ * Clbss:     sun_lwbwt_mbcosx_CCheckboxMenuItem
+ * Method:    nbtiveSetStbte
+ * Signbture: (IZ)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CCheckboxMenuItem_nativeSetIsCheckbox
+Jbvb_sun_lwbwt_mbcosx_CCheckboxMenuItem_nbtiveSetIsCheckbox
 (JNIEnv *env, jobject peer, jlong menuItemObj)
 {
 JNF_COCOA_ENTER(env);

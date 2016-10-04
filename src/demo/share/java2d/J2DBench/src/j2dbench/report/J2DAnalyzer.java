@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,170 +30,170 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench.report;
+pbckbge j2dbench.report;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintStream;
+import jbvb.util.Vector;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
+import jbvb.io.BufferedRebder;
+import jbvb.io.FileRebder;
+import jbvb.io.IOException;
+import jbvb.io.PrintStrebm;
 
-public class J2DAnalyzer {
-    static Vector results = new Vector();
-    static GroupResultSetHolder groupHolder;
+public clbss J2DAnblyzer {
+    stbtic Vector results = new Vector();
+    stbtic GroupResultSetHolder groupHolder;
 
-    static final int BEST = 1;    /* The best score */
-    static final int WORST = 2;   /* The worst score */
-    static final int AVERAGE = 3; /* Average of all scores */
-    static final int MIDAVG = 4;  /* Average of all but the best and worst */
+    stbtic finbl int BEST = 1;    /* The best score */
+    stbtic finbl int WORST = 2;   /* The worst score */
+    stbtic finbl int AVERAGE = 3; /* Averbge of bll scores */
+    stbtic finbl int MIDAVG = 4;  /* Averbge of bll but the best bnd worst */
 
-    static int mode = MIDAVG;
+    stbtic int mode = MIDAVG;
 
-    public static void usage(PrintStream out) {
-        out.println("usage:");
-        out.println("    java -jar J2DAnalyzer.jar [Option]*");
+    public stbtic void usbge(PrintStrebm out) {
+        out.println("usbge:");
+        out.println("    jbvb -jbr J2DAnblyzer.jbr [Option]*");
         out.println();
-        out.println("where options are any of the following in any order:");
-        out.println("   -Help|-Usage          "+
-                    "print out this usage statement");
-        out.println("   -Group:<groupname>    "+
-                    "the following result sets are combined into a group");
+        out.println("where options bre bny of the following in bny order:");
+        out.println("   -Help|-Usbge          "+
+                    "print out this usbge stbtement");
+        out.println("   -Group:<groupnbme>    "+
+                    "the following result sets bre combined into b group");
         out.println("   -NoGroup              "+
-                    "the following result sets stand on their own");
+                    "the following result sets stbnd on their own");
         out.println("   -ShowUncontested      "+
-                    "show results even when only result set has a result");
-        out.println("   -Graph                "+
-                    "graph the results visually (using lines of *'s)");
+                    "show results even when only result set hbs b result");
+        out.println("   -Grbph                "+
+                    "grbph the results visublly (using lines of *'s)");
         out.println("   -Best                 "+
-                    "use best time within a resultset");
+                    "use best time within b resultset");
         out.println("   -Worst                "+
-                    "use worst time within a resultset");
-        out.println("   -Average|-Avg         "+
-                    "use average of all times within a resultset");
-        out.println("   -MidAverage|-MidAvg   "+
-                    "like -Average but ignore best and worst times");
-        out.println("   <resultfilename>      "+
-                    "load in results from named file");
+                    "use worst time within b resultset");
+        out.println("   -Averbge|-Avg         "+
+                    "use bverbge of bll times within b resultset");
+        out.println("   -MidAverbge|-MidAvg   "+
+                    "like -Averbge but ignore best bnd worst times");
+        out.println("   <resultfilenbme>      "+
+                    "lobd in results from nbmed file");
         out.println();
-        out.println("results within a result set "+
-                    "use Best/Worst/Average mode");
-        out.println("results within a group "+
-                    "are best of all result sets in that group");
+        out.println("results within b result set "+
+                    "use Best/Worst/Averbge mode");
+        out.println("results within b group "+
+                    "bre best of bll result sets in thbt group");
     }
 
-    public static void main(String argv[]) {
-        boolean gavehelp = false;
-        boolean graph = false;
-        boolean ignoreuncontested = true;
-        if (argv.length > 0 && argv[0].equalsIgnoreCase("-html")) {
-            String newargs[] = new String[argv.length-1];
-            System.arraycopy(argv, 1, newargs, 0, newargs.length);
-            HTMLSeriesReporter.main(newargs);
+    public stbtic void mbin(String brgv[]) {
+        boolebn gbvehelp = fblse;
+        boolebn grbph = fblse;
+        boolebn ignoreuncontested = true;
+        if (brgv.length > 0 && brgv[0].equblsIgnoreCbse("-html")) {
+            String newbrgs[] = new String[brgv.length-1];
+            System.brrbycopy(brgv, 1, newbrgs, 0, newbrgs.length);
+            HTMLSeriesReporter.mbin(newbrgs);
             return;
         }
-        for (int i = 0; i < argv.length; i++) {
-            String arg = argv[i];
-            if (arg.regionMatches(true, 0, "-Group:", 0, 7)) {
+        for (int i = 0; i < brgv.length; i++) {
+            String brg = brgv[i];
+            if (brg.regionMbtches(true, 0, "-Group:", 0, 7)) {
                 groupHolder = new GroupResultSetHolder();
-                groupHolder.setTitle(arg.substring(7));
-                results.add(groupHolder);
-            } else if (arg.equalsIgnoreCase("-NoGroup")) {
+                groupHolder.setTitle(brg.substring(7));
+                results.bdd(groupHolder);
+            } else if (brg.equblsIgnoreCbse("-NoGroup")) {
                 groupHolder = null;
-            } else if (arg.equalsIgnoreCase("-ShowUncontested")) {
-                ignoreuncontested = false;
-            } else if (arg.equalsIgnoreCase("-Graph")) {
-                graph = true;
-            } else if (arg.equalsIgnoreCase("-Best")) {
+            } else if (brg.equblsIgnoreCbse("-ShowUncontested")) {
+                ignoreuncontested = fblse;
+            } else if (brg.equblsIgnoreCbse("-Grbph")) {
+                grbph = true;
+            } else if (brg.equblsIgnoreCbse("-Best")) {
                 mode = BEST;
-            } else if (arg.equalsIgnoreCase("-Worst")) {
+            } else if (brg.equblsIgnoreCbse("-Worst")) {
                 mode = WORST;
-            } else if (arg.equalsIgnoreCase("-Average") ||
-                       arg.equalsIgnoreCase("-Avg"))
+            } else if (brg.equblsIgnoreCbse("-Averbge") ||
+                       brg.equblsIgnoreCbse("-Avg"))
             {
                 mode = AVERAGE;
-            } else if (arg.equalsIgnoreCase("-MidAverage") ||
-                       arg.equalsIgnoreCase("-MidAvg"))
+            } else if (brg.equblsIgnoreCbse("-MidAverbge") ||
+                       brg.equblsIgnoreCbse("-MidAvg"))
             {
                 mode = MIDAVG;
-            } else if (arg.equalsIgnoreCase("-Help") ||
-                       arg.equalsIgnoreCase("-Usage"))
+            } else if (brg.equblsIgnoreCbse("-Help") ||
+                       brg.equblsIgnoreCbse("-Usbge"))
             {
-                usage(System.out);
-                gavehelp = true;
+                usbge(System.out);
+                gbvehelp = true;
             } else {
-                readResults(argv[i]);
+                rebdResults(brgv[i]);
             }
         }
 
         if (results.size() == 0) {
-            if (!gavehelp) {
-                System.err.println("No results loaded");
-                usage(System.err);
+            if (!gbvehelp) {
+                System.err.println("No results lobded");
+                usbge(System.err);
             }
             return;
         }
 
         int numsets = results.size();
-        double totalscore[] = new double[numsets];
+        double totblscore[] = new double[numsets];
         int numwins[] = new int[numsets];
         int numties[] = new int[numsets];
         int numloss[] = new int[numsets];
         int numtests[] = new int[numsets];
         double bestscore[] = new double[numsets];
         double worstscore[] = new double[numsets];
-        double bestspread[] = new double[numsets];
-        double worstspread[] = new double[numsets];
+        double bestsprebd[] = new double[numsets];
+        double worstsprebd[] = new double[numsets];
         for (int i = 0; i < numsets; i++) {
             bestscore[i] = Double.NEGATIVE_INFINITY;
             worstscore[i] = Double.POSITIVE_INFINITY;
-            bestspread[i] = Double.POSITIVE_INFINITY;
-            worstspread[i] = Double.NEGATIVE_INFINITY;
+            bestsprebd[i] = Double.POSITIVE_INFINITY;
+            worstsprebd[i] = Double.NEGATIVE_INFINITY;
         }
 
-        ResultSetHolder base = (ResultSetHolder) results.elementAt(0);
-        Enumeration enum_ = base.getKeyEnumeration();
+        ResultSetHolder bbse = (ResultSetHolder) results.elementAt(0);
+        Enumerbtion enum_ = bbse.getKeyEnumerbtion();
         Vector keyvector = new Vector();
-        while (enum_.hasMoreElements()) {
-            keyvector.add(enum_.nextElement());
+        while (enum_.hbsMoreElements()) {
+            keyvector.bdd(enum_.nextElement());
         }
         String keys[] = new String[keyvector.size()];
         keyvector.copyInto(keys);
         sort(keys);
         enum_ = ResultHolder.commonkeys.keys();
-        System.out.println("Options common across all tests:");
-        if (ResultHolder.commonname != null &&
-            ResultHolder.commonname.length() != 0)
+        System.out.println("Options common bcross bll tests:");
+        if (ResultHolder.commonnbme != null &&
+            ResultHolder.commonnbme.length() != 0)
         {
-            System.out.println("  testname="+ResultHolder.commonname);
+            System.out.println("  testnbme="+ResultHolder.commonnbme);
         }
-        while (enum_.hasMoreElements()) {
+        while (enum_.hbsMoreElements()) {
             Object key = enum_.nextElement();
-            System.out.println("  "+key+"="+ResultHolder.commonkeymap.get(key));
+            System.out.println("  "+key+"="+ResultHolder.commonkeymbp.get(key));
         }
         System.out.println();
         for (int k = 0; k < keys.length; k++) {
             String key = keys[k];
-            ResultHolder rh = base.getResultByKey(key);
+            ResultHolder rh = bbse.getResultByKey(key);
             double score = rh.getScore();
-            double maxscore = score;
+            double mbxscore = score;
             int numcontesting = 0;
             for (int i = 0; i < numsets; i++) {
                 ResultSetHolder rsh =
                     (ResultSetHolder) results.elementAt(i);
                 ResultHolder rh2 = rsh.getResultByKey(key);
                 if (rh2 != null) {
-                    if (graph) {
-                        maxscore = Math.max(maxscore, rh2.getBestScore());
+                    if (grbph) {
+                        mbxscore = Mbth.mbx(mbxscore, rh2.getBestScore());
                     }
                     numcontesting++;
                 }
@@ -210,7 +210,7 @@ public class J2DAnalyzer {
                     System.out.println("not run");
                 } else {
                     double score2 = rh2.getScore();
-                    double percent = calcPercent(score, score2);
+                    double percent = cblcPercent(score, score2);
                     numtests[i]++;
                     if (percent < 97.5) {
                         numloss[i]++;
@@ -219,39 +219,39 @@ public class J2DAnalyzer {
                     } else {
                         numties[i]++;
                     }
-                    totalscore[i] += score2;
+                    totblscore[i] += score2;
                     if (bestscore[i] < percent) {
                         bestscore[i] = percent;
                     }
                     if (worstscore[i] > percent) {
                         worstscore[i] = percent;
                     }
-                    double spread = rh2.getSpread();
-                    if (bestspread[i] > spread) {
-                        bestspread[i] = spread;
+                    double sprebd = rh2.getSprebd();
+                    if (bestsprebd[i] > sprebd) {
+                        bestsprebd[i] = sprebd;
                     }
-                    if (worstspread[i] < spread) {
-                        worstspread[i] = spread;
+                    if (worstsprebd[i] < sprebd) {
+                        worstsprebd[i] = sprebd;
                     }
-                    System.out.print(format(score2));
-                    System.out.print(" (var="+spread+"%)");
+                    System.out.print(formbt(score2));
+                    System.out.print(" (vbr="+sprebd+"%)");
                     System.out.print(" ("+percent+"%)");
                     System.out.println();
-                    if (graph) {
-                        int maxlen = 60;
-                        int avgpos =
-                            (int) Math.round(maxlen * score / maxscore);
+                    if (grbph) {
+                        int mbxlen = 60;
+                        int bvgpos =
+                            (int) Mbth.round(mbxlen * score / mbxscore);
                         Vector scores = rh2.getAllScores();
                         for (int j = 0; j < scores.size(); j++) {
-                            double s = ((Double) scores.get(j)).doubleValue();
-                            int len = (int) Math.round(maxlen * s / maxscore);
+                            double s = ((Double) scores.get(j)).doubleVblue();
+                            int len = (int) Mbth.round(mbxlen * s / mbxscore);
                             int pos = 0;
                             while (pos < len) {
-                                System.out.print(pos == avgpos ? '|' : '*');
+                                System.out.print(pos == bvgpos ? '|' : '*');
                                 pos++;
                             }
-                            while (pos <= avgpos) {
-                                System.out.print(pos == avgpos ? '|' : ' ');
+                            while (pos <= bvgpos) {
+                                System.out.print(pos == bvgpos ? '|' : ' ');
                                 pos++;
                             }
                             System.out.println();
@@ -261,28 +261,28 @@ public class J2DAnalyzer {
             }
         }
         System.out.println();
-        System.out.println("Summary:");
+        System.out.println("Summbry:");
         for (int i = 0; i < numsets; i++) {
             ResultSetHolder rsh = (ResultSetHolder) results.elementAt(i);
             System.out.println("  "+rsh.getTitle()+": ");
             if (numtests[i] == 0) {
-                System.out.println("    No tests matched reference results");
+                System.out.println("    No tests mbtched reference results");
             } else {
-                double overallscore = totalscore[i]/numtests[i];
+                double overbllscore = totblscore[i]/numtests[i];
                 System.out.println("    Number of tests:  "+numtests[i]);
-                System.out.println("    Overall average:  "+overallscore);
-                System.out.println("    Best spread:      "+bestspread[i]+
-                                   "% variance");
-                System.out.println("    Worst spread:     "+worstspread[i]+
-                                   "% variance");
+                System.out.println("    Overbll bverbge:  "+overbllscore);
+                System.out.println("    Best sprebd:      "+bestsprebd[i]+
+                                   "% vbribnce");
+                System.out.println("    Worst sprebd:     "+worstsprebd[i]+
+                                   "% vbribnce");
                 if (i == 0) {
-                    System.out.println("    (Basis for results comparison)");
+                    System.out.println("    (Bbsis for results compbrison)");
                 } else {
-                    System.out.println("    Comparison to basis:");
+                    System.out.println("    Compbrison to bbsis:");
                     System.out.println("      Best result:      "+bestscore[i]+
-                                       "% of basis");
+                                       "% of bbsis");
                     System.out.println("      Worst result:     "+worstscore[i]+
-                                       "% of basis");
+                                       "% of bbsis");
                     System.out.println("      Number of wins:   "+numwins[i]);
                     System.out.println("      Number of ties:   "+numties[i]);
                     System.out.println("      Number of losses: "+numloss[i]);
@@ -292,127 +292,127 @@ public class J2DAnalyzer {
         }
     }
 
-    public static void readResults(String filename) {
-        BufferedReader in;
+    public stbtic void rebdResults(String filenbme) {
+        BufferedRebder in;
         try {
-            in = new BufferedReader(new FileReader(filename));
-            readResults(in);
-        } catch (IOException e) {
+            in = new BufferedRebder(new FileRebder(filenbme));
+            rebdResults(in);
+        } cbtch (IOException e) {
             System.out.println(e);
             return;
         }
     }
 
-    public static void addResultSet(ResultSetHolder rs) {
+    public stbtic void bddResultSet(ResultSetHolder rs) {
         if (groupHolder == null) {
-            results.add(rs);
+            results.bdd(rs);
         } else {
-            groupHolder.addResultSet(rs);
+            groupHolder.bddResultSet(rs);
         }
     }
 
-    public static void readResults(BufferedReader in)
+    public stbtic void rebdResults(BufferedRebder in)
         throws IOException
     {
-        String xmlver = in.readLine();
-        if (xmlver == null || !xmlver.startsWith("<?xml version=\"1.0\"")) {
+        String xmlver = in.rebdLine();
+        if (xmlver == null || !xmlver.stbrtsWith("<?xml version=\"1.0\"")) {
             return;
         }
         while (true) {
-            String rsline = in.readLine();
+            String rsline = in.rebdLine();
             if (rsline == null) {
-                break;
+                brebk;
             }
             rsline = rsline.trim();
-            if (rsline.startsWith("<result-set version=")) {
-                String title = getStringAttribute(rsline, "name");
+            if (rsline.stbrtsWith("<result-set version=")) {
+                String title = getStringAttribute(rsline, "nbme");
                 if (title == null) {
                     title = "No title";
                 }
                 SingleResultSetHolder srs = new SingleResultSetHolder();
                 srs.setTitle(title);
-                readResultSet(in, srs);
-                addResultSet(srs);
+                rebdResultSet(in, srs);
+                bddResultSet(srs);
             }
         }
     }
 
-    public static void readResultSet(BufferedReader in,
+    public stbtic void rebdResultSet(BufferedRebder in,
                                      SingleResultSetHolder srs)
         throws IOException
     {
         String line;
-        while ((line = in.readLine()) != null) {
+        while ((line = in.rebdLine()) != null) {
             line = line.trim();
-            if (line.startsWith("<test-desc>")) {
+            if (line.stbrtsWith("<test-desc>")) {
                 int index = line.indexOf("<", 11);
                 if (index < 0) {
                     index = line.length();
                 }
                 line = line.substring(11, index);
                 srs.setDescription(line);
-            } else if (line.startsWith("<sys-prop")) {
+            } else if (line.stbrtsWith("<sys-prop")) {
                 String key = getStringAttribute(line, "key");
-                String val = getStringAttribute(line, "value");
-                if (key != null && val != null) {
-                    srs.setProperty(key, val);
+                String vbl = getStringAttribute(line, "vblue");
+                if (key != null && vbl != null) {
+                    srs.setProperty(key, vbl);
                 }
-            } else if (line.startsWith("<test-date")) {
-                srs.setStartTime(getLongAttribute(line, "start"));
+            } else if (line.stbrtsWith("<test-dbte")) {
+                srs.setStbrtTime(getLongAttribute(line, "stbrt"));
                 srs.setEndTime(getLongAttribute(line, "end"));
-            } else if (line.startsWith("<result")) {
+            } else if (line.stbrtsWith("<result")) {
                 int numreps = getIntAttribute(line, "num-reps");
                 int numunits = getIntAttribute(line, "num-units");
-                String name = getStringAttribute(line, "name");
-                if (numreps > 0 && numunits >= 0 && name != null) {
+                String nbme = getStringAttribute(line, "nbme");
+                if (numreps > 0 && numunits >= 0 && nbme != null) {
                     ResultHolder rh = new ResultHolder(srs);
-                    rh.setName(name);
+                    rh.setNbme(nbme);
                     rh.setReps(numreps);
                     rh.setUnits(numunits);
-                    readResult(in, rh);
-                    srs.addResult(rh);
+                    rebdResult(in, rh);
+                    srs.bddResult(rh);
                 }
-            } else if (line.equals("</result-set>")) {
-                break;
+            } else if (line.equbls("</result-set>")) {
+                brebk;
             } else {
                 System.err.println("Unrecognized line in Result-Set: "+line);
             }
         }
     }
 
-    public static void readResult(BufferedReader in, ResultHolder rh)
+    public stbtic void rebdResult(BufferedRebder in, ResultHolder rh)
         throws IOException
     {
         String line;
-        while ((line = in.readLine()) != null) {
+        while ((line = in.rebdLine()) != null) {
             line = line.trim();
-            if (line.startsWith("<option")) {
+            if (line.stbrtsWith("<option")) {
                 String key = getStringAttribute(line, "key");
-                String val = getStringAttribute(line, "value");
-                if (key != null && val != null) {
-                    rh.addOption(key, val);
+                String vbl = getStringAttribute(line, "vblue");
+                if (key != null && vbl != null) {
+                    rh.bddOption(key, vbl);
                 }
-            } else if (line.startsWith("<time")) {
-                long ms = getLongAttribute(line, "value");
+            } else if (line.stbrtsWith("<time")) {
+                long ms = getLongAttribute(line, "vblue");
                 if (ms >= 0) {
-                    rh.addTime(ms);
+                    rh.bddTime(ms);
                 }
-            } else if (line.equals("</result>")) {
-                break;
+            } else if (line.equbls("</result>")) {
+                brebk;
             } else {
                 System.err.println("Unrecognized line in Result: "+line);
             }
         }
     }
 
-    public static String getStringAttribute(String line, String attrname) {
-        int index = line.indexOf(attrname+"=");
+    public stbtic String getStringAttribute(String line, String bttrnbme) {
+        int index = line.indexOf(bttrnbme+"=");
         if (index < 0) {
             return null;
         }
-        index += attrname.length()+1;
+        index += bttrnbme.length()+1;
         int endindex;
-        if (line.charAt(index) == '\"') {
+        if (line.chbrAt(index) == '\"') {
             index++;
             endindex = line.indexOf('\"', index);
         } else {
@@ -430,32 +430,32 @@ public class J2DAnalyzer {
         return line.substring(index, endindex);
     }
 
-    public static long getLongAttribute(String line, String attrname) {
-        String val = getStringAttribute(line, attrname);
-        if (val == null) {
+    public stbtic long getLongAttribute(String line, String bttrnbme) {
+        String vbl = getStringAttribute(line, bttrnbme);
+        if (vbl == null) {
             return -1;
         }
         try {
-            return Long.parseLong(val);
-        } catch (NumberFormatException e) {
+            return Long.pbrseLong(vbl);
+        } cbtch (NumberFormbtException e) {
             return -1;
         }
     }
 
-    public static int getIntAttribute(String line, String attrname) {
-        String val = getStringAttribute(line, attrname);
-        if (val == null) {
+    public stbtic int getIntAttribute(String line, String bttrnbme) {
+        String vbl = getStringAttribute(line, bttrnbme);
+        if (vbl == null) {
             return -1;
         }
         try {
-            return Integer.parseInt(val);
-        } catch (NumberFormatException e) {
+            return Integer.pbrseInt(vbl);
+        } cbtch (NumberFormbtException e) {
             return -1;
         }
     }
 
-    public abstract static class ResultSetHolder {
-        private String title;
+    public bbstrbct stbtic clbss ResultSetHolder {
+        privbte String title;
 
         public void setTitle(String title) {
             this.title = title;
@@ -465,37 +465,37 @@ public class J2DAnalyzer {
             return title;
         }
 
-        public abstract Enumeration getKeyEnumeration();
+        public bbstrbct Enumerbtion getKeyEnumerbtion();
 
-        public abstract Enumeration getResultEnumeration();
+        public bbstrbct Enumerbtion getResultEnumerbtion();
 
-        public abstract ResultHolder getResultByKey(String key);
+        public bbstrbct ResultHolder getResultByKey(String key);
     }
 
-    public static class GroupResultSetHolder extends ResultSetHolder {
-        private Vector members = new Vector();
-        private Hashtable allresultkeys = new Hashtable();
+    public stbtic clbss GroupResultSetHolder extends ResultSetHolder {
+        privbte Vector members = new Vector();
+        privbte Hbshtbble bllresultkeys = new Hbshtbble();
 
-        public void addResultSet(ResultSetHolder rsh) {
-            members.add(rsh);
-            Enumeration enum_ = rsh.getResultEnumeration();
-            while (enum_.hasMoreElements()) {
+        public void bddResultSet(ResultSetHolder rsh) {
+            members.bdd(rsh);
+            Enumerbtion enum_ = rsh.getResultEnumerbtion();
+            while (enum_.hbsMoreElements()) {
                 ResultHolder rh = (ResultHolder) enum_.nextElement();
                 String key = rh.getKey();
-                allresultkeys.put(key, key);
+                bllresultkeys.put(key, key);
             }
         }
 
-        private ResultSetHolder getResultSet(int index) {
+        privbte ResultSetHolder getResultSet(int index) {
             return (ResultSetHolder) members.elementAt(index);
         }
 
-        public Enumeration getKeyEnumeration() {
-            return allresultkeys.keys();
+        public Enumerbtion getKeyEnumerbtion() {
+            return bllresultkeys.keys();
         }
 
-        public Enumeration getResultEnumeration() {
-            return new Enumerator();
+        public Enumerbtion getResultEnumerbtion() {
+            return new Enumerbtor();
         }
 
         public ResultHolder getResultByKey(String key) {
@@ -514,26 +514,26 @@ public class J2DAnalyzer {
             return best;
         }
 
-        public class Enumerator implements Enumeration {
-            Enumeration raw = getKeyEnumeration();
+        public clbss Enumerbtor implements Enumerbtion {
+            Enumerbtion rbw = getKeyEnumerbtion();
 
-            public boolean hasMoreElements() {
-                return raw.hasMoreElements();
+            public boolebn hbsMoreElements() {
+                return rbw.hbsMoreElements();
             }
 
             public Object nextElement() {
-                return getResultByKey((String) raw.nextElement());
+                return getResultByKey((String) rbw.nextElement());
             }
         }
     }
 
-    public static class SingleResultSetHolder extends ResultSetHolder {
-        private String desc;
-        private long start;
-        private long end;
-        private Hashtable props = new Hashtable();
-        private Vector results = new Vector();
-        private Hashtable resultsbykey = new Hashtable();
+    public stbtic clbss SingleResultSetHolder extends ResultSetHolder {
+        privbte String desc;
+        privbte long stbrt;
+        privbte long end;
+        privbte Hbshtbble props = new Hbshtbble();
+        privbte Vector results = new Vector();
+        privbte Hbshtbble resultsbykey = new Hbshtbble();
 
         public void setDescription(String desc) {
             this.desc = desc;
@@ -543,12 +543,12 @@ public class J2DAnalyzer {
             return desc;
         }
 
-        public void setStartTime(long ms) {
-            start = ms;
+        public void setStbrtTime(long ms) {
+            stbrt = ms;
         }
 
-        public long getStartTime() {
-            return start;
+        public long getStbrtTime() {
+            return stbrt;
         }
 
         public void setEndTime(long ms) {
@@ -559,24 +559,24 @@ public class J2DAnalyzer {
             return end;
         }
 
-        public void setProperty(String key, String value) {
-            props.put(key, value);
+        public void setProperty(String key, String vblue) {
+            props.put(key, vblue);
         }
 
-        public Hashtable getProperties() {
+        public Hbshtbble getProperties() {
             return this.props;
         }
 
-        public void addResult(ResultHolder rh) {
-            results.add(rh);
+        public void bddResult(ResultHolder rh) {
+            results.bdd(rh);
             resultsbykey.put(rh.getKey(), rh);
         }
 
-        public Enumeration getKeyEnumeration() {
-            return new Enumerator();
+        public Enumerbtion getKeyEnumerbtion() {
+            return new Enumerbtor();
         }
 
-        public Enumeration getResultEnumeration() {
+        public Enumerbtion getResultEnumerbtion() {
             return results.elements();
         }
 
@@ -584,85 +584,85 @@ public class J2DAnalyzer {
             return (ResultHolder) resultsbykey.get(key);
         }
 
-        public class Enumerator implements Enumeration {
-            Enumeration raw = getResultEnumeration();
+        public clbss Enumerbtor implements Enumerbtion {
+            Enumerbtion rbw = getResultEnumerbtion();
 
-            public boolean hasMoreElements() {
-                return raw.hasMoreElements();
+            public boolebn hbsMoreElements() {
+                return rbw.hbsMoreElements();
             }
 
             public Object nextElement() {
-                return ((ResultHolder) raw.nextElement()).getKey();
+                return ((ResultHolder) rbw.nextElement()).getKey();
             }
         }
     }
 
-    public static class ResultHolder {
-        public static Hashtable commonkeymap = new Hashtable();
-        public static Hashtable commonkeys = new Hashtable();
-        public static String commonname;
+    public stbtic clbss ResultHolder {
+        public stbtic Hbshtbble commonkeymbp = new Hbshtbble();
+        public stbtic Hbshtbble commonkeys = new Hbshtbble();
+        public stbtic String commonnbme;
 
         ResultSetHolder rsh;
-        private String name;
-        private String key;
-        private String shortkey;
-        private int numreps;
-        private int numunits;
-        private int numruns;
-        private long total;
-        private long longest;
-        private long shortest;
-        private Hashtable options = new Hashtable();
-        private Vector times = new Vector();
+        privbte String nbme;
+        privbte String key;
+        privbte String shortkey;
+        privbte int numreps;
+        privbte int numunits;
+        privbte int numruns;
+        privbte long totbl;
+        privbte long longest;
+        privbte long shortest;
+        privbte Hbshtbble options = new Hbshtbble();
+        privbte Vector times = new Vector();
 
         public ResultHolder(ResultSetHolder rsh) {
             this.rsh = rsh;
         }
 
-        public void setName(String name) {
-            this.name = name;
-            if (commonname == null) {
-                commonname = name;
-            } else if (!commonname.equals(name)) {
-                commonname = "";
+        public void setNbme(String nbme) {
+            this.nbme = nbme;
+            if (commonnbme == null) {
+                commonnbme = nbme;
+            } else if (!commonnbme.equbls(nbme)) {
+                commonnbme = "";
             }
         }
 
-        public String getName() {
-            return name;
+        public String getNbme() {
+            return nbme;
         }
 
         public String getKey() {
             if (key == null) {
-                key = makeKey(false);
+                key = mbkeKey(fblse);
             }
             return key;
         }
 
         public String getShortKey() {
             if (shortkey == null) {
-                shortkey = makeKey(true);
+                shortkey = mbkeKey(true);
             }
             return shortkey;
         }
 
-        private String makeKey(boolean prunecommon) {
+        privbte String mbkeKey(boolebn prunecommon) {
             String keys[] = new String[options.size()];
-            Enumeration enum_ = options.keys();
+            Enumerbtion enum_ = options.keys();
             int i = 0;
-            while (enum_.hasMoreElements()) {
+            while (enum_.hbsMoreElements()) {
                 keys[i++] = (String) enum_.nextElement();
             }
             sort(keys);
-            String key = (prunecommon && commonname.equals(name)) ? "" : name;
+            String key = (prunecommon && commonnbme.equbls(nbme)) ? "" : nbme;
             for (i = 0; i < keys.length; i++) {
-                if (!prunecommon || !commonkeys.containsKey(keys[i])) {
+                if (!prunecommon || !commonkeys.contbinsKey(keys[i])) {
                     key = key+","+keys[i]+"="+options.get(keys[i]);
                 }
             }
             if (key.length() == 0) {
-                key = name;
-            } else if (key.startsWith(",")) {
+                key = nbme;
+            } else if (key.stbrtsWith(",")) {
                 key = key.substring(1);
             }
             return key;
@@ -684,38 +684,38 @@ public class J2DAnalyzer {
             return numunits;
         }
 
-        public void addOption(String key, String value) {
+        public void bddOption(String key, String vblue) {
             if (this.key != null) {
-                throw new InternalError("option added after key was made!");
+                throw new InternblError("option bdded bfter key wbs mbde!");
             }
-            options.put(key, value);
-            Object commonval = commonkeymap.get(key);
-            if (commonval == null) {
-                commonkeymap.put(key, value);
+            options.put(key, vblue);
+            Object commonvbl = commonkeymbp.get(key);
+            if (commonvbl == null) {
+                commonkeymbp.put(key, vblue);
                 commonkeys.put(key, key);
-            } else if (!commonval.equals(value)) {
+            } else if (!commonvbl.equbls(vblue)) {
                 commonkeys.remove(key);
             }
         }
 
-        public Hashtable getOptions() {
+        public Hbshtbble getOptions() {
             return options;
         }
 
-        public void addTime(long ms) {
-            times.add(new Long(ms));
+        public void bddTime(long ms) {
+            times.bdd(new Long(ms));
             if (numruns == 0) {
                 longest = shortest = ms;
             } else {
                 if (longest < ms) longest = ms;
                 if (shortest > ms) shortest = ms;
             }
-            total += ms;
+            totbl += ms;
             numruns++;
         }
 
-        public double getSpread() {
-            return calcPercent(shortest, longest - shortest);
+        public double getSprebd() {
+            return cblcPercent(shortest, longest - shortest);
         }
 
         public double getScore() {
@@ -730,10 +730,10 @@ public class J2DAnalyzer {
                 divisor = longest;
             } else if (mode == AVERAGE || numruns < 3) {
                 score *= numruns;
-                divisor = total;
+                divisor = totbl;
             } else {
                 score *= (numruns-2);
-                divisor = (total - longest - shortest);
+                divisor = (totbl - longest - shortest);
             }
             score /= divisor;
             return score;
@@ -755,9 +755,9 @@ public class J2DAnalyzer {
                 score *= numunits;
             }
             if (mode == BEST) {
-                scores.add(new Double(score / shortest));
+                scores.bdd(new Double(score / shortest));
             } else if (mode == WORST) {
-                scores.add(new Double(score / longest));
+                scores.bdd(new Double(score / longest));
             } else {
                 long elimshort, elimlong;
                 if (mode == AVERAGE || numruns < 3) {
@@ -767,7 +767,7 @@ public class J2DAnalyzer {
                     elimlong = longest;
                 }
                 for (int i = 0; i < times.size(); i++) {
-                    long time = ((Long) times.get(i)).longValue();
+                    long time = ((Long) times.get(i)).longVblue();
                     if (time == elimshort) {
                         elimshort = -1;
                         continue;
@@ -776,31 +776,31 @@ public class J2DAnalyzer {
                         elimlong = -1;
                         continue;
                     }
-                    scores.add(new Double(score / time));
+                    scores.bdd(new Double(score / time));
                 }
             }
             return scores;
         }
     }
 
-    public static double calcPercent(double base, double val) {
-        val /= base;
-        val *= 10000;
-        val = Math.rint(val);
-        return val / 100;
+    public stbtic double cblcPercent(double bbse, double vbl) {
+        vbl /= bbse;
+        vbl *= 10000;
+        vbl = Mbth.rint(vbl);
+        return vbl / 100;
     }
 
-    public static String format(double val) {
-        long lval = (long) val;
-        String ret = String.valueOf(lval);
+    public stbtic String formbt(double vbl) {
+        long lvbl = (long) vbl;
+        String ret = String.vblueOf(lvbl);
         int digits = ret.length();
         if (digits > 17) {
-            ret = String.valueOf(val);
+            ret = String.vblueOf(vbl);
         } else {
-            val -= lval;
-            String fraction = String.valueOf(val);
-            fraction = fraction.substring(fraction.indexOf('.'));
-            ret += fraction;
+            vbl -= lvbl;
+            String frbction = String.vblueOf(vbl);
+            frbction = frbction.substring(frbction.indexOf('.'));
+            ret += frbction;
             int len = digits+5;
             if (len < 10) len = 10;
             len++;
@@ -811,11 +811,11 @@ public class J2DAnalyzer {
         return ret;
     }
 
-    public static void sort(String strs[]) {
+    public stbtic void sort(String strs[]) {
         for (int i = 1; i < strs.length; i++) {
             for (int j = i; j > 0; j--) {
-                if (strs[j].compareTo(strs[j-1]) >= 0) {
-                    break;
+                if (strs[j].compbreTo(strs[j-1]) >= 0) {
+                    brebk;
                 }
                 String tmp = strs[j-1];
                 strs[j-1] = strs[j];
@@ -824,12 +824,12 @@ public class J2DAnalyzer {
         }
     }
 
-    public static void setMode(int mode) {
+    public stbtic void setMode(int mode) {
         if(mode >= BEST && mode <= MIDAVG) {
-            J2DAnalyzer.mode = mode;
+            J2DAnblyzer.mode = mode;
         }
         else {
-            J2DAnalyzer.mode = MIDAVG;
+            J2DAnblyzer.mode = MIDAVG;
         }
     }
 }

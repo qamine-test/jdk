@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
-import java.lang.invoke.MethodHandles.Lookup;
-import java.lang.reflect.Field;
-import static java.lang.invoke.MethodHandleNatives.Constants.*;
-import static java.lang.invoke.MethodHandleStatics.*;
-import static java.lang.invoke.MethodHandles.Lookup.IMPL_LOOKUP;
+import jbvb.lbng.invoke.MethodHbndles.Lookup;
+import jbvb.lbng.reflect.Field;
+import stbtic jbvb.lbng.invoke.MethodHbndleNbtives.Constbnts.*;
+import stbtic jbvb.lbng.invoke.MethodHbndleStbtics.*;
+import stbtic jbvb.lbng.invoke.MethodHbndles.Lookup.IMPL_LOOKUP;
 
 /**
- * The JVM interface for the method handles package is all here.
- * This is an interface internal and private to an implementation of JSR 292.
- * <em>This class is not part of the JSR 292 standard.</em>
- * @author jrose
+ * The JVM interfbce for the method hbndles pbckbge is bll here.
+ * This is bn interfbce internbl bnd privbte to bn implementbtion of JSR 292.
+ * <em>This clbss is not pbrt of the JSR 292 stbndbrd.</em>
+ * @buthor jrose
  */
-class MethodHandleNatives {
+clbss MethodHbndleNbtives {
 
-    private MethodHandleNatives() { } // static only
+    privbte MethodHbndleNbtives() { } // stbtic only
 
-    /// MemberName support
+    /// MemberNbme support
 
-    static native void init(MemberName self, Object ref);
-    static native void expand(MemberName self);
-    static native MemberName resolve(MemberName self, Class<?> caller) throws LinkageError;
-    static native int getMembers(Class<?> defc, String matchName, String matchSig,
-            int matchFlags, Class<?> caller, int skip, MemberName[] results);
+    stbtic nbtive void init(MemberNbme self, Object ref);
+    stbtic nbtive void expbnd(MemberNbme self);
+    stbtic nbtive MemberNbme resolve(MemberNbme self, Clbss<?> cbller) throws LinkbgeError;
+    stbtic nbtive int getMembers(Clbss<?> defc, String mbtchNbme, String mbtchSig,
+            int mbtchFlbgs, Clbss<?> cbller, int skip, MemberNbme[] results);
 
-    /// Field layout queries parallel to sun.misc.Unsafe:
-    static native long objectFieldOffset(MemberName self);  // e.g., returns vmindex
-    static native long staticFieldOffset(MemberName self);  // e.g., returns vmindex
-    static native Object staticFieldBase(MemberName self);  // e.g., returns clazz
-    static native Object getMemberVMInfo(MemberName self);  // returns {vmindex,vmtarget}
+    /// Field lbyout queries pbrbllel to sun.misc.Unsbfe:
+    stbtic nbtive long objectFieldOffset(MemberNbme self);  // e.g., returns vmindex
+    stbtic nbtive long stbticFieldOffset(MemberNbme self);  // e.g., returns vmindex
+    stbtic nbtive Object stbticFieldBbse(MemberNbme self);  // e.g., returns clbzz
+    stbtic nbtive Object getMemberVMInfo(MemberNbme self);  // returns {vmindex,vmtbrget}
 
-    /// MethodHandle support
+    /// MethodHbndle support
 
-    /** Fetch MH-related JVM parameter.
-     *  which=0 retrieves MethodHandlePushLimit
-     *  which=1 retrieves stack slot push size (in address units)
+    /** Fetch MH-relbted JVM pbrbmeter.
+     *  which=0 retrieves MethodHbndlePushLimit
+     *  which=1 retrieves stbck slot push size (in bddress units)
      */
-    static native int getConstant(int which);
+    stbtic nbtive int getConstbnt(int which);
 
-    static final boolean COUNT_GWT;
+    stbtic finbl boolebn COUNT_GWT;
 
-    /// CallSite support
+    /// CbllSite support
 
-    /** Tell the JVM that we need to change the target of a CallSite. */
-    static native void setCallSiteTargetNormal(CallSite site, MethodHandle target);
-    static native void setCallSiteTargetVolatile(CallSite site, MethodHandle target);
+    /** Tell the JVM thbt we need to chbnge the tbrget of b CbllSite. */
+    stbtic nbtive void setCbllSiteTbrgetNormbl(CbllSite site, MethodHbndle tbrget);
+    stbtic nbtive void setCbllSiteTbrgetVolbtile(CbllSite site, MethodHbndle tbrget);
 
-    private static native void registerNatives();
-    static {
-        registerNatives();
-        COUNT_GWT                   = getConstant(Constants.GC_COUNT_GWT) != 0;
+    privbte stbtic nbtive void registerNbtives();
+    stbtic {
+        registerNbtives();
+        COUNT_GWT                   = getConstbnt(Constbnts.GC_COUNT_GWT) != 0;
 
-        // The JVM calls MethodHandleNatives.<clinit>.  Cascade the <clinit> calls as needed:
-        MethodHandleImpl.initStatics();
+        // The JVM cblls MethodHbndleNbtives.<clinit>.  Cbscbde the <clinit> cblls bs needed:
+        MethodHbndleImpl.initStbtics();
     }
 
-    // All compile-time constants go here.
-    // There is an opportunity to check them against the JVM's idea of them.
-    static class Constants {
-        Constants() { } // static only
-        // MethodHandleImpl
-        static final int // for getConstant
+    // All compile-time constbnts go here.
+    // There is bn opportunity to check them bgbinst the JVM's ideb of them.
+    stbtic clbss Constbnts {
+        Constbnts() { } // stbtic only
+        // MethodHbndleImpl
+        stbtic finbl int // for getConstbnt
                 GC_COUNT_GWT = 4,
                 GC_LAMBDA_SUPPORT = 5;
 
-        // MemberName
-        // The JVM uses values of -2 and above for vtable indexes.
-        // Field values are simple positive offsets.
-        // Ref: src/share/vm/oops/methodOop.hpp
-        // This value is negative enough to avoid such numbers,
-        // but not too negative.
-        static final int
+        // MemberNbme
+        // The JVM uses vblues of -2 bnd bbove for vtbble indexes.
+        // Field vblues bre simple positive offsets.
+        // Ref: src/shbre/vm/oops/methodOop.hpp
+        // This vblue is negbtive enough to bvoid such numbers,
+        // but not too negbtive.
+        stbtic finbl int
                 MN_IS_METHOD           = 0x00010000, // method (not constructor)
                 MN_IS_CONSTRUCTOR      = 0x00020000, // constructor
                 MN_IS_FIELD            = 0x00040000, // field
                 MN_IS_TYPE             = 0x00080000, // nested type
-                MN_CALLER_SENSITIVE    = 0x00100000, // @CallerSensitive annotation detected
+                MN_CALLER_SENSITIVE    = 0x00100000, // @CbllerSensitive bnnotbtion detected
                 MN_REFERENCE_KIND_SHIFT = 24, // refKind
                 MN_REFERENCE_KIND_MASK = 0x0F000000 >> MN_REFERENCE_KIND_SHIFT,
-                // The SEARCH_* bits are not for MN.flags but for the matchFlags argument of MHN.getMembers:
+                // The SEARCH_* bits bre not for MN.flbgs but for the mbtchFlbgs brgument of MHN.getMembers:
                 MN_SEARCH_SUPERCLASSES = 0x00100000,
                 MN_SEARCH_INTERFACES   = 0x00200000;
 
         /**
-         * Basic types as encoded in the JVM.  These code values are not
-         * intended for use outside this class.  They are used as part of
-         * a private interface between the JVM and this class.
+         * Bbsic types bs encoded in the JVM.  These code vblues bre not
+         * intended for use outside this clbss.  They bre used bs pbrt of
+         * b privbte interfbce between the JVM bnd this clbss.
          */
-        static final int
+        stbtic finbl int
             T_BOOLEAN  =  4,
             T_CHAR     =  5,
             T_FLOAT    =  6,
@@ -128,29 +128,29 @@ class MethodHandleNatives {
             T_ILLEGAL  = 99;
 
         /**
-         * Constant pool entry types.
+         * Constbnt pool entry types.
          */
-        static final byte
+        stbtic finbl byte
             CONSTANT_Utf8                = 1,
             CONSTANT_Integer             = 3,
-            CONSTANT_Float               = 4,
+            CONSTANT_Flobt               = 4,
             CONSTANT_Long                = 5,
             CONSTANT_Double              = 6,
-            CONSTANT_Class               = 7,
+            CONSTANT_Clbss               = 7,
             CONSTANT_String              = 8,
             CONSTANT_Fieldref            = 9,
             CONSTANT_Methodref           = 10,
-            CONSTANT_InterfaceMethodref  = 11,
-            CONSTANT_NameAndType         = 12,
-            CONSTANT_MethodHandle        = 15,  // JSR 292
+            CONSTANT_InterfbceMethodref  = 11,
+            CONSTANT_NbmeAndType         = 12,
+            CONSTANT_MethodHbndle        = 15,  // JSR 292
             CONSTANT_MethodType          = 16,  // JSR 292
-            CONSTANT_InvokeDynamic       = 18,
-            CONSTANT_LIMIT               = 19;   // Limit to tags found in classfiles
+            CONSTANT_InvokeDynbmic       = 18,
+            CONSTANT_LIMIT               = 19;   // Limit to tbgs found in clbssfiles
 
         /**
-         * Access modifier flags.
+         * Access modifier flbgs.
          */
-        static final char
+        stbtic finbl chbr
             ACC_PUBLIC                 = 0x0001,
             ACC_PRIVATE                = 0x0002,
             ACC_PROTECTED              = 0x0004,
@@ -166,295 +166,295 @@ class MethodHandleNatives {
             ACC_SYNTHETIC              = 0x1000,
             ACC_ANNOTATION             = 0x2000,
             ACC_ENUM                   = 0x4000,
-            // aliases:
+            // blibses:
             ACC_SUPER                  = ACC_SYNCHRONIZED,
             ACC_BRIDGE                 = ACC_VOLATILE,
             ACC_VARARGS                = ACC_TRANSIENT;
 
         /**
-         * Constant pool reference-kind codes, as used by CONSTANT_MethodHandle CP entries.
+         * Constbnt pool reference-kind codes, bs used by CONSTANT_MethodHbndle CP entries.
          */
-        static final byte
-            REF_NONE                    = 0,  // null value
+        stbtic finbl byte
+            REF_NONE                    = 0,  // null vblue
             REF_getField                = 1,
-            REF_getStatic               = 2,
+            REF_getStbtic               = 2,
             REF_putField                = 3,
-            REF_putStatic               = 4,
-            REF_invokeVirtual           = 5,
-            REF_invokeStatic            = 6,
-            REF_invokeSpecial           = 7,
-            REF_newInvokeSpecial        = 8,
-            REF_invokeInterface         = 9,
+            REF_putStbtic               = 4,
+            REF_invokeVirtubl           = 5,
+            REF_invokeStbtic            = 6,
+            REF_invokeSpecibl           = 7,
+            REF_newInvokeSpecibl        = 8,
+            REF_invokeInterfbce         = 9,
             REF_LIMIT                  = 10;
     }
 
-    static boolean refKindIsValid(int refKind) {
+    stbtic boolebn refKindIsVblid(int refKind) {
         return (refKind > REF_NONE && refKind < REF_LIMIT);
     }
-    static boolean refKindIsField(byte refKind) {
-        assert(refKindIsValid(refKind));
-        return (refKind <= REF_putStatic);
+    stbtic boolebn refKindIsField(byte refKind) {
+        bssert(refKindIsVblid(refKind));
+        return (refKind <= REF_putStbtic);
     }
-    static boolean refKindIsGetter(byte refKind) {
-        assert(refKindIsValid(refKind));
-        return (refKind <= REF_getStatic);
+    stbtic boolebn refKindIsGetter(byte refKind) {
+        bssert(refKindIsVblid(refKind));
+        return (refKind <= REF_getStbtic);
     }
-    static boolean refKindIsSetter(byte refKind) {
+    stbtic boolebn refKindIsSetter(byte refKind) {
         return refKindIsField(refKind) && !refKindIsGetter(refKind);
     }
-    static boolean refKindIsMethod(byte refKind) {
-        return !refKindIsField(refKind) && (refKind != REF_newInvokeSpecial);
+    stbtic boolebn refKindIsMethod(byte refKind) {
+        return !refKindIsField(refKind) && (refKind != REF_newInvokeSpecibl);
     }
-    static boolean refKindIsConstructor(byte refKind) {
-        return (refKind == REF_newInvokeSpecial);
+    stbtic boolebn refKindIsConstructor(byte refKind) {
+        return (refKind == REF_newInvokeSpecibl);
     }
-    static boolean refKindHasReceiver(byte refKind) {
-        assert(refKindIsValid(refKind));
+    stbtic boolebn refKindHbsReceiver(byte refKind) {
+        bssert(refKindIsVblid(refKind));
         return (refKind & 1) != 0;
     }
-    static boolean refKindIsStatic(byte refKind) {
-        return !refKindHasReceiver(refKind) && (refKind != REF_newInvokeSpecial);
+    stbtic boolebn refKindIsStbtic(byte refKind) {
+        return !refKindHbsReceiver(refKind) && (refKind != REF_newInvokeSpecibl);
     }
-    static boolean refKindDoesDispatch(byte refKind) {
-        assert(refKindIsValid(refKind));
-        return (refKind == REF_invokeVirtual ||
-                refKind == REF_invokeInterface);
+    stbtic boolebn refKindDoesDispbtch(byte refKind) {
+        bssert(refKindIsVblid(refKind));
+        return (refKind == REF_invokeVirtubl ||
+                refKind == REF_invokeInterfbce);
     }
-    static {
-        final int HR_MASK = ((1 << REF_getField) |
+    stbtic {
+        finbl int HR_MASK = ((1 << REF_getField) |
                              (1 << REF_putField) |
-                             (1 << REF_invokeVirtual) |
-                             (1 << REF_invokeSpecial) |
-                             (1 << REF_invokeInterface)
+                             (1 << REF_invokeVirtubl) |
+                             (1 << REF_invokeSpecibl) |
+                             (1 << REF_invokeInterfbce)
                             );
         for (byte refKind = REF_NONE+1; refKind < REF_LIMIT; refKind++) {
-            assert(refKindHasReceiver(refKind) == (((1<<refKind) & HR_MASK) != 0)) : refKind;
+            bssert(refKindHbsReceiver(refKind) == (((1<<refKind) & HR_MASK) != 0)) : refKind;
         }
     }
-    static String refKindName(byte refKind) {
-        assert(refKindIsValid(refKind));
+    stbtic String refKindNbme(byte refKind) {
+        bssert(refKindIsVblid(refKind));
         switch (refKind) {
-        case REF_getField:          return "getField";
-        case REF_getStatic:         return "getStatic";
-        case REF_putField:          return "putField";
-        case REF_putStatic:         return "putStatic";
-        case REF_invokeVirtual:     return "invokeVirtual";
-        case REF_invokeStatic:      return "invokeStatic";
-        case REF_invokeSpecial:     return "invokeSpecial";
-        case REF_newInvokeSpecial:  return "newInvokeSpecial";
-        case REF_invokeInterface:   return "invokeInterface";
-        default:                    return "REF_???";
+        cbse REF_getField:          return "getField";
+        cbse REF_getStbtic:         return "getStbtic";
+        cbse REF_putField:          return "putField";
+        cbse REF_putStbtic:         return "putStbtic";
+        cbse REF_invokeVirtubl:     return "invokeVirtubl";
+        cbse REF_invokeStbtic:      return "invokeStbtic";
+        cbse REF_invokeSpecibl:     return "invokeSpecibl";
+        cbse REF_newInvokeSpecibl:  return "newInvokeSpecibl";
+        cbse REF_invokeInterfbce:   return "invokeInterfbce";
+        defbult:                    return "REF_???";
         }
     }
 
-    private static native int getNamedCon(int which, Object[] name);
-    static boolean verifyConstants() {
+    privbte stbtic nbtive int getNbmedCon(int which, Object[] nbme);
+    stbtic boolebn verifyConstbnts() {
         Object[] box = { null };
         for (int i = 0; ; i++) {
             box[0] = null;
-            int vmval = getNamedCon(i, box);
-            if (box[0] == null)  break;
-            String name = (String) box[0];
+            int vmvbl = getNbmedCon(i, box);
+            if (box[0] == null)  brebk;
+            String nbme = (String) box[0];
             try {
-                Field con = Constants.class.getDeclaredField(name);
-                int jval = con.getInt(null);
-                if (jval == vmval)  continue;
-                String err = (name+": JVM has "+vmval+" while Java has "+jval);
-                if (name.equals("CONV_OP_LIMIT")) {
-                    System.err.println("warning: "+err);
+                Field con = Constbnts.clbss.getDeclbredField(nbme);
+                int jvbl = con.getInt(null);
+                if (jvbl == vmvbl)  continue;
+                String err = (nbme+": JVM hbs "+vmvbl+" while Jbvb hbs "+jvbl);
+                if (nbme.equbls("CONV_OP_LIMIT")) {
+                    System.err.println("wbrning: "+err);
                     continue;
                 }
-                throw new InternalError(err);
-            } catch (NoSuchFieldException | IllegalAccessException ex) {
-                String err = (name+": JVM has "+vmval+" which Java does not define");
-                // ignore exotic ops the JVM cares about; we just wont issue them
-                //System.err.println("warning: "+err);
+                throw new InternblError(err);
+            } cbtch (NoSuchFieldException | IllegblAccessException ex) {
+                String err = (nbme+": JVM hbs "+vmvbl+" which Jbvb does not define");
+                // ignore exotic ops the JVM cbres bbout; we just wont issue them
+                //System.err.println("wbrning: "+err);
                 continue;
             }
         }
         return true;
     }
-    static {
-        assert(verifyConstants());
+    stbtic {
+        bssert(verifyConstbnts());
     }
 
-    // Up-calls from the JVM.
+    // Up-cblls from the JVM.
     // These must NOT be public.
 
     /**
-     * The JVM is linking an invokedynamic instruction.  Create a reified call site for it.
+     * The JVM is linking bn invokedynbmic instruction.  Crebte b reified cbll site for it.
      */
-    static MemberName linkCallSite(Object callerObj,
-                                   Object bootstrapMethodObj,
-                                   Object nameObj, Object typeObj,
-                                   Object staticArguments,
-                                   Object[] appendixResult) {
-        MethodHandle bootstrapMethod = (MethodHandle)bootstrapMethodObj;
-        Class<?> caller = (Class<?>)callerObj;
-        String name = nameObj.toString().intern();
+    stbtic MemberNbme linkCbllSite(Object cbllerObj,
+                                   Object bootstrbpMethodObj,
+                                   Object nbmeObj, Object typeObj,
+                                   Object stbticArguments,
+                                   Object[] bppendixResult) {
+        MethodHbndle bootstrbpMethod = (MethodHbndle)bootstrbpMethodObj;
+        Clbss<?> cbller = (Clbss<?>)cbllerObj;
+        String nbme = nbmeObj.toString().intern();
         MethodType type = (MethodType)typeObj;
         if (!TRACE_METHOD_LINKAGE)
-            return linkCallSiteImpl(caller, bootstrapMethod, name, type,
-                                    staticArguments, appendixResult);
-        return linkCallSiteTracing(caller, bootstrapMethod, name, type,
-                                   staticArguments, appendixResult);
+            return linkCbllSiteImpl(cbller, bootstrbpMethod, nbme, type,
+                                    stbticArguments, bppendixResult);
+        return linkCbllSiteTrbcing(cbller, bootstrbpMethod, nbme, type,
+                                   stbticArguments, bppendixResult);
     }
-    static MemberName linkCallSiteImpl(Class<?> caller,
-                                       MethodHandle bootstrapMethod,
-                                       String name, MethodType type,
-                                       Object staticArguments,
-                                       Object[] appendixResult) {
-        CallSite callSite = CallSite.makeSite(bootstrapMethod,
-                                              name,
+    stbtic MemberNbme linkCbllSiteImpl(Clbss<?> cbller,
+                                       MethodHbndle bootstrbpMethod,
+                                       String nbme, MethodType type,
+                                       Object stbticArguments,
+                                       Object[] bppendixResult) {
+        CbllSite cbllSite = CbllSite.mbkeSite(bootstrbpMethod,
+                                              nbme,
                                               type,
-                                              staticArguments,
-                                              caller);
-        if (callSite instanceof ConstantCallSite) {
-            appendixResult[0] = callSite.dynamicInvoker();
-            return Invokers.linkToTargetMethod(type);
+                                              stbticArguments,
+                                              cbller);
+        if (cbllSite instbnceof ConstbntCbllSite) {
+            bppendixResult[0] = cbllSite.dynbmicInvoker();
+            return Invokers.linkToTbrgetMethod(type);
         } else {
-            appendixResult[0] = callSite;
-            return Invokers.linkToCallSiteMethod(type);
+            bppendixResult[0] = cbllSite;
+            return Invokers.linkToCbllSiteMethod(type);
         }
     }
-    // Tracing logic:
-    static MemberName linkCallSiteTracing(Class<?> caller,
-                                          MethodHandle bootstrapMethod,
-                                          String name, MethodType type,
-                                          Object staticArguments,
-                                          Object[] appendixResult) {
-        Object bsmReference = bootstrapMethod.internalMemberName();
-        if (bsmReference == null)  bsmReference = bootstrapMethod;
-        Object staticArglist = (staticArguments instanceof Object[] ?
-                                java.util.Arrays.asList((Object[]) staticArguments) :
-                                staticArguments);
-        System.out.println("linkCallSite "+caller.getName()+" "+
+    // Trbcing logic:
+    stbtic MemberNbme linkCbllSiteTrbcing(Clbss<?> cbller,
+                                          MethodHbndle bootstrbpMethod,
+                                          String nbme, MethodType type,
+                                          Object stbticArguments,
+                                          Object[] bppendixResult) {
+        Object bsmReference = bootstrbpMethod.internblMemberNbme();
+        if (bsmReference == null)  bsmReference = bootstrbpMethod;
+        Object stbticArglist = (stbticArguments instbnceof Object[] ?
+                                jbvb.util.Arrbys.bsList((Object[]) stbticArguments) :
+                                stbticArguments);
+        System.out.println("linkCbllSite "+cbller.getNbme()+" "+
                            bsmReference+" "+
-                           name+type+"/"+staticArglist);
+                           nbme+type+"/"+stbticArglist);
         try {
-            MemberName res = linkCallSiteImpl(caller, bootstrapMethod, name, type,
-                                              staticArguments, appendixResult);
-            System.out.println("linkCallSite => "+res+" + "+appendixResult[0]);
+            MemberNbme res = linkCbllSiteImpl(cbller, bootstrbpMethod, nbme, type,
+                                              stbticArguments, bppendixResult);
+            System.out.println("linkCbllSite => "+res+" + "+bppendixResult[0]);
             return res;
-        } catch (Throwable ex) {
-            System.out.println("linkCallSite => throw "+ex);
+        } cbtch (Throwbble ex) {
+            System.out.println("linkCbllSite => throw "+ex);
             throw ex;
         }
     }
 
     /**
-     * The JVM wants a pointer to a MethodType.  Oblige it by finding or creating one.
+     * The JVM wbnts b pointer to b MethodType.  Oblige it by finding or crebting one.
      */
-    static MethodType findMethodHandleType(Class<?> rtype, Class<?>[] ptypes) {
-        return MethodType.makeImpl(rtype, ptypes, true);
+    stbtic MethodType findMethodHbndleType(Clbss<?> rtype, Clbss<?>[] ptypes) {
+        return MethodType.mbkeImpl(rtype, ptypes, true);
     }
 
     /**
-     * The JVM wants to link a call site that requires a dynamic type check.
-     * Name is a type-checking invoker, invokeExact or invoke.
-     * Return a JVM method (MemberName) to handle the invoking.
-     * The method assumes the following arguments on the stack:
-     * 0: the method handle being invoked
-     * 1-N: the arguments to the method handle invocation
-     * N+1: an optional, implicitly added argument (typically the given MethodType)
+     * The JVM wbnts to link b cbll site thbt requires b dynbmic type check.
+     * Nbme is b type-checking invoker, invokeExbct or invoke.
+     * Return b JVM method (MemberNbme) to hbndle the invoking.
+     * The method bssumes the following brguments on the stbck:
+     * 0: the method hbndle being invoked
+     * 1-N: the brguments to the method hbndle invocbtion
+     * N+1: bn optionbl, implicitly bdded brgument (typicblly the given MethodType)
      * <p>
-     * The nominal method at such a call site is an instance of
-     * a signature-polymorphic method (see @PolymorphicSignature).
-     * Such method instances are user-visible entities which are
-     * "split" from the generic placeholder method in {@code MethodHandle}.
-     * (Note that the placeholder method is not identical with any of
-     * its instances.  If invoked reflectively, is guaranteed to throw an
-     * {@code UnsupportedOperationException}.)
-     * If the signature-polymorphic method instance is ever reified,
-     * it appears as a "copy" of the original placeholder
-     * (a native final member of {@code MethodHandle}) except
-     * that its type descriptor has shape required by the instance,
-     * and the method instance is <em>not</em> varargs.
-     * The method instance is also marked synthetic, since the
-     * method (by definition) does not appear in Java source code.
+     * The nominbl method bt such b cbll site is bn instbnce of
+     * b signbture-polymorphic method (see @PolymorphicSignbture).
+     * Such method instbnces bre user-visible entities which bre
+     * "split" from the generic plbceholder method in {@code MethodHbndle}.
+     * (Note thbt the plbceholder method is not identicbl with bny of
+     * its instbnces.  If invoked reflectively, is gubrbnteed to throw bn
+     * {@code UnsupportedOperbtionException}.)
+     * If the signbture-polymorphic method instbnce is ever reified,
+     * it bppebrs bs b "copy" of the originbl plbceholder
+     * (b nbtive finbl member of {@code MethodHbndle}) except
+     * thbt its type descriptor hbs shbpe required by the instbnce,
+     * bnd the method instbnce is <em>not</em> vbrbrgs.
+     * The method instbnce is blso mbrked synthetic, since the
+     * method (by definition) does not bppebr in Jbvb source code.
      * <p>
-     * The JVM is allowed to reify this method as instance metadata.
-     * For example, {@code invokeBasic} is always reified.
-     * But the JVM may instead call {@code linkMethod}.
-     * If the result is an * ordered pair of a {@code (method, appendix)},
-     * the method gets all the arguments (0..N inclusive)
-     * plus the appendix (N+1), and uses the appendix to complete the call.
-     * In this way, one reusable method (called a "linker method")
-     * can perform the function of any number of polymorphic instance
+     * The JVM is bllowed to reify this method bs instbnce metbdbtb.
+     * For exbmple, {@code invokeBbsic} is blwbys reified.
+     * But the JVM mby instebd cbll {@code linkMethod}.
+     * If the result is bn * ordered pbir of b {@code (method, bppendix)},
+     * the method gets bll the brguments (0..N inclusive)
+     * plus the bppendix (N+1), bnd uses the bppendix to complete the cbll.
+     * In this wby, one reusbble method (cblled b "linker method")
+     * cbn perform the function of bny number of polymorphic instbnce
      * methods.
      * <p>
-     * Linker methods are allowed to be weakly typed, with any or
-     * all references rewritten to {@code Object} and any primitives
-     * (except {@code long}/{@code float}/{@code double})
+     * Linker methods bre bllowed to be webkly typed, with bny or
+     * bll references rewritten to {@code Object} bnd bny primitives
+     * (except {@code long}/{@code flobt}/{@code double})
      * rewritten to {@code int}.
-     * A linker method is trusted to return a strongly typed result,
-     * according to the specific method type descriptor of the
-     * signature-polymorphic instance it is emulating.
-     * This can involve (as necessary) a dynamic check using
-     * data extracted from the appendix argument.
+     * A linker method is trusted to return b strongly typed result,
+     * bccording to the specific method type descriptor of the
+     * signbture-polymorphic instbnce it is emulbting.
+     * This cbn involve (bs necessbry) b dynbmic check using
+     * dbtb extrbcted from the bppendix brgument.
      * <p>
-     * The JVM does not inspect the appendix, other than to pass
-     * it verbatim to the linker method at every call.
-     * This means that the JDK runtime has wide latitude
-     * for choosing the shape of each linker method and its
-     * corresponding appendix.
-     * Linker methods should be generated from {@code LambdaForm}s
-     * so that they do not become visible on stack traces.
+     * The JVM does not inspect the bppendix, other thbn to pbss
+     * it verbbtim to the linker method bt every cbll.
+     * This mebns thbt the JDK runtime hbs wide lbtitude
+     * for choosing the shbpe of ebch linker method bnd its
+     * corresponding bppendix.
+     * Linker methods should be generbted from {@code LbmbdbForm}s
+     * so thbt they do not become visible on stbck trbces.
      * <p>
-     * The {@code linkMethod} call is free to omit the appendix
-     * (returning null) and instead emulate the required function
+     * The {@code linkMethod} cbll is free to omit the bppendix
+     * (returning null) bnd instebd emulbte the required function
      * completely in the linker method.
-     * As a corner case, if N==255, no appendix is possible.
-     * In this case, the method returned must be custom-generated to
-     * to perform any needed type checking.
+     * As b corner cbse, if N==255, no bppendix is possible.
+     * In this cbse, the method returned must be custom-generbted to
+     * to perform bny needed type checking.
      * <p>
-     * If the JVM does not reify a method at a call site, but instead
-     * calls {@code linkMethod}, the corresponding call represented
-     * in the bytecodes may mention a valid method which is not
-     * representable with a {@code MemberName}.
-     * Therefore, use cases for {@code linkMethod} tend to correspond to
-     * special cases in reflective code such as {@code findVirtual}
-     * or {@code revealDirect}.
+     * If the JVM does not reify b method bt b cbll site, but instebd
+     * cblls {@code linkMethod}, the corresponding cbll represented
+     * in the bytecodes mby mention b vblid method which is not
+     * representbble with b {@code MemberNbme}.
+     * Therefore, use cbses for {@code linkMethod} tend to correspond to
+     * specibl cbses in reflective code such bs {@code findVirtubl}
+     * or {@code reveblDirect}.
      */
-    static MemberName linkMethod(Class<?> callerClass, int refKind,
-                                 Class<?> defc, String name, Object type,
-                                 Object[] appendixResult) {
+    stbtic MemberNbme linkMethod(Clbss<?> cbllerClbss, int refKind,
+                                 Clbss<?> defc, String nbme, Object type,
+                                 Object[] bppendixResult) {
         if (!TRACE_METHOD_LINKAGE)
-            return linkMethodImpl(callerClass, refKind, defc, name, type, appendixResult);
-        return linkMethodTracing(callerClass, refKind, defc, name, type, appendixResult);
+            return linkMethodImpl(cbllerClbss, refKind, defc, nbme, type, bppendixResult);
+        return linkMethodTrbcing(cbllerClbss, refKind, defc, nbme, type, bppendixResult);
     }
-    static MemberName linkMethodImpl(Class<?> callerClass, int refKind,
-                                     Class<?> defc, String name, Object type,
-                                     Object[] appendixResult) {
+    stbtic MemberNbme linkMethodImpl(Clbss<?> cbllerClbss, int refKind,
+                                     Clbss<?> defc, String nbme, Object type,
+                                     Object[] bppendixResult) {
         try {
-            if (defc == MethodHandle.class && refKind == REF_invokeVirtual) {
-                return Invokers.methodHandleInvokeLinkerMethod(name, fixMethodType(callerClass, type), appendixResult);
+            if (defc == MethodHbndle.clbss && refKind == REF_invokeVirtubl) {
+                return Invokers.methodHbndleInvokeLinkerMethod(nbme, fixMethodType(cbllerClbss, type), bppendixResult);
             }
-        } catch (Throwable ex) {
-            if (ex instanceof LinkageError)
-                throw (LinkageError) ex;
+        } cbtch (Throwbble ex) {
+            if (ex instbnceof LinkbgeError)
+                throw (LinkbgeError) ex;
             else
-                throw new LinkageError(ex.getMessage(), ex);
+                throw new LinkbgeError(ex.getMessbge(), ex);
         }
-        throw new LinkageError("no such method "+defc.getName()+"."+name+type);
+        throw new LinkbgeError("no such method "+defc.getNbme()+"."+nbme+type);
     }
-    private static MethodType fixMethodType(Class<?> callerClass, Object type) {
-        if (type instanceof MethodType)
+    privbte stbtic MethodType fixMethodType(Clbss<?> cbllerClbss, Object type) {
+        if (type instbnceof MethodType)
             return (MethodType) type;
         else
-            return MethodType.fromMethodDescriptorString((String)type, callerClass.getClassLoader());
+            return MethodType.fromMethodDescriptorString((String)type, cbllerClbss.getClbssLobder());
     }
-    // Tracing logic:
-    static MemberName linkMethodTracing(Class<?> callerClass, int refKind,
-                                        Class<?> defc, String name, Object type,
-                                        Object[] appendixResult) {
-        System.out.println("linkMethod "+defc.getName()+"."+
-                           name+type+"/"+Integer.toHexString(refKind));
+    // Trbcing logic:
+    stbtic MemberNbme linkMethodTrbcing(Clbss<?> cbllerClbss, int refKind,
+                                        Clbss<?> defc, String nbme, Object type,
+                                        Object[] bppendixResult) {
+        System.out.println("linkMethod "+defc.getNbme()+"."+
+                           nbme+type+"/"+Integer.toHexString(refKind));
         try {
-            MemberName res = linkMethodImpl(callerClass, refKind, defc, name, type, appendixResult);
-            System.out.println("linkMethod => "+res+" + "+appendixResult[0]);
+            MemberNbme res = linkMethodImpl(cbllerClbss, refKind, defc, nbme, type, bppendixResult);
+            System.out.println("linkMethod => "+res+" + "+bppendixResult[0]);
             return res;
-        } catch (Throwable ex) {
+        } cbtch (Throwbble ex) {
             System.out.println("linkMethod => throw "+ex);
             throw ex;
         }
@@ -462,79 +462,79 @@ class MethodHandleNatives {
 
 
     /**
-     * The JVM is resolving a CONSTANT_MethodHandle CP entry.  And it wants our help.
-     * It will make an up-call to this method.  (Do not change the name or signature.)
-     * The type argument is a Class for field requests and a MethodType for non-fields.
+     * The JVM is resolving b CONSTANT_MethodHbndle CP entry.  And it wbnts our help.
+     * It will mbke bn up-cbll to this method.  (Do not chbnge the nbme or signbture.)
+     * The type brgument is b Clbss for field requests bnd b MethodType for non-fields.
      * <p>
-     * Recent versions of the JVM may also pass a resolved MemberName for the type.
-     * In that case, the name is ignored and may be null.
+     * Recent versions of the JVM mby blso pbss b resolved MemberNbme for the type.
+     * In thbt cbse, the nbme is ignored bnd mby be null.
      */
-    static MethodHandle linkMethodHandleConstant(Class<?> callerClass, int refKind,
-                                                 Class<?> defc, String name, Object type) {
+    stbtic MethodHbndle linkMethodHbndleConstbnt(Clbss<?> cbllerClbss, int refKind,
+                                                 Clbss<?> defc, String nbme, Object type) {
         try {
-            Lookup lookup = IMPL_LOOKUP.in(callerClass);
-            assert(refKindIsValid(refKind));
-            return lookup.linkMethodHandleConstant((byte) refKind, defc, name, type);
-        } catch (IllegalAccessException ex) {
-            Throwable cause = ex.getCause();
-            if (cause instanceof AbstractMethodError) {
-                throw (AbstractMethodError) cause;
+            Lookup lookup = IMPL_LOOKUP.in(cbllerClbss);
+            bssert(refKindIsVblid(refKind));
+            return lookup.linkMethodHbndleConstbnt((byte) refKind, defc, nbme, type);
+        } cbtch (IllegblAccessException ex) {
+            Throwbble cbuse = ex.getCbuse();
+            if (cbuse instbnceof AbstrbctMethodError) {
+                throw (AbstrbctMethodError) cbuse;
             } else {
-                Error err = new IllegalAccessError(ex.getMessage());
-                throw initCauseFrom(err, ex);
+                Error err = new IllegblAccessError(ex.getMessbge());
+                throw initCbuseFrom(err, ex);
             }
-        } catch (NoSuchMethodException ex) {
-            Error err = new NoSuchMethodError(ex.getMessage());
-            throw initCauseFrom(err, ex);
-        } catch (NoSuchFieldException ex) {
-            Error err = new NoSuchFieldError(ex.getMessage());
-            throw initCauseFrom(err, ex);
-        } catch (ReflectiveOperationException ex) {
-            Error err = new IncompatibleClassChangeError();
-            throw initCauseFrom(err, ex);
+        } cbtch (NoSuchMethodException ex) {
+            Error err = new NoSuchMethodError(ex.getMessbge());
+            throw initCbuseFrom(err, ex);
+        } cbtch (NoSuchFieldException ex) {
+            Error err = new NoSuchFieldError(ex.getMessbge());
+            throw initCbuseFrom(err, ex);
+        } cbtch (ReflectiveOperbtionException ex) {
+            Error err = new IncompbtibleClbssChbngeError();
+            throw initCbuseFrom(err, ex);
         }
     }
 
     /**
-     * Use best possible cause for err.initCause(), substituting the
-     * cause for err itself if the cause has the same (or better) type.
+     * Use best possible cbuse for err.initCbuse(), substituting the
+     * cbuse for err itself if the cbuse hbs the sbme (or better) type.
      */
-    static private Error initCauseFrom(Error err, Exception ex) {
-        Throwable th = ex.getCause();
-        if (err.getClass().isInstance(th))
+    stbtic privbte Error initCbuseFrom(Error err, Exception ex) {
+        Throwbble th = ex.getCbuse();
+        if (err.getClbss().isInstbnce(th))
            return (Error) th;
-        err.initCause(th == null ? ex : th);
+        err.initCbuse(th == null ? ex : th);
         return err;
     }
 
     /**
-     * Is this method a caller-sensitive method?
-     * I.e., does it call Reflection.getCallerClass or a similer method
-     * to ask about the identity of its caller?
+     * Is this method b cbller-sensitive method?
+     * I.e., does it cbll Reflection.getCbllerClbss or b similer method
+     * to bsk bbout the identity of its cbller?
      */
-    static boolean isCallerSensitive(MemberName mem) {
-        if (!mem.isInvocable())  return false;  // fields are not caller sensitive
+    stbtic boolebn isCbllerSensitive(MemberNbme mem) {
+        if (!mem.isInvocbble())  return fblse;  // fields bre not cbller sensitive
 
-        return mem.isCallerSensitive() || canBeCalledVirtual(mem);
+        return mem.isCbllerSensitive() || cbnBeCblledVirtubl(mem);
     }
 
-    static boolean canBeCalledVirtual(MemberName mem) {
-        assert(mem.isInvocable());
-        Class<?> defc = mem.getDeclaringClass();
-        switch (mem.getName()) {
-        case "checkMemberAccess":
-            return canBeCalledVirtual(mem, java.lang.SecurityManager.class);
-        case "getContextClassLoader":
-            return canBeCalledVirtual(mem, java.lang.Thread.class);
+    stbtic boolebn cbnBeCblledVirtubl(MemberNbme mem) {
+        bssert(mem.isInvocbble());
+        Clbss<?> defc = mem.getDeclbringClbss();
+        switch (mem.getNbme()) {
+        cbse "checkMemberAccess":
+            return cbnBeCblledVirtubl(mem, jbvb.lbng.SecurityMbnbger.clbss);
+        cbse "getContextClbssLobder":
+            return cbnBeCblledVirtubl(mem, jbvb.lbng.Threbd.clbss);
         }
-        return false;
+        return fblse;
     }
 
-    static boolean canBeCalledVirtual(MemberName symbolicRef, Class<?> definingClass) {
-        Class<?> symbolicRefClass = symbolicRef.getDeclaringClass();
-        if (symbolicRefClass == definingClass)  return true;
-        if (symbolicRef.isStatic() || symbolicRef.isPrivate())  return false;
-        return (definingClass.isAssignableFrom(symbolicRefClass) ||  // Msym overrides Mdef
-                symbolicRefClass.isInterface());                     // Mdef implements Msym
+    stbtic boolebn cbnBeCblledVirtubl(MemberNbme symbolicRef, Clbss<?> definingClbss) {
+        Clbss<?> symbolicRefClbss = symbolicRef.getDeclbringClbss();
+        if (symbolicRefClbss == definingClbss)  return true;
+        if (symbolicRef.isStbtic() || symbolicRef.isPrivbte())  return fblse;
+        return (definingClbss.isAssignbbleFrom(symbolicRefClbss) ||  // Msym overrides Mdef
+                symbolicRefClbss.isInterfbce());                     // Mdef implements Msym
     }
 }

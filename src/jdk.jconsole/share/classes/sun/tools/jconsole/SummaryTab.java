@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
-import java.io.*;
-import java.lang.management.*;
-import java.lang.reflect.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
+import jbvb.bwt.*;
+import jbvb.io.*;
+import jbvb.lbng.mbnbgement.*;
+import jbvb.lbng.reflect.*;
+import jbvb.text.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 
-import static sun.tools.jconsole.Formatter.*;
-import static sun.tools.jconsole.Utilities.*;
+import stbtic sun.tools.jconsole.Formbtter.*;
+import stbtic sun.tools.jconsole.Utilities.*;
 
-@SuppressWarnings("serial")
-class SummaryTab extends Tab {
-    private static final String cpuUsageKey = "cpu";
+@SuppressWbrnings("seribl")
+clbss SummbryTbb extends Tbb {
+    privbte stbtic finbl String cpuUsbgeKey = "cpu";
 
-    private static final String newDivider =   "<tr><td colspan=4><font size =-1><hr>";
-    private static final String newTable =     "<tr><td colspan=4 align=left><table cellpadding=1>";
-    private static final String newLeftTable = "<tr><td colspan=2 align=left><table cellpadding=1>";
-    private static final String newRightTable =  "<td colspan=2 align=left><table cellpadding=1>";
-    private static final String endTable = "</table>";
+    privbte stbtic finbl String newDivider =   "<tr><td colspbn=4><font size =-1><hr>";
+    privbte stbtic finbl String newTbble =     "<tr><td colspbn=4 blign=left><tbble cellpbdding=1>";
+    privbte stbtic finbl String newLeftTbble = "<tr><td colspbn=2 blign=left><tbble cellpbdding=1>";
+    privbte stbtic finbl String newRightTbble =  "<td colspbn=2 blign=left><tbble cellpbdding=1>";
+    privbte stbtic finbl String endTbble = "</tbble>";
 
-    private static final int CPU_DECIMALS = 1;
+    privbte stbtic finbl int CPU_DECIMALS = 1;
 
-    private CPUOverviewPanel overviewPanel;
-    private DateFormat headerDateTimeFormat;
-    private String pathSeparator = null;
-    HTMLPane info;
+    privbte CPUOverviewPbnel overviewPbnel;
+    privbte DbteFormbt hebderDbteTimeFormbt;
+    privbte String pbthSepbrbtor = null;
+    HTMLPbne info;
 
-    private static class Result {
+    privbte stbtic clbss Result {
         long upTime = -1L;
         long processCpuTime = -1L;
-        long timeStamp;
+        long timeStbmp;
         int nCPUs;
-        String summary;
+        String summbry;
     }
 
-    public static String getTabName() {
-        return Messages.SUMMARY_TAB_TAB_NAME;
+    public stbtic String getTbbNbme() {
+        return Messbges.SUMMARY_TAB_TAB_NAME;
     }
 
-    public SummaryTab(VMPanel vmPanel) {
-        super(vmPanel, getTabName());
+    public SummbryTbb(VMPbnel vmPbnel) {
+        super(vmPbnel, getTbbNbme());
 
-        setLayout(new BorderLayout());
+        setLbyout(new BorderLbyout());
 
-        info = new HTMLPane();
-        setAccessibleName(info, getTabName());
-        add(new JScrollPane(info));
+        info = new HTMLPbne();
+        setAccessibleNbme(info, getTbbNbme());
+        bdd(new JScrollPbne(info));
 
-        headerDateTimeFormat =
-            Formatter.getDateTimeFormat(Messages.SUMMARY_TAB_HEADER_DATE_TIME_FORMAT);
+        hebderDbteTimeFormbt =
+            Formbtter.getDbteTimeFormbt(Messbges.SUMMARY_TAB_HEADER_DATE_TIME_FORMAT);
     }
 
     public SwingWorker<?, ?> newSwingWorker() {
         return new SwingWorker<Result, Object>() {
-            public Result doInBackground() {
-                return formatSummary();
+            public Result doInBbckground() {
+                return formbtSummbry();
             }
 
 
@@ -92,18 +92,18 @@ class SummaryTab extends Tab {
                 try {
                     Result result = get();
                     if (result != null) {
-                        info.setText(result.summary);
-                        if (overviewPanel != null &&
+                        info.setText(result.summbry);
+                        if (overviewPbnel != null &&
                             result.upTime > 0L &&
                             result.processCpuTime >= 0L) {
 
-                            overviewPanel.updateCPUInfo(result);
+                            overviewPbnel.updbteCPUInfo(result);
                         }
                     }
-                } catch (InterruptedException ex) {
-                } catch (ExecutionException ex) {
+                } cbtch (InterruptedException ex) {
+                } cbtch (ExecutionException ex) {
                     if (JConsole.isDebug()) {
-                        ex.printStackTrace();
+                        ex.printStbckTrbce();
                     }
                 }
             }
@@ -112,260 +112,260 @@ class SummaryTab extends Tab {
 
     StringBuilder buf;
 
-    synchronized Result formatSummary() {
+    synchronized Result formbtSummbry() {
         Result result = new Result();
-        ProxyClient proxyClient = vmPanel.getProxyClient();
-        if (proxyClient.isDead()) {
+        ProxyClient proxyClient = vmPbnel.getProxyClient();
+        if (proxyClient.isDebd()) {
             return null;
         }
 
         buf = new StringBuilder();
-        append("<table cellpadding=1>");
+        bppend("<tbble cellpbdding=1>");
 
         try {
-            RuntimeMXBean         rmBean     = proxyClient.getRuntimeMXBean();
-            CompilationMXBean     cmpMBean   = proxyClient.getCompilationMXBean();
-            ThreadMXBean          tmBean     = proxyClient.getThreadMXBean();
-            MemoryMXBean          memoryBean = proxyClient.getMemoryMXBean();
-            ClassLoadingMXBean    clMBean    = proxyClient.getClassLoadingMXBean();
-            OperatingSystemMXBean osMBean    = proxyClient.getOperatingSystemMXBean();
-            com.sun.management.OperatingSystemMXBean sunOSMBean  =
-               proxyClient.getSunOperatingSystemMXBean();
+            RuntimeMXBebn         rmBebn     = proxyClient.getRuntimeMXBebn();
+            CompilbtionMXBebn     cmpMBebn   = proxyClient.getCompilbtionMXBebn();
+            ThrebdMXBebn          tmBebn     = proxyClient.getThrebdMXBebn();
+            MemoryMXBebn          memoryBebn = proxyClient.getMemoryMXBebn();
+            ClbssLobdingMXBebn    clMBebn    = proxyClient.getClbssLobdingMXBebn();
+            OperbtingSystemMXBebn osMBebn    = proxyClient.getOperbtingSystemMXBebn();
+            com.sun.mbnbgement.OperbtingSystemMXBebn sunOSMBebn  =
+               proxyClient.getSunOperbtingSystemMXBebn();
 
-            append("<tr><td colspan=4>");
-            append("<center><b>" + Messages.SUMMARY_TAB_TAB_NAME + "</b></center>");
-            String dateTime =
-                headerDateTimeFormat.format(System.currentTimeMillis());
-            append("<center>" + dateTime + "</center>");
+            bppend("<tr><td colspbn=4>");
+            bppend("<center><b>" + Messbges.SUMMARY_TAB_TAB_NAME + "</b></center>");
+            String dbteTime =
+                hebderDbteTimeFormbt.formbt(System.currentTimeMillis());
+            bppend("<center>" + dbteTime + "</center>");
 
-            append(newDivider);
+            bppend(newDivider);
 
             {  // VM info
-                append(newLeftTable);
-                append(Messages.CONNECTION_NAME, vmPanel.getDisplayName());
-                append(Messages.VIRTUAL_MACHINE,
-                       Resources.format(Messages.SUMMARY_TAB_VM_VERSION,
-                                        rmBean.getVmName(), rmBean.getVmVersion()));
-                append(Messages.VENDOR, rmBean.getVmVendor());
-                append(Messages.NAME, rmBean.getName());
-                append(endTable);
+                bppend(newLeftTbble);
+                bppend(Messbges.CONNECTION_NAME, vmPbnel.getDisplbyNbme());
+                bppend(Messbges.VIRTUAL_MACHINE,
+                       Resources.formbt(Messbges.SUMMARY_TAB_VM_VERSION,
+                                        rmBebn.getVmNbme(), rmBebn.getVmVersion()));
+                bppend(Messbges.VENDOR, rmBebn.getVmVendor());
+                bppend(Messbges.NAME, rmBebn.getNbme());
+                bppend(endTbble);
 
-                append(newRightTable);
-                result.upTime = rmBean.getUptime();
-                append(Messages.UPTIME, formatTime(result.upTime));
-                if (sunOSMBean != null) {
-                    result.processCpuTime = sunOSMBean.getProcessCpuTime();
-                    append(Messages.PROCESS_CPU_TIME, formatNanoTime(result.processCpuTime));
+                bppend(newRightTbble);
+                result.upTime = rmBebn.getUptime();
+                bppend(Messbges.UPTIME, formbtTime(result.upTime));
+                if (sunOSMBebn != null) {
+                    result.processCpuTime = sunOSMBebn.getProcessCpuTime();
+                    bppend(Messbges.PROCESS_CPU_TIME, formbtNbnoTime(result.processCpuTime));
                 }
 
-                if (cmpMBean != null) {
-                    append(Messages.JIT_COMPILER, cmpMBean.getName());
-                    append(Messages.TOTAL_COMPILE_TIME,
-                           cmpMBean.isCompilationTimeMonitoringSupported()
-                                    ? formatTime(cmpMBean.getTotalCompilationTime())
-                                    : Messages.UNAVAILABLE);
+                if (cmpMBebn != null) {
+                    bppend(Messbges.JIT_COMPILER, cmpMBebn.getNbme());
+                    bppend(Messbges.TOTAL_COMPILE_TIME,
+                           cmpMBebn.isCompilbtionTimeMonitoringSupported()
+                                    ? formbtTime(cmpMBebn.getTotblCompilbtionTime())
+                                    : Messbges.UNAVAILABLE);
                 } else {
-                    append(Messages.JIT_COMPILER, Messages.UNAVAILABLE);
+                    bppend(Messbges.JIT_COMPILER, Messbges.UNAVAILABLE);
                 }
-                append(endTable);
+                bppend(endTbble);
             }
 
-            append(newDivider);
+            bppend(newDivider);
 
-            {  // Threads and Classes
-                append(newLeftTable);
-                int tlCount = tmBean.getThreadCount();
-                int tdCount = tmBean.getDaemonThreadCount();
-                int tpCount = tmBean.getPeakThreadCount();
-                long ttCount = tmBean.getTotalStartedThreadCount();
-                String[] strings1 = formatLongs(tlCount, tpCount,
+            {  // Threbds bnd Clbsses
+                bppend(newLeftTbble);
+                int tlCount = tmBebn.getThrebdCount();
+                int tdCount = tmBebn.getDbemonThrebdCount();
+                int tpCount = tmBebn.getPebkThrebdCount();
+                long ttCount = tmBebn.getTotblStbrtedThrebdCount();
+                String[] strings1 = formbtLongs(tlCount, tpCount,
                                                 tdCount, ttCount);
-                append(Messages.LIVE_THREADS, strings1[0]);
-                append(Messages.PEAK, strings1[1]);
-                append(Messages.DAEMON_THREADS, strings1[2]);
-                append(Messages.TOTAL_THREADS_STARTED, strings1[3]);
-                append(endTable);
+                bppend(Messbges.LIVE_THREADS, strings1[0]);
+                bppend(Messbges.PEAK, strings1[1]);
+                bppend(Messbges.DAEMON_THREADS, strings1[2]);
+                bppend(Messbges.TOTAL_THREADS_STARTED, strings1[3]);
+                bppend(endTbble);
 
-                append(newRightTable);
-                long clCount = clMBean.getLoadedClassCount();
-                long cuCount = clMBean.getUnloadedClassCount();
-                long ctCount = clMBean.getTotalLoadedClassCount();
-                String[] strings2 = formatLongs(clCount, cuCount, ctCount);
-                append(Messages.CURRENT_CLASSES_LOADED, strings2[0]);
-                append(Messages.TOTAL_CLASSES_LOADED, strings2[2]);
-                append(Messages.TOTAL_CLASSES_UNLOADED, strings2[1]);
-                append(null, "");
-                append(endTable);
+                bppend(newRightTbble);
+                long clCount = clMBebn.getLobdedClbssCount();
+                long cuCount = clMBebn.getUnlobdedClbssCount();
+                long ctCount = clMBebn.getTotblLobdedClbssCount();
+                String[] strings2 = formbtLongs(clCount, cuCount, ctCount);
+                bppend(Messbges.CURRENT_CLASSES_LOADED, strings2[0]);
+                bppend(Messbges.TOTAL_CLASSES_LOADED, strings2[2]);
+                bppend(Messbges.TOTAL_CLASSES_UNLOADED, strings2[1]);
+                bppend(null, "");
+                bppend(endTbble);
             }
 
-            append(newDivider);
+            bppend(newDivider);
 
             {  // Memory
-                MemoryUsage u = memoryBean.getHeapMemoryUsage();
+                MemoryUsbge u = memoryBebn.getHebpMemoryUsbge();
 
-                append(newLeftTable);
-                String[] strings1 = formatKByteStrings(u.getUsed(), u.getMax());
-                append(Messages.CURRENT_HEAP_SIZE, strings1[0]);
-                append(Messages.MAXIMUM_HEAP_SIZE, strings1[1]);
-                append(endTable);
+                bppend(newLeftTbble);
+                String[] strings1 = formbtKByteStrings(u.getUsed(), u.getMbx());
+                bppend(Messbges.CURRENT_HEAP_SIZE, strings1[0]);
+                bppend(Messbges.MAXIMUM_HEAP_SIZE, strings1[1]);
+                bppend(endTbble);
 
-                append(newRightTable);
-                String[] strings2 = formatKByteStrings(u.getCommitted());
-                append(Messages.COMMITTED_MEMORY,  strings2[0]);
-                append(Messages.SUMMARY_TAB_PENDING_FINALIZATION_LABEL,
-                       Resources.format(Messages.SUMMARY_TAB_PENDING_FINALIZATION_VALUE,
-                                        memoryBean.getObjectPendingFinalizationCount()));
-                append(endTable);
+                bppend(newRightTbble);
+                String[] strings2 = formbtKByteStrings(u.getCommitted());
+                bppend(Messbges.COMMITTED_MEMORY,  strings2[0]);
+                bppend(Messbges.SUMMARY_TAB_PENDING_FINALIZATION_LABEL,
+                       Resources.formbt(Messbges.SUMMARY_TAB_PENDING_FINALIZATION_VALUE,
+                                        memoryBebn.getObjectPendingFinblizbtionCount()));
+                bppend(endTbble);
 
-                append(newTable);
-                Collection<GarbageCollectorMXBean> garbageCollectors =
-                                            proxyClient.getGarbageCollectorMXBeans();
-                for (GarbageCollectorMXBean garbageCollectorMBean : garbageCollectors) {
-                    String gcName = garbageCollectorMBean.getName();
-                    long gcCount = garbageCollectorMBean.getCollectionCount();
-                    long gcTime = garbageCollectorMBean.getCollectionTime();
+                bppend(newTbble);
+                Collection<GbrbbgeCollectorMXBebn> gbrbbgeCollectors =
+                                            proxyClient.getGbrbbgeCollectorMXBebns();
+                for (GbrbbgeCollectorMXBebn gbrbbgeCollectorMBebn : gbrbbgeCollectors) {
+                    String gcNbme = gbrbbgeCollectorMBebn.getNbme();
+                    long gcCount = gbrbbgeCollectorMBebn.getCollectionCount();
+                    long gcTime = gbrbbgeCollectorMBebn.getCollectionTime();
 
-                    append(Messages.GARBAGE_COLLECTOR,
-                           Resources.format(Messages.GC_INFO, gcName, gcCount,
-                                            (gcTime >= 0) ? formatTime(gcTime)
-                                                 : Messages.UNAVAILABLE),
+                    bppend(Messbges.GARBAGE_COLLECTOR,
+                           Resources.formbt(Messbges.GC_INFO, gcNbme, gcCount,
+                                            (gcTime >= 0) ? formbtTime(gcTime)
+                                                 : Messbges.UNAVAILABLE),
                            4);
                 }
-                append(endTable);
+                bppend(endTbble);
             }
 
-            append(newDivider);
+            bppend(newDivider);
 
-            {  // Operating System info
-                append(newLeftTable);
-                String osName = osMBean.getName();
-                String osVersion = osMBean.getVersion();
-                String osArch = osMBean.getArch();
-                result.nCPUs = osMBean.getAvailableProcessors();
-                append(Messages.OPERATING_SYSTEM, osName + " " + osVersion);
-                append(Messages.ARCHITECTURE, osArch);
-                append(Messages.NUMBER_OF_PROCESSORS, result.nCPUs+"");
+            {  // Operbting System info
+                bppend(newLeftTbble);
+                String osNbme = osMBebn.getNbme();
+                String osVersion = osMBebn.getVersion();
+                String osArch = osMBebn.getArch();
+                result.nCPUs = osMBebn.getAvbilbbleProcessors();
+                bppend(Messbges.OPERATING_SYSTEM, osNbme + " " + osVersion);
+                bppend(Messbges.ARCHITECTURE, osArch);
+                bppend(Messbges.NUMBER_OF_PROCESSORS, result.nCPUs+"");
 
-                if (pathSeparator == null) {
-                    // Must use separator of remote OS, not File.pathSeparator
-                    // from this local VM. In the future, consider using
-                    // RuntimeMXBean to get the remote system property.
-                    pathSeparator = osName.startsWith("Windows ") ? ";" : ":";
+                if (pbthSepbrbtor == null) {
+                    // Must use sepbrbtor of remote OS, not File.pbthSepbrbtor
+                    // from this locbl VM. In the future, consider using
+                    // RuntimeMXBebn to get the remote system property.
+                    pbthSepbrbtor = osNbme.stbrtsWith("Windows ") ? ";" : ":";
                 }
 
-                if (sunOSMBean != null) {
+                if (sunOSMBebn != null) {
                     String[] kbStrings1 =
-                        formatKByteStrings(sunOSMBean.getCommittedVirtualMemorySize());
+                        formbtKByteStrings(sunOSMBebn.getCommittedVirtublMemorySize());
 
                     String[] kbStrings2 =
-                        formatKByteStrings(sunOSMBean.getTotalPhysicalMemorySize(),
-                                           sunOSMBean.getFreePhysicalMemorySize(),
-                                           sunOSMBean.getTotalSwapSpaceSize(),
-                                           sunOSMBean.getFreeSwapSpaceSize());
+                        formbtKByteStrings(sunOSMBebn.getTotblPhysicblMemorySize(),
+                                           sunOSMBebn.getFreePhysicblMemorySize(),
+                                           sunOSMBebn.getTotblSwbpSpbceSize(),
+                                           sunOSMBebn.getFreeSwbpSpbceSize());
 
-                    append(Messages.COMMITTED_VIRTUAL_MEMORY, kbStrings1[0]);
-                    append(endTable);
+                    bppend(Messbges.COMMITTED_VIRTUAL_MEMORY, kbStrings1[0]);
+                    bppend(endTbble);
 
-                    append(newRightTable);
-                    append(Messages.TOTAL_PHYSICAL_MEMORY, kbStrings2[0]);
-                    append(Messages.FREE_PHYSICAL_MEMORY,  kbStrings2[1]);
-                    append(Messages.TOTAL_SWAP_SPACE,      kbStrings2[2]);
-                    append(Messages.FREE_SWAP_SPACE,       kbStrings2[3]);
+                    bppend(newRightTbble);
+                    bppend(Messbges.TOTAL_PHYSICAL_MEMORY, kbStrings2[0]);
+                    bppend(Messbges.FREE_PHYSICAL_MEMORY,  kbStrings2[1]);
+                    bppend(Messbges.TOTAL_SWAP_SPACE,      kbStrings2[2]);
+                    bppend(Messbges.FREE_SWAP_SPACE,       kbStrings2[3]);
                 }
 
-                append(endTable);
+                bppend(endTbble);
             }
 
-            append(newDivider);
+            bppend(newDivider);
 
-            {  // VM arguments and paths
-                append(newTable);
-                String args = "";
-                java.util.List<String> inputArguments = rmBean.getInputArguments();
-                for (String arg : inputArguments) {
-                    args += arg + " ";
+            {  // VM brguments bnd pbths
+                bppend(newTbble);
+                String brgs = "";
+                jbvb.util.List<String> inputArguments = rmBebn.getInputArguments();
+                for (String brg : inputArguments) {
+                    brgs += brg + " ";
                 }
-                append(Messages.VM_ARGUMENTS, args, 4);
-                append(Messages.CLASS_PATH,   rmBean.getClassPath(), 4);
-                append(Messages.LIBRARY_PATH, rmBean.getLibraryPath(), 4);
-                append(Messages.BOOT_CLASS_PATH,
-                       rmBean.isBootClassPathSupported()
-                                    ? rmBean.getBootClassPath()
-                                    : Messages.UNAVAILABLE,
+                bppend(Messbges.VM_ARGUMENTS, brgs, 4);
+                bppend(Messbges.CLASS_PATH,   rmBebn.getClbssPbth(), 4);
+                bppend(Messbges.LIBRARY_PATH, rmBebn.getLibrbryPbth(), 4);
+                bppend(Messbges.BOOT_CLASS_PATH,
+                       rmBebn.isBootClbssPbthSupported()
+                                    ? rmBebn.getBootClbssPbth()
+                                    : Messbges.UNAVAILABLE,
                        4);
-                append(endTable);
+                bppend(endTbble);
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             if (JConsole.isDebug()) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
-            proxyClient.markAsDead();
+            proxyClient.mbrkAsDebd();
             return null;
-        } catch (UndeclaredThrowableException e) {
+        } cbtch (UndeclbredThrowbbleException e) {
             if (JConsole.isDebug()) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
-            proxyClient.markAsDead();
+            proxyClient.mbrkAsDebd();
             return null;
         }
 
-        append("</table>");
+        bppend("</tbble>");
 
-        result.timeStamp = System.currentTimeMillis();
-        result.summary = buf.toString();
+        result.timeStbmp = System.currentTimeMillis();
+        result.summbry = buf.toString();
 
         return result;
     }
 
-    private synchronized void append(String str) {
-        buf.append(str);
+    privbte synchronized void bppend(String str) {
+        buf.bppend(str);
     }
 
-    void append(String label, String value) {
-        append(newRow(label, value));
+    void bppend(String lbbel, String vblue) {
+        bppend(newRow(lbbel, vblue));
     }
 
-    private void append(String label, String value, int columnPerRow) {
-        if (columnPerRow == 4 && pathSeparator != null) {
-            value = value.replace(pathSeparator,
-                                  "<b></b>" + pathSeparator);
+    privbte void bppend(String lbbel, String vblue, int columnPerRow) {
+        if (columnPerRow == 4 && pbthSepbrbtor != null) {
+            vblue = vblue.replbce(pbthSepbrbtor,
+                                  "<b></b>" + pbthSepbrbtor);
         }
-        append(newRow(label, value, columnPerRow));
+        bppend(newRow(lbbel, vblue, columnPerRow));
     }
 
-    OverviewPanel[] getOverviewPanels() {
-        if (overviewPanel == null) {
-            overviewPanel = new CPUOverviewPanel();
+    OverviewPbnel[] getOverviewPbnels() {
+        if (overviewPbnel == null) {
+            overviewPbnel = new CPUOverviewPbnel();
         }
-        return new OverviewPanel[] { overviewPanel };
+        return new OverviewPbnel[] { overviewPbnel };
     }
 
-    private static class CPUOverviewPanel extends OverviewPanel {
-        private long prevUpTime, prevProcessCpuTime;
+    privbte stbtic clbss CPUOverviewPbnel extends OverviewPbnel {
+        privbte long prevUpTime, prevProcessCpuTime;
 
-        CPUOverviewPanel() {
-            super(Messages.CPU_USAGE, cpuUsageKey, Messages.CPU_USAGE, Plotter.Unit.PERCENT);
-            getPlotter().setDecimals(CPU_DECIMALS);
+        CPUOverviewPbnel() {
+            super(Messbges.CPU_USAGE, cpuUsbgeKey, Messbges.CPU_USAGE, Plotter.Unit.PERCENT);
+            getPlotter().setDecimbls(CPU_DECIMALS);
         }
 
-        public void updateCPUInfo(Result result) {
+        public void updbteCPUInfo(Result result) {
             if (prevUpTime > 0L && result.upTime > prevUpTime) {
-                // elapsedCpu is in ns and elapsedTime is in ms.
-                long elapsedCpu = result.processCpuTime - prevProcessCpuTime;
-                long elapsedTime = result.upTime - prevUpTime;
-                // cpuUsage could go higher than 100% because elapsedTime
-                // and elapsedCpu are not fetched simultaneously. Limit to
-                // 99% to avoid Plotter showing a scale from 0% to 200%.
-                float cpuUsage =
-                    Math.min(99F,
-                             elapsedCpu / (elapsedTime * 10000F * result.nCPUs));
+                // elbpsedCpu is in ns bnd elbpsedTime is in ms.
+                long elbpsedCpu = result.processCpuTime - prevProcessCpuTime;
+                long elbpsedTime = result.upTime - prevUpTime;
+                // cpuUsbge could go higher thbn 100% becbuse elbpsedTime
+                // bnd elbpsedCpu bre not fetched simultbneously. Limit to
+                // 99% to bvoid Plotter showing b scble from 0% to 200%.
+                flobt cpuUsbge =
+                    Mbth.min(99F,
+                             elbpsedCpu / (elbpsedTime * 10000F * result.nCPUs));
 
-                cpuUsage = Math.max(0F, cpuUsage);
+                cpuUsbge = Mbth.mbx(0F, cpuUsbge);
 
-                getPlotter().addValues(result.timeStamp,
-                                Math.round(cpuUsage * Math.pow(10.0, CPU_DECIMALS)));
-                getInfoLabel().setText(Resources.format(Messages.CPU_USAGE_FORMAT,
-                                               String.format("%."+CPU_DECIMALS+"f", cpuUsage)));
+                getPlotter().bddVblues(result.timeStbmp,
+                                Mbth.round(cpuUsbge * Mbth.pow(10.0, CPU_DECIMALS)));
+                getInfoLbbel().setText(Resources.formbt(Messbges.CPU_USAGE_FORMAT,
+                                               String.formbt("%."+CPU_DECIMALS+"f", cpuUsbge)));
             }
             this.prevUpTime = result.upTime;
             this.prevProcessCpuTime = result.processCpuTime;

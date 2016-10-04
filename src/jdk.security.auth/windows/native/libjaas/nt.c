@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <jni.h>
-#include "com_sun_security_auth_module_NTSystem.h"
+#include "com_sun_security_buth_module_NTSystem.h"
 
 #include <windows.h>
 #include <stdio.h>
-#include <wchar.h>
-#include <ntsecapi.h>
+#include <wchbr.h>
+#include <ntsecbpi.h>
 #include <lmerr.h>
 
-static BOOL debug = FALSE;
+stbtic BOOL debug = FALSE;
 
 BOOL getToken(PHANDLE);
-BOOL getUser(HANDLE tokenHandle, LPTSTR *userName,
-        LPTSTR *domainName, LPTSTR *userSid, LPTSTR *domainSid);
-BOOL getPrimaryGroup(HANDLE tokenHandle, LPTSTR *primaryGroup);
-BOOL getGroups(HANDLE tokenHandle, PDWORD numGroups, LPTSTR **groups);
-BOOL getImpersonationToken(PHANDLE impersonationToken);
-BOOL getTextualSid(PSID pSid, LPTSTR TextualSid, LPDWORD lpdwBufferLen);
-void DisplayErrorText(DWORD dwLastError);
+BOOL getUser(HANDLE tokenHbndle, LPTSTR *userNbme,
+        LPTSTR *dombinNbme, LPTSTR *userSid, LPTSTR *dombinSid);
+BOOL getPrimbryGroup(HANDLE tokenHbndle, LPTSTR *primbryGroup);
+BOOL getGroups(HANDLE tokenHbndle, PDWORD numGroups, LPTSTR **groups);
+BOOL getImpersonbtionToken(PHANDLE impersonbtionToken);
+BOOL getTextublSid(PSID pSid, LPTSTR TextublSid, LPDWORD lpdwBufferLen);
+void DisplbyErrorText(DWORD dwLbstError);
 
-static void throwIllegalArgumentException(JNIEnv *env, const char *msg) {
-    jclass clazz = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
-    if (clazz != NULL)
-        (*env)->ThrowNew(env, clazz, msg);
+stbtic void throwIllegblArgumentException(JNIEnv *env, const chbr *msg) {
+    jclbss clbzz = (*env)->FindClbss(env, "jbvb/lbng/IllegblArgumentException");
+    if (clbzz != NULL)
+        (*env)->ThrowNew(env, clbzz, msg);
 }
 
 JNIEXPORT jlong JNICALL
-Java_com_sun_security_auth_module_NTSystem_getImpersonationToken0
+Jbvb_com_sun_security_buth_module_NTSystem_getImpersonbtionToken0
         (JNIEnv *env, jobject obj) {
-    HANDLE impersonationToken = 0;      // impersonation token
+    HANDLE impersonbtionToken = 0;      // impersonbtion token
     if (debug) {
-        printf("getting impersonation token\n");
+        printf("getting impersonbtion token\n");
     }
-    if (getImpersonationToken(&impersonationToken) == FALSE) {
+    if (getImpersonbtionToken(&impersonbtionToken) == FALSE) {
         return 0;
     }
-    return (jlong)impersonationToken;
+    return (jlong)impersonbtionToken;
 }
 
 JNIEXPORT void JNICALL
-Java_com_sun_security_auth_module_NTSystem_getCurrent
-    (JNIEnv *env, jobject obj, jboolean debugNative) {
+Jbvb_com_sun_security_buth_module_NTSystem_getCurrent
+    (JNIEnv *env, jobject obj, jboolebn debugNbtive) {
 
     long i, j = 0;
-    HANDLE tokenHandle = INVALID_HANDLE_VALUE;
+    HANDLE tokenHbndle = INVALID_HANDLE_VALUE;
 
-    LPTSTR userName = NULL;             // user name
+    LPTSTR userNbme = NULL;             // user nbme
     LPTSTR userSid = NULL;              // user sid
-    LPTSTR domainName = NULL;           // domain name
-    LPTSTR domainSid = NULL;            // domain sid
-    LPTSTR primaryGroup = NULL;         // primary group sid
+    LPTSTR dombinNbme = NULL;           // dombin nbme
+    LPTSTR dombinSid = NULL;            // dombin sid
+    LPTSTR primbryGroup = NULL;         // primbry group sid
     DWORD numGroups = 0;                // num groups
-    LPTSTR *groups = NULL;              // groups array
-    long pIndex = -1;                   // index of primaryGroup in groups array
+    LPTSTR *groups = NULL;              // groups brrby
+    long pIndex = -1;                   // index of primbryGroup in groups brrby
 
     jfieldID fid;
     jstring jstr;
-    jobjectArray jgroups;
-    jclass stringClass = 0;
-    jclass cls = (*env)->GetObjectClass(env, obj);
+    jobjectArrby jgroups;
+    jclbss stringClbss = 0;
+    jclbss cls = (*env)->GetObjectClbss(env, obj);
 
-    debug = debugNative;
+    debug = debugNbtive;
 
-    // get NT information first
+    // get NT informbtion first
 
     if (debug) {
-        printf("getting access token\n");
+        printf("getting bccess token\n");
     }
-    if (getToken(&tokenHandle) == FALSE) {
+    if (getToken(&tokenHbndle) == FALSE) {
         return;
     }
 
@@ -99,326 +99,326 @@ Java_com_sun_security_auth_module_NTSystem_getCurrent
         printf("getting user info\n");
     }
     if (getUser
-        (tokenHandle, &userName, &domainName, &userSid, &domainSid) == FALSE) {
+        (tokenHbndle, &userNbme, &dombinNbme, &userSid, &dombinSid) == FALSE) {
         return;
     }
 
     if (debug) {
-        printf("getting primary group\n");
+        printf("getting primbry group\n");
     }
-    if (getPrimaryGroup(tokenHandle, &primaryGroup) == FALSE) {
+    if (getPrimbryGroup(tokenHbndle, &primbryGroup) == FALSE) {
         return;
     }
 
     if (debug) {
-        printf("getting supplementary groups\n");
+        printf("getting supplementbry groups\n");
     }
-    if (getGroups(tokenHandle, &numGroups, &groups) == FALSE) {
+    if (getGroups(tokenHbndle, &numGroups, &groups) == FALSE) {
         return;
     }
 
-    // then set values into NTSystem
+    // then set vblues into NTSystem
 
-    fid = (*env)->GetFieldID(env, cls, "userName", "Ljava/lang/String;");
+    fid = (*env)->GetFieldID(env, cls, "userNbme", "Ljbvb/lbng/String;");
     if (fid == 0) {
-        (*env)->ExceptionClear(env);
-        throwIllegalArgumentException(env, "invalid field: userName");
-        goto cleanup;
+        (*env)->ExceptionClebr(env);
+        throwIllegblArgumentException(env, "invblid field: userNbme");
+        goto clebnup;
     }
-    jstr = (*env)->NewStringUTF(env, userName);
+    jstr = (*env)->NewStringUTF(env, userNbme);
     if (jstr == NULL)
-        goto cleanup;
+        goto clebnup;
     (*env)->SetObjectField(env, obj, fid, jstr);
 
-    fid = (*env)->GetFieldID(env, cls, "userSID", "Ljava/lang/String;");
+    fid = (*env)->GetFieldID(env, cls, "userSID", "Ljbvb/lbng/String;");
     if (fid == 0) {
-        (*env)->ExceptionClear(env);
-        throwIllegalArgumentException(env, "invalid field: userSID");
-        goto cleanup;
+        (*env)->ExceptionClebr(env);
+        throwIllegblArgumentException(env, "invblid field: userSID");
+        goto clebnup;
     }
     jstr = (*env)->NewStringUTF(env, userSid);
     if (jstr == NULL)
-        goto cleanup;
+        goto clebnup;
     (*env)->SetObjectField(env, obj, fid, jstr);
 
-    fid = (*env)->GetFieldID(env, cls, "domain", "Ljava/lang/String;");
+    fid = (*env)->GetFieldID(env, cls, "dombin", "Ljbvb/lbng/String;");
     if (fid == 0) {
-        (*env)->ExceptionClear(env);
-        throwIllegalArgumentException(env, "invalid field: domain");
-        goto cleanup;
+        (*env)->ExceptionClebr(env);
+        throwIllegblArgumentException(env, "invblid field: dombin");
+        goto clebnup;
     }
-    jstr = (*env)->NewStringUTF(env, domainName);
+    jstr = (*env)->NewStringUTF(env, dombinNbme);
     if (jstr == NULL)
-        goto cleanup;
+        goto clebnup;
     (*env)->SetObjectField(env, obj, fid, jstr);
 
-    if (domainSid != NULL) {
-        fid = (*env)->GetFieldID(env, cls, "domainSID", "Ljava/lang/String;");
+    if (dombinSid != NULL) {
+        fid = (*env)->GetFieldID(env, cls, "dombinSID", "Ljbvb/lbng/String;");
         if (fid == 0) {
-            (*env)->ExceptionClear(env);
-            throwIllegalArgumentException(env, "invalid field: domainSID");
-            goto cleanup;
+            (*env)->ExceptionClebr(env);
+            throwIllegblArgumentException(env, "invblid field: dombinSID");
+            goto clebnup;
         }
-        jstr = (*env)->NewStringUTF(env, domainSid);
+        jstr = (*env)->NewStringUTF(env, dombinSid);
         if (jstr == NULL)
-            goto cleanup;
+            goto clebnup;
         (*env)->SetObjectField(env, obj, fid, jstr);
     }
 
-    fid = (*env)->GetFieldID(env, cls, "primaryGroupID", "Ljava/lang/String;");
+    fid = (*env)->GetFieldID(env, cls, "primbryGroupID", "Ljbvb/lbng/String;");
     if (fid == 0) {
-        (*env)->ExceptionClear(env);
-        throwIllegalArgumentException(env, "invalid field: PrimaryGroupID");
-        goto cleanup;
+        (*env)->ExceptionClebr(env);
+        throwIllegblArgumentException(env, "invblid field: PrimbryGroupID");
+        goto clebnup;
     }
-    jstr = (*env)->NewStringUTF(env, primaryGroup);
+    jstr = (*env)->NewStringUTF(env, primbryGroup);
     if (jstr == NULL)
-        goto cleanup;
+        goto clebnup;
     (*env)->SetObjectField(env, obj, fid, jstr);
 
-    // primary group may or may not be part of supplementary groups
+    // primbry group mby or mby not be pbrt of supplementbry groups
     for (i = 0; i < (long)numGroups; i++) {
-        if (strcmp(primaryGroup, groups[i]) == 0) {
-            // found primary group in groups array
+        if (strcmp(primbryGroup, groups[i]) == 0) {
+            // found primbry group in groups brrby
             pIndex = i;
-            break;
+            brebk;
         }
     }
 
     if (numGroups == 0 || (pIndex == 0 && numGroups == 1)) {
-        // primary group is only group in groups array
+        // primbry group is only group in groups brrby
 
         if (debug) {
-            printf("no secondary groups\n");
+            printf("no secondbry groups\n");
         }
     } else {
 
-        // the groups array is non-empty,
-        // and may or may not contain the primary group
+        // the groups brrby is non-empty,
+        // bnd mby or mby not contbin the primbry group
 
-        fid = (*env)->GetFieldID(env, cls, "groupIDs", "[Ljava/lang/String;");
+        fid = (*env)->GetFieldID(env, cls, "groupIDs", "[Ljbvb/lbng/String;");
         if (fid == 0) {
-            (*env)->ExceptionClear(env);
-            throwIllegalArgumentException(env, "groupIDs");
-            goto cleanup;
+            (*env)->ExceptionClebr(env);
+            throwIllegblArgumentException(env, "groupIDs");
+            goto clebnup;
         }
 
-        stringClass = (*env)->FindClass(env, "java/lang/String");
-        if (stringClass == NULL)
-            goto cleanup;
+        stringClbss = (*env)->FindClbss(env, "jbvb/lbng/String");
+        if (stringClbss == NULL)
+            goto clebnup;
 
         if (pIndex == -1) {
-            // primary group not in groups array
-            jgroups = (*env)->NewObjectArray(env, numGroups, stringClass, 0);
+            // primbry group not in groups brrby
+            jgroups = (*env)->NewObjectArrby(env, numGroups, stringClbss, 0);
         } else {
-            // primary group in groups array -
-            // allocate one less array entry and do not add into new array
-            jgroups = (*env)->NewObjectArray(env, numGroups-1, stringClass, 0);
+            // primbry group in groups brrby -
+            // bllocbte one less brrby entry bnd do not bdd into new brrby
+            jgroups = (*env)->NewObjectArrby(env, numGroups-1, stringClbss, 0);
         }
         if (jgroups == NULL)
-            goto cleanup;
+            goto clebnup;
 
         for (i = 0, j = 0; i < (long)numGroups; i++) {
             if (pIndex == i) {
-                // continue if equal to primary group
+                // continue if equbl to primbry group
                 continue;
             }
             jstr = (*env)->NewStringUTF(env, groups[i]);
             if (jstr == NULL)
-                goto cleanup;
-            (*env)->SetObjectArrayElement(env, jgroups, j++, jstr);
+                goto clebnup;
+            (*env)->SetObjectArrbyElement(env, jgroups, j++, jstr);
         }
         (*env)->SetObjectField(env, obj, fid, jgroups);
     }
 
-cleanup:
-    if (userName != NULL) {
-        HeapFree(GetProcessHeap(), 0, userName);
+clebnup:
+    if (userNbme != NULL) {
+        HebpFree(GetProcessHebp(), 0, userNbme);
     }
-    if (domainName != NULL) {
-        HeapFree(GetProcessHeap(), 0, domainName);
+    if (dombinNbme != NULL) {
+        HebpFree(GetProcessHebp(), 0, dombinNbme);
     }
     if (userSid != NULL) {
-        HeapFree(GetProcessHeap(), 0, userSid);
+        HebpFree(GetProcessHebp(), 0, userSid);
     }
-    if (domainSid != NULL) {
-        HeapFree(GetProcessHeap(), 0, domainSid);
+    if (dombinSid != NULL) {
+        HebpFree(GetProcessHebp(), 0, dombinSid);
     }
-    if (primaryGroup != NULL) {
-        HeapFree(GetProcessHeap(), 0, primaryGroup);
+    if (primbryGroup != NULL) {
+        HebpFree(GetProcessHebp(), 0, primbryGroup);
     }
     if (groups != NULL) {
         for (i = 0; i < (long)numGroups; i++) {
             if (groups[i] != NULL) {
-                HeapFree(GetProcessHeap(), 0, groups[i]);
+                HebpFree(GetProcessHebp(), 0, groups[i]);
             }
         }
-        HeapFree(GetProcessHeap(), 0, groups);
+        HebpFree(GetProcessHebp(), 0, groups);
     }
-    CloseHandle(tokenHandle);
+    CloseHbndle(tokenHbndle);
 
     return;
 }
 
-BOOL getToken(PHANDLE tokenHandle) {
+BOOL getToken(PHANDLE tokenHbndle) {
 
-    // first try the thread token
-    if (OpenThreadToken(GetCurrentThread(),
+    // first try the threbd token
+    if (OpenThrebdToken(GetCurrentThrebd(),
                         TOKEN_READ,
                         FALSE,
-                        tokenHandle) == 0) {
+                        tokenHbndle) == 0) {
         if (debug) {
-            printf("  [getToken] OpenThreadToken error [%d]: ", GetLastError());
-            DisplayErrorText(GetLastError());
+            printf("  [getToken] OpenThrebdToken error [%d]: ", GetLbstError());
+            DisplbyErrorText(GetLbstError());
         }
 
         // next try the process token
         if (OpenProcessToken(GetCurrentProcess(),
                         TOKEN_READ,
-                        tokenHandle) == 0) {
+                        tokenHbndle) == 0) {
             if (debug) {
                 printf("  [getToken] OpenProcessToken error [%d]: ",
-                        GetLastError());
-                DisplayErrorText(GetLastError());
+                        GetLbstError());
+                DisplbyErrorText(GetLbstError());
             }
             return FALSE;
         }
     }
 
     if (debug) {
-        printf("  [getToken] got user access token\n");
+        printf("  [getToken] got user bccess token\n");
     }
 
     return TRUE;
 }
 
-BOOL getUser(HANDLE tokenHandle, LPTSTR *userName,
-        LPTSTR *domainName, LPTSTR *userSid, LPTSTR *domainSid) {
+BOOL getUser(HANDLE tokenHbndle, LPTSTR *userNbme,
+        LPTSTR *dombinNbme, LPTSTR *userSid, LPTSTR *dombinSid) {
 
     BOOL error = FALSE;
     DWORD bufSize = 0;
     DWORD buf2Size = 0;
     DWORD retBufSize = 0;
-    PTOKEN_USER tokenUserInfo = NULL;   // getTokenInformation
-    SID_NAME_USE nameUse;               // LookupAccountSid
+    PTOKEN_USER tokenUserInfo = NULL;   // getTokenInformbtion
+    SID_NAME_USE nbmeUse;               // LookupAccountSid
 
     PSID dSid = NULL;
-    LPTSTR domainSidName = NULL;
+    LPTSTR dombinSidNbme = NULL;
 
-    // get token information
-    GetTokenInformation(tokenHandle,
+    // get token informbtion
+    GetTokenInformbtion(tokenHbndle,
                         TokenUser,
-                        NULL,   // TokenInformation - if NULL get buffer size
-                        0,      // since TokenInformation is NULL
+                        NULL,   // TokenInformbtion - if NULL get buffer size
+                        0,      // since TokenInformbtion is NULL
                         &bufSize);
 
-    tokenUserInfo = (PTOKEN_USER)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    if (GetTokenInformation(tokenHandle,
+    tokenUserInfo = (PTOKEN_USER)HebpAlloc(GetProcessHebp(), 0, bufSize);
+    if (GetTokenInformbtion(tokenHbndle,
                         TokenUser,
                         tokenUserInfo,
                         bufSize,
                         &retBufSize) == 0) {
         if (debug) {
-            printf("  [getUser] GetTokenInformation error [%d]: ",
-                GetLastError());
-            DisplayErrorText(GetLastError());
+            printf("  [getUser] GetTokenInformbtion error [%d]: ",
+                GetLbstError());
+            DisplbyErrorText(GetLbstError());
         }
         error = TRUE;
-        goto cleanup;
+        goto clebnup;
     }
 
     if (debug) {
         printf("  [getUser] Got TokenUser info\n");
     }
 
-    // get userName
+    // get userNbme
     bufSize = 0;
     buf2Size = 0;
-    LookupAccountSid(NULL,      // local host
+    LookupAccountSid(NULL,      // locbl host
                 tokenUserInfo->User.Sid,
                 NULL,
                 &bufSize,
                 NULL,
                 &buf2Size,
-                &nameUse);
+                &nbmeUse);
 
-    *userName = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    *domainName = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, buf2Size);
-    if (LookupAccountSid(NULL,  // local host
+    *userNbme = (LPTSTR)HebpAlloc(GetProcessHebp(), 0, bufSize);
+    *dombinNbme = (LPTSTR)HebpAlloc(GetProcessHebp(), 0, buf2Size);
+    if (LookupAccountSid(NULL,  // locbl host
                 tokenUserInfo->User.Sid,
-                *userName,
+                *userNbme,
                 &bufSize,
-                *domainName,
+                *dombinNbme,
                 &buf2Size,
-                &nameUse) == 0) {
+                &nbmeUse) == 0) {
         if (debug) {
             printf("  [getUser] LookupAccountSid error [%d]: ",
-                GetLastError());
-            DisplayErrorText(GetLastError());
+                GetLbstError());
+            DisplbyErrorText(GetLbstError());
         }
         error = TRUE;
-        goto cleanup;
+        goto clebnup;
     }
 
     if (debug) {
-        printf("  [getUser] userName: %s, domainName = %s\n",
-                *userName, *domainName);
+        printf("  [getUser] userNbme: %s, dombinNbme = %s\n",
+                *userNbme, *dombinNbme);
     }
 
     bufSize = 0;
-    getTextualSid(tokenUserInfo->User.Sid, NULL, &bufSize);
-    *userSid = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    getTextualSid(tokenUserInfo->User.Sid, *userSid, &bufSize);
+    getTextublSid(tokenUserInfo->User.Sid, NULL, &bufSize);
+    *userSid = (LPTSTR)HebpAlloc(GetProcessHebp(), 0, bufSize);
+    getTextublSid(tokenUserInfo->User.Sid, *userSid, &bufSize);
     if (debug) {
         printf("  [getUser] userSid: %s\n", *userSid);
     }
 
-    // get domainSid
+    // get dombinSid
     bufSize = 0;
     buf2Size = 0;
-    LookupAccountName(NULL,     // local host
-                *domainName,
+    LookupAccountNbme(NULL,     // locbl host
+                *dombinNbme,
                 NULL,
                 &bufSize,
                 NULL,
                 &buf2Size,
-                &nameUse);
+                &nbmeUse);
 
-    dSid = (PSID)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    domainSidName = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, buf2Size);
-    if (LookupAccountName(NULL, // local host
-                *domainName,
+    dSid = (PSID)HebpAlloc(GetProcessHebp(), 0, bufSize);
+    dombinSidNbme = (LPTSTR)HebpAlloc(GetProcessHebp(), 0, buf2Size);
+    if (LookupAccountNbme(NULL, // locbl host
+                *dombinNbme,
                 dSid,
                 &bufSize,
-                domainSidName,
+                dombinSidNbme,
                 &buf2Size,
-                &nameUse) == 0) {
+                &nbmeUse) == 0) {
         if (debug) {
-            printf("  [getUser] LookupAccountName error [%d]: ",
-                GetLastError());
-            DisplayErrorText(GetLastError());
+            printf("  [getUser] LookupAccountNbme error [%d]: ",
+                GetLbstError());
+            DisplbyErrorText(GetLbstError());
         }
-        // ok not to have a domain SID (no error)
-        goto cleanup;
+        // ok not to hbve b dombin SID (no error)
+        goto clebnup;
     }
 
     bufSize = 0;
-    getTextualSid(dSid, NULL, &bufSize);
-    *domainSid = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    getTextualSid(dSid, *domainSid, &bufSize);
+    getTextublSid(dSid, NULL, &bufSize);
+    *dombinSid = (LPTSTR)HebpAlloc(GetProcessHebp(), 0, bufSize);
+    getTextublSid(dSid, *dombinSid, &bufSize);
     if (debug) {
-        printf("  [getUser] domainSid: %s\n", *domainSid);
+        printf("  [getUser] dombinSid: %s\n", *dombinSid);
     }
 
-cleanup:
+clebnup:
     if (tokenUserInfo != NULL) {
-        HeapFree(GetProcessHeap(), 0, tokenUserInfo);
+        HebpFree(GetProcessHebp(), 0, tokenUserInfo);
     }
     if (dSid != NULL) {
-        HeapFree(GetProcessHeap(), 0, dSid);
+        HebpFree(GetProcessHebp(), 0, dSid);
     }
-    if (domainSidName != NULL) {
-        HeapFree(GetProcessHeap(), 0, domainSidName);
+    if (dombinSidNbme != NULL) {
+        HebpFree(GetProcessHebp(), 0, dombinSidNbme);
     }
     if (error) {
         return FALSE;
@@ -426,7 +426,7 @@ cleanup:
     return TRUE;
 }
 
-BOOL getPrimaryGroup(HANDLE tokenHandle, LPTSTR *primaryGroup) {
+BOOL getPrimbryGroup(HANDLE tokenHbndle, LPTSTR *primbryGroup) {
 
     BOOL error = FALSE;
     DWORD bufSize = 0;
@@ -434,44 +434,44 @@ BOOL getPrimaryGroup(HANDLE tokenHandle, LPTSTR *primaryGroup) {
 
     PTOKEN_PRIMARY_GROUP tokenGroupInfo = NULL;
 
-    // get token information
-    GetTokenInformation(tokenHandle,
-                        TokenPrimaryGroup,
-                        NULL,   // TokenInformation - if NULL get buffer size
-                        0,      // since TokenInformation is NULL
+    // get token informbtion
+    GetTokenInformbtion(tokenHbndle,
+                        TokenPrimbryGroup,
+                        NULL,   // TokenInformbtion - if NULL get buffer size
+                        0,      // since TokenInformbtion is NULL
                         &bufSize);
 
-    tokenGroupInfo = (PTOKEN_PRIMARY_GROUP)HeapAlloc
-                        (GetProcessHeap(), 0, bufSize);
-    if (GetTokenInformation(tokenHandle,
-                        TokenPrimaryGroup,
+    tokenGroupInfo = (PTOKEN_PRIMARY_GROUP)HebpAlloc
+                        (GetProcessHebp(), 0, bufSize);
+    if (GetTokenInformbtion(tokenHbndle,
+                        TokenPrimbryGroup,
                         tokenGroupInfo,
                         bufSize,
                         &retBufSize) == 0) {
         if (debug) {
-            printf("  [getPrimaryGroup] GetTokenInformation error [%d]: ",
-                GetLastError());
-            DisplayErrorText(GetLastError());
+            printf("  [getPrimbryGroup] GetTokenInformbtion error [%d]: ",
+                GetLbstError());
+            DisplbyErrorText(GetLbstError());
         }
         error = TRUE;
-        goto cleanup;
+        goto clebnup;
     }
 
     if (debug) {
-        printf("  [getPrimaryGroup] Got TokenPrimaryGroup info\n");
+        printf("  [getPrimbryGroup] Got TokenPrimbryGroup info\n");
     }
 
     bufSize = 0;
-    getTextualSid(tokenGroupInfo->PrimaryGroup, NULL, &bufSize);
-    *primaryGroup = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    getTextualSid(tokenGroupInfo->PrimaryGroup, *primaryGroup, &bufSize);
+    getTextublSid(tokenGroupInfo->PrimbryGroup, NULL, &bufSize);
+    *primbryGroup = (LPTSTR)HebpAlloc(GetProcessHebp(), 0, bufSize);
+    getTextublSid(tokenGroupInfo->PrimbryGroup, *primbryGroup, &bufSize);
     if (debug) {
-        printf("  [getPrimaryGroup] primaryGroup: %s\n", *primaryGroup);
+        printf("  [getPrimbryGroup] primbryGroup: %s\n", *primbryGroup);
     }
 
-cleanup:
+clebnup:
     if (tokenGroupInfo != NULL) {
-        HeapFree(GetProcessHeap(), 0, tokenGroupInfo);
+        HebpFree(GetProcessHebp(), 0, tokenGroupInfo);
     }
     if (error) {
         return FALSE;
@@ -479,7 +479,7 @@ cleanup:
     return TRUE;
 }
 
-BOOL getGroups(HANDLE tokenHandle, PDWORD numGroups, LPTSTR **groups) {
+BOOL getGroups(HANDLE tokenHbndle, PDWORD numGroups, LPTSTR **groups) {
 
     BOOL error = FALSE;
     DWORD bufSize = 0;
@@ -488,26 +488,26 @@ BOOL getGroups(HANDLE tokenHandle, PDWORD numGroups, LPTSTR **groups) {
 
     PTOKEN_GROUPS tokenGroupInfo = NULL;
 
-    // get token information
-    GetTokenInformation(tokenHandle,
+    // get token informbtion
+    GetTokenInformbtion(tokenHbndle,
                         TokenGroups,
-                        NULL,   // TokenInformation - if NULL get buffer size
-                        0,      // since TokenInformation is NULL
+                        NULL,   // TokenInformbtion - if NULL get buffer size
+                        0,      // since TokenInformbtion is NULL
                         &bufSize);
 
-    tokenGroupInfo = (PTOKEN_GROUPS)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    if (GetTokenInformation(tokenHandle,
+    tokenGroupInfo = (PTOKEN_GROUPS)HebpAlloc(GetProcessHebp(), 0, bufSize);
+    if (GetTokenInformbtion(tokenHbndle,
                         TokenGroups,
                         tokenGroupInfo,
                         bufSize,
                         &retBufSize) == 0) {
         if (debug) {
-            printf("  [getGroups] GetTokenInformation error [%d]: ",
-                GetLastError());
-            DisplayErrorText(GetLastError());
+            printf("  [getGroups] GetTokenInformbtion error [%d]: ",
+                GetLbstError());
+            DisplbyErrorText(GetLbstError());
         }
         error = TRUE;
-        goto cleanup;
+        goto clebnup;
     }
 
     if (debug) {
@@ -516,26 +516,26 @@ BOOL getGroups(HANDLE tokenHandle, PDWORD numGroups, LPTSTR **groups) {
 
     if (tokenGroupInfo->GroupCount == 0) {
         // no groups
-        goto cleanup;
+        goto clebnup;
     }
 
     // return group info
     *numGroups = tokenGroupInfo->GroupCount;
-    *groups = (LPTSTR *)HeapAlloc
-                (GetProcessHeap(), 0, (*numGroups) * sizeof(LPTSTR));
+    *groups = (LPTSTR *)HebpAlloc
+                (GetProcessHebp(), 0, (*numGroups) * sizeof(LPTSTR));
     for (i = 0; i < (long)*numGroups; i++) {
         bufSize = 0;
-        getTextualSid(tokenGroupInfo->Groups[i].Sid, NULL, &bufSize);
-        (*groups)[i] = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, bufSize);
-        getTextualSid(tokenGroupInfo->Groups[i].Sid, (*groups)[i], &bufSize);
+        getTextublSid(tokenGroupInfo->Groups[i].Sid, NULL, &bufSize);
+        (*groups)[i] = (LPTSTR)HebpAlloc(GetProcessHebp(), 0, bufSize);
+        getTextublSid(tokenGroupInfo->Groups[i].Sid, (*groups)[i], &bufSize);
         if (debug) {
             printf("  [getGroups] group %d: %s\n", i, (*groups)[i]);
         }
     }
 
-cleanup:
+clebnup:
     if (tokenGroupInfo != NULL) {
-        HeapFree(GetProcessHeap(), 0, tokenGroupInfo);
+        HebpFree(GetProcessHebp(), 0, tokenGroupInfo);
     }
     if (error) {
         return FALSE;
@@ -543,11 +543,11 @@ cleanup:
     return TRUE;
 }
 
-BOOL getImpersonationToken(PHANDLE impersonationToken) {
+BOOL getImpersonbtionToken(PHANDLE impersonbtionToken) {
 
     HANDLE dupToken;
 
-    if (OpenThreadToken(GetCurrentThread(),
+    if (OpenThrebdToken(GetCurrentThrebd(),
                         TOKEN_DUPLICATE,
                         FALSE,
                         &dupToken) == 0) {
@@ -556,250 +556,250 @@ BOOL getImpersonationToken(PHANDLE impersonationToken) {
                                 &dupToken) == 0) {
             if (debug) {
                 printf
-                    ("  [getImpersonationToken] OpenProcessToken error [%d]: ",
-                    GetLastError());
-                DisplayErrorText(GetLastError());
+                    ("  [getImpersonbtionToken] OpenProcessToken error [%d]: ",
+                    GetLbstError());
+                DisplbyErrorText(GetLbstError());
             }
             return FALSE;
         }
     }
 
-    if (DuplicateToken(dupToken,
-                        SecurityImpersonation,
-                        impersonationToken) == 0) {
+    if (DuplicbteToken(dupToken,
+                        SecurityImpersonbtion,
+                        impersonbtionToken) == 0) {
         if (debug) {
-            printf("  [getImpersonationToken] DuplicateToken error [%d]: ",
-                GetLastError());
-            DisplayErrorText(GetLastError());
+            printf("  [getImpersonbtionToken] DuplicbteToken error [%d]: ",
+                GetLbstError());
+            DisplbyErrorText(GetLbstError());
         }
         return FALSE;
     }
-    CloseHandle(dupToken);
+    CloseHbndle(dupToken);
 
     if (debug) {
-        printf("  [getImpersonationToken] token = %p\n",
-            (void *)*impersonationToken);
+        printf("  [getImpersonbtionToken] token = %p\n",
+            (void *)*impersonbtionToken);
     }
     return TRUE;
 }
 
-BOOL getTextualSid
-    (PSID pSid,                 // binary SID
-    LPTSTR TextualSid,          // buffer for Textual representation of SID
-    LPDWORD lpdwBufferLen) {    // required/provided TextualSid buffersize
+BOOL getTextublSid
+    (PSID pSid,                 // binbry SID
+    LPTSTR TextublSid,          // buffer for Textubl representbtion of SID
+    LPDWORD lpdwBufferLen) {    // required/provided TextublSid buffersize
 
-    PSID_IDENTIFIER_AUTHORITY psia;
+    PSID_IDENTIFIER_AUTHORITY psib;
     DWORD dwSubAuthorities;
     DWORD dwSidRev=SID_REVISION;
     DWORD dwCounter;
     DWORD dwSidSize;
 
-    // Validate the binary SID.
-    if(!IsValidSid(pSid)) return FALSE;
+    // Vblidbte the binbry SID.
+    if(!IsVblidSid(pSid)) return FALSE;
 
-    // Get the identifier authority value from the SID.
-    psia = GetSidIdentifierAuthority(pSid);
+    // Get the identifier buthority vblue from the SID.
+    psib = GetSidIdentifierAuthority(pSid);
 
-    // Get the number of subauthorities in the SID.
+    // Get the number of subbuthorities in the SID.
     dwSubAuthorities = *GetSidSubAuthorityCount(pSid);
 
     // Compute the buffer length.
-    // S-SID_REVISION- + IdentifierAuthority- + subauthorities- + NULL
+    // S-SID_REVISION- + IdentifierAuthority- + subbuthorities- + NULL
     dwSidSize=(15 + 12 + (12 * dwSubAuthorities) + 1) * sizeof(TCHAR);
 
     // Check input buffer length.
-    // If too small, indicate the proper size and set last error.
+    // If too smbll, indicbte the proper size bnd set lbst error.
     if (*lpdwBufferLen < dwSidSize) {
         *lpdwBufferLen = dwSidSize;
-        SetLastError(ERROR_INSUFFICIENT_BUFFER);
+        SetLbstError(ERROR_INSUFFICIENT_BUFFER);
         return FALSE;
     }
 
-    // Add 'S' prefix and revision number to the string.
-    dwSidSize=wsprintf(TextualSid, TEXT("S-%lu-"), dwSidRev );
+    // Add 'S' prefix bnd revision number to the string.
+    dwSidSize=wsprintf(TextublSid, TEXT("S-%lu-"), dwSidRev );
 
-    // Add SID identifier authority to the string.
-    if ((psia->Value[0] != 0) || (psia->Value[1] != 0)) {
-        dwSidSize+=wsprintf(TextualSid + lstrlen(TextualSid),
+    // Add SID identifier buthority to the string.
+    if ((psib->Vblue[0] != 0) || (psib->Vblue[1] != 0)) {
+        dwSidSize+=wsprintf(TextublSid + lstrlen(TextublSid),
                 TEXT("0x%02hx%02hx%02hx%02hx%02hx%02hx"),
-                (USHORT)psia->Value[0],
-                (USHORT)psia->Value[1],
-                (USHORT)psia->Value[2],
-                (USHORT)psia->Value[3],
-                (USHORT)psia->Value[4],
-                (USHORT)psia->Value[5]);
+                (USHORT)psib->Vblue[0],
+                (USHORT)psib->Vblue[1],
+                (USHORT)psib->Vblue[2],
+                (USHORT)psib->Vblue[3],
+                (USHORT)psib->Vblue[4],
+                (USHORT)psib->Vblue[5]);
     } else {
-        dwSidSize+=wsprintf(TextualSid + lstrlen(TextualSid),
+        dwSidSize+=wsprintf(TextublSid + lstrlen(TextublSid),
                 TEXT("%lu"),
-                (ULONG)(psia->Value[5]  )   +
-                (ULONG)(psia->Value[4] <<  8)   +
-                (ULONG)(psia->Value[3] << 16)   +
-                (ULONG)(psia->Value[2] << 24)   );
+                (ULONG)(psib->Vblue[5]  )   +
+                (ULONG)(psib->Vblue[4] <<  8)   +
+                (ULONG)(psib->Vblue[3] << 16)   +
+                (ULONG)(psib->Vblue[2] << 24)   );
     }
 
-    // Add SID subauthorities to the string.
+    // Add SID subbuthorities to the string.
     for (dwCounter=0 ; dwCounter < dwSubAuthorities ; dwCounter++) {
-        dwSidSize+=wsprintf(TextualSid + dwSidSize, TEXT("-%lu"),
+        dwSidSize+=wsprintf(TextublSid + dwSidSize, TEXT("-%lu"),
                 *GetSidSubAuthority(pSid, dwCounter) );
     }
 
     return TRUE;
 }
 
-void DisplayErrorText(DWORD dwLastError) {
-    HMODULE hModule = NULL; // default to system source
-    LPSTR MessageBuffer;
+void DisplbyErrorText(DWORD dwLbstError) {
+    HMODULE hModule = NULL; // defbult to system source
+    LPSTR MessbgeBuffer;
     DWORD dwBufferLength;
 
-    DWORD dwFormatFlags = FORMAT_MESSAGE_ALLOCATE_BUFFER |
+    DWORD dwFormbtFlbgs = FORMAT_MESSAGE_ALLOCATE_BUFFER |
                         FORMAT_MESSAGE_IGNORE_INSERTS |
                         FORMAT_MESSAGE_FROM_SYSTEM ;
 
     //
-    // If dwLastError is in the network range,
-    //  load the message source.
+    // If dwLbstError is in the network rbnge,
+    //  lobd the messbge source.
     //
 
-    if(dwLastError >= NERR_BASE && dwLastError <= MAX_NERR) {
-        hModule = LoadLibraryEx(TEXT("netmsg.dll"),
+    if(dwLbstError >= NERR_BASE && dwLbstError <= MAX_NERR) {
+        hModule = LobdLibrbryEx(TEXT("netmsg.dll"),
                                 NULL,
                                 LOAD_LIBRARY_AS_DATAFILE);
 
         if(hModule != NULL)
-            dwFormatFlags |= FORMAT_MESSAGE_FROM_HMODULE;
+            dwFormbtFlbgs |= FORMAT_MESSAGE_FROM_HMODULE;
     }
 
     //
-    // Call FormatMessage() to allow for message
-    //  text to be acquired from the system
-    //  or from the supplied module handle.
+    // Cbll FormbtMessbge() to bllow for messbge
+    //  text to be bcquired from the system
+    //  or from the supplied module hbndle.
     //
 
-    if(dwBufferLength = FormatMessageA(dwFormatFlags,
-                hModule, // module to get message from (NULL == system)
-                dwLastError,
-                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // default language
-                (LPSTR) &MessageBuffer,
+    if(dwBufferLength = FormbtMessbgeA(dwFormbtFlbgs,
+                hModule, // module to get messbge from (NULL == system)
+                dwLbstError,
+                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // defbult lbngubge
+                (LPSTR) &MessbgeBuffer,
                 0,
                 NULL)) {
         DWORD dwBytesWritten;
 
         //
-        // Output message string on stderr.
+        // Output messbge string on stderr.
         //
-        WriteFile(GetStdHandle(STD_ERROR_HANDLE),
-                MessageBuffer,
+        WriteFile(GetStdHbndle(STD_ERROR_HANDLE),
+                MessbgeBuffer,
                 dwBufferLength,
                 &dwBytesWritten,
                 NULL);
 
         //
-        // Free the buffer allocated by the system.
+        // Free the buffer bllocbted by the system.
         //
-        LocalFree(MessageBuffer);
+        LocblFree(MessbgeBuffer);
     }
 
     //
-    // If we loaded a message source, unload it.
+    // If we lobded b messbge source, unlobd it.
     //
     if(hModule != NULL)
-        FreeLibrary(hModule);
+        FreeLibrbry(hModule);
 }
 
 /**
  * 1. comment out first two #includes
  * 2. set 'debug' to TRUE
  * 3. comment out 'getCurrent'
- * 4. uncomment 'main'
+ * 4. uncomment 'mbin'
  * 5. cc -c nt.c
- * 6. link nt.obj user32.lib advapi32.lib /out:nt.exe
+ * 6. link nt.obj user32.lib bdvbpi32.lib /out:nt.exe
  */
 /*
-void main(int argc, char *argv[]) {
+void mbin(int brgc, chbr *brgv[]) {
 
     long i = 0;
-    HANDLE tokenHandle = INVALID_HANDLE_VALUE;
+    HANDLE tokenHbndle = INVALID_HANDLE_VALUE;
 
-    LPTSTR userName = NULL;
+    LPTSTR userNbme = NULL;
     LPTSTR userSid = NULL;
-    LPTSTR domainName = NULL;
-    LPTSTR domainSid = NULL;
-    LPTSTR primaryGroup = NULL;
+    LPTSTR dombinNbme = NULL;
+    LPTSTR dombinSid = NULL;
+    LPTSTR primbryGroup = NULL;
     DWORD numGroups = 0;
     LPTSTR *groups = NULL;
-    HANDLE impersonationToken = 0;
+    HANDLE impersonbtionToken = 0;
 
-    printf("getting access token\n");
-    if (getToken(&tokenHandle) == FALSE) {
+    printf("getting bccess token\n");
+    if (getToken(&tokenHbndle) == FALSE) {
         exit(1);
     }
 
     printf("getting user info\n");
     if (getUser
-        (tokenHandle, &userName, &domainName, &userSid, &domainSid) == FALSE) {
+        (tokenHbndle, &userNbme, &dombinNbme, &userSid, &dombinSid) == FALSE) {
         exit(1);
     }
 
-    printf("getting primary group\n");
-    if (getPrimaryGroup(tokenHandle, &primaryGroup) == FALSE) {
+    printf("getting primbry group\n");
+    if (getPrimbryGroup(tokenHbndle, &primbryGroup) == FALSE) {
         exit(1);
     }
 
-    printf("getting supplementary groups\n");
-    if (getGroups(tokenHandle, &numGroups, &groups) == FALSE) {
+    printf("getting supplementbry groups\n");
+    if (getGroups(tokenHbndle, &numGroups, &groups) == FALSE) {
         exit(1);
     }
 
-    printf("getting impersonation token\n");
-    if (getImpersonationToken(&impersonationToken) == FALSE) {
+    printf("getting impersonbtion token\n");
+    if (getImpersonbtionToken(&impersonbtionToken) == FALSE) {
         exit(1);
     }
 
-    printf("userName = %s, userSid = %s, domainName = %s, domainSid = %s\n",
-        userName, userSid, domainName, domainSid);
-    printf("primaryGroup = %s\n", primaryGroup);
+    printf("userNbme = %s, userSid = %s, dombinNbme = %s, dombinSid = %s\n",
+        userNbme, userSid, dombinNbme, dombinSid);
+    printf("primbryGroup = %s\n", primbryGroup);
     for (i = 0; i < numGroups; i++) {
         printf("Group[%d] = %s\n", i, groups[i]);
     }
-    printf("impersonationToken = %ld\n", impersonationToken);
+    printf("impersonbtionToken = %ld\n", impersonbtionToken);
 
-    if (userName != NULL) {
-        HeapFree(GetProcessHeap(), 0, userName);
+    if (userNbme != NULL) {
+        HebpFree(GetProcessHebp(), 0, userNbme);
     }
     if (userSid != NULL) {
-        HeapFree(GetProcessHeap(), 0, userSid);
+        HebpFree(GetProcessHebp(), 0, userSid);
     }
-    if (domainName != NULL) {
-        HeapFree(GetProcessHeap(), 0, domainName);
+    if (dombinNbme != NULL) {
+        HebpFree(GetProcessHebp(), 0, dombinNbme);
     }
-    if (domainSid != NULL) {
-        HeapFree(GetProcessHeap(), 0, domainSid);
+    if (dombinSid != NULL) {
+        HebpFree(GetProcessHebp(), 0, dombinSid);
     }
-    if (primaryGroup != NULL) {
-        HeapFree(GetProcessHeap(), 0, primaryGroup);
+    if (primbryGroup != NULL) {
+        HebpFree(GetProcessHebp(), 0, primbryGroup);
     }
     if (groups != NULL) {
         for (i = 0; i < numGroups; i++) {
             if (groups[i] != NULL) {
-                HeapFree(GetProcessHeap(), 0, groups[i]);
+                HebpFree(GetProcessHebp(), 0, groups[i]);
             }
         }
-        HeapFree(GetProcessHeap(), 0, groups);
+        HebpFree(GetProcessHebp(), 0, groups);
     }
-    CloseHandle(impersonationToken);
-    CloseHandle(tokenHandle);
+    CloseHbndle(impersonbtionToken);
+    CloseHbndle(tokenHbndle);
 }
 */
 
 /**
- * extra main method for testing debug printing
+ * extrb mbin method for testing debug printing
  */
 /*
-void main(int argc, char *argv[]) {
-    if(argc != 2) {
-        fprintf(stderr,"Usage: %s <error number>\n", argv[0]);
+void mbin(int brgc, chbr *brgv[]) {
+    if(brgc != 2) {
+        fprintf(stderr,"Usbge: %s <error number>\n", brgv[0]);
     }
 
-    DisplayErrorText(atoi(argv[1]));
+    DisplbyErrorText(btoi(brgv[1]));
 }
 */

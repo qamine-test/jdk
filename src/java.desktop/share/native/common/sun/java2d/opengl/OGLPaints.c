@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,302 +28,302 @@
 #include <jlong.h>
 #include <string.h>
 
-#include "sun_java2d_SunGraphics2D.h"
-#include "sun_java2d_pipe_BufferedPaints.h"
+#include "sun_jbvb2d_SunGrbphics2D.h"
+#include "sun_jbvb2d_pipe_BufferedPbints.h"
 
-#include "OGLPaints.h"
+#include "OGLPbints.h"
 #include "OGLContext.h"
 #include "OGLRenderQueue.h"
-#include "OGLSurfaceData.h"
+#include "OGLSurfbceDbtb.h"
 
 void
-OGLPaints_ResetPaint(OGLContext *oglc)
+OGLPbints_ResetPbint(OGLContext *oglc)
 {
-    jubyte ea;
+    jubyte eb;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_ResetPaint");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLPbints_ResetPbint");
 
     RETURN_IF_NULL(oglc);
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  state=%d", oglc->paintState);
+    J2dTrbceLn1(J2D_TRACE_VERBOSE, "  stbte=%d", oglc->pbintStbte);
     RESET_PREVIOUS_OP();
 
-    if (oglc->useMask) {
-        // switch to texture unit 1, where paint state is currently enabled
+    if (oglc->useMbsk) {
+        // switch to texture unit 1, where pbint stbte is currently enbbled
         j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
     }
 
-    switch (oglc->paintState) {
-    case sun_java2d_SunGraphics2D_PAINT_GRADIENT:
-        j2d_glDisable(GL_TEXTURE_1D);
-        j2d_glDisable(GL_TEXTURE_GEN_S);
-        break;
+    switch (oglc->pbintStbte) {
+    cbse sun_jbvb2d_SunGrbphics2D_PAINT_GRADIENT:
+        j2d_glDisbble(GL_TEXTURE_1D);
+        j2d_glDisbble(GL_TEXTURE_GEN_S);
+        brebk;
 
-    case sun_java2d_SunGraphics2D_PAINT_TEXTURE:
-        // Note: The texture object used in SetTexturePaint() will
-        // still be bound at this point, so it is safe to call the following.
+    cbse sun_jbvb2d_SunGrbphics2D_PAINT_TEXTURE:
+        // Note: The texture object used in SetTexturePbint() will
+        // still be bound bt this point, so it is sbfe to cbll the following.
         OGLSD_RESET_TEXTURE_WRAP(GL_TEXTURE_2D);
-        j2d_glDisable(GL_TEXTURE_2D);
-        j2d_glDisable(GL_TEXTURE_GEN_S);
-        j2d_glDisable(GL_TEXTURE_GEN_T);
-        break;
+        j2d_glDisbble(GL_TEXTURE_2D);
+        j2d_glDisbble(GL_TEXTURE_GEN_S);
+        j2d_glDisbble(GL_TEXTURE_GEN_T);
+        brebk;
 
-    case sun_java2d_SunGraphics2D_PAINT_LIN_GRADIENT:
-    case sun_java2d_SunGraphics2D_PAINT_RAD_GRADIENT:
-        j2d_glUseProgramObjectARB(0);
-        j2d_glDisable(GL_TEXTURE_1D);
-        break;
+    cbse sun_jbvb2d_SunGrbphics2D_PAINT_LIN_GRADIENT:
+    cbse sun_jbvb2d_SunGrbphics2D_PAINT_RAD_GRADIENT:
+        j2d_glUseProgrbmObjectARB(0);
+        j2d_glDisbble(GL_TEXTURE_1D);
+        brebk;
 
-    case sun_java2d_SunGraphics2D_PAINT_ALPHACOLOR:
-    default:
-        break;
+    cbse sun_jbvb2d_SunGrbphics2D_PAINT_ALPHACOLOR:
+    defbult:
+        brebk;
     }
 
-    if (oglc->useMask) {
+    if (oglc->useMbsk) {
         // restore control to texture unit 0
         j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
     }
 
-    // set each component of the current color state to the extra alpha
-    // value, which will effectively apply the extra alpha to each fragment
-    // in paint/texturing operations
-    ea = (jubyte)(oglc->extraAlpha * 0xff + 0.5f);
-    j2d_glColor4ub(ea, ea, ea, ea);
-    oglc->pixel = (ea << 24) | (ea << 16) | (ea << 8) | (ea << 0);
-    oglc->r = ea;
-    oglc->g = ea;
-    oglc->b = ea;
-    oglc->a = ea;
-    oglc->useMask = JNI_FALSE;
-    oglc->paintState = -1;
+    // set ebch component of the current color stbte to the extrb blphb
+    // vblue, which will effectively bpply the extrb blphb to ebch frbgment
+    // in pbint/texturing operbtions
+    eb = (jubyte)(oglc->extrbAlphb * 0xff + 0.5f);
+    j2d_glColor4ub(eb, eb, eb, eb);
+    oglc->pixel = (eb << 24) | (eb << 16) | (eb << 8) | (eb << 0);
+    oglc->r = eb;
+    oglc->g = eb;
+    oglc->b = eb;
+    oglc->b = eb;
+    oglc->useMbsk = JNI_FALSE;
+    oglc->pbintStbte = -1;
 }
 
 void
-OGLPaints_SetColor(OGLContext *oglc, jint pixel)
+OGLPbints_SetColor(OGLContext *oglc, jint pixel)
 {
-    jubyte r, g, b, a;
+    jubyte r, g, b, b;
 
-    J2dTraceLn1(J2D_TRACE_INFO, "OGLPaints_SetColor: pixel=%08x", pixel);
+    J2dTrbceLn1(J2D_TRACE_INFO, "OGLPbints_SetColor: pixel=%08x", pixel);
 
     RETURN_IF_NULL(oglc);
 
-    // glColor*() is allowed within glBegin()/glEnd() pairs, so
-    // no need to reset the current op state here unless the paint
-    // state really needs to be changed
-    if (oglc->paintState > sun_java2d_SunGraphics2D_PAINT_ALPHACOLOR) {
-        OGLPaints_ResetPaint(oglc);
+    // glColor*() is bllowed within glBegin()/glEnd() pbirs, so
+    // no need to reset the current op stbte here unless the pbint
+    // stbte reblly needs to be chbnged
+    if (oglc->pbintStbte > sun_jbvb2d_SunGrbphics2D_PAINT_ALPHACOLOR) {
+        OGLPbints_ResetPbint(oglc);
     }
 
-    // store the raw (unmodified) pixel value, which may be used for
-    // special operations later
+    // store the rbw (unmodified) pixel vblue, which mby be used for
+    // specibl operbtions lbter
     oglc->pixel = pixel;
 
-    if (oglc->compState != sun_java2d_SunGraphics2D_COMP_XOR) {
+    if (oglc->compStbte != sun_jbvb2d_SunGrbphics2D_COMP_XOR) {
         r = (jubyte)(pixel >> 16);
         g = (jubyte)(pixel >>  8);
         b = (jubyte)(pixel >>  0);
-        a = (jubyte)(pixel >> 24);
+        b = (jubyte)(pixel >> 24);
 
-        J2dTraceLn4(J2D_TRACE_VERBOSE,
-                    "  updating color: r=%02x g=%02x b=%02x a=%02x",
-                    r, g, b, a);
+        J2dTrbceLn4(J2D_TRACE_VERBOSE,
+                    "  updbting color: r=%02x g=%02x b=%02x b=%02x",
+                    r, g, b, b);
     } else {
         pixel ^= oglc->xorPixel;
 
         r = (jubyte)(pixel >> 16);
         g = (jubyte)(pixel >>  8);
         b = (jubyte)(pixel >>  0);
-        a = 0xff;
+        b = 0xff;
 
-        J2dTraceLn4(J2D_TRACE_VERBOSE,
-                    "  updating xor color: r=%02x g=%02x b=%02x xorpixel=%08x",
+        J2dTrbceLn4(J2D_TRACE_VERBOSE,
+                    "  updbting xor color: r=%02x g=%02x b=%02x xorpixel=%08x",
                     r, g, b, oglc->xorPixel);
     }
 
-    j2d_glColor4ub(r, g, b, a);
+    j2d_glColor4ub(r, g, b, b);
     oglc->r = r;
     oglc->g = g;
     oglc->b = b;
-    oglc->a = a;
-    oglc->useMask = JNI_FALSE;
-    oglc->paintState = sun_java2d_SunGraphics2D_PAINT_ALPHACOLOR;
+    oglc->b = b;
+    oglc->useMbsk = JNI_FALSE;
+    oglc->pbintStbte = sun_jbvb2d_SunGrbphics2D_PAINT_ALPHACOLOR;
 }
 
-/************************* GradientPaint support ****************************/
+/************************* GrbdientPbint support ****************************/
 
-static GLuint gradientTexID = 0;
+stbtic GLuint grbdientTexID = 0;
 
-static void
-OGLPaints_InitGradientTexture()
+stbtic void
+OGLPbints_InitGrbdientTexture()
 {
-    GLclampf priority = 1.0f;
+    GLclbmpf priority = 1.0f;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_InitGradientTexture");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLPbints_InitGrbdientTexture");
 
-    j2d_glGenTextures(1, &gradientTexID);
-    j2d_glBindTexture(GL_TEXTURE_1D, gradientTexID);
-    j2d_glPrioritizeTextures(1, &gradientTexID, &priority);
-    j2d_glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    j2d_glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    j2d_glTexImage1D(GL_TEXTURE_1D, 0,
+    j2d_glGenTextures(1, &grbdientTexID);
+    j2d_glBindTexture(GL_TEXTURE_1D, grbdientTexID);
+    j2d_glPrioritizeTextures(1, &grbdientTexID, &priority);
+    j2d_glTexPbrbmeteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    j2d_glTexPbrbmeteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    j2d_glTexImbge1D(GL_TEXTURE_1D, 0,
                      GL_RGBA8, 2, 0,
                      GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, NULL);
 }
 
 void
-OGLPaints_SetGradientPaint(OGLContext *oglc,
-                           jboolean useMask, jboolean cyclic,
+OGLPbints_SetGrbdientPbint(OGLContext *oglc,
+                           jboolebn useMbsk, jboolebn cyclic,
                            jdouble p0, jdouble p1, jdouble p3,
                            jint pixel1, jint pixel2)
 {
-    GLdouble texParams[4];
+    GLdouble texPbrbms[4];
     GLuint pixels[2];
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_SetGradientPaint");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLPbints_SetGrbdientPbint");
 
     RETURN_IF_NULL(oglc);
-    OGLPaints_ResetPaint(oglc);
+    OGLPbints_ResetPbint(oglc);
 
-    texParams[0] = p0;
-    texParams[1] = p1;
-    texParams[2] = 0.0;
-    texParams[3] = p3;
+    texPbrbms[0] = p0;
+    texPbrbms[1] = p1;
+    texPbrbms[2] = 0.0;
+    texPbrbms[3] = p3;
 
     pixels[0] = pixel1;
     pixels[1] = pixel2;
 
-    if (useMask) {
-        // set up the paint on texture unit 1 (instead of the usual unit 0)
+    if (useMbsk) {
+        // set up the pbint on texture unit 1 (instebd of the usubl unit 0)
         j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
         j2d_glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     } else {
-        // texture unit 0 is already active; we can use the helper macro here
+        // texture unit 0 is blrebdy bctive; we cbn use the helper mbcro here
         OGLC_UPDATE_TEXTURE_FUNCTION(oglc, GL_MODULATE);
     }
 
-    if (gradientTexID == 0) {
-        OGLPaints_InitGradientTexture();
+    if (grbdientTexID == 0) {
+        OGLPbints_InitGrbdientTexture();
     }
 
-    j2d_glEnable(GL_TEXTURE_1D);
-    j2d_glEnable(GL_TEXTURE_GEN_S);
-    j2d_glBindTexture(GL_TEXTURE_1D, gradientTexID);
-    j2d_glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S,
+    j2d_glEnbble(GL_TEXTURE_1D);
+    j2d_glEnbble(GL_TEXTURE_GEN_S);
+    j2d_glBindTexture(GL_TEXTURE_1D, grbdientTexID);
+    j2d_glTexPbrbmeteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S,
                         cyclic ? GL_REPEAT : GL_CLAMP_TO_EDGE);
     j2d_glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-    j2d_glTexGendv(GL_S, GL_OBJECT_PLANE, texParams);
+    j2d_glTexGendv(GL_S, GL_OBJECT_PLANE, texPbrbms);
 
-    j2d_glTexSubImage1D(GL_TEXTURE_1D, 0,
+    j2d_glTexSubImbge1D(GL_TEXTURE_1D, 0,
                         0, 2, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, pixels);
 
-    if (useMask) {
+    if (useMbsk) {
         // restore control to texture unit 0
         j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
     }
 
-    // oglc->pixel has been set appropriately in OGLPaints_ResetPaint()
-    oglc->useMask = useMask;
-    oglc->paintState = sun_java2d_SunGraphics2D_PAINT_GRADIENT;
+    // oglc->pixel hbs been set bppropribtely in OGLPbints_ResetPbint()
+    oglc->useMbsk = useMbsk;
+    oglc->pbintStbte = sun_jbvb2d_SunGrbphics2D_PAINT_GRADIENT;
 }
 
-/************************** TexturePaint support ****************************/
+/************************** TexturePbint support ****************************/
 
 void
-OGLPaints_SetTexturePaint(OGLContext *oglc,
-                          jboolean useMask,
-                          jlong pSrcOps, jboolean filter,
+OGLPbints_SetTexturePbint(OGLContext *oglc,
+                          jboolebn useMbsk,
+                          jlong pSrcOps, jboolebn filter,
                           jdouble xp0, jdouble xp1, jdouble xp3,
                           jdouble yp0, jdouble yp1, jdouble yp3)
 {
     OGLSDOps *srcOps = (OGLSDOps *)jlong_to_ptr(pSrcOps);
-    GLdouble xParams[4];
-    GLdouble yParams[4];
+    GLdouble xPbrbms[4];
+    GLdouble yPbrbms[4];
     GLint hint = (filter ? GL_LINEAR : GL_NEAREST);
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_SetTexturePaint");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLPbints_SetTexturePbint");
 
     RETURN_IF_NULL(srcOps);
     RETURN_IF_NULL(oglc);
-    OGLPaints_ResetPaint(oglc);
+    OGLPbints_ResetPbint(oglc);
 
-    xParams[0] = xp0;
-    xParams[1] = xp1;
-    xParams[2] = 0.0;
-    xParams[3] = xp3;
+    xPbrbms[0] = xp0;
+    xPbrbms[1] = xp1;
+    xPbrbms[2] = 0.0;
+    xPbrbms[3] = xp3;
 
-    yParams[0] = yp0;
-    yParams[1] = yp1;
-    yParams[2] = 0.0;
-    yParams[3] = yp3;
+    yPbrbms[0] = yp0;
+    yPbrbms[1] = yp1;
+    yPbrbms[2] = 0.0;
+    yPbrbms[3] = yp3;
 
     /*
-     * Note that we explicitly use GL_TEXTURE_2D below rather than using
-     * srcOps->textureTarget.  This is because the texture wrap mode employed
-     * here (GL_REPEAT) is not available for GL_TEXTURE_RECTANGLE_ARB targets.
-     * The setup code in OGLPaints.Texture.isPaintValid() and in
-     * OGLSurfaceData.initTexture() ensures that we only get here for
-     * GL_TEXTURE_2D targets.
+     * Note thbt we explicitly use GL_TEXTURE_2D below rbther thbn using
+     * srcOps->textureTbrget.  This is becbuse the texture wrbp mode employed
+     * here (GL_REPEAT) is not bvbilbble for GL_TEXTURE_RECTANGLE_ARB tbrgets.
+     * The setup code in OGLPbints.Texture.isPbintVblid() bnd in
+     * OGLSurfbceDbtb.initTexture() ensures thbt we only get here for
+     * GL_TEXTURE_2D tbrgets.
      */
 
-    if (useMask) {
-        // set up the paint on texture unit 1 (instead of the usual unit 0)
+    if (useMbsk) {
+        // set up the pbint on texture unit 1 (instebd of the usubl unit 0)
         j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
         j2d_glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     } else {
-        // texture unit 0 is already active; we can use the helper macro here
+        // texture unit 0 is blrebdy bctive; we cbn use the helper mbcro here
         OGLC_UPDATE_TEXTURE_FUNCTION(oglc, GL_MODULATE);
     }
 
-    j2d_glEnable(GL_TEXTURE_2D);
-    j2d_glEnable(GL_TEXTURE_GEN_S);
-    j2d_glEnable(GL_TEXTURE_GEN_T);
+    j2d_glEnbble(GL_TEXTURE_2D);
+    j2d_glEnbble(GL_TEXTURE_GEN_S);
+    j2d_glEnbble(GL_TEXTURE_GEN_T);
     j2d_glBindTexture(GL_TEXTURE_2D, srcOps->textureID);
     OGLSD_UPDATE_TEXTURE_FILTER(srcOps, hint);
     OGLSD_UPDATE_TEXTURE_WRAP(GL_TEXTURE_2D, GL_REPEAT);
     j2d_glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-    j2d_glTexGendv(GL_S, GL_OBJECT_PLANE, xParams);
+    j2d_glTexGendv(GL_S, GL_OBJECT_PLANE, xPbrbms);
     j2d_glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-    j2d_glTexGendv(GL_T, GL_OBJECT_PLANE, yParams);
+    j2d_glTexGendv(GL_T, GL_OBJECT_PLANE, yPbrbms);
 
-    if (useMask) {
+    if (useMbsk) {
         // restore control to texture unit 0
         j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
     }
 
-    // oglc->pixel has been set appropriately in OGLPaints_ResetPaint()
-    oglc->useMask = useMask;
-    oglc->paintState = sun_java2d_SunGraphics2D_PAINT_TEXTURE;
+    // oglc->pixel hbs been set bppropribtely in OGLPbints_ResetPbint()
+    oglc->useMbsk = useMbsk;
+    oglc->pbintStbte = sun_jbvb2d_SunGrbphics2D_PAINT_TEXTURE;
 }
 
-/****************** Shared MultipleGradientPaint support ********************/
+/****************** Shbred MultipleGrbdientPbint support ********************/
 
 /**
- * These constants are identical to those defined in the
- * MultipleGradientPaint.CycleMethod enum; they are copied here for
- * convenience (ideally we would pull them directly from the Java level,
- * but that entails more hassle than it is worth).
+ * These constbnts bre identicbl to those defined in the
+ * MultipleGrbdientPbint.CycleMethod enum; they bre copied here for
+ * convenience (ideblly we would pull them directly from the Jbvb level,
+ * but thbt entbils more hbssle thbn it is worth).
  */
 #define CYCLE_NONE    0
 #define CYCLE_REFLECT 1
 #define CYCLE_REPEAT  2
 
 /**
- * The following constants are flags that can be bitwise-or'ed together
- * to control how the MultipleGradientPaint shader source code is generated:
+ * The following constbnts bre flbgs thbt cbn be bitwise-or'ed together
+ * to control how the MultipleGrbdientPbint shbder source code is generbted:
  *
  *   MULTI_CYCLE_METHOD
- *     Placeholder for the CycleMethod enum constant.
+ *     Plbceholder for the CycleMethod enum constbnt.
  *
  *   MULTI_LARGE
- *     If set, use the (slower) shader that supports a larger number of
- *     gradient colors; otherwise, use the optimized codepath.  See
- *     the MAX_FRACTIONS_SMALL/LARGE constants below for more details.
+ *     If set, use the (slower) shbder thbt supports b lbrger number of
+ *     grbdient colors; otherwise, use the optimized codepbth.  See
+ *     the MAX_FRACTIONS_SMALL/LARGE constbnts below for more detbils.
  *
  *   MULTI_USE_MASK
- *     If set, apply the alpha mask value from texture unit 0 to the
- *     final color result (only used in the MaskFill case).
+ *     If set, bpply the blphb mbsk vblue from texture unit 0 to the
+ *     finbl color result (only used in the MbskFill cbse).
  *
  *   MULTI_LINEAR_RGB
- *     If set, convert the linear RGB result back into the sRGB color space.
+ *     If set, convert the linebr RGB result bbck into the sRGB color spbce.
  */
 #define MULTI_CYCLE_METHOD (3 << 0)
 #define MULTI_LARGE        (1 << 2)
@@ -331,491 +331,491 @@ OGLPaints_SetTexturePaint(OGLContext *oglc,
 #define MULTI_LINEAR_RGB   (1 << 4)
 
 /**
- * This value determines the size of the array of programs for each
- * MultipleGradientPaint type.  This value reflects the maximum value that
- * can be represented by performing a bitwise-or of all the MULTI_*
- * constants defined above.
+ * This vblue determines the size of the brrby of progrbms for ebch
+ * MultipleGrbdientPbint type.  This vblue reflects the mbximum vblue thbt
+ * cbn be represented by performing b bitwise-or of bll the MULTI_*
+ * constbnts defined bbove.
  */
 #define MAX_PROGRAMS 32
 
-/** Evaluates to true if the given bit is set on the local flags variable. */
-#define IS_SET(flagbit) \
-    (((flags) & (flagbit)) != 0)
+/** Evblubtes to true if the given bit is set on the locbl flbgs vbribble. */
+#define IS_SET(flbgbit) \
+    (((flbgs) & (flbgbit)) != 0)
 
-/** Composes the given parameters as flags into the given flags variable.*/
-#define COMPOSE_FLAGS(flags, cycleMethod, large, useMask, linear) \
+/** Composes the given pbrbmeters bs flbgs into the given flbgs vbribble.*/
+#define COMPOSE_FLAGS(flbgs, cycleMethod, lbrge, useMbsk, linebr) \
     do {                                                   \
-        flags |= ((cycleMethod) & MULTI_CYCLE_METHOD);     \
-        if (large)   flags |= MULTI_LARGE;                 \
-        if (useMask) flags |= MULTI_USE_MASK;              \
-        if (linear)  flags |= MULTI_LINEAR_RGB;            \
+        flbgs |= ((cycleMethod) & MULTI_CYCLE_METHOD);     \
+        if (lbrge)   flbgs |= MULTI_LARGE;                 \
+        if (useMbsk) flbgs |= MULTI_USE_MASK;              \
+        if (linebr)  flbgs |= MULTI_LINEAR_RGB;            \
     } while (0)
 
-/** Extracts the CycleMethod enum value from the given flags variable. */
-#define EXTRACT_CYCLE_METHOD(flags) \
-    ((flags) & MULTI_CYCLE_METHOD)
+/** Extrbcts the CycleMethod enum vblue from the given flbgs vbribble. */
+#define EXTRACT_CYCLE_METHOD(flbgs) \
+    ((flbgs) & MULTI_CYCLE_METHOD)
 
 /**
- * The maximum number of gradient "stops" supported by the fragment shader
- * and related code.  When the MULTI_LARGE flag is set, we will use
- * MAX_FRACTIONS_LARGE; otherwise, we use MAX_FRACTIONS_SMALL.  By having
- * two separate values, we can have one highly optimized shader (SMALL) that
- * supports only a few fractions/colors, and then another, less optimal
- * shader that supports more stops.
+ * The mbximum number of grbdient "stops" supported by the frbgment shbder
+ * bnd relbted code.  When the MULTI_LARGE flbg is set, we will use
+ * MAX_FRACTIONS_LARGE; otherwise, we use MAX_FRACTIONS_SMALL.  By hbving
+ * two sepbrbte vblues, we cbn hbve one highly optimized shbder (SMALL) thbt
+ * supports only b few frbctions/colors, bnd then bnother, less optimbl
+ * shbder thbt supports more stops.
  */
-#define MAX_FRACTIONS sun_java2d_pipe_BufferedPaints_MULTI_MAX_FRACTIONS
+#define MAX_FRACTIONS sun_jbvb2d_pipe_BufferedPbints_MULTI_MAX_FRACTIONS
 #define MAX_FRACTIONS_LARGE MAX_FRACTIONS
 #define MAX_FRACTIONS_SMALL 4
 
 /**
- * The maximum number of gradient colors supported by all of the gradient
- * fragment shaders.  Note that this value must be a power of two, as it
- * determines the size of the 1D texture created below.  It also must be
- * greater than or equal to MAX_FRACTIONS (there is no strict requirement
- * that the two values be equal).
+ * The mbximum number of grbdient colors supported by bll of the grbdient
+ * frbgment shbders.  Note thbt this vblue must be b power of two, bs it
+ * determines the size of the 1D texture crebted below.  It blso must be
+ * grebter thbn or equbl to MAX_FRACTIONS (there is no strict requirement
+ * thbt the two vblues be equbl).
  */
 #define MAX_COLORS 16
 
 /**
- * The handle to the gradient color table texture object used by the shaders.
+ * The hbndle to the grbdient color tbble texture object used by the shbders.
  */
-static GLuint multiGradientTexID = 0;
+stbtic GLuint multiGrbdientTexID = 0;
 
 /**
- * This is essentially a template of the shader source code that can be used
- * for either LinearGradientPaint or RadialGradientPaint.  It includes the
- * structure and some variables that are common to each; the remaining
- * code snippets (for CycleMethod, ColorSpaceType, and mask modulation)
- * are filled in prior to compiling the shader at runtime depending on the
- * paint parameters.  See OGLPaints_CreateMultiGradProgram() for more details.
+ * This is essentiblly b templbte of the shbder source code thbt cbn be used
+ * for either LinebrGrbdientPbint or RbdiblGrbdientPbint.  It includes the
+ * structure bnd some vbribbles thbt bre common to ebch; the rembining
+ * code snippets (for CycleMethod, ColorSpbceType, bnd mbsk modulbtion)
+ * bre filled in prior to compiling the shbder bt runtime depending on the
+ * pbint pbrbmeters.  See OGLPbints_CrebteMultiGrbdProgrbm() for more detbils.
  */
-static const char *multiGradientShaderSource =
-    // gradient texture size (in texels)
+stbtic const chbr *multiGrbdientShbderSource =
+    // grbdient texture size (in texels)
     "const int TEXTURE_SIZE = %d;"
-    // maximum number of fractions/colors supported by this shader
+    // mbximum number of frbctions/colors supported by this shbder
     "const int MAX_FRACTIONS = %d;"
-    // size of a single texel
-    "const float FULL_TEXEL = (1.0 / float(TEXTURE_SIZE));"
-    // size of half of a single texel
-    "const float HALF_TEXEL = (FULL_TEXEL / 2.0);"
-    // texture containing the gradient colors
-    "uniform sampler1D colors;"
-    // array of gradient stops/fractions
-    "uniform float fractions[MAX_FRACTIONS];"
-    // array of scale factors (one for each interval)
-    "uniform float scaleFactors[MAX_FRACTIONS-1];"
-    // (placeholder for mask variable)
+    // size of b single texel
+    "const flobt FULL_TEXEL = (1.0 / flobt(TEXTURE_SIZE));"
+    // size of hblf of b single texel
+    "const flobt HALF_TEXEL = (FULL_TEXEL / 2.0);"
+    // texture contbining the grbdient colors
+    "uniform sbmpler1D colors;"
+    // brrby of grbdient stops/frbctions
+    "uniform flobt frbctions[MAX_FRACTIONS];"
+    // brrby of scble fbctors (one for ebch intervbl)
+    "uniform flobt scbleFbctors[MAX_FRACTIONS-1];"
+    // (plbceholder for mbsk vbribble)
     "%s"
-    // (placeholder for Linear/RadialGP-specific variables)
+    // (plbceholder for Linebr/RbdiblGP-specific vbribbles)
     "%s"
     ""
-    "void main(void)"
+    "void mbin(void)"
     "{"
-    "    float dist;"
-         // (placeholder for Linear/RadialGradientPaint-specific code)
+    "    flobt dist;"
+         // (plbceholder for Linebr/RbdiblGrbdientPbint-specific code)
     "    %s"
     ""
-    "    float tc;"
-         // (placeholder for CycleMethod-specific code)
+    "    flobt tc;"
+         // (plbceholder for CycleMethod-specific code)
     "    %s"
     ""
-         // calculate interpolated color
+         // cblculbte interpolbted color
     "    vec4 result = texture1D(colors, tc);"
     ""
-         // (placeholder for ColorSpace conversion code)
+         // (plbceholder for ColorSpbce conversion code)
     "    %s"
     ""
-         // (placeholder for mask modulation code)
+         // (plbceholder for mbsk modulbtion code)
     "    %s"
     ""
-         // modulate with gl_Color in order to apply extra alpha
-    "    gl_FragColor = result * gl_Color;"
+         // modulbte with gl_Color in order to bpply extrb blphb
+    "    gl_FrbgColor = result * gl_Color;"
     "}";
 
 /**
- * This code takes a "dist" value as input (as calculated earlier by the
- * LGP/RGP-specific code) in the range [0,1] and produces a texture
- * coordinate value "tc" that represents the position of the chosen color
- * in the one-dimensional gradient texture (also in the range [0,1]).
+ * This code tbkes b "dist" vblue bs input (bs cblculbted ebrlier by the
+ * LGP/RGP-specific code) in the rbnge [0,1] bnd produces b texture
+ * coordinbte vblue "tc" thbt represents the position of the chosen color
+ * in the one-dimensionbl grbdient texture (blso in the rbnge [0,1]).
  *
- * One naive way to implement this would be to iterate through the fractions
- * to figure out in which interval "dist" falls, and then compute the
- * relative distance between the two nearest stops.  This approach would
- * require an "if" check on every iteration, and it is best to avoid
- * conditionals in fragment shaders for performance reasons.  Also, one might
- * be tempted to use a break statement to jump out of the loop once the
- * interval was found, but break statements (and non-constant loop bounds)
- * are not natively available on most graphics hardware today, so that is
- * a non-starter.
+ * One nbive wby to implement this would be to iterbte through the frbctions
+ * to figure out in which intervbl "dist" fblls, bnd then compute the
+ * relbtive distbnce between the two nebrest stops.  This bpprobch would
+ * require bn "if" check on every iterbtion, bnd it is best to bvoid
+ * conditionbls in frbgment shbders for performbnce rebsons.  Also, one might
+ * be tempted to use b brebk stbtement to jump out of the loop once the
+ * intervbl wbs found, but brebk stbtements (bnd non-constbnt loop bounds)
+ * bre not nbtively bvbilbble on most grbphics hbrdwbre todby, so thbt is
+ * b non-stbrter.
  *
- * The more optimal approach used here avoids these issues entirely by using
- * an accumulation function that is equivalent to the process described above.
- * The scaleFactors array is pre-initialized at enable time as follows:
- *     scaleFactors[i] = 1.0 / (fractions[i+1] - fractions[i]);
+ * The more optimbl bpprobch used here bvoids these issues entirely by using
+ * bn bccumulbtion function thbt is equivblent to the process described bbove.
+ * The scbleFbctors brrby is pre-initiblized bt enbble time bs follows:
+ *     scbleFbctors[i] = 1.0 / (frbctions[i+1] - frbctions[i]);
  *
- * For each iteration, we subtract fractions[i] from dist and then multiply
- * that value by scaleFactors[i].  If we are within the target interval,
- * this value will be a fraction in the range [0,1] indicating the relative
- * distance between fraction[i] and fraction[i+1].  If we are below the
- * target interval, this value will be negative, so we clamp it to zero
- * to avoid accumulating any value.  If we are above the target interval,
- * the value will be greater than one, so we clamp it to one.  Upon exiting
- * the loop, we will have accumulated zero or more 1.0's and a single
- * fractional value.  This accumulated value tells us the position of the
- * fragment color in the one-dimensional gradient texture, i.e., the
- * texcoord called "tc".
+ * For ebch iterbtion, we subtrbct frbctions[i] from dist bnd then multiply
+ * thbt vblue by scbleFbctors[i].  If we bre within the tbrget intervbl,
+ * this vblue will be b frbction in the rbnge [0,1] indicbting the relbtive
+ * distbnce between frbction[i] bnd frbction[i+1].  If we bre below the
+ * tbrget intervbl, this vblue will be negbtive, so we clbmp it to zero
+ * to bvoid bccumulbting bny vblue.  If we bre bbove the tbrget intervbl,
+ * the vblue will be grebter thbn one, so we clbmp it to one.  Upon exiting
+ * the loop, we will hbve bccumulbted zero or more 1.0's bnd b single
+ * frbctionbl vblue.  This bccumulbted vblue tells us the position of the
+ * frbgment color in the one-dimensionbl grbdient texture, i.e., the
+ * texcoord cblled "tc".
  */
-static const char *texCoordCalcCode =
+stbtic const chbr *texCoordCblcCode =
     "int i;"
-    "float relFraction = 0.0;"
+    "flobt relFrbction = 0.0;"
     "for (i = 0; i < MAX_FRACTIONS-1; i++) {"
-    "    relFraction +="
-    "        clamp((dist - fractions[i]) * scaleFactors[i], 0.0, 1.0);"
+    "    relFrbction +="
+    "        clbmp((dist - frbctions[i]) * scbleFbctors[i], 0.0, 1.0);"
     "}"
-    // we offset by half a texel so that we find the linearly interpolated
+    // we offset by hblf b texel so thbt we find the linebrly interpolbted
     // color between the two texel centers of interest
-    "tc = HALF_TEXEL + (FULL_TEXEL * relFraction);";
+    "tc = HALF_TEXEL + (FULL_TEXEL * relFrbction);";
 
-/** Code for NO_CYCLE that gets plugged into the CycleMethod placeholder. */
-static const char *noCycleCode =
+/** Code for NO_CYCLE thbt gets plugged into the CycleMethod plbceholder. */
+stbtic const chbr *noCycleCode =
     "if (dist <= 0.0) {"
     "    tc = 0.0;"
     "} else if (dist >= 1.0) {"
     "    tc = 1.0;"
     "} else {"
-         // (placeholder for texcoord calculation)
+         // (plbceholder for texcoord cblculbtion)
     "    %s"
     "}";
 
-/** Code for REFLECT that gets plugged into the CycleMethod placeholder. */
-static const char *reflectCode =
-    "dist = 1.0 - (abs(fract(dist * 0.5) - 0.5) * 2.0);"
-    // (placeholder for texcoord calculation)
+/** Code for REFLECT thbt gets plugged into the CycleMethod plbceholder. */
+stbtic const chbr *reflectCode =
+    "dist = 1.0 - (bbs(frbct(dist * 0.5) - 0.5) * 2.0);"
+    // (plbceholder for texcoord cblculbtion)
     "%s";
 
-/** Code for REPEAT that gets plugged into the CycleMethod placeholder. */
-static const char *repeatCode =
-    "dist = fract(dist);"
-    // (placeholder for texcoord calculation)
+/** Code for REPEAT thbt gets plugged into the CycleMethod plbceholder. */
+stbtic const chbr *repebtCode =
+    "dist = frbct(dist);"
+    // (plbceholder for texcoord cblculbtion)
     "%s";
 
-static void
-OGLPaints_InitMultiGradientTexture()
+stbtic void
+OGLPbints_InitMultiGrbdientTexture()
 {
-    GLclampf priority = 1.0f;
+    GLclbmpf priority = 1.0f;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_InitMultiGradientTexture");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLPbints_InitMultiGrbdientTexture");
 
-    j2d_glGenTextures(1, &multiGradientTexID);
-    j2d_glBindTexture(GL_TEXTURE_1D, multiGradientTexID);
-    j2d_glPrioritizeTextures(1, &multiGradientTexID, &priority);
-    j2d_glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    j2d_glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    j2d_glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    j2d_glTexImage1D(GL_TEXTURE_1D, 0,
+    j2d_glGenTextures(1, &multiGrbdientTexID);
+    j2d_glBindTexture(GL_TEXTURE_1D, multiGrbdientTexID);
+    j2d_glPrioritizeTextures(1, &multiGrbdientTexID, &priority);
+    j2d_glTexPbrbmeteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    j2d_glTexPbrbmeteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    j2d_glTexPbrbmeteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    j2d_glTexImbge1D(GL_TEXTURE_1D, 0,
                      GL_RGBA8, MAX_COLORS, 0,
                      GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, NULL);
 }
 
 /**
- * Compiles and links the MultipleGradientPaint shader program.  If
- * successful, this function returns a handle to the newly created
- * shader program; otherwise returns 0.
+ * Compiles bnd links the MultipleGrbdientPbint shbder progrbm.  If
+ * successful, this function returns b hbndle to the newly crebted
+ * shbder progrbm; otherwise returns 0.
  */
-static GLhandleARB
-OGLPaints_CreateMultiGradProgram(jint flags,
-                                 char *paintVars, char *distCode)
+stbtic GLhbndleARB
+OGLPbints_CrebteMultiGrbdProgrbm(jint flbgs,
+                                 chbr *pbintVbrs, chbr *distCode)
 {
-    GLhandleARB multiGradProgram;
+    GLhbndleARB multiGrbdProgrbm;
     GLint loc;
-    char *maskVars = "";
-    char *maskCode = "";
-    char *colorSpaceCode = "";
-    char cycleCode[1500];
-    char finalSource[3000];
-    jint cycleMethod = EXTRACT_CYCLE_METHOD(flags);
-    jint maxFractions = IS_SET(MULTI_LARGE) ?
+    chbr *mbskVbrs = "";
+    chbr *mbskCode = "";
+    chbr *colorSpbceCode = "";
+    chbr cycleCode[1500];
+    chbr finblSource[3000];
+    jint cycleMethod = EXTRACT_CYCLE_METHOD(flbgs);
+    jint mbxFrbctions = IS_SET(MULTI_LARGE) ?
         MAX_FRACTIONS_LARGE : MAX_FRACTIONS_SMALL;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_CreateMultiGradProgram");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLPbints_CrebteMultiGrbdProgrbm");
 
     if (IS_SET(MULTI_USE_MASK)) {
         /*
-         * This code modulates the calculated result color with the
-         * corresponding alpha value from the alpha mask texture active
-         * on texture unit 0.  Only needed when useMask is true (i.e., only
-         * for MaskFill operations).
+         * This code modulbtes the cblculbted result color with the
+         * corresponding blphb vblue from the blphb mbsk texture bctive
+         * on texture unit 0.  Only needed when useMbsk is true (i.e., only
+         * for MbskFill operbtions).
          */
-        maskVars = "uniform sampler2D mask;";
-        maskCode = "result *= texture2D(mask, gl_TexCoord[0].st);";
+        mbskVbrs = "uniform sbmpler2D mbsk;";
+        mbskCode = "result *= texture2D(mbsk, gl_TexCoord[0].st);";
     } else {
         /*
-         * REMIND: This is really wacky, but the gradient shaders will
-         * produce completely incorrect results on ATI hardware (at least
-         * on first-gen (R300-based) boards) if the shader program does not
-         * try to access texture coordinates by using a gl_TexCoord[*]
-         * variable.  This problem really should be addressed by ATI, but
-         * in the meantime it seems we can workaround the issue by inserting
-         * a benign operation that accesses gl_TexCoord[0].  Note that we
-         * only need to do this for ATI boards and only in the !useMask case,
-         * because the useMask case already does access gl_TexCoord[1] and
-         * is therefore not affected by this driver bug.
+         * REMIND: This is reblly wbcky, but the grbdient shbders will
+         * produce completely incorrect results on ATI hbrdwbre (bt lebst
+         * on first-gen (R300-bbsed) bobrds) if the shbder progrbm does not
+         * try to bccess texture coordinbtes by using b gl_TexCoord[*]
+         * vbribble.  This problem reblly should be bddressed by ATI, but
+         * in the mebntime it seems we cbn workbround the issue by inserting
+         * b benign operbtion thbt bccesses gl_TexCoord[0].  Note thbt we
+         * only need to do this for ATI bobrds bnd only in the !useMbsk cbse,
+         * becbuse the useMbsk cbse blrebdy does bccess gl_TexCoord[1] bnd
+         * is therefore not bffected by this driver bug.
          */
-        const char *vendor = (const char *)j2d_glGetString(GL_VENDOR);
+        const chbr *vendor = (const chbr *)j2d_glGetString(GL_VENDOR);
         if (vendor != NULL && strncmp(vendor, "ATI", 3) == 0) {
-            maskCode = "dist = gl_TexCoord[0].s;";
+            mbskCode = "dist = gl_TexCoord[0].s;";
         }
     }
 
     if (IS_SET(MULTI_LINEAR_RGB)) {
         /*
-         * This code converts a single pixel in linear RGB space back
-         * into sRGB (note: this code was adapted from the
-         * MultipleGradientPaintContext.convertLinearRGBtoSRGB() method).
+         * This code converts b single pixel in linebr RGB spbce bbck
+         * into sRGB (note: this code wbs bdbpted from the
+         * MultipleGrbdientPbintContext.convertLinebrRGBtoSRGB() method).
          */
-        colorSpaceCode =
+        colorSpbceCode =
             "result.rgb = 1.055 * pow(result.rgb, vec3(0.416667)) - 0.055;";
     }
 
     if (cycleMethod == CYCLE_NONE) {
-        sprintf(cycleCode, noCycleCode, texCoordCalcCode);
+        sprintf(cycleCode, noCycleCode, texCoordCblcCode);
     } else if (cycleMethod == CYCLE_REFLECT) {
-        sprintf(cycleCode, reflectCode, texCoordCalcCode);
+        sprintf(cycleCode, reflectCode, texCoordCblcCode);
     } else { // (cycleMethod == CYCLE_REPEAT)
-        sprintf(cycleCode, repeatCode, texCoordCalcCode);
+        sprintf(cycleCode, repebtCode, texCoordCblcCode);
     }
 
-    // compose the final source code string from the various pieces
-    sprintf(finalSource, multiGradientShaderSource,
-            MAX_COLORS, maxFractions,
-            maskVars, paintVars, distCode,
-            cycleCode, colorSpaceCode, maskCode);
+    // compose the finbl source code string from the vbrious pieces
+    sprintf(finblSource, multiGrbdientShbderSource,
+            MAX_COLORS, mbxFrbctions,
+            mbskVbrs, pbintVbrs, distCode,
+            cycleCode, colorSpbceCode, mbskCode);
 
-    multiGradProgram = OGLContext_CreateFragmentProgram(finalSource);
-    if (multiGradProgram == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLPaints_CreateMultiGradProgram: error creating program");
+    multiGrbdProgrbm = OGLContext_CrebteFrbgmentProgrbm(finblSource);
+    if (multiGrbdProgrbm == 0) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLPbints_CrebteMultiGrbdProgrbm: error crebting progrbm");
         return 0;
     }
 
-    // "use" the program object temporarily so that we can set the uniforms
-    j2d_glUseProgramObjectARB(multiGradProgram);
+    // "use" the progrbm object temporbrily so thbt we cbn set the uniforms
+    j2d_glUseProgrbmObjectARB(multiGrbdProgrbm);
 
     // set the "uniform" texture unit bindings
     if (IS_SET(MULTI_USE_MASK)) {
-        loc = j2d_glGetUniformLocationARB(multiGradProgram, "mask");
+        loc = j2d_glGetUniformLocbtionARB(multiGrbdProgrbm, "mbsk");
         j2d_glUniform1iARB(loc, 0); // texture unit 0
-        loc = j2d_glGetUniformLocationARB(multiGradProgram, "colors");
+        loc = j2d_glGetUniformLocbtionARB(multiGrbdProgrbm, "colors");
         j2d_glUniform1iARB(loc, 1); // texture unit 1
     } else {
-        loc = j2d_glGetUniformLocationARB(multiGradProgram, "colors");
+        loc = j2d_glGetUniformLocbtionARB(multiGrbdProgrbm, "colors");
         j2d_glUniform1iARB(loc, 0); // texture unit 0
     }
 
-    // "unuse" the program object; it will be re-bound later as needed
-    j2d_glUseProgramObjectARB(0);
+    // "unuse" the progrbm object; it will be re-bound lbter bs needed
+    j2d_glUseProgrbmObjectARB(0);
 
-    if (multiGradientTexID == 0) {
-        OGLPaints_InitMultiGradientTexture();
+    if (multiGrbdientTexID == 0) {
+        OGLPbints_InitMultiGrbdientTexture();
     }
 
-    return multiGradProgram;
+    return multiGrbdProgrbm;
 }
 
 /**
- * Called from the OGLPaints_SetLinear/RadialGradientPaint() methods
- * in order to setup the fraction/color values that are common to both.
+ * Cblled from the OGLPbints_SetLinebr/RbdiblGrbdientPbint() methods
+ * in order to setup the frbction/color vblues thbt bre common to both.
  */
-static void
-OGLPaints_SetMultiGradientPaint(GLhandleARB multiGradProgram,
+stbtic void
+OGLPbints_SetMultiGrbdientPbint(GLhbndleARB multiGrbdProgrbm,
                                 jint numStops,
-                                void *pFractions, void *pPixels)
+                                void *pFrbctions, void *pPixels)
 {
-    jint maxFractions = (numStops > MAX_FRACTIONS_SMALL) ?
+    jint mbxFrbctions = (numStops > MAX_FRACTIONS_SMALL) ?
         MAX_FRACTIONS_LARGE : MAX_FRACTIONS_SMALL;
-    GLfloat scaleFactors[MAX_FRACTIONS-1];
-    GLfloat *fractions = (GLfloat *)pFractions;
+    GLflobt scbleFbctors[MAX_FRACTIONS-1];
+    GLflobt *frbctions = (GLflobt *)pFrbctions;
     GLint *pixels = (GLint *)pPixels;
     GLint loc;
     int i;
 
-    // enable the MultipleGradientPaint shader
-    j2d_glUseProgramObjectARB(multiGradProgram);
+    // enbble the MultipleGrbdientPbint shbder
+    j2d_glUseProgrbmObjectARB(multiGrbdProgrbm);
 
-    // update the "uniform" fraction values
-    loc = j2d_glGetUniformLocationARB(multiGradProgram, "fractions");
-    if (numStops < maxFractions) {
-        // fill the remainder of the fractions array with all zeros to
-        // prevent using garbage values from previous paints
-        GLfloat allZeros[MAX_FRACTIONS];
-        memset(allZeros, 0, sizeof(GLfloat)*MAX_FRACTIONS);
-        j2d_glUniform1fvARB(loc, maxFractions, allZeros);
+    // updbte the "uniform" frbction vblues
+    loc = j2d_glGetUniformLocbtionARB(multiGrbdProgrbm, "frbctions");
+    if (numStops < mbxFrbctions) {
+        // fill the rembinder of the frbctions brrby with bll zeros to
+        // prevent using gbrbbge vblues from previous pbints
+        GLflobt bllZeros[MAX_FRACTIONS];
+        memset(bllZeros, 0, sizeof(GLflobt)*MAX_FRACTIONS);
+        j2d_glUniform1fvARB(loc, mbxFrbctions, bllZeros);
     }
-    j2d_glUniform1fvARB(loc, numStops, fractions);
+    j2d_glUniform1fvARB(loc, numStops, frbctions);
 
-    // update the "uniform" scale values
-    loc = j2d_glGetUniformLocationARB(multiGradProgram, "scaleFactors");
+    // updbte the "uniform" scble vblues
+    loc = j2d_glGetUniformLocbtionARB(multiGrbdProgrbm, "scbleFbctors");
     for (i = 0; i < numStops-1; i++) {
-        // calculate a scale factor for each interval
-        scaleFactors[i] = 1.0f / (fractions[i+1] - fractions[i]);
+        // cblculbte b scble fbctor for ebch intervbl
+        scbleFbctors[i] = 1.0f / (frbctions[i+1] - frbctions[i]);
     }
-    for (; i < maxFractions-1; i++) {
-        // fill remaining scale factors with zero
-        scaleFactors[i] = 0.0f;
+    for (; i < mbxFrbctions-1; i++) {
+        // fill rembining scble fbctors with zero
+        scbleFbctors[i] = 0.0f;
     }
-    j2d_glUniform1fvARB(loc, maxFractions-1, scaleFactors);
+    j2d_glUniform1fvARB(loc, mbxFrbctions-1, scbleFbctors);
 
-    // update the texture containing the gradient colors
-    j2d_glEnable(GL_TEXTURE_1D);
-    j2d_glBindTexture(GL_TEXTURE_1D, multiGradientTexID);
-    j2d_glTexSubImage1D(GL_TEXTURE_1D, 0,
+    // updbte the texture contbining the grbdient colors
+    j2d_glEnbble(GL_TEXTURE_1D);
+    j2d_glBindTexture(GL_TEXTURE_1D, multiGrbdientTexID);
+    j2d_glTexSubImbge1D(GL_TEXTURE_1D, 0,
                         0, numStops,
                         GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,
                         pixels);
     if (numStops < MAX_COLORS) {
-        // when we don't have enough colors to fill the entire color gradient,
-        // we have to replicate the last color in the right-most texel for
-        // the NO_CYCLE case where the texcoord is sometimes forced to 1.0
-        j2d_glTexSubImage1D(GL_TEXTURE_1D, 0,
+        // when we don't hbve enough colors to fill the entire color grbdient,
+        // we hbve to replicbte the lbst color in the right-most texel for
+        // the NO_CYCLE cbse where the texcoord is sometimes forced to 1.0
+        j2d_glTexSubImbge1D(GL_TEXTURE_1D, 0,
                             MAX_COLORS-1, 1,
                             GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,
                             pixels+(numStops-1));
     }
 }
 
-/********************** LinearGradientPaint support *************************/
+/********************** LinebrGrbdientPbint support *************************/
 
 /**
- * The handles to the LinearGradientPaint fragment program objects.  The
- * index to the array should be a bitwise-or'ing of the MULTI_* flags defined
- * above.  Note that most applications will likely need to initialize one
- * or two of these elements, so the array is usually sparsely populated.
+ * The hbndles to the LinebrGrbdientPbint frbgment progrbm objects.  The
+ * index to the brrby should be b bitwise-or'ing of the MULTI_* flbgs defined
+ * bbove.  Note thbt most bpplicbtions will likely need to initiblize one
+ * or two of these elements, so the brrby is usublly spbrsely populbted.
  */
-static GLhandleARB linearGradPrograms[MAX_PROGRAMS];
+stbtic GLhbndleARB linebrGrbdProgrbms[MAX_PROGRAMS];
 
 /**
- * Compiles and links the LinearGradientPaint shader program.  If successful,
- * this function returns a handle to the newly created shader program;
+ * Compiles bnd links the LinebrGrbdientPbint shbder progrbm.  If successful,
+ * this function returns b hbndle to the newly crebted shbder progrbm;
  * otherwise returns 0.
  */
-static GLhandleARB
-OGLPaints_CreateLinearGradProgram(jint flags)
+stbtic GLhbndleARB
+OGLPbints_CrebteLinebrGrbdProgrbm(jint flbgs)
 {
-    char *paintVars;
-    char *distCode;
+    chbr *pbintVbrs;
+    chbr *distCode;
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "OGLPaints_CreateLinearGradProgram",
-                flags);
+    J2dTrbceLn1(J2D_TRACE_INFO,
+                "OGLPbints_CrebteLinebrGrbdProgrbm",
+                flbgs);
 
     /*
-     * To simplify the code and to make it easier to upload a number of
-     * uniform values at once, we pack a bunch of scalar (float) values
-     * into vec3 values below.  Here's how the values are related:
+     * To simplify the code bnd to mbke it ebsier to uplobd b number of
+     * uniform vblues bt once, we pbck b bunch of scblbr (flobt) vblues
+     * into vec3 vblues below.  Here's how the vblues bre relbted:
      *
-     *   params.x = p0
-     *   params.y = p1
-     *   params.z = p3
+     *   pbrbms.x = p0
+     *   pbrbms.y = p1
+     *   pbrbms.z = p3
      *
      *   yoff = dstOps->yOffset + dstOps->height
      */
-    paintVars =
-        "uniform vec3 params;"
-        "uniform float yoff;";
+    pbintVbrs =
+        "uniform vec3 pbrbms;"
+        "uniform flobt yoff;";
     distCode =
-        // note that gl_FragCoord is in window space relative to the
-        // lower-left corner, so we have to flip the y-coordinate here
-        "vec3 fragCoord = vec3(gl_FragCoord.x, yoff-gl_FragCoord.y, 1.0);"
-        "dist = dot(params, fragCoord);";
+        // note thbt gl_FrbgCoord is in window spbce relbtive to the
+        // lower-left corner, so we hbve to flip the y-coordinbte here
+        "vec3 frbgCoord = vec3(gl_FrbgCoord.x, yoff-gl_FrbgCoord.y, 1.0);"
+        "dist = dot(pbrbms, frbgCoord);";
 
-    return OGLPaints_CreateMultiGradProgram(flags, paintVars, distCode);
+    return OGLPbints_CrebteMultiGrbdProgrbm(flbgs, pbintVbrs, distCode);
 }
 
 void
-OGLPaints_SetLinearGradientPaint(OGLContext *oglc, OGLSDOps *dstOps,
-                                 jboolean useMask, jboolean linear,
+OGLPbints_SetLinebrGrbdientPbint(OGLContext *oglc, OGLSDOps *dstOps,
+                                 jboolebn useMbsk, jboolebn linebr,
                                  jint cycleMethod, jint numStops,
-                                 jfloat p0, jfloat p1, jfloat p3,
-                                 void *fractions, void *pixels)
+                                 jflobt p0, jflobt p1, jflobt p3,
+                                 void *frbctions, void *pixels)
 {
-    GLhandleARB linearGradProgram;
+    GLhbndleARB linebrGrbdProgrbm;
     GLint loc;
-    jboolean large = (numStops > MAX_FRACTIONS_SMALL);
-    jint flags = 0;
+    jboolebn lbrge = (numStops > MAX_FRACTIONS_SMALL);
+    jint flbgs = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_SetLinearGradientPaint");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLPbints_SetLinebrGrbdientPbint");
 
     RETURN_IF_NULL(oglc);
     RETURN_IF_NULL(dstOps);
-    OGLPaints_ResetPaint(oglc);
+    OGLPbints_ResetPbint(oglc);
 
-    COMPOSE_FLAGS(flags, cycleMethod, large, useMask, linear);
+    COMPOSE_FLAGS(flbgs, cycleMethod, lbrge, useMbsk, linebr);
 
-    if (useMask) {
-        // set up the paint on texture unit 1 (instead of the usual unit 0)
+    if (useMbsk) {
+        // set up the pbint on texture unit 1 (instebd of the usubl unit 0)
         j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
     }
-    // no need to set GL_MODULATE here (it is ignored when shader is enabled)
+    // no need to set GL_MODULATE here (it is ignored when shbder is enbbled)
 
-    // locate/initialize the shader program for the given flags
-    if (linearGradPrograms[flags] == 0) {
-        linearGradPrograms[flags] = OGLPaints_CreateLinearGradProgram(flags);
-        if (linearGradPrograms[flags] == 0) {
-            // shouldn't happen, but just in case...
+    // locbte/initiblize the shbder progrbm for the given flbgs
+    if (linebrGrbdProgrbms[flbgs] == 0) {
+        linebrGrbdProgrbms[flbgs] = OGLPbints_CrebteLinebrGrbdProgrbm(flbgs);
+        if (linebrGrbdProgrbms[flbgs] == 0) {
+            // shouldn't hbppen, but just in cbse...
             return;
         }
     }
-    linearGradProgram = linearGradPrograms[flags];
+    linebrGrbdProgrbm = linebrGrbdProgrbms[flbgs];
 
-    // update the common "uniform" values (fractions and colors)
-    OGLPaints_SetMultiGradientPaint(linearGradProgram,
-                                    numStops, fractions, pixels);
+    // updbte the common "uniform" vblues (frbctions bnd colors)
+    OGLPbints_SetMultiGrbdientPbint(linebrGrbdProgrbm,
+                                    numStops, frbctions, pixels);
 
-    // update the other "uniform" values
-    loc = j2d_glGetUniformLocationARB(linearGradProgram, "params");
+    // updbte the other "uniform" vblues
+    loc = j2d_glGetUniformLocbtionARB(linebrGrbdProgrbm, "pbrbms");
     j2d_glUniform3fARB(loc, p0, p1, p3);
-    loc = j2d_glGetUniformLocationARB(linearGradProgram, "yoff");
-    j2d_glUniform1fARB(loc, (GLfloat)(dstOps->yOffset + dstOps->height));
+    loc = j2d_glGetUniformLocbtionARB(linebrGrbdProgrbm, "yoff");
+    j2d_glUniform1fARB(loc, (GLflobt)(dstOps->yOffset + dstOps->height));
 
-    if (useMask) {
+    if (useMbsk) {
         // restore control to texture unit 0
         j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
     }
 
-    // oglc->pixel has been set appropriately in OGLPaints_ResetPaint()
-    oglc->useMask = useMask;
-    oglc->paintState = sun_java2d_SunGraphics2D_PAINT_LIN_GRADIENT;
+    // oglc->pixel hbs been set bppropribtely in OGLPbints_ResetPbint()
+    oglc->useMbsk = useMbsk;
+    oglc->pbintStbte = sun_jbvb2d_SunGrbphics2D_PAINT_LIN_GRADIENT;
 }
 
-/********************** RadialGradientPaint support *************************/
+/********************** RbdiblGrbdientPbint support *************************/
 
 /**
- * The handles to the RadialGradientPaint fragment program objects.  The
- * index to the array should be a bitwise-or'ing of the MULTI_* flags defined
- * above.  Note that most applications will likely need to initialize one
- * or two of these elements, so the array is usually sparsely populated.
+ * The hbndles to the RbdiblGrbdientPbint frbgment progrbm objects.  The
+ * index to the brrby should be b bitwise-or'ing of the MULTI_* flbgs defined
+ * bbove.  Note thbt most bpplicbtions will likely need to initiblize one
+ * or two of these elements, so the brrby is usublly spbrsely populbted.
  */
-static GLhandleARB radialGradPrograms[MAX_PROGRAMS];
+stbtic GLhbndleARB rbdiblGrbdProgrbms[MAX_PROGRAMS];
 
 /**
- * Compiles and links the RadialGradientPaint shader program.  If successful,
- * this function returns a handle to the newly created shader program;
+ * Compiles bnd links the RbdiblGrbdientPbint shbder progrbm.  If successful,
+ * this function returns b hbndle to the newly crebted shbder progrbm;
  * otherwise returns 0.
  */
-static GLhandleARB
-OGLPaints_CreateRadialGradProgram(jint flags)
+stbtic GLhbndleARB
+OGLPbints_CrebteRbdiblGrbdProgrbm(jint flbgs)
 {
-    char *paintVars;
-    char *distCode;
+    chbr *pbintVbrs;
+    chbr *distCode;
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "OGLPaints_CreateRadialGradProgram",
-                flags);
+    J2dTrbceLn1(J2D_TRACE_INFO,
+                "OGLPbints_CrebteRbdiblGrbdProgrbm",
+                flbgs);
 
     /*
-     * To simplify the code and to make it easier to upload a number of
-     * uniform values at once, we pack a bunch of scalar (float) values
-     * into vec3 and vec4 values below.  Here's how the values are related:
+     * To simplify the code bnd to mbke it ebsier to uplobd b number of
+     * uniform vblues bt once, we pbck b bunch of scblbr (flobt) vblues
+     * into vec3 bnd vec4 vblues below.  Here's how the vblues bre relbted:
      *
      *   m0.x = m00
      *   m0.y = m01
@@ -825,99 +825,99 @@ OGLPaints_CreateRadialGradProgram(jint flags)
      *   m1.y = m11
      *   m1.z = m12
      *
-     *   precalc.x = focusX
-     *   precalc.y = yoff = dstOps->yOffset + dstOps->height
-     *   precalc.z = 1.0 - (focusX * focusX)
-     *   precalc.w = 1.0 / precalc.z
+     *   precblc.x = focusX
+     *   precblc.y = yoff = dstOps->yOffset + dstOps->height
+     *   precblc.z = 1.0 - (focusX * focusX)
+     *   precblc.w = 1.0 / precblc.z
      */
-    paintVars =
+    pbintVbrs =
         "uniform vec3 m0;"
         "uniform vec3 m1;"
-        "uniform vec4 precalc;";
+        "uniform vec4 precblc;";
 
     /*
-     * The following code is derived from Daniel Rice's whitepaper on
-     * radial gradient performance (attached to the bug report for 6521533).
-     * Refer to that document as well as the setup code in the Java-level
-     * BufferedPaints.setRadialGradientPaint() method for more details.
+     * The following code is derived from Dbniel Rice's whitepbper on
+     * rbdibl grbdient performbnce (bttbched to the bug report for 6521533).
+     * Refer to thbt document bs well bs the setup code in the Jbvb-level
+     * BufferedPbints.setRbdiblGrbdientPbint() method for more detbils.
      */
     distCode =
-        // note that gl_FragCoord is in window space relative to the
-        // lower-left corner, so we have to flip the y-coordinate here
-        "vec3 fragCoord ="
-        "    vec3(gl_FragCoord.x, precalc.y - gl_FragCoord.y, 1.0);"
-        "float x = dot(fragCoord, m0);"
-        "float y = dot(fragCoord, m1);"
-        "float xfx = x - precalc.x;"
-        "dist = (precalc.x*xfx + sqrt(xfx*xfx + y*y*precalc.z))*precalc.w;";
+        // note thbt gl_FrbgCoord is in window spbce relbtive to the
+        // lower-left corner, so we hbve to flip the y-coordinbte here
+        "vec3 frbgCoord ="
+        "    vec3(gl_FrbgCoord.x, precblc.y - gl_FrbgCoord.y, 1.0);"
+        "flobt x = dot(frbgCoord, m0);"
+        "flobt y = dot(frbgCoord, m1);"
+        "flobt xfx = x - precblc.x;"
+        "dist = (precblc.x*xfx + sqrt(xfx*xfx + y*y*precblc.z))*precblc.w;";
 
-    return OGLPaints_CreateMultiGradProgram(flags, paintVars, distCode);
+    return OGLPbints_CrebteMultiGrbdProgrbm(flbgs, pbintVbrs, distCode);
 }
 
 void
-OGLPaints_SetRadialGradientPaint(OGLContext *oglc, OGLSDOps *dstOps,
-                                 jboolean useMask, jboolean linear,
+OGLPbints_SetRbdiblGrbdientPbint(OGLContext *oglc, OGLSDOps *dstOps,
+                                 jboolebn useMbsk, jboolebn linebr,
                                  jint cycleMethod, jint numStops,
-                                 jfloat m00, jfloat m01, jfloat m02,
-                                 jfloat m10, jfloat m11, jfloat m12,
-                                 jfloat focusX,
-                                 void *fractions, void *pixels)
+                                 jflobt m00, jflobt m01, jflobt m02,
+                                 jflobt m10, jflobt m11, jflobt m12,
+                                 jflobt focusX,
+                                 void *frbctions, void *pixels)
 {
-    GLhandleARB radialGradProgram;
+    GLhbndleARB rbdiblGrbdProgrbm;
     GLint loc;
-    GLfloat yoff, denom, inv_denom;
-    jboolean large = (numStops > MAX_FRACTIONS_SMALL);
-    jint flags = 0;
+    GLflobt yoff, denom, inv_denom;
+    jboolebn lbrge = (numStops > MAX_FRACTIONS_SMALL);
+    jint flbgs = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLPaints_SetRadialGradientPaint");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLPbints_SetRbdiblGrbdientPbint");
 
     RETURN_IF_NULL(oglc);
     RETURN_IF_NULL(dstOps);
-    OGLPaints_ResetPaint(oglc);
+    OGLPbints_ResetPbint(oglc);
 
-    COMPOSE_FLAGS(flags, cycleMethod, large, useMask, linear);
+    COMPOSE_FLAGS(flbgs, cycleMethod, lbrge, useMbsk, linebr);
 
-    if (useMask) {
-        // set up the paint on texture unit 1 (instead of the usual unit 0)
+    if (useMbsk) {
+        // set up the pbint on texture unit 1 (instebd of the usubl unit 0)
         j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
     }
-    // no need to set GL_MODULATE here (it is ignored when shader is enabled)
+    // no need to set GL_MODULATE here (it is ignored when shbder is enbbled)
 
-    // locate/initialize the shader program for the given flags
-    if (radialGradPrograms[flags] == 0) {
-        radialGradPrograms[flags] = OGLPaints_CreateRadialGradProgram(flags);
-        if (radialGradPrograms[flags] == 0) {
-            // shouldn't happen, but just in case...
+    // locbte/initiblize the shbder progrbm for the given flbgs
+    if (rbdiblGrbdProgrbms[flbgs] == 0) {
+        rbdiblGrbdProgrbms[flbgs] = OGLPbints_CrebteRbdiblGrbdProgrbm(flbgs);
+        if (rbdiblGrbdProgrbms[flbgs] == 0) {
+            // shouldn't hbppen, but just in cbse...
             return;
         }
     }
-    radialGradProgram = radialGradPrograms[flags];
+    rbdiblGrbdProgrbm = rbdiblGrbdProgrbms[flbgs];
 
-    // update the common "uniform" values (fractions and colors)
-    OGLPaints_SetMultiGradientPaint(radialGradProgram,
-                                    numStops, fractions, pixels);
+    // updbte the common "uniform" vblues (frbctions bnd colors)
+    OGLPbints_SetMultiGrbdientPbint(rbdiblGrbdProgrbm,
+                                    numStops, frbctions, pixels);
 
-    // update the other "uniform" values
-    loc = j2d_glGetUniformLocationARB(radialGradProgram, "m0");
+    // updbte the other "uniform" vblues
+    loc = j2d_glGetUniformLocbtionARB(rbdiblGrbdProgrbm, "m0");
     j2d_glUniform3fARB(loc, m00, m01, m02);
-    loc = j2d_glGetUniformLocationARB(radialGradProgram, "m1");
+    loc = j2d_glGetUniformLocbtionARB(rbdiblGrbdProgrbm, "m1");
     j2d_glUniform3fARB(loc, m10, m11, m12);
 
-    // pack a few unrelated, precalculated values into a single vec4
-    yoff = (GLfloat)(dstOps->yOffset + dstOps->height);
+    // pbck b few unrelbted, precblculbted vblues into b single vec4
+    yoff = (GLflobt)(dstOps->yOffset + dstOps->height);
     denom = 1.0f - (focusX * focusX);
     inv_denom = 1.0f / denom;
-    loc = j2d_glGetUniformLocationARB(radialGradProgram, "precalc");
+    loc = j2d_glGetUniformLocbtionARB(rbdiblGrbdProgrbm, "precblc");
     j2d_glUniform4fARB(loc, focusX, yoff, denom, inv_denom);
 
-    if (useMask) {
+    if (useMbsk) {
         // restore control to texture unit 0
         j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
     }
 
-    // oglc->pixel has been set appropriately in OGLPaints_ResetPaint()
-    oglc->useMask = useMask;
-    oglc->paintState = sun_java2d_SunGraphics2D_PAINT_RAD_GRADIENT;
+    // oglc->pixel hbs been set bppropribtely in OGLPbints_ResetPbint()
+    oglc->useMbsk = useMbsk;
+    oglc->pbintStbte = sun_jbvb2d_SunGrbphics2D_PAINT_RAD_GRADIENT;
 }
 
 #endif /* !HEADLESS */

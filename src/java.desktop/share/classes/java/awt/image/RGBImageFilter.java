@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.image.ImageConsumer;
-import java.awt.image.ColorModel;
+import jbvb.bwt.imbge.ImbgeConsumer;
+import jbvb.bwt.imbge.ColorModel;
 
 /**
- * This class provides an easy way to create an ImageFilter which modifies
- * the pixels of an image in the default RGB ColorModel.  It is meant to
- * be used in conjunction with a FilteredImageSource object to produce
- * filtered versions of existing images.  It is an abstract class that
- * provides the calls needed to channel all of the pixel data through a
- * single method which converts pixels one at a time in the default RGB
- * ColorModel regardless of the ColorModel being used by the ImageProducer.
- * The only method which needs to be defined to create a useable image
- * filter is the filterRGB method.  Here is an example of a definition
- * of a filter which swaps the red and blue components of an image:
+ * This clbss provides bn ebsy wby to crebte bn ImbgeFilter which modifies
+ * the pixels of bn imbge in the defbult RGB ColorModel.  It is mebnt to
+ * be used in conjunction with b FilteredImbgeSource object to produce
+ * filtered versions of existing imbges.  It is bn bbstrbct clbss thbt
+ * provides the cblls needed to chbnnel bll of the pixel dbtb through b
+ * single method which converts pixels one bt b time in the defbult RGB
+ * ColorModel regbrdless of the ColorModel being used by the ImbgeProducer.
+ * The only method which needs to be defined to crebte b usebble imbge
+ * filter is the filterRGB method.  Here is bn exbmple of b definition
+ * of b filter which swbps the red bnd blue components of bn imbge:
  * <pre>{@code
  *
- *      class RedBlueSwapFilter extends RGBImageFilter {
- *          public RedBlueSwapFilter() {
- *              // The filter's operation does not depend on the
- *              // pixel's location, so IndexColorModels can be
+ *      clbss RedBlueSwbpFilter extends RGBImbgeFilter {
+ *          public RedBlueSwbpFilter() {
+ *              // The filter's operbtion does not depend on the
+ *              // pixel's locbtion, so IndexColorModels cbn be
  *              // filtered directly.
- *              canFilterIndexColorModel = true;
+ *              cbnFilterIndexColorModel = true;
  *          }
  *
  *          public int filterRGB(int x, int y, int rgb) {
@@ -58,76 +58,76 @@ import java.awt.image.ColorModel;
  *
  * }</pre>
  *
- * @see FilteredImageSource
- * @see ImageFilter
- * @see ColorModel#getRGBdefault
+ * @see FilteredImbgeSource
+ * @see ImbgeFilter
+ * @see ColorModel#getRGBdefbult
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  */
-public abstract class RGBImageFilter extends ImageFilter {
+public bbstrbct clbss RGBImbgeFilter extends ImbgeFilter {
 
     /**
-     * The <code>ColorModel</code> to be replaced by
-     * <code>newmodel</code> when the user calls
+     * The <code>ColorModel</code> to be replbced by
+     * <code>newmodel</code> when the user cblls
      * {@link #substituteColorModel(ColorModel, ColorModel) substituteColorModel}.
      */
     protected ColorModel origmodel;
 
     /**
      * The <code>ColorModel</code> with which to
-     * replace <code>origmodel</code> when the user calls
+     * replbce <code>origmodel</code> when the user cblls
      * <code>substituteColorModel</code>.
      */
     protected ColorModel newmodel;
 
     /**
-     * This boolean indicates whether or not it is acceptable to apply
-     * the color filtering of the filterRGB method to the color table
-     * entries of an IndexColorModel object in lieu of pixel by pixel
-     * filtering.  Subclasses should set this variable to true in their
+     * This boolebn indicbtes whether or not it is bcceptbble to bpply
+     * the color filtering of the filterRGB method to the color tbble
+     * entries of bn IndexColorModel object in lieu of pixel by pixel
+     * filtering.  Subclbsses should set this vbribble to true in their
      * constructor if their filterRGB method does not depend on the
-     * coordinate of the pixel being filtered.
+     * coordinbte of the pixel being filtered.
      * @see #substituteColorModel
      * @see #filterRGB
      * @see IndexColorModel
      */
-    protected boolean canFilterIndexColorModel;
+    protected boolebn cbnFilterIndexColorModel;
 
     /**
-     * If the ColorModel is an IndexColorModel and the subclass has
-     * set the canFilterIndexColorModel flag to true, we substitute
-     * a filtered version of the color model here and wherever
-     * that original ColorModel object appears in the setPixels methods.
-     * If the ColorModel is not an IndexColorModel or is null, this method
-     * overrides the default ColorModel used by the ImageProducer and
-     * specifies the default RGB ColorModel instead.
+     * If the ColorModel is bn IndexColorModel bnd the subclbss hbs
+     * set the cbnFilterIndexColorModel flbg to true, we substitute
+     * b filtered version of the color model here bnd wherever
+     * thbt originbl ColorModel object bppebrs in the setPixels methods.
+     * If the ColorModel is not bn IndexColorModel or is null, this method
+     * overrides the defbult ColorModel used by the ImbgeProducer bnd
+     * specifies the defbult RGB ColorModel instebd.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose pixels
-     * are being filtered. Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ImageConsumer
-     * @see ColorModel#getRGBdefault
+     * Note: This method is intended to be cblled by the
+     * <code>ImbgeProducer</code> of the <code>Imbge</code> whose pixels
+     * bre being filtered. Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @see ImbgeConsumer
+     * @see ColorModel#getRGBdefbult
      */
     public void setColorModel(ColorModel model) {
-        if (canFilterIndexColorModel && (model instanceof IndexColorModel)) {
+        if (cbnFilterIndexColorModel && (model instbnceof IndexColorModel)) {
             ColorModel newcm = filterIndexColorModel((IndexColorModel)model);
             substituteColorModel(model, newcm);
             consumer.setColorModel(newcm);
         } else {
-            consumer.setColorModel(ColorModel.getRGBdefault());
+            consumer.setColorModel(ColorModel.getRGBdefbult());
         }
     }
 
     /**
      * Registers two ColorModel objects for substitution.  If the oldcm
-     * is encountered during any of the setPixels methods, the newcm
-     * is substituted and the pixels passed through
+     * is encountered during bny of the setPixels methods, the newcm
+     * is substituted bnd the pixels pbssed through
      * untouched (but with the new ColorModel object).
-     * @param oldcm the ColorModel object to be replaced on the fly
-     * @param newcm the ColorModel object to replace oldcm on the fly
+     * @pbrbm oldcm the ColorModel object to be replbced on the fly
+     * @pbrbm newcm the ColorModel object to replbce oldcm on the fly
      */
     public void substituteColorModel(ColorModel oldcm, ColorModel newcm) {
         origmodel = oldcm;
@@ -135,97 +135,97 @@ public abstract class RGBImageFilter extends ImageFilter {
     }
 
     /**
-     * Filters an IndexColorModel object by running each entry in its
-     * color tables through the filterRGB function that RGBImageFilter
-     * subclasses must provide.  Uses coordinates of -1 to indicate that
-     * a color table entry is being filtered rather than an actual
-     * pixel value.
-     * @param icm the IndexColorModel object to be filtered
+     * Filters bn IndexColorModel object by running ebch entry in its
+     * color tbbles through the filterRGB function thbt RGBImbgeFilter
+     * subclbsses must provide.  Uses coordinbtes of -1 to indicbte thbt
+     * b color tbble entry is being filtered rbther thbn bn bctubl
+     * pixel vblue.
+     * @pbrbm icm the IndexColorModel object to be filtered
      * @exception NullPointerException if <code>icm</code> is null
-     * @return a new IndexColorModel representing the filtered colors
+     * @return b new IndexColorModel representing the filtered colors
      */
     public IndexColorModel filterIndexColorModel(IndexColorModel icm) {
-        int mapsize = icm.getMapSize();
-        byte r[] = new byte[mapsize];
-        byte g[] = new byte[mapsize];
-        byte b[] = new byte[mapsize];
-        byte a[] = new byte[mapsize];
+        int mbpsize = icm.getMbpSize();
+        byte r[] = new byte[mbpsize];
+        byte g[] = new byte[mbpsize];
+        byte b[] = new byte[mbpsize];
+        byte b[] = new byte[mbpsize];
         icm.getReds(r);
         icm.getGreens(g);
         icm.getBlues(b);
-        icm.getAlphas(a);
-        int trans = icm.getTransparentPixel();
-        boolean needalpha = false;
-        for (int i = 0; i < mapsize; i++) {
+        icm.getAlphbs(b);
+        int trbns = icm.getTrbnspbrentPixel();
+        boolebn needblphb = fblse;
+        for (int i = 0; i < mbpsize; i++) {
             int rgb = filterRGB(-1, -1, icm.getRGB(i));
-            a[i] = (byte) (rgb >> 24);
-            if (a[i] != ((byte)0xff) && i != trans) {
-                needalpha = true;
+            b[i] = (byte) (rgb >> 24);
+            if (b[i] != ((byte)0xff) && i != trbns) {
+                needblphb = true;
             }
             r[i] = (byte) (rgb >> 16);
             g[i] = (byte) (rgb >> 8);
             b[i] = (byte) (rgb >> 0);
         }
-        if (needalpha) {
-            return new IndexColorModel(icm.getPixelSize(), mapsize,
-                                       r, g, b, a);
+        if (needblphb) {
+            return new IndexColorModel(icm.getPixelSize(), mbpsize,
+                                       r, g, b, b);
         } else {
-            return new IndexColorModel(icm.getPixelSize(), mapsize,
-                                       r, g, b, trans);
+            return new IndexColorModel(icm.getPixelSize(), mbpsize,
+                                       r, g, b, trbns);
         }
     }
 
     /**
-     * Filters a buffer of pixels in the default RGB ColorModel by passing
+     * Filters b buffer of pixels in the defbult RGB ColorModel by pbssing
      * them one by one through the filterRGB method.
-     * @param x the X coordinate of the upper-left corner of the region
+     * @pbrbm x the X coordinbte of the upper-left corner of the region
      *          of pixels
-     * @param y the Y coordinate of the upper-left corner of the region
+     * @pbrbm y the Y coordinbte of the upper-left corner of the region
      *          of pixels
-     * @param w the width of the region of pixels
-     * @param h the height of the region of pixels
-     * @param pixels the array of pixels
-     * @param off the offset into the <code>pixels</code> array
-     * @param scansize the distance from one row of pixels to the next
-     *        in the array
-     * @see ColorModel#getRGBdefault
+     * @pbrbm w the width of the region of pixels
+     * @pbrbm h the height of the region of pixels
+     * @pbrbm pixels the brrby of pixels
+     * @pbrbm off the offset into the <code>pixels</code> brrby
+     * @pbrbm scbnsize the distbnce from one row of pixels to the next
+     *        in the brrby
+     * @see ColorModel#getRGBdefbult
      * @see #filterRGB
      */
     public void filterRGBPixels(int x, int y, int w, int h,
-                                int pixels[], int off, int scansize) {
+                                int pixels[], int off, int scbnsize) {
         int index = off;
         for (int cy = 0; cy < h; cy++) {
             for (int cx = 0; cx < w; cx++) {
                 pixels[index] = filterRGB(x + cx, y + cy, pixels[index]);
                 index++;
             }
-            index += scansize - w;
+            index += scbnsize - w;
         }
-        consumer.setPixels(x, y, w, h, ColorModel.getRGBdefault(),
-                           pixels, off, scansize);
+        consumer.setPixels(x, y, w, h, ColorModel.getRGBdefbult(),
+                           pixels, off, scbnsize);
     }
 
     /**
-     * If the ColorModel object is the same one that has already
-     * been converted, then simply passes the pixels through with the
+     * If the ColorModel object is the sbme one thbt hbs blrebdy
+     * been converted, then simply pbsses the pixels through with the
      * converted ColorModel. Otherwise converts the buffer of byte
-     * pixels to the default RGB ColorModel and passes the converted
+     * pixels to the defbult RGB ColorModel bnd pbsses the converted
      * buffer to the filterRGBPixels method to be converted one by one.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose pixels
-     * are being filtered. Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ColorModel#getRGBdefault
+     * Note: This method is intended to be cblled by the
+     * <code>ImbgeProducer</code> of the <code>Imbge</code> whose pixels
+     * bre being filtered. Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @see ColorModel#getRGBdefbult
      * @see #filterRGBPixels
      */
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, byte pixels[], int off,
-                          int scansize) {
+                          int scbnsize) {
         if (model == origmodel) {
-            consumer.setPixels(x, y, w, h, newmodel, pixels, off, scansize);
+            consumer.setPixels(x, y, w, h, newmodel, pixels, off, scbnsize);
         } else {
             int filteredpixels[] = new int[w];
             int index = off;
@@ -234,35 +234,35 @@ public abstract class RGBImageFilter extends ImageFilter {
                     filteredpixels[cx] = model.getRGB((pixels[index] & 0xff));
                     index++;
                 }
-                index += scansize - w;
+                index += scbnsize - w;
                 filterRGBPixels(x, y + cy, w, 1, filteredpixels, 0, w);
             }
         }
     }
 
     /**
-     * If the ColorModel object is the same one that has already
-     * been converted, then simply passes the pixels through with the
+     * If the ColorModel object is the sbme one thbt hbs blrebdy
+     * been converted, then simply pbsses the pixels through with the
      * converted ColorModel, otherwise converts the buffer of integer
-     * pixels to the default RGB ColorModel and passes the converted
+     * pixels to the defbult RGB ColorModel bnd pbsses the converted
      * buffer to the filterRGBPixels method to be converted one by one.
-     * Converts a buffer of integer pixels to the default RGB ColorModel
-     * and passes the converted buffer to the filterRGBPixels method.
+     * Converts b buffer of integer pixels to the defbult RGB ColorModel
+     * bnd pbsses the converted buffer to the filterRGBPixels method.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose pixels
-     * are being filtered. Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ColorModel#getRGBdefault
+     * Note: This method is intended to be cblled by the
+     * <code>ImbgeProducer</code> of the <code>Imbge</code> whose pixels
+     * bre being filtered. Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @see ColorModel#getRGBdefbult
      * @see #filterRGBPixels
      */
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, int pixels[], int off,
-                          int scansize) {
+                          int scbnsize) {
         if (model == origmodel) {
-            consumer.setPixels(x, y, w, h, newmodel, pixels, off, scansize);
+            consumer.setPixels(x, y, w, h, newmodel, pixels, off, scbnsize);
         } else {
             int filteredpixels[] = new int[w];
             int index = off;
@@ -271,22 +271,22 @@ public abstract class RGBImageFilter extends ImageFilter {
                     filteredpixels[cx] = model.getRGB(pixels[index]);
                     index++;
                 }
-                index += scansize - w;
+                index += scbnsize - w;
                 filterRGBPixels(x, y + cy, w, 1, filteredpixels, 0, w);
             }
         }
     }
 
     /**
-     * Subclasses must specify a method to convert a single input pixel
-     * in the default RGB ColorModel to a single output pixel.
-     * @param x the X coordinate of the pixel
-     * @param y the Y coordinate of the pixel
-     * @param rgb the integer pixel representation in the default RGB
+     * Subclbsses must specify b method to convert b single input pixel
+     * in the defbult RGB ColorModel to b single output pixel.
+     * @pbrbm x the X coordinbte of the pixel
+     * @pbrbm y the Y coordinbte of the pixel
+     * @pbrbm rgb the integer pixel representbtion in the defbult RGB
      *            color model
-     * @return a filtered pixel in the default RGB color model.
-     * @see ColorModel#getRGBdefault
+     * @return b filtered pixel in the defbult RGB color model.
+     * @see ColorModel#getRGBdefbult
      * @see #filterRGBPixels
      */
-    public abstract int filterRGB(int x, int y, int rgb);
+    public bbstrbct int filterRGB(int x, int y, int rgb);
 }

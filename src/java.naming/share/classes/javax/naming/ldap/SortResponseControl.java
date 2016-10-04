@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.ldap;
+pbckbge jbvbx.nbming.ldbp;
 
-import java.io.IOException;
-import javax.naming.*;
-import javax.naming.directory.*;
-import com.sun.jndi.ldap.Ber;
-import com.sun.jndi.ldap.BerDecoder;
-import com.sun.jndi.ldap.LdapCtx;
+import jbvb.io.IOException;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import com.sun.jndi.ldbp.Ber;
+import com.sun.jndi.ldbp.BerDecoder;
+import com.sun.jndi.ldbp.LdbpCtx;
 
 /**
- * Indicates whether the requested sort of search results was successful or not.
- * When the result code indicates success then the results have been sorted as
- * requested. Otherwise the sort was unsuccessful and additional details
- * regarding the cause of the error may have been provided by the server.
+ * Indicbtes whether the requested sort of sebrch results wbs successful or not.
+ * When the result code indicbtes success then the results hbve been sorted bs
+ * requested. Otherwise the sort wbs unsuccessful bnd bdditionbl detbils
+ * regbrding the cbuse of the error mby hbve been provided by the server.
  * <p>
- * The code sample in {@link SortControl} shows how this class may be used.
+ * The code sbmple in {@link SortControl} shows how this clbss mby be used.
  * <p>
- * This class implements the LDAPv3 Response Control for server-side sorting
- * as defined in
- * <a href="http://www.ietf.org/rfc/rfc2891.txt">RFC 2891</a>.
+ * This clbss implements the LDAPv3 Response Control for server-side sorting
+ * bs defined in
+ * <b href="http://www.ietf.org/rfc/rfc2891.txt">RFC 2891</b>.
  *
- * The control's value has the following ASN.1 definition:
+ * The control's vblue hbs the following ASN.1 definition:
  * <pre>
  *
  *     SortResult ::= SEQUENCE {
  *        sortResult  ENUMERATED {
- *            success                   (0), -- results are sorted
- *            operationsError           (1), -- server internal failure
- *            timeLimitExceeded         (3), -- timelimit reached before
- *                                           -- sorting was completed
+ *            success                   (0), -- results bre sorted
+ *            operbtionsError           (1), -- server internbl fbilure
+ *            timeLimitExceeded         (3), -- timelimit rebched before
+ *                                           -- sorting wbs completed
  *            strongAuthRequired        (8), -- refused to return sorted
- *                                           -- results via insecure
+ *                                           -- results vib insecure
  *                                           -- protocol
- *            adminLimitExceeded       (11), -- too many matching entries
+ *            bdminLimitExceeded       (11), -- too mbny mbtching entries
  *                                           -- for the server to sort
- *            noSuchAttribute          (16), -- unrecognized attribute
+ *            noSuchAttribute          (16), -- unrecognized bttribute
  *                                           -- type in sort key
- *            inappropriateMatching    (18), -- unrecognized or inappro-
- *                                           -- priate matching rule in
+ *            inbppropribteMbtching    (18), -- unrecognized or inbppro-
+ *                                           -- pribte mbtching rule in
  *                                           -- sort key
  *            insufficientAccessRights (50), -- refused to return sorted
  *                                           -- results to this client
  *            busy                     (51), -- too busy to process
- *            unwillingToPerform       (53), -- unable to sort
+ *            unwillingToPerform       (53), -- unbble to sort
  *            other                    (80)
  *            },
- *      attributeType [0] AttributeType OPTIONAL }
+ *      bttributeType [0] AttributeType OPTIONAL }
  *
  * </pre>
  *
  * @since 1.5
  * @see SortControl
- * @author Vincent Ryan
+ * @buthor Vincent Rybn
  */
-final public class SortResponseControl extends BasicControl {
+finbl public clbss SortResponseControl extends BbsicControl {
 
     /**
-     * The server-side sort response control's assigned object identifier
+     * The server-side sort response control's bssigned object identifier
      * is 1.2.840.113556.1.4.474.
      */
-    public static final String OID = "1.2.840.113556.1.4.474";
+    public stbtic finbl String OID = "1.2.840.113556.1.4.474";
 
-    private static final long serialVersionUID = 5142939176006310877L;
+    privbte stbtic finbl long seriblVersionUID = 5142939176006310877L;
 
     /**
      * The sort result code.
      *
-     * @serial
+     * @seribl
      */
-    private int resultCode = 0;
+    privbte int resultCode = 0;
 
     /**
-     * The ID of the attribute that caused the sort to fail.
+     * The ID of the bttribute thbt cbused the sort to fbil.
      *
-     * @serial
+     * @seribl
      */
-    private String badAttrId = null;
+    privbte String bbdAttrId = null;
 
     /**
-     * Constructs a control to indicate the outcome of a sort request.
+     * Constructs b control to indicbte the outcome of b sort request.
      *
-     * @param   id              The control's object identifier string.
-     * @param   criticality     The control's criticality.
-     * @param   value           The control's ASN.1 BER encoded value.
-     *                          It is not cloned - any changes to value
-     *                          will affect the contents of the control.
-     * @exception               IOException if an error is encountered
-     *                          while decoding the control's value.
+     * @pbrbm   id              The control's object identifier string.
+     * @pbrbm   criticblity     The control's criticblity.
+     * @pbrbm   vblue           The control's ASN.1 BER encoded vblue.
+     *                          It is not cloned - bny chbnges to vblue
+     *                          will bffect the contents of the control.
+     * @exception               IOException if bn error is encountered
+     *                          while decoding the control's vblue.
      */
-    public SortResponseControl(String id, boolean criticality, byte[] value)
+    public SortResponseControl(String id, boolebn criticblity, byte[] vblue)
         throws IOException {
 
-        super(id, criticality, value);
+        super(id, criticblity, vblue);
 
-        // decode value
-        BerDecoder ber = new BerDecoder(value, 0, value.length);
+        // decode vblue
+        BerDecoder ber = new BerDecoder(vblue, 0, vblue.length);
 
-        ber.parseSeq(null);
-        resultCode = ber.parseEnumeration();
+        ber.pbrseSeq(null);
+        resultCode = ber.pbrseEnumerbtion();
         if ((ber.bytesLeft() > 0) && (ber.peekByte() == Ber.ASN_CONTEXT)) {
-            badAttrId = ber.parseStringWithTag(Ber.ASN_CONTEXT, true, null);
+            bbdAttrId = ber.pbrseStringWithTbg(Ber.ASN_CONTEXT, true, null);
         }
     }
 
     /**
-     * Determines if the search results have been successfully sorted.
-     * If an error occurred during sorting a NamingException is thrown.
+     * Determines if the sebrch results hbve been successfully sorted.
+     * If bn error occurred during sorting b NbmingException is thrown.
      *
-     * @return    true if the search results have been sorted.
+     * @return    true if the sebrch results hbve been sorted.
      */
-    public boolean isSorted() {
-        return (resultCode == 0); // a result code of zero indicates success
+    public boolebn isSorted() {
+        return (resultCode == 0); // b result code of zero indicbtes success
     }
 
     /**
-     * Retrieves the LDAP result code of the sort operation.
+     * Retrieves the LDAP result code of the sort operbtion.
      *
-     * @return    The result code. A zero value indicates success.
+     * @return    The result code. A zero vblue indicbtes success.
      */
     public int getResultCode() {
         return resultCode;
     }
 
     /**
-     * Retrieves the ID of the attribute that caused the sort to fail.
-     * Returns null if no ID was returned by the server.
+     * Retrieves the ID of the bttribute thbt cbused the sort to fbil.
+     * Returns null if no ID wbs returned by the server.
      *
-     * @return The possibly null ID of the bad attribute.
+     * @return The possibly null ID of the bbd bttribute.
      */
     public String getAttributeID() {
-        return badAttrId;
+        return bbdAttrId;
     }
 
     /**
-     * Retrieves the NamingException appropriate for the result code.
+     * Retrieves the NbmingException bppropribte for the result code.
      *
-     * @return A NamingException or null if the result code indicates
+     * @return A NbmingException or null if the result code indicbtes
      *         success.
      */
-    public NamingException getException() {
+    public NbmingException getException() {
 
-        return LdapCtx.mapErrorCode(resultCode, null);
+        return LdbpCtx.mbpErrorCode(resultCode, null);
     }
 }

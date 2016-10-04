@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import com.sun.beans.finder.PersistenceDelegateFinder;
+import com.sun.bebns.finder.PersistenceDelegbteFinder;
 
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.Map;
+import jbvb.util.HbshMbp;
+import jbvb.util.IdentityHbshMbp;
+import jbvb.util.Mbp;
 
 /**
- * An <code>Encoder</code> is a class which can be used to create
- * files or streams that encode the state of a collection of
- * JavaBeans in terms of their public APIs. The <code>Encoder</code>,
- * in conjunction with its persistence delegates, is responsible for
- * breaking the object graph down into a series of <code>Statements</code>s
- * and <code>Expression</code>s which can be used to create it.
- * A subclass typically provides a syntax for these expressions
- * using some human readable form - like Java source code or XML.
+ * An <code>Encoder</code> is b clbss which cbn be used to crebte
+ * files or strebms thbt encode the stbte of b collection of
+ * JbvbBebns in terms of their public APIs. The <code>Encoder</code>,
+ * in conjunction with its persistence delegbtes, is responsible for
+ * brebking the object grbph down into b series of <code>Stbtements</code>s
+ * bnd <code>Expression</code>s which cbn be used to crebte it.
+ * A subclbss typicblly provides b syntbx for these expressions
+ * using some humbn rebdbble form - like Jbvb source code or XML.
  *
  * @since 1.4
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  */
 
-public class Encoder {
-    private final PersistenceDelegateFinder finder = new PersistenceDelegateFinder();
-    private Map<Object, Expression> bindings = new IdentityHashMap<>();
-    private ExceptionListener exceptionListener;
-    boolean executeStatements = true;
-    private Map<Object, Object> attributes;
+public clbss Encoder {
+    privbte finbl PersistenceDelegbteFinder finder = new PersistenceDelegbteFinder();
+    privbte Mbp<Object, Expression> bindings = new IdentityHbshMbp<>();
+    privbte ExceptionListener exceptionListener;
+    boolebn executeStbtements = true;
+    privbte Mbp<Object, Object> bttributes;
 
     /**
-     * Write the specified object to the output stream.
-     * The serialized form will denote a series of
-     * expressions, the combined effect of which will create
-     * an equivalent object when the input stream is read.
-     * By default, the object is assumed to be a <em>JavaBean</em>
-     * with a nullary constructor, whose state is defined by
-     * the matching pairs of "setter" and "getter" methods
+     * Write the specified object to the output strebm.
+     * The seriblized form will denote b series of
+     * expressions, the combined effect of which will crebte
+     * bn equivblent object when the input strebm is rebd.
+     * By defbult, the object is bssumed to be b <em>JbvbBebn</em>
+     * with b nullbry constructor, whose stbte is defined by
+     * the mbtching pbirs of "setter" bnd "getter" methods
      * returned by the Introspector.
      *
-     * @param o The object to be written to the stream.
+     * @pbrbm o The object to be written to the strebm.
      *
-     * @see XMLDecoder#readObject
+     * @see XMLDecoder#rebdObject
      */
     protected void writeObject(Object o) {
         if (o == this) {
             return;
         }
-        PersistenceDelegate info = getPersistenceDelegate(o == null ? null : o.getClass());
+        PersistenceDelegbte info = getPersistenceDelegbte(o == null ? null : o.getClbss());
         info.writeObject(o, this);
     }
 
     /**
-     * Sets the exception handler for this stream to <code>exceptionListener</code>.
-     * The exception handler is notified when this stream catches recoverable
+     * Sets the exception hbndler for this strebm to <code>exceptionListener</code>.
+     * The exception hbndler is notified when this strebm cbtches recoverbble
      * exceptions.
      *
-     * @param exceptionListener The exception handler for this stream;
-     *       if <code>null</code> the default exception listener will be used.
+     * @pbrbm exceptionListener The exception hbndler for this strebm;
+     *       if <code>null</code> the defbult exception listener will be used.
      *
      * @see #getExceptionListener
      */
@@ -89,114 +89,114 @@ public class Encoder {
     }
 
     /**
-     * Gets the exception handler for this stream.
+     * Gets the exception hbndler for this strebm.
      *
-     * @return The exception handler for this stream;
-     *    Will return the default exception listener if this has not explicitly been set.
+     * @return The exception hbndler for this strebm;
+     *    Will return the defbult exception listener if this hbs not explicitly been set.
      *
      * @see #setExceptionListener
      */
     public ExceptionListener getExceptionListener() {
-        return (exceptionListener != null) ? exceptionListener : Statement.defaultExceptionListener;
+        return (exceptionListener != null) ? exceptionListener : Stbtement.defbultExceptionListener;
     }
 
-    Object getValue(Expression exp) {
+    Object getVblue(Expression exp) {
         try {
-            return (exp == null) ? null : exp.getValue();
+            return (exp == null) ? null : exp.getVblue();
         }
-        catch (Exception e) {
+        cbtch (Exception e) {
             getExceptionListener().exceptionThrown(e);
-            throw new RuntimeException("failed to evaluate: " + exp.toString());
+            throw new RuntimeException("fbiled to evblubte: " + exp.toString());
         }
     }
 
     /**
-     * Returns the persistence delegate for the given type.
-     * The persistence delegate is calculated by applying
+     * Returns the persistence delegbte for the given type.
+     * The persistence delegbte is cblculbted by bpplying
      * the following rules in order:
      * <ol>
      * <li>
-     * If a persistence delegate is associated with the given type
-     * by using the {@link #setPersistenceDelegate} method
+     * If b persistence delegbte is bssocibted with the given type
+     * by using the {@link #setPersistenceDelegbte} method
      * it is returned.
      * <li>
-     * A persistence delegate is then looked up by the name
-     * composed of the the fully qualified name of the given type
-     * and the "PersistenceDelegate" postfix.
-     * For example, a persistence delegate for the {@code Bean} class
-     * should be named {@code BeanPersistenceDelegate}
-     * and located in the same package.
+     * A persistence delegbte is then looked up by the nbme
+     * composed of the the fully qublified nbme of the given type
+     * bnd the "PersistenceDelegbte" postfix.
+     * For exbmple, b persistence delegbte for the {@code Bebn} clbss
+     * should be nbmed {@code BebnPersistenceDelegbte}
+     * bnd locbted in the sbme pbckbge.
      * <pre>
-     * public class Bean { ... }
-     * public class BeanPersistenceDelegate { ... }</pre>
-     * The instance of the {@code BeanPersistenceDelegate} class
-     * is returned for the {@code Bean} class.
+     * public clbss Bebn { ... }
+     * public clbss BebnPersistenceDelegbte { ... }</pre>
+     * The instbnce of the {@code BebnPersistenceDelegbte} clbss
+     * is returned for the {@code Bebn} clbss.
      * <li>
      * If the type is {@code null},
-     * a shared internal persistence delegate is returned
-     * that encodes {@code null} value.
+     * b shbred internbl persistence delegbte is returned
+     * thbt encodes {@code null} vblue.
      * <li>
-     * If the type is a {@code enum} declaration,
-     * a shared internal persistence delegate is returned
-     * that encodes constants of this enumeration
-     * by their names.
+     * If the type is b {@code enum} declbrbtion,
+     * b shbred internbl persistence delegbte is returned
+     * thbt encodes constbnts of this enumerbtion
+     * by their nbmes.
      * <li>
-     * If the type is a primitive type or the corresponding wrapper,
-     * a shared internal persistence delegate is returned
-     * that encodes values of the given type.
+     * If the type is b primitive type or the corresponding wrbpper,
+     * b shbred internbl persistence delegbte is returned
+     * thbt encodes vblues of the given type.
      * <li>
-     * If the type is an array,
-     * a shared internal persistence delegate is returned
-     * that encodes an array of the appropriate type and length,
-     * and each of its elements as if they are properties.
+     * If the type is bn brrby,
+     * b shbred internbl persistence delegbte is returned
+     * thbt encodes bn brrby of the bppropribte type bnd length,
+     * bnd ebch of its elements bs if they bre properties.
      * <li>
-     * If the type is a proxy,
-     * a shared internal persistence delegate is returned
-     * that encodes a proxy instance by using
-     * the {@link java.lang.reflect.Proxy#newProxyInstance} method.
+     * If the type is b proxy,
+     * b shbred internbl persistence delegbte is returned
+     * thbt encodes b proxy instbnce by using
+     * the {@link jbvb.lbng.reflect.Proxy#newProxyInstbnce} method.
      * <li>
-     * If the {@link BeanInfo} for this type has a {@link BeanDescriptor}
-     * which defined a "persistenceDelegate" attribute,
-     * the value of this named attribute is returned.
+     * If the {@link BebnInfo} for this type hbs b {@link BebnDescriptor}
+     * which defined b "persistenceDelegbte" bttribute,
+     * the vblue of this nbmed bttribute is returned.
      * <li>
-     * In all other cases the default persistence delegate is returned.
-     * The default persistence delegate assumes the type is a <em>JavaBean</em>,
-     * implying that it has a default constructor and that its state
-     * may be characterized by the matching pairs of "setter" and "getter"
-     * methods returned by the {@link Introspector} class.
-     * The default constructor is the constructor with the greatest number
-     * of parameters that has the {@link ConstructorProperties} annotation.
-     * If none of the constructors has the {@code ConstructorProperties} annotation,
-     * then the nullary constructor (constructor with no parameters) will be used.
-     * For example, in the following code fragment, the nullary constructor
-     * for the {@code Foo} class will be used,
-     * while the two-parameter constructor
-     * for the {@code Bar} class will be used.
+     * In bll other cbses the defbult persistence delegbte is returned.
+     * The defbult persistence delegbte bssumes the type is b <em>JbvbBebn</em>,
+     * implying thbt it hbs b defbult constructor bnd thbt its stbte
+     * mby be chbrbcterized by the mbtching pbirs of "setter" bnd "getter"
+     * methods returned by the {@link Introspector} clbss.
+     * The defbult constructor is the constructor with the grebtest number
+     * of pbrbmeters thbt hbs the {@link ConstructorProperties} bnnotbtion.
+     * If none of the constructors hbs the {@code ConstructorProperties} bnnotbtion,
+     * then the nullbry constructor (constructor with no pbrbmeters) will be used.
+     * For exbmple, in the following code frbgment, the nullbry constructor
+     * for the {@code Foo} clbss will be used,
+     * while the two-pbrbmeter constructor
+     * for the {@code Bbr} clbss will be used.
      * <pre>
-     * public class Foo {
+     * public clbss Foo {
      *     public Foo() { ... }
      *     public Foo(int x) { ... }
      * }
-     * public class Bar {
-     *     public Bar() { ... }
+     * public clbss Bbr {
+     *     public Bbr() { ... }
      *     &#64;ConstructorProperties({"x"})
-     *     public Bar(int x) { ... }
+     *     public Bbr(int x) { ... }
      *     &#64;ConstructorProperties({"x", "y"})
-     *     public Bar(int x, int y) { ... }
+     *     public Bbr(int x, int y) { ... }
      * }</pre>
      * </ol>
      *
-     * @param type  the class of the objects
-     * @return the persistence delegate for the given type
+     * @pbrbm type  the clbss of the objects
+     * @return the persistence delegbte for the given type
      *
-     * @see #setPersistenceDelegate
-     * @see java.beans.Introspector#getBeanInfo
-     * @see java.beans.BeanInfo#getBeanDescriptor
+     * @see #setPersistenceDelegbte
+     * @see jbvb.bebns.Introspector#getBebnInfo
+     * @see jbvb.bebns.BebnInfo#getBebnDescriptor
      */
-    public PersistenceDelegate getPersistenceDelegate(Class<?> type) {
-        PersistenceDelegate pd = this.finder.find(type);
+    public PersistenceDelegbte getPersistenceDelegbte(Clbss<?> type) {
+        PersistenceDelegbte pd = this.finder.find(type);
         if (pd == null) {
-            pd = MetaData.getPersistenceDelegate(type);
+            pd = MetbDbtb.getPersistenceDelegbte(type);
             if (pd != null) {
                 this.finder.register(type, pd);
             }
@@ -205,147 +205,147 @@ public class Encoder {
     }
 
     /**
-     * Associates the specified persistence delegate with the given type.
+     * Associbtes the specified persistence delegbte with the given type.
      *
-     * @param type  the class of objects that the specified persistence delegate applies to
-     * @param delegate  the persistence delegate for instances of the given type
+     * @pbrbm type  the clbss of objects thbt the specified persistence delegbte bpplies to
+     * @pbrbm delegbte  the persistence delegbte for instbnces of the given type
      *
-     * @see #getPersistenceDelegate
-     * @see java.beans.Introspector#getBeanInfo
-     * @see java.beans.BeanInfo#getBeanDescriptor
+     * @see #getPersistenceDelegbte
+     * @see jbvb.bebns.Introspector#getBebnInfo
+     * @see jbvb.bebns.BebnInfo#getBebnDescriptor
      */
-    public void setPersistenceDelegate(Class<?> type, PersistenceDelegate delegate) {
-        this.finder.register(type, delegate);
+    public void setPersistenceDelegbte(Clbss<?> type, PersistenceDelegbte delegbte) {
+        this.finder.register(type, delegbte);
     }
 
     /**
-     * Removes the entry for this instance, returning the old entry.
+     * Removes the entry for this instbnce, returning the old entry.
      *
-     * @param oldInstance The entry that should be removed.
-     * @return The entry that was removed.
+     * @pbrbm oldInstbnce The entry thbt should be removed.
+     * @return The entry thbt wbs removed.
      *
      * @see #get
      */
-    public Object remove(Object oldInstance) {
-        Expression exp = bindings.remove(oldInstance);
-        return getValue(exp);
+    public Object remove(Object oldInstbnce) {
+        Expression exp = bindings.remove(oldInstbnce);
+        return getVblue(exp);
     }
 
     /**
-     * Returns a tentative value for <code>oldInstance</code> in
-     * the environment created by this stream. A persistence
-     * delegate can use its <code>mutatesTo</code> method to
-     * determine whether this value may be initialized to
-     * form the equivalent object at the output or whether
-     * a new object must be instantiated afresh. If the
-     * stream has not yet seen this value, null is returned.
+     * Returns b tentbtive vblue for <code>oldInstbnce</code> in
+     * the environment crebted by this strebm. A persistence
+     * delegbte cbn use its <code>mutbtesTo</code> method to
+     * determine whether this vblue mby be initiblized to
+     * form the equivblent object bt the output or whether
+     * b new object must be instbntibted bfresh. If the
+     * strebm hbs not yet seen this vblue, null is returned.
      *
-     * @param  oldInstance The instance to be looked up.
-     * @return The object, null if the object has not been seen before.
+     * @pbrbm  oldInstbnce The instbnce to be looked up.
+     * @return The object, null if the object hbs not been seen before.
      */
-    public Object get(Object oldInstance) {
-        if (oldInstance == null || oldInstance == this ||
-            oldInstance.getClass() == String.class) {
-            return oldInstance;
+    public Object get(Object oldInstbnce) {
+        if (oldInstbnce == null || oldInstbnce == this ||
+            oldInstbnce.getClbss() == String.clbss) {
+            return oldInstbnce;
         }
-        Expression exp = bindings.get(oldInstance);
-        return getValue(exp);
+        Expression exp = bindings.get(oldInstbnce);
+        return getVblue(exp);
     }
 
-    private Object writeObject1(Object oldInstance) {
-        Object o = get(oldInstance);
+    privbte Object writeObject1(Object oldInstbnce) {
+        Object o = get(oldInstbnce);
         if (o == null) {
-            writeObject(oldInstance);
-            o = get(oldInstance);
+            writeObject(oldInstbnce);
+            o = get(oldInstbnce);
         }
         return o;
     }
 
-    private Statement cloneStatement(Statement oldExp) {
-        Object oldTarget = oldExp.getTarget();
-        Object newTarget = writeObject1(oldTarget);
+    privbte Stbtement cloneStbtement(Stbtement oldExp) {
+        Object oldTbrget = oldExp.getTbrget();
+        Object newTbrget = writeObject1(oldTbrget);
 
         Object[] oldArgs = oldExp.getArguments();
         Object[] newArgs = new Object[oldArgs.length];
         for (int i = 0; i < oldArgs.length; i++) {
             newArgs[i] = writeObject1(oldArgs[i]);
         }
-        Statement newExp = Statement.class.equals(oldExp.getClass())
-                ? new Statement(newTarget, oldExp.getMethodName(), newArgs)
-                : new Expression(newTarget, oldExp.getMethodName(), newArgs);
-        newExp.loader = oldExp.loader;
+        Stbtement newExp = Stbtement.clbss.equbls(oldExp.getClbss())
+                ? new Stbtement(newTbrget, oldExp.getMethodNbme(), newArgs)
+                : new Expression(newTbrget, oldExp.getMethodNbme(), newArgs);
+        newExp.lobder = oldExp.lobder;
         return newExp;
     }
 
     /**
-     * Writes statement <code>oldStm</code> to the stream.
+     * Writes stbtement <code>oldStm</code> to the strebm.
      * The <code>oldStm</code> should be written entirely
-     * in terms of the callers environment, i.e. the
-     * target and all arguments should be part of the
-     * object graph being written. These expressions
-     * represent a series of "what happened" expressions
-     * which tell the output stream how to produce an
-     * object graph like the original.
+     * in terms of the cbllers environment, i.e. the
+     * tbrget bnd bll brguments should be pbrt of the
+     * object grbph being written. These expressions
+     * represent b series of "whbt hbppened" expressions
+     * which tell the output strebm how to produce bn
+     * object grbph like the originbl.
      * <p>
-     * The implementation of this method will produce
-     * a second expression to represent the same expression in
-     * an environment that will exist when the stream is read.
-     * This is achieved simply by calling <code>writeObject</code>
-     * on the target and all the arguments and building a new
+     * The implementbtion of this method will produce
+     * b second expression to represent the sbme expression in
+     * bn environment thbt will exist when the strebm is rebd.
+     * This is bchieved simply by cblling <code>writeObject</code>
+     * on the tbrget bnd bll the brguments bnd building b new
      * expression with the results.
      *
-     * @param oldStm The expression to be written to the stream.
+     * @pbrbm oldStm The expression to be written to the strebm.
      */
-    public void writeStatement(Statement oldStm) {
-        // System.out.println("writeStatement: " + oldExp);
-        Statement newStm = cloneStatement(oldStm);
-        if (oldStm.getTarget() != this && executeStatements) {
+    public void writeStbtement(Stbtement oldStm) {
+        // System.out.println("writeStbtement: " + oldExp);
+        Stbtement newStm = cloneStbtement(oldStm);
+        if (oldStm.getTbrget() != this && executeStbtements) {
             try {
                 newStm.execute();
-            } catch (Exception e) {
-                getExceptionListener().exceptionThrown(new Exception("Encoder: discarding statement "
+            } cbtch (Exception e) {
+                getExceptionListener().exceptionThrown(new Exception("Encoder: discbrding stbtement "
                                                                      + newStm, e));
             }
         }
     }
 
     /**
-     * The implementation first checks to see if an
-     * expression with this value has already been written.
+     * The implementbtion first checks to see if bn
+     * expression with this vblue hbs blrebdy been written.
      * If not, the expression is cloned, using
-     * the same procedure as <code>writeStatement</code>,
-     * and the value of this expression is reconciled
-     * with the value of the cloned expression
-     * by calling <code>writeObject</code>.
+     * the sbme procedure bs <code>writeStbtement</code>,
+     * bnd the vblue of this expression is reconciled
+     * with the vblue of the cloned expression
+     * by cblling <code>writeObject</code>.
      *
-     * @param oldExp The expression to be written to the stream.
+     * @pbrbm oldExp The expression to be written to the strebm.
      */
     public void writeExpression(Expression oldExp) {
         // System.out.println("Encoder::writeExpression: " + oldExp);
-        Object oldValue = getValue(oldExp);
-        if (get(oldValue) != null) {
+        Object oldVblue = getVblue(oldExp);
+        if (get(oldVblue) != null) {
             return;
         }
-        bindings.put(oldValue, (Expression)cloneStatement(oldExp));
-        writeObject(oldValue);
+        bindings.put(oldVblue, (Expression)cloneStbtement(oldExp));
+        writeObject(oldVblue);
     }
 
-    void clear() {
-        bindings.clear();
+    void clebr() {
+        bindings.clebr();
     }
 
-    // Package private method for setting an attributes table for the encoder
-    void setAttribute(Object key, Object value) {
-        if (attributes == null) {
-            attributes = new HashMap<>();
+    // Pbckbge privbte method for setting bn bttributes tbble for the encoder
+    void setAttribute(Object key, Object vblue) {
+        if (bttributes == null) {
+            bttributes = new HbshMbp<>();
         }
-        attributes.put(key, value);
+        bttributes.put(key, vblue);
     }
 
     Object getAttribute(Object key) {
-        if (attributes == null) {
+        if (bttributes == null) {
             return null;
         }
-        return attributes.get(key);
+        return bttributes.get(key);
     }
 }

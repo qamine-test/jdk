@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.image.ColorModel;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Rectbngle2D;
 
 /**
- * This <code>Paint</code> interface defines how color patterns
- * can be generated for {@link Graphics2D} operations.  A class
- * implementing the <code>Paint</code> interface is added to the
- * <code>Graphics2D</code> context in order to define the color
- * pattern used by the <code>draw</code> and <code>fill</code> methods.
+ * This <code>Pbint</code> interfbce defines how color pbtterns
+ * cbn be generbted for {@link Grbphics2D} operbtions.  A clbss
+ * implementing the <code>Pbint</code> interfbce is bdded to the
+ * <code>Grbphics2D</code> context in order to define the color
+ * pbttern used by the <code>drbw</code> bnd <code>fill</code> methods.
  * <p>
- * Instances of classes implementing <code>Paint</code> must be
- * read-only because the <code>Graphics2D</code> does not clone
- * these objects when they are set as an attribute with the
- * <code>setPaint</code> method or when the <code>Graphics2D</code>
+ * Instbnces of clbsses implementing <code>Pbint</code> must be
+ * rebd-only becbuse the <code>Grbphics2D</code> does not clone
+ * these objects when they bre set bs bn bttribute with the
+ * <code>setPbint</code> method or when the <code>Grbphics2D</code>
  * object is itself cloned.
- * @see PaintContext
+ * @see PbintContext
  * @see Color
- * @see GradientPaint
- * @see TexturePaint
- * @see Graphics2D#setPaint
+ * @see GrbdientPbint
+ * @see TexturePbint
+ * @see Grbphics2D#setPbint
  * @version 1.36, 06/05/07
  */
 
-public interface Paint extends Transparency {
+public interfbce Pbint extends Trbnspbrency {
     /**
-     * Creates and returns a {@link PaintContext} used to
-     * generate the color pattern.
-     * The arguments to this method convey additional information
-     * about the rendering operation that may be
-     * used or ignored on various implementations of the {@code Paint} interface.
-     * A caller must pass non-{@code null} values for all of the arguments
-     * except for the {@code ColorModel} argument which may be {@code null} to
-     * indicate that no specific {@code ColorModel} type is preferred.
-     * Implementations of the {@code Paint} interface are allowed to use or ignore
-     * any of the arguments as makes sense for their function, and are
-     * not constrained to use the specified {@code ColorModel} for the returned
-     * {@code PaintContext}, even if it is not {@code null}.
-     * Implementations are allowed to throw {@code NullPointerException} for
-     * any {@code null} argument other than the {@code ColorModel} argument,
-     * but are not required to do so.
+     * Crebtes bnd returns b {@link PbintContext} used to
+     * generbte the color pbttern.
+     * The brguments to this method convey bdditionbl informbtion
+     * bbout the rendering operbtion thbt mby be
+     * used or ignored on vbrious implementbtions of the {@code Pbint} interfbce.
+     * A cbller must pbss non-{@code null} vblues for bll of the brguments
+     * except for the {@code ColorModel} brgument which mby be {@code null} to
+     * indicbte thbt no specific {@code ColorModel} type is preferred.
+     * Implementbtions of the {@code Pbint} interfbce bre bllowed to use or ignore
+     * bny of the brguments bs mbkes sense for their function, bnd bre
+     * not constrbined to use the specified {@code ColorModel} for the returned
+     * {@code PbintContext}, even if it is not {@code null}.
+     * Implementbtions bre bllowed to throw {@code NullPointerException} for
+     * bny {@code null} brgument other thbn the {@code ColorModel} brgument,
+     * but bre not required to do so.
      *
-     * @param cm the preferred {@link ColorModel} which represents the most convenient
-     *           format for the caller to receive the pixel data, or {@code null}
+     * @pbrbm cm the preferred {@link ColorModel} which represents the most convenient
+     *           formbt for the cbller to receive the pixel dbtb, or {@code null}
      *           if there is no preference.
-     * @param deviceBounds the device space bounding box
-     *                     of the graphics primitive being rendered.
-     *                     Implementations of the {@code Paint} interface
-     *                     are allowed to throw {@code NullPointerException}
-     *                     for a {@code null} {@code deviceBounds}.
-     * @param userBounds the user space bounding box
-     *                   of the graphics primitive being rendered.
-     *                     Implementations of the {@code Paint} interface
-     *                     are allowed to throw {@code NullPointerException}
-     *                     for a {@code null} {@code userBounds}.
-     * @param xform the {@link AffineTransform} from user
-     *              space into device space.
-     *                     Implementations of the {@code Paint} interface
-     *                     are allowed to throw {@code NullPointerException}
-     *                     for a {@code null} {@code xform}.
-     * @param hints the set of hints that the context object can use to
-     *              choose between rendering alternatives.
-     *                     Implementations of the {@code Paint} interface
-     *                     are allowed to throw {@code NullPointerException}
-     *                     for a {@code null} {@code hints}.
-     * @return the {@code PaintContext} for
-     *         generating color patterns.
-     * @see PaintContext
+     * @pbrbm deviceBounds the device spbce bounding box
+     *                     of the grbphics primitive being rendered.
+     *                     Implementbtions of the {@code Pbint} interfbce
+     *                     bre bllowed to throw {@code NullPointerException}
+     *                     for b {@code null} {@code deviceBounds}.
+     * @pbrbm userBounds the user spbce bounding box
+     *                   of the grbphics primitive being rendered.
+     *                     Implementbtions of the {@code Pbint} interfbce
+     *                     bre bllowed to throw {@code NullPointerException}
+     *                     for b {@code null} {@code userBounds}.
+     * @pbrbm xform the {@link AffineTrbnsform} from user
+     *              spbce into device spbce.
+     *                     Implementbtions of the {@code Pbint} interfbce
+     *                     bre bllowed to throw {@code NullPointerException}
+     *                     for b {@code null} {@code xform}.
+     * @pbrbm hints the set of hints thbt the context object cbn use to
+     *              choose between rendering blternbtives.
+     *                     Implementbtions of the {@code Pbint} interfbce
+     *                     bre bllowed to throw {@code NullPointerException}
+     *                     for b {@code null} {@code hints}.
+     * @return the {@code PbintContext} for
+     *         generbting color pbtterns.
+     * @see PbintContext
      * @see ColorModel
-     * @see Rectangle
-     * @see Rectangle2D
-     * @see AffineTransform
+     * @see Rectbngle
+     * @see Rectbngle2D
+     * @see AffineTrbnsform
      * @see RenderingHints
      */
-    public PaintContext createContext(ColorModel cm,
-                                      Rectangle deviceBounds,
-                                      Rectangle2D userBounds,
-                                      AffineTransform xform,
+    public PbintContext crebteContext(ColorModel cm,
+                                      Rectbngle deviceBounds,
+                                      Rectbngle2D userBounds,
+                                      AffineTrbnsform xform,
                                       RenderingHints hints);
 
 }

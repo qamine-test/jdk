@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.UIResource;
-import javax.swing.plaf.basic.BasicLookAndFeel;
-import javax.swing.text.DefaultEditorKit;
-import java.util.HashMap;
-import java.util.Map;
-import javax.swing.text.JTextComponent;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.plbf.bbsic.BbsicLookAndFeel;
+import jbvbx.swing.text.DefbultEditorKit;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvbx.swing.text.JTextComponent;
 import sun.swing.SwingUtilities2;
 
 /**
- * <code>SynthStyle</code> is a set of style properties.
- * Each <code>SynthUI</code> references at least one
- * <code>SynthStyle</code> that is obtained using a
- * <code>SynthStyleFactory</code>. You typically don't need to interact with
- * this class directly, rather you will load a
- * <a href="doc-files/synthFileFormat.html">Synth File Format file</a> into
- * <code>SynthLookAndFeel</code> that will create a set of SynthStyles.
+ * <code>SynthStyle</code> is b set of style properties.
+ * Ebch <code>SynthUI</code> references bt lebst one
+ * <code>SynthStyle</code> thbt is obtbined using b
+ * <code>SynthStyleFbctory</code>. You typicblly don't need to interbct with
+ * this clbss directly, rbther you will lobd b
+ * <b href="doc-files/synthFileFormbt.html">Synth File Formbt file</b> into
+ * <code>SynthLookAndFeel</code> thbt will crebte b set of SynthStyles.
  *
  * @see SynthLookAndFeel
- * @see SynthStyleFactory
+ * @see SynthStyleFbctory
  *
  * @since 1.5
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-public abstract class SynthStyle {
+public bbstrbct clbss SynthStyle {
     /**
-     * Contains the default values for certain properties.
+     * Contbins the defbult vblues for certbin properties.
      */
-    private static Map<Object, Object> DEFAULT_VALUES;
+    privbte stbtic Mbp<Object, Object> DEFAULT_VALUES;
 
     /**
-     * Shared SynthGraphics.
+     * Shbred SynthGrbphics.
      */
-    private static final SynthGraphicsUtils SYNTH_GRAPHICS =
-                              new SynthGraphicsUtils();
+    privbte stbtic finbl SynthGrbphicsUtils SYNTH_GRAPHICS =
+                              new SynthGrbphicsUtils();
 
     /**
-     * Adds the default values that we know about to DEFAULT_VALUES.
+     * Adds the defbult vblues thbt we know bbout to DEFAULT_VALUES.
      */
-    private static void populateDefaultValues() {
-        Object buttonMap = new UIDefaults.LazyInputMap(new Object[] {
+    privbte stbtic void populbteDefbultVblues() {
+        Object buttonMbp = new UIDefbults.LbzyInputMbp(new Object[] {
                           "SPACE", "pressed",
-                 "released SPACE", "released"
+                 "relebsed SPACE", "relebsed"
         });
-        DEFAULT_VALUES.put("Button.focusInputMap", buttonMap);
-        DEFAULT_VALUES.put("CheckBox.focusInputMap", buttonMap);
-        DEFAULT_VALUES.put("RadioButton.focusInputMap", buttonMap);
-        DEFAULT_VALUES.put("ToggleButton.focusInputMap", buttonMap);
-        DEFAULT_VALUES.put("SynthArrowButton.focusInputMap", buttonMap);
+        DEFAULT_VALUES.put("Button.focusInputMbp", buttonMbp);
+        DEFAULT_VALUES.put("CheckBox.focusInputMbp", buttonMbp);
+        DEFAULT_VALUES.put("RbdioButton.focusInputMbp", buttonMbp);
+        DEFAULT_VALUES.put("ToggleButton.focusInputMbp", buttonMbp);
+        DEFAULT_VALUES.put("SynthArrowButton.focusInputMbp", buttonMbp);
         DEFAULT_VALUES.put("List.dropLineColor", Color.BLACK);
         DEFAULT_VALUES.put("Tree.dropLineColor", Color.BLACK);
-        DEFAULT_VALUES.put("Table.dropLineColor", Color.BLACK);
-        DEFAULT_VALUES.put("Table.dropLineShortColor", Color.RED);
+        DEFAULT_VALUES.put("Tbble.dropLineColor", Color.BLACK);
+        DEFAULT_VALUES.put("Tbble.dropLineShortColor", Color.RED);
 
-        Object multilineInputMap = new UIDefaults.LazyInputMap(new Object[] {
-                           "ctrl C", DefaultEditorKit.copyAction,
-                           "ctrl V", DefaultEditorKit.pasteAction,
-                           "ctrl X", DefaultEditorKit.cutAction,
-                             "COPY", DefaultEditorKit.copyAction,
-                            "PASTE", DefaultEditorKit.pasteAction,
-                              "CUT", DefaultEditorKit.cutAction,
-                   "control INSERT", DefaultEditorKit.copyAction,
-                     "shift INSERT", DefaultEditorKit.pasteAction,
-                     "shift DELETE", DefaultEditorKit.cutAction,
-                       "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                    "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-                      "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                   "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-                        "ctrl LEFT", DefaultEditorKit.previousWordAction,
-                     "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-                       "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-                    "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-                  "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-               "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-              "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-                           "ctrl A", DefaultEditorKit.selectAllAction,
-                             "HOME", DefaultEditorKit.beginLineAction,
-                              "END", DefaultEditorKit.endLineAction,
-                       "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                        "shift END", DefaultEditorKit.selectionEndLineAction,
+        Object multilineInputMbp = new UIDefbults.LbzyInputMbp(new Object[] {
+                           "ctrl C", DefbultEditorKit.copyAction,
+                           "ctrl V", DefbultEditorKit.pbsteAction,
+                           "ctrl X", DefbultEditorKit.cutAction,
+                             "COPY", DefbultEditorKit.copyAction,
+                            "PASTE", DefbultEditorKit.pbsteAction,
+                              "CUT", DefbultEditorKit.cutAction,
+                   "control INSERT", DefbultEditorKit.copyAction,
+                     "shift INSERT", DefbultEditorKit.pbsteAction,
+                     "shift DELETE", DefbultEditorKit.cutAction,
+                       "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                    "shift KP_LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                      "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                   "shift KP_RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                        "ctrl LEFT", DefbultEditorKit.previousWordAction,
+                     "ctrl KP_LEFT", DefbultEditorKit.previousWordAction,
+                       "ctrl RIGHT", DefbultEditorKit.nextWordAction,
+                    "ctrl KP_RIGHT", DefbultEditorKit.nextWordAction,
+                  "ctrl shift LEFT", DefbultEditorKit.selectionPreviousWordAction,
+               "ctrl shift KP_LEFT", DefbultEditorKit.selectionPreviousWordAction,
+                 "ctrl shift RIGHT", DefbultEditorKit.selectionNextWordAction,
+              "ctrl shift KP_RIGHT", DefbultEditorKit.selectionNextWordAction,
+                           "ctrl A", DefbultEditorKit.selectAllAction,
+                             "HOME", DefbultEditorKit.beginLineAction,
+                              "END", DefbultEditorKit.endLineAction,
+                       "shift HOME", DefbultEditorKit.selectionBeginLineAction,
+                        "shift END", DefbultEditorKit.selectionEndLineAction,
 
-                               "UP", DefaultEditorKit.upAction,
-                            "KP_UP", DefaultEditorKit.upAction,
-                             "DOWN", DefaultEditorKit.downAction,
-                          "KP_DOWN", DefaultEditorKit.downAction,
-                          "PAGE_UP", DefaultEditorKit.pageUpAction,
-                        "PAGE_DOWN", DefaultEditorKit.pageDownAction,
-                    "shift PAGE_UP", "selection-page-up",
-                  "shift PAGE_DOWN", "selection-page-down",
-               "ctrl shift PAGE_UP", "selection-page-left",
-             "ctrl shift PAGE_DOWN", "selection-page-right",
-                         "shift UP", DefaultEditorKit.selectionUpAction,
-                      "shift KP_UP", DefaultEditorKit.selectionUpAction,
-                       "shift DOWN", DefaultEditorKit.selectionDownAction,
-                    "shift KP_DOWN", DefaultEditorKit.selectionDownAction,
-                            "ENTER", DefaultEditorKit.insertBreakAction,
-                       "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                 "shift BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                           "ctrl H", DefaultEditorKit.deletePrevCharAction,
-                           "DELETE", DefaultEditorKit.deleteNextCharAction,
-                      "ctrl DELETE", DefaultEditorKit.deleteNextWordAction,
-                  "ctrl BACK_SPACE", DefaultEditorKit.deletePrevWordAction,
-                            "RIGHT", DefaultEditorKit.forwardAction,
-                             "LEFT", DefaultEditorKit.backwardAction,
-                         "KP_RIGHT", DefaultEditorKit.forwardAction,
-                          "KP_LEFT", DefaultEditorKit.backwardAction,
-                              "TAB", DefaultEditorKit.insertTabAction,
-                  "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
-                        "ctrl HOME", DefaultEditorKit.beginAction,
-                         "ctrl END", DefaultEditorKit.endAction,
-                  "ctrl shift HOME", DefaultEditorKit.selectionBeginAction,
-                   "ctrl shift END", DefaultEditorKit.selectionEndAction,
-                           "ctrl T", "next-link-action",
-                     "ctrl shift T", "previous-link-action",
-                       "ctrl SPACE", "activate-link-action",
-                   "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
+                               "UP", DefbultEditorKit.upAction,
+                            "KP_UP", DefbultEditorKit.upAction,
+                             "DOWN", DefbultEditorKit.downAction,
+                          "KP_DOWN", DefbultEditorKit.downAction,
+                          "PAGE_UP", DefbultEditorKit.pbgeUpAction,
+                        "PAGE_DOWN", DefbultEditorKit.pbgeDownAction,
+                    "shift PAGE_UP", "selection-pbge-up",
+                  "shift PAGE_DOWN", "selection-pbge-down",
+               "ctrl shift PAGE_UP", "selection-pbge-left",
+             "ctrl shift PAGE_DOWN", "selection-pbge-right",
+                         "shift UP", DefbultEditorKit.selectionUpAction,
+                      "shift KP_UP", DefbultEditorKit.selectionUpAction,
+                       "shift DOWN", DefbultEditorKit.selectionDownAction,
+                    "shift KP_DOWN", DefbultEditorKit.selectionDownAction,
+                            "ENTER", DefbultEditorKit.insertBrebkAction,
+                       "BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                 "shift BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                           "ctrl H", DefbultEditorKit.deletePrevChbrAction,
+                           "DELETE", DefbultEditorKit.deleteNextChbrAction,
+                      "ctrl DELETE", DefbultEditorKit.deleteNextWordAction,
+                  "ctrl BACK_SPACE", DefbultEditorKit.deletePrevWordAction,
+                            "RIGHT", DefbultEditorKit.forwbrdAction,
+                             "LEFT", DefbultEditorKit.bbckwbrdAction,
+                         "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+                          "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
+                              "TAB", DefbultEditorKit.insertTbbAction,
+                  "ctrl BACK_SLASH", "unselect"/*DefbultEditorKit.unselectAction*/,
+                        "ctrl HOME", DefbultEditorKit.beginAction,
+                         "ctrl END", DefbultEditorKit.endAction,
+                  "ctrl shift HOME", DefbultEditorKit.selectionBeginAction,
+                   "ctrl shift END", DefbultEditorKit.selectionEndAction,
+                           "ctrl T", "next-link-bction",
+                     "ctrl shift T", "previous-link-bction",
+                       "ctrl SPACE", "bctivbte-link-bction",
+                   "control shift O", "toggle-componentOrientbtion"/*DefbultEditorKit.toggleComponentOrientbtion*/
         });
-        DEFAULT_VALUES.put("EditorPane.focusInputMap", multilineInputMap);
-        DEFAULT_VALUES.put("TextArea.focusInputMap", multilineInputMap);
-        DEFAULT_VALUES.put("TextPane.focusInputMap", multilineInputMap);
+        DEFAULT_VALUES.put("EditorPbne.focusInputMbp", multilineInputMbp);
+        DEFAULT_VALUES.put("TextAreb.focusInputMbp", multilineInputMbp);
+        DEFAULT_VALUES.put("TextPbne.focusInputMbp", multilineInputMbp);
 
-        Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[] {
-                           "ctrl C", DefaultEditorKit.copyAction,
-                           "ctrl V", DefaultEditorKit.pasteAction,
-                           "ctrl X", DefaultEditorKit.cutAction,
-                             "COPY", DefaultEditorKit.copyAction,
-                            "PASTE", DefaultEditorKit.pasteAction,
-                              "CUT", DefaultEditorKit.cutAction,
-                   "control INSERT", DefaultEditorKit.copyAction,
-                     "shift INSERT", DefaultEditorKit.pasteAction,
-                     "shift DELETE", DefaultEditorKit.cutAction,
-                       "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                    "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-                      "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                   "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-                        "ctrl LEFT", DefaultEditorKit.previousWordAction,
-                     "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-                       "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-                    "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-                  "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-               "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-              "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-                           "ctrl A", DefaultEditorKit.selectAllAction,
-                             "HOME", DefaultEditorKit.beginLineAction,
-                              "END", DefaultEditorKit.endLineAction,
-                       "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                        "shift END", DefaultEditorKit.selectionEndLineAction,
-                       "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                 "shift BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                           "ctrl H", DefaultEditorKit.deletePrevCharAction,
-                           "DELETE", DefaultEditorKit.deleteNextCharAction,
-                      "ctrl DELETE", DefaultEditorKit.deleteNextWordAction,
-                  "ctrl BACK_SPACE", DefaultEditorKit.deletePrevWordAction,
-                            "RIGHT", DefaultEditorKit.forwardAction,
-                             "LEFT", DefaultEditorKit.backwardAction,
-                         "KP_RIGHT", DefaultEditorKit.forwardAction,
-                          "KP_LEFT", DefaultEditorKit.backwardAction,
+        Object fieldInputMbp = new UIDefbults.LbzyInputMbp(new Object[] {
+                           "ctrl C", DefbultEditorKit.copyAction,
+                           "ctrl V", DefbultEditorKit.pbsteAction,
+                           "ctrl X", DefbultEditorKit.cutAction,
+                             "COPY", DefbultEditorKit.copyAction,
+                            "PASTE", DefbultEditorKit.pbsteAction,
+                              "CUT", DefbultEditorKit.cutAction,
+                   "control INSERT", DefbultEditorKit.copyAction,
+                     "shift INSERT", DefbultEditorKit.pbsteAction,
+                     "shift DELETE", DefbultEditorKit.cutAction,
+                       "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                    "shift KP_LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                      "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                   "shift KP_RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                        "ctrl LEFT", DefbultEditorKit.previousWordAction,
+                     "ctrl KP_LEFT", DefbultEditorKit.previousWordAction,
+                       "ctrl RIGHT", DefbultEditorKit.nextWordAction,
+                    "ctrl KP_RIGHT", DefbultEditorKit.nextWordAction,
+                  "ctrl shift LEFT", DefbultEditorKit.selectionPreviousWordAction,
+               "ctrl shift KP_LEFT", DefbultEditorKit.selectionPreviousWordAction,
+                 "ctrl shift RIGHT", DefbultEditorKit.selectionNextWordAction,
+              "ctrl shift KP_RIGHT", DefbultEditorKit.selectionNextWordAction,
+                           "ctrl A", DefbultEditorKit.selectAllAction,
+                             "HOME", DefbultEditorKit.beginLineAction,
+                              "END", DefbultEditorKit.endLineAction,
+                       "shift HOME", DefbultEditorKit.selectionBeginLineAction,
+                        "shift END", DefbultEditorKit.selectionEndLineAction,
+                       "BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                 "shift BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                           "ctrl H", DefbultEditorKit.deletePrevChbrAction,
+                           "DELETE", DefbultEditorKit.deleteNextChbrAction,
+                      "ctrl DELETE", DefbultEditorKit.deleteNextWordAction,
+                  "ctrl BACK_SPACE", DefbultEditorKit.deletePrevWordAction,
+                            "RIGHT", DefbultEditorKit.forwbrdAction,
+                             "LEFT", DefbultEditorKit.bbckwbrdAction,
+                         "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+                          "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
                             "ENTER", JTextField.notifyAction,
-                  "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
-                   "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
+                  "ctrl BACK_SLASH", "unselect"/*DefbultEditorKit.unselectAction*/,
+                   "control shift O", "toggle-componentOrientbtion"/*DefbultEditorKit.toggleComponentOrientbtion*/
         });
-        DEFAULT_VALUES.put("TextField.focusInputMap", fieldInputMap);
-        DEFAULT_VALUES.put("PasswordField.focusInputMap", fieldInputMap);
+        DEFAULT_VALUES.put("TextField.focusInputMbp", fieldInputMbp);
+        DEFAULT_VALUES.put("PbsswordField.focusInputMbp", fieldInputMbp);
 
 
-        DEFAULT_VALUES.put("ComboBox.ancestorInputMap",
-                  new UIDefaults.LazyInputMap(new Object[] {
+        DEFAULT_VALUES.put("ComboBox.bncestorInputMbp",
+                  new UIDefbults.LbzyInputMbp(new Object[] {
                      "ESCAPE", "hidePopup",
-                    "PAGE_UP", "pageUpPassThrough",
-                  "PAGE_DOWN", "pageDownPassThrough",
-                       "HOME", "homePassThrough",
-                        "END", "endPassThrough",
+                    "PAGE_UP", "pbgeUpPbssThrough",
+                  "PAGE_DOWN", "pbgeDownPbssThrough",
+                       "HOME", "homePbssThrough",
+                        "END", "endPbssThrough",
                        "DOWN", "selectNext",
                     "KP_DOWN", "selectNext",
-                   "alt DOWN", "togglePopup",
-                "alt KP_DOWN", "togglePopup",
-                     "alt UP", "togglePopup",
-                  "alt KP_UP", "togglePopup",
-                      "SPACE", "spacePopup",
+                   "blt DOWN", "togglePopup",
+                "blt KP_DOWN", "togglePopup",
+                     "blt UP", "togglePopup",
+                  "blt KP_UP", "togglePopup",
+                      "SPACE", "spbcePopup",
                      "ENTER", "enterPressed",
                          "UP", "selectPrevious",
                       "KP_UP", "selectPrevious"
                   }));
 
-        DEFAULT_VALUES.put("Desktop.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+        DEFAULT_VALUES.put("Desktop.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                  "ctrl F5", "restore",
                  "ctrl F4", "close",
                  "ctrl F7", "move",
@@ -234,68 +234,68 @@ public abstract class SynthStyle {
                  "KP_DOWN", "down",
               "shift DOWN", "shrinkDown",
            "shift KP_DOWN", "shrinkDown",
-                  "ESCAPE", "escape",
+                  "ESCAPE", "escbpe",
                  "ctrl F9", "minimize",
-                "ctrl F10", "maximize",
-                 "ctrl F6", "selectNextFrame",
-                "ctrl TAB", "selectNextFrame",
-             "ctrl alt F6", "selectNextFrame",
-       "shift ctrl alt F6", "selectPreviousFrame",
-                "ctrl F12", "navigateNext",
-           "shift ctrl F12", "navigatePrevious"
+                "ctrl F10", "mbximize",
+                 "ctrl F6", "selectNextFrbme",
+                "ctrl TAB", "selectNextFrbme",
+             "ctrl blt F6", "selectNextFrbme",
+       "shift ctrl blt F6", "selectPreviousFrbme",
+                "ctrl F12", "nbvigbteNext",
+           "shift ctrl F12", "nbvigbtePrevious"
                }));
 
-        DEFAULT_VALUES.put("FileChooser.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                     "ESCAPE", "cancelSelection",
-                     "F2", "editFileName",
+        DEFAULT_VALUES.put("FileChooser.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                     "ESCAPE", "cbncelSelection",
+                     "F2", "editFileNbme",
                      "F5", "refresh",
                      "BACK_SPACE", "Go Up",
-                     "ENTER", "approveSelection",
-                "ctrl ENTER", "approveSelection"
+                     "ENTER", "bpproveSelection",
+                "ctrl ENTER", "bpproveSelection"
                }));
 
-        DEFAULT_VALUES.put("FormattedTextField.focusInputMap",
-              new UIDefaults.LazyInputMap(new Object[] {
-                           "ctrl C", DefaultEditorKit.copyAction,
-                           "ctrl V", DefaultEditorKit.pasteAction,
-                           "ctrl X", DefaultEditorKit.cutAction,
-                             "COPY", DefaultEditorKit.copyAction,
-                            "PASTE", DefaultEditorKit.pasteAction,
-                              "CUT", DefaultEditorKit.cutAction,
-                   "control INSERT", DefaultEditorKit.copyAction,
-                     "shift INSERT", DefaultEditorKit.pasteAction,
-                     "shift DELETE", DefaultEditorKit.cutAction,
-                       "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                    "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-                      "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                   "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-                        "ctrl LEFT", DefaultEditorKit.previousWordAction,
-                     "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-                       "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-                    "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-                  "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-               "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-              "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-                           "ctrl A", DefaultEditorKit.selectAllAction,
-                             "HOME", DefaultEditorKit.beginLineAction,
-                              "END", DefaultEditorKit.endLineAction,
-                       "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                        "shift END", DefaultEditorKit.selectionEndLineAction,
-                       "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                 "shift BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                           "ctrl H", DefaultEditorKit.deletePrevCharAction,
-                           "DELETE", DefaultEditorKit.deleteNextCharAction,
-                      "ctrl DELETE", DefaultEditorKit.deleteNextWordAction,
-                  "ctrl BACK_SPACE", DefaultEditorKit.deletePrevWordAction,
-                            "RIGHT", DefaultEditorKit.forwardAction,
-                             "LEFT", DefaultEditorKit.backwardAction,
-                         "KP_RIGHT", DefaultEditorKit.forwardAction,
-                          "KP_LEFT", DefaultEditorKit.backwardAction,
+        DEFAULT_VALUES.put("FormbttedTextField.focusInputMbp",
+              new UIDefbults.LbzyInputMbp(new Object[] {
+                           "ctrl C", DefbultEditorKit.copyAction,
+                           "ctrl V", DefbultEditorKit.pbsteAction,
+                           "ctrl X", DefbultEditorKit.cutAction,
+                             "COPY", DefbultEditorKit.copyAction,
+                            "PASTE", DefbultEditorKit.pbsteAction,
+                              "CUT", DefbultEditorKit.cutAction,
+                   "control INSERT", DefbultEditorKit.copyAction,
+                     "shift INSERT", DefbultEditorKit.pbsteAction,
+                     "shift DELETE", DefbultEditorKit.cutAction,
+                       "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                    "shift KP_LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                      "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                   "shift KP_RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                        "ctrl LEFT", DefbultEditorKit.previousWordAction,
+                     "ctrl KP_LEFT", DefbultEditorKit.previousWordAction,
+                       "ctrl RIGHT", DefbultEditorKit.nextWordAction,
+                    "ctrl KP_RIGHT", DefbultEditorKit.nextWordAction,
+                  "ctrl shift LEFT", DefbultEditorKit.selectionPreviousWordAction,
+               "ctrl shift KP_LEFT", DefbultEditorKit.selectionPreviousWordAction,
+                 "ctrl shift RIGHT", DefbultEditorKit.selectionNextWordAction,
+              "ctrl shift KP_RIGHT", DefbultEditorKit.selectionNextWordAction,
+                           "ctrl A", DefbultEditorKit.selectAllAction,
+                             "HOME", DefbultEditorKit.beginLineAction,
+                              "END", DefbultEditorKit.endLineAction,
+                       "shift HOME", DefbultEditorKit.selectionBeginLineAction,
+                        "shift END", DefbultEditorKit.selectionEndLineAction,
+                       "BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                 "shift BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                           "ctrl H", DefbultEditorKit.deletePrevChbrAction,
+                           "DELETE", DefbultEditorKit.deleteNextChbrAction,
+                      "ctrl DELETE", DefbultEditorKit.deleteNextWordAction,
+                  "ctrl BACK_SPACE", DefbultEditorKit.deletePrevWordAction,
+                            "RIGHT", DefbultEditorKit.forwbrdAction,
+                             "LEFT", DefbultEditorKit.bbckwbrdAction,
+                         "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+                          "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
                             "ENTER", JTextField.notifyAction,
                   "ctrl BACK_SLASH", "unselect",
-                   "control shift O", "toggle-componentOrientation",
+                   "control shift O", "toggle-componentOrientbtion",
                            "ESCAPE", "reset-field-edit",
                                "UP", "increment",
                             "KP_UP", "increment",
@@ -303,27 +303,27 @@ public abstract class SynthStyle {
                           "KP_DOWN", "decrement",
               }));
 
-        DEFAULT_VALUES.put("InternalFrame.icon",
-                           SwingUtilities2.makeIcon(BasicLookAndFeel.class,
-                                                    BasicLookAndFeel.class,
-                                                    "icons/JavaCup16.png"));
+        DEFAULT_VALUES.put("InternblFrbme.icon",
+                           SwingUtilities2.mbkeIcon(BbsicLookAndFeel.clbss,
+                                                    BbsicLookAndFeel.clbss,
+                                                    "icons/JbvbCup16.png"));
 
-        DEFAULT_VALUES.put("InternalFrame.windowBindings",
+        DEFAULT_VALUES.put("InternblFrbme.windowBindings",
             new Object[] {
               "shift ESCAPE", "showSystemMenu",
                 "ctrl SPACE", "showSystemMenu",
               "ESCAPE", "hideSystemMenu"});
 
-        DEFAULT_VALUES.put("List.focusInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+        DEFAULT_VALUES.put("List.focusInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                            "ctrl C", "copy",
-                           "ctrl V", "paste",
+                           "ctrl V", "pbste",
                            "ctrl X", "cut",
                              "COPY", "copy",
-                            "PASTE", "paste",
+                            "PASTE", "pbste",
                               "CUT", "cut",
                    "control INSERT", "copy",
-                     "shift INSERT", "paste",
+                     "shift INSERT", "pbste",
                      "shift DELETE", "cut",
                                "UP", "selectPreviousRow",
                             "KP_UP", "selectPreviousRow",
@@ -331,122 +331,122 @@ public abstract class SynthStyle {
                       "shift KP_UP", "selectPreviousRowExtendSelection",
                     "ctrl shift UP", "selectPreviousRowExtendSelection",
                  "ctrl shift KP_UP", "selectPreviousRowExtendSelection",
-                          "ctrl UP", "selectPreviousRowChangeLead",
-                       "ctrl KP_UP", "selectPreviousRowChangeLead",
+                          "ctrl UP", "selectPreviousRowChbngeLebd",
+                       "ctrl KP_UP", "selectPreviousRowChbngeLebd",
                              "DOWN", "selectNextRow",
                           "KP_DOWN", "selectNextRow",
                        "shift DOWN", "selectNextRowExtendSelection",
                     "shift KP_DOWN", "selectNextRowExtendSelection",
                   "ctrl shift DOWN", "selectNextRowExtendSelection",
                "ctrl shift KP_DOWN", "selectNextRowExtendSelection",
-                        "ctrl DOWN", "selectNextRowChangeLead",
-                     "ctrl KP_DOWN", "selectNextRowChangeLead",
+                        "ctrl DOWN", "selectNextRowChbngeLebd",
+                     "ctrl KP_DOWN", "selectNextRowChbngeLebd",
                              "LEFT", "selectPreviousColumn",
                           "KP_LEFT", "selectPreviousColumn",
                        "shift LEFT", "selectPreviousColumnExtendSelection",
                     "shift KP_LEFT", "selectPreviousColumnExtendSelection",
                   "ctrl shift LEFT", "selectPreviousColumnExtendSelection",
                "ctrl shift KP_LEFT", "selectPreviousColumnExtendSelection",
-                        "ctrl LEFT", "selectPreviousColumnChangeLead",
-                     "ctrl KP_LEFT", "selectPreviousColumnChangeLead",
+                        "ctrl LEFT", "selectPreviousColumnChbngeLebd",
+                     "ctrl KP_LEFT", "selectPreviousColumnChbngeLebd",
                             "RIGHT", "selectNextColumn",
                          "KP_RIGHT", "selectNextColumn",
                       "shift RIGHT", "selectNextColumnExtendSelection",
                    "shift KP_RIGHT", "selectNextColumnExtendSelection",
                  "ctrl shift RIGHT", "selectNextColumnExtendSelection",
               "ctrl shift KP_RIGHT", "selectNextColumnExtendSelection",
-                       "ctrl RIGHT", "selectNextColumnChangeLead",
-                    "ctrl KP_RIGHT", "selectNextColumnChangeLead",
+                       "ctrl RIGHT", "selectNextColumnChbngeLebd",
+                    "ctrl KP_RIGHT", "selectNextColumnChbngeLebd",
                              "HOME", "selectFirstRow",
                        "shift HOME", "selectFirstRowExtendSelection",
                   "ctrl shift HOME", "selectFirstRowExtendSelection",
-                        "ctrl HOME", "selectFirstRowChangeLead",
-                              "END", "selectLastRow",
-                        "shift END", "selectLastRowExtendSelection",
-                   "ctrl shift END", "selectLastRowExtendSelection",
-                         "ctrl END", "selectLastRowChangeLead",
+                        "ctrl HOME", "selectFirstRowChbngeLebd",
+                              "END", "selectLbstRow",
+                        "shift END", "selectLbstRowExtendSelection",
+                   "ctrl shift END", "selectLbstRowExtendSelection",
+                         "ctrl END", "selectLbstRowChbngeLebd",
                           "PAGE_UP", "scrollUp",
                     "shift PAGE_UP", "scrollUpExtendSelection",
                "ctrl shift PAGE_UP", "scrollUpExtendSelection",
-                     "ctrl PAGE_UP", "scrollUpChangeLead",
+                     "ctrl PAGE_UP", "scrollUpChbngeLebd",
                         "PAGE_DOWN", "scrollDown",
                   "shift PAGE_DOWN", "scrollDownExtendSelection",
              "ctrl shift PAGE_DOWN", "scrollDownExtendSelection",
-                   "ctrl PAGE_DOWN", "scrollDownChangeLead",
+                   "ctrl PAGE_DOWN", "scrollDownChbngeLebd",
                            "ctrl A", "selectAll",
                        "ctrl SLASH", "selectAll",
-                  "ctrl BACK_SLASH", "clearSelection",
-                            "SPACE", "addToSelection",
+                  "ctrl BACK_SLASH", "clebrSelection",
+                            "SPACE", "bddToSelection",
                        "ctrl SPACE", "toggleAndAnchor",
                       "shift SPACE", "extendTo",
                  "ctrl shift SPACE", "moveSelectionTo"
                }));
 
-        DEFAULT_VALUES.put("List.focusInputMap.RightToLeft",
-               new UIDefaults.LazyInputMap(new Object[] {
+        DEFAULT_VALUES.put("List.focusInputMbp.RightToLeft",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                              "LEFT", "selectNextColumn",
                           "KP_LEFT", "selectNextColumn",
                        "shift LEFT", "selectNextColumnExtendSelection",
                     "shift KP_LEFT", "selectNextColumnExtendSelection",
                   "ctrl shift LEFT", "selectNextColumnExtendSelection",
                "ctrl shift KP_LEFT", "selectNextColumnExtendSelection",
-                        "ctrl LEFT", "selectNextColumnChangeLead",
-                     "ctrl KP_LEFT", "selectNextColumnChangeLead",
+                        "ctrl LEFT", "selectNextColumnChbngeLebd",
+                     "ctrl KP_LEFT", "selectNextColumnChbngeLebd",
                             "RIGHT", "selectPreviousColumn",
                          "KP_RIGHT", "selectPreviousColumn",
                       "shift RIGHT", "selectPreviousColumnExtendSelection",
                    "shift KP_RIGHT", "selectPreviousColumnExtendSelection",
                  "ctrl shift RIGHT", "selectPreviousColumnExtendSelection",
               "ctrl shift KP_RIGHT", "selectPreviousColumnExtendSelection",
-                       "ctrl RIGHT", "selectPreviousColumnChangeLead",
-                    "ctrl KP_RIGHT", "selectPreviousColumnChangeLead",
+                       "ctrl RIGHT", "selectPreviousColumnChbngeLebd",
+                    "ctrl KP_RIGHT", "selectPreviousColumnChbngeLebd",
                }));
 
-        DEFAULT_VALUES.put("MenuBar.windowBindings",
-                                new Object[] { "F10", "takeFocus" });
+        DEFAULT_VALUES.put("MenuBbr.windowBindings",
+                                new Object[] { "F10", "tbkeFocus" });
 
-        DEFAULT_VALUES.put("OptionPane.windowBindings",
+        DEFAULT_VALUES.put("OptionPbne.windowBindings",
                  new Object[] { "ESCAPE", "close" });
 
-        DEFAULT_VALUES.put("RootPane.defaultButtonWindowKeyBindings",
+        DEFAULT_VALUES.put("RootPbne.defbultButtonWindowKeyBindings",
                  new Object[] {
                              "ENTER", "press",
-                    "released ENTER", "release",
+                    "relebsed ENTER", "relebse",
                         "ctrl ENTER", "press",
-               "ctrl released ENTER", "release"
+               "ctrl relebsed ENTER", "relebse"
                  });
 
-        DEFAULT_VALUES.put("RootPane.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+        DEFAULT_VALUES.put("RootPbne.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                     "shift F10", "postPopup"
                }));
 
-        DEFAULT_VALUES.put("ScrollBar.anecstorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+        DEFAULT_VALUES.put("ScrollBbr.bnecstorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                        "RIGHT", "positiveUnitIncrement",
                     "KP_RIGHT", "positiveUnitIncrement",
                         "DOWN", "positiveUnitIncrement",
                      "KP_DOWN", "positiveUnitIncrement",
                    "PAGE_DOWN", "positiveBlockIncrement",
-                        "LEFT", "negativeUnitIncrement",
-                     "KP_LEFT", "negativeUnitIncrement",
-                          "UP", "negativeUnitIncrement",
-                       "KP_UP", "negativeUnitIncrement",
-                     "PAGE_UP", "negativeBlockIncrement",
+                        "LEFT", "negbtiveUnitIncrement",
+                     "KP_LEFT", "negbtiveUnitIncrement",
+                          "UP", "negbtiveUnitIncrement",
+                       "KP_UP", "negbtiveUnitIncrement",
+                     "PAGE_UP", "negbtiveBlockIncrement",
                         "HOME", "minScroll",
-                         "END", "maxScroll"
+                         "END", "mbxScroll"
                }));
 
-        DEFAULT_VALUES.put("ScrollBar.ancestorInputMap.RightToLeft",
-               new UIDefaults.LazyInputMap(new Object[] {
-                       "RIGHT", "negativeUnitIncrement",
-                    "KP_RIGHT", "negativeUnitIncrement",
+        DEFAULT_VALUES.put("ScrollBbr.bncestorInputMbp.RightToLeft",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                       "RIGHT", "negbtiveUnitIncrement",
+                    "KP_RIGHT", "negbtiveUnitIncrement",
                         "LEFT", "positiveUnitIncrement",
                      "KP_LEFT", "positiveUnitIncrement",
                }));
 
-        DEFAULT_VALUES.put("ScrollPane.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+        DEFAULT_VALUES.put("ScrollPbne.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                            "RIGHT", "unitScrollRight",
                         "KP_RIGHT", "unitScrollRight",
                             "DOWN", "unitScrollDown",
@@ -462,96 +462,96 @@ public abstract class SynthStyle {
                        "ctrl HOME", "scrollHome",
                         "ctrl END", "scrollEnd"
                }));
-        DEFAULT_VALUES.put("ScrollPane.ancestorInputMap.RightToLeft",
-               new UIDefaults.LazyInputMap(new Object[] {
+        DEFAULT_VALUES.put("ScrollPbne.bncestorInputMbp.RightToLeft",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                     "ctrl PAGE_UP", "scrollRight",
                   "ctrl PAGE_DOWN", "scrollLeft",
                }));
 
-        DEFAULT_VALUES.put("SplitPane.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                        "UP", "negativeIncrement",
+        DEFAULT_VALUES.put("SplitPbne.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                        "UP", "negbtiveIncrement",
                       "DOWN", "positiveIncrement",
-                      "LEFT", "negativeIncrement",
+                      "LEFT", "negbtiveIncrement",
                      "RIGHT", "positiveIncrement",
-                     "KP_UP", "negativeIncrement",
+                     "KP_UP", "negbtiveIncrement",
                    "KP_DOWN", "positiveIncrement",
-                   "KP_LEFT", "negativeIncrement",
+                   "KP_LEFT", "negbtiveIncrement",
                   "KP_RIGHT", "positiveIncrement",
                       "HOME", "selectMin",
-                       "END", "selectMax",
-                        "F8", "startResize",
+                       "END", "selectMbx",
+                        "F8", "stbrtResize",
                         "F6", "toggleFocus",
-                  "ctrl TAB", "focusOutForward",
-            "ctrl shift TAB", "focusOutBackward"
+                  "ctrl TAB", "focusOutForwbrd",
+            "ctrl shift TAB", "focusOutBbckwbrd"
                }));
 
-        DEFAULT_VALUES.put("Spinner.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+        DEFAULT_VALUES.put("Spinner.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                           "UP", "increment",
                        "KP_UP", "increment",
                         "DOWN", "decrement",
                      "KP_DOWN", "decrement"
                }));
 
-        DEFAULT_VALUES.put("Slider.focusInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+        DEFAULT_VALUES.put("Slider.focusInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                        "RIGHT", "positiveUnitIncrement",
                     "KP_RIGHT", "positiveUnitIncrement",
-                        "DOWN", "negativeUnitIncrement",
-                     "KP_DOWN", "negativeUnitIncrement",
-                   "PAGE_DOWN", "negativeBlockIncrement",
-              "ctrl PAGE_DOWN", "negativeBlockIncrement",
-                        "LEFT", "negativeUnitIncrement",
-                     "KP_LEFT", "negativeUnitIncrement",
+                        "DOWN", "negbtiveUnitIncrement",
+                     "KP_DOWN", "negbtiveUnitIncrement",
+                   "PAGE_DOWN", "negbtiveBlockIncrement",
+              "ctrl PAGE_DOWN", "negbtiveBlockIncrement",
+                        "LEFT", "negbtiveUnitIncrement",
+                     "KP_LEFT", "negbtiveUnitIncrement",
                           "UP", "positiveUnitIncrement",
                        "KP_UP", "positiveUnitIncrement",
                      "PAGE_UP", "positiveBlockIncrement",
                 "ctrl PAGE_UP", "positiveBlockIncrement",
                         "HOME", "minScroll",
-                         "END", "maxScroll"
+                         "END", "mbxScroll"
                }));
 
-        DEFAULT_VALUES.put("Slider.focusInputMap.RightToLeft",
-               new UIDefaults.LazyInputMap(new Object[] {
-                       "RIGHT", "negativeUnitIncrement",
-                    "KP_RIGHT", "negativeUnitIncrement",
+        DEFAULT_VALUES.put("Slider.focusInputMbp.RightToLeft",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                       "RIGHT", "negbtiveUnitIncrement",
+                    "KP_RIGHT", "negbtiveUnitIncrement",
                         "LEFT", "positiveUnitIncrement",
                      "KP_LEFT", "positiveUnitIncrement",
                }));
 
-        DEFAULT_VALUES.put("TabbedPane.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                   "ctrl PAGE_DOWN", "navigatePageDown",
-                     "ctrl PAGE_UP", "navigatePageUp",
+        DEFAULT_VALUES.put("TbbbedPbne.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                   "ctrl PAGE_DOWN", "nbvigbtePbgeDown",
+                     "ctrl PAGE_UP", "nbvigbtePbgeUp",
                           "ctrl UP", "requestFocus",
                        "ctrl KP_UP", "requestFocus",
                }));
 
-        DEFAULT_VALUES.put("TabbedPane.focusInputMap",
-              new UIDefaults.LazyInputMap(new Object[] {
-                         "RIGHT", "navigateRight",
-                      "KP_RIGHT", "navigateRight",
-                          "LEFT", "navigateLeft",
-                       "KP_LEFT", "navigateLeft",
-                            "UP", "navigateUp",
-                         "KP_UP", "navigateUp",
-                          "DOWN", "navigateDown",
-                       "KP_DOWN", "navigateDown",
+        DEFAULT_VALUES.put("TbbbedPbne.focusInputMbp",
+              new UIDefbults.LbzyInputMbp(new Object[] {
+                         "RIGHT", "nbvigbteRight",
+                      "KP_RIGHT", "nbvigbteRight",
+                          "LEFT", "nbvigbteLeft",
+                       "KP_LEFT", "nbvigbteLeft",
+                            "UP", "nbvigbteUp",
+                         "KP_UP", "nbvigbteUp",
+                          "DOWN", "nbvigbteDown",
+                       "KP_DOWN", "nbvigbteDown",
                      "ctrl DOWN", "requestFocusForVisibleComponent",
                   "ctrl KP_DOWN", "requestFocusForVisibleComponent",
               }));
 
-        DEFAULT_VALUES.put("Table.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+        DEFAULT_VALUES.put("Tbble.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                                "ctrl C", "copy",
-                               "ctrl V", "paste",
+                               "ctrl V", "pbste",
                                "ctrl X", "cut",
                                  "COPY", "copy",
-                                "PASTE", "paste",
+                                "PASTE", "pbste",
                                   "CUT", "cut",
                        "control INSERT", "copy",
-                         "shift INSERT", "paste",
+                         "shift INSERT", "pbste",
                          "shift DELETE", "cut",
                                 "RIGHT", "selectNextColumn",
                              "KP_RIGHT", "selectNextColumn",
@@ -559,98 +559,98 @@ public abstract class SynthStyle {
                        "shift KP_RIGHT", "selectNextColumnExtendSelection",
                      "ctrl shift RIGHT", "selectNextColumnExtendSelection",
                   "ctrl shift KP_RIGHT", "selectNextColumnExtendSelection",
-                           "ctrl RIGHT", "selectNextColumnChangeLead",
-                        "ctrl KP_RIGHT", "selectNextColumnChangeLead",
+                           "ctrl RIGHT", "selectNextColumnChbngeLebd",
+                        "ctrl KP_RIGHT", "selectNextColumnChbngeLebd",
                                  "LEFT", "selectPreviousColumn",
                               "KP_LEFT", "selectPreviousColumn",
                            "shift LEFT", "selectPreviousColumnExtendSelection",
                         "shift KP_LEFT", "selectPreviousColumnExtendSelection",
                       "ctrl shift LEFT", "selectPreviousColumnExtendSelection",
                    "ctrl shift KP_LEFT", "selectPreviousColumnExtendSelection",
-                            "ctrl LEFT", "selectPreviousColumnChangeLead",
-                         "ctrl KP_LEFT", "selectPreviousColumnChangeLead",
+                            "ctrl LEFT", "selectPreviousColumnChbngeLebd",
+                         "ctrl KP_LEFT", "selectPreviousColumnChbngeLebd",
                                  "DOWN", "selectNextRow",
                               "KP_DOWN", "selectNextRow",
                            "shift DOWN", "selectNextRowExtendSelection",
                         "shift KP_DOWN", "selectNextRowExtendSelection",
                       "ctrl shift DOWN", "selectNextRowExtendSelection",
                    "ctrl shift KP_DOWN", "selectNextRowExtendSelection",
-                            "ctrl DOWN", "selectNextRowChangeLead",
-                         "ctrl KP_DOWN", "selectNextRowChangeLead",
+                            "ctrl DOWN", "selectNextRowChbngeLebd",
+                         "ctrl KP_DOWN", "selectNextRowChbngeLebd",
                                    "UP", "selectPreviousRow",
                                 "KP_UP", "selectPreviousRow",
                              "shift UP", "selectPreviousRowExtendSelection",
                           "shift KP_UP", "selectPreviousRowExtendSelection",
                         "ctrl shift UP", "selectPreviousRowExtendSelection",
                      "ctrl shift KP_UP", "selectPreviousRowExtendSelection",
-                              "ctrl UP", "selectPreviousRowChangeLead",
-                           "ctrl KP_UP", "selectPreviousRowChangeLead",
+                              "ctrl UP", "selectPreviousRowChbngeLebd",
+                           "ctrl KP_UP", "selectPreviousRowChbngeLebd",
                                  "HOME", "selectFirstColumn",
                            "shift HOME", "selectFirstColumnExtendSelection",
                       "ctrl shift HOME", "selectFirstRowExtendSelection",
                             "ctrl HOME", "selectFirstRow",
-                                  "END", "selectLastColumn",
-                            "shift END", "selectLastColumnExtendSelection",
-                       "ctrl shift END", "selectLastRowExtendSelection",
-                             "ctrl END", "selectLastRow",
-                              "PAGE_UP", "scrollUpChangeSelection",
+                                  "END", "selectLbstColumn",
+                            "shift END", "selectLbstColumnExtendSelection",
+                       "ctrl shift END", "selectLbstRowExtendSelection",
+                             "ctrl END", "selectLbstRow",
+                              "PAGE_UP", "scrollUpChbngeSelection",
                         "shift PAGE_UP", "scrollUpExtendSelection",
                    "ctrl shift PAGE_UP", "scrollLeftExtendSelection",
-                         "ctrl PAGE_UP", "scrollLeftChangeSelection",
-                            "PAGE_DOWN", "scrollDownChangeSelection",
+                         "ctrl PAGE_UP", "scrollLeftChbngeSelection",
+                            "PAGE_DOWN", "scrollDownChbngeSelection",
                       "shift PAGE_DOWN", "scrollDownExtendSelection",
                  "ctrl shift PAGE_DOWN", "scrollRightExtendSelection",
-                       "ctrl PAGE_DOWN", "scrollRightChangeSelection",
+                       "ctrl PAGE_DOWN", "scrollRightChbngeSelection",
                                   "TAB", "selectNextColumnCell",
                             "shift TAB", "selectPreviousColumnCell",
                                 "ENTER", "selectNextRowCell",
                           "shift ENTER", "selectPreviousRowCell",
                                "ctrl A", "selectAll",
                            "ctrl SLASH", "selectAll",
-                      "ctrl BACK_SLASH", "clearSelection",
-                               "ESCAPE", "cancel",
-                                   "F2", "startEditing",
-                                "SPACE", "addToSelection",
+                      "ctrl BACK_SLASH", "clebrSelection",
+                               "ESCAPE", "cbncel",
+                                   "F2", "stbrtEditing",
+                                "SPACE", "bddToSelection",
                            "ctrl SPACE", "toggleAndAnchor",
                           "shift SPACE", "extendTo",
                      "ctrl shift SPACE", "moveSelectionTo",
-                                   "F8", "focusHeader"
+                                   "F8", "focusHebder"
                }));
 
-       DEFAULT_VALUES.put("TableHeader.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+       DEFAULT_VALUES.put("TbbleHebder.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                                 "SPACE", "toggleSortOrder",
                                  "LEFT", "selectColumnToLeft",
                               "KP_LEFT", "selectColumnToLeft",
                                 "RIGHT", "selectColumnToRight",
                              "KP_RIGHT", "selectColumnToRight",
-                             "alt LEFT", "moveColumnLeft",
-                          "alt KP_LEFT", "moveColumnLeft",
-                            "alt RIGHT", "moveColumnRight",
-                         "alt KP_RIGHT", "moveColumnRight",
-                       "alt shift LEFT", "resizeLeft",
-                    "alt shift KP_LEFT", "resizeLeft",
-                      "alt shift RIGHT", "resizeRight",
-                   "alt shift KP_RIGHT", "resizeRight",
-                               "ESCAPE", "focusTable",
+                             "blt LEFT", "moveColumnLeft",
+                          "blt KP_LEFT", "moveColumnLeft",
+                            "blt RIGHT", "moveColumnRight",
+                         "blt KP_RIGHT", "moveColumnRight",
+                       "blt shift LEFT", "resizeLeft",
+                    "blt shift KP_LEFT", "resizeLeft",
+                      "blt shift RIGHT", "resizeRight",
+                   "blt shift KP_RIGHT", "resizeRight",
+                               "ESCAPE", "focusTbble",
                }));
 
-        DEFAULT_VALUES.put("Tree.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                     "ESCAPE", "cancel"
+        DEFAULT_VALUES.put("Tree.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                     "ESCAPE", "cbncel"
                }));
-        DEFAULT_VALUES.put("Tree.focusInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                                    "ADD", "expand",
-                               "SUBTRACT", "collapse",
+        DEFAULT_VALUES.put("Tree.focusInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                                    "ADD", "expbnd",
+                               "SUBTRACT", "collbpse",
                                  "ctrl C", "copy",
-                                 "ctrl V", "paste",
+                                 "ctrl V", "pbste",
                                  "ctrl X", "cut",
                                    "COPY", "copy",
-                                  "PASTE", "paste",
+                                  "PASTE", "pbste",
                                     "CUT", "cut",
                          "control INSERT", "copy",
-                           "shift INSERT", "paste",
+                           "shift INSERT", "pbste",
                            "shift DELETE", "cut",
                                      "UP", "selectPrevious",
                                   "KP_UP", "selectPrevious",
@@ -658,136 +658,136 @@ public abstract class SynthStyle {
                             "shift KP_UP", "selectPreviousExtendSelection",
                           "ctrl shift UP", "selectPreviousExtendSelection",
                        "ctrl shift KP_UP", "selectPreviousExtendSelection",
-                                "ctrl UP", "selectPreviousChangeLead",
-                             "ctrl KP_UP", "selectPreviousChangeLead",
+                                "ctrl UP", "selectPreviousChbngeLebd",
+                             "ctrl KP_UP", "selectPreviousChbngeLebd",
                                    "DOWN", "selectNext",
                                 "KP_DOWN", "selectNext",
                              "shift DOWN", "selectNextExtendSelection",
                           "shift KP_DOWN", "selectNextExtendSelection",
                         "ctrl shift DOWN", "selectNextExtendSelection",
                      "ctrl shift KP_DOWN", "selectNextExtendSelection",
-                              "ctrl DOWN", "selectNextChangeLead",
-                           "ctrl KP_DOWN", "selectNextChangeLead",
+                              "ctrl DOWN", "selectNextChbngeLebd",
+                           "ctrl KP_DOWN", "selectNextChbngeLebd",
                                   "RIGHT", "selectChild",
                                "KP_RIGHT", "selectChild",
-                                   "LEFT", "selectParent",
-                                "KP_LEFT", "selectParent",
-                                "PAGE_UP", "scrollUpChangeSelection",
+                                   "LEFT", "selectPbrent",
+                                "KP_LEFT", "selectPbrent",
+                                "PAGE_UP", "scrollUpChbngeSelection",
                           "shift PAGE_UP", "scrollUpExtendSelection",
                      "ctrl shift PAGE_UP", "scrollUpExtendSelection",
-                           "ctrl PAGE_UP", "scrollUpChangeLead",
-                              "PAGE_DOWN", "scrollDownChangeSelection",
+                           "ctrl PAGE_UP", "scrollUpChbngeLebd",
+                              "PAGE_DOWN", "scrollDownChbngeSelection",
                         "shift PAGE_DOWN", "scrollDownExtendSelection",
                    "ctrl shift PAGE_DOWN", "scrollDownExtendSelection",
-                         "ctrl PAGE_DOWN", "scrollDownChangeLead",
+                         "ctrl PAGE_DOWN", "scrollDownChbngeLebd",
                                    "HOME", "selectFirst",
                              "shift HOME", "selectFirstExtendSelection",
                         "ctrl shift HOME", "selectFirstExtendSelection",
-                              "ctrl HOME", "selectFirstChangeLead",
-                                    "END", "selectLast",
-                              "shift END", "selectLastExtendSelection",
-                         "ctrl shift END", "selectLastExtendSelection",
-                               "ctrl END", "selectLastChangeLead",
-                                     "F2", "startEditing",
+                              "ctrl HOME", "selectFirstChbngeLebd",
+                                    "END", "selectLbst",
+                              "shift END", "selectLbstExtendSelection",
+                         "ctrl shift END", "selectLbstExtendSelection",
+                               "ctrl END", "selectLbstChbngeLebd",
+                                     "F2", "stbrtEditing",
                                  "ctrl A", "selectAll",
                              "ctrl SLASH", "selectAll",
-                        "ctrl BACK_SLASH", "clearSelection",
+                        "ctrl BACK_SLASH", "clebrSelection",
                               "ctrl LEFT", "scrollLeft",
                            "ctrl KP_LEFT", "scrollLeft",
                              "ctrl RIGHT", "scrollRight",
                           "ctrl KP_RIGHT", "scrollRight",
-                                  "SPACE", "addToSelection",
+                                  "SPACE", "bddToSelection",
                              "ctrl SPACE", "toggleAndAnchor",
                             "shift SPACE", "extendTo",
                        "ctrl shift SPACE", "moveSelectionTo"
                }));
-        DEFAULT_VALUES.put("Tree.focusInputMap.RightToLeft",
-               new UIDefaults.LazyInputMap(new Object[] {
-                                  "RIGHT", "selectParent",
-                               "KP_RIGHT", "selectParent",
+        DEFAULT_VALUES.put("Tree.focusInputMbp.RightToLeft",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                                  "RIGHT", "selectPbrent",
+                               "KP_RIGHT", "selectPbrent",
                                    "LEFT", "selectChild",
                                 "KP_LEFT", "selectChild",
                }));
     }
 
     /**
-     * Returns the default value for the specified property, or null if there
-     * is no default for the specified value.
+     * Returns the defbult vblue for the specified property, or null if there
+     * is no defbult for the specified vblue.
      */
-    private static Object getDefaultValue(Object key) {
-        synchronized(SynthStyle.class) {
+    privbte stbtic Object getDefbultVblue(Object key) {
+        synchronized(SynthStyle.clbss) {
             if (DEFAULT_VALUES == null) {
-                DEFAULT_VALUES = new HashMap<Object, Object>();
-                populateDefaultValues();
+                DEFAULT_VALUES = new HbshMbp<Object, Object>();
+                populbteDefbultVblues();
             }
-            Object value = DEFAULT_VALUES.get(key);
-            if (value instanceof UIDefaults.LazyValue) {
-                value = ((UIDefaults.LazyValue)value).createValue(null);
-                DEFAULT_VALUES.put(key, value);
+            Object vblue = DEFAULT_VALUES.get(key);
+            if (vblue instbnceof UIDefbults.LbzyVblue) {
+                vblue = ((UIDefbults.LbzyVblue)vblue).crebteVblue(null);
+                DEFAULT_VALUES.put(key, vblue);
             }
-            return value;
+            return vblue;
         }
     }
 
     /**
-     * Constructs a SynthStyle.
+     * Constructs b SynthStyle.
      */
     public SynthStyle() {
     }
 
     /**
-     * Returns the <code>SynthGraphicUtils</code> for the specified context.
+     * Returns the <code>SynthGrbphicUtils</code> for the specified context.
      *
-     * @param context SynthContext identifying requester
-     * @return SynthGraphicsUtils
+     * @pbrbm context SynthContext identifying requester
+     * @return SynthGrbphicsUtils
      */
-    public SynthGraphicsUtils getGraphicsUtils(SynthContext context) {
+    public SynthGrbphicsUtils getGrbphicsUtils(SynthContext context) {
         return SYNTH_GRAPHICS;
     }
 
     /**
-     * Returns the color for the specified state. This gives precedence to
-     * foreground and background of the <code>JComponent</code>. If the
-     * <code>Color</code> from the <code>JComponent</code> is not appropriate,
-     * or not used, this will invoke <code>getColorForState</code>. Subclasses
-     * should generally not have to override this, instead override
-     * {@link #getColorForState}.
+     * Returns the color for the specified stbte. This gives precedence to
+     * foreground bnd bbckground of the <code>JComponent</code>. If the
+     * <code>Color</code> from the <code>JComponent</code> is not bppropribte,
+     * or not used, this will invoke <code>getColorForStbte</code>. Subclbsses
+     * should generblly not hbve to override this, instebd override
+     * {@link #getColorForStbte}.
      *
-     * @param context SynthContext identifying requester
-     * @param type Type of color being requested.
+     * @pbrbm context SynthContext identifying requester
+     * @pbrbm type Type of color being requested.
      * @return Color
      */
     public Color getColor(SynthContext context, ColorType type) {
         JComponent c = context.getComponent();
         Region id = context.getRegion();
 
-        if ((context.getComponentState() & SynthConstants.DISABLED) != 0) {
-            //This component is disabled, so return the disabled color.
-            //In some cases this means ignoring the color specified by the
-            //developer on the component. In other cases it means using a
-            //specified disabledTextColor, such as on JTextComponents.
-            //For example, JLabel doesn't specify a disabled color that the
-            //developer can set, yet it should have a disabled color to the
-            //text when the label is disabled. This code allows for that.
-            if (c instanceof JTextComponent) {
+        if ((context.getComponentStbte() & SynthConstbnts.DISABLED) != 0) {
+            //This component is disbbled, so return the disbbled color.
+            //In some cbses this mebns ignoring the color specified by the
+            //developer on the component. In other cbses it mebns using b
+            //specified disbbledTextColor, such bs on JTextComponents.
+            //For exbmple, JLbbel doesn't specify b disbbled color thbt the
+            //developer cbn set, yet it should hbve b disbbled color to the
+            //text when the lbbel is disbbled. This code bllows for thbt.
+            if (c instbnceof JTextComponent) {
                 JTextComponent txt = (JTextComponent)c;
-                Color disabledColor = txt.getDisabledTextColor();
-                if (disabledColor == null || disabledColor instanceof UIResource) {
-                    return getColorForState(context, type);
+                Color disbbledColor = txt.getDisbbledTextColor();
+                if (disbbledColor == null || disbbledColor instbnceof UIResource) {
+                    return getColorForStbte(context, type);
                 }
-            } else if (c instanceof JLabel &&
+            } else if (c instbnceof JLbbel &&
                             (type == ColorType.FOREGROUND ||
                              type == ColorType.TEXT_FOREGROUND)) {
-                return getColorForState(context, type);
+                return getColorForStbte(context, type);
             }
         }
 
-        // If the developer has specified a color, prefer it. Otherwise, get
-        // the color for the state.
+        // If the developer hbs specified b color, prefer it. Otherwise, get
+        // the color for the stbte.
         Color color = null;
         if (!id.isSubregion()) {
             if (type == ColorType.BACKGROUND) {
-                color = c.getBackground();
+                color = c.getBbckground();
             }
             else if (type == ColorType.FOREGROUND) {
                 color = c.getForeground();
@@ -797,16 +797,16 @@ public abstract class SynthStyle {
             }
         }
 
-        if (color == null || color instanceof UIResource) {
-            // Then use what we've locally defined
-            color = getColorForState(context, type);
+        if (color == null || color instbnceof UIResource) {
+            // Then use whbt we've locblly defined
+            color = getColorForStbte(context, type);
         }
 
         if (color == null) {
-            // No color, fallback to that of the widget.
+            // No color, fbllbbck to thbt of the widget.
             if (type == ColorType.BACKGROUND ||
                         type == ColorType.TEXT_BACKGROUND) {
-                return c.getBackground();
+                return c.getBbckground();
             }
             else if (type == ColorType.FOREGROUND ||
                      type == ColorType.TEXT_FOREGROUND) {
@@ -817,51 +817,51 @@ public abstract class SynthStyle {
     }
 
     /**
-     * Returns the color for the specified state. This should NOT call any
+     * Returns the color for the specified stbte. This should NOT cbll bny
      * methods on the <code>JComponent</code>.
      *
-     * @param context SynthContext identifying requester
-     * @param type Type of color being requested.
+     * @pbrbm context SynthContext identifying requester
+     * @pbrbm type Type of color being requested.
      * @return Color to render with
      */
-    protected abstract Color getColorForState(SynthContext context,
+    protected bbstrbct Color getColorForStbte(SynthContext context,
                                               ColorType type);
 
     /**
-     * Returns the Font for the specified state. This redirects to the
-     * <code>JComponent</code> from the <code>context</code> as necessary.
+     * Returns the Font for the specified stbte. This redirects to the
+     * <code>JComponent</code> from the <code>context</code> bs necessbry.
      * If this does not redirect
-     * to the JComponent {@link #getFontForState} is invoked.
+     * to the JComponent {@link #getFontForStbte} is invoked.
      *
-     * @param context SynthContext identifying requester
+     * @pbrbm context SynthContext identifying requester
      * @return Font to render with
      */
     public Font getFont(SynthContext context) {
         JComponent c = context.getComponent();
-        if (context.getComponentState() == SynthConstants.ENABLED) {
+        if (context.getComponentStbte() == SynthConstbnts.ENABLED) {
             return c.getFont();
         }
         Font cFont = c.getFont();
-        if (cFont != null && !(cFont instanceof UIResource)) {
+        if (cFont != null && !(cFont instbnceof UIResource)) {
             return cFont;
         }
-        return getFontForState(context);
+        return getFontForStbte(context);
     }
 
     /**
-     * Returns the font for the specified state. This should NOT call any
+     * Returns the font for the specified stbte. This should NOT cbll bny
      * method on the <code>JComponent</code>.
      *
-     * @param context SynthContext identifying requester
+     * @pbrbm context SynthContext identifying requester
      * @return Font to render with
      */
-    protected abstract Font getFontForState(SynthContext context);
+    protected bbstrbct Font getFontForStbte(SynthContext context);
 
     /**
-     * Returns the Insets that are used to calculate sizing information.
+     * Returns the Insets thbt bre used to cblculbte sizing informbtion.
      *
-     * @param context SynthContext identifying requester
-     * @param insets Insets to place return value in.
+     * @pbrbm context SynthContext identifying requester
+     * @pbrbm insets Insets to plbce return vblue in.
      * @return Sizing Insets.
      */
     public Insets getInsets(SynthContext context, Insets insets) {
@@ -873,183 +873,183 @@ public abstract class SynthStyle {
     }
 
     /**
-     * Returns the <code>SynthPainter</code> that will be used for painting.
-     * This may return null.
+     * Returns the <code>SynthPbinter</code> thbt will be used for pbinting.
+     * This mby return null.
      *
-     * @param context SynthContext identifying requester
-     * @return SynthPainter to use
+     * @pbrbm context SynthContext identifying requester
+     * @return SynthPbinter to use
      */
-    public SynthPainter getPainter(SynthContext context) {
+    public SynthPbinter getPbinter(SynthContext context) {
         return null;
     }
 
     /**
-     * Returns true if the region is opaque.
+     * Returns true if the region is opbque.
      *
-     * @param context SynthContext identifying requester
-     * @return true if region is opaque.
+     * @pbrbm context SynthContext identifying requester
+     * @return true if region is opbque.
      */
-    public boolean isOpaque(SynthContext context) {
+    public boolebn isOpbque(SynthContext context) {
         return true;
     }
 
     /**
-     * Getter for a region specific style property.
+     * Getter for b region specific style property.
      *
-     * @param context SynthContext identifying requester
-     * @param key Property being requested.
-     * @return Value of the named property
+     * @pbrbm context SynthContext identifying requester
+     * @pbrbm key Property being requested.
+     * @return Vblue of the nbmed property
      */
     public Object get(SynthContext context, Object key) {
-        return getDefaultValue(key);
+        return getDefbultVblue(key);
     }
 
-    void installDefaults(SynthContext context, SynthUI ui) {
-        // Special case the Border as this will likely change when the LAF
-        // can have more control over this.
+    void instbllDefbults(SynthContext context, SynthUI ui) {
+        // Specibl cbse the Border bs this will likely chbnge when the LAF
+        // cbn hbve more control over this.
         if (!context.isSubregion()) {
             JComponent c = context.getComponent();
             Border border = c.getBorder();
 
-            if (border == null || border instanceof UIResource) {
+            if (border == null || border instbnceof UIResource) {
                 c.setBorder(new SynthBorder(ui, getInsets(context, null)));
             }
         }
-        installDefaults(context);
+        instbllDefbults(context);
     }
 
     /**
-     * Installs the necessary state from this Style on the
+     * Instblls the necessbry stbte from this Style on the
      * <code>JComponent</code> from <code>context</code>.
      *
-     * @param context SynthContext identifying component to install properties
+     * @pbrbm context SynthContext identifying component to instbll properties
      *        to.
      */
-    public void installDefaults(SynthContext context) {
+    public void instbllDefbults(SynthContext context) {
         if (!context.isSubregion()) {
             JComponent c = context.getComponent();
             Region region = context.getRegion();
             Font font = c.getFont();
 
-            if (font == null || (font instanceof UIResource)) {
-                c.setFont(getFontForState(context));
+            if (font == null || (font instbnceof UIResource)) {
+                c.setFont(getFontForStbte(context));
             }
-            Color background = c.getBackground();
-            if (background == null || (background instanceof UIResource)) {
-                c.setBackground(getColorForState(context,
+            Color bbckground = c.getBbckground();
+            if (bbckground == null || (bbckground instbnceof UIResource)) {
+                c.setBbckground(getColorForStbte(context,
                                                  ColorType.BACKGROUND));
             }
             Color foreground = c.getForeground();
-            if (foreground == null || (foreground instanceof UIResource)) {
-                c.setForeground(getColorForState(context,
+            if (foreground == null || (foreground instbnceof UIResource)) {
+                c.setForeground(getColorForStbte(context,
                          ColorType.FOREGROUND));
             }
-            LookAndFeel.installProperty(c, "opaque", Boolean.valueOf(isOpaque(context)));
+            LookAndFeel.instbllProperty(c, "opbque", Boolebn.vblueOf(isOpbque(context)));
         }
     }
 
     /**
-     * Uninstalls any state that this style installed on
+     * Uninstblls bny stbte thbt this style instblled on
      * the <code>JComponent</code> from <code>context</code>.
      * <p>
-     * Styles should NOT depend upon this being called, in certain cases
-     * it may never be called.
+     * Styles should NOT depend upon this being cblled, in certbin cbses
+     * it mby never be cblled.
      *
-     * @param context SynthContext identifying component to install properties
+     * @pbrbm context SynthContext identifying component to instbll properties
      *        to.
      */
-    public void uninstallDefaults(SynthContext context) {
+    public void uninstbllDefbults(SynthContext context) {
         if (!context.isSubregion()) {
-            // NOTE: because getForeground, getBackground and getFont will look
-            // at the parent Container, if we set them to null it may
-            // mean we they return a non-null and non-UIResource value
-            // preventing install from correctly settings its colors/font. For
-            // this reason we do not uninstall the fg/bg/font.
+            // NOTE: becbuse getForeground, getBbckground bnd getFont will look
+            // bt the pbrent Contbiner, if we set them to null it mby
+            // mebn we they return b non-null bnd non-UIResource vblue
+            // preventing instbll from correctly settings its colors/font. For
+            // this rebson we do not uninstbll the fg/bg/font.
 
             JComponent c = context.getComponent();
             Border border = c.getBorder();
 
-            if (border instanceof UIResource) {
+            if (border instbnceof UIResource) {
                 c.setBorder(null);
             }
         }
     }
 
     /**
-     * Convenience method to get a specific style property whose value is
-     * a <code>Number</code>. If the value is a <code>Number</code>,
-     * <code>intValue</code> is returned, otherwise <code>defaultValue</code>
+     * Convenience method to get b specific style property whose vblue is
+     * b <code>Number</code>. If the vblue is b <code>Number</code>,
+     * <code>intVblue</code> is returned, otherwise <code>defbultVblue</code>
      * is returned.
      *
-     * @param context SynthContext identifying requester
-     * @param key Property being requested.
-     * @param defaultValue Value to return if the property has not been
-     *        specified, or is not a Number
-     * @return Value of the named property
+     * @pbrbm context SynthContext identifying requester
+     * @pbrbm key Property being requested.
+     * @pbrbm defbultVblue Vblue to return if the property hbs not been
+     *        specified, or is not b Number
+     * @return Vblue of the nbmed property
      */
-    public int getInt(SynthContext context, Object key, int defaultValue) {
-        Object value = get(context, key);
+    public int getInt(SynthContext context, Object key, int defbultVblue) {
+        Object vblue = get(context, key);
 
-        if (value instanceof Number) {
-            return ((Number)value).intValue();
+        if (vblue instbnceof Number) {
+            return ((Number)vblue).intVblue();
         }
-        return defaultValue;
+        return defbultVblue;
     }
 
     /**
-     * Convenience method to get a specific style property whose value is
-     * an Boolean.
+     * Convenience method to get b specific style property whose vblue is
+     * bn Boolebn.
      *
-     * @param context SynthContext identifying requester
-     * @param key Property being requested.
-     * @param defaultValue Value to return if the property has not been
-     *        specified, or is not a Boolean
-     * @return Value of the named property
+     * @pbrbm context SynthContext identifying requester
+     * @pbrbm key Property being requested.
+     * @pbrbm defbultVblue Vblue to return if the property hbs not been
+     *        specified, or is not b Boolebn
+     * @return Vblue of the nbmed property
      */
-    public boolean getBoolean(SynthContext context, Object key,
-                              boolean defaultValue) {
-        Object value = get(context, key);
+    public boolebn getBoolebn(SynthContext context, Object key,
+                              boolebn defbultVblue) {
+        Object vblue = get(context, key);
 
-        if (value instanceof Boolean) {
-            return ((Boolean)value).booleanValue();
+        if (vblue instbnceof Boolebn) {
+            return ((Boolebn)vblue).boolebnVblue();
         }
-        return defaultValue;
+        return defbultVblue;
     }
 
     /**
-     * Convenience method to get a specific style property whose value is
-     * an Icon.
+     * Convenience method to get b specific style property whose vblue is
+     * bn Icon.
      *
-     * @param context SynthContext identifying requester
-     * @param key Property being requested.
-     * @return Value of the named property, or null if not specified
+     * @pbrbm context SynthContext identifying requester
+     * @pbrbm key Property being requested.
+     * @return Vblue of the nbmed property, or null if not specified
      */
     public Icon getIcon(SynthContext context, Object key) {
-        Object value = get(context, key);
+        Object vblue = get(context, key);
 
-        if (value instanceof Icon) {
-            return (Icon)value;
+        if (vblue instbnceof Icon) {
+            return (Icon)vblue;
         }
         return null;
     }
 
     /**
-     * Convenience method to get a specific style property whose value is
-     * a String.
+     * Convenience method to get b specific style property whose vblue is
+     * b String.
      *
-     * @param context SynthContext identifying requester
-     * @param key Property being requested.
-     * @param defaultValue Value to return if the property has not been
-     *        specified, or is not a String
-     * @return Value of the named property
+     * @pbrbm context SynthContext identifying requester
+     * @pbrbm key Property being requested.
+     * @pbrbm defbultVblue Vblue to return if the property hbs not been
+     *        specified, or is not b String
+     * @return Vblue of the nbmed property
      */
     public String getString(SynthContext context, Object key,
-                              String defaultValue) {
-        Object value = get(context, key);
+                              String defbultVblue) {
+        Object vblue = get(context, key);
 
-        if (value instanceof String) {
-            return (String)value;
+        if (vblue instbnceof String) {
+            return (String)vblue;
         }
-        return defaultValue;
+        return defbultVblue;
     }
 }

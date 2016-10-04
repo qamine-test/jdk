@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,130 +30,130 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench.tests.iio;
+pbckbge j2dbench.tests.iio;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvbx.imbgeio.ImbgeIO;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
 
 import j2dbench.Group;
 import j2dbench.Result;
 import j2dbench.TestEnvironment;
 
-abstract class InputStreamTests extends InputTests {
+bbstrbct clbss InputStrebmTests extends InputTests {
 
-    private static Group streamRoot;
-    private static Group streamTestRoot;
+    privbte stbtic Group strebmRoot;
+    privbte stbtic Group strebmTestRoot;
 
-    public static void init() {
-        streamRoot = new Group(inputRoot, "stream",
-                               "Image Stream Benchmarks");
-        streamTestRoot = new Group(streamRoot, "tests",
-                                   "ImageInputStream Tests");
+    public stbtic void init() {
+        strebmRoot = new Group(inputRoot, "strebm",
+                               "Imbge Strebm Benchmbrks");
+        strebmTestRoot = new Group(strebmRoot, "tests",
+                                   "ImbgeInputStrebm Tests");
 
         new IISConstruct();
-        new IISRead();
-        new IISReadByteArray();
-        new IISReadFullyByteArray();
-        new IISReadBit();
-        new IISReadByte();
-        new IISReadUnsignedByte();
-        new IISReadShort();
-        new IISReadUnsignedShort();
-        new IISReadInt();
-        new IISReadUnsignedInt();
-        new IISReadFloat();
-        new IISReadLong();
-        new IISReadDouble();
+        new IISRebd();
+        new IISRebdByteArrby();
+        new IISRebdFullyByteArrby();
+        new IISRebdBit();
+        new IISRebdByte();
+        new IISRebdUnsignedByte();
+        new IISRebdShort();
+        new IISRebdUnsignedShort();
+        new IISRebdInt();
+        new IISRebdUnsignedInt();
+        new IISRebdFlobt();
+        new IISRebdLong();
+        new IISRebdDouble();
         new IISSkipBytes();
     }
 
-    protected InputStreamTests(Group parent,
-                               String nodeName, String description)
+    protected InputStrebmTests(Group pbrent,
+                               String nodeNbme, String description)
     {
-        super(parent, nodeName, description);
-        addDependency(generalSourceRoot);
-        addDependencies(imageioGeneralOptRoot, true);
+        super(pbrent, nodeNbme, description);
+        bddDependency(generblSourceRoot);
+        bddDependencies(imbgeioGenerblOptRoot, true);
     }
 
-    public void cleanupTest(TestEnvironment env, Object ctx) {
+    public void clebnupTest(TestEnvironment env, Object ctx) {
         Context iioctx = (Context)ctx;
-        iioctx.cleanup(env);
+        iioctx.clebnup(env);
     }
 
-    private static class Context extends InputTests.Context {
-        ImageInputStream inputStream;
-        int scanlineStride; // width of a scanline (in bytes)
-        int length; // length of the entire stream (in bytes)
+    privbte stbtic clbss Context extends InputTests.Context {
+        ImbgeInputStrebm inputStrebm;
+        int scbnlineStride; // width of b scbnline (in bytes)
+        int length; // length of the entire strebm (in bytes)
         byte[] byteBuf;
 
         Context(TestEnvironment env, Result result) {
             super(env, result);
 
             // 4 bytes per "pixel"
-            scanlineStride = size * 4;
+            scbnlineStride = size * 4;
 
-            // tack on an extra 4 bytes, so that in the 1x1 case we can
-            // call readLong() or readDouble() without hitting EOF
-            length = (scanlineStride * size) + 4;
+            // tbck on bn extrb 4 bytes, so thbt in the 1x1 cbse we cbn
+            // cbll rebdLong() or rebdDouble() without hitting EOF
+            length = (scbnlineStride * size) + 4;
 
-            // big enough for one scanline
-            byteBuf = new byte[scanlineStride];
+            // big enough for one scbnline
+            byteBuf = new byte[scbnlineStride];
 
             initInput();
 
             try {
-                inputStream = createImageInputStream();
-            } catch (IOException e) {
-                System.err.println("Error creating ImageInputStream");
+                inputStrebm = crebteImbgeInputStrebm();
+            } cbtch (IOException e) {
+                System.err.println("Error crebting ImbgeInputStrebm");
             }
         }
 
         void initContents(File f) throws IOException {
-            FileOutputStream fos = null;
+            FileOutputStrebm fos = null;
             try {
-                fos = new FileOutputStream(f);
+                fos = new FileOutputStrebm(f);
                 initContents(fos);
-            } finally {
+            } finblly {
                 fos.close();
             }
         }
 
-        void initContents(OutputStream out) throws IOException {
+        void initContents(OutputStrebm out) throws IOException {
             for (int i = 0; i < size; i++) {
                 out.write(byteBuf);
             }
-            out.write(new byte[4]); // add the 4 byte pad
+            out.write(new byte[4]); // bdd the 4 byte pbd
             out.flush();
         }
 
-        void cleanup(TestEnvironment env) {
-            super.cleanup(env);
-            if (inputStream != null) {
+        void clebnup(TestEnvironment env) {
+            super.clebnup(env);
+            if (inputStrebm != null) {
                 try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    System.err.println("error closing stream");
+                    inputStrebm.close();
+                } cbtch (IOException e) {
+                    System.err.println("error closing strebm");
                 }
-                inputStream = null;
+                inputStrebm = null;
             }
         }
     }
 
-    private static class IISConstruct extends InputStreamTests {
+    privbte stbtic clbss IISConstruct extends InputStrebmTests {
         public IISConstruct() {
-            super(streamTestRoot,
+            super(strebmTestRoot,
                   "construct",
                   "Construct");
         }
@@ -161,557 +161,557 @@ abstract class InputStreamTests extends InputTests {
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
             result.setUnits(1);
-            result.setUnitName("stream");
+            result.setUnitNbme("strebm");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
+            finbl Context ictx = (Context)ctx;
             try {
                 do {
-                    ImageInputStream iis = ictx.createImageInputStream();
+                    ImbgeInputStrebm iis = ictx.crebteImbgeInputStrebm();
                     iis.close();
-                    ictx.closeOriginalStream();
+                    ictx.closeOriginblStrebm();
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
             }
         }
     }
 
-    private static class IISRead extends InputStreamTests {
-        public IISRead() {
-            super(streamTestRoot,
-                  "read",
-                  "read()");
+    privbte stbtic clbss IISRebd extends InputStrebmTests {
+        public IISRebd() {
+            super(strebmTestRoot,
+                  "rebd",
+                  "rebd()");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
             result.setUnits(1);
-            result.setUnitName("byte");
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
                     if (pos >= length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.read();
+                    iis.rebd();
                     pos++;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISReadByteArray extends InputStreamTests {
-        public IISReadByteArray() {
-            super(streamTestRoot,
-                  "readByteArray",
-                  "read(byte[]) (one \"scanline\" at a time)");
+    privbte stbtic clbss IISRebdByteArrby extends InputStrebmTests {
+        public IISRebdByteArrby() {
+            super(strebmTestRoot,
+                  "rebdByteArrby",
+                  "rebd(byte[]) (one \"scbnline\" bt b time)");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
-            result.setUnits(ctx.scanlineStride);
-            result.setUnitName("byte");
+            result.setUnits(ctx.scbnlineStride);
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final byte[] buf = ictx.byteBuf;
-            final int scanlineStride = ictx.scanlineStride;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl byte[] buf = ictx.byteBuf;
+            finbl int scbnlineStride = ictx.scbnlineStride;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
-                    if (pos + scanlineStride > length) {
+                    if (pos + scbnlineStride > length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.read(buf);
-                    pos += scanlineStride;
+                    iis.rebd(buf);
+                    pos += scbnlineStride;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISReadFullyByteArray extends InputStreamTests {
-        public IISReadFullyByteArray() {
-            super(streamTestRoot,
-                  "readFullyByteArray",
-                  "readFully(byte[]) (one \"scanline\" at a time)");
+    privbte stbtic clbss IISRebdFullyByteArrby extends InputStrebmTests {
+        public IISRebdFullyByteArrby() {
+            super(strebmTestRoot,
+                  "rebdFullyByteArrby",
+                  "rebdFully(byte[]) (one \"scbnline\" bt b time)");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
-            result.setUnits(ctx.scanlineStride);
-            result.setUnitName("byte");
+            result.setUnits(ctx.scbnlineStride);
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final byte[] buf = ictx.byteBuf;
-            final int scanlineStride = ictx.scanlineStride;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl byte[] buf = ictx.byteBuf;
+            finbl int scbnlineStride = ictx.scbnlineStride;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
-                    if (pos + scanlineStride > length) {
+                    if (pos + scbnlineStride > length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.readFully(buf);
-                    pos += scanlineStride;
+                    iis.rebdFully(buf);
+                    pos += scbnlineStride;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISReadBit extends InputStreamTests {
-        public IISReadBit() {
-            super(streamTestRoot,
-                  "readBit",
-                  "readBit()");
+    privbte stbtic clbss IISRebdBit extends InputStrebmTests {
+        public IISRebdBit() {
+            super(strebmTestRoot,
+                  "rebdBit",
+                  "rebdBit()");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
             result.setUnits(1);
-            result.setUnitName("bit");
+            result.setUnitNbme("bit");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final int length = ictx.length * 8;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl int length = ictx.length * 8;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
                     if (pos >= length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.readBit();
+                    iis.rebdBit();
                     pos++;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISReadByte extends InputStreamTests {
-        public IISReadByte() {
-            super(streamTestRoot,
-                  "readByte",
-                  "readByte()");
+    privbte stbtic clbss IISRebdByte extends InputStrebmTests {
+        public IISRebdByte() {
+            super(strebmTestRoot,
+                  "rebdByte",
+                  "rebdByte()");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
             result.setUnits(1);
-            result.setUnitName("byte");
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
                     if (pos >= length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.readByte();
+                    iis.rebdByte();
                     pos++;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISReadUnsignedByte extends InputStreamTests {
-        public IISReadUnsignedByte() {
-            super(streamTestRoot,
-                  "readUnsignedByte",
-                  "readUnsignedByte()");
+    privbte stbtic clbss IISRebdUnsignedByte extends InputStrebmTests {
+        public IISRebdUnsignedByte() {
+            super(strebmTestRoot,
+                  "rebdUnsignedByte",
+                  "rebdUnsignedByte()");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
             result.setUnits(1);
-            result.setUnitName("byte");
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
                     if (pos >= length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.readUnsignedByte();
+                    iis.rebdUnsignedByte();
                     pos++;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISReadShort extends InputStreamTests {
-        public IISReadShort() {
-            super(streamTestRoot,
-                  "readShort",
-                  "readShort()");
+    privbte stbtic clbss IISRebdShort extends InputStrebmTests {
+        public IISRebdShort() {
+            super(strebmTestRoot,
+                  "rebdShort",
+                  "rebdShort()");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
             result.setUnits(2);
-            result.setUnitName("byte");
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
                     if (pos + 2 > length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.readShort();
+                    iis.rebdShort();
                     pos += 2;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISReadUnsignedShort extends InputStreamTests {
-        public IISReadUnsignedShort() {
-            super(streamTestRoot,
-                  "readUnsignedShort",
-                  "readUnsignedShort()");
+    privbte stbtic clbss IISRebdUnsignedShort extends InputStrebmTests {
+        public IISRebdUnsignedShort() {
+            super(strebmTestRoot,
+                  "rebdUnsignedShort",
+                  "rebdUnsignedShort()");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
             result.setUnits(2);
-            result.setUnitName("byte");
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
                     if (pos + 2 > length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.readUnsignedShort();
+                    iis.rebdUnsignedShort();
                     pos += 2;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISReadInt extends InputStreamTests {
-        public IISReadInt() {
-            super(streamTestRoot,
-                  "readInt",
-                  "readInt()");
+    privbte stbtic clbss IISRebdInt extends InputStrebmTests {
+        public IISRebdInt() {
+            super(strebmTestRoot,
+                  "rebdInt",
+                  "rebdInt()");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
             result.setUnits(4);
-            result.setUnitName("byte");
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
                     if (pos + 4 > length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.readInt();
+                    iis.rebdInt();
                     pos += 4;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISReadUnsignedInt extends InputStreamTests {
-        public IISReadUnsignedInt() {
-            super(streamTestRoot,
-                  "readUnsignedInt",
-                  "readUnsignedInt()");
+    privbte stbtic clbss IISRebdUnsignedInt extends InputStrebmTests {
+        public IISRebdUnsignedInt() {
+            super(strebmTestRoot,
+                  "rebdUnsignedInt",
+                  "rebdUnsignedInt()");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
             result.setUnits(4);
-            result.setUnitName("byte");
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
                     if (pos + 4 > length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.readUnsignedInt();
+                    iis.rebdUnsignedInt();
                     pos += 4;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISReadFloat extends InputStreamTests {
-        public IISReadFloat() {
-            super(streamTestRoot,
-                  "readFloat",
-                  "readFloat()");
+    privbte stbtic clbss IISRebdFlobt extends InputStrebmTests {
+        public IISRebdFlobt() {
+            super(strebmTestRoot,
+                  "rebdFlobt",
+                  "rebdFlobt()");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
             result.setUnits(4);
-            result.setUnitName("byte");
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
                     if (pos + 4 > length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.readFloat();
+                    iis.rebdFlobt();
                     pos += 4;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISReadLong extends InputStreamTests {
-        public IISReadLong() {
-            super(streamTestRoot,
-                  "readLong",
-                  "readLong()");
+    privbte stbtic clbss IISRebdLong extends InputStrebmTests {
+        public IISRebdLong() {
+            super(strebmTestRoot,
+                  "rebdLong",
+                  "rebdLong()");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
             result.setUnits(8);
-            result.setUnitName("byte");
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
                     if (pos + 8 > length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.readLong();
+                    iis.rebdLong();
                     pos += 8;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISReadDouble extends InputStreamTests {
-        public IISReadDouble() {
-            super(streamTestRoot,
-                  "readDouble",
-                  "readDouble()");
+    privbte stbtic clbss IISRebdDouble extends InputStrebmTests {
+        public IISRebdDouble() {
+            super(strebmTestRoot,
+                  "rebdDouble",
+                  "rebdDouble()");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
             result.setUnits(8);
-            result.setUnitName("byte");
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
                     if (pos + 8 > length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.readDouble();
+                    iis.rebdDouble();
                     pos += 8;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }
 
-    private static class IISSkipBytes extends InputStreamTests {
+    privbte stbtic clbss IISSkipBytes extends InputStrebmTests {
         public IISSkipBytes() {
-            super(streamTestRoot,
+            super(strebmTestRoot,
                   "skipBytes",
-                  "skipBytes() (one \"scanline\" at a time)");
+                  "skipBytes() (one \"scbnline\" bt b time)");
         }
 
         public Object initTest(TestEnvironment env, Result result) {
             Context ctx = new Context(env, result);
-            result.setUnits(ctx.scanlineStride);
-            result.setUnitName("byte");
+            result.setUnits(ctx.scbnlineStride);
+            result.setUnitNbme("byte");
             return ctx;
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context)ctx;
-            final ImageInputStream iis = ictx.inputStream;
-            final int scanlineStride = ictx.scanlineStride;
-            final int length = ictx.length;
+            finbl Context ictx = (Context)ctx;
+            finbl ImbgeInputStrebm iis = ictx.inputStrebm;
+            finbl int scbnlineStride = ictx.scbnlineStride;
+            finbl int length = ictx.length;
             int pos = 0;
             try {
-                iis.mark();
+                iis.mbrk();
                 do {
-                    if (pos + scanlineStride > length) {
+                    if (pos + scbnlineStride > length) {
                         iis.reset();
-                        iis.mark();
+                        iis.mbrk();
                         pos = 0;
                     }
-                    iis.skipBytes(scanlineStride);
-                    pos += scanlineStride;
+                    iis.skipBytes(scbnlineStride);
+                    pos += scbnlineStride;
                 } while (--numReps >= 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try { iis.reset(); } catch (IOException e) {}
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
+            } finblly {
+                try { iis.reset(); } cbtch (IOException e) {}
             }
         }
     }

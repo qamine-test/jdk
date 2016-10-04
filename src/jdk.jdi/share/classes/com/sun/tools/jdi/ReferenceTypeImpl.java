@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-import java.util.*;
-import java.lang.ref.SoftReference;
+import jbvb.util.*;
+import jbvb.lbng.ref.SoftReference;
 
-public abstract class ReferenceTypeImpl extends TypeImpl
+public bbstrbct clbss ReferenceTypeImpl extends TypeImpl
 implements ReferenceType {
     protected long ref;
-    private String signature = null;
-    private String genericSignature = null;
-    private boolean genericSignatureGotten = false;
-    private String baseSourceName = null;
-    private String baseSourceDir = null;
-    private String baseSourcePath = null;
+    privbte String signbture = null;
+    privbte String genericSignbture = null;
+    privbte boolebn genericSignbtureGotten = fblse;
+    privbte String bbseSourceNbme = null;
+    privbte String bbseSourceDir = null;
+    privbte String bbseSourcePbth = null;
     protected int modifiers = -1;
-    private SoftReference<List<Field>> fieldsRef = null;
-    private SoftReference<List<Method>> methodsRef = null;
-    private SoftReference<SDE> sdeRef = null;
+    privbte SoftReference<List<Field>> fieldsRef = null;
+    privbte SoftReference<List<Method>> methodsRef = null;
+    privbte SoftReference<SDE> sdeRef = null;
 
-    private boolean isClassLoaderCached = false;
-    private ClassLoaderReference classLoader = null;
-    private ClassObjectReference classObject = null;
+    privbte boolebn isClbssLobderCbched = fblse;
+    privbte ClbssLobderReference clbssLobder = null;
+    privbte ClbssObjectReference clbssObject = null;
 
-    private int status = 0;
-    private boolean isPrepared = false;
-
-
-    private boolean versionNumberGotten = false;
-    private int majorVersion;
-    private int minorVersion;
-
-    private boolean constantPoolInfoGotten = false;
-    private int constanPoolCount;
-    private byte[] constantPoolBytes;
-    private SoftReference<byte[]> constantPoolBytesRef = null;
-
-    /* to mark a SourceFile request that returned a genuine JDWP.Error.ABSENT_INFORMATION */
-    private static final String ABSENT_BASE_SOURCE_NAME = "**ABSENT_BASE_SOURCE_NAME**";
-
-    /* to mark when no info available */
-    static final SDE NO_SDE_INFO_MARK = new SDE();
-
-    // bits set when initialization was attempted (succeeded or failed)
-    private static final int INITIALIZED_OR_FAILED =
-        JDWP.ClassStatus.INITIALIZED | JDWP.ClassStatus.ERROR;
+    privbte int stbtus = 0;
+    privbte boolebn isPrepbred = fblse;
 
 
-    protected ReferenceTypeImpl(VirtualMachine aVm, long aRef) {
-        super(aVm);
-        ref = aRef;
-        genericSignatureGotten = false;
+    privbte boolebn versionNumberGotten = fblse;
+    privbte int mbjorVersion;
+    privbte int minorVersion;
+
+    privbte boolebn constbntPoolInfoGotten = fblse;
+    privbte int constbnPoolCount;
+    privbte byte[] constbntPoolBytes;
+    privbte SoftReference<byte[]> constbntPoolBytesRef = null;
+
+    /* to mbrk b SourceFile request thbt returned b genuine JDWP.Error.ABSENT_INFORMATION */
+    privbte stbtic finbl String ABSENT_BASE_SOURCE_NAME = "**ABSENT_BASE_SOURCE_NAME**";
+
+    /* to mbrk when no info bvbilbble */
+    stbtic finbl SDE NO_SDE_INFO_MARK = new SDE();
+
+    // bits set when initiblizbtion wbs bttempted (succeeded or fbiled)
+    privbte stbtic finbl int INITIALIZED_OR_FAILED =
+        JDWP.ClbssStbtus.INITIALIZED | JDWP.ClbssStbtus.ERROR;
+
+
+    protected ReferenceTypeImpl(VirtublMbchine bVm, long bRef) {
+        super(bVm);
+        ref = bRef;
+        genericSignbtureGotten = fblse;
     }
 
-    void noticeRedefineClass() {
-        //Invalidate information previously fetched and cached.
-        //These will be refreshed later on demand.
-        baseSourceName = null;
-        baseSourcePath = null;
+    void noticeRedefineClbss() {
+        //Invblidbte informbtion previously fetched bnd cbched.
+        //These will be refreshed lbter on dembnd.
+        bbseSourceNbme = null;
+        bbseSourcePbth = null;
         modifiers = -1;
         fieldsRef = null;
         methodsRef = null;
         sdeRef = null;
-        versionNumberGotten = false;
-        constantPoolInfoGotten = false;
+        versionNumberGotten = fblse;
+        constbntPoolInfoGotten = fblse;
     }
 
     Method getMethodMirror(long ref) {
@@ -96,66 +96,66 @@ implements ReferenceType {
             // obsolete method
             return new ObsoleteMethodImpl(vm, this);
         }
-        // Fetch all methods for the class, check performance impact
-        // Needs no synchronization now, since methods() returns
-        // unmodifiable local data
-        Iterator<Method> it = methods().iterator();
-        while (it.hasNext()) {
+        // Fetch bll methods for the clbss, check performbnce impbct
+        // Needs no synchronizbtion now, since methods() returns
+        // unmodifibble locbl dbtb
+        Iterbtor<Method> it = methods().iterbtor();
+        while (it.hbsNext()) {
             MethodImpl method = (MethodImpl)it.next();
             if (method.ref() == ref) {
                 return method;
             }
         }
-        throw new IllegalArgumentException("Invalid method id: " + ref);
+        throw new IllegblArgumentException("Invblid method id: " + ref);
     }
 
     Field getFieldMirror(long ref) {
-        // Fetch all fields for the class, check performance impact
-        // Needs no synchronization now, since fields() returns
-        // unmodifiable local data
-        Iterator<Field>it = fields().iterator();
-        while (it.hasNext()) {
+        // Fetch bll fields for the clbss, check performbnce impbct
+        // Needs no synchronizbtion now, since fields() returns
+        // unmodifibble locbl dbtb
+        Iterbtor<Field>it = fields().iterbtor();
+        while (it.hbsNext()) {
             FieldImpl field = (FieldImpl)it.next();
             if (field.ref() == ref) {
                 return field;
             }
         }
-        throw new IllegalArgumentException("Invalid field id: " + ref);
+        throw new IllegblArgumentException("Invblid field id: " + ref);
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof ReferenceTypeImpl)) {
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof ReferenceTypeImpl)) {
             ReferenceTypeImpl other = (ReferenceTypeImpl)obj;
             return (ref() == other.ref()) &&
-                (vm.equals(other.virtualMachine()));
+                (vm.equbls(other.virtublMbchine()));
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         return(int)ref();
     }
 
-    public int compareTo(ReferenceType object) {
+    public int compbreTo(ReferenceType object) {
         /*
-         * Note that it is critical that compareTo() == 0
-         * implies that equals() == true. Otherwise, TreeSet
-         * will collapse classes.
+         * Note thbt it is criticbl thbt compbreTo() == 0
+         * implies thbt equbls() == true. Otherwise, TreeSet
+         * will collbpse clbsses.
          *
-         * (Classes of the same name loaded by different class loaders
+         * (Clbsses of the sbme nbme lobded by different clbss lobders
          * or in different VMs must not return 0).
          */
         ReferenceTypeImpl other = (ReferenceTypeImpl)object;
-        int comp = name().compareTo(other.name());
+        int comp = nbme().compbreTo(other.nbme());
         if (comp == 0) {
             long rf1 = ref();
             long rf2 = other.ref();
-            // optimize for typical case: refs equal and VMs equal
+            // optimize for typicbl cbse: refs equbl bnd VMs equbl
             if (rf1 == rf2) {
-                // sequenceNumbers are always positive
+                // sequenceNumbers bre blwbys positive
                 comp = vm.sequenceNumber -
-                 ((VirtualMachineImpl)(other.virtualMachine())).sequenceNumber;
+                 ((VirtublMbchineImpl)(other.virtublMbchine())).sequenceNumber;
             } else {
                 comp = (rf1 < rf2)? -1 : 1;
             }
@@ -163,208 +163,208 @@ implements ReferenceType {
         return comp;
     }
 
-    public String signature() {
-        if (signature == null) {
-            // Does not need synchronization, since worst-case
-            // static info is fetched twice
-            if (vm.canGet1_5LanguageFeatures()) {
+    public String signbture() {
+        if (signbture == null) {
+            // Does not need synchronizbtion, since worst-cbse
+            // stbtic info is fetched twice
+            if (vm.cbnGet1_5LbngubgeFebtures()) {
                 /*
-                 * we might as well get both the signature and the
-                 * generic signature.
+                 * we might bs well get both the signbture bnd the
+                 * generic signbture.
                  */
-                genericSignature();
+                genericSignbture();
             } else {
                 try {
-                    signature = JDWP.ReferenceType.Signature.
-                        process(vm, this).signature;
-                } catch (JDWPException exc) {
+                    signbture = JDWP.ReferenceType.Signbture.
+                        process(vm, this).signbture;
+                } cbtch (JDWPException exc) {
                     throw exc.toJDIException();
                 }
             }
         }
-        return signature;
+        return signbture;
     }
 
-    public String genericSignature() {
-        // This gets both the signature and the generic signature
-        if (vm.canGet1_5LanguageFeatures() && !genericSignatureGotten) {
-            // Does not need synchronization, since worst-case
-            // static info is fetched twice
-            JDWP.ReferenceType.SignatureWithGeneric result;
+    public String genericSignbture() {
+        // This gets both the signbture bnd the generic signbture
+        if (vm.cbnGet1_5LbngubgeFebtures() && !genericSignbtureGotten) {
+            // Does not need synchronizbtion, since worst-cbse
+            // stbtic info is fetched twice
+            JDWP.ReferenceType.SignbtureWithGeneric result;
             try {
-                result = JDWP.ReferenceType.SignatureWithGeneric.
+                result = JDWP.ReferenceType.SignbtureWithGeneric.
                     process(vm, this);
-            } catch (JDWPException exc) {
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
-            signature = result.signature;
-            setGenericSignature(result.genericSignature);
+            signbture = result.signbture;
+            setGenericSignbture(result.genericSignbture);
         }
-        return genericSignature;
+        return genericSignbture;
     }
 
-    public ClassLoaderReference classLoader() {
-        if (!isClassLoaderCached) {
-            // Does not need synchronization, since worst-case
-            // static info is fetched twice
+    public ClbssLobderReference clbssLobder() {
+        if (!isClbssLobderCbched) {
+            // Does not need synchronizbtion, since worst-cbse
+            // stbtic info is fetched twice
             try {
-                classLoader = (ClassLoaderReference)
-                    JDWP.ReferenceType.ClassLoader.
-                    process(vm, this).classLoader;
-                isClassLoaderCached = true;
-            } catch (JDWPException exc) {
+                clbssLobder = (ClbssLobderReference)
+                    JDWP.ReferenceType.ClbssLobder.
+                    process(vm, this).clbssLobder;
+                isClbssLobderCbched = true;
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
         }
-        return classLoader;
+        return clbssLobder;
     }
 
-    public boolean isPublic() {
+    public boolebn isPublic() {
         if (modifiers == -1)
             getModifiers();
 
         return((modifiers & VMModifiers.PUBLIC) > 0);
     }
 
-    public boolean isProtected() {
+    public boolebn isProtected() {
         if (modifiers == -1)
             getModifiers();
 
         return((modifiers & VMModifiers.PROTECTED) > 0);
     }
 
-    public boolean isPrivate() {
+    public boolebn isPrivbte() {
         if (modifiers == -1)
             getModifiers();
 
         return((modifiers & VMModifiers.PRIVATE) > 0);
     }
 
-    public boolean isPackagePrivate() {
-        return !isPublic() && !isPrivate() && !isProtected();
+    public boolebn isPbckbgePrivbte() {
+        return !isPublic() && !isPrivbte() && !isProtected();
     }
 
-    public boolean isAbstract() {
+    public boolebn isAbstrbct() {
         if (modifiers == -1)
             getModifiers();
 
         return((modifiers & VMModifiers.ABSTRACT) > 0);
     }
 
-    public boolean isFinal() {
+    public boolebn isFinbl() {
         if (modifiers == -1)
             getModifiers();
 
         return((modifiers & VMModifiers.FINAL) > 0);
     }
 
-    public boolean isStatic() {
+    public boolebn isStbtic() {
         if (modifiers == -1)
             getModifiers();
 
         return((modifiers & VMModifiers.STATIC) > 0);
     }
 
-    public boolean isPrepared() {
-        // This ref type may have been prepared before we were getting
-        // events, so get it once.  After that,
-        // this status flag is updated through the ClassPrepareEvent,
-        // there is no need for the expense of a JDWP query.
-        if (status == 0) {
-            updateStatus();
+    public boolebn isPrepbred() {
+        // This ref type mby hbve been prepbred before we were getting
+        // events, so get it once.  After thbt,
+        // this stbtus flbg is updbted through the ClbssPrepbreEvent,
+        // there is no need for the expense of b JDWP query.
+        if (stbtus == 0) {
+            updbteStbtus();
         }
-        return isPrepared;
+        return isPrepbred;
     }
 
-    public boolean isVerified() {
-        // Once true, it never resets, so we don't need to update
-        if ((status & JDWP.ClassStatus.VERIFIED) == 0) {
-            updateStatus();
+    public boolebn isVerified() {
+        // Once true, it never resets, so we don't need to updbte
+        if ((stbtus & JDWP.ClbssStbtus.VERIFIED) == 0) {
+            updbteStbtus();
         }
-        return (status & JDWP.ClassStatus.VERIFIED) != 0;
+        return (stbtus & JDWP.ClbssStbtus.VERIFIED) != 0;
     }
 
-    public boolean isInitialized() {
-        // Once initialization succeeds or fails, it never resets,
-        // so we don't need to update
-        if ((status & INITIALIZED_OR_FAILED) == 0) {
-            updateStatus();
+    public boolebn isInitiblized() {
+        // Once initiblizbtion succeeds or fbils, it never resets,
+        // so we don't need to updbte
+        if ((stbtus & INITIALIZED_OR_FAILED) == 0) {
+            updbteStbtus();
         }
-        return (status & JDWP.ClassStatus.INITIALIZED) != 0;
+        return (stbtus & JDWP.ClbssStbtus.INITIALIZED) != 0;
     }
 
-    public boolean failedToInitialize() {
-        // Once initialization succeeds or fails, it never resets,
-        // so we don't need to update
-        if ((status & INITIALIZED_OR_FAILED) == 0) {
-            updateStatus();
+    public boolebn fbiledToInitiblize() {
+        // Once initiblizbtion succeeds or fbils, it never resets,
+        // so we don't need to updbte
+        if ((stbtus & INITIALIZED_OR_FAILED) == 0) {
+            updbteStbtus();
         }
-        return (status & JDWP.ClassStatus.ERROR) != 0;
+        return (stbtus & JDWP.ClbssStbtus.ERROR) != 0;
     }
 
     public List<Field> fields() {
         List<Field> fields = (fieldsRef == null) ? null : fieldsRef.get();
         if (fields == null) {
-            if (vm.canGet1_5LanguageFeatures()) {
+            if (vm.cbnGet1_5LbngubgeFebtures()) {
                 JDWP.ReferenceType.FieldsWithGeneric.FieldInfo[] jdwpFields;
                 try {
-                    jdwpFields = JDWP.ReferenceType.FieldsWithGeneric.process(vm, this).declared;
-                } catch (JDWPException exc) {
+                    jdwpFields = JDWP.ReferenceType.FieldsWithGeneric.process(vm, this).declbred;
+                } cbtch (JDWPException exc) {
                     throw exc.toJDIException();
                 }
-                fields = new ArrayList<Field>(jdwpFields.length);
+                fields = new ArrbyList<Field>(jdwpFields.length);
                 for (int i=0; i<jdwpFields.length; i++) {
                     JDWP.ReferenceType.FieldsWithGeneric.FieldInfo fi
                         = jdwpFields[i];
 
                     Field field = new FieldImpl(vm, this, fi.fieldID,
-                                                fi.name, fi.signature,
-                                                fi.genericSignature,
+                                                fi.nbme, fi.signbture,
+                                                fi.genericSignbture,
                                                 fi.modBits);
-                    fields.add(field);
+                    fields.bdd(field);
                 }
             } else {
                 JDWP.ReferenceType.Fields.FieldInfo[] jdwpFields;
                 try {
                     jdwpFields = JDWP.ReferenceType.Fields.
-                        process(vm, this).declared;
-                } catch (JDWPException exc) {
+                        process(vm, this).declbred;
+                } cbtch (JDWPException exc) {
                     throw exc.toJDIException();
                 }
-                fields = new ArrayList<Field>(jdwpFields.length);
+                fields = new ArrbyList<Field>(jdwpFields.length);
                 for (int i=0; i<jdwpFields.length; i++) {
                     JDWP.ReferenceType.Fields.FieldInfo fi = jdwpFields[i];
 
                     Field field = new FieldImpl(vm, this, fi.fieldID,
-                                            fi.name, fi.signature,
+                                            fi.nbme, fi.signbture,
                                             null,
                                             fi.modBits);
-                    fields.add(field);
+                    fields.bdd(field);
                 }
             }
 
-            fields = Collections.unmodifiableList(fields);
+            fields = Collections.unmodifibbleList(fields);
             fieldsRef = new SoftReference<List<Field>>(fields);
         }
         return fields;
     }
 
-    abstract List<? extends ReferenceType> inheritedTypes();
+    bbstrbct List<? extends ReferenceType> inheritedTypes();
 
-    void addVisibleFields(List<Field> visibleList, Map<String, Field> visibleTable, List<String> ambiguousNames) {
+    void bddVisibleFields(List<Field> visibleList, Mbp<String, Field> visibleTbble, List<String> bmbiguousNbmes) {
         for (Field field : visibleFields()) {
-            String name = field.name();
-            if (!ambiguousNames.contains(name)) {
-                Field duplicate = visibleTable.get(name);
-                if (duplicate == null) {
-                    visibleList.add(field);
-                    visibleTable.put(name, field);
-                } else if (!field.equals(duplicate)) {
-                    ambiguousNames.add(name);
-                    visibleTable.remove(name);
-                    visibleList.remove(duplicate);
+            String nbme = field.nbme();
+            if (!bmbiguousNbmes.contbins(nbme)) {
+                Field duplicbte = visibleTbble.get(nbme);
+                if (duplicbte == null) {
+                    visibleList.bdd(field);
+                    visibleTbble.put(nbme, field);
+                } else if (!field.equbls(duplicbte)) {
+                    bmbiguousNbmes.bdd(nbme);
+                    visibleTbble.remove(nbme);
+                    visibleList.remove(duplicbte);
                 } else {
-                    // identical field from two branches; do nothing
+                    // identicbl field from two brbnches; do nothing
                 }
             }
         }
@@ -372,413 +372,413 @@ implements ReferenceType {
 
     public List<Field> visibleFields() {
         /*
-         * Maintain two different collections of visible fields. The
-         * list maintains a reasonable order for return. The
-         * hash map provides an efficient way to lookup visible fields
-         * by name, important for finding hidden or ambiguous fields.
+         * Mbintbin two different collections of visible fields. The
+         * list mbintbins b rebsonbble order for return. The
+         * hbsh mbp provides bn efficient wby to lookup visible fields
+         * by nbme, importbnt for finding hidden or bmbiguous fields.
          */
-        List<Field> visibleList = new ArrayList<Field>();
-        Map<String, Field>  visibleTable = new HashMap<String, Field>();
+        List<Field> visibleList = new ArrbyList<Field>();
+        Mbp<String, Field>  visibleTbble = new HbshMbp<String, Field>();
 
-        /* Track fields removed from above collection due to ambiguity */
-        List<String> ambiguousNames = new ArrayList<String>();
+        /* Trbck fields removed from bbove collection due to bmbiguity */
+        List<String> bmbiguousNbmes = new ArrbyList<String>();
 
         /* Add inherited, visible fields */
         List<? extends ReferenceType> types = inheritedTypes();
-        Iterator<? extends ReferenceType> iter = types.iterator();
-        while (iter.hasNext()) {
+        Iterbtor<? extends ReferenceType> iter = types.iterbtor();
+        while (iter.hbsNext()) {
             /*
-             * TO DO: Be defensive and check for cyclic interface inheritance
+             * TO DO: Be defensive bnd check for cyclic interfbce inheritbnce
              */
             ReferenceTypeImpl type = (ReferenceTypeImpl)iter.next();
-            type.addVisibleFields(visibleList, visibleTable, ambiguousNames);
+            type.bddVisibleFields(visibleList, visibleTbble, bmbiguousNbmes);
         }
 
         /*
-         * Insert fields from this type, removing any inherited fields they
+         * Insert fields from this type, removing bny inherited fields they
          * hide.
          */
-        List<Field> retList = new ArrayList<Field>(fields());
+        List<Field> retList = new ArrbyList<Field>(fields());
         for (Field field : retList) {
-            Field hidden = visibleTable.get(field.name());
+            Field hidden = visibleTbble.get(field.nbme());
             if (hidden != null) {
                 visibleList.remove(hidden);
             }
         }
-        retList.addAll(visibleList);
+        retList.bddAll(visibleList);
         return retList;
     }
 
-    void addAllFields(List<Field> fieldList, Set<ReferenceType> typeSet) {
+    void bddAllFields(List<Field> fieldList, Set<ReferenceType> typeSet) {
         /* Continue the recursion only if this type is new */
-        if (!typeSet.contains(this)) {
-            typeSet.add((ReferenceType)this);
+        if (!typeSet.contbins(this)) {
+            typeSet.bdd((ReferenceType)this);
 
-            /* Add local fields */
-            fieldList.addAll(fields());
+            /* Add locbl fields */
+            fieldList.bddAll(fields());
 
             /* Add inherited fields */
             List<? extends ReferenceType> types = inheritedTypes();
-            Iterator<? extends ReferenceType> iter = types.iterator();
-            while (iter.hasNext()) {
+            Iterbtor<? extends ReferenceType> iter = types.iterbtor();
+            while (iter.hbsNext()) {
                 ReferenceTypeImpl type = (ReferenceTypeImpl)iter.next();
-                type.addAllFields(fieldList, typeSet);
+                type.bddAllFields(fieldList, typeSet);
             }
         }
     }
-    public List<Field> allFields() {
-        List<Field> fieldList = new ArrayList<Field>();
-        Set<ReferenceType> typeSet = new HashSet<ReferenceType>();
-        addAllFields(fieldList, typeSet);
+    public List<Field> bllFields() {
+        List<Field> fieldList = new ArrbyList<Field>();
+        Set<ReferenceType> typeSet = new HbshSet<ReferenceType>();
+        bddAllFields(fieldList, typeSet);
         return fieldList;
     }
 
-    public Field fieldByName(String fieldName) {
-        List<Field> searchList = visibleFields();
+    public Field fieldByNbme(String fieldNbme) {
+        List<Field> sebrchList = visibleFields();
 
-        for (int i=0; i<searchList.size(); i++) {
-            Field f = searchList.get(i);
+        for (int i=0; i<sebrchList.size(); i++) {
+            Field f = sebrchList.get(i);
 
-            if (f.name().equals(fieldName)) {
+            if (f.nbme().equbls(fieldNbme)) {
                 return f;
             }
         }
-        //throw new NoSuchFieldException("Field '" + fieldName + "' not found in " + name());
+        //throw new NoSuchFieldException("Field '" + fieldNbme + "' not found in " + nbme());
         return null;
     }
 
     public List<Method> methods() {
         List<Method> methods = (methodsRef == null) ? null : methodsRef.get();
         if (methods == null) {
-            if (!vm.canGet1_5LanguageFeatures()) {
+            if (!vm.cbnGet1_5LbngubgeFebtures()) {
                 methods = methods1_4();
             } else {
-                JDWP.ReferenceType.MethodsWithGeneric.MethodInfo[] declared;
+                JDWP.ReferenceType.MethodsWithGeneric.MethodInfo[] declbred;
                 try {
-                    declared = JDWP.ReferenceType.MethodsWithGeneric.
-                        process(vm, this).declared;
-                } catch (JDWPException exc) {
+                    declbred = JDWP.ReferenceType.MethodsWithGeneric.
+                        process(vm, this).declbred;
+                } cbtch (JDWPException exc) {
                     throw exc.toJDIException();
                 }
-                methods = new ArrayList<Method>(declared.length);
-                for (int i=0; i<declared.length; i++) {
+                methods = new ArrbyList<Method>(declbred.length);
+                for (int i=0; i<declbred.length; i++) {
                     JDWP.ReferenceType.MethodsWithGeneric.MethodInfo
-                        mi = declared[i];
+                        mi = declbred[i];
 
-                    Method method = MethodImpl.createMethodImpl(vm, this,
+                    Method method = MethodImpl.crebteMethodImpl(vm, this,
                                                          mi.methodID,
-                                                         mi.name, mi.signature,
-                                                         mi.genericSignature,
+                                                         mi.nbme, mi.signbture,
+                                                         mi.genericSignbture,
                                                          mi.modBits);
-                    methods.add(method);
+                    methods.bdd(method);
                 }
             }
-            methods = Collections.unmodifiableList(methods);
+            methods = Collections.unmodifibbleList(methods);
             methodsRef = new SoftReference<List<Method>>(methods);
         }
         return methods;
     }
 
-    private List<Method> methods1_4() {
+    privbte List<Method> methods1_4() {
         List<Method> methods;
-        JDWP.ReferenceType.Methods.MethodInfo[] declared;
+        JDWP.ReferenceType.Methods.MethodInfo[] declbred;
         try {
-            declared = JDWP.ReferenceType.Methods.
-                process(vm, this).declared;
-        } catch (JDWPException exc) {
+            declbred = JDWP.ReferenceType.Methods.
+                process(vm, this).declbred;
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
-        methods = new ArrayList<Method>(declared.length);
-        for (int i=0; i<declared.length; i++) {
-            JDWP.ReferenceType.Methods.MethodInfo mi = declared[i];
+        methods = new ArrbyList<Method>(declbred.length);
+        for (int i=0; i<declbred.length; i++) {
+            JDWP.ReferenceType.Methods.MethodInfo mi = declbred[i];
 
-            Method method = MethodImpl.createMethodImpl(vm, this,
+            Method method = MethodImpl.crebteMethodImpl(vm, this,
                                                         mi.methodID,
-                                                        mi.name, mi.signature,
+                                                        mi.nbme, mi.signbture,
                                                         null,
                                                         mi.modBits);
-            methods.add(method);
+            methods.bdd(method);
         }
         return methods;
     }
 
     /*
-     * Utility method used by subclasses to build lists of visible
+     * Utility method used by subclbsses to build lists of visible
      * methods.
      */
-    void addToMethodMap(Map<String, Method> methodMap, List<Method> methodList) {
+    void bddToMethodMbp(Mbp<String, Method> methodMbp, List<Method> methodList) {
         for (Method method : methodList)
-            methodMap.put(method.name().concat(method.signature()), method);
+            methodMbp.put(method.nbme().concbt(method.signbture()), method);
         }
 
-    abstract void addVisibleMethods(Map<String, Method> methodMap, Set<InterfaceType> seenInterfaces);
+    bbstrbct void bddVisibleMethods(Mbp<String, Method> methodMbp, Set<InterfbceType> seenInterfbces);
 
     public List<Method> visibleMethods() {
         /*
-         * Build a collection of all visible methods. The hash
-         * map allows us to do this efficiently by keying on the
-         * concatenation of name and signature.
+         * Build b collection of bll visible methods. The hbsh
+         * mbp bllows us to do this efficiently by keying on the
+         * concbtenbtion of nbme bnd signbture.
          */
-        Map<String, Method> map = new HashMap<String, Method>();
-        addVisibleMethods(map, new HashSet<InterfaceType>());
+        Mbp<String, Method> mbp = new HbshMbp<String, Method>();
+        bddVisibleMethods(mbp, new HbshSet<InterfbceType>());
 
         /*
-         * ... but the hash map destroys order. Methods should be
-         * returned in a sensible order, as they are in allMethods().
-         * So, start over with allMethods() and use the hash map
-         * to filter that ordered collection.
+         * ... but the hbsh mbp destroys order. Methods should be
+         * returned in b sensible order, bs they bre in bllMethods().
+         * So, stbrt over with bllMethods() bnd use the hbsh mbp
+         * to filter thbt ordered collection.
          */
-        List<Method> list = allMethods();
-        list.retainAll(new HashSet<Method>(map.values()));
+        List<Method> list = bllMethods();
+        list.retbinAll(new HbshSet<Method>(mbp.vblues()));
         return list;
     }
 
-    abstract public List<Method> allMethods();
+    bbstrbct public List<Method> bllMethods();
 
-    public List<Method> methodsByName(String name) {
+    public List<Method> methodsByNbme(String nbme) {
         List<Method> methods = visibleMethods();
-        ArrayList<Method> retList = new ArrayList<Method>(methods.size());
-        for (Method candidate : methods) {
-            if (candidate.name().equals(name)) {
-                retList.add(candidate);
+        ArrbyList<Method> retList = new ArrbyList<Method>(methods.size());
+        for (Method cbndidbte : methods) {
+            if (cbndidbte.nbme().equbls(nbme)) {
+                retList.bdd(cbndidbte);
             }
         }
         retList.trimToSize();
         return retList;
     }
 
-    public List<Method> methodsByName(String name, String signature) {
+    public List<Method> methodsByNbme(String nbme, String signbture) {
         List<Method> methods = visibleMethods();
-        ArrayList<Method> retList = new ArrayList<Method>(methods.size());
-        for (Method candidate : methods) {
-            if (candidate.name().equals(name) &&
-                candidate.signature().equals(signature)) {
-                retList.add(candidate);
+        ArrbyList<Method> retList = new ArrbyList<Method>(methods.size());
+        for (Method cbndidbte : methods) {
+            if (cbndidbte.nbme().equbls(nbme) &&
+                cbndidbte.signbture().equbls(signbture)) {
+                retList.bdd(cbndidbte);
             }
         }
         retList.trimToSize();
         return retList;
     }
 
-    List<InterfaceType> getInterfaces() {
-        InterfaceTypeImpl[] intfs;
+    List<InterfbceType> getInterfbces() {
+        InterfbceTypeImpl[] intfs;
         try {
-            intfs = JDWP.ReferenceType.Interfaces.
-                                         process(vm, this).interfaces;
-        } catch (JDWPException exc) {
+            intfs = JDWP.ReferenceType.Interfbces.
+                                         process(vm, this).interfbces;
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
-        return Arrays.asList((InterfaceType[])intfs);
+        return Arrbys.bsList((InterfbceType[])intfs);
     }
 
     public List<ReferenceType> nestedTypes() {
-        List<ReferenceType> all = vm.allClasses();
-        List<ReferenceType> nested = new ArrayList<ReferenceType>();
-        String outername = name();
-        int outerlen = outername.length();
-        Iterator<ReferenceType> iter = all.iterator();
-        while (iter.hasNext()) {
+        List<ReferenceType> bll = vm.bllClbsses();
+        List<ReferenceType> nested = new ArrbyList<ReferenceType>();
+        String outernbme = nbme();
+        int outerlen = outernbme.length();
+        Iterbtor<ReferenceType> iter = bll.iterbtor();
+        while (iter.hbsNext()) {
             ReferenceType refType = iter.next();
-            String name = refType.name();
-            int len = name.length();
-            /* The separator is historically '$' but could also be '#' */
-            if ( len > outerlen && name.startsWith(outername) ) {
-                char c = name.charAt(outerlen);
+            String nbme = refType.nbme();
+            int len = nbme.length();
+            /* The sepbrbtor is historicblly '$' but could blso be '#' */
+            if ( len > outerlen && nbme.stbrtsWith(outernbme) ) {
+                chbr c = nbme.chbrAt(outerlen);
                 if ( c =='$' || c== '#' ) {
-                    nested.add(refType);
+                    nested.bdd(refType);
                 }
             }
         }
         return nested;
     }
 
-    public Value getValue(Field sig) {
-        List<Field> list = new ArrayList<Field>(1);
-        list.add(sig);
-        Map<Field, Value> map = getValues(list);
-        return map.get(sig);
+    public Vblue getVblue(Field sig) {
+        List<Field> list = new ArrbyList<Field>(1);
+        list.bdd(sig);
+        Mbp<Field, Vblue> mbp = getVblues(list);
+        return mbp.get(sig);
     }
 
 
-    void validateFieldAccess(Field field) {
+    void vblidbteFieldAccess(Field field) {
         /*
-         * Field must be in this object's class, a superclass, or
-         * implemented interface
+         * Field must be in this object's clbss, b superclbss, or
+         * implemented interfbce
          */
-        ReferenceTypeImpl declType = (ReferenceTypeImpl)field.declaringType();
-        if (!declType.isAssignableFrom(this)) {
-            throw new IllegalArgumentException("Invalid field");
+        ReferenceTypeImpl declType = (ReferenceTypeImpl)field.declbringType();
+        if (!declType.isAssignbbleFrom(this)) {
+            throw new IllegblArgumentException("Invblid field");
         }
     }
 
-    void validateFieldSet(Field field) {
-        validateFieldAccess(field);
-        if (field.isFinal()) {
-            throw new IllegalArgumentException("Cannot set value of final field");
+    void vblidbteFieldSet(Field field) {
+        vblidbteFieldAccess(field);
+        if (field.isFinbl()) {
+            throw new IllegblArgumentException("Cbnnot set vblue of finbl field");
         }
     }
 
     /**
-     * Returns a map of field values
+     * Returns b mbp of field vblues
      */
-    public Map<Field,Value> getValues(List<? extends Field> theFields) {
-        validateMirrors(theFields);
+    public Mbp<Field,Vblue> getVblues(List<? extends Field> theFields) {
+        vblidbteMirrors(theFields);
 
         int size = theFields.size();
-        JDWP.ReferenceType.GetValues.Field[] queryFields =
-                         new JDWP.ReferenceType.GetValues.Field[size];
+        JDWP.ReferenceType.GetVblues.Field[] queryFields =
+                         new JDWP.ReferenceType.GetVblues.Field[size];
 
         for (int i=0; i<size; i++) {
             FieldImpl field = (FieldImpl)theFields.get(i);
 
-            validateFieldAccess(field);
+            vblidbteFieldAccess(field);
 
-            // Do more validation specific to ReferenceType field getting
-            if (!field.isStatic()) {
-                throw new IllegalArgumentException(
-                     "Attempt to use non-static field with ReferenceType");
+            // Do more vblidbtion specific to ReferenceType field getting
+            if (!field.isStbtic()) {
+                throw new IllegblArgumentException(
+                     "Attempt to use non-stbtic field with ReferenceType");
             }
-            queryFields[i] = new JDWP.ReferenceType.GetValues.Field(
+            queryFields[i] = new JDWP.ReferenceType.GetVblues.Field(
                                          field.ref());
         }
 
-        Map<Field, Value> map = new HashMap<Field, Value>(size);
+        Mbp<Field, Vblue> mbp = new HbshMbp<Field, Vblue>(size);
 
-        ValueImpl[] values;
+        VblueImpl[] vblues;
         try {
-            values = JDWP.ReferenceType.GetValues.
-                                     process(vm, this, queryFields).values;
-        } catch (JDWPException exc) {
+            vblues = JDWP.ReferenceType.GetVblues.
+                                     process(vm, this, queryFields).vblues;
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
 
-        if (size != values.length) {
-            throw new InternalException(
-                         "Wrong number of values returned from target VM");
+        if (size != vblues.length) {
+            throw new InternblException(
+                         "Wrong number of vblues returned from tbrget VM");
         }
         for (int i=0; i<size; i++) {
             FieldImpl field = (FieldImpl)theFields.get(i);
-            map.put(field, values[i]);
+            mbp.put(field, vblues[i]);
         }
 
-        return map;
+        return mbp;
     }
 
-    public ClassObjectReference classObject() {
-        if (classObject == null) {
-            // Are classObjects unique for an Object, or
-            // created each time? Is this spec'ed?
+    public ClbssObjectReference clbssObject() {
+        if (clbssObject == null) {
+            // Are clbssObjects unique for bn Object, or
+            // crebted ebch time? Is this spec'ed?
             synchronized(this) {
-                if (classObject == null) {
+                if (clbssObject == null) {
                     try {
-                        classObject = JDWP.ReferenceType.ClassObject.
-                            process(vm, this).classObject;
-                    } catch (JDWPException exc) {
+                        clbssObject = JDWP.ReferenceType.ClbssObject.
+                            process(vm, this).clbssObject;
+                    } cbtch (JDWPException exc) {
                         throw exc.toJDIException();
                     }
                 }
             }
         }
-        return classObject;
+        return clbssObject;
     }
 
-    SDE.Stratum stratum(String stratumID) {
+    SDE.Strbtum strbtum(String strbtumID) {
         SDE sde = sourceDebugExtensionInfo();
-        if (!sde.isValid()) {
+        if (!sde.isVblid()) {
             sde = NO_SDE_INFO_MARK;
         }
-        return sde.stratum(stratumID);
+        return sde.strbtum(strbtumID);
     }
 
-    public String sourceName() throws AbsentInformationException {
-        return sourceNames(vm.getDefaultStratum()).get(0);
+    public String sourceNbme() throws AbsentInformbtionException {
+        return sourceNbmes(vm.getDefbultStrbtum()).get(0);
     }
 
-    public List<String> sourceNames(String stratumID)
-                                throws AbsentInformationException {
-        SDE.Stratum stratum = stratum(stratumID);
-        if (stratum.isJava()) {
-            List<String> result = new ArrayList<String>(1);
-            result.add(baseSourceName());
+    public List<String> sourceNbmes(String strbtumID)
+                                throws AbsentInformbtionException {
+        SDE.Strbtum strbtum = strbtum(strbtumID);
+        if (strbtum.isJbvb()) {
+            List<String> result = new ArrbyList<String>(1);
+            result.bdd(bbseSourceNbme());
             return result;
         }
-        return stratum.sourceNames(this);
+        return strbtum.sourceNbmes(this);
     }
 
-    public List<String> sourcePaths(String stratumID)
-                                throws AbsentInformationException {
-        SDE.Stratum stratum = stratum(stratumID);
-        if (stratum.isJava()) {
-            List<String> result = new ArrayList<String>(1);
-            result.add(baseSourceDir() + baseSourceName());
+    public List<String> sourcePbths(String strbtumID)
+                                throws AbsentInformbtionException {
+        SDE.Strbtum strbtum = strbtum(strbtumID);
+        if (strbtum.isJbvb()) {
+            List<String> result = new ArrbyList<String>(1);
+            result.bdd(bbseSourceDir() + bbseSourceNbme());
             return result;
         }
-        return stratum.sourcePaths(this);
+        return strbtum.sourcePbths(this);
     }
 
-    String baseSourceName() throws AbsentInformationException {
-        String bsn = baseSourceName;
+    String bbseSourceNbme() throws AbsentInformbtionException {
+        String bsn = bbseSourceNbme;
         if (bsn == null) {
-            // Does not need synchronization, since worst-case
-            // static info is fetched twice
+            // Does not need synchronizbtion, since worst-cbse
+            // stbtic info is fetched twice
             try {
                 bsn = JDWP.ReferenceType.SourceFile.
                     process(vm, this).sourceFile;
-            } catch (JDWPException exc) {
+            } cbtch (JDWPException exc) {
                 if (exc.errorCode() == JDWP.Error.ABSENT_INFORMATION) {
                     bsn = ABSENT_BASE_SOURCE_NAME;
                 } else {
                     throw exc.toJDIException();
                 }
             }
-            baseSourceName = bsn;
+            bbseSourceNbme = bsn;
         }
         if (bsn == ABSENT_BASE_SOURCE_NAME) {
-            throw new AbsentInformationException();
+            throw new AbsentInformbtionException();
         }
         return bsn;
     }
 
-    String baseSourcePath() throws AbsentInformationException {
-        String bsp = baseSourcePath;
+    String bbseSourcePbth() throws AbsentInformbtionException {
+        String bsp = bbseSourcePbth;
         if (bsp == null) {
-            bsp = baseSourceDir() + baseSourceName();
-            baseSourcePath = bsp;
+            bsp = bbseSourceDir() + bbseSourceNbme();
+            bbseSourcePbth = bsp;
         }
         return bsp;
     }
 
-    String baseSourceDir() {
-        if (baseSourceDir == null) {
-            String typeName = name();
-            StringBuilder sb = new StringBuilder(typeName.length() + 10);
+    String bbseSourceDir() {
+        if (bbseSourceDir == null) {
+            String typeNbme = nbme();
+            StringBuilder sb = new StringBuilder(typeNbme.length() + 10);
             int index = 0;
             int nextIndex;
 
-            while ((nextIndex = typeName.indexOf('.', index)) > 0) {
-                sb.append(typeName.substring(index, nextIndex));
-                sb.append(java.io.File.separatorChar);
+            while ((nextIndex = typeNbme.indexOf('.', index)) > 0) {
+                sb.bppend(typeNbme.substring(index, nextIndex));
+                sb.bppend(jbvb.io.File.sepbrbtorChbr);
                 index = nextIndex + 1;
             }
-            baseSourceDir = sb.toString();
+            bbseSourceDir = sb.toString();
         }
-        return baseSourceDir;
+        return bbseSourceDir;
     }
 
     public String sourceDebugExtension()
-                           throws AbsentInformationException {
-        if (!vm.canGetSourceDebugExtension()) {
-            throw new UnsupportedOperationException();
+                           throws AbsentInformbtionException {
+        if (!vm.cbnGetSourceDebugExtension()) {
+            throw new UnsupportedOperbtionException();
         }
         SDE sde = sourceDebugExtensionInfo();
         if (sde == NO_SDE_INFO_MARK) {
-            throw new AbsentInformationException();
+            throw new AbsentInformbtionException();
         }
         return sde.sourceDebugExtension;
     }
 
-    private SDE sourceDebugExtensionInfo() {
-        if (!vm.canGetSourceDebugExtension()) {
+    privbte SDE sourceDebugExtensionInfo() {
+        if (!vm.cbnGetSourceDebugExtension()) {
             return NO_SDE_INFO_MARK;
         }
         SDE sde = (sdeRef == null) ?  null : sdeRef.get();
@@ -787,7 +787,7 @@ implements ReferenceType {
             try {
                 extension = JDWP.ReferenceType.SourceDebugExtension.
                     process(vm, this).extension;
-            } catch (JDWPException exc) {
+            } cbtch (JDWPException exc) {
                 if (exc.errorCode() != JDWP.Error.ABSENT_INFORMATION) {
                     sdeRef = new SoftReference<SDE>(NO_SDE_INFO_MARK);
                     throw exc.toJDIException();
@@ -803,24 +803,24 @@ implements ReferenceType {
         return sde;
     }
 
-    public List<String> availableStrata() {
+    public List<String> bvbilbbleStrbtb() {
         SDE sde = sourceDebugExtensionInfo();
-        if (sde.isValid()) {
-            return sde.availableStrata();
+        if (sde.isVblid()) {
+            return sde.bvbilbbleStrbtb();
         } else {
-            List<String> strata = new ArrayList<String>();
-            strata.add(SDE.BASE_STRATUM_NAME);
-            return strata;
+            List<String> strbtb = new ArrbyList<String>();
+            strbtb.bdd(SDE.BASE_STRATUM_NAME);
+            return strbtb;
         }
     }
 
     /**
-     * Always returns non-null stratumID
+     * Alwbys returns non-null strbtumID
      */
-    public String defaultStratum() {
+    public String defbultStrbtum() {
         SDE sdei = sourceDebugExtensionInfo();
-        if (sdei.isValid()) {
-            return sdei.defaultStratumId;
+        if (sdei.isVblid()) {
+            return sdei.defbultStrbtumId;
         } else {
             return SDE.BASE_STRATUM_NAME;
         }
@@ -833,117 +833,117 @@ implements ReferenceType {
         return modifiers;
     }
 
-    public List<Location> allLineLocations()
-                            throws AbsentInformationException {
-        return allLineLocations(vm.getDefaultStratum(), null);
+    public List<Locbtion> bllLineLocbtions()
+                            throws AbsentInformbtionException {
+        return bllLineLocbtions(vm.getDefbultStrbtum(), null);
     }
 
-    public List<Location> allLineLocations(String stratumID, String sourceName)
-                            throws AbsentInformationException {
-        boolean someAbsent = false; // A method that should have info, didn't
-        SDE.Stratum stratum = stratum(stratumID);
-        List<Location> list = new ArrayList<Location>();  // location list
+    public List<Locbtion> bllLineLocbtions(String strbtumID, String sourceNbme)
+                            throws AbsentInformbtionException {
+        boolebn someAbsent = fblse; // A method thbt should hbve info, didn't
+        SDE.Strbtum strbtum = strbtum(strbtumID);
+        List<Locbtion> list = new ArrbyList<Locbtion>();  // locbtion list
 
-        for (Iterator<Method> iter = methods().iterator(); iter.hasNext(); ) {
+        for (Iterbtor<Method> iter = methods().iterbtor(); iter.hbsNext(); ) {
             MethodImpl method = (MethodImpl)iter.next();
             try {
-                list.addAll(
-                   method.allLineLocations(stratum, sourceName));
-            } catch(AbsentInformationException exc) {
+                list.bddAll(
+                   method.bllLineLocbtions(strbtum, sourceNbme));
+            } cbtch(AbsentInformbtionException exc) {
                 someAbsent = true;
             }
         }
 
-        // If we retrieved no line info, and at least one of the methods
-        // should have had some (as determined by an
-        // AbsentInformationException being thrown) then we rethrow
-        // the AbsentInformationException.
+        // If we retrieved no line info, bnd bt lebst one of the methods
+        // should hbve hbd some (bs determined by bn
+        // AbsentInformbtionException being thrown) then we rethrow
+        // the AbsentInformbtionException.
         if (someAbsent && list.size() == 0) {
-            throw new AbsentInformationException();
+            throw new AbsentInformbtionException();
         }
         return list;
     }
 
-    public List<Location> locationsOfLine(int lineNumber)
-                           throws AbsentInformationException {
-        return locationsOfLine(vm.getDefaultStratum(),
+    public List<Locbtion> locbtionsOfLine(int lineNumber)
+                           throws AbsentInformbtionException {
+        return locbtionsOfLine(vm.getDefbultStrbtum(),
                                null,
                                lineNumber);
     }
 
-    public List<Location> locationsOfLine(String stratumID,
-                                String sourceName,
+    public List<Locbtion> locbtionsOfLine(String strbtumID,
+                                String sourceNbme,
                                 int lineNumber)
-                           throws AbsentInformationException {
-        // A method that should have info, didn't
-        boolean someAbsent = false;
-        // A method that should have info, did
-        boolean somePresent = false;
+                           throws AbsentInformbtionException {
+        // A method thbt should hbve info, didn't
+        boolebn someAbsent = fblse;
+        // A method thbt should hbve info, did
+        boolebn somePresent = fblse;
         List<Method> methods = methods();
-        SDE.Stratum stratum = stratum(stratumID);
+        SDE.Strbtum strbtum = strbtum(strbtumID);
 
-        List<Location> list = new ArrayList<Location>();
+        List<Locbtion> list = new ArrbyList<Locbtion>();
 
-        Iterator<Method> iter = methods.iterator();
-        while(iter.hasNext()) {
+        Iterbtor<Method> iter = methods.iterbtor();
+        while(iter.hbsNext()) {
             MethodImpl method = (MethodImpl)iter.next();
-            // eliminate native and abstract to eliminate
-            // false positives
-            if (!method.isAbstract() &&
-                !method.isNative()) {
+            // eliminbte nbtive bnd bbstrbct to eliminbte
+            // fblse positives
+            if (!method.isAbstrbct() &&
+                !method.isNbtive()) {
                 try {
-                    list.addAll(
-                       method.locationsOfLine(stratum,
-                                              sourceName,
+                    list.bddAll(
+                       method.locbtionsOfLine(strbtum,
+                                              sourceNbme,
                                               lineNumber));
                     somePresent = true;
-                } catch(AbsentInformationException exc) {
+                } cbtch(AbsentInformbtionException exc) {
                     someAbsent = true;
                 }
             }
         }
         if (someAbsent && !somePresent) {
-            throw new AbsentInformationException();
+            throw new AbsentInformbtionException();
         }
         return list;
     }
 
-    public List<ObjectReference> instances(long maxInstances) {
-        if (!vm.canGetInstanceInfo()) {
-            throw new UnsupportedOperationException(
-                "target does not support getting instances");
+    public List<ObjectReference> instbnces(long mbxInstbnces) {
+        if (!vm.cbnGetInstbnceInfo()) {
+            throw new UnsupportedOperbtionException(
+                "tbrget does not support getting instbnces");
         }
 
-        if (maxInstances < 0) {
-            throw new IllegalArgumentException("maxInstances is less than zero: "
-                                              + maxInstances);
+        if (mbxInstbnces < 0) {
+            throw new IllegblArgumentException("mbxInstbnces is less thbn zero: "
+                                              + mbxInstbnces);
         }
-        int intMax = (maxInstances > Integer.MAX_VALUE)?
-            Integer.MAX_VALUE: (int)maxInstances;
-        // JDWP can't currently handle more than this (in mustang)
+        int intMbx = (mbxInstbnces > Integer.MAX_VALUE)?
+            Integer.MAX_VALUE: (int)mbxInstbnces;
+        // JDWP cbn't currently hbndle more thbn this (in mustbng)
 
         try {
-            return Arrays.asList(
-                (ObjectReference[])JDWP.ReferenceType.Instances.
-                        process(vm, this, intMax).instances);
-        } catch (JDWPException exc) {
+            return Arrbys.bsList(
+                (ObjectReference[])JDWP.ReferenceType.Instbnces.
+                        process(vm, this, intMbx).instbnces);
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
     }
 
-    private void getClassFileVersion() {
-        if (!vm.canGetClassFileVersion()) {
-            throw new UnsupportedOperationException();
+    privbte void getClbssFileVersion() {
+        if (!vm.cbnGetClbssFileVersion()) {
+            throw new UnsupportedOperbtionException();
         }
-        JDWP.ReferenceType.ClassFileVersion classFileVersion;
+        JDWP.ReferenceType.ClbssFileVersion clbssFileVersion;
         if (versionNumberGotten) {
             return;
         } else {
             try {
-                classFileVersion = JDWP.ReferenceType.ClassFileVersion.process(vm, this);
-            } catch (JDWPException exc) {
+                clbssFileVersion = JDWP.ReferenceType.ClbssFileVersion.process(vm, this);
+            } cbtch (JDWPException exc) {
                 if (exc.errorCode() == JDWP.Error.ABSENT_INFORMATION) {
-                    majorVersion = 0;
+                    mbjorVersion = 0;
                     minorVersion = 0;
                     versionNumberGotten = true;
                     return;
@@ -951,79 +951,79 @@ implements ReferenceType {
                     throw exc.toJDIException();
                 }
             }
-            majorVersion = classFileVersion.majorVersion;
-            minorVersion = classFileVersion.minorVersion;
+            mbjorVersion = clbssFileVersion.mbjorVersion;
+            minorVersion = clbssFileVersion.minorVersion;
             versionNumberGotten = true;
         }
     }
 
-    public int majorVersion() {
+    public int mbjorVersion() {
         try {
-            getClassFileVersion();
-        } catch (RuntimeException exc) {
+            getClbssFileVersion();
+        } cbtch (RuntimeException exc) {
             throw exc;
         }
-        return majorVersion;
+        return mbjorVersion;
     }
 
     public int minorVersion() {
         try {
-            getClassFileVersion();
-        } catch (RuntimeException exc) {
+            getClbssFileVersion();
+        } cbtch (RuntimeException exc) {
             throw exc;
         }
         return minorVersion;
     }
 
-    private void getConstantPoolInfo() {
-        JDWP.ReferenceType.ConstantPool jdwpCPool;
-        if (!vm.canGetConstantPool()) {
-            throw new UnsupportedOperationException();
+    privbte void getConstbntPoolInfo() {
+        JDWP.ReferenceType.ConstbntPool jdwpCPool;
+        if (!vm.cbnGetConstbntPool()) {
+            throw new UnsupportedOperbtionException();
         }
-        if (constantPoolInfoGotten) {
+        if (constbntPoolInfoGotten) {
             return;
         } else {
             try {
-                jdwpCPool = JDWP.ReferenceType.ConstantPool.process(vm, this);
-            } catch (JDWPException exc) {
+                jdwpCPool = JDWP.ReferenceType.ConstbntPool.process(vm, this);
+            } cbtch (JDWPException exc) {
                 if (exc.errorCode() == JDWP.Error.ABSENT_INFORMATION) {
-                    constanPoolCount = 0;
-                    constantPoolBytesRef = null;
-                    constantPoolInfoGotten = true;
+                    constbnPoolCount = 0;
+                    constbntPoolBytesRef = null;
+                    constbntPoolInfoGotten = true;
                     return;
                 } else {
                     throw exc.toJDIException();
                 }
             }
             byte[] cpbytes;
-            constanPoolCount = jdwpCPool.count;
+            constbnPoolCount = jdwpCPool.count;
             cpbytes = jdwpCPool.bytes;
-            constantPoolBytesRef = new SoftReference<byte[]>(cpbytes);
-            constantPoolInfoGotten = true;
+            constbntPoolBytesRef = new SoftReference<byte[]>(cpbytes);
+            constbntPoolInfoGotten = true;
         }
     }
 
-    public int constantPoolCount() {
+    public int constbntPoolCount() {
         try {
-            getConstantPoolInfo();
-        } catch (RuntimeException exc) {
+            getConstbntPoolInfo();
+        } cbtch (RuntimeException exc) {
             throw exc;
         }
-        return constanPoolCount;
+        return constbnPoolCount;
     }
 
-    public byte[] constantPool() {
+    public byte[] constbntPool() {
         try {
-            getConstantPoolInfo();
-        } catch (RuntimeException exc) {
+            getConstbntPoolInfo();
+        } cbtch (RuntimeException exc) {
             throw exc;
         }
-        if (constantPoolBytesRef != null) {
-            byte[] cpbytes = constantPoolBytesRef.get();
+        if (constbntPoolBytesRef != null) {
+            byte[] cpbytes = constbntPoolBytesRef.get();
             /*
-             * Arrays are always modifiable, so it is a little unsafe
-             * to return the cached bytecodes directly; instead, we
-             * make a clone at the cost of using more memory.
+             * Arrbys bre blwbys modifibble, so it is b little unsbfe
+             * to return the cbched bytecodes directly; instebd, we
+             * mbke b clone bt the cost of using more memory.
              */
             return cpbytes.clone();
         } else {
@@ -1031,8 +1031,8 @@ implements ReferenceType {
         }
     }
 
-    // Does not need synchronization, since worst-case
-    // static info is fetched twice
+    // Does not need synchronizbtion, since worst-cbse
+    // stbtic info is fetched twice
     void getModifiers() {
         if (modifiers != -1) {
             return;
@@ -1040,28 +1040,28 @@ implements ReferenceType {
         try {
             modifiers = JDWP.ReferenceType.Modifiers.
                                   process(vm, this).modBits;
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
     }
 
-    void decodeStatus(int status) {
-        this.status = status;
-        if ((status & JDWP.ClassStatus.PREPARED) != 0) {
-            isPrepared = true;
+    void decodeStbtus(int stbtus) {
+        this.stbtus = stbtus;
+        if ((stbtus & JDWP.ClbssStbtus.PREPARED) != 0) {
+            isPrepbred = true;
         }
     }
 
-    void updateStatus() {
+    void updbteStbtus() {
         try {
-            decodeStatus(JDWP.ReferenceType.Status.process(vm, this).status);
-        } catch (JDWPException exc) {
+            decodeStbtus(JDWP.ReferenceType.Stbtus.process(vm, this).stbtus);
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
     }
 
-    void markPrepared() {
-        isPrepared = true;
+    void mbrkPrepbred() {
+        isPrepbred = true;
     }
 
     long ref() {
@@ -1069,98 +1069,98 @@ implements ReferenceType {
     }
 
     int indexOf(Method method) {
-        // Make sure they're all here - the obsolete method
-        // won't be found and so will have index -1
+        // Mbke sure they're bll here - the obsolete method
+        // won't be found bnd so will hbve index -1
         return methods().indexOf(method);
     }
 
     int indexOf(Field field) {
-        // Make sure they're all here
+        // Mbke sure they're bll here
         return fields().indexOf(field);
     }
 
     /*
-     * Return true if an instance of this type
-     * can be assigned to a variable of the given type
+     * Return true if bn instbnce of this type
+     * cbn be bssigned to b vbribble of the given type
      */
-    abstract boolean isAssignableTo(ReferenceType type);
+    bbstrbct boolebn isAssignbbleTo(ReferenceType type);
 
-    boolean isAssignableFrom(ReferenceType type) {
-        return ((ReferenceTypeImpl)type).isAssignableTo(this);
+    boolebn isAssignbbleFrom(ReferenceType type) {
+        return ((ReferenceTypeImpl)type).isAssignbbleTo(this);
     }
 
-    boolean isAssignableFrom(ObjectReference object) {
+    boolebn isAssignbbleFrom(ObjectReference object) {
         return object == null ||
-               isAssignableFrom(object.referenceType());
+               isAssignbbleFrom(object.referenceType());
     }
 
-    void setStatus(int status) {
-        decodeStatus(status);
+    void setStbtus(int stbtus) {
+        decodeStbtus(stbtus);
     }
 
-    void setSignature(String signature) {
-        this.signature = signature;
+    void setSignbture(String signbture) {
+        this.signbture = signbture;
     }
 
-    void setGenericSignature(String signature) {
-        if (signature != null && signature.length() == 0) {
-            this.genericSignature = null;
+    void setGenericSignbture(String signbture) {
+        if (signbture != null && signbture.length() == 0) {
+            this.genericSignbture = null;
         } else{
-            this.genericSignature = signature;
+            this.genericSignbture = signbture;
         }
-        this.genericSignatureGotten = true;
+        this.genericSignbtureGotten = true;
     }
 
-    private static boolean isPrimitiveArray(String signature) {
-        int i = signature.lastIndexOf('[');
+    privbte stbtic boolebn isPrimitiveArrby(String signbture) {
+        int i = signbture.lbstIndexOf('[');
         /*
-         * TO DO: Centralize JNI signature knowledge.
+         * TO DO: Centrblize JNI signbture knowledge.
          *
          * Ref:
-         *  jdk1.4/doc/guide/jpda/jdi/com/sun/jdi/doc-files/signature.html
+         *  jdk1.4/doc/guide/jpdb/jdi/com/sun/jdi/doc-files/signbture.html
          */
-        boolean isPA;
+        boolebn isPA;
         if (i < 0) {
-            isPA = false;
+            isPA = fblse;
         } else {
-            char c = signature.charAt(i + 1);
+            chbr c = signbture.chbrAt(i + 1);
             isPA = (c != 'L');
         }
         return isPA;
     }
 
-    Type findType(String signature) throws ClassNotLoadedException {
+    Type findType(String signbture) throws ClbssNotLobdedException {
         Type type;
-        if (signature.length() == 1) {
-            /* OTI FIX: Must be a primitive type or the void type */
-            char sig = signature.charAt(0);
+        if (signbture.length() == 1) {
+            /* OTI FIX: Must be b primitive type or the void type */
+            chbr sig = signbture.chbrAt(0);
             if (sig == 'V') {
                 type = vm.theVoidType();
             } else {
                 type = vm.primitiveTypeMirror((byte)sig);
             }
         } else {
-            // Must be a reference type.
-            ClassLoaderReferenceImpl loader =
-                       (ClassLoaderReferenceImpl)classLoader();
-            if ((loader == null) ||
-                (isPrimitiveArray(signature)) //Work around 4450091
+            // Must be b reference type.
+            ClbssLobderReferenceImpl lobder =
+                       (ClbssLobderReferenceImpl)clbssLobder();
+            if ((lobder == null) ||
+                (isPrimitiveArrby(signbture)) //Work bround 4450091
                 ) {
-                // Caller wants type of boot class field
-                type = vm.findBootType(signature);
+                // Cbller wbnts type of boot clbss field
+                type = vm.findBootType(signbture);
             } else {
-                // Caller wants type of non-boot class field
-                type = loader.findType(signature);
+                // Cbller wbnts type of non-boot clbss field
+                type = lobder.findType(signbture);
             }
         }
         return type;
     }
 
-    String loaderString() {
-        if (classLoader() != null) {
-            return "loaded by " + classLoader().toString();
+    String lobderString() {
+        if (clbssLobder() != null) {
+            return "lobded by " + clbssLobder().toString();
         } else {
-            return "no class loader";
+            return "no clbss lobder";
         }
     }
 

@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.util.Arrays;
+import jbvb.io.IOException;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.util.Arrbys;
 
 import sun.security.util.*;
 
 /**
- * This class represents the OtherName as required by the GeneralNames
- * ASN.1 object. It supplies the generic framework to allow specific
- * Other Name types, and also provides minimal support for unrecognized
- * Other Name types.
+ * This clbss represents the OtherNbme bs required by the GenerblNbmes
+ * ASN.1 object. It supplies the generic frbmework to bllow specific
+ * Other Nbme types, bnd blso provides minimbl support for unrecognized
+ * Other Nbme types.
  *
- * The ASN.1 definition for OtherName is:
+ * The ASN.1 definition for OtherNbme is:
  * <pre>
- * OtherName ::= SEQUENCE {
+ * OtherNbme ::= SEQUENCE {
  *     type-id    OBJECT IDENTIFIER,
- *     value      [0] EXPLICIT ANY DEFINED BY type-id
+ *     vblue      [0] EXPLICIT ANY DEFINED BY type-id
  * }
  * </pre>
- * @author Hemma Prafullchandra
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class OtherName implements GeneralNameInterface {
+public clbss OtherNbme implements GenerblNbmeInterfbce {
 
-    private String name;
-    private ObjectIdentifier oid;
-    private byte[] nameValue = null;
-    private GeneralNameInterface gni = null;
+    privbte String nbme;
+    privbte ObjectIdentifier oid;
+    privbte byte[] nbmeVblue = null;
+    privbte GenerblNbmeInterfbce gni = null;
 
-    private static final byte TAG_VALUE = 0;
+    privbte stbtic finbl byte TAG_VALUE = 0;
 
-    private int myhash = -1;
+    privbte int myhbsh = -1;
 
     /**
-     * Create the OtherName object from a passed ObjectIdentfier and
-     * byte array name value
+     * Crebte the OtherNbme object from b pbssed ObjectIdentfier bnd
+     * byte brrby nbme vblue
      *
-     * @param oid ObjectIdentifier of this OtherName object
-     * @param value the DER-encoded value of the OtherName
+     * @pbrbm oid ObjectIdentifier of this OtherNbme object
+     * @pbrbm vblue the DER-encoded vblue of the OtherNbme
      * @throws IOException on error
      */
-    public OtherName(ObjectIdentifier oid, byte[] value) throws IOException {
-        if (oid == null || value == null) {
-            throw new NullPointerException("parameters may not be null");
+    public OtherNbme(ObjectIdentifier oid, byte[] vblue) throws IOException {
+        if (oid == null || vblue == null) {
+            throw new NullPointerException("pbrbmeters mby not be null");
         }
         this.oid = oid;
-        this.nameValue = value;
-        gni = getGNI(oid, value);
+        this.nbmeVblue = vblue;
+        gni = getGNI(oid, vblue);
         if (gni != null) {
-            name = gni.toString();
+            nbme = gni.toString();
         } else {
-            name = "Unrecognized ObjectIdentifier: " + oid.toString();
+            nbme = "Unrecognized ObjectIdentifier: " + oid.toString();
         }
     }
 
     /**
-     * Create the OtherName object from the passed encoded Der value.
+     * Crebte the OtherNbme object from the pbssed encoded Der vblue.
      *
-     * @param derValue the encoded DER OtherName.
+     * @pbrbm derVblue the encoded DER OtherNbme.
      * @exception IOException on error.
      */
-    public OtherName(DerValue derValue) throws IOException {
-        DerInputStream in = derValue.toDerInputStream();
+    public OtherNbme(DerVblue derVblue) throws IOException {
+        DerInputStrebm in = derVblue.toDerInputStrebm();
 
         oid = in.getOID();
-        DerValue val = in.getDerValue();
-        nameValue = val.toByteArray();
-        gni = getGNI(oid, nameValue);
+        DerVblue vbl = in.getDerVblue();
+        nbmeVblue = vbl.toByteArrby();
+        gni = getGNI(oid, nbmeVblue);
         if (gni != null) {
-            name = gni.toString();
+            nbme = gni.toString();
         } else {
-            name = "Unrecognized ObjectIdentifier: " + oid.toString();
+            nbme = "Unrecognized ObjectIdentifier: " + oid.toString();
         }
     }
 
@@ -103,167 +103,167 @@ public class OtherName implements GeneralNameInterface {
      * Get ObjectIdentifier
      */
     public ObjectIdentifier getOID() {
-        //XXXX May want to consider cloning this
+        //XXXX Mby wbnt to consider cloning this
         return oid;
     }
 
     /**
-     * Get name value
+     * Get nbme vblue
      */
-    public byte[] getNameValue() {
-        return nameValue.clone();
+    public byte[] getNbmeVblue() {
+        return nbmeVblue.clone();
     }
 
     /**
-     * Get GeneralNameInterface
+     * Get GenerblNbmeInterfbce
      */
-    private GeneralNameInterface getGNI(ObjectIdentifier oid, byte[] nameValue)
+    privbte GenerblNbmeInterfbce getGNI(ObjectIdentifier oid, byte[] nbmeVblue)
             throws IOException {
         try {
-            Class<?> extClass = OIDMap.getClass(oid);
-            if (extClass == null) {   // Unsupported OtherName
+            Clbss<?> extClbss = OIDMbp.getClbss(oid);
+            if (extClbss == null) {   // Unsupported OtherNbme
                 return null;
             }
-            Class<?>[] params = { Object.class };
-            Constructor<?> cons = extClass.getConstructor(params);
+            Clbss<?>[] pbrbms = { Object.clbss };
+            Constructor<?> cons = extClbss.getConstructor(pbrbms);
 
-            Object[] passed = new Object[] { nameValue };
-            GeneralNameInterface gni =
-                       (GeneralNameInterface)cons.newInstance(passed);
+            Object[] pbssed = new Object[] { nbmeVblue };
+            GenerblNbmeInterfbce gni =
+                       (GenerblNbmeInterfbce)cons.newInstbnce(pbssed);
             return gni;
-        } catch (Exception e) {
-            throw new IOException("Instantiation error: " + e, e);
+        } cbtch (Exception e) {
+            throw new IOException("Instbntibtion error: " + e, e);
         }
     }
 
     /**
-     * Return the type of the GeneralName.
+     * Return the type of the GenerblNbme.
      */
     public int getType() {
-        return GeneralNameInterface.NAME_ANY;
+        return GenerblNbmeInterfbce.NAME_ANY;
     }
 
     /**
-     * Encode the Other name into the DerOutputStream.
+     * Encode the Other nbme into the DerOutputStrebm.
      *
-     * @param out the DER stream to encode the Other-Name to.
+     * @pbrbm out the DER strebm to encode the Other-Nbme to.
      * @exception IOException on encoding errors.
      */
-    public void encode(DerOutputStream out) throws IOException {
+    public void encode(DerOutputStrebm out) throws IOException {
         if (gni != null) {
-            // This OtherName has a supported class
+            // This OtherNbme hbs b supported clbss
             gni.encode(out);
             return;
         } else {
-            // This OtherName has no supporting class
-            DerOutputStream tmp = new DerOutputStream();
+            // This OtherNbme hbs no supporting clbss
+            DerOutputStrebm tmp = new DerOutputStrebm();
             tmp.putOID(oid);
-            tmp.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, TAG_VALUE), nameValue);
-            out.write(DerValue.tag_Sequence, tmp);
+            tmp.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, TAG_VALUE), nbmeVblue);
+            out.write(DerVblue.tbg_Sequence, tmp);
         }
     }
 
     /**
-     * Compares this name with another, for equality.
+     * Compbres this nbme with bnother, for equblity.
      *
-     * @return true iff the names are identical.
+     * @return true iff the nbmes bre identicbl.
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof OtherName)) {
-            return false;
+        if (!(other instbnceof OtherNbme)) {
+            return fblse;
         }
-        OtherName otherOther = (OtherName)other;
-        if (!(otherOther.oid.equals((Object)oid))) {
-            return false;
+        OtherNbme otherOther = (OtherNbme)other;
+        if (!(otherOther.oid.equbls((Object)oid))) {
+            return fblse;
         }
-        GeneralNameInterface otherGNI = null;
+        GenerblNbmeInterfbce otherGNI = null;
         try {
-            otherGNI = getGNI(otherOther.oid, otherOther.nameValue);
-        } catch (IOException ioe) {
-            return false;
+            otherGNI = getGNI(otherOther.oid, otherOther.nbmeVblue);
+        } cbtch (IOException ioe) {
+            return fblse;
         }
 
-        boolean result;
+        boolebn result;
         if (otherGNI != null) {
             try {
-                result = (otherGNI.constrains(this) == NAME_MATCH);
-            } catch (UnsupportedOperationException ioe) {
-                result = false;
+                result = (otherGNI.constrbins(this) == NAME_MATCH);
+            } cbtch (UnsupportedOperbtionException ioe) {
+                result = fblse;
             }
         } else {
-            result = Arrays.equals(nameValue, otherOther.nameValue);
+            result = Arrbys.equbls(nbmeVblue, otherOther.nbmeVblue);
         }
 
         return result;
     }
 
     /**
-     * Returns the hash code for this OtherName.
+     * Returns the hbsh code for this OtherNbme.
      *
-     * @return a hash code value.
+     * @return b hbsh code vblue.
      */
-    public int hashCode() {
-        if (myhash == -1) {
-            myhash = 37 + oid.hashCode();
-            for (int i = 0; i < nameValue.length; i++) {
-                myhash = 37 * myhash + nameValue[i];
+    public int hbshCode() {
+        if (myhbsh == -1) {
+            myhbsh = 37 + oid.hbshCode();
+            for (int i = 0; i < nbmeVblue.length; i++) {
+                myhbsh = 37 * myhbsh + nbmeVblue[i];
             }
         }
-        return myhash;
+        return myhbsh;
     }
 
     /**
-     * Convert the name into user readable string.
+     * Convert the nbme into user rebdbble string.
      */
     public String toString() {
-        return "Other-Name: " + name;
+        return "Other-Nbme: " + nbme;
     }
 
     /**
-     * Return type of constraint inputName places on this name:<ul>
-     *   <li>NAME_DIFF_TYPE = -1: input name is different type from name
-     *       (i.e. does not constrain).
-     *   <li>NAME_MATCH = 0: input name matches name.
-     *   <li>NAME_NARROWS = 1: input name narrows name (is lower in the
-     *       naming subtree)
-     *   <li>NAME_WIDENS = 2: input name widens name (is higher in the
-     *       naming subtree)
-     *   <li>NAME_SAME_TYPE = 3: input name does not match or narrow name,
-     *       but is same type.
-     * </ul>.  These results are used in checking NameConstraints during
-     * certification path verification.
+     * Return type of constrbint inputNbme plbces on this nbme:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbme is different type from nbme
+     *       (i.e. does not constrbin).
+     *   <li>NAME_MATCH = 0: input nbme mbtches nbme.
+     *   <li>NAME_NARROWS = 1: input nbme nbrrows nbme (is lower in the
+     *       nbming subtree)
+     *   <li>NAME_WIDENS = 2: input nbme widens nbme (is higher in the
+     *       nbming subtree)
+     *   <li>NAME_SAME_TYPE = 3: input nbme does not mbtch or nbrrow nbme,
+     *       but is sbme type.
+     * </ul>.  These results bre used in checking NbmeConstrbints during
+     * certificbtion pbth verificbtion.
      *
-     * @param inputName to be checked for being constrained
-     * @returns constraint type above
-     * @throws UnsupportedOperationException if name is same type, but
-     *         comparison operations are not supported for this name type.
+     * @pbrbm inputNbme to be checked for being constrbined
+     * @returns constrbint type bbove
+     * @throws UnsupportedOperbtionException if nbme is sbme type, but
+     *         compbrison operbtions bre not supported for this nbme type.
      */
-    public int constrains(GeneralNameInterface inputName) {
-        int constraintType;
-        if (inputName == null) {
-            constraintType = NAME_DIFF_TYPE;
-        } else if (inputName.getType() != NAME_ANY) {
-            constraintType = NAME_DIFF_TYPE;
+    public int constrbins(GenerblNbmeInterfbce inputNbme) {
+        int constrbintType;
+        if (inputNbme == null) {
+            constrbintType = NAME_DIFF_TYPE;
+        } else if (inputNbme.getType() != NAME_ANY) {
+            constrbintType = NAME_DIFF_TYPE;
         } else {
-            throw new UnsupportedOperationException("Narrowing, widening, "
-                + "and matching are not supported for OtherName.");
+            throw new UnsupportedOperbtionException("Nbrrowing, widening, "
+                + "bnd mbtching bre not supported for OtherNbme.");
         }
-        return constraintType;
+        return constrbintType;
     }
 
     /**
-     * Return subtree depth of this name for purposes of determining
-     * NameConstraints minimum and maximum bounds.
+     * Return subtree depth of this nbme for purposes of determining
+     * NbmeConstrbints minimum bnd mbximum bounds.
      *
-     * @returns distance of name from root
-     * @throws UnsupportedOperationException if not supported for this name type
+     * @returns distbnce of nbme from root
+     * @throws UnsupportedOperbtionException if not supported for this nbme type
      */
     public int subtreeDepth() {
-        throw new UnsupportedOperationException
-            ("subtreeDepth() not supported for generic OtherName");
+        throw new UnsupportedOperbtionException
+            ("subtreeDepth() not supported for generic OtherNbme");
     }
 
 }

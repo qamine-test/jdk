@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbckbge com.sun.jmx.snmp.dbemon;
 
 
 
 /**
- * Defines generic behaviour for the server
- * part of a connector or an adaptor. Most connectors or adaptors extend <CODE>CommunicatorServer</CODE>
- * and inherit this behaviour. Connectors or adaptors that do not fit into this model do not extend
- * <CODE>CommunicatorServer</CODE>.
+ * Defines generic behbviour for the server
+ * pbrt of b connector or bn bdbptor. Most connectors or bdbptors extend <CODE>CommunicbtorServer</CODE>
+ * bnd inherit this behbviour. Connectors or bdbptors thbt do not fit into this model do not extend
+ * <CODE>CommunicbtorServer</CODE>.
  * <p>
- * An <CODE>CommunicatorServer</CODE> is an active object, it listens for client requests
- * and processes them in its own thread. When necessary, a <CODE>CommunicatorServer</CODE>
- * creates other threads to process multiple requests concurrently.
+ * An <CODE>CommunicbtorServer</CODE> is bn bctive object, it listens for client requests
+ * bnd processes them in its own threbd. When necessbry, b <CODE>CommunicbtorServer</CODE>
+ * crebtes other threbds to process multiple requests concurrently.
  * <p>
- * A <CODE>CommunicatorServer</CODE> object can be stopped by calling the <CODE>stop</CODE>
- * method. When it is stopped, the <CODE>CommunicatorServer</CODE> no longer listens to client
- * requests and no longer holds any thread or communication resources.
- * It can be started again by calling the <CODE>start</CODE> method.
+ * A <CODE>CommunicbtorServer</CODE> object cbn be stopped by cblling the <CODE>stop</CODE>
+ * method. When it is stopped, the <CODE>CommunicbtorServer</CODE> no longer listens to client
+ * requests bnd no longer holds bny threbd or communicbtion resources.
+ * It cbn be stbrted bgbin by cblling the <CODE>stbrt</CODE> method.
  * <p>
- * A <CODE>CommunicatorServer</CODE> has a <CODE>state</CODE> property which reflects its
- * activity.
+ * A <CODE>CommunicbtorServer</CODE> hbs b <CODE>stbte</CODE> property which reflects its
+ * bctivity.
  * <p>
  * <TABLE>
- * <TR><TH>CommunicatorServer</TH>            <TH>State</TH></TR>
+ * <TR><TH>CommunicbtorServer</TH>            <TH>Stbte</TH></TR>
  * <TR><TD><CODE>stopped</CODE></TD>          <TD><CODE>OFFLINE</CODE></TD></TR>
- * <TR><TD><CODE>starting</CODE></TD>         <TD><CODE>STARTING</CODE></TD></TR>
+ * <TR><TD><CODE>stbrting</CODE></TD>         <TD><CODE>STARTING</CODE></TD></TR>
  * <TR><TD><CODE>running</CODE></TD>          <TD><CODE>ONLINE</CODE></TD></TR>
  * <TR><TD><CODE>stopping</CODE></TD>         <TD><CODE>STOPPING</CODE></TD></TR>
  * </TABLE>
  * <p>
- * The <CODE>STARTING</CODE> state marks the transition from <CODE>OFFLINE</CODE> to
+ * The <CODE>STARTING</CODE> stbte mbrks the trbnsition from <CODE>OFFLINE</CODE> to
  * <CODE>ONLINE</CODE>.
  * <p>
- * The <CODE>STOPPING</CODE> state marks the transition from <CODE>ONLINE</CODE> to
- * <CODE>OFFLINE</CODE>. This occurs when the <CODE>CommunicatorServer</CODE> is
- * finishing or interrupting active requests.
+ * The <CODE>STOPPING</CODE> stbte mbrks the trbnsition from <CODE>ONLINE</CODE> to
+ * <CODE>OFFLINE</CODE>. This occurs when the <CODE>CommunicbtorServer</CODE> is
+ * finishing or interrupting bctive requests.
  * <p>
- * A <CODE>CommunicatorServer</CODE> may serve several clients concurrently. The
- * number of concurrent clients can be limited using the property
- * <CODE>maxActiveClientCount</CODE>. The default value of this property is
- * defined by the subclasses.
+ * A <CODE>CommunicbtorServer</CODE> mby serve severbl clients concurrently. The
+ * number of concurrent clients cbn be limited using the property
+ * <CODE>mbxActiveClientCount</CODE>. The defbult vblue of this property is
+ * defined by the subclbsses.
  * <p>
- * When a <CODE>CommunicatorServer</CODE> is unregistered from the MBeanServer,
- * it is stopped automatically.
+ * When b <CODE>CommunicbtorServer</CODE> is unregistered from the MBebnServer,
+ * it is stopped butombticblly.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public interface CommunicatorServerMBean {
+public interfbce CommunicbtorServerMBebn {
 
     /**
-     * Starts this <CODE>CommunicatorServer</CODE>.
+     * Stbrts this <CODE>CommunicbtorServer</CODE>.
      * <p>
-     * Has no effect if this <CODE>CommunicatorServer</CODE> is <CODE>ONLINE</CODE> or
+     * Hbs no effect if this <CODE>CommunicbtorServer</CODE> is <CODE>ONLINE</CODE> or
      * <CODE>STOPPING</CODE>.
      */
-    public void start() ;
+    public void stbrt() ;
 
     /**
-     * Stops this <CODE>CommunicatorServer</CODE>.
+     * Stops this <CODE>CommunicbtorServer</CODE>.
      * <p>
-     * Has no effect if this <CODE>CommunicatorServer</CODE> is <CODE>OFFLINE</CODE> or
+     * Hbs no effect if this <CODE>CommunicbtorServer</CODE> is <CODE>OFFLINE</CODE> or
      * <CODE>STOPPING</CODE>.
      */
     public void stop() ;
 
     /**
-     * Tests if the <CODE>CommunicatorServer</CODE> is active.
+     * Tests if the <CODE>CommunicbtorServer</CODE> is bctive.
      *
-     * @return True if connector is <CODE>ONLINE</CODE>; false otherwise.
+     * @return True if connector is <CODE>ONLINE</CODE>; fblse otherwise.
      */
-    public boolean isActive() ;
+    public boolebn isActive() ;
 
     /**
-     * Waits untill either the State attribute of this MBean equals the specified <VAR>state</VAR> parameter,
-     * or the specified  <VAR>timeOut</VAR> has elapsed. The method <CODE>waitState</CODE> returns with a boolean value indicating whether
-     * the specified <VAR>state</VAR> parameter equals the value of this MBean's State attribute at the time the method terminates.
+     * Wbits untill either the Stbte bttribute of this MBebn equbls the specified <VAR>stbte</VAR> pbrbmeter,
+     * or the specified  <VAR>timeOut</VAR> hbs elbpsed. The method <CODE>wbitStbte</CODE> returns with b boolebn vblue indicbting whether
+     * the specified <VAR>stbte</VAR> pbrbmeter equbls the vblue of this MBebn's Stbte bttribute bt the time the method terminbtes.
      *
-     * Two special cases for the <VAR>timeOut</VAR> parameter value are:
-     * <UL><LI> if <VAR>timeOut</VAR> is negative then <CODE>waitState</CODE> returns immediately (i.e. does not wait at all),</LI>
-     * <LI> if <VAR>timeOut</VAR> equals zero then <CODE>waitState</CODE> waits untill the value of this MBean's State attribute
-     * is the same as the <VAR>state</VAR> parameter (i.e. will wait indefinitely if this condition is never met).</LI></UL>
+     * Two specibl cbses for the <VAR>timeOut</VAR> pbrbmeter vblue bre:
+     * <UL><LI> if <VAR>timeOut</VAR> is negbtive then <CODE>wbitStbte</CODE> returns immedibtely (i.e. does not wbit bt bll),</LI>
+     * <LI> if <VAR>timeOut</VAR> equbls zero then <CODE>wbitStbte</CODE> wbits untill the vblue of this MBebn's Stbte bttribute
+     * is the sbme bs the <VAR>stbte</VAR> pbrbmeter (i.e. will wbit indefinitely if this condition is never met).</LI></UL>
      *
-     * @param state The value of this MBean's State attribute
-     *        to wait for. <VAR>state</VAR> can be one of:
+     * @pbrbm stbte The vblue of this MBebn's Stbte bttribute
+     *        to wbit for. <VAR>stbte</VAR> cbn be one of:
      * <ul>
-     * <li><CODE>CommunicatorServer.OFFLINE</CODE>,</li>
-     * <li><CODE>CommunicatorServer.ONLINE</CODE>,</li>
-     * <li><CODE>CommunicatorServer.STARTING</CODE>,</li>
-     * <li><CODE>CommunicatorServer.STOPPING</CODE>.</li>
+     * <li><CODE>CommunicbtorServer.OFFLINE</CODE>,</li>
+     * <li><CODE>CommunicbtorServer.ONLINE</CODE>,</li>
+     * <li><CODE>CommunicbtorServer.STARTING</CODE>,</li>
+     * <li><CODE>CommunicbtorServer.STOPPING</CODE>.</li>
      * </ul>
-     * @param timeOut The maximum time to wait for, in
+     * @pbrbm timeOut The mbximum time to wbit for, in
      *        milliseconds, if positive.
-     * Infinite time out if 0, or no waiting at all if negative.
+     * Infinite time out if 0, or no wbiting bt bll if negbtive.
      *
-     * @return true if the value of this MBean's State attribute is the
-     *  same as the <VAR>state</VAR> parameter; false otherwise.
+     * @return true if the vblue of this MBebn's Stbte bttribute is the
+     *  sbme bs the <VAR>stbte</VAR> pbrbmeter; fblse otherwise.
      */
-    public boolean waitState(int state , long timeOut) ;
+    public boolebn wbitStbte(int stbte , long timeOut) ;
 
     /**
-     * Gets the state of this <CODE>CommunicatorServer</CODE> as an integer.
+     * Gets the stbte of this <CODE>CommunicbtorServer</CODE> bs bn integer.
      *
      * @return <CODE>ONLINE</CODE>, <CODE>OFFLINE</CODE>, <CODE>STARTING</CODE> or <CODE>STOPPING</CODE>.
      */
-    public int getState() ;
+    public int getStbte() ;
 
     /**
-     * Gets the state of this <CODE>CommunicatorServer</CODE> as a string.
+     * Gets the stbte of this <CODE>CommunicbtorServer</CODE> bs b string.
      *
      * @return One of the strings "ONLINE", "OFFLINE", "STARTING" or "STOPPING".
      */
-    public String getStateString() ;
+    public String getStbteString() ;
 
     /**
-     * Gets the host name used by this <CODE>CommunicatorServer</CODE>.
+     * Gets the host nbme used by this <CODE>CommunicbtorServer</CODE>.
      *
-     * @return The host name used by this <CODE>CommunicatorServer</CODE>.
+     * @return The host nbme used by this <CODE>CommunicbtorServer</CODE>.
      */
     public String getHost() ;
 
     /**
-     * Gets the port number used by this <CODE>CommunicatorServer</CODE>.
+     * Gets the port number used by this <CODE>CommunicbtorServer</CODE>.
      *
-     * @return The port number used by this <CODE>CommunicatorServer</CODE>.
+     * @return The port number used by this <CODE>CommunicbtorServer</CODE>.
      */
     public int getPort() ;
 
     /**
-     * Sets the port number used by this <CODE>CommunicatorServer</CODE>.
+     * Sets the port number used by this <CODE>CommunicbtorServer</CODE>.
      *
-     * @param port The port number used by this <CODE>CommunicatorServer</CODE>.
+     * @pbrbm port The port number used by this <CODE>CommunicbtorServer</CODE>.
      *
-     * @exception java.lang.IllegalStateException This method has been invoked
-     * while the communicator was ONLINE or STARTING.
+     * @exception jbvb.lbng.IllegblStbteException This method hbs been invoked
+     * while the communicbtor wbs ONLINE or STARTING.
      */
-    public void setPort(int port) throws java.lang.IllegalStateException ;
+    public void setPort(int port) throws jbvb.lbng.IllegblStbteException ;
 
     /**
-     * Gets the protocol being used by this <CODE>CommunicatorServer</CODE>.
-     * @return The protocol as a string.
+     * Gets the protocol being used by this <CODE>CommunicbtorServer</CODE>.
+     * @return The protocol bs b string.
      */
-    public abstract String getProtocol() ;
+    public bbstrbct String getProtocol() ;
 }

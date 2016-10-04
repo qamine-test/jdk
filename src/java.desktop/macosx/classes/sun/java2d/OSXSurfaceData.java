@@ -1,820 +1,820 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d;
+pbckbge sun.jbvb2d;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import java.nio.*;
+import jbvb.bwt.*;
+import jbvb.bwt.font.*;
+import jbvb.bwt.geom.*;
+import jbvb.bwt.imbge.*;
+import jbvb.nio.*;
 
-import sun.awt.*;
-import sun.awt.image.*;
-import sun.java2d.loops.*;
-import sun.java2d.pipe.*;
-import sun.lwawt.macosx.*;
+import sun.bwt.*;
+import sun.bwt.imbge.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipe.*;
+import sun.lwbwt.mbcosx.*;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /*
- * This is the SurfaceData for a CGContextRef.
+ * This is the SurfbceDbtb for b CGContextRef.
  */
-public abstract class OSXSurfaceData extends BufImgSurfaceData {
-    final static float UPPER_BND = Float.MAX_VALUE / 2.0f;
-    final static float LOWER_BND = -UPPER_BND;
+public bbstrbct clbss OSXSurfbceDbtb extends BufImgSurfbceDbtb {
+    finbl stbtic flobt UPPER_BND = Flobt.MAX_VALUE / 2.0f;
+    finbl stbtic flobt LOWER_BND = -UPPER_BND;
 
-    protected static CRenderer sQuartzPipe = null;
-    protected static CTextPipe sCocoaTextPipe = null;
-    protected static CompositeCRenderer sQuartzCompositePipe = null;
+    protected stbtic CRenderer sQubrtzPipe = null;
+    protected stbtic CTextPipe sCocobTextPipe = null;
+    protected stbtic CompositeCRenderer sQubrtzCompositePipe = null;
 
-    private GraphicsConfiguration fConfig;
-    private Rectangle fBounds; // bounds in user coordinates
+    privbte GrbphicsConfigurbtion fConfig;
+    privbte Rectbngle fBounds; // bounds in user coordinbtes
 
-    static {
-        sQuartzPipe = new CRenderer(); // Creates the singleton quartz pipe.
+    stbtic {
+        sQubrtzPipe = new CRenderer(); // Crebtes the singleton qubrtz pipe.
     }
 
-    // NOTE: Any subclasses must eventually call QuartzSurfaceData_InitOps in OSXSurfaceData.h
-    // This sets up the native side for the SurfaceData, and is required.
-    public OSXSurfaceData(SurfaceType sType, ColorModel cm) {
-        this(sType, cm, null, new Rectangle());
+    // NOTE: Any subclbsses must eventublly cbll QubrtzSurfbceDbtb_InitOps in OSXSurfbceDbtb.h
+    // This sets up the nbtive side for the SurfbceDbtb, bnd is required.
+    public OSXSurfbceDbtb(SurfbceType sType, ColorModel cm) {
+        this(sType, cm, null, new Rectbngle());
     }
 
-    public OSXSurfaceData(SurfaceType sType, ColorModel cm, GraphicsConfiguration config, Rectangle bounds) {
+    public OSXSurfbceDbtb(SurfbceType sType, ColorModel cm, GrbphicsConfigurbtion config, Rectbngle bounds) {
         super(sType, cm);
 
         this.fConfig = config;
 
-        this.fBounds = new Rectangle(bounds.x, bounds.y, bounds.width, bounds.y + bounds.height);
+        this.fBounds = new Rectbngle(bounds.x, bounds.y, bounds.width, bounds.y + bounds.height);
 
-        this.fGraphicsStates = getBufferOfSize(kSizeOfParameters);
-        this.fGraphicsStatesInt = this.fGraphicsStates.asIntBuffer();
-        this.fGraphicsStatesFloat = this.fGraphicsStates.asFloatBuffer();
-        this.fGraphicsStatesLong = this.fGraphicsStates.asLongBuffer();
-        this.fGraphicsStatesObject = new Object[6]; // clip coordinates + clip types + texture paint image + stroke dash
-                                                    // array + font + font paint
+        this.fGrbphicsStbtes = getBufferOfSize(kSizeOfPbrbmeters);
+        this.fGrbphicsStbtesInt = this.fGrbphicsStbtes.bsIntBuffer();
+        this.fGrbphicsStbtesFlobt = this.fGrbphicsStbtes.bsFlobtBuffer();
+        this.fGrbphicsStbtesLong = this.fGrbphicsStbtes.bsLongBuffer();
+        this.fGrbphicsStbtesObject = new Object[6]; // clip coordinbtes + clip types + texture pbint imbge + stroke dbsh
+                                                    // brrby + font + font pbint
 
-        // NOTE: All access to the DrawingQueue comes through this OSXSurfaceData instance. Therefore
-        // every instance method of OSXSurfaceData that accesses the fDrawingQueue is synchronized.
+        // NOTE: All bccess to the DrbwingQueue comes through this OSXSurfbceDbtb instbnce. Therefore
+        // every instbnce method of OSXSurfbceDbtb thbt bccesses the fDrbwingQueue is synchronized.
 
-        // Thread.dumpStack();
+        // Threbd.dumpStbck();
     }
 
-    public void validatePipe(SunGraphics2D sg2d) {
+    public void vblidbtePipe(SunGrbphics2D sg2d) {
 
-        if (sg2d.compositeState <= SunGraphics2D.COMP_ALPHA) {
-            if (sCocoaTextPipe == null) {
-                sCocoaTextPipe = new CTextPipe();
+        if (sg2d.compositeStbte <= SunGrbphics2D.COMP_ALPHA) {
+            if (sCocobTextPipe == null) {
+                sCocobTextPipe = new CTextPipe();
             }
 
-            sg2d.imagepipe = sQuartzPipe;
-            sg2d.drawpipe = sQuartzPipe;
-            sg2d.fillpipe = sQuartzPipe;
-            sg2d.shapepipe = sQuartzPipe;
-            sg2d.textpipe = sCocoaTextPipe;
+            sg2d.imbgepipe = sQubrtzPipe;
+            sg2d.drbwpipe = sQubrtzPipe;
+            sg2d.fillpipe = sQubrtzPipe;
+            sg2d.shbpepipe = sQubrtzPipe;
+            sg2d.textpipe = sCocobTextPipe;
         } else {
-            setPipesToQuartzComposite(sg2d);
+            setPipesToQubrtzComposite(sg2d);
         }
     }
 
-    protected void setPipesToQuartzComposite(SunGraphics2D sg2d) {
-        if (sQuartzCompositePipe == null) {
-            sQuartzCompositePipe = new CompositeCRenderer();
+    protected void setPipesToQubrtzComposite(SunGrbphics2D sg2d) {
+        if (sQubrtzCompositePipe == null) {
+            sQubrtzCompositePipe = new CompositeCRenderer();
         }
 
-        if (sCocoaTextPipe == null) {
-            sCocoaTextPipe = new CTextPipe();
+        if (sCocobTextPipe == null) {
+            sCocobTextPipe = new CTextPipe();
         }
 
-        sg2d.imagepipe = sQuartzCompositePipe;
-        sg2d.drawpipe = sQuartzCompositePipe;
-        sg2d.fillpipe = sQuartzCompositePipe;
-        sg2d.shapepipe = sQuartzCompositePipe;
-        sg2d.textpipe = sCocoaTextPipe;
+        sg2d.imbgepipe = sQubrtzCompositePipe;
+        sg2d.drbwpipe = sQubrtzCompositePipe;
+        sg2d.fillpipe = sQubrtzCompositePipe;
+        sg2d.shbpepipe = sQubrtzCompositePipe;
+        sg2d.textpipe = sCocobTextPipe;
     }
 
-    public Rectangle getBounds() {
-        // gznote: always return a copy, not the rect itself and translate into device space
-        return new Rectangle(fBounds.x, fBounds.y, fBounds.width, fBounds.height - fBounds.y);
+    public Rectbngle getBounds() {
+        // gznote: blwbys return b copy, not the rect itself bnd trbnslbte into device spbce
+        return new Rectbngle(fBounds.x, fBounds.y, fBounds.width, fBounds.height - fBounds.y);
     }
 
-    public GraphicsConfiguration getDeviceConfiguration() {
+    public GrbphicsConfigurbtion getDeviceConfigurbtion() {
         return fConfig;
     }
 
     protected void setBounds(int x, int y, int w, int h) {
-        fBounds.reshape(x, y, w, y + h);
+        fBounds.reshbpe(x, y, w, y + h);
     }
 
     // START compositing support API
-    public abstract BufferedImage copyArea(SunGraphics2D sg2d, int x, int y, int w, int h, BufferedImage image);
+    public bbstrbct BufferedImbge copyAreb(SunGrbphics2D sg2d, int x, int y, int w, int h, BufferedImbge imbge);
 
-    public abstract boolean xorSurfacePixels(SunGraphics2D sg2d, BufferedImage srcPixels, int x, int y, int w, int h, int colorXOR);
+    public bbstrbct boolebn xorSurfbcePixels(SunGrbphics2D sg2d, BufferedImbge srcPixels, int x, int y, int w, int h, int colorXOR);
 
-    GraphicsConfiguration sDefaultGraphicsConfiguration = null;
+    GrbphicsConfigurbtion sDefbultGrbphicsConfigurbtion = null;
 
-    protected BufferedImage getCompositingImage(int w, int h) {
-        if (sDefaultGraphicsConfiguration == null) {
-            sDefaultGraphicsConfiguration = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+    protected BufferedImbge getCompositingImbge(int w, int h) {
+        if (sDefbultGrbphicsConfigurbtion == null) {
+            sDefbultGrbphicsConfigurbtion = GrbphicsEnvironment.getLocblGrbphicsEnvironment().getDefbultScreenDevice().getDefbultConfigurbtion();
         }
 
-        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB_PRE);
-        // clear the image.
-        clearRect(img, w, h);
+        BufferedImbge img = new BufferedImbge(w, h, BufferedImbge.TYPE_INT_ARGB_PRE);
+        // clebr the imbge.
+        clebrRect(img, w, h);
         return img;
     }
 
-    protected BufferedImage getCompositingImageSame(BufferedImage img, int w, int h) {
+    protected BufferedImbge getCompositingImbgeSbme(BufferedImbge img, int w, int h) {
         if ((img == null) || (img.getWidth() != w) || (img.getHeight() != h)) {
-            img = getCompositingImage(w, h);
+            img = getCompositingImbge(w, h);
         }
         return img;
     }
 
-    BufferedImage sSrcComposite = null;
+    BufferedImbge sSrcComposite = null;
 
-    public BufferedImage getCompositingSrcImage(int w, int h) {
-        // <rdar://problem/3720263>. Changed from getCompositingImageBiggerOrSame() to
-        // getCompositingImageSame(). (vm)
-        BufferedImage bim = getCompositingImageSame(sSrcComposite, w, h);
+    public BufferedImbge getCompositingSrcImbge(int w, int h) {
+        // <rdbr://problem/3720263>. Chbnged from getCompositingImbgeBiggerOrSbme() to
+        // getCompositingImbgeSbme(). (vm)
+        BufferedImbge bim = getCompositingImbgeSbme(sSrcComposite, w, h);
         sSrcComposite = bim;
         return bim;
     }
 
-    BufferedImage sDstInComposite = null;
+    BufferedImbge sDstInComposite = null;
 
-    public BufferedImage getCompositingDstInImage(int w, int h) {
-        BufferedImage bim = getCompositingImageSame(sDstInComposite, w, h);
+    public BufferedImbge getCompositingDstInImbge(int w, int h) {
+        BufferedImbge bim = getCompositingImbgeSbme(sDstInComposite, w, h);
         sDstInComposite = bim;
         return bim;
     }
 
-    BufferedImage sDstOutComposite = null;
+    BufferedImbge sDstOutComposite = null;
 
-    public BufferedImage getCompositingDstOutImage(int w, int h) {
-        BufferedImage bim = getCompositingImageSame(sDstOutComposite, w, h);
+    public BufferedImbge getCompositingDstOutImbge(int w, int h) {
+        BufferedImbge bim = getCompositingImbgeSbme(sDstOutComposite, w, h);
         sDstOutComposite = bim;
         return bim;
     }
 
-    public void clearRect(BufferedImage bim, int w, int h) {
-        Graphics2D g = bim.createGraphics();
-        g.setComposite(AlphaComposite.Clear);
+    public void clebrRect(BufferedImbge bim, int w, int h) {
+        Grbphics2D g = bim.crebteGrbphics();
+        g.setComposite(AlphbComposite.Clebr);
         g.fillRect(0, 0, w, h);
         g.dispose();
     }
 
     // END compositing support API
 
-    public void invalidate() {
-        // always valid
+    public void invblidbte() {
+        // blwbys vblid
     }
 
-     // graphics primitives drawing implementation:
+     // grbphics primitives drbwing implementbtion:
 
-    // certain primitives don't care about all the states (ex. drawing an image needs not involve setting current paint)
-    @Native static final int kPrimitive = 0;
-    @Native static final int kImage = 1;
-    @Native static final int kText = 2;
-    @Native static final int kCopyArea = 3;
-    @Native static final int kExternal = 4;
+    // certbin primitives don't cbre bbout bll the stbtes (ex. drbwing bn imbge needs not involve setting current pbint)
+    @Nbtive stbtic finbl int kPrimitive = 0;
+    @Nbtive stbtic finbl int kImbge = 1;
+    @Nbtive stbtic finbl int kText = 2;
+    @Nbtive stbtic finbl int kCopyAreb = 3;
+    @Nbtive stbtic finbl int kExternbl = 4;
 
-    @Native static final int kLine = 5; // belongs to kPrimitive
-    @Native static final int kRect = 6; // belongs to kPrimitive
-    @Native static final int kRoundRect = 7; // belongs to kPrimitive
-    @Native static final int kOval = 8; // belongs to kPrimitive
-    @Native static final int kArc = 9; // belongs to kPrimitive
-    @Native static final int kPolygon = 10; // belongs to kPrimitive
-    @Native static final int kShape = 11; // belongs to kPrimitive
-    // static final int kImage = 12; // belongs to kImage
-    @Native static final int kString = 13; // belongs to kText
-    @Native static final int kGlyphs = 14; // belongs to kText
-    @Native static final int kUnicodes = 15; // belongs to kText
-    // static final int kCopyArea = 16; // belongs to kCopyArea
-    // static final int kExternal = 17; // belongs to kExternal
+    @Nbtive stbtic finbl int kLine = 5; // belongs to kPrimitive
+    @Nbtive stbtic finbl int kRect = 6; // belongs to kPrimitive
+    @Nbtive stbtic finbl int kRoundRect = 7; // belongs to kPrimitive
+    @Nbtive stbtic finbl int kOvbl = 8; // belongs to kPrimitive
+    @Nbtive stbtic finbl int kArc = 9; // belongs to kPrimitive
+    @Nbtive stbtic finbl int kPolygon = 10; // belongs to kPrimitive
+    @Nbtive stbtic finbl int kShbpe = 11; // belongs to kPrimitive
+    // stbtic finbl int kImbge = 12; // belongs to kImbge
+    @Nbtive stbtic finbl int kString = 13; // belongs to kText
+    @Nbtive stbtic finbl int kGlyphs = 14; // belongs to kText
+    @Nbtive stbtic finbl int kUnicodes = 15; // belongs to kText
+    // stbtic finbl int kCopyAreb = 16; // belongs to kCopyAreb
+    // stbtic finbl int kExternbl = 17; // belongs to kExternbl
 
-    @Native static final int kCommonParameterCount = 1 + 1 + 4 + 4; // type + change flags + color info (type(1) align(1) and
-                                                            // value(2)) + parameters ((x1, y1, x2, y2) OR (x, y, w, h))
-    @Native static final int kLineParametersCount = kCommonParameterCount; // kCommonParameterCount
-    @Native static final int kRectParametersCount = kCommonParameterCount + 1; // kCommonParameterCount + isfill
-    @Native static final int kRoundRectParametersCount = kCommonParameterCount + 2 + 1; // kCommonParameterCount + arcW + arcH +
+    @Nbtive stbtic finbl int kCommonPbrbmeterCount = 1 + 1 + 4 + 4; // type + chbnge flbgs + color info (type(1) blign(1) bnd
+                                                            // vblue(2)) + pbrbmeters ((x1, y1, x2, y2) OR (x, y, w, h))
+    @Nbtive stbtic finbl int kLinePbrbmetersCount = kCommonPbrbmeterCount; // kCommonPbrbmeterCount
+    @Nbtive stbtic finbl int kRectPbrbmetersCount = kCommonPbrbmeterCount + 1; // kCommonPbrbmeterCount + isfill
+    @Nbtive stbtic finbl int kRoundRectPbrbmetersCount = kCommonPbrbmeterCount + 2 + 1; // kCommonPbrbmeterCount + brcW + brcH +
                                                                                 // isfill
-    @Native static final int kOvalParametersCount = kCommonParameterCount + 1; // kCommonParameterCount + isfill
-    @Native static final int kArcParametersCount = kCommonParameterCount + 2 + 1 + 1;// kCommonParameterCount + startAngle +
-                                                                             // arcAngle + isfill + type
-    @Native static final int kPolygonParametersCount = 0; // not supported
-    @Native static final int kShapeParametersCount = 0; // not supported
-    @Native static final int kImageParametersCount = kCommonParameterCount + 2 + 2 + 4 + 4; // flip horz vert + w&h + src + dst
-    @Native static final int kStringParametersCount = 0; // not supported
-    @Native static final int kGlyphsParametersCount = 0; // not supported
-    @Native static final int kUnicodesParametersCount = 0; // not supported
-    @Native static final int kPixelParametersCount = 0; // not supported
-    @Native static final int kExternalParametersCount = 0; // not supported
+    @Nbtive stbtic finbl int kOvblPbrbmetersCount = kCommonPbrbmeterCount + 1; // kCommonPbrbmeterCount + isfill
+    @Nbtive stbtic finbl int kArcPbrbmetersCount = kCommonPbrbmeterCount + 2 + 1 + 1;// kCommonPbrbmeterCount + stbrtAngle +
+                                                                             // brcAngle + isfill + type
+    @Nbtive stbtic finbl int kPolygonPbrbmetersCount = 0; // not supported
+    @Nbtive stbtic finbl int kShbpePbrbmetersCount = 0; // not supported
+    @Nbtive stbtic finbl int kImbgePbrbmetersCount = kCommonPbrbmeterCount + 2 + 2 + 4 + 4; // flip horz vert + w&h + src + dst
+    @Nbtive stbtic finbl int kStringPbrbmetersCount = 0; // not supported
+    @Nbtive stbtic finbl int kGlyphsPbrbmetersCount = 0; // not supported
+    @Nbtive stbtic finbl int kUnicodesPbrbmetersCount = 0; // not supported
+    @Nbtive stbtic finbl int kPixelPbrbmetersCount = 0; // not supported
+    @Nbtive stbtic finbl int kExternblPbrbmetersCount = 0; // not supported
 
-    // for intParameters
-    // states info
-    @Native static final int kChangeFlagIndex = 0; // kBoundsChangedBit | .. | kFontChangedBit
+    // for intPbrbmeters
+    // stbtes info
+    @Nbtive stbtic finbl int kChbngeFlbgIndex = 0; // kBoundsChbngedBit | .. | kFontChbngedBit
     // bounds info
-    @Native static final int kBoundsXIndex = 1;
-    @Native static final int kBoundsYIndex = 2;
-    @Native static final int kBoundsWidthIndex = 3;
-    @Native static final int kBoundsHeightIndex = 4;
+    @Nbtive stbtic finbl int kBoundsXIndex = 1;
+    @Nbtive stbtic finbl int kBoundsYIndex = 2;
+    @Nbtive stbtic finbl int kBoundsWidthIndex = 3;
+    @Nbtive stbtic finbl int kBoundsHeightIndex = 4;
     // clip info
-    @Native static final int kClipStateIndex = 5;
-    @Native static final int kClipNumTypesIndex = 6;
-    @Native static final int kClipNumCoordsIndex = 7;
-    @Native static final int kClipWindingRuleIndex = 8;
-    @Native static final int kClipXIndex = 9;
-    @Native static final int kClipYIndex = 10;
-    @Native static final int kClipWidthIndex = 11;
-    @Native static final int kClipHeightIndex = 12;
+    @Nbtive stbtic finbl int kClipStbteIndex = 5;
+    @Nbtive stbtic finbl int kClipNumTypesIndex = 6;
+    @Nbtive stbtic finbl int kClipNumCoordsIndex = 7;
+    @Nbtive stbtic finbl int kClipWindingRuleIndex = 8;
+    @Nbtive stbtic finbl int kClipXIndex = 9;
+    @Nbtive stbtic finbl int kClipYIndex = 10;
+    @Nbtive stbtic finbl int kClipWidthIndex = 11;
+    @Nbtive stbtic finbl int kClipHeightIndex = 12;
     // ctm info
-    @Native static final int kCTMaIndex = 13;
-    @Native static final int kCTMbIndex = 14;
-    @Native static final int kCTMcIndex = 15;
-    @Native static final int kCTMdIndex = 16;
-    @Native static final int kCTMtxIndex = 17;
-    @Native static final int kCTMtyIndex = 18;
+    @Nbtive stbtic finbl int kCTMbIndex = 13;
+    @Nbtive stbtic finbl int kCTMbIndex = 14;
+    @Nbtive stbtic finbl int kCTMcIndex = 15;
+    @Nbtive stbtic finbl int kCTMdIndex = 16;
+    @Nbtive stbtic finbl int kCTMtxIndex = 17;
+    @Nbtive stbtic finbl int kCTMtyIndex = 18;
     // color info
-    @Native static final int kColorStateIndex = 19; // kColorSimple or kColorGradient or kColorTexture
-    @Native static final int kColorRGBValueIndex = 20; // if kColorSimple
-    @Native static final int kColorIndexValueIndex = 21; // if kColorSystem
-    @Native static final int kColorPointerIndex = 22; //
-    @Native static final int kColorPointerIndex2 = 23; //
-    @Native static final int kColorRGBValue1Index = 24; // if kColorGradient
-    @Native static final int kColorWidthIndex = 25; // if kColorTexture
-    @Native static final int kColorRGBValue2Index = 26; // if kColorGradient
-    @Native static final int kColorHeightIndex = 27; // if kColorTexture
-    @Native static final int kColorIsCyclicIndex = 28; // if kColorGradient (kColorNonCyclic or kColorCyclic)
-    @Native static final int kColorx1Index = 29;
-    @Native static final int kColortxIndex = 30;
-    @Native static final int kColory1Index = 31;
-    @Native static final int kColortyIndex = 32;
-    @Native static final int kColorx2Index = 33;
-    @Native static final int kColorsxIndex = 34;
-    @Native static final int kColory2Index = 35;
-    @Native static final int kColorsyIndex = 36;
+    @Nbtive stbtic finbl int kColorStbteIndex = 19; // kColorSimple or kColorGrbdient or kColorTexture
+    @Nbtive stbtic finbl int kColorRGBVblueIndex = 20; // if kColorSimple
+    @Nbtive stbtic finbl int kColorIndexVblueIndex = 21; // if kColorSystem
+    @Nbtive stbtic finbl int kColorPointerIndex = 22; //
+    @Nbtive stbtic finbl int kColorPointerIndex2 = 23; //
+    @Nbtive stbtic finbl int kColorRGBVblue1Index = 24; // if kColorGrbdient
+    @Nbtive stbtic finbl int kColorWidthIndex = 25; // if kColorTexture
+    @Nbtive stbtic finbl int kColorRGBVblue2Index = 26; // if kColorGrbdient
+    @Nbtive stbtic finbl int kColorHeightIndex = 27; // if kColorTexture
+    @Nbtive stbtic finbl int kColorIsCyclicIndex = 28; // if kColorGrbdient (kColorNonCyclic or kColorCyclic)
+    @Nbtive stbtic finbl int kColorx1Index = 29;
+    @Nbtive stbtic finbl int kColortxIndex = 30;
+    @Nbtive stbtic finbl int kColory1Index = 31;
+    @Nbtive stbtic finbl int kColortyIndex = 32;
+    @Nbtive stbtic finbl int kColorx2Index = 33;
+    @Nbtive stbtic finbl int kColorsxIndex = 34;
+    @Nbtive stbtic finbl int kColory2Index = 35;
+    @Nbtive stbtic finbl int kColorsyIndex = 36;
     // composite info
-    @Native static final int kCompositeRuleIndex = 37; // kCGCompositeClear or ... or kCGCompositeXor
-    @Native static final int kCompositeValueIndex = 38;
+    @Nbtive stbtic finbl int kCompositeRuleIndex = 37; // kCGCompositeClebr or ... or kCGCompositeXor
+    @Nbtive stbtic finbl int kCompositeVblueIndex = 38;
     // stroke info
-    @Native static final int kStrokeJoinIndex = 39; // see BasicStroke.java
-    @Native static final int kStrokeCapIndex = 40; // see BasicStroke.java
-    @Native static final int kStrokeWidthIndex = 41;
-    @Native static final int kStrokeDashPhaseIndex = 42;
-    @Native static final int kStrokeLimitIndex = 43;
+    @Nbtive stbtic finbl int kStrokeJoinIndex = 39; // see BbsicStroke.jbvb
+    @Nbtive stbtic finbl int kStrokeCbpIndex = 40; // see BbsicStroke.jbvb
+    @Nbtive stbtic finbl int kStrokeWidthIndex = 41;
+    @Nbtive stbtic finbl int kStrokeDbshPhbseIndex = 42;
+    @Nbtive stbtic finbl int kStrokeLimitIndex = 43;
     // hints info
-    @Native static final int kHintsAntialiasIndex = 44;
-    @Native static final int kHintsTextAntialiasIndex = 45;
-    @Native static final int kHintsFractionalMetricsIndex = 46;
-    @Native static final int kHintsRenderingIndex = 47;
-    @Native static final int kHintsInterpolationIndex = 48;
+    @Nbtive stbtic finbl int kHintsAntiblibsIndex = 44;
+    @Nbtive stbtic finbl int kHintsTextAntiblibsIndex = 45;
+    @Nbtive stbtic finbl int kHintsFrbctionblMetricsIndex = 46;
+    @Nbtive stbtic finbl int kHintsRenderingIndex = 47;
+    @Nbtive stbtic finbl int kHintsInterpolbtionIndex = 48;
     // live resizing info
-    @Native static final int kCanDrawDuringLiveResizeIndex = 49;
+    @Nbtive stbtic finbl int kCbnDrbwDuringLiveResizeIndex = 49;
 
-    @Native static final int kSizeOfParameters = kCanDrawDuringLiveResizeIndex + 1;
+    @Nbtive stbtic finbl int kSizeOfPbrbmeters = kCbnDrbwDuringLiveResizeIndex + 1;
 
-    // for objectParameters
-    @Native static final int kClipCoordinatesIndex = 0;
-    @Native static final int kClipTypesIndex = 1;
-    @Native static final int kTextureImageIndex = 2;
-    @Native static final int kStrokeDashArrayIndex = 3;
-    @Native static final int kFontIndex = 4;
-    @Native static final int kFontPaintIndex = 5;
+    // for objectPbrbmeters
+    @Nbtive stbtic finbl int kClipCoordinbtesIndex = 0;
+    @Nbtive stbtic finbl int kClipTypesIndex = 1;
+    @Nbtive stbtic finbl int kTextureImbgeIndex = 2;
+    @Nbtive stbtic finbl int kStrokeDbshArrbyIndex = 3;
+    @Nbtive stbtic finbl int kFontIndex = 4;
+    @Nbtive stbtic finbl int kFontPbintIndex = 5;
 
-    // possible state changes
-    @Native static final int kBoundsChangedBit = 1 << 0;
-    @Native static final int kBoundsNotChangedBit = ~kBoundsChangedBit;
-    @Native static final int kClipChangedBit = 1 << 1;
-    @Native static final int kClipNotChangedBit = ~kClipChangedBit;
-    @Native static final int kCTMChangedBit = 1 << 2;
-    @Native static final int kCTMNotChangedBit = ~kCTMChangedBit;
-    @Native static final int kColorChangedBit = 1 << 3;
-    @Native static final int kColorNotChangedBit = ~kColorChangedBit;
-    @Native static final int kCompositeChangedBit = 1 << 4;
-    @Native static final int kCompositeNotChangedBit = ~kCompositeChangedBit;
-    @Native static final int kStrokeChangedBit = 1 << 5;
-    @Native static final int kStrokeNotChangedBit = ~kStrokeChangedBit;
-    @Native static final int kHintsChangedBit = 1 << 6;
-    @Native static final int kHintsNotChangedBit = ~kHintsChangedBit;
-    @Native static final int kFontChangedBit = 1 << 7;
-    @Native static final int kFontNotChangedBit = ~kFontChangedBit;
-    @Native static final int kEverythingChangedFlag = 0xffffffff;
+    // possible stbte chbnges
+    @Nbtive stbtic finbl int kBoundsChbngedBit = 1 << 0;
+    @Nbtive stbtic finbl int kBoundsNotChbngedBit = ~kBoundsChbngedBit;
+    @Nbtive stbtic finbl int kClipChbngedBit = 1 << 1;
+    @Nbtive stbtic finbl int kClipNotChbngedBit = ~kClipChbngedBit;
+    @Nbtive stbtic finbl int kCTMChbngedBit = 1 << 2;
+    @Nbtive stbtic finbl int kCTMNotChbngedBit = ~kCTMChbngedBit;
+    @Nbtive stbtic finbl int kColorChbngedBit = 1 << 3;
+    @Nbtive stbtic finbl int kColorNotChbngedBit = ~kColorChbngedBit;
+    @Nbtive stbtic finbl int kCompositeChbngedBit = 1 << 4;
+    @Nbtive stbtic finbl int kCompositeNotChbngedBit = ~kCompositeChbngedBit;
+    @Nbtive stbtic finbl int kStrokeChbngedBit = 1 << 5;
+    @Nbtive stbtic finbl int kStrokeNotChbngedBit = ~kStrokeChbngedBit;
+    @Nbtive stbtic finbl int kHintsChbngedBit = 1 << 6;
+    @Nbtive stbtic finbl int kHintsNotChbngedBit = ~kHintsChbngedBit;
+    @Nbtive stbtic finbl int kFontChbngedBit = 1 << 7;
+    @Nbtive stbtic finbl int kFontNotChbngedBit = ~kFontChbngedBit;
+    @Nbtive stbtic finbl int kEverythingChbngedFlbg = 0xffffffff;
 
-    // possible color states
-    @Native static final int kColorSimple = 0;
-    @Native static final int kColorSystem = 1;
-    @Native static final int kColorGradient = 2;
-    @Native static final int kColorTexture = 3;
+    // possible color stbtes
+    @Nbtive stbtic finbl int kColorSimple = 0;
+    @Nbtive stbtic finbl int kColorSystem = 1;
+    @Nbtive stbtic finbl int kColorGrbdient = 2;
+    @Nbtive stbtic finbl int kColorTexture = 3;
 
-    // possible gradient color states
-    @Native static final int kColorNonCyclic = 0;
-    @Native static final int kColorCyclic = 1;
+    // possible grbdient color stbtes
+    @Nbtive stbtic finbl int kColorNonCyclic = 0;
+    @Nbtive stbtic finbl int kColorCyclic = 1;
 
-    // possible clip states
-    @Native static final int kClipRect = 0;
-    @Native static final int kClipShape = 1;
+    // possible clip stbtes
+    @Nbtive stbtic finbl int kClipRect = 0;
+    @Nbtive stbtic finbl int kClipShbpe = 1;
 
-    static int getRendererTypeForPrimitive(int primitiveType) {
+    stbtic int getRendererTypeForPrimitive(int primitiveType) {
         switch (primitiveType) {
-            case kImage:
-                return kImage;
-            case kCopyArea:
-                return kCopyArea;
-            case kExternal:
-                return kExternal;
-            case kString:
-            case kGlyphs:
-            case kUnicodes:
+            cbse kImbge:
+                return kImbge;
+            cbse kCopyAreb:
+                return kCopyAreb;
+            cbse kExternbl:
+                return kExternbl;
+            cbse kString:
+            cbse kGlyphs:
+            cbse kUnicodes:
                 return kText;
-            default:
+            defbult:
                 return kPrimitive;
         }
     }
 
-    int fChangeFlag;
-    protected ByteBuffer fGraphicsStates = null;
-    IntBuffer fGraphicsStatesInt = null;
-    FloatBuffer fGraphicsStatesFloat = null;
-    LongBuffer fGraphicsStatesLong = null;
-    protected Object[] fGraphicsStatesObject = null;
+    int fChbngeFlbg;
+    protected ByteBuffer fGrbphicsStbtes = null;
+    IntBuffer fGrbphicsStbtesInt = null;
+    FlobtBuffer fGrbphicsStbtesFlobt = null;
+    LongBuffer fGrbphicsStbtesLong = null;
+    protected Object[] fGrbphicsStbtesObject = null;
 
-    Rectangle userBounds = new Rectangle();
-    float lastUserX = 0;
-    float lastUserY = 0;
-    float lastUserW = 0;
-    float lastUserH = 0;
+    Rectbngle userBounds = new Rectbngle();
+    flobt lbstUserX = 0;
+    flobt lbstUserY = 0;
+    flobt lbstUserW = 0;
+    flobt lbstUserH = 0;
 
-    void setUserBounds(SunGraphics2D sg2d, int x, int y, int width, int height) {
-        if ((lastUserX != x) || (lastUserY != y) || (lastUserW != width) || (lastUserH != height)) {
-            lastUserX = x;
-            lastUserY = y;
-            lastUserW = width;
-            lastUserH = height;
+    void setUserBounds(SunGrbphics2D sg2d, int x, int y, int width, int height) {
+        if ((lbstUserX != x) || (lbstUserY != y) || (lbstUserW != width) || (lbstUserH != height)) {
+            lbstUserX = x;
+            lbstUserY = y;
+            lbstUserW = width;
+            lbstUserH = height;
 
-            this.fGraphicsStatesInt.put(kBoundsXIndex, x);
-            this.fGraphicsStatesInt.put(kBoundsYIndex, y);
-            this.fGraphicsStatesInt.put(kBoundsWidthIndex, width);
-            this.fGraphicsStatesInt.put(kBoundsHeightIndex, height);
+            this.fGrbphicsStbtesInt.put(kBoundsXIndex, x);
+            this.fGrbphicsStbtesInt.put(kBoundsYIndex, y);
+            this.fGrbphicsStbtesInt.put(kBoundsWidthIndex, width);
+            this.fGrbphicsStbtesInt.put(kBoundsHeightIndex, height);
 
             userBounds.setBounds(x, y, width, height);
 
-            this.fChangeFlag = (this.fChangeFlag | kBoundsChangedBit);
+            this.fChbngeFlbg = (this.fChbngeFlbg | kBoundsChbngedBit);
         } else {
-            this.fChangeFlag = (this.fChangeFlag & kBoundsNotChangedBit);
+            this.fChbngeFlbg = (this.fChbngeFlbg & kBoundsNotChbngedBit);
         }
     }
 
-    static ByteBuffer getBufferOfSize(int size) {
-        ByteBuffer buffer = ByteBuffer.allocateDirect(size * 4);
-        buffer.order(ByteOrder.nativeOrder());
+    stbtic ByteBuffer getBufferOfSize(int size) {
+        ByteBuffer buffer = ByteBuffer.bllocbteDirect(size * 4);
+        buffer.order(ByteOrder.nbtiveOrder());
         return buffer;
     }
 
-    FloatBuffer clipCoordinatesArray = null;
-    IntBuffer clipTypesArray = null;
-    Shape lastClipShape = null;
-    float lastClipX = 0;
-    float lastClipY = 0;
-    float lastClipW = 0;
-    float lastClipH = 0;
+    FlobtBuffer clipCoordinbtesArrby = null;
+    IntBuffer clipTypesArrby = null;
+    Shbpe lbstClipShbpe = null;
+    flobt lbstClipX = 0;
+    flobt lbstClipY = 0;
+    flobt lbstClipW = 0;
+    flobt lbstClipH = 0;
 
-    void setupClip(SunGraphics2D sg2d) {
-        switch (sg2d.clipState) {
-            case SunGraphics2D.CLIP_DEVICE:
-            case SunGraphics2D.CLIP_RECTANGULAR: {
+    void setupClip(SunGrbphics2D sg2d) {
+        switch (sg2d.clipStbte) {
+            cbse SunGrbphics2D.CLIP_DEVICE:
+            cbse SunGrbphics2D.CLIP_RECTANGULAR: {
                 Region clip = sg2d.getCompClip();
-                float x = clip.getLoX();
-                float y = clip.getLoY();
-                float w = clip.getWidth();
-                float h = clip.getHeight();
-                if ((this.fGraphicsStatesInt.get(kClipStateIndex) != kClipRect) ||
-                        (x != lastClipX) ||
-                            (y != lastClipY) ||
-                                (w != lastClipW) ||
-                                    (h != lastClipH)) {
-                    this.fGraphicsStatesFloat.put(kClipXIndex, x);
-                    this.fGraphicsStatesFloat.put(kClipYIndex, y);
-                    this.fGraphicsStatesFloat.put(kClipWidthIndex, w);
-                    this.fGraphicsStatesFloat.put(kClipHeightIndex, h);
+                flobt x = clip.getLoX();
+                flobt y = clip.getLoY();
+                flobt w = clip.getWidth();
+                flobt h = clip.getHeight();
+                if ((this.fGrbphicsStbtesInt.get(kClipStbteIndex) != kClipRect) ||
+                        (x != lbstClipX) ||
+                            (y != lbstClipY) ||
+                                (w != lbstClipW) ||
+                                    (h != lbstClipH)) {
+                    this.fGrbphicsStbtesFlobt.put(kClipXIndex, x);
+                    this.fGrbphicsStbtesFlobt.put(kClipYIndex, y);
+                    this.fGrbphicsStbtesFlobt.put(kClipWidthIndex, w);
+                    this.fGrbphicsStbtesFlobt.put(kClipHeightIndex, h);
 
-                    lastClipX = x;
-                    lastClipY = y;
-                    lastClipW = w;
-                    lastClipH = h;
+                    lbstClipX = x;
+                    lbstClipY = y;
+                    lbstClipW = w;
+                    lbstClipH = h;
 
-                    this.fChangeFlag = (this.fChangeFlag | kClipChangedBit);
+                    this.fChbngeFlbg = (this.fChbngeFlbg | kClipChbngedBit);
                 } else {
-                    this.fChangeFlag = (this.fChangeFlag & kClipNotChangedBit);
+                    this.fChbngeFlbg = (this.fChbngeFlbg & kClipNotChbngedBit);
                 }
-                this.fGraphicsStatesInt.put(kClipStateIndex, kClipRect);
-                break;
+                this.fGrbphicsStbtesInt.put(kClipStbteIndex, kClipRect);
+                brebk;
             }
-            case SunGraphics2D.CLIP_SHAPE: {
-                // if (lastClipShape != sg2d.usrClip) shapes are mutable!, and doing "equals" traverses all
-                // the coordinates, so we might as well do all of it anyhow
-                lastClipShape = sg2d.usrClip;
+            cbse SunGrbphics2D.CLIP_SHAPE: {
+                // if (lbstClipShbpe != sg2d.usrClip) shbpes bre mutbble!, bnd doing "equbls" trbverses bll
+                // the coordinbtes, so we might bs well do bll of it bnyhow
+                lbstClipShbpe = sg2d.usrClip;
 
-                GeneralPath gp = null;
+                GenerblPbth gp = null;
 
-                if (sg2d.usrClip instanceof GeneralPath) {
-                    gp = (GeneralPath) sg2d.usrClip;
+                if (sg2d.usrClip instbnceof GenerblPbth) {
+                    gp = (GenerblPbth) sg2d.usrClip;
                 } else {
-                    gp = new GeneralPath(sg2d.usrClip);
+                    gp = new GenerblPbth(sg2d.usrClip);
                 }
 
-                int shapeLength = getPathLength(gp);
+                int shbpeLength = getPbthLength(gp);
 
-                if ((clipCoordinatesArray == null) || (clipCoordinatesArray.capacity() < (shapeLength * 6))) {
-                    clipCoordinatesArray = getBufferOfSize(shapeLength * 6).asFloatBuffer(); // segment can have a
-                                                                                             // max of 6 coordinates
+                if ((clipCoordinbtesArrby == null) || (clipCoordinbtesArrby.cbpbcity() < (shbpeLength * 6))) {
+                    clipCoordinbtesArrby = getBufferOfSize(shbpeLength * 6).bsFlobtBuffer(); // segment cbn hbve b
+                                                                                             // mbx of 6 coordinbtes
                 }
-                if ((clipTypesArray == null) || (clipTypesArray.capacity() < shapeLength)) {
-                    clipTypesArray = getBufferOfSize(shapeLength).asIntBuffer();
+                if ((clipTypesArrby == null) || (clipTypesArrby.cbpbcity() < shbpeLength)) {
+                    clipTypesArrby = getBufferOfSize(shbpeLength).bsIntBuffer();
                 }
 
-                int windingRule = getPathCoordinates(gp, clipCoordinatesArray, clipTypesArray);
+                int windingRule = getPbthCoordinbtes(gp, clipCoordinbtesArrby, clipTypesArrby);
 
-                this.fGraphicsStatesInt.put(kClipNumTypesIndex, clipTypesArray.position());
-                this.fGraphicsStatesInt.put(kClipNumCoordsIndex, clipCoordinatesArray.position());
-                this.fGraphicsStatesInt.put(kClipWindingRuleIndex, windingRule);
-                this.fGraphicsStatesObject[kClipTypesIndex] = clipTypesArray;
-                this.fGraphicsStatesObject[kClipCoordinatesIndex] = clipCoordinatesArray;
+                this.fGrbphicsStbtesInt.put(kClipNumTypesIndex, clipTypesArrby.position());
+                this.fGrbphicsStbtesInt.put(kClipNumCoordsIndex, clipCoordinbtesArrby.position());
+                this.fGrbphicsStbtesInt.put(kClipWindingRuleIndex, windingRule);
+                this.fGrbphicsStbtesObject[kClipTypesIndex] = clipTypesArrby;
+                this.fGrbphicsStbtesObject[kClipCoordinbtesIndex] = clipCoordinbtesArrby;
 
-                this.fChangeFlag = (this.fChangeFlag | kClipChangedBit);
-                this.fGraphicsStatesInt.put(kClipStateIndex, kClipShape);
-                break;
+                this.fChbngeFlbg = (this.fChbngeFlbg | kClipChbngedBit);
+                this.fGrbphicsStbtesInt.put(kClipStbteIndex, kClipShbpe);
+                brebk;
             }
         }
 
     }
 
-    final double[] lastCTM = new double[6];
-    float lastCTMa = 0;
-    float lastCTMb = 0;
-    float lastCTMc = 0;
-    float lastCTMd = 0;
-    float lastCTMtx = 0;
-    float lastCTMty = 0;
+    finbl double[] lbstCTM = new double[6];
+    flobt lbstCTMb = 0;
+    flobt lbstCTMb = 0;
+    flobt lbstCTMc = 0;
+    flobt lbstCTMd = 0;
+    flobt lbstCTMtx = 0;
+    flobt lbstCTMty = 0;
 
-    void setupTransform(SunGraphics2D sg2d) {
-        sg2d.transform.getMatrix(lastCTM);
+    void setupTrbnsform(SunGrbphics2D sg2d) {
+        sg2d.trbnsform.getMbtrix(lbstCTM);
 
-        float a = (float) lastCTM[0];
-        float b = (float) lastCTM[1];
-        float c = (float) lastCTM[2];
-        float d = (float) lastCTM[3];
-        float tx = (float) lastCTM[4];
-        float ty = (float) lastCTM[5];
-        if (tx != lastCTMtx ||
-                ty != lastCTMty ||
-                    a != lastCTMa ||
-                        b != lastCTMb ||
-                            c != lastCTMc ||
-                                d != lastCTMd) {
-            this.fGraphicsStatesFloat.put(kCTMaIndex, a);
-            this.fGraphicsStatesFloat.put(kCTMbIndex, b);
-            this.fGraphicsStatesFloat.put(kCTMcIndex, c);
-            this.fGraphicsStatesFloat.put(kCTMdIndex, d);
-            this.fGraphicsStatesFloat.put(kCTMtxIndex, tx);
-            this.fGraphicsStatesFloat.put(kCTMtyIndex, ty);
+        flobt b = (flobt) lbstCTM[0];
+        flobt b = (flobt) lbstCTM[1];
+        flobt c = (flobt) lbstCTM[2];
+        flobt d = (flobt) lbstCTM[3];
+        flobt tx = (flobt) lbstCTM[4];
+        flobt ty = (flobt) lbstCTM[5];
+        if (tx != lbstCTMtx ||
+                ty != lbstCTMty ||
+                    b != lbstCTMb ||
+                        b != lbstCTMb ||
+                            c != lbstCTMc ||
+                                d != lbstCTMd) {
+            this.fGrbphicsStbtesFlobt.put(kCTMbIndex, b);
+            this.fGrbphicsStbtesFlobt.put(kCTMbIndex, b);
+            this.fGrbphicsStbtesFlobt.put(kCTMcIndex, c);
+            this.fGrbphicsStbtesFlobt.put(kCTMdIndex, d);
+            this.fGrbphicsStbtesFlobt.put(kCTMtxIndex, tx);
+            this.fGrbphicsStbtesFlobt.put(kCTMtyIndex, ty);
 
-            lastCTMa = a;
-            lastCTMb = b;
-            lastCTMc = c;
-            lastCTMd = d;
-            lastCTMtx = tx;
-            lastCTMty = ty;
+            lbstCTMb = b;
+            lbstCTMb = b;
+            lbstCTMc = c;
+            lbstCTMd = d;
+            lbstCTMtx = tx;
+            lbstCTMty = ty;
 
-            this.fChangeFlag = (this.fChangeFlag | kCTMChangedBit);
+            this.fChbngeFlbg = (this.fChbngeFlbg | kCTMChbngedBit);
         } else {
-            this.fChangeFlag = (this.fChangeFlag & kCTMNotChangedBit);
+            this.fChbngeFlbg = (this.fChbngeFlbg & kCTMNotChbngedBit);
         }
     }
 
-    static AffineTransform sIdentityMatrix = new AffineTransform();
-    Paint lastPaint = null;
-    long lastPaintPtr = 0;
-    int lastPaintRGB = 0;
-    int lastPaintIndex = 0;
-    BufferedImage texturePaintImage = null;
+    stbtic AffineTrbnsform sIdentityMbtrix = new AffineTrbnsform();
+    Pbint lbstPbint = null;
+    long lbstPbintPtr = 0;
+    int lbstPbintRGB = 0;
+    int lbstPbintIndex = 0;
+    BufferedImbge texturePbintImbge = null;
 
-    void setupPaint(SunGraphics2D sg2d, int x, int y, int w, int h) {
-        if (sg2d.paint instanceof SystemColor) {
-            SystemColor color = (SystemColor) sg2d.paint;
-            int index = color.hashCode(); // depends on Color.java hashCode implementation! (returns "value" of color)
-            if ((this.fGraphicsStatesInt.get(kColorStateIndex) != kColorSystem) || (index != this.lastPaintIndex)) {
-                this.lastPaintIndex = index;
+    void setupPbint(SunGrbphics2D sg2d, int x, int y, int w, int h) {
+        if (sg2d.pbint instbnceof SystemColor) {
+            SystemColor color = (SystemColor) sg2d.pbint;
+            int index = color.hbshCode(); // depends on Color.jbvb hbshCode implementbtion! (returns "vblue" of color)
+            if ((this.fGrbphicsStbtesInt.get(kColorStbteIndex) != kColorSystem) || (index != this.lbstPbintIndex)) {
+                this.lbstPbintIndex = index;
 
-                this.fGraphicsStatesInt.put(kColorStateIndex, kColorSystem);
-                this.fGraphicsStatesInt.put(kColorIndexValueIndex, index);
+                this.fGrbphicsStbtesInt.put(kColorStbteIndex, kColorSystem);
+                this.fGrbphicsStbtesInt.put(kColorIndexVblueIndex, index);
 
-                this.fChangeFlag = (this.fChangeFlag | kColorChangedBit);
+                this.fChbngeFlbg = (this.fChbngeFlbg | kColorChbngedBit);
             } else {
-                this.fChangeFlag = (this.fChangeFlag & kColorNotChangedBit);
+                this.fChbngeFlbg = (this.fChbngeFlbg & kColorNotChbngedBit);
             }
-        } else if (sg2d.paint instanceof Color) {
-            Color color = (Color) sg2d.paint;
+        } else if (sg2d.pbint instbnceof Color) {
+            Color color = (Color) sg2d.pbint;
             int rgb = color.getRGB();
-            if ((this.fGraphicsStatesInt.get(kColorStateIndex) != kColorSimple) || (rgb != this.lastPaintRGB)) {
-                this.lastPaintRGB = rgb;
+            if ((this.fGrbphicsStbtesInt.get(kColorStbteIndex) != kColorSimple) || (rgb != this.lbstPbintRGB)) {
+                this.lbstPbintRGB = rgb;
 
-                this.fGraphicsStatesInt.put(kColorStateIndex, kColorSimple);
-                this.fGraphicsStatesInt.put(kColorRGBValueIndex, rgb);
+                this.fGrbphicsStbtesInt.put(kColorStbteIndex, kColorSimple);
+                this.fGrbphicsStbtesInt.put(kColorRGBVblueIndex, rgb);
 
-                this.fChangeFlag = (this.fChangeFlag | kColorChangedBit);
+                this.fChbngeFlbg = (this.fChbngeFlbg | kColorChbngedBit);
             } else {
-                this.fChangeFlag = (this.fChangeFlag & kColorNotChangedBit);
+                this.fChbngeFlbg = (this.fChbngeFlbg & kColorNotChbngedBit);
             }
-        } else if (sg2d.paint instanceof GradientPaint) {
-            if ((this.fGraphicsStatesInt.get(kColorStateIndex) != kColorGradient) || (lastPaint != sg2d.paint)) {
-                GradientPaint color = (GradientPaint) sg2d.paint;
-                this.fGraphicsStatesInt.put(kColorStateIndex, kColorGradient);
-                this.fGraphicsStatesInt.put(kColorRGBValue1Index, color.getColor1().getRGB());
-                this.fGraphicsStatesInt.put(kColorRGBValue2Index, color.getColor2().getRGB());
-                this.fGraphicsStatesInt.put(kColorIsCyclicIndex, (color.isCyclic()) ? kColorCyclic : kColorNonCyclic);
+        } else if (sg2d.pbint instbnceof GrbdientPbint) {
+            if ((this.fGrbphicsStbtesInt.get(kColorStbteIndex) != kColorGrbdient) || (lbstPbint != sg2d.pbint)) {
+                GrbdientPbint color = (GrbdientPbint) sg2d.pbint;
+                this.fGrbphicsStbtesInt.put(kColorStbteIndex, kColorGrbdient);
+                this.fGrbphicsStbtesInt.put(kColorRGBVblue1Index, color.getColor1().getRGB());
+                this.fGrbphicsStbtesInt.put(kColorRGBVblue2Index, color.getColor2().getRGB());
+                this.fGrbphicsStbtesInt.put(kColorIsCyclicIndex, (color.isCyclic()) ? kColorCyclic : kColorNonCyclic);
                 Point2D p = color.getPoint1();
-                this.fGraphicsStatesFloat.put(kColorx1Index, (float) p.getX());
-                this.fGraphicsStatesFloat.put(kColory1Index, (float) p.getY());
+                this.fGrbphicsStbtesFlobt.put(kColorx1Index, (flobt) p.getX());
+                this.fGrbphicsStbtesFlobt.put(kColory1Index, (flobt) p.getY());
                 p = color.getPoint2();
-                this.fGraphicsStatesFloat.put(kColorx2Index, (float) p.getX());
-                this.fGraphicsStatesFloat.put(kColory2Index, (float) p.getY());
+                this.fGrbphicsStbtesFlobt.put(kColorx2Index, (flobt) p.getX());
+                this.fGrbphicsStbtesFlobt.put(kColory2Index, (flobt) p.getY());
 
-                this.fChangeFlag = (this.fChangeFlag | kColorChangedBit);
+                this.fChbngeFlbg = (this.fChbngeFlbg | kColorChbngedBit);
             } else {
-                this.fChangeFlag = (this.fChangeFlag & kColorNotChangedBit);
+                this.fChbngeFlbg = (this.fChbngeFlbg & kColorNotChbngedBit);
             }
-        } else if (sg2d.paint instanceof TexturePaint) {
-            if ((this.fGraphicsStatesInt.get(kColorStateIndex) != kColorTexture) || (lastPaint != sg2d.paint)) {
-                TexturePaint color = (TexturePaint) sg2d.paint;
-                this.fGraphicsStatesInt.put(kColorStateIndex, kColorTexture);
-                texturePaintImage = color.getImage();
-                SurfaceData textureSurfaceData = BufImgSurfaceData.createData(texturePaintImage);
-                this.fGraphicsStatesInt.put(kColorWidthIndex, texturePaintImage.getWidth());
-                this.fGraphicsStatesInt.put(kColorHeightIndex, texturePaintImage.getHeight());
-                Rectangle2D anchor = color.getAnchorRect();
-                this.fGraphicsStatesFloat.put(kColortxIndex, (float) anchor.getX());
-                this.fGraphicsStatesFloat.put(kColortyIndex, (float) anchor.getY());
-                this.fGraphicsStatesFloat.put(kColorsxIndex, (float) (anchor.getWidth() / texturePaintImage.getWidth()));
-                this.fGraphicsStatesFloat.put(kColorsyIndex, (float) (anchor.getHeight() / texturePaintImage.getHeight()));
-                this.fGraphicsStatesObject[kTextureImageIndex] = textureSurfaceData;
+        } else if (sg2d.pbint instbnceof TexturePbint) {
+            if ((this.fGrbphicsStbtesInt.get(kColorStbteIndex) != kColorTexture) || (lbstPbint != sg2d.pbint)) {
+                TexturePbint color = (TexturePbint) sg2d.pbint;
+                this.fGrbphicsStbtesInt.put(kColorStbteIndex, kColorTexture);
+                texturePbintImbge = color.getImbge();
+                SurfbceDbtb textureSurfbceDbtb = BufImgSurfbceDbtb.crebteDbtb(texturePbintImbge);
+                this.fGrbphicsStbtesInt.put(kColorWidthIndex, texturePbintImbge.getWidth());
+                this.fGrbphicsStbtesInt.put(kColorHeightIndex, texturePbintImbge.getHeight());
+                Rectbngle2D bnchor = color.getAnchorRect();
+                this.fGrbphicsStbtesFlobt.put(kColortxIndex, (flobt) bnchor.getX());
+                this.fGrbphicsStbtesFlobt.put(kColortyIndex, (flobt) bnchor.getY());
+                this.fGrbphicsStbtesFlobt.put(kColorsxIndex, (flobt) (bnchor.getWidth() / texturePbintImbge.getWidth()));
+                this.fGrbphicsStbtesFlobt.put(kColorsyIndex, (flobt) (bnchor.getHeight() / texturePbintImbge.getHeight()));
+                this.fGrbphicsStbtesObject[kTextureImbgeIndex] = textureSurfbceDbtb;
 
-                this.fChangeFlag = (this.fChangeFlag | kColorChangedBit);
+                this.fChbngeFlbg = (this.fChbngeFlbg | kColorChbngedBit);
             } else {
-                this.fChangeFlag = (this.fChangeFlag & kColorNotChangedBit);
+                this.fChbngeFlbg = (this.fChbngeFlbg & kColorNotChbngedBit);
             }
         } else {
-            if ((this.fGraphicsStatesInt.get(kColorStateIndex) != kColorTexture) || (lastPaint != sg2d.paint) || ((this.fChangeFlag & kBoundsChangedBit) != 0)) {
-                PaintContext context = sg2d.paint.createContext(sg2d.getDeviceColorModel(), userBounds, userBounds, sIdentityMatrix, sg2d.getRenderingHints());
-                WritableRaster raster = (WritableRaster) (context.getRaster(userBounds.x, userBounds.y, userBounds.width, userBounds.height));
+            if ((this.fGrbphicsStbtesInt.get(kColorStbteIndex) != kColorTexture) || (lbstPbint != sg2d.pbint) || ((this.fChbngeFlbg & kBoundsChbngedBit) != 0)) {
+                PbintContext context = sg2d.pbint.crebteContext(sg2d.getDeviceColorModel(), userBounds, userBounds, sIdentityMbtrix, sg2d.getRenderingHints());
+                WritbbleRbster rbster = (WritbbleRbster) (context.getRbster(userBounds.x, userBounds.y, userBounds.width, userBounds.height));
                 ColorModel cm = context.getColorModel();
-                texturePaintImage = new BufferedImage(cm, raster, cm.isAlphaPremultiplied(), null);
+                texturePbintImbge = new BufferedImbge(cm, rbster, cm.isAlphbPremultiplied(), null);
 
-                this.fGraphicsStatesInt.put(kColorStateIndex, kColorTexture);
-                this.fGraphicsStatesInt.put(kColorWidthIndex, texturePaintImage.getWidth());
-                this.fGraphicsStatesInt.put(kColorHeightIndex, texturePaintImage.getHeight());
-                this.fGraphicsStatesFloat.put(kColortxIndex, (float) userBounds.getX());
-                this.fGraphicsStatesFloat.put(kColortyIndex, (float) userBounds.getY());
-                this.fGraphicsStatesFloat.put(kColorsxIndex, 1.0f);
-                this.fGraphicsStatesFloat.put(kColorsyIndex, 1.0f);
-                this.fGraphicsStatesObject[kTextureImageIndex] = sun.awt.image.BufImgSurfaceData.createData(texturePaintImage);
+                this.fGrbphicsStbtesInt.put(kColorStbteIndex, kColorTexture);
+                this.fGrbphicsStbtesInt.put(kColorWidthIndex, texturePbintImbge.getWidth());
+                this.fGrbphicsStbtesInt.put(kColorHeightIndex, texturePbintImbge.getHeight());
+                this.fGrbphicsStbtesFlobt.put(kColortxIndex, (flobt) userBounds.getX());
+                this.fGrbphicsStbtesFlobt.put(kColortyIndex, (flobt) userBounds.getY());
+                this.fGrbphicsStbtesFlobt.put(kColorsxIndex, 1.0f);
+                this.fGrbphicsStbtesFlobt.put(kColorsyIndex, 1.0f);
+                this.fGrbphicsStbtesObject[kTextureImbgeIndex] = sun.bwt.imbge.BufImgSurfbceDbtb.crebteDbtb(texturePbintImbge);
 
                 context.dispose();
 
-                this.fChangeFlag = (this.fChangeFlag | kColorChangedBit);
+                this.fChbngeFlbg = (this.fChbngeFlbg | kColorChbngedBit);
             } else {
-                this.fChangeFlag = (this.fChangeFlag & kColorNotChangedBit);
+                this.fChbngeFlbg = (this.fChbngeFlbg & kColorNotChbngedBit);
             }
         }
-        lastPaint = sg2d.paint;
+        lbstPbint = sg2d.pbint;
     }
 
-    Composite lastComposite;
-    int lastCompositeAlphaRule = 0;
-    float lastCompositeAlphaValue = 0;
+    Composite lbstComposite;
+    int lbstCompositeAlphbRule = 0;
+    flobt lbstCompositeAlphbVblue = 0;
 
-    void setupComposite(SunGraphics2D sg2d) {
+    void setupComposite(SunGrbphics2D sg2d) {
         Composite composite = sg2d.composite;
 
-        if (lastComposite != composite) {
-            lastComposite = composite;
+        if (lbstComposite != composite) {
+            lbstComposite = composite;
 
-            // For composite state COMP_ISCOPY, COMP_XOR or COMP_CUSTOM set alpha compositor to COPY:
-            int alphaRule = AlphaComposite.SRC_OVER;
-            float alphaValue = 1.0f;
+            // For composite stbte COMP_ISCOPY, COMP_XOR or COMP_CUSTOM set blphb compositor to COPY:
+            int blphbRule = AlphbComposite.SRC_OVER;
+            flobt blphbVblue = 1.0f;
 
-            // For composite state COMP_ISCOPY composite could be null. If it's not (or composite state == COMP_ALPHA)
-            // get alpha compositor's values:
-            if ((sg2d.compositeState <= SunGraphics2D.COMP_ALPHA) && (composite != null)) {
-                AlphaComposite alphaComposite = (AlphaComposite) composite;
-                alphaRule = alphaComposite.getRule();
-                alphaValue = alphaComposite.getAlpha();
+            // For composite stbte COMP_ISCOPY composite could be null. If it's not (or composite stbte == COMP_ALPHA)
+            // get blphb compositor's vblues:
+            if ((sg2d.compositeStbte <= SunGrbphics2D.COMP_ALPHA) && (composite != null)) {
+                AlphbComposite blphbComposite = (AlphbComposite) composite;
+                blphbRule = blphbComposite.getRule();
+                blphbVblue = blphbComposite.getAlphb();
             }
 
-            // 2-17-03 VL: [Radar 3174922]
-            // For COMP_XOR and COMP_CUSTOM compositing modes we should be setting alphaRule = AlphaComposite.SRC
-            // which should map to kCGCompositeCopy.
+            // 2-17-03 VL: [Rbdbr 3174922]
+            // For COMP_XOR bnd COMP_CUSTOM compositing modes we should be setting blphbRule = AlphbComposite.SRC
+            // which should mbp to kCGCompositeCopy.
 
-            if ((lastCompositeAlphaRule != alphaRule) || (lastCompositeAlphaValue != alphaValue)) {
-                this.fGraphicsStatesInt.put(kCompositeRuleIndex, alphaRule);
-                this.fGraphicsStatesFloat.put(kCompositeValueIndex, alphaValue);
+            if ((lbstCompositeAlphbRule != blphbRule) || (lbstCompositeAlphbVblue != blphbVblue)) {
+                this.fGrbphicsStbtesInt.put(kCompositeRuleIndex, blphbRule);
+                this.fGrbphicsStbtesFlobt.put(kCompositeVblueIndex, blphbVblue);
 
-                lastCompositeAlphaRule = alphaRule;
-                lastCompositeAlphaValue = alphaValue;
+                lbstCompositeAlphbRule = blphbRule;
+                lbstCompositeAlphbVblue = blphbVblue;
 
-                this.fChangeFlag = (this.fChangeFlag | kCompositeChangedBit);
+                this.fChbngeFlbg = (this.fChbngeFlbg | kCompositeChbngedBit);
             } else {
-                this.fChangeFlag = (this.fChangeFlag & kCompositeNotChangedBit);
+                this.fChbngeFlbg = (this.fChbngeFlbg & kCompositeNotChbngedBit);
             }
         } else {
-            this.fChangeFlag = (this.fChangeFlag & kCompositeNotChangedBit);
+            this.fChbngeFlbg = (this.fChbngeFlbg & kCompositeNotChbngedBit);
         }
     }
 
-    BasicStroke lastStroke = null;
-    static BasicStroke defaultBasicStroke = new BasicStroke();
+    BbsicStroke lbstStroke = null;
+    stbtic BbsicStroke defbultBbsicStroke = new BbsicStroke();
 
-    void setupStroke(SunGraphics2D sg2d) {
-        BasicStroke stroke = defaultBasicStroke;
+    void setupStroke(SunGrbphics2D sg2d) {
+        BbsicStroke stroke = defbultBbsicStroke;
 
-        if (sg2d.stroke instanceof BasicStroke) {
-            stroke = (BasicStroke) sg2d.stroke;
+        if (sg2d.stroke instbnceof BbsicStroke) {
+            stroke = (BbsicStroke) sg2d.stroke;
         }
 
-        if (lastStroke != stroke) {
-            this.fGraphicsStatesObject[kStrokeDashArrayIndex] = stroke.getDashArray();
-            this.fGraphicsStatesFloat.put(kStrokeDashPhaseIndex, stroke.getDashPhase());
-            this.fGraphicsStatesInt.put(kStrokeCapIndex, stroke.getEndCap());
-            this.fGraphicsStatesInt.put(kStrokeJoinIndex, stroke.getLineJoin());
-            this.fGraphicsStatesFloat.put(kStrokeWidthIndex, stroke.getLineWidth());
-            this.fGraphicsStatesFloat.put(kStrokeLimitIndex, stroke.getMiterLimit());
+        if (lbstStroke != stroke) {
+            this.fGrbphicsStbtesObject[kStrokeDbshArrbyIndex] = stroke.getDbshArrby();
+            this.fGrbphicsStbtesFlobt.put(kStrokeDbshPhbseIndex, stroke.getDbshPhbse());
+            this.fGrbphicsStbtesInt.put(kStrokeCbpIndex, stroke.getEndCbp());
+            this.fGrbphicsStbtesInt.put(kStrokeJoinIndex, stroke.getLineJoin());
+            this.fGrbphicsStbtesFlobt.put(kStrokeWidthIndex, stroke.getLineWidth());
+            this.fGrbphicsStbtesFlobt.put(kStrokeLimitIndex, stroke.getMiterLimit());
 
-            this.fChangeFlag = (this.fChangeFlag | kStrokeChangedBit);
+            this.fChbngeFlbg = (this.fChbngeFlbg | kStrokeChbngedBit);
 
-            lastStroke = stroke;
+            lbstStroke = stroke;
         } else {
-            this.fChangeFlag = (this.fChangeFlag & kStrokeNotChangedBit);
+            this.fChbngeFlbg = (this.fChbngeFlbg & kStrokeNotChbngedBit);
         }
     }
 
-    Font lastFont;
+    Font lbstFont;
 
-    void setupFont(Font font, Paint paint) {
+    void setupFont(Font font, Pbint pbint) {
         if (font == null) { return; }
 
-        // We have to setup the kFontPaintIndex if we have changed the color so we added the last
-        // test to see if the color has changed - needed for complex strings
-        // see Radar 3368674
-        if ((font != lastFont) || ((this.fChangeFlag & kColorChangedBit) != 0)) {
-            this.fGraphicsStatesObject[kFontIndex] = font;
-            this.fGraphicsStatesObject[kFontPaintIndex] = paint;
+        // We hbve to setup the kFontPbintIndex if we hbve chbnged the color so we bdded the lbst
+        // test to see if the color hbs chbnged - needed for complex strings
+        // see Rbdbr 3368674
+        if ((font != lbstFont) || ((this.fChbngeFlbg & kColorChbngedBit) != 0)) {
+            this.fGrbphicsStbtesObject[kFontIndex] = font;
+            this.fGrbphicsStbtesObject[kFontPbintIndex] = pbint;
 
-            this.fChangeFlag = (this.fChangeFlag | kFontChangedBit);
+            this.fChbngeFlbg = (this.fChbngeFlbg | kFontChbngedBit);
 
-            lastFont = font;
+            lbstFont = font;
         } else {
-            this.fChangeFlag = (this.fChangeFlag & kFontNotChangedBit);
+            this.fChbngeFlbg = (this.fChbngeFlbg & kFontNotChbngedBit);
         }
     }
 
-    void setupRenderingHints(SunGraphics2D sg2d) {
-        boolean hintsChanged = false;
+    void setupRenderingHints(SunGrbphics2D sg2d) {
+        boolebn hintsChbnged = fblse;
 
-        // Significant for draw, fill, text, and image ops:
-        int antialiasHint = sg2d.antialiasHint;
-        if (this.fGraphicsStatesInt.get(kHintsAntialiasIndex) != antialiasHint) {
-            this.fGraphicsStatesInt.put(kHintsAntialiasIndex, antialiasHint);
-            hintsChanged = true;
+        // Significbnt for drbw, fill, text, bnd imbge ops:
+        int bntiblibsHint = sg2d.bntiblibsHint;
+        if (this.fGrbphicsStbtesInt.get(kHintsAntiblibsIndex) != bntiblibsHint) {
+            this.fGrbphicsStbtesInt.put(kHintsAntiblibsIndex, bntiblibsHint);
+            hintsChbnged = true;
         }
 
-        // Significant only for text ops:
-        int textAntialiasHint = sg2d.textAntialiasHint;
-        if (this.fGraphicsStatesInt.get(kHintsTextAntialiasIndex) != textAntialiasHint) {
-            this.fGraphicsStatesInt.put(kHintsTextAntialiasIndex, textAntialiasHint);
-            hintsChanged = true;
+        // Significbnt only for text ops:
+        int textAntiblibsHint = sg2d.textAntiblibsHint;
+        if (this.fGrbphicsStbtesInt.get(kHintsTextAntiblibsIndex) != textAntiblibsHint) {
+            this.fGrbphicsStbtesInt.put(kHintsTextAntiblibsIndex, textAntiblibsHint);
+            hintsChbnged = true;
         }
 
-        // Significant only for text ops:
-        int fractionalMetricsHint = sg2d.fractionalMetricsHint;
-        if (this.fGraphicsStatesInt.get(kHintsFractionalMetricsIndex) != fractionalMetricsHint) {
-            this.fGraphicsStatesInt.put(kHintsFractionalMetricsIndex, fractionalMetricsHint);
-            hintsChanged = true;
+        // Significbnt only for text ops:
+        int frbctionblMetricsHint = sg2d.frbctionblMetricsHint;
+        if (this.fGrbphicsStbtesInt.get(kHintsFrbctionblMetricsIndex) != frbctionblMetricsHint) {
+            this.fGrbphicsStbtesInt.put(kHintsFrbctionblMetricsIndex, frbctionblMetricsHint);
+            hintsChbnged = true;
         }
 
-        // Significant only for image ops:
+        // Significbnt only for imbge ops:
         int renderHint = sg2d.renderHint;
-        if (this.fGraphicsStatesInt.get(kHintsRenderingIndex) != renderHint) {
-            this.fGraphicsStatesInt.put(kHintsRenderingIndex, renderHint);
-            hintsChanged = true;
+        if (this.fGrbphicsStbtesInt.get(kHintsRenderingIndex) != renderHint) {
+            this.fGrbphicsStbtesInt.put(kHintsRenderingIndex, renderHint);
+            hintsChbnged = true;
         }
 
-        // Significant only for image ops:
-        Object hintValue = sg2d.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
-        int interpolationHint = (hintValue != null ? ((SunHints.Value) hintValue).getIndex() : -1);
-        if (this.fGraphicsStatesInt.get(kHintsInterpolationIndex) != interpolationHint) {
-            this.fGraphicsStatesInt.put(kHintsInterpolationIndex, interpolationHint);
-            hintsChanged = true;
+        // Significbnt only for imbge ops:
+        Object hintVblue = sg2d.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
+        int interpolbtionHint = (hintVblue != null ? ((SunHints.Vblue) hintVblue).getIndex() : -1);
+        if (this.fGrbphicsStbtesInt.get(kHintsInterpolbtionIndex) != interpolbtionHint) {
+            this.fGrbphicsStbtesInt.put(kHintsInterpolbtionIndex, interpolbtionHint);
+            hintsChbnged = true;
         }
 
-        if (hintsChanged) {
-            this.fChangeFlag = (this.fChangeFlag | kHintsChangedBit);
+        if (hintsChbnged) {
+            this.fChbngeFlbg = (this.fChbngeFlbg | kHintsChbngedBit);
         } else {
-            this.fChangeFlag = (this.fChangeFlag & kHintsNotChangedBit);
+            this.fChbngeFlbg = (this.fChbngeFlbg & kHintsNotChbngedBit);
         }
     }
 
-    SunGraphics2D sg2dCurrent = null;
-    Thread threadCurrent = null;
+    SunGrbphics2D sg2dCurrent = null;
+    Threbd threbdCurrent = null;
 
-    void setupGraphicsState(SunGraphics2D sg2d, int primitiveType) {
-        setupGraphicsState(sg2d, primitiveType, sg2d.font, 0, 0, fBounds.width, fBounds.height); // deviceBounds into userBounds
+    void setupGrbphicsStbte(SunGrbphics2D sg2d, int primitiveType) {
+        setupGrbphicsStbte(sg2d, primitiveType, sg2d.font, 0, 0, fBounds.width, fBounds.height); // deviceBounds into userBounds
     }
 
-    void setupGraphicsState(SunGraphics2D sg2d, int primitiveType, int x, int y, int w, int h) {
-        setupGraphicsState(sg2d, primitiveType, sg2d.font, x, y, w, h);
+    void setupGrbphicsStbte(SunGrbphics2D sg2d, int primitiveType, int x, int y, int w, int h) {
+        setupGrbphicsStbte(sg2d, primitiveType, sg2d.font, x, y, w, h);
     }
 
-    // the method below is overriden by CPeerSurface to check the last peer used to draw
-    // if the peer changed we finish lazy drawing
-    void setupGraphicsState(SunGraphics2D sg2d, int primitiveType, Font font, int x, int y, int w, int h) {
-        this.fChangeFlag = 0;
+    // the method below is overriden by CPeerSurfbce to check the lbst peer used to drbw
+    // if the peer chbnged we finish lbzy drbwing
+    void setupGrbphicsStbte(SunGrbphics2D sg2d, int primitiveType, Font font, int x, int y, int w, int h) {
+        this.fChbngeFlbg = 0;
 
         setUserBounds(sg2d, x, y, w, h);
 
-        Thread thread = Thread.currentThread();
-        if ((this.sg2dCurrent != sg2d) || (this.threadCurrent != thread)) {
+        Threbd threbd = Threbd.currentThrebd();
+        if ((this.sg2dCurrent != sg2d) || (this.threbdCurrent != threbd)) {
             this.sg2dCurrent = sg2d;
-            this.threadCurrent = thread;
+            this.threbdCurrent = threbd;
 
             setupClip(sg2d);
-            setupTransform(sg2d);
-            setupPaint(sg2d, x, y, w, h);
+            setupTrbnsform(sg2d);
+            setupPbint(sg2d, x, y, w, h);
             setupComposite(sg2d);
             setupStroke(sg2d);
-            setupFont(font, sg2d.paint);
+            setupFont(font, sg2d.pbint);
             setupRenderingHints(sg2d);
 
-            this.fChangeFlag = kEverythingChangedFlag;
+            this.fChbngeFlbg = kEverythingChbngedFlbg;
         } else {
             int rendererType = getRendererTypeForPrimitive(primitiveType);
 
             setupClip(sg2d);
-            setupTransform(sg2d);
+            setupTrbnsform(sg2d);
 
-            if (rendererType != kCopyArea) {
+            if (rendererType != kCopyAreb) {
                 setupComposite(sg2d);
                 setupRenderingHints(sg2d);
 
-                if ((rendererType != kImage)) {
-                    setupPaint(sg2d, x, y, w, h);
+                if ((rendererType != kImbge)) {
+                    setupPbint(sg2d, x, y, w, h);
                     setupStroke(sg2d);
                 }
                 if (rendererType != kPrimitive) {
-                    setupFont(font, sg2d.paint);
+                    setupFont(font, sg2d.pbint);
                 }
 
             }
         }
 
-        this.fGraphicsStatesInt.put(kChangeFlagIndex, this.fChangeFlag);
+        this.fGrbphicsStbtesInt.put(kChbngeFlbgIndex, this.fChbngeFlbg);
     }
 
-    boolean isCustomPaint(SunGraphics2D sg2d) {
-        if ((sg2d.paint instanceof Color) || (sg2d.paint instanceof SystemColor) || (sg2d.paint instanceof GradientPaint) || (sg2d.paint instanceof TexturePaint)) { return false; }
+    boolebn isCustomPbint(SunGrbphics2D sg2d) {
+        if ((sg2d.pbint instbnceof Color) || (sg2d.pbint instbnceof SystemColor) || (sg2d.pbint instbnceof GrbdientPbint) || (sg2d.pbint instbnceof TexturePbint)) { return fblse; }
 
         return true;
     }
 
-    final float[] segmentCoordinatesArray = new float[6];
+    finbl flobt[] segmentCoordinbtesArrby = new flobt[6];
 
-    int getPathLength(GeneralPath gp) {
+    int getPbthLength(GenerblPbth gp) {
         int length = 0;
 
-        PathIterator pi = gp.getPathIterator(null);
-        while (pi.isDone() == false) {
+        PbthIterbtor pi = gp.getPbthIterbtor(null);
+        while (pi.isDone() == fblse) {
             pi.next();
             length++;
         }
@@ -822,76 +822,76 @@ public abstract class OSXSurfaceData extends BufImgSurfaceData {
         return length;
     }
 
-    int getPathCoordinates(GeneralPath gp, FloatBuffer coordinates, IntBuffer types) {
-        // System.err.println("getPathCoordinates");
-        boolean skip = false;
+    int getPbthCoordinbtes(GenerblPbth gp, FlobtBuffer coordinbtes, IntBuffer types) {
+        // System.err.println("getPbthCoordinbtes");
+        boolebn skip = fblse;
 
-        coordinates.clear();
-        types.clear();
+        coordinbtes.clebr();
+        types.clebr();
 
         int type;
 
-        PathIterator pi = gp.getPathIterator(null);
-        while (pi.isDone() == false) {
-            skip = false;
-            type = pi.currentSegment(segmentCoordinatesArray);
+        PbthIterbtor pi = gp.getPbthIterbtor(null);
+        while (pi.isDone() == fblse) {
+            skip = fblse;
+            type = pi.currentSegment(segmentCoordinbtesArrby);
 
             switch (type) {
-                case PathIterator.SEG_MOVETO:
-                    // System.err.println(" SEG_MOVETO ("+segmentCoordinatesArray[0]+", "+segmentCoordinatesArray[1]+")");
-                    if (segmentCoordinatesArray[0] < UPPER_BND && segmentCoordinatesArray[0] > LOWER_BND &&
-                            segmentCoordinatesArray[1] < UPPER_BND && segmentCoordinatesArray[1] > LOWER_BND) {
-                        coordinates.put(segmentCoordinatesArray[0]);
-                        coordinates.put(segmentCoordinatesArray[1]);
+                cbse PbthIterbtor.SEG_MOVETO:
+                    // System.err.println(" SEG_MOVETO ("+segmentCoordinbtesArrby[0]+", "+segmentCoordinbtesArrby[1]+")");
+                    if (segmentCoordinbtesArrby[0] < UPPER_BND && segmentCoordinbtesArrby[0] > LOWER_BND &&
+                            segmentCoordinbtesArrby[1] < UPPER_BND && segmentCoordinbtesArrby[1] > LOWER_BND) {
+                        coordinbtes.put(segmentCoordinbtesArrby[0]);
+                        coordinbtes.put(segmentCoordinbtesArrby[1]);
                     } else {
                         skip = true;
                     }
-                    break;
-                case PathIterator.SEG_LINETO:
-                    // System.err.println(" SEG_LINETO ("+segmentCoordinatesArray[0]+", "+segmentCoordinatesArray[1]+")");
-                    if (segmentCoordinatesArray[0] < UPPER_BND && segmentCoordinatesArray[0] > LOWER_BND &&
-                            segmentCoordinatesArray[1] < UPPER_BND && segmentCoordinatesArray[1] > LOWER_BND) {
-                        coordinates.put(segmentCoordinatesArray[0]);
-                        coordinates.put(segmentCoordinatesArray[1]);
+                    brebk;
+                cbse PbthIterbtor.SEG_LINETO:
+                    // System.err.println(" SEG_LINETO ("+segmentCoordinbtesArrby[0]+", "+segmentCoordinbtesArrby[1]+")");
+                    if (segmentCoordinbtesArrby[0] < UPPER_BND && segmentCoordinbtesArrby[0] > LOWER_BND &&
+                            segmentCoordinbtesArrby[1] < UPPER_BND && segmentCoordinbtesArrby[1] > LOWER_BND) {
+                        coordinbtes.put(segmentCoordinbtesArrby[0]);
+                        coordinbtes.put(segmentCoordinbtesArrby[1]);
                     } else {
                         skip = true;
                     }
-                    break;
-                case PathIterator.SEG_QUADTO:
-                    // System.err.println(" SEG_QUADTO ("+segmentCoordinatesArray[0]+", "+segmentCoordinatesArray[1]+"), ("+segmentCoordinatesArray[2]+", "+segmentCoordinatesArray[3]+")");
-                    if (segmentCoordinatesArray[0] < UPPER_BND && segmentCoordinatesArray[0] > LOWER_BND &&
-                            segmentCoordinatesArray[1] < UPPER_BND && segmentCoordinatesArray[1] > LOWER_BND &&
-                            segmentCoordinatesArray[2] < UPPER_BND && segmentCoordinatesArray[2] > LOWER_BND &&
-                            segmentCoordinatesArray[3] < UPPER_BND && segmentCoordinatesArray[3] > LOWER_BND) {
-                        coordinates.put(segmentCoordinatesArray[0]);
-                        coordinates.put(segmentCoordinatesArray[1]);
-                        coordinates.put(segmentCoordinatesArray[2]);
-                        coordinates.put(segmentCoordinatesArray[3]);
+                    brebk;
+                cbse PbthIterbtor.SEG_QUADTO:
+                    // System.err.println(" SEG_QUADTO ("+segmentCoordinbtesArrby[0]+", "+segmentCoordinbtesArrby[1]+"), ("+segmentCoordinbtesArrby[2]+", "+segmentCoordinbtesArrby[3]+")");
+                    if (segmentCoordinbtesArrby[0] < UPPER_BND && segmentCoordinbtesArrby[0] > LOWER_BND &&
+                            segmentCoordinbtesArrby[1] < UPPER_BND && segmentCoordinbtesArrby[1] > LOWER_BND &&
+                            segmentCoordinbtesArrby[2] < UPPER_BND && segmentCoordinbtesArrby[2] > LOWER_BND &&
+                            segmentCoordinbtesArrby[3] < UPPER_BND && segmentCoordinbtesArrby[3] > LOWER_BND) {
+                        coordinbtes.put(segmentCoordinbtesArrby[0]);
+                        coordinbtes.put(segmentCoordinbtesArrby[1]);
+                        coordinbtes.put(segmentCoordinbtesArrby[2]);
+                        coordinbtes.put(segmentCoordinbtesArrby[3]);
                     } else {
                         skip = true;
                     }
-                    break;
-                case PathIterator.SEG_CUBICTO:
-                    // System.err.println(" SEG_QUADTO ("+segmentCoordinatesArray[0]+", "+segmentCoordinatesArray[1]+"), ("+segmentCoordinatesArray[2]+", "+segmentCoordinatesArray[3]+"), ("+segmentCoordinatesArray[4]+", "+segmentCoordinatesArray[5]+")");
-                    if (segmentCoordinatesArray[0] < UPPER_BND && segmentCoordinatesArray[0] > LOWER_BND &&
-                            segmentCoordinatesArray[1] < UPPER_BND && segmentCoordinatesArray[1] > LOWER_BND &&
-                            segmentCoordinatesArray[2] < UPPER_BND && segmentCoordinatesArray[2] > LOWER_BND &&
-                            segmentCoordinatesArray[3] < UPPER_BND && segmentCoordinatesArray[3] > LOWER_BND &&
-                            segmentCoordinatesArray[4] < UPPER_BND && segmentCoordinatesArray[4] > LOWER_BND &&
-                            segmentCoordinatesArray[5] < UPPER_BND && segmentCoordinatesArray[5] > LOWER_BND) {
-                        coordinates.put(segmentCoordinatesArray[0]);
-                        coordinates.put(segmentCoordinatesArray[1]);
-                        coordinates.put(segmentCoordinatesArray[2]);
-                        coordinates.put(segmentCoordinatesArray[3]);
-                        coordinates.put(segmentCoordinatesArray[4]);
-                        coordinates.put(segmentCoordinatesArray[5]);
+                    brebk;
+                cbse PbthIterbtor.SEG_CUBICTO:
+                    // System.err.println(" SEG_QUADTO ("+segmentCoordinbtesArrby[0]+", "+segmentCoordinbtesArrby[1]+"), ("+segmentCoordinbtesArrby[2]+", "+segmentCoordinbtesArrby[3]+"), ("+segmentCoordinbtesArrby[4]+", "+segmentCoordinbtesArrby[5]+")");
+                    if (segmentCoordinbtesArrby[0] < UPPER_BND && segmentCoordinbtesArrby[0] > LOWER_BND &&
+                            segmentCoordinbtesArrby[1] < UPPER_BND && segmentCoordinbtesArrby[1] > LOWER_BND &&
+                            segmentCoordinbtesArrby[2] < UPPER_BND && segmentCoordinbtesArrby[2] > LOWER_BND &&
+                            segmentCoordinbtesArrby[3] < UPPER_BND && segmentCoordinbtesArrby[3] > LOWER_BND &&
+                            segmentCoordinbtesArrby[4] < UPPER_BND && segmentCoordinbtesArrby[4] > LOWER_BND &&
+                            segmentCoordinbtesArrby[5] < UPPER_BND && segmentCoordinbtesArrby[5] > LOWER_BND) {
+                        coordinbtes.put(segmentCoordinbtesArrby[0]);
+                        coordinbtes.put(segmentCoordinbtesArrby[1]);
+                        coordinbtes.put(segmentCoordinbtesArrby[2]);
+                        coordinbtes.put(segmentCoordinbtesArrby[3]);
+                        coordinbtes.put(segmentCoordinbtesArrby[4]);
+                        coordinbtes.put(segmentCoordinbtesArrby[5]);
                     } else {
                         skip = true;
                     }
-                    break;
-                case PathIterator.SEG_CLOSE:
+                    brebk;
+                cbse PbthIterbtor.SEG_CLOSE:
                     // System.err.println(" SEG_CLOSE");
-                    break;
+                    brebk;
             }
 
             if (!skip) {
@@ -904,168 +904,168 @@ public abstract class OSXSurfaceData extends BufImgSurfaceData {
         return pi.getWindingRule();
     }
 
-    public void doLine(CRenderer renderer, SunGraphics2D sg2d, float x1, float y1, float x2, float y2) {
-        // System.err.println("-- doLine x1="+x1+" y1="+y1+" x2="+x2+" y2="+y2+" paint="+sg2d.paint);
-        setupGraphicsState(sg2d, kLine, sg2d.font, 0, 0, fBounds.width, fBounds.height);
+    public void doLine(CRenderer renderer, SunGrbphics2D sg2d, flobt x1, flobt y1, flobt x2, flobt y2) {
+        // System.err.println("-- doLine x1="+x1+" y1="+y1+" x2="+x2+" y2="+y2+" pbint="+sg2d.pbint);
+        setupGrbphicsStbte(sg2d, kLine, sg2d.font, 0, 0, fBounds.width, fBounds.height);
         renderer.doLine(this, x1, y1, x2, y2);
     }
 
-    public void doRect(CRenderer renderer, SunGraphics2D sg2d, float x, float y, float width, float height, boolean isfill) {
-        // System.err.println("-- doRect x="+x+" y="+y+" w="+width+" h="+height+" isfill="+isfill+" paint="+sg2d.paint);
-        if ((isfill) && (isCustomPaint(sg2d))) {
-            setupGraphicsState(sg2d, kRect, (int) x, (int) y, (int) width, (int) height);
+    public void doRect(CRenderer renderer, SunGrbphics2D sg2d, flobt x, flobt y, flobt width, flobt height, boolebn isfill) {
+        // System.err.println("-- doRect x="+x+" y="+y+" w="+width+" h="+height+" isfill="+isfill+" pbint="+sg2d.pbint);
+        if ((isfill) && (isCustomPbint(sg2d))) {
+            setupGrbphicsStbte(sg2d, kRect, (int) x, (int) y, (int) width, (int) height);
         } else {
-            setupGraphicsState(sg2d, kRect, sg2d.font, 0, 0, fBounds.width, fBounds.height);
+            setupGrbphicsStbte(sg2d, kRect, sg2d.font, 0, 0, fBounds.width, fBounds.height);
         }
         renderer.doRect(this, x, y, width, height, isfill);
     }
 
-    public void doRoundRect(CRenderer renderer, SunGraphics2D sg2d, float x, float y, float width, float height, float arcW, float arcH, boolean isfill) {
+    public void doRoundRect(CRenderer renderer, SunGrbphics2D sg2d, flobt x, flobt y, flobt width, flobt height, flobt brcW, flobt brcH, boolebn isfill) {
         // System.err.println("--- doRoundRect");
-        if ((isfill) && (isCustomPaint(sg2d))) {
-            setupGraphicsState(sg2d, kRoundRect, (int) x, (int) y, (int) width, (int) height);
+        if ((isfill) && (isCustomPbint(sg2d))) {
+            setupGrbphicsStbte(sg2d, kRoundRect, (int) x, (int) y, (int) width, (int) height);
         } else {
-            setupGraphicsState(sg2d, kRoundRect, sg2d.font, 0, 0, fBounds.width, fBounds.height);
+            setupGrbphicsStbte(sg2d, kRoundRect, sg2d.font, 0, 0, fBounds.width, fBounds.height);
         }
-        renderer.doRoundRect(this, x, y, width, height, arcW, arcH, isfill);
+        renderer.doRoundRect(this, x, y, width, height, brcW, brcH, isfill);
     }
 
-    public void doOval(CRenderer renderer, SunGraphics2D sg2d, float x, float y, float width, float height, boolean isfill) {
-        // System.err.println("--- doOval");
-        if ((isfill) && (isCustomPaint(sg2d))) {
-            setupGraphicsState(sg2d, kOval, (int) x, (int) y, (int) width, (int) height);
+    public void doOvbl(CRenderer renderer, SunGrbphics2D sg2d, flobt x, flobt y, flobt width, flobt height, boolebn isfill) {
+        // System.err.println("--- doOvbl");
+        if ((isfill) && (isCustomPbint(sg2d))) {
+            setupGrbphicsStbte(sg2d, kOvbl, (int) x, (int) y, (int) width, (int) height);
         } else {
-            setupGraphicsState(sg2d, kOval, sg2d.font, 0, 0, fBounds.width, fBounds.height);
+            setupGrbphicsStbte(sg2d, kOvbl, sg2d.font, 0, 0, fBounds.width, fBounds.height);
         }
-        renderer.doOval(this, x, y, width, height, isfill);
+        renderer.doOvbl(this, x, y, width, height, isfill);
     }
 
-    public void doArc(CRenderer renderer, SunGraphics2D sg2d, float x, float y, float width, float height, float startAngle, float arcAngle, int type, boolean isfill) {
+    public void doArc(CRenderer renderer, SunGrbphics2D sg2d, flobt x, flobt y, flobt width, flobt height, flobt stbrtAngle, flobt brcAngle, int type, boolebn isfill) {
         // System.err.println("--- doArc");
-        if ((isfill) && (isCustomPaint(sg2d))) {
-            setupGraphicsState(sg2d, kArc, (int) x, (int) y, (int) width, (int) height);
+        if ((isfill) && (isCustomPbint(sg2d))) {
+            setupGrbphicsStbte(sg2d, kArc, (int) x, (int) y, (int) width, (int) height);
         } else {
-            setupGraphicsState(sg2d, kArc, sg2d.font, 0, 0, fBounds.width, fBounds.height);
+            setupGrbphicsStbte(sg2d, kArc, sg2d.font, 0, 0, fBounds.width, fBounds.height);
         }
 
-        renderer.doArc(this, x, y, width, height, startAngle, arcAngle, type, isfill);
+        renderer.doArc(this, x, y, width, height, stbrtAngle, brcAngle, type, isfill);
     }
 
-    public void doPolygon(CRenderer renderer, SunGraphics2D sg2d, int xpoints[], int ypoints[], int npoints, boolean ispolygon, boolean isfill) {
+    public void doPolygon(CRenderer renderer, SunGrbphics2D sg2d, int xpoints[], int ypoints[], int npoints, boolebn ispolygon, boolebn isfill) {
         // System.err.println("--- doPolygon");
 
-        if ((isfill) && (isCustomPaint(sg2d))) {
+        if ((isfill) && (isCustomPbint(sg2d))) {
             int minx = xpoints[0];
             int miny = ypoints[0];
-            int maxx = minx;
-            int maxy = miny;
+            int mbxx = minx;
+            int mbxy = miny;
             for (int i = 1; i < npoints; i++) {
                 int x = xpoints[i];
                 if (x < minx) {
                     minx = x;
-                } else if (x > maxx) {
-                    maxx = x;
+                } else if (x > mbxx) {
+                    mbxx = x;
                 }
 
                 int y = ypoints[i];
                 if (y < miny) {
                     miny = y;
-                } else if (y > maxy) {
-                    maxy = y;
+                } else if (y > mbxy) {
+                    mbxy = y;
                 }
             }
-            setupGraphicsState(sg2d, kPolygon, minx, miny, maxx - minx, maxy - miny);
+            setupGrbphicsStbte(sg2d, kPolygon, minx, miny, mbxx - minx, mbxy - miny);
         } else {
-            setupGraphicsState(sg2d, kPolygon, sg2d.font, 0, 0, fBounds.width, fBounds.height);
+            setupGrbphicsStbte(sg2d, kPolygon, sg2d.font, 0, 0, fBounds.width, fBounds.height);
         }
         renderer.doPoly(this, xpoints, ypoints, npoints, ispolygon, isfill);
     }
 
-    FloatBuffer shapeCoordinatesArray = null;
-    IntBuffer shapeTypesArray = null;
+    FlobtBuffer shbpeCoordinbtesArrby = null;
+    IntBuffer shbpeTypesArrby = null;
 
-    public void drawfillShape(CRenderer renderer, SunGraphics2D sg2d, GeneralPath gp, boolean isfill, boolean shouldApplyOffset) {
-        // System.err.println("--- drawfillShape");
+    public void drbwfillShbpe(CRenderer renderer, SunGrbphics2D sg2d, GenerblPbth gp, boolebn isfill, boolebn shouldApplyOffset) {
+        // System.err.println("--- drbwfillShbpe");
 
-        if ((isfill) && (isCustomPaint(sg2d))) {
-            Rectangle bounds = gp.getBounds();
-            setupGraphicsState(sg2d, kShape, bounds.x, bounds.y, bounds.width, bounds.height);
+        if ((isfill) && (isCustomPbint(sg2d))) {
+            Rectbngle bounds = gp.getBounds();
+            setupGrbphicsStbte(sg2d, kShbpe, bounds.x, bounds.y, bounds.width, bounds.height);
         } else {
-            setupGraphicsState(sg2d, kShape, sg2d.font, 0, 0, fBounds.width, fBounds.height);
+            setupGrbphicsStbte(sg2d, kShbpe, sg2d.font, 0, 0, fBounds.width, fBounds.height);
         }
 
-        int shapeLength = getPathLength(gp);
+        int shbpeLength = getPbthLength(gp);
 
-        if ((shapeCoordinatesArray == null) || (shapeCoordinatesArray.capacity() < (shapeLength * 6))) {
-            shapeCoordinatesArray = getBufferOfSize(shapeLength * 6).asFloatBuffer(); // segment can have a max of 6
-                                                                                      // coordinates
+        if ((shbpeCoordinbtesArrby == null) || (shbpeCoordinbtesArrby.cbpbcity() < (shbpeLength * 6))) {
+            shbpeCoordinbtesArrby = getBufferOfSize(shbpeLength * 6).bsFlobtBuffer(); // segment cbn hbve b mbx of 6
+                                                                                      // coordinbtes
         }
-        if ((shapeTypesArray == null) || (shapeTypesArray.capacity() < shapeLength)) {
-            shapeTypesArray = getBufferOfSize(shapeLength).asIntBuffer();
+        if ((shbpeTypesArrby == null) || (shbpeTypesArrby.cbpbcity() < shbpeLength)) {
+            shbpeTypesArrby = getBufferOfSize(shbpeLength).bsIntBuffer();
         }
 
-        int windingRule = getPathCoordinates(gp, shapeCoordinatesArray, shapeTypesArray);
+        int windingRule = getPbthCoordinbtes(gp, shbpeCoordinbtesArrby, shbpeTypesArrby);
 
-        renderer.doShape(this, shapeLength, shapeCoordinatesArray, shapeTypesArray, windingRule, isfill, shouldApplyOffset);
+        renderer.doShbpe(this, shbpeLength, shbpeCoordinbtesArrby, shbpeTypesArrby, windingRule, isfill, shouldApplyOffset);
     }
 
-    public void blitImage(CRenderer renderer, SunGraphics2D sg2d, SurfaceData img, boolean fliph, boolean flipv, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh, Color bgColor) {
-        // System.err.println("--- blitImage sx="+sx+", sy="+sy+", sw="+sw+", sh="+sh+", img="+img);
-        OSXOffScreenSurfaceData osxsd = (OSXOffScreenSurfaceData) img;
+    public void blitImbge(CRenderer renderer, SunGrbphics2D sg2d, SurfbceDbtb img, boolebn fliph, boolebn flipv, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh, Color bgColor) {
+        // System.err.println("--- blitImbge sx="+sx+", sy="+sy+", sw="+sw+", sh="+sh+", img="+img);
+        OSXOffScreenSurfbceDbtb osxsd = (OSXOffScreenSurfbceDbtb) img;
         synchronized (osxsd.getLockObject()) {
             int w = osxsd.bim.getWidth();
             int h = osxsd.bim.getHeight();
 
-            // the image itself can have outstanding graphics primitives that might need to be flushed
-            setupGraphicsState(sg2d, kImage, sg2d.font, 0, 0, fBounds.width, fBounds.height);
+            // the imbge itself cbn hbve outstbnding grbphics primitives thbt might need to be flushed
+            setupGrbphicsStbte(sg2d, kImbge, sg2d.font, 0, 0, fBounds.width, fBounds.height);
 
-            // 04/06/04 cmc: radr://3612381 Graphics.drawImage ignores bgcolor parameter
+            // 04/06/04 cmc: rbdr://3612381 Grbphics.drbwImbge ignores bgcolor pbrbmeter
             if (bgColor != null) {
                 img = osxsd.getCopyWithBgColor(bgColor);
             }
 
-            renderer.doImage(this, img, fliph, flipv, w, h, sx, sy, sw, sh, dx, dy, dw, dh);
+            renderer.doImbge(this, img, fliph, flipv, w, h, sx, sy, sw, sh, dx, dy, dw, dh);
         }
     }
 
-    public interface CGContextDrawable {
-        public void drawIntoCGContext(final long cgContext);
+    public interfbce CGContextDrbwbble {
+        public void drbwIntoCGContext(finbl long cgContext);
     }
 
-    public void drawString(CTextPipe renderer, SunGraphics2D sg2d, long nativeStrikePtr, String str, double x, double y) {
-        // System.err.println("--- drawString str=\""+str+"\"");
-        // see <rdar://problem/3825795>. We don't want to call anything if the string is empty!
+    public void drbwString(CTextPipe renderer, SunGrbphics2D sg2d, long nbtiveStrikePtr, String str, double x, double y) {
+        // System.err.println("--- drbwString str=\""+str+"\"");
+        // see <rdbr://problem/3825795>. We don't wbnt to cbll bnything if the string is empty!
         if (str.length() == 0) { return; }
 
-        setupGraphicsState(sg2d, kString, sg2d.font, 0, 0, fBounds.width, fBounds.height);
-        renderer.doDrawString(this, nativeStrikePtr, str, x, y);
+        setupGrbphicsStbte(sg2d, kString, sg2d.font, 0, 0, fBounds.width, fBounds.height);
+        renderer.doDrbwString(this, nbtiveStrikePtr, str, x, y);
     }
 
-    public void drawGlyphs(CTextPipe renderer, SunGraphics2D sg2d, long nativeStrikePtr, GlyphVector gv, float x, float y) {
-        // System.err.println("--- drawGlyphs");
-        setupGraphicsState(sg2d, kGlyphs, gv.getFont(), 0, 0, fBounds.width, fBounds.height);
-        renderer.doDrawGlyphs(this, nativeStrikePtr, gv, x, y);
+    public void drbwGlyphs(CTextPipe renderer, SunGrbphics2D sg2d, long nbtiveStrikePtr, GlyphVector gv, flobt x, flobt y) {
+        // System.err.println("--- drbwGlyphs");
+        setupGrbphicsStbte(sg2d, kGlyphs, gv.getFont(), 0, 0, fBounds.width, fBounds.height);
+        renderer.doDrbwGlyphs(this, nbtiveStrikePtr, gv, x, y);
     }
 
-    public void drawUnicodes(CTextPipe renderer, SunGraphics2D sg2d, long nativeStrikePtr, char unicodes[], int offset, int length, float x, float y) {
-        // System.err.println("--- drawUnicodes "+(new String(unicodes, offset, length)));
-        setupGraphicsState(sg2d, kUnicodes, sg2d.font, 0, 0, fBounds.width, fBounds.height);
+    public void drbwUnicodes(CTextPipe renderer, SunGrbphics2D sg2d, long nbtiveStrikePtr, chbr unicodes[], int offset, int length, flobt x, flobt y) {
+        // System.err.println("--- drbwUnicodes "+(new String(unicodes, offset, length)));
+        setupGrbphicsStbte(sg2d, kUnicodes, sg2d.font, 0, 0, fBounds.width, fBounds.height);
         if (length == 1) {
-            renderer.doOneUnicode(this, nativeStrikePtr, unicodes[offset], x, y);
+            renderer.doOneUnicode(this, nbtiveStrikePtr, unicodes[offset], x, y);
         } else {
-            renderer.doUnicodes(this, nativeStrikePtr, unicodes, offset, length, x, y);
+            renderer.doUnicodes(this, nbtiveStrikePtr, unicodes, offset, length, x, y);
         }
     }
 
-    // used by copyArea:
+    // used by copyAreb:
 
-    Rectangle srcCopyAreaRect = new Rectangle();
-    Rectangle dstCopyAreaRect = new Rectangle();
-    Rectangle finalCopyAreaRect = new Rectangle();
-    Rectangle copyAreaBounds = new Rectangle();
+    Rectbngle srcCopyArebRect = new Rectbngle();
+    Rectbngle dstCopyArebRect = new Rectbngle();
+    Rectbngle finblCopyArebRect = new Rectbngle();
+    Rectbngle copyArebBounds = new Rectbngle();
 
-    void intersection(Rectangle r1, Rectangle r2, Rectangle r3) {
-        // this code is taken from Rectangle.java (modified to put results in r3)
+    void intersection(Rectbngle r1, Rectbngle r2, Rectbngle r3) {
+        // this code is tbken from Rectbngle.jbvb (modified to put results in r3)
         int tx1 = r1.x;
         int ty1 = r1.y;
         long tx2 = tx1 + r1.width;
@@ -1085,7 +1085,7 @@ public abstract class OSXSurfaceData extends BufImgSurfaceData {
         ty2 -= ty1;
 
         // tx2,ty2 will never overflow (they will never be
-        // larger than the smallest of the two source w,h)
+        // lbrger thbn the smbllest of the two source w,h)
         // they might underflow, though...
         if (tx2 < Integer.MIN_VALUE) tx2 = Integer.MIN_VALUE;
         if (ty2 < Integer.MIN_VALUE) ty2 = Integer.MIN_VALUE;
@@ -1094,74 +1094,74 @@ public abstract class OSXSurfaceData extends BufImgSurfaceData {
     }
 
     /**
-     * Clips the copy area to the heavywieght bounds and returns the cliped rectangle. The tricky part here is the the
-     * passed arguments x, y are in the coordinate space of the sg2d/lightweight comp. In order to do the clipping we
-     * translate them to the coordinate space of the surface, and the returned clipped rectangle is in the coordinate
-     * space of the surface.
+     * Clips the copy breb to the hebvywieght bounds bnd returns the cliped rectbngle. The tricky pbrt here is the the
+     * pbssed brguments x, y bre in the coordinbte spbce of the sg2d/lightweight comp. In order to do the clipping we
+     * trbnslbte them to the coordinbte spbce of the surfbce, bnd the returned clipped rectbngle is in the coordinbte
+     * spbce of the surfbce.
      */
-    protected Rectangle clipCopyArea(SunGraphics2D sg2d, int x, int y, int w, int h, int dx, int dy) {
-        // we need to clip against the heavyweight bounds
-        copyAreaBounds.setBounds(sg2d.devClip.getLoX(), sg2d.devClip.getLoY(), sg2d.devClip.getWidth(), sg2d.devClip.getHeight());
+    protected Rectbngle clipCopyAreb(SunGrbphics2D sg2d, int x, int y, int w, int h, int dx, int dy) {
+        // we need to clip bgbinst the hebvyweight bounds
+        copyArebBounds.setBounds(sg2d.devClip.getLoX(), sg2d.devClip.getLoY(), sg2d.devClip.getWidth(), sg2d.devClip.getHeight());
 
-        // put src rect into surface coordinate space
-        x += sg2d.transX;
-        y += sg2d.transY;
+        // put src rect into surfbce coordinbte spbce
+        x += sg2d.trbnsX;
+        y += sg2d.trbnsY;
 
         // clip src rect
-        srcCopyAreaRect.setBounds(x, y, w, h);
-        intersection(srcCopyAreaRect, copyAreaBounds, srcCopyAreaRect);
-        if ((srcCopyAreaRect.width <= 0) || (srcCopyAreaRect.height <= 0)) {
+        srcCopyArebRect.setBounds(x, y, w, h);
+        intersection(srcCopyArebRect, copyArebBounds, srcCopyArebRect);
+        if ((srcCopyArebRect.width <= 0) || (srcCopyArebRect.height <= 0)) {
             // src rect outside bounds
             return null;
         }
 
         // clip dst rect
-        dstCopyAreaRect.setBounds(srcCopyAreaRect.x + dx, srcCopyAreaRect.y + dy, srcCopyAreaRect.width, srcCopyAreaRect.height);
-        intersection(dstCopyAreaRect, copyAreaBounds, dstCopyAreaRect);
-        if ((dstCopyAreaRect.width <= 0) || (dstCopyAreaRect.height <= 0)) {
+        dstCopyArebRect.setBounds(srcCopyArebRect.x + dx, srcCopyArebRect.y + dy, srcCopyArebRect.width, srcCopyArebRect.height);
+        intersection(dstCopyArebRect, copyArebBounds, dstCopyArebRect);
+        if ((dstCopyArebRect.width <= 0) || (dstCopyArebRect.height <= 0)) {
             // dst rect outside clip
             return null;
         }
 
-        x = dstCopyAreaRect.x - dx;
-        y = dstCopyAreaRect.y - dy;
-        w = dstCopyAreaRect.width;
-        h = dstCopyAreaRect.height;
+        x = dstCopyArebRect.x - dx;
+        y = dstCopyArebRect.y - dy;
+        w = dstCopyArebRect.width;
+        h = dstCopyArebRect.height;
 
-        finalCopyAreaRect.setBounds(x, y, w, h);
+        finblCopyArebRect.setBounds(x, y, w, h);
 
-        return finalCopyAreaRect;
+        return finblCopyArebRect;
     }
 
-    // <rdar://3785539> We only need to mark dirty on screen surfaces. This method is
-    // marked as protected and it is intended for subclasses to override if they need to
-    // be notified when the surface is dirtied. See CPeerSurfaceData.markDirty() for implementation.
-    // We don't do anything for buffered images.
-    protected void markDirty(boolean markAsDirty) {
-        // do nothing by default
+    // <rdbr://3785539> We only need to mbrk dirty on screen surfbces. This method is
+    // mbrked bs protected bnd it is intended for subclbsses to override if they need to
+    // be notified when the surfbce is dirtied. See CPeerSurfbceDbtb.mbrkDirty() for implementbtion.
+    // We don't do bnything for buffered imbges.
+    protected void mbrkDirty(boolebn mbrkAsDirty) {
+        // do nothing by defbult
     }
 
-    // LazyDrawing optimization implementation:
+    // LbzyDrbwing optimizbtion implementbtion:
 
     @Override
-    public boolean canRenderLCDText(SunGraphics2D sg2d) {
-        if (sg2d.compositeState <= SunGraphics2D.COMP_ISCOPY &&
-                sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR &&
-                sg2d.clipState <= SunGraphics2D.CLIP_RECTANGULAR &&
-                // sg2d.surfaceData.getTransparency() == Transparency.OPAQUE &&
-                // This last test is a workaround until we fix loop selection
-                // in the pipe validation
-                sg2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_ON) { return true; }
-        return false; /* for now - in the future we may want to search */
+    public boolebn cbnRenderLCDText(SunGrbphics2D sg2d) {
+        if (sg2d.compositeStbte <= SunGrbphics2D.COMP_ISCOPY &&
+                sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR &&
+                sg2d.clipStbte <= SunGrbphics2D.CLIP_RECTANGULAR &&
+                // sg2d.surfbceDbtb.getTrbnspbrency() == Trbnspbrency.OPAQUE &&
+                // This lbst test is b workbround until we fix loop selection
+                // in the pipe vblidbtion
+                sg2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON) { return true; }
+        return fblse; /* for now - in the future we mby wbnt to sebrch */
     }
 
-    public static boolean IsSimpleColor(Object c) {
-        return ((c instanceof Color) || (c instanceof SystemColor) || (c instanceof javax.swing.plaf.ColorUIResource));
+    public stbtic boolebn IsSimpleColor(Object c) {
+        return ((c instbnceof Color) || (c instbnceof SystemColor) || (c instbnceof jbvbx.swing.plbf.ColorUIResource));
     }
 
-    static {
+    stbtic {
         if ((kColorPointerIndex % 2) != 0) {
-            System.err.println("kColorPointerIndex=" + kColorPointerIndex + " is NOT aligned for 64 bit");
+            System.err.println("kColorPointerIndex=" + kColorPointerIndex + " is NOT bligned for 64 bit");
             System.exit(0);
         }
     }

@@ -1,279 +1,279 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.lang.ref.Reference;
-import java.lang.reflect.Method;
-import java.util.Map.Entry;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.Mbp.Entry;
 
-import com.sun.beans.introspect.PropertyInfo;
+import com.sun.bebns.introspect.PropertyInfo;
 
 /**
- * An IndexedPropertyDescriptor describes a property that acts like an
- * array and has an indexed read and/or indexed write method to access
- * specific elements of the array.
+ * An IndexedPropertyDescriptor describes b property thbt bcts like bn
+ * brrby bnd hbs bn indexed rebd bnd/or indexed write method to bccess
+ * specific elements of the brrby.
  * <p>
- * An indexed property may also provide simple non-indexed read and write
- * methods.  If these are present, they read and write arrays of the type
- * returned by the indexed read method.
+ * An indexed property mby blso provide simple non-indexed rebd bnd write
+ * methods.  If these bre present, they rebd bnd write brrbys of the type
+ * returned by the indexed rebd method.
  *
  * @since 1.1
  */
 
-public class IndexedPropertyDescriptor extends PropertyDescriptor {
+public clbss IndexedPropertyDescriptor extends PropertyDescriptor {
 
-    private Reference<? extends Class<?>> indexedPropertyTypeRef;
-    private final MethodRef indexedReadMethodRef = new MethodRef();
-    private final MethodRef indexedWriteMethodRef = new MethodRef();
+    privbte Reference<? extends Clbss<?>> indexedPropertyTypeRef;
+    privbte finbl MethodRef indexedRebdMethodRef = new MethodRef();
+    privbte finbl MethodRef indexedWriteMethodRef = new MethodRef();
 
-    private String indexedReadMethodName;
-    private String indexedWriteMethodName;
+    privbte String indexedRebdMethodNbme;
+    privbte String indexedWriteMethodNbme;
 
     /**
-     * This constructor constructs an IndexedPropertyDescriptor for a property
-     * that follows the standard Java conventions by having getFoo and setFoo
-     * accessor methods, for both indexed access and array access.
+     * This constructor constructs bn IndexedPropertyDescriptor for b property
+     * thbt follows the stbndbrd Jbvb conventions by hbving getFoo bnd setFoo
+     * bccessor methods, for both indexed bccess bnd brrby bccess.
      * <p>
-     * Thus if the argument name is "fred", it will assume that there
-     * is an indexed reader method "getFred", a non-indexed (array) reader
-     * method also called "getFred", an indexed writer method "setFred",
-     * and finally a non-indexed writer method "setFred".
+     * Thus if the brgument nbme is "fred", it will bssume thbt there
+     * is bn indexed rebder method "getFred", b non-indexed (brrby) rebder
+     * method blso cblled "getFred", bn indexed writer method "setFred",
+     * bnd finblly b non-indexed writer method "setFred".
      *
-     * @param propertyName The programmatic name of the property.
-     * @param beanClass The Class object for the target bean.
-     * @exception IntrospectionException if an exception occurs during
+     * @pbrbm propertyNbme The progrbmmbtic nbme of the property.
+     * @pbrbm bebnClbss The Clbss object for the tbrget bebn.
+     * @exception IntrospectionException if bn exception occurs during
      *              introspection.
      */
-    public IndexedPropertyDescriptor(String propertyName, Class<?> beanClass)
+    public IndexedPropertyDescriptor(String propertyNbme, Clbss<?> bebnClbss)
                 throws IntrospectionException {
-        this(propertyName, beanClass,
-             Introspector.GET_PREFIX + NameGenerator.capitalize(propertyName),
-             Introspector.SET_PREFIX + NameGenerator.capitalize(propertyName),
-             Introspector.GET_PREFIX + NameGenerator.capitalize(propertyName),
-             Introspector.SET_PREFIX + NameGenerator.capitalize(propertyName));
+        this(propertyNbme, bebnClbss,
+             Introspector.GET_PREFIX + NbmeGenerbtor.cbpitblize(propertyNbme),
+             Introspector.SET_PREFIX + NbmeGenerbtor.cbpitblize(propertyNbme),
+             Introspector.GET_PREFIX + NbmeGenerbtor.cbpitblize(propertyNbme),
+             Introspector.SET_PREFIX + NbmeGenerbtor.cbpitblize(propertyNbme));
     }
 
     /**
-     * This constructor takes the name of a simple property, and method
-     * names for reading and writing the property, both indexed
-     * and non-indexed.
+     * This constructor tbkes the nbme of b simple property, bnd method
+     * nbmes for rebding bnd writing the property, both indexed
+     * bnd non-indexed.
      *
-     * @param propertyName The programmatic name of the property.
-     * @param beanClass  The Class object for the target bean.
-     * @param readMethodName The name of the method used for reading the property
-     *           values as an array.  May be null if the property is write-only
+     * @pbrbm propertyNbme The progrbmmbtic nbme of the property.
+     * @pbrbm bebnClbss  The Clbss object for the tbrget bebn.
+     * @pbrbm rebdMethodNbme The nbme of the method used for rebding the property
+     *           vblues bs bn brrby.  Mby be null if the property is write-only
      *           or must be indexed.
-     * @param writeMethodName The name of the method used for writing the property
-     *           values as an array.  May be null if the property is read-only
+     * @pbrbm writeMethodNbme The nbme of the method used for writing the property
+     *           vblues bs bn brrby.  Mby be null if the property is rebd-only
      *           or must be indexed.
-     * @param indexedReadMethodName The name of the method used for reading
-     *          an indexed property value.
-     *          May be null if the property is write-only.
-     * @param indexedWriteMethodName The name of the method used for writing
-     *          an indexed property value.
-     *          May be null if the property is read-only.
-     * @exception IntrospectionException if an exception occurs during
+     * @pbrbm indexedRebdMethodNbme The nbme of the method used for rebding
+     *          bn indexed property vblue.
+     *          Mby be null if the property is write-only.
+     * @pbrbm indexedWriteMethodNbme The nbme of the method used for writing
+     *          bn indexed property vblue.
+     *          Mby be null if the property is rebd-only.
+     * @exception IntrospectionException if bn exception occurs during
      *              introspection.
      */
-    public IndexedPropertyDescriptor(String propertyName, Class<?> beanClass,
-                String readMethodName, String writeMethodName,
-                String indexedReadMethodName, String indexedWriteMethodName)
+    public IndexedPropertyDescriptor(String propertyNbme, Clbss<?> bebnClbss,
+                String rebdMethodNbme, String writeMethodNbme,
+                String indexedRebdMethodNbme, String indexedWriteMethodNbme)
                 throws IntrospectionException {
-        super(propertyName, beanClass, readMethodName, writeMethodName);
+        super(propertyNbme, bebnClbss, rebdMethodNbme, writeMethodNbme);
 
-        this.indexedReadMethodName = indexedReadMethodName;
-        if (indexedReadMethodName != null && getIndexedReadMethod() == null) {
-            throw new IntrospectionException("Method not found: " + indexedReadMethodName);
+        this.indexedRebdMethodNbme = indexedRebdMethodNbme;
+        if (indexedRebdMethodNbme != null && getIndexedRebdMethod() == null) {
+            throw new IntrospectionException("Method not found: " + indexedRebdMethodNbme);
         }
 
-        this.indexedWriteMethodName = indexedWriteMethodName;
-        if (indexedWriteMethodName != null && getIndexedWriteMethod() == null) {
-            throw new IntrospectionException("Method not found: " + indexedWriteMethodName);
+        this.indexedWriteMethodNbme = indexedWriteMethodNbme;
+        if (indexedWriteMethodNbme != null && getIndexedWriteMethod() == null) {
+            throw new IntrospectionException("Method not found: " + indexedWriteMethodNbme);
         }
         // Implemented only for type checking.
-        findIndexedPropertyType(getIndexedReadMethod(), getIndexedWriteMethod());
+        findIndexedPropertyType(getIndexedRebdMethod(), getIndexedWriteMethod());
     }
 
     /**
-     * This constructor takes the name of a simple property, and Method
-     * objects for reading and writing the property.
+     * This constructor tbkes the nbme of b simple property, bnd Method
+     * objects for rebding bnd writing the property.
      *
-     * @param propertyName The programmatic name of the property.
-     * @param readMethod The method used for reading the property values as an array.
-     *          May be null if the property is write-only or must be indexed.
-     * @param writeMethod The method used for writing the property values as an array.
-     *          May be null if the property is read-only or must be indexed.
-     * @param indexedReadMethod The method used for reading an indexed property value.
-     *          May be null if the property is write-only.
-     * @param indexedWriteMethod The method used for writing an indexed property value.
-     *          May be null if the property is read-only.
-     * @exception IntrospectionException if an exception occurs during
+     * @pbrbm propertyNbme The progrbmmbtic nbme of the property.
+     * @pbrbm rebdMethod The method used for rebding the property vblues bs bn brrby.
+     *          Mby be null if the property is write-only or must be indexed.
+     * @pbrbm writeMethod The method used for writing the property vblues bs bn brrby.
+     *          Mby be null if the property is rebd-only or must be indexed.
+     * @pbrbm indexedRebdMethod The method used for rebding bn indexed property vblue.
+     *          Mby be null if the property is write-only.
+     * @pbrbm indexedWriteMethod The method used for writing bn indexed property vblue.
+     *          Mby be null if the property is rebd-only.
+     * @exception IntrospectionException if bn exception occurs during
      *              introspection.
      */
-    public IndexedPropertyDescriptor(String propertyName, Method readMethod, Method writeMethod,
-                                            Method indexedReadMethod, Method indexedWriteMethod)
+    public IndexedPropertyDescriptor(String propertyNbme, Method rebdMethod, Method writeMethod,
+                                            Method indexedRebdMethod, Method indexedWriteMethod)
                 throws IntrospectionException {
-        super(propertyName, readMethod, writeMethod);
+        super(propertyNbme, rebdMethod, writeMethod);
 
-        setIndexedReadMethod0(indexedReadMethod);
+        setIndexedRebdMethod0(indexedRebdMethod);
         setIndexedWriteMethod0(indexedWriteMethod);
 
         // Type checking
-        setIndexedPropertyType(findIndexedPropertyType(indexedReadMethod, indexedWriteMethod));
+        setIndexedPropertyType(findIndexedPropertyType(indexedRebdMethod, indexedWriteMethod));
     }
 
     /**
-     * Creates {@code IndexedPropertyDescriptor} from the specified property info.
+     * Crebtes {@code IndexedPropertyDescriptor} from the specified property info.
      *
-     * @param entry  the key-value pair,
-     *               where the {@code key} is the base name of the property (the rest of the method name)
-     *               and the {@code value} is the automatically generated property info
-     * @param bound  the flag indicating whether it is possible to treat this property as a bound property
+     * @pbrbm entry  the key-vblue pbir,
+     *               where the {@code key} is the bbse nbme of the property (the rest of the method nbme)
+     *               bnd the {@code vblue} is the butombticblly generbted property info
+     * @pbrbm bound  the flbg indicbting whether it is possible to trebt this property bs b bound property
      *
      * @since 1.9
      */
-    IndexedPropertyDescriptor(Entry<String,PropertyInfo> entry, boolean bound) {
+    IndexedPropertyDescriptor(Entry<String,PropertyInfo> entry, boolebn bound) {
         super(entry, bound);
-        PropertyInfo info = entry.getValue().getIndexed();
-        setIndexedReadMethod0(info.getReadMethod());
+        PropertyInfo info = entry.getVblue().getIndexed();
+        setIndexedRebdMethod0(info.getRebdMethod());
         setIndexedWriteMethod0(info.getWriteMethod());
         setIndexedPropertyType(info.getPropertyType());
     }
 
     /**
-     * Gets the method that should be used to read an indexed
-     * property value.
+     * Gets the method thbt should be used to rebd bn indexed
+     * property vblue.
      *
-     * @return The method that should be used to read an indexed
-     * property value.
-     * May return null if the property isn't indexed or is write-only.
+     * @return The method thbt should be used to rebd bn indexed
+     * property vblue.
+     * Mby return null if the property isn't indexed or is write-only.
      */
-    public synchronized Method getIndexedReadMethod() {
-        Method indexedReadMethod = this.indexedReadMethodRef.get();
-        if (indexedReadMethod == null) {
-            Class<?> cls = getClass0();
+    public synchronized Method getIndexedRebdMethod() {
+        Method indexedRebdMethod = this.indexedRebdMethodRef.get();
+        if (indexedRebdMethod == null) {
+            Clbss<?> cls = getClbss0();
             if (cls == null ||
-                (indexedReadMethodName == null && !this.indexedReadMethodRef.isSet())) {
-                // the Indexed readMethod was explicitly set to null.
+                (indexedRebdMethodNbme == null && !this.indexedRebdMethodRef.isSet())) {
+                // the Indexed rebdMethod wbs explicitly set to null.
                 return null;
             }
-            String nextMethodName = Introspector.GET_PREFIX + getBaseName();
-            if (indexedReadMethodName == null) {
-                Class<?> type = getIndexedPropertyType0();
-                if (type == boolean.class || type == null) {
-                    indexedReadMethodName = Introspector.IS_PREFIX + getBaseName();
+            String nextMethodNbme = Introspector.GET_PREFIX + getBbseNbme();
+            if (indexedRebdMethodNbme == null) {
+                Clbss<?> type = getIndexedPropertyType0();
+                if (type == boolebn.clbss || type == null) {
+                    indexedRebdMethodNbme = Introspector.IS_PREFIX + getBbseNbme();
                 } else {
-                    indexedReadMethodName = nextMethodName;
+                    indexedRebdMethodNbme = nextMethodNbme;
                 }
             }
 
-            Class<?>[] args = { int.class };
-            indexedReadMethod = Introspector.findMethod(cls, indexedReadMethodName, 1, args);
-            if ((indexedReadMethod == null) && !indexedReadMethodName.equals(nextMethodName)) {
-                // no "is" method, so look for a "get" method.
-                indexedReadMethodName = nextMethodName;
-                indexedReadMethod = Introspector.findMethod(cls, indexedReadMethodName, 1, args);
+            Clbss<?>[] brgs = { int.clbss };
+            indexedRebdMethod = Introspector.findMethod(cls, indexedRebdMethodNbme, 1, brgs);
+            if ((indexedRebdMethod == null) && !indexedRebdMethodNbme.equbls(nextMethodNbme)) {
+                // no "is" method, so look for b "get" method.
+                indexedRebdMethodNbme = nextMethodNbme;
+                indexedRebdMethod = Introspector.findMethod(cls, indexedRebdMethodNbme, 1, brgs);
             }
-            setIndexedReadMethod0(indexedReadMethod);
+            setIndexedRebdMethod0(indexedRebdMethod);
         }
-        return indexedReadMethod;
+        return indexedRebdMethod;
     }
 
     /**
-     * Sets the method that should be used to read an indexed property value.
+     * Sets the method thbt should be used to rebd bn indexed property vblue.
      *
-     * @param readMethod The new indexed read method.
-     * @throws IntrospectionException if an exception occurs during
+     * @pbrbm rebdMethod The new indexed rebd method.
+     * @throws IntrospectionException if bn exception occurs during
      * introspection.
      *
      * @since 1.2
      */
-    public synchronized void setIndexedReadMethod(Method readMethod)
+    public synchronized void setIndexedRebdMethod(Method rebdMethod)
         throws IntrospectionException {
 
-        // the indexed property type is set by the reader.
-        setIndexedPropertyType(findIndexedPropertyType(readMethod,
+        // the indexed property type is set by the rebder.
+        setIndexedPropertyType(findIndexedPropertyType(rebdMethod,
                                                        this.indexedWriteMethodRef.get()));
-        setIndexedReadMethod0(readMethod);
+        setIndexedRebdMethod0(rebdMethod);
     }
 
-    private void setIndexedReadMethod0(Method readMethod) {
-        this.indexedReadMethodRef.set(readMethod);
-        if (readMethod == null) {
-            indexedReadMethodName = null;
+    privbte void setIndexedRebdMethod0(Method rebdMethod) {
+        this.indexedRebdMethodRef.set(rebdMethod);
+        if (rebdMethod == null) {
+            indexedRebdMethodNbme = null;
             return;
         }
-        setClass0(readMethod.getDeclaringClass());
+        setClbss0(rebdMethod.getDeclbringClbss());
 
-        indexedReadMethodName = readMethod.getName();
-        setTransient(readMethod.getAnnotation(Transient.class));
+        indexedRebdMethodNbme = rebdMethod.getNbme();
+        setTrbnsient(rebdMethod.getAnnotbtion(Trbnsient.clbss));
     }
 
 
     /**
-     * Gets the method that should be used to write an indexed property value.
+     * Gets the method thbt should be used to write bn indexed property vblue.
      *
-     * @return The method that should be used to write an indexed
-     * property value.
-     * May return null if the property isn't indexed or is read-only.
+     * @return The method thbt should be used to write bn indexed
+     * property vblue.
+     * Mby return null if the property isn't indexed or is rebd-only.
      */
     public synchronized Method getIndexedWriteMethod() {
         Method indexedWriteMethod = this.indexedWriteMethodRef.get();
         if (indexedWriteMethod == null) {
-            Class<?> cls = getClass0();
+            Clbss<?> cls = getClbss0();
             if (cls == null ||
-                (indexedWriteMethodName == null && !this.indexedWriteMethodRef.isSet())) {
-                // the Indexed writeMethod was explicitly set to null.
+                (indexedWriteMethodNbme == null && !this.indexedWriteMethodRef.isSet())) {
+                // the Indexed writeMethod wbs explicitly set to null.
                 return null;
             }
 
-            // We need the indexed type to ensure that we get the correct method.
-            // Cannot use the getIndexedPropertyType method since that could
-            // result in an infinite loop.
-            Class<?> type = getIndexedPropertyType0();
+            // We need the indexed type to ensure thbt we get the correct method.
+            // Cbnnot use the getIndexedPropertyType method since thbt could
+            // result in bn infinite loop.
+            Clbss<?> type = getIndexedPropertyType0();
             if (type == null) {
                 try {
-                    type = findIndexedPropertyType(getIndexedReadMethod(), null);
+                    type = findIndexedPropertyType(getIndexedRebdMethod(), null);
                     setIndexedPropertyType(type);
-                } catch (IntrospectionException ex) {
-                    // Set iprop type to be the classic type
-                    Class<?> propType = getPropertyType();
-                    if (propType.isArray()) {
+                } cbtch (IntrospectionException ex) {
+                    // Set iprop type to be the clbssic type
+                    Clbss<?> propType = getPropertyType();
+                    if (propType.isArrby()) {
                         type = propType.getComponentType();
                     }
                 }
             }
 
-            if (indexedWriteMethodName == null) {
-                indexedWriteMethodName = Introspector.SET_PREFIX + getBaseName();
+            if (indexedWriteMethodNbme == null) {
+                indexedWriteMethodNbme = Introspector.SET_PREFIX + getBbseNbme();
             }
 
-            Class<?>[] args = (type == null) ? null : new Class<?>[] { int.class, type };
-            indexedWriteMethod = Introspector.findMethod(cls, indexedWriteMethodName, 2, args);
+            Clbss<?>[] brgs = (type == null) ? null : new Clbss<?>[] { int.clbss, type };
+            indexedWriteMethod = Introspector.findMethod(cls, indexedWriteMethodNbme, 2, brgs);
             if (indexedWriteMethod != null) {
-                if (!indexedWriteMethod.getReturnType().equals(void.class)) {
+                if (!indexedWriteMethod.getReturnType().equbls(void.clbss)) {
                     indexedWriteMethod = null;
                 }
             }
@@ -283,10 +283,10 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
     }
 
     /**
-     * Sets the method that should be used to write an indexed property value.
+     * Sets the method thbt should be used to write bn indexed property vblue.
      *
-     * @param writeMethod The new indexed write method.
-     * @throws IntrospectionException if an exception occurs during
+     * @pbrbm writeMethod The new indexed write method.
+     * @throws IntrospectionException if bn exception occurs during
      * introspection.
      *
      * @since 1.2
@@ -294,234 +294,234 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
     public synchronized void setIndexedWriteMethod(Method writeMethod)
         throws IntrospectionException {
 
-        // If the indexed property type has not been set, then set it.
-        Class<?> type = findIndexedPropertyType(getIndexedReadMethod(),
+        // If the indexed property type hbs not been set, then set it.
+        Clbss<?> type = findIndexedPropertyType(getIndexedRebdMethod(),
                                              writeMethod);
         setIndexedPropertyType(type);
         setIndexedWriteMethod0(writeMethod);
     }
 
-    private void setIndexedWriteMethod0(Method writeMethod) {
+    privbte void setIndexedWriteMethod0(Method writeMethod) {
         this.indexedWriteMethodRef.set(writeMethod);
         if (writeMethod == null) {
-            indexedWriteMethodName = null;
+            indexedWriteMethodNbme = null;
             return;
         }
-        setClass0(writeMethod.getDeclaringClass());
+        setClbss0(writeMethod.getDeclbringClbss());
 
-        indexedWriteMethodName = writeMethod.getName();
-        setTransient(writeMethod.getAnnotation(Transient.class));
+        indexedWriteMethodNbme = writeMethod.getNbme();
+        setTrbnsient(writeMethod.getAnnotbtion(Trbnsient.clbss));
     }
 
     /**
-     * Returns the Java type info for the indexed property.
-     * Note that the {@code Class} object may describe
-     * primitive Java types such as {@code int}.
-     * This type is returned by the indexed read method
-     * or is used as the parameter type of the indexed write method.
+     * Returns the Jbvb type info for the indexed property.
+     * Note thbt the {@code Clbss} object mby describe
+     * primitive Jbvb types such bs {@code int}.
+     * This type is returned by the indexed rebd method
+     * or is used bs the pbrbmeter type of the indexed write method.
      *
-     * @return the {@code Class} object that represents the Java type info,
-     *         or {@code null} if the type cannot be determined
+     * @return the {@code Clbss} object thbt represents the Jbvb type info,
+     *         or {@code null} if the type cbnnot be determined
      */
-    public synchronized Class<?> getIndexedPropertyType() {
-        Class<?> type = getIndexedPropertyType0();
+    public synchronized Clbss<?> getIndexedPropertyType() {
+        Clbss<?> type = getIndexedPropertyType0();
         if (type == null) {
             try {
-                type = findIndexedPropertyType(getIndexedReadMethod(),
+                type = findIndexedPropertyType(getIndexedRebdMethod(),
                                                getIndexedWriteMethod());
                 setIndexedPropertyType(type);
-            } catch (IntrospectionException ex) {
-                // fall
+            } cbtch (IntrospectionException ex) {
+                // fbll
             }
         }
         return type;
     }
 
-    // Private methods which set get/set the Reference objects
+    // Privbte methods which set get/set the Reference objects
 
-    private void setIndexedPropertyType(Class<?> type) {
-        this.indexedPropertyTypeRef = getWeakReference(type);
+    privbte void setIndexedPropertyType(Clbss<?> type) {
+        this.indexedPropertyTypeRef = getWebkReference(type);
     }
 
-    private Class<?> getIndexedPropertyType0() {
+    privbte Clbss<?> getIndexedPropertyType0() {
         return (this.indexedPropertyTypeRef != null)
                 ? this.indexedPropertyTypeRef.get()
                 : null;
     }
 
-    private Class<?> findIndexedPropertyType(Method indexedReadMethod,
+    privbte Clbss<?> findIndexedPropertyType(Method indexedRebdMethod,
                                           Method indexedWriteMethod)
         throws IntrospectionException {
-        Class<?> indexedPropertyType = null;
+        Clbss<?> indexedPropertyType = null;
 
-        if (indexedReadMethod != null) {
-            Class<?>[] params = getParameterTypes(getClass0(), indexedReadMethod);
-            if (params.length != 1) {
-                throw new IntrospectionException("bad indexed read method arg count");
+        if (indexedRebdMethod != null) {
+            Clbss<?>[] pbrbms = getPbrbmeterTypes(getClbss0(), indexedRebdMethod);
+            if (pbrbms.length != 1) {
+                throw new IntrospectionException("bbd indexed rebd method brg count");
             }
-            if (params[0] != Integer.TYPE) {
-                throw new IntrospectionException("non int index to indexed read method");
+            if (pbrbms[0] != Integer.TYPE) {
+                throw new IntrospectionException("non int index to indexed rebd method");
             }
-            indexedPropertyType = getReturnType(getClass0(), indexedReadMethod);
+            indexedPropertyType = getReturnType(getClbss0(), indexedRebdMethod);
             if (indexedPropertyType == Void.TYPE) {
-                throw new IntrospectionException("indexed read method returns void");
+                throw new IntrospectionException("indexed rebd method returns void");
             }
         }
         if (indexedWriteMethod != null) {
-            Class<?>[] params = getParameterTypes(getClass0(), indexedWriteMethod);
-            if (params.length != 2) {
-                throw new IntrospectionException("bad indexed write method arg count");
+            Clbss<?>[] pbrbms = getPbrbmeterTypes(getClbss0(), indexedWriteMethod);
+            if (pbrbms.length != 2) {
+                throw new IntrospectionException("bbd indexed write method brg count");
             }
-            if (params[0] != Integer.TYPE) {
+            if (pbrbms[0] != Integer.TYPE) {
                 throw new IntrospectionException("non int index to indexed write method");
             }
-            if (indexedPropertyType == null || params[1].isAssignableFrom(indexedPropertyType)) {
-                indexedPropertyType = params[1];
-            } else if (!indexedPropertyType.isAssignableFrom(params[1])) {
+            if (indexedPropertyType == null || pbrbms[1].isAssignbbleFrom(indexedPropertyType)) {
+                indexedPropertyType = pbrbms[1];
+            } else if (!indexedPropertyType.isAssignbbleFrom(pbrbms[1])) {
                 throw new IntrospectionException(
-                                                 "type mismatch between indexed read and indexed write methods: "
-                                                 + getName());
+                                                 "type mismbtch between indexed rebd bnd indexed write methods: "
+                                                 + getNbme());
             }
         }
-        Class<?> propertyType = getPropertyType();
-        if (propertyType != null && (!propertyType.isArray() ||
+        Clbss<?> propertyType = getPropertyType();
+        if (propertyType != null && (!propertyType.isArrby() ||
                                      propertyType.getComponentType() != indexedPropertyType)) {
-            throw new IntrospectionException("type mismatch between indexed and non-indexed methods: "
-                                             + getName());
+            throw new IntrospectionException("type mismbtch between indexed bnd non-indexed methods: "
+                                             + getNbme());
         }
         return indexedPropertyType;
     }
 
     /**
-     * Compares this <code>PropertyDescriptor</code> against the specified object.
-     * Returns true if the objects are the same. Two <code>PropertyDescriptor</code>s
-     * are the same if the read, write, property types, property editor and
-     * flags  are equivalent.
+     * Compbres this <code>PropertyDescriptor</code> bgbinst the specified object.
+     * Returns true if the objects bre the sbme. Two <code>PropertyDescriptor</code>s
+     * bre the sbme if the rebd, write, property types, property editor bnd
+     * flbgs  bre equivblent.
      *
      * @since 1.4
      */
-    public boolean equals(Object obj) {
-        // Note: This would be identical to PropertyDescriptor but they don't
-        // share the same fields.
+    public boolebn equbls(Object obj) {
+        // Note: This would be identicbl to PropertyDescriptor but they don't
+        // shbre the sbme fields.
         if (this == obj) {
             return true;
         }
 
-        if (obj != null && obj instanceof IndexedPropertyDescriptor) {
+        if (obj != null && obj instbnceof IndexedPropertyDescriptor) {
             IndexedPropertyDescriptor other = (IndexedPropertyDescriptor)obj;
-            Method otherIndexedReadMethod = other.getIndexedReadMethod();
+            Method otherIndexedRebdMethod = other.getIndexedRebdMethod();
             Method otherIndexedWriteMethod = other.getIndexedWriteMethod();
 
-            if (!compareMethods(getIndexedReadMethod(), otherIndexedReadMethod)) {
-                return false;
+            if (!compbreMethods(getIndexedRebdMethod(), otherIndexedRebdMethod)) {
+                return fblse;
             }
 
-            if (!compareMethods(getIndexedWriteMethod(), otherIndexedWriteMethod)) {
-                return false;
+            if (!compbreMethods(getIndexedWriteMethod(), otherIndexedWriteMethod)) {
+                return fblse;
             }
 
             if (getIndexedPropertyType() != other.getIndexedPropertyType()) {
-                return false;
+                return fblse;
             }
-            return super.equals(obj);
+            return super.equbls(obj);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Package-private constructor.
+     * Pbckbge-privbte constructor.
      * Merge two property descriptors.  Where they conflict, give the
-     * second argument (y) priority over the first argumnnt (x).
+     * second brgument (y) priority over the first brgumnnt (x).
      *
-     * @param x  The first (lower priority) PropertyDescriptor
-     * @param y  The second (higher priority) PropertyDescriptor
+     * @pbrbm x  The first (lower priority) PropertyDescriptor
+     * @pbrbm y  The second (higher priority) PropertyDescriptor
      */
 
     IndexedPropertyDescriptor(PropertyDescriptor x, PropertyDescriptor y) {
         super(x,y);
-        if (x instanceof IndexedPropertyDescriptor) {
+        if (x instbnceof IndexedPropertyDescriptor) {
             IndexedPropertyDescriptor ix = (IndexedPropertyDescriptor)x;
             try {
-                Method xr = ix.getIndexedReadMethod();
+                Method xr = ix.getIndexedRebdMethod();
                 if (xr != null) {
-                    setIndexedReadMethod(xr);
+                    setIndexedRebdMethod(xr);
                 }
 
                 Method xw = ix.getIndexedWriteMethod();
                 if (xw != null) {
                     setIndexedWriteMethod(xw);
                 }
-            } catch (IntrospectionException ex) {
-                // Should not happen
+            } cbtch (IntrospectionException ex) {
+                // Should not hbppen
                 throw new AssertionError(ex);
             }
         }
-        if (y instanceof IndexedPropertyDescriptor) {
+        if (y instbnceof IndexedPropertyDescriptor) {
             IndexedPropertyDescriptor iy = (IndexedPropertyDescriptor)y;
             try {
-                Method yr = iy.getIndexedReadMethod();
-                if (yr != null && yr.getDeclaringClass() == getClass0()) {
-                    setIndexedReadMethod(yr);
+                Method yr = iy.getIndexedRebdMethod();
+                if (yr != null && yr.getDeclbringClbss() == getClbss0()) {
+                    setIndexedRebdMethod(yr);
                 }
 
                 Method yw = iy.getIndexedWriteMethod();
-                if (yw != null && yw.getDeclaringClass() == getClass0()) {
+                if (yw != null && yw.getDeclbringClbss() == getClbss0()) {
                     setIndexedWriteMethod(yw);
                 }
-            } catch (IntrospectionException ex) {
-                // Should not happen
+            } cbtch (IntrospectionException ex) {
+                // Should not hbppen
                 throw new AssertionError(ex);
             }
         }
     }
 
     /*
-     * Package-private dup constructor
-     * This must isolate the new object from any changes to the old object.
+     * Pbckbge-privbte dup constructor
+     * This must isolbte the new object from bny chbnges to the old object.
      */
     IndexedPropertyDescriptor(IndexedPropertyDescriptor old) {
         super(old);
-        this.indexedReadMethodRef.set(old.indexedReadMethodRef.get());
+        this.indexedRebdMethodRef.set(old.indexedRebdMethodRef.get());
         this.indexedWriteMethodRef.set(old.indexedWriteMethodRef.get());
         indexedPropertyTypeRef = old.indexedPropertyTypeRef;
-        indexedWriteMethodName = old.indexedWriteMethodName;
-        indexedReadMethodName = old.indexedReadMethodName;
+        indexedWriteMethodNbme = old.indexedWriteMethodNbme;
+        indexedRebdMethodNbme = old.indexedRebdMethodNbme;
     }
 
-    void updateGenericsFor(Class<?> type) {
-        super.updateGenericsFor(type);
+    void updbteGenericsFor(Clbss<?> type) {
+        super.updbteGenericsFor(type);
         try {
-            setIndexedPropertyType(findIndexedPropertyType(this.indexedReadMethodRef.get(), this.indexedWriteMethodRef.get()));
+            setIndexedPropertyType(findIndexedPropertyType(this.indexedRebdMethodRef.get(), this.indexedWriteMethodRef.get()));
         }
-        catch (IntrospectionException exception) {
+        cbtch (IntrospectionException exception) {
             setIndexedPropertyType(null);
         }
     }
 
     /**
-     * Returns a hash code value for the object.
-     * See {@link java.lang.Object#hashCode} for a complete description.
+     * Returns b hbsh code vblue for the object.
+     * See {@link jbvb.lbng.Object#hbshCode} for b complete description.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      * @since 1.5
      */
-    public int hashCode() {
-        int result = super.hashCode();
+    public int hbshCode() {
+        int result = super.hbshCode();
 
-        result = 37 * result + ((indexedWriteMethodName == null) ? 0 :
-                                indexedWriteMethodName.hashCode());
-        result = 37 * result + ((indexedReadMethodName == null) ? 0 :
-                                indexedReadMethodName.hashCode());
+        result = 37 * result + ((indexedWriteMethodNbme == null) ? 0 :
+                                indexedWriteMethodNbme.hbshCode());
+        result = 37 * result + ((indexedRebdMethodNbme == null) ? 0 :
+                                indexedRebdMethodNbme.hbshCode());
         result = 37 * result + ((getIndexedPropertyType() == null) ? 0 :
-                                getIndexedPropertyType().hashCode());
+                                getIndexedPropertyType().hbshCode());
 
         return result;
     }
 
-    void appendTo(StringBuilder sb) {
-        super.appendTo(sb);
-        appendTo(sb, "indexedPropertyType", this.indexedPropertyTypeRef);
-        appendTo(sb, "indexedReadMethod", this.indexedReadMethodRef.get());
-        appendTo(sb, "indexedWriteMethod", this.indexedWriteMethodRef.get());
+    void bppendTo(StringBuilder sb) {
+        super.bppendTo(sb);
+        bppendTo(sb, "indexedPropertyType", this.indexedPropertyTypeRef);
+        bppendTo(sb, "indexedRebdMethod", this.indexedRebdMethodRef.get());
+        bppendTo(sb, "indexedWriteMethod", this.indexedWriteMethodRef.get());
     }
 }

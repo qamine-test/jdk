@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbckbge com.sun.tools.exbmple.debug.bdi;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.*;
 
-import com.sun.tools.example.debug.event.*;
+import com.sun.tools.exbmple.debug.event.*;
 
-import javax.swing.SwingUtilities;
+import jbvbx.swing.SwingUtilities;
 
 /**
  */
-class JDIEventSource extends Thread {
+clbss JDIEventSource extends Threbd {
 
-    private /*final*/ EventQueue queue;
-    private /*final*/ Session session;
-    private /*final*/ ExecutionManager runtime;
-    private final JDIListener firstListener = new FirstListener();
+    privbte /*finbl*/ EventQueue queue;
+    privbte /*finbl*/ Session session;
+    privbte /*finbl*/ ExecutionMbnbger runtime;
+    privbte finbl JDIListener firstListener = new FirstListener();
 
-    private boolean wantInterrupt;  //### Hack
+    privbte boolebn wbntInterrupt;  //### Hbck
 
     /**
-     * Create event source.
+     * Crebte event source.
      */
     JDIEventSource(Session session) {
-        super("JDI Event Set Dispatcher");
+        super("JDI Event Set Dispbtcher");
         this.session = session;
         this.runtime = session.runtime;
         this.queue = session.vm.eventQueue();
@@ -66,128 +66,128 @@ class JDIEventSource extends Thread {
     public void run() {
         try {
             runLoop();
-        } catch (Exception exc) {
+        } cbtch (Exception exc) {
             //### Do something different for InterruptedException???
             // just exit
         }
-        session.running = false;
+        session.running = fblse;
     }
 
-    private void runLoop() throws InterruptedException {
-        AbstractEventSet es;
+    privbte void runLoop() throws InterruptedException {
+        AbstrbctEventSet es;
         do {
             EventSet jdiEventSet = queue.remove();
-            es = AbstractEventSet.toSpecificEventSet(jdiEventSet);
+            es = AbstrbctEventSet.toSpecificEventSet(jdiEventSet);
             session.interrupted = es.suspendedAll();
-            dispatchEventSet(es);
-        } while(!(es instanceof VMDisconnectEventSet));
+            dispbtchEventSet(es);
+        } while(!(es instbnceof VMDisconnectEventSet));
     }
 
-    //### Gross foul hackery!
-    private void dispatchEventSet(final AbstractEventSet es) {
-        SwingUtilities.invokeLater(new Runnable() {
+    //### Gross foul hbckery!
+    privbte void dispbtchEventSet(finbl AbstrbctEventSet es) {
+        SwingUtilities.invokeLbter(new Runnbble() {
             @Override
             public void run() {
-                boolean interrupted = es.suspendedAll();
+                boolebn interrupted = es.suspendedAll();
                 es.notify(firstListener);
-                boolean wantInterrupt = JDIEventSource.this.wantInterrupt;
+                boolebn wbntInterrupt = JDIEventSource.this.wbntInterrupt;
                 for (JDIListener jl : session.runtime.jdiListeners) {
                     es.notify(jl);
                 }
-                if (interrupted && !wantInterrupt) {
-                    session.interrupted = false;
-                    //### Catch here is a hack
+                if (interrupted && !wbntInterrupt) {
+                    session.interrupted = fblse;
+                    //### Cbtch here is b hbck
                     try {
                         session.vm.resume();
-                    } catch (VMDisconnectedException ee) {}
+                    } cbtch (VMDisconnectedException ee) {}
                 }
-                if (es instanceof ThreadDeathEventSet) {
-                    ThreadReference t = ((ThreadDeathEventSet)es).getThread();
-                    session.runtime.removeThreadInfo(t);
+                if (es instbnceof ThrebdDebthEventSet) {
+                    ThrebdReference t = ((ThrebdDebthEventSet)es).getThrebd();
+                    session.runtime.removeThrebdInfo(t);
                 }
             }
         });
     }
 
-    private void finalizeEventSet(AbstractEventSet es) {
-        if (session.interrupted && !wantInterrupt) {
-            session.interrupted = false;
-            //### Catch here is a hack
+    privbte void finblizeEventSet(AbstrbctEventSet es) {
+        if (session.interrupted && !wbntInterrupt) {
+            session.interrupted = fblse;
+            //### Cbtch here is b hbck
             try {
                 session.vm.resume();
-            } catch (VMDisconnectedException ee) {}
+            } cbtch (VMDisconnectedException ee) {}
         }
-        if (es instanceof ThreadDeathEventSet) {
-            ThreadReference t = ((ThreadDeathEventSet)es).getThread();
-            session.runtime.removeThreadInfo(t);
+        if (es instbnceof ThrebdDebthEventSet) {
+            ThrebdReference t = ((ThrebdDebthEventSet)es).getThrebd();
+            session.runtime.removeThrebdInfo(t);
         }
     }
 
-    //### This is a Hack, deal with it
-    private class FirstListener implements JDIListener {
+    //### This is b Hbck, debl with it
+    privbte clbss FirstListener implements JDIListener {
 
         @Override
-        public void accessWatchpoint(AccessWatchpointEventSet e) {
-            session.runtime.validateThreadInfo();
-            wantInterrupt = true;
+        public void bccessWbtchpoint(AccessWbtchpointEventSet e) {
+            session.runtime.vblidbteThrebdInfo();
+            wbntInterrupt = true;
         }
 
         @Override
-        public void classPrepare(ClassPrepareEventSet e)  {
-            wantInterrupt = false;
+        public void clbssPrepbre(ClbssPrepbreEventSet e)  {
+            wbntInterrupt = fblse;
             runtime.resolve(e.getReferenceType());
         }
 
         @Override
-        public void classUnload(ClassUnloadEventSet e)  {
-            wantInterrupt = false;
+        public void clbssUnlobd(ClbssUnlobdEventSet e)  {
+            wbntInterrupt = fblse;
         }
 
         @Override
         public void exception(ExceptionEventSet e)  {
-            wantInterrupt = true;
+            wbntInterrupt = true;
         }
 
         @Override
-        public void locationTrigger(LocationTriggerEventSet e)  {
-            session.runtime.validateThreadInfo();
-            wantInterrupt = true;
+        public void locbtionTrigger(LocbtionTriggerEventSet e)  {
+            session.runtime.vblidbteThrebdInfo();
+            wbntInterrupt = true;
         }
 
         @Override
-        public void modificationWatchpoint(ModificationWatchpointEventSet e)  {
-            session.runtime.validateThreadInfo();
-            wantInterrupt = true;
+        public void modificbtionWbtchpoint(ModificbtionWbtchpointEventSet e)  {
+            session.runtime.vblidbteThrebdInfo();
+            wbntInterrupt = true;
         }
 
         @Override
-        public void threadDeath(ThreadDeathEventSet e)  {
-            wantInterrupt = false;
+        public void threbdDebth(ThrebdDebthEventSet e)  {
+            wbntInterrupt = fblse;
         }
 
         @Override
-        public void threadStart(ThreadStartEventSet e)  {
-            wantInterrupt = false;
+        public void threbdStbrt(ThrebdStbrtEventSet e)  {
+            wbntInterrupt = fblse;
         }
 
         @Override
-        public void vmDeath(VMDeathEventSet e)  {
-            //### Should have some way to notify user
-            //### that VM died before the session ended.
-            wantInterrupt = false;
+        public void vmDebth(VMDebthEventSet e)  {
+            //### Should hbve some wby to notify user
+            //### thbt VM died before the session ended.
+            wbntInterrupt = fblse;
         }
 
         @Override
         public void vmDisconnect(VMDisconnectEventSet e)  {
             //### Notify user?
-            wantInterrupt = false;
+            wbntInterrupt = fblse;
             session.runtime.endSession();
         }
 
         @Override
-        public void vmStart(VMStartEventSet e)  {
-            //### Do we need to do anything with it?
-            wantInterrupt = false;
+        public void vmStbrt(VMStbrtEventSet e)  {
+            //### Do we need to do bnything with it?
+            wbntInterrupt = fblse;
         }
     }
 }

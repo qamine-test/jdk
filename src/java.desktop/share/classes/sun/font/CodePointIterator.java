@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  * (C) Copyright IBM Corp. 2003 - All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by IBM. These materials are provided
- * under terms of a License Agreement between IBM and Sun.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by IBM. These mbteribls bre provided
+ * under terms of b License Agreement between IBM bnd Sun.
+ * This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to IBM mby not be removed.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.text.CharacterIterator;
+import jbvb.text.ChbrbcterIterbtor;
 
-public abstract class CodePointIterator {
-    public static final int DONE = -1;
+public bbstrbct clbss CodePointIterbtor {
+    public stbtic finbl int DONE = -1;
 
-    public abstract void setToStart();
-    public abstract void setToLimit();
+    public bbstrbct void setToStbrt();
+    public bbstrbct void setToLimit();
 
-    public abstract int next();
-    public abstract int prev();
+    public bbstrbct int next();
+    public bbstrbct int prev();
 
-    public abstract int charIndex();
+    public bbstrbct int chbrIndex();
 
-    public static CodePointIterator create(char[] text) {
-        return new CharArrayCodePointIterator(text);
+    public stbtic CodePointIterbtor crebte(chbr[] text) {
+        return new ChbrArrbyCodePointIterbtor(text);
     }
 
-    public static CodePointIterator create(char[] text, int start, int limit) {
-        return new CharArrayCodePointIterator(text, start, limit);
+    public stbtic CodePointIterbtor crebte(chbr[] text, int stbrt, int limit) {
+        return new ChbrArrbyCodePointIterbtor(text, stbrt, limit);
     }
 
-    public static CodePointIterator create(CharSequence text) {
-        return new CharSequenceCodePointIterator(text);
+    public stbtic CodePointIterbtor crebte(ChbrSequence text) {
+        return new ChbrSequenceCodePointIterbtor(text);
     }
 
-    public static CodePointIterator create(CharacterIterator iter) {
-        return new CharacterIteratorCodePointIterator(iter);
+    public stbtic CodePointIterbtor crebte(ChbrbcterIterbtor iter) {
+        return new ChbrbcterIterbtorCodePointIterbtor(iter);
     }
 }
 
-final class CharArrayCodePointIterator extends CodePointIterator {
-    private char[] text;
-    private int start;
-    private int limit;
-    private int index;
+finbl clbss ChbrArrbyCodePointIterbtor extends CodePointIterbtor {
+    privbte chbr[] text;
+    privbte int stbrt;
+    privbte int limit;
+    privbte int index;
 
-    public CharArrayCodePointIterator(char[] text) {
+    public ChbrArrbyCodePointIterbtor(chbr[] text) {
         this.text = text;
         this.limit = text.length;
     }
 
-    public CharArrayCodePointIterator(char[] text, int start, int limit) {
-        if (start < 0 || limit < start || limit > text.length) {
-            throw new IllegalArgumentException();
+    public ChbrArrbyCodePointIterbtor(chbr[] text, int stbrt, int limit) {
+        if (stbrt < 0 || limit < stbrt || limit > text.length) {
+            throw new IllegblArgumentException();
         }
 
         this.text = text;
-        this.start = this.index = start;
+        this.stbrt = this.index = stbrt;
         this.limit = limit;
     }
 
-    public void setToStart() {
-        index = start;
+    public void setToStbrt() {
+        index = stbrt;
     }
 
     public void setToLimit() {
@@ -96,12 +96,12 @@ final class CharArrayCodePointIterator extends CodePointIterator {
 
     public int next() {
         if (index < limit) {
-            char cp1 = text[index++];
-            if (Character.isHighSurrogate(cp1) && index < limit) {
-                char cp2 = text[index];
-                if (Character.isLowSurrogate(cp2)) {
+            chbr cp1 = text[index++];
+            if (Chbrbcter.isHighSurrogbte(cp1) && index < limit) {
+                chbr cp2 = text[index];
+                if (Chbrbcter.isLowSurrogbte(cp2)) {
                     ++index;
-                    return Character.toCodePoint(cp1, cp2);
+                    return Chbrbcter.toCodePoint(cp1, cp2);
                 }
             }
             return cp1;
@@ -110,13 +110,13 @@ final class CharArrayCodePointIterator extends CodePointIterator {
     }
 
     public int prev() {
-        if (index > start) {
-            char cp2 = text[--index];
-            if (Character.isLowSurrogate(cp2) && index > start) {
-                char cp1 = text[index - 1];
-                if (Character.isHighSurrogate(cp1)) {
+        if (index > stbrt) {
+            chbr cp2 = text[--index];
+            if (Chbrbcter.isLowSurrogbte(cp2) && index > stbrt) {
+                chbr cp1 = text[index - 1];
+                if (Chbrbcter.isHighSurrogbte(cp1)) {
                     --index;
-                    return Character.toCodePoint(cp1, cp2);
+                    return Chbrbcter.toCodePoint(cp1, cp2);
                 }
             }
             return cp2;
@@ -124,20 +124,20 @@ final class CharArrayCodePointIterator extends CodePointIterator {
         return DONE;
     }
 
-    public int charIndex() {
+    public int chbrIndex() {
         return index;
     }
 }
 
-final class CharSequenceCodePointIterator extends CodePointIterator {
-    private CharSequence text;
-    private int index;
+finbl clbss ChbrSequenceCodePointIterbtor extends CodePointIterbtor {
+    privbte ChbrSequence text;
+    privbte int index;
 
-    public CharSequenceCodePointIterator(CharSequence text) {
+    public ChbrSequenceCodePointIterbtor(ChbrSequence text) {
         this.text = text;
     }
 
-    public void setToStart() {
+    public void setToStbrt() {
         index = 0;
     }
 
@@ -147,12 +147,12 @@ final class CharSequenceCodePointIterator extends CodePointIterator {
 
     public int next() {
         if (index < text.length()) {
-            char cp1 = text.charAt(index++);
-            if (Character.isHighSurrogate(cp1) && index < text.length()) {
-                char cp2 = text.charAt(index+1);
-                if (Character.isLowSurrogate(cp2)) {
+            chbr cp1 = text.chbrAt(index++);
+            if (Chbrbcter.isHighSurrogbte(cp1) && index < text.length()) {
+                chbr cp2 = text.chbrAt(index+1);
+                if (Chbrbcter.isLowSurrogbte(cp2)) {
                     ++index;
-                    return Character.toCodePoint(cp1, cp2);
+                    return Chbrbcter.toCodePoint(cp1, cp2);
                 }
             }
             return cp1;
@@ -162,12 +162,12 @@ final class CharSequenceCodePointIterator extends CodePointIterator {
 
     public int prev() {
         if (index > 0) {
-            char cp2 = text.charAt(--index);
-            if (Character.isLowSurrogate(cp2) && index > 0) {
-                char cp1 = text.charAt(index - 1);
-                if (Character.isHighSurrogate(cp1)) {
+            chbr cp2 = text.chbrAt(--index);
+            if (Chbrbcter.isLowSurrogbte(cp2) && index > 0) {
+                chbr cp1 = text.chbrAt(index - 1);
+                if (Chbrbcter.isHighSurrogbte(cp1)) {
                     --index;
-                    return Character.toCodePoint(cp1, cp2);
+                    return Chbrbcter.toCodePoint(cp1, cp2);
                 }
             }
             return cp2;
@@ -175,20 +175,20 @@ final class CharSequenceCodePointIterator extends CodePointIterator {
         return DONE;
     }
 
-    public int charIndex() {
+    public int chbrIndex() {
         return index;
     }
 }
 
-// note this has different iteration semantics than CharacterIterator
-final class CharacterIteratorCodePointIterator extends CodePointIterator {
-    private CharacterIterator iter;
+// note this hbs different iterbtion sembntics thbn ChbrbcterIterbtor
+finbl clbss ChbrbcterIterbtorCodePointIterbtor extends CodePointIterbtor {
+    privbte ChbrbcterIterbtor iter;
 
-    public CharacterIteratorCodePointIterator(CharacterIterator iter) {
+    public ChbrbcterIterbtorCodePointIterbtor(ChbrbcterIterbtor iter) {
         this.iter = iter;
     }
 
-    public void setToStart() {
+    public void setToStbrt() {
         iter.setIndex(iter.getBeginIndex());
     }
 
@@ -197,13 +197,13 @@ final class CharacterIteratorCodePointIterator extends CodePointIterator {
     }
 
     public int next() {
-        char cp1 = iter.current();
-        if (cp1 != CharacterIterator.DONE) {
-            char cp2 = iter.next();
-            if (Character.isHighSurrogate(cp1) && cp2 != CharacterIterator.DONE) {
-                if (Character.isLowSurrogate(cp2)) {
+        chbr cp1 = iter.current();
+        if (cp1 != ChbrbcterIterbtor.DONE) {
+            chbr cp2 = iter.next();
+            if (Chbrbcter.isHighSurrogbte(cp1) && cp2 != ChbrbcterIterbtor.DONE) {
+                if (Chbrbcter.isLowSurrogbte(cp2)) {
                     iter.next();
-                    return Character.toCodePoint(cp1, cp2);
+                    return Chbrbcter.toCodePoint(cp1, cp2);
                 }
             }
             return cp1;
@@ -212,12 +212,12 @@ final class CharacterIteratorCodePointIterator extends CodePointIterator {
     }
 
     public int prev() {
-        char cp2 = iter.previous();
-        if (cp2 != CharacterIterator.DONE) {
-            if (Character.isLowSurrogate(cp2)) {
-                char cp1 = iter.previous();
-                if (Character.isHighSurrogate(cp1)) {
-                    return Character.toCodePoint(cp1, cp2);
+        chbr cp2 = iter.previous();
+        if (cp2 != ChbrbcterIterbtor.DONE) {
+            if (Chbrbcter.isLowSurrogbte(cp2)) {
+                chbr cp1 = iter.previous();
+                if (Chbrbcter.isHighSurrogbte(cp1)) {
+                    return Chbrbcter.toCodePoint(cp1, cp2);
                 }
                 iter.next();
             }
@@ -226,7 +226,7 @@ final class CharacterIteratorCodePointIterator extends CodePointIterator {
         return DONE;
     }
 
-    public int charIndex() {
+    public int chbrIndex() {
         return iter.getIndex();
     }
 }

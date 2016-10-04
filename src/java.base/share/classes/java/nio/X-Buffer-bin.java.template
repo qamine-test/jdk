@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2000, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#warn This file is preprocessed before being compiled
+#wbrn This file is preprocessed before being compiled
 
-class XXX {
+clbss XXX {
 
 #begin
 
     /**
-     * Relative <i>get</i> method for reading $a$ $type$ value.
+     * Relbtive <i>get</i> method for rebding $b$ $type$ vblue.
      *
-     * <p> Reads the next $nbytes$ bytes at this buffer's current position,
-     * composing them into $a$ $type$ value according to the current byte order,
-     * and then increments the position by $nbytes$.  </p>
+     * <p> Rebds the next $nbytes$ bytes bt this buffer's current position,
+     * composing them into $b$ $type$ vblue bccording to the current byte order,
+     * bnd then increments the position by $nbytes$.  </p>
      *
-     * @return  The $type$ value at the buffer's current position
+     * @return  The $type$ vblue bt the buffer's current position
      *
      * @throws  BufferUnderflowException
-     *          If there are fewer than $nbytes$ bytes
-     *          remaining in this buffer
+     *          If there bre fewer thbn $nbytes$ bytes
+     *          rembining in this buffer
      */
-    public abstract $type$ get$Type$();
+    public bbstrbct $type$ get$Type$();
 
     /**
-     * Relative <i>put</i> method for writing $a$ $type$
-     * value&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Relbtive <i>put</i> method for writing $b$ $type$
+     * vblue&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> Writes $nbytes$ bytes containing the given $type$ value, in the
-     * current byte order, into this buffer at the current position, and then
+     * <p> Writes $nbytes$ bytes contbining the given $type$ vblue, in the
+     * current byte order, into this buffer bt the current position, bnd then
      * increments the position by $nbytes$.  </p>
      *
-     * @param  value
-     *         The $type$ value to be written
+     * @pbrbm  vblue
+     *         The $type$ vblue to be written
      *
      * @return  This buffer
      *
      * @throws  BufferOverflowException
-     *          If there are fewer than $nbytes$ bytes
-     *          remaining in this buffer
+     *          If there bre fewer thbn $nbytes$ bytes
+     *          rembining in this buffer
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      */
-    public abstract ByteBuffer put$Type$($type$ value);
+    public bbstrbct ByteBuffer put$Type$($type$ vblue);
 
     /**
-     * Absolute <i>get</i> method for reading $a$ $type$ value.
+     * Absolute <i>get</i> method for rebding $b$ $type$ vblue.
      *
-     * <p> Reads $nbytes$ bytes at the given index, composing them into a
-     * $type$ value according to the current byte order.  </p>
+     * <p> Rebds $nbytes$ bytes bt the given index, composing them into b
+     * $type$ vblue bccording to the current byte order.  </p>
      *
-     * @param  index
-     *         The index from which the bytes will be read
+     * @pbrbm  index
+     *         The index from which the bytes will be rebd
      *
-     * @return  The $type$ value at the given index
+     * @return  The $type$ vblue bt the given index
      *
      * @throws  IndexOutOfBoundsException
-     *          If <tt>index</tt> is negative
-     *          or not smaller than the buffer's limit,
+     *          If <tt>index</tt> is negbtive
+     *          or not smbller thbn the buffer's limit,
      *          minus $nbytesButOne$
      */
-    public abstract $type$ get$Type$(int index);
+    public bbstrbct $type$ get$Type$(int index);
 
     /**
-     * Absolute <i>put</i> method for writing $a$ $type$
-     * value&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Absolute <i>put</i> method for writing $b$ $type$
+     * vblue&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> Writes $nbytes$ bytes containing the given $type$ value, in the
-     * current byte order, into this buffer at the given index.  </p>
+     * <p> Writes $nbytes$ bytes contbining the given $type$ vblue, in the
+     * current byte order, into this buffer bt the given index.  </p>
      *
-     * @param  index
-     *         The index at which the bytes will be written
+     * @pbrbm  index
+     *         The index bt which the bytes will be written
      *
-     * @param  value
-     *         The $type$ value to be written
+     * @pbrbm  vblue
+     *         The $type$ vblue to be written
      *
      * @return  This buffer
      *
      * @throws  IndexOutOfBoundsException
-     *          If <tt>index</tt> is negative
-     *          or not smaller than the buffer's limit,
+     *          If <tt>index</tt> is negbtive
+     *          or not smbller thbn the buffer's limit,
      *          minus $nbytesButOne$
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      */
-    public abstract ByteBuffer put$Type$(int index, $type$ value);
+    public bbstrbct ByteBuffer put$Type$(int index, $type$ vblue);
 
     /**
-     * Creates a view of this byte buffer as $a$ $type$ buffer.
+     * Crebtes b view of this byte buffer bs $b$ $type$ buffer.
      *
-     * <p> The content of the new buffer will start at this buffer's current
-     * position.  Changes to this buffer's content will be visible in the new
-     * buffer, and vice versa; the two buffers' position, limit, and mark
-     * values will be independent.
+     * <p> The content of the new buffer will stbrt bt this buffer's current
+     * position.  Chbnges to this buffer's content will be visible in the new
+     * buffer, bnd vice versb; the two buffers' position, limit, bnd mbrk
+     * vblues will be independent.
      *
-     * <p> The new buffer's position will be zero, its capacity and its limit
-     * will be the number of bytes remaining in this buffer divided by
-     * $nbytes$, and its mark will be undefined.  The new buffer will be direct
-     * if, and only if, this buffer is direct, and it will be read-only if, and
-     * only if, this buffer is read-only.  </p>
+     * <p> The new buffer's position will be zero, its cbpbcity bnd its limit
+     * will be the number of bytes rembining in this buffer divided by
+     * $nbytes$, bnd its mbrk will be undefined.  The new buffer will be direct
+     * if, bnd only if, this buffer is direct, bnd it will be rebd-only if, bnd
+     * only if, this buffer is rebd-only.  </p>
      *
      * @return  A new $type$ buffer
      */
-    public abstract $Type$Buffer as$Type$Buffer();
+    public bbstrbct $Type$Buffer bs$Type$Buffer();
 
 #end
 

@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.ObjectFactory;
-import javax.naming.spi.InitialContextFactory;
-import javax.naming.ldap.Control;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.spi.ObjectFbctory;
+import jbvbx.nbming.spi.InitiblContextFbctory;
+import jbvbx.nbming.ldbp.Control;
 
-import com.sun.jndi.url.ldap.ldapURLContextFactory;
+import com.sun.jndi.url.ldbp.ldbpURLContextFbctory;
 
-final public class LdapCtxFactory implements ObjectFactory, InitialContextFactory {
+finbl public clbss LdbpCtxFbctory implements ObjectFbctory, InitiblContextFbctory {
     /**
-     * The type of each address in an LDAP reference.
+     * The type of ebch bddress in bn LDAP reference.
      */
-    public final static String ADDRESS_TYPE = "URL";
+    public finbl stbtic String ADDRESS_TYPE = "URL";
 
-    // ----------------- ObjectFactory interface --------------------
+    // ----------------- ObjectFbctory interfbce --------------------
 
-    public Object getObjectInstance(Object ref, Name name, Context nameCtx,
-        Hashtable<?,?> env) throws Exception {
+    public Object getObjectInstbnce(Object ref, Nbme nbme, Context nbmeCtx,
+        Hbshtbble<?,?> env) throws Exception {
 
-        if (!isLdapRef(ref)) {
+        if (!isLdbpRef(ref)) {
             return null;
         }
-        ObjectFactory factory = new ldapURLContextFactory();
+        ObjectFbctory fbctory = new ldbpURLContextFbctory();
         String[] urls = getURLs((Reference)ref);
-        return factory.getObjectInstance(urls, name, nameCtx, env);
+        return fbctory.getObjectInstbnce(urls, nbme, nbmeCtx, env);
     }
 
-    // ----------------- InitialContext interface  --------------------
+    // ----------------- InitiblContext interfbce  --------------------
 
-    public Context getInitialContext(Hashtable<?,?> envprops)
-        throws NamingException {
+    public Context getInitiblContext(Hbshtbble<?,?> envprops)
+        throws NbmingException {
 
         try {
             String providerUrl = (envprops != null) ?
                 (String)envprops.get(Context.PROVIDER_URL) : null;
 
-            // If URL not in environment, use defaults
+            // If URL not in environment, use defbults
             if (providerUrl == null) {
-                return new LdapCtx("", LdapCtx.DEFAULT_HOST,
-                    LdapCtx.DEFAULT_PORT, envprops, false);
+                return new LdbpCtx("", LdbpCtx.DEFAULT_HOST,
+                    LdbpCtx.DEFAULT_PORT, envprops, fblse);
             }
 
-            // Extract URL(s)
-            String[] urls = LdapURL.fromList(providerUrl);
+            // Extrbct URL(s)
+            String[] urls = LdbpURL.fromList(providerUrl);
 
             if (urls.length == 0) {
-                throw new ConfigurationException(Context.PROVIDER_URL +
-                    " property does not contain a URL");
+                throw new ConfigurbtionException(Context.PROVIDER_URL +
+                    " property does not contbin b URL");
             }
 
-            // Generate an LDAP context
-            return getLdapCtxInstance(urls, envprops);
+            // Generbte bn LDAP context
+            return getLdbpCtxInstbnce(urls, envprops);
 
-        } catch (LdapReferralException e) {
+        } cbtch (LdbpReferrblException e) {
 
             if (envprops != null &&
-                "throw".equals(envprops.get(Context.REFERRAL))) {
+                "throw".equbls(envprops.get(Context.REFERRAL))) {
                 throw e;
             }
 
             Control[] bindCtls = (envprops != null)?
-                (Control[])envprops.get(LdapCtx.BIND_CONTROLS) : null;
+                (Control[])envprops.get(LdbpCtx.BIND_CONTROLS) : null;
 
-            return (LdapCtx)e.getReferralContext(envprops, bindCtls);
+            return (LdbpCtx)e.getReferrblContext(envprops, bindCtls);
         }
     }
 
     /**
-     * Returns true if argument is an LDAP reference.
+     * Returns true if brgument is bn LDAP reference.
      */
-    private static boolean isLdapRef(Object obj) {
+    privbte stbtic boolebn isLdbpRef(Object obj) {
 
-        if (!(obj instanceof Reference)) {
-            return false;
+        if (!(obj instbnceof Reference)) {
+            return fblse;
         }
-        String thisClassName = LdapCtxFactory.class.getName();
+        String thisClbssNbme = LdbpCtxFbctory.clbss.getNbme();
         Reference ref = (Reference)obj;
 
-        return thisClassName.equals(ref.getFactoryClassName());
+        return thisClbssNbme.equbls(ref.getFbctoryClbssNbme());
     }
 
     /**
-     * Returns the URLs contained within an LDAP reference.
+     * Returns the URLs contbined within bn LDAP reference.
      */
-    private static String[] getURLs(Reference ref) throws NamingException {
+    privbte stbtic String[] getURLs(Reference ref) throws NbmingException {
 
         int size = 0;   // number of URLs
         String[] urls = new String[ref.size()];
 
-        Enumeration<RefAddr> addrs = ref.getAll();
-        while (addrs.hasMoreElements()) {
-            RefAddr addr = addrs.nextElement();
+        Enumerbtion<RefAddr> bddrs = ref.getAll();
+        while (bddrs.hbsMoreElements()) {
+            RefAddr bddr = bddrs.nextElement();
 
-            if ((addr instanceof StringRefAddr) &&
-                addr.getType().equals(ADDRESS_TYPE)) {
+            if ((bddr instbnceof StringRefAddr) &&
+                bddr.getType().equbls(ADDRESS_TYPE)) {
 
-                urls[size++] = (String)addr.getContent();
+                urls[size++] = (String)bddr.getContent();
             }
         }
         if (size == 0) {
-            throw (new ConfigurationException(
-                    "Reference contains no valid addresses"));
+            throw (new ConfigurbtionException(
+                    "Reference contbins no vblid bddresses"));
         }
 
-        // Trim URL array down to size.
+        // Trim URL brrby down to size.
         if (size == ref.size()) {
             return urls;
         }
         String[] urls2 = new String[size];
-        System.arraycopy(urls, 0, urls2, 0, size);
+        System.brrbycopy(urls, 0, urls2, 0, size);
         return urls2;
     }
 
-    // ------------ Utilities used by other classes ----------------
+    // ------------ Utilities used by other clbsses ----------------
 
-    public static DirContext getLdapCtxInstance(Object urlInfo, Hashtable<?,?> env)
-            throws NamingException {
+    public stbtic DirContext getLdbpCtxInstbnce(Object urlInfo, Hbshtbble<?,?> env)
+            throws NbmingException {
 
-        if (urlInfo instanceof String) {
+        if (urlInfo instbnceof String) {
             return getUsingURL((String)urlInfo, env);
-        } else if (urlInfo instanceof String[]) {
+        } else if (urlInfo instbnceof String[]) {
             return getUsingURLs((String[])urlInfo, env);
         } else {
-            throw new IllegalArgumentException(
-                "argument must be an LDAP URL String or array of them");
+            throw new IllegblArgumentException(
+                "brgument must be bn LDAP URL String or brrby of them");
         }
     }
 
-    private static DirContext getUsingURL(String url, Hashtable<?,?> env)
-            throws NamingException {
+    privbte stbtic DirContext getUsingURL(String url, Hbshtbble<?,?> env)
+            throws NbmingException {
         DirContext ctx = null;
-        LdapURL ldapUrl = new LdapURL(url);
-        String dn = ldapUrl.getDN();
-        String host = ldapUrl.getHost();
-        int port = ldapUrl.getPort();
+        LdbpURL ldbpUrl = new LdbpURL(url);
+        String dn = ldbpUrl.getDN();
+        String host = ldbpUrl.getHost();
+        int port = ldbpUrl.getPort();
         String[] hostports;
-        String domainName = null;
+        String dombinNbme = null;
 
-        // handle a URL with no hostport (ldap:/// or ldaps:///)
-        // locate the LDAP service using the URL's distinguished name
+        // hbndle b URL with no hostport (ldbp:/// or ldbps:///)
+        // locbte the LDAP service using the URL's distinguished nbme
         if (host == null &&
             port == -1 &&
             dn != null &&
-            (domainName = ServiceLocator.mapDnToDomainName(dn)) != null &&
-            (hostports = ServiceLocator.getLdapService(domainName, env))
+            (dombinNbme = ServiceLocbtor.mbpDnToDombinNbme(dn)) != null &&
+            (hostports = ServiceLocbtor.getLdbpService(dombinNbme, env))
                 != null) {
-            // Generate new URLs that include the discovered hostports.
-            // Reuse the original URL scheme.
-            String scheme = ldapUrl.getScheme() + "://";
+            // Generbte new URLs thbt include the discovered hostports.
+            // Reuse the originbl URL scheme.
+            String scheme = ldbpUrl.getScheme() + "://";
             String[] newUrls = new String[hostports.length];
-            String query = ldapUrl.getQuery();
-            String urlSuffix = ldapUrl.getPath() + (query != null ? query : "");
+            String query = ldbpUrl.getQuery();
+            String urlSuffix = ldbpUrl.getPbth() + (query != null ? query : "");
             for (int i = 0; i < hostports.length; i++) {
                 newUrls[i] = scheme + hostports[i] + urlSuffix;
             }
             ctx = getUsingURLs(newUrls, env);
-            // Associate the derived domain name with the context
-            ((LdapCtx)ctx).setDomainName(domainName);
+            // Associbte the derived dombin nbme with the context
+            ((LdbpCtx)ctx).setDombinNbme(dombinNbme);
 
         } else {
-            ctx = new LdapCtx(dn, host, port, env, ldapUrl.useSsl());
-            // Record the URL that created the context
-            ((LdapCtx)ctx).setProviderUrl(url);
+            ctx = new LdbpCtx(dn, host, port, env, ldbpUrl.useSsl());
+            // Record the URL thbt crebted the context
+            ((LdbpCtx)ctx).setProviderUrl(url);
         }
         return ctx;
     }
 
     /*
-     * Try each URL until one of them succeeds.
-     * If all URLs fail, throw one of the exceptions arbitrarily.
-     * Not pretty, but potentially more informative than returning null.
+     * Try ebch URL until one of them succeeds.
+     * If bll URLs fbil, throw one of the exceptions brbitrbrily.
+     * Not pretty, but potentiblly more informbtive thbn returning null.
      */
-    private static DirContext getUsingURLs(String[] urls, Hashtable<?,?> env)
-            throws NamingException {
-        NamingException ne = null;
+    privbte stbtic DirContext getUsingURLs(String[] urls, Hbshtbble<?,?> env)
+            throws NbmingException {
+        NbmingException ne = null;
         DirContext ctx = null;
         for (int i = 0; i < urls.length; i++) {
             try {
                 return getUsingURL(urls[i], env);
-            } catch (AuthenticationException e) {
+            } cbtch (AuthenticbtionException e) {
                 throw e;
-            } catch (NamingException e) {
+            } cbtch (NbmingException e) {
                 ne = e;
             }
         }
@@ -218,47 +218,47 @@ final public class LdapCtxFactory implements ObjectFactory, InitialContextFactor
     }
 
     /**
-     * Used by Obj and obj/RemoteToAttrs too so must be public
+     * Used by Obj bnd obj/RemoteToAttrs too so must be public
      */
-    public static Attribute createTypeNameAttr(Class<?> cl) {
+    public stbtic Attribute crebteTypeNbmeAttr(Clbss<?> cl) {
         Vector<String> v = new Vector<>(10);
-        String[] types = getTypeNames(cl, v);
+        String[] types = getTypeNbmes(cl, v);
         if (types.length > 0) {
-            BasicAttribute tAttr =
-                new BasicAttribute(Obj.JAVA_ATTRIBUTES[Obj.TYPENAME]);
+            BbsicAttribute tAttr =
+                new BbsicAttribute(Obj.JAVA_ATTRIBUTES[Obj.TYPENAME]);
             for (int i = 0; i < types.length; i++) {
-                tAttr.add(types[i]);
+                tAttr.bdd(types[i]);
             }
             return tAttr;
         }
         return null;
     }
 
-    private static String[] getTypeNames(Class<?> currentClass, Vector<String> v) {
+    privbte stbtic String[] getTypeNbmes(Clbss<?> currentClbss, Vector<String> v) {
 
-        getClassesAux(currentClass, v);
-        Class<?>[] members = currentClass.getInterfaces();
+        getClbssesAux(currentClbss, v);
+        Clbss<?>[] members = currentClbss.getInterfbces();
         for (int i = 0; i < members.length; i++) {
-            getClassesAux(members[i], v);
+            getClbssesAux(members[i], v);
         }
         String[] ret = new String[v.size()];
         int i = 0;
 
-        for (String name : v) {
-            ret[i++] = name;
+        for (String nbme : v) {
+            ret[i++] = nbme;
         }
         return ret;
     }
 
-    private static void getClassesAux(Class<?> currentClass, Vector<String> v) {
-        if (!v.contains(currentClass.getName())) {
-            v.addElement(currentClass.getName());
+    privbte stbtic void getClbssesAux(Clbss<?> currentClbss, Vector<String> v) {
+        if (!v.contbins(currentClbss.getNbme())) {
+            v.bddElement(currentClbss.getNbme());
         }
-        currentClass = currentClass.getSuperclass();
+        currentClbss = currentClbss.getSuperclbss();
 
-        while (currentClass != null) {
-            getTypeNames(currentClass, v);
-            currentClass = currentClass.getSuperclass();
+        while (currentClbss != null) {
+            getTypeNbmes(currentClbss, v);
+            currentClbss = currentClbss.getSuperclbss();
         }
     }
 }

@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAccessor;
 
-import javax.swing.plaf.LayerUI;
-import javax.swing.border.Border;
-import javax.accessibility.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvbx.swing.plbf.LbyerUI;
+import jbvbx.swing.border.Border;
+import jbvbx.bccessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * {@code JLayer} is a universal decorator for Swing components
- * which enables you to implement various advanced painting effects as well as
- * receive notifications of all {@code AWTEvent}s generated within its borders.
+ * {@code JLbyer} is b universbl decorbtor for Swing components
+ * which enbbles you to implement vbrious bdvbnced pbinting effects bs well bs
+ * receive notificbtions of bll {@code AWTEvent}s generbted within its borders.
  * <p>
- * {@code JLayer} delegates the handling of painting and input events to a
- * {@link javax.swing.plaf.LayerUI} object, which performs the actual decoration.
+ * {@code JLbyer} delegbtes the hbndling of pbinting bnd input events to b
+ * {@link jbvbx.swing.plbf.LbyerUI} object, which performs the bctubl decorbtion.
  * <p>
- * The custom painting implemented in the {@code LayerUI} and events notification
- * work for the JLayer itself and all its subcomponents.
- * This combination enables you to enrich existing components
- * by adding new advanced functionality such as temporary locking of a hierarchy,
- * data tips for compound components, enhanced mouse scrolling etc and so on.
+ * The custom pbinting implemented in the {@code LbyerUI} bnd events notificbtion
+ * work for the JLbyer itself bnd bll its subcomponents.
+ * This combinbtion enbbles you to enrich existing components
+ * by bdding new bdvbnced functionblity such bs temporbry locking of b hierbrchy,
+ * dbtb tips for compound components, enhbnced mouse scrolling etc bnd so on.
  * <p>
- * {@code JLayer} is a good solution if you only need to do custom painting
- * over compound component or catch input events from its subcomponents.
+ * {@code JLbyer} is b good solution if you only need to do custom pbinting
+ * over compound component or cbtch input events from its subcomponents.
  * <pre>
- * import javax.swing.*;
- * import javax.swing.plaf.LayerUI;
- * import java.awt.*;
+ * import jbvbx.swing.*;
+ * import jbvbx.swing.plbf.LbyerUI;
+ * import jbvb.bwt.*;
  *
- * public class JLayerSample {
+ * public clbss JLbyerSbmple {
  *
- *     private static JLayer&lt;JComponent&gt; createLayer() {
- *         // This custom layerUI will fill the layer with translucent green
- *         // and print out all mouseMotion events generated within its borders
- *         LayerUI&lt;JComponent&gt; layerUI = new LayerUI&lt;JComponent&gt;() {
+ *     privbte stbtic JLbyer&lt;JComponent&gt; crebteLbyer() {
+ *         // This custom lbyerUI will fill the lbyer with trbnslucent green
+ *         // bnd print out bll mouseMotion events generbted within its borders
+ *         LbyerUI&lt;JComponent&gt; lbyerUI = new LbyerUI&lt;JComponent&gt;() {
  *
- *             public void paint(Graphics g, JComponent c) {
- *                 // paint the layer as is
- *                 super.paint(g, c);
- *                 // fill it with the translucent green
+ *             public void pbint(Grbphics g, JComponent c) {
+ *                 // pbint the lbyer bs is
+ *                 super.pbint(g, c);
+ *                 // fill it with the trbnslucent green
  *                 g.setColor(new Color(0, 128, 0, 128));
  *                 g.fillRect(0, 0, c.getWidth(), c.getHeight());
  *             }
  *
- *             public void installUI(JComponent c) {
- *                 super.installUI(c);
- *                 // enable mouse motion events for the layer's subcomponents
- *                 ((JLayer) c).setLayerEventMask(AWTEvent.MOUSE_MOTION_EVENT_MASK);
+ *             public void instbllUI(JComponent c) {
+ *                 super.instbllUI(c);
+ *                 // enbble mouse motion events for the lbyer's subcomponents
+ *                 ((JLbyer) c).setLbyerEventMbsk(AWTEvent.MOUSE_MOTION_EVENT_MASK);
  *             }
  *
- *             public void uninstallUI(JComponent c) {
- *                 super.uninstallUI(c);
- *                 // reset the layer event mask
- *                 ((JLayer) c).setLayerEventMask(0);
+ *             public void uninstbllUI(JComponent c) {
+ *                 super.uninstbllUI(c);
+ *                 // reset the lbyer event mbsk
+ *                 ((JLbyer) c).setLbyerEventMbsk(0);
  *             }
  *
- *             // overridden method which catches MouseMotion events
- *             public void eventDispatched(AWTEvent e, JLayer&lt;? extends JComponent&gt; l) {
+ *             // overridden method which cbtches MouseMotion events
+ *             public void eventDispbtched(AWTEvent e, JLbyer&lt;? extends JComponent&gt; l) {
  *                 System.out.println("AWTEvent detected: " + e);
  *             }
  *         };
- *         // create a component to be decorated with the layer
- *         JPanel panel = new JPanel();
- *         panel.add(new JButton("JButton"));
+ *         // crebte b component to be decorbted with the lbyer
+ *         JPbnel pbnel = new JPbnel();
+ *         pbnel.bdd(new JButton("JButton"));
  *
- *         // create the layer for the panel using our custom layerUI
- *         return new JLayer&lt;JComponent&gt;(panel, layerUI);
+ *         // crebte the lbyer for the pbnel using our custom lbyerUI
+ *         return new JLbyer&lt;JComponent&gt;(pbnel, lbyerUI);
  *     }
  *
- *     private static void createAndShowGUI() {
- *         final JFrame frame = new JFrame();
- *         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ *     privbte stbtic void crebteAndShowGUI() {
+ *         finbl JFrbme frbme = new JFrbme();
+ *         frbme.setDefbultCloseOperbtion(JFrbme.EXIT_ON_CLOSE);
  *
- *         // work with the layer as with any other Swing component
- *         frame.add(createLayer());
+ *         // work with the lbyer bs with bny other Swing component
+ *         frbme.bdd(crebteLbyer());
  *
- *         frame.setSize(200, 200);
- *         frame.setLocationRelativeTo(null);
- *         frame.setVisible(true);
+ *         frbme.setSize(200, 200);
+ *         frbme.setLocbtionRelbtiveTo(null);
+ *         frbme.setVisible(true);
  *     }
  *
- *     public static void main(String[] args) throws Exception {
- *         SwingUtilities.invokeAndWait(new Runnable() {
+ *     public stbtic void mbin(String[] brgs) throws Exception {
+ *         SwingUtilities.invokeAndWbit(new Runnbble() {
  *             public void run() {
- *                 createAndShowGUI();
+ *                 crebteAndShowGUI();
  *             }
  *         });
  *     }
  * }
  * </pre>
  *
- * <b>Note:</b> {@code JLayer} doesn't support the following methods:
+ * <b>Note:</b> {@code JLbyer} doesn't support the following methods:
  * <ul>
- * <li>{@link Container#add(java.awt.Component)}</li>
- * <li>{@link Container#add(String, java.awt.Component)}</li>
- * <li>{@link Container#add(java.awt.Component, int)}</li>
- * <li>{@link Container#add(java.awt.Component, Object)}</li>
- * <li>{@link Container#add(java.awt.Component, Object, int)}</li>
+ * <li>{@link Contbiner#bdd(jbvb.bwt.Component)}</li>
+ * <li>{@link Contbiner#bdd(String, jbvb.bwt.Component)}</li>
+ * <li>{@link Contbiner#bdd(jbvb.bwt.Component, int)}</li>
+ * <li>{@link Contbiner#bdd(jbvb.bwt.Component, Object)}</li>
+ * <li>{@link Contbiner#bdd(jbvb.bwt.Component, Object, int)}</li>
  * </ul>
- * using any of of them will cause {@code UnsupportedOperationException} to be thrown,
- * to add a component to {@code JLayer}
- * use {@link #setView(Component)} or {@link #setGlassPane(JPanel)}.
+ * using bny of of them will cbuse {@code UnsupportedOperbtionException} to be thrown,
+ * to bdd b component to {@code JLbyer}
+ * use {@link #setView(Component)} or {@link #setGlbssPbne(JPbnel)}.
  *
- * @param <V> the type of {@code JLayer}'s view component
+ * @pbrbm <V> the type of {@code JLbyer}'s view component
  *
- * @see #JLayer(Component)
+ * @see #JLbyer(Component)
  * @see #setView(Component)
  * @see #getView()
- * @see javax.swing.plaf.LayerUI
- * @see #JLayer(Component, LayerUI)
- * @see #setUI(javax.swing.plaf.LayerUI)
+ * @see jbvbx.swing.plbf.LbyerUI
+ * @see #JLbyer(Component, LbyerUI)
+ * @see #setUI(jbvbx.swing.plbf.LbyerUI)
  * @see #getUI()
  * @since 1.7
  *
- * @author Alexander Potochkin
+ * @buthor Alexbnder Potochkin
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public final class JLayer<V extends Component>
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public finbl clbss JLbyer<V extends Component>
         extends JComponent
-        implements Scrollable, PropertyChangeListener, Accessible {
-    private V view;
-    // this field is necessary because JComponent.ui is transient
-    // when layerUI is serializable
-    private LayerUI<? super V> layerUI;
-    private JPanel glassPane;
-    private long eventMask;
-    private transient boolean isPainting;
-    private transient boolean isPaintingImmediately;
+        implements Scrollbble, PropertyChbngeListener, Accessible {
+    privbte V view;
+    // this field is necessbry becbuse JComponent.ui is trbnsient
+    // when lbyerUI is seriblizbble
+    privbte LbyerUI<? super V> lbyerUI;
+    privbte JPbnel glbssPbne;
+    privbte long eventMbsk;
+    privbte trbnsient boolebn isPbinting;
+    privbte trbnsient boolebn isPbintingImmedibtely;
 
-    private static final LayerEventController eventController =
-            new LayerEventController();
+    privbte stbtic finbl LbyerEventController eventController =
+            new LbyerEventController();
 
     /**
-     * Creates a new {@code JLayer} object with a {@code null} view component
-     * and default {@link javax.swing.plaf.LayerUI}.
+     * Crebtes b new {@code JLbyer} object with b {@code null} view component
+     * bnd defbult {@link jbvbx.swing.plbf.LbyerUI}.
      *
      * @see #setView
      * @see #setUI
      */
-    public JLayer() {
+    public JLbyer() {
         this(null);
     }
 
     /**
-     * Creates a new {@code JLayer} object
-     * with default {@link javax.swing.plaf.LayerUI}.
+     * Crebtes b new {@code JLbyer} object
+     * with defbult {@link jbvbx.swing.plbf.LbyerUI}.
      *
-     * @param view the component to be decorated by this {@code JLayer}
+     * @pbrbm view the component to be decorbted by this {@code JLbyer}
      *
      * @see #setUI
      */
-    public JLayer(V view) {
-        this(view, new LayerUI<V>());
+    public JLbyer(V view) {
+        this(view, new LbyerUI<V>());
     }
 
     /**
-     * Creates a new {@code JLayer} object with the specified view component
-     * and {@link javax.swing.plaf.LayerUI} object.
+     * Crebtes b new {@code JLbyer} object with the specified view component
+     * bnd {@link jbvbx.swing.plbf.LbyerUI} object.
      *
-     * @param view the component to be decorated
-     * @param ui the {@link javax.swing.plaf.LayerUI} delegate
-     * to be used by this {@code JLayer}
+     * @pbrbm view the component to be decorbted
+     * @pbrbm ui the {@link jbvbx.swing.plbf.LbyerUI} delegbte
+     * to be used by this {@code JLbyer}
      */
-    public JLayer(V view, LayerUI<V> ui) {
-        setGlassPane(createGlassPane());
+    public JLbyer(V view, LbyerUI<V> ui) {
+        setGlbssPbne(crebteGlbssPbne());
         setView(view);
         setUI(ui);
     }
 
     /**
-     * Returns the {@code JLayer}'s view component or {@code null}.
-     * <br>This is a bound property.
+     * Returns the {@code JLbyer}'s view component or {@code null}.
+     * <br>This is b bound property.
      *
-     * @return the {@code JLayer}'s view component
+     * @return the {@code JLbyer}'s view component
      *         or {@code null} if none exists
      *
      * @see #setView(Component)
@@ -215,10 +215,10 @@ public final class JLayer<V extends Component>
     }
 
     /**
-     * Sets the {@code JLayer}'s view component, which can be {@code null}.
-     * <br>This is a bound property.
+     * Sets the {@code JLbyer}'s view component, which cbn be {@code null}.
+     * <br>This is b bound property.
      *
-     * @param view the view component for this {@code JLayer}
+     * @pbrbm view the view component for this {@code JLbyer}
      *
      * @see #getView()
      */
@@ -228,132 +228,132 @@ public final class JLayer<V extends Component>
             super.remove(oldView);
         }
         if (view != null) {
-            super.addImpl(view, null, getComponentCount());
+            super.bddImpl(view, null, getComponentCount());
         }
         this.view = view;
-        firePropertyChange("view", oldView, view);
-        revalidate();
-        repaint();
+        firePropertyChbnge("view", oldView, view);
+        revblidbte();
+        repbint();
     }
 
     /**
-     * Sets the {@link javax.swing.plaf.LayerUI} which will perform painting
-     * and receive input events for this {@code JLayer}.
+     * Sets the {@link jbvbx.swing.plbf.LbyerUI} which will perform pbinting
+     * bnd receive input events for this {@code JLbyer}.
      *
-     * @param ui the {@link javax.swing.plaf.LayerUI} for this {@code JLayer}
+     * @pbrbm ui the {@link jbvbx.swing.plbf.LbyerUI} for this {@code JLbyer}
      */
-    public void setUI(LayerUI<? super V> ui) {
-        this.layerUI = ui;
+    public void setUI(LbyerUI<? super V> ui) {
+        this.lbyerUI = ui;
         super.setUI(ui);
     }
 
     /**
-     * Returns the {@link javax.swing.plaf.LayerUI} for this {@code JLayer}.
+     * Returns the {@link jbvbx.swing.plbf.LbyerUI} for this {@code JLbyer}.
      *
-     * @return the {@code LayerUI} for this {@code JLayer}
+     * @return the {@code LbyerUI} for this {@code JLbyer}
      */
-    public LayerUI<? super V> getUI() {
-        return layerUI;
+    public LbyerUI<? super V> getUI() {
+        return lbyerUI;
     }
 
     /**
-     * Returns the {@code JLayer}'s glassPane component or {@code null}.
-     * <br>This is a bound property.
+     * Returns the {@code JLbyer}'s glbssPbne component or {@code null}.
+     * <br>This is b bound property.
      *
-     * @return the {@code JLayer}'s glassPane component
+     * @return the {@code JLbyer}'s glbssPbne component
      *         or {@code null} if none exists
      *
-     * @see #setGlassPane(JPanel)
+     * @see #setGlbssPbne(JPbnel)
      */
-    public JPanel getGlassPane() {
-        return glassPane;
+    public JPbnel getGlbssPbne() {
+        return glbssPbne;
     }
 
     /**
-     * Sets the {@code JLayer}'s glassPane component, which can be {@code null}.
-     * <br>This is a bound property.
+     * Sets the {@code JLbyer}'s glbssPbne component, which cbn be {@code null}.
+     * <br>This is b bound property.
      *
-     * @param glassPane the glassPane component of this {@code JLayer}
+     * @pbrbm glbssPbne the glbssPbne component of this {@code JLbyer}
      *
-     * @see #getGlassPane()
+     * @see #getGlbssPbne()
      */
-    public void setGlassPane(JPanel glassPane) {
-        Component oldGlassPane = getGlassPane();
-        boolean isGlassPaneVisible = false;
-        if (oldGlassPane != null) {
-            isGlassPaneVisible = oldGlassPane.isVisible();
-            super.remove(oldGlassPane);
+    public void setGlbssPbne(JPbnel glbssPbne) {
+        Component oldGlbssPbne = getGlbssPbne();
+        boolebn isGlbssPbneVisible = fblse;
+        if (oldGlbssPbne != null) {
+            isGlbssPbneVisible = oldGlbssPbne.isVisible();
+            super.remove(oldGlbssPbne);
         }
-        if (glassPane != null) {
-            AWTAccessor.getComponentAccessor().setMixingCutoutShape(glassPane,
-                    new Rectangle());
-            glassPane.setVisible(isGlassPaneVisible);
-            super.addImpl(glassPane, null, 0);
+        if (glbssPbne != null) {
+            AWTAccessor.getComponentAccessor().setMixingCutoutShbpe(glbssPbne,
+                    new Rectbngle());
+            glbssPbne.setVisible(isGlbssPbneVisible);
+            super.bddImpl(glbssPbne, null, 0);
         }
-        this.glassPane = glassPane;
-        firePropertyChange("glassPane", oldGlassPane, glassPane);
-        revalidate();
-        repaint();
+        this.glbssPbne = glbssPbne;
+        firePropertyChbnge("glbssPbne", oldGlbssPbne, glbssPbne);
+        revblidbte();
+        repbint();
     }
 
     /**
-     * Called by the constructor methods to create a default {@code glassPane}.
-     * By default this method creates a new JPanel with visibility set to true
-     * and opacity set to false.
+     * Cblled by the constructor methods to crebte b defbult {@code glbssPbne}.
+     * By defbult this method crebtes b new JPbnel with visibility set to true
+     * bnd opbcity set to fblse.
      *
-     * @return the default {@code glassPane}
+     * @return the defbult {@code glbssPbne}
      */
-    public JPanel createGlassPane() {
-        return new DefaultLayerGlassPane();
+    public JPbnel crebteGlbssPbne() {
+        return new DefbultLbyerGlbssPbne();
     }
 
     /**
-     * Sets the layout manager for this container.  This method is
-     * overridden to prevent the layout manager from being set.
+     * Sets the lbyout mbnbger for this contbiner.  This method is
+     * overridden to prevent the lbyout mbnbger from being set.
      * <p>Note:  If {@code mgr} is non-{@code null}, this
-     * method will throw an exception as layout managers are not supported on
-     * a {@code JLayer}.
+     * method will throw bn exception bs lbyout mbnbgers bre not supported on
+     * b {@code JLbyer}.
      *
-     * @param mgr the specified layout manager
-     * @exception IllegalArgumentException this method is not supported
+     * @pbrbm mgr the specified lbyout mbnbger
+     * @exception IllegblArgumentException this method is not supported
      */
-    public void setLayout(LayoutManager mgr) {
+    public void setLbyout(LbyoutMbnbger mgr) {
         if (mgr != null) {
-            throw new IllegalArgumentException("JLayer.setLayout() not supported");
+            throw new IllegblArgumentException("JLbyer.setLbyout() not supported");
         }
     }
 
     /**
      * A non-{@code null} border, or non-zero insets, isn't supported, to prevent the geometry
      * of this component from becoming complex enough to inhibit
-     * subclassing of {@code LayerUI} class.  To create a {@code JLayer} with a border,
-     * add it to a {@code JPanel} that has a border.
+     * subclbssing of {@code LbyerUI} clbss.  To crebte b {@code JLbyer} with b border,
+     * bdd it to b {@code JPbnel} thbt hbs b border.
      * <p>Note:  If {@code border} is non-{@code null}, this
-     * method will throw an exception as borders are not supported on
-     * a {@code JLayer}.
+     * method will throw bn exception bs borders bre not supported on
+     * b {@code JLbyer}.
      *
-     * @param border the {@code Border} to set
-     * @exception IllegalArgumentException this method is not supported
+     * @pbrbm border the {@code Border} to set
+     * @exception IllegblArgumentException this method is not supported
      */
     public void setBorder(Border border) {
         if (border != null) {
-            throw new IllegalArgumentException("JLayer.setBorder() not supported");
+            throw new IllegblArgumentException("JLbyer.setBorder() not supported");
         }
     }
 
     /**
-     * This method is not supported by {@code JLayer}
-     * and always throws {@code UnsupportedOperationException}
+     * This method is not supported by {@code JLbyer}
+     * bnd blwbys throws {@code UnsupportedOperbtionException}
      *
-     * @throws UnsupportedOperationException this method is not supported
+     * @throws UnsupportedOperbtionException this method is not supported
      *
      * @see #setView(Component)
-     * @see #setGlassPane(JPanel)
+     * @see #setGlbssPbne(JPbnel)
      */
-    protected void addImpl(Component comp, Object constraints, int index) {
-        throw new UnsupportedOperationException(
-                "Adding components to JLayer is not supported, " +
-                        "use setView() or setGlassPane() instead");
+    protected void bddImpl(Component comp, Object constrbints, int index) {
+        throw new UnsupportedOperbtionException(
+                "Adding components to JLbyer is not supported, " +
+                        "use setView() or setGlbssPbne() instebd");
     }
 
     /**
@@ -364,8 +364,8 @@ public final class JLayer<V extends Component>
             super.remove(comp);
         } else if (comp == getView()) {
             setView(null);
-        } else if (comp == getGlassPane()) {
-            setGlassPane(null);
+        } else if (comp == getGlbssPbne()) {
+            setGlbssPbne(null);
         } else {
             super.remove(comp);
         }
@@ -378,291 +378,291 @@ public final class JLayer<V extends Component>
         if (view != null) {
             setView(null);
         }
-        if (glassPane != null) {
-            setGlassPane(null);
+        if (glbssPbne != null) {
+            setGlbssPbne(null);
         }
     }
 
     /**
-     * Always returns {@code true} to cause painting to originate from {@code JLayer},
-     * or one of its ancestors.
+     * Alwbys returns {@code true} to cbuse pbinting to originbte from {@code JLbyer},
+     * or one of its bncestors.
      *
      * @return true
-     * @see JComponent#isPaintingOrigin()
+     * @see JComponent#isPbintingOrigin()
      */
-    protected boolean isPaintingOrigin() {
+    protected boolebn isPbintingOrigin() {
         return true;
     }
 
     /**
-     * Delegates its functionality to the
-     * {@link javax.swing.plaf.LayerUI#paintImmediately(int, int, int, int, JLayer)} method,
-     * if {@code LayerUI} is set.
+     * Delegbtes its functionblity to the
+     * {@link jbvbx.swing.plbf.LbyerUI#pbintImmedibtely(int, int, int, int, JLbyer)} method,
+     * if {@code LbyerUI} is set.
      *
-     * @param x  the x value of the region to be painted
-     * @param y  the y value of the region to be painted
-     * @param w  the width of the region to be painted
-     * @param h  the height of the region to be painted
+     * @pbrbm x  the x vblue of the region to be pbinted
+     * @pbrbm y  the y vblue of the region to be pbinted
+     * @pbrbm w  the width of the region to be pbinted
+     * @pbrbm h  the height of the region to be pbinted
      */
-    public void paintImmediately(int x, int y, int w, int h) {
-        if (!isPaintingImmediately && getUI() != null) {
-            isPaintingImmediately = true;
+    public void pbintImmedibtely(int x, int y, int w, int h) {
+        if (!isPbintingImmedibtely && getUI() != null) {
+            isPbintingImmedibtely = true;
             try {
-                getUI().paintImmediately(x, y, w, h, this);
-            } finally {
-                isPaintingImmediately = false;
+                getUI().pbintImmedibtely(x, y, w, h, this);
+            } finblly {
+                isPbintingImmedibtely = fblse;
             }
         } else {
-            super.paintImmediately(x, y, w, h);
+            super.pbintImmedibtely(x, y, w, h);
         }
     }
 
     /**
-     * Delegates all painting to the {@link javax.swing.plaf.LayerUI} object.
+     * Delegbtes bll pbinting to the {@link jbvbx.swing.plbf.LbyerUI} object.
      *
-     * @param g the {@code Graphics} to render to
+     * @pbrbm g the {@code Grbphics} to render to
      */
-    public void paint(Graphics g) {
-        if (!isPainting) {
-            isPainting = true;
+    public void pbint(Grbphics g) {
+        if (!isPbinting) {
+            isPbinting = true;
             try {
-                super.paintComponent(g);
-            } finally {
-                isPainting = false;
+                super.pbintComponent(g);
+            } finblly {
+                isPbinting = fblse;
             }
         } else {
-            super.paint(g);
+            super.pbint(g);
         }
     }
 
     /**
-     * This method is empty, because all painting is done by
-     * {@link #paint(Graphics)} and
-     * {@link javax.swing.plaf.LayerUI#update(Graphics, JComponent)} methods
+     * This method is empty, becbuse bll pbinting is done by
+     * {@link #pbint(Grbphics)} bnd
+     * {@link jbvbx.swing.plbf.LbyerUI#updbte(Grbphics, JComponent)} methods
      */
-    protected void paintComponent(Graphics g) {
+    protected void pbintComponent(Grbphics g) {
     }
 
     /**
-     * The {@code JLayer} overrides the default implementation of
-     * this method (in {@code JComponent}) to return {@code false}.
+     * The {@code JLbyer} overrides the defbult implementbtion of
+     * this method (in {@code JComponent}) to return {@code fblse}.
      * This ensures
-     * that the drawing machinery will call the {@code JLayer}'s
-     * {@code paint}
-     * implementation rather than messaging the {@code JLayer}'s
+     * thbt the drbwing mbchinery will cbll the {@code JLbyer}'s
+     * {@code pbint}
+     * implementbtion rbther thbn messbging the {@code JLbyer}'s
      * children directly.
      *
-     * @return false
+     * @return fblse
      */
-    public boolean isOptimizedDrawingEnabled() {
-        return false;
+    public boolebn isOptimizedDrbwingEnbbled() {
+        return fblse;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void propertyChbnge(PropertyChbngeEvent evt) {
         if (getUI() != null) {
-            getUI().applyPropertyChange(evt, this);
+            getUI().bpplyPropertyChbnge(evt, this);
         }
     }
 
     /**
-     * Enables the events from JLayer and <b>all its descendants</b>
-     * defined by the specified event mask parameter
+     * Enbbles the events from JLbyer bnd <b>bll its descendbnts</b>
+     * defined by the specified event mbsk pbrbmeter
      * to be delivered to the
-     * {@link LayerUI#eventDispatched(AWTEvent, JLayer)} method.
+     * {@link LbyerUI#eventDispbtched(AWTEvent, JLbyer)} method.
      * <p>
-     * Events are delivered provided that {@code LayerUI} is set
-     * for this {@code JLayer} and the {@code JLayer}
-     * is displayable.
+     * Events bre delivered provided thbt {@code LbyerUI} is set
+     * for this {@code JLbyer} bnd the {@code JLbyer}
+     * is displbybble.
      * <p>
-     * The following example shows how to correctly use this method
-     * in the {@code LayerUI} implementations:
+     * The following exbmple shows how to correctly use this method
+     * in the {@code LbyerUI} implementbtions:
      * <pre>
-     *    public void installUI(JComponent c) {
-     *       super.installUI(c);
-     *       JLayer l = (JLayer) c;
-     *       // this LayerUI will receive only key and focus events
-     *       l.setLayerEventMask(AWTEvent.KEY_EVENT_MASK | AWTEvent.FOCUS_EVENT_MASK);
+     *    public void instbllUI(JComponent c) {
+     *       super.instbllUI(c);
+     *       JLbyer l = (JLbyer) c;
+     *       // this LbyerUI will receive only key bnd focus events
+     *       l.setLbyerEventMbsk(AWTEvent.KEY_EVENT_MASK | AWTEvent.FOCUS_EVENT_MASK);
      *    }
      *
-     *    public void uninstallUI(JComponent c) {
-     *       super.uninstallUI(c);
-     *       JLayer l = (JLayer) c;
-     *       // JLayer must be returned to its initial state
-     *       l.setLayerEventMask(0);
+     *    public void uninstbllUI(JComponent c) {
+     *       super.uninstbllUI(c);
+     *       JLbyer l = (JLbyer) c;
+     *       // JLbyer must be returned to its initibl stbte
+     *       l.setLbyerEventMbsk(0);
      *    }
      * </pre>
      *
-     * By default {@code JLayer} receives no events and its event mask is {@code 0}.
+     * By defbult {@code JLbyer} receives no events bnd its event mbsk is {@code 0}.
      *
-     * @param layerEventMask the bitmask of event types to receive
+     * @pbrbm lbyerEventMbsk the bitmbsk of event types to receive
      *
-     * @see #getLayerEventMask()
-     * @see LayerUI#eventDispatched(AWTEvent, JLayer)
-     * @see Component#isDisplayable()
+     * @see #getLbyerEventMbsk()
+     * @see LbyerUI#eventDispbtched(AWTEvent, JLbyer)
+     * @see Component#isDisplbybble()
      */
-    public void setLayerEventMask(long layerEventMask) {
-        long oldEventMask = getLayerEventMask();
-        this.eventMask = layerEventMask;
-        firePropertyChange("layerEventMask", oldEventMask, layerEventMask);
-        if (layerEventMask != oldEventMask) {
-            disableEvents(oldEventMask);
-            enableEvents(eventMask);
-            if (isDisplayable()) {
-                eventController.updateAWTEventListener(
-                        oldEventMask, layerEventMask);
+    public void setLbyerEventMbsk(long lbyerEventMbsk) {
+        long oldEventMbsk = getLbyerEventMbsk();
+        this.eventMbsk = lbyerEventMbsk;
+        firePropertyChbnge("lbyerEventMbsk", oldEventMbsk, lbyerEventMbsk);
+        if (lbyerEventMbsk != oldEventMbsk) {
+            disbbleEvents(oldEventMbsk);
+            enbbleEvents(eventMbsk);
+            if (isDisplbybble()) {
+                eventController.updbteAWTEventListener(
+                        oldEventMbsk, lbyerEventMbsk);
             }
         }
     }
 
     /**
-     * Returns the bitmap of event mask to receive by this {@code JLayer}
-     * and its {@code LayerUI}.
+     * Returns the bitmbp of event mbsk to receive by this {@code JLbyer}
+     * bnd its {@code LbyerUI}.
      * <p>
-     * It means that {@link javax.swing.plaf.LayerUI#eventDispatched(AWTEvent, JLayer)} method
-     * will only receive events that match the event mask.
+     * It mebns thbt {@link jbvbx.swing.plbf.LbyerUI#eventDispbtched(AWTEvent, JLbyer)} method
+     * will only receive events thbt mbtch the event mbsk.
      * <p>
-     * By default {@code JLayer} receives no events.
+     * By defbult {@code JLbyer} receives no events.
      *
-     * @return the bitmask of event types to receive for this {@code JLayer}
+     * @return the bitmbsk of event types to receive for this {@code JLbyer}
      */
-    public long getLayerEventMask() {
-        return eventMask;
+    public long getLbyerEventMbsk() {
+        return eventMbsk;
     }
 
     /**
-     * Delegates its functionality to the {@link javax.swing.plaf.LayerUI#updateUI(JLayer)} method,
-     * if {@code LayerUI} is set.
+     * Delegbtes its functionblity to the {@link jbvbx.swing.plbf.LbyerUI#updbteUI(JLbyer)} method,
+     * if {@code LbyerUI} is set.
      */
-    public void updateUI() {
+    public void updbteUI() {
         if (getUI() != null) {
-            getUI().updateUI(this);
+            getUI().updbteUI(this);
         }
     }
 
     /**
-     * Returns the preferred size of the viewport for a view component.
+     * Returns the preferred size of the viewport for b view component.
      * <p>
-     * If the view component of this layer implements {@link Scrollable}, this method delegates its
-     * implementation to the view component.
+     * If the view component of this lbyer implements {@link Scrollbble}, this method delegbtes its
+     * implementbtion to the view component.
      *
-     * @return the preferred size of the viewport for a view component
+     * @return the preferred size of the viewport for b view component
      *
-     * @see Scrollable
+     * @see Scrollbble
      */
-    public Dimension getPreferredScrollableViewportSize() {
-        if (getView() instanceof Scrollable) {
-            return ((Scrollable)getView()).getPreferredScrollableViewportSize();
+    public Dimension getPreferredScrollbbleViewportSize() {
+        if (getView() instbnceof Scrollbble) {
+            return ((Scrollbble)getView()).getPreferredScrollbbleViewportSize();
         }
         return getPreferredSize();
     }
 
     /**
-     * Returns a scroll increment, which is required for components
-     * that display logical rows or columns in order to completely expose
-     * one block of rows or columns, depending on the value of orientation.
+     * Returns b scroll increment, which is required for components
+     * thbt displby logicbl rows or columns in order to completely expose
+     * one block of rows or columns, depending on the vblue of orientbtion.
      * <p>
-     * If the view component of this layer implements {@link Scrollable}, this method delegates its
-     * implementation to the view component.
+     * If the view component of this lbyer implements {@link Scrollbble}, this method delegbtes its
+     * implementbtion to the view component.
      *
      * @return the "block" increment for scrolling in the specified direction
      *
-     * @see Scrollable
+     * @see Scrollbble
      */
-    public int getScrollableBlockIncrement(Rectangle visibleRect,
-                                           int orientation, int direction) {
-        if (getView() instanceof Scrollable) {
-            return ((Scrollable)getView()).getScrollableBlockIncrement(visibleRect,
-                    orientation, direction);
+    public int getScrollbbleBlockIncrement(Rectbngle visibleRect,
+                                           int orientbtion, int direction) {
+        if (getView() instbnceof Scrollbble) {
+            return ((Scrollbble)getView()).getScrollbbleBlockIncrement(visibleRect,
+                    orientbtion, direction);
         }
-        return (orientation == SwingConstants.VERTICAL) ? visibleRect.height :
+        return (orientbtion == SwingConstbnts.VERTICAL) ? visibleRect.height :
                 visibleRect.width;
     }
 
     /**
-     * Returns {@code false} to indicate that the height of the viewport does not
-     * determine the height of the layer, unless the preferred height
-     * of the layer is smaller than the height of the viewport.
+     * Returns {@code fblse} to indicbte thbt the height of the viewport does not
+     * determine the height of the lbyer, unless the preferred height
+     * of the lbyer is smbller thbn the height of the viewport.
      * <p>
-     * If the view component of this layer implements {@link Scrollable}, this method delegates its
-     * implementation to the view component.
+     * If the view component of this lbyer implements {@link Scrollbble}, this method delegbtes its
+     * implementbtion to the view component.
      *
-     * @return whether the layer should track the height of the viewport
+     * @return whether the lbyer should trbck the height of the viewport
      *
-     * @see Scrollable
+     * @see Scrollbble
      */
-    public boolean getScrollableTracksViewportHeight() {
-        if (getView() instanceof Scrollable) {
-            return ((Scrollable)getView()).getScrollableTracksViewportHeight();
+    public boolebn getScrollbbleTrbcksViewportHeight() {
+        if (getView() instbnceof Scrollbble) {
+            return ((Scrollbble)getView()).getScrollbbleTrbcksViewportHeight();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns {@code false} to indicate that the width of the viewport does not
-     * determine the width of the layer, unless the preferred width
-     * of the layer is smaller than the width of the viewport.
+     * Returns {@code fblse} to indicbte thbt the width of the viewport does not
+     * determine the width of the lbyer, unless the preferred width
+     * of the lbyer is smbller thbn the width of the viewport.
      * <p>
-     * If the view component of this layer implements {@link Scrollable}, this method delegates its
-     * implementation to the view component.
+     * If the view component of this lbyer implements {@link Scrollbble}, this method delegbtes its
+     * implementbtion to the view component.
      *
-     * @return whether the layer should track the width of the viewport
+     * @return whether the lbyer should trbck the width of the viewport
      *
-     * @see Scrollable
+     * @see Scrollbble
      */
-    public boolean getScrollableTracksViewportWidth() {
-        if (getView() instanceof Scrollable) {
-            return ((Scrollable)getView()).getScrollableTracksViewportWidth();
+    public boolebn getScrollbbleTrbcksViewportWidth() {
+        if (getView() instbnceof Scrollbble) {
+            return ((Scrollbble)getView()).getScrollbbleTrbcksViewportWidth();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a scroll increment, which is required for components
-     * that display logical rows or columns in order to completely expose
-     * one new row or column, depending on the value of orientation.
-     * Ideally, components should handle a partially exposed row or column
-     * by returning the distance required to completely expose the item.
+     * Returns b scroll increment, which is required for components
+     * thbt displby logicbl rows or columns in order to completely expose
+     * one new row or column, depending on the vblue of orientbtion.
+     * Ideblly, components should hbndle b pbrtiblly exposed row or column
+     * by returning the distbnce required to completely expose the item.
      * <p>
-     * Scrolling containers, like {@code JScrollPane}, will use this method
-     * each time the user requests a unit scroll.
+     * Scrolling contbiners, like {@code JScrollPbne}, will use this method
+     * ebch time the user requests b unit scroll.
      * <p>
-     * If the view component of this layer implements {@link Scrollable}, this method delegates its
-     * implementation to the view component.
+     * If the view component of this lbyer implements {@link Scrollbble}, this method delegbtes its
+     * implementbtion to the view component.
      *
      * @return The "unit" increment for scrolling in the specified direction.
-     *         This value should always be positive.
+     *         This vblue should blwbys be positive.
      *
-     * @see Scrollable
+     * @see Scrollbble
      */
-    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation,
+    public int getScrollbbleUnitIncrement(Rectbngle visibleRect, int orientbtion,
                                           int direction) {
-        if (getView() instanceof Scrollable) {
-            return ((Scrollable) getView()).getScrollableUnitIncrement(
-                    visibleRect, orientation, direction);
+        if (getView() instbnceof Scrollbble) {
+            return ((Scrollbble) getView()).getScrollbbleUnitIncrement(
+                    visibleRect, orientbtion, direction);
         }
         return 1;
     }
 
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        if (layerUI != null) {
-            setUI(layerUI);
+    privbte void rebdObject(ObjectInputStrebm s)
+            throws IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
+        if (lbyerUI != null) {
+            setUI(lbyerUI);
         }
-        if (eventMask != 0) {
-            eventController.updateAWTEventListener(0, eventMask);
+        if (eventMbsk != 0) {
+            eventController.updbteAWTEventListener(0, eventMbsk);
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    public void addNotify() {
-        super.addNotify();
-        eventController.updateAWTEventListener(0, eventMask);
+    public void bddNotify() {
+        super.bddNotify();
+        eventController.updbteAWTEventListener(0, eventMbsk);
     }
 
     /**
@@ -670,46 +670,46 @@ public final class JLayer<V extends Component>
      */
     public void removeNotify() {
         super.removeNotify();
-        eventController.updateAWTEventListener(eventMask, 0);
+        eventController.updbteAWTEventListener(eventMbsk, 0);
     }
 
     /**
-     * Delegates its functionality to the {@link javax.swing.plaf.LayerUI#doLayout(JLayer)} method,
-     * if {@code LayerUI} is set.
+     * Delegbtes its functionblity to the {@link jbvbx.swing.plbf.LbyerUI#doLbyout(JLbyer)} method,
+     * if {@code LbyerUI} is set.
      */
-    public void doLayout() {
+    public void doLbyout() {
         if (getUI() != null) {
-            getUI().doLayout(this);
+            getUI().doLbyout(this);
         }
     }
 
     /**
-     * Gets the AccessibleContext associated with this {@code JLayer}.
+     * Gets the AccessibleContext bssocibted with this {@code JLbyer}.
      *
-     * @return the AccessibleContext associated with this {@code JLayer}.
+     * @return the AccessibleContext bssocibted with this {@code JLbyer}.
      */
-    @SuppressWarnings("serial") // anonymous class
+    @SuppressWbrnings("seribl") // bnonymous clbss
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJComponent() {
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJComponent() {
                 public AccessibleRole getAccessibleRole() {
                     return AccessibleRole.PANEL;
                 }
             };
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * static AWTEventListener to be shared with all AbstractLayerUIs
+     * stbtic AWTEventListener to be shbred with bll AbstrbctLbyerUIs
      */
-    private static class LayerEventController implements AWTEventListener {
-        private ArrayList<Long> layerMaskList =
-                new ArrayList<Long>();
+    privbte stbtic clbss LbyerEventController implements AWTEventListener {
+        privbte ArrbyList<Long> lbyerMbskList =
+                new ArrbyList<Long>();
 
-        private long currentEventMask;
+        privbte long currentEventMbsk;
 
-        private static final long ACCEPTED_EVENTS =
+        privbte stbtic finbl long ACCEPTED_EVENTS =
                 AWTEvent.COMPONENT_EVENT_MASK |
                         AWTEvent.CONTAINER_EVENT_MASK |
                         AWTEvent.FOCUS_EVENT_MASK |
@@ -721,138 +721,138 @@ public final class JLayer<V extends Component>
                         AWTEvent.HIERARCHY_EVENT_MASK |
                         AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK;
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        public void eventDispatched(AWTEvent event) {
+        @SuppressWbrnings({"unchecked", "rbwtypes"})
+        public void eventDispbtched(AWTEvent event) {
             Object source = event.getSource();
-            if (source instanceof Component) {
+            if (source instbnceof Component) {
                 Component component = (Component) source;
                 while (component != null) {
-                    if (component instanceof JLayer) {
-                        JLayer l = (JLayer) component;
-                        LayerUI<?> ui = l.getUI();
+                    if (component instbnceof JLbyer) {
+                        JLbyer l = (JLbyer) component;
+                        LbyerUI<?> ui = l.getUI();
                         if (ui != null &&
-                                isEventEnabled(l.getLayerEventMask(), event.getID()) &&
-                                (!(event instanceof InputEvent) || !((InputEvent)event).isConsumed())) {
-                            ui.eventDispatched(event, l);
+                                isEventEnbbled(l.getLbyerEventMbsk(), event.getID()) &&
+                                (!(event instbnceof InputEvent) || !((InputEvent)event).isConsumed())) {
+                            ui.eventDispbtched(event, l);
                         }
                     }
-                    component = component.getParent();
+                    component = component.getPbrent();
                 }
             }
         }
 
-        private void updateAWTEventListener(long oldEventMask, long newEventMask) {
-            if (oldEventMask != 0) {
-                layerMaskList.remove(oldEventMask);
+        privbte void updbteAWTEventListener(long oldEventMbsk, long newEventMbsk) {
+            if (oldEventMbsk != 0) {
+                lbyerMbskList.remove(oldEventMbsk);
             }
-            if (newEventMask != 0) {
-                layerMaskList.add(newEventMask);
+            if (newEventMbsk != 0) {
+                lbyerMbskList.bdd(newEventMbsk);
             }
-            long combinedMask = 0;
-            for (Long mask : layerMaskList) {
-                combinedMask |= mask;
+            long combinedMbsk = 0;
+            for (Long mbsk : lbyerMbskList) {
+                combinedMbsk |= mbsk;
             }
-            // filter out all unaccepted events
-            combinedMask &= ACCEPTED_EVENTS;
-            if (combinedMask == 0) {
+            // filter out bll unbccepted events
+            combinedMbsk &= ACCEPTED_EVENTS;
+            if (combinedMbsk == 0) {
                 removeAWTEventListener();
-            } else if (getCurrentEventMask() != combinedMask) {
+            } else if (getCurrentEventMbsk() != combinedMbsk) {
                 removeAWTEventListener();
-                addAWTEventListener(combinedMask);
+                bddAWTEventListener(combinedMbsk);
             }
-            currentEventMask = combinedMask;
+            currentEventMbsk = combinedMbsk;
         }
 
-        private long getCurrentEventMask() {
-            return currentEventMask;
+        privbte long getCurrentEventMbsk() {
+            return currentEventMbsk;
         }
 
-        private void addAWTEventListener(final long eventMask) {
+        privbte void bddAWTEventListener(finbl long eventMbsk) {
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 public Void run() {
-                    Toolkit.getDefaultToolkit().
-                            addAWTEventListener(LayerEventController.this, eventMask);
+                    Toolkit.getDefbultToolkit().
+                            bddAWTEventListener(LbyerEventController.this, eventMbsk);
                     return null;
                 }
             });
 
         }
 
-        private void removeAWTEventListener() {
+        privbte void removeAWTEventListener() {
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 public Void run() {
-                    Toolkit.getDefaultToolkit().
-                            removeAWTEventListener(LayerEventController.this);
+                    Toolkit.getDefbultToolkit().
+                            removeAWTEventListener(LbyerEventController.this);
                     return null;
                 }
             });
         }
 
-        private boolean isEventEnabled(long eventMask, int id) {
-            return (((eventMask & AWTEvent.COMPONENT_EVENT_MASK) != 0 &&
+        privbte boolebn isEventEnbbled(long eventMbsk, int id) {
+            return (((eventMbsk & AWTEvent.COMPONENT_EVENT_MASK) != 0 &&
                     id >= ComponentEvent.COMPONENT_FIRST &&
                     id <= ComponentEvent.COMPONENT_LAST)
-                    || ((eventMask & AWTEvent.CONTAINER_EVENT_MASK) != 0 &&
-                    id >= ContainerEvent.CONTAINER_FIRST &&
-                    id <= ContainerEvent.CONTAINER_LAST)
-                    || ((eventMask & AWTEvent.FOCUS_EVENT_MASK) != 0 &&
+                    || ((eventMbsk & AWTEvent.CONTAINER_EVENT_MASK) != 0 &&
+                    id >= ContbinerEvent.CONTAINER_FIRST &&
+                    id <= ContbinerEvent.CONTAINER_LAST)
+                    || ((eventMbsk & AWTEvent.FOCUS_EVENT_MASK) != 0 &&
                     id >= FocusEvent.FOCUS_FIRST &&
                     id <= FocusEvent.FOCUS_LAST)
-                    || ((eventMask & AWTEvent.KEY_EVENT_MASK) != 0 &&
+                    || ((eventMbsk & AWTEvent.KEY_EVENT_MASK) != 0 &&
                     id >= KeyEvent.KEY_FIRST &&
                     id <= KeyEvent.KEY_LAST)
-                    || ((eventMask & AWTEvent.MOUSE_WHEEL_EVENT_MASK) != 0 &&
+                    || ((eventMbsk & AWTEvent.MOUSE_WHEEL_EVENT_MASK) != 0 &&
                     id == MouseEvent.MOUSE_WHEEL)
-                    || ((eventMask & AWTEvent.MOUSE_MOTION_EVENT_MASK) != 0 &&
+                    || ((eventMbsk & AWTEvent.MOUSE_MOTION_EVENT_MASK) != 0 &&
                     (id == MouseEvent.MOUSE_MOVED ||
                             id == MouseEvent.MOUSE_DRAGGED))
-                    || ((eventMask & AWTEvent.MOUSE_EVENT_MASK) != 0 &&
+                    || ((eventMbsk & AWTEvent.MOUSE_EVENT_MASK) != 0 &&
                     id != MouseEvent.MOUSE_MOVED &&
                     id != MouseEvent.MOUSE_DRAGGED &&
                     id != MouseEvent.MOUSE_WHEEL &&
                     id >= MouseEvent.MOUSE_FIRST &&
                     id <= MouseEvent.MOUSE_LAST)
-                    || ((eventMask & AWTEvent.INPUT_METHOD_EVENT_MASK) != 0 &&
+                    || ((eventMbsk & AWTEvent.INPUT_METHOD_EVENT_MASK) != 0 &&
                     id >= InputMethodEvent.INPUT_METHOD_FIRST &&
                     id <= InputMethodEvent.INPUT_METHOD_LAST)
-                    || ((eventMask & AWTEvent.HIERARCHY_EVENT_MASK) != 0 &&
-                    id == HierarchyEvent.HIERARCHY_CHANGED)
-                    || ((eventMask & AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK) != 0 &&
-                    (id == HierarchyEvent.ANCESTOR_MOVED ||
-                            id == HierarchyEvent.ANCESTOR_RESIZED)));
+                    || ((eventMbsk & AWTEvent.HIERARCHY_EVENT_MASK) != 0 &&
+                    id == HierbrchyEvent.HIERARCHY_CHANGED)
+                    || ((eventMbsk & AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK) != 0 &&
+                    (id == HierbrchyEvent.ANCESTOR_MOVED ||
+                            id == HierbrchyEvent.ANCESTOR_RESIZED)));
         }
     }
 
     /**
-     * The default glassPane for the {@link javax.swing.JLayer}.
-     * It is a subclass of {@code JPanel} which is non opaque by default.
+     * The defbult glbssPbne for the {@link jbvbx.swing.JLbyer}.
+     * It is b subclbss of {@code JPbnel} which is non opbque by defbult.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class DefaultLayerGlassPane extends JPanel {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte stbtic clbss DefbultLbyerGlbssPbne extends JPbnel {
         /**
-         * Creates a new {@link DefaultLayerGlassPane}
+         * Crebtes b new {@link DefbultLbyerGlbssPbne}
          */
-        public DefaultLayerGlassPane() {
-            setOpaque(false);
+        public DefbultLbyerGlbssPbne() {
+            setOpbque(fblse);
         }
 
         /**
-         * First, implementation of this method iterates through
-         * glassPane's child components and returns {@code true}
-         * if any of them is visible and contains passed x,y point.
-         * After that it checks if no mouseListeners is attached to this component
-         * and no mouse cursor is set, then it returns {@code false},
-         * otherwise calls the super implementation of this method.
+         * First, implementbtion of this method iterbtes through
+         * glbssPbne's child components bnd returns {@code true}
+         * if bny of them is visible bnd contbins pbssed x,y point.
+         * After thbt it checks if no mouseListeners is bttbched to this component
+         * bnd no mouse cursor is set, then it returns {@code fblse},
+         * otherwise cblls the super implementbtion of this method.
          *
-         * @param x the <i>x</i> coordinate of the point
-         * @param y the <i>y</i> coordinate of the point
-         * @return true if this component logically contains x,y
+         * @pbrbm x the <i>x</i> coordinbte of the point
+         * @pbrbm y the <i>y</i> coordinbte of the point
+         * @return true if this component logicblly contbins x,y
          */
-        public boolean contains(int x, int y) {
+        public boolebn contbins(int x, int y) {
             for (int i = 0; i < getComponentCount(); i++) {
                 Component c = getComponent(i);
                 Point point = SwingUtilities.convertPoint(this, new Point(x, y), c);
-                if(c.isVisible() && c.contains(point)){
+                if(c.isVisible() && c.contbins(point)){
                     return true;
                 }
             }
@@ -860,9 +860,9 @@ public final class JLayer<V extends Component>
                     && getMouseMotionListeners().length == 0
                     && getMouseWheelListeners().length == 0
                     && !isCursorSet()) {
-                return false;
+                return fblse;
             }
-            return super.contains(x, y);
+            return super.contbins(x, y);
         }
     }
 }

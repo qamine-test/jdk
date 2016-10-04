@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -34,8 +34,8 @@
 #include    <jvmti.h>
 
 /**
- * This module contains utility routines for manipulating Java throwables
- * and JNIEnv throwable state from native code.
+ * This module contbins utility routines for mbnipulbting Jbvb throwbbles
+ * bnd JNIEnv throwbble stbte from nbtive code.
  */
 
 #ifdef __cplusplus
@@ -43,116 +43,116 @@ extern "C" {
 #endif
 
 /*
- * Set up static state. Needs java, must be called at or after VMInit.
- * Returns true if it succeeds, false if it fails.
+ * Set up stbtic stbte. Needs jbvb, must be cblled bt or bfter VMInit.
+ * Returns true if it succeeds, fblse if it fbils.
  */
-extern jboolean
-initializeFallbackError(JNIEnv* jnienv);
+extern jboolebn
+initiblizeFbllbbckError(JNIEnv* jnienv);
 
 /*
- *  Mapping support. Allows different clients to map checked exceptions in different ways.
+ *  Mbpping support. Allows different clients to mbp checked exceptions in different wbys.
  */
-typedef jthrowable (*CheckedExceptionMapper)
+typedef jthrowbble (*CheckedExceptionMbpper)
     (   JNIEnv *    jnienv,
-        jthrowable  throwableToMap);
+        jthrowbble  throwbbleToMbp);
 
-/* Default mapper. Map everything checked to InternalError; can return null if error */
-extern jthrowable
-mapAllCheckedToInternalErrorMapper( JNIEnv *    jnienv,
-                                    jthrowable  throwableToMap);
+/* Defbult mbpper. Mbp everything checked to InternblError; cbn return null if error */
+extern jthrowbble
+mbpAllCheckedToInternblErrorMbpper( JNIEnv *    jnienv,
+                                    jthrowbble  throwbbleToMbp);
 
 
 
 /*
- *  Exception-helper routines that do not modify the JNIEnv.
- *  They require a clean JNIEnv on entry, and they guarantee a clean JNIEnv on exit.
+ *  Exception-helper routines thbt do not modify the JNIEnv.
+ *  They require b clebn JNIEnv on entry, bnd they gubrbntee b clebn JNIEnv on exit.
  */
 
-/* creates a throwable from the supplied parameters; can return null if error */
-extern jthrowable
-createThrowable(    JNIEnv*     jnienv,
-                    const char* className,
-                    jstring     message);
+/* crebtes b throwbble from the supplied pbrbmeters; cbn return null if error */
+extern jthrowbble
+crebteThrowbble(    JNIEnv*     jnienv,
+                    const chbr* clbssNbme,
+                    jstring     messbge);
 
-/* creates a java.lang.InternalError; can return null if error */
-extern jthrowable
-createInternalError(JNIEnv * jnienv, jstring message);
+/* crebtes b jbvb.lbng.InternblError; cbn return null if error */
+extern jthrowbble
+crebteInternblError(JNIEnv * jnienv, jstring messbge);
 
-/* creates the appropriate java Throwable based on the error code; can return null if error */
-extern jthrowable
-createThrowableFromJVMTIErrorCode(JNIEnv * jnienv, jvmtiError errorCode);
+/* crebtes the bppropribte jbvb Throwbble bbsed on the error code; cbn return null if error */
+extern jthrowbble
+crebteThrowbbleFromJVMTIErrorCode(JNIEnv * jnienv, jvmtiError errorCode);
 
-/* fetches the message string out of the supplied throwable, null if there is none, null if error   */
+/* fetches the messbge string out of the supplied throwbble, null if there is none, null if error   */
 extern jstring
-getMessageFromThrowable(    JNIEnv*     jnienv,
-                            jthrowable  exception);
+getMessbgeFromThrowbble(    JNIEnv*     jnienv,
+                            jthrowbble  exception);
 
-/* true if the supplied throwable is unchecked. null will return true.  */
-extern jboolean
+/* true if the supplied throwbble is unchecked. null will return true.  */
+extern jboolebn
 isUnchecked(    JNIEnv*     jnienv,
-                jthrowable  exception);
+                jthrowbble  exception);
 
-/* true if the env contains a thrown exception */
-extern jboolean
-checkForThrowable(  JNIEnv*     jnienv);
+/* true if the env contbins b thrown exception */
+extern jboolebn
+checkForThrowbble(  JNIEnv*     jnienv);
 
-/* true if the env is clean for JNI calls */
-extern jboolean
-isSafeForJNICalls(  JNIEnv * jnienv);
-
-/*
- * Logs the outstanding throwable, if one exists.
- * This call assumes an outstanding exception, but does not
- * modify the JNIEnv outstanding Throwable state.
- */
-extern void
-logThrowable(   JNIEnv * jnienv);
-
+/* true if the env is clebn for JNI cblls */
+extern jboolebn
+isSbfeForJNICblls(  JNIEnv * jnienv);
 
 /*
- *  These routines do modify the JNIEnv outstanding Throwable state.
- */
-
-/* Throws the supplied throwable. always sets the JNIEnv throwable */
-extern void
-throwThrowable(     JNIEnv *    jnienv,
-                    jthrowable  exception);
-
-/* returns current throwable. always clears the JNIEnv exception */
-extern jthrowable
-preserveThrowable(JNIEnv * jnienv);
-
-/* undoes preserveThrowable (Throws the supplied throwable). always sets the JNIEnv throwable */
-extern void
-restoreThrowable(   JNIEnv *    jnienv,
-                    jthrowable  preservedException);
-
-/* always clears the JNIEnv throwable. returns true if an exception was pending on entry. */
-extern jboolean
-checkForAndClearThrowable(  JNIEnv *    jnienv);
-
-/* creates the appropriate java Throwable based on the error code
- * does the very best it can to make sure an exception ends up installed; uses fallback if necessary
- * always sets the JNIEnv exception
+ * Logs the outstbnding throwbble, if one exists.
+ * This cbll bssumes bn outstbnding exception, but does not
+ * modify the JNIEnv outstbnding Throwbble stbte.
  */
 extern void
-createAndThrowThrowableFromJVMTIErrorCode(JNIEnv * jnienv, jvmtiError errorCode);
+logThrowbble(   JNIEnv * jnienv);
 
-/* creates a java.lang.InternalError and installs it into the JNIEnv.
- * does the very best it can to make sure an exception ends up installed; uses fallback if necessary
- * always sets the JNIEnv exception
+
+/*
+ *  These routines do modify the JNIEnv outstbnding Throwbble stbte.
+ */
+
+/* Throws the supplied throwbble. blwbys sets the JNIEnv throwbble */
+extern void
+throwThrowbble(     JNIEnv *    jnienv,
+                    jthrowbble  exception);
+
+/* returns current throwbble. blwbys clebrs the JNIEnv exception */
+extern jthrowbble
+preserveThrowbble(JNIEnv * jnienv);
+
+/* undoes preserveThrowbble (Throws the supplied throwbble). blwbys sets the JNIEnv throwbble */
+extern void
+restoreThrowbble(   JNIEnv *    jnienv,
+                    jthrowbble  preservedException);
+
+/* blwbys clebrs the JNIEnv throwbble. returns true if bn exception wbs pending on entry. */
+extern jboolebn
+checkForAndClebrThrowbble(  JNIEnv *    jnienv);
+
+/* crebtes the bppropribte jbvb Throwbble bbsed on the error code
+ * does the very best it cbn to mbke sure bn exception ends up instblled; uses fbllbbck if necessbry
+ * blwbys sets the JNIEnv exception
  */
 extern void
-createAndThrowInternalError(JNIEnv * jnienv);
+crebteAndThrowThrowbbleFromJVMTIErrorCode(JNIEnv * jnienv, jvmtiError errorCode);
 
-/* If no throwable is outstanding, do nothing.
- * If a throwable is outstanding, make sure it is of a legal type according to the supplied
- * mapping function.
- * Leaves the "thrown" state the same (none on exit if none on entry, thrown on exit if
- * thrown on entry); may change the type of the thrown exception.
+/* crebtes b jbvb.lbng.InternblError bnd instblls it into the JNIEnv.
+ * does the very best it cbn to mbke sure bn exception ends up instblled; uses fbllbbck if necessbry
+ * blwbys sets the JNIEnv exception
  */
 extern void
-mapThrownThrowableIfNecessary(JNIEnv * jnienv, CheckedExceptionMapper mapper);
+crebteAndThrowInternblError(JNIEnv * jnienv);
+
+/* If no throwbble is outstbnding, do nothing.
+ * If b throwbble is outstbnding, mbke sure it is of b legbl type bccording to the supplied
+ * mbpping function.
+ * Lebves the "thrown" stbte the sbme (none on exit if none on entry, thrown on exit if
+ * thrown on entry); mby chbnge the type of the thrown exception.
+ */
+extern void
+mbpThrownThrowbbleIfNecessbry(JNIEnv * jnienv, CheckedExceptionMbpper mbpper);
 
 #ifdef __cplusplus
 } /* extern "C" */

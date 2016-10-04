@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-interface XDragSourceProtocolListener {
+interfbce XDrbgSourceProtocolListener {
     /**
-     * Called when a reply from the current drop target is received.
+     * Cblled when b reply from the current drop tbrget is received.
      *
-     * @param action is the drop action selected by the drop target
+     * @pbrbm bction is the drop bction selected by the drop tbrget
      */
-    void handleDragReply(int action);
+    void hbndleDrbgReply(int bction);
 
     /**
-     * Called when a reply from the current drop target is received.
+     * Cblled when b reply from the current drop tbrget is received.
      *
-     * @param action the drop action selected by the drop target
-     * @param x the x coordinate of the pointer location in screen coordinates
+     * @pbrbm bction the drop bction selected by the drop tbrget
+     * @pbrbm x the x coordinbte of the pointer locbtion in screen coordinbtes
      *        for the reply
-     * @param y the x coordinate of the pointer location in screen coordinates
+     * @pbrbm y the x coordinbte of the pointer locbtion in screen coordinbtes
      *        for the reply
      */
-    void handleDragReply(int action, int x, int y);
+    void hbndleDrbgReply(int bction, int x, int y);
 
     /**
-     * Called when a reply from the current drop target is received.
+     * Cblled when b reply from the current drop tbrget is received.
      *
-     * @param action the drop action selected by the drop target
-     * @param x the x coordinate of the pointer location in screen coordinates
+     * @pbrbm bction the drop bction selected by the drop tbrget
+     * @pbrbm x the x coordinbte of the pointer locbtion in screen coordinbtes
      *        for the reply
-     * @param y the x coordinate of the pointer location in screen coordinates
+     * @pbrbm y the x coordinbte of the pointer locbtion in screen coordinbtes
      *        for the reply
-     * @param modifiers the keyboard modifiers state for the reply
+     * @pbrbm modifiers the keybobrd modifiers stbte for the reply
      */
-    void handleDragReply(int action, int x, int y, int modifiers);
+    void hbndleDrbgReply(int bction, int x, int y, int modifiers);
 
     /**
-     * Called when the current drop target signals that the drag-and-drop
-     * operation is finished.
+     * Cblled when the current drop tbrget signbls thbt the drbg-bnd-drop
+     * operbtion is finished.
      */
-    void handleDragFinished();
+    void hbndleDrbgFinished();
 
     /**
-     * Called when the current drop target signals that the drag-and-drop
-     * operation is finished.
+     * Cblled when the current drop tbrget signbls thbt the drbg-bnd-drop
+     * operbtion is finished.
      *
-     * @param success true if the drop target successfully performed the drop
-     *                action
+     * @pbrbm success true if the drop tbrget successfully performed the drop
+     *                bction
      */
-    void handleDragFinished(boolean success);
+    void hbndleDrbgFinished(boolebn success);
 
     /**
-     * Called when the current drop target signals that the drag-and-drop
-     * operation is finished.
+     * Cblled when the current drop tbrget signbls thbt the drbg-bnd-drop
+     * operbtion is finished.
      *
-     * @param action the drop action performed by the drop target
-     * @param success true if the drop target successfully performed the drop
-     *                action
+     * @pbrbm bction the drop bction performed by the drop tbrget
+     * @pbrbm success true if the drop tbrget successfully performed the drop
+     *                bction
      */
-    void handleDragFinished(boolean success, int action);
+    void hbndleDrbgFinished(boolebn success, int bction);
 
     /**
-     * Called when the current drop target signals that the drag-and-drop
-     * operation is finished.
+     * Cblled when the current drop tbrget signbls thbt the drbg-bnd-drop
+     * operbtion is finished.
      *
-     * @param action the drop action performed by the drop target
-     * @param success true if the drop target successfully performed the drop
-     *                action
-     * @param x the x coordinate of the pointer location in screen coordinates
-     *          for the signal
-     * @param y the x coordinate of the pointer location in screen coordinates
-     *          for the signal
+     * @pbrbm bction the drop bction performed by the drop tbrget
+     * @pbrbm success true if the drop tbrget successfully performed the drop
+     *                bction
+     * @pbrbm x the x coordinbte of the pointer locbtion in screen coordinbtes
+     *          for the signbl
+     * @pbrbm y the x coordinbte of the pointer locbtion in screen coordinbtes
+     *          for the signbl
      */
-    void handleDragFinished(boolean success, int action, int x, int y);
+    void hbndleDrbgFinished(boolebn success, int bction, int x, int y);
 
     /**
-     * Terminates the current drag-and-drop operation (if any) and performs
-     * the necessary cleanup.
-     * @param time the time stamp of the event that triggered drag termination
-     *             or XlibWrapper.CurrentTime
+     * Terminbtes the current drbg-bnd-drop operbtion (if bny) bnd performs
+     * the necessbry clebnup.
+     * @pbrbm time the time stbmp of the event thbt triggered drbg terminbtion
+     *             or XlibWrbpper.CurrentTime
      */
-    void cleanup(long time);
+    void clebnup(long time);
 }

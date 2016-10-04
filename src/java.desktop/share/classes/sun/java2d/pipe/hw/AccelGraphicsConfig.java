@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe.hw;
+pbckbge sun.jbvb2d.pipe.hw;
 
-import java.awt.image.VolatileImage;
+import jbvb.bwt.imbge.VolbtileImbge;
 
 /**
- * Implementors of this interface provida a way to create a
- * {@code VolatileImage} whose destination surface is an
- * {@link AccelSurface} of specified type.
+ * Implementors of this interfbce providb b wby to crebte b
+ * {@code VolbtileImbge} whose destinbtion surfbce is bn
+ * {@link AccelSurfbce} of specified type.
  *
- * @see AccelSurface
+ * @see AccelSurfbce
  */
-public interface AccelGraphicsConfig extends BufferedContextProvider {
+public interfbce AccelGrbphicsConfig extends BufferedContextProvider {
     /**
-     * Returns a VolatileImage with specified width, height, transparency
-     * and guaranteed accelerated surface type. If such image can not be created
-     * (out of vram error, specific surface type is not supported) null
+     * Returns b VolbtileImbge with specified width, height, trbnspbrency
+     * bnd gubrbnteed bccelerbted surfbce type. If such imbge cbn not be crebted
+     * (out of vrbm error, specific surfbce type is not supported) null
      * is returned.
      *
-     * Note: if {@link AccelSurface#TEXTURE} type is requested, rendering
-     * to the image will be denied by throwing
-     * {@code UnsupportedOperationException }
-     * from {@link java.awt.image.VolatileImage#getGraphics} and
-     * {@link java.awt.image.VolatileImage#createGraphics}
+     * Note: if {@link AccelSurfbce#TEXTURE} type is requested, rendering
+     * to the imbge will be denied by throwing
+     * {@code UnsupportedOperbtionException }
+     * from {@link jbvb.bwt.imbge.VolbtileImbge#getGrbphics} bnd
+     * {@link jbvb.bwt.imbge.VolbtileImbge#crebteGrbphics}
      *
-     * @param width the width of the returned {@code VolatileImage}
-     * @param height the height of the returned {@code VolatileImage}
-     * @param transparency the specified transparency mode
-     * @param type requested accelerated surface type as specified by constants
-     * in AccelSurface interface
-     * @return a {@code VolatileImage} backed up by requested accelerated
-     * surface type or null
-     * @throws IllegalArgumentException if the transparency is not a valid value
-     * @see AccelSurface#TEXTURE
-     * @see AccelSurface#RT_PLAIN
-     * @see AccelSurface#RT_TEXTURE
+     * @pbrbm width the width of the returned {@code VolbtileImbge}
+     * @pbrbm height the height of the returned {@code VolbtileImbge}
+     * @pbrbm trbnspbrency the specified trbnspbrency mode
+     * @pbrbm type requested bccelerbted surfbce type bs specified by constbnts
+     * in AccelSurfbce interfbce
+     * @return b {@code VolbtileImbge} bbcked up by requested bccelerbted
+     * surfbce type or null
+     * @throws IllegblArgumentException if the trbnspbrency is not b vblid vblue
+     * @see AccelSurfbce#TEXTURE
+     * @see AccelSurfbce#RT_PLAIN
+     * @see AccelSurfbce#RT_TEXTURE
      */
-    public VolatileImage createCompatibleVolatileImage(int width, int height,
-                                                       int transparency,
+    public VolbtileImbge crebteCompbtibleVolbtileImbge(int width, int height,
+                                                       int trbnspbrency,
                                                        int type);
     /**
-     * Returns object representing capabilities of the context associated
-     * with this {@code AccelGraphicsConfig}.
+     * Returns object representing cbpbbilities of the context bssocibted
+     * with this {@code AccelGrbphicsConfig}.
      *
-     * @return ContextCapabilities object representing caps
-     * @see ContextCapabilities
+     * @return ContextCbpbbilities object representing cbps
+     * @see ContextCbpbbilities
      */
-    public ContextCapabilities getContextCapabilities();
+    public ContextCbpbbilities getContextCbpbbilities();
 
     /**
-     * Adds an {@code AccelDeviceEventListener} to listen to accelerated
-     * device's (which is associated with this {@code AccelGraphicsConfig})
+     * Adds bn {@code AccelDeviceEventListener} to listen to bccelerbted
+     * device's (which is bssocibted with this {@code AccelGrbphicsConfig})
      * events.
      *
-     * Note: a hard link to the listener may be kept so it must be explicitly
-     * removed via {@link #removeDeviceEventListener()}.
+     * Note: b hbrd link to the listener mby be kept so it must be explicitly
+     * removed vib {@link #removeDeviceEventListener()}.
      *
-     * @param l the listener
+     * @pbrbm l the listener
      * @see AccelDeviceEventListener
      */
-    public void addDeviceEventListener(AccelDeviceEventListener l);
+    public void bddDeviceEventListener(AccelDeviceEventListener l);
 
     /**
-     * Removes an {@code AccelDeviceEventListener} from the list of listeners
+     * Removes bn {@code AccelDeviceEventListener} from the list of listeners
      * for this device's events.
      *
-     * @param l the listener
+     * @pbrbm l the listener
      * @see AccelDeviceEventListener
      */
     public void removeDeviceEventListener(AccelDeviceEventListener l);

@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d;
+pbckbge sun.jbvb2d;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.nio.IntBuffer;
-import sun.awt.image.SunWritableRaster;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import jbvb.nio.IntBuffer;
+import sun.bwt.imbge.SunWritbbleRbster;
 
-public class IntegerNIORaster extends SunWritableRaster {
+public clbss IntegerNIORbster extends SunWritbbleRbster {
 
-    protected IntBuffer data;
+    protected IntBuffer dbtb;
 
-    public static WritableRaster createNIORaster(int w, int h, int bandMasks[], Point location) {
+    public stbtic WritbbleRbster crebteNIORbster(int w, int h, int bbndMbsks[], Point locbtion) {
         if ((w <= 0) || (h <= 0)) {
-            throw new IllegalArgumentException("Width (" + w + ") and height (" + h +
-                                               ") cannot be <= 0");
+            throw new IllegblArgumentException("Width (" + w + ") bnd height (" + h +
+                                               ") cbnnot be <= 0");
         }
-        // This is cribbed from java.awt.image.Raster.
-        DataBuffer db = new DataBufferNIOInt(w * h);
-        if (location == null) {
-            location = new Point(0, 0);
+        // This is cribbed from jbvb.bwt.imbge.Rbster.
+        DbtbBuffer db = new DbtbBufferNIOInt(w * h);
+        if (locbtion == null) {
+            locbtion = new Point(0, 0);
         }
-        SinglePixelPackedSampleModel sppsm =  new SinglePixelPackedSampleModel(DataBuffer.TYPE_INT, w, h, w, bandMasks);
-        return new IntegerNIORaster(sppsm, db, location);
+        SinglePixelPbckedSbmpleModel sppsm =  new SinglePixelPbckedSbmpleModel(DbtbBuffer.TYPE_INT, w, h, w, bbndMbsks);
+        return new IntegerNIORbster(sppsm, db, locbtion);
     }
 
-    public IntegerNIORaster(SampleModel sampleModel, DataBuffer dataBuffer, Point origin) {
-        // This is all cribbed from sun.awt.image.IntegerInterleavedRaster & sun.awt.image.IntegerComponentRaster
-        super(sampleModel, dataBuffer, new Rectangle(origin.x, origin.y, sampleModel.getWidth(), sampleModel.getHeight()), origin, null);
-        if (!(dataBuffer instanceof DataBufferNIOInt)) {
-           throw new RasterFormatException("IntegerNIORasters must have DataBufferNIOInt DataBuffers");
+    public IntegerNIORbster(SbmpleModel sbmpleModel, DbtbBuffer dbtbBuffer, Point origin) {
+        // This is bll cribbed from sun.bwt.imbge.IntegerInterlebvedRbster & sun.bwt.imbge.IntegerComponentRbster
+        super(sbmpleModel, dbtbBuffer, new Rectbngle(origin.x, origin.y, sbmpleModel.getWidth(), sbmpleModel.getHeight()), origin, null);
+        if (!(dbtbBuffer instbnceof DbtbBufferNIOInt)) {
+           throw new RbsterFormbtException("IntegerNIORbsters must hbve DbtbBufferNIOInt DbtbBuffers");
         }
-        this.data = ((DataBufferNIOInt)dataBuffer).getBuffer();
+        this.dbtb = ((DbtbBufferNIOInt)dbtbBuffer).getBuffer();
     }
 
-    public WritableRaster createCompatibleWritableRaster() {
-        return new IntegerNIORaster(sampleModel, new DataBufferNIOInt(sampleModel.getWidth() * sampleModel.getHeight()), new Point(0,0));
+    public WritbbleRbster crebteCompbtibleWritbbleRbster() {
+        return new IntegerNIORbster(sbmpleModel, new DbtbBufferNIOInt(sbmpleModel.getWidth() * sbmpleModel.getHeight()), new Point(0,0));
     }
 
-    public WritableRaster createCompatibleWritableRaster(int w, int h) {
+    public WritbbleRbster crebteCompbtibleWritbbleRbster(int w, int h) {
         if (w <= 0 || h <=0) {
-            throw new RasterFormatException("negative " + ((w <= 0) ? "width" : "height"));
+            throw new RbsterFormbtException("negbtive " + ((w <= 0) ? "width" : "height"));
         }
 
-        SampleModel sm = sampleModel.createCompatibleSampleModel(w,h);
+        SbmpleModel sm = sbmpleModel.crebteCompbtibleSbmpleModel(w,h);
 
-        return new IntegerNIORaster(sm, new DataBufferNIOInt(w * h), new Point(0,0));
+        return new IntegerNIORbster(sm, new DbtbBufferNIOInt(w * h), new Point(0,0));
     }
 
-    public WritableRaster createCompatibleWritableRaster(Rectangle rect) {
+    public WritbbleRbster crebteCompbtibleWritbbleRbster(Rectbngle rect) {
         if (rect == null) {
-            throw new NullPointerException("Rect cannot be null");
+            throw new NullPointerException("Rect cbnnot be null");
         }
-        return createCompatibleWritableRaster(rect.x, rect.y, rect.width, rect.height);
+        return crebteCompbtibleWritbbleRbster(rect.x, rect.y, rect.width, rect.height);
     }
 
-    public WritableRaster createCompatibleWritableRaster(int x, int y, int w, int h) {
-        WritableRaster ret = createCompatibleWritableRaster(w, h);
-        return ret.createWritableChild(0,0,w,h,x,y,null);
+    public WritbbleRbster crebteCompbtibleWritbbleRbster(int x, int y, int w, int h) {
+        WritbbleRbster ret = crebteCompbtibleWritbbleRbster(w, h);
+        return ret.crebteWritbbleChild(0,0,w,h,x,y,null);
     }
 
 
     public IntBuffer getBuffer() {
-        return data;
+        return dbtb;
     }
 
     public String toString() {
-        return new String ("IntegerNIORaster: width = "+width
+        return new String ("IntegerNIORbster: width = "+width
                            +" height = " + height
-                           +" #Bands = " + numBands
-                           +" xOff = "+sampleModelTranslateX
-                           +" yOff = "+sampleModelTranslateY);
+                           +" #Bbnds = " + numBbnds
+                           +" xOff = "+sbmpleModelTrbnslbteX
+                           +" yOff = "+sbmpleModelTrbnslbteY);
     }
 }

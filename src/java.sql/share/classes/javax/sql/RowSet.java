@@ -1,1873 +1,1873 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql;
+pbckbge jbvbx.sql;
 
-import java.sql.*;
-import java.io.*;
-import java.math.*;
-import java.util.*;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+import jbvb.util.*;
 
 /**
- * The interface that adds support to the JDBC API for the
- * JavaBeans&trade; component model.
- * A rowset, which can be used as a JavaBeans component in
- * a visual Bean development environment, can be created and
- * configured at design time and executed at run time.
+ * The interfbce thbt bdds support to the JDBC API for the
+ * JbvbBebns&trbde; component model.
+ * A rowset, which cbn be used bs b JbvbBebns component in
+ * b visubl Bebn development environment, cbn be crebted bnd
+ * configured bt design time bnd executed bt run time.
  * <P>
  * The <code>RowSet</code>
- * interface provides a set of JavaBeans properties that allow a <code>RowSet</code>
- * instance to be configured to connect to a JDBC data source and read
- * some data from the data source.  A group of setter methods (<code>setInt</code>,
- * <code>setBytes</code>, <code>setString</code>, and so on)
- * provide a way to pass input parameters to a rowset's command property.
- * This command is the SQL query the rowset uses when it gets its data from
- * a relational database, which is generally the case.
+ * interfbce provides b set of JbvbBebns properties thbt bllow b <code>RowSet</code>
+ * instbnce to be configured to connect to b JDBC dbtb source bnd rebd
+ * some dbtb from the dbtb source.  A group of setter methods (<code>setInt</code>,
+ * <code>setBytes</code>, <code>setString</code>, bnd so on)
+ * provide b wby to pbss input pbrbmeters to b rowset's commbnd property.
+ * This commbnd is the SQL query the rowset uses when it gets its dbtb from
+ * b relbtionbl dbtbbbse, which is generblly the cbse.
  * <P>
  * The <code>RowSet</code>
- * interface supports JavaBeans events, allowing other components in an
- * application to be notified when an event occurs on a rowset,
- * such as a change in its value.
+ * interfbce supports JbvbBebns events, bllowing other components in bn
+ * bpplicbtion to be notified when bn event occurs on b rowset,
+ * such bs b chbnge in its vblue.
  *
- * <P>The <code>RowSet</code> interface is unique in that it is intended to be
- * implemented using the rest of the JDBC API.  In other words, a
- * <code>RowSet</code> implementation is a layer of software that executes "on top"
- * of a JDBC driver.  Implementations of the <code>RowSet</code> interface can
- * be provided by anyone, including JDBC driver vendors who want to
- * provide a <code>RowSet</code> implementation as part of their JDBC products.
+ * <P>The <code>RowSet</code> interfbce is unique in thbt it is intended to be
+ * implemented using the rest of the JDBC API.  In other words, b
+ * <code>RowSet</code> implementbtion is b lbyer of softwbre thbt executes "on top"
+ * of b JDBC driver.  Implementbtions of the <code>RowSet</code> interfbce cbn
+ * be provided by bnyone, including JDBC driver vendors who wbnt to
+ * provide b <code>RowSet</code> implementbtion bs pbrt of their JDBC products.
  * <P>
- * A <code>RowSet</code> object may make a connection with a data source and
- * maintain that connection throughout its life cycle, in which case it is
- * called a <i>connected</i> rowset.  A rowset may also make a connection with
- * a data source, get data from it, and then close the connection. Such a rowset
- * is called a <i>disconnected</i> rowset.  A disconnected rowset may make
- * changes to its data while it is disconnected and then send the changes back
- * to the original source of the data, but it must reestablish a connection to do so.
+ * A <code>RowSet</code> object mby mbke b connection with b dbtb source bnd
+ * mbintbin thbt connection throughout its life cycle, in which cbse it is
+ * cblled b <i>connected</i> rowset.  A rowset mby blso mbke b connection with
+ * b dbtb source, get dbtb from it, bnd then close the connection. Such b rowset
+ * is cblled b <i>disconnected</i> rowset.  A disconnected rowset mby mbke
+ * chbnges to its dbtb while it is disconnected bnd then send the chbnges bbck
+ * to the originbl source of the dbtb, but it must reestbblish b connection to do so.
  * <P>
- * A disconnected rowset may have a reader (a <code>RowSetReader</code> object)
- * and a writer (a <code>RowSetWriter</code> object) associated with it.
- * The reader may be implemented in many different ways to populate a rowset
- * with data, including getting data from a non-relational data source. The
- * writer can also be implemented in many different ways to propagate changes
- * made to the rowset's data back to the underlying data source.
+ * A disconnected rowset mby hbve b rebder (b <code>RowSetRebder</code> object)
+ * bnd b writer (b <code>RowSetWriter</code> object) bssocibted with it.
+ * The rebder mby be implemented in mbny different wbys to populbte b rowset
+ * with dbtb, including getting dbtb from b non-relbtionbl dbtb source. The
+ * writer cbn blso be implemented in mbny different wbys to propbgbte chbnges
+ * mbde to the rowset's dbtb bbck to the underlying dbtb source.
  * <P>
- * Rowsets are easy to use.  The <code>RowSet</code> interface extends the standard
- * <code>java.sql.ResultSet</code> interface.  The <code>RowSetMetaData</code>
- * interface extends the <code>java.sql.ResultSetMetaData</code> interface.
- * Thus, developers familiar
- * with the JDBC API will have to learn a minimal number of new APIs to
- * use rowsets.  In addition, third-party software tools that work with
- * JDBC <code>ResultSet</code> objects will also easily be made to work with rowsets.
+ * Rowsets bre ebsy to use.  The <code>RowSet</code> interfbce extends the stbndbrd
+ * <code>jbvb.sql.ResultSet</code> interfbce.  The <code>RowSetMetbDbtb</code>
+ * interfbce extends the <code>jbvb.sql.ResultSetMetbDbtb</code> interfbce.
+ * Thus, developers fbmilibr
+ * with the JDBC API will hbve to lebrn b minimbl number of new APIs to
+ * use rowsets.  In bddition, third-pbrty softwbre tools thbt work with
+ * JDBC <code>ResultSet</code> objects will blso ebsily be mbde to work with rowsets.
  *
  * @since 1.4
  */
 
-public interface RowSet extends ResultSet {
+public interfbce RowSet extends ResultSet {
 
   //-----------------------------------------------------------------------
   // Properties
   //-----------------------------------------------------------------------
 
   //-----------------------------------------------------------------------
-  // The following properties may be used to create a Connection.
+  // The following properties mby be used to crebte b Connection.
   //-----------------------------------------------------------------------
 
   /**
    * Retrieves the url property this <code>RowSet</code> object will use to
-   * create a connection if it uses the <code>DriverManager</code>
-   * instead of a <code>DataSource</code> object to establish the connection.
-   * The default value is <code>null</code>.
+   * crebte b connection if it uses the <code>DriverMbnbger</code>
+   * instebd of b <code>DbtbSource</code> object to estbblish the connection.
+   * The defbult vblue is <code>null</code>.
    *
-   * @return a string url
-   * @exception SQLException if a database access error occurs
+   * @return b string url
+   * @exception SQLException if b dbtbbbse bccess error occurs
    * @see #setUrl
    */
   String getUrl() throws SQLException;
 
   /**
    * Sets the URL this <code>RowSet</code> object will use when it uses the
-   * <code>DriverManager</code> to create a connection.
+   * <code>DriverMbnbger</code> to crebte b connection.
    *
-   * Setting this property is optional.  If a URL is used, a JDBC driver
-   * that accepts the URL must be loaded before the
-   * rowset is used to connect to a database.  The rowset will use the URL
-   * internally to create a database connection when reading or writing
-   * data.  Either a URL or a data source name is used to create a
-   * connection, whichever was set to non null value most recently.
+   * Setting this property is optionbl.  If b URL is used, b JDBC driver
+   * thbt bccepts the URL must be lobded before the
+   * rowset is used to connect to b dbtbbbse.  The rowset will use the URL
+   * internblly to crebte b dbtbbbse connection when rebding or writing
+   * dbtb.  Either b URL or b dbtb source nbme is used to crebte b
+   * connection, whichever wbs set to non null vblue most recently.
    *
-   * @param url a string value; may be <code>null</code>
-   * @exception SQLException if a database access error occurs
+   * @pbrbm url b string vblue; mby be <code>null</code>
+   * @exception SQLException if b dbtbbbse bccess error occurs
    * @see #getUrl
    */
   void setUrl(String url) throws SQLException;
 
   /**
-   * Retrieves the logical name that identifies the data source for this
+   * Retrieves the logicbl nbme thbt identifies the dbtb source for this
    * <code>RowSet</code> object.
    *
-   * @return a data source name
-   * @see #setDataSourceName
+   * @return b dbtb source nbme
+   * @see #setDbtbSourceNbme
    * @see #setUrl
    */
-  String getDataSourceName();
+  String getDbtbSourceNbme();
 
   /**
-   * Sets the data source name property for this <code>RowSet</code> object to the
+   * Sets the dbtb source nbme property for this <code>RowSet</code> object to the
    * given <code>String</code>.
    * <P>
-   * The value of the data source name property can be used to do a lookup of
-   * a <code>DataSource</code> object that has been registered with a naming
-   * service.  After being retrieved, the <code>DataSource</code> object can be
-   * used to create a connection to the data source that it represents.
+   * The vblue of the dbtb source nbme property cbn be used to do b lookup of
+   * b <code>DbtbSource</code> object thbt hbs been registered with b nbming
+   * service.  After being retrieved, the <code>DbtbSource</code> object cbn be
+   * used to crebte b connection to the dbtb source thbt it represents.
    *
-   * @param name the logical name of the data source for this <code>RowSet</code>
-   *        object; may be <code>null</code>
-   * @exception SQLException if a database access error occurs
-   * @see #getDataSourceName
+   * @pbrbm nbme the logicbl nbme of the dbtb source for this <code>RowSet</code>
+   *        object; mby be <code>null</code>
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #getDbtbSourceNbme
    */
-  void setDataSourceName(String name) throws SQLException;
+  void setDbtbSourceNbme(String nbme) throws SQLException;
 
   /**
-   * Retrieves the username used to create a database connection for this
+   * Retrieves the usernbme used to crebte b dbtbbbse connection for this
    * <code>RowSet</code> object.
-   * The username property is set at run time before calling the method
+   * The usernbme property is set bt run time before cblling the method
    * <code>execute</code>.  It is
-   * not usually part of the serialized state of a <code>RowSet</code> object.
+   * not usublly pbrt of the seriblized stbte of b <code>RowSet</code> object.
    *
-   * @return the username property
-   * @see #setUsername
+   * @return the usernbme property
+   * @see #setUsernbme
    */
-  String getUsername();
+  String getUsernbme();
 
   /**
-   * Sets the username property for this <code>RowSet</code> object to the
+   * Sets the usernbme property for this <code>RowSet</code> object to the
    * given <code>String</code>.
    *
-   * @param name a user name
-   * @exception SQLException if a database access error occurs
-   * @see #getUsername
+   * @pbrbm nbme b user nbme
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #getUsernbme
    */
-  void setUsername(String name) throws SQLException;
+  void setUsernbme(String nbme) throws SQLException;
 
   /**
-   * Retrieves the password used to create a database connection.
-   * The password property is set at run time before calling the method
-   * <code>execute</code>.  It is not usually part of the serialized state
-   * of a <code>RowSet</code> object.
+   * Retrieves the pbssword used to crebte b dbtbbbse connection.
+   * The pbssword property is set bt run time before cblling the method
+   * <code>execute</code>.  It is not usublly pbrt of the seriblized stbte
+   * of b <code>RowSet</code> object.
    *
-   * @return the password for making a database connection
-   * @see #setPassword
+   * @return the pbssword for mbking b dbtbbbse connection
+   * @see #setPbssword
    */
-  String getPassword();
+  String getPbssword();
 
   /**
-   * Sets the database password for this <code>RowSet</code> object to
+   * Sets the dbtbbbse pbssword for this <code>RowSet</code> object to
    * the given <code>String</code>.
    *
-   * @param password the password string
-   * @exception SQLException if a database access error occurs
-   * @see #getPassword
+   * @pbrbm pbssword the pbssword string
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #getPbssword
    */
-  void setPassword(String password) throws SQLException;
+  void setPbssword(String pbssword) throws SQLException;
 
   /**
-   * Retrieves the transaction isolation level set for this
+   * Retrieves the trbnsbction isolbtion level set for this
    * <code>RowSet</code> object.
    *
-   * @return the transaction isolation level; one of
+   * @return the trbnsbction isolbtion level; one of
    *      <code>Connection.TRANSACTION_READ_UNCOMMITTED</code>,
    *      <code>Connection.TRANSACTION_READ_COMMITTED</code>,
    *      <code>Connection.TRANSACTION_REPEATABLE_READ</code>, or
    *      <code>Connection.TRANSACTION_SERIALIZABLE</code>
-   * @see #setTransactionIsolation
+   * @see #setTrbnsbctionIsolbtion
    */
-  int getTransactionIsolation();
+  int getTrbnsbctionIsolbtion();
 
   /**
-   * Sets the transaction isolation level for this <code>RowSet</code> object.
+   * Sets the trbnsbction isolbtion level for this <code>RowSet</code> object.
    *
-   * @param level the transaction isolation level; one of
+   * @pbrbm level the trbnsbction isolbtion level; one of
    *      <code>Connection.TRANSACTION_READ_UNCOMMITTED</code>,
    *      <code>Connection.TRANSACTION_READ_COMMITTED</code>,
    *      <code>Connection.TRANSACTION_REPEATABLE_READ</code>, or
    *      <code>Connection.TRANSACTION_SERIALIZABLE</code>
-   * @exception SQLException if a database access error occurs
-   * @see #getTransactionIsolation
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #getTrbnsbctionIsolbtion
    */
-  void setTransactionIsolation(int level) throws SQLException;
+  void setTrbnsbctionIsolbtion(int level) throws SQLException;
 
   /**
-   * Retrieves the <code>Map</code> object associated with this
-   * <code>RowSet</code> object, which specifies the custom mapping
-   * of SQL user-defined types, if any.  The default is for the
-   * type map to be empty.
+   * Retrieves the <code>Mbp</code> object bssocibted with this
+   * <code>RowSet</code> object, which specifies the custom mbpping
+   * of SQL user-defined types, if bny.  The defbult is for the
+   * type mbp to be empty.
    *
-   * @return a <code>java.util.Map</code> object containing the names of
-   *         SQL user-defined types and the Java classes to which they are
-   *         to be mapped
+   * @return b <code>jbvb.util.Mbp</code> object contbining the nbmes of
+   *         SQL user-defined types bnd the Jbvb clbsses to which they bre
+   *         to be mbpped
    *
-   * @exception SQLException if a database access error occurs
-   * @see #setTypeMap
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #setTypeMbp
    */
-   java.util.Map<String,Class<?>> getTypeMap() throws SQLException;
+   jbvb.util.Mbp<String,Clbss<?>> getTypeMbp() throws SQLException;
 
   /**
-   * Installs the given <code>java.util.Map</code> object as the default
-   * type map for this <code>RowSet</code> object. This type map will be
-   * used unless another type map is supplied as a method parameter.
+   * Instblls the given <code>jbvb.util.Mbp</code> object bs the defbult
+   * type mbp for this <code>RowSet</code> object. This type mbp will be
+   * used unless bnother type mbp is supplied bs b method pbrbmeter.
    *
-   * @param map  a <code>java.util.Map</code> object containing the names of
-   *         SQL user-defined types and the Java classes to which they are
-   *         to be mapped
-   * @exception SQLException if a database access error occurs
-   * @see #getTypeMap
+   * @pbrbm mbp  b <code>jbvb.util.Mbp</code> object contbining the nbmes of
+   *         SQL user-defined types bnd the Jbvb clbsses to which they bre
+   *         to be mbpped
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #getTypeMbp
    */
-   void setTypeMap(java.util.Map<String,Class<?>> map) throws SQLException;
+   void setTypeMbp(jbvb.util.Mbp<String,Clbss<?>> mbp) throws SQLException;
 
   //-----------------------------------------------------------------------
-  // The following properties may be used to create a Statement.
+  // The following properties mby be used to crebte b Stbtement.
   //-----------------------------------------------------------------------
 
   /**
-   * Retrieves this <code>RowSet</code> object's command property.
+   * Retrieves this <code>RowSet</code> object's commbnd property.
    *
-   * The command property contains a command string, which must be an SQL
-   * query, that can be executed to fill the rowset with data.
-   * The default value is <code>null</code>.
+   * The commbnd property contbins b commbnd string, which must be bn SQL
+   * query, thbt cbn be executed to fill the rowset with dbtb.
+   * The defbult vblue is <code>null</code>.
    *
-   * @return the command string; may be <code>null</code>
-   * @see #setCommand
+   * @return the commbnd string; mby be <code>null</code>
+   * @see #setCommbnd
    */
-  String getCommand();
+  String getCommbnd();
 
   /**
-   * Sets this <code>RowSet</code> object's command property to the given
+   * Sets this <code>RowSet</code> object's commbnd property to the given
    * SQL query.
    *
-   * This property is optional
-   * when a rowset gets its data from a data source that does not support
-   * commands, such as a spreadsheet.
+   * This property is optionbl
+   * when b rowset gets its dbtb from b dbtb source thbt does not support
+   * commbnds, such bs b sprebdsheet.
    *
-   * @param cmd the SQL query that will be used to get the data for this
-   *        <code>RowSet</code> object; may be <code>null</code>
-   * @exception SQLException if a database access error occurs
-   * @see #getCommand
+   * @pbrbm cmd the SQL query thbt will be used to get the dbtb for this
+   *        <code>RowSet</code> object; mby be <code>null</code>
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #getCommbnd
    */
-  void setCommand(String cmd) throws SQLException;
+  void setCommbnd(String cmd) throws SQLException;
 
   /**
-   * Retrieves whether this <code>RowSet</code> object is read-only.
-   * If updates are possible, the default is for a rowset to be
-   * updatable.
+   * Retrieves whether this <code>RowSet</code> object is rebd-only.
+   * If updbtes bre possible, the defbult is for b rowset to be
+   * updbtbble.
    * <P>
-   * Attempts to update a read-only rowset will result in an
+   * Attempts to updbte b rebd-only rowset will result in bn
    * <code>SQLException</code> being thrown.
    *
    * @return <code>true</code> if this <code>RowSet</code> object is
-   *         read-only; <code>false</code> if it is updatable
-   * @see #setReadOnly
+   *         rebd-only; <code>fblse</code> if it is updbtbble
+   * @see #setRebdOnly
    */
-  boolean isReadOnly();
+  boolebn isRebdOnly();
 
   /**
-   * Sets whether this <code>RowSet</code> object is read-only to the
-   * given <code>boolean</code>.
+   * Sets whether this <code>RowSet</code> object is rebd-only to the
+   * given <code>boolebn</code>.
    *
-   * @param value <code>true</code> if read-only; <code>false</code> if
-   *        updatable
-   * @exception SQLException if a database access error occurs
-   * @see #isReadOnly
+   * @pbrbm vblue <code>true</code> if rebd-only; <code>fblse</code> if
+   *        updbtbble
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #isRebdOnly
    */
-  void setReadOnly(boolean value) throws SQLException;
+  void setRebdOnly(boolebn vblue) throws SQLException;
 
   /**
-   * Retrieves the maximum number of bytes that may be returned
-   * for certain column values.
-   * This limit applies only to <code>BINARY</code>,
+   * Retrieves the mbximum number of bytes thbt mby be returned
+   * for certbin column vblues.
+   * This limit bpplies only to <code>BINARY</code>,
    * <code>VARBINARY</code>, <code>LONGVARBINARYBINARY</code>, <code>CHAR</code>,
    * <code>VARCHAR</code>, <code>LONGVARCHAR</code>, <code>NCHAR</code>
-   * and <code>NVARCHAR</code> columns.
-   * If the limit is exceeded, the excess data is silently discarded.
+   * bnd <code>NVARCHAR</code> columns.
+   * If the limit is exceeded, the excess dbtb is silently discbrded.
    *
-   * @return the current maximum column size limit; zero means that there
+   * @return the current mbximum column size limit; zero mebns thbt there
    *          is no limit
-   * @exception SQLException if a database access error occurs
-   * @see #setMaxFieldSize
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #setMbxFieldSize
    */
-  int getMaxFieldSize() throws SQLException;
+  int getMbxFieldSize() throws SQLException;
 
   /**
-   * Sets the maximum number of bytes that can be returned for a column
-   * value to the given number of bytes.
-   * This limit applies only to <code>BINARY</code>,
+   * Sets the mbximum number of bytes thbt cbn be returned for b column
+   * vblue to the given number of bytes.
+   * This limit bpplies only to <code>BINARY</code>,
    * <code>VARBINARY</code>, <code>LONGVARBINARYBINARY</code>, <code>CHAR</code>,
    * <code>VARCHAR</code>, <code>LONGVARCHAR</code>, <code>NCHAR</code>
-   * and <code>NVARCHAR</code> columns.
-   * If the limit is exceeded, the excess data is silently discarded.
-   * For maximum portability, use values greater than 256.
+   * bnd <code>NVARCHAR</code> columns.
+   * If the limit is exceeded, the excess dbtb is silently discbrded.
+   * For mbximum portbbility, use vblues grebter thbn 256.
    *
-   * @param max the new max column size limit in bytes; zero means unlimited
-   * @exception SQLException if a database access error occurs
-   * @see #getMaxFieldSize
+   * @pbrbm mbx the new mbx column size limit in bytes; zero mebns unlimited
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #getMbxFieldSize
    */
-  void setMaxFieldSize(int max) throws SQLException;
+  void setMbxFieldSize(int mbx) throws SQLException;
 
   /**
-   * Retrieves the maximum number of rows that this <code>RowSet</code>
-   * object can contain.
-   * If the limit is exceeded, the excess rows are silently dropped.
+   * Retrieves the mbximum number of rows thbt this <code>RowSet</code>
+   * object cbn contbin.
+   * If the limit is exceeded, the excess rows bre silently dropped.
    *
-   * @return the current maximum number of rows that this <code>RowSet</code>
-   *         object can contain; zero means unlimited
-   * @exception SQLException if a database access error occurs
-   * @see #setMaxRows
+   * @return the current mbximum number of rows thbt this <code>RowSet</code>
+   *         object cbn contbin; zero mebns unlimited
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #setMbxRows
    */
-  int getMaxRows() throws SQLException;
+  int getMbxRows() throws SQLException;
 
   /**
-   * Sets the maximum number of rows that this <code>RowSet</code>
-   * object can contain to the specified number.
-   * If the limit is exceeded, the excess rows are silently dropped.
+   * Sets the mbximum number of rows thbt this <code>RowSet</code>
+   * object cbn contbin to the specified number.
+   * If the limit is exceeded, the excess rows bre silently dropped.
    *
-   * @param max the new maximum number of rows; zero means unlimited
-   * @exception SQLException if a database access error occurs
-   * @see #getMaxRows
+   * @pbrbm mbx the new mbximum number of rows; zero mebns unlimited
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #getMbxRows
    */
-  void setMaxRows(int max) throws SQLException;
+  void setMbxRows(int mbx) throws SQLException;
 
   /**
-   * Retrieves whether escape processing is enabled for this
+   * Retrieves whether escbpe processing is enbbled for this
    * <code>RowSet</code> object.
-   * If escape scanning is enabled, which is the default, the driver will do
-   * escape substitution before sending an SQL statement to the database.
+   * If escbpe scbnning is enbbled, which is the defbult, the driver will do
+   * escbpe substitution before sending bn SQL stbtement to the dbtbbbse.
    *
-   * @return <code>true</code> if escape processing is enabled;
-   *         <code>false</code> if it is disabled
-   * @exception SQLException if a database access error occurs
-   * @see #setEscapeProcessing
+   * @return <code>true</code> if escbpe processing is enbbled;
+   *         <code>fblse</code> if it is disbbled
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #setEscbpeProcessing
    */
-  boolean getEscapeProcessing() throws SQLException;
+  boolebn getEscbpeProcessing() throws SQLException;
 
   /**
-   * Sets escape processing for this <code>RowSet</code> object on or
-   * off. If escape scanning is on (the default), the driver will do
-   * escape substitution before sending an SQL statement to the database.
+   * Sets escbpe processing for this <code>RowSet</code> object on or
+   * off. If escbpe scbnning is on (the defbult), the driver will do
+   * escbpe substitution before sending bn SQL stbtement to the dbtbbbse.
    *
-   * @param enable <code>true</code> to enable escape processing;
-   *        <code>false</code> to disable it
-   * @exception SQLException if a database access error occurs
-   * @see #getEscapeProcessing
+   * @pbrbm enbble <code>true</code> to enbble escbpe processing;
+   *        <code>fblse</code> to disbble it
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see #getEscbpeProcessing
    */
-  void setEscapeProcessing(boolean enable) throws SQLException;
+  void setEscbpeProcessing(boolebn enbble) throws SQLException;
 
   /**
-   * Retrieves the maximum number of seconds the driver will wait for
-   * a statement to execute.
-   * If this limit is exceeded, an <code>SQLException</code> is thrown.
+   * Retrieves the mbximum number of seconds the driver will wbit for
+   * b stbtement to execute.
+   * If this limit is exceeded, bn <code>SQLException</code> is thrown.
    *
-   * @return the current query timeout limit in seconds; zero means
+   * @return the current query timeout limit in seconds; zero mebns
    *          unlimited
-   * @exception SQLException if a database access error occurs
+   * @exception SQLException if b dbtbbbse bccess error occurs
    * @see #setQueryTimeout
    */
   int getQueryTimeout() throws SQLException;
 
   /**
-   * Sets the maximum time the driver will wait for
-   * a statement to execute to the given number of seconds.
-   * If this limit is exceeded, an <code>SQLException</code> is thrown.
+   * Sets the mbximum time the driver will wbit for
+   * b stbtement to execute to the given number of seconds.
+   * If this limit is exceeded, bn <code>SQLException</code> is thrown.
    *
-   * @param seconds the new query timeout limit in seconds; zero means
-   *        that there is no limit
-   * @exception SQLException if a database access error occurs
+   * @pbrbm seconds the new query timeout limit in seconds; zero mebns
+   *        thbt there is no limit
+   * @exception SQLException if b dbtbbbse bccess error occurs
    * @see #getQueryTimeout
    */
   void setQueryTimeout(int seconds) throws SQLException;
 
   /**
    * Sets the type of this <code>RowSet</code> object to the given type.
-   * This method is used to change the type of a rowset, which is by
-   * default read-only and non-scrollable.
+   * This method is used to chbnge the type of b rowset, which is by
+   * defbult rebd-only bnd non-scrollbble.
    *
-   * @param type one of the <code>ResultSet</code> constants specifying a type:
+   * @pbrbm type one of the <code>ResultSet</code> constbnts specifying b type:
    *        <code>ResultSet.TYPE_FORWARD_ONLY</code>,
    *        <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
    *        <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-   * @exception SQLException if a database access error occurs
-   * @see java.sql.ResultSet#getType
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see jbvb.sql.ResultSet#getType
    */
   void setType(int type) throws SQLException;
 
   /**
    * Sets the concurrency of this <code>RowSet</code> object to the given
-   * concurrency level. This method is used to change the concurrency level
-   * of a rowset, which is by default <code>ResultSet.CONCUR_READ_ONLY</code>
+   * concurrency level. This method is used to chbnge the concurrency level
+   * of b rowset, which is by defbult <code>ResultSet.CONCUR_READ_ONLY</code>
    *
-   * @param concurrency one of the <code>ResultSet</code> constants specifying a
+   * @pbrbm concurrency one of the <code>ResultSet</code> constbnts specifying b
    *        concurrency level:  <code>ResultSet.CONCUR_READ_ONLY</code> or
    *        <code>ResultSet.CONCUR_UPDATABLE</code>
-   * @exception SQLException if a database access error occurs
+   * @exception SQLException if b dbtbbbse bccess error occurs
    * @see ResultSet#getConcurrency
    */
   void setConcurrency(int concurrency) throws SQLException;
 
   //-----------------------------------------------------------------------
-  // Parameters
+  // Pbrbmeters
   //-----------------------------------------------------------------------
 
   /**
-   * The <code>RowSet</code> setter methods are used to set any input parameters
-   * needed by the <code>RowSet</code> object's command.
-   * Parameters are set at run time, as opposed to design time.
+   * The <code>RowSet</code> setter methods bre used to set bny input pbrbmeters
+   * needed by the <code>RowSet</code> object's commbnd.
+   * Pbrbmeters bre set bt run time, bs opposed to design time.
    */
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's SQL
-   * command to SQL <code>NULL</code>.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's SQL
+   * commbnd to SQL <code>NULL</code>.
    *
-   * <P><B>Note:</B> You must specify the parameter's SQL type.
+   * <P><B>Note:</B> You must specify the pbrbmeter's SQL type.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param sqlType a SQL type code defined by <code>java.sql.Types</code>
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm sqlType b SQL type code defined by <code>jbvb.sql.Types</code>
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setNull(int parameterIndex, int sqlType) throws SQLException;
+  void setNull(int pbrbmeterIndex, int sqlType) throws SQLException;
 
   /**
-     * Sets the designated parameter to SQL <code>NULL</code>.
+     * Sets the designbted pbrbmeter to SQL <code>NULL</code>.
      *
-     * <P><B>Note:</B> You must specify the parameter's SQL type.
+     * <P><B>Note:</B> You must specify the pbrbmeter's SQL type.
      *
-     * @param parameterName the name of the parameter
-     * @param sqlType the SQL type code defined in <code>java.sql.Types</code>
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm sqlType the SQL type code defined in <code>jbvb.sql.Types</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      */
-    void setNull(String parameterName, int sqlType) throws SQLException;
+    void setNull(String pbrbmeterNbme, int sqlType) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's SQL
-   * command to SQL <code>NULL</code>. This version of the method <code>setNull</code>
-   * should  be used for SQL user-defined types (UDTs) and <code>REF</code> type
-   * parameters.  Examples of UDTs include: <code>STRUCT</code>, <code>DISTINCT</code>,
-   * <code>JAVA_OBJECT</code>, and named array types.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's SQL
+   * commbnd to SQL <code>NULL</code>. This version of the method <code>setNull</code>
+   * should  be used for SQL user-defined types (UDTs) bnd <code>REF</code> type
+   * pbrbmeters.  Exbmples of UDTs include: <code>STRUCT</code>, <code>DISTINCT</code>,
+   * <code>JAVA_OBJECT</code>, bnd nbmed brrby types.
    *
-   * <P><B>Note:</B> To be portable, applications must give the
-   * SQL type code and the fully qualified SQL type name when specifying
-   * a NULL UDT or <code>REF</code> parameter.  In the case of a UDT,
-   * the name is the type name of the parameter itself.  For a <code>REF</code>
-   * parameter, the name is the type name of the referenced type.  If
-   * a JDBC driver does not need the type code or type name information,
-   * it may ignore it.
+   * <P><B>Note:</B> To be portbble, bpplicbtions must give the
+   * SQL type code bnd the fully qublified SQL type nbme when specifying
+   * b NULL UDT or <code>REF</code> pbrbmeter.  In the cbse of b UDT,
+   * the nbme is the type nbme of the pbrbmeter itself.  For b <code>REF</code>
+   * pbrbmeter, the nbme is the type nbme of the referenced type.  If
+   * b JDBC driver does not need the type code or type nbme informbtion,
+   * it mby ignore it.
    *
-   * Although it is intended for UDT and <code>REF</code> parameters,
-   * this method may be used to set a null parameter of any JDBC type.
-   * If the parameter does not have a user-defined or <code>REF</code> type,
-   * the typeName parameter is ignored.
+   * Although it is intended for UDT bnd <code>REF</code> pbrbmeters,
+   * this method mby be used to set b null pbrbmeter of bny JDBC type.
+   * If the pbrbmeter does not hbve b user-defined or <code>REF</code> type,
+   * the typeNbme pbrbmeter is ignored.
    *
    *
-   * @param paramIndex the first parameter is 1, the second is 2, ...
-   * @param sqlType a value from <code>java.sql.Types</code>
-   * @param typeName the fully qualified name of an SQL UDT or the type
-   *        name of the SQL structured type being referenced by a <code>REF</code>
-   *        type; ignored if the parameter is not a UDT or <code>REF</code> type
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm sqlType b vblue from <code>jbvb.sql.Types</code>
+   * @pbrbm typeNbme the fully qublified nbme of bn SQL UDT or the type
+   *        nbme of the SQL structured type being referenced by b <code>REF</code>
+   *        type; ignored if the pbrbmeter is not b UDT or <code>REF</code> type
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setNull (int paramIndex, int sqlType, String typeName)
+  void setNull (int pbrbmIndex, int sqlType, String typeNbme)
     throws SQLException;
 
   /**
-     * Sets the designated parameter to SQL <code>NULL</code>.
+     * Sets the designbted pbrbmeter to SQL <code>NULL</code>.
      * This version of the method <code>setNull</code> should
-     * be used for user-defined types and REF type parameters.  Examples
-     * of user-defined types include: STRUCT, DISTINCT, JAVA_OBJECT, and
-     * named array types.
+     * be used for user-defined types bnd REF type pbrbmeters.  Exbmples
+     * of user-defined types include: STRUCT, DISTINCT, JAVA_OBJECT, bnd
+     * nbmed brrby types.
      *
-     * <P><B>Note:</B> To be portable, applications must give the
-     * SQL type code and the fully-qualified SQL type name when specifying
-     * a NULL user-defined or REF parameter.  In the case of a user-defined type
-     * the name is the type name of the parameter itself.  For a REF
-     * parameter, the name is the type name of the referenced type.  If
-     * a JDBC driver does not need the type code or type name information,
-     * it may ignore it.
+     * <P><B>Note:</B> To be portbble, bpplicbtions must give the
+     * SQL type code bnd the fully-qublified SQL type nbme when specifying
+     * b NULL user-defined or REF pbrbmeter.  In the cbse of b user-defined type
+     * the nbme is the type nbme of the pbrbmeter itself.  For b REF
+     * pbrbmeter, the nbme is the type nbme of the referenced type.  If
+     * b JDBC driver does not need the type code or type nbme informbtion,
+     * it mby ignore it.
      *
-     * Although it is intended for user-defined and Ref parameters,
-     * this method may be used to set a null parameter of any JDBC type.
-     * If the parameter does not have a user-defined or REF type, the given
-     * typeName is ignored.
+     * Although it is intended for user-defined bnd Ref pbrbmeters,
+     * this method mby be used to set b null pbrbmeter of bny JDBC type.
+     * If the pbrbmeter does not hbve b user-defined or REF type, the given
+     * typeNbme is ignored.
      *
      *
-     * @param parameterName the name of the parameter
-     * @param sqlType a value from <code>java.sql.Types</code>
-     * @param typeName the fully-qualified name of an SQL user-defined type;
-     *        ignored if the parameter is not a user-defined type or
-     *        SQL <code>REF</code> value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm sqlType b vblue from <code>jbvb.sql.Types</code>
+     * @pbrbm typeNbme the fully-qublified nbme of bn SQL user-defined type;
+     *        ignored if the pbrbmeter is not b user-defined type or
+     *        SQL <code>REF</code> vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      */
-    void setNull (String parameterName, int sqlType, String typeName)
+    void setNull (String pbrbmeterNbme, int sqlType, String typeNbme)
         throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given Java <code>boolean</code> value. The driver converts this to
-   * an SQL <code>BIT</code> value before sending it to the database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given Jbvb <code>boolebn</code> vblue. The driver converts this to
+   * bn SQL <code>BIT</code> vblue before sending it to the dbtbbbse.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setBoolean(int parameterIndex, boolean x) throws SQLException;
+  void setBoolebn(int pbrbmeterIndex, boolebn x) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given Java <code>boolean</code> value.
+     * Sets the designbted pbrbmeter to the given Jbvb <code>boolebn</code> vblue.
      * The driver converts this
-     * to an SQL <code>BIT</code> or <code>BOOLEAN</code> value when it sends it to the database.
+     * to bn SQL <code>BIT</code> or <code>BOOLEAN</code> vblue when it sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @see #getBoolean
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @see #getBoolebn
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      */
-    void setBoolean(String parameterName, boolean x) throws SQLException;
+    void setBoolebn(String pbrbmeterNbme, boolebn x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given Java <code>byte</code> value. The driver converts this to
-   * an SQL <code>TINYINT</code> value before sending it to the database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given Jbvb <code>byte</code> vblue. The driver converts this to
+   * bn SQL <code>TINYINT</code> vblue before sending it to the dbtbbbse.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setByte(int parameterIndex, byte x) throws SQLException;
+  void setByte(int pbrbmeterIndex, byte x) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given Java <code>byte</code> value.
+     * Sets the designbted pbrbmeter to the given Jbvb <code>byte</code> vblue.
      * The driver converts this
-     * to an SQL <code>TINYINT</code> value when it sends it to the database.
+     * to bn SQL <code>TINYINT</code> vblue when it sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @see #getByte
      * @since 1.4
      */
-    void setByte(String parameterName, byte x) throws SQLException;
+    void setByte(String pbrbmeterNbme, byte x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given Java <code>short</code> value. The driver converts this to
-   * an SQL <code>SMALLINT</code> value before sending it to the database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given Jbvb <code>short</code> vblue. The driver converts this to
+   * bn SQL <code>SMALLINT</code> vblue before sending it to the dbtbbbse.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setShort(int parameterIndex, short x) throws SQLException;
+  void setShort(int pbrbmeterIndex, short x) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given Java <code>short</code> value.
+     * Sets the designbted pbrbmeter to the given Jbvb <code>short</code> vblue.
      * The driver converts this
-     * to an SQL <code>SMALLINT</code> value when it sends it to the database.
+     * to bn SQL <code>SMALLINT</code> vblue when it sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @see #getShort
      * @since 1.4
      */
-    void setShort(String parameterName, short x) throws SQLException;
+    void setShort(String pbrbmeterNbme, short x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given Java <code>int</code> value. The driver converts this to
-   * an SQL <code>INTEGER</code> value before sending it to the database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given Jbvb <code>int</code> vblue. The driver converts this to
+   * bn SQL <code>INTEGER</code> vblue before sending it to the dbtbbbse.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setInt(int parameterIndex, int x) throws SQLException;
+  void setInt(int pbrbmeterIndex, int x) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given Java <code>int</code> value.
+     * Sets the designbted pbrbmeter to the given Jbvb <code>int</code> vblue.
      * The driver converts this
-     * to an SQL <code>INTEGER</code> value when it sends it to the database.
+     * to bn SQL <code>INTEGER</code> vblue when it sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @see #getInt
      * @since 1.4
      */
-    void setInt(String parameterName, int x) throws SQLException;
+    void setInt(String pbrbmeterNbme, int x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given Java <code>long</code> value. The driver converts this to
-   * an SQL <code>BIGINT</code> value before sending it to the database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given Jbvb <code>long</code> vblue. The driver converts this to
+   * bn SQL <code>BIGINT</code> vblue before sending it to the dbtbbbse.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setLong(int parameterIndex, long x) throws SQLException;
+  void setLong(int pbrbmeterIndex, long x) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given Java <code>long</code> value.
+     * Sets the designbted pbrbmeter to the given Jbvb <code>long</code> vblue.
      * The driver converts this
-     * to an SQL <code>BIGINT</code> value when it sends it to the database.
+     * to bn SQL <code>BIGINT</code> vblue when it sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @see #getLong
      * @since 1.4
      */
-    void setLong(String parameterName, long x) throws SQLException;
+    void setLong(String pbrbmeterNbme, long x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given Java <code>float</code> value. The driver converts this to
-   * an SQL <code>REAL</code> value before sending it to the database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given Jbvb <code>flobt</code> vblue. The driver converts this to
+   * bn SQL <code>REAL</code> vblue before sending it to the dbtbbbse.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setFloat(int parameterIndex, float x) throws SQLException;
+  void setFlobt(int pbrbmeterIndex, flobt x) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given Java <code>float</code> value.
+     * Sets the designbted pbrbmeter to the given Jbvb <code>flobt</code> vblue.
      * The driver converts this
-     * to an SQL <code>FLOAT</code> value when it sends it to the database.
+     * to bn SQL <code>FLOAT</code> vblue when it sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
-     * @see #getFloat
+     * @see #getFlobt
      * @since 1.4
      */
-    void setFloat(String parameterName, float x) throws SQLException;
+    void setFlobt(String pbrbmeterNbme, flobt x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given Java <code>double</code> value. The driver converts this to
-   * an SQL <code>DOUBLE</code> value before sending it to the database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given Jbvb <code>double</code> vblue. The driver converts this to
+   * bn SQL <code>DOUBLE</code> vblue before sending it to the dbtbbbse.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setDouble(int parameterIndex, double x) throws SQLException;
+  void setDouble(int pbrbmeterIndex, double x) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given Java <code>double</code> value.
+     * Sets the designbted pbrbmeter to the given Jbvb <code>double</code> vblue.
      * The driver converts this
-     * to an SQL <code>DOUBLE</code> value when it sends it to the database.
+     * to bn SQL <code>DOUBLE</code> vblue when it sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @see #getDouble
      * @since 1.4
      */
-    void setDouble(String parameterName, double x) throws SQLException;
+    void setDouble(String pbrbmeterNbme, double x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given <code>java.math.BigDeciaml</code> value.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given <code>jbvb.mbth.BigDecibml</code> vblue.
    * The driver converts this to
-   * an SQL <code>NUMERIC</code> value before sending it to the database.
+   * bn SQL <code>NUMERIC</code> vblue before sending it to the dbtbbbse.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setBigDecimal(int parameterIndex, BigDecimal x) throws SQLException;
+  void setBigDecimbl(int pbrbmeterIndex, BigDecimbl x) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given
-     * <code>java.math.BigDecimal</code> value.
-     * The driver converts this to an SQL <code>NUMERIC</code> value when
-     * it sends it to the database.
+     * Sets the designbted pbrbmeter to the given
+     * <code>jbvb.mbth.BigDecimbl</code> vblue.
+     * The driver converts this to bn SQL <code>NUMERIC</code> vblue when
+     * it sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
-     * @see #getBigDecimal
+     * @see #getBigDecimbl
      * @since 1.4
      */
-    void setBigDecimal(String parameterName, BigDecimal x) throws SQLException;
+    void setBigDecimbl(String pbrbmeterNbme, BigDecimbl x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given Java <code>String</code> value. Before sending it to the
-   * database, the driver converts this to an SQL <code>VARCHAR</code> or
-   * <code>LONGVARCHAR</code> value, depending on the argument's size relative
-   * to the driver's limits on <code>VARCHAR</code> values.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given Jbvb <code>String</code> vblue. Before sending it to the
+   * dbtbbbse, the driver converts this to bn SQL <code>VARCHAR</code> or
+   * <code>LONGVARCHAR</code> vblue, depending on the brgument's size relbtive
+   * to the driver's limits on <code>VARCHAR</code> vblues.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setString(int parameterIndex, String x) throws SQLException;
+  void setString(int pbrbmeterIndex, String x) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given Java <code>String</code> value.
+     * Sets the designbted pbrbmeter to the given Jbvb <code>String</code> vblue.
      * The driver converts this
-     * to an SQL <code>VARCHAR</code> or <code>LONGVARCHAR</code> value
-     * (depending on the argument's
-     * size relative to the driver's limits on <code>VARCHAR</code> values)
-     * when it sends it to the database.
+     * to bn SQL <code>VARCHAR</code> or <code>LONGVARCHAR</code> vblue
+     * (depending on the brgument's
+     * size relbtive to the driver's limits on <code>VARCHAR</code> vblues)
+     * when it sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @see #getString
      * @since 1.4
      */
-    void setString(String parameterName, String x) throws SQLException;
+    void setString(String pbrbmeterNbme, String x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given Java array of <code>byte</code> values. Before sending it to the
-   * database, the driver converts this to an SQL <code>VARBINARY</code> or
-   * <code>LONGVARBINARY</code> value, depending on the argument's size relative
-   * to the driver's limits on <code>VARBINARY</code> values.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given Jbvb brrby of <code>byte</code> vblues. Before sending it to the
+   * dbtbbbse, the driver converts this to bn SQL <code>VARBINARY</code> or
+   * <code>LONGVARBINARY</code> vblue, depending on the brgument's size relbtive
+   * to the driver's limits on <code>VARBINARY</code> vblues.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setBytes(int parameterIndex, byte x[]) throws SQLException;
+  void setBytes(int pbrbmeterIndex, byte x[]) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given Java array of bytes.
-     * The driver converts this to an SQL <code>VARBINARY</code> or
-     * <code>LONGVARBINARY</code> (depending on the argument's size relative
-     * to the driver's limits on <code>VARBINARY</code> values) when it sends
-     * it to the database.
+     * Sets the designbted pbrbmeter to the given Jbvb brrby of bytes.
+     * The driver converts this to bn SQL <code>VARBINARY</code> or
+     * <code>LONGVARBINARY</code> (depending on the brgument's size relbtive
+     * to the driver's limits on <code>VARBINARY</code> vblues) when it sends
+     * it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @see #getBytes
      * @since 1.4
      */
-    void setBytes(String parameterName, byte x[]) throws SQLException;
+    void setBytes(String pbrbmeterNbme, byte x[]) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given <code>java.sql.Date</code> value. The driver converts this to
-   * an SQL <code>DATE</code> value before sending it to the database, using the
-   * default <code>java.util.Calendar</code> to calculate the date.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given <code>jbvb.sql.Dbte</code> vblue. The driver converts this to
+   * bn SQL <code>DATE</code> vblue before sending it to the dbtbbbse, using the
+   * defbult <code>jbvb.util.Cblendbr</code> to cblculbte the dbte.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setDate(int parameterIndex, java.sql.Date x) throws SQLException;
+  void setDbte(int pbrbmeterIndex, jbvb.sql.Dbte x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given <code>java.sql.Time</code> value. The driver converts this to
-   * an SQL <code>TIME</code> value before sending it to the database, using the
-   * default <code>java.util.Calendar</code> to calculate it.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given <code>jbvb.sql.Time</code> vblue. The driver converts this to
+   * bn SQL <code>TIME</code> vblue before sending it to the dbtbbbse, using the
+   * defbult <code>jbvb.util.Cblendbr</code> to cblculbte it.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setTime(int parameterIndex, java.sql.Time x) throws SQLException;
+  void setTime(int pbrbmeterIndex, jbvb.sql.Time x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given <code>java.sql.Timestamp</code> value. The driver converts this to
-   * an SQL <code>TIMESTAMP</code> value before sending it to the database, using the
-   * default <code>java.util.Calendar</code> to calculate it.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given <code>jbvb.sql.Timestbmp</code> vblue. The driver converts this to
+   * bn SQL <code>TIMESTAMP</code> vblue before sending it to the dbtbbbse, using the
+   * defbult <code>jbvb.util.Cblendbr</code> to cblculbte it.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setTimestamp(int parameterIndex, java.sql.Timestamp x)
+  void setTimestbmp(int pbrbmeterIndex, jbvb.sql.Timestbmp x)
     throws SQLException;
 
   /**
-     * Sets the designated parameter to the given <code>java.sql.Timestamp</code> value.
+     * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Timestbmp</code> vblue.
      * The driver
-     * converts this to an SQL <code>TIMESTAMP</code> value when it sends it to the
-     * database.
+     * converts this to bn SQL <code>TIMESTAMP</code> vblue when it sends it to the
+     * dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
-     * @see #getTimestamp
+     * @see #getTimestbmp
      * @since 1.4
      */
-    void setTimestamp(String parameterName, java.sql.Timestamp x)
+    void setTimestbmp(String pbrbmeterNbme, jbvb.sql.Timestbmp x)
         throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given <code>java.io.InputStream</code> value.
-   * It may be more practical to send a very large ASCII value via a
-   * <code>java.io.InputStream</code> rather than as a <code>LONGVARCHAR</code>
-   * parameter. The driver will read the data from the stream
-   * as needed until it reaches end-of-file.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given <code>jbvb.io.InputStrebm</code> vblue.
+   * It mby be more prbcticbl to send b very lbrge ASCII vblue vib b
+   * <code>jbvb.io.InputStrebm</code> rbther thbn bs b <code>LONGVARCHAR</code>
+   * pbrbmeter. The driver will rebd the dbtb from the strebm
+   * bs needed until it rebches end-of-file.
    *
-   * <P><B>Note:</B> This stream object can either be a standard
-   * Java stream object or your own subclass that implements the
-   * standard interface.
+   * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+   * Jbvb strebm object or your own subclbss thbt implements the
+   * stbndbrd interfbce.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the Java input stream that contains the ASCII parameter value
-   * @param length the number of bytes in the stream
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the Jbvb input strebm thbt contbins the ASCII pbrbmeter vblue
+   * @pbrbm length the number of bytes in the strebm
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setAsciiStream(int parameterIndex, java.io.InputStream x, int length)
+  void setAsciiStrebm(int pbrbmeterIndex, jbvb.io.InputStrebm x, int length)
     throws SQLException;
 
   /**
-     * Sets the designated parameter to the given input stream, which will have
+     * Sets the designbted pbrbmeter to the given input strebm, which will hbve
      * the specified number of bytes.
-     * When a very large ASCII value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code>. Data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from ASCII to the database char format.
+     * When b very lbrge ASCII vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.InputStrebm</code>. Dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from ASCII to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
      *
-     * @param parameterName the name of the parameter
-     * @param x the Java input stream that contains the ASCII parameter value
-     * @param length the number of bytes in the stream
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the Jbvb input strebm thbt contbins the ASCII pbrbmeter vblue
+     * @pbrbm length the number of bytes in the strebm
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      */
-    void setAsciiStream(String parameterName, java.io.InputStream x, int length)
+    void setAsciiStrebm(String pbrbmeterNbme, jbvb.io.InputStrebm x, int length)
         throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given <code>java.io.InputStream</code> value.
-   * It may be more practical to send a very large binary value via a
-   * <code>java.io.InputStream</code> rather than as a <code>LONGVARBINARY</code>
-   * parameter. The driver will read the data from the stream
-   * as needed until it reaches end-of-file.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given <code>jbvb.io.InputStrebm</code> vblue.
+   * It mby be more prbcticbl to send b very lbrge binbry vblue vib b
+   * <code>jbvb.io.InputStrebm</code> rbther thbn bs b <code>LONGVARBINARY</code>
+   * pbrbmeter. The driver will rebd the dbtb from the strebm
+   * bs needed until it rebches end-of-file.
    *
-   * <P><B>Note:</B> This stream object can either be a standard
-   * Java stream object or your own subclass that implements the
-   * standard interface.
+   * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+   * Jbvb strebm object or your own subclbss thbt implements the
+   * stbndbrd interfbce.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the java input stream which contains the binary parameter value
-   * @param length the number of bytes in the stream
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the jbvb input strebm which contbins the binbry pbrbmeter vblue
+   * @pbrbm length the number of bytes in the strebm
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setBinaryStream(int parameterIndex, java.io.InputStream x,
+  void setBinbryStrebm(int pbrbmeterIndex, jbvb.io.InputStrebm x,
                        int length) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given input stream, which will have
+     * Sets the designbted pbrbmeter to the given input strebm, which will hbve
      * the specified number of bytes.
-     * When a very large binary value is input to a <code>LONGVARBINARY</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.
+     * When b very lbrge binbry vblue is input to b <code>LONGVARBINARY</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.InputStrebm</code> object. The dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
      *
-     * @param parameterName the name of the parameter
-     * @param x the java input stream which contains the binary parameter value
-     * @param length the number of bytes in the stream
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the jbvb input strebm which contbins the binbry pbrbmeter vblue
+     * @pbrbm length the number of bytes in the strebm
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      */
-    void setBinaryStream(String parameterName, java.io.InputStream x,
+    void setBinbryStrebm(String pbrbmeterNbme, jbvb.io.InputStrebm x,
                          int length) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given <code>java.io.Reader</code> value.
-   * It may be more practical to send a very large UNICODE value via a
-   * <code>java.io.Reader</code> rather than as a <code>LONGVARCHAR</code>
-   * parameter. The driver will read the data from the stream
-   * as needed until it reaches end-of-file.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given <code>jbvb.io.Rebder</code> vblue.
+   * It mby be more prbcticbl to send b very lbrge UNICODE vblue vib b
+   * <code>jbvb.io.Rebder</code> rbther thbn bs b <code>LONGVARCHAR</code>
+   * pbrbmeter. The driver will rebd the dbtb from the strebm
+   * bs needed until it rebches end-of-file.
    *
-   * <P><B>Note:</B> This stream object can either be a standard
-   * Java stream object or your own subclass that implements the
-   * standard interface.
+   * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+   * Jbvb strebm object or your own subclbss thbt implements the
+   * stbndbrd interfbce.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param reader the <code>Reader</code> object that contains the UNICODE data
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm rebder the <code>Rebder</code> object thbt contbins the UNICODE dbtb
    *        to be set
-   * @param length the number of characters in the stream
-   * @exception SQLException if a database access error occurs
+   * @pbrbm length the number of chbrbcters in the strebm
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setCharacterStream(int parameterIndex,
-                          Reader reader,
+  void setChbrbcterStrebm(int pbrbmeterIndex,
+                          Rebder rebder,
                           int length) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given <code>Reader</code>
-     * object, which is the given number of characters long.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * Sets the designbted pbrbmeter to the given <code>Rebder</code>
+     * object, which is the given number of chbrbcters long.
+     * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
      *
-     * @param parameterName the name of the parameter
-     * @param reader the <code>java.io.Reader</code> object that
-     *        contains the UNICODE data used as the designated parameter
-     * @param length the number of characters in the stream
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm rebder the <code>jbvb.io.Rebder</code> object thbt
+     *        contbins the UNICODE dbtb used bs the designbted pbrbmeter
+     * @pbrbm length the number of chbrbcters in the strebm
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      */
-    void setCharacterStream(String parameterName,
-                            java.io.Reader reader,
+    void setChbrbcterStrebm(String pbrbmeterNbme,
+                            jbvb.io.Rebder rebder,
                             int length) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given input stream.
-   * When a very large ASCII value is input to a <code>LONGVARCHAR</code>
-   * parameter, it may be more practical to send it via a
-   * <code>java.io.InputStream</code>. Data will be read from the stream
-   * as needed until end-of-file is reached.  The JDBC driver will
-   * do any necessary conversion from ASCII to the database char format.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given input strebm.
+   * When b very lbrge ASCII vblue is input to b <code>LONGVARCHAR</code>
+   * pbrbmeter, it mby be more prbcticbl to send it vib b
+   * <code>jbvb.io.InputStrebm</code>. Dbtb will be rebd from the strebm
+   * bs needed until end-of-file is rebched.  The JDBC driver will
+   * do bny necessbry conversion from ASCII to the dbtbbbse chbr formbt.
    *
-   * <P><B>Note:</B> This stream object can either be a standard
-   * Java stream object or your own subclass that implements the
-   * standard interface.
-   * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-   * it might be more efficient to use a version of
-   * <code>setAsciiStream</code> which takes a length parameter.
+   * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+   * Jbvb strebm object or your own subclbss thbt implements the
+   * stbndbrd interfbce.
+   * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+   * it might be more efficient to use b version of
+   * <code>setAsciiStrebm</code> which tbkes b length pbrbmeter.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the Java input stream that contains the ASCII parameter value
-   * @exception SQLException if a database access error occurs or
-   * this method is called on a closed <code>PreparedStatement</code>
-   * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the Jbvb input strebm thbt contbins the ASCII pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs or
+   * this method is cblled on b closed <code>PrepbredStbtement</code>
+   * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
    * @since 1.6
    */
-  void setAsciiStream(int parameterIndex, java.io.InputStream x)
+  void setAsciiStrebm(int pbrbmeterIndex, jbvb.io.InputStrebm x)
                       throws SQLException;
 
    /**
-     * Sets the designated parameter to the given input stream.
-     * When a very large ASCII value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code>. Data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from ASCII to the database char format.
+     * Sets the designbted pbrbmeter to the given input strebm.
+     * When b very lbrge ASCII vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.InputStrebm</code>. Dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from ASCII to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setAsciiStream</code> which takes a length parameter.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>setAsciiStrebm</code> which tbkes b length pbrbmeter.
      *
-     * @param parameterName the name of the parameter
-     * @param x the Java input stream that contains the ASCII parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the Jbvb input strebm thbt contbins the ASCII pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
        * @since 1.6
     */
-    void setAsciiStream(String parameterName, java.io.InputStream x)
+    void setAsciiStrebm(String pbrbmeterNbme, jbvb.io.InputStrebm x)
             throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given input stream.
-   * When a very large binary value is input to a <code>LONGVARBINARY</code>
-   * parameter, it may be more practical to send it via a
-   * <code>java.io.InputStream</code> object. The data will be read from the
-   * stream as needed until end-of-file is reached.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given input strebm.
+   * When b very lbrge binbry vblue is input to b <code>LONGVARBINARY</code>
+   * pbrbmeter, it mby be more prbcticbl to send it vib b
+   * <code>jbvb.io.InputStrebm</code> object. The dbtb will be rebd from the
+   * strebm bs needed until end-of-file is rebched.
    *
-   * <P><B>Note:</B> This stream object can either be a standard
-   * Java stream object or your own subclass that implements the
-   * standard interface.
-   * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-   * it might be more efficient to use a version of
-   * <code>setBinaryStream</code> which takes a length parameter.
+   * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+   * Jbvb strebm object or your own subclbss thbt implements the
+   * stbndbrd interfbce.
+   * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+   * it might be more efficient to use b version of
+   * <code>setBinbryStrebm</code> which tbkes b length pbrbmeter.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the java input stream which contains the binary parameter value
-   * @exception SQLException if a database access error occurs or
-   * this method is called on a closed <code>PreparedStatement</code>
-   * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the jbvb input strebm which contbins the binbry pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs or
+   * this method is cblled on b closed <code>PrepbredStbtement</code>
+   * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
    * @since 1.6
    */
-  void setBinaryStream(int parameterIndex, java.io.InputStream x)
+  void setBinbryStrebm(int pbrbmeterIndex, jbvb.io.InputStrebm x)
                        throws SQLException;
 
   /**
-     * Sets the designated parameter to the given input stream.
-     * When a very large binary value is input to a <code>LONGVARBINARY</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code> object. The data will be read from the
-     * stream as needed until end-of-file is reached.
+     * Sets the designbted pbrbmeter to the given input strebm.
+     * When b very lbrge binbry vblue is input to b <code>LONGVARBINARY</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.InputStrebm</code> object. The dbtb will be rebd from the
+     * strebm bs needed until end-of-file is rebched.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setBinaryStream</code> which takes a length parameter.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>setBinbryStrebm</code> which tbkes b length pbrbmeter.
      *
-     * @param parameterName the name of the parameter
-     * @param x the java input stream which contains the binary parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the jbvb input strebm which contbins the binbry pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      * @since 1.6
      */
-    void setBinaryStream(String parameterName, java.io.InputStream x)
+    void setBinbryStrebm(String pbrbmeterNbme, jbvb.io.InputStrebm x)
     throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to the given <code>Reader</code>
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to the given <code>Rebder</code>
    * object.
-   * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-   * parameter, it may be more practical to send it via a
-   * <code>java.io.Reader</code> object. The data will be read from the stream
-   * as needed until end-of-file is reached.  The JDBC driver will
-   * do any necessary conversion from UNICODE to the database char format.
+   * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+   * pbrbmeter, it mby be more prbcticbl to send it vib b
+   * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+   * bs needed until end-of-file is rebched.  The JDBC driver will
+   * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
    *
-   * <P><B>Note:</B> This stream object can either be a standard
-   * Java stream object or your own subclass that implements the
-   * standard interface.
-   * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-   * it might be more efficient to use a version of
-   * <code>setCharacterStream</code> which takes a length parameter.
+   * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+   * Jbvb strebm object or your own subclbss thbt implements the
+   * stbndbrd interfbce.
+   * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+   * it might be more efficient to use b version of
+   * <code>setChbrbcterStrebm</code> which tbkes b length pbrbmeter.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param reader the <code>java.io.Reader</code> object that contains the
-   *        Unicode data
-   * @exception SQLException if a database access error occurs or
-   * this method is called on a closed <code>PreparedStatement</code>
-   * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm rebder the <code>jbvb.io.Rebder</code> object thbt contbins the
+   *        Unicode dbtb
+   * @exception SQLException if b dbtbbbse bccess error occurs or
+   * this method is cblled on b closed <code>PrepbredStbtement</code>
+   * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
    * @since 1.6
    */
-  void setCharacterStream(int parameterIndex,
-                          java.io.Reader reader) throws SQLException;
+  void setChbrbcterStrebm(int pbrbmeterIndex,
+                          jbvb.io.Rebder rebder) throws SQLException;
 
   /**
-     * Sets the designated parameter to the given <code>Reader</code>
+     * Sets the designbted pbrbmeter to the given <code>Rebder</code>
      * object.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setCharacterStream</code> which takes a length parameter.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>setChbrbcterStrebm</code> which tbkes b length pbrbmeter.
      *
-     * @param parameterName the name of the parameter
-     * @param reader the <code>java.io.Reader</code> object that contains the
-     *        Unicode data
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm rebder the <code>jbvb.io.Rebder</code> object thbt contbins the
+     *        Unicode dbtb
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      * @since 1.6
      */
-    void setCharacterStream(String parameterName,
-                          java.io.Reader reader) throws SQLException;
+    void setChbrbcterStrebm(String pbrbmeterNbme,
+                          jbvb.io.Rebder rebder) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * to a <code>Reader</code> object. The
-   * <code>Reader</code> reads the data till end-of-file is reached. The
-   * driver does the necessary conversion from Java character format to
-   * the national character set in the database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * to b <code>Rebder</code> object. The
+   * <code>Rebder</code> rebds the dbtb till end-of-file is rebched. The
+   * driver does the necessbry conversion from Jbvb chbrbcter formbt to
+   * the nbtionbl chbrbcter set in the dbtbbbse.
 
-   * <P><B>Note:</B> This stream object can either be a standard
-   * Java stream object or your own subclass that implements the
-   * standard interface.
-   * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-   * it might be more efficient to use a version of
-   * <code>setNCharacterStream</code> which takes a length parameter.
+   * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+   * Jbvb strebm object or your own subclbss thbt implements the
+   * stbndbrd interfbce.
+   * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+   * it might be more efficient to use b version of
+   * <code>setNChbrbcterStrebm</code> which tbkes b length pbrbmeter.
    *
-   * @param parameterIndex of the first parameter is 1, the second is 2, ...
-   * @param value the parameter value
-   * @throws SQLException if the driver does not support national
-   *         character sets;  if the driver can detect that a data conversion
-   *  error could occur ; if a database access error occurs; or
-   * this method is called on a closed <code>PreparedStatement</code>
-   * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+   * @pbrbm pbrbmeterIndex of the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm vblue the pbrbmeter vblue
+   * @throws SQLException if the driver does not support nbtionbl
+   *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+   *  error could occur ; if b dbtbbbse bccess error occurs; or
+   * this method is cblled on b closed <code>PrepbredStbtement</code>
+   * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
    * @since 1.6
    */
-   void setNCharacterStream(int parameterIndex, Reader value) throws SQLException;
+   void setNChbrbcterStrebm(int pbrbmeterIndex, Rebder vblue) throws SQLException;
 
 
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * with the given Java <code>Object</code>.  For integral values, the
-   * <code>java.lang</code> equivalent objects should be used (for example,
-   * an instance of the class <code>Integer</code> for an <code>int</code>).
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * with the given Jbvb <code>Object</code>.  For integrbl vblues, the
+   * <code>jbvb.lbng</code> equivblent objects should be used (for exbmple,
+   * bn instbnce of the clbss <code>Integer</code> for bn <code>int</code>).
    *
-   * If the second argument is an <code>InputStream</code> then the stream must contain
-   * the number of bytes specified by scaleOrLength.  If the second argument is a
-   * <code>Reader</code> then the reader must contain the number of characters specified    * by scaleOrLength. If these conditions are not true the driver will generate a
-   * <code>SQLException</code> when the prepared statement is executed.
+   * If the second brgument is bn <code>InputStrebm</code> then the strebm must contbin
+   * the number of bytes specified by scbleOrLength.  If the second brgument is b
+   * <code>Rebder</code> then the rebder must contbin the number of chbrbcters specified    * by scbleOrLength. If these conditions bre not true the driver will generbte b
+   * <code>SQLException</code> when the prepbred stbtement is executed.
    *
-   * <p>The given Java object will be converted to the targetSqlType
-   * before being sent to the database.
+   * <p>The given Jbvb object will be converted to the tbrgetSqlType
+   * before being sent to the dbtbbbse.
    * <P>
-   * If the object is of a class implementing <code>SQLData</code>,
-   * the rowset should call the method <code>SQLData.writeSQL</code>
-   * to write the object to an <code>SQLOutput</code> data stream.
-   * If, on the other hand, the object is of a class implementing
+   * If the object is of b clbss implementing <code>SQLDbtb</code>,
+   * the rowset should cbll the method <code>SQLDbtb.writeSQL</code>
+   * to write the object to bn <code>SQLOutput</code> dbtb strebm.
+   * If, on the other hbnd, the object is of b clbss implementing
    * <code>Ref</code>, <code>Blob</code>, <code>Clob</code>,  <code>NClob</code>,
-   *  <code>Struct</code>, <code>java.net.URL</code>,
-   * or <code>Array</code>, the driver should pass it to the database as a
-   * value of the corresponding SQL type.
+   *  <code>Struct</code>, <code>jbvb.net.URL</code>,
+   * or <code>Arrby</code>, the driver should pbss it to the dbtbbbse bs b
+   * vblue of the corresponding SQL type.
    *
    *
-   * <p>Note that this method may be used to pass datatabase-specific
-   * abstract data types.
+   * <p>Note thbt this method mby be used to pbss dbtbtbbbse-specific
+   * bbstrbct dbtb types.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the object containing the input parameter value
-   * @param targetSqlType the SQL type (as defined in <code>java.sql.Types</code>)
-   *        to be sent to the database. The scale argument may further qualify this
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the object contbining the input pbrbmeter vblue
+   * @pbrbm tbrgetSqlType the SQL type (bs defined in <code>jbvb.sql.Types</code>)
+   *        to be sent to the dbtbbbse. The scble brgument mby further qublify this
    *        type.
-   * @param scaleOrLength for <code>java.sql.Types.DECIMAL</code>
-   *          or <code>java.sql.Types.NUMERIC types</code>,
-   *          this is the number of digits after the decimal point. For
-   *          Java Object types <code>InputStream</code> and <code>Reader</code>,
+   * @pbrbm scbleOrLength for <code>jbvb.sql.Types.DECIMAL</code>
+   *          or <code>jbvb.sql.Types.NUMERIC types</code>,
+   *          this is the number of digits bfter the decimbl point. For
+   *          Jbvb Object types <code>InputStrebm</code> bnd <code>Rebder</code>,
    *          this is the length
-   *          of the data in the stream or reader.  For all other types,
-   *          this value will be ignored.
-   * @exception SQLException if a database access error occurs
-   * @see java.sql.Types
+   *          of the dbtb in the strebm or rebder.  For bll other types,
+   *          this vblue will be ignored.
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @see jbvb.sql.Types
    */
-  void setObject(int parameterIndex, Object x, int targetSqlType, int scaleOrLength)
+  void setObject(int pbrbmeterIndex, Object x, int tbrgetSqlType, int scbleOrLength)
             throws SQLException;
 
   /**
-     * Sets the value of the designated parameter with the given object. The second
-     * argument must be an object type; for integral values, the
-     * <code>java.lang</code> equivalent objects should be used.
+     * Sets the vblue of the designbted pbrbmeter with the given object. The second
+     * brgument must be bn object type; for integrbl vblues, the
+     * <code>jbvb.lbng</code> equivblent objects should be used.
      *
-     * <p>The given Java object will be converted to the given targetSqlType
-     * before being sent to the database.
+     * <p>The given Jbvb object will be converted to the given tbrgetSqlType
+     * before being sent to the dbtbbbse.
      *
-     * If the object has a custom mapping (is of a class implementing the
-     * interface <code>SQLData</code>),
-     * the JDBC driver should call the method <code>SQLData.writeSQL</code> to write it
-     * to the SQL data stream.
-     * If, on the other hand, the object is of a class implementing
+     * If the object hbs b custom mbpping (is of b clbss implementing the
+     * interfbce <code>SQLDbtb</code>),
+     * the JDBC driver should cbll the method <code>SQLDbtb.writeSQL</code> to write it
+     * to the SQL dbtb strebm.
+     * If, on the other hbnd, the object is of b clbss implementing
      * <code>Ref</code>, <code>Blob</code>, <code>Clob</code>,  <code>NClob</code>,
-     *  <code>Struct</code>, <code>java.net.URL</code>,
-     * or <code>Array</code>, the driver should pass it to the database as a
-     * value of the corresponding SQL type.
+     *  <code>Struct</code>, <code>jbvb.net.URL</code>,
+     * or <code>Arrby</code>, the driver should pbss it to the dbtbbbse bs b
+     * vblue of the corresponding SQL type.
      * <P>
-     * Note that this method may be used to pass datatabase-
-     * specific abstract data types.
+     * Note thbt this method mby be used to pbss dbtbtbbbse-
+     * specific bbstrbct dbtb types.
      *
-     * @param parameterName the name of the parameter
-     * @param x the object containing the input parameter value
-     * @param targetSqlType the SQL type (as defined in java.sql.Types) to be
-     * sent to the database. The scale argument may further qualify this type.
-     * @param scale for java.sql.Types.DECIMAL or java.sql.Types.NUMERIC types,
-     *          this is the number of digits after the decimal point.  For all other
-     *          types, this value will be ignored.
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if <code>targetSqlType</code> is
-     * a <code>ARRAY</code>, <code>BLOB</code>, <code>CLOB</code>,
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the object contbining the input pbrbmeter vblue
+     * @pbrbm tbrgetSqlType the SQL type (bs defined in jbvb.sql.Types) to be
+     * sent to the dbtbbbse. The scble brgument mby further qublify this type.
+     * @pbrbm scble for jbvb.sql.Types.DECIMAL or jbvb.sql.Types.NUMERIC types,
+     *          this is the number of digits bfter the decimbl point.  For bll other
+     *          types, this vblue will be ignored.
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if <code>tbrgetSqlType</code> is
+     * b <code>ARRAY</code>, <code>BLOB</code>, <code>CLOB</code>,
      * <code>DATALINK</code>, <code>JAVA_OBJECT</code>, <code>NCHAR</code>,
      * <code>NCLOB</code>, <code>NVARCHAR</code>, <code>LONGNVARCHAR</code>,
      *  <code>REF</code>, <code>ROWID</code>, <code>SQLXML</code>
-     * or  <code>STRUCT</code> data type and the JDBC driver does not support
-     * this data type
+     * or  <code>STRUCT</code> dbtb type bnd the JDBC driver does not support
+     * this dbtb type
      * @see Types
      * @see #getObject
      * @since 1.4
      */
-    void setObject(String parameterName, Object x, int targetSqlType, int scale)
+    void setObject(String pbrbmeterNbme, Object x, int tbrgetSqlType, int scble)
         throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * with a Java <code>Object</code>.  For integral values, the
-   * <code>java.lang</code> equivalent objects should be used.
-   * This method is like <code>setObject</code> above, but the scale used is the scale
-   * of the second parameter.  Scalar values have a scale of zero.  Literal
-   * values have the scale present in the literal.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * with b Jbvb <code>Object</code>.  For integrbl vblues, the
+   * <code>jbvb.lbng</code> equivblent objects should be used.
+   * This method is like <code>setObject</code> bbove, but the scble used is the scble
+   * of the second pbrbmeter.  Scblbr vblues hbve b scble of zero.  Literbl
+   * vblues hbve the scble present in the literbl.
    * <P>
-   * Even though it is supported, it is not recommended that this method
-   * be called with floating point input values.
+   * Even though it is supported, it is not recommended thbt this method
+   * be cblled with flobting point input vblues.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the object containing the input parameter value
-   * @param targetSqlType the SQL type (as defined in <code>java.sql.Types</code>)
-   *        to be sent to the database
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the object contbining the input pbrbmeter vblue
+   * @pbrbm tbrgetSqlType the SQL type (bs defined in <code>jbvb.sql.Types</code>)
+   *        to be sent to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setObject(int parameterIndex, Object x,
-                 int targetSqlType) throws SQLException;
+  void setObject(int pbrbmeterIndex, Object x,
+                 int tbrgetSqlType) throws SQLException;
 
   /**
-     * Sets the value of the designated parameter with the given object.
+     * Sets the vblue of the designbted pbrbmeter with the given object.
      * This method is like the method <code>setObject</code>
-     * above, except that it assumes a scale of zero.
+     * bbove, except thbt it bssumes b scble of zero.
      *
-     * @param parameterName the name of the parameter
-     * @param x the object containing the input parameter value
-     * @param targetSqlType the SQL type (as defined in java.sql.Types) to be
-     *                      sent to the database
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if <code>targetSqlType</code> is
-     * a <code>ARRAY</code>, <code>BLOB</code>, <code>CLOB</code>,
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the object contbining the input pbrbmeter vblue
+     * @pbrbm tbrgetSqlType the SQL type (bs defined in jbvb.sql.Types) to be
+     *                      sent to the dbtbbbse
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if <code>tbrgetSqlType</code> is
+     * b <code>ARRAY</code>, <code>BLOB</code>, <code>CLOB</code>,
      * <code>DATALINK</code>, <code>JAVA_OBJECT</code>, <code>NCHAR</code>,
      * <code>NCLOB</code>, <code>NVARCHAR</code>, <code>LONGNVARCHAR</code>,
      *  <code>REF</code>, <code>ROWID</code>, <code>SQLXML</code>
-     * or  <code>STRUCT</code> data type and the JDBC driver does not support
-     * this data type
+     * or  <code>STRUCT</code> dbtb type bnd the JDBC driver does not support
+     * this dbtb type
      * @see #getObject
      * @since 1.4
      */
-    void setObject(String parameterName, Object x, int targetSqlType)
+    void setObject(String pbrbmeterNbme, Object x, int tbrgetSqlType)
         throws SQLException;
 
    /**
-     * Sets the value of the designated parameter with the given object.
-     * The second parameter must be of type <code>Object</code>; therefore, the
-     * <code>java.lang</code> equivalent objects should be used for built-in types.
+     * Sets the vblue of the designbted pbrbmeter with the given object.
+     * The second pbrbmeter must be of type <code>Object</code>; therefore, the
+     * <code>jbvb.lbng</code> equivblent objects should be used for built-in types.
      *
-     * <p>The JDBC specification specifies a standard mapping from
-     * Java <code>Object</code> types to SQL types.  The given argument
+     * <p>The JDBC specificbtion specifies b stbndbrd mbpping from
+     * Jbvb <code>Object</code> types to SQL types.  The given brgument
      * will be converted to the corresponding SQL type before being
-     * sent to the database.
+     * sent to the dbtbbbse.
      *
-     * <p>Note that this method may be used to pass datatabase-
-     * specific abstract data types, by using a driver-specific Java
+     * <p>Note thbt this method mby be used to pbss dbtbtbbbse-
+     * specific bbstrbct dbtb types, by using b driver-specific Jbvb
      * type.
      *
-     * If the object is of a class implementing the interface <code>SQLData</code>,
-     * the JDBC driver should call the method <code>SQLData.writeSQL</code>
-     * to write it to the SQL data stream.
-     * If, on the other hand, the object is of a class implementing
+     * If the object is of b clbss implementing the interfbce <code>SQLDbtb</code>,
+     * the JDBC driver should cbll the method <code>SQLDbtb.writeSQL</code>
+     * to write it to the SQL dbtb strebm.
+     * If, on the other hbnd, the object is of b clbss implementing
      * <code>Ref</code>, <code>Blob</code>, <code>Clob</code>,  <code>NClob</code>,
-     *  <code>Struct</code>, <code>java.net.URL</code>,
-     * or <code>Array</code>, the driver should pass it to the database as a
-     * value of the corresponding SQL type.
+     *  <code>Struct</code>, <code>jbvb.net.URL</code>,
+     * or <code>Arrby</code>, the driver should pbss it to the dbtbbbse bs b
+     * vblue of the corresponding SQL type.
      * <P>
-     * This method throws an exception if there is an ambiguity, for example, if the
-     * object is of a class implementing more than one of the interfaces named above.
+     * This method throws bn exception if there is bn bmbiguity, for exbmple, if the
+     * object is of b clbss implementing more thbn one of the interfbces nbmed bbove.
      *
-     * @param parameterName the name of the parameter
-     * @param x the object containing the input parameter value
-     * @exception SQLException if a database access error occurs,
-     * this method is called on a closed <code>CallableStatement</code> or if the given
-     *            <code>Object</code> parameter is ambiguous
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the object contbining the input pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs,
+     * this method is cblled on b closed <code>CbllbbleStbtement</code> or if the given
+     *            <code>Object</code> pbrbmeter is bmbiguous
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @see #getObject
      * @since 1.4
      */
-    void setObject(String parameterName, Object x) throws SQLException;
+    void setObject(String pbrbmeterNbme, Object x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * with a Java <code>Object</code>.  For integral values, the
-   * <code>java.lang</code> equivalent objects should be used.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * with b Jbvb <code>Object</code>.  For integrbl vblues, the
+   * <code>jbvb.lbng</code> equivblent objects should be used.
    *
-   * <p>The JDBC specification provides a standard mapping from
-   * Java Object types to SQL types.  The driver will convert the
-   * given Java object to its standard SQL mapping before sending it
-   * to the database.
+   * <p>The JDBC specificbtion provides b stbndbrd mbpping from
+   * Jbvb Object types to SQL types.  The driver will convert the
+   * given Jbvb object to its stbndbrd SQL mbpping before sending it
+   * to the dbtbbbse.
    *
-   * <p>Note that this method may be used to pass datatabase-specific
-   * abstract data types by using a driver-specific Java type.
+   * <p>Note thbt this method mby be used to pbss dbtbtbbbse-specific
+   * bbstrbct dbtb types by using b driver-specific Jbvb type.
    *
-   * If the object is of a class implementing <code>SQLData</code>,
-   * the rowset should call the method <code>SQLData.writeSQL</code>
-   * to write the object to an <code>SQLOutput</code> data stream.
-   * If, on the other hand, the object is of a class implementing
+   * If the object is of b clbss implementing <code>SQLDbtb</code>,
+   * the rowset should cbll the method <code>SQLDbtb.writeSQL</code>
+   * to write the object to bn <code>SQLOutput</code> dbtb strebm.
+   * If, on the other hbnd, the object is of b clbss implementing
    * <code>Ref</code>, <code>Blob</code>, <code>Clob</code>,  <code>NClob</code>,
-   *  <code>Struct</code>, <code>java.net.URL</code>,
-   * or <code>Array</code>, the driver should pass it to the database as a
-   * value of the corresponding SQL type.
+   *  <code>Struct</code>, <code>jbvb.net.URL</code>,
+   * or <code>Arrby</code>, the driver should pbss it to the dbtbbbse bs b
+   * vblue of the corresponding SQL type.
    *
    * <P>
-   * An exception is thrown if there is an ambiguity, for example, if the
-   * object is of a class implementing more than one of these interfaces.
+   * An exception is thrown if there is bn bmbiguity, for exbmple, if the
+   * object is of b clbss implementing more thbn one of these interfbces.
    *
-   * @param parameterIndex The first parameter is 1, the second is 2, ...
-   * @param x The object containing the input parameter value
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex The first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x The object contbining the input pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setObject(int parameterIndex, Object x) throws SQLException;
+  void setObject(int pbrbmeterIndex, Object x) throws SQLException;
 
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * with the given  <code>Ref</code> value.  The driver will convert this
-   * to the appropriate <code>REF(&lt;structured-type&gt;)</code> value.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * with the given  <code>Ref</code> vblue.  The driver will convert this
+   * to the bppropribte <code>REF(&lt;structured-type&gt;)</code> vblue.
    *
-   * @param i the first parameter is 1, the second is 2, ...
-   * @param x an object representing data of an SQL <code>REF</code> type
-   * @exception SQLException if a database access error occurs
+   * @pbrbm i the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x bn object representing dbtb of bn SQL <code>REF</code> type
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
   void setRef (int i, Ref x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * with the given  <code>Blob</code> value.  The driver will convert this
-   * to the <code>BLOB</code> value that the <code>Blob</code> object
-   * represents before sending it to the database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * with the given  <code>Blob</code> vblue.  The driver will convert this
+   * to the <code>BLOB</code> vblue thbt the <code>Blob</code> object
+   * represents before sending it to the dbtbbbse.
    *
-   * @param i the first parameter is 1, the second is 2, ...
-   * @param x an object representing a BLOB
-   * @exception SQLException if a database access error occurs
+   * @pbrbm i the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x bn object representing b BLOB
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
   void setBlob (int i, Blob x) throws SQLException;
 
   /**
-     * Sets the designated parameter to a <code>InputStream</code> object.  The inputstream must contain  the number
-     * of characters specified by length otherwise a <code>SQLException</code> will be
-     * generated when the <code>PreparedStatement</code> is executed.
-     * This method differs from the <code>setBinaryStream (int, InputStream, int)</code>
-     * method because it informs the driver that the parameter value should be
-     * sent to the server as a <code>BLOB</code>.  When the <code>setBinaryStream</code> method is used,
-     * the driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGVARBINARY</code> or a <code>BLOB</code>
-     * @param parameterIndex index of the first parameter is 1,
+     * Sets the designbted pbrbmeter to b <code>InputStrebm</code> object.  The inputstrebm must contbin  the number
+     * of chbrbcters specified by length otherwise b <code>SQLException</code> will be
+     * generbted when the <code>PrepbredStbtement</code> is executed.
+     * This method differs from the <code>setBinbryStrebm (int, InputStrebm, int)</code>
+     * method becbuse it informs the driver thbt the pbrbmeter vblue should be
+     * sent to the server bs b <code>BLOB</code>.  When the <code>setBinbryStrebm</code> method is used,
+     * the driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be sent to the server bs b <code>LONGVARBINARY</code> or b <code>BLOB</code>
+     * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1,
      * the second is 2, ...
-     * @param inputStream An object that contains the data to set the parameter
-     * value to.
-     * @param length the number of bytes in the parameter data.
-     * @throws SQLException if a database access error occurs,
-     * this method is called on a closed <code>PreparedStatement</code>,
-     * if parameterIndex does not correspond
-     * to a parameter marker in the SQL statement,  if the length specified
-     * is less than zero or if the number of bytes in the inputstream does not match
+     * @pbrbm inputStrebm An object thbt contbins the dbtb to set the pbrbmeter
+     * vblue to.
+     * @pbrbm length the number of bytes in the pbrbmeter dbtb.
+     * @throws SQLException if b dbtbbbse bccess error occurs,
+     * this method is cblled on b closed <code>PrepbredStbtement</code>,
+     * if pbrbmeterIndex does not correspond
+     * to b pbrbmeter mbrker in the SQL stbtement,  if the length specified
+     * is less thbn zero or if the number of bytes in the inputstrebm does not mbtch
      * the specified length.
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      *
      * @since 1.6
      */
-     void setBlob(int parameterIndex, InputStream inputStream, long length)
+     void setBlob(int pbrbmeterIndex, InputStrebm inputStrebm, long length)
         throws SQLException;
 
   /**
-     * Sets the designated parameter to a <code>InputStream</code> object.
-     * This method differs from the <code>setBinaryStream (int, InputStream)</code>
-     * method because it informs the driver that the parameter value should be
-     * sent to the server as a <code>BLOB</code>.  When the <code>setBinaryStream</code> method is used,
-     * the driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGVARBINARY</code> or a <code>BLOB</code>
+     * Sets the designbted pbrbmeter to b <code>InputStrebm</code> object.
+     * This method differs from the <code>setBinbryStrebm (int, InputStrebm)</code>
+     * method becbuse it informs the driver thbt the pbrbmeter vblue should be
+     * sent to the server bs b <code>BLOB</code>.  When the <code>setBinbryStrebm</code> method is used,
+     * the driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be sent to the server bs b <code>LONGVARBINARY</code> or b <code>BLOB</code>
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setBlob</code> which takes a length parameter.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>setBlob</code> which tbkes b length pbrbmeter.
      *
-     * @param parameterIndex index of the first parameter is 1,
+     * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1,
      * the second is 2, ...
-     * @param inputStream An object that contains the data to set the parameter
-     * value to.
-     * @throws SQLException if a database access error occurs,
-     * this method is called on a closed <code>PreparedStatement</code> or
-     * if parameterIndex does not correspond
-     * to a parameter marker in the SQL statement,
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @pbrbm inputStrebm An object thbt contbins the dbtb to set the pbrbmeter
+     * vblue to.
+     * @throws SQLException if b dbtbbbse bccess error occurs,
+     * this method is cblled on b closed <code>PrepbredStbtement</code> or
+     * if pbrbmeterIndex does not correspond
+     * to b pbrbmeter mbrker in the SQL stbtement,
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      *
      * @since 1.6
      */
-     void setBlob(int parameterIndex, InputStream inputStream)
+     void setBlob(int pbrbmeterIndex, InputStrebm inputStrebm)
         throws SQLException;
 
   /**
-     * Sets the designated parameter to a <code>InputStream</code> object.  The <code>inputstream</code> must contain  the number
-     * of characters specified by length, otherwise a <code>SQLException</code> will be
-     * generated when the <code>CallableStatement</code> is executed.
-     * This method differs from the <code>setBinaryStream (int, InputStream, int)</code>
-     * method because it informs the driver that the parameter value should be
-     * sent to the server as a <code>BLOB</code>.  When the <code>setBinaryStream</code> method is used,
-     * the driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGVARBINARY</code> or a <code>BLOB</code>
+     * Sets the designbted pbrbmeter to b <code>InputStrebm</code> object.  The <code>inputstrebm</code> must contbin  the number
+     * of chbrbcters specified by length, otherwise b <code>SQLException</code> will be
+     * generbted when the <code>CbllbbleStbtement</code> is executed.
+     * This method differs from the <code>setBinbryStrebm (int, InputStrebm, int)</code>
+     * method becbuse it informs the driver thbt the pbrbmeter vblue should be
+     * sent to the server bs b <code>BLOB</code>.  When the <code>setBinbryStrebm</code> method is used,
+     * the driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be sent to the server bs b <code>LONGVARBINARY</code> or b <code>BLOB</code>
      *
-     * @param parameterName the name of the parameter to be set
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter to be set
      * the second is 2, ...
      *
-     * @param inputStream An object that contains the data to set the parameter
-     * value to.
-     * @param length the number of bytes in the parameter data.
-     * @throws SQLException  if parameterIndex does not correspond
-     * to a parameter marker in the SQL statement,  or if the length specified
-     * is less than zero; if the number of bytes in the inputstream does not match
-     * the specified length; if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm inputStrebm An object thbt contbins the dbtb to set the pbrbmeter
+     * vblue to.
+     * @pbrbm length the number of bytes in the pbrbmeter dbtb.
+     * @throws SQLException  if pbrbmeterIndex does not correspond
+     * to b pbrbmeter mbrker in the SQL stbtement,  or if the length specified
+     * is less thbn zero; if the number of bytes in the inputstrebm does not mbtch
+     * the specified length; if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      *
      * @since 1.6
      */
-     void setBlob(String parameterName, InputStream inputStream, long length)
+     void setBlob(String pbrbmeterNbme, InputStrebm inputStrebm, long length)
         throws SQLException;
 
   /**
-     * Sets the designated parameter to the given <code>java.sql.Blob</code> object.
-     * The driver converts this to an SQL <code>BLOB</code> value when it
-     * sends it to the database.
+     * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Blob</code> object.
+     * The driver converts this to bn SQL <code>BLOB</code> vblue when it
+     * sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x a <code>Blob</code> object that maps an SQL <code>BLOB</code> value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x b <code>Blob</code> object thbt mbps bn SQL <code>BLOB</code> vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    void setBlob (String parameterName, Blob x) throws SQLException;
+    void setBlob (String pbrbmeterNbme, Blob x) throws SQLException;
 
   /**
-     * Sets the designated parameter to a <code>InputStream</code> object.
-     * This method differs from the <code>setBinaryStream (int, InputStream)</code>
-     * method because it informs the driver that the parameter value should be
-     * sent to the server as a <code>BLOB</code>.  When the <code>setBinaryStream</code> method is used,
-     * the driver may have to do extra work to determine whether the parameter
-     * data should be send to the server as a <code>LONGVARBINARY</code> or a <code>BLOB</code>
+     * Sets the designbted pbrbmeter to b <code>InputStrebm</code> object.
+     * This method differs from the <code>setBinbryStrebm (int, InputStrebm)</code>
+     * method becbuse it informs the driver thbt the pbrbmeter vblue should be
+     * sent to the server bs b <code>BLOB</code>.  When the <code>setBinbryStrebm</code> method is used,
+     * the driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be send to the server bs b <code>LONGVARBINARY</code> or b <code>BLOB</code>
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setBlob</code> which takes a length parameter.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>setBlob</code> which tbkes b length pbrbmeter.
      *
-     * @param parameterName the name of the parameter
-     * @param inputStream An object that contains the data to set the parameter
-     * value to.
-     * @throws SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm inputStrebm An object thbt contbins the dbtb to set the pbrbmeter
+     * vblue to.
+     * @throws SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      *
      * @since 1.6
      */
-     void setBlob(String parameterName, InputStream inputStream)
+     void setBlob(String pbrbmeterNbme, InputStrebm inputStrebm)
         throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * with the given  <code>Clob</code> value.  The driver will convert this
-   * to the <code>CLOB</code> value that the <code>Clob</code> object
-   * represents before sending it to the database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * with the given  <code>Clob</code> vblue.  The driver will convert this
+   * to the <code>CLOB</code> vblue thbt the <code>Clob</code> object
+   * represents before sending it to the dbtbbbse.
    *
-   * @param i the first parameter is 1, the second is 2, ...
-   * @param x an object representing a CLOB
-   * @exception SQLException if a database access error occurs
+   * @pbrbm i the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x bn object representing b CLOB
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
   void setClob (int i, Clob x) throws SQLException;
 
   /**
-     * Sets the designated parameter to a <code>Reader</code> object.  The reader must contain  the number
-     * of characters specified by length otherwise a <code>SQLException</code> will be
-     * generated when the <code>PreparedStatement</code> is executed.
-     *This method differs from the <code>setCharacterStream (int, Reader, int)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>CLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGVARCHAR</code> or a <code>CLOB</code>
-     * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @param length the number of characters in the parameter data.
-     * @throws SQLException if a database access error occurs, this method is called on
-     * a closed <code>PreparedStatement</code>, if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement, or if the length specified is less than zero.
+     * Sets the designbted pbrbmeter to b <code>Rebder</code> object.  The rebder must contbin  the number
+     * of chbrbcters specified by length otherwise b <code>SQLException</code> will be
+     * generbted when the <code>PrepbredStbtement</code> is executed.
+     *This method differs from the <code>setChbrbcterStrebm (int, Rebder, int)</code> method
+     * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+     * the server bs b <code>CLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+     * driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be sent to the server bs b <code>LONGVARCHAR</code> or b <code>CLOB</code>
+     * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+     * @throws SQLException if b dbtbbbse bccess error occurs, this method is cblled on
+     * b closed <code>PrepbredStbtement</code>, if pbrbmeterIndex does not correspond to b pbrbmeter
+     * mbrker in the SQL stbtement, or if the length specified is less thbn zero.
      *
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      * @since 1.6
      */
-     void setClob(int parameterIndex, Reader reader, long length)
+     void setClob(int pbrbmeterIndex, Rebder rebder, long length)
        throws SQLException;
 
   /**
-     * Sets the designated parameter to a <code>Reader</code> object.
-     * This method differs from the <code>setCharacterStream (int, Reader)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>CLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGVARCHAR</code> or a <code>CLOB</code>
+     * Sets the designbted pbrbmeter to b <code>Rebder</code> object.
+     * This method differs from the <code>setChbrbcterStrebm (int, Rebder)</code> method
+     * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+     * the server bs b <code>CLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+     * driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be sent to the server bs b <code>LONGVARCHAR</code> or b <code>CLOB</code>
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setClob</code> which takes a length parameter.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>setClob</code> which tbkes b length pbrbmeter.
      *
-     * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @throws SQLException if a database access error occurs, this method is called on
-     * a closed <code>PreparedStatement</code>or if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement
+     * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @throws SQLException if b dbtbbbse bccess error occurs, this method is cblled on
+     * b closed <code>PrepbredStbtement</code>or if pbrbmeterIndex does not correspond to b pbrbmeter
+     * mbrker in the SQL stbtement
      *
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      * @since 1.6
      */
-     void setClob(int parameterIndex, Reader reader)
+     void setClob(int pbrbmeterIndex, Rebder rebder)
        throws SQLException;
 
   /**
-     * Sets the designated parameter to a <code>Reader</code> object.  The <code>reader</code> must contain  the number
-     * of characters specified by length otherwise a <code>SQLException</code> will be
-     * generated when the <code>CallableStatement</code> is executed.
-     * This method differs from the <code>setCharacterStream (int, Reader, int)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>CLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be send to the server as a <code>LONGVARCHAR</code> or a <code>CLOB</code>
-     * @param parameterName the name of the parameter to be set
-     * @param reader An object that contains the data to set the parameter value to.
-     * @param length the number of characters in the parameter data.
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if the length specified is less than zero;
-     * a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * Sets the designbted pbrbmeter to b <code>Rebder</code> object.  The <code>rebder</code> must contbin  the number
+     * of chbrbcters specified by length otherwise b <code>SQLException</code> will be
+     * generbted when the <code>CbllbbleStbtement</code> is executed.
+     * This method differs from the <code>setChbrbcterStrebm (int, Rebder, int)</code> method
+     * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+     * the server bs b <code>CLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+     * driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be send to the server bs b <code>LONGVARCHAR</code> or b <code>CLOB</code>
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter to be set
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+     * @throws SQLException if pbrbmeterIndex does not correspond to b pbrbmeter
+     * mbrker in the SQL stbtement; if the length specified is less thbn zero;
+     * b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      *
      * @since 1.6
      */
-     void setClob(String parameterName, Reader reader, long length)
+     void setClob(String pbrbmeterNbme, Rebder rebder, long length)
        throws SQLException;
 
    /**
-     * Sets the designated parameter to the given <code>java.sql.Clob</code> object.
-     * The driver converts this to an SQL <code>CLOB</code> value when it
-     * sends it to the database.
+     * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Clob</code> object.
+     * The driver converts this to bn SQL <code>CLOB</code> vblue when it
+     * sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x a <code>Clob</code> object that maps an SQL <code>CLOB</code> value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x b <code>Clob</code> object thbt mbps bn SQL <code>CLOB</code> vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    void setClob (String parameterName, Clob x) throws SQLException;
+    void setClob (String pbrbmeterNbme, Clob x) throws SQLException;
 
   /**
-     * Sets the designated parameter to a <code>Reader</code> object.
-     * This method differs from the <code>setCharacterStream (int, Reader)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>CLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be send to the server as a <code>LONGVARCHAR</code> or a <code>CLOB</code>
+     * Sets the designbted pbrbmeter to b <code>Rebder</code> object.
+     * This method differs from the <code>setChbrbcterStrebm (int, Rebder)</code> method
+     * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+     * the server bs b <code>CLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+     * driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be send to the server bs b <code>LONGVARCHAR</code> or b <code>CLOB</code>
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setClob</code> which takes a length parameter.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>setClob</code> which tbkes b length pbrbmeter.
      *
-     * @param parameterName the name of the parameter
-     * @param reader An object that contains the data to set the parameter value to.
-     * @throws SQLException if a database access error occurs or this method is called on
-     * a closed <code>CallableStatement</code>
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @throws SQLException if b dbtbbbse bccess error occurs or this method is cblled on
+     * b closed <code>CbllbbleStbtement</code>
      *
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      * @since 1.6
      */
-     void setClob(String parameterName, Reader reader)
+     void setClob(String pbrbmeterNbme, Rebder rebder)
        throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * with the given  <code>Array</code> value.  The driver will convert this
-   * to the <code>ARRAY</code> value that the <code>Array</code> object
-   * represents before sending it to the database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * with the given  <code>Arrby</code> vblue.  The driver will convert this
+   * to the <code>ARRAY</code> vblue thbt the <code>Arrby</code> object
+   * represents before sending it to the dbtbbbse.
    *
-   * @param i the first parameter is 1, the second is 2, ...
-   * @param x an object representing an SQL array
-   * @exception SQLException if a database access error occurs
+   * @pbrbm i the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x bn object representing bn SQL brrby
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setArray (int i, Array x) throws SQLException;
+  void setArrby (int i, Arrby x) throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * with the given  <code>java.sql.Date</code> value.  The driver will convert this
-   * to an SQL <code>DATE</code> value, using the given <code>java.util.Calendar</code>
-   * object to calculate the date.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * with the given  <code>jbvb.sql.Dbte</code> vblue.  The driver will convert this
+   * to bn SQL <code>DATE</code> vblue, using the given <code>jbvb.util.Cblendbr</code>
+   * object to cblculbte the dbte.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @param cal the <code>java.util.Calendar</code> object to use for calculating the date
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @pbrbm cbl the <code>jbvb.util.Cblendbr</code> object to use for cblculbting the dbte
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setDate(int parameterIndex, java.sql.Date x, Calendar cal)
+  void setDbte(int pbrbmeterIndex, jbvb.sql.Dbte x, Cblendbr cbl)
     throws SQLException;
 
   /**
-     * Sets the designated parameter to the given <code>java.sql.Date</code> value
-     * using the default time zone of the virtual machine that is running
-     * the application.
+     * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Dbte</code> vblue
+     * using the defbult time zone of the virtubl mbchine thbt is running
+     * the bpplicbtion.
      * The driver converts this
-     * to an SQL <code>DATE</code> value when it sends it to the database.
+     * to bn SQL <code>DATE</code> vblue when it sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
-     * @see #getDate
+     * @see #getDbte
      * @since 1.4
      */
-    void setDate(String parameterName, java.sql.Date x)
+    void setDbte(String pbrbmeterNbme, jbvb.sql.Dbte x)
         throws SQLException;
 
   /**
-     * Sets the designated parameter to the given <code>java.sql.Date</code> value,
-     * using the given <code>Calendar</code> object.  The driver uses
-     * the <code>Calendar</code> object to construct an SQL <code>DATE</code> value,
-     * which the driver then sends to the database.  With a
-     * a <code>Calendar</code> object, the driver can calculate the date
-     * taking into account a custom timezone.  If no
-     * <code>Calendar</code> object is specified, the driver uses the default
-     * timezone, which is that of the virtual machine running the application.
+     * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Dbte</code> vblue,
+     * using the given <code>Cblendbr</code> object.  The driver uses
+     * the <code>Cblendbr</code> object to construct bn SQL <code>DATE</code> vblue,
+     * which the driver then sends to the dbtbbbse.  With b
+     * b <code>Cblendbr</code> object, the driver cbn cblculbte the dbte
+     * tbking into bccount b custom timezone.  If no
+     * <code>Cblendbr</code> object is specified, the driver uses the defbult
+     * timezone, which is thbt of the virtubl mbchine running the bpplicbtion.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @param cal the <code>Calendar</code> object the driver will use
-     *            to construct the date
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @pbrbm cbl the <code>Cblendbr</code> object the driver will use
+     *            to construct the dbte
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
-     * @see #getDate
+     * @see #getDbte
      * @since 1.4
      */
-    void setDate(String parameterName, java.sql.Date x, Calendar cal)
+    void setDbte(String pbrbmeterNbme, jbvb.sql.Dbte x, Cblendbr cbl)
         throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * with the given  <code>java.sql.Time</code> value.  The driver will convert this
-   * to an SQL <code>TIME</code> value, using the given <code>java.util.Calendar</code>
-   * object to calculate it, before sending it to the database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * with the given  <code>jbvb.sql.Time</code> vblue.  The driver will convert this
+   * to bn SQL <code>TIME</code> vblue, using the given <code>jbvb.util.Cblendbr</code>
+   * object to cblculbte it, before sending it to the dbtbbbse.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @param cal the <code>java.util.Calendar</code> object to use for calculating the time
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @pbrbm cbl the <code>jbvb.util.Cblendbr</code> object to use for cblculbting the time
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setTime(int parameterIndex, java.sql.Time x, Calendar cal)
+  void setTime(int pbrbmeterIndex, jbvb.sql.Time x, Cblendbr cbl)
     throws SQLException;
 
   /**
-     * Sets the designated parameter to the given <code>java.sql.Time</code> value.
+     * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Time</code> vblue.
      * The driver converts this
-     * to an SQL <code>TIME</code> value when it sends it to the database.
+     * to bn SQL <code>TIME</code> vblue when it sends it to the dbtbbbse.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @see #getTime
      * @since 1.4
      */
-    void setTime(String parameterName, java.sql.Time x)
+    void setTime(String pbrbmeterNbme, jbvb.sql.Time x)
         throws SQLException;
 
   /**
-     * Sets the designated parameter to the given <code>java.sql.Time</code> value,
-     * using the given <code>Calendar</code> object.  The driver uses
-     * the <code>Calendar</code> object to construct an SQL <code>TIME</code> value,
-     * which the driver then sends to the database.  With a
-     * a <code>Calendar</code> object, the driver can calculate the time
-     * taking into account a custom timezone.  If no
-     * <code>Calendar</code> object is specified, the driver uses the default
-     * timezone, which is that of the virtual machine running the application.
+     * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Time</code> vblue,
+     * using the given <code>Cblendbr</code> object.  The driver uses
+     * the <code>Cblendbr</code> object to construct bn SQL <code>TIME</code> vblue,
+     * which the driver then sends to the dbtbbbse.  With b
+     * b <code>Cblendbr</code> object, the driver cbn cblculbte the time
+     * tbking into bccount b custom timezone.  If no
+     * <code>Cblendbr</code> object is specified, the driver uses the defbult
+     * timezone, which is thbt of the virtubl mbchine running the bpplicbtion.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @param cal the <code>Calendar</code> object the driver will use
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @pbrbm cbl the <code>Cblendbr</code> object the driver will use
      *            to construct the time
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @see #getTime
      * @since 1.4
      */
-    void setTime(String parameterName, java.sql.Time x, Calendar cal)
+    void setTime(String pbrbmeterNbme, jbvb.sql.Time x, Cblendbr cbl)
         throws SQLException;
 
   /**
-   * Sets the designated parameter in this <code>RowSet</code> object's command
-   * with the given  <code>java.sql.Timestamp</code> value.  The driver will
-   * convert this to an SQL <code>TIMESTAMP</code> value, using the given
-   * <code>java.util.Calendar</code> object to calculate it, before sending it to the
-   * database.
+   * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+   * with the given  <code>jbvb.sql.Timestbmp</code> vblue.  The driver will
+   * convert this to bn SQL <code>TIMESTAMP</code> vblue, using the given
+   * <code>jbvb.util.Cblendbr</code> object to cblculbte it, before sending it to the
+   * dbtbbbse.
    *
-   * @param parameterIndex the first parameter is 1, the second is 2, ...
-   * @param x the parameter value
-   * @param cal the <code>java.util.Calendar</code> object to use for calculating the
-   *        timestamp
-   * @exception SQLException if a database access error occurs
+   * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm x the pbrbmeter vblue
+   * @pbrbm cbl the <code>jbvb.util.Cblendbr</code> object to use for cblculbting the
+   *        timestbmp
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setTimestamp(int parameterIndex, java.sql.Timestamp x, Calendar cal)
+  void setTimestbmp(int pbrbmeterIndex, jbvb.sql.Timestbmp x, Cblendbr cbl)
     throws SQLException;
 
   /**
-     * Sets the designated parameter to the given <code>java.sql.Timestamp</code> value,
-     * using the given <code>Calendar</code> object.  The driver uses
-     * the <code>Calendar</code> object to construct an SQL <code>TIMESTAMP</code> value,
-     * which the driver then sends to the database.  With a
-     * a <code>Calendar</code> object, the driver can calculate the timestamp
-     * taking into account a custom timezone.  If no
-     * <code>Calendar</code> object is specified, the driver uses the default
-     * timezone, which is that of the virtual machine running the application.
+     * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Timestbmp</code> vblue,
+     * using the given <code>Cblendbr</code> object.  The driver uses
+     * the <code>Cblendbr</code> object to construct bn SQL <code>TIMESTAMP</code> vblue,
+     * which the driver then sends to the dbtbbbse.  With b
+     * b <code>Cblendbr</code> object, the driver cbn cblculbte the timestbmp
+     * tbking into bccount b custom timezone.  If no
+     * <code>Cblendbr</code> object is specified, the driver uses the defbult
+     * timezone, which is thbt of the virtubl mbchine running the bpplicbtion.
      *
-     * @param parameterName the name of the parameter
-     * @param x the parameter value
-     * @param cal the <code>Calendar</code> object the driver will use
-     *            to construct the timestamp
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm x the pbrbmeter vblue
+     * @pbrbm cbl the <code>Cblendbr</code> object the driver will use
+     *            to construct the timestbmp
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
-     * @see #getTimestamp
+     * @see #getTimestbmp
      * @since 1.4
      */
-    void setTimestamp(String parameterName, java.sql.Timestamp x, Calendar cal)
+    void setTimestbmp(String pbrbmeterNbme, jbvb.sql.Timestbmp x, Cblendbr cbl)
         throws SQLException;
 
   /**
-   * Clears the parameters set for this <code>RowSet</code> object's command.
-   * <P>In general, parameter values remain in force for repeated use of a
-   * <code>RowSet</code> object. Setting a parameter value automatically clears its
-   * previous value.  However, in some cases it is useful to immediately
-   * release the resources used by the current parameter values, which can
-   * be done by calling the method <code>clearParameters</code>.
+   * Clebrs the pbrbmeters set for this <code>RowSet</code> object's commbnd.
+   * <P>In generbl, pbrbmeter vblues rembin in force for repebted use of b
+   * <code>RowSet</code> object. Setting b pbrbmeter vblue butombticblly clebrs its
+   * previous vblue.  However, in some cbses it is useful to immedibtely
+   * relebse the resources used by the current pbrbmeter vblues, which cbn
+   * be done by cblling the method <code>clebrPbrbmeters</code>.
    *
-   * @exception SQLException if a database access error occurs
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void clearParameters() throws SQLException;
+  void clebrPbrbmeters() throws SQLException;
 
   //---------------------------------------------------------------------
-  // Reading and writing data
+  // Rebding bnd writing dbtb
   //---------------------------------------------------------------------
 
   /**
-   * Fills this <code>RowSet</code> object with data.
+   * Fills this <code>RowSet</code> object with dbtb.
    * <P>
-   * The <code>execute</code> method may use the following properties
-   * to create a connection for reading data: url, data source name,
-   * user name, password, transaction isolation, and type map.
+   * The <code>execute</code> method mby use the following properties
+   * to crebte b connection for rebding dbtb: url, dbtb source nbme,
+   * user nbme, pbssword, trbnsbction isolbtion, bnd type mbp.
    *
-   * The <code>execute</code> method  may use the following properties
-   * to create a statement to execute a command:
-   * command, read only, maximum field size,
-   * maximum rows, escape processing, and query timeout.
+   * The <code>execute</code> method  mby use the following properties
+   * to crebte b stbtement to execute b commbnd:
+   * commbnd, rebd only, mbximum field size,
+   * mbximum rows, escbpe processing, bnd query timeout.
    * <P>
-   * If the required properties have not been set, an exception is
-   * thrown.  If this method is successful, the current contents of the rowset are
-   * discarded and the rowset's metadata is also (re)set.  If there are
-   * outstanding updates, they are ignored.
+   * If the required properties hbve not been set, bn exception is
+   * thrown.  If this method is successful, the current contents of the rowset bre
+   * discbrded bnd the rowset's metbdbtb is blso (re)set.  If there bre
+   * outstbnding updbtes, they bre ignored.
    * <P>
-   * If this <code>RowSet</code> object does not maintain a continuous connection
-   * with its source of data, it may use a reader (a <code>RowSetReader</code>
-   * object) to fill itself with data.  In this case, a reader will have been
-   * registered with this <code>RowSet</code> object, and the method
-   * <code>execute</code> will call on the reader's <code>readData</code>
-   * method as part of its implementation.
+   * If this <code>RowSet</code> object does not mbintbin b continuous connection
+   * with its source of dbtb, it mby use b rebder (b <code>RowSetRebder</code>
+   * object) to fill itself with dbtb.  In this cbse, b rebder will hbve been
+   * registered with this <code>RowSet</code> object, bnd the method
+   * <code>execute</code> will cbll on the rebder's <code>rebdDbtb</code>
+   * method bs pbrt of its implementbtion.
    *
-   * @exception SQLException if a database access error occurs or any of the
-   *            properties necessary for making a connection and creating
-   *            a statement have not been set
+   * @exception SQLException if b dbtbbbse bccess error occurs or bny of the
+   *            properties necessbry for mbking b connection bnd crebting
+   *            b stbtement hbve not been set
    */
   void execute() throws SQLException;
 
@@ -1876,310 +1876,310 @@ public interface RowSet extends ResultSet {
   //--------------------------------------------------------------------
 
   /**
-   * Registers the given listener so that it will be notified of events
-   * that occur on this <code>RowSet</code> object.
+   * Registers the given listener so thbt it will be notified of events
+   * thbt occur on this <code>RowSet</code> object.
    *
-   * @param listener a component that has implemented the <code>RowSetListener</code>
-   *        interface and wants to be notified when events occur on this
+   * @pbrbm listener b component thbt hbs implemented the <code>RowSetListener</code>
+   *        interfbce bnd wbnts to be notified when events occur on this
    *        <code>RowSet</code> object
    * @see #removeRowSetListener
    */
-  void addRowSetListener(RowSetListener listener);
+  void bddRowSetListener(RowSetListener listener);
 
   /**
-   * Removes the specified listener from the list of components that will be
-   * notified when an event occurs on this <code>RowSet</code> object.
+   * Removes the specified listener from the list of components thbt will be
+   * notified when bn event occurs on this <code>RowSet</code> object.
    *
-   * @param listener a component that has been registered as a listener for this
+   * @pbrbm listener b component thbt hbs been registered bs b listener for this
    *        <code>RowSet</code> object
-   * @see #addRowSetListener
+   * @see #bddRowSetListener
    */
   void removeRowSetListener(RowSetListener listener);
 
     /**
-      * Sets the designated parameter to the given <code>java.sql.SQLXML</code> object. The driver converts this to an
-      * SQL <code>XML</code> value when it sends it to the database.
-      * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-      * @param xmlObject a <code>SQLXML</code> object that maps an SQL <code>XML</code> value
-      * @throws SQLException if a database access error occurs, this method
-      *  is called on a closed result set,
-      * the <code>java.xml.transform.Result</code>,
-      *  <code>Writer</code> or <code>OutputStream</code> has not been closed
+      * Sets the designbted pbrbmeter to the given <code>jbvb.sql.SQLXML</code> object. The driver converts this to bn
+      * SQL <code>XML</code> vblue when it sends it to the dbtbbbse.
+      * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1, the second is 2, ...
+      * @pbrbm xmlObject b <code>SQLXML</code> object thbt mbps bn SQL <code>XML</code> vblue
+      * @throws SQLException if b dbtbbbse bccess error occurs, this method
+      *  is cblled on b closed result set,
+      * the <code>jbvb.xml.trbnsform.Result</code>,
+      *  <code>Writer</code> or <code>OutputStrebm</code> hbs not been closed
       * for the <code>SQLXML</code> object  or
-      *  if there is an error processing the XML value.  The <code>getCause</code> method
-      *  of the exception may provide a more detailed exception, for example, if the
-      *  stream does not contain valid XML.
+      *  if there is bn error processing the XML vblue.  The <code>getCbuse</code> method
+      *  of the exception mby provide b more detbiled exception, for exbmple, if the
+      *  strebm does not contbin vblid XML.
       * @since 1.6
       */
-     void setSQLXML(int parameterIndex, SQLXML xmlObject) throws SQLException;
+     void setSQLXML(int pbrbmeterIndex, SQLXML xmlObject) throws SQLException;
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.SQLXML</code> object. The driver converts this to an
-     * <code>SQL XML</code> value when it sends it to the database.
-     * @param parameterName the name of the parameter
-     * @param xmlObject a <code>SQLXML</code> object that maps an <code>SQL XML</code> value
-     * @throws SQLException if a database access error occurs, this method
-     *  is called on a closed result set,
-     * the <code>java.xml.transform.Result</code>,
-     *  <code>Writer</code> or <code>OutputStream</code> has not been closed
+     * Sets the designbted pbrbmeter to the given <code>jbvb.sql.SQLXML</code> object. The driver converts this to bn
+     * <code>SQL XML</code> vblue when it sends it to the dbtbbbse.
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm xmlObject b <code>SQLXML</code> object thbt mbps bn <code>SQL XML</code> vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs, this method
+     *  is cblled on b closed result set,
+     * the <code>jbvb.xml.trbnsform.Result</code>,
+     *  <code>Writer</code> or <code>OutputStrebm</code> hbs not been closed
      * for the <code>SQLXML</code> object  or
-     *  if there is an error processing the XML value.  The <code>getCause</code> method
-     *  of the exception may provide a more detailed exception, for example, if the
-     *  stream does not contain valid XML.
+     *  if there is bn error processing the XML vblue.  The <code>getCbuse</code> method
+     *  of the exception mby provide b more detbiled exception, for exbmple, if the
+     *  strebm does not contbin vblid XML.
      * @since 1.6
      */
-    void setSQLXML(String parameterName, SQLXML xmlObject) throws SQLException;
+    void setSQLXML(String pbrbmeterNbme, SQLXML xmlObject) throws SQLException;
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.RowId</code> object. The
-     * driver converts this to a SQL <code>ROWID</code> value when it sends it
-     * to the database
+     * Sets the designbted pbrbmeter to the given <code>jbvb.sql.RowId</code> object. The
+     * driver converts this to b SQL <code>ROWID</code> vblue when it sends it
+     * to the dbtbbbse
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm x the pbrbmeter vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      * @since 1.6
      */
-    void setRowId(int parameterIndex, RowId x) throws SQLException;
+    void setRowId(int pbrbmeterIndex, RowId x) throws SQLException;
 
     /**
-    * Sets the designated parameter to the given <code>java.sql.RowId</code> object. The
-    * driver converts this to a SQL <code>ROWID</code> when it sends it to the
-    * database.
+    * Sets the designbted pbrbmeter to the given <code>jbvb.sql.RowId</code> object. The
+    * driver converts this to b SQL <code>ROWID</code> when it sends it to the
+    * dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @throws SQLException if a database access error occurs
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @throws SQLException if b dbtbbbse bccess error occurs
     * @since 1.6
     */
-   void setRowId(String parameterName, RowId x) throws SQLException;
+   void setRowId(String pbrbmeterNbme, RowId x) throws SQLException;
 
     /**
-     * Sets the designated parameter to the given <code>String</code> object.
-     * The driver converts this to a SQL <code>NCHAR</code> or
-     * <code>NVARCHAR</code> or <code>LONGNVARCHAR</code> value
-     * (depending on the argument's
-     * size relative to the driver's limits on <code>NVARCHAR</code> values)
-     * when it sends it to the database.
+     * Sets the designbted pbrbmeter to the given <code>String</code> object.
+     * The driver converts this to b SQL <code>NCHAR</code> or
+     * <code>NVARCHAR</code> or <code>LONGNVARCHAR</code> vblue
+     * (depending on the brgument's
+     * size relbtive to the driver's limits on <code>NVARCHAR</code> vblues)
+     * when it sends it to the dbtbbbse.
      *
-     * @param parameterIndex of the first parameter is 1, the second is 2, ...
-     * @param value the parameter value
-     * @throws SQLException if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur ; or if a database access error occurs
+     * @pbrbm pbrbmeterIndex of the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm vblue the pbrbmeter vblue
+     * @throws SQLException if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur ; or if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-     void setNString(int parameterIndex, String value) throws SQLException;
+     void setNString(int pbrbmeterIndex, String vblue) throws SQLException;
 
     /**
-     * Sets the designated parameter to the given <code>String</code> object.
-     * The driver converts this to a SQL <code>NCHAR</code> or
+     * Sets the designbted pbrbmeter to the given <code>String</code> object.
+     * The driver converts this to b SQL <code>NCHAR</code> or
      * <code>NVARCHAR</code> or <code>LONGNVARCHAR</code>
-     * @param parameterName the name of the column to be set
-     * @param value the parameter value
-     * @throws SQLException if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur; or if a database access error occurs
+     * @pbrbm pbrbmeterNbme the nbme of the column to be set
+     * @pbrbm vblue the pbrbmeter vblue
+     * @throws SQLException if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur; or if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public void setNString(String parameterName, String value)
+    public void setNString(String pbrbmeterNbme, String vblue)
             throws SQLException;
 
     /**
-     * Sets the designated parameter to a <code>Reader</code> object. The
-     * <code>Reader</code> reads the data till end-of-file is reached. The
-     * driver does the necessary conversion from Java character format to
-     * the national character set in the database.
-     * @param parameterIndex of the first parameter is 1, the second is 2, ...
-     * @param value the parameter value
-     * @param length the number of characters in the parameter data.
-     * @throws SQLException if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur ; or if a database access error occurs
+     * Sets the designbted pbrbmeter to b <code>Rebder</code> object. The
+     * <code>Rebder</code> rebds the dbtb till end-of-file is rebched. The
+     * driver does the necessbry conversion from Jbvb chbrbcter formbt to
+     * the nbtionbl chbrbcter set in the dbtbbbse.
+     * @pbrbm pbrbmeterIndex of the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm vblue the pbrbmeter vblue
+     * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+     * @throws SQLException if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur ; or if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-     void setNCharacterStream(int parameterIndex, Reader value, long length) throws SQLException;
+     void setNChbrbcterStrebm(int pbrbmeterIndex, Rebder vblue, long length) throws SQLException;
 
     /**
-     * Sets the designated parameter to a <code>Reader</code> object. The
-     * <code>Reader</code> reads the data till end-of-file is reached. The
-     * driver does the necessary conversion from Java character format to
-     * the national character set in the database.
-     * @param parameterName the name of the column to be set
-     * @param value the parameter value
-     * @param length the number of characters in the parameter data.
-     * @throws SQLException if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur; or if a database access error occurs
+     * Sets the designbted pbrbmeter to b <code>Rebder</code> object. The
+     * <code>Rebder</code> rebds the dbtb till end-of-file is rebched. The
+     * driver does the necessbry conversion from Jbvb chbrbcter formbt to
+     * the nbtionbl chbrbcter set in the dbtbbbse.
+     * @pbrbm pbrbmeterNbme the nbme of the column to be set
+     * @pbrbm vblue the pbrbmeter vblue
+     * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+     * @throws SQLException if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur; or if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public void setNCharacterStream(String parameterName, Reader value, long length)
+    public void setNChbrbcterStrebm(String pbrbmeterNbme, Rebder vblue, long length)
             throws SQLException;
 
     /**
-     * Sets the designated parameter to a <code>Reader</code> object. The
-     * <code>Reader</code> reads the data till end-of-file is reached. The
-     * driver does the necessary conversion from Java character format to
-     * the national character set in the database.
+     * Sets the designbted pbrbmeter to b <code>Rebder</code> object. The
+     * <code>Rebder</code> rebds the dbtb till end-of-file is rebched. The
+     * driver does the necessbry conversion from Jbvb chbrbcter formbt to
+     * the nbtionbl chbrbcter set in the dbtbbbse.
 
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setNCharacterStream</code> which takes a length parameter.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>setNChbrbcterStrebm</code> which tbkes b length pbrbmeter.
      *
-     * @param parameterName the name of the parameter
-     * @param value the parameter value
-     * @throws SQLException if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur ; if a database access error occurs; or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm vblue the pbrbmeter vblue
+     * @throws SQLException if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur ; if b dbtbbbse bccess error occurs; or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      * @since 1.6
      */
-     void setNCharacterStream(String parameterName, Reader value) throws SQLException;
+     void setNChbrbcterStrebm(String pbrbmeterNbme, Rebder vblue) throws SQLException;
 
     /**
-    * Sets the designated parameter to a <code>java.sql.NClob</code> object. The object
-    * implements the <code>java.sql.NClob</code> interface. This <code>NClob</code>
-    * object maps to a SQL <code>NCLOB</code>.
-    * @param parameterName the name of the column to be set
-    * @param value the parameter value
-    * @throws SQLException if the driver does not support national
-    *         character sets;  if the driver can detect that a data conversion
-    *  error could occur; or if a database access error occurs
+    * Sets the designbted pbrbmeter to b <code>jbvb.sql.NClob</code> object. The object
+    * implements the <code>jbvb.sql.NClob</code> interfbce. This <code>NClob</code>
+    * object mbps to b SQL <code>NCLOB</code>.
+    * @pbrbm pbrbmeterNbme the nbme of the column to be set
+    * @pbrbm vblue the pbrbmeter vblue
+    * @throws SQLException if the driver does not support nbtionbl
+    *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+    *  error could occur; or if b dbtbbbse bccess error occurs
     * @since 1.6
     */
-    void setNClob(String parameterName, NClob value) throws SQLException;
+    void setNClob(String pbrbmeterNbme, NClob vblue) throws SQLException;
 
     /**
-     * Sets the designated parameter to a <code>Reader</code> object.  The <code>reader</code> must contain  the number
-     * of characters specified by length otherwise a <code>SQLException</code> will be
-     * generated when the <code>CallableStatement</code> is executed.
-     * This method differs from the <code>setCharacterStream (int, Reader, int)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>NCLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be send to the server as a <code>LONGNVARCHAR</code> or a <code>NCLOB</code>
+     * Sets the designbted pbrbmeter to b <code>Rebder</code> object.  The <code>rebder</code> must contbin  the number
+     * of chbrbcters specified by length otherwise b <code>SQLException</code> will be
+     * generbted when the <code>CbllbbleStbtement</code> is executed.
+     * This method differs from the <code>setChbrbcterStrebm (int, Rebder, int)</code> method
+     * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+     * the server bs b <code>NCLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+     * driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be send to the server bs b <code>LONGNVARCHAR</code> or b <code>NCLOB</code>
      *
-     * @param parameterName the name of the parameter to be set
-     * @param reader An object that contains the data to set the parameter value to.
-     * @param length the number of characters in the parameter data.
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if the length specified is less than zero;
-     * if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur; if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter to be set
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+     * @throws SQLException if pbrbmeterIndex does not correspond to b pbrbmeter
+     * mbrker in the SQL stbtement; if the length specified is less thbn zero;
+     * if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur; if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-     void setNClob(String parameterName, Reader reader, long length)
+     void setNClob(String pbrbmeterNbme, Rebder rebder, long length)
        throws SQLException;
 
     /**
-     * Sets the designated parameter to a <code>Reader</code> object.
-     * This method differs from the <code>setCharacterStream (int, Reader)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>NCLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be send to the server as a <code>LONGNVARCHAR</code> or a <code>NCLOB</code>
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setNClob</code> which takes a length parameter.
+     * Sets the designbted pbrbmeter to b <code>Rebder</code> object.
+     * This method differs from the <code>setChbrbcterStrebm (int, Rebder)</code> method
+     * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+     * the server bs b <code>NCLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+     * driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be send to the server bs b <code>LONGNVARCHAR</code> or b <code>NCLOB</code>
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>setNClob</code> which tbkes b length pbrbmeter.
      *
-     * @param parameterName the name of the parameter
-     * @param reader An object that contains the data to set the parameter value to.
-     * @throws SQLException if the driver does not support national character sets;
-     * if the driver can detect that a data conversion
-     *  error could occur;  if a database access error occurs or
-     * this method is called on a closed <code>CallableStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @throws SQLException if the driver does not support nbtionbl chbrbcter sets;
+     * if the driver cbn detect thbt b dbtb conversion
+     *  error could occur;  if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>CbllbbleStbtement</code>
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      *
      * @since 1.6
      */
-     void setNClob(String parameterName, Reader reader)
+     void setNClob(String pbrbmeterNbme, Rebder rebder)
        throws SQLException;
 
     /**
-     * Sets the designated parameter to a <code>Reader</code> object.  The reader must contain  the number
-     * of characters specified by length otherwise a <code>SQLException</code> will be
-     * generated when the <code>PreparedStatement</code> is executed.
-     * This method differs from the <code>setCharacterStream (int, Reader, int)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>NCLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGNVARCHAR</code> or a <code>NCLOB</code>
-     * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @param length the number of characters in the parameter data.
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if the length specified is less than zero;
-     * if the driver does not support national character sets;
-     * if the driver can detect that a data conversion
-     *  error could occur;  if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * Sets the designbted pbrbmeter to b <code>Rebder</code> object.  The rebder must contbin  the number
+     * of chbrbcters specified by length otherwise b <code>SQLException</code> will be
+     * generbted when the <code>PrepbredStbtement</code> is executed.
+     * This method differs from the <code>setChbrbcterStrebm (int, Rebder, int)</code> method
+     * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+     * the server bs b <code>NCLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+     * driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be sent to the server bs b <code>LONGNVARCHAR</code> or b <code>NCLOB</code>
+     * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+     * @throws SQLException if pbrbmeterIndex does not correspond to b pbrbmeter
+     * mbrker in the SQL stbtement; if the length specified is less thbn zero;
+     * if the driver does not support nbtionbl chbrbcter sets;
+     * if the driver cbn detect thbt b dbtb conversion
+     *  error could occur;  if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>PrepbredStbtement</code>
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      *
      * @since 1.6
      */
-     void setNClob(int parameterIndex, Reader reader, long length)
+     void setNClob(int pbrbmeterIndex, Rebder rebder, long length)
        throws SQLException;
 
     /**
-     * Sets the designated parameter to a <code>java.sql.NClob</code> object. The driver converts this to a
-     * SQL <code>NCLOB</code> value when it sends it to the database.
-     * @param parameterIndex of the first parameter is 1, the second is 2, ...
-     * @param value the parameter value
-     * @throws SQLException if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur ; or if a database access error occurs
+     * Sets the designbted pbrbmeter to b <code>jbvb.sql.NClob</code> object. The driver converts this to b
+     * SQL <code>NCLOB</code> vblue when it sends it to the dbtbbbse.
+     * @pbrbm pbrbmeterIndex of the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm vblue the pbrbmeter vblue
+     * @throws SQLException if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur ; or if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-     void setNClob(int parameterIndex, NClob value) throws SQLException;
+     void setNClob(int pbrbmeterIndex, NClob vblue) throws SQLException;
 
     /**
-     * Sets the designated parameter to a <code>Reader</code> object.
-     * This method differs from the <code>setCharacterStream (int, Reader)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>NCLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGNVARCHAR</code> or a <code>NCLOB</code>
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setNClob</code> which takes a length parameter.
+     * Sets the designbted pbrbmeter to b <code>Rebder</code> object.
+     * This method differs from the <code>setChbrbcterStrebm (int, Rebder)</code> method
+     * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+     * the server bs b <code>NCLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+     * driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be sent to the server bs b <code>LONGNVARCHAR</code> or b <code>NCLOB</code>
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>setNClob</code> which tbkes b length pbrbmeter.
      *
-     * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement;
-     * if the driver does not support national character sets;
-     * if the driver can detect that a data conversion
-     *  error could occur;  if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @throws SQLException if pbrbmeterIndex does not correspond to b pbrbmeter
+     * mbrker in the SQL stbtement;
+     * if the driver does not support nbtionbl chbrbcter sets;
+     * if the driver cbn detect thbt b dbtb conversion
+     *  error could occur;  if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>PrepbredStbtement</code>
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      *
      * @since 1.6
      */
-     void setNClob(int parameterIndex, Reader reader)
+     void setNClob(int pbrbmeterIndex, Rebder rebder)
        throws SQLException;
 
     /**
-     * Sets the designated parameter to the given <code>java.net.URL</code> value.
-     * The driver converts this to an SQL <code>DATALINK</code> value
-     * when it sends it to the database.
+     * Sets the designbted pbrbmeter to the given <code>jbvb.net.URL</code> vblue.
+     * The driver converts this to bn SQL <code>DATALINK</code> vblue
+     * when it sends it to the dbtbbbse.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the <code>java.net.URL</code> object to be set
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm x the <code>jbvb.net.URL</code> object to be set
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>PrepbredStbtement</code>
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      * @since 1.4
      */
-    void setURL(int parameterIndex, java.net.URL x) throws SQLException;
+    void setURL(int pbrbmeterIndex, jbvb.net.URL x) throws SQLException;
 
 
 

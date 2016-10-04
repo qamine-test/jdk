@@ -1,589 +1,589 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.print.attribute;
+pbckbge jbvbx.print.bttribute;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
- * Class AttributeSetUtilities provides static methods for manipulating
+ * Clbss AttributeSetUtilities provides stbtic methods for mbnipulbting
  * AttributeSets.
  * <ul>
- * <li>Methods for creating unmodifiable and synchronized views of attribute
+ * <li>Methods for crebting unmodifibble bnd synchronized views of bttribute
  * sets.
- * <li>operations useful for building
- * implementations of interface {@link AttributeSet AttributeSet}
+ * <li>operbtions useful for building
+ * implementbtions of interfbce {@link AttributeSet AttributeSet}
  * </ul>
  * <P>
- * An <B>unmodifiable view</B> <I>U</I> of an AttributeSet <I>S</I> provides a
- * client with "read-only" access to <I>S</I>. Query operations on <I>U</I>
- * "read through" to <I>S</I>; thus, changes in <I>S</I> are reflected in
- * <I>U</I>. However, any attempt to modify <I>U</I>,
- *  results in an UnmodifiableSetException.
- * The unmodifiable view object <I>U</I> will be serializable if the
- * attribute set object <I>S</I> is serializable.
+ * An <B>unmodifibble view</B> <I>U</I> of bn AttributeSet <I>S</I> provides b
+ * client with "rebd-only" bccess to <I>S</I>. Query operbtions on <I>U</I>
+ * "rebd through" to <I>S</I>; thus, chbnges in <I>S</I> bre reflected in
+ * <I>U</I>. However, bny bttempt to modify <I>U</I>,
+ *  results in bn UnmodifibbleSetException.
+ * The unmodifibble view object <I>U</I> will be seriblizbble if the
+ * bttribute set object <I>S</I> is seriblizbble.
  * <P>
- * A <B>synchronized view</B> <I>V</I> of an attribute set <I>S</I> provides a
- * client with synchronized (multiple thread safe) access to <I>S</I>. Each
- * operation of <I>V</I> is synchronized using <I>V</I> itself as the lock
- * object and then merely invokes the corresponding operation of <I>S</I>. In
- * order to guarantee mutually exclusive access, it is critical that all
- * access to <I>S</I> is accomplished through <I>V</I>. The synchronized view
- * object <I>V</I> will be serializable if the attribute set object <I>S</I>
- * is serializable.
+ * A <B>synchronized view</B> <I>V</I> of bn bttribute set <I>S</I> provides b
+ * client with synchronized (multiple threbd sbfe) bccess to <I>S</I>. Ebch
+ * operbtion of <I>V</I> is synchronized using <I>V</I> itself bs the lock
+ * object bnd then merely invokes the corresponding operbtion of <I>S</I>. In
+ * order to gubrbntee mutublly exclusive bccess, it is criticbl thbt bll
+ * bccess to <I>S</I> is bccomplished through <I>V</I>. The synchronized view
+ * object <I>V</I> will be seriblizbble if the bttribute set object <I>S</I>
+ * is seriblizbble.
  * <P>
- * As mentioned in the package description of javax.print, a null reference
- * parameter to methods is
- * incorrect unless explicitly documented on the method as having a meaningful
- * interpretation.  Usage to the contrary is incorrect coding and may result in
- * a run time exception either immediately
- * or at some later time. IllegalArgumentException and NullPointerException
- * are examples of typical and acceptable run time exceptions for such cases.
+ * As mentioned in the pbckbge description of jbvbx.print, b null reference
+ * pbrbmeter to methods is
+ * incorrect unless explicitly documented on the method bs hbving b mebningful
+ * interpretbtion.  Usbge to the contrbry is incorrect coding bnd mby result in
+ * b run time exception either immedibtely
+ * or bt some lbter time. IllegblArgumentException bnd NullPointerException
+ * bre exbmples of typicbl bnd bcceptbble run time exceptions for such cbses.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class AttributeSetUtilities {
+public finbl clbss AttributeSetUtilities {
 
-    /* Suppress default constructor, ensuring non-instantiability.
+    /* Suppress defbult constructor, ensuring non-instbntibbility.
      */
-    private AttributeSetUtilities() {
+    privbte AttributeSetUtilities() {
     }
 
     /**
-      * @serial include
+      * @seribl include
       */
-    private static class UnmodifiableAttributeSet
-        implements AttributeSet, Serializable {
-        private static final long serialVersionUID = -6131802583863447813L;
+    privbte stbtic clbss UnmodifibbleAttributeSet
+        implements AttributeSet, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = -6131802583863447813L;
 
-        private AttributeSet attrset;
+        privbte AttributeSet bttrset;
 
-        /* Unmodifiable view of the underlying attribute set.
+        /* Unmodifibble view of the underlying bttribute set.
          */
-        public UnmodifiableAttributeSet(AttributeSet attributeSet) {
+        public UnmodifibbleAttributeSet(AttributeSet bttributeSet) {
 
-            attrset = attributeSet;
+            bttrset = bttributeSet;
         }
 
-        public Attribute get(Class<?> key) {
-            return attrset.get(key);
+        public Attribute get(Clbss<?> key) {
+            return bttrset.get(key);
         }
 
-        public boolean add(Attribute attribute) {
-            throw new UnmodifiableSetException();
+        public boolebn bdd(Attribute bttribute) {
+            throw new UnmodifibbleSetException();
         }
 
-        public synchronized boolean remove(Class<?> category) {
-            throw new UnmodifiableSetException();
+        public synchronized boolebn remove(Clbss<?> cbtegory) {
+            throw new UnmodifibbleSetException();
         }
 
-        public boolean remove(Attribute attribute) {
-            throw new UnmodifiableSetException();
+        public boolebn remove(Attribute bttribute) {
+            throw new UnmodifibbleSetException();
         }
 
-        public boolean containsKey(Class<?> category) {
-            return attrset.containsKey(category);
+        public boolebn contbinsKey(Clbss<?> cbtegory) {
+            return bttrset.contbinsKey(cbtegory);
         }
 
-        public boolean containsValue(Attribute attribute) {
-            return attrset.containsValue(attribute);
+        public boolebn contbinsVblue(Attribute bttribute) {
+            return bttrset.contbinsVblue(bttribute);
         }
 
-        public boolean addAll(AttributeSet attributes) {
-            throw new UnmodifiableSetException();
+        public boolebn bddAll(AttributeSet bttributes) {
+            throw new UnmodifibbleSetException();
         }
 
         public int size() {
-            return attrset.size();
+            return bttrset.size();
         }
 
-        public Attribute[] toArray() {
-            return attrset.toArray();
+        public Attribute[] toArrby() {
+            return bttrset.toArrby();
         }
 
-        public void clear() {
-            throw new UnmodifiableSetException();
+        public void clebr() {
+            throw new UnmodifibbleSetException();
         }
 
-        public boolean isEmpty() {
-            return attrset.isEmpty();
+        public boolebn isEmpty() {
+            return bttrset.isEmpty();
         }
 
-        public boolean equals(Object o) {
-            return attrset.equals (o);
+        public boolebn equbls(Object o) {
+            return bttrset.equbls (o);
         }
 
-        public int hashCode() {
-            return attrset.hashCode();
+        public int hbshCode() {
+            return bttrset.hbshCode();
         }
 
     }
 
     /**
-      * @serial include
+      * @seribl include
       */
-    private static class UnmodifiableDocAttributeSet
-        extends UnmodifiableAttributeSet
-        implements DocAttributeSet, Serializable {
-        private static final long serialVersionUID = -6349408326066898956L;
+    privbte stbtic clbss UnmodifibbleDocAttributeSet
+        extends UnmodifibbleAttributeSet
+        implements DocAttributeSet, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = -6349408326066898956L;
 
-        public UnmodifiableDocAttributeSet(DocAttributeSet attributeSet) {
+        public UnmodifibbleDocAttributeSet(DocAttributeSet bttributeSet) {
 
-            super (attributeSet);
+            super (bttributeSet);
         }
     }
 
     /**
-      * @serial include
+      * @seribl include
       */
-    private static class UnmodifiablePrintRequestAttributeSet
-        extends UnmodifiableAttributeSet
-        implements PrintRequestAttributeSet, Serializable
+    privbte stbtic clbss UnmodifibblePrintRequestAttributeSet
+        extends UnmodifibbleAttributeSet
+        implements PrintRequestAttributeSet, Seriblizbble
     {
-        private static final long serialVersionUID = 7799373532614825073L;
-        public UnmodifiablePrintRequestAttributeSet
-            (PrintRequestAttributeSet attributeSet) {
+        privbte stbtic finbl long seriblVersionUID = 7799373532614825073L;
+        public UnmodifibblePrintRequestAttributeSet
+            (PrintRequestAttributeSet bttributeSet) {
 
-            super (attributeSet);
+            super (bttributeSet);
         }
     }
 
     /**
-      * @serial include
+      * @seribl include
       */
-    private static class UnmodifiablePrintJobAttributeSet
-        extends UnmodifiableAttributeSet
-        implements PrintJobAttributeSet, Serializable
+    privbte stbtic clbss UnmodifibblePrintJobAttributeSet
+        extends UnmodifibbleAttributeSet
+        implements PrintJobAttributeSet, Seriblizbble
     {
-        private static final long serialVersionUID = -8002245296274522112L;
-        public UnmodifiablePrintJobAttributeSet
-            (PrintJobAttributeSet attributeSet) {
+        privbte stbtic finbl long seriblVersionUID = -8002245296274522112L;
+        public UnmodifibblePrintJobAttributeSet
+            (PrintJobAttributeSet bttributeSet) {
 
-            super (attributeSet);
+            super (bttributeSet);
         }
     }
 
     /**
-      * @serial include
+      * @seribl include
       */
-    private static class UnmodifiablePrintServiceAttributeSet
-        extends UnmodifiableAttributeSet
-        implements PrintServiceAttributeSet, Serializable
+    privbte stbtic clbss UnmodifibblePrintServiceAttributeSet
+        extends UnmodifibbleAttributeSet
+        implements PrintServiceAttributeSet, Seriblizbble
     {
-        private static final long serialVersionUID = -7112165137107826819L;
-        public UnmodifiablePrintServiceAttributeSet
-            (PrintServiceAttributeSet attributeSet) {
+        privbte stbtic finbl long seriblVersionUID = -7112165137107826819L;
+        public UnmodifibblePrintServiceAttributeSet
+            (PrintServiceAttributeSet bttributeSet) {
 
-            super (attributeSet);
+            super (bttributeSet);
         }
     }
 
     /**
-     * Creates an unmodifiable view of the given attribute set.
+     * Crebtes bn unmodifibble view of the given bttribute set.
      *
-     * @param  attributeSet  Underlying attribute set.
+     * @pbrbm  bttributeSet  Underlying bttribute set.
      *
-     * @return  Unmodifiable view of <CODE>attributeSet</CODE>.
+     * @return  Unmodifibble view of <CODE>bttributeSet</CODE>.
      *
      * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null. Null is never a
+     *     Thrown if <CODE>bttributeSet</CODE> is null. Null is never b
      */
-    public static AttributeSet unmodifiableView(AttributeSet attributeSet) {
-        if (attributeSet == null) {
+    public stbtic AttributeSet unmodifibbleView(AttributeSet bttributeSet) {
+        if (bttributeSet == null) {
             throw new NullPointerException();
         }
 
-        return new UnmodifiableAttributeSet(attributeSet);
+        return new UnmodifibbleAttributeSet(bttributeSet);
     }
 
     /**
-     * Creates an unmodifiable view of the given doc attribute set.
+     * Crebtes bn unmodifibble view of the given doc bttribute set.
      *
-     * @param  attributeSet  Underlying doc attribute set.
+     * @pbrbm  bttributeSet  Underlying doc bttribute set.
      *
-     * @return  Unmodifiable view of <CODE>attributeSet</CODE>.
+     * @return  Unmodifibble view of <CODE>bttributeSet</CODE>.
      *
      * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     *     Thrown if <CODE>bttributeSet</CODE> is null.
      */
-    public static DocAttributeSet unmodifiableView
-        (DocAttributeSet attributeSet) {
-        if (attributeSet == null) {
+    public stbtic DocAttributeSet unmodifibbleView
+        (DocAttributeSet bttributeSet) {
+        if (bttributeSet == null) {
             throw new NullPointerException();
         }
-        return new UnmodifiableDocAttributeSet(attributeSet);
+        return new UnmodifibbleDocAttributeSet(bttributeSet);
     }
 
     /**
-     * Creates an unmodifiable view of the given print request attribute set.
+     * Crebtes bn unmodifibble view of the given print request bttribute set.
      *
-     * @param  attributeSet  Underlying print request attribute set.
+     * @pbrbm  bttributeSet  Underlying print request bttribute set.
      *
-     * @return  Unmodifiable view of <CODE>attributeSet</CODE>.
+     * @return  Unmodifibble view of <CODE>bttributeSet</CODE>.
      *
      * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     *     Thrown if <CODE>bttributeSet</CODE> is null.
      */
-    public static PrintRequestAttributeSet
-        unmodifiableView(PrintRequestAttributeSet attributeSet) {
-        if (attributeSet == null) {
+    public stbtic PrintRequestAttributeSet
+        unmodifibbleView(PrintRequestAttributeSet bttributeSet) {
+        if (bttributeSet == null) {
             throw new NullPointerException();
         }
-        return new UnmodifiablePrintRequestAttributeSet(attributeSet);
+        return new UnmodifibblePrintRequestAttributeSet(bttributeSet);
     }
 
     /**
-     * Creates an unmodifiable view of the given print job attribute set.
+     * Crebtes bn unmodifibble view of the given print job bttribute set.
      *
-     * @param  attributeSet  Underlying print job attribute set.
+     * @pbrbm  bttributeSet  Underlying print job bttribute set.
      *
-     * @return  Unmodifiable view of <CODE>attributeSet</CODE>.
+     * @return  Unmodifibble view of <CODE>bttributeSet</CODE>.
      *
      * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     *     Thrown if <CODE>bttributeSet</CODE> is null.
      */
-    public static PrintJobAttributeSet
-        unmodifiableView(PrintJobAttributeSet attributeSet) {
-        if (attributeSet == null) {
+    public stbtic PrintJobAttributeSet
+        unmodifibbleView(PrintJobAttributeSet bttributeSet) {
+        if (bttributeSet == null) {
             throw new NullPointerException();
         }
-        return new UnmodifiablePrintJobAttributeSet(attributeSet);
+        return new UnmodifibblePrintJobAttributeSet(bttributeSet);
     }
 
     /**
-     * Creates an unmodifiable view of the given print service attribute set.
+     * Crebtes bn unmodifibble view of the given print service bttribute set.
      *
-     * @param  attributeSet  Underlying print service attribute set.
+     * @pbrbm  bttributeSet  Underlying print service bttribute set.
      *
-     * @return  Unmodifiable view of <CODE>attributeSet</CODE>.
+     * @return  Unmodifibble view of <CODE>bttributeSet</CODE>.
      *
      * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     *     Thrown if <CODE>bttributeSet</CODE> is null.
      */
-    public static PrintServiceAttributeSet
-        unmodifiableView(PrintServiceAttributeSet attributeSet) {
-        if (attributeSet == null) {
+    public stbtic PrintServiceAttributeSet
+        unmodifibbleView(PrintServiceAttributeSet bttributeSet) {
+        if (bttributeSet == null) {
             throw new NullPointerException();
         }
-        return new UnmodifiablePrintServiceAttributeSet (attributeSet);
+        return new UnmodifibblePrintServiceAttributeSet (bttributeSet);
     }
 
     /**
-      * @serial include
+      * @seribl include
       */
-    private static class SynchronizedAttributeSet
-                        implements AttributeSet, Serializable {
-        private static final long serialVersionUID = 8365731020128564925L;
+    privbte stbtic clbss SynchronizedAttributeSet
+                        implements AttributeSet, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 8365731020128564925L;
 
-        private AttributeSet attrset;
+        privbte AttributeSet bttrset;
 
-        public SynchronizedAttributeSet(AttributeSet attributeSet) {
-            attrset = attributeSet;
+        public SynchronizedAttributeSet(AttributeSet bttributeSet) {
+            bttrset = bttributeSet;
         }
 
-        public synchronized Attribute get(Class<?> category) {
-            return attrset.get(category);
+        public synchronized Attribute get(Clbss<?> cbtegory) {
+            return bttrset.get(cbtegory);
         }
 
-        public synchronized boolean add(Attribute attribute) {
-            return attrset.add(attribute);
+        public synchronized boolebn bdd(Attribute bttribute) {
+            return bttrset.bdd(bttribute);
         }
 
-        public synchronized boolean remove(Class<?> category) {
-            return attrset.remove(category);
+        public synchronized boolebn remove(Clbss<?> cbtegory) {
+            return bttrset.remove(cbtegory);
         }
 
-        public synchronized boolean remove(Attribute attribute) {
-            return attrset.remove(attribute);
+        public synchronized boolebn remove(Attribute bttribute) {
+            return bttrset.remove(bttribute);
         }
 
-        public synchronized boolean containsKey(Class<?> category) {
-            return attrset.containsKey(category);
+        public synchronized boolebn contbinsKey(Clbss<?> cbtegory) {
+            return bttrset.contbinsKey(cbtegory);
         }
 
-        public synchronized boolean containsValue(Attribute attribute) {
-            return attrset.containsValue(attribute);
+        public synchronized boolebn contbinsVblue(Attribute bttribute) {
+            return bttrset.contbinsVblue(bttribute);
         }
 
-        public synchronized boolean addAll(AttributeSet attributes) {
-            return attrset.addAll(attributes);
+        public synchronized boolebn bddAll(AttributeSet bttributes) {
+            return bttrset.bddAll(bttributes);
         }
 
         public synchronized int size() {
-            return attrset.size();
+            return bttrset.size();
         }
 
-        public synchronized Attribute[] toArray() {
-            return attrset.toArray();
+        public synchronized Attribute[] toArrby() {
+            return bttrset.toArrby();
         }
 
-        public synchronized void clear() {
-            attrset.clear();
+        public synchronized void clebr() {
+            bttrset.clebr();
         }
 
-        public synchronized boolean isEmpty() {
-            return attrset.isEmpty();
+        public synchronized boolebn isEmpty() {
+            return bttrset.isEmpty();
         }
 
-        public synchronized boolean equals(Object o) {
-            return attrset.equals (o);
+        public synchronized boolebn equbls(Object o) {
+            return bttrset.equbls (o);
         }
 
-        public synchronized int hashCode() {
-            return attrset.hashCode();
-        }
-    }
-
-    /**
-      * @serial include
-      */
-    private static class SynchronizedDocAttributeSet
-        extends SynchronizedAttributeSet
-        implements DocAttributeSet, Serializable {
-        private static final long serialVersionUID = 6455869095246629354L;
-
-        public SynchronizedDocAttributeSet(DocAttributeSet attributeSet) {
-            super(attributeSet);
+        public synchronized int hbshCode() {
+            return bttrset.hbshCode();
         }
     }
 
     /**
-      * @serial include
+      * @seribl include
       */
-    private static class SynchronizedPrintRequestAttributeSet
+    privbte stbtic clbss SynchronizedDocAttributeSet
         extends SynchronizedAttributeSet
-        implements PrintRequestAttributeSet, Serializable {
-        private static final long serialVersionUID = 5671237023971169027L;
+        implements DocAttributeSet, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 6455869095246629354L;
+
+        public SynchronizedDocAttributeSet(DocAttributeSet bttributeSet) {
+            super(bttributeSet);
+        }
+    }
+
+    /**
+      * @seribl include
+      */
+    privbte stbtic clbss SynchronizedPrintRequestAttributeSet
+        extends SynchronizedAttributeSet
+        implements PrintRequestAttributeSet, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 5671237023971169027L;
 
         public SynchronizedPrintRequestAttributeSet
-            (PrintRequestAttributeSet attributeSet) {
-            super(attributeSet);
+            (PrintRequestAttributeSet bttributeSet) {
+            super(bttributeSet);
         }
     }
 
     /**
-      * @serial include
+      * @seribl include
       */
-    private static class SynchronizedPrintJobAttributeSet
+    privbte stbtic clbss SynchronizedPrintJobAttributeSet
         extends SynchronizedAttributeSet
-        implements PrintJobAttributeSet, Serializable {
-        private static final long serialVersionUID = 2117188707856965749L;
+        implements PrintJobAttributeSet, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 2117188707856965749L;
 
         public SynchronizedPrintJobAttributeSet
-            (PrintJobAttributeSet attributeSet) {
-            super(attributeSet);
+            (PrintJobAttributeSet bttributeSet) {
+            super(bttributeSet);
         }
     }
 
     /**
-      * @serial include
+      * @seribl include
       */
-    private static class SynchronizedPrintServiceAttributeSet
+    privbte stbtic clbss SynchronizedPrintServiceAttributeSet
         extends SynchronizedAttributeSet
-        implements PrintServiceAttributeSet, Serializable {
-        private static final long serialVersionUID = -2830705374001675073L;
+        implements PrintServiceAttributeSet, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = -2830705374001675073L;
 
         public SynchronizedPrintServiceAttributeSet
-            (PrintServiceAttributeSet attributeSet) {
-            super(attributeSet);
+            (PrintServiceAttributeSet bttributeSet) {
+            super(bttributeSet);
         }
     }
 
     /**
-     * Creates a synchronized view of the given attribute set.
+     * Crebtes b synchronized view of the given bttribute set.
      *
-     * @param  attributeSet  Underlying attribute set.
+     * @pbrbm  bttributeSet  Underlying bttribute set.
      *
-     * @return  Synchronized view of <CODE>attributeSet</CODE>.
+     * @return  Synchronized view of <CODE>bttributeSet</CODE>.
      *
      * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     *     Thrown if <CODE>bttributeSet</CODE> is null.
      */
-    public static AttributeSet synchronizedView
-        (AttributeSet attributeSet) {
-        if (attributeSet == null) {
+    public stbtic AttributeSet synchronizedView
+        (AttributeSet bttributeSet) {
+        if (bttributeSet == null) {
             throw new NullPointerException();
         }
-        return new SynchronizedAttributeSet(attributeSet);
+        return new SynchronizedAttributeSet(bttributeSet);
     }
 
     /**
-     * Creates a synchronized view of the given doc attribute set.
+     * Crebtes b synchronized view of the given doc bttribute set.
      *
-     * @param  attributeSet  Underlying doc attribute set.
+     * @pbrbm  bttributeSet  Underlying doc bttribute set.
      *
-     * @return  Synchronized view of <CODE>attributeSet</CODE>.
+     * @return  Synchronized view of <CODE>bttributeSet</CODE>.
      *
      * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     *     Thrown if <CODE>bttributeSet</CODE> is null.
      */
-    public static DocAttributeSet
-        synchronizedView(DocAttributeSet attributeSet) {
-        if (attributeSet == null) {
+    public stbtic DocAttributeSet
+        synchronizedView(DocAttributeSet bttributeSet) {
+        if (bttributeSet == null) {
             throw new NullPointerException();
         }
-        return new SynchronizedDocAttributeSet(attributeSet);
+        return new SynchronizedDocAttributeSet(bttributeSet);
     }
 
     /**
-     * Creates a synchronized view of the given print request attribute set.
+     * Crebtes b synchronized view of the given print request bttribute set.
      *
-     * @param  attributeSet  Underlying print request attribute set.
+     * @pbrbm  bttributeSet  Underlying print request bttribute set.
      *
-     * @return  Synchronized view of <CODE>attributeSet</CODE>.
+     * @return  Synchronized view of <CODE>bttributeSet</CODE>.
      *
      * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     *     Thrown if <CODE>bttributeSet</CODE> is null.
      */
-    public static PrintRequestAttributeSet
-        synchronizedView(PrintRequestAttributeSet attributeSet) {
-        if (attributeSet == null) {
+    public stbtic PrintRequestAttributeSet
+        synchronizedView(PrintRequestAttributeSet bttributeSet) {
+        if (bttributeSet == null) {
             throw new NullPointerException();
         }
-        return new SynchronizedPrintRequestAttributeSet(attributeSet);
+        return new SynchronizedPrintRequestAttributeSet(bttributeSet);
     }
 
     /**
-     * Creates a synchronized view of the given print job attribute set.
+     * Crebtes b synchronized view of the given print job bttribute set.
      *
-     * @param  attributeSet  Underlying print job attribute set.
+     * @pbrbm  bttributeSet  Underlying print job bttribute set.
      *
-     * @return  Synchronized view of <CODE>attributeSet</CODE>.
+     * @return  Synchronized view of <CODE>bttributeSet</CODE>.
      *
      * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     *     Thrown if <CODE>bttributeSet</CODE> is null.
      */
-    public static PrintJobAttributeSet
-        synchronizedView(PrintJobAttributeSet attributeSet) {
-        if (attributeSet == null) {
+    public stbtic PrintJobAttributeSet
+        synchronizedView(PrintJobAttributeSet bttributeSet) {
+        if (bttributeSet == null) {
             throw new NullPointerException();
         }
-        return new SynchronizedPrintJobAttributeSet(attributeSet);
+        return new SynchronizedPrintJobAttributeSet(bttributeSet);
     }
 
     /**
-     * Creates a synchronized view of the given print service attribute set.
+     * Crebtes b synchronized view of the given print service bttribute set.
      *
-     * @param  attributeSet  Underlying print service attribute set.
+     * @pbrbm  bttributeSet  Underlying print service bttribute set.
      *
-     * @return  Synchronized view of <CODE>attributeSet</CODE>.
+     * @return  Synchronized view of <CODE>bttributeSet</CODE>.
      */
-    public static PrintServiceAttributeSet
-        synchronizedView(PrintServiceAttributeSet attributeSet) {
-        if (attributeSet == null) {
+    public stbtic PrintServiceAttributeSet
+        synchronizedView(PrintServiceAttributeSet bttributeSet) {
+        if (bttributeSet == null) {
             throw new NullPointerException();
         }
-        return new SynchronizedPrintServiceAttributeSet(attributeSet);
+        return new SynchronizedPrintServiceAttributeSet(bttributeSet);
     }
 
 
     /**
-     * Verify that the given object is a {@link java.lang.Class Class} that
-     * implements the given interface, which is assumed to be interface {@link
-     * Attribute Attribute} or a subinterface thereof.
+     * Verify thbt the given object is b {@link jbvb.lbng.Clbss Clbss} thbt
+     * implements the given interfbce, which is bssumed to be interfbce {@link
+     * Attribute Attribute} or b subinterfbce thereof.
      *
-     * @param  object     Object to test.
-     * @param  interfaceName  Interface the object must implement.
+     * @pbrbm  object     Object to test.
+     * @pbrbm  interfbceNbme  Interfbce the object must implement.
      *
-     * @return  If <CODE>object</CODE> is a {@link java.lang.Class Class}
-     *          that implements <CODE>interfaceName</CODE>,
-     *          <CODE>object</CODE> is returned downcast to type {@link
-     *          java.lang.Class Class}; otherwise an exception is thrown.
+     * @return  If <CODE>object</CODE> is b {@link jbvb.lbng.Clbss Clbss}
+     *          thbt implements <CODE>interfbceNbme</CODE>,
+     *          <CODE>object</CODE> is returned downcbst to type {@link
+     *          jbvb.lbng.Clbss Clbss}; otherwise bn exception is thrown.
      *
      * @exception  NullPointerException
      *     (unchecked exception) Thrown if <CODE>object</CODE> is null.
-     * @exception  ClassCastException
-     *     (unchecked exception) Thrown if <CODE>object</CODE> is not a
-     *     {@link java.lang.Class Class} that implements
-     *     <CODE>interfaceName</CODE>.
+     * @exception  ClbssCbstException
+     *     (unchecked exception) Thrown if <CODE>object</CODE> is not b
+     *     {@link jbvb.lbng.Clbss Clbss} thbt implements
+     *     <CODE>interfbceNbme</CODE>.
      */
-    public static Class<?>
-        verifyAttributeCategory(Object object, Class<?> interfaceName) {
+    public stbtic Clbss<?>
+        verifyAttributeCbtegory(Object object, Clbss<?> interfbceNbme) {
 
-        Class<?> result = (Class<?>) object;
-        if (interfaceName.isAssignableFrom (result)) {
+        Clbss<?> result = (Clbss<?>) object;
+        if (interfbceNbme.isAssignbbleFrom (result)) {
             return result;
         }
         else {
-            throw new ClassCastException();
+            throw new ClbssCbstException();
         }
     }
 
     /**
-     * Verify that the given object is an instance of the given interface, which
-     * is assumed to be interface {@link Attribute Attribute} or a subinterface
+     * Verify thbt the given object is bn instbnce of the given interfbce, which
+     * is bssumed to be interfbce {@link Attribute Attribute} or b subinterfbce
      * thereof.
      *
-     * @param  object     Object to test.
-     * @param  interfaceName  Interface of which the object must be an instance.
+     * @pbrbm  object     Object to test.
+     * @pbrbm  interfbceNbme  Interfbce of which the object must be bn instbnce.
      *
-     * @return  If <CODE>object</CODE> is an instance of
-     *          <CODE>interfaceName</CODE>, <CODE>object</CODE> is returned
-     *          downcast to type {@link Attribute Attribute}; otherwise an
+     * @return  If <CODE>object</CODE> is bn instbnce of
+     *          <CODE>interfbceNbme</CODE>, <CODE>object</CODE> is returned
+     *          downcbst to type {@link Attribute Attribute}; otherwise bn
      *          exception is thrown.
      *
      * @exception  NullPointerException
      *     (unchecked exception) Thrown if <CODE>object</CODE> is null.
-     * @exception  ClassCastException
-     *     (unchecked exception) Thrown if <CODE>object</CODE> is not an
-     *     instance of <CODE>interfaceName</CODE>.
+     * @exception  ClbssCbstException
+     *     (unchecked exception) Thrown if <CODE>object</CODE> is not bn
+     *     instbnce of <CODE>interfbceNbme</CODE>.
      */
-    public static Attribute
-        verifyAttributeValue(Object object, Class<?> interfaceName) {
+    public stbtic Attribute
+        verifyAttributeVblue(Object object, Clbss<?> interfbceNbme) {
 
         if (object == null) {
             throw new NullPointerException();
         }
-        else if (interfaceName.isInstance (object)) {
+        else if (interfbceNbme.isInstbnce (object)) {
             return (Attribute) object;
         } else {
-            throw new ClassCastException();
+            throw new ClbssCbstException();
         }
     }
 
     /**
-     * Verify that the given attribute category object is equal to the
-     * category of the given attribute value object. If so, this method
-     * returns doing nothing. If not, this method throws an exception.
+     * Verify thbt the given bttribute cbtegory object is equbl to the
+     * cbtegory of the given bttribute vblue object. If so, this method
+     * returns doing nothing. If not, this method throws bn exception.
      *
-     * @param  category   Attribute category to test.
-     * @param  attribute  Attribute value to test.
+     * @pbrbm  cbtegory   Attribute cbtegory to test.
+     * @pbrbm  bttribute  Attribute vblue to test.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if the <CODE>category</CODE> is
-     *     null or if the <CODE>attribute</CODE> is null.
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if the <CODE>category</CODE> is not
-     *     equal to the category of the <CODE>attribute</CODE>.
+     *     (unchecked exception) Thrown if the <CODE>cbtegory</CODE> is
+     *     null or if the <CODE>bttribute</CODE> is null.
+     * @exception  IllegblArgumentException
+     *     (unchecked exception) Thrown if the <CODE>cbtegory</CODE> is not
+     *     equbl to the cbtegory of the <CODE>bttribute</CODE>.
      */
-    public static void
-        verifyCategoryForValue(Class<?> category, Attribute attribute) {
+    public stbtic void
+        verifyCbtegoryForVblue(Clbss<?> cbtegory, Attribute bttribute) {
 
-        if (!category.equals (attribute.getCategory())) {
-            throw new IllegalArgumentException();
+        if (!cbtegory.equbls (bttribute.getCbtegory())) {
+            throw new IllegblArgumentException();
         }
     }
 }

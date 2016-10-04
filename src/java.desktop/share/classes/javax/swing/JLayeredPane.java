@@ -1,267 +1,267 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Component;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import sun.awt.SunToolkit;
+import jbvb.bwt.Component;
+import jbvb.util.ArrbyList;
+import jbvb.util.Hbshtbble;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Rectbngle;
+import sun.bwt.SunToolkit;
 
-import javax.accessibility.*;
+import jbvbx.bccessibility.*;
 
 /**
- * <code>JLayeredPane</code> adds depth to a JFC/Swing container,
- * allowing components to overlap each other when needed.
- * An <code>Integer</code> object specifies each component's depth in the
- * container, where higher-numbered components sit &quot;on top&quot; of other
+ * <code>JLbyeredPbne</code> bdds depth to b JFC/Swing contbiner,
+ * bllowing components to overlbp ebch other when needed.
+ * An <code>Integer</code> object specifies ebch component's depth in the
+ * contbiner, where higher-numbered components sit &quot;on top&quot; of other
  * components.
- * For task-oriented documentation and examples of using layered panes see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/layeredpane.html">How to Use a Layered Pane</a>,
- * a section in <em>The Java Tutorial</em>.
+ * For tbsk-oriented documentbtion bnd exbmples of using lbyered pbnes see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/lbyeredpbne.html">How to Use b Lbyered Pbne</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  *
- * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="layout">
+ * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
  * <TR>
  *   <TD ALIGN="CENTER">
- *     <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="doc-files/JLayeredPane-1.gif"
- *     alt="The following text describes this image."
+ *     <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="doc-files/JLbyeredPbne-1.gif"
+ *     blt="The following text describes this imbge."
  *     WIDTH="269" HEIGHT="264" STYLE="FLOAT:BOTTOM; BORDER=0">
  *   </TD>
  * </TR>
  * </TABLE>
- * For convenience, <code>JLayeredPane</code> divides the depth-range
- * into several different layers. Putting a component into one of those
- * layers makes it easy to ensure that components overlap properly,
- * without having to worry about specifying numbers for specific depths:
+ * For convenience, <code>JLbyeredPbne</code> divides the depth-rbnge
+ * into severbl different lbyers. Putting b component into one of those
+ * lbyers mbkes it ebsy to ensure thbt components overlbp properly,
+ * without hbving to worry bbout specifying numbers for specific depths:
  * <DL>
  *    <DT>DEFAULT_LAYER</DT>
- *         <DD>The standard layer, where most components go. This the bottommost
- *         layer.
+ *         <DD>The stbndbrd lbyer, where most components go. This the bottommost
+ *         lbyer.
  *    <DT>PALETTE_LAYER</DT>
- *         <DD>The palette layer sits over the default layer. Useful for floating
- *         toolbars and palettes, so they can be positioned above other components.
+ *         <DD>The pblette lbyer sits over the defbult lbyer. Useful for flobting
+ *         toolbbrs bnd pblettes, so they cbn be positioned bbove other components.
  *    <DT>MODAL_LAYER</DT>
- *         <DD>The layer used for modal dialogs. They will appear on top of any
- *         toolbars, palettes, or standard components in the container.
+ *         <DD>The lbyer used for modbl diblogs. They will bppebr on top of bny
+ *         toolbbrs, pblettes, or stbndbrd components in the contbiner.
  *    <DT>POPUP_LAYER</DT>
- *         <DD>The popup layer displays above dialogs. That way, the popup windows
- *         associated with combo boxes, tooltips, and other help text will appear
- *         above the component, palette, or dialog that generated them.
+ *         <DD>The popup lbyer displbys bbove diblogs. Thbt wby, the popup windows
+ *         bssocibted with combo boxes, tooltips, bnd other help text will bppebr
+ *         bbove the component, pblette, or diblog thbt generbted them.
  *    <DT>DRAG_LAYER</DT>
- *         <DD>When dragging a component, reassigning it to the drag layer ensures
- *         that it is positioned over every other component in the container. When
- *         finished dragging, it can be reassigned to its normal layer.
+ *         <DD>When drbgging b component, rebssigning it to the drbg lbyer ensures
+ *         thbt it is positioned over every other component in the contbiner. When
+ *         finished drbgging, it cbn be rebssigned to its normbl lbyer.
  * </DL>
- * The <code>JLayeredPane</code> methods <code>moveToFront(Component)</code>,
- * <code>moveToBack(Component)</code> and <code>setPosition</code> can be used
- * to reposition a component within its layer. The <code>setLayer</code> method
- * can also be used to change the component's current layer.
+ * The <code>JLbyeredPbne</code> methods <code>moveToFront(Component)</code>,
+ * <code>moveToBbck(Component)</code> bnd <code>setPosition</code> cbn be used
+ * to reposition b component within its lbyer. The <code>setLbyer</code> method
+ * cbn blso be used to chbnge the component's current lbyer.
  *
- * <h2>Details</h2>
- * <code>JLayeredPane</code> manages its list of children like
- * <code>Container</code>, but allows for the definition of a several
- * layers within itself. Children in the same layer are managed exactly
- * like the normal <code>Container</code> object,
- * with the added feature that when children components overlap, children
- * in higher layers display above the children in lower layers.
+ * <h2>Detbils</h2>
+ * <code>JLbyeredPbne</code> mbnbges its list of children like
+ * <code>Contbiner</code>, but bllows for the definition of b severbl
+ * lbyers within itself. Children in the sbme lbyer bre mbnbged exbctly
+ * like the normbl <code>Contbiner</code> object,
+ * with the bdded febture thbt when children components overlbp, children
+ * in higher lbyers displby bbove the children in lower lbyers.
  * <p>
- * Each layer is a distinct integer number. The layer attribute can be set
- * on a <code>Component</code> by passing an <code>Integer</code>
- * object during the add call.<br> For example:
+ * Ebch lbyer is b distinct integer number. The lbyer bttribute cbn be set
+ * on b <code>Component</code> by pbssing bn <code>Integer</code>
+ * object during the bdd cbll.<br> For exbmple:
  * <PRE>
- *     layeredPane.add(child, JLayeredPane.DEFAULT_LAYER);
+ *     lbyeredPbne.bdd(child, JLbyeredPbne.DEFAULT_LAYER);
  * or
- *     layeredPane.add(child, new Integer(10));
+ *     lbyeredPbne.bdd(child, new Integer(10));
  * </PRE>
- * The layer attribute can also be set on a Component by calling<PRE>
- *     layeredPaneParent.setLayer(child, 10)</PRE>
- * on the <code>JLayeredPane</code> that is the parent of component. The layer
- * should be set <i>before</i> adding the child to the parent.
+ * The lbyer bttribute cbn blso be set on b Component by cblling<PRE>
+ *     lbyeredPbnePbrent.setLbyer(child, 10)</PRE>
+ * on the <code>JLbyeredPbne</code> thbt is the pbrent of component. The lbyer
+ * should be set <i>before</i> bdding the child to the pbrent.
  * <p>
- * Higher number layers display above lower number layers. So, using
- * numbers for the layers and letters for individual components, a
- * representative list order would look like this:<PRE>
- *       5a, 5b, 5c, 2a, 2b, 2c, 1a </PRE>
- * where the leftmost components are closest to the top of the display.
+ * Higher number lbyers displby bbove lower number lbyers. So, using
+ * numbers for the lbyers bnd letters for individubl components, b
+ * representbtive list order would look like this:<PRE>
+ *       5b, 5b, 5c, 2b, 2b, 2c, 1b </PRE>
+ * where the leftmost components bre closest to the top of the displby.
  * <p>
- * A component can be moved to the top or bottom position within its
- * layer by calling <code>moveToFront</code> or <code>moveToBack</code>.
+ * A component cbn be moved to the top or bottom position within its
+ * lbyer by cblling <code>moveToFront</code> or <code>moveToBbck</code>.
  * <p>
- * The position of a component within a layer can also be specified directly.
- * Valid positions range from 0 up to one less than the number of
- * components in that layer. A value of -1 indicates the bottommost
- * position. A value of 0 indicates the topmost position. Unlike layer
- * numbers, higher position values are <i>lower</i> in the display.
+ * The position of b component within b lbyer cbn blso be specified directly.
+ * Vblid positions rbnge from 0 up to one less thbn the number of
+ * components in thbt lbyer. A vblue of -1 indicbtes the bottommost
+ * position. A vblue of 0 indicbtes the topmost position. Unlike lbyer
+ * numbers, higher position vblues bre <i>lower</i> in the displby.
  * <blockquote>
- * <b>Note:</b> This sequence (defined by java.awt.Container) is the reverse
- * of the layer numbering sequence. Usually though, you will use <code>moveToFront</code>,
- * <code>moveToBack</code>, and <code>setLayer</code>.
+ * <b>Note:</b> This sequence (defined by jbvb.bwt.Contbiner) is the reverse
+ * of the lbyer numbering sequence. Usublly though, you will use <code>moveToFront</code>,
+ * <code>moveToBbck</code>, bnd <code>setLbyer</code>.
  * </blockquote>
- * Here are some examples using the method add(Component, layer, position):
- * Calling add(5x, 5, -1) results in:<PRE>
- *       5a, 5b, 5c, 5x, 2a, 2b, 2c, 1a </PRE>
+ * Here bre some exbmples using the method bdd(Component, lbyer, position):
+ * Cblling bdd(5x, 5, -1) results in:<PRE>
+ *       5b, 5b, 5c, 5x, 2b, 2b, 2c, 1b </PRE>
  *
- * Calling add(5z, 5, 2) results in:<PRE>
- *       5a, 5b, 5z, 5c, 5x, 2a, 2b, 2c, 1a </PRE>
+ * Cblling bdd(5z, 5, 2) results in:<PRE>
+ *       5b, 5b, 5z, 5c, 5x, 2b, 2b, 2c, 1b </PRE>
  *
- * Calling add(3a, 3, 7) results in:<PRE>
- *       5a, 5b, 5z, 5c, 5x, 3a, 2a, 2b, 2c, 1a </PRE>
+ * Cblling bdd(3b, 3, 7) results in:<PRE>
+ *       5b, 5b, 5z, 5c, 5x, 3b, 2b, 2b, 2c, 1b </PRE>
  *
- * Using normal paint/event mechanics results in 1a appearing at the bottom
- * and 5a being above all other components.
+ * Using normbl pbint/event mechbnics results in 1b bppebring bt the bottom
+ * bnd 5b being bbove bll other components.
  * <p>
- * <b>Note:</b> that these layers are simply a logical construct and LayoutManagers
- * will affect all child components of this container without regard for
- * layer settings.
+ * <b>Note:</b> thbt these lbyers bre simply b logicbl construct bnd LbyoutMbnbgers
+ * will bffect bll child components of this contbiner without regbrd for
+ * lbyer settings.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author David Kloba
+ * @buthor Dbvid Klobb
  * @since 1.2
  */
-@SuppressWarnings("serial")
-public class JLayeredPane extends JComponent implements Accessible {
-    /// Watch the values in getObjectForLayer()
-    /** Convenience object defining the Default layer. Equivalent to new Integer(0).*/
-    public final static Integer DEFAULT_LAYER = 0;
-    /** Convenience object defining the Palette layer. Equivalent to new Integer(100).*/
-    public final static Integer PALETTE_LAYER = 100;
-    /** Convenience object defining the Modal layer. Equivalent to new Integer(200).*/
-    public final static Integer MODAL_LAYER = 200;
-    /** Convenience object defining the Popup layer. Equivalent to new Integer(300).*/
-    public final static Integer POPUP_LAYER = 300;
-    /** Convenience object defining the Drag layer. Equivalent to new Integer(400).*/
-    public final static Integer DRAG_LAYER = 400;
-    /** Convenience object defining the Frame Content layer.
-      * This layer is normally only use to position the contentPane and menuBar
-      * components of JFrame.
-      * Equivalent to new Integer(-30000).
-      * @see JFrame
+@SuppressWbrnings("seribl")
+public clbss JLbyeredPbne extends JComponent implements Accessible {
+    /// Wbtch the vblues in getObjectForLbyer()
+    /** Convenience object defining the Defbult lbyer. Equivblent to new Integer(0).*/
+    public finbl stbtic Integer DEFAULT_LAYER = 0;
+    /** Convenience object defining the Pblette lbyer. Equivblent to new Integer(100).*/
+    public finbl stbtic Integer PALETTE_LAYER = 100;
+    /** Convenience object defining the Modbl lbyer. Equivblent to new Integer(200).*/
+    public finbl stbtic Integer MODAL_LAYER = 200;
+    /** Convenience object defining the Popup lbyer. Equivblent to new Integer(300).*/
+    public finbl stbtic Integer POPUP_LAYER = 300;
+    /** Convenience object defining the Drbg lbyer. Equivblent to new Integer(400).*/
+    public finbl stbtic Integer DRAG_LAYER = 400;
+    /** Convenience object defining the Frbme Content lbyer.
+      * This lbyer is normblly only use to position the contentPbne bnd menuBbr
+      * components of JFrbme.
+      * Equivblent to new Integer(-30000).
+      * @see JFrbme
       */
-    public final static Integer FRAME_CONTENT_LAYER = new Integer(-30000);
+    public finbl stbtic Integer FRAME_CONTENT_LAYER = new Integer(-30000);
 
     /** Bound property */
-    public final static String LAYER_PROPERTY = "layeredContainerLayer";
-    // Hashtable to store layer values for non-JComponent components
-    private Hashtable<Component,Integer> componentToLayer;
-    private boolean optimizedDrawingPossible = true;
+    public finbl stbtic String LAYER_PROPERTY = "lbyeredContbinerLbyer";
+    // Hbshtbble to store lbyer vblues for non-JComponent components
+    privbte Hbshtbble<Component,Integer> componentToLbyer;
+    privbte boolebn optimizedDrbwingPossible = true;
 
 
 //////////////////////////////////////////////////////////////////////////////
-//// Container Override methods
+//// Contbiner Override methods
 //////////////////////////////////////////////////////////////////////////////
-    /** Create a new JLayeredPane */
-    public JLayeredPane() {
-        setLayout(null);
+    /** Crebte b new JLbyeredPbne */
+    public JLbyeredPbne() {
+        setLbyout(null);
     }
 
-    private void validateOptimizedDrawing() {
-        boolean layeredComponentFound = false;
+    privbte void vblidbteOptimizedDrbwing() {
+        boolebn lbyeredComponentFound = fblse;
         synchronized(getTreeLock()) {
-            Integer layer;
+            Integer lbyer;
 
             for (Component c : getComponents()) {
-                layer = null;
+                lbyer = null;
 
-                if(SunToolkit.isInstanceOf(c, "javax.swing.JInternalFrame") ||
-                       (c instanceof JComponent &&
-                        (layer = (Integer)((JComponent)c).
+                if(SunToolkit.isInstbnceOf(c, "jbvbx.swing.JInternblFrbme") ||
+                       (c instbnceof JComponent &&
+                        (lbyer = (Integer)((JComponent)c).
                                      getClientProperty(LAYER_PROPERTY)) != null))
                 {
-                    if(layer != null && layer.equals(FRAME_CONTENT_LAYER))
+                    if(lbyer != null && lbyer.equbls(FRAME_CONTENT_LAYER))
                         continue;
-                    layeredComponentFound = true;
-                    break;
+                    lbyeredComponentFound = true;
+                    brebk;
                 }
             }
         }
 
-        if(layeredComponentFound)
-            optimizedDrawingPossible = false;
+        if(lbyeredComponentFound)
+            optimizedDrbwingPossible = fblse;
         else
-            optimizedDrawingPossible = true;
+            optimizedDrbwingPossible = true;
     }
 
-    protected void addImpl(Component comp, Object constraints, int index) {
-        int layer;
+    protected void bddImpl(Component comp, Object constrbints, int index) {
+        int lbyer;
         int pos;
 
-        if(constraints instanceof Integer) {
-            layer = ((Integer)constraints).intValue();
-            setLayer(comp, layer);
+        if(constrbints instbnceof Integer) {
+            lbyer = ((Integer)constrbints).intVblue();
+            setLbyer(comp, lbyer);
         } else
-            layer = getLayer(comp);
+            lbyer = getLbyer(comp);
 
-        pos = insertIndexForLayer(layer, index);
-        super.addImpl(comp, constraints, pos);
-        comp.validate();
-        comp.repaint();
-        validateOptimizedDrawing();
+        pos = insertIndexForLbyer(lbyer, index);
+        super.bddImpl(comp, constrbints, pos);
+        comp.vblidbte();
+        comp.repbint();
+        vblidbteOptimizedDrbwing();
     }
 
     /**
-     * Remove the indexed component from this pane.
-     * This is the absolute index, ignoring layers.
+     * Remove the indexed component from this pbne.
+     * This is the bbsolute index, ignoring lbyers.
      *
-     * @param index  an int specifying the component to remove
+     * @pbrbm index  bn int specifying the component to remove
      * @see #getIndexOf
      */
     public void remove(int index) {
         Component c = getComponent(index);
         super.remove(index);
-        if (c != null && !(c instanceof JComponent)) {
-            getComponentToLayer().remove(c);
+        if (c != null && !(c instbnceof JComponent)) {
+            getComponentToLbyer().remove(c);
         }
-        validateOptimizedDrawing();
+        vblidbteOptimizedDrbwing();
     }
 
     /**
-     * Removes all the components from this container.
+     * Removes bll the components from this contbiner.
      *
      * @since 1.5
      */
     public void removeAll() {
         Component[] children = getComponents();
-        Hashtable<Component, Integer> cToL = getComponentToLayer();
+        Hbshtbble<Component, Integer> cToL = getComponentToLbyer();
         for (int counter = children.length - 1; counter >= 0; counter--) {
             Component c = children[counter];
-            if (c != null && !(c instanceof JComponent)) {
+            if (c != null && !(c instbnceof JComponent)) {
                 cToL.remove(c);
             }
         }
@@ -269,143 +269,143 @@ public class JLayeredPane extends JComponent implements Accessible {
     }
 
     /**
-     * Returns false if components in the pane can overlap, which makes
-     * optimized drawing impossible. Otherwise, returns true.
+     * Returns fblse if components in the pbne cbn overlbp, which mbkes
+     * optimized drbwing impossible. Otherwise, returns true.
      *
-     * @return false if components can overlap, else true
-     * @see JComponent#isOptimizedDrawingEnabled
+     * @return fblse if components cbn overlbp, else true
+     * @see JComponent#isOptimizedDrbwingEnbbled
      */
-    public boolean isOptimizedDrawingEnabled() {
-        return optimizedDrawingPossible;
+    public boolebn isOptimizedDrbwingEnbbled() {
+        return optimizedDrbwingPossible;
     }
 
 
 //////////////////////////////////////////////////////////////////////////////
-//// New methods for managing layers
+//// New methods for mbnbging lbyers
 //////////////////////////////////////////////////////////////////////////////
-    /** Sets the layer property on a JComponent. This method does not cause
-      * any side effects like setLayer() (painting, add/remove, etc).
-      * Normally you should use the instance method setLayer(), in order to
-      * get the desired side-effects (like repainting).
+    /** Sets the lbyer property on b JComponent. This method does not cbuse
+      * bny side effects like setLbyer() (pbinting, bdd/remove, etc).
+      * Normblly you should use the instbnce method setLbyer(), in order to
+      * get the desired side-effects (like repbinting).
       *
-      * @param c      the JComponent to move
-      * @param layer  an int specifying the layer to move it to
-      * @see #setLayer
+      * @pbrbm c      the JComponent to move
+      * @pbrbm lbyer  bn int specifying the lbyer to move it to
+      * @see #setLbyer
       */
-    public static void putLayer(JComponent c, int layer) {
-        /// MAKE SURE THIS AND setLayer(Component c, int layer, int position)  are SYNCED
-        c.putClientProperty(LAYER_PROPERTY, layer);
+    public stbtic void putLbyer(JComponent c, int lbyer) {
+        /// MAKE SURE THIS AND setLbyer(Component c, int lbyer, int position)  bre SYNCED
+        c.putClientProperty(LAYER_PROPERTY, lbyer);
     }
 
-    /** Gets the layer property for a JComponent, it
-      * does not cause any side effects like setLayer(). (painting, add/remove, etc)
-      * Normally you should use the instance method getLayer().
+    /** Gets the lbyer property for b JComponent, it
+      * does not cbuse bny side effects like setLbyer(). (pbinting, bdd/remove, etc)
+      * Normblly you should use the instbnce method getLbyer().
       *
-      * @param c  the JComponent to check
-      * @return   an int specifying the component's layer
+      * @pbrbm c  the JComponent to check
+      * @return   bn int specifying the component's lbyer
       */
-    public static int getLayer(JComponent c) {
+    public stbtic int getLbyer(JComponent c) {
         Integer i;
         if((i = (Integer)c.getClientProperty(LAYER_PROPERTY)) != null)
-            return i.intValue();
-        return DEFAULT_LAYER.intValue();
+            return i.intVblue();
+        return DEFAULT_LAYER.intVblue();
     }
 
-    /** Convenience method that returns the first JLayeredPane which
-      * contains the specified component. Note that all JFrames have a
-      * JLayeredPane at their root, so any component in a JFrame will
-      * have a JLayeredPane parent.
+    /** Convenience method thbt returns the first JLbyeredPbne which
+      * contbins the specified component. Note thbt bll JFrbmes hbve b
+      * JLbyeredPbne bt their root, so bny component in b JFrbme will
+      * hbve b JLbyeredPbne pbrent.
       *
-      * @param c the Component to check
-      * @return the JLayeredPane that contains the component, or
-      *         null if no JLayeredPane is found in the component
-      *         hierarchy
-      * @see JFrame
-      * @see JRootPane
+      * @pbrbm c the Component to check
+      * @return the JLbyeredPbne thbt contbins the component, or
+      *         null if no JLbyeredPbne is found in the component
+      *         hierbrchy
+      * @see JFrbme
+      * @see JRootPbne
       */
-    public static JLayeredPane getLayeredPaneAbove(Component c) {
+    public stbtic JLbyeredPbne getLbyeredPbneAbove(Component c) {
         if(c == null) return null;
 
-        Component parent = c.getParent();
-        while(parent != null && !(parent instanceof JLayeredPane))
-            parent = parent.getParent();
-        return (JLayeredPane)parent;
+        Component pbrent = c.getPbrent();
+        while(pbrent != null && !(pbrent instbnceof JLbyeredPbne))
+            pbrent = pbrent.getPbrent();
+        return (JLbyeredPbne)pbrent;
     }
 
-    /** Sets the layer attribute on the specified component,
-      * making it the bottommost component in that layer.
-      * Should be called before adding to parent.
+    /** Sets the lbyer bttribute on the specified component,
+      * mbking it the bottommost component in thbt lbyer.
+      * Should be cblled before bdding to pbrent.
       *
-      * @param c     the Component to set the layer for
-      * @param layer an int specifying the layer to set, where
-      *              lower numbers are closer to the bottom
+      * @pbrbm c     the Component to set the lbyer for
+      * @pbrbm lbyer bn int specifying the lbyer to set, where
+      *              lower numbers bre closer to the bottom
       */
-    public void setLayer(Component c, int layer)  {
-        setLayer(c, layer, -1);
+    public void setLbyer(Component c, int lbyer)  {
+        setLbyer(c, lbyer, -1);
     }
 
-    /** Sets the layer attribute for the specified component and
-      * also sets its position within that layer.
+    /** Sets the lbyer bttribute for the specified component bnd
+      * blso sets its position within thbt lbyer.
       *
-      * @param c         the Component to set the layer for
-      * @param layer     an int specifying the layer to set, where
-      *                  lower numbers are closer to the bottom
-      * @param position  an int specifying the position within the
-      *                  layer, where 0 is the topmost position and -1
+      * @pbrbm c         the Component to set the lbyer for
+      * @pbrbm lbyer     bn int specifying the lbyer to set, where
+      *                  lower numbers bre closer to the bottom
+      * @pbrbm position  bn int specifying the position within the
+      *                  lbyer, where 0 is the topmost position bnd -1
       *                  is the bottommost position
       */
-    public void setLayer(Component c, int layer, int position)  {
-        Integer layerObj;
-        layerObj = getObjectForLayer(layer);
+    public void setLbyer(Component c, int lbyer, int position)  {
+        Integer lbyerObj;
+        lbyerObj = getObjectForLbyer(lbyer);
 
-        if(layer == getLayer(c) && position == getPosition(c)) {
-                repaint(c.getBounds());
+        if(lbyer == getLbyer(c) && position == getPosition(c)) {
+                repbint(c.getBounds());
             return;
         }
 
-        /// MAKE SURE THIS AND putLayer(JComponent c, int layer) are SYNCED
-        if(c instanceof JComponent)
-            ((JComponent)c).putClientProperty(LAYER_PROPERTY, layerObj);
+        /// MAKE SURE THIS AND putLbyer(JComponent c, int lbyer) bre SYNCED
+        if(c instbnceof JComponent)
+            ((JComponent)c).putClientProperty(LAYER_PROPERTY, lbyerObj);
         else
-            getComponentToLayer().put(c, layerObj);
+            getComponentToLbyer().put(c, lbyerObj);
 
-        if(c.getParent() == null || c.getParent() != this) {
-            repaint(c.getBounds());
+        if(c.getPbrent() == null || c.getPbrent() != this) {
+            repbint(c.getBounds());
             return;
         }
 
-        int index = insertIndexForLayer(c, layer, position);
+        int index = insertIndexForLbyer(c, lbyer, position);
 
         setComponentZOrder(c, index);
-        repaint(c.getBounds());
+        repbint(c.getBounds());
     }
 
     /**
-     * Returns the layer attribute for the specified Component.
+     * Returns the lbyer bttribute for the specified Component.
      *
-     * @param c  the Component to check
-     * @return an int specifying the component's current layer
+     * @pbrbm c  the Component to check
+     * @return bn int specifying the component's current lbyer
      */
-    public int getLayer(Component c) {
+    public int getLbyer(Component c) {
         Integer i;
-        if(c instanceof JComponent)
+        if(c instbnceof JComponent)
             i = (Integer)((JComponent)c).getClientProperty(LAYER_PROPERTY);
         else
-            i = getComponentToLayer().get(c);
+            i = getComponentToLbyer().get(c);
 
         if(i == null)
-            return DEFAULT_LAYER.intValue();
-        return i.intValue();
+            return DEFAULT_LAYER.intVblue();
+        return i.intVblue();
     }
 
     /**
      * Returns the index of the specified Component.
-     * This is the absolute index, ignoring layers.
-     * Index numbers, like position numbers, have the topmost component
-     * at index zero. Larger numbers are closer to the bottom.
+     * This is the bbsolute index, ignoring lbyers.
+     * Index numbers, like position numbers, hbve the topmost component
+     * bt index zero. Lbrger numbers bre closer to the bottom.
      *
-     * @param c  the Component to check
-     * @return an int specifying the component's index
+     * @pbrbm c  the Component to check
+     * @return bn int specifying the component's index
      */
     public int getIndexOf(Component c) {
         int i, count;
@@ -418,10 +418,10 @@ public class JLayeredPane extends JComponent implements Accessible {
         return -1;
     }
     /**
-     * Moves the component to the top of the components in its current layer
+     * Moves the component to the top of the components in its current lbyer
      * (position 0).
      *
-     * @param c the Component to move
+     * @pbrbm c the Component to move
      * @see #setPosition(Component, int)
      */
     public void moveToFront(Component c) {
@@ -429,57 +429,57 @@ public class JLayeredPane extends JComponent implements Accessible {
     }
 
     /**
-     * Moves the component to the bottom of the components in its current layer
+     * Moves the component to the bottom of the components in its current lbyer
      * (position -1).
      *
-     * @param c the Component to move
+     * @pbrbm c the Component to move
      * @see #setPosition(Component, int)
      */
-    public void moveToBack(Component c) {
+    public void moveToBbck(Component c) {
         setPosition(c, -1);
     }
 
     /**
-     * Moves the component to <code>position</code> within its current layer,
-     * where 0 is the topmost position within the layer and -1 is the bottommost
+     * Moves the component to <code>position</code> within its current lbyer,
+     * where 0 is the topmost position within the lbyer bnd -1 is the bottommost
      * position.
      * <p>
-     * <b>Note:</b> Position numbering is defined by java.awt.Container, and
-     * is the opposite of layer numbering. Lower position numbers are closer
-     * to the top (0 is topmost), and higher position numbers are closer to
+     * <b>Note:</b> Position numbering is defined by jbvb.bwt.Contbiner, bnd
+     * is the opposite of lbyer numbering. Lower position numbers bre closer
+     * to the top (0 is topmost), bnd higher position numbers bre closer to
      * the bottom.
      *
-     * @param c         the Component to move
-     * @param position  an int in the range -1..N-1, where N is the number of
-     *                  components in the component's current layer
+     * @pbrbm c         the Component to move
+     * @pbrbm position  bn int in the rbnge -1..N-1, where N is the number of
+     *                  components in the component's current lbyer
      */
     public void setPosition(Component c, int position) {
-        setLayer(c, getLayer(c), position);
+        setLbyer(c, getLbyer(c), position);
     }
 
     /**
-     * Get the relative position of the component within its layer.
+     * Get the relbtive position of the component within its lbyer.
      *
-     * @param c  the Component to check
-     * @return an int giving the component's position, where 0 is the
-     *         topmost position and the highest index value = the count
-     *         count of components at that layer, minus 1
+     * @pbrbm c  the Component to check
+     * @return bn int giving the component's position, where 0 is the
+     *         topmost position bnd the highest index vblue = the count
+     *         count of components bt thbt lbyer, minus 1
      *
-     * @see #getComponentCountInLayer
+     * @see #getComponentCountInLbyer
      */
     public int getPosition(Component c) {
-        int i, startLayer, curLayer, startLocation, pos = 0;
+        int i, stbrtLbyer, curLbyer, stbrtLocbtion, pos = 0;
 
         getComponentCount();
-        startLocation = getIndexOf(c);
+        stbrtLocbtion = getIndexOf(c);
 
-        if(startLocation == -1)
+        if(stbrtLocbtion == -1)
             return -1;
 
-        startLayer = getLayer(c);
-        for(i = startLocation - 1; i >= 0; i--) {
-            curLayer = getLayer(getComponent(i));
-            if(curLayer == startLayer)
+        stbrtLbyer = getLbyer(c);
+        for(i = stbrtLocbtion - 1; i >= 0; i--) {
+            curLbyer = getLbyer(getComponent(i));
+            if(curLbyer == stbrtLbyer)
                 pos++;
             else
                 return pos;
@@ -487,75 +487,75 @@ public class JLayeredPane extends JComponent implements Accessible {
         return pos;
     }
 
-    /** Returns the highest layer value from all current children.
-      * Returns 0 if there are no children.
+    /** Returns the highest lbyer vblue from bll current children.
+      * Returns 0 if there bre no children.
       *
-      * @return an int indicating the layer of the topmost component in the
-      *         pane, or zero if there are no children
+      * @return bn int indicbting the lbyer of the topmost component in the
+      *         pbne, or zero if there bre no children
       */
-    public int highestLayer() {
+    public int highestLbyer() {
         if(getComponentCount() > 0)
-            return getLayer(getComponent(0));
+            return getLbyer(getComponent(0));
         return 0;
     }
 
-    /** Returns the lowest layer value from all current children.
-      * Returns 0 if there are no children.
+    /** Returns the lowest lbyer vblue from bll current children.
+      * Returns 0 if there bre no children.
       *
-      * @return an int indicating the layer of the bottommost component in the
-      *         pane, or zero if there are no children
+      * @return bn int indicbting the lbyer of the bottommost component in the
+      *         pbne, or zero if there bre no children
       */
-    public int lowestLayer() {
+    public int lowestLbyer() {
         int count = getComponentCount();
         if(count > 0)
-            return getLayer(getComponent(count-1));
+            return getLbyer(getComponent(count-1));
         return 0;
     }
 
     /**
-     * Returns the number of children currently in the specified layer.
+     * Returns the number of children currently in the specified lbyer.
      *
-     * @param layer  an int specifying the layer to check
-     * @return an int specifying the number of components in that layer
+     * @pbrbm lbyer  bn int specifying the lbyer to check
+     * @return bn int specifying the number of components in thbt lbyer
      */
-    public int getComponentCountInLayer(int layer) {
-        int i, count, curLayer;
-        int layerCount = 0;
+    public int getComponentCountInLbyer(int lbyer) {
+        int i, count, curLbyer;
+        int lbyerCount = 0;
 
         count = getComponentCount();
         for(i = 0; i < count; i++) {
-            curLayer = getLayer(getComponent(i));
-            if(curLayer == layer) {
-                layerCount++;
-            /// Short circut the counting when we have them all
-            } else if(layerCount > 0 || curLayer < layer) {
-                break;
+            curLbyer = getLbyer(getComponent(i));
+            if(curLbyer == lbyer) {
+                lbyerCount++;
+            /// Short circut the counting when we hbve them bll
+            } else if(lbyerCount > 0 || curLbyer < lbyer) {
+                brebk;
             }
         }
 
-        return layerCount;
+        return lbyerCount;
     }
 
     /**
-     * Returns an array of the components in the specified layer.
+     * Returns bn brrby of the components in the specified lbyer.
      *
-     * @param layer  an int specifying the layer to check
-     * @return an array of Components contained in that layer
+     * @pbrbm lbyer  bn int specifying the lbyer to check
+     * @return bn brrby of Components contbined in thbt lbyer
      */
-    public Component[] getComponentsInLayer(int layer) {
-        int i, count, curLayer;
-        int layerCount = 0;
+    public Component[] getComponentsInLbyer(int lbyer) {
+        int i, count, curLbyer;
+        int lbyerCount = 0;
         Component[] results;
 
-        results = new Component[getComponentCountInLayer(layer)];
+        results = new Component[getComponentCountInLbyer(lbyer)];
         count = getComponentCount();
         for(i = 0; i < count; i++) {
-            curLayer = getLayer(getComponent(i));
-            if(curLayer == layer) {
-                results[layerCount++] = getComponent(i);
-            /// Short circut the counting when we have them all
-            } else if(layerCount > 0 || curLayer < layer) {
-                break;
+            curLbyer = getLbyer(getComponent(i));
+            if(curLbyer == lbyer) {
+                results[lbyerCount++] = getComponent(i);
+            /// Short circut the counting when we hbve them bll
+            } else if(lbyerCount > 0 || curLbyer < lbyer) {
+                brebk;
             }
         }
 
@@ -563,16 +563,16 @@ public class JLayeredPane extends JComponent implements Accessible {
     }
 
     /**
-     * Paints this JLayeredPane within the specified graphics context.
+     * Pbints this JLbyeredPbne within the specified grbphics context.
      *
-     * @param g  the Graphics context within which to paint
+     * @pbrbm g  the Grbphics context within which to pbint
      */
-    public void paint(Graphics g) {
-        if(isOpaque()) {
-            Rectangle r = g.getClipBounds();
-            Color c = getBackground();
+    public void pbint(Grbphics g) {
+        if(isOpbque()) {
+            Rectbngle r = g.getClipBounds();
+            Color c = getBbckground();
             if(c == null)
-                c = Color.lightGray;
+                c = Color.lightGrby;
             g.setColor(c);
             if (r != null) {
                 g.fillRect(r.x, r.y, r.width, r.height);
@@ -581,148 +581,148 @@ public class JLayeredPane extends JComponent implements Accessible {
                 g.fillRect(0, 0, getWidth(), getHeight());
             }
         }
-        super.paint(g);
+        super.pbint(g);
     }
 
 //////////////////////////////////////////////////////////////////////////////
-//// Implementation Details
+//// Implementbtion Detbils
 //////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Returns the hashtable that maps components to layers.
+     * Returns the hbshtbble thbt mbps components to lbyers.
      *
-     * @return the Hashtable used to map components to their layers
+     * @return the Hbshtbble used to mbp components to their lbyers
      */
-    protected Hashtable<Component,Integer> getComponentToLayer() {
-        if(componentToLayer == null)
-            componentToLayer = new Hashtable<Component,Integer>(4);
-        return componentToLayer;
+    protected Hbshtbble<Component,Integer> getComponentToLbyer() {
+        if(componentToLbyer == null)
+            componentToLbyer = new Hbshtbble<Component,Integer>(4);
+        return componentToLbyer;
     }
 
     /**
-     * Returns the Integer object associated with a specified layer.
+     * Returns the Integer object bssocibted with b specified lbyer.
      *
-     * @param layer an int specifying the layer
-     * @return an Integer object for that layer
+     * @pbrbm lbyer bn int specifying the lbyer
+     * @return bn Integer object for thbt lbyer
      */
-    protected Integer getObjectForLayer(int layer) {
-        switch(layer) {
-        case 0:
+    protected Integer getObjectForLbyer(int lbyer) {
+        switch(lbyer) {
+        cbse 0:
             return DEFAULT_LAYER;
-        case 100:
+        cbse 100:
             return PALETTE_LAYER;
-        case 200:
+        cbse 200:
             return MODAL_LAYER;
-        case 300:
+        cbse 300:
             return POPUP_LAYER;
-        case 400:
+        cbse 400:
             return DRAG_LAYER;
-        default:
-            return layer;
+        defbult:
+            return lbyer;
         }
     }
 
     /**
-     * Primitive method that determines the proper location to
-     * insert a new child based on layer and position requests.
+     * Primitive method thbt determines the proper locbtion to
+     * insert b new child bbsed on lbyer bnd position requests.
      *
-     * @param layer     an int specifying the layer
-     * @param position  an int specifying the position within the layer
-     * @return an int giving the (absolute) insertion-index
+     * @pbrbm lbyer     bn int specifying the lbyer
+     * @pbrbm position  bn int specifying the position within the lbyer
+     * @return bn int giving the (bbsolute) insertion-index
      *
      * @see #getIndexOf
      */
-    protected int insertIndexForLayer(int layer, int position) {
-        return insertIndexForLayer(null, layer, position);
+    protected int insertIndexForLbyer(int lbyer, int position) {
+        return insertIndexForLbyer(null, lbyer, position);
     }
 
     /**
-     * This method is an extended version of insertIndexForLayer()
-     * to support setLayer which uses Container.setZOrder which does
-     * not remove the component from the containment hierarchy though
-     * we need to ignore it when calculating the insertion index.
+     * This method is bn extended version of insertIndexForLbyer()
+     * to support setLbyer which uses Contbiner.setZOrder which does
+     * not remove the component from the contbinment hierbrchy though
+     * we need to ignore it when cblculbting the insertion index.
      *
-     * @param comp      component to ignore when determining index
-     * @param layer     an int specifying the layer
-     * @param position  an int specifying the position within the layer
-     * @return an int giving the (absolute) insertion-index
+     * @pbrbm comp      component to ignore when determining index
+     * @pbrbm lbyer     bn int specifying the lbyer
+     * @pbrbm position  bn int specifying the position within the lbyer
+     * @return bn int giving the (bbsolute) insertion-index
      *
      * @see #getIndexOf
      */
-    private int insertIndexForLayer(Component comp, int layer, int position) {
-        int i, count, curLayer;
-        int layerStart = -1;
-        int layerEnd = -1;
+    privbte int insertIndexForLbyer(Component comp, int lbyer, int position) {
+        int i, count, curLbyer;
+        int lbyerStbrt = -1;
+        int lbyerEnd = -1;
         int componentCount = getComponentCount();
 
-        ArrayList<Component> compList =
-            new ArrayList<Component>(componentCount);
+        ArrbyList<Component> compList =
+            new ArrbyList<Component>(componentCount);
         for (int index = 0; index < componentCount; index++) {
             if (getComponent(index) != comp) {
-                compList.add(getComponent(index));
+                compList.bdd(getComponent(index));
             }
         }
 
         count = compList.size();
         for (i = 0; i < count; i++) {
-            curLayer = getLayer(compList.get(i));
-            if (layerStart == -1 && curLayer == layer) {
-                layerStart = i;
+            curLbyer = getLbyer(compList.get(i));
+            if (lbyerStbrt == -1 && curLbyer == lbyer) {
+                lbyerStbrt = i;
             }
-            if (curLayer < layer) {
+            if (curLbyer < lbyer) {
                 if (i == 0) {
-                    // layer is greater than any current layer
-                    // [ ASSERT(layer > highestLayer()) ]
-                    layerStart = 0;
-                    layerEnd = 0;
+                    // lbyer is grebter thbn bny current lbyer
+                    // [ ASSERT(lbyer > highestLbyer()) ]
+                    lbyerStbrt = 0;
+                    lbyerEnd = 0;
                 } else {
-                    layerEnd = i;
+                    lbyerEnd = i;
                 }
-                break;
+                brebk;
             }
         }
 
-        // layer requested is lower than any current layer
-        // [ ASSERT(layer < lowestLayer()) ]
-        // put it on the bottom of the stack
-        if (layerStart == -1 && layerEnd == -1)
+        // lbyer requested is lower thbn bny current lbyer
+        // [ ASSERT(lbyer < lowestLbyer()) ]
+        // put it on the bottom of the stbck
+        if (lbyerStbrt == -1 && lbyerEnd == -1)
             return count;
 
-        // In the case of a single layer entry handle the degenerative cases
-        if (layerStart != -1 && layerEnd == -1)
-            layerEnd = count;
+        // In the cbse of b single lbyer entry hbndle the degenerbtive cbses
+        if (lbyerStbrt != -1 && lbyerEnd == -1)
+            lbyerEnd = count;
 
-        if (layerEnd != -1 && layerStart == -1)
-            layerStart = layerEnd;
+        if (lbyerEnd != -1 && lbyerStbrt == -1)
+            lbyerStbrt = lbyerEnd;
 
-        // If we are adding to the bottom, return the last element
+        // If we bre bdding to the bottom, return the lbst element
         if (position == -1)
-            return layerEnd;
+            return lbyerEnd;
 
-        // Otherwise make sure the requested position falls in the
-        // proper range
-        if (position > -1 && layerStart + position <= layerEnd)
-            return layerStart + position;
+        // Otherwise mbke sure the requested position fblls in the
+        // proper rbnge
+        if (position > -1 && lbyerStbrt + position <= lbyerEnd)
+            return lbyerStbrt + position;
 
-        // Otherwise return the end of the layer
-        return layerEnd;
+        // Otherwise return the end of the lbyer
+        return lbyerEnd;
     }
 
     /**
-     * Returns a string representation of this JLayeredPane. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this JLbyeredPbne. This method
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this JLayeredPane.
+     * @return  b string representbtion of this JLbyeredPbne.
      */
-    protected String paramString() {
-        String optimizedDrawingPossibleString = (optimizedDrawingPossible ?
-                                                 "true" : "false");
+    protected String pbrbmString() {
+        String optimizedDrbwingPossibleString = (optimizedDrbwingPossible ?
+                                                 "true" : "fblse");
 
-        return super.paramString() +
-        ",optimizedDrawingPossible=" + optimizedDrawingPossibleString;
+        return super.pbrbmString() +
+        ",optimizedDrbwingPossible=" + optimizedDrbwingPossibleString;
     }
 
 /////////////////
@@ -730,43 +730,43 @@ public class JLayeredPane extends JComponent implements Accessible {
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JLayeredPane.
-     * For layered panes, the AccessibleContext takes the form of an
-     * AccessibleJLayeredPane.
-     * A new AccessibleJLayeredPane instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JLbyeredPbne.
+     * For lbyered pbnes, the AccessibleContext tbkes the form of bn
+     * AccessibleJLbyeredPbne.
+     * A new AccessibleJLbyeredPbne instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJLayeredPane that serves as the
-     *         AccessibleContext of this JLayeredPane
+     * @return bn AccessibleJLbyeredPbne thbt serves bs the
+     *         AccessibleContext of this JLbyeredPbne
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJLayeredPane();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJLbyeredPbne();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JLayeredPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to layered pane user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JLbyeredPbne</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to lbyered pbne user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJLayeredPane extends AccessibleJComponent {
+    @SuppressWbrnings("seribl")
+    protected clbss AccessibleJLbyeredPbne extends AccessibleJComponent {
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */

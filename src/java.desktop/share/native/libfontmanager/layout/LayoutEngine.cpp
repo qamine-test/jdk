@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -32,93 +32,93 @@
 
 #include "LETypes.h"
 #include "LEScripts.h"
-#include "LELanguages.h"
-#include "LESwaps.h"
+#include "LELbngubges.h"
+#include "LESwbps.h"
 
-#include "LayoutEngine.h"
-#include "ArabicLayoutEngine.h"
-#include "CanonShaping.h"
-#include "HanLayoutEngine.h"
-#include "HangulLayoutEngine.h"
-#include "IndicLayoutEngine.h"
-#include "KhmerLayoutEngine.h"
-#include "ThaiLayoutEngine.h"
-#include "TibetanLayoutEngine.h"
-#include "GXLayoutEngine.h"
-#include "GXLayoutEngine2.h"
+#include "LbyoutEngine.h"
+#include "ArbbicLbyoutEngine.h"
+#include "CbnonShbping.h"
+#include "HbnLbyoutEngine.h"
+#include "HbngulLbyoutEngine.h"
+#include "IndicLbyoutEngine.h"
+#include "KhmerLbyoutEngine.h"
+#include "ThbiLbyoutEngine.h"
+#include "TibetbnLbyoutEngine.h"
+#include "GXLbyoutEngine.h"
+#include "GXLbyoutEngine2.h"
 
-#include "ScriptAndLanguageTags.h"
-#include "CharSubstitutionFilter.h"
+#include "ScriptAndLbngubgeTbgs.h"
+#include "ChbrSubstitutionFilter.h"
 
-#include "LEGlyphStorage.h"
+#include "LEGlyphStorbge.h"
 
 #include "OpenTypeUtilities.h"
-#include "GlyphSubstitutionTables.h"
-#include "GlyphDefinitionTables.h"
-#include "MorphTables.h"
+#include "GlyphSubstitutionTbbles.h"
+#include "GlyphDefinitionTbbles.h"
+#include "MorphTbbles.h"
 
-#include "DefaultCharMapper.h"
+#include "DefbultChbrMbpper.h"
 
-#include "KernTable.h"
+#include "KernTbble.h"
 
 U_NAMESPACE_BEGIN
 
-/* Leave this copyright notice here! It needs to go somewhere in this library. */
-static const char copyright[] = U_COPYRIGHT_STRING;
+/* Lebve this copyright notice here! It needs to go somewhere in this librbry. */
+stbtic const chbr copyright[] = U_COPYRIGHT_STRING;
 
 /* TODO: remove these? */
-const le_int32 LayoutEngine::kTypoFlagKern = LE_Kerning_FEATURE_FLAG;
-const le_int32 LayoutEngine::kTypoFlagLiga = LE_Ligatures_FEATURE_FLAG;
+const le_int32 LbyoutEngine::kTypoFlbgKern = LE_Kerning_FEATURE_FLAG;
+const le_int32 LbyoutEngine::kTypoFlbgLigb = LE_Ligbtures_FEATURE_FLAG;
 
-const LEUnicode32 DefaultCharMapper::controlChars[] = {
+const LEUnicode32 DefbultChbrMbpper::controlChbrs[] = {
     0x0009, 0x000A, 0x000D,
     /*0x200C, 0x200D,*/ 0x200E, 0x200F,
     0x2028, 0x2029, 0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
     0x206A, 0x206B, 0x206C, 0x206D, 0x206E, 0x206F
 };
 
-const le_int32 DefaultCharMapper::controlCharsCount = LE_ARRAY_SIZE(controlChars);
+const le_int32 DefbultChbrMbpper::controlChbrsCount = LE_ARRAY_SIZE(controlChbrs);
 
-const LEUnicode32 DefaultCharMapper::controlCharsZWJ[] = {
+const LEUnicode32 DefbultChbrMbpper::controlChbrsZWJ[] = {
     0x0009, 0x000A, 0x000D,
     0x200C, 0x200D, 0x200E, 0x200F,
     0x2028, 0x2029, 0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
     0x206A, 0x206B, 0x206C, 0x206D, 0x206E, 0x206F
 };
 
-const le_int32 DefaultCharMapper::controlCharsZWJCount = LE_ARRAY_SIZE(controlCharsZWJ);
+const le_int32 DefbultChbrMbpper::controlChbrsZWJCount = LE_ARRAY_SIZE(controlChbrsZWJ);
 
-LEUnicode32 DefaultCharMapper::mapChar(LEUnicode32 ch) const
+LEUnicode32 DefbultChbrMbpper::mbpChbr(LEUnicode32 ch) const
 {
     if (fZWJ) {
         if (ch < 0x20) {
-            if (ch == 0x0a || ch == 0x0d || ch == 0x09) {
+            if (ch == 0x0b || ch == 0x0d || ch == 0x09) {
                 return 0xffff;
             }
         } else if (ch >= 0x200c && ch <= 0x206f) {
-            le_int32 index = OpenTypeUtilities::search((le_uint32)ch,
-                                                       (le_uint32 *)controlCharsZWJ,
-                                                       controlCharsZWJCount);
-            if (controlCharsZWJ[index] == ch) {
+            le_int32 index = OpenTypeUtilities::sebrch((le_uint32)ch,
+                                                       (le_uint32 *)controlChbrsZWJ,
+                                                       controlChbrsZWJCount);
+            if (controlChbrsZWJ[index] == ch) {
                 return 0xffff;
             }
         }
-        return ch; // note ZWJ bypasses fFilterControls and fMirror
+        return ch; // note ZWJ bypbsses fFilterControls bnd fMirror
     }
 
     if (fFilterControls) {
-        le_int32 index = OpenTypeUtilities::search((le_uint32)ch, (le_uint32 *)controlChars, controlCharsCount);
+        le_int32 index = OpenTypeUtilities::sebrch((le_uint32)ch, (le_uint32 *)controlChbrs, controlChbrsCount);
 
-        if (controlChars[index] == ch) {
+        if (controlChbrs[index] == ch) {
             return 0xFFFF;
         }
     }
 
     if (fMirror) {
-        le_int32 index = OpenTypeUtilities::search((le_uint32) ch, (le_uint32 *)DefaultCharMapper::mirroredChars, DefaultCharMapper::mirroredCharsCount);
+        le_int32 index = OpenTypeUtilities::sebrch((le_uint32) ch, (le_uint32 *)DefbultChbrMbpper::mirroredChbrs, DefbultChbrMbpper::mirroredChbrsCount);
 
-        if (mirroredChars[index] == ch) {
-            return DefaultCharMapper::srahCderorrim[index];
+        if (mirroredChbrs[index] == ch) {
+            return DefbultChbrMbpper::srbhCderorrim[index];
         }
     }
 
@@ -126,170 +126,170 @@ LEUnicode32 DefaultCharMapper::mapChar(LEUnicode32 ch) const
 }
 
 // This is here to get it out of LEGlyphFilter.h.
-// No particular reason to put it here, other than
-// this is a good central location...
+// No pbrticulbr rebson to put it here, other thbn
+// this is b good centrbl locbtion...
 LEGlyphFilter::~LEGlyphFilter()
 {
     // nothing to do
 }
 
-CharSubstitutionFilter::CharSubstitutionFilter(const LEFontInstance *fontInstance)
-  : fFontInstance(fontInstance)
+ChbrSubstitutionFilter::ChbrSubstitutionFilter(const LEFontInstbnce *fontInstbnce)
+  : fFontInstbnce(fontInstbnce)
 {
     // nothing to do
 }
 
-CharSubstitutionFilter::~CharSubstitutionFilter()
+ChbrSubstitutionFilter::~ChbrSubstitutionFilter()
 {
     // nothing to do
 }
 
-class CanonMarkFilter : public UMemory, public LEGlyphFilter
+clbss CbnonMbrkFilter : public UMemory, public LEGlyphFilter
 {
-private:
-  const LEReferenceTo<GlyphClassDefinitionTable> classDefTable;
+privbte:
+  const LEReferenceTo<GlyphClbssDefinitionTbble> clbssDefTbble;
 
-    CanonMarkFilter(const CanonMarkFilter &other); // forbid copying of this class
-    CanonMarkFilter &operator=(const CanonMarkFilter &other); // forbid copying of this class
+    CbnonMbrkFilter(const CbnonMbrkFilter &other); // forbid copying of this clbss
+    CbnonMbrkFilter &operbtor=(const CbnonMbrkFilter &other); // forbid copying of this clbss
 
 public:
-    CanonMarkFilter(const LEReferenceTo<GlyphDefinitionTableHeader> &gdefTable, LEErrorCode &success);
-    virtual ~CanonMarkFilter();
+    CbnonMbrkFilter(const LEReferenceTo<GlyphDefinitionTbbleHebder> &gdefTbble, LEErrorCode &success);
+    virtubl ~CbnonMbrkFilter();
 
-    virtual le_bool accept(LEGlyphID glyph, LEErrorCode &success) const;
+    virtubl le_bool bccept(LEGlyphID glyph, LEErrorCode &success) const;
 };
 
-CanonMarkFilter::CanonMarkFilter(const LEReferenceTo<GlyphDefinitionTableHeader> &gdefTable, LEErrorCode &success)
-  : classDefTable(gdefTable->getMarkAttachClassDefinitionTable(gdefTable, success))
+CbnonMbrkFilter::CbnonMbrkFilter(const LEReferenceTo<GlyphDefinitionTbbleHebder> &gdefTbble, LEErrorCode &success)
+  : clbssDefTbble(gdefTbble->getMbrkAttbchClbssDefinitionTbble(gdefTbble, success))
 {
 }
 
-CanonMarkFilter::~CanonMarkFilter()
+CbnonMbrkFilter::~CbnonMbrkFilter()
 {
     // nothing to do?
 }
 
-le_bool CanonMarkFilter::accept(LEGlyphID glyph, LEErrorCode &success) const
+le_bool CbnonMbrkFilter::bccept(LEGlyphID glyph, LEErrorCode &success) const
 {
-  le_int32 glyphClass = classDefTable->getGlyphClass(classDefTable, glyph, success);
-  if(LE_FAILURE(success)) return false;
-  return glyphClass != 0;
+  le_int32 glyphClbss = clbssDefTbble->getGlyphClbss(clbssDefTbble, glyph, success);
+  if(LE_FAILURE(success)) return fblse;
+  return glyphClbss != 0;
 }
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LayoutEngine)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LbyoutEngine)
 
-#define ccmpFeatureTag  LE_CCMP_FEATURE_TAG
+#define ccmpFebtureTbg  LE_CCMP_FEATURE_TAG
 
-#define ccmpFeatureMask 0x80000000UL
+#define ccmpFebtureMbsk 0x80000000UL
 
-#define canonFeatures (ccmpFeatureMask)
+#define cbnonFebtures (ccmpFebtureMbsk)
 
-static const FeatureMap canonFeatureMap[] =
+stbtic const FebtureMbp cbnonFebtureMbp[] =
 {
-    {ccmpFeatureTag, ccmpFeatureMask}
+    {ccmpFebtureTbg, ccmpFebtureMbsk}
 };
 
-static const le_int32 canonFeatureMapCount = LE_ARRAY_SIZE(canonFeatureMap);
+stbtic const le_int32 cbnonFebtureMbpCount = LE_ARRAY_SIZE(cbnonFebtureMbp);
 
-LayoutEngine::LayoutEngine(const LEFontInstance *fontInstance,
+LbyoutEngine::LbyoutEngine(const LEFontInstbnce *fontInstbnce,
                            le_int32 scriptCode,
-                           le_int32 languageCode,
-                           le_int32 typoFlags,
+                           le_int32 lbngubgeCode,
+                           le_int32 typoFlbgs,
                            LEErrorCode &success)
-  : fGlyphStorage(NULL), fFontInstance(fontInstance), fScriptCode(scriptCode), fLanguageCode(languageCode),
-    fTypoFlags(typoFlags), fFilterZeroWidth(TRUE)
+  : fGlyphStorbge(NULL), fFontInstbnce(fontInstbnce), fScriptCode(scriptCode), fLbngubgeCode(lbngubgeCode),
+    fTypoFlbgs(typoFlbgs), fFilterZeroWidth(TRUE)
 {
     if (LE_FAILURE(success)) {
         return;
     }
 
-    fGlyphStorage = new LEGlyphStorage();
-    if (fGlyphStorage == NULL) {
+    fGlyphStorbge = new LEGlyphStorbge();
+    if (fGlyphStorbge == NULL) {
         success = LE_MEMORY_ALLOCATION_ERROR;
     }
 }
 
-le_int32 LayoutEngine::getGlyphCount() const
+le_int32 LbyoutEngine::getGlyphCount() const
 {
-    return fGlyphStorage->getGlyphCount();
+    return fGlyphStorbge->getGlyphCount();
 }
 
-void LayoutEngine::getCharIndices(le_int32 charIndices[], le_int32 indexBase, LEErrorCode &success) const
+void LbyoutEngine::getChbrIndices(le_int32 chbrIndices[], le_int32 indexBbse, LEErrorCode &success) const
 {
-    fGlyphStorage->getCharIndices(charIndices, indexBase, success);
+    fGlyphStorbge->getChbrIndices(chbrIndices, indexBbse, success);
 }
 
-void LayoutEngine::getCharIndices(le_int32 charIndices[], LEErrorCode &success) const
+void LbyoutEngine::getChbrIndices(le_int32 chbrIndices[], LEErrorCode &success) const
 {
-    fGlyphStorage->getCharIndices(charIndices, success);
+    fGlyphStorbge->getChbrIndices(chbrIndices, success);
 }
 
-// Copy the glyphs into caller's (32-bit) glyph array, OR in extraBits
-void LayoutEngine::getGlyphs(le_uint32 glyphs[], le_uint32 extraBits, LEErrorCode &success) const
+// Copy the glyphs into cbller's (32-bit) glyph brrby, OR in extrbBits
+void LbyoutEngine::getGlyphs(le_uint32 glyphs[], le_uint32 extrbBits, LEErrorCode &success) const
 {
-    fGlyphStorage->getGlyphs(glyphs, extraBits, success);
+    fGlyphStorbge->getGlyphs(glyphs, extrbBits, success);
 }
 
-void LayoutEngine::getGlyphs(LEGlyphID glyphs[], LEErrorCode &success) const
+void LbyoutEngine::getGlyphs(LEGlyphID glyphs[], LEErrorCode &success) const
 {
-    fGlyphStorage->getGlyphs(glyphs, success);
+    fGlyphStorbge->getGlyphs(glyphs, success);
 }
 
 
-void LayoutEngine::getGlyphPositions(float positions[], LEErrorCode &success) const
+void LbyoutEngine::getGlyphPositions(flobt positions[], LEErrorCode &success) const
 {
-    fGlyphStorage->getGlyphPositions(positions, success);
+    fGlyphStorbge->getGlyphPositions(positions, success);
 }
 
-void LayoutEngine::getGlyphPosition(le_int32 glyphIndex, float &x, float &y, LEErrorCode &success) const
+void LbyoutEngine::getGlyphPosition(le_int32 glyphIndex, flobt &x, flobt &y, LEErrorCode &success) const
 {
-    fGlyphStorage->getGlyphPosition(glyphIndex, x, y, success);
+    fGlyphStorbge->getGlyphPosition(glyphIndex, x, y, success);
 }
 
-le_int32 LayoutEngine::characterProcessing(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-                LEUnicode *&outChars, LEGlyphStorage &glyphStorage, LEErrorCode &success)
+le_int32 LbyoutEngine::chbrbcterProcessing(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft,
+                LEUnicode *&outChbrs, LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (offset < 0 || count < 0 || max < 0 || offset >= max || offset + count > max) {
+    if (offset < 0 || count < 0 || mbx < 0 || offset >= mbx || offset + count > mbx) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return 0;
     }
 
-    if ((fTypoFlags & LE_NoCanon_FEATURE_FLAG) == 0) { // no canonical processing
+    if ((fTypoFlbgs & LE_NoCbnon_FEATURE_FLAG) == 0) { // no cbnonicbl processing
       return count;
     }
 
-    LEReferenceTo<GlyphSubstitutionTableHeader> canonGSUBTable(LETableReference::kStaticData,
-                                                               (GlyphSubstitutionTableHeader *) CanonShaping::glyphSubstitutionTable,
-                                                               CanonShaping::glyphSubstitutionTableLen);
-    LETag scriptTag  = OpenTypeLayoutEngine::getScriptTag(fScriptCode);
-    LETag langSysTag = OpenTypeLayoutEngine::getLangSysTag(fLanguageCode);
-    le_int32 i, dir = 1, out = 0, outCharCount = count;
+    LEReferenceTo<GlyphSubstitutionTbbleHebder> cbnonGSUBTbble(LETbbleReference::kStbticDbtb,
+                                                               (GlyphSubstitutionTbbleHebder *) CbnonShbping::glyphSubstitutionTbble,
+                                                               CbnonShbping::glyphSubstitutionTbbleLen);
+    LETbg scriptTbg  = OpenTypeLbyoutEngine::getScriptTbg(fScriptCode);
+    LETbg lbngSysTbg = OpenTypeLbyoutEngine::getLbngSysTbg(fLbngubgeCode);
+    le_int32 i, dir = 1, out = 0, outChbrCount = count;
 
-    if (canonGSUBTable->coversScript(canonGSUBTable,scriptTag, success) || LE_SUCCESS(success)) {
-        CharSubstitutionFilter *substitutionFilter = new CharSubstitutionFilter(fFontInstance);
+    if (cbnonGSUBTbble->coversScript(cbnonGSUBTbble,scriptTbg, success) || LE_SUCCESS(success)) {
+        ChbrSubstitutionFilter *substitutionFilter = new ChbrSubstitutionFilter(fFontInstbnce);
         if (substitutionFilter == NULL) {
             success = LE_MEMORY_ALLOCATION_ERROR;
             return 0;
         }
 
-        const LEUnicode *inChars = &chars[offset];
+        const LEUnicode *inChbrs = &chbrs[offset];
         LEUnicode *reordered = NULL;
-        LEGlyphStorage fakeGlyphStorage;
+        LEGlyphStorbge fbkeGlyphStorbge;
 
-        fakeGlyphStorage.allocateGlyphArray(count, rightToLeft, success);
+        fbkeGlyphStorbge.bllocbteGlyphArrby(count, rightToLeft, success);
 
         if (LE_FAILURE(success)) {
             delete substitutionFilter;
             return 0;
         }
 
-        // This is the cheapest way to get mark reordering only for Hebrew.
-        // We could just do the mark reordering for all scripts, but most
-        // of them probably don't need it...
+        // This is the chebpest wby to get mbrk reordering only for Hebrew.
+        // We could just do the mbrk reordering for bll scripts, but most
+        // of them probbbly don't need it...
         if (fScriptCode == hebrScriptCode) {
           reordered = LE_NEW_ARRAY(LEUnicode, count);
 
@@ -299,11 +299,11 @@ le_int32 LayoutEngine::characterProcessing(const LEUnicode chars[], le_int32 off
             return 0;
           }
 
-          CanonShaping::reorderMarks(&chars[offset], count, rightToLeft, reordered, fakeGlyphStorage);
-          inChars = reordered;
+          CbnonShbping::reorderMbrks(&chbrs[offset], count, rightToLeft, reordered, fbkeGlyphStorbge);
+          inChbrs = reordered;
         }
 
-        fakeGlyphStorage.allocateAuxData(success);
+        fbkeGlyphStorbge.bllocbteAuxDbtb(success);
 
         if (LE_FAILURE(success)) {
             delete substitutionFilter;
@@ -316,183 +316,183 @@ le_int32 LayoutEngine::characterProcessing(const LEUnicode chars[], le_int32 off
         }
 
         for (i = 0; i < count; i += 1, out += dir) {
-            fakeGlyphStorage[out] = (LEGlyphID) inChars[i];
-            fakeGlyphStorage.setAuxData(out, canonFeatures, success);
+            fbkeGlyphStorbge[out] = (LEGlyphID) inChbrs[i];
+            fbkeGlyphStorbge.setAuxDbtb(out, cbnonFebtures, success);
         }
 
         if (reordered != NULL) {
           LE_DELETE_ARRAY(reordered);
         }
 
-        const LEReferenceTo<GlyphDefinitionTableHeader>  noGDEF; // empty gdef header
-        outCharCount = canonGSUBTable->process(canonGSUBTable, fakeGlyphStorage, rightToLeft, scriptTag, langSysTag, noGDEF, substitutionFilter, canonFeatureMap, canonFeatureMapCount, FALSE, success);
+        const LEReferenceTo<GlyphDefinitionTbbleHebder>  noGDEF; // empty gdef hebder
+        outChbrCount = cbnonGSUBTbble->process(cbnonGSUBTbble, fbkeGlyphStorbge, rightToLeft, scriptTbg, lbngSysTbg, noGDEF, substitutionFilter, cbnonFebtureMbp, cbnonFebtureMbpCount, FALSE, success);
 
         if (LE_FAILURE(success)) {
             delete substitutionFilter;
             return 0;
         }
 
-        out = (rightToLeft? outCharCount - 1 : 0);
+        out = (rightToLeft? outChbrCount - 1 : 0);
 
         /*
-         * The char indices array in fakeGlyphStorage has the correct mapping
-         * back to the original input characters. Save it in glyphStorage. The
-         * subsequent call to glyphStoratge.allocateGlyphArray will keep this
-         * array rather than allocating and initializing a new one.
+         * The chbr indices brrby in fbkeGlyphStorbge hbs the correct mbpping
+         * bbck to the originbl input chbrbcters. Sbve it in glyphStorbge. The
+         * subsequent cbll to glyphStorbtge.bllocbteGlyphArrby will keep this
+         * brrby rbther thbn bllocbting bnd initiblizing b new one.
          */
-        glyphStorage.adoptCharIndicesArray(fakeGlyphStorage);
+        glyphStorbge.bdoptChbrIndicesArrby(fbkeGlyphStorbge);
 
-        outChars = LE_NEW_ARRAY(LEUnicode, outCharCount);
+        outChbrs = LE_NEW_ARRAY(LEUnicode, outChbrCount);
 
-        if (outChars == NULL) {
+        if (outChbrs == NULL) {
             delete substitutionFilter;
             success = LE_MEMORY_ALLOCATION_ERROR;
             return 0;
         }
 
-        for (i = 0; i < outCharCount; i += 1, out += dir) {
-            outChars[out] = (LEUnicode) LE_GET_GLYPH(fakeGlyphStorage[i]);
+        for (i = 0; i < outChbrCount; i += 1, out += dir) {
+            outChbrs[out] = (LEUnicode) LE_GET_GLYPH(fbkeGlyphStorbge[i]);
         }
 
         delete substitutionFilter;
     }
 
-    return outCharCount;
+    return outChbrCount;
 }
 
-le_int32 LayoutEngine::computeGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-                                            LEGlyphStorage &glyphStorage, LEErrorCode &success)
+le_int32 LbyoutEngine::computeGlyphs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft,
+                                            LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (chars == NULL || offset < 0 || count < 0 || max < 0 || offset >= max || offset + count > max) {
+    if (chbrs == NULL || offset < 0 || count < 0 || mbx < 0 || offset >= mbx || offset + count > mbx) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return 0;
     }
 
-    LEUnicode *outChars = NULL;
-    le_int32 outCharCount = characterProcessing(chars, offset, count, max, rightToLeft, outChars, glyphStorage, success);
+    LEUnicode *outChbrs = NULL;
+    le_int32 outChbrCount = chbrbcterProcessing(chbrs, offset, count, mbx, rightToLeft, outChbrs, glyphStorbge, success);
 
-    if (outChars != NULL) {
-        mapCharsToGlyphs(outChars, 0, outCharCount, rightToLeft, rightToLeft, glyphStorage, success);
-        LE_DELETE_ARRAY(outChars); // FIXME: a subclass may have allocated this, in which case this delete might not work...
+    if (outChbrs != NULL) {
+        mbpChbrsToGlyphs(outChbrs, 0, outChbrCount, rightToLeft, rightToLeft, glyphStorbge, success);
+        LE_DELETE_ARRAY(outChbrs); // FIXME: b subclbss mby hbve bllocbted this, in which cbse this delete might not work...
     } else {
-        mapCharsToGlyphs(chars, offset, count, rightToLeft, rightToLeft, glyphStorage, success);
+        mbpChbrsToGlyphs(chbrs, offset, count, rightToLeft, rightToLeft, glyphStorbge, success);
     }
 
-    return glyphStorage.getGlyphCount();
+    return glyphStorbge.getGlyphCount();
 }
 
 // Input: glyphs
 // Output: positions
-void LayoutEngine::positionGlyphs(LEGlyphStorage &glyphStorage, float x, float y, LEErrorCode &success)
+void LbyoutEngine::positionGlyphs(LEGlyphStorbge &glyphStorbge, flobt x, flobt y, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return;
     }
 
-    glyphStorage.allocatePositions(success);
+    glyphStorbge.bllocbtePositions(success);
 
     if (LE_FAILURE(success)) {
         return;
     }
 
-    le_int32 i, glyphCount = glyphStorage.getGlyphCount();
+    le_int32 i, glyphCount = glyphStorbge.getGlyphCount();
 
     for (i = 0; i < glyphCount; i += 1) {
-        LEPoint advance;
+        LEPoint bdvbnce;
 
-        glyphStorage.setPosition(i, x, y, success);
+        glyphStorbge.setPosition(i, x, y, success);
         _LETRACE("g#%-4d (%.2f, %.2f)", i, x, y);
 
-        fFontInstance->getGlyphAdvance(glyphStorage[i], advance);
-        x += advance.fX;
-        y += advance.fY;
+        fFontInstbnce->getGlyphAdvbnce(glyphStorbge[i], bdvbnce);
+        x += bdvbnce.fX;
+        y += bdvbnce.fY;
 
 
     }
 
-    glyphStorage.setPosition(glyphCount, x, y, success);
+    glyphStorbge.setPosition(glyphCount, x, y, success);
 }
 
-void LayoutEngine::adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse,
-                                        LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void LbyoutEngine::bdjustGlyphPositions(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse,
+                                        LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return;
     }
 
-    if (chars == NULL || offset < 0 || count < 0) {
+    if (chbrs == NULL || offset < 0 || count < 0) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return;
     }
 
-    LEReferenceTo<GlyphDefinitionTableHeader> gdefTable(LETableReference::kStaticData, (GlyphDefinitionTableHeader *) CanonShaping::glyphDefinitionTable,
-                                                        CanonShaping::glyphDefinitionTableLen);
-    CanonMarkFilter filter(gdefTable, success);
+    LEReferenceTo<GlyphDefinitionTbbleHebder> gdefTbble(LETbbleReference::kStbticDbtb, (GlyphDefinitionTbbleHebder *) CbnonShbping::glyphDefinitionTbble,
+                                                        CbnonShbping::glyphDefinitionTbbleLen);
+    CbnonMbrkFilter filter(gdefTbble, success);
 
-    adjustMarkGlyphs(&chars[offset], count, reverse, glyphStorage, &filter, success);
+    bdjustMbrkGlyphs(&chbrs[offset], count, reverse, glyphStorbge, &filter, success);
 
-    if (fTypoFlags & LE_Kerning_FEATURE_FLAG) { /* kerning enabled */
-      LETableReference kernTable(fFontInstance, LE_KERN_TABLE_TAG, success);
-      KernTable kt(kernTable, success);
-      kt.process(glyphStorage, success);
+    if (fTypoFlbgs & LE_Kerning_FEATURE_FLAG) { /* kerning enbbled */
+      LETbbleReference kernTbble(fFontInstbnce, LE_KERN_TABLE_TAG, success);
+      KernTbble kt(kernTbble, success);
+      kt.process(glyphStorbge, success);
     }
 
-    // default is no adjustments
+    // defbult is no bdjustments
     return;
 }
 
-void LayoutEngine::adjustMarkGlyphs(LEGlyphStorage &glyphStorage, LEGlyphFilter *markFilter, LEErrorCode &success)
+void LbyoutEngine::bdjustMbrkGlyphs(LEGlyphStorbge &glyphStorbge, LEGlyphFilter *mbrkFilter, LEErrorCode &success)
 {
-    float xAdjust = 0;
-    le_int32 p, glyphCount = glyphStorage.getGlyphCount();
+    flobt xAdjust = 0;
+    le_int32 p, glyphCount = glyphStorbge.getGlyphCount();
 
     if (LE_FAILURE(success)) {
         return;
     }
 
-    if (markFilter == NULL) {
+    if (mbrkFilter == NULL) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return;
     }
 
-    float ignore, prev;
+    flobt ignore, prev;
 
-    glyphStorage.getGlyphPosition(0, prev, ignore, success);
+    glyphStorbge.getGlyphPosition(0, prev, ignore, success);
 
     for (p = 0; p < glyphCount; p += 1) {
-        float next, xAdvance;
+        flobt next, xAdvbnce;
 
-        glyphStorage.getGlyphPosition(p + 1, next, ignore, success);
+        glyphStorbge.getGlyphPosition(p + 1, next, ignore, success);
 
-        xAdvance = next - prev;
-        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvance, 0);
-        glyphStorage.adjustPosition(p, xAdjust, 0, success);
+        xAdvbnce = next - prev;
+        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbnce, 0);
+        glyphStorbge.bdjustPosition(p, xAdjust, 0, success);
 
-        if (markFilter->accept(glyphStorage[p], success)) {
-            xAdjust -= xAdvance;
+        if (mbrkFilter->bccept(glyphStorbge[p], success)) {
+            xAdjust -= xAdvbnce;
         }
 
         prev = next;
     }
 
-    glyphStorage.adjustPosition(glyphCount, xAdjust, 0, success);
+    glyphStorbge.bdjustPosition(glyphCount, xAdjust, 0, success);
 }
 
-void LayoutEngine::adjustMarkGlyphs(const LEUnicode chars[], le_int32 charCount, le_bool reverse, LEGlyphStorage &glyphStorage, LEGlyphFilter *markFilter, LEErrorCode &success)
+void LbyoutEngine::bdjustMbrkGlyphs(const LEUnicode chbrs[], le_int32 chbrCount, le_bool reverse, LEGlyphStorbge &glyphStorbge, LEGlyphFilter *mbrkFilter, LEErrorCode &success)
 {
-    float xAdjust = 0;
+    flobt xAdjust = 0;
     le_int32 c = 0, direction = 1, p;
-    le_int32 glyphCount = glyphStorage.getGlyphCount();
+    le_int32 glyphCount = glyphStorbge.getGlyphCount();
 
     if (LE_FAILURE(success)) {
         return;
     }
 
-    if (markFilter == NULL) {
+    if (mbrkFilter == NULL) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return;
     }
@@ -502,220 +502,220 @@ void LayoutEngine::adjustMarkGlyphs(const LEUnicode chars[], le_int32 charCount,
         direction = -1;
     }
 
-    float ignore, prev;
+    flobt ignore, prev;
 
-    glyphStorage.getGlyphPosition(0, prev, ignore, success);
+    glyphStorbge.getGlyphPosition(0, prev, ignore, success);
 
-    for (p = 0; p < charCount; p += 1, c += direction) {
-        float next, xAdvance;
+    for (p = 0; p < chbrCount; p += 1, c += direction) {
+        flobt next, xAdvbnce;
 
-        glyphStorage.getGlyphPosition(p + 1, next, ignore, success);
+        glyphStorbge.getGlyphPosition(p + 1, next, ignore, success);
 
-        xAdvance = next - prev;
+        xAdvbnce = next - prev;
 
-        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvance, 0);
+        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbnce, 0);
 
 
-        glyphStorage.adjustPosition(p, xAdjust, 0, success);
+        glyphStorbge.bdjustPosition(p, xAdjust, 0, success);
 
-        if (markFilter->accept(chars[c], success)) {
-            xAdjust -= xAdvance;
+        if (mbrkFilter->bccept(chbrs[c], success)) {
+            xAdjust -= xAdvbnce;
         }
 
         prev = next;
     }
 
-    glyphStorage.adjustPosition(glyphCount, xAdjust, 0, success);
+    glyphStorbge.bdjustPosition(glyphCount, xAdjust, 0, success);
 }
 
-const void *LayoutEngine::getFontTable(LETag tableTag, size_t &length) const
+const void *LbyoutEngine::getFontTbble(LETbg tbbleTbg, size_t &length) const
 {
-  return fFontInstance->getFontTable(tableTag, length);
+  return fFontInstbnce->getFontTbble(tbbleTbg, length);
 }
 
-void LayoutEngine::mapCharsToGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, le_bool mirror,
-                                    LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void LbyoutEngine::mbpChbrsToGlyphs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse, le_bool mirror,
+                                    LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return;
     }
 
-    glyphStorage.allocateGlyphArray(count, reverse, success);
+    glyphStorbge.bllocbteGlyphArrby(count, reverse, success);
 
-    DefaultCharMapper charMapper(TRUE, mirror);
+    DefbultChbrMbpper chbrMbpper(TRUE, mirror);
 
-    fFontInstance->mapCharsToGlyphs(chars, offset, count, reverse, &charMapper, fFilterZeroWidth, glyphStorage);
+    fFontInstbnce->mbpChbrsToGlyphs(chbrs, offset, count, reverse, &chbrMbpper, fFilterZeroWidth, glyphStorbge);
 }
 
-// Input: characters, font?
-// Output: glyphs, positions, char indices
+// Input: chbrbcters, font?
+// Output: glyphs, positions, chbr indices
 // Returns: number of glyphs
-le_int32 LayoutEngine::layoutChars(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-                              float x, float y, LEErrorCode &success)
+le_int32 LbyoutEngine::lbyoutChbrs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft,
+                              flobt x, flobt y, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (chars == NULL || offset < 0 || count < 0 || max < 0 || offset >= max || offset + count > max) {
+    if (chbrs == NULL || offset < 0 || count < 0 || mbx < 0 || offset >= mbx || offset + count > mbx) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return 0;
     }
 
     le_int32 glyphCount;
 
-    if (fGlyphStorage->getGlyphCount() > 0) {
-        fGlyphStorage->reset();
+    if (fGlyphStorbge->getGlyphCount() > 0) {
+        fGlyphStorbge->reset();
     }
 
-    glyphCount = computeGlyphs(chars, offset, count, max, rightToLeft, *fGlyphStorage, success);
-    positionGlyphs(*fGlyphStorage, x, y, success);
-    adjustGlyphPositions(chars, offset, count, rightToLeft, *fGlyphStorage, success);
+    glyphCount = computeGlyphs(chbrs, offset, count, mbx, rightToLeft, *fGlyphStorbge, success);
+    positionGlyphs(*fGlyphStorbge, x, y, success);
+    bdjustGlyphPositions(chbrs, offset, count, rightToLeft, *fGlyphStorbge, success);
 
     return glyphCount;
 }
 
-void LayoutEngine::reset()
+void LbyoutEngine::reset()
 {
-  if(fGlyphStorage!=NULL) {
-    fGlyphStorage->reset();
+  if(fGlyphStorbge!=NULL) {
+    fGlyphStorbge->reset();
   }
 }
 
-LayoutEngine *LayoutEngine::layoutEngineFactory(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode, LEErrorCode &success)
+LbyoutEngine *LbyoutEngine::lbyoutEngineFbctory(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode, LEErrorCode &success)
 {
-  //kerning and ligatures - by default
-  return LayoutEngine::layoutEngineFactory(fontInstance, scriptCode, languageCode, LE_DEFAULT_FEATURE_FLAG, success);
+  //kerning bnd ligbtures - by defbult
+  return LbyoutEngine::lbyoutEngineFbctory(fontInstbnce, scriptCode, lbngubgeCode, LE_DEFAULT_FEATURE_FLAG, success);
 }
 
-LayoutEngine *LayoutEngine::layoutEngineFactory(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode, le_int32 typoFlags, LEErrorCode &success)
+LbyoutEngine *LbyoutEngine::lbyoutEngineFbctory(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode, le_int32 typoFlbgs, LEErrorCode &success)
 {
-    static const le_uint32 gsubTableTag = LE_GSUB_TABLE_TAG;
-    static const le_uint32 mortTableTag = LE_MORT_TABLE_TAG;
-    static const le_uint32 morxTableTag = LE_MORX_TABLE_TAG;
+    stbtic const le_uint32 gsubTbbleTbg = LE_GSUB_TABLE_TAG;
+    stbtic const le_uint32 mortTbbleTbg = LE_MORT_TABLE_TAG;
+    stbtic const le_uint32 morxTbbleTbg = LE_MORX_TABLE_TAG;
 
     if (LE_FAILURE(success)) {
         return NULL;
     }
 
-    LEReferenceTo<GlyphSubstitutionTableHeader> gsubTable(fontInstance,gsubTableTag,success);
-    LayoutEngine *result = NULL;
-    LETag scriptTag   = 0x00000000;
-    LETag languageTag = 0x00000000;
-    LETag v2ScriptTag = OpenTypeLayoutEngine::getV2ScriptTag(scriptCode);
+    LEReferenceTo<GlyphSubstitutionTbbleHebder> gsubTbble(fontInstbnce,gsubTbbleTbg,success);
+    LbyoutEngine *result = NULL;
+    LETbg scriptTbg   = 0x00000000;
+    LETbg lbngubgeTbg = 0x00000000;
+    LETbg v2ScriptTbg = OpenTypeLbyoutEngine::getV2ScriptTbg(scriptCode);
 
-    // Right now, only invoke V2 processing for Devanagari.  TODO: Allow more V2 scripts as they are
+    // Right now, only invoke V2 processing for Devbnbgbri.  TODO: Allow more V2 scripts bs they bre
     // properly tested.
 
-    if ( v2ScriptTag == dev2ScriptTag && gsubTable.isValid() && gsubTable->coversScript(gsubTable, v2ScriptTag, success )) {
-      result = new IndicOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, TRUE, gsubTable, success);
+    if ( v2ScriptTbg == dev2ScriptTbg && gsubTbble.isVblid() && gsubTbble->coversScript(gsubTbble, v2ScriptTbg, success )) {
+      result = new IndicOpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, TRUE, gsubTbble, success);
     }
-    else if (gsubTable.isValid() && gsubTable->coversScript(gsubTable, scriptTag = OpenTypeLayoutEngine::getScriptTag(scriptCode), success)) {
+    else if (gsubTbble.isVblid() && gsubTbble->coversScript(gsubTbble, scriptTbg = OpenTypeLbyoutEngine::getScriptTbg(scriptCode), success)) {
         switch (scriptCode) {
-        case bengScriptCode:
-        case devaScriptCode:
-        case gujrScriptCode:
-        case kndaScriptCode:
-        case mlymScriptCode:
-        case oryaScriptCode:
-        case guruScriptCode:
-        case tamlScriptCode:
-        case teluScriptCode:
-        case sinhScriptCode:
-            result = new IndicOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, FALSE, gsubTable, success);
-            break;
+        cbse bengScriptCode:
+        cbse devbScriptCode:
+        cbse gujrScriptCode:
+        cbse kndbScriptCode:
+        cbse mlymScriptCode:
+        cbse orybScriptCode:
+        cbse guruScriptCode:
+        cbse tbmlScriptCode:
+        cbse teluScriptCode:
+        cbse sinhScriptCode:
+            result = new IndicOpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, FALSE, gsubTbble, success);
+            brebk;
 
-        case arabScriptCode:
-            result = new ArabicOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, gsubTable, success);
-            break;
+        cbse brbbScriptCode:
+            result = new ArbbicOpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, gsubTbble, success);
+            brebk;
 
-        case hebrScriptCode:
-            // Disable hebrew ligatures since they have only archaic uses, see ticket #8318
-            result = new OpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags & ~kTypoFlagLiga, gsubTable, success);
-            break;
+        cbse hebrScriptCode:
+            // Disbble hebrew ligbtures since they hbve only brchbic uses, see ticket #8318
+            result = new OpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs & ~kTypoFlbgLigb, gsubTbble, success);
+            brebk;
 
-        case hangScriptCode:
-            result = new HangulOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, gsubTable, success);
-            break;
+        cbse hbngScriptCode:
+            result = new HbngulOpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, gsubTbble, success);
+            brebk;
 
-        case haniScriptCode:
-            languageTag = OpenTypeLayoutEngine::getLangSysTag(languageCode);
+        cbse hbniScriptCode:
+            lbngubgeTbg = OpenTypeLbyoutEngine::getLbngSysTbg(lbngubgeCode);
 
-            switch (languageCode) {
-            case korLanguageCode:
-            case janLanguageCode:
-            case zhtLanguageCode:
-            case zhsLanguageCode:
-              if (gsubTable->coversScriptAndLanguage(gsubTable, scriptTag, languageTag, success, TRUE)) {
-                    result = new HanOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, gsubTable, success);
-                    break;
+            switch (lbngubgeCode) {
+            cbse korLbngubgeCode:
+            cbse jbnLbngubgeCode:
+            cbse zhtLbngubgeCode:
+            cbse zhsLbngubgeCode:
+              if (gsubTbble->coversScriptAndLbngubge(gsubTbble, scriptTbg, lbngubgeTbg, success, TRUE)) {
+                    result = new HbnOpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, gsubTbble, success);
+                    brebk;
               }
 
-                // note: falling through to default case.
-            default:
-                result = new OpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, gsubTable, success);
-                break;
+                // note: fblling through to defbult cbse.
+            defbult:
+                result = new OpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, gsubTbble, success);
+                brebk;
             }
 
-            break;
+            brebk;
 
-        case tibtScriptCode:
-            result = new TibetanOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, gsubTable, success);
-            break;
+        cbse tibtScriptCode:
+            result = new TibetbnOpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, gsubTbble, success);
+            brebk;
 
-        case khmrScriptCode:
-            result = new KhmerOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, gsubTable, success);
-            break;
+        cbse khmrScriptCode:
+            result = new KhmerOpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, gsubTbble, success);
+            brebk;
 
-        default:
-            result = new OpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, gsubTable, success);
-            break;
+        defbult:
+            result = new OpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, gsubTbble, success);
+            brebk;
         }
     } else {
-        LEReferenceTo<MorphTableHeader2> morxTable(fontInstance, morxTableTag, success);
+        LEReferenceTo<MorphTbbleHebder2> morxTbble(fontInstbnce, morxTbbleTbg, success);
         if (LE_SUCCESS(success) &&
-            morxTable.isValid() &&
-            SWAPL(morxTable->version)==0x00020000) {
-            result = new GXLayoutEngine2(fontInstance, scriptCode, languageCode, morxTable, typoFlags, success);
+            morxTbble.isVblid() &&
+            SWAPL(morxTbble->version)==0x00020000) {
+            result = new GXLbyoutEngine2(fontInstbnce, scriptCode, lbngubgeCode, morxTbble, typoFlbgs, success);
         } else {
-          LEReferenceTo<MorphTableHeader> mortTable(fontInstance, mortTableTag, success);
-          if (LE_SUCCESS(success) && mortTable.isValid() && SWAPL(mortTable->version)==0x00010000) { // mort
-            result = new GXLayoutEngine(fontInstance, scriptCode, languageCode, mortTable, success);
+          LEReferenceTo<MorphTbbleHebder> mortTbble(fontInstbnce, mortTbbleTbg, success);
+          if (LE_SUCCESS(success) && mortTbble.isVblid() && SWAPL(mortTbble->version)==0x00010000) { // mort
+            result = new GXLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, mortTbble, success);
             } else {
                 switch (scriptCode) {
-                    case bengScriptCode:
-                    case devaScriptCode:
-                    case gujrScriptCode:
-                    case kndaScriptCode:
-                    case mlymScriptCode:
-                    case oryaScriptCode:
-                    case guruScriptCode:
-                    case tamlScriptCode:
-                    case teluScriptCode:
-                    case sinhScriptCode:
+                    cbse bengScriptCode:
+                    cbse devbScriptCode:
+                    cbse gujrScriptCode:
+                    cbse kndbScriptCode:
+                    cbse mlymScriptCode:
+                    cbse orybScriptCode:
+                    cbse guruScriptCode:
+                    cbse tbmlScriptCode:
+                    cbse teluScriptCode:
+                    cbse sinhScriptCode:
                     {
-                        result = new IndicOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, success);
-                        break;
+                        result = new IndicOpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, success);
+                        brebk;
                     }
 
-                case arabScriptCode:
-                  result = new UnicodeArabicOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, success);
-                  break;
+                cbse brbbScriptCode:
+                  result = new UnicodeArbbicOpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, success);
+                  brebk;
 
-                  //case hebrScriptCode:
-                  //    return new HebrewOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags);
+                  //cbse hebrScriptCode:
+                  //    return new HebrewOpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs);
 
-                case thaiScriptCode:
-                  result = new ThaiLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, success);
-                  break;
+                cbse thbiScriptCode:
+                  result = new ThbiLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, success);
+                  brebk;
 
-                case hangScriptCode:
-                  result = new HangulOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, success);
-                  break;
+                cbse hbngScriptCode:
+                  result = new HbngulOpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, success);
+                  brebk;
 
-                    default:
-                        result = new LayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, success);
-                        break;
+                    defbult:
+                        result = new LbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, success);
+                        brebk;
                 }
             }
         }
@@ -733,8 +733,8 @@ LayoutEngine *LayoutEngine::layoutEngineFactory(const LEFontInstance *fontInstan
     return result;
 }
 
-LayoutEngine::~LayoutEngine() {
-    delete fGlyphStorage;
+LbyoutEngine::~LbyoutEngine() {
+    delete fGlyphStorbge;
 }
 
 U_NAMESPACE_END

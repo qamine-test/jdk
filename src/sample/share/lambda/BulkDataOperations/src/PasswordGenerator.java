@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,84 +30,84 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation, and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion, bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
+import jbvb.security.SecureRbndom;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.strebm.IntStrebm;
 
 /**
- * Generates password of desired length. See {@link #usage} method
- * for instructions and command line parameters. This sample shows usages of:
+ * Generbtes pbssword of desired length. See {@link #usbge} method
+ * for instructions bnd commbnd line pbrbmeters. This sbmple shows usbges of:
  * <ul>
  * <li>Method references.</li>
- * <li>Lambda and bulk operations. A stream of random integers is mapped to
- * chars, limited by desired length and printed in standard output as password
+ * <li>Lbmbdb bnd bulk operbtions. A strebm of rbndom integers is mbpped to
+ * chbrs, limited by desired length bnd printed in stbndbrd output bs pbssword
  * string.</li>
  * </ul>
  *
  */
-public class PasswordGenerator {
+public clbss PbsswordGenerbtor {
 
-    private static void usage() {
-        System.out.println("Usage: PasswordGenerator LENGTH");
+    privbte stbtic void usbge() {
+        System.out.println("Usbge: PbsswordGenerbtor LENGTH");
         System.out.println(
-                "Password Generator produces password of desired LENGTH.");
+                "Pbssword Generbtor produces pbssword of desired LENGTH.");
     }
 
-    private static final List<Integer> PASSWORD_CHARS = new ArrayList<>();
+    privbte stbtic finbl List<Integer> PASSWORD_CHARS = new ArrbyList<>();
 
-    //Valid symbols.
-    static {
-        IntStream.rangeClosed('0', '9').forEach(PASSWORD_CHARS::add);    // 0-9
-        IntStream.rangeClosed('A', 'Z').forEach(PASSWORD_CHARS::add);    // A-Z
-        IntStream.rangeClosed('a', 'z').forEach(PASSWORD_CHARS::add);    // a-z
+    //Vblid symbols.
+    stbtic {
+        IntStrebm.rbngeClosed('0', '9').forEbch(PASSWORD_CHARS::bdd);    // 0-9
+        IntStrebm.rbngeClosed('A', 'Z').forEbch(PASSWORD_CHARS::bdd);    // A-Z
+        IntStrebm.rbngeClosed('b', 'z').forEbch(PASSWORD_CHARS::bdd);    // b-z
     }
 
     /**
-     * The main method for the PasswordGenerator program. Run program with empty
-     * argument list to see possible arguments.
+     * The mbin method for the PbsswordGenerbtor progrbm. Run progrbm with empty
+     * brgument list to see possible brguments.
      *
-     * @param args the argument list for PasswordGenerator.
+     * @pbrbm brgs the brgument list for PbsswordGenerbtor.
      */
-    public static void main(String[] args) {
+    public stbtic void mbin(String[] brgs) {
 
-        if (args.length != 1) {
-            usage();
+        if (brgs.length != 1) {
+            usbge();
             return;
         }
 
-        long passwordLength;
+        long pbsswordLength;
         try {
-            passwordLength = Long.parseLong(args[0]);
-            if (passwordLength < 1) {
-                printMessageAndUsage("Length has to be positive");
+            pbsswordLength = Long.pbrseLong(brgs[0]);
+            if (pbsswordLength < 1) {
+                printMessbgeAndUsbge("Length hbs to be positive");
                 return;
             }
-        } catch (NumberFormatException ex) {
-            printMessageAndUsage("Unexpected number format" + args[0]);
+        } cbtch (NumberFormbtException ex) {
+            printMessbgeAndUsbge("Unexpected number formbt" + brgs[0]);
             return;
         }
         /*
-         * Stream of random integers is created containing Integer values
-         * in range from 0 to PASSWORD_CHARS.size().
-         * The stream is limited by passwordLength.
-         * Valid chars are selected by generated index.
+         * Strebm of rbndom integers is crebted contbining Integer vblues
+         * in rbnge from 0 to PASSWORD_CHARS.size().
+         * The strebm is limited by pbsswordLength.
+         * Vblid chbrs bre selected by generbted index.
          */
-        new SecureRandom().ints(passwordLength, 0, PASSWORD_CHARS.size())
-                .map(PASSWORD_CHARS::get)
-                .forEach(i -> System.out.print((char) i));
+        new SecureRbndom().ints(pbsswordLength, 0, PASSWORD_CHARS.size())
+                .mbp(PASSWORD_CHARS::get)
+                .forEbch(i -> System.out.print((chbr) i));
     }
 
-    private static void printMessageAndUsage(String message) {
-        System.err.println(message);
-        usage();
+    privbte stbtic void printMessbgeAndUsbge(String messbge) {
+        System.err.println(messbge);
+        usbge();
     }
 
 }

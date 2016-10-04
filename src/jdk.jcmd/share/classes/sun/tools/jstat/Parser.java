@@ -1,477 +1,477 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * A class implementing a simple predictive parser for output format
- * specification language for the jstat command.
+ * A clbss implementing b simple predictive pbrser for output formbt
+ * specificbtion lbngubge for the jstbt commbnd.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class Parser {
+public clbss Pbrser {
 
-    private static boolean pdebug = Boolean.getBoolean("jstat.parser.debug");
-    private static boolean ldebug = Boolean.getBoolean("jstat.lex.debug");
+    privbte stbtic boolebn pdebug = Boolebn.getBoolebn("jstbt.pbrser.debug");
+    privbte stbtic boolebn ldebug = Boolebn.getBoolebn("jstbt.lex.debug");
 
-    private static final char OPENBLOCK = '{';
-    private static final char CLOSEBLOCK = '}';
-    private static final char DOUBLEQUOTE = '"';
-    private static final char PERCENT_CHAR = '%';
-    private static final char OPENPAREN = '(';
-    private static final char CLOSEPAREN = ')';
+    privbte stbtic finbl chbr OPENBLOCK = '{';
+    privbte stbtic finbl chbr CLOSEBLOCK = '}';
+    privbte stbtic finbl chbr DOUBLEQUOTE = '"';
+    privbte stbtic finbl chbr PERCENT_CHAR = '%';
+    privbte stbtic finbl chbr OPENPAREN = '(';
+    privbte stbtic finbl chbr CLOSEPAREN = ')';
 
-    private static final char OPERATOR_PLUS = '+';
-    private static final char OPERATOR_MINUS = '-';
-    private static final char OPERATOR_MULTIPLY = '*';
-    private static final char OPERATOR_DIVIDE = '/';
+    privbte stbtic finbl chbr OPERATOR_PLUS = '+';
+    privbte stbtic finbl chbr OPERATOR_MINUS = '-';
+    privbte stbtic finbl chbr OPERATOR_MULTIPLY = '*';
+    privbte stbtic finbl chbr OPERATOR_DIVIDE = '/';
 
-    private static final String OPTION = "option";
-    private static final String COLUMN = "column";
-    private static final String DATA = "data";
-    private static final String HEADER = "header";
-    private static final String WIDTH = "width";
-    private static final String FORMAT = "format";
-    private static final String ALIGN = "align";
-    private static final String SCALE = "scale";
+    privbte stbtic finbl String OPTION = "option";
+    privbte stbtic finbl String COLUMN = "column";
+    privbte stbtic finbl String DATA = "dbtb";
+    privbte stbtic finbl String HEADER = "hebder";
+    privbte stbtic finbl String WIDTH = "width";
+    privbte stbtic finbl String FORMAT = "formbt";
+    privbte stbtic finbl String ALIGN = "blign";
+    privbte stbtic finbl String SCALE = "scble";
 
-    private static final String START = OPTION;
+    privbte stbtic finbl String START = OPTION;
 
-    private static final Set<String> scaleKeyWords = Scale.keySet();
-    private static final Set<String> alignKeyWords = Alignment.keySet();
-    private static String[] otherKeyWords = {
+    privbte stbtic finbl Set<String> scbleKeyWords = Scble.keySet();
+    privbte stbtic finbl Set<String> blignKeyWords = Alignment.keySet();
+    privbte stbtic String[] otherKeyWords = {
         OPTION, COLUMN, DATA, HEADER, WIDTH, FORMAT, ALIGN, SCALE
     };
 
-    private static char[] infixOps = {
+    privbte stbtic chbr[] infixOps = {
         OPERATOR_PLUS, OPERATOR_MINUS, OPERATOR_MULTIPLY, OPERATOR_DIVIDE
     };
 
-    private static char[] delimiters = {
+    privbte stbtic chbr[] delimiters = {
         OPENBLOCK, CLOSEBLOCK, PERCENT_CHAR, OPENPAREN, CLOSEPAREN
     };
 
 
-    private static Set<String> reservedWords;
+    privbte stbtic Set<String> reservedWords;
 
-    private StreamTokenizer st;
-    private String filename;
-    private Token lookahead;
-    private Token previous;
-    private int columnCount;
-    private OptionFormat optionFormat;
+    privbte StrebmTokenizer st;
+    privbte String filenbme;
+    privbte Token lookbhebd;
+    privbte Token previous;
+    privbte int columnCount;
+    privbte OptionFormbt optionFormbt;
 
-    public Parser(String filename) throws FileNotFoundException {
-        this.filename = filename;
-        Reader r = new BufferedReader(new FileReader(filename));
+    public Pbrser(String filenbme) throws FileNotFoundException {
+        this.filenbme = filenbme;
+        Rebder r = new BufferedRebder(new FileRebder(filenbme));
     }
 
-    public Parser(Reader r) {
-        st = new StreamTokenizer(r);
+    public Pbrser(Rebder r) {
+        st = new StrebmTokenizer(r);
 
-        // allow both c++ style comments
-        st.ordinaryChar('/');
-        st.wordChars('_','_');
-        st.slashSlashComments(true);
-        st.slashStarComments(true);
+        // bllow both c++ style comments
+        st.ordinbryChbr('/');
+        st.wordChbrs('_','_');
+        st.slbshSlbshComments(true);
+        st.slbshStbrComments(true);
 
-        reservedWords = new HashSet<String>();
+        reservedWords = new HbshSet<String>();
         for (int i = 0; i < otherKeyWords.length; i++) {
-            reservedWords.add(otherKeyWords[i]);
+            reservedWords.bdd(otherKeyWords[i]);
         }
 
         for (int i = 0; i < delimiters.length; i++ ) {
-            st.ordinaryChar(delimiters[i]);
+            st.ordinbryChbr(delimiters[i]);
         }
 
         for (int i = 0; i < infixOps.length; i++ ) {
-            st.ordinaryChar(infixOps[i]);
+            st.ordinbryChbr(infixOps[i]);
         }
     }
 
     /**
-     * push back the lookahead token and restore the lookahead token
+     * push bbck the lookbhebd token bnd restore the lookbhebd token
      * to the previous token.
      */
-    private void pushBack() {
-        lookahead = previous;
-        st.pushBack();
+    privbte void pushBbck() {
+        lookbhebd = previous;
+        st.pushBbck();
     }
 
     /**
-     * retrieve the next token, placing the token value in the lookahead
-     * member variable, storing its previous value in the previous member
-     * variable.
+     * retrieve the next token, plbcing the token vblue in the lookbhebd
+     * member vbribble, storing its previous vblue in the previous member
+     * vbribble.
      */
-    private void nextToken() throws ParserException, IOException {
+    privbte void nextToken() throws PbrserException, IOException {
         int t = st.nextToken();
-        previous = lookahead;
-        lookahead = new Token(st.ttype, st.sval, st.nval);
-        log(ldebug, "lookahead = " + lookahead);
+        previous = lookbhebd;
+        lookbhebd = new Token(st.ttype, st.svbl, st.nvbl);
+        log(ldebug, "lookbhebd = " + lookbhebd);
     }
 
     /**
-     * match one of the token values in the given set of key words
-     * token is assumed to be of type TT_WORD, and the set is assumed
-     * to contain String objects.
+     * mbtch one of the token vblues in the given set of key words
+     * token is bssumed to be of type TT_WORD, bnd the set is bssumed
+     * to contbin String objects.
      */
-    private Token matchOne(Set<String> keyWords) throws ParserException, IOException {
-        if ((lookahead.ttype == StreamTokenizer.TT_WORD)
-                && keyWords.contains(lookahead.sval)) {
-            Token t = lookahead;
+    privbte Token mbtchOne(Set<String> keyWords) throws PbrserException, IOException {
+        if ((lookbhebd.ttype == StrebmTokenizer.TT_WORD)
+                && keyWords.contbins(lookbhebd.svbl)) {
+            Token t = lookbhebd;
             nextToken();
             return t;
         }
-        throw new SyntaxException(st.lineno(), keyWords, lookahead);
+        throw new SyntbxException(st.lineno(), keyWords, lookbhebd);
     }
 
     /**
-     * match a token with TT_TYPE=type, and the token value is a given sequence
-     * of characters.
+     * mbtch b token with TT_TYPE=type, bnd the token vblue is b given sequence
+     * of chbrbcters.
      */
-    private void match(int ttype, String token)
-                 throws ParserException, IOException {
-        if (lookahead.ttype == ttype && lookahead.sval.compareTo(token) == 0) {
+    privbte void mbtch(int ttype, String token)
+                 throws PbrserException, IOException {
+        if (lookbhebd.ttype == ttype && lookbhebd.svbl.compbreTo(token) == 0) {
             nextToken();
         } else {
-           throw new SyntaxException(st.lineno(), new Token(ttype, token),
-                                     lookahead);
+           throw new SyntbxException(st.lineno(), new Token(ttype, token),
+                                     lookbhebd);
         }
     }
 
     /**
-     * match a token with TT_TYPE=type
+     * mbtch b token with TT_TYPE=type
      */
-    private void match(int ttype) throws ParserException, IOException {
-        if (lookahead.ttype == ttype) {
+    privbte void mbtch(int ttype) throws PbrserException, IOException {
+        if (lookbhebd.ttype == ttype) {
             nextToken();
         } else {
-           throw new SyntaxException(st.lineno(), new Token(ttype), lookahead);
+           throw new SyntbxException(st.lineno(), new Token(ttype), lookbhebd);
         }
     }
 
     /**
-     * match a token with TT_TYPE=char, where the token value is the given char.
+     * mbtch b token with TT_TYPE=chbr, where the token vblue is the given chbr.
      */
-    private void match(char ttype) throws ParserException, IOException {
-      if (lookahead.ttype == (int)ttype) {
+    privbte void mbtch(chbr ttype) throws PbrserException, IOException {
+      if (lookbhebd.ttype == (int)ttype) {
           nextToken();
       }
       else {
-          throw new SyntaxException(st.lineno(), new Token((int)ttype),
-                                    lookahead);
+          throw new SyntbxException(st.lineno(), new Token((int)ttype),
+                                    lookbhebd);
       }
     }
 
     /**
-     * match a token with TT_TYPE='"', where the token value is a sequence
-     * of characters between matching quote characters.
+     * mbtch b token with TT_TYPE='"', where the token vblue is b sequence
+     * of chbrbcters between mbtching quote chbrbcters.
      */
-    private void matchQuotedString() throws ParserException, IOException {
-        match(DOUBLEQUOTE);
+    privbte void mbtchQuotedString() throws PbrserException, IOException {
+        mbtch(DOUBLEQUOTE);
     }
 
     /**
-     * match a TT_NUMBER token that matches a parsed number value
+     * mbtch b TT_NUMBER token thbt mbtches b pbrsed number vblue
      */
-    private void matchNumber() throws ParserException, IOException {
-        match(StreamTokenizer.TT_NUMBER);
+    privbte void mbtchNumber() throws PbrserException, IOException {
+        mbtch(StrebmTokenizer.TT_NUMBER);
     }
 
     /**
-     * match a TT_WORD token that matches an arbitrary, not quoted token.
+     * mbtch b TT_WORD token thbt mbtches bn brbitrbry, not quoted token.
      */
-    private void matchID() throws ParserException, IOException {
-        match(StreamTokenizer.TT_WORD);
+    privbte void mbtchID() throws PbrserException, IOException {
+        mbtch(StrebmTokenizer.TT_WORD);
     }
 
     /**
-     * match a TT_WORD token that matches the given string
+     * mbtch b TT_WORD token thbt mbtches the given string
      */
-    private void match(String token) throws ParserException, IOException {
-        match(StreamTokenizer.TT_WORD, token);
+    privbte void mbtch(String token) throws PbrserException, IOException {
+        mbtch(StrebmTokenizer.TT_WORD, token);
     }
 
     /**
-     * determine if the given word is a reserved key word
+     * determine if the given word is b reserved key word
      */
-    private boolean isReservedWord(String word) {
-        return reservedWords.contains(word);
+    privbte boolebn isReservedWord(String word) {
+        return reservedWords.contbins(word);
     }
 
     /**
-     * determine if the give work is a reserved key word
+     * determine if the give work is b reserved key word
      */
-    private boolean isInfixOperator(char op) {
+    privbte boolebn isInfixOperbtor(chbr op) {
         for (int i = 0; i < infixOps.length; i++) {
             if (op == infixOps[i]) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * scalestmt -> 'scale' scalespec
-     * scalespec -> <see above scaleTerminals array>
+     * scblestmt -> 'scble' scblespec
+     * scblespec -> <see bbove scbleTerminbls brrby>
      */
-    private void scaleStmt(ColumnFormat cf)
-                 throws ParserException, IOException {
-        match(SCALE);
-        Token t = matchOne(scaleKeyWords);
-        cf.setScale(Scale.toScale(t.sval));
-        String scaleString = t.sval;
-        log(pdebug, "Parsed: scale -> " + scaleString);
+    privbte void scbleStmt(ColumnFormbt cf)
+                 throws PbrserException, IOException {
+        mbtch(SCALE);
+        Token t = mbtchOne(scbleKeyWords);
+        cf.setScble(Scble.toScble(t.svbl));
+        String scbleString = t.svbl;
+        log(pdebug, "Pbrsed: scble -> " + scbleString);
     }
 
     /**
-     * alignstmt -> 'align' alignspec
-     * alignspec -> <see above alignTerminals array>
+     * blignstmt -> 'blign' blignspec
+     * blignspec -> <see bbove blignTerminbls brrby>
      */
-    private void alignStmt(ColumnFormat cf)
-                 throws ParserException, IOException {
-        match(ALIGN);
-        Token t = matchOne(alignKeyWords);
-        cf.setAlignment(Alignment.toAlignment(t.sval));
-        String alignString = t.sval;
-        log(pdebug, "Parsed: align -> " + alignString);
+    privbte void blignStmt(ColumnFormbt cf)
+                 throws PbrserException, IOException {
+        mbtch(ALIGN);
+        Token t = mbtchOne(blignKeyWords);
+        cf.setAlignment(Alignment.toAlignment(t.svbl));
+        String blignString = t.svbl;
+        log(pdebug, "Pbrsed: blign -> " + blignString);
     }
 
     /**
-     * headerstmt -> 'header' quotedstring
+     * hebderstmt -> 'hebder' quotedstring
      */
-    private void headerStmt(ColumnFormat cf)
-                 throws ParserException, IOException {
-        match(HEADER);
-        String headerString = lookahead.sval;
-        matchQuotedString();
-        cf.setHeader(headerString);
-        log(pdebug, "Parsed: header -> " + headerString);
+    privbte void hebderStmt(ColumnFormbt cf)
+                 throws PbrserException, IOException {
+        mbtch(HEADER);
+        String hebderString = lookbhebd.svbl;
+        mbtchQuotedString();
+        cf.setHebder(hebderString);
+        log(pdebug, "Pbrsed: hebder -> " + hebderString);
     }
 
     /**
      * widthstmt -> 'width' integer
      */
-    private void widthStmt(ColumnFormat cf)
-                 throws ParserException, IOException {
-        match(WIDTH);
-        double width = lookahead.nval;
-        matchNumber();
+    privbte void widthStmt(ColumnFormbt cf)
+                 throws PbrserException, IOException {
+        mbtch(WIDTH);
+        double width = lookbhebd.nvbl;
+        mbtchNumber();
         cf.setWidth((int)width);
-        log(pdebug, "Parsed: width -> " + width );
+        log(pdebug, "Pbrsed: width -> " + width );
     }
 
     /**
-     * formatstmt -> 'format' quotedstring
+     * formbtstmt -> 'formbt' quotedstring
      */
-    private void formatStmt(ColumnFormat cf)
-                 throws ParserException, IOException {
-        match(FORMAT);
-        String formatString = lookahead.sval;
-        matchQuotedString();
-        cf.setFormat(formatString);
-        log(pdebug, "Parsed: format -> " + formatString);
+    privbte void formbtStmt(ColumnFormbt cf)
+                 throws PbrserException, IOException {
+        mbtch(FORMAT);
+        String formbtString = lookbhebd.svbl;
+        mbtchQuotedString();
+        cf.setFormbt(formbtString);
+        log(pdebug, "Pbrsed: formbt -> " + formbtString);
     }
 
     /**
-     *  Primary -> Literal | Identifier | '(' Expression ')'
+     *  Primbry -> Literbl | Identifier | '(' Expression ')'
      */
-    private Expression primary() throws ParserException, IOException {
+    privbte Expression primbry() throws PbrserException, IOException {
         Expression e = null;
 
-        switch (lookahead.ttype) {
-        case OPENPAREN:
-            match(OPENPAREN);
+        switch (lookbhebd.ttype) {
+        cbse OPENPAREN:
+            mbtch(OPENPAREN);
             e = expression();
-            match(CLOSEPAREN);
-            break;
-        case StreamTokenizer.TT_WORD:
-            String s = lookahead.sval;
+            mbtch(CLOSEPAREN);
+            brebk;
+        cbse StrebmTokenizer.TT_WORD:
+            String s = lookbhebd.svbl;
             if (isReservedWord(s)) {
-                throw new SyntaxException(st.lineno(), "IDENTIFIER",
-                                          "Reserved Word: " + lookahead.sval);
+                throw new SyntbxException(st.lineno(), "IDENTIFIER",
+                                          "Reserved Word: " + lookbhebd.svbl);
             }
-            matchID();
+            mbtchID();
             e = new Identifier(s);
-            log(pdebug, "Parsed: ID -> " + s);
-            break;
-        case StreamTokenizer.TT_NUMBER:
-            double literal = lookahead.nval;
-            matchNumber();
-            e = new Literal(new Double(literal));
-            log(pdebug, "Parsed: number -> " + literal);
-            break;
-        default:
-            throw new SyntaxException(st.lineno(), "IDENTIFIER", lookahead);
+            log(pdebug, "Pbrsed: ID -> " + s);
+            brebk;
+        cbse StrebmTokenizer.TT_NUMBER:
+            double literbl = lookbhebd.nvbl;
+            mbtchNumber();
+            e = new Literbl(new Double(literbl));
+            log(pdebug, "Pbrsed: number -> " + literbl);
+            brebk;
+        defbult:
+            throw new SyntbxException(st.lineno(), "IDENTIFIER", lookbhebd);
         }
-        log(pdebug, "Parsed: primary -> " + e);
+        log(pdebug, "Pbrsed: primbry -> " + e);
         return e;
     }
 
     /**
-     * Unary -> ('+'|'-') Unary | Primary
+     * Unbry -> ('+'|'-') Unbry | Primbry
      */
-    private Expression unary() throws ParserException, IOException {
+    privbte Expression unbry() throws PbrserException, IOException {
         Expression e = null;
-        Operator op = null;
+        Operbtor op = null;
 
         while (true) {
-            switch (lookahead.ttype) {
-            case OPERATOR_PLUS:
-                match(OPERATOR_PLUS);
-                op = Operator.PLUS;
-                break;
-            case OPERATOR_MINUS:
-                match(OPERATOR_MINUS);
-                op = Operator.MINUS;
-                break;
-            default:
-                e = primary();
-                log(pdebug, "Parsed: unary -> " + e);
+            switch (lookbhebd.ttype) {
+            cbse OPERATOR_PLUS:
+                mbtch(OPERATOR_PLUS);
+                op = Operbtor.PLUS;
+                brebk;
+            cbse OPERATOR_MINUS:
+                mbtch(OPERATOR_MINUS);
+                op = Operbtor.MINUS;
+                brebk;
+            defbult:
+                e = primbry();
+                log(pdebug, "Pbrsed: unbry -> " + e);
                 return e;
             }
             Expression e1 = new Expression();
-            e1.setOperator(op);
+            e1.setOperbtor(op);
             e1.setRight(e);
-            log(pdebug, "Parsed: unary -> " + e1);
-            e1.setLeft(new Literal(new Double(0)));
+            log(pdebug, "Pbrsed: unbry -> " + e1);
+            e1.setLeft(new Literbl(new Double(0)));
             e = e1;
         }
     }
 
     /**
-     *  MultExpression -> Unary (('*' | '/') Unary)*
+     *  MultExpression -> Unbry (('*' | '/') Unbry)*
      */
-    private Expression multExpression() throws ParserException, IOException {
-        Expression e = unary();
-        Operator op = null;
+    privbte Expression multExpression() throws PbrserException, IOException {
+        Expression e = unbry();
+        Operbtor op = null;
 
         while (true) {
-            switch (lookahead.ttype) {
-            case OPERATOR_MULTIPLY:
-                match(OPERATOR_MULTIPLY);
-                op = Operator.MULTIPLY;
-                break;
-            case OPERATOR_DIVIDE:
-                match(OPERATOR_DIVIDE);
-                op = Operator.DIVIDE;
-                break;
-            default:
-                log(pdebug, "Parsed: multExpression -> " + e);
+            switch (lookbhebd.ttype) {
+            cbse OPERATOR_MULTIPLY:
+                mbtch(OPERATOR_MULTIPLY);
+                op = Operbtor.MULTIPLY;
+                brebk;
+            cbse OPERATOR_DIVIDE:
+                mbtch(OPERATOR_DIVIDE);
+                op = Operbtor.DIVIDE;
+                brebk;
+            defbult:
+                log(pdebug, "Pbrsed: multExpression -> " + e);
                 return e;
             }
             Expression e1 = new Expression();
-            e1.setOperator(op);
+            e1.setOperbtor(op);
             e1.setLeft(e);
-            e1.setRight(unary());
+            e1.setRight(unbry());
             e = e1;
-            log(pdebug, "Parsed: multExpression -> " + e);
+            log(pdebug, "Pbrsed: multExpression -> " + e);
         }
     }
 
     /**
      *  AddExpression -> MultExpression (('+' | '-') MultExpression)*
      */
-    private Expression addExpression() throws ParserException, IOException {
+    privbte Expression bddExpression() throws PbrserException, IOException {
         Expression e = multExpression();
-        Operator op = null;
+        Operbtor op = null;
 
         while (true) {
-            switch (lookahead.ttype) {
-            case OPERATOR_PLUS:
-                match(OPERATOR_PLUS);
-                op = Operator.PLUS;
-                break;
-            case OPERATOR_MINUS:
-                match(OPERATOR_MINUS);
-                op = Operator.MINUS;
-                break;
-            default:
-                log(pdebug, "Parsed: addExpression -> " + e);
+            switch (lookbhebd.ttype) {
+            cbse OPERATOR_PLUS:
+                mbtch(OPERATOR_PLUS);
+                op = Operbtor.PLUS;
+                brebk;
+            cbse OPERATOR_MINUS:
+                mbtch(OPERATOR_MINUS);
+                op = Operbtor.MINUS;
+                brebk;
+            defbult:
+                log(pdebug, "Pbrsed: bddExpression -> " + e);
                 return e;
             }
             Expression e1 = new Expression();
-            e1.setOperator(op);
+            e1.setOperbtor(op);
             e1.setLeft(e);
             e1.setRight(multExpression());
             e = e1;
-            log(pdebug, "Parsed: addExpression -> " + e);
+            log(pdebug, "Pbrsed: bddExpression -> " + e);
         }
     }
 
     /**
      *  Expression -> AddExpression
      */
-    private Expression expression() throws ParserException, IOException {
-        Expression e = addExpression();
-        log(pdebug, "Parsed: expression -> " + e);
+    privbte Expression expression() throws PbrserException, IOException {
+        Expression e = bddExpression();
+        log(pdebug, "Pbrsed: expression -> " + e);
         return e;
     }
 
     /**
-     * datastmt -> 'data' expression
+     * dbtbstmt -> 'dbtb' expression
      */
-    private void dataStmt(ColumnFormat cf) throws ParserException, IOException {
-        match(DATA);
+    privbte void dbtbStmt(ColumnFormbt cf) throws PbrserException, IOException {
+        mbtch(DATA);
         Expression e = expression();
         cf.setExpression(e);
-        log(pdebug, "Parsed: data -> " + e);
+        log(pdebug, "Pbrsed: dbtb -> " + e);
     }
 
     /**
-     * statementlist -> optionalstmt statementlist
-     * optionalstmt -> 'data' expression
-     *                 'header' quotedstring
+     * stbtementlist -> optionblstmt stbtementlist
+     * optionblstmt -> 'dbtb' expression
+     *                 'hebder' quotedstring
      *                 'width' integer
-     *                 'format' formatstring
-     *                 'align' alignspec
-     *                 'scale' scalespec
+     *                 'formbt' formbtstring
+     *                 'blign' blignspec
+     *                 'scble' scblespec
      */
-    private void statementList(ColumnFormat cf)
-                 throws ParserException, IOException {
+    privbte void stbtementList(ColumnFormbt cf)
+                 throws PbrserException, IOException {
         while (true) {
-            if (lookahead.ttype != StreamTokenizer.TT_WORD) {
+            if (lookbhebd.ttype != StrebmTokenizer.TT_WORD) {
                 return;
             }
 
-            if (lookahead.sval.compareTo(DATA) == 0) {
-                dataStmt(cf);
-            } else if (lookahead.sval.compareTo(HEADER) == 0) {
-                headerStmt(cf);
-            } else if (lookahead.sval.compareTo(WIDTH) == 0) {
+            if (lookbhebd.svbl.compbreTo(DATA) == 0) {
+                dbtbStmt(cf);
+            } else if (lookbhebd.svbl.compbreTo(HEADER) == 0) {
+                hebderStmt(cf);
+            } else if (lookbhebd.svbl.compbreTo(WIDTH) == 0) {
                 widthStmt(cf);
-            } else if (lookahead.sval.compareTo(FORMAT) == 0) {
-                formatStmt(cf);
-            } else if (lookahead.sval.compareTo(ALIGN) == 0) {
-                alignStmt(cf);
-            } else if (lookahead.sval.compareTo(SCALE) == 0) {
-                scaleStmt(cf);
+            } else if (lookbhebd.svbl.compbreTo(FORMAT) == 0) {
+                formbtStmt(cf);
+            } else if (lookbhebd.svbl.compbreTo(ALIGN) == 0) {
+                blignStmt(cf);
+            } else if (lookbhebd.svbl.compbreTo(SCALE) == 0) {
+                scbleStmt(cf);
             } else {
                 return;
             }
@@ -481,103 +481,103 @@ public class Parser {
     /**
      * optionlist -> columspec optionlist
      *               null
-     * columspec -> 'column' '{' statementlist '}'
+     * columspec -> 'column' '{' stbtementlist '}'
      */
-    private void optionList(OptionFormat of)
-                 throws ParserException, IOException {
+    privbte void optionList(OptionFormbt of)
+                 throws PbrserException, IOException {
         while (true) {
-            if (lookahead.ttype != StreamTokenizer.TT_WORD) {
+            if (lookbhebd.ttype != StrebmTokenizer.TT_WORD) {
                 return;
             }
 
-            match(COLUMN);
-            match(OPENBLOCK);
-            ColumnFormat cf = new ColumnFormat(columnCount++);
-            statementList(cf);
-              match(CLOSEBLOCK);
-            cf.validate();
-            of.addSubFormat(cf);
+            mbtch(COLUMN);
+            mbtch(OPENBLOCK);
+            ColumnFormbt cf = new ColumnFormbt(columnCount++);
+            stbtementList(cf);
+              mbtch(CLOSEBLOCK);
+            cf.vblidbte();
+            of.bddSubFormbt(cf);
         }
     }
 
     /**
      * optionstmt -> 'option' ID '{' optionlist '}'
      */
-    private OptionFormat optionStmt() throws ParserException, IOException {
-        match(OPTION);
-        String optionName=lookahead.sval;
-        matchID();
-        match(OPENBLOCK);
-        OptionFormat of = new OptionFormat(optionName);
+    privbte OptionFormbt optionStmt() throws PbrserException, IOException {
+        mbtch(OPTION);
+        String optionNbme=lookbhebd.svbl;
+        mbtchID();
+        mbtch(OPENBLOCK);
+        OptionFormbt of = new OptionFormbt(optionNbme);
         optionList(of);
-        match(CLOSEBLOCK);
+        mbtch(CLOSEBLOCK);
         return of;
     }
 
     /**
-     * parse the specification for the given option identifier
+     * pbrse the specificbtion for the given option identifier
      */
-    public OptionFormat parse(String option)
-                        throws ParserException, IOException {
+    public OptionFormbt pbrse(String option)
+                        throws PbrserException, IOException {
         nextToken();
 
         /*
-         * this search stops on the first occurance of an option
-         * statement with a name matching the given option. Any
-         * duplicate options are ignored.
+         * this sebrch stops on the first occurbnce of bn option
+         * stbtement with b nbme mbtching the given option. Any
+         * duplicbte options bre ignored.
          */
-        while (lookahead.ttype != StreamTokenizer.TT_EOF) {
-            // look for the start symbol
-            if ((lookahead.ttype != StreamTokenizer.TT_WORD)
-                    || (lookahead.sval.compareTo(START) != 0)) {
-                // skip tokens until a start symbol is found
+        while (lookbhebd.ttype != StrebmTokenizer.TT_EOF) {
+            // look for the stbrt symbol
+            if ((lookbhebd.ttype != StrebmTokenizer.TT_WORD)
+                    || (lookbhebd.svbl.compbreTo(START) != 0)) {
+                // skip tokens until b stbrt symbol is found
                 nextToken();
                 continue;
             }
 
-            // check if the option name is the one we are interested in
-            match(START);
+            // check if the option nbme is the one we bre interested in
+            mbtch(START);
 
-            if ((lookahead.ttype == StreamTokenizer.TT_WORD)
-                    && (lookahead.sval.compareTo(option) == 0)) {
-                // this is the one we are looking for, parse it
-                pushBack();
+            if ((lookbhebd.ttype == StrebmTokenizer.TT_WORD)
+                    && (lookbhebd.svbl.compbreTo(option) == 0)) {
+                // this is the one we bre looking for, pbrse it
+                pushBbck();
                 return optionStmt();
             } else {
-                // not what we are looking for, start skipping tokens
+                // not whbt we bre looking for, stbrt skipping tokens
                 nextToken();
             }
         }
         return null;
     }
 
-    public Set<OptionFormat> parseOptions() throws ParserException, IOException {
-        Set<OptionFormat> options = new HashSet<OptionFormat>();
+    public Set<OptionFormbt> pbrseOptions() throws PbrserException, IOException {
+        Set<OptionFormbt> options = new HbshSet<OptionFormbt>();
 
         nextToken();
 
-        while (lookahead.ttype != StreamTokenizer.TT_EOF) {
-            // look for the start symbol
-            if ((lookahead.ttype != StreamTokenizer.TT_WORD)
-                    || (lookahead.sval.compareTo(START) != 0)) {
-                // skip tokens until a start symbol is found
+        while (lookbhebd.ttype != StrebmTokenizer.TT_EOF) {
+            // look for the stbrt symbol
+            if ((lookbhebd.ttype != StrebmTokenizer.TT_WORD)
+                    || (lookbhebd.svbl.compbreTo(START) != 0)) {
+                // skip tokens until b stbrt symbol is found
                 nextToken();
                 continue;
             }
 
-            // note: if a duplicate option statement exists, then
+            // note: if b duplicbte option stbtement exists, then
             // first one encountered is the chosen definition.
-            OptionFormat of = optionStmt();
-            options.add(of);
+            OptionFormbt of = optionStmt();
+            options.bdd(of);
         }
         return options;
     }
 
-    OptionFormat getOptionFormat() {
-       return optionFormat;
+    OptionFormbt getOptionFormbt() {
+       return optionFormbt;
     }
 
-    private void log(boolean logging, String s) {
+    privbte void log(boolebn logging, String s) {
         if (logging) {
             System.out.println(s);
         }

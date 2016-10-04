@@ -1,518 +1,518 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.server;
+pbckbge sun.rmi.server;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.lang.reflect.Method;
-import java.rmi.MarshalException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.ServerException;
-import java.rmi.UnmarshalException;
-import java.rmi.server.Operation;
-import java.rmi.server.RemoteCall;
-import java.rmi.server.RemoteObject;
-import java.rmi.server.RemoteRef;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectOutput;
+import jbvb.lbng.reflect.Method;
+import jbvb.rmi.MbrshblException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.ServerException;
+import jbvb.rmi.UnmbrshblException;
+import jbvb.rmi.server.Operbtion;
+import jbvb.rmi.server.RemoteCbll;
+import jbvb.rmi.server.RemoteObject;
+import jbvb.rmi.server.RemoteRef;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 import sun.rmi.runtime.Log;
-import sun.rmi.transport.Connection;
-import sun.rmi.transport.LiveRef;
-import sun.rmi.transport.StreamRemoteCall;
+import sun.rmi.trbnsport.Connection;
+import sun.rmi.trbnsport.LiveRef;
+import sun.rmi.trbnsport.StrebmRemoteCbll;
 
 /**
- * NOTE: There is a JDK-internal dependency on the existence of this
- * class's getLiveRef method (as it is inherited by UnicastRef2) in
- * the implementation of javax.management.remote.rmi.RMIConnector.
+ * NOTE: There is b JDK-internbl dependency on the existence of this
+ * clbss's getLiveRef method (bs it is inherited by UnicbstRef2) in
+ * the implementbtion of jbvbx.mbnbgement.remote.rmi.RMIConnector.
  */
-@SuppressWarnings("deprecation")
-public class UnicastRef implements RemoteRef {
+@SuppressWbrnings("deprecbtion")
+public clbss UnicbstRef implements RemoteRef {
 
     /**
-     * Client-side transport log.
+     * Client-side trbnsport log.
      */
-    public static final Log clientRefLog =
-        Log.getLog("sun.rmi.client.ref", "transport",  Util.logLevel);
+    public stbtic finbl Log clientRefLog =
+        Log.getLog("sun.rmi.client.ref", "trbnsport",  Util.logLevel);
 
     /**
-     * Client-side call log.
+     * Client-side cbll log.
      */
-    public static final Log clientCallLog =
-        Log.getLog("sun.rmi.client.call", "RMI",
-                   AccessController.doPrivileged((PrivilegedAction<Boolean>) () ->
-                       Boolean.getBoolean("sun.rmi.client.logCalls")));
-    private static final long serialVersionUID = 8258372400816541186L;
+    public stbtic finbl Log clientCbllLog =
+        Log.getLog("sun.rmi.client.cbll", "RMI",
+                   AccessController.doPrivileged((PrivilegedAction<Boolebn>) () ->
+                       Boolebn.getBoolebn("sun.rmi.client.logCblls")));
+    privbte stbtic finbl long seriblVersionUID = 8258372400816541186L;
 
     protected LiveRef ref;
 
     /**
-     * Create a new (empty) Unicast remote reference.
+     * Crebte b new (empty) Unicbst remote reference.
      */
-    public UnicastRef() {
+    public UnicbstRef() {
     }
 
     /**
-     * Create a new Unicast RemoteRef.
+     * Crebte b new Unicbst RemoteRef.
      */
-    public UnicastRef(LiveRef liveRef) {
+    public UnicbstRef(LiveRef liveRef) {
         ref = liveRef;
     }
 
     /**
-     * Returns the current value of this UnicastRef's underlying
+     * Returns the current vblue of this UnicbstRef's underlying
      * LiveRef.
      *
-     * NOTE: There is a JDK-internal dependency on the existence of
-     * this method (as it is inherited by UnicastRef) in the
-     * implementation of javax.management.remote.rmi.RMIConnector.
+     * NOTE: There is b JDK-internbl dependency on the existence of
+     * this method (bs it is inherited by UnicbstRef) in the
+     * implementbtion of jbvbx.mbnbgement.remote.rmi.RMIConnector.
      **/
     public LiveRef getLiveRef() {
         return ref;
     }
 
     /**
-     * Invoke a method. This form of delegating method invocation
-     * to the reference allows the reference to take care of
-     * setting up the connection to the remote host, marshalling
-     * some representation for the method and parameters, then
-     * communicating the method invocation to the remote host.
-     * This method either returns the result of a method invocation
+     * Invoke b method. This form of delegbting method invocbtion
+     * to the reference bllows the reference to tbke cbre of
+     * setting up the connection to the remote host, mbrshblling
+     * some representbtion for the method bnd pbrbmeters, then
+     * communicbting the method invocbtion to the remote host.
+     * This method either returns the result of b method invocbtion
      * on the remote object which resides on the remote host or
-     * throws a RemoteException if the call failed or an
-     * application-level exception if the remote invocation throws
-     * an exception.
+     * throws b RemoteException if the cbll fbiled or bn
+     * bpplicbtion-level exception if the remote invocbtion throws
+     * bn exception.
      *
-     * @param obj the proxy for the remote object
-     * @param method the method to be invoked
-     * @param params the parameter list
-     * @param opnum  a hash that may be used to represent the method
+     * @pbrbm obj the proxy for the remote object
+     * @pbrbm method the method to be invoked
+     * @pbrbm pbrbms the pbrbmeter list
+     * @pbrbm opnum  b hbsh thbt mby be used to represent the method
      * @since 1.2
      */
     public Object invoke(Remote obj,
                          Method method,
-                         Object[] params,
+                         Object[] pbrbms,
                          long opnum)
         throws Exception
     {
-        if (clientRefLog.isLoggable(Log.VERBOSE)) {
+        if (clientRefLog.isLoggbble(Log.VERBOSE)) {
             clientRefLog.log(Log.VERBOSE, "method: " + method);
         }
 
-        if (clientCallLog.isLoggable(Log.VERBOSE)) {
-            logClientCall(obj, method);
+        if (clientCbllLog.isLoggbble(Log.VERBOSE)) {
+            logClientCbll(obj, method);
         }
 
-        Connection conn = ref.getChannel().newConnection();
-        RemoteCall call = null;
-        boolean reuse = true;
+        Connection conn = ref.getChbnnel().newConnection();
+        RemoteCbll cbll = null;
+        boolebn reuse = true;
 
-        /* If the call connection is "reused" early, remember not to
-         * reuse again.
+        /* If the cbll connection is "reused" ebrly, remember not to
+         * reuse bgbin.
          */
-        boolean alreadyFreed = false;
+        boolebn blrebdyFreed = fblse;
 
         try {
-            if (clientRefLog.isLoggable(Log.VERBOSE)) {
+            if (clientRefLog.isLoggbble(Log.VERBOSE)) {
                 clientRefLog.log(Log.VERBOSE, "opnum = " + opnum);
             }
 
-            // create call context
-            call = new StreamRemoteCall(conn, ref.getObjID(), -1, opnum);
+            // crebte cbll context
+            cbll = new StrebmRemoteCbll(conn, ref.getObjID(), -1, opnum);
 
-            // marshal parameters
+            // mbrshbl pbrbmeters
             try {
-                ObjectOutput out = call.getOutputStream();
-                marshalCustomCallData(out);
-                Class<?>[] types = method.getParameterTypes();
+                ObjectOutput out = cbll.getOutputStrebm();
+                mbrshblCustomCbllDbtb(out);
+                Clbss<?>[] types = method.getPbrbmeterTypes();
                 for (int i = 0; i < types.length; i++) {
-                    marshalValue(types[i], params[i], out);
+                    mbrshblVblue(types[i], pbrbms[i], out);
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 clientRefLog.log(Log.BRIEF,
-                    "IOException marshalling arguments: ", e);
-                throw new MarshalException("error marshalling arguments", e);
+                    "IOException mbrshblling brguments: ", e);
+                throw new MbrshblException("error mbrshblling brguments", e);
             }
 
-            // unmarshal return
-            call.executeCall();
+            // unmbrshbl return
+            cbll.executeCbll();
 
             try {
-                Class<?> rtype = method.getReturnType();
-                if (rtype == void.class)
+                Clbss<?> rtype = method.getReturnType();
+                if (rtype == void.clbss)
                     return null;
-                ObjectInput in = call.getInputStream();
+                ObjectInput in = cbll.getInputStrebm();
 
-                /* StreamRemoteCall.done() does not actually make use
-                 * of conn, therefore it is safe to reuse this
-                 * connection before the dirty call is sent for
+                /* StrebmRemoteCbll.done() does not bctublly mbke use
+                 * of conn, therefore it is sbfe to reuse this
+                 * connection before the dirty cbll is sent for
                  * registered refs.
                  */
-                Object returnValue = unmarshalValue(rtype, in);
+                Object returnVblue = unmbrshblVblue(rtype, in);
 
-                /* we are freeing the connection now, do not free
-                 * again or reuse.
+                /* we bre freeing the connection now, do not free
+                 * bgbin or reuse.
                  */
-                alreadyFreed = true;
+                blrebdyFreed = true;
 
-                /* if we got to this point, reuse must have been true. */
+                /* if we got to this point, reuse must hbve been true. */
                 clientRefLog.log(Log.BRIEF, "free connection (reuse = true)");
 
-                /* Free the call's connection early. */
-                ref.getChannel().free(conn, true);
+                /* Free the cbll's connection ebrly. */
+                ref.getChbnnel().free(conn, true);
 
-                return returnValue;
+                return returnVblue;
 
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 clientRefLog.log(Log.BRIEF,
-                                 "IOException unmarshalling return: ", e);
-                throw new UnmarshalException("error unmarshalling return", e);
-            } catch (ClassNotFoundException e) {
+                                 "IOException unmbrshblling return: ", e);
+                throw new UnmbrshblException("error unmbrshblling return", e);
+            } cbtch (ClbssNotFoundException e) {
                 clientRefLog.log(Log.BRIEF,
-                    "ClassNotFoundException unmarshalling return: ", e);
+                    "ClbssNotFoundException unmbrshblling return: ", e);
 
-                throw new UnmarshalException("error unmarshalling return", e);
-            } finally {
+                throw new UnmbrshblException("error unmbrshblling return", e);
+            } finblly {
                 try {
-                    call.done();
-                } catch (IOException e) {
-                    /* WARNING: If the conn has been reused early,
-                     * then it is too late to recover from thrown
-                     * IOExceptions caught here. This code is relying
-                     * on StreamRemoteCall.done() not actually
+                    cbll.done();
+                } cbtch (IOException e) {
+                    /* WARNING: If the conn hbs been reused ebrly,
+                     * then it is too lbte to recover from thrown
+                     * IOExceptions cbught here. This code is relying
+                     * on StrebmRemoteCbll.done() not bctublly
                      * throwing IOExceptions.
                      */
-                    reuse = false;
+                    reuse = fblse;
                 }
             }
 
-        } catch (RuntimeException e) {
+        } cbtch (RuntimeException e) {
             /*
-             * Need to distinguish between client (generated by the
-             * invoke method itself) and server RuntimeExceptions.
-             * Client side RuntimeExceptions are likely to have
-             * corrupted the call connection and those from the server
-             * are not likely to have done so.  If the exception came
-             * from the server the call connection should be reused.
+             * Need to distinguish between client (generbted by the
+             * invoke method itself) bnd server RuntimeExceptions.
+             * Client side RuntimeExceptions bre likely to hbve
+             * corrupted the cbll connection bnd those from the server
+             * bre not likely to hbve done so.  If the exception cbme
+             * from the server the cbll connection should be reused.
              */
-            if ((call == null) ||
-                (((StreamRemoteCall) call).getServerException() != e))
+            if ((cbll == null) ||
+                (((StrebmRemoteCbll) cbll).getServerException() != e))
             {
-                reuse = false;
+                reuse = fblse;
             }
             throw e;
 
-        } catch (RemoteException e) {
+        } cbtch (RemoteException e) {
             /*
-             * Some failure during call; assume connection cannot
-             * be reused.  Must assume failure even if ServerException
-             * or ServerError occurs since these failures can happen
-             * during parameter deserialization which would leave
-             * the connection in a corrupted state.
+             * Some fbilure during cbll; bssume connection cbnnot
+             * be reused.  Must bssume fbilure even if ServerException
+             * or ServerError occurs since these fbilures cbn hbppen
+             * during pbrbmeter deseriblizbtion which would lebve
+             * the connection in b corrupted stbte.
              */
-            reuse = false;
+            reuse = fblse;
             throw e;
 
-        } catch (Error e) {
+        } cbtch (Error e) {
             /* If errors occurred, the connection is most likely not
-             *  reusable.
+             *  reusbble.
              */
-            reuse = false;
+            reuse = fblse;
             throw e;
 
-        } finally {
+        } finblly {
 
-            /* alreadyFreed ensures that we do not log a reuse that
-             * may have already happened.
+            /* blrebdyFreed ensures thbt we do not log b reuse thbt
+             * mby hbve blrebdy hbppened.
              */
-            if (!alreadyFreed) {
-                if (clientRefLog.isLoggable(Log.BRIEF)) {
+            if (!blrebdyFreed) {
+                if (clientRefLog.isLoggbble(Log.BRIEF)) {
                     clientRefLog.log(Log.BRIEF, "free connection (reuse = " +
                                            reuse + ")");
                 }
-                ref.getChannel().free(conn, reuse);
+                ref.getChbnnel().free(conn, reuse);
             }
         }
     }
 
-    protected void marshalCustomCallData(ObjectOutput out) throws IOException
+    protected void mbrshblCustomCbllDbtb(ObjectOutput out) throws IOException
     {}
 
     /**
-     * Marshal value to an ObjectOutput sink using RMI's serialization
-     * format for parameters or return values.
+     * Mbrshbl vblue to bn ObjectOutput sink using RMI's seriblizbtion
+     * formbt for pbrbmeters or return vblues.
      */
-    protected static void marshalValue(Class<?> type, Object value,
+    protected stbtic void mbrshblVblue(Clbss<?> type, Object vblue,
                                        ObjectOutput out)
         throws IOException
     {
         if (type.isPrimitive()) {
-            if (type == int.class) {
-                out.writeInt(((Integer) value).intValue());
-            } else if (type == boolean.class) {
-                out.writeBoolean(((Boolean) value).booleanValue());
-            } else if (type == byte.class) {
-                out.writeByte(((Byte) value).byteValue());
-            } else if (type == char.class) {
-                out.writeChar(((Character) value).charValue());
-            } else if (type == short.class) {
-                out.writeShort(((Short) value).shortValue());
-            } else if (type == long.class) {
-                out.writeLong(((Long) value).longValue());
-            } else if (type == float.class) {
-                out.writeFloat(((Float) value).floatValue());
-            } else if (type == double.class) {
-                out.writeDouble(((Double) value).doubleValue());
+            if (type == int.clbss) {
+                out.writeInt(((Integer) vblue).intVblue());
+            } else if (type == boolebn.clbss) {
+                out.writeBoolebn(((Boolebn) vblue).boolebnVblue());
+            } else if (type == byte.clbss) {
+                out.writeByte(((Byte) vblue).byteVblue());
+            } else if (type == chbr.clbss) {
+                out.writeChbr(((Chbrbcter) vblue).chbrVblue());
+            } else if (type == short.clbss) {
+                out.writeShort(((Short) vblue).shortVblue());
+            } else if (type == long.clbss) {
+                out.writeLong(((Long) vblue).longVblue());
+            } else if (type == flobt.clbss) {
+                out.writeFlobt(((Flobt) vblue).flobtVblue());
+            } else if (type == double.clbss) {
+                out.writeDouble(((Double) vblue).doubleVblue());
             } else {
                 throw new Error("Unrecognized primitive type: " + type);
             }
         } else {
-            out.writeObject(value);
+            out.writeObject(vblue);
         }
     }
 
     /**
-     * Unmarshal value from an ObjectInput source using RMI's serialization
-     * format for parameters or return values.
+     * Unmbrshbl vblue from bn ObjectInput source using RMI's seriblizbtion
+     * formbt for pbrbmeters or return vblues.
      */
-    protected static Object unmarshalValue(Class<?> type, ObjectInput in)
-        throws IOException, ClassNotFoundException
+    protected stbtic Object unmbrshblVblue(Clbss<?> type, ObjectInput in)
+        throws IOException, ClbssNotFoundException
     {
         if (type.isPrimitive()) {
-            if (type == int.class) {
-                return Integer.valueOf(in.readInt());
-            } else if (type == boolean.class) {
-                return Boolean.valueOf(in.readBoolean());
-            } else if (type == byte.class) {
-                return Byte.valueOf(in.readByte());
-            } else if (type == char.class) {
-                return Character.valueOf(in.readChar());
-            } else if (type == short.class) {
-                return Short.valueOf(in.readShort());
-            } else if (type == long.class) {
-                return Long.valueOf(in.readLong());
-            } else if (type == float.class) {
-                return Float.valueOf(in.readFloat());
-            } else if (type == double.class) {
-                return Double.valueOf(in.readDouble());
+            if (type == int.clbss) {
+                return Integer.vblueOf(in.rebdInt());
+            } else if (type == boolebn.clbss) {
+                return Boolebn.vblueOf(in.rebdBoolebn());
+            } else if (type == byte.clbss) {
+                return Byte.vblueOf(in.rebdByte());
+            } else if (type == chbr.clbss) {
+                return Chbrbcter.vblueOf(in.rebdChbr());
+            } else if (type == short.clbss) {
+                return Short.vblueOf(in.rebdShort());
+            } else if (type == long.clbss) {
+                return Long.vblueOf(in.rebdLong());
+            } else if (type == flobt.clbss) {
+                return Flobt.vblueOf(in.rebdFlobt());
+            } else if (type == double.clbss) {
+                return Double.vblueOf(in.rebdDouble());
             } else {
                 throw new Error("Unrecognized primitive type: " + type);
             }
         } else {
-            return in.readObject();
+            return in.rebdObject();
         }
     }
 
     /**
-     * Create an appropriate call object for a new call on this object.
-     * Passing operation array and index, allows the stubs generator to
-     * assign the operation indexes and interpret them. The RemoteRef
-     * may need the operation to encode in for the call.
+     * Crebte bn bppropribte cbll object for b new cbll on this object.
+     * Pbssing operbtion brrby bnd index, bllows the stubs generbtor to
+     * bssign the operbtion indexes bnd interpret them. The RemoteRef
+     * mby need the operbtion to encode in for the cbll.
      */
-    public RemoteCall newCall(RemoteObject obj, Operation[] ops, int opnum,
-                              long hash)
+    public RemoteCbll newCbll(RemoteObject obj, Operbtion[] ops, int opnum,
+                              long hbsh)
         throws RemoteException
     {
         clientRefLog.log(Log.BRIEF, "get connection");
 
-        Connection conn = ref.getChannel().newConnection();
+        Connection conn = ref.getChbnnel().newConnection();
         try {
-            clientRefLog.log(Log.VERBOSE, "create call context");
+            clientRefLog.log(Log.VERBOSE, "crebte cbll context");
 
-            /* log information about the outgoing call */
-            if (clientCallLog.isLoggable(Log.VERBOSE)) {
-                logClientCall(obj, ops[opnum]);
+            /* log informbtion bbout the outgoing cbll */
+            if (clientCbllLog.isLoggbble(Log.VERBOSE)) {
+                logClientCbll(obj, ops[opnum]);
             }
 
-            RemoteCall call =
-                new StreamRemoteCall(conn, ref.getObjID(), opnum, hash);
+            RemoteCbll cbll =
+                new StrebmRemoteCbll(conn, ref.getObjID(), opnum, hbsh);
             try {
-                marshalCustomCallData(call.getOutputStream());
-            } catch (IOException e) {
-                throw new MarshalException("error marshaling " +
-                                           "custom call data");
+                mbrshblCustomCbllDbtb(cbll.getOutputStrebm());
+            } cbtch (IOException e) {
+                throw new MbrshblException("error mbrshbling " +
+                                           "custom cbll dbtb");
             }
-            return call;
-        } catch (RemoteException e) {
-            ref.getChannel().free(conn, false);
+            return cbll;
+        } cbtch (RemoteException e) {
+            ref.getChbnnel().free(conn, fblse);
             throw e;
         }
     }
 
     /**
-     * Invoke makes the remote call present in the RemoteCall object.
+     * Invoke mbkes the remote cbll present in the RemoteCbll object.
      *
-     * Invoke will raise any "user" exceptions which
-     * should pass through and not be caught by the stub.  If any
-     * exception is raised during the remote invocation, invoke should
-     * take care of cleaning up the connection before raising the
+     * Invoke will rbise bny "user" exceptions which
+     * should pbss through bnd not be cbught by the stub.  If bny
+     * exception is rbised during the remote invocbtion, invoke should
+     * tbke cbre of clebning up the connection before rbising the
      * "user" or remote exception.
      */
-    public void invoke(RemoteCall call) throws Exception {
+    public void invoke(RemoteCbll cbll) throws Exception {
         try {
-            clientRefLog.log(Log.VERBOSE, "execute call");
+            clientRefLog.log(Log.VERBOSE, "execute cbll");
 
-            call.executeCall();
+            cbll.executeCbll();
 
-        } catch (RemoteException e) {
+        } cbtch (RemoteException e) {
             /*
-             * Call did not complete; connection can't be reused.
+             * Cbll did not complete; connection cbn't be reused.
              */
             clientRefLog.log(Log.BRIEF, "exception: ", e);
-            free(call, false);
+            free(cbll, fblse);
             throw e;
 
-        } catch (Error e) {
+        } cbtch (Error e) {
             /* If errors occurred, the connection is most likely not
-             *  reusable.
+             *  reusbble.
              */
             clientRefLog.log(Log.BRIEF, "error: ", e);
-            free(call, false);
+            free(cbll, fblse);
             throw e;
 
-        } catch (RuntimeException e) {
+        } cbtch (RuntimeException e) {
             /*
-             * REMIND: Since runtime exceptions are no longer wrapped,
-             * we can't assue that the connection was left in
-             * a reusable state. Is this okay?
+             * REMIND: Since runtime exceptions bre no longer wrbpped,
+             * we cbn't bssue thbt the connection wbs left in
+             * b reusbble stbte. Is this okby?
              */
             clientRefLog.log(Log.BRIEF, "exception: ", e);
-            free(call, false);
+            free(cbll, fblse);
             throw e;
 
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             /*
-             * Assume that these other exceptions are user exceptions
-             * and leave the connection in a reusable state.
+             * Assume thbt these other exceptions bre user exceptions
+             * bnd lebve the connection in b reusbble stbte.
              */
             clientRefLog.log(Log.BRIEF, "exception: ", e);
-            free(call, true);
-            /* reraise user (and unknown) exceptions. */
+            free(cbll, true);
+            /* rerbise user (bnd unknown) exceptions. */
             throw e;
         }
 
         /*
-         * Don't free the connection if an exception did not
-         * occur because the stub needs to unmarshal the
-         * return value. The connection will be freed
-         * by a call to the "done" method.
+         * Don't free the connection if bn exception did not
+         * occur becbuse the stub needs to unmbrshbl the
+         * return vblue. The connection will be freed
+         * by b cbll to the "done" method.
          */
     }
 
     /**
-     * Private method to free a connection.
+     * Privbte method to free b connection.
      */
-    private void free(RemoteCall call, boolean reuse) throws RemoteException {
-        Connection conn = ((StreamRemoteCall)call).getConnection();
-        ref.getChannel().free(conn, reuse);
+    privbte void free(RemoteCbll cbll, boolebn reuse) throws RemoteException {
+        Connection conn = ((StrebmRemoteCbll)cbll).getConnection();
+        ref.getChbnnel().free(conn, reuse);
     }
 
     /**
-     * Done should only be called if the invoke returns successfully
-     * (non-exceptionally) to the stub. It allows the remote reference to
-     * clean up (or reuse) the connection.
+     * Done should only be cblled if the invoke returns successfully
+     * (non-exceptionblly) to the stub. It bllows the remote reference to
+     * clebn up (or reuse) the connection.
      */
-    public void done(RemoteCall call) throws RemoteException {
+    public void done(RemoteCbll cbll) throws RemoteException {
 
-        /* Done only uses the connection inside the call to obtain the
-         * channel the connection uses.  Once all information is read
-         * from the connection, the connection may be freed.
+        /* Done only uses the connection inside the cbll to obtbin the
+         * chbnnel the connection uses.  Once bll informbtion is rebd
+         * from the connection, the connection mby be freed.
          */
         clientRefLog.log(Log.BRIEF, "free connection (reuse = true)");
 
-        /* Free the call connection early. */
-        free(call, true);
+        /* Free the cbll connection ebrly. */
+        free(cbll, true);
 
         try {
-            call.done();
-        } catch (IOException e) {
-            /* WARNING: If the conn has been reused early, then it is
-             * too late to recover from thrown IOExceptions caught
-             * here. This code is relying on StreamRemoteCall.done()
-             * not actually throwing IOExceptions.
+            cbll.done();
+        } cbtch (IOException e) {
+            /* WARNING: If the conn hbs been reused ebrly, then it is
+             * too lbte to recover from thrown IOExceptions cbught
+             * here. This code is relying on StrebmRemoteCbll.done()
+             * not bctublly throwing IOExceptions.
              */
         }
     }
 
     /**
-     * Log the details of an outgoing call.  The method parameter is either of
-     * type java.lang.reflect.Method or java.rmi.server.Operation.
+     * Log the detbils of bn outgoing cbll.  The method pbrbmeter is either of
+     * type jbvb.lbng.reflect.Method or jbvb.rmi.server.Operbtion.
      */
-    void logClientCall(Object obj, Object method) {
-        clientCallLog.log(Log.VERBOSE, "outbound call: " +
-            ref + " : " + obj.getClass().getName() +
+    void logClientCbll(Object obj, Object method) {
+        clientCbllLog.log(Log.VERBOSE, "outbound cbll: " +
+            ref + " : " + obj.getClbss().getNbme() +
             ref.getObjID().toString() + ": " + method);
     }
 
     /**
-     * Returns the class of the ref type to be serialized
+     * Returns the clbss of the ref type to be seriblized
      */
-    public String getRefClass(ObjectOutput out) {
-        return "UnicastRef";
+    public String getRefClbss(ObjectOutput out) {
+        return "UnicbstRef";
     }
 
     /**
-     * Write out external representation for remote ref.
+     * Write out externbl representbtion for remote ref.
      */
-    public void writeExternal(ObjectOutput out) throws IOException {
-        ref.write(out, false);
+    public void writeExternbl(ObjectOutput out) throws IOException {
+        ref.write(out, fblse);
     }
 
     /**
-     * Read in external representation for remote ref.
-     * @exception ClassNotFoundException If the class for an object
-     * being restored cannot be found.
+     * Rebd in externbl representbtion for remote ref.
+     * @exception ClbssNotFoundException If the clbss for bn object
+     * being restored cbnnot be found.
      */
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException
+    public void rebdExternbl(ObjectInput in)
+        throws IOException, ClbssNotFoundException
     {
-        ref = LiveRef.read(in, false);
+        ref = LiveRef.rebd(in, fblse);
     }
 
     //----------------------------------------------------------------------;
     /**
-     * Method from object, forward from RemoteObject
+     * Method from object, forwbrd from RemoteObject
      */
     public String remoteToString() {
-        return Util.getUnqualifiedName(getClass()) + " [liveRef: " + ref + "]";
+        return Util.getUnqublifiedNbme(getClbss()) + " [liveRef: " + ref + "]";
     }
 
     /**
-     * default implementation of hashCode for remote objects
+     * defbult implementbtion of hbshCode for remote objects
      */
-    public int remoteHashCode() {
-        return ref.hashCode();
+    public int remoteHbshCode() {
+        return ref.hbshCode();
     }
 
-    /** default implementation of equals for remote objects
+    /** defbult implementbtion of equbls for remote objects
      */
-    public boolean remoteEquals(RemoteRef sub) {
-        if (sub instanceof UnicastRef)
-            return ref.remoteEquals(((UnicastRef)sub).ref);
-        return false;
+    public boolebn remoteEqubls(RemoteRef sub) {
+        if (sub instbnceof UnicbstRef)
+            return ref.remoteEqubls(((UnicbstRef)sub).ref);
+        return fblse;
     }
 }

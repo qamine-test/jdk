@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.print;
-import java.io.IOException;
+pbckbge jbvb.bwt.print;
+import jbvb.io.IOException;
 
 /**
- * The <code>PrinterIOException</code> class is a subclass of
- * {@link PrinterException} and is used to indicate that an IO error
- * of some sort has occurred while printing.
+ * The <code>PrinterIOException</code> clbss is b subclbss of
+ * {@link PrinterException} bnd is used to indicbte thbt bn IO error
+ * of some sort hbs occurred while printing.
  *
- * <p>As of release 1.4, this exception has been retrofitted to conform to
- * the general purpose exception-chaining mechanism.  The
- * "<code>IOException</code> that terminated the print job"
- * that is provided at construction time and accessed via the
- * {@link #getIOException()} method is now known as the <i>cause</i>,
- * and may be accessed via the {@link Throwable#getCause()} method,
- * as well as the aforementioned "legacy method."
+ * <p>As of relebse 1.4, this exception hbs been retrofitted to conform to
+ * the generbl purpose exception-chbining mechbnism.  The
+ * "<code>IOException</code> thbt terminbted the print job"
+ * thbt is provided bt construction time bnd bccessed vib the
+ * {@link #getIOException()} method is now known bs the <i>cbuse</i>,
+ * bnd mby be bccessed vib the {@link Throwbble#getCbuse()} method,
+ * bs well bs the bforementioned "legbcy method."
  */
-public class PrinterIOException extends PrinterException {
-    static final long serialVersionUID = 5850870712125932846L;
+public clbss PrinterIOException extends PrinterException {
+    stbtic finbl long seriblVersionUID = 5850870712125932846L;
 
     /**
-     * The IO error that terminated the print job.
-     * @serial
+     * The IO error thbt terminbted the print job.
+     * @seribl
      */
-    private IOException mException;
+    privbte IOException mException;
 
     /**
-     * Constructs a new <code>PrinterIOException</code>
-     * with the string representation of the specified
+     * Constructs b new <code>PrinterIOException</code>
+     * with the string representbtion of the specified
      * {@link IOException}.
-     * @param exception the specified <code>IOException</code>
+     * @pbrbm exception the specified <code>IOException</code>
      */
     public PrinterIOException(IOException exception) {
-        initCause(null);  // Disallow subsequent initCause
+        initCbuse(null);  // Disbllow subsequent initCbuse
         mException = exception;
     }
 
     /**
-     * Returns the <code>IOException</code> that terminated
+     * Returns the <code>IOException</code> thbt terminbted
      * the print job.
      *
-     * <p>This method predates the general-purpose exception chaining facility.
-     * The {@link Throwable#getCause()} method is now the preferred means of
-     * obtaining this information.
+     * <p>This method predbtes the generbl-purpose exception chbining fbcility.
+     * The {@link Throwbble#getCbuse()} method is now the preferred mebns of
+     * obtbining this informbtion.
      *
-     * @return the <code>IOException</code> that terminated
+     * @return the <code>IOException</code> thbt terminbted
      * the print job.
      * @see IOException
      */
@@ -76,13 +76,13 @@ public class PrinterIOException extends PrinterException {
     }
 
     /**
-     * Returns the the cause of this exception (the <code>IOException</code>
-     * that terminated the print job).
+     * Returns the the cbuse of this exception (the <code>IOException</code>
+     * thbt terminbted the print job).
      *
-     * @return  the cause of this exception.
+     * @return  the cbuse of this exception.
      * @since   1.4
      */
-    public Throwable getCause() {
+    public Throwbble getCbuse() {
         return mException;
     }
 }

@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
 /**
- *  This class represents image data which is stored in a pixel interleaved
- *  fashion and for
- *  which each sample of a pixel occupies one data element of the DataBuffer.
- *  It subclasses ComponentSampleModel but provides a more efficient
- *  implementation for accessing pixel interleaved image data than is provided
- *  by ComponentSampleModel.  This class
- *  stores sample data for all bands in a single bank of the
- *  DataBuffer. Accessor methods are provided so that image data can be
- *  manipulated directly. Pixel stride is the number of
- *  data array elements between two samples for the same band on the same
- *  scanline. Scanline stride is the number of data array elements between
- *  a given sample and the corresponding sample in the same column of the next
- *  scanline.  Band offsets denote the number
- *  of data array elements from the first data array element of the bank
- *  of the DataBuffer holding each band to the first sample of the band.
- *  The bands are numbered from 0 to N-1.
- *  Bank indices denote the correspondence between a bank of the data buffer
- *  and a band of image data.
- *  This class supports
- *  {@link DataBuffer#TYPE_BYTE TYPE_BYTE},
- *  {@link DataBuffer#TYPE_USHORT TYPE_USHORT},
- *  {@link DataBuffer#TYPE_SHORT TYPE_SHORT},
- *  {@link DataBuffer#TYPE_INT TYPE_INT},
- *  {@link DataBuffer#TYPE_FLOAT TYPE_FLOAT} and
- *  {@link DataBuffer#TYPE_DOUBLE TYPE_DOUBLE} datatypes.
+ *  This clbss represents imbge dbtb which is stored in b pixel interlebved
+ *  fbshion bnd for
+ *  which ebch sbmple of b pixel occupies one dbtb element of the DbtbBuffer.
+ *  It subclbsses ComponentSbmpleModel but provides b more efficient
+ *  implementbtion for bccessing pixel interlebved imbge dbtb thbn is provided
+ *  by ComponentSbmpleModel.  This clbss
+ *  stores sbmple dbtb for bll bbnds in b single bbnk of the
+ *  DbtbBuffer. Accessor methods bre provided so thbt imbge dbtb cbn be
+ *  mbnipulbted directly. Pixel stride is the number of
+ *  dbtb brrby elements between two sbmples for the sbme bbnd on the sbme
+ *  scbnline. Scbnline stride is the number of dbtb brrby elements between
+ *  b given sbmple bnd the corresponding sbmple in the sbme column of the next
+ *  scbnline.  Bbnd offsets denote the number
+ *  of dbtb brrby elements from the first dbtb brrby element of the bbnk
+ *  of the DbtbBuffer holding ebch bbnd to the first sbmple of the bbnd.
+ *  The bbnds bre numbered from 0 to N-1.
+ *  Bbnk indices denote the correspondence between b bbnk of the dbtb buffer
+ *  bnd b bbnd of imbge dbtb.
+ *  This clbss supports
+ *  {@link DbtbBuffer#TYPE_BYTE TYPE_BYTE},
+ *  {@link DbtbBuffer#TYPE_USHORT TYPE_USHORT},
+ *  {@link DbtbBuffer#TYPE_SHORT TYPE_SHORT},
+ *  {@link DbtbBuffer#TYPE_INT TYPE_INT},
+ *  {@link DbtbBuffer#TYPE_FLOAT TYPE_FLOAT} bnd
+ *  {@link DbtbBuffer#TYPE_DOUBLE TYPE_DOUBLE} dbtbtypes.
  */
 
-public class PixelInterleavedSampleModel extends ComponentSampleModel
+public clbss PixelInterlebvedSbmpleModel extends ComponentSbmpleModel
 {
     /**
-     * Constructs a PixelInterleavedSampleModel with the specified parameters.
-     * The number of bands will be given by the length of the bandOffsets
-     * array.
-     * @param dataType  The data type for storing samples.
-     * @param w         The width (in pixels) of the region of
-     *                  image data described.
-     * @param h         The height (in pixels) of the region of
-     *                  image data described.
-     * @param pixelStride The pixel stride of the image data.
-     * @param scanlineStride The line stride of the image data.
-     * @param bandOffsets The offsets of all bands.
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
-     * @throws IllegalArgumentException if any offset between bands is
-     *         greater than the scanline stride
-     * @throws IllegalArgumentException if the product of
-     *         <code>pixelStride</code> and <code>w</code> is greater
-     *         than <code>scanlineStride</code>
-     * @throws IllegalArgumentException if <code>pixelStride</code> is
-     *         less than any offset between bands
-     * @throws IllegalArgumentException if <code>dataType</code> is not
-     *         one of the supported data types
+     * Constructs b PixelInterlebvedSbmpleModel with the specified pbrbmeters.
+     * The number of bbnds will be given by the length of the bbndOffsets
+     * brrby.
+     * @pbrbm dbtbType  The dbtb type for storing sbmples.
+     * @pbrbm w         The width (in pixels) of the region of
+     *                  imbge dbtb described.
+     * @pbrbm h         The height (in pixels) of the region of
+     *                  imbge dbtb described.
+     * @pbrbm pixelStride The pixel stride of the imbge dbtb.
+     * @pbrbm scbnlineStride The line stride of the imbge dbtb.
+     * @pbrbm bbndOffsets The offsets of bll bbnds.
+     * @throws IllegblArgumentException if <code>w</code> or
+     *         <code>h</code> is not grebter thbn 0
+     * @throws IllegblArgumentException if bny offset between bbnds is
+     *         grebter thbn the scbnline stride
+     * @throws IllegblArgumentException if the product of
+     *         <code>pixelStride</code> bnd <code>w</code> is grebter
+     *         thbn <code>scbnlineStride</code>
+     * @throws IllegblArgumentException if <code>pixelStride</code> is
+     *         less thbn bny offset between bbnds
+     * @throws IllegblArgumentException if <code>dbtbType</code> is not
+     *         one of the supported dbtb types
      */
-    public PixelInterleavedSampleModel(int dataType,
+    public PixelInterlebvedSbmpleModel(int dbtbType,
                                        int w, int h,
                                        int pixelStride,
-                                       int scanlineStride,
-                                       int bandOffsets[]) {
-        super(dataType, w, h, pixelStride, scanlineStride, bandOffsets);
-        int minBandOff=this.bandOffsets[0];
-        int maxBandOff=this.bandOffsets[0];
-        for (int i=1; i<this.bandOffsets.length; i++) {
-            minBandOff = Math.min(minBandOff,this.bandOffsets[i]);
-            maxBandOff = Math.max(maxBandOff,this.bandOffsets[i]);
+                                       int scbnlineStride,
+                                       int bbndOffsets[]) {
+        super(dbtbType, w, h, pixelStride, scbnlineStride, bbndOffsets);
+        int minBbndOff=this.bbndOffsets[0];
+        int mbxBbndOff=this.bbndOffsets[0];
+        for (int i=1; i<this.bbndOffsets.length; i++) {
+            minBbndOff = Mbth.min(minBbndOff,this.bbndOffsets[i]);
+            mbxBbndOff = Mbth.mbx(mbxBbndOff,this.bbndOffsets[i]);
         }
-        maxBandOff -= minBandOff;
-        if (maxBandOff > scanlineStride) {
-            throw new IllegalArgumentException("Offsets between bands must be"+
-                                               " less than the scanline "+
+        mbxBbndOff -= minBbndOff;
+        if (mbxBbndOff > scbnlineStride) {
+            throw new IllegblArgumentException("Offsets between bbnds must be"+
+                                               " less thbn the scbnline "+
                                                " stride");
         }
-        if (pixelStride*w > scanlineStride) {
-            throw new IllegalArgumentException("Pixel stride times width "+
-                                               "must be less than or "+
-                                               "equal to the scanline "+
+        if (pixelStride*w > scbnlineStride) {
+            throw new IllegblArgumentException("Pixel stride times width "+
+                                               "must be less thbn or "+
+                                               "equbl to the scbnline "+
                                                "stride");
         }
-        if (pixelStride < maxBandOff) {
-            throw new IllegalArgumentException("Pixel stride must be greater"+
-                                               " than or equal to the offsets"+
-                                               " between bands");
+        if (pixelStride < mbxBbndOff) {
+            throw new IllegblArgumentException("Pixel stride must be grebter"+
+                                               " thbn or equbl to the offsets"+
+                                               " between bbnds");
         }
     }
 
     /**
-     * Creates a new PixelInterleavedSampleModel with the specified
-     * width and height.  The new PixelInterleavedSampleModel will have the
-     * same number of bands, storage data type, and pixel stride
-     * as this PixelInterleavedSampleModel.  The band offsets may be
-     * compressed such that the minimum of all of the band offsets is zero.
-     * @param w the width of the resulting <code>SampleModel</code>
-     * @param h the height of the resulting <code>SampleModel</code>
-     * @return a new <code>SampleModel</code> with the specified width
-     *         and height.
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
+     * Crebtes b new PixelInterlebvedSbmpleModel with the specified
+     * width bnd height.  The new PixelInterlebvedSbmpleModel will hbve the
+     * sbme number of bbnds, storbge dbtb type, bnd pixel stride
+     * bs this PixelInterlebvedSbmpleModel.  The bbnd offsets mby be
+     * compressed such thbt the minimum of bll of the bbnd offsets is zero.
+     * @pbrbm w the width of the resulting <code>SbmpleModel</code>
+     * @pbrbm h the height of the resulting <code>SbmpleModel</code>
+     * @return b new <code>SbmpleModel</code> with the specified width
+     *         bnd height.
+     * @throws IllegblArgumentException if <code>w</code> or
+     *         <code>h</code> is not grebter thbn 0
      */
-    public SampleModel createCompatibleSampleModel(int w, int h) {
-        int minBandoff=bandOffsets[0];
-        int numBands = bandOffsets.length;
-        for (int i=1; i < numBands; i++) {
-            if (bandOffsets[i] < minBandoff) {
-                minBandoff = bandOffsets[i];
+    public SbmpleModel crebteCompbtibleSbmpleModel(int w, int h) {
+        int minBbndoff=bbndOffsets[0];
+        int numBbnds = bbndOffsets.length;
+        for (int i=1; i < numBbnds; i++) {
+            if (bbndOffsets[i] < minBbndoff) {
+                minBbndoff = bbndOffsets[i];
             }
         }
-        int[] bandOff;
-        if (minBandoff > 0) {
-            bandOff = new int[numBands];
-            for (int i=0; i < numBands; i++) {
-                bandOff[i] = bandOffsets[i] - minBandoff;
+        int[] bbndOff;
+        if (minBbndoff > 0) {
+            bbndOff = new int[numBbnds];
+            for (int i=0; i < numBbnds; i++) {
+                bbndOff[i] = bbndOffsets[i] - minBbndoff;
             }
         }
         else {
-            bandOff = bandOffsets;
+            bbndOff = bbndOffsets;
         }
-        return new PixelInterleavedSampleModel(dataType, w, h, pixelStride,
-                                               pixelStride*w, bandOff);
+        return new PixelInterlebvedSbmpleModel(dbtbType, w, h, pixelStride,
+                                               pixelStride*w, bbndOff);
     }
 
     /**
-     * Creates a new PixelInterleavedSampleModel with a subset of the
-     * bands of this PixelInterleavedSampleModel.  The new
-     * PixelInterleavedSampleModel can be used with any DataBuffer that the
-     * existing PixelInterleavedSampleModel can be used with.  The new
-     * PixelInterleavedSampleModel/DataBuffer combination will represent
-     * an image with a subset of the bands of the original
-     * PixelInterleavedSampleModel/DataBuffer combination.
+     * Crebtes b new PixelInterlebvedSbmpleModel with b subset of the
+     * bbnds of this PixelInterlebvedSbmpleModel.  The new
+     * PixelInterlebvedSbmpleModel cbn be used with bny DbtbBuffer thbt the
+     * existing PixelInterlebvedSbmpleModel cbn be used with.  The new
+     * PixelInterlebvedSbmpleModel/DbtbBuffer combinbtion will represent
+     * bn imbge with b subset of the bbnds of the originbl
+     * PixelInterlebvedSbmpleModel/DbtbBuffer combinbtion.
      */
-    public SampleModel createSubsetSampleModel(int bands[]) {
-        int newBandOffsets[] = new int[bands.length];
-        for (int i=0; i<bands.length; i++) {
-            newBandOffsets[i] = bandOffsets[bands[i]];
+    public SbmpleModel crebteSubsetSbmpleModel(int bbnds[]) {
+        int newBbndOffsets[] = new int[bbnds.length];
+        for (int i=0; i<bbnds.length; i++) {
+            newBbndOffsets[i] = bbndOffsets[bbnds[i]];
         }
-        return new PixelInterleavedSampleModel(this.dataType, width, height,
+        return new PixelInterlebvedSbmpleModel(this.dbtbType, width, height,
                                                this.pixelStride,
-                                               scanlineStride, newBandOffsets);
+                                               scbnlineStride, newBbndOffsets);
     }
 
-    // Differentiate hash code from other ComponentSampleModel subclasses
-    public int hashCode() {
-        return super.hashCode() ^ 0x1;
+    // Differentibte hbsh code from other ComponentSbmpleModel subclbsses
+    public int hbshCode() {
+        return super.hbshCode() ^ 0x1;
     }
 }

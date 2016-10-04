@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * This class is used to represent an Identity that can also digitally
- * sign data.
+ * This clbss is used to represent bn Identity thbt cbn blso digitblly
+ * sign dbtb.
  *
- * <p>The management of a signer's private keys is an important and
- * sensitive issue that should be handled by subclasses as appropriate
+ * <p>The mbnbgement of b signer's privbte keys is bn importbnt bnd
+ * sensitive issue thbt should be hbndled by subclbsses bs bppropribte
  * to their intended use.
  *
  * @see Identity
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  *
- * @deprecated This class is no longer used. Its functionality has been
- * replaced by {@code java.security.KeyStore}, the
- * {@code java.security.cert} package, and
- * {@code java.security.Principal}.
+ * @deprecbted This clbss is no longer used. Its functionblity hbs been
+ * replbced by {@code jbvb.security.KeyStore}, the
+ * {@code jbvb.security.cert} pbckbge, bnd
+ * {@code jbvb.security.Principbl}.
  */
-@Deprecated
-public abstract class Signer extends Identity {
+@Deprecbted
+public bbstrbct clbss Signer extends Identity {
 
-    private static final long serialVersionUID = -1763464102261361480L;
+    privbte stbtic finbl long seriblVersionUID = -1763464102261361480L;
 
     /**
-     * The signer's private key.
+     * The signer's privbte key.
      *
-     * @serial
+     * @seribl
      */
-    private PrivateKey privateKey;
+    privbte PrivbteKey privbteKey;
 
     /**
-     * Creates a signer. This constructor should only be used for
-     * serialization.
+     * Crebtes b signer. This constructor should only be used for
+     * seriblizbtion.
      */
     protected Signer() {
         super();
@@ -66,97 +66,97 @@ public abstract class Signer extends Identity {
 
 
     /**
-     * Creates a signer with the specified identity name.
+     * Crebtes b signer with the specified identity nbme.
      *
-     * @param name the identity name.
+     * @pbrbm nbme the identity nbme.
      */
-    public Signer(String name) {
-        super(name);
+    public Signer(String nbme) {
+        super(nbme);
     }
 
     /**
-     * Creates a signer with the specified identity name and scope.
+     * Crebtes b signer with the specified identity nbme bnd scope.
      *
-     * @param name the identity name.
+     * @pbrbm nbme the identity nbme.
      *
-     * @param scope the scope of the identity.
+     * @pbrbm scope the scope of the identity.
      *
-     * @exception KeyManagementException if there is already an identity
-     * with the same name in the scope.
+     * @exception KeyMbnbgementException if there is blrebdy bn identity
+     * with the sbme nbme in the scope.
      */
-    public Signer(String name, IdentityScope scope)
-    throws KeyManagementException {
-        super(name, scope);
+    public Signer(String nbme, IdentityScope scope)
+    throws KeyMbnbgementException {
+        super(nbme, scope);
     }
 
     /**
-     * Returns this signer's private key.
+     * Returns this signer's privbte key.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "getSignerPrivateKey"}
-     * as its argument to see if it's ok to return the private key.
+     * <p>First, if there is b security mbnbger, its {@code checkSecurityAccess}
+     * method is cblled with {@code "getSignerPrivbteKey"}
+     * bs its brgument to see if it's ok to return the privbte key.
      *
-     * @return this signer's private key, or null if the private key has
+     * @return this signer's privbte key, or null if the privbte key hbs
      * not yet been set.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * returning the private key.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkSecurityAccess} method doesn't bllow
+     * returning the privbte key.
      *
-     * @see SecurityManager#checkSecurityAccess
+     * @see SecurityMbnbger#checkSecurityAccess
      */
-    public PrivateKey getPrivateKey() {
-        check("getSignerPrivateKey");
-        return privateKey;
+    public PrivbteKey getPrivbteKey() {
+        check("getSignerPrivbteKey");
+        return privbteKey;
     }
 
    /**
-     * Sets the key pair (public key and private key) for this signer.
+     * Sets the key pbir (public key bnd privbte key) for this signer.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "setSignerKeyPair"}
-     * as its argument to see if it's ok to set the key pair.
+     * <p>First, if there is b security mbnbger, its {@code checkSecurityAccess}
+     * method is cblled with {@code "setSignerKeyPbir"}
+     * bs its brgument to see if it's ok to set the key pbir.
      *
-     * @param pair an initialized key pair.
+     * @pbrbm pbir bn initiblized key pbir.
      *
-     * @exception InvalidParameterException if the key pair is not
-     * properly initialized.
-     * @exception KeyException if the key pair cannot be set for any
-     * other reason.
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * setting the key pair.
+     * @exception InvblidPbrbmeterException if the key pbir is not
+     * properly initiblized.
+     * @exception KeyException if the key pbir cbnnot be set for bny
+     * other rebson.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkSecurityAccess} method doesn't bllow
+     * setting the key pbir.
      *
-     * @see SecurityManager#checkSecurityAccess
+     * @see SecurityMbnbger#checkSecurityAccess
      */
-    public final void setKeyPair(KeyPair pair)
-    throws InvalidParameterException, KeyException {
-        check("setSignerKeyPair");
-        final PublicKey pub = pair.getPublic();
-        PrivateKey priv = pair.getPrivate();
+    public finbl void setKeyPbir(KeyPbir pbir)
+    throws InvblidPbrbmeterException, KeyException {
+        check("setSignerKeyPbir");
+        finbl PublicKey pub = pbir.getPublic();
+        PrivbteKey priv = pbir.getPrivbte();
 
         if (pub == null || priv == null) {
-            throw new InvalidParameterException();
+            throw new InvblidPbrbmeterException();
         }
         try {
             AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Void>() {
-                public Void run() throws KeyManagementException {
+                public Void run() throws KeyMbnbgementException {
                     setPublicKey(pub);
                     return null;
                 }
             });
-        } catch (PrivilegedActionException pae) {
-            throw (KeyManagementException) pae.getException();
+        } cbtch (PrivilegedActionException pbe) {
+            throw (KeyMbnbgementException) pbe.getException();
         }
-        privateKey = priv;
+        privbteKey = priv;
     }
 
     String printKeys() {
         String keys = "";
         PublicKey publicKey = getPublicKey();
-        if (publicKey != null && privateKey != null) {
-            keys = "\tpublic and private keys initialized";
+        if (publicKey != null && privbteKey != null) {
+            keys = "\tpublic bnd privbte keys initiblized";
 
         } else {
             keys = "\tno keys";
@@ -165,16 +165,16 @@ public abstract class Signer extends Identity {
     }
 
     /**
-     * Returns a string of information about the signer.
+     * Returns b string of informbtion bbout the signer.
      *
-     * @return a string of information about the signer.
+     * @return b string of informbtion bbout the signer.
      */
     public String toString() {
         return "[Signer]" + super.toString();
     }
 
-    private static void check(String directive) {
-        SecurityManager security = System.getSecurityManager();
+    privbte stbtic void check(String directive) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkSecurityAccess(directive);
         }

@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2010 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,204 +53,204 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
 
-#define cmsmin(a, b) (((a) < (b)) ? (a) : (b))
-#define cmsmax(a, b) (((a) > (b)) ? (a) : (b))
+#define cmsmin(b, b) (((b) < (b)) ? (b) : (b))
+#define cmsmbx(b, b) (((b) > (b)) ? (b) : (b))
 
-// This file contains routines for resampling and LUT optimization, black point detection
-// and black preservation.
+// This file contbins routines for resbmpling bnd LUT optimizbtion, blbck point detection
+// bnd blbck preservbtion.
 
-// Black point detection -------------------------------------------------------------------------
+// Blbck point detection -------------------------------------------------------------------------
 
 
-// PCS -> PCS round trip transform, always uses relative intent on the device -> pcs
-static
-cmsHTRANSFORM CreateRoundtripXForm(cmsHPROFILE hProfile, cmsUInt32Number nIntent)
+// PCS -> PCS round trip trbnsform, blwbys uses relbtive intent on the device -> pcs
+stbtic
+cmsHTRANSFORM CrebteRoundtripXForm(cmsHPROFILE hProfile, cmsUInt32Number nIntent)
 {
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
-    cmsHPROFILE hLab = cmsCreateLab4ProfileTHR(ContextID, NULL);
+    cmsHPROFILE hLbb = cmsCrebteLbb4ProfileTHR(ContextID, NULL);
     cmsHTRANSFORM xform;
     cmsBool BPC[4] = { FALSE, FALSE, FALSE, FALSE };
-    cmsFloat64Number States[4] = { 1.0, 1.0, 1.0, 1.0 };
+    cmsFlobt64Number Stbtes[4] = { 1.0, 1.0, 1.0, 1.0 };
     cmsHPROFILE hProfiles[4];
     cmsUInt32Number Intents[4];
 
-    hProfiles[0] = hLab; hProfiles[1] = hProfile; hProfiles[2] = hProfile; hProfiles[3] = hLab;
+    hProfiles[0] = hLbb; hProfiles[1] = hProfile; hProfiles[2] = hProfile; hProfiles[3] = hLbb;
     Intents[0]   = INTENT_RELATIVE_COLORIMETRIC; Intents[1] = nIntent; Intents[2] = INTENT_RELATIVE_COLORIMETRIC; Intents[3] = INTENT_RELATIVE_COLORIMETRIC;
 
-    xform =  cmsCreateExtendedTransform(ContextID, 4, hProfiles, BPC, Intents,
-        States, NULL, 0, TYPE_Lab_DBL, TYPE_Lab_DBL, cmsFLAGS_NOCACHE|cmsFLAGS_NOOPTIMIZE);
+    xform =  cmsCrebteExtendedTrbnsform(ContextID, 4, hProfiles, BPC, Intents,
+        Stbtes, NULL, 0, TYPE_Lbb_DBL, TYPE_Lbb_DBL, cmsFLAGS_NOCACHE|cmsFLAGS_NOOPTIMIZE);
 
-    cmsCloseProfile(hLab);
+    cmsCloseProfile(hLbb);
     return xform;
 }
 
-// Use darker colorants to obtain black point. This works in the relative colorimetric intent and
-// assumes more ink results in darker colors. No ink limit is assumed.
-static
-cmsBool  BlackPointAsDarkerColorant(cmsHPROFILE    hInput,
+// Use dbrker colorbnts to obtbin blbck point. This works in the relbtive colorimetric intent bnd
+// bssumes more ink results in dbrker colors. No ink limit is bssumed.
+stbtic
+cmsBool  BlbckPointAsDbrkerColorbnt(cmsHPROFILE    hInput,
                                     cmsUInt32Number Intent,
-                                    cmsCIEXYZ* BlackPoint,
-                                    cmsUInt32Number dwFlags)
+                                    cmsCIEXYZ* BlbckPoint,
+                                    cmsUInt32Number dwFlbgs)
 {
-    cmsUInt16Number *Black;
+    cmsUInt16Number *Blbck;
     cmsHTRANSFORM xform;
-    cmsColorSpaceSignature Space;
-    cmsUInt32Number nChannels;
-    cmsUInt32Number dwFormat;
-    cmsHPROFILE hLab;
-    cmsCIELab  Lab;
-    cmsCIEXYZ  BlackXYZ;
+    cmsColorSpbceSignbture Spbce;
+    cmsUInt32Number nChbnnels;
+    cmsUInt32Number dwFormbt;
+    cmsHPROFILE hLbb;
+    cmsCIELbb  Lbb;
+    cmsCIEXYZ  BlbckXYZ;
     cmsContext ContextID = cmsGetProfileContextID(hInput);
 
-    // If the profile does not support input direction, assume Black point 0
+    // If the profile does not support input direction, bssume Blbck point 0
     if (!cmsIsIntentSupported(hInput, Intent, LCMS_USED_AS_INPUT)) {
 
-        BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+        BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
         return FALSE;
     }
 
-    // Create a formatter which has n channels and floating point
-    dwFormat = cmsFormatterForColorspaceOfProfile(hInput, 2, FALSE);
+    // Crebte b formbtter which hbs n chbnnels bnd flobting point
+    dwFormbt = cmsFormbtterForColorspbceOfProfile(hInput, 2, FALSE);
 
-   // Try to get black by using black colorant
-    Space = cmsGetColorSpace(hInput);
+   // Try to get blbck by using blbck colorbnt
+    Spbce = cmsGetColorSpbce(hInput);
 
-    // This function returns darker colorant in 16 bits for several spaces
-    if (!_cmsEndPointsBySpace(Space, NULL, &Black, &nChannels)) {
+    // This function returns dbrker colorbnt in 16 bits for severbl spbces
+    if (!_cmsEndPointsBySpbce(Spbce, NULL, &Blbck, &nChbnnels)) {
 
-        BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+        BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
         return FALSE;
     }
 
-    if (nChannels != T_CHANNELS(dwFormat)) {
-       BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+    if (nChbnnels != T_CHANNELS(dwFormbt)) {
+       BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
        return FALSE;
     }
 
-    // Lab will be used as the output space, but lab2 will avoid recursion
-    hLab = cmsCreateLab2ProfileTHR(ContextID, NULL);
-    if (hLab == NULL) {
-       BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+    // Lbb will be used bs the output spbce, but lbb2 will bvoid recursion
+    hLbb = cmsCrebteLbb2ProfileTHR(ContextID, NULL);
+    if (hLbb == NULL) {
+       BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
        return FALSE;
     }
 
-    // Create the transform
-    xform = cmsCreateTransformTHR(ContextID, hInput, dwFormat,
-                                hLab, TYPE_Lab_DBL, Intent, cmsFLAGS_NOOPTIMIZE|cmsFLAGS_NOCACHE);
-    cmsCloseProfile(hLab);
+    // Crebte the trbnsform
+    xform = cmsCrebteTrbnsformTHR(ContextID, hInput, dwFormbt,
+                                hLbb, TYPE_Lbb_DBL, Intent, cmsFLAGS_NOOPTIMIZE|cmsFLAGS_NOCACHE);
+    cmsCloseProfile(hLbb);
 
     if (xform == NULL) {
 
-        // Something went wrong. Get rid of open resources and return zero as black
-        BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+        // Something went wrong. Get rid of open resources bnd return zero bs blbck
+        BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
         return FALSE;
     }
 
-    // Convert black to Lab
-    cmsDoTransform(xform, Black, &Lab, 1);
+    // Convert blbck to Lbb
+    cmsDoTrbnsform(xform, Blbck, &Lbb, 1);
 
-    // Force it to be neutral, clip to max. L* of 50
-    Lab.a = Lab.b = 0;
-    if (Lab.L > 50) Lab.L = 50;
+    // Force it to be neutrbl, clip to mbx. L* of 50
+    Lbb.b = Lbb.b = 0;
+    if (Lbb.L > 50) Lbb.L = 50;
 
     // Free the resources
-    cmsDeleteTransform(xform);
+    cmsDeleteTrbnsform(xform);
 
-    // Convert from Lab (which is now clipped) to XYZ.
-    cmsLab2XYZ(NULL, &BlackXYZ, &Lab);
+    // Convert from Lbb (which is now clipped) to XYZ.
+    cmsLbb2XYZ(NULL, &BlbckXYZ, &Lbb);
 
-    if (BlackPoint != NULL)
-        *BlackPoint = BlackXYZ;
+    if (BlbckPoint != NULL)
+        *BlbckPoint = BlbckXYZ;
 
     return TRUE;
 
-    cmsUNUSED_PARAMETER(dwFlags);
+    cmsUNUSED_PARAMETER(dwFlbgs);
 }
 
-// Get a black point of output CMYK profile, discounting any ink-limiting embedded
-// in the profile. For doing that, we use perceptual intent in input direction:
-// Lab (0, 0, 0) -> [Perceptual] Profile -> CMYK -> [Rel. colorimetric] Profile -> Lab
-static
-cmsBool BlackPointUsingPerceptualBlack(cmsCIEXYZ* BlackPoint, cmsHPROFILE hProfile)
+// Get b blbck point of output CMYK profile, discounting bny ink-limiting embedded
+// in the profile. For doing thbt, we use perceptubl intent in input direction:
+// Lbb (0, 0, 0) -> [Perceptubl] Profile -> CMYK -> [Rel. colorimetric] Profile -> Lbb
+stbtic
+cmsBool BlbckPointUsingPerceptublBlbck(cmsCIEXYZ* BlbckPoint, cmsHPROFILE hProfile)
 {
     cmsHTRANSFORM hRoundTrip;
-    cmsCIELab LabIn, LabOut;
-    cmsCIEXYZ  BlackXYZ;
+    cmsCIELbb LbbIn, LbbOut;
+    cmsCIEXYZ  BlbckXYZ;
 
      // Is the intent supported by the profile?
     if (!cmsIsIntentSupported(hProfile, INTENT_PERCEPTUAL, LCMS_USED_AS_INPUT)) {
 
-        BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+        BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
         return TRUE;
     }
 
-    hRoundTrip = CreateRoundtripXForm(hProfile, INTENT_PERCEPTUAL);
+    hRoundTrip = CrebteRoundtripXForm(hProfile, INTENT_PERCEPTUAL);
     if (hRoundTrip == NULL) {
-        BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+        BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
         return FALSE;
     }
 
-    LabIn.L = LabIn.a = LabIn.b = 0;
-    cmsDoTransform(hRoundTrip, &LabIn, &LabOut, 1);
+    LbbIn.L = LbbIn.b = LbbIn.b = 0;
+    cmsDoTrbnsform(hRoundTrip, &LbbIn, &LbbOut, 1);
 
-    // Clip Lab to reasonable limits
-    if (LabOut.L > 50) LabOut.L = 50;
-    LabOut.a = LabOut.b = 0;
+    // Clip Lbb to rebsonbble limits
+    if (LbbOut.L > 50) LbbOut.L = 50;
+    LbbOut.b = LbbOut.b = 0;
 
-    cmsDeleteTransform(hRoundTrip);
+    cmsDeleteTrbnsform(hRoundTrip);
 
     // Convert it to XYZ
-    cmsLab2XYZ(NULL, &BlackXYZ, &LabOut);
+    cmsLbb2XYZ(NULL, &BlbckXYZ, &LbbOut);
 
-    if (BlackPoint != NULL)
-        *BlackPoint = BlackXYZ;
+    if (BlbckPoint != NULL)
+        *BlbckPoint = BlbckXYZ;
 
     return TRUE;
 }
 
-// This function shouldn't exist at all -- there is such quantity of broken
-// profiles on black point tag, that we must somehow fix chromaticity to
-// avoid huge tint when doing Black point compensation. This function does
-// just that. There is a special flag for using black point tag, but turned
-// off by default because it is bogus on most profiles. The detection algorithm
-// involves to turn BP to neutral and to use only L component.
-cmsBool CMSEXPORT cmsDetectBlackPoint(cmsCIEXYZ* BlackPoint, cmsHPROFILE hProfile, cmsUInt32Number Intent, cmsUInt32Number dwFlags)
+// This function shouldn't exist bt bll -- there is such qubntity of broken
+// profiles on blbck point tbg, thbt we must somehow fix chrombticity to
+// bvoid huge tint when doing Blbck point compensbtion. This function does
+// just thbt. There is b specibl flbg for using blbck point tbg, but turned
+// off by defbult becbuse it is bogus on most profiles. The detection blgorithm
+// involves to turn BP to neutrbl bnd to use only L component.
+cmsBool CMSEXPORT cmsDetectBlbckPoint(cmsCIEXYZ* BlbckPoint, cmsHPROFILE hProfile, cmsUInt32Number Intent, cmsUInt32Number dwFlbgs)
 {
-    cmsProfileClassSignature devClass;
+    cmsProfileClbssSignbture devClbss;
 
-    // Make sure the device class is adequate
-    devClass = cmsGetDeviceClass(hProfile);
-    if (devClass == cmsSigLinkClass ||
-        devClass == cmsSigAbstractClass ||
-        devClass == cmsSigNamedColorClass) {
-            BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+    // Mbke sure the device clbss is bdequbte
+    devClbss = cmsGetDeviceClbss(hProfile);
+    if (devClbss == cmsSigLinkClbss ||
+        devClbss == cmsSigAbstrbctClbss ||
+        devClbss == cmsSigNbmedColorClbss) {
+            BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
             return FALSE;
     }
 
-    // Make sure intent is adequate
+    // Mbke sure intent is bdequbte
     if (Intent != INTENT_PERCEPTUAL &&
         Intent != INTENT_RELATIVE_COLORIMETRIC &&
         Intent != INTENT_SATURATION) {
-            BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+            BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
             return FALSE;
     }
 
-    // v4 + perceptual & saturation intents does have its own black point, and it is
-    // well specified enough to use it. Black point tag is deprecated in V4.
+    // v4 + perceptubl & sbturbtion intents does hbve its own blbck point, bnd it is
+    // well specified enough to use it. Blbck point tbg is deprecbted in V4.
     if ((cmsGetEncodedICCversion(hProfile) >= 0x4000000) &&
         (Intent == INTENT_PERCEPTUAL || Intent == INTENT_SATURATION)) {
 
-            // Matrix shaper share MRC & perceptual intents
-            if (cmsIsMatrixShaper(hProfile))
-                return BlackPointAsDarkerColorant(hProfile, INTENT_RELATIVE_COLORIMETRIC, BlackPoint, 0);
+            // Mbtrix shbper shbre MRC & perceptubl intents
+            if (cmsIsMbtrixShbper(hProfile))
+                return BlbckPointAsDbrkerColorbnt(hProfile, INTENT_RELATIVE_COLORIMETRIC, BlbckPoint, 0);
 
-            // Get Perceptual black out of v4 profiles. That is fixed for perceptual & saturation intents
-            BlackPoint -> X = cmsPERCEPTUAL_BLACK_X;
-            BlackPoint -> Y = cmsPERCEPTUAL_BLACK_Y;
-            BlackPoint -> Z = cmsPERCEPTUAL_BLACK_Z;
+            // Get Perceptubl blbck out of v4 profiles. Thbt is fixed for perceptubl & sbturbtion intents
+            BlbckPoint -> X = cmsPERCEPTUAL_BLACK_X;
+            BlbckPoint -> Y = cmsPERCEPTUAL_BLACK_Y;
+            BlbckPoint -> Z = cmsPERCEPTUAL_BLACK_Z;
 
             return TRUE;
     }
@@ -258,63 +258,63 @@ cmsBool CMSEXPORT cmsDetectBlackPoint(cmsCIEXYZ* BlackPoint, cmsHPROFILE hProfil
 
 #ifdef CMS_USE_PROFILE_BLACK_POINT_TAG
 
-    // v2, v4 rel/abs colorimetric
-    if (cmsIsTag(hProfile, cmsSigMediaBlackPointTag) &&
+    // v2, v4 rel/bbs colorimetric
+    if (cmsIsTbg(hProfile, cmsSigMedibBlbckPointTbg) &&
         Intent == INTENT_RELATIVE_COLORIMETRIC) {
 
-            cmsCIEXYZ *BlackPtr, BlackXYZ, UntrustedBlackPoint, TrustedBlackPoint, MediaWhite;
-            cmsCIELab Lab;
+            cmsCIEXYZ *BlbckPtr, BlbckXYZ, UntrustedBlbckPoint, TrustedBlbckPoint, MedibWhite;
+            cmsCIELbb Lbb;
 
-            // If black point is specified, then use it,
+            // If blbck point is specified, then use it,
 
-            BlackPtr = cmsReadTag(hProfile, cmsSigMediaBlackPointTag);
-            if (BlackPtr != NULL) {
+            BlbckPtr = cmsRebdTbg(hProfile, cmsSigMedibBlbckPointTbg);
+            if (BlbckPtr != NULL) {
 
-                BlackXYZ = *BlackPtr;
-                _cmsReadMediaWhitePoint(&MediaWhite, hProfile);
+                BlbckXYZ = *BlbckPtr;
+                _cmsRebdMedibWhitePoint(&MedibWhite, hProfile);
 
-                // Black point is absolute XYZ, so adapt to D50 to get PCS value
-                cmsAdaptToIlluminant(&UntrustedBlackPoint, &MediaWhite, cmsD50_XYZ(), &BlackXYZ);
+                // Blbck point is bbsolute XYZ, so bdbpt to D50 to get PCS vblue
+                cmsAdbptToIlluminbnt(&UntrustedBlbckPoint, &MedibWhite, cmsD50_XYZ(), &BlbckXYZ);
 
-                // Force a=b=0 to get rid of any chroma
-                cmsXYZ2Lab(NULL, &Lab, &UntrustedBlackPoint);
-                Lab.a = Lab.b = 0;
-                if (Lab.L > 50) Lab.L = 50; // Clip to L* <= 50
-                cmsLab2XYZ(NULL, &TrustedBlackPoint, &Lab);
+                // Force b=b=0 to get rid of bny chromb
+                cmsXYZ2Lbb(NULL, &Lbb, &UntrustedBlbckPoint);
+                Lbb.b = Lbb.b = 0;
+                if (Lbb.L > 50) Lbb.L = 50; // Clip to L* <= 50
+                cmsLbb2XYZ(NULL, &TrustedBlbckPoint, &Lbb);
 
-                if (BlackPoint != NULL)
-                    *BlackPoint = TrustedBlackPoint;
+                if (BlbckPoint != NULL)
+                    *BlbckPoint = TrustedBlbckPoint;
 
                 return TRUE;
             }
     }
 #endif
 
-    // That is about v2 profiles.
+    // Thbt is bbout v2 profiles.
 
-    // If output profile, discount ink-limiting and that's all
+    // If output profile, discount ink-limiting bnd thbt's bll
     if (Intent == INTENT_RELATIVE_COLORIMETRIC &&
-        (cmsGetDeviceClass(hProfile) == cmsSigOutputClass) &&
-        (cmsGetColorSpace(hProfile)  == cmsSigCmykData))
-        return BlackPointUsingPerceptualBlack(BlackPoint, hProfile);
+        (cmsGetDeviceClbss(hProfile) == cmsSigOutputClbss) &&
+        (cmsGetColorSpbce(hProfile)  == cmsSigCmykDbtb))
+        return BlbckPointUsingPerceptublBlbck(BlbckPoint, hProfile);
 
     // Nope, compute BP using current intent.
-    return BlackPointAsDarkerColorant(hProfile, Intent, BlackPoint, dwFlags);
+    return BlbckPointAsDbrkerColorbnt(hProfile, Intent, BlbckPoint, dwFlbgs);
 }
 
 
 
 // ---------------------------------------------------------------------------------------------------------
 
-// Least Squares Fit of a Quadratic Curve to Data
-// http://www.personal.psu.edu/jhm/f90/lectures/lsq2.html
+// Lebst Squbres Fit of b Qubdrbtic Curve to Dbtb
+// http://www.personbl.psu.edu/jhm/f90/lectures/lsq2.html
 
-static
-cmsFloat64Number RootOfLeastSquaresFitQuadraticCurve(int n, cmsFloat64Number x[], cmsFloat64Number y[])
+stbtic
+cmsFlobt64Number RootOfLebstSqubresFitQubdrbticCurve(int n, cmsFlobt64Number x[], cmsFlobt64Number y[])
 {
     double sum_x = 0, sum_x2 = 0, sum_x3 = 0, sum_x4 = 0;
     double sum_y = 0, sum_yx = 0, sum_yx2 = 0;
-    double d, a, b, c;
+    double d, b, b, c;
     int i;
     cmsMAT3 m;
     cmsVEC3 v, res;
@@ -345,46 +345,46 @@ cmsFloat64Number RootOfLeastSquaresFitQuadraticCurve(int n, cmsFloat64Number x[]
     if (!_cmsMAT3solve(&res, &m, &v)) return 0;
 
 
-    a = res.n[2];
+    b = res.n[2];
     b = res.n[1];
     c = res.n[0];
 
-    if (fabs(a) < 1.0E-10) {
+    if (fbbs(b) < 1.0E-10) {
 
-        return cmsmin(0, cmsmax(50, -c/b ));
+        return cmsmin(0, cmsmbx(50, -c/b ));
     }
     else {
 
-         d = b*b - 4.0 * a * c;
+         d = b*b - 4.0 * b * c;
          if (d <= 0) {
              return 0;
          }
          else {
 
-             double rt = (-b + sqrt(d)) / (2.0 * a);
+             double rt = (-b + sqrt(d)) / (2.0 * b);
 
-             return cmsmax(0, cmsmin(50, rt));
+             return cmsmbx(0, cmsmin(50, rt));
          }
    }
 
 }
 
 /*
-static
-cmsBool IsMonotonic(int n, const cmsFloat64Number Table[])
+stbtic
+cmsBool IsMonotonic(int n, const cmsFlobt64Number Tbble[])
 {
     int i;
-    cmsFloat64Number last;
+    cmsFlobt64Number lbst;
 
-    last = Table[n-1];
+    lbst = Tbble[n-1];
 
     for (i = n-2; i >= 0; --i) {
 
-        if (Table[i] > last)
+        if (Tbble[i] > lbst)
 
             return FALSE;
         else
-            last = Table[i];
+            lbst = Tbble[i];
 
     }
 
@@ -392,164 +392,164 @@ cmsBool IsMonotonic(int n, const cmsFloat64Number Table[])
 }
 */
 
-// Calculates the black point of a destination profile.
-// This algorithm comes from the Adobe paper disclosing its black point compensation method.
-cmsBool CMSEXPORT cmsDetectDestinationBlackPoint(cmsCIEXYZ* BlackPoint, cmsHPROFILE hProfile, cmsUInt32Number Intent, cmsUInt32Number dwFlags)
+// Cblculbtes the blbck point of b destinbtion profile.
+// This blgorithm comes from the Adobe pbper disclosing its blbck point compensbtion method.
+cmsBool CMSEXPORT cmsDetectDestinbtionBlbckPoint(cmsCIEXYZ* BlbckPoint, cmsHPROFILE hProfile, cmsUInt32Number Intent, cmsUInt32Number dwFlbgs)
 {
-    cmsColorSpaceSignature ColorSpace;
+    cmsColorSpbceSignbture ColorSpbce;
     cmsHTRANSFORM hRoundTrip = NULL;
-    cmsCIELab InitialLab, destLab, Lab;
-    cmsFloat64Number inRamp[256], outRamp[256];
-    cmsFloat64Number MinL, MaxL;
-    cmsBool NearlyStraightMidrange = TRUE;
-    cmsFloat64Number yRamp[256];
-    cmsFloat64Number x[256], y[256];
-    cmsFloat64Number lo, hi;
+    cmsCIELbb InitiblLbb, destLbb, Lbb;
+    cmsFlobt64Number inRbmp[256], outRbmp[256];
+    cmsFlobt64Number MinL, MbxL;
+    cmsBool NebrlyStrbightMidrbnge = TRUE;
+    cmsFlobt64Number yRbmp[256];
+    cmsFlobt64Number x[256], y[256];
+    cmsFlobt64Number lo, hi;
     int n, l;
-    cmsProfileClassSignature devClass;
+    cmsProfileClbssSignbture devClbss;
 
-    // Make sure the device class is adequate
-    devClass = cmsGetDeviceClass(hProfile);
-    if (devClass == cmsSigLinkClass ||
-        devClass == cmsSigAbstractClass ||
-        devClass == cmsSigNamedColorClass) {
-            BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+    // Mbke sure the device clbss is bdequbte
+    devClbss = cmsGetDeviceClbss(hProfile);
+    if (devClbss == cmsSigLinkClbss ||
+        devClbss == cmsSigAbstrbctClbss ||
+        devClbss == cmsSigNbmedColorClbss) {
+            BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
             return FALSE;
     }
 
-    // Make sure intent is adequate
+    // Mbke sure intent is bdequbte
     if (Intent != INTENT_PERCEPTUAL &&
         Intent != INTENT_RELATIVE_COLORIMETRIC &&
         Intent != INTENT_SATURATION) {
-            BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+            BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
             return FALSE;
     }
 
 
-    // v4 + perceptual & saturation intents does have its own black point, and it is
-    // well specified enough to use it. Black point tag is deprecated in V4.
+    // v4 + perceptubl & sbturbtion intents does hbve its own blbck point, bnd it is
+    // well specified enough to use it. Blbck point tbg is deprecbted in V4.
     if ((cmsGetEncodedICCversion(hProfile) >= 0x4000000) &&
         (Intent == INTENT_PERCEPTUAL || Intent == INTENT_SATURATION)) {
 
-            // Matrix shaper share MRC & perceptual intents
-            if (cmsIsMatrixShaper(hProfile))
-                return BlackPointAsDarkerColorant(hProfile, INTENT_RELATIVE_COLORIMETRIC, BlackPoint, 0);
+            // Mbtrix shbper shbre MRC & perceptubl intents
+            if (cmsIsMbtrixShbper(hProfile))
+                return BlbckPointAsDbrkerColorbnt(hProfile, INTENT_RELATIVE_COLORIMETRIC, BlbckPoint, 0);
 
-            // Get Perceptual black out of v4 profiles. That is fixed for perceptual & saturation intents
-            BlackPoint -> X = cmsPERCEPTUAL_BLACK_X;
-            BlackPoint -> Y = cmsPERCEPTUAL_BLACK_Y;
-            BlackPoint -> Z = cmsPERCEPTUAL_BLACK_Z;
+            // Get Perceptubl blbck out of v4 profiles. Thbt is fixed for perceptubl & sbturbtion intents
+            BlbckPoint -> X = cmsPERCEPTUAL_BLACK_X;
+            BlbckPoint -> Y = cmsPERCEPTUAL_BLACK_Y;
+            BlbckPoint -> Z = cmsPERCEPTUAL_BLACK_Z;
             return TRUE;
     }
 
 
-    // Check if the profile is lut based and gray, rgb or cmyk (7.2 in Adobe's document)
-    ColorSpace = cmsGetColorSpace(hProfile);
+    // Check if the profile is lut bbsed bnd grby, rgb or cmyk (7.2 in Adobe's document)
+    ColorSpbce = cmsGetColorSpbce(hProfile);
     if (!cmsIsCLUT(hProfile, Intent, LCMS_USED_AS_OUTPUT ) ||
-        (ColorSpace != cmsSigGrayData &&
-         ColorSpace != cmsSigRgbData  &&
-         ColorSpace != cmsSigCmykData)) {
+        (ColorSpbce != cmsSigGrbyDbtb &&
+         ColorSpbce != cmsSigRgbDbtb  &&
+         ColorSpbce != cmsSigCmykDbtb)) {
 
-        // In this case, handle as input case
-        return cmsDetectBlackPoint(BlackPoint, hProfile, Intent, dwFlags);
+        // In this cbse, hbndle bs input cbse
+        return cmsDetectBlbckPoint(BlbckPoint, hProfile, Intent, dwFlbgs);
     }
 
-    // It is one of the valid cases!, use Adobe algorithm
+    // It is one of the vblid cbses!, use Adobe blgorithm
 
 
-    // Set a first guess, that should work on good profiles.
+    // Set b first guess, thbt should work on good profiles.
     if (Intent == INTENT_RELATIVE_COLORIMETRIC) {
 
         cmsCIEXYZ IniXYZ;
 
-        // calculate initial Lab as source black point
-        if (!cmsDetectBlackPoint(&IniXYZ, hProfile, Intent, dwFlags)) {
+        // cblculbte initibl Lbb bs source blbck point
+        if (!cmsDetectBlbckPoint(&IniXYZ, hProfile, Intent, dwFlbgs)) {
             return FALSE;
         }
 
-        // convert the XYZ to lab
-        cmsXYZ2Lab(NULL, &InitialLab, &IniXYZ);
+        // convert the XYZ to lbb
+        cmsXYZ2Lbb(NULL, &InitiblLbb, &IniXYZ);
 
     } else {
 
-        // set the initial Lab to zero, that should be the black point for perceptual and saturation
-        InitialLab.L = 0;
-        InitialLab.a = 0;
-        InitialLab.b = 0;
+        // set the initibl Lbb to zero, thbt should be the blbck point for perceptubl bnd sbturbtion
+        InitiblLbb.L = 0;
+        InitiblLbb.b = 0;
+        InitiblLbb.b = 0;
     }
 
 
     // Step 2
     // ======
 
-    // Create a roundtrip. Define a Transform BT for all x in L*a*b*
-    hRoundTrip = CreateRoundtripXForm(hProfile, Intent);
+    // Crebte b roundtrip. Define b Trbnsform BT for bll x in L*b*b*
+    hRoundTrip = CrebteRoundtripXForm(hProfile, Intent);
     if (hRoundTrip == NULL)  return FALSE;
 
-    // Compute ramps
+    // Compute rbmps
 
     for (l=0; l < 256; l++) {
 
-        Lab.L = (cmsFloat64Number) (l * 100.0) / 255.0;
-        Lab.a = cmsmin(50, cmsmax(-50, InitialLab.a));
-        Lab.b = cmsmin(50, cmsmax(-50, InitialLab.b));
+        Lbb.L = (cmsFlobt64Number) (l * 100.0) / 255.0;
+        Lbb.b = cmsmin(50, cmsmbx(-50, InitiblLbb.b));
+        Lbb.b = cmsmin(50, cmsmbx(-50, InitiblLbb.b));
 
-        cmsDoTransform(hRoundTrip, &Lab, &destLab, 1);
+        cmsDoTrbnsform(hRoundTrip, &Lbb, &destLbb, 1);
 
-        inRamp[l]  = Lab.L;
-        outRamp[l] = destLab.L;
+        inRbmp[l]  = Lbb.L;
+        outRbmp[l] = destLbb.L;
     }
 
-    // Make monotonic
+    // Mbke monotonic
     for (l = 254; l > 0; --l) {
-        outRamp[l] = cmsmin(outRamp[l], outRamp[l+1]);
+        outRbmp[l] = cmsmin(outRbmp[l], outRbmp[l+1]);
     }
 
     // Check
-    if (! (outRamp[0] < outRamp[255])) {
+    if (! (outRbmp[0] < outRbmp[255])) {
 
-        cmsDeleteTransform(hRoundTrip);
-        BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+        cmsDeleteTrbnsform(hRoundTrip);
+        BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
         return FALSE;
     }
 
 
-    // Test for mid range straight (only on relative colorimetric)
+    // Test for mid rbnge strbight (only on relbtive colorimetric)
 
-    NearlyStraightMidrange = TRUE;
-    MinL = outRamp[0]; MaxL = outRamp[255];
+    NebrlyStrbightMidrbnge = TRUE;
+    MinL = outRbmp[0]; MbxL = outRbmp[255];
     if (Intent == INTENT_RELATIVE_COLORIMETRIC) {
 
         for (l=0; l < 256; l++) {
 
-            if (! ((inRamp[l] <= MinL + 0.2 * (MaxL - MinL) ) ||
-                (fabs(inRamp[l] - outRamp[l]) < 4.0 )))
-                NearlyStraightMidrange = FALSE;
+            if (! ((inRbmp[l] <= MinL + 0.2 * (MbxL - MinL) ) ||
+                (fbbs(inRbmp[l] - outRbmp[l]) < 4.0 )))
+                NebrlyStrbightMidrbnge = FALSE;
         }
 
-        // If the mid range is straight (as determined above) then the
-        // DestinationBlackPoint shall be the same as initialLab.
-        // Otherwise, the DestinationBlackPoint shall be determined
+        // If the mid rbnge is strbight (bs determined bbove) then the
+        // DestinbtionBlbckPoint shbll be the sbme bs initiblLbb.
+        // Otherwise, the DestinbtionBlbckPoint shbll be determined
         // using curve fitting.
 
-        if (NearlyStraightMidrange) {
+        if (NebrlyStrbightMidrbnge) {
 
-            cmsLab2XYZ(NULL, BlackPoint, &InitialLab);
-            cmsDeleteTransform(hRoundTrip);
+            cmsLbb2XYZ(NULL, BlbckPoint, &InitiblLbb);
+            cmsDeleteTrbnsform(hRoundTrip);
             return TRUE;
         }
     }
 
 
-    // curve fitting: The round-trip curve normally looks like a nearly constant section at the black point,
-    // with a corner and a nearly straight line to the white point.
+    // curve fitting: The round-trip curve normblly looks like b nebrly constbnt section bt the blbck point,
+    // with b corner bnd b nebrly strbight line to the white point.
 
     for (l=0; l < 256; l++) {
 
-        yRamp[l] = (outRamp[l] - MinL) / (MaxL - MinL);
+        yRbmp[l] = (outRbmp[l] - MinL) / (MbxL - MinL);
     }
 
-    // find the black point using the least squares error quadratic curve fitting
+    // find the blbck point using the lebst squbres error qubdrbtic curve fitting
 
     if (Intent == INTENT_RELATIVE_COLORIMETRIC) {
         lo = 0.1;
@@ -557,45 +557,45 @@ cmsBool CMSEXPORT cmsDetectDestinationBlackPoint(cmsCIEXYZ* BlackPoint, cmsHPROF
     }
     else {
 
-        // Perceptual and saturation
+        // Perceptubl bnd sbturbtion
         lo = 0.03;
         hi = 0.25;
     }
 
-    // Capture shadow points for the fitting.
+    // Cbpture shbdow points for the fitting.
     n = 0;
     for (l=0; l < 256; l++) {
 
-        cmsFloat64Number ff = yRamp[l];
+        cmsFlobt64Number ff = yRbmp[l];
 
         if (ff >= lo && ff < hi) {
-            x[n] = inRamp[l];
-            y[n] = yRamp[l];
+            x[n] = inRbmp[l];
+            y[n] = yRbmp[l];
             n++;
         }
     }
 
 
-    // No suitable points
+    // No suitbble points
     if (n < 3 ) {
-        cmsDeleteTransform(hRoundTrip);
-        BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
+        cmsDeleteTrbnsform(hRoundTrip);
+        BlbckPoint -> X = BlbckPoint ->Y = BlbckPoint -> Z = 0.0;
         return FALSE;
     }
 
 
-    // fit and get the vertex of quadratic curve
-    Lab.L = RootOfLeastSquaresFitQuadraticCurve(n, x, y);
+    // fit bnd get the vertex of qubdrbtic curve
+    Lbb.L = RootOfLebstSqubresFitQubdrbticCurve(n, x, y);
 
-    if (Lab.L < 0.0) { // clip to zero L* if the vertex is negative
-        Lab.L = 0;
+    if (Lbb.L < 0.0) { // clip to zero L* if the vertex is negbtive
+        Lbb.L = 0;
     }
 
-    Lab.a = InitialLab.a;
-    Lab.b = InitialLab.b;
+    Lbb.b = InitiblLbb.b;
+    Lbb.b = InitiblLbb.b;
 
-    cmsLab2XYZ(NULL, BlackPoint, &Lab);
+    cmsLbb2XYZ(NULL, BlbckPoint, &Lbb);
 
-    cmsDeleteTransform(hRoundTrip);
+    cmsDeleteTrbnsform(hRoundTrip);
     return TRUE;
 }

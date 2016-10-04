@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.geom;
+pbckbge jbvb.bwt.geom;
 
-import java.awt.Shape;
-import java.awt.Rectangle;
-import java.beans.Transient;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.Rectbngle;
+import jbvb.bebns.Trbnsient;
 
 /**
- * <code>RectangularShape</code> is the base class for a number of
- * {@link Shape} objects whose geometry is defined by a rectangular frame.
- * This class does not directly specify any specific geometry by
- * itself, but merely provides manipulation methods inherited by
- * a whole category of <code>Shape</code> objects.
- * The manipulation methods provided by this class can be used to
- * query and modify the rectangular frame, which provides a reference
- * for the subclasses to define their geometry.
+ * <code>RectbngulbrShbpe</code> is the bbse clbss for b number of
+ * {@link Shbpe} objects whose geometry is defined by b rectbngulbr frbme.
+ * This clbss does not directly specify bny specific geometry by
+ * itself, but merely provides mbnipulbtion methods inherited by
+ * b whole cbtegory of <code>Shbpe</code> objects.
+ * The mbnipulbtion methods provided by this clbss cbn be used to
+ * query bnd modify the rectbngulbr frbme, which provides b reference
+ * for the subclbsses to define their geometry.
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  * @since 1.2
  */
-public abstract class RectangularShape implements Shape, Cloneable {
+public bbstrbct clbss RectbngulbrShbpe implements Shbpe, Clonebble {
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
+     * This is bn bbstrbct clbss thbt cbnnot be instbntibted directly.
      *
      * @see Arc2D
      * @see Ellipse2D
-     * @see Rectangle2D
-     * @see RoundRectangle2D
+     * @see Rectbngle2D
+     * @see RoundRectbngle2D
      * @since 1.2
      */
-    protected RectangularShape() {
+    protected RectbngulbrShbpe() {
     }
 
     /**
-     * Returns the X coordinate of the upper-left corner of
-     * the framing rectangle in <code>double</code> precision.
-     * @return the X coordinate of the upper-left corner of
-     * the framing rectangle.
+     * Returns the X coordinbte of the upper-left corner of
+     * the frbming rectbngle in <code>double</code> precision.
+     * @return the X coordinbte of the upper-left corner of
+     * the frbming rectbngle.
      * @since 1.2
      */
-    public abstract double getX();
+    public bbstrbct double getX();
 
     /**
-     * Returns the Y coordinate of the upper-left corner of
-     * the framing rectangle in <code>double</code> precision.
-     * @return the Y coordinate of the upper-left corner of
-     * the framing rectangle.
+     * Returns the Y coordinbte of the upper-left corner of
+     * the frbming rectbngle in <code>double</code> precision.
+     * @return the Y coordinbte of the upper-left corner of
+     * the frbming rectbngle.
      * @since 1.2
      */
-    public abstract double getY();
+    public bbstrbct double getY();
 
     /**
-     * Returns the width of the framing rectangle in
+     * Returns the width of the frbming rectbngle in
      * <code>double</code> precision.
-     * @return the width of the framing rectangle.
+     * @return the width of the frbming rectbngle.
      * @since 1.2
      */
-    public abstract double getWidth();
+    public bbstrbct double getWidth();
 
     /**
-     * Returns the height of the framing rectangle
+     * Returns the height of the frbming rectbngle
      * in <code>double</code> precision.
-     * @return the height of the framing rectangle.
+     * @return the height of the frbming rectbngle.
      * @since 1.2
      */
-    public abstract double getHeight();
+    public bbstrbct double getHeight();
 
     /**
-     * Returns the smallest X coordinate of the framing
-     * rectangle of the <code>Shape</code> in <code>double</code>
+     * Returns the smbllest X coordinbte of the frbming
+     * rectbngle of the <code>Shbpe</code> in <code>double</code>
      * precision.
-     * @return the smallest X coordinate of the framing
-     *          rectangle of the <code>Shape</code>.
+     * @return the smbllest X coordinbte of the frbming
+     *          rectbngle of the <code>Shbpe</code>.
      * @since 1.2
      */
     public double getMinX() {
@@ -103,11 +103,11 @@ public abstract class RectangularShape implements Shape, Cloneable {
     }
 
     /**
-     * Returns the smallest Y coordinate of the framing
-     * rectangle of the <code>Shape</code> in <code>double</code>
+     * Returns the smbllest Y coordinbte of the frbming
+     * rectbngle of the <code>Shbpe</code> in <code>double</code>
      * precision.
-     * @return the smallest Y coordinate of the framing
-     *          rectangle of the <code>Shape</code>.
+     * @return the smbllest Y coordinbte of the frbming
+     *          rectbngle of the <code>Shbpe</code>.
      * @since 1.2
      */
     public double getMinY() {
@@ -115,35 +115,35 @@ public abstract class RectangularShape implements Shape, Cloneable {
     }
 
     /**
-     * Returns the largest X coordinate of the framing
-     * rectangle of the <code>Shape</code> in <code>double</code>
+     * Returns the lbrgest X coordinbte of the frbming
+     * rectbngle of the <code>Shbpe</code> in <code>double</code>
      * precision.
-     * @return the largest X coordinate of the framing
-     *          rectangle of the <code>Shape</code>.
+     * @return the lbrgest X coordinbte of the frbming
+     *          rectbngle of the <code>Shbpe</code>.
      * @since 1.2
      */
-    public double getMaxX() {
+    public double getMbxX() {
         return getX() + getWidth();
     }
 
     /**
-     * Returns the largest Y coordinate of the framing
-     * rectangle of the <code>Shape</code> in <code>double</code>
+     * Returns the lbrgest Y coordinbte of the frbming
+     * rectbngle of the <code>Shbpe</code> in <code>double</code>
      * precision.
-     * @return the largest Y coordinate of the framing
-     *          rectangle of the <code>Shape</code>.
+     * @return the lbrgest Y coordinbte of the frbming
+     *          rectbngle of the <code>Shbpe</code>.
      * @since 1.2
      */
-    public double getMaxY() {
+    public double getMbxY() {
         return getY() + getHeight();
     }
 
     /**
-     * Returns the X coordinate of the center of the framing
-     * rectangle of the <code>Shape</code> in <code>double</code>
+     * Returns the X coordinbte of the center of the frbming
+     * rectbngle of the <code>Shbpe</code> in <code>double</code>
      * precision.
-     * @return the X coordinate of the center of the framing rectangle
-     *          of the <code>Shape</code>.
+     * @return the X coordinbte of the center of the frbming rectbngle
+     *          of the <code>Shbpe</code>.
      * @since 1.2
      */
     public double getCenterX() {
@@ -151,11 +151,11 @@ public abstract class RectangularShape implements Shape, Cloneable {
     }
 
     /**
-     * Returns the Y coordinate of the center of the framing
-     * rectangle of the <code>Shape</code> in <code>double</code>
+     * Returns the Y coordinbte of the center of the frbming
+     * rectbngle of the <code>Shbpe</code> in <code>double</code>
      * precision.
-     * @return the Y coordinate of the center of the framing rectangle
-     *          of the <code>Shape</code>.
+     * @return the Y coordinbte of the center of the frbming rectbngle
+     *          of the <code>Shbpe</code>.
      * @since 1.2
      */
     public double getCenterY() {
@@ -163,86 +163,86 @@ public abstract class RectangularShape implements Shape, Cloneable {
     }
 
     /**
-     * Returns the framing {@link Rectangle2D}
-     * that defines the overall shape of this object.
-     * @return a <code>Rectangle2D</code>, specified in
-     * <code>double</code> coordinates.
-     * @see #setFrame(double, double, double, double)
-     * @see #setFrame(Point2D, Dimension2D)
-     * @see #setFrame(Rectangle2D)
+     * Returns the frbming {@link Rectbngle2D}
+     * thbt defines the overbll shbpe of this object.
+     * @return b <code>Rectbngle2D</code>, specified in
+     * <code>double</code> coordinbtes.
+     * @see #setFrbme(double, double, double, double)
+     * @see #setFrbme(Point2D, Dimension2D)
+     * @see #setFrbme(Rectbngle2D)
      * @since 1.2
      */
-    @Transient
-    public Rectangle2D getFrame() {
-        return new Rectangle2D.Double(getX(), getY(), getWidth(), getHeight());
+    @Trbnsient
+    public Rectbngle2D getFrbme() {
+        return new Rectbngle2D.Double(getX(), getY(), getWidth(), getHeight());
     }
 
     /**
-     * Determines whether the <code>RectangularShape</code> is empty.
-     * When the <code>RectangularShape</code> is empty, it encloses no
-     * area.
-     * @return <code>true</code> if the <code>RectangularShape</code> is empty;
-     *          <code>false</code> otherwise.
+     * Determines whether the <code>RectbngulbrShbpe</code> is empty.
+     * When the <code>RectbngulbrShbpe</code> is empty, it encloses no
+     * breb.
+     * @return <code>true</code> if the <code>RectbngulbrShbpe</code> is empty;
+     *          <code>fblse</code> otherwise.
      * @since 1.2
      */
-    public abstract boolean isEmpty();
+    public bbstrbct boolebn isEmpty();
 
     /**
-     * Sets the location and size of the framing rectangle of this
-     * <code>Shape</code> to the specified rectangular values.
+     * Sets the locbtion bnd size of the frbming rectbngle of this
+     * <code>Shbpe</code> to the specified rectbngulbr vblues.
      *
-     * @param x the X coordinate of the upper-left corner of the
-     *          specified rectangular shape
-     * @param y the Y coordinate of the upper-left corner of the
-     *          specified rectangular shape
-     * @param w the width of the specified rectangular shape
-     * @param h the height of the specified rectangular shape
-     * @see #getFrame
+     * @pbrbm x the X coordinbte of the upper-left corner of the
+     *          specified rectbngulbr shbpe
+     * @pbrbm y the Y coordinbte of the upper-left corner of the
+     *          specified rectbngulbr shbpe
+     * @pbrbm w the width of the specified rectbngulbr shbpe
+     * @pbrbm h the height of the specified rectbngulbr shbpe
+     * @see #getFrbme
      * @since 1.2
      */
-    public abstract void setFrame(double x, double y, double w, double h);
+    public bbstrbct void setFrbme(double x, double y, double w, double h);
 
     /**
-     * Sets the location and size of the framing rectangle of this
-     * <code>Shape</code> to the specified {@link Point2D} and
-     * {@link Dimension2D}, respectively.  The framing rectangle is used
-     * by the subclasses of <code>RectangularShape</code> to define
+     * Sets the locbtion bnd size of the frbming rectbngle of this
+     * <code>Shbpe</code> to the specified {@link Point2D} bnd
+     * {@link Dimension2D}, respectively.  The frbming rectbngle is used
+     * by the subclbsses of <code>RectbngulbrShbpe</code> to define
      * their geometry.
-     * @param loc the specified <code>Point2D</code>
-     * @param size the specified <code>Dimension2D</code>
-     * @see #getFrame
+     * @pbrbm loc the specified <code>Point2D</code>
+     * @pbrbm size the specified <code>Dimension2D</code>
+     * @see #getFrbme
      * @since 1.2
      */
-    public void setFrame(Point2D loc, Dimension2D size) {
-        setFrame(loc.getX(), loc.getY(), size.getWidth(), size.getHeight());
+    public void setFrbme(Point2D loc, Dimension2D size) {
+        setFrbme(loc.getX(), loc.getY(), size.getWidth(), size.getHeight());
     }
 
     /**
-     * Sets the framing rectangle of this <code>Shape</code> to
-     * be the specified <code>Rectangle2D</code>.  The framing rectangle is
-     * used by the subclasses of <code>RectangularShape</code> to define
+     * Sets the frbming rectbngle of this <code>Shbpe</code> to
+     * be the specified <code>Rectbngle2D</code>.  The frbming rectbngle is
+     * used by the subclbsses of <code>RectbngulbrShbpe</code> to define
      * their geometry.
-     * @param r the specified <code>Rectangle2D</code>
-     * @see #getFrame
+     * @pbrbm r the specified <code>Rectbngle2D</code>
+     * @see #getFrbme
      * @since 1.2
      */
-    public void setFrame(Rectangle2D r) {
-        setFrame(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    public void setFrbme(Rectbngle2D r) {
+        setFrbme(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     /**
-     * Sets the diagonal of the framing rectangle of this <code>Shape</code>
-     * based on the two specified coordinates.  The framing rectangle is
-     * used by the subclasses of <code>RectangularShape</code> to define
+     * Sets the dibgonbl of the frbming rectbngle of this <code>Shbpe</code>
+     * bbsed on the two specified coordinbtes.  The frbming rectbngle is
+     * used by the subclbsses of <code>RectbngulbrShbpe</code> to define
      * their geometry.
      *
-     * @param x1 the X coordinate of the start point of the specified diagonal
-     * @param y1 the Y coordinate of the start point of the specified diagonal
-     * @param x2 the X coordinate of the end point of the specified diagonal
-     * @param y2 the Y coordinate of the end point of the specified diagonal
+     * @pbrbm x1 the X coordinbte of the stbrt point of the specified dibgonbl
+     * @pbrbm y1 the Y coordinbte of the stbrt point of the specified dibgonbl
+     * @pbrbm x2 the X coordinbte of the end point of the specified dibgonbl
+     * @pbrbm y2 the Y coordinbte of the end point of the specified dibgonbl
      * @since 1.2
      */
-    public void setFrameFromDiagonal(double x1, double y1,
+    public void setFrbmeFromDibgonbl(double x1, double y1,
                                      double x2, double y2) {
         if (x2 < x1) {
             double t = x1;
@@ -254,53 +254,53 @@ public abstract class RectangularShape implements Shape, Cloneable {
             y1 = y2;
             y2 = t;
         }
-        setFrame(x1, y1, x2 - x1, y2 - y1);
+        setFrbme(x1, y1, x2 - x1, y2 - y1);
     }
 
     /**
-     * Sets the diagonal of the framing rectangle of this <code>Shape</code>
-     * based on two specified <code>Point2D</code> objects.  The framing
-     * rectangle is used by the subclasses of <code>RectangularShape</code>
+     * Sets the dibgonbl of the frbming rectbngle of this <code>Shbpe</code>
+     * bbsed on two specified <code>Point2D</code> objects.  The frbming
+     * rectbngle is used by the subclbsses of <code>RectbngulbrShbpe</code>
      * to define their geometry.
      *
-     * @param p1 the start <code>Point2D</code> of the specified diagonal
-     * @param p2 the end <code>Point2D</code> of the specified diagonal
+     * @pbrbm p1 the stbrt <code>Point2D</code> of the specified dibgonbl
+     * @pbrbm p2 the end <code>Point2D</code> of the specified dibgonbl
      * @since 1.2
      */
-    public void setFrameFromDiagonal(Point2D p1, Point2D p2) {
-        setFrameFromDiagonal(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+    public void setFrbmeFromDibgonbl(Point2D p1, Point2D p2) {
+        setFrbmeFromDibgonbl(p1.getX(), p1.getY(), p2.getX(), p2.getY());
     }
 
     /**
-     * Sets the framing rectangle of this <code>Shape</code>
-     * based on the specified center point coordinates and corner point
-     * coordinates.  The framing rectangle is used by the subclasses of
-     * <code>RectangularShape</code> to define their geometry.
+     * Sets the frbming rectbngle of this <code>Shbpe</code>
+     * bbsed on the specified center point coordinbtes bnd corner point
+     * coordinbtes.  The frbming rectbngle is used by the subclbsses of
+     * <code>RectbngulbrShbpe</code> to define their geometry.
      *
-     * @param centerX the X coordinate of the specified center point
-     * @param centerY the Y coordinate of the specified center point
-     * @param cornerX the X coordinate of the specified corner point
-     * @param cornerY the Y coordinate of the specified corner point
+     * @pbrbm centerX the X coordinbte of the specified center point
+     * @pbrbm centerY the Y coordinbte of the specified center point
+     * @pbrbm cornerX the X coordinbte of the specified corner point
+     * @pbrbm cornerY the Y coordinbte of the specified corner point
      * @since 1.2
      */
-    public void setFrameFromCenter(double centerX, double centerY,
+    public void setFrbmeFromCenter(double centerX, double centerY,
                                    double cornerX, double cornerY) {
-        double halfW = Math.abs(cornerX - centerX);
-        double halfH = Math.abs(cornerY - centerY);
-        setFrame(centerX - halfW, centerY - halfH, halfW * 2.0, halfH * 2.0);
+        double hblfW = Mbth.bbs(cornerX - centerX);
+        double hblfH = Mbth.bbs(cornerY - centerY);
+        setFrbme(centerX - hblfW, centerY - hblfH, hblfW * 2.0, hblfH * 2.0);
     }
 
     /**
-     * Sets the framing rectangle of this <code>Shape</code> based on a
-     * specified center <code>Point2D</code> and corner
-     * <code>Point2D</code>.  The framing rectangle is used by the subclasses
-     * of <code>RectangularShape</code> to define their geometry.
-     * @param center the specified center <code>Point2D</code>
-     * @param corner the specified corner <code>Point2D</code>
+     * Sets the frbming rectbngle of this <code>Shbpe</code> bbsed on b
+     * specified center <code>Point2D</code> bnd corner
+     * <code>Point2D</code>.  The frbming rectbngle is used by the subclbsses
+     * of <code>RectbngulbrShbpe</code> to define their geometry.
+     * @pbrbm center the specified center <code>Point2D</code>
+     * @pbrbm corner the specified corner <code>Point2D</code>
      * @since 1.2
      */
-    public void setFrameFromCenter(Point2D center, Point2D corner) {
-        setFrameFromCenter(center.getX(), center.getY(),
+    public void setFrbmeFromCenter(Point2D center, Point2D corner) {
+        setFrbmeFromCenter(center.getX(), center.getY(),
                            corner.getX(), corner.getY());
     }
 
@@ -308,15 +308,15 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(Point2D p) {
-        return contains(p.getX(), p.getY());
+    public boolebn contbins(Point2D p) {
+        return contbins(p.getX(), p.getY());
     }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(Rectangle2D r) {
+    public boolebn intersects(Rectbngle2D r) {
         return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
@@ -324,74 +324,74 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(Rectangle2D r) {
-        return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    public boolebn contbins(Rectbngle2D r) {
+        return contbins(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public Rectangle getBounds() {
+    public Rectbngle getBounds() {
         double width = getWidth();
         double height = getHeight();
         if (width < 0 || height < 0) {
-            return new Rectangle();
+            return new Rectbngle();
         }
         double x = getX();
         double y = getY();
-        double x1 = Math.floor(x);
-        double y1 = Math.floor(y);
-        double x2 = Math.ceil(x + width);
-        double y2 = Math.ceil(y + height);
-        return new Rectangle((int) x1, (int) y1,
+        double x1 = Mbth.floor(x);
+        double y1 = Mbth.floor(y);
+        double x2 = Mbth.ceil(x + width);
+        double y2 = Mbth.ceil(y + height);
+        return new Rectbngle((int) x1, (int) y1,
                                       (int) (x2 - x1), (int) (y2 - y1));
     }
 
     /**
-     * Returns an iterator object that iterates along the
-     * <code>Shape</code> object's boundary and provides access to a
-     * flattened view of the outline of the <code>Shape</code>
+     * Returns bn iterbtor object thbt iterbtes blong the
+     * <code>Shbpe</code> object's boundbry bnd provides bccess to b
+     * flbttened view of the outline of the <code>Shbpe</code>
      * object's geometry.
      * <p>
-     * Only SEG_MOVETO, SEG_LINETO, and SEG_CLOSE point types will
-     * be returned by the iterator.
+     * Only SEG_MOVETO, SEG_LINETO, bnd SEG_CLOSE point types will
+     * be returned by the iterbtor.
      * <p>
-     * The amount of subdivision of the curved segments is controlled
-     * by the <code>flatness</code> parameter, which specifies the
-     * maximum distance that any point on the unflattened transformed
-     * curve can deviate from the returned flattened path segments.
-     * An optional {@link AffineTransform} can
-     * be specified so that the coordinates returned in the iteration are
-     * transformed accordingly.
-     * @param at an optional <code>AffineTransform</code> to be applied to the
-     *          coordinates as they are returned in the iteration,
-     *          or <code>null</code> if untransformed coordinates are desired.
-     * @param flatness the maximum distance that the line segments used to
-     *          approximate the curved segments are allowed to deviate
-     *          from any point on the original curve
-     * @return a <code>PathIterator</code> object that provides access to
-     *          the <code>Shape</code> object's flattened geometry.
+     * The bmount of subdivision of the curved segments is controlled
+     * by the <code>flbtness</code> pbrbmeter, which specifies the
+     * mbximum distbnce thbt bny point on the unflbttened trbnsformed
+     * curve cbn devibte from the returned flbttened pbth segments.
+     * An optionbl {@link AffineTrbnsform} cbn
+     * be specified so thbt the coordinbtes returned in the iterbtion bre
+     * trbnsformed bccordingly.
+     * @pbrbm bt bn optionbl <code>AffineTrbnsform</code> to be bpplied to the
+     *          coordinbtes bs they bre returned in the iterbtion,
+     *          or <code>null</code> if untrbnsformed coordinbtes bre desired.
+     * @pbrbm flbtness the mbximum distbnce thbt the line segments used to
+     *          bpproximbte the curved segments bre bllowed to devibte
+     *          from bny point on the originbl curve
+     * @return b <code>PbthIterbtor</code> object thbt provides bccess to
+     *          the <code>Shbpe</code> object's flbttened geometry.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at, double flatness) {
-        return new FlatteningPathIterator(getPathIterator(at), flatness);
+    public PbthIterbtor getPbthIterbtor(AffineTrbnsform bt, double flbtness) {
+        return new FlbtteningPbthIterbtor(getPbthIterbtor(bt), flbtness);
     }
 
     /**
-     * Creates a new object of the same class and with the same
-     * contents as this object.
-     * @return     a clone of this instance.
+     * Crebtes b new object of the sbme clbss bnd with the sbme
+     * contents bs this object.
+     * @return     b clone of this instbnce.
      * @exception  OutOfMemoryError            if there is not enough memory.
-     * @see        java.lang.Cloneable
+     * @see        jbvb.lbng.Clonebble
      * @since      1.2
      */
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError(e);
         }
     }
 }

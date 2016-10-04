@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 1996, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 
 /**
- * Convenience class for writing character files.  The constructors of this
- * class assume that the default character encoding and the default byte-buffer
- * size are acceptable.  To specify these values yourself, construct an
- * OutputStreamWriter on a FileOutputStream.
+ * Convenience clbss for writing chbrbcter files.  The constructors of this
+ * clbss bssume thbt the defbult chbrbcter encoding bnd the defbult byte-buffer
+ * size bre bcceptbble.  To specify these vblues yourself, construct bn
+ * OutputStrebmWriter on b FileOutputStrebm.
  *
- * <p>Whether or not a file is available or may be created depends upon the
- * underlying platform.  Some platforms, in particular, allow a file to be
+ * <p>Whether or not b file is bvbilbble or mby be crebted depends upon the
+ * underlying plbtform.  Some plbtforms, in pbrticulbr, bllow b file to be
  * opened for writing by only one <tt>FileWriter</tt> (or other file-writing
- * object) at a time.  In such situations the constructors in this class
- * will fail if the file involved is already open.
+ * object) bt b time.  In such situbtions the constructors in this clbss
+ * will fbil if the file involved is blrebdy open.
  *
- * <p><code>FileWriter</code> is meant for writing streams of characters.
- * For writing streams of raw bytes, consider using a
- * <code>FileOutputStream</code>.
+ * <p><code>FileWriter</code> is mebnt for writing strebms of chbrbcters.
+ * For writing strebms of rbw bytes, consider using b
+ * <code>FileOutputStrebm</code>.
  *
- * @see OutputStreamWriter
- * @see FileOutputStream
+ * @see OutputStrebmWriter
+ * @see FileOutputStrebm
  *
- * @author      Mark Reinhold
+ * @buthor      Mbrk Reinhold
  * @since       1.1
  */
 
-public class FileWriter extends OutputStreamWriter {
+public clbss FileWriter extends OutputStrebmWriter {
 
     /**
-     * Constructs a FileWriter object given a file name.
+     * Constructs b FileWriter object given b file nbme.
      *
-     * @param fileName  String The system-dependent filename.
-     * @throws IOException  if the named file exists but is a directory rather
-     *                  than a regular file, does not exist but cannot be
-     *                  created, or cannot be opened for any other reason
+     * @pbrbm fileNbme  String The system-dependent filenbme.
+     * @throws IOException  if the nbmed file exists but is b directory rbther
+     *                  thbn b regulbr file, does not exist but cbnnot be
+     *                  crebted, or cbnnot be opened for bny other rebson
      */
-    public FileWriter(String fileName) throws IOException {
-        super(new FileOutputStream(fileName));
+    public FileWriter(String fileNbme) throws IOException {
+        super(new FileOutputStrebm(fileNbme));
     }
 
     /**
-     * Constructs a FileWriter object given a file name with a boolean
-     * indicating whether or not to append the data written.
+     * Constructs b FileWriter object given b file nbme with b boolebn
+     * indicbting whether or not to bppend the dbtb written.
      *
-     * @param fileName  String The system-dependent filename.
-     * @param append    boolean if <code>true</code>, then data will be written
-     *                  to the end of the file rather than the beginning.
-     * @throws IOException  if the named file exists but is a directory rather
-     *                  than a regular file, does not exist but cannot be
-     *                  created, or cannot be opened for any other reason
+     * @pbrbm fileNbme  String The system-dependent filenbme.
+     * @pbrbm bppend    boolebn if <code>true</code>, then dbtb will be written
+     *                  to the end of the file rbther thbn the beginning.
+     * @throws IOException  if the nbmed file exists but is b directory rbther
+     *                  thbn b regulbr file, does not exist but cbnnot be
+     *                  crebted, or cbnnot be opened for bny other rebson
      */
-    public FileWriter(String fileName, boolean append) throws IOException {
-        super(new FileOutputStream(fileName, append));
+    public FileWriter(String fileNbme, boolebn bppend) throws IOException {
+        super(new FileOutputStrebm(fileNbme, bppend));
     }
 
     /**
-     * Constructs a FileWriter object given a File object.
+     * Constructs b FileWriter object given b File object.
      *
-     * @param file  a File object to write to.
-     * @throws IOException  if the file exists but is a directory rather than
-     *                  a regular file, does not exist but cannot be created,
-     *                  or cannot be opened for any other reason
+     * @pbrbm file  b File object to write to.
+     * @throws IOException  if the file exists but is b directory rbther thbn
+     *                  b regulbr file, does not exist but cbnnot be crebted,
+     *                  or cbnnot be opened for bny other rebson
      */
     public FileWriter(File file) throws IOException {
-        super(new FileOutputStream(file));
+        super(new FileOutputStrebm(file));
     }
 
     /**
-     * Constructs a FileWriter object given a File object. If the second
-     * argument is <code>true</code>, then bytes will be written to the end
-     * of the file rather than the beginning.
+     * Constructs b FileWriter object given b File object. If the second
+     * brgument is <code>true</code>, then bytes will be written to the end
+     * of the file rbther thbn the beginning.
      *
-     * @param file  a File object to write to
-     * @param     append    if <code>true</code>, then bytes will be written
-     *                      to the end of the file rather than the beginning
-     * @throws IOException  if the file exists but is a directory rather than
-     *                  a regular file, does not exist but cannot be created,
-     *                  or cannot be opened for any other reason
+     * @pbrbm file  b File object to write to
+     * @pbrbm     bppend    if <code>true</code>, then bytes will be written
+     *                      to the end of the file rbther thbn the beginning
+     * @throws IOException  if the file exists but is b directory rbther thbn
+     *                  b regulbr file, does not exist but cbnnot be crebted,
+     *                  or cbnnot be opened for bny other rebson
      * @since 1.4
      */
-    public FileWriter(File file, boolean append) throws IOException {
-        super(new FileOutputStream(file, append));
+    public FileWriter(File file, boolebn bppend) throws IOException {
+        super(new FileOutputStrebm(file, bppend));
     }
 
     /**
-     * Constructs a FileWriter object associated with a file descriptor.
+     * Constructs b FileWriter object bssocibted with b file descriptor.
      *
-     * @param fd  FileDescriptor object to write to.
+     * @pbrbm fd  FileDescriptor object to write to.
      */
     public FileWriter(FileDescriptor fd) {
-        super(new FileOutputStream(fd));
+        super(new FileOutputStrebm(fd));
     }
 
 }

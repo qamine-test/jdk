@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.ActionMapUIResource;
-import javax.swing.plaf.ButtonUI;
-import javax.swing.plaf.ComponentInputMapUIResource;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.ActionMbpUIResource;
+import jbvbx.swing.plbf.ButtonUI;
+import jbvbx.swing.plbf.ComponentInputMbpUIResource;
 
 /**
  * Button Listener
  *
- * @author Jeff Dinkins
- * @author Arnaud Weber (keyboard UI support)
+ * @buthor Jeff Dinkins
+ * @buthor Arnbud Weber (keybobrd UI support)
  */
 
-public class BasicButtonListener implements MouseListener, MouseMotionListener,
-                                   FocusListener, ChangeListener, PropertyChangeListener
+public clbss BbsicButtonListener implements MouseListener, MouseMotionListener,
+                                   FocusListener, ChbngeListener, PropertyChbngeListener
 {
-    private long lastPressedTimestamp = -1;
-    private boolean shouldDiscardRelease = false;
+    privbte long lbstPressedTimestbmp = -1;
+    privbte boolebn shouldDiscbrdRelebse = fblse;
 
     /**
-     * Populates Buttons actions.
+     * Populbtes Buttons bctions.
      */
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.PRESS));
-        map.put(new Actions(Actions.RELEASE));
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        mbp.put(new Actions(Actions.PRESS));
+        mbp.put(new Actions(Actions.RELEASE));
     }
 
 
     /**
-     * Constructs a new instance of {@code BasicButtonListener}.
+     * Constructs b new instbnce of {@code BbsicButtonListener}.
      *
-     * @param b an abstract button
+     * @pbrbm b bn bbstrbct button
      */
-    public BasicButtonListener(AbstractButton b) {
+    public BbsicButtonListener(AbstrbctButton b) {
     }
 
-    public void propertyChange(PropertyChangeEvent e) {
-        String prop = e.getPropertyName();
-        if(prop == AbstractButton.MNEMONIC_CHANGED_PROPERTY) {
-            updateMnemonicBinding((AbstractButton)e.getSource());
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        String prop = e.getPropertyNbme();
+        if(prop == AbstrbctButton.MNEMONIC_CHANGED_PROPERTY) {
+            updbteMnemonicBinding((AbstrbctButton)e.getSource());
         }
-        else if(prop == AbstractButton.CONTENT_AREA_FILLED_CHANGED_PROPERTY) {
-            checkOpacity((AbstractButton) e.getSource() );
+        else if(prop == AbstrbctButton.CONTENT_AREA_FILLED_CHANGED_PROPERTY) {
+            checkOpbcity((AbstrbctButton) e.getSource() );
         }
-        else if(prop == AbstractButton.TEXT_CHANGED_PROPERTY ||
+        else if(prop == AbstrbctButton.TEXT_CHANGED_PROPERTY ||
                 "font" == prop || "foreground" == prop) {
-            AbstractButton b = (AbstractButton) e.getSource();
-            BasicHTML.updateRenderer(b, b.getText());
+            AbstrbctButton b = (AbstrbctButton) e.getSource();
+            BbsicHTML.updbteRenderer(b, b.getText());
         }
     }
 
     /**
-     * Checks the opacity of the {@code AbstractButton}.
+     * Checks the opbcity of the {@code AbstrbctButton}.
      *
-     * @param b an abstract button
+     * @pbrbm b bn bbstrbct button
      */
-    protected void checkOpacity(AbstractButton b) {
-        b.setOpaque( b.isContentAreaFilled() );
+    protected void checkOpbcity(AbstrbctButton b) {
+        b.setOpbque( b.isContentArebFilled() );
     }
 
     /**
-     * Register default key actions: pressing space to "click" a
-     * button and registering the keyboard mnemonic (if any).
+     * Register defbult key bctions: pressing spbce to "click" b
+     * button bnd registering the keybobrd mnemonic (if bny).
      *
-     * @param c a component
+     * @pbrbm c b component
      */
-    public void installKeyboardActions(JComponent c) {
-        AbstractButton b = (AbstractButton)c;
-        // Update the mnemonic binding.
-        updateMnemonicBinding(b);
+    public void instbllKeybobrdActions(JComponent c) {
+        AbstrbctButton b = (AbstrbctButton)c;
+        // Updbte the mnemonic binding.
+        updbteMnemonicBinding(b);
 
-        LazyActionMap.installLazyActionMap(c, BasicButtonListener.class,
-                                           "Button.actionMap");
+        LbzyActionMbp.instbllLbzyActionMbp(c, BbsicButtonListener.clbss,
+                                           "Button.bctionMbp");
 
-        InputMap km = getInputMap(JComponent.WHEN_FOCUSED, c);
+        InputMbp km = getInputMbp(JComponent.WHEN_FOCUSED, c);
 
-        SwingUtilities.replaceUIInputMap(c, JComponent.WHEN_FOCUSED, km);
+        SwingUtilities.replbceUIInputMbp(c, JComponent.WHEN_FOCUSED, km);
     }
 
     /**
-     * Unregister default key actions.
+     * Unregister defbult key bctions.
      *
-     * @param c a component
+     * @pbrbm c b component
      */
-    public void uninstallKeyboardActions(JComponent c) {
-        SwingUtilities.replaceUIInputMap(c, JComponent.
+    public void uninstbllKeybobrdActions(JComponent c) {
+        SwingUtilities.replbceUIInputMbp(c, JComponent.
                                          WHEN_IN_FOCUSED_WINDOW, null);
-        SwingUtilities.replaceUIInputMap(c, JComponent.WHEN_FOCUSED, null);
-        SwingUtilities.replaceUIActionMap(c, null);
+        SwingUtilities.replbceUIInputMbp(c, JComponent.WHEN_FOCUSED, null);
+        SwingUtilities.replbceUIActionMbp(c, null);
     }
 
     /**
-     * Returns the InputMap for condition <code>condition</code>. Called as
-     * part of <code>installKeyboardActions</code>.
+     * Returns the InputMbp for condition <code>condition</code>. Cblled bs
+     * pbrt of <code>instbllKeybobrdActions</code>.
      */
-    InputMap getInputMap(int condition, JComponent c) {
+    InputMbp getInputMbp(int condition, JComponent c) {
         if (condition == JComponent.WHEN_FOCUSED) {
-            BasicButtonUI ui = (BasicButtonUI)BasicLookAndFeel.getUIOfType(
-                         ((AbstractButton)c).getUI(), BasicButtonUI.class);
+            BbsicButtonUI ui = (BbsicButtonUI)BbsicLookAndFeel.getUIOfType(
+                         ((AbstrbctButton)c).getUI(), BbsicButtonUI.clbss);
             if (ui != null) {
-                return (InputMap)DefaultLookup.get(
-                             c, ui, ui.getPropertyPrefix() + "focusInputMap");
+                return (InputMbp)DefbultLookup.get(
+                             c, ui, ui.getPropertyPrefix() + "focusInputMbp");
             }
         }
         return null;
@@ -139,86 +139,86 @@ public class BasicButtonListener implements MouseListener, MouseMotionListener,
 
     /**
      * Resets the binding for the mnemonic in the WHEN_IN_FOCUSED_WINDOW
-     * UI InputMap.
+     * UI InputMbp.
      */
-    void updateMnemonicBinding(AbstractButton b) {
+    void updbteMnemonicBinding(AbstrbctButton b) {
         int m = b.getMnemonic();
         if(m != 0) {
-            InputMap map = SwingUtilities.getUIInputMap(
+            InputMbp mbp = SwingUtilities.getUIInputMbp(
                                 b, JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-            if (map == null) {
-                map = new ComponentInputMapUIResource(b);
-                SwingUtilities.replaceUIInputMap(b,
-                               JComponent.WHEN_IN_FOCUSED_WINDOW, map);
+            if (mbp == null) {
+                mbp = new ComponentInputMbpUIResource(b);
+                SwingUtilities.replbceUIInputMbp(b,
+                               JComponent.WHEN_IN_FOCUSED_WINDOW, mbp);
             }
-            map.clear();
-            map.put(KeyStroke.getKeyStroke(m, BasicLookAndFeel.getFocusAcceleratorKeyMask(), false),
+            mbp.clebr();
+            mbp.put(KeyStroke.getKeyStroke(m, BbsicLookAndFeel.getFocusAccelerbtorKeyMbsk(), fblse),
                     "pressed");
-            map.put(KeyStroke.getKeyStroke(m, BasicLookAndFeel.getFocusAcceleratorKeyMask(), true),
-                    "released");
-            map.put(KeyStroke.getKeyStroke(m, 0, true), "released");
+            mbp.put(KeyStroke.getKeyStroke(m, BbsicLookAndFeel.getFocusAccelerbtorKeyMbsk(), true),
+                    "relebsed");
+            mbp.put(KeyStroke.getKeyStroke(m, 0, true), "relebsed");
         }
         else {
-            InputMap map = SwingUtilities.getUIInputMap(b, JComponent.
+            InputMbp mbp = SwingUtilities.getUIInputMbp(b, JComponent.
                                              WHEN_IN_FOCUSED_WINDOW);
-            if (map != null) {
-                map.clear();
+            if (mbp != null) {
+                mbp.clebr();
             }
         }
     }
 
-    public void stateChanged(ChangeEvent e) {
-        AbstractButton b = (AbstractButton) e.getSource();
-        b.repaint();
+    public void stbteChbnged(ChbngeEvent e) {
+        AbstrbctButton b = (AbstrbctButton) e.getSource();
+        b.repbint();
     }
 
-    public void focusGained(FocusEvent e) {
-        AbstractButton b = (AbstractButton) e.getSource();
-        if (b instanceof JButton && ((JButton)b).isDefaultCapable()) {
-            JRootPane root = b.getRootPane();
+    public void focusGbined(FocusEvent e) {
+        AbstrbctButton b = (AbstrbctButton) e.getSource();
+        if (b instbnceof JButton && ((JButton)b).isDefbultCbpbble()) {
+            JRootPbne root = b.getRootPbne();
             if (root != null) {
-               BasicButtonUI ui = (BasicButtonUI)BasicLookAndFeel.getUIOfType(
-                         b.getUI(), BasicButtonUI.class);
-               if (ui != null && DefaultLookup.getBoolean(b, ui,
+               BbsicButtonUI ui = (BbsicButtonUI)BbsicLookAndFeel.getUIOfType(
+                         b.getUI(), BbsicButtonUI.clbss);
+               if (ui != null && DefbultLookup.getBoolebn(b, ui,
                                    ui.getPropertyPrefix() +
-                                   "defaultButtonFollowsFocus", true)) {
-                   root.putClientProperty("temporaryDefaultButton", b);
-                   root.setDefaultButton((JButton)b);
-                   root.putClientProperty("temporaryDefaultButton", null);
+                                   "defbultButtonFollowsFocus", true)) {
+                   root.putClientProperty("temporbryDefbultButton", b);
+                   root.setDefbultButton((JButton)b);
+                   root.putClientProperty("temporbryDefbultButton", null);
                }
             }
         }
-        b.repaint();
+        b.repbint();
     }
 
     public void focusLost(FocusEvent e) {
-        AbstractButton b = (AbstractButton) e.getSource();
-        JRootPane root = b.getRootPane();
+        AbstrbctButton b = (AbstrbctButton) e.getSource();
+        JRootPbne root = b.getRootPbne();
         if (root != null) {
-           JButton initialDefault = (JButton)root.getClientProperty("initialDefaultButton");
-           if (b != initialDefault) {
-               BasicButtonUI ui = (BasicButtonUI)BasicLookAndFeel.getUIOfType(
-                         b.getUI(), BasicButtonUI.class);
-               if (ui != null && DefaultLookup.getBoolean(b, ui,
+           JButton initiblDefbult = (JButton)root.getClientProperty("initiblDefbultButton");
+           if (b != initiblDefbult) {
+               BbsicButtonUI ui = (BbsicButtonUI)BbsicLookAndFeel.getUIOfType(
+                         b.getUI(), BbsicButtonUI.clbss);
+               if (ui != null && DefbultLookup.getBoolebn(b, ui,
                                    ui.getPropertyPrefix() +
-                                   "defaultButtonFollowsFocus", true)) {
-                   root.setDefaultButton(initialDefault);
+                                   "defbultButtonFollowsFocus", true)) {
+                   root.setDefbultButton(initiblDefbult);
                }
            }
         }
 
         ButtonModel model = b.getModel();
-        model.setPressed(false);
-        model.setArmed(false);
-        b.repaint();
+        model.setPressed(fblse);
+        model.setArmed(fblse);
+        b.repbint();
     }
 
     public void mouseMoved(MouseEvent e) {
     }
 
 
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDrbgged(MouseEvent e) {
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -226,52 +226,52 @@ public class BasicButtonListener implements MouseListener, MouseMotionListener,
 
     public void mousePressed(MouseEvent e) {
        if (SwingUtilities.isLeftMouseButton(e) ) {
-          AbstractButton b = (AbstractButton) e.getSource();
+          AbstrbctButton b = (AbstrbctButton) e.getSource();
 
-          if(b.contains(e.getX(), e.getY())) {
+          if(b.contbins(e.getX(), e.getY())) {
               long multiClickThreshhold = b.getMultiClickThreshhold();
-              long lastTime = lastPressedTimestamp;
-              long currentTime = lastPressedTimestamp = e.getWhen();
-              if (lastTime != -1 && currentTime - lastTime < multiClickThreshhold) {
-                  shouldDiscardRelease = true;
+              long lbstTime = lbstPressedTimestbmp;
+              long currentTime = lbstPressedTimestbmp = e.getWhen();
+              if (lbstTime != -1 && currentTime - lbstTime < multiClickThreshhold) {
+                  shouldDiscbrdRelebse = true;
                   return;
               }
 
              ButtonModel model = b.getModel();
-             if (!model.isEnabled()) {
-                // Disabled buttons ignore all input...
+             if (!model.isEnbbled()) {
+                // Disbbled buttons ignore bll input...
                 return;
              }
              if (!model.isArmed()) {
-                // button not armed, should be
+                // button not brmed, should be
                 model.setArmed(true);
              }
              model.setPressed(true);
-             if(!b.hasFocus() && b.isRequestFocusEnabled()) {
+             if(!b.hbsFocus() && b.isRequestFocusEnbbled()) {
                 b.requestFocus();
              }
           }
        }
     }
 
-    public void mouseReleased(MouseEvent e) {
+    public void mouseRelebsed(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
             // Support for multiClickThreshhold
-            if (shouldDiscardRelease) {
-                shouldDiscardRelease = false;
+            if (shouldDiscbrdRelebse) {
+                shouldDiscbrdRelebse = fblse;
                 return;
             }
-            AbstractButton b = (AbstractButton) e.getSource();
+            AbstrbctButton b = (AbstrbctButton) e.getSource();
             ButtonModel model = b.getModel();
-            model.setPressed(false);
-            model.setArmed(false);
+            model.setPressed(fblse);
+            model.setArmed(fblse);
         }
     }
 
     public void mouseEntered(MouseEvent e) {
-        AbstractButton b = (AbstractButton) e.getSource();
+        AbstrbctButton b = (AbstrbctButton) e.getSource();
         ButtonModel model = b.getModel();
-        if (b.isRolloverEnabled() && !SwingUtilities.isLeftMouseButton(e)) {
+        if (b.isRolloverEnbbled() && !SwingUtilities.isLeftMouseButton(e)) {
             model.setRollover(true);
         }
         if (model.isPressed())
@@ -279,50 +279,50 @@ public class BasicButtonListener implements MouseListener, MouseMotionListener,
     }
 
     public void mouseExited(MouseEvent e) {
-        AbstractButton b = (AbstractButton) e.getSource();
+        AbstrbctButton b = (AbstrbctButton) e.getSource();
         ButtonModel model = b.getModel();
-        if(b.isRolloverEnabled()) {
-            model.setRollover(false);
+        if(b.isRolloverEnbbled()) {
+            model.setRollover(fblse);
         }
-        model.setArmed(false);
+        model.setArmed(fblse);
     }
 
 
     /**
-     * Actions for Buttons. Two types of action are supported:
-     * pressed: Moves the button to a pressed state
-     * released: Disarms the button.
+     * Actions for Buttons. Two types of bction bre supported:
+     * pressed: Moves the button to b pressed stbte
+     * relebsed: Disbrms the button.
      */
-    private static class Actions extends UIAction {
-        private static final String PRESS = "pressed";
-        private static final String RELEASE = "released";
+    privbte stbtic clbss Actions extends UIAction {
+        privbte stbtic finbl String PRESS = "pressed";
+        privbte stbtic finbl String RELEASE = "relebsed";
 
-        Actions(String name) {
-            super(name);
+        Actions(String nbme) {
+            super(nbme);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            AbstractButton b = (AbstractButton)e.getSource();
-            String key = getName();
+        public void bctionPerformed(ActionEvent e) {
+            AbstrbctButton b = (AbstrbctButton)e.getSource();
+            String key = getNbme();
             if (key == PRESS) {
                 ButtonModel model = b.getModel();
                 model.setArmed(true);
                 model.setPressed(true);
-                if(!b.hasFocus()) {
+                if(!b.hbsFocus()) {
                     b.requestFocus();
                 }
             }
             else if (key == RELEASE) {
                 ButtonModel model = b.getModel();
-                model.setPressed(false);
-                model.setArmed(false);
+                model.setPressed(fblse);
+                model.setArmed(fblse);
             }
         }
 
-        public boolean isEnabled(Object sender) {
-            if(sender != null && (sender instanceof AbstractButton) &&
-                      !((AbstractButton)sender).getModel().isEnabled()) {
-                return false;
+        public boolebn isEnbbled(Object sender) {
+            if(sender != null && (sender instbnceof AbstrbctButton) &&
+                      !((AbstrbctButton)sender).getModel().isEnbbled()) {
+                return fblse;
             } else {
                 return true;
             }

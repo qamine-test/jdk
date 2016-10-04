@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.krb5.internal.rcache;
+pbckbge sun.security.krb5.internbl.rcbche;
 
-import java.io.*;
-import java.nio.BufferUnderflowException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.channels.SeekableByteChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
-import java.nio.file.attribute.PosixFilePermission;
-import java.security.AccessController;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.nio.BufferUnderflowException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ByteOrder;
+import jbvb.nio.chbnnels.SeekbbleByteChbnnel;
+import jbvb.nio.file.Files;
+import jbvb.nio.file.Pbth;
+import jbvb.nio.file.StbndbrdCopyOption;
+import jbvb.nio.file.StbndbrdOpenOption;
+import jbvb.nio.file.bttribute.PosixFilePermission;
+import jbvb.security.AccessController;
+import jbvb.util.*;
 
-import sun.security.action.GetPropertyAction;
-import sun.security.krb5.internal.KerberosTime;
-import sun.security.krb5.internal.Krb5;
-import sun.security.krb5.internal.KrbApErrException;
-import sun.security.krb5.internal.ReplayCache;
+import sun.security.bction.GetPropertyAction;
+import sun.security.krb5.internbl.KerberosTime;
+import sun.security.krb5.internbl.Krb5;
+import sun.security.krb5.internbl.KrbApErrException;
+import sun.security.krb5.internbl.ReplbyCbche;
 
 
 /**
  * A dfl file is used to sustores AuthTime entries when the system property
- * sun.security.krb5.rcache is set to
+ * sun.security.krb5.rcbche is set to
  *
- *    dfl(|:path/|:path/name|:name)
+ *    dfl(|:pbth/|:pbth/nbme|:nbme)
  *
- * The file will be path/name. If path is not given, it will be
+ * The file will be pbth/nbme. If pbth is not given, it will be
  *
- *    System.getProperty("java.io.tmpdir")
+ *    System.getProperty("jbvb.io.tmpdir")
  *
- * If name is not given, it will be
+ * If nbme is not given, it will be
  *
  *    service_euid
  *
- * in which euid is available as sun.misc.VM.geteuid().
+ * in which euid is bvbilbble bs sun.misc.VM.geteuid().
  *
- * The file has a header:
+ * The file hbs b hebder:
  *
  *    i16 0x0501 (KRB5_RC_VNO) in network order
- *    i32 number of seconds for lifespan (in native order, same below)
+ *    i32 number of seconds for lifespbn (in nbtive order, sbme below)
  *
- * followed by cache entries concatenated, which can be encoded in
+ * followed by cbche entries concbtenbted, which cbn be encoded in
  * 2 styles:
  *
- * The traditional style is:
+ * The trbditionbl style is:
  *
- *    LC of client principal
- *    LC of server principal
- *    i32 cusec of Authenticator
- *    i32 ctime of Authenticator
+ *    LC of client principbl
+ *    LC of server principbl
+ *    i32 cusec of Authenticbtor
+ *    i32 ctime of Authenticbtor
  *
- * The new style has a hash:
+ * The new style hbs b hbsh:
  *
  *    LC of ""
- *    LC of "HASH:%s %lu:%s %lu:%s" of (hash, clientlen, client, serverlen,
- *          server) where msghash is 32 char (lower case) text mode md5sum
- *          of the ciphertext of authenticator.
- *    i32 cusec of Authenticator
- *    i32 ctime of Authenticator
+ *    LC of "HASH:%s %lu:%s %lu:%s" of (hbsh, clientlen, client, serverlen,
+ *          server) where msghbsh is 32 chbr (lower cbse) text mode md5sum
+ *          of the ciphertext of buthenticbtor.
+ *    i32 cusec of Authenticbtor
+ *    i32 ctime of Authenticbtor
  *
- * where LC of a string means
+ * where LC of b string mebns
  *
  *    i32 strlen(string) + 1
  *    octets of string, with the \0x00 ending
  *
- * The old style block is always created by MIT krb5 used even if a new style
- * is available, which means there can be 2 entries for a single Authenticator.
- * Java also does this way.
+ * The old style block is blwbys crebted by MIT krb5 used even if b new style
+ * is bvbilbble, which mebns there cbn be 2 entries for b single Authenticbtor.
+ * Jbvb blso does this wby.
  *
- * See src/lib/krb5/rcache/rc_io.c and src/lib/krb5/rcache/rc_dfl.c.
+ * See src/lib/krb5/rcbche/rc_io.c bnd src/lib/krb5/rcbche/rc_dfl.c.
  */
-public class DflCache extends ReplayCache {
+public clbss DflCbche extends ReplbyCbche {
 
-    private static final int KRB5_RV_VNO = 0x501;
-    private static final int EXCESSREPS = 30;   // if missed-hit>this, recreate
+    privbte stbtic finbl int KRB5_RV_VNO = 0x501;
+    privbte stbtic finbl int EXCESSREPS = 30;   // if missed-hit>this, recrebte
 
-    private final String source;
+    privbte finbl String source;
 
-    private static long uid;
-    static {
-        // Available on Solaris, Linux and Mac. Otherwise, -1 and no _euid suffix
+    privbte stbtic long uid;
+    stbtic {
+        // Avbilbble on Solbris, Linux bnd Mbc. Otherwise, -1 bnd no _euid suffix
         uid = sun.misc.VM.geteuid();
     }
 
-    public DflCache (String source) {
+    public DflCbche (String source) {
         this.source = source;
     }
 
-    private static String defaultPath() {
+    privbte stbtic String defbultPbth() {
         return AccessController.doPrivileged(
-                new GetPropertyAction("java.io.tmpdir"));
+                new GetPropertyAction("jbvb.io.tmpdir"));
     }
 
-    private static String defaultFile(String server) {
+    privbte stbtic String defbultFile(String server) {
         // service/host@REALM -> service
-        int slash = server.indexOf('/');
-        if (slash == -1) {
-            // A normal principal? say, dummy@REALM
-            slash = server.indexOf('@');
+        int slbsh = server.indexOf('/');
+        if (slbsh == -1) {
+            // A normbl principbl? sby, dummy@REALM
+            slbsh = server.indexOf('@');
         }
-        if (slash != -1) {
-            // Should not happen, but be careful
-            server= server.substring(0, slash);
+        if (slbsh != -1) {
+            // Should not hbppen, but be cbreful
+            server= server.substring(0, slbsh);
         }
         if (uid != -1) {
             server += "_" + uid;
@@ -136,136 +136,136 @@ public class DflCache extends ReplayCache {
         return server;
     }
 
-    private static Path getFileName(String source, String server) {
-        String path, file;
-        if (source.equals("dfl")) {
-            path = defaultPath();
-            file = defaultFile(server);
-        } else if (source.startsWith("dfl:")) {
+    privbte stbtic Pbth getFileNbme(String source, String server) {
+        String pbth, file;
+        if (source.equbls("dfl")) {
+            pbth = defbultPbth();
+            file = defbultFile(server);
+        } else if (source.stbrtsWith("dfl:")) {
             source = source.substring(4);
-            int pos = source.lastIndexOf('/');
-            int pos1 = source.lastIndexOf('\\');
+            int pos = source.lbstIndexOf('/');
+            int pos1 = source.lbstIndexOf('\\');
             if (pos1 > pos) pos = pos1;
             if (pos == -1) {
-                // Only file name
-                path = defaultPath();
+                // Only file nbme
+                pbth = defbultPbth();
                 file = source;
             } else if (new File(source).isDirectory()) {
-                // Only path
-                path = source;
-                file = defaultFile(server);
+                // Only pbth
+                pbth = source;
+                file = defbultFile(server);
             } else {
-                // Full pathname
-                path = null;
+                // Full pbthnbme
+                pbth = null;
                 file = source;
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
-        return new File(path, file).toPath();
+        return new File(pbth, file).toPbth();
     }
 
     @Override
-    public void checkAndStore(KerberosTime currTime, AuthTimeWithHash time)
+    public void checkAndStore(KerberosTime currTime, AuthTimeWithHbsh time)
             throws KrbApErrException {
         try {
             checkAndStore0(currTime, time);
-        } catch (IOException ioe) {
+        } cbtch (IOException ioe) {
             KrbApErrException ke = new KrbApErrException(Krb5.KRB_ERR_GENERIC);
-            ke.initCause(ioe);
+            ke.initCbuse(ioe);
             throw ke;
         }
     }
 
-    private synchronized void checkAndStore0(KerberosTime currTime, AuthTimeWithHash time)
+    privbte synchronized void checkAndStore0(KerberosTime currTime, AuthTimeWithHbsh time)
             throws IOException, KrbApErrException {
-        Path p = getFileName(source, time.server);
+        Pbth p = getFileNbme(source, time.server);
         int missed = 0;
-        try (Storage s = new Storage()) {
+        try (Storbge s = new Storbge()) {
             try {
-                missed = s.loadAndCheck(p, time, currTime);
-            } catch (IOException ioe) {
-                // Non-existing or invalid file
-                Storage.create(p);
-                missed = s.loadAndCheck(p, time, currTime);
+                missed = s.lobdAndCheck(p, time, currTime);
+            } cbtch (IOException ioe) {
+                // Non-existing or invblid file
+                Storbge.crebte(p);
+                missed = s.lobdAndCheck(p, time, currTime);
             }
-            s.append(time);
+            s.bppend(time);
         }
         if (missed > EXCESSREPS) {
-            Storage.expunge(p, currTime);
+            Storbge.expunge(p, currTime);
         }
     }
 
 
-    private static class Storage implements Closeable {
-        // Static methods
-        @SuppressWarnings("try")
-        private static void create(Path p) throws IOException {
-            try (SeekableByteChannel newChan = createNoClose(p)) {
-                // Do nothing, wait for close
+    privbte stbtic clbss Storbge implements Closebble {
+        // Stbtic methods
+        @SuppressWbrnings("try")
+        privbte stbtic void crebte(Pbth p) throws IOException {
+            try (SeekbbleByteChbnnel newChbn = crebteNoClose(p)) {
+                // Do nothing, wbit for close
             }
-            makeMine(p);
+            mbkeMine(p);
         }
 
-        private static void makeMine(Path p) throws IOException {
+        privbte stbtic void mbkeMine(Pbth p) throws IOException {
             // chmod to owner-rw only, otherwise MIT krb5 rejects
             try {
-                Set<PosixFilePermission> attrs = new HashSet<>();
-                attrs.add(PosixFilePermission.OWNER_READ);
-                attrs.add(PosixFilePermission.OWNER_WRITE);
-                Files.setPosixFilePermissions(p, attrs);
-            } catch (UnsupportedOperationException uoe) {
-                // No POSIX permission. That's OK.
+                Set<PosixFilePermission> bttrs = new HbshSet<>();
+                bttrs.bdd(PosixFilePermission.OWNER_READ);
+                bttrs.bdd(PosixFilePermission.OWNER_WRITE);
+                Files.setPosixFilePermissions(p, bttrs);
+            } cbtch (UnsupportedOperbtionException uoe) {
+                // No POSIX permission. Thbt's OK.
             }
         }
 
-        private static SeekableByteChannel createNoClose(Path p)
+        privbte stbtic SeekbbleByteChbnnel crebteNoClose(Pbth p)
                 throws IOException {
-            SeekableByteChannel newChan = Files.newByteChannel(
-                    p, StandardOpenOption.CREATE,
-                        StandardOpenOption.TRUNCATE_EXISTING,
-                        StandardOpenOption.WRITE);
-            ByteBuffer buffer = ByteBuffer.allocate(6);
+            SeekbbleByteChbnnel newChbn = Files.newByteChbnnel(
+                    p, StbndbrdOpenOption.CREATE,
+                        StbndbrdOpenOption.TRUNCATE_EXISTING,
+                        StbndbrdOpenOption.WRITE);
+            ByteBuffer buffer = ByteBuffer.bllocbte(6);
             buffer.putShort((short)KRB5_RV_VNO);
-            buffer.order(ByteOrder.nativeOrder());
-            buffer.putInt(KerberosTime.getDefaultSkew());
+            buffer.order(ByteOrder.nbtiveOrder());
+            buffer.putInt(KerberosTime.getDefbultSkew());
             buffer.flip();
-            newChan.write(buffer);
-            return newChan;
+            newChbn.write(buffer);
+            return newChbn;
         }
 
-        private static void expunge(Path p, KerberosTime currTime)
+        privbte stbtic void expunge(Pbth p, KerberosTime currTime)
                 throws IOException {
-            Path p2 = Files.createTempFile(p.getParent(), "rcache", null);
-            try (SeekableByteChannel oldChan = Files.newByteChannel(p);
-                    SeekableByteChannel newChan = createNoClose(p2)) {
-                long timeLimit = currTime.getSeconds() - readHeader(oldChan);
+            Pbth p2 = Files.crebteTempFile(p.getPbrent(), "rcbche", null);
+            try (SeekbbleByteChbnnel oldChbn = Files.newByteChbnnel(p);
+                    SeekbbleByteChbnnel newChbn = crebteNoClose(p2)) {
+                long timeLimit = currTime.getSeconds() - rebdHebder(oldChbn);
                 while (true) {
                     try {
-                        AuthTime at = AuthTime.readFrom(oldChan);
-                        if (at.ctime > timeLimit) {
-                            ByteBuffer bb = ByteBuffer.wrap(at.encode(true));
-                            newChan.write(bb);
+                        AuthTime bt = AuthTime.rebdFrom(oldChbn);
+                        if (bt.ctime > timeLimit) {
+                            ByteBuffer bb = ByteBuffer.wrbp(bt.encode(true));
+                            newChbn.write(bb);
                         }
-                    } catch (BufferUnderflowException e) {
-                        break;
+                    } cbtch (BufferUnderflowException e) {
+                        brebk;
                     }
                 }
             }
-            makeMine(p2);
+            mbkeMine(p2);
             Files.move(p2, p,
-                    StandardCopyOption.REPLACE_EXISTING,
-                    StandardCopyOption.ATOMIC_MOVE);
+                    StbndbrdCopyOption.REPLACE_EXISTING,
+                    StbndbrdCopyOption.ATOMIC_MOVE);
         }
 
-        // Instance methods
-        SeekableByteChannel chan;
-        private int loadAndCheck(Path p, AuthTimeWithHash time,
+        // Instbnce methods
+        SeekbbleByteChbnnel chbn;
+        privbte int lobdAndCheck(Pbth p, AuthTimeWithHbsh time,
                 KerberosTime currTime)
                 throws IOException, KrbApErrException {
             int missed = 0;
             if (Files.isSymbolicLink(p)) {
-                throw new IOException("Symlink not accepted");
+                throw new IOException("Symlink not bccepted");
             }
             try {
                 Set<PosixFilePermission> perms =
@@ -274,85 +274,85 @@ public class DflCache extends ReplayCache {
                         (Integer)Files.getAttribute(p, "unix:uid") != uid) {
                     throw new IOException("Not mine");
                 }
-                if (perms.contains(PosixFilePermission.GROUP_READ) ||
-                        perms.contains(PosixFilePermission.GROUP_WRITE) ||
-                        perms.contains(PosixFilePermission.GROUP_EXECUTE) ||
-                        perms.contains(PosixFilePermission.OTHERS_READ) ||
-                        perms.contains(PosixFilePermission.OTHERS_WRITE) ||
-                        perms.contains(PosixFilePermission.OTHERS_EXECUTE)) {
+                if (perms.contbins(PosixFilePermission.GROUP_READ) ||
+                        perms.contbins(PosixFilePermission.GROUP_WRITE) ||
+                        perms.contbins(PosixFilePermission.GROUP_EXECUTE) ||
+                        perms.contbins(PosixFilePermission.OTHERS_READ) ||
+                        perms.contbins(PosixFilePermission.OTHERS_WRITE) ||
+                        perms.contbins(PosixFilePermission.OTHERS_EXECUTE)) {
                     throw new IOException("Accessible by someone else");
                 }
-            } catch (UnsupportedOperationException uoe) {
+            } cbtch (UnsupportedOperbtionException uoe) {
                 // No POSIX permissions? Ignore it.
             }
-            chan = Files.newByteChannel(p, StandardOpenOption.WRITE,
-                    StandardOpenOption.READ);
+            chbn = Files.newByteChbnnel(p, StbndbrdOpenOption.WRITE,
+                    StbndbrdOpenOption.READ);
 
-            long timeLimit = currTime.getSeconds() - readHeader(chan);
+            long timeLimit = currTime.getSeconds() - rebdHebder(chbn);
 
             long pos = 0;
-            boolean seeNewButNotSame = false;
+            boolebn seeNewButNotSbme = fblse;
             while (true) {
                 try {
-                    pos = chan.position();
-                    AuthTime a = AuthTime.readFrom(chan);
-                    if (a instanceof AuthTimeWithHash) {
-                        if (time.equals(a)) {
-                            // Exact match, must be a replay
+                    pos = chbn.position();
+                    AuthTime b = AuthTime.rebdFrom(chbn);
+                    if (b instbnceof AuthTimeWithHbsh) {
+                        if (time.equbls(b)) {
+                            // Exbct mbtch, must be b replby
                             throw new KrbApErrException(Krb5.KRB_AP_ERR_REPEAT);
-                        } else if (time.isSameIgnoresHash(a)) {
-                            // Two different authenticators in the same second.
+                        } else if (time.isSbmeIgnoresHbsh(b)) {
+                            // Two different buthenticbtors in the sbme second.
                             // Remember it
-                            seeNewButNotSame = true;
+                            seeNewButNotSbme = true;
                         }
                     } else {
-                        if (time.isSameIgnoresHash(a)) {
-                            // Two authenticators in the same second. Considered
-                            // same if we haven't seen a new style version of it
-                            if (!seeNewButNotSame) {
+                        if (time.isSbmeIgnoresHbsh(b)) {
+                            // Two buthenticbtors in the sbme second. Considered
+                            // sbme if we hbven't seen b new style version of it
+                            if (!seeNewButNotSbme) {
                                 throw new KrbApErrException(Krb5.KRB_AP_ERR_REPEAT);
                             }
                         }
                     }
-                    if (a.ctime < timeLimit) {
+                    if (b.ctime < timeLimit) {
                         missed++;
                     } else {
                         missed--;
                     }
-                } catch (BufferUnderflowException e) {
-                    // Half-written file?
-                    chan.position(pos);
-                    break;
+                } cbtch (BufferUnderflowException e) {
+                    // Hblf-written file?
+                    chbn.position(pos);
+                    brebk;
                 }
             }
             return missed;
         }
 
-        private static int readHeader(SeekableByteChannel chan)
+        privbte stbtic int rebdHebder(SeekbbleByteChbnnel chbn)
                 throws IOException {
-            ByteBuffer bb = ByteBuffer.allocate(6);
-            chan.read(bb);
+            ByteBuffer bb = ByteBuffer.bllocbte(6);
+            chbn.rebd(bb);
             if (bb.getShort(0) != KRB5_RV_VNO) {
-                throw new IOException("Not correct rcache version");
+                throw new IOException("Not correct rcbche version");
             }
-            bb.order(ByteOrder.nativeOrder());
+            bb.order(ByteOrder.nbtiveOrder());
             return bb.getInt(2);
         }
 
-        private void append(AuthTimeWithHash at) throws IOException {
-            // Write an entry with hash, to be followed by one without it,
-            // for the benefit of old implementations.
+        privbte void bppend(AuthTimeWithHbsh bt) throws IOException {
+            // Write bn entry with hbsh, to be followed by one without it,
+            // for the benefit of old implementbtions.
             ByteBuffer bb;
-            bb = ByteBuffer.wrap(at.encode(true));
-            chan.write(bb);
-            bb = ByteBuffer.wrap(at.encode(false));
-            chan.write(bb);
+            bb = ByteBuffer.wrbp(bt.encode(true));
+            chbn.write(bb);
+            bb = ByteBuffer.wrbp(bt.encode(fblse));
+            chbn.write(bb);
         }
 
         @Override
         public void close() throws IOException {
-            if (chan != null) chan.close();
-            chan = null;
+            if (chbn != null) chbn.close();
+            chbn = null;
         }
     }
 }

@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.callback;
+pbckbge jbvbx.security.buth.cbllbbck;
 
 /**
- * <p> Underlying security services instantiate and pass a
- * {@code NameCallback} to the {@code handle}
- * method of a {@code CallbackHandler} to retrieve name information.
+ * <p> Underlying security services instbntibte bnd pbss b
+ * {@code NbmeCbllbbck} to the {@code hbndle}
+ * method of b {@code CbllbbckHbndler} to retrieve nbme informbtion.
  *
- * @see javax.security.auth.callback.CallbackHandler
+ * @see jbvbx.security.buth.cbllbbck.CbllbbckHbndler
  */
-public class NameCallback implements Callback, java.io.Serializable {
+public clbss NbmeCbllbbck implements Cbllbbck, jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = 3770938795909392253L;
-
-    /**
-     * @serial
-     * @since 1.4
-     */
-    private String prompt;
-    /**
-     * @serial
-     * @since 1.4
-     */
-    private String defaultName;
-    /**
-     * @serial
-     * @since 1.4
-     */
-    private String inputName;
+    privbte stbtic finbl long seriblVersionUID = 3770938795909392253L;
 
     /**
-     * Construct a {@code NameCallback} with a prompt.
+     * @seribl
+     * @since 1.4
+     */
+    privbte String prompt;
+    /**
+     * @seribl
+     * @since 1.4
+     */
+    privbte String defbultNbme;
+    /**
+     * @seribl
+     * @since 1.4
+     */
+    privbte String inputNbme;
+
+    /**
+     * Construct b {@code NbmeCbllbbck} with b prompt.
      *
      * <p>
      *
-     * @param prompt the prompt used to request the name.
+     * @pbrbm prompt the prompt used to request the nbme.
      *
-     * @exception IllegalArgumentException if {@code prompt} is null
-     *                  or if {@code prompt} has a length of 0.
+     * @exception IllegblArgumentException if {@code prompt} is null
+     *                  or if {@code prompt} hbs b length of 0.
      */
-    public NameCallback(String prompt) {
+    public NbmeCbllbbck(String prompt) {
         if (prompt == null || prompt.length() == 0)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         this.prompt = prompt;
     }
 
     /**
-     * Construct a {@code NameCallback} with a prompt
-     * and default name.
+     * Construct b {@code NbmeCbllbbck} with b prompt
+     * bnd defbult nbme.
      *
      * <p>
      *
-     * @param prompt the prompt used to request the information. <p>
+     * @pbrbm prompt the prompt used to request the informbtion. <p>
      *
-     * @param defaultName the name to be used as the default name displayed
+     * @pbrbm defbultNbme the nbme to be used bs the defbult nbme displbyed
      *                  with the prompt.
      *
-     * @exception IllegalArgumentException if {@code prompt} is null,
-     *                  if {@code prompt} has a length of 0,
-     *                  if {@code defaultName} is null,
-     *                  or if {@code defaultName} has a length of 0.
+     * @exception IllegblArgumentException if {@code prompt} is null,
+     *                  if {@code prompt} hbs b length of 0,
+     *                  if {@code defbultNbme} is null,
+     *                  or if {@code defbultNbme} hbs b length of 0.
      */
-    public NameCallback(String prompt, String defaultName) {
+    public NbmeCbllbbck(String prompt, String defbultNbme) {
         if (prompt == null || prompt.length() == 0 ||
-            defaultName == null || defaultName.length() == 0)
-            throw new IllegalArgumentException();
+            defbultNbme == null || defbultNbme.length() == 0)
+            throw new IllegblArgumentException();
 
         this.prompt = prompt;
-        this.defaultName = defaultName;
+        this.defbultNbme = defbultNbme;
     }
 
     /**
@@ -105,40 +105,40 @@ public class NameCallback implements Callback, java.io.Serializable {
     }
 
     /**
-     * Get the default name.
+     * Get the defbult nbme.
      *
      * <p>
      *
-     * @return the default name, or null if this {@code NameCallback}
-     *          was not instantiated with a {@code defaultName}.
+     * @return the defbult nbme, or null if this {@code NbmeCbllbbck}
+     *          wbs not instbntibted with b {@code defbultNbme}.
      */
-    public String getDefaultName() {
-        return defaultName;
+    public String getDefbultNbme() {
+        return defbultNbme;
     }
 
     /**
-     * Set the retrieved name.
+     * Set the retrieved nbme.
      *
      * <p>
      *
-     * @param name the retrieved name (which may be null).
+     * @pbrbm nbme the retrieved nbme (which mby be null).
      *
-     * @see #getName
+     * @see #getNbme
      */
-    public void setName(String name) {
-        this.inputName = name;
+    public void setNbme(String nbme) {
+        this.inputNbme = nbme;
     }
 
     /**
-     * Get the retrieved name.
+     * Get the retrieved nbme.
      *
      * <p>
      *
-     * @return the retrieved name (which may be null)
+     * @return the retrieved nbme (which mby be null)
      *
-     * @see #setName
+     * @see #setNbme
      */
-    public String getName() {
-        return inputName;
+    public String getNbme() {
+        return inputNbme;
     }
 }

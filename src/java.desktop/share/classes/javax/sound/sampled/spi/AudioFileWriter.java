@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled.spi;
+pbckbge jbvbx.sound.sbmpled.spi;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
 
-import javax.sound.sampled.AudioInputStream;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
 
-import static javax.sound.sampled.AudioFileFormat.Type;
+import stbtic jbvbx.sound.sbmpled.AudioFileFormbt.Type;
 
 /**
- * Provider for audio file writing services. Classes providing concrete
- * implementations can write one or more types of audio file from an audio
- * stream.
+ * Provider for budio file writing services. Clbsses providing concrete
+ * implementbtions cbn write one or more types of budio file from bn budio
+ * strebm.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  * @since 1.3
  */
-public abstract class AudioFileWriter {
+public bbstrbct clbss AudioFileWriter {
 
     /**
-     * Obtains the file types for which file writing support is provided by this
-     * audio file writer.
+     * Obtbins the file types for which file writing support is provided by this
+     * budio file writer.
      *
-     * @return array of file types. If no file types are supported, an array of
+     * @return brrby of file types. If no file types bre supported, bn brrby of
      *         length 0 is returned.
      */
-    public abstract Type[] getAudioFileTypes();
+    public bbstrbct Type[] getAudioFileTypes();
 
     /**
-     * Indicates whether file writing support for the specified file type is
-     * provided by this audio file writer.
+     * Indicbtes whether file writing support for the specified file type is
+     * provided by this budio file writer.
      *
-     * @param  fileType the file type for which write capabilities are queried
+     * @pbrbm  fileType the file type for which write cbpbbilities bre queried
      * @return {@code true} if the file type is supported, otherwise
-     *         {@code false}
+     *         {@code fblse}
      */
-    public boolean isFileTypeSupported(Type fileType) {
+    public boolebn isFileTypeSupported(Type fileType) {
 
         Type types[] = getAudioFileTypes();
 
         for(int i=0; i<types.length; i++) {
-            if( fileType.equals( types[i] ) ) {
+            if( fileType.equbls( types[i] ) ) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Obtains the file types that this audio file writer can write from the
-     * audio input stream specified.
+     * Obtbins the file types thbt this budio file writer cbn write from the
+     * budio input strebm specified.
      *
-     * @param  stream the audio input stream for which audio file type support
+     * @pbrbm  strebm the budio input strebm for which budio file type support
      *         is queried
-     * @return array of file types. If no file types are supported, an array of
+     * @return brrby of file types. If no file types bre supported, bn brrby of
      *         length 0 is returned.
      */
-    public abstract Type[] getAudioFileTypes(AudioInputStream stream);
+    public bbstrbct Type[] getAudioFileTypes(AudioInputStrebm strebm);
 
     /**
-     * Indicates whether an audio file of the type specified can be written from
-     * the audio input stream indicated.
+     * Indicbtes whether bn budio file of the type specified cbn be written from
+     * the budio input strebm indicbted.
      *
-     * @param  fileType file type for which write capabilities are queried
-     * @param  stream for which file writing support is queried
-     * @return {@code true} if the file type is supported for this audio input
-     *         stream, otherwise {@code false}
+     * @pbrbm  fileType file type for which write cbpbbilities bre queried
+     * @pbrbm  strebm for which file writing support is queried
+     * @return {@code true} if the file type is supported for this budio input
+     *         strebm, otherwise {@code fblse}
      */
-    public boolean isFileTypeSupported(Type fileType, AudioInputStream stream) {
+    public boolebn isFileTypeSupported(Type fileType, AudioInputStrebm strebm) {
 
-        Type types[] = getAudioFileTypes( stream );
+        Type types[] = getAudioFileTypes( strebm );
 
         for(int i=0; i<types.length; i++) {
-            if( fileType.equals( types[i] ) ) {
+            if( fileType.equbls( types[i] ) ) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Writes a stream of bytes representing an audio file of the file type
-     * indicated to the output stream provided. Some file types require that
-     * the length be written into the file header, and cannot be written from
-     * start to finish unless the length is known in advance. An attempt to
-     * write such a file type will fail with an IOException if the length in the
-     * audio file format is {@link javax.sound.sampled.AudioSystem#NOT_SPECIFIED
+     * Writes b strebm of bytes representing bn budio file of the file type
+     * indicbted to the output strebm provided. Some file types require thbt
+     * the length be written into the file hebder, bnd cbnnot be written from
+     * stbrt to finish unless the length is known in bdvbnce. An bttempt to
+     * write such b file type will fbil with bn IOException if the length in the
+     * budio file formbt is {@link jbvbx.sound.sbmpled.AudioSystem#NOT_SPECIFIED
      * AudioSystem.NOT_SPECIFIED}.
      *
-     * @param  stream the audio input stream containing audio data to be written
-     *         to the output stream
-     * @param  fileType file type to be written to the output stream
-     * @param  out stream to which the file data should be written
-     * @return the number of bytes written to the output stream
-     * @throws IOException if an I/O exception occurs
-     * @throws IllegalArgumentException if the file type is not supported by the
+     * @pbrbm  strebm the budio input strebm contbining budio dbtb to be written
+     *         to the output strebm
+     * @pbrbm  fileType file type to be written to the output strebm
+     * @pbrbm  out strebm to which the file dbtb should be written
+     * @return the number of bytes written to the output strebm
+     * @throws IOException if bn I/O exception occurs
+     * @throws IllegblArgumentException if the file type is not supported by the
      *         system
-     * @see #isFileTypeSupported(Type, AudioInputStream)
+     * @see #isFileTypeSupported(Type, AudioInputStrebm)
      * @see #getAudioFileTypes
      */
-    public abstract int write(AudioInputStream stream, Type fileType,
-                              OutputStream out) throws IOException;
+    public bbstrbct int write(AudioInputStrebm strebm, Type fileType,
+                              OutputStrebm out) throws IOException;
 
     /**
-     * Writes a stream of bytes representing an audio file of the file format
-     * indicated to the external file provided.
+     * Writes b strebm of bytes representing bn budio file of the file formbt
+     * indicbted to the externbl file provided.
      *
-     * @param  stream the audio input stream containing audio data to be written
+     * @pbrbm  strebm the budio input strebm contbining budio dbtb to be written
      *         to the file
-     * @param  fileType file type to be written to the file
-     * @param  out external file to which the file data should be written
+     * @pbrbm  fileType file type to be written to the file
+     * @pbrbm  out externbl file to which the file dbtb should be written
      * @return the number of bytes written to the file
-     * @throws IOException if an I/O exception occurs
-     * @throws IllegalArgumentException if the file format is not supported by
+     * @throws IOException if bn I/O exception occurs
+     * @throws IllegblArgumentException if the file formbt is not supported by
      *         the system
      * @see #isFileTypeSupported
      * @see #getAudioFileTypes
      */
-    public abstract int write(AudioInputStream stream, Type fileType, File out)
+    public bbstrbct int write(AudioInputStrebm strebm, Type fileType, File out)
             throws IOException;
 }

@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbckbge com.sun.imbgeio.plugins.jpeg;
 
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.IIOException;
+import jbvbx.imbgeio.metbdbtb.IIOInvblidTreeException;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbNode;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
+import jbvbx.imbgeio.IIOException;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 import org.w3c.dom.Node;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 
 /**
- * All metadata is stored in MarkerSegments.  Marker segments
- * that we know about are stored in subclasses of this
- * basic class, which used for unrecognized APPn marker
- * segments.  XXX break out UnknownMarkerSegment as a subclass
- * and make this abstract, avoiding unused data field.
+ * All metbdbtb is stored in MbrkerSegments.  Mbrker segments
+ * thbt we know bbout bre stored in subclbsses of this
+ * bbsic clbss, which used for unrecognized APPn mbrker
+ * segments.  XXX brebk out UnknownMbrkerSegment bs b subclbss
+ * bnd mbke this bbstrbct, bvoiding unused dbtb field.
  */
-class MarkerSegment implements Cloneable {
-    protected static final int LENGTH_SIZE = 2; // length is 2 bytes
-    int tag;      // See JPEG.java
-    int length;    /* Sometimes needed by subclasses; doesn't include
-                      itself.  Meaningful only if constructed from a stream */
-    byte [] data = null;  // Raw segment data, used for unrecognized segments
-    boolean unknown = false; // Set to true if the tag is not recognized
+clbss MbrkerSegment implements Clonebble {
+    protected stbtic finbl int LENGTH_SIZE = 2; // length is 2 bytes
+    int tbg;      // See JPEG.jbvb
+    int length;    /* Sometimes needed by subclbsses; doesn't include
+                      itself.  Mebningful only if constructed from b strebm */
+    byte [] dbtb = null;  // Rbw segment dbtb, used for unrecognized segments
+    boolebn unknown = fblse; // Set to true if the tbg is not recognized
 
     /**
-     * Constructor for creating <code>MarkerSegment</code>s by reading
-     * from an <code>ImageInputStream</code>.
+     * Constructor for crebting <code>MbrkerSegment</code>s by rebding
+     * from bn <code>ImbgeInputStrebm</code>.
      */
-    MarkerSegment(JPEGBuffer buffer) throws IOException {
+    MbrkerSegment(JPEGBuffer buffer) throws IOException {
 
-        buffer.loadBuf(3);  // tag plus length
-        tag = buffer.buf[buffer.bufPtr++] & 0xff;
+        buffer.lobdBuf(3);  // tbg plus length
+        tbg = buffer.buf[buffer.bufPtr++] & 0xff;
         length = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
         length |= buffer.buf[buffer.bufPtr++] & 0xff;
         length -= 2;  // JPEG length includes itself, we don't
 
         if (length < 0) {
-            throw new IIOException("Invalid segment length: " + length);
+            throw new IIOException("Invblid segment length: " + length);
         }
-        buffer.bufAvail -= 3;
-        // Now that we know the true length, ensure that we've got it,
-        // or at least a bufferful if length is too big.
-        buffer.loadBuf(length);
+        buffer.bufAvbil -= 3;
+        // Now thbt we know the true length, ensure thbt we've got it,
+        // or bt lebst b bufferful if length is too big.
+        buffer.lobdBuf(length);
     }
 
     /**
-     * Constructor used when creating segments other than by
-     * reading them from a stream.
+     * Constructor used when crebting segments other thbn by
+     * rebding them from b strebm.
      */
-    MarkerSegment(int tag) {
-        this.tag = tag;
+    MbrkerSegment(int tbg) {
+        this.tbg = tbg;
         length = 0;
     }
 
     /**
-     * Construct a MarkerSegment from an "unknown" DOM Node.
+     * Construct b MbrkerSegment from bn "unknown" DOM Node.
      */
-    MarkerSegment(Node node) throws IIOInvalidTreeException {
-        // The type of node should have been verified already.
-        // get the attribute and assign it to the tag
-        tag = getAttributeValue(node,
+    MbrkerSegment(Node node) throws IIOInvblidTreeException {
+        // The type of node should hbve been verified blrebdy.
+        // get the bttribute bnd bssign it to the tbg
+        tbg = getAttributeVblue(node,
                                 null,
-                                "MarkerTag",
+                                "MbrkerTbg",
                                 0, 255,
                                 true);
         length = 0;
-        // get the user object and clone it to the data
-        if (node instanceof IIOMetadataNode) {
-            IIOMetadataNode iioNode = (IIOMetadataNode) node;
+        // get the user object bnd clone it to the dbtb
+        if (node instbnceof IIOMetbdbtbNode) {
+            IIOMetbdbtbNode iioNode = (IIOMetbdbtbNode) node;
             try {
-                data = (byte []) iioNode.getUserObject();
-            } catch (Exception e) {
-                IIOInvalidTreeException newGuy =
-                    new IIOInvalidTreeException
-                    ("Can't get User Object", node);
-                newGuy.initCause(e);
+                dbtb = (byte []) iioNode.getUserObject();
+            } cbtch (Exception e) {
+                IIOInvblidTreeException newGuy =
+                    new IIOInvblidTreeException
+                    ("Cbn't get User Object", node);
+                newGuy.initCbuse(e);
                 throw newGuy;
             }
         } else {
-            throw new IIOInvalidTreeException
-                ("Node must have User Object", node);
+            throw new IIOInvblidTreeException
+                ("Node must hbve User Object", node);
         }
     }
 
     /**
-     * Deep copy of data array.
+     * Deep copy of dbtb brrby.
      */
     protected Object clone() {
-        MarkerSegment newGuy = null;
+        MbrkerSegment newGuy = null;
         try {
-            newGuy = (MarkerSegment) super.clone();
-        } catch (CloneNotSupportedException e) {} // won't happen
-        if (this.data != null) {
-            newGuy.data = data.clone();
+            newGuy = (MbrkerSegment) super.clone();
+        } cbtch (CloneNotSupportedException e) {} // won't hbppen
+        if (this.dbtb != null) {
+            newGuy.dbtb = dbtb.clone();
         }
         return newGuy;
     }
 
     /**
-     * We have determined that we don't know the type, so load
-     * the data using the length parameter.
+     * We hbve determined thbt we don't know the type, so lobd
+     * the dbtb using the length pbrbmeter.
      */
-    void loadData(JPEGBuffer buffer) throws IOException {
-        data = new byte[length];
-        buffer.readData(data);
+    void lobdDbtb(JPEGBuffer buffer) throws IOException {
+        dbtb = new byte[length];
+        buffer.rebdDbtb(dbtb);
     }
 
-    IIOMetadataNode getNativeNode() {
-        IIOMetadataNode node = new IIOMetadataNode("unknown");
-        node.setAttribute("MarkerTag", Integer.toString(tag));
-        node.setUserObject(data);
+    IIOMetbdbtbNode getNbtiveNode() {
+        IIOMetbdbtbNode node = new IIOMetbdbtbNode("unknown");
+        node.setAttribute("MbrkerTbg", Integer.toString(tbg));
+        node.setUserObject(dbtb);
 
         return node;
     }
 
-    static int getAttributeValue(Node node,
-                                 NamedNodeMap attrs,
-                                 String name,
+    stbtic int getAttributeVblue(Node node,
+                                 NbmedNodeMbp bttrs,
+                                 String nbme,
                                  int min,
-                                 int max,
-                                 boolean required)
-        throws IIOInvalidTreeException {
-        if (attrs == null) {
-            attrs = node.getAttributes();
+                                 int mbx,
+                                 boolebn required)
+        throws IIOInvblidTreeException {
+        if (bttrs == null) {
+            bttrs = node.getAttributes();
         }
-        String valueString = attrs.getNamedItem(name).getNodeValue();
-        int value = -1;
-        if (valueString == null) {
+        String vblueString = bttrs.getNbmedItem(nbme).getNodeVblue();
+        int vblue = -1;
+        if (vblueString == null) {
             if (required) {
-                throw new IIOInvalidTreeException
-                    (name + " attribute not found", node);
+                throw new IIOInvblidTreeException
+                    (nbme + " bttribute not found", node);
             }
         } else {
-              value = Integer.parseInt(valueString);
-              if ((value < min) || (value > max)) {
-                  throw new IIOInvalidTreeException
-                      (name + " attribute out of range", node);
+              vblue = Integer.pbrseInt(vblueString);
+              if ((vblue < min) || (vblue > mbx)) {
+                  throw new IIOInvblidTreeException
+                      (nbme + " bttribute out of rbnge", node);
               }
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Writes the marker, tag, and length.  Note that length
-     * should be verified by the caller as a correct JPEG
+     * Writes the mbrker, tbg, bnd length.  Note thbt length
+     * should be verified by the cbller bs b correct JPEG
      * length, i.e it includes itself.
      */
-    void writeTag(ImageOutputStream ios) throws IOException {
+    void writeTbg(ImbgeOutputStrebm ios) throws IOException {
         ios.write(0xff);
-        ios.write(tag);
+        ios.write(tbg);
         write2bytes(ios, length);
     }
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format.
+     * Writes the dbtb for this segment to the strebm in
+     * vblid JPEG formbt.
      */
-    void write(ImageOutputStream ios) throws IOException {
-        length = 2 + ((data != null) ? data.length : 0);
-        writeTag(ios);
-        if (data != null) {
-            ios.write(data);
+    void write(ImbgeOutputStrebm ios) throws IOException {
+        length = 2 + ((dbtb != null) ? dbtb.length : 0);
+        writeTbg(ios);
+        if (dbtb != null) {
+            ios.write(dbtb);
         }
     }
 
-    static void write2bytes(ImageOutputStream ios,
-                            int value) throws IOException {
-        ios.write((value >> 8) & 0xff);
-        ios.write(value & 0xff);
+    stbtic void write2bytes(ImbgeOutputStrebm ios,
+                            int vblue) throws IOException {
+        ios.write((vblue >> 8) & 0xff);
+        ios.write(vblue & 0xff);
 
     }
 
-    void printTag(String prefix) {
-        System.out.println(prefix + " marker segment - marker = 0x"
-                           + Integer.toHexString(tag));
+    void printTbg(String prefix) {
+        System.out.println(prefix + " mbrker segment - mbrker = 0x"
+                           + Integer.toHexString(tbg));
         System.out.println("length: " + length);
     }
 
     void print() {
-        printTag("Unknown");
+        printTbg("Unknown");
         if (length > 10) {
             System.out.print("First 5 bytes:");
             for (int i=0;i<5;i++) {
                 System.out.print(" Ox"
-                                 + Integer.toHexString((int)data[i]));
+                                 + Integer.toHexString((int)dbtb[i]));
             }
-            System.out.print("\nLast 5 bytes:");
-            for (int i=data.length-5;i<data.length;i++) {
+            System.out.print("\nLbst 5 bytes:");
+            for (int i=dbtb.length-5;i<dbtb.length;i++) {
                 System.out.print(" Ox"
-                                 + Integer.toHexString((int)data[i]));
+                                 + Integer.toHexString((int)dbtb[i]));
             }
         } else {
-            System.out.print("Data:");
-            for (int i=0;i<data.length;i++) {
+            System.out.print("Dbtb:");
+            for (int i=0;i<dbtb.length;i++) {
                 System.out.print(" Ox"
-                                 + Integer.toHexString((int)data[i]));
+                                 + Integer.toHexString((int)dbtb[i]));
             }
         }
         System.out.println();

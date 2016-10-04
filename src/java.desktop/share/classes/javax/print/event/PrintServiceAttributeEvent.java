@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print.event;
+pbckbge jbvbx.print.event;
 
-import javax.print.PrintService;
-import javax.print.attribute.AttributeSetUtilities;
-import javax.print.attribute.PrintServiceAttributeSet;
+import jbvbx.print.PrintService;
+import jbvbx.print.bttribute.AttributeSetUtilities;
+import jbvbx.print.bttribute.PrintServiceAttributeSet;
 
 /**
  *
- * Class PrintServiceAttributeEvent encapsulates an event a
- * Print Service instance reports to let the client know of
- * changes in the print service state.
+ * Clbss PrintServiceAttributeEvent encbpsulbtes bn event b
+ * Print Service instbnce reports to let the client know of
+ * chbnges in the print service stbte.
  */
 
-public class PrintServiceAttributeEvent extends PrintEvent {
+public clbss PrintServiceAttributeEvent extends PrintEvent {
 
-    private static final long serialVersionUID = -7565987018140326600L;
+    privbte stbtic finbl long seriblVersionUID = -7565987018140326600L;
 
-    private PrintServiceAttributeSet attributes;
+    privbte PrintServiceAttributeSet bttributes;
 
     /**
-     * Constructs a PrintServiceAttributeEvent object.
+     * Constructs b PrintServiceAttributeEvent object.
      *
-     * @param source the print job generating  this event
-     * @param attributes the attribute changes being reported
-     * @throws IllegalArgumentException if <code>source</code> is
+     * @pbrbm source the print job generbting  this event
+     * @pbrbm bttributes the bttribute chbnges being reported
+     * @throws IllegblArgumentException if <code>source</code> is
      *         <code>null</code>.
      */
     public PrintServiceAttributeEvent(PrintService source,
-                                      PrintServiceAttributeSet attributes) {
+                                      PrintServiceAttributeSet bttributes) {
 
         super(source);
-        this.attributes = AttributeSetUtilities.unmodifiableView(attributes);
+        this.bttributes = AttributeSetUtilities.unmodifibbleView(bttributes);
     }
 
 
@@ -70,15 +70,15 @@ public class PrintServiceAttributeEvent extends PrintEvent {
 
 
     /**
-     * Determine the printing service attributes that changed and their new
-     * values.
+     * Determine the printing service bttributes thbt chbnged bnd their new
+     * vblues.
      *
-     * @return  Attributes containing the new values for the service
-     * attributes that changed. The returned set may be unmodifiable.
+     * @return  Attributes contbining the new vblues for the service
+     * bttributes thbt chbnged. The returned set mby be unmodifibble.
      */
     public PrintServiceAttributeSet getAttributes() {
 
-        return attributes;
+        return bttributes;
     }
 
 }

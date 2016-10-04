@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2004, 2007, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2004, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Redistribution bnd use in source bnd binbry forms, with or without
+# modificbtion, bre permitted provided thbt the following conditions
+# bre met:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Redistributions of source code must retbin the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Redistributions in binbry form must reproduce the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer in the
+#     documentbtion bnd/or other mbteribls provided with the distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Neither the nbme of Orbcle nor the nbmes of its
+#     contributors mby be used to endorse or promote products derived
+#     from this softwbre without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,28 +29,28 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-heapViewer
+hebpViewer
 
-This agent library demonstrates how to get an easy view of the
-heap in terms of total object count and space used.
-It uses GetLoadedClasses(), SetTag(), and IterateThroughHeap()
-to count up all the objects of all the current loaded classes.
-The heap dump will happen at the event JVMTI_EVENT_VM_DEATH, or the
+This bgent librbry demonstrbtes how to get bn ebsy view of the
+hebp in terms of totbl object count bnd spbce used.
+It uses GetLobdedClbsses(), SetTbg(), bnd IterbteThroughHebp()
+to count up bll the objects of bll the current lobded clbsses.
+The hebp dump will hbppen bt the event JVMTI_EVENT_VM_DEATH, or the
 event JVMTI_EVENT_DATA_DUMP_REQUEST.
 
-It also demonstrates some more robust agent error handling using 
-GetErrorName(),
+It blso demonstrbtes some more robust bgent error hbndling using 
+GetErrorNbme(),
 
-Using the heap iterate functions, lots of statistics can be generated
-without resorting to using Byte Code Instrumentation (BCI).
+Using the hebp iterbte functions, lots of stbtistics cbn be generbted
+without resorting to using Byte Code Instrumentbtion (BCI).
 
-You can use this agent library as follows:
+You cbn use this bgent librbry bs follows:
 
-    java -agentlib:heapViewer ...
+    jbvb -bgentlib:hebpViewer ...
 
-To get help on the available options try:
+To get help on the bvbilbble options try:
 
-    java -agentlib:heapViewer=help
+    jbvb -bgentlib:hebpViewer=help
 
-See ${JAVA_HOME}/demo/jvmti/index.html for help running and building agents.
+See ${JAVA_HOME}/demo/jvmti/index.html for help running bnd building bgents.
 

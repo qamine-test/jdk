@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbckbge com.sun.tools.hbt.internbl.model;
 
-import com.sun.tools.hat.internal.parser.ReadBuffer;
-import java.io.IOException;
+import com.sun.tools.hbt.internbl.pbrser.RebdBuffer;
+import jbvb.io.IOException;
 
 /**
- * An array of values, that is, an array of ints, boolean, floats or the like.
+ * An brrby of vblues, thbt is, bn brrby of ints, boolebn, flobts or the like.
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
-public class JavaValueArray extends JavaLazyReadObject
-                /*imports*/ implements ArrayTypeCodes {
+public clbss JbvbVblueArrby extends JbvbLbzyRebdObject
+                /*imports*/ implements ArrbyTypeCodes {
 
-    private static String arrayTypeName(byte sig) {
+    privbte stbtic String brrbyTypeNbme(byte sig) {
         switch (sig) {
-            case 'B':
+            cbse 'B':
                 return "byte[]";
-            case 'Z':
-                return "boolean[]";
-            case 'C':
-                return "char[]";
-            case 'S':
+            cbse 'Z':
+                return "boolebn[]";
+            cbse 'C':
+                return "chbr[]";
+            cbse 'S':
                 return "short[]";
-            case 'I':
+            cbse 'I':
                 return "int[]";
-            case 'F':
-                return "float[]";
-            case 'J':
+            cbse 'F':
+                return "flobt[]";
+            cbse 'J':
                 return "long[]";
-            case 'D':
+            cbse 'D':
                 return "double[]";
-            default:
-                throw new RuntimeException("invalid array element sig: " + sig);
+            defbult:
+                throw new RuntimeException("invblid brrby element sig: " + sig);
         }
     }
 
-    private static int elementSize(byte type) {
+    privbte stbtic int elementSize(byte type) {
         switch (type) {
-            case T_BYTE:
-            case T_BOOLEAN:
+            cbse T_BYTE:
+            cbse T_BOOLEAN:
                 return 1;
-            case T_CHAR:
-            case T_SHORT:
+            cbse T_CHAR:
+            cbse T_SHORT:
                 return 2;
-            case T_INT:
-            case T_FLOAT:
+            cbse T_INT:
+            cbse T_FLOAT:
                 return 4;
-            case T_LONG:
-            case T_DOUBLE:
+            cbse T_LONG:
+            cbse T_DOUBLE:
                 return 8;
-            default:
-                throw new RuntimeException("invalid array element type: " + type);
+            defbult:
+                throw new RuntimeException("invblid brrby element type: " + type);
         }
     }
 
     /*
-     * Java primitive array record (HPROF_GC_PRIM_ARRAY_DUMP) looks
-     * as below:
+     * Jbvb primitive brrby record (HPROF_GC_PRIM_ARRAY_DUMP) looks
+     * bs below:
      *
      *    object ID
-     *    stack trace serial number (int)
-     *    length of the instance data (int)
+     *    stbck trbce seribl number (int)
+     *    length of the instbnce dbtb (int)
      *    element type (byte)
-     *    array data
+     *    brrby dbtb
      */
-    protected final int readValueLength() throws IOException {
-        JavaClass cl = getClazz();
-        ReadBuffer buf = cl.getReadBuffer();
+    protected finbl int rebdVblueLength() throws IOException {
+        JbvbClbss cl = getClbzz();
+        RebdBuffer buf = cl.getRebdBuffer();
         int idSize = cl.getIdentifierSize();
         long offset = getOffset() + idSize + 4;
-        // length of the array
+        // length of the brrby
         int len = buf.getInt(offset);
-        // typecode of array element type
+        // typecode of brrby element type
         byte type = buf.getByte(offset + 4);
         return len * elementSize(type);
     }
 
-    protected final byte[] readValue() throws IOException {
-        JavaClass cl = getClazz();
-        ReadBuffer buf = cl.getReadBuffer();
+    protected finbl byte[] rebdVblue() throws IOException {
+        JbvbClbss cl = getClbzz();
+        RebdBuffer buf = cl.getRebdBuffer();
         int idSize = cl.getIdentifierSize();
         long offset = getOffset() + idSize + 4;
-        // length of the array
+        // length of the brrby
         int length = buf.getInt(offset);
-        // typecode of array element type
+        // typecode of brrby element type
         byte type = buf.getByte(offset + 4);
         if (length == 0) {
-            return Snapshot.EMPTY_BYTE_ARRAY;
+            return Snbpshot.EMPTY_BYTE_ARRAY;
         } else {
             length *= elementSize(type);
             byte[] res = new byte[length];
@@ -126,235 +126,235 @@ public class JavaValueArray extends JavaLazyReadObject
         }
     }
 
-    // JavaClass set only after resolve.
-    private JavaClass clazz;
+    // JbvbClbss set only bfter resolve.
+    privbte JbvbClbss clbzz;
 
-    // This field contains elementSignature byte and
-    // divider to be used to calculate length. Note that
-    // length of content byte[] is not same as array length.
-    // Actual array length is (byte[].length / divider)
-    private int data;
+    // This field contbins elementSignbture byte bnd
+    // divider to be used to cblculbte length. Note thbt
+    // length of content byte[] is not sbme bs brrby length.
+    // Actubl brrby length is (byte[].length / divider)
+    privbte int dbtb;
 
-    // First 8 bits of data is used for element signature
-    private static final int SIGNATURE_MASK = 0x0FF;
+    // First 8 bits of dbtb is used for element signbture
+    privbte stbtic finbl int SIGNATURE_MASK = 0x0FF;
 
-    // Next 8 bits of data is used for length divider
-    private static final int LENGTH_DIVIDER_MASK = 0x0FF00;
+    // Next 8 bits of dbtb is used for length divider
+    privbte stbtic finbl int LENGTH_DIVIDER_MASK = 0x0FF00;
 
     // Number of bits to shift to get length divider
-    private static final int LENGTH_DIVIDER_SHIFT = 8;
+    privbte stbtic finbl int LENGTH_DIVIDER_SHIFT = 8;
 
-    public JavaValueArray(byte elementSignature, long offset) {
+    public JbvbVblueArrby(byte elementSignbture, long offset) {
         super(offset);
-        this.data = (elementSignature & SIGNATURE_MASK);
+        this.dbtb = (elementSignbture & SIGNATURE_MASK);
     }
 
-    public JavaClass getClazz() {
-        return clazz;
+    public JbvbClbss getClbzz() {
+        return clbzz;
     }
 
-    public void visitReferencedObjects(JavaHeapObjectVisitor v) {
+    public void visitReferencedObjects(JbvbHebpObjectVisitor v) {
         super.visitReferencedObjects(v);
     }
 
-    public void resolve(Snapshot snapshot) {
-        if (clazz instanceof JavaClass) {
+    public void resolve(Snbpshot snbpshot) {
+        if (clbzz instbnceof JbvbClbss) {
             return;
         }
         byte elementSig = getElementType();
-        clazz = snapshot.findClass(arrayTypeName(elementSig));
-        if (clazz == null) {
-            clazz = snapshot.getArrayClass("" + ((char) elementSig));
+        clbzz = snbpshot.findClbss(brrbyTypeNbme(elementSig));
+        if (clbzz == null) {
+            clbzz = snbpshot.getArrbyClbss("" + ((chbr) elementSig));
         }
-        getClazz().addInstance(this);
-        super.resolve(snapshot);
+        getClbzz().bddInstbnce(this);
+        super.resolve(snbpshot);
     }
 
     public int getLength() {
-        int divider = (data & LENGTH_DIVIDER_MASK) >>> LENGTH_DIVIDER_SHIFT;
+        int divider = (dbtb & LENGTH_DIVIDER_MASK) >>> LENGTH_DIVIDER_SHIFT;
         if (divider == 0) {
-            byte elementSignature = getElementType();
-            switch (elementSignature) {
-            case 'B':
-            case 'Z':
+            byte elementSignbture = getElementType();
+            switch (elementSignbture) {
+            cbse 'B':
+            cbse 'Z':
                 divider = 1;
-                break;
-            case 'C':
-            case 'S':
+                brebk;
+            cbse 'C':
+            cbse 'S':
                 divider = 2;
-                break;
-            case 'I':
-            case 'F':
+                brebk;
+            cbse 'I':
+            cbse 'F':
                 divider = 4;
-                break;
-            case 'J':
-            case 'D':
+                brebk;
+            cbse 'J':
+            cbse 'D':
                 divider = 8;
-                break;
-            default:
+                brebk;
+            defbult:
                 throw new RuntimeException("unknown primitive type: " +
-                                elementSignature);
+                                elementSignbture);
             }
-            data |= (divider << LENGTH_DIVIDER_SHIFT);
+            dbtb |= (divider << LENGTH_DIVIDER_SHIFT);
         }
-        return (getValueLength() / divider);
+        return (getVblueLength() / divider);
     }
 
     public Object getElements() {
-        final int len = getLength();
-        final byte et = getElementType();
-        byte[] data = getValue();
+        finbl int len = getLength();
+        finbl byte et = getElementType();
+        byte[] dbtb = getVblue();
         int index = 0;
         switch (et) {
-            case 'Z': {
-                boolean[] res = new boolean[len];
+            cbse 'Z': {
+                boolebn[] res = new boolebn[len];
                 for (int i = 0; i < len; i++) {
-                    res[i] = booleanAt(index, data);
+                    res[i] = boolebnAt(index, dbtb);
                     index++;
                 }
                 return res;
             }
-            case 'B': {
+            cbse 'B': {
                 byte[] res = new byte[len];
                 for (int i = 0; i < len; i++) {
-                    res[i] = byteAt(index, data);
+                    res[i] = byteAt(index, dbtb);
                     index++;
                 }
                 return res;
             }
-            case 'C': {
-                char[] res = new char[len];
+            cbse 'C': {
+                chbr[] res = new chbr[len];
                 for (int i = 0; i < len; i++) {
-                    res[i] = charAt(index, data);
+                    res[i] = chbrAt(index, dbtb);
                     index += 2;
                 }
                 return res;
             }
-            case 'S': {
+            cbse 'S': {
                 short[] res = new short[len];
                 for (int i = 0; i < len; i++) {
-                    res[i] = shortAt(index, data);
+                    res[i] = shortAt(index, dbtb);
                     index += 2;
                 }
                 return res;
             }
-            case 'I': {
+            cbse 'I': {
                 int[] res = new int[len];
                 for (int i = 0; i < len; i++) {
-                    res[i] = intAt(index, data);
+                    res[i] = intAt(index, dbtb);
                     index += 4;
                 }
                 return res;
             }
-            case 'J': {
+            cbse 'J': {
                 long[] res = new long[len];
                 for (int i = 0; i < len; i++) {
-                    res[i] = longAt(index, data);
+                    res[i] = longAt(index, dbtb);
                     index += 8;
                 }
                 return res;
             }
-            case 'F': {
-                float[] res = new float[len];
+            cbse 'F': {
+                flobt[] res = new flobt[len];
                 for (int i = 0; i < len; i++) {
-                    res[i] = floatAt(index, data);
+                    res[i] = flobtAt(index, dbtb);
                     index += 4;
                 }
                 return res;
             }
-            case 'D': {
+            cbse 'D': {
                 double[] res = new double[len];
                 for (int i = 0; i < len; i++) {
-                    res[i] = doubleAt(index, data);
+                    res[i] = doubleAt(index, dbtb);
                     index += 8;
                 }
                 return res;
             }
-            default: {
+            defbult: {
                 throw new RuntimeException("unknown primitive type?");
             }
         }
     }
 
     public byte getElementType() {
-        return (byte) (data & SIGNATURE_MASK);
+        return (byte) (dbtb & SIGNATURE_MASK);
     }
 
-    private void checkIndex(int index) {
+    privbte void checkIndex(int index) {
         if (index < 0 || index >= getLength()) {
-            throw new ArrayIndexOutOfBoundsException(index);
+            throw new ArrbyIndexOutOfBoundsException(index);
         }
     }
 
-    private void requireType(char type) {
+    privbte void requireType(chbr type) {
         if (getElementType() != type) {
             throw new RuntimeException("not of type : " + type);
         }
     }
 
-    public boolean getBooleanAt(int index) {
+    public boolebn getBoolebnAt(int index) {
         checkIndex(index);
         requireType('Z');
-        return booleanAt(index, getValue());
+        return boolebnAt(index, getVblue());
     }
 
     public byte getByteAt(int index) {
         checkIndex(index);
         requireType('B');
-        return byteAt(index, getValue());
+        return byteAt(index, getVblue());
     }
 
-    public char getCharAt(int index) {
+    public chbr getChbrAt(int index) {
         checkIndex(index);
         requireType('C');
-        return charAt(index << 1, getValue());
+        return chbrAt(index << 1, getVblue());
     }
 
     public short getShortAt(int index) {
         checkIndex(index);
         requireType('S');
-        return shortAt(index << 1, getValue());
+        return shortAt(index << 1, getVblue());
     }
 
     public int getIntAt(int index) {
         checkIndex(index);
         requireType('I');
-        return intAt(index << 2, getValue());
+        return intAt(index << 2, getVblue());
     }
 
     public long getLongAt(int index) {
         checkIndex(index);
         requireType('J');
-        return longAt(index << 3, getValue());
+        return longAt(index << 3, getVblue());
     }
 
-    public float getFloatAt(int index) {
+    public flobt getFlobtAt(int index) {
         checkIndex(index);
         requireType('F');
-        return floatAt(index << 2, getValue());
+        return flobtAt(index << 2, getVblue());
     }
 
     public double getDoubleAt(int index) {
         checkIndex(index);
         requireType('D');
-        return doubleAt(index << 3, getValue());
+        return doubleAt(index << 3, getVblue());
     }
 
-    public String valueString() {
-        return valueString(true);
+    public String vblueString() {
+        return vblueString(true);
     }
 
-    public String valueString(boolean bigLimit) {
-        // Char arrays deserve special treatment
+    public String vblueString(boolebn bigLimit) {
+        // Chbr brrbys deserve specibl trebtment
         StringBuffer result;
-        byte[] value = getValue();
-        int max = value.length;
-        byte elementSignature = getElementType();
-        if (elementSignature == 'C')  {
+        byte[] vblue = getVblue();
+        int mbx = vblue.length;
+        byte elementSignbture = getElementType();
+        if (elementSignbture == 'C')  {
             result = new StringBuffer();
-            for (int i = 0; i < value.length; ) {
-                char val = charAt(i, value);
-                result.append(val);
+            for (int i = 0; i < vblue.length; ) {
+                chbr vbl = chbrAt(i, vblue);
+                result.bppend(vbl);
                 i += 2;
             }
         } else {
@@ -364,68 +364,68 @@ public class JavaValueArray extends JavaLazyReadObject
             }
             result = new StringBuffer("{");
             int num = 0;
-            for (int i = 0; i < value.length; ) {
+            for (int i = 0; i < vblue.length; ) {
                 if (num > 0) {
-                    result.append(", ");
+                    result.bppend(", ");
                 }
                 if (num >= limit) {
-                    result.append("... ");
-                    break;
+                    result.bppend("... ");
+                    brebk;
                 }
                 num++;
-                switch (elementSignature) {
-                    case 'Z': {
-                        boolean val = booleanAt(i, value);
-                        if (val) {
-                            result.append("true");
+                switch (elementSignbture) {
+                    cbse 'Z': {
+                        boolebn vbl = boolebnAt(i, vblue);
+                        if (vbl) {
+                            result.bppend("true");
                         } else {
-                            result.append("false");
+                            result.bppend("fblse");
                         }
                         i++;
-                        break;
+                        brebk;
                     }
-                    case 'B': {
-                        int val = 0xFF & byteAt(i, value);
-                        result.append("0x" + Integer.toString(val, 16));
+                    cbse 'B': {
+                        int vbl = 0xFF & byteAt(i, vblue);
+                        result.bppend("0x" + Integer.toString(vbl, 16));
                         i++;
-                        break;
+                        brebk;
                     }
-                    case 'S': {
-                        short val = shortAt(i, value);
+                    cbse 'S': {
+                        short vbl = shortAt(i, vblue);
                         i += 2;
-                        result.append("" + val);
-                        break;
+                        result.bppend("" + vbl);
+                        brebk;
                     }
-                    case 'I': {
-                        int val = intAt(i, value);
+                    cbse 'I': {
+                        int vbl = intAt(i, vblue);
                         i += 4;
-                        result.append("" + val);
-                        break;
+                        result.bppend("" + vbl);
+                        brebk;
                     }
-                    case 'J': {         // long
-                        long val = longAt(i, value);
-                        result.append("" + val);
+                    cbse 'J': {         // long
+                        long vbl = longAt(i, vblue);
+                        result.bppend("" + vbl);
                         i += 8;
-                        break;
+                        brebk;
                     }
-                    case 'F': {
-                        float val = floatAt(i, value);
-                        result.append("" + val);
+                    cbse 'F': {
+                        flobt vbl = flobtAt(i, vblue);
+                        result.bppend("" + vbl);
                         i += 4;
-                        break;
+                        brebk;
                     }
-                    case 'D': {         // double
-                        double val = doubleAt(i, value);
-                        result.append("" + val);
+                    cbse 'D': {         // double
+                        double vbl = doubleAt(i, vblue);
+                        result.bppend("" + vbl);
                         i += 8;
-                        break;
+                        brebk;
                     }
-                    default: {
+                    defbult: {
                         throw new RuntimeException("unknown primitive type?");
                     }
                 }
             }
-            result.append("}");
+            result.bppend("}");
         }
         return result.toString();
     }

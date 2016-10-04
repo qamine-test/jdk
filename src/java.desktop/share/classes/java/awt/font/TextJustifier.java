@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - 1997, All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by Tbligent, Inc., b wholly-owned subsidibry
+ * of IBM. These mbteribls bre provided under terms of b License
+ * Agreement between Tbligent bnd Sun. This technology is protected
+ * by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
 /*
- * one info for each side of each glyph
- * separate infos for grow and shrink case
- * !!! this doesn't really need to be a separate class.  If we keep it
- * separate, probably the newJustify code from TextLayout belongs here as well.
+ * one info for ebch side of ebch glyph
+ * sepbrbte infos for grow bnd shrink cbse
+ * !!! this doesn't reblly need to be b sepbrbte clbss.  If we keep it
+ * sepbrbte, probbbly the newJustify code from TextLbyout belongs here bs well.
  */
 
-class TextJustifier {
-    private GlyphJustificationInfo[] info;
-    private int start;
-    private int limit;
+clbss TextJustifier {
+    privbte GlyphJustificbtionInfo[] info;
+    privbte int stbrt;
+    privbte int limit;
 
-    static boolean DEBUG = false;
+    stbtic boolebn DEBUG = fblse;
 
     /**
-     * Initialize the justifier with an array of infos corresponding to each
-     * glyph. Start and limit indicate the range of the array to examine.
+     * Initiblize the justifier with bn brrby of infos corresponding to ebch
+     * glyph. Stbrt bnd limit indicbte the rbnge of the brrby to exbmine.
      */
-    TextJustifier(GlyphJustificationInfo[] info, int start, int limit) {
+    TextJustifier(GlyphJustificbtionInfo[] info, int stbrt, int limit) {
         this.info = info;
-        this.start = start;
+        this.stbrt = stbrt;
         this.limit = limit;
 
         if (DEBUG) {
-            System.out.println("start: " + start + ", limit: " + limit);
-            for (int i = start; i < limit; i++) {
-                GlyphJustificationInfo gji = info[i];
+            System.out.println("stbrt: " + stbrt + ", limit: " + limit);
+            for (int i = stbrt; i < limit; i++) {
+                GlyphJustificbtionInfo gji = info[i];
                 System.out.println("w: " + gji.weight + ", gp: " +
                                    gji.growPriority + ", gll: " +
                                    gji.growLeftLimit + ", grl: " +
@@ -75,72 +75,72 @@ class TextJustifier {
         }
     }
 
-    public static final int MAX_PRIORITY = 3;
+    public stbtic finbl int MAX_PRIORITY = 3;
 
     /**
-     * Return an array of deltas twice as long as the original info array,
-     * indicating the amount by which each side of each glyph should grow
+     * Return bn brrby of deltbs twice bs long bs the originbl info brrby,
+     * indicbting the bmount by which ebch side of ebch glyph should grow
      * or shrink.
      *
-     * Delta should be positive to expand the line, and negative to compress it.
+     * Deltb should be positive to expbnd the line, bnd negbtive to compress it.
      */
-    public float[] justify(float delta) {
-        float[] deltas = new float[info.length * 2];
+    public flobt[] justify(flobt deltb) {
+        flobt[] deltbs = new flobt[info.length * 2];
 
-        boolean grow = delta > 0;
+        boolebn grow = deltb > 0;
 
         if (DEBUG)
-            System.out.println("delta: " + delta);
+            System.out.println("deltb: " + deltb);
 
-        // make separate passes through glyphs in order of decreasing priority
-        // until justifyDelta is zero or we run out of priorities.
-        int fallbackPriority = -1;
-        for (int p = 0; delta != 0; p++) {
+        // mbke sepbrbte pbsses through glyphs in order of decrebsing priority
+        // until justifyDeltb is zero or we run out of priorities.
+        int fbllbbckPriority = -1;
+        for (int p = 0; deltb != 0; p++) {
             /*
-             * special case 'fallback' iteration, set flag and recheck
+             * specibl cbse 'fbllbbck' iterbtion, set flbg bnd recheck
              * highest priority
              */
-            boolean lastPass = p > MAX_PRIORITY;
-            if (lastPass)
-                p = fallbackPriority;
+            boolebn lbstPbss = p > MAX_PRIORITY;
+            if (lbstPbss)
+                p = fbllbbckPriority;
 
-            // pass through glyphs, first collecting weights and limits
-            float weight = 0;
-            float gslimit = 0;
-            float absorbweight = 0;
-            for (int i = start; i < limit; i++) {
-                GlyphJustificationInfo gi = info[i];
+            // pbss through glyphs, first collecting weights bnd limits
+            flobt weight = 0;
+            flobt gslimit = 0;
+            flobt bbsorbweight = 0;
+            for (int i = stbrt; i < limit; i++) {
+                GlyphJustificbtionInfo gi = info[i];
                 if ((grow ? gi.growPriority : gi.shrinkPriority) == p) {
-                    if (fallbackPriority == -1) {
-                        fallbackPriority = p;
+                    if (fbllbbckPriority == -1) {
+                        fbllbbckPriority = p;
                     }
 
-                    if (i != start) { // ignore left of first character
+                    if (i != stbrt) { // ignore left of first chbrbcter
                         weight += gi.weight;
                         if (grow) {
                             gslimit += gi.growLeftLimit;
                             if (gi.growAbsorb) {
-                                absorbweight += gi.weight;
+                                bbsorbweight += gi.weight;
                             }
                         } else {
                             gslimit += gi.shrinkLeftLimit;
                             if (gi.shrinkAbsorb) {
-                                absorbweight += gi.weight;
+                                bbsorbweight += gi.weight;
                             }
                         }
                     }
 
-                    if (i + 1 != limit) { // ignore right of last character
+                    if (i + 1 != limit) { // ignore right of lbst chbrbcter
                         weight += gi.weight;
                         if (grow) {
                             gslimit += gi.growRightLimit;
                             if (gi.growAbsorb) {
-                                absorbweight += gi.weight;
+                                bbsorbweight += gi.weight;
                             }
                         } else {
                             gslimit += gi.shrinkRightLimit;
                             if (gi.shrinkAbsorb) {
-                                absorbweight += gi.weight;
+                                bbsorbweight += gi.weight;
                             }
                         }
                     }
@@ -149,65 +149,65 @@ class TextJustifier {
 
             // did we hit the limit?
             if (!grow) {
-                gslimit = -gslimit; // negative for negative deltas
+                gslimit = -gslimit; // negbtive for negbtive deltbs
             }
-            boolean hitLimit = (weight == 0) || (!lastPass && ((delta < 0) == (delta < gslimit)));
-            boolean absorbing = hitLimit && absorbweight > 0;
+            boolebn hitLimit = (weight == 0) || (!lbstPbss && ((deltb < 0) == (deltb < gslimit)));
+            boolebn bbsorbing = hitLimit && bbsorbweight > 0;
 
-            // predivide delta by weight
-            float weightedDelta = delta / weight; // not used if weight == 0
+            // predivide deltb by weight
+            flobt weightedDeltb = deltb / weight; // not used if weight == 0
 
-            float weightedAbsorb = 0;
-            if (hitLimit && absorbweight > 0) {
-                weightedAbsorb = (delta - gslimit) / absorbweight;
+            flobt weightedAbsorb = 0;
+            if (hitLimit && bbsorbweight > 0) {
+                weightedAbsorb = (deltb - gslimit) / bbsorbweight;
             }
 
             if (DEBUG) {
-                System.out.println("pass: " + p +
-                    ", d: " + delta +
+                System.out.println("pbss: " + p +
+                    ", d: " + deltb +
                     ", l: " + gslimit +
                     ", w: " + weight +
-                    ", aw: " + absorbweight +
-                    ", wd: " + weightedDelta +
-                    ", wa: " + weightedAbsorb +
+                    ", bw: " + bbsorbweight +
+                    ", wd: " + weightedDeltb +
+                    ", wb: " + weightedAbsorb +
                     ", hit: " + (hitLimit ? "y" : "n"));
             }
 
-            // now allocate this based on ratio of weight to total weight
-            int n = start * 2;
-            for (int i = start; i < limit; i++) {
-                GlyphJustificationInfo gi = info[i];
+            // now bllocbte this bbsed on rbtio of weight to totbl weight
+            int n = stbrt * 2;
+            for (int i = stbrt; i < limit; i++) {
+                GlyphJustificbtionInfo gi = info[i];
                 if ((grow ? gi.growPriority : gi.shrinkPriority) == p) {
-                    if (i != start) { // ignore left
-                        float d;
+                    if (i != stbrt) { // ignore left
+                        flobt d;
                         if (hitLimit) {
-                            // factor in sign
+                            // fbctor in sign
                             d = grow ? gi.growLeftLimit : -gi.shrinkLeftLimit;
-                            if (absorbing) {
-                                // sign factored in already
+                            if (bbsorbing) {
+                                // sign fbctored in blrebdy
                                d += gi.weight * weightedAbsorb;
                             }
                         } else {
-                            // sign factored in already
-                            d = gi.weight * weightedDelta;
+                            // sign fbctored in blrebdy
+                            d = gi.weight * weightedDeltb;
                         }
 
-                        deltas[n] += d;
+                        deltbs[n] += d;
                     }
                     n++;
 
                     if (i + 1 != limit) { // ignore right
-                        float d;
+                        flobt d;
                         if (hitLimit) {
                             d = grow ? gi.growRightLimit : -gi.shrinkRightLimit;
-                            if (absorbing) {
+                            if (bbsorbing) {
                                 d += gi.weight * weightedAbsorb;
                             }
                         } else {
-                            d = gi.weight * weightedDelta;
+                            d = gi.weight * weightedDeltb;
                         }
 
-                        deltas[n] += d;
+                        deltbs[n] += d;
                     }
                     n++;
                 } else {
@@ -215,26 +215,26 @@ class TextJustifier {
                 }
             }
 
-            if (!lastPass && hitLimit && !absorbing) {
-                delta -= gslimit;
+            if (!lbstPbss && hitLimit && !bbsorbing) {
+                deltb -= gslimit;
             } else {
-                delta = 0; // stop iteration
+                deltb = 0; // stop iterbtion
             }
         }
 
         if (DEBUG) {
-            float total = 0;
-            for (int i = 0; i < deltas.length; i++) {
-                total += deltas[i];
-                System.out.print(deltas[i] + ", ");
+            flobt totbl = 0;
+            for (int i = 0; i < deltbs.length; i++) {
+                totbl += deltbs[i];
+                System.out.print(deltbs[i] + ", ");
                 if (i % 20 == 9) {
                     System.out.println();
                 }
             }
-            System.out.println("\ntotal: " + total);
+            System.out.println("\ntotbl: " + totbl);
             System.out.println();
         }
 
-        return deltas;
+        return deltbs;
     }
 }

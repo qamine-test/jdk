@@ -3,189 +3,189 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.storage.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.storbge.implementbtions;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateExpiredException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.CertificateNotYetValidException;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.IOException;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertificbteExpiredException;
+import jbvb.security.cert.CertificbteFbctory;
+import jbvb.security.cert.CertificbteNotYetVblidException;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
 
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolverException;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolverSpi;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolverException;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.utils.Bbse64;
 
 /**
- * This {@link StorageResolverSpi} makes all raw (binary) {@link X509Certificate}s
- * which reside as files in a single directory available to the
- * {@link com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver}.
+ * This {@link StorbgeResolverSpi} mbkes bll rbw (binbry) {@link X509Certificbte}s
+ * which reside bs files in b single directory bvbilbble to the
+ * {@link com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolver}.
  */
-public class CertsInFilesystemDirectoryResolver extends StorageResolverSpi {
+public clbss CertsInFilesystemDirectoryResolver extends StorbgeResolverSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(
-            CertsInFilesystemDirectoryResolver.class.getName()
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(
+            CertsInFilesystemDirectoryResolver.clbss.getNbme()
         );
 
-    /** Field merlinsCertificatesDir */
-    private String merlinsCertificatesDir = null;
+    /** Field merlinsCertificbtesDir */
+    privbte String merlinsCertificbtesDir = null;
 
     /** Field certs */
-    private List<X509Certificate> certs = new ArrayList<X509Certificate>();
+    privbte List<X509Certificbte> certs = new ArrbyList<X509Certificbte>();
 
     /**
-     * @param directoryName
-     * @throws StorageResolverException
+     * @pbrbm directoryNbme
+     * @throws StorbgeResolverException
      */
-    public CertsInFilesystemDirectoryResolver(String directoryName)
-        throws StorageResolverException {
-        this.merlinsCertificatesDir = directoryName;
+    public CertsInFilesystemDirectoryResolver(String directoryNbme)
+        throws StorbgeResolverException {
+        this.merlinsCertificbtesDir = directoryNbme;
 
-        this.readCertsFromHarddrive();
+        this.rebdCertsFromHbrddrive();
     }
 
     /**
-     * Method readCertsFromHarddrive
+     * Method rebdCertsFromHbrddrive
      *
-     * @throws StorageResolverException
+     * @throws StorbgeResolverException
      */
-    private void readCertsFromHarddrive() throws StorageResolverException {
+    privbte void rebdCertsFromHbrddrive() throws StorbgeResolverException {
 
-        File certDir = new File(this.merlinsCertificatesDir);
-        List<String> al = new ArrayList<String>();
-        String[] names = certDir.list();
+        File certDir = new File(this.merlinsCertificbtesDir);
+        List<String> bl = new ArrbyList<String>();
+        String[] nbmes = certDir.list();
 
-        for (int i = 0; i < names.length; i++) {
-            String currentFileName = names[i];
+        for (int i = 0; i < nbmes.length; i++) {
+            String currentFileNbme = nbmes[i];
 
-            if (currentFileName.endsWith(".crt")) {
-                al.add(names[i]);
+            if (currentFileNbme.endsWith(".crt")) {
+                bl.bdd(nbmes[i]);
             }
         }
 
-        CertificateFactory cf = null;
+        CertificbteFbctory cf = null;
 
         try {
-            cf = CertificateFactory.getInstance("X.509");
-        } catch (CertificateException ex) {
-            throw new StorageResolverException("empty", ex);
+            cf = CertificbteFbctory.getInstbnce("X.509");
+        } cbtch (CertificbteException ex) {
+            throw new StorbgeResolverException("empty", ex);
         }
 
         if (cf == null) {
-            throw new StorageResolverException("empty");
+            throw new StorbgeResolverException("empty");
         }
 
-        for (int i = 0; i < al.size(); i++) {
-            String filename = certDir.getAbsolutePath() + File.separator + al.get(i);
-            File file = new File(filename);
-            boolean added = false;
+        for (int i = 0; i < bl.size(); i++) {
+            String filenbme = certDir.getAbsolutePbth() + File.sepbrbtor + bl.get(i);
+            File file = new File(filenbme);
+            boolebn bdded = fblse;
             String dn = null;
 
-            FileInputStream fis = null;
+            FileInputStrebm fis = null;
             try {
-                fis = new FileInputStream(file);
-                X509Certificate cert =
-                    (X509Certificate) cf.generateCertificate(fis);
+                fis = new FileInputStrebm(file);
+                X509Certificbte cert =
+                    (X509Certificbte) cf.generbteCertificbte(fis);
 
-                //add to ArrayList
-                cert.checkValidity();
-                this.certs.add(cert);
+                //bdd to ArrbyList
+                cert.checkVblidity();
+                this.certs.bdd(cert);
 
-                dn = cert.getSubjectX500Principal().getName();
-                added = true;
-            } catch (FileNotFoundException ex) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Could not add certificate from file " + filename, ex);
+                dn = cert.getSubjectX500Principbl().getNbme();
+                bdded = true;
+            } cbtch (FileNotFoundException ex) {
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "Could not bdd certificbte from file " + filenbme, ex);
                 }
-            } catch (CertificateNotYetValidException ex) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Could not add certificate from file " + filename, ex);
+            } cbtch (CertificbteNotYetVblidException ex) {
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "Could not bdd certificbte from file " + filenbme, ex);
                 }
-            } catch (CertificateExpiredException ex) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Could not add certificate from file " + filename, ex);
+            } cbtch (CertificbteExpiredException ex) {
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "Could not bdd certificbte from file " + filenbme, ex);
                 }
-            } catch (CertificateException ex) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Could not add certificate from file " + filename, ex);
+            } cbtch (CertificbteException ex) {
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "Could not bdd certificbte from file " + filenbme, ex);
                 }
-            } finally {
+            } finblly {
                 try {
                     if (fis != null) {
                         fis.close();
                     }
-                } catch (IOException ex) {
-                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                        log.log(java.util.logging.Level.FINE, "Could not add certificate from file " + filename, ex);
+                } cbtch (IOException ex) {
+                    if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                        log.log(jbvb.util.logging.Level.FINE, "Could not bdd certificbte from file " + filenbme, ex);
                     }
                 }
             }
 
-            if (added && log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Added certificate: " + dn);
+            if (bdded && log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "Added certificbte: " + dn);
             }
         }
     }
 
     /** @inheritDoc */
-    public Iterator<Certificate> getIterator() {
-        return new FilesystemIterator(this.certs);
+    public Iterbtor<Certificbte> getIterbtor() {
+        return new FilesystemIterbtor(this.certs);
     }
 
     /**
-     * Class FilesystemIterator
+     * Clbss FilesystemIterbtor
      */
-    private static class FilesystemIterator implements Iterator<Certificate> {
+    privbte stbtic clbss FilesystemIterbtor implements Iterbtor<Certificbte> {
 
         /** Field certs */
-        List<X509Certificate> certs = null;
+        List<X509Certificbte> certs = null;
 
         /** Field i */
         int i;
 
         /**
-         * Constructor FilesystemIterator
+         * Constructor FilesystemIterbtor
          *
-         * @param certs
+         * @pbrbm certs
          */
-        public FilesystemIterator(List<X509Certificate> certs) {
+        public FilesystemIterbtor(List<X509Certificbte> certs) {
             this.certs = certs;
             this.i = 0;
         }
 
         /** @inheritDoc */
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return (this.i < this.certs.size());
         }
 
         /** @inheritDoc */
-        public Certificate next() {
+        public Certificbte next() {
             return this.certs.get(this.i++);
         }
 
@@ -194,36 +194,36 @@ public class CertsInFilesystemDirectoryResolver extends StorageResolverSpi {
          *
          */
         public void remove() {
-            throw new UnsupportedOperationException("Can't remove keys from KeyStore");
+            throw new UnsupportedOperbtionException("Cbn't remove keys from KeyStore");
         }
     }
 
     /**
-     * Method main
+     * Method mbin
      *
-     * @param unused
+     * @pbrbm unused
      * @throws Exception
      */
-    public static void main(String unused[]) throws Exception {
+    public stbtic void mbin(String unused[]) throws Exception {
 
         CertsInFilesystemDirectoryResolver krs =
             new CertsInFilesystemDirectoryResolver(
-                "data/ie/baltimore/merlin-examples/merlin-xmldsig-eighteen/certs");
+                "dbtb/ie/bbltimore/merlin-exbmples/merlin-xmldsig-eighteen/certs");
 
-        for (Iterator<Certificate> i = krs.getIterator(); i.hasNext(); ) {
-            X509Certificate cert = (X509Certificate) i.next();
+        for (Iterbtor<Certificbte> i = krs.getIterbtor(); i.hbsNext(); ) {
+            X509Certificbte cert = (X509Certificbte) i.next();
             byte[] ski =
-                com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509SKI.getSKIBytesFromCert(cert);
+                com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509SKI.getSKIBytesFromCert(cert);
 
             System.out.println();
-            System.out.println("Base64(SKI())=                 \""
-                               + Base64.encode(ski) + "\"");
-            System.out.println("cert.getSerialNumber()=        \""
-                               + cert.getSerialNumber().toString() + "\"");
-            System.out.println("cert.getSubjectX500Principal().getName()= \""
-                               + cert.getSubjectX500Principal().getName() + "\"");
-            System.out.println("cert.getIssuerX500Principal().getName()=  \""
-                               + cert.getIssuerX500Principal().getName() + "\"");
+            System.out.println("Bbse64(SKI())=                 \""
+                               + Bbse64.encode(ski) + "\"");
+            System.out.println("cert.getSeriblNumber()=        \""
+                               + cert.getSeriblNumber().toString() + "\"");
+            System.out.println("cert.getSubjectX500Principbl().getNbme()= \""
+                               + cert.getSubjectX500Principbl().getNbme() + "\"");
+            System.out.println("cert.getIssuerX500Principbl().getNbme()=  \""
+                               + cert.getIssuerX500Principbl().getNbme() + "\"");
         }
     }
 }

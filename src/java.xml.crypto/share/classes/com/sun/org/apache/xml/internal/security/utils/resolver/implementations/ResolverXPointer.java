@@ -3,60 +3,60 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils.resolver.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils.resolver.implementbtions;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverContext;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverException;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolverContext;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolverException;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolverSpi;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * Handles barename XPointer Reference URIs.
+ * Hbndles bbrenbme XPointer Reference URIs.
  * <BR />
- * To retain comments while selecting an element by an identifier ID,
+ * To retbin comments while selecting bn element by bn identifier ID,
  * use the following full XPointer: URI='#xpointer(id('ID'))'.
  * <BR />
- * To retain comments while selecting the entire document,
+ * To retbin comments while selecting the entire document,
  * use the following full XPointer: URI='#xpointer(/)'.
- * This XPointer contains a simple XPath expression that includes
- * the root node, which the second to last step above replaces with all
- * nodes of the parse tree (all descendants, plus all attributes,
- * plus all namespaces nodes).
+ * This XPointer contbins b simple XPbth expression thbt includes
+ * the root node, which the second to lbst step bbove replbces with bll
+ * nodes of the pbrse tree (bll descendbnts, plus bll bttributes,
+ * plus bll nbmespbces nodes).
  *
- * @author $Author: coheigea $
+ * @buthor $Author: coheigeb $
  */
-public class ResolverXPointer extends ResourceResolverSpi {
+public clbss ResolverXPointer extends ResourceResolverSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(ResolverXPointer.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(ResolverXPointer.clbss.getNbme());
 
-    private static final String XP = "#xpointer(id(";
-    private static final int XP_LENGTH = XP.length();
+    privbte stbtic finbl String XP = "#xpointer(id(";
+    privbte stbtic finbl int XP_LENGTH = XP.length();
 
     @Override
-    public boolean engineIsThreadSafe() {
+    public boolebn engineIsThrebdSbfe() {
         return true;
     }
 
@@ -64,24 +64,24 @@ public class ResolverXPointer extends ResourceResolverSpi {
      * @inheritDoc
      */
     @Override
-    public XMLSignatureInput engineResolveURI(ResourceResolverContext context)
+    public XMLSignbtureInput engineResolveURI(ResourceResolverContext context)
         throws ResourceResolverException {
 
         Node resultNode = null;
-        Document doc = context.attr.getOwnerElement().getOwnerDocument();
+        Document doc = context.bttr.getOwnerElement().getOwnerDocument();
 
-        if (isXPointerSlash(context.uriToResolve)) {
+        if (isXPointerSlbsh(context.uriToResolve)) {
             resultNode = doc;
         } else if (isXPointerId(context.uriToResolve)) {
             String id = getXPointerId(context.uriToResolve);
             resultNode = doc.getElementById(id);
 
-            if (context.secureValidation) {
-                Element start = context.attr.getOwnerDocument().getDocumentElement();
-                if (!XMLUtils.protectAgainstWrappingAttack(start, id)) {
+            if (context.secureVblidbtion) {
+                Element stbrt = context.bttr.getOwnerDocument().getDocumentElement();
+                if (!XMLUtils.protectAgbinstWrbppingAttbck(stbrt, id)) {
                     Object exArgs[] = { id };
                     throw new ResourceResolverException(
-                        "signature.Verification.MultipleIDs", exArgs, context.attr, context.baseUri
+                        "signbture.Verificbtion.MultipleIDs", exArgs, context.bttr, context.bbseUri
                     );
                 }
             }
@@ -90,16 +90,16 @@ public class ResolverXPointer extends ResourceResolverSpi {
                 Object exArgs[] = { id };
 
                 throw new ResourceResolverException(
-                    "signature.Verification.MissingID", exArgs, context.attr, context.baseUri
+                    "signbture.Verificbtion.MissingID", exArgs, context.bttr, context.bbseUri
                 );
             }
         }
 
-        XMLSignatureInput result = new XMLSignatureInput(resultNode);
+        XMLSignbtureInput result = new XMLSignbtureInput(resultNode);
 
         result.setMIMEType("text/xml");
-        if (context.baseUri != null && context.baseUri.length() > 0) {
-            result.setSourceURI(context.baseUri.concat(context.uriToResolve));
+        if (context.bbseUri != null && context.bbseUri.length() > 0) {
+            result.setSourceURI(context.bbseUri.concbt(context.uriToResolve));
         } else {
             result.setSourceURI(context.uriToResolve);
         }
@@ -110,67 +110,67 @@ public class ResolverXPointer extends ResourceResolverSpi {
     /**
      * @inheritDoc
      */
-    public boolean engineCanResolveURI(ResourceResolverContext context) {
+    public boolebn engineCbnResolveURI(ResourceResolverContext context) {
         if (context.uriToResolve == null) {
-            return false;
+            return fblse;
         }
-        if (isXPointerSlash(context.uriToResolve) || isXPointerId(context.uriToResolve)) {
+        if (isXPointerSlbsh(context.uriToResolve) || isXPointerId(context.uriToResolve)) {
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Method isXPointerSlash
+     * Method isXPointerSlbsh
      *
-     * @param uri
+     * @pbrbm uri
      * @return true if begins with xpointer
      */
-    private static boolean isXPointerSlash(String uri) {
-        if (uri.equals("#xpointer(/)")) {
+    privbte stbtic boolebn isXPointerSlbsh(String uri) {
+        if (uri.equbls("#xpointer(/)")) {
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
     /**
      * Method isXPointerId
      *
-     * @param uri
-     * @return whether it has an xpointer id
+     * @pbrbm uri
+     * @return whether it hbs bn xpointer id
      */
-    private static boolean isXPointerId(String uri) {
-        if (uri.startsWith(XP) && uri.endsWith("))")) {
+    privbte stbtic boolebn isXPointerId(String uri) {
+        if (uri.stbrtsWith(XP) && uri.endsWith("))")) {
             String idPlusDelim = uri.substring(XP_LENGTH, uri.length() - 2);
 
             int idLen = idPlusDelim.length() -1;
-            if (((idPlusDelim.charAt(0) == '"') && (idPlusDelim.charAt(idLen) == '"'))
-                || ((idPlusDelim.charAt(0) == '\'') && (idPlusDelim.charAt(idLen) == '\''))) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Id = " + idPlusDelim.substring(1, idLen));
+            if (((idPlusDelim.chbrAt(0) == '"') && (idPlusDelim.chbrAt(idLen) == '"'))
+                || ((idPlusDelim.chbrAt(0) == '\'') && (idPlusDelim.chbrAt(idLen) == '\''))) {
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "Id = " + idPlusDelim.substring(1, idLen));
                 }
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
      * Method getXPointerId
      *
-     * @param uri
-     * @return xpointerId to search.
+     * @pbrbm uri
+     * @return xpointerId to sebrch.
      */
-    private static String getXPointerId(String uri) {
-        if (uri.startsWith(XP) && uri.endsWith("))")) {
+    privbte stbtic String getXPointerId(String uri) {
+        if (uri.stbrtsWith(XP) && uri.endsWith("))")) {
             String idPlusDelim = uri.substring(XP_LENGTH,uri.length() - 2);
 
             int idLen = idPlusDelim.length() -1;
-            if (((idPlusDelim.charAt(0) == '"') && (idPlusDelim.charAt(idLen) == '"'))
-                || ((idPlusDelim.charAt(0) == '\'') && (idPlusDelim.charAt(idLen) == '\''))) {
+            if (((idPlusDelim.chbrAt(0) == '"') && (idPlusDelim.chbrAt(idLen) == '"'))
+                || ((idPlusDelim.chbrAt(0) == '\'') && (idPlusDelim.chbrAt(idLen) == '\''))) {
                 return idPlusDelim.substring(1, idLen);
             }
         }

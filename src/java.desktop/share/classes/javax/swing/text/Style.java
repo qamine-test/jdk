@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1997, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.Component;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
+import jbvb.bwt.Component;
+import jbvbx.swing.event.ChbngeListener;
+import jbvbx.swing.event.ChbngeEvent;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
 
 
 
 /**
- * A collection of attributes to associate with an element in a document.
- * Since these are typically used to associate character and paragraph
- * styles with the element, operations for this are provided.  Other
- * customized attributes that get associated with the element will
- * effectively be name-value pairs that live in a hierarchy and if a name
- * (key) is not found locally, the request is forwarded to the parent.
- * Commonly used attributes are separated out to facilitate alternative
- * implementations that are more efficient.
+ * A collection of bttributes to bssocibte with bn element in b document.
+ * Since these bre typicblly used to bssocibte chbrbcter bnd pbrbgrbph
+ * styles with the element, operbtions for this bre provided.  Other
+ * customized bttributes thbt get bssocibted with the element will
+ * effectively be nbme-vblue pbirs thbt live in b hierbrchy bnd if b nbme
+ * (key) is not found locblly, the request is forwbrded to the pbrent.
+ * Commonly used bttributes bre sepbrbted out to fbcilitbte blternbtive
+ * implementbtions thbt bre more efficient.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public interface Style extends MutableAttributeSet {
+public interfbce Style extends MutbbleAttributeSet {
 
     /**
-     * Fetches the name of the style.   A style is not required to be named,
-     * so <code>null</code> is returned if there is no name
-     * associated with the style.
+     * Fetches the nbme of the style.   A style is not required to be nbmed,
+     * so <code>null</code> is returned if there is no nbme
+     * bssocibted with the style.
      *
-     * @return the name
+     * @return the nbme
      */
-    public String getName();
+    public String getNbme();
 
     /**
-     * Adds a listener to track whenever an attribute
-     * has been changed.
+     * Adds b listener to trbck whenever bn bttribute
+     * hbs been chbnged.
      *
-     * @param l the change listener
+     * @pbrbm l the chbnge listener
      */
-    public void addChangeListener(ChangeListener l);
+    public void bddChbngeListener(ChbngeListener l);
 
     /**
-     * Removes a listener that was tracking attribute changes.
+     * Removes b listener thbt wbs trbcking bttribute chbnges.
      *
-     * @param l the change listener
+     * @pbrbm l the chbnge listener
      */
-    public void removeChangeListener(ChangeListener l);
+    public void removeChbngeListener(ChbngeListener l);
 
 
 }

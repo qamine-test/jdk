@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
 /**
- * This class represents AWT application root window functionality.
- * Object of this class is singleton, all window reference it to have
- * common logical ancestor
+ * This clbss represents AWT bpplicbtion root window functionblity.
+ * Object of this clbss is singleton, bll window reference it to hbve
+ * common logicbl bncestor
  */
-class XRootWindow extends XBaseWindow {
-    private static XRootWindow xawtRootWindow = null;
-    static XRootWindow getInstance() {
-        XToolkit.awtLock();
+clbss XRootWindow extends XBbseWindow {
+    privbte stbtic XRootWindow xbwtRootWindow = null;
+    stbtic XRootWindow getInstbnce() {
+        XToolkit.bwtLock();
         try {
-            if (xawtRootWindow == null) {
-                xawtRootWindow = new XRootWindow();
-                xawtRootWindow.init(xawtRootWindow.getDelayedParams().delete(DELAYED));
+            if (xbwtRootWindow == null) {
+                xbwtRootWindow = new XRootWindow();
+                xbwtRootWindow.init(xbwtRootWindow.getDelbyedPbrbms().delete(DELAYED));
             }
-            return xawtRootWindow;
-        } finally {
-            XToolkit.awtUnlock();
+            return xbwtRootWindow;
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    private XRootWindow() {
-        super(new XCreateWindowParams(new Object[] { DELAYED, Boolean.TRUE,
-                                                     EVENT_MASK, XConstants.StructureNotifyMask }));
+    privbte XRootWindow() {
+        super(new XCrebteWindowPbrbms(new Object[] { DELAYED, Boolebn.TRUE,
+                                                     EVENT_MASK, XConstbnts.StructureNotifyMbsk }));
     }
 
-    public void postInit(XCreateWindowParams params){
-        super.postInit(params);
-        setWMClass(getWMClass());
+    public void postInit(XCrebteWindowPbrbms pbrbms){
+        super.postInit(pbrbms);
+        setWMClbss(getWMClbss());
     }
 
-    protected String getWMName() {
-        return XToolkit.getAWTAppClassName();
+    protected String getWMNbme() {
+        return XToolkit.getAWTAppClbssNbme();
     }
-    protected String[] getWMClass() {
-        return new String[] {XToolkit.getAWTAppClassName(), XToolkit.getAWTAppClassName()};
+    protected String[] getWMClbss() {
+        return new String[] {XToolkit.getAWTAppClbssNbme(), XToolkit.getAWTAppClbssNbme()};
     }
 
-  /* Fix 4976517.  Return awt_root_shell to XToolkit.c */
-    private static long getXRootWindow() {
+  /* Fix 4976517.  Return bwt_root_shell to XToolkit.c */
+    privbte stbtic long getXRootWindow() {
         return getXAWTRootWindow().getWindow();
     }
 }

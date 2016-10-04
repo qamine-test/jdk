@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file contains macro definitions for the Decoding category of
- * the macros used by the generic scaleloop function.
+ * This file contbins mbcro definitions for the Decoding cbtegory of
+ * the mbcros used by the generic scbleloop function.
  *
- * This implementation can decode the pixel information associated
- * with any Java DirectColorModel object.  This implementation will
- * scale the decoded color components to 8-bit quantities if needed.
- * Another file is provided to optimize DCM parsing when the masks
- * are guaranteed to be at least 8-bits wide.  This implementation
- * examines some of the private fields of the DirectColorModel
- * object and decodes the red, green, blue, and possibly alpha values
- * directly rather than calling the getRGB method on the Java object.
+ * This implementbtion cbn decode the pixel informbtion bssocibted
+ * with bny Jbvb DirectColorModel object.  This implementbtion will
+ * scble the decoded color components to 8-bit qubntities if needed.
+ * Another file is provided to optimize DCM pbrsing when the mbsks
+ * bre gubrbnteed to be bt lebst 8-bits wide.  This implementbtion
+ * exbmines some of the privbte fields of the DirectColorModel
+ * object bnd decodes the red, green, blue, bnd possibly blphb vblues
+ * directly rbther thbn cblling the getRGB method on the Jbvb object.
  */
 
 /*
- * These definitions vector the standard macro names to the "DCM"
- * versions of those macros only if the "DecodeDeclared" keyword has
- * not yet been defined elsewhere.  The "DecodeDeclared" keyword is
- * also defined here to claim ownership of the primary implementation
- * even though this file does not rely on the definitions in any other
+ * These definitions vector the stbndbrd mbcro nbmes to the "DCM"
+ * versions of those mbcros only if the "DecodeDeclbred" keyword hbs
+ * not yet been defined elsewhere.  The "DecodeDeclbred" keyword is
+ * blso defined here to clbim ownership of the primbry implementbtion
+ * even though this file does not rely on the definitions in bny other
  * files.
  */
-#ifndef DecodeDeclared
-#define DeclareDecodeVars       DeclareDCMVars
-#define InitPixelDecode(CM)     InitPixelDCM(unhand(CM))
+#ifndef DecodeDeclbred
+#define DeclbreDecodeVbrs       DeclbreDCMVbrs
+#define InitPixelDecode(CM)     InitPixelDCM(unhbnd(CM))
 #define PixelDecode             PixelDCMDecode
-#define DecodeDeclared
+#define DecodeDeclbred
 #endif
 
-#define DeclareDCMVars                                          \
-    IfAlpha(int alpha_mask;                                     \
-            int alpha_scale;                                    \
-            unsigned int alpha_off;)                            \
-    int red_mask, green_mask, blue_mask;                        \
-    int red_scale, green_scale, blue_scale;                     \
+#define DeclbreDCMVbrs                                          \
+    IfAlphb(int blphb_mbsk;                                     \
+            int blphb_scble;                                    \
+            unsigned int blphb_off;)                            \
+    int red_mbsk, green_mbsk, blue_mbsk;                        \
+    int red_scble, green_scble, blue_scble;                     \
     unsigned int red_off, green_off, blue_off;                  \
-    int scale;
+    int scble;
 
 #define InitPixelDCM(CM)                                                \
     do {                                                                \
-        Classjava_awt_image_DirectColorModel *dcm =                     \
-            (Classjava_awt_image_DirectColorModel *) CM;                \
-        red_mask = dcm->red_mask;                                       \
+        Clbssjbvb_bwt_imbge_DirectColorModel *dcm =                     \
+            (Clbssjbvb_bwt_imbge_DirectColorModel *) CM;                \
+        red_mbsk = dcm->red_mbsk;                                       \
         red_off = dcm->red_offset;                                      \
-        red_scale = dcm->red_scale;                                     \
-        green_mask = dcm->green_mask;                                   \
+        red_scble = dcm->red_scble;                                     \
+        green_mbsk = dcm->green_mbsk;                                   \
         green_off = dcm->green_offset;                                  \
-        green_scale = dcm->green_scale;                                 \
-        blue_mask = dcm->blue_mask;                                     \
+        green_scble = dcm->green_scble;                                 \
+        blue_mbsk = dcm->blue_mbsk;                                     \
         blue_off = dcm->blue_offset;                                    \
-        blue_scale = dcm->blue_scale;                                   \
-        IfAlpha(alpha_mask = dcm->alpha_mask;                           \
-                alpha_off = dcm->alpha_offset;                          \
-                alpha_scale = dcm->alpha_scale;)                        \
-        scale = (red_scale | green_scale | blue_scale                   \
-                 IfAlpha(| alpha_scale));                               \
+        blue_scble = dcm->blue_scble;                                   \
+        IfAlphb(blphb_mbsk = dcm->blphb_mbsk;                           \
+                blphb_off = dcm->blphb_offset;                          \
+                blphb_scble = dcm->blphb_scble;)                        \
+        scble = (red_scble | green_scble | blue_scble                   \
+                 IfAlphb(| blphb_scble));                               \
     } while (0)
 
-#define PixelDCMDecode(CM, pixel, red, green, blue, alpha)              \
+#define PixelDCMDecode(CM, pixel, red, green, blue, blphb)              \
     do {                                                                \
-        IfAlpha(alpha = ((alpha_mask == 0)                              \
+        IfAlphb(blphb = ((blphb_mbsk == 0)                              \
                          ? 255                                          \
-                         : ((pixel & alpha_mask) >> alpha_off));)       \
-        red = ((pixel & red_mask) >> red_off);                          \
-        green = ((pixel & green_mask) >> green_off);                    \
-        blue = ((pixel & blue_mask) >> blue_off);                       \
-        if (scale) {                                                    \
-            if (red_scale) {                                            \
-                red = red * 255 / (red_scale);                          \
+                         : ((pixel & blphb_mbsk) >> blphb_off));)       \
+        red = ((pixel & red_mbsk) >> red_off);                          \
+        green = ((pixel & green_mbsk) >> green_off);                    \
+        blue = ((pixel & blue_mbsk) >> blue_off);                       \
+        if (scble) {                                                    \
+            if (red_scble) {                                            \
+                red = red * 255 / (red_scble);                          \
             }                                                           \
-            if (green_scale) {                                          \
-                green = green * 255 / (green_scale);                    \
+            if (green_scble) {                                          \
+                green = green * 255 / (green_scble);                    \
             }                                                           \
-            if (blue_scale) {                                           \
-                blue = blue * 255 / (blue_scale);                       \
+            if (blue_scble) {                                           \
+                blue = blue * 255 / (blue_scble);                       \
             }                                                           \
-            IfAlpha(if (alpha_scale) {                                  \
-                alpha = alpha * 255 / (alpha_scale);                    \
+            IfAlphb(if (blphb_scble) {                                  \
+                blphb = blphb * 255 / (blphb_scble);                    \
             })                                                          \
         }                                                               \
     } while (0)

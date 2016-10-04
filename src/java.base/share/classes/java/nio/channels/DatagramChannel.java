@@ -1,592 +1,592 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.io.IOException;
-import java.net.ProtocolFamily;
-import java.net.DatagramSocket;
-import java.net.SocketOption;
-import java.net.SocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.spi.AbstractSelectableChannel;
-import java.nio.channels.spi.SelectorProvider;
+import jbvb.io.IOException;
+import jbvb.net.ProtocolFbmily;
+import jbvb.net.DbtbgrbmSocket;
+import jbvb.net.SocketOption;
+import jbvb.net.SocketAddress;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbnnels.spi.AbstrbctSelectbbleChbnnel;
+import jbvb.nio.chbnnels.spi.SelectorProvider;
 
 /**
- * A selectable channel for datagram-oriented sockets.
+ * A selectbble chbnnel for dbtbgrbm-oriented sockets.
  *
- * <p> A datagram channel is created by invoking one of the {@link #open open} methods
- * of this class. It is not possible to create a channel for an arbitrary,
- * pre-existing datagram socket. A newly-created datagram channel is open but not
- * connected. A datagram channel need not be connected in order for the {@link #send
- * send} and {@link #receive receive} methods to be used.  A datagram channel may be
+ * <p> A dbtbgrbm chbnnel is crebted by invoking one of the {@link #open open} methods
+ * of this clbss. It is not possible to crebte b chbnnel for bn brbitrbry,
+ * pre-existing dbtbgrbm socket. A newly-crebted dbtbgrbm chbnnel is open but not
+ * connected. A dbtbgrbm chbnnel need not be connected in order for the {@link #send
+ * send} bnd {@link #receive receive} methods to be used.  A dbtbgrbm chbnnel mby be
  * connected, by invoking its {@link #connect connect} method, in order to
- * avoid the overhead of the security checks are otherwise performed as part of
- * every send and receive operation.  A datagram channel must be connected in
- * order to use the {@link #read(java.nio.ByteBuffer) read} and {@link
- * #write(java.nio.ByteBuffer) write} methods, since those methods do not
- * accept or return socket addresses.
+ * bvoid the overhebd of the security checks bre otherwise performed bs pbrt of
+ * every send bnd receive operbtion.  A dbtbgrbm chbnnel must be connected in
+ * order to use the {@link #rebd(jbvb.nio.ByteBuffer) rebd} bnd {@link
+ * #write(jbvb.nio.ByteBuffer) write} methods, since those methods do not
+ * bccept or return socket bddresses.
  *
- * <p> Once connected, a datagram channel remains connected until it is
- * disconnected or closed.  Whether or not a datagram channel is connected may
+ * <p> Once connected, b dbtbgrbm chbnnel rembins connected until it is
+ * disconnected or closed.  Whether or not b dbtbgrbm chbnnel is connected mby
  * be determined by invoking its {@link #isConnected isConnected} method.
  *
- * <p> Socket options are configured using the {@link #setOption(SocketOption,Object)
- * setOption} method. A datagram channel to an Internet Protocol socket supports
+ * <p> Socket options bre configured using the {@link #setOption(SocketOption,Object)
+ * setOption} method. A dbtbgrbm chbnnel to bn Internet Protocol socket supports
  * the following options:
  * <blockquote>
- * <table border summary="Socket options">
+ * <tbble border summbry="Socket options">
  *   <tr>
- *     <th>Option Name</th>
+ *     <th>Option Nbme</th>
  *     <th>Description</th>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_SNDBUF SO_SNDBUF} </td>
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#SO_SNDBUF SO_SNDBUF} </td>
  *     <td> The size of the socket send buffer </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_RCVBUF SO_RCVBUF} </td>
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#SO_RCVBUF SO_RCVBUF} </td>
  *     <td> The size of the socket receive buffer </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_REUSEADDR SO_REUSEADDR} </td>
- *     <td> Re-use address </td>
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#SO_REUSEADDR SO_REUSEADDR} </td>
+ *     <td> Re-use bddress </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_BROADCAST SO_BROADCAST} </td>
- *     <td> Allow transmission of broadcast datagrams </td>
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#SO_BROADCAST SO_BROADCAST} </td>
+ *     <td> Allow trbnsmission of brobdcbst dbtbgrbms </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#IP_TOS IP_TOS} </td>
- *     <td> The Type of Service (ToS) octet in the Internet Protocol (IP) header </td>
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#IP_TOS IP_TOS} </td>
+ *     <td> The Type of Service (ToS) octet in the Internet Protocol (IP) hebder </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#IP_MULTICAST_IF IP_MULTICAST_IF} </td>
- *     <td> The network interface for Internet Protocol (IP) multicast datagrams </td>
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#IP_MULTICAST_IF IP_MULTICAST_IF} </td>
+ *     <td> The network interfbce for Internet Protocol (IP) multicbst dbtbgrbms </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#IP_MULTICAST_TTL
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#IP_MULTICAST_TTL
  *       IP_MULTICAST_TTL} </td>
- *     <td> The <em>time-to-live</em> for Internet Protocol (IP) multicast
- *       datagrams </td>
+ *     <td> The <em>time-to-live</em> for Internet Protocol (IP) multicbst
+ *       dbtbgrbms </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#IP_MULTICAST_LOOP
+ *     <td> {@link jbvb.net.StbndbrdSocketOptions#IP_MULTICAST_LOOP
  *       IP_MULTICAST_LOOP} </td>
- *     <td> Loopback for Internet Protocol (IP) multicast datagrams </td>
+ *     <td> Loopbbck for Internet Protocol (IP) multicbst dbtbgrbms </td>
  *   </tr>
- * </table>
+ * </tbble>
  * </blockquote>
- * Additional (implementation specific) options may also be supported.
+ * Additionbl (implementbtion specific) options mby blso be supported.
  *
- * <p> Datagram channels are safe for use by multiple concurrent threads.  They
- * support concurrent reading and writing, though at most one thread may be
- * reading and at most one thread may be writing at any given time.  </p>
+ * <p> Dbtbgrbm chbnnels bre sbfe for use by multiple concurrent threbds.  They
+ * support concurrent rebding bnd writing, though bt most one threbd mby be
+ * rebding bnd bt most one threbd mby be writing bt bny given time.  </p>
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public abstract class DatagramChannel
-    extends AbstractSelectableChannel
-    implements ByteChannel, ScatteringByteChannel, GatheringByteChannel, MulticastChannel
+public bbstrbct clbss DbtbgrbmChbnnel
+    extends AbstrbctSelectbbleChbnnel
+    implements ByteChbnnel, ScbtteringByteChbnnel, GbtheringByteChbnnel, MulticbstChbnnel
 {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
-     * @param  provider
-     *         The provider that created this channel
+     * @pbrbm  provider
+     *         The provider thbt crebted this chbnnel
      */
-    protected DatagramChannel(SelectorProvider provider) {
+    protected DbtbgrbmChbnnel(SelectorProvider provider) {
         super(provider);
     }
 
     /**
-     * Opens a datagram channel.
+     * Opens b dbtbgrbm chbnnel.
      *
-     * <p> The new channel is created by invoking the {@link
-     * java.nio.channels.spi.SelectorProvider#openDatagramChannel()
-     * openDatagramChannel} method of the system-wide default {@link
-     * java.nio.channels.spi.SelectorProvider} object.  The channel will not be
+     * <p> The new chbnnel is crebted by invoking the {@link
+     * jbvb.nio.chbnnels.spi.SelectorProvider#openDbtbgrbmChbnnel()
+     * openDbtbgrbmChbnnel} method of the system-wide defbult {@link
+     * jbvb.nio.chbnnels.spi.SelectorProvider} object.  The chbnnel will not be
      * connected.
      *
-     * <p> The {@link ProtocolFamily ProtocolFamily} of the channel's socket
-     * is platform (and possibly configuration) dependent and therefore unspecified.
-     * The {@link #open(ProtocolFamily) open} allows the protocol family to be
-     * selected when opening a datagram channel, and should be used to open
-     * datagram channels that are intended for Internet Protocol multicasting.
+     * <p> The {@link ProtocolFbmily ProtocolFbmily} of the chbnnel's socket
+     * is plbtform (bnd possibly configurbtion) dependent bnd therefore unspecified.
+     * The {@link #open(ProtocolFbmily) open} bllows the protocol fbmily to be
+     * selected when opening b dbtbgrbm chbnnel, bnd should be used to open
+     * dbtbgrbm chbnnels thbt bre intended for Internet Protocol multicbsting.
      *
-     * @return  A new datagram channel
+     * @return  A new dbtbgrbm chbnnel
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public static DatagramChannel open() throws IOException {
-        return SelectorProvider.provider().openDatagramChannel();
+    public stbtic DbtbgrbmChbnnel open() throws IOException {
+        return SelectorProvider.provider().openDbtbgrbmChbnnel();
     }
 
     /**
-     * Opens a datagram channel.
+     * Opens b dbtbgrbm chbnnel.
      *
-     * <p> The {@code family} parameter is used to specify the {@link
-     * ProtocolFamily}. If the datagram channel is to be used for IP multicasting
-     * then this should correspond to the address type of the multicast groups
-     * that this channel will join.
+     * <p> The {@code fbmily} pbrbmeter is used to specify the {@link
+     * ProtocolFbmily}. If the dbtbgrbm chbnnel is to be used for IP multicbsting
+     * then this should correspond to the bddress type of the multicbst groups
+     * thbt this chbnnel will join.
      *
-     * <p> The new channel is created by invoking the {@link
-     * java.nio.channels.spi.SelectorProvider#openDatagramChannel(ProtocolFamily)
-     * openDatagramChannel} method of the system-wide default {@link
-     * java.nio.channels.spi.SelectorProvider} object.  The channel will not be
+     * <p> The new chbnnel is crebted by invoking the {@link
+     * jbvb.nio.chbnnels.spi.SelectorProvider#openDbtbgrbmChbnnel(ProtocolFbmily)
+     * openDbtbgrbmChbnnel} method of the system-wide defbult {@link
+     * jbvb.nio.chbnnels.spi.SelectorProvider} object.  The chbnnel will not be
      * connected.
      *
-     * @param   family
-     *          The protocol family
+     * @pbrbm   fbmily
+     *          The protocol fbmily
      *
-     * @return  A new datagram channel
+     * @return  A new dbtbgrbm chbnnel
      *
-     * @throws  UnsupportedOperationException
-     *          If the specified protocol family is not supported. For example,
-     *          suppose the parameter is specified as {@link
-     *          java.net.StandardProtocolFamily#INET6 StandardProtocolFamily.INET6}
-     *          but IPv6 is not enabled on the platform.
+     * @throws  UnsupportedOperbtionException
+     *          If the specified protocol fbmily is not supported. For exbmple,
+     *          suppose the pbrbmeter is specified bs {@link
+     *          jbvb.net.StbndbrdProtocolFbmily#INET6 StbndbrdProtocolFbmily.INET6}
+     *          but IPv6 is not enbbled on the plbtform.
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @since   1.7
      */
-    public static DatagramChannel open(ProtocolFamily family) throws IOException {
-        return SelectorProvider.provider().openDatagramChannel(family);
+    public stbtic DbtbgrbmChbnnel open(ProtocolFbmily fbmily) throws IOException {
+        return SelectorProvider.provider().openDbtbgrbmChbnnel(fbmily);
     }
 
     /**
-     * Returns an operation set identifying this channel's supported
-     * operations.
+     * Returns bn operbtion set identifying this chbnnel's supported
+     * operbtions.
      *
-     * <p> Datagram channels support reading and writing, so this method
+     * <p> Dbtbgrbm chbnnels support rebding bnd writing, so this method
      * returns <tt>(</tt>{@link SelectionKey#OP_READ} <tt>|</tt>&nbsp;{@link
      * SelectionKey#OP_WRITE}<tt>)</tt>.  </p>
      *
-     * @return  The valid-operation set
+     * @return  The vblid-operbtion set
      */
-    public final int validOps() {
+    public finbl int vblidOps() {
         return (SelectionKey.OP_READ
                 | SelectionKey.OP_WRITE);
     }
 
 
-    // -- Socket-specific operations --
+    // -- Socket-specific operbtions --
 
     /**
-     * @throws  AlreadyBoundException               {@inheritDoc}
+     * @throws  AlrebdyBoundException               {@inheritDoc}
      * @throws  UnsupportedAddressTypeException     {@inheritDoc}
-     * @throws  ClosedChannelException              {@inheritDoc}
+     * @throws  ClosedChbnnelException              {@inheritDoc}
      * @throws  IOException                         {@inheritDoc}
      * @throws  SecurityException
-     *          If a security manager has been installed and its {@link
-     *          SecurityManager#checkListen checkListen} method denies the
-     *          operation
+     *          If b security mbnbger hbs been instblled bnd its {@link
+     *          SecurityMbnbger#checkListen checkListen} method denies the
+     *          operbtion
      *
      * @since 1.7
      */
-    public abstract DatagramChannel bind(SocketAddress local)
+    public bbstrbct DbtbgrbmChbnnel bind(SocketAddress locbl)
         throws IOException;
 
     /**
-     * @throws  UnsupportedOperationException           {@inheritDoc}
-     * @throws  IllegalArgumentException                {@inheritDoc}
-     * @throws  ClosedChannelException                  {@inheritDoc}
+     * @throws  UnsupportedOperbtionException           {@inheritDoc}
+     * @throws  IllegblArgumentException                {@inheritDoc}
+     * @throws  ClosedChbnnelException                  {@inheritDoc}
      * @throws  IOException                             {@inheritDoc}
      *
      * @since 1.7
      */
-    public abstract <T> DatagramChannel setOption(SocketOption<T> name, T value)
+    public bbstrbct <T> DbtbgrbmChbnnel setOption(SocketOption<T> nbme, T vblue)
         throws IOException;
 
     /**
-     * Retrieves a datagram socket associated with this channel.
+     * Retrieves b dbtbgrbm socket bssocibted with this chbnnel.
      *
-     * <p> The returned object will not declare any public methods that are not
-     * declared in the {@link java.net.DatagramSocket} class.  </p>
+     * <p> The returned object will not declbre bny public methods thbt bre not
+     * declbred in the {@link jbvb.net.DbtbgrbmSocket} clbss.  </p>
      *
-     * @return  A datagram socket associated with this channel
+     * @return  A dbtbgrbm socket bssocibted with this chbnnel
      */
-    public abstract DatagramSocket socket();
+    public bbstrbct DbtbgrbmSocket socket();
 
     /**
-     * Tells whether or not this channel's socket is connected.
+     * Tells whether or not this chbnnel's socket is connected.
      *
-     * @return  {@code true} if, and only if, this channel's socket
-     *          is {@link #isOpen open} and connected
+     * @return  {@code true} if, bnd only if, this chbnnel's socket
+     *          is {@link #isOpen open} bnd connected
      */
-    public abstract boolean isConnected();
+    public bbstrbct boolebn isConnected();
 
     /**
-     * Connects this channel's socket.
+     * Connects this chbnnel's socket.
      *
-     * <p> The channel's socket is configured so that it only receives
-     * datagrams from, and sends datagrams to, the given remote <i>peer</i>
-     * address.  Once connected, datagrams may not be received from or sent to
-     * any other address.  A datagram socket remains connected until it is
+     * <p> The chbnnel's socket is configured so thbt it only receives
+     * dbtbgrbms from, bnd sends dbtbgrbms to, the given remote <i>peer</i>
+     * bddress.  Once connected, dbtbgrbms mby not be received from or sent to
+     * bny other bddress.  A dbtbgrbm socket rembins connected until it is
      * explicitly disconnected or until it is closed.
      *
-     * <p> This method performs exactly the same security checks as the {@link
-     * java.net.DatagramSocket#connect connect} method of the {@link
-     * java.net.DatagramSocket} class.  That is, if a security manager has been
-     * installed then this method verifies that its {@link
-     * java.lang.SecurityManager#checkAccept checkAccept} and {@link
-     * java.lang.SecurityManager#checkConnect checkConnect} methods permit
-     * datagrams to be received from and sent to, respectively, the given
-     * remote address.
+     * <p> This method performs exbctly the sbme security checks bs the {@link
+     * jbvb.net.DbtbgrbmSocket#connect connect} method of the {@link
+     * jbvb.net.DbtbgrbmSocket} clbss.  Thbt is, if b security mbnbger hbs been
+     * instblled then this method verifies thbt its {@link
+     * jbvb.lbng.SecurityMbnbger#checkAccept checkAccept} bnd {@link
+     * jbvb.lbng.SecurityMbnbger#checkConnect checkConnect} methods permit
+     * dbtbgrbms to be received from bnd sent to, respectively, the given
+     * remote bddress.
      *
-     * <p> This method may be invoked at any time.  It will not have any effect
-     * on read or write operations that are already in progress at the moment
-     * that it is invoked. If this channel's socket is not bound then this method
-     * will first cause the socket to be bound to an address that is assigned
-     * automatically, as if invoking the {@link #bind bind} method with a
-     * parameter of {@code null}. </p>
+     * <p> This method mby be invoked bt bny time.  It will not hbve bny effect
+     * on rebd or write operbtions thbt bre blrebdy in progress bt the moment
+     * thbt it is invoked. If this chbnnel's socket is not bound then this method
+     * will first cbuse the socket to be bound to bn bddress thbt is bssigned
+     * butombticblly, bs if invoking the {@link #bind bind} method with b
+     * pbrbmeter of {@code null}. </p>
      *
-     * @param  remote
-     *         The remote address to which this channel is to be connected
+     * @pbrbm  remote
+     *         The remote bddress to which this chbnnel is to be connected
      *
-     * @return  This datagram channel
+     * @return  This dbtbgrbm chbnnel
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the connect operation is in progress
+     *          If bnother threbd closes this chbnnel
+     *          while the connect operbtion is in progress
      *
      * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the connect operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     *          If bnother threbd interrupts the current threbd
+     *          while the connect operbtion is in progress, thereby
+     *          closing the chbnnel bnd setting the current threbd's
+     *          interrupt stbtus
      *
      * @throws  SecurityException
-     *          If a security manager has been installed
-     *          and it does not permit access to the given remote address
+     *          If b security mbnbger hbs been instblled
+     *          bnd it does not permit bccess to the given remote bddress
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract DatagramChannel connect(SocketAddress remote)
+    public bbstrbct DbtbgrbmChbnnel connect(SocketAddress remote)
         throws IOException;
 
     /**
-     * Disconnects this channel's socket.
+     * Disconnects this chbnnel's socket.
      *
-     * <p> The channel's socket is configured so that it can receive datagrams
-     * from, and sends datagrams to, any remote address so long as the security
-     * manager, if installed, permits it.
+     * <p> The chbnnel's socket is configured so thbt it cbn receive dbtbgrbms
+     * from, bnd sends dbtbgrbms to, bny remote bddress so long bs the security
+     * mbnbger, if instblled, permits it.
      *
-     * <p> This method may be invoked at any time.  It will not have any effect
-     * on read or write operations that are already in progress at the moment
-     * that it is invoked.
+     * <p> This method mby be invoked bt bny time.  It will not hbve bny effect
+     * on rebd or write operbtions thbt bre blrebdy in progress bt the moment
+     * thbt it is invoked.
      *
-     * <p> If this channel's socket is not connected, or if the channel is
-     * closed, then invoking this method has no effect.  </p>
+     * <p> If this chbnnel's socket is not connected, or if the chbnnel is
+     * closed, then invoking this method hbs no effect.  </p>
      *
-     * @return  This datagram channel
+     * @return  This dbtbgrbm chbnnel
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract DatagramChannel disconnect() throws IOException;
+    public bbstrbct DbtbgrbmChbnnel disconnect() throws IOException;
 
     /**
-     * Returns the remote address to which this channel's socket is connected.
+     * Returns the remote bddress to which this chbnnel's socket is connected.
      *
-     * @return  The remote address; {@code null} if the channel's socket is not
+     * @return  The remote bddress; {@code null} if the chbnnel's socket is not
      *          connected
      *
-     * @throws  ClosedChannelException
-     *          If the channel is closed
+     * @throws  ClosedChbnnelException
+     *          If the chbnnel is closed
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
      * @since 1.7
      */
-    public abstract SocketAddress getRemoteAddress() throws IOException;
+    public bbstrbct SocketAddress getRemoteAddress() throws IOException;
 
     /**
-     * Receives a datagram via this channel.
+     * Receives b dbtbgrbm vib this chbnnel.
      *
-     * <p> If a datagram is immediately available, or if this channel is in
-     * blocking mode and one eventually becomes available, then the datagram is
-     * copied into the given byte buffer and its source address is returned.
-     * If this channel is in non-blocking mode and a datagram is not
-     * immediately available then this method immediately returns
+     * <p> If b dbtbgrbm is immedibtely bvbilbble, or if this chbnnel is in
+     * blocking mode bnd one eventublly becomes bvbilbble, then the dbtbgrbm is
+     * copied into the given byte buffer bnd its source bddress is returned.
+     * If this chbnnel is in non-blocking mode bnd b dbtbgrbm is not
+     * immedibtely bvbilbble then this method immedibtely returns
      * <tt>null</tt>.
      *
-     * <p> The datagram is transferred into the given byte buffer starting at
-     * its current position, as if by a regular {@link
-     * ReadableByteChannel#read(java.nio.ByteBuffer) read} operation.  If there
-     * are fewer bytes remaining in the buffer than are required to hold the
-     * datagram then the remainder of the datagram is silently discarded.
+     * <p> The dbtbgrbm is trbnsferred into the given byte buffer stbrting bt
+     * its current position, bs if by b regulbr {@link
+     * RebdbbleByteChbnnel#rebd(jbvb.nio.ByteBuffer) rebd} operbtion.  If there
+     * bre fewer bytes rembining in the buffer thbn bre required to hold the
+     * dbtbgrbm then the rembinder of the dbtbgrbm is silently discbrded.
      *
-     * <p> This method performs exactly the same security checks as the {@link
-     * java.net.DatagramSocket#receive receive} method of the {@link
-     * java.net.DatagramSocket} class.  That is, if the socket is not connected
-     * to a specific remote address and a security manager has been installed
-     * then for each datagram received this method verifies that the source's
-     * address and port number are permitted by the security manager's {@link
-     * java.lang.SecurityManager#checkAccept checkAccept} method.  The overhead
-     * of this security check can be avoided by first connecting the socket via
+     * <p> This method performs exbctly the sbme security checks bs the {@link
+     * jbvb.net.DbtbgrbmSocket#receive receive} method of the {@link
+     * jbvb.net.DbtbgrbmSocket} clbss.  Thbt is, if the socket is not connected
+     * to b specific remote bddress bnd b security mbnbger hbs been instblled
+     * then for ebch dbtbgrbm received this method verifies thbt the source's
+     * bddress bnd port number bre permitted by the security mbnbger's {@link
+     * jbvb.lbng.SecurityMbnbger#checkAccept checkAccept} method.  The overhebd
+     * of this security check cbn be bvoided by first connecting the socket vib
      * the {@link #connect connect} method.
      *
-     * <p> This method may be invoked at any time.  If another thread has
-     * already initiated a read operation upon this channel, however, then an
-     * invocation of this method will block until the first operation is
-     * complete. If this channel's socket is not bound then this method will
-     * first cause the socket to be bound to an address that is assigned
-     * automatically, as if invoking the {@link #bind bind} method with a
-     * parameter of {@code null}. </p>
+     * <p> This method mby be invoked bt bny time.  If bnother threbd hbs
+     * blrebdy initibted b rebd operbtion upon this chbnnel, however, then bn
+     * invocbtion of this method will block until the first operbtion is
+     * complete. If this chbnnel's socket is not bound then this method will
+     * first cbuse the socket to be bound to bn bddress thbt is bssigned
+     * butombticblly, bs if invoking the {@link #bind bind} method with b
+     * pbrbmeter of {@code null}. </p>
      *
-     * @param  dst
-     *         The buffer into which the datagram is to be transferred
+     * @pbrbm  dst
+     *         The buffer into which the dbtbgrbm is to be trbnsferred
      *
-     * @return  The datagram's source address,
-     *          or <tt>null</tt> if this channel is in non-blocking mode
-     *          and no datagram was immediately available
+     * @return  The dbtbgrbm's source bddress,
+     *          or <tt>null</tt> if this chbnnel is in non-blocking mode
+     *          bnd no dbtbgrbm wbs immedibtely bvbilbble
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the read operation is in progress
+     *          If bnother threbd closes this chbnnel
+     *          while the rebd operbtion is in progress
      *
      * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the read operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     *          If bnother threbd interrupts the current threbd
+     *          while the rebd operbtion is in progress, thereby
+     *          closing the chbnnel bnd setting the current threbd's
+     *          interrupt stbtus
      *
      * @throws  SecurityException
-     *          If a security manager has been installed
-     *          and it does not permit datagrams to be accepted
-     *          from the datagram's sender
+     *          If b security mbnbger hbs been instblled
+     *          bnd it does not permit dbtbgrbms to be bccepted
+     *          from the dbtbgrbm's sender
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract SocketAddress receive(ByteBuffer dst) throws IOException;
+    public bbstrbct SocketAddress receive(ByteBuffer dst) throws IOException;
 
     /**
-     * Sends a datagram via this channel.
+     * Sends b dbtbgrbm vib this chbnnel.
      *
-     * <p> If this channel is in non-blocking mode and there is sufficient room
-     * in the underlying output buffer, or if this channel is in blocking mode
-     * and sufficient room becomes available, then the remaining bytes in the
-     * given buffer are transmitted as a single datagram to the given target
-     * address.
+     * <p> If this chbnnel is in non-blocking mode bnd there is sufficient room
+     * in the underlying output buffer, or if this chbnnel is in blocking mode
+     * bnd sufficient room becomes bvbilbble, then the rembining bytes in the
+     * given buffer bre trbnsmitted bs b single dbtbgrbm to the given tbrget
+     * bddress.
      *
-     * <p> The datagram is transferred from the byte buffer as if by a regular
-     * {@link WritableByteChannel#write(java.nio.ByteBuffer) write} operation.
+     * <p> The dbtbgrbm is trbnsferred from the byte buffer bs if by b regulbr
+     * {@link WritbbleByteChbnnel#write(jbvb.nio.ByteBuffer) write} operbtion.
      *
-     * <p> This method performs exactly the same security checks as the {@link
-     * java.net.DatagramSocket#send send} method of the {@link
-     * java.net.DatagramSocket} class.  That is, if the socket is not connected
-     * to a specific remote address and a security manager has been installed
-     * then for each datagram sent this method verifies that the target address
-     * and port number are permitted by the security manager's {@link
-     * java.lang.SecurityManager#checkConnect checkConnect} method.  The
-     * overhead of this security check can be avoided by first connecting the
-     * socket via the {@link #connect connect} method.
+     * <p> This method performs exbctly the sbme security checks bs the {@link
+     * jbvb.net.DbtbgrbmSocket#send send} method of the {@link
+     * jbvb.net.DbtbgrbmSocket} clbss.  Thbt is, if the socket is not connected
+     * to b specific remote bddress bnd b security mbnbger hbs been instblled
+     * then for ebch dbtbgrbm sent this method verifies thbt the tbrget bddress
+     * bnd port number bre permitted by the security mbnbger's {@link
+     * jbvb.lbng.SecurityMbnbger#checkConnect checkConnect} method.  The
+     * overhebd of this security check cbn be bvoided by first connecting the
+     * socket vib the {@link #connect connect} method.
      *
-     * <p> This method may be invoked at any time.  If another thread has
-     * already initiated a write operation upon this channel, however, then an
-     * invocation of this method will block until the first operation is
-     * complete. If this channel's socket is not bound then this method will
-     * first cause the socket to be bound to an address that is assigned
-     * automatically, as if by invoking the {@link #bind bind} method with a
-     * parameter of {@code null}. </p>
+     * <p> This method mby be invoked bt bny time.  If bnother threbd hbs
+     * blrebdy initibted b write operbtion upon this chbnnel, however, then bn
+     * invocbtion of this method will block until the first operbtion is
+     * complete. If this chbnnel's socket is not bound then this method will
+     * first cbuse the socket to be bound to bn bddress thbt is bssigned
+     * butombticblly, bs if by invoking the {@link #bind bind} method with b
+     * pbrbmeter of {@code null}. </p>
      *
-     * @param  src
-     *         The buffer containing the datagram to be sent
+     * @pbrbm  src
+     *         The buffer contbining the dbtbgrbm to be sent
      *
-     * @param  target
-     *         The address to which the datagram is to be sent
+     * @pbrbm  tbrget
+     *         The bddress to which the dbtbgrbm is to be sent
      *
      * @return   The number of bytes sent, which will be either the number
-     *           of bytes that were remaining in the source buffer when this
-     *           method was invoked or, if this channel is non-blocking, may be
-     *           zero if there was insufficient room for the datagram in the
+     *           of bytes thbt were rembining in the source buffer when this
+     *           method wbs invoked or, if this chbnnel is non-blocking, mby be
+     *           zero if there wbs insufficient room for the dbtbgrbm in the
      *           underlying output buffer
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the read operation is in progress
+     *          If bnother threbd closes this chbnnel
+     *          while the rebd operbtion is in progress
      *
      * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the read operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     *          If bnother threbd interrupts the current threbd
+     *          while the rebd operbtion is in progress, thereby
+     *          closing the chbnnel bnd setting the current threbd's
+     *          interrupt stbtus
      *
      * @throws  SecurityException
-     *          If a security manager has been installed
-     *          and it does not permit datagrams to be sent
-     *          to the given address
+     *          If b security mbnbger hbs been instblled
+     *          bnd it does not permit dbtbgrbms to be sent
+     *          to the given bddress
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract int send(ByteBuffer src, SocketAddress target)
+    public bbstrbct int send(ByteBuffer src, SocketAddress tbrget)
         throws IOException;
 
 
-    // -- ByteChannel operations --
+    // -- ByteChbnnel operbtions --
 
     /**
-     * Reads a datagram from this channel.
+     * Rebds b dbtbgrbm from this chbnnel.
      *
-     * <p> This method may only be invoked if this channel's socket is
-     * connected, and it only accepts datagrams from the socket's peer.  If
-     * there are more bytes in the datagram than remain in the given buffer
-     * then the remainder of the datagram is silently discarded.  Otherwise
-     * this method behaves exactly as specified in the {@link
-     * ReadableByteChannel} interface.  </p>
+     * <p> This method mby only be invoked if this chbnnel's socket is
+     * connected, bnd it only bccepts dbtbgrbms from the socket's peer.  If
+     * there bre more bytes in the dbtbgrbm thbn rembin in the given buffer
+     * then the rembinder of the dbtbgrbm is silently discbrded.  Otherwise
+     * this method behbves exbctly bs specified in the {@link
+     * RebdbbleByteChbnnel} interfbce.  </p>
      *
      * @throws  NotYetConnectedException
-     *          If this channel's socket is not connected
+     *          If this chbnnel's socket is not connected
      */
-    public abstract int read(ByteBuffer dst) throws IOException;
+    public bbstrbct int rebd(ByteBuffer dst) throws IOException;
 
     /**
-     * Reads a datagram from this channel.
+     * Rebds b dbtbgrbm from this chbnnel.
      *
-     * <p> This method may only be invoked if this channel's socket is
-     * connected, and it only accepts datagrams from the socket's peer.  If
-     * there are more bytes in the datagram than remain in the given buffers
-     * then the remainder of the datagram is silently discarded.  Otherwise
-     * this method behaves exactly as specified in the {@link
-     * ScatteringByteChannel} interface.  </p>
+     * <p> This method mby only be invoked if this chbnnel's socket is
+     * connected, bnd it only bccepts dbtbgrbms from the socket's peer.  If
+     * there bre more bytes in the dbtbgrbm thbn rembin in the given buffers
+     * then the rembinder of the dbtbgrbm is silently discbrded.  Otherwise
+     * this method behbves exbctly bs specified in the {@link
+     * ScbtteringByteChbnnel} interfbce.  </p>
      *
      * @throws  NotYetConnectedException
-     *          If this channel's socket is not connected
+     *          If this chbnnel's socket is not connected
      */
-    public abstract long read(ByteBuffer[] dsts, int offset, int length)
+    public bbstrbct long rebd(ByteBuffer[] dsts, int offset, int length)
         throws IOException;
 
     /**
-     * Reads a datagram from this channel.
+     * Rebds b dbtbgrbm from this chbnnel.
      *
-     * <p> This method may only be invoked if this channel's socket is
-     * connected, and it only accepts datagrams from the socket's peer.  If
-     * there are more bytes in the datagram than remain in the given buffers
-     * then the remainder of the datagram is silently discarded.  Otherwise
-     * this method behaves exactly as specified in the {@link
-     * ScatteringByteChannel} interface.  </p>
+     * <p> This method mby only be invoked if this chbnnel's socket is
+     * connected, bnd it only bccepts dbtbgrbms from the socket's peer.  If
+     * there bre more bytes in the dbtbgrbm thbn rembin in the given buffers
+     * then the rembinder of the dbtbgrbm is silently discbrded.  Otherwise
+     * this method behbves exbctly bs specified in the {@link
+     * ScbtteringByteChbnnel} interfbce.  </p>
      *
      * @throws  NotYetConnectedException
-     *          If this channel's socket is not connected
+     *          If this chbnnel's socket is not connected
      */
-    public final long read(ByteBuffer[] dsts) throws IOException {
-        return read(dsts, 0, dsts.length);
+    public finbl long rebd(ByteBuffer[] dsts) throws IOException {
+        return rebd(dsts, 0, dsts.length);
     }
 
     /**
-     * Writes a datagram to this channel.
+     * Writes b dbtbgrbm to this chbnnel.
      *
-     * <p> This method may only be invoked if this channel's socket is
-     * connected, in which case it sends datagrams directly to the socket's
-     * peer.  Otherwise it behaves exactly as specified in the {@link
-     * WritableByteChannel} interface.  </p>
+     * <p> This method mby only be invoked if this chbnnel's socket is
+     * connected, in which cbse it sends dbtbgrbms directly to the socket's
+     * peer.  Otherwise it behbves exbctly bs specified in the {@link
+     * WritbbleByteChbnnel} interfbce.  </p>
      *
      * @throws  NotYetConnectedException
-     *          If this channel's socket is not connected
+     *          If this chbnnel's socket is not connected
      */
-    public abstract int write(ByteBuffer src) throws IOException;
+    public bbstrbct int write(ByteBuffer src) throws IOException;
 
     /**
-     * Writes a datagram to this channel.
+     * Writes b dbtbgrbm to this chbnnel.
      *
-     * <p> This method may only be invoked if this channel's socket is
-     * connected, in which case it sends datagrams directly to the socket's
-     * peer.  Otherwise it behaves exactly as specified in the {@link
-     * GatheringByteChannel} interface.  </p>
+     * <p> This method mby only be invoked if this chbnnel's socket is
+     * connected, in which cbse it sends dbtbgrbms directly to the socket's
+     * peer.  Otherwise it behbves exbctly bs specified in the {@link
+     * GbtheringByteChbnnel} interfbce.  </p>
      *
      * @return   The number of bytes sent, which will be either the number
-     *           of bytes that were remaining in the source buffer when this
-     *           method was invoked or, if this channel is non-blocking, may be
-     *           zero if there was insufficient room for the datagram in the
+     *           of bytes thbt were rembining in the source buffer when this
+     *           method wbs invoked or, if this chbnnel is non-blocking, mby be
+     *           zero if there wbs insufficient room for the dbtbgrbm in the
      *           underlying output buffer
      *
      * @throws  NotYetConnectedException
-     *          If this channel's socket is not connected
+     *          If this chbnnel's socket is not connected
      */
-    public abstract long write(ByteBuffer[] srcs, int offset, int length)
+    public bbstrbct long write(ByteBuffer[] srcs, int offset, int length)
         throws IOException;
 
     /**
-     * Writes a datagram to this channel.
+     * Writes b dbtbgrbm to this chbnnel.
      *
-     * <p> This method may only be invoked if this channel's socket is
-     * connected, in which case it sends datagrams directly to the socket's
-     * peer.  Otherwise it behaves exactly as specified in the {@link
-     * GatheringByteChannel} interface.  </p>
+     * <p> This method mby only be invoked if this chbnnel's socket is
+     * connected, in which cbse it sends dbtbgrbms directly to the socket's
+     * peer.  Otherwise it behbves exbctly bs specified in the {@link
+     * GbtheringByteChbnnel} interfbce.  </p>
      *
      * @return   The number of bytes sent, which will be either the number
-     *           of bytes that were remaining in the source buffer when this
-     *           method was invoked or, if this channel is non-blocking, may be
-     *           zero if there was insufficient room for the datagram in the
+     *           of bytes thbt were rembining in the source buffer when this
+     *           method wbs invoked or, if this chbnnel is non-blocking, mby be
+     *           zero if there wbs insufficient room for the dbtbgrbm in the
      *           underlying output buffer
      *
      * @throws  NotYetConnectedException
-     *          If this channel's socket is not connected
+     *          If this chbnnel's socket is not connected
      */
-    public final long write(ByteBuffer[] srcs) throws IOException {
+    public finbl long write(ByteBuffer[] srcs) throws IOException {
         return write(srcs, 0, srcs.length);
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * If there is a security manager set, its {@code checkConnect} method is
-     * called with the local address and {@code -1} as its arguments to see
-     * if the operation is allowed. If the operation is not allowed,
-     * a {@code SocketAddress} representing the
-     * {@link java.net.InetAddress#getLoopbackAddress loopback} address and the
-     * local port of the channel's socket is returned.
+     * If there is b security mbnbger set, its {@code checkConnect} method is
+     * cblled with the locbl bddress bnd {@code -1} bs its brguments to see
+     * if the operbtion is bllowed. If the operbtion is not bllowed,
+     * b {@code SocketAddress} representing the
+     * {@link jbvb.net.InetAddress#getLoopbbckAddress loopbbck} bddress bnd the
+     * locbl port of the chbnnel's socket is returned.
      *
-     * @return  The {@code SocketAddress} that the socket is bound to, or the
-     *          {@code SocketAddress} representing the loopback address if
-     *          denied by the security manager, or {@code null} if the
-     *          channel's socket is not bound
+     * @return  The {@code SocketAddress} thbt the socket is bound to, or the
+     *          {@code SocketAddress} representing the loopbbck bddress if
+     *          denied by the security mbnbger, or {@code null} if the
+     *          chbnnel's socket is not bound
      *
-     * @throws  ClosedChannelException     {@inheritDoc}
+     * @throws  ClosedChbnnelException     {@inheritDoc}
      * @throws  IOException                {@inheritDoc}
      */
     @Override
-    public abstract SocketAddress getLocalAddress() throws IOException;
+    public bbstrbct SocketAddress getLocblAddress() throws IOException;
 
 }

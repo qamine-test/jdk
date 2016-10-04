@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 1996, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 
 /**
- * A character stream that collects its output in a string buffer, which can
- * then be used to construct a string.
+ * A chbrbcter strebm thbt collects its output in b string buffer, which cbn
+ * then be used to construct b string.
  * <p>
- * Closing a <tt>StringWriter</tt> has no effect. The methods in this class
- * can be called after the stream has been closed without generating an
+ * Closing b <tt>StringWriter</tt> hbs no effect. The methods in this clbss
+ * cbn be cblled bfter the strebm hbs been closed without generbting bn
  * <tt>IOException</tt>.
  *
- * @author      Mark Reinhold
+ * @buthor      Mbrk Reinhold
  * @since       1.1
  */
 
-public class StringWriter extends Writer {
+public clbss StringWriter extends Writer {
 
-    private StringBuffer buf;
+    privbte StringBuffer buf;
 
     /**
-     * Create a new string writer using the default initial string-buffer
+     * Crebte b new string writer using the defbult initibl string-buffer
      * size.
      */
     public StringWriter() {
@@ -52,91 +52,91 @@ public class StringWriter extends Writer {
     }
 
     /**
-     * Create a new string writer using the specified initial string-buffer
+     * Crebte b new string writer using the specified initibl string-buffer
      * size.
      *
-     * @param initialSize
-     *        The number of <tt>char</tt> values that will fit into this buffer
-     *        before it is automatically expanded
+     * @pbrbm initiblSize
+     *        The number of <tt>chbr</tt> vblues thbt will fit into this buffer
+     *        before it is butombticblly expbnded
      *
-     * @throws IllegalArgumentException
-     *         If <tt>initialSize</tt> is negative
+     * @throws IllegblArgumentException
+     *         If <tt>initiblSize</tt> is negbtive
      */
-    public StringWriter(int initialSize) {
-        if (initialSize < 0) {
-            throw new IllegalArgumentException("Negative buffer size");
+    public StringWriter(int initiblSize) {
+        if (initiblSize < 0) {
+            throw new IllegblArgumentException("Negbtive buffer size");
         }
-        buf = new StringBuffer(initialSize);
+        buf = new StringBuffer(initiblSize);
         lock = buf;
     }
 
     /**
-     * Write a single character.
+     * Write b single chbrbcter.
      */
     public void write(int c) {
-        buf.append((char) c);
+        buf.bppend((chbr) c);
     }
 
     /**
-     * Write a portion of an array of characters.
+     * Write b portion of bn brrby of chbrbcters.
      *
-     * @param  cbuf  Array of characters
-     * @param  off   Offset from which to start writing characters
-     * @param  len   Number of characters to write
+     * @pbrbm  cbuf  Arrby of chbrbcters
+     * @pbrbm  off   Offset from which to stbrt writing chbrbcters
+     * @pbrbm  len   Number of chbrbcters to write
      */
-    public void write(char cbuf[], int off, int len) {
+    public void write(chbr cbuf[], int off, int len) {
         if ((off < 0) || (off > cbuf.length) || (len < 0) ||
             ((off + len) > cbuf.length) || ((off + len) < 0)) {
             throw new IndexOutOfBoundsException();
         } else if (len == 0) {
             return;
         }
-        buf.append(cbuf, off, len);
+        buf.bppend(cbuf, off, len);
     }
 
     /**
-     * Write a string.
+     * Write b string.
      */
     public void write(String str) {
-        buf.append(str);
+        buf.bppend(str);
     }
 
     /**
-     * Write a portion of a string.
+     * Write b portion of b string.
      *
-     * @param  str  String to be written
-     * @param  off  Offset from which to start writing characters
-     * @param  len  Number of characters to write
+     * @pbrbm  str  String to be written
+     * @pbrbm  off  Offset from which to stbrt writing chbrbcters
+     * @pbrbm  len  Number of chbrbcters to write
      */
     public void write(String str, int off, int len)  {
-        buf.append(str.substring(off, off + len));
+        buf.bppend(str.substring(off, off + len));
     }
 
     /**
-     * Appends the specified character sequence to this writer.
+     * Appends the specified chbrbcter sequence to this writer.
      *
-     * <p> An invocation of this method of the form <tt>out.append(csq)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>out.bppend(csq)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
      *     out.write(csq.toString()) </pre>
      *
-     * <p> Depending on the specification of <tt>toString</tt> for the
-     * character sequence <tt>csq</tt>, the entire sequence may not be
-     * appended. For instance, invoking the <tt>toString</tt> method of a
-     * character buffer will return a subsequence whose content depends upon
-     * the buffer's position and limit.
+     * <p> Depending on the specificbtion of <tt>toString</tt> for the
+     * chbrbcter sequence <tt>csq</tt>, the entire sequence mby not be
+     * bppended. For instbnce, invoking the <tt>toString</tt> method of b
+     * chbrbcter buffer will return b subsequence whose content depends upon
+     * the buffer's position bnd limit.
      *
-     * @param  csq
-     *         The character sequence to append.  If <tt>csq</tt> is
-     *         <tt>null</tt>, then the four characters <tt>"null"</tt> are
-     *         appended to this writer.
+     * @pbrbm  csq
+     *         The chbrbcter sequence to bppend.  If <tt>csq</tt> is
+     *         <tt>null</tt>, then the four chbrbcters <tt>"null"</tt> bre
+     *         bppended to this writer.
      *
      * @return  This writer
      *
      * @since  1.5
      */
-    public StringWriter append(CharSequence csq) {
+    public StringWriter bppend(ChbrSequence csq) {
         if (csq == null)
             write("null");
         else
@@ -145,66 +145,66 @@ public class StringWriter extends Writer {
     }
 
     /**
-     * Appends a subsequence of the specified character sequence to this writer.
+     * Appends b subsequence of the specified chbrbcter sequence to this writer.
      *
-     * <p> An invocation of this method of the form <tt>out.append(csq, start,
-     * end)</tt> when <tt>csq</tt> is not <tt>null</tt>, behaves in
-     * exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>out.bppend(csq, stbrt,
+     * end)</tt> when <tt>csq</tt> is not <tt>null</tt>, behbves in
+     * exbctly the sbme wby bs the invocbtion
      *
      * <pre>
-     *     out.write(csq.subSequence(start, end).toString()) </pre>
+     *     out.write(csq.subSequence(stbrt, end).toString()) </pre>
      *
-     * @param  csq
-     *         The character sequence from which a subsequence will be
-     *         appended.  If <tt>csq</tt> is <tt>null</tt>, then characters
-     *         will be appended as if <tt>csq</tt> contained the four
-     *         characters <tt>"null"</tt>.
+     * @pbrbm  csq
+     *         The chbrbcter sequence from which b subsequence will be
+     *         bppended.  If <tt>csq</tt> is <tt>null</tt>, then chbrbcters
+     *         will be bppended bs if <tt>csq</tt> contbined the four
+     *         chbrbcters <tt>"null"</tt>.
      *
-     * @param  start
-     *         The index of the first character in the subsequence
+     * @pbrbm  stbrt
+     *         The index of the first chbrbcter in the subsequence
      *
-     * @param  end
-     *         The index of the character following the last character in the
+     * @pbrbm  end
+     *         The index of the chbrbcter following the lbst chbrbcter in the
      *         subsequence
      *
      * @return  This writer
      *
      * @throws  IndexOutOfBoundsException
-     *          If <tt>start</tt> or <tt>end</tt> are negative, <tt>start</tt>
-     *          is greater than <tt>end</tt>, or <tt>end</tt> is greater than
+     *          If <tt>stbrt</tt> or <tt>end</tt> bre negbtive, <tt>stbrt</tt>
+     *          is grebter thbn <tt>end</tt>, or <tt>end</tt> is grebter thbn
      *          <tt>csq.length()</tt>
      *
      * @since  1.5
      */
-    public StringWriter append(CharSequence csq, int start, int end) {
-        CharSequence cs = (csq == null ? "null" : csq);
-        write(cs.subSequence(start, end).toString());
+    public StringWriter bppend(ChbrSequence csq, int stbrt, int end) {
+        ChbrSequence cs = (csq == null ? "null" : csq);
+        write(cs.subSequence(stbrt, end).toString());
         return this;
     }
 
     /**
-     * Appends the specified character to this writer.
+     * Appends the specified chbrbcter to this writer.
      *
-     * <p> An invocation of this method of the form <tt>out.append(c)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>out.bppend(c)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
      *     out.write(c) </pre>
      *
-     * @param  c
-     *         The 16-bit character to append
+     * @pbrbm  c
+     *         The 16-bit chbrbcter to bppend
      *
      * @return  This writer
      *
      * @since 1.5
      */
-    public StringWriter append(char c) {
+    public StringWriter bppend(chbr c) {
         write(c);
         return this;
     }
 
     /**
-     * Return the buffer's current value as a string.
+     * Return the buffer's current vblue bs b string.
      */
     public String toString() {
         return buf.toString();
@@ -213,22 +213,22 @@ public class StringWriter extends Writer {
     /**
      * Return the string buffer itself.
      *
-     * @return StringBuffer holding the current buffer value.
+     * @return StringBuffer holding the current buffer vblue.
      */
     public StringBuffer getBuffer() {
         return buf;
     }
 
     /**
-     * Flush the stream.
+     * Flush the strebm.
      */
     public void flush() {
     }
 
     /**
-     * Closing a <tt>StringWriter</tt> has no effect. The methods in this
-     * class can be called after the stream has been closed without generating
-     * an <tt>IOException</tt>.
+     * Closing b <tt>StringWriter</tt> hbs no effect. The methods in this
+     * clbss cbn be cblled bfter the strebm hbs been closed without generbting
+     * bn <tt>IOException</tt>.
      */
     public void close() throws IOException {
     }

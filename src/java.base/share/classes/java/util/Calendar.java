@@ -1,166 +1,166 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996-1998 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996-1998 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996-1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
-import java.io.Serializable;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PermissionCollection;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.ProtectionDomain;
-import java.text.DateFormat;
-import java.text.DateFormatSymbols;
-import java.time.Instant;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import sun.util.BuddhistCalendar;
-import sun.util.calendar.ZoneInfo;
-import sun.util.locale.provider.CalendarDataUtility;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.spi.CalendarProvider;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.OptionblDbtbException;
+import jbvb.io.Seriblizbble;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PermissionCollection;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.ProtectionDombin;
+import jbvb.text.DbteFormbt;
+import jbvb.text.DbteFormbtSymbols;
+import jbvb.time.Instbnt;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import sun.util.BuddhistCblendbr;
+import sun.util.cblendbr.ZoneInfo;
+import sun.util.locble.provider.CblendbrDbtbUtility;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.spi.CblendbrProvider;
 
 /**
- * The <code>Calendar</code> class is an abstract class that provides methods
- * for converting between a specific instant in time and a set of {@link
- * #fields calendar fields} such as <code>YEAR</code>, <code>MONTH</code>,
- * <code>DAY_OF_MONTH</code>, <code>HOUR</code>, and so on, and for
- * manipulating the calendar fields, such as getting the date of the next
- * week. An instant in time can be represented by a millisecond value that is
- * an offset from the <a name="Epoch"><em>Epoch</em></a>, January 1, 1970
- * 00:00:00.000 GMT (Gregorian).
+ * The <code>Cblendbr</code> clbss is bn bbstrbct clbss thbt provides methods
+ * for converting between b specific instbnt in time bnd b set of {@link
+ * #fields cblendbr fields} such bs <code>YEAR</code>, <code>MONTH</code>,
+ * <code>DAY_OF_MONTH</code>, <code>HOUR</code>, bnd so on, bnd for
+ * mbnipulbting the cblendbr fields, such bs getting the dbte of the next
+ * week. An instbnt in time cbn be represented by b millisecond vblue thbt is
+ * bn offset from the <b nbme="Epoch"><em>Epoch</em></b>, Jbnubry 1, 1970
+ * 00:00:00.000 GMT (Gregoribn).
  *
- * <p>The class also provides additional fields and methods for
- * implementing a concrete calendar system outside the package. Those
- * fields and methods are defined as <code>protected</code>.
+ * <p>The clbss blso provides bdditionbl fields bnd methods for
+ * implementing b concrete cblendbr system outside the pbckbge. Those
+ * fields bnd methods bre defined bs <code>protected</code>.
  *
  * <p>
- * Like other locale-sensitive classes, <code>Calendar</code> provides a
- * class method, <code>getInstance</code>, for getting a generally useful
- * object of this type. <code>Calendar</code>'s <code>getInstance</code> method
- * returns a <code>Calendar</code> object whose
- * calendar fields have been initialized with the current date and time:
+ * Like other locble-sensitive clbsses, <code>Cblendbr</code> provides b
+ * clbss method, <code>getInstbnce</code>, for getting b generblly useful
+ * object of this type. <code>Cblendbr</code>'s <code>getInstbnce</code> method
+ * returns b <code>Cblendbr</code> object whose
+ * cblendbr fields hbve been initiblized with the current dbte bnd time:
  * <blockquote>
  * <pre>
- *     Calendar rightNow = Calendar.getInstance();
+ *     Cblendbr rightNow = Cblendbr.getInstbnce();
  * </pre>
  * </blockquote>
  *
- * <p>A <code>Calendar</code> object can produce all the calendar field values
- * needed to implement the date-time formatting for a particular language and
- * calendar style (for example, Japanese-Gregorian, Japanese-Traditional).
- * <code>Calendar</code> defines the range of values returned by
- * certain calendar fields, as well as their meaning.  For example,
- * the first month of the calendar system has value <code>MONTH ==
- * JANUARY</code> for all calendars.  Other values are defined by the
- * concrete subclass, such as <code>ERA</code>.  See individual field
- * documentation and subclass documentation for details.
+ * <p>A <code>Cblendbr</code> object cbn produce bll the cblendbr field vblues
+ * needed to implement the dbte-time formbtting for b pbrticulbr lbngubge bnd
+ * cblendbr style (for exbmple, Jbpbnese-Gregoribn, Jbpbnese-Trbditionbl).
+ * <code>Cblendbr</code> defines the rbnge of vblues returned by
+ * certbin cblendbr fields, bs well bs their mebning.  For exbmple,
+ * the first month of the cblendbr system hbs vblue <code>MONTH ==
+ * JANUARY</code> for bll cblendbrs.  Other vblues bre defined by the
+ * concrete subclbss, such bs <code>ERA</code>.  See individubl field
+ * documentbtion bnd subclbss documentbtion for detbils.
  *
- * <h3>Getting and Setting Calendar Field Values</h3>
+ * <h3>Getting bnd Setting Cblendbr Field Vblues</h3>
  *
- * <p>The calendar field values can be set by calling the <code>set</code>
- * methods. Any field values set in a <code>Calendar</code> will not be
- * interpreted until it needs to calculate its time value (milliseconds from
- * the Epoch) or values of the calendar fields. Calling the
+ * <p>The cblendbr field vblues cbn be set by cblling the <code>set</code>
+ * methods. Any field vblues set in b <code>Cblendbr</code> will not be
+ * interpreted until it needs to cblculbte its time vblue (milliseconds from
+ * the Epoch) or vblues of the cblendbr fields. Cblling the
  * <code>get</code>, <code>getTimeInMillis</code>, <code>getTime</code>,
- * <code>add</code> and <code>roll</code> involves such calculation.
+ * <code>bdd</code> bnd <code>roll</code> involves such cblculbtion.
  *
  * <h4>Leniency</h4>
  *
- * <p><code>Calendar</code> has two modes for interpreting the calendar
- * fields, <em>lenient</em> and <em>non-lenient</em>.  When a
- * <code>Calendar</code> is in lenient mode, it accepts a wider range of
- * calendar field values than it produces.  When a <code>Calendar</code>
- * recomputes calendar field values for return by <code>get()</code>, all of
- * the calendar fields are normalized. For example, a lenient
- * <code>GregorianCalendar</code> interprets <code>MONTH == JANUARY</code>,
- * <code>DAY_OF_MONTH == 32</code> as February 1.
+ * <p><code>Cblendbr</code> hbs two modes for interpreting the cblendbr
+ * fields, <em>lenient</em> bnd <em>non-lenient</em>.  When b
+ * <code>Cblendbr</code> is in lenient mode, it bccepts b wider rbnge of
+ * cblendbr field vblues thbn it produces.  When b <code>Cblendbr</code>
+ * recomputes cblendbr field vblues for return by <code>get()</code>, bll of
+ * the cblendbr fields bre normblized. For exbmple, b lenient
+ * <code>GregoribnCblendbr</code> interprets <code>MONTH == JANUARY</code>,
+ * <code>DAY_OF_MONTH == 32</code> bs Februbry 1.
 
- * <p>When a <code>Calendar</code> is in non-lenient mode, it throws an
- * exception if there is any inconsistency in its calendar fields. For
- * example, a <code>GregorianCalendar</code> always produces
- * <code>DAY_OF_MONTH</code> values between 1 and the length of the month. A
- * non-lenient <code>GregorianCalendar</code> throws an exception upon
- * calculating its time or calendar field values if any out-of-range field
- * value has been set.
+ * <p>When b <code>Cblendbr</code> is in non-lenient mode, it throws bn
+ * exception if there is bny inconsistency in its cblendbr fields. For
+ * exbmple, b <code>GregoribnCblendbr</code> blwbys produces
+ * <code>DAY_OF_MONTH</code> vblues between 1 bnd the length of the month. A
+ * non-lenient <code>GregoribnCblendbr</code> throws bn exception upon
+ * cblculbting its time or cblendbr field vblues if bny out-of-rbnge field
+ * vblue hbs been set.
  *
- * <h4><a name="first_week">First Week</a></h4>
+ * <h4><b nbme="first_week">First Week</b></h4>
  *
- * <code>Calendar</code> defines a locale-specific seven day week using two
- * parameters: the first day of the week and the minimal days in first week
- * (from 1 to 7).  These numbers are taken from the locale resource data when a
- * <code>Calendar</code> is constructed.  They may also be specified explicitly
- * through the methods for setting their values.
+ * <code>Cblendbr</code> defines b locble-specific seven dby week using two
+ * pbrbmeters: the first dby of the week bnd the minimbl dbys in first week
+ * (from 1 to 7).  These numbers bre tbken from the locble resource dbtb when b
+ * <code>Cblendbr</code> is constructed.  They mby blso be specified explicitly
+ * through the methods for setting their vblues.
  *
  * <p>When setting or getting the <code>WEEK_OF_MONTH</code> or
- * <code>WEEK_OF_YEAR</code> fields, <code>Calendar</code> must determine the
- * first week of the month or year as a reference point.  The first week of a
- * month or year is defined as the earliest seven day period beginning on
- * <code>getFirstDayOfWeek()</code> and containing at least
- * <code>getMinimalDaysInFirstWeek()</code> days of that month or year.  Weeks
+ * <code>WEEK_OF_YEAR</code> fields, <code>Cblendbr</code> must determine the
+ * first week of the month or yebr bs b reference point.  The first week of b
+ * month or yebr is defined bs the ebrliest seven dby period beginning on
+ * <code>getFirstDbyOfWeek()</code> bnd contbining bt lebst
+ * <code>getMinimblDbysInFirstWeek()</code> dbys of thbt month or yebr.  Weeks
  * numbered ..., -1, 0 precede the first week; weeks numbered 2, 3,... follow
- * it.  Note that the normalized numbering returned by <code>get()</code> may be
- * different.  For example, a specific <code>Calendar</code> subclass may
- * designate the week before week 1 of a year as week <code><i>n</i></code> of
- * the previous year.
+ * it.  Note thbt the normblized numbering returned by <code>get()</code> mby be
+ * different.  For exbmple, b specific <code>Cblendbr</code> subclbss mby
+ * designbte the week before week 1 of b yebr bs week <code><i>n</i></code> of
+ * the previous yebr.
  *
- * <h4>Calendar Fields Resolution</h4>
+ * <h4>Cblendbr Fields Resolution</h4>
  *
- * When computing a date and time from the calendar fields, there
- * may be insufficient information for the computation (such as only
- * year and month with no day of month), or there may be inconsistent
- * information (such as Tuesday, July 15, 1996 (Gregorian) -- July 15,
- * 1996 is actually a Monday). <code>Calendar</code> will resolve
- * calendar field values to determine the date and time in the
- * following way.
+ * When computing b dbte bnd time from the cblendbr fields, there
+ * mby be insufficient informbtion for the computbtion (such bs only
+ * yebr bnd month with no dby of month), or there mby be inconsistent
+ * informbtion (such bs Tuesdby, July 15, 1996 (Gregoribn) -- July 15,
+ * 1996 is bctublly b Mondby). <code>Cblendbr</code> will resolve
+ * cblendbr field vblues to determine the dbte bnd time in the
+ * following wby.
  *
- * <p><a name="resolution">If there is any conflict in calendar field values,
- * <code>Calendar</code> gives priorities to calendar fields that have been set
- * more recently.</a> The following are the default combinations of the
- * calendar fields. The most recent combination, as determined by the
+ * <p><b nbme="resolution">If there is bny conflict in cblendbr field vblues,
+ * <code>Cblendbr</code> gives priorities to cblendbr fields thbt hbve been set
+ * more recently.</b> The following bre the defbult combinbtions of the
+ * cblendbr fields. The most recent combinbtion, bs determined by the
  * most recently set single field, will be used.
  *
- * <p><a name="date_resolution">For the date fields</a>:
+ * <p><b nbme="dbte_resolution">For the dbte fields</b>:
  * <blockquote>
  * <pre>
  * YEAR + MONTH + DAY_OF_MONTH
@@ -170,220 +170,220 @@ import sun.util.spi.CalendarProvider;
  * YEAR + DAY_OF_WEEK + WEEK_OF_YEAR
  * </pre></blockquote>
  *
- * <a name="time_resolution">For the time of day fields</a>:
+ * <b nbme="time_resolution">For the time of dby fields</b>:
  * <blockquote>
  * <pre>
  * HOUR_OF_DAY
  * AM_PM + HOUR
  * </pre></blockquote>
  *
- * <p>If there are any calendar fields whose values haven't been set in the selected
- * field combination, <code>Calendar</code> uses their default values. The default
- * value of each field may vary by concrete calendar systems. For example, in
- * <code>GregorianCalendar</code>, the default of a field is the same as that
- * of the start of the Epoch: i.e., <code>YEAR = 1970</code>, <code>MONTH =
+ * <p>If there bre bny cblendbr fields whose vblues hbven't been set in the selected
+ * field combinbtion, <code>Cblendbr</code> uses their defbult vblues. The defbult
+ * vblue of ebch field mby vbry by concrete cblendbr systems. For exbmple, in
+ * <code>GregoribnCblendbr</code>, the defbult of b field is the sbme bs thbt
+ * of the stbrt of the Epoch: i.e., <code>YEAR = 1970</code>, <code>MONTH =
  * JANUARY</code>, <code>DAY_OF_MONTH = 1</code>, etc.
  *
  * <p>
- * <strong>Note:</strong> There are certain possible ambiguities in
- * interpretation of certain singular times, which are resolved in the
- * following ways:
+ * <strong>Note:</strong> There bre certbin possible bmbiguities in
+ * interpretbtion of certbin singulbr times, which bre resolved in the
+ * following wbys:
  * <ol>
- *     <li> 23:59 is the last minute of the day and 00:00 is the first
- *          minute of the next day. Thus, 23:59 on Dec 31, 1999 &lt; 00:00 on
- *          Jan 1, 2000 &lt; 00:01 on Jan 1, 2000.
+ *     <li> 23:59 is the lbst minute of the dby bnd 00:00 is the first
+ *          minute of the next dby. Thus, 23:59 on Dec 31, 1999 &lt; 00:00 on
+ *          Jbn 1, 2000 &lt; 00:01 on Jbn 1, 2000.
  *
- *     <li> Although historically not precise, midnight also belongs to "am",
- *          and noon belongs to "pm", so on the same day,
- *          12:00 am (midnight) &lt; 12:01 am, and 12:00 pm (noon) &lt; 12:01 pm
+ *     <li> Although historicblly not precise, midnight blso belongs to "bm",
+ *          bnd noon belongs to "pm", so on the sbme dby,
+ *          12:00 bm (midnight) &lt; 12:01 bm, bnd 12:00 pm (noon) &lt; 12:01 pm
  * </ol>
  *
  * <p>
- * The date or time format strings are not part of the definition of a
- * calendar, as those must be modifiable or overridable by the user at
- * runtime. Use {@link DateFormat}
- * to format dates.
+ * The dbte or time formbt strings bre not pbrt of the definition of b
+ * cblendbr, bs those must be modifibble or overridbble by the user bt
+ * runtime. Use {@link DbteFormbt}
+ * to formbt dbtes.
  *
- * <h4>Field Manipulation</h4>
+ * <h4>Field Mbnipulbtion</h4>
  *
- * The calendar fields can be changed using three methods:
- * <code>set()</code>, <code>add()</code>, and <code>roll()</code>.
+ * The cblendbr fields cbn be chbnged using three methods:
+ * <code>set()</code>, <code>bdd()</code>, bnd <code>roll()</code>.
  *
- * <p><strong><code>set(f, value)</code></strong> changes calendar field
- * <code>f</code> to <code>value</code>.  In addition, it sets an
- * internal member variable to indicate that calendar field <code>f</code> has
- * been changed. Although calendar field <code>f</code> is changed immediately,
- * the calendar's time value in milliseconds is not recomputed until the next call to
+ * <p><strong><code>set(f, vblue)</code></strong> chbnges cblendbr field
+ * <code>f</code> to <code>vblue</code>.  In bddition, it sets bn
+ * internbl member vbribble to indicbte thbt cblendbr field <code>f</code> hbs
+ * been chbnged. Although cblendbr field <code>f</code> is chbnged immedibtely,
+ * the cblendbr's time vblue in milliseconds is not recomputed until the next cbll to
  * <code>get()</code>, <code>getTime()</code>, <code>getTimeInMillis()</code>,
- * <code>add()</code>, or <code>roll()</code> is made. Thus, multiple calls to
- * <code>set()</code> do not trigger multiple, unnecessary
- * computations. As a result of changing a calendar field using
- * <code>set()</code>, other calendar fields may also change, depending on the
- * calendar field, the calendar field value, and the calendar system. In addition,
- * <code>get(f)</code> will not necessarily return <code>value</code> set by
- * the call to the <code>set</code> method
- * after the calendar fields have been recomputed. The specifics are determined by
- * the concrete calendar class.</p>
+ * <code>bdd()</code>, or <code>roll()</code> is mbde. Thus, multiple cblls to
+ * <code>set()</code> do not trigger multiple, unnecessbry
+ * computbtions. As b result of chbnging b cblendbr field using
+ * <code>set()</code>, other cblendbr fields mby blso chbnge, depending on the
+ * cblendbr field, the cblendbr field vblue, bnd the cblendbr system. In bddition,
+ * <code>get(f)</code> will not necessbrily return <code>vblue</code> set by
+ * the cbll to the <code>set</code> method
+ * bfter the cblendbr fields hbve been recomputed. The specifics bre determined by
+ * the concrete cblendbr clbss.</p>
  *
- * <p><em>Example</em>: Consider a <code>GregorianCalendar</code>
- * originally set to August 31, 1999. Calling <code>set(Calendar.MONTH,
- * Calendar.SEPTEMBER)</code> sets the date to September 31,
- * 1999. This is a temporary internal representation that resolves to
- * October 1, 1999 if <code>getTime()</code>is then called. However, a
- * call to <code>set(Calendar.DAY_OF_MONTH, 30)</code> before the call to
- * <code>getTime()</code> sets the date to September 30, 1999, since
- * no recomputation occurs after <code>set()</code> itself.</p>
+ * <p><em>Exbmple</em>: Consider b <code>GregoribnCblendbr</code>
+ * originblly set to August 31, 1999. Cblling <code>set(Cblendbr.MONTH,
+ * Cblendbr.SEPTEMBER)</code> sets the dbte to September 31,
+ * 1999. This is b temporbry internbl representbtion thbt resolves to
+ * October 1, 1999 if <code>getTime()</code>is then cblled. However, b
+ * cbll to <code>set(Cblendbr.DAY_OF_MONTH, 30)</code> before the cbll to
+ * <code>getTime()</code> sets the dbte to September 30, 1999, since
+ * no recomputbtion occurs bfter <code>set()</code> itself.</p>
  *
- * <p><strong><code>add(f, delta)</code></strong> adds <code>delta</code>
- * to field <code>f</code>.  This is equivalent to calling <code>set(f,
- * get(f) + delta)</code> with two adjustments:</p>
+ * <p><strong><code>bdd(f, deltb)</code></strong> bdds <code>deltb</code>
+ * to field <code>f</code>.  This is equivblent to cblling <code>set(f,
+ * get(f) + deltb)</code> with two bdjustments:</p>
  *
  * <blockquote>
- *   <p><strong>Add rule 1</strong>. The value of field <code>f</code>
- *   after the call minus the value of field <code>f</code> before the
- *   call is <code>delta</code>, modulo any overflow that has occurred in
- *   field <code>f</code>. Overflow occurs when a field value exceeds its
- *   range and, as a result, the next larger field is incremented or
- *   decremented and the field value is adjusted back into its range.</p>
+ *   <p><strong>Add rule 1</strong>. The vblue of field <code>f</code>
+ *   bfter the cbll minus the vblue of field <code>f</code> before the
+ *   cbll is <code>deltb</code>, modulo bny overflow thbt hbs occurred in
+ *   field <code>f</code>. Overflow occurs when b field vblue exceeds its
+ *   rbnge bnd, bs b result, the next lbrger field is incremented or
+ *   decremented bnd the field vblue is bdjusted bbck into its rbnge.</p>
  *
- *   <p><strong>Add rule 2</strong>. If a smaller field is expected to be
- *   invariant, but it is impossible for it to be equal to its
- *   prior value because of changes in its minimum or maximum after field
- *   <code>f</code> is changed or other constraints, such as time zone
- *   offset changes, then its value is adjusted to be as close
- *   as possible to its expected value. A smaller field represents a
- *   smaller unit of time. <code>HOUR</code> is a smaller field than
- *   <code>DAY_OF_MONTH</code>. No adjustment is made to smaller fields
- *   that are not expected to be invariant. The calendar system
- *   determines what fields are expected to be invariant.</p>
+ *   <p><strong>Add rule 2</strong>. If b smbller field is expected to be
+ *   invbribnt, but it is impossible for it to be equbl to its
+ *   prior vblue becbuse of chbnges in its minimum or mbximum bfter field
+ *   <code>f</code> is chbnged or other constrbints, such bs time zone
+ *   offset chbnges, then its vblue is bdjusted to be bs close
+ *   bs possible to its expected vblue. A smbller field represents b
+ *   smbller unit of time. <code>HOUR</code> is b smbller field thbn
+ *   <code>DAY_OF_MONTH</code>. No bdjustment is mbde to smbller fields
+ *   thbt bre not expected to be invbribnt. The cblendbr system
+ *   determines whbt fields bre expected to be invbribnt.</p>
  * </blockquote>
  *
- * <p>In addition, unlike <code>set()</code>, <code>add()</code> forces
- * an immediate recomputation of the calendar's milliseconds and all
+ * <p>In bddition, unlike <code>set()</code>, <code>bdd()</code> forces
+ * bn immedibte recomputbtion of the cblendbr's milliseconds bnd bll
  * fields.</p>
  *
- * <p><em>Example</em>: Consider a <code>GregorianCalendar</code>
- * originally set to August 31, 1999. Calling <code>add(Calendar.MONTH,
- * 13)</code> sets the calendar to September 30, 2000. <strong>Add rule
+ * <p><em>Exbmple</em>: Consider b <code>GregoribnCblendbr</code>
+ * originblly set to August 31, 1999. Cblling <code>bdd(Cblendbr.MONTH,
+ * 13)</code> sets the cblendbr to September 30, 2000. <strong>Add rule
  * 1</strong> sets the <code>MONTH</code> field to September, since
- * adding 13 months to August gives September of the next year. Since
- * <code>DAY_OF_MONTH</code> cannot be 31 in September in a
- * <code>GregorianCalendar</code>, <strong>add rule 2</strong> sets the
- * <code>DAY_OF_MONTH</code> to 30, the closest possible value. Although
- * it is a smaller field, <code>DAY_OF_WEEK</code> is not adjusted by
- * rule 2, since it is expected to change when the month changes in a
- * <code>GregorianCalendar</code>.</p>
+ * bdding 13 months to August gives September of the next yebr. Since
+ * <code>DAY_OF_MONTH</code> cbnnot be 31 in September in b
+ * <code>GregoribnCblendbr</code>, <strong>bdd rule 2</strong> sets the
+ * <code>DAY_OF_MONTH</code> to 30, the closest possible vblue. Although
+ * it is b smbller field, <code>DAY_OF_WEEK</code> is not bdjusted by
+ * rule 2, since it is expected to chbnge when the month chbnges in b
+ * <code>GregoribnCblendbr</code>.</p>
  *
- * <p><strong><code>roll(f, delta)</code></strong> adds
- * <code>delta</code> to field <code>f</code> without changing larger
- * fields. This is equivalent to calling <code>add(f, delta)</code> with
- * the following adjustment:</p>
+ * <p><strong><code>roll(f, deltb)</code></strong> bdds
+ * <code>deltb</code> to field <code>f</code> without chbnging lbrger
+ * fields. This is equivblent to cblling <code>bdd(f, deltb)</code> with
+ * the following bdjustment:</p>
  *
  * <blockquote>
- *   <p><strong>Roll rule</strong>. Larger fields are unchanged after the
- *   call. A larger field represents a larger unit of
- *   time. <code>DAY_OF_MONTH</code> is a larger field than
+ *   <p><strong>Roll rule</strong>. Lbrger fields bre unchbnged bfter the
+ *   cbll. A lbrger field represents b lbrger unit of
+ *   time. <code>DAY_OF_MONTH</code> is b lbrger field thbn
  *   <code>HOUR</code>.</p>
  * </blockquote>
  *
- * <p><em>Example</em>: See {@link java.util.GregorianCalendar#roll(int, int)}.
+ * <p><em>Exbmple</em>: See {@link jbvb.util.GregoribnCblendbr#roll(int, int)}.
  *
- * <p><strong>Usage model</strong>. To motivate the behavior of
- * <code>add()</code> and <code>roll()</code>, consider a user interface
- * component with increment and decrement buttons for the month, day, and
- * year, and an underlying <code>GregorianCalendar</code>. If the
- * interface reads January 31, 1999 and the user presses the month
- * increment button, what should it read? If the underlying
- * implementation uses <code>set()</code>, it might read March 3, 1999. A
- * better result would be February 28, 1999. Furthermore, if the user
- * presses the month increment button again, it should read March 31,
- * 1999, not March 28, 1999. By saving the original date and using either
- * <code>add()</code> or <code>roll()</code>, depending on whether larger
- * fields should be affected, the user interface can behave as most users
+ * <p><strong>Usbge model</strong>. To motivbte the behbvior of
+ * <code>bdd()</code> bnd <code>roll()</code>, consider b user interfbce
+ * component with increment bnd decrement buttons for the month, dby, bnd
+ * yebr, bnd bn underlying <code>GregoribnCblendbr</code>. If the
+ * interfbce rebds Jbnubry 31, 1999 bnd the user presses the month
+ * increment button, whbt should it rebd? If the underlying
+ * implementbtion uses <code>set()</code>, it might rebd Mbrch 3, 1999. A
+ * better result would be Februbry 28, 1999. Furthermore, if the user
+ * presses the month increment button bgbin, it should rebd Mbrch 31,
+ * 1999, not Mbrch 28, 1999. By sbving the originbl dbte bnd using either
+ * <code>bdd()</code> or <code>roll()</code>, depending on whether lbrger
+ * fields should be bffected, the user interfbce cbn behbve bs most users
  * will intuitively expect.</p>
  *
- * @see          java.lang.System#currentTimeMillis()
- * @see          Date
- * @see          GregorianCalendar
+ * @see          jbvb.lbng.System#currentTimeMillis()
+ * @see          Dbte
+ * @see          GregoribnCblendbr
  * @see          TimeZone
- * @see          java.text.DateFormat
- * @author Mark Davis, David Goldsmith, Chen-Lieh Huang, Alan Liu
+ * @see          jbvb.text.DbteFormbt
+ * @buthor Mbrk Dbvis, Dbvid Goldsmith, Chen-Lieh Hubng, Albn Liu
  * @since 1.1
  */
-public abstract class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
+public bbstrbct clbss Cblendbr implements Seriblizbble, Clonebble, Compbrbble<Cblendbr> {
 
-    // Data flow in Calendar
+    // Dbtb flow in Cblendbr
     // ---------------------
 
-    // The current time is represented in two ways by Calendar: as UTC
-    // milliseconds from the epoch (1 January 1970 0:00 UTC), and as local
-    // fields such as MONTH, HOUR, AM_PM, etc.  It is possible to compute the
-    // millis from the fields, and vice versa.  The data needed to do this
-    // conversion is encapsulated by a TimeZone object owned by the Calendar.
-    // The data provided by the TimeZone object may also be overridden if the
-    // user sets the ZONE_OFFSET and/or DST_OFFSET fields directly. The class
-    // keeps track of what information was most recently set by the caller, and
-    // uses that to compute any other information as needed.
+    // The current time is represented in two wbys by Cblendbr: bs UTC
+    // milliseconds from the epoch (1 Jbnubry 1970 0:00 UTC), bnd bs locbl
+    // fields such bs MONTH, HOUR, AM_PM, etc.  It is possible to compute the
+    // millis from the fields, bnd vice versb.  The dbtb needed to do this
+    // conversion is encbpsulbted by b TimeZone object owned by the Cblendbr.
+    // The dbtb provided by the TimeZone object mby blso be overridden if the
+    // user sets the ZONE_OFFSET bnd/or DST_OFFSET fields directly. The clbss
+    // keeps trbck of whbt informbtion wbs most recently set by the cbller, bnd
+    // uses thbt to compute bny other informbtion bs needed.
 
-    // If the user sets the fields using set(), the data flow is as follows.
-    // This is implemented by the Calendar subclass's computeTime() method.
-    // During this process, certain fields may be ignored.  The disambiguation
-    // algorithm for resolving which fields to pay attention to is described
-    // in the class documentation.
+    // If the user sets the fields using set(), the dbtb flow is bs follows.
+    // This is implemented by the Cblendbr subclbss's computeTime() method.
+    // During this process, certbin fields mby be ignored.  The disbmbigubtion
+    // blgorithm for resolving which fields to pby bttention to is described
+    // in the clbss documentbtion.
 
-    //   local fields (YEAR, MONTH, DATE, HOUR, MINUTE, etc.)
+    //   locbl fields (YEAR, MONTH, DATE, HOUR, MINUTE, etc.)
     //           |
-    //           | Using Calendar-specific algorithm
+    //           | Using Cblendbr-specific blgorithm
     //           V
-    //   local standard millis
+    //   locbl stbndbrd millis
     //           |
     //           | Using TimeZone or user-set ZONE_OFFSET / DST_OFFSET
     //           V
-    //   UTC millis (in time data member)
+    //   UTC millis (in time dbtb member)
 
     // If the user sets the UTC millis using setTime() or setTimeInMillis(),
-    // the data flow is as follows.  This is implemented by the Calendar
-    // subclass's computeFields() method.
+    // the dbtb flow is bs follows.  This is implemented by the Cblendbr
+    // subclbss's computeFields() method.
 
-    //   UTC millis (in time data member)
+    //   UTC millis (in time dbtb member)
     //           |
     //           | Using TimeZone getOffset()
     //           V
-    //   local standard millis
+    //   locbl stbndbrd millis
     //           |
-    //           | Using Calendar-specific algorithm
+    //           | Using Cblendbr-specific blgorithm
     //           V
-    //   local fields (YEAR, MONTH, DATE, HOUR, MINUTE, etc.)
+    //   locbl fields (YEAR, MONTH, DATE, HOUR, MINUTE, etc.)
 
-    // In general, a round trip from fields, through local and UTC millis, and
-    // back out to fields is made when necessary.  This is implemented by the
-    // complete() method.  Resolving a partial set of fields into a UTC millis
-    // value allows all remaining fields to be generated from that value.  If
-    // the Calendar is lenient, the fields are also renormalized to standard
-    // ranges when they are regenerated.
+    // In generbl, b round trip from fields, through locbl bnd UTC millis, bnd
+    // bbck out to fields is mbde when necessbry.  This is implemented by the
+    // complete() method.  Resolving b pbrtibl set of fields into b UTC millis
+    // vblue bllows bll rembining fields to be generbted from thbt vblue.  If
+    // the Cblendbr is lenient, the fields bre blso renormblized to stbndbrd
+    // rbnges when they bre regenerbted.
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
-     * era, e.g., AD or BC in the Julian calendar. This is a calendar-specific
-     * value; see subclass documentation.
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
+     * erb, e.g., AD or BC in the Julibn cblendbr. This is b cblendbr-specific
+     * vblue; see subclbss documentbtion.
      *
-     * @see GregorianCalendar#AD
-     * @see GregorianCalendar#BC
+     * @see GregoribnCblendbr#AD
+     * @see GregoribnCblendbr#BC
      */
-    public final static int ERA = 0;
+    public finbl stbtic int ERA = 0;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
-     * year. This is a calendar-specific value; see subclass documentation.
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
+     * yebr. This is b cblendbr-specific vblue; see subclbss documentbtion.
      */
-    public final static int YEAR = 1;
+    public finbl stbtic int YEAR = 1;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
-     * month. This is a calendar-specific value. The first month of
-     * the year in the Gregorian and Julian calendars is
-     * <code>JANUARY</code> which is 0; the last depends on the number
-     * of months in a year.
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
+     * month. This is b cblendbr-specific vblue. The first month of
+     * the yebr in the Gregoribn bnd Julibn cblendbrs is
+     * <code>JANUARY</code> which is 0; the lbst depends on the number
+     * of months in b yebr.
      *
      * @see #JANUARY
      * @see #FEBRUARY
@@ -399,63 +399,63 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * @see #DECEMBER
      * @see #UNDECIMBER
      */
-    public final static int MONTH = 2;
+    public finbl stbtic int MONTH = 2;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
-     * week number within the current year.  The first week of the year, as
-     * defined by <code>getFirstDayOfWeek()</code> and
-     * <code>getMinimalDaysInFirstWeek()</code>, has value 1.  Subclasses define
-     * the value of <code>WEEK_OF_YEAR</code> for days before the first week of
-     * the year.
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
+     * week number within the current yebr.  The first week of the yebr, bs
+     * defined by <code>getFirstDbyOfWeek()</code> bnd
+     * <code>getMinimblDbysInFirstWeek()</code>, hbs vblue 1.  Subclbsses define
+     * the vblue of <code>WEEK_OF_YEAR</code> for dbys before the first week of
+     * the yebr.
      *
-     * @see #getFirstDayOfWeek
-     * @see #getMinimalDaysInFirstWeek
+     * @see #getFirstDbyOfWeek
+     * @see #getMinimblDbysInFirstWeek
      */
-    public final static int WEEK_OF_YEAR = 3;
+    public finbl stbtic int WEEK_OF_YEAR = 3;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
-     * week number within the current month.  The first week of the month, as
-     * defined by <code>getFirstDayOfWeek()</code> and
-     * <code>getMinimalDaysInFirstWeek()</code>, has value 1.  Subclasses define
-     * the value of <code>WEEK_OF_MONTH</code> for days before the first week of
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
+     * week number within the current month.  The first week of the month, bs
+     * defined by <code>getFirstDbyOfWeek()</code> bnd
+     * <code>getMinimblDbysInFirstWeek()</code>, hbs vblue 1.  Subclbsses define
+     * the vblue of <code>WEEK_OF_MONTH</code> for dbys before the first week of
      * the month.
      *
-     * @see #getFirstDayOfWeek
-     * @see #getMinimalDaysInFirstWeek
+     * @see #getFirstDbyOfWeek
+     * @see #getMinimblDbysInFirstWeek
      */
-    public final static int WEEK_OF_MONTH = 4;
+    public finbl stbtic int WEEK_OF_MONTH = 4;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
-     * day of the month. This is a synonym for <code>DAY_OF_MONTH</code>.
-     * The first day of the month has value 1.
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
+     * dby of the month. This is b synonym for <code>DAY_OF_MONTH</code>.
+     * The first dby of the month hbs vblue 1.
      *
      * @see #DAY_OF_MONTH
      */
-    public final static int DATE = 5;
+    public finbl stbtic int DATE = 5;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
-     * day of the month. This is a synonym for <code>DATE</code>.
-     * The first day of the month has value 1.
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
+     * dby of the month. This is b synonym for <code>DATE</code>.
+     * The first dby of the month hbs vblue 1.
      *
      * @see #DATE
      */
-    public final static int DAY_OF_MONTH = 5;
+    public finbl stbtic int DAY_OF_MONTH = 5;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the day
-     * number within the current year.  The first day of the year has value 1.
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the dby
+     * number within the current yebr.  The first dby of the yebr hbs vblue 1.
      */
-    public final static int DAY_OF_YEAR = 6;
+    public finbl stbtic int DAY_OF_YEAR = 6;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the day
-     * of the week.  This field takes values <code>SUNDAY</code>,
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the dby
+     * of the week.  This field tbkes vblues <code>SUNDAY</code>,
      * <code>MONDAY</code>, <code>TUESDAY</code>, <code>WEDNESDAY</code>,
-     * <code>THURSDAY</code>, <code>FRIDAY</code>, and <code>SATURDAY</code>.
+     * <code>THURSDAY</code>, <code>FRIDAY</code>, bnd <code>SATURDAY</code>.
      *
      * @see #SUNDAY
      * @see #MONDAY
@@ -465,250 +465,250 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * @see #FRIDAY
      * @see #SATURDAY
      */
-    public final static int DAY_OF_WEEK = 7;
+    public finbl stbtic int DAY_OF_WEEK = 7;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
-     * ordinal number of the day of the week within the current month. Together
-     * with the <code>DAY_OF_WEEK</code> field, this uniquely specifies a day
-     * within a month.  Unlike <code>WEEK_OF_MONTH</code> and
-     * <code>WEEK_OF_YEAR</code>, this field's value does <em>not</em> depend on
-     * <code>getFirstDayOfWeek()</code> or
-     * <code>getMinimalDaysInFirstWeek()</code>.  <code>DAY_OF_MONTH 1</code>
-     * through <code>7</code> always correspond to <code>DAY_OF_WEEK_IN_MONTH
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
+     * ordinbl number of the dby of the week within the current month. Together
+     * with the <code>DAY_OF_WEEK</code> field, this uniquely specifies b dby
+     * within b month.  Unlike <code>WEEK_OF_MONTH</code> bnd
+     * <code>WEEK_OF_YEAR</code>, this field's vblue does <em>not</em> depend on
+     * <code>getFirstDbyOfWeek()</code> or
+     * <code>getMinimblDbysInFirstWeek()</code>.  <code>DAY_OF_MONTH 1</code>
+     * through <code>7</code> blwbys correspond to <code>DAY_OF_WEEK_IN_MONTH
      * 1</code>; <code>8</code> through <code>14</code> correspond to
-     * <code>DAY_OF_WEEK_IN_MONTH 2</code>, and so on.
-     * <code>DAY_OF_WEEK_IN_MONTH 0</code> indicates the week before
-     * <code>DAY_OF_WEEK_IN_MONTH 1</code>.  Negative values count back from the
-     * end of the month, so the last Sunday of a month is specified as
-     * <code>DAY_OF_WEEK = SUNDAY, DAY_OF_WEEK_IN_MONTH = -1</code>.  Because
-     * negative values count backward they will usually be aligned differently
-     * within the month than positive values.  For example, if a month has 31
-     * days, <code>DAY_OF_WEEK_IN_MONTH -1</code> will overlap
-     * <code>DAY_OF_WEEK_IN_MONTH 5</code> and the end of <code>4</code>.
+     * <code>DAY_OF_WEEK_IN_MONTH 2</code>, bnd so on.
+     * <code>DAY_OF_WEEK_IN_MONTH 0</code> indicbtes the week before
+     * <code>DAY_OF_WEEK_IN_MONTH 1</code>.  Negbtive vblues count bbck from the
+     * end of the month, so the lbst Sundby of b month is specified bs
+     * <code>DAY_OF_WEEK = SUNDAY, DAY_OF_WEEK_IN_MONTH = -1</code>.  Becbuse
+     * negbtive vblues count bbckwbrd they will usublly be bligned differently
+     * within the month thbn positive vblues.  For exbmple, if b month hbs 31
+     * dbys, <code>DAY_OF_WEEK_IN_MONTH -1</code> will overlbp
+     * <code>DAY_OF_WEEK_IN_MONTH 5</code> bnd the end of <code>4</code>.
      *
      * @see #DAY_OF_WEEK
      * @see #WEEK_OF_MONTH
      */
-    public final static int DAY_OF_WEEK_IN_MONTH = 8;
+    public finbl stbtic int DAY_OF_WEEK_IN_MONTH = 8;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating
-     * whether the <code>HOUR</code> is before or after noon.
-     * E.g., at 10:04:15.250 PM the <code>AM_PM</code> is <code>PM</code>.
+     * Field number for <code>get</code> bnd <code>set</code> indicbting
+     * whether the <code>HOUR</code> is before or bfter noon.
+     * E.g., bt 10:04:15.250 PM the <code>AM_PM</code> is <code>PM</code>.
      *
      * @see #AM
      * @see #PM
      * @see #HOUR
      */
-    public final static int AM_PM = 9;
+    public finbl stbtic int AM_PM = 9;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
-     * hour of the morning or afternoon. <code>HOUR</code> is used for the
-     * 12-hour clock (0 - 11). Noon and midnight are represented by 0, not by 12.
-     * E.g., at 10:04:15.250 PM the <code>HOUR</code> is 10.
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
+     * hour of the morning or bfternoon. <code>HOUR</code> is used for the
+     * 12-hour clock (0 - 11). Noon bnd midnight bre represented by 0, not by 12.
+     * E.g., bt 10:04:15.250 PM the <code>HOUR</code> is 10.
      *
      * @see #AM_PM
      * @see #HOUR_OF_DAY
      */
-    public final static int HOUR = 10;
+    public finbl stbtic int HOUR = 10;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
-     * hour of the day. <code>HOUR_OF_DAY</code> is used for the 24-hour clock.
-     * E.g., at 10:04:15.250 PM the <code>HOUR_OF_DAY</code> is 22.
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
+     * hour of the dby. <code>HOUR_OF_DAY</code> is used for the 24-hour clock.
+     * E.g., bt 10:04:15.250 PM the <code>HOUR_OF_DAY</code> is 22.
      *
      * @see #HOUR
      */
-    public final static int HOUR_OF_DAY = 11;
+    public finbl stbtic int HOUR_OF_DAY = 11;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
      * minute within the hour.
-     * E.g., at 10:04:15.250 PM the <code>MINUTE</code> is 4.
+     * E.g., bt 10:04:15.250 PM the <code>MINUTE</code> is 4.
      */
-    public final static int MINUTE = 12;
+    public finbl stbtic int MINUTE = 12;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
      * second within the minute.
-     * E.g., at 10:04:15.250 PM the <code>SECOND</code> is 15.
+     * E.g., bt 10:04:15.250 PM the <code>SECOND</code> is 15.
      */
-    public final static int SECOND = 13;
+    public finbl stbtic int SECOND = 13;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
      * millisecond within the second.
-     * E.g., at 10:04:15.250 PM the <code>MILLISECOND</code> is 250.
+     * E.g., bt 10:04:15.250 PM the <code>MILLISECOND</code> is 250.
      */
-    public final static int MILLISECOND = 14;
+    public finbl stbtic int MILLISECOND = 14;
 
     /**
-     * Field number for <code>get</code> and <code>set</code>
-     * indicating the raw offset from GMT in milliseconds.
+     * Field number for <code>get</code> bnd <code>set</code>
+     * indicbting the rbw offset from GMT in milliseconds.
      * <p>
-     * This field reflects the correct GMT offset value of the time
-     * zone of this <code>Calendar</code> if the
-     * <code>TimeZone</code> implementation subclass supports
-     * historical GMT offset changes.
+     * This field reflects the correct GMT offset vblue of the time
+     * zone of this <code>Cblendbr</code> if the
+     * <code>TimeZone</code> implementbtion subclbss supports
+     * historicbl GMT offset chbnges.
      */
-    public final static int ZONE_OFFSET = 15;
+    public finbl stbtic int ZONE_OFFSET = 15;
 
     /**
-     * Field number for <code>get</code> and <code>set</code> indicating the
-     * daylight saving offset in milliseconds.
+     * Field number for <code>get</code> bnd <code>set</code> indicbting the
+     * dbylight sbving offset in milliseconds.
      * <p>
-     * This field reflects the correct daylight saving offset value of
-     * the time zone of this <code>Calendar</code> if the
-     * <code>TimeZone</code> implementation subclass supports
-     * historical Daylight Saving Time schedule changes.
+     * This field reflects the correct dbylight sbving offset vblue of
+     * the time zone of this <code>Cblendbr</code> if the
+     * <code>TimeZone</code> implementbtion subclbss supports
+     * historicbl Dbylight Sbving Time schedule chbnges.
      */
-    public final static int DST_OFFSET = 16;
+    public finbl stbtic int DST_OFFSET = 16;
 
     /**
-     * The number of distinct fields recognized by <code>get</code> and <code>set</code>.
-     * Field numbers range from <code>0..FIELD_COUNT-1</code>.
+     * The number of distinct fields recognized by <code>get</code> bnd <code>set</code>.
+     * Field numbers rbnge from <code>0..FIELD_COUNT-1</code>.
      */
-    public final static int FIELD_COUNT = 17;
+    public finbl stbtic int FIELD_COUNT = 17;
 
     /**
-     * Value of the {@link #DAY_OF_WEEK} field indicating
-     * Sunday.
+     * Vblue of the {@link #DAY_OF_WEEK} field indicbting
+     * Sundby.
      */
-    public final static int SUNDAY = 1;
+    public finbl stbtic int SUNDAY = 1;
 
     /**
-     * Value of the {@link #DAY_OF_WEEK} field indicating
-     * Monday.
+     * Vblue of the {@link #DAY_OF_WEEK} field indicbting
+     * Mondby.
      */
-    public final static int MONDAY = 2;
+    public finbl stbtic int MONDAY = 2;
 
     /**
-     * Value of the {@link #DAY_OF_WEEK} field indicating
-     * Tuesday.
+     * Vblue of the {@link #DAY_OF_WEEK} field indicbting
+     * Tuesdby.
      */
-    public final static int TUESDAY = 3;
+    public finbl stbtic int TUESDAY = 3;
 
     /**
-     * Value of the {@link #DAY_OF_WEEK} field indicating
-     * Wednesday.
+     * Vblue of the {@link #DAY_OF_WEEK} field indicbting
+     * Wednesdby.
      */
-    public final static int WEDNESDAY = 4;
+    public finbl stbtic int WEDNESDAY = 4;
 
     /**
-     * Value of the {@link #DAY_OF_WEEK} field indicating
-     * Thursday.
+     * Vblue of the {@link #DAY_OF_WEEK} field indicbting
+     * Thursdby.
      */
-    public final static int THURSDAY = 5;
+    public finbl stbtic int THURSDAY = 5;
 
     /**
-     * Value of the {@link #DAY_OF_WEEK} field indicating
-     * Friday.
+     * Vblue of the {@link #DAY_OF_WEEK} field indicbting
+     * Fridby.
      */
-    public final static int FRIDAY = 6;
+    public finbl stbtic int FRIDAY = 6;
 
     /**
-     * Value of the {@link #DAY_OF_WEEK} field indicating
-     * Saturday.
+     * Vblue of the {@link #DAY_OF_WEEK} field indicbting
+     * Sbturdby.
      */
-    public final static int SATURDAY = 7;
+    public finbl stbtic int SATURDAY = 7;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * first month of the year in the Gregorian and Julian calendars.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * first month of the yebr in the Gregoribn bnd Julibn cblendbrs.
      */
-    public final static int JANUARY = 0;
+    public finbl stbtic int JANUARY = 0;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * second month of the year in the Gregorian and Julian calendars.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * second month of the yebr in the Gregoribn bnd Julibn cblendbrs.
      */
-    public final static int FEBRUARY = 1;
+    public finbl stbtic int FEBRUARY = 1;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * third month of the year in the Gregorian and Julian calendars.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * third month of the yebr in the Gregoribn bnd Julibn cblendbrs.
      */
-    public final static int MARCH = 2;
+    public finbl stbtic int MARCH = 2;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * fourth month of the year in the Gregorian and Julian calendars.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * fourth month of the yebr in the Gregoribn bnd Julibn cblendbrs.
      */
-    public final static int APRIL = 3;
+    public finbl stbtic int APRIL = 3;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * fifth month of the year in the Gregorian and Julian calendars.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * fifth month of the yebr in the Gregoribn bnd Julibn cblendbrs.
      */
-    public final static int MAY = 4;
+    public finbl stbtic int MAY = 4;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * sixth month of the year in the Gregorian and Julian calendars.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * sixth month of the yebr in the Gregoribn bnd Julibn cblendbrs.
      */
-    public final static int JUNE = 5;
+    public finbl stbtic int JUNE = 5;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * seventh month of the year in the Gregorian and Julian calendars.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * seventh month of the yebr in the Gregoribn bnd Julibn cblendbrs.
      */
-    public final static int JULY = 6;
+    public finbl stbtic int JULY = 6;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * eighth month of the year in the Gregorian and Julian calendars.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * eighth month of the yebr in the Gregoribn bnd Julibn cblendbrs.
      */
-    public final static int AUGUST = 7;
+    public finbl stbtic int AUGUST = 7;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * ninth month of the year in the Gregorian and Julian calendars.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * ninth month of the yebr in the Gregoribn bnd Julibn cblendbrs.
      */
-    public final static int SEPTEMBER = 8;
+    public finbl stbtic int SEPTEMBER = 8;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * tenth month of the year in the Gregorian and Julian calendars.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * tenth month of the yebr in the Gregoribn bnd Julibn cblendbrs.
      */
-    public final static int OCTOBER = 9;
+    public finbl stbtic int OCTOBER = 9;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * eleventh month of the year in the Gregorian and Julian calendars.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * eleventh month of the yebr in the Gregoribn bnd Julibn cblendbrs.
      */
-    public final static int NOVEMBER = 10;
+    public finbl stbtic int NOVEMBER = 10;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * twelfth month of the year in the Gregorian and Julian calendars.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * twelfth month of the yebr in the Gregoribn bnd Julibn cblendbrs.
      */
-    public final static int DECEMBER = 11;
+    public finbl stbtic int DECEMBER = 11;
 
     /**
-     * Value of the {@link #MONTH} field indicating the
-     * thirteenth month of the year. Although <code>GregorianCalendar</code>
-     * does not use this value, lunar calendars do.
+     * Vblue of the {@link #MONTH} field indicbting the
+     * thirteenth month of the yebr. Although <code>GregoribnCblendbr</code>
+     * does not use this vblue, lunbr cblendbrs do.
      */
-    public final static int UNDECIMBER = 12;
+    public finbl stbtic int UNDECIMBER = 12;
 
     /**
-     * Value of the {@link #AM_PM} field indicating the
-     * period of the day from midnight to just before noon.
+     * Vblue of the {@link #AM_PM} field indicbting the
+     * period of the dby from midnight to just before noon.
      */
-    public final static int AM = 0;
+    public finbl stbtic int AM = 0;
 
     /**
-     * Value of the {@link #AM_PM} field indicating the
-     * period of the day from noon to just before midnight.
+     * Vblue of the {@link #AM_PM} field indicbting the
+     * period of the dby from noon to just before midnight.
      */
-    public final static int PM = 1;
+    public finbl stbtic int PM = 1;
 
     /**
-     * A style specifier for {@link #getDisplayNames(int, int, Locale)
-     * getDisplayNames} indicating names in all styles, such as
-     * "January" and "Jan".
+     * A style specifier for {@link #getDisplbyNbmes(int, int, Locble)
+     * getDisplbyNbmes} indicbting nbmes in bll styles, such bs
+     * "Jbnubry" bnd "Jbn".
      *
      * @see #SHORT_FORMAT
      * @see #LONG_FORMAT
@@ -718,595 +718,595 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * @see #LONG
      * @since 1.6
      */
-    public static final int ALL_STYLES = 0;
+    public stbtic finbl int ALL_STYLES = 0;
 
-    static final int STANDALONE_MASK = 0x8000;
+    stbtic finbl int STANDALONE_MASK = 0x8000;
 
     /**
-     * A style specifier for {@link #getDisplayName(int, int, Locale)
-     * getDisplayName} and {@link #getDisplayNames(int, int, Locale)
-     * getDisplayNames} equivalent to {@link #SHORT_FORMAT}.
+     * A style specifier for {@link #getDisplbyNbme(int, int, Locble)
+     * getDisplbyNbme} bnd {@link #getDisplbyNbmes(int, int, Locble)
+     * getDisplbyNbmes} equivblent to {@link #SHORT_FORMAT}.
      *
      * @see #SHORT_STANDALONE
      * @see #LONG
      * @since 1.6
      */
-    public static final int SHORT = 1;
+    public stbtic finbl int SHORT = 1;
 
     /**
-     * A style specifier for {@link #getDisplayName(int, int, Locale)
-     * getDisplayName} and {@link #getDisplayNames(int, int, Locale)
-     * getDisplayNames} equivalent to {@link #LONG_FORMAT}.
+     * A style specifier for {@link #getDisplbyNbme(int, int, Locble)
+     * getDisplbyNbme} bnd {@link #getDisplbyNbmes(int, int, Locble)
+     * getDisplbyNbmes} equivblent to {@link #LONG_FORMAT}.
      *
      * @see #LONG_STANDALONE
      * @see #SHORT
      * @since 1.6
      */
-    public static final int LONG = 2;
+    public stbtic finbl int LONG = 2;
 
     /**
-     * A style specifier for {@link #getDisplayName(int, int, Locale)
-     * getDisplayName} and {@link #getDisplayNames(int, int, Locale)
-     * getDisplayNames} indicating a narrow name used for format. Narrow names
-     * are typically single character strings, such as "M" for Monday.
+     * A style specifier for {@link #getDisplbyNbme(int, int, Locble)
+     * getDisplbyNbme} bnd {@link #getDisplbyNbmes(int, int, Locble)
+     * getDisplbyNbmes} indicbting b nbrrow nbme used for formbt. Nbrrow nbmes
+     * bre typicblly single chbrbcter strings, such bs "M" for Mondby.
      *
      * @see #NARROW_STANDALONE
      * @see #SHORT_FORMAT
      * @see #LONG_FORMAT
      * @since 1.8
      */
-    public static final int NARROW_FORMAT = 4;
+    public stbtic finbl int NARROW_FORMAT = 4;
 
     /**
-     * A style specifier for {@link #getDisplayName(int, int, Locale)
-     * getDisplayName} and {@link #getDisplayNames(int, int, Locale)
-     * getDisplayNames} indicating a narrow name independently. Narrow names
-     * are typically single character strings, such as "M" for Monday.
+     * A style specifier for {@link #getDisplbyNbme(int, int, Locble)
+     * getDisplbyNbme} bnd {@link #getDisplbyNbmes(int, int, Locble)
+     * getDisplbyNbmes} indicbting b nbrrow nbme independently. Nbrrow nbmes
+     * bre typicblly single chbrbcter strings, such bs "M" for Mondby.
      *
      * @see #NARROW_FORMAT
      * @see #SHORT_STANDALONE
      * @see #LONG_STANDALONE
      * @since 1.8
      */
-    public static final int NARROW_STANDALONE = NARROW_FORMAT | STANDALONE_MASK;
+    public stbtic finbl int NARROW_STANDALONE = NARROW_FORMAT | STANDALONE_MASK;
 
     /**
-     * A style specifier for {@link #getDisplayName(int, int, Locale)
-     * getDisplayName} and {@link #getDisplayNames(int, int, Locale)
-     * getDisplayNames} indicating a short name used for format.
+     * A style specifier for {@link #getDisplbyNbme(int, int, Locble)
+     * getDisplbyNbme} bnd {@link #getDisplbyNbmes(int, int, Locble)
+     * getDisplbyNbmes} indicbting b short nbme used for formbt.
      *
      * @see #SHORT_STANDALONE
      * @see #LONG_FORMAT
      * @see #LONG_STANDALONE
      * @since 1.8
      */
-    public static final int SHORT_FORMAT = 1;
+    public stbtic finbl int SHORT_FORMAT = 1;
 
     /**
-     * A style specifier for {@link #getDisplayName(int, int, Locale)
-     * getDisplayName} and {@link #getDisplayNames(int, int, Locale)
-     * getDisplayNames} indicating a long name used for format.
+     * A style specifier for {@link #getDisplbyNbme(int, int, Locble)
+     * getDisplbyNbme} bnd {@link #getDisplbyNbmes(int, int, Locble)
+     * getDisplbyNbmes} indicbting b long nbme used for formbt.
      *
      * @see #LONG_STANDALONE
      * @see #SHORT_FORMAT
      * @see #SHORT_STANDALONE
      * @since 1.8
      */
-    public static final int LONG_FORMAT = 2;
+    public stbtic finbl int LONG_FORMAT = 2;
 
     /**
-     * A style specifier for {@link #getDisplayName(int, int, Locale)
-     * getDisplayName} and {@link #getDisplayNames(int, int, Locale)
-     * getDisplayNames} indicating a short name used independently,
-     * such as a month abbreviation as calendar headers.
+     * A style specifier for {@link #getDisplbyNbme(int, int, Locble)
+     * getDisplbyNbme} bnd {@link #getDisplbyNbmes(int, int, Locble)
+     * getDisplbyNbmes} indicbting b short nbme used independently,
+     * such bs b month bbbrevibtion bs cblendbr hebders.
      *
      * @see #SHORT_FORMAT
      * @see #LONG_FORMAT
      * @see #LONG_STANDALONE
      * @since 1.8
      */
-    public static final int SHORT_STANDALONE = SHORT | STANDALONE_MASK;
+    public stbtic finbl int SHORT_STANDALONE = SHORT | STANDALONE_MASK;
 
     /**
-     * A style specifier for {@link #getDisplayName(int, int, Locale)
-     * getDisplayName} and {@link #getDisplayNames(int, int, Locale)
-     * getDisplayNames} indicating a long name used independently,
-     * such as a month name as calendar headers.
+     * A style specifier for {@link #getDisplbyNbme(int, int, Locble)
+     * getDisplbyNbme} bnd {@link #getDisplbyNbmes(int, int, Locble)
+     * getDisplbyNbmes} indicbting b long nbme used independently,
+     * such bs b month nbme bs cblendbr hebders.
      *
      * @see #LONG_FORMAT
      * @see #SHORT_FORMAT
      * @see #SHORT_STANDALONE
      * @since 1.8
      */
-    public static final int LONG_STANDALONE = LONG | STANDALONE_MASK;
+    public stbtic finbl int LONG_STANDALONE = LONG | STANDALONE_MASK;
 
-    // Internal notes:
-    // Calendar contains two kinds of time representations: current "time" in
-    // milliseconds, and a set of calendar "fields" representing the current time.
-    // The two representations are usually in sync, but can get out of sync
-    // as follows.
-    // 1. Initially, no fields are set, and the time is invalid.
-    // 2. If the time is set, all fields are computed and in sync.
-    // 3. If a single field is set, the time is invalid.
-    // Recomputation of the time and fields happens when the object needs
-    // to return a result to the user, or use a result for a computation.
+    // Internbl notes:
+    // Cblendbr contbins two kinds of time representbtions: current "time" in
+    // milliseconds, bnd b set of cblendbr "fields" representing the current time.
+    // The two representbtions bre usublly in sync, but cbn get out of sync
+    // bs follows.
+    // 1. Initiblly, no fields bre set, bnd the time is invblid.
+    // 2. If the time is set, bll fields bre computed bnd in sync.
+    // 3. If b single field is set, the time is invblid.
+    // Recomputbtion of the time bnd fields hbppens when the object needs
+    // to return b result to the user, or use b result for b computbtion.
 
     /**
-     * The calendar field values for the currently set time for this calendar.
-     * This is an array of <code>FIELD_COUNT</code> integers, with index values
+     * The cblendbr field vblues for the currently set time for this cblendbr.
+     * This is bn brrby of <code>FIELD_COUNT</code> integers, with index vblues
      * <code>ERA</code> through <code>DST_OFFSET</code>.
-     * @serial
+     * @seribl
      */
-    @SuppressWarnings("ProtectedField")
+    @SuppressWbrnings("ProtectedField")
     protected int           fields[];
 
     /**
-     * The flags which tell if a specified calendar field for the calendar is set.
-     * A new object has no fields set.  After the first call to a method
-     * which generates the fields, they all remain set after that.
-     * This is an array of <code>FIELD_COUNT</code> booleans, with index values
+     * The flbgs which tell if b specified cblendbr field for the cblendbr is set.
+     * A new object hbs no fields set.  After the first cbll to b method
+     * which generbtes the fields, they bll rembin set bfter thbt.
+     * This is bn brrby of <code>FIELD_COUNT</code> boolebns, with index vblues
      * <code>ERA</code> through <code>DST_OFFSET</code>.
-     * @serial
+     * @seribl
      */
-    @SuppressWarnings("ProtectedField")
-    protected boolean       isSet[];
+    @SuppressWbrnings("ProtectedField")
+    protected boolebn       isSet[];
 
     /**
-     * Pseudo-time-stamps which specify when each field was set. There
-     * are two special values, UNSET and COMPUTED. Values from
-     * MINIMUM_USER_SET to Integer.MAX_VALUE are legal user set values.
+     * Pseudo-time-stbmps which specify when ebch field wbs set. There
+     * bre two specibl vblues, UNSET bnd COMPUTED. Vblues from
+     * MINIMUM_USER_SET to Integer.MAX_VALUE bre legbl user set vblues.
      */
-    transient private int   stamp[];
+    trbnsient privbte int   stbmp[];
 
     /**
-     * The currently set time for this calendar, expressed in milliseconds after
-     * January 1, 1970, 0:00:00 GMT.
+     * The currently set time for this cblendbr, expressed in milliseconds bfter
+     * Jbnubry 1, 1970, 0:00:00 GMT.
      * @see #isTimeSet
-     * @serial
+     * @seribl
      */
-    @SuppressWarnings("ProtectedField")
+    @SuppressWbrnings("ProtectedField")
     protected long          time;
 
     /**
-     * True if then the value of <code>time</code> is valid.
-     * The time is made invalid by a change to an item of <code>field[]</code>.
+     * True if then the vblue of <code>time</code> is vblid.
+     * The time is mbde invblid by b chbnge to bn item of <code>field[]</code>.
      * @see #time
-     * @serial
+     * @seribl
      */
-    @SuppressWarnings("ProtectedField")
-    protected boolean       isTimeSet;
+    @SuppressWbrnings("ProtectedField")
+    protected boolebn       isTimeSet;
 
     /**
-     * True if <code>fields[]</code> are in sync with the currently set time.
-     * If false, then the next attempt to get the value of a field will
-     * force a recomputation of all fields from the current value of
+     * True if <code>fields[]</code> bre in sync with the currently set time.
+     * If fblse, then the next bttempt to get the vblue of b field will
+     * force b recomputbtion of bll fields from the current vblue of
      * <code>time</code>.
-     * @serial
+     * @seribl
      */
-    @SuppressWarnings("ProtectedField")
-    protected boolean       areFieldsSet;
+    @SuppressWbrnings("ProtectedField")
+    protected boolebn       breFieldsSet;
 
     /**
-     * True if all fields have been set.
-     * @serial
+     * True if bll fields hbve been set.
+     * @seribl
      */
-    transient boolean       areAllFieldsSet;
+    trbnsient boolebn       breAllFieldsSet;
 
     /**
-     * <code>True</code> if this calendar allows out-of-range field values during computation
+     * <code>True</code> if this cblendbr bllows out-of-rbnge field vblues during computbtion
      * of <code>time</code> from <code>fields[]</code>.
      * @see #setLenient
      * @see #isLenient
-     * @serial
+     * @seribl
      */
-    private boolean         lenient = true;
+    privbte boolebn         lenient = true;
 
     /**
-     * The <code>TimeZone</code> used by this calendar. <code>Calendar</code>
-     * uses the time zone data to translate between locale and GMT time.
-     * @serial
+     * The <code>TimeZone</code> used by this cblendbr. <code>Cblendbr</code>
+     * uses the time zone dbtb to trbnslbte between locble bnd GMT time.
+     * @seribl
      */
-    private TimeZone        zone;
+    privbte TimeZone        zone;
 
     /**
-     * <code>True</code> if zone references to a shared TimeZone object.
+     * <code>True</code> if zone references to b shbred TimeZone object.
      */
-    transient private boolean sharedZone = false;
+    trbnsient privbte boolebn shbredZone = fblse;
 
     /**
-     * The first day of the week, with possible values <code>SUNDAY</code>,
-     * <code>MONDAY</code>, etc.  This is a locale-dependent value.
-     * @serial
+     * The first dby of the week, with possible vblues <code>SUNDAY</code>,
+     * <code>MONDAY</code>, etc.  This is b locble-dependent vblue.
+     * @seribl
      */
-    private int             firstDayOfWeek;
+    privbte int             firstDbyOfWeek;
 
     /**
-     * The number of days required for the first week in a month or year,
-     * with possible values from 1 to 7.  This is a locale-dependent value.
-     * @serial
+     * The number of dbys required for the first week in b month or yebr,
+     * with possible vblues from 1 to 7.  This is b locble-dependent vblue.
+     * @seribl
      */
-    private int             minimalDaysInFirstWeek;
+    privbte int             minimblDbysInFirstWeek;
 
     /**
-     * Cache to hold the firstDayOfWeek and minimalDaysInFirstWeek
-     * of a Locale.
+     * Cbche to hold the firstDbyOfWeek bnd minimblDbysInFirstWeek
+     * of b Locble.
      */
-    private static final ConcurrentMap<Locale, int[]> cachedLocaleData
-        = new ConcurrentHashMap<>(3);
+    privbte stbtic finbl ConcurrentMbp<Locble, int[]> cbchedLocbleDbtb
+        = new ConcurrentHbshMbp<>(3);
 
-    // Special values of stamp[]
+    // Specibl vblues of stbmp[]
     /**
-     * The corresponding fields[] has no value.
+     * The corresponding fields[] hbs no vblue.
      */
-    private static final int        UNSET = 0;
-
-    /**
-     * The value of the corresponding fields[] has been calculated internally.
-     */
-    private static final int        COMPUTED = 1;
+    privbte stbtic finbl int        UNSET = 0;
 
     /**
-     * The value of the corresponding fields[] has been set externally. Stamp
-     * values which are greater than 1 represents the (pseudo) time when the
-     * corresponding fields[] value was set.
+     * The vblue of the corresponding fields[] hbs been cblculbted internblly.
      */
-    private static final int        MINIMUM_USER_STAMP = 2;
+    privbte stbtic finbl int        COMPUTED = 1;
 
     /**
-     * The mask value that represents all of the fields.
+     * The vblue of the corresponding fields[] hbs been set externblly. Stbmp
+     * vblues which bre grebter thbn 1 represents the (pseudo) time when the
+     * corresponding fields[] vblue wbs set.
      */
-    static final int ALL_FIELDS = (1 << FIELD_COUNT) - 1;
+    privbte stbtic finbl int        MINIMUM_USER_STAMP = 2;
 
     /**
-     * The next available value for <code>stamp[]</code>, an internal array.
-     * This actually should not be written out to the stream, and will probably
-     * be removed from the stream in the near future.  In the meantime,
-     * a value of <code>MINIMUM_USER_STAMP</code> should be used.
-     * @serial
+     * The mbsk vblue thbt represents bll of the fields.
      */
-    private int             nextStamp = MINIMUM_USER_STAMP;
-
-    // the internal serial version which says which version was written
-    // - 0 (default) for version up to JDK 1.1.5
-    // - 1 for version from JDK 1.1.6, which writes a correct 'time' value
-    //     as well as compatible values for other fields.  This is a
-    //     transitional format.
-    // - 2 (not implemented yet) a future version, in which fields[],
-    //     areFieldsSet, and isTimeSet become transient, and isSet[] is
-    //     removed. In JDK 1.1.6 we write a format compatible with version 2.
-    static final int        currentSerialVersion = 1;
+    stbtic finbl int ALL_FIELDS = (1 << FIELD_COUNT) - 1;
 
     /**
-     * The version of the serialized data on the stream.  Possible values:
+     * The next bvbilbble vblue for <code>stbmp[]</code>, bn internbl brrby.
+     * This bctublly should not be written out to the strebm, bnd will probbbly
+     * be removed from the strebm in the nebr future.  In the mebntime,
+     * b vblue of <code>MINIMUM_USER_STAMP</code> should be used.
+     * @seribl
+     */
+    privbte int             nextStbmp = MINIMUM_USER_STAMP;
+
+    // the internbl seribl version which sbys which version wbs written
+    // - 0 (defbult) for version up to JDK 1.1.5
+    // - 1 for version from JDK 1.1.6, which writes b correct 'time' vblue
+    //     bs well bs compbtible vblues for other fields.  This is b
+    //     trbnsitionbl formbt.
+    // - 2 (not implemented yet) b future version, in which fields[],
+    //     breFieldsSet, bnd isTimeSet become trbnsient, bnd isSet[] is
+    //     removed. In JDK 1.1.6 we write b formbt compbtible with version 2.
+    stbtic finbl int        currentSeriblVersion = 1;
+
+    /**
+     * The version of the seriblized dbtb on the strebm.  Possible vblues:
      * <dl>
-     * <dt><b>0</b> or not present on stream</dt>
+     * <dt><b>0</b> or not present on strebm</dt>
      * <dd>
-     * JDK 1.1.5 or earlier.
+     * JDK 1.1.5 or ebrlier.
      * </dd>
      * <dt><b>1</b></dt>
      * <dd>
-     * JDK 1.1.6 or later.  Writes a correct 'time' value
-     * as well as compatible values for other fields.  This is a
-     * transitional format.
+     * JDK 1.1.6 or lbter.  Writes b correct 'time' vblue
+     * bs well bs compbtible vblues for other fields.  This is b
+     * trbnsitionbl formbt.
      * </dd>
      * </dl>
-     * When streaming out this class, the most recent format
-     * and the highest allowable <code>serialVersionOnStream</code>
+     * When strebming out this clbss, the most recent formbt
+     * bnd the highest bllowbble <code>seriblVersionOnStrebm</code>
      * is written.
-     * @serial
+     * @seribl
      * @since 1.1.6
      */
-    private int             serialVersionOnStream = currentSerialVersion;
+    privbte int             seriblVersionOnStrebm = currentSeriblVersion;
 
-    // Proclaim serialization compatibility with JDK 1.1
-    static final long       serialVersionUID = -1807547505821590642L;
+    // Proclbim seriblizbtion compbtibility with JDK 1.1
+    stbtic finbl long       seriblVersionUID = -1807547505821590642L;
 
-    // Mask values for calendar fields
-    @SuppressWarnings("PointlessBitwiseExpression")
-    final static int ERA_MASK           = (1 << ERA);
-    final static int YEAR_MASK          = (1 << YEAR);
-    final static int MONTH_MASK         = (1 << MONTH);
-    final static int WEEK_OF_YEAR_MASK  = (1 << WEEK_OF_YEAR);
-    final static int WEEK_OF_MONTH_MASK = (1 << WEEK_OF_MONTH);
-    final static int DAY_OF_MONTH_MASK  = (1 << DAY_OF_MONTH);
-    final static int DATE_MASK          = DAY_OF_MONTH_MASK;
-    final static int DAY_OF_YEAR_MASK   = (1 << DAY_OF_YEAR);
-    final static int DAY_OF_WEEK_MASK   = (1 << DAY_OF_WEEK);
-    final static int DAY_OF_WEEK_IN_MONTH_MASK  = (1 << DAY_OF_WEEK_IN_MONTH);
-    final static int AM_PM_MASK         = (1 << AM_PM);
-    final static int HOUR_MASK          = (1 << HOUR);
-    final static int HOUR_OF_DAY_MASK   = (1 << HOUR_OF_DAY);
-    final static int MINUTE_MASK        = (1 << MINUTE);
-    final static int SECOND_MASK        = (1 << SECOND);
-    final static int MILLISECOND_MASK   = (1 << MILLISECOND);
-    final static int ZONE_OFFSET_MASK   = (1 << ZONE_OFFSET);
-    final static int DST_OFFSET_MASK    = (1 << DST_OFFSET);
+    // Mbsk vblues for cblendbr fields
+    @SuppressWbrnings("PointlessBitwiseExpression")
+    finbl stbtic int ERA_MASK           = (1 << ERA);
+    finbl stbtic int YEAR_MASK          = (1 << YEAR);
+    finbl stbtic int MONTH_MASK         = (1 << MONTH);
+    finbl stbtic int WEEK_OF_YEAR_MASK  = (1 << WEEK_OF_YEAR);
+    finbl stbtic int WEEK_OF_MONTH_MASK = (1 << WEEK_OF_MONTH);
+    finbl stbtic int DAY_OF_MONTH_MASK  = (1 << DAY_OF_MONTH);
+    finbl stbtic int DATE_MASK          = DAY_OF_MONTH_MASK;
+    finbl stbtic int DAY_OF_YEAR_MASK   = (1 << DAY_OF_YEAR);
+    finbl stbtic int DAY_OF_WEEK_MASK   = (1 << DAY_OF_WEEK);
+    finbl stbtic int DAY_OF_WEEK_IN_MONTH_MASK  = (1 << DAY_OF_WEEK_IN_MONTH);
+    finbl stbtic int AM_PM_MASK         = (1 << AM_PM);
+    finbl stbtic int HOUR_MASK          = (1 << HOUR);
+    finbl stbtic int HOUR_OF_DAY_MASK   = (1 << HOUR_OF_DAY);
+    finbl stbtic int MINUTE_MASK        = (1 << MINUTE);
+    finbl stbtic int SECOND_MASK        = (1 << SECOND);
+    finbl stbtic int MILLISECOND_MASK   = (1 << MILLISECOND);
+    finbl stbtic int ZONE_OFFSET_MASK   = (1 << ZONE_OFFSET);
+    finbl stbtic int DST_OFFSET_MASK    = (1 << DST_OFFSET);
 
     /**
-     * {@code Calendar.Builder} is used for creating a {@code Calendar} from
-     * various date-time parameters.
+     * {@code Cblendbr.Builder} is used for crebting b {@code Cblendbr} from
+     * vbrious dbte-time pbrbmeters.
      *
-     * <p>There are two ways to set a {@code Calendar} to a date-time value. One
-     * is to set the instant parameter to a millisecond offset from the <a
-     * href="Calendar.html#Epoch">Epoch</a>. The other is to set individual
-     * field parameters, such as {@link Calendar#YEAR YEAR}, to their desired
-     * values. These two ways can't be mixed. Trying to set both the instant and
-     * individual fields will cause an {@link IllegalStateException} to be
-     * thrown. However, it is permitted to override previous values of the
-     * instant or field parameters.
+     * <p>There bre two wbys to set b {@code Cblendbr} to b dbte-time vblue. One
+     * is to set the instbnt pbrbmeter to b millisecond offset from the <b
+     * href="Cblendbr.html#Epoch">Epoch</b>. The other is to set individubl
+     * field pbrbmeters, such bs {@link Cblendbr#YEAR YEAR}, to their desired
+     * vblues. These two wbys cbn't be mixed. Trying to set both the instbnt bnd
+     * individubl fields will cbuse bn {@link IllegblStbteException} to be
+     * thrown. However, it is permitted to override previous vblues of the
+     * instbnt or field pbrbmeters.
      *
-     * <p>If no enough field parameters are given for determining date and/or
-     * time, calendar specific default values are used when building a
-     * {@code Calendar}. For example, if the {@link Calendar#YEAR YEAR} value
-     * isn't given for the Gregorian calendar, 1970 will be used. If there are
-     * any conflicts among field parameters, the <a
-     * href="Calendar.html#resolution"> resolution rules</a> are applied.
-     * Therefore, the order of field setting matters.
+     * <p>If no enough field pbrbmeters bre given for determining dbte bnd/or
+     * time, cblendbr specific defbult vblues bre used when building b
+     * {@code Cblendbr}. For exbmple, if the {@link Cblendbr#YEAR YEAR} vblue
+     * isn't given for the Gregoribn cblendbr, 1970 will be used. If there bre
+     * bny conflicts bmong field pbrbmeters, the <b
+     * href="Cblendbr.html#resolution"> resolution rules</b> bre bpplied.
+     * Therefore, the order of field setting mbtters.
      *
-     * <p>In addition to the date-time parameters,
-     * the {@linkplain #setLocale(Locale) locale},
-     * {@linkplain #setTimeZone(TimeZone) time zone},
-     * {@linkplain #setWeekDefinition(int, int) week definition}, and
-     * {@linkplain #setLenient(boolean) leniency mode} parameters can be set.
+     * <p>In bddition to the dbte-time pbrbmeters,
+     * the {@linkplbin #setLocble(Locble) locble},
+     * {@linkplbin #setTimeZone(TimeZone) time zone},
+     * {@linkplbin #setWeekDefinition(int, int) week definition}, bnd
+     * {@linkplbin #setLenient(boolebn) leniency mode} pbrbmeters cbn be set.
      *
-     * <p><b>Examples</b>
-     * <p>The following are sample usages. Sample code assumes that the
-     * {@code Calendar} constants are statically imported.
+     * <p><b>Exbmples</b>
+     * <p>The following bre sbmple usbges. Sbmple code bssumes thbt the
+     * {@code Cblendbr} constbnts bre stbticblly imported.
      *
-     * <p>The following code produces a {@code Calendar} with date 2012-12-31
-     * (Gregorian) because Monday is the first day of a week with the <a
-     * href="GregorianCalendar.html#iso8601_compatible_setting"> ISO 8601
-     * compatible week parameters</a>.
+     * <p>The following code produces b {@code Cblendbr} with dbte 2012-12-31
+     * (Gregoribn) becbuse Mondby is the first dby of b week with the <b
+     * href="GregoribnCblendbr.html#iso8601_compbtible_setting"> ISO 8601
+     * compbtible week pbrbmeters</b>.
      * <pre>
-     *   Calendar cal = new Calendar.Builder().setCalendarType("iso8601")
-     *                        .setWeekDate(2013, 1, MONDAY).build();</pre>
-     * <p>The following code produces a Japanese {@code Calendar} with date
-     * 1989-01-08 (Gregorian), assuming that the default {@link Calendar#ERA ERA}
-     * is <em>Heisei</em> that started on that day.
+     *   Cblendbr cbl = new Cblendbr.Builder().setCblendbrType("iso8601")
+     *                        .setWeekDbte(2013, 1, MONDAY).build();</pre>
+     * <p>The following code produces b Jbpbnese {@code Cblendbr} with dbte
+     * 1989-01-08 (Gregoribn), bssuming thbt the defbult {@link Cblendbr#ERA ERA}
+     * is <em>Heisei</em> thbt stbrted on thbt dby.
      * <pre>
-     *   Calendar cal = new Calendar.Builder().setCalendarType("japanese")
+     *   Cblendbr cbl = new Cblendbr.Builder().setCblendbrType("jbpbnese")
      *                        .setFields(YEAR, 1, DAY_OF_YEAR, 1).build();</pre>
      *
      * @since 1.8
-     * @see Calendar#getInstance(TimeZone, Locale)
-     * @see Calendar#fields
+     * @see Cblendbr#getInstbnce(TimeZone, Locble)
+     * @see Cblendbr#fields
      */
-    public static class Builder {
-        private static final int NFIELDS = FIELD_COUNT + 1; // +1 for WEEK_YEAR
-        private static final int WEEK_YEAR = FIELD_COUNT;
+    public stbtic clbss Builder {
+        privbte stbtic finbl int NFIELDS = FIELD_COUNT + 1; // +1 for WEEK_YEAR
+        privbte stbtic finbl int WEEK_YEAR = FIELD_COUNT;
 
-        private long instant;
-        // Calendar.stamp[] (lower half) and Calendar.fields[] (upper half) combined
-        private int[] fields;
-        // Pseudo timestamp starting from MINIMUM_USER_STAMP.
-        // (COMPUTED is used to indicate that the instant has been set.)
-        private int nextStamp;
-        // maxFieldIndex keeps the max index of fields which have been set.
+        privbte long instbnt;
+        // Cblendbr.stbmp[] (lower hblf) bnd Cblendbr.fields[] (upper hblf) combined
+        privbte int[] fields;
+        // Pseudo timestbmp stbrting from MINIMUM_USER_STAMP.
+        // (COMPUTED is used to indicbte thbt the instbnt hbs been set.)
+        privbte int nextStbmp;
+        // mbxFieldIndex keeps the mbx index of fields which hbve been set.
         // (WEEK_YEAR is never included.)
-        private int maxFieldIndex;
-        private String type;
-        private TimeZone zone;
-        private boolean lenient = true;
-        private Locale locale;
-        private int firstDayOfWeek, minimalDaysInFirstWeek;
+        privbte int mbxFieldIndex;
+        privbte String type;
+        privbte TimeZone zone;
+        privbte boolebn lenient = true;
+        privbte Locble locble;
+        privbte int firstDbyOfWeek, minimblDbysInFirstWeek;
 
         /**
-         * Constructs a {@code Calendar.Builder}.
+         * Constructs b {@code Cblendbr.Builder}.
          */
         public Builder() {
         }
 
         /**
-         * Sets the instant parameter to the given {@code instant} value that is
-         * a millisecond offset from <a href="Calendar.html#Epoch">the
-         * Epoch</a>.
+         * Sets the instbnt pbrbmeter to the given {@code instbnt} vblue thbt is
+         * b millisecond offset from <b href="Cblendbr.html#Epoch">the
+         * Epoch</b>.
          *
-         * @param instant a millisecond offset from the Epoch
-         * @return this {@code Calendar.Builder}
-         * @throws IllegalStateException if any of the field parameters have
-         *                               already been set
-         * @see Calendar#setTime(Date)
-         * @see Calendar#setTimeInMillis(long)
-         * @see Calendar#time
+         * @pbrbm instbnt b millisecond offset from the Epoch
+         * @return this {@code Cblendbr.Builder}
+         * @throws IllegblStbteException if bny of the field pbrbmeters hbve
+         *                               blrebdy been set
+         * @see Cblendbr#setTime(Dbte)
+         * @see Cblendbr#setTimeInMillis(long)
+         * @see Cblendbr#time
          */
-        public Builder setInstant(long instant) {
+        public Builder setInstbnt(long instbnt) {
             if (fields != null) {
-                throw new IllegalStateException();
+                throw new IllegblStbteException();
             }
-            this.instant = instant;
-            nextStamp = COMPUTED;
+            this.instbnt = instbnt;
+            nextStbmp = COMPUTED;
             return this;
         }
 
         /**
-         * Sets the instant parameter to the {@code instant} value given by a
-         * {@link Date}. This method is equivalent to a call to
-         * {@link #setInstant(long) setInstant(instant.getTime())}.
+         * Sets the instbnt pbrbmeter to the {@code instbnt} vblue given by b
+         * {@link Dbte}. This method is equivblent to b cbll to
+         * {@link #setInstbnt(long) setInstbnt(instbnt.getTime())}.
          *
-         * @param instant a {@code Date} representing a millisecond offset from
+         * @pbrbm instbnt b {@code Dbte} representing b millisecond offset from
          *                the Epoch
-         * @return this {@code Calendar.Builder}
-         * @throws NullPointerException  if {@code instant} is {@code null}
-         * @throws IllegalStateException if any of the field parameters have
-         *                               already been set
-         * @see Calendar#setTime(Date)
-         * @see Calendar#setTimeInMillis(long)
-         * @see Calendar#time
+         * @return this {@code Cblendbr.Builder}
+         * @throws NullPointerException  if {@code instbnt} is {@code null}
+         * @throws IllegblStbteException if bny of the field pbrbmeters hbve
+         *                               blrebdy been set
+         * @see Cblendbr#setTime(Dbte)
+         * @see Cblendbr#setTimeInMillis(long)
+         * @see Cblendbr#time
          */
-        public Builder setInstant(Date instant) {
-            return setInstant(instant.getTime()); // NPE if instant == null
+        public Builder setInstbnt(Dbte instbnt) {
+            return setInstbnt(instbnt.getTime()); // NPE if instbnt == null
         }
 
         /**
-         * Sets the {@code field} parameter to the given {@code value}.
-         * {@code field} is an index to the {@link Calendar#fields}, such as
-         * {@link Calendar#DAY_OF_MONTH DAY_OF_MONTH}. Field value validation is
-         * not performed in this method. Any out of range values are either
-         * normalized in lenient mode or detected as an invalid value in
-         * non-lenient mode when building a {@code Calendar}.
+         * Sets the {@code field} pbrbmeter to the given {@code vblue}.
+         * {@code field} is bn index to the {@link Cblendbr#fields}, such bs
+         * {@link Cblendbr#DAY_OF_MONTH DAY_OF_MONTH}. Field vblue vblidbtion is
+         * not performed in this method. Any out of rbnge vblues bre either
+         * normblized in lenient mode or detected bs bn invblid vblue in
+         * non-lenient mode when building b {@code Cblendbr}.
          *
-         * @param field an index to the {@code Calendar} fields
-         * @param value the field value
-         * @return this {@code Calendar.Builder}
-         * @throws IllegalArgumentException if {@code field} is invalid
-         * @throws IllegalStateException if the instant value has already been set,
-         *                      or if fields have been set too many
-         *                      (approximately {@link Integer#MAX_VALUE}) times.
-         * @see Calendar#set(int, int)
+         * @pbrbm field bn index to the {@code Cblendbr} fields
+         * @pbrbm vblue the field vblue
+         * @return this {@code Cblendbr.Builder}
+         * @throws IllegblArgumentException if {@code field} is invblid
+         * @throws IllegblStbteException if the instbnt vblue hbs blrebdy been set,
+         *                      or if fields hbve been set too mbny
+         *                      (bpproximbtely {@link Integer#MAX_VALUE}) times.
+         * @see Cblendbr#set(int, int)
          */
-        public Builder set(int field, int value) {
-            // Note: WEEK_YEAR can't be set with this method.
+        public Builder set(int field, int vblue) {
+            // Note: WEEK_YEAR cbn't be set with this method.
             if (field < 0 || field >= FIELD_COUNT) {
-                throw new IllegalArgumentException("field is invalid");
+                throw new IllegblArgumentException("field is invblid");
             }
-            if (isInstantSet()) {
-                throw new IllegalStateException("instant has been set");
+            if (isInstbntSet()) {
+                throw new IllegblStbteException("instbnt hbs been set");
             }
-            allocateFields();
-            internalSet(field, value);
+            bllocbteFields();
+            internblSet(field, vblue);
             return this;
         }
 
         /**
-         * Sets field parameters to their values given by
-         * {@code fieldValuePairs} that are pairs of a field and its value.
-         * For example,
+         * Sets field pbrbmeters to their vblues given by
+         * {@code fieldVbluePbirs} thbt bre pbirs of b field bnd its vblue.
+         * For exbmple,
          * <pre>
-         *   setFeilds(Calendar.YEAR, 2013,
-         *             Calendar.MONTH, Calendar.DECEMBER,
-         *             Calendar.DAY_OF_MONTH, 23);</pre>
-         * is equivalent to the sequence of the following
-         * {@link #set(int, int) set} calls:
+         *   setFeilds(Cblendbr.YEAR, 2013,
+         *             Cblendbr.MONTH, Cblendbr.DECEMBER,
+         *             Cblendbr.DAY_OF_MONTH, 23);</pre>
+         * is equivblent to the sequence of the following
+         * {@link #set(int, int) set} cblls:
          * <pre>
-         *   set(Calendar.YEAR, 2013)
-         *   .set(Calendar.MONTH, Calendar.DECEMBER)
-         *   .set(Calendar.DAY_OF_MONTH, 23);</pre>
+         *   set(Cblendbr.YEAR, 2013)
+         *   .set(Cblendbr.MONTH, Cblendbr.DECEMBER)
+         *   .set(Cblendbr.DAY_OF_MONTH, 23);</pre>
          *
-         * @param fieldValuePairs field-value pairs
-         * @return this {@code Calendar.Builder}
-         * @throws NullPointerException if {@code fieldValuePairs} is {@code null}
-         * @throws IllegalArgumentException if any of fields are invalid,
-         *             or if {@code fieldValuePairs.length} is an odd number.
-         * @throws IllegalStateException    if the instant value has been set,
-         *             or if fields have been set too many (approximately
+         * @pbrbm fieldVbluePbirs field-vblue pbirs
+         * @return this {@code Cblendbr.Builder}
+         * @throws NullPointerException if {@code fieldVbluePbirs} is {@code null}
+         * @throws IllegblArgumentException if bny of fields bre invblid,
+         *             or if {@code fieldVbluePbirs.length} is bn odd number.
+         * @throws IllegblStbteException    if the instbnt vblue hbs been set,
+         *             or if fields hbve been set too mbny (bpproximbtely
          *             {@link Integer#MAX_VALUE}) times.
          */
-        public Builder setFields(int... fieldValuePairs) {
-            int len = fieldValuePairs.length;
+        public Builder setFields(int... fieldVbluePbirs) {
+            int len = fieldVbluePbirs.length;
             if ((len % 2) != 0) {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
-            if (isInstantSet()) {
-                throw new IllegalStateException("instant has been set");
+            if (isInstbntSet()) {
+                throw new IllegblStbteException("instbnt hbs been set");
             }
-            if ((nextStamp + len / 2) < 0) {
-                throw new IllegalStateException("stamp counter overflow");
+            if ((nextStbmp + len / 2) < 0) {
+                throw new IllegblStbteException("stbmp counter overflow");
             }
-            allocateFields();
+            bllocbteFields();
             for (int i = 0; i < len; ) {
-                int field = fieldValuePairs[i++];
-                // Note: WEEK_YEAR can't be set with this method.
+                int field = fieldVbluePbirs[i++];
+                // Note: WEEK_YEAR cbn't be set with this method.
                 if (field < 0 || field >= FIELD_COUNT) {
-                    throw new IllegalArgumentException("field is invalid");
+                    throw new IllegblArgumentException("field is invblid");
                 }
-                internalSet(field, fieldValuePairs[i++]);
+                internblSet(field, fieldVbluePbirs[i++]);
             }
             return this;
         }
 
         /**
-         * Sets the date field parameters to the values given by {@code year},
-         * {@code month}, and {@code dayOfMonth}. This method is equivalent to
-         * a call to:
+         * Sets the dbte field pbrbmeters to the vblues given by {@code yebr},
+         * {@code month}, bnd {@code dbyOfMonth}. This method is equivblent to
+         * b cbll to:
          * <pre>
-         *   setFields(Calendar.YEAR, year,
-         *             Calendar.MONTH, month,
-         *             Calendar.DAY_OF_MONTH, dayOfMonth);</pre>
+         *   setFields(Cblendbr.YEAR, yebr,
+         *             Cblendbr.MONTH, month,
+         *             Cblendbr.DAY_OF_MONTH, dbyOfMonth);</pre>
          *
-         * @param year       the {@link Calendar#YEAR YEAR} value
-         * @param month      the {@link Calendar#MONTH MONTH} value
-         *                   (the month numbering is <em>0-based</em>).
-         * @param dayOfMonth the {@link Calendar#DAY_OF_MONTH DAY_OF_MONTH} value
-         * @return this {@code Calendar.Builder}
+         * @pbrbm yebr       the {@link Cblendbr#YEAR YEAR} vblue
+         * @pbrbm month      the {@link Cblendbr#MONTH MONTH} vblue
+         *                   (the month numbering is <em>0-bbsed</em>).
+         * @pbrbm dbyOfMonth the {@link Cblendbr#DAY_OF_MONTH DAY_OF_MONTH} vblue
+         * @return this {@code Cblendbr.Builder}
          */
-        public Builder setDate(int year, int month, int dayOfMonth) {
-            return setFields(YEAR, year, MONTH, month, DAY_OF_MONTH, dayOfMonth);
+        public Builder setDbte(int yebr, int month, int dbyOfMonth) {
+            return setFields(YEAR, yebr, MONTH, month, DAY_OF_MONTH, dbyOfMonth);
         }
 
         /**
-         * Sets the time of day field parameters to the values given by
-         * {@code hourOfDay}, {@code minute}, and {@code second}. This method is
-         * equivalent to a call to:
+         * Sets the time of dby field pbrbmeters to the vblues given by
+         * {@code hourOfDby}, {@code minute}, bnd {@code second}. This method is
+         * equivblent to b cbll to:
          * <pre>
-         *   setTimeOfDay(hourOfDay, minute, second, 0);</pre>
+         *   setTimeOfDby(hourOfDby, minute, second, 0);</pre>
          *
-         * @param hourOfDay the {@link Calendar#HOUR_OF_DAY HOUR_OF_DAY} value
+         * @pbrbm hourOfDby the {@link Cblendbr#HOUR_OF_DAY HOUR_OF_DAY} vblue
          *                  (24-hour clock)
-         * @param minute    the {@link Calendar#MINUTE MINUTE} value
-         * @param second    the {@link Calendar#SECOND SECOND} value
-         * @return this {@code Calendar.Builder}
+         * @pbrbm minute    the {@link Cblendbr#MINUTE MINUTE} vblue
+         * @pbrbm second    the {@link Cblendbr#SECOND SECOND} vblue
+         * @return this {@code Cblendbr.Builder}
          */
-        public Builder setTimeOfDay(int hourOfDay, int minute, int second) {
-            return setTimeOfDay(hourOfDay, minute, second, 0);
+        public Builder setTimeOfDby(int hourOfDby, int minute, int second) {
+            return setTimeOfDby(hourOfDby, minute, second, 0);
         }
 
         /**
-         * Sets the time of day field parameters to the values given by
-         * {@code hourOfDay}, {@code minute}, {@code second}, and
-         * {@code millis}. This method is equivalent to a call to:
+         * Sets the time of dby field pbrbmeters to the vblues given by
+         * {@code hourOfDby}, {@code minute}, {@code second}, bnd
+         * {@code millis}. This method is equivblent to b cbll to:
          * <pre>
-         *   setFields(Calendar.HOUR_OF_DAY, hourOfDay,
-         *             Calendar.MINUTE, minute,
-         *             Calendar.SECOND, second,
-         *             Calendar.MILLISECOND, millis);</pre>
+         *   setFields(Cblendbr.HOUR_OF_DAY, hourOfDby,
+         *             Cblendbr.MINUTE, minute,
+         *             Cblendbr.SECOND, second,
+         *             Cblendbr.MILLISECOND, millis);</pre>
          *
-         * @param hourOfDay the {@link Calendar#HOUR_OF_DAY HOUR_OF_DAY} value
+         * @pbrbm hourOfDby the {@link Cblendbr#HOUR_OF_DAY HOUR_OF_DAY} vblue
          *                  (24-hour clock)
-         * @param minute    the {@link Calendar#MINUTE MINUTE} value
-         * @param second    the {@link Calendar#SECOND SECOND} value
-         * @param millis    the {@link Calendar#MILLISECOND MILLISECOND} value
-         * @return this {@code Calendar.Builder}
+         * @pbrbm minute    the {@link Cblendbr#MINUTE MINUTE} vblue
+         * @pbrbm second    the {@link Cblendbr#SECOND SECOND} vblue
+         * @pbrbm millis    the {@link Cblendbr#MILLISECOND MILLISECOND} vblue
+         * @return this {@code Cblendbr.Builder}
          */
-        public Builder setTimeOfDay(int hourOfDay, int minute, int second, int millis) {
-            return setFields(HOUR_OF_DAY, hourOfDay, MINUTE, minute,
+        public Builder setTimeOfDby(int hourOfDby, int minute, int second, int millis) {
+            return setFields(HOUR_OF_DAY, hourOfDby, MINUTE, minute,
                              SECOND, second, MILLISECOND, millis);
         }
 
         /**
-         * Sets the week-based date parameters to the values with the given
-         * date specifiers - week year, week of year, and day of week.
+         * Sets the week-bbsed dbte pbrbmeters to the vblues with the given
+         * dbte specifiers - week yebr, week of yebr, bnd dby of week.
          *
-         * <p>If the specified calendar doesn't support week dates, the
-         * {@link #build() build} method will throw an {@link IllegalArgumentException}.
+         * <p>If the specified cblendbr doesn't support week dbtes, the
+         * {@link #build() build} method will throw bn {@link IllegblArgumentException}.
          *
-         * @param weekYear   the week year
-         * @param weekOfYear the week number based on {@code weekYear}
-         * @param dayOfWeek  the day of week value: one of the constants
-         *     for the {@link Calendar#DAY_OF_WEEK DAY_OF_WEEK} field:
-         *     {@link Calendar#SUNDAY SUNDAY}, ..., {@link Calendar#SATURDAY SATURDAY}.
-         * @return this {@code Calendar.Builder}
-         * @see Calendar#setWeekDate(int, int, int)
-         * @see Calendar#isWeekDateSupported()
+         * @pbrbm weekYebr   the week yebr
+         * @pbrbm weekOfYebr the week number bbsed on {@code weekYebr}
+         * @pbrbm dbyOfWeek  the dby of week vblue: one of the constbnts
+         *     for the {@link Cblendbr#DAY_OF_WEEK DAY_OF_WEEK} field:
+         *     {@link Cblendbr#SUNDAY SUNDAY}, ..., {@link Cblendbr#SATURDAY SATURDAY}.
+         * @return this {@code Cblendbr.Builder}
+         * @see Cblendbr#setWeekDbte(int, int, int)
+         * @see Cblendbr#isWeekDbteSupported()
          */
-        public Builder setWeekDate(int weekYear, int weekOfYear, int dayOfWeek) {
-            allocateFields();
-            internalSet(WEEK_YEAR, weekYear);
-            internalSet(WEEK_OF_YEAR, weekOfYear);
-            internalSet(DAY_OF_WEEK, dayOfWeek);
+        public Builder setWeekDbte(int weekYebr, int weekOfYebr, int dbyOfWeek) {
+            bllocbteFields();
+            internblSet(WEEK_YEAR, weekYebr);
+            internblSet(WEEK_OF_YEAR, weekOfYebr);
+            internblSet(DAY_OF_WEEK, dbyOfWeek);
             return this;
         }
 
         /**
-         * Sets the time zone parameter to the given {@code zone}. If no time
-         * zone parameter is given to this {@code Caledar.Builder}, the
-         * {@linkplain TimeZone#getDefault() default
+         * Sets the time zone pbrbmeter to the given {@code zone}. If no time
+         * zone pbrbmeter is given to this {@code Cbledbr.Builder}, the
+         * {@linkplbin TimeZone#getDefbult() defbult
          * <code>TimeZone</code>} will be used in the {@link #build() build}
          * method.
          *
-         * @param zone the {@link TimeZone}
-         * @return this {@code Calendar.Builder}
+         * @pbrbm zone the {@link TimeZone}
+         * @return this {@code Cblendbr.Builder}
          * @throws NullPointerException if {@code zone} is {@code null}
-         * @see Calendar#setTimeZone(TimeZone)
+         * @see Cblendbr#setTimeZone(TimeZone)
          */
         public Builder setTimeZone(TimeZone zone) {
             if (zone == null) {
@@ -1317,506 +1317,506 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
         }
 
         /**
-         * Sets the lenient mode parameter to the value given by {@code lenient}.
-         * If no lenient parameter is given to this {@code Calendar.Builder},
+         * Sets the lenient mode pbrbmeter to the vblue given by {@code lenient}.
+         * If no lenient pbrbmeter is given to this {@code Cblendbr.Builder},
          * lenient mode will be used in the {@link #build() build} method.
          *
-         * @param lenient {@code true} for lenient mode;
-         *                {@code false} for non-lenient mode
-         * @return this {@code Calendar.Builder}
-         * @see Calendar#setLenient(boolean)
+         * @pbrbm lenient {@code true} for lenient mode;
+         *                {@code fblse} for non-lenient mode
+         * @return this {@code Cblendbr.Builder}
+         * @see Cblendbr#setLenient(boolebn)
          */
-        public Builder setLenient(boolean lenient) {
+        public Builder setLenient(boolebn lenient) {
             this.lenient = lenient;
             return this;
         }
 
         /**
-         * Sets the calendar type parameter to the given {@code type}. The
-         * calendar type given by this method has precedence over any explicit
-         * or implicit calendar type given by the
-         * {@linkplain #setLocale(Locale) locale}.
+         * Sets the cblendbr type pbrbmeter to the given {@code type}. The
+         * cblendbr type given by this method hbs precedence over bny explicit
+         * or implicit cblendbr type given by the
+         * {@linkplbin #setLocble(Locble) locble}.
          *
-         * <p>In addition to the available calendar types returned by the
-         * {@link Calendar#getAvailableCalendarTypes() Calendar.getAvailableCalendarTypes}
-         * method, {@code "gregorian"} and {@code "iso8601"} as aliases of
-         * {@code "gregory"} can be used with this method.
+         * <p>In bddition to the bvbilbble cblendbr types returned by the
+         * {@link Cblendbr#getAvbilbbleCblendbrTypes() Cblendbr.getAvbilbbleCblendbrTypes}
+         * method, {@code "gregoribn"} bnd {@code "iso8601"} bs blibses of
+         * {@code "gregory"} cbn be used with this method.
          *
-         * @param type the calendar type
-         * @return this {@code Calendar.Builder}
+         * @pbrbm type the cblendbr type
+         * @return this {@code Cblendbr.Builder}
          * @throws NullPointerException if {@code type} is {@code null}
-         * @throws IllegalArgumentException if {@code type} is unknown
-         * @throws IllegalStateException if another calendar type has already been set
-         * @see Calendar#getCalendarType()
-         * @see Calendar#getAvailableCalendarTypes()
+         * @throws IllegblArgumentException if {@code type} is unknown
+         * @throws IllegblStbteException if bnother cblendbr type hbs blrebdy been set
+         * @see Cblendbr#getCblendbrType()
+         * @see Cblendbr#getAvbilbbleCblendbrTypes()
          */
-        public Builder setCalendarType(String type) {
-            if (type.equals("gregorian")) { // NPE if type == null
+        public Builder setCblendbrType(String type) {
+            if (type.equbls("gregoribn")) { // NPE if type == null
                 type = "gregory";
             }
-            if (!Calendar.getAvailableCalendarTypes().contains(type)
-                    && !type.equals("iso8601")) {
-                throw new IllegalArgumentException("unknown calendar type: " + type);
+            if (!Cblendbr.getAvbilbbleCblendbrTypes().contbins(type)
+                    && !type.equbls("iso8601")) {
+                throw new IllegblArgumentException("unknown cblendbr type: " + type);
             }
             if (this.type == null) {
                 this.type = type;
             } else {
-                if (!this.type.equals(type)) {
-                    throw new IllegalStateException("calendar type override");
+                if (!this.type.equbls(type)) {
+                    throw new IllegblStbteException("cblendbr type override");
                 }
             }
             return this;
         }
 
         /**
-         * Sets the locale parameter to the given {@code locale}. If no locale
-         * is given to this {@code Calendar.Builder}, the {@linkplain
-         * Locale#getDefault(Locale.Category) default <code>Locale</code>}
-         * for {@link Locale.Category#FORMAT} will be used.
+         * Sets the locble pbrbmeter to the given {@code locble}. If no locble
+         * is given to this {@code Cblendbr.Builder}, the {@linkplbin
+         * Locble#getDefbult(Locble.Cbtegory) defbult <code>Locble</code>}
+         * for {@link Locble.Cbtegory#FORMAT} will be used.
          *
-         * <p>If no calendar type is explicitly given by a call to the
-         * {@link #setCalendarType(String) setCalendarType} method,
-         * the {@code Locale} value is used to determine what type of
-         * {@code Calendar} to be built.
+         * <p>If no cblendbr type is explicitly given by b cbll to the
+         * {@link #setCblendbrType(String) setCblendbrType} method,
+         * the {@code Locble} vblue is used to determine whbt type of
+         * {@code Cblendbr} to be built.
          *
-         * <p>If no week definition parameters are explicitly given by a call to
+         * <p>If no week definition pbrbmeters bre explicitly given by b cbll to
          * the {@link #setWeekDefinition(int,int) setWeekDefinition} method, the
-         * {@code Locale}'s default values are used.
+         * {@code Locble}'s defbult vblues bre used.
          *
-         * @param locale the {@link Locale}
-         * @throws NullPointerException if {@code locale} is {@code null}
-         * @return this {@code Calendar.Builder}
-         * @see Calendar#getInstance(Locale)
+         * @pbrbm locble the {@link Locble}
+         * @throws NullPointerException if {@code locble} is {@code null}
+         * @return this {@code Cblendbr.Builder}
+         * @see Cblendbr#getInstbnce(Locble)
          */
-        public Builder setLocale(Locale locale) {
-            if (locale == null) {
+        public Builder setLocble(Locble locble) {
+            if (locble == null) {
                 throw new NullPointerException();
             }
-            this.locale = locale;
+            this.locble = locble;
             return this;
         }
 
         /**
-         * Sets the week definition parameters to the values given by
-         * {@code firstDayOfWeek} and {@code minimalDaysInFirstWeek} that are
-         * used to determine the <a href="Calendar.html#First_Week">first
-         * week</a> of a year. The parameters given by this method have
-         * precedence over the default values given by the
-         * {@linkplain #setLocale(Locale) locale}.
+         * Sets the week definition pbrbmeters to the vblues given by
+         * {@code firstDbyOfWeek} bnd {@code minimblDbysInFirstWeek} thbt bre
+         * used to determine the <b href="Cblendbr.html#First_Week">first
+         * week</b> of b yebr. The pbrbmeters given by this method hbve
+         * precedence over the defbult vblues given by the
+         * {@linkplbin #setLocble(Locble) locble}.
          *
-         * @param firstDayOfWeek the first day of a week; one of
-         *                       {@link Calendar#SUNDAY} to {@link Calendar#SATURDAY}
-         * @param minimalDaysInFirstWeek the minimal number of days in the first
+         * @pbrbm firstDbyOfWeek the first dby of b week; one of
+         *                       {@link Cblendbr#SUNDAY} to {@link Cblendbr#SATURDAY}
+         * @pbrbm minimblDbysInFirstWeek the minimbl number of dbys in the first
          *                               week (1..7)
-         * @return this {@code Calendar.Builder}
-         * @throws IllegalArgumentException if {@code firstDayOfWeek} or
-         *                                  {@code minimalDaysInFirstWeek} is invalid
-         * @see Calendar#getFirstDayOfWeek()
-         * @see Calendar#getMinimalDaysInFirstWeek()
+         * @return this {@code Cblendbr.Builder}
+         * @throws IllegblArgumentException if {@code firstDbyOfWeek} or
+         *                                  {@code minimblDbysInFirstWeek} is invblid
+         * @see Cblendbr#getFirstDbyOfWeek()
+         * @see Cblendbr#getMinimblDbysInFirstWeek()
          */
-        public Builder setWeekDefinition(int firstDayOfWeek, int minimalDaysInFirstWeek) {
-            if (!isValidWeekParameter(firstDayOfWeek)
-                    || !isValidWeekParameter(minimalDaysInFirstWeek)) {
-                throw new IllegalArgumentException();
+        public Builder setWeekDefinition(int firstDbyOfWeek, int minimblDbysInFirstWeek) {
+            if (!isVblidWeekPbrbmeter(firstDbyOfWeek)
+                    || !isVblidWeekPbrbmeter(minimblDbysInFirstWeek)) {
+                throw new IllegblArgumentException();
             }
-            this.firstDayOfWeek = firstDayOfWeek;
-            this.minimalDaysInFirstWeek = minimalDaysInFirstWeek;
+            this.firstDbyOfWeek = firstDbyOfWeek;
+            this.minimblDbysInFirstWeek = minimblDbysInFirstWeek;
             return this;
         }
 
         /**
-         * Returns a {@code Calendar} built from the parameters set by the
-         * setter methods. The calendar type given by the {@link #setCalendarType(String)
-         * setCalendarType} method or the {@linkplain #setLocale(Locale) locale} is
-         * used to determine what {@code Calendar} to be created. If no explicit
-         * calendar type is given, the locale's default calendar is created.
+         * Returns b {@code Cblendbr} built from the pbrbmeters set by the
+         * setter methods. The cblendbr type given by the {@link #setCblendbrType(String)
+         * setCblendbrType} method or the {@linkplbin #setLocble(Locble) locble} is
+         * used to determine whbt {@code Cblendbr} to be crebted. If no explicit
+         * cblendbr type is given, the locble's defbult cblendbr is crebted.
          *
-         * <p>If the calendar type is {@code "iso8601"}, the
-         * {@linkplain GregorianCalendar#setGregorianChange(Date) Gregorian change date}
-         * of a {@link GregorianCalendar} is set to {@code Date(Long.MIN_VALUE)}
-         * to be the <em>proleptic</em> Gregorian calendar. Its week definition
-         * parameters are also set to be <a
-         * href="GregorianCalendar.html#iso8601_compatible_setting">compatible
-         * with the ISO 8601 standard</a>. Note that the
-         * {@link GregorianCalendar#getCalendarType() getCalendarType} method of
-         * a {@code GregorianCalendar} created with {@code "iso8601"} returns
+         * <p>If the cblendbr type is {@code "iso8601"}, the
+         * {@linkplbin GregoribnCblendbr#setGregoribnChbnge(Dbte) Gregoribn chbnge dbte}
+         * of b {@link GregoribnCblendbr} is set to {@code Dbte(Long.MIN_VALUE)}
+         * to be the <em>proleptic</em> Gregoribn cblendbr. Its week definition
+         * pbrbmeters bre blso set to be <b
+         * href="GregoribnCblendbr.html#iso8601_compbtible_setting">compbtible
+         * with the ISO 8601 stbndbrd</b>. Note thbt the
+         * {@link GregoribnCblendbr#getCblendbrType() getCblendbrType} method of
+         * b {@code GregoribnCblendbr} crebted with {@code "iso8601"} returns
          * {@code "gregory"}.
          *
-         * <p>The default values are used for locale and time zone if these
-         * parameters haven't been given explicitly.
+         * <p>The defbult vblues bre used for locble bnd time zone if these
+         * pbrbmeters hbven't been given explicitly.
          *
-         * <p>Any out of range field values are either normalized in lenient
-         * mode or detected as an invalid value in non-lenient mode.
+         * <p>Any out of rbnge field vblues bre either normblized in lenient
+         * mode or detected bs bn invblid vblue in non-lenient mode.
          *
-         * @return a {@code Calendar} built with parameters of this {@code
-         *         Calendar.Builder}
-         * @throws IllegalArgumentException if the calendar type is unknown, or
-         *             if any invalid field values are given in non-lenient mode, or
-         *             if a week date is given for the calendar type that doesn't
-         *             support week dates.
-         * @see Calendar#getInstance(TimeZone, Locale)
-         * @see Locale#getDefault(Locale.Category)
-         * @see TimeZone#getDefault()
+         * @return b {@code Cblendbr} built with pbrbmeters of this {@code
+         *         Cblendbr.Builder}
+         * @throws IllegblArgumentException if the cblendbr type is unknown, or
+         *             if bny invblid field vblues bre given in non-lenient mode, or
+         *             if b week dbte is given for the cblendbr type thbt doesn't
+         *             support week dbtes.
+         * @see Cblendbr#getInstbnce(TimeZone, Locble)
+         * @see Locble#getDefbult(Locble.Cbtegory)
+         * @see TimeZone#getDefbult()
          */
-        public Calendar build() {
-            if (locale == null) {
-                locale = Locale.getDefault();
+        public Cblendbr build() {
+            if (locble == null) {
+                locble = Locble.getDefbult();
             }
             if (zone == null) {
-                zone = TimeZone.getDefault();
+                zone = TimeZone.getDefbult();
             }
-            Calendar cal;
+            Cblendbr cbl;
             if (type == null) {
-                type = locale.getUnicodeLocaleType("ca");
+                type = locble.getUnicodeLocbleType("cb");
             }
             if (type == null) {
-                if (locale.getCountry() == "TH"
-                    && locale.getLanguage() == "th") {
+                if (locble.getCountry() == "TH"
+                    && locble.getLbngubge() == "th") {
                     type = "buddhist";
                 } else {
                     type = "gregory";
                 }
             }
             switch (type) {
-            case "gregory":
-                cal = new GregorianCalendar(zone, locale, true);
-                break;
-            case "iso8601":
-                GregorianCalendar gcal = new GregorianCalendar(zone, locale, true);
-                // make gcal a proleptic Gregorian
-                gcal.setGregorianChange(new Date(Long.MIN_VALUE));
-                // and week definition to be compatible with ISO 8601
+            cbse "gregory":
+                cbl = new GregoribnCblendbr(zone, locble, true);
+                brebk;
+            cbse "iso8601":
+                GregoribnCblendbr gcbl = new GregoribnCblendbr(zone, locble, true);
+                // mbke gcbl b proleptic Gregoribn
+                gcbl.setGregoribnChbnge(new Dbte(Long.MIN_VALUE));
+                // bnd week definition to be compbtible with ISO 8601
                 setWeekDefinition(MONDAY, 4);
-                cal = gcal;
-                break;
-            case "buddhist":
-                cal = new BuddhistCalendar(zone, locale);
-                cal.clear();
-                break;
-            case "japanese":
-                cal = new JapaneseImperialCalendar(zone, locale, true);
-                break;
-            default:
-                throw new IllegalArgumentException("unknown calendar type: " + type);
+                cbl = gcbl;
+                brebk;
+            cbse "buddhist":
+                cbl = new BuddhistCblendbr(zone, locble);
+                cbl.clebr();
+                brebk;
+            cbse "jbpbnese":
+                cbl = new JbpbneseImperiblCblendbr(zone, locble, true);
+                brebk;
+            defbult:
+                throw new IllegblArgumentException("unknown cblendbr type: " + type);
             }
-            cal.setLenient(lenient);
-            if (firstDayOfWeek != 0) {
-                cal.setFirstDayOfWeek(firstDayOfWeek);
-                cal.setMinimalDaysInFirstWeek(minimalDaysInFirstWeek);
+            cbl.setLenient(lenient);
+            if (firstDbyOfWeek != 0) {
+                cbl.setFirstDbyOfWeek(firstDbyOfWeek);
+                cbl.setMinimblDbysInFirstWeek(minimblDbysInFirstWeek);
             }
-            if (isInstantSet()) {
-                cal.setTimeInMillis(instant);
-                cal.complete();
-                return cal;
+            if (isInstbntSet()) {
+                cbl.setTimeInMillis(instbnt);
+                cbl.complete();
+                return cbl;
             }
 
             if (fields != null) {
-                boolean weekDate = isSet(WEEK_YEAR)
+                boolebn weekDbte = isSet(WEEK_YEAR)
                                        && fields[WEEK_YEAR] > fields[YEAR];
-                if (weekDate && !cal.isWeekDateSupported()) {
-                    throw new IllegalArgumentException("week date is unsupported by " + type);
+                if (weekDbte && !cbl.isWeekDbteSupported()) {
+                    throw new IllegblArgumentException("week dbte is unsupported by " + type);
                 }
 
-                // Set the fields from the min stamp to the max stamp so that
-                // the fields resolution works in the Calendar.
-                for (int stamp = MINIMUM_USER_STAMP; stamp < nextStamp; stamp++) {
-                    for (int index = 0; index <= maxFieldIndex; index++) {
-                        if (fields[index] == stamp) {
-                            cal.set(index, fields[NFIELDS + index]);
-                            break;
+                // Set the fields from the min stbmp to the mbx stbmp so thbt
+                // the fields resolution works in the Cblendbr.
+                for (int stbmp = MINIMUM_USER_STAMP; stbmp < nextStbmp; stbmp++) {
+                    for (int index = 0; index <= mbxFieldIndex; index++) {
+                        if (fields[index] == stbmp) {
+                            cbl.set(index, fields[NFIELDS + index]);
+                            brebk;
                         }
                     }
                 }
 
-                if (weekDate) {
-                    int weekOfYear = isSet(WEEK_OF_YEAR) ? fields[NFIELDS + WEEK_OF_YEAR] : 1;
-                    int dayOfWeek = isSet(DAY_OF_WEEK)
-                                    ? fields[NFIELDS + DAY_OF_WEEK] : cal.getFirstDayOfWeek();
-                    cal.setWeekDate(fields[NFIELDS + WEEK_YEAR], weekOfYear, dayOfWeek);
+                if (weekDbte) {
+                    int weekOfYebr = isSet(WEEK_OF_YEAR) ? fields[NFIELDS + WEEK_OF_YEAR] : 1;
+                    int dbyOfWeek = isSet(DAY_OF_WEEK)
+                                    ? fields[NFIELDS + DAY_OF_WEEK] : cbl.getFirstDbyOfWeek();
+                    cbl.setWeekDbte(fields[NFIELDS + WEEK_YEAR], weekOfYebr, dbyOfWeek);
                 }
-                cal.complete();
+                cbl.complete();
             }
 
-            return cal;
+            return cbl;
         }
 
-        private void allocateFields() {
+        privbte void bllocbteFields() {
             if (fields == null) {
                 fields = new int[NFIELDS * 2];
-                nextStamp = MINIMUM_USER_STAMP;
-                maxFieldIndex = -1;
+                nextStbmp = MINIMUM_USER_STAMP;
+                mbxFieldIndex = -1;
             }
         }
 
-        private void internalSet(int field, int value) {
-            fields[field] = nextStamp++;
-            if (nextStamp < 0) {
-                throw new IllegalStateException("stamp counter overflow");
+        privbte void internblSet(int field, int vblue) {
+            fields[field] = nextStbmp++;
+            if (nextStbmp < 0) {
+                throw new IllegblStbteException("stbmp counter overflow");
             }
-            fields[NFIELDS + field] = value;
-            if (field > maxFieldIndex && field < WEEK_YEAR) {
-                maxFieldIndex = field;
+            fields[NFIELDS + field] = vblue;
+            if (field > mbxFieldIndex && field < WEEK_YEAR) {
+                mbxFieldIndex = field;
             }
         }
 
-        private boolean isInstantSet() {
-            return nextStamp == COMPUTED;
+        privbte boolebn isInstbntSet() {
+            return nextStbmp == COMPUTED;
         }
 
-        private boolean isSet(int index) {
+        privbte boolebn isSet(int index) {
             return fields != null && fields[index] > UNSET;
         }
 
-        private boolean isValidWeekParameter(int value) {
-            return value > 0 && value <= 7;
+        privbte boolebn isVblidWeekPbrbmeter(int vblue) {
+            return vblue > 0 && vblue <= 7;
         }
     }
 
     /**
-     * Constructs a Calendar with the default time zone
-     * and the default {@link java.util.Locale.Category#FORMAT FORMAT}
-     * locale.
-     * @see     TimeZone#getDefault
+     * Constructs b Cblendbr with the defbult time zone
+     * bnd the defbult {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT}
+     * locble.
+     * @see     TimeZone#getDefbult
      */
-    protected Calendar()
+    protected Cblendbr()
     {
-        this(TimeZone.getDefaultRef(), Locale.getDefault(Locale.Category.FORMAT));
-        sharedZone = true;
+        this(TimeZone.getDefbultRef(), Locble.getDefbult(Locble.Cbtegory.FORMAT));
+        shbredZone = true;
     }
 
     /**
-     * Constructs a calendar with the specified time zone and locale.
+     * Constructs b cblendbr with the specified time zone bnd locble.
      *
-     * @param zone the time zone to use
-     * @param aLocale the locale for the week data
+     * @pbrbm zone the time zone to use
+     * @pbrbm bLocble the locble for the week dbtb
      */
-    protected Calendar(TimeZone zone, Locale aLocale)
+    protected Cblendbr(TimeZone zone, Locble bLocble)
     {
         fields = new int[FIELD_COUNT];
-        isSet = new boolean[FIELD_COUNT];
-        stamp = new int[FIELD_COUNT];
+        isSet = new boolebn[FIELD_COUNT];
+        stbmp = new int[FIELD_COUNT];
 
         this.zone = zone;
-        setWeekCountData(aLocale);
+        setWeekCountDbtb(bLocble);
     }
 
     /**
-     * Gets a calendar using the default time zone and locale. The
-     * <code>Calendar</code> returned is based on the current time
-     * in the default time zone with the default
-     * {@link Locale.Category#FORMAT FORMAT} locale.
+     * Gets b cblendbr using the defbult time zone bnd locble. The
+     * <code>Cblendbr</code> returned is bbsed on the current time
+     * in the defbult time zone with the defbult
+     * {@link Locble.Cbtegory#FORMAT FORMAT} locble.
      *
-     * @return a Calendar.
+     * @return b Cblendbr.
      */
-    public static Calendar getInstance()
+    public stbtic Cblendbr getInstbnce()
     {
-        return createCalendar(TimeZone.getDefault(), Locale.getDefault(Locale.Category.FORMAT));
+        return crebteCblendbr(TimeZone.getDefbult(), Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Gets a calendar using the specified time zone and default locale.
-     * The <code>Calendar</code> returned is based on the current time
-     * in the given time zone with the default
-     * {@link Locale.Category#FORMAT FORMAT} locale.
+     * Gets b cblendbr using the specified time zone bnd defbult locble.
+     * The <code>Cblendbr</code> returned is bbsed on the current time
+     * in the given time zone with the defbult
+     * {@link Locble.Cbtegory#FORMAT FORMAT} locble.
      *
-     * @param zone the time zone to use
-     * @return a Calendar.
+     * @pbrbm zone the time zone to use
+     * @return b Cblendbr.
      */
-    public static Calendar getInstance(TimeZone zone)
+    public stbtic Cblendbr getInstbnce(TimeZone zone)
     {
-        return createCalendar(zone, Locale.getDefault(Locale.Category.FORMAT));
+        return crebteCblendbr(zone, Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Gets a calendar using the default time zone and specified locale.
-     * The <code>Calendar</code> returned is based on the current time
-     * in the default time zone with the given locale.
+     * Gets b cblendbr using the defbult time zone bnd specified locble.
+     * The <code>Cblendbr</code> returned is bbsed on the current time
+     * in the defbult time zone with the given locble.
      *
-     * @param aLocale the locale for the week data
-     * @return a Calendar.
+     * @pbrbm bLocble the locble for the week dbtb
+     * @return b Cblendbr.
      */
-    public static Calendar getInstance(Locale aLocale)
+    public stbtic Cblendbr getInstbnce(Locble bLocble)
     {
-        return createCalendar(TimeZone.getDefault(), aLocale);
+        return crebteCblendbr(TimeZone.getDefbult(), bLocble);
     }
 
     /**
-     * Gets a calendar with the specified time zone and locale.
-     * The <code>Calendar</code> returned is based on the current time
-     * in the given time zone with the given locale.
+     * Gets b cblendbr with the specified time zone bnd locble.
+     * The <code>Cblendbr</code> returned is bbsed on the current time
+     * in the given time zone with the given locble.
      *
-     * @param zone the time zone to use
-     * @param aLocale the locale for the week data
-     * @return a Calendar.
+     * @pbrbm zone the time zone to use
+     * @pbrbm bLocble the locble for the week dbtb
+     * @return b Cblendbr.
      */
-    public static Calendar getInstance(TimeZone zone,
-                                       Locale aLocale)
+    public stbtic Cblendbr getInstbnce(TimeZone zone,
+                                       Locble bLocble)
     {
-        return createCalendar(zone, aLocale);
+        return crebteCblendbr(zone, bLocble);
     }
 
-    private static Calendar createCalendar(TimeZone zone,
-                                           Locale aLocale)
+    privbte stbtic Cblendbr crebteCblendbr(TimeZone zone,
+                                           Locble bLocble)
     {
-        CalendarProvider provider =
-            LocaleProviderAdapter.getAdapter(CalendarProvider.class, aLocale)
-                                 .getCalendarProvider();
+        CblendbrProvider provider =
+            LocbleProviderAdbpter.getAdbpter(CblendbrProvider.clbss, bLocble)
+                                 .getCblendbrProvider();
         if (provider != null) {
             try {
-                return provider.getInstance(zone, aLocale);
-            } catch (IllegalArgumentException iae) {
-                // fall back to the default instantiation
+                return provider.getInstbnce(zone, bLocble);
+            } cbtch (IllegblArgumentException ibe) {
+                // fbll bbck to the defbult instbntibtion
             }
         }
 
-        Calendar cal = null;
+        Cblendbr cbl = null;
 
-        if (aLocale.hasExtensions()) {
-            String caltype = aLocale.getUnicodeLocaleType("ca");
-            if (caltype != null) {
-                switch (caltype) {
-                case "buddhist":
-                cal = new BuddhistCalendar(zone, aLocale);
-                    break;
-                case "japanese":
-                    cal = new JapaneseImperialCalendar(zone, aLocale);
-                    break;
-                case "gregory":
-                    cal = new GregorianCalendar(zone, aLocale);
-                    break;
+        if (bLocble.hbsExtensions()) {
+            String cbltype = bLocble.getUnicodeLocbleType("cb");
+            if (cbltype != null) {
+                switch (cbltype) {
+                cbse "buddhist":
+                cbl = new BuddhistCblendbr(zone, bLocble);
+                    brebk;
+                cbse "jbpbnese":
+                    cbl = new JbpbneseImperiblCblendbr(zone, bLocble);
+                    brebk;
+                cbse "gregory":
+                    cbl = new GregoribnCblendbr(zone, bLocble);
+                    brebk;
                 }
             }
         }
-        if (cal == null) {
-            // If no known calendar type is explicitly specified,
-            // perform the traditional way to create a Calendar:
-            // create a BuddhistCalendar for th_TH locale,
-            // a JapaneseImperialCalendar for ja_JP_JP locale, or
-            // a GregorianCalendar for any other locales.
-            // NOTE: The language, country and variant strings are interned.
-            if (aLocale.getLanguage() == "th" && aLocale.getCountry() == "TH") {
-                cal = new BuddhistCalendar(zone, aLocale);
-            } else if (aLocale.getVariant() == "JP" && aLocale.getLanguage() == "ja"
-                       && aLocale.getCountry() == "JP") {
-                cal = new JapaneseImperialCalendar(zone, aLocale);
+        if (cbl == null) {
+            // If no known cblendbr type is explicitly specified,
+            // perform the trbditionbl wby to crebte b Cblendbr:
+            // crebte b BuddhistCblendbr for th_TH locble,
+            // b JbpbneseImperiblCblendbr for jb_JP_JP locble, or
+            // b GregoribnCblendbr for bny other locbles.
+            // NOTE: The lbngubge, country bnd vbribnt strings bre interned.
+            if (bLocble.getLbngubge() == "th" && bLocble.getCountry() == "TH") {
+                cbl = new BuddhistCblendbr(zone, bLocble);
+            } else if (bLocble.getVbribnt() == "JP" && bLocble.getLbngubge() == "jb"
+                       && bLocble.getCountry() == "JP") {
+                cbl = new JbpbneseImperiblCblendbr(zone, bLocble);
             } else {
-                cal = new GregorianCalendar(zone, aLocale);
+                cbl = new GregoribnCblendbr(zone, bLocble);
             }
         }
-        return cal;
+        return cbl;
     }
 
     /**
-     * Returns an array of all locales for which the <code>getInstance</code>
-     * methods of this class can return localized instances.
-     * The array returned must contain at least a <code>Locale</code>
-     * instance equal to {@link java.util.Locale#US Locale.US}.
+     * Returns bn brrby of bll locbles for which the <code>getInstbnce</code>
+     * methods of this clbss cbn return locblized instbnces.
+     * The brrby returned must contbin bt lebst b <code>Locble</code>
+     * instbnce equbl to {@link jbvb.util.Locble#US Locble.US}.
      *
-     * @return An array of locales for which localized
-     *         <code>Calendar</code> instances are available.
+     * @return An brrby of locbles for which locblized
+     *         <code>Cblendbr</code> instbnces bre bvbilbble.
      */
-    public static synchronized Locale[] getAvailableLocales()
+    public stbtic synchronized Locble[] getAvbilbbleLocbles()
     {
-        return DateFormat.getAvailableLocales();
+        return DbteFormbt.getAvbilbbleLocbles();
     }
 
     /**
-     * Converts the current calendar field values in {@link #fields fields[]}
-     * to the millisecond time value
+     * Converts the current cblendbr field vblues in {@link #fields fields[]}
+     * to the millisecond time vblue
      * {@link #time}.
      *
      * @see #complete()
      * @see #computeFields()
      */
-    protected abstract void computeTime();
+    protected bbstrbct void computeTime();
 
     /**
-     * Converts the current millisecond time value {@link #time}
-     * to calendar field values in {@link #fields fields[]}.
-     * This allows you to sync up the calendar field values with
-     * a new time that is set for the calendar.  The time is <em>not</em>
-     * recomputed first; to recompute the time, then the fields, call the
+     * Converts the current millisecond time vblue {@link #time}
+     * to cblendbr field vblues in {@link #fields fields[]}.
+     * This bllows you to sync up the cblendbr field vblues with
+     * b new time thbt is set for the cblendbr.  The time is <em>not</em>
+     * recomputed first; to recompute the time, then the fields, cbll the
      * {@link #complete()} method.
      *
      * @see #computeTime()
      */
-    protected abstract void computeFields();
+    protected bbstrbct void computeFields();
 
     /**
-     * Returns a <code>Date</code> object representing this
-     * <code>Calendar</code>'s time value (millisecond offset from the <a
-     * href="#Epoch">Epoch</a>").
+     * Returns b <code>Dbte</code> object representing this
+     * <code>Cblendbr</code>'s time vblue (millisecond offset from the <b
+     * href="#Epoch">Epoch</b>").
      *
-     * @return a <code>Date</code> representing the time value.
-     * @see #setTime(Date)
+     * @return b <code>Dbte</code> representing the time vblue.
+     * @see #setTime(Dbte)
      * @see #getTimeInMillis()
      */
-    public final Date getTime() {
-        return new Date(getTimeInMillis());
+    public finbl Dbte getTime() {
+        return new Dbte(getTimeInMillis());
     }
 
     /**
-     * Sets this Calendar's time with the given <code>Date</code>.
+     * Sets this Cblendbr's time with the given <code>Dbte</code>.
      * <p>
-     * Note: Calling <code>setTime()</code> with
-     * <code>Date(Long.MAX_VALUE)</code> or <code>Date(Long.MIN_VALUE)</code>
-     * may yield incorrect field values from <code>get()</code>.
+     * Note: Cblling <code>setTime()</code> with
+     * <code>Dbte(Long.MAX_VALUE)</code> or <code>Dbte(Long.MIN_VALUE)</code>
+     * mby yield incorrect field vblues from <code>get()</code>.
      *
-     * @param date the given Date.
+     * @pbrbm dbte the given Dbte.
      * @see #getTime()
      * @see #setTimeInMillis(long)
      */
-    public final void setTime(Date date) {
-        setTimeInMillis(date.getTime());
+    public finbl void setTime(Dbte dbte) {
+        setTimeInMillis(dbte.getTime());
     }
 
     /**
-     * Returns this Calendar's time value in milliseconds.
+     * Returns this Cblendbr's time vblue in milliseconds.
      *
-     * @return the current time as UTC milliseconds from the epoch.
+     * @return the current time bs UTC milliseconds from the epoch.
      * @see #getTime()
      * @see #setTimeInMillis(long)
      */
     public long getTimeInMillis() {
         if (!isTimeSet) {
-            updateTime();
+            updbteTime();
         }
         return time;
     }
 
     /**
-     * Sets this Calendar's current time from the given long value.
+     * Sets this Cblendbr's current time from the given long vblue.
      *
-     * @param millis the new time in UTC milliseconds from the epoch.
-     * @see #setTime(Date)
+     * @pbrbm millis the new time in UTC milliseconds from the epoch.
+     * @see #setTime(Dbte)
      * @see #getTimeInMillis()
      */
     public void setTimeInMillis(long millis) {
-        // If we don't need to recalculate the calendar field values,
+        // If we don't need to recblculbte the cblendbr field vblues,
         // do nothing.
-        if (time == millis && isTimeSet && areFieldsSet && areAllFieldsSet
-            && (zone instanceof ZoneInfo) && !((ZoneInfo)zone).isDirty()) {
+        if (time == millis && isTimeSet && breFieldsSet && breAllFieldsSet
+            && (zone instbnceof ZoneInfo) && !((ZoneInfo)zone).isDirty()) {
             return;
         }
         time = millis;
         isTimeSet = true;
-        areFieldsSet = false;
+        breFieldsSet = fblse;
         computeFields();
-        areAllFieldsSet = areFieldsSet = true;
+        breAllFieldsSet = breFieldsSet = true;
     }
 
     /**
-     * Returns the value of the given calendar field. In lenient mode,
-     * all calendar fields are normalized. In non-lenient mode, all
-     * calendar fields are validated and this method throws an
-     * exception if any calendar fields have out-of-range values. The
-     * normalization and validation are handled by the
-     * {@link #complete()} method, which process is calendar
+     * Returns the vblue of the given cblendbr field. In lenient mode,
+     * bll cblendbr fields bre normblized. In non-lenient mode, bll
+     * cblendbr fields bre vblidbted bnd this method throws bn
+     * exception if bny cblendbr fields hbve out-of-rbnge vblues. The
+     * normblizbtion bnd vblidbtion bre hbndled by the
+     * {@link #complete()} method, which process is cblendbr
      * system dependent.
      *
-     * @param field the given calendar field.
-     * @return the value for the given calendar field.
-     * @throws ArrayIndexOutOfBoundsException if the specified field is out of range
+     * @pbrbm field the given cblendbr field.
+     * @return the vblue for the given cblendbr field.
+     * @throws ArrbyIndexOutOfBoundsException if the specified field is out of rbnge
      *             (<code>field &lt; 0 || field &gt;= FIELD_COUNT</code>).
      * @see #set(int,int)
      * @see #complete()
@@ -1824,46 +1824,46 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
     public int get(int field)
     {
         complete();
-        return internalGet(field);
+        return internblGet(field);
     }
 
     /**
-     * Returns the value of the given calendar field. This method does
-     * not involve normalization or validation of the field value.
+     * Returns the vblue of the given cblendbr field. This method does
+     * not involve normblizbtion or vblidbtion of the field vblue.
      *
-     * @param field the given calendar field.
-     * @return the value for the given calendar field.
+     * @pbrbm field the given cblendbr field.
+     * @return the vblue for the given cblendbr field.
      * @see #get(int)
      */
-    protected final int internalGet(int field)
+    protected finbl int internblGet(int field)
     {
         return fields[field];
     }
 
     /**
-     * Sets the value of the given calendar field. This method does
-     * not affect any setting state of the field in this
-     * <code>Calendar</code> instance.
+     * Sets the vblue of the given cblendbr field. This method does
+     * not bffect bny setting stbte of the field in this
+     * <code>Cblendbr</code> instbnce.
      *
-     * @throws IndexOutOfBoundsException if the specified field is out of range
+     * @throws IndexOutOfBoundsException if the specified field is out of rbnge
      *             (<code>field &lt; 0 || field &gt;= FIELD_COUNT</code>).
-     * @see #areFieldsSet
+     * @see #breFieldsSet
      * @see #isTimeSet
-     * @see #areAllFieldsSet
+     * @see #breAllFieldsSet
      * @see #set(int,int)
      */
-    final void internalSet(int field, int value)
+    finbl void internblSet(int field, int vblue)
     {
-        fields[field] = value;
+        fields[field] = vblue;
     }
 
     /**
-     * Sets the given calendar field to the given value. The value is not
-     * interpreted by this method regardless of the leniency mode.
+     * Sets the given cblendbr field to the given vblue. The vblue is not
+     * interpreted by this method regbrdless of the leniency mode.
      *
-     * @param field the given calendar field.
-     * @param value the value to be set for the given calendar field.
-     * @throws ArrayIndexOutOfBoundsException if the specified field is out of range
+     * @pbrbm field the given cblendbr field.
+     * @pbrbm vblue the vblue to be set for the given cblendbr field.
+     * @throws ArrbyIndexOutOfBoundsException if the specified field is out of rbnge
      *             (<code>field &lt; 0 || field &gt;= FIELD_COUNT</code>).
      * in non-lenient mode.
      * @see #set(int,int,int)
@@ -1871,978 +1871,978 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * @see #set(int,int,int,int,int,int)
      * @see #get(int)
      */
-    public void set(int field, int value)
+    public void set(int field, int vblue)
     {
-        // If the fields are partially normalized, calculate all the
-        // fields before changing any fields.
-        if (areFieldsSet && !areAllFieldsSet) {
+        // If the fields bre pbrtiblly normblized, cblculbte bll the
+        // fields before chbnging bny fields.
+        if (breFieldsSet && !breAllFieldsSet) {
             computeFields();
         }
-        internalSet(field, value);
-        isTimeSet = false;
-        areFieldsSet = false;
+        internblSet(field, vblue);
+        isTimeSet = fblse;
+        breFieldsSet = fblse;
         isSet[field] = true;
-        stamp[field] = nextStamp++;
-        if (nextStamp == Integer.MAX_VALUE) {
-            adjustStamp();
+        stbmp[field] = nextStbmp++;
+        if (nextStbmp == Integer.MAX_VALUE) {
+            bdjustStbmp();
         }
     }
 
     /**
-     * Sets the values for the calendar fields <code>YEAR</code>,
-     * <code>MONTH</code>, and <code>DAY_OF_MONTH</code>.
-     * Previous values of other calendar fields are retained.  If this is not desired,
-     * call {@link #clear()} first.
+     * Sets the vblues for the cblendbr fields <code>YEAR</code>,
+     * <code>MONTH</code>, bnd <code>DAY_OF_MONTH</code>.
+     * Previous vblues of other cblendbr fields bre retbined.  If this is not desired,
+     * cbll {@link #clebr()} first.
      *
-     * @param year the value used to set the <code>YEAR</code> calendar field.
-     * @param month the value used to set the <code>MONTH</code> calendar field.
-     * Month value is 0-based. e.g., 0 for January.
-     * @param date the value used to set the <code>DAY_OF_MONTH</code> calendar field.
+     * @pbrbm yebr the vblue used to set the <code>YEAR</code> cblendbr field.
+     * @pbrbm month the vblue used to set the <code>MONTH</code> cblendbr field.
+     * Month vblue is 0-bbsed. e.g., 0 for Jbnubry.
+     * @pbrbm dbte the vblue used to set the <code>DAY_OF_MONTH</code> cblendbr field.
      * @see #set(int,int)
      * @see #set(int,int,int,int,int)
      * @see #set(int,int,int,int,int,int)
      */
-    public final void set(int year, int month, int date)
+    public finbl void set(int yebr, int month, int dbte)
     {
-        set(YEAR, year);
+        set(YEAR, yebr);
         set(MONTH, month);
-        set(DATE, date);
+        set(DATE, dbte);
     }
 
     /**
-     * Sets the values for the calendar fields <code>YEAR</code>,
+     * Sets the vblues for the cblendbr fields <code>YEAR</code>,
      * <code>MONTH</code>, <code>DAY_OF_MONTH</code>,
-     * <code>HOUR_OF_DAY</code>, and <code>MINUTE</code>.
-     * Previous values of other fields are retained.  If this is not desired,
-     * call {@link #clear()} first.
+     * <code>HOUR_OF_DAY</code>, bnd <code>MINUTE</code>.
+     * Previous vblues of other fields bre retbined.  If this is not desired,
+     * cbll {@link #clebr()} first.
      *
-     * @param year the value used to set the <code>YEAR</code> calendar field.
-     * @param month the value used to set the <code>MONTH</code> calendar field.
-     * Month value is 0-based. e.g., 0 for January.
-     * @param date the value used to set the <code>DAY_OF_MONTH</code> calendar field.
-     * @param hourOfDay the value used to set the <code>HOUR_OF_DAY</code> calendar field.
-     * @param minute the value used to set the <code>MINUTE</code> calendar field.
+     * @pbrbm yebr the vblue used to set the <code>YEAR</code> cblendbr field.
+     * @pbrbm month the vblue used to set the <code>MONTH</code> cblendbr field.
+     * Month vblue is 0-bbsed. e.g., 0 for Jbnubry.
+     * @pbrbm dbte the vblue used to set the <code>DAY_OF_MONTH</code> cblendbr field.
+     * @pbrbm hourOfDby the vblue used to set the <code>HOUR_OF_DAY</code> cblendbr field.
+     * @pbrbm minute the vblue used to set the <code>MINUTE</code> cblendbr field.
      * @see #set(int,int)
      * @see #set(int,int,int)
      * @see #set(int,int,int,int,int,int)
      */
-    public final void set(int year, int month, int date, int hourOfDay, int minute)
+    public finbl void set(int yebr, int month, int dbte, int hourOfDby, int minute)
     {
-        set(YEAR, year);
+        set(YEAR, yebr);
         set(MONTH, month);
-        set(DATE, date);
-        set(HOUR_OF_DAY, hourOfDay);
+        set(DATE, dbte);
+        set(HOUR_OF_DAY, hourOfDby);
         set(MINUTE, minute);
     }
 
     /**
-     * Sets the values for the fields <code>YEAR</code>, <code>MONTH</code>,
-     * <code>DAY_OF_MONTH</code>, <code>HOUR_OF_DAY</code>, <code>MINUTE</code>, and
+     * Sets the vblues for the fields <code>YEAR</code>, <code>MONTH</code>,
+     * <code>DAY_OF_MONTH</code>, <code>HOUR_OF_DAY</code>, <code>MINUTE</code>, bnd
      * <code>SECOND</code>.
-     * Previous values of other fields are retained.  If this is not desired,
-     * call {@link #clear()} first.
+     * Previous vblues of other fields bre retbined.  If this is not desired,
+     * cbll {@link #clebr()} first.
      *
-     * @param year the value used to set the <code>YEAR</code> calendar field.
-     * @param month the value used to set the <code>MONTH</code> calendar field.
-     * Month value is 0-based. e.g., 0 for January.
-     * @param date the value used to set the <code>DAY_OF_MONTH</code> calendar field.
-     * @param hourOfDay the value used to set the <code>HOUR_OF_DAY</code> calendar field.
-     * @param minute the value used to set the <code>MINUTE</code> calendar field.
-     * @param second the value used to set the <code>SECOND</code> calendar field.
+     * @pbrbm yebr the vblue used to set the <code>YEAR</code> cblendbr field.
+     * @pbrbm month the vblue used to set the <code>MONTH</code> cblendbr field.
+     * Month vblue is 0-bbsed. e.g., 0 for Jbnubry.
+     * @pbrbm dbte the vblue used to set the <code>DAY_OF_MONTH</code> cblendbr field.
+     * @pbrbm hourOfDby the vblue used to set the <code>HOUR_OF_DAY</code> cblendbr field.
+     * @pbrbm minute the vblue used to set the <code>MINUTE</code> cblendbr field.
+     * @pbrbm second the vblue used to set the <code>SECOND</code> cblendbr field.
      * @see #set(int,int)
      * @see #set(int,int,int)
      * @see #set(int,int,int,int,int)
      */
-    public final void set(int year, int month, int date, int hourOfDay, int minute,
+    public finbl void set(int yebr, int month, int dbte, int hourOfDby, int minute,
                           int second)
     {
-        set(YEAR, year);
+        set(YEAR, yebr);
         set(MONTH, month);
-        set(DATE, date);
-        set(HOUR_OF_DAY, hourOfDay);
+        set(DATE, dbte);
+        set(HOUR_OF_DAY, hourOfDby);
         set(MINUTE, minute);
         set(SECOND, second);
     }
 
     /**
-     * Sets all the calendar field values and the time value
-     * (millisecond offset from the <a href="#Epoch">Epoch</a>) of
-     * this <code>Calendar</code> undefined. This means that {@link
-     * #isSet(int) isSet()} will return <code>false</code> for all the
-     * calendar fields, and the date and time calculations will treat
-     * the fields as if they had never been set. A
-     * <code>Calendar</code> implementation class may use its specific
-     * default field values for date/time calculations. For example,
-     * <code>GregorianCalendar</code> uses 1970 if the
-     * <code>YEAR</code> field value is undefined.
+     * Sets bll the cblendbr field vblues bnd the time vblue
+     * (millisecond offset from the <b href="#Epoch">Epoch</b>) of
+     * this <code>Cblendbr</code> undefined. This mebns thbt {@link
+     * #isSet(int) isSet()} will return <code>fblse</code> for bll the
+     * cblendbr fields, bnd the dbte bnd time cblculbtions will trebt
+     * the fields bs if they hbd never been set. A
+     * <code>Cblendbr</code> implementbtion clbss mby use its specific
+     * defbult field vblues for dbte/time cblculbtions. For exbmple,
+     * <code>GregoribnCblendbr</code> uses 1970 if the
+     * <code>YEAR</code> field vblue is undefined.
      *
-     * @see #clear(int)
+     * @see #clebr(int)
      */
-    public final void clear()
+    public finbl void clebr()
     {
         for (int i = 0; i < fields.length; ) {
-            stamp[i] = fields[i] = 0; // UNSET == 0
-            isSet[i++] = false;
+            stbmp[i] = fields[i] = 0; // UNSET == 0
+            isSet[i++] = fblse;
         }
-        areAllFieldsSet = areFieldsSet = false;
-        isTimeSet = false;
+        breAllFieldsSet = breFieldsSet = fblse;
+        isTimeSet = fblse;
     }
 
     /**
-     * Sets the given calendar field value and the time value
-     * (millisecond offset from the <a href="#Epoch">Epoch</a>) of
-     * this <code>Calendar</code> undefined. This means that {@link
-     * #isSet(int) isSet(field)} will return <code>false</code>, and
-     * the date and time calculations will treat the field as if it
-     * had never been set. A <code>Calendar</code> implementation
-     * class may use the field's specific default value for date and
-     * time calculations.
+     * Sets the given cblendbr field vblue bnd the time vblue
+     * (millisecond offset from the <b href="#Epoch">Epoch</b>) of
+     * this <code>Cblendbr</code> undefined. This mebns thbt {@link
+     * #isSet(int) isSet(field)} will return <code>fblse</code>, bnd
+     * the dbte bnd time cblculbtions will trebt the field bs if it
+     * hbd never been set. A <code>Cblendbr</code> implementbtion
+     * clbss mby use the field's specific defbult vblue for dbte bnd
+     * time cblculbtions.
      *
-     * <p>The {@link #HOUR_OF_DAY}, {@link #HOUR} and {@link #AM_PM}
-     * fields are handled independently and the <a
+     * <p>The {@link #HOUR_OF_DAY}, {@link #HOUR} bnd {@link #AM_PM}
+     * fields bre hbndled independently bnd the <b
      * href="#time_resolution">the resolution rule for the time of
-     * day</a> is applied. Clearing one of the fields doesn't reset
-     * the hour of day value of this <code>Calendar</code>. Use {@link
-     * #set(int,int) set(Calendar.HOUR_OF_DAY, 0)} to reset the hour
-     * value.
+     * dby</b> is bpplied. Clebring one of the fields doesn't reset
+     * the hour of dby vblue of this <code>Cblendbr</code>. Use {@link
+     * #set(int,int) set(Cblendbr.HOUR_OF_DAY, 0)} to reset the hour
+     * vblue.
      *
-     * @param field the calendar field to be cleared.
-     * @see #clear()
+     * @pbrbm field the cblendbr field to be clebred.
+     * @see #clebr()
      */
-    public final void clear(int field)
+    public finbl void clebr(int field)
     {
         fields[field] = 0;
-        stamp[field] = UNSET;
-        isSet[field] = false;
+        stbmp[field] = UNSET;
+        isSet[field] = fblse;
 
-        areAllFieldsSet = areFieldsSet = false;
-        isTimeSet = false;
+        breAllFieldsSet = breFieldsSet = fblse;
+        isTimeSet = fblse;
     }
 
     /**
-     * Determines if the given calendar field has a value set,
-     * including cases that the value has been set by internal fields
-     * calculations triggered by a <code>get</code> method call.
+     * Determines if the given cblendbr field hbs b vblue set,
+     * including cbses thbt the vblue hbs been set by internbl fields
+     * cblculbtions triggered by b <code>get</code> method cbll.
      *
-     * @param field the calendar field to test
-     * @return <code>true</code> if the given calendar field has a value set;
-     * <code>false</code> otherwise.
+     * @pbrbm field the cblendbr field to test
+     * @return <code>true</code> if the given cblendbr field hbs b vblue set;
+     * <code>fblse</code> otherwise.
      */
-    public final boolean isSet(int field)
+    public finbl boolebn isSet(int field)
     {
-        return stamp[field] != UNSET;
+        return stbmp[field] != UNSET;
     }
 
     /**
-     * Returns the string representation of the calendar
-     * <code>field</code> value in the given <code>style</code> and
-     * <code>locale</code>.  If no string representation is
-     * applicable, <code>null</code> is returned. This method calls
-     * {@link Calendar#get(int) get(field)} to get the calendar
-     * <code>field</code> value if the string representation is
-     * applicable to the given calendar <code>field</code>.
+     * Returns the string representbtion of the cblendbr
+     * <code>field</code> vblue in the given <code>style</code> bnd
+     * <code>locble</code>.  If no string representbtion is
+     * bpplicbble, <code>null</code> is returned. This method cblls
+     * {@link Cblendbr#get(int) get(field)} to get the cblendbr
+     * <code>field</code> vblue if the string representbtion is
+     * bpplicbble to the given cblendbr <code>field</code>.
      *
-     * <p>For example, if this <code>Calendar</code> is a
-     * <code>GregorianCalendar</code> and its date is 2005-01-01, then
-     * the string representation of the {@link #MONTH} field would be
-     * "January" in the long style in an English locale or "Jan" in
-     * the short style. However, no string representation would be
-     * available for the {@link #DAY_OF_MONTH} field, and this method
+     * <p>For exbmple, if this <code>Cblendbr</code> is b
+     * <code>GregoribnCblendbr</code> bnd its dbte is 2005-01-01, then
+     * the string representbtion of the {@link #MONTH} field would be
+     * "Jbnubry" in the long style in bn English locble or "Jbn" in
+     * the short style. However, no string representbtion would be
+     * bvbilbble for the {@link #DAY_OF_MONTH} field, bnd this method
      * would return <code>null</code>.
      *
-     * <p>The default implementation supports the calendar fields for
-     * which a {@link DateFormatSymbols} has names in the given
-     * <code>locale</code>.
+     * <p>The defbult implementbtion supports the cblendbr fields for
+     * which b {@link DbteFormbtSymbols} hbs nbmes in the given
+     * <code>locble</code>.
      *
-     * @param field
-     *        the calendar field for which the string representation
+     * @pbrbm field
+     *        the cblendbr field for which the string representbtion
      *        is returned
-     * @param style
-     *        the style applied to the string representation; one of {@link
+     * @pbrbm style
+     *        the style bpplied to the string representbtion; one of {@link
      *        #SHORT_FORMAT} ({@link #SHORT}), {@link #SHORT_STANDALONE},
      *        {@link #LONG_FORMAT} ({@link #LONG}), {@link #LONG_STANDALONE},
      *        {@link #NARROW_FORMAT}, or {@link #NARROW_STANDALONE}.
-     * @param locale
-     *        the locale for the string representation
-     *        (any calendar types specified by {@code locale} are ignored)
-     * @return the string representation of the given
+     * @pbrbm locble
+     *        the locble for the string representbtion
+     *        (bny cblendbr types specified by {@code locble} bre ignored)
+     * @return the string representbtion of the given
      *        {@code field} in the given {@code style}, or
-     *        {@code null} if no string representation is
-     *        applicable.
-     * @exception IllegalArgumentException
-     *        if {@code field} or {@code style} is invalid,
-     *        or if this {@code Calendar} is non-lenient and any
-     *        of the calendar fields have invalid values
+     *        {@code null} if no string representbtion is
+     *        bpplicbble.
+     * @exception IllegblArgumentException
+     *        if {@code field} or {@code style} is invblid,
+     *        or if this {@code Cblendbr} is non-lenient bnd bny
+     *        of the cblendbr fields hbve invblid vblues
      * @exception NullPointerException
-     *        if {@code locale} is null
+     *        if {@code locble} is null
      * @since 1.6
      */
-    public String getDisplayName(int field, int style, Locale locale) {
-        if (!checkDisplayNameParams(field, style, SHORT, NARROW_FORMAT, locale,
+    public String getDisplbyNbme(int field, int style, Locble locble) {
+        if (!checkDisplbyNbmePbrbms(field, style, SHORT, NARROW_FORMAT, locble,
                             ERA_MASK|MONTH_MASK|DAY_OF_WEEK_MASK|AM_PM_MASK)) {
             return null;
         }
 
-        // the standalone and narrow styles are supported only through CalendarDataProviders.
-        if (isStandaloneStyle(style) || isNarrowStyle(style)) {
-            return CalendarDataUtility.retrieveFieldValueName(getCalendarType(),
+        // the stbndblone bnd nbrrow styles bre supported only through CblendbrDbtbProviders.
+        if (isStbndbloneStyle(style) || isNbrrowStyle(style)) {
+            return CblendbrDbtbUtility.retrieveFieldVblueNbme(getCblendbrType(),
                                                               field, get(field),
-                                                              style, locale);
+                                                              style, locble);
         }
 
-        DateFormatSymbols symbols = DateFormatSymbols.getInstance(locale);
+        DbteFormbtSymbols symbols = DbteFormbtSymbols.getInstbnce(locble);
         String[] strings = getFieldStrings(field, style, symbols);
         if (strings != null) {
-            int fieldValue = get(field);
-            if (fieldValue < strings.length) {
-                return strings[fieldValue];
+            int fieldVblue = get(field);
+            if (fieldVblue < strings.length) {
+                return strings[fieldVblue];
             }
         }
         return null;
     }
 
     /**
-     * Returns a {@code Map} containing all names of the calendar
-     * {@code field} in the given {@code style} and
-     * {@code locale} and their corresponding field values. For
-     * example, if this {@code Calendar} is a {@link
-     * GregorianCalendar}, the returned map would contain "Jan" to
-     * {@link #JANUARY}, "Feb" to {@link #FEBRUARY}, and so on, in the
-     * {@linkplain #SHORT short} style in an English locale.
+     * Returns b {@code Mbp} contbining bll nbmes of the cblendbr
+     * {@code field} in the given {@code style} bnd
+     * {@code locble} bnd their corresponding field vblues. For
+     * exbmple, if this {@code Cblendbr} is b {@link
+     * GregoribnCblendbr}, the returned mbp would contbin "Jbn" to
+     * {@link #JANUARY}, "Feb" to {@link #FEBRUARY}, bnd so on, in the
+     * {@linkplbin #SHORT short} style in bn English locble.
      *
-     * <p>Narrow names may not be unique due to use of single characters,
-     * such as "S" for Sunday and Saturday. In that case narrow names are not
-     * included in the returned {@code Map}.
+     * <p>Nbrrow nbmes mby not be unique due to use of single chbrbcters,
+     * such bs "S" for Sundby bnd Sbturdby. In thbt cbse nbrrow nbmes bre not
+     * included in the returned {@code Mbp}.
      *
-     * <p>The values of other calendar fields may be taken into
-     * account to determine a set of display names. For example, if
-     * this {@code Calendar} is a lunisolar calendar system and
-     * the year value given by the {@link #YEAR} field has a leap
-     * month, this method would return month names containing the leap
-     * month name, and month names are mapped to their values specific
-     * for the year.
+     * <p>The vblues of other cblendbr fields mby be tbken into
+     * bccount to determine b set of displby nbmes. For exbmple, if
+     * this {@code Cblendbr} is b lunisolbr cblendbr system bnd
+     * the yebr vblue given by the {@link #YEAR} field hbs b lebp
+     * month, this method would return month nbmes contbining the lebp
+     * month nbme, bnd month nbmes bre mbpped to their vblues specific
+     * for the yebr.
      *
-     * <p>The default implementation supports display names contained in
-     * a {@link DateFormatSymbols}. For example, if {@code field}
-     * is {@link #MONTH} and {@code style} is {@link
-     * #ALL_STYLES}, this method returns a {@code Map} containing
-     * all strings returned by {@link DateFormatSymbols#getShortMonths()}
-     * and {@link DateFormatSymbols#getMonths()}.
+     * <p>The defbult implementbtion supports displby nbmes contbined in
+     * b {@link DbteFormbtSymbols}. For exbmple, if {@code field}
+     * is {@link #MONTH} bnd {@code style} is {@link
+     * #ALL_STYLES}, this method returns b {@code Mbp} contbining
+     * bll strings returned by {@link DbteFormbtSymbols#getShortMonths()}
+     * bnd {@link DbteFormbtSymbols#getMonths()}.
      *
-     * @param field
-     *        the calendar field for which the display names are returned
-     * @param style
-     *        the style applied to the string representation; one of {@link
+     * @pbrbm field
+     *        the cblendbr field for which the displby nbmes bre returned
+     * @pbrbm style
+     *        the style bpplied to the string representbtion; one of {@link
      *        #SHORT_FORMAT} ({@link #SHORT}), {@link #SHORT_STANDALONE},
      *        {@link #LONG_FORMAT} ({@link #LONG}), {@link #LONG_STANDALONE},
      *        {@link #NARROW_FORMAT}, or {@link #NARROW_STANDALONE}
-     * @param locale
-     *        the locale for the display names
-     * @return a {@code Map} containing all display names in
-     *        {@code style} and {@code locale} and their
-     *        field values, or {@code null} if no display names
-     *        are defined for {@code field}
-     * @exception IllegalArgumentException
-     *        if {@code field} or {@code style} is invalid,
-     *        or if this {@code Calendar} is non-lenient and any
-     *        of the calendar fields have invalid values
+     * @pbrbm locble
+     *        the locble for the displby nbmes
+     * @return b {@code Mbp} contbining bll displby nbmes in
+     *        {@code style} bnd {@code locble} bnd their
+     *        field vblues, or {@code null} if no displby nbmes
+     *        bre defined for {@code field}
+     * @exception IllegblArgumentException
+     *        if {@code field} or {@code style} is invblid,
+     *        or if this {@code Cblendbr} is non-lenient bnd bny
+     *        of the cblendbr fields hbve invblid vblues
      * @exception NullPointerException
-     *        if {@code locale} is null
+     *        if {@code locble} is null
      * @since 1.6
      */
-    public Map<String, Integer> getDisplayNames(int field, int style, Locale locale) {
-        if (!checkDisplayNameParams(field, style, ALL_STYLES, NARROW_FORMAT, locale,
+    public Mbp<String, Integer> getDisplbyNbmes(int field, int style, Locble locble) {
+        if (!checkDisplbyNbmePbrbms(field, style, ALL_STYLES, NARROW_FORMAT, locble,
                                     ERA_MASK|MONTH_MASK|DAY_OF_WEEK_MASK|AM_PM_MASK)) {
             return null;
         }
-        if (style == ALL_STYLES || isStandaloneStyle(style)) {
-            return CalendarDataUtility.retrieveFieldValueNames(getCalendarType(), field, style, locale);
+        if (style == ALL_STYLES || isStbndbloneStyle(style)) {
+            return CblendbrDbtbUtility.retrieveFieldVblueNbmes(getCblendbrType(), field, style, locble);
         }
         // SHORT, LONG, or NARROW
-        return getDisplayNamesImpl(field, style, locale);
+        return getDisplbyNbmesImpl(field, style, locble);
     }
 
-    private Map<String,Integer> getDisplayNamesImpl(int field, int style, Locale locale) {
-        DateFormatSymbols symbols = DateFormatSymbols.getInstance(locale);
+    privbte Mbp<String,Integer> getDisplbyNbmesImpl(int field, int style, Locble locble) {
+        DbteFormbtSymbols symbols = DbteFormbtSymbols.getInstbnce(locble);
         String[] strings = getFieldStrings(field, style, symbols);
         if (strings != null) {
-            Map<String,Integer> names = new HashMap<>();
+            Mbp<String,Integer> nbmes = new HbshMbp<>();
             for (int i = 0; i < strings.length; i++) {
                 if (strings[i].length() == 0) {
                     continue;
                 }
-                names.put(strings[i], i);
+                nbmes.put(strings[i], i);
             }
-            return names;
+            return nbmes;
         }
         return null;
     }
 
-    boolean checkDisplayNameParams(int field, int style, int minStyle, int maxStyle,
-                                   Locale locale, int fieldMask) {
-        int baseStyle = getBaseStyle(style); // Ignore the standalone mask
+    boolebn checkDisplbyNbmePbrbms(int field, int style, int minStyle, int mbxStyle,
+                                   Locble locble, int fieldMbsk) {
+        int bbseStyle = getBbseStyle(style); // Ignore the stbndblone mbsk
         if (field < 0 || field >= fields.length ||
-            baseStyle < minStyle || baseStyle > maxStyle) {
-            throw new IllegalArgumentException();
+            bbseStyle < minStyle || bbseStyle > mbxStyle) {
+            throw new IllegblArgumentException();
         }
-        if (locale == null) {
+        if (locble == null) {
             throw new NullPointerException();
         }
-        return isFieldSet(fieldMask, field);
+        return isFieldSet(fieldMbsk, field);
     }
 
-    private String[] getFieldStrings(int field, int style, DateFormatSymbols symbols) {
-        int baseStyle = getBaseStyle(style); // ignore the standalone mask
+    privbte String[] getFieldStrings(int field, int style, DbteFormbtSymbols symbols) {
+        int bbseStyle = getBbseStyle(style); // ignore the stbndblone mbsk
 
-        // DateFormatSymbols doesn't support any narrow names.
-        if (baseStyle == NARROW_FORMAT) {
+        // DbteFormbtSymbols doesn't support bny nbrrow nbmes.
+        if (bbseStyle == NARROW_FORMAT) {
             return null;
         }
 
         String[] strings = null;
         switch (field) {
-        case ERA:
-            strings = symbols.getEras();
-            break;
+        cbse ERA:
+            strings = symbols.getErbs();
+            brebk;
 
-        case MONTH:
-            strings = (baseStyle == LONG) ? symbols.getMonths() : symbols.getShortMonths();
-            break;
+        cbse MONTH:
+            strings = (bbseStyle == LONG) ? symbols.getMonths() : symbols.getShortMonths();
+            brebk;
 
-        case DAY_OF_WEEK:
-            strings = (baseStyle == LONG) ? symbols.getWeekdays() : symbols.getShortWeekdays();
-            break;
+        cbse DAY_OF_WEEK:
+            strings = (bbseStyle == LONG) ? symbols.getWeekdbys() : symbols.getShortWeekdbys();
+            brebk;
 
-        case AM_PM:
+        cbse AM_PM:
             strings = symbols.getAmPmStrings();
-            break;
+            brebk;
         }
         return strings;
     }
 
     /**
-     * Fills in any unset fields in the calendar fields. First, the {@link
-     * #computeTime()} method is called if the time value (millisecond offset
-     * from the <a href="#Epoch">Epoch</a>) has not been calculated from
-     * calendar field values. Then, the {@link #computeFields()} method is
-     * called to calculate all calendar field values.
+     * Fills in bny unset fields in the cblendbr fields. First, the {@link
+     * #computeTime()} method is cblled if the time vblue (millisecond offset
+     * from the <b href="#Epoch">Epoch</b>) hbs not been cblculbted from
+     * cblendbr field vblues. Then, the {@link #computeFields()} method is
+     * cblled to cblculbte bll cblendbr field vblues.
      */
     protected void complete()
     {
         if (!isTimeSet) {
-            updateTime();
+            updbteTime();
         }
-        if (!areFieldsSet || !areAllFieldsSet) {
+        if (!breFieldsSet || !breAllFieldsSet) {
             computeFields(); // fills in unset fields
-            areAllFieldsSet = areFieldsSet = true;
+            breAllFieldsSet = breFieldsSet = true;
         }
     }
 
     /**
-     * Returns whether the value of the specified calendar field has been set
-     * externally by calling one of the setter methods rather than by the
-     * internal time calculation.
+     * Returns whether the vblue of the specified cblendbr field hbs been set
+     * externblly by cblling one of the setter methods rbther thbn by the
+     * internbl time cblculbtion.
      *
-     * @return <code>true</code> if the field has been set externally,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the field hbs been set externblly,
+     * <code>fblse</code> otherwise.
      * @exception IndexOutOfBoundsException if the specified
-     *                <code>field</code> is out of range
+     *                <code>field</code> is out of rbnge
      *               (<code>field &lt; 0 || field &gt;= FIELD_COUNT</code>).
      * @see #selectFields()
      * @see #setFieldsComputed(int)
      */
-    final boolean isExternallySet(int field) {
-        return stamp[field] >= MINIMUM_USER_STAMP;
+    finbl boolebn isExternbllySet(int field) {
+        return stbmp[field] >= MINIMUM_USER_STAMP;
     }
 
     /**
-     * Returns a field mask (bit mask) indicating all calendar fields that
-     * have the state of externally or internally set.
+     * Returns b field mbsk (bit mbsk) indicbting bll cblendbr fields thbt
+     * hbve the stbte of externblly or internblly set.
      *
-     * @return a bit mask indicating set state fields
+     * @return b bit mbsk indicbting set stbte fields
      */
-    final int getSetStateFields() {
-        int mask = 0;
+    finbl int getSetStbteFields() {
+        int mbsk = 0;
         for (int i = 0; i < fields.length; i++) {
-            if (stamp[i] != UNSET) {
-                mask |= 1 << i;
+            if (stbmp[i] != UNSET) {
+                mbsk |= 1 << i;
             }
         }
-        return mask;
+        return mbsk;
     }
 
     /**
-     * Sets the state of the specified calendar fields to
-     * <em>computed</em>. This state means that the specified calendar fields
-     * have valid values that have been set by internal time calculation
-     * rather than by calling one of the setter methods.
+     * Sets the stbte of the specified cblendbr fields to
+     * <em>computed</em>. This stbte mebns thbt the specified cblendbr fields
+     * hbve vblid vblues thbt hbve been set by internbl time cblculbtion
+     * rbther thbn by cblling one of the setter methods.
      *
-     * @param fieldMask the field to be marked as computed.
+     * @pbrbm fieldMbsk the field to be mbrked bs computed.
      * @exception IndexOutOfBoundsException if the specified
-     *                <code>field</code> is out of range
+     *                <code>field</code> is out of rbnge
      *               (<code>field &lt; 0 || field &gt;= FIELD_COUNT</code>).
-     * @see #isExternallySet(int)
+     * @see #isExternbllySet(int)
      * @see #selectFields()
      */
-    final void setFieldsComputed(int fieldMask) {
-        if (fieldMask == ALL_FIELDS) {
+    finbl void setFieldsComputed(int fieldMbsk) {
+        if (fieldMbsk == ALL_FIELDS) {
             for (int i = 0; i < fields.length; i++) {
-                stamp[i] = COMPUTED;
+                stbmp[i] = COMPUTED;
                 isSet[i] = true;
             }
-            areFieldsSet = areAllFieldsSet = true;
+            breFieldsSet = breAllFieldsSet = true;
         } else {
             for (int i = 0; i < fields.length; i++) {
-                if ((fieldMask & 1) == 1) {
-                    stamp[i] = COMPUTED;
+                if ((fieldMbsk & 1) == 1) {
+                    stbmp[i] = COMPUTED;
                     isSet[i] = true;
                 } else {
-                    if (areAllFieldsSet && !isSet[i]) {
-                        areAllFieldsSet = false;
+                    if (breAllFieldsSet && !isSet[i]) {
+                        breAllFieldsSet = fblse;
                     }
                 }
-                fieldMask >>>= 1;
+                fieldMbsk >>>= 1;
             }
         }
     }
 
     /**
-     * Sets the state of the calendar fields that are <em>not</em> specified
-     * by <code>fieldMask</code> to <em>unset</em>. If <code>fieldMask</code>
-     * specifies all the calendar fields, then the state of this
-     * <code>Calendar</code> becomes that all the calendar fields are in sync
-     * with the time value (millisecond offset from the Epoch).
+     * Sets the stbte of the cblendbr fields thbt bre <em>not</em> specified
+     * by <code>fieldMbsk</code> to <em>unset</em>. If <code>fieldMbsk</code>
+     * specifies bll the cblendbr fields, then the stbte of this
+     * <code>Cblendbr</code> becomes thbt bll the cblendbr fields bre in sync
+     * with the time vblue (millisecond offset from the Epoch).
      *
-     * @param fieldMask the field mask indicating which calendar fields are in
-     * sync with the time value.
+     * @pbrbm fieldMbsk the field mbsk indicbting which cblendbr fields bre in
+     * sync with the time vblue.
      * @exception IndexOutOfBoundsException if the specified
-     *                <code>field</code> is out of range
+     *                <code>field</code> is out of rbnge
      *               (<code>field &lt; 0 || field &gt;= FIELD_COUNT</code>).
-     * @see #isExternallySet(int)
+     * @see #isExternbllySet(int)
      * @see #selectFields()
      */
-    final void setFieldsNormalized(int fieldMask) {
-        if (fieldMask != ALL_FIELDS) {
+    finbl void setFieldsNormblized(int fieldMbsk) {
+        if (fieldMbsk != ALL_FIELDS) {
             for (int i = 0; i < fields.length; i++) {
-                if ((fieldMask & 1) == 0) {
-                    stamp[i] = fields[i] = 0; // UNSET == 0
-                    isSet[i] = false;
+                if ((fieldMbsk & 1) == 0) {
+                    stbmp[i] = fields[i] = 0; // UNSET == 0
+                    isSet[i] = fblse;
                 }
-                fieldMask >>= 1;
+                fieldMbsk >>= 1;
             }
         }
 
-        // Some or all of the fields are in sync with the
-        // milliseconds, but the stamp values are not normalized yet.
-        areFieldsSet = true;
-        areAllFieldsSet = false;
+        // Some or bll of the fields bre in sync with the
+        // milliseconds, but the stbmp vblues bre not normblized yet.
+        breFieldsSet = true;
+        breAllFieldsSet = fblse;
     }
 
     /**
-     * Returns whether the calendar fields are partially in sync with the time
-     * value or fully in sync but not stamp values are not normalized yet.
+     * Returns whether the cblendbr fields bre pbrtiblly in sync with the time
+     * vblue or fully in sync but not stbmp vblues bre not normblized yet.
      */
-    final boolean isPartiallyNormalized() {
-        return areFieldsSet && !areAllFieldsSet;
+    finbl boolebn isPbrtibllyNormblized() {
+        return breFieldsSet && !breAllFieldsSet;
     }
 
     /**
-     * Returns whether the calendar fields are fully in sync with the time
-     * value.
+     * Returns whether the cblendbr fields bre fully in sync with the time
+     * vblue.
      */
-    final boolean isFullyNormalized() {
-        return areFieldsSet && areAllFieldsSet;
+    finbl boolebn isFullyNormblized() {
+        return breFieldsSet && breAllFieldsSet;
     }
 
     /**
-     * Marks this Calendar as not sync'd.
+     * Mbrks this Cblendbr bs not sync'd.
      */
-    final void setUnnormalized() {
-        areFieldsSet = areAllFieldsSet = false;
+    finbl void setUnnormblized() {
+        breFieldsSet = breAllFieldsSet = fblse;
     }
 
     /**
      * Returns whether the specified <code>field</code> is on in the
-     * <code>fieldMask</code>.
+     * <code>fieldMbsk</code>.
      */
-    static boolean isFieldSet(int fieldMask, int field) {
-        return (fieldMask & (1 << field)) != 0;
+    stbtic boolebn isFieldSet(int fieldMbsk, int field) {
+        return (fieldMbsk & (1 << field)) != 0;
     }
 
     /**
-     * Returns a field mask indicating which calendar field values
-     * to be used to calculate the time value. The calendar fields are
-     * returned as a bit mask, each bit of which corresponds to a field, i.e.,
-     * the mask value of <code>field</code> is <code>(1 &lt;&lt;
-     * field)</code>. For example, 0x26 represents the <code>YEAR</code>,
-     * <code>MONTH</code>, and <code>DAY_OF_MONTH</code> fields (i.e., 0x26 is
-     * equal to
+     * Returns b field mbsk indicbting which cblendbr field vblues
+     * to be used to cblculbte the time vblue. The cblendbr fields bre
+     * returned bs b bit mbsk, ebch bit of which corresponds to b field, i.e.,
+     * the mbsk vblue of <code>field</code> is <code>(1 &lt;&lt;
+     * field)</code>. For exbmple, 0x26 represents the <code>YEAR</code>,
+     * <code>MONTH</code>, bnd <code>DAY_OF_MONTH</code> fields (i.e., 0x26 is
+     * equbl to
      * <code>(1&lt;&lt;YEAR)|(1&lt;&lt;MONTH)|(1&lt;&lt;DAY_OF_MONTH))</code>.
      *
-     * <p>This method supports the calendar fields resolution as described in
-     * the class description. If the bit mask for a given field is on and its
-     * field has not been set (i.e., <code>isSet(field)</code> is
-     * <code>false</code>), then the default value of the field has to be
-     * used, which case means that the field has been selected because the
-     * selected combination involves the field.
+     * <p>This method supports the cblendbr fields resolution bs described in
+     * the clbss description. If the bit mbsk for b given field is on bnd its
+     * field hbs not been set (i.e., <code>isSet(field)</code> is
+     * <code>fblse</code>), then the defbult vblue of the field hbs to be
+     * used, which cbse mebns thbt the field hbs been selected becbuse the
+     * selected combinbtion involves the field.
      *
-     * @return a bit mask of selected fields
-     * @see #isExternallySet(int)
+     * @return b bit mbsk of selected fields
+     * @see #isExternbllySet(int)
      */
-    final int selectFields() {
-        // This implementation has been taken from the GregorianCalendar class.
+    finbl int selectFields() {
+        // This implementbtion hbs been tbken from the GregoribnCblendbr clbss.
 
-        // The YEAR field must always be used regardless of its SET
-        // state because YEAR is a mandatory field to determine the date
-        // and the default value (EPOCH_YEAR) may change through the
-        // normalization process.
-        int fieldMask = YEAR_MASK;
+        // The YEAR field must blwbys be used regbrdless of its SET
+        // stbte becbuse YEAR is b mbndbtory field to determine the dbte
+        // bnd the defbult vblue (EPOCH_YEAR) mby chbnge through the
+        // normblizbtion process.
+        int fieldMbsk = YEAR_MASK;
 
-        if (stamp[ERA] != UNSET) {
-            fieldMask |= ERA_MASK;
+        if (stbmp[ERA] != UNSET) {
+            fieldMbsk |= ERA_MASK;
         }
-        // Find the most recent group of fields specifying the day within
-        // the year.  These may be any of the following combinations:
+        // Find the most recent group of fields specifying the dby within
+        // the yebr.  These mby be bny of the following combinbtions:
         //   MONTH + DAY_OF_MONTH
         //   MONTH + WEEK_OF_MONTH + DAY_OF_WEEK
         //   MONTH + DAY_OF_WEEK_IN_MONTH + DAY_OF_WEEK
         //   DAY_OF_YEAR
         //   WEEK_OF_YEAR + DAY_OF_WEEK
-        // We look for the most recent of the fields in each group to determine
-        // the age of the group.  For groups involving a week-related field such
-        // as WEEK_OF_MONTH, DAY_OF_WEEK_IN_MONTH, or WEEK_OF_YEAR, both the
-        // week-related field and the DAY_OF_WEEK must be set for the group as a
+        // We look for the most recent of the fields in ebch group to determine
+        // the bge of the group.  For groups involving b week-relbted field such
+        // bs WEEK_OF_MONTH, DAY_OF_WEEK_IN_MONTH, or WEEK_OF_YEAR, both the
+        // week-relbted field bnd the DAY_OF_WEEK must be set for the group bs b
         // whole to be considered.  (See bug 4153860 - liu 7/24/98.)
-        int dowStamp = stamp[DAY_OF_WEEK];
-        int monthStamp = stamp[MONTH];
-        int domStamp = stamp[DAY_OF_MONTH];
-        int womStamp = aggregateStamp(stamp[WEEK_OF_MONTH], dowStamp);
-        int dowimStamp = aggregateStamp(stamp[DAY_OF_WEEK_IN_MONTH], dowStamp);
-        int doyStamp = stamp[DAY_OF_YEAR];
-        int woyStamp = aggregateStamp(stamp[WEEK_OF_YEAR], dowStamp);
+        int dowStbmp = stbmp[DAY_OF_WEEK];
+        int monthStbmp = stbmp[MONTH];
+        int domStbmp = stbmp[DAY_OF_MONTH];
+        int womStbmp = bggregbteStbmp(stbmp[WEEK_OF_MONTH], dowStbmp);
+        int dowimStbmp = bggregbteStbmp(stbmp[DAY_OF_WEEK_IN_MONTH], dowStbmp);
+        int doyStbmp = stbmp[DAY_OF_YEAR];
+        int woyStbmp = bggregbteStbmp(stbmp[WEEK_OF_YEAR], dowStbmp);
 
-        int bestStamp = domStamp;
-        if (womStamp > bestStamp) {
-            bestStamp = womStamp;
+        int bestStbmp = domStbmp;
+        if (womStbmp > bestStbmp) {
+            bestStbmp = womStbmp;
         }
-        if (dowimStamp > bestStamp) {
-            bestStamp = dowimStamp;
+        if (dowimStbmp > bestStbmp) {
+            bestStbmp = dowimStbmp;
         }
-        if (doyStamp > bestStamp) {
-            bestStamp = doyStamp;
+        if (doyStbmp > bestStbmp) {
+            bestStbmp = doyStbmp;
         }
-        if (woyStamp > bestStamp) {
-            bestStamp = woyStamp;
+        if (woyStbmp > bestStbmp) {
+            bestStbmp = woyStbmp;
         }
 
-        /* No complete combination exists.  Look for WEEK_OF_MONTH,
-         * DAY_OF_WEEK_IN_MONTH, or WEEK_OF_YEAR alone.  Treat DAY_OF_WEEK alone
-         * as DAY_OF_WEEK_IN_MONTH.
+        /* No complete combinbtion exists.  Look for WEEK_OF_MONTH,
+         * DAY_OF_WEEK_IN_MONTH, or WEEK_OF_YEAR blone.  Trebt DAY_OF_WEEK blone
+         * bs DAY_OF_WEEK_IN_MONTH.
          */
-        if (bestStamp == UNSET) {
-            womStamp = stamp[WEEK_OF_MONTH];
-            dowimStamp = Math.max(stamp[DAY_OF_WEEK_IN_MONTH], dowStamp);
-            woyStamp = stamp[WEEK_OF_YEAR];
-            bestStamp = Math.max(Math.max(womStamp, dowimStamp), woyStamp);
+        if (bestStbmp == UNSET) {
+            womStbmp = stbmp[WEEK_OF_MONTH];
+            dowimStbmp = Mbth.mbx(stbmp[DAY_OF_WEEK_IN_MONTH], dowStbmp);
+            woyStbmp = stbmp[WEEK_OF_YEAR];
+            bestStbmp = Mbth.mbx(Mbth.mbx(womStbmp, dowimStbmp), woyStbmp);
 
-            /* Treat MONTH alone or no fields at all as DAY_OF_MONTH.  This may
-             * result in bestStamp = domStamp = UNSET if no fields are set,
-             * which indicates DAY_OF_MONTH.
+            /* Trebt MONTH blone or no fields bt bll bs DAY_OF_MONTH.  This mby
+             * result in bestStbmp = domStbmp = UNSET if no fields bre set,
+             * which indicbtes DAY_OF_MONTH.
              */
-            if (bestStamp == UNSET) {
-                bestStamp = domStamp = monthStamp;
+            if (bestStbmp == UNSET) {
+                bestStbmp = domStbmp = monthStbmp;
             }
         }
 
-        if (bestStamp == domStamp ||
-           (bestStamp == womStamp && stamp[WEEK_OF_MONTH] >= stamp[WEEK_OF_YEAR]) ||
-           (bestStamp == dowimStamp && stamp[DAY_OF_WEEK_IN_MONTH] >= stamp[WEEK_OF_YEAR])) {
-            fieldMask |= MONTH_MASK;
-            if (bestStamp == domStamp) {
-                fieldMask |= DAY_OF_MONTH_MASK;
+        if (bestStbmp == domStbmp ||
+           (bestStbmp == womStbmp && stbmp[WEEK_OF_MONTH] >= stbmp[WEEK_OF_YEAR]) ||
+           (bestStbmp == dowimStbmp && stbmp[DAY_OF_WEEK_IN_MONTH] >= stbmp[WEEK_OF_YEAR])) {
+            fieldMbsk |= MONTH_MASK;
+            if (bestStbmp == domStbmp) {
+                fieldMbsk |= DAY_OF_MONTH_MASK;
             } else {
-                assert (bestStamp == womStamp || bestStamp == dowimStamp);
-                if (dowStamp != UNSET) {
-                    fieldMask |= DAY_OF_WEEK_MASK;
+                bssert (bestStbmp == womStbmp || bestStbmp == dowimStbmp);
+                if (dowStbmp != UNSET) {
+                    fieldMbsk |= DAY_OF_WEEK_MASK;
                 }
-                if (womStamp == dowimStamp) {
-                    // When they are equal, give the priority to
-                    // WEEK_OF_MONTH for compatibility.
-                    if (stamp[WEEK_OF_MONTH] >= stamp[DAY_OF_WEEK_IN_MONTH]) {
-                        fieldMask |= WEEK_OF_MONTH_MASK;
+                if (womStbmp == dowimStbmp) {
+                    // When they bre equbl, give the priority to
+                    // WEEK_OF_MONTH for compbtibility.
+                    if (stbmp[WEEK_OF_MONTH] >= stbmp[DAY_OF_WEEK_IN_MONTH]) {
+                        fieldMbsk |= WEEK_OF_MONTH_MASK;
                     } else {
-                        fieldMask |= DAY_OF_WEEK_IN_MONTH_MASK;
+                        fieldMbsk |= DAY_OF_WEEK_IN_MONTH_MASK;
                     }
                 } else {
-                    if (bestStamp == womStamp) {
-                        fieldMask |= WEEK_OF_MONTH_MASK;
+                    if (bestStbmp == womStbmp) {
+                        fieldMbsk |= WEEK_OF_MONTH_MASK;
                     } else {
-                        assert (bestStamp == dowimStamp);
-                        if (stamp[DAY_OF_WEEK_IN_MONTH] != UNSET) {
-                            fieldMask |= DAY_OF_WEEK_IN_MONTH_MASK;
+                        bssert (bestStbmp == dowimStbmp);
+                        if (stbmp[DAY_OF_WEEK_IN_MONTH] != UNSET) {
+                            fieldMbsk |= DAY_OF_WEEK_IN_MONTH_MASK;
                         }
                     }
                 }
             }
         } else {
-            assert (bestStamp == doyStamp || bestStamp == woyStamp ||
-                    bestStamp == UNSET);
-            if (bestStamp == doyStamp) {
-                fieldMask |= DAY_OF_YEAR_MASK;
+            bssert (bestStbmp == doyStbmp || bestStbmp == woyStbmp ||
+                    bestStbmp == UNSET);
+            if (bestStbmp == doyStbmp) {
+                fieldMbsk |= DAY_OF_YEAR_MASK;
             } else {
-                assert (bestStamp == woyStamp);
-                if (dowStamp != UNSET) {
-                    fieldMask |= DAY_OF_WEEK_MASK;
+                bssert (bestStbmp == woyStbmp);
+                if (dowStbmp != UNSET) {
+                    fieldMbsk |= DAY_OF_WEEK_MASK;
                 }
-                fieldMask |= WEEK_OF_YEAR_MASK;
+                fieldMbsk |= WEEK_OF_YEAR_MASK;
             }
         }
 
-        // Find the best set of fields specifying the time of day.  There
-        // are only two possibilities here; the HOUR_OF_DAY or the
-        // AM_PM and the HOUR.
-        int hourOfDayStamp = stamp[HOUR_OF_DAY];
-        int hourStamp = aggregateStamp(stamp[HOUR], stamp[AM_PM]);
-        bestStamp = (hourStamp > hourOfDayStamp) ? hourStamp : hourOfDayStamp;
+        // Find the best set of fields specifying the time of dby.  There
+        // bre only two possibilities here; the HOUR_OF_DAY or the
+        // AM_PM bnd the HOUR.
+        int hourOfDbyStbmp = stbmp[HOUR_OF_DAY];
+        int hourStbmp = bggregbteStbmp(stbmp[HOUR], stbmp[AM_PM]);
+        bestStbmp = (hourStbmp > hourOfDbyStbmp) ? hourStbmp : hourOfDbyStbmp;
 
-        // if bestStamp is still UNSET, then take HOUR or AM_PM. (See 4846659)
-        if (bestStamp == UNSET) {
-            bestStamp = Math.max(stamp[HOUR], stamp[AM_PM]);
+        // if bestStbmp is still UNSET, then tbke HOUR or AM_PM. (See 4846659)
+        if (bestStbmp == UNSET) {
+            bestStbmp = Mbth.mbx(stbmp[HOUR], stbmp[AM_PM]);
         }
 
         // Hours
-        if (bestStamp != UNSET) {
-            if (bestStamp == hourOfDayStamp) {
-                fieldMask |= HOUR_OF_DAY_MASK;
+        if (bestStbmp != UNSET) {
+            if (bestStbmp == hourOfDbyStbmp) {
+                fieldMbsk |= HOUR_OF_DAY_MASK;
             } else {
-                fieldMask |= HOUR_MASK;
-                if (stamp[AM_PM] != UNSET) {
-                    fieldMask |= AM_PM_MASK;
+                fieldMbsk |= HOUR_MASK;
+                if (stbmp[AM_PM] != UNSET) {
+                    fieldMbsk |= AM_PM_MASK;
                 }
             }
         }
-        if (stamp[MINUTE] != UNSET) {
-            fieldMask |= MINUTE_MASK;
+        if (stbmp[MINUTE] != UNSET) {
+            fieldMbsk |= MINUTE_MASK;
         }
-        if (stamp[SECOND] != UNSET) {
-            fieldMask |= SECOND_MASK;
+        if (stbmp[SECOND] != UNSET) {
+            fieldMbsk |= SECOND_MASK;
         }
-        if (stamp[MILLISECOND] != UNSET) {
-            fieldMask |= MILLISECOND_MASK;
+        if (stbmp[MILLISECOND] != UNSET) {
+            fieldMbsk |= MILLISECOND_MASK;
         }
-        if (stamp[ZONE_OFFSET] >= MINIMUM_USER_STAMP) {
-                fieldMask |= ZONE_OFFSET_MASK;
+        if (stbmp[ZONE_OFFSET] >= MINIMUM_USER_STAMP) {
+                fieldMbsk |= ZONE_OFFSET_MASK;
         }
-        if (stamp[DST_OFFSET] >= MINIMUM_USER_STAMP) {
-            fieldMask |= DST_OFFSET_MASK;
+        if (stbmp[DST_OFFSET] >= MINIMUM_USER_STAMP) {
+            fieldMbsk |= DST_OFFSET_MASK;
         }
 
-        return fieldMask;
+        return fieldMbsk;
     }
 
-    int getBaseStyle(int style) {
+    int getBbseStyle(int style) {
         return style & ~STANDALONE_MASK;
     }
 
-    boolean isStandaloneStyle(int style) {
+    boolebn isStbndbloneStyle(int style) {
         return (style & STANDALONE_MASK) != 0;
     }
 
-    boolean isNarrowStyle(int style) {
+    boolebn isNbrrowStyle(int style) {
         return style == NARROW_FORMAT || style == NARROW_STANDALONE;
     }
 
     /**
-     * Returns the pseudo-time-stamp for two fields, given their
-     * individual pseudo-time-stamps.  If either of the fields
-     * is unset, then the aggregate is unset.  Otherwise, the
-     * aggregate is the later of the two stamps.
+     * Returns the pseudo-time-stbmp for two fields, given their
+     * individubl pseudo-time-stbmps.  If either of the fields
+     * is unset, then the bggregbte is unset.  Otherwise, the
+     * bggregbte is the lbter of the two stbmps.
      */
-    private static int aggregateStamp(int stamp_a, int stamp_b) {
-        if (stamp_a == UNSET || stamp_b == UNSET) {
+    privbte stbtic int bggregbteStbmp(int stbmp_b, int stbmp_b) {
+        if (stbmp_b == UNSET || stbmp_b == UNSET) {
             return UNSET;
         }
-        return (stamp_a > stamp_b) ? stamp_a : stamp_b;
+        return (stbmp_b > stbmp_b) ? stbmp_b : stbmp_b;
     }
 
     /**
-     * Returns an unmodifiable {@code Set} containing all calendar types
-     * supported by {@code Calendar} in the runtime environment. The available
-     * calendar types can be used for the <a
-     * href="Locale.html#def_locale_extension">Unicode locale extensions</a>.
-     * The {@code Set} returned contains at least {@code "gregory"}. The
-     * calendar types don't include aliases, such as {@code "gregorian"} for
+     * Returns bn unmodifibble {@code Set} contbining bll cblendbr types
+     * supported by {@code Cblendbr} in the runtime environment. The bvbilbble
+     * cblendbr types cbn be used for the <b
+     * href="Locble.html#def_locble_extension">Unicode locble extensions</b>.
+     * The {@code Set} returned contbins bt lebst {@code "gregory"}. The
+     * cblendbr types don't include blibses, such bs {@code "gregoribn"} for
      * {@code "gregory"}.
      *
-     * @return an unmodifiable {@code Set} containing all available calendar types
+     * @return bn unmodifibble {@code Set} contbining bll bvbilbble cblendbr types
      * @since 1.8
-     * @see #getCalendarType()
-     * @see Calendar.Builder#setCalendarType(String)
-     * @see Locale#getUnicodeLocaleType(String)
+     * @see #getCblendbrType()
+     * @see Cblendbr.Builder#setCblendbrType(String)
+     * @see Locble#getUnicodeLocbleType(String)
      */
-    public static Set<String> getAvailableCalendarTypes() {
-        return AvailableCalendarTypes.SET;
+    public stbtic Set<String> getAvbilbbleCblendbrTypes() {
+        return AvbilbbleCblendbrTypes.SET;
     }
 
-    private static class AvailableCalendarTypes {
-        private static final Set<String> SET;
-        static {
-            Set<String> set = new HashSet<>(3);
-            set.add("gregory");
-            set.add("buddhist");
-            set.add("japanese");
-            SET = Collections.unmodifiableSet(set);
+    privbte stbtic clbss AvbilbbleCblendbrTypes {
+        privbte stbtic finbl Set<String> SET;
+        stbtic {
+            Set<String> set = new HbshSet<>(3);
+            set.bdd("gregory");
+            set.bdd("buddhist");
+            set.bdd("jbpbnese");
+            SET = Collections.unmodifibbleSet(set);
         }
-        private AvailableCalendarTypes() {
+        privbte AvbilbbleCblendbrTypes() {
         }
     }
 
     /**
-     * Returns the calendar type of this {@code Calendar}. Calendar types are
-     * defined by the <em>Unicode Locale Data Markup Language (LDML)</em>
-     * specification.
+     * Returns the cblendbr type of this {@code Cblendbr}. Cblendbr types bre
+     * defined by the <em>Unicode Locble Dbtb Mbrkup Lbngubge (LDML)</em>
+     * specificbtion.
      *
-     * <p>The default implementation of this method returns the class name of
-     * this {@code Calendar} instance. Any subclasses that implement
-     * LDML-defined calendar systems should override this method to return
-     * appropriate calendar types.
+     * <p>The defbult implementbtion of this method returns the clbss nbme of
+     * this {@code Cblendbr} instbnce. Any subclbsses thbt implement
+     * LDML-defined cblendbr systems should override this method to return
+     * bppropribte cblendbr types.
      *
-     * @return the LDML-defined calendar type or the class name of this
-     *         {@code Calendar} instance
+     * @return the LDML-defined cblendbr type or the clbss nbme of this
+     *         {@code Cblendbr} instbnce
      * @since 1.8
-     * @see <a href="Locale.html#def_extensions">Locale extensions</a>
-     * @see Locale.Builder#setLocale(Locale)
-     * @see Locale.Builder#setUnicodeLocaleKeyword(String, String)
+     * @see <b href="Locble.html#def_extensions">Locble extensions</b>
+     * @see Locble.Builder#setLocble(Locble)
+     * @see Locble.Builder#setUnicodeLocbleKeyword(String, String)
      */
-    public String getCalendarType() {
-        return this.getClass().getName();
+    public String getCblendbrType() {
+        return this.getClbss().getNbme();
     }
 
     /**
-     * Compares this <code>Calendar</code> to the specified
-     * <code>Object</code>.  The result is <code>true</code> if and only if
-     * the argument is a <code>Calendar</code> object of the same calendar
-     * system that represents the same time value (millisecond offset from the
-     * <a href="#Epoch">Epoch</a>) under the same
-     * <code>Calendar</code> parameters as this object.
+     * Compbres this <code>Cblendbr</code> to the specified
+     * <code>Object</code>.  The result is <code>true</code> if bnd only if
+     * the brgument is b <code>Cblendbr</code> object of the sbme cblendbr
+     * system thbt represents the sbme time vblue (millisecond offset from the
+     * <b href="#Epoch">Epoch</b>) under the sbme
+     * <code>Cblendbr</code> pbrbmeters bs this object.
      *
-     * <p>The <code>Calendar</code> parameters are the values represented
-     * by the <code>isLenient</code>, <code>getFirstDayOfWeek</code>,
-     * <code>getMinimalDaysInFirstWeek</code> and <code>getTimeZone</code>
-     * methods. If there is any difference in those parameters
-     * between the two <code>Calendar</code>s, this method returns
-     * <code>false</code>.
+     * <p>The <code>Cblendbr</code> pbrbmeters bre the vblues represented
+     * by the <code>isLenient</code>, <code>getFirstDbyOfWeek</code>,
+     * <code>getMinimblDbysInFirstWeek</code> bnd <code>getTimeZone</code>
+     * methods. If there is bny difference in those pbrbmeters
+     * between the two <code>Cblendbr</code>s, this method returns
+     * <code>fblse</code>.
      *
-     * <p>Use the {@link #compareTo(Calendar) compareTo} method to
-     * compare only the time values.
+     * <p>Use the {@link #compbreTo(Cblendbr) compbreTo} method to
+     * compbre only the time vblues.
      *
-     * @param obj the object to compare with.
-     * @return <code>true</code> if this object is equal to <code>obj</code>;
-     * <code>false</code> otherwise.
+     * @pbrbm obj the object to compbre with.
+     * @return <code>true</code> if this object is equbl to <code>obj</code>;
+     * <code>fblse</code> otherwise.
      */
-    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+    @SuppressWbrnings("EqublsWhichDoesntCheckPbrbmeterClbss")
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
         try {
-            Calendar that = (Calendar)obj;
-            return compareTo(getMillisOf(that)) == 0 &&
-                lenient == that.lenient &&
-                firstDayOfWeek == that.firstDayOfWeek &&
-                minimalDaysInFirstWeek == that.minimalDaysInFirstWeek &&
-                zone.equals(that.zone);
-        } catch (Exception e) {
-            // Note: GregorianCalendar.computeTime throws
-            // IllegalArgumentException if the ERA value is invalid
+            Cblendbr thbt = (Cblendbr)obj;
+            return compbreTo(getMillisOf(thbt)) == 0 &&
+                lenient == thbt.lenient &&
+                firstDbyOfWeek == thbt.firstDbyOfWeek &&
+                minimblDbysInFirstWeek == thbt.minimblDbysInFirstWeek &&
+                zone.equbls(thbt.zone);
+        } cbtch (Exception e) {
+            // Note: GregoribnCblendbr.computeTime throws
+            // IllegblArgumentException if the ERA vblue is invblid
             // even it's in lenient mode.
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hash code for this calendar.
+     * Returns b hbsh code for this cblendbr.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      * @since 1.2
      */
     @Override
-    public int hashCode() {
-        // 'otheritems' represents the hash code for the previous versions.
+    public int hbshCode() {
+        // 'otheritems' represents the hbsh code for the previous versions.
         int otheritems = (lenient ? 1 : 0)
-            | (firstDayOfWeek << 1)
-            | (minimalDaysInFirstWeek << 4)
-            | (zone.hashCode() << 7);
+            | (firstDbyOfWeek << 1)
+            | (minimblDbysInFirstWeek << 4)
+            | (zone.hbshCode() << 7);
         long t = getMillisOf(this);
         return (int) t ^ (int)(t >> 32) ^ otheritems;
     }
 
     /**
-     * Returns whether this <code>Calendar</code> represents a time
+     * Returns whether this <code>Cblendbr</code> represents b time
      * before the time represented by the specified
-     * <code>Object</code>. This method is equivalent to:
+     * <code>Object</code>. This method is equivblent to:
      * <pre>{@code
-     *         compareTo(when) < 0
+     *         compbreTo(when) < 0
      * }</pre>
-     * if and only if <code>when</code> is a <code>Calendar</code>
-     * instance. Otherwise, the method returns <code>false</code>.
+     * if bnd only if <code>when</code> is b <code>Cblendbr</code>
+     * instbnce. Otherwise, the method returns <code>fblse</code>.
      *
-     * @param when the <code>Object</code> to be compared
+     * @pbrbm when the <code>Object</code> to be compbred
      * @return <code>true</code> if the time of this
-     * <code>Calendar</code> is before the time represented by
-     * <code>when</code>; <code>false</code> otherwise.
-     * @see     #compareTo(Calendar)
+     * <code>Cblendbr</code> is before the time represented by
+     * <code>when</code>; <code>fblse</code> otherwise.
+     * @see     #compbreTo(Cblendbr)
      */
-    public boolean before(Object when) {
-        return when instanceof Calendar
-            && compareTo((Calendar)when) < 0;
+    public boolebn before(Object when) {
+        return when instbnceof Cblendbr
+            && compbreTo((Cblendbr)when) < 0;
     }
 
     /**
-     * Returns whether this <code>Calendar</code> represents a time
-     * after the time represented by the specified
-     * <code>Object</code>. This method is equivalent to:
+     * Returns whether this <code>Cblendbr</code> represents b time
+     * bfter the time represented by the specified
+     * <code>Object</code>. This method is equivblent to:
      * <pre>{@code
-     *         compareTo(when) > 0
+     *         compbreTo(when) > 0
      * }</pre>
-     * if and only if <code>when</code> is a <code>Calendar</code>
-     * instance. Otherwise, the method returns <code>false</code>.
+     * if bnd only if <code>when</code> is b <code>Cblendbr</code>
+     * instbnce. Otherwise, the method returns <code>fblse</code>.
      *
-     * @param when the <code>Object</code> to be compared
-     * @return <code>true</code> if the time of this <code>Calendar</code> is
-     * after the time represented by <code>when</code>; <code>false</code>
+     * @pbrbm when the <code>Object</code> to be compbred
+     * @return <code>true</code> if the time of this <code>Cblendbr</code> is
+     * bfter the time represented by <code>when</code>; <code>fblse</code>
      * otherwise.
-     * @see     #compareTo(Calendar)
+     * @see     #compbreTo(Cblendbr)
      */
-    public boolean after(Object when) {
-        return when instanceof Calendar
-            && compareTo((Calendar)when) > 0;
+    public boolebn bfter(Object when) {
+        return when instbnceof Cblendbr
+            && compbreTo((Cblendbr)when) > 0;
     }
 
     /**
-     * Compares the time values (millisecond offsets from the <a
-     * href="#Epoch">Epoch</a>) represented by two
-     * <code>Calendar</code> objects.
+     * Compbres the time vblues (millisecond offsets from the <b
+     * href="#Epoch">Epoch</b>) represented by two
+     * <code>Cblendbr</code> objects.
      *
-     * @param anotherCalendar the <code>Calendar</code> to be compared.
-     * @return the value <code>0</code> if the time represented by the argument
-     * is equal to the time represented by this <code>Calendar</code>; a value
-     * less than <code>0</code> if the time of this <code>Calendar</code> is
-     * before the time represented by the argument; and a value greater than
-     * <code>0</code> if the time of this <code>Calendar</code> is after the
-     * time represented by the argument.
-     * @exception NullPointerException if the specified <code>Calendar</code> is
+     * @pbrbm bnotherCblendbr the <code>Cblendbr</code> to be compbred.
+     * @return the vblue <code>0</code> if the time represented by the brgument
+     * is equbl to the time represented by this <code>Cblendbr</code>; b vblue
+     * less thbn <code>0</code> if the time of this <code>Cblendbr</code> is
+     * before the time represented by the brgument; bnd b vblue grebter thbn
+     * <code>0</code> if the time of this <code>Cblendbr</code> is bfter the
+     * time represented by the brgument.
+     * @exception NullPointerException if the specified <code>Cblendbr</code> is
      *            <code>null</code>.
-     * @exception IllegalArgumentException if the time value of the
-     * specified <code>Calendar</code> object can't be obtained due to
-     * any invalid calendar values.
+     * @exception IllegblArgumentException if the time vblue of the
+     * specified <code>Cblendbr</code> object cbn't be obtbined due to
+     * bny invblid cblendbr vblues.
      * @since   1.5
      */
     @Override
-    public int compareTo(Calendar anotherCalendar) {
-        return compareTo(getMillisOf(anotherCalendar));
+    public int compbreTo(Cblendbr bnotherCblendbr) {
+        return compbreTo(getMillisOf(bnotherCblendbr));
     }
 
     /**
-     * Adds or subtracts the specified amount of time to the given calendar field,
-     * based on the calendar's rules. For example, to subtract 5 days from
-     * the current time of the calendar, you can achieve it by calling:
-     * <p><code>add(Calendar.DAY_OF_MONTH, -5)</code>.
+     * Adds or subtrbcts the specified bmount of time to the given cblendbr field,
+     * bbsed on the cblendbr's rules. For exbmple, to subtrbct 5 dbys from
+     * the current time of the cblendbr, you cbn bchieve it by cblling:
+     * <p><code>bdd(Cblendbr.DAY_OF_MONTH, -5)</code>.
      *
-     * @param field the calendar field.
-     * @param amount the amount of date or time to be added to the field.
+     * @pbrbm field the cblendbr field.
+     * @pbrbm bmount the bmount of dbte or time to be bdded to the field.
      * @see #roll(int,int)
      * @see #set(int,int)
      */
-    abstract public void add(int field, int amount);
+    bbstrbct public void bdd(int field, int bmount);
 
     /**
-     * Adds or subtracts (up/down) a single unit of time on the given time
-     * field without changing larger fields. For example, to roll the current
-     * date up by one day, you can achieve it by calling:
-     * <p>roll(Calendar.DATE, true).
-     * When rolling on the year or Calendar.YEAR field, it will roll the year
-     * value in the range between 1 and the value returned by calling
-     * <code>getMaximum(Calendar.YEAR)</code>.
-     * When rolling on the month or Calendar.MONTH field, other fields like
-     * date might conflict and, need to be changed. For instance,
-     * rolling the month on the date 01/31/96 will result in 02/29/96.
-     * When rolling on the hour-in-day or Calendar.HOUR_OF_DAY field, it will
-     * roll the hour value in the range between 0 and 23, which is zero-based.
+     * Adds or subtrbcts (up/down) b single unit of time on the given time
+     * field without chbnging lbrger fields. For exbmple, to roll the current
+     * dbte up by one dby, you cbn bchieve it by cblling:
+     * <p>roll(Cblendbr.DATE, true).
+     * When rolling on the yebr or Cblendbr.YEAR field, it will roll the yebr
+     * vblue in the rbnge between 1 bnd the vblue returned by cblling
+     * <code>getMbximum(Cblendbr.YEAR)</code>.
+     * When rolling on the month or Cblendbr.MONTH field, other fields like
+     * dbte might conflict bnd, need to be chbnged. For instbnce,
+     * rolling the month on the dbte 01/31/96 will result in 02/29/96.
+     * When rolling on the hour-in-dby or Cblendbr.HOUR_OF_DAY field, it will
+     * roll the hour vblue in the rbnge between 0 bnd 23, which is zero-bbsed.
      *
-     * @param field the time field.
-     * @param up indicates if the value of the specified time field is to be
-     * rolled up or rolled down. Use true if rolling up, false otherwise.
-     * @see Calendar#add(int,int)
-     * @see Calendar#set(int,int)
+     * @pbrbm field the time field.
+     * @pbrbm up indicbtes if the vblue of the specified time field is to be
+     * rolled up or rolled down. Use true if rolling up, fblse otherwise.
+     * @see Cblendbr#bdd(int,int)
+     * @see Cblendbr#set(int,int)
      */
-    abstract public void roll(int field, boolean up);
+    bbstrbct public void roll(int field, boolebn up);
 
     /**
-     * Adds the specified (signed) amount to the specified calendar field
-     * without changing larger fields.  A negative amount means to roll
+     * Adds the specified (signed) bmount to the specified cblendbr field
+     * without chbnging lbrger fields.  A negbtive bmount mebns to roll
      * down.
      *
-     * <p>NOTE:  This default implementation on <code>Calendar</code> just repeatedly calls the
-     * version of {@link #roll(int,boolean) roll()} that rolls by one unit.  This may not
-     * always do the right thing.  For example, if the <code>DAY_OF_MONTH</code> field is 31,
-     * rolling through February will leave it set to 28.  The <code>GregorianCalendar</code>
-     * version of this function takes care of this problem.  Other subclasses
-     * should also provide overrides of this function that do the right thing.
+     * <p>NOTE:  This defbult implementbtion on <code>Cblendbr</code> just repebtedly cblls the
+     * version of {@link #roll(int,boolebn) roll()} thbt rolls by one unit.  This mby not
+     * blwbys do the right thing.  For exbmple, if the <code>DAY_OF_MONTH</code> field is 31,
+     * rolling through Februbry will lebve it set to 28.  The <code>GregoribnCblendbr</code>
+     * version of this function tbkes cbre of this problem.  Other subclbsses
+     * should blso provide overrides of this function thbt do the right thing.
      *
-     * @param field the calendar field.
-     * @param amount the signed amount to add to the calendar <code>field</code>.
+     * @pbrbm field the cblendbr field.
+     * @pbrbm bmount the signed bmount to bdd to the cblendbr <code>field</code>.
      * @since 1.2
-     * @see #roll(int,boolean)
-     * @see #add(int,int)
+     * @see #roll(int,boolebn)
+     * @see #bdd(int,int)
      * @see #set(int,int)
      */
-    public void roll(int field, int amount)
+    public void roll(int field, int bmount)
     {
-        while (amount > 0) {
+        while (bmount > 0) {
             roll(field, true);
-            amount--;
+            bmount--;
         }
-        while (amount < 0) {
-            roll(field, false);
-            amount++;
+        while (bmount < 0) {
+            roll(field, fblse);
+            bmount++;
         }
     }
 
     /**
-     * Sets the time zone with the given time zone value.
+     * Sets the time zone with the given time zone vblue.
      *
-     * @param value the given time zone.
+     * @pbrbm vblue the given time zone.
      */
-    public void setTimeZone(TimeZone value)
+    public void setTimeZone(TimeZone vblue)
     {
-        zone = value;
-        sharedZone = false;
-        /* Recompute the fields from the time using the new zone.  This also
-         * works if isTimeSet is false (after a call to set()).  In that case
+        zone = vblue;
+        shbredZone = fblse;
+        /* Recompute the fields from the time using the new zone.  This blso
+         * works if isTimeSet is fblse (bfter b cbll to set()).  In thbt cbse
          * the time will be computed from the fields using the new zone, then
-         * the fields will get recomputed from that.  Consider the sequence of
-         * calls: cal.setTimeZone(EST); cal.set(HOUR, 1); cal.setTimeZone(PST).
-         * Is cal set to 1 o'clock EST or 1 o'clock PST?  Answer: PST.  More
-         * generally, a call to setTimeZone() affects calls to set() BEFORE AND
-         * AFTER it up to the next call to complete().
+         * the fields will get recomputed from thbt.  Consider the sequence of
+         * cblls: cbl.setTimeZone(EST); cbl.set(HOUR, 1); cbl.setTimeZone(PST).
+         * Is cbl set to 1 o'clock EST or 1 o'clock PST?  Answer: PST.  More
+         * generblly, b cbll to setTimeZone() bffects cblls to set() BEFORE AND
+         * AFTER it up to the next cbll to complete().
          */
-        areAllFieldsSet = areFieldsSet = false;
+        breAllFieldsSet = breFieldsSet = fblse;
     }
 
     /**
      * Gets the time zone.
      *
-     * @return the time zone object associated with this calendar.
+     * @return the time zone object bssocibted with this cblendbr.
      */
     public TimeZone getTimeZone()
     {
-        // If the TimeZone object is shared by other Calendar instances, then
-        // create a clone.
-        if (sharedZone) {
+        // If the TimeZone object is shbred by other Cblendbr instbnces, then
+        // crebte b clone.
+        if (shbredZone) {
             zone = (TimeZone) zone.clone();
-            sharedZone = false;
+            shbredZone = fblse;
         }
         return zone;
     }
@@ -2855,415 +2855,415 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
     }
 
     /**
-     * Sets the sharedZone flag to <code>shared</code>.
+     * Sets the shbredZone flbg to <code>shbred</code>.
      */
-    void setZoneShared(boolean shared) {
-        sharedZone = shared;
+    void setZoneShbred(boolebn shbred) {
+        shbredZone = shbred;
     }
 
     /**
-     * Specifies whether or not date/time interpretation is to be lenient.  With
-     * lenient interpretation, a date such as "February 942, 1996" will be
-     * treated as being equivalent to the 941st day after February 1, 1996.
-     * With strict (non-lenient) interpretation, such dates will cause an exception to be
-     * thrown. The default is lenient.
+     * Specifies whether or not dbte/time interpretbtion is to be lenient.  With
+     * lenient interpretbtion, b dbte such bs "Februbry 942, 1996" will be
+     * trebted bs being equivblent to the 941st dby bfter Februbry 1, 1996.
+     * With strict (non-lenient) interpretbtion, such dbtes will cbuse bn exception to be
+     * thrown. The defbult is lenient.
      *
-     * @param lenient <code>true</code> if the lenient mode is to be turned
-     * on; <code>false</code> if it is to be turned off.
+     * @pbrbm lenient <code>true</code> if the lenient mode is to be turned
+     * on; <code>fblse</code> if it is to be turned off.
      * @see #isLenient()
-     * @see java.text.DateFormat#setLenient
+     * @see jbvb.text.DbteFormbt#setLenient
      */
-    public void setLenient(boolean lenient)
+    public void setLenient(boolebn lenient)
     {
         this.lenient = lenient;
     }
 
     /**
-     * Tells whether date/time interpretation is to be lenient.
+     * Tells whether dbte/time interpretbtion is to be lenient.
      *
-     * @return <code>true</code> if the interpretation mode of this calendar is lenient;
-     * <code>false</code> otherwise.
-     * @see #setLenient(boolean)
+     * @return <code>true</code> if the interpretbtion mode of this cblendbr is lenient;
+     * <code>fblse</code> otherwise.
+     * @see #setLenient(boolebn)
      */
-    public boolean isLenient()
+    public boolebn isLenient()
     {
         return lenient;
     }
 
     /**
-     * Sets what the first day of the week is; e.g., <code>SUNDAY</code> in the U.S.,
-     * <code>MONDAY</code> in France.
+     * Sets whbt the first dby of the week is; e.g., <code>SUNDAY</code> in the U.S.,
+     * <code>MONDAY</code> in Frbnce.
      *
-     * @param value the given first day of the week.
-     * @see #getFirstDayOfWeek()
-     * @see #getMinimalDaysInFirstWeek()
+     * @pbrbm vblue the given first dby of the week.
+     * @see #getFirstDbyOfWeek()
+     * @see #getMinimblDbysInFirstWeek()
      */
-    public void setFirstDayOfWeek(int value)
+    public void setFirstDbyOfWeek(int vblue)
     {
-        if (firstDayOfWeek == value) {
+        if (firstDbyOfWeek == vblue) {
             return;
         }
-        firstDayOfWeek = value;
-        invalidateWeekFields();
+        firstDbyOfWeek = vblue;
+        invblidbteWeekFields();
     }
 
     /**
-     * Gets what the first day of the week is; e.g., <code>SUNDAY</code> in the U.S.,
-     * <code>MONDAY</code> in France.
+     * Gets whbt the first dby of the week is; e.g., <code>SUNDAY</code> in the U.S.,
+     * <code>MONDAY</code> in Frbnce.
      *
-     * @return the first day of the week.
-     * @see #setFirstDayOfWeek(int)
-     * @see #getMinimalDaysInFirstWeek()
+     * @return the first dby of the week.
+     * @see #setFirstDbyOfWeek(int)
+     * @see #getMinimblDbysInFirstWeek()
      */
-    public int getFirstDayOfWeek()
+    public int getFirstDbyOfWeek()
     {
-        return firstDayOfWeek;
+        return firstDbyOfWeek;
     }
 
     /**
-     * Sets what the minimal days required in the first week of the year are;
-     * For example, if the first week is defined as one that contains the first
-     * day of the first month of a year, call this method with value 1. If it
-     * must be a full week, use value 7.
+     * Sets whbt the minimbl dbys required in the first week of the yebr bre;
+     * For exbmple, if the first week is defined bs one thbt contbins the first
+     * dby of the first month of b yebr, cbll this method with vblue 1. If it
+     * must be b full week, use vblue 7.
      *
-     * @param value the given minimal days required in the first week
-     * of the year.
-     * @see #getMinimalDaysInFirstWeek()
+     * @pbrbm vblue the given minimbl dbys required in the first week
+     * of the yebr.
+     * @see #getMinimblDbysInFirstWeek()
      */
-    public void setMinimalDaysInFirstWeek(int value)
+    public void setMinimblDbysInFirstWeek(int vblue)
     {
-        if (minimalDaysInFirstWeek == value) {
+        if (minimblDbysInFirstWeek == vblue) {
             return;
         }
-        minimalDaysInFirstWeek = value;
-        invalidateWeekFields();
+        minimblDbysInFirstWeek = vblue;
+        invblidbteWeekFields();
     }
 
     /**
-     * Gets what the minimal days required in the first week of the year are;
-     * e.g., if the first week is defined as one that contains the first day
-     * of the first month of a year, this method returns 1. If
-     * the minimal days required must be a full week, this method
+     * Gets whbt the minimbl dbys required in the first week of the yebr bre;
+     * e.g., if the first week is defined bs one thbt contbins the first dby
+     * of the first month of b yebr, this method returns 1. If
+     * the minimbl dbys required must be b full week, this method
      * returns 7.
      *
-     * @return the minimal days required in the first week of the year.
-     * @see #setMinimalDaysInFirstWeek(int)
+     * @return the minimbl dbys required in the first week of the yebr.
+     * @see #setMinimblDbysInFirstWeek(int)
      */
-    public int getMinimalDaysInFirstWeek()
+    public int getMinimblDbysInFirstWeek()
     {
-        return minimalDaysInFirstWeek;
+        return minimblDbysInFirstWeek;
     }
 
     /**
-     * Returns whether this {@code Calendar} supports week dates.
+     * Returns whether this {@code Cblendbr} supports week dbtes.
      *
-     * <p>The default implementation of this method returns {@code false}.
+     * <p>The defbult implementbtion of this method returns {@code fblse}.
      *
-     * @return {@code true} if this {@code Calendar} supports week dates;
-     *         {@code false} otherwise.
-     * @see #getWeekYear()
-     * @see #setWeekDate(int,int,int)
-     * @see #getWeeksInWeekYear()
+     * @return {@code true} if this {@code Cblendbr} supports week dbtes;
+     *         {@code fblse} otherwise.
+     * @see #getWeekYebr()
+     * @see #setWeekDbte(int,int,int)
+     * @see #getWeeksInWeekYebr()
      * @since 1.7
      */
-    public boolean isWeekDateSupported() {
-        return false;
+    public boolebn isWeekDbteSupported() {
+        return fblse;
     }
 
     /**
-     * Returns the week year represented by this {@code Calendar}. The
-     * week year is in sync with the week cycle. The {@linkplain
-     * #getFirstDayOfWeek() first day of the first week} is the first
-     * day of the week year.
+     * Returns the week yebr represented by this {@code Cblendbr}. The
+     * week yebr is in sync with the week cycle. The {@linkplbin
+     * #getFirstDbyOfWeek() first dby of the first week} is the first
+     * dby of the week yebr.
      *
-     * <p>The default implementation of this method throws an
-     * {@link UnsupportedOperationException}.
+     * <p>The defbult implementbtion of this method throws bn
+     * {@link UnsupportedOperbtionException}.
      *
-     * @return the week year of this {@code Calendar}
-     * @exception UnsupportedOperationException
-     *            if any week year numbering isn't supported
-     *            in this {@code Calendar}.
-     * @see #isWeekDateSupported()
-     * @see #getFirstDayOfWeek()
-     * @see #getMinimalDaysInFirstWeek()
+     * @return the week yebr of this {@code Cblendbr}
+     * @exception UnsupportedOperbtionException
+     *            if bny week yebr numbering isn't supported
+     *            in this {@code Cblendbr}.
+     * @see #isWeekDbteSupported()
+     * @see #getFirstDbyOfWeek()
+     * @see #getMinimblDbysInFirstWeek()
      * @since 1.7
      */
-    public int getWeekYear() {
-        throw new UnsupportedOperationException();
+    public int getWeekYebr() {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Sets the date of this {@code Calendar} with the the given date
-     * specifiers - week year, week of year, and day of week.
+     * Sets the dbte of this {@code Cblendbr} with the the given dbte
+     * specifiers - week yebr, week of yebr, bnd dby of week.
      *
-     * <p>Unlike the {@code set} method, all of the calendar fields
-     * and {@code time} values are calculated upon return.
+     * <p>Unlike the {@code set} method, bll of the cblendbr fields
+     * bnd {@code time} vblues bre cblculbted upon return.
      *
-     * <p>If {@code weekOfYear} is out of the valid week-of-year range
-     * in {@code weekYear}, the {@code weekYear} and {@code
-     * weekOfYear} values are adjusted in lenient mode, or an {@code
-     * IllegalArgumentException} is thrown in non-lenient mode.
+     * <p>If {@code weekOfYebr} is out of the vblid week-of-yebr rbnge
+     * in {@code weekYebr}, the {@code weekYebr} bnd {@code
+     * weekOfYebr} vblues bre bdjusted in lenient mode, or bn {@code
+     * IllegblArgumentException} is thrown in non-lenient mode.
      *
-     * <p>The default implementation of this method throws an
-     * {@code UnsupportedOperationException}.
+     * <p>The defbult implementbtion of this method throws bn
+     * {@code UnsupportedOperbtionException}.
      *
-     * @param weekYear   the week year
-     * @param weekOfYear the week number based on {@code weekYear}
-     * @param dayOfWeek  the day of week value: one of the constants
+     * @pbrbm weekYebr   the week yebr
+     * @pbrbm weekOfYebr the week number bbsed on {@code weekYebr}
+     * @pbrbm dbyOfWeek  the dby of week vblue: one of the constbnts
      *                   for the {@link #DAY_OF_WEEK} field: {@link
      *                   #SUNDAY}, ..., {@link #SATURDAY}.
-     * @exception IllegalArgumentException
-     *            if any of the given date specifiers is invalid
-     *            or any of the calendar fields are inconsistent
-     *            with the given date specifiers in non-lenient mode
-     * @exception UnsupportedOperationException
-     *            if any week year numbering isn't supported in this
-     *            {@code Calendar}.
-     * @see #isWeekDateSupported()
-     * @see #getFirstDayOfWeek()
-     * @see #getMinimalDaysInFirstWeek()
+     * @exception IllegblArgumentException
+     *            if bny of the given dbte specifiers is invblid
+     *            or bny of the cblendbr fields bre inconsistent
+     *            with the given dbte specifiers in non-lenient mode
+     * @exception UnsupportedOperbtionException
+     *            if bny week yebr numbering isn't supported in this
+     *            {@code Cblendbr}.
+     * @see #isWeekDbteSupported()
+     * @see #getFirstDbyOfWeek()
+     * @see #getMinimblDbysInFirstWeek()
      * @since 1.7
      */
-    public void setWeekDate(int weekYear, int weekOfYear, int dayOfWeek) {
-        throw new UnsupportedOperationException();
+    public void setWeekDbte(int weekYebr, int weekOfYebr, int dbyOfWeek) {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Returns the number of weeks in the week year represented by this
-     * {@code Calendar}.
+     * Returns the number of weeks in the week yebr represented by this
+     * {@code Cblendbr}.
      *
-     * <p>The default implementation of this method throws an
-     * {@code UnsupportedOperationException}.
+     * <p>The defbult implementbtion of this method throws bn
+     * {@code UnsupportedOperbtionException}.
      *
-     * @return the number of weeks in the week year.
-     * @exception UnsupportedOperationException
-     *            if any week year numbering isn't supported in this
-     *            {@code Calendar}.
+     * @return the number of weeks in the week yebr.
+     * @exception UnsupportedOperbtionException
+     *            if bny week yebr numbering isn't supported in this
+     *            {@code Cblendbr}.
      * @see #WEEK_OF_YEAR
-     * @see #isWeekDateSupported()
-     * @see #getWeekYear()
-     * @see #getActualMaximum(int)
+     * @see #isWeekDbteSupported()
+     * @see #getWeekYebr()
+     * @see #getActublMbximum(int)
      * @since 1.7
      */
-    public int getWeeksInWeekYear() {
-        throw new UnsupportedOperationException();
+    public int getWeeksInWeekYebr() {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Returns the minimum value for the given calendar field of this
-     * <code>Calendar</code> instance. The minimum value is defined as
-     * the smallest value returned by the {@link #get(int) get} method
-     * for any possible time value.  The minimum value depends on
-     * calendar system specific parameters of the instance.
+     * Returns the minimum vblue for the given cblendbr field of this
+     * <code>Cblendbr</code> instbnce. The minimum vblue is defined bs
+     * the smbllest vblue returned by the {@link #get(int) get} method
+     * for bny possible time vblue.  The minimum vblue depends on
+     * cblendbr system specific pbrbmeters of the instbnce.
      *
-     * @param field the calendar field.
-     * @return the minimum value for the given calendar field.
-     * @see #getMaximum(int)
-     * @see #getGreatestMinimum(int)
-     * @see #getLeastMaximum(int)
-     * @see #getActualMinimum(int)
-     * @see #getActualMaximum(int)
+     * @pbrbm field the cblendbr field.
+     * @return the minimum vblue for the given cblendbr field.
+     * @see #getMbximum(int)
+     * @see #getGrebtestMinimum(int)
+     * @see #getLebstMbximum(int)
+     * @see #getActublMinimum(int)
+     * @see #getActublMbximum(int)
      */
-    abstract public int getMinimum(int field);
+    bbstrbct public int getMinimum(int field);
 
     /**
-     * Returns the maximum value for the given calendar field of this
-     * <code>Calendar</code> instance. The maximum value is defined as
-     * the largest value returned by the {@link #get(int) get} method
-     * for any possible time value. The maximum value depends on
-     * calendar system specific parameters of the instance.
+     * Returns the mbximum vblue for the given cblendbr field of this
+     * <code>Cblendbr</code> instbnce. The mbximum vblue is defined bs
+     * the lbrgest vblue returned by the {@link #get(int) get} method
+     * for bny possible time vblue. The mbximum vblue depends on
+     * cblendbr system specific pbrbmeters of the instbnce.
      *
-     * @param field the calendar field.
-     * @return the maximum value for the given calendar field.
+     * @pbrbm field the cblendbr field.
+     * @return the mbximum vblue for the given cblendbr field.
      * @see #getMinimum(int)
-     * @see #getGreatestMinimum(int)
-     * @see #getLeastMaximum(int)
-     * @see #getActualMinimum(int)
-     * @see #getActualMaximum(int)
+     * @see #getGrebtestMinimum(int)
+     * @see #getLebstMbximum(int)
+     * @see #getActublMinimum(int)
+     * @see #getActublMbximum(int)
      */
-    abstract public int getMaximum(int field);
+    bbstrbct public int getMbximum(int field);
 
     /**
-     * Returns the highest minimum value for the given calendar field
-     * of this <code>Calendar</code> instance. The highest minimum
-     * value is defined as the largest value returned by {@link
-     * #getActualMinimum(int)} for any possible time value. The
-     * greatest minimum value depends on calendar system specific
-     * parameters of the instance.
+     * Returns the highest minimum vblue for the given cblendbr field
+     * of this <code>Cblendbr</code> instbnce. The highest minimum
+     * vblue is defined bs the lbrgest vblue returned by {@link
+     * #getActublMinimum(int)} for bny possible time vblue. The
+     * grebtest minimum vblue depends on cblendbr system specific
+     * pbrbmeters of the instbnce.
      *
-     * @param field the calendar field.
-     * @return the highest minimum value for the given calendar field.
+     * @pbrbm field the cblendbr field.
+     * @return the highest minimum vblue for the given cblendbr field.
      * @see #getMinimum(int)
-     * @see #getMaximum(int)
-     * @see #getLeastMaximum(int)
-     * @see #getActualMinimum(int)
-     * @see #getActualMaximum(int)
+     * @see #getMbximum(int)
+     * @see #getLebstMbximum(int)
+     * @see #getActublMinimum(int)
+     * @see #getActublMbximum(int)
      */
-    abstract public int getGreatestMinimum(int field);
+    bbstrbct public int getGrebtestMinimum(int field);
 
     /**
-     * Returns the lowest maximum value for the given calendar field
-     * of this <code>Calendar</code> instance. The lowest maximum
-     * value is defined as the smallest value returned by {@link
-     * #getActualMaximum(int)} for any possible time value. The least
-     * maximum value depends on calendar system specific parameters of
-     * the instance. For example, a <code>Calendar</code> for the
-     * Gregorian calendar system returns 28 for the
-     * <code>DAY_OF_MONTH</code> field, because the 28th is the last
-     * day of the shortest month of this calendar, February in a
-     * common year.
+     * Returns the lowest mbximum vblue for the given cblendbr field
+     * of this <code>Cblendbr</code> instbnce. The lowest mbximum
+     * vblue is defined bs the smbllest vblue returned by {@link
+     * #getActublMbximum(int)} for bny possible time vblue. The lebst
+     * mbximum vblue depends on cblendbr system specific pbrbmeters of
+     * the instbnce. For exbmple, b <code>Cblendbr</code> for the
+     * Gregoribn cblendbr system returns 28 for the
+     * <code>DAY_OF_MONTH</code> field, becbuse the 28th is the lbst
+     * dby of the shortest month of this cblendbr, Februbry in b
+     * common yebr.
      *
-     * @param field the calendar field.
-     * @return the lowest maximum value for the given calendar field.
+     * @pbrbm field the cblendbr field.
+     * @return the lowest mbximum vblue for the given cblendbr field.
      * @see #getMinimum(int)
-     * @see #getMaximum(int)
-     * @see #getGreatestMinimum(int)
-     * @see #getActualMinimum(int)
-     * @see #getActualMaximum(int)
+     * @see #getMbximum(int)
+     * @see #getGrebtestMinimum(int)
+     * @see #getActublMinimum(int)
+     * @see #getActublMbximum(int)
      */
-    abstract public int getLeastMaximum(int field);
+    bbstrbct public int getLebstMbximum(int field);
 
     /**
-     * Returns the minimum value that the specified calendar field
-     * could have, given the time value of this <code>Calendar</code>.
+     * Returns the minimum vblue thbt the specified cblendbr field
+     * could hbve, given the time vblue of this <code>Cblendbr</code>.
      *
-     * <p>The default implementation of this method uses an iterative
-     * algorithm to determine the actual minimum value for the
-     * calendar field. Subclasses should, if possible, override this
-     * with a more efficient implementation - in many cases, they can
+     * <p>The defbult implementbtion of this method uses bn iterbtive
+     * blgorithm to determine the bctubl minimum vblue for the
+     * cblendbr field. Subclbsses should, if possible, override this
+     * with b more efficient implementbtion - in mbny cbses, they cbn
      * simply return <code>getMinimum()</code>.
      *
-     * @param field the calendar field
-     * @return the minimum of the given calendar field for the time
-     * value of this <code>Calendar</code>
+     * @pbrbm field the cblendbr field
+     * @return the minimum of the given cblendbr field for the time
+     * vblue of this <code>Cblendbr</code>
      * @see #getMinimum(int)
-     * @see #getMaximum(int)
-     * @see #getGreatestMinimum(int)
-     * @see #getLeastMaximum(int)
-     * @see #getActualMaximum(int)
+     * @see #getMbximum(int)
+     * @see #getGrebtestMinimum(int)
+     * @see #getLebstMbximum(int)
+     * @see #getActublMbximum(int)
      * @since 1.2
      */
-    public int getActualMinimum(int field) {
-        int fieldValue = getGreatestMinimum(field);
-        int endValue = getMinimum(field);
+    public int getActublMinimum(int field) {
+        int fieldVblue = getGrebtestMinimum(field);
+        int endVblue = getMinimum(field);
 
-        // if we know that the minimum value is always the same, just return it
-        if (fieldValue == endValue) {
-            return fieldValue;
+        // if we know thbt the minimum vblue is blwbys the sbme, just return it
+        if (fieldVblue == endVblue) {
+            return fieldVblue;
         }
 
-        // clone the calendar so we don't mess with the real one, and set it to
-        // accept anything for the field values
-        Calendar work = (Calendar)this.clone();
+        // clone the cblendbr so we don't mess with the rebl one, bnd set it to
+        // bccept bnything for the field vblues
+        Cblendbr work = (Cblendbr)this.clone();
         work.setLenient(true);
 
-        // now try each value from getLeastMaximum() to getMaximum() one by one until
-        // we get a value that normalizes to another value.  The last value that
-        // normalizes to itself is the actual minimum for the current date
-        int result = fieldValue;
+        // now try ebch vblue from getLebstMbximum() to getMbximum() one by one until
+        // we get b vblue thbt normblizes to bnother vblue.  The lbst vblue thbt
+        // normblizes to itself is the bctubl minimum for the current dbte
+        int result = fieldVblue;
 
         do {
-            work.set(field, fieldValue);
-            if (work.get(field) != fieldValue) {
-                break;
+            work.set(field, fieldVblue);
+            if (work.get(field) != fieldVblue) {
+                brebk;
             } else {
-                result = fieldValue;
-                fieldValue--;
+                result = fieldVblue;
+                fieldVblue--;
             }
-        } while (fieldValue >= endValue);
+        } while (fieldVblue >= endVblue);
 
         return result;
     }
 
     /**
-     * Returns the maximum value that the specified calendar field
-     * could have, given the time value of this
-     * <code>Calendar</code>. For example, the actual maximum value of
-     * the <code>MONTH</code> field is 12 in some years, and 13 in
-     * other years in the Hebrew calendar system.
+     * Returns the mbximum vblue thbt the specified cblendbr field
+     * could hbve, given the time vblue of this
+     * <code>Cblendbr</code>. For exbmple, the bctubl mbximum vblue of
+     * the <code>MONTH</code> field is 12 in some yebrs, bnd 13 in
+     * other yebrs in the Hebrew cblendbr system.
      *
-     * <p>The default implementation of this method uses an iterative
-     * algorithm to determine the actual maximum value for the
-     * calendar field. Subclasses should, if possible, override this
-     * with a more efficient implementation.
+     * <p>The defbult implementbtion of this method uses bn iterbtive
+     * blgorithm to determine the bctubl mbximum vblue for the
+     * cblendbr field. Subclbsses should, if possible, override this
+     * with b more efficient implementbtion.
      *
-     * @param field the calendar field
-     * @return the maximum of the given calendar field for the time
-     * value of this <code>Calendar</code>
+     * @pbrbm field the cblendbr field
+     * @return the mbximum of the given cblendbr field for the time
+     * vblue of this <code>Cblendbr</code>
      * @see #getMinimum(int)
-     * @see #getMaximum(int)
-     * @see #getGreatestMinimum(int)
-     * @see #getLeastMaximum(int)
-     * @see #getActualMinimum(int)
+     * @see #getMbximum(int)
+     * @see #getGrebtestMinimum(int)
+     * @see #getLebstMbximum(int)
+     * @see #getActublMinimum(int)
      * @since 1.2
      */
-    public int getActualMaximum(int field) {
-        int fieldValue = getLeastMaximum(field);
-        int endValue = getMaximum(field);
+    public int getActublMbximum(int field) {
+        int fieldVblue = getLebstMbximum(field);
+        int endVblue = getMbximum(field);
 
-        // if we know that the maximum value is always the same, just return it.
-        if (fieldValue == endValue) {
-            return fieldValue;
+        // if we know thbt the mbximum vblue is blwbys the sbme, just return it.
+        if (fieldVblue == endVblue) {
+            return fieldVblue;
         }
 
-        // clone the calendar so we don't mess with the real one, and set it to
-        // accept anything for the field values.
-        Calendar work = (Calendar)this.clone();
+        // clone the cblendbr so we don't mess with the rebl one, bnd set it to
+        // bccept bnything for the field vblues.
+        Cblendbr work = (Cblendbr)this.clone();
         work.setLenient(true);
 
-        // if we're counting weeks, set the day of the week to Sunday.  We know the
-        // last week of a month or year will contain the first day of the week.
+        // if we're counting weeks, set the dby of the week to Sundby.  We know the
+        // lbst week of b month or yebr will contbin the first dby of the week.
         if (field == WEEK_OF_YEAR || field == WEEK_OF_MONTH) {
-            work.set(DAY_OF_WEEK, firstDayOfWeek);
+            work.set(DAY_OF_WEEK, firstDbyOfWeek);
         }
 
-        // now try each value from getLeastMaximum() to getMaximum() one by one until
-        // we get a value that normalizes to another value.  The last value that
-        // normalizes to itself is the actual maximum for the current date
-        int result = fieldValue;
+        // now try ebch vblue from getLebstMbximum() to getMbximum() one by one until
+        // we get b vblue thbt normblizes to bnother vblue.  The lbst vblue thbt
+        // normblizes to itself is the bctubl mbximum for the current dbte
+        int result = fieldVblue;
 
         do {
-            work.set(field, fieldValue);
-            if (work.get(field) != fieldValue) {
-                break;
+            work.set(field, fieldVblue);
+            if (work.get(field) != fieldVblue) {
+                brebk;
             } else {
-                result = fieldValue;
-                fieldValue++;
+                result = fieldVblue;
+                fieldVblue++;
             }
-        } while (fieldValue <= endValue);
+        } while (fieldVblue <= endVblue);
 
         return result;
     }
 
     /**
-     * Creates and returns a copy of this object.
+     * Crebtes bnd returns b copy of this object.
      *
-     * @return a copy of this object.
+     * @return b copy of this object.
      */
     @Override
     public Object clone()
     {
         try {
-            Calendar other = (Calendar) super.clone();
+            Cblendbr other = (Cblendbr) super.clone();
 
             other.fields = new int[FIELD_COUNT];
-            other.isSet = new boolean[FIELD_COUNT];
-            other.stamp = new int[FIELD_COUNT];
+            other.isSet = new boolebn[FIELD_COUNT];
+            other.stbmp = new int[FIELD_COUNT];
             for (int i = 0; i < FIELD_COUNT; i++) {
                 other.fields[i] = fields[i];
-                other.stamp[i] = stamp[i];
+                other.stbmp[i] = stbmp[i];
                 other.isSet[i] = isSet[i];
             }
             other.zone = (TimeZone) zone.clone();
             return other;
         }
-        catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+        cbtch (CloneNotSupportedException e) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError(e);
         }
     }
 
-    private static final String[] FIELD_NAME = {
+    privbte stbtic finbl String[] FIELD_NAME = {
         "ERA", "YEAR", "MONTH", "WEEK_OF_YEAR", "WEEK_OF_MONTH", "DAY_OF_MONTH",
         "DAY_OF_YEAR", "DAY_OF_WEEK", "DAY_OF_WEEK_IN_MONTH", "AM_PM", "HOUR",
         "HOUR_OF_DAY", "MINUTE", "SECOND", "MILLISECOND", "ZONE_OFFSET",
@@ -3271,290 +3271,290 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
     };
 
     /**
-     * Returns the name of the specified calendar field.
+     * Returns the nbme of the specified cblendbr field.
      *
-     * @param field the calendar field
-     * @return the calendar field name
-     * @exception IndexOutOfBoundsException if <code>field</code> is negative,
-     * equal to or greater then <code>FIELD_COUNT</code>.
+     * @pbrbm field the cblendbr field
+     * @return the cblendbr field nbme
+     * @exception IndexOutOfBoundsException if <code>field</code> is negbtive,
+     * equbl to or grebter then <code>FIELD_COUNT</code>.
      */
-    static String getFieldName(int field) {
+    stbtic String getFieldNbme(int field) {
         return FIELD_NAME[field];
     }
 
     /**
-     * Return a string representation of this calendar. This method
-     * is intended to be used only for debugging purposes, and the
-     * format of the returned string may vary between implementations.
-     * The returned string may be empty but may not be <code>null</code>.
+     * Return b string representbtion of this cblendbr. This method
+     * is intended to be used only for debugging purposes, bnd the
+     * formbt of the returned string mby vbry between implementbtions.
+     * The returned string mby be empty but mby not be <code>null</code>.
      *
-     * @return  a string representation of this calendar.
+     * @return  b string representbtion of this cblendbr.
      */
     @Override
     public String toString() {
-        // NOTE: BuddhistCalendar.toString() interprets the string
-        // produced by this method so that the Gregorian year number
-        // is substituted by its B.E. year value. It relies on
-        // "...,YEAR=<year>,..." or "...,YEAR=?,...".
+        // NOTE: BuddhistCblendbr.toString() interprets the string
+        // produced by this method so thbt the Gregoribn yebr number
+        // is substituted by its B.E. yebr vblue. It relies on
+        // "...,YEAR=<yebr>,..." or "...,YEAR=?,...".
         StringBuilder buffer = new StringBuilder(800);
-        buffer.append(getClass().getName()).append('[');
-        appendValue(buffer, "time", isTimeSet, time);
-        buffer.append(",areFieldsSet=").append(areFieldsSet);
-        buffer.append(",areAllFieldsSet=").append(areAllFieldsSet);
-        buffer.append(",lenient=").append(lenient);
-        buffer.append(",zone=").append(zone);
-        appendValue(buffer, ",firstDayOfWeek", true, (long) firstDayOfWeek);
-        appendValue(buffer, ",minimalDaysInFirstWeek", true, (long) minimalDaysInFirstWeek);
+        buffer.bppend(getClbss().getNbme()).bppend('[');
+        bppendVblue(buffer, "time", isTimeSet, time);
+        buffer.bppend(",breFieldsSet=").bppend(breFieldsSet);
+        buffer.bppend(",breAllFieldsSet=").bppend(breAllFieldsSet);
+        buffer.bppend(",lenient=").bppend(lenient);
+        buffer.bppend(",zone=").bppend(zone);
+        bppendVblue(buffer, ",firstDbyOfWeek", true, (long) firstDbyOfWeek);
+        bppendVblue(buffer, ",minimblDbysInFirstWeek", true, (long) minimblDbysInFirstWeek);
         for (int i = 0; i < FIELD_COUNT; ++i) {
-            buffer.append(',');
-            appendValue(buffer, FIELD_NAME[i], isSet(i), (long) fields[i]);
+            buffer.bppend(',');
+            bppendVblue(buffer, FIELD_NAME[i], isSet(i), (long) fields[i]);
         }
-        buffer.append(']');
+        buffer.bppend(']');
         return buffer.toString();
     }
 
-    // =======================privates===============================
+    // =======================privbtes===============================
 
-    private static void appendValue(StringBuilder sb, String item, boolean valid, long value) {
-        sb.append(item).append('=');
-        if (valid) {
-            sb.append(value);
+    privbte stbtic void bppendVblue(StringBuilder sb, String item, boolebn vblid, long vblue) {
+        sb.bppend(item).bppend('=');
+        if (vblid) {
+            sb.bppend(vblue);
         } else {
-            sb.append('?');
+            sb.bppend('?');
         }
     }
 
     /**
-     * Both firstDayOfWeek and minimalDaysInFirstWeek are locale-dependent.
-     * They are used to figure out the week count for a specific date for
-     * a given locale. These must be set when a Calendar is constructed.
-     * @param desiredLocale the given locale.
+     * Both firstDbyOfWeek bnd minimblDbysInFirstWeek bre locble-dependent.
+     * They bre used to figure out the week count for b specific dbte for
+     * b given locble. These must be set when b Cblendbr is constructed.
+     * @pbrbm desiredLocble the given locble.
      */
-    private void setWeekCountData(Locale desiredLocale)
+    privbte void setWeekCountDbtb(Locble desiredLocble)
     {
-        /* try to get the Locale data from the cache */
-        int[] data = cachedLocaleData.get(desiredLocale);
-        if (data == null) {  /* cache miss */
-            data = new int[2];
-            data[0] = CalendarDataUtility.retrieveFirstDayOfWeek(desiredLocale);
-            data[1] = CalendarDataUtility.retrieveMinimalDaysInFirstWeek(desiredLocale);
-            cachedLocaleData.putIfAbsent(desiredLocale, data);
+        /* try to get the Locble dbtb from the cbche */
+        int[] dbtb = cbchedLocbleDbtb.get(desiredLocble);
+        if (dbtb == null) {  /* cbche miss */
+            dbtb = new int[2];
+            dbtb[0] = CblendbrDbtbUtility.retrieveFirstDbyOfWeek(desiredLocble);
+            dbtb[1] = CblendbrDbtbUtility.retrieveMinimblDbysInFirstWeek(desiredLocble);
+            cbchedLocbleDbtb.putIfAbsent(desiredLocble, dbtb);
         }
-        firstDayOfWeek = data[0];
-        minimalDaysInFirstWeek = data[1];
+        firstDbyOfWeek = dbtb[0];
+        minimblDbysInFirstWeek = dbtb[1];
     }
 
     /**
-     * Recomputes the time and updates the status fields isTimeSet
-     * and areFieldsSet.  Callers should check isTimeSet and only
-     * call this method if isTimeSet is false.
+     * Recomputes the time bnd updbtes the stbtus fields isTimeSet
+     * bnd breFieldsSet.  Cbllers should check isTimeSet bnd only
+     * cbll this method if isTimeSet is fblse.
      */
-    private void updateTime() {
+    privbte void updbteTime() {
         computeTime();
-        // The areFieldsSet and areAllFieldsSet values are no longer
-        // controlled here (as of 1.5).
+        // The breFieldsSet bnd breAllFieldsSet vblues bre no longer
+        // controlled here (bs of 1.5).
         isTimeSet = true;
     }
 
-    private int compareTo(long t) {
+    privbte int compbreTo(long t) {
         long thisTime = getMillisOf(this);
         return (thisTime > t) ? 1 : (thisTime == t) ? 0 : -1;
     }
 
-    private static long getMillisOf(Calendar calendar) {
-        if (calendar.isTimeSet) {
-            return calendar.time;
+    privbte stbtic long getMillisOf(Cblendbr cblendbr) {
+        if (cblendbr.isTimeSet) {
+            return cblendbr.time;
         }
-        Calendar cal = (Calendar) calendar.clone();
-        cal.setLenient(true);
-        return cal.getTimeInMillis();
+        Cblendbr cbl = (Cblendbr) cblendbr.clone();
+        cbl.setLenient(true);
+        return cbl.getTimeInMillis();
     }
 
     /**
-     * Adjusts the stamp[] values before nextStamp overflow. nextStamp
-     * is set to the next stamp value upon the return.
+     * Adjusts the stbmp[] vblues before nextStbmp overflow. nextStbmp
+     * is set to the next stbmp vblue upon the return.
      */
-    private void adjustStamp() {
-        int max = MINIMUM_USER_STAMP;
-        int newStamp = MINIMUM_USER_STAMP;
+    privbte void bdjustStbmp() {
+        int mbx = MINIMUM_USER_STAMP;
+        int newStbmp = MINIMUM_USER_STAMP;
 
         for (;;) {
             int min = Integer.MAX_VALUE;
-            for (int v : stamp) {
-                if (v >= newStamp && min > v) {
+            for (int v : stbmp) {
+                if (v >= newStbmp && min > v) {
                     min = v;
                 }
-                if (max < v) {
-                    max = v;
+                if (mbx < v) {
+                    mbx = v;
                 }
             }
-            if (max != min && min == Integer.MAX_VALUE) {
-                break;
+            if (mbx != min && min == Integer.MAX_VALUE) {
+                brebk;
             }
-            for (int i = 0; i < stamp.length; i++) {
-                if (stamp[i] == min) {
-                    stamp[i] = newStamp;
+            for (int i = 0; i < stbmp.length; i++) {
+                if (stbmp[i] == min) {
+                    stbmp[i] = newStbmp;
                 }
             }
-            newStamp++;
-            if (min == max) {
-                break;
+            newStbmp++;
+            if (min == mbx) {
+                brebk;
             }
         }
-        nextStamp = newStamp;
+        nextStbmp = newStbmp;
     }
 
     /**
-     * Sets the WEEK_OF_MONTH and WEEK_OF_YEAR fields to new values with the
-     * new parameter value if they have been calculated internally.
+     * Sets the WEEK_OF_MONTH bnd WEEK_OF_YEAR fields to new vblues with the
+     * new pbrbmeter vblue if they hbve been cblculbted internblly.
      */
-    private void invalidateWeekFields()
+    privbte void invblidbteWeekFields()
     {
-        if (stamp[WEEK_OF_MONTH] != COMPUTED &&
-            stamp[WEEK_OF_YEAR] != COMPUTED) {
+        if (stbmp[WEEK_OF_MONTH] != COMPUTED &&
+            stbmp[WEEK_OF_YEAR] != COMPUTED) {
             return;
         }
 
-        // We have to check the new values of these fields after changing
-        // firstDayOfWeek and/or minimalDaysInFirstWeek. If the field values
-        // have been changed, then set the new values. (4822110)
-        Calendar cal = (Calendar) clone();
-        cal.setLenient(true);
-        cal.clear(WEEK_OF_MONTH);
-        cal.clear(WEEK_OF_YEAR);
+        // We hbve to check the new vblues of these fields bfter chbnging
+        // firstDbyOfWeek bnd/or minimblDbysInFirstWeek. If the field vblues
+        // hbve been chbnged, then set the new vblues. (4822110)
+        Cblendbr cbl = (Cblendbr) clone();
+        cbl.setLenient(true);
+        cbl.clebr(WEEK_OF_MONTH);
+        cbl.clebr(WEEK_OF_YEAR);
 
-        if (stamp[WEEK_OF_MONTH] == COMPUTED) {
-            int weekOfMonth = cal.get(WEEK_OF_MONTH);
+        if (stbmp[WEEK_OF_MONTH] == COMPUTED) {
+            int weekOfMonth = cbl.get(WEEK_OF_MONTH);
             if (fields[WEEK_OF_MONTH] != weekOfMonth) {
                 fields[WEEK_OF_MONTH] = weekOfMonth;
             }
         }
 
-        if (stamp[WEEK_OF_YEAR] == COMPUTED) {
-            int weekOfYear = cal.get(WEEK_OF_YEAR);
-            if (fields[WEEK_OF_YEAR] != weekOfYear) {
-                fields[WEEK_OF_YEAR] = weekOfYear;
+        if (stbmp[WEEK_OF_YEAR] == COMPUTED) {
+            int weekOfYebr = cbl.get(WEEK_OF_YEAR);
+            if (fields[WEEK_OF_YEAR] != weekOfYebr) {
+                fields[WEEK_OF_YEAR] = weekOfYebr;
             }
         }
     }
 
     /**
-     * Save the state of this object to a stream (i.e., serialize it).
+     * Sbve the stbte of this object to b strebm (i.e., seriblize it).
      *
-     * Ideally, <code>Calendar</code> would only write out its state data and
-     * the current time, and not write any field data out, such as
-     * <code>fields[]</code>, <code>isTimeSet</code>, <code>areFieldsSet</code>,
-     * and <code>isSet[]</code>.  <code>nextStamp</code> also should not be part
-     * of the persistent state. Unfortunately, this didn't happen before JDK 1.1
-     * shipped. To be compatible with JDK 1.1, we will always have to write out
-     * the field values and state flags.  However, <code>nextStamp</code> can be
-     * removed from the serialization stream; this will probably happen in the
-     * near future.
+     * Ideblly, <code>Cblendbr</code> would only write out its stbte dbtb bnd
+     * the current time, bnd not write bny field dbtb out, such bs
+     * <code>fields[]</code>, <code>isTimeSet</code>, <code>breFieldsSet</code>,
+     * bnd <code>isSet[]</code>.  <code>nextStbmp</code> blso should not be pbrt
+     * of the persistent stbte. Unfortunbtely, this didn't hbppen before JDK 1.1
+     * shipped. To be compbtible with JDK 1.1, we will blwbys hbve to write out
+     * the field vblues bnd stbte flbgs.  However, <code>nextStbmp</code> cbn be
+     * removed from the seriblizbtion strebm; this will probbbly hbppen in the
+     * nebr future.
      */
-    private synchronized void writeObject(ObjectOutputStream stream)
+    privbte synchronized void writeObject(ObjectOutputStrebm strebm)
          throws IOException
     {
-        // Try to compute the time correctly, for the future (stream
+        // Try to compute the time correctly, for the future (strebm
         // version 2) in which we don't write out fields[] or isSet[].
         if (!isTimeSet) {
             try {
-                updateTime();
+                updbteTime();
             }
-            catch (IllegalArgumentException e) {}
+            cbtch (IllegblArgumentException e) {}
         }
 
-        // If this Calendar has a ZoneInfo, save it and set a
-        // SimpleTimeZone equivalent (as a single DST schedule) for
-        // backward compatibility.
-        TimeZone savedZone = null;
-        if (zone instanceof ZoneInfo) {
-            SimpleTimeZone stz = ((ZoneInfo)zone).getLastRuleInstance();
+        // If this Cblendbr hbs b ZoneInfo, sbve it bnd set b
+        // SimpleTimeZone equivblent (bs b single DST schedule) for
+        // bbckwbrd compbtibility.
+        TimeZone sbvedZone = null;
+        if (zone instbnceof ZoneInfo) {
+            SimpleTimeZone stz = ((ZoneInfo)zone).getLbstRuleInstbnce();
             if (stz == null) {
-                stz = new SimpleTimeZone(zone.getRawOffset(), zone.getID());
+                stz = new SimpleTimeZone(zone.getRbwOffset(), zone.getID());
             }
-            savedZone = zone;
+            sbvedZone = zone;
             zone = stz;
         }
 
         // Write out the 1.1 FCS object.
-        stream.defaultWriteObject();
+        strebm.defbultWriteObject();
 
         // Write out the ZoneInfo object
-        // 4802409: we write out even if it is null, a temporary workaround
-        // the real fix for bug 4844924 in corba-iiop
-        stream.writeObject(savedZone);
-        if (savedZone != null) {
-            zone = savedZone;
+        // 4802409: we write out even if it is null, b temporbry workbround
+        // the rebl fix for bug 4844924 in corbb-iiop
+        strebm.writeObject(sbvedZone);
+        if (sbvedZone != null) {
+            zone = sbvedZone;
         }
     }
 
-    private static class CalendarAccessControlContext {
-        private static final AccessControlContext INSTANCE;
-        static {
-            RuntimePermission perm = new RuntimePermission("accessClassInPackage.sun.util.calendar");
+    privbte stbtic clbss CblendbrAccessControlContext {
+        privbte stbtic finbl AccessControlContext INSTANCE;
+        stbtic {
+            RuntimePermission perm = new RuntimePermission("bccessClbssInPbckbge.sun.util.cblendbr");
             PermissionCollection perms = perm.newPermissionCollection();
-            perms.add(perm);
-            INSTANCE = new AccessControlContext(new ProtectionDomain[] {
-                                                    new ProtectionDomain(null, perms)
+            perms.bdd(perm);
+            INSTANCE = new AccessControlContext(new ProtectionDombin[] {
+                                                    new ProtectionDombin(null, perms)
                                                 });
         }
-        private CalendarAccessControlContext() {
+        privbte CblendbrAccessControlContext() {
         }
     }
 
     /**
-     * Reconstitutes this object from a stream (i.e., deserialize it).
+     * Reconstitutes this object from b strebm (i.e., deseriblize it).
      */
-    private void readObject(ObjectInputStream stream)
-         throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm strebm)
+         throws IOException, ClbssNotFoundException
     {
-        final ObjectInputStream input = stream;
-        input.defaultReadObject();
+        finbl ObjectInputStrebm input = strebm;
+        input.defbultRebdObject();
 
-        stamp = new int[FIELD_COUNT];
+        stbmp = new int[FIELD_COUNT];
 
-        // Starting with version 2 (not implemented yet), we expect that
-        // fields[], isSet[], isTimeSet, and areFieldsSet may not be
-        // streamed out anymore.  We expect 'time' to be correct.
-        if (serialVersionOnStream >= 2)
+        // Stbrting with version 2 (not implemented yet), we expect thbt
+        // fields[], isSet[], isTimeSet, bnd breFieldsSet mby not be
+        // strebmed out bnymore.  We expect 'time' to be correct.
+        if (seriblVersionOnStrebm >= 2)
         {
             isTimeSet = true;
             if (fields == null) {
                 fields = new int[FIELD_COUNT];
             }
             if (isSet == null) {
-                isSet = new boolean[FIELD_COUNT];
+                isSet = new boolebn[FIELD_COUNT];
             }
         }
-        else if (serialVersionOnStream >= 0)
+        else if (seriblVersionOnStrebm >= 0)
         {
             for (int i=0; i<FIELD_COUNT; ++i) {
-                stamp[i] = isSet[i] ? COMPUTED : UNSET;
+                stbmp[i] = isSet[i] ? COMPUTED : UNSET;
             }
         }
 
-        serialVersionOnStream = currentSerialVersion;
+        seriblVersionOnStrebm = currentSeriblVersion;
 
-        // If there's a ZoneInfo object, use it for zone.
+        // If there's b ZoneInfo object, use it for zone.
         ZoneInfo zi = null;
         try {
             zi = AccessController.doPrivileged(
                     new PrivilegedExceptionAction<ZoneInfo>() {
                         @Override
                         public ZoneInfo run() throws Exception {
-                            return (ZoneInfo) input.readObject();
+                            return (ZoneInfo) input.rebdObject();
                         }
                     },
-                    CalendarAccessControlContext.INSTANCE);
-        } catch (PrivilegedActionException pae) {
-            Exception e = pae.getException();
-            if (!(e instanceof OptionalDataException)) {
-                if (e instanceof RuntimeException) {
+                    CblendbrAccessControlContext.INSTANCE);
+        } cbtch (PrivilegedActionException pbe) {
+            Exception e = pbe.getException();
+            if (!(e instbnceof OptionblDbtbException)) {
+                if (e instbnceof RuntimeException) {
                     throw (RuntimeException) e;
-                } else if (e instanceof IOException) {
+                } else if (e instbnceof IOException) {
                     throw (IOException) e;
-                } else if (e instanceof ClassNotFoundException) {
-                    throw (ClassNotFoundException) e;
+                } else if (e instbnceof ClbssNotFoundException) {
+                    throw (ClbssNotFoundException) e;
                 }
                 throw new RuntimeException(e);
             }
@@ -3563,29 +3563,29 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
             zone = zi;
         }
 
-        // If the deserialized object has a SimpleTimeZone, try to
-        // replace it with a ZoneInfo equivalent (as of 1.4) in order
-        // to be compatible with the SimpleTimeZone-based
-        // implementation as much as possible.
-        if (zone instanceof SimpleTimeZone) {
+        // If the deseriblized object hbs b SimpleTimeZone, try to
+        // replbce it with b ZoneInfo equivblent (bs of 1.4) in order
+        // to be compbtible with the SimpleTimeZone-bbsed
+        // implementbtion bs much bs possible.
+        if (zone instbnceof SimpleTimeZone) {
             String id = zone.getID();
             TimeZone tz = TimeZone.getTimeZone(id);
-            if (tz != null && tz.hasSameRules(zone) && tz.getID().equals(id)) {
+            if (tz != null && tz.hbsSbmeRules(zone) && tz.getID().equbls(id)) {
                 zone = tz;
             }
         }
     }
 
     /**
-     * Converts this object to an {@link Instant}.
+     * Converts this object to bn {@link Instbnt}.
      * <p>
-     * The conversion creates an {@code Instant} that represents the
-     * same point on the time-line as this {@code Calendar}.
+     * The conversion crebtes bn {@code Instbnt} thbt represents the
+     * sbme point on the time-line bs this {@code Cblendbr}.
      *
-     * @return the instant representing the same point on the time-line
+     * @return the instbnt representing the sbme point on the time-line
      * @since 1.8
      */
-    public final Instant toInstant() {
-        return Instant.ofEpochMilli(getTimeInMillis());
+    public finbl Instbnt toInstbnt() {
+        return Instbnt.ofEpochMilli(getTimeInMillis());
     }
 }

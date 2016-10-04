@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,102 +27,102 @@
 #include "jni_util.h"
 #include "jvm.h"
 
-#include "java_lang_SecurityManager.h"
-#include "java_lang_ClassLoader.h"
+#include "jbvb_lbng_SecurityMbnbger.h"
+#include "jbvb_lbng_ClbssLobder.h"
 
 /*
- * Make sure a security manager instance is initialized.
- * TRUE means OK, FALSE means not.
+ * Mbke sure b security mbnbger instbnce is initiblized.
+ * TRUE mebns OK, FALSE mebns not.
  */
-static jboolean
+stbtic jboolebn
 check(JNIEnv *env, jobject this)
 {
-    static jfieldID initField = 0;
-    jboolean initialized = JNI_FALSE;
+    stbtic jfieldID initField = 0;
+    jboolebn initiblized = JNI_FALSE;
 
     if (initField == 0) {
-        jclass clazz = (*env)->FindClass(env, "java/lang/SecurityManager");
-        if (clazz == 0) {
-            (*env)->ExceptionClear(env);
+        jclbss clbzz = (*env)->FindClbss(env, "jbvb/lbng/SecurityMbnbger");
+        if (clbzz == 0) {
+            (*env)->ExceptionClebr(env);
             return JNI_FALSE;
         }
-        initField = (*env)->GetFieldID(env, clazz, "initialized", "Z");
+        initField = (*env)->GetFieldID(env, clbzz, "initiblized", "Z");
         if (initField == 0) {
-            (*env)->ExceptionClear(env);
+            (*env)->ExceptionClebr(env);
             return JNI_FALSE;
         }
     }
-    initialized = (*env)->GetBooleanField(env, this, initField);
+    initiblized = (*env)->GetBoolebnField(env, this, initField);
 
-    if (initialized == JNI_TRUE) {
+    if (initiblized == JNI_TRUE) {
         return JNI_TRUE;
     } else {
-        jclass securityException =
-            (*env)->FindClass(env, "java/lang/SecurityException");
+        jclbss securityException =
+            (*env)->FindClbss(env, "jbvb/lbng/SecurityException");
         if (securityException != 0) {
             (*env)->ThrowNew(env, securityException,
-                             "security manager not initialized.");
+                             "security mbnbger not initiblized.");
         }
         return JNI_FALSE;
     }
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_java_lang_SecurityManager_getClassContext(JNIEnv *env, jobject this)
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_jbvb_lbng_SecurityMbnbger_getClbssContext(JNIEnv *env, jobject this)
 {
     if (!check(env, this)) {
         return NULL;            /* exception */
     }
 
-    return JVM_GetClassContext(env);
+    return JVM_GetClbssContext(env);
 }
 
-JNIEXPORT jclass JNICALL
-Java_java_lang_SecurityManager_currentLoadedClass0(JNIEnv *env, jobject this)
+JNIEXPORT jclbss JNICALL
+Jbvb_jbvb_lbng_SecurityMbnbger_currentLobdedClbss0(JNIEnv *env, jobject this)
 {
-    /* Make sure the security manager instance is initialized */
+    /* Mbke sure the security mbnbger instbnce is initiblized */
     if (!check(env, this)) {
         return NULL;            /* exception */
     }
 
-    return JVM_CurrentLoadedClass(env);
+    return JVM_CurrentLobdedClbss(env);
 }
 
 JNIEXPORT jobject JNICALL
-Java_java_lang_SecurityManager_currentClassLoader0(JNIEnv *env, jobject this)
+Jbvb_jbvb_lbng_SecurityMbnbger_currentClbssLobder0(JNIEnv *env, jobject this)
 {
-    /* Make sure the security manager instance is initialized */
+    /* Mbke sure the security mbnbger instbnce is initiblized */
     if (!check(env, this)) {
         return NULL;            /* exception */
     }
 
-    return JVM_CurrentClassLoader(env);
+    return JVM_CurrentClbssLobder(env);
 }
 
 JNIEXPORT jint JNICALL
-Java_java_lang_SecurityManager_classDepth(JNIEnv *env, jobject this,
-                                          jstring name)
+Jbvb_jbvb_lbng_SecurityMbnbger_clbssDepth(JNIEnv *env, jobject this,
+                                          jstring nbme)
 {
-    /* Make sure the security manager instance is initialized */
+    /* Mbke sure the security mbnbger instbnce is initiblized */
     if (!check(env, this)) {
         return -1;              /* exception */
     }
 
-    if (name == NULL) {
+    if (nbme == NULL) {
       JNU_ThrowNullPointerException(env, 0);
       return -1;
     }
 
-    return JVM_ClassDepth(env, name);
+    return JVM_ClbssDepth(env, nbme);
 }
 
 JNIEXPORT jint JNICALL
-Java_java_lang_SecurityManager_classLoaderDepth0(JNIEnv *env, jobject this)
+Jbvb_jbvb_lbng_SecurityMbnbger_clbssLobderDepth0(JNIEnv *env, jobject this)
 {
-    /* Make sure the security manager instance is initialized */
+    /* Mbke sure the security mbnbger instbnce is initiblized */
     if (!check(env, this)) {
         return -1;              /* exception */
     }
 
-    return JVM_ClassLoaderDepth(env);
+    return JVM_ClbssLobderDepth(env);
 }

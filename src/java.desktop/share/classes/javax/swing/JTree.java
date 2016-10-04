@@ -1,895 +1,895 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.util.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.tree.*;
-import javax.swing.text.Position;
-import javax.accessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tree.*;
+import jbvbx.swing.text.Position;
+import jbvbx.bccessibility.*;
 import sun.swing.SwingUtilities2;
 import sun.swing.SwingUtilities2.Section;
-import static sun.swing.SwingUtilities2.Section.*;
+import stbtic sun.swing.SwingUtilities2.Section.*;
 
 
 /**
- * <a name="jtree_description"></a>
- * A control that displays a set of hierarchical data as an outline.
- * You can find task-oriented documentation and examples of using trees in
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Trees</a>,
- * a section in <em>The Java Tutorial.</em>
+ * <b nbme="jtree_description"></b>
+ * A control thbt displbys b set of hierbrchicbl dbtb bs bn outline.
+ * You cbn find tbsk-oriented documentbtion bnd exbmples of using trees in
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/tree.html">How to Use Trees</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  * <p>
- * A specific node in a tree can be identified either by a
- * <code>TreePath</code> (an object
- * that encapsulates a node and all of its ancestors), or by its
- * display row, where each row in the display area displays one node.
- * An <i>expanded</i> node is a non-leaf node (as identified by
- * <code>TreeModel.isLeaf(node)</code> returning false) that will displays
- * its children when all its ancestors are <i>expanded</i>.
- * A <i>collapsed</i>
+ * A specific node in b tree cbn be identified either by b
+ * <code>TreePbth</code> (bn object
+ * thbt encbpsulbtes b node bnd bll of its bncestors), or by its
+ * displby row, where ebch row in the displby breb displbys one node.
+ * An <i>expbnded</i> node is b non-lebf node (bs identified by
+ * <code>TreeModel.isLebf(node)</code> returning fblse) thbt will displbys
+ * its children when bll its bncestors bre <i>expbnded</i>.
+ * A <i>collbpsed</i>
  * node is one which hides them. A <i>hidden</i> node is one which is
- * under a collapsed ancestor. All of a <i>viewable</i> nodes parents
- * are expanded, but may or may not be displayed. A <i>displayed</i> node
- * is both viewable and in the display area, where it can be seen.
+ * under b collbpsed bncestor. All of b <i>viewbble</i> nodes pbrents
+ * bre expbnded, but mby or mby not be displbyed. A <i>displbyed</i> node
+ * is both viewbble bnd in the displby breb, where it cbn be seen.
  * </p>
- * The following <code>JTree</code> methods use "visible" to mean "displayed":
+ * The following <code>JTree</code> methods use "visible" to mebn "displbyed":
  * <ul>
  * <li><code>isRootVisible()</code>
  * <li><code>setRootVisible()</code>
- * <li><code>scrollPathToVisible()</code>
+ * <li><code>scrollPbthToVisible()</code>
  * <li><code>scrollRowToVisible()</code>
  * <li><code>getVisibleRowCount()</code>
  * <li><code>setVisibleRowCount()</code>
  * </ul>
- * The next group of <code>JTree</code> methods use "visible" to mean
- * "viewable" (under an expanded parent):
+ * The next group of <code>JTree</code> methods use "visible" to mebn
+ * "viewbble" (under bn expbnded pbrent):
  * <ul>
  * <li><code>isVisible()</code>
- * <li><code>makeVisible()</code>
+ * <li><code>mbkeVisible()</code>
  * </ul>
- * If you are interested in knowing when the selection changes implement
- * the <code>TreeSelectionListener</code> interface and add the instance
- * using the method <code>addTreeSelectionListener</code>.
- * <code>valueChanged</code> will be invoked when the
- * selection changes, that is if the user clicks twice on the same
- * node <code>valueChanged</code> will only be invoked once.
+ * If you bre interested in knowing when the selection chbnges implement
+ * the <code>TreeSelectionListener</code> interfbce bnd bdd the instbnce
+ * using the method <code>bddTreeSelectionListener</code>.
+ * <code>vblueChbnged</code> will be invoked when the
+ * selection chbnges, thbt is if the user clicks twice on the sbme
+ * node <code>vblueChbnged</code> will only be invoked once.
  * <p>
- * If you are interested in detecting either double-click events or when
- * a user clicks on a node, regardless of whether or not it was selected,
+ * If you bre interested in detecting either double-click events or when
+ * b user clicks on b node, regbrdless of whether or not it wbs selected,
  * we recommend you do the following:
  * </p>
  * <pre>
- * final JTree tree = ...;
+ * finbl JTree tree = ...;
  *
- * MouseListener ml = new MouseAdapter() {
+ * MouseListener ml = new MouseAdbpter() {
  *     public void <b>mousePressed</b>(MouseEvent e) {
- *         int selRow = tree.getRowForLocation(e.getX(), e.getY());
- *         TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+ *         int selRow = tree.getRowForLocbtion(e.getX(), e.getY());
+ *         TreePbth selPbth = tree.getPbthForLocbtion(e.getX(), e.getY());
  *         if(selRow != -1) {
  *             if(e.getClickCount() == 1) {
- *                 mySingleClick(selRow, selPath);
+ *                 mySingleClick(selRow, selPbth);
  *             }
  *             else if(e.getClickCount() == 2) {
- *                 myDoubleClick(selRow, selPath);
+ *                 myDoubleClick(selRow, selPbth);
  *             }
  *         }
  *     }
  * };
- * tree.addMouseListener(ml);
+ * tree.bddMouseListener(ml);
  * </pre>
- * NOTE: This example obtains both the path and row, but you only need to
+ * NOTE: This exbmple obtbins both the pbth bnd row, but you only need to
  * get the one you're interested in.
  * <p>
- * To use <code>JTree</code> to display compound nodes
- * (for example, nodes containing both
- * a graphic icon and text), subclass {@link TreeCellRenderer} and use
+ * To use <code>JTree</code> to displby compound nodes
+ * (for exbmple, nodes contbining both
+ * b grbphic icon bnd text), subclbss {@link TreeCellRenderer} bnd use
  * {@link #setCellRenderer} to tell the tree to use it. To edit such nodes,
- * subclass {@link TreeCellEditor} and use {@link #setCellEditor}.
+ * subclbss {@link TreeCellEditor} bnd use {@link #setCellEditor}.
  * </p>
  * <p>
- * Like all <code>JComponent</code> classes, you can use {@link InputMap} and
- * {@link ActionMap}
- * to associate an {@link Action} object with a {@link KeyStroke}
- * and execute the action under specified conditions.
+ * Like bll <code>JComponent</code> clbsses, you cbn use {@link InputMbp} bnd
+ * {@link ActionMbp}
+ * to bssocibte bn {@link Action} object with b {@link KeyStroke}
+ * bnd execute the bction under specified conditions.
  * </p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *</p>
- * @beaninfo
- *   attribute: isContainer false
- * description: A component that displays a set of hierarchical data as an outline.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: A component thbt displbys b set of hierbrchicbl dbtb bs bn outline.
  *
- * @author Rob Davis
- * @author Ray Ryan
- * @author Scott Violet
+ * @buthor Rob Dbvis
+ * @buthor Rby Rybn
+ * @buthor Scott Violet
  * @since 1.2
  */
-@SuppressWarnings("serial")
-public class JTree extends JComponent implements Scrollable, Accessible
+@SuppressWbrnings("seribl")
+public clbss JTree extends JComponent implements Scrollbble, Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "TreeUI";
+    privbte stbtic finbl String uiClbssID = "TreeUI";
 
     /**
-     * The model that defines the tree displayed by this object.
+     * The model thbt defines the tree displbyed by this object.
      */
-    transient protected TreeModel        treeModel;
+    trbnsient protected TreeModel        treeModel;
 
     /**
      * Models the set of selected nodes in this tree.
      */
-    transient protected TreeSelectionModel selectionModel;
+    trbnsient protected TreeSelectionModel selectionModel;
 
     /**
-     * True if the root node is displayed, false if its children are
+     * True if the root node is displbyed, fblse if its children bre
      * the highest visible nodes.
      */
-    protected boolean                    rootVisible;
+    protected boolebn                    rootVisible;
 
     /**
-     * The cell used to draw nodes. If <code>null</code>, the UI uses a default
+     * The cell used to drbw nodes. If <code>null</code>, the UI uses b defbult
      * <code>cellRenderer</code>.
      */
-    transient protected TreeCellRenderer  cellRenderer;
+    trbnsient protected TreeCellRenderer  cellRenderer;
 
     /**
-     * Height to use for each display row. If this is &lt;= 0 the renderer
-     * determines the height for each row.
+     * Height to use for ebch displby row. If this is &lt;= 0 the renderer
+     * determines the height for ebch row.
      */
     protected int                         rowHeight;
-    private boolean                       rowHeightSet = false;
+    privbte boolebn                       rowHeightSet = fblse;
 
     /**
-     * Maps from <code>TreePath</code> to <code>Boolean</code>
-     * indicating whether or not the
-     * particular path is expanded. This ONLY indicates whether a
-     * given path is expanded, and NOT if it is visible or not. That
-     * information must be determined by visiting all the parent
-     * paths and seeing if they are visible.
+     * Mbps from <code>TreePbth</code> to <code>Boolebn</code>
+     * indicbting whether or not the
+     * pbrticulbr pbth is expbnded. This ONLY indicbtes whether b
+     * given pbth is expbnded, bnd NOT if it is visible or not. Thbt
+     * informbtion must be determined by visiting bll the pbrent
+     * pbths bnd seeing if they bre visible.
      */
-    transient private Hashtable<TreePath, Boolean> expandedState;
+    trbnsient privbte Hbshtbble<TreePbth, Boolebn> expbndedStbte;
 
 
     /**
-     * True if handles are displayed at the topmost level of the tree.
+     * True if hbndles bre displbyed bt the topmost level of the tree.
      * <p>
-     * A handle is a small icon that displays adjacent to the node which
-     * allows the user to click once to expand or collapse the node. A
-     * common interface shows a plus sign (+) for a node which can be
-     * expanded and a minus sign (-) for a node which can be collapsed.
-     * Handles are always shown for nodes below the topmost level.
+     * A hbndle is b smbll icon thbt displbys bdjbcent to the node which
+     * bllows the user to click once to expbnd or collbpse the node. A
+     * common interfbce shows b plus sign (+) for b node which cbn be
+     * expbnded bnd b minus sign (-) for b node which cbn be collbpsed.
+     * Hbndles bre blwbys shown for nodes below the topmost level.
      * <p>
-     * If the <code>rootVisible</code> setting specifies that the root
-     * node is to be displayed, then that is the only node at the topmost
-     * level. If the root node is not displayed, then all of its
-     * children are at the topmost level of the tree. Handles are
-     * always displayed for nodes other than the topmost.
+     * If the <code>rootVisible</code> setting specifies thbt the root
+     * node is to be displbyed, then thbt is the only node bt the topmost
+     * level. If the root node is not displbyed, then bll of its
+     * children bre bt the topmost level of the tree. Hbndles bre
+     * blwbys displbyed for nodes other thbn the topmost.
      * <p>
-     * If the root node isn't visible, it is generally a good to make
-     * this value true. Otherwise, the tree looks exactly like a list,
-     * and users may not know that the "list entries" are actually
+     * If the root node isn't visible, it is generblly b good to mbke
+     * this vblue true. Otherwise, the tree looks exbctly like b list,
+     * bnd users mby not know thbt the "list entries" bre bctublly
      * tree nodes.
      *
      * @see #rootVisible
      */
-    protected boolean           showsRootHandles;
-    private boolean             showsRootHandlesSet = false;
+    protected boolebn           showsRootHbndles;
+    privbte boolebn             showsRootHbndlesSet = fblse;
 
     /**
-     * Creates a new event and passed it off the
+     * Crebtes b new event bnd pbssed it off the
      * <code>selectionListeners</code>.
      */
-    protected transient TreeSelectionRedirector selectionRedirector;
+    protected trbnsient TreeSelectionRedirector selectionRedirector;
 
     /**
-     * Editor for the entries.  Default is <code>null</code>
-     * (tree is not editable).
+     * Editor for the entries.  Defbult is <code>null</code>
+     * (tree is not editbble).
      */
-    transient protected TreeCellEditor          cellEditor;
+    trbnsient protected TreeCellEditor          cellEditor;
 
     /**
-     * Is the tree editable? Default is false.
+     * Is the tree editbble? Defbult is fblse.
      */
-    protected boolean                 editable;
+    protected boolebn                 editbble;
 
     /**
-     * Is this tree a large model? This is a code-optimization setting.
-     * A large model can be used when the cell height is the same for all
-     * nodes. The UI will then cache very little information and instead
-     * continually message the model. Without a large model the UI caches
-     * most of the information, resulting in fewer method calls to the model.
+     * Is this tree b lbrge model? This is b code-optimizbtion setting.
+     * A lbrge model cbn be used when the cell height is the sbme for bll
+     * nodes. The UI will then cbche very little informbtion bnd instebd
+     * continublly messbge the model. Without b lbrge model the UI cbches
+     * most of the informbtion, resulting in fewer method cblls to the model.
      * <p>
-     * This value is only a suggestion to the UI. Not all UIs will
-     * take advantage of it. Default value is false.
+     * This vblue is only b suggestion to the UI. Not bll UIs will
+     * tbke bdvbntbge of it. Defbult vblue is fblse.
      */
-    protected boolean                 largeModel;
+    protected boolebn                 lbrgeModel;
 
     /**
-     * Number of rows to make visible at one time. This value is used for
-     * the <code>Scrollable</code> interface. It determines the preferred
-     * size of the display area.
+     * Number of rows to mbke visible bt one time. This vblue is used for
+     * the <code>Scrollbble</code> interfbce. It determines the preferred
+     * size of the displby breb.
      */
     protected int                     visibleRowCount;
 
     /**
-     * If true, when editing is to be stopped by way of selection changing,
-     * data in tree changing or other means <code>stopCellEditing</code>
-     * is invoked, and changes are saved. If false,
-     * <code>cancelCellEditing</code> is invoked, and changes
-     * are discarded. Default is false.
+     * If true, when editing is to be stopped by wby of selection chbnging,
+     * dbtb in tree chbnging or other mebns <code>stopCellEditing</code>
+     * is invoked, bnd chbnges bre sbved. If fblse,
+     * <code>cbncelCellEditing</code> is invoked, bnd chbnges
+     * bre discbrded. Defbult is fblse.
      */
-    protected boolean                 invokesStopCellEditing;
+    protected boolebn                 invokesStopCellEditing;
 
     /**
-     * If true, when a node is expanded, as many of the descendants are
+     * If true, when b node is expbnded, bs mbny of the descendbnts bre
      * scrolled to be visible.
      */
-    protected boolean                 scrollsOnExpand;
-    private boolean                   scrollsOnExpandSet = false;
+    protected boolebn                 scrollsOnExpbnd;
+    privbte boolebn                   scrollsOnExpbndSet = fblse;
 
     /**
-     * Number of mouse clicks before a node is expanded.
+     * Number of mouse clicks before b node is expbnded.
      */
     protected int                     toggleClickCount;
 
     /**
-     * Updates the <code>expandedState</code>.
+     * Updbtes the <code>expbndedStbte</code>.
      */
-    transient protected TreeModelListener       treeModelListener;
+    trbnsient protected TreeModelListener       treeModelListener;
 
     /**
-     * Used when <code>setExpandedState</code> is invoked,
-     * will be a <code>Stack</code> of <code>Stack</code>s.
+     * Used when <code>setExpbndedStbte</code> is invoked,
+     * will be b <code>Stbck</code> of <code>Stbck</code>s.
      */
-    transient private Stack<Stack<TreePath>> expandedStack;
+    trbnsient privbte Stbck<Stbck<TreePbth>> expbndedStbck;
 
     /**
-     * Lead selection path, may not be <code>null</code>.
+     * Lebd selection pbth, mby not be <code>null</code>.
      */
-    private TreePath                  leadPath;
+    privbte TreePbth                  lebdPbth;
 
     /**
-     * Anchor path.
+     * Anchor pbth.
      */
-    private TreePath                  anchorPath;
+    privbte TreePbth                  bnchorPbth;
 
     /**
-     * True if paths in the selection should be expanded.
+     * True if pbths in the selection should be expbnded.
      */
-    private boolean                   expandsSelectedPaths;
+    privbte boolebn                   expbndsSelectedPbths;
 
     /**
-     * This is set to true for the life of the <code>setUI</code> call.
+     * This is set to true for the life of the <code>setUI</code> cbll.
      */
-    private boolean                   settingUI;
+    privbte boolebn                   settingUI;
 
-    /** If true, mouse presses on selections initiate a drag operation. */
-    private boolean dragEnabled;
+    /** If true, mouse presses on selections initibte b drbg operbtion. */
+    privbte boolebn drbgEnbbled;
 
     /**
      * The drop mode for this component.
      */
-    private DropMode dropMode = DropMode.USE_SELECTION;
+    privbte DropMode dropMode = DropMode.USE_SELECTION;
 
     /**
-     * The drop location.
+     * The drop locbtion.
      */
-    private transient DropLocation dropLocation;
+    privbte trbnsient DropLocbtion dropLocbtion;
 
     /**
-     * A subclass of <code>TransferHandler.DropLocation</code> representing
-     * a drop location for a <code>JTree</code>.
+     * A subclbss of <code>TrbnsferHbndler.DropLocbtion</code> representing
+     * b drop locbtion for b <code>JTree</code>.
      *
-     * @see #getDropLocation
+     * @see #getDropLocbtion
      * @since 1.6
      */
-    public static final class DropLocation extends TransferHandler.DropLocation {
-        private final TreePath path;
-        private final int index;
+    public stbtic finbl clbss DropLocbtion extends TrbnsferHbndler.DropLocbtion {
+        privbte finbl TreePbth pbth;
+        privbte finbl int index;
 
-        private DropLocation(Point p, TreePath path, int index) {
+        privbte DropLocbtion(Point p, TreePbth pbth, int index) {
             super(p);
-            this.path = path;
+            this.pbth = pbth;
             this.index = index;
         }
 
         /**
-         * Returns the index where the dropped data should be inserted
-         * with respect to the path returned by <code>getPath()</code>.
+         * Returns the index where the dropped dbtb should be inserted
+         * with respect to the pbth returned by <code>getPbth()</code>.
          * <p>
-         * For drop modes <code>DropMode.USE_SELECTION</code> and
-         * <code>DropMode.ON</code>, this index is unimportant (and it will
-         * always be <code>-1</code>) as the only interesting data is the
-         * path over which the drop operation occurred.
+         * For drop modes <code>DropMode.USE_SELECTION</code> bnd
+         * <code>DropMode.ON</code>, this index is unimportbnt (bnd it will
+         * blwbys be <code>-1</code>) bs the only interesting dbtb is the
+         * pbth over which the drop operbtion occurred.
          * <p>
          * For drop mode <code>DropMode.INSERT</code>, this index
-         * indicates the index at which the data should be inserted into
-         * the parent path represented by <code>getPath()</code>.
-         * <code>-1</code> indicates that the drop occurred over the
-         * parent itself, and in most cases should be treated as inserting
-         * into either the beginning or the end of the parent's list of
+         * indicbtes the index bt which the dbtb should be inserted into
+         * the pbrent pbth represented by <code>getPbth()</code>.
+         * <code>-1</code> indicbtes thbt the drop occurred over the
+         * pbrent itself, bnd in most cbses should be trebted bs inserting
+         * into either the beginning or the end of the pbrent's list of
          * children.
          * <p>
-         * For <code>DropMode.ON_OR_INSERT</code>, this value will be
-         * an insert index, as described above, or <code>-1</code> if
-         * the drop occurred over the path itself.
+         * For <code>DropMode.ON_OR_INSERT</code>, this vblue will be
+         * bn insert index, bs described bbove, or <code>-1</code> if
+         * the drop occurred over the pbth itself.
          *
          * @return the child index
-         * @see #getPath
+         * @see #getPbth
          */
         public int getChildIndex() {
             return index;
         }
 
         /**
-         * Returns the path where dropped data should be placed in the
+         * Returns the pbth where dropped dbtb should be plbced in the
          * tree.
          * <p>
-         * Interpretation of this value depends on the drop mode set on the
+         * Interpretbtion of this vblue depends on the drop mode set on the
          * component. If the drop mode is <code>DropMode.USE_SELECTION</code>
-         * or <code>DropMode.ON</code>, the return value is the path in the
-         * tree over which the data has been (or will be) dropped.
-         * <code>null</code> indicates that the drop is over empty space,
-         * not associated with a particular path.
+         * or <code>DropMode.ON</code>, the return vblue is the pbth in the
+         * tree over which the dbtb hbs been (or will be) dropped.
+         * <code>null</code> indicbtes thbt the drop is over empty spbce,
+         * not bssocibted with b pbrticulbr pbth.
          * <p>
-         * If the drop mode is <code>DropMode.INSERT</code>, the return value
-         * refers to the path that should become the parent of the new data,
-         * in which case <code>getChildIndex()</code> indicates where the
-         * new item should be inserted into this parent path. A
-         * <code>null</code> path indicates that no parent path has been
-         * determined, which can happen for multiple reasons:
+         * If the drop mode is <code>DropMode.INSERT</code>, the return vblue
+         * refers to the pbth thbt should become the pbrent of the new dbtb,
+         * in which cbse <code>getChildIndex()</code> indicbtes where the
+         * new item should be inserted into this pbrent pbth. A
+         * <code>null</code> pbth indicbtes thbt no pbrent pbth hbs been
+         * determined, which cbn hbppen for multiple rebsons:
          * <ul>
-         *    <li>The tree has no model
+         *    <li>The tree hbs no model
          *    <li>There is no root in the tree
-         *    <li>The root is collapsed
-         *    <li>The root is a leaf node
+         *    <li>The root is collbpsed
+         *    <li>The root is b lebf node
          * </ul>
-         * It is up to the developer to decide if and how they wish to handle
-         * the <code>null</code> case.
+         * It is up to the developer to decide if bnd how they wish to hbndle
+         * the <code>null</code> cbse.
          * <p>
          * If the drop mode is <code>DropMode.ON_OR_INSERT</code>,
-         * <code>getChildIndex</code> can be used to determine whether the
-         * drop is on top of the path itself (<code>-1</code>) or the index
-         * at which it should be inserted into the path (values other than
+         * <code>getChildIndex</code> cbn be used to determine whether the
+         * drop is on top of the pbth itself (<code>-1</code>) or the index
+         * bt which it should be inserted into the pbth (vblues other thbn
          * <code>-1</code>).
          *
-         * @return the drop path
+         * @return the drop pbth
          * @see #getChildIndex
          */
-        public TreePath getPath() {
-            return path;
+        public TreePbth getPbth() {
+            return pbth;
         }
 
         /**
-         * Returns a string representation of this drop location.
+         * Returns b string representbtion of this drop locbtion.
          * This method is intended to be used for debugging purposes,
-         * and the content and format of the returned string may vary
-         * between implementations.
+         * bnd the content bnd formbt of the returned string mby vbry
+         * between implementbtions.
          *
-         * @return a string representation of this drop location
+         * @return b string representbtion of this drop locbtion
          */
         public String toString() {
-            return getClass().getName()
+            return getClbss().getNbme()
                    + "[dropPoint=" + getDropPoint() + ","
-                   + "path=" + path + ","
+                   + "pbth=" + pbth + ","
                    + "childIndex=" + index + "]";
         }
     }
 
     /**
-     * The row to expand during DnD.
+     * The row to expbnd during DnD.
      */
-    private int expandRow = -1;
+    privbte int expbndRow = -1;
 
-    @SuppressWarnings("serial")
-    private class TreeTimer extends Timer {
+    @SuppressWbrnings("seribl")
+    privbte clbss TreeTimer extends Timer {
         public TreeTimer() {
             super(2000, null);
-            setRepeats(false);
+            setRepebts(fblse);
         }
 
-        public void fireActionPerformed(ActionEvent ae) {
-            JTree.this.expandRow(expandRow);
+        public void fireActionPerformed(ActionEvent be) {
+            JTree.this.expbndRow(expbndRow);
         }
     }
 
     /**
-     * A timer to expand nodes during drop.
+     * A timer to expbnd nodes during drop.
      */
-    private TreeTimer dropTimer;
+    privbte TreeTimer dropTimer;
 
     /**
-     * When <code>addTreeExpansionListener</code> is invoked,
-     * and <code>settingUI</code> is true, this ivar gets set to the passed in
+     * When <code>bddTreeExpbnsionListener</code> is invoked,
+     * bnd <code>settingUI</code> is true, this ivbr gets set to the pbssed in
      * <code>Listener</code>. This listener is then notified first in
-     * <code>fireTreeCollapsed</code> and <code>fireTreeExpanded</code>.
-     * <p>This is an ugly workaround for a way to have the UI listener
+     * <code>fireTreeCollbpsed</code> bnd <code>fireTreeExpbnded</code>.
+     * <p>This is bn ugly workbround for b wby to hbve the UI listener
      * get notified before other listeners.
      */
-    private transient TreeExpansionListener     uiTreeExpansionListener;
+    privbte trbnsient TreeExpbnsionListener     uiTreeExpbnsionListener;
 
     /**
-     * Max number of stacks to keep around.
+     * Mbx number of stbcks to keep bround.
      */
-    private static int                TEMP_STACK_SIZE = 11;
+    privbte stbtic int                TEMP_STACK_SIZE = 11;
 
     //
-    // Bound property names
+    // Bound property nbmes
     //
-    /** Bound property name for <code>cellRenderer</code>. */
-    public final static String        CELL_RENDERER_PROPERTY = "cellRenderer";
-    /** Bound property name for <code>treeModel</code>. */
-    public final static String        TREE_MODEL_PROPERTY = "model";
-    /** Bound property name for <code>rootVisible</code>. */
-    public final static String        ROOT_VISIBLE_PROPERTY = "rootVisible";
-    /** Bound property name for <code>showsRootHandles</code>. */
-    public final static String        SHOWS_ROOT_HANDLES_PROPERTY = "showsRootHandles";
-    /** Bound property name for <code>rowHeight</code>. */
-    public final static String        ROW_HEIGHT_PROPERTY = "rowHeight";
-    /** Bound property name for <code>cellEditor</code>. */
-    public final static String        CELL_EDITOR_PROPERTY = "cellEditor";
-    /** Bound property name for <code>editable</code>. */
-    public final static String        EDITABLE_PROPERTY = "editable";
-    /** Bound property name for <code>largeModel</code>. */
-    public final static String        LARGE_MODEL_PROPERTY = "largeModel";
-    /** Bound property name for selectionModel. */
-    public final static String        SELECTION_MODEL_PROPERTY = "selectionModel";
-    /** Bound property name for <code>visibleRowCount</code>. */
-    public final static String        VISIBLE_ROW_COUNT_PROPERTY = "visibleRowCount";
-    /** Bound property name for <code>messagesStopCellEditing</code>. */
-    public final static String        INVOKES_STOP_CELL_EDITING_PROPERTY = "invokesStopCellEditing";
-    /** Bound property name for <code>scrollsOnExpand</code>. */
-    public final static String        SCROLLS_ON_EXPAND_PROPERTY = "scrollsOnExpand";
-    /** Bound property name for <code>toggleClickCount</code>. */
-    public final static String        TOGGLE_CLICK_COUNT_PROPERTY = "toggleClickCount";
-    /** Bound property name for <code>leadSelectionPath</code>.
+    /** Bound property nbme for <code>cellRenderer</code>. */
+    public finbl stbtic String        CELL_RENDERER_PROPERTY = "cellRenderer";
+    /** Bound property nbme for <code>treeModel</code>. */
+    public finbl stbtic String        TREE_MODEL_PROPERTY = "model";
+    /** Bound property nbme for <code>rootVisible</code>. */
+    public finbl stbtic String        ROOT_VISIBLE_PROPERTY = "rootVisible";
+    /** Bound property nbme for <code>showsRootHbndles</code>. */
+    public finbl stbtic String        SHOWS_ROOT_HANDLES_PROPERTY = "showsRootHbndles";
+    /** Bound property nbme for <code>rowHeight</code>. */
+    public finbl stbtic String        ROW_HEIGHT_PROPERTY = "rowHeight";
+    /** Bound property nbme for <code>cellEditor</code>. */
+    public finbl stbtic String        CELL_EDITOR_PROPERTY = "cellEditor";
+    /** Bound property nbme for <code>editbble</code>. */
+    public finbl stbtic String        EDITABLE_PROPERTY = "editbble";
+    /** Bound property nbme for <code>lbrgeModel</code>. */
+    public finbl stbtic String        LARGE_MODEL_PROPERTY = "lbrgeModel";
+    /** Bound property nbme for selectionModel. */
+    public finbl stbtic String        SELECTION_MODEL_PROPERTY = "selectionModel";
+    /** Bound property nbme for <code>visibleRowCount</code>. */
+    public finbl stbtic String        VISIBLE_ROW_COUNT_PROPERTY = "visibleRowCount";
+    /** Bound property nbme for <code>messbgesStopCellEditing</code>. */
+    public finbl stbtic String        INVOKES_STOP_CELL_EDITING_PROPERTY = "invokesStopCellEditing";
+    /** Bound property nbme for <code>scrollsOnExpbnd</code>. */
+    public finbl stbtic String        SCROLLS_ON_EXPAND_PROPERTY = "scrollsOnExpbnd";
+    /** Bound property nbme for <code>toggleClickCount</code>. */
+    public finbl stbtic String        TOGGLE_CLICK_COUNT_PROPERTY = "toggleClickCount";
+    /** Bound property nbme for <code>lebdSelectionPbth</code>.
      * @since 1.3 */
-    public final static String        LEAD_SELECTION_PATH_PROPERTY = "leadSelectionPath";
-    /** Bound property name for anchor selection path.
+    public finbl stbtic String        LEAD_SELECTION_PATH_PROPERTY = "lebdSelectionPbth";
+    /** Bound property nbme for bnchor selection pbth.
      * @since 1.3 */
-    public final static String        ANCHOR_SELECTION_PATH_PROPERTY = "anchorSelectionPath";
-    /** Bound property name for expands selected paths property
+    public finbl stbtic String        ANCHOR_SELECTION_PATH_PROPERTY = "bnchorSelectionPbth";
+    /** Bound property nbme for expbnds selected pbths property
      * @since 1.3 */
-    public final static String        EXPANDS_SELECTED_PATHS_PROPERTY = "expandsSelectedPaths";
+    public finbl stbtic String        EXPANDS_SELECTED_PATHS_PROPERTY = "expbndsSelectedPbths";
 
 
     /**
-     * Creates and returns a sample <code>TreeModel</code>.
-     * Used primarily for beanbuilders to show something interesting.
+     * Crebtes bnd returns b sbmple <code>TreeModel</code>.
+     * Used primbrily for bebnbuilders to show something interesting.
      *
-     * @return the default <code>TreeModel</code>
+     * @return the defbult <code>TreeModel</code>
      */
-    protected static TreeModel getDefaultTreeModel() {
-        DefaultMutableTreeNode      root = new DefaultMutableTreeNode("JTree");
-        DefaultMutableTreeNode      parent;
+    protected stbtic TreeModel getDefbultTreeModel() {
+        DefbultMutbbleTreeNode      root = new DefbultMutbbleTreeNode("JTree");
+        DefbultMutbbleTreeNode      pbrent;
 
-        parent = new DefaultMutableTreeNode("colors");
-        root.add(parent);
-        parent.add(new DefaultMutableTreeNode("blue"));
-        parent.add(new DefaultMutableTreeNode("violet"));
-        parent.add(new DefaultMutableTreeNode("red"));
-        parent.add(new DefaultMutableTreeNode("yellow"));
+        pbrent = new DefbultMutbbleTreeNode("colors");
+        root.bdd(pbrent);
+        pbrent.bdd(new DefbultMutbbleTreeNode("blue"));
+        pbrent.bdd(new DefbultMutbbleTreeNode("violet"));
+        pbrent.bdd(new DefbultMutbbleTreeNode("red"));
+        pbrent.bdd(new DefbultMutbbleTreeNode("yellow"));
 
-        parent = new DefaultMutableTreeNode("sports");
-        root.add(parent);
-        parent.add(new DefaultMutableTreeNode("basketball"));
-        parent.add(new DefaultMutableTreeNode("soccer"));
-        parent.add(new DefaultMutableTreeNode("football"));
-        parent.add(new DefaultMutableTreeNode("hockey"));
+        pbrent = new DefbultMutbbleTreeNode("sports");
+        root.bdd(pbrent);
+        pbrent.bdd(new DefbultMutbbleTreeNode("bbsketbbll"));
+        pbrent.bdd(new DefbultMutbbleTreeNode("soccer"));
+        pbrent.bdd(new DefbultMutbbleTreeNode("footbbll"));
+        pbrent.bdd(new DefbultMutbbleTreeNode("hockey"));
 
-        parent = new DefaultMutableTreeNode("food");
-        root.add(parent);
-        parent.add(new DefaultMutableTreeNode("hot dogs"));
-        parent.add(new DefaultMutableTreeNode("pizza"));
-        parent.add(new DefaultMutableTreeNode("ravioli"));
-        parent.add(new DefaultMutableTreeNode("bananas"));
-        return new DefaultTreeModel(root);
+        pbrent = new DefbultMutbbleTreeNode("food");
+        root.bdd(pbrent);
+        pbrent.bdd(new DefbultMutbbleTreeNode("hot dogs"));
+        pbrent.bdd(new DefbultMutbbleTreeNode("pizzb"));
+        pbrent.bdd(new DefbultMutbbleTreeNode("rbvioli"));
+        pbrent.bdd(new DefbultMutbbleTreeNode("bbnbnbs"));
+        return new DefbultTreeModel(root);
     }
 
     /**
-     * Returns a <code>TreeModel</code> wrapping the specified object.
+     * Returns b <code>TreeModel</code> wrbpping the specified object.
      * If the object is:<ul>
-     * <li>an array of <code>Object</code>s,
-     * <li>a <code>Hashtable</code>, or
-     * <li>a <code>Vector</code>
-     * </ul>then a new root node is created with each of the incoming
-     * objects as children. Otherwise, a new root is created with
-     * a value of {@code "root"}.
+     * <li>bn brrby of <code>Object</code>s,
+     * <li>b <code>Hbshtbble</code>, or
+     * <li>b <code>Vector</code>
+     * </ul>then b new root node is crebted with ebch of the incoming
+     * objects bs children. Otherwise, b new root is crebted with
+     * b vblue of {@code "root"}.
      *
-     * @param value  the <code>Object</code> used as the foundation for
+     * @pbrbm vblue  the <code>Object</code> used bs the foundbtion for
      *          the <code>TreeModel</code>
-     * @return a <code>TreeModel</code> wrapping the specified object
+     * @return b <code>TreeModel</code> wrbpping the specified object
      */
-    protected static TreeModel createTreeModel(Object value) {
-        DefaultMutableTreeNode           root;
+    protected stbtic TreeModel crebteTreeModel(Object vblue) {
+        DefbultMutbbleTreeNode           root;
 
-        if((value instanceof Object[]) || (value instanceof Hashtable) ||
-           (value instanceof Vector)) {
-            root = new DefaultMutableTreeNode("root");
-            DynamicUtilTreeNode.createChildren(root, value);
+        if((vblue instbnceof Object[]) || (vblue instbnceof Hbshtbble) ||
+           (vblue instbnceof Vector)) {
+            root = new DefbultMutbbleTreeNode("root");
+            DynbmicUtilTreeNode.crebteChildren(root, vblue);
         }
         else {
-            root = new DynamicUtilTreeNode("root", value);
+            root = new DynbmicUtilTreeNode("root", vblue);
         }
-        return new DefaultTreeModel(root, false);
+        return new DefbultTreeModel(root, fblse);
     }
 
     /**
-     * Returns a <code>JTree</code> with a sample model.
-     * The default model used by the tree defines a leaf node as any node
+     * Returns b <code>JTree</code> with b sbmple model.
+     * The defbult model used by the tree defines b lebf node bs bny node
      * without children.
      *
-     * @see DefaultTreeModel#asksAllowsChildren
+     * @see DefbultTreeModel#bsksAllowsChildren
      */
     public JTree() {
-        this(getDefaultTreeModel());
+        this(getDefbultTreeModel());
     }
 
     /**
-     * Returns a <code>JTree</code> with each element of the
-     * specified array as the
-     * child of a new root node which is not displayed.
-     * By default, the tree defines a leaf node as any node without
+     * Returns b <code>JTree</code> with ebch element of the
+     * specified brrby bs the
+     * child of b new root node which is not displbyed.
+     * By defbult, the tree defines b lebf node bs bny node without
      * children.
      *
-     * @param value  an array of <code>Object</code>s
-     * @see DefaultTreeModel#asksAllowsChildren
+     * @pbrbm vblue  bn brrby of <code>Object</code>s
+     * @see DefbultTreeModel#bsksAllowsChildren
      */
-    public JTree(Object[] value) {
-        this(createTreeModel(value));
-        this.setRootVisible(false);
-        this.setShowsRootHandles(true);
-        expandRoot();
+    public JTree(Object[] vblue) {
+        this(crebteTreeModel(vblue));
+        this.setRootVisible(fblse);
+        this.setShowsRootHbndles(true);
+        expbndRoot();
     }
 
     /**
-     * Returns a <code>JTree</code> with each element of the specified
-     * <code>Vector</code> as the
-     * child of a new root node which is not displayed. By default, the
-     * tree defines a leaf node as any node without children.
+     * Returns b <code>JTree</code> with ebch element of the specified
+     * <code>Vector</code> bs the
+     * child of b new root node which is not displbyed. By defbult, the
+     * tree defines b lebf node bs bny node without children.
      *
-     * @param value  a <code>Vector</code>
-     * @see DefaultTreeModel#asksAllowsChildren
+     * @pbrbm vblue  b <code>Vector</code>
+     * @see DefbultTreeModel#bsksAllowsChildren
      */
-    public JTree(Vector<?> value) {
-        this(createTreeModel(value));
-        this.setRootVisible(false);
-        this.setShowsRootHandles(true);
-        expandRoot();
+    public JTree(Vector<?> vblue) {
+        this(crebteTreeModel(vblue));
+        this.setRootVisible(fblse);
+        this.setShowsRootHbndles(true);
+        expbndRoot();
     }
 
     /**
-     * Returns a <code>JTree</code> created from a <code>Hashtable</code>
-     * which does not display with root.
-     * Each value-half of the key/value pairs in the <code>HashTable</code>
-     * becomes a child of the new root node. By default, the tree defines
-     * a leaf node as any node without children.
+     * Returns b <code>JTree</code> crebted from b <code>Hbshtbble</code>
+     * which does not displby with root.
+     * Ebch vblue-hblf of the key/vblue pbirs in the <code>HbshTbble</code>
+     * becomes b child of the new root node. By defbult, the tree defines
+     * b lebf node bs bny node without children.
      *
-     * @param value  a <code>Hashtable</code>
-     * @see DefaultTreeModel#asksAllowsChildren
+     * @pbrbm vblue  b <code>Hbshtbble</code>
+     * @see DefbultTreeModel#bsksAllowsChildren
      */
-    public JTree(Hashtable<?,?> value) {
-        this(createTreeModel(value));
-        this.setRootVisible(false);
-        this.setShowsRootHandles(true);
-        expandRoot();
+    public JTree(Hbshtbble<?,?> vblue) {
+        this(crebteTreeModel(vblue));
+        this.setRootVisible(fblse);
+        this.setShowsRootHbndles(true);
+        expbndRoot();
     }
 
     /**
-     * Returns a <code>JTree</code> with the specified
-     * <code>TreeNode</code> as its root,
-     * which displays the root node.
-     * By default, the tree defines a leaf node as any node without children.
+     * Returns b <code>JTree</code> with the specified
+     * <code>TreeNode</code> bs its root,
+     * which displbys the root node.
+     * By defbult, the tree defines b lebf node bs bny node without children.
      *
-     * @param root  a <code>TreeNode</code> object
-     * @see DefaultTreeModel#asksAllowsChildren
+     * @pbrbm root  b <code>TreeNode</code> object
+     * @see DefbultTreeModel#bsksAllowsChildren
      */
     public JTree(TreeNode root) {
-        this(root, false);
+        this(root, fblse);
     }
 
     /**
-     * Returns a <code>JTree</code> with the specified <code>TreeNode</code>
-     * as its root, which
-     * displays the root node and which decides whether a node is a
-     * leaf node in the specified manner.
+     * Returns b <code>JTree</code> with the specified <code>TreeNode</code>
+     * bs its root, which
+     * displbys the root node bnd which decides whether b node is b
+     * lebf node in the specified mbnner.
      *
-     * @param root  a <code>TreeNode</code> object
-     * @param asksAllowsChildren  if false, any node without children is a
-     *              leaf node; if true, only nodes that do not allow
-     *              children are leaf nodes
-     * @see DefaultTreeModel#asksAllowsChildren
+     * @pbrbm root  b <code>TreeNode</code> object
+     * @pbrbm bsksAllowsChildren  if fblse, bny node without children is b
+     *              lebf node; if true, only nodes thbt do not bllow
+     *              children bre lebf nodes
+     * @see DefbultTreeModel#bsksAllowsChildren
      */
-    public JTree(TreeNode root, boolean asksAllowsChildren) {
-        this(new DefaultTreeModel(root, asksAllowsChildren));
+    public JTree(TreeNode root, boolebn bsksAllowsChildren) {
+        this(new DefbultTreeModel(root, bsksAllowsChildren));
     }
 
     /**
-     * Returns an instance of <code>JTree</code> which displays the root node
-     * -- the tree is created using the specified data model.
+     * Returns bn instbnce of <code>JTree</code> which displbys the root node
+     * -- the tree is crebted using the specified dbtb model.
      *
-     * @param newModel  the <code>TreeModel</code> to use as the data model
+     * @pbrbm newModel  the <code>TreeModel</code> to use bs the dbtb model
      */
     @ConstructorProperties({"model"})
     public JTree(TreeModel newModel) {
         super();
-        expandedStack = new Stack<Stack<TreePath>>();
+        expbndedStbck = new Stbck<Stbck<TreePbth>>();
         toggleClickCount = 2;
-        expandedState = new Hashtable<TreePath, Boolean>();
-        setLayout(null);
+        expbndedStbte = new Hbshtbble<TreePbth, Boolebn>();
+        setLbyout(null);
         rowHeight = 16;
         visibleRowCount = 20;
         rootVisible = true;
-        selectionModel = new DefaultTreeSelectionModel();
+        selectionModel = new DefbultTreeSelectionModel();
         cellRenderer = null;
-        scrollsOnExpand = true;
-        setOpaque(true);
-        expandsSelectedPaths = true;
-        updateUI();
+        scrollsOnExpbnd = true;
+        setOpbque(true);
+        expbndsSelectedPbths = true;
+        updbteUI();
         setModel(newModel);
     }
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Returns the L&bmp;F object thbt renders this component.
      *
-     * @return the <code>TreeUI</code> object that renders this component
+     * @return the <code>TreeUI</code> object thbt renders this component
      */
     public TreeUI getUI() {
         return (TreeUI)ui;
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sets the L&bmp;F object thbt renders this component.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param ui  the <code>TreeUI</code> L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui  the <code>TreeUI</code> L&bmp;F object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
     public void setUI(TreeUI ui) {
         if (this.ui != ui) {
             settingUI = true;
-            uiTreeExpansionListener = null;
+            uiTreeExpbnsionListener = null;
             try {
                 super.setUI(ui);
             }
-            finally {
-                settingUI = false;
+            finblly {
+                settingUI = fblse;
             }
         }
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the L&amp;F has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notificbtion from the <code>UIMbnbger</code> thbt the L&bmp;F hbs chbnged.
+     * Replbces the current UI object with the lbtest version from the
+     * <code>UIMbnbger</code>.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((TreeUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((TreeUI)UIMbnbger.getUI(this));
 
-        SwingUtilities.updateRendererOrEditorUI(getCellRenderer());
-        SwingUtilities.updateRendererOrEditorUI(getCellEditor());
+        SwingUtilities.updbteRendererOrEditorUI(getCellRenderer());
+        SwingUtilities.updbteRendererOrEditorUI(getCellEditor());
     }
 
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Returns the nbme of the L&bmp;F clbss thbt renders this component.
      *
      * @return the string "TreeUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
      * Returns the current <code>TreeCellRenderer</code>
-     *  that is rendering each cell.
+     *  thbt is rendering ebch cell.
      *
-     * @return the <code>TreeCellRenderer</code> that is rendering each cell
+     * @return the <code>TreeCellRenderer</code> thbt is rendering ebch cell
      */
     public TreeCellRenderer getCellRenderer() {
         return cellRenderer;
     }
 
     /**
-     * Sets the <code>TreeCellRenderer</code> that will be used to
-     * draw each cell.
+     * Sets the <code>TreeCellRenderer</code> thbt will be used to
+     * drbw ebch cell.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param x  the <code>TreeCellRenderer</code> that is to render each cell
-     * @beaninfo
+     * @pbrbm x  the <code>TreeCellRenderer</code> thbt is to render ebch cell
+     * @bebninfo
      *        bound: true
-     *  description: The TreeCellRenderer that will be used to draw
-     *               each cell.
+     *  description: The TreeCellRenderer thbt will be used to drbw
+     *               ebch cell.
      */
     public void setCellRenderer(TreeCellRenderer x) {
-        TreeCellRenderer oldValue = cellRenderer;
+        TreeCellRenderer oldVblue = cellRenderer;
 
         cellRenderer = x;
-        firePropertyChange(CELL_RENDERER_PROPERTY, oldValue, cellRenderer);
-        invalidate();
+        firePropertyChbnge(CELL_RENDERER_PROPERTY, oldVblue, cellRenderer);
+        invblidbte();
     }
 
     /**
-      * Determines whether the tree is editable. Fires a property
-      * change event if the new setting is different from the existing
+      * Determines whether the tree is editbble. Fires b property
+      * chbnge event if the new setting is different from the existing
       * setting.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
       *
-      * @param flag  a boolean value, true if the tree is editable
-      * @beaninfo
+      * @pbrbm flbg  b boolebn vblue, true if the tree is editbble
+      * @bebninfo
       *        bound: true
-      *  description: Whether the tree is editable.
+      *  description: Whether the tree is editbble.
       */
-    public void setEditable(boolean flag) {
-        boolean                 oldValue = this.editable;
+    public void setEditbble(boolebn flbg) {
+        boolebn                 oldVblue = this.editbble;
 
-        this.editable = flag;
-        firePropertyChange(EDITABLE_PROPERTY, oldValue, flag);
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
+        this.editbble = flbg;
+        firePropertyChbnge(EDITABLE_PROPERTY, oldVblue, flbg);
+        if (bccessibleContext != null) {
+            bccessibleContext.firePropertyChbnge(
                 AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                (oldValue ? AccessibleState.EDITABLE : null),
-                (flag ? AccessibleState.EDITABLE : null));
+                (oldVblue ? AccessibleStbte.EDITABLE : null),
+                (flbg ? AccessibleStbte.EDITABLE : null));
         }
     }
 
     /**
-     * Returns true if the tree is editable.
+     * Returns true if the tree is editbble.
      *
-     * @return true if the tree is editable
+     * @return true if the tree is editbble
      */
-    public boolean isEditable() {
-        return editable;
+    public boolebn isEditbble() {
+        return editbble;
     }
 
     /**
-     * Sets the cell editor.  A <code>null</code> value implies that the
-     * tree cannot be edited.  If this represents a change in the
-     * <code>cellEditor</code>, the <code>propertyChange</code>
-     * method is invoked on all listeners.
+     * Sets the cell editor.  A <code>null</code> vblue implies thbt the
+     * tree cbnnot be edited.  If this represents b chbnge in the
+     * <code>cellEditor</code>, the <code>propertyChbnge</code>
+     * method is invoked on bll listeners.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param cellEditor the <code>TreeCellEditor</code> to use
-     * @beaninfo
+     * @pbrbm cellEditor the <code>TreeCellEditor</code> to use
+     * @bebninfo
      *        bound: true
-     *  description: The cell editor. A null value implies the tree
-     *               cannot be edited.
+     *  description: The cell editor. A null vblue implies the tree
+     *               cbnnot be edited.
      */
     public void setCellEditor(TreeCellEditor cellEditor) {
         TreeCellEditor        oldEditor = this.cellEditor;
 
         this.cellEditor = cellEditor;
-        firePropertyChange(CELL_EDITOR_PROPERTY, oldEditor, cellEditor);
-        invalidate();
+        firePropertyChbnge(CELL_EDITOR_PROPERTY, oldEditor, cellEditor);
+        invblidbte();
     }
 
     /**
      * Returns the editor used to edit entries in the tree.
      *
      * @return the <code>TreeCellEditor</code> in use,
-     *          or <code>null</code> if the tree cannot be edited
+     *          or <code>null</code> if the tree cbnnot be edited
      */
     public TreeCellEditor getCellEditor() {
         return cellEditor;
     }
 
     /**
-     * Returns the <code>TreeModel</code> that is providing the data.
+     * Returns the <code>TreeModel</code> thbt is providing the dbtb.
      *
-     * @return the <code>TreeModel</code> that is providing the data
+     * @return the <code>TreeModel</code> thbt is providing the dbtb
      */
     public TreeModel getModel() {
         return treeModel;
     }
 
     /**
-     * Sets the <code>TreeModel</code> that will provide the data.
+     * Sets the <code>TreeModel</code> thbt will provide the dbtb.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param newModel the <code>TreeModel</code> that is to provide the data
-     * @beaninfo
+     * @pbrbm newModel the <code>TreeModel</code> thbt is to provide the dbtb
+     * @bebninfo
      *        bound: true
-     *  description: The TreeModel that will provide the data.
+     *  description: The TreeModel thbt will provide the dbtb.
      */
     public void setModel(TreeModel newModel) {
-        clearSelection();
+        clebrSelection();
 
         TreeModel oldModel = treeModel;
 
         if(treeModel != null && treeModelListener != null)
             treeModel.removeTreeModelListener(treeModelListener);
 
-        if (accessibleContext != null) {
+        if (bccessibleContext != null) {
             if (treeModel != null) {
-                treeModel.removeTreeModelListener((TreeModelListener)accessibleContext);
+                treeModel.removeTreeModelListener((TreeModelListener)bccessibleContext);
             }
             if (newModel != null) {
-                newModel.addTreeModelListener((TreeModelListener)accessibleContext);
+                newModel.bddTreeModelListener((TreeModelListener)bccessibleContext);
             }
         }
 
         treeModel = newModel;
-        clearToggledPaths();
+        clebrToggledPbths();
         if(treeModel != null) {
             if(treeModelListener == null)
-                treeModelListener = createTreeModelListener();
+                treeModelListener = crebteTreeModelListener();
             if(treeModelListener != null)
-                treeModel.addTreeModelListener(treeModelListener);
-            // Mark the root as expanded, if it isn't a leaf.
+                treeModel.bddTreeModelListener(treeModelListener);
+            // Mbrk the root bs expbnded, if it isn't b lebf.
             if(treeModel.getRoot() != null &&
-               !treeModel.isLeaf(treeModel.getRoot())) {
-                expandedState.put(new TreePath(treeModel.getRoot()),
-                                  Boolean.TRUE);
+               !treeModel.isLebf(treeModel.getRoot())) {
+                expbndedStbte.put(new TreePbth(treeModel.getRoot()),
+                                  Boolebn.TRUE);
             }
         }
-        firePropertyChange(TREE_MODEL_PROPERTY, oldModel, treeModel);
-        invalidate();
+        firePropertyChbnge(TREE_MODEL_PROPERTY, oldModel, treeModel);
+        invblidbte();
     }
 
     /**
-     * Returns true if the root node of the tree is displayed.
+     * Returns true if the root node of the tree is displbyed.
      *
-     * @return true if the root node of the tree is displayed
+     * @return true if the root node of the tree is displbyed
      * @see #rootVisible
      */
-    public boolean isRootVisible() {
+    public boolebn isRootVisible() {
         return rootVisible;
     }
 
@@ -897,97 +897,97 @@ public class JTree extends JComponent implements Scrollable, Accessible
      * Determines whether or not the root node from
      * the <code>TreeModel</code> is visible.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param rootVisible true if the root node of the tree is to be displayed
+     * @pbrbm rootVisible true if the root node of the tree is to be displbyed
      * @see #rootVisible
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *  description: Whether or not the root node
      *               from the TreeModel is visible.
      */
-    public void setRootVisible(boolean rootVisible) {
-        boolean                oldValue = this.rootVisible;
+    public void setRootVisible(boolebn rootVisible) {
+        boolebn                oldVblue = this.rootVisible;
 
         this.rootVisible = rootVisible;
-        firePropertyChange(ROOT_VISIBLE_PROPERTY, oldValue, this.rootVisible);
-        if (accessibleContext != null) {
-            ((AccessibleJTree)accessibleContext).fireVisibleDataPropertyChange();
+        firePropertyChbnge(ROOT_VISIBLE_PROPERTY, oldVblue, this.rootVisible);
+        if (bccessibleContext != null) {
+            ((AccessibleJTree)bccessibleContext).fireVisibleDbtbPropertyChbnge();
         }
     }
 
     /**
-     * Sets the value of the <code>showsRootHandles</code> property,
-     * which specifies whether the node handles should be displayed.
-     * The default value of this property depends on the constructor
-     * used to create the <code>JTree</code>.
-     * Some look and feels might not support handles;
+     * Sets the vblue of the <code>showsRootHbndles</code> property,
+     * which specifies whether the node hbndles should be displbyed.
+     * The defbult vblue of this property depends on the constructor
+     * used to crebte the <code>JTree</code>.
+     * Some look bnd feels might not support hbndles;
      * they will ignore this property.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param newValue <code>true</code> if root handles should be displayed;
-     *                 otherwise, <code>false</code>
-     * @see #showsRootHandles
-     * @see #getShowsRootHandles
-     * @beaninfo
+     * @pbrbm newVblue <code>true</code> if root hbndles should be displbyed;
+     *                 otherwise, <code>fblse</code>
+     * @see #showsRootHbndles
+     * @see #getShowsRootHbndles
+     * @bebninfo
      *        bound: true
-     *  description: Whether the node handles are to be
-     *               displayed.
+     *  description: Whether the node hbndles bre to be
+     *               displbyed.
      */
-    public void setShowsRootHandles(boolean newValue) {
-        boolean                oldValue = showsRootHandles;
+    public void setShowsRootHbndles(boolebn newVblue) {
+        boolebn                oldVblue = showsRootHbndles;
         TreeModel              model = getModel();
 
-        showsRootHandles = newValue;
-        showsRootHandlesSet = true;
-        firePropertyChange(SHOWS_ROOT_HANDLES_PROPERTY, oldValue,
-                           showsRootHandles);
-        if (accessibleContext != null) {
-            ((AccessibleJTree)accessibleContext).fireVisibleDataPropertyChange();
+        showsRootHbndles = newVblue;
+        showsRootHbndlesSet = true;
+        firePropertyChbnge(SHOWS_ROOT_HANDLES_PROPERTY, oldVblue,
+                           showsRootHbndles);
+        if (bccessibleContext != null) {
+            ((AccessibleJTree)bccessibleContext).fireVisibleDbtbPropertyChbnge();
         }
-        invalidate();
+        invblidbte();
     }
 
     /**
-     * Returns the value of the <code>showsRootHandles</code> property.
+     * Returns the vblue of the <code>showsRootHbndles</code> property.
      *
-     * @return the value of the <code>showsRootHandles</code> property
-     * @see #showsRootHandles
+     * @return the vblue of the <code>showsRootHbndles</code> property
+     * @see #showsRootHbndles
      */
-    public boolean getShowsRootHandles()
+    public boolebn getShowsRootHbndles()
     {
-        return showsRootHandles;
+        return showsRootHbndles;
     }
 
     /**
-     * Sets the height of each cell, in pixels.  If the specified value
-     * is less than or equal to zero the current cell renderer is
-     * queried for each row's height.
+     * Sets the height of ebch cell, in pixels.  If the specified vblue
+     * is less thbn or equbl to zero the current cell renderer is
+     * queried for ebch row's height.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param rowHeight the height of each cell, in pixels
-     * @beaninfo
+     * @pbrbm rowHeight the height of ebch cell, in pixels
+     * @bebninfo
      *        bound: true
-     *  description: The height of each cell.
+     *  description: The height of ebch cell.
      */
     public void setRowHeight(int rowHeight)
     {
-        int                oldValue = this.rowHeight;
+        int                oldVblue = this.rowHeight;
 
         this.rowHeight = rowHeight;
         rowHeightSet = true;
-        firePropertyChange(ROW_HEIGHT_PROPERTY, oldValue, this.rowHeight);
-        invalidate();
+        firePropertyChbnge(ROW_HEIGHT_PROPERTY, oldVblue, this.rowHeight);
+        invblidbte();
     }
 
     /**
-     * Returns the height of each row.  If the returned value is less than
-     * or equal to 0 the height for each row is determined by the
+     * Returns the height of ebch row.  If the returned vblue is less thbn
+     * or equbl to 0 the height for ebch row is determined by the
      * renderer.
      *
-     * @return the height of each row
+     * @return the height of ebch row
      */
     public int getRowHeight()
     {
@@ -995,146 +995,146 @@ public class JTree extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Returns true if the height of each display row is a fixed size.
+     * Returns true if the height of ebch displby row is b fixed size.
      *
-     * @return true if the height of each row is a fixed size
+     * @return true if the height of ebch row is b fixed size
      */
-    public boolean isFixedRowHeight()
+    public boolebn isFixedRowHeight()
     {
         return (rowHeight > 0);
     }
 
     /**
-     * Specifies whether the UI should use a large model.
-     * (Not all UIs will implement this.) Fires a property change
+     * Specifies whether the UI should use b lbrge model.
+     * (Not bll UIs will implement this.) Fires b property chbnge
      * for the LARGE_MODEL_PROPERTY.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param newValue true to suggest a large model to the UI
-     * @see #largeModel
-     * @beaninfo
+     * @pbrbm newVblue true to suggest b lbrge model to the UI
+     * @see #lbrgeModel
+     * @bebninfo
      *        bound: true
-     *  description: Whether the UI should use a
-     *               large model.
+     *  description: Whether the UI should use b
+     *               lbrge model.
      */
-    public void setLargeModel(boolean newValue) {
-        boolean                oldValue = largeModel;
+    public void setLbrgeModel(boolebn newVblue) {
+        boolebn                oldVblue = lbrgeModel;
 
-        largeModel = newValue;
-        firePropertyChange(LARGE_MODEL_PROPERTY, oldValue, newValue);
+        lbrgeModel = newVblue;
+        firePropertyChbnge(LARGE_MODEL_PROPERTY, oldVblue, newVblue);
     }
 
     /**
-     * Returns true if the tree is configured for a large model.
+     * Returns true if the tree is configured for b lbrge model.
      *
-     * @return true if a large model is suggested
-     * @see #largeModel
+     * @return true if b lbrge model is suggested
+     * @see #lbrgeModel
      */
-    public boolean isLargeModel() {
-        return largeModel;
+    public boolebn isLbrgeModel() {
+        return lbrgeModel;
     }
 
     /**
-     * Determines what happens when editing is interrupted by selecting
-     * another node in the tree, a change in the tree's data, or by some
-     * other means. Setting this property to <code>true</code> causes the
-     * changes to be automatically saved when editing is interrupted.
+     * Determines whbt hbppens when editing is interrupted by selecting
+     * bnother node in the tree, b chbnge in the tree's dbtb, or by some
+     * other mebns. Setting this property to <code>true</code> cbuses the
+     * chbnges to be butombticblly sbved when editing is interrupted.
      * <p>
-     * Fires a property change for the INVOKES_STOP_CELL_EDITING_PROPERTY.
+     * Fires b property chbnge for the INVOKES_STOP_CELL_EDITING_PROPERTY.
      *
-     * @param newValue true means that <code>stopCellEditing</code> is invoked
-     *        when editing is interrupted, and data is saved; false means that
-     *        <code>cancelCellEditing</code> is invoked, and changes are lost
-     * @beaninfo
+     * @pbrbm newVblue true mebns thbt <code>stopCellEditing</code> is invoked
+     *        when editing is interrupted, bnd dbtb is sbved; fblse mebns thbt
+     *        <code>cbncelCellEditing</code> is invoked, bnd chbnges bre lost
+     * @bebninfo
      *        bound: true
-     *  description: Determines what happens when editing is interrupted,
-     *               selecting another node in the tree, a change in the
-     *               tree's data, or some other means.
+     *  description: Determines whbt hbppens when editing is interrupted,
+     *               selecting bnother node in the tree, b chbnge in the
+     *               tree's dbtb, or some other mebns.
      */
-    public void setInvokesStopCellEditing(boolean newValue) {
-        boolean                  oldValue = invokesStopCellEditing;
+    public void setInvokesStopCellEditing(boolebn newVblue) {
+        boolebn                  oldVblue = invokesStopCellEditing;
 
-        invokesStopCellEditing = newValue;
-        firePropertyChange(INVOKES_STOP_CELL_EDITING_PROPERTY, oldValue,
-                           newValue);
+        invokesStopCellEditing = newVblue;
+        firePropertyChbnge(INVOKES_STOP_CELL_EDITING_PROPERTY, oldVblue,
+                           newVblue);
     }
 
     /**
-     * Returns the indicator that tells what happens when editing is
+     * Returns the indicbtor thbt tells whbt hbppens when editing is
      * interrupted.
      *
-     * @return the indicator that tells what happens when editing is
+     * @return the indicbtor thbt tells whbt hbppens when editing is
      *         interrupted
      * @see #setInvokesStopCellEditing
      */
-    public boolean getInvokesStopCellEditing() {
+    public boolebn getInvokesStopCellEditing() {
         return invokesStopCellEditing;
     }
 
     /**
-     * Sets the <code>scrollsOnExpand</code> property,
+     * Sets the <code>scrollsOnExpbnd</code> property,
      * which determines whether the
      * tree might scroll to show previously hidden children.
-     * If this property is <code>true</code> (the default),
-     * when a node expands
-     * the tree can use scrolling to make
-     * the maximum possible number of the node's descendants visible.
-     * In some look and feels, trees might not need to scroll when expanded;
-     * those look and feels will ignore this property.
+     * If this property is <code>true</code> (the defbult),
+     * when b node expbnds
+     * the tree cbn use scrolling to mbke
+     * the mbximum possible number of the node's descendbnts visible.
+     * In some look bnd feels, trees might not need to scroll when expbnded;
+     * those look bnd feels will ignore this property.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param newValue <code>false</code> to disable scrolling on expansion;
-     *                 <code>true</code> to enable it
-     * @see #getScrollsOnExpand
+     * @pbrbm newVblue <code>fblse</code> to disbble scrolling on expbnsion;
+     *                 <code>true</code> to enbble it
+     * @see #getScrollsOnExpbnd
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: Indicates if a node descendant should be scrolled when expanded.
+     *  description: Indicbtes if b node descendbnt should be scrolled when expbnded.
      */
-    public void setScrollsOnExpand(boolean newValue) {
-        boolean           oldValue = scrollsOnExpand;
+    public void setScrollsOnExpbnd(boolebn newVblue) {
+        boolebn           oldVblue = scrollsOnExpbnd;
 
-        scrollsOnExpand = newValue;
-        scrollsOnExpandSet = true;
-        firePropertyChange(SCROLLS_ON_EXPAND_PROPERTY, oldValue,
-                           newValue);
+        scrollsOnExpbnd = newVblue;
+        scrollsOnExpbndSet = true;
+        firePropertyChbnge(SCROLLS_ON_EXPAND_PROPERTY, oldVblue,
+                           newVblue);
     }
 
     /**
-     * Returns the value of the <code>scrollsOnExpand</code> property.
+     * Returns the vblue of the <code>scrollsOnExpbnd</code> property.
      *
-     * @return the value of the <code>scrollsOnExpand</code> property
+     * @return the vblue of the <code>scrollsOnExpbnd</code> property
      */
-    public boolean getScrollsOnExpand() {
-        return scrollsOnExpand;
+    public boolebn getScrollsOnExpbnd() {
+        return scrollsOnExpbnd;
     }
 
     /**
-     * Sets the number of mouse clicks before a node will expand or close.
-     * The default is two.
+     * Sets the number of mouse clicks before b node will expbnd or close.
+     * The defbult is two.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param clickCount the number of mouse clicks to get a node expanded or closed
+     * @pbrbm clickCount the number of mouse clicks to get b node expbnded or closed
      * @since 1.3
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: Number of clicks before a node will expand/collapse.
+     *  description: Number of clicks before b node will expbnd/collbpse.
      */
     public void setToggleClickCount(int clickCount) {
         int         oldCount = toggleClickCount;
 
         toggleClickCount = clickCount;
-        firePropertyChange(TOGGLE_CLICK_COUNT_PROPERTY, oldCount,
+        firePropertyChbnge(TOGGLE_CLICK_COUNT_PROPERTY, oldCount,
                            clickCount);
     }
 
     /**
-     * Returns the number of mouse clicks needed to expand or close a node.
+     * Returns the number of mouse clicks needed to expbnd or close b node.
      *
-     * @return number of mouse clicks before node is expanded
+     * @return number of mouse clicks before node is expbnded
      * @since 1.3
      */
     public int getToggleClickCount() {
@@ -1142,104 +1142,104 @@ public class JTree extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Configures the <code>expandsSelectedPaths</code> property. If
-     * true, any time the selection is changed, either via the
+     * Configures the <code>expbndsSelectedPbths</code> property. If
+     * true, bny time the selection is chbnged, either vib the
      * <code>TreeSelectionModel</code>, or the cover methods provided by
-     * <code>JTree</code>, the <code>TreePath</code>s parents will be
-     * expanded to make them visible (visible meaning the parent path is
-     * expanded, not necessarily in the visible rectangle of the
-     * <code>JTree</code>). If false, when the selection
-     * changes the nodes parent is not made visible (all its parents expanded).
-     * This is useful if you wish to have your selection model maintain paths
-     * that are not always visible (all parents expanded).
+     * <code>JTree</code>, the <code>TreePbth</code>s pbrents will be
+     * expbnded to mbke them visible (visible mebning the pbrent pbth is
+     * expbnded, not necessbrily in the visible rectbngle of the
+     * <code>JTree</code>). If fblse, when the selection
+     * chbnges the nodes pbrent is not mbde visible (bll its pbrents expbnded).
+     * This is useful if you wish to hbve your selection model mbintbin pbths
+     * thbt bre not blwbys visible (bll pbrents expbnded).
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param newValue the new value for <code>expandsSelectedPaths</code>
+     * @pbrbm newVblue the new vblue for <code>expbndsSelectedPbths</code>
      *
      * @since 1.3
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: Indicates whether changes to the selection should make
-     *               the parent of the path visible.
+     *  description: Indicbtes whether chbnges to the selection should mbke
+     *               the pbrent of the pbth visible.
      */
-    public void setExpandsSelectedPaths(boolean newValue) {
-        boolean         oldValue = expandsSelectedPaths;
+    public void setExpbndsSelectedPbths(boolebn newVblue) {
+        boolebn         oldVblue = expbndsSelectedPbths;
 
-        expandsSelectedPaths = newValue;
-        firePropertyChange(EXPANDS_SELECTED_PATHS_PROPERTY, oldValue,
-                           newValue);
+        expbndsSelectedPbths = newVblue;
+        firePropertyChbnge(EXPANDS_SELECTED_PATHS_PROPERTY, oldVblue,
+                           newVblue);
     }
 
     /**
-     * Returns the <code>expandsSelectedPaths</code> property.
-     * @return true if selection changes result in the parent path being
-     *         expanded
+     * Returns the <code>expbndsSelectedPbths</code> property.
+     * @return true if selection chbnges result in the pbrent pbth being
+     *         expbnded
      * @since 1.3
-     * @see #setExpandsSelectedPaths
+     * @see #setExpbndsSelectedPbths
      */
-    public boolean getExpandsSelectedPaths() {
-        return expandsSelectedPaths;
+    public boolebn getExpbndsSelectedPbths() {
+        return expbndsSelectedPbths;
     }
 
     /**
-     * Turns on or off automatic drag handling. In order to enable automatic
-     * drag handling, this property should be set to {@code true}, and the
-     * tree's {@code TransferHandler} needs to be {@code non-null}.
-     * The default value of the {@code dragEnabled} property is {@code false}.
+     * Turns on or off butombtic drbg hbndling. In order to enbble butombtic
+     * drbg hbndling, this property should be set to {@code true}, bnd the
+     * tree's {@code TrbnsferHbndler} needs to be {@code non-null}.
+     * The defbult vblue of the {@code drbgEnbbled} property is {@code fblse}.
      * <p>
-     * The job of honoring this property, and recognizing a user drag gesture,
-     * lies with the look and feel implementation, and in particular, the tree's
-     * {@code TreeUI}. When automatic drag handling is enabled, most look and
-     * feels (including those that subclass {@code BasicLookAndFeel}) begin a
-     * drag and drop operation whenever the user presses the mouse button over
-     * an item and then moves the mouse a few pixels. Setting this property to
-     * {@code true} can therefore have a subtle effect on how selections behave.
+     * The job of honoring this property, bnd recognizing b user drbg gesture,
+     * lies with the look bnd feel implementbtion, bnd in pbrticulbr, the tree's
+     * {@code TreeUI}. When butombtic drbg hbndling is enbbled, most look bnd
+     * feels (including those thbt subclbss {@code BbsicLookAndFeel}) begin b
+     * drbg bnd drop operbtion whenever the user presses the mouse button over
+     * bn item bnd then moves the mouse b few pixels. Setting this property to
+     * {@code true} cbn therefore hbve b subtle effect on how selections behbve.
      * <p>
-     * If a look and feel is used that ignores this property, you can still
-     * begin a drag and drop operation by calling {@code exportAsDrag} on the
-     * tree's {@code TransferHandler}.
+     * If b look bnd feel is used thbt ignores this property, you cbn still
+     * begin b drbg bnd drop operbtion by cblling {@code exportAsDrbg} on the
+     * tree's {@code TrbnsferHbndler}.
      *
-     * @param b whether or not to enable automatic drag handling
-     * @exception HeadlessException if
-     *            <code>b</code> is <code>true</code> and
-     *            <code>GraphicsEnvironment.isHeadless()</code>
+     * @pbrbm b whether or not to enbble butombtic drbg hbndling
+     * @exception HebdlessException if
+     *            <code>b</code> is <code>true</code> bnd
+     *            <code>GrbphicsEnvironment.isHebdless()</code>
      *            returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #getDragEnabled
-     * @see #setTransferHandler
-     * @see TransferHandler
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #getDrbgEnbbled
+     * @see #setTrbnsferHbndler
+     * @see TrbnsferHbndler
      * @since 1.4
      *
-     * @beaninfo
-     *  description: determines whether automatic drag handling is enabled
-     *        bound: false
+     * @bebninfo
+     *  description: determines whether butombtic drbg hbndling is enbbled
+     *        bound: fblse
      */
-    public void setDragEnabled(boolean b) {
-        if (b && GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public void setDrbgEnbbled(boolebn b) {
+        if (b && GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
-        dragEnabled = b;
+        drbgEnbbled = b;
     }
 
     /**
-     * Returns whether or not automatic drag handling is enabled.
+     * Returns whether or not butombtic drbg hbndling is enbbled.
      *
-     * @return the value of the {@code dragEnabled} property
-     * @see #setDragEnabled
+     * @return the vblue of the {@code drbgEnbbled} property
+     * @see #setDrbgEnbbled
      * @since 1.4
      */
-    public boolean getDragEnabled() {
-        return dragEnabled;
+    public boolebn getDrbgEnbbled() {
+        return drbgEnbbled;
     }
 
     /**
-     * Sets the drop mode for this component. For backward compatibility,
-     * the default for this property is <code>DropMode.USE_SELECTION</code>.
-     * Usage of one of the other modes is recommended, however, for an
-     * improved user experience. <code>DropMode.ON</code>, for instance,
-     * offers similar behavior of showing items as selected, but does so without
-     * affecting the actual selection in the tree.
+     * Sets the drop mode for this component. For bbckwbrd compbtibility,
+     * the defbult for this property is <code>DropMode.USE_SELECTION</code>.
+     * Usbge of one of the other modes is recommended, however, for bn
+     * improved user experience. <code>DropMode.ON</code>, for instbnce,
+     * offers similbr behbvior of showing items bs selected, but does so without
+     * bffecting the bctubl selection in the tree.
      * <p>
      * <code>JTree</code> supports the following drop modes:
      * <ul>
@@ -1249,31 +1249,31 @@ public class JTree extends JComponent implements Scrollable, Accessible
      *    <li><code>DropMode.ON_OR_INSERT</code></li>
      * </ul>
      * <p>
-     * The drop mode is only meaningful if this component has a
-     * <code>TransferHandler</code> that accepts drops.
+     * The drop mode is only mebningful if this component hbs b
+     * <code>TrbnsferHbndler</code> thbt bccepts drops.
      *
-     * @param dropMode the drop mode to use
-     * @throws IllegalArgumentException if the drop mode is unsupported
+     * @pbrbm dropMode the drop mode to use
+     * @throws IllegblArgumentException if the drop mode is unsupported
      *         or <code>null</code>
      * @see #getDropMode
-     * @see #getDropLocation
-     * @see #setTransferHandler
-     * @see TransferHandler
+     * @see #getDropLocbtion
+     * @see #setTrbnsferHbndler
+     * @see TrbnsferHbndler
      * @since 1.6
      */
-    public final void setDropMode(DropMode dropMode) {
+    public finbl void setDropMode(DropMode dropMode) {
         if (dropMode != null) {
             switch (dropMode) {
-                case USE_SELECTION:
-                case ON:
-                case INSERT:
-                case ON_OR_INSERT:
+                cbse USE_SELECTION:
+                cbse ON:
+                cbse INSERT:
+                cbse ON_OR_INSERT:
                     this.dropMode = dropMode;
                     return;
             }
         }
 
-        throw new IllegalArgumentException(dropMode + ": Unsupported drop mode for tree");
+        throw new IllegblArgumentException(dropMode + ": Unsupported drop mode for tree");
     }
 
     /**
@@ -1283,256 +1283,256 @@ public class JTree extends JComponent implements Scrollable, Accessible
      * @see #setDropMode
      * @since 1.6
      */
-    public final DropMode getDropMode() {
+    public finbl DropMode getDropMode() {
         return dropMode;
     }
 
     /**
-     * Calculates a drop location in this component, representing where a
-     * drop at the given point should insert data.
+     * Cblculbtes b drop locbtion in this component, representing where b
+     * drop bt the given point should insert dbtb.
      *
-     * @param p the point to calculate a drop location for
-     * @return the drop location, or <code>null</code>
+     * @pbrbm p the point to cblculbte b drop locbtion for
+     * @return the drop locbtion, or <code>null</code>
      */
-    DropLocation dropLocationForPoint(Point p) {
-        DropLocation location = null;
+    DropLocbtion dropLocbtionForPoint(Point p) {
+        DropLocbtion locbtion = null;
 
-        int row = getClosestRowForLocation(p.x, p.y);
-        Rectangle bounds = getRowBounds(row);
+        int row = getClosestRowForLocbtion(p.x, p.y);
+        Rectbngle bounds = getRowBounds(row);
         TreeModel model = getModel();
         Object root = (model == null) ? null : model.getRoot();
-        TreePath rootPath = (root == null) ? null : new TreePath(root);
+        TreePbth rootPbth = (root == null) ? null : new TreePbth(root);
 
-        TreePath child;
-        TreePath parent;
-        boolean outside = row == -1
+        TreePbth child;
+        TreePbth pbrent;
+        boolebn outside = row == -1
                           || p.y < bounds.y
                           || p.y >= bounds.y + bounds.height;
 
         switch(dropMode) {
-            case USE_SELECTION:
-            case ON:
+            cbse USE_SELECTION:
+            cbse ON:
                 if (outside) {
-                    location = new DropLocation(p, null, -1);
+                    locbtion = new DropLocbtion(p, null, -1);
                 } else {
-                    location = new DropLocation(p, getPathForRow(row), -1);
+                    locbtion = new DropLocbtion(p, getPbthForRow(row), -1);
                 }
 
-                break;
-            case INSERT:
-            case ON_OR_INSERT:
+                brebk;
+            cbse INSERT:
+            cbse ON_OR_INSERT:
                 if (row == -1) {
-                    if (root != null && !model.isLeaf(root) && isExpanded(rootPath)) {
-                        location = new DropLocation(p, rootPath, 0);
+                    if (root != null && !model.isLebf(root) && isExpbnded(rootPbth)) {
+                        locbtion = new DropLocbtion(p, rootPbth, 0);
                     } else {
-                        location = new DropLocation(p, null, -1);
+                        locbtion = new DropLocbtion(p, null, -1);
                     }
 
-                    break;
+                    brebk;
                 }
 
-                boolean checkOn = dropMode == DropMode.ON_OR_INSERT
-                                  || !model.isLeaf(getPathForRow(row).getLastPathComponent());
+                boolebn checkOn = dropMode == DropMode.ON_OR_INSERT
+                                  || !model.isLebf(getPbthForRow(row).getLbstPbthComponent());
 
-                Section section = SwingUtilities2.liesInVertical(bounds, p, checkOn);
+                Section section = SwingUtilities2.liesInVerticbl(bounds, p, checkOn);
                 if(section == LEADING) {
-                    child = getPathForRow(row);
-                    parent = child.getParentPath();
+                    child = getPbthForRow(row);
+                    pbrent = child.getPbrentPbth();
                 } else if (section == TRAILING) {
                     int index = row + 1;
                     if (index >= getRowCount()) {
-                        if (model.isLeaf(root) || !isExpanded(rootPath)) {
-                            location = new DropLocation(p, null, -1);
+                        if (model.isLebf(root) || !isExpbnded(rootPbth)) {
+                            locbtion = new DropLocbtion(p, null, -1);
                         } else {
-                            parent = rootPath;
+                            pbrent = rootPbth;
                             index = model.getChildCount(root);
-                            location = new DropLocation(p, parent, index);
+                            locbtion = new DropLocbtion(p, pbrent, index);
                         }
 
-                        break;
+                        brebk;
                     }
 
-                    child = getPathForRow(index);
-                    parent = child.getParentPath();
+                    child = getPbthForRow(index);
+                    pbrent = child.getPbrentPbth();
                 } else {
-                    assert checkOn;
-                    location = new DropLocation(p, getPathForRow(row), -1);
-                    break;
+                    bssert checkOn;
+                    locbtion = new DropLocbtion(p, getPbthForRow(row), -1);
+                    brebk;
                 }
 
-                if (parent != null) {
-                    location = new DropLocation(p, parent,
-                        model.getIndexOfChild(parent.getLastPathComponent(),
-                                              child.getLastPathComponent()));
-                } else if (checkOn || !model.isLeaf(root)) {
-                    location = new DropLocation(p, rootPath, -1);
+                if (pbrent != null) {
+                    locbtion = new DropLocbtion(p, pbrent,
+                        model.getIndexOfChild(pbrent.getLbstPbthComponent(),
+                                              child.getLbstPbthComponent()));
+                } else if (checkOn || !model.isLebf(root)) {
+                    locbtion = new DropLocbtion(p, rootPbth, -1);
                 } else {
-                    location = new DropLocation(p, null, -1);
+                    locbtion = new DropLocbtion(p, null, -1);
                 }
 
-                break;
-            default:
-                assert false : "Unexpected drop mode";
+                brebk;
+            defbult:
+                bssert fblse : "Unexpected drop mode";
         }
 
-        if (outside || row != expandRow) {
-            cancelDropTimer();
+        if (outside || row != expbndRow) {
+            cbncelDropTimer();
         }
 
-        if (!outside && row != expandRow) {
-            if (isCollapsed(row)) {
-                expandRow = row;
-                startDropTimer();
+        if (!outside && row != expbndRow) {
+            if (isCollbpsed(row)) {
+                expbndRow = row;
+                stbrtDropTimer();
             }
         }
 
-        return location;
+        return locbtion;
     }
 
     /**
-     * Called to set or clear the drop location during a DnD operation.
-     * In some cases, the component may need to use it's internal selection
-     * temporarily to indicate the drop location. To help facilitate this,
-     * this method returns and accepts as a parameter a state object.
-     * This state object can be used to store, and later restore, the selection
-     * state. Whatever this method returns will be passed back to it in
-     * future calls, as the state parameter. If it wants the DnD system to
-     * continue storing the same state, it must pass it back every time.
+     * Cblled to set or clebr the drop locbtion during b DnD operbtion.
+     * In some cbses, the component mby need to use it's internbl selection
+     * temporbrily to indicbte the drop locbtion. To help fbcilitbte this,
+     * this method returns bnd bccepts bs b pbrbmeter b stbte object.
+     * This stbte object cbn be used to store, bnd lbter restore, the selection
+     * stbte. Whbtever this method returns will be pbssed bbck to it in
+     * future cblls, bs the stbte pbrbmeter. If it wbnts the DnD system to
+     * continue storing the sbme stbte, it must pbss it bbck every time.
      * Here's how this is used:
      * <p>
-     * Let's say that on the first call to this method the component decides
-     * to save some state (because it is about to use the selection to show
-     * a drop index). It can return a state object to the caller encapsulating
-     * any saved selection state. On a second call, let's say the drop location
-     * is being changed to something else. The component doesn't need to
-     * restore anything yet, so it simply passes back the same state object
-     * to have the DnD system continue storing it. Finally, let's say this
-     * method is messaged with <code>null</code>. This means DnD
-     * is finished with this component for now, meaning it should restore
-     * state. At this point, it can use the state parameter to restore
-     * said state, and of course return <code>null</code> since there's
-     * no longer anything to store.
+     * Let's sby thbt on the first cbll to this method the component decides
+     * to sbve some stbte (becbuse it is bbout to use the selection to show
+     * b drop index). It cbn return b stbte object to the cbller encbpsulbting
+     * bny sbved selection stbte. On b second cbll, let's sby the drop locbtion
+     * is being chbnged to something else. The component doesn't need to
+     * restore bnything yet, so it simply pbsses bbck the sbme stbte object
+     * to hbve the DnD system continue storing it. Finblly, let's sby this
+     * method is messbged with <code>null</code>. This mebns DnD
+     * is finished with this component for now, mebning it should restore
+     * stbte. At this point, it cbn use the stbte pbrbmeter to restore
+     * sbid stbte, bnd of course return <code>null</code> since there's
+     * no longer bnything to store.
      *
-     * @param location the drop location (as calculated by
-     *        <code>dropLocationForPoint</code>) or <code>null</code>
-     *        if there's no longer a valid drop location
-     * @param state the state object saved earlier for this component,
+     * @pbrbm locbtion the drop locbtion (bs cblculbted by
+     *        <code>dropLocbtionForPoint</code>) or <code>null</code>
+     *        if there's no longer b vblid drop locbtion
+     * @pbrbm stbte the stbte object sbved ebrlier for this component,
      *        or <code>null</code>
-     * @param forDrop whether or not the method is being called because an
-     *        actual drop occurred
-     * @return any saved state for this component, or <code>null</code> if none
+     * @pbrbm forDrop whether or not the method is being cblled becbuse bn
+     *        bctubl drop occurred
+     * @return bny sbved stbte for this component, or <code>null</code> if none
      */
-    Object setDropLocation(TransferHandler.DropLocation location,
-                           Object state,
-                           boolean forDrop) {
+    Object setDropLocbtion(TrbnsferHbndler.DropLocbtion locbtion,
+                           Object stbte,
+                           boolebn forDrop) {
 
-        Object retVal = null;
-        DropLocation treeLocation = (DropLocation)location;
+        Object retVbl = null;
+        DropLocbtion treeLocbtion = (DropLocbtion)locbtion;
 
         if (dropMode == DropMode.USE_SELECTION) {
-            if (treeLocation == null) {
-                if (!forDrop && state != null) {
-                    setSelectionPaths(((TreePath[][])state)[0]);
-                    setAnchorSelectionPath(((TreePath[][])state)[1][0]);
-                    setLeadSelectionPath(((TreePath[][])state)[1][1]);
+            if (treeLocbtion == null) {
+                if (!forDrop && stbte != null) {
+                    setSelectionPbths(((TreePbth[][])stbte)[0]);
+                    setAnchorSelectionPbth(((TreePbth[][])stbte)[1][0]);
+                    setLebdSelectionPbth(((TreePbth[][])stbte)[1][1]);
                 }
             } else {
-                if (dropLocation == null) {
-                    TreePath[] paths = getSelectionPaths();
-                    if (paths == null) {
-                        paths = new TreePath[0];
+                if (dropLocbtion == null) {
+                    TreePbth[] pbths = getSelectionPbths();
+                    if (pbths == null) {
+                        pbths = new TreePbth[0];
                     }
 
-                    retVal = new TreePath[][] {paths,
-                            {getAnchorSelectionPath(), getLeadSelectionPath()}};
+                    retVbl = new TreePbth[][] {pbths,
+                            {getAnchorSelectionPbth(), getLebdSelectionPbth()}};
                 } else {
-                    retVal = state;
+                    retVbl = stbte;
                 }
 
-                setSelectionPath(treeLocation.getPath());
+                setSelectionPbth(treeLocbtion.getPbth());
             }
         }
 
-        DropLocation old = dropLocation;
-        dropLocation = treeLocation;
-        firePropertyChange("dropLocation", old, dropLocation);
+        DropLocbtion old = dropLocbtion;
+        dropLocbtion = treeLocbtion;
+        firePropertyChbnge("dropLocbtion", old, dropLocbtion);
 
-        return retVal;
+        return retVbl;
     }
 
     /**
-     * Called to indicate to this component that DnD is done.
-     * Allows for us to cancel the expand timer.
+     * Cblled to indicbte to this component thbt DnD is done.
+     * Allows for us to cbncel the expbnd timer.
      */
     void dndDone() {
-        cancelDropTimer();
+        cbncelDropTimer();
         dropTimer = null;
     }
 
     /**
-     * Returns the location that this component should visually indicate
-     * as the drop location during a DnD operation over the component,
-     * or {@code null} if no location is to currently be shown.
+     * Returns the locbtion thbt this component should visublly indicbte
+     * bs the drop locbtion during b DnD operbtion over the component,
+     * or {@code null} if no locbtion is to currently be shown.
      * <p>
-     * This method is not meant for querying the drop location
-     * from a {@code TransferHandler}, as the drop location is only
-     * set after the {@code TransferHandler}'s <code>canImport</code>
-     * has returned and has allowed for the location to be shown.
+     * This method is not mebnt for querying the drop locbtion
+     * from b {@code TrbnsferHbndler}, bs the drop locbtion is only
+     * set bfter the {@code TrbnsferHbndler}'s <code>cbnImport</code>
+     * hbs returned bnd hbs bllowed for the locbtion to be shown.
      * <p>
-     * When this property changes, a property change event with
-     * name "dropLocation" is fired by the component.
+     * When this property chbnges, b property chbnge event with
+     * nbme "dropLocbtion" is fired by the component.
      *
-     * @return the drop location
+     * @return the drop locbtion
      * @see #setDropMode
-     * @see TransferHandler#canImport(TransferHandler.TransferSupport)
+     * @see TrbnsferHbndler#cbnImport(TrbnsferHbndler.TrbnsferSupport)
      * @since 1.6
      */
-    public final DropLocation getDropLocation() {
-        return dropLocation;
+    public finbl DropLocbtion getDropLocbtion() {
+        return dropLocbtion;
     }
 
-    private void startDropTimer() {
+    privbte void stbrtDropTimer() {
         if (dropTimer == null) {
             dropTimer = new TreeTimer();
         }
-        dropTimer.start();
+        dropTimer.stbrt();
     }
 
-    private void cancelDropTimer() {
+    privbte void cbncelDropTimer() {
         if (dropTimer != null && dropTimer.isRunning()) {
-            expandRow = -1;
+            expbndRow = -1;
             dropTimer.stop();
         }
     }
 
     /**
-     * Returns <code>isEditable</code>. This is invoked from the UI before
-     * editing begins to insure that the given path can be edited. This
-     * is provided as an entry point for subclassers to add filtered
-     * editing without having to resort to creating a new editor.
+     * Returns <code>isEditbble</code>. This is invoked from the UI before
+     * editing begins to insure thbt the given pbth cbn be edited. This
+     * is provided bs bn entry point for subclbssers to bdd filtered
+     * editing without hbving to resort to crebting b new editor.
      *
-     * @param path a {@code TreePath} identifying a node
-     * @return true if every parent node and the node itself is editable
-     * @see #isEditable
+     * @pbrbm pbth b {@code TreePbth} identifying b node
+     * @return true if every pbrent node bnd the node itself is editbble
+     * @see #isEditbble
      */
-    public boolean isPathEditable(TreePath path) {
-        return isEditable();
+    public boolebn isPbthEditbble(TreePbth pbth) {
+        return isEditbble();
     }
 
     /**
      * Overrides <code>JComponent</code>'s <code>getToolTipText</code>
-     * method in order to allow
-     * renderer's tips to be used if it has text set.
+     * method in order to bllow
+     * renderer's tips to be used if it hbs text set.
      * <p>
-     * NOTE: For <code>JTree</code> to properly display tooltips of its
-     * renderers, <code>JTree</code> must be a registered component with the
-     * <code>ToolTipManager</code>.  This can be done by invoking
-     * <code>ToolTipManager.sharedInstance().registerComponent(tree)</code>.
-     * This is not done automatically!
+     * NOTE: For <code>JTree</code> to properly displby tooltips of its
+     * renderers, <code>JTree</code> must be b registered component with the
+     * <code>ToolTipMbnbger</code>.  This cbn be done by invoking
+     * <code>ToolTipMbnbger.shbredInstbnce().registerComponent(tree)</code>.
+     * This is not done butombticblly!
      *
-     * @param event the <code>MouseEvent</code> that initiated the
-     *          <code>ToolTip</code> display
-     * @return a string containing the  tooltip or <code>null</code>
+     * @pbrbm event the <code>MouseEvent</code> thbt initibted the
+     *          <code>ToolTip</code> displby
+     * @return b string contbining the  tooltip or <code>null</code>
      *          if <code>event</code> is null
      */
     public String getToolTipText(MouseEvent event) {
@@ -1540,22 +1540,22 @@ public class JTree extends JComponent implements Scrollable, Accessible
 
         if(event != null) {
             Point p = event.getPoint();
-            int selRow = getRowForLocation(p.x, p.y);
+            int selRow = getRowForLocbtion(p.x, p.y);
             TreeCellRenderer       r = getCellRenderer();
 
             if(selRow != -1 && r != null) {
-                TreePath     path = getPathForRow(selRow);
-                Object       lastPath = path.getLastPathComponent();
+                TreePbth     pbth = getPbthForRow(selRow);
+                Object       lbstPbth = pbth.getLbstPbthComponent();
                 Component    rComponent = r.getTreeCellRendererComponent
-                    (this, lastPath, isRowSelected(selRow),
-                     isExpanded(selRow), getModel().isLeaf(lastPath), selRow,
+                    (this, lbstPbth, isRowSelected(selRow),
+                     isExpbnded(selRow), getModel().isLebf(lbstPbth), selRow,
                      true);
 
-                if(rComponent instanceof JComponent) {
+                if(rComponent instbnceof JComponent) {
                     MouseEvent      newEvent;
-                    Rectangle       pathBounds = getPathBounds(path);
+                    Rectbngle       pbthBounds = getPbthBounds(pbth);
 
-                    p.translate(-pathBounds.x, -pathBounds.y);
+                    p.trbnslbte(-pbthBounds.x, -pbthBounds.y);
                     newEvent = new MouseEvent(rComponent, event.getID(),
                                           event.getWhen(),
                                               event.getModifiers(),
@@ -1578,44 +1578,44 @@ public class JTree extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Called by the renderers to convert the specified value to
-     * text. This implementation returns <code>value.toString</code>, ignoring
-     * all other arguments. To control the conversion, subclass this
-     * method and use any of the arguments you need.
+     * Cblled by the renderers to convert the specified vblue to
+     * text. This implementbtion returns <code>vblue.toString</code>, ignoring
+     * bll other brguments. To control the conversion, subclbss this
+     * method bnd use bny of the brguments you need.
      *
-     * @param value the <code>Object</code> to convert to text
-     * @param selected true if the node is selected
-     * @param expanded true if the node is expanded
-     * @param leaf  true if the node is a leaf node
-     * @param row  an integer specifying the node's display row, where 0 is
-     *             the first row in the display
-     * @param hasFocus true if the node has the focus
-     * @return the <code>String</code> representation of the node's value
+     * @pbrbm vblue the <code>Object</code> to convert to text
+     * @pbrbm selected true if the node is selected
+     * @pbrbm expbnded true if the node is expbnded
+     * @pbrbm lebf  true if the node is b lebf node
+     * @pbrbm row  bn integer specifying the node's displby row, where 0 is
+     *             the first row in the displby
+     * @pbrbm hbsFocus true if the node hbs the focus
+     * @return the <code>String</code> representbtion of the node's vblue
      */
-    public String convertValueToText(Object value, boolean selected,
-                                     boolean expanded, boolean leaf, int row,
-                                     boolean hasFocus) {
-        if(value != null) {
-            String sValue = value.toString();
-            if (sValue != null) {
-                return sValue;
+    public String convertVblueToText(Object vblue, boolebn selected,
+                                     boolebn expbnded, boolebn lebf, int row,
+                                     boolebn hbsFocus) {
+        if(vblue != null) {
+            String sVblue = vblue.toString();
+            if (sVblue != null) {
+                return sVblue;
             }
         }
         return "";
     }
 
     //
-    // The following are convenience methods that get forwarded to the
+    // The following bre convenience methods thbt get forwbrded to the
     // current TreeUI.
     //
 
     /**
-     * Returns the number of viewable nodes. A node is viewable if all of its
-     * parents are expanded. The root is only included in this count if
+     * Returns the number of viewbble nodes. A node is viewbble if bll of its
+     * pbrents bre expbnded. The root is only included in this count if
      * {@code isRootVisible()} is {@code true}. This returns {@code 0} if
-     * the UI has not been set.
+     * the UI hbs not been set.
      *
-     * @return the number of viewable nodes
+     * @return the number of viewbble nodes
      */
     public int getRowCount() {
         TreeUI            tree = getUI();
@@ -1626,83 +1626,83 @@ public class JTree extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Selects the node identified by the specified path. If any
-     * component of the path is hidden (under a collapsed node), and
-     * <code>getExpandsSelectedPaths</code> is true it is
-     * exposed (made viewable).
+     * Selects the node identified by the specified pbth. If bny
+     * component of the pbth is hidden (under b collbpsed node), bnd
+     * <code>getExpbndsSelectedPbths</code> is true it is
+     * exposed (mbde viewbble).
      *
-     * @param path the <code>TreePath</code> specifying the node to select
+     * @pbrbm pbth the <code>TreePbth</code> specifying the node to select
      */
-    public void setSelectionPath(TreePath path) {
-        getSelectionModel().setSelectionPath(path);
+    public void setSelectionPbth(TreePbth pbth) {
+        getSelectionModel().setSelectionPbth(pbth);
     }
 
     /**
-     * Selects the nodes identified by the specified array of paths.
-     * If any component in any of the paths is hidden (under a collapsed
-     * node), and <code>getExpandsSelectedPaths</code> is true
-     * it is exposed (made viewable).
+     * Selects the nodes identified by the specified brrby of pbths.
+     * If bny component in bny of the pbths is hidden (under b collbpsed
+     * node), bnd <code>getExpbndsSelectedPbths</code> is true
+     * it is exposed (mbde viewbble).
      *
-     * @param paths an array of <code>TreePath</code> objects that specifies
+     * @pbrbm pbths bn brrby of <code>TreePbth</code> objects thbt specifies
      *          the nodes to select
      */
-    public void setSelectionPaths(TreePath[] paths) {
-        getSelectionModel().setSelectionPaths(paths);
+    public void setSelectionPbths(TreePbth[] pbths) {
+        getSelectionModel().setSelectionPbths(pbths);
     }
 
     /**
-     * Sets the path identifies as the lead. The lead may not be selected.
-     * The lead is not maintained by <code>JTree</code>,
-     * rather the UI will update it.
+     * Sets the pbth identifies bs the lebd. The lebd mby not be selected.
+     * The lebd is not mbintbined by <code>JTree</code>,
+     * rbther the UI will updbte it.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param newPath  the new lead path
+     * @pbrbm newPbth  the new lebd pbth
      * @since 1.3
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: Lead selection path
+     *  description: Lebd selection pbth
      */
-    public void setLeadSelectionPath(TreePath newPath) {
-        TreePath          oldValue = leadPath;
+    public void setLebdSelectionPbth(TreePbth newPbth) {
+        TreePbth          oldVblue = lebdPbth;
 
-        leadPath = newPath;
-        firePropertyChange(LEAD_SELECTION_PATH_PROPERTY, oldValue, newPath);
+        lebdPbth = newPbth;
+        firePropertyChbnge(LEAD_SELECTION_PATH_PROPERTY, oldVblue, newPbth);
 
-        // Fire the active descendant property change here since the
-        // leadPath got set, this is triggered both in case node
-        // selection changed and node focus changed
-        if (accessibleContext != null){
-            ((AccessibleJTree)accessibleContext).
-                fireActiveDescendantPropertyChange(oldValue, newPath);
+        // Fire the bctive descendbnt property chbnge here since the
+        // lebdPbth got set, this is triggered both in cbse node
+        // selection chbnged bnd node focus chbnged
+        if (bccessibleContext != null){
+            ((AccessibleJTree)bccessibleContext).
+                fireActiveDescendbntPropertyChbnge(oldVblue, newPbth);
         }
     }
 
     /**
-     * Sets the path identified as the anchor.
-     * The anchor is not maintained by <code>JTree</code>, rather the UI will
-     * update it.
+     * Sets the pbth identified bs the bnchor.
+     * The bnchor is not mbintbined by <code>JTree</code>, rbther the UI will
+     * updbte it.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param newPath  the new anchor path
+     * @pbrbm newPbth  the new bnchor pbth
      * @since 1.3
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: Anchor selection path
+     *  description: Anchor selection pbth
      */
-    public void setAnchorSelectionPath(TreePath newPath) {
-        TreePath          oldValue = anchorPath;
+    public void setAnchorSelectionPbth(TreePbth newPbth) {
+        TreePbth          oldVblue = bnchorPbth;
 
-        anchorPath = newPath;
-        firePropertyChange(ANCHOR_SELECTION_PATH_PROPERTY, oldValue, newPath);
+        bnchorPbth = newPbth;
+        firePropertyChbnge(ANCHOR_SELECTION_PATH_PROPERTY, oldVblue, newPbth);
     }
 
     /**
-     * Selects the node at the specified row in the display.
+     * Selects the node bt the specified row in the displby.
      *
-     * @param row  the row to select, where 0 is the first row in
-     *             the display
+     * @pbrbm row  the row to select, where 0 is the first row in
+     *             the displby
      */
     public void setSelectionRow(int row) {
         int[]             rows = { row };
@@ -1711,161 +1711,161 @@ public class JTree extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Selects the nodes corresponding to each of the specified rows
-     * in the display. If a particular element of <code>rows</code> is
+     * Selects the nodes corresponding to ebch of the specified rows
+     * in the displby. If b pbrticulbr element of <code>rows</code> is
      * &lt; 0 or &gt;= <code>getRowCount</code>, it will be ignored.
      * If none of the elements
-     * in <code>rows</code> are valid rows, the selection will
-     * be cleared. That is it will be as if <code>clearSelection</code>
-     * was invoked.
+     * in <code>rows</code> bre vblid rows, the selection will
+     * be clebred. Thbt is it will be bs if <code>clebrSelection</code>
+     * wbs invoked.
      *
-     * @param rows  an array of ints specifying the rows to select,
-     *              where 0 indicates the first row in the display
+     * @pbrbm rows  bn brrby of ints specifying the rows to select,
+     *              where 0 indicbtes the first row in the displby
      */
     public void setSelectionRows(int[] rows) {
         TreeUI               ui = getUI();
 
         if(ui != null && rows != null) {
             int                  numRows = rows.length;
-            TreePath[]           paths = new TreePath[numRows];
+            TreePbth[]           pbths = new TreePbth[numRows];
 
             for(int counter = 0; counter < numRows; counter++) {
-                paths[counter] = ui.getPathForRow(this, rows[counter]);
+                pbths[counter] = ui.getPbthForRow(this, rows[counter]);
             }
-            setSelectionPaths(paths);
+            setSelectionPbths(pbths);
         }
     }
 
     /**
-     * Adds the node identified by the specified <code>TreePath</code>
-     * to the current selection. If any component of the path isn't
-     * viewable, and <code>getExpandsSelectedPaths</code> is true it is
-     * made viewable.
+     * Adds the node identified by the specified <code>TreePbth</code>
+     * to the current selection. If bny component of the pbth isn't
+     * viewbble, bnd <code>getExpbndsSelectedPbths</code> is true it is
+     * mbde viewbble.
      * <p>
-     * Note that <code>JTree</code> does not allow duplicate nodes to
-     * exist as children under the same parent -- each sibling must be
-     * a unique object.
+     * Note thbt <code>JTree</code> does not bllow duplicbte nodes to
+     * exist bs children under the sbme pbrent -- ebch sibling must be
+     * b unique object.
      *
-     * @param path the <code>TreePath</code> to add
+     * @pbrbm pbth the <code>TreePbth</code> to bdd
      */
-    public void addSelectionPath(TreePath path) {
-        getSelectionModel().addSelectionPath(path);
+    public void bddSelectionPbth(TreePbth pbth) {
+        getSelectionModel().bddSelectionPbth(pbth);
     }
 
     /**
-     * Adds each path in the array of paths to the current selection. If
-     * any component of any of the paths isn't viewable and
-     * <code>getExpandsSelectedPaths</code> is true, it is
-     * made viewable.
+     * Adds ebch pbth in the brrby of pbths to the current selection. If
+     * bny component of bny of the pbths isn't viewbble bnd
+     * <code>getExpbndsSelectedPbths</code> is true, it is
+     * mbde viewbble.
      * <p>
-     * Note that <code>JTree</code> does not allow duplicate nodes to
-     * exist as children under the same parent -- each sibling must be
-     * a unique object.
+     * Note thbt <code>JTree</code> does not bllow duplicbte nodes to
+     * exist bs children under the sbme pbrent -- ebch sibling must be
+     * b unique object.
      *
-     * @param paths an array of <code>TreePath</code> objects that specifies
-     *          the nodes to add
+     * @pbrbm pbths bn brrby of <code>TreePbth</code> objects thbt specifies
+     *          the nodes to bdd
      */
-    public void addSelectionPaths(TreePath[] paths) {
-        getSelectionModel().addSelectionPaths(paths);
+    public void bddSelectionPbths(TreePbth[] pbths) {
+        getSelectionModel().bddSelectionPbths(pbths);
     }
 
     /**
-     * Adds the path at the specified row to the current selection.
+     * Adds the pbth bt the specified row to the current selection.
      *
-     * @param row  an integer specifying the row of the node to add,
-     *             where 0 is the first row in the display
+     * @pbrbm row  bn integer specifying the row of the node to bdd,
+     *             where 0 is the first row in the displby
      */
-    public void addSelectionRow(int row) {
+    public void bddSelectionRow(int row) {
         int[]      rows = { row };
 
-        addSelectionRows(rows);
+        bddSelectionRows(rows);
     }
 
     /**
-     * Adds the paths at each of the specified rows to the current selection.
+     * Adds the pbths bt ebch of the specified rows to the current selection.
      *
-     * @param rows  an array of ints specifying the rows to add,
-     *              where 0 indicates the first row in the display
+     * @pbrbm rows  bn brrby of ints specifying the rows to bdd,
+     *              where 0 indicbtes the first row in the displby
      */
-    public void addSelectionRows(int[] rows) {
+    public void bddSelectionRows(int[] rows) {
         TreeUI             ui = getUI();
 
         if(ui != null && rows != null) {
             int                  numRows = rows.length;
-            TreePath[]           paths = new TreePath[numRows];
+            TreePbth[]           pbths = new TreePbth[numRows];
 
             for(int counter = 0; counter < numRows; counter++)
-                paths[counter] = ui.getPathForRow(this, rows[counter]);
-            addSelectionPaths(paths);
+                pbths[counter] = ui.getPbthForRow(this, rows[counter]);
+            bddSelectionPbths(pbths);
         }
     }
 
     /**
-     * Returns the last path component of the selected path. This is
-     * a convenience method for
-     * {@code getSelectionModel().getSelectionPath().getLastPathComponent()}.
-     * This is typically only useful if the selection has one path.
+     * Returns the lbst pbth component of the selected pbth. This is
+     * b convenience method for
+     * {@code getSelectionModel().getSelectionPbth().getLbstPbthComponent()}.
+     * This is typicblly only useful if the selection hbs one pbth.
      *
-     * @return the last path component of the selected path, or
+     * @return the lbst pbth component of the selected pbth, or
      *         <code>null</code> if nothing is selected
-     * @see TreePath#getLastPathComponent
+     * @see TreePbth#getLbstPbthComponent
      */
-    public Object getLastSelectedPathComponent() {
-        TreePath     selPath = getSelectionModel().getSelectionPath();
+    public Object getLbstSelectedPbthComponent() {
+        TreePbth     selPbth = getSelectionModel().getSelectionPbth();
 
-        if(selPath != null)
-            return selPath.getLastPathComponent();
+        if(selPbth != null)
+            return selPbth.getLbstPbthComponent();
         return null;
     }
 
     /**
-     * Returns the path identified as the lead.
-     * @return path identified as the lead
+     * Returns the pbth identified bs the lebd.
+     * @return pbth identified bs the lebd
      */
-    public TreePath getLeadSelectionPath() {
-        return leadPath;
+    public TreePbth getLebdSelectionPbth() {
+        return lebdPbth;
     }
 
     /**
-     * Returns the path identified as the anchor.
-     * @return path identified as the anchor
+     * Returns the pbth identified bs the bnchor.
+     * @return pbth identified bs the bnchor
      * @since 1.3
      */
-    public TreePath getAnchorSelectionPath() {
-        return anchorPath;
+    public TreePbth getAnchorSelectionPbth() {
+        return bnchorPbth;
     }
 
     /**
-     * Returns the path to the first selected node.
+     * Returns the pbth to the first selected node.
      *
-     * @return the <code>TreePath</code> for the first selected node,
+     * @return the <code>TreePbth</code> for the first selected node,
      *          or <code>null</code> if nothing is currently selected
      */
-    public TreePath getSelectionPath() {
-        return getSelectionModel().getSelectionPath();
+    public TreePbth getSelectionPbth() {
+        return getSelectionModel().getSelectionPbth();
     }
 
     /**
-     * Returns the paths of all selected values.
+     * Returns the pbths of bll selected vblues.
      *
-     * @return an array of <code>TreePath</code> objects indicating the selected
+     * @return bn brrby of <code>TreePbth</code> objects indicbting the selected
      *         nodes, or <code>null</code> if nothing is currently selected
      */
-    public TreePath[] getSelectionPaths() {
-        TreePath[] selectionPaths = getSelectionModel().getSelectionPaths();
+    public TreePbth[] getSelectionPbths() {
+        TreePbth[] selectionPbths = getSelectionModel().getSelectionPbths();
 
-        return (selectionPaths != null && selectionPaths.length > 0) ? selectionPaths : null;
+        return (selectionPbths != null && selectionPbths.length > 0) ? selectionPbths : null;
     }
 
     /**
-     * Returns all of the currently selected rows. This method is simply
-     * forwarded to the <code>TreeSelectionModel</code>.
-     * If nothing is selected <code>null</code> or an empty array will
-     * be returned, based on the <code>TreeSelectionModel</code>
-     * implementation.
+     * Returns bll of the currently selected rows. This method is simply
+     * forwbrded to the <code>TreeSelectionModel</code>.
+     * If nothing is selected <code>null</code> or bn empty brrby will
+     * be returned, bbsed on the <code>TreeSelectionModel</code>
+     * implementbtion.
      *
-     * @return an array of integers that identifies all currently selected rows
-     *         where 0 is the first row in the display
+     * @return bn brrby of integers thbt identifies bll currently selected rows
+     *         where 0 is the first row in the displby
      */
     public int[] getSelectionRows() {
         return getSelectionModel().getSelectionRows();
@@ -1881,602 +1881,602 @@ public class JTree extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Returns the smallest selected row. If the selection is empty, or
-     * none of the selected paths are viewable, {@code -1} is returned.
+     * Returns the smbllest selected row. If the selection is empty, or
+     * none of the selected pbths bre viewbble, {@code -1} is returned.
      *
-     * @return the smallest selected row
+     * @return the smbllest selected row
      */
     public int getMinSelectionRow() {
         return getSelectionModel().getMinSelectionRow();
     }
 
     /**
-     * Returns the largest selected row. If the selection is empty, or
-     * none of the selected paths are viewable, {@code -1} is returned.
+     * Returns the lbrgest selected row. If the selection is empty, or
+     * none of the selected pbths bre viewbble, {@code -1} is returned.
      *
-     * @return the largest selected row
+     * @return the lbrgest selected row
      */
-    public int getMaxSelectionRow() {
-        return getSelectionModel().getMaxSelectionRow();
+    public int getMbxSelectionRow() {
+        return getSelectionModel().getMbxSelectionRow();
     }
 
     /**
-     * Returns the row index corresponding to the lead path.
+     * Returns the row index corresponding to the lebd pbth.
      *
-     * @return an integer giving the row index of the lead path,
-     *          where 0 is the first row in the display; or -1
-     *          if <code>leadPath</code> is <code>null</code>
+     * @return bn integer giving the row index of the lebd pbth,
+     *          where 0 is the first row in the displby; or -1
+     *          if <code>lebdPbth</code> is <code>null</code>
      */
-    public int getLeadSelectionRow() {
-        TreePath leadPath = getLeadSelectionPath();
+    public int getLebdSelectionRow() {
+        TreePbth lebdPbth = getLebdSelectionPbth();
 
-        if (leadPath != null) {
-            return getRowForPath(leadPath);
+        if (lebdPbth != null) {
+            return getRowForPbth(lebdPbth);
         }
         return -1;
     }
 
     /**
-     * Returns true if the item identified by the path is currently selected.
+     * Returns true if the item identified by the pbth is currently selected.
      *
-     * @param path a <code>TreePath</code> identifying a node
+     * @pbrbm pbth b <code>TreePbth</code> identifying b node
      * @return true if the node is selected
      */
-    public boolean isPathSelected(TreePath path) {
-        return getSelectionModel().isPathSelected(path);
+    public boolebn isPbthSelected(TreePbth pbth) {
+        return getSelectionModel().isPbthSelected(pbth);
     }
 
     /**
      * Returns true if the node identified by row is selected.
      *
-     * @param row  an integer specifying a display row, where 0 is the first
-     *             row in the display
+     * @pbrbm row  bn integer specifying b displby row, where 0 is the first
+     *             row in the displby
      * @return true if the node is selected
      */
-    public boolean isRowSelected(int row) {
+    public boolebn isRowSelected(int row) {
         return getSelectionModel().isRowSelected(row);
     }
 
     /**
-     * Returns an <code>Enumeration</code> of the descendants of the
-     * path <code>parent</code> that
-     * are currently expanded. If <code>parent</code> is not currently
-     * expanded, this will return <code>null</code>.
-     * If you expand/collapse nodes while
-     * iterating over the returned <code>Enumeration</code>
-     * this may not return all
-     * the expanded paths, or may return paths that are no longer expanded.
+     * Returns bn <code>Enumerbtion</code> of the descendbnts of the
+     * pbth <code>pbrent</code> thbt
+     * bre currently expbnded. If <code>pbrent</code> is not currently
+     * expbnded, this will return <code>null</code>.
+     * If you expbnd/collbpse nodes while
+     * iterbting over the returned <code>Enumerbtion</code>
+     * this mby not return bll
+     * the expbnded pbths, or mby return pbths thbt bre no longer expbnded.
      *
-     * @param parent  the path which is to be examined
-     * @return an <code>Enumeration</code> of the descendents of
-     *          <code>parent</code>, or <code>null</code> if
-     *          <code>parent</code> is not currently expanded
+     * @pbrbm pbrent  the pbth which is to be exbmined
+     * @return bn <code>Enumerbtion</code> of the descendents of
+     *          <code>pbrent</code>, or <code>null</code> if
+     *          <code>pbrent</code> is not currently expbnded
      */
-    public Enumeration<TreePath> getExpandedDescendants(TreePath parent) {
-        if(!isExpanded(parent))
+    public Enumerbtion<TreePbth> getExpbndedDescendbnts(TreePbth pbrent) {
+        if(!isExpbnded(pbrent))
             return null;
 
-        Enumeration<TreePath> toggledPaths = expandedState.keys();
-        Vector<TreePath> elements = null;
-        TreePath          path;
-        Object            value;
+        Enumerbtion<TreePbth> toggledPbths = expbndedStbte.keys();
+        Vector<TreePbth> elements = null;
+        TreePbth          pbth;
+        Object            vblue;
 
-        if(toggledPaths != null) {
-            while(toggledPaths.hasMoreElements()) {
-                path = toggledPaths.nextElement();
-                value = expandedState.get(path);
-                // Add the path if it is expanded, a descendant of parent,
-                // and it is visible (all parents expanded). This is rather
+        if(toggledPbths != null) {
+            while(toggledPbths.hbsMoreElements()) {
+                pbth = toggledPbths.nextElement();
+                vblue = expbndedStbte.get(pbth);
+                // Add the pbth if it is expbnded, b descendbnt of pbrent,
+                // bnd it is visible (bll pbrents expbnded). This is rbther
                 // expensive!
-                if(path != parent && value != null &&
-                   ((Boolean)value).booleanValue() &&
-                   parent.isDescendant(path) && isVisible(path)) {
+                if(pbth != pbrent && vblue != null &&
+                   ((Boolebn)vblue).boolebnVblue() &&
+                   pbrent.isDescendbnt(pbth) && isVisible(pbth)) {
                     if (elements == null) {
-                        elements = new Vector<TreePath>();
+                        elements = new Vector<TreePbth>();
                     }
-                    elements.addElement(path);
+                    elements.bddElement(pbth);
                 }
             }
         }
         if (elements == null) {
-            Set<TreePath> empty = Collections.emptySet();
-            return Collections.enumeration(empty);
+            Set<TreePbth> empty = Collections.emptySet();
+            return Collections.enumerbtion(empty);
         }
         return elements.elements();
     }
 
     /**
-     * Returns true if the node identified by the path has ever been
-     * expanded.
+     * Returns true if the node identified by the pbth hbs ever been
+     * expbnded.
      *
-     * @param path a {@code TreePath} identifying a node
-     * @return true if the <code>path</code> has ever been expanded
+     * @pbrbm pbth b {@code TreePbth} identifying b node
+     * @return true if the <code>pbth</code> hbs ever been expbnded
      */
-    public boolean hasBeenExpanded(TreePath path) {
-        return (path != null && expandedState.get(path) != null);
+    public boolebn hbsBeenExpbnded(TreePbth pbth) {
+        return (pbth != null && expbndedStbte.get(pbth) != null);
     }
 
     /**
-     * Returns true if the node identified by the path is currently expanded,
+     * Returns true if the node identified by the pbth is currently expbnded,
      *
-     * @param path  the <code>TreePath</code> specifying the node to check
-     * @return false if any of the nodes in the node's path are collapsed,
-     *               true if all nodes in the path are expanded
+     * @pbrbm pbth  the <code>TreePbth</code> specifying the node to check
+     * @return fblse if bny of the nodes in the node's pbth bre collbpsed,
+     *               true if bll nodes in the pbth bre expbnded
      */
-    public boolean isExpanded(TreePath path) {
+    public boolebn isExpbnded(TreePbth pbth) {
 
-        if(path == null)
-            return false;
-        Object  value;
+        if(pbth == null)
+            return fblse;
+        Object  vblue;
 
         do{
-            value = expandedState.get(path);
-            if(value == null || !((Boolean)value).booleanValue())
-                return false;
-        } while( (path=path.getParentPath())!=null );
+            vblue = expbndedStbte.get(pbth);
+            if(vblue == null || !((Boolebn)vblue).boolebnVblue())
+                return fblse;
+        } while( (pbth=pbth.getPbrentPbth())!=null );
 
         return true;
     }
 
     /**
-     * Returns true if the node at the specified display row is currently
-     * expanded.
+     * Returns true if the node bt the specified displby row is currently
+     * expbnded.
      *
-     * @param row  the row to check, where 0 is the first row in the
-     *             display
-     * @return true if the node is currently expanded, otherwise false
+     * @pbrbm row  the row to check, where 0 is the first row in the
+     *             displby
+     * @return true if the node is currently expbnded, otherwise fblse
      */
-    public boolean isExpanded(int row) {
+    public boolebn isExpbnded(int row) {
         TreeUI                  tree = getUI();
 
         if(tree != null) {
-            TreePath         path = tree.getPathForRow(this, row);
+            TreePbth         pbth = tree.getPbthForRow(this, row);
 
-            if(path != null) {
-                Boolean value = expandedState.get(path);
+            if(pbth != null) {
+                Boolebn vblue = expbndedStbte.get(pbth);
 
-                return (value != null && value.booleanValue());
+                return (vblue != null && vblue.boolebnVblue());
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if the value identified by path is currently collapsed,
-     * this will return false if any of the values in path are currently
-     * not being displayed.
+     * Returns true if the vblue identified by pbth is currently collbpsed,
+     * this will return fblse if bny of the vblues in pbth bre currently
+     * not being displbyed.
      *
-     * @param path  the <code>TreePath</code> to check
-     * @return true if any of the nodes in the node's path are collapsed,
-     *               false if all nodes in the path are expanded
+     * @pbrbm pbth  the <code>TreePbth</code> to check
+     * @return true if bny of the nodes in the node's pbth bre collbpsed,
+     *               fblse if bll nodes in the pbth bre expbnded
      */
-    public boolean isCollapsed(TreePath path) {
-        return !isExpanded(path);
+    public boolebn isCollbpsed(TreePbth pbth) {
+        return !isExpbnded(pbth);
     }
 
     /**
-     * Returns true if the node at the specified display row is collapsed.
+     * Returns true if the node bt the specified displby row is collbpsed.
      *
-     * @param row  the row to check, where 0 is the first row in the
-     *             display
-     * @return true if the node is currently collapsed, otherwise false
+     * @pbrbm row  the row to check, where 0 is the first row in the
+     *             displby
+     * @return true if the node is currently collbpsed, otherwise fblse
      */
-    public boolean isCollapsed(int row) {
-        return !isExpanded(row);
+    public boolebn isCollbpsed(int row) {
+        return !isExpbnded(row);
     }
 
     /**
-     * Ensures that the node identified by path is currently viewable.
+     * Ensures thbt the node identified by pbth is currently viewbble.
      *
-     * @param path  the <code>TreePath</code> to make visible
+     * @pbrbm pbth  the <code>TreePbth</code> to mbke visible
      */
-    public void makeVisible(TreePath path) {
-        if(path != null) {
-            TreePath        parentPath = path.getParentPath();
+    public void mbkeVisible(TreePbth pbth) {
+        if(pbth != null) {
+            TreePbth        pbrentPbth = pbth.getPbrentPbth();
 
-            if(parentPath != null) {
-                expandPath(parentPath);
+            if(pbrentPbth != null) {
+                expbndPbth(pbrentPbth);
             }
         }
     }
 
     /**
-     * Returns true if the value identified by path is currently viewable,
-     * which means it is either the root or all of its parents are expanded.
-     * Otherwise, this method returns false.
+     * Returns true if the vblue identified by pbth is currently viewbble,
+     * which mebns it is either the root or bll of its pbrents bre expbnded.
+     * Otherwise, this method returns fblse.
      *
-     * @param path {@code TreePath} identifying a node
-     * @return true if the node is viewable, otherwise false
+     * @pbrbm pbth {@code TreePbth} identifying b node
+     * @return true if the node is viewbble, otherwise fblse
      */
-    public boolean isVisible(TreePath path) {
-        if(path != null) {
-            TreePath        parentPath = path.getParentPath();
+    public boolebn isVisible(TreePbth pbth) {
+        if(pbth != null) {
+            TreePbth        pbrentPbth = pbth.getPbrentPbth();
 
-            if(parentPath != null)
-                return isExpanded(parentPath);
+            if(pbrentPbth != null)
+                return isExpbnded(pbrentPbth);
             // Root.
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the <code>Rectangle</code> that the specified node will be drawn
-     * into. Returns <code>null</code> if any component in the path is hidden
-     * (under a collapsed parent).
+     * Returns the <code>Rectbngle</code> thbt the specified node will be drbwn
+     * into. Returns <code>null</code> if bny component in the pbth is hidden
+     * (under b collbpsed pbrent).
      * <p>
      * Note:<br>
-     * This method returns a valid rectangle, even if the specified
-     * node is not currently displayed.
+     * This method returns b vblid rectbngle, even if the specified
+     * node is not currently displbyed.
      *
-     * @param path the <code>TreePath</code> identifying the node
-     * @return the <code>Rectangle</code> the node is drawn in,
+     * @pbrbm pbth the <code>TreePbth</code> identifying the node
+     * @return the <code>Rectbngle</code> the node is drbwn in,
      *          or <code>null</code>
      */
-    public Rectangle getPathBounds(TreePath path) {
+    public Rectbngle getPbthBounds(TreePbth pbth) {
         TreeUI                   tree = getUI();
 
         if(tree != null)
-            return tree.getPathBounds(this, path);
+            return tree.getPbthBounds(this, pbth);
         return null;
     }
 
     /**
-     * Returns the <code>Rectangle</code> that the node at the specified row is
-     * drawn in.
+     * Returns the <code>Rectbngle</code> thbt the node bt the specified row is
+     * drbwn in.
      *
-     * @param row  the row to be drawn, where 0 is the first row in the
-     *             display
-     * @return the <code>Rectangle</code> the node is drawn in
+     * @pbrbm row  the row to be drbwn, where 0 is the first row in the
+     *             displby
+     * @return the <code>Rectbngle</code> the node is drbwn in
      */
-    public Rectangle getRowBounds(int row) {
-        return getPathBounds(getPathForRow(row));
+    public Rectbngle getRowBounds(int row) {
+        return getPbthBounds(getPbthForRow(row));
     }
 
     /**
-     * Makes sure all the path components in path are expanded (except
-     * for the last path component) and scrolls so that the
-     * node identified by the path is displayed. Only works when this
-     * <code>JTree</code> is contained in a <code>JScrollPane</code>.
+     * Mbkes sure bll the pbth components in pbth bre expbnded (except
+     * for the lbst pbth component) bnd scrolls so thbt the
+     * node identified by the pbth is displbyed. Only works when this
+     * <code>JTree</code> is contbined in b <code>JScrollPbne</code>.
      *
-     * @param path  the <code>TreePath</code> identifying the node to
+     * @pbrbm pbth  the <code>TreePbth</code> identifying the node to
      *          bring into view
      */
-    public void scrollPathToVisible(TreePath path) {
-        if(path != null) {
-            makeVisible(path);
+    public void scrollPbthToVisible(TreePbth pbth) {
+        if(pbth != null) {
+            mbkeVisible(pbth);
 
-            Rectangle          bounds = getPathBounds(path);
+            Rectbngle          bounds = getPbthBounds(pbth);
 
             if(bounds != null) {
                 scrollRectToVisible(bounds);
-                if (accessibleContext != null) {
-                    ((AccessibleJTree)accessibleContext).fireVisibleDataPropertyChange();
+                if (bccessibleContext != null) {
+                    ((AccessibleJTree)bccessibleContext).fireVisibleDbtbPropertyChbnge();
                 }
             }
         }
     }
 
     /**
-     * Scrolls the item identified by row until it is displayed. The minimum
-     * of amount of scrolling necessary to bring the row into view
-     * is performed. Only works when this <code>JTree</code> is contained in a
-     * <code>JScrollPane</code>.
+     * Scrolls the item identified by row until it is displbyed. The minimum
+     * of bmount of scrolling necessbry to bring the row into view
+     * is performed. Only works when this <code>JTree</code> is contbined in b
+     * <code>JScrollPbne</code>.
      *
-     * @param row  an integer specifying the row to scroll, where 0 is the
-     *             first row in the display
+     * @pbrbm row  bn integer specifying the row to scroll, where 0 is the
+     *             first row in the displby
      */
     public void scrollRowToVisible(int row) {
-        scrollPathToVisible(getPathForRow(row));
+        scrollPbthToVisible(getPbthForRow(row));
     }
 
     /**
-     * Returns the path for the specified row.  If <code>row</code> is
-     * not visible, or a {@code TreeUI} has not been set, <code>null</code>
+     * Returns the pbth for the specified row.  If <code>row</code> is
+     * not visible, or b {@code TreeUI} hbs not been set, <code>null</code>
      * is returned.
      *
-     * @param row  an integer specifying a row
-     * @return the <code>TreePath</code> to the specified node,
+     * @pbrbm row  bn integer specifying b row
+     * @return the <code>TreePbth</code> to the specified node,
      *          <code>null</code> if <code>row &lt; 0</code>
      *          or <code>row &gt;= getRowCount()</code>
      */
-    public TreePath getPathForRow(int row) {
+    public TreePbth getPbthForRow(int row) {
         TreeUI                  tree = getUI();
 
         if(tree != null)
-            return tree.getPathForRow(this, row);
+            return tree.getPbthForRow(this, row);
         return null;
     }
 
     /**
-     * Returns the row that displays the node identified by the specified
-     * path.
+     * Returns the row thbt displbys the node identified by the specified
+     * pbth.
      *
-     * @param path  the <code>TreePath</code> identifying a node
-     * @return an integer specifying the display row, where 0 is the first
-     *         row in the display, or -1 if any of the elements in path
-     *         are hidden under a collapsed parent.
+     * @pbrbm pbth  the <code>TreePbth</code> identifying b node
+     * @return bn integer specifying the displby row, where 0 is the first
+     *         row in the displby, or -1 if bny of the elements in pbth
+     *         bre hidden under b collbpsed pbrent.
      */
-    public int getRowForPath(TreePath path) {
+    public int getRowForPbth(TreePbth pbth) {
         TreeUI                  tree = getUI();
 
         if(tree != null)
-            return tree.getRowForPath(this, path);
+            return tree.getRowForPbth(this, pbth);
         return -1;
     }
 
     /**
-     * Ensures that the node identified by the specified path is
-     * expanded and viewable. If the last item in the path is a
-     * leaf, this will have no effect.
+     * Ensures thbt the node identified by the specified pbth is
+     * expbnded bnd viewbble. If the lbst item in the pbth is b
+     * lebf, this will hbve no effect.
      *
-     * @param path  the <code>TreePath</code> identifying a node
+     * @pbrbm pbth  the <code>TreePbth</code> identifying b node
      */
-    public void expandPath(TreePath path) {
-        // Only expand if not leaf!
+    public void expbndPbth(TreePbth pbth) {
+        // Only expbnd if not lebf!
         TreeModel          model = getModel();
 
-        if(path != null && model != null &&
-           !model.isLeaf(path.getLastPathComponent())) {
-            setExpandedState(path, true);
+        if(pbth != null && model != null &&
+           !model.isLebf(pbth.getLbstPbthComponent())) {
+            setExpbndedStbte(pbth, true);
         }
     }
 
     /**
-     * Ensures that the node in the specified row is expanded and
-     * viewable.
+     * Ensures thbt the node in the specified row is expbnded bnd
+     * viewbble.
      * <p>
      * If <code>row</code> is &lt; 0 or &gt;= <code>getRowCount</code> this
-     * will have no effect.
+     * will hbve no effect.
      *
-     * @param row  an integer specifying a display row, where 0 is the
-     *             first row in the display
+     * @pbrbm row  bn integer specifying b displby row, where 0 is the
+     *             first row in the displby
      */
-    public void expandRow(int row) {
-        expandPath(getPathForRow(row));
+    public void expbndRow(int row) {
+        expbndPbth(getPbthForRow(row));
     }
 
     /**
-     * Ensures that the node identified by the specified path is
-     * collapsed and viewable.
+     * Ensures thbt the node identified by the specified pbth is
+     * collbpsed bnd viewbble.
      *
-     * @param path  the <code>TreePath</code> identifying a node
+     * @pbrbm pbth  the <code>TreePbth</code> identifying b node
       */
-    public void collapsePath(TreePath path) {
-        setExpandedState(path, false);
+    public void collbpsePbth(TreePbth pbth) {
+        setExpbndedStbte(pbth, fblse);
     }
 
     /**
-     * Ensures that the node in the specified row is collapsed.
+     * Ensures thbt the node in the specified row is collbpsed.
      * <p>
      * If <code>row</code> is &lt; 0 or &gt;= <code>getRowCount</code> this
-     * will have no effect.
+     * will hbve no effect.
      *
-     * @param row  an integer specifying a display row, where 0 is the
-     *             first row in the display
+     * @pbrbm row  bn integer specifying b displby row, where 0 is the
+     *             first row in the displby
       */
-    public void collapseRow(int row) {
-        collapsePath(getPathForRow(row));
+    public void collbpseRow(int row) {
+        collbpsePbth(getPbthForRow(row));
     }
 
     /**
-     * Returns the path for the node at the specified location.
+     * Returns the pbth for the node bt the specified locbtion.
      *
-     * @param x an integer giving the number of pixels horizontally from
-     *          the left edge of the display area, minus any left margin
-     * @param y an integer giving the number of pixels vertically from
-     *          the top of the display area, minus any top margin
-     * @return  the <code>TreePath</code> for the node at that location
+     * @pbrbm x bn integer giving the number of pixels horizontblly from
+     *          the left edge of the displby breb, minus bny left mbrgin
+     * @pbrbm y bn integer giving the number of pixels verticblly from
+     *          the top of the displby breb, minus bny top mbrgin
+     * @return  the <code>TreePbth</code> for the node bt thbt locbtion
      */
-    public TreePath getPathForLocation(int x, int y) {
-        TreePath          closestPath = getClosestPathForLocation(x, y);
+    public TreePbth getPbthForLocbtion(int x, int y) {
+        TreePbth          closestPbth = getClosestPbthForLocbtion(x, y);
 
-        if(closestPath != null) {
-            Rectangle       pathBounds = getPathBounds(closestPath);
+        if(closestPbth != null) {
+            Rectbngle       pbthBounds = getPbthBounds(closestPbth);
 
-            if(pathBounds != null &&
-               x >= pathBounds.x && x < (pathBounds.x + pathBounds.width) &&
-               y >= pathBounds.y && y < (pathBounds.y + pathBounds.height))
-                return closestPath;
+            if(pbthBounds != null &&
+               x >= pbthBounds.x && x < (pbthBounds.x + pbthBounds.width) &&
+               y >= pbthBounds.y && y < (pbthBounds.y + pbthBounds.height))
+                return closestPbth;
         }
         return null;
     }
 
     /**
-     * Returns the row for the specified location.
+     * Returns the row for the specified locbtion.
      *
-     * @param x an integer giving the number of pixels horizontally from
-     *          the left edge of the display area, minus any left margin
-     * @param y an integer giving the number of pixels vertically from
-     *          the top of the display area, minus any top margin
-     * @return the row corresponding to the location, or -1 if the
-     *         location is not within the bounds of a displayed cell
-     * @see #getClosestRowForLocation
+     * @pbrbm x bn integer giving the number of pixels horizontblly from
+     *          the left edge of the displby breb, minus bny left mbrgin
+     * @pbrbm y bn integer giving the number of pixels verticblly from
+     *          the top of the displby breb, minus bny top mbrgin
+     * @return the row corresponding to the locbtion, or -1 if the
+     *         locbtion is not within the bounds of b displbyed cell
+     * @see #getClosestRowForLocbtion
      */
-    public int getRowForLocation(int x, int y) {
-        return getRowForPath(getPathForLocation(x, y));
+    public int getRowForLocbtion(int x, int y) {
+        return getRowForPbth(getPbthForLocbtion(x, y));
     }
 
     /**
-     * Returns the path to the node that is closest to x,y.  If
-     * no nodes are currently viewable, or there is no model, returns
-     * <code>null</code>, otherwise it always returns a valid path.  To test if
-     * the node is exactly at x, y, get the node's bounds and
-     * test x, y against that.
+     * Returns the pbth to the node thbt is closest to x,y.  If
+     * no nodes bre currently viewbble, or there is no model, returns
+     * <code>null</code>, otherwise it blwbys returns b vblid pbth.  To test if
+     * the node is exbctly bt x, y, get the node's bounds bnd
+     * test x, y bgbinst thbt.
      *
-     * @param x an integer giving the number of pixels horizontally from
-     *          the left edge of the display area, minus any left margin
-     * @param y an integer giving the number of pixels vertically from
-     *          the top of the display area, minus any top margin
-     * @return  the <code>TreePath</code> for the node closest to that location,
-     *          <code>null</code> if nothing is viewable or there is no model
+     * @pbrbm x bn integer giving the number of pixels horizontblly from
+     *          the left edge of the displby breb, minus bny left mbrgin
+     * @pbrbm y bn integer giving the number of pixels verticblly from
+     *          the top of the displby breb, minus bny top mbrgin
+     * @return  the <code>TreePbth</code> for the node closest to thbt locbtion,
+     *          <code>null</code> if nothing is viewbble or there is no model
      *
-     * @see #getPathForLocation
-     * @see #getPathBounds
+     * @see #getPbthForLocbtion
+     * @see #getPbthBounds
      */
-    public TreePath getClosestPathForLocation(int x, int y) {
+    public TreePbth getClosestPbthForLocbtion(int x, int y) {
         TreeUI                  tree = getUI();
 
         if(tree != null)
-            return tree.getClosestPathForLocation(this, x, y);
+            return tree.getClosestPbthForLocbtion(this, x, y);
         return null;
     }
 
     /**
-     * Returns the row to the node that is closest to x,y.  If no nodes
-     * are viewable or there is no model, returns -1. Otherwise,
-     * it always returns a valid row.  To test if the returned object is
-     * exactly at x, y, get the bounds for the node at the returned
-     * row and test x, y against that.
+     * Returns the row to the node thbt is closest to x,y.  If no nodes
+     * bre viewbble or there is no model, returns -1. Otherwise,
+     * it blwbys returns b vblid row.  To test if the returned object is
+     * exbctly bt x, y, get the bounds for the node bt the returned
+     * row bnd test x, y bgbinst thbt.
      *
-     * @param x an integer giving the number of pixels horizontally from
-     *          the left edge of the display area, minus any left margin
-     * @param y an integer giving the number of pixels vertically from
-     *          the top of the display area, minus any top margin
-     * @return the row closest to the location, -1 if nothing is
-     *         viewable or there is no model
+     * @pbrbm x bn integer giving the number of pixels horizontblly from
+     *          the left edge of the displby breb, minus bny left mbrgin
+     * @pbrbm y bn integer giving the number of pixels verticblly from
+     *          the top of the displby breb, minus bny top mbrgin
+     * @return the row closest to the locbtion, -1 if nothing is
+     *         viewbble or there is no model
      *
-     * @see #getRowForLocation
+     * @see #getRowForLocbtion
      * @see #getRowBounds
      */
-    public int getClosestRowForLocation(int x, int y) {
-        return getRowForPath(getClosestPathForLocation(x, y));
+    public int getClosestRowForLocbtion(int x, int y) {
+        return getRowForPbth(getClosestPbthForLocbtion(x, y));
     }
 
     /**
-     * Returns true if the tree is being edited. The item that is being
-     * edited can be obtained using <code>getSelectionPath</code>.
+     * Returns true if the tree is being edited. The item thbt is being
+     * edited cbn be obtbined using <code>getSelectionPbth</code>.
      *
-     * @return true if the user is currently editing a node
-     * @see #getSelectionPath
+     * @return true if the user is currently editing b node
+     * @see #getSelectionPbth
      */
-    public boolean isEditing() {
+    public boolebn isEditing() {
         TreeUI                  tree = getUI();
 
         if(tree != null)
             return tree.isEditing(this);
-        return false;
+        return fblse;
     }
 
     /**
      * Ends the current editing session.
-     * (The <code>DefaultTreeCellEditor</code>
-     * object saves any edits that are currently in progress on a cell.
-     * Other implementations may operate differently.)
-     * Has no effect if the tree isn't being edited.
+     * (The <code>DefbultTreeCellEditor</code>
+     * object sbves bny edits thbt bre currently in progress on b cell.
+     * Other implementbtions mby operbte differently.)
+     * Hbs no effect if the tree isn't being edited.
      * <blockquote>
      * <b>Note:</b><br>
-     * To make edit-saves automatic whenever the user changes
+     * To mbke edit-sbves butombtic whenever the user chbnges
      * their position in the tree, use {@link #setInvokesStopCellEditing}.
      * </blockquote>
      *
-     * @return true if editing was in progress and is now stopped,
-     *              false if editing was not in progress
+     * @return true if editing wbs in progress bnd is now stopped,
+     *              fblse if editing wbs not in progress
      */
-    public boolean stopEditing() {
+    public boolebn stopEditing() {
         TreeUI                  tree = getUI();
 
         if(tree != null)
             return tree.stopEditing(this);
-        return false;
+        return fblse;
     }
 
     /**
-     * Cancels the current editing session. Has no effect if the
+     * Cbncels the current editing session. Hbs no effect if the
      * tree isn't being edited.
      */
-    public void  cancelEditing() {
+    public void  cbncelEditing() {
         TreeUI                  tree = getUI();
 
         if(tree != null)
-            tree.cancelEditing(this);
+            tree.cbncelEditing(this);
     }
 
     /**
-     * Selects the node identified by the specified path and initiates
-     * editing.  The edit-attempt fails if the <code>CellEditor</code>
-     * does not allow
+     * Selects the node identified by the specified pbth bnd initibtes
+     * editing.  The edit-bttempt fbils if the <code>CellEditor</code>
+     * does not bllow
      * editing for the specified item.
      *
-     * @param path  the <code>TreePath</code> identifying a node
+     * @pbrbm pbth  the <code>TreePbth</code> identifying b node
      */
-    public void startEditingAtPath(TreePath path) {
+    public void stbrtEditingAtPbth(TreePbth pbth) {
         TreeUI                  tree = getUI();
 
         if(tree != null)
-            tree.startEditingAtPath(this, path);
+            tree.stbrtEditingAtPbth(this, pbth);
     }
 
     /**
-     * Returns the path to the element that is currently being edited.
+     * Returns the pbth to the element thbt is currently being edited.
      *
-     * @return  the <code>TreePath</code> for the node being edited
+     * @return  the <code>TreePbth</code> for the node being edited
      */
-    public TreePath getEditingPath() {
+    public TreePbth getEditingPbth() {
         TreeUI                  tree = getUI();
 
         if(tree != null)
-            return tree.getEditingPath(this);
+            return tree.getEditingPbth(this);
         return null;
     }
 
     //
-    // Following are primarily convenience methods for mapping from
-    // row based selections to path selections.  Sometimes it is
-    // easier to deal with these than paths (mouse downs, key downs
-    // usually just deal with index based selections).
-    // Since row based selections require a UI many of these won't work
+    // Following bre primbrily convenience methods for mbpping from
+    // row bbsed selections to pbth selections.  Sometimes it is
+    // ebsier to debl with these thbn pbths (mouse downs, key downs
+    // usublly just debl with index bbsed selections).
+    // Since row bbsed selections require b UI mbny of these won't work
     // without one.
     //
 
     /**
-     * Sets the tree's selection model. When a <code>null</code> value is
-     * specified an empty
-     * <code>selectionModel</code> is used, which does not allow selections.
+     * Sets the tree's selection model. When b <code>null</code> vblue is
+     * specified bn empty
+     * <code>selectionModel</code> is used, which does not bllow selections.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param selectionModel the <code>TreeSelectionModel</code> to use,
-     *          or <code>null</code> to disable selections
+     * @pbrbm selectionModel the <code>TreeSelectionModel</code> to use,
+     *          or <code>null</code> to disbble selections
      * @see TreeSelectionModel
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *  description: The tree's selection model.
      */
     public void setSelectionModel(TreeSelectionModel selectionModel) {
         if(selectionModel == null)
-            selectionModel = EmptySelectionModel.sharedInstance();
+            selectionModel = EmptySelectionModel.shbredInstbnce();
 
-        TreeSelectionModel         oldValue = this.selectionModel;
+        TreeSelectionModel         oldVblue = this.selectionModel;
 
         if (this.selectionModel != null && selectionRedirector != null) {
             this.selectionModel.removeTreeSelectionListener
                                 (selectionRedirector);
         }
-        if (accessibleContext != null) {
-           this.selectionModel.removeTreeSelectionListener((TreeSelectionListener)accessibleContext);
-           selectionModel.addTreeSelectionListener((TreeSelectionListener)accessibleContext);
+        if (bccessibleContext != null) {
+           this.selectionModel.removeTreeSelectionListener((TreeSelectionListener)bccessibleContext);
+           selectionModel.bddTreeSelectionListener((TreeSelectionListener)bccessibleContext);
         }
 
         this.selectionModel = selectionModel;
         if (selectionRedirector != null) {
-            this.selectionModel.addTreeSelectionListener(selectionRedirector);
+            this.selectionModel.bddTreeSelectionListener(selectionRedirector);
         }
-        firePropertyChange(SELECTION_MODEL_PROPERTY, oldValue,
+        firePropertyChbnge(SELECTION_MODEL_PROPERTY, oldVblue,
                            this.selectionModel);
 
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
+        if (bccessibleContext != null) {
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY,
-                    Boolean.valueOf(false), Boolean.valueOf(true));
+                    Boolebn.vblueOf(fblse), Boolebn.vblueOf(true));
         }
     }
 
     /**
-     * Returns the model for selections. This should always return a
-     * non-<code>null</code> value. If you don't want to allow anything
+     * Returns the model for selections. This should blwbys return b
+     * non-<code>null</code> vblue. If you don't wbnt to bllow bnything
      * to be selected
-     * set the selection model to <code>null</code>, which forces an empty
+     * set the selection model to <code>null</code>, which forces bn empty
      * selection model to be used.
      *
      * @return the model for selections
@@ -2487,162 +2487,162 @@ public class JTree extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Returns the paths (inclusive) between the specified rows. If
-     * the specified indices are within the viewable set of rows, or
-     * bound the viewable set of rows, then the indices are
-     * constrained by the viewable set of rows. If the specified
-     * indices are not within the viewable set of rows, or do not
-     * bound the viewable set of rows, then an empty array is
-     * returned. For example, if the row count is {@code 10}, and this
+     * Returns the pbths (inclusive) between the specified rows. If
+     * the specified indices bre within the viewbble set of rows, or
+     * bound the viewbble set of rows, then the indices bre
+     * constrbined by the viewbble set of rows. If the specified
+     * indices bre not within the viewbble set of rows, or do not
+     * bound the viewbble set of rows, then bn empty brrby is
+     * returned. For exbmple, if the row count is {@code 10}, bnd this
      * method is invoked with {@code -1, 20}, then the specified
-     * indices are constrained to the viewable set of rows, and this is
-     * treated as if invoked with {@code 0, 9}. On the other hand, if
+     * indices bre constrbined to the viewbble set of rows, bnd this is
+     * trebted bs if invoked with {@code 0, 9}. On the other hbnd, if
      * this were invoked with {@code -10, -1}, then the specified
-     * indices do not bound the viewable set of rows, and an empty
-     * array is returned.
+     * indices do not bound the viewbble set of rows, bnd bn empty
+     * brrby is returned.
      * <p>
-     * The parameters are not order dependent. That is, {@code
-     * getPathBetweenRows(x, y)} is equivalent to
-     * {@code getPathBetweenRows(y, x)}.
+     * The pbrbmeters bre not order dependent. Thbt is, {@code
+     * getPbthBetweenRows(x, y)} is equivblent to
+     * {@code getPbthBetweenRows(y, x)}.
      * <p>
-     * An empty array is returned if the row count is {@code 0}, or
-     * the specified indices do not bound the viewable set of rows.
+     * An empty brrby is returned if the row count is {@code 0}, or
+     * the specified indices do not bound the viewbble set of rows.
      *
-     * @param index0 the first index in the range
-     * @param index1 the last index in the range
-     * @return the paths (inclusive) between the specified row indices
+     * @pbrbm index0 the first index in the rbnge
+     * @pbrbm index1 the lbst index in the rbnge
+     * @return the pbths (inclusive) between the specified row indices
      */
-    protected TreePath[] getPathBetweenRows(int index0, int index1) {
+    protected TreePbth[] getPbthBetweenRows(int index0, int index1) {
         TreeUI           tree = getUI();
         if (tree != null) {
             int rowCount = getRowCount();
             if (rowCount > 0 && !((index0 < 0 && index1 < 0) ||
                                   (index0 >= rowCount && index1 >= rowCount))){
-                index0 = Math.min(rowCount - 1, Math.max(index0, 0));
-                index1 = Math.min(rowCount - 1, Math.max(index1, 0));
-                int minIndex = Math.min(index0, index1);
-                int maxIndex = Math.max(index0, index1);
-                TreePath[] selection = new TreePath[
-                        maxIndex - minIndex + 1];
-                for(int counter = minIndex; counter <= maxIndex; counter++) {
+                index0 = Mbth.min(rowCount - 1, Mbth.mbx(index0, 0));
+                index1 = Mbth.min(rowCount - 1, Mbth.mbx(index1, 0));
+                int minIndex = Mbth.min(index0, index1);
+                int mbxIndex = Mbth.mbx(index0, index1);
+                TreePbth[] selection = new TreePbth[
+                        mbxIndex - minIndex + 1];
+                for(int counter = minIndex; counter <= mbxIndex; counter++) {
                     selection[counter - minIndex] =
-                            tree.getPathForRow(this, counter);
+                            tree.getPbthForRow(this, counter);
                 }
                 return selection;
             }
         }
-        return new TreePath[0];
+        return new TreePbth[0];
     }
 
     /**
-     * Selects the rows in the specified interval (inclusive). If
-     * the specified indices are within the viewable set of rows, or bound
-     * the viewable set of rows, then the specified rows are constrained by
-     * the viewable set of rows. If the specified indices are not within the
-     * viewable set of rows, or do not bound the viewable set of rows, then
-     * the selection is cleared. For example, if the row count is {@code
-     * 10}, and this method is invoked with {@code -1, 20}, then the
-     * specified indices bounds the viewable range, and this is treated as
-     * if invoked with {@code 0, 9}. On the other hand, if this were
+     * Selects the rows in the specified intervbl (inclusive). If
+     * the specified indices bre within the viewbble set of rows, or bound
+     * the viewbble set of rows, then the specified rows bre constrbined by
+     * the viewbble set of rows. If the specified indices bre not within the
+     * viewbble set of rows, or do not bound the viewbble set of rows, then
+     * the selection is clebred. For exbmple, if the row count is {@code
+     * 10}, bnd this method is invoked with {@code -1, 20}, then the
+     * specified indices bounds the viewbble rbnge, bnd this is trebted bs
+     * if invoked with {@code 0, 9}. On the other hbnd, if this were
      * invoked with {@code -10, -1}, then the specified indices do not
-     * bound the viewable set of rows, and the selection is cleared.
+     * bound the viewbble set of rows, bnd the selection is clebred.
      * <p>
-     * The parameters are not order dependent. That is, {@code
-     * setSelectionInterval(x, y)} is equivalent to
-     * {@code setSelectionInterval(y, x)}.
+     * The pbrbmeters bre not order dependent. Thbt is, {@code
+     * setSelectionIntervbl(x, y)} is equivblent to
+     * {@code setSelectionIntervbl(y, x)}.
      *
-     * @param index0 the first index in the range to select
-     * @param index1 the last index in the range to select
+     * @pbrbm index0 the first index in the rbnge to select
+     * @pbrbm index1 the lbst index in the rbnge to select
     */
-    public void setSelectionInterval(int index0, int index1) {
-        TreePath[]         paths = getPathBetweenRows(index0, index1);
+    public void setSelectionIntervbl(int index0, int index1) {
+        TreePbth[]         pbths = getPbthBetweenRows(index0, index1);
 
-        this.getSelectionModel().setSelectionPaths(paths);
+        this.getSelectionModel().setSelectionPbths(pbths);
     }
 
     /**
      * Adds the specified rows (inclusive) to the selection. If the
-     * specified indices are within the viewable set of rows, or bound
-     * the viewable set of rows, then the specified indices are
-     * constrained by the viewable set of rows. If the indices are not
-     * within the viewable set of rows, or do not bound the viewable
-     * set of rows, then the selection is unchanged. For example, if
-     * the row count is {@code 10}, and this method is invoked with
-     * {@code -1, 20}, then the specified indices bounds the viewable
-     * range, and this is treated as if invoked with {@code 0, 9}. On
-     * the other hand, if this were invoked with {@code -10, -1}, then
-     * the specified indices do not bound the viewable set of rows,
-     * and the selection is unchanged.
+     * specified indices bre within the viewbble set of rows, or bound
+     * the viewbble set of rows, then the specified indices bre
+     * constrbined by the viewbble set of rows. If the indices bre not
+     * within the viewbble set of rows, or do not bound the viewbble
+     * set of rows, then the selection is unchbnged. For exbmple, if
+     * the row count is {@code 10}, bnd this method is invoked with
+     * {@code -1, 20}, then the specified indices bounds the viewbble
+     * rbnge, bnd this is trebted bs if invoked with {@code 0, 9}. On
+     * the other hbnd, if this were invoked with {@code -10, -1}, then
+     * the specified indices do not bound the viewbble set of rows,
+     * bnd the selection is unchbnged.
      * <p>
-     * The parameters are not order dependent. That is, {@code
-     * addSelectionInterval(x, y)} is equivalent to
-     * {@code addSelectionInterval(y, x)}.
+     * The pbrbmeters bre not order dependent. Thbt is, {@code
+     * bddSelectionIntervbl(x, y)} is equivblent to
+     * {@code bddSelectionIntervbl(y, x)}.
      *
-     * @param index0 the first index in the range to add to the selection
-     * @param index1 the last index in the range to add to the selection
+     * @pbrbm index0 the first index in the rbnge to bdd to the selection
+     * @pbrbm index1 the lbst index in the rbnge to bdd to the selection
      */
-    public void addSelectionInterval(int index0, int index1) {
-        TreePath[]         paths = getPathBetweenRows(index0, index1);
+    public void bddSelectionIntervbl(int index0, int index1) {
+        TreePbth[]         pbths = getPbthBetweenRows(index0, index1);
 
-        if (paths != null && paths.length > 0) {
-            this.getSelectionModel().addSelectionPaths(paths);
+        if (pbths != null && pbths.length > 0) {
+            this.getSelectionModel().bddSelectionPbths(pbths);
         }
     }
 
     /**
      * Removes the specified rows (inclusive) from the selection. If
-     * the specified indices are within the viewable set of rows, or bound
-     * the viewable set of rows, then the specified indices are constrained by
-     * the viewable set of rows. If the specified indices are not within the
-     * viewable set of rows, or do not bound the viewable set of rows, then
-     * the selection is unchanged. For example, if the row count is {@code
-     * 10}, and this method is invoked with {@code -1, 20}, then the
-     * specified range bounds the viewable range, and this is treated as
-     * if invoked with {@code 0, 9}. On the other hand, if this were
-     * invoked with {@code -10, -1}, then the specified range does not
-     * bound the viewable set of rows, and the selection is unchanged.
+     * the specified indices bre within the viewbble set of rows, or bound
+     * the viewbble set of rows, then the specified indices bre constrbined by
+     * the viewbble set of rows. If the specified indices bre not within the
+     * viewbble set of rows, or do not bound the viewbble set of rows, then
+     * the selection is unchbnged. For exbmple, if the row count is {@code
+     * 10}, bnd this method is invoked with {@code -1, 20}, then the
+     * specified rbnge bounds the viewbble rbnge, bnd this is trebted bs
+     * if invoked with {@code 0, 9}. On the other hbnd, if this were
+     * invoked with {@code -10, -1}, then the specified rbnge does not
+     * bound the viewbble set of rows, bnd the selection is unchbnged.
      * <p>
-     * The parameters are not order dependent. That is, {@code
-     * removeSelectionInterval(x, y)} is equivalent to
-     * {@code removeSelectionInterval(y, x)}.
+     * The pbrbmeters bre not order dependent. Thbt is, {@code
+     * removeSelectionIntervbl(x, y)} is equivblent to
+     * {@code removeSelectionIntervbl(y, x)}.
      *
-     * @param index0 the first row to remove from the selection
-     * @param index1 the last row to remove from the selection
+     * @pbrbm index0 the first row to remove from the selection
+     * @pbrbm index1 the lbst row to remove from the selection
      */
-    public void removeSelectionInterval(int index0, int index1) {
-        TreePath[]         paths = getPathBetweenRows(index0, index1);
+    public void removeSelectionIntervbl(int index0, int index1) {
+        TreePbth[]         pbths = getPbthBetweenRows(index0, index1);
 
-        if (paths != null && paths.length > 0) {
-            this.getSelectionModel().removeSelectionPaths(paths);
+        if (pbths != null && pbths.length > 0) {
+            this.getSelectionModel().removeSelectionPbths(pbths);
         }
     }
 
     /**
-     * Removes the node identified by the specified path from the current
+     * Removes the node identified by the specified pbth from the current
      * selection.
      *
-     * @param path  the <code>TreePath</code> identifying a node
+     * @pbrbm pbth  the <code>TreePbth</code> identifying b node
      */
-    public void removeSelectionPath(TreePath path) {
-        this.getSelectionModel().removeSelectionPath(path);
+    public void removeSelectionPbth(TreePbth pbth) {
+        this.getSelectionModel().removeSelectionPbth(pbth);
     }
 
     /**
-     * Removes the nodes identified by the specified paths from the
+     * Removes the nodes identified by the specified pbths from the
      * current selection.
      *
-     * @param paths an array of <code>TreePath</code> objects that
+     * @pbrbm pbths bn brrby of <code>TreePbth</code> objects thbt
      *              specifies the nodes to remove
      */
-    public void removeSelectionPaths(TreePath[] paths) {
-        this.getSelectionModel().removeSelectionPaths(paths);
+    public void removeSelectionPbths(TreePbth[] pbths) {
+        this.getSelectionModel().removeSelectionPbths(pbths);
     }
 
     /**
-     * Removes the row at the index <code>row</code> from the current
+     * Removes the row bt the index <code>row</code> from the current
      * selection.
      *
-     * @param row  the row to remove
+     * @pbrbm row  the row to remove
      */
     public void removeSelectionRow(int row) {
         int[]             rows = { row };
@@ -2651,30 +2651,30 @@ public class JTree extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Removes the rows that are selected at each of the specified
+     * Removes the rows thbt bre selected bt ebch of the specified
      * rows.
      *
-     * @param rows  an array of ints specifying display rows, where 0 is
-     *             the first row in the display
+     * @pbrbm rows  bn brrby of ints specifying displby rows, where 0 is
+     *             the first row in the displby
      */
     public void removeSelectionRows(int[] rows) {
         TreeUI             ui = getUI();
 
         if(ui != null && rows != null) {
             int                  numRows = rows.length;
-            TreePath[]           paths = new TreePath[numRows];
+            TreePbth[]           pbths = new TreePbth[numRows];
 
             for(int counter = 0; counter < numRows; counter++)
-                paths[counter] = ui.getPathForRow(this, rows[counter]);
-            removeSelectionPaths(paths);
+                pbths[counter] = ui.getPbthForRow(this, rows[counter]);
+            removeSelectionPbths(pbths);
         }
     }
 
     /**
-     * Clears the selection.
+     * Clebrs the selection.
      */
-    public void clearSelection() {
-        getSelectionModel().clearSelection();
+    public void clebrSelection() {
+        getSelectionModel().clebrSelection();
     }
 
     /**
@@ -2682,220 +2682,220 @@ public class JTree extends JComponent implements Scrollable, Accessible
      *
      * @return true if the selection is currently empty
      */
-    public boolean isSelectionEmpty() {
+    public boolebn isSelectionEmpty() {
         return getSelectionModel().isSelectionEmpty();
     }
 
     /**
-     * Adds a listener for <code>TreeExpansion</code> events.
+     * Adds b listener for <code>TreeExpbnsion</code> events.
      *
-     * @param tel a TreeExpansionListener that will be notified when
-     *            a tree node is expanded or collapsed (a "negative
-     *            expansion")
+     * @pbrbm tel b TreeExpbnsionListener thbt will be notified when
+     *            b tree node is expbnded or collbpsed (b "negbtive
+     *            expbnsion")
      */
-    public void addTreeExpansionListener(TreeExpansionListener tel) {
+    public void bddTreeExpbnsionListener(TreeExpbnsionListener tel) {
         if (settingUI) {
-            uiTreeExpansionListener = tel;
+            uiTreeExpbnsionListener = tel;
         }
-        listenerList.add(TreeExpansionListener.class, tel);
+        listenerList.bdd(TreeExpbnsionListener.clbss, tel);
     }
 
     /**
-     * Removes a listener for <code>TreeExpansion</code> events.
+     * Removes b listener for <code>TreeExpbnsion</code> events.
      *
-     * @param tel the <code>TreeExpansionListener</code> to remove
+     * @pbrbm tel the <code>TreeExpbnsionListener</code> to remove
      */
-    public void removeTreeExpansionListener(TreeExpansionListener tel) {
-        listenerList.remove(TreeExpansionListener.class, tel);
-        if (uiTreeExpansionListener == tel) {
-            uiTreeExpansionListener = null;
+    public void removeTreeExpbnsionListener(TreeExpbnsionListener tel) {
+        listenerList.remove(TreeExpbnsionListener.clbss, tel);
+        if (uiTreeExpbnsionListener == tel) {
+            uiTreeExpbnsionListener = null;
         }
     }
 
     /**
-     * Returns an array of all the <code>TreeExpansionListener</code>s added
-     * to this JTree with addTreeExpansionListener().
+     * Returns bn brrby of bll the <code>TreeExpbnsionListener</code>s bdded
+     * to this JTree with bddTreeExpbnsionListener().
      *
-     * @return all of the <code>TreeExpansionListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>TreeExpbnsionListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public TreeExpansionListener[] getTreeExpansionListeners() {
-        return listenerList.getListeners(TreeExpansionListener.class);
+    public TreeExpbnsionListener[] getTreeExpbnsionListeners() {
+        return listenerList.getListeners(TreeExpbnsionListener.clbss);
     }
 
     /**
-     * Adds a listener for <code>TreeWillExpand</code> events.
+     * Adds b listener for <code>TreeWillExpbnd</code> events.
      *
-     * @param tel a <code>TreeWillExpandListener</code> that will be notified
-     *            when a tree node will be expanded or collapsed (a "negative
-     *            expansion")
+     * @pbrbm tel b <code>TreeWillExpbndListener</code> thbt will be notified
+     *            when b tree node will be expbnded or collbpsed (b "negbtive
+     *            expbnsion")
      */
-    public void addTreeWillExpandListener(TreeWillExpandListener tel) {
-        listenerList.add(TreeWillExpandListener.class, tel);
+    public void bddTreeWillExpbndListener(TreeWillExpbndListener tel) {
+        listenerList.bdd(TreeWillExpbndListener.clbss, tel);
     }
 
     /**
-     * Removes a listener for <code>TreeWillExpand</code> events.
+     * Removes b listener for <code>TreeWillExpbnd</code> events.
      *
-     * @param tel the <code>TreeWillExpandListener</code> to remove
+     * @pbrbm tel the <code>TreeWillExpbndListener</code> to remove
      */
-    public void removeTreeWillExpandListener(TreeWillExpandListener tel) {
-        listenerList.remove(TreeWillExpandListener.class, tel);
+    public void removeTreeWillExpbndListener(TreeWillExpbndListener tel) {
+        listenerList.remove(TreeWillExpbndListener.clbss, tel);
     }
 
     /**
-     * Returns an array of all the <code>TreeWillExpandListener</code>s added
-     * to this JTree with addTreeWillExpandListener().
+     * Returns bn brrby of bll the <code>TreeWillExpbndListener</code>s bdded
+     * to this JTree with bddTreeWillExpbndListener().
      *
-     * @return all of the <code>TreeWillExpandListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>TreeWillExpbndListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public TreeWillExpandListener[] getTreeWillExpandListeners() {
-        return listenerList.getListeners(TreeWillExpandListener.class);
+    public TreeWillExpbndListener[] getTreeWillExpbndListeners() {
+        return listenerList.getListeners(TreeWillExpbndListener.clbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the <code>path</code> parameter.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the <code>pbth</code> pbrbmeter.
      *
-     * @param path the <code>TreePath</code> indicating the node that was
-     *          expanded
+     * @pbrbm pbth the <code>TreePbth</code> indicbting the node thbt wbs
+     *          expbnded
      * @see EventListenerList
      */
-     public void fireTreeExpanded(TreePath path) {
-        // Guaranteed to return a non-null array
+     public void fireTreeExpbnded(TreePbth pbth) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        TreeExpansionEvent e = null;
-        if (uiTreeExpansionListener != null) {
-            e = new TreeExpansionEvent(this, path);
-            uiTreeExpansionListener.treeExpanded(e);
+        TreeExpbnsionEvent e = null;
+        if (uiTreeExpbnsionListener != null) {
+            e = new TreeExpbnsionEvent(this, pbth);
+            uiTreeExpbnsionListener.treeExpbnded(e);
         }
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeExpansionListener.class &&
-                listeners[i + 1] != uiTreeExpansionListener) {
-                // Lazily create the event:
+            if (listeners[i]==TreeExpbnsionListener.clbss &&
+                listeners[i + 1] != uiTreeExpbnsionListener) {
+                // Lbzily crebte the event:
                 if (e == null)
-                    e = new TreeExpansionEvent(this, path);
-                ((TreeExpansionListener)listeners[i+1]).
-                    treeExpanded(e);
+                    e = new TreeExpbnsionEvent(this, pbth);
+                ((TreeExpbnsionListener)listeners[i+1]).
+                    treeExpbnded(e);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the <code>path</code> parameter.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the <code>pbth</code> pbrbmeter.
      *
-     * @param path the <code>TreePath</code> indicating the node that was
-     *          collapsed
+     * @pbrbm pbth the <code>TreePbth</code> indicbting the node thbt wbs
+     *          collbpsed
      * @see EventListenerList
      */
-    public void fireTreeCollapsed(TreePath path) {
-        // Guaranteed to return a non-null array
+    public void fireTreeCollbpsed(TreePbth pbth) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        TreeExpansionEvent e = null;
-        if (uiTreeExpansionListener != null) {
-            e = new TreeExpansionEvent(this, path);
-            uiTreeExpansionListener.treeCollapsed(e);
+        TreeExpbnsionEvent e = null;
+        if (uiTreeExpbnsionListener != null) {
+            e = new TreeExpbnsionEvent(this, pbth);
+            uiTreeExpbnsionListener.treeCollbpsed(e);
         }
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeExpansionListener.class &&
-                listeners[i + 1] != uiTreeExpansionListener) {
-                // Lazily create the event:
+            if (listeners[i]==TreeExpbnsionListener.clbss &&
+                listeners[i + 1] != uiTreeExpbnsionListener) {
+                // Lbzily crebte the event:
                 if (e == null)
-                    e = new TreeExpansionEvent(this, path);
-                ((TreeExpansionListener)listeners[i+1]).
-                    treeCollapsed(e);
+                    e = new TreeExpbnsionEvent(this, pbth);
+                ((TreeExpbnsionListener)listeners[i+1]).
+                    treeCollbpsed(e);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the <code>path</code> parameter.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the <code>pbth</code> pbrbmeter.
      *
-     * @param path the <code>TreePath</code> indicating the node that was
-     *          expanded
-     * @throws ExpandVetoException if the expansion is prevented from occurring
+     * @pbrbm pbth the <code>TreePbth</code> indicbting the node thbt wbs
+     *          expbnded
+     * @throws ExpbndVetoException if the expbnsion is prevented from occurring
      * @see EventListenerList
      */
-     public void fireTreeWillExpand(TreePath path) throws ExpandVetoException {
-        // Guaranteed to return a non-null array
+     public void fireTreeWillExpbnd(TreePbth pbth) throws ExpbndVetoException {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        TreeExpansionEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        TreeExpbnsionEvent e = null;
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeWillExpandListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TreeWillExpbndListener.clbss) {
+                // Lbzily crebte the event:
                 if (e == null)
-                    e = new TreeExpansionEvent(this, path);
-                ((TreeWillExpandListener)listeners[i+1]).
-                    treeWillExpand(e);
+                    e = new TreeExpbnsionEvent(this, pbth);
+                ((TreeWillExpbndListener)listeners[i+1]).
+                    treeWillExpbnd(e);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the <code>path</code> parameter.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the <code>pbth</code> pbrbmeter.
      *
-     * @param path the <code>TreePath</code> indicating the node that was
-     *          expanded
-     * @throws ExpandVetoException if the collapse is prevented from occurring
+     * @pbrbm pbth the <code>TreePbth</code> indicbting the node thbt wbs
+     *          expbnded
+     * @throws ExpbndVetoException if the collbpse is prevented from occurring
      * @see EventListenerList
      */
-     public void fireTreeWillCollapse(TreePath path) throws ExpandVetoException {
-        // Guaranteed to return a non-null array
+     public void fireTreeWillCollbpse(TreePbth pbth) throws ExpbndVetoException {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        TreeExpansionEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        TreeExpbnsionEvent e = null;
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeWillExpandListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TreeWillExpbndListener.clbss) {
+                // Lbzily crebte the event:
                 if (e == null)
-                    e = new TreeExpansionEvent(this, path);
-                ((TreeWillExpandListener)listeners[i+1]).
-                    treeWillCollapse(e);
+                    e = new TreeExpbnsionEvent(this, pbth);
+                ((TreeWillExpbndListener)listeners[i+1]).
+                    treeWillCollbpse(e);
             }
         }
     }
 
     /**
-     * Adds a listener for <code>TreeSelection</code> events.
+     * Adds b listener for <code>TreeSelection</code> events.
      *
-     * @param tsl the <code>TreeSelectionListener</code> that will be notified
-     *            when a node is selected or deselected (a "negative
+     * @pbrbm tsl the <code>TreeSelectionListener</code> thbt will be notified
+     *            when b node is selected or deselected (b "negbtive
      *            selection")
      */
-    public void addTreeSelectionListener(TreeSelectionListener tsl) {
-        listenerList.add(TreeSelectionListener.class,tsl);
-        if(listenerList.getListenerCount(TreeSelectionListener.class) != 0
+    public void bddTreeSelectionListener(TreeSelectionListener tsl) {
+        listenerList.bdd(TreeSelectionListener.clbss,tsl);
+        if(listenerList.getListenerCount(TreeSelectionListener.clbss) != 0
            && selectionRedirector == null) {
             selectionRedirector = new TreeSelectionRedirector();
-            selectionModel.addTreeSelectionListener(selectionRedirector);
+            selectionModel.bddTreeSelectionListener(selectionRedirector);
         }
     }
 
     /**
-     * Removes a <code>TreeSelection</code> listener.
+     * Removes b <code>TreeSelection</code> listener.
      *
-     * @param tsl the <code>TreeSelectionListener</code> to remove
+     * @pbrbm tsl the <code>TreeSelectionListener</code> to remove
      */
     public void removeTreeSelectionListener(TreeSelectionListener tsl) {
-        listenerList.remove(TreeSelectionListener.class,tsl);
-        if(listenerList.getListenerCount(TreeSelectionListener.class) == 0
+        listenerList.remove(TreeSelectionListener.clbss,tsl);
+        if(listenerList.getListenerCount(TreeSelectionListener.clbss) == 0
            && selectionRedirector != null) {
             selectionModel.removeTreeSelectionListener
                 (selectionRedirector);
@@ -2904,313 +2904,313 @@ public class JTree extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Returns an array of all the <code>TreeSelectionListener</code>s added
-     * to this JTree with addTreeSelectionListener().
+     * Returns bn brrby of bll the <code>TreeSelectionListener</code>s bdded
+     * to this JTree with bddTreeSelectionListener().
      *
-     * @return all of the <code>TreeSelectionListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>TreeSelectionListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
     public TreeSelectionListener[] getTreeSelectionListeners() {
-        return listenerList.getListeners(TreeSelectionListener.class);
+        return listenerList.getListeners(TreeSelectionListener.clbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.
      *
-     * @param e the <code>TreeSelectionEvent</code> to be fired;
-     *          generated by the
+     * @pbrbm e the <code>TreeSelectionEvent</code> to be fired;
+     *          generbted by the
      *          <code>TreeSelectionModel</code>
-     *          when a node is selected or deselected
+     *          when b node is selected or deselected
      * @see EventListenerList
      */
-    protected void fireValueChanged(TreeSelectionEvent e) {
-        // Guaranteed to return a non-null array
+    protected void fireVblueChbnged(TreeSelectionEvent e) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
             // TreeSelectionEvent e = null;
-            if (listeners[i]==TreeSelectionListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TreeSelectionListener.clbss) {
+                // Lbzily crebte the event:
                 // if (e == null)
-                // e = new ListSelectionEvent(this, firstIndex, lastIndex);
-                ((TreeSelectionListener)listeners[i+1]).valueChanged(e);
+                // e = new ListSelectionEvent(this, firstIndex, lbstIndex);
+                ((TreeSelectionListener)listeners[i+1]).vblueChbnged(e);
             }
         }
     }
 
     /**
-     * Sent when the tree has changed enough that we need to resize
-     * the bounds, but not enough that we need to remove the
-     * expanded node set (e.g nodes were expanded or collapsed, or
-     * nodes were inserted into the tree). You should never have to
-     * invoke this, the UI will invoke this as it needs to.
+     * Sent when the tree hbs chbnged enough thbt we need to resize
+     * the bounds, but not enough thbt we need to remove the
+     * expbnded node set (e.g nodes were expbnded or collbpsed, or
+     * nodes were inserted into the tree). You should never hbve to
+     * invoke this, the UI will invoke this bs it needs to.
      */
-    public void treeDidChange() {
-        revalidate();
-        repaint();
+    public void treeDidChbnge() {
+        revblidbte();
+        repbint();
     }
 
     /**
-     * Sets the number of rows that are to be displayed.
-     * This will only work if the tree is contained in a
-     * <code>JScrollPane</code>,
-     * and will adjust the preferred size and size of that scrollpane.
+     * Sets the number of rows thbt bre to be displbyed.
+     * This will only work if the tree is contbined in b
+     * <code>JScrollPbne</code>,
+     * bnd will bdjust the preferred size bnd size of thbt scrollpbne.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param newCount the number of rows to display
-     * @beaninfo
+     * @pbrbm newCount the number of rows to displby
+     * @bebninfo
      *        bound: true
-     *  description: The number of rows that are to be displayed.
+     *  description: The number of rows thbt bre to be displbyed.
      */
     public void setVisibleRowCount(int newCount) {
         int                 oldCount = visibleRowCount;
 
         visibleRowCount = newCount;
-        firePropertyChange(VISIBLE_ROW_COUNT_PROPERTY, oldCount,
+        firePropertyChbnge(VISIBLE_ROW_COUNT_PROPERTY, oldCount,
                            visibleRowCount);
-        invalidate();
-        if (accessibleContext != null) {
-            ((AccessibleJTree)accessibleContext).fireVisibleDataPropertyChange();
+        invblidbte();
+        if (bccessibleContext != null) {
+            ((AccessibleJTree)bccessibleContext).fireVisibleDbtbPropertyChbnge();
         }
     }
 
     /**
-     * Returns the number of rows that are displayed in the display area.
+     * Returns the number of rows thbt bre displbyed in the displby breb.
      *
-     * @return the number of rows displayed
+     * @return the number of rows displbyed
      */
     public int getVisibleRowCount() {
         return visibleRowCount;
     }
 
     /**
-     * Expands the root path, assuming the current TreeModel has been set.
+     * Expbnds the root pbth, bssuming the current TreeModel hbs been set.
      */
-    private void expandRoot() {
+    privbte void expbndRoot() {
         TreeModel              model = getModel();
 
         if(model != null && model.getRoot() != null) {
-            expandPath(new TreePath(model.getRoot()));
+            expbndPbth(new TreePbth(model.getRoot()));
         }
     }
 
     /**
-     * Returns the TreePath to the next tree element that
-     * begins with a prefix. To handle the conversion of a
-     * <code>TreePath</code> into a String, <code>convertValueToText</code>
+     * Returns the TreePbth to the next tree element thbt
+     * begins with b prefix. To hbndle the conversion of b
+     * <code>TreePbth</code> into b String, <code>convertVblueToText</code>
      * is used.
      *
-     * @param prefix the string to test for a match
-     * @param startingRow the row for starting the search
-     * @param bias the search direction, either
-     * Position.Bias.Forward or Position.Bias.Backward.
-     * @return the TreePath of the next tree element that
-     * starts with the prefix; otherwise null
-     * @exception IllegalArgumentException if prefix is null
-     * or startingRow is out of bounds
+     * @pbrbm prefix the string to test for b mbtch
+     * @pbrbm stbrtingRow the row for stbrting the sebrch
+     * @pbrbm bibs the sebrch direction, either
+     * Position.Bibs.Forwbrd or Position.Bibs.Bbckwbrd.
+     * @return the TreePbth of the next tree element thbt
+     * stbrts with the prefix; otherwise null
+     * @exception IllegblArgumentException if prefix is null
+     * or stbrtingRow is out of bounds
      * @since 1.4
      */
-    public TreePath getNextMatch(String prefix, int startingRow,
-                                 Position.Bias bias) {
+    public TreePbth getNextMbtch(String prefix, int stbrtingRow,
+                                 Position.Bibs bibs) {
 
-        int max = getRowCount();
+        int mbx = getRowCount();
         if (prefix == null) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
-        if (startingRow < 0 || startingRow >= max) {
-            throw new IllegalArgumentException();
+        if (stbrtingRow < 0 || stbrtingRow >= mbx) {
+            throw new IllegblArgumentException();
         }
-        prefix = prefix.toUpperCase();
+        prefix = prefix.toUpperCbse();
 
-        // start search from the next/previous element froom the
+        // stbrt sebrch from the next/previous element froom the
         // selected element
-        int increment = (bias == Position.Bias.Forward) ? 1 : -1;
-        int row = startingRow;
+        int increment = (bibs == Position.Bibs.Forwbrd) ? 1 : -1;
+        int row = stbrtingRow;
         do {
-            TreePath path = getPathForRow(row);
-            String text = convertValueToText(
-                path.getLastPathComponent(), isRowSelected(row),
-                isExpanded(row), true, row, false);
+            TreePbth pbth = getPbthForRow(row);
+            String text = convertVblueToText(
+                pbth.getLbstPbthComponent(), isRowSelected(row),
+                isExpbnded(row), true, row, fblse);
 
-            if (text.toUpperCase().startsWith(prefix)) {
-                return path;
+            if (text.toUpperCbse().stbrtsWith(prefix)) {
+                return pbth;
             }
-            row = (row + increment + max) % max;
-        } while (row != startingRow);
+            row = (row + increment + mbx) % mbx;
+        } while (row != stbrtingRow);
         return null;
     }
 
-    // Serialization support.
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        Vector<Object> values = new Vector<Object>();
+    // Seriblizbtion support.
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        Vector<Object> vblues = new Vector<Object>();
 
-        s.defaultWriteObject();
-        // Save the cellRenderer, if its Serializable.
-        if(cellRenderer != null && cellRenderer instanceof Serializable) {
-            values.addElement("cellRenderer");
-            values.addElement(cellRenderer);
+        s.defbultWriteObject();
+        // Sbve the cellRenderer, if its Seriblizbble.
+        if(cellRenderer != null && cellRenderer instbnceof Seriblizbble) {
+            vblues.bddElement("cellRenderer");
+            vblues.bddElement(cellRenderer);
         }
-        // Save the cellEditor, if its Serializable.
-        if(cellEditor != null && cellEditor instanceof Serializable) {
-            values.addElement("cellEditor");
-            values.addElement(cellEditor);
+        // Sbve the cellEditor, if its Seriblizbble.
+        if(cellEditor != null && cellEditor instbnceof Seriblizbble) {
+            vblues.bddElement("cellEditor");
+            vblues.bddElement(cellEditor);
         }
-        // Save the treeModel, if its Serializable.
-        if(treeModel != null && treeModel instanceof Serializable) {
-            values.addElement("treeModel");
-            values.addElement(treeModel);
+        // Sbve the treeModel, if its Seriblizbble.
+        if(treeModel != null && treeModel instbnceof Seriblizbble) {
+            vblues.bddElement("treeModel");
+            vblues.bddElement(treeModel);
         }
-        // Save the selectionModel, if its Serializable.
-        if(selectionModel != null && selectionModel instanceof Serializable) {
-            values.addElement("selectionModel");
-            values.addElement(selectionModel);
-        }
-
-        Object      expandedData = getArchivableExpandedState();
-
-        if(expandedData != null) {
-            values.addElement("expandedState");
-            values.addElement(expandedData);
+        // Sbve the selectionModel, if its Seriblizbble.
+        if(selectionModel != null && selectionModel instbnceof Seriblizbble) {
+            vblues.bddElement("selectionModel");
+            vblues.bddElement(selectionModel);
         }
 
-        s.writeObject(values);
-        if (getUIClassID().equals(uiClassID)) {
+        Object      expbndedDbtb = getArchivbbleExpbndedStbte();
+
+        if(expbndedDbtb != null) {
+            vblues.bddElement("expbndedStbte");
+            vblues.bddElement(expbndedDbtb);
+        }
+
+        s.writeObject(vblues);
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
 
-        // Create an instance of expanded state.
+        // Crebte bn instbnce of expbnded stbte.
 
-        expandedState = new Hashtable<TreePath, Boolean>();
+        expbndedStbte = new Hbshtbble<TreePbth, Boolebn>();
 
-        expandedStack = new Stack<Stack<TreePath>>();
+        expbndedStbck = new Stbck<Stbck<TreePbth>>();
 
-        Vector<?>          values = (Vector)s.readObject();
+        Vector<?>          vblues = (Vector)s.rebdObject();
         int             indexCounter = 0;
-        int             maxCounter = values.size();
+        int             mbxCounter = vblues.size();
 
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("cellRenderer")) {
-            cellRenderer = (TreeCellRenderer)values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("cellRenderer")) {
+            cellRenderer = (TreeCellRenderer)vblues.elementAt(++indexCounter);
             indexCounter++;
         }
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("cellEditor")) {
-            cellEditor = (TreeCellEditor)values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("cellEditor")) {
+            cellEditor = (TreeCellEditor)vblues.elementAt(++indexCounter);
             indexCounter++;
         }
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("treeModel")) {
-            treeModel = (TreeModel)values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("treeModel")) {
+            treeModel = (TreeModel)vblues.elementAt(++indexCounter);
             indexCounter++;
         }
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("selectionModel")) {
-            selectionModel = (TreeSelectionModel)values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("selectionModel")) {
+            selectionModel = (TreeSelectionModel)vblues.elementAt(++indexCounter);
             indexCounter++;
         }
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("expandedState")) {
-            unarchiveExpandedState(values.elementAt(++indexCounter));
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("expbndedStbte")) {
+            unbrchiveExpbndedStbte(vblues.elementAt(++indexCounter));
             indexCounter++;
         }
-        // Reinstall the redirector.
-        if(listenerList.getListenerCount(TreeSelectionListener.class) != 0) {
+        // Reinstbll the redirector.
+        if(listenerList.getListenerCount(TreeSelectionListener.clbss) != 0) {
             selectionRedirector = new TreeSelectionRedirector();
-            selectionModel.addTreeSelectionListener(selectionRedirector);
+            selectionModel.bddTreeSelectionListener(selectionRedirector);
         }
         // Listener to TreeModel.
         if(treeModel != null) {
-            treeModelListener = createTreeModelListener();
+            treeModelListener = crebteTreeModelListener();
             if(treeModelListener != null)
-                treeModel.addTreeModelListener(treeModelListener);
+                treeModel.bddTreeModelListener(treeModelListener);
         }
     }
 
     /**
-     * Returns an object that can be archived indicating what nodes are
-     * expanded and what aren't. The objects from the model are NOT
+     * Returns bn object thbt cbn be brchived indicbting whbt nodes bre
+     * expbnded bnd whbt bren't. The objects from the model bre NOT
      * written out.
      */
-    private Object getArchivableExpandedState() {
+    privbte Object getArchivbbleExpbndedStbte() {
         TreeModel       model = getModel();
 
         if(model != null) {
-            Enumeration<TreePath> paths = expandedState.keys();
+            Enumerbtion<TreePbth> pbths = expbndedStbte.keys();
 
-            if(paths != null) {
-                Vector<Object> state = new Vector<Object>();
+            if(pbths != null) {
+                Vector<Object> stbte = new Vector<Object>();
 
-                while(paths.hasMoreElements()) {
-                    TreePath path = paths.nextElement();
-                    Object     archivePath;
+                while(pbths.hbsMoreElements()) {
+                    TreePbth pbth = pbths.nextElement();
+                    Object     brchivePbth;
 
                     try {
-                        archivePath = getModelIndexsForPath(path);
-                    } catch (Error error) {
-                        archivePath = null;
+                        brchivePbth = getModelIndexsForPbth(pbth);
+                    } cbtch (Error error) {
+                        brchivePbth = null;
                     }
-                    if(archivePath != null) {
-                        state.addElement(archivePath);
-                        state.addElement(expandedState.get(path));
+                    if(brchivePbth != null) {
+                        stbte.bddElement(brchivePbth);
+                        stbte.bddElement(expbndedStbte.get(pbth));
                     }
                 }
-                return state;
+                return stbte;
             }
         }
         return null;
     }
 
     /**
-     * Updates the expanded state of nodes in the tree based on the
-     * previously archived state <code>state</code>.
+     * Updbtes the expbnded stbte of nodes in the tree bbsed on the
+     * previously brchived stbte <code>stbte</code>.
      */
-    private void unarchiveExpandedState(Object state) {
-        if(state instanceof Vector) {
-            Vector<?>          paths = (Vector)state;
+    privbte void unbrchiveExpbndedStbte(Object stbte) {
+        if(stbte instbnceof Vector) {
+            Vector<?>          pbths = (Vector)stbte;
 
-            for(int counter = paths.size() - 1; counter >= 0; counter--) {
-                Boolean        eState = (Boolean)paths.elementAt(counter--);
-                TreePath       path;
+            for(int counter = pbths.size() - 1; counter >= 0; counter--) {
+                Boolebn        eStbte = (Boolebn)pbths.elementAt(counter--);
+                TreePbth       pbth;
 
                 try {
-                    path = getPathForIndexs((int[])paths.elementAt(counter));
-                    if(path != null)
-                        expandedState.put(path, eState);
-                } catch (Error error) {}
+                    pbth = getPbthForIndexs((int[])pbths.elementAt(counter));
+                    if(pbth != null)
+                        expbndedStbte.put(pbth, eStbte);
+                } cbtch (Error error) {}
             }
         }
     }
 
     /**
-     * Returns an array of integers specifying the indexs of the
-     * components in the <code>path</code>. If <code>path</code> is
-     * the root, this will return an empty array.  If <code>path</code>
+     * Returns bn brrby of integers specifying the indexs of the
+     * components in the <code>pbth</code>. If <code>pbth</code> is
+     * the root, this will return bn empty brrby.  If <code>pbth</code>
      * is <code>null</code>, <code>null</code> will be returned.
      */
-    private int[] getModelIndexsForPath(TreePath path) {
-        if(path != null) {
+    privbte int[] getModelIndexsForPbth(TreePbth pbth) {
+        if(pbth != null) {
             TreeModel   model = getModel();
-            int         count = path.getPathCount();
+            int         count = pbth.getPbthCount();
             int[]       indexs = new int[count - 1];
-            Object      parent = model.getRoot();
+            Object      pbrent = model.getRoot();
 
             for(int counter = 1; counter < count; counter++) {
                 indexs[counter - 1] = model.getIndexOfChild
-                                   (parent, path.getPathComponent(counter));
-                parent = path.getPathComponent(counter);
+                                   (pbrent, pbth.getPbthComponent(counter));
+                pbrent = pbth.getPbthComponent(counter);
                 if(indexs[counter - 1] < 0)
                     return null;
             }
@@ -3220,12 +3220,12 @@ public class JTree extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Returns a <code>TreePath</code> created by obtaining the children
-     * for each of the indices in <code>indexs</code>. If <code>indexs</code>
+     * Returns b <code>TreePbth</code> crebted by obtbining the children
+     * for ebch of the indices in <code>indexs</code>. If <code>indexs</code>
      * or the <code>TreeModel</code> is <code>null</code>, it will return
      * <code>null</code>.
      */
-    private TreePath getPathForIndexs(int[] indexs) {
+    privbte TreePbth getPbthForIndexs(int[] indexs) {
         if(indexs == null)
             return null;
 
@@ -3235,79 +3235,79 @@ public class JTree extends JComponent implements Scrollable, Accessible
             return null;
 
         int          count = indexs.length;
-        Object       parent = model.getRoot();
-        TreePath     parentPath = new TreePath(parent);
+        Object       pbrent = model.getRoot();
+        TreePbth     pbrentPbth = new TreePbth(pbrent);
 
         for(int counter = 0; counter < count; counter++) {
-            parent = model.getChild(parent, indexs[counter]);
-            if(parent == null)
+            pbrent = model.getChild(pbrent, indexs[counter]);
+            if(pbrent == null)
                 return null;
-            parentPath = parentPath.pathByAddingChild(parent);
+            pbrentPbth = pbrentPbth.pbthByAddingChild(pbrent);
         }
-        return parentPath;
+        return pbrentPbth;
     }
 
     /**
-     * <code>EmptySelectionModel</code> is a <code>TreeSelectionModel</code>
-     * that does not allow anything to be selected.
+     * <code>EmptySelectionModel</code> is b <code>TreeSelectionModel</code>
+     * thbt does not bllow bnything to be selected.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    protected static class EmptySelectionModel extends
-              DefaultTreeSelectionModel
+    @SuppressWbrnings("seribl")
+    protected stbtic clbss EmptySelectionModel extends
+              DefbultTreeSelectionModel
     {
         /**
-         * The single instance of {@code EmptySelectionModel}.
+         * The single instbnce of {@code EmptySelectionModel}.
          */
-        protected static final EmptySelectionModel sharedInstance =
+        protected stbtic finbl EmptySelectionModel shbredInstbnce =
             new EmptySelectionModel();
 
         /**
-         * Returns the single instance of {@code EmptySelectionModel}.
+         * Returns the single instbnce of {@code EmptySelectionModel}.
          *
-         * @return single instance of {@code EmptySelectionModel}
+         * @return single instbnce of {@code EmptySelectionModel}
          */
-        static public EmptySelectionModel sharedInstance() {
-            return sharedInstance;
+        stbtic public EmptySelectionModel shbredInstbnce() {
+            return shbredInstbnce;
         }
 
         /**
          * This is overriden to do nothing; {@code EmptySelectionModel}
-         * does not allow a selection.
+         * does not bllow b selection.
          *
-         * @param paths the paths to select; this is ignored
+         * @pbrbm pbths the pbths to select; this is ignored
          */
-        public void setSelectionPaths(TreePath[] paths) {}
+        public void setSelectionPbths(TreePbth[] pbths) {}
 
         /**
          * This is overriden to do nothing; {@code EmptySelectionModel}
-         * does not allow a selection.
+         * does not bllow b selection.
          *
-         * @param paths the paths to add to the selection; this is ignored
+         * @pbrbm pbths the pbths to bdd to the selection; this is ignored
          */
-        public void addSelectionPaths(TreePath[] paths) {}
+        public void bddSelectionPbths(TreePbth[] pbths) {}
 
         /**
          * This is overriden to do nothing; {@code EmptySelectionModel}
-         * does not allow a selection.
+         * does not bllow b selection.
          *
-         * @param paths the paths to remove; this is ignored
+         * @pbrbm pbths the pbths to remove; this is ignored
          */
-        public void removeSelectionPaths(TreePath[] paths) {}
+        public void removeSelectionPbths(TreePbth[] pbths) {}
 
         /**
          * This is overriden to do nothing; {@code EmptySelectionModel}
-         * does not allow a selection.
+         * does not bllow b selection.
          *
-         * @param mode the selection mode; this is ignored
+         * @pbrbm mode the selection mode; this is ignored
          * @since 1.7
          */
         public void setSelectionMode(int mode) {
@@ -3315,29 +3315,29 @@ public class JTree extends JComponent implements Scrollable, Accessible
 
         /**
          * This is overriden to do nothing; {@code EmptySelectionModel}
-         * does not allow a selection.
+         * does not bllow b selection.
          *
-         * @param mapper the {@code RowMapper} instance; this is ignored
+         * @pbrbm mbpper the {@code RowMbpper} instbnce; this is ignored
          * @since 1.7
          */
-        public void setRowMapper(RowMapper mapper) {
+        public void setRowMbpper(RowMbpper mbpper) {
         }
 
         /**
          * This is overriden to do nothing; {@code EmptySelectionModel}
-         * does not allow a selection.
+         * does not bllow b selection.
          *
-         * @param listener the listener to add; this is ignored
+         * @pbrbm listener the listener to bdd; this is ignored
          * @since 1.7
          */
-        public void addTreeSelectionListener(TreeSelectionListener listener) {
+        public void bddTreeSelectionListener(TreeSelectionListener listener) {
         }
 
         /**
          * This is overriden to do nothing; {@code EmptySelectionModel}
-         * does not allow a selection.
+         * does not bllow b selection.
          *
-         * @param listener the listener to remove; this is ignored
+         * @pbrbm listener the listener to remove; this is ignored
          * @since 1.7
          */
         public void removeTreeSelectionListener(
@@ -3346,73 +3346,73 @@ public class JTree extends JComponent implements Scrollable, Accessible
 
         /**
          * This is overriden to do nothing; {@code EmptySelectionModel}
-         * does not allow a selection.
+         * does not bllow b selection.
          *
-         * @param listener the listener to add; this is ignored
+         * @pbrbm listener the listener to bdd; this is ignored
          * @since 1.7
          */
-        public void addPropertyChangeListener(
-                                PropertyChangeListener listener) {
+        public void bddPropertyChbngeListener(
+                                PropertyChbngeListener listener) {
         }
 
         /**
          * This is overriden to do nothing; {@code EmptySelectionModel}
-         * does not allow a selection.
+         * does not bllow b selection.
          *
-         * @param listener the listener to remove; this is ignored
+         * @pbrbm listener the listener to remove; this is ignored
          * @since 1.7
          */
-        public void removePropertyChangeListener(
-                                PropertyChangeListener listener) {
+        public void removePropertyChbngeListener(
+                                PropertyChbngeListener listener) {
         }
     }
 
 
     /**
-     * Handles creating a new <code>TreeSelectionEvent</code> with the
-     * <code>JTree</code> as the
-     * source and passing it off to all the listeners.
+     * Hbndles crebting b new <code>TreeSelectionEvent</code> with the
+     * <code>JTree</code> bs the
+     * source bnd pbssing it off to bll the listeners.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    protected class TreeSelectionRedirector implements Serializable,
+    @SuppressWbrnings("seribl")
+    protected clbss TreeSelectionRedirector implements Seriblizbble,
                     TreeSelectionListener
     {
         /**
          * Invoked by the <code>TreeSelectionModel</code> when the
-         * selection changes.
+         * selection chbnges.
          *
-         * @param e the <code>TreeSelectionEvent</code> generated by the
+         * @pbrbm e the <code>TreeSelectionEvent</code> generbted by the
          *              <code>TreeSelectionModel</code>
          */
-        public void valueChanged(TreeSelectionEvent e) {
+        public void vblueChbnged(TreeSelectionEvent e) {
             TreeSelectionEvent       newE;
 
             newE = (TreeSelectionEvent)e.cloneWithSource(JTree.this);
-            fireValueChanged(newE);
+            fireVblueChbnged(newE);
         }
-    } // End of class JTree.TreeSelectionRedirector
+    } // End of clbss JTree.TreeSelectionRedirector
 
     //
-    // Scrollable interface
+    // Scrollbble interfbce
     //
 
     /**
-     * Returns the preferred display size of a <code>JTree</code>. The height is
-     * determined from <code>getVisibleRowCount</code> and the width
+     * Returns the preferred displby size of b <code>JTree</code>. The height is
+     * determined from <code>getVisibleRowCount</code> bnd the width
      * is the current preferred width.
      *
-     * @return a <code>Dimension</code> object containing the preferred size
+     * @return b <code>Dimension</code> object contbining the preferred size
      */
-    public Dimension getPreferredScrollableViewportSize() {
+    public Dimension getPreferredScrollbbleViewportSize() {
         int                 width = getPreferredSize().width;
         int                 visRows = getVisibleRowCount();
         int                 height = -1;
@@ -3426,13 +3426,13 @@ public class JTree extends JComponent implements Scrollable, Accessible
                 int rc = ui.getRowCount(this);
 
                 if (rc >= visRows) {
-                    Rectangle bounds = getRowBounds(visRows - 1);
+                    Rectbngle bounds = getRowBounds(visRows - 1);
                     if (bounds != null) {
                         height = bounds.y + bounds.height;
                     }
                 }
                 else if (rc > 0) {
-                    Rectangle bounds = getRowBounds(0);
+                    Rectbngle bounds = getRowBounds(0);
                     if (bounds != null) {
                         height = bounds.height * visRows;
                     }
@@ -3446,24 +3446,24 @@ public class JTree extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Returns the amount to increment when scrolling. The amount is
-     * the height of the first displayed row that isn't completely in view
-     * or, if it is totally displayed, the height of the next row in the
+     * Returns the bmount to increment when scrolling. The bmount is
+     * the height of the first displbyed row thbt isn't completely in view
+     * or, if it is totblly displbyed, the height of the next row in the
      * scrolling direction.
      *
-     * @param visibleRect the view area visible within the viewport
-     * @param orientation either <code>SwingConstants.VERTICAL</code>
-     *          or <code>SwingConstants.HORIZONTAL</code>
-     * @param direction less than zero to scroll up/left,
-     *          greater than zero for down/right
+     * @pbrbm visibleRect the view breb visible within the viewport
+     * @pbrbm orientbtion either <code>SwingConstbnts.VERTICAL</code>
+     *          or <code>SwingConstbnts.HORIZONTAL</code>
+     * @pbrbm direction less thbn zero to scroll up/left,
+     *          grebter thbn zero for down/right
      * @return the "unit" increment for scrolling in the specified direction
-     * @see JScrollBar#setUnitIncrement(int)
+     * @see JScrollBbr#setUnitIncrement(int)
      */
-    public int getScrollableUnitIncrement(Rectangle visibleRect,
-                                          int orientation, int direction) {
-        if(orientation == SwingConstants.VERTICAL) {
-            Rectangle       rowBounds;
-            int             firstIndex = getClosestRowForLocation
+    public int getScrollbbleUnitIncrement(Rectbngle visibleRect,
+                                          int orientbtion, int direction) {
+        if(orientbtion == SwingConstbnts.VERTICAL) {
+            Rectbngle       rowBounds;
+            int             firstIndex = getClosestRowForLocbtion
                                          (0, visibleRect.y);
 
             if(firstIndex != -1) {
@@ -3471,7 +3471,7 @@ public class JTree extends JComponent implements Scrollable, Accessible
                 if(rowBounds.y != visibleRect.y) {
                     if(direction < 0) {
                         // UP
-                        return Math.max(0, (visibleRect.y - rowBounds.y));
+                        return Mbth.mbx(0, (visibleRect.y - rowBounds.y));
                     }
                     return (rowBounds.y + rowBounds.height - visibleRect.y);
                 }
@@ -3492,158 +3492,158 @@ public class JTree extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Returns the amount for a block increment, which is the height or
-     * width of <code>visibleRect</code>, based on <code>orientation</code>.
+     * Returns the bmount for b block increment, which is the height or
+     * width of <code>visibleRect</code>, bbsed on <code>orientbtion</code>.
      *
-     * @param visibleRect the view area visible within the viewport
-     * @param orientation either <code>SwingConstants.VERTICAL</code>
-     *          or <code>SwingConstants.HORIZONTAL</code>
-     * @param direction less than zero to scroll up/left,
-     *          greater than zero for down/right.
+     * @pbrbm visibleRect the view breb visible within the viewport
+     * @pbrbm orientbtion either <code>SwingConstbnts.VERTICAL</code>
+     *          or <code>SwingConstbnts.HORIZONTAL</code>
+     * @pbrbm direction less thbn zero to scroll up/left,
+     *          grebter thbn zero for down/right.
      * @return the "block" increment for scrolling in the specified direction
-     * @see JScrollBar#setBlockIncrement(int)
+     * @see JScrollBbr#setBlockIncrement(int)
      */
-    public int getScrollableBlockIncrement(Rectangle visibleRect,
-                                           int orientation, int direction) {
-        return (orientation == SwingConstants.VERTICAL) ? visibleRect.height :
+    public int getScrollbbleBlockIncrement(Rectbngle visibleRect,
+                                           int orientbtion, int direction) {
+        return (orientbtion == SwingConstbnts.VERTICAL) ? visibleRect.height :
             visibleRect.width;
     }
 
     /**
-     * Returns false to indicate that the width of the viewport does not
-     * determine the width of the table, unless the preferred width of
-     * the tree is smaller than the viewports width.  In other words:
-     * ensure that the tree is never smaller than its viewport.
+     * Returns fblse to indicbte thbt the width of the viewport does not
+     * determine the width of the tbble, unless the preferred width of
+     * the tree is smbller thbn the viewports width.  In other words:
+     * ensure thbt the tree is never smbller thbn its viewport.
      *
-     * @return whether the tree should track the width of the viewport
-     * @see Scrollable#getScrollableTracksViewportWidth
+     * @return whether the tree should trbck the width of the viewport
+     * @see Scrollbble#getScrollbbleTrbcksViewportWidth
      */
-    public boolean getScrollableTracksViewportWidth() {
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            return parent.getWidth() > getPreferredSize().width;
+    public boolebn getScrollbbleTrbcksViewportWidth() {
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
+        if (pbrent instbnceof JViewport) {
+            return pbrent.getWidth() > getPreferredSize().width;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns false to indicate that the height of the viewport does not
-     * determine the height of the table, unless the preferred height
-     * of the tree is smaller than the viewports height.  In other words:
-     * ensure that the tree is never smaller than its viewport.
+     * Returns fblse to indicbte thbt the height of the viewport does not
+     * determine the height of the tbble, unless the preferred height
+     * of the tree is smbller thbn the viewports height.  In other words:
+     * ensure thbt the tree is never smbller thbn its viewport.
      *
-     * @return whether the tree should track the height of the viewport
-     * @see Scrollable#getScrollableTracksViewportHeight
+     * @return whether the tree should trbck the height of the viewport
+     * @see Scrollbble#getScrollbbleTrbcksViewportHeight
      */
-    public boolean getScrollableTracksViewportHeight() {
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            return parent.getHeight() > getPreferredSize().height;
+    public boolebn getScrollbbleTrbcksViewportHeight() {
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
+        if (pbrent instbnceof JViewport) {
+            return pbrent.getHeight() > getPreferredSize().height;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Sets the expanded state of this <code>JTree</code>.
-     * If <code>state</code> is
-     * true, all parents of <code>path</code> and path are marked as
-     * expanded. If <code>state</code> is false, all parents of
-     * <code>path</code> are marked EXPANDED, but <code>path</code> itself
-     * is marked collapsed.<p>
-     * This will fail if a <code>TreeWillExpandListener</code> vetos it.
+     * Sets the expbnded stbte of this <code>JTree</code>.
+     * If <code>stbte</code> is
+     * true, bll pbrents of <code>pbth</code> bnd pbth bre mbrked bs
+     * expbnded. If <code>stbte</code> is fblse, bll pbrents of
+     * <code>pbth</code> bre mbrked EXPANDED, but <code>pbth</code> itself
+     * is mbrked collbpsed.<p>
+     * This will fbil if b <code>TreeWillExpbndListener</code> vetos it.
      *
-     * @param path a {@code TreePath} identifying a node
-     * @param state if {@code true}, all parents of @{code path} and path are marked as expanded.
-     *              Otherwise, all parents of {@code path} are marked EXPANDED,
-     *              but {@code path} itself is marked collapsed.
+     * @pbrbm pbth b {@code TreePbth} identifying b node
+     * @pbrbm stbte if {@code true}, bll pbrents of @{code pbth} bnd pbth bre mbrked bs expbnded.
+     *              Otherwise, bll pbrents of {@code pbth} bre mbrked EXPANDED,
+     *              but {@code pbth} itself is mbrked collbpsed.
      */
-    protected void setExpandedState(TreePath path, boolean state) {
-        if(path != null) {
-            // Make sure all parents of path are expanded.
-            Stack<TreePath> stack;
-            TreePath parentPath = path.getParentPath();
+    protected void setExpbndedStbte(TreePbth pbth, boolebn stbte) {
+        if(pbth != null) {
+            // Mbke sure bll pbrents of pbth bre expbnded.
+            Stbck<TreePbth> stbck;
+            TreePbth pbrentPbth = pbth.getPbrentPbth();
 
-            if (expandedStack.size() == 0) {
-                stack = new Stack<TreePath>();
+            if (expbndedStbck.size() == 0) {
+                stbck = new Stbck<TreePbth>();
             }
             else {
-                stack = expandedStack.pop();
+                stbck = expbndedStbck.pop();
             }
 
             try {
-                while(parentPath != null) {
-                    if(isExpanded(parentPath)) {
-                        parentPath = null;
+                while(pbrentPbth != null) {
+                    if(isExpbnded(pbrentPbth)) {
+                        pbrentPbth = null;
                     }
                     else {
-                        stack.push(parentPath);
-                        parentPath = parentPath.getParentPath();
+                        stbck.push(pbrentPbth);
+                        pbrentPbth = pbrentPbth.getPbrentPbth();
                     }
                 }
-                for(int counter = stack.size() - 1; counter >= 0; counter--) {
-                    parentPath = stack.pop();
-                    if(!isExpanded(parentPath)) {
+                for(int counter = stbck.size() - 1; counter >= 0; counter--) {
+                    pbrentPbth = stbck.pop();
+                    if(!isExpbnded(pbrentPbth)) {
                         try {
-                            fireTreeWillExpand(parentPath);
-                        } catch (ExpandVetoException eve) {
-                            // Expand vetoed!
+                            fireTreeWillExpbnd(pbrentPbth);
+                        } cbtch (ExpbndVetoException eve) {
+                            // Expbnd vetoed!
                             return;
                         }
-                        expandedState.put(parentPath, Boolean.TRUE);
-                        fireTreeExpanded(parentPath);
-                        if (accessibleContext != null) {
-                            ((AccessibleJTree)accessibleContext).
-                                              fireVisibleDataPropertyChange();
+                        expbndedStbte.put(pbrentPbth, Boolebn.TRUE);
+                        fireTreeExpbnded(pbrentPbth);
+                        if (bccessibleContext != null) {
+                            ((AccessibleJTree)bccessibleContext).
+                                              fireVisibleDbtbPropertyChbnge();
                         }
                     }
                 }
             }
-            finally {
-                if (expandedStack.size() < TEMP_STACK_SIZE) {
-                    stack.removeAllElements();
-                    expandedStack.push(stack);
+            finblly {
+                if (expbndedStbck.size() < TEMP_STACK_SIZE) {
+                    stbck.removeAllElements();
+                    expbndedStbck.push(stbck);
                 }
             }
-            if(!state) {
-                // collapse last path.
-                Object          cValue = expandedState.get(path);
+            if(!stbte) {
+                // collbpse lbst pbth.
+                Object          cVblue = expbndedStbte.get(pbth);
 
-                if(cValue != null && ((Boolean)cValue).booleanValue()) {
+                if(cVblue != null && ((Boolebn)cVblue).boolebnVblue()) {
                     try {
-                        fireTreeWillCollapse(path);
+                        fireTreeWillCollbpse(pbth);
                     }
-                    catch (ExpandVetoException eve) {
+                    cbtch (ExpbndVetoException eve) {
                         return;
                     }
-                    expandedState.put(path, Boolean.FALSE);
-                    fireTreeCollapsed(path);
-                    if (removeDescendantSelectedPaths(path, false) &&
-                        !isPathSelected(path)) {
-                        // A descendant was selected, select the parent.
-                        addSelectionPath(path);
+                    expbndedStbte.put(pbth, Boolebn.FALSE);
+                    fireTreeCollbpsed(pbth);
+                    if (removeDescendbntSelectedPbths(pbth, fblse) &&
+                        !isPbthSelected(pbth)) {
+                        // A descendbnt wbs selected, select the pbrent.
+                        bddSelectionPbth(pbth);
                     }
-                    if (accessibleContext != null) {
-                        ((AccessibleJTree)accessibleContext).
-                                    fireVisibleDataPropertyChange();
+                    if (bccessibleContext != null) {
+                        ((AccessibleJTree)bccessibleContext).
+                                    fireVisibleDbtbPropertyChbnge();
                     }
                 }
             }
             else {
-                // Expand last path.
-                Object          cValue = expandedState.get(path);
+                // Expbnd lbst pbth.
+                Object          cVblue = expbndedStbte.get(pbth);
 
-                if(cValue == null || !((Boolean)cValue).booleanValue()) {
+                if(cVblue == null || !((Boolebn)cVblue).boolebnVblue()) {
                     try {
-                        fireTreeWillExpand(path);
+                        fireTreeWillExpbnd(pbth);
                     }
-                    catch (ExpandVetoException eve) {
+                    cbtch (ExpbndVetoException eve) {
                         return;
                     }
-                    expandedState.put(path, Boolean.TRUE);
-                    fireTreeExpanded(path);
-                    if (accessibleContext != null) {
-                        ((AccessibleJTree)accessibleContext).
-                                          fireVisibleDataPropertyChange();
+                    expbndedStbte.put(pbth, Boolebn.TRUE);
+                    fireTreeExpbnded(pbth);
+                    if (bccessibleContext != null) {
+                        ((AccessibleJTree)bccessibleContext).
+                                          fireVisibleDbtbPropertyChbnge();
                     }
                 }
             }
@@ -3651,52 +3651,52 @@ public class JTree extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Returns an {@code Enumeration} of {@code TreePaths}
-     * that have been expanded that
-     * are descendants of {@code parent}.
+     * Returns bn {@code Enumerbtion} of {@code TreePbths}
+     * thbt hbve been expbnded thbt
+     * bre descendbnts of {@code pbrent}.
      *
-     * @param parent a path
-     * @return the {@code Enumeration} of {@code TreePaths}
+     * @pbrbm pbrent b pbth
+     * @return the {@code Enumerbtion} of {@code TreePbths}
      */
-    protected Enumeration<TreePath>
-        getDescendantToggledPaths(TreePath parent)
+    protected Enumerbtion<TreePbth>
+        getDescendbntToggledPbths(TreePbth pbrent)
     {
-        if(parent == null)
+        if(pbrent == null)
             return null;
 
-        Vector<TreePath> descendants = new Vector<TreePath>();
-        Enumeration<TreePath> nodes = expandedState.keys();
+        Vector<TreePbth> descendbnts = new Vector<TreePbth>();
+        Enumerbtion<TreePbth> nodes = expbndedStbte.keys();
 
-        while(nodes.hasMoreElements()) {
-            TreePath path = nodes.nextElement();
-            if(parent.isDescendant(path))
-                descendants.addElement(path);
+        while(nodes.hbsMoreElements()) {
+            TreePbth pbth = nodes.nextElement();
+            if(pbrent.isDescendbnt(pbth))
+                descendbnts.bddElement(pbth);
         }
-        return descendants.elements();
+        return descendbnts.elements();
     }
 
     /**
-     * Removes any descendants of the <code>TreePaths</code> in
+     * Removes bny descendbnts of the <code>TreePbths</code> in
      * <code>toRemove</code>
-     * that have been expanded.
+     * thbt hbve been expbnded.
      *
-     * @param toRemove an enumeration of the paths to remove; a value of
+     * @pbrbm toRemove bn enumerbtion of the pbths to remove; b vblue of
      *        {@code null} is ignored
-     * @throws ClassCastException if {@code toRemove} contains an
-     *         element that is not a {@code TreePath}; {@code null}
-     *         values are ignored
+     * @throws ClbssCbstException if {@code toRemove} contbins bn
+     *         element thbt is not b {@code TreePbth}; {@code null}
+     *         vblues bre ignored
      */
      protected void
-         removeDescendantToggledPaths(Enumeration<TreePath> toRemove)
+         removeDescendbntToggledPbths(Enumerbtion<TreePbth> toRemove)
     {
          if(toRemove != null) {
-             while(toRemove.hasMoreElements()) {
-                 Enumeration<?> descendants = getDescendantToggledPaths
+             while(toRemove.hbsMoreElements()) {
+                 Enumerbtion<?> descendbnts = getDescendbntToggledPbths
                          (toRemove.nextElement());
 
-                 if(descendants != null) {
-                     while(descendants.hasMoreElements()) {
-                         expandedState.remove(descendants.nextElement());
+                 if(descendbnts != null) {
+                     while(descendbnts.hbsMoreElements()) {
+                         expbndedStbte.remove(descendbnts.nextElement());
                      }
                  }
              }
@@ -3704,95 +3704,95 @@ public class JTree extends JComponent implements Scrollable, Accessible
      }
 
      /**
-      * Clears the cache of toggled tree paths. This does NOT send out
-      * any <code>TreeExpansionListener</code> events.
+      * Clebrs the cbche of toggled tree pbths. This does NOT send out
+      * bny <code>TreeExpbnsionListener</code> events.
       */
-     protected void clearToggledPaths() {
-         expandedState.clear();
+     protected void clebrToggledPbths() {
+         expbndedStbte.clebr();
      }
 
      /**
-      * Creates and returns an instance of <code>TreeModelHandler</code>.
+      * Crebtes bnd returns bn instbnce of <code>TreeModelHbndler</code>.
       * The returned
-      * object is responsible for updating the expanded state when the
-      * <code>TreeModel</code> changes.
+      * object is responsible for updbting the expbnded stbte when the
+      * <code>TreeModel</code> chbnges.
       * <p>
-      * For more information on what expanded state means, see the
-      * <a href=#jtree_description>JTree description</a> above.
+      * For more informbtion on whbt expbnded stbte mebns, see the
+      * <b href=#jtree_description>JTree description</b> bbove.
       *
-      * @return the instance of {@code TreeModelHandler}
+      * @return the instbnce of {@code TreeModelHbndler}
       */
-     protected TreeModelListener createTreeModelListener() {
-         return new TreeModelHandler();
+     protected TreeModelListener crebteTreeModelListener() {
+         return new TreeModelHbndler();
      }
 
     /**
-     * Removes any paths in the selection that are descendants of
-     * <code>path</code>. If <code>includePath</code> is true and
-     * <code>path</code> is selected, it will be removed from the selection.
+     * Removes bny pbths in the selection thbt bre descendbnts of
+     * <code>pbth</code>. If <code>includePbth</code> is true bnd
+     * <code>pbth</code> is selected, it will be removed from the selection.
      *
-     * @param path a path
-     * @param includePath is {@code true} and {@code path} is selected,
+     * @pbrbm pbth b pbth
+     * @pbrbm includePbth is {@code true} bnd {@code pbth} is selected,
      *                    it will be removed from the selection.
-     * @return true if a descendant was selected
+     * @return true if b descendbnt wbs selected
      * @since 1.3
      */
-    protected boolean removeDescendantSelectedPaths(TreePath path,
-                                                    boolean includePath) {
-        TreePath[]    toRemove = getDescendantSelectedPaths(path, includePath);
+    protected boolebn removeDescendbntSelectedPbths(TreePbth pbth,
+                                                    boolebn includePbth) {
+        TreePbth[]    toRemove = getDescendbntSelectedPbths(pbth, includePbth);
 
         if (toRemove != null) {
-            getSelectionModel().removeSelectionPaths(toRemove);
+            getSelectionModel().removeSelectionPbths(toRemove);
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns an array of paths in the selection that are descendants of
-     * <code>path</code>. The returned array may contain <code>null</code>s.
+     * Returns bn brrby of pbths in the selection thbt bre descendbnts of
+     * <code>pbth</code>. The returned brrby mby contbin <code>null</code>s.
      */
-    private TreePath[] getDescendantSelectedPaths(TreePath path,
-                                                  boolean includePath) {
+    privbte TreePbth[] getDescendbntSelectedPbths(TreePbth pbth,
+                                                  boolebn includePbth) {
         TreeSelectionModel   sm = getSelectionModel();
-        TreePath[]           selPaths = (sm != null) ? sm.getSelectionPaths() :
+        TreePbth[]           selPbths = (sm != null) ? sm.getSelectionPbths() :
                                         null;
 
-        if(selPaths != null) {
-            boolean        shouldRemove = false;
+        if(selPbths != null) {
+            boolebn        shouldRemove = fblse;
 
-            for(int counter = selPaths.length - 1; counter >= 0; counter--) {
-                if(selPaths[counter] != null &&
-                   path.isDescendant(selPaths[counter]) &&
-                   (!path.equals(selPaths[counter]) || includePath))
+            for(int counter = selPbths.length - 1; counter >= 0; counter--) {
+                if(selPbths[counter] != null &&
+                   pbth.isDescendbnt(selPbths[counter]) &&
+                   (!pbth.equbls(selPbths[counter]) || includePbth))
                     shouldRemove = true;
                 else
-                    selPaths[counter] = null;
+                    selPbths[counter] = null;
             }
             if(!shouldRemove) {
-                selPaths = null;
+                selPbths = null;
             }
-            return selPaths;
+            return selPbths;
         }
         return null;
     }
 
     /**
-     * Removes any paths from the selection model that are descendants of
+     * Removes bny pbths from the selection model thbt bre descendbnts of
      * the nodes identified by in <code>e</code>.
      */
-    void removeDescendantSelectedPaths(TreeModelEvent e) {
-        TreePath            pPath = SwingUtilities2.getTreePath(e, getModel());
+    void removeDescendbntSelectedPbths(TreeModelEvent e) {
+        TreePbth            pPbth = SwingUtilities2.getTreePbth(e, getModel());
         Object[]            oldChildren = e.getChildren();
         TreeSelectionModel  sm = getSelectionModel();
 
-        if (sm != null && pPath != null && oldChildren != null &&
+        if (sm != null && pPbth != null && oldChildren != null &&
             oldChildren.length > 0) {
             for (int counter = oldChildren.length - 1; counter >= 0;
                  counter--) {
-                // Might be better to call getDescendantSelectedPaths
+                // Might be better to cbll getDescendbntSelectedPbths
                 // numerous times, then push to the model.
-                removeDescendantSelectedPaths(pPath.pathByAddingChild
+                removeDescendbntSelectedPbths(pPbth.pbthByAddingChild
                                               (oldChildren[counter]), true);
             }
         }
@@ -3800,199 +3800,199 @@ public class JTree extends JComponent implements Scrollable, Accessible
 
 
      /**
-      * Listens to the model and updates the <code>expandedState</code>
-      * accordingly when nodes are removed, or changed.
+      * Listens to the model bnd updbtes the <code>expbndedStbte</code>
+      * bccordingly when nodes bre removed, or chbnged.
       */
-    protected class TreeModelHandler implements TreeModelListener {
-        public void treeNodesChanged(TreeModelEvent e) { }
+    protected clbss TreeModelHbndler implements TreeModelListener {
+        public void treeNodesChbnged(TreeModelEvent e) { }
 
         public void treeNodesInserted(TreeModelEvent e) { }
 
-        public void treeStructureChanged(TreeModelEvent e) {
+        public void treeStructureChbnged(TreeModelEvent e) {
             if(e == null)
                 return;
 
-            // NOTE: If I change this to NOT remove the descendants
-            // and update BasicTreeUIs treeStructureChanged method
-            // to update descendants in response to a treeStructureChanged
-            // event, all the children of the event won't collapse!
-            TreePath            parent = SwingUtilities2.getTreePath(e, getModel());
+            // NOTE: If I chbnge this to NOT remove the descendbnts
+            // bnd updbte BbsicTreeUIs treeStructureChbnged method
+            // to updbte descendbnts in response to b treeStructureChbnged
+            // event, bll the children of the event won't collbpse!
+            TreePbth            pbrent = SwingUtilities2.getTreePbth(e, getModel());
 
-            if(parent == null)
+            if(pbrent == null)
                 return;
 
-            if (parent.getPathCount() == 1) {
+            if (pbrent.getPbthCount() == 1) {
                 // New root, remove everything!
-                clearToggledPaths();
+                clebrToggledPbths();
                 if(treeModel.getRoot() != null &&
-                   !treeModel.isLeaf(treeModel.getRoot())) {
-                    // Mark the root as expanded, if it isn't a leaf.
-                    expandedState.put(parent, Boolean.TRUE);
+                   !treeModel.isLebf(treeModel.getRoot())) {
+                    // Mbrk the root bs expbnded, if it isn't b lebf.
+                    expbndedStbte.put(pbrent, Boolebn.TRUE);
                 }
             }
-            else if(expandedState.get(parent) != null) {
-                Vector<TreePath>    toRemove = new Vector<TreePath>(1);
-                boolean             isExpanded = isExpanded(parent);
+            else if(expbndedStbte.get(pbrent) != null) {
+                Vector<TreePbth>    toRemove = new Vector<TreePbth>(1);
+                boolebn             isExpbnded = isExpbnded(pbrent);
 
-                toRemove.addElement(parent);
-                removeDescendantToggledPaths(toRemove.elements());
-                if(isExpanded) {
+                toRemove.bddElement(pbrent);
+                removeDescendbntToggledPbths(toRemove.elements());
+                if(isExpbnded) {
                     TreeModel         model = getModel();
 
-                    if(model == null || model.isLeaf
-                       (parent.getLastPathComponent()))
-                        collapsePath(parent);
+                    if(model == null || model.isLebf
+                       (pbrent.getLbstPbthComponent()))
+                        collbpsePbth(pbrent);
                     else
-                        expandedState.put(parent, Boolean.TRUE);
+                        expbndedStbte.put(pbrent, Boolebn.TRUE);
                 }
             }
-            removeDescendantSelectedPaths(parent, false);
+            removeDescendbntSelectedPbths(pbrent, fblse);
         }
 
         public void treeNodesRemoved(TreeModelEvent e) {
             if(e == null)
                 return;
 
-            TreePath            parent = SwingUtilities2.getTreePath(e, getModel());
+            TreePbth            pbrent = SwingUtilities2.getTreePbth(e, getModel());
             Object[]            children = e.getChildren();
 
             if(children == null)
                 return;
 
-            TreePath            rPath;
-            Vector<TreePath>    toRemove
-                = new Vector<TreePath>(Math.max(1, children.length));
+            TreePbth            rPbth;
+            Vector<TreePbth>    toRemove
+                = new Vector<TreePbth>(Mbth.mbx(1, children.length));
 
             for(int counter = children.length - 1; counter >= 0; counter--) {
-                rPath = parent.pathByAddingChild(children[counter]);
-                if(expandedState.get(rPath) != null)
-                    toRemove.addElement(rPath);
+                rPbth = pbrent.pbthByAddingChild(children[counter]);
+                if(expbndedStbte.get(rPbth) != null)
+                    toRemove.bddElement(rPbth);
             }
             if(toRemove.size() > 0)
-                removeDescendantToggledPaths(toRemove.elements());
+                removeDescendbntToggledPbths(toRemove.elements());
 
             TreeModel         model = getModel();
 
-            if(model == null || model.isLeaf(parent.getLastPathComponent()))
-                expandedState.remove(parent);
+            if(model == null || model.isLebf(pbrent.getLbstPbthComponent()))
+                expbndedStbte.remove(pbrent);
 
-            removeDescendantSelectedPaths(e);
+            removeDescendbntSelectedPbths(e);
         }
     }
 
 
     /**
-     * <code>DynamicUtilTreeNode</code> can wrap
-     * vectors/hashtables/arrays/strings and
-     * create the appropriate children tree nodes as necessary. It is
-     * dynamic in that it will only create the children as necessary.
+     * <code>DynbmicUtilTreeNode</code> cbn wrbp
+     * vectors/hbshtbbles/brrbys/strings bnd
+     * crebte the bppropribte children tree nodes bs necessbry. It is
+     * dynbmic in thbt it will only crebte the children bs necessbry.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    public static class DynamicUtilTreeNode extends DefaultMutableTreeNode {
+    @SuppressWbrnings("seribl")
+    public stbtic clbss DynbmicUtilTreeNode extends DefbultMutbbleTreeNode {
         /**
-         * Does the this <code>JTree</code> have children?
+         * Does the this <code>JTree</code> hbve children?
          * This property is currently not implemented.
          */
-        protected boolean            hasChildren;
-        /** Value to create children with. */
-        protected Object             childValue;
-        /** Have the children been loaded yet? */
-        protected boolean            loadedChildren;
+        protected boolebn            hbsChildren;
+        /** Vblue to crebte children with. */
+        protected Object             childVblue;
+        /** Hbve the children been lobded yet? */
+        protected boolebn            lobdedChildren;
 
         /**
-         * Adds to parent all the children in <code>children</code>.
-         * If <code>children</code> is an array or vector all of its
-         * elements are added is children, otherwise if <code>children</code>
-         * is a hashtable all the key/value pairs are added in the order
-         * <code>Enumeration</code> returns them.
+         * Adds to pbrent bll the children in <code>children</code>.
+         * If <code>children</code> is bn brrby or vector bll of its
+         * elements bre bdded is children, otherwise if <code>children</code>
+         * is b hbshtbble bll the key/vblue pbirs bre bdded in the order
+         * <code>Enumerbtion</code> returns them.
          *
-         * @param parent the parent node
-         * @param children the children
+         * @pbrbm pbrent the pbrent node
+         * @pbrbm children the children
          */
-        public static void createChildren(DefaultMutableTreeNode parent,
+        public stbtic void crebteChildren(DefbultMutbbleTreeNode pbrent,
                                           Object children) {
-            if(children instanceof Vector) {
+            if(children instbnceof Vector) {
                 Vector<?>          childVector = (Vector)children;
 
-                for(int counter = 0, maxCounter = childVector.size();
-                    counter < maxCounter; counter++)
-                    parent.add(new DynamicUtilTreeNode
+                for(int counter = 0, mbxCounter = childVector.size();
+                    counter < mbxCounter; counter++)
+                    pbrent.bdd(new DynbmicUtilTreeNode
                                (childVector.elementAt(counter),
                                 childVector.elementAt(counter)));
             }
-            else if(children instanceof Hashtable) {
-                Hashtable<?,?>           childHT = (Hashtable)children;
-                Enumeration<?>         keys = childHT.keys();
-                Object              aKey;
+            else if(children instbnceof Hbshtbble) {
+                Hbshtbble<?,?>           childHT = (Hbshtbble)children;
+                Enumerbtion<?>         keys = childHT.keys();
+                Object              bKey;
 
-                while(keys.hasMoreElements()) {
-                    aKey = keys.nextElement();
-                    parent.add(new DynamicUtilTreeNode(aKey,
-                                                       childHT.get(aKey)));
+                while(keys.hbsMoreElements()) {
+                    bKey = keys.nextElement();
+                    pbrent.bdd(new DynbmicUtilTreeNode(bKey,
+                                                       childHT.get(bKey)));
                 }
             }
-            else if(children instanceof Object[]) {
-                Object[]             childArray = (Object[])children;
+            else if(children instbnceof Object[]) {
+                Object[]             childArrby = (Object[])children;
 
-                for(int counter = 0, maxCounter = childArray.length;
-                    counter < maxCounter; counter++)
-                    parent.add(new DynamicUtilTreeNode(childArray[counter],
-                                                       childArray[counter]));
+                for(int counter = 0, mbxCounter = childArrby.length;
+                    counter < mbxCounter; counter++)
+                    pbrent.bdd(new DynbmicUtilTreeNode(childArrby[counter],
+                                                       childArrby[counter]));
             }
         }
 
         /**
-         * Creates a node with the specified object as its value and
-         * with the specified children. For the node to allow children,
-         * the children-object must be an array of objects, a
-         * <code>Vector</code>, or a <code>Hashtable</code> -- even
+         * Crebtes b node with the specified object bs its vblue bnd
+         * with the specified children. For the node to bllow children,
+         * the children-object must be bn brrby of objects, b
+         * <code>Vector</code>, or b <code>Hbshtbble</code> -- even
          * if empty. Otherwise, the node is not
-         * allowed to have children.
+         * bllowed to hbve children.
          *
-         * @param value  the <code>Object</code> that is the value for the
+         * @pbrbm vblue  the <code>Object</code> thbt is the vblue for the
          *              new node
-         * @param children an array of <code>Object</code>s, a
-         *              <code>Vector</code>, or a <code>Hashtable</code>
-         *              used to create the child nodes; if any other
-         *              object is specified, or if the value is
+         * @pbrbm children bn brrby of <code>Object</code>s, b
+         *              <code>Vector</code>, or b <code>Hbshtbble</code>
+         *              used to crebte the child nodes; if bny other
+         *              object is specified, or if the vblue is
          *              <code>null</code>,
-         *              then the node is not allowed to have children
+         *              then the node is not bllowed to hbve children
          */
-        public DynamicUtilTreeNode(Object value, Object children) {
-            super(value);
-            loadedChildren = false;
-            childValue = children;
+        public DynbmicUtilTreeNode(Object vblue, Object children) {
+            super(vblue);
+            lobdedChildren = fblse;
+            childVblue = children;
             if(children != null) {
-                if(children instanceof Vector)
+                if(children instbnceof Vector)
                     setAllowsChildren(true);
-                else if(children instanceof Hashtable)
+                else if(children instbnceof Hbshtbble)
                     setAllowsChildren(true);
-                else if(children instanceof Object[])
+                else if(children instbnceof Object[])
                     setAllowsChildren(true);
                 else
-                    setAllowsChildren(false);
+                    setAllowsChildren(fblse);
             }
             else
-                setAllowsChildren(false);
+                setAllowsChildren(fblse);
         }
 
         /**
-         * Returns true if this node allows children. Whether the node
-         * allows children depends on how it was created.
+         * Returns true if this node bllows children. Whether the node
+         * bllows children depends on how it wbs crebted.
          *
-         * @return true if this node allows children, false otherwise
-         * @see JTree.DynamicUtilTreeNode
+         * @return true if this node bllows children, fblse otherwise
+         * @see JTree.DynbmicUtilTreeNode
          */
-        public boolean isLeaf() {
+        public boolebn isLebf() {
             return !getAllowsChildren();
         }
 
@@ -4002,97 +4002,97 @@ public class JTree extends JComponent implements Scrollable, Accessible
          * @return the number of child nodes
          */
         public int getChildCount() {
-            if(!loadedChildren)
-                loadChildren();
+            if(!lobdedChildren)
+                lobdChildren();
             return super.getChildCount();
         }
 
         /**
-         * Loads the children based on <code>childValue</code>.
-         * If <code>childValue</code> is a <code>Vector</code>
-         * or array each element is added as a child,
-         * if <code>childValue</code> is a <code>Hashtable</code>
-         * each key/value pair is added in the order that
-         * <code>Enumeration</code> returns the keys.
+         * Lobds the children bbsed on <code>childVblue</code>.
+         * If <code>childVblue</code> is b <code>Vector</code>
+         * or brrby ebch element is bdded bs b child,
+         * if <code>childVblue</code> is b <code>Hbshtbble</code>
+         * ebch key/vblue pbir is bdded in the order thbt
+         * <code>Enumerbtion</code> returns the keys.
          */
-        protected void loadChildren() {
-            loadedChildren = true;
-            createChildren(this, childValue);
+        protected void lobdChildren() {
+            lobdedChildren = true;
+            crebteChildren(this, childVblue);
         }
 
         /**
-         * Subclassed to load the children, if necessary.
+         * Subclbssed to lobd the children, if necessbry.
          */
         public TreeNode getChildAt(int index) {
-            if(!loadedChildren)
-                loadChildren();
+            if(!lobdedChildren)
+                lobdChildren();
             return super.getChildAt(index);
         }
 
         /**
-         * Subclassed to load the children, if necessary.
+         * Subclbssed to lobd the children, if necessbry.
          */
-        public Enumeration<TreeNode> children() {
-            if(!loadedChildren)
-                loadChildren();
+        public Enumerbtion<TreeNode> children() {
+            if(!lobdedChildren)
+                lobdChildren();
             return super.children();
         }
     }
 
-    void setUIProperty(String propertyName, Object value) {
-        if (propertyName == "rowHeight") {
+    void setUIProperty(String propertyNbme, Object vblue) {
+        if (propertyNbme == "rowHeight") {
             if (!rowHeightSet) {
-                setRowHeight(((Number)value).intValue());
-                rowHeightSet = false;
+                setRowHeight(((Number)vblue).intVblue());
+                rowHeightSet = fblse;
             }
-        } else if (propertyName == "scrollsOnExpand") {
-            if (!scrollsOnExpandSet) {
-                setScrollsOnExpand(((Boolean)value).booleanValue());
-                scrollsOnExpandSet = false;
+        } else if (propertyNbme == "scrollsOnExpbnd") {
+            if (!scrollsOnExpbndSet) {
+                setScrollsOnExpbnd(((Boolebn)vblue).boolebnVblue());
+                scrollsOnExpbndSet = fblse;
             }
-        } else if (propertyName == "showsRootHandles") {
-            if (!showsRootHandlesSet) {
-                setShowsRootHandles(((Boolean)value).booleanValue());
-                showsRootHandlesSet = false;
+        } else if (propertyNbme == "showsRootHbndles") {
+            if (!showsRootHbndlesSet) {
+                setShowsRootHbndles(((Boolebn)vblue).boolebnVblue());
+                showsRootHbndlesSet = fblse;
             }
         } else {
-            super.setUIProperty(propertyName, value);
+            super.setUIProperty(propertyNbme, vblue);
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JTree</code>.
+     * Returns b string representbtion of this <code>JTree</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JTree</code>.
+     * @return  b string representbtion of this <code>JTree</code>.
      */
-    protected String paramString() {
+    protected String pbrbmString() {
         String rootVisibleString = (rootVisible ?
-                                    "true" : "false");
-        String showsRootHandlesString = (showsRootHandles ?
-                                         "true" : "false");
-        String editableString = (editable ?
-                                 "true" : "false");
-        String largeModelString = (largeModel ?
-                                   "true" : "false");
+                                    "true" : "fblse");
+        String showsRootHbndlesString = (showsRootHbndles ?
+                                         "true" : "fblse");
+        String editbbleString = (editbble ?
+                                 "true" : "fblse");
+        String lbrgeModelString = (lbrgeModel ?
+                                   "true" : "fblse");
         String invokesStopCellEditingString = (invokesStopCellEditing ?
-                                               "true" : "false");
-        String scrollsOnExpandString = (scrollsOnExpand ?
-                                        "true" : "false");
+                                               "true" : "fblse");
+        String scrollsOnExpbndString = (scrollsOnExpbnd ?
+                                        "true" : "fblse");
 
-        return super.paramString() +
-        ",editable=" + editableString +
+        return super.pbrbmString() +
+        ",editbble=" + editbbleString +
         ",invokesStopCellEditing=" + invokesStopCellEditingString +
-        ",largeModel=" + largeModelString +
+        ",lbrgeModel=" + lbrgeModelString +
         ",rootVisible=" + rootVisibleString +
         ",rowHeight=" + rowHeight +
-        ",scrollsOnExpand=" + scrollsOnExpandString +
-        ",showsRootHandles=" + showsRootHandlesString +
+        ",scrollsOnExpbnd=" + scrollsOnExpbndString +
+        ",showsRootHbndles=" + showsRootHbndlesString +
         ",toggleClickCount=" + toggleClickCount +
         ",visibleRowCount=" + visibleRowCount;
     }
@@ -4102,234 +4102,234 @@ public class JTree extends JComponent implements Scrollable, Accessible
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JTree.
-     * For JTrees, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this JTree.
+     * For JTrees, the AccessibleContext tbkes the form of bn
      * AccessibleJTree.
-     * A new AccessibleJTree instance is created if necessary.
+     * A new AccessibleJTree instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJTree that serves as the
+     * @return bn AccessibleJTree thbt serves bs the
      *         AccessibleContext of this JTree
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJTree();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJTree();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JTree</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to tree user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>JTree</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to tree user-interfbce elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJTree extends AccessibleJComponent
+    @SuppressWbrnings("seribl")
+    protected clbss AccessibleJTree extends AccessibleJComponent
             implements AccessibleSelection, TreeSelectionListener,
-                       TreeModelListener, TreeExpansionListener  {
+                       TreeModelListener, TreeExpbnsionListener  {
 
-        TreePath   leadSelectionPath;
-        Accessible leadSelectionAccessible;
+        TreePbth   lebdSelectionPbth;
+        Accessible lebdSelectionAccessible;
 
         /**
          * Constructs {@code AccessibleJTree}
          */
         public AccessibleJTree() {
-            // Add a tree model listener for JTree
+            // Add b tree model listener for JTree
             TreeModel model = JTree.this.getModel();
             if (model != null) {
-                model.addTreeModelListener(this);
+                model.bddTreeModelListener(this);
             }
-            JTree.this.addTreeExpansionListener(this);
-            JTree.this.addTreeSelectionListener(this);
-            leadSelectionPath = JTree.this.getLeadSelectionPath();
-            leadSelectionAccessible = (leadSelectionPath != null)
+            JTree.this.bddTreeExpbnsionListener(this);
+            JTree.this.bddTreeSelectionListener(this);
+            lebdSelectionPbth = JTree.this.getLebdSelectionPbth();
+            lebdSelectionAccessible = (lebdSelectionPbth != null)
                     ? new AccessibleJTreeNode(JTree.this,
-                                              leadSelectionPath,
+                                              lebdSelectionPbth,
                                               JTree.this)
                     : null;
         }
 
         /**
-         * Tree Selection Listener value change method. Used to fire the
-         * property change
+         * Tree Selection Listener vblue chbnge method. Used to fire the
+         * property chbnge
          *
-         * @param e ListSelectionEvent
+         * @pbrbm e ListSelectionEvent
          *
          */
-        public void valueChanged(TreeSelectionEvent e) {
-             firePropertyChange(AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY,
-                                Boolean.valueOf(false), Boolean.valueOf(true));
+        public void vblueChbnged(TreeSelectionEvent e) {
+             firePropertyChbnge(AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY,
+                                Boolebn.vblueOf(fblse), Boolebn.vblueOf(true));
          }
 
         /**
-         * Fire a visible data property change notification.
-         * A 'visible' data property is one that represents
-         * something about the way the component appears on the
-         * display, where that appearance isn't bound to any other
-         * property. It notifies screen readers  that the visual
-         * appearance of the component has changed, so they can
+         * Fire b visible dbtb property chbnge notificbtion.
+         * A 'visible' dbtb property is one thbt represents
+         * something bbout the wby the component bppebrs on the
+         * displby, where thbt bppebrbnce isn't bound to bny other
+         * property. It notifies screen rebders  thbt the visubl
+         * bppebrbnce of the component hbs chbnged, so they cbn
          * notify the user.
          */
-        public void fireVisibleDataPropertyChange() {
-           firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                              Boolean.valueOf(false), Boolean.valueOf(true));
+        public void fireVisibleDbtbPropertyChbnge() {
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                              Boolebn.vblueOf(fblse), Boolebn.vblueOf(true));
         }
 
-        // Fire the visible data changes for the model changes.
+        // Fire the visible dbtb chbnges for the model chbnges.
 
         /**
-         * Tree Model Node change notification.
+         * Tree Model Node chbnge notificbtion.
          *
-         * @param e  a Tree Model event
+         * @pbrbm e  b Tree Model event
          */
-        public void treeNodesChanged(TreeModelEvent e) {
-           fireVisibleDataPropertyChange();
+        public void treeNodesChbnged(TreeModelEvent e) {
+           fireVisibleDbtbPropertyChbnge();
         }
 
         /**
-         * Tree Model Node change notification.
+         * Tree Model Node chbnge notificbtion.
          *
-         * @param e  a Tree node insertion event
+         * @pbrbm e  b Tree node insertion event
          */
         public void treeNodesInserted(TreeModelEvent e) {
-           fireVisibleDataPropertyChange();
+           fireVisibleDbtbPropertyChbnge();
         }
 
         /**
-         * Tree Model Node change notification.
+         * Tree Model Node chbnge notificbtion.
          *
-         * @param e  a Tree node(s) removal event
+         * @pbrbm e  b Tree node(s) removbl event
          */
         public  void treeNodesRemoved(TreeModelEvent e) {
-           fireVisibleDataPropertyChange();
+           fireVisibleDbtbPropertyChbnge();
         }
 
         /**
-         * Tree Model structure change change notification.
+         * Tree Model structure chbnge chbnge notificbtion.
          *
-         * @param e  a Tree Model event
+         * @pbrbm e  b Tree Model event
          */
-        public  void treeStructureChanged(TreeModelEvent e) {
-           fireVisibleDataPropertyChange();
+        public  void treeStructureChbnged(TreeModelEvent e) {
+           fireVisibleDbtbPropertyChbnge();
         }
 
         /**
-         * Tree Collapsed notification.
+         * Tree Collbpsed notificbtion.
          *
-         * @param e  a TreeExpansionEvent
+         * @pbrbm e  b TreeExpbnsionEvent
          */
-        public  void treeCollapsed(TreeExpansionEvent e) {
-            fireVisibleDataPropertyChange();
-            TreePath path = e.getPath();
-            if (path != null) {
-                // Set parent to null so AccessibleJTreeNode computes
-                // its parent.
+        public  void treeCollbpsed(TreeExpbnsionEvent e) {
+            fireVisibleDbtbPropertyChbnge();
+            TreePbth pbth = e.getPbth();
+            if (pbth != null) {
+                // Set pbrent to null so AccessibleJTreeNode computes
+                // its pbrent.
                 AccessibleJTreeNode node = new AccessibleJTreeNode(JTree.this,
-                                                                   path,
+                                                                   pbth,
                                                                    null);
-                PropertyChangeEvent pce = new PropertyChangeEvent(node,
+                PropertyChbngeEvent pce = new PropertyChbngeEvent(node,
                     AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    AccessibleState.EXPANDED,
-                    AccessibleState.COLLAPSED);
-                firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
+                    AccessibleStbte.EXPANDED,
+                    AccessibleStbte.COLLAPSED);
+                firePropertyChbnge(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
                                    null, pce);
             }
         }
 
         /**
-         * Tree Model Expansion notification.
+         * Tree Model Expbnsion notificbtion.
          *
-         * @param e  a Tree node insertion event
+         * @pbrbm e  b Tree node insertion event
          */
-        public  void treeExpanded(TreeExpansionEvent e) {
-            fireVisibleDataPropertyChange();
-            TreePath path = e.getPath();
-            if (path != null) {
+        public  void treeExpbnded(TreeExpbnsionEvent e) {
+            fireVisibleDbtbPropertyChbnge();
+            TreePbth pbth = e.getPbth();
+            if (pbth != null) {
                 // TIGER - 4839971
-                // Set parent to null so AccessibleJTreeNode computes
-                // its parent.
+                // Set pbrent to null so AccessibleJTreeNode computes
+                // its pbrent.
                 AccessibleJTreeNode node = new AccessibleJTreeNode(JTree.this,
-                                                                   path,
+                                                                   pbth,
                                                                    null);
-                PropertyChangeEvent pce = new PropertyChangeEvent(node,
+                PropertyChbngeEvent pce = new PropertyChbngeEvent(node,
                     AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    AccessibleState.COLLAPSED,
-                    AccessibleState.EXPANDED);
-                firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
+                    AccessibleStbte.COLLAPSED,
+                    AccessibleStbte.EXPANDED);
+                firePropertyChbnge(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
                                    null, pce);
             }
         }
 
         /**
-        *  Fire an active descendant property change notification.
-        *  The active descendant is used for objects such as list,
-        *  tree, and table, which may have transient children.
-        *  It notifies screen readers the active child of the component
-        *  has been changed so user can be notified from there.
+        *  Fire bn bctive descendbnt property chbnge notificbtion.
+        *  The bctive descendbnt is used for objects such bs list,
+        *  tree, bnd tbble, which mby hbve trbnsient children.
+        *  It notifies screen rebders the bctive child of the component
+        *  hbs been chbnged so user cbn be notified from there.
         *
-        * @param oldPath - lead path of previous active child
-        * @param newPath - lead path of current active child
+        * @pbrbm oldPbth - lebd pbth of previous bctive child
+        * @pbrbm newPbth - lebd pbth of current bctive child
         *
         */
-        void fireActiveDescendantPropertyChange(TreePath oldPath, TreePath newPath){
-            if(oldPath != newPath){
-                Accessible oldLSA = (oldPath != null)
+        void fireActiveDescendbntPropertyChbnge(TreePbth oldPbth, TreePbth newPbth){
+            if(oldPbth != newPbth){
+                Accessible oldLSA = (oldPbth != null)
                                     ? new AccessibleJTreeNode(JTree.this,
-                                                              oldPath,
+                                                              oldPbth,
                                                               null)
                                     : null;
 
-                Accessible newLSA = (newPath != null)
+                Accessible newLSA = (newPbth != null)
                                     ? new AccessibleJTreeNode(JTree.this,
-                                                              newPath,
+                                                              newPbth,
                                                               null)
                                     : null;
-                firePropertyChange(AccessibleContext.ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY,
+                firePropertyChbnge(AccessibleContext.ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY,
                                                                 oldLSA, newLSA);
             }
         }
 
-        private AccessibleContext getCurrentAccessibleContext() {
+        privbte AccessibleContext getCurrentAccessibleContext() {
             Component c = getCurrentComponent();
-            if (c instanceof Accessible) {
+            if (c instbnceof Accessible) {
                 return c.getAccessibleContext();
             } else {
                 return null;
             }
         }
 
-        private Component getCurrentComponent() {
+        privbte Component getCurrentComponent() {
             // is the object visible?
-            // if so, get row, selected, focus & leaf state,
-            // and then get the renderer component and return it
+            // if so, get row, selected, focus & lebf stbte,
+            // bnd then get the renderer component bnd return it
             TreeModel model = JTree.this.getModel();
             if (model == null) {
                 return null;
             }
-            TreePath path = new TreePath(model.getRoot());
-            if (JTree.this.isVisible(path)) {
+            TreePbth pbth = new TreePbth(model.getRoot());
+            if (JTree.this.isVisible(pbth)) {
                 TreeCellRenderer r = JTree.this.getCellRenderer();
                 TreeUI ui = JTree.this.getUI();
                 if (ui != null) {
-                    int row = ui.getRowForPath(JTree.this, path);
-                    int lsr = JTree.this.getLeadSelectionRow();
-                    boolean hasFocus = JTree.this.isFocusOwner()
+                    int row = ui.getRowForPbth(JTree.this, pbth);
+                    int lsr = JTree.this.getLebdSelectionRow();
+                    boolebn hbsFocus = JTree.this.isFocusOwner()
                                        && (lsr == row);
-                    boolean selected = JTree.this.isPathSelected(path);
-                    boolean expanded = JTree.this.isExpanded(path);
+                    boolebn selected = JTree.this.isPbthSelected(pbth);
+                    boolebn expbnded = JTree.this.isExpbnded(pbth);
 
                     return r.getTreeCellRendererComponent(JTree.this,
-                        model.getRoot(), selected, expanded,
-                        model.isLeaf(model.getRoot()), row, hasFocus);
+                        model.getRoot(), selected, expbnded,
+                        model.isLebf(model.getRoot()), row, hbsFocus);
                 }
             }
             return null;
@@ -4340,7 +4340,7 @@ public class JTree extends JComponent implements Scrollable, Accessible
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -4350,18 +4350,18 @@ public class JTree extends JComponent implements Scrollable, Accessible
 
         /**
          * Returns the <code>Accessible</code> child, if one exists,
-         * contained at the local coordinate <code>Point</code>.
+         * contbined bt the locbl coordinbte <code>Point</code>.
          * Otherwise returns <code>null</code>.
          *
-         * @param p point in local coordinates of this <code>Accessible</code>
+         * @pbrbm p point in locbl coordinbtes of this <code>Accessible</code>
          * @return the <code>Accessible</code>, if it exists,
-         *    at the specified location; else <code>null</code>
+         *    bt the specified locbtion; else <code>null</code>
          */
         public Accessible getAccessibleAt(Point p) {
-            TreePath path = getClosestPathForLocation(p.x, p.y);
-            if (path != null) {
-                // JTree.this is NOT the parent; parent will get computed later
-                return new AccessibleJTreeNode(JTree.this, path, null);
+            TreePbth pbth = getClosestPbthForLocbtion(p.x, p.y);
+            if (pbth != null) {
+                // JTree.this is NOT the pbrent; pbrent will get computed lbter
+                return new AccessibleJTreeNode(JTree.this, pbth, null);
             } else {
                 return null;
             }
@@ -4369,9 +4369,9 @@ public class JTree extends JComponent implements Scrollable, Accessible
 
         /**
          * Returns the number of top-level children nodes of this
-         * JTree.  Each of these nodes may in turn have children nodes.
+         * JTree.  Ebch of these nodes mby in turn hbve children nodes.
          *
-         * @return the number of accessible children nodes in the tree.
+         * @return the number of bccessible children nodes in the tree.
          */
         public int getAccessibleChildrenCount() {
             TreeModel model = JTree.this.getModel();
@@ -4389,7 +4389,7 @@ public class JTree extends JComponent implements Scrollable, Accessible
         /**
          * Return the nth Accessible child of the object.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the nth Accessible child of the object
          */
         public Accessible getAccessibleChild(int i) {
@@ -4399,9 +4399,9 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
             if (isRootVisible()) {
                 if (i == 0) {    // return the root node Accessible
-                    Object[] objPath = { model.getRoot() };
-                    TreePath path = new TreePath(objPath);
-                    return new AccessibleJTreeNode(JTree.this, path, JTree.this);
+                    Object[] objPbth = { model.getRoot() };
+                    TreePbth pbth = new TreePbth(objPbth);
+                    return new AccessibleJTreeNode(JTree.this, pbth, JTree.this);
                 } else {
                     return null;
                 }
@@ -4413,29 +4413,29 @@ public class JTree extends JComponent implements Scrollable, Accessible
                 return null;
             }
             Object obj = model.getChild(model.getRoot(), i);
-            Object[] objPath = { model.getRoot(), obj };
-            TreePath path = new TreePath(objPath);
-            return new AccessibleJTreeNode(JTree.this, path, JTree.this);
+            Object[] objPbth = { model.getRoot(), obj };
+            TreePbth pbth = new TreePbth(objPbth);
+            return new AccessibleJTreeNode(JTree.this, pbth, JTree.this);
         }
 
         /**
-         * Get the index of this object in its accessible parent.
+         * Get the index of this object in its bccessible pbrent.
          *
-         * @return the index of this object in its parent.  Since a JTree
-         * top-level object does not have an accessible parent.
-         * @see #getAccessibleParent
+         * @return the index of this object in its pbrent.  Since b JTree
+         * top-level object does not hbve bn bccessible pbrent.
+         * @see #getAccessiblePbrent
          */
-        public int getAccessibleIndexInParent() {
+        public int getAccessibleIndexInPbrent() {
             // didn't ever need to override this...
-            return super.getAccessibleIndexInParent();
+            return super.getAccessibleIndexInPbrent();
         }
 
         // AccessibleSelection methods
         /**
-         * Get the AccessibleSelection associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleSelection bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleSelection interface on behalf of itself.
+         * AccessibleSelection interfbce on behblf of itself.
          *
          * @return this object
          */
@@ -4445,15 +4445,15 @@ public class JTree extends JComponent implements Scrollable, Accessible
 
         /**
          * Returns the number of items currently selected.
-         * If no items are selected, the return value will be 0.
+         * If no items bre selected, the return vblue will be 0.
          *
          * @return the number of items currently selected.
          */
         public int getAccessibleSelectionCount() {
-            Object[] rootPath = new Object[1];
-            rootPath[0] = treeModel.getRoot();
-            TreePath childPath = new TreePath(rootPath);
-            if (JTree.this.isPathSelected(childPath)) {
+            Object[] rootPbth = new Object[1];
+            rootPbth[0] = treeModel.getRoot();
+            TreePbth childPbth = new TreePbth(rootPbth);
+            if (JTree.this.isPbthSelected(childPbth)) {
                 return 1;
             } else {
                 return 0;
@@ -4461,22 +4461,22 @@ public class JTree extends JComponent implements Scrollable, Accessible
         }
 
         /**
-         * Returns an Accessible representing the specified selected item
-         * in the object.  If there isn't a selection, or there are
-         * fewer items selected than the integer passed in, the return
-         * value will be null.
+         * Returns bn Accessible representing the specified selected item
+         * in the object.  If there isn't b selection, or there bre
+         * fewer items selected thbn the integer pbssed in, the return
+         * vblue will be null.
          *
-         * @param i the zero-based index of selected items
-         * @return an Accessible containing the selected item
+         * @pbrbm i the zero-bbsed index of selected items
+         * @return bn Accessible contbining the selected item
          */
         public Accessible getAccessibleSelection(int i) {
-            // The JTree can have only one accessible child, the root.
+            // The JTree cbn hbve only one bccessible child, the root.
             if (i == 0) {
-                Object[] rootPath = new Object[1];
-                rootPath[0] = treeModel.getRoot();
-                TreePath childPath = new TreePath(rootPath);
-                if (JTree.this.isPathSelected(childPath)) {
-                    return new AccessibleJTreeNode(JTree.this, childPath, JTree.this);
+                Object[] rootPbth = new Object[1];
+                rootPbth[0] = treeModel.getRoot();
+                TreePbth childPbth = new TreePbth(rootPbth);
+                if (JTree.this.isPbthSelected(childPbth)) {
+                    return new AccessibleJTreeNode(JTree.this, childPbth, JTree.this);
                 }
             }
             return null;
@@ -4485,37 +4485,37 @@ public class JTree extends JComponent implements Scrollable, Accessible
         /**
          * Returns true if the current child of this object is selected.
          *
-         * @param i the zero-based index of the child in this Accessible object.
+         * @pbrbm i the zero-bbsed index of the child in this Accessible object.
          * @see AccessibleContext#getAccessibleChild
          */
-        public boolean isAccessibleChildSelected(int i) {
-            // The JTree can have only one accessible child, the root.
+        public boolebn isAccessibleChildSelected(int i) {
+            // The JTree cbn hbve only one bccessible child, the root.
             if (i == 0) {
-                Object[] rootPath = new Object[1];
-                rootPath[0] = treeModel.getRoot();
-                TreePath childPath = new TreePath(rootPath);
-                return JTree.this.isPathSelected(childPath);
+                Object[] rootPbth = new Object[1];
+                rootPbth[0] = treeModel.getRoot();
+                TreePbth childPbth = new TreePbth(rootPbth);
+                return JTree.this.isPbthSelected(childPbth);
             } else {
-                return false;
+                return fblse;
             }
         }
 
         /**
          * Adds the specified selected item in the object to the object's
          * selection.  If the object supports multiple selections,
-         * the specified item is added to any existing selection, otherwise
-         * it replaces any existing selection in the object.  If the
-         * specified item is already selected, this method has no effect.
+         * the specified item is bdded to bny existing selection, otherwise
+         * it replbces bny existing selection in the object.  If the
+         * specified item is blrebdy selected, this method hbs no effect.
          *
-         * @param i the zero-based index of selectable items
+         * @pbrbm i the zero-bbsed index of selectbble items
          */
-        public void addAccessibleSelection(int i) {
+        public void bddAccessibleSelection(int i) {
            TreeModel model = JTree.this.getModel();
            if (model != null) {
                if (i == 0) {
-                   Object[] objPath = {model.getRoot()};
-                   TreePath path = new TreePath(objPath);
-                   JTree.this.addSelectionPath(path);
+                   Object[] objPbth = {model.getRoot()};
+                   TreePbth pbth = new TreePbth(objPbth);
+                   JTree.this.bddSelectionPbth(pbth);
                 }
             }
         }
@@ -4523,26 +4523,26 @@ public class JTree extends JComponent implements Scrollable, Accessible
         /**
          * Removes the specified selected item in the object from the object's
          * selection.  If the specified item isn't currently selected, this
-         * method has no effect.
+         * method hbs no effect.
          *
-         * @param i the zero-based index of selectable items
+         * @pbrbm i the zero-bbsed index of selectbble items
          */
         public void removeAccessibleSelection(int i) {
             TreeModel model = JTree.this.getModel();
             if (model != null) {
                 if (i == 0) {
-                    Object[] objPath = {model.getRoot()};
-                    TreePath path = new TreePath(objPath);
-                    JTree.this.removeSelectionPath(path);
+                    Object[] objPbth = {model.getRoot()};
+                    TreePbth pbth = new TreePbth(objPbth);
+                    JTree.this.removeSelectionPbth(pbth);
                 }
             }
         }
 
         /**
-         * Clears the selection in the object, so that nothing in the
+         * Clebrs the selection in the object, so thbt nothing in the
          * object is selected.
          */
-        public void clearAccessibleSelection() {
+        public void clebrAccessibleSelection() {
             int childCount = getAccessibleChildrenCount();
             for (int i = 0; i < childCount; i++) {
                 removeAccessibleSelection(i);
@@ -4550,73 +4550,73 @@ public class JTree extends JComponent implements Scrollable, Accessible
         }
 
         /**
-         * Causes every selected item in the object to be selected
+         * Cbuses every selected item in the object to be selected
          * if the object supports multiple selections.
          */
         public void selectAllAccessibleSelection() {
             TreeModel model = JTree.this.getModel();
             if (model != null) {
-                Object[] objPath = {model.getRoot()};
-                TreePath path = new TreePath(objPath);
-                JTree.this.addSelectionPath(path);
+                Object[] objPbth = {model.getRoot()};
+                TreePbth pbth = new TreePbth(objPbth);
+                JTree.this.bddSelectionPbth(pbth);
             }
         }
 
         /**
-         * This class implements accessibility support for the
-         * <code>JTree</code> child.  It provides an implementation of the
-         * Java Accessibility API appropriate to tree nodes.
+         * This clbss implements bccessibility support for the
+         * <code>JTree</code> child.  It provides bn implementbtion of the
+         * Jbvb Accessibility API bppropribte to tree nodes.
          */
-        protected class AccessibleJTreeNode extends AccessibleContext
+        protected clbss AccessibleJTreeNode extends AccessibleContext
             implements Accessible, AccessibleComponent, AccessibleSelection,
             AccessibleAction {
 
-            private JTree tree = null;
-            private TreeModel treeModel = null;
-            private Object obj = null;
-            private TreePath path = null;
-            private Accessible accessibleParent = null;
-            private int index = 0;
-            private boolean isLeaf = false;
+            privbte JTree tree = null;
+            privbte TreeModel treeModel = null;
+            privbte Object obj = null;
+            privbte TreePbth pbth = null;
+            privbte Accessible bccessiblePbrent = null;
+            privbte int index = 0;
+            privbte boolebn isLebf = fblse;
 
             /**
-             * Constructs an AccessibleJTreeNode
+             * Constructs bn AccessibleJTreeNode
              *
-             * @param t an instance of {@code JTree}
-             * @param p an instance of {@code TreePath}
-             * @param ap an instance of {@code Accessible}
+             * @pbrbm t bn instbnce of {@code JTree}
+             * @pbrbm p bn instbnce of {@code TreePbth}
+             * @pbrbm bp bn instbnce of {@code Accessible}
              * @since 1.4
              */
-            public AccessibleJTreeNode(JTree t, TreePath p, Accessible ap) {
+            public AccessibleJTreeNode(JTree t, TreePbth p, Accessible bp) {
                 tree = t;
-                path = p;
-                accessibleParent = ap;
+                pbth = p;
+                bccessiblePbrent = bp;
                 treeModel = t.getModel();
-                obj = p.getLastPathComponent();
+                obj = p.getLbstPbthComponent();
                 if (treeModel != null) {
-                    isLeaf = treeModel.isLeaf(obj);
+                    isLebf = treeModel.isLebf(obj);
                 }
             }
 
-            private TreePath getChildTreePath(int i) {
-                // Tree nodes can't be so complex that they have
-                // two sets of children -> we're ignoring that case
+            privbte TreePbth getChildTreePbth(int i) {
+                // Tree nodes cbn't be so complex thbt they hbve
+                // two sets of children -> we're ignoring thbt cbse
                 if (i < 0 || i >= getAccessibleChildrenCount()) {
                     return null;
                 } else {
                     Object childObj = treeModel.getChild(obj, i);
-                    Object[] objPath = path.getPath();
-                    Object[] objChildPath = new Object[objPath.length+1];
-                    java.lang.System.arraycopy(objPath, 0, objChildPath, 0, objPath.length);
-                    objChildPath[objChildPath.length-1] = childObj;
-                    return new TreePath(objChildPath);
+                    Object[] objPbth = pbth.getPbth();
+                    Object[] objChildPbth = new Object[objPbth.length+1];
+                    jbvb.lbng.System.brrbycopy(objPbth, 0, objChildPbth, 0, objPbth.length);
+                    objChildPbth[objChildPbth.length-1] = childObj;
+                    return new TreePbth(objChildPbth);
                 }
             }
 
             /**
-             * Get the AccessibleContext associated with this tree node.
-             * In the implementation of the Java Accessibility API for
-             * this class, return this object, which is its own
+             * Get the AccessibleContext bssocibted with this tree node.
+             * In the implementbtion of the Jbvb Accessibility API for
+             * this clbss, return this object, which is its own
              * AccessibleContext.
              *
              * @return this object
@@ -4625,32 +4625,32 @@ public class JTree extends JComponent implements Scrollable, Accessible
                 return this;
             }
 
-            private AccessibleContext getCurrentAccessibleContext() {
+            privbte AccessibleContext getCurrentAccessibleContext() {
                 Component c = getCurrentComponent();
-                if (c instanceof Accessible) {
+                if (c instbnceof Accessible) {
                     return c.getAccessibleContext();
                 } else {
                     return null;
                 }
             }
 
-            private Component getCurrentComponent() {
+            privbte Component getCurrentComponent() {
                 // is the object visible?
-                // if so, get row, selected, focus & leaf state,
-                // and then get the renderer component and return it
-                if (tree.isVisible(path)) {
+                // if so, get row, selected, focus & lebf stbte,
+                // bnd then get the renderer component bnd return it
+                if (tree.isVisible(pbth)) {
                     TreeCellRenderer r = tree.getCellRenderer();
                     if (r == null) {
                         return null;
                     }
                     TreeUI ui = tree.getUI();
                     if (ui != null) {
-                        int row = ui.getRowForPath(JTree.this, path);
-                        boolean selected = tree.isPathSelected(path);
-                        boolean expanded = tree.isExpanded(path);
-                        boolean hasFocus = false; // how to tell?? -PK
+                        int row = ui.getRowForPbth(JTree.this, pbth);
+                        boolebn selected = tree.isPbthSelected(pbth);
+                        boolebn expbnded = tree.isExpbnded(pbth);
+                        boolebn hbsFocus = fblse; // how to tell?? -PK
                         return r.getTreeCellRendererComponent(tree, obj,
-                            selected, expanded, isLeaf, row, hasFocus);
+                            selected, expbnded, isLebf, row, hbsFocus);
                     }
                 }
                 return null;
@@ -4659,40 +4659,40 @@ public class JTree extends JComponent implements Scrollable, Accessible
         // AccessibleContext methods
 
              /**
-              * Get the accessible name of this object.
+              * Get the bccessible nbme of this object.
               *
-              * @return the localized name of the object; null if this
-              * object does not have a name
+              * @return the locblized nbme of the object; null if this
+              * object does not hbve b nbme
               */
-             public String getAccessibleName() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    String name = ac.getAccessibleName();
-                    if ((name != null) && (name != "")) {
-                        return ac.getAccessibleName();
+             public String getAccessibleNbme() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    String nbme = bc.getAccessibleNbme();
+                    if ((nbme != null) && (nbme != "")) {
+                        return bc.getAccessibleNbme();
                     } else {
                         return null;
                     }
                 }
-                if ((accessibleName != null) && (accessibleName != "")) {
-                    return accessibleName;
+                if ((bccessibleNbme != null) && (bccessibleNbme != "")) {
+                    return bccessibleNbme;
                 } else {
-                    // fall back to the client property
+                    // fbll bbck to the client property
                     return (String)getClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY);
                 }
             }
 
             /**
-             * Set the localized accessible name of this object.
+             * Set the locblized bccessible nbme of this object.
              *
-             * @param s the new localized name of the object.
+             * @pbrbm s the new locblized nbme of the object.
              */
-            public void setAccessibleName(String s) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleName(s);
+            public void setAccessibleNbme(String s) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.setAccessibleNbme(s);
                 } else {
-                    super.setAccessibleName(s);
+                    super.setAccessibleNbme(s);
                 }
             }
 
@@ -4700,29 +4700,29 @@ public class JTree extends JComponent implements Scrollable, Accessible
             // *** should check tooltip text for desc. (needs MouseEvent)
             //
             /**
-             * Get the accessible description of this object.
+             * Get the bccessible description of this object.
              *
-             * @return the localized description of the object; null if
-             * this object does not have a description
+             * @return the locblized description of the object; null if
+             * this object does not hbve b description
              */
             public String getAccessibleDescription() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleDescription();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleDescription();
                 } else {
                     return super.getAccessibleDescription();
                 }
             }
 
             /**
-             * Set the accessible description of this object.
+             * Set the bccessible description of this object.
              *
-             * @param s the new localized description of the object
+             * @pbrbm s the new locblized description of the object
              */
             public void setAccessibleDescription(String s) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleDescription(s);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.setAccessibleDescription(s);
                 } else {
                     super.setAccessibleDescription(s);
                 }
@@ -4731,210 +4731,210 @@ public class JTree extends JComponent implements Scrollable, Accessible
             /**
              * Get the role of this object.
              *
-             * @return an instance of AccessibleRole describing the role of the object
+             * @return bn instbnce of AccessibleRole describing the role of the object
              * @see AccessibleRole
              */
             public AccessibleRole getAccessibleRole() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleRole();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleRole();
                 } else {
                     return AccessibleRole.UNKNOWN;
                 }
             }
 
             /**
-             * Get the state set of this object.
+             * Get the stbte set of this object.
              *
-             * @return an instance of AccessibleStateSet containing the
-             * current state set of the object
-             * @see AccessibleState
+             * @return bn instbnce of AccessibleStbteSet contbining the
+             * current stbte set of the object
+             * @see AccessibleStbte
              */
-            public AccessibleStateSet getAccessibleStateSet() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                AccessibleStateSet states;
-                if (ac != null) {
-                    states = ac.getAccessibleStateSet();
+            public AccessibleStbteSet getAccessibleStbteSet() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                AccessibleStbteSet stbtes;
+                if (bc != null) {
+                    stbtes = bc.getAccessibleStbteSet();
                 } else {
-                    states = new AccessibleStateSet();
+                    stbtes = new AccessibleStbteSet();
                 }
-                // need to test here, 'cause the underlying component
-                // is a cellRenderer, which is never showing...
+                // need to test here, 'cbuse the underlying component
+                // is b cellRenderer, which is never showing...
                 if (isShowing()) {
-                    states.add(AccessibleState.SHOWING);
-                } else if (states.contains(AccessibleState.SHOWING)) {
-                    states.remove(AccessibleState.SHOWING);
+                    stbtes.bdd(AccessibleStbte.SHOWING);
+                } else if (stbtes.contbins(AccessibleStbte.SHOWING)) {
+                    stbtes.remove(AccessibleStbte.SHOWING);
                 }
                 if (isVisible()) {
-                    states.add(AccessibleState.VISIBLE);
-                } else if (states.contains(AccessibleState.VISIBLE)) {
-                    states.remove(AccessibleState.VISIBLE);
+                    stbtes.bdd(AccessibleStbte.VISIBLE);
+                } else if (stbtes.contbins(AccessibleStbte.VISIBLE)) {
+                    stbtes.remove(AccessibleStbte.VISIBLE);
                 }
-                if (tree.isPathSelected(path)){
-                    states.add(AccessibleState.SELECTED);
+                if (tree.isPbthSelected(pbth)){
+                    stbtes.bdd(AccessibleStbte.SELECTED);
                 }
-                if (path == getLeadSelectionPath()) {
-                    states.add(AccessibleState.ACTIVE);
+                if (pbth == getLebdSelectionPbth()) {
+                    stbtes.bdd(AccessibleStbte.ACTIVE);
                 }
-                if (!isLeaf) {
-                    states.add(AccessibleState.EXPANDABLE);
+                if (!isLebf) {
+                    stbtes.bdd(AccessibleStbte.EXPANDABLE);
                 }
-                if (tree.isExpanded(path)) {
-                    states.add(AccessibleState.EXPANDED);
+                if (tree.isExpbnded(pbth)) {
+                    stbtes.bdd(AccessibleStbte.EXPANDED);
                 } else {
-                    states.add(AccessibleState.COLLAPSED);
+                    stbtes.bdd(AccessibleStbte.COLLAPSED);
                 }
-                if (tree.isEditable()) {
-                    states.add(AccessibleState.EDITABLE);
+                if (tree.isEditbble()) {
+                    stbtes.bdd(AccessibleStbte.EDITABLE);
                 }
-                return states;
+                return stbtes;
             }
 
             /**
-             * Get the Accessible parent of this object.
+             * Get the Accessible pbrent of this object.
              *
-             * @return the Accessible parent of this object; null if this
-             * object does not have an Accessible parent
+             * @return the Accessible pbrent of this object; null if this
+             * object does not hbve bn Accessible pbrent
              */
-            public Accessible getAccessibleParent() {
-                // someone wants to know, so we need to create our parent
-                // if we don't have one (hey, we're a talented kid!)
-                if (accessibleParent == null) {
-                    Object[] objPath = path.getPath();
-                    if (objPath.length > 1) {
-                        Object objParent = objPath[objPath.length-2];
+            public Accessible getAccessiblePbrent() {
+                // someone wbnts to know, so we need to crebte our pbrent
+                // if we don't hbve one (hey, we're b tblented kid!)
+                if (bccessiblePbrent == null) {
+                    Object[] objPbth = pbth.getPbth();
+                    if (objPbth.length > 1) {
+                        Object objPbrent = objPbth[objPbth.length-2];
                         if (treeModel != null) {
-                            index = treeModel.getIndexOfChild(objParent, obj);
+                            index = treeModel.getIndexOfChild(objPbrent, obj);
                         }
-                        Object[] objParentPath = new Object[objPath.length-1];
-                        java.lang.System.arraycopy(objPath, 0, objParentPath,
-                                                   0, objPath.length-1);
-                        TreePath parentPath = new TreePath(objParentPath);
-                        accessibleParent = new AccessibleJTreeNode(tree,
-                                                                   parentPath,
+                        Object[] objPbrentPbth = new Object[objPbth.length-1];
+                        jbvb.lbng.System.brrbycopy(objPbth, 0, objPbrentPbth,
+                                                   0, objPbth.length-1);
+                        TreePbth pbrentPbth = new TreePbth(objPbrentPbth);
+                        bccessiblePbrent = new AccessibleJTreeNode(tree,
+                                                                   pbrentPbth,
                                                                    null);
-                        this.setAccessibleParent(accessibleParent);
+                        this.setAccessiblePbrent(bccessiblePbrent);
                     } else if (treeModel != null) {
-                        accessibleParent = tree; // we're the top!
-                        index = 0; // we're an only child!
-                        this.setAccessibleParent(accessibleParent);
+                        bccessiblePbrent = tree; // we're the top!
+                        index = 0; // we're bn only child!
+                        this.setAccessiblePbrent(bccessiblePbrent);
                     }
                 }
-                return accessibleParent;
+                return bccessiblePbrent;
             }
 
             /**
-             * Get the index of this object in its accessible parent.
+             * Get the index of this object in its bccessible pbrent.
              *
-             * @return the index of this object in its parent; -1 if this
-             * object does not have an accessible parent.
-             * @see #getAccessibleParent
+             * @return the index of this object in its pbrent; -1 if this
+             * object does not hbve bn bccessible pbrent.
+             * @see #getAccessiblePbrent
              */
-            public int getAccessibleIndexInParent() {
-                // index is invalid 'till we have an accessibleParent...
-                if (accessibleParent == null) {
-                    getAccessibleParent();
+            public int getAccessibleIndexInPbrent() {
+                // index is invblid 'till we hbve bn bccessiblePbrent...
+                if (bccessiblePbrent == null) {
+                    getAccessiblePbrent();
                 }
-                Object[] objPath = path.getPath();
-                if (objPath.length > 1) {
-                    Object objParent = objPath[objPath.length-2];
+                Object[] objPbth = pbth.getPbth();
+                if (objPbth.length > 1) {
+                    Object objPbrent = objPbth[objPbth.length-2];
                     if (treeModel != null) {
-                        index = treeModel.getIndexOfChild(objParent, obj);
+                        index = treeModel.getIndexOfChild(objPbrent, obj);
                     }
                 }
                 return index;
             }
 
             /**
-             * Returns the number of accessible children in the object.
+             * Returns the number of bccessible children in the object.
              *
-             * @return the number of accessible children in the object.
+             * @return the number of bccessible children in the object.
              */
             public int getAccessibleChildrenCount() {
-                // Tree nodes can't be so complex that they have
-                // two sets of children -> we're ignoring that case
+                // Tree nodes cbn't be so complex thbt they hbve
+                // two sets of children -> we're ignoring thbt cbse
                 return treeModel.getChildCount(obj);
             }
 
             /**
              * Return the specified Accessible child of the object.
              *
-             * @param i zero-based index of child
+             * @pbrbm i zero-bbsed index of child
              * @return the Accessible child of the object
              */
             public Accessible getAccessibleChild(int i) {
-                // Tree nodes can't be so complex that they have
-                // two sets of children -> we're ignoring that case
+                // Tree nodes cbn't be so complex thbt they hbve
+                // two sets of children -> we're ignoring thbt cbse
                 if (i < 0 || i >= getAccessibleChildrenCount()) {
                     return null;
                 } else {
                     Object childObj = treeModel.getChild(obj, i);
-                    Object[] objPath = path.getPath();
-                    Object[] objChildPath = new Object[objPath.length+1];
-                    java.lang.System.arraycopy(objPath, 0, objChildPath, 0, objPath.length);
-                    objChildPath[objChildPath.length-1] = childObj;
-                    TreePath childPath = new TreePath(objChildPath);
-                    return new AccessibleJTreeNode(JTree.this, childPath, this);
+                    Object[] objPbth = pbth.getPbth();
+                    Object[] objChildPbth = new Object[objPbth.length+1];
+                    jbvb.lbng.System.brrbycopy(objPbth, 0, objChildPbth, 0, objPbth.length);
+                    objChildPbth[objChildPbth.length-1] = childObj;
+                    TreePbth childPbth = new TreePbth(objChildPbth);
+                    return new AccessibleJTreeNode(JTree.this, childPbth, this);
                 }
             }
 
             /**
-             * Gets the locale of the component. If the component does not have
-             * a locale, then the locale of its parent is returned.
+             * Gets the locble of the component. If the component does not hbve
+             * b locble, then the locble of its pbrent is returned.
              *
-             * @return This component's locale. If this component does not have
-             * a locale, the locale of its parent is returned.
-             * @exception IllegalComponentStateException
-             * If the Component does not have its own locale and has not yet
-             * been added to a containment hierarchy such that the locale can be
-             * determined from the containing parent.
-             * @see #setLocale
+             * @return This component's locble. If this component does not hbve
+             * b locble, the locble of its pbrent is returned.
+             * @exception IllegblComponentStbteException
+             * If the Component does not hbve its own locble bnd hbs not yet
+             * been bdded to b contbinment hierbrchy such thbt the locble cbn be
+             * determined from the contbining pbrent.
+             * @see #setLocble
              */
-            public Locale getLocale() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getLocale();
+            public Locble getLocble() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getLocble();
                 } else {
-                    return tree.getLocale();
+                    return tree.getLocble();
                 }
             }
 
             /**
-             * Add a PropertyChangeListener to the listener list.
-             * The listener is registered for all properties.
+             * Add b PropertyChbngeListener to the listener list.
+             * The listener is registered for bll properties.
              *
-             * @param l  The PropertyChangeListener to be added
+             * @pbrbm l  The PropertyChbngeListener to be bdded
              */
-            public void addPropertyChangeListener(PropertyChangeListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.addPropertyChangeListener(l);
+            public void bddPropertyChbngeListener(PropertyChbngeListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.bddPropertyChbngeListener(l);
                 } else {
-                    super.addPropertyChangeListener(l);
+                    super.bddPropertyChbngeListener(l);
                 }
             }
 
             /**
-             * Remove a PropertyChangeListener from the listener list.
-             * This removes a PropertyChangeListener that was registered
-             * for all properties.
+             * Remove b PropertyChbngeListener from the listener list.
+             * This removes b PropertyChbngeListener thbt wbs registered
+             * for bll properties.
              *
-             * @param l  The PropertyChangeListener to be removed
+             * @pbrbm l  The PropertyChbngeListener to be removed
              */
-            public void removePropertyChangeListener(PropertyChangeListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.removePropertyChangeListener(l);
+            public void removePropertyChbngeListener(PropertyChbngeListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.removePropertyChbngeListener(l);
                 } else {
-                    super.removePropertyChangeListener(l);
+                    super.removePropertyChbngeListener(l);
                 }
             }
 
             /**
-             * Get the AccessibleAction associated with this object.  In the
-             * implementation of the Java Accessibility API for this class,
+             * Get the AccessibleAction bssocibted with this object.  In the
+             * implementbtion of the Jbvb Accessibility API for this clbss,
              * return this object, which is responsible for implementing the
-             * AccessibleAction interface on behalf of itself.
+             * AccessibleAction interfbce on behblf of itself.
              *
              * @return this object
              */
@@ -4943,10 +4943,10 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             /**
-             * Get the AccessibleComponent associated with this object.  In the
-             * implementation of the Java Accessibility API for this class,
+             * Get the AccessibleComponent bssocibted with this object.  In the
+             * implementbtion of the Jbvb Accessibility API for this clbss,
              * return this object, which is responsible for implementing the
-             * AccessibleComponent interface on behalf of itself.
+             * AccessibleComponent interfbce on behblf of itself.
              *
              * @return this object
              */
@@ -4955,14 +4955,14 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             /**
-             * Get the AccessibleSelection associated with this object if one
+             * Get the AccessibleSelection bssocibted with this object if one
              * exists.  Otherwise return null.
              *
              * @return the AccessibleSelection, or null
              */
             public AccessibleSelection getAccessibleSelection() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null && isLeaf) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null && isLebf) {
                     return getCurrentAccessibleContext().getAccessibleSelection();
                 } else {
                     return this;
@@ -4970,14 +4970,14 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             /**
-             * Get the AccessibleText associated with this object if one
+             * Get the AccessibleText bssocibted with this object if one
              * exists.  Otherwise return null.
              *
              * @return the AccessibleText, or null
              */
             public AccessibleText getAccessibleText() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
                     return getCurrentAccessibleContext().getAccessibleText();
                 } else {
                     return null;
@@ -4985,15 +4985,15 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             /**
-             * Get the AccessibleValue associated with this object if one
+             * Get the AccessibleVblue bssocibted with this object if one
              * exists.  Otherwise return null.
              *
-             * @return the AccessibleValue, or null
+             * @return the AccessibleVblue, or null
              */
-            public AccessibleValue getAccessibleValue() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return getCurrentAccessibleContext().getAccessibleValue();
+            public AccessibleVblue getAccessibleVblue() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return getCurrentAccessibleContext().getAccessibleVblue();
                 } else {
                     return null;
                 }
@@ -5003,19 +5003,19 @@ public class JTree extends JComponent implements Scrollable, Accessible
         // AccessibleComponent methods
 
             /**
-             * Get the background color of this object.
+             * Get the bbckground color of this object.
              *
-             * @return the background color, if supported, of the object;
+             * @return the bbckground color, if supported, of the object;
              * otherwise, null
              */
-            public Color getBackground() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getBackground();
+            public Color getBbckground() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getBbckground();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.getBackground();
+                        return c.getBbckground();
                     } else {
                         return null;
                     }
@@ -5023,18 +5023,18 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             /**
-             * Set the background color of this object.
+             * Set the bbckground color of this object.
              *
-             * @param c the new Color for the background
+             * @pbrbm c the new Color for the bbckground
              */
-            public void setBackground(Color c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setBackground(c);
+            public void setBbckground(Color c) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setBbckground(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
-                        cp.setBackground(c);
+                        cp.setBbckground(c);
                     }
                 }
             }
@@ -5047,9 +5047,9 @@ public class JTree extends JComponent implements Scrollable, Accessible
              * otherwise, null
              */
             public Color getForeground() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getForeground();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getForeground();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -5061,9 +5061,9 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             public void setForeground(Color c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setForeground(c);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setForeground(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
@@ -5073,17 +5073,17 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             public Cursor getCursor() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getCursor();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getCursor();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
                         return c.getCursor();
                     } else {
-                        Accessible ap = getAccessibleParent();
-                        if (ap instanceof AccessibleComponent) {
-                            return ((AccessibleComponent) ap).getCursor();
+                        Accessible bp = getAccessiblePbrent();
+                        if (bp instbnceof AccessibleComponent) {
+                            return ((AccessibleComponent) bp).getCursor();
                         } else {
                             return null;
                         }
@@ -5092,9 +5092,9 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             public void setCursor(Cursor c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setCursor(c);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setCursor(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
@@ -5104,9 +5104,9 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             public Font getFont() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getFont();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getFont();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -5118,9 +5118,9 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             public void setFont(Font f) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setFont(f);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setFont(f);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -5130,9 +5130,9 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             public FontMetrics getFontMetrics(Font f) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getFontMetrics(f);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getFontMetrics(f);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -5143,71 +5143,71 @@ public class JTree extends JComponent implements Scrollable, Accessible
                 }
             }
 
-            public boolean isEnabled() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isEnabled();
+            public boolebn isEnbbled() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isEnbbled();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.isEnabled();
+                        return c.isEnbbled();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
-            public void setEnabled(boolean b) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setEnabled(b);
+            public void setEnbbled(boolebn b) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setEnbbled(b);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        c.setEnabled(b);
+                        c.setEnbbled(b);
                     }
                 }
             }
 
-            public boolean isVisible() {
-                Rectangle pathBounds = tree.getPathBounds(path);
-                Rectangle parentBounds = tree.getVisibleRect();
-                return pathBounds != null && parentBounds != null &&
-                        parentBounds.intersects(pathBounds);
+            public boolebn isVisible() {
+                Rectbngle pbthBounds = tree.getPbthBounds(pbth);
+                Rectbngle pbrentBounds = tree.getVisibleRect();
+                return pbthBounds != null && pbrentBounds != null &&
+                        pbrentBounds.intersects(pbthBounds);
             }
 
-            public void setVisible(boolean b) {
+            public void setVisible(boolebn b) {
             }
 
-            public boolean isShowing() {
+            public boolebn isShowing() {
                 return (tree.isShowing() && isVisible());
             }
 
-            public boolean contains(Point p) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    Rectangle r = ((AccessibleComponent) ac).getBounds();
-                    return r.contains(p);
+            public boolebn contbins(Point p) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    Rectbngle r = ((AccessibleComponent) bc).getBounds();
+                    return r.contbins(p);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        Rectangle r = c.getBounds();
-                        return r.contains(p);
+                        Rectbngle r = c.getBounds();
+                        return r.contbins(p);
                     } else {
-                        return getBounds().contains(p);
+                        return getBounds().contbins(p);
                     }
                 }
             }
 
-            public Point getLocationOnScreen() {
+            public Point getLocbtionOnScreen() {
                 if (tree != null) {
-                    Point treeLocation = tree.getLocationOnScreen();
-                    Rectangle pathBounds = tree.getPathBounds(path);
-                    if (treeLocation != null && pathBounds != null) {
-                        Point nodeLocation = new Point(pathBounds.x,
-                                                       pathBounds.y);
-                        nodeLocation.translate(treeLocation.x, treeLocation.y);
-                        return nodeLocation;
+                    Point treeLocbtion = tree.getLocbtionOnScreen();
+                    Rectbngle pbthBounds = tree.getPbthBounds(pbth);
+                    if (treeLocbtion != null && pbthBounds != null) {
+                        Point nodeLocbtion = new Point(pbthBounds.x,
+                                                       pbthBounds.y);
+                        nodeLocbtion.trbnslbte(treeLocbtion.x, treeLocbtion.y);
+                        return nodeLocbtion;
                     } else {
                         return null;
                     }
@@ -5217,39 +5217,39 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             /**
-             * Returns the relative location of the node
+             * Returns the relbtive locbtion of the node
              *
-             * @return the relative location of the node
+             * @return the relbtive locbtion of the node
              */
-            protected Point getLocationInJTree() {
-                Rectangle r = tree.getPathBounds(path);
+            protected Point getLocbtionInJTree() {
+                Rectbngle r = tree.getPbthBounds(pbth);
                 if (r != null) {
-                    return r.getLocation();
+                    return r.getLocbtion();
                 } else {
                     return null;
                 }
             }
 
-            public Point getLocation() {
-                Rectangle r = getBounds();
+            public Point getLocbtion() {
+                Rectbngle r = getBounds();
                 if (r != null) {
-                    return r.getLocation();
+                    return r.getLocbtion();
                 } else {
                     return null;
                 }
             }
 
-            public void setLocation(Point p) {
+            public void setLocbtion(Point p) {
             }
 
-            public Rectangle getBounds() {
-                Rectangle r = tree.getPathBounds(path);
-                Accessible parent = getAccessibleParent();
-                if (parent != null) {
-                    if (parent instanceof AccessibleJTreeNode) {
-                        Point parentLoc = ((AccessibleJTreeNode) parent).getLocationInJTree();
-                        if (parentLoc != null && r != null) {
-                            r.translate(-parentLoc.x, -parentLoc.y);
+            public Rectbngle getBounds() {
+                Rectbngle r = tree.getPbthBounds(pbth);
+                Accessible pbrent = getAccessiblePbrent();
+                if (pbrent != null) {
+                    if (pbrent instbnceof AccessibleJTreeNode) {
+                        Point pbrentLoc = ((AccessibleJTreeNode) pbrent).getLocbtionInJTree();
+                        if (pbrentLoc != null && r != null) {
+                            r.trbnslbte(-pbrentLoc.x, -pbrentLoc.y);
                         } else {
                             return null;        // not visible!
                         }
@@ -5258,10 +5258,10 @@ public class JTree extends JComponent implements Scrollable, Accessible
                 return r;
             }
 
-            public void setBounds(Rectangle r) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setBounds(r);
+            public void setBounds(Rectbngle r) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setBounds(r);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -5275,9 +5275,9 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             public void setSize (Dimension d) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setSize(d);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setSize(d);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -5288,42 +5288,42 @@ public class JTree extends JComponent implements Scrollable, Accessible
 
             /**
              * Returns the <code>Accessible</code> child, if one exists,
-             * contained at the local coordinate <code>Point</code>.
+             * contbined bt the locbl coordinbte <code>Point</code>.
              * Otherwise returns <code>null</code>.
              *
-             * @param p point in local coordinates of this
+             * @pbrbm p point in locbl coordinbtes of this
              *    <code>Accessible</code>
              * @return the <code>Accessible</code>, if it exists,
-             *    at the specified location; else <code>null</code>
+             *    bt the specified locbtion; else <code>null</code>
              */
             public Accessible getAccessibleAt(Point p) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getAccessibleAt(p);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getAccessibleAt(p);
                 } else {
                     return null;
                 }
             }
 
-            @SuppressWarnings("deprecation")
-            public boolean isFocusTraversable() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isFocusTraversable();
+            @SuppressWbrnings("deprecbtion")
+            public boolebn isFocusTrbversbble() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isFocusTrbversbble();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.isFocusTraversable();
+                        return c.isFocusTrbversbble();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
             public void requestFocus() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).requestFocus();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).requestFocus();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -5332,22 +5332,22 @@ public class JTree extends JComponent implements Scrollable, Accessible
                 }
             }
 
-            public void addFocusListener(FocusListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).addFocusListener(l);
+            public void bddFocusListener(FocusListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).bddFocusListener(l);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        c.addFocusListener(l);
+                        c.bddFocusListener(l);
                     }
                 }
             }
 
             public void removeFocusListener(FocusListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).removeFocusListener(l);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).removeFocusListener(l);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -5360,7 +5360,7 @@ public class JTree extends JComponent implements Scrollable, Accessible
 
             /**
              * Returns the number of items currently selected.
-             * If no items are selected, the return value will be 0.
+             * If no items bre selected, the return vblue will be 0.
              *
              * @return the number of items currently selected.
              */
@@ -5368,8 +5368,8 @@ public class JTree extends JComponent implements Scrollable, Accessible
                 int count = 0;
                 int childCount = getAccessibleChildrenCount();
                 for (int i = 0; i < childCount; i++) {
-                    TreePath childPath = getChildTreePath(i);
-                    if (tree.isPathSelected(childPath)) {
+                    TreePbth childPbth = getChildTreePbth(i);
+                    if (tree.isPbthSelected(childPbth)) {
                        count++;
                     }
                 }
@@ -5377,25 +5377,25 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             /**
-             * Returns an Accessible representing the specified selected item
-             * in the object.  If there isn't a selection, or there are
-             * fewer items selected than the integer passed in, the return
-             * value will be null.
+             * Returns bn Accessible representing the specified selected item
+             * in the object.  If there isn't b selection, or there bre
+             * fewer items selected thbn the integer pbssed in, the return
+             * vblue will be null.
              *
-             * @param i the zero-based index of selected items
-             * @return an Accessible containing the selected item
+             * @pbrbm i the zero-bbsed index of selected items
+             * @return bn Accessible contbining the selected item
              */
             public Accessible getAccessibleSelection(int i) {
                 int childCount = getAccessibleChildrenCount();
                 if (i < 0 || i >= childCount) {
-                    return null;        // out of range
+                    return null;        // out of rbnge
                 }
                 int count = 0;
                 for (int j = 0; j < childCount && i >= count; j++) {
-                    TreePath childPath = getChildTreePath(j);
-                    if (tree.isPathSelected(childPath)) {
+                    TreePbth childPbth = getChildTreePbth(j);
+                    if (tree.isPbthSelected(childPbth)) {
                         if (count == i) {
-                            return new AccessibleJTreeNode(tree, childPath, this);
+                            return new AccessibleJTreeNode(tree, childPbth, this);
                         } else {
                             count++;
                         }
@@ -5407,35 +5407,35 @@ public class JTree extends JComponent implements Scrollable, Accessible
             /**
              * Returns true if the current child of this object is selected.
              *
-             * @param i the zero-based index of the child in this Accessible
+             * @pbrbm i the zero-bbsed index of the child in this Accessible
              * object.
              * @see AccessibleContext#getAccessibleChild
              */
-            public boolean isAccessibleChildSelected(int i) {
+            public boolebn isAccessibleChildSelected(int i) {
                 int childCount = getAccessibleChildrenCount();
                 if (i < 0 || i >= childCount) {
-                    return false;       // out of range
+                    return fblse;       // out of rbnge
                 } else {
-                    TreePath childPath = getChildTreePath(i);
-                    return tree.isPathSelected(childPath);
+                    TreePbth childPbth = getChildTreePbth(i);
+                    return tree.isPbthSelected(childPbth);
                 }
             }
 
             /**
              * Adds the specified selected item in the object to the object's
              * selection.  If the object supports multiple selections,
-             * the specified item is added to any existing selection, otherwise
-             * it replaces any existing selection in the object.  If the
-             * specified item is already selected, this method has no effect.
+             * the specified item is bdded to bny existing selection, otherwise
+             * it replbces bny existing selection in the object.  If the
+             * specified item is blrebdy selected, this method hbs no effect.
              *
-             * @param i the zero-based index of selectable items
+             * @pbrbm i the zero-bbsed index of selectbble items
              */
-            public void addAccessibleSelection(int i) {
+            public void bddAccessibleSelection(int i) {
                TreeModel model = JTree.this.getModel();
                if (model != null) {
                    if (i >= 0 && i < getAccessibleChildrenCount()) {
-                       TreePath path = getChildTreePath(i);
-                       JTree.this.addSelectionPath(path);
+                       TreePbth pbth = getChildTreePbth(i);
+                       JTree.this.bddSelectionPbth(pbth);
                     }
                 }
             }
@@ -5444,25 +5444,25 @@ public class JTree extends JComponent implements Scrollable, Accessible
              * Removes the specified selected item in the object from the
              * object's
              * selection.  If the specified item isn't currently selected, this
-             * method has no effect.
+             * method hbs no effect.
              *
-             * @param i the zero-based index of selectable items
+             * @pbrbm i the zero-bbsed index of selectbble items
              */
             public void removeAccessibleSelection(int i) {
                TreeModel model = JTree.this.getModel();
                if (model != null) {
                    if (i >= 0 && i < getAccessibleChildrenCount()) {
-                       TreePath path = getChildTreePath(i);
-                       JTree.this.removeSelectionPath(path);
+                       TreePbth pbth = getChildTreePbth(i);
+                       JTree.this.removeSelectionPbth(pbth);
                     }
                 }
             }
 
             /**
-             * Clears the selection in the object, so that nothing in the
+             * Clebrs the selection in the object, so thbt nothing in the
              * object is selected.
              */
-            public void clearAccessibleSelection() {
+            public void clebrAccessibleSelection() {
                 int childCount = getAccessibleChildrenCount();
                 for (int i = 0; i < childCount; i++) {
                     removeAccessibleSelection(i);
@@ -5470,17 +5470,17 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             /**
-             * Causes every selected item in the object to be selected
+             * Cbuses every selected item in the object to be selected
              * if the object supports multiple selections.
              */
             public void selectAllAccessibleSelection() {
                TreeModel model = JTree.this.getModel();
                if (model != null) {
                    int childCount = getAccessibleChildrenCount();
-                   TreePath path;
+                   TreePbth pbth;
                    for (int i = 0; i < childCount; i++) {
-                       path = getChildTreePath(i);
-                       JTree.this.addSelectionPath(path);
+                       pbth = getChildTreePbth(i);
+                       JTree.this.bddSelectionPbth(pbth);
                    }
                 }
             }
@@ -5488,45 +5488,45 @@ public class JTree extends JComponent implements Scrollable, Accessible
         // AccessibleAction methods
 
             /**
-             * Returns the number of accessible actions available in this
-             * tree node.  If this node is not a leaf, there is at least
-             * one action (toggle expand), in addition to any available
+             * Returns the number of bccessible bctions bvbilbble in this
+             * tree node.  If this node is not b lebf, there is bt lebst
+             * one bction (toggle expbnd), in bddition to bny bvbilbble
              * on the object behind the TreeCellRenderer.
              *
              * @return the number of Actions in this object
              */
             public int getAccessibleActionCount() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    AccessibleAction aa = ac.getAccessibleAction();
-                    if (aa != null) {
-                        return (aa.getAccessibleActionCount() + (isLeaf ? 0 : 1));
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    AccessibleAction bb = bc.getAccessibleAction();
+                    if (bb != null) {
+                        return (bb.getAccessibleActionCount() + (isLebf ? 0 : 1));
                     }
                 }
-                return isLeaf ? 0 : 1;
+                return isLebf ? 0 : 1;
             }
 
             /**
-             * Return a description of the specified action of the tree node.
-             * If this node is not a leaf, there is at least one action
-             * description (toggle expand), in addition to any available
+             * Return b description of the specified bction of the tree node.
+             * If this node is not b lebf, there is bt lebst one bction
+             * description (toggle expbnd), in bddition to bny bvbilbble
              * on the object behind the TreeCellRenderer.
              *
-             * @param i zero-based index of the actions
-             * @return a description of the action
+             * @pbrbm i zero-bbsed index of the bctions
+             * @return b description of the bction
              */
             public String getAccessibleActionDescription(int i) {
                 if (i < 0 || i >= getAccessibleActionCount()) {
                     return null;
                 }
-                AccessibleContext ac = getCurrentAccessibleContext();
+                AccessibleContext bc = getCurrentAccessibleContext();
                 if (i == 0) {
                     // TIGER - 4766636
                     return AccessibleAction.TOGGLE_EXPAND;
-                } else if (ac != null) {
-                    AccessibleAction aa = ac.getAccessibleAction();
-                    if (aa != null) {
-                        return aa.getAccessibleActionDescription(i - 1);
+                } else if (bc != null) {
+                    AccessibleAction bb = bc.getAccessibleAction();
+                    if (bb != null) {
+                        return bb.getAccessibleActionDescription(i - 1);
                     }
                 }
                 return null;
@@ -5534,36 +5534,36 @@ public class JTree extends JComponent implements Scrollable, Accessible
 
             /**
              * Perform the specified Action on the tree node.  If this node
-             * is not a leaf, there is at least one action which can be
-             * done (toggle expand), in addition to any available on the
+             * is not b lebf, there is bt lebst one bction which cbn be
+             * done (toggle expbnd), in bddition to bny bvbilbble on the
              * object behind the TreeCellRenderer.
              *
-             * @param i zero-based index of actions
-             * @return true if the the action was performed; else false.
+             * @pbrbm i zero-bbsed index of bctions
+             * @return true if the the bction wbs performed; else fblse.
              */
-            public boolean doAccessibleAction(int i) {
+            public boolebn doAccessibleAction(int i) {
                 if (i < 0 || i >= getAccessibleActionCount()) {
-                    return false;
+                    return fblse;
                 }
-                AccessibleContext ac = getCurrentAccessibleContext();
+                AccessibleContext bc = getCurrentAccessibleContext();
                 if (i == 0) {
-                    if (JTree.this.isExpanded(path)) {
-                        JTree.this.collapsePath(path);
+                    if (JTree.this.isExpbnded(pbth)) {
+                        JTree.this.collbpsePbth(pbth);
                     } else {
-                        JTree.this.expandPath(path);
+                        JTree.this.expbndPbth(pbth);
                     }
                     return true;
-                } else if (ac != null) {
-                    AccessibleAction aa = ac.getAccessibleAction();
-                    if (aa != null) {
-                        return aa.doAccessibleAction(i - 1);
+                } else if (bc != null) {
+                    AccessibleAction bb = bc.getAccessibleAction();
+                    if (bb != null) {
+                        return bb.doAccessibleAction(i - 1);
                     }
                 }
-                return false;
+                return fblse;
             }
 
-        } // inner class AccessibleJTreeNode
+        } // inner clbss AccessibleJTreeNode
 
-    }  // inner class AccessibleJTree
+    }  // inner clbss AccessibleJTree
 
-} // End of class JTree
+} // End of clbss JTree

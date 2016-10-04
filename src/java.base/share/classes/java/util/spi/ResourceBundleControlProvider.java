@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.spi;
+pbckbge jbvb.util.spi;
 
-import java.util.ResourceBundle;
+import jbvb.util.ResourceBundle;
 
 /**
- * An interface for service providers that provide implementations of {@link
- * java.util.ResourceBundle.Control}. The <a
- * href="../ResourceBundle.html#default_behavior">default resource bundle loading
- * behavior</a> of the {@code ResourceBundle.getBundle} factory methods that take
- * no {@link java.util.ResourceBundle.Control} instance can be modified with {@code
- * ResourceBundleControlProvider} implementations.
+ * An interfbce for service providers thbt provide implementbtions of {@link
+ * jbvb.util.ResourceBundle.Control}. The <b
+ * href="../ResourceBundle.html#defbult_behbvior">defbult resource bundle lobding
+ * behbvior</b> of the {@code ResourceBundle.getBundle} fbctory methods thbt tbke
+ * no {@link jbvb.util.ResourceBundle.Control} instbnce cbn be modified with {@code
+ * ResourceBundleControlProvider} implementbtions.
  *
- * <p>Provider implementations must be packaged using the <a
- * href="../../../../technotes/guides/extensions/index.html">Java Extension
- * Mechanism</a> as installed extensions. Refer to {@link java.util.ServiceLoader}
- * for the extension packaging. Any installed {@code
- * ResourceBundleControlProvider} implementations are loaded using {@link
- * java.util.ServiceLoader} at the {@code ResourceBundle} class loading time.
+ * <p>Provider implementbtions must be pbckbged using the <b
+ * href="../../../../technotes/guides/extensions/index.html">Jbvb Extension
+ * Mechbnism</b> bs instblled extensions. Refer to {@link jbvb.util.ServiceLobder}
+ * for the extension pbckbging. Any instblled {@code
+ * ResourceBundleControlProvider} implementbtions bre lobded using {@link
+ * jbvb.util.ServiceLobder} bt the {@code ResourceBundle} clbss lobding time.
  *
- * @author Masayoshi Okutsu
+ * @buthor Mbsbyoshi Okutsu
  * @since 1.8
- * @see ResourceBundle#getBundle(String, java.util.Locale, ClassLoader, ResourceBundle.Control)
+ * @see ResourceBundle#getBundle(String, jbvb.util.Locble, ClbssLobder, ResourceBundle.Control)
  *      ResourceBundle.getBundle
- * @see java.util.ServiceLoader#loadInstalled(Class)
+ * @see jbvb.util.ServiceLobder#lobdInstblled(Clbss)
  */
-public interface ResourceBundleControlProvider {
+public interfbce ResourceBundleControlProvider {
     /**
-     * Returns a {@code ResourceBundle.Control} instance that is used
-     * to handle resource bundle loading for the given {@code
-     * baseName}. This method must return {@code null} if the given
-     * {@code baseName} isn't handled by this provider.
+     * Returns b {@code ResourceBundle.Control} instbnce thbt is used
+     * to hbndle resource bundle lobding for the given {@code
+     * bbseNbme}. This method must return {@code null} if the given
+     * {@code bbseNbme} isn't hbndled by this provider.
      *
-     * @param baseName the base name of the resource bundle
-     * @return a {@code ResourceBundle.Control} instance,
-     *         or {@code null} if the given {@code baseName} is not
-     *         applicable to this provider.
-     * @throws NullPointerException if {@code baseName} is {@code null}
+     * @pbrbm bbseNbme the bbse nbme of the resource bundle
+     * @return b {@code ResourceBundle.Control} instbnce,
+     *         or {@code null} if the given {@code bbseNbme} is not
+     *         bpplicbble to this provider.
+     * @throws NullPointerException if {@code bbseNbme} is {@code null}
      */
-    public ResourceBundle.Control getControl(String baseName);
+    public ResourceBundle.Control getControl(String bbseNbme);
 }

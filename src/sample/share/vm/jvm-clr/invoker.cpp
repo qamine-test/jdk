@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,17 +30,17 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 #define _WIN32_WINNT 0x0400
 #include "windows.h"
-#include "Oleauto.h"
+#include "Olebuto.h"
 #include "stdio.h"
 #include "mscoree.h"
 #include "corerror.h"
@@ -48,76 +48,76 @@
 #include "invokerExp.h"
 #include "invoker.h"
 
-#import  <mscorlib.tlb> raw_interfaces_only
+#import  <mscorlib.tlb> rbw_interfbces_only
 
-using namespace mscorlib;
+using nbmespbce mscorlib;
 
-// The CLR assembly invocation function
+// The CLR bssembly invocbtion function
 
-int __stdcall invokeCLR( WCHAR* wszApplication){
+int __stdcbll invokeCLR( WCHAR* wszApplicbtion){
 
-    //Initializes the COM library
+    //Initiblizes the COM librbry
 
-    CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+    CoInitiblizeEx(NULL, COINIT_APARTMENTTHREADED);
 
     ICorRuntimeHost* pHost           = NULL;
-    IUnknown*        pAppDomainThunk = NULL;
-    _AppDomain*      pAppDomain      = NULL;
+    IUnknown*        pAppDombinThunk = NULL;
+    _AppDombin*      pAppDombin      = NULL;
     long             lReturn         = 0;
 
-    // Load CLR into the process
+    // Lobd CLR into the process
 
     HRESULT hr = CorBindToRuntimeEx(NULL,NULL,0,CLSID_CorRuntimeHost,IID_ICorRuntimeHost,(VOID**)&pHost);
 
     if(!FAILED(hr)) {
 
-        // Start the CLR
+        // Stbrt the CLR
 
-        hr = pHost->Start();
+        hr = pHost->Stbrt();
         if(!FAILED(hr)) {
 
-            // Get the _AppDomain interface
+            // Get the _AppDombin interfbce
 
-            hr = pHost->GetDefaultDomain(&pAppDomainThunk);
+            hr = pHost->GetDefbultDombin(&pAppDombinThunk);
             if(!FAILED(hr)) {
 
-                hr = pAppDomainThunk->QueryInterface(__uuidof(_AppDomain), (void**)&pAppDomain);
+                hr = pAppDombinThunk->QueryInterfbce(__uuidof(_AppDombin), (void**)&pAppDombin);
                 if(!FAILED(hr)) {
 
-                    // Execute assembly
+                    // Execute bssembly
 
-                    hr = pAppDomain->ExecuteAssembly_2(_bstr_t(wszApplication), &lReturn);
+                    hr = pAppDombin->ExecuteAssembly_2(_bstr_t(wszApplicbtion), &lReturn);
                     if (FAILED(hr)) {
 
-                        printf("_AppDomain::ExecuteAssembly_2 failed with hr=0x%x.\n", hr);
+                        printf("_AppDombin::ExecuteAssembly_2 fbiled with hr=0x%x.\n", hr);
                         lReturn = -1;
                     }
 
                 }else{
-                    printf("Can't get System::_AppDomain interface\n");
+                    printf("Cbn't get System::_AppDombin interfbce\n");
                     lReturn = -2;
                 }
 
             }else{
-                printf("ICorRuntimeHost->GetDefaultDomain failed with hr=0x%x.\n", hr);
+                printf("ICorRuntimeHost->GetDefbultDombin fbiled with hr=0x%x.\n", hr);
                 lReturn = -3;
             }
         }else{
-            printf("ICorRuntimeHost->Start failed with hr=0x%x.\n", hr);
+            printf("ICorRuntimeHost->Stbrt fbiled with hr=0x%x.\n", hr);
             lReturn = -4;
         }
 
     }else{
-        printf("CorBindToRuntimeHost failed with hr=0x%x.\n", hr);
+        printf("CorBindToRuntimeHost fbiled with hr=0x%x.\n", hr);
         lReturn = -5;
     }
 
-    // print the error message description if needed
+    // print the error messbge description if needed
 
     if(FAILED(hr)){
         LPVOID lpMsgBuf = NULL;
 
-        FormatMessage(
+        FormbtMessbge(
                 FORMAT_MESSAGE_ALLOCATE_BUFFER |
                 FORMAT_MESSAGE_FROM_SYSTEM |
                 FORMAT_MESSAGE_IGNORE_INSERTS,
@@ -128,46 +128,46 @@ int __stdcall invokeCLR( WCHAR* wszApplication){
                 0,
                 NULL );
         if(lpMsgBuf != NULL)
-            printf("Message:%s\n",lpMsgBuf);
+            printf("Messbge:%s\n",lpMsgBuf);
         else
-            printf("No translation of 0x%x\n",hr);
+            printf("No trbnslbtion of 0x%x\n",hr);
     }
 
-    // close COM library
+    // close COM librbry
 
-    CoUninitialize();
+    CoUninitiblize();
 
     return lReturn;
 }
 
-// Wrapper function that allows to ASCIZ string to provide the assemble path
+// Wrbpper function thbt bllows to ASCIZ string to provide the bssemble pbth
 
-int __stdcall invokeCLR( const char* szApplication){
+int __stdcbll invokeCLR( const chbr* szApplicbtion){
 
-    int    nLength = strlen(szApplication)+1;
+    int    nLength = strlen(szApplicbtion)+1;
 
-    WCHAR* wszApplication = new WCHAR[nLength];
+    WCHAR* wszApplicbtion = new WCHAR[nLength];
 
-    mbstowcs(wszApplication, szApplication, nLength);
+    mbstowcs(wszApplicbtion, szApplicbtion, nLength);
 
-    int nReturn = invokeCLR( wszApplication);
+    int nReturn = invokeCLR( wszApplicbtion);
 
-    delete wszApplication;
+    delete wszApplicbtion;
 
     return nReturn;
 }
 
-// native method enter-point
+// nbtive method enter-point
 
-JNIEXPORT jint JNICALL Java_invoker_invokeCLR( JNIEnv* pEnv,
-                                               jclass  pClass,
-                                               jstring jsApplication) {
+JNIEXPORT jint JNICALL Jbvb_invoker_invokeCLR( JNIEnv* pEnv,
+                                               jclbss  pClbss,
+                                               jstring jsApplicbtion) {
 
-    const char* szApplication = pEnv->GetStringUTFChars(jsApplication, NULL);
+    const chbr* szApplicbtion = pEnv->GetStringUTFChbrs(jsApplicbtion, NULL);
 
-    int nResult = invokeCLR( szApplication);
+    int nResult = invokeCLR( szApplicbtion);
 
-    pEnv->ReleaseStringUTFChars(jsApplication,szApplication);
+    pEnv->RelebseStringUTFChbrs(jsApplicbtion,szApplicbtion);
 
     return nResult;
 }

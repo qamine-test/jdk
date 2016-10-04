@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.tree;
+pbckbge jbvbx.swing.tree;
 
-import java.beans.PropertyChangeListener;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Enumeration;
-import java.util.EventListener;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Vector;
-import javax.swing.event.*;
-import javax.swing.DefaultListSelectionModel;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.io.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.BitSet;
+import jbvb.util.Enumerbtion;
+import jbvb.util.EventListener;
+import jbvb.util.Hbshtbble;
+import jbvb.util.List;
+import jbvb.util.Vector;
+import jbvbx.swing.event.*;
+import jbvbx.swing.DefbultListSelectionModel;
 
 /**
- * Default implementation of TreeSelectionModel.  Listeners are notified
+ * Defbult implementbtion of TreeSelectionModel.  Listeners bre notified
  * whenever
- * the paths in the selection change, not the rows. In order
- * to be able to track row changes you may wish to become a listener
- * for expansion events on the tree and test for changes from there.
- * <p>resetRowSelection is called from any of the methods that update
- * the selected paths. If you subclass any of these methods to
- * filter what is allowed to be selected, be sure and message
- * <code>resetRowSelection</code> if you do not message super.
+ * the pbths in the selection chbnge, not the rows. In order
+ * to be bble to trbck row chbnges you mby wish to become b listener
+ * for expbnsion events on the tree bnd test for chbnges from there.
+ * <p>resetRowSelection is cblled from bny of the methods thbt updbte
+ * the selected pbths. If you subclbss bny of these methods to
+ * filter whbt is bllowed to be selected, be sure bnd messbge
+ * <code>resetRowSelection</code> if you do not messbge super.
  *
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see javax.swing.JTree
+ * @see jbvbx.swing.JTree
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial")
-public class DefaultTreeSelectionModel implements Cloneable, Serializable, TreeSelectionModel
+@SuppressWbrnings("seribl")
+public clbss DefbultTreeSelectionModel implements Clonebble, Seriblizbble, TreeSelectionModel
 {
-    /** Property name for selectionMode. */
-    public static final String          SELECTION_MODE_PROPERTY = "selectionMode";
+    /** Property nbme for selectionMode. */
+    public stbtic finbl String          SELECTION_MODE_PROPERTY = "selectionMode";
 
-    /** Used to messaged registered listeners. */
-    protected SwingPropertyChangeSupport     changeSupport;
+    /** Used to messbged registered listeners. */
+    protected SwingPropertyChbngeSupport     chbngeSupport;
 
-    /** Paths that are currently selected.  Will be null if nothing is
+    /** Pbths thbt bre currently selected.  Will be null if nothing is
       * currently selected. */
-    protected TreePath[]                selection;
+    protected TreePbth[]                selection;
 
     /** Event listener list. */
     protected EventListenerList   listenerList = new EventListenerList();
 
-    /** Provides a row for a given path. */
-    transient protected RowMapper               rowMapper;
+    /** Provides b row for b given pbth. */
+    trbnsient protected RowMbpper               rowMbpper;
 
-    /** Handles maintaining the list selection model. The RowMapper is used
-     * to map from a TreePath to a row, and the value is then placed here. */
-    protected DefaultListSelectionModel     listSelectionModel;
+    /** Hbndles mbintbining the list selection model. The RowMbpper is used
+     * to mbp from b TreePbth to b row, bnd the vblue is then plbced here. */
+    protected DefbultListSelectionModel     listSelectionModel;
 
     /** Mode for the selection, will be either SINGLE_TREE_SELECTION,
      * CONTIGUOUS_TREE_SELECTION or DISCONTIGUOUS_TREE_SELECTION.
      */
     protected int                           selectionMode;
 
-    /** Last path that was added. */
-    protected TreePath                      leadPath;
-    /** Index of the lead path in selection. */
-    protected int                           leadIndex;
-    /** Lead row. */
-    protected int                           leadRow;
+    /** Lbst pbth thbt wbs bdded. */
+    protected TreePbth                      lebdPbth;
+    /** Index of the lebd pbth in selection. */
+    protected int                           lebdIndex;
+    /** Lebd row. */
+    protected int                           lebdRow;
 
-    /** Used to make sure the paths are unique, will contain all the paths
+    /** Used to mbke sure the pbths bre unique, will contbin bll the pbths
      * in <code>selection</code>.
      */
-    private Hashtable<TreePath, Boolean>    uniquePaths;
-    private Hashtable<TreePath, Boolean>    lastPaths;
-    private TreePath[]                      tempPaths;
+    privbte Hbshtbble<TreePbth, Boolebn>    uniquePbths;
+    privbte Hbshtbble<TreePbth, Boolebn>    lbstPbths;
+    privbte TreePbth[]                      tempPbths;
 
 
     /**
-     * Creates a new instance of DefaultTreeSelectionModel that is
-     * empty, with a selection mode of DISCONTIGUOUS_TREE_SELECTION.
+     * Crebtes b new instbnce of DefbultTreeSelectionModel thbt is
+     * empty, with b selection mode of DISCONTIGUOUS_TREE_SELECTION.
      */
-    public DefaultTreeSelectionModel() {
-        listSelectionModel = new DefaultListSelectionModel();
+    public DefbultTreeSelectionModel() {
+        listSelectionModel = new DefbultListSelectionModel();
         selectionMode = DISCONTIGUOUS_TREE_SELECTION;
-        leadIndex = leadRow = -1;
-        uniquePaths = new Hashtable<TreePath, Boolean>();
-        lastPaths = new Hashtable<TreePath, Boolean>();
-        tempPaths = new TreePath[1];
+        lebdIndex = lebdRow = -1;
+        uniquePbths = new Hbshtbble<TreePbth, Boolebn>();
+        lbstPbths = new Hbshtbble<TreePbth, Boolebn>();
+        tempPbths = new TreePbth[1];
     }
 
     /**
-     * Sets the RowMapper instance. This instance is used to determine
-     * the row for a particular TreePath.
+     * Sets the RowMbpper instbnce. This instbnce is used to determine
+     * the row for b pbrticulbr TreePbth.
      */
-    public void setRowMapper(RowMapper newMapper) {
-        rowMapper = newMapper;
+    public void setRowMbpper(RowMbpper newMbpper) {
+        rowMbpper = newMbpper;
         resetRowSelection();
     }
 
     /**
-     * Returns the RowMapper instance that is able to map a TreePath to a
+     * Returns the RowMbpper instbnce thbt is bble to mbp b TreePbth to b
      * row.
      */
-    public RowMapper getRowMapper() {
-        return rowMapper;
+    public RowMbpper getRowMbpper() {
+        return rowMbpper;
     }
 
     /**
      * Sets the selection model, which must be one of SINGLE_TREE_SELECTION,
      * CONTIGUOUS_TREE_SELECTION or DISCONTIGUOUS_TREE_SELECTION. If mode
-     * is not one of the defined value,
-     * <code>DISCONTIGUOUS_TREE_SELECTION</code> is assumed.
-     * <p>This may change the selection if the current selection is not valid
-     * for the new mode. For example, if three TreePaths are
-     * selected when the mode is changed to <code>SINGLE_TREE_SELECTION</code>,
-     * only one TreePath will remain selected. It is up to the particular
-     * implementation to decide what TreePath remains selected.
+     * is not one of the defined vblue,
+     * <code>DISCONTIGUOUS_TREE_SELECTION</code> is bssumed.
+     * <p>This mby chbnge the selection if the current selection is not vblid
+     * for the new mode. For exbmple, if three TreePbths bre
+     * selected when the mode is chbnged to <code>SINGLE_TREE_SELECTION</code>,
+     * only one TreePbth will rembin selected. It is up to the pbrticulbr
+     * implementbtion to decide whbt TreePbth rembins selected.
      * <p>
-     * Setting the mode to something other than the defined types will
+     * Setting the mode to something other thbn the defined types will
      * result in the mode becoming <code>DISCONTIGUOUS_TREE_SELECTION</code>.
      */
     public void setSelectionMode(int mode) {
@@ -156,10 +156,10 @@ public class DefaultTreeSelectionModel implements Cloneable, Serializable, TreeS
            selectionMode != TreeSelectionModel.CONTIGUOUS_TREE_SELECTION &&
            selectionMode != TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION)
             selectionMode = TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION;
-        if(oldMode != selectionMode && changeSupport != null)
-            changeSupport.firePropertyChange(SELECTION_MODE_PROPERTY,
-                                             Integer.valueOf(oldMode),
-                                             Integer.valueOf(selectionMode));
+        if(oldMode != selectionMode && chbngeSupport != null)
+            chbngeSupport.firePropertyChbnge(SELECTION_MODE_PROPERTY,
+                                             Integer.vblueOf(oldMode),
+                                             Integer.vblueOf(selectionMode));
     }
 
     /**
@@ -172,344 +172,344 @@ public class DefaultTreeSelectionModel implements Cloneable, Serializable, TreeS
     }
 
     /**
-      * Sets the selection to path. If this represents a change, then
-      * the TreeSelectionListeners are notified. If <code>path</code> is
-      * null, this has the same effect as invoking <code>clearSelection</code>.
+      * Sets the selection to pbth. If this represents b chbnge, then
+      * the TreeSelectionListeners bre notified. If <code>pbth</code> is
+      * null, this hbs the sbme effect bs invoking <code>clebrSelection</code>.
       *
-      * @param path new path to select
+      * @pbrbm pbth new pbth to select
       */
-    public void setSelectionPath(TreePath path) {
-        if(path == null)
-            setSelectionPaths(null);
+    public void setSelectionPbth(TreePbth pbth) {
+        if(pbth == null)
+            setSelectionPbths(null);
         else {
-            TreePath[]          newPaths = new TreePath[1];
+            TreePbth[]          newPbths = new TreePbth[1];
 
-            newPaths[0] = path;
-            setSelectionPaths(newPaths);
+            newPbths[0] = pbth;
+            setSelectionPbths(newPbths);
         }
     }
 
     /**
-     * Sets the selection. Whether the supplied paths are taken as the
+     * Sets the selection. Whether the supplied pbths bre tbken bs the
      * new selection depends upon the selection mode. If the supplied
-     * array is {@code null}, or empty, the selection is cleared. If
+     * brrby is {@code null}, or empty, the selection is clebred. If
      * the selection mode is {@code SINGLE_TREE_SELECTION}, only the
-     * first path in {@code pPaths} is used. If the selection
-     * mode is {@code CONTIGUOUS_TREE_SELECTION} and the supplied paths
-     * are not contiguous, then only the first path in {@code pPaths} is
+     * first pbth in {@code pPbths} is used. If the selection
+     * mode is {@code CONTIGUOUS_TREE_SELECTION} bnd the supplied pbths
+     * bre not contiguous, then only the first pbth in {@code pPbths} is
      * used. If the selection mode is
-     * {@code DISCONTIGUOUS_TREE_SELECTION}, then all paths are used.
+     * {@code DISCONTIGUOUS_TREE_SELECTION}, then bll pbths bre used.
      * <p>
-     * All {@code null} paths in {@code pPaths} are ignored.
+     * All {@code null} pbths in {@code pPbths} bre ignored.
      * <p>
-     * If this represents a change, all registered {@code
-     * TreeSelectionListener}s are notified.
+     * If this represents b chbnge, bll registered {@code
+     * TreeSelectionListener}s bre notified.
      * <p>
-     * The lead path is set to the last unique path.
+     * The lebd pbth is set to the lbst unique pbth.
      * <p>
-     * The paths returned from {@code getSelectionPaths} are in the same
-     * order as those supplied to this method.
+     * The pbths returned from {@code getSelectionPbths} bre in the sbme
+     * order bs those supplied to this method.
      *
-     * @param pPaths the new selection
+     * @pbrbm pPbths the new selection
      */
-    public void setSelectionPaths(TreePath[] pPaths) {
+    public void setSelectionPbths(TreePbth[] pPbths) {
         int            newCount, newCounter, oldCount, oldCounter;
-        TreePath[]     paths = pPaths;
+        TreePbth[]     pbths = pPbths;
 
-        if(paths == null)
+        if(pbths == null)
             newCount = 0;
         else
-            newCount = paths.length;
+            newCount = pbths.length;
         if(selection == null)
             oldCount = 0;
         else
             oldCount = selection.length;
         if((newCount + oldCount) != 0) {
             if(selectionMode == TreeSelectionModel.SINGLE_TREE_SELECTION) {
-                /* If single selection and more than one path, only allow
+                /* If single selection bnd more thbn one pbth, only bllow
                    first. */
                 if(newCount > 1) {
-                    paths = new TreePath[1];
-                    paths[0] = pPaths[0];
+                    pbths = new TreePbth[1];
+                    pbths[0] = pPbths[0];
                     newCount = 1;
                 }
             }
             else if(selectionMode ==
                     TreeSelectionModel.CONTIGUOUS_TREE_SELECTION) {
-                /* If contiguous selection and paths aren't contiguous,
-                   only select the first path item. */
-                if(newCount > 0 && !arePathsContiguous(paths)) {
-                    paths = new TreePath[1];
-                    paths[0] = pPaths[0];
+                /* If contiguous selection bnd pbths bren't contiguous,
+                   only select the first pbth item. */
+                if(newCount > 0 && !brePbthsContiguous(pbths)) {
+                    pbths = new TreePbth[1];
+                    pbths[0] = pPbths[0];
                     newCount = 1;
                 }
             }
 
-            TreePath         beginLeadPath = leadPath;
-            Vector<PathPlaceHolder> cPaths = new Vector<PathPlaceHolder>(newCount + oldCount);
-            List<TreePath> newSelectionAsList =
-                    new ArrayList<TreePath>(newCount);
+            TreePbth         beginLebdPbth = lebdPbth;
+            Vector<PbthPlbceHolder> cPbths = new Vector<PbthPlbceHolder>(newCount + oldCount);
+            List<TreePbth> newSelectionAsList =
+                    new ArrbyList<TreePbth>(newCount);
 
-            lastPaths.clear();
-            leadPath = null;
-            /* Find the paths that are new. */
+            lbstPbths.clebr();
+            lebdPbth = null;
+            /* Find the pbths thbt bre new. */
             for(newCounter = 0; newCounter < newCount; newCounter++) {
-                TreePath path = paths[newCounter];
-                if (path != null && lastPaths.get(path) == null) {
-                    lastPaths.put(path, Boolean.TRUE);
-                    if (uniquePaths.get(path) == null) {
-                        cPaths.addElement(new PathPlaceHolder(path, true));
+                TreePbth pbth = pbths[newCounter];
+                if (pbth != null && lbstPbths.get(pbth) == null) {
+                    lbstPbths.put(pbth, Boolebn.TRUE);
+                    if (uniquePbths.get(pbth) == null) {
+                        cPbths.bddElement(new PbthPlbceHolder(pbth, true));
                     }
-                    leadPath = path;
-                    newSelectionAsList.add(path);
+                    lebdPbth = pbth;
+                    newSelectionAsList.bdd(pbth);
                 }
             }
 
-            TreePath[] newSelection = newSelectionAsList.toArray(
-                    new TreePath[newSelectionAsList.size()]);
+            TreePbth[] newSelection = newSelectionAsList.toArrby(
+                    new TreePbth[newSelectionAsList.size()]);
 
-            /* Get the paths that were selected but no longer selected. */
+            /* Get the pbths thbt were selected but no longer selected. */
             for(oldCounter = 0; oldCounter < oldCount; oldCounter++)
                 if(selection[oldCounter] != null &&
-                    lastPaths.get(selection[oldCounter]) == null)
-                    cPaths.addElement(new PathPlaceHolder
-                                      (selection[oldCounter], false));
+                    lbstPbths.get(selection[oldCounter]) == null)
+                    cPbths.bddElement(new PbthPlbceHolder
+                                      (selection[oldCounter], fblse));
 
             selection = newSelection;
 
-            Hashtable<TreePath, Boolean>  tempHT = uniquePaths;
+            Hbshtbble<TreePbth, Boolebn>  tempHT = uniquePbths;
 
-            uniquePaths = lastPaths;
-            lastPaths = tempHT;
-            lastPaths.clear();
+            uniquePbths = lbstPbths;
+            lbstPbths = tempHT;
+            lbstPbths.clebr();
 
-            // No reason to do this now, but will still call it.
+            // No rebson to do this now, but will still cbll it.
             insureUniqueness();
 
-            updateLeadIndex();
+            updbteLebdIndex();
 
             resetRowSelection();
-            /* Notify of the change. */
-            if(cPaths.size() > 0)
-                notifyPathChange(cPaths, beginLeadPath);
+            /* Notify of the chbnge. */
+            if(cPbths.size() > 0)
+                notifyPbthChbnge(cPbths, beginLebdPbth);
         }
     }
 
     /**
-      * Adds path to the current selection. If path is not currently
-      * in the selection the TreeSelectionListeners are notified. This has
-      * no effect if <code>path</code> is null.
+      * Adds pbth to the current selection. If pbth is not currently
+      * in the selection the TreeSelectionListeners bre notified. This hbs
+      * no effect if <code>pbth</code> is null.
       *
-      * @param path the new path to add to the current selection
+      * @pbrbm pbth the new pbth to bdd to the current selection
       */
-    public void addSelectionPath(TreePath path) {
-        if(path != null) {
-            TreePath[]            toAdd = new TreePath[1];
+    public void bddSelectionPbth(TreePbth pbth) {
+        if(pbth != null) {
+            TreePbth[]            toAdd = new TreePbth[1];
 
-            toAdd[0] = path;
-            addSelectionPaths(toAdd);
+            toAdd[0] = pbth;
+            bddSelectionPbths(toAdd);
         }
     }
 
     /**
-      * Adds paths to the current selection. If any of the paths in
-      * paths are not currently in the selection the TreeSelectionListeners
-      * are notified. This has
-      * no effect if <code>paths</code> is null.
-      * <p>The lead path is set to the last element in <code>paths</code>.
+      * Adds pbths to the current selection. If bny of the pbths in
+      * pbths bre not currently in the selection the TreeSelectionListeners
+      * bre notified. This hbs
+      * no effect if <code>pbths</code> is null.
+      * <p>The lebd pbth is set to the lbst element in <code>pbths</code>.
       * <p>If the selection mode is <code>CONTIGUOUS_TREE_SELECTION</code>,
-      * and adding the new paths would make the selection discontiguous.
-      * Then two things can result: if the TreePaths in <code>paths</code>
-      * are contiguous, then the selection becomes these TreePaths,
-      * otherwise the TreePaths aren't contiguous and the selection becomes
-      * the first TreePath in <code>paths</code>.
+      * bnd bdding the new pbths would mbke the selection discontiguous.
+      * Then two things cbn result: if the TreePbths in <code>pbths</code>
+      * bre contiguous, then the selection becomes these TreePbths,
+      * otherwise the TreePbths bren't contiguous bnd the selection becomes
+      * the first TreePbth in <code>pbths</code>.
       *
-      * @param paths the new path to add to the current selection
+      * @pbrbm pbths the new pbth to bdd to the current selection
       */
-    public void addSelectionPaths(TreePath[] paths) {
-        int       newPathLength = ((paths == null) ? 0 : paths.length);
+    public void bddSelectionPbths(TreePbth[] pbths) {
+        int       newPbthLength = ((pbths == null) ? 0 : pbths.length);
 
-        if(newPathLength > 0) {
+        if(newPbthLength > 0) {
             if(selectionMode == TreeSelectionModel.SINGLE_TREE_SELECTION) {
-                setSelectionPaths(paths);
+                setSelectionPbths(pbths);
             }
             else if(selectionMode == TreeSelectionModel.
-                    CONTIGUOUS_TREE_SELECTION && !canPathsBeAdded(paths)) {
-                if(arePathsContiguous(paths)) {
-                    setSelectionPaths(paths);
+                    CONTIGUOUS_TREE_SELECTION && !cbnPbthsBeAdded(pbths)) {
+                if(brePbthsContiguous(pbths)) {
+                    setSelectionPbths(pbths);
                 }
                 else {
-                    TreePath[]          newPaths = new TreePath[1];
+                    TreePbth[]          newPbths = new TreePbth[1];
 
-                    newPaths[0] = paths[0];
-                    setSelectionPaths(newPaths);
+                    newPbths[0] = pbths[0];
+                    setSelectionPbths(newPbths);
                 }
             }
             else {
-                int               counter, validCount;
+                int               counter, vblidCount;
                 int               oldCount;
-                TreePath          beginLeadPath = leadPath;
-                Vector<PathPlaceHolder>  cPaths = null;
+                TreePbth          beginLebdPbth = lebdPbth;
+                Vector<PbthPlbceHolder>  cPbths = null;
 
                 if(selection == null)
                     oldCount = 0;
                 else
                     oldCount = selection.length;
-                /* Determine the paths that aren't currently in the
+                /* Determine the pbths thbt bren't currently in the
                    selection. */
-                lastPaths.clear();
-                for(counter = 0, validCount = 0; counter < newPathLength;
+                lbstPbths.clebr();
+                for(counter = 0, vblidCount = 0; counter < newPbthLength;
                     counter++) {
-                    if(paths[counter] != null) {
-                        if (uniquePaths.get(paths[counter]) == null) {
-                            validCount++;
-                            if(cPaths == null)
-                                cPaths = new Vector<PathPlaceHolder>();
-                            cPaths.addElement(new PathPlaceHolder
-                                              (paths[counter], true));
-                            uniquePaths.put(paths[counter], Boolean.TRUE);
-                            lastPaths.put(paths[counter], Boolean.TRUE);
+                    if(pbths[counter] != null) {
+                        if (uniquePbths.get(pbths[counter]) == null) {
+                            vblidCount++;
+                            if(cPbths == null)
+                                cPbths = new Vector<PbthPlbceHolder>();
+                            cPbths.bddElement(new PbthPlbceHolder
+                                              (pbths[counter], true));
+                            uniquePbths.put(pbths[counter], Boolebn.TRUE);
+                            lbstPbths.put(pbths[counter], Boolebn.TRUE);
                         }
-                        leadPath = paths[counter];
+                        lebdPbth = pbths[counter];
                     }
                 }
 
-                if(leadPath == null) {
-                    leadPath = beginLeadPath;
+                if(lebdPbth == null) {
+                    lebdPbth = beginLebdPbth;
                 }
 
-                if(validCount > 0) {
-                    TreePath         newSelection[] = new TreePath[oldCount +
-                                                                  validCount];
+                if(vblidCount > 0) {
+                    TreePbth         newSelection[] = new TreePbth[oldCount +
+                                                                  vblidCount];
 
                     /* And build the new selection. */
                     if(oldCount > 0)
-                        System.arraycopy(selection, 0, newSelection, 0,
+                        System.brrbycopy(selection, 0, newSelection, 0,
                                          oldCount);
-                    if(validCount != paths.length) {
-                        /* Some of the paths in paths are already in
+                    if(vblidCount != pbths.length) {
+                        /* Some of the pbths in pbths bre blrebdy in
                            the selection. */
-                        Enumeration<TreePath> newPaths = lastPaths.keys();
+                        Enumerbtion<TreePbth> newPbths = lbstPbths.keys();
 
                         counter = oldCount;
-                        while (newPaths.hasMoreElements()) {
-                            newSelection[counter++] = newPaths.nextElement();
+                        while (newPbths.hbsMoreElements()) {
+                            newSelection[counter++] = newPbths.nextElement();
                         }
                     }
                     else {
-                        System.arraycopy(paths, 0, newSelection, oldCount,
-                                         validCount);
+                        System.brrbycopy(pbths, 0, newSelection, oldCount,
+                                         vblidCount);
                     }
 
                     selection = newSelection;
 
                     insureUniqueness();
 
-                    updateLeadIndex();
+                    updbteLebdIndex();
 
                     resetRowSelection();
 
-                    notifyPathChange(cPaths, beginLeadPath);
+                    notifyPbthChbnge(cPbths, beginLebdPbth);
                 }
                 else
-                    leadPath = beginLeadPath;
-                lastPaths.clear();
+                    lebdPbth = beginLebdPbth;
+                lbstPbths.clebr();
             }
         }
     }
 
     /**
-      * Removes path from the selection. If path is in the selection
-      * The TreeSelectionListeners are notified. This has no effect if
-      * <code>path</code> is null.
+      * Removes pbth from the selection. If pbth is in the selection
+      * The TreeSelectionListeners bre notified. This hbs no effect if
+      * <code>pbth</code> is null.
       *
-      * @param path the path to remove from the selection
+      * @pbrbm pbth the pbth to remove from the selection
       */
-    public void removeSelectionPath(TreePath path) {
-        if(path != null) {
-            TreePath[]             rPath = new TreePath[1];
+    public void removeSelectionPbth(TreePbth pbth) {
+        if(pbth != null) {
+            TreePbth[]             rPbth = new TreePbth[1];
 
-            rPath[0] = path;
-            removeSelectionPaths(rPath);
+            rPbth[0] = pbth;
+            removeSelectionPbths(rPbth);
         }
     }
 
     /**
-      * Removes paths from the selection.  If any of the paths in paths
-      * are in the selection the TreeSelectionListeners are notified.
-      * This has no effect if <code>paths</code> is null.
+      * Removes pbths from the selection.  If bny of the pbths in pbths
+      * bre in the selection the TreeSelectionListeners bre notified.
+      * This hbs no effect if <code>pbths</code> is null.
       *
-      * @param paths the paths to remove from the selection
+      * @pbrbm pbths the pbths to remove from the selection
       */
-    public void removeSelectionPaths(TreePath[] paths) {
-        if (paths != null && selection != null && paths.length > 0) {
-            if(!canPathsBeRemoved(paths)) {
-                /* Could probably do something more interesting here! */
-                clearSelection();
+    public void removeSelectionPbths(TreePbth[] pbths) {
+        if (pbths != null && selection != null && pbths.length > 0) {
+            if(!cbnPbthsBeRemoved(pbths)) {
+                /* Could probbbly do something more interesting here! */
+                clebrSelection();
             }
             else {
-                Vector<PathPlaceHolder> pathsToRemove = null;
+                Vector<PbthPlbceHolder> pbthsToRemove = null;
 
-                /* Find the paths that can be removed. */
-                for (int removeCounter = paths.length - 1; removeCounter >= 0;
+                /* Find the pbths thbt cbn be removed. */
+                for (int removeCounter = pbths.length - 1; removeCounter >= 0;
                      removeCounter--) {
-                    if(paths[removeCounter] != null) {
-                        if (uniquePaths.get(paths[removeCounter]) != null) {
-                            if(pathsToRemove == null)
-                                pathsToRemove = new Vector<PathPlaceHolder>(paths.length);
-                            uniquePaths.remove(paths[removeCounter]);
-                            pathsToRemove.addElement(new PathPlaceHolder
-                                         (paths[removeCounter], false));
+                    if(pbths[removeCounter] != null) {
+                        if (uniquePbths.get(pbths[removeCounter]) != null) {
+                            if(pbthsToRemove == null)
+                                pbthsToRemove = new Vector<PbthPlbceHolder>(pbths.length);
+                            uniquePbths.remove(pbths[removeCounter]);
+                            pbthsToRemove.bddElement(new PbthPlbceHolder
+                                         (pbths[removeCounter], fblse));
                         }
                     }
                 }
-                if(pathsToRemove != null) {
-                    int         removeCount = pathsToRemove.size();
-                    TreePath    beginLeadPath = leadPath;
+                if(pbthsToRemove != null) {
+                    int         removeCount = pbthsToRemove.size();
+                    TreePbth    beginLebdPbth = lebdPbth;
 
                     if(removeCount == selection.length) {
                         selection = null;
                     }
                     else {
-                        Enumeration<TreePath> pEnum = uniquePaths.keys();
-                        int                  validCount = 0;
+                        Enumerbtion<TreePbth> pEnum = uniquePbths.keys();
+                        int                  vblidCount = 0;
 
-                        selection = new TreePath[selection.length -
+                        selection = new TreePbth[selection.length -
                                                 removeCount];
-                        while (pEnum.hasMoreElements()) {
-                            selection[validCount++] = pEnum.nextElement();
+                        while (pEnum.hbsMoreElements()) {
+                            selection[vblidCount++] = pEnum.nextElement();
                         }
                     }
-                    if (leadPath != null &&
-                        uniquePaths.get(leadPath) == null) {
+                    if (lebdPbth != null &&
+                        uniquePbths.get(lebdPbth) == null) {
                         if (selection != null) {
-                            leadPath = selection[selection.length - 1];
+                            lebdPbth = selection[selection.length - 1];
                         }
                         else {
-                            leadPath = null;
+                            lebdPbth = null;
                         }
                     }
                     else if (selection != null) {
-                        leadPath = selection[selection.length - 1];
+                        lebdPbth = selection[selection.length - 1];
                     }
                     else {
-                        leadPath = null;
+                        lebdPbth = null;
                     }
-                    updateLeadIndex();
+                    updbteLebdIndex();
 
                     resetRowSelection();
 
-                    notifyPathChange(pathsToRemove, beginLeadPath);
+                    notifyPbthChbnge(pbthsToRemove, beginLebdPbth);
                 }
             }
         }
     }
 
     /**
-      * Returns the first path in the selection. This is useful if there
+      * Returns the first pbth in the selection. This is useful if there
       * if only one item currently selected.
       */
-    public TreePath getSelectionPath() {
+    public TreePbth getSelectionPbth() {
         if (selection != null && selection.length > 0) {
             return selection[0];
         }
@@ -521,185 +521,185 @@ public class DefaultTreeSelectionModel implements Cloneable, Serializable, TreeS
       *
       * @return the selection
       */
-    public TreePath[] getSelectionPaths() {
+    public TreePbth[] getSelectionPbths() {
         if(selection != null) {
-            int                 pathSize = selection.length;
-            TreePath[]          result = new TreePath[pathSize];
+            int                 pbthSize = selection.length;
+            TreePbth[]          result = new TreePbth[pbthSize];
 
-            System.arraycopy(selection, 0, result, 0, pathSize);
+            System.brrbycopy(selection, 0, result, 0, pbthSize);
             return result;
         }
-        return new TreePath[0];
+        return new TreePbth[0];
     }
 
     /**
-     * Returns the number of paths that are selected.
+     * Returns the number of pbths thbt bre selected.
      */
     public int getSelectionCount() {
         return (selection == null) ? 0 : selection.length;
     }
 
     /**
-      * Returns true if the path, <code>path</code>,
+      * Returns true if the pbth, <code>pbth</code>,
       * is in the current selection.
       */
-    public boolean isPathSelected(TreePath path) {
-        return (path != null) ? (uniquePaths.get(path) != null) : false;
+    public boolebn isPbthSelected(TreePbth pbth) {
+        return (pbth != null) ? (uniquePbths.get(pbth) != null) : fblse;
     }
 
     /**
       * Returns true if the selection is currently empty.
       */
-    public boolean isSelectionEmpty() {
+    public boolebn isSelectionEmpty() {
         return (selection == null || selection.length == 0);
     }
 
     /**
-      * Empties the current selection.  If this represents a change in the
-      * current selection, the selection listeners are notified.
+      * Empties the current selection.  If this represents b chbnge in the
+      * current selection, the selection listeners bre notified.
       */
-    public void clearSelection() {
+    public void clebrSelection() {
         if (selection != null && selection.length > 0) {
             int                    selSize = selection.length;
-            boolean[]              newness = new boolean[selSize];
+            boolebn[]              newness = new boolebn[selSize];
 
             for(int counter = 0; counter < selSize; counter++)
-                newness[counter] = false;
+                newness[counter] = fblse;
 
             TreeSelectionEvent     event = new TreeSelectionEvent
-                (this, selection, newness, leadPath, null);
+                (this, selection, newness, lebdPbth, null);
 
-            leadPath = null;
-            leadIndex = leadRow = -1;
-            uniquePaths.clear();
+            lebdPbth = null;
+            lebdIndex = lebdRow = -1;
+            uniquePbths.clebr();
             selection = null;
             resetRowSelection();
-            fireValueChanged(event);
+            fireVblueChbnged(event);
         }
     }
 
     /**
-      * Adds x to the list of listeners that are notified each time the
-      * set of selected TreePaths changes.
+      * Adds x to the list of listeners thbt bre notified ebch time the
+      * set of selected TreePbths chbnges.
       *
-      * @param x the new listener to be added
+      * @pbrbm x the new listener to be bdded
       */
-    public void addTreeSelectionListener(TreeSelectionListener x) {
-        listenerList.add(TreeSelectionListener.class, x);
+    public void bddTreeSelectionListener(TreeSelectionListener x) {
+        listenerList.bdd(TreeSelectionListener.clbss, x);
     }
 
     /**
-      * Removes x from the list of listeners that are notified each time
-      * the set of selected TreePaths changes.
+      * Removes x from the list of listeners thbt bre notified ebch time
+      * the set of selected TreePbths chbnges.
       *
-      * @param x the listener to remove
+      * @pbrbm x the listener to remove
       */
     public void removeTreeSelectionListener(TreeSelectionListener x) {
-        listenerList.remove(TreeSelectionListener.class, x);
+        listenerList.remove(TreeSelectionListener.clbss, x);
     }
 
     /**
-     * Returns an array of all the tree selection listeners
+     * Returns bn brrby of bll the tree selection listeners
      * registered on this model.
      *
-     * @return all of this model's <code>TreeSelectionListener</code>s
-     *         or an empty
-     *         array if no tree selection listeners are currently registered
+     * @return bll of this model's <code>TreeSelectionListener</code>s
+     *         or bn empty
+     *         brrby if no tree selection listeners bre currently registered
      *
-     * @see #addTreeSelectionListener
+     * @see #bddTreeSelectionListener
      * @see #removeTreeSelectionListener
      *
      * @since 1.4
      */
     public TreeSelectionListener[] getTreeSelectionListeners() {
-        return listenerList.getListeners(TreeSelectionListener.class);
+        return listenerList.getListeners(TreeSelectionListener.clbss);
     }
 
     /**
-     * Notifies all listeners that are registered for
+     * Notifies bll listeners thbt bre registered for
      * tree selection events on this object.
      *
-     * @param e the event that characterizes the change
+     * @pbrbm e the event thbt chbrbcterizes the chbnge
      *
-     * @see #addTreeSelectionListener
+     * @see #bddTreeSelectionListener
      * @see EventListenerList
      */
-    protected void fireValueChanged(TreeSelectionEvent e) {
-        // Guaranteed to return a non-null array
+    protected void fireVblueChbnged(TreeSelectionEvent e) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
         // TreeSelectionEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeSelectionListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TreeSelectionListener.clbss) {
+                // Lbzily crebte the event:
                 // if (e == null)
-                // e = new ListSelectionEvent(this, firstIndex, lastIndex);
-                ((TreeSelectionListener)listeners[i+1]).valueChanged(e);
+                // e = new ListSelectionEvent(this, firstIndex, lbstIndex);
+                ((TreeSelectionListener)listeners[i+1]).vblueChbnged(e);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
      * upon this model.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
      * <p>
      *
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal,
-     * such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>DefaultTreeSelectionModel</code> <code>m</code>
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl,
+     * such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
+     * <code>DefbultTreeSelectionModel</code> <code>m</code>
      * for its tree selection listeners with the following code:
      *
-     * <pre>TreeSelectionListener[] tsls = (TreeSelectionListener[])(m.getListeners(TreeSelectionListener.class));</pre>
+     * <pre>TreeSelectionListener[] tsls = (TreeSelectionListener[])(m.getListeners(TreeSelectionListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this component,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @see #getTreeSelectionListeners
-     * @see #getPropertyChangeListeners
+     * @see #getPropertyChbngeListeners
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         return listenerList.getListeners(listenerType);
     }
 
     /**
      * Returns the selection in terms of rows. There is not
-     * necessarily a one-to-one mapping between the {@code TreePath}s
-     * returned from {@code getSelectionPaths} and this method. In
-     * particular, if a {@code TreePath} is not viewable (the {@code
-     * RowMapper} returns {@code -1} for the row corresponding to the
-     * {@code TreePath}), then the corresponding row is not included
-     * in the returned array. For example, if the selection consists
-     * of two paths, {@code A} and {@code B}, with {@code A} at row
-     * {@code 10}, and {@code B} not currently viewable, then this method
-     * returns an array with the single entry {@code 10}.
+     * necessbrily b one-to-one mbpping between the {@code TreePbth}s
+     * returned from {@code getSelectionPbths} bnd this method. In
+     * pbrticulbr, if b {@code TreePbth} is not viewbble (the {@code
+     * RowMbpper} returns {@code -1} for the row corresponding to the
+     * {@code TreePbth}), then the corresponding row is not included
+     * in the returned brrby. For exbmple, if the selection consists
+     * of two pbths, {@code A} bnd {@code B}, with {@code A} bt row
+     * {@code 10}, bnd {@code B} not currently viewbble, then this method
+     * returns bn brrby with the single entry {@code 10}.
      *
      * @return the selection in terms of rows
      */
     public int[] getSelectionRows() {
-        // This is currently rather expensive.  Needs
+        // This is currently rbther expensive.  Needs
         // to be better support from ListSelectionModel to speed this up.
-        if (rowMapper != null && selection != null && selection.length > 0) {
-            int[]      rows = rowMapper.getRowsForPaths(selection);
+        if (rowMbpper != null && selection != null && selection.length > 0) {
+            int[]      rows = rowMbpper.getRowsForPbths(selection);
 
             if (rows != null) {
                 int       invisCount = 0;
@@ -732,183 +732,183 @@ public class DefaultTreeSelectionModel implements Cloneable, Serializable, TreeS
     }
 
     /**
-     * Returns the smallest value obtained from the RowMapper for the
-     * current set of selected TreePaths. If nothing is selected,
-     * or there is no RowMapper, this will return -1.
+     * Returns the smbllest vblue obtbined from the RowMbpper for the
+     * current set of selected TreePbths. If nothing is selected,
+     * or there is no RowMbpper, this will return -1.
       */
     public int getMinSelectionRow() {
         return listSelectionModel.getMinSelectionIndex();
     }
 
     /**
-     * Returns the largest value obtained from the RowMapper for the
-     * current set of selected TreePaths. If nothing is selected,
-     * or there is no RowMapper, this will return -1.
+     * Returns the lbrgest vblue obtbined from the RowMbpper for the
+     * current set of selected TreePbths. If nothing is selected,
+     * or there is no RowMbpper, this will return -1.
       */
-    public int getMaxSelectionRow() {
-        return listSelectionModel.getMaxSelectionIndex();
+    public int getMbxSelectionRow() {
+        return listSelectionModel.getMbxSelectionIndex();
     }
 
     /**
       * Returns true if the row identified by <code>row</code> is selected.
       */
-    public boolean isRowSelected(int row) {
+    public boolebn isRowSelected(int row) {
         return listSelectionModel.isSelectedIndex(row);
     }
 
     /**
-     * Updates this object's mapping from TreePath to rows. This should
-     * be invoked when the mapping from TreePaths to integers has changed
-     * (for example, a node has been expanded).
-     * <p>You do not normally have to call this, JTree and its associated
-     * Listeners will invoke this for you. If you are implementing your own
-     * View class, then you will have to invoke this.
-     * <p>This will invoke <code>insureRowContinuity</code> to make sure
-     * the currently selected TreePaths are still valid based on the
+     * Updbtes this object's mbpping from TreePbth to rows. This should
+     * be invoked when the mbpping from TreePbths to integers hbs chbnged
+     * (for exbmple, b node hbs been expbnded).
+     * <p>You do not normblly hbve to cbll this, JTree bnd its bssocibted
+     * Listeners will invoke this for you. If you bre implementing your own
+     * View clbss, then you will hbve to invoke this.
+     * <p>This will invoke <code>insureRowContinuity</code> to mbke sure
+     * the currently selected TreePbths bre still vblid bbsed on the
      * selection mode.
      */
     public void resetRowSelection() {
-        listSelectionModel.clearSelection();
-        if(selection != null && rowMapper != null) {
-            int               aRow;
-            int               validCount = 0;
-            int[]             rows = rowMapper.getRowsForPaths(selection);
+        listSelectionModel.clebrSelection();
+        if(selection != null && rowMbpper != null) {
+            int               bRow;
+            int               vblidCount = 0;
+            int[]             rows = rowMbpper.getRowsForPbths(selection);
 
-            for(int counter = 0, maxCounter = selection.length;
-                counter < maxCounter; counter++) {
-                aRow = rows[counter];
-                if(aRow != -1) {
-                    listSelectionModel.addSelectionInterval(aRow, aRow);
+            for(int counter = 0, mbxCounter = selection.length;
+                counter < mbxCounter; counter++) {
+                bRow = rows[counter];
+                if(bRow != -1) {
+                    listSelectionModel.bddSelectionIntervbl(bRow, bRow);
                 }
             }
-            if(leadIndex != -1 && rows != null) {
-                leadRow = rows[leadIndex];
+            if(lebdIndex != -1 && rows != null) {
+                lebdRow = rows[lebdIndex];
             }
-            else if (leadPath != null) {
-                // Lead selection path doesn't have to be in the selection.
-                tempPaths[0] = leadPath;
-                rows = rowMapper.getRowsForPaths(tempPaths);
-                leadRow = (rows != null) ? rows[0] : -1;
+            else if (lebdPbth != null) {
+                // Lebd selection pbth doesn't hbve to be in the selection.
+                tempPbths[0] = lebdPbth;
+                rows = rowMbpper.getRowsForPbths(tempPbths);
+                lebdRow = (rows != null) ? rows[0] : -1;
             }
             else {
-                leadRow = -1;
+                lebdRow = -1;
             }
             insureRowContinuity();
 
         }
         else
-            leadRow = -1;
+            lebdRow = -1;
     }
 
     /**
-     * Returns the lead selection index. That is the last index that was
-     * added.
+     * Returns the lebd selection index. Thbt is the lbst index thbt wbs
+     * bdded.
      */
-    public int getLeadSelectionRow() {
-        return leadRow;
+    public int getLebdSelectionRow() {
+        return lebdRow;
     }
 
     /**
-     * Returns the last path that was added. This may differ from the
-     * leadSelectionPath property maintained by the JTree.
+     * Returns the lbst pbth thbt wbs bdded. This mby differ from the
+     * lebdSelectionPbth property mbintbined by the JTree.
      */
-    public TreePath getLeadSelectionPath() {
-        return leadPath;
+    public TreePbth getLebdSelectionPbth() {
+        return lebdPbth;
     }
 
     /**
-     * Adds a PropertyChangeListener to the listener list.
-     * The listener is registered for all properties.
+     * Adds b PropertyChbngeListener to the listener list.
+     * The listener is registered for bll properties.
      * <p>
-     * A PropertyChangeEvent will get fired when the selection mode
-     * changes.
+     * A PropertyChbngeEvent will get fired when the selection mode
+     * chbnges.
      *
-     * @param listener  the PropertyChangeListener to be added
+     * @pbrbm listener  the PropertyChbngeListener to be bdded
      */
-    public synchronized void addPropertyChangeListener(
-                                PropertyChangeListener listener) {
-        if (changeSupport == null) {
-            changeSupport = new SwingPropertyChangeSupport(this);
+    public synchronized void bddPropertyChbngeListener(
+                                PropertyChbngeListener listener) {
+        if (chbngeSupport == null) {
+            chbngeSupport = new SwingPropertyChbngeSupport(this);
         }
-        changeSupport.addPropertyChangeListener(listener);
+        chbngeSupport.bddPropertyChbngeListener(listener);
     }
 
     /**
-     * Removes a PropertyChangeListener from the listener list.
-     * This removes a PropertyChangeListener that was registered
-     * for all properties.
+     * Removes b PropertyChbngeListener from the listener list.
+     * This removes b PropertyChbngeListener thbt wbs registered
+     * for bll properties.
      *
-     * @param listener  the PropertyChangeListener to be removed
+     * @pbrbm listener  the PropertyChbngeListener to be removed
      */
 
-    public synchronized void removePropertyChangeListener(
-                                PropertyChangeListener listener) {
-        if (changeSupport == null) {
+    public synchronized void removePropertyChbngeListener(
+                                PropertyChbngeListener listener) {
+        if (chbngeSupport == null) {
             return;
         }
-        changeSupport.removePropertyChangeListener(listener);
+        chbngeSupport.removePropertyChbngeListener(listener);
     }
 
     /**
-     * Returns an array of all the property change listeners
-     * registered on this <code>DefaultTreeSelectionModel</code>.
+     * Returns bn brrby of bll the property chbnge listeners
+     * registered on this <code>DefbultTreeSelectionModel</code>.
      *
-     * @return all of this model's <code>PropertyChangeListener</code>s
-     *         or an empty
-     *         array if no property change listeners are currently registered
+     * @return bll of this model's <code>PropertyChbngeListener</code>s
+     *         or bn empty
+     *         brrby if no property chbnge listeners bre currently registered
      *
-     * @see #addPropertyChangeListener
-     * @see #removePropertyChangeListener
+     * @see #bddPropertyChbngeListener
+     * @see #removePropertyChbngeListener
      *
      * @since 1.4
      */
-    public PropertyChangeListener[] getPropertyChangeListeners() {
-        if (changeSupport == null) {
-            return new PropertyChangeListener[0];
+    public PropertyChbngeListener[] getPropertyChbngeListeners() {
+        if (chbngeSupport == null) {
+            return new PropertyChbngeListener[0];
         }
-        return changeSupport.getPropertyChangeListeners();
+        return chbngeSupport.getPropertyChbngeListeners();
     }
 
     /**
-     * Makes sure the currently selected <code>TreePath</code>s are valid
+     * Mbkes sure the currently selected <code>TreePbth</code>s bre vblid
      * for the current selection mode.
      * If the selection mode is <code>CONTIGUOUS_TREE_SELECTION</code>
-     * and a <code>RowMapper</code> exists, this will make sure all
-     * the rows are contiguous, that is, when sorted all the rows are
-     * in order with no gaps.
+     * bnd b <code>RowMbpper</code> exists, this will mbke sure bll
+     * the rows bre contiguous, thbt is, when sorted bll the rows bre
+     * in order with no gbps.
      * If the selection isn't contiguous, the selection is
-     * reset to contain the first set, when sorted, of contiguous rows.
+     * reset to contbin the first set, when sorted, of contiguous rows.
      * <p>
-     * If the selection mode is <code>SINGLE_TREE_SELECTION</code> and
-     * more than one TreePath is selected, the selection is reset to
-     * contain the first path currently selected.
+     * If the selection mode is <code>SINGLE_TREE_SELECTION</code> bnd
+     * more thbn one TreePbth is selected, the selection is reset to
+     * contbin the first pbth currently selected.
      */
     protected void insureRowContinuity() {
         if(selectionMode == TreeSelectionModel.CONTIGUOUS_TREE_SELECTION &&
-           selection != null && rowMapper != null) {
-            DefaultListSelectionModel lModel = listSelectionModel;
+           selection != null && rowMbpper != null) {
+            DefbultListSelectionModel lModel = listSelectionModel;
             int                       min = lModel.getMinSelectionIndex();
 
             if(min != -1) {
                 for(int counter = min,
-                        maxCounter = lModel.getMaxSelectionIndex();
-                        counter <= maxCounter; counter++) {
+                        mbxCounter = lModel.getMbxSelectionIndex();
+                        counter <= mbxCounter; counter++) {
                     if(!lModel.isSelectedIndex(counter)) {
                         if(counter == min) {
-                            clearSelection();
+                            clebrSelection();
                         }
                         else {
-                            TreePath[] newSel = new TreePath[counter - min];
-                            int selectionIndex[] = rowMapper.getRowsForPaths(selection);
-                            // find the actual selection pathes corresponded to the
+                            TreePbth[] newSel = new TreePbth[counter - min];
+                            int selectionIndex[] = rowMbpper.getRowsForPbths(selection);
+                            // find the bctubl selection pbthes corresponded to the
                             // rows of the new selection
                             for (int i = 0; i < selectionIndex.length; i++) {
                                 if (selectionIndex[i]<counter) {
                                     newSel[selectionIndex[i]-min] = selection[i];
                                 }
                             }
-                            setSelectionPaths(newSel);
-                            break;
+                            setSelectionPbths(newSel);
+                            brebk;
                         }
                     }
                 }
@@ -916,329 +916,329 @@ public class DefaultTreeSelectionModel implements Cloneable, Serializable, TreeS
         }
         else if(selectionMode == TreeSelectionModel.SINGLE_TREE_SELECTION &&
                 selection != null && selection.length > 1) {
-            setSelectionPath(selection[0]);
+            setSelectionPbth(selection[0]);
         }
     }
 
     /**
-     * Returns true if the paths are contiguous,
-     * or this object has no RowMapper.
+     * Returns true if the pbths bre contiguous,
+     * or this object hbs no RowMbpper.
      *
-     * @param paths array of paths to check
-     * @return      whether the paths are contiguous, or this object has no RowMapper
+     * @pbrbm pbths brrby of pbths to check
+     * @return      whether the pbths bre contiguous, or this object hbs no RowMbpper
      */
-    protected boolean arePathsContiguous(TreePath[] paths) {
-        if(rowMapper == null || paths.length < 2)
+    protected boolebn brePbthsContiguous(TreePbth[] pbths) {
+        if(rowMbpper == null || pbths.length < 2)
             return true;
         else {
             BitSet                             bitSet = new BitSet(32);
-            int                                anIndex, counter, min;
-            int                                pathCount = paths.length;
-            int                                validCount = 0;
-            TreePath[]                         tempPath = new TreePath[1];
+            int                                bnIndex, counter, min;
+            int                                pbthCount = pbths.length;
+            int                                vblidCount = 0;
+            TreePbth[]                         tempPbth = new TreePbth[1];
 
-            tempPath[0] = paths[0];
-            min = rowMapper.getRowsForPaths(tempPath)[0];
-            for(counter = 0; counter < pathCount; counter++) {
-                if(paths[counter] != null) {
-                    tempPath[0] = paths[counter];
-                    int[] rows = rowMapper.getRowsForPaths(tempPath);
+            tempPbth[0] = pbths[0];
+            min = rowMbpper.getRowsForPbths(tempPbth)[0];
+            for(counter = 0; counter < pbthCount; counter++) {
+                if(pbths[counter] != null) {
+                    tempPbth[0] = pbths[counter];
+                    int[] rows = rowMbpper.getRowsForPbths(tempPbth);
                     if (rows == null) {
-                        return false;
+                        return fblse;
                     }
-                    anIndex = rows[0];
-                    if(anIndex == -1 || anIndex < (min - pathCount) ||
-                       anIndex > (min + pathCount))
-                        return false;
-                    if(anIndex < min)
-                        min = anIndex;
-                    if(!bitSet.get(anIndex)) {
-                        bitSet.set(anIndex);
-                        validCount++;
+                    bnIndex = rows[0];
+                    if(bnIndex == -1 || bnIndex < (min - pbthCount) ||
+                       bnIndex > (min + pbthCount))
+                        return fblse;
+                    if(bnIndex < min)
+                        min = bnIndex;
+                    if(!bitSet.get(bnIndex)) {
+                        bitSet.set(bnIndex);
+                        vblidCount++;
                     }
                 }
             }
-            int          maxCounter = validCount + min;
+            int          mbxCounter = vblidCount + min;
 
-            for(counter = min; counter < maxCounter; counter++)
+            for(counter = min; counter < mbxCounter; counter++)
                 if(!bitSet.get(counter))
-                    return false;
+                    return fblse;
         }
         return true;
     }
 
     /**
-     * Used to test if a particular set of <code>TreePath</code>s can
-     * be added. This will return true if <code>paths</code> is null (or
-     * empty), or this object has no RowMapper, or nothing is currently selected,
+     * Used to test if b pbrticulbr set of <code>TreePbth</code>s cbn
+     * be bdded. This will return true if <code>pbths</code> is null (or
+     * empty), or this object hbs no RowMbpper, or nothing is currently selected,
      * or the selection mode is <code>DISCONTIGUOUS_TREE_SELECTION</code>, or
-     * adding the paths to the current selection still results in a
-     * contiguous set of <code>TreePath</code>s.
+     * bdding the pbths to the current selection still results in b
+     * contiguous set of <code>TreePbth</code>s.
      *
-     * @param paths array of {@code TreePaths} to check
-     * @return      whether the particular set of {@code TreePaths} can be added
+     * @pbrbm pbths brrby of {@code TreePbths} to check
+     * @return      whether the pbrticulbr set of {@code TreePbths} cbn be bdded
      */
-    protected boolean canPathsBeAdded(TreePath[] paths) {
-        if(paths == null || paths.length == 0 || rowMapper == null ||
+    protected boolebn cbnPbthsBeAdded(TreePbth[] pbths) {
+        if(pbths == null || pbths.length == 0 || rowMbpper == null ||
            selection == null || selectionMode ==
            TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION)
             return true;
         else {
             BitSet                       bitSet = new BitSet();
-            DefaultListSelectionModel    lModel = listSelectionModel;
-            int                          anIndex;
+            DefbultListSelectionModel    lModel = listSelectionModel;
+            int                          bnIndex;
             int                          counter;
             int                          min = lModel.getMinSelectionIndex();
-            int                          max = lModel.getMaxSelectionIndex();
-            TreePath[]                   tempPath = new TreePath[1];
+            int                          mbx = lModel.getMbxSelectionIndex();
+            TreePbth[]                   tempPbth = new TreePbth[1];
 
             if(min != -1) {
-                for(counter = min; counter <= max; counter++) {
+                for(counter = min; counter <= mbx; counter++) {
                     if(lModel.isSelectedIndex(counter))
                         bitSet.set(counter);
                 }
             }
             else {
-                tempPath[0] = paths[0];
-                min = max = rowMapper.getRowsForPaths(tempPath)[0];
+                tempPbth[0] = pbths[0];
+                min = mbx = rowMbpper.getRowsForPbths(tempPbth)[0];
             }
-            for(counter = paths.length - 1; counter >= 0; counter--) {
-                if(paths[counter] != null) {
-                    tempPath[0] = paths[counter];
-                    int[]   rows = rowMapper.getRowsForPaths(tempPath);
+            for(counter = pbths.length - 1; counter >= 0; counter--) {
+                if(pbths[counter] != null) {
+                    tempPbth[0] = pbths[counter];
+                    int[]   rows = rowMbpper.getRowsForPbths(tempPbth);
                     if (rows == null) {
-                        return false;
+                        return fblse;
                     }
-                    anIndex = rows[0];
-                    min = Math.min(anIndex, min);
-                    max = Math.max(anIndex, max);
-                    if(anIndex == -1)
-                        return false;
-                    bitSet.set(anIndex);
+                    bnIndex = rows[0];
+                    min = Mbth.min(bnIndex, min);
+                    mbx = Mbth.mbx(bnIndex, mbx);
+                    if(bnIndex == -1)
+                        return fblse;
+                    bitSet.set(bnIndex);
                 }
             }
-            for(counter = min; counter <= max; counter++)
+            for(counter = min; counter <= mbx; counter++)
                 if(!bitSet.get(counter))
-                    return false;
+                    return fblse;
         }
         return true;
     }
 
     /**
-     * Returns true if the paths can be removed without breaking the
+     * Returns true if the pbths cbn be removed without brebking the
      * continuity of the model.
-     * This is rather expensive.
+     * This is rbther expensive.
      *
-     * @param paths array of {@code TreePath} to check
-     * @return      whether the paths can be removed without breaking the
+     * @pbrbm pbths brrby of {@code TreePbth} to check
+     * @return      whether the pbths cbn be removed without brebking the
      *              continuity of the model
      */
-    protected boolean canPathsBeRemoved(TreePath[] paths) {
-        if(rowMapper == null || selection == null ||
+    protected boolebn cbnPbthsBeRemoved(TreePbth[] pbths) {
+        if(rowMbpper == null || selection == null ||
            selectionMode == TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION)
             return true;
         else {
             BitSet               bitSet = new BitSet();
             int                  counter;
-            int                  pathCount = paths.length;
-            int                  anIndex;
+            int                  pbthCount = pbths.length;
+            int                  bnIndex;
             int                  min = -1;
-            int                  validCount = 0;
-            TreePath[]           tempPath = new TreePath[1];
+            int                  vblidCount = 0;
+            TreePbth[]           tempPbth = new TreePbth[1];
             int[]                rows;
 
             /* Determine the rows for the removed entries. */
-            lastPaths.clear();
-            for (counter = 0; counter < pathCount; counter++) {
-                if (paths[counter] != null) {
-                    lastPaths.put(paths[counter], Boolean.TRUE);
+            lbstPbths.clebr();
+            for (counter = 0; counter < pbthCount; counter++) {
+                if (pbths[counter] != null) {
+                    lbstPbths.put(pbths[counter], Boolebn.TRUE);
                 }
             }
             for(counter = selection.length - 1; counter >= 0; counter--) {
-                if(lastPaths.get(selection[counter]) == null) {
-                    tempPath[0] = selection[counter];
-                    rows = rowMapper.getRowsForPaths(tempPath);
+                if(lbstPbths.get(selection[counter]) == null) {
+                    tempPbth[0] = selection[counter];
+                    rows = rowMbpper.getRowsForPbths(tempPbth);
                     if(rows != null && rows[0] != -1 && !bitSet.get(rows[0])) {
-                        validCount++;
+                        vblidCount++;
                         if(min == -1)
                             min = rows[0];
                         else
-                            min = Math.min(min, rows[0]);
+                            min = Mbth.min(min, rows[0]);
                         bitSet.set(rows[0]);
                     }
                 }
             }
-            lastPaths.clear();
-            /* Make sure they are contiguous. */
-            if(validCount > 1) {
-                for(counter = min + validCount - 1; counter >= min;
+            lbstPbths.clebr();
+            /* Mbke sure they bre contiguous. */
+            if(vblidCount > 1) {
+                for(counter = min + vblidCount - 1; counter >= min;
                     counter--)
                     if(!bitSet.get(counter))
-                        return false;
+                        return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Notifies listeners of a change in path. changePaths should contain
-     * instances of PathPlaceHolder.
+     * Notifies listeners of b chbnge in pbth. chbngePbths should contbin
+     * instbnces of PbthPlbceHolder.
      *
-     * @deprecated As of JDK version 1.7
+     * @deprecbted As of JDK version 1.7
      *
-     * @param changedPaths      the vector of the changed paths
-     * @param oldLeadSelection  the old selection path
+     * @pbrbm chbngedPbths      the vector of the chbnged pbths
+     * @pbrbm oldLebdSelection  the old selection pbth
      */
-    @Deprecated
-    protected void notifyPathChange(Vector<?> changedPaths,
-                                    TreePath oldLeadSelection) {
-        int                    cPathCount = changedPaths.size();
-        boolean[]              newness = new boolean[cPathCount];
-        TreePath[]            paths = new TreePath[cPathCount];
-        PathPlaceHolder        placeholder;
+    @Deprecbted
+    protected void notifyPbthChbnge(Vector<?> chbngedPbths,
+                                    TreePbth oldLebdSelection) {
+        int                    cPbthCount = chbngedPbths.size();
+        boolebn[]              newness = new boolebn[cPbthCount];
+        TreePbth[]            pbths = new TreePbth[cPbthCount];
+        PbthPlbceHolder        plbceholder;
 
-        for(int counter = 0; counter < cPathCount; counter++) {
-            placeholder = (PathPlaceHolder) changedPaths.elementAt(counter);
-            newness[counter] = placeholder.isNew;
-            paths[counter] = placeholder.path;
+        for(int counter = 0; counter < cPbthCount; counter++) {
+            plbceholder = (PbthPlbceHolder) chbngedPbths.elementAt(counter);
+            newness[counter] = plbceholder.isNew;
+            pbths[counter] = plbceholder.pbth;
         }
 
         TreeSelectionEvent     event = new TreeSelectionEvent
-                          (this, paths, newness, oldLeadSelection, leadPath);
+                          (this, pbths, newness, oldLebdSelection, lebdPbth);
 
-        fireValueChanged(event);
+        fireVblueChbnged(event);
     }
 
     /**
-     * Updates the leadIndex instance variable.
+     * Updbtes the lebdIndex instbnce vbribble.
      */
-    protected void updateLeadIndex() {
-        if(leadPath != null) {
+    protected void updbteLebdIndex() {
+        if(lebdPbth != null) {
             if(selection == null) {
-                leadPath = null;
-                leadIndex = leadRow = -1;
+                lebdPbth = null;
+                lebdIndex = lebdRow = -1;
             }
             else {
-                leadRow = leadIndex = -1;
+                lebdRow = lebdIndex = -1;
                 for(int counter = selection.length - 1; counter >= 0;
                     counter--) {
-                    // Can use == here since we know leadPath came from
+                    // Cbn use == here since we know lebdPbth cbme from
                     // selection
-                    if(selection[counter] == leadPath) {
-                        leadIndex = counter;
-                        break;
+                    if(selection[counter] == lebdPbth) {
+                        lebdIndex = counter;
+                        brebk;
                     }
                 }
             }
         }
         else {
-            leadIndex = -1;
+            lebdIndex = -1;
         }
     }
 
     /**
-     * This method is obsolete and its implementation is now a noop.  It's
-     * still called by setSelectionPaths and addSelectionPaths, but only
-     * for backwards compatibility.
+     * This method is obsolete bnd its implementbtion is now b noop.  It's
+     * still cblled by setSelectionPbths bnd bddSelectionPbths, but only
+     * for bbckwbrds compbtibility.
      */
     protected void insureUniqueness() {
     }
 
 
     /**
-     * Returns a string that displays and identifies this
+     * Returns b string thbt displbys bnd identifies this
      * object's properties.
      *
-     * @return a String representation of this object
+     * @return b String representbtion of this object
      */
     public String toString() {
         int                selCount = getSelectionCount();
         StringBuilder      sb = new StringBuilder();
         int[]              rows;
 
-        if(rowMapper != null)
-            rows = rowMapper.getRowsForPaths(selection);
+        if(rowMbpper != null)
+            rows = rowMbpper.getRowsForPbths(selection);
         else
             rows = null;
-        sb.append(getClass().getName() + " " + hashCode() + " [ ");
+        sb.bppend(getClbss().getNbme() + " " + hbshCode() + " [ ");
         for(int counter = 0; counter < selCount; counter++) {
             if(rows != null)
-                sb.append(selection[counter].toString() + "@" +
+                sb.bppend(selection[counter].toString() + "@" +
                           Integer.toString(rows[counter])+ " ");
             else
-                sb.append(selection[counter].toString() + " ");
+                sb.bppend(selection[counter].toString() + " ");
         }
-        sb.append("]");
+        sb.bppend("]");
         return sb.toString();
     }
 
     /**
-     * Returns a clone of this object with the same selection.
-     * This method does not duplicate
-     * selection listeners and property listeners.
+     * Returns b clone of this object with the sbme selection.
+     * This method does not duplicbte
+     * selection listeners bnd property listeners.
      *
-     * @exception CloneNotSupportedException never thrown by instances of
-     *                                       this class
+     * @exception CloneNotSupportedException never thrown by instbnces of
+     *                                       this clbss
      */
     public Object clone() throws CloneNotSupportedException {
-        DefaultTreeSelectionModel        clone = (DefaultTreeSelectionModel)
+        DefbultTreeSelectionModel        clone = (DefbultTreeSelectionModel)
                             super.clone();
 
-        clone.changeSupport = null;
+        clone.chbngeSupport = null;
         if(selection != null) {
             int              selLength = selection.length;
 
-            clone.selection = new TreePath[selLength];
-            System.arraycopy(selection, 0, clone.selection, 0, selLength);
+            clone.selection = new TreePbth[selLength];
+            System.brrbycopy(selection, 0, clone.selection, 0, selLength);
         }
         clone.listenerList = new EventListenerList();
-        clone.listSelectionModel = (DefaultListSelectionModel)
+        clone.listSelectionModel = (DefbultListSelectionModel)
             listSelectionModel.clone();
-        clone.uniquePaths = new Hashtable<TreePath, Boolean>();
-        clone.lastPaths = new Hashtable<TreePath, Boolean>();
-        clone.tempPaths = new TreePath[1];
+        clone.uniquePbths = new Hbshtbble<TreePbth, Boolebn>();
+        clone.lbstPbths = new Hbshtbble<TreePbth, Boolebn>();
+        clone.tempPbths = new TreePbth[1];
         return clone;
     }
 
-    // Serialization support.
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        Object[]             tValues;
+    // Seriblizbtion support.
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        Object[]             tVblues;
 
-        s.defaultWriteObject();
-        // Save the rowMapper, if it implements Serializable
-        if(rowMapper != null && rowMapper instanceof Serializable) {
-            tValues = new Object[2];
-            tValues[0] = "rowMapper";
-            tValues[1] = rowMapper;
+        s.defbultWriteObject();
+        // Sbve the rowMbpper, if it implements Seriblizbble
+        if(rowMbpper != null && rowMbpper instbnceof Seriblizbble) {
+            tVblues = new Object[2];
+            tVblues[0] = "rowMbpper";
+            tVblues[1] = rowMbpper;
         }
         else
-            tValues = new Object[0];
-        s.writeObject(tValues);
+            tVblues = new Object[0];
+        s.writeObject(tVblues);
     }
 
 
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        Object[]      tValues;
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException {
+        Object[]      tVblues;
 
-        s.defaultReadObject();
+        s.defbultRebdObject();
 
-        tValues = (Object[])s.readObject();
+        tVblues = (Object[])s.rebdObject();
 
-        if(tValues.length > 0 && tValues[0].equals("rowMapper"))
-            rowMapper = (RowMapper)tValues[1];
+        if(tVblues.length > 0 && tVblues[0].equbls("rowMbpper"))
+            rowMbpper = (RowMbpper)tVblues[1];
     }
 }
 
 /**
- * Holds a path and whether or not it is new.
+ * Holds b pbth bnd whether or not it is new.
  */
-class PathPlaceHolder {
-    protected boolean             isNew;
-    protected TreePath           path;
+clbss PbthPlbceHolder {
+    protected boolebn             isNew;
+    protected TreePbth           pbth;
 
-    PathPlaceHolder(TreePath path, boolean isNew) {
-        this.path = path;
+    PbthPlbceHolder(TreePbth pbth, boolebn isNew) {
+        this.pbth = pbth;
         this.isNew = isNew;
     }
 }

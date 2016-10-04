@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
 
-import javax.sound.sampled.spi.FormatConversionProvider;
+import jbvbx.sound.sbmpled.spi.FormbtConversionProvider;
 
 
 /**
- * A codec can encode and/or decode audio data.  It provides an
- * AudioInputStream from which processed data may be read.
+ * A codec cbn encode bnd/or decode budio dbtb.  It provides bn
+ * AudioInputStrebm from which processed dbtb mby be rebd.
  * <p>
- * Its input format represents the format of the incoming
- * audio data, or the format of the data in the underlying stream.
+ * Its input formbt represents the formbt of the incoming
+ * budio dbtb, or the formbt of the dbtb in the underlying strebm.
  * <p>
- * Its output format represents the format of the processed, outgoing
- * audio data.  This is the format of the data which may be read from
- * the filtered stream.
+ * Its output formbt represents the formbt of the processed, outgoing
+ * budio dbtb.  This is the formbt of the dbtb which mby be rebd from
+ * the filtered strebm.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  */
-abstract class SunCodec extends FormatConversionProvider {
+bbstrbct clbss SunCodec extends FormbtConversionProvider {
 
-    private final AudioFormat.Encoding[] inputEncodings;
-    private final AudioFormat.Encoding[] outputEncodings;
+    privbte finbl AudioFormbt.Encoding[] inputEncodings;
+    privbte finbl AudioFormbt.Encoding[] outputEncodings;
 
     /**
-     * Constructs a new codec object.
+     * Constructs b new codec object.
      */
-    SunCodec(final AudioFormat.Encoding[] inputEncodings,
-             final AudioFormat.Encoding[] outputEncodings) {
+    SunCodec(finbl AudioFormbt.Encoding[] inputEncodings,
+             finbl AudioFormbt.Encoding[] outputEncodings) {
         this.inputEncodings = inputEncodings;
         this.outputEncodings = outputEncodings;
     }
@@ -61,35 +61,35 @@ abstract class SunCodec extends FormatConversionProvider {
 
     /**
      */
-    public final AudioFormat.Encoding[] getSourceEncodings() {
-        AudioFormat.Encoding[] encodings = new AudioFormat.Encoding[inputEncodings.length];
-        System.arraycopy(inputEncodings, 0, encodings, 0, inputEncodings.length);
+    public finbl AudioFormbt.Encoding[] getSourceEncodings() {
+        AudioFormbt.Encoding[] encodings = new AudioFormbt.Encoding[inputEncodings.length];
+        System.brrbycopy(inputEncodings, 0, encodings, 0, inputEncodings.length);
         return encodings;
     }
     /**
      */
-    public final AudioFormat.Encoding[] getTargetEncodings() {
-        AudioFormat.Encoding[] encodings = new AudioFormat.Encoding[outputEncodings.length];
-        System.arraycopy(outputEncodings, 0, encodings, 0, outputEncodings.length);
+    public finbl AudioFormbt.Encoding[] getTbrgetEncodings() {
+        AudioFormbt.Encoding[] encodings = new AudioFormbt.Encoding[outputEncodings.length];
+        System.brrbycopy(outputEncodings, 0, encodings, 0, outputEncodings.length);
         return encodings;
     }
 
     /**
      */
-    public abstract AudioFormat.Encoding[] getTargetEncodings(AudioFormat sourceFormat);
+    public bbstrbct AudioFormbt.Encoding[] getTbrgetEncodings(AudioFormbt sourceFormbt);
 
 
     /**
      */
-    public abstract AudioFormat[] getTargetFormats(AudioFormat.Encoding targetEncoding, AudioFormat sourceFormat);
+    public bbstrbct AudioFormbt[] getTbrgetFormbts(AudioFormbt.Encoding tbrgetEncoding, AudioFormbt sourceFormbt);
 
 
     /**
      */
-    public abstract AudioInputStream getAudioInputStream(AudioFormat.Encoding targetEncoding, AudioInputStream sourceStream);
+    public bbstrbct AudioInputStrebm getAudioInputStrebm(AudioFormbt.Encoding tbrgetEncoding, AudioInputStrebm sourceStrebm);
     /**
      */
-    public abstract AudioInputStream getAudioInputStream(AudioFormat targetFormat, AudioInputStream sourceStream);
+    public bbstrbct AudioInputStrebm getAudioInputStrebm(AudioFormbt tbrgetFormbt, AudioInputStrebm sourceStrebm);
 
 
 }

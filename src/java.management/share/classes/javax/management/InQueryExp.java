@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
 /**
- * This class is used by the query-building mechanism to represent binary
- * operations.
- * @serial include
+ * This clbss is used by the query-building mechbnism to represent binbry
+ * operbtions.
+ * @seribl include
  *
  * @since 1.5
  */
-class InQueryExp extends QueryEval implements QueryExp {
+clbss InQueryExp extends QueryEvbl implements QueryExp {
 
-    /* Serial version */
-    private static final long serialVersionUID = -5801329450358952434L;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = -5801329450358952434L;
 
     /**
-     * @serial The {@link ValueExp} to be found
+     * @seribl The {@link VblueExp} to be found
      */
-    private ValueExp val;
+    privbte VblueExp vbl;
 
     /**
-     * @serial The array of {@link ValueExp} to be searched
+     * @seribl The brrby of {@link VblueExp} to be sebrched
      */
-    private ValueExp[]  valueList;
+    privbte VblueExp[]  vblueList;
 
 
     /**
-     * Basic Constructor.
+     * Bbsic Constructor.
      */
     public InQueryExp() {
     }
 
     /**
-     * Creates a new InQueryExp with the specified ValueExp to be found in
-     * a specified array of ValueExp.
+     * Crebtes b new InQueryExp with the specified VblueExp to be found in
+     * b specified brrby of VblueExp.
      */
-    public InQueryExp(ValueExp v1, ValueExp items[]) {
-        val       = v1;
-        valueList = items;
+    public InQueryExp(VblueExp v1, VblueExp items[]) {
+        vbl       = v1;
+        vblueList = items;
     }
 
 
     /**
-     * Returns the checked value of the query.
+     * Returns the checked vblue of the query.
      */
-    public ValueExp getCheckedValue()  {
-        return val;
+    public VblueExp getCheckedVblue()  {
+        return vbl;
     }
 
     /**
-     * Returns the array of values of the query.
+     * Returns the brrby of vblues of the query.
      */
-    public ValueExp[] getExplicitValues()  {
-        return valueList;
+    public VblueExp[] getExplicitVblues()  {
+        return vblueList;
     }
 
     /**
-     * Applies the InQueryExp on a MBean.
+     * Applies the InQueryExp on b MBebn.
      *
-     * @param name The name of the MBean on which the InQueryExp will be applied.
+     * @pbrbm nbme The nbme of the MBebn on which the InQueryExp will be bpplied.
      *
-     * @return  True if the query was successfully applied to the MBean, false otherwise.
+     * @return  True if the query wbs successfully bpplied to the MBebn, fblse otherwise.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @exception BbdStringOperbtionException
+     * @exception BbdBinbryOpVblueExpException
+     * @exception BbdAttributeVblueExpException
+     * @exception InvblidApplicbtionException
      */
-    public boolean apply(ObjectName name)
-    throws BadStringOperationException, BadBinaryOpValueExpException,
-        BadAttributeValueExpException, InvalidApplicationException  {
-        if (valueList != null) {
-            ValueExp v      = val.apply(name);
-            boolean numeric = v instanceof NumericValueExp;
+    public boolebn bpply(ObjectNbme nbme)
+    throws BbdStringOperbtionException, BbdBinbryOpVblueExpException,
+        BbdAttributeVblueExpException, InvblidApplicbtionException  {
+        if (vblueList != null) {
+            VblueExp v      = vbl.bpply(nbme);
+            boolebn numeric = v instbnceof NumericVblueExp;
 
-            for (ValueExp element : valueList) {
-                element = element.apply(name);
+            for (VblueExp element : vblueList) {
+                element = element.bpply(nbme);
                 if (numeric) {
-                    if (((NumericValueExp) element).doubleValue() ==
-                        ((NumericValueExp) v).doubleValue()) {
+                    if (((NumericVblueExp) element).doubleVblue() ==
+                        ((NumericVblueExp) v).doubleVblue()) {
                         return true;
                     }
                 } else {
-                    if (((StringValueExp) element).getValue().equals(
-                        ((StringValueExp) v).getValue())) {
+                    if (((StringVblueExp) element).getVblue().equbls(
+                        ((StringVblueExp) v).getVblue())) {
                         return true;
                     }
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
      * Returns the string representing the object.
      */
     public String toString()  {
-        return val + " in (" + generateValueList() + ")";
+        return vbl + " in (" + generbteVblueList() + ")";
     }
 
 
-    private String generateValueList() {
-        if (valueList == null || valueList.length == 0) {
+    privbte String generbteVblueList() {
+        if (vblueList == null || vblueList.length == 0) {
             return "";
         }
 
-        final StringBuilder result =
-                new StringBuilder(valueList[0].toString());
+        finbl StringBuilder result =
+                new StringBuilder(vblueList[0].toString());
 
-        for (int i = 1; i < valueList.length; i++) {
-            result.append(", ");
-            result.append(valueList[i]);
+        for (int i = 1; i < vblueList.length; i++) {
+            result.bppend(", ");
+            result.bppend(vblueList[i]);
         }
 
         return result.toString();

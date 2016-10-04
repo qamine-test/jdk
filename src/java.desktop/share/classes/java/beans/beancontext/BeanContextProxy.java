@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1998, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans.beancontext;
+pbckbge jbvb.bebns.bebncontext;
 
 /**
  * <p>
- * This interface is implemented by a JavaBean that does
- * not directly have a BeanContext(Child) associated with
- * it (via implementing that interface or a subinterface thereof),
- * but has a public BeanContext(Child) delegated from it.
- * For example, a subclass of java.awt.Container may have a BeanContext
- * associated with it that all Component children of that Container shall
- * be contained within.
+ * This interfbce is implemented by b JbvbBebn thbt does
+ * not directly hbve b BebnContext(Child) bssocibted with
+ * it (vib implementing thbt interfbce or b subinterfbce thereof),
+ * but hbs b public BebnContext(Child) delegbted from it.
+ * For exbmple, b subclbss of jbvb.bwt.Contbiner mby hbve b BebnContext
+ * bssocibted with it thbt bll Component children of thbt Contbiner shbll
+ * be contbined within.
  * </p>
  * <p>
- * An Object may not implement this interface and the
- * BeanContextChild interface
- * (or any subinterfaces thereof) they are mutually exclusive.
+ * An Object mby not implement this interfbce bnd the
+ * BebnContextChild interfbce
+ * (or bny subinterfbces thereof) they bre mutublly exclusive.
  * </p>
  * <p>
- * Callers of this interface shall examine the return type in order to
- * obtain a particular subinterface of BeanContextChild as follows:
+ * Cbllers of this interfbce shbll exbmine the return type in order to
+ * obtbin b pbrticulbr subinterfbce of BebnContextChild bs follows:
  * <code>
- * BeanContextChild bcc = o.getBeanContextProxy();
+ * BebnContextChild bcc = o.getBebnContextProxy();
  *
- * if (bcc instanceof BeanContext) {
+ * if (bcc instbnceof BebnContext) {
  *      // ...
  * }
  * </code>
  * or
  * <code>
- * BeanContextChild bcc = o.getBeanContextProxy();
- * BeanContext      bc  = null;
+ * BebnContextChild bcc = o.getBebnContextProxy();
+ * BebnContext      bc  = null;
  *
  * try {
- *     bc = (BeanContext)bcc;
- * } catch (ClassCastException cce) {
- *     // cast failed, bcc is not an instanceof BeanContext
+ *     bc = (BebnContext)bcc;
+ * } cbtch (ClbssCbstException cce) {
+ *     // cbst fbiled, bcc is not bn instbnceof BebnContext
  * }
  * </code>
  * </p>
  * <p>
- * The return value is a constant for the lifetime of the implementing
- * instance
+ * The return vblue is b constbnt for the lifetime of the implementing
+ * instbnce
  * </p>
- * @author Laurence P. G. Cable
+ * @buthor Lburence P. G. Cbble
  * @since 1.2
  *
- * @see java.beans.beancontext.BeanContextChild
- * @see java.beans.beancontext.BeanContextChildSupport
+ * @see jbvb.bebns.bebncontext.BebnContextChild
+ * @see jbvb.bebns.bebncontext.BebnContextChildSupport
  */
 
-public interface BeanContextProxy {
+public interfbce BebnContextProxy {
 
     /**
-     * Gets the <code>BeanContextChild</code> (or subinterface)
-     * associated with this object.
-     * @return the <code>BeanContextChild</code> (or subinterface)
-     * associated with this object
+     * Gets the <code>BebnContextChild</code> (or subinterfbce)
+     * bssocibted with this object.
+     * @return the <code>BebnContextChild</code> (or subinterfbce)
+     * bssocibted with this object
      */
-    BeanContextChild getBeanContextProxy();
+    BebnContextChild getBebnContextProxy();
 }

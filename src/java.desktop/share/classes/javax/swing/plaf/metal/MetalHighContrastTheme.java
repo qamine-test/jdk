@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 2001, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.metal.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.plbf.metbl.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvb.bwt.*;
 
 /**
- * A high contrast theme. This is used on Windows if the system property
- * awt.highContrast.on is true.
+ * A high contrbst theme. This is used on Windows if the system property
+ * bwt.highContrbst.on is true.
  *
- * @author Michael C. Albers
+ * @buthor Michbel C. Albers
  */
-class MetalHighContrastTheme extends DefaultMetalTheme {
-    private static final ColorUIResource primary1 = new
+clbss MetblHighContrbstTheme extends DefbultMetblTheme {
+    privbte stbtic finbl ColorUIResource primbry1 = new
                               ColorUIResource(0, 0, 0);
-    private static final ColorUIResource primary2 = new ColorUIResource(
+    privbte stbtic finbl ColorUIResource primbry2 = new ColorUIResource(
                               204, 204, 204);
-    private static final ColorUIResource primary3 = new ColorUIResource(255,
+    privbte stbtic finbl ColorUIResource primbry3 = new ColorUIResource(255,
                               255, 255);
-    private static final ColorUIResource primaryHighlight = new
+    privbte stbtic finbl ColorUIResource primbryHighlight = new
                               ColorUIResource(102, 102, 102);
-    private static final ColorUIResource secondary2 = new ColorUIResource(
+    privbte stbtic finbl ColorUIResource secondbry2 = new ColorUIResource(
                               204, 204, 204);
-    private static final ColorUIResource secondary3 = new ColorUIResource(
+    privbte stbtic finbl ColorUIResource secondbry3 = new ColorUIResource(
                               255, 255, 255);
-    private static final ColorUIResource controlHighlight = new
+    privbte stbtic finbl ColorUIResource controlHighlight = new
                               ColorUIResource(102, 102, 102);
 
 
-    // This does not override getSecondary1 (102,102,102)
+    // This does not override getSecondbry1 (102,102,102)
 
-    public String getName() {
-        return "Contrast";
+    public String getNbme() {
+        return "Contrbst";
     }
 
-    protected ColorUIResource getPrimary1() {
-        return primary1;
+    protected ColorUIResource getPrimbry1() {
+        return primbry1;
     }
 
-    protected ColorUIResource getPrimary2() {
-        return primary2;
+    protected ColorUIResource getPrimbry2() {
+        return primbry2;
     }
 
-    protected ColorUIResource getPrimary3() {
-        return primary3;
+    protected ColorUIResource getPrimbry3() {
+        return primbry3;
     }
 
-    public ColorUIResource getPrimaryControlHighlight() {
-        return primaryHighlight;
+    public ColorUIResource getPrimbryControlHighlight() {
+        return primbryHighlight;
     }
 
-    protected ColorUIResource getSecondary2() {
-        return secondary2;
+    protected ColorUIResource getSecondbry2() {
+        return secondbry2;
     }
 
-    protected ColorUIResource getSecondary3() {
-        return secondary3;
+    protected ColorUIResource getSecondbry3() {
+        return secondbry3;
     }
 
     public ColorUIResource getControlHighlight() {
-        // This was super.getSecondary3();
-        return secondary2;
+        // This wbs super.getSecondbry3();
+        return secondbry2;
     }
 
     public ColorUIResource getFocusColor() {
-        return getBlack();
+        return getBlbck();
     }
 
     public ColorUIResource getTextHighlightColor() {
-        return getBlack();
+        return getBlbck();
     }
 
     public ColorUIResource getHighlightedTextColor() {
         return getWhite();
     }
 
-    public ColorUIResource getMenuSelectedBackground() {
-        return getBlack();
+    public ColorUIResource getMenuSelectedBbckground() {
+        return getBlbck();
     }
 
     public ColorUIResource getMenuSelectedForeground() {
         return getWhite();
     }
 
-    public ColorUIResource getAcceleratorForeground() {
-        return getBlack();
+    public ColorUIResource getAccelerbtorForeground() {
+        return getBlbck();
     }
 
-    public ColorUIResource getAcceleratorSelectedForeground() {
+    public ColorUIResource getAccelerbtorSelectedForeground() {
         return getWhite();
     }
 
-    public void addCustomEntriesToTable(UIDefaults table) {
-        Border blackLineBorder = new BorderUIResource(new LineBorder(
-                    getBlack()));
+    public void bddCustomEntriesToTbble(UIDefbults tbble) {
+        Border blbckLineBorder = new BorderUIResource(new LineBorder(
+                    getBlbck()));
         Border whiteLineBorder = new BorderUIResource(new LineBorder(
                     getWhite()));
         Object textBorder = new BorderUIResource(new CompoundBorder(
-                   blackLineBorder, new BasicBorders.MarginBorder()));
+                   blbckLineBorder, new BbsicBorders.MbrginBorder()));
 
-        Object[] defaults = new Object[] {
-            "ToolTip.border", blackLineBorder,
+        Object[] defbults = new Object[] {
+            "ToolTip.border", blbckLineBorder,
 
-            "TitledBorder.border", blackLineBorder,
+            "TitledBorder.border", blbckLineBorder,
 
             "TextField.border", textBorder,
 
-            "PasswordField.border", textBorder,
+            "PbsswordField.border", textBorder,
 
-            "TextArea.border", textBorder,
+            "TextAreb.border", textBorder,
 
-            "TextPane.border", textBorder,
+            "TextPbne.border", textBorder,
 
-            "EditorPane.border", textBorder,
+            "EditorPbne.border", textBorder,
 
-            "ComboBox.background", getWindowBackground(),
+            "ComboBox.bbckground", getWindowBbckground(),
             "ComboBox.foreground", getUserTextColor(),
-            "ComboBox.selectionBackground", getTextHighlightColor(),
+            "ComboBox.selectionBbckground", getTextHighlightColor(),
             "ComboBox.selectionForeground", getHighlightedTextColor(),
 
-            "ProgressBar.foreground",  getUserTextColor(),
-            "ProgressBar.background", getWindowBackground(),
-            "ProgressBar.selectionForeground", getWindowBackground(),
-            "ProgressBar.selectionBackground", getUserTextColor(),
+            "ProgressBbr.foreground",  getUserTextColor(),
+            "ProgressBbr.bbckground", getWindowBbckground(),
+            "ProgressBbr.selectionForeground", getWindowBbckground(),
+            "ProgressBbr.selectionBbckground", getUserTextColor(),
 
-            "OptionPane.errorDialog.border.background",
-                        getPrimary1(),
-            "OptionPane.errorDialog.titlePane.foreground",
-                        getPrimary3(),
-            "OptionPane.errorDialog.titlePane.background",
-                        getPrimary1(),
-            "OptionPane.errorDialog.titlePane.shadow",
-                        getPrimary2(),
-            "OptionPane.questionDialog.border.background",
-                        getPrimary1(),
-            "OptionPane.questionDialog.titlePane.foreground",
-                        getPrimary3(),
-            "OptionPane.questionDialog.titlePane.background",
-                        getPrimary1(),
-            "OptionPane.questionDialog.titlePane.shadow",
-                        getPrimary2(),
-            "OptionPane.warningDialog.border.background",
-                        getPrimary1(),
-            "OptionPane.warningDialog.titlePane.foreground",
-                        getPrimary3(),
-            "OptionPane.warningDialog.titlePane.background",
-                        getPrimary1(),
-            "OptionPane.warningDialog.titlePane.shadow",
-                        getPrimary2(),
+            "OptionPbne.errorDiblog.border.bbckground",
+                        getPrimbry1(),
+            "OptionPbne.errorDiblog.titlePbne.foreground",
+                        getPrimbry3(),
+            "OptionPbne.errorDiblog.titlePbne.bbckground",
+                        getPrimbry1(),
+            "OptionPbne.errorDiblog.titlePbne.shbdow",
+                        getPrimbry2(),
+            "OptionPbne.questionDiblog.border.bbckground",
+                        getPrimbry1(),
+            "OptionPbne.questionDiblog.titlePbne.foreground",
+                        getPrimbry3(),
+            "OptionPbne.questionDiblog.titlePbne.bbckground",
+                        getPrimbry1(),
+            "OptionPbne.questionDiblog.titlePbne.shbdow",
+                        getPrimbry2(),
+            "OptionPbne.wbrningDiblog.border.bbckground",
+                        getPrimbry1(),
+            "OptionPbne.wbrningDiblog.titlePbne.foreground",
+                        getPrimbry3(),
+            "OptionPbne.wbrningDiblog.titlePbne.bbckground",
+                        getPrimbry1(),
+            "OptionPbne.wbrningDiblog.titlePbne.shbdow",
+                        getPrimbry2(),
         };
 
-        table.putDefaults(defaults);
+        tbble.putDefbults(defbults);
     }
 
     /**
-     * Returns true if this is a theme provided by the core platform.
+     * Returns true if this is b theme provided by the core plbtform.
      */
-    boolean isSystemTheme() {
-        return (getClass() == MetalHighContrastTheme.class);
+    boolebn isSystemTheme() {
+        return (getClbss() == MetblHighContrbstTheme.clbss);
     }
 }

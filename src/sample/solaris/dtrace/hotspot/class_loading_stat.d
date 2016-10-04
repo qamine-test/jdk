@@ -1,21 +1,21 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbce -Zs
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -34,34 +34,34 @@
 */
 
 /*
- * Usage:
- *    1. class_loading_stat.d -c "java ..." INTERVAL_SECS
- *    2. class_loading_stat.d -p JAVA_PID INTERVAL_SECS
+ * Usbge:
+ *    1. clbss_lobding_stbt.d -c "jbvb ..." INTERVAL_SECS
+ *    2. clbss_lobding_stbt.d -p JAVA_PID INTERVAL_SECS
  *
- * This script collects statistics about loaded and unloaded Java classes
- * and dump current state to stdout every INTERVAL_SECS seconds.  If
- * INTERVAL_SECS is not set then 10 seconds interval is used.
+ * This script collects stbtistics bbout lobded bnd unlobded Jbvb clbsses
+ * bnd dump current stbte to stdout every INTERVAL_SECS seconds.  If
+ * INTERVAL_SECS is not set then 10 seconds intervbl is used.
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option aggrate=100ms
+#prbgmb D option quiet
+#prbgmb D option destructive
+#prbgmb D option defbultbrgs
+#prbgmb D option bggrbte=100ms
 
 
-self char *str_ptr;
-self string class_name;
-self string package_name;
+self chbr *str_ptr;
+self string clbss_nbme;
+self string pbckbge_nbme;
 
 int INTERVAL_SECS;
 
 :::BEGIN
 {
-    SAMPLE_NAME = "hotspot class loadin tracing";
+    SAMPLE_NAME = "hotspot clbss lobdin trbcing";
 
     INTERVAL_SECS = $1 ? $1 : 10;
-    SAMPLING_TIME = timestamp + INTERVAL_SECS * 1000000000ull;
+    SAMPLING_TIME = timestbmp + INTERVAL_SECS * 1000000000ull;
 
     LOADED_CLASSES_CNT = 0;
     UNLOADED_CLASSES_CNT = 0;
@@ -73,85 +73,85 @@ int INTERVAL_SECS;
 }
 
 /*
- * hotspot:::class-loaded, hotspot:::class-unloaded probe arguments:
- *  arg0: char*,        class name passed as mUTF8 string
- *  arg1: uintptr_t,    class name length
- *  arg2: void*,        class loader ID, which is unique identifier for
- *                      a class loader in the VM.
- *  arg3: uintptr_t,    class is shared or not
+ * hotspot:::clbss-lobded, hotspot:::clbss-unlobded probe brguments:
+ *  brg0: chbr*,        clbss nbme pbssed bs mUTF8 string
+ *  brg1: uintptr_t,    clbss nbme length
+ *  brg2: void*,        clbss lobder ID, which is unique identifier for
+ *                      b clbss lobder in the VM.
+ *  brg3: uintptr_t,    clbss is shbred or not
  */
-hotspot$target:::class-loaded
+hotspot$tbrget:::clbss-lobded
 {
     LOADED_CLASSES_CNT ++;
 
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    self->class_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg0, brg1+1);
+    self->str_ptr[brg1] = '\0';
+    self->clbss_nbme = (string) self->str_ptr;
 
-    self->package_name = dirname(self->class_name);
+    self->pbckbge_nbme = dirnbme(self->clbss_nbme);
 
-    @classes_loaded[self->package_name] = count();
+    @clbsses_lobded[self->pbckbge_nbme] = count();
 }
 
-hotspot$target:::class-unloaded
+hotspot$tbrget:::clbss-unlobded
 {
     UNLOADED_CLASSES_CNT ++;
 
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    self->class_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg0, brg1+1);
+    self->str_ptr[brg1] = '\0';
+    self->clbss_nbme = (string) self->str_ptr;
 
-    self->package_name = dirname(self->class_name);
+    self->pbckbge_nbme = dirnbme(self->clbss_nbme);
 
-    @classes_unloaded[self->package_name] = count();
+    @clbsses_unlobded[self->pbckbge_nbme] = count();
 }
 
 
 tick-1sec
-/timestamp > SAMPLING_TIME/
+/timestbmp > SAMPLING_TIME/
 {
     printf("%s\n", LINE_SEP);
-    printf("%Y\n", walltimestamp);
+    printf("%Y\n", wblltimestbmp);
     printf("%s\n", LINE_SEP);
 
-    printf("Loaded classes by package:\n");
-    printa("%10@d %s\n", @classes_loaded);
+    printf("Lobded clbsses by pbckbge:\n");
+    printb("%10@d %s\n", @clbsses_lobded);
 
     printf("\n");
-    printf("Unloaded classes by package:\n");
-    printa("%10@d %s\n", @classes_unloaded);
+    printf("Unlobded clbsses by pbckbge:\n");
+    printb("%10@d %s\n", @clbsses_unlobded);
 
     printf("\n");
-    printf("Number of loaded classes: %10d\n", LOADED_CLASSES_CNT);
-    printf("Number of unloaded classes: %10d\n", UNLOADED_CLASSES_CNT);
+    printf("Number of lobded clbsses: %10d\n", LOADED_CLASSES_CNT);
+    printf("Number of unlobded clbsses: %10d\n", UNLOADED_CLASSES_CNT);
 
-    SAMPLING_TIME = timestamp + INTERVAL_SECS * 1000000000ull;
+    SAMPLING_TIME = timestbmp + INTERVAL_SECS * 1000000000ull;
 }
 
 
 :::END
 {
     printf("%s\n", LINE_SEP);
-    printf("%Y\n", walltimestamp);
+    printf("%Y\n", wblltimestbmp);
     printf("%s\n", LINE_SEP);
 
-    printf("Loaded classes by package:\n");
-    printa("%10@d %s\n", @classes_loaded);
+    printf("Lobded clbsses by pbckbge:\n");
+    printb("%10@d %s\n", @clbsses_lobded);
 
     printf("\n");
-    printf("Unloaded classes by package:\n");
-    printa("%10@d %s\n", @classes_unloaded);
+    printf("Unlobded clbsses by pbckbge:\n");
+    printb("%10@d %s\n", @clbsses_unlobded);
 
     printf("\n");
-    printf("Number of loaded classes: %10d\n", LOADED_CLASSES_CNT);
-    printf("Number of unloaded classes: %10d\n", UNLOADED_CLASSES_CNT);
+    printf("Number of lobded clbsses: %10d\n", LOADED_CLASSES_CNT);
+    printf("Number of unlobded clbsses: %10d\n", UNLOADED_CLASSES_CNT);
 
     printf("\nEND of %s\n", SAMPLE_NAME);
 }
 
-syscall::rexit:entry,
-syscall::exit:entry
-/pid == $target/
+syscbll::rexit:entry,
+syscbll::exit:entry
+/pid == $tbrget/
 {
    exit(0);
 }

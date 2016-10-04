@@ -1,197 +1,197 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.security.*;
-import java.io.*;
-import java.security.CodeSigner;
-import java.util.*;
-import java.util.jar.*;
+import jbvb.security.*;
+import jbvb.io.*;
+import jbvb.security.CodeSigner;
+import jbvb.util.*;
+import jbvb.util.jbr.*;
 
-import java.util.Base64;
+import jbvb.util.Bbse64;
 
-import sun.security.jca.Providers;
+import sun.security.jcb.Providers;
 
 /**
- * This class is used to verify each entry in a jar file with its
- * manifest value.
+ * This clbss is used to verify ebch entry in b jbr file with its
+ * mbnifest vblue.
  */
 
-public class ManifestEntryVerifier {
+public clbss MbnifestEntryVerifier {
 
-    private static final Debug debug = Debug.getInstance("jar");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("jbr");
 
     /**
-     * Holder class to lazily load Sun provider. NOTE: if
-     * Providers.getSunProvider returned a cached provider, we could avoid the
-     * need for caching the provider with this holder class; we should try to
+     * Holder clbss to lbzily lobd Sun provider. NOTE: if
+     * Providers.getSunProvider returned b cbched provider, we could bvoid the
+     * need for cbching the provider with this holder clbss; we should try to
      * revisit this in JDK 8.
      */
-    private static class SunProviderHolder {
-        private static final Provider instance = Providers.getSunProvider();
+    privbte stbtic clbss SunProviderHolder {
+        privbte stbtic finbl Provider instbnce = Providers.getSunProvider();
     }
 
-    /** the created digest objects */
-    HashMap<String, MessageDigest> createdDigests;
+    /** the crebted digest objects */
+    HbshMbp<String, MessbgeDigest> crebtedDigests;
 
-    /** the digests in use for a given entry*/
-    ArrayList<MessageDigest> digests;
+    /** the digests in use for b given entry*/
+    ArrbyList<MessbgeDigest> digests;
 
-    /** the manifest hashes for the digests in use */
-    ArrayList<byte[]> manifestHashes;
+    /** the mbnifest hbshes for the digests in use */
+    ArrbyList<byte[]> mbnifestHbshes;
 
-    private String name = null;
-    private Manifest man;
+    privbte String nbme = null;
+    privbte Mbnifest mbn;
 
-    private boolean skip = true;
+    privbte boolebn skip = true;
 
-    private JarEntry entry;
+    privbte JbrEntry entry;
 
-    private CodeSigner[] signers = null;
+    privbte CodeSigner[] signers = null;
 
     /**
-     * Create a new ManifestEntryVerifier object.
+     * Crebte b new MbnifestEntryVerifier object.
      */
-    public ManifestEntryVerifier(Manifest man)
+    public MbnifestEntryVerifier(Mbnifest mbn)
     {
-        createdDigests = new HashMap<String, MessageDigest>(11);
-        digests = new ArrayList<MessageDigest>();
-        manifestHashes = new ArrayList<byte[]>();
-        this.man = man;
+        crebtedDigests = new HbshMbp<String, MessbgeDigest>(11);
+        digests = new ArrbyList<MessbgeDigest>();
+        mbnifestHbshes = new ArrbyList<byte[]>();
+        this.mbn = mbn;
     }
 
     /**
-     * Find the hashes in the
-     * manifest for this entry, save them, and set the MessageDigest
-     * objects to calculate the hashes on the fly. If name is
-     * null it signifies that update/verify should ignore this entry.
+     * Find the hbshes in the
+     * mbnifest for this entry, sbve them, bnd set the MessbgeDigest
+     * objects to cblculbte the hbshes on the fly. If nbme is
+     * null it signifies thbt updbte/verify should ignore this entry.
      */
-    public void setEntry(String name, JarEntry entry)
+    public void setEntry(String nbme, JbrEntry entry)
         throws IOException
     {
-        digests.clear();
-        manifestHashes.clear();
-        this.name = name;
+        digests.clebr();
+        mbnifestHbshes.clebr();
+        this.nbme = nbme;
         this.entry = entry;
 
         skip = true;
         signers = null;
 
-        if (man == null || name == null) {
+        if (mbn == null || nbme == null) {
             return;
         }
 
-        /* get the headers from the manifest for this entry */
-        /* if there aren't any, we can't verify any digests for this entry */
+        /* get the hebders from the mbnifest for this entry */
+        /* if there bren't bny, we cbn't verify bny digests for this entry */
 
-        Attributes attr = man.getAttributes(name);
-        if (attr == null) {
-            // ugh. we should be able to remove this at some point.
-            // there are broken jars floating around with ./name and /name
-            // in the manifest, and "name" in the zip/jar file.
-            attr = man.getAttributes("./"+name);
-            if (attr == null) {
-                attr = man.getAttributes("/"+name);
-                if (attr == null)
+        Attributes bttr = mbn.getAttributes(nbme);
+        if (bttr == null) {
+            // ugh. we should be bble to remove this bt some point.
+            // there bre broken jbrs flobting bround with ./nbme bnd /nbme
+            // in the mbnifest, bnd "nbme" in the zip/jbr file.
+            bttr = mbn.getAttributes("./"+nbme);
+            if (bttr == null) {
+                bttr = mbn.getAttributes("/"+nbme);
+                if (bttr == null)
                     return;
             }
         }
 
-        for (Map.Entry<Object,Object> se : attr.entrySet()) {
+        for (Mbp.Entry<Object,Object> se : bttr.entrySet()) {
             String key = se.getKey().toString();
 
-            if (key.toUpperCase(Locale.ENGLISH).endsWith("-DIGEST")) {
+            if (key.toUpperCbse(Locble.ENGLISH).endsWith("-DIGEST")) {
                 // 7 is length of "-Digest"
-                String algorithm = key.substring(0, key.length()-7);
+                String blgorithm = key.substring(0, key.length()-7);
 
-                MessageDigest digest = createdDigests.get(algorithm);
+                MessbgeDigest digest = crebtedDigests.get(blgorithm);
 
                 if (digest == null) {
                     try {
 
-                        digest = MessageDigest.getInstance
-                                        (algorithm, SunProviderHolder.instance);
-                        createdDigests.put(algorithm, digest);
-                    } catch (NoSuchAlgorithmException nsae) {
+                        digest = MessbgeDigest.getInstbnce
+                                        (blgorithm, SunProviderHolder.instbnce);
+                        crebtedDigests.put(blgorithm, digest);
+                    } cbtch (NoSuchAlgorithmException nsbe) {
                         // ignore
                     }
                 }
 
                 if (digest != null) {
-                    skip = false;
+                    skip = fblse;
                     digest.reset();
-                    digests.add(digest);
-                    manifestHashes.add(
-                                Base64.getMimeDecoder().decode((String)se.getValue()));
+                    digests.bdd(digest);
+                    mbnifestHbshes.bdd(
+                                Bbse64.getMimeDecoder().decode((String)se.getVblue()));
                 }
             }
         }
     }
 
     /**
-     * update the digests for the digests we are interested in
+     * updbte the digests for the digests we bre interested in
      */
-    public void update(byte buffer) {
+    public void updbte(byte buffer) {
         if (skip) return;
 
         for (int i=0; i < digests.size(); i++) {
-            digests.get(i).update(buffer);
+            digests.get(i).updbte(buffer);
         }
     }
 
     /**
-     * update the digests for the digests we are interested in
+     * updbte the digests for the digests we bre interested in
      */
-    public void update(byte buffer[], int off, int len) {
+    public void updbte(byte buffer[], int off, int len) {
         if (skip) return;
 
         for (int i=0; i < digests.size(); i++) {
-            digests.get(i).update(buffer, off, len);
+            digests.get(i).updbte(buffer, off, len);
         }
     }
 
     /**
-     * get the JarEntry for this object
+     * get the JbrEntry for this object
      */
-    public JarEntry getEntry()
+    public JbrEntry getEntry()
     {
         return entry;
     }
 
     /**
-     * go through all the digests, calculating the final digest
-     * and comparing it to the one in the manifest. If this is
-     * the first time we have verified this object, remove its
-     * code signers from sigFileSigners and place in verifiedSigners.
+     * go through bll the digests, cblculbting the finbl digest
+     * bnd compbring it to the one in the mbnifest. If this is
+     * the first time we hbve verified this object, remove its
+     * code signers from sigFileSigners bnd plbce in verifiedSigners.
      *
      *
      */
-    public CodeSigner[] verify(Hashtable<String, CodeSigner[]> verifiedSigners,
-                Hashtable<String, CodeSigner[]> sigFileSigners)
-        throws JarException
+    public CodeSigner[] verify(Hbshtbble<String, CodeSigner[]> verifiedSigners,
+                Hbshtbble<String, CodeSigner[]> sigFileSigners)
+        throws JbrException
     {
         if (skip) {
             return null;
@@ -202,47 +202,47 @@ public class ManifestEntryVerifier {
 
         for (int i=0; i < digests.size(); i++) {
 
-            MessageDigest digest  = digests.get(i);
-            byte [] manHash = manifestHashes.get(i);
-            byte [] theHash = digest.digest();
+            MessbgeDigest digest  = digests.get(i);
+            byte [] mbnHbsh = mbnifestHbshes.get(i);
+            byte [] theHbsh = digest.digest();
 
             if (debug != null) {
-                debug.println("Manifest Entry: " +
-                                   name + " digest=" + digest.getAlgorithm());
-                debug.println("  manifest " + toHex(manHash));
-                debug.println("  computed " + toHex(theHash));
+                debug.println("Mbnifest Entry: " +
+                                   nbme + " digest=" + digest.getAlgorithm());
+                debug.println("  mbnifest " + toHex(mbnHbsh));
+                debug.println("  computed " + toHex(theHbsh));
                 debug.println();
             }
 
-            if (!MessageDigest.isEqual(theHash, manHash))
+            if (!MessbgeDigest.isEqubl(theHbsh, mbnHbsh))
                 throw new SecurityException(digest.getAlgorithm()+
-                                            " digest error for "+name);
+                                            " digest error for "+nbme);
         }
 
-        // take it out of sigFileSigners and put it in verifiedSigners...
-        signers = sigFileSigners.remove(name);
+        // tbke it out of sigFileSigners bnd put it in verifiedSigners...
+        signers = sigFileSigners.remove(nbme);
         if (signers != null) {
-            verifiedSigners.put(name, signers);
+            verifiedSigners.put(nbme, signers);
         }
         return signers;
     }
 
     // for the toHex function
-    private static final char[] hexc =
-            {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+    privbte stbtic finbl chbr[] hexc =
+            {'0','1','2','3','4','5','6','7','8','9','b','b','c','d','e','f'};
     /**
-     * convert a byte array to a hex string for debugging purposes
-     * @param data the binary data to be converted to a hex string
-     * @return an ASCII hex string
+     * convert b byte brrby to b hex string for debugging purposes
+     * @pbrbm dbtb the binbry dbtb to be converted to b hex string
+     * @return bn ASCII hex string
      */
 
-    static String toHex(byte[] data) {
+    stbtic String toHex(byte[] dbtb) {
 
-        StringBuilder sb = new StringBuilder(data.length*2);
+        StringBuilder sb = new StringBuilder(dbtb.length*2);
 
-        for (int i=0; i<data.length; i++) {
-            sb.append(hexc[(data[i] >>4) & 0x0f]);
-            sb.append(hexc[data[i] & 0x0f]);
+        for (int i=0; i<dbtb.length; i++) {
+            sb.bppend(hexc[(dbtb[i] >>4) & 0x0f]);
+            sb.bppend(hexc[dbtb[i] & 0x0f]);
         }
         return sb.toString();
     }

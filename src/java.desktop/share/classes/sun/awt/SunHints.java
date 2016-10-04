@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.RenderingHints;
-import java.lang.annotation.Native;
+import jbvb.bwt.RenderingHints;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * This class contains rendering hints that can be used by the
- * {@link java.awt.Graphics2D} class, and classes that implement
- * {@link java.awt.image.BufferedImageOp} and
- * {@link java.awt.image.Raster}.
+ * This clbss contbins rendering hints thbt cbn be used by the
+ * {@link jbvb.bwt.Grbphics2D} clbss, bnd clbsses thbt implement
+ * {@link jbvb.bwt.imbge.BufferedImbgeOp} bnd
+ * {@link jbvb.bwt.imbge.Rbster}.
  */
-public class SunHints {
+public clbss SunHints {
     /**
-     * Defines the type of all keys used to control various
-     * aspects of the rendering and imaging pipelines.  Instances
-     * of this class are immutable and unique which means that
-     * tests for matches can be made using the == operator instead
-     * of the more expensive equals() method.
+     * Defines the type of bll keys used to control vbrious
+     * bspects of the rendering bnd imbging pipelines.  Instbnces
+     * of this clbss bre immutbble bnd unique which mebns thbt
+     * tests for mbtches cbn be mbde using the == operbtor instebd
+     * of the more expensive equbls() method.
      */
-    public static class Key extends RenderingHints.Key {
+    public stbtic clbss Key extends RenderingHints.Key {
         String description;
 
         /**
-         * Construct a key using the indicated private key.  Each
-         * subclass of Key maintains its own unique domain of integer
-         * keys.  No two objects with the same integer key and of the
-         * same specific subclass can be constructed.  An exception
-         * will be thrown if an attempt is made to construct another
-         * object of a given class with the same integer key as a
-         * pre-existing instance of that subclass of Key.
+         * Construct b key using the indicbted privbte key.  Ebch
+         * subclbss of Key mbintbins its own unique dombin of integer
+         * keys.  No two objects with the sbme integer key bnd of the
+         * sbme specific subclbss cbn be constructed.  An exception
+         * will be thrown if bn bttempt is mbde to construct bnother
+         * object of b given clbss with the sbme integer key bs b
+         * pre-existing instbnce of thbt subclbss of Key.
          */
-        public Key(int privatekey, String description) {
-            super(privatekey);
+        public Key(int privbtekey, String description) {
+            super(privbtekey);
             this.description = description;
         }
 
         /**
-         * Returns the numeric index associated with this Key.  This
-         * is useful for use in switch statements and quick lookups
-         * of the setting of a particular key.
+         * Returns the numeric index bssocibted with this Key.  This
+         * is useful for use in switch stbtements bnd quick lookups
+         * of the setting of b pbrticulbr key.
          */
-        public final int getIndex() {
+        public finbl int getIndex() {
             return intKey();
         }
 
         /**
-         * Returns a string representation of the Key.
+         * Returns b string representbtion of the Key.
          */
-        public final String toString() {
+        public finbl String toString() {
             return description;
         }
 
         /**
-         * Returns true if the specified object is a valid value
+         * Returns true if the specified object is b vblid vblue
          * for this Key.
          */
-        public boolean isCompatibleValue(Object val) {
-            if (val instanceof Value) {
-                return ((Value)val).isCompatibleKey(this);
+        public boolebn isCompbtibleVblue(Object vbl) {
+            if (vbl instbnceof Vblue) {
+                return ((Vblue)vbl).isCompbtibleKey(this);
             }
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Defines the type of all "enumerative" values used to control
-     * various aspects of the rendering and imaging pipelines.  Instances
-     * of this class are immutable and unique which means that
-     * tests for matches can be made using the == operator instead
-     * of the more expensive equals() method.
+     * Defines the type of bll "enumerbtive" vblues used to control
+     * vbrious bspects of the rendering bnd imbging pipelines.  Instbnces
+     * of this clbss bre immutbble bnd unique which mebns thbt
+     * tests for mbtches cbn be mbde using the == operbtor instebd
+     * of the more expensive equbls() method.
      */
-    public static class Value {
-        private SunHints.Key myKey;
-        private int index;
-        private String description;
+    public stbtic clbss Vblue {
+        privbte SunHints.Key myKey;
+        privbte int index;
+        privbte String description;
 
-        private static Value[][] ValueObjects =
-            new Value[NUM_KEYS][VALS_PER_KEY];
+        privbte stbtic Vblue[][] VblueObjects =
+            new Vblue[NUM_KEYS][VALS_PER_KEY];
 
-        private synchronized static void register(SunHints.Key key,
-                                                  Value value) {
+        privbte synchronized stbtic void register(SunHints.Key key,
+                                                  Vblue vblue) {
             int kindex = key.getIndex();
-            int vindex = value.getIndex();
-            if (ValueObjects[kindex][vindex] != null) {
-                throw new InternalError("duplicate index: "+vindex);
+            int vindex = vblue.getIndex();
+            if (VblueObjects[kindex][vindex] != null) {
+                throw new InternblError("duplicbte index: "+vindex);
             }
-            ValueObjects[kindex][vindex] = value;
+            VblueObjects[kindex][vindex] = vblue;
         }
 
-        public static Value get(int keyindex, int valueindex) {
-            return ValueObjects[keyindex][valueindex];
+        public stbtic Vblue get(int keyindex, int vblueindex) {
+            return VblueObjects[keyindex][vblueindex];
         }
 
         /**
-         * Construct a value using the indicated private index.  Each
-         * subclass of Value maintains its own unique domain of integer
+         * Construct b vblue using the indicbted privbte index.  Ebch
+         * subclbss of Vblue mbintbins its own unique dombin of integer
          * indices.  Enforcing the uniqueness of the integer indices
-         * is left to the subclass.
+         * is left to the subclbss.
          */
-        public Value(SunHints.Key key, int index, String description) {
+        public Vblue(SunHints.Key key, int index, String description) {
             this.myKey = key;
             this.index = index;
             this.description = description;
@@ -131,376 +131,376 @@ public class SunHints {
         }
 
         /**
-         * Returns the numeric index associated with this Key.  This
-         * is useful for use in switch statements and quick lookups
-         * of the setting of a particular key.
+         * Returns the numeric index bssocibted with this Key.  This
+         * is useful for use in switch stbtements bnd quick lookups
+         * of the setting of b pbrticulbr key.
          */
-        public final int getIndex() {
+        public finbl int getIndex() {
             return index;
         }
 
         /**
-         * Returns a string representation of this Value.
+         * Returns b string representbtion of this Vblue.
          */
-        public final String toString() {
+        public finbl String toString() {
             return description;
         }
 
         /**
-         * Returns true if the specified object is a valid Key
-         * for this Value.
+         * Returns true if the specified object is b vblid Key
+         * for this Vblue.
          */
-        public final boolean isCompatibleKey(Key k) {
+        public finbl boolebn isCompbtibleKey(Key k) {
             return myKey == k;
         }
 
         /**
-         * The hash code for all SunHints.Value objects will be the same
-         * as the system identity code of the object as defined by the
-         * System.identityHashCode() method.
+         * The hbsh code for bll SunHints.Vblue objects will be the sbme
+         * bs the system identity code of the object bs defined by the
+         * System.identityHbshCode() method.
          */
-        public final int hashCode() {
-            return System.identityHashCode(this);
+        public finbl int hbshCode() {
+            return System.identityHbshCode(this);
         }
 
         /**
-         * The equals method for all SunHints.Value objects will return
-         * the same result as the equality operator '=='.
+         * The equbls method for bll SunHints.Vblue objects will return
+         * the sbme result bs the equblity operbtor '=='.
          */
-        public final boolean equals(Object o) {
+        public finbl boolebn equbls(Object o) {
             return this == o;
         }
     }
 
-    private static final int NUM_KEYS = 10;
-    private static final int VALS_PER_KEY = 8;
+    privbte stbtic finbl int NUM_KEYS = 10;
+    privbte stbtic finbl int VALS_PER_KEY = 8;
 
     /**
-     * Rendering hint key and values
+     * Rendering hint key bnd vblues
      */
-    @Native public static final int INTKEY_RENDERING = 0;
-    @Native public static final int INTVAL_RENDER_DEFAULT = 0;
-    @Native public static final int INTVAL_RENDER_SPEED = 1;
-    @Native public static final int INTVAL_RENDER_QUALITY = 2;
+    @Nbtive public stbtic finbl int INTKEY_RENDERING = 0;
+    @Nbtive public stbtic finbl int INTVAL_RENDER_DEFAULT = 0;
+    @Nbtive public stbtic finbl int INTVAL_RENDER_SPEED = 1;
+    @Nbtive public stbtic finbl int INTVAL_RENDER_QUALITY = 2;
 
     /**
-     * Antialiasing hint key and values
+     * Antiblibsing hint key bnd vblues
      */
-    @Native public static final int INTKEY_ANTIALIASING = 1;
-    @Native public static final int INTVAL_ANTIALIAS_DEFAULT = 0;
-    @Native public static final int INTVAL_ANTIALIAS_OFF = 1;
-    @Native public static final int INTVAL_ANTIALIAS_ON = 2;
+    @Nbtive public stbtic finbl int INTKEY_ANTIALIASING = 1;
+    @Nbtive public stbtic finbl int INTVAL_ANTIALIAS_DEFAULT = 0;
+    @Nbtive public stbtic finbl int INTVAL_ANTIALIAS_OFF = 1;
+    @Nbtive public stbtic finbl int INTVAL_ANTIALIAS_ON = 2;
 
     /**
-     * Text antialiasing hint key and values
+     * Text bntiblibsing hint key bnd vblues
      */
-    @Native public static final int INTKEY_TEXT_ANTIALIASING = 2;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_DEFAULT = 0;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_OFF = 1;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_ON = 2;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_GASP = 3;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_LCD_HRGB = 4;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_LCD_HBGR = 5;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_LCD_VRGB = 6;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_LCD_VBGR = 7;
+    @Nbtive public stbtic finbl int INTKEY_TEXT_ANTIALIASING = 2;
+    @Nbtive public stbtic finbl int INTVAL_TEXT_ANTIALIAS_DEFAULT = 0;
+    @Nbtive public stbtic finbl int INTVAL_TEXT_ANTIALIAS_OFF = 1;
+    @Nbtive public stbtic finbl int INTVAL_TEXT_ANTIALIAS_ON = 2;
+    @Nbtive public stbtic finbl int INTVAL_TEXT_ANTIALIAS_GASP = 3;
+    @Nbtive public stbtic finbl int INTVAL_TEXT_ANTIALIAS_LCD_HRGB = 4;
+    @Nbtive public stbtic finbl int INTVAL_TEXT_ANTIALIAS_LCD_HBGR = 5;
+    @Nbtive public stbtic finbl int INTVAL_TEXT_ANTIALIAS_LCD_VRGB = 6;
+    @Nbtive public stbtic finbl int INTVAL_TEXT_ANTIALIAS_LCD_VBGR = 7;
 
     /**
-     * Font fractional metrics hint key and values
+     * Font frbctionbl metrics hint key bnd vblues
      */
-    @Native public static final int INTKEY_FRACTIONALMETRICS = 3;
-    @Native public static final int INTVAL_FRACTIONALMETRICS_DEFAULT = 0;
-    @Native public static final int INTVAL_FRACTIONALMETRICS_OFF = 1;
-    @Native public static final int INTVAL_FRACTIONALMETRICS_ON = 2;
+    @Nbtive public stbtic finbl int INTKEY_FRACTIONALMETRICS = 3;
+    @Nbtive public stbtic finbl int INTVAL_FRACTIONALMETRICS_DEFAULT = 0;
+    @Nbtive public stbtic finbl int INTVAL_FRACTIONALMETRICS_OFF = 1;
+    @Nbtive public stbtic finbl int INTVAL_FRACTIONALMETRICS_ON = 2;
 
     /**
-     * Dithering hint key and values
+     * Dithering hint key bnd vblues
      */
-    @Native public static final int INTKEY_DITHERING = 4;
-    @Native public static final int INTVAL_DITHER_DEFAULT = 0;
-    @Native public static final int INTVAL_DITHER_DISABLE = 1;
-    @Native public static final int INTVAL_DITHER_ENABLE = 2;
+    @Nbtive public stbtic finbl int INTKEY_DITHERING = 4;
+    @Nbtive public stbtic finbl int INTVAL_DITHER_DEFAULT = 0;
+    @Nbtive public stbtic finbl int INTVAL_DITHER_DISABLE = 1;
+    @Nbtive public stbtic finbl int INTVAL_DITHER_ENABLE = 2;
 
     /**
-     * Interpolation hint key and values
+     * Interpolbtion hint key bnd vblues
      */
-    @Native public static final int INTKEY_INTERPOLATION = 5;
-    @Native public static final int INTVAL_INTERPOLATION_NEAREST_NEIGHBOR = 0;
-    @Native public static final int INTVAL_INTERPOLATION_BILINEAR = 1;
-    @Native public static final int INTVAL_INTERPOLATION_BICUBIC = 2;
+    @Nbtive public stbtic finbl int INTKEY_INTERPOLATION = 5;
+    @Nbtive public stbtic finbl int INTVAL_INTERPOLATION_NEAREST_NEIGHBOR = 0;
+    @Nbtive public stbtic finbl int INTVAL_INTERPOLATION_BILINEAR = 1;
+    @Nbtive public stbtic finbl int INTVAL_INTERPOLATION_BICUBIC = 2;
 
     /**
-     * Alpha interpolation hint key and values
+     * Alphb interpolbtion hint key bnd vblues
      */
-    @Native public static final int INTKEY_ALPHA_INTERPOLATION = 6;
-    @Native public static final int INTVAL_ALPHA_INTERPOLATION_DEFAULT = 0;
-    @Native public static final int INTVAL_ALPHA_INTERPOLATION_SPEED = 1;
-    @Native public static final int INTVAL_ALPHA_INTERPOLATION_QUALITY = 2;
+    @Nbtive public stbtic finbl int INTKEY_ALPHA_INTERPOLATION = 6;
+    @Nbtive public stbtic finbl int INTVAL_ALPHA_INTERPOLATION_DEFAULT = 0;
+    @Nbtive public stbtic finbl int INTVAL_ALPHA_INTERPOLATION_SPEED = 1;
+    @Nbtive public stbtic finbl int INTVAL_ALPHA_INTERPOLATION_QUALITY = 2;
 
     /**
-     * Color rendering hint key and values
+     * Color rendering hint key bnd vblues
      */
-    @Native public static final int INTKEY_COLOR_RENDERING = 7;
-    @Native public static final int INTVAL_COLOR_RENDER_DEFAULT = 0;
-    @Native public static final int INTVAL_COLOR_RENDER_SPEED = 1;
-    @Native public static final int INTVAL_COLOR_RENDER_QUALITY = 2;
+    @Nbtive public stbtic finbl int INTKEY_COLOR_RENDERING = 7;
+    @Nbtive public stbtic finbl int INTVAL_COLOR_RENDER_DEFAULT = 0;
+    @Nbtive public stbtic finbl int INTVAL_COLOR_RENDER_SPEED = 1;
+    @Nbtive public stbtic finbl int INTVAL_COLOR_RENDER_QUALITY = 2;
 
     /**
-     * Stroke normalization control hint key and values
+     * Stroke normblizbtion control hint key bnd vblues
      */
-    @Native public static final int INTKEY_STROKE_CONTROL = 8;
-    @Native public static final int INTVAL_STROKE_DEFAULT = 0;
-    @Native public static final int INTVAL_STROKE_NORMALIZE = 1;
-    @Native public static final int INTVAL_STROKE_PURE = 2;
+    @Nbtive public stbtic finbl int INTKEY_STROKE_CONTROL = 8;
+    @Nbtive public stbtic finbl int INTVAL_STROKE_DEFAULT = 0;
+    @Nbtive public stbtic finbl int INTVAL_STROKE_NORMALIZE = 1;
+    @Nbtive public stbtic finbl int INTVAL_STROKE_PURE = 2;
 
     /**
-     * Image scaling hint key and values
+     * Imbge scbling hint key bnd vblues
      */
-    @Native public static final int INTKEY_RESOLUTION_VARIANT = 9;
-    @Native public static final int INTVAL_RESOLUTION_VARIANT_DEFAULT = 0;
-    @Native public static final int INTVAL_RESOLUTION_VARIANT_OFF = 1;
-    @Native public static final int INTVAL_RESOLUTION_VARIANT_ON = 2;
+    @Nbtive public stbtic finbl int INTKEY_RESOLUTION_VARIANT = 9;
+    @Nbtive public stbtic finbl int INTVAL_RESOLUTION_VARIANT_DEFAULT = 0;
+    @Nbtive public stbtic finbl int INTVAL_RESOLUTION_VARIANT_OFF = 1;
+    @Nbtive public stbtic finbl int INTVAL_RESOLUTION_VARIANT_ON = 2;
     /**
-     * LCD text contrast control hint key.
-     * Value is "100" to make discontiguous with the others which
-     * are all enumerative and are of a different class.
+     * LCD text contrbst control hint key.
+     * Vblue is "100" to mbke discontiguous with the others which
+     * bre bll enumerbtive bnd bre of b different clbss.
      */
-    @Native public static final int INTKEY_AATEXT_LCD_CONTRAST = 100;
+    @Nbtive public stbtic finbl int INTKEY_AATEXT_LCD_CONTRAST = 100;
 
     /**
-     * Rendering hint key and value objects
+     * Rendering hint key bnd vblue objects
      */
-    public static final Key KEY_RENDERING =
+    public stbtic finbl Key KEY_RENDERING =
         new SunHints.Key(SunHints.INTKEY_RENDERING,
-                         "Global rendering quality key");
-    public static final Object VALUE_RENDER_SPEED =
-        new SunHints.Value(KEY_RENDERING,
+                         "Globbl rendering qublity key");
+    public stbtic finbl Object VALUE_RENDER_SPEED =
+        new SunHints.Vblue(KEY_RENDERING,
                            SunHints.INTVAL_RENDER_SPEED,
-                           "Fastest rendering methods");
-    public static final Object VALUE_RENDER_QUALITY =
-        new SunHints.Value(KEY_RENDERING,
+                           "Fbstest rendering methods");
+    public stbtic finbl Object VALUE_RENDER_QUALITY =
+        new SunHints.Vblue(KEY_RENDERING,
                            SunHints.INTVAL_RENDER_QUALITY,
-                           "Highest quality rendering methods");
-    public static final Object VALUE_RENDER_DEFAULT =
-        new SunHints.Value(KEY_RENDERING,
+                           "Highest qublity rendering methods");
+    public stbtic finbl Object VALUE_RENDER_DEFAULT =
+        new SunHints.Vblue(KEY_RENDERING,
                            SunHints.INTVAL_RENDER_DEFAULT,
-                           "Default rendering methods");
+                           "Defbult rendering methods");
 
     /**
-     * Antialiasing hint key and value objects
+     * Antiblibsing hint key bnd vblue objects
      */
-    public static final Key KEY_ANTIALIASING =
+    public stbtic finbl Key KEY_ANTIALIASING =
         new SunHints.Key(SunHints.INTKEY_ANTIALIASING,
-                         "Global antialiasing enable key");
-    public static final Object VALUE_ANTIALIAS_ON =
-        new SunHints.Value(KEY_ANTIALIASING,
+                         "Globbl bntiblibsing enbble key");
+    public stbtic finbl Object VALUE_ANTIALIAS_ON =
+        new SunHints.Vblue(KEY_ANTIALIASING,
                            SunHints.INTVAL_ANTIALIAS_ON,
-                           "Antialiased rendering mode");
-    public static final Object VALUE_ANTIALIAS_OFF =
-        new SunHints.Value(KEY_ANTIALIASING,
+                           "Antiblibsed rendering mode");
+    public stbtic finbl Object VALUE_ANTIALIAS_OFF =
+        new SunHints.Vblue(KEY_ANTIALIASING,
                            SunHints.INTVAL_ANTIALIAS_OFF,
-                           "Nonantialiased rendering mode");
-    public static final Object VALUE_ANTIALIAS_DEFAULT =
-        new SunHints.Value(KEY_ANTIALIASING,
+                           "Nonbntiblibsed rendering mode");
+    public stbtic finbl Object VALUE_ANTIALIAS_DEFAULT =
+        new SunHints.Vblue(KEY_ANTIALIASING,
                            SunHints.INTVAL_ANTIALIAS_DEFAULT,
-                           "Default antialiasing rendering mode");
+                           "Defbult bntiblibsing rendering mode");
 
     /**
-     * Text antialiasing hint key and value objects
+     * Text bntiblibsing hint key bnd vblue objects
      */
-    public static final Key KEY_TEXT_ANTIALIASING =
+    public stbtic finbl Key KEY_TEXT_ANTIALIASING =
         new SunHints.Key(SunHints.INTKEY_TEXT_ANTIALIASING,
-                         "Text-specific antialiasing enable key");
-    public static final Object VALUE_TEXT_ANTIALIAS_ON =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                         "Text-specific bntiblibsing enbble key");
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_ON =
+        new SunHints.Vblue(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_ON,
-                           "Antialiased text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_OFF =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "Antiblibsed text mode");
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_OFF =
+        new SunHints.Vblue(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_OFF,
-                           "Nonantialiased text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_DEFAULT =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "Nonbntiblibsed text mode");
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_DEFAULT =
+        new SunHints.Vblue(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT,
-                           "Default antialiasing text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_GASP =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "Defbult bntiblibsing text mode");
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_GASP =
+        new SunHints.Vblue(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_GASP,
-                           "gasp antialiasing text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_HRGB =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "gbsp bntiblibsing text mode");
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_LCD_HRGB =
+        new SunHints.Vblue(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB,
-                           "LCD HRGB antialiasing text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_HBGR =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "LCD HRGB bntiblibsing text mode");
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_LCD_HBGR =
+        new SunHints.Vblue(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HBGR,
-                           "LCD HBGR antialiasing text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_VRGB =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "LCD HBGR bntiblibsing text mode");
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_LCD_VRGB =
+        new SunHints.Vblue(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB,
-                           "LCD VRGB antialiasing text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_VBGR =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "LCD VRGB bntiblibsing text mode");
+    public stbtic finbl Object VALUE_TEXT_ANTIALIAS_LCD_VBGR =
+        new SunHints.Vblue(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VBGR,
-                           "LCD VBGR antialiasing text mode");
+                           "LCD VBGR bntiblibsing text mode");
 
     /**
-     * Font fractional metrics hint key and value objects
+     * Font frbctionbl metrics hint key bnd vblue objects
      */
-    public static final Key KEY_FRACTIONALMETRICS =
+    public stbtic finbl Key KEY_FRACTIONALMETRICS =
         new SunHints.Key(SunHints.INTKEY_FRACTIONALMETRICS,
-                         "Fractional metrics enable key");
-    public static final Object VALUE_FRACTIONALMETRICS_ON =
-        new SunHints.Value(KEY_FRACTIONALMETRICS,
+                         "Frbctionbl metrics enbble key");
+    public stbtic finbl Object VALUE_FRACTIONALMETRICS_ON =
+        new SunHints.Vblue(KEY_FRACTIONALMETRICS,
                            SunHints.INTVAL_FRACTIONALMETRICS_ON,
-                           "Fractional text metrics mode");
-    public static final Object VALUE_FRACTIONALMETRICS_OFF =
-        new SunHints.Value(KEY_FRACTIONALMETRICS,
+                           "Frbctionbl text metrics mode");
+    public stbtic finbl Object VALUE_FRACTIONALMETRICS_OFF =
+        new SunHints.Vblue(KEY_FRACTIONALMETRICS,
                            SunHints.INTVAL_FRACTIONALMETRICS_OFF,
                            "Integer text metrics mode");
-    public static final Object VALUE_FRACTIONALMETRICS_DEFAULT =
-        new SunHints.Value(KEY_FRACTIONALMETRICS,
+    public stbtic finbl Object VALUE_FRACTIONALMETRICS_DEFAULT =
+        new SunHints.Vblue(KEY_FRACTIONALMETRICS,
                            SunHints.INTVAL_FRACTIONALMETRICS_DEFAULT,
-                           "Default fractional text metrics mode");
+                           "Defbult frbctionbl text metrics mode");
 
     /**
-     * Dithering hint key and value objects
+     * Dithering hint key bnd vblue objects
      */
-    public static final Key KEY_DITHERING =
+    public stbtic finbl Key KEY_DITHERING =
         new SunHints.Key(SunHints.INTKEY_DITHERING,
-                         "Dithering quality key");
-    public static final Object VALUE_DITHER_ENABLE =
-        new SunHints.Value(KEY_DITHERING,
+                         "Dithering qublity key");
+    public stbtic finbl Object VALUE_DITHER_ENABLE =
+        new SunHints.Vblue(KEY_DITHERING,
                            SunHints.INTVAL_DITHER_ENABLE,
                            "Dithered rendering mode");
-    public static final Object VALUE_DITHER_DISABLE =
-        new SunHints.Value(KEY_DITHERING,
+    public stbtic finbl Object VALUE_DITHER_DISABLE =
+        new SunHints.Vblue(KEY_DITHERING,
                            SunHints.INTVAL_DITHER_DISABLE,
                            "Nondithered rendering mode");
-    public static final Object VALUE_DITHER_DEFAULT =
-        new SunHints.Value(KEY_DITHERING,
+    public stbtic finbl Object VALUE_DITHER_DEFAULT =
+        new SunHints.Vblue(KEY_DITHERING,
                            SunHints.INTVAL_DITHER_DEFAULT,
-                           "Default dithering mode");
+                           "Defbult dithering mode");
 
     /**
-     * Interpolation hint key and value objects
+     * Interpolbtion hint key bnd vblue objects
      */
-    public static final Key KEY_INTERPOLATION =
+    public stbtic finbl Key KEY_INTERPOLATION =
         new SunHints.Key(SunHints.INTKEY_INTERPOLATION,
-                         "Image interpolation method key");
-    public static final Object VALUE_INTERPOLATION_NEAREST_NEIGHBOR =
-        new SunHints.Value(KEY_INTERPOLATION,
+                         "Imbge interpolbtion method key");
+    public stbtic finbl Object VALUE_INTERPOLATION_NEAREST_NEIGHBOR =
+        new SunHints.Vblue(KEY_INTERPOLATION,
                            SunHints.INTVAL_INTERPOLATION_NEAREST_NEIGHBOR,
-                           "Nearest Neighbor image interpolation mode");
-    public static final Object VALUE_INTERPOLATION_BILINEAR =
-        new SunHints.Value(KEY_INTERPOLATION,
+                           "Nebrest Neighbor imbge interpolbtion mode");
+    public stbtic finbl Object VALUE_INTERPOLATION_BILINEAR =
+        new SunHints.Vblue(KEY_INTERPOLATION,
                            SunHints.INTVAL_INTERPOLATION_BILINEAR,
-                           "Bilinear image interpolation mode");
-    public static final Object VALUE_INTERPOLATION_BICUBIC =
-        new SunHints.Value(KEY_INTERPOLATION,
+                           "Bilinebr imbge interpolbtion mode");
+    public stbtic finbl Object VALUE_INTERPOLATION_BICUBIC =
+        new SunHints.Vblue(KEY_INTERPOLATION,
                            SunHints.INTVAL_INTERPOLATION_BICUBIC,
-                           "Bicubic image interpolation mode");
+                           "Bicubic imbge interpolbtion mode");
 
     /**
-     * Alpha interpolation hint key and value objects
+     * Alphb interpolbtion hint key bnd vblue objects
      */
-    public static final Key KEY_ALPHA_INTERPOLATION =
+    public stbtic finbl Key KEY_ALPHA_INTERPOLATION =
         new SunHints.Key(SunHints.INTKEY_ALPHA_INTERPOLATION,
-                         "Alpha blending interpolation method key");
-    public static final Object VALUE_ALPHA_INTERPOLATION_SPEED =
-        new SunHints.Value(KEY_ALPHA_INTERPOLATION,
+                         "Alphb blending interpolbtion method key");
+    public stbtic finbl Object VALUE_ALPHA_INTERPOLATION_SPEED =
+        new SunHints.Vblue(KEY_ALPHA_INTERPOLATION,
                            SunHints.INTVAL_ALPHA_INTERPOLATION_SPEED,
-                           "Fastest alpha blending methods");
-    public static final Object VALUE_ALPHA_INTERPOLATION_QUALITY =
-        new SunHints.Value(KEY_ALPHA_INTERPOLATION,
+                           "Fbstest blphb blending methods");
+    public stbtic finbl Object VALUE_ALPHA_INTERPOLATION_QUALITY =
+        new SunHints.Vblue(KEY_ALPHA_INTERPOLATION,
                            SunHints.INTVAL_ALPHA_INTERPOLATION_QUALITY,
-                           "Highest quality alpha blending methods");
-    public static final Object VALUE_ALPHA_INTERPOLATION_DEFAULT =
-        new SunHints.Value(KEY_ALPHA_INTERPOLATION,
+                           "Highest qublity blphb blending methods");
+    public stbtic finbl Object VALUE_ALPHA_INTERPOLATION_DEFAULT =
+        new SunHints.Vblue(KEY_ALPHA_INTERPOLATION,
                            SunHints.INTVAL_ALPHA_INTERPOLATION_DEFAULT,
-                           "Default alpha blending methods");
+                           "Defbult blphb blending methods");
 
     /**
-     * Color rendering hint key and value objects
+     * Color rendering hint key bnd vblue objects
      */
-    public static final Key KEY_COLOR_RENDERING =
+    public stbtic finbl Key KEY_COLOR_RENDERING =
         new SunHints.Key(SunHints.INTKEY_COLOR_RENDERING,
-                         "Color rendering quality key");
-    public static final Object VALUE_COLOR_RENDER_SPEED =
-        new SunHints.Value(KEY_COLOR_RENDERING,
+                         "Color rendering qublity key");
+    public stbtic finbl Object VALUE_COLOR_RENDER_SPEED =
+        new SunHints.Vblue(KEY_COLOR_RENDERING,
                            SunHints.INTVAL_COLOR_RENDER_SPEED,
-                           "Fastest color rendering mode");
-    public static final Object VALUE_COLOR_RENDER_QUALITY =
-        new SunHints.Value(KEY_COLOR_RENDERING,
+                           "Fbstest color rendering mode");
+    public stbtic finbl Object VALUE_COLOR_RENDER_QUALITY =
+        new SunHints.Vblue(KEY_COLOR_RENDERING,
                            SunHints.INTVAL_COLOR_RENDER_QUALITY,
-                           "Highest quality color rendering mode");
-    public static final Object VALUE_COLOR_RENDER_DEFAULT =
-        new SunHints.Value(KEY_COLOR_RENDERING,
+                           "Highest qublity color rendering mode");
+    public stbtic finbl Object VALUE_COLOR_RENDER_DEFAULT =
+        new SunHints.Vblue(KEY_COLOR_RENDERING,
                            SunHints.INTVAL_COLOR_RENDER_DEFAULT,
-                           "Default color rendering mode");
+                           "Defbult color rendering mode");
 
     /**
-     * Stroke normalization control hint key and value objects
+     * Stroke normblizbtion control hint key bnd vblue objects
      */
-    public static final Key KEY_STROKE_CONTROL =
+    public stbtic finbl Key KEY_STROKE_CONTROL =
         new SunHints.Key(SunHints.INTKEY_STROKE_CONTROL,
-                         "Stroke normalization control key");
-    public static final Object VALUE_STROKE_DEFAULT =
-        new SunHints.Value(KEY_STROKE_CONTROL,
+                         "Stroke normblizbtion control key");
+    public stbtic finbl Object VALUE_STROKE_DEFAULT =
+        new SunHints.Vblue(KEY_STROKE_CONTROL,
                            SunHints.INTVAL_STROKE_DEFAULT,
-                           "Default stroke normalization");
-    public static final Object VALUE_STROKE_NORMALIZE =
-        new SunHints.Value(KEY_STROKE_CONTROL,
+                           "Defbult stroke normblizbtion");
+    public stbtic finbl Object VALUE_STROKE_NORMALIZE =
+        new SunHints.Vblue(KEY_STROKE_CONTROL,
                            SunHints.INTVAL_STROKE_NORMALIZE,
-                           "Normalize strokes for consistent rendering");
-    public static final Object VALUE_STROKE_PURE =
-        new SunHints.Value(KEY_STROKE_CONTROL,
+                           "Normblize strokes for consistent rendering");
+    public stbtic finbl Object VALUE_STROKE_PURE =
+        new SunHints.Vblue(KEY_STROKE_CONTROL,
                            SunHints.INTVAL_STROKE_PURE,
-                           "Pure stroke conversion for accurate paths");
+                           "Pure stroke conversion for bccurbte pbths");
 
     /**
-     * Image resolution variant hint key and value objects
+     * Imbge resolution vbribnt hint key bnd vblue objects
      */
-    public static final Key KEY_RESOLUTION_VARIANT =
+    public stbtic finbl Key KEY_RESOLUTION_VARIANT =
         new SunHints.Key(SunHints.INTKEY_RESOLUTION_VARIANT,
-                         "Global image resolution variant key");
-    public static final Object VALUE_RESOLUTION_VARIANT_DEFAULT =
-        new SunHints.Value(KEY_RESOLUTION_VARIANT,
+                         "Globbl imbge resolution vbribnt key");
+    public stbtic finbl Object VALUE_RESOLUTION_VARIANT_DEFAULT =
+        new SunHints.Vblue(KEY_RESOLUTION_VARIANT,
                            SunHints.INTVAL_RESOLUTION_VARIANT_DEFAULT,
-                           "Choose image resolutions based on a default heuristic");
-    public static final Object VALUE_RESOLUTION_VARIANT_OFF =
-        new SunHints.Value(KEY_RESOLUTION_VARIANT,
+                           "Choose imbge resolutions bbsed on b defbult heuristic");
+    public stbtic finbl Object VALUE_RESOLUTION_VARIANT_OFF =
+        new SunHints.Vblue(KEY_RESOLUTION_VARIANT,
                            SunHints.INTVAL_RESOLUTION_VARIANT_OFF,
-                           "Use only the standard resolution of an image");
-    public static final Object VALUE_RESOLUTION_VARIANT_ON =
-        new SunHints.Value(KEY_RESOLUTION_VARIANT,
+                           "Use only the stbndbrd resolution of bn imbge");
+    public stbtic finbl Object VALUE_RESOLUTION_VARIANT_ON =
+        new SunHints.Vblue(KEY_RESOLUTION_VARIANT,
                            SunHints.INTVAL_RESOLUTION_VARIANT_ON,
-                           "Always use resolution-specific variants of images");
+                           "Alwbys use resolution-specific vbribnts of imbges");
 
-    public static class LCDContrastKey extends Key {
+    public stbtic clbss LCDContrbstKey extends Key {
 
-        public LCDContrastKey(int privatekey, String description) {
-            super(privatekey, description);
+        public LCDContrbstKey(int privbtekey, String description) {
+            super(privbtekey, description);
         }
 
         /**
-         * Returns true if the specified object is a valid value
-         * for this Key. The allowable range is 100 to 250.
+         * Returns true if the specified object is b vblid vblue
+         * for this Key. The bllowbble rbnge is 100 to 250.
          */
-        public final boolean isCompatibleValue(Object val) {
-            if (val instanceof Integer) {
-                int ival = ((Integer)val).intValue();
-                return ival >= 100 && ival <= 250;
+        public finbl boolebn isCompbtibleVblue(Object vbl) {
+            if (vbl instbnceof Integer) {
+                int ivbl = ((Integer)vbl).intVblue();
+                return ivbl >= 100 && ivbl <= 250;
             }
-            return false;
+            return fblse;
         }
 
     }
 
     /**
-     * LCD text contrast hint key
+     * LCD text contrbst hint key
      */
-    public static final RenderingHints.Key
+    public stbtic finbl RenderingHints.Key
         KEY_TEXT_ANTIALIAS_LCD_CONTRAST =
-        new LCDContrastKey(SunHints.INTKEY_AATEXT_LCD_CONTRAST,
-                           "Text-specific LCD contrast key");
+        new LCDContrbstKey(SunHints.INTKEY_AATEXT_LCD_CONTRAST,
+                           "Text-specific LCD contrbst key");
 }

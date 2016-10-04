@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1996, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * Signals that an unexpected exception has occurred in a static initializer.
- * An <code>ExceptionInInitializerError</code> is thrown to indicate that an
- * exception occurred during evaluation of a static initializer or the
- * initializer for a static variable.
+ * Signbls thbt bn unexpected exception hbs occurred in b stbtic initiblizer.
+ * An <code>ExceptionInInitiblizerError</code> is thrown to indicbte thbt bn
+ * exception occurred during evblubtion of b stbtic initiblizer or the
+ * initiblizer for b stbtic vbribble.
  *
- * <p>As of release 1.4, this exception has been retrofitted to conform to
- * the general purpose exception-chaining mechanism.  The "saved throwable
- * object" that may be provided at construction time and accessed via
- * the {@link #getException()} method is now known as the <i>cause</i>,
- * and may be accessed via the {@link Throwable#getCause()} method, as well
- * as the aforementioned "legacy method."
+ * <p>As of relebse 1.4, this exception hbs been retrofitted to conform to
+ * the generbl purpose exception-chbining mechbnism.  The "sbved throwbble
+ * object" thbt mby be provided bt construction time bnd bccessed vib
+ * the {@link #getException()} method is now known bs the <i>cbuse</i>,
+ * bnd mby be bccessed vib the {@link Throwbble#getCbuse()} method, bs well
+ * bs the bforementioned "legbcy method."
  *
- * @author  Frank Yellin
+ * @buthor  Frbnk Yellin
  * @since   1.1
  */
-public class ExceptionInInitializerError extends LinkageError {
+public clbss ExceptionInInitiblizerError extends LinkbgeError {
     /**
-     * Use serialVersionUID from JDK 1.1.X for interoperability
+     * Use seriblVersionUID from JDK 1.1.X for interoperbbility
      */
-    private static final long serialVersionUID = 1521711792217232256L;
+    privbte stbtic finbl long seriblVersionUID = 1521711792217232256L;
 
     /**
      * This field holds the exception if the
-     * ExceptionInInitializerError(Throwable thrown) constructor was
-     * used to instantiate the object
+     * ExceptionInInitiblizerError(Throwbble thrown) constructor wbs
+     * used to instbntibte the object
      *
-     * @serial
+     * @seribl
      *
      */
-    private Throwable exception;
+    privbte Throwbble exception;
 
     /**
-     * Constructs an <code>ExceptionInInitializerError</code> with
-     * <code>null</code> as its detail message string and with no saved
-     * throwable object.
-     * A detail message is a String that describes this particular exception.
+     * Constructs bn <code>ExceptionInInitiblizerError</code> with
+     * <code>null</code> bs its detbil messbge string bnd with no sbved
+     * throwbble object.
+     * A detbil messbge is b String thbt describes this pbrticulbr exception.
      */
-    public ExceptionInInitializerError() {
-        initCause(null);  // Disallow subsequent initCause
+    public ExceptionInInitiblizerError() {
+        initCbuse(null);  // Disbllow subsequent initCbuse
     }
 
     /**
-     * Constructs a new <code>ExceptionInInitializerError</code> class by
-     * saving a reference to the <code>Throwable</code> object thrown for
-     * later retrieval by the {@link #getException()} method. The detail
-     * message string is set to <code>null</code>.
+     * Constructs b new <code>ExceptionInInitiblizerError</code> clbss by
+     * sbving b reference to the <code>Throwbble</code> object thrown for
+     * lbter retrievbl by the {@link #getException()} method. The detbil
+     * messbge string is set to <code>null</code>.
      *
-     * @param thrown The exception thrown
+     * @pbrbm thrown The exception thrown
      */
-    public ExceptionInInitializerError(Throwable thrown) {
-        initCause(null);  // Disallow subsequent initCause
+    public ExceptionInInitiblizerError(Throwbble thrown) {
+        initCbuse(null);  // Disbllow subsequent initCbuse
         this.exception = thrown;
     }
 
     /**
-     * Constructs an ExceptionInInitializerError with the specified detail
-     * message string.  A detail message is a String that describes this
-     * particular exception. The detail message string is saved for later
-     * retrieval by the {@link Throwable#getMessage()} method. There is no
-     * saved throwable object.
+     * Constructs bn ExceptionInInitiblizerError with the specified detbil
+     * messbge string.  A detbil messbge is b String thbt describes this
+     * pbrticulbr exception. The detbil messbge string is sbved for lbter
+     * retrievbl by the {@link Throwbble#getMessbge()} method. There is no
+     * sbved throwbble object.
      *
      *
-     * @param s the detail message
+     * @pbrbm s the detbil messbge
      */
-    public ExceptionInInitializerError(String s) {
+    public ExceptionInInitiblizerError(String s) {
         super(s);
-        initCause(null);  // Disallow subsequent initCause
+        initCbuse(null);  // Disbllow subsequent initCbuse
     }
 
     /**
-     * Returns the exception that occurred during a static initialization that
-     * caused this error to be created.
+     * Returns the exception thbt occurred during b stbtic initiblizbtion thbt
+     * cbused this error to be crebted.
      *
-     * <p>This method predates the general-purpose exception chaining facility.
-     * The {@link Throwable#getCause()} method is now the preferred means of
-     * obtaining this information.
+     * <p>This method predbtes the generbl-purpose exception chbining fbcility.
+     * The {@link Throwbble#getCbuse()} method is now the preferred mebns of
+     * obtbining this informbtion.
      *
-     * @return the saved throwable object of this
-     *         <code>ExceptionInInitializerError</code>, or <code>null</code>
-     *         if this <code>ExceptionInInitializerError</code> has no saved
-     *         throwable object.
+     * @return the sbved throwbble object of this
+     *         <code>ExceptionInInitiblizerError</code>, or <code>null</code>
+     *         if this <code>ExceptionInInitiblizerError</code> hbs no sbved
+     *         throwbble object.
      */
-    public Throwable getException() {
+    public Throwbble getException() {
         return exception;
     }
 
     /**
-     * Returns the cause of this error (the exception that occurred
-     * during a static initialization that caused this error to be created).
+     * Returns the cbuse of this error (the exception thbt occurred
+     * during b stbtic initiblizbtion thbt cbused this error to be crebted).
      *
-     * @return  the cause of this error or <code>null</code> if the
-     *          cause is nonexistent or unknown.
+     * @return  the cbuse of this error or <code>null</code> if the
+     *          cbuse is nonexistent or unknown.
      * @since   1.4
      */
-    public Throwable getCause() {
+    public Throwbble getCbuse() {
         return exception;
     }
 }

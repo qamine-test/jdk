@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print.attribute;
+pbckbge jbvbx.print.bttribute;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
- * Class IntegerSyntax is an abstract base class providing the common
- * implementation of all attributes with integer values.
+ * Clbss IntegerSyntbx is bn bbstrbct bbse clbss providing the common
+ * implementbtion of bll bttributes with integer vblues.
  * <P>
- * Under the hood, an integer attribute is just an integer. You can get an
- * integer attribute's integer value by calling {@link #getValue()
- * getValue()}. An integer attribute's integer value is
- * established when it is constructed (see {@link #IntegerSyntax(int)
- * IntegerSyntax(int)}). Once constructed, an integer attribute's
- * value is immutable.
+ * Under the hood, bn integer bttribute is just bn integer. You cbn get bn
+ * integer bttribute's integer vblue by cblling {@link #getVblue()
+ * getVblue()}. An integer bttribute's integer vblue is
+ * estbblished when it is constructed (see {@link #IntegerSyntbx(int)
+ * IntegerSyntbx(int)}). Once constructed, bn integer bttribute's
+ * vblue is immutbble.
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @buthor  Dbvid Mendenhbll
+ * @buthor  Albn Kbminsky
  */
-public abstract class IntegerSyntax implements Serializable, Cloneable {
+public bbstrbct clbss IntegerSyntbx implements Seriblizbble, Clonebble {
 
-    private static final long serialVersionUID = 3644574816328081943L;
+    privbte stbtic finbl long seriblVersionUID = 3644574816328081943L;
 
     /**
-     * This integer attribute's integer value.
-     * @serial
+     * This integer bttribute's integer vblue.
+     * @seribl
      */
-    private int value;
+    privbte int vblue;
 
     /**
-     * Construct a new integer attribute with the given integer value.
+     * Construct b new integer bttribute with the given integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected IntegerSyntax(int value) {
-        this.value = value;
+    protected IntegerSyntbx(int vblue) {
+        this.vblue = vblue;
     }
 
     /**
-     * Construct a new integer attribute with the given integer value, which
-     * must lie within the given range.
+     * Construct b new integer bttribute with the given integer vblue, which
+     * must lie within the given rbnge.
      *
-     * @param  value       Integer value.
-     * @param  lowerBound  Lower bound.
-     * @param  upperBound  Upper bound.
+     * @pbrbm  vblue       Integer vblue.
+     * @pbrbm  lowerBound  Lower bound.
+     * @pbrbm  upperBound  Upper bound.
      *
-     * @exception  IllegalArgumentException
-     *     (Unchecked exception) Thrown if <CODE>value</CODE> is less than
-     *     <CODE>lowerBound</CODE> or greater than
+     * @exception  IllegblArgumentException
+     *     (Unchecked exception) Thrown if <CODE>vblue</CODE> is less thbn
+     *     <CODE>lowerBound</CODE> or grebter thbn
      *     <CODE>upperBound</CODE>.
      */
-    protected IntegerSyntax(int value, int lowerBound, int upperBound) {
-        if (lowerBound > value || value > upperBound) {
-            throw new IllegalArgumentException("Value " + value +
-                                               " not in range " + lowerBound +
+    protected IntegerSyntbx(int vblue, int lowerBound, int upperBound) {
+        if (lowerBound > vblue || vblue > upperBound) {
+            throw new IllegblArgumentException("Vblue " + vblue +
+                                               " not in rbnge " + lowerBound +
                                                ".." + upperBound);
         }
-        this.value = value;
+        this.vblue = vblue;
     }
 
     /**
-     * Returns this integer attribute's integer value.
-     * @return the integer value
+     * Returns this integer bttribute's integer vblue.
+     * @return the integer vblue
      */
-    public int getValue() {
-        return value;
+    public int getVblue() {
+        return vblue;
     }
 
     /**
-     * Returns whether this integer attribute is equivalent to the passed in
-     * object. To be equivalent, all of the following conditions must be true:
+     * Returns whether this integer bttribute is equivblent to the pbssed in
+     * object. To be equivblent, bll of the following conditions must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class IntegerSyntax.
+     * <CODE>object</CODE> is bn instbnce of clbss IntegerSyntbx.
      * <LI>
-     * This integer attribute's value and <CODE>object</CODE>'s value are
-     * equal.
+     * This integer bttribute's vblue bnd <CODE>object</CODE>'s vblue bre
+     * equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this integer
-     *          attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this integer
+     *          bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
+    public boolebn equbls(Object object) {
 
-        return (object != null && object instanceof IntegerSyntax &&
-                value == ((IntegerSyntax) object).value);
+        return (object != null && object instbnceof IntegerSyntbx &&
+                vblue == ((IntegerSyntbx) object).vblue);
     }
 
     /**
-     * Returns a hash code value for this integer attribute. The hash code is
-     * just this integer attribute's integer value.
+     * Returns b hbsh code vblue for this integer bttribute. The hbsh code is
+     * just this integer bttribute's integer vblue.
      */
-    public int hashCode() {
-        return value;
+    public int hbshCode() {
+        return vblue;
     }
 
     /**
-     * Returns a string value corresponding to this integer attribute. The
-     * string value is just this integer attribute's integer value converted to
-     * a string.
+     * Returns b string vblue corresponding to this integer bttribute. The
+     * string vblue is just this integer bttribute's integer vblue converted to
+     * b string.
      */
     public String toString() {
-        return "" + value;
+        return "" + vblue;
     }
 }

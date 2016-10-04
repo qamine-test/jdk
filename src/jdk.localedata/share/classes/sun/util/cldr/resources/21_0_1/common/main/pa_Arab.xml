@@ -3,35 +3,35 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6708 $"/>
-		<generation date="$Date: 2012-03-16 15:58:36 +0900 (Fri, 16 Mar 2012) $"/>
-		<language type="pa"/>
-		<script type="Arab"/>
+		<generbtion dbte="$Dbte: 2012-03-16 15:58:36 +0900 (Fri, 16 Mbr 2012) $"/>
+		<lbngubge type="pb"/>
+		<script type="Arbb"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="pa">پنجاب</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="pb">پنجاب</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Arab">العربية</script>
+			<script type="Arbb">العربية</script>
 			<script type="Guru">گُرمُکھی</script>
 		</scripts>
 		<territories>
 			<territory type="PK">پکستان</territory>
 		</territories>
-	</localeDisplayNames>
-	<layout>
-		<orientation characters="right-to-left"/>
-	</layout>
-	<characters>
-		<exemplarCharacters>[\u064F ء آ ؤ ئ ا ب پ ت ث ٹ ج چ ح خ د ذ ڈ ر ز ڑ ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں ه ھ ہ و ی ے]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[أ ٻ ة ٺ ټ ٽ]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[ء آ ؤ ئ ا ب پ ت ث ٹ ج چ ح خ د ذ ڈ ر ز ڑ ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں ه ھ ہ و ی ے]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	</locbleDisplbyNbmes>
+	<lbyout>
+		<orientbtion chbrbcters="right-to-left"/>
+	</lbyout>
+	<chbrbcters>
+		<exemplbrChbrbcters>[\u064F ء آ ؤ ئ ا ب پ ت ث ٹ ج چ ح خ د ذ ڈ ر ز ڑ ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں ه ھ ہ و ی ے]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[أ ٻ ة ٺ ټ ٽ]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="unconfirmed">[ء آ ؤ ئ ا ب پ ت ث ٹ ج چ ح خ د ذ ڈ ر ز ڑ ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں ه ھ ہ و ی ے]</exemplbrChbrbcters>
+	</chbrbcters>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
+					<monthContext type="formbt">
 						<monthWidth type="wide">
 							<month type="1">جنوری</month>
 							<month type="2">فروری</month>
@@ -48,140 +48,140 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="wide">
-							<day type="sun">اتوار</day>
-							<day type="mon">پیر</day>
-							<day type="tue">منگل</day>
-							<day type="wed">بُدھ</day>
-							<day type="thu">جمعرات</day>
-							<day type="fri">جمعہ</day>
-							<day type="sat">ہفتہ</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="wide">
-							<quarter type="1">چوتھاي پہلاں</quarter>
-							<quarter type="2">چوتھاي دوجا</quarter>
-							<quarter type="3">چوتھاي تيجا</quarter>
-							<quarter type="4">چوتھاي چوتھا</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<eras>
-					<eraNames>
-						<era type="0">ايساپورو</era>
-						<era type="1">سں</era>
-					</eraNames>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, dd MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
-						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
-						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="wide">
+							<dby type="sun">اتوار</dby>
+							<dby type="mon">پیر</dby>
+							<dby type="tue">منگل</dby>
+							<dby type="wed">بُدھ</dby>
+							<dby type="thu">جمعرات</dby>
+							<dby type="fri">جمعہ</dby>
+							<dby type="sbt">ہفتہ</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="wide">
+							<qubrter type="1">چوتھاي پہلاں</qubrter>
+							<qubrter type="2">چوتھاي دوجا</qubrter>
+							<qubrter type="3">چوتھاي تيجا</qubrter>
+							<qubrter type="4">چوتھاي چوتھا</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">ايساپورو</erb>
+						<erb type="1">سں</erb>
+					</erbNbmes>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, dd MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>dd/MM/yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>h:mm:ss b zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>h:mm:ss b z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>h:mm b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="HHmmss">HH:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="Md">d/M</dbteFormbtItem>
+						<dbteFormbtItem id="mmss">mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="yyMMM">MMM yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyQ">Q yy</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="year">
-						<displayName>ورھا</displayName>
+					<field type="yebr">
+						<displbyNbme>ورھا</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>مہينا</displayName>
+						<displbyNbme>مہينا</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>ہفتہ</displayName>
+						<displbyNbme>ہفتہ</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>دئن</displayName>
+					<field type="dby">
+						<displbyNbme>دئن</displbyNbme>
 					</field>
-					<field type="weekday">
-						<displayName>ہفتے دا دن</displayName>
+					<field type="weekdby">
+						<displbyNbme>ہفتے دا دن</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>گھنٹا</displayName>
+						<displbyNbme>گھنٹا</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>منٹ</displayName>
+						<displbyNbme>منٹ</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName>ٹپہ</displayName>
+						<displbyNbme>ٹپہ</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<defaultNumberingSystem>arabext</defaultNumberingSystem>
+		<defbultNumberingSystem>brbbext</defbultNumberingSystem>
 		<otherNumberingSystems>
-			<native>arabext</native>
+			<nbtive>brbbext</nbtive>
 		</otherNumberingSystems>
 		<currencies>
 			<currency type="EUR">
-				<displayName>يورو</displayName>
+				<displbyNbme>يورو</displbyNbme>
 			</currency>
 			<currency type="INR">
-				<displayName>روپئیہ [INR]</displayName>
+				<displbyNbme>روپئیہ [INR]</displbyNbme>
 				<symbol>ر [INR]</symbol>
 			</currency>
 			<currency type="PKR">
-				<displayName>روپئیہ</displayName>
+				<displbyNbme>روپئیہ</displbyNbme>
 				<symbol>ر</symbol>
 			</currency>
 		</currencies>
 	</numbers>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>ہاں</yesstr>
 			<nostr>نہيں</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>

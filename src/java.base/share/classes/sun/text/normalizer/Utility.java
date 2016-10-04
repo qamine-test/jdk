@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyright IBM Corp. bnd others, 1996-2009 - All Rights Reserved         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
-public final class Utility {
+public finbl clbss Utility {
 
     /**
-     * Convenience utility to compare two Object[]s
+     * Convenience utility to compbre two Object[]s
      * Ought to be in System.
-     * @param len the length to compare.
-     * The start indices and start+len must be valid.
+     * @pbrbm len the length to compbre.
+     * The stbrt indices bnd stbrt+len must be vblid.
      */
-    public final static boolean arrayRegionMatches(char[] source, int sourceStart,
-                                            char[] target, int targetStart,
+    public finbl stbtic boolebn brrbyRegionMbtches(chbr[] source, int sourceStbrt,
+                                            chbr[] tbrget, int tbrgetStbrt,
                                             int len)
     {
-        int sourceEnd = sourceStart + len;
-        int delta = targetStart - sourceStart;
-        for (int i = sourceStart; i < sourceEnd; i++) {
-            if (source[i]!=target[i + delta])
-            return false;
+        int sourceEnd = sourceStbrt + len;
+        int deltb = tbrgetStbrt - sourceStbrt;
+        for (int i = sourceStbrt; i < sourceEnd; i++) {
+            if (source[i]!=tbrget[i + deltb])
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Convert characters outside the range U+0020 to U+007F to
-     * Unicode escapes, and convert backslash to a double backslash.
+     * Convert chbrbcters outside the rbnge U+0020 to U+007F to
+     * Unicode escbpes, bnd convert bbckslbsh to b double bbckslbsh.
      */
-    public static final String escape(String s) {
+    public stbtic finbl String escbpe(String s) {
         StringBuffer buf = new StringBuffer();
         for (int i=0; i<s.length(); ) {
-            int c = UTF16.charAt(s, i);
-            i += UTF16.getCharCount(c);
+            int c = UTF16.chbrAt(s, i);
+            i += UTF16.getChbrCount(c);
             if (c >= ' ' && c <= 0x007F) {
                 if (c == '\\') {
-                    buf.append("\\\\"); // That is, "\\"
+                    buf.bppend("\\\\"); // Thbt is, "\\"
                 } else {
-                    buf.append((char)c);
+                    buf.bppend((chbr)c);
                 }
             } else {
-                boolean four = c <= 0xFFFF;
-                buf.append(four ? "\\u" : "\\U");
+                boolebn four = c <= 0xFFFF;
+                buf.bppend(four ? "\\u" : "\\U");
                 hex(c, four ? 4 : 8, buf);
             }
         }
         return buf.toString();
     }
 
-    /* This map must be in ASCENDING ORDER OF THE ESCAPE CODE */
-    static private final char[] UNESCAPE_MAP = {
+    /* This mbp must be in ASCENDING ORDER OF THE ESCAPE CODE */
+    stbtic privbte finbl chbr[] UNESCAPE_MAP = {
         /*"   0x22, 0x22 */
         /*'   0x27, 0x27 */
         /*?   0x3F, 0x3F */
         /*\   0x5C, 0x5C */
-        /*a*/ 0x61, 0x07,
+        /*b*/ 0x61, 0x07,
         /*b*/ 0x62, 0x08,
         /*e*/ 0x65, 0x1b,
         /*f*/ 0x66, 0x0c,
-        /*n*/ 0x6E, 0x0a,
+        /*n*/ 0x6E, 0x0b,
         /*r*/ 0x72, 0x0d,
         /*t*/ 0x74, 0x09,
         /*v*/ 0x76, 0x0b
     };
 
     /**
-     * Convert an escape to a 32-bit code point value.  We attempt
-     * to parallel the icu4c unescapeAt() function.
-     * @param offset16 an array containing offset to the character
-     * <em>after</em> the backslash.  Upon return offset16[0] will
-     * be updated to point after the escape sequence.
-     * @return character value from 0 to 10FFFF, or -1 on error.
+     * Convert bn escbpe to b 32-bit code point vblue.  We bttempt
+     * to pbrbllel the icu4c unescbpeAt() function.
+     * @pbrbm offset16 bn brrby contbining offset to the chbrbcter
+     * <em>bfter</em> the bbckslbsh.  Upon return offset16[0] will
+     * be updbted to point bfter the escbpe sequence.
+     * @return chbrbcter vblue from 0 to 10FFFF, or -1 on error.
      */
-    public static int unescapeAt(String s, int[] offset16) {
+    public stbtic int unescbpeAt(String s, int[] offset16) {
         int c;
         int result = 0;
         int n = 0;
         int minDig = 0;
-        int maxDig = 0;
+        int mbxDig = 0;
         int bitsPerDigit = 4;
         int dig;
         int i;
-        boolean braces = false;
+        boolebn brbces = fblse;
 
-        /* Check that offset is in range */
+        /* Check thbt offset is in rbnge */
         int offset = offset16[0];
         int length = s.length();
         if (offset < 0 || offset >= length) {
             return -1;
         }
 
-        /* Fetch first UChar after '\\' */
-        c = UTF16.charAt(s, offset);
-        offset += UTF16.getCharCount(c);
+        /* Fetch first UChbr bfter '\\' */
+        c = UTF16.chbrAt(s, offset);
+        offset += UTF16.getChbrCount(c);
 
-        /* Convert hexadecimal and octal escapes */
+        /* Convert hexbdecimbl bnd octbl escbpes */
         switch (c) {
-        case 'u':
-            minDig = maxDig = 4;
-            break;
-        case 'U':
-            minDig = maxDig = 8;
-            break;
-        case 'x':
+        cbse 'u':
+            minDig = mbxDig = 4;
+            brebk;
+        cbse 'U':
+            minDig = mbxDig = 8;
+            brebk;
+        cbse 'x':
             minDig = 1;
-            if (offset < length && UTF16.charAt(s, offset) == 0x7B /*{*/) {
+            if (offset < length && UTF16.chbrAt(s, offset) == 0x7B /*{*/) {
                 ++offset;
-                braces = true;
-                maxDig = 8;
+                brbces = true;
+                mbxDig = 8;
             } else {
-                maxDig = 2;
+                mbxDig = 2;
             }
-            break;
-        default:
-            dig = UCharacter.digit(c, 8);
+            brebk;
+        defbult:
+            dig = UChbrbcter.digit(c, 8);
             if (dig >= 0) {
                 minDig = 1;
-                maxDig = 3;
-                n = 1; /* Already have first octal digit */
+                mbxDig = 3;
+                n = 1; /* Alrebdy hbve first octbl digit */
                 bitsPerDigit = 3;
                 result = dig;
             }
-            break;
+            brebk;
         }
         if (minDig != 0) {
-            while (offset < length && n < maxDig) {
-                c = UTF16.charAt(s, offset);
-                dig = UCharacter.digit(c, (bitsPerDigit == 3) ? 8 : 16);
+            while (offset < length && n < mbxDig) {
+                c = UTF16.chbrAt(s, offset);
+                dig = UChbrbcter.digit(c, (bitsPerDigit == 3) ? 8 : 16);
                 if (dig < 0) {
-                    break;
+                    brebk;
                 }
                 result = (result << bitsPerDigit) | dig;
-                offset += UTF16.getCharCount(c);
+                offset += UTF16.getChbrCount(c);
                 ++n;
             }
             if (n < minDig) {
                 return -1;
             }
-            if (braces) {
+            if (brbces) {
                 if (c != 0x7D /*}*/) {
                     return -1;
                 }
@@ -179,89 +179,89 @@ public final class Utility {
             if (result < 0 || result >= 0x110000) {
                 return -1;
             }
-            // If an escape sequence specifies a lead surrogate, see
-            // if there is a trail surrogate after it, either as an
-            // escape or as a literal.  If so, join them up into a
-            // supplementary.
+            // If bn escbpe sequence specifies b lebd surrogbte, see
+            // if there is b trbil surrogbte bfter it, either bs bn
+            // escbpe or bs b literbl.  If so, join them up into b
+            // supplementbry.
             if (offset < length &&
-                UTF16.isLeadSurrogate((char) result)) {
-                int ahead = offset+1;
-                c = s.charAt(offset); // [sic] get 16-bit code unit
-                if (c == '\\' && ahead < length) {
-                    int o[] = new int[] { ahead };
-                    c = unescapeAt(s, o);
-                    ahead = o[0];
+                UTF16.isLebdSurrogbte((chbr) result)) {
+                int bhebd = offset+1;
+                c = s.chbrAt(offset); // [sic] get 16-bit code unit
+                if (c == '\\' && bhebd < length) {
+                    int o[] = new int[] { bhebd };
+                    c = unescbpeAt(s, o);
+                    bhebd = o[0];
                 }
-                if (UTF16.isTrailSurrogate((char) c)) {
-                    offset = ahead;
-                result = UCharacterProperty.getRawSupplementary(
-                                  (char) result, (char) c);
+                if (UTF16.isTrbilSurrogbte((chbr) c)) {
+                    offset = bhebd;
+                result = UChbrbcterProperty.getRbwSupplementbry(
+                                  (chbr) result, (chbr) c);
                 }
             }
             offset16[0] = offset;
             return result;
         }
 
-        /* Convert C-style escapes in table */
+        /* Convert C-style escbpes in tbble */
         for (i=0; i<UNESCAPE_MAP.length; i+=2) {
             if (c == UNESCAPE_MAP[i]) {
                 offset16[0] = offset;
                 return UNESCAPE_MAP[i+1];
             } else if (c < UNESCAPE_MAP[i]) {
-                break;
+                brebk;
             }
         }
 
-        /* Map \cX to control-X: X & 0x1F */
+        /* Mbp \cX to control-X: X & 0x1F */
         if (c == 'c' && offset < length) {
-            c = UTF16.charAt(s, offset);
-            offset16[0] = offset + UTF16.getCharCount(c);
+            c = UTF16.chbrAt(s, offset);
+            offset16[0] = offset + UTF16.getChbrCount(c);
             return 0x1F & c;
         }
 
-        /* If no special forms are recognized, then consider
-         * the backslash to generically escape the next character. */
+        /* If no specibl forms bre recognized, then consider
+         * the bbckslbsh to genericblly escbpe the next chbrbcter. */
         offset16[0] = offset;
         return c;
     }
 
     /**
-     * Convert a integer to size width hex uppercase digits.
-     * E.g., hex('a', 4, str) => "0041".
+     * Convert b integer to size width hex uppercbse digits.
+     * E.g., hex('b', 4, str) => "0041".
      * Append the output to the given StringBuffer.
-     * If width is too small to fit, nothing will be appended to output.
+     * If width is too smbll to fit, nothing will be bppended to output.
      */
-    public static StringBuffer hex(int ch, int width, StringBuffer output) {
-        return appendNumber(output, ch, 16, width);
+    public stbtic StringBuffer hex(int ch, int width, StringBuffer output) {
+        return bppendNumber(output, ch, 16, width);
     }
 
     /**
-     * Convert a integer to size width (minimum) hex uppercase digits.
-     * E.g., hex('a', 4, str) => "0041".  If the integer requires more
-     * than width digits, more will be used.
+     * Convert b integer to size width (minimum) hex uppercbse digits.
+     * E.g., hex('b', 4, str) => "0041".  If the integer requires more
+     * thbn width digits, more will be used.
      */
-    public static String hex(int ch, int width) {
+    public stbtic String hex(int ch, int width) {
         StringBuffer buf = new StringBuffer();
-        return appendNumber(buf, ch, 16, width).toString();
+        return bppendNumber(buf, ch, 16, width).toString();
     }
 
     /**
-     * Skip over a sequence of zero or more white space characters
-     * at pos.  Return the index of the first non-white-space character
-     * at or after pos, or str.length(), if there is none.
+     * Skip over b sequence of zero or more white spbce chbrbcters
+     * bt pos.  Return the index of the first non-white-spbce chbrbcter
+     * bt or bfter pos, or str.length(), if there is none.
      */
-    public static int skipWhitespace(String str, int pos) {
+    public stbtic int skipWhitespbce(String str, int pos) {
         while (pos < str.length()) {
-            int c = UTF16.charAt(str, pos);
-            if (!UCharacterProperty.isRuleWhiteSpace(c)) {
-                break;
+            int c = UTF16.chbrAt(str, pos);
+            if (!UChbrbcterProperty.isRuleWhiteSpbce(c)) {
+                brebk;
             }
-            pos += UTF16.getCharCount(c);
+            pos += UTF16.getChbrCount(c);
         }
         return pos;
     }
 
-    static final char DIGITS[] = {
+    stbtic finbl chbr DIGITS[] = {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
         'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
@@ -269,117 +269,117 @@ public final class Utility {
     };
 
     /**
-     * Append the digits of a positive integer to the given
-     * <code>StringBuffer</code> in the given radix. This is
-     * done recursively since it is easiest to generate the low-
-     * order digit first, but it must be appended last.
+     * Append the digits of b positive integer to the given
+     * <code>StringBuffer</code> in the given rbdix. This is
+     * done recursively since it is ebsiest to generbte the low-
+     * order digit first, but it must be bppended lbst.
      *
-     * @param result is the <code>StringBuffer</code> to append to
-     * @param n is the positive integer
-     * @param radix is the radix, from 2 to 36 inclusive
-     * @param minDigits is the minimum number of digits to append.
+     * @pbrbm result is the <code>StringBuffer</code> to bppend to
+     * @pbrbm n is the positive integer
+     * @pbrbm rbdix is the rbdix, from 2 to 36 inclusive
+     * @pbrbm minDigits is the minimum number of digits to bppend.
      */
-    private static void recursiveAppendNumber(StringBuffer result, int n,
-                                                int radix, int minDigits)
+    privbte stbtic void recursiveAppendNumber(StringBuffer result, int n,
+                                                int rbdix, int minDigits)
     {
-        int digit = n % radix;
+        int digit = n % rbdix;
 
-        if (n >= radix || minDigits > 1) {
-            recursiveAppendNumber(result, n / radix, radix, minDigits - 1);
+        if (n >= rbdix || minDigits > 1) {
+            recursiveAppendNumber(result, n / rbdix, rbdix, minDigits - 1);
         }
 
-        result.append(DIGITS[digit]);
+        result.bppend(DIGITS[digit]);
     }
 
     /**
-     * Append a number to the given StringBuffer in the given radix.
-     * Standard digits '0'-'9' are used and letters 'A'-'Z' for
-     * radices 11 through 36.
-     * @param result the digits of the number are appended here
-     * @param n the number to be converted to digits; may be negative.
-     * If negative, a '-' is prepended to the digits.
-     * @param radix a radix from 2 to 36 inclusive.
-     * @param minDigits the minimum number of digits, not including
-     * any '-', to produce.  Values less than 2 have no effect.  One
-     * digit is always emitted regardless of this parameter.
-     * @return a reference to result
+     * Append b number to the given StringBuffer in the given rbdix.
+     * Stbndbrd digits '0'-'9' bre used bnd letters 'A'-'Z' for
+     * rbdices 11 through 36.
+     * @pbrbm result the digits of the number bre bppended here
+     * @pbrbm n the number to be converted to digits; mby be negbtive.
+     * If negbtive, b '-' is prepended to the digits.
+     * @pbrbm rbdix b rbdix from 2 to 36 inclusive.
+     * @pbrbm minDigits the minimum number of digits, not including
+     * bny '-', to produce.  Vblues less thbn 2 hbve no effect.  One
+     * digit is blwbys emitted regbrdless of this pbrbmeter.
+     * @return b reference to result
      */
-    public static StringBuffer appendNumber(StringBuffer result, int n,
-                                             int radix, int minDigits)
-        throws IllegalArgumentException
+    public stbtic StringBuffer bppendNumber(StringBuffer result, int n,
+                                             int rbdix, int minDigits)
+        throws IllegblArgumentException
     {
-        if (radix < 2 || radix > 36) {
-            throw new IllegalArgumentException("Illegal radix " + radix);
+        if (rbdix < 2 || rbdix > 36) {
+            throw new IllegblArgumentException("Illegbl rbdix " + rbdix);
         }
 
 
-        int abs = n;
+        int bbs = n;
 
         if (n < 0) {
-            abs = -n;
-            result.append("-");
+            bbs = -n;
+            result.bppend("-");
         }
 
-        recursiveAppendNumber(result, abs, radix, minDigits);
+        recursiveAppendNumber(result, bbs, rbdix, minDigits);
 
         return result;
     }
 
     /**
-     * Return true if the character is NOT printable ASCII.  The tab,
-     * newline and linefeed characters are considered unprintable.
+     * Return true if the chbrbcter is NOT printbble ASCII.  The tbb,
+     * newline bnd linefeed chbrbcters bre considered unprintbble.
      */
-    public static boolean isUnprintable(int c) {
+    public stbtic boolebn isUnprintbble(int c) {
         return !(c >= 0x20 && c <= 0x7E);
     }
 
     /**
-     * Escape unprintable characters using <backslash>uxxxx notation
-     * for U+0000 to U+FFFF and <backslash>Uxxxxxxxx for U+10000 and
-     * above.  If the character is printable ASCII, then do nothing
-     * and return FALSE.  Otherwise, append the escaped notation and
+     * Escbpe unprintbble chbrbcters using <bbckslbsh>uxxxx notbtion
+     * for U+0000 to U+FFFF bnd <bbckslbsh>Uxxxxxxxx for U+10000 bnd
+     * bbove.  If the chbrbcter is printbble ASCII, then do nothing
+     * bnd return FALSE.  Otherwise, bppend the escbped notbtion bnd
      * return TRUE.
      */
-    public static boolean escapeUnprintable(StringBuffer result, int c) {
-        if (isUnprintable(c)) {
-            result.append('\\');
+    public stbtic boolebn escbpeUnprintbble(StringBuffer result, int c) {
+        if (isUnprintbble(c)) {
+            result.bppend('\\');
             if ((c & ~0xFFFF) != 0) {
-                result.append('U');
-                result.append(DIGITS[0xF&(c>>28)]);
-                result.append(DIGITS[0xF&(c>>24)]);
-                result.append(DIGITS[0xF&(c>>20)]);
-                result.append(DIGITS[0xF&(c>>16)]);
+                result.bppend('U');
+                result.bppend(DIGITS[0xF&(c>>28)]);
+                result.bppend(DIGITS[0xF&(c>>24)]);
+                result.bppend(DIGITS[0xF&(c>>20)]);
+                result.bppend(DIGITS[0xF&(c>>16)]);
             } else {
-                result.append('u');
+                result.bppend('u');
             }
-            result.append(DIGITS[0xF&(c>>12)]);
-            result.append(DIGITS[0xF&(c>>8)]);
-            result.append(DIGITS[0xF&(c>>4)]);
-            result.append(DIGITS[0xF&c]);
+            result.bppend(DIGITS[0xF&(c>>12)]);
+            result.bppend(DIGITS[0xF&(c>>8)]);
+            result.bppend(DIGITS[0xF&(c>>4)]);
+            result.bppend(DIGITS[0xF&c]);
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-    * Similar to StringBuffer.getChars, version 1.3.
-    * Since JDK 1.2 implements StringBuffer.getChars differently, this method
+    * Similbr to StringBuffer.getChbrs, version 1.3.
+    * Since JDK 1.2 implements StringBuffer.getChbrs differently, this method
     * is here to provide consistent results.
-    * To be removed after JDK 1.2 ceased to be the reference platform.
-    * @param src source string buffer
-    * @param srcBegin offset to the start of the src to retrieve from
-    * @param srcEnd offset to the end of the src to retrieve from
-    * @param dst char array to store the retrieved chars
-    * @param dstBegin offset to the start of the destination char array to
-    *                 store the retrieved chars
+    * To be removed bfter JDK 1.2 cebsed to be the reference plbtform.
+    * @pbrbm src source string buffer
+    * @pbrbm srcBegin offset to the stbrt of the src to retrieve from
+    * @pbrbm srcEnd offset to the end of the src to retrieve from
+    * @pbrbm dst chbr brrby to store the retrieved chbrs
+    * @pbrbm dstBegin offset to the stbrt of the destinbtion chbr brrby to
+    *                 store the retrieved chbrs
     */
-    public static void getChars(StringBuffer src, int srcBegin, int srcEnd,
-                                char dst[], int dstBegin)
+    public stbtic void getChbrs(StringBuffer src, int srcBegin, int srcEnd,
+                                chbr dst[], int dstBegin)
     {
         if (srcBegin == srcEnd) {
             return;
         }
-        src.getChars(srcBegin, srcEnd, dst, dstBegin);
+        src.getChbrs(srcBegin, srcEnd, dst, dstBegin);
     }
 
 }

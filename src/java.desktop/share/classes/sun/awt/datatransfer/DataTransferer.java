@@ -1,434 +1,434 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.datatransfer;
+pbckbge sun.bwt.dbtbtrbnsfer;
 
-import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import jbvb.bwt.EventQueue;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Toolkit;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.FlavorMap;
-import java.awt.datatransfer.FlavorTable;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsfer.FlbvorMbp;
+import jbvb.bwt.dbtbtrbnsfer.FlbvorTbble;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.dbtbtrbnsfer.UnsupportedFlbvorException;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Reader;
-import java.io.SequenceInputStream;
-import java.io.StringReader;
+import jbvb.io.BufferedRebder;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.InputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.Rebder;
+import jbvb.io.SequenceInputStrebm;
+import jbvb.io.StringRebder;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import jbvb.net.URI;
+import jbvb.net.URISyntbxException;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.StandardCharsets;
-import java.nio.charset.UnsupportedCharsetException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.IllegblChbrsetNbmeException;
+import jbvb.nio.chbrset.StbndbrdChbrsets;
+import jbvb.nio.chbrset.UnsupportedChbrsetException;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.ProtectionDomain;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.ProtectionDombin;
 
-import java.util.*;
+import jbvb.util.*;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.awt.image.RenderedImage;
-import java.awt.image.WritableRaster;
-import java.awt.image.ColorModel;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.imbge.ColorModel;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.ImageTypeSpecifier;
+import jbvbx.imbgeio.ImbgeIO;
+import jbvbx.imbgeio.ImbgeRebder;
+import jbvbx.imbgeio.ImbgeRebdPbrbm;
+import jbvbx.imbgeio.ImbgeWriter;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
 
-import javax.imageio.spi.ImageWriterSpi;
+import jbvbx.imbgeio.spi.ImbgeWriterSpi;
 
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageOutputStream;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
 
-import sun.awt.image.ImageRepresentation;
-import sun.awt.image.ToolkitImage;
+import sun.bwt.imbge.ImbgeRepresentbtion;
+import sun.bwt.imbge.ToolkitImbge;
 
-import java.io.FilePermission;
-import java.util.stream.Stream;
+import jbvb.io.FilePermission;
+import jbvb.util.strebm.Strebm;
 
 
 /**
- * Provides a set of functions to be shared among the DataFlavor class and
- * platform-specific data transfer implementations.
+ * Provides b set of functions to be shbred bmong the DbtbFlbvor clbss bnd
+ * plbtform-specific dbtb trbnsfer implementbtions.
  *
- * The concept of "flavors" and "natives" is extended to include "formats",
- * which are the numeric values Win32 and X11 use to express particular data
- * types. Like FlavorMap, which provides getNativesForFlavors(DataFlavor[]) and
- * getFlavorsForNatives(String[]) functions, DataTransferer provides a set
- * of getFormatsFor(Transferable|Flavor|Flavors) and
- * getFlavorsFor(Format|Formats) functions.
+ * The concept of "flbvors" bnd "nbtives" is extended to include "formbts",
+ * which bre the numeric vblues Win32 bnd X11 use to express pbrticulbr dbtb
+ * types. Like FlbvorMbp, which provides getNbtivesForFlbvors(DbtbFlbvor[]) bnd
+ * getFlbvorsForNbtives(String[]) functions, DbtbTrbnsferer provides b set
+ * of getFormbtsFor(Trbnsferbble|Flbvor|Flbvors) bnd
+ * getFlbvorsFor(Formbt|Formbts) functions.
  *
- * Also provided are functions for translating a Transferable into a byte
- * array, given a source DataFlavor and a target format, and for translating
- * a byte array or InputStream into an Object, given a source format and
- * a target DataFlavor.
+ * Also provided bre functions for trbnslbting b Trbnsferbble into b byte
+ * brrby, given b source DbtbFlbvor bnd b tbrget formbt, bnd for trbnslbting
+ * b byte brrby or InputStrebm into bn Object, given b source formbt bnd
+ * b tbrget DbtbFlbvor.
  *
- * @author David Mendenhall
- * @author Danila Sinopalnikov
+ * @buthor Dbvid Mendenhbll
+ * @buthor Dbnilb Sinopblnikov
  *
  * @since 1.3.1
  */
-public abstract class DataTransferer {
+public bbstrbct clbss DbtbTrbnsferer {
     /**
-     * The <code>DataFlavor</code> representing a Java text encoding String
+     * The <code>DbtbFlbvor</code> representing b Jbvb text encoding String
      * encoded in UTF-8, where
      * <pre>
-     *     representationClass = [B
-     *     mimeType            = "application/x-java-text-encoding"
+     *     representbtionClbss = [B
+     *     mimeType            = "bpplicbtion/x-jbvb-text-encoding"
      * </pre>
      */
-    public static final DataFlavor javaTextEncodingFlavor;
+    public stbtic finbl DbtbFlbvor jbvbTextEncodingFlbvor;
 
     /**
-     * Lazy initialization of Standard Encodings.
+     * Lbzy initiblizbtion of Stbndbrd Encodings.
      */
-    private static class StandardEncodingsHolder {
-        private static final SortedSet<String> standardEncodings = load();
+    privbte stbtic clbss StbndbrdEncodingsHolder {
+        privbte stbtic finbl SortedSet<String> stbndbrdEncodings = lobd();
 
-        private static SortedSet<String> load() {
-            final Comparator<String> comparator =
-                    new CharsetComparator(IndexedComparator.SELECT_WORST);
-            final SortedSet<String> tempSet = new TreeSet<>(comparator);
-            tempSet.add("US-ASCII");
-            tempSet.add("ISO-8859-1");
-            tempSet.add("UTF-8");
-            tempSet.add("UTF-16BE");
-            tempSet.add("UTF-16LE");
-            tempSet.add("UTF-16");
-            tempSet.add(Charset.defaultCharset().name());
-            return Collections.unmodifiableSortedSet(tempSet);
+        privbte stbtic SortedSet<String> lobd() {
+            finbl Compbrbtor<String> compbrbtor =
+                    new ChbrsetCompbrbtor(IndexedCompbrbtor.SELECT_WORST);
+            finbl SortedSet<String> tempSet = new TreeSet<>(compbrbtor);
+            tempSet.bdd("US-ASCII");
+            tempSet.bdd("ISO-8859-1");
+            tempSet.bdd("UTF-8");
+            tempSet.bdd("UTF-16BE");
+            tempSet.bdd("UTF-16LE");
+            tempSet.bdd("UTF-16");
+            tempSet.bdd(Chbrset.defbultChbrset().nbme());
+            return Collections.unmodifibbleSortedSet(tempSet);
         }
     }
 
     /**
-     * Tracks whether a particular text/* MIME type supports the charset
-     * parameter. The Map is initialized with all of the standard MIME types
-     * listed in the DataFlavor.selectBestTextFlavor method comment. Additional
-     * entries may be added during the life of the JRE for text/<other> types.
+     * Trbcks whether b pbrticulbr text/* MIME type supports the chbrset
+     * pbrbmeter. The Mbp is initiblized with bll of the stbndbrd MIME types
+     * listed in the DbtbFlbvor.selectBestTextFlbvor method comment. Additionbl
+     * entries mby be bdded during the life of the JRE for text/<other> types.
      */
-    private static final Map<String, Boolean> textMIMESubtypeCharsetSupport;
+    privbte stbtic finbl Mbp<String, Boolebn> textMIMESubtypeChbrsetSupport;
 
     /**
-     * A collection of all natives listed in flavormap.properties with
-     * a primary MIME type of "text".
+     * A collection of bll nbtives listed in flbvormbp.properties with
+     * b primbry MIME type of "text".
      */
-    private static final Set<Long> textNatives =
-            Collections.synchronizedSet(new HashSet<>());
+    privbte stbtic finbl Set<Long> textNbtives =
+            Collections.synchronizedSet(new HbshSet<>());
 
     /**
-     * The native encodings/charsets for the Set of textNatives.
+     * The nbtive encodings/chbrsets for the Set of textNbtives.
      */
-    private static final Map<Long, String> nativeCharsets =
-            Collections.synchronizedMap(new HashMap<>());
+    privbte stbtic finbl Mbp<Long, String> nbtiveChbrsets =
+            Collections.synchronizedMbp(new HbshMbp<>());
 
     /**
-     * The end-of-line markers for the Set of textNatives.
+     * The end-of-line mbrkers for the Set of textNbtives.
      */
-    private static final Map<Long, String> nativeEOLNs =
-            Collections.synchronizedMap(new HashMap<>());
+    privbte stbtic finbl Mbp<Long, String> nbtiveEOLNs =
+            Collections.synchronizedMbp(new HbshMbp<>());
 
     /**
-     * The number of terminating NUL bytes for the Set of textNatives.
+     * The number of terminbting NUL bytes for the Set of textNbtives.
      */
-    private static final Map<Long, Integer> nativeTerminators =
-            Collections.synchronizedMap(new HashMap<>());
+    privbte stbtic finbl Mbp<Long, Integer> nbtiveTerminbtors =
+            Collections.synchronizedMbp(new HbshMbp<>());
 
     /**
-     * The key used to store pending data conversion requests for an AppContext.
+     * The key used to store pending dbtb conversion requests for bn AppContext.
      */
-    private static final String DATA_CONVERTER_KEY = "DATA_CONVERTER_KEY";
+    privbte stbtic finbl String DATA_CONVERTER_KEY = "DATA_CONVERTER_KEY";
 
-    private static final PlatformLogger dtLog = PlatformLogger.getLogger("sun.awt.datatransfer.DataTransfer");
+    privbte stbtic finbl PlbtformLogger dtLog = PlbtformLogger.getLogger("sun.bwt.dbtbtrbnsfer.DbtbTrbnsfer");
 
-    static {
-        DataFlavor tJavaTextEncodingFlavor = null;
+    stbtic {
+        DbtbFlbvor tJbvbTextEncodingFlbvor = null;
         try {
-            tJavaTextEncodingFlavor = new DataFlavor("application/x-java-text-encoding;class=\"[B\"");
-        } catch (ClassNotFoundException cannotHappen) {
+            tJbvbTextEncodingFlbvor = new DbtbFlbvor("bpplicbtion/x-jbvb-text-encoding;clbss=\"[B\"");
+        } cbtch (ClbssNotFoundException cbnnotHbppen) {
         }
-        javaTextEncodingFlavor = tJavaTextEncodingFlavor;
+        jbvbTextEncodingFlbvor = tJbvbTextEncodingFlbvor;
 
-        Map<String, Boolean> tempMap = new HashMap<>(17);
-        tempMap.put("sgml", Boolean.TRUE);
-        tempMap.put("xml", Boolean.TRUE);
-        tempMap.put("html", Boolean.TRUE);
-        tempMap.put("enriched", Boolean.TRUE);
-        tempMap.put("richtext", Boolean.TRUE);
-        tempMap.put("uri-list", Boolean.TRUE);
-        tempMap.put("directory", Boolean.TRUE);
-        tempMap.put("css", Boolean.TRUE);
-        tempMap.put("calendar", Boolean.TRUE);
-        tempMap.put("plain", Boolean.TRUE);
-        tempMap.put("rtf", Boolean.FALSE);
-        tempMap.put("tab-separated-values", Boolean.FALSE);
-        tempMap.put("t140", Boolean.FALSE);
-        tempMap.put("rfc822-headers", Boolean.FALSE);
-        tempMap.put("parityfec", Boolean.FALSE);
-        textMIMESubtypeCharsetSupport = Collections.synchronizedMap(tempMap);
+        Mbp<String, Boolebn> tempMbp = new HbshMbp<>(17);
+        tempMbp.put("sgml", Boolebn.TRUE);
+        tempMbp.put("xml", Boolebn.TRUE);
+        tempMbp.put("html", Boolebn.TRUE);
+        tempMbp.put("enriched", Boolebn.TRUE);
+        tempMbp.put("richtext", Boolebn.TRUE);
+        tempMbp.put("uri-list", Boolebn.TRUE);
+        tempMbp.put("directory", Boolebn.TRUE);
+        tempMbp.put("css", Boolebn.TRUE);
+        tempMbp.put("cblendbr", Boolebn.TRUE);
+        tempMbp.put("plbin", Boolebn.TRUE);
+        tempMbp.put("rtf", Boolebn.FALSE);
+        tempMbp.put("tbb-sepbrbted-vblues", Boolebn.FALSE);
+        tempMbp.put("t140", Boolebn.FALSE);
+        tempMbp.put("rfc822-hebders", Boolebn.FALSE);
+        tempMbp.put("pbrityfec", Boolebn.FALSE);
+        textMIMESubtypeChbrsetSupport = Collections.synchronizedMbp(tempMbp);
     }
 
     /**
-     * The accessor method for the singleton DataTransferer instance. Note
-     * that in a headless environment, there may be no DataTransferer instance;
-     * instead, null will be returned.
+     * The bccessor method for the singleton DbtbTrbnsferer instbnce. Note
+     * thbt in b hebdless environment, there mby be no DbtbTrbnsferer instbnce;
+     * instebd, null will be returned.
      */
-    public static synchronized DataTransferer getInstance() {
-        return ((SunToolkit) Toolkit.getDefaultToolkit()).getDataTransferer();
+    public stbtic synchronized DbtbTrbnsferer getInstbnce() {
+        return ((SunToolkit) Toolkit.getDefbultToolkit()).getDbtbTrbnsferer();
     }
 
     /**
-     * Converts an arbitrary text encoding to its canonical name.
+     * Converts bn brbitrbry text encoding to its cbnonicbl nbme.
      */
-    public static String canonicalName(String encoding) {
+    public stbtic String cbnonicblNbme(String encoding) {
         if (encoding == null) {
             return null;
         }
         try {
-            return Charset.forName(encoding).name();
-        } catch (IllegalCharsetNameException icne) {
+            return Chbrset.forNbme(encoding).nbme();
+        } cbtch (IllegblChbrsetNbmeException icne) {
             return encoding;
-        } catch (UnsupportedCharsetException uce) {
+        } cbtch (UnsupportedChbrsetException uce) {
             return encoding;
         }
     }
 
     /**
-     * If the specified flavor is a text flavor which supports the "charset"
-     * parameter, then this method returns that parameter, or the default
-     * charset if no such parameter was specified at construction. For non-
-     * text DataFlavors, and for non-charset text flavors, this method returns
+     * If the specified flbvor is b text flbvor which supports the "chbrset"
+     * pbrbmeter, then this method returns thbt pbrbmeter, or the defbult
+     * chbrset if no such pbrbmeter wbs specified bt construction. For non-
+     * text DbtbFlbvors, bnd for non-chbrset text flbvors, this method returns
      * null.
      */
-    public static String getTextCharset(DataFlavor flavor) {
-        if (!isFlavorCharsetTextType(flavor)) {
+    public stbtic String getTextChbrset(DbtbFlbvor flbvor) {
+        if (!isFlbvorChbrsetTextType(flbvor)) {
             return null;
         }
 
-        String encoding = flavor.getParameter("charset");
+        String encoding = flbvor.getPbrbmeter("chbrset");
 
-        return (encoding != null) ? encoding : Charset.defaultCharset().name();
+        return (encoding != null) ? encoding : Chbrset.defbultChbrset().nbme();
     }
 
     /**
-     * Tests only whether the flavor's MIME type supports the charset
-     * parameter. Must only be called for flavors with a primary type of
+     * Tests only whether the flbvor's MIME type supports the chbrset
+     * pbrbmeter. Must only be cblled for flbvors with b primbry type of
      * "text".
      */
-    public static boolean doesSubtypeSupportCharset(DataFlavor flavor) {
-        if (dtLog.isLoggable(PlatformLogger.Level.FINE)) {
-            if (!"text".equals(flavor.getPrimaryType())) {
-                dtLog.fine("Assertion (\"text\".equals(flavor.getPrimaryType())) failed");
+    public stbtic boolebn doesSubtypeSupportChbrset(DbtbFlbvor flbvor) {
+        if (dtLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+            if (!"text".equbls(flbvor.getPrimbryType())) {
+                dtLog.fine("Assertion (\"text\".equbls(flbvor.getPrimbryType())) fbiled");
             }
         }
 
-        String subType = flavor.getSubType();
+        String subType = flbvor.getSubType();
         if (subType == null) {
-            return false;
+            return fblse;
         }
 
-        Boolean support = textMIMESubtypeCharsetSupport.get(subType);
+        Boolebn support = textMIMESubtypeChbrsetSupport.get(subType);
 
         if (support != null) {
             return support;
         }
 
-        boolean ret_val = (flavor.getParameter("charset") != null);
-        textMIMESubtypeCharsetSupport.put(subType, ret_val);
-        return ret_val;
+        boolebn ret_vbl = (flbvor.getPbrbmeter("chbrset") != null);
+        textMIMESubtypeChbrsetSupport.put(subType, ret_vbl);
+        return ret_vbl;
     }
-    public static boolean doesSubtypeSupportCharset(String subType,
-                                                    String charset)
+    public stbtic boolebn doesSubtypeSupportChbrset(String subType,
+                                                    String chbrset)
     {
-        Boolean support = textMIMESubtypeCharsetSupport.get(subType);
+        Boolebn support = textMIMESubtypeChbrsetSupport.get(subType);
 
         if (support != null) {
             return support;
         }
 
-        boolean ret_val = (charset != null);
-        textMIMESubtypeCharsetSupport.put(subType, ret_val);
-        return ret_val;
+        boolebn ret_vbl = (chbrset != null);
+        textMIMESubtypeChbrsetSupport.put(subType, ret_vbl);
+        return ret_vbl;
     }
 
     /**
-     * Returns whether this flavor is a text type which supports the
-     * 'charset' parameter.
+     * Returns whether this flbvor is b text type which supports the
+     * 'chbrset' pbrbmeter.
      */
-    public static boolean isFlavorCharsetTextType(DataFlavor flavor) {
-        // Although stringFlavor doesn't actually support the charset
-        // parameter (because its primary MIME type is not "text"), it should
-        // be treated as though it does. stringFlavor is semantically
-        // equivalent to "text/plain" data.
-        if (DataFlavor.stringFlavor.equals(flavor)) {
+    public stbtic boolebn isFlbvorChbrsetTextType(DbtbFlbvor flbvor) {
+        // Although stringFlbvor doesn't bctublly support the chbrset
+        // pbrbmeter (becbuse its primbry MIME type is not "text"), it should
+        // be trebted bs though it does. stringFlbvor is sembnticblly
+        // equivblent to "text/plbin" dbtb.
+        if (DbtbFlbvor.stringFlbvor.equbls(flbvor)) {
             return true;
         }
 
-        if (!"text".equals(flavor.getPrimaryType()) ||
-            !doesSubtypeSupportCharset(flavor))
+        if (!"text".equbls(flbvor.getPrimbryType()) ||
+            !doesSubtypeSupportChbrset(flbvor))
         {
-            return false;
+            return fblse;
         }
 
-        Class<?> rep_class = flavor.getRepresentationClass();
+        Clbss<?> rep_clbss = flbvor.getRepresentbtionClbss();
 
-        if (flavor.isRepresentationClassReader() ||
-            String.class.equals(rep_class) ||
-            flavor.isRepresentationClassCharBuffer() ||
-            char[].class.equals(rep_class))
+        if (flbvor.isRepresentbtionClbssRebder() ||
+            String.clbss.equbls(rep_clbss) ||
+            flbvor.isRepresentbtionClbssChbrBuffer() ||
+            chbr[].clbss.equbls(rep_clbss))
         {
             return true;
         }
 
-        if (!(flavor.isRepresentationClassInputStream() ||
-              flavor.isRepresentationClassByteBuffer() ||
-              byte[].class.equals(rep_class))) {
-            return false;
+        if (!(flbvor.isRepresentbtionClbssInputStrebm() ||
+              flbvor.isRepresentbtionClbssByteBuffer() ||
+              byte[].clbss.equbls(rep_clbss))) {
+            return fblse;
         }
 
-        String charset = flavor.getParameter("charset");
+        String chbrset = flbvor.getPbrbmeter("chbrset");
 
-        return (charset != null)
-            ? DataTransferer.isEncodingSupported(charset)
-            : true; // null equals default encoding which is always supported
+        return (chbrset != null)
+            ? DbtbTrbnsferer.isEncodingSupported(chbrset)
+            : true; // null equbls defbult encoding which is blwbys supported
     }
 
     /**
-     * Returns whether this flavor is a text type which does not support the
-     * 'charset' parameter.
+     * Returns whether this flbvor is b text type which does not support the
+     * 'chbrset' pbrbmeter.
      */
-    public static boolean isFlavorNoncharsetTextType(DataFlavor flavor) {
-        if (!"text".equals(flavor.getPrimaryType()) ||
-            doesSubtypeSupportCharset(flavor))
+    public stbtic boolebn isFlbvorNonchbrsetTextType(DbtbFlbvor flbvor) {
+        if (!"text".equbls(flbvor.getPrimbryType()) ||
+            doesSubtypeSupportChbrset(flbvor))
         {
-            return false;
+            return fblse;
         }
 
-        return (flavor.isRepresentationClassInputStream() ||
-                flavor.isRepresentationClassByteBuffer() ||
-                byte[].class.equals(flavor.getRepresentationClass()));
+        return (flbvor.isRepresentbtionClbssInputStrebm() ||
+                flbvor.isRepresentbtionClbssByteBuffer() ||
+                byte[].clbss.equbls(flbvor.getRepresentbtionClbss()));
     }
 
     /**
-     * Determines whether this JRE can both encode and decode text in the
+     * Determines whether this JRE cbn both encode bnd decode text in the
      * specified encoding.
      */
-    private static boolean isEncodingSupported(String encoding) {
+    privbte stbtic boolebn isEncodingSupported(String encoding) {
         if (encoding == null) {
-            return false;
+            return fblse;
         }
         try {
-            return Charset.isSupported(encoding);
-        } catch (IllegalCharsetNameException icne) {
-            return false;
+            return Chbrset.isSupported(encoding);
+        } cbtch (IllegblChbrsetNbmeException icne) {
+            return fblse;
         }
     }
 
     /**
-     * Returns {@code true} if the given type is a java.rmi.Remote.
+     * Returns {@code true} if the given type is b jbvb.rmi.Remote.
      */
-    public static boolean isRemote(Class<?> type) {
+    public stbtic boolebn isRemote(Clbss<?> type) {
         return RMI.isRemote(type);
     }
 
     /**
-     * Returns an Iterator which traverses a SortedSet of Strings which are
-     * a total order of the standard character sets supported by the JRE. The
-     * ordering follows the same principles as DataFlavor.selectBestTextFlavor.
-     * So as to avoid loading all available character converters, optional,
-     * non-standard, character sets are not included.
+     * Returns bn Iterbtor which trbverses b SortedSet of Strings which bre
+     * b totbl order of the stbndbrd chbrbcter sets supported by the JRE. The
+     * ordering follows the sbme principles bs DbtbFlbvor.selectBestTextFlbvor.
+     * So bs to bvoid lobding bll bvbilbble chbrbcter converters, optionbl,
+     * non-stbndbrd, chbrbcter sets bre not included.
      */
-    public static Set <String> standardEncodings() {
-        return StandardEncodingsHolder.standardEncodings;
+    public stbtic Set <String> stbndbrdEncodings() {
+        return StbndbrdEncodingsHolder.stbndbrdEncodings;
     }
 
     /**
-     * Converts a FlavorMap to a FlavorTable.
+     * Converts b FlbvorMbp to b FlbvorTbble.
      */
-    public static FlavorTable adaptFlavorMap(final FlavorMap map) {
-        if (map instanceof FlavorTable) {
-            return (FlavorTable)map;
+    public stbtic FlbvorTbble bdbptFlbvorMbp(finbl FlbvorMbp mbp) {
+        if (mbp instbnceof FlbvorTbble) {
+            return (FlbvorTbble)mbp;
         }
 
-        return new FlavorTable() {
+        return new FlbvorTbble() {
             @Override
-            public Map<DataFlavor, String> getNativesForFlavors(DataFlavor[] flavors) {
-                return map.getNativesForFlavors(flavors);
+            public Mbp<DbtbFlbvor, String> getNbtivesForFlbvors(DbtbFlbvor[] flbvors) {
+                return mbp.getNbtivesForFlbvors(flbvors);
             }
             @Override
-            public Map<String, DataFlavor> getFlavorsForNatives(String[] natives) {
-                return map.getFlavorsForNatives(natives);
+            public Mbp<String, DbtbFlbvor> getFlbvorsForNbtives(String[] nbtives) {
+                return mbp.getFlbvorsForNbtives(nbtives);
             }
             @Override
-            public List<String> getNativesForFlavor(DataFlavor flav) {
-                Map<DataFlavor, String> natives = getNativesForFlavors(new DataFlavor[]{flav});
-                String nat = natives.get(flav);
-                if (nat != null) {
-                    return Collections.singletonList(nat);
+            public List<String> getNbtivesForFlbvor(DbtbFlbvor flbv) {
+                Mbp<DbtbFlbvor, String> nbtives = getNbtivesForFlbvors(new DbtbFlbvor[]{flbv});
+                String nbt = nbtives.get(flbv);
+                if (nbt != null) {
+                    return Collections.singletonList(nbt);
                 } else {
                     return Collections.emptyList();
                 }
             }
             @Override
-            public List<DataFlavor> getFlavorsForNative(String nat) {
-                Map<String, DataFlavor> flavors = getFlavorsForNatives(new String[]{nat});
-                DataFlavor flavor = flavors.get(nat);
-                if (flavor != null) {
-                    return Collections.singletonList(flavor);
+            public List<DbtbFlbvor> getFlbvorsForNbtive(String nbt) {
+                Mbp<String, DbtbFlbvor> flbvors = getFlbvorsForNbtives(new String[]{nbt});
+                DbtbFlbvor flbvor = flbvors.get(nbt);
+                if (flbvor != null) {
+                    return Collections.singletonList(flbvor);
                 } else {
                     return Collections.emptyList();
                 }
@@ -437,487 +437,487 @@ public abstract class DataTransferer {
     }
 
     /**
-     * Returns the default Unicode encoding for the platform. The encoding
-     * need not be canonical. This method is only used by the archaic function
-     * DataFlavor.getTextPlainUnicodeFlavor().
+     * Returns the defbult Unicode encoding for the plbtform. The encoding
+     * need not be cbnonicbl. This method is only used by the brchbic function
+     * DbtbFlbvor.getTextPlbinUnicodeFlbvor().
      */
-    public abstract String getDefaultUnicodeEncoding();
+    public bbstrbct String getDefbultUnicodeEncoding();
 
     /**
-     * This method is called for text flavor mappings established while parsing
-     * the flavormap.properties file. It stores the "eoln" and "terminators"
-     * parameters which are not officially part of the MIME type. They are
-     * MIME parameters specific to the flavormap.properties file format.
+     * This method is cblled for text flbvor mbppings estbblished while pbrsing
+     * the flbvormbp.properties file. It stores the "eoln" bnd "terminbtors"
+     * pbrbmeters which bre not officiblly pbrt of the MIME type. They bre
+     * MIME pbrbmeters specific to the flbvormbp.properties file formbt.
      */
-    public void registerTextFlavorProperties(String nat, String charset,
-                                             String eoln, String terminators) {
-        Long format = getFormatForNativeAsLong(nat);
+    public void registerTextFlbvorProperties(String nbt, String chbrset,
+                                             String eoln, String terminbtors) {
+        Long formbt = getFormbtForNbtiveAsLong(nbt);
 
-        textNatives.add(format);
-        nativeCharsets.put(format, (charset != null && charset.length() != 0)
-                ? charset : Charset.defaultCharset().name());
-        if (eoln != null && eoln.length() != 0 && !eoln.equals("\n")) {
-            nativeEOLNs.put(format, eoln);
+        textNbtives.bdd(formbt);
+        nbtiveChbrsets.put(formbt, (chbrset != null && chbrset.length() != 0)
+                ? chbrset : Chbrset.defbultChbrset().nbme());
+        if (eoln != null && eoln.length() != 0 && !eoln.equbls("\n")) {
+            nbtiveEOLNs.put(formbt, eoln);
         }
-        if (terminators != null && terminators.length() != 0) {
-            Integer iTerminators = Integer.valueOf(terminators);
-            if (iTerminators > 0) {
-                nativeTerminators.put(format, iTerminators);
+        if (terminbtors != null && terminbtors.length() != 0) {
+            Integer iTerminbtors = Integer.vblueOf(terminbtors);
+            if (iTerminbtors > 0) {
+                nbtiveTerminbtors.put(formbt, iTerminbtors);
             }
         }
     }
 
     /**
-     * Determines whether the native corresponding to the specified long format
-     * was listed in the flavormap.properties file.
+     * Determines whether the nbtive corresponding to the specified long formbt
+     * wbs listed in the flbvormbp.properties file.
      */
-    protected boolean isTextFormat(long format) {
-        return textNatives.contains(Long.valueOf(format));
+    protected boolebn isTextFormbt(long formbt) {
+        return textNbtives.contbins(Long.vblueOf(formbt));
     }
 
-    protected String getCharsetForTextFormat(Long lFormat) {
-        return nativeCharsets.get(lFormat);
-    }
-
-    /**
-     * Specifies whether text imported from the native system in the specified
-     * format is locale-dependent. If so, when decoding such text,
-     * 'nativeCharsets' should be ignored, and instead, the Transferable should
-     * be queried for its javaTextEncodingFlavor data for the correct encoding.
-     */
-    public abstract boolean isLocaleDependentTextFormat(long format);
-
-    /**
-     * Determines whether the DataFlavor corresponding to the specified long
-     * format is DataFlavor.javaFileListFlavor.
-     */
-    public abstract boolean isFileFormat(long format);
-
-    /**
-     * Determines whether the DataFlavor corresponding to the specified long
-     * format is DataFlavor.imageFlavor.
-     */
-    public abstract boolean isImageFormat(long format);
-
-    /**
-     * Determines whether the format is a URI list we can convert to
-     * a DataFlavor.javaFileListFlavor.
-     */
-    protected boolean isURIListFormat(long format) {
-        return false;
+    protected String getChbrsetForTextFormbt(Long lFormbt) {
+        return nbtiveChbrsets.get(lFormbt);
     }
 
     /**
-     * Returns a Map whose keys are all of the possible formats into which the
-     * Transferable's transfer data flavors can be translated. The value of
-     * each key is the DataFlavor in which the Transferable's data should be
-     * requested when converting to the format.
+     * Specifies whether text imported from the nbtive system in the specified
+     * formbt is locble-dependent. If so, when decoding such text,
+     * 'nbtiveChbrsets' should be ignored, bnd instebd, the Trbnsferbble should
+     * be queried for its jbvbTextEncodingFlbvor dbtb for the correct encoding.
+     */
+    public bbstrbct boolebn isLocbleDependentTextFormbt(long formbt);
+
+    /**
+     * Determines whether the DbtbFlbvor corresponding to the specified long
+     * formbt is DbtbFlbvor.jbvbFileListFlbvor.
+     */
+    public bbstrbct boolebn isFileFormbt(long formbt);
+
+    /**
+     * Determines whether the DbtbFlbvor corresponding to the specified long
+     * formbt is DbtbFlbvor.imbgeFlbvor.
+     */
+    public bbstrbct boolebn isImbgeFormbt(long formbt);
+
+    /**
+     * Determines whether the formbt is b URI list we cbn convert to
+     * b DbtbFlbvor.jbvbFileListFlbvor.
+     */
+    protected boolebn isURIListFormbt(long formbt) {
+        return fblse;
+    }
+
+    /**
+     * Returns b Mbp whose keys bre bll of the possible formbts into which the
+     * Trbnsferbble's trbnsfer dbtb flbvors cbn be trbnslbted. The vblue of
+     * ebch key is the DbtbFlbvor in which the Trbnsferbble's dbtb should be
+     * requested when converting to the formbt.
      * <p>
-     * The map keys are sorted according to the native formats preference
+     * The mbp keys bre sorted bccording to the nbtive formbts preference
      * order.
      */
-    public SortedMap<Long,DataFlavor> getFormatsForTransferable(Transferable contents,
-                                                                FlavorTable map)
+    public SortedMbp<Long,DbtbFlbvor> getFormbtsForTrbnsferbble(Trbnsferbble contents,
+                                                                FlbvorTbble mbp)
     {
-        DataFlavor[] flavors = contents.getTransferDataFlavors();
-        if (flavors == null) {
-            return Collections.emptySortedMap();
+        DbtbFlbvor[] flbvors = contents.getTrbnsferDbtbFlbvors();
+        if (flbvors == null) {
+            return Collections.emptySortedMbp();
         }
-        return getFormatsForFlavors(flavors, map);
+        return getFormbtsForFlbvors(flbvors, mbp);
     }
 
     /**
-     * Returns a Map whose keys are all of the possible formats into which data
-     * in the specified DataFlavors can be translated. The value of each key
-     * is the DataFlavor in which the Transferable's data should be requested
-     * when converting to the format.
+     * Returns b Mbp whose keys bre bll of the possible formbts into which dbtb
+     * in the specified DbtbFlbvors cbn be trbnslbted. The vblue of ebch key
+     * is the DbtbFlbvor in which the Trbnsferbble's dbtb should be requested
+     * when converting to the formbt.
      * <p>
-     * The map keys are sorted according to the native formats preference
+     * The mbp keys bre sorted bccording to the nbtive formbts preference
      * order.
      *
-     * @param flavors the data flavors
-     * @param map the FlavorTable which contains mappings between
-     *            DataFlavors and data formats
-     * @throws NullPointerException if flavors or map is <code>null</code>
+     * @pbrbm flbvors the dbtb flbvors
+     * @pbrbm mbp the FlbvorTbble which contbins mbppings between
+     *            DbtbFlbvors bnd dbtb formbts
+     * @throws NullPointerException if flbvors or mbp is <code>null</code>
      */
-    public SortedMap<Long, DataFlavor> getFormatsForFlavors(DataFlavor[] flavors,
-                                                            FlavorTable map)
+    public SortedMbp<Long, DbtbFlbvor> getFormbtsForFlbvors(DbtbFlbvor[] flbvors,
+                                                            FlbvorTbble mbp)
     {
-        Map<Long,DataFlavor> formatMap = new HashMap<>(flavors.length);
-        Map<Long,DataFlavor> textPlainMap = new HashMap<>(flavors.length);
-        // Maps formats to indices that will be used to sort the formats
-        // according to the preference order.
-        // Larger index value corresponds to the more preferable format.
-        Map<Long, Integer> indexMap = new HashMap<>(flavors.length);
-        Map<Long, Integer> textPlainIndexMap = new HashMap<>(flavors.length);
+        Mbp<Long,DbtbFlbvor> formbtMbp = new HbshMbp<>(flbvors.length);
+        Mbp<Long,DbtbFlbvor> textPlbinMbp = new HbshMbp<>(flbvors.length);
+        // Mbps formbts to indices thbt will be used to sort the formbts
+        // bccording to the preference order.
+        // Lbrger index vblue corresponds to the more preferbble formbt.
+        Mbp<Long, Integer> indexMbp = new HbshMbp<>(flbvors.length);
+        Mbp<Long, Integer> textPlbinIndexMbp = new HbshMbp<>(flbvors.length);
 
         int currentIndex = 0;
 
-        // Iterate backwards so that preferred DataFlavors are used over
-        // other DataFlavors. (See javadoc for
-        // Transferable.getTransferDataFlavors.)
-        for (int i = flavors.length - 1; i >= 0; i--) {
-            DataFlavor flavor = flavors[i];
-            if (flavor == null) continue;
+        // Iterbte bbckwbrds so thbt preferred DbtbFlbvors bre used over
+        // other DbtbFlbvors. (See jbvbdoc for
+        // Trbnsferbble.getTrbnsferDbtbFlbvors.)
+        for (int i = flbvors.length - 1; i >= 0; i--) {
+            DbtbFlbvor flbvor = flbvors[i];
+            if (flbvor == null) continue;
 
-            // Don't explicitly test for String, since it is just a special
-            // case of Serializable
-            if (flavor.isFlavorTextType() ||
-                flavor.isFlavorJavaFileListType() ||
-                DataFlavor.imageFlavor.equals(flavor) ||
-                flavor.isRepresentationClassSerializable() ||
-                flavor.isRepresentationClassInputStream() ||
-                flavor.isRepresentationClassRemote())
+            // Don't explicitly test for String, since it is just b specibl
+            // cbse of Seriblizbble
+            if (flbvor.isFlbvorTextType() ||
+                flbvor.isFlbvorJbvbFileListType() ||
+                DbtbFlbvor.imbgeFlbvor.equbls(flbvor) ||
+                flbvor.isRepresentbtionClbssSeriblizbble() ||
+                flbvor.isRepresentbtionClbssInputStrebm() ||
+                flbvor.isRepresentbtionClbssRemote())
             {
-                List<String> natives = map.getNativesForFlavor(flavor);
+                List<String> nbtives = mbp.getNbtivesForFlbvor(flbvor);
 
-                currentIndex += natives.size();
+                currentIndex += nbtives.size();
 
-                for (String aNative : natives) {
-                    Long lFormat = getFormatForNativeAsLong(aNative);
+                for (String bNbtive : nbtives) {
+                    Long lFormbt = getFormbtForNbtiveAsLong(bNbtive);
                     Integer index = currentIndex--;
 
-                    formatMap.put(lFormat, flavor);
-                    indexMap.put(lFormat, index);
+                    formbtMbp.put(lFormbt, flbvor);
+                    indexMbp.put(lFormbt, index);
 
-                    // SystemFlavorMap.getNativesForFlavor will return
-                    // text/plain natives for all text/*. While this is good
-                    // for a single text/* flavor, we would prefer that
-                    // text/plain native data come from a text/plain flavor.
-                    if (("text".equals(flavor.getPrimaryType()) &&
-                            "plain".equals(flavor.getSubType())) ||
-                            flavor.equals(DataFlavor.stringFlavor)) {
-                        textPlainMap.put(lFormat, flavor);
-                        textPlainIndexMap.put(lFormat, index);
+                    // SystemFlbvorMbp.getNbtivesForFlbvor will return
+                    // text/plbin nbtives for bll text/*. While this is good
+                    // for b single text/* flbvor, we would prefer thbt
+                    // text/plbin nbtive dbtb come from b text/plbin flbvor.
+                    if (("text".equbls(flbvor.getPrimbryType()) &&
+                            "plbin".equbls(flbvor.getSubType())) ||
+                            flbvor.equbls(DbtbFlbvor.stringFlbvor)) {
+                        textPlbinMbp.put(lFormbt, flbvor);
+                        textPlbinIndexMbp.put(lFormbt, index);
                     }
                 }
 
-                currentIndex += natives.size();
+                currentIndex += nbtives.size();
             }
         }
 
-        formatMap.putAll(textPlainMap);
-        indexMap.putAll(textPlainIndexMap);
+        formbtMbp.putAll(textPlbinMbp);
+        indexMbp.putAll(textPlbinIndexMbp);
 
-        // Sort the map keys according to the formats preference order.
-        Comparator<Long> comparator =
-                new IndexOrderComparator(indexMap, IndexedComparator.SELECT_WORST);
-        SortedMap<Long, DataFlavor> sortedMap = new TreeMap<>(comparator);
-        sortedMap.putAll(formatMap);
+        // Sort the mbp keys bccording to the formbts preference order.
+        Compbrbtor<Long> compbrbtor =
+                new IndexOrderCompbrbtor(indexMbp, IndexedCompbrbtor.SELECT_WORST);
+        SortedMbp<Long, DbtbFlbvor> sortedMbp = new TreeMbp<>(compbrbtor);
+        sortedMbp.putAll(formbtMbp);
 
-        return sortedMap;
+        return sortedMbp;
     }
 
     /**
-     * Reduces the Map output for the root function to an array of the
-     * Map's keys.
+     * Reduces the Mbp output for the root function to bn brrby of the
+     * Mbp's keys.
      */
-    public long[] getFormatsForTransferableAsArray(Transferable contents,
-                                                   FlavorTable map) {
-        return keysToLongArray(getFormatsForTransferable(contents, map));
+    public long[] getFormbtsForTrbnsferbbleAsArrby(Trbnsferbble contents,
+                                                   FlbvorTbble mbp) {
+        return keysToLongArrby(getFormbtsForTrbnsferbble(contents, mbp));
     }
 
     /**
-     * Returns a Map whose keys are all of the possible DataFlavors into which
-     * data in the specified formats can be translated. The value of each key
-     * is the format in which the Clipboard or dropped data should be requested
-     * when converting to the DataFlavor.
+     * Returns b Mbp whose keys bre bll of the possible DbtbFlbvors into which
+     * dbtb in the specified formbts cbn be trbnslbted. The vblue of ebch key
+     * is the formbt in which the Clipbobrd or dropped dbtb should be requested
+     * when converting to the DbtbFlbvor.
      */
-    public Map<DataFlavor, Long> getFlavorsForFormats(long[] formats, FlavorTable map) {
-        Map<DataFlavor, Long> flavorMap = new HashMap<>(formats.length);
-        Set<AbstractMap.SimpleEntry<Long, DataFlavor>> mappingSet = new HashSet<>(formats.length);
-        Set<DataFlavor> flavorSet = new HashSet<>(formats.length);
+    public Mbp<DbtbFlbvor, Long> getFlbvorsForFormbts(long[] formbts, FlbvorTbble mbp) {
+        Mbp<DbtbFlbvor, Long> flbvorMbp = new HbshMbp<>(formbts.length);
+        Set<AbstrbctMbp.SimpleEntry<Long, DbtbFlbvor>> mbppingSet = new HbshSet<>(formbts.length);
+        Set<DbtbFlbvor> flbvorSet = new HbshSet<>(formbts.length);
 
-        // First step: build flavorSet, mappingSet and initial flavorMap
-        // flavorSet  - the set of all the DataFlavors into which
-        //              data in the specified formats can be translated;
-        // mappingSet - the set of all the mappings from the specified formats
-        //              into any DataFlavor;
-        // flavorMap  - after this step, this map maps each of the DataFlavors
-        //              from flavorSet to any of the specified formats.
-        for (long format : formats) {
-            String nat = getNativeForFormat(format);
-            List<DataFlavor> flavors = map.getFlavorsForNative(nat);
-            for (DataFlavor flavor : flavors) {
-                // Don't explicitly test for String, since it is just a special
-                // case of Serializable
-                if (flavor.isFlavorTextType() ||
-                        flavor.isFlavorJavaFileListType() ||
-                        DataFlavor.imageFlavor.equals(flavor) ||
-                        flavor.isRepresentationClassSerializable() ||
-                        flavor.isRepresentationClassInputStream() ||
-                        flavor.isRepresentationClassRemote()) {
+        // First step: build flbvorSet, mbppingSet bnd initibl flbvorMbp
+        // flbvorSet  - the set of bll the DbtbFlbvors into which
+        //              dbtb in the specified formbts cbn be trbnslbted;
+        // mbppingSet - the set of bll the mbppings from the specified formbts
+        //              into bny DbtbFlbvor;
+        // flbvorMbp  - bfter this step, this mbp mbps ebch of the DbtbFlbvors
+        //              from flbvorSet to bny of the specified formbts.
+        for (long formbt : formbts) {
+            String nbt = getNbtiveForFormbt(formbt);
+            List<DbtbFlbvor> flbvors = mbp.getFlbvorsForNbtive(nbt);
+            for (DbtbFlbvor flbvor : flbvors) {
+                // Don't explicitly test for String, since it is just b specibl
+                // cbse of Seriblizbble
+                if (flbvor.isFlbvorTextType() ||
+                        flbvor.isFlbvorJbvbFileListType() ||
+                        DbtbFlbvor.imbgeFlbvor.equbls(flbvor) ||
+                        flbvor.isRepresentbtionClbssSeriblizbble() ||
+                        flbvor.isRepresentbtionClbssInputStrebm() ||
+                        flbvor.isRepresentbtionClbssRemote()) {
 
-                    AbstractMap.SimpleEntry<Long, DataFlavor> mapping =
-                            new AbstractMap.SimpleEntry<>(format, flavor);
-                    flavorMap.put(flavor, format);
-                    mappingSet.add(mapping);
-                    flavorSet.add(flavor);
+                    AbstrbctMbp.SimpleEntry<Long, DbtbFlbvor> mbpping =
+                            new AbstrbctMbp.SimpleEntry<>(formbt, flbvor);
+                    flbvorMbp.put(flbvor, formbt);
+                    mbppingSet.bdd(mbpping);
+                    flbvorSet.bdd(flbvor);
                 }
             }
         }
 
-        // Second step: for each DataFlavor try to figure out which of the
-        // specified formats is the best to translate to this flavor.
-        // Then map each flavor to the best format.
-        // For the given flavor, FlavorTable indicates which native will
-        // best reflect data in the specified flavor to the underlying native
-        // platform. We assume that this native is the best to translate
-        // to this flavor.
-        // Note: FlavorTable allows one-way mappings, so we can occasionally
-        // map a flavor to the format for which the corresponding
-        // format-to-flavor mapping doesn't exist. For this reason we have built
-        // a mappingSet of all format-to-flavor mappings for the specified formats
-        // and check if the format-to-flavor mapping exists for the
-        // (flavor,format) pair being added.
-        for (DataFlavor flavor : flavorSet) {
-            List<String> natives = map.getNativesForFlavor(flavor);
-            for (String aNative : natives) {
-                Long lFormat = getFormatForNativeAsLong(aNative);
-                if (mappingSet.contains(new AbstractMap.SimpleEntry<>(lFormat, flavor))) {
-                    flavorMap.put(flavor, lFormat);
-                    break;
+        // Second step: for ebch DbtbFlbvor try to figure out which of the
+        // specified formbts is the best to trbnslbte to this flbvor.
+        // Then mbp ebch flbvor to the best formbt.
+        // For the given flbvor, FlbvorTbble indicbtes which nbtive will
+        // best reflect dbtb in the specified flbvor to the underlying nbtive
+        // plbtform. We bssume thbt this nbtive is the best to trbnslbte
+        // to this flbvor.
+        // Note: FlbvorTbble bllows one-wby mbppings, so we cbn occbsionblly
+        // mbp b flbvor to the formbt for which the corresponding
+        // formbt-to-flbvor mbpping doesn't exist. For this rebson we hbve built
+        // b mbppingSet of bll formbt-to-flbvor mbppings for the specified formbts
+        // bnd check if the formbt-to-flbvor mbpping exists for the
+        // (flbvor,formbt) pbir being bdded.
+        for (DbtbFlbvor flbvor : flbvorSet) {
+            List<String> nbtives = mbp.getNbtivesForFlbvor(flbvor);
+            for (String bNbtive : nbtives) {
+                Long lFormbt = getFormbtForNbtiveAsLong(bNbtive);
+                if (mbppingSet.contbins(new AbstrbctMbp.SimpleEntry<>(lFormbt, flbvor))) {
+                    flbvorMbp.put(flbvor, lFormbt);
+                    brebk;
                 }
             }
         }
 
-        return flavorMap;
+        return flbvorMbp;
     }
 
     /**
-     * Returns a Set of all DataFlavors for which
-     * 1) a mapping from at least one of the specified formats exists in the
-     * specified map and
-     * 2) the data translation for this mapping can be performed by the data
-     * transfer subsystem.
+     * Returns b Set of bll DbtbFlbvors for which
+     * 1) b mbpping from bt lebst one of the specified formbts exists in the
+     * specified mbp bnd
+     * 2) the dbtb trbnslbtion for this mbpping cbn be performed by the dbtb
+     * trbnsfer subsystem.
      *
-     * @param formats the data formats
-     * @param map the FlavorTable which contains mappings between
-     *            DataFlavors and data formats
-     * @throws NullPointerException if formats or map is <code>null</code>
+     * @pbrbm formbts the dbtb formbts
+     * @pbrbm mbp the FlbvorTbble which contbins mbppings between
+     *            DbtbFlbvors bnd dbtb formbts
+     * @throws NullPointerException if formbts or mbp is <code>null</code>
      */
-    public Set<DataFlavor> getFlavorsForFormatsAsSet(long[] formats, FlavorTable map) {
-        Set<DataFlavor> flavorSet = new HashSet<>(formats.length);
+    public Set<DbtbFlbvor> getFlbvorsForFormbtsAsSet(long[] formbts, FlbvorTbble mbp) {
+        Set<DbtbFlbvor> flbvorSet = new HbshSet<>(formbts.length);
 
-        for (long format : formats) {
-            List<DataFlavor> flavors = map.getFlavorsForNative(getNativeForFormat(format));
-            for (DataFlavor flavor : flavors) {
-                // Don't explicitly test for String, since it is just a special
-                // case of Serializable
-                if (flavor.isFlavorTextType() ||
-                        flavor.isFlavorJavaFileListType() ||
-                        DataFlavor.imageFlavor.equals(flavor) ||
-                        flavor.isRepresentationClassSerializable() ||
-                        flavor.isRepresentationClassInputStream() ||
-                        flavor.isRepresentationClassRemote()) {
-                    flavorSet.add(flavor);
+        for (long formbt : formbts) {
+            List<DbtbFlbvor> flbvors = mbp.getFlbvorsForNbtive(getNbtiveForFormbt(formbt));
+            for (DbtbFlbvor flbvor : flbvors) {
+                // Don't explicitly test for String, since it is just b specibl
+                // cbse of Seriblizbble
+                if (flbvor.isFlbvorTextType() ||
+                        flbvor.isFlbvorJbvbFileListType() ||
+                        DbtbFlbvor.imbgeFlbvor.equbls(flbvor) ||
+                        flbvor.isRepresentbtionClbssSeriblizbble() ||
+                        flbvor.isRepresentbtionClbssInputStrebm() ||
+                        flbvor.isRepresentbtionClbssRemote()) {
+                    flbvorSet.bdd(flbvor);
                 }
             }
         }
 
-        return flavorSet;
+        return flbvorSet;
     }
 
     /**
-     * Returns an array of all DataFlavors for which
-     * 1) a mapping from at least one of the specified formats exists in the
-     * specified map and
-     * 2) the data translation for this mapping can be performed by the data
-     * transfer subsystem.
-     * The array will be sorted according to a
-     * <code>DataFlavorComparator</code> created with the specified
-     * map as an argument.
+     * Returns bn brrby of bll DbtbFlbvors for which
+     * 1) b mbpping from bt lebst one of the specified formbts exists in the
+     * specified mbp bnd
+     * 2) the dbtb trbnslbtion for this mbpping cbn be performed by the dbtb
+     * trbnsfer subsystem.
+     * The brrby will be sorted bccording to b
+     * <code>DbtbFlbvorCompbrbtor</code> crebted with the specified
+     * mbp bs bn brgument.
      *
-     * @param formats the data formats
-     * @param map the FlavorTable which contains mappings between
-     *            DataFlavors and data formats
-     * @throws NullPointerException if formats or map is <code>null</code>
+     * @pbrbm formbts the dbtb formbts
+     * @pbrbm mbp the FlbvorTbble which contbins mbppings between
+     *            DbtbFlbvors bnd dbtb formbts
+     * @throws NullPointerException if formbts or mbp is <code>null</code>
      */
-    public DataFlavor[] getFlavorsForFormatsAsArray(long[] formats,
-                                                    FlavorTable map) {
-        // getFlavorsForFormatsAsSet() is less expensive than
-        // getFlavorsForFormats().
-        return setToSortedDataFlavorArray(getFlavorsForFormatsAsSet(formats, map));
+    public DbtbFlbvor[] getFlbvorsForFormbtsAsArrby(long[] formbts,
+                                                    FlbvorTbble mbp) {
+        // getFlbvorsForFormbtsAsSet() is less expensive thbn
+        // getFlbvorsForFormbts().
+        return setToSortedDbtbFlbvorArrby(getFlbvorsForFormbtsAsSet(formbts, mbp));
     }
 
     /**
-     * Looks-up or registers the String native with the native data transfer
-     * system and returns a long format corresponding to that native.
+     * Looks-up or registers the String nbtive with the nbtive dbtb trbnsfer
+     * system bnd returns b long formbt corresponding to thbt nbtive.
      */
-    protected abstract Long getFormatForNativeAsLong(String str);
+    protected bbstrbct Long getFormbtForNbtiveAsLong(String str);
 
     /**
-     * Looks-up the String native corresponding to the specified long format in
-     * the native data transfer system.
+     * Looks-up the String nbtive corresponding to the specified long formbt in
+     * the nbtive dbtb trbnsfer system.
      */
-    protected abstract String getNativeForFormat(long format);
+    protected bbstrbct String getNbtiveForFormbt(long formbt);
 
-    /* Contains common code for finding the best charset for
-     * clipboard string encoding/decoding, basing on clipboard
-     * format and localeTransferable(on decoding, if available)
+    /* Contbins common code for finding the best chbrset for
+     * clipbobrd string encoding/decoding, bbsing on clipbobrd
+     * formbt bnd locbleTrbnsferbble(on decoding, if bvbilbble)
      */
-    protected String getBestCharsetForTextFormat(Long lFormat,
-        Transferable localeTransferable) throws IOException
+    protected String getBestChbrsetForTextFormbt(Long lFormbt,
+        Trbnsferbble locbleTrbnsferbble) throws IOException
     {
-        String charset = null;
-        if (localeTransferable != null &&
-            isLocaleDependentTextFormat(lFormat) &&
-            localeTransferable.isDataFlavorSupported(javaTextEncodingFlavor)) {
+        String chbrset = null;
+        if (locbleTrbnsferbble != null &&
+            isLocbleDependentTextFormbt(lFormbt) &&
+            locbleTrbnsferbble.isDbtbFlbvorSupported(jbvbTextEncodingFlbvor)) {
             try {
-                byte[] charsetNameBytes = (byte[])localeTransferable
-                        .getTransferData(javaTextEncodingFlavor);
-                charset = new String(charsetNameBytes, StandardCharsets.UTF_8);
-            } catch (UnsupportedFlavorException cannotHappen) {
+                byte[] chbrsetNbmeBytes = (byte[])locbleTrbnsferbble
+                        .getTrbnsferDbtb(jbvbTextEncodingFlbvor);
+                chbrset = new String(chbrsetNbmeBytes, StbndbrdChbrsets.UTF_8);
+            } cbtch (UnsupportedFlbvorException cbnnotHbppen) {
             }
         } else {
-            charset = getCharsetForTextFormat(lFormat);
+            chbrset = getChbrsetForTextFormbt(lFormbt);
         }
-        if (charset == null) {
-            // Only happens when we have a custom text type.
-            charset = Charset.defaultCharset().name();
+        if (chbrset == null) {
+            // Only hbppens when we hbve b custom text type.
+            chbrset = Chbrset.defbultChbrset().nbme();
         }
-        return charset;
+        return chbrset;
     }
 
     /**
-     *  Translation function for converting string into
-     *  a byte array. Search-and-replace EOLN. Encode into the
-     *  target format. Append terminating NUL bytes.
+     *  Trbnslbtion function for converting string into
+     *  b byte brrby. Sebrch-bnd-replbce EOLN. Encode into the
+     *  tbrget formbt. Append terminbting NUL bytes.
      *
-     *  Java to Native string conversion
+     *  Jbvb to Nbtive string conversion
      */
-    private byte[] translateTransferableString(String str,
-                                               long format) throws IOException
+    privbte byte[] trbnslbteTrbnsferbbleString(String str,
+                                               long formbt) throws IOException
     {
-        Long lFormat = format;
-        String charset = getBestCharsetForTextFormat(lFormat, null);
-        // Search and replace EOLN. Note that if EOLN is "\n", then we
-        // never added an entry to nativeEOLNs anyway, so we'll skip this
-        // code altogether.
-        // windows: "abc\nde"->"abc\r\nde"
-        String eoln = nativeEOLNs.get(lFormat);
+        Long lFormbt = formbt;
+        String chbrset = getBestChbrsetForTextFormbt(lFormbt, null);
+        // Sebrch bnd replbce EOLN. Note thbt if EOLN is "\n", then we
+        // never bdded bn entry to nbtiveEOLNs bnywby, so we'll skip this
+        // code bltogether.
+        // windows: "bbc\nde"->"bbc\r\nde"
+        String eoln = nbtiveEOLNs.get(lFormbt);
         if (eoln != null) {
             int length = str.length();
-            StringBuilder buffer = new StringBuilder(length * 2); // 2 is a heuristic
+            StringBuilder buffer = new StringBuilder(length * 2); // 2 is b heuristic
             for (int i = 0; i < length; i++) {
-                // Fix for 4914613 - skip native EOLN
-                if (str.startsWith(eoln, i)) {
-                    buffer.append(eoln);
+                // Fix for 4914613 - skip nbtive EOLN
+                if (str.stbrtsWith(eoln, i)) {
+                    buffer.bppend(eoln);
                     i += eoln.length() - 1;
                     continue;
                 }
-                char c = str.charAt(i);
+                chbr c = str.chbrAt(i);
                 if (c == '\n') {
-                    buffer.append(eoln);
+                    buffer.bppend(eoln);
                 } else {
-                    buffer.append(c);
+                    buffer.bppend(c);
                 }
             }
             str = buffer.toString();
         }
 
-        // Encode text in target format.
-        byte[] bytes = str.getBytes(charset);
+        // Encode text in tbrget formbt.
+        byte[] bytes = str.getBytes(chbrset);
 
-        // Append terminating NUL bytes. Note that if terminators is 0,
-        // the we never added an entry to nativeTerminators anyway, so
-        // we'll skip code altogether.
-        // "abcde" -> "abcde\0"
-        Integer terminators = nativeTerminators.get(lFormat);
-        if (terminators != null) {
-            int numTerminators = terminators;
-            byte[] terminatedBytes =
-                new byte[bytes.length + numTerminators];
-            System.arraycopy(bytes, 0, terminatedBytes, 0, bytes.length);
-            for (int i = bytes.length; i < terminatedBytes.length; i++) {
-                terminatedBytes[i] = 0x0;
+        // Append terminbting NUL bytes. Note thbt if terminbtors is 0,
+        // the we never bdded bn entry to nbtiveTerminbtors bnywby, so
+        // we'll skip code bltogether.
+        // "bbcde" -> "bbcde\0"
+        Integer terminbtors = nbtiveTerminbtors.get(lFormbt);
+        if (terminbtors != null) {
+            int numTerminbtors = terminbtors;
+            byte[] terminbtedBytes =
+                new byte[bytes.length + numTerminbtors];
+            System.brrbycopy(bytes, 0, terminbtedBytes, 0, bytes.length);
+            for (int i = bytes.length; i < terminbtedBytes.length; i++) {
+                terminbtedBytes[i] = 0x0;
             }
-            bytes = terminatedBytes;
+            bytes = terminbtedBytes;
         }
         return bytes;
     }
 
     /**
-     * Translating either a byte array or an InputStream into an String.
-     * Strip terminators and search-and-replace EOLN.
+     * Trbnslbting either b byte brrby or bn InputStrebm into bn String.
+     * Strip terminbtors bnd sebrch-bnd-replbce EOLN.
      *
-     * Native to Java string conversion
+     * Nbtive to Jbvb string conversion
      */
-    private String translateBytesToString(byte[] bytes, long format,
-                                          Transferable localeTransferable)
+    privbte String trbnslbteBytesToString(byte[] bytes, long formbt,
+                                          Trbnsferbble locbleTrbnsferbble)
             throws IOException
     {
 
-        Long lFormat = format;
-        String charset = getBestCharsetForTextFormat(lFormat, localeTransferable);
+        Long lFormbt = formbt;
+        String chbrset = getBestChbrsetForTextFormbt(lFormbt, locbleTrbnsferbble);
 
-        // Locate terminating NUL bytes. Note that if terminators is 0,
-        // the we never added an entry to nativeTerminators anyway, so
-        // we'll skip code altogether.
+        // Locbte terminbting NUL bytes. Note thbt if terminbtors is 0,
+        // the we never bdded bn entry to nbtiveTerminbtors bnywby, so
+        // we'll skip code bltogether.
 
-        // In other words: we are doing char alignment here basing on suggestion
-        // that count of zero-'terminators' is a number of bytes in one symbol
-        // for selected charset (clipboard format). It is not complitly true for
-        // multibyte coding like UTF-8, but helps understand the procedure.
-        // "abcde\0" -> "abcde"
+        // In other words: we bre doing chbr blignment here bbsing on suggestion
+        // thbt count of zero-'terminbtors' is b number of bytes in one symbol
+        // for selected chbrset (clipbobrd formbt). It is not complitly true for
+        // multibyte coding like UTF-8, but helps understbnd the procedure.
+        // "bbcde\0" -> "bbcde"
 
-        String eoln = nativeEOLNs.get(lFormat);
-        Integer terminators = nativeTerminators.get(lFormat);
+        String eoln = nbtiveEOLNs.get(lFormbt);
+        Integer terminbtors = nbtiveTerminbtors.get(lFormbt);
         int count;
-        if (terminators != null) {
-            int numTerminators = terminators;
-search:
-            for (count = 0; count < (bytes.length - numTerminators + 1); count += numTerminators) {
-                for (int i = count; i < count + numTerminators; i++) {
+        if (terminbtors != null) {
+            int numTerminbtors = terminbtors;
+sebrch:
+            for (count = 0; count < (bytes.length - numTerminbtors + 1); count += numTerminbtors) {
+                for (int i = count; i < count + numTerminbtors; i++) {
                     if (bytes[i] != 0x0) {
-                        continue search;
+                        continue sebrch;
                     }
                 }
-                // found terminators
-                break search;
+                // found terminbtors
+                brebk sebrch;
             }
         } else {
             count = bytes.length;
         }
 
-        // Decode text to chars. Don't include any terminators.
-        String converted = new String(bytes, 0, count, charset);
+        // Decode text to chbrs. Don't include bny terminbtors.
+        String converted = new String(bytes, 0, count, chbrset);
 
-        // Search and replace EOLN. Note that if EOLN is "\n", then we
-        // never added an entry to nativeEOLNs anyway, so we'll skip this
-        // code altogether.
-        // Count of NUL-terminators and EOLN coding are platform-specific and
-        // loaded from flavormap.properties file
-        // windows: "abc\r\nde" -> "abc\nde"
+        // Sebrch bnd replbce EOLN. Note thbt if EOLN is "\n", then we
+        // never bdded bn entry to nbtiveEOLNs bnywby, so we'll skip this
+        // code bltogether.
+        // Count of NUL-terminbtors bnd EOLN coding bre plbtform-specific bnd
+        // lobded from flbvormbp.properties file
+        // windows: "bbc\r\nde" -> "bbc\nde"
 
         if (eoln != null) {
 
-            /* Fix for 4463560: replace EOLNs symbol-by-symbol instead
-             * of using buf.replace()
+            /* Fix for 4463560: replbce EOLNs symbol-by-symbol instebd
+             * of using buf.replbce()
              */
 
-            char[] buf = converted.toCharArray();
-            char[] eoln_arr = eoln.toCharArray();
+            chbr[] buf = converted.toChbrArrby();
+            chbr[] eoln_brr = eoln.toChbrArrby();
             int j = 0;
-            boolean match;
+            boolebn mbtch;
 
             for (int i = 0; i < buf.length; ) {
-                // Catch last few bytes
-                if (i + eoln_arr.length > buf.length) {
+                // Cbtch lbst few bytes
+                if (i + eoln_brr.length > buf.length) {
                     buf[j++] = buf[i++];
                     continue;
                 }
 
-                match = true;
-                for (int k = 0, l = i; k < eoln_arr.length; k++, l++) {
-                    if (eoln_arr[k] != buf[l]) {
-                        match = false;
-                        break;
+                mbtch = true;
+                for (int k = 0, l = i; k < eoln_brr.length; k++, l++) {
+                    if (eoln_brr[k] != buf[l]) {
+                        mbtch = fblse;
+                        brebk;
                     }
                 }
-                if (match) {
+                if (mbtch) {
                     buf[j++] = '\n';
-                    i += eoln_arr.length;
+                    i += eoln_brr.length;
                 } else {
                     buf[j++] = buf[i++];
                 }
@@ -930,563 +930,563 @@ search:
 
 
     /**
-     * Primary translation function for translating a Transferable into
-     * a byte array, given a source DataFlavor and target format.
+     * Primbry trbnslbtion function for trbnslbting b Trbnsferbble into
+     * b byte brrby, given b source DbtbFlbvor bnd tbrget formbt.
      */
-    public byte[] translateTransferable(Transferable contents,
-                                        DataFlavor flavor,
-                                        long format) throws IOException
+    public byte[] trbnslbteTrbnsferbble(Trbnsferbble contents,
+                                        DbtbFlbvor flbvor,
+                                        long formbt) throws IOException
     {
-        // Obtain the transfer data in the source DataFlavor.
+        // Obtbin the trbnsfer dbtb in the source DbtbFlbvor.
         //
-        // Note that we special case DataFlavor.plainTextFlavor because
-        // StringSelection supports this flavor incorrectly -- instead of
-        // returning an InputStream as the DataFlavor representation class
-        // states, it returns a Reader. Instead of using this broken
-        // functionality, we request the data in stringFlavor (the other
-        // DataFlavor which StringSelection supports) and use the String
-        // translator.
+        // Note thbt we specibl cbse DbtbFlbvor.plbinTextFlbvor becbuse
+        // StringSelection supports this flbvor incorrectly -- instebd of
+        // returning bn InputStrebm bs the DbtbFlbvor representbtion clbss
+        // stbtes, it returns b Rebder. Instebd of using this broken
+        // functionblity, we request the dbtb in stringFlbvor (the other
+        // DbtbFlbvor which StringSelection supports) bnd use the String
+        // trbnslbtor.
         Object obj;
-        boolean stringSelectionHack;
+        boolebn stringSelectionHbck;
         try {
-            obj = contents.getTransferData(flavor);
+            obj = contents.getTrbnsferDbtb(flbvor);
             if (obj == null) {
                 return null;
             }
-            if (flavor.equals(DataFlavor.plainTextFlavor) &&
-                !(obj instanceof InputStream))
+            if (flbvor.equbls(DbtbFlbvor.plbinTextFlbvor) &&
+                !(obj instbnceof InputStrebm))
             {
-                obj = contents.getTransferData(DataFlavor.stringFlavor);
+                obj = contents.getTrbnsferDbtb(DbtbFlbvor.stringFlbvor);
                 if (obj == null) {
                     return null;
                 }
-                stringSelectionHack = true;
+                stringSelectionHbck = true;
             } else {
-                stringSelectionHack = false;
+                stringSelectionHbck = fblse;
             }
-        } catch (UnsupportedFlavorException e) {
-            throw new IOException(e.getMessage());
+        } cbtch (UnsupportedFlbvorException e) {
+            throw new IOException(e.getMessbge());
         }
 
-        // Source data is a String. Search-and-replace EOLN. Encode into the
-        // target format. Append terminating NUL bytes.
-        if (stringSelectionHack ||
-            (String.class.equals(flavor.getRepresentationClass()) &&
-             isFlavorCharsetTextType(flavor) && isTextFormat(format))) {
+        // Source dbtb is b String. Sebrch-bnd-replbce EOLN. Encode into the
+        // tbrget formbt. Append terminbting NUL bytes.
+        if (stringSelectionHbck ||
+            (String.clbss.equbls(flbvor.getRepresentbtionClbss()) &&
+             isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt))) {
 
-            String str = removeSuspectedData(flavor, contents, (String)obj);
+            String str = removeSuspectedDbtb(flbvor, contents, (String)obj);
 
-            return translateTransferableString(
+            return trbnslbteTrbnsferbbleString(
                 str,
-                format);
+                formbt);
 
-        // Source data is a Reader. Convert to a String and recur. In the
-        // future, we may want to rewrite this so that we encode on demand.
-        } else if (flavor.isRepresentationClassReader()) {
-            if (!(isFlavorCharsetTextType(flavor) && isTextFormat(format))) {
+        // Source dbtb is b Rebder. Convert to b String bnd recur. In the
+        // future, we mby wbnt to rewrite this so thbt we encode on dembnd.
+        } else if (flbvor.isRepresentbtionClbssRebder()) {
+            if (!(isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt))) {
                 throw new IOException
-                    ("cannot transfer non-text data as Reader");
+                    ("cbnnot trbnsfer non-text dbtb bs Rebder");
             }
 
             StringBuilder buf = new StringBuilder();
-            try (Reader r = (Reader)obj) {
+            try (Rebder r = (Rebder)obj) {
                 int c;
-                while ((c = r.read()) != -1) {
-                    buf.append((char)c);
+                while ((c = r.rebd()) != -1) {
+                    buf.bppend((chbr)c);
                 }
             }
 
-            return translateTransferableString(
+            return trbnslbteTrbnsferbbleString(
                 buf.toString(),
-                format);
+                formbt);
 
-        // Source data is a CharBuffer. Convert to a String and recur.
-        } else if (flavor.isRepresentationClassCharBuffer()) {
-            if (!(isFlavorCharsetTextType(flavor) && isTextFormat(format))) {
+        // Source dbtb is b ChbrBuffer. Convert to b String bnd recur.
+        } else if (flbvor.isRepresentbtionClbssChbrBuffer()) {
+            if (!(isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt))) {
                 throw new IOException
-                    ("cannot transfer non-text data as CharBuffer");
+                    ("cbnnot trbnsfer non-text dbtb bs ChbrBuffer");
             }
 
-            CharBuffer buffer = (CharBuffer)obj;
-            int size = buffer.remaining();
-            char[] chars = new char[size];
-            buffer.get(chars, 0, size);
+            ChbrBuffer buffer = (ChbrBuffer)obj;
+            int size = buffer.rembining();
+            chbr[] chbrs = new chbr[size];
+            buffer.get(chbrs, 0, size);
 
-            return translateTransferableString(
-                new String(chars),
-                format);
+            return trbnslbteTrbnsferbbleString(
+                new String(chbrs),
+                formbt);
 
-        // Source data is a char array. Convert to a String and recur.
-        } else if (char[].class.equals(flavor.getRepresentationClass())) {
-            if (!(isFlavorCharsetTextType(flavor) && isTextFormat(format))) {
+        // Source dbtb is b chbr brrby. Convert to b String bnd recur.
+        } else if (chbr[].clbss.equbls(flbvor.getRepresentbtionClbss())) {
+            if (!(isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt))) {
                 throw new IOException
-                    ("cannot transfer non-text data as char array");
+                    ("cbnnot trbnsfer non-text dbtb bs chbr brrby");
             }
 
-            return translateTransferableString(
-                new String((char[])obj),
-                format);
+            return trbnslbteTrbnsferbbleString(
+                new String((chbr[])obj),
+                formbt);
 
-        // Source data is a ByteBuffer. For arbitrary flavors, simply return
-        // the array. For text flavors, decode back to a String and recur to
-        // reencode according to the requested format.
-        } else if (flavor.isRepresentationClassByteBuffer()) {
+        // Source dbtb is b ByteBuffer. For brbitrbry flbvors, simply return
+        // the brrby. For text flbvors, decode bbck to b String bnd recur to
+        // reencode bccording to the requested formbt.
+        } else if (flbvor.isRepresentbtionClbssByteBuffer()) {
             ByteBuffer buffer = (ByteBuffer)obj;
-            int size = buffer.remaining();
+            int size = buffer.rembining();
             byte[] bytes = new byte[size];
             buffer.get(bytes, 0, size);
 
-            if (isFlavorCharsetTextType(flavor) && isTextFormat(format)) {
-                String sourceEncoding = DataTransferer.getTextCharset(flavor);
-                return translateTransferableString(
+            if (isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt)) {
+                String sourceEncoding = DbtbTrbnsferer.getTextChbrset(flbvor);
+                return trbnslbteTrbnsferbbleString(
                     new String(bytes, sourceEncoding),
-                    format);
+                    formbt);
             } else {
                 return bytes;
             }
 
-        // Source data is a byte array. For arbitrary flavors, simply return
-        // the array. For text flavors, decode back to a String and recur to
-        // reencode according to the requested format.
-        } else if (byte[].class.equals(flavor.getRepresentationClass())) {
+        // Source dbtb is b byte brrby. For brbitrbry flbvors, simply return
+        // the brrby. For text flbvors, decode bbck to b String bnd recur to
+        // reencode bccording to the requested formbt.
+        } else if (byte[].clbss.equbls(flbvor.getRepresentbtionClbss())) {
             byte[] bytes = (byte[])obj;
 
-            if (isFlavorCharsetTextType(flavor) && isTextFormat(format)) {
-                String sourceEncoding = DataTransferer.getTextCharset(flavor);
-                return translateTransferableString(
+            if (isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt)) {
+                String sourceEncoding = DbtbTrbnsferer.getTextChbrset(flbvor);
+                return trbnslbteTrbnsferbbleString(
                     new String(bytes, sourceEncoding),
-                    format);
+                    formbt);
             } else {
                 return bytes;
             }
-        // Source data is Image
-        } else if (DataFlavor.imageFlavor.equals(flavor)) {
-            if (!isImageFormat(format)) {
-                throw new IOException("Data translation failed: " +
-                                      "not an image format");
+        // Source dbtb is Imbge
+        } else if (DbtbFlbvor.imbgeFlbvor.equbls(flbvor)) {
+            if (!isImbgeFormbt(formbt)) {
+                throw new IOException("Dbtb trbnslbtion fbiled: " +
+                                      "not bn imbge formbt");
             }
 
-            Image image = (Image)obj;
-            byte[] bytes = imageToPlatformBytes(image, format);
+            Imbge imbge = (Imbge)obj;
+            byte[] bytes = imbgeToPlbtformBytes(imbge, formbt);
 
             if (bytes == null) {
-                throw new IOException("Data translation failed: " +
-                    "cannot convert java image to native format");
+                throw new IOException("Dbtb trbnslbtion fbiled: " +
+                    "cbnnot convert jbvb imbge to nbtive formbt");
             }
             return bytes;
         }
 
-        byte[] theByteArray = null;
+        byte[] theByteArrby = null;
 
-        // Target data is a file list. Source data must be a
-        // java.util.List which contains java.io.File or String instances.
-        if (isFileFormat(format)) {
-            if (!DataFlavor.javaFileListFlavor.equals(flavor)) {
-                throw new IOException("data translation failed");
+        // Tbrget dbtb is b file list. Source dbtb must be b
+        // jbvb.util.List which contbins jbvb.io.File or String instbnces.
+        if (isFileFormbt(formbt)) {
+            if (!DbtbFlbvor.jbvbFileListFlbvor.equbls(flbvor)) {
+                throw new IOException("dbtb trbnslbtion fbiled");
             }
 
-            final List<?> list = (List<?>)obj;
+            finbl List<?> list = (List<?>)obj;
 
-            final ProtectionDomain userProtectionDomain = getUserProtectionDomain(contents);
+            finbl ProtectionDombin userProtectionDombin = getUserProtectionDombin(contents);
 
-            final ArrayList<String> fileList = castToFiles(list, userProtectionDomain);
+            finbl ArrbyList<String> fileList = cbstToFiles(list, userProtectionDombin);
 
-            try (ByteArrayOutputStream bos = convertFileListToBytes(fileList)) {
-                theByteArray = bos.toByteArray();
+            try (ByteArrbyOutputStrebm bos = convertFileListToBytes(fileList)) {
+                theByteArrby = bos.toByteArrby();
             }
 
-        // Target data is a URI list. Source data must be a
-        // java.util.List which contains java.io.File or String instances.
-        } else if (isURIListFormat(format)) {
-            if (!DataFlavor.javaFileListFlavor.equals(flavor)) {
-                throw new IOException("data translation failed");
+        // Tbrget dbtb is b URI list. Source dbtb must be b
+        // jbvb.util.List which contbins jbvb.io.File or String instbnces.
+        } else if (isURIListFormbt(formbt)) {
+            if (!DbtbFlbvor.jbvbFileListFlbvor.equbls(flbvor)) {
+                throw new IOException("dbtb trbnslbtion fbiled");
             }
-            String nat = getNativeForFormat(format);
-            String targetCharset = null;
-            if (nat != null) {
+            String nbt = getNbtiveForFormbt(formbt);
+            String tbrgetChbrset = null;
+            if (nbt != null) {
                 try {
-                    targetCharset = new DataFlavor(nat).getParameter("charset");
-                } catch (ClassNotFoundException cnfe) {
+                    tbrgetChbrset = new DbtbFlbvor(nbt).getPbrbmeter("chbrset");
+                } cbtch (ClbssNotFoundException cnfe) {
                     throw new IOException(cnfe);
                 }
             }
-            if (targetCharset == null) {
-                targetCharset = "UTF-8";
+            if (tbrgetChbrset == null) {
+                tbrgetChbrset = "UTF-8";
             }
-            final List<?> list = (List<?>)obj;
-            final ProtectionDomain userProtectionDomain = getUserProtectionDomain(contents);
-            final ArrayList<String> fileList = castToFiles(list, userProtectionDomain);
-            final ArrayList<String> uriList = new ArrayList<>(fileList.size());
+            finbl List<?> list = (List<?>)obj;
+            finbl ProtectionDombin userProtectionDombin = getUserProtectionDombin(contents);
+            finbl ArrbyList<String> fileList = cbstToFiles(list, userProtectionDombin);
+            finbl ArrbyList<String> uriList = new ArrbyList<>(fileList.size());
             for (String fileObject : fileList) {
-                final URI uri = new File(fileObject).toURI();
-                // Some implementations are fussy about the number of slashes (file:///path/to/file is best)
+                finbl URI uri = new File(fileObject).toURI();
+                // Some implementbtions bre fussy bbout the number of slbshes (file:///pbth/to/file is best)
                 try {
-                    uriList.add(new URI(uri.getScheme(), "", uri.getPath(), uri.getFragment()).toString());
-                } catch (URISyntaxException uriSyntaxException) {
-                    throw new IOException(uriSyntaxException);
+                    uriList.bdd(new URI(uri.getScheme(), "", uri.getPbth(), uri.getFrbgment()).toString());
+                } cbtch (URISyntbxException uriSyntbxException) {
+                    throw new IOException(uriSyntbxException);
                   }
               }
 
-            byte[] eoln = "\r\n".getBytes(targetCharset);
+            byte[] eoln = "\r\n".getBytes(tbrgetChbrset);
 
-            try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            try (ByteArrbyOutputStrebm bos = new ByteArrbyOutputStrebm()) {
                 for (String uri : uriList) {
-                    byte[] bytes = uri.getBytes(targetCharset);
+                    byte[] bytes = uri.getBytes(tbrgetChbrset);
                     bos.write(bytes, 0, bytes.length);
                     bos.write(eoln, 0, eoln.length);
                 }
-                theByteArray = bos.toByteArray();
+                theByteArrby = bos.toByteArrby();
             }
 
-        // Source data is an InputStream. For arbitrary flavors, just grab the
-        // bytes and dump them into a byte array. For text flavors, decode back
-        // to a String and recur to reencode according to the requested format.
-        } else if (flavor.isRepresentationClassInputStream()) {
-            try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-                try (InputStream is = (InputStream)obj) {
-                    boolean eof = false;
-                    int avail = is.available();
-                    byte[] tmp = new byte[avail > 8192 ? avail : 8192];
+        // Source dbtb is bn InputStrebm. For brbitrbry flbvors, just grbb the
+        // bytes bnd dump them into b byte brrby. For text flbvors, decode bbck
+        // to b String bnd recur to reencode bccording to the requested formbt.
+        } else if (flbvor.isRepresentbtionClbssInputStrebm()) {
+            try (ByteArrbyOutputStrebm bos = new ByteArrbyOutputStrebm()) {
+                try (InputStrebm is = (InputStrebm)obj) {
+                    boolebn eof = fblse;
+                    int bvbil = is.bvbilbble();
+                    byte[] tmp = new byte[bvbil > 8192 ? bvbil : 8192];
                     do {
-                        int aValue;
-                        if (!(eof = (aValue = is.read(tmp, 0, tmp.length)) == -1)) {
-                            bos.write(tmp, 0, aValue);
+                        int bVblue;
+                        if (!(eof = (bVblue = is.rebd(tmp, 0, tmp.length)) == -1)) {
+                            bos.write(tmp, 0, bVblue);
                         }
                     } while (!eof);
                 }
 
-                if (isFlavorCharsetTextType(flavor) && isTextFormat(format)) {
-                    byte[] bytes = bos.toByteArray();
-                    String sourceEncoding = DataTransferer.getTextCharset(flavor);
-                    return translateTransferableString(
+                if (isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt)) {
+                    byte[] bytes = bos.toByteArrby();
+                    String sourceEncoding = DbtbTrbnsferer.getTextChbrset(flbvor);
+                    return trbnslbteTrbnsferbbleString(
                                new String(bytes, sourceEncoding),
-                               format);
+                               formbt);
                 }
-                theByteArray = bos.toByteArray();
+                theByteArrby = bos.toByteArrby();
             }
 
 
 
-        // Source data is an RMI object
-        } else if (flavor.isRepresentationClassRemote()) {
+        // Source dbtb is bn RMI object
+        } else if (flbvor.isRepresentbtionClbssRemote()) {
 
-            Object mo = RMI.newMarshalledObject(obj);
-            theByteArray = convertObjectToBytes(mo);
+            Object mo = RMI.newMbrshblledObject(obj);
+            theByteArrby = convertObjectToBytes(mo);
 
-            // Source data is Serializable
-        } else if (flavor.isRepresentationClassSerializable()) {
+            // Source dbtb is Seriblizbble
+        } else if (flbvor.isRepresentbtionClbssSeriblizbble()) {
 
-            theByteArray = convertObjectToBytes(obj);
+            theByteArrby = convertObjectToBytes(obj);
 
         } else {
-            throw new IOException("data translation failed");
+            throw new IOException("dbtb trbnslbtion fbiled");
         }
 
 
 
-        return theByteArray;
+        return theByteArrby;
     }
 
-    private static byte[] convertObjectToBytes(Object object) throws IOException {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             ObjectOutputStream oos = new ObjectOutputStream(bos))
+    privbte stbtic byte[] convertObjectToBytes(Object object) throws IOException {
+        try (ByteArrbyOutputStrebm bos = new ByteArrbyOutputStrebm();
+             ObjectOutputStrebm oos = new ObjectOutputStrebm(bos))
         {
             oos.writeObject(object);
-            return bos.toByteArray();
+            return bos.toByteArrby();
         }
     }
 
-    protected abstract ByteArrayOutputStream convertFileListToBytes(ArrayList<String> fileList) throws IOException;
+    protected bbstrbct ByteArrbyOutputStrebm convertFileListToBytes(ArrbyList<String> fileList) throws IOException;
 
-    private String removeSuspectedData(DataFlavor flavor, final Transferable contents, final String str)
+    privbte String removeSuspectedDbtb(DbtbFlbvor flbvor, finbl Trbnsferbble contents, finbl String str)
             throws IOException
     {
-        if (null == System.getSecurityManager()
-            || !flavor.isMimeTypeEqual("text/uri-list"))
+        if (null == System.getSecurityMbnbger()
+            || !flbvor.isMimeTypeEqubl("text/uri-list"))
         {
             return str;
         }
 
-        final ProtectionDomain userProtectionDomain = getUserProtectionDomain(contents);
+        finbl ProtectionDombin userProtectionDombin = getUserProtectionDombin(contents);
 
         try {
             return AccessController.doPrivileged((PrivilegedExceptionAction<String>) () -> {
 
-                StringBuilder allowedFiles = new StringBuilder(str.length());
-                String [] uriArray = str.split("(\\s)+");
+                StringBuilder bllowedFiles = new StringBuilder(str.length());
+                String [] uriArrby = str.split("(\\s)+");
 
-                for (String fileName : uriArray)
+                for (String fileNbme : uriArrby)
                 {
-                    File file = new File(fileName);
+                    File file = new File(fileNbme);
                     if (file.exists() &&
-                        !(isFileInWebstartedCache(file) ||
-                        isForbiddenToRead(file, userProtectionDomain)))
+                        !(isFileInWebstbrtedCbche(file) ||
+                        isForbiddenToRebd(file, userProtectionDombin)))
                     {
-                        if (0 != allowedFiles.length())
+                        if (0 != bllowedFiles.length())
                         {
-                            allowedFiles.append("\\r\\n");
+                            bllowedFiles.bppend("\\r\\n");
                         }
 
-                        allowedFiles.append(fileName);
+                        bllowedFiles.bppend(fileNbme);
                     }
                 }
 
-                return allowedFiles.toString();
+                return bllowedFiles.toString();
             });
-        } catch (PrivilegedActionException pae) {
-            throw new IOException(pae.getMessage(), pae);
+        } cbtch (PrivilegedActionException pbe) {
+            throw new IOException(pbe.getMessbge(), pbe);
         }
     }
 
-    private static ProtectionDomain getUserProtectionDomain(Transferable contents) {
-        return contents.getClass().getProtectionDomain();
+    privbte stbtic ProtectionDombin getUserProtectionDombin(Trbnsferbble contents) {
+        return contents.getClbss().getProtectionDombin();
     }
 
-    private boolean isForbiddenToRead (File file, ProtectionDomain protectionDomain)
+    privbte boolebn isForbiddenToRebd (File file, ProtectionDombin protectionDombin)
     {
-        if (null == protectionDomain) {
-            return false;
+        if (null == protectionDombin) {
+            return fblse;
         }
         try {
             FilePermission filePermission =
-                    new FilePermission(file.getCanonicalPath(), "read, delete");
-            if (protectionDomain.implies(filePermission)) {
-                return false;
+                    new FilePermission(file.getCbnonicblPbth(), "rebd, delete");
+            if (protectionDombin.implies(filePermission)) {
+                return fblse;
             }
-        } catch (IOException e) {}
+        } cbtch (IOException e) {}
 
         return true;
     }
 
-    private ArrayList<String> castToFiles(final List<?> files,
-                                          final ProtectionDomain userProtectionDomain) throws IOException {
+    privbte ArrbyList<String> cbstToFiles(finbl List<?> files,
+                                          finbl ProtectionDombin userProtectionDombin) throws IOException {
         try {
-            return AccessController.doPrivileged((PrivilegedExceptionAction<ArrayList<String>>) () -> {
-                ArrayList<String> fileList = new ArrayList<>();
+            return AccessController.doPrivileged((PrivilegedExceptionAction<ArrbyList<String>>) () -> {
+                ArrbyList<String> fileList = new ArrbyList<>();
                 for (Object fileObject : files)
                 {
-                    File file = castToFile(fileObject);
+                    File file = cbstToFile(fileObject);
                     if (file != null &&
-                        (null == System.getSecurityManager() ||
-                        !(isFileInWebstartedCache(file) ||
-                        isForbiddenToRead(file, userProtectionDomain))))
+                        (null == System.getSecurityMbnbger() ||
+                        !(isFileInWebstbrtedCbche(file) ||
+                        isForbiddenToRebd(file, userProtectionDombin))))
                     {
-                        fileList.add(file.getCanonicalPath());
+                        fileList.bdd(file.getCbnonicblPbth());
                     }
                 }
                 return fileList;
             });
-        } catch (PrivilegedActionException pae) {
-            throw new IOException(pae.getMessage());
+        } cbtch (PrivilegedActionException pbe) {
+            throw new IOException(pbe.getMessbge());
         }
     }
 
-    // It is important do not use user's successors
-    // of File class.
-    private File castToFile(Object fileObject) throws IOException {
-        String filePath = null;
-        if (fileObject instanceof File) {
-            filePath = ((File)fileObject).getCanonicalPath();
-        } else if (fileObject instanceof String) {
-           filePath = (String) fileObject;
+    // It is importbnt do not use user's successors
+    // of File clbss.
+    privbte File cbstToFile(Object fileObject) throws IOException {
+        String filePbth = null;
+        if (fileObject instbnceof File) {
+            filePbth = ((File)fileObject).getCbnonicblPbth();
+        } else if (fileObject instbnceof String) {
+           filePbth = (String) fileObject;
         } else {
            return null;
         }
-        return new File(filePath);
+        return new File(filePbth);
     }
 
-    private final static String[] DEPLOYMENT_CACHE_PROPERTIES = {
-        "deployment.system.cachedir",
-        "deployment.user.cachedir",
-        "deployment.javaws.cachedir",
-        "deployment.javapi.cachedir"
+    privbte finbl stbtic String[] DEPLOYMENT_CACHE_PROPERTIES = {
+        "deployment.system.cbchedir",
+        "deployment.user.cbchedir",
+        "deployment.jbvbws.cbchedir",
+        "deployment.jbvbpi.cbchedir"
     };
 
-    private final static ArrayList <File> deploymentCacheDirectoryList = new ArrayList<>();
+    privbte finbl stbtic ArrbyList <File> deploymentCbcheDirectoryList = new ArrbyList<>();
 
-    private static boolean isFileInWebstartedCache(File f) {
+    privbte stbtic boolebn isFileInWebstbrtedCbche(File f) {
 
-        if (deploymentCacheDirectoryList.isEmpty()) {
-            for (String cacheDirectoryProperty : DEPLOYMENT_CACHE_PROPERTIES) {
-                String cacheDirectoryPath = System.getProperty(cacheDirectoryProperty);
-                if (cacheDirectoryPath != null) {
+        if (deploymentCbcheDirectoryList.isEmpty()) {
+            for (String cbcheDirectoryProperty : DEPLOYMENT_CACHE_PROPERTIES) {
+                String cbcheDirectoryPbth = System.getProperty(cbcheDirectoryProperty);
+                if (cbcheDirectoryPbth != null) {
                     try {
-                        File cacheDirectory = (new File(cacheDirectoryPath)).getCanonicalFile();
-                        if (cacheDirectory != null) {
-                            deploymentCacheDirectoryList.add(cacheDirectory);
+                        File cbcheDirectory = (new File(cbcheDirectoryPbth)).getCbnonicblFile();
+                        if (cbcheDirectory != null) {
+                            deploymentCbcheDirectoryList.bdd(cbcheDirectory);
                         }
-                    } catch (IOException ioe) {}
+                    } cbtch (IOException ioe) {}
                 }
             }
         }
 
-        for (File deploymentCacheDirectory : deploymentCacheDirectoryList) {
-            for (File dir = f; dir != null; dir = dir.getParentFile()) {
-                if (dir.equals(deploymentCacheDirectory)) {
+        for (File deploymentCbcheDirectory : deploymentCbcheDirectoryList) {
+            for (File dir = f; dir != null; dir = dir.getPbrentFile()) {
+                if (dir.equbls(deploymentCbcheDirectory)) {
                     return true;
                 }
             }
         }
 
-        return false;
+        return fblse;
     }
 
 
-    public Object translateBytes(byte[] bytes, DataFlavor flavor,
-                                 long format, Transferable localeTransferable)
+    public Object trbnslbteBytes(byte[] bytes, DbtbFlbvor flbvor,
+                                 long formbt, Trbnsferbble locbleTrbnsferbble)
         throws IOException
     {
 
         Object theObject = null;
 
-        // Source data is a file list. Use the dragQueryFile native function to
-        // do most of the decoding. Then wrap File objects around the String
-        // filenames and return a List.
-        if (isFileFormat(format)) {
-            if (!DataFlavor.javaFileListFlavor.equals(flavor)) {
-                throw new IOException("data translation failed");
+        // Source dbtb is b file list. Use the drbgQueryFile nbtive function to
+        // do most of the decoding. Then wrbp File objects bround the String
+        // filenbmes bnd return b List.
+        if (isFileFormbt(formbt)) {
+            if (!DbtbFlbvor.jbvbFileListFlbvor.equbls(flbvor)) {
+                throw new IOException("dbtb trbnslbtion fbiled");
             }
-            String[] filenames = dragQueryFile(bytes);
-            if (filenames == null) {
+            String[] filenbmes = drbgQueryFile(bytes);
+            if (filenbmes == null) {
                 return null;
             }
 
             // Convert the strings to File objects
-            File[] files = new File[filenames.length];
-            for (int i = 0; i < filenames.length; i++) {
-                files[i] = new File(filenames[i]);
+            File[] files = new File[filenbmes.length];
+            for (int i = 0; i < filenbmes.length; i++) {
+                files[i] = new File(filenbmes[i]);
             }
 
-            // Turn the list of Files into a List and return
-            theObject = Arrays.asList(files);
+            // Turn the list of Files into b List bnd return
+            theObject = Arrbys.bsList(files);
 
-            // Source data is a URI list. Convert to DataFlavor.javaFileListFlavor
+            // Source dbtb is b URI list. Convert to DbtbFlbvor.jbvbFileListFlbvor
             // where possible.
-        } else if (isURIListFormat(format)
-                    && DataFlavor.javaFileListFlavor.equals(flavor)) {
+        } else if (isURIListFormbt(formbt)
+                    && DbtbFlbvor.jbvbFileListFlbvor.equbls(flbvor)) {
 
-            try (ByteArrayInputStream str = new ByteArrayInputStream(bytes))  {
+            try (ByteArrbyInputStrebm str = new ByteArrbyInputStrebm(bytes))  {
 
-                URI uris[] = dragQueryURIs(str, format, localeTransferable);
+                URI uris[] = drbgQueryURIs(str, formbt, locbleTrbnsferbble);
                 if (uris == null) {
                     return null;
                 }
-                List<File> files = new ArrayList<>();
+                List<File> files = new ArrbyList<>();
                 for (URI uri : uris) {
                     try {
-                        files.add(new File(uri));
-                    } catch (IllegalArgumentException illegalArg) {
+                        files.bdd(new File(uri));
+                    } cbtch (IllegblArgumentException illegblArg) {
                         // When converting from URIs to less generic files,
-                        // common practice (Wine, SWT) seems to be to
-                        // silently drop the URIs that aren't local files.
+                        // common prbctice (Wine, SWT) seems to be to
+                        // silently drop the URIs thbt bren't locbl files.
                     }
                 }
                 theObject = files;
             }
 
-            // Target data is a String. Strip terminating NUL bytes. Decode bytes
-            // into characters. Search-and-replace EOLN.
-        } else if (String.class.equals(flavor.getRepresentationClass()) &&
-                       isFlavorCharsetTextType(flavor) && isTextFormat(format)) {
+            // Tbrget dbtb is b String. Strip terminbting NUL bytes. Decode bytes
+            // into chbrbcters. Sebrch-bnd-replbce EOLN.
+        } else if (String.clbss.equbls(flbvor.getRepresentbtionClbss()) &&
+                       isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt)) {
 
-            theObject = translateBytesToString(bytes, format, localeTransferable);
+            theObject = trbnslbteBytesToString(bytes, formbt, locbleTrbnsferbble);
 
-            // Target data is a Reader. Obtain data in InputStream format, encoded
-            // as "Unicode" (utf-16be). Then use an InputStreamReader to decode
-            // back to chars on demand.
-        } else if (flavor.isRepresentationClassReader()) {
-            try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
-                theObject = translateStream(bais,
-                        flavor, format, localeTransferable);
+            // Tbrget dbtb is b Rebder. Obtbin dbtb in InputStrebm formbt, encoded
+            // bs "Unicode" (utf-16be). Then use bn InputStrebmRebder to decode
+            // bbck to chbrs on dembnd.
+        } else if (flbvor.isRepresentbtionClbssRebder()) {
+            try (ByteArrbyInputStrebm bbis = new ByteArrbyInputStrebm(bytes)) {
+                theObject = trbnslbteStrebm(bbis,
+                        flbvor, formbt, locbleTrbnsferbble);
             }
-            // Target data is a CharBuffer. Recur to obtain String and wrap.
-        } else if (flavor.isRepresentationClassCharBuffer()) {
-            if (!(isFlavorCharsetTextType(flavor) && isTextFormat(format))) {
+            // Tbrget dbtb is b ChbrBuffer. Recur to obtbin String bnd wrbp.
+        } else if (flbvor.isRepresentbtionClbssChbrBuffer()) {
+            if (!(isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt))) {
                 throw new IOException
-                          ("cannot transfer non-text data as CharBuffer");
+                          ("cbnnot trbnsfer non-text dbtb bs ChbrBuffer");
             }
 
-            CharBuffer buffer = CharBuffer.wrap(
-                translateBytesToString(bytes,format, localeTransferable));
+            ChbrBuffer buffer = ChbrBuffer.wrbp(
+                trbnslbteBytesToString(bytes,formbt, locbleTrbnsferbble));
 
-            theObject = constructFlavoredObject(buffer, flavor, CharBuffer.class);
+            theObject = constructFlbvoredObject(buffer, flbvor, ChbrBuffer.clbss);
 
-            // Target data is a char array. Recur to obtain String and convert to
-            // char array.
-        } else if (char[].class.equals(flavor.getRepresentationClass())) {
-            if (!(isFlavorCharsetTextType(flavor) && isTextFormat(format))) {
+            // Tbrget dbtb is b chbr brrby. Recur to obtbin String bnd convert to
+            // chbr brrby.
+        } else if (chbr[].clbss.equbls(flbvor.getRepresentbtionClbss())) {
+            if (!(isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt))) {
                 throw new IOException
-                          ("cannot transfer non-text data as char array");
+                          ("cbnnot trbnsfer non-text dbtb bs chbr brrby");
             }
 
-            theObject = translateBytesToString(
-                bytes, format, localeTransferable).toCharArray();
+            theObject = trbnslbteBytesToString(
+                bytes, formbt, locbleTrbnsferbble).toChbrArrby();
 
-            // Target data is a ByteBuffer. For arbitrary flavors, just return
-            // the raw bytes. For text flavors, convert to a String to strip
-            // terminators and search-and-replace EOLN, then reencode according to
-            // the requested flavor.
-        } else if (flavor.isRepresentationClassByteBuffer()) {
-            if (isFlavorCharsetTextType(flavor) && isTextFormat(format)) {
-                bytes = translateBytesToString(
-                    bytes, format, localeTransferable).getBytes(
-                        DataTransferer.getTextCharset(flavor)
+            // Tbrget dbtb is b ByteBuffer. For brbitrbry flbvors, just return
+            // the rbw bytes. For text flbvors, convert to b String to strip
+            // terminbtors bnd sebrch-bnd-replbce EOLN, then reencode bccording to
+            // the requested flbvor.
+        } else if (flbvor.isRepresentbtionClbssByteBuffer()) {
+            if (isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt)) {
+                bytes = trbnslbteBytesToString(
+                    bytes, formbt, locbleTrbnsferbble).getBytes(
+                        DbtbTrbnsferer.getTextChbrset(flbvor)
                     );
             }
 
-            ByteBuffer buffer = ByteBuffer.wrap(bytes);
-            theObject = constructFlavoredObject(buffer, flavor, ByteBuffer.class);
+            ByteBuffer buffer = ByteBuffer.wrbp(bytes);
+            theObject = constructFlbvoredObject(buffer, flbvor, ByteBuffer.clbss);
 
-            // Target data is a byte array. For arbitrary flavors, just return
-            // the raw bytes. For text flavors, convert to a String to strip
-            // terminators and search-and-replace EOLN, then reencode according to
-            // the requested flavor.
-        } else if (byte[].class.equals(flavor.getRepresentationClass())) {
-            if (isFlavorCharsetTextType(flavor) && isTextFormat(format)) {
-                theObject = translateBytesToString(
-                    bytes, format, localeTransferable
-                ).getBytes(DataTransferer.getTextCharset(flavor));
+            // Tbrget dbtb is b byte brrby. For brbitrbry flbvors, just return
+            // the rbw bytes. For text flbvors, convert to b String to strip
+            // terminbtors bnd sebrch-bnd-replbce EOLN, then reencode bccording to
+            // the requested flbvor.
+        } else if (byte[].clbss.equbls(flbvor.getRepresentbtionClbss())) {
+            if (isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt)) {
+                theObject = trbnslbteBytesToString(
+                    bytes, formbt, locbleTrbnsferbble
+                ).getBytes(DbtbTrbnsferer.getTextChbrset(flbvor));
             } else {
                 theObject = bytes;
             }
 
-            // Target data is an InputStream. For arbitrary flavors, just return
-            // the raw bytes. For text flavors, decode to strip terminators and
-            // search-and-replace EOLN, then reencode according to the requested
-            // flavor.
-        } else if (flavor.isRepresentationClassInputStream()) {
+            // Tbrget dbtb is bn InputStrebm. For brbitrbry flbvors, just return
+            // the rbw bytes. For text flbvors, decode to strip terminbtors bnd
+            // sebrch-bnd-replbce EOLN, then reencode bccording to the requested
+            // flbvor.
+        } else if (flbvor.isRepresentbtionClbssInputStrebm()) {
 
-            try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
-                theObject = translateStream(bais, flavor, format, localeTransferable);
+            try (ByteArrbyInputStrebm bbis = new ByteArrbyInputStrebm(bytes)) {
+                theObject = trbnslbteStrebm(bbis, flbvor, formbt, locbleTrbnsferbble);
             }
 
-        } else if (flavor.isRepresentationClassRemote()) {
-            try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-                 ObjectInputStream ois = new ObjectInputStream(bais))
+        } else if (flbvor.isRepresentbtionClbssRemote()) {
+            try (ByteArrbyInputStrebm bbis = new ByteArrbyInputStrebm(bytes);
+                 ObjectInputStrebm ois = new ObjectInputStrebm(bbis))
             {
-                theObject = RMI.getMarshalledObject(ois.readObject());
-            } catch (Exception e) {
-                throw new IOException(e.getMessage());
+                theObject = RMI.getMbrshblledObject(ois.rebdObject());
+            } cbtch (Exception e) {
+                throw new IOException(e.getMessbge());
             }
 
-            // Target data is Serializable
-        } else if (flavor.isRepresentationClassSerializable()) {
+            // Tbrget dbtb is Seriblizbble
+        } else if (flbvor.isRepresentbtionClbssSeriblizbble()) {
 
-            try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
-                theObject = translateStream(bais, flavor, format, localeTransferable);
+            try (ByteArrbyInputStrebm bbis = new ByteArrbyInputStrebm(bytes)) {
+                theObject = trbnslbteStrebm(bbis, flbvor, formbt, locbleTrbnsferbble);
             }
 
-            // Target data is Image
-        } else if (DataFlavor.imageFlavor.equals(flavor)) {
-            if (!isImageFormat(format)) {
-                throw new IOException("data translation failed");
+            // Tbrget dbtb is Imbge
+        } else if (DbtbFlbvor.imbgeFlbvor.equbls(flbvor)) {
+            if (!isImbgeFormbt(formbt)) {
+                throw new IOException("dbtb trbnslbtion fbiled");
             }
 
-            theObject = platformImageBytesToImage(bytes, format);
+            theObject = plbtformImbgeBytesToImbge(bytes, formbt);
         }
 
         if (theObject == null) {
-            throw new IOException("data translation failed");
+            throw new IOException("dbtb trbnslbtion fbiled");
         }
 
         return theObject;
@@ -1494,118 +1494,118 @@ search:
     }
 
     /**
-     * Primary translation function for translating
-     * an InputStream into an Object, given a source format and a target
-     * DataFlavor.
+     * Primbry trbnslbtion function for trbnslbting
+     * bn InputStrebm into bn Object, given b source formbt bnd b tbrget
+     * DbtbFlbvor.
      */
-    public Object translateStream(InputStream str, DataFlavor flavor,
-                                  long format, Transferable localeTransferable)
+    public Object trbnslbteStrebm(InputStrebm str, DbtbFlbvor flbvor,
+                                  long formbt, Trbnsferbble locbleTrbnsferbble)
         throws IOException
     {
 
         Object theObject = null;
-        // Source data is a URI list. Convert to DataFlavor.javaFileListFlavor
+        // Source dbtb is b URI list. Convert to DbtbFlbvor.jbvbFileListFlbvor
         // where possible.
-        if (isURIListFormat(format)
-                && DataFlavor.javaFileListFlavor.equals(flavor))
+        if (isURIListFormbt(formbt)
+                && DbtbFlbvor.jbvbFileListFlbvor.equbls(flbvor))
         {
 
-            URI uris[] = dragQueryURIs(str, format, localeTransferable);
+            URI uris[] = drbgQueryURIs(str, formbt, locbleTrbnsferbble);
             if (uris == null) {
                 return null;
             }
-            List<File> files = new ArrayList<>();
+            List<File> files = new ArrbyList<>();
             for (URI uri : uris) {
                 try {
-                    files.add(new File(uri));
-                } catch (IllegalArgumentException illegalArg) {
+                    files.bdd(new File(uri));
+                } cbtch (IllegblArgumentException illegblArg) {
                     // When converting from URIs to less generic files,
-                    // common practice (Wine, SWT) seems to be to
-                    // silently drop the URIs that aren't local files.
+                    // common prbctice (Wine, SWT) seems to be to
+                    // silently drop the URIs thbt bren't locbl files.
                 }
             }
             theObject = files;
 
-        // Target data is a String. Strip terminating NUL bytes. Decode bytes
-        // into characters. Search-and-replace EOLN.
-        } else if (String.class.equals(flavor.getRepresentationClass()) &&
-                   isFlavorCharsetTextType(flavor) && isTextFormat(format)) {
+        // Tbrget dbtb is b String. Strip terminbting NUL bytes. Decode bytes
+        // into chbrbcters. Sebrch-bnd-replbce EOLN.
+        } else if (String.clbss.equbls(flbvor.getRepresentbtionClbss()) &&
+                   isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt)) {
 
-            return translateBytesToString(inputStreamToByteArray(str),
-                format, localeTransferable);
+            return trbnslbteBytesToString(inputStrebmToByteArrby(str),
+                formbt, locbleTrbnsferbble);
 
-            // Special hack to maintain backwards-compatibility with the brokenness
-            // of StringSelection. Return a StringReader instead of an InputStream.
-            // Recur to obtain String and encapsulate.
-        } else if (DataFlavor.plainTextFlavor.equals(flavor)) {
-            theObject = new StringReader(translateBytesToString(
-                inputStreamToByteArray(str),
-                format, localeTransferable));
+            // Specibl hbck to mbintbin bbckwbrds-compbtibility with the brokenness
+            // of StringSelection. Return b StringRebder instebd of bn InputStrebm.
+            // Recur to obtbin String bnd encbpsulbte.
+        } else if (DbtbFlbvor.plbinTextFlbvor.equbls(flbvor)) {
+            theObject = new StringRebder(trbnslbteBytesToString(
+                inputStrebmToByteArrby(str),
+                formbt, locbleTrbnsferbble));
 
-            // Target data is an InputStream. For arbitrary flavors, just return
-            // the raw bytes. For text flavors, decode to strip terminators and
-            // search-and-replace EOLN, then reencode according to the requested
-            // flavor.
-        } else if (flavor.isRepresentationClassInputStream()) {
-            theObject = translateStreamToInputStream(str, flavor, format,
-                                                               localeTransferable);
+            // Tbrget dbtb is bn InputStrebm. For brbitrbry flbvors, just return
+            // the rbw bytes. For text flbvors, decode to strip terminbtors bnd
+            // sebrch-bnd-replbce EOLN, then reencode bccording to the requested
+            // flbvor.
+        } else if (flbvor.isRepresentbtionClbssInputStrebm()) {
+            theObject = trbnslbteStrebmToInputStrebm(str, flbvor, formbt,
+                                                               locbleTrbnsferbble);
 
-            // Target data is a Reader. Obtain data in InputStream format, encoded
-            // as "Unicode" (utf-16be). Then use an InputStreamReader to decode
-            // back to chars on demand.
-        } else if (flavor.isRepresentationClassReader()) {
-            if (!(isFlavorCharsetTextType(flavor) && isTextFormat(format))) {
+            // Tbrget dbtb is b Rebder. Obtbin dbtb in InputStrebm formbt, encoded
+            // bs "Unicode" (utf-16be). Then use bn InputStrebmRebder to decode
+            // bbck to chbrs on dembnd.
+        } else if (flbvor.isRepresentbtionClbssRebder()) {
+            if (!(isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt))) {
                 throw new IOException
-                          ("cannot transfer non-text data as Reader");
+                          ("cbnnot trbnsfer non-text dbtb bs Rebder");
             }
 
-            InputStream is = (InputStream)translateStreamToInputStream(
-                    str, DataFlavor.plainTextFlavor,
-                    format, localeTransferable);
+            InputStrebm is = (InputStrebm)trbnslbteStrebmToInputStrebm(
+                    str, DbtbFlbvor.plbinTextFlbvor,
+                    formbt, locbleTrbnsferbble);
 
-            String unicode = DataTransferer.getTextCharset(DataFlavor.plainTextFlavor);
+            String unicode = DbtbTrbnsferer.getTextChbrset(DbtbFlbvor.plbinTextFlbvor);
 
-            Reader reader = new InputStreamReader(is, unicode);
+            Rebder rebder = new InputStrebmRebder(is, unicode);
 
-            theObject = constructFlavoredObject(reader, flavor, Reader.class);
-            // Target data is a byte array
-        } else if (byte[].class.equals(flavor.getRepresentationClass())) {
-            if(isFlavorCharsetTextType(flavor) && isTextFormat(format)) {
-                theObject = translateBytesToString(inputStreamToByteArray(str), format, localeTransferable)
-                        .getBytes(DataTransferer.getTextCharset(flavor));
+            theObject = constructFlbvoredObject(rebder, flbvor, Rebder.clbss);
+            // Tbrget dbtb is b byte brrby
+        } else if (byte[].clbss.equbls(flbvor.getRepresentbtionClbss())) {
+            if(isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt)) {
+                theObject = trbnslbteBytesToString(inputStrebmToByteArrby(str), formbt, locbleTrbnsferbble)
+                        .getBytes(DbtbTrbnsferer.getTextChbrset(flbvor));
             } else {
-                theObject = inputStreamToByteArray(str);
+                theObject = inputStrebmToByteArrby(str);
             }
-            // Target data is an RMI object
-        } else if (flavor.isRepresentationClassRemote()) {
+            // Tbrget dbtb is bn RMI object
+        } else if (flbvor.isRepresentbtionClbssRemote()) {
 
-            try (ObjectInputStream ois =
-                     new ObjectInputStream(str))
+            try (ObjectInputStrebm ois =
+                     new ObjectInputStrebm(str))
             {
-                theObject = RMI.getMarshalledObject(ois.readObject());
-            }catch (Exception e) {
-                throw new IOException(e.getMessage());
+                theObject = RMI.getMbrshblledObject(ois.rebdObject());
+            }cbtch (Exception e) {
+                throw new IOException(e.getMessbge());
             }
 
-            // Target data is Serializable
-        } else if (flavor.isRepresentationClassSerializable()) {
-            try (ObjectInputStream ois =
-                     new ObjectInputStream(str))
+            // Tbrget dbtb is Seriblizbble
+        } else if (flbvor.isRepresentbtionClbssSeriblizbble()) {
+            try (ObjectInputStrebm ois =
+                     new ObjectInputStrebm(str))
             {
-                theObject = ois.readObject();
-            } catch (Exception e) {
-                throw new IOException(e.getMessage());
+                theObject = ois.rebdObject();
+            } cbtch (Exception e) {
+                throw new IOException(e.getMessbge());
             }
-            // Target data is Image
-        } else if (DataFlavor.imageFlavor.equals(flavor)) {
-            if (!isImageFormat(format)) {
-                throw new IOException("data translation failed");
+            // Tbrget dbtb is Imbge
+        } else if (DbtbFlbvor.imbgeFlbvor.equbls(flbvor)) {
+            if (!isImbgeFormbt(formbt)) {
+                throw new IOException("dbtb trbnslbtion fbiled");
             }
-            theObject = platformImageBytesToImage(inputStreamToByteArray(str), format);
+            theObject = plbtformImbgeBytesToImbge(inputStrebmToByteArrby(str), formbt);
         }
 
         if (theObject == null) {
-            throw new IOException("data translation failed");
+            throw new IOException("dbtb trbnslbtion fbiled");
         }
 
         return theObject;
@@ -1613,129 +1613,129 @@ search:
     }
 
     /**
-     * For arbitrary flavors, just use the raw InputStream. For text flavors,
-     * ReencodingInputStream will decode and reencode the InputStream on demand
-     * so that we can strip terminators and search-and-replace EOLN.
+     * For brbitrbry flbvors, just use the rbw InputStrebm. For text flbvors,
+     * ReencodingInputStrebm will decode bnd reencode the InputStrebm on dembnd
+     * so thbt we cbn strip terminbtors bnd sebrch-bnd-replbce EOLN.
      */
-    private Object translateStreamToInputStream
-        (InputStream str, DataFlavor flavor, long format,
-         Transferable localeTransferable) throws IOException
+    privbte Object trbnslbteStrebmToInputStrebm
+        (InputStrebm str, DbtbFlbvor flbvor, long formbt,
+         Trbnsferbble locbleTrbnsferbble) throws IOException
     {
-        if (isFlavorCharsetTextType(flavor) && isTextFormat(format)) {
-            str = new ReencodingInputStream
-                (str, format, DataTransferer.getTextCharset(flavor),
-                 localeTransferable);
+        if (isFlbvorChbrsetTextType(flbvor) && isTextFormbt(formbt)) {
+            str = new ReencodingInputStrebm
+                (str, formbt, DbtbTrbnsferer.getTextChbrset(flbvor),
+                 locbleTrbnsferbble);
         }
 
-        return constructFlavoredObject(str, flavor, InputStream.class);
+        return constructFlbvoredObject(str, flbvor, InputStrebm.clbss);
     }
 
     /**
-     * We support representations which are exactly of the specified Class,
-     * and also arbitrary Objects which have a constructor which takes an
-     * instance of the Class as its sole parameter.
+     * We support representbtions which bre exbctly of the specified Clbss,
+     * bnd blso brbitrbry Objects which hbve b constructor which tbkes bn
+     * instbnce of the Clbss bs its sole pbrbmeter.
      */
-    private Object constructFlavoredObject(Object arg, DataFlavor flavor,
-                                           Class<?> clazz)
+    privbte Object constructFlbvoredObject(Object brg, DbtbFlbvor flbvor,
+                                           Clbss<?> clbzz)
         throws IOException
     {
-        final Class<?> dfrc = flavor.getRepresentationClass();
+        finbl Clbss<?> dfrc = flbvor.getRepresentbtionClbss();
 
-        if (clazz.equals(dfrc)) {
-            return arg; // simple case
+        if (clbzz.equbls(dfrc)) {
+            return brg; // simple cbse
         } else {
             Constructor<?>[] constructors;
 
             try {
                 constructors = AccessController.doPrivileged(
                         (PrivilegedAction<Constructor<?>[]>) dfrc::getConstructors);
-            } catch (SecurityException se) {
-                throw new IOException(se.getMessage());
+            } cbtch (SecurityException se) {
+                throw new IOException(se.getMessbge());
             }
 
-            Constructor<?> constructor = Stream.of(constructors)
+            Constructor<?> constructor = Strebm.of(constructors)
                     .filter(c -> Modifier.isPublic(c.getModifiers()))
                     .filter(c -> {
-                        Class<?>[] ptypes = c.getParameterTypes();
+                        Clbss<?>[] ptypes = c.getPbrbmeterTypes();
                         return ptypes != null
                                 && ptypes.length == 1
-                                && clazz.equals(ptypes[0]);
+                                && clbzz.equbls(ptypes[0]);
                     })
                     .findFirst()
                     .orElseThrow(() ->
-                            new IOException("can't find <init>(L"+ clazz + ";)V for class: " + dfrc.getName()));
+                            new IOException("cbn't find <init>(L"+ clbzz + ";)V for clbss: " + dfrc.getNbme()));
 
             try {
-                return constructor.newInstance(arg);
-            } catch (Exception e) {
-                throw new IOException(e.getMessage());
+                return constructor.newInstbnce(brg);
+            } cbtch (Exception e) {
+                throw new IOException(e.getMessbge());
             }
         }
     }
 
     /**
-     * Used for decoding and reencoding an InputStream on demand so that we
-     * can strip NUL terminators and perform EOLN search-and-replace.
+     * Used for decoding bnd reencoding bn InputStrebm on dembnd so thbt we
+     * cbn strip NUL terminbtors bnd perform EOLN sebrch-bnd-replbce.
      */
-    public class ReencodingInputStream extends InputStream {
-        BufferedReader wrapped;
-        final char[] in = new char[2];
+    public clbss ReencodingInputStrebm extends InputStrebm {
+        BufferedRebder wrbpped;
+        finbl chbr[] in = new chbr[2];
         byte[] out;
 
-        CharsetEncoder encoder;
-        CharBuffer inBuf;
+        ChbrsetEncoder encoder;
+        ChbrBuffer inBuf;
         ByteBuffer outBuf;
 
-        char[] eoln;
-        int numTerminators;
+        chbr[] eoln;
+        int numTerminbtors;
 
-        boolean eos;
+        boolebn eos;
         int index, limit;
 
-        public ReencodingInputStream(InputStream bytestream, long format,
-                                     String targetEncoding,
-                                     Transferable localeTransferable)
+        public ReencodingInputStrebm(InputStrebm bytestrebm, long formbt,
+                                     String tbrgetEncoding,
+                                     Trbnsferbble locbleTrbnsferbble)
             throws IOException
         {
-            Long lFormat = format;
+            Long lFormbt = formbt;
 
-            String sourceEncoding = getBestCharsetForTextFormat(format, localeTransferable);
-            wrapped = new BufferedReader(new InputStreamReader(bytestream, sourceEncoding));
+            String sourceEncoding = getBestChbrsetForTextFormbt(formbt, locbleTrbnsferbble);
+            wrbpped = new BufferedRebder(new InputStrebmRebder(bytestrebm, sourceEncoding));
 
-            if (targetEncoding == null) {
-                // Throw NullPointerException for compatibility with the former
-                // call to sun.io.CharToByteConverter.getConverter(null)
-                // (Charset.forName(null) throws unspecified IllegalArgumentException
+            if (tbrgetEncoding == null) {
+                // Throw NullPointerException for compbtibility with the former
+                // cbll to sun.io.ChbrToByteConverter.getConverter(null)
+                // (Chbrset.forNbme(null) throws unspecified IllegblArgumentException
                 // now; see 6228568)
-                throw new NullPointerException("null target encoding");
+                throw new NullPointerException("null tbrget encoding");
             }
 
             try {
-                encoder = Charset.forName(targetEncoding).newEncoder();
-                out = new byte[(int)(encoder.maxBytesPerChar() * 2 + 0.5)];
-                inBuf = CharBuffer.wrap(in);
-                outBuf = ByteBuffer.wrap(out);
-            } catch (IllegalCharsetNameException
-                    | UnsupportedCharsetException
-                    | UnsupportedOperationException e) {
+                encoder = Chbrset.forNbme(tbrgetEncoding).newEncoder();
+                out = new byte[(int)(encoder.mbxBytesPerChbr() * 2 + 0.5)];
+                inBuf = ChbrBuffer.wrbp(in);
+                outBuf = ByteBuffer.wrbp(out);
+            } cbtch (IllegblChbrsetNbmeException
+                    | UnsupportedChbrsetException
+                    | UnsupportedOperbtionException e) {
                 throw new IOException(e.toString());
             }
 
-            String sEoln = nativeEOLNs.get(lFormat);
+            String sEoln = nbtiveEOLNs.get(lFormbt);
             if (sEoln != null) {
-                eoln = sEoln.toCharArray();
+                eoln = sEoln.toChbrArrby();
             }
 
-            // A hope and a prayer that this works generically. This will
+            // A hope bnd b prbyer thbt this works genericblly. This will
             // definitely work on Win32.
-            Integer terminators = nativeTerminators.get(lFormat);
-            if (terminators != null) {
-                numTerminators = terminators;
+            Integer terminbtors = nbtiveTerminbtors.get(lFormbt);
+            if (terminbtors != null) {
+                numTerminbtors = terminbtors;
             }
         }
 
-        private int readChar() throws IOException {
-            int c = wrapped.read();
+        privbte int rebdChbr() throws IOException {
+            int c = wrbpped.rebd();
 
             if (c == -1) { // -1 is EOS
                 eos = true;
@@ -1743,1004 +1743,1004 @@ search:
             }
 
             // "c == 0" is not quite correct, but good enough on Windows.
-            if (numTerminators > 0 && c == 0) {
+            if (numTerminbtors > 0 && c == 0) {
                 eos = true;
                 return -1;
-            } else if (eoln != null && matchCharArray(eoln, c)) {
+            } else if (eoln != null && mbtchChbrArrby(eoln, c)) {
                 c = '\n' & 0xFFFF;
             }
 
             return c;
         }
 
-        public int read() throws IOException {
+        public int rebd() throws IOException {
             if (eos) {
                 return -1;
             }
 
             if (index >= limit) {
-                // deal with supplementary characters
-                int c = readChar();
+                // debl with supplementbry chbrbcters
+                int c = rebdChbr();
                 if (c == -1) {
                     return -1;
                 }
 
-                in[0] = (char) c;
+                in[0] = (chbr) c;
                 in[1] = 0;
                 inBuf.limit(1);
-                if (Character.isHighSurrogate((char) c)) {
-                    c = readChar();
+                if (Chbrbcter.isHighSurrogbte((chbr) c)) {
+                    c = rebdChbr();
                     if (c != -1) {
-                        in[1] = (char) c;
+                        in[1] = (chbr) c;
                         inBuf.limit(2);
                     }
                 }
 
                 inBuf.rewind();
                 outBuf.limit(out.length).rewind();
-                encoder.encode(inBuf, outBuf, false);
+                encoder.encode(inBuf, outBuf, fblse);
                 outBuf.flip();
                 limit = outBuf.limit();
 
                 index = 0;
 
-                return read();
+                return rebd();
             } else {
                 return out[index++] & 0xFF;
             }
         }
 
-        public int available() throws IOException {
+        public int bvbilbble() throws IOException {
             return ((eos) ? 0 : (limit - index));
         }
 
         public void close() throws IOException {
-            wrapped.close();
+            wrbpped.close();
         }
 
         /**
-         * Checks to see if the next array.length characters in wrapped
-         * match array. The first character is provided as c. Subsequent
-         * characters are read from wrapped itself. When this method returns,
-         * the wrapped index may be different from what it was when this
-         * method was called.
+         * Checks to see if the next brrby.length chbrbcters in wrbpped
+         * mbtch brrby. The first chbrbcter is provided bs c. Subsequent
+         * chbrbcters bre rebd from wrbpped itself. When this method returns,
+         * the wrbpped index mby be different from whbt it wbs when this
+         * method wbs cblled.
          */
-        private boolean matchCharArray(char[] array, int c)
+        privbte boolebn mbtchChbrArrby(chbr[] brrby, int c)
             throws IOException
         {
-            wrapped.mark(array.length);  // BufferedReader supports mark
+            wrbpped.mbrk(brrby.length);  // BufferedRebder supports mbrk
 
             int count = 0;
-            if ((char)c == array[0]) {
-                for (count = 1; count < array.length; count++) {
-                    c = wrapped.read();
-                    if (c == -1 || ((char)c) != array[count]) {
-                        break;
+            if ((chbr)c == brrby[0]) {
+                for (count = 1; count < brrby.length; count++) {
+                    c = wrbpped.rebd();
+                    if (c == -1 || ((chbr)c) != brrby[count]) {
+                        brebk;
                     }
                 }
             }
 
-            if (count == array.length) {
+            if (count == brrby.length) {
                 return true;
             } else {
-                wrapped.reset();
-                return false;
+                wrbpped.reset();
+                return fblse;
             }
         }
     }
 
     /**
-     * Decodes a byte array into a set of String filenames.
+     * Decodes b byte brrby into b set of String filenbmes.
      */
-    protected abstract String[] dragQueryFile(byte[] bytes);
+    protected bbstrbct String[] drbgQueryFile(byte[] bytes);
 
     /**
-     * Decodes URIs from either a byte array or a stream.
+     * Decodes URIs from either b byte brrby or b strebm.
      */
-    protected URI[] dragQueryURIs(InputStream stream,
-                                  long format,
-                                  Transferable localeTransferable)
+    protected URI[] drbgQueryURIs(InputStrebm strebm,
+                                  long formbt,
+                                  Trbnsferbble locbleTrbnsferbble)
       throws IOException
     {
         throw new IOException(
-            new UnsupportedOperationException("not implemented on this platform"));
+            new UnsupportedOperbtionException("not implemented on this plbtform"));
     }
 
     /**
-     * Translates either a byte array or an input stream which contain
-     * platform-specific image data in the given format into an Image.
+     * Trbnslbtes either b byte brrby or bn input strebm which contbin
+     * plbtform-specific imbge dbtb in the given formbt into bn Imbge.
      */
 
 
-    protected abstract Image platformImageBytesToImage(
-        byte[] bytes,long format) throws IOException;
+    protected bbstrbct Imbge plbtformImbgeBytesToImbge(
+        byte[] bytes,long formbt) throws IOException;
 
     /**
-     * Translates either a byte array or an input stream which contain
-     * an image data in the given standard format into an Image.
+     * Trbnslbtes either b byte brrby or bn input strebm which contbin
+     * bn imbge dbtb in the given stbndbrd formbt into bn Imbge.
      *
-     * @param mimeType image MIME type, such as: image/png, image/jpeg, image/gif
+     * @pbrbm mimeType imbge MIME type, such bs: imbge/png, imbge/jpeg, imbge/gif
      */
-    protected Image standardImageBytesToImage(
+    protected Imbge stbndbrdImbgeBytesToImbge(
         byte[] bytes, String mimeType) throws IOException
     {
 
-        Iterator<ImageReader> readerIterator =
-            ImageIO.getImageReadersByMIMEType(mimeType);
+        Iterbtor<ImbgeRebder> rebderIterbtor =
+            ImbgeIO.getImbgeRebdersByMIMEType(mimeType);
 
-        if (!readerIterator.hasNext()) {
-            throw new IOException("No registered service provider can decode " +
-                                  " an image from " + mimeType);
+        if (!rebderIterbtor.hbsNext()) {
+            throw new IOException("No registered service provider cbn decode " +
+                                  " bn imbge from " + mimeType);
         }
 
         IOException ioe = null;
 
-        while (readerIterator.hasNext()) {
-            ImageReader imageReader = readerIterator.next();
-            try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
-                try (ImageInputStream imageInputStream = ImageIO.createImageInputStream(bais)) {
-                    ImageReadParam param = imageReader.getDefaultReadParam();
-                    imageReader.setInput(imageInputStream, true, true);
-                    BufferedImage bufferedImage = imageReader.read(imageReader.getMinIndex(), param);
-                    if (bufferedImage != null) {
-                        return bufferedImage;
+        while (rebderIterbtor.hbsNext()) {
+            ImbgeRebder imbgeRebder = rebderIterbtor.next();
+            try (ByteArrbyInputStrebm bbis = new ByteArrbyInputStrebm(bytes)) {
+                try (ImbgeInputStrebm imbgeInputStrebm = ImbgeIO.crebteImbgeInputStrebm(bbis)) {
+                    ImbgeRebdPbrbm pbrbm = imbgeRebder.getDefbultRebdPbrbm();
+                    imbgeRebder.setInput(imbgeInputStrebm, true, true);
+                    BufferedImbge bufferedImbge = imbgeRebder.rebd(imbgeRebder.getMinIndex(), pbrbm);
+                    if (bufferedImbge != null) {
+                        return bufferedImbge;
                     }
-                } finally {
-                    imageReader.dispose();
+                } finblly {
+                    imbgeRebder.dispose();
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 ioe = e;
                 continue;
             }
         }
 
         if (ioe == null) {
-            ioe = new IOException("Registered service providers failed to decode"
-                                  + " an image from " + mimeType);
+            ioe = new IOException("Registered service providers fbiled to decode"
+                                  + " bn imbge from " + mimeType);
         }
 
         throw ioe;
     }
 
     /**
-     * Translates a Java Image into a byte array which contains platform-
-     * specific image data in the given format.
+     * Trbnslbtes b Jbvb Imbge into b byte brrby which contbins plbtform-
+     * specific imbge dbtb in the given formbt.
      */
-    protected abstract byte[] imageToPlatformBytes(Image image, long format)
+    protected bbstrbct byte[] imbgeToPlbtformBytes(Imbge imbge, long formbt)
       throws IOException;
 
     /**
-     * Translates a Java Image into a byte array which contains
-     * an image data in the given standard format.
+     * Trbnslbtes b Jbvb Imbge into b byte brrby which contbins
+     * bn imbge dbtb in the given stbndbrd formbt.
      *
-     * @param mimeType image MIME type, such as: image/png, image/jpeg
+     * @pbrbm mimeType imbge MIME type, such bs: imbge/png, imbge/jpeg
      */
-    protected byte[] imageToStandardBytes(Image image, String mimeType)
+    protected byte[] imbgeToStbndbrdBytes(Imbge imbge, String mimeType)
       throws IOException {
-        IOException originalIOE = null;
+        IOException originblIOE = null;
 
-        Iterator<ImageWriter> writerIterator =
-            ImageIO.getImageWritersByMIMEType(mimeType);
+        Iterbtor<ImbgeWriter> writerIterbtor =
+            ImbgeIO.getImbgeWritersByMIMEType(mimeType);
 
-        if (!writerIterator.hasNext()) {
-            throw new IOException("No registered service provider can encode " +
-                                  " an image to " + mimeType);
+        if (!writerIterbtor.hbsNext()) {
+            throw new IOException("No registered service provider cbn encode " +
+                                  " bn imbge to " + mimeType);
         }
 
-        if (image instanceof RenderedImage) {
-            // Try to encode the original image.
+        if (imbge instbnceof RenderedImbge) {
+            // Try to encode the originbl imbge.
             try {
-                return imageToStandardBytesImpl((RenderedImage)image, mimeType);
-            } catch (IOException ioe) {
-                originalIOE = ioe;
+                return imbgeToStbndbrdBytesImpl((RenderedImbge)imbge, mimeType);
+            } cbtch (IOException ioe) {
+                originblIOE = ioe;
             }
         }
 
-        // Retry with a BufferedImage.
+        // Retry with b BufferedImbge.
         int width = 0;
         int height = 0;
-        if (image instanceof ToolkitImage) {
-            ImageRepresentation ir = ((ToolkitImage)image).getImageRep();
-            ir.reconstruct(ImageObserver.ALLBITS);
+        if (imbge instbnceof ToolkitImbge) {
+            ImbgeRepresentbtion ir = ((ToolkitImbge)imbge).getImbgeRep();
+            ir.reconstruct(ImbgeObserver.ALLBITS);
             width = ir.getWidth();
             height = ir.getHeight();
         } else {
-            width = image.getWidth(null);
-            height = image.getHeight(null);
+            width = imbge.getWidth(null);
+            height = imbge.getHeight(null);
         }
 
-        ColorModel model = ColorModel.getRGBdefault();
-        WritableRaster raster =
-            model.createCompatibleWritableRaster(width, height);
+        ColorModel model = ColorModel.getRGBdefbult();
+        WritbbleRbster rbster =
+            model.crebteCompbtibleWritbbleRbster(width, height);
 
-        BufferedImage bufferedImage =
-            new BufferedImage(model, raster, model.isAlphaPremultiplied(),
+        BufferedImbge bufferedImbge =
+            new BufferedImbge(model, rbster, model.isAlphbPremultiplied(),
                               null);
 
-        Graphics g = bufferedImage.getGraphics();
+        Grbphics g = bufferedImbge.getGrbphics();
         try {
-            g.drawImage(image, 0, 0, width, height, null);
-        } finally {
+            g.drbwImbge(imbge, 0, 0, width, height, null);
+        } finblly {
             g.dispose();
         }
 
         try {
-            return imageToStandardBytesImpl(bufferedImage, mimeType);
-        } catch (IOException ioe) {
-            if (originalIOE != null) {
-                throw originalIOE;
+            return imbgeToStbndbrdBytesImpl(bufferedImbge, mimeType);
+        } cbtch (IOException ioe) {
+            if (originblIOE != null) {
+                throw originblIOE;
             } else {
                 throw ioe;
             }
         }
     }
 
-    byte[] imageToStandardBytesImpl(RenderedImage renderedImage,
+    byte[] imbgeToStbndbrdBytesImpl(RenderedImbge renderedImbge,
                                               String mimeType)
         throws IOException {
 
-        Iterator<ImageWriter> writerIterator =
-            ImageIO.getImageWritersByMIMEType(mimeType);
+        Iterbtor<ImbgeWriter> writerIterbtor =
+            ImbgeIO.getImbgeWritersByMIMEType(mimeType);
 
-        ImageTypeSpecifier typeSpecifier =
-            new ImageTypeSpecifier(renderedImage);
+        ImbgeTypeSpecifier typeSpecifier =
+            new ImbgeTypeSpecifier(renderedImbge);
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
         IOException ioe = null;
 
-        while (writerIterator.hasNext()) {
-            ImageWriter imageWriter = writerIterator.next();
-            ImageWriterSpi writerSpi = imageWriter.getOriginatingProvider();
+        while (writerIterbtor.hbsNext()) {
+            ImbgeWriter imbgeWriter = writerIterbtor.next();
+            ImbgeWriterSpi writerSpi = imbgeWriter.getOriginbtingProvider();
 
-            if (!writerSpi.canEncodeImage(typeSpecifier)) {
+            if (!writerSpi.cbnEncodeImbge(typeSpecifier)) {
                 continue;
             }
 
             try {
-                try (ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(baos)) {
-                    imageWriter.setOutput(imageOutputStream);
-                    imageWriter.write(renderedImage);
-                    imageOutputStream.flush();
+                try (ImbgeOutputStrebm imbgeOutputStrebm = ImbgeIO.crebteImbgeOutputStrebm(bbos)) {
+                    imbgeWriter.setOutput(imbgeOutputStrebm);
+                    imbgeWriter.write(renderedImbge);
+                    imbgeOutputStrebm.flush();
                 }
-            } catch (IOException e) {
-                imageWriter.dispose();
-                baos.reset();
+            } cbtch (IOException e) {
+                imbgeWriter.dispose();
+                bbos.reset();
                 ioe = e;
                 continue;
             }
 
-            imageWriter.dispose();
-            baos.close();
-            return baos.toByteArray();
+            imbgeWriter.dispose();
+            bbos.close();
+            return bbos.toByteArrby();
         }
 
-        baos.close();
+        bbos.close();
 
         if (ioe == null) {
-            ioe = new IOException("Registered service providers failed to encode "
-                                  + renderedImage + " to " + mimeType);
+            ioe = new IOException("Registered service providers fbiled to encode "
+                                  + renderedImbge + " to " + mimeType);
         }
 
         throw ioe;
     }
 
     /**
-     * Concatenates the data represented by two objects. Objects can be either
-     * byte arrays or instances of <code>InputStream</code>. If both arguments
-     * are byte arrays byte array will be returned. Otherwise an
-     * <code>InputStream</code> will be returned.
+     * Concbtenbtes the dbtb represented by two objects. Objects cbn be either
+     * byte brrbys or instbnces of <code>InputStrebm</code>. If both brguments
+     * bre byte brrbys byte brrby will be returned. Otherwise bn
+     * <code>InputStrebm</code> will be returned.
      * <p>
-     * Currently is only called from native code to prepend palette data to
-     * platform-specific image data during image transfer on Win32.
+     * Currently is only cblled from nbtive code to prepend pblette dbtb to
+     * plbtform-specific imbge dbtb during imbge trbnsfer on Win32.
      *
-     * @param obj1 the first object to be concatenated.
-     * @param obj2 the second object to be concatenated.
-     * @return a byte array or an <code>InputStream</code> which represents
-     *         a logical concatenation of the two arguments.
-     * @throws NullPointerException is either of the arguments is
+     * @pbrbm obj1 the first object to be concbtenbted.
+     * @pbrbm obj2 the second object to be concbtenbted.
+     * @return b byte brrby or bn <code>InputStrebm</code> which represents
+     *         b logicbl concbtenbtion of the two brguments.
+     * @throws NullPointerException is either of the brguments is
      *         <code>null</code>
-     * @throws ClassCastException is either of the arguments is
-     *         neither byte array nor an instance of <code>InputStream</code>.
+     * @throws ClbssCbstException is either of the brguments is
+     *         neither byte brrby nor bn instbnce of <code>InputStrebm</code>.
      */
-    private Object concatData(Object obj1, Object obj2) {
-        InputStream str1 = null;
-        InputStream str2 = null;
+    privbte Object concbtDbtb(Object obj1, Object obj2) {
+        InputStrebm str1 = null;
+        InputStrebm str2 = null;
 
-        if (obj1 instanceof byte[]) {
-            byte[] arr1 = (byte[])obj1;
-            if (obj2 instanceof byte[]) {
-                byte[] arr2 = (byte[])obj2;
-                byte[] ret = new byte[arr1.length + arr2.length];
-                System.arraycopy(arr1, 0, ret, 0, arr1.length);
-                System.arraycopy(arr2, 0, ret, arr1.length, arr2.length);
+        if (obj1 instbnceof byte[]) {
+            byte[] brr1 = (byte[])obj1;
+            if (obj2 instbnceof byte[]) {
+                byte[] brr2 = (byte[])obj2;
+                byte[] ret = new byte[brr1.length + brr2.length];
+                System.brrbycopy(brr1, 0, ret, 0, brr1.length);
+                System.brrbycopy(brr2, 0, ret, brr1.length, brr2.length);
                 return ret;
             } else {
-                str1 = new ByteArrayInputStream(arr1);
-                str2 = (InputStream)obj2;
+                str1 = new ByteArrbyInputStrebm(brr1);
+                str2 = (InputStrebm)obj2;
             }
         } else {
-            str1 = (InputStream)obj1;
-            if (obj2 instanceof byte[]) {
-                str2 = new ByteArrayInputStream((byte[])obj2);
+            str1 = (InputStrebm)obj1;
+            if (obj2 instbnceof byte[]) {
+                str2 = new ByteArrbyInputStrebm((byte[])obj2);
             } else {
-                str2 = (InputStream)obj2;
+                str2 = (InputStrebm)obj2;
             }
         }
 
-        return new SequenceInputStream(str1, str2);
+        return new SequenceInputStrebm(str1, str2);
     }
 
-    public byte[] convertData(final Object source,
-                              final Transferable contents,
-                              final long format,
-                              final Map<Long, DataFlavor> formatMap,
-                              final boolean isToolkitThread)
+    public byte[] convertDbtb(finbl Object source,
+                              finbl Trbnsferbble contents,
+                              finbl long formbt,
+                              finbl Mbp<Long, DbtbFlbvor> formbtMbp,
+                              finbl boolebn isToolkitThrebd)
         throws IOException
     {
         byte[] ret = null;
 
         /*
-         * If the current thread is the Toolkit thread we should post a
-         * Runnable to the event dispatch thread associated with source Object,
-         * since translateTransferable() calls Transferable.getTransferData()
-         * that may contain client code.
+         * If the current threbd is the Toolkit threbd we should post b
+         * Runnbble to the event dispbtch threbd bssocibted with source Object,
+         * since trbnslbteTrbnsferbble() cblls Trbnsferbble.getTrbnsferDbtb()
+         * thbt mby contbin client code.
          */
-        if (isToolkitThread) try {
-            final Stack<byte[]> stack = new Stack<>();
-            final Runnable dataConverter = new Runnable() {
-                // Guard against multiple executions.
-                private boolean done = false;
+        if (isToolkitThrebd) try {
+            finbl Stbck<byte[]> stbck = new Stbck<>();
+            finbl Runnbble dbtbConverter = new Runnbble() {
+                // Gubrd bgbinst multiple executions.
+                privbte boolebn done = fblse;
                 public void run() {
                     if (done) {
                         return;
                     }
-                    byte[] data = null;
+                    byte[] dbtb = null;
                     try {
-                        DataFlavor flavor = formatMap.get(format);
-                        if (flavor != null) {
-                            data = translateTransferable(contents, flavor, format);
+                        DbtbFlbvor flbvor = formbtMbp.get(formbt);
+                        if (flbvor != null) {
+                            dbtb = trbnslbteTrbnsferbble(contents, flbvor, formbt);
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        data = null;
+                    } cbtch (Exception e) {
+                        e.printStbckTrbce();
+                        dbtb = null;
                     }
                     try {
-                        getToolkitThreadBlockedHandler().lock();
-                        stack.push(data);
-                        getToolkitThreadBlockedHandler().exit();
-                    } finally {
-                        getToolkitThreadBlockedHandler().unlock();
+                        getToolkitThrebdBlockedHbndler().lock();
+                        stbck.push(dbtb);
+                        getToolkitThrebdBlockedHbndler().exit();
+                    } finblly {
+                        getToolkitThrebdBlockedHbndler().unlock();
                         done = true;
                     }
                 }
             };
 
-            final AppContext appContext = SunToolkit.targetToAppContext(source);
+            finbl AppContext bppContext = SunToolkit.tbrgetToAppContext(source);
 
-            getToolkitThreadBlockedHandler().lock();
+            getToolkitThrebdBlockedHbndler().lock();
 
-            if (appContext != null) {
-                appContext.put(DATA_CONVERTER_KEY, dataConverter);
+            if (bppContext != null) {
+                bppContext.put(DATA_CONVERTER_KEY, dbtbConverter);
             }
 
-            SunToolkit.executeOnEventHandlerThread(source, dataConverter);
+            SunToolkit.executeOnEventHbndlerThrebd(source, dbtbConverter);
 
-            while (stack.empty()) {
-                getToolkitThreadBlockedHandler().enter();
+            while (stbck.empty()) {
+                getToolkitThrebdBlockedHbndler().enter();
             }
 
-            if (appContext != null) {
-                appContext.remove(DATA_CONVERTER_KEY);
+            if (bppContext != null) {
+                bppContext.remove(DATA_CONVERTER_KEY);
             }
 
-            ret = stack.pop();
-        } finally {
-            getToolkitThreadBlockedHandler().unlock();
+            ret = stbck.pop();
+        } finblly {
+            getToolkitThrebdBlockedHbndler().unlock();
         } else {
-            DataFlavor flavor = formatMap.get(format);
-            if (flavor != null) {
-                ret = translateTransferable(contents, flavor, format);
+            DbtbFlbvor flbvor = formbtMbp.get(formbt);
+            if (flbvor != null) {
+                ret = trbnslbteTrbnsferbble(contents, flbvor, formbt);
             }
         }
 
         return ret;
     }
 
-    public void processDataConversionRequests() {
-        if (EventQueue.isDispatchThread()) {
-            AppContext appContext = AppContext.getAppContext();
-            getToolkitThreadBlockedHandler().lock();
+    public void processDbtbConversionRequests() {
+        if (EventQueue.isDispbtchThrebd()) {
+            AppContext bppContext = AppContext.getAppContext();
+            getToolkitThrebdBlockedHbndler().lock();
             try {
-                Runnable dataConverter =
-                    (Runnable)appContext.get(DATA_CONVERTER_KEY);
-                if (dataConverter != null) {
-                    dataConverter.run();
-                    appContext.remove(DATA_CONVERTER_KEY);
+                Runnbble dbtbConverter =
+                    (Runnbble)bppContext.get(DATA_CONVERTER_KEY);
+                if (dbtbConverter != null) {
+                    dbtbConverter.run();
+                    bppContext.remove(DATA_CONVERTER_KEY);
                 }
-            } finally {
-                getToolkitThreadBlockedHandler().unlock();
+            } finblly {
+                getToolkitThrebdBlockedHbndler().unlock();
             }
         }
     }
 
-    public abstract ToolkitThreadBlockedHandler
-        getToolkitThreadBlockedHandler();
+    public bbstrbct ToolkitThrebdBlockedHbndler
+        getToolkitThrebdBlockedHbndler();
 
     /**
-     * Helper function to reduce a Map with Long keys to a long array.
+     * Helper function to reduce b Mbp with Long keys to b long brrby.
      * <p>
-     * The map keys are sorted according to the native formats preference
+     * The mbp keys bre sorted bccording to the nbtive formbts preference
      * order.
      */
-    public static long[] keysToLongArray(SortedMap<Long, ?> map) {
-        Set<Long> keySet = map.keySet();
-        long[] retval = new long[keySet.size()];
+    public stbtic long[] keysToLongArrby(SortedMbp<Long, ?> mbp) {
+        Set<Long> keySet = mbp.keySet();
+        long[] retvbl = new long[keySet.size()];
         int i = 0;
-        for (Iterator<Long> iter = keySet.iterator(); iter.hasNext(); i++) {
-            retval[i] = iter.next();
+        for (Iterbtor<Long> iter = keySet.iterbtor(); iter.hbsNext(); i++) {
+            retvbl[i] = iter.next();
         }
-        return retval;
+        return retvbl;
     }
 
     /**
-     * Helper function to convert a Set of DataFlavors to a sorted array.
-     * The array will be sorted according to <code>DataFlavorComparator</code>.
+     * Helper function to convert b Set of DbtbFlbvors to b sorted brrby.
+     * The brrby will be sorted bccording to <code>DbtbFlbvorCompbrbtor</code>.
      */
-    public static DataFlavor[] setToSortedDataFlavorArray(Set<DataFlavor> flavorsSet) {
-        DataFlavor[] flavors = new DataFlavor[flavorsSet.size()];
-        flavorsSet.toArray(flavors);
-        final Comparator<DataFlavor> comparator =
-                new DataFlavorComparator(IndexedComparator.SELECT_WORST);
-        Arrays.sort(flavors, comparator);
-        return flavors;
+    public stbtic DbtbFlbvor[] setToSortedDbtbFlbvorArrby(Set<DbtbFlbvor> flbvorsSet) {
+        DbtbFlbvor[] flbvors = new DbtbFlbvor[flbvorsSet.size()];
+        flbvorsSet.toArrby(flbvors);
+        finbl Compbrbtor<DbtbFlbvor> compbrbtor =
+                new DbtbFlbvorCompbrbtor(IndexedCompbrbtor.SELECT_WORST);
+        Arrbys.sort(flbvors, compbrbtor);
+        return flbvors;
     }
 
     /**
-     * Helper function to convert an InputStream to a byte[] array.
+     * Helper function to convert bn InputStrebm to b byte[] brrby.
      */
-    protected static byte[] inputStreamToByteArray(InputStream str)
+    protected stbtic byte[] inputStrebmToByteArrby(InputStrebm str)
         throws IOException
     {
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        try (ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm()) {
             int len = 0;
             byte[] buf = new byte[8192];
 
-            while ((len = str.read(buf)) != -1) {
-                baos.write(buf, 0, len);
+            while ((len = str.rebd(buf)) != -1) {
+                bbos.write(buf, 0, len);
             }
 
-            return baos.toByteArray();
+            return bbos.toByteArrby();
         }
     }
 
     /**
-     * Returns platform-specific mappings for the specified native.
-     * If there are no platform-specific mappings for this native, the method
-     * returns an empty <code>List</code>.
+     * Returns plbtform-specific mbppings for the specified nbtive.
+     * If there bre no plbtform-specific mbppings for this nbtive, the method
+     * returns bn empty <code>List</code>.
      */
-    public LinkedHashSet<DataFlavor> getPlatformMappingsForNative(String nat) {
-        return new LinkedHashSet<>();
+    public LinkedHbshSet<DbtbFlbvor> getPlbtformMbppingsForNbtive(String nbt) {
+        return new LinkedHbshSet<>();
     }
 
     /**
-     * Returns platform-specific mappings for the specified flavor.
-     * If there are no platform-specific mappings for this flavor, the method
-     * returns an empty <code>List</code>.
+     * Returns plbtform-specific mbppings for the specified flbvor.
+     * If there bre no plbtform-specific mbppings for this flbvor, the method
+     * returns bn empty <code>List</code>.
      */
-    public LinkedHashSet<String> getPlatformMappingsForFlavor(DataFlavor df) {
-        return new LinkedHashSet<>();
+    public LinkedHbshSet<String> getPlbtformMbppingsForFlbvor(DbtbFlbvor df) {
+        return new LinkedHbshSet<>();
     }
 
     /**
-     * A Comparator which includes a helper function for comparing two Objects
-     * which are likely to be keys in the specified Map.
+     * A Compbrbtor which includes b helper function for compbring two Objects
+     * which bre likely to be keys in the specified Mbp.
      */
-    public abstract static class IndexedComparator<T> implements Comparator<T> {
+    public bbstrbct stbtic clbss IndexedCompbrbtor<T> implements Compbrbtor<T> {
 
         /**
-         * The best Object (e.g., DataFlavor) will be the last in sequence.
+         * The best Object (e.g., DbtbFlbvor) will be the lbst in sequence.
          */
-        public static final boolean SELECT_BEST = true;
+        public stbtic finbl boolebn SELECT_BEST = true;
 
         /**
-         * The best Object (e.g., DataFlavor) will be the first in sequence.
+         * The best Object (e.g., DbtbFlbvor) will be the first in sequence.
          */
-        public static final boolean SELECT_WORST = false;
+        public stbtic finbl boolebn SELECT_WORST = fblse;
 
-        final boolean order;
+        finbl boolebn order;
 
-        public IndexedComparator(boolean order) {
+        public IndexedCompbrbtor(boolebn order) {
             this.order = order;
         }
 
         /**
-         * Helper method to compare two objects by their Integer indices in the
-         * given map. If the map doesn't contain an entry for either of the
-         * objects, the fallback index will be used for the object instead.
+         * Helper method to compbre two objects by their Integer indices in the
+         * given mbp. If the mbp doesn't contbin bn entry for either of the
+         * objects, the fbllbbck index will be used for the object instebd.
          *
-         * @param indexMap the map which maps objects into Integer indexes.
-         * @param obj1 the first object to be compared.
-         * @param obj2 the second object to be compared.
-         * @param fallbackIndex the Integer to be used as a fallback index.
-         * @return a negative integer, zero, or a positive integer as the
-         *             first object is mapped to a less, equal to, or greater
-         *             index than the second.
+         * @pbrbm indexMbp the mbp which mbps objects into Integer indexes.
+         * @pbrbm obj1 the first object to be compbred.
+         * @pbrbm obj2 the second object to be compbred.
+         * @pbrbm fbllbbckIndex the Integer to be used bs b fbllbbck index.
+         * @return b negbtive integer, zero, or b positive integer bs the
+         *             first object is mbpped to b less, equbl to, or grebter
+         *             index thbn the second.
          */
-        static <T> int compareIndices(Map<T, Integer> indexMap,
+        stbtic <T> int compbreIndices(Mbp<T, Integer> indexMbp,
                                       T obj1, T obj2,
-                                      Integer fallbackIndex) {
-            Integer index1 = indexMap.getOrDefault(obj1, fallbackIndex);
-            Integer index2 = indexMap.getOrDefault(obj2, fallbackIndex);
-            return index1.compareTo(index2);
+                                      Integer fbllbbckIndex) {
+            Integer index1 = indexMbp.getOrDefbult(obj1, fbllbbckIndex);
+            Integer index2 = indexMbp.getOrDefbult(obj2, fbllbbckIndex);
+            return index1.compbreTo(index2);
         }
     }
 
     /**
-     * An IndexedComparator which compares two String charsets. The comparison
-     * follows the rules outlined in DataFlavor.selectBestTextFlavor. In order
-     * to ensure that non-Unicode, non-ASCII, non-default charsets are sorted
-     * in alphabetical order, charsets are not automatically converted to their
-     * canonical forms.
+     * An IndexedCompbrbtor which compbres two String chbrsets. The compbrison
+     * follows the rules outlined in DbtbFlbvor.selectBestTextFlbvor. In order
+     * to ensure thbt non-Unicode, non-ASCII, non-defbult chbrsets bre sorted
+     * in blphbbeticbl order, chbrsets bre not butombticblly converted to their
+     * cbnonicbl forms.
      */
-    public static class CharsetComparator extends IndexedComparator<String> {
-        private static final Map<String, Integer> charsets;
+    public stbtic clbss ChbrsetCompbrbtor extends IndexedCompbrbtor<String> {
+        privbte stbtic finbl Mbp<String, Integer> chbrsets;
 
-        private static final Integer DEFAULT_CHARSET_INDEX = 2;
-        private static final Integer OTHER_CHARSET_INDEX = 1;
-        private static final Integer WORST_CHARSET_INDEX = 0;
-        private static final Integer UNSUPPORTED_CHARSET_INDEX = Integer.MIN_VALUE;
+        privbte stbtic finbl Integer DEFAULT_CHARSET_INDEX = 2;
+        privbte stbtic finbl Integer OTHER_CHARSET_INDEX = 1;
+        privbte stbtic finbl Integer WORST_CHARSET_INDEX = 0;
+        privbte stbtic finbl Integer UNSUPPORTED_CHARSET_INDEX = Integer.MIN_VALUE;
 
-        private static final String UNSUPPORTED_CHARSET = "UNSUPPORTED";
+        privbte stbtic finbl String UNSUPPORTED_CHARSET = "UNSUPPORTED";
 
-        static {
-            Map<String, Integer> charsetsMap = new HashMap<>(8, 1.0f);
+        stbtic {
+            Mbp<String, Integer> chbrsetsMbp = new HbshMbp<>(8, 1.0f);
 
-            // we prefer Unicode charsets
-            charsetsMap.put(canonicalName("UTF-16LE"), 4);
-            charsetsMap.put(canonicalName("UTF-16BE"), 5);
-            charsetsMap.put(canonicalName("UTF-8"), 6);
-            charsetsMap.put(canonicalName("UTF-16"), 7);
+            // we prefer Unicode chbrsets
+            chbrsetsMbp.put(cbnonicblNbme("UTF-16LE"), 4);
+            chbrsetsMbp.put(cbnonicblNbme("UTF-16BE"), 5);
+            chbrsetsMbp.put(cbnonicblNbme("UTF-8"), 6);
+            chbrsetsMbp.put(cbnonicblNbme("UTF-16"), 7);
 
-            // US-ASCII is the worst charset supported
-            charsetsMap.put(canonicalName("US-ASCII"), WORST_CHARSET_INDEX);
+            // US-ASCII is the worst chbrset supported
+            chbrsetsMbp.put(cbnonicblNbme("US-ASCII"), WORST_CHARSET_INDEX);
 
-            charsetsMap.putIfAbsent(Charset.defaultCharset().name(), DEFAULT_CHARSET_INDEX);
+            chbrsetsMbp.putIfAbsent(Chbrset.defbultChbrset().nbme(), DEFAULT_CHARSET_INDEX);
 
-            charsetsMap.put(UNSUPPORTED_CHARSET, UNSUPPORTED_CHARSET_INDEX);
+            chbrsetsMbp.put(UNSUPPORTED_CHARSET, UNSUPPORTED_CHARSET_INDEX);
 
-            charsets = Collections.unmodifiableMap(charsetsMap);
+            chbrsets = Collections.unmodifibbleMbp(chbrsetsMbp);
         }
 
-        public CharsetComparator(boolean order) {
+        public ChbrsetCompbrbtor(boolebn order) {
             super(order);
         }
 
         /**
-         * Compares two String objects. Returns a negative integer, zero,
-         * or a positive integer as the first charset is worse than, equal to,
-         * or better than the second.
+         * Compbres two String objects. Returns b negbtive integer, zero,
+         * or b positive integer bs the first chbrset is worse thbn, equbl to,
+         * or better thbn the second.
          *
-         * @param obj1 the first charset to be compared
-         * @param obj2 the second charset to be compared
-         * @return a negative integer, zero, or a positive integer as the
-         *         first argument is worse, equal to, or better than the
+         * @pbrbm obj1 the first chbrset to be compbred
+         * @pbrbm obj2 the second chbrset to be compbred
+         * @return b negbtive integer, zero, or b positive integer bs the
+         *         first brgument is worse, equbl to, or better thbn the
          *         second.
-         * @throws ClassCastException if either of the arguments is not
-         *         instance of String
-         * @throws NullPointerException if either of the arguments is
+         * @throws ClbssCbstException if either of the brguments is not
+         *         instbnce of String
+         * @throws NullPointerException if either of the brguments is
          *         <code>null</code>.
          */
-        public int compare(String obj1, String obj2) {
+        public int compbre(String obj1, String obj2) {
             if (order == SELECT_BEST) {
-                return compareCharsets(obj1, obj2);
+                return compbreChbrsets(obj1, obj2);
             } else {
-                return compareCharsets(obj2, obj1);
+                return compbreChbrsets(obj2, obj1);
             }
         }
 
         /**
-         * Compares charsets. Returns a negative integer, zero, or a positive
-         * integer as the first charset is worse than, equal to, or better than
+         * Compbres chbrsets. Returns b negbtive integer, zero, or b positive
+         * integer bs the first chbrset is worse thbn, equbl to, or better thbn
          * the second.
          * <p>
-         * Charsets are ordered according to the following rules:
+         * Chbrsets bre ordered bccording to the following rules:
          * <ul>
-         * <li>All unsupported charsets are equal.
-         * <li>Any unsupported charset is worse than any supported charset.
-         * <li>Unicode charsets, such as "UTF-16", "UTF-8", "UTF-16BE" and
-         *     "UTF-16LE", are considered best.
-         * <li>After them, platform default charset is selected.
-         * <li>"US-ASCII" is the worst of supported charsets.
-         * <li>For all other supported charsets, the lexicographically less
+         * <li>All unsupported chbrsets bre equbl.
+         * <li>Any unsupported chbrset is worse thbn bny supported chbrset.
+         * <li>Unicode chbrsets, such bs "UTF-16", "UTF-8", "UTF-16BE" bnd
+         *     "UTF-16LE", bre considered best.
+         * <li>After them, plbtform defbult chbrset is selected.
+         * <li>"US-ASCII" is the worst of supported chbrsets.
+         * <li>For bll other supported chbrsets, the lexicogrbphicblly less
          *     one is considered the better.
          * </ul>
          *
-         * @param charset1 the first charset to be compared
-         * @param charset2 the second charset to be compared.
-         * @return a negative integer, zero, or a positive integer as the
-         *             first argument is worse, equal to, or better than the
+         * @pbrbm chbrset1 the first chbrset to be compbred
+         * @pbrbm chbrset2 the second chbrset to be compbred.
+         * @return b negbtive integer, zero, or b positive integer bs the
+         *             first brgument is worse, equbl to, or better thbn the
          *             second.
          */
-        int compareCharsets(String charset1, String charset2) {
-            charset1 = getEncoding(charset1);
-            charset2 = getEncoding(charset2);
+        int compbreChbrsets(String chbrset1, String chbrset2) {
+            chbrset1 = getEncoding(chbrset1);
+            chbrset2 = getEncoding(chbrset2);
 
-            int comp = compareIndices(charsets, charset1, charset2,
+            int comp = compbreIndices(chbrsets, chbrset1, chbrset2,
                                       OTHER_CHARSET_INDEX);
 
             if (comp == 0) {
-                return charset2.compareTo(charset1);
+                return chbrset2.compbreTo(chbrset1);
             }
 
             return comp;
         }
 
         /**
-         * Returns encoding for the specified charset according to the
+         * Returns encoding for the specified chbrset bccording to the
          * following rules:
          * <ul>
-         * <li>If the charset is <code>null</code>, then <code>null</code> will
+         * <li>If the chbrset is <code>null</code>, then <code>null</code> will
          *     be returned.
-         * <li>Iff the charset specifies an encoding unsupported by this JRE,
+         * <li>Iff the chbrset specifies bn encoding unsupported by this JRE,
          *     <code>UNSUPPORTED_CHARSET</code> will be returned.
-         * <li>If the charset specifies an alias name, the corresponding
-         *     canonical name will be returned iff the charset is a known
-         *     Unicode, ASCII, or default charset.
+         * <li>If the chbrset specifies bn blibs nbme, the corresponding
+         *     cbnonicbl nbme will be returned iff the chbrset is b known
+         *     Unicode, ASCII, or defbult chbrset.
          * </ul>
          *
-         * @param charset the charset.
-         * @return an encoding for this charset.
+         * @pbrbm chbrset the chbrset.
+         * @return bn encoding for this chbrset.
          */
-        static String getEncoding(String charset) {
-            if (charset == null) {
+        stbtic String getEncoding(String chbrset) {
+            if (chbrset == null) {
                 return null;
-            } else if (!DataTransferer.isEncodingSupported(charset)) {
+            } else if (!DbtbTrbnsferer.isEncodingSupported(chbrset)) {
                 return UNSUPPORTED_CHARSET;
             } else {
-                // Only convert to canonical form if the charset is one
-                // of the charsets explicitly listed in the known charsets
-                // map. This will happen only for Unicode, ASCII, or default
-                // charsets.
-                String canonicalName = DataTransferer.canonicalName(charset);
-                return (charsets.containsKey(canonicalName))
-                    ? canonicalName
-                    : charset;
+                // Only convert to cbnonicbl form if the chbrset is one
+                // of the chbrsets explicitly listed in the known chbrsets
+                // mbp. This will hbppen only for Unicode, ASCII, or defbult
+                // chbrsets.
+                String cbnonicblNbme = DbtbTrbnsferer.cbnonicblNbme(chbrset);
+                return (chbrsets.contbinsKey(cbnonicblNbme))
+                    ? cbnonicblNbme
+                    : chbrset;
             }
         }
     }
 
     /**
-     * An IndexedComparator which compares two DataFlavors. For text flavors,
-     * the comparison follows the rules outlined in
-     * DataFlavor.selectBestTextFlavor. For non-text flavors, unknown
-     * application MIME types are preferred, followed by known
-     * application/x-java-* MIME types. Unknown application types are preferred
-     * because if the user provides his own data flavor, it will likely be the
-     * most descriptive one. For flavors which are otherwise equal, the
-     * flavors' string representation are compared in the alphabetical order.
+     * An IndexedCompbrbtor which compbres two DbtbFlbvors. For text flbvors,
+     * the compbrison follows the rules outlined in
+     * DbtbFlbvor.selectBestTextFlbvor. For non-text flbvors, unknown
+     * bpplicbtion MIME types bre preferred, followed by known
+     * bpplicbtion/x-jbvb-* MIME types. Unknown bpplicbtion types bre preferred
+     * becbuse if the user provides his own dbtb flbvor, it will likely be the
+     * most descriptive one. For flbvors which bre otherwise equbl, the
+     * flbvors' string representbtion bre compbred in the blphbbeticbl order.
      */
-    public static class DataFlavorComparator extends IndexedComparator<DataFlavor> {
+    public stbtic clbss DbtbFlbvorCompbrbtor extends IndexedCompbrbtor<DbtbFlbvor> {
 
-        private final CharsetComparator charsetComparator;
+        privbte finbl ChbrsetCompbrbtor chbrsetCompbrbtor;
 
-        private static final Map<String, Integer> exactTypes;
-        private static final Map<String, Integer> primaryTypes;
-        private static final Map<Class<?>, Integer> nonTextRepresentations;
-        private static final Map<String, Integer> textTypes;
-        private static final Map<Class<?>, Integer> decodedTextRepresentations;
-        private static final Map<Class<?>, Integer> encodedTextRepresentations;
+        privbte stbtic finbl Mbp<String, Integer> exbctTypes;
+        privbte stbtic finbl Mbp<String, Integer> primbryTypes;
+        privbte stbtic finbl Mbp<Clbss<?>, Integer> nonTextRepresentbtions;
+        privbte stbtic finbl Mbp<String, Integer> textTypes;
+        privbte stbtic finbl Mbp<Clbss<?>, Integer> decodedTextRepresentbtions;
+        privbte stbtic finbl Mbp<Clbss<?>, Integer> encodedTextRepresentbtions;
 
-        private static final Integer UNKNOWN_OBJECT_LOSES = Integer.MIN_VALUE;
-        private static final Integer UNKNOWN_OBJECT_WINS = Integer.MAX_VALUE;
+        privbte stbtic finbl Integer UNKNOWN_OBJECT_LOSES = Integer.MIN_VALUE;
+        privbte stbtic finbl Integer UNKNOWN_OBJECT_WINS = Integer.MAX_VALUE;
 
-        static {
+        stbtic {
             {
-                Map<String, Integer> exactTypesMap = new HashMap<>(4, 1.0f);
+                Mbp<String, Integer> exbctTypesMbp = new HbshMbp<>(4, 1.0f);
 
-                // application/x-java-* MIME types
-                exactTypesMap.put("application/x-java-file-list", 0);
-                exactTypesMap.put("application/x-java-serialized-object", 1);
-                exactTypesMap.put("application/x-java-jvm-local-objectref", 2);
-                exactTypesMap.put("application/x-java-remote-object", 3);
+                // bpplicbtion/x-jbvb-* MIME types
+                exbctTypesMbp.put("bpplicbtion/x-jbvb-file-list", 0);
+                exbctTypesMbp.put("bpplicbtion/x-jbvb-seriblized-object", 1);
+                exbctTypesMbp.put("bpplicbtion/x-jbvb-jvm-locbl-objectref", 2);
+                exbctTypesMbp.put("bpplicbtion/x-jbvb-remote-object", 3);
 
-                exactTypes = Collections.unmodifiableMap(exactTypesMap);
+                exbctTypes = Collections.unmodifibbleMbp(exbctTypesMbp);
             }
 
             {
-                Map<String, Integer> primaryTypesMap = new HashMap<>(1, 1.0f);
+                Mbp<String, Integer> primbryTypesMbp = new HbshMbp<>(1, 1.0f);
 
-                primaryTypesMap.put("application", 0);
+                primbryTypesMbp.put("bpplicbtion", 0);
 
-                primaryTypes = Collections.unmodifiableMap(primaryTypesMap);
+                primbryTypes = Collections.unmodifibbleMbp(primbryTypesMbp);
             }
 
             {
-                Map<Class<?>, Integer> nonTextRepresentationsMap = new HashMap<>(3, 1.0f);
+                Mbp<Clbss<?>, Integer> nonTextRepresentbtionsMbp = new HbshMbp<>(3, 1.0f);
 
-                nonTextRepresentationsMap.put(java.io.InputStream.class, 0);
-                nonTextRepresentationsMap.put(java.io.Serializable.class, 1);
+                nonTextRepresentbtionsMbp.put(jbvb.io.InputStrebm.clbss, 0);
+                nonTextRepresentbtionsMbp.put(jbvb.io.Seriblizbble.clbss, 1);
 
-                Class<?> remoteClass = RMI.remoteClass();
-                if (remoteClass != null) {
-                    nonTextRepresentationsMap.put(remoteClass, 2);
+                Clbss<?> remoteClbss = RMI.remoteClbss();
+                if (remoteClbss != null) {
+                    nonTextRepresentbtionsMbp.put(remoteClbss, 2);
                 }
 
-                nonTextRepresentations = Collections.unmodifiableMap(nonTextRepresentationsMap);
+                nonTextRepresentbtions = Collections.unmodifibbleMbp(nonTextRepresentbtionsMbp);
             }
 
             {
-                Map<String, Integer> textTypesMap = new HashMap<>(16, 1.0f);
+                Mbp<String, Integer> textTypesMbp = new HbshMbp<>(16, 1.0f);
 
-                // plain text
-                textTypesMap.put("text/plain", 0);
+                // plbin text
+                textTypesMbp.put("text/plbin", 0);
 
-                // stringFlavor
-                textTypesMap.put("application/x-java-serialized-object", 1);
+                // stringFlbvor
+                textTypesMbp.put("bpplicbtion/x-jbvb-seriblized-object", 1);
 
                 // misc
-                textTypesMap.put("text/calendar", 2);
-                textTypesMap.put("text/css", 3);
-                textTypesMap.put("text/directory", 4);
-                textTypesMap.put("text/parityfec", 5);
-                textTypesMap.put("text/rfc822-headers", 6);
-                textTypesMap.put("text/t140", 7);
-                textTypesMap.put("text/tab-separated-values", 8);
-                textTypesMap.put("text/uri-list", 9);
+                textTypesMbp.put("text/cblendbr", 2);
+                textTypesMbp.put("text/css", 3);
+                textTypesMbp.put("text/directory", 4);
+                textTypesMbp.put("text/pbrityfec", 5);
+                textTypesMbp.put("text/rfc822-hebders", 6);
+                textTypesMbp.put("text/t140", 7);
+                textTypesMbp.put("text/tbb-sepbrbted-vblues", 8);
+                textTypesMbp.put("text/uri-list", 9);
 
                 // enriched
-                textTypesMap.put("text/richtext", 10);
-                textTypesMap.put("text/enriched", 11);
-                textTypesMap.put("text/rtf", 12);
+                textTypesMbp.put("text/richtext", 10);
+                textTypesMbp.put("text/enriched", 11);
+                textTypesMbp.put("text/rtf", 12);
 
-                // markup
-                textTypesMap.put("text/html", 13);
-                textTypesMap.put("text/xml", 14);
-                textTypesMap.put("text/sgml", 15);
+                // mbrkup
+                textTypesMbp.put("text/html", 13);
+                textTypesMbp.put("text/xml", 14);
+                textTypesMbp.put("text/sgml", 15);
 
-                textTypes = Collections.unmodifiableMap(textTypesMap);
+                textTypes = Collections.unmodifibbleMbp(textTypesMbp);
             }
 
             {
-                Map<Class<?>, Integer> decodedTextRepresentationsMap = new HashMap<>(4, 1.0f);
+                Mbp<Clbss<?>, Integer> decodedTextRepresentbtionsMbp = new HbshMbp<>(4, 1.0f);
 
-                decodedTextRepresentationsMap.put(char[].class, 0);
-                decodedTextRepresentationsMap.put(CharBuffer.class, 1);
-                decodedTextRepresentationsMap.put(String.class, 2);
-                decodedTextRepresentationsMap.put(Reader.class, 3);
+                decodedTextRepresentbtionsMbp.put(chbr[].clbss, 0);
+                decodedTextRepresentbtionsMbp.put(ChbrBuffer.clbss, 1);
+                decodedTextRepresentbtionsMbp.put(String.clbss, 2);
+                decodedTextRepresentbtionsMbp.put(Rebder.clbss, 3);
 
-                decodedTextRepresentations =
-                        Collections.unmodifiableMap(decodedTextRepresentationsMap);
+                decodedTextRepresentbtions =
+                        Collections.unmodifibbleMbp(decodedTextRepresentbtionsMbp);
             }
 
             {
-                Map<Class<?>, Integer> encodedTextRepresentationsMap = new HashMap<>(3, 1.0f);
+                Mbp<Clbss<?>, Integer> encodedTextRepresentbtionsMbp = new HbshMbp<>(3, 1.0f);
 
-                encodedTextRepresentationsMap.put(byte[].class, 0);
-                encodedTextRepresentationsMap.put(ByteBuffer.class, 1);
-                encodedTextRepresentationsMap.put(InputStream.class, 2);
+                encodedTextRepresentbtionsMbp.put(byte[].clbss, 0);
+                encodedTextRepresentbtionsMbp.put(ByteBuffer.clbss, 1);
+                encodedTextRepresentbtionsMbp.put(InputStrebm.clbss, 2);
 
-                encodedTextRepresentations =
-                        Collections.unmodifiableMap(encodedTextRepresentationsMap);
+                encodedTextRepresentbtions =
+                        Collections.unmodifibbleMbp(encodedTextRepresentbtionsMbp);
             }
         }
 
-        public DataFlavorComparator() {
+        public DbtbFlbvorCompbrbtor() {
             this(SELECT_BEST);
         }
 
-        public DataFlavorComparator(boolean order) {
+        public DbtbFlbvorCompbrbtor(boolebn order) {
             super(order);
 
-            charsetComparator = new CharsetComparator(order);
+            chbrsetCompbrbtor = new ChbrsetCompbrbtor(order);
         }
 
-        public int compare(DataFlavor obj1, DataFlavor obj2) {
-            DataFlavor flavor1 = order == SELECT_BEST ? obj1 : obj2;
-            DataFlavor flavor2 = order == SELECT_BEST ? obj2 : obj1;
+        public int compbre(DbtbFlbvor obj1, DbtbFlbvor obj2) {
+            DbtbFlbvor flbvor1 = order == SELECT_BEST ? obj1 : obj2;
+            DbtbFlbvor flbvor2 = order == SELECT_BEST ? obj2 : obj1;
 
-            if (flavor1.equals(flavor2)) {
+            if (flbvor1.equbls(flbvor2)) {
                 return 0;
             }
 
             int comp = 0;
 
-            String primaryType1 = flavor1.getPrimaryType();
-            String subType1 = flavor1.getSubType();
-            String mimeType1 = primaryType1 + "/" + subType1;
-            Class<?> class1 = flavor1.getRepresentationClass();
+            String primbryType1 = flbvor1.getPrimbryType();
+            String subType1 = flbvor1.getSubType();
+            String mimeType1 = primbryType1 + "/" + subType1;
+            Clbss<?> clbss1 = flbvor1.getRepresentbtionClbss();
 
-            String primaryType2 = flavor2.getPrimaryType();
-            String subType2 = flavor2.getSubType();
-            String mimeType2 = primaryType2 + "/" + subType2;
-            Class<?> class2 = flavor2.getRepresentationClass();
+            String primbryType2 = flbvor2.getPrimbryType();
+            String subType2 = flbvor2.getSubType();
+            String mimeType2 = primbryType2 + "/" + subType2;
+            Clbss<?> clbss2 = flbvor2.getRepresentbtionClbss();
 
-            if (flavor1.isFlavorTextType() && flavor2.isFlavorTextType()) {
-                // First, compare MIME types
-                comp = compareIndices(textTypes, mimeType1, mimeType2,
+            if (flbvor1.isFlbvorTextType() && flbvor2.isFlbvorTextType()) {
+                // First, compbre MIME types
+                comp = compbreIndices(textTypes, mimeType1, mimeType2,
                                       UNKNOWN_OBJECT_LOSES);
                 if (comp != 0) {
                     return comp;
                 }
 
-                // Only need to test one flavor because they both have the
-                // same MIME type. Also don't need to worry about accidentally
-                // passing stringFlavor because either
-                //   1. Both flavors are stringFlavor, in which case the
-                //      equality test at the top of the function succeeded.
-                //   2. Only one flavor is stringFlavor, in which case the MIME
-                //      type comparison returned a non-zero value.
-                if (doesSubtypeSupportCharset(flavor1)) {
-                    // Next, prefer the decoded text representations of Reader,
-                    // String, CharBuffer, and [C, in that order.
-                    comp = compareIndices(decodedTextRepresentations, class1,
-                                          class2, UNKNOWN_OBJECT_LOSES);
+                // Only need to test one flbvor becbuse they both hbve the
+                // sbme MIME type. Also don't need to worry bbout bccidentblly
+                // pbssing stringFlbvor becbuse either
+                //   1. Both flbvors bre stringFlbvor, in which cbse the
+                //      equblity test bt the top of the function succeeded.
+                //   2. Only one flbvor is stringFlbvor, in which cbse the MIME
+                //      type compbrison returned b non-zero vblue.
+                if (doesSubtypeSupportChbrset(flbvor1)) {
+                    // Next, prefer the decoded text representbtions of Rebder,
+                    // String, ChbrBuffer, bnd [C, in thbt order.
+                    comp = compbreIndices(decodedTextRepresentbtions, clbss1,
+                                          clbss2, UNKNOWN_OBJECT_LOSES);
                     if (comp != 0) {
                         return comp;
                     }
 
-                    // Next, compare charsets
-                    comp = charsetComparator.compareCharsets
-                        (DataTransferer.getTextCharset(flavor1),
-                         DataTransferer.getTextCharset(flavor2));
+                    // Next, compbre chbrsets
+                    comp = chbrsetCompbrbtor.compbreChbrsets
+                        (DbtbTrbnsferer.getTextChbrset(flbvor1),
+                         DbtbTrbnsferer.getTextChbrset(flbvor2));
                     if (comp != 0) {
                         return comp;
                     }
                 }
 
-                // Finally, prefer the encoded text representations of
-                // InputStream, ByteBuffer, and [B, in that order.
-                comp = compareIndices(encodedTextRepresentations, class1,
-                                      class2, UNKNOWN_OBJECT_LOSES);
+                // Finblly, prefer the encoded text representbtions of
+                // InputStrebm, ByteBuffer, bnd [B, in thbt order.
+                comp = compbreIndices(encodedTextRepresentbtions, clbss1,
+                                      clbss2, UNKNOWN_OBJECT_LOSES);
                 if (comp != 0) {
                     return comp;
                 }
             } else {
-                // First, prefer application types.
-                comp = compareIndices(primaryTypes, primaryType1, primaryType2,
+                // First, prefer bpplicbtion types.
+                comp = compbreIndices(primbryTypes, primbryType1, primbryType2,
                                       UNKNOWN_OBJECT_LOSES);
                 if (comp != 0) {
                     return comp;
                 }
 
-                // Next, look for application/x-java-* types. Prefer unknown
-                // MIME types because if the user provides his own data flavor,
+                // Next, look for bpplicbtion/x-jbvb-* types. Prefer unknown
+                // MIME types becbuse if the user provides his own dbtb flbvor,
                 // it will likely be the most descriptive one.
-                comp = compareIndices(exactTypes, mimeType1, mimeType2,
+                comp = compbreIndices(exbctTypes, mimeType1, mimeType2,
                                       UNKNOWN_OBJECT_WINS);
                 if (comp != 0) {
                     return comp;
                 }
 
-                // Finally, prefer the representation classes of Remote,
-                // Serializable, and InputStream, in that order.
-                comp = compareIndices(nonTextRepresentations, class1, class2,
+                // Finblly, prefer the representbtion clbsses of Remote,
+                // Seriblizbble, bnd InputStrebm, in thbt order.
+                comp = compbreIndices(nonTextRepresentbtions, clbss1, clbss2,
                                       UNKNOWN_OBJECT_LOSES);
                 if (comp != 0) {
                     return comp;
                 }
             }
 
-            // The flavours are not equal but still not distinguishable.
-            // Compare String representations in alphabetical order
-            return flavor1.getMimeType().compareTo(flavor2.getMimeType());
+            // The flbvours bre not equbl but still not distinguishbble.
+            // Compbre String representbtions in blphbbeticbl order
+            return flbvor1.getMimeType().compbreTo(flbvor2.getMimeType());
         }
     }
 
     /*
-     * Given the Map that maps objects to Integer indices and a boolean value,
-     * this Comparator imposes a direct or reverse order on set of objects.
+     * Given the Mbp thbt mbps objects to Integer indices bnd b boolebn vblue,
+     * this Compbrbtor imposes b direct or reverse order on set of objects.
      * <p>
-     * If the specified boolean value is SELECT_BEST, the Comparator imposes the
-     * direct index-based order: an object A is greater than an object B if and
-     * only if the index of A is greater than the index of B. An object that
-     * doesn't have an associated index is less or equal than any other object.
+     * If the specified boolebn vblue is SELECT_BEST, the Compbrbtor imposes the
+     * direct index-bbsed order: bn object A is grebter thbn bn object B if bnd
+     * only if the index of A is grebter thbn the index of B. An object thbt
+     * doesn't hbve bn bssocibted index is less or equbl thbn bny other object.
      * <p>
-     * If the specified boolean value is SELECT_WORST, the Comparator imposes the
-     * reverse index-based order: an object A is greater than an object B if and
-     * only if A is less than B with the direct index-based order.
+     * If the specified boolebn vblue is SELECT_WORST, the Compbrbtor imposes the
+     * reverse index-bbsed order: bn object A is grebter thbn bn object B if bnd
+     * only if A is less thbn B with the direct index-bbsed order.
      */
-    public static class IndexOrderComparator extends IndexedComparator<Long> {
-        private final Map<Long, Integer> indexMap;
-        private static final Integer FALLBACK_INDEX = Integer.MIN_VALUE;
+    public stbtic clbss IndexOrderCompbrbtor extends IndexedCompbrbtor<Long> {
+        privbte finbl Mbp<Long, Integer> indexMbp;
+        privbte stbtic finbl Integer FALLBACK_INDEX = Integer.MIN_VALUE;
 
-        public IndexOrderComparator(Map<Long, Integer> indexMap, boolean order) {
+        public IndexOrderCompbrbtor(Mbp<Long, Integer> indexMbp, boolebn order) {
             super(order);
-            this.indexMap = indexMap;
+            this.indexMbp = indexMbp;
         }
 
-        public int compare(Long obj1, Long obj2) {
+        public int compbre(Long obj1, Long obj2) {
             if (order == SELECT_WORST) {
-                return -compareIndices(indexMap, obj1, obj2, FALLBACK_INDEX);
+                return -compbreIndices(indexMbp, obj1, obj2, FALLBACK_INDEX);
             } else {
-                return compareIndices(indexMap, obj1, obj2, FALLBACK_INDEX);
+                return compbreIndices(indexMbp, obj1, obj2, FALLBACK_INDEX);
             }
         }
     }
 
     /**
-     * A class that provides access to java.rmi.Remote and java.rmi.MarshalledObject
-     * without creating a static dependency.
+     * A clbss thbt provides bccess to jbvb.rmi.Remote bnd jbvb.rmi.MbrshblledObject
+     * without crebting b stbtic dependency.
      */
-    private static class RMI {
-        private static final Class<?> remoteClass = getClass("java.rmi.Remote");
-        private static final Class<?> marshallObjectClass =
-            getClass("java.rmi.MarshalledObject");
-        private static final Constructor<?> marshallCtor =
-            getConstructor(marshallObjectClass, Object.class);
-        private static final Method marshallGet =
-            getMethod(marshallObjectClass, "get");
+    privbte stbtic clbss RMI {
+        privbte stbtic finbl Clbss<?> remoteClbss = getClbss("jbvb.rmi.Remote");
+        privbte stbtic finbl Clbss<?> mbrshbllObjectClbss =
+            getClbss("jbvb.rmi.MbrshblledObject");
+        privbte stbtic finbl Constructor<?> mbrshbllCtor =
+            getConstructor(mbrshbllObjectClbss, Object.clbss);
+        privbte stbtic finbl Method mbrshbllGet =
+            getMethod(mbrshbllObjectClbss, "get");
 
-        private static Class<?> getClass(String name) {
+        privbte stbtic Clbss<?> getClbss(String nbme) {
             try {
-                return Class.forName(name, true, null);
-            } catch (ClassNotFoundException e) {
+                return Clbss.forNbme(nbme, true, null);
+            } cbtch (ClbssNotFoundException e) {
                 return null;
             }
         }
 
-        private static Constructor<?> getConstructor(Class<?> c, Class<?>... types) {
+        privbte stbtic Constructor<?> getConstructor(Clbss<?> c, Clbss<?>... types) {
             try {
-                return (c == null) ? null : c.getDeclaredConstructor(types);
-            } catch (NoSuchMethodException x) {
+                return (c == null) ? null : c.getDeclbredConstructor(types);
+            } cbtch (NoSuchMethodException x) {
                 throw new AssertionError(x);
             }
         }
 
-        private static Method getMethod(Class<?> c, String name, Class<?>... types) {
+        privbte stbtic Method getMethod(Clbss<?> c, String nbme, Clbss<?>... types) {
             try {
-                return (c == null) ? null : c.getMethod(name, types);
-            } catch (NoSuchMethodException e) {
+                return (c == null) ? null : c.getMethod(nbme, types);
+            } cbtch (NoSuchMethodException e) {
                 throw new AssertionError(e);
             }
         }
 
         /**
-         * Returns {@code true} if the given class is java.rmi.Remote.
+         * Returns {@code true} if the given clbss is jbvb.rmi.Remote.
          */
-        static boolean isRemote(Class<?> c) {
-            return (remoteClass == null) ? false : remoteClass.isAssignableFrom(c);
+        stbtic boolebn isRemote(Clbss<?> c) {
+            return (remoteClbss == null) ? fblse : remoteClbss.isAssignbbleFrom(c);
         }
 
         /**
-         * Returns java.rmi.Remote.class if RMI is present; otherwise {@code null}.
+         * Returns jbvb.rmi.Remote.clbss if RMI is present; otherwise {@code null}.
          */
-        static Class<?> remoteClass() {
-            return remoteClass;
+        stbtic Clbss<?> remoteClbss() {
+            return remoteClbss;
         }
 
         /**
-         * Returns a new MarshalledObject containing the serialized representation
+         * Returns b new MbrshblledObject contbining the seriblized representbtion
          * of the given object.
          */
-        static Object newMarshalledObject(Object obj) throws IOException {
+        stbtic Object newMbrshblledObject(Object obj) throws IOException {
             try {
-                return marshallCtor.newInstance(obj);
-            } catch (InstantiationException | IllegalAccessException x) {
+                return mbrshbllCtor.newInstbnce(obj);
+            } cbtch (InstbntibtionException | IllegblAccessException x) {
                 throw new AssertionError(x);
-            } catch (InvocationTargetException  x) {
-                Throwable cause = x.getCause();
-                if (cause instanceof IOException)
-                    throw (IOException)cause;
+            } cbtch (InvocbtionTbrgetException  x) {
+                Throwbble cbuse = x.getCbuse();
+                if (cbuse instbnceof IOException)
+                    throw (IOException)cbuse;
                 throw new AssertionError(x);
             }
         }
 
         /**
-         * Returns a new copy of the contained marshalled object.
+         * Returns b new copy of the contbined mbrshblled object.
          */
-        static Object getMarshalledObject(Object obj)
-            throws IOException, ClassNotFoundException
+        stbtic Object getMbrshblledObject(Object obj)
+            throws IOException, ClbssNotFoundException
         {
             try {
-                return marshallGet.invoke(obj);
-            } catch (IllegalAccessException x) {
+                return mbrshbllGet.invoke(obj);
+            } cbtch (IllegblAccessException x) {
                 throw new AssertionError(x);
-            } catch (InvocationTargetException x) {
-                Throwable cause = x.getCause();
-                if (cause instanceof IOException)
-                    throw (IOException)cause;
-                if (cause instanceof ClassNotFoundException)
-                    throw (ClassNotFoundException)cause;
+            } cbtch (InvocbtionTbrgetException x) {
+                Throwbble cbuse = x.getCbuse();
+                if (cbuse instbnceof IOException)
+                    throw (IOException)cbuse;
+                if (cbuse instbnceof ClbssNotFoundException)
+                    throw (ClbssNotFoundException)cbuse;
                 throw new AssertionError(x);
             }
         }

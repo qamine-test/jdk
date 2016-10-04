@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <jlong.h>
 #include <string.h>
 
-#include "sun_java2d_d3d_D3DPaints_MultiGradient.h"
+#include "sun_jbvb2d_d3d_D3DPbints_MultiGrbdient.h"
 
-#include "D3DPaints.h"
+#include "D3DPbints.h"
 #include "D3DContext.h"
 #include "D3DRenderQueue.h"
-#include "D3DSurfaceData.h"
+#include "D3DSurfbceDbtb.h"
 
 HRESULT
-D3DPaints_ResetPaint(D3DContext *d3dc)
+D3DPbints_ResetPbint(D3DContext *d3dc)
 {
-    jint pixel, paintState;
-    jubyte ea;
+    jint pixel, pbintStbte;
+    jubyte eb;
     HRESULT res;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPaints_ResetPaint");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPbints_ResetPbint");
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
 
-    paintState = d3dc->GetPaintState();
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  state=%d", paintState);
+    pbintStbte = d3dc->GetPbintStbte();
+    J2dTrbceLn1(J2D_TRACE_VERBOSE, "  stbte=%d", pbintStbte);
 
-    res = d3dc->UpdateState(STATE_OTHEROP);
+    res = d3dc->UpdbteStbte(STATE_OTHEROP);
 
-    // disable current complex paint state, if necessary
-    if (paintState > PAINT_ALPHACOLOR) {
+    // disbble current complex pbint stbte, if necessbry
+    if (pbintStbte > PAINT_ALPHACOLOR) {
         IDirect3DDevice9 *pd3dDevice = d3dc->Get3DDevice();
-        DWORD sampler = d3dc->useMask ? 1 : 0;
+        DWORD sbmpler = d3dc->useMbsk ? 1 : 0;
 
-        d3dc->SetTexture(NULL, sampler);
-        pd3dDevice->SetSamplerState(sampler,
+        d3dc->SetTexture(NULL, sbmpler);
+        pd3dDevice->SetSbmplerStbte(sbmpler,
                                     D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-        pd3dDevice->SetSamplerState(sampler,
+        pd3dDevice->SetSbmplerStbte(sbmpler,
                                     D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-        pd3dDevice->SetTextureStageState(sampler,
-                                         D3DTSS_TEXCOORDINDEX, sampler);
-        res = pd3dDevice->SetTextureStageState(sampler,
+        pd3dDevice->SetTextureStbgeStbte(sbmpler,
+                                         D3DTSS_TEXCOORDINDEX, sbmpler);
+        res = pd3dDevice->SetTextureStbgeStbte(sbmpler,
                                                D3DTSS_TEXTURETRANSFORMFLAGS,
                                                D3DTTFF_DISABLE);
 
-        if (paintState == PAINT_GRADIENT     ||
-            paintState == PAINT_LIN_GRADIENT ||
-            paintState == PAINT_RAD_GRADIENT)
+        if (pbintStbte == PAINT_GRADIENT     ||
+            pbintStbte == PAINT_LIN_GRADIENT ||
+            pbintStbte == PAINT_RAD_GRADIENT)
         {
-            res = pd3dDevice->SetPixelShader(NULL);
+            res = pd3dDevice->SetPixelShbder(NULL);
         }
     }
 
-    // set each component of the current color state to the extra alpha
-    // value, which will effectively apply the extra alpha to each fragment
-    // in paint/texturing operations
-    ea = (jubyte)(d3dc->extraAlpha * 0xff + 0.5f);
-    pixel = (ea << 24) | (ea << 16) | (ea << 8) | (ea << 0);
-    d3dc->pVCacher->SetColor(pixel);
-    d3dc->useMask = JNI_FALSE;
-    d3dc->SetPaintState(-1);
+    // set ebch component of the current color stbte to the extrb blphb
+    // vblue, which will effectively bpply the extrb blphb to ebch frbgment
+    // in pbint/texturing operbtions
+    eb = (jubyte)(d3dc->extrbAlphb * 0xff + 0.5f);
+    pixel = (eb << 24) | (eb << 16) | (eb << 8) | (eb << 0);
+    d3dc->pVCbcher->SetColor(pixel);
+    d3dc->useMbsk = JNI_FALSE;
+    d3dc->SetPbintStbte(-1);
     return res;
 }
 
 HRESULT
-D3DPaints_SetColor(D3DContext *d3dc, jint pixel)
+D3DPbints_SetColor(D3DContext *d3dc, jint pixel)
 {
     HRESULT res = S_OK;
 
-    J2dTraceLn1(J2D_TRACE_INFO, "D3DPaints_SetColor: pixel=%08x", pixel);
+    J2dTrbceLn1(J2D_TRACE_INFO, "D3DPbints_SetColor: pixel=%08x", pixel);
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
 
-    // no need to reset the current op state here unless the paint
-    // state really needs to be changed
-    if (d3dc->GetPaintState() > PAINT_ALPHACOLOR) {
-        res = D3DPaints_ResetPaint(d3dc);
+    // no need to reset the current op stbte here unless the pbint
+    // stbte reblly needs to be chbnged
+    if (d3dc->GetPbintStbte() > PAINT_ALPHACOLOR) {
+        res = D3DPbints_ResetPbint(d3dc);
     }
 
-    d3dc->pVCacher->SetColor(pixel);
-    d3dc->useMask = JNI_FALSE;
-    d3dc->SetPaintState(PAINT_ALPHACOLOR);
+    d3dc->pVCbcher->SetColor(pixel);
+    d3dc->useMbsk = JNI_FALSE;
+    d3dc->SetPbintStbte(PAINT_ALPHACOLOR);
     return res;
 }
 
-/************************* GradientPaint support ****************************/
+/************************* GrbdientPbint support ****************************/
 
 HRESULT
-D3DPaints_SetGradientPaint(D3DContext *d3dc,
-                           jboolean useMask, jboolean cyclic,
+D3DPbints_SetGrbdientPbint(D3DContext *d3dc,
+                           jboolebn useMbsk, jboolebn cyclic,
                            jdouble p0, jdouble p1, jdouble p3,
                            jint pixel1, jint pixel2)
 {
     IDirect3DDevice9 *pd3dDevice;
     HRESULT res;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPaints_SetGradientPaint");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPbints_SetGrbdientPbint");
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
-    D3DPaints_ResetPaint(d3dc);
+    D3DPbints_ResetPbint(d3dc);
 
 #if 0
     /*
-     * REMIND: The following code represents the original fast gradient
-     *         implementation.  The problem is that it relies on LINEAR
+     * REMIND: The following code represents the originbl fbst grbdient
+     *         implementbtion.  The problem is thbt it relies on LINEAR
      *         texture filtering, which does not provide sufficient
-     *         precision on certain hardware (from ATI, notably), which
-     *         will cause visible banding (e.g. 64 shades of gray between
-     *         black and white, instead of the expected 256 shades.  For
-     *         correctness on such hardware, it is necessary to use a
-     *         shader-based approach that does not suffer from these
-     *         precision issues (see below).  This original implementation
-     *         is about 16x faster than software, whereas the shader-based
-     *         implementation is only about 4x faster than software (still
-     *         impressive).  For simplicity, we will always use the
-     *         shader-based version for now, but in the future we could
-     *         consider using the fast path for certain hardware (that does
-     *         not exhibit the problem) or provide a flag to allow developers
-     *         to control which path we take (for those that are less
-     *         concerned about quality).  Therefore, I'll leave this code
-     *         here (currently disabled) for future use.
+     *         precision on certbin hbrdwbre (from ATI, notbbly), which
+     *         will cbuse visible bbnding (e.g. 64 shbdes of grby between
+     *         blbck bnd white, instebd of the expected 256 shbdes.  For
+     *         correctness on such hbrdwbre, it is necessbry to use b
+     *         shbder-bbsed bpprobch thbt does not suffer from these
+     *         precision issues (see below).  This originbl implementbtion
+     *         is bbout 16x fbster thbn softwbre, wherebs the shbder-bbsed
+     *         implementbtion is only bbout 4x fbster thbn softwbre (still
+     *         impressive).  For simplicity, we will blwbys use the
+     *         shbder-bbsed version for now, but in the future we could
+     *         consider using the fbst pbth for certbin hbrdwbre (thbt does
+     *         not exhibit the problem) or provide b flbg to bllow developers
+     *         to control which pbth we tbke (for those thbt bre less
+     *         concerned bbout qublity).  Therefore, I'll lebve this code
+     *         here (currently disbbled) for future use.
      */
-    D3DResource *pGradientTexRes;
-    IDirect3DTexture9 *pGradientTex;
+    D3DResource *pGrbdientTexRes;
+    IDirect3DTexture9 *pGrbdientTex;
 
-    // this will initialize the gradient texture, if necessary
-    res = d3dc->GetResourceManager()->GetGradientTexture(&pGradientTexRes);
+    // this will initiblize the grbdient texture, if necessbry
+    res = d3dc->GetResourceMbnbger()->GetGrbdientTexture(&pGrbdientTexRes);
     RETURN_STATUS_IF_FAILED(res);
 
-    pGradientTex = pGradientTexRes->GetTexture();
+    pGrbdientTex = pGrbdientTexRes->GetTexture();
 
-    // update the texture containing the gradient colors
+    // updbte the texture contbining the grbdient colors
     {
         D3DLOCKED_RECT lockedRect;
-        res = pGradientTex->LockRect(0, &lockedRect, NULL, D3DLOCK_NOSYSLOCK);
+        res = pGrbdientTex->LockRect(0, &lockedRect, NULL, D3DLOCK_NOSYSLOCK);
         RETURN_STATUS_IF_FAILED(res);
         jint *pPix = (jint*)lockedRect.pBits;
         pPix[0] = pixel1;
         pPix[1] = pixel2;
-        pGradientTex->UnlockRect(0);
+        pGrbdientTex->UnlockRect(0);
     }
 
-    DWORD sampler = useMask ? 1 : 0;
-    DWORD wrapMode = cyclic ? D3DTADDRESS_WRAP : D3DTADDRESS_CLAMP;
-    d3dc->SetTexture(pGradientTex, sampler);
-    d3dc->UpdateTextureColorState(D3DTA_TEXTURE, sampler);
+    DWORD sbmpler = useMbsk ? 1 : 0;
+    DWORD wrbpMode = cyclic ? D3DTADDRESS_WRAP : D3DTADDRESS_CLAMP;
+    d3dc->SetTexture(pGrbdientTex, sbmpler);
+    d3dc->UpdbteTextureColorStbte(D3DTA_TEXTURE, sbmpler);
 
     pd3dDevice = d3dc->Get3DDevice();
-    pd3dDevice->SetSamplerState(sampler, D3DSAMP_ADDRESSU, wrapMode);
-    pd3dDevice->SetSamplerState(sampler, D3DSAMP_ADDRESSV, wrapMode);
-    pd3dDevice->SetSamplerState(sampler, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-    pd3dDevice->SetSamplerState(sampler, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    pd3dDevice->SetSbmplerStbte(sbmpler, D3DSAMP_ADDRESSU, wrbpMode);
+    pd3dDevice->SetSbmplerStbte(sbmpler, D3DSAMP_ADDRESSV, wrbpMode);
+    pd3dDevice->SetSbmplerStbte(sbmpler, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    pd3dDevice->SetSbmplerStbte(sbmpler, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 
     D3DMATRIX mt;
     ZeroMemory(&mt, sizeof(mt));
-    mt._11 = (float)p0;
-    mt._21 = (float)p1;
-    mt._31 = (float)0.0;
-    mt._41 = (float)p3;
+    mt._11 = (flobt)p0;
+    mt._21 = (flobt)p1;
+    mt._31 = (flobt)0.0;
+    mt._41 = (flobt)p3;
     mt._12 = 0.0f;
     mt._22 = 1.0f;
     mt._32 = 0.0f;
     mt._42 = 0.0f;
-    pd3dDevice->SetTransform(useMask ? D3DTS_TEXTURE1 : D3DTS_TEXTURE0, &mt);
-    pd3dDevice->SetTextureStageState(sampler, D3DTSS_TEXCOORDINDEX,
+    pd3dDevice->SetTrbnsform(useMbsk ? D3DTS_TEXTURE1 : D3DTS_TEXTURE0, &mt);
+    pd3dDevice->SetTextureStbgeStbte(sbmpler, D3DTSS_TEXCOORDINDEX,
                                      D3DTSS_TCI_CAMERASPACEPOSITION);
-    res = pd3dDevice->SetTextureStageState(sampler,
+    res = pd3dDevice->SetTextureStbgeStbte(sbmpler,
                                      D3DTSS_TEXTURETRANSFORMFLAGS,
                                      D3DTTFF_COUNT2);
 #else
-    jfloat params[4];
-    jfloat color[4];
-    jint flags = 0;
+    jflobt pbrbms[4];
+    jflobt color[4];
+    jint flbgs = 0;
 
-    if (cyclic)  flags |= BASIC_GRAD_IS_CYCLIC;
-    if (useMask) flags |= BASIC_GRAD_USE_MASK;
+    if (cyclic)  flbgs |= BASIC_GRAD_IS_CYCLIC;
+    if (useMbsk) flbgs |= BASIC_GRAD_USE_MASK;
 
-    // locate/enable the shader program for the given flags
-    res = d3dc->EnableBasicGradientProgram(flags);
+    // locbte/enbble the shbder progrbm for the given flbgs
+    res = d3dc->EnbbleBbsicGrbdientProgrbm(flbgs);
     RETURN_STATUS_IF_FAILED(res);
 
-    // update the "uniform" values
-    params[0] = (jfloat)p0;
-    params[1] = (jfloat)p1;
-    params[2] = (jfloat)p3;
-    params[3] = 0.0f; // unused
+    // updbte the "uniform" vblues
+    pbrbms[0] = (jflobt)p0;
+    pbrbms[1] = (jflobt)p1;
+    pbrbms[2] = (jflobt)p3;
+    pbrbms[3] = 0.0f; // unused
     pd3dDevice = d3dc->Get3DDevice();
-    res = pd3dDevice->SetPixelShaderConstantF(0, params, 1);
+    res = pd3dDevice->SetPixelShbderConstbntF(0, pbrbms, 1);
 
     color[0] = ((pixel1 >> 16) & 0xff) / 255.0f; // r
     color[1] = ((pixel1 >>  8) & 0xff) / 255.0f; // g
     color[2] = ((pixel1 >>  0) & 0xff) / 255.0f; // b
-    color[3] = ((pixel1 >> 24) & 0xff) / 255.0f; // a
-    res = pd3dDevice->SetPixelShaderConstantF(1, color, 1);
+    color[3] = ((pixel1 >> 24) & 0xff) / 255.0f; // b
+    res = pd3dDevice->SetPixelShbderConstbntF(1, color, 1);
 
     color[0] = ((pixel2 >> 16) & 0xff) / 255.0f; // r
     color[1] = ((pixel2 >>  8) & 0xff) / 255.0f; // g
     color[2] = ((pixel2 >>  0) & 0xff) / 255.0f; // b
-    color[3] = ((pixel2 >> 24) & 0xff) / 255.0f; // a
-    res = pd3dDevice->SetPixelShaderConstantF(2, color, 1);
+    color[3] = ((pixel2 >> 24) & 0xff) / 255.0f; // b
+    res = pd3dDevice->SetPixelShbderConstbntF(2, color, 1);
 
-    // set up texture coordinate transform with identity matrix, which
-    // will have the effect of passing the current window-space coordinates
-    // through to the TEXCOORD0/1 register used by the basic gradient
-    // pixel shader
-    DWORD sampler = useMask ? 1 : 0;
+    // set up texture coordinbte trbnsform with identity mbtrix, which
+    // will hbve the effect of pbssing the current window-spbce coordinbtes
+    // through to the TEXCOORD0/1 register used by the bbsic grbdient
+    // pixel shbder
+    DWORD sbmpler = useMbsk ? 1 : 0;
     D3DMATRIX mt;
     ZeroMemory(&mt, sizeof(mt));
     mt._11 = 1.0f;
@@ -236,25 +236,25 @@ D3DPaints_SetGradientPaint(D3DContext *d3dc,
     mt._22 = 1.0f;
     mt._32 = 0.0f;
     mt._42 = 0.0f;
-    pd3dDevice->SetTransform(useMask ? D3DTS_TEXTURE1 : D3DTS_TEXTURE0, &mt);
-    pd3dDevice->SetTextureStageState(sampler, D3DTSS_TEXCOORDINDEX,
+    pd3dDevice->SetTrbnsform(useMbsk ? D3DTS_TEXTURE1 : D3DTS_TEXTURE0, &mt);
+    pd3dDevice->SetTextureStbgeStbte(sbmpler, D3DTSS_TEXCOORDINDEX,
                                      D3DTSS_TCI_CAMERASPACEPOSITION);
-    pd3dDevice->SetTextureStageState(sampler, D3DTSS_TEXTURETRANSFORMFLAGS,
+    pd3dDevice->SetTextureStbgeStbte(sbmpler, D3DTSS_TEXTURETRANSFORMFLAGS,
                                      D3DTTFF_COUNT2);
 #endif
 
-    // pixel state has been set appropriately in D3DPaints_ResetPaint()
-    d3dc->useMask = useMask;
-    d3dc->SetPaintState(PAINT_GRADIENT);
+    // pixel stbte hbs been set bppropribtely in D3DPbints_ResetPbint()
+    d3dc->useMbsk = useMbsk;
+    d3dc->SetPbintStbte(PAINT_GRADIENT);
     return res;
 }
 
-/************************** TexturePaint support ****************************/
+/************************** TexturePbint support ****************************/
 
 HRESULT
-D3DPaints_SetTexturePaint(D3DContext *d3dc,
-                          jboolean useMask,
-                          jlong pSrcOps, jboolean filter,
+D3DPbints_SetTexturePbint(D3DContext *d3dc,
+                          jboolebn useMbsk,
+                          jlong pSrcOps, jboolebn filter,
                           jdouble xp0, jdouble xp1, jdouble xp3,
                           jdouble yp0, jdouble yp1, jdouble yp3)
 {
@@ -262,27 +262,27 @@ D3DPaints_SetTexturePaint(D3DContext *d3dc,
     IDirect3DDevice9 *pd3dDevice;
     HRESULT res;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPaints_SetTexturePaint");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPbints_SetTexturePbint");
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
     RETURN_STATUS_IF_NULL(srcOps, E_FAIL);
     RETURN_STATUS_IF_NULL(srcOps->pResource, E_FAIL);
-    D3DPaints_ResetPaint(d3dc);
+    D3DPbints_ResetPbint(d3dc);
 
-    DWORD sampler = useMask ? 1 : 0;
+    DWORD sbmpler = useMbsk ? 1 : 0;
     DWORD dwFilter = filter ? D3DTEXF_LINEAR : D3DTEXF_POINT;
-    res = d3dc->SetTexture(srcOps->pResource->GetTexture(), sampler);
-    d3dc->UpdateTextureColorState(D3DTA_TEXTURE, sampler);
+    res = d3dc->SetTexture(srcOps->pResource->GetTexture(), sbmpler);
+    d3dc->UpdbteTextureColorStbte(D3DTA_TEXTURE, sbmpler);
     pd3dDevice = d3dc->Get3DDevice();
-    pd3dDevice->SetSamplerState(sampler, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-    pd3dDevice->SetSamplerState(sampler, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
-    pd3dDevice->SetSamplerState(sampler, D3DSAMP_MAGFILTER, dwFilter);
-    pd3dDevice->SetSamplerState(sampler, D3DSAMP_MINFILTER, dwFilter);
+    pd3dDevice->SetSbmplerStbte(sbmpler, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+    pd3dDevice->SetSbmplerStbte(sbmpler, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+    pd3dDevice->SetSbmplerStbte(sbmpler, D3DSAMP_MAGFILTER, dwFilter);
+    pd3dDevice->SetSbmplerStbte(sbmpler, D3DSAMP_MINFILTER, dwFilter);
 
     D3DMATRIX mt;
     ZeroMemory(&mt, sizeof(mt));
 
-    // offset by a half texel to correctly map texels to pixels
+    // offset by b hblf texel to correctly mbp texels to pixels
     //  m02 = tx * m00 + ty * m01 + m02;
     //  m12 = tx * m10 + ty * m11 + m12;
     jdouble tx = (1 / (2.0f * srcOps->pResource->GetDesc()->Width));
@@ -290,121 +290,121 @@ D3DPaints_SetTexturePaint(D3DContext *d3dc,
     xp3 = tx * xp0 + ty * xp1 + xp3;
     yp3 = tx * yp0 + ty * yp1 + yp3;
 
-    mt._11 = (float)xp0;
-    mt._21 = (float)xp1;
-    mt._31 = (float)0.0;
-    mt._41 = (float)xp3;
-    mt._12 = (float)yp0;
-    mt._22 = (float)yp1;
-    mt._32 = (float)0.0;
-    mt._42 = (float)yp3;
-    pd3dDevice->SetTransform(useMask ? D3DTS_TEXTURE1 : D3DTS_TEXTURE0, &mt);
-    pd3dDevice->SetTextureStageState(sampler, D3DTSS_TEXCOORDINDEX,
+    mt._11 = (flobt)xp0;
+    mt._21 = (flobt)xp1;
+    mt._31 = (flobt)0.0;
+    mt._41 = (flobt)xp3;
+    mt._12 = (flobt)yp0;
+    mt._22 = (flobt)yp1;
+    mt._32 = (flobt)0.0;
+    mt._42 = (flobt)yp3;
+    pd3dDevice->SetTrbnsform(useMbsk ? D3DTS_TEXTURE1 : D3DTS_TEXTURE0, &mt);
+    pd3dDevice->SetTextureStbgeStbte(sbmpler, D3DTSS_TEXCOORDINDEX,
                                      D3DTSS_TCI_CAMERASPACEPOSITION);
-    pd3dDevice->SetTextureStageState(sampler, D3DTSS_TEXTURETRANSFORMFLAGS,
+    pd3dDevice->SetTextureStbgeStbte(sbmpler, D3DTSS_TEXTURETRANSFORMFLAGS,
                                      D3DTTFF_COUNT2);
 
-    // pixel state has been set appropriately in D3DPaints_ResetPaint()
-    d3dc->useMask = useMask;
-    d3dc->SetPaintState(PAINT_TEXTURE);
+    // pixel stbte hbs been set bppropribtely in D3DPbints_ResetPbint()
+    d3dc->useMbsk = useMbsk;
+    d3dc->SetPbintStbte(PAINT_TEXTURE);
     return res;
 }
 
-/****************** Shared MultipleGradientPaint support ********************/
+/****************** Shbred MultipleGrbdientPbint support ********************/
 
-/** Composes the given parameters as flags into the given flags variable.*/
-#define COMPOSE_FLAGS(flags, cycleMethod, large, useMask, linear) \
+/** Composes the given pbrbmeters bs flbgs into the given flbgs vbribble.*/
+#define COMPOSE_FLAGS(flbgs, cycleMethod, lbrge, useMbsk, linebr) \
     do {                                                        \
-        flags |= ((cycleMethod) & MULTI_GRAD_CYCLE_METHOD);     \
-        if (large)   flags |= MULTI_GRAD_LARGE;                 \
-        if (useMask) flags |= MULTI_GRAD_USE_MASK;              \
-        if (linear)  flags |= MULTI_GRAD_LINEAR_RGB;            \
+        flbgs |= ((cycleMethod) & MULTI_GRAD_CYCLE_METHOD);     \
+        if (lbrge)   flbgs |= MULTI_GRAD_LARGE;                 \
+        if (useMbsk) flbgs |= MULTI_GRAD_USE_MASK;              \
+        if (linebr)  flbgs |= MULTI_GRAD_LINEAR_RGB;            \
     } while (0)
 
 /**
- * The maximum number of gradient "stops" supported by the fragment shader
- * and related code.  When the MULTI_GRAD_LARGE flag is set, we will use
- * MAX_FRACTIONS_LARGE; otherwise, we use MAX_FRACTIONS_SMALL.  By having
- * two separate values, we can have one highly optimized shader (SMALL) that
- * supports only a few fractions/colors, and then another, less optimal
- * shader that supports more stops.
+ * The mbximum number of grbdient "stops" supported by the frbgment shbder
+ * bnd relbted code.  When the MULTI_GRAD_LARGE flbg is set, we will use
+ * MAX_FRACTIONS_LARGE; otherwise, we use MAX_FRACTIONS_SMALL.  By hbving
+ * two sepbrbte vblues, we cbn hbve one highly optimized shbder (SMALL) thbt
+ * supports only b few frbctions/colors, bnd then bnother, less optimbl
+ * shbder thbt supports more stops.
  */
 #define MAX_FRACTIONS \
-    sun_java2d_d3d_D3DPaints_MultiGradient_MULTI_MAX_FRACTIONS_D3D
+    sun_jbvb2d_d3d_D3DPbints_MultiGrbdient_MULTI_MAX_FRACTIONS_D3D
 #define MAX_FRACTIONS_LARGE MAX_FRACTIONS
 #define MAX_FRACTIONS_SMALL 4
 
 /**
- * Called from the D3DPaints_SetLinear/RadialGradientPaint() methods
- * in order to setup the fraction/color values that are common to both.
+ * Cblled from the D3DPbints_SetLinebr/RbdiblGrbdientPbint() methods
+ * in order to setup the frbction/color vblues thbt bre common to both.
  */
-static HRESULT
-D3DPaints_SetMultiGradientPaint(D3DContext *d3dc,
-                                jboolean useMask, jint numStops,
-                                void *pFractions, void *pPixels)
+stbtic HRESULT
+D3DPbints_SetMultiGrbdientPbint(D3DContext *d3dc,
+                                jboolebn useMbsk, jint numStops,
+                                void *pFrbctions, void *pPixels)
 {
     HRESULT res;
     IDirect3DDevice9 *pd3dDevice;
-    IDirect3DTexture9 *pMultiGradientTex;
-    D3DResource *pMultiGradientTexRes;
-    jint maxFractions = (numStops > MAX_FRACTIONS_SMALL) ?
+    IDirect3DTexture9 *pMultiGrbdientTex;
+    D3DResource *pMultiGrbdientTexRes;
+    jint mbxFrbctions = (numStops > MAX_FRACTIONS_SMALL) ?
         MAX_FRACTIONS_LARGE : MAX_FRACTIONS_SMALL;
-    jfloat stopVals[MAX_FRACTIONS * 4];
-    jfloat *fractions = (jfloat *)pFractions;
+    jflobt stopVbls[MAX_FRACTIONS * 4];
+    jflobt *frbctions = (jflobt *)pFrbctions;
     juint *pixels = (juint *)pPixels;
     int i;
     int fIndex = 0;
 
     pd3dDevice = d3dc->Get3DDevice();
 
-    // update the "uniform" fractions and scale factors
-    for (i = 0; i < maxFractions; i++) {
-        stopVals[fIndex+0] = (i < numStops)   ?
-            fractions[i] : 0.0f;
-        stopVals[fIndex+1] = (i < numStops-1) ?
-            1.0f / (fractions[i+1] - fractions[i]) : 0.0f;
-        stopVals[fIndex+2] = 0.0f; // unused
-        stopVals[fIndex+3] = 0.0f; // unused
+    // updbte the "uniform" frbctions bnd scble fbctors
+    for (i = 0; i < mbxFrbctions; i++) {
+        stopVbls[fIndex+0] = (i < numStops)   ?
+            frbctions[i] : 0.0f;
+        stopVbls[fIndex+1] = (i < numStops-1) ?
+            1.0f / (frbctions[i+1] - frbctions[i]) : 0.0f;
+        stopVbls[fIndex+2] = 0.0f; // unused
+        stopVbls[fIndex+3] = 0.0f; // unused
         fIndex += 4;
     }
-    pd3dDevice->SetPixelShaderConstantF(0, stopVals, maxFractions);
+    pd3dDevice->SetPixelShbderConstbntF(0, stopVbls, mbxFrbctions);
 
-    // this will initialize the multi-gradient texture, if necessary
-    res = d3dc->GetResourceManager()->
-        GetMultiGradientTexture(&pMultiGradientTexRes);
+    // this will initiblize the multi-grbdient texture, if necessbry
+    res = d3dc->GetResourceMbnbger()->
+        GetMultiGrbdientTexture(&pMultiGrbdientTexRes);
     RETURN_STATUS_IF_FAILED(res);
 
-    pMultiGradientTex = pMultiGradientTexRes->GetTexture();
+    pMultiGrbdientTex = pMultiGrbdientTexRes->GetTexture();
 
-    // update the texture containing the gradient colors
+    // updbte the texture contbining the grbdient colors
     D3DLOCKED_RECT lockedRect;
-    res = pMultiGradientTex->LockRect(0, &lockedRect, NULL, D3DLOCK_NOSYSLOCK);
+    res = pMultiGrbdientTex->LockRect(0, &lockedRect, NULL, D3DLOCK_NOSYSLOCK);
     RETURN_STATUS_IF_FAILED(res);
 
     juint *pPix = (juint*)lockedRect.pBits;
     memcpy(pPix, pixels, numStops*sizeof(juint));
     if (numStops < MAX_MULTI_GRADIENT_COLORS) {
-        // when we don't have enough colors to fill the entire
-        // color gradient, we have to replicate the last color
-        // in the right-most texel for the NO_CYCLE case where the
+        // when we don't hbve enough colors to fill the entire
+        // color grbdient, we hbve to replicbte the lbst color
+        // in the right-most texel for the NO_CYCLE cbse where the
         // texcoord is sometimes forced to 1.0
         pPix[MAX_MULTI_GRADIENT_COLORS-1] = pixels[numStops-1];
     }
-    pMultiGradientTex->UnlockRect(0);
+    pMultiGrbdientTex->UnlockRect(0);
 
-    // set the gradient texture and update relevant state
-    DWORD sampler = useMask ? 1 : 0;
-    res = d3dc->SetTexture(pMultiGradientTex, sampler);
-    d3dc->UpdateTextureColorState(D3DTA_TEXTURE, sampler);
-    pd3dDevice->SetSamplerState(sampler, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-    pd3dDevice->SetSamplerState(sampler, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-    pd3dDevice->SetSamplerState(sampler, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-    pd3dDevice->SetSamplerState(sampler, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    // set the grbdient texture bnd updbte relevbnt stbte
+    DWORD sbmpler = useMbsk ? 1 : 0;
+    res = d3dc->SetTexture(pMultiGrbdientTex, sbmpler);
+    d3dc->UpdbteTextureColorStbte(D3DTA_TEXTURE, sbmpler);
+    pd3dDevice->SetSbmplerStbte(sbmpler, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    pd3dDevice->SetSbmplerStbte(sbmpler, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    pd3dDevice->SetSbmplerStbte(sbmpler, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    pd3dDevice->SetSbmplerStbte(sbmpler, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 
-    // set up texture coordinate transform with identity matrix, which
-    // will have the effect of passing the current window-space coordinates
+    // set up texture coordinbte trbnsform with identity mbtrix, which
+    // will hbve the effect of pbssing the current window-spbce coordinbtes
     // through to the TEXCOORD0/1 register used by the multi-stop
-    // gradient pixel shader
+    // grbdient pixel shbder
     D3DMATRIX mt;
     ZeroMemory(&mt, sizeof(mt));
     mt._11 = 1.0f;
@@ -415,118 +415,118 @@ D3DPaints_SetMultiGradientPaint(D3DContext *d3dc,
     mt._22 = 1.0f;
     mt._32 = 0.0f;
     mt._42 = 0.0f;
-    pd3dDevice->SetTransform(useMask ? D3DTS_TEXTURE1 : D3DTS_TEXTURE0, &mt);
-    pd3dDevice->SetTextureStageState(sampler, D3DTSS_TEXCOORDINDEX,
+    pd3dDevice->SetTrbnsform(useMbsk ? D3DTS_TEXTURE1 : D3DTS_TEXTURE0, &mt);
+    pd3dDevice->SetTextureStbgeStbte(sbmpler, D3DTSS_TEXCOORDINDEX,
                                      D3DTSS_TCI_CAMERASPACEPOSITION);
-    pd3dDevice->SetTextureStageState(sampler, D3DTSS_TEXTURETRANSFORMFLAGS,
+    pd3dDevice->SetTextureStbgeStbte(sbmpler, D3DTSS_TEXTURETRANSFORMFLAGS,
                                      D3DTTFF_COUNT2);
     return res;
 }
 
-/********************** LinearGradientPaint support *************************/
+/********************** LinebrGrbdientPbint support *************************/
 
 HRESULT
-D3DPaints_SetLinearGradientPaint(D3DContext *d3dc, D3DSDOps *dstOps,
-                                 jboolean useMask, jboolean linear,
+D3DPbints_SetLinebrGrbdientPbint(D3DContext *d3dc, D3DSDOps *dstOps,
+                                 jboolebn useMbsk, jboolebn linebr,
                                  jint cycleMethod, jint numStops,
-                                 jfloat p0, jfloat p1, jfloat p3,
-                                 void *fractions, void *pixels)
+                                 jflobt p0, jflobt p1, jflobt p3,
+                                 void *frbctions, void *pixels)
 {
     HRESULT res;
     IDirect3DDevice9 *pd3dDevice;
-    jfloat params[4];
-    jboolean large = (numStops > MAX_FRACTIONS_SMALL);
-    jint flags = 0;
+    jflobt pbrbms[4];
+    jboolebn lbrge = (numStops > MAX_FRACTIONS_SMALL);
+    jint flbgs = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPaints_SetLinearGradientPaint");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPbints_SetLinebrGrbdientPbint");
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
     RETURN_STATUS_IF_NULL(dstOps, E_FAIL);
-    D3DPaints_ResetPaint(d3dc);
+    D3DPbints_ResetPbint(d3dc);
 
-    COMPOSE_FLAGS(flags, cycleMethod, large, useMask, linear);
+    COMPOSE_FLAGS(flbgs, cycleMethod, lbrge, useMbsk, linebr);
 
-    // locate/enable the shader program for the given flags
-    res = d3dc->EnableLinearGradientProgram(flags);
+    // locbte/enbble the shbder progrbm for the given flbgs
+    res = d3dc->EnbbleLinebrGrbdientProgrbm(flbgs);
     RETURN_STATUS_IF_FAILED(res);
 
-    // update the common "uniform" values (fractions and colors)
-    D3DPaints_SetMultiGradientPaint(d3dc, useMask,
-                                    numStops, fractions, pixels);
+    // updbte the common "uniform" vblues (frbctions bnd colors)
+    D3DPbints_SetMultiGrbdientPbint(d3dc, useMbsk,
+                                    numStops, frbctions, pixels);
 
-    // update the other "uniform" values
-    params[0] = p0;
-    params[1] = p1;
-    params[2] = p3;
-    params[3] = 0.0f; // unused
+    // updbte the other "uniform" vblues
+    pbrbms[0] = p0;
+    pbrbms[1] = p1;
+    pbrbms[2] = p3;
+    pbrbms[3] = 0.0f; // unused
     pd3dDevice = d3dc->Get3DDevice();
-    res = pd3dDevice->SetPixelShaderConstantF(16, params, 1);
+    res = pd3dDevice->SetPixelShbderConstbntF(16, pbrbms, 1);
 
-    // pixel state has been set appropriately in D3DPaints_ResetPaint()
-    d3dc->useMask = useMask;
-    d3dc->SetPaintState(PAINT_LIN_GRADIENT);
+    // pixel stbte hbs been set bppropribtely in D3DPbints_ResetPbint()
+    d3dc->useMbsk = useMbsk;
+    d3dc->SetPbintStbte(PAINT_LIN_GRADIENT);
     return res;
 }
 
-/********************** RadialGradientPaint support *************************/
+/********************** RbdiblGrbdientPbint support *************************/
 
 HRESULT
-D3DPaints_SetRadialGradientPaint(D3DContext *d3dc, D3DSDOps *dstOps,
-                                 jboolean useMask, jboolean linear,
+D3DPbints_SetRbdiblGrbdientPbint(D3DContext *d3dc, D3DSDOps *dstOps,
+                                 jboolebn useMbsk, jboolebn linebr,
                                  jint cycleMethod, jint numStops,
-                                 jfloat m00, jfloat m01, jfloat m02,
-                                 jfloat m10, jfloat m11, jfloat m12,
-                                 jfloat focusX,
-                                 void *fractions, void *pixels)
+                                 jflobt m00, jflobt m01, jflobt m02,
+                                 jflobt m10, jflobt m11, jflobt m12,
+                                 jflobt focusX,
+                                 void *frbctions, void *pixels)
 {
     HRESULT res;
     IDirect3DDevice9 *pd3dDevice;
-    jfloat denom, inv_denom;
-    jfloat params[4];
-    jboolean large = (numStops > MAX_FRACTIONS_SMALL);
-    jint flags = 0;
+    jflobt denom, inv_denom;
+    jflobt pbrbms[4];
+    jboolebn lbrge = (numStops > MAX_FRACTIONS_SMALL);
+    jint flbgs = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPaints_SetRadialGradientPaint");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPbints_SetRbdiblGrbdientPbint");
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
     RETURN_STATUS_IF_NULL(dstOps, E_FAIL);
-    D3DPaints_ResetPaint(d3dc);
+    D3DPbints_ResetPbint(d3dc);
 
-    COMPOSE_FLAGS(flags, cycleMethod, large, useMask, linear);
+    COMPOSE_FLAGS(flbgs, cycleMethod, lbrge, useMbsk, linebr);
 
-    // locate/enable the shader program for the given flags
-    res = d3dc->EnableRadialGradientProgram(flags);
+    // locbte/enbble the shbder progrbm for the given flbgs
+    res = d3dc->EnbbleRbdiblGrbdientProgrbm(flbgs);
     RETURN_STATUS_IF_FAILED(res);
 
-    // update the common "uniform" values (fractions and colors)
-    D3DPaints_SetMultiGradientPaint(d3dc, useMask,
-                                    numStops, fractions, pixels);
+    // updbte the common "uniform" vblues (frbctions bnd colors)
+    D3DPbints_SetMultiGrbdientPbint(d3dc, useMbsk,
+                                    numStops, frbctions, pixels);
 
-    // update the other "uniform" values
-    params[0] = m00;
-    params[1] = m01;
-    params[2] = m02;
-    params[3] = 0.0f; // unused
+    // updbte the other "uniform" vblues
+    pbrbms[0] = m00;
+    pbrbms[1] = m01;
+    pbrbms[2] = m02;
+    pbrbms[3] = 0.0f; // unused
     pd3dDevice = d3dc->Get3DDevice();
-    pd3dDevice->SetPixelShaderConstantF(16, params, 1);
+    pd3dDevice->SetPixelShbderConstbntF(16, pbrbms, 1);
 
-    params[0] = m10;
-    params[1] = m11;
-    params[2] = m12;
-    params[3] = 0.0f; // unused
-    pd3dDevice->SetPixelShaderConstantF(17, params, 1);
+    pbrbms[0] = m10;
+    pbrbms[1] = m11;
+    pbrbms[2] = m12;
+    pbrbms[3] = 0.0f; // unused
+    pd3dDevice->SetPixelShbderConstbntF(17, pbrbms, 1);
 
-    // pack a few unrelated, precalculated values into a single float4
+    // pbck b few unrelbted, precblculbted vblues into b single flobt4
     denom = 1.0f - (focusX * focusX);
     inv_denom = 1.0f / denom;
-    params[0] = focusX;
-    params[1] = denom;
-    params[2] = inv_denom;
-    params[3] = 0.0f; // unused
-    res = pd3dDevice->SetPixelShaderConstantF(18, params, 1);
+    pbrbms[0] = focusX;
+    pbrbms[1] = denom;
+    pbrbms[2] = inv_denom;
+    pbrbms[3] = 0.0f; // unused
+    res = pd3dDevice->SetPixelShbderConstbntF(18, pbrbms, 1);
 
-    // pixel state has been set appropriately in D3DPaints_ResetPaint()
-    d3dc->useMask = useMask;
-    d3dc->SetPaintState(PAINT_RAD_GRADIENT);
+    // pixel stbte hbs been set bppropribtely in D3DPbints_ResetPbint()
+    d3dc->useMbsk = useMbsk;
+    d3dc->SetPbintStbte(PAINT_RAD_GRADIENT);
     return res;
 }

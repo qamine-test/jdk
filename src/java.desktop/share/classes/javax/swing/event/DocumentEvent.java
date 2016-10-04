@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.event;
+pbckbge jbvbx.swing.event;
 
-import javax.swing.undo.*;
-import javax.swing.text.*;
+import jbvbx.swing.undo.*;
+import jbvbx.swing.text.*;
 
 /**
- * Interface for document change notifications.  This provides
- * detailed information to Document observers about how the
- * Document changed.  It provides high level information such
- * as type of change and where it occurred, as well as the more
- * detailed structural changes (What Elements were inserted and
+ * Interfbce for document chbnge notificbtions.  This provides
+ * detbiled informbtion to Document observers bbout how the
+ * Document chbnged.  It provides high level informbtion such
+ * bs type of chbnge bnd where it occurred, bs well bs the more
+ * detbiled structurbl chbnges (Whbt Elements were inserted bnd
  * removed).
  *
- * @author  Timothy Prinzing
- * @see javax.swing.text.Document
+ * @buthor  Timothy Prinzing
+ * @see jbvbx.swing.text.Document
  * @see DocumentListener
  */
-public interface DocumentEvent {
+public interfbce DocumentEvent {
 
     /**
-     * Returns the offset within the document of the start
-     * of the change.
+     * Returns the offset within the document of the stbrt
+     * of the chbnge.
      *
      * @return the offset &gt;= 0
      */
     public int getOffset();
 
     /**
-     * Returns the length of the change.
+     * Returns the length of the chbnge.
      *
      * @return the length &gt;= 0
      */
     public int getLength();
 
     /**
-     * Gets the document that sourced the change event.
+     * Gets the document thbt sourced the chbnge event.
      *
      * @return the document
      */
@@ -71,62 +71,62 @@ public interface DocumentEvent {
     public EventType getType();
 
     /**
-     * Gets the change information for the given element.
-     * The change information describes what elements were
-     * added and removed and the location.  If there were
-     * no changes, null is returned.
+     * Gets the chbnge informbtion for the given element.
+     * The chbnge informbtion describes whbt elements were
+     * bdded bnd removed bnd the locbtion.  If there were
+     * no chbnges, null is returned.
      * <p>
-     * This method is for observers to discover the structural
-     * changes that were made.  This means that only elements
-     * that existed prior to the mutation (and still exist after
-     * the mutation) need to have ElementChange records.
-     * The changes made available need not be recursive.
+     * This method is for observers to discover the structurbl
+     * chbnges thbt were mbde.  This mebns thbt only elements
+     * thbt existed prior to the mutbtion (bnd still exist bfter
+     * the mutbtion) need to hbve ElementChbnge records.
+     * The chbnges mbde bvbilbble need not be recursive.
      * <p>
-     * For example, if the an element is removed from it's
-     * parent, this method should report that the parent
-     * changed and provide an ElementChange implementation
-     * that describes the change to the parent.  If the
-     * child element removed had children, these elements
-     * do not need to be reported as removed.
+     * For exbmple, if the bn element is removed from it's
+     * pbrent, this method should report thbt the pbrent
+     * chbnged bnd provide bn ElementChbnge implementbtion
+     * thbt describes the chbnge to the pbrent.  If the
+     * child element removed hbd children, these elements
+     * do not need to be reported bs removed.
      * <p>
-     * If an child element is insert into a parent element,
-     * the parent element should report a change.  If the
-     * child element also had elements inserted into it
-     * (grandchildren to the parent) these elements need
-     * not report change.
+     * If bn child element is insert into b pbrent element,
+     * the pbrent element should report b chbnge.  If the
+     * child element blso hbd elements inserted into it
+     * (grbndchildren to the pbrent) these elements need
+     * not report chbnge.
      *
-     * @param elem the element
-     * @return the change information, or null if the
-     *   element was not modified
+     * @pbrbm elem the element
+     * @return the chbnge informbtion, or null if the
+     *   element wbs not modified
      */
-    public ElementChange getChange(Element elem);
+    public ElementChbnge getChbnge(Element elem);
 
     /**
-     * Enumeration for document event types
+     * Enumerbtion for document event types
      */
-    public static final class EventType {
+    public stbtic finbl clbss EventType {
 
-        private EventType(String s) {
+        privbte EventType(String s) {
             typeString = s;
         }
 
         /**
          * Insert type.
          */
-        public static final EventType INSERT = new EventType("INSERT");
+        public stbtic finbl EventType INSERT = new EventType("INSERT");
 
         /**
          * Remove type.
          */
-        public static final EventType REMOVE = new EventType("REMOVE");
+        public stbtic finbl EventType REMOVE = new EventType("REMOVE");
 
         /**
-         * Change type.
+         * Chbnge type.
          */
-        public static final EventType CHANGE = new EventType("CHANGE");
+        public stbtic finbl EventType CHANGE = new EventType("CHANGE");
 
         /**
-         * Converts the type to a string.
+         * Converts the type to b string.
          *
          * @return the string
          */
@@ -134,17 +134,17 @@ public interface DocumentEvent {
             return typeString;
         }
 
-        private String typeString;
+        privbte String typeString;
     }
 
     /**
-     * Describes changes made to a specific element.
+     * Describes chbnges mbde to b specific element.
      */
-    public interface ElementChange {
+    public interfbce ElementChbnge {
 
         /**
          * Returns the element represented.  This is the element
-         * that was changed.
+         * thbt wbs chbnged.
          *
          * @return the element
          */
@@ -152,27 +152,27 @@ public interface DocumentEvent {
 
         /**
          * Fetches the index within the element represented.
-         * This is the location that children were added
-         * and/or removed.
+         * This is the locbtion thbt children were bdded
+         * bnd/or removed.
          *
          * @return the index &gt;= 0
          */
         public int getIndex();
 
         /**
-         * Gets the child elements that were removed from the
-         * given parent element.  The element array returned is
-         * sorted in the order that the elements used to lie in
-         * the document, and must be contiguous.
+         * Gets the child elements thbt were removed from the
+         * given pbrent element.  The element brrby returned is
+         * sorted in the order thbt the elements used to lie in
+         * the document, bnd must be contiguous.
          *
          * @return the child elements
          */
         public Element[] getChildrenRemoved();
 
         /**
-         * Gets the child elements that were added to the given
-         * parent element.  The element array returned is in the
-         * order that the elements lie in the document, and must
+         * Gets the child elements thbt were bdded to the given
+         * pbrent element.  The element brrby returned is in the
+         * order thbt the elements lie in the document, bnd must
          * be contiguous.
          *
          * @return the child elements

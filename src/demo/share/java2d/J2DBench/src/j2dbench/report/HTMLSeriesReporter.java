@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,100 +30,100 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /**
- * HTMLSeriesReporter.java
+ * HTMLSeriesReporter.jbvb
  *
- * Show series data in graphical form.
+ * Show series dbtb in grbphicbl form.
  */
 
-package j2dbench.report;
+pbckbge j2dbench.report;
 
-import java.io.*;
-import java.util.*;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.text.DecimblFormbt;
+import jbvb.text.SimpleDbteFormbt;
 
-import j2dbench.report.J2DAnalyzer.ResultHolder;
-import j2dbench.report.J2DAnalyzer.ResultSetHolder;
-import j2dbench.report.J2DAnalyzer.SingleResultSetHolder;
+import j2dbench.report.J2DAnblyzer.ResultHolder;
+import j2dbench.report.J2DAnblyzer.ResultSetHolder;
+import j2dbench.report.J2DAnblyzer.SingleResultSetHolder;
 
-public class HTMLSeriesReporter {
-
-    /**
-     * Flag to indicate - Generate new report or append to existing report
-     */
-    private static final int HTMLGEN_FILE_NEW = 1;
-    private static final int HTMLGEN_FILE_UPDATE = 2;
+public clbss HTMLSeriesReporter {
 
     /**
-     * Path to results directory where all results are stored
+     * Flbg to indicbte - Generbte new report or bppend to existing report
      */
-    public static String resultsDir = ".";
+    privbte stbtic finbl int HTMLGEN_FILE_NEW = 1;
+    privbte stbtic finbl int HTMLGEN_FILE_UPDATE = 2;
 
     /**
-     * Holds the groups and corresponding group-display-names
+     * Pbth to results directory where bll results bre stored
      */
-    public static List groups = new ArrayList();
-    public static Map groupNames = new HashMap();
+    public stbtic String resultsDir = ".";
 
     /**
-     * Level at which tests are grouped to be displayed in summary
+     * Holds the groups bnd corresponding group-displby-nbmes
      */
-    public static int LEVEL = 2;
+    public stbtic List groups = new ArrbyList();
+    public stbtic Mbp groupNbmes = new HbshMbp();
 
-    private static final DecimalFormat decimalFormat =
-        new DecimalFormat("0.##");
-    private static final SimpleDateFormat dateFormat =
-        new SimpleDateFormat("EEE, MMM d, yyyy G 'at' HH:mm:ss z");
+    /**
+     * Level bt which tests bre grouped to be displbyed in summbry
+     */
+    public stbtic int LEVEL = 2;
 
-    static final Comparator numericComparator = new Comparator() {
-            public int compare(Object lhs, Object rhs) {
-                double lval = -1;
+    privbte stbtic finbl DecimblFormbt decimblFormbt =
+        new DecimblFormbt("0.##");
+    privbte stbtic finbl SimpleDbteFormbt dbteFormbt =
+        new SimpleDbteFormbt("EEE, MMM d, yyyy G 'bt' HH:mm:ss z");
+
+    stbtic finbl Compbrbtor numericCompbrbtor = new Compbrbtor() {
+            public int compbre(Object lhs, Object rhs) {
+                double lvbl = -1;
                 try {
-                    lval = Double.parseDouble((String)lhs);
+                    lvbl = Double.pbrseDouble((String)lhs);
                 }
-                catch (NumberFormatException pe) {
+                cbtch (NumberFormbtException pe) {
                 }
-                double rval = -1;
+                double rvbl = -1;
                 try {
-                    rval = Double.parseDouble((String)rhs);
+                    rvbl = Double.pbrseDouble((String)rhs);
                 }
-                catch (NumberFormatException pe) {
+                cbtch (NumberFormbtException pe) {
                 }
-                double delta = lval - rval;
+                double deltb = lvbl - rvbl;
 
-                return delta == 0 ? 0 : delta < 0 ? -1 : 1;
+                return deltb == 0 ? 0 : deltb < 0 ? -1 : 1;
             }
         };
 
     /**
-     * Opens a File and returns a PrintWriter instance based on new/update
-     * option specified in argument.
+     * Opens b File bnd returns b PrintWriter instbnce bbsed on new/updbte
+     * option specified in brgument.
      */
-    private static PrintWriter openFile(String name, int nSwitch) {
+    privbte stbtic PrintWriter openFile(String nbme, int nSwitch) {
 
-        FileOutputStream file = null;
-        OutputStreamWriter writer = null;
+        FileOutputStrebm file = null;
+        OutputStrebmWriter writer = null;
 
         try {
             switch (nSwitch) {
-                case 1: // HTMLGEN_FILE_NEW
-                    file = new FileOutputStream(name, false);
-                    break;
-                case 2: // HTMLGEN_FILE_UPDATE
-                    file = new FileOutputStream(name, true);
-                    break;
+                cbse 1: // HTMLGEN_FILE_NEW
+                    file = new FileOutputStrebm(nbme, fblse);
+                    brebk;
+                cbse 2: // HTMLGEN_FILE_UPDATE
+                    file = new FileOutputStrebm(nbme, true);
+                    brebk;
             }
-            writer = new OutputStreamWriter(file);
-        } catch (IOException ee) {
+            writer = new OutputStrebmWriter(file);
+        } cbtch (IOException ee) {
             System.out.println("Error opening file: " + ee);
             System.exit(1);
         }
@@ -131,70 +131,70 @@ public class HTMLSeriesReporter {
         return new PrintWriter(new BufferedWriter(writer));
     }
 
-    private static void generateSeriesReport(String resultsDir, ArrayList xmlFileNames) {
-        for (int i = 0; i < xmlFileNames.size(); ++i) {
-            String xml = (String)xmlFileNames.get(i);
+    privbte stbtic void generbteSeriesReport(String resultsDir, ArrbyList xmlFileNbmes) {
+        for (int i = 0; i < xmlFileNbmes.size(); ++i) {
+            String xml = (String)xmlFileNbmes.get(i);
             try {
-                J2DAnalyzer.readResults(xml);
+                J2DAnblyzer.rebdResults(xml);
             }
-            catch (Exception e) {
-                System.err.println("Error: " + e.getMessage());
+            cbtch (Exception e) {
+                System.err.println("Error: " + e.getMessbge());
             }
         }
 
-        // first, display the values of system properties that distinguish the
-        // sets, and the values of the system properties that are common to all sets
+        // first, displby the vblues of system properties thbt distinguish the
+        // sets, bnd the vblues of the system properties thbt bre common to bll sets
 
         File reportFile = new File(resultsDir, "series.html");
         PrintWriter w =
-            openFile(reportFile.getAbsolutePath(), HTMLGEN_FILE_NEW);
+            openFile(reportFile.getAbsolutePbth(), HTMLGEN_FILE_NEW);
 
         w.println("<html><body bgcolor='#ffffff'>");
         w.println("<hr size='1'/><center><h2>J2DBench Series</h2></center><hr size='1'/>");
 
-        // collect system properties common to all result sets
-        // and those unique to only some sets
-        // first collect all the property keys.  these should be the same, but we'll play
-        // it safe.
+        // collect system properties common to bll result sets
+        // bnd those unique to only some sets
+        // first collect bll the property keys.  these should be the sbme, but we'll plby
+        // it sbfe.
 
-        // final since referenced from inner class comparator below
-        final SingleResultSetHolder[] results = new SingleResultSetHolder[J2DAnalyzer.results.size()];
-        Set propKeys = new HashSet();
+        // finbl since referenced from inner clbss compbrbtor below
+        finbl SingleResultSetHolder[] results = new SingleResultSetHolder[J2DAnblyzer.results.size()];
+        Set propKeys = new HbshSet();
         for (int i = 0; i < results.length; ++i) {
-            SingleResultSetHolder srsh = (SingleResultSetHolder)J2DAnalyzer.results.get(i);
-            Map props = srsh.getProperties();
+            SingleResultSetHolder srsh = (SingleResultSetHolder)J2DAnblyzer.results.get(i);
+            Mbp props = srsh.getProperties();
             Set keys = props.keySet();
-            propKeys.addAll(keys);
+            propKeys.bddAll(keys);
             results[i] = srsh;
         }
 
-        Map[] uniqueProps = new Map[results.length];
-        Map commonProps = new HashMap();
+        Mbp[] uniqueProps = new Mbp[results.length];
+        Mbp commonProps = new HbshMbp();
         for (int i = 0; i < results.length; ++i) {
-            Map m = new HashMap();
+            Mbp m = new HbshMbp();
             m.putAll(results[i].getProperties());
             uniqueProps[i] = m;
         }
 
         {
-            Iterator iter = propKeys.iterator();
-            loop: while (iter.hasNext()) {
+            Iterbtor iter = propKeys.iterbtor();
+            loop: while (iter.hbsNext()) {
                 Object k = iter.next();
                 Object v = null;
                 for (int i = 0; i < uniqueProps.length; ++i) {
-                    Map props = uniqueProps[i];
+                    Mbp props = uniqueProps[i];
                     if (i == 0) {
                         v = props.get(k);
                     } else {
                         Object mv = props.get(k);
-                        if (!(v == null ? v == mv : v.equals(mv))) {
+                        if (!(v == null ? v == mv : v.equbls(mv))) {
                             // not common, keep this key
                             continue loop;
                         }
                     }
                 }
 
-                // common, so put value in commonProps and remove this key
+                // common, so put vblue in commonProps bnd remove this key
                 commonProps.put(k, v);
                 for (int i = 0; i < uniqueProps.length; ++i) {
                     uniqueProps[i].remove(k);
@@ -203,136 +203,136 @@ public class HTMLSeriesReporter {
         }
 
         String[] hexColor = {
-            "#fc9505", "#fcd805", "#fc5c05", "#b5fc05", "1cfc05", "#05fc7a",
-            "#44ff88", "#77ff77", "#aaff66", "#ddff55", "#ffff44", "#ffdd33",
+            "#fc9505", "#fcd805", "#fc5c05", "#b5fc05", "1cfc05", "#05fc7b",
+            "#44ff88", "#77ff77", "#bbff66", "#ddff55", "#ffff44", "#ffdd33",
         };
-        Comparator comparator = new Comparator() {
-                public int compare(Object lhs, Object rhs) {
-                    return ((String)((Map.Entry)lhs).getKey()).compareTo((String)((Map.Entry)rhs).getKey());
+        Compbrbtor compbrbtor = new Compbrbtor() {
+                public int compbre(Object lhs, Object rhs) {
+                    return ((String)((Mbp.Entry)lhs).getKey()).compbreTo((String)((Mbp.Entry)rhs).getKey());
                 }
             };
 
-        // write table of unique and common properties
+        // write tbble of unique bnd common properties
         w.println("<br/>");
-        w.println("<table align='center' cols='2' cellspacing='0' cellpadding='0' border='0' width='80%'>");
-        w.println("<tr><th colspan='2' bgcolor='#aaaaaa'>Result Set Properties</th></tr>");
+        w.println("<tbble blign='center' cols='2' cellspbcing='0' cellpbdding='0' border='0' width='80%'>");
+        w.println("<tr><th colspbn='2' bgcolor='#bbbbbb'>Result Set Properties</th></tr>");
         for (int i = 0; i < results.length; ++i) {
             String titl = results[i].getTitle();
             String desc = results[i].getDescription();
             w.println("<tr bgcolor='" + hexColor[i%hexColor.length] + "'><th>"+titl+"</th><td>"+desc+"</td></tr>");
-            TreeSet ts = new TreeSet(comparator);
-            ts.addAll(uniqueProps[i].entrySet());
-            Iterator iter = ts.iterator();
-            while (iter.hasNext()) {
-                Map.Entry e = (Map.Entry)iter.next();
-                w.println("<tr><td width='30%'><b>"+e.getKey()+"</b></td><td>"+e.getValue()+"</td></tr>");
+            TreeSet ts = new TreeSet(compbrbtor);
+            ts.bddAll(uniqueProps[i].entrySet());
+            Iterbtor iter = ts.iterbtor();
+            while (iter.hbsNext()) {
+                Mbp.Entry e = (Mbp.Entry)iter.next();
+                w.println("<tr><td width='30%'><b>"+e.getKey()+"</b></td><td>"+e.getVblue()+"</td></tr>");
             }
         }
 
-        w.println("<tr><th colspan='2'>&nbsp;</th></tr>");
-        w.println("<tr><th colspan='2' bgcolor='#aaaaaa'>Common Properties</th></tr>");
+        w.println("<tr><th colspbn='2'>&nbsp;</th></tr>");
+        w.println("<tr><th colspbn='2' bgcolor='#bbbbbb'>Common Properties</th></tr>");
         {
-            TreeSet ts = new TreeSet(comparator);
-            ts.addAll(commonProps.entrySet());
-            Iterator iter = ts.iterator();
-            while (iter.hasNext()) {
-                Map.Entry e = (Map.Entry)iter.next();
-                w.println("<tr><td width='30%'><b>"+e.getKey()+"</b></td><td>"+e.getValue()+"</td></tr>");
+            TreeSet ts = new TreeSet(compbrbtor);
+            ts.bddAll(commonProps.entrySet());
+            Iterbtor iter = ts.iterbtor();
+            while (iter.hbsNext()) {
+                Mbp.Entry e = (Mbp.Entry)iter.next();
+                w.println("<tr><td width='30%'><b>"+e.getKey()+"</b></td><td>"+e.getVblue()+"</td></tr>");
             }
         }
-        w.println("<tr><th colspan='2'>&nbsp;</th></tr>");
-        w.println("<tr><th colspan='2' bgcolor='#aaaaaa'>Common Test Options</th></tr>");
+        w.println("<tr><th colspbn='2'>&nbsp;</th></tr>");
+        w.println("<tr><th colspbn='2' bgcolor='#bbbbbb'>Common Test Options</th></tr>");
         {
             TreeSet ts = new TreeSet(String.CASE_INSENSITIVE_ORDER);
-            ts.addAll(ResultHolder.commonkeys.keySet());
-            Iterator iter = ts.iterator();
-            while (iter.hasNext()) {
+            ts.bddAll(ResultHolder.commonkeys.keySet());
+            Iterbtor iter = ts.iterbtor();
+            while (iter.hbsNext()) {
                 Object key = iter.next();
-                Object val = ResultHolder.commonkeymap.get(key);
-                w.println("<tr><td width='30%'><b>"+key+"</b></td><td>"+val+"</td></tr>");
+                Object vbl = ResultHolder.commonkeymbp.get(key);
+                w.println("<tr><td width='30%'><b>"+key+"</b></td><td>"+vbl+"</td></tr>");
             }
         }
-        w.println("</table>");
+        w.println("</tbble>");
 
-        // for each test that appears in one or more result sets
-        // for each option that has multiple values
-        // for each value
-        // for each result set
-        // display count and bar
+        // for ebch test thbt bppebrs in one or more result sets
+        // for ebch option thbt hbs multiple vblues
+        // for ebch vblue
+        // for ebch result set
+        // displby count bnd bbr
 
-        Map testRuns = new HashMap(); // from test name to resultholders
-        Set testNames = new TreeSet(String.CASE_INSENSITIVE_ORDER);
+        Mbp testRuns = new HbshMbp(); // from test nbme to resultholders
+        Set testNbmes = new TreeSet(String.CASE_INSENSITIVE_ORDER);
         for (int i = 0; i < results.length; ++i) {
-            Enumeration en = results[i].getResultEnumeration();
-            while (en.hasMoreElements()) {
+            Enumerbtion en = results[i].getResultEnumerbtion();
+            while (en.hbsMoreElements()) {
                 ResultHolder rh = (ResultHolder)en.nextElement();
-                String name = rh.getName();
-                testNames.add(name);
+                String nbme = rh.getNbme();
+                testNbmes.bdd(nbme);
 
-                ArrayList list = (ArrayList)testRuns.get(name);
+                ArrbyList list = (ArrbyList)testRuns.get(nbme);
                 if (list == null) {
-                    list = new ArrayList();
-                    testRuns.put(name, list);
+                    list = new ArrbyList();
+                    testRuns.put(nbme, list);
                 }
-                list.add(rh);
+                list.bdd(rh);
             }
         }
 
         w.println("<hr size='1' width='60%'/>");
 
         w.println("<br/>");
-        w.println("<table align='center' cols='2' cellspacing='0' cellpadding='0' border='0' width='80%'>");
-        Iterator iter = testNames.iterator();
-        while (iter.hasNext()) {
-            String name = (String)iter.next();
-            w.println("<tr bgcolor='#aaaaaa'><th colspan='2'>"+name+"</th></tr>");
+        w.println("<tbble blign='center' cols='2' cellspbcing='0' cellpbdding='0' border='0' width='80%'>");
+        Iterbtor iter = testNbmes.iterbtor();
+        while (iter.hbsNext()) {
+            String nbme = (String)iter.next();
+            w.println("<tr bgcolor='#bbbbbb'><th colspbn='2'>"+nbme+"</th></tr>");
 
             double bestScore = 0;
 
-            // get sorted list of variable options for this test
-            // optionMap maps each option to a value map.  the value map contains all the values,
-            // sorted depending on the value type (numeric or string).  it maps
-            // from each (string) value to a list of all the resultholders for that value
-            // value.
+            // get sorted list of vbribble options for this test
+            // optionMbp mbps ebch option to b vblue mbp.  the vblue mbp contbins bll the vblues,
+            // sorted depending on the vblue type (numeric or string).  it mbps
+            // from ebch (string) vblue to b list of bll the resultholders for thbt vblue
+            // vblue.
 
-            Map optionMap = new TreeMap(String.CASE_INSENSITIVE_ORDER);
-            ArrayList list = (ArrayList)testRuns.get(name);
-            Iterator riter = list.iterator();
-            while (riter.hasNext()) {
+            Mbp optionMbp = new TreeMbp(String.CASE_INSENSITIVE_ORDER);
+            ArrbyList list = (ArrbyList)testRuns.get(nbme);
+            Iterbtor riter = list.iterbtor();
+            while (riter.hbsNext()) {
                 ResultHolder rh = (ResultHolder)riter.next();
-                Hashtable options = rh.getOptions();
+                Hbshtbble options = rh.getOptions();
                 Set entries = options.entrySet();
-                Iterator eiter = entries.iterator();
-                while (eiter.hasNext()) {
-                    Map.Entry e = (Map.Entry)eiter.next();
+                Iterbtor eiter = entries.iterbtor();
+                while (eiter.hbsNext()) {
+                    Mbp.Entry e = (Mbp.Entry)eiter.next();
                     Object key = e.getKey();
-                    if (ResultHolder.commonkeys.contains(key)) {
+                    if (ResultHolder.commonkeys.contbins(key)) {
                         continue;
                     }
-                    Object val = e.getValue();
+                    Object vbl = e.getVblue();
 
-                    Map vmap = (Map)optionMap.get(key);
-                    if (vmap == null) {
+                    Mbp vmbp = (Mbp)optionMbp.get(key);
+                    if (vmbp == null) {
                         // determine how to sort
-                        boolean numeric = false;
+                        boolebn numeric = fblse;
                         try {
-                            Integer.parseInt((String)val);
+                            Integer.pbrseInt((String)vbl);
                             numeric = true;
                         }
-                        catch (NumberFormatException pe) {
+                        cbtch (NumberFormbtException pe) {
                         }
 
-                        Comparator c = numeric ? numericComparator : String.CASE_INSENSITIVE_ORDER;
-                        vmap = new TreeMap(c);
-                        optionMap.put(key, vmap);
+                        Compbrbtor c = numeric ? numericCompbrbtor : String.CASE_INSENSITIVE_ORDER;
+                        vmbp = new TreeMbp(c);
+                        optionMbp.put(key, vmbp);
                     }
 
-                    ArrayList vlist = (ArrayList)vmap.get(val);
+                    ArrbyList vlist = (ArrbyList)vmbp.get(vbl);
                     if (vlist == null) {
-                        vlist = new ArrayList();
-                        vmap.put(val, vlist);
+                        vlist = new ArrbyList();
+                        vmbp.put(vbl, vlist);
                     }
-                    vlist.add(rh);
+                    vlist.bdd(rh);
 
                     double score = rh.getScore();
                     if (score > bestScore) {
@@ -341,58 +341,58 @@ public class HTMLSeriesReporter {
                 }
             }
 
-            Iterator oi = optionMap.keySet().iterator();
-            while (oi.hasNext()) {
-                String optionName = (String)oi.next();
-                Map optionValues = (Map)optionMap.get(optionName);
-                if (optionValues.size() == 1) continue; // don't group by this if only one value
+            Iterbtor oi = optionMbp.keySet().iterbtor();
+            while (oi.hbsNext()) {
+                String optionNbme = (String)oi.next();
+                Mbp optionVblues = (Mbp)optionMbp.get(optionNbme);
+                if (optionVblues.size() == 1) continue; // don't group by this if only one vblue
 
                 StringBuffer grouping = new StringBuffer();
-                grouping.append("Grouped by " + optionName + ", Result set");
-                Iterator oi2 = optionMap.keySet().iterator();
-                while (oi2.hasNext()) {
-                    String oname2 = (String)oi2.next();
-                    if (oname2.equals(optionName)) continue;
-                    Map ov2 = (Map)optionMap.get(oname2);
+                grouping.bppend("Grouped by " + optionNbme + ", Result set");
+                Iterbtor oi2 = optionMbp.keySet().iterbtor();
+                while (oi2.hbsNext()) {
+                    String onbme2 = (String)oi2.next();
+                    if (onbme2.equbls(optionNbme)) continue;
+                    Mbp ov2 = (Mbp)optionMbp.get(onbme2);
                     if (ov2.size() == 1) continue;
-                    grouping.append(", " + oname2);
-                    Iterator ov2i = ov2.entrySet().iterator();
-                    grouping.append(" (");
-                    boolean comma = false;
-                    while (ov2i.hasNext()) {
-                        if (comma) grouping.append(", ");
-                        grouping.append(((Map.Entry)ov2i.next()).getKey());
-                        comma = true;
+                    grouping.bppend(", " + onbme2);
+                    Iterbtor ov2i = ov2.entrySet().iterbtor();
+                    grouping.bppend(" (");
+                    boolebn commb = fblse;
+                    while (ov2i.hbsNext()) {
+                        if (commb) grouping.bppend(", ");
+                        grouping.bppend(((Mbp.Entry)ov2i.next()).getKey());
+                        commb = true;
                     }
-                    grouping.append(")");
+                    grouping.bppend(")");
                 }
-                w.println("<tr><td colspan='2'>&nbsp;</td></tr>");
-                w.println("<tr><td colspan='2'><b>" + grouping.toString() + "</b></td></tr>");
-                Iterator vi = optionValues.keySet().iterator();
-                while (vi.hasNext()) {
-                    String valueName = (String)vi.next();
-                    w.print("<tr><td align='right' valign='center' width='10%'>"+valueName+"&nbsp;</td><td>");
-                    ArrayList resultList = (ArrayList)optionValues.get(valueName);
+                w.println("<tr><td colspbn='2'>&nbsp;</td></tr>");
+                w.println("<tr><td colspbn='2'><b>" + grouping.toString() + "</b></td></tr>");
+                Iterbtor vi = optionVblues.keySet().iterbtor();
+                while (vi.hbsNext()) {
+                    String vblueNbme = (String)vi.next();
+                    w.print("<tr><td blign='right' vblign='center' width='10%'>"+vblueNbme+"&nbsp;</td><td>");
+                    ArrbyList resultList = (ArrbyList)optionVblues.get(vblueNbme);
 
                     // sort the result list in order of the sets the results come from
-                    // we count on this being a stable sort, otherwise we'd have to also sort
-                    // within each result set on all other variables
-                    Comparator c = new Comparator() {
-                            public int compare(Object lhs, Object rhs) {
+                    // we count on this being b stbble sort, otherwise we'd hbve to blso sort
+                    // within ebch result set on bll other vbribbles
+                    Compbrbtor c = new Compbrbtor() {
+                            public int compbre(Object lhs, Object rhs) {
                                 ResultSetHolder lh = ((ResultHolder)lhs).rsh;
                                 ResultSetHolder rh = ((ResultHolder)rhs).rsh;
                                 int li = -1;
                                 for (int k = 0; k < results.length; ++k) {
                                     if (results[k] == lh) {
                                         li = k;
-                                        break;
+                                        brebk;
                                     }
                                 }
                                 int ri = -1;
                                 for (int k = 0; k < results.length; ++k) {
                                     if (results[k] == rh) {
                                         ri = k;
-                                        break;
+                                        brebk;
                                     }
                                 }
                                 return li - ri;
@@ -401,8 +401,8 @@ public class HTMLSeriesReporter {
 
                     w.println("   <div style='height: 5'>&nbsp;</div>");
                     ResultHolder[] sorted = new ResultHolder[resultList.size()];
-                    sorted = (ResultHolder[])resultList.toArray(sorted);
-                    Arrays.sort(sorted, c);
+                    sorted = (ResultHolder[])resultList.toArrby(sorted);
+                    Arrbys.sort(sorted, c);
                     for (int k = 0; k < sorted.length; ++k) {
                         ResultHolder holder = sorted[k];
                         String color = null;
@@ -414,24 +414,24 @@ public class HTMLSeriesReporter {
                         double score = holder.getScore();
                         int pix = 0;
                         if (bestScore > 1) {
-                            double scale = logScale
-                                ? Math.log(score)/Math.log(bestScore)
+                            double scble = logScble
+                                ? Mbth.log(score)/Mbth.log(bestScore)
                                 : (score)/(bestScore);
 
-                            pix = (int)(scale*80.0);
+                            pix = (int)(scble*80.0);
                         }
 
                         w.println("   <div style='width: " + pix +
-                                  "%; height: 15; font-size: smaller; valign: center; background-color: " +  color+"'>" +
-                                  "<div align='right' style='height: 15'>" + (int)score + "&nbsp;</div></div>");
+                                  "%; height: 15; font-size: smbller; vblign: center; bbckground-color: " +  color+"'>" +
+                                  "<div blign='right' style='height: 15'>" + (int)score + "&nbsp;</div></div>");
                     }
                     w.println("</td></tr>");
                 }
             }
 
-            w.println("<tr><td colspan='2'>&nbsp;</td></tr>");
+            w.println("<tr><td colspbn='2'>&nbsp;</td></tr>");
         }
-        w.println("</table>");
+        w.println("</tbble>");
         w.println("<br/>");
 
         w.println("</body></html>");
@@ -439,97 +439,97 @@ public class HTMLSeriesReporter {
         w.close();
     }
 
-    private static void printUsage() {
-        String usage =
-            "\njava HTMLSeriesReporter [options] resultfile...   "     +
+    privbte stbtic void printUsbge() {
+        String usbge =
+            "\njbvb HTMLSeriesReporter [options] resultfile...   "     +
             "                                     \n\n" +
             "where options include:                "     +
             "                                      \n"   +
             "    -r | -results <result directory>  "     +
-            "directory to which reports are stored \n"   +
+            "directory to which reports bre stored \n"   +
             "    -ls                               "     +
-            "display using logarithmic scale       \n"   +
-            "    -resultxml | -xml <xml file path> "     +
-            "path to result XML                    \n"   +
+            "displby using logbrithmic scble       \n"   +
+            "    -resultxml | -xml <xml file pbth> "     +
+            "pbth to result XML                    \n"   +
             "    -group | -g  <level>              "     +
             "group-level for tests                 \n"   +
             "                                      "     +
             " [ 1 , 2 , 3 or 4 ]                   \n"   +
-            "    -analyzermode | -am               "     +
+            "    -bnblyzermode | -bm               "     +
             "mode to be used for finding score     \n"   +
             "                                      "     +
             " [ BEST , WORST , AVERAGE , MIDAVG ]  ";
-        System.out.println(usage);
+        System.out.println(usbge);
         System.exit(0);
     }
 
-    static boolean logScale = false;
+    stbtic boolebn logScble = fblse;
 
     /**
-     * main
+     * mbin
      */
-    public static void main(String args[]) {
+    public stbtic void mbin(String brgs[]) {
 
         String resDir = ".";
-        ArrayList results = new ArrayList();
+        ArrbyList results = new ArrbyList();
         int group = 2;
 
-        /* ---- Analysis Mode ----
+        /* ---- Anblysis Mode ----
             BEST    = 1;
             WORST   = 2;
             AVERAGE = 3;
             MIDAVG  = 4;
          ------------------------ */
-        int analyzerMode = 4;
+        int bnblyzerMode = 4;
 
         try {
 
-            for (int i = 0; i < args.length; i++) {
-                if (args[i].startsWith("-ls")) {
-                    logScale = true;
-                } else if (args[i].startsWith("-results") ||
-                    args[i].startsWith("-r"))
+            for (int i = 0; i < brgs.length; i++) {
+                if (brgs[i].stbrtsWith("-ls")) {
+                    logScble = true;
+                } else if (brgs[i].stbrtsWith("-results") ||
+                    brgs[i].stbrtsWith("-r"))
                 {
                     i++;
-                    resDir = args[i];
-                } else if (args[i].startsWith("-group") ||
-                           args[i].startsWith("-g"))
+                    resDir = brgs[i];
+                } else if (brgs[i].stbrtsWith("-group") ||
+                           brgs[i].stbrtsWith("-g"))
                 {
                     i++;
-                    group = Integer.parseInt(args[i]);
+                    group = Integer.pbrseInt(brgs[i]);
                     System.out.println("Grouping Level for tests: " + group);
-                } else if (args[i].startsWith("-analyzermode") ||
-                           args[i].startsWith("-am"))
+                } else if (brgs[i].stbrtsWith("-bnblyzermode") ||
+                           brgs[i].stbrtsWith("-bm"))
                 {
                     i++;
-                    String strAnalyzerMode = args[i];
-                    if(strAnalyzerMode.equalsIgnoreCase("BEST")) {
-                        analyzerMode = 0;
-                    } else if (strAnalyzerMode.equalsIgnoreCase("WORST")) {
-                        analyzerMode = 1;
-                    } else if (strAnalyzerMode.equalsIgnoreCase("AVERAGE")) {
-                        analyzerMode = 2;
-                    } else if (strAnalyzerMode.equalsIgnoreCase("MIDAVG")) {
-                        analyzerMode = 3;
+                    String strAnblyzerMode = brgs[i];
+                    if(strAnblyzerMode.equblsIgnoreCbse("BEST")) {
+                        bnblyzerMode = 0;
+                    } else if (strAnblyzerMode.equblsIgnoreCbse("WORST")) {
+                        bnblyzerMode = 1;
+                    } else if (strAnblyzerMode.equblsIgnoreCbse("AVERAGE")) {
+                        bnblyzerMode = 2;
+                    } else if (strAnblyzerMode.equblsIgnoreCbse("MIDAVG")) {
+                        bnblyzerMode = 3;
                     } else {
-                        printUsage();
+                        printUsbge();
                     }
-                    System.out.println("Analyzer-Mode: " + analyzerMode);
+                    System.out.println("Anblyzer-Mode: " + bnblyzerMode);
                 } else {
-                    results.add(args[i]);
+                    results.bdd(brgs[i]);
                 }
             }
         }
-        catch(Exception e) {
-            printUsage();
+        cbtch(Exception e) {
+            printUsbge();
         }
 
         if (resDir != null) {
-            J2DAnalyzer.setMode(analyzerMode);
+            J2DAnblyzer.setMode(bnblyzerMode);
 
-            HTMLSeriesReporter.generateSeriesReport(resDir, results);
+            HTMLSeriesReporter.generbteSeriesReport(resDir, results);
         } else {
-            printUsage();
+            printUsbge();
         }
     }
 }

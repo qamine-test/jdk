@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import java.util.Locale;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
+import jbvb.util.Locble;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
 
 /**
- * Class MediaName is a subclass of Media, a printing attribute class (an
- * enumeration) that specifies the media for a print job as a name.
+ * Clbss MedibNbme is b subclbss of Medib, b printing bttribute clbss (bn
+ * enumerbtion) thbt specifies the medib for b print job bs b nbme.
  * <P>
- * This attribute can be used instead of specifying MediaSize or MediaTray.
+ * This bttribute cbn be used instebd of specifying MedibSize or MedibTrby.
  * <p>
- * Class MediaName currently declares a few standard media names.
- * Implementation- or site-defined names for a media name attribute may also
- * be created by defining a subclass of class MediaName.
+ * Clbss MedibNbme currently declbres b few stbndbrd medib nbmes.
+ * Implementbtion- or site-defined nbmes for b medib nbme bttribute mby blso
+ * be crebted by defining b subclbss of clbss MedibNbme.
  * <P>
- * <B>IPP Compatibility:</B> MediaName is a representation class for
- * values of the IPP "media" attribute which names media.
+ * <B>IPP Compbtibility:</B> MedibNbme is b representbtion clbss for
+ * vblues of the IPP "medib" bttribute which nbmes medib.
  *
  */
-public class MediaName extends Media implements Attribute {
+public clbss MedibNbme extends Medib implements Attribute {
 
-    private static final long serialVersionUID = 4653117714524155448L;
+    privbte stbtic finbl long seriblVersionUID = 4653117714524155448L;
 
     /**
-     *  white letter paper.
+     *  white letter pbper.
      */
-    public static final MediaName NA_LETTER_WHITE = new MediaName(0);
+    public stbtic finbl MedibNbme NA_LETTER_WHITE = new MedibNbme(0);
 
     /**
-     *  letter transparency.
+     *  letter trbnspbrency.
      */
-    public static final MediaName NA_LETTER_TRANSPARENT = new MediaName(1);
+    public stbtic finbl MedibNbme NA_LETTER_TRANSPARENT = new MedibNbme(1);
 
     /**
-     * white A4 paper.
+     * white A4 pbper.
      */
-    public static final MediaName ISO_A4_WHITE = new MediaName(2);
+    public stbtic finbl MedibNbme ISO_A4_WHITE = new MedibNbme(2);
 
 
     /**
-     *  A4 transparency.
+     *  A4 trbnspbrency.
      */
-    public static final MediaName ISO_A4_TRANSPARENT= new MediaName(3);
+    public stbtic finbl MedibNbme ISO_A4_TRANSPARENT= new MedibNbme(3);
 
 
     /**
-     * Constructs a new media name enumeration value with the given integer
-     * value.
+     * Constructs b new medib nbme enumerbtion vblue with the given integer
+     * vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected MediaName(int value) {
-        super (value);
+    protected MedibNbme(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
-        "na-letter-white",
-        "na-letter-transparent",
-        "iso-a4-white",
-        "iso-a4-transparent"
+    privbte stbtic finbl String[] myStringTbble = {
+        "nb-letter-white",
+        "nb-letter-trbnspbrent",
+        "iso-b4-white",
+        "iso-b4-trbnspbrent"
     };
 
-    private static final MediaName[] myEnumValueTable = {
+    privbte stbtic finbl MedibNbme[] myEnumVblueTbble = {
         NA_LETTER_WHITE,
         NA_LETTER_TRANSPARENT,
         ISO_A4_WHITE,
@@ -93,20 +93,20 @@ public class MediaName extends Media implements Attribute {
     };
 
     /**
-     * Returns the string table for class MediaTray.
-     * @return the String table.
+     * Returns the string tbble for clbss MedibTrby.
+     * @return the String tbble.
      */
-    protected String[] getStringTable()
+    protected String[] getStringTbble()
     {
-        return myStringTable.clone();
+        return myStringTbble.clone();
     }
 
     /**
-     * Returns the enumeration value table for class MediaTray.
-     * @return the enumeration value table.
+     * Returns the enumerbtion vblue tbble for clbss MedibTrby.
+     * @return the enumerbtion vblue tbble.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return (EnumSyntbx[])myEnumVblueTbble.clone();
     }
 
 }

@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 1999, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.directory;
+pbckbge jbvbx.nbming.directory;
 
-import javax.naming.Binding;
+import jbvbx.nbming.Binding;
 
 /**
-  * This class represents an item in the NamingEnumeration returned as a
-  * result of the DirContext.search() methods.
+  * This clbss represents bn item in the NbmingEnumerbtion returned bs b
+  * result of the DirContext.sebrch() methods.
   *<p>
-  * A SearchResult instance is not synchronized against concurrent
-  * multithreaded access. Multiple threads trying to access and modify
-  * a single SearchResult instance should lock the object.
+  * A SebrchResult instbnce is not synchronized bgbinst concurrent
+  * multithrebded bccess. Multiple threbds trying to bccess bnd modify
+  * b single SebrchResult instbnce should lock the object.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
-  * @see DirContext#search
+  * @see DirContext#sebrch
   * @since 1.3
   */
 
-public class SearchResult extends Binding {
+public clbss SebrchResult extends Binding {
     /**
-     * Contains the attributes returned with the object.
-     * @serial
+     * Contbins the bttributes returned with the object.
+     * @seribl
      */
-    private Attributes attrs;
+    privbte Attributes bttrs;
 
     /**
-      * Constructs a search result using the result's name, its bound object, and
-      * its attributes.
+      * Constructs b sebrch result using the result's nbme, its bound object, bnd
+      * its bttributes.
       *<p>
-      * <tt>getClassName()</tt> will return the class name of <tt>obj</tt>
-      * (or null if <tt>obj</tt> is null) unless the class name has been
-      * explicitly set using <tt>setClassName()</tt>.
+      * <tt>getClbssNbme()</tt> will return the clbss nbme of <tt>obj</tt>
+      * (or null if <tt>obj</tt> is null) unless the clbss nbme hbs been
+      * explicitly set using <tt>setClbssNbme()</tt>.
       *
-      * @param name The non-null name of the search item. It is relative
-      *             to the <em>target context</em> of the search (which is
-      * named by the first parameter of the <code>search()</code> method)
+      * @pbrbm nbme The non-null nbme of the sebrch item. It is relbtive
+      *             to the <em>tbrget context</em> of the sebrch (which is
+      * nbmed by the first pbrbmeter of the <code>sebrch()</code> method)
       *
-      * @param obj  The object bound to name. Can be null.
-      * @param attrs The attributes that were requested to be returned with
-      * this search item. Cannot be null.
-      * @see javax.naming.NameClassPair#setClassName
-      * @see javax.naming.NameClassPair#getClassName
+      * @pbrbm obj  The object bound to nbme. Cbn be null.
+      * @pbrbm bttrs The bttributes thbt were requested to be returned with
+      * this sebrch item. Cbnnot be null.
+      * @see jbvbx.nbming.NbmeClbssPbir#setClbssNbme
+      * @see jbvbx.nbming.NbmeClbssPbir#getClbssNbme
       */
-    public SearchResult(String name, Object obj, Attributes attrs) {
-        super(name, obj);
-        this.attrs = attrs;
+    public SebrchResult(String nbme, Object obj, Attributes bttrs) {
+        super(nbme, obj);
+        this.bttrs = bttrs;
     }
 
     /**
-      * Constructs a search result using the result's name, its bound object, and
-      * its attributes, and whether the name is relative.
+      * Constructs b sebrch result using the result's nbme, its bound object, bnd
+      * its bttributes, bnd whether the nbme is relbtive.
       *<p>
-      * <tt>getClassName()</tt> will return the class name of <tt>obj</tt>
-      * (or null if <tt>obj</tt> is null) unless the class name has been
-      * explicitly set using <tt>setClassName()</tt>
+      * <tt>getClbssNbme()</tt> will return the clbss nbme of <tt>obj</tt>
+      * (or null if <tt>obj</tt> is null) unless the clbss nbme hbs been
+      * explicitly set using <tt>setClbssNbme()</tt>
       *
-      * @param name The non-null name of the search item.
-      * @param obj  The object bound to name. Can be null.
-      * @param attrs The attributes that were requested to be returned with
-      * this search item. Cannot be null.
-      * @param isRelative true if <code>name</code> is relative
-      *         to the target context of the search (which is named by
-      *         the first parameter of the <code>search()</code> method);
-      *         false if <code>name</code> is a URL string.
-      * @see javax.naming.NameClassPair#setClassName
-      * @see javax.naming.NameClassPair#getClassName
+      * @pbrbm nbme The non-null nbme of the sebrch item.
+      * @pbrbm obj  The object bound to nbme. Cbn be null.
+      * @pbrbm bttrs The bttributes thbt were requested to be returned with
+      * this sebrch item. Cbnnot be null.
+      * @pbrbm isRelbtive true if <code>nbme</code> is relbtive
+      *         to the tbrget context of the sebrch (which is nbmed by
+      *         the first pbrbmeter of the <code>sebrch()</code> method);
+      *         fblse if <code>nbme</code> is b URL string.
+      * @see jbvbx.nbming.NbmeClbssPbir#setClbssNbme
+      * @see jbvbx.nbming.NbmeClbssPbir#getClbssNbme
       */
-    public SearchResult(String name, Object obj, Attributes attrs,
-        boolean isRelative) {
-        super(name, obj, isRelative);
-        this.attrs = attrs;
+    public SebrchResult(String nbme, Object obj, Attributes bttrs,
+        boolebn isRelbtive) {
+        super(nbme, obj, isRelbtive);
+        this.bttrs = bttrs;
     }
 
     /**
-      * Constructs a search result using the result's name, its class name,
-      * its bound object, and its attributes.
+      * Constructs b sebrch result using the result's nbme, its clbss nbme,
+      * its bound object, bnd its bttributes.
       *
-      * @param name The non-null name of the search item. It is relative
-      *             to the <em>target context</em> of the search (which is
-      * named by the first parameter of the <code>search()</code> method)
+      * @pbrbm nbme The non-null nbme of the sebrch item. It is relbtive
+      *             to the <em>tbrget context</em> of the sebrch (which is
+      * nbmed by the first pbrbmeter of the <code>sebrch()</code> method)
       *
-      * @param  className       The possibly null class name of the object
-      *         bound to <tt>name</tt>. If null, the class name of <tt>obj</tt> is
-      *         returned by <tt>getClassName()</tt>. If <tt>obj</tt> is also null,
-      *         <tt>getClassName()</tt> will return null.
-      * @param obj  The object bound to name. Can be null.
-      * @param attrs The attributes that were requested to be returned with
-      * this search item. Cannot be null.
-      * @see javax.naming.NameClassPair#setClassName
-      * @see javax.naming.NameClassPair#getClassName
+      * @pbrbm  clbssNbme       The possibly null clbss nbme of the object
+      *         bound to <tt>nbme</tt>. If null, the clbss nbme of <tt>obj</tt> is
+      *         returned by <tt>getClbssNbme()</tt>. If <tt>obj</tt> is blso null,
+      *         <tt>getClbssNbme()</tt> will return null.
+      * @pbrbm obj  The object bound to nbme. Cbn be null.
+      * @pbrbm bttrs The bttributes thbt were requested to be returned with
+      * this sebrch item. Cbnnot be null.
+      * @see jbvbx.nbming.NbmeClbssPbir#setClbssNbme
+      * @see jbvbx.nbming.NbmeClbssPbir#getClbssNbme
       */
-    public SearchResult(String name, String className,
-        Object obj, Attributes attrs) {
-        super(name, className, obj);
-        this.attrs = attrs;
+    public SebrchResult(String nbme, String clbssNbme,
+        Object obj, Attributes bttrs) {
+        super(nbme, clbssNbme, obj);
+        this.bttrs = bttrs;
     }
 
     /**
-      * Constructs a search result using the result's name, its class name,
-      * its bound object, its attributes, and whether the name is relative.
+      * Constructs b sebrch result using the result's nbme, its clbss nbme,
+      * its bound object, its bttributes, bnd whether the nbme is relbtive.
       *
-      * @param name The non-null name of the search item.
-      * @param  className       The possibly null class name of the object
-      *         bound to <tt>name</tt>. If null, the class name of <tt>obj</tt> is
-      *         returned by <tt>getClassName()</tt>. If <tt>obj</tt> is also null,
-      *         <tt>getClassName()</tt> will return null.
-      * @param obj  The object bound to name. Can be null.
-      * @param attrs The attributes that were requested to be returned with
-      * this search item. Cannot be null.
-      * @param isRelative true if <code>name</code> is relative
-      *         to the target context of the search (which is named by
-      *         the first parameter of the <code>search()</code> method);
-      *         false if <code>name</code> is a URL string.
-      * @see javax.naming.NameClassPair#setClassName
-      * @see javax.naming.NameClassPair#getClassName
+      * @pbrbm nbme The non-null nbme of the sebrch item.
+      * @pbrbm  clbssNbme       The possibly null clbss nbme of the object
+      *         bound to <tt>nbme</tt>. If null, the clbss nbme of <tt>obj</tt> is
+      *         returned by <tt>getClbssNbme()</tt>. If <tt>obj</tt> is blso null,
+      *         <tt>getClbssNbme()</tt> will return null.
+      * @pbrbm obj  The object bound to nbme. Cbn be null.
+      * @pbrbm bttrs The bttributes thbt were requested to be returned with
+      * this sebrch item. Cbnnot be null.
+      * @pbrbm isRelbtive true if <code>nbme</code> is relbtive
+      *         to the tbrget context of the sebrch (which is nbmed by
+      *         the first pbrbmeter of the <code>sebrch()</code> method);
+      *         fblse if <code>nbme</code> is b URL string.
+      * @see jbvbx.nbming.NbmeClbssPbir#setClbssNbme
+      * @see jbvbx.nbming.NbmeClbssPbir#getClbssNbme
       */
-    public SearchResult(String name, String className, Object obj,
-        Attributes attrs, boolean isRelative) {
-        super(name, className, obj, isRelative);
-        this.attrs = attrs;
+    public SebrchResult(String nbme, String clbssNbme, Object obj,
+        Attributes bttrs, boolebn isRelbtive) {
+        super(nbme, clbssNbme, obj, isRelbtive);
+        this.bttrs = bttrs;
     }
 
     /**
-     * Retrieves the attributes in this search result.
+     * Retrieves the bttributes in this sebrch result.
      *
-     * @return The non-null attributes in this search result. Can be empty.
+     * @return The non-null bttributes in this sebrch result. Cbn be empty.
      * @see #setAttributes
      */
     public Attributes getAttributes() {
-        return attrs;
+        return bttrs;
     }
 
 
     /**
-     * Sets the attributes of this search result to <code>attrs</code>.
-     * @param attrs The non-null attributes to use. Can be empty.
+     * Sets the bttributes of this sebrch result to <code>bttrs</code>.
+     * @pbrbm bttrs The non-null bttributes to use. Cbn be empty.
      * @see #getAttributes
      */
-    public void setAttributes(Attributes attrs) {
-        this.attrs = attrs;
+    public void setAttributes(Attributes bttrs) {
+        this.bttrs = bttrs;
         // ??? check for null?
     }
 
 
     /**
-      * Generates the string representation of this SearchResult.
-      * The string representation consists of the string representation
-      * of the binding and the string representation of
-      * this search result's attributes, separated by ':'.
+      * Generbtes the string representbtion of this SebrchResult.
+      * The string representbtion consists of the string representbtion
+      * of the binding bnd the string representbtion of
+      * this sebrch result's bttributes, sepbrbted by ':'.
       * The contents of this string is useful
-      * for debugging and is not meant to be interpreted programmatically.
+      * for debugging bnd is not mebnt to be interpreted progrbmmbticblly.
       *
-      * @return The string representation of this SearchResult. Cannot be null.
+      * @return The string representbtion of this SebrchResult. Cbnnot be null.
       */
     public String toString() {
         return super.toString() + ":" + getAttributes();
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = -9158063327699723172L;
+    privbte stbtic finbl long seriblVersionUID = -9158063327699723172L;
 }

@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.util.*;
-import java.io.IOException;
+import jbvb.nio.file.bttribute.*;
+import jbvb.util.*;
+import jbvb.io.IOException;
 
 /**
- * Bsd implementation of FileStore
+ * Bsd implementbtion of FileStore
  */
 
-class BsdFileStore
+clbss BsdFileStore
     extends UnixFileStore
 {
-    BsdFileStore(UnixPath file) throws IOException {
+    BsdFileStore(UnixPbth file) throws IOException {
         super(file);
     }
 
@@ -45,44 +45,44 @@ class BsdFileStore
     }
 
     /**
-     * Finds, and returns, the mount entry for the file system where the file
+     * Finds, bnd returns, the mount entry for the file system where the file
      * resides.
      */
     @Override
     UnixMountEntry findMountEntry() throws IOException {
         UnixFileSystem fs = file().getFileSystem();
 
-        // step 1: get realpath
-        UnixPath path = null;
+        // step 1: get reblpbth
+        UnixPbth pbth = null;
         try {
-            byte[] rp = UnixNativeDispatcher.realpath(file());
-            path = new UnixPath(fs, rp);
-        } catch (UnixException x) {
+            byte[] rp = UnixNbtiveDispbtcher.reblpbth(file());
+            pbth = new UnixPbth(fs, rp);
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(file());
         }
 
         // step 2: find mount point
-        UnixPath parent = path.getParent();
-        while (parent != null) {
-            UnixFileAttributes attrs = null;
+        UnixPbth pbrent = pbth.getPbrent();
+        while (pbrent != null) {
+            UnixFileAttributes bttrs = null;
             try {
-                attrs = UnixFileAttributes.get(parent, true);
-            } catch (UnixException x) {
-                x.rethrowAsIOException(parent);
+                bttrs = UnixFileAttributes.get(pbrent, true);
+            } cbtch (UnixException x) {
+                x.rethrowAsIOException(pbrent);
             }
-            if (attrs.dev() != dev())
-                break;
-            path = parent;
-            parent = parent.getParent();
+            if (bttrs.dev() != dev())
+                brebk;
+            pbth = pbrent;
+            pbrent = pbrent.getPbrent();
         }
 
         // step 3: lookup mounted file systems
-        byte[] dir = path.asByteArray();
+        byte[] dir = pbth.bsByteArrby();
         for (UnixMountEntry entry: fs.getMountEntries()) {
-            if (Arrays.equals(dir, entry.dir()))
+            if (Arrbys.equbls(dir, entry.dir()))
                 return entry;
         }
 
-        throw new IOException("Mount point not found in fstab");
+        throw new IOException("Mount point not found in fstbb");
     }
 }

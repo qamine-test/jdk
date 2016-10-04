@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans;
+pbckbge jbvb.bebns;
 
 /**
- * An <code>Expression</code> object represents a primitive expression
- * in which a single method is applied to a target and a set of
- * arguments to return a result - as in <code>"a.getFoo()"</code>.
+ * An <code>Expression</code> object represents b primitive expression
+ * in which b single method is bpplied to b tbrget bnd b set of
+ * brguments to return b result - bs in <code>"b.getFoo()"</code>.
  * <p>
- * In addition to the properties of the super class, the
- * <code>Expression</code> object provides a <em>value</em> which
- * is the object returned when this expression is evaluated.
- * The return value is typically not provided by the caller and
- * is instead computed by dynamically finding the method and invoking
- * it when the first call to <code>getValue</code> is made.
+ * In bddition to the properties of the super clbss, the
+ * <code>Expression</code> object provides b <em>vblue</em> which
+ * is the object returned when this expression is evblubted.
+ * The return vblue is typicblly not provided by the cbller bnd
+ * is instebd computed by dynbmicblly finding the method bnd invoking
+ * it when the first cbll to <code>getVblue</code> is mbde.
  *
- * @see #getValue
- * @see #setValue
+ * @see #getVblue
+ * @see #setVblue
  *
  * @since 1.4
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  */
-public class Expression extends Statement {
+public clbss Expression extends Stbtement {
 
-    private static Object unbound = new Object();
+    privbte stbtic Object unbound = new Object();
 
-    private Object value = unbound;
+    privbte Object vblue = unbound;
 
     /**
-     * Creates a new {@link Expression} object
-     * for the specified target object to invoke the method
-     * specified by the name and by the array of arguments.
+     * Crebtes b new {@link Expression} object
+     * for the specified tbrget object to invoke the method
+     * specified by the nbme bnd by the brrby of brguments.
      * <p>
-     * The {@code target} and the {@code methodName} values should not be {@code null}.
-     * Otherwise an attempt to execute this {@code Expression}
-     * will result in a {@code NullPointerException}.
-     * If the {@code arguments} value is {@code null},
-     * an empty array is used as the value of the {@code arguments} property.
+     * The {@code tbrget} bnd the {@code methodNbme} vblues should not be {@code null}.
+     * Otherwise bn bttempt to execute this {@code Expression}
+     * will result in b {@code NullPointerException}.
+     * If the {@code brguments} vblue is {@code null},
+     * bn empty brrby is used bs the vblue of the {@code brguments} property.
      *
-     * @param target  the target object of this expression
-     * @param methodName  the name of the method to invoke on the specified target
-     * @param arguments  the array of arguments to invoke the specified method
+     * @pbrbm tbrget  the tbrget object of this expression
+     * @pbrbm methodNbme  the nbme of the method to invoke on the specified tbrget
+     * @pbrbm brguments  the brrby of brguments to invoke the specified method
      *
-     * @see #getValue
+     * @see #getVblue
      */
-    @ConstructorProperties({"target", "methodName", "arguments"})
-    public Expression(Object target, String methodName, Object[] arguments) {
-        super(target, methodName, arguments);
+    @ConstructorProperties({"tbrget", "methodNbme", "brguments"})
+    public Expression(Object tbrget, String methodNbme, Object[] brguments) {
+        super(tbrget, methodNbme, brguments);
     }
 
     /**
-     * Creates a new {@link Expression} object with the specified value
-     * for the specified target object to invoke the  method
-     * specified by the name and by the array of arguments.
-     * The {@code value} value is used as the value of the {@code value} property,
-     * so the {@link #getValue} method will return it
+     * Crebtes b new {@link Expression} object with the specified vblue
+     * for the specified tbrget object to invoke the  method
+     * specified by the nbme bnd by the brrby of brguments.
+     * The {@code vblue} vblue is used bs the vblue of the {@code vblue} property,
+     * so the {@link #getVblue} method will return it
      * without executing this {@code Expression}.
      * <p>
-     * The {@code target} and the {@code methodName} values should not be {@code null}.
-     * Otherwise an attempt to execute this {@code Expression}
-     * will result in a {@code NullPointerException}.
-     * If the {@code arguments} value is {@code null},
-     * an empty array is used as the value of the {@code arguments} property.
+     * The {@code tbrget} bnd the {@code methodNbme} vblues should not be {@code null}.
+     * Otherwise bn bttempt to execute this {@code Expression}
+     * will result in b {@code NullPointerException}.
+     * If the {@code brguments} vblue is {@code null},
+     * bn empty brrby is used bs the vblue of the {@code brguments} property.
      *
-     * @param value  the value of this expression
-     * @param target  the target object of this expression
-     * @param methodName  the name of the method to invoke on the specified target
-     * @param arguments  the array of arguments to invoke the specified method
+     * @pbrbm vblue  the vblue of this expression
+     * @pbrbm tbrget  the tbrget object of this expression
+     * @pbrbm methodNbme  the nbme of the method to invoke on the specified tbrget
+     * @pbrbm brguments  the brrby of brguments to invoke the specified method
      *
-     * @see #setValue
+     * @see #setVblue
      */
-    public Expression(Object value, Object target, String methodName, Object[] arguments) {
-        this(target, methodName, arguments);
-        setValue(value);
+    public Expression(Object vblue, Object tbrget, String methodNbme, Object[] brguments) {
+        this(tbrget, methodNbme, brguments);
+        setVblue(vblue);
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * If the invoked method completes normally,
-     * the value it returns is copied in the {@code value} property.
-     * Note that the {@code value} property is set to {@code null},
+     * If the invoked method completes normblly,
+     * the vblue it returns is copied in the {@code vblue} property.
+     * Note thbt the {@code vblue} property is set to {@code null},
      * if the return type of the underlying method is {@code void}.
      *
-     * @throws NullPointerException if the value of the {@code target} or
-     *                              {@code methodName} property is {@code null}
-     * @throws NoSuchMethodException if a matching method is not found
-     * @throws SecurityException if a security manager exists and
-     *                           it denies the method invocation
-     * @throws Exception that is thrown by the invoked method
+     * @throws NullPointerException if the vblue of the {@code tbrget} or
+     *                              {@code methodNbme} property is {@code null}
+     * @throws NoSuchMethodException if b mbtching method is not found
+     * @throws SecurityException if b security mbnbger exists bnd
+     *                           it denies the method invocbtion
+     * @throws Exception thbt is thrown by the invoked method
      *
-     * @see java.lang.reflect.Method
+     * @see jbvb.lbng.reflect.Method
      * @since 1.7
      */
     @Override
     public void execute() throws Exception {
-        setValue(invoke());
+        setVblue(invoke());
     }
 
     /**
-     * If the value property of this instance is not already set,
-     * this method dynamically finds the method with the specified
-     * methodName on this target with these arguments and calls it.
-     * The result of the method invocation is first copied
-     * into the value property of this expression and then returned
-     * as the result of <code>getValue</code>. If the value property
-     * was already set, either by a call to <code>setValue</code>
-     * or a previous call to <code>getValue</code> then the value
-     * property is returned without either looking up or calling the method.
+     * If the vblue property of this instbnce is not blrebdy set,
+     * this method dynbmicblly finds the method with the specified
+     * methodNbme on this tbrget with these brguments bnd cblls it.
+     * The result of the method invocbtion is first copied
+     * into the vblue property of this expression bnd then returned
+     * bs the result of <code>getVblue</code>. If the vblue property
+     * wbs blrebdy set, either by b cbll to <code>setVblue</code>
+     * or b previous cbll to <code>getVblue</code> then the vblue
+     * property is returned without either looking up or cblling the method.
      * <p>
-     * The value property of an <code>Expression</code> is set to
-     * a unique private (non-<code>null</code>) value by default and
-     * this value is used as an internal indication that the method
-     * has not yet been called. A return value of <code>null</code>
-     * replaces this default value in the same way that any other value
-     * would, ensuring that expressions are never evaluated more than once.
+     * The vblue property of bn <code>Expression</code> is set to
+     * b unique privbte (non-<code>null</code>) vblue by defbult bnd
+     * this vblue is used bs bn internbl indicbtion thbt the method
+     * hbs not yet been cblled. A return vblue of <code>null</code>
+     * replbces this defbult vblue in the sbme wby thbt bny other vblue
+     * would, ensuring thbt expressions bre never evblubted more thbn once.
      * <p>
-     * See the <code>execute</code> method for details on how
-     * methods are chosen using the dynamic types of the target
-     * and arguments.
+     * See the <code>execute</code> method for detbils on how
+     * methods bre chosen using the dynbmic types of the tbrget
+     * bnd brguments.
      *
-     * @see Statement#execute
-     * @see #setValue
+     * @see Stbtement#execute
+     * @see #setVblue
      *
-     * @return The result of applying this method to these arguments.
-     * @throws Exception if the method with the specified methodName
-     * throws an exception
+     * @return The result of bpplying this method to these brguments.
+     * @throws Exception if the method with the specified methodNbme
+     * throws bn exception
      */
-    public Object getValue() throws Exception {
-        if (value == unbound) {
-            setValue(invoke());
+    public Object getVblue() throws Exception {
+        if (vblue == unbound) {
+            setVblue(invoke());
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Sets the value of this expression to <code>value</code>.
-     * This value will be returned by the getValue method
-     * without calling the method associated with this
+     * Sets the vblue of this expression to <code>vblue</code>.
+     * This vblue will be returned by the getVblue method
+     * without cblling the method bssocibted with this
      * expression.
      *
-     * @param value The value of this expression.
+     * @pbrbm vblue The vblue of this expression.
      *
-     * @see #getValue
+     * @see #getVblue
      */
-    public void setValue(Object value) {
-        this.value = value;
+    public void setVblue(Object vblue) {
+        this.vblue = vblue;
     }
 
-    /*pp*/ String instanceName(Object instance) {
-        return instance == unbound ? "<unbound>" : super.instanceName(instance);
+    /*pp*/ String instbnceNbme(Object instbnce) {
+        return instbnce == unbound ? "<unbound>" : super.instbnceNbme(instbnce);
     }
 
     /**
-     * Prints the value of this expression using a Java-style syntax.
+     * Prints the vblue of this expression using b Jbvb-style syntbx.
      */
     public String toString() {
-        return instanceName(value) + "=" + super.toString();
+        return instbnceNbme(vblue) + "=" + super.toString();
     }
 }

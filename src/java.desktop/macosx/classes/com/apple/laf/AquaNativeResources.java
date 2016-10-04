@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.BufferedImbge;
 
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.plbf.UIResource;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
 
-public class AquaNativeResources {
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+public clbss AqubNbtiveResources {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("osxui");
+                    System.lobdLibrbry("osxui");
                     return null;
                 }
             });
     }
 
-    // TODO: removing CColorPaint for now
-    @SuppressWarnings("serial") // JDK implementation class
-    static class CColorPaintUIResource extends Color/*CColorPaint*/ implements UIResource {
-        // The color passed to this MUST be a retained NSColor, and the CColorPaintUIResource
-        //  takes ownership of that retain.
-        public CColorPaintUIResource(long color, int r, int g, int b, int a) {
-            super(r, g, b, a);
-            //super(color, r, g, b, a);
+    // TODO: removing CColorPbint for now
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    stbtic clbss CColorPbintUIResource extends Color/*CColorPbint*/ implements UIResource {
+        // The color pbssed to this MUST be b retbined NSColor, bnd the CColorPbintUIResource
+        //  tbkes ownership of thbt retbin.
+        public CColorPbintUIResource(long color, int r, int g, int b, int b) {
+            super(r, g, b, b);
+            //super(color, r, g, b, b);
         }
     }
 
-    static final RecyclableSingleton<Color> sBackgroundColor = new RecyclableSingleton<Color>() {
+    stbtic finbl RecyclbbleSingleton<Color> sBbckgroundColor = new RecyclbbleSingleton<Color>() {
         @Override
-        protected Color getInstance() {
-            final long backgroundID = getWindowBackgroundColor();
-            return new CColorPaintUIResource(backgroundID, 0xEE, 0xEE, 0xEE, 0xFF);
+        protected Color getInstbnce() {
+            finbl long bbckgroundID = getWindowBbckgroundColor();
+            return new CColorPbintUIResource(bbckgroundID, 0xEE, 0xEE, 0xEE, 0xFF);
         }
     };
-    private static native long getWindowBackgroundColor();
-    public static Color getWindowBackgroundColorUIResource() {
-        return sBackgroundColor.get();
+    privbte stbtic nbtive long getWindowBbckgroundColor();
+    public stbtic Color getWindowBbckgroundColorUIResource() {
+        return sBbckgroundColor.get();
     }
 
-    static BufferedImage getRadioButtonSizerImage() {
-        final BufferedImage img = new BufferedImage(20, 20, BufferedImage.TYPE_INT_ARGB);
+    stbtic BufferedImbge getRbdioButtonSizerImbge() {
+        finbl BufferedImbge img = new BufferedImbge(20, 20, BufferedImbge.TYPE_INT_ARGB);
 
-        Graphics g = img.getGraphics();
+        Grbphics g = img.getGrbphics();
         g.setColor(Color.pink);
         g.fillRect(0, 0, 20, 20);
 

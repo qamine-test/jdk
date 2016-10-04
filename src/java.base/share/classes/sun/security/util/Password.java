@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.io.*;
-import java.nio.*;
-import java.nio.charset.*;
-import java.util.Arrays;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.chbrset.*;
+import jbvb.util.Arrbys;
 
 /**
- * A utility class for reading passwords
+ * A utility clbss for rebding pbsswords
  *
  */
-public class Password {
-    /** Reads user password from given input stream. */
-    public static char[] readPassword(InputStream in) throws IOException {
-        return readPassword(in, false);
+public clbss Pbssword {
+    /** Rebds user pbssword from given input strebm. */
+    public stbtic chbr[] rebdPbssword(InputStrebm in) throws IOException {
+        return rebdPbssword(in, fblse);
     }
 
-    /** Reads user password from given input stream.
-     * @param isEchoOn true if the password should be echoed on the screen
+    /** Rebds user pbssword from given input strebm.
+     * @pbrbm isEchoOn true if the pbssword should be echoed on the screen
      */
-    @SuppressWarnings("fallthrough")
-    public static char[] readPassword(InputStream in, boolean isEchoOn)
+    @SuppressWbrnings("fbllthrough")
+    public stbtic chbr[] rebdPbssword(InputStrebm in, boolebn isEchoOn)
             throws IOException {
 
-        char[] consoleEntered = null;
+        chbr[] consoleEntered = null;
         byte[] consoleBytes = null;
 
         try {
-            // Use the new java.io.Console class
+            // Use the new jbvb.io.Console clbss
             Console con = null;
             if (!isEchoOn && in == System.in && ((con = System.console()) != null)) {
-                consoleEntered = con.readPassword();
-                // readPassword returns "" if you just print ENTER,
-                // to be compatible with old Password class, change to null
+                consoleEntered = con.rebdPbssword();
+                // rebdPbssword returns "" if you just print ENTER,
+                // to be compbtible with old Pbssword clbss, chbnge to null
                 if (consoleEntered != null && consoleEntered.length == 0) {
                     return null;
                 }
                 consoleBytes = convertToBytes(consoleEntered);
-                in = new ByteArrayInputStream(consoleBytes);
+                in = new ByteArrbyInputStrebm(consoleBytes);
             }
 
-            // Rest of the lines still necessary for KeyStoreLoginModule
-            // and when there is no console.
+            // Rest of the lines still necessbry for KeyStoreLoginModule
+            // bnd when there is no console.
 
-            char[] lineBuffer;
-            char[] buf;
+            chbr[] lineBuffer;
+            chbr[] buf;
             int i;
 
-            buf = lineBuffer = new char[128];
+            buf = lineBuffer = new chbr[128];
 
             int room = buf.length;
             int offset = 0;
             int c;
 
-            boolean done = false;
+            boolebn done = fblse;
             while (!done) {
-                switch (c = in.read()) {
-                  case -1:
-                  case '\n':
+                switch (c = in.rebd()) {
+                  cbse -1:
+                  cbse '\n':
                       done = true;
-                      break;
+                      brebk;
 
-                  case '\r':
-                    int c2 = in.read();
+                  cbse '\r':
+                    int c2 = in.rebd();
                     if ((c2 != '\n') && (c2 != -1)) {
-                        if (!(in instanceof PushbackInputStream)) {
-                            in = new PushbackInputStream(in);
+                        if (!(in instbnceof PushbbckInputStrebm)) {
+                            in = new PushbbckInputStrebm(in);
                         }
-                        ((PushbackInputStream)in).unread(c2);
+                        ((PushbbckInputStrebm)in).unrebd(c2);
                     } else {
                         done = true;
-                        break;
+                        brebk;
                     }
-                    /* fall through */
-                  default:
+                    /* fbll through */
+                  defbult:
                     if (--room < 0) {
-                        buf = new char[offset + 128];
+                        buf = new chbr[offset + 128];
                         room = buf.length - offset - 1;
-                        System.arraycopy(lineBuffer, 0, buf, 0, offset);
-                        Arrays.fill(lineBuffer, ' ');
+                        System.brrbycopy(lineBuffer, 0, buf, 0, offset);
+                        Arrbys.fill(lineBuffer, ' ');
                         lineBuffer = buf;
                     }
-                    buf[offset++] = (char) c;
-                    break;
+                    buf[offset++] = (chbr) c;
+                    brebk;
                 }
             }
 
@@ -114,47 +114,47 @@ public class Password {
                 return null;
             }
 
-            char[] ret = new char[offset];
-            System.arraycopy(buf, 0, ret, 0, offset);
-            Arrays.fill(buf, ' ');
+            chbr[] ret = new chbr[offset];
+            System.brrbycopy(buf, 0, ret, 0, offset);
+            Arrbys.fill(buf, ' ');
 
             return ret;
-        } finally {
+        } finblly {
             if (consoleEntered != null) {
-                Arrays.fill(consoleEntered, ' ');
+                Arrbys.fill(consoleEntered, ' ');
             }
             if (consoleBytes != null) {
-                Arrays.fill(consoleBytes, (byte)0);
+                Arrbys.fill(consoleBytes, (byte)0);
             }
         }
     }
 
     /**
-     * Change a password read from Console.readPassword() into
-     * its original bytes.
+     * Chbnge b pbssword rebd from Console.rebdPbssword() into
+     * its originbl bytes.
      *
-     * @param pass a char[]
-     * @return its byte[] format, similar to new String(pass).getBytes()
+     * @pbrbm pbss b chbr[]
+     * @return its byte[] formbt, similbr to new String(pbss).getBytes()
      */
-    private static byte[] convertToBytes(char[] pass) {
+    privbte stbtic byte[] convertToBytes(chbr[] pbss) {
         if (enc == null) {
-            synchronized (Password.class) {
-                enc = sun.misc.SharedSecrets.getJavaIOAccess()
-                        .charset()
+            synchronized (Pbssword.clbss) {
+                enc = sun.misc.ShbredSecrets.getJbvbIOAccess()
+                        .chbrset()
                         .newEncoder()
-                        .onMalformedInput(CodingErrorAction.REPLACE)
-                        .onUnmappableCharacter(CodingErrorAction.REPLACE);
+                        .onMblformedInput(CodingErrorAction.REPLACE)
+                        .onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE);
             }
         }
-        byte[] ba = new byte[(int)(enc.maxBytesPerChar() * pass.length)];
-        ByteBuffer bb = ByteBuffer.wrap(ba);
+        byte[] bb = new byte[(int)(enc.mbxBytesPerChbr() * pbss.length)];
+        ByteBuffer bb = ByteBuffer.wrbp(bb);
         synchronized (enc) {
-            enc.reset().encode(CharBuffer.wrap(pass), bb, true);
+            enc.reset().encode(ChbrBuffer.wrbp(pbss), bb, true);
         }
-        if (bb.position() < ba.length) {
-            ba[bb.position()] = '\n';
+        if (bb.position() < bb.length) {
+            bb[bb.position()] = '\n';
         }
-        return ba;
+        return bb;
     }
-    private static volatile CharsetEncoder enc;
+    privbte stbtic volbtile ChbrsetEncoder enc;
 }

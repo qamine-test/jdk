@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,33 +30,33 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 /*
- * Concurrency utilities for JavaScript. These are based on
- * java.lang and java.util.concurrent API. The following functions
- * provide a simpler API for scripts. Instead of directly using java.lang
- * and java.util.concurrent classes, scripts can use functions and
+ * Concurrency utilities for JbvbScript. These bre bbsed on
+ * jbvb.lbng bnd jbvb.util.concurrent API. The following functions
+ * provide b simpler API for scripts. Instebd of directly using jbvb.lbng
+ * bnd jbvb.util.concurrent clbsses, scripts cbn use functions bnd
  * objects exported from here.
  */
 
-// shortcut for j.u.c lock classes
-var Lock = java.util.concurrent.locks.ReentrantLock;
-var RWLock = java.util.concurrent.locks.ReentrantReadWriteLock;
+// shortcut for j.u.c lock clbsses
+vbr Lock = jbvb.util.concurrent.locks.ReentrbntLock;
+vbr RWLock = jbvb.util.concurrent.locks.ReentrbntRebdWriteLock;
 
-// check if there is a build in sync function, define one if missing
+// check if there is b build in sync function, define one if missing
 if (typeof sync === "undefined") {
-    var sync = function(func, obj) {
-        if (arguments.length < 1 || arguments.length > 2 ) {
-            throw "sync(function [,object]) parameter count mismatch";
+    vbr sync = function(func, obj) {
+        if (brguments.length < 1 || brguments.length > 2 ) {
+            throw "sync(function [,object]) pbrbmeter count mismbtch";
         }
 
-        var syncobj = (arguments.length == 2 ? obj : this);
+        vbr syncobj = (brguments.length == 2 ? obj : this);
 
         if (!syncobj._syncLock) {
             syncobj._syncLock = new Lock();
@@ -65,263 +65,263 @@ if (typeof sync === "undefined") {
         return function() {
             syncobj._syncLock.lock();
             try {
-                func.apply(null, arguments);
-            } finally {
+                func.bpply(null, brguments);
+            } finblly {
                 syncobj._syncLock.unlock();
             }
         };
     };
-    sync.docString = "synchronize a function, optionally on an object";
+    sync.docString = "synchronize b function, optionblly on bn object";
 }
 
 /**
- * Wrapper for java.lang.Object.wait
+ * Wrbpper for jbvb.lbng.Object.wbit
  *
- * can be called only within a sync method
+ * cbn be cblled only within b sync method
  */
-function wait(object) {
-    var objClazz = java.lang.Class.forName('java.lang.Object');
-    var waitMethod = objClazz.getMethod('wait', null);
-    waitMethod.invoke(object, null);
+function wbit(object) {
+    vbr objClbzz = jbvb.lbng.Clbss.forNbme('jbvb.lbng.Object');
+    vbr wbitMethod = objClbzz.getMethod('wbit', null);
+    wbitMethod.invoke(object, null);
 }
-wait.docString = "convenient wrapper for java.lang.Object.wait method";
+wbit.docString = "convenient wrbpper for jbvb.lbng.Object.wbit method";
 
 /**
- * Wrapper for java.lang.Object.notify
+ * Wrbpper for jbvb.lbng.Object.notify
  *
- * can be called only within a sync method
+ * cbn be cblled only within b sync method
  */
 function notify(object) {
-    var objClazz = java.lang.Class.forName('java.lang.Object');
-    var notifyMethod = objClazz.getMethod('notify', null);
+    vbr objClbzz = jbvb.lbng.Clbss.forNbme('jbvb.lbng.Object');
+    vbr notifyMethod = objClbzz.getMethod('notify', null);
     notifyMethod.invoke(object, null);
 }
-notify.docString = "convenient wrapper for java.lang.Object.notify method";
+notify.docString = "convenient wrbpper for jbvb.lbng.Object.notify method";
 
 /**
- * Wrapper for java.lang.Object.notifyAll
+ * Wrbpper for jbvb.lbng.Object.notifyAll
  *
- * can be called only within a sync method
+ * cbn be cblled only within b sync method
  */
 function notifyAll(object)  {
-    var objClazz = java.lang.Class.forName('java.lang.Object');
-    var notifyAllMethod = objClazz.getMethod('notifyAll', null);
+    vbr objClbzz = jbvb.lbng.Clbss.forNbme('jbvb.lbng.Object');
+    vbr notifyAllMethod = objClbzz.getMethod('notifyAll', null);
     notifyAllMethod.invoke(object, null);
 }
-notifyAll.docString = "convenient wrapper for java.lang.Object.notifyAll method";
+notifyAll.docString = "convenient wrbpper for jbvb.lbng.Object.notifyAll method";
 
 /**
- * Creates a java.lang.Runnable from a given script
+ * Crebtes b jbvb.lbng.Runnbble from b given script
  * function.
  */
-Function.prototype.runnable = function() {
-    var args = arguments;
-    var func = this;
-    return new java.lang.Runnable() {
+Function.prototype.runnbble = function() {
+    vbr brgs = brguments;
+    vbr func = this;
+    return new jbvb.lbng.Runnbble() {
         run: function() {
-            func.apply(null, args);
+            func.bpply(null, brgs);
         }
     }
 };
 
 /**
- * Executes the function on a new Java Thread.
+ * Executes the function on b new Jbvb Threbd.
  */
-Function.prototype.thread = function() {
-    var t = new java.lang.Thread(this.runnable.apply(this, arguments));
-    t.start();
+Function.prototype.threbd = function() {
+    vbr t = new jbvb.lbng.Threbd(this.runnbble.bpply(this, brguments));
+    t.stbrt();
     return t;
 };
 
 /**
- * Executes the function on a new Java daemon Thread.
+ * Executes the function on b new Jbvb dbemon Threbd.
  */
-Function.prototype.daemon = function() {
-    var t = new java.lang.Thread(this.runnable.apply(this, arguments));
-    t.setDaemon(true);
-    t.start();
+Function.prototype.dbemon = function() {
+    vbr t = new jbvb.lbng.Threbd(this.runnbble.bpply(this, brguments));
+    t.setDbemon(true);
+    t.stbrt();
     return t;
 };
 
 /**
- * Creates a java.util.concurrent.Callable from a given script
+ * Crebtes b jbvb.util.concurrent.Cbllbble from b given script
  * function.
  */
-Function.prototype.callable = function() {
-    var args = arguments;
-    var func = this;
-    return new java.util.concurrent.Callable() {
-          call: function() { return func.apply(null, args); }
+Function.prototype.cbllbble = function() {
+    vbr brgs = brguments;
+    vbr func = this;
+    return new jbvb.util.concurrent.Cbllbble() {
+          cbll: function() { return func.bpply(null, brgs); }
     }
 };
 
 /**
- * Registers the script function so that it will be called exit.
+ * Registers the script function so thbt it will be cblled exit.
  */
-Function.prototype.atexit = function () {
-    var args = arguments;
-    java.lang.Runtime.getRuntime().addShutdownHook(
-         new java.lang.Thread(this.runnable.apply(this, args)));
+Function.prototype.btexit = function () {
+    vbr brgs = brguments;
+    jbvb.lbng.Runtime.getRuntime().bddShutdownHook(
+         new jbvb.lbng.Threbd(this.runnbble.bpply(this, brgs)));
 };
 
 /**
- * Executes the function asynchronously.
+ * Executes the function bsynchronously.
  *
- * @return a java.util.concurrent.FutureTask
+ * @return b jbvb.util.concurrent.FutureTbsk
  */
 Function.prototype.future = (function() {
-    // default executor for future
-    var juc = java.util.concurrent;
-    var theExecutor = juc.Executors.newSingleThreadExecutor();
-    // clean-up the default executor at exit
-    (function() { theExecutor.shutdown(); }).atexit();
+    // defbult executor for future
+    vbr juc = jbvb.util.concurrent;
+    vbr theExecutor = juc.Executors.newSingleThrebdExecutor();
+    // clebn-up the defbult executor bt exit
+    (function() { theExecutor.shutdown(); }).btexit();
     return function() {
-        return theExecutor.submit(this.callable.apply(this, arguments));
+        return theExecutor.submit(this.cbllbble.bpply(this, brguments));
     };
 })();
 
 /**
- * Executes a function after acquiring given lock. On return,
- * (normal or exceptional), lock is released.
+ * Executes b function bfter bcquiring given lock. On return,
+ * (normbl or exceptionbl), lock is relebsed.
  *
- * @param lock lock that is locked and unlocked
+ * @pbrbm lock lock thbt is locked bnd unlocked
  */
 Function.prototype.sync = function (lock) {
-    if (arguments.length == 0) {
+    if (brguments.length == 0) {
         throw "lock is missing";
     }
-    var res = new Array(arguments.length - 1);
-    for (var i = 0; i < res.length; i++) {
-        res[i] = arguments[i + 1];
+    vbr res = new Arrby(brguments.length - 1);
+    for (vbr i = 0; i < res.length; i++) {
+        res[i] = brguments[i + 1];
     }
     lock.lock();
     try {
-        this.apply(null, res);
-    } finally {
+        this.bpply(null, res);
+    } finblly {
         lock.unlock();
     }
 };
 
 /**
- * Causes current thread to sleep for specified
+ * Cbuses current threbd to sleep for specified
  * number of milliseconds
  *
- * @param interval in milliseconds
+ * @pbrbm intervbl in milliseconds
  */
-function sleep(interval) {
-    java.lang.Thread.sleep(interval);
+function sleep(intervbl) {
+    jbvb.lbng.Threbd.sleep(intervbl);
 }
-sleep.docString = "wrapper for java.lang.Thread.sleep method";
+sleep.docString = "wrbpper for jbvb.lbng.Threbd.sleep method";
 
 /**
- * Schedules a task to be executed once in N milliseconds specified.
+ * Schedules b tbsk to be executed once in N milliseconds specified.
  *
- * @param callback function or expression to evaluate
- * @param interval in milliseconds to sleep
- * @return timeout ID (which is nothing but Thread instance)
+ * @pbrbm cbllbbck function or expression to evblubte
+ * @pbrbm intervbl in milliseconds to sleep
+ * @return timeout ID (which is nothing but Threbd instbnce)
  */
-function setTimeout(callback, interval) {
-    if (! (callback instanceof Function)) {
-        callback = new Function(callback);
+function setTimeout(cbllbbck, intervbl) {
+    if (! (cbllbbck instbnceof Function)) {
+        cbllbbck = new Function(cbllbbck);
     }
 
-    // start a new thread that sleeps given time
-    // and calls callback in an infinite loop
+    // stbrt b new threbd thbt sleeps given time
+    // bnd cblls cbllbbck in bn infinite loop
     return (function() {
          try {
-             sleep(interval);
-         } catch (x) { }
-         callback();
-    }).daemon();
+             sleep(intervbl);
+         } cbtch (x) { }
+         cbllbbck();
+    }).dbemon();
 }
-setTimeout.docString = "calls given callback once after specified interval";
+setTimeout.docString = "cblls given cbllbbck once bfter specified intervbl";
 
 /**
- * Cancels a timeout set earlier.
- * @param tid timeout ID returned from setTimeout
+ * Cbncels b timeout set ebrlier.
+ * @pbrbm tid timeout ID returned from setTimeout
  */
-function clearTimeout(tid) {
-    // we just interrupt the timer thread
+function clebrTimeout(tid) {
+    // we just interrupt the timer threbd
     tid.interrupt();
 }
-clearTimeout.docString = "interrupt a setTimeout timer";
+clebrTimeout.docString = "interrupt b setTimeout timer";
 
 /**
- * Schedules a task to be executed once in
+ * Schedules b tbsk to be executed once in
  * every N milliseconds specified.
  *
- * @param callback function or expression to evaluate
- * @param interval in milliseconds to sleep
- * @return timeout ID (which is nothing but Thread instance)
+ * @pbrbm cbllbbck function or expression to evblubte
+ * @pbrbm intervbl in milliseconds to sleep
+ * @return timeout ID (which is nothing but Threbd instbnce)
  */
-function setInterval(callback, interval) {
-    if (! (callback instanceof Function)) {
-        callback = new Function(callback);
+function setIntervbl(cbllbbck, intervbl) {
+    if (! (cbllbbck instbnceof Function)) {
+        cbllbbck = new Function(cbllbbck);
     }
 
-    // start a new thread that sleeps given time
-    // and calls callback in an infinite loop
+    // stbrt b new threbd thbt sleeps given time
+    // bnd cblls cbllbbck in bn infinite loop
     return (function() {
          while (true) {
              try {
-                 sleep(interval);
-             } catch (x) {
-                 break;
+                 sleep(intervbl);
+             } cbtch (x) {
+                 brebk;
              }
-             callback();
+             cbllbbck();
          }
-    }).daemon();
+    }).dbemon();
 }
-setInterval.docString = "calls given callback every specified interval";
+setIntervbl.docString = "cblls given cbllbbck every specified intervbl";
 
 /**
- * Cancels a timeout set earlier.
- * @param tid timeout ID returned from setTimeout
+ * Cbncels b timeout set ebrlier.
+ * @pbrbm tid timeout ID returned from setTimeout
  */
-function clearInterval(tid) {
-    // we just interrupt the timer thread
+function clebrIntervbl(tid) {
+    // we just interrupt the timer threbd
     tid.interrupt();
 }
-clearInterval.docString = "interrupt a setInterval timer";
+clebrIntervbl.docString = "interrupt b setIntervbl timer";
 
 /**
- * Simple access to thread local storage.
+ * Simple bccess to threbd locbl storbge.
  *
- * Script sample:
+ * Script sbmple:
  *
- *  __thread.x = 44;
+ *  __threbd.x = 44;
  *  function f() {
- *      __thread.x = 'hello';
- *      print(__thread.x);
+ *      __threbd.x = 'hello';
+ *      print(__threbd.x);
  *  }
- *  f.thread();       // prints 'hello'
- * print(__thread.x); // prints 44 in main thread
+ *  f.threbd();       // prints 'hello'
+ * print(__threbd.x); // prints 44 in mbin threbd
  */
-var __thread = (function () {
-    var map = new Object();
-    return new JSAdapter({
-        __has__: function(name) {
-            return map[name] != undefined;
+vbr __threbd = (function () {
+    vbr mbp = new Object();
+    return new JSAdbpter({
+        __hbs__: function(nbme) {
+            return mbp[nbme] != undefined;
         },
-        __get__: function(name) {
-            if (map[name] != undefined) {
-                return map[name].get();
+        __get__: function(nbme) {
+            if (mbp[nbme] != undefined) {
+                return mbp[nbme].get();
             } else {
                 return undefined;
             }
         },
-        __put__: sync(function(name, value) {
-            if (map[name] == undefined) {
-                var tmp = new java.lang.ThreadLocal();
-                tmp.set(value);
-                map[name] = tmp;
+        __put__: sync(function(nbme, vblue) {
+            if (mbp[nbme] == undefined) {
+                vbr tmp = new jbvb.lbng.ThrebdLocbl();
+                tmp.set(vblue);
+                mbp[nbme] = tmp;
             } else {
-                map[name].set(value);
+                mbp[nbme].set(vblue);
             }
         }),
-        __delete__: function(name) {
-            if (map[name] != undefined) {
-                map[name].set(null);
+        __delete__: function(nbme) {
+            if (mbp[nbme] != undefined) {
+                mbp[nbme].set(null);
             }
         }
     });

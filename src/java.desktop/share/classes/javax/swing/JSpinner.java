@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import javax.swing.event.*;
-import javax.swing.text.*;
-import javax.swing.plaf.SpinnerUI;
+import jbvbx.swing.event.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.plbf.SpinnerUI;
 
-import java.util.*;
-import java.beans.*;
-import java.text.*;
-import java.io.*;
-import java.text.spi.DateFormatProvider;
-import java.text.spi.NumberFormatProvider;
+import jbvb.util.*;
+import jbvb.bebns.*;
+import jbvb.text.*;
+import jbvb.io.*;
+import jbvb.text.spi.DbteFormbtProvider;
+import jbvb.text.spi.NumberFormbtProvider;
 
-import javax.accessibility.*;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleResources;
-import sun.util.locale.provider.LocaleServiceProviderPool;
+import jbvbx.bccessibility.*;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.locble.provider.LocbleResources;
+import sun.util.locble.provider.LocbleServiceProviderPool;
 
 
 /**
- * A single line input field that lets the user select a
- * number or an object value from an ordered sequence. Spinners typically
- * provide a pair of tiny arrow buttons for stepping through the elements
- * of the sequence. The keyboard up/down arrow keys also cycle through the
- * elements. The user may also be allowed to type a (legal) value directly
- * into the spinner. Although combo boxes provide similar functionality,
- * spinners are sometimes preferred because they don't require a drop down list
- * that can obscure important data.
+ * A single line input field thbt lets the user select b
+ * number or bn object vblue from bn ordered sequence. Spinners typicblly
+ * provide b pbir of tiny brrow buttons for stepping through the elements
+ * of the sequence. The keybobrd up/down brrow keys blso cycle through the
+ * elements. The user mby blso be bllowed to type b (legbl) vblue directly
+ * into the spinner. Although combo boxes provide similbr functionblity,
+ * spinners bre sometimes preferred becbuse they don't require b drop down list
+ * thbt cbn obscure importbnt dbtb.
  * <p>
- * A <code>JSpinner</code>'s sequence value is defined by its
+ * A <code>JSpinner</code>'s sequence vblue is defined by its
  * <code>SpinnerModel</code>.
- * The <code>model</code> can be specified as a constructor argument and
- * changed with the <code>model</code> property.  <code>SpinnerModel</code>
- * classes for some common types are provided: <code>SpinnerListModel</code>,
- * <code>SpinnerNumberModel</code>, and <code>SpinnerDateModel</code>.
+ * The <code>model</code> cbn be specified bs b constructor brgument bnd
+ * chbnged with the <code>model</code> property.  <code>SpinnerModel</code>
+ * clbsses for some common types bre provided: <code>SpinnerListModel</code>,
+ * <code>SpinnerNumberModel</code>, bnd <code>SpinnerDbteModel</code>.
  * <p>
- * A <code>JSpinner</code> has a single child component that's
- * responsible for displaying
- * and potentially changing the current element or <i>value</i> of
- * the model, which is called the <code>editor</code>.  The editor is created
- * by the <code>JSpinner</code>'s constructor and can be changed with the
- * <code>editor</code> property.  The <code>JSpinner</code>'s editor stays
- * in sync with the model by listening for <code>ChangeEvent</code>s. If the
- * user has changed the value displayed by the <code>editor</code> it is
- * possible for the <code>model</code>'s value to differ from that of
- * the <code>editor</code>. To make sure the <code>model</code> has the same
- * value as the editor use the <code>commitEdit</code> method, eg:
+ * A <code>JSpinner</code> hbs b single child component thbt's
+ * responsible for displbying
+ * bnd potentiblly chbnging the current element or <i>vblue</i> of
+ * the model, which is cblled the <code>editor</code>.  The editor is crebted
+ * by the <code>JSpinner</code>'s constructor bnd cbn be chbnged with the
+ * <code>editor</code> property.  The <code>JSpinner</code>'s editor stbys
+ * in sync with the model by listening for <code>ChbngeEvent</code>s. If the
+ * user hbs chbnged the vblue displbyed by the <code>editor</code> it is
+ * possible for the <code>model</code>'s vblue to differ from thbt of
+ * the <code>editor</code>. To mbke sure the <code>model</code> hbs the sbme
+ * vblue bs the editor use the <code>commitEdit</code> method, eg:
  * <pre>
  *   try {
  *       spinner.commitEdit();
  *   }
- *   catch (ParseException pe) {{
- *       // Edited value is invalid, spinner.getValue() will return
- *       // the last valid value, you could revert the spinner to show that:
+ *   cbtch (PbrseException pe) {{
+ *       // Edited vblue is invblid, spinner.getVblue() will return
+ *       // the lbst vblid vblue, you could revert the spinner to show thbt:
  *       JComponent editor = spinner.getEditor()
- *       if (editor instanceof DefaultEditor) {
- *           ((DefaultEditor)editor).getTextField().setValue(spinner.getValue();
+ *       if (editor instbnceof DefbultEditor) {
+ *           ((DefbultEditor)editor).getTextField().setVblue(spinner.getVblue();
  *       }
- *       // reset the value to some known value:
- *       spinner.setValue(fallbackValue);
- *       // or treat the last valid value as the current, in which
- *       // case you don't need to do anything.
+ *       // reset the vblue to some known vblue:
+ *       spinner.setVblue(fbllbbckVblue);
+ *       // or trebt the lbst vblid vblue bs the current, in which
+ *       // cbse you don't need to do bnything.
  *   }
- *   return spinner.getValue();
+ *   return spinner.getVblue();
  * </pre>
  * <p>
- * For information and examples of using spinner see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/spinner.html">How to Use Spinners</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For informbtion bnd exbmples of using spinner see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/spinner.html">How to Use Spinners</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A single line input field that lets the user select a
- *     number or an object value from an ordered set.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: A single line input field thbt lets the user select b
+ *     number or bn object vblue from bn ordered set.
  *
  * @see SpinnerModel
- * @see AbstractSpinnerModel
+ * @see AbstrbctSpinnerModel
  * @see SpinnerListModel
  * @see SpinnerNumberModel
- * @see SpinnerDateModel
- * @see JFormattedTextField
+ * @see SpinnerDbteModel
+ * @see JFormbttedTextField
  *
- * @author Hans Muller
- * @author Lynn Monsanto (accessibility)
+ * @buthor Hbns Muller
+ * @buthor Lynn Monsbnto (bccessibility)
  * @since 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JSpinner extends JComponent implements Accessible
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JSpinner extends JComponent implements Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "SpinnerUI";
+    privbte stbtic finbl String uiClbssID = "SpinnerUI";
 
-    private static final Action DISABLED_ACTION = new DisabledAction();
+    privbte stbtic finbl Action DISABLED_ACTION = new DisbbledAction();
 
-    private SpinnerModel model;
-    private JComponent editor;
-    private ChangeListener modelListener;
-    private transient ChangeEvent changeEvent;
-    private boolean editorExplicitlySet = false;
+    privbte SpinnerModel model;
+    privbte JComponent editor;
+    privbte ChbngeListener modelListener;
+    privbte trbnsient ChbngeEvent chbngeEvent;
+    privbte boolebn editorExplicitlySet = fblse;
 
 
     /**
-     * Constructs a spinner for the given model. The spinner has
-     * a set of previous/next buttons, and an editor appropriate
+     * Constructs b spinner for the given model. The spinner hbs
+     * b set of previous/next buttons, bnd bn editor bppropribte
      * for the model.
      *
-     * @param model  a model for the new spinner
+     * @pbrbm model  b model for the new spinner
      * @throws NullPointerException if the model is {@code null}
      */
     public JSpinner(SpinnerModel model) {
         if (model == null) {
-            throw new NullPointerException("model cannot be null");
+            throw new NullPointerException("model cbnnot be null");
         }
         this.model = model;
-        this.editor = createEditor(model);
-        setUIProperty("opaque",true);
-        updateUI();
+        this.editor = crebteEditor(model);
+        setUIProperty("opbque",true);
+        updbteUI();
     }
 
 
     /**
-     * Constructs a spinner with an <code>Integer SpinnerNumberModel</code>
-     * with initial value 0 and no minimum or maximum limits.
+     * Constructs b spinner with bn <code>Integer SpinnerNumberModel</code>
+     * with initibl vblue 0 bnd no minimum or mbximum limits.
      */
     public JSpinner() {
         this(new SpinnerNumberModel());
@@ -173,9 +173,9 @@ public class JSpinner extends JComponent implements Accessible
 
 
     /**
-     * Returns the look and feel (L&amp;F) object that renders this component.
+     * Returns the look bnd feel (L&bmp;F) object thbt renders this component.
      *
-     * @return the <code>SpinnerUI</code> object that renders this component
+     * @return the <code>SpinnerUI</code> object thbt renders this component
      */
     public SpinnerUI getUI() {
         return (SpinnerUI)ui;
@@ -183,10 +183,10 @@ public class JSpinner extends JComponent implements Accessible
 
 
     /**
-     * Sets the look and feel (L&amp;F) object that renders this component.
+     * Sets the look bnd feel (L&bmp;F) object thbt renders this component.
      *
-     * @param ui  the <code>SpinnerUI</code> L&amp;F object
-     * @see UIDefaults#getUI
+     * @pbrbm ui  the <code>SpinnerUI</code> L&bmp;F object
+     * @see UIDefbults#getUI
      */
     public void setUI(SpinnerUI ui) {
         super.setUI(ui);
@@ -194,120 +194,120 @@ public class JSpinner extends JComponent implements Accessible
 
 
     /**
-     * Returns the suffix used to construct the name of the look and feel
-     * (L&amp;F) class used to render this component.
+     * Returns the suffix used to construct the nbme of the look bnd feel
+     * (L&bmp;F) clbss used to render this component.
      *
      * @return the string "SpinnerUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
 
     /**
-     * Resets the UI property with the value from the current look and feel.
+     * Resets the UI property with the vblue from the current look bnd feel.
      *
-     * @see UIManager#getUI
+     * @see UIMbnbger#getUI
      */
-    public void updateUI() {
-        setUI((SpinnerUI)UIManager.getUI(this));
-        invalidate();
+    public void updbteUI() {
+        setUI((SpinnerUI)UIMbnbger.getUI(this));
+        invblidbte();
     }
 
 
     /**
-     * This method is called by the constructors to create the
+     * This method is cblled by the constructors to crebte the
      * <code>JComponent</code>
-     * that displays the current value of the sequence.  The editor may
-     * also allow the user to enter an element of the sequence directly.
-     * An editor must listen for <code>ChangeEvents</code> on the
-     * <code>model</code> and keep the value it displays
-     * in sync with the value of the model.
+     * thbt displbys the current vblue of the sequence.  The editor mby
+     * blso bllow the user to enter bn element of the sequence directly.
+     * An editor must listen for <code>ChbngeEvents</code> on the
+     * <code>model</code> bnd keep the vblue it displbys
+     * in sync with the vblue of the model.
      * <p>
-     * Subclasses may override this method to add support for new
-     * <code>SpinnerModel</code> classes.  Alternatively one can just
-     * replace the editor created here with the <code>setEditor</code>
-     * method.  The default mapping from model type to editor is:
+     * Subclbsses mby override this method to bdd support for new
+     * <code>SpinnerModel</code> clbsses.  Alternbtively one cbn just
+     * replbce the editor crebted here with the <code>setEditor</code>
+     * method.  The defbult mbpping from model type to editor is:
      * <ul>
      * <li> <code>SpinnerNumberModel =&gt; JSpinner.NumberEditor</code>
-     * <li> <code>SpinnerDateModel =&gt; JSpinner.DateEditor</code>
+     * <li> <code>SpinnerDbteModel =&gt; JSpinner.DbteEditor</code>
      * <li> <code>SpinnerListModel =&gt; JSpinner.ListEditor</code>
-     * <li> <i>all others</i> =&gt; <code>JSpinner.DefaultEditor</code>
+     * <li> <i>bll others</i> =&gt; <code>JSpinner.DefbultEditor</code>
      * </ul>
      *
-     * @return a component that displays the current value of the sequence
-     * @param model the value of getModel
+     * @return b component thbt displbys the current vblue of the sequence
+     * @pbrbm model the vblue of getModel
      * @see #getModel
      * @see #setEditor
      */
-    protected JComponent createEditor(SpinnerModel model) {
-        if (model instanceof SpinnerDateModel) {
-            return new DateEditor(this);
+    protected JComponent crebteEditor(SpinnerModel model) {
+        if (model instbnceof SpinnerDbteModel) {
+            return new DbteEditor(this);
         }
-        else if (model instanceof SpinnerListModel) {
+        else if (model instbnceof SpinnerListModel) {
             return new ListEditor(this);
         }
-        else if (model instanceof SpinnerNumberModel) {
+        else if (model instbnceof SpinnerNumberModel) {
             return new NumberEditor(this);
         }
         else {
-            return new DefaultEditor(this);
+            return new DefbultEditor(this);
         }
     }
 
 
     /**
-     * Changes the model that represents the value of this spinner.
-     * If the editor property has not been explicitly set,
-     * the editor property is (implicitly) set after the <code>"model"</code>
-     * <code>PropertyChangeEvent</code> has been fired.  The editor
-     * property is set to the value returned by <code>createEditor</code>,
-     * as in:
+     * Chbnges the model thbt represents the vblue of this spinner.
+     * If the editor property hbs not been explicitly set,
+     * the editor property is (implicitly) set bfter the <code>"model"</code>
+     * <code>PropertyChbngeEvent</code> hbs been fired.  The editor
+     * property is set to the vblue returned by <code>crebteEditor</code>,
+     * bs in:
      * <pre>
-     * setEditor(createEditor(model));
+     * setEditor(crebteEditor(model));
      * </pre>
      *
-     * @param model the new <code>SpinnerModel</code>
+     * @pbrbm model the new <code>SpinnerModel</code>
      * @see #getModel
      * @see #getEditor
      * @see #setEditor
-     * @throws IllegalArgumentException if model is <code>null</code>
+     * @throws IllegblArgumentException if model is <code>null</code>
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Model that represents the value of this spinner.
+     *    bttribute: visublUpdbte true
+     *  description: Model thbt represents the vblue of this spinner.
      */
     public void setModel(SpinnerModel model) {
         if (model == null) {
-            throw new IllegalArgumentException("null model");
+            throw new IllegblArgumentException("null model");
         }
-        if (!model.equals(this.model)) {
+        if (!model.equbls(this.model)) {
             SpinnerModel oldModel = this.model;
             this.model = model;
             if (modelListener != null) {
-                oldModel.removeChangeListener(modelListener);
-                this.model.addChangeListener(modelListener);
+                oldModel.removeChbngeListener(modelListener);
+                this.model.bddChbngeListener(modelListener);
             }
-            firePropertyChange("model", oldModel, model);
+            firePropertyChbnge("model", oldModel, model);
             if (!editorExplicitlySet) {
-                setEditor(createEditor(model)); // sets editorExplicitlySet true
-                editorExplicitlySet = false;
+                setEditor(crebteEditor(model)); // sets editorExplicitlySet true
+                editorExplicitlySet = fblse;
             }
-            repaint();
-            revalidate();
+            repbint();
+            revblidbte();
         }
     }
 
 
     /**
-     * Returns the <code>SpinnerModel</code> that defines
-     * this spinners sequence of values.
+     * Returns the <code>SpinnerModel</code> thbt defines
+     * this spinners sequence of vblues.
      *
-     * @return the value of the model property
+     * @return the vblue of the model property
      * @see #setModel
      */
     public SpinnerModel getModel() {
@@ -316,226 +316,226 @@ public class JSpinner extends JComponent implements Accessible
 
 
     /**
-     * Returns the current value of the model, typically
-     * this value is displayed by the <code>editor</code>. If the
-     * user has changed the value displayed by the <code>editor</code> it is
-     * possible for the <code>model</code>'s value to differ from that of
-     * the <code>editor</code>, refer to the class level javadoc for examples
-     * of how to deal with this.
+     * Returns the current vblue of the model, typicblly
+     * this vblue is displbyed by the <code>editor</code>. If the
+     * user hbs chbnged the vblue displbyed by the <code>editor</code> it is
+     * possible for the <code>model</code>'s vblue to differ from thbt of
+     * the <code>editor</code>, refer to the clbss level jbvbdoc for exbmples
+     * of how to debl with this.
      * <p>
-     * This method simply delegates to the <code>model</code>.
-     * It is equivalent to:
+     * This method simply delegbtes to the <code>model</code>.
+     * It is equivblent to:
      * <pre>
-     * getModel().getValue()
+     * getModel().getVblue()
      * </pre>
      *
-     * @return the current value of the model
-     * @see #setValue
-     * @see SpinnerModel#getValue
+     * @return the current vblue of the model
+     * @see #setVblue
+     * @see SpinnerModel#getVblue
      */
-    public Object getValue() {
-        return getModel().getValue();
+    public Object getVblue() {
+        return getModel().getVblue();
     }
 
 
     /**
-     * Changes current value of the model, typically
-     * this value is displayed by the <code>editor</code>.
-     * If the <code>SpinnerModel</code> implementation
-     * doesn't support the specified value then an
-     * <code>IllegalArgumentException</code> is thrown.
+     * Chbnges current vblue of the model, typicblly
+     * this vblue is displbyed by the <code>editor</code>.
+     * If the <code>SpinnerModel</code> implementbtion
+     * doesn't support the specified vblue then bn
+     * <code>IllegblArgumentException</code> is thrown.
      * <p>
-     * This method simply delegates to the <code>model</code>.
-     * It is equivalent to:
+     * This method simply delegbtes to the <code>model</code>.
+     * It is equivblent to:
      * <pre>
-     * getModel().setValue(value)
+     * getModel().setVblue(vblue)
      * </pre>
      *
-     * @param value  new value for the spinner
-     * @throws IllegalArgumentException if <code>value</code> isn't allowed
-     * @see #getValue
-     * @see SpinnerModel#setValue
+     * @pbrbm vblue  new vblue for the spinner
+     * @throws IllegblArgumentException if <code>vblue</code> isn't bllowed
+     * @see #getVblue
+     * @see SpinnerModel#setVblue
      */
-    public void setValue(Object value) {
-        getModel().setValue(value);
+    public void setVblue(Object vblue) {
+        getModel().setVblue(vblue);
     }
 
 
     /**
-     * Returns the object in the sequence that comes after the object returned
-     * by <code>getValue()</code>. If the end of the sequence has been reached
+     * Returns the object in the sequence thbt comes bfter the object returned
+     * by <code>getVblue()</code>. If the end of the sequence hbs been rebched
      * then return <code>null</code>.
-     * Calling this method does not effect <code>value</code>.
+     * Cblling this method does not effect <code>vblue</code>.
      * <p>
-     * This method simply delegates to the <code>model</code>.
-     * It is equivalent to:
+     * This method simply delegbtes to the <code>model</code>.
+     * It is equivblent to:
      * <pre>
-     * getModel().getNextValue()
+     * getModel().getNextVblue()
      * </pre>
      *
-     * @return the next legal value or <code>null</code> if one doesn't exist
-     * @see #getValue
-     * @see #getPreviousValue
-     * @see SpinnerModel#getNextValue
+     * @return the next legbl vblue or <code>null</code> if one doesn't exist
+     * @see #getVblue
+     * @see #getPreviousVblue
+     * @see SpinnerModel#getNextVblue
      */
-    public Object getNextValue() {
-        return getModel().getNextValue();
+    public Object getNextVblue() {
+        return getModel().getNextVblue();
     }
 
 
     /**
-     * We pass <code>Change</code> events along to the listeners with the
-     * the slider (instead of the model itself) as the event source.
+     * We pbss <code>Chbnge</code> events blong to the listeners with the
+     * the slider (instebd of the model itself) bs the event source.
      */
-    private class ModelListener implements ChangeListener, Serializable {
-        public void stateChanged(ChangeEvent e) {
-            fireStateChanged();
+    privbte clbss ModelListener implements ChbngeListener, Seriblizbble {
+        public void stbteChbnged(ChbngeEvent e) {
+            fireStbteChbnged();
         }
     }
 
 
     /**
-     * Adds a listener to the list that is notified each time a change
-     * to the model occurs.  The source of <code>ChangeEvents</code>
-     * delivered to <code>ChangeListeners</code> will be this
-     * <code>JSpinner</code>.  Note also that replacing the model
-     * will not affect listeners added directly to JSpinner.
-     * Applications can add listeners to  the model directly.  In that
-     * case is that the source of the event would be the
+     * Adds b listener to the list thbt is notified ebch time b chbnge
+     * to the model occurs.  The source of <code>ChbngeEvents</code>
+     * delivered to <code>ChbngeListeners</code> will be this
+     * <code>JSpinner</code>.  Note blso thbt replbcing the model
+     * will not bffect listeners bdded directly to JSpinner.
+     * Applicbtions cbn bdd listeners to  the model directly.  In thbt
+     * cbse is thbt the source of the event would be the
      * <code>SpinnerModel</code>.
      *
-     * @param listener the <code>ChangeListener</code> to add
-     * @see #removeChangeListener
+     * @pbrbm listener the <code>ChbngeListener</code> to bdd
+     * @see #removeChbngeListener
      * @see #getModel
      */
-    public void addChangeListener(ChangeListener listener) {
+    public void bddChbngeListener(ChbngeListener listener) {
         if (modelListener == null) {
             modelListener = new ModelListener();
-            getModel().addChangeListener(modelListener);
+            getModel().bddChbngeListener(modelListener);
         }
-        listenerList.add(ChangeListener.class, listener);
+        listenerList.bdd(ChbngeListener.clbss, listener);
     }
 
 
 
     /**
-     * Removes a <code>ChangeListener</code> from this spinner.
+     * Removes b <code>ChbngeListener</code> from this spinner.
      *
-     * @param listener the <code>ChangeListener</code> to remove
-     * @see #fireStateChanged
-     * @see #addChangeListener
+     * @pbrbm listener the <code>ChbngeListener</code> to remove
+     * @see #fireStbteChbnged
+     * @see #bddChbngeListener
      */
-    public void removeChangeListener(ChangeListener listener) {
-        listenerList.remove(ChangeListener.class, listener);
+    public void removeChbngeListener(ChbngeListener listener) {
+        listenerList.remove(ChbngeListener.clbss, listener);
     }
 
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this JSpinner with addChangeListener().
+     * Returns bn brrby of bll the <code>ChbngeListener</code>s bdded
+     * to this JSpinner with bddChbngeListener().
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>ChbngeListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    public ChbngeListener[] getChbngeListeners() {
+        return listenerList.getListeners(ChbngeListener.clbss);
     }
 
 
     /**
-     * Sends a <code>ChangeEvent</code>, whose source is this
-     * <code>JSpinner</code>, to each <code>ChangeListener</code>.
-     * When a <code>ChangeListener</code> has been added
-     * to the spinner, this method method is called each time
-     * a <code>ChangeEvent</code> is received from the model.
+     * Sends b <code>ChbngeEvent</code>, whose source is this
+     * <code>JSpinner</code>, to ebch <code>ChbngeListener</code>.
+     * When b <code>ChbngeListener</code> hbs been bdded
+     * to the spinner, this method method is cblled ebch time
+     * b <code>ChbngeEvent</code> is received from the model.
      *
-     * @see #addChangeListener
-     * @see #removeChangeListener
+     * @see #bddChbngeListener
+     * @see #removeChbngeListener
      * @see EventListenerList
      */
-    protected void fireStateChanged() {
+    protected void fireStbteChbnged() {
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ChangeListener.class) {
-                if (changeEvent == null) {
-                    changeEvent = new ChangeEvent(this);
+            if (listeners[i] == ChbngeListener.clbss) {
+                if (chbngeEvent == null) {
+                    chbngeEvent = new ChbngeEvent(this);
                 }
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+                ((ChbngeListener)listeners[i+1]).stbteChbnged(chbngeEvent);
             }
         }
     }
 
 
     /**
-     * Returns the object in the sequence that comes
-     * before the object returned by <code>getValue()</code>.
-     * If the end of the sequence has been reached then
-     * return <code>null</code>. Calling this method does
-     * not effect <code>value</code>.
+     * Returns the object in the sequence thbt comes
+     * before the object returned by <code>getVblue()</code>.
+     * If the end of the sequence hbs been rebched then
+     * return <code>null</code>. Cblling this method does
+     * not effect <code>vblue</code>.
      * <p>
-     * This method simply delegates to the <code>model</code>.
-     * It is equivalent to:
+     * This method simply delegbtes to the <code>model</code>.
+     * It is equivblent to:
      * <pre>
-     * getModel().getPreviousValue()
+     * getModel().getPreviousVblue()
      * </pre>
      *
-     * @return the previous legal value or <code>null</code>
+     * @return the previous legbl vblue or <code>null</code>
      *   if one doesn't exist
-     * @see #getValue
-     * @see #getNextValue
-     * @see SpinnerModel#getPreviousValue
+     * @see #getVblue
+     * @see #getNextVblue
+     * @see SpinnerModel#getPreviousVblue
      */
-    public Object getPreviousValue() {
-        return getModel().getPreviousValue();
+    public Object getPreviousVblue() {
+        return getModel().getPreviousVblue();
     }
 
 
     /**
-     * Changes the <code>JComponent</code> that displays the current value
+     * Chbnges the <code>JComponent</code> thbt displbys the current vblue
      * of the <code>SpinnerModel</code>.  It is the responsibility of this
-     * method to <i>disconnect</i> the old editor from the model and to
-     * connect the new editor.  This may mean removing the
-     * old editors <code>ChangeListener</code> from the model or the
-     * spinner itself and adding one for the new editor.
+     * method to <i>disconnect</i> the old editor from the model bnd to
+     * connect the new editor.  This mby mebn removing the
+     * old editors <code>ChbngeListener</code> from the model or the
+     * spinner itself bnd bdding one for the new editor.
      *
-     * @param editor the new editor
+     * @pbrbm editor the new editor
      * @see #getEditor
-     * @see #createEditor
+     * @see #crebteEditor
      * @see #getModel
-     * @throws IllegalArgumentException if editor is <code>null</code>
+     * @throws IllegblArgumentException if editor is <code>null</code>
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: JComponent that displays the current value of the model
+     *    bttribute: visublUpdbte true
+     *  description: JComponent thbt displbys the current vblue of the model
      */
     public void setEditor(JComponent editor) {
         if (editor == null) {
-            throw new IllegalArgumentException("null editor");
+            throw new IllegblArgumentException("null editor");
         }
-        if (!editor.equals(this.editor)) {
+        if (!editor.equbls(this.editor)) {
             JComponent oldEditor = this.editor;
             this.editor = editor;
-            if (oldEditor instanceof DefaultEditor) {
-                ((DefaultEditor)oldEditor).dismiss(this);
+            if (oldEditor instbnceof DefbultEditor) {
+                ((DefbultEditor)oldEditor).dismiss(this);
             }
             editorExplicitlySet = true;
-            firePropertyChange("editor", oldEditor, editor);
-            revalidate();
-            repaint();
+            firePropertyChbnge("editor", oldEditor, editor);
+            revblidbte();
+            repbint();
         }
     }
 
 
     /**
-     * Returns the component that displays and potentially
-     * changes the model's value.
+     * Returns the component thbt displbys bnd potentiblly
+     * chbnges the model's vblue.
      *
-     * @return the component that displays and potentially
-     *    changes the model's value
+     * @return the component thbt displbys bnd potentiblly
+     *    chbnges the model's vblue
      * @see #setEditor
-     * @see #createEditor
+     * @see #crebteEditor
      */
     public JComponent getEditor() {
         return editor;
@@ -543,93 +543,93 @@ public class JSpinner extends JComponent implements Accessible
 
 
     /**
-     * Commits the currently edited value to the <code>SpinnerModel</code>.
+     * Commits the currently edited vblue to the <code>SpinnerModel</code>.
      * <p>
-     * If the editor is an instance of <code>DefaultEditor</code>, the
-     * call if forwarded to the editor, otherwise this does nothing.
+     * If the editor is bn instbnce of <code>DefbultEditor</code>, the
+     * cbll if forwbrded to the editor, otherwise this does nothing.
      *
-     * @throws ParseException if the currently edited value couldn't
+     * @throws PbrseException if the currently edited vblue couldn't
      *         be committed.
      */
-    public void commitEdit() throws ParseException {
+    public void commitEdit() throws PbrseException {
         JComponent editor = getEditor();
-        if (editor instanceof DefaultEditor) {
-            ((DefaultEditor)editor).commitEdit();
+        if (editor instbnceof DefbultEditor) {
+            ((DefbultEditor)editor).commitEdit();
         }
     }
 
 
     /*
-     * See readObject and writeObject in JComponent for more
-     * information about serialization in Swing.
+     * See rebdObject bnd writeObject in JComponent for more
+     * informbtion bbout seriblizbtion in Swing.
      *
-     * @param s Stream to write to
+     * @pbrbm s Strebm to write to
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * A simple base class for more specialized editors
-     * that displays a read-only view of the model's current
-     * value with a <code>JFormattedTextField</code>.  Subclasses
-     * can configure the <code>JFormattedTextField</code> to create
-     * an editor that's appropriate for the type of model they
-     * support and they may want to override
-     * the <code>stateChanged</code> and <code>propertyChanged</code>
-     * methods, which keep the model and the text field in sync.
+     * A simple bbse clbss for more speciblized editors
+     * thbt displbys b rebd-only view of the model's current
+     * vblue with b <code>JFormbttedTextField</code>.  Subclbsses
+     * cbn configure the <code>JFormbttedTextField</code> to crebte
+     * bn editor thbt's bppropribte for the type of model they
+     * support bnd they mby wbnt to override
+     * the <code>stbteChbnged</code> bnd <code>propertyChbnged</code>
+     * methods, which keep the model bnd the text field in sync.
      * <p>
-     * This class defines a <code>dismiss</code> method that removes the
-     * editors <code>ChangeListener</code> from the <code>JSpinner</code>
-     * that it's part of.   The <code>setEditor</code> method knows about
-     * <code>DefaultEditor.dismiss</code>, so if the developer
-     * replaces an editor that's derived from <code>JSpinner.DefaultEditor</code>
-     * its <code>ChangeListener</code> connection back to the
-     * <code>JSpinner</code> will be removed.  However after that,
-     * it's up to the developer to manage their editor listeners.
-     * Similarly, if a subclass overrides <code>createEditor</code>,
-     * it's up to the subclasser to deal with their editor
-     * subsequently being replaced (with <code>setEditor</code>).
-     * We expect that in most cases, and in editor installed
-     * with <code>setEditor</code> or created by a <code>createEditor</code>
-     * override, will not be replaced anyway.
+     * This clbss defines b <code>dismiss</code> method thbt removes the
+     * editors <code>ChbngeListener</code> from the <code>JSpinner</code>
+     * thbt it's pbrt of.   The <code>setEditor</code> method knows bbout
+     * <code>DefbultEditor.dismiss</code>, so if the developer
+     * replbces bn editor thbt's derived from <code>JSpinner.DefbultEditor</code>
+     * its <code>ChbngeListener</code> connection bbck to the
+     * <code>JSpinner</code> will be removed.  However bfter thbt,
+     * it's up to the developer to mbnbge their editor listeners.
+     * Similbrly, if b subclbss overrides <code>crebteEditor</code>,
+     * it's up to the subclbsser to debl with their editor
+     * subsequently being replbced (with <code>setEditor</code>).
+     * We expect thbt in most cbses, bnd in editor instblled
+     * with <code>setEditor</code> or crebted by b <code>crebteEditor</code>
+     * override, will not be replbced bnywby.
      * <p>
-     * This class is the <code>LayoutManager</code> for it's single
-     * <code>JFormattedTextField</code> child.   By default the
-     * child is just centered with the parents insets.
+     * This clbss is the <code>LbyoutMbnbger</code> for it's single
+     * <code>JFormbttedTextField</code> child.   By defbult the
+     * child is just centered with the pbrents insets.
      * @since 1.4
      */
-    public static class DefaultEditor extends JPanel
-        implements ChangeListener, PropertyChangeListener, LayoutManager
+    public stbtic clbss DefbultEditor extends JPbnel
+        implements ChbngeListener, PropertyChbngeListener, LbyoutMbnbger
     {
         /**
-         * Constructs an editor component for the specified <code>JSpinner</code>.
-         * This <code>DefaultEditor</code> is it's own layout manager and
-         * it is added to the spinner's <code>ChangeListener</code> list.
-         * The constructor creates a single <code>JFormattedTextField</code> child,
-         * initializes it's value to be the spinner model's current value
-         * and adds it to <code>this</code> <code>DefaultEditor</code>.
+         * Constructs bn editor component for the specified <code>JSpinner</code>.
+         * This <code>DefbultEditor</code> is it's own lbyout mbnbger bnd
+         * it is bdded to the spinner's <code>ChbngeListener</code> list.
+         * The constructor crebtes b single <code>JFormbttedTextField</code> child,
+         * initiblizes it's vblue to be the spinner model's current vblue
+         * bnd bdds it to <code>this</code> <code>DefbultEditor</code>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
+         * @pbrbm spinner the spinner whose model <code>this</code> editor will monitor
          * @see #getTextField
-         * @see JSpinner#addChangeListener
+         * @see JSpinner#bddChbngeListener
          */
-        public DefaultEditor(JSpinner spinner) {
+        public DefbultEditor(JSpinner spinner) {
             super(null);
 
-            JFormattedTextField ftf = new JFormattedTextField();
-            ftf.setName("Spinner.formattedTextField");
-            ftf.setValue(spinner.getValue());
-            ftf.addPropertyChangeListener(this);
-            ftf.setEditable(false);
+            JFormbttedTextField ftf = new JFormbttedTextField();
+            ftf.setNbme("Spinner.formbttedTextField");
+            ftf.setVblue(spinner.getVblue());
+            ftf.bddPropertyChbngeListener(this);
+            ftf.setEditbble(fblse);
             ftf.setInheritsPopupMenu(true);
 
             String toolTipText = spinner.getToolTipText();
@@ -637,55 +637,55 @@ public class JSpinner extends JComponent implements Accessible
                 ftf.setToolTipText(toolTipText);
             }
 
-            add(ftf);
+            bdd(ftf);
 
-            setLayout(this);
-            spinner.addChangeListener(this);
+            setLbyout(this);
+            spinner.bddChbngeListener(this);
 
-            // We want the spinner's increment/decrement actions to be
-            // active vs those of the JFormattedTextField. As such we
-            // put disabled actions in the JFormattedTextField's actionmap.
-            // A binding to a disabled action is treated as a nonexistant
+            // We wbnt the spinner's increment/decrement bctions to be
+            // bctive vs those of the JFormbttedTextField. As such we
+            // put disbbled bctions in the JFormbttedTextField's bctionmbp.
+            // A binding to b disbbled bction is trebted bs b nonexistbnt
             // binding.
-            ActionMap ftfMap = ftf.getActionMap();
+            ActionMbp ftfMbp = ftf.getActionMbp();
 
-            if (ftfMap != null) {
-                ftfMap.put("increment", DISABLED_ACTION);
-                ftfMap.put("decrement", DISABLED_ACTION);
+            if (ftfMbp != null) {
+                ftfMbp.put("increment", DISABLED_ACTION);
+                ftfMbp.put("decrement", DISABLED_ACTION);
             }
         }
 
 
         /**
          * Disconnect <code>this</code> editor from the specified
-         * <code>JSpinner</code>.  By default, this method removes
-         * itself from the spinners <code>ChangeListener</code> list.
+         * <code>JSpinner</code>.  By defbult, this method removes
+         * itself from the spinners <code>ChbngeListener</code> list.
          *
-         * @param spinner the <code>JSpinner</code> to disconnect this
-         *    editor from; the same spinner as was passed to the constructor.
+         * @pbrbm spinner the <code>JSpinner</code> to disconnect this
+         *    editor from; the sbme spinner bs wbs pbssed to the constructor.
          */
         public void dismiss(JSpinner spinner) {
-            spinner.removeChangeListener(this);
+            spinner.removeChbngeListener(this);
         }
 
 
         /**
-         * Returns the <code>JSpinner</code> ancestor of this editor or
-         * <code>null</code> if none of the ancestors are a
+         * Returns the <code>JSpinner</code> bncestor of this editor or
+         * <code>null</code> if none of the bncestors bre b
          * <code>JSpinner</code>.
-         * Typically the editor's parent is a <code>JSpinner</code> however
-         * subclasses of <code>JSpinner</code> may override the
-         * the <code>createEditor</code> method and insert one or more containers
-         * between the <code>JSpinner</code> and it's editor.
+         * Typicblly the editor's pbrent is b <code>JSpinner</code> however
+         * subclbsses of <code>JSpinner</code> mby override the
+         * the <code>crebteEditor</code> method bnd insert one or more contbiners
+         * between the <code>JSpinner</code> bnd it's editor.
          *
-         * @return <code>JSpinner</code> ancestor; <code>null</code>
-         *         if none of the ancestors are a <code>JSpinner</code>
+         * @return <code>JSpinner</code> bncestor; <code>null</code>
+         *         if none of the bncestors bre b <code>JSpinner</code>
          *
-         * @see JSpinner#createEditor
+         * @see JSpinner#crebteEditor
          */
         public JSpinner getSpinner() {
-            for (Component c = this; c != null; c = c.getParent()) {
-                if (c instanceof JSpinner) {
+            for (Component c = this; c != null; c = c.getPbrent()) {
+                if (c instbnceof JSpinner) {
                     return (JSpinner)c;
                 }
             }
@@ -694,75 +694,75 @@ public class JSpinner extends JComponent implements Accessible
 
 
         /**
-         * Returns the <code>JFormattedTextField</code> child of this
-         * editor.  By default the text field is the first and only
+         * Returns the <code>JFormbttedTextField</code> child of this
+         * editor.  By defbult the text field is the first bnd only
          * child of editor.
          *
-         * @return the <code>JFormattedTextField</code> that gives the user
-         *     access to the <code>SpinnerDateModel's</code> value.
+         * @return the <code>JFormbttedTextField</code> thbt gives the user
+         *     bccess to the <code>SpinnerDbteModel's</code> vblue.
          * @see #getSpinner
          * @see #getModel
          */
-        public JFormattedTextField getTextField() {
-            return (JFormattedTextField)getComponent(0);
+        public JFormbttedTextField getTextField() {
+            return (JFormbttedTextField)getComponent(0);
         }
 
 
         /**
-         * This method is called when the spinner's model's state changes.
-         * It sets the <code>value</code> of the text field to the current
-         * value of the spinners model.
+         * This method is cblled when the spinner's model's stbte chbnges.
+         * It sets the <code>vblue</code> of the text field to the current
+         * vblue of the spinners model.
          *
-         * @param e the <code>ChangeEvent</code> whose source is the
-         * <code>JSpinner</code> whose model has changed.
+         * @pbrbm e the <code>ChbngeEvent</code> whose source is the
+         * <code>JSpinner</code> whose model hbs chbnged.
          * @see #getTextField
-         * @see JSpinner#getValue
+         * @see JSpinner#getVblue
          */
-        public void stateChanged(ChangeEvent e) {
+        public void stbteChbnged(ChbngeEvent e) {
             JSpinner spinner = (JSpinner)(e.getSource());
-            getTextField().setValue(spinner.getValue());
+            getTextField().setVblue(spinner.getVblue());
         }
 
 
         /**
-         * Called by the <code>JFormattedTextField</code>
-         * <code>PropertyChangeListener</code>.  When the <code>"value"</code>
-         * property changes, which implies that the user has typed a new
-         * number, we set the value of the spinners model.
+         * Cblled by the <code>JFormbttedTextField</code>
+         * <code>PropertyChbngeListener</code>.  When the <code>"vblue"</code>
+         * property chbnges, which implies thbt the user hbs typed b new
+         * number, we set the vblue of the spinners model.
          * <p>
-         * This class ignores <code>PropertyChangeEvents</code> whose
-         * source is not the <code>JFormattedTextField</code>, so subclasses
-         * may safely make <code>this</code> <code>DefaultEditor</code> a
-         * <code>PropertyChangeListener</code> on other objects.
+         * This clbss ignores <code>PropertyChbngeEvents</code> whose
+         * source is not the <code>JFormbttedTextField</code>, so subclbsses
+         * mby sbfely mbke <code>this</code> <code>DefbultEditor</code> b
+         * <code>PropertyChbngeListener</code> on other objects.
          *
-         * @param e the <code>PropertyChangeEvent</code> whose source is
-         *    the <code>JFormattedTextField</code> created by this class.
+         * @pbrbm e the <code>PropertyChbngeEvent</code> whose source is
+         *    the <code>JFormbttedTextField</code> crebted by this clbss.
          * @see #getTextField
          */
-        public void propertyChange(PropertyChangeEvent e)
+        public void propertyChbnge(PropertyChbngeEvent e)
         {
             JSpinner spinner = getSpinner();
 
             if (spinner == null) {
-                // Indicates we aren't installed anywhere.
+                // Indicbtes we bren't instblled bnywhere.
                 return;
             }
 
             Object source = e.getSource();
-            String name = e.getPropertyName();
-            if ((source instanceof JFormattedTextField) && "value".equals(name)) {
-                Object lastValue = spinner.getValue();
+            String nbme = e.getPropertyNbme();
+            if ((source instbnceof JFormbttedTextField) && "vblue".equbls(nbme)) {
+                Object lbstVblue = spinner.getVblue();
 
-                // Try to set the new value
+                // Try to set the new vblue
                 try {
-                    spinner.setValue(getTextField().getValue());
-                } catch (IllegalArgumentException iae) {
-                    // SpinnerModel didn't like new value, reset
+                    spinner.setVblue(getTextField().getVblue());
+                } cbtch (IllegblArgumentException ibe) {
+                    // SpinnerModel didn't like new vblue, reset
                     try {
-                        ((JFormattedTextField)source).setValue(lastValue);
-                    } catch (IllegalArgumentException iae2) {
-                        // Still bogus, nothing else we can do, the
-                        // SpinnerModel and JFormattedTextField are now out
+                        ((JFormbttedTextField)source).setVblue(lbstVblue);
+                    } cbtch (IllegblArgumentException ibe2) {
+                        // Still bogus, nothing else we cbn do, the
+                        // SpinnerModel bnd JFormbttedTextField bre now out
                         // of sync.
                     }
                 }
@@ -771,32 +771,32 @@ public class JSpinner extends JComponent implements Accessible
 
 
         /**
-         * This <code>LayoutManager</code> method does nothing.  We're
-         * only managing a single child and there's no support
-         * for layout constraints.
+         * This <code>LbyoutMbnbger</code> method does nothing.  We're
+         * only mbnbging b single child bnd there's no support
+         * for lbyout constrbints.
          *
-         * @param name ignored
-         * @param child ignored
+         * @pbrbm nbme ignored
+         * @pbrbm child ignored
          */
-        public void addLayoutComponent(String name, Component child) {
+        public void bddLbyoutComponent(String nbme, Component child) {
         }
 
 
         /**
-         * This <code>LayoutManager</code> method does nothing.  There
-         * isn't any per-child state.
+         * This <code>LbyoutMbnbger</code> method does nothing.  There
+         * isn't bny per-child stbte.
          *
-         * @param child ignored
+         * @pbrbm child ignored
          */
-        public void removeLayoutComponent(Component child) {
+        public void removeLbyoutComponent(Component child) {
         }
 
 
         /**
-         * Returns the size of the parents insets.
+         * Returns the size of the pbrents insets.
          */
-        private Dimension insetSize(Container parent) {
-            Insets insets = parent.getInsets();
+        privbte Dimension insetSize(Contbiner pbrent) {
+            Insets insets = pbrent.getInsets();
             int w = insets.left + insets.right;
             int h = insets.top + insets.bottom;
             return new Dimension(w, h);
@@ -804,16 +804,16 @@ public class JSpinner extends JComponent implements Accessible
 
 
         /**
-         * Returns the preferred size of first (and only) child plus the
-         * size of the parents insets.
+         * Returns the preferred size of first (bnd only) child plus the
+         * size of the pbrents insets.
          *
-         * @param parent the Container that's managing the layout
-         * @return the preferred dimensions to lay out the subcomponents
-         *          of the specified container.
+         * @pbrbm pbrent the Contbiner thbt's mbnbging the lbyout
+         * @return the preferred dimensions to lby out the subcomponents
+         *          of the specified contbiner.
          */
-        public Dimension preferredLayoutSize(Container parent) {
-            Dimension preferredSize = insetSize(parent);
-            if (parent.getComponentCount() > 0) {
+        public Dimension preferredLbyoutSize(Contbiner pbrent) {
+            Dimension preferredSize = insetSize(pbrent);
+            if (pbrent.getComponentCount() > 0) {
                 Dimension childSize = getComponent(0).getPreferredSize();
                 preferredSize.width += childSize.width;
                 preferredSize.height += childSize.height;
@@ -823,16 +823,16 @@ public class JSpinner extends JComponent implements Accessible
 
 
         /**
-         * Returns the minimum size of first (and only) child plus the
-         * size of the parents insets.
+         * Returns the minimum size of first (bnd only) child plus the
+         * size of the pbrents insets.
          *
-         * @param parent the Container that's managing the layout
-         * @return  the minimum dimensions needed to lay out the subcomponents
-         *          of the specified container.
+         * @pbrbm pbrent the Contbiner thbt's mbnbging the lbyout
+         * @return  the minimum dimensions needed to lby out the subcomponents
+         *          of the specified contbiner.
          */
-        public Dimension minimumLayoutSize(Container parent) {
-            Dimension minimumSize = insetSize(parent);
-            if (parent.getComponentCount() > 0) {
+        public Dimension minimumLbyoutSize(Contbiner pbrent) {
+            Dimension minimumSize = insetSize(pbrent);
+            if (pbrent.getComponentCount() > 0) {
                 Dimension childSize = getComponent(0).getMinimumSize();
                 minimumSize.width += childSize.width;
                 minimumSize.height += childSize.height;
@@ -842,66 +842,66 @@ public class JSpinner extends JComponent implements Accessible
 
 
         /**
-         * Resize the one (and only) child to completely fill the area
-         * within the parents insets.
+         * Resize the one (bnd only) child to completely fill the breb
+         * within the pbrents insets.
          */
-        public void layoutContainer(Container parent) {
-            if (parent.getComponentCount() > 0) {
-                Insets insets = parent.getInsets();
-                int w = parent.getWidth() - (insets.left + insets.right);
-                int h = parent.getHeight() - (insets.top + insets.bottom);
+        public void lbyoutContbiner(Contbiner pbrent) {
+            if (pbrent.getComponentCount() > 0) {
+                Insets insets = pbrent.getInsets();
+                int w = pbrent.getWidth() - (insets.left + insets.right);
+                int h = pbrent.getHeight() - (insets.top + insets.bottom);
                 getComponent(0).setBounds(insets.left, insets.top, w, h);
             }
         }
 
         /**
-         * Pushes the currently edited value to the <code>SpinnerModel</code>.
+         * Pushes the currently edited vblue to the <code>SpinnerModel</code>.
          * <p>
-         * The default implementation invokes <code>commitEdit</code> on the
-         * <code>JFormattedTextField</code>.
+         * The defbult implementbtion invokes <code>commitEdit</code> on the
+         * <code>JFormbttedTextField</code>.
          *
-         * @throws ParseException if the edited value is not legal
+         * @throws PbrseException if the edited vblue is not legbl
          */
-        public void commitEdit()  throws ParseException {
-            // If the value in the JFormattedTextField is legal, this will have
-            // the result of pushing the value to the SpinnerModel
-            // by way of the <code>propertyChange</code> method.
-            JFormattedTextField ftf = getTextField();
+        public void commitEdit()  throws PbrseException {
+            // If the vblue in the JFormbttedTextField is legbl, this will hbve
+            // the result of pushing the vblue to the SpinnerModel
+            // by wby of the <code>propertyChbnge</code> method.
+            JFormbttedTextField ftf = getTextField();
 
             ftf.commitEdit();
         }
 
         /**
-         * Returns the baseline.
+         * Returns the bbseline.
          *
-         * @throws IllegalArgumentException {@inheritDoc}
-         * @see javax.swing.JComponent#getBaseline(int,int)
-         * @see javax.swing.JComponent#getBaselineResizeBehavior()
+         * @throws IllegblArgumentException {@inheritDoc}
+         * @see jbvbx.swing.JComponent#getBbseline(int,int)
+         * @see jbvbx.swing.JComponent#getBbselineResizeBehbvior()
          * @since 1.6
          */
-        public int getBaseline(int width, int height) {
+        public int getBbseline(int width, int height) {
             // check size.
-            super.getBaseline(width, height);
+            super.getBbseline(width, height);
             Insets insets = getInsets();
             width = width - insets.left - insets.right;
             height = height - insets.top - insets.bottom;
-            int baseline = getComponent(0).getBaseline(width, height);
-            if (baseline >= 0) {
-                return baseline + insets.top;
+            int bbseline = getComponent(0).getBbseline(width, height);
+            if (bbseline >= 0) {
+                return bbseline + insets.top;
             }
             return -1;
         }
 
         /**
-         * Returns an enum indicating how the baseline of the component
-         * changes as the size changes.
+         * Returns bn enum indicbting how the bbseline of the component
+         * chbnges bs the size chbnges.
          *
          * @throws NullPointerException {@inheritDoc}
-         * @see javax.swing.JComponent#getBaseline(int, int)
+         * @see jbvbx.swing.JComponent#getBbseline(int, int)
          * @since 1.6
          */
-        public BaselineResizeBehavior getBaselineResizeBehavior() {
-            return getComponent(0).getBaselineResizeBehavior();
+        public BbselineResizeBehbvior getBbselineResizeBehbvior() {
+            return getComponent(0).getBbselineResizeBehbvior();
         }
     }
 
@@ -909,367 +909,367 @@ public class JSpinner extends JComponent implements Accessible
 
 
     /**
-     * This subclass of javax.swing.DateFormatter maps the minimum/maximum
-     * properties to the start/end properties of a SpinnerDateModel.
+     * This subclbss of jbvbx.swing.DbteFormbtter mbps the minimum/mbximum
+     * properties to the stbrt/end properties of b SpinnerDbteModel.
      */
-    private static class DateEditorFormatter extends DateFormatter {
-        private final SpinnerDateModel model;
+    privbte stbtic clbss DbteEditorFormbtter extends DbteFormbtter {
+        privbte finbl SpinnerDbteModel model;
 
-        DateEditorFormatter(SpinnerDateModel model, DateFormat format) {
-            super(format);
+        DbteEditorFormbtter(SpinnerDbteModel model, DbteFormbt formbt) {
+            super(formbt);
             this.model = model;
         }
 
         @Override
-        @SuppressWarnings("unchecked")
-        public void setMinimum(Comparable<?> min) {
-            model.setStart((Comparable<Date>)min);
+        @SuppressWbrnings("unchecked")
+        public void setMinimum(Compbrbble<?> min) {
+            model.setStbrt((Compbrbble<Dbte>)min);
         }
 
         @Override
-        public Comparable<Date> getMinimum() {
-            return  model.getStart();
+        public Compbrbble<Dbte> getMinimum() {
+            return  model.getStbrt();
         }
 
         @Override
-        @SuppressWarnings("unchecked")
-        public void setMaximum(Comparable<?> max) {
-            model.setEnd((Comparable<Date>)max);
+        @SuppressWbrnings("unchecked")
+        public void setMbximum(Compbrbble<?> mbx) {
+            model.setEnd((Compbrbble<Dbte>)mbx);
         }
 
         @Override
-        public Comparable<Date> getMaximum() {
+        public Compbrbble<Dbte> getMbximum() {
             return model.getEnd();
         }
     }
 
 
     /**
-     * An editor for a <code>JSpinner</code> whose model is a
-     * <code>SpinnerDateModel</code>.  The value of the editor is
-     * displayed with a <code>JFormattedTextField</code> whose format
-     * is defined by a <code>DateFormatter</code> instance whose
-     * <code>minimum</code> and <code>maximum</code> properties
-     * are mapped to the <code>SpinnerDateModel</code>.
+     * An editor for b <code>JSpinner</code> whose model is b
+     * <code>SpinnerDbteModel</code>.  The vblue of the editor is
+     * displbyed with b <code>JFormbttedTextField</code> whose formbt
+     * is defined by b <code>DbteFormbtter</code> instbnce whose
+     * <code>minimum</code> bnd <code>mbximum</code> properties
+     * bre mbpped to the <code>SpinnerDbteModel</code>.
      * @since 1.4
      */
-    // PENDING(hmuller): more example javadoc
-    public static class DateEditor extends DefaultEditor
+    // PENDING(hmuller): more exbmple jbvbdoc
+    public stbtic clbss DbteEditor extends DefbultEditor
     {
-        // This is here until SimpleDateFormat gets a constructor that
-        // takes a Locale: 4923525
-        private static String getDefaultPattern(Locale loc) {
-            LocaleProviderAdapter adapter = LocaleProviderAdapter.getAdapter(DateFormatProvider.class, loc);
-            LocaleResources lr = adapter.getLocaleResources(loc);
+        // This is here until SimpleDbteFormbt gets b constructor thbt
+        // tbkes b Locble: 4923525
+        privbte stbtic String getDefbultPbttern(Locble loc) {
+            LocbleProviderAdbpter bdbpter = LocbleProviderAdbpter.getAdbpter(DbteFormbtProvider.clbss, loc);
+            LocbleResources lr = bdbpter.getLocbleResources(loc);
             if (lr == null) {
-                lr = LocaleProviderAdapter.forJRE().getLocaleResources(loc);
+                lr = LocbleProviderAdbpter.forJRE().getLocbleResources(loc);
             }
-            return lr.getDateTimePattern(DateFormat.SHORT, DateFormat.SHORT, null);
+            return lr.getDbteTimePbttern(DbteFormbt.SHORT, DbteFormbt.SHORT, null);
         }
 
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerDateModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>DateEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinners model and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construct b <code>JSpinner</code> editor thbt supports displbying
+         * bnd editing the vblue of b <code>SpinnerDbteModel</code>
+         * with b <code>JFormbttedTextField</code>.  <code>This</code>
+         * <code>DbteEditor</code> becomes both b <code>ChbngeListener</code>
+         * on the spinners model bnd b <code>PropertyChbngeListener</code>
+         * on the new <code>JFormbttedTextField</code>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerDateModel</code>
+         * @pbrbm spinner the spinner whose model <code>this</code> editor will monitor
+         * @exception IllegblArgumentException if the spinners model is not
+         *     bn instbnce of <code>SpinnerDbteModel</code>
          *
          * @see #getModel
-         * @see #getFormat
-         * @see SpinnerDateModel
+         * @see #getFormbt
+         * @see SpinnerDbteModel
          */
-        public DateEditor(JSpinner spinner) {
-            this(spinner, getDefaultPattern(spinner.getLocale()));
+        public DbteEditor(JSpinner spinner) {
+            this(spinner, getDefbultPbttern(spinner.getLocble()));
         }
 
 
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerDateModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>DateEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinner and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construct b <code>JSpinner</code> editor thbt supports displbying
+         * bnd editing the vblue of b <code>SpinnerDbteModel</code>
+         * with b <code>JFormbttedTextField</code>.  <code>This</code>
+         * <code>DbteEditor</code> becomes both b <code>ChbngeListener</code>
+         * on the spinner bnd b <code>PropertyChbngeListener</code>
+         * on the new <code>JFormbttedTextField</code>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @param dateFormatPattern the initial pattern for the
-         *     <code>SimpleDateFormat</code> object that's used to display
-         *     and parse the value of the text field.
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerDateModel</code>
+         * @pbrbm spinner the spinner whose model <code>this</code> editor will monitor
+         * @pbrbm dbteFormbtPbttern the initibl pbttern for the
+         *     <code>SimpleDbteFormbt</code> object thbt's used to displby
+         *     bnd pbrse the vblue of the text field.
+         * @exception IllegblArgumentException if the spinners model is not
+         *     bn instbnce of <code>SpinnerDbteModel</code>
          *
          * @see #getModel
-         * @see #getFormat
-         * @see SpinnerDateModel
-         * @see java.text.SimpleDateFormat
+         * @see #getFormbt
+         * @see SpinnerDbteModel
+         * @see jbvb.text.SimpleDbteFormbt
          */
-        public DateEditor(JSpinner spinner, String dateFormatPattern) {
-            this(spinner, new SimpleDateFormat(dateFormatPattern,
-                                               spinner.getLocale()));
+        public DbteEditor(JSpinner spinner, String dbteFormbtPbttern) {
+            this(spinner, new SimpleDbteFormbt(dbteFormbtPbttern,
+                                               spinner.getLocble()));
         }
 
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerDateModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>DateEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinner and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construct b <code>JSpinner</code> editor thbt supports displbying
+         * bnd editing the vblue of b <code>SpinnerDbteModel</code>
+         * with b <code>JFormbttedTextField</code>.  <code>This</code>
+         * <code>DbteEditor</code> becomes both b <code>ChbngeListener</code>
+         * on the spinner bnd b <code>PropertyChbngeListener</code>
+         * on the new <code>JFormbttedTextField</code>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor
+         * @pbrbm spinner the spinner whose model <code>this</code> editor
          *        will monitor
-         * @param format <code>DateFormat</code> object that's used to display
-         *     and parse the value of the text field.
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerDateModel</code>
+         * @pbrbm formbt <code>DbteFormbt</code> object thbt's used to displby
+         *     bnd pbrse the vblue of the text field.
+         * @exception IllegblArgumentException if the spinners model is not
+         *     bn instbnce of <code>SpinnerDbteModel</code>
          *
          * @see #getModel
-         * @see #getFormat
-         * @see SpinnerDateModel
-         * @see java.text.SimpleDateFormat
+         * @see #getFormbt
+         * @see SpinnerDbteModel
+         * @see jbvb.text.SimpleDbteFormbt
          */
-        private DateEditor(JSpinner spinner, DateFormat format) {
+        privbte DbteEditor(JSpinner spinner, DbteFormbt formbt) {
             super(spinner);
-            if (!(spinner.getModel() instanceof SpinnerDateModel)) {
-                throw new IllegalArgumentException(
-                                 "model not a SpinnerDateModel");
+            if (!(spinner.getModel() instbnceof SpinnerDbteModel)) {
+                throw new IllegblArgumentException(
+                                 "model not b SpinnerDbteModel");
             }
 
-            SpinnerDateModel model = (SpinnerDateModel)spinner.getModel();
-            DateFormatter formatter = new DateEditorFormatter(model, format);
-            DefaultFormatterFactory factory = new DefaultFormatterFactory(
-                                                  formatter);
-            JFormattedTextField ftf = getTextField();
-            ftf.setEditable(true);
-            ftf.setFormatterFactory(factory);
+            SpinnerDbteModel model = (SpinnerDbteModel)spinner.getModel();
+            DbteFormbtter formbtter = new DbteEditorFormbtter(model, formbt);
+            DefbultFormbtterFbctory fbctory = new DefbultFormbtterFbctory(
+                                                  formbtter);
+            JFormbttedTextField ftf = getTextField();
+            ftf.setEditbble(true);
+            ftf.setFormbtterFbctory(fbctory);
 
-            /* TBD - initializing the column width of the text field
-             * is imprecise and doing it here is tricky because
-             * the developer may configure the formatter later.
+            /* TBD - initiblizing the column width of the text field
+             * is imprecise bnd doing it here is tricky becbuse
+             * the developer mby configure the formbtter lbter.
              */
             try {
-                String maxString = formatter.valueToString(model.getStart());
-                String minString = formatter.valueToString(model.getEnd());
-                ftf.setColumns(Math.max(maxString.length(),
+                String mbxString = formbtter.vblueToString(model.getStbrt());
+                String minString = formbtter.vblueToString(model.getEnd());
+                ftf.setColumns(Mbth.mbx(mbxString.length(),
                                         minString.length()));
             }
-            catch (ParseException e) {
+            cbtch (PbrseException e) {
                 // PENDING: hmuller
             }
         }
 
         /**
-         * Returns the <code>java.text.SimpleDateFormat</code> object the
-         * <code>JFormattedTextField</code> uses to parse and format
+         * Returns the <code>jbvb.text.SimpleDbteFormbt</code> object the
+         * <code>JFormbttedTextField</code> uses to pbrse bnd formbt
          * numbers.
          *
-         * @return the value of <code>getTextField().getFormatter().getFormat()</code>.
+         * @return the vblue of <code>getTextField().getFormbtter().getFormbt()</code>.
          * @see #getTextField
-         * @see java.text.SimpleDateFormat
+         * @see jbvb.text.SimpleDbteFormbt
          */
-        public SimpleDateFormat getFormat() {
-            return (SimpleDateFormat)((DateFormatter)(getTextField().getFormatter())).getFormat();
+        public SimpleDbteFormbt getFormbt() {
+            return (SimpleDbteFormbt)((DbteFormbtter)(getTextField().getFormbtter())).getFormbt();
         }
 
 
         /**
-         * Return our spinner ancestor's <code>SpinnerDateModel</code>.
+         * Return our spinner bncestor's <code>SpinnerDbteModel</code>.
          *
          * @return <code>getSpinner().getModel()</code>
          * @see #getSpinner
          * @see #getTextField
          */
-        public SpinnerDateModel getModel() {
-            return (SpinnerDateModel)(getSpinner().getModel());
+        public SpinnerDbteModel getModel() {
+            return (SpinnerDbteModel)(getSpinner().getModel());
         }
     }
 
 
     /**
-     * This subclass of javax.swing.NumberFormatter maps the minimum/maximum
-     * properties to a SpinnerNumberModel and initializes the valueClass
-     * of the NumberFormatter to match the type of the initial models value.
+     * This subclbss of jbvbx.swing.NumberFormbtter mbps the minimum/mbximum
+     * properties to b SpinnerNumberModel bnd initiblizes the vblueClbss
+     * of the NumberFormbtter to mbtch the type of the initibl models vblue.
      */
-    private static class NumberEditorFormatter extends NumberFormatter {
-        private final SpinnerNumberModel model;
+    privbte stbtic clbss NumberEditorFormbtter extends NumberFormbtter {
+        privbte finbl SpinnerNumberModel model;
 
-        NumberEditorFormatter(SpinnerNumberModel model, NumberFormat format) {
-            super(format);
+        NumberEditorFormbtter(SpinnerNumberModel model, NumberFormbt formbt) {
+            super(formbt);
             this.model = model;
-            setValueClass(model.getValue().getClass());
+            setVblueClbss(model.getVblue().getClbss());
         }
 
         @Override
-        public void setMinimum(Comparable<?> min) {
+        public void setMinimum(Compbrbble<?> min) {
             model.setMinimum(min);
         }
 
         @Override
-        public Comparable<?> getMinimum() {
+        public Compbrbble<?> getMinimum() {
             return  model.getMinimum();
         }
 
         @Override
-        public void setMaximum(Comparable<?> max) {
-            model.setMaximum(max);
+        public void setMbximum(Compbrbble<?> mbx) {
+            model.setMbximum(mbx);
         }
 
         @Override
-        public Comparable<?> getMaximum() {
-            return model.getMaximum();
+        public Compbrbble<?> getMbximum() {
+            return model.getMbximum();
         }
     }
 
 
 
     /**
-     * An editor for a <code>JSpinner</code> whose model is a
-     * <code>SpinnerNumberModel</code>.  The value of the editor is
-     * displayed with a <code>JFormattedTextField</code> whose format
-     * is defined by a <code>NumberFormatter</code> instance whose
-     * <code>minimum</code> and <code>maximum</code> properties
-     * are mapped to the <code>SpinnerNumberModel</code>.
+     * An editor for b <code>JSpinner</code> whose model is b
+     * <code>SpinnerNumberModel</code>.  The vblue of the editor is
+     * displbyed with b <code>JFormbttedTextField</code> whose formbt
+     * is defined by b <code>NumberFormbtter</code> instbnce whose
+     * <code>minimum</code> bnd <code>mbximum</code> properties
+     * bre mbpped to the <code>SpinnerNumberModel</code>.
      * @since 1.4
      */
-    // PENDING(hmuller): more example javadoc
-    public static class NumberEditor extends DefaultEditor
+    // PENDING(hmuller): more exbmple jbvbdoc
+    public stbtic clbss NumberEditor extends DefbultEditor
     {
-        // This is here until DecimalFormat gets a constructor that
-        // takes a Locale: 4923525
-        private static String getDefaultPattern(Locale locale) {
-            // Get the pattern for the default locale.
-            LocaleProviderAdapter adapter;
-            adapter = LocaleProviderAdapter.getAdapter(NumberFormatProvider.class,
-                                                       locale);
-            LocaleResources lr = adapter.getLocaleResources(locale);
+        // This is here until DecimblFormbt gets b constructor thbt
+        // tbkes b Locble: 4923525
+        privbte stbtic String getDefbultPbttern(Locble locble) {
+            // Get the pbttern for the defbult locble.
+            LocbleProviderAdbpter bdbpter;
+            bdbpter = LocbleProviderAdbpter.getAdbpter(NumberFormbtProvider.clbss,
+                                                       locble);
+            LocbleResources lr = bdbpter.getLocbleResources(locble);
             if (lr == null) {
-                lr = LocaleProviderAdapter.forJRE().getLocaleResources(locale);
+                lr = LocbleProviderAdbpter.forJRE().getLocbleResources(locble);
             }
-            String[] all = lr.getNumberPatterns();
-            return all[0];
+            String[] bll = lr.getNumberPbtterns();
+            return bll[0];
         }
 
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerNumberModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>NumberEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinner and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construct b <code>JSpinner</code> editor thbt supports displbying
+         * bnd editing the vblue of b <code>SpinnerNumberModel</code>
+         * with b <code>JFormbttedTextField</code>.  <code>This</code>
+         * <code>NumberEditor</code> becomes both b <code>ChbngeListener</code>
+         * on the spinner bnd b <code>PropertyChbngeListener</code>
+         * on the new <code>JFormbttedTextField</code>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerNumberModel</code>
+         * @pbrbm spinner the spinner whose model <code>this</code> editor will monitor
+         * @exception IllegblArgumentException if the spinners model is not
+         *     bn instbnce of <code>SpinnerNumberModel</code>
          *
          * @see #getModel
-         * @see #getFormat
+         * @see #getFormbt
          * @see SpinnerNumberModel
          */
         public NumberEditor(JSpinner spinner) {
-            this(spinner, getDefaultPattern(spinner.getLocale()));
+            this(spinner, getDefbultPbttern(spinner.getLocble()));
         }
 
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerNumberModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>NumberEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinner and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construct b <code>JSpinner</code> editor thbt supports displbying
+         * bnd editing the vblue of b <code>SpinnerNumberModel</code>
+         * with b <code>JFormbttedTextField</code>.  <code>This</code>
+         * <code>NumberEditor</code> becomes both b <code>ChbngeListener</code>
+         * on the spinner bnd b <code>PropertyChbngeListener</code>
+         * on the new <code>JFormbttedTextField</code>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @param decimalFormatPattern the initial pattern for the
-         *     <code>DecimalFormat</code> object that's used to display
-         *     and parse the value of the text field.
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerNumberModel</code> or if
-         *     <code>decimalFormatPattern</code> is not a legal
-         *     argument to <code>DecimalFormat</code>
+         * @pbrbm spinner the spinner whose model <code>this</code> editor will monitor
+         * @pbrbm decimblFormbtPbttern the initibl pbttern for the
+         *     <code>DecimblFormbt</code> object thbt's used to displby
+         *     bnd pbrse the vblue of the text field.
+         * @exception IllegblArgumentException if the spinners model is not
+         *     bn instbnce of <code>SpinnerNumberModel</code> or if
+         *     <code>decimblFormbtPbttern</code> is not b legbl
+         *     brgument to <code>DecimblFormbt</code>
          *
          * @see #getTextField
          * @see SpinnerNumberModel
-         * @see java.text.DecimalFormat
+         * @see jbvb.text.DecimblFormbt
          */
-        public NumberEditor(JSpinner spinner, String decimalFormatPattern) {
-            this(spinner, new DecimalFormat(decimalFormatPattern));
+        public NumberEditor(JSpinner spinner, String decimblFormbtPbttern) {
+            this(spinner, new DecimblFormbt(decimblFormbtPbttern));
         }
 
 
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerNumberModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>NumberEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinner and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construct b <code>JSpinner</code> editor thbt supports displbying
+         * bnd editing the vblue of b <code>SpinnerNumberModel</code>
+         * with b <code>JFormbttedTextField</code>.  <code>This</code>
+         * <code>NumberEditor</code> becomes both b <code>ChbngeListener</code>
+         * on the spinner bnd b <code>PropertyChbngeListener</code>
+         * on the new <code>JFormbttedTextField</code>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @param decimalFormatPattern the initial pattern for the
-         *     <code>DecimalFormat</code> object that's used to display
-         *     and parse the value of the text field.
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerNumberModel</code>
+         * @pbrbm spinner the spinner whose model <code>this</code> editor will monitor
+         * @pbrbm decimblFormbtPbttern the initibl pbttern for the
+         *     <code>DecimblFormbt</code> object thbt's used to displby
+         *     bnd pbrse the vblue of the text field.
+         * @exception IllegblArgumentException if the spinners model is not
+         *     bn instbnce of <code>SpinnerNumberModel</code>
          *
          * @see #getTextField
          * @see SpinnerNumberModel
-         * @see java.text.DecimalFormat
+         * @see jbvb.text.DecimblFormbt
          */
-        private NumberEditor(JSpinner spinner, DecimalFormat format) {
+        privbte NumberEditor(JSpinner spinner, DecimblFormbt formbt) {
             super(spinner);
-            if (!(spinner.getModel() instanceof SpinnerNumberModel)) {
-                throw new IllegalArgumentException(
-                          "model not a SpinnerNumberModel");
+            if (!(spinner.getModel() instbnceof SpinnerNumberModel)) {
+                throw new IllegblArgumentException(
+                          "model not b SpinnerNumberModel");
             }
 
             SpinnerNumberModel model = (SpinnerNumberModel)spinner.getModel();
-            NumberFormatter formatter = new NumberEditorFormatter(model,
-                                                                  format);
-            DefaultFormatterFactory factory = new DefaultFormatterFactory(
-                                                  formatter);
-            JFormattedTextField ftf = getTextField();
-            ftf.setEditable(true);
-            ftf.setFormatterFactory(factory);
-            // Change the text orientation for the NumberEditor
-            ftf.setHorizontalAlignment(JTextField.RIGHT);
+            NumberFormbtter formbtter = new NumberEditorFormbtter(model,
+                                                                  formbt);
+            DefbultFormbtterFbctory fbctory = new DefbultFormbtterFbctory(
+                                                  formbtter);
+            JFormbttedTextField ftf = getTextField();
+            ftf.setEditbble(true);
+            ftf.setFormbtterFbctory(fbctory);
+            // Chbnge the text orientbtion for the NumberEditor
+            ftf.setHorizontblAlignment(JTextField.RIGHT);
 
-            /* TBD - initializing the column width of the text field
-             * is imprecise and doing it here is tricky because
-             * the developer may configure the formatter later.
+            /* TBD - initiblizing the column width of the text field
+             * is imprecise bnd doing it here is tricky becbuse
+             * the developer mby configure the formbtter lbter.
              */
             try {
-                String maxString = formatter.valueToString(model.getMinimum());
-                String minString = formatter.valueToString(model.getMaximum());
-                ftf.setColumns(Math.max(maxString.length(),
+                String mbxString = formbtter.vblueToString(model.getMinimum());
+                String minString = formbtter.vblueToString(model.getMbximum());
+                ftf.setColumns(Mbth.mbx(mbxString.length(),
                                         minString.length()));
             }
-            catch (ParseException e) {
-                // TBD should throw a chained error here
+            cbtch (PbrseException e) {
+                // TBD should throw b chbined error here
             }
 
         }
 
 
         /**
-         * Returns the <code>java.text.DecimalFormat</code> object the
-         * <code>JFormattedTextField</code> uses to parse and format
+         * Returns the <code>jbvb.text.DecimblFormbt</code> object the
+         * <code>JFormbttedTextField</code> uses to pbrse bnd formbt
          * numbers.
          *
-         * @return the value of <code>getTextField().getFormatter().getFormat()</code>.
+         * @return the vblue of <code>getTextField().getFormbtter().getFormbt()</code>.
          * @see #getTextField
-         * @see java.text.DecimalFormat
+         * @see jbvb.text.DecimblFormbt
          */
-        public DecimalFormat getFormat() {
-            return (DecimalFormat)((NumberFormatter)(getTextField().getFormatter())).getFormat();
+        public DecimblFormbt getFormbt() {
+            return (DecimblFormbt)((NumberFormbtter)(getTextField().getFormbtter())).getFormbt();
         }
 
 
         /**
-         * Return our spinner ancestor's <code>SpinnerNumberModel</code>.
+         * Return our spinner bncestor's <code>SpinnerNumberModel</code>.
          *
          * @return <code>getSpinner().getModel()</code>
          * @see #getSpinner
@@ -1283,48 +1283,48 @@ public class JSpinner extends JComponent implements Accessible
          * {@inheritDoc}
          */
         @Override
-        public void setComponentOrientation(ComponentOrientation o) {
-            super.setComponentOrientation(o);
-            getTextField().setHorizontalAlignment(
+        public void setComponentOrientbtion(ComponentOrientbtion o) {
+            super.setComponentOrientbtion(o);
+            getTextField().setHorizontblAlignment(
                     o.isLeftToRight() ? JTextField.RIGHT : JTextField.LEFT);
         }
     }
 
 
     /**
-     * An editor for a <code>JSpinner</code> whose model is a
+     * An editor for b <code>JSpinner</code> whose model is b
      * <code>SpinnerListModel</code>.
      * @since 1.4
      */
-    public static class ListEditor extends DefaultEditor
+    public stbtic clbss ListEditor extends DefbultEditor
     {
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerListModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>ListEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinner and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construct b <code>JSpinner</code> editor thbt supports displbying
+         * bnd editing the vblue of b <code>SpinnerListModel</code>
+         * with b <code>JFormbttedTextField</code>.  <code>This</code>
+         * <code>ListEditor</code> becomes both b <code>ChbngeListener</code>
+         * on the spinner bnd b <code>PropertyChbngeListener</code>
+         * on the new <code>JFormbttedTextField</code>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerListModel</code>
+         * @pbrbm spinner the spinner whose model <code>this</code> editor will monitor
+         * @exception IllegblArgumentException if the spinners model is not
+         *     bn instbnce of <code>SpinnerListModel</code>
          *
          * @see #getModel
          * @see SpinnerListModel
          */
         public ListEditor(JSpinner spinner) {
             super(spinner);
-            if (!(spinner.getModel() instanceof SpinnerListModel)) {
-                throw new IllegalArgumentException("model not a SpinnerListModel");
+            if (!(spinner.getModel() instbnceof SpinnerListModel)) {
+                throw new IllegblArgumentException("model not b SpinnerListModel");
             }
-            getTextField().setEditable(true);
-            getTextField().setFormatterFactory(new
-                              DefaultFormatterFactory(new ListFormatter()));
+            getTextField().setEditbble(true);
+            getTextField().setFormbtterFbctory(new
+                              DefbultFormbtterFbctory(new ListFormbtter()));
         }
 
         /**
-         * Return our spinner ancestor's <code>SpinnerNumberModel</code>.
+         * Return our spinner bncestor's <code>SpinnerNumberModel</code>.
          *
          * @return <code>getSpinner().getModel()</code>
          * @see #getSpinner
@@ -1336,23 +1336,23 @@ public class JSpinner extends JComponent implements Accessible
 
 
         /**
-         * ListFormatter provides completion while text is being input
-         * into the JFormattedTextField. Completion is only done if the
-         * user is inserting text at the end of the document. Completion
-         * is done by way of the SpinnerListModel method findNextMatch.
+         * ListFormbtter provides completion while text is being input
+         * into the JFormbttedTextField. Completion is only done if the
+         * user is inserting text bt the end of the document. Completion
+         * is done by wby of the SpinnerListModel method findNextMbtch.
          */
-        private class ListFormatter extends
-                          JFormattedTextField.AbstractFormatter {
-            private DocumentFilter filter;
+        privbte clbss ListFormbtter extends
+                          JFormbttedTextField.AbstrbctFormbtter {
+            privbte DocumentFilter filter;
 
-            public String valueToString(Object value) throws ParseException {
-                if (value == null) {
+            public String vblueToString(Object vblue) throws PbrseException {
+                if (vblue == null) {
                     return "";
                 }
-                return value.toString();
+                return vblue.toString();
             }
 
-            public Object stringToValue(String string) throws ParseException {
+            public Object stringToVblue(String string) throws PbrseException {
                 return string;
             }
 
@@ -1364,33 +1364,33 @@ public class JSpinner extends JComponent implements Accessible
             }
 
 
-            private class Filter extends DocumentFilter {
-                public void replace(FilterBypass fb, int offset, int length,
-                                    String string, AttributeSet attrs) throws
-                                           BadLocationException {
+            privbte clbss Filter extends DocumentFilter {
+                public void replbce(FilterBypbss fb, int offset, int length,
+                                    String string, AttributeSet bttrs) throws
+                                           BbdLocbtionException {
                     if (string != null && (offset + length) ==
                                           fb.getDocument().getLength()) {
-                        Object next = getModel().findNextMatch(
+                        Object next = getModel().findNextMbtch(
                                          fb.getDocument().getText(0, offset) +
                                          string);
-                        String value = (next != null) ? next.toString() : null;
+                        String vblue = (next != null) ? next.toString() : null;
 
-                        if (value != null) {
+                        if (vblue != null) {
                             fb.remove(0, offset + length);
-                            fb.insertString(0, value, null);
-                            getFormattedTextField().select(offset +
+                            fb.insertString(0, vblue, null);
+                            getFormbttedTextField().select(offset +
                                                            string.length(),
-                                                           value.length());
+                                                           vblue.length());
                             return;
                         }
                     }
-                    super.replace(fb, offset, length, string, attrs);
+                    super.replbce(fb, offset, length, string, bttrs);
                 }
 
-                public void insertString(FilterBypass fb, int offset,
-                                     String string, AttributeSet attr)
-                       throws BadLocationException {
-                    replace(fb, offset, 0, string, attr);
+                public void insertString(FilterBypbss fb, int offset,
+                                     String string, AttributeSet bttr)
+                       throws BbdLocbtionException {
+                    replbce(fb, offset, 0, string, bttr);
                 }
             }
         }
@@ -1398,24 +1398,24 @@ public class JSpinner extends JComponent implements Accessible
 
 
     /**
-     * An Action implementation that is always disabled.
+     * An Action implementbtion thbt is blwbys disbbled.
      */
-    private static class DisabledAction implements Action {
-        public Object getValue(String key) {
+    privbte stbtic clbss DisbbledAction implements Action {
+        public Object getVblue(String key) {
             return null;
         }
-        public void putValue(String key, Object value) {
+        public void putVblue(String key, Object vblue) {
         }
-        public void setEnabled(boolean b) {
+        public void setEnbbled(boolebn b) {
         }
-        public boolean isEnabled() {
-            return false;
+        public boolebn isEnbbled() {
+            return fblse;
         }
-        public void addPropertyChangeListener(PropertyChangeListener l) {
+        public void bddPropertyChbngeListener(PropertyChbngeListener l) {
         }
-        public void removePropertyChangeListener(PropertyChangeListener l) {
+        public void removePropertyChbngeListener(PropertyChbngeListener l) {
         }
-        public void actionPerformed(ActionEvent ae) {
+        public void bctionPerformed(ActionEvent be) {
         }
     }
 
@@ -1430,71 +1430,71 @@ public class JSpinner extends JComponent implements Accessible
      * @since 1.5
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJSpinner();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJSpinner();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * <code>AccessibleJSpinner</code> implements accessibility
-     * support for the <code>JSpinner</code> class.
+     * <code>AccessibleJSpinner</code> implements bccessibility
+     * support for the <code>JSpinner</code> clbss.
      * @since 1.5
      */
-    protected class AccessibleJSpinner extends AccessibleJComponent
-        implements AccessibleValue, AccessibleAction, AccessibleText,
-                   AccessibleEditableText, ChangeListener {
+    protected clbss AccessibleJSpinner extends AccessibleJComponent
+        implements AccessibleVblue, AccessibleAction, AccessibleText,
+                   AccessibleEditbbleText, ChbngeListener {
 
-        private Object oldModelValue = null;
+        privbte Object oldModelVblue = null;
 
         /**
          * AccessibleJSpinner constructor
          */
         protected AccessibleJSpinner() {
-            // model is guaranteed to be non-null
-            oldModelValue = model.getValue();
-            JSpinner.this.addChangeListener(this);
+            // model is gubrbnteed to be non-null
+            oldModelVblue = model.getVblue();
+            JSpinner.this.bddChbngeListener(this);
         }
 
         /**
-         * Invoked when the target of the listener has changed its state.
+         * Invoked when the tbrget of the listener hbs chbnged its stbte.
          *
-         * @param e  a <code>ChangeEvent</code> object. Must not be null.
-         * @throws NullPointerException if the parameter is null.
+         * @pbrbm e  b <code>ChbngeEvent</code> object. Must not be null.
+         * @throws NullPointerException if the pbrbmeter is null.
          */
-        public void stateChanged(ChangeEvent e) {
+        public void stbteChbnged(ChbngeEvent e) {
             if (e == null) {
                 throw new NullPointerException();
             }
-            Object newModelValue = model.getValue();
-            firePropertyChange(ACCESSIBLE_VALUE_PROPERTY,
-                               oldModelValue,
-                               newModelValue);
-            firePropertyChange(ACCESSIBLE_TEXT_PROPERTY,
+            Object newModelVblue = model.getVblue();
+            firePropertyChbnge(ACCESSIBLE_VALUE_PROPERTY,
+                               oldModelVblue,
+                               newModelVblue);
+            firePropertyChbnge(ACCESSIBLE_TEXT_PROPERTY,
                                null,
-                               0); // entire text may have changed
+                               0); // entire text mby hbve chbnged
 
-            oldModelValue = newModelValue;
+            oldModelVblue = newModelVblue;
         }
 
         /* ===== Begin AccessibleContext methods ===== */
 
         /**
          * Gets the role of this object.  The role of the object is the generic
-         * purpose or use of the class of this object.  For example, the role
-         * of a push button is AccessibleRole.PUSH_BUTTON.  The roles in
-         * AccessibleRole are provided so component developers can pick from
-         * a set of predefined roles.  This enables assistive technologies to
-         * provide a consistent interface to various tweaked subclasses of
-         * components (e.g., use AccessibleRole.PUSH_BUTTON for all components
-         * that act like a push button) as well as distinguish between subclasses
-         * that behave differently (e.g., AccessibleRole.CHECK_BOX for check boxes
-         * and AccessibleRole.RADIO_BUTTON for radio buttons).
-         * <p>Note that the AccessibleRole class is also extensible, so
-         * custom component developers can define their own AccessibleRole's
-         * if the set of predefined roles is inadequate.
+         * purpose or use of the clbss of this object.  For exbmple, the role
+         * of b push button is AccessibleRole.PUSH_BUTTON.  The roles in
+         * AccessibleRole bre provided so component developers cbn pick from
+         * b set of predefined roles.  This enbbles bssistive technologies to
+         * provide b consistent interfbce to vbrious twebked subclbsses of
+         * components (e.g., use AccessibleRole.PUSH_BUTTON for bll components
+         * thbt bct like b push button) bs well bs distinguish between subclbsses
+         * thbt behbve differently (e.g., AccessibleRole.CHECK_BOX for check boxes
+         * bnd AccessibleRole.RADIO_BUTTON for rbdio buttons).
+         * <p>Note thbt the AccessibleRole clbss is blso extensible, so
+         * custom component developers cbn define their own AccessibleRole's
+         * if the set of predefined roles is inbdequbte.
          *
-         * @return an instance of AccessibleRole describing the role of the object
+         * @return bn instbnce of AccessibleRole describing the role of the object
          * @see AccessibleRole
          */
         public AccessibleRole getAccessibleRole() {
@@ -1502,12 +1502,12 @@ public class JSpinner extends JComponent implements Accessible
         }
 
         /**
-         * Returns the number of accessible children of the object.
+         * Returns the number of bccessible children of the object.
          *
-         * @return the number of accessible children of the object.
+         * @return the number of bccessible children of the object.
          */
         public int getAccessibleChildrenCount() {
-            // the JSpinner has one child, the editor
+            // the JSpinner hbs one child, the editor
             if (editor.getAccessibleContext() != null) {
                 return 1;
             }
@@ -1516,16 +1516,16 @@ public class JSpinner extends JComponent implements Accessible
 
         /**
          * Returns the specified Accessible child of the object.  The Accessible
-         * children of an Accessible object are zero-based, so the first child
-         * of an Accessible child is at index 0, the second child is at index 1,
-         * and so on.
+         * children of bn Accessible object bre zero-bbsed, so the first child
+         * of bn Accessible child is bt index 0, the second child is bt index 1,
+         * bnd so on.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the Accessible child of the object
          * @see #getAccessibleChildrenCount
          */
         public Accessible getAccessibleChild(int i) {
-            // the JSpinner has one child, the editor
+            // the JSpinner hbs one child, the editor
             if (i != 0) {
                 return null;
             }
@@ -1538,8 +1538,8 @@ public class JSpinner extends JComponent implements Accessible
         /* ===== End AccessibleContext methods ===== */
 
         /**
-         * Gets the AccessibleAction associated with this object that supports
-         * one or more actions.
+         * Gets the AccessibleAction bssocibted with this object thbt supports
+         * one or more bctions.
          *
          * @return AccessibleAction if supported by object; else return null
          * @see AccessibleAction
@@ -1549,8 +1549,8 @@ public class JSpinner extends JComponent implements Accessible
         }
 
         /**
-         * Gets the AccessibleText associated with this object presenting
-         * text on the display.
+         * Gets the AccessibleText bssocibted with this object presenting
+         * text on the displby.
          *
          * @return AccessibleText if supported by object; else return null
          * @see AccessibleText
@@ -1562,13 +1562,13 @@ public class JSpinner extends JComponent implements Accessible
         /*
          * Returns the AccessibleContext for the JSpinner editor
          */
-        private AccessibleContext getEditorAccessibleContext() {
-            if (editor instanceof DefaultEditor) {
-                JTextField textField = ((DefaultEditor)editor).getTextField();
+        privbte AccessibleContext getEditorAccessibleContext() {
+            if (editor instbnceof DefbultEditor) {
+                JTextField textField = ((DefbultEditor)editor).getTextField();
                 if (textField != null) {
                     return textField.getAccessibleContext();
                 }
-            } else if (editor instanceof Accessible) {
+            } else if (editor instbnceof Accessible) {
                 return editor.getAccessibleContext();
             }
             return null;
@@ -1577,83 +1577,83 @@ public class JSpinner extends JComponent implements Accessible
         /*
          * Returns the AccessibleText for the JSpinner editor
          */
-        private AccessibleText getEditorAccessibleText() {
-            AccessibleContext ac = getEditorAccessibleContext();
-            if (ac != null) {
-                return ac.getAccessibleText();
+        privbte AccessibleText getEditorAccessibleText() {
+            AccessibleContext bc = getEditorAccessibleContext();
+            if (bc != null) {
+                return bc.getAccessibleText();
             }
             return null;
         }
 
         /*
-         * Returns the AccessibleEditableText for the JSpinner editor
+         * Returns the AccessibleEditbbleText for the JSpinner editor
          */
-        private AccessibleEditableText getEditorAccessibleEditableText() {
-            AccessibleText at = getEditorAccessibleText();
-            if (at instanceof AccessibleEditableText) {
-                return (AccessibleEditableText)at;
+        privbte AccessibleEditbbleText getEditorAccessibleEditbbleText() {
+            AccessibleText bt = getEditorAccessibleText();
+            if (bt instbnceof AccessibleEditbbleText) {
+                return (AccessibleEditbbleText)bt;
             }
             return null;
         }
 
         /**
-         * Gets the AccessibleValue associated with this object.
+         * Gets the AccessibleVblue bssocibted with this object.
          *
-         * @return AccessibleValue if supported by object; else return null
-         * @see AccessibleValue
+         * @return AccessibleVblue if supported by object; else return null
+         * @see AccessibleVblue
          *
          */
-        public AccessibleValue getAccessibleValue() {
+        public AccessibleVblue getAccessibleVblue() {
             return this;
         }
 
-        /* ===== Begin AccessibleValue impl ===== */
+        /* ===== Begin AccessibleVblue impl ===== */
 
         /**
-         * Get the value of this object as a Number.  If the value has not been
-         * set, the return value will be null.
+         * Get the vblue of this object bs b Number.  If the vblue hbs not been
+         * set, the return vblue will be null.
          *
-         * @return value of the object
-         * @see #setCurrentAccessibleValue
+         * @return vblue of the object
+         * @see #setCurrentAccessibleVblue
          */
-        public Number getCurrentAccessibleValue() {
-            Object o = model.getValue();
-            if (o instanceof Number) {
+        public Number getCurrentAccessibleVblue() {
+            Object o = model.getVblue();
+            if (o instbnceof Number) {
                 return (Number)o;
             }
             return null;
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Set the vblue of this object bs b Number.
          *
-         * @param n the value to set for this object
-         * @return true if the value was set; else False
-         * @see #getCurrentAccessibleValue
+         * @pbrbm n the vblue to set for this object
+         * @return true if the vblue wbs set; else Fblse
+         * @see #getCurrentAccessibleVblue
          */
-        public boolean setCurrentAccessibleValue(Number n) {
-            // try to set the new value
+        public boolebn setCurrentAccessibleVblue(Number n) {
+            // try to set the new vblue
             try {
-                model.setValue(n);
+                model.setVblue(n);
                 return true;
-            } catch (IllegalArgumentException iae) {
-                // SpinnerModel didn't like new value
+            } cbtch (IllegblArgumentException ibe) {
+                // SpinnerModel didn't like new vblue
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Get the minimum value of this object as a Number.
+         * Get the minimum vblue of this object bs b Number.
          *
-         * @return Minimum value of the object; null if this object does not
-         * have a minimum value
-         * @see #getMaximumAccessibleValue
+         * @return Minimum vblue of the object; null if this object does not
+         * hbve b minimum vblue
+         * @see #getMbximumAccessibleVblue
          */
-        public Number getMinimumAccessibleValue() {
-            if (model instanceof SpinnerNumberModel) {
+        public Number getMinimumAccessibleVblue() {
+            if (model instbnceof SpinnerNumberModel) {
                 SpinnerNumberModel numberModel = (SpinnerNumberModel)model;
                 Object o = numberModel.getMinimum();
-                if (o instanceof Number) {
+                if (o instbnceof Number) {
                     return (Number)o;
                 }
             }
@@ -1661,47 +1661,47 @@ public class JSpinner extends JComponent implements Accessible
         }
 
         /**
-         * Get the maximum value of this object as a Number.
+         * Get the mbximum vblue of this object bs b Number.
          *
-         * @return Maximum value of the object; null if this object does not
-         * have a maximum value
-         * @see #getMinimumAccessibleValue
+         * @return Mbximum vblue of the object; null if this object does not
+         * hbve b mbximum vblue
+         * @see #getMinimumAccessibleVblue
          */
-        public Number getMaximumAccessibleValue() {
-            if (model instanceof SpinnerNumberModel) {
+        public Number getMbximumAccessibleVblue() {
+            if (model instbnceof SpinnerNumberModel) {
                 SpinnerNumberModel numberModel = (SpinnerNumberModel)model;
-                Object o = numberModel.getMaximum();
-                if (o instanceof Number) {
+                Object o = numberModel.getMbximum();
+                if (o instbnceof Number) {
                     return (Number)o;
                 }
             }
             return null;
         }
 
-        /* ===== End AccessibleValue impl ===== */
+        /* ===== End AccessibleVblue impl ===== */
 
         /* ===== Begin AccessibleAction impl ===== */
 
         /**
-         * Returns the number of accessible actions available in this object
-         * If there are more than one, the first one is considered the "default"
-         * action of the object.
+         * Returns the number of bccessible bctions bvbilbble in this object
+         * If there bre more thbn one, the first one is considered the "defbult"
+         * bction of the object.
          *
-         * Two actions are supported: AccessibleAction.INCREMENT which
-         * increments the spinner value and AccessibleAction.DECREMENT
-         * which decrements the spinner value
+         * Two bctions bre supported: AccessibleAction.INCREMENT which
+         * increments the spinner vblue bnd AccessibleAction.DECREMENT
+         * which decrements the spinner vblue
          *
-         * @return the zero-based number of Actions in this object
+         * @return the zero-bbsed number of Actions in this object
          */
         public int getAccessibleActionCount() {
             return 2;
         }
 
         /**
-         * Returns a description of the specified action of the object.
+         * Returns b description of the specified bction of the object.
          *
-         * @param i zero-based index of the actions
-         * @return a String description of the action
+         * @pbrbm i zero-bbsed index of the bctions
+         * @return b String description of the bction
          * @see #getAccessibleActionCount
          */
         public String getAccessibleActionDescription(int i) {
@@ -1716,30 +1716,30 @@ public class JSpinner extends JComponent implements Accessible
         /**
          * Performs the specified Action on the object
          *
-         * @param i zero-based index of actions. The first action
-         * (index 0) is AccessibleAction.INCREMENT and the second
-         * action (index 1) is AccessibleAction.DECREMENT.
-         * @return true if the action was performed; otherwise false.
+         * @pbrbm i zero-bbsed index of bctions. The first bction
+         * (index 0) is AccessibleAction.INCREMENT bnd the second
+         * bction (index 1) is AccessibleAction.DECREMENT.
+         * @return true if the bction wbs performed; otherwise fblse.
          * @see #getAccessibleActionCount
          */
-        public boolean doAccessibleAction(int i) {
+        public boolebn doAccessibleAction(int i) {
             if (i < 0 || i > 1) {
-                return false;
+                return fblse;
             }
             Object o;
             if (i == 0) {
-                o = getNextValue(); // AccessibleAction.INCREMENT
+                o = getNextVblue(); // AccessibleAction.INCREMENT
             } else {
-                o = getPreviousValue(); // AccessibleAction.DECREMENT
+                o = getPreviousVblue(); // AccessibleAction.DECREMENT
             }
-            // try to set the new value
+            // try to set the new vblue
             try {
-                model.setValue(o);
+                model.setVblue(o);
                 return true;
-            } catch (IllegalArgumentException iae) {
-                // SpinnerModel didn't like new value
+            } cbtch (IllegblArgumentException ibe) {
+                // SpinnerModel didn't like new vblue
             }
-            return false;
+            return fblse;
         }
 
         /* ===== End AccessibleAction impl ===== */
@@ -1747,59 +1747,59 @@ public class JSpinner extends JComponent implements Accessible
         /* ===== Begin AccessibleText impl ===== */
 
         /*
-         * Returns whether source and destination components have the
-         * same window ancestor
+         * Returns whether source bnd destinbtion components hbve the
+         * sbme window bncestor
          */
-        private boolean sameWindowAncestor(Component src, Component dest) {
+        privbte boolebn sbmeWindowAncestor(Component src, Component dest) {
             if (src == null || dest == null) {
-                return false;
+                return fblse;
             }
             return SwingUtilities.getWindowAncestor(src) ==
                 SwingUtilities.getWindowAncestor(dest);
         }
 
         /**
-         * Given a point in local coordinates, return the zero-based index
-         * of the character under that Point.  If the point is invalid,
+         * Given b point in locbl coordinbtes, return the zero-bbsed index
+         * of the chbrbcter under thbt Point.  If the point is invblid,
          * this method returns -1.
          *
-         * @param p the Point in local coordinates
-         * @return the zero-based index of the character under Point p; if
-         * Point is invalid return -1.
+         * @pbrbm p the Point in locbl coordinbtes
+         * @return the zero-bbsed index of the chbrbcter under Point p; if
+         * Point is invblid return -1.
          */
         public int getIndexAtPoint(Point p) {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null && sameWindowAncestor(JSpinner.this, editor)) {
+            AccessibleText bt = getEditorAccessibleText();
+            if (bt != null && sbmeWindowAncestor(JSpinner.this, editor)) {
                 // convert point from the JSpinner bounds (source) to
-                // editor bounds (destination)
+                // editor bounds (destinbtion)
                 Point editorPoint = SwingUtilities.convertPoint(JSpinner.this,
                                                                 p,
                                                                 editor);
                 if (editorPoint != null) {
-                    return at.getIndexAtPoint(editorPoint);
+                    return bt.getIndexAtPoint(editorPoint);
                 }
             }
             return -1;
         }
 
         /**
-         * Determines the bounding box of the character at the given
-         * index into the string.  The bounds are returned in local
-         * coordinates.  If the index is invalid an empty rectangle is
+         * Determines the bounding box of the chbrbcter bt the given
+         * index into the string.  The bounds bre returned in locbl
+         * coordinbtes.  If the index is invblid bn empty rectbngle is
          * returned.
          *
-         * @param i the index into the String
-         * @return the screen coordinates of the character's bounding box,
-         * if index is invalid return an empty rectangle.
+         * @pbrbm i the index into the String
+         * @return the screen coordinbtes of the chbrbcter's bounding box,
+         * if index is invblid return bn empty rectbngle.
          */
-        public Rectangle getCharacterBounds(int i) {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null ) {
-                Rectangle editorRect = at.getCharacterBounds(i);
+        public Rectbngle getChbrbcterBounds(int i) {
+            AccessibleText bt = getEditorAccessibleText();
+            if (bt != null ) {
+                Rectbngle editorRect = bt.getChbrbcterBounds(i);
                 if (editorRect != null &&
-                    sameWindowAncestor(JSpinner.this, editor)) {
-                    // return rectangle in the the JSpinner bounds
-                    return SwingUtilities.convertRectangle(editor,
+                    sbmeWindowAncestor(JSpinner.this, editor)) {
+                    // return rectbngle in the the JSpinner bounds
+                    return SwingUtilities.convertRectbngle(editor,
                                                            editorRect,
                                                            JSpinner.this);
                 }
@@ -1808,103 +1808,103 @@ public class JSpinner extends JComponent implements Accessible
         }
 
         /**
-         * Returns the number of characters (valid indicies)
+         * Returns the number of chbrbcters (vblid indicies)
          *
-         * @return the number of characters
+         * @return the number of chbrbcters
          */
-        public int getCharCount() {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getCharCount();
+        public int getChbrCount() {
+            AccessibleText bt = getEditorAccessibleText();
+            if (bt != null) {
+                return bt.getChbrCount();
             }
             return -1;
         }
 
         /**
-         * Returns the zero-based offset of the caret.
+         * Returns the zero-bbsed offset of the cbret.
          *
-         * Note: That to the right of the caret will have the same index
-         * value as the offset (the caret is between two characters).
-         * @return the zero-based offset of the caret.
+         * Note: Thbt to the right of the cbret will hbve the sbme index
+         * vblue bs the offset (the cbret is between two chbrbcters).
+         * @return the zero-bbsed offset of the cbret.
          */
-        public int getCaretPosition() {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getCaretPosition();
+        public int getCbretPosition() {
+            AccessibleText bt = getEditorAccessibleText();
+            if (bt != null) {
+                return bt.getCbretPosition();
             }
             return -1;
         }
 
         /**
-         * Returns the String at a given index.
+         * Returns the String bt b given index.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
+         * @pbrbm pbrt the CHARACTER, WORD, or SENTENCE to retrieve
+         * @pbrbm index bn index within the text
          * @return the letter, word, or sentence
          */
-        public String getAtIndex(int part, int index) {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getAtIndex(part, index);
+        public String getAtIndex(int pbrt, int index) {
+            AccessibleText bt = getEditorAccessibleText();
+            if (bt != null) {
+                return bt.getAtIndex(pbrt, index);
             }
             return null;
         }
 
         /**
-         * Returns the String after a given index.
+         * Returns the String bfter b given index.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
+         * @pbrbm pbrt the CHARACTER, WORD, or SENTENCE to retrieve
+         * @pbrbm index bn index within the text
          * @return the letter, word, or sentence
          */
-        public String getAfterIndex(int part, int index) {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getAfterIndex(part, index);
+        public String getAfterIndex(int pbrt, int index) {
+            AccessibleText bt = getEditorAccessibleText();
+            if (bt != null) {
+                return bt.getAfterIndex(pbrt, index);
             }
             return null;
         }
 
         /**
-         * Returns the String before a given index.
+         * Returns the String before b given index.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
+         * @pbrbm pbrt the CHARACTER, WORD, or SENTENCE to retrieve
+         * @pbrbm index bn index within the text
          * @return the letter, word, or sentence
          */
-        public String getBeforeIndex(int part, int index) {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getBeforeIndex(part, index);
+        public String getBeforeIndex(int pbrt, int index) {
+            AccessibleText bt = getEditorAccessibleText();
+            if (bt != null) {
+                return bt.getBeforeIndex(pbrt, index);
             }
             return null;
         }
 
         /**
-         * Returns the AttributeSet for a given character at a given index
+         * Returns the AttributeSet for b given chbrbcter bt b given index
          *
-         * @param i the zero-based index into the text
-         * @return the AttributeSet of the character
+         * @pbrbm i the zero-bbsed index into the text
+         * @return the AttributeSet of the chbrbcter
          */
-        public AttributeSet getCharacterAttribute(int i) {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getCharacterAttribute(i);
+        public AttributeSet getChbrbcterAttribute(int i) {
+            AccessibleText bt = getEditorAccessibleText();
+            if (bt != null) {
+                return bt.getChbrbcterAttribute(i);
             }
             return null;
         }
 
         /**
-         * Returns the start offset within the selected text.
+         * Returns the stbrt offset within the selected text.
          * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
+         * b cbret, the stbrt bnd end offsets will be the sbme.
          *
-         * @return the index into the text of the start of the selection
+         * @return the index into the text of the stbrt of the selection
          */
-        public int getSelectionStart() {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getSelectionStart();
+        public int getSelectionStbrt() {
+            AccessibleText bt = getEditorAccessibleText();
+            if (bt != null) {
+                return bt.getSelectionStbrt();
             }
             return -1;
         }
@@ -1912,27 +1912,27 @@ public class JSpinner extends JComponent implements Accessible
         /**
          * Returns the end offset within the selected text.
          * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
+         * b cbret, the stbrt bnd end offsets will be the sbme.
          *
          * @return the index into the text of the end of the selection
          */
         public int getSelectionEnd() {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getSelectionEnd();
+            AccessibleText bt = getEditorAccessibleText();
+            if (bt != null) {
+                return bt.getSelectionEnd();
             }
             return -1;
         }
 
         /**
-         * Returns the portion of the text that is selected.
+         * Returns the portion of the text thbt is selected.
          *
-         * @return the String portion of the text that is selected
+         * @return the String portion of the text thbt is selected
          */
         public String getSelectedText() {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getSelectedText();
+            AccessibleText bt = getEditorAccessibleText();
+            if (bt != null) {
+                return bt.getSelectedText();
             }
             return null;
         }
@@ -1940,45 +1940,45 @@ public class JSpinner extends JComponent implements Accessible
         /* ===== End AccessibleText impl ===== */
 
 
-        /* ===== Begin AccessibleEditableText impl ===== */
+        /* ===== Begin AccessibleEditbbleText impl ===== */
 
         /**
          * Sets the text contents to the specified string.
          *
-         * @param s the string to set the text contents
+         * @pbrbm s the string to set the text contents
          */
         public void setTextContents(String s) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.setTextContents(s);
+            AccessibleEditbbleText bt = getEditorAccessibleEditbbleText();
+            if (bt != null) {
+                bt.setTextContents(s);
             }
         }
 
         /**
-         * Inserts the specified string at the given index/
+         * Inserts the specified string bt the given index/
          *
-         * @param index the index in the text where the string will
+         * @pbrbm index the index in the text where the string will
          * be inserted
-         * @param s the string to insert in the text
+         * @pbrbm s the string to insert in the text
          */
         public void insertTextAtIndex(int index, String s) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.insertTextAtIndex(index, s);
+            AccessibleEditbbleText bt = getEditorAccessibleEditbbleText();
+            if (bt != null) {
+                bt.insertTextAtIndex(index, s);
             }
         }
 
         /**
          * Returns the text string between two indices.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
+         * @pbrbm stbrtIndex the stbrting index in the text
+         * @pbrbm endIndex the ending index in the text
          * @return the text string between the indices
          */
-        public String getTextRange(int startIndex, int endIndex) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                return at.getTextRange(startIndex, endIndex);
+        public String getTextRbnge(int stbrtIndex, int endIndex) {
+            AccessibleEditbbleText bt = getEditorAccessibleEditbbleText();
+            if (bt != null) {
+                return bt.getTextRbnge(stbrtIndex, endIndex);
             }
             return null;
         }
@@ -1986,82 +1986,82 @@ public class JSpinner extends JComponent implements Accessible
         /**
          * Deletes the text between two indices
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
+         * @pbrbm stbrtIndex the stbrting index in the text
+         * @pbrbm endIndex the ending index in the text
          */
-        public void delete(int startIndex, int endIndex) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.delete(startIndex, endIndex);
+        public void delete(int stbrtIndex, int endIndex) {
+            AccessibleEditbbleText bt = getEditorAccessibleEditbbleText();
+            if (bt != null) {
+                bt.delete(stbrtIndex, endIndex);
             }
         }
 
         /**
-         * Cuts the text between two indices into the system clipboard.
+         * Cuts the text between two indices into the system clipbobrd.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
+         * @pbrbm stbrtIndex the stbrting index in the text
+         * @pbrbm endIndex the ending index in the text
          */
-        public void cut(int startIndex, int endIndex) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.cut(startIndex, endIndex);
+        public void cut(int stbrtIndex, int endIndex) {
+            AccessibleEditbbleText bt = getEditorAccessibleEditbbleText();
+            if (bt != null) {
+                bt.cut(stbrtIndex, endIndex);
             }
         }
 
         /**
-         * Pastes the text from the system clipboard into the text
-         * starting at the specified index.
+         * Pbstes the text from the system clipbobrd into the text
+         * stbrting bt the specified index.
          *
-         * @param startIndex the starting index in the text
+         * @pbrbm stbrtIndex the stbrting index in the text
          */
-        public void paste(int startIndex) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.paste(startIndex);
+        public void pbste(int stbrtIndex) {
+            AccessibleEditbbleText bt = getEditorAccessibleEditbbleText();
+            if (bt != null) {
+                bt.pbste(stbrtIndex);
             }
         }
 
         /**
-         * Replaces the text between two indices with the specified
+         * Replbces the text between two indices with the specified
          * string.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
-         * @param s the string to replace the text between two indices
+         * @pbrbm stbrtIndex the stbrting index in the text
+         * @pbrbm endIndex the ending index in the text
+         * @pbrbm s the string to replbce the text between two indices
          */
-        public void replaceText(int startIndex, int endIndex, String s) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.replaceText(startIndex, endIndex, s);
+        public void replbceText(int stbrtIndex, int endIndex, String s) {
+            AccessibleEditbbleText bt = getEditorAccessibleEditbbleText();
+            if (bt != null) {
+                bt.replbceText(stbrtIndex, endIndex, s);
             }
         }
 
         /**
          * Selects the text between two indices.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
+         * @pbrbm stbrtIndex the stbrting index in the text
+         * @pbrbm endIndex the ending index in the text
          */
-        public void selectText(int startIndex, int endIndex) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.selectText(startIndex, endIndex);
+        public void selectText(int stbrtIndex, int endIndex) {
+            AccessibleEditbbleText bt = getEditorAccessibleEditbbleText();
+            if (bt != null) {
+                bt.selectText(stbrtIndex, endIndex);
             }
         }
 
         /**
-         * Sets attributes for the text between two indices.
+         * Sets bttributes for the text between two indices.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
-         * @param as the attribute set
+         * @pbrbm stbrtIndex the stbrting index in the text
+         * @pbrbm endIndex the ending index in the text
+         * @pbrbm bs the bttribute set
          * @see AttributeSet
          */
-        public void setAttributes(int startIndex, int endIndex, AttributeSet as) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.setAttributes(startIndex, endIndex, as);
+        public void setAttributes(int stbrtIndex, int endIndex, AttributeSet bs) {
+            AccessibleEditbbleText bt = getEditorAccessibleEditbbleText();
+            if (bt != null) {
+                bt.setAttributes(stbrtIndex, endIndex, bs);
             }
         }
     }  /* End AccessibleJSpinner */

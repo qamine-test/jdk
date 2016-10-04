@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.channels.*;
-import java.net.URI;
-import java.util.concurrent.ExecutorService;
-import java.io.*;
-import java.util.*;
-import java.security.AccessController;
-import sun.misc.Unsafe;
-import sun.nio.ch.ThreadPool;
-import sun.security.util.SecurityConstants;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.net.URI;
+import jbvb.util.concurrent.ExecutorService;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.security.AccessController;
+import sun.misc.Unsbfe;
+import sun.nio.ch.ThrebdPool;
+import sun.security.util.SecurityConstbnts;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsSecurity.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtic sun.nio.fs.WindowsNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.WindowsSecurity.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
 
-public class WindowsFileSystemProvider
-    extends AbstractFileSystemProvider
+public clbss WindowsFileSystemProvider
+    extends AbstrbctFileSystemProvider
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    private static final String USER_DIR = "user.dir";
-    private final WindowsFileSystem theFileSystem;
+    privbte stbtic finbl String USER_DIR = "user.dir";
+    privbte finbl WindowsFileSystem theFileSystem;
 
     public WindowsFileSystemProvider() {
         theFileSystem = new WindowsFileSystem(this, System.getProperty(USER_DIR));
@@ -58,529 +58,529 @@ public class WindowsFileSystemProvider
         return "file";
     }
 
-    private void checkUri(URI uri) {
-        if (!uri.getScheme().equalsIgnoreCase(getScheme()))
-            throw new IllegalArgumentException("URI does not match this provider");
+    privbte void checkUri(URI uri) {
+        if (!uri.getScheme().equblsIgnoreCbse(getScheme()))
+            throw new IllegblArgumentException("URI does not mbtch this provider");
         if (uri.getAuthority() != null)
-            throw new IllegalArgumentException("Authority component present");
-        if (uri.getPath() == null)
-            throw new IllegalArgumentException("Path component is undefined");
-        if (!uri.getPath().equals("/"))
-            throw new IllegalArgumentException("Path component should be '/'");
+            throw new IllegblArgumentException("Authority component present");
+        if (uri.getPbth() == null)
+            throw new IllegblArgumentException("Pbth component is undefined");
+        if (!uri.getPbth().equbls("/"))
+            throw new IllegblArgumentException("Pbth component should be '/'");
         if (uri.getQuery() != null)
-            throw new IllegalArgumentException("Query component present");
-        if (uri.getFragment() != null)
-            throw new IllegalArgumentException("Fragment component present");
+            throw new IllegblArgumentException("Query component present");
+        if (uri.getFrbgment() != null)
+            throw new IllegblArgumentException("Frbgment component present");
     }
 
     @Override
-    public FileSystem newFileSystem(URI uri, Map<String,?> env)
+    public FileSystem newFileSystem(URI uri, Mbp<String,?> env)
         throws IOException
     {
         checkUri(uri);
-        throw new FileSystemAlreadyExistsException();
+        throw new FileSystemAlrebdyExistsException();
     }
 
     @Override
-    public final FileSystem getFileSystem(URI uri) {
+    public finbl FileSystem getFileSystem(URI uri) {
         checkUri(uri);
         return theFileSystem;
     }
 
     @Override
-    public Path getPath(URI uri) {
+    public Pbth getPbth(URI uri) {
         return WindowsUriSupport.fromUri(theFileSystem, uri);
     }
 
     @Override
-    public FileChannel newFileChannel(Path path,
+    public FileChbnnel newFileChbnnel(Pbth pbth,
                                       Set<? extends OpenOption> options,
-                                      FileAttribute<?>... attrs)
+                                      FileAttribute<?>... bttrs)
         throws IOException
     {
-        if (path == null)
+        if (pbth == null)
             throw new NullPointerException();
-        if (!(path instanceof WindowsPath))
-            throw new ProviderMismatchException();
-        WindowsPath file = (WindowsPath)path;
+        if (!(pbth instbnceof WindowsPbth))
+            throw new ProviderMismbtchException();
+        WindowsPbth file = (WindowsPbth)pbth;
 
-        WindowsSecurityDescriptor sd = WindowsSecurityDescriptor.fromAttribute(attrs);
+        WindowsSecurityDescriptor sd = WindowsSecurityDescriptor.fromAttribute(bttrs);
         try {
-            return WindowsChannelFactory
-                .newFileChannel(file.getPathForWin32Calls(),
-                                file.getPathForPermissionCheck(),
+            return WindowsChbnnelFbctory
+                .newFileChbnnel(file.getPbthForWin32Cblls(),
+                                file.getPbthForPermissionCheck(),
                                 options,
-                                sd.address());
-        } catch (WindowsException x) {
+                                sd.bddress());
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(file);
             return null;
-        } finally {
+        } finblly {
             if (sd != null)
-                sd.release();
+                sd.relebse();
         }
     }
 
     @Override
-    public AsynchronousFileChannel newAsynchronousFileChannel(Path path,
+    public AsynchronousFileChbnnel newAsynchronousFileChbnnel(Pbth pbth,
                                                               Set<? extends OpenOption> options,
                                                               ExecutorService executor,
-                                                              FileAttribute<?>... attrs)
+                                                              FileAttribute<?>... bttrs)
         throws IOException
     {
-        if (path == null)
+        if (pbth == null)
             throw new NullPointerException();
-        if (!(path instanceof WindowsPath))
-            throw new ProviderMismatchException();
-        WindowsPath file = (WindowsPath)path;
-        ThreadPool pool = (executor == null) ? null : ThreadPool.wrap(executor, 0);
+        if (!(pbth instbnceof WindowsPbth))
+            throw new ProviderMismbtchException();
+        WindowsPbth file = (WindowsPbth)pbth;
+        ThrebdPool pool = (executor == null) ? null : ThrebdPool.wrbp(executor, 0);
         WindowsSecurityDescriptor sd =
-            WindowsSecurityDescriptor.fromAttribute(attrs);
+            WindowsSecurityDescriptor.fromAttribute(bttrs);
         try {
-            return WindowsChannelFactory
-                .newAsynchronousFileChannel(file.getPathForWin32Calls(),
-                                            file.getPathForPermissionCheck(),
+            return WindowsChbnnelFbctory
+                .newAsynchronousFileChbnnel(file.getPbthForWin32Cblls(),
+                                            file.getPbthForPermissionCheck(),
                                             options,
-                                            sd.address(),
+                                            sd.bddress(),
                                             pool);
-        } catch (WindowsException x) {
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(file);
             return null;
-        } finally {
+        } finblly {
             if (sd != null)
-                sd.release();
+                sd.relebse();
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public <V extends FileAttributeView> V
-        getFileAttributeView(Path obj, Class<V> view, LinkOption... options)
+        getFileAttributeView(Pbth obj, Clbss<V> view, LinkOption... options)
     {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
+        WindowsPbth file = WindowsPbth.toWindowsPbth(obj);
         if (view == null)
             throw new NullPointerException();
-        boolean followLinks = Util.followLinks(options);
-        if (view == BasicFileAttributeView.class)
-            return (V) WindowsFileAttributeViews.createBasicView(file, followLinks);
-        if (view == DosFileAttributeView.class)
-            return (V) WindowsFileAttributeViews.createDosView(file, followLinks);
-        if (view == AclFileAttributeView.class)
+        boolebn followLinks = Util.followLinks(options);
+        if (view == BbsicFileAttributeView.clbss)
+            return (V) WindowsFileAttributeViews.crebteBbsicView(file, followLinks);
+        if (view == DosFileAttributeView.clbss)
+            return (V) WindowsFileAttributeViews.crebteDosView(file, followLinks);
+        if (view == AclFileAttributeView.clbss)
             return (V) new WindowsAclFileAttributeView(file, followLinks);
-        if (view == FileOwnerAttributeView.class)
+        if (view == FileOwnerAttributeView.clbss)
             return (V) new FileOwnerAttributeViewImpl(
                 new WindowsAclFileAttributeView(file, followLinks));
-        if (view == UserDefinedFileAttributeView.class)
+        if (view == UserDefinedFileAttributeView.clbss)
             return (V) new WindowsUserDefinedFileAttributeView(file, followLinks);
         return (V) null;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <A extends BasicFileAttributes> A readAttributes(Path file,
-                                                            Class<A> type,
+    @SuppressWbrnings("unchecked")
+    public <A extends BbsicFileAttributes> A rebdAttributes(Pbth file,
+                                                            Clbss<A> type,
                                                             LinkOption... options)
         throws IOException
     {
-        Class<? extends BasicFileAttributeView> view;
-        if (type == BasicFileAttributes.class)
-            view = BasicFileAttributeView.class;
-        else if (type == DosFileAttributes.class)
-            view = DosFileAttributeView.class;
+        Clbss<? extends BbsicFileAttributeView> view;
+        if (type == BbsicFileAttributes.clbss)
+            view = BbsicFileAttributeView.clbss;
+        else if (type == DosFileAttributes.clbss)
+            view = DosFileAttributeView.clbss;
         else if (type == null)
             throw new NullPointerException();
         else
-            throw new UnsupportedOperationException();
-        return (A) getFileAttributeView(file, view, options).readAttributes();
+            throw new UnsupportedOperbtionException();
+        return (A) getFileAttributeView(file, view, options).rebdAttributes();
     }
 
     @Override
-    public DynamicFileAttributeView getFileAttributeView(Path obj, String name, LinkOption... options) {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
-        boolean followLinks = Util.followLinks(options);
-        if (name.equals("basic"))
-            return WindowsFileAttributeViews.createBasicView(file, followLinks);
-        if (name.equals("dos"))
-            return WindowsFileAttributeViews.createDosView(file, followLinks);
-        if (name.equals("acl"))
+    public DynbmicFileAttributeView getFileAttributeView(Pbth obj, String nbme, LinkOption... options) {
+        WindowsPbth file = WindowsPbth.toWindowsPbth(obj);
+        boolebn followLinks = Util.followLinks(options);
+        if (nbme.equbls("bbsic"))
+            return WindowsFileAttributeViews.crebteBbsicView(file, followLinks);
+        if (nbme.equbls("dos"))
+            return WindowsFileAttributeViews.crebteDosView(file, followLinks);
+        if (nbme.equbls("bcl"))
             return new WindowsAclFileAttributeView(file, followLinks);
-        if (name.equals("owner"))
+        if (nbme.equbls("owner"))
             return new FileOwnerAttributeViewImpl(
                 new WindowsAclFileAttributeView(file, followLinks));
-        if (name.equals("user"))
+        if (nbme.equbls("user"))
             return new WindowsUserDefinedFileAttributeView(file, followLinks);
         return null;
     }
 
     @Override
-    public SeekableByteChannel newByteChannel(Path obj,
+    public SeekbbleByteChbnnel newByteChbnnel(Pbth obj,
                                               Set<? extends OpenOption> options,
-                                              FileAttribute<?>... attrs)
+                                              FileAttribute<?>... bttrs)
          throws IOException
     {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
+        WindowsPbth file = WindowsPbth.toWindowsPbth(obj);
         WindowsSecurityDescriptor sd =
-            WindowsSecurityDescriptor.fromAttribute(attrs);
+            WindowsSecurityDescriptor.fromAttribute(bttrs);
         try {
-            return WindowsChannelFactory
-                .newFileChannel(file.getPathForWin32Calls(),
-                                file.getPathForPermissionCheck(),
+            return WindowsChbnnelFbctory
+                .newFileChbnnel(file.getPbthForWin32Cblls(),
+                                file.getPbthForPermissionCheck(),
                                 options,
-                                sd.address());
-        } catch (WindowsException x) {
+                                sd.bddress());
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(file);
-            return null;  // keep compiler happy
-        } finally {
-            sd.release();
+            return null;  // keep compiler hbppy
+        } finblly {
+            sd.relebse();
         }
     }
 
     @Override
-    boolean implDelete(Path obj, boolean failIfNotExists) throws IOException {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
+    boolebn implDelete(Pbth obj, boolebn fbilIfNotExists) throws IOException {
+        WindowsPbth file = WindowsPbth.toWindowsPbth(obj);
         file.checkDelete();
 
-        WindowsFileAttributes attrs = null;
+        WindowsFileAttributes bttrs = null;
         try {
-             // need to know if file is a directory or junction
-             attrs = WindowsFileAttributes.get(file, false);
-             if (attrs.isDirectory() || attrs.isDirectoryLink()) {
-                RemoveDirectory(file.getPathForWin32Calls());
+             // need to know if file is b directory or junction
+             bttrs = WindowsFileAttributes.get(file, fblse);
+             if (bttrs.isDirectory() || bttrs.isDirectoryLink()) {
+                RemoveDirectory(file.getPbthForWin32Cblls());
              } else {
-                DeleteFile(file.getPathForWin32Calls());
+                DeleteFile(file.getPbthForWin32Cblls());
              }
              return true;
-        } catch (WindowsException x) {
+        } cbtch (WindowsException x) {
 
             // no-op if file does not exist
-            if (!failIfNotExists &&
-                (x.lastError() == ERROR_FILE_NOT_FOUND ||
-                 x.lastError() == ERROR_PATH_NOT_FOUND)) return false;
+            if (!fbilIfNotExists &&
+                (x.lbstError() == ERROR_FILE_NOT_FOUND ||
+                 x.lbstError() == ERROR_PATH_NOT_FOUND)) return fblse;
 
-            if (attrs != null && attrs.isDirectory()) {
-                // ERROR_ALREADY_EXISTS is returned when attempting to delete
+            if (bttrs != null && bttrs.isDirectory()) {
+                // ERROR_ALREADY_EXISTS is returned when bttempting to delete
                 // non-empty directory on SAMBA servers.
-                if (x.lastError() == ERROR_DIR_NOT_EMPTY ||
-                    x.lastError() == ERROR_ALREADY_EXISTS)
+                if (x.lbstError() == ERROR_DIR_NOT_EMPTY ||
+                    x.lbstError() == ERROR_ALREADY_EXISTS)
                 {
                     throw new DirectoryNotEmptyException(
-                        file.getPathForExceptionMessage());
+                        file.getPbthForExceptionMessbge());
                 }
             }
             x.rethrowAsIOException(file);
-            return false;
+            return fblse;
         }
     }
 
     @Override
-    public void copy(Path source, Path target, CopyOption... options)
+    public void copy(Pbth source, Pbth tbrget, CopyOption... options)
         throws IOException
     {
-        WindowsFileCopy.copy(WindowsPath.toWindowsPath(source),
-                             WindowsPath.toWindowsPath(target),
+        WindowsFileCopy.copy(WindowsPbth.toWindowsPbth(source),
+                             WindowsPbth.toWindowsPbth(tbrget),
                              options);
     }
 
     @Override
-    public void move(Path source, Path target, CopyOption... options)
+    public void move(Pbth source, Pbth tbrget, CopyOption... options)
         throws IOException
     {
-        WindowsFileCopy.move(WindowsPath.toWindowsPath(source),
-                             WindowsPath.toWindowsPath(target),
+        WindowsFileCopy.move(WindowsPbth.toWindowsPbth(source),
+                             WindowsPbth.toWindowsPbth(tbrget),
                              options);
     }
 
     /**
-     * Checks the file security against desired access.
+     * Checks the file security bgbinst desired bccess.
      */
-    private static boolean hasDesiredAccess(WindowsPath file, int rights) throws IOException {
-        // read security descriptor containing ACL (symlinks are followed)
-        boolean hasRights = false;
-        String target = WindowsLinkSupport.getFinalPath(file, true);
-        NativeBuffer aclBuffer = WindowsAclFileAttributeView
-            .getFileSecurity(target,
+    privbte stbtic boolebn hbsDesiredAccess(WindowsPbth file, int rights) throws IOException {
+        // rebd security descriptor contbining ACL (symlinks bre followed)
+        boolebn hbsRights = fblse;
+        String tbrget = WindowsLinkSupport.getFinblPbth(file, true);
+        NbtiveBuffer bclBuffer = WindowsAclFileAttributeView
+            .getFileSecurity(tbrget,
                 DACL_SECURITY_INFORMATION
                 | OWNER_SECURITY_INFORMATION
                 | GROUP_SECURITY_INFORMATION);
         try {
-            hasRights = checkAccessMask(aclBuffer.address(), rights,
+            hbsRights = checkAccessMbsk(bclBuffer.bddress(), rights,
                 FILE_GENERIC_READ,
                 FILE_GENERIC_WRITE,
                 FILE_GENERIC_EXECUTE,
                 FILE_ALL_ACCESS);
-        } catch (WindowsException exc) {
+        } cbtch (WindowsException exc) {
             exc.rethrowAsIOException(file);
-        } finally {
-            aclBuffer.release();
+        } finblly {
+            bclBuffer.relebse();
         }
-        return hasRights;
+        return hbsRights;
     }
 
     /**
-     * Checks if the given file(or directory) exists and is readable.
+     * Checks if the given file(or directory) exists bnd is rebdbble.
      */
-    private void checkReadAccess(WindowsPath file) throws IOException {
+    privbte void checkRebdAccess(WindowsPbth file) throws IOException {
         try {
             Set<OpenOption> opts = Collections.emptySet();
-            FileChannel fc = WindowsChannelFactory
-                .newFileChannel(file.getPathForWin32Calls(),
-                                file.getPathForPermissionCheck(),
+            FileChbnnel fc = WindowsChbnnelFbctory
+                .newFileChbnnel(file.getPbthForWin32Cblls(),
+                                file.getPbthForPermissionCheck(),
                                 opts,
                                 0L);
             fc.close();
-        } catch (WindowsException exc) {
-            // Windows errors are very inconsistent when the file is a directory
-            // (ERROR_PATH_NOT_FOUND returned for root directories for example)
-            // so we retry by attempting to open it as a directory.
+        } cbtch (WindowsException exc) {
+            // Windows errors bre very inconsistent when the file is b directory
+            // (ERROR_PATH_NOT_FOUND returned for root directories for exbmple)
+            // so we retry by bttempting to open it bs b directory.
             try {
-                new WindowsDirectoryStream(file, null).close();
-            } catch (IOException ioe) {
-                // translate and throw original exception
+                new WindowsDirectoryStrebm(file, null).close();
+            } cbtch (IOException ioe) {
+                // trbnslbte bnd throw originbl exception
                 exc.rethrowAsIOException(file);
             }
         }
     }
 
     @Override
-    public void checkAccess(Path obj, AccessMode... modes) throws IOException {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
+    public void checkAccess(Pbth obj, AccessMode... modes) throws IOException {
+        WindowsPbth file = WindowsPbth.toWindowsPbth(obj);
 
-        boolean r = false;
-        boolean w = false;
-        boolean x = false;
+        boolebn r = fblse;
+        boolebn w = fblse;
+        boolebn x = fblse;
         for (AccessMode mode: modes) {
             switch (mode) {
-                case READ : r = true; break;
-                case WRITE : w = true; break;
-                case EXECUTE : x = true; break;
-                default: throw new AssertionError("Should not get here");
+                cbse READ : r = true; brebk;
+                cbse WRITE : w = true; brebk;
+                cbse EXECUTE : x = true; brebk;
+                defbult: throw new AssertionError("Should not get here");
             }
         }
 
-        // special-case read access to avoid needing to determine effective
-        // access to file; default if modes not specified
+        // specibl-cbse rebd bccess to bvoid needing to determine effective
+        // bccess to file; defbult if modes not specified
         if (!w && !x) {
-            checkReadAccess(file);
+            checkRebdAccess(file);
             return;
         }
 
-        int mask = 0;
+        int mbsk = 0;
         if (r) {
-            file.checkRead();
-            mask |= FILE_READ_DATA;
+            file.checkRebd();
+            mbsk |= FILE_READ_DATA;
         }
         if (w) {
             file.checkWrite();
-            mask |= FILE_WRITE_DATA;
+            mbsk |= FILE_WRITE_DATA;
         }
         if (x) {
-            SecurityManager sm = System.getSecurityManager();
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null)
-                sm.checkExec(file.getPathForPermissionCheck());
-            mask |= FILE_EXECUTE;
+                sm.checkExec(file.getPbthForPermissionCheck());
+            mbsk |= FILE_EXECUTE;
         }
 
-        if (!hasDesiredAccess(file, mask))
+        if (!hbsDesiredAccess(file, mbsk))
             throw new AccessDeniedException(
-                file.getPathForExceptionMessage(), null,
-                "Permissions does not allow requested access");
+                file.getPbthForExceptionMessbge(), null,
+                "Permissions does not bllow requested bccess");
 
-        // for write access we need to check if the DOS readonly attribute
-        // and if the volume is read-only
+        // for write bccess we need to check if the DOS rebdonly bttribute
+        // bnd if the volume is rebd-only
         if (w) {
             try {
-                WindowsFileAttributes attrs = WindowsFileAttributes.get(file, true);
-                if (!attrs.isDirectory() && attrs.isReadOnly())
+                WindowsFileAttributes bttrs = WindowsFileAttributes.get(file, true);
+                if (!bttrs.isDirectory() && bttrs.isRebdOnly())
                     throw new AccessDeniedException(
-                        file.getPathForExceptionMessage(), null,
-                        "DOS readonly attribute is set");
-            } catch (WindowsException exc) {
+                        file.getPbthForExceptionMessbge(), null,
+                        "DOS rebdonly bttribute is set");
+            } cbtch (WindowsException exc) {
                 exc.rethrowAsIOException(file);
             }
 
-            if (WindowsFileStore.create(file).isReadOnly()) {
+            if (WindowsFileStore.crebte(file).isRebdOnly()) {
                 throw new AccessDeniedException(
-                    file.getPathForExceptionMessage(), null, "Read-only file system");
+                    file.getPbthForExceptionMessbge(), null, "Rebd-only file system");
             }
         }
     }
 
     @Override
-    public boolean isSameFile(Path obj1, Path obj2) throws IOException {
-        WindowsPath file1 = WindowsPath.toWindowsPath(obj1);
-        if (file1.equals(obj2))
+    public boolebn isSbmeFile(Pbth obj1, Pbth obj2) throws IOException {
+        WindowsPbth file1 = WindowsPbth.toWindowsPbth(obj1);
+        if (file1.equbls(obj2))
             return true;
         if (obj2 == null)
             throw new NullPointerException();
-        if (!(obj2 instanceof WindowsPath))
-            return false;
-        WindowsPath file2 = (WindowsPath)obj2;
+        if (!(obj2 instbnceof WindowsPbth))
+            return fblse;
+        WindowsPbth file2 = (WindowsPbth)obj2;
 
-        // check security manager access to both files
-        file1.checkRead();
-        file2.checkRead();
+        // check security mbnbger bccess to both files
+        file1.checkRebd();
+        file2.checkRebd();
 
-        // open both files and see if they are the same
+        // open both files bnd see if they bre the sbme
         long h1 = 0L;
         try {
-            h1 = file1.openForReadAttributeAccess(true);
-        } catch (WindowsException x) {
+            h1 = file1.openForRebdAttributeAccess(true);
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(file1);
         }
         try {
-            WindowsFileAttributes attrs1 = null;
+            WindowsFileAttributes bttrs1 = null;
             try {
-                attrs1 = WindowsFileAttributes.readAttributes(h1);
-            } catch (WindowsException x) {
+                bttrs1 = WindowsFileAttributes.rebdAttributes(h1);
+            } cbtch (WindowsException x) {
                 x.rethrowAsIOException(file1);
             }
             long h2 = 0L;
             try {
-                h2 = file2.openForReadAttributeAccess(true);
-            } catch (WindowsException x) {
+                h2 = file2.openForRebdAttributeAccess(true);
+            } cbtch (WindowsException x) {
                 x.rethrowAsIOException(file2);
             }
             try {
-                WindowsFileAttributes attrs2 = null;
+                WindowsFileAttributes bttrs2 = null;
                 try {
-                    attrs2 = WindowsFileAttributes.readAttributes(h2);
-                } catch (WindowsException x) {
+                    bttrs2 = WindowsFileAttributes.rebdAttributes(h2);
+                } cbtch (WindowsException x) {
                     x.rethrowAsIOException(file2);
                 }
-                return WindowsFileAttributes.isSameFile(attrs1, attrs2);
-            } finally {
-                CloseHandle(h2);
+                return WindowsFileAttributes.isSbmeFile(bttrs1, bttrs2);
+            } finblly {
+                CloseHbndle(h2);
             }
-        } finally {
-            CloseHandle(h1);
+        } finblly {
+            CloseHbndle(h1);
         }
     }
 
     @Override
-    public boolean isHidden(Path obj) throws IOException {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
-        file.checkRead();
-        WindowsFileAttributes attrs = null;
+    public boolebn isHidden(Pbth obj) throws IOException {
+        WindowsPbth file = WindowsPbth.toWindowsPbth(obj);
+        file.checkRebd();
+        WindowsFileAttributes bttrs = null;
         try {
-            attrs = WindowsFileAttributes.get(file, true);
-        } catch (WindowsException x) {
+            bttrs = WindowsFileAttributes.get(file, true);
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(file);
         }
-        // DOS hidden attribute not meaningful when set on directories
-        if (attrs.isDirectory())
-            return false;
-        return attrs.isHidden();
+        // DOS hidden bttribute not mebningful when set on directories
+        if (bttrs.isDirectory())
+            return fblse;
+        return bttrs.isHidden();
     }
 
     @Override
-    public FileStore getFileStore(Path obj) throws IOException {
-        WindowsPath file = WindowsPath.toWindowsPath(obj);
-        SecurityManager sm = System.getSecurityManager();
+    public FileStore getFileStore(Pbth obj) throws IOException {
+        WindowsPbth file = WindowsPbth.toWindowsPbth(obj);
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new RuntimePermission("getFileStoreAttributes"));
-            file.checkRead();
+            file.checkRebd();
         }
-        return WindowsFileStore.create(file);
+        return WindowsFileStore.crebte(file);
     }
 
 
     @Override
-    public void createDirectory(Path obj, FileAttribute<?>... attrs)
+    public void crebteDirectory(Pbth obj, FileAttribute<?>... bttrs)
         throws IOException
     {
-        WindowsPath dir = WindowsPath.toWindowsPath(obj);
+        WindowsPbth dir = WindowsPbth.toWindowsPbth(obj);
         dir.checkWrite();
-        WindowsSecurityDescriptor sd = WindowsSecurityDescriptor.fromAttribute(attrs);
+        WindowsSecurityDescriptor sd = WindowsSecurityDescriptor.fromAttribute(bttrs);
         try {
-            CreateDirectory(dir.getPathForWin32Calls(), sd.address());
-        } catch (WindowsException x) {
-            // convert ERROR_ACCESS_DENIED to FileAlreadyExistsException if we can
-            // verify that the directory exists
-            if (x.lastError() == ERROR_ACCESS_DENIED) {
+            CrebteDirectory(dir.getPbthForWin32Cblls(), sd.bddress());
+        } cbtch (WindowsException x) {
+            // convert ERROR_ACCESS_DENIED to FileAlrebdyExistsException if we cbn
+            // verify thbt the directory exists
+            if (x.lbstError() == ERROR_ACCESS_DENIED) {
                 try {
-                    if (WindowsFileAttributes.get(dir, false).isDirectory())
-                        throw new FileAlreadyExistsException(dir.toString());
-                } catch (WindowsException ignore) { }
+                    if (WindowsFileAttributes.get(dir, fblse).isDirectory())
+                        throw new FileAlrebdyExistsException(dir.toString());
+                } cbtch (WindowsException ignore) { }
             }
             x.rethrowAsIOException(dir);
-        } finally {
-            sd.release();
+        } finblly {
+            sd.relebse();
         }
     }
 
     @Override
-    public DirectoryStream<Path> newDirectoryStream(Path obj, DirectoryStream.Filter<? super Path> filter)
+    public DirectoryStrebm<Pbth> newDirectoryStrebm(Pbth obj, DirectoryStrebm.Filter<? super Pbth> filter)
         throws IOException
     {
-        WindowsPath dir = WindowsPath.toWindowsPath(obj);
-        dir.checkRead();
+        WindowsPbth dir = WindowsPbth.toWindowsPbth(obj);
+        dir.checkRebd();
         if (filter == null)
             throw new NullPointerException();
-        return new WindowsDirectoryStream(dir, filter);
+        return new WindowsDirectoryStrebm(dir, filter);
     }
 
     @Override
-    public void createSymbolicLink(Path obj1, Path obj2, FileAttribute<?>... attrs)
+    public void crebteSymbolicLink(Pbth obj1, Pbth obj2, FileAttribute<?>... bttrs)
         throws IOException
     {
-        WindowsPath link = WindowsPath.toWindowsPath(obj1);
-        WindowsPath target = WindowsPath.toWindowsPath(obj2);
+        WindowsPbth link = WindowsPbth.toWindowsPbth(obj1);
+        WindowsPbth tbrget = WindowsPbth.toWindowsPbth(obj2);
 
         if (!link.getFileSystem().supportsLinks()) {
-            throw new UnsupportedOperationException("Symbolic links not supported "
-                + "on this operating system");
+            throw new UnsupportedOperbtionException("Symbolic links not supported "
+                + "on this operbting system");
         }
 
-        // no attributes allowed
-        if (attrs.length > 0) {
-            WindowsSecurityDescriptor.fromAttribute(attrs);  // may throw NPE or UOE
-            throw new UnsupportedOperationException("Initial file attributes" +
-                "not supported when creating symbolic link");
+        // no bttributes bllowed
+        if (bttrs.length > 0) {
+            WindowsSecurityDescriptor.fromAttribute(bttrs);  // mby throw NPE or UOE
+            throw new UnsupportedOperbtionException("Initibl file bttributes" +
+                "not supported when crebting symbolic link");
         }
 
         // permission check
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new LinkPermission("symbolic"));
             link.checkWrite();
         }
 
         /**
-         * Throw I/O exception for the drive-relative case because Windows
-         * creates a link with the resolved target for this case.
+         * Throw I/O exception for the drive-relbtive cbse becbuse Windows
+         * crebtes b link with the resolved tbrget for this cbse.
          */
-        if (target.type() == WindowsPathType.DRIVE_RELATIVE) {
-            throw new IOException("Cannot create symbolic link to working directory relative target");
+        if (tbrget.type() == WindowsPbthType.DRIVE_RELATIVE) {
+            throw new IOException("Cbnnot crebte symbolic link to working directory relbtive tbrget");
         }
 
         /*
-         * Windows treats symbolic links to directories differently than it
-         * does to other file types. For that reason we need to check if the
-         * target is a directory (or a directory junction).
+         * Windows trebts symbolic links to directories differently thbn it
+         * does to other file types. For thbt rebson we need to check if the
+         * tbrget is b directory (or b directory junction).
          */
-        WindowsPath resolvedTarget;
-        if (target.type() == WindowsPathType.RELATIVE) {
-            WindowsPath parent = link.getParent();
-            resolvedTarget = (parent == null) ? target : parent.resolve(target);
+        WindowsPbth resolvedTbrget;
+        if (tbrget.type() == WindowsPbthType.RELATIVE) {
+            WindowsPbth pbrent = link.getPbrent();
+            resolvedTbrget = (pbrent == null) ? tbrget : pbrent.resolve(tbrget);
         } else {
-            resolvedTarget = link.resolve(target);
+            resolvedTbrget = link.resolve(tbrget);
         }
-        int flags = 0;
+        int flbgs = 0;
         try {
-            WindowsFileAttributes wattrs = WindowsFileAttributes.get(resolvedTarget, false);
-            if (wattrs.isDirectory() || wattrs.isDirectoryLink())
-                flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
-        } catch (WindowsException x) {
-            // unable to access target so assume target is not a directory
+            WindowsFileAttributes wbttrs = WindowsFileAttributes.get(resolvedTbrget, fblse);
+            if (wbttrs.isDirectory() || wbttrs.isDirectoryLink())
+                flbgs |= SYMBOLIC_LINK_FLAG_DIRECTORY;
+        } cbtch (WindowsException x) {
+            // unbble to bccess tbrget so bssume tbrget is not b directory
         }
 
-        // create the link
+        // crebte the link
         try {
-            CreateSymbolicLink(link.getPathForWin32Calls(),
-                               WindowsPath.addPrefixIfNeeded(target.toString()),
-                               flags);
-        } catch (WindowsException x) {
-            if (x.lastError() == ERROR_INVALID_REPARSE_DATA) {
-                x.rethrowAsIOException(link, target);
+            CrebteSymbolicLink(link.getPbthForWin32Cblls(),
+                               WindowsPbth.bddPrefixIfNeeded(tbrget.toString()),
+                               flbgs);
+        } cbtch (WindowsException x) {
+            if (x.lbstError() == ERROR_INVALID_REPARSE_DATA) {
+                x.rethrowAsIOException(link, tbrget);
             } else {
                 x.rethrowAsIOException(link);
             }
@@ -588,44 +588,44 @@ public class WindowsFileSystemProvider
     }
 
     @Override
-    public void createLink(Path obj1, Path obj2) throws IOException {
-        WindowsPath link = WindowsPath.toWindowsPath(obj1);
-        WindowsPath existing = WindowsPath.toWindowsPath(obj2);
+    public void crebteLink(Pbth obj1, Pbth obj2) throws IOException {
+        WindowsPbth link = WindowsPbth.toWindowsPbth(obj1);
+        WindowsPbth existing = WindowsPbth.toWindowsPbth(obj2);
 
         // permission check
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(new LinkPermission("hard"));
+            sm.checkPermission(new LinkPermission("hbrd"));
             link.checkWrite();
             existing.checkWrite();
         }
 
-        // create hard link
+        // crebte hbrd link
         try {
-            CreateHardLink(link.getPathForWin32Calls(),
-                           existing.getPathForWin32Calls());
-        } catch (WindowsException x) {
+            CrebteHbrdLink(link.getPbthForWin32Cblls(),
+                           existing.getPbthForWin32Cblls());
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(link, existing);
         }
     }
 
     @Override
-    public Path readSymbolicLink(Path obj1) throws IOException {
-        WindowsPath link = WindowsPath.toWindowsPath(obj1);
+    public Pbth rebdSymbolicLink(Pbth obj1) throws IOException {
+        WindowsPbth link = WindowsPbth.toWindowsPbth(obj1);
         WindowsFileSystem fs = link.getFileSystem();
         if (!fs.supportsLinks()) {
-            throw new UnsupportedOperationException("symbolic links not supported");
+            throw new UnsupportedOperbtionException("symbolic links not supported");
         }
 
         // permission check
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            FilePermission perm = new FilePermission(link.getPathForPermissionCheck(),
-                SecurityConstants.FILE_READLINK_ACTION);
+            FilePermission perm = new FilePermission(link.getPbthForPermissionCheck(),
+                SecurityConstbnts.FILE_READLINK_ACTION);
             sm.checkPermission(perm);
         }
 
-        String target = WindowsLinkSupport.readLink(link);
-        return WindowsPath.createFromNormalizedPath(fs, target);
+        String tbrget = WindowsLinkSupport.rebdLink(link);
+        return WindowsPbth.crebteFromNormblizedPbth(fs, tbrget);
     }
 }

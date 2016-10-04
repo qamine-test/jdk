@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
 
-import sun.awt.CGraphicsDevice;
+import sun.bwt.CGrbphicsDevice;
 
-class CRobot implements RobotPeer {
-    private static final int MOUSE_LOCATION_UNKNOWN      = -1;
+clbss CRobot implements RobotPeer {
+    privbte stbtic finbl int MOUSE_LOCATION_UNKNOWN      = -1;
 
-    private final CGraphicsDevice fDevice;
-    private int mouseLastX = MOUSE_LOCATION_UNKNOWN;
-    private int mouseLastY = MOUSE_LOCATION_UNKNOWN;
+    privbte finbl CGrbphicsDevice fDevice;
+    privbte int mouseLbstX = MOUSE_LOCATION_UNKNOWN;
+    privbte int mouseLbstY = MOUSE_LOCATION_UNKNOWN;
 
-    // OS X doesn't generate dragged event as a result of button press and
-    // mouse move events. This means that we have to track buttons state
-    // in order to generate dragged events ourselves.
-    private int mouseButtonsState = 0;
+    // OS X doesn't generbte drbgged event bs b result of button press bnd
+    // mouse move events. This mebns thbt we hbve to trbck buttons stbte
+    // in order to generbte drbgged events ourselves.
+    privbte int mouseButtonsStbte = 0;
 
     /**
-     * Uses the given GraphicsDevice as the coordinate system for subsequent
-     * coordinate calls.
+     * Uses the given GrbphicsDevice bs the coordinbte system for subsequent
+     * coordinbte cblls.
      */
-    public CRobot(Robot r, CGraphicsDevice d) {
+    public CRobot(Robot r, CGrbphicsDevice d) {
         fDevice = d;
         initRobot();
     }
@@ -56,120 +56,120 @@ class CRobot implements RobotPeer {
     }
 
     /**
-     * Moves mouse pointer to given screen coordinates.
-     * @param x X position
-     * @param y Y position
+     * Moves mouse pointer to given screen coordinbtes.
+     * @pbrbm x X position
+     * @pbrbm y Y position
      */
     @Override
     public void mouseMove(int x, int y) {
-        mouseLastX = x;
-        mouseLastY = y;
+        mouseLbstX = x;
+        mouseLbstY = y;
 
-        mouseEvent(fDevice.getCGDisplayID(), mouseLastX, mouseLastY,
-                   mouseButtonsState, true, true);
+        mouseEvent(fDevice.getCGDisplbyID(), mouseLbstX, mouseLbstY,
+                   mouseButtonsStbte, true, true);
     }
 
     /**
      * Presses one or more mouse buttons.
      *
-     * @param buttons the button mask (combination of
+     * @pbrbm buttons the button mbsk (combinbtion of
      * <code>InputEvent.BUTTON1/2/3_MASK</code>)
      */
     @Override
     public void mousePress(int buttons) {
-        mouseButtonsState |= buttons;
+        mouseButtonsStbte |= buttons;
 
-        mouseEvent(fDevice.getCGDisplayID(), mouseLastX, mouseLastY,
-                   buttons, true, false);
+        mouseEvent(fDevice.getCGDisplbyID(), mouseLbstX, mouseLbstY,
+                   buttons, true, fblse);
     }
 
     /**
-     * Releases one or more mouse buttons.
+     * Relebses one or more mouse buttons.
      *
-     * @param buttons the button mask (combination of
+     * @pbrbm buttons the button mbsk (combinbtion of
      * <code>InputEvent.BUTTON1/2/3_MASK</code>)
      */
     @Override
-    public void mouseRelease(int buttons) {
-        mouseButtonsState &= ~buttons;
+    public void mouseRelebse(int buttons) {
+        mouseButtonsStbte &= ~buttons;
 
-        mouseEvent(fDevice.getCGDisplayID(), mouseLastX, mouseLastY,
-                   buttons, false, false);
+        mouseEvent(fDevice.getCGDisplbyID(), mouseLbstX, mouseLbstY,
+                   buttons, fblse, fblse);
     }
 
     @Override
-    public native void mouseWheel(int wheelAmt);
+    public nbtive void mouseWheel(int wheelAmt);
 
     /**
-     * Presses a given key.
+     * Presses b given key.
      * <p>
-     * Key codes that have more than one physical key associated with them
-     * (e.g. <code>KeyEvent.VK_SHIFT</code> could mean either the
-     * left or right shift key) will map to the left key.
+     * Key codes thbt hbve more thbn one physicbl key bssocibted with them
+     * (e.g. <code>KeyEvent.VK_SHIFT</code> could mebn either the
+     * left or right shift key) will mbp to the left key.
      * <p>
-     * Assumes that the
-     * peer implementations will throw an exception for other bogus
-     * values e.g. -1, 999999
+     * Assumes thbt the
+     * peer implementbtions will throw bn exception for other bogus
+     * vblues e.g. -1, 999999
      *
-     * @param keycode the key to press (e.g. <code>KeyEvent.VK_A</code>)
+     * @pbrbm keycode the key to press (e.g. <code>KeyEvent.VK_A</code>)
      */
     @Override
-    public void keyPress(final int keycode) {
+    public void keyPress(finbl int keycode) {
         keyEvent(keycode, true);
     }
 
     /**
-     * Releases a given key.
+     * Relebses b given key.
      * <p>
-     * Key codes that have more than one physical key associated with them
-     * (e.g. <code>KeyEvent.VK_SHIFT</code> could mean either the
-     * left or right shift key) will map to the left key.
+     * Key codes thbt hbve more thbn one physicbl key bssocibted with them
+     * (e.g. <code>KeyEvent.VK_SHIFT</code> could mebn either the
+     * left or right shift key) will mbp to the left key.
      * <p>
-     * Assumes that the
-     * peer implementations will throw an exception for other bogus
-     * values e.g. -1, 999999
+     * Assumes thbt the
+     * peer implementbtions will throw bn exception for other bogus
+     * vblues e.g. -1, 999999
      *
-     * @param keycode the key to release (e.g. <code>KeyEvent.VK_A</code>)
+     * @pbrbm keycode the key to relebse (e.g. <code>KeyEvent.VK_A</code>)
      */
     @Override
-    public void keyRelease(final int keycode) {
-        keyEvent(keycode, false);
+    public void keyRelebse(finbl int keycode) {
+        keyEvent(keycode, fblse);
     }
 
     /**
-     * Returns the color of a pixel at the given screen coordinates.
-     * @param x X position of pixel
-     * @param y Y position of pixel
+     * Returns the color of b pixel bt the given screen coordinbtes.
+     * @pbrbm x X position of pixel
+     * @pbrbm y Y position of pixel
      * @return color of the pixel
      */
     @Override
     public int getRGBPixel(int x, int y) {
         int c[] = new int[1];
-        getScreenPixels(new Rectangle(x, y, 1, 1), c);
+        getScreenPixels(new Rectbngle(x, y, 1, 1), c);
         return c[0];
     }
 
     /**
-     * Creates an image containing pixels read from the screen.
-     * @param bounds the rect to capture in screen coordinates
-     * @return the array of pixels
+     * Crebtes bn imbge contbining pixels rebd from the screen.
+     * @pbrbm bounds the rect to cbpture in screen coordinbtes
+     * @return the brrby of pixels
      */
     @Override
-    public int [] getRGBPixels(final Rectangle bounds) {
+    public int [] getRGBPixels(finbl Rectbngle bounds) {
         int c[] = new int[bounds.width * bounds.height];
         getScreenPixels(bounds, c);
 
         return c;
     }
 
-    private native void initRobot();
-    private native void mouseEvent(int displayID, int lastX, int lastY,
-                                   int buttonsState,
-                                   boolean isButtonsDownState,
-                                   boolean isMouseMove);
-    private native void keyEvent(int javaKeyCode, boolean keydown);
-    private void getScreenPixels(Rectangle r, int[] pixels){
-        nativeGetScreenPixels(r.x, r.y, r.width, r.height, pixels);
+    privbte nbtive void initRobot();
+    privbte nbtive void mouseEvent(int displbyID, int lbstX, int lbstY,
+                                   int buttonsStbte,
+                                   boolebn isButtonsDownStbte,
+                                   boolebn isMouseMove);
+    privbte nbtive void keyEvent(int jbvbKeyCode, boolebn keydown);
+    privbte void getScreenPixels(Rectbngle r, int[] pixels){
+        nbtiveGetScreenPixels(r.x, r.y, r.width, r.height, pixels);
     }
-    private native void nativeGetScreenPixels(int x, int y, int width, int height, int[] pixels);
+    privbte nbtive void nbtiveGetScreenPixels(int x, int y, int width, int height, int[] pixels);
 }

@@ -1,50 +1,50 @@
 /*
- * @(#)file      Parser.jjt
- * @(#)author    Sun Microsystems, Inc.
+ * @(#)file      Pbrser.jjt
+ * @(#)buthor    Sun Microsystems, Inc.
  *
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
 
 options {
   MULTI=true;
-  STATIC=false;
+  STATIC=fblse;
   NODE_PREFIX= "JDM";
   NODE_PACKAGE="com.sun.jmx.snmp.IPAcl";
 }
 
 
-PARSER_BEGIN(Parser)
+PARSER_BEGIN(Pbrser)
 
-package com.sun.jmx.snmp.IPAcl;
+pbckbge com.sun.jmx.snmp.IPAcl;
 
-import java.io.*;
+import jbvb.io.*;
 
-public class Parser {
+public clbss Pbrser {
 }
 
-PARSER_END(Parser)
+PARSER_END(Pbrser)
 
 
 SKIP :
@@ -64,23 +64,23 @@ SKIP :
 
 TOKEN : 
 {
-  <ACCESS: "access">
-| <ACL: "acl">
+  <ACCESS: "bccess">
+| <ACL: "bcl">
 | <ASSIGN: "=">
 | <COMMUNITIES: "communities">
 | <ENTERPRISE: "enterprise">
 | <HOSTS: "hosts">
 | <LBRACE: "{">
-| <MANAGERS: "managers">
+| <MANAGERS: "mbnbgers">
 | <RANGE: "-">
 | <RBRACE: "}">
-| <RO: "read-only">
-| <RW: "read-write">
-| <TRAP: "trap">
+| <RO: "rebd-only">
+| <RW: "rebd-write">
+| <TRAP: "trbp">
 | <INFORM: "inform">
-| <TRAPCOMMUNITY: "trap-community">
+| <TRAPCOMMUNITY: "trbp-community">
 | <INFORMCOMMUNITY: "inform-community">
-| <TRAPNUM: "trap-num">
+| <TRAPNUM: "trbp-num">
 }
 
 
@@ -95,7 +95,7 @@ TOKEN : /* LITERALS */
 |
   < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
 |
-  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
 |      
   < #OCTAL_LITERAL: "0" (["0"-"7"])* >
 }
@@ -104,7 +104,7 @@ TOKEN : /* V6 LITERALS */
 { 
   < V6_ADDRESS: ((( ( (<H> ":")+ (":")?) | "::" ) (<H> ":")* (<H> | (<D> "." <D> "." <D> "." <D>))) | ("::")) | ( (<H> ":")+ ":") >
 |
-  <#H: (["0"-"9","a"-"f","A"-"F"])+ >
+  <#H: (["0"-"9","b"-"f","A"-"F"])+ >
 | 
   <#D: (["0"-"9"])+ >
 }
@@ -113,7 +113,7 @@ TOKEN : /* IDENTIFIERS */
 {
   < IDENTIFIER: ( (<DIGIT>|<LETTER>)+ (<SEPARATOR>|<LETTER>|<DIGIT>)* (<DIGIT>|<LETTER>)+ ) | (<DIGIT>|<LETTER>)+ >
 |
-  < #LETTER: ["a"-"z","A"-"Z"] >
+  < #LETTER: ["b"-"z","A"-"Z"] >
 |
   < #SEPARATOR: ["-", "_"] >
 |
@@ -132,12 +132,12 @@ TOKEN: /* SEPARATOR */
 | < MASK: "/">
 }
 
-// A file can contain several acl definitions
+// A file cbn contbin severbl bcl definitions
 //
 JDMSecurityDefs SecurityDefs()  : {}
 {
   [AclBlock()]
-  [TrapBlock()]
+  [TrbpBlock()]
   [InformBlock()]
   <EOF>
   { return jjtThis;}
@@ -145,12 +145,12 @@ JDMSecurityDefs SecurityDefs()  : {}
 
 void AclBlock(): {}
 {
-"acl" "=" "{" (AclItem())+ "}"
+"bcl" "=" "{" (AclItem())+ "}"
 }
 
 void AclItem(): {}
 {
-"{" jjtThis.com= Communities() jjtThis.access= Access() Managers() "}"
+"{" jjtThis.com= Communities() jjtThis.bccess= Access() Mbnbgers() "}"
 }
 
 JDMCommunities Communities(): {}
@@ -166,22 +166,22 @@ void Community():
   Token t;
 }
 {
-t=<IDENTIFIER> {jjtThis.communityString= t.image;}
+t=<IDENTIFIER> {jjtThis.communityString= t.imbge;}
 }
 
 JDMAccess Access(): {}
 {
-"access" "=" ( <RO> {jjtThis.access= RO;}
+"bccess" "=" ( <RO> {jjtThis.bccess= RO;}
               |
-               <RW> {jjtThis.access= RW;}
+               <RW> {jjtThis.bccess= RW;}
              )
 {return jjtThis;}
 }
 
 
-void Managers() : { }
+void Mbnbgers() : { }
 {
-"managers" "=" Host() ( "," Host())*
+"mbnbgers" "=" Host() ( "," Host())*
 }
 
 void Host() : 
@@ -189,31 +189,31 @@ void Host() :
   Token t;
 }
 {
-HostName()
+HostNbme()
 |
 LOOKAHEAD(<INTEGER_LITERAL> ( "." <INTEGER_LITERAL> )* "/" <INTEGER_LITERAL>)
-NetMask()
+NetMbsk()
 |
 LOOKAHEAD(<V6_ADDRESS> "/" <INTEGER_LITERAL>)
-NetMaskV6()
+NetMbskV6()
 |
 LOOKAHEAD(<INTEGER_LITERAL> ".")
 IpAddress()
 |
 IpV6Address()
 |
-IpMask()
+IpMbsk()
 }
 
-void HostName():
+void HostNbme():
 {
   Token t;
 }
 {
-  t=<IDENTIFIER> { jjtThis.name.append(t.image); }
+  t=<IDENTIFIER> { jjtThis.nbme.bppend(t.imbge); }
 (
 "." t=<IDENTIFIER> 
-  {jjtThis.name.append( "." + t.image); }
+  {jjtThis.nbme.bppend( "." + t.imbge); }
 )*
 
 }
@@ -225,10 +225,10 @@ Token t;
 {
 
 t= <INTEGER_LITERAL> 
-  {jjtThis.address.append(t.image); }
+  {jjtThis.bddress.bppend(t.imbge); }
 (
 "." t= <INTEGER_LITERAL> 
-  {jjtThis.address.append( "." + t.image); }
+  {jjtThis.bddress.bppend( "." + t.imbge); }
 )*
 
 }
@@ -240,78 +240,78 @@ Token t;
 {
 
 t= <V6_ADDRESS> 
-  {jjtThis.address.append(t.image); }
+  {jjtThis.bddress.bppend(t.imbge); }
 }
 
-void IpMask():
+void IpMbsk():
 {
 Token t;
 }
 {
 
 t= <INTEGER_LITERAL> 
-  {jjtThis.address.append(t.image); }
+  {jjtThis.bddress.bppend(t.imbge); }
 (
 "!" t= <INTEGER_LITERAL> 
-  {jjtThis.address.append( "." + t.image); }
+  {jjtThis.bddress.bppend( "." + t.imbge); }
 )*
 }
 
-void NetMask():
+void NetMbsk():
 {
 Token t;
 }
 {
 
 t= <INTEGER_LITERAL> 
-  {jjtThis.address.append(t.image); }
+  {jjtThis.bddress.bppend(t.imbge); }
 (
 "." t= <INTEGER_LITERAL> 
-  {jjtThis.address.append( "." + t.image); }
-)* "/" t= <INTEGER_LITERAL> {jjtThis.mask = t.image; }
+  {jjtThis.bddress.bppend( "." + t.imbge); }
+)* "/" t= <INTEGER_LITERAL> {jjtThis.mbsk = t.imbge; }
 }
 
-void NetMaskV6():
+void NetMbskV6():
 {
 Token t;
 }
 {
 
 t= <V6_ADDRESS> 
-  {jjtThis.address.append(t.image); }
+  {jjtThis.bddress.bppend(t.imbge); }
 
-"/" t= <INTEGER_LITERAL> {jjtThis.mask = t.image; }
+"/" t= <INTEGER_LITERAL> {jjtThis.mbsk = t.imbge; }
 }
 
-void TrapBlock(): { }
+void TrbpBlock(): { }
 {
-"trap" "=" "{" (TrapItem())* "}"
+"trbp" "=" "{" (TrbpItem())* "}"
 }
 
-void TrapItem(): { }
+void TrbpItem(): { }
 {
-"{" jjtThis.comm= TrapCommunity() TrapInterestedHost() (Enterprise())* "}"
+"{" jjtThis.comm= TrbpCommunity() TrbpInterestedHost() (Enterprise())* "}"
 }
 
-JDMTrapCommunity TrapCommunity(): 
+JDMTrbpCommunity TrbpCommunity(): 
 {
   Token t;
 }
 {
-"trap-community" "=" t=<IDENTIFIER> { jjtThis.community= t.image; return jjtThis; }
+"trbp-community" "=" t=<IDENTIFIER> { jjtThis.community= t.imbge; return jjtThis; }
 }
 
-void TrapInterestedHost(): { }
+void TrbpInterestedHost(): { }
 {
-"hosts" "=" HostTrap() ("," HostTrap())*
+"hosts" "=" HostTrbp() ("," HostTrbp())*
 }
 
-void HostTrap() : 
+void HostTrbp() : 
 {
   Token t;
 }
 {
-HostName()
+HostNbme()
 |
 IpAddress()
 |
@@ -324,21 +324,21 @@ void Enterprise():
 }
 {
 "{"
-"enterprise" "="  t=<CSTRING> {jjtThis.enterprise= t.image;}
+"enterprise" "="  t=<CSTRING> {jjtThis.enterprise= t.imbge;}
 
-"trap-num" "=" TrapNum() ("," TrapNum())*
+"trbp-num" "=" TrbpNum() ("," TrbpNum())*
 
 "}"
 }
 
-void TrapNum():
+void TrbpNum():
 {
   Token t;
 }
 {
-  t=<INTEGER_LITERAL> {jjtThis.low= Integer.parseInt(t.image);}
+  t=<INTEGER_LITERAL> {jjtThis.low= Integer.pbrseInt(t.imbge);}
 [
-  "-" t=<INTEGER_LITERAL> {jjtThis.high= Integer.parseInt(t.image);}
+  "-" t=<INTEGER_LITERAL> {jjtThis.high= Integer.pbrseInt(t.imbge);}
 ]
 }
 
@@ -358,7 +358,7 @@ JDMInformCommunity InformCommunity():
   Token t;
 }
 {
-"inform-community" "=" t=<IDENTIFIER> { jjtThis.community= t.image; return jjtThis; }
+"inform-community" "=" t=<IDENTIFIER> { jjtThis.community= t.imbge; return jjtThis; }
 }
 
 void InformInterestedHost(): { }
@@ -371,7 +371,7 @@ void HostInform() :
   Token t;
 }
 {
-HostName()
+HostNbme()
 |
 IpAddress()
 |

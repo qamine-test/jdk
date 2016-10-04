@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 2004, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.swing;
+pbckbge sun.swing;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import jbvb.util.*;
 
 /**
- * A base class used for icons or images that are expensive to paint.
- * A subclass will do the following:
+ * A bbse clbss used for icons or imbges thbt bre expensive to pbint.
+ * A subclbss will do the following:
  * <ol>
- * <li>Invoke <code>paint</code> when you want to paint the image,
- *     if you are implementing <code>Icon</code> you'll invoke this from
- *     <code>paintIcon</code>.
- *     The args argument is useful when additional state is needed.
- * <li>Override <code>paintToImage</code> to render the image.  The code that
- *     lives here is equivalent to what previously would go in
- *     <code>paintIcon</code>, for an <code>Icon</code>.
+ * <li>Invoke <code>pbint</code> when you wbnt to pbint the imbge,
+ *     if you bre implementing <code>Icon</code> you'll invoke this from
+ *     <code>pbintIcon</code>.
+ *     The brgs brgument is useful when bdditionbl stbte is needed.
+ * <li>Override <code>pbintToImbge</code> to render the imbge.  The code thbt
+ *     lives here is equivblent to whbt previously would go in
+ *     <code>pbintIcon</code>, for bn <code>Icon</code>.
  * </ol>
- * The two ways to use this class are:
+ * The two wbys to use this clbss bre:
  * <ol>
- * <li>Invoke <code>paint</code> to draw the cached reprensentation at
- *     the specified location.
- * <li>Invoke <code>getImage</code> to get the cached reprensentation and
- *     draw the image yourself.  This is primarly useful when you are not
- *     using <code>VolatileImage</code>.
+ * <li>Invoke <code>pbint</code> to drbw the cbched reprensentbtion bt
+ *     the specified locbtion.
+ * <li>Invoke <code>getImbge</code> to get the cbched reprensentbtion bnd
+ *     drbw the imbge yourself.  This is primbrly useful when you bre not
+ *     using <code>VolbtileImbge</code>.
  * </ol>
  *
  *
  */
-public abstract class CachedPainter {
-    // CacheMap maps from class to ImageCache.
-    private static final Map<Object,ImageCache> cacheMap =
-                   new HashMap<Object,ImageCache>();
+public bbstrbct clbss CbchedPbinter {
+    // CbcheMbp mbps from clbss to ImbgeCbche.
+    privbte stbtic finbl Mbp<Object,ImbgeCbche> cbcheMbp =
+                   new HbshMbp<Object,ImbgeCbche>();
 
 
-    private static ImageCache getCache(Object key) {
-        synchronized(CachedPainter.class) {
-            ImageCache cache = cacheMap.get(key);
-            if (cache == null) {
-                cache = new ImageCache(1);
-                cacheMap.put(key, cache);
+    privbte stbtic ImbgeCbche getCbche(Object key) {
+        synchronized(CbchedPbinter.clbss) {
+            ImbgeCbche cbche = cbcheMbp.get(key);
+            if (cbche == null) {
+                cbche = new ImbgeCbche(1);
+                cbcheMbp.put(key, cbche);
             }
-            return cache;
+            return cbche;
         }
     }
 
     /**
-     * Creates an instance of <code>CachedPainter</code> that will cache up
-     * to <code>cacheCount</code> images of this class.
+     * Crebtes bn instbnce of <code>CbchedPbinter</code> thbt will cbche up
+     * to <code>cbcheCount</code> imbges of this clbss.
      *
-     * @param cacheCount Max number of images to cache
+     * @pbrbm cbcheCount Mbx number of imbges to cbche
      */
-    public CachedPainter(int cacheCount) {
-        getCache(getClass()).setMaxCount(cacheCount);
+    public CbchedPbinter(int cbcheCount) {
+        getCbche(getClbss()).setMbxCount(cbcheCount);
     }
 
     /**
-     * Renders the cached image to the the passed in <code>Graphic</code>.
-     * If there is no cached image <code>paintToImage</code> will be invoked.
-     * <code>paintImage</code> is invoked to paint the cached image.
+     * Renders the cbched imbge to the the pbssed in <code>Grbphic</code>.
+     * If there is no cbched imbge <code>pbintToImbge</code> will be invoked.
+     * <code>pbintImbge</code> is invoked to pbint the cbched imbge.
      *
-     * @param c Component rendering to, this may be null.
-     * @param g Graphics to paint to
-     * @param x X-coordinate to render to
-     * @param y Y-coordinate to render to
-     * @param w Width to render in
-     * @param h Height to render in
-     * @param arg Variable arguments that will be passed to paintToImage
+     * @pbrbm c Component rendering to, this mby be null.
+     * @pbrbm g Grbphics to pbint to
+     * @pbrbm x X-coordinbte to render to
+     * @pbrbm y Y-coordinbte to render to
+     * @pbrbm w Width to render in
+     * @pbrbm h Height to render in
+     * @pbrbm brg Vbribble brguments thbt will be pbssed to pbintToImbge
      */
-    public void paint(Component c, Graphics g, int x,
-                         int y, int w, int h, Object... args) {
+    public void pbint(Component c, Grbphics g, int x,
+                         int y, int w, int h, Object... brgs) {
         if (w <= 0 || h <= 0) {
             return;
         }
         if (c != null) {
             synchronized(c.getTreeLock()) {
-                synchronized(CachedPainter.class) {
+                synchronized(CbchedPbinter.clbss) {
                     // If c is non-null, synchronize on the tree lock.
-                    // This is necessary because asking for the
-                    // GraphicsConfiguration will grab a tree lock.
-                    paint0(c, g, x, y, w, h, args);
+                    // This is necessbry becbuse bsking for the
+                    // GrbphicsConfigurbtion will grbb b tree lock.
+                    pbint0(c, g, x, y, w, h, brgs);
                 }
             }
         }
         else {
-            synchronized(CachedPainter.class) {
-                paint0(c, g, x, y, w, h, args);
+            synchronized(CbchedPbinter.clbss) {
+                pbint0(c, g, x, y, w, h, brgs);
             }
         }
     }
 
-    private void paint0(Component c, Graphics g, int x,
-                         int y, int w, int h, Object... args) {
-        Object key = getClass();
-        GraphicsConfiguration config = getGraphicsConfiguration(c);
-        ImageCache cache = getCache(key);
-        Image image = cache.getImage(key, config, w, h, args);
-        int attempts = 0;
+    privbte void pbint0(Component c, Grbphics g, int x,
+                         int y, int w, int h, Object... brgs) {
+        Object key = getClbss();
+        GrbphicsConfigurbtion config = getGrbphicsConfigurbtion(c);
+        ImbgeCbche cbche = getCbche(key);
+        Imbge imbge = cbche.getImbge(key, config, w, h, brgs);
+        int bttempts = 0;
         do {
-            boolean draw = false;
-            if (image instanceof VolatileImage) {
-                // See if we need to recreate the image
-                switch (((VolatileImage)image).validate(config)) {
-                case VolatileImage.IMAGE_INCOMPATIBLE:
-                    ((VolatileImage)image).flush();
-                    image = null;
-                    break;
-                case VolatileImage.IMAGE_RESTORED:
-                    draw = true;
-                    break;
+            boolebn drbw = fblse;
+            if (imbge instbnceof VolbtileImbge) {
+                // See if we need to recrebte the imbge
+                switch (((VolbtileImbge)imbge).vblidbte(config)) {
+                cbse VolbtileImbge.IMAGE_INCOMPATIBLE:
+                    ((VolbtileImbge)imbge).flush();
+                    imbge = null;
+                    brebk;
+                cbse VolbtileImbge.IMAGE_RESTORED:
+                    drbw = true;
+                    brebk;
                 }
             }
-            if (image == null) {
-                // Recreate the image
-                image = createImage(c, w, h, config, args);
-                cache.setImage(key, config, w, h, args, image);
-                draw = true;
+            if (imbge == null) {
+                // Recrebte the imbge
+                imbge = crebteImbge(c, w, h, config, brgs);
+                cbche.setImbge(key, config, w, h, brgs, imbge);
+                drbw = true;
             }
-            if (draw) {
-                // Render to the Image
-                Graphics g2 = image.getGraphics();
-                paintToImage(c, image, g2, w, h, args);
+            if (drbw) {
+                // Render to the Imbge
+                Grbphics g2 = imbge.getGrbphics();
+                pbintToImbge(c, imbge, g2, w, h, brgs);
                 g2.dispose();
             }
 
-            // Render to the passed in Graphics
-            paintImage(c, g, x, y, w, h, image, args);
+            // Render to the pbssed in Grbphics
+            pbintImbge(c, g, x, y, w, h, imbge, brgs);
 
-            // If we did this 3 times and the contents are still lost
-            // assume we're painting to a VolatileImage that is bogus and
-            // give up.  Presumably we'll be called again to paint.
-        } while ((image instanceof VolatileImage) &&
-                 ((VolatileImage)image).contentsLost() && ++attempts < 3);
+            // If we did this 3 times bnd the contents bre still lost
+            // bssume we're pbinting to b VolbtileImbge thbt is bogus bnd
+            // give up.  Presumbbly we'll be cblled bgbin to pbint.
+        } while ((imbge instbnceof VolbtileImbge) &&
+                 ((VolbtileImbge)imbge).contentsLost() && ++bttempts < 3);
     }
 
     /**
-     * Paints the representation to cache to the supplied Graphics.
+     * Pbints the representbtion to cbche to the supplied Grbphics.
      *
-     * @param c Component painting to, may be null.
-     * @param image Image to paint to
-     * @param g Graphics to paint to, obtained from the passed in Image.
-     * @param w Width to paint to
-     * @param h Height to paint to
-     * @param args Arguments supplied to <code>paint</code>
+     * @pbrbm c Component pbinting to, mby be null.
+     * @pbrbm imbge Imbge to pbint to
+     * @pbrbm g Grbphics to pbint to, obtbined from the pbssed in Imbge.
+     * @pbrbm w Width to pbint to
+     * @pbrbm h Height to pbint to
+     * @pbrbm brgs Arguments supplied to <code>pbint</code>
      */
-    protected abstract void paintToImage(Component c, Image image, Graphics g,
-                                         int w, int h, Object[] args);
+    protected bbstrbct void pbintToImbge(Component c, Imbge imbge, Grbphics g,
+                                         int w, int h, Object[] brgs);
 
 
     /**
-     * Paints the image to the specified location.
+     * Pbints the imbge to the specified locbtion.
      *
-     * @param c Component painting to
-     * @param g Graphics to paint to
-     * @param x X coordinate to paint to
-     * @param y Y coordinate to paint to
-     * @param w Width to paint to
-     * @param h Height to paint to
-     * @param image Image to paint
-     * @param args Arguments supplied to <code>paint</code>
+     * @pbrbm c Component pbinting to
+     * @pbrbm g Grbphics to pbint to
+     * @pbrbm x X coordinbte to pbint to
+     * @pbrbm y Y coordinbte to pbint to
+     * @pbrbm w Width to pbint to
+     * @pbrbm h Height to pbint to
+     * @pbrbm imbge Imbge to pbint
+     * @pbrbm brgs Arguments supplied to <code>pbint</code>
      */
-    protected void paintImage(Component c, Graphics g,
-                              int x, int y, int w, int h, Image image,
-                              Object[] args) {
-        g.drawImage(image, x, y, null);
+    protected void pbintImbge(Component c, Grbphics g,
+                              int x, int y, int w, int h, Imbge imbge,
+                              Object[] brgs) {
+        g.drbwImbge(imbge, x, y, null);
     }
 
     /**
-     * Creates the image to cache.  This returns an opaque image, subclasses
-     * that require translucency or transparency will need to override this
+     * Crebtes the imbge to cbche.  This returns bn opbque imbge, subclbsses
+     * thbt require trbnslucency or trbnspbrency will need to override this
      * method.
      *
-     * @param c Component painting to
-     * @param w Width of image to create
-     * @param h Height to image to create
-     * @param config GraphicsConfiguration that will be
-     *        rendered to, this may be null.
-     * @param args Arguments passed to paint
+     * @pbrbm c Component pbinting to
+     * @pbrbm w Width of imbge to crebte
+     * @pbrbm h Height to imbge to crebte
+     * @pbrbm config GrbphicsConfigurbtion thbt will be
+     *        rendered to, this mby be null.
+     * @pbrbm brgs Arguments pbssed to pbint
      */
-    protected Image createImage(Component c, int w, int h,
-                                GraphicsConfiguration config, Object[] args) {
+    protected Imbge crebteImbge(Component c, int w, int h,
+                                GrbphicsConfigurbtion config, Object[] brgs) {
         if (config == null) {
-            return new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+            return new BufferedImbge(w, h, BufferedImbge.TYPE_INT_RGB);
         }
-        return config.createCompatibleVolatileImage(w, h);
+        return config.crebteCompbtibleVolbtileImbge(w, h);
     }
 
     /**
-     * Clear the image cache
+     * Clebr the imbge cbche
      */
     protected void flush() {
-        synchronized(CachedPainter.class) {
-            getCache(getClass()).flush();
+        synchronized(CbchedPbinter.clbss) {
+            getCbche(getClbss()).flush();
         }
     }
 
-    private GraphicsConfiguration getGraphicsConfiguration(Component c) {
+    privbte GrbphicsConfigurbtion getGrbphicsConfigurbtion(Component c) {
         if (c == null) {
             return null;
         }
-        return c.getGraphicsConfiguration();
+        return c.getGrbphicsConfigurbtion();
     }
 }

@@ -1,239 +1,239 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth;
+pbckbge jbvbx.security.buth;
 
-import java.util.*;
-import java.text.MessageFormat;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.security.Principal;
+import jbvb.util.*;
+import jbvb.text.MessbgeFormbt;
+import jbvb.security.Permission;
+import jbvb.security.PermissionCollection;
+import jbvb.security.Principbl;
 import sun.security.util.ResourcesMgr;
 
 /**
- * This class is used to protect access to private Credentials
- * belonging to a particular {@code Subject}.  The {@code Subject}
- * is represented by a Set of Principals.
+ * This clbss is used to protect bccess to privbte Credentibls
+ * belonging to b pbrticulbr {@code Subject}.  The {@code Subject}
+ * is represented by b Set of Principbls.
  *
- * <p> The target name of this {@code Permission} specifies
- * a Credential class name, and a Set of Principals.
- * The only valid value for this Permission's actions is, "read".
- * The target name must abide by the following syntax:
+ * <p> The tbrget nbme of this {@code Permission} specifies
+ * b Credentibl clbss nbme, bnd b Set of Principbls.
+ * The only vblid vblue for this Permission's bctions is, "rebd".
+ * The tbrget nbme must bbide by the following syntbx:
  *
  * <pre>
- *      CredentialClass {PrincipalClass "PrincipalName"}*
+ *      CredentiblClbss {PrincipblClbss "PrincipblNbme"}*
  * </pre>
  *
- * For example, the following permission grants access to the
- * com.sun.PrivateCredential owned by Subjects which have
- * a com.sun.Principal with the name, "duke".  Note that although
- * this example, as well as all the examples below, do not contain
- * Codebase, SignedBy, or Principal information in the grant statement
- * (for simplicity reasons), actual policy configurations should
- * specify that information when appropriate.
+ * For exbmple, the following permission grbnts bccess to the
+ * com.sun.PrivbteCredentibl owned by Subjects which hbve
+ * b com.sun.Principbl with the nbme, "duke".  Note thbt blthough
+ * this exbmple, bs well bs bll the exbmples below, do not contbin
+ * Codebbse, SignedBy, or Principbl informbtion in the grbnt stbtement
+ * (for simplicity rebsons), bctubl policy configurbtions should
+ * specify thbt informbtion when bppropribte.
  *
  * <pre>
  *
- *    grant {
- *      permission javax.security.auth.PrivateCredentialPermission
- *              "com.sun.PrivateCredential com.sun.Principal \"duke\"",
- *              "read";
+ *    grbnt {
+ *      permission jbvbx.security.buth.PrivbteCredentiblPermission
+ *              "com.sun.PrivbteCredentibl com.sun.Principbl \"duke\"",
+ *              "rebd";
  *    };
  * </pre>
  *
- * If CredentialClass is "*", then access is granted to
- * all private Credentials belonging to the specified
+ * If CredentiblClbss is "*", then bccess is grbnted to
+ * bll privbte Credentibls belonging to the specified
  * {@code Subject}.
- * If "PrincipalName" is "*", then access is granted to the
- * specified Credential owned by any {@code Subject} that has the
- * specified {@code Principal} (the actual PrincipalName doesn't matter).
- * For example, the following grants access to the
- * a.b.Credential owned by any {@code Subject} that has
- * an a.b.Principal.
+ * If "PrincipblNbme" is "*", then bccess is grbnted to the
+ * specified Credentibl owned by bny {@code Subject} thbt hbs the
+ * specified {@code Principbl} (the bctubl PrincipblNbme doesn't mbtter).
+ * For exbmple, the following grbnts bccess to the
+ * b.b.Credentibl owned by bny {@code Subject} thbt hbs
+ * bn b.b.Principbl.
  *
  * <pre>
- *    grant {
- *      permission javax.security.auth.PrivateCredentialPermission
- *              "a.b.Credential a.b.Principal "*"",
- *              "read";
+ *    grbnt {
+ *      permission jbvbx.security.buth.PrivbteCredentiblPermission
+ *              "b.b.Credentibl b.b.Principbl "*"",
+ *              "rebd";
  *    };
  * </pre>
  *
- * If both the PrincipalClass and "PrincipalName" are "*",
- * then access is granted to the specified Credential owned by
- * any {@code Subject}.
+ * If both the PrincipblClbss bnd "PrincipblNbme" bre "*",
+ * then bccess is grbnted to the specified Credentibl owned by
+ * bny {@code Subject}.
  *
- * <p> In addition, the PrincipalClass/PrincipalName pairing may be repeated:
+ * <p> In bddition, the PrincipblClbss/PrincipblNbme pbiring mby be repebted:
  *
  * <pre>
- *    grant {
- *      permission javax.security.auth.PrivateCredentialPermission
- *              "a.b.Credential a.b.Principal "duke" c.d.Principal "dukette"",
- *              "read";
+ *    grbnt {
+ *      permission jbvbx.security.buth.PrivbteCredentiblPermission
+ *              "b.b.Credentibl b.b.Principbl "duke" c.d.Principbl "dukette"",
+ *              "rebd";
  *    };
  * </pre>
  *
- * The above grants access to the private Credential, "a.b.Credential",
- * belonging to a {@code Subject} with at least two associated Principals:
- * "a.b.Principal" with the name, "duke", and "c.d.Principal", with the name,
+ * The bbove grbnts bccess to the privbte Credentibl, "b.b.Credentibl",
+ * belonging to b {@code Subject} with bt lebst two bssocibted Principbls:
+ * "b.b.Principbl" with the nbme, "duke", bnd "c.d.Principbl", with the nbme,
  * "dukette".
  *
  */
-public final class PrivateCredentialPermission extends Permission {
+public finbl clbss PrivbteCredentiblPermission extends Permission {
 
-    private static final long serialVersionUID = 5284372143517237068L;
+    privbte stbtic finbl long seriblVersionUID = 5284372143517237068L;
 
-    private static final CredOwner[] EMPTY_PRINCIPALS = new CredOwner[0];
-
-    /**
-     * @serial
-     */
-    private String credentialClass;
+    privbte stbtic finbl CredOwner[] EMPTY_PRINCIPALS = new CredOwner[0];
 
     /**
-     * @serial The Principals associated with this permission.
-     *          The set contains elements of type,
-     *          {@code PrivateCredentialPermission.CredOwner}.
+     * @seribl
      */
-    private Set<Principal> principals;  // ignored - kept around for compatibility
-    private transient CredOwner[] credOwners;
+    privbte String credentiblClbss;
 
     /**
-     * @serial
+     * @seribl The Principbls bssocibted with this permission.
+     *          The set contbins elements of type,
+     *          {@code PrivbteCredentiblPermission.CredOwner}.
      */
-    private boolean testing = false;
+    privbte Set<Principbl> principbls;  // ignored - kept bround for compbtibility
+    privbte trbnsient CredOwner[] credOwners;
 
     /**
-     * Create a new {@code PrivateCredentialPermission}
-     * with the specified {@code credentialClass} and Principals.
+     * @seribl
      */
-    PrivateCredentialPermission(String credentialClass,
-                        Set<Principal> principals) {
+    privbte boolebn testing = fblse;
 
-        super(credentialClass);
-        this.credentialClass = credentialClass;
+    /**
+     * Crebte b new {@code PrivbteCredentiblPermission}
+     * with the specified {@code credentiblClbss} bnd Principbls.
+     */
+    PrivbteCredentiblPermission(String credentiblClbss,
+                        Set<Principbl> principbls) {
 
-        synchronized(principals) {
-            if (principals.size() == 0) {
+        super(credentiblClbss);
+        this.credentiblClbss = credentiblClbss;
+
+        synchronized(principbls) {
+            if (principbls.size() == 0) {
                 this.credOwners = EMPTY_PRINCIPALS;
             } else {
-                this.credOwners = new CredOwner[principals.size()];
+                this.credOwners = new CredOwner[principbls.size()];
                 int index = 0;
-                Iterator<Principal> i = principals.iterator();
-                while (i.hasNext()) {
-                    Principal p = i.next();
+                Iterbtor<Principbl> i = principbls.iterbtor();
+                while (i.hbsNext()) {
+                    Principbl p = i.next();
                     this.credOwners[index++] = new CredOwner
-                                                (p.getClass().getName(),
-                                                p.getName());
+                                                (p.getClbss().getNbme(),
+                                                p.getNbme());
                 }
             }
         }
     }
 
     /**
-     * Creates a new {@code PrivateCredentialPermission}
-     * with the specified {@code name}.  The {@code name}
-     * specifies both a Credential class and a {@code Principal} Set.
+     * Crebtes b new {@code PrivbteCredentiblPermission}
+     * with the specified {@code nbme}.  The {@code nbme}
+     * specifies both b Credentibl clbss bnd b {@code Principbl} Set.
      *
      * <p>
      *
-     * @param name the name specifying the Credential class and
-     *          {@code Principal} Set. <p>
+     * @pbrbm nbme the nbme specifying the Credentibl clbss bnd
+     *          {@code Principbl} Set. <p>
      *
-     * @param actions the actions specifying that the Credential can be read.
+     * @pbrbm bctions the bctions specifying thbt the Credentibl cbn be rebd.
      *
-     * @throws IllegalArgumentException if {@code name} does not conform
-     *          to the correct syntax or if {@code actions} is not "read".
+     * @throws IllegblArgumentException if {@code nbme} does not conform
+     *          to the correct syntbx or if {@code bctions} is not "rebd".
      */
-    public PrivateCredentialPermission(String name, String actions) {
-        super(name);
+    public PrivbteCredentiblPermission(String nbme, String bctions) {
+        super(nbme);
 
-        if (!"read".equalsIgnoreCase(actions))
-            throw new IllegalArgumentException
-                (ResourcesMgr.getString("actions.can.only.be.read."));
-        init(name);
+        if (!"rebd".equblsIgnoreCbse(bctions))
+            throw new IllegblArgumentException
+                (ResourcesMgr.getString("bctions.cbn.only.be.rebd."));
+        init(nbme);
     }
 
     /**
-     * Returns the Class name of the Credential associated with this
-     * {@code PrivateCredentialPermission}.
+     * Returns the Clbss nbme of the Credentibl bssocibted with this
+     * {@code PrivbteCredentiblPermission}.
      *
      * <p>
      *
-     * @return the Class name of the Credential associated with this
-     *          {@code PrivateCredentialPermission}.
+     * @return the Clbss nbme of the Credentibl bssocibted with this
+     *          {@code PrivbteCredentiblPermission}.
      */
-    public String getCredentialClass() {
-        return credentialClass;
+    public String getCredentiblClbss() {
+        return credentiblClbss;
     }
 
     /**
-     * Returns the {@code Principal} classes and names
-     * associated with this {@code PrivateCredentialPermission}.
-     * The information is returned as a two-dimensional array (array[x][y]).
-     * The 'x' value corresponds to the number of {@code Principal}
-     * class and name pairs.  When (y==0), it corresponds to
-     * the {@code Principal} class value, and when (y==1),
-     * it corresponds to the {@code Principal} name value.
-     * For example, array[0][0] corresponds to the class name of
-     * the first {@code Principal} in the array.  array[0][1]
-     * corresponds to the {@code Principal} name of the
-     * first {@code Principal} in the array.
+     * Returns the {@code Principbl} clbsses bnd nbmes
+     * bssocibted with this {@code PrivbteCredentiblPermission}.
+     * The informbtion is returned bs b two-dimensionbl brrby (brrby[x][y]).
+     * The 'x' vblue corresponds to the number of {@code Principbl}
+     * clbss bnd nbme pbirs.  When (y==0), it corresponds to
+     * the {@code Principbl} clbss vblue, bnd when (y==1),
+     * it corresponds to the {@code Principbl} nbme vblue.
+     * For exbmple, brrby[0][0] corresponds to the clbss nbme of
+     * the first {@code Principbl} in the brrby.  brrby[0][1]
+     * corresponds to the {@code Principbl} nbme of the
+     * first {@code Principbl} in the brrby.
      *
      * <p>
      *
-     * @return the {@code Principal} class and names associated
-     *          with this {@code PrivateCredentialPermission}.
+     * @return the {@code Principbl} clbss bnd nbmes bssocibted
+     *          with this {@code PrivbteCredentiblPermission}.
      */
-    public String[][] getPrincipals() {
+    public String[][] getPrincipbls() {
 
         if (credOwners == null || credOwners.length == 0) {
             return new String[0][0];
         }
 
-        String[][] pArray = new String[credOwners.length][2];
+        String[][] pArrby = new String[credOwners.length][2];
         for (int i = 0; i < credOwners.length; i++) {
-            pArray[i][0] = credOwners[i].principalClass;
-            pArray[i][1] = credOwners[i].principalName;
+            pArrby[i][0] = credOwners[i].principblClbss;
+            pArrby[i][1] = credOwners[i].principblNbme;
         }
-        return pArray;
+        return pArrby;
     }
 
     /**
-     * Checks if this {@code PrivateCredentialPermission} implies
+     * Checks if this {@code PrivbteCredentiblPermission} implies
      * the specified {@code Permission}.
      *
      * <p>
      *
      * This method returns true if:
      * <ul>
-     * <li> <i>p</i> is an instanceof PrivateCredentialPermission and
-     * <li> the target name for <i>p</i> is implied by this object's
-     *          target name.  For example:
+     * <li> <i>p</i> is bn instbnceof PrivbteCredentiblPermission bnd
+     * <li> the tbrget nbme for <i>p</i> is implied by this object's
+     *          tbrget nbme.  For exbmple:
      * <pre>
-     *  [* P1 "duke"] implies [a.b.Credential P1 "duke"].
+     *  [* P1 "duke"] implies [b.b.Credentibl P1 "duke"].
      *  [C1 P1 "duke"] implies [C1 P1 "duke" P2 "dukette"].
      *  [C1 P2 "dukette"] implies [C1 P1 "duke" P2 "dukette"].
      * </pre>
@@ -241,321 +241,321 @@ public final class PrivateCredentialPermission extends Permission {
      *
      * <p>
      *
-     * @param p the {@code Permission} to check against.
+     * @pbrbm p the {@code Permission} to check bgbinst.
      *
-     * @return true if this {@code PrivateCredentialPermission} implies
-     * the specified {@code Permission}, false if not.
+     * @return true if this {@code PrivbteCredentiblPermission} implies
+     * the specified {@code Permission}, fblse if not.
      */
-    public boolean implies(Permission p) {
+    public boolebn implies(Permission p) {
 
-        if (p == null || !(p instanceof PrivateCredentialPermission))
-            return false;
+        if (p == null || !(p instbnceof PrivbteCredentiblPermission))
+            return fblse;
 
-        PrivateCredentialPermission that = (PrivateCredentialPermission)p;
+        PrivbteCredentiblPermission thbt = (PrivbteCredentiblPermission)p;
 
-        if (!impliesCredentialClass(credentialClass, that.credentialClass))
-            return false;
+        if (!impliesCredentiblClbss(credentiblClbss, thbt.credentiblClbss))
+            return fblse;
 
-        return impliesPrincipalSet(credOwners, that.credOwners);
+        return impliesPrincipblSet(credOwners, thbt.credOwners);
     }
 
     /**
-     * Checks two {@code PrivateCredentialPermission} objects for
-     * equality.  Checks that <i>obj</i> is a
-     * {@code PrivateCredentialPermission},
-     * and has the same credential class as this object,
-     * as well as the same Principals as this object.
-     * The order of the Principals in the respective Permission's
-     * target names is not relevant.
+     * Checks two {@code PrivbteCredentiblPermission} objects for
+     * equblity.  Checks thbt <i>obj</i> is b
+     * {@code PrivbteCredentiblPermission},
+     * bnd hbs the sbme credentibl clbss bs this object,
+     * bs well bs the sbme Principbls bs this object.
+     * The order of the Principbls in the respective Permission's
+     * tbrget nbmes is not relevbnt.
      *
      * <p>
      *
-     * @param obj the object we are testing for equality with this object.
+     * @pbrbm obj the object we bre testing for equblity with this object.
      *
-     * @return true if obj is a {@code PrivateCredentialPermission},
-     *          has the same credential class as this object,
-     *          and has the same Principals as this object.
+     * @return true if obj is b {@code PrivbteCredentiblPermission},
+     *          hbs the sbme credentibl clbss bs this object,
+     *          bnd hbs the sbme Principbls bs this object.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if (! (obj instanceof PrivateCredentialPermission))
-            return false;
+        if (! (obj instbnceof PrivbteCredentiblPermission))
+            return fblse;
 
-        PrivateCredentialPermission that = (PrivateCredentialPermission)obj;
+        PrivbteCredentiblPermission thbt = (PrivbteCredentiblPermission)obj;
 
-        return (this.implies(that) && that.implies(this));
+        return (this.implies(thbt) && thbt.implies(this));
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Returns the hbsh code vblue for this object.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return this.credentialClass.hashCode();
+    public int hbshCode() {
+        return this.credentiblClbss.hbshCode();
     }
 
     /**
-     * Returns the "canonical string representation" of the actions.
-     * This method always returns the String, "read".
+     * Returns the "cbnonicbl string representbtion" of the bctions.
+     * This method blwbys returns the String, "rebd".
      *
      * <p>
      *
-     * @return the actions (always returns "read").
+     * @return the bctions (blwbys returns "rebd").
      */
     public String getActions() {
-        return "read";
+        return "rebd";
     }
 
     /**
-     * Return a homogeneous collection of PrivateCredentialPermissions
-     * in a {@code PermissionCollection}.
+     * Return b homogeneous collection of PrivbteCredentiblPermissions
+     * in b {@code PermissionCollection}.
      * No such {@code PermissionCollection} is defined,
-     * so this method always returns {@code null}.
+     * so this method blwbys returns {@code null}.
      *
      * <p>
      *
-     * @return null in all cases.
+     * @return null in bll cbses.
      */
     public PermissionCollection newPermissionCollection() {
         return null;
     }
 
-    private void init(String name) {
+    privbte void init(String nbme) {
 
-        if (name == null || name.trim().length() == 0) {
-            throw new IllegalArgumentException("invalid empty name");
+        if (nbme == null || nbme.trim().length() == 0) {
+            throw new IllegblArgumentException("invblid empty nbme");
         }
 
-        ArrayList<CredOwner> pList = new ArrayList<>();
-        StringTokenizer tokenizer = new StringTokenizer(name, " ", true);
-        String principalClass = null;
-        String principalName = null;
+        ArrbyList<CredOwner> pList = new ArrbyList<>();
+        StringTokenizer tokenizer = new StringTokenizer(nbme, " ", true);
+        String principblClbss = null;
+        String principblNbme = null;
 
         if (testing)
-            System.out.println("whole name = " + name);
+            System.out.println("whole nbme = " + nbme);
 
-        // get the Credential Class
-        credentialClass = tokenizer.nextToken();
+        // get the Credentibl Clbss
+        credentiblClbss = tokenizer.nextToken();
         if (testing)
-            System.out.println("Credential Class = " + credentialClass);
+            System.out.println("Credentibl Clbss = " + credentiblClbss);
 
-        if (tokenizer.hasMoreTokens() == false) {
-            MessageFormat form = new MessageFormat(ResourcesMgr.getString
-                ("permission.name.name.syntax.invalid."));
-            Object[] source = {name};
-            throw new IllegalArgumentException
-                (form.format(source) + ResourcesMgr.getString
-                        ("Credential.Class.not.followed.by.a.Principal.Class.and.Name"));
+        if (tokenizer.hbsMoreTokens() == fblse) {
+            MessbgeFormbt form = new MessbgeFormbt(ResourcesMgr.getString
+                ("permission.nbme.nbme.syntbx.invblid."));
+            Object[] source = {nbme};
+            throw new IllegblArgumentException
+                (form.formbt(source) + ResourcesMgr.getString
+                        ("Credentibl.Clbss.not.followed.by.b.Principbl.Clbss.bnd.Nbme"));
         }
 
-        while (tokenizer.hasMoreTokens()) {
+        while (tokenizer.hbsMoreTokens()) {
 
             // skip delimiter
             tokenizer.nextToken();
 
-            // get the Principal Class
-            principalClass = tokenizer.nextToken();
+            // get the Principbl Clbss
+            principblClbss = tokenizer.nextToken();
             if (testing)
-                System.out.println("    Principal Class = " + principalClass);
+                System.out.println("    Principbl Clbss = " + principblClbss);
 
-            if (tokenizer.hasMoreTokens() == false) {
-                MessageFormat form = new MessageFormat(ResourcesMgr.getString
-                        ("permission.name.name.syntax.invalid."));
-                Object[] source = {name};
-                throw new IllegalArgumentException
-                        (form.format(source) + ResourcesMgr.getString
-                        ("Principal.Class.not.followed.by.a.Principal.Name"));
+            if (tokenizer.hbsMoreTokens() == fblse) {
+                MessbgeFormbt form = new MessbgeFormbt(ResourcesMgr.getString
+                        ("permission.nbme.nbme.syntbx.invblid."));
+                Object[] source = {nbme};
+                throw new IllegblArgumentException
+                        (form.formbt(source) + ResourcesMgr.getString
+                        ("Principbl.Clbss.not.followed.by.b.Principbl.Nbme"));
             }
 
             // skip delimiter
             tokenizer.nextToken();
 
-            // get the Principal Name
-            principalName = tokenizer.nextToken();
+            // get the Principbl Nbme
+            principblNbme = tokenizer.nextToken();
 
-            if (!principalName.startsWith("\"")) {
-                MessageFormat form = new MessageFormat(ResourcesMgr.getString
-                        ("permission.name.name.syntax.invalid."));
-                Object[] source = {name};
-                throw new IllegalArgumentException
-                        (form.format(source) + ResourcesMgr.getString
-                        ("Principal.Name.must.be.surrounded.by.quotes"));
+            if (!principblNbme.stbrtsWith("\"")) {
+                MessbgeFormbt form = new MessbgeFormbt(ResourcesMgr.getString
+                        ("permission.nbme.nbme.syntbx.invblid."));
+                Object[] source = {nbme};
+                throw new IllegblArgumentException
+                        (form.formbt(source) + ResourcesMgr.getString
+                        ("Principbl.Nbme.must.be.surrounded.by.quotes"));
             }
 
-            if (!principalName.endsWith("\"")) {
+            if (!principblNbme.endsWith("\"")) {
 
-                // we have a name with spaces in it --
-                // keep parsing until we find the end quote,
-                // and keep the spaces in the name
+                // we hbve b nbme with spbces in it --
+                // keep pbrsing until we find the end quote,
+                // bnd keep the spbces in the nbme
 
-                while (tokenizer.hasMoreTokens()) {
-                    principalName = principalName + tokenizer.nextToken();
-                    if (principalName.endsWith("\""))
-                        break;
+                while (tokenizer.hbsMoreTokens()) {
+                    principblNbme = principblNbme + tokenizer.nextToken();
+                    if (principblNbme.endsWith("\""))
+                        brebk;
                 }
 
-                if (!principalName.endsWith("\"")) {
-                    MessageFormat form = new MessageFormat
+                if (!principblNbme.endsWith("\"")) {
+                    MessbgeFormbt form = new MessbgeFormbt
                         (ResourcesMgr.getString
-                        ("permission.name.name.syntax.invalid."));
-                    Object[] source = {name};
-                    throw new IllegalArgumentException
-                        (form.format(source) + ResourcesMgr.getString
-                                ("Principal.Name.missing.end.quote"));
+                        ("permission.nbme.nbme.syntbx.invblid."));
+                    Object[] source = {nbme};
+                    throw new IllegblArgumentException
+                        (form.formbt(source) + ResourcesMgr.getString
+                                ("Principbl.Nbme.missing.end.quote"));
                 }
             }
 
             if (testing)
-                System.out.println("\tprincipalName = '" + principalName + "'");
+                System.out.println("\tprincipblNbme = '" + principblNbme + "'");
 
-            principalName = principalName.substring
-                                        (1, principalName.length() - 1);
+            principblNbme = principblNbme.substring
+                                        (1, principblNbme.length() - 1);
 
-            if (principalClass.equals("*") &&
-                !principalName.equals("*")) {
-                    throw new IllegalArgumentException(ResourcesMgr.getString
-                        ("PrivateCredentialPermission.Principal.Class.can.not.be.a.wildcard.value.if.Principal.Name.is.not.a.wildcard.value"));
+            if (principblClbss.equbls("*") &&
+                !principblNbme.equbls("*")) {
+                    throw new IllegblArgumentException(ResourcesMgr.getString
+                        ("PrivbteCredentiblPermission.Principbl.Clbss.cbn.not.be.b.wildcbrd.vblue.if.Principbl.Nbme.is.not.b.wildcbrd.vblue"));
             }
 
             if (testing)
-                System.out.println("\tprincipalName = '" + principalName + "'");
+                System.out.println("\tprincipblNbme = '" + principblNbme + "'");
 
-            pList.add(new CredOwner(principalClass, principalName));
+            pList.bdd(new CredOwner(principblClbss, principblNbme));
         }
 
         this.credOwners = new CredOwner[pList.size()];
-        pList.toArray(this.credOwners);
+        pList.toArrby(this.credOwners);
     }
 
-    private boolean impliesCredentialClass(String thisC, String thatC) {
+    privbte boolebn impliesCredentiblClbss(String thisC, String thbtC) {
 
-        // this should never happen
-        if (thisC == null || thatC == null)
-            return false;
+        // this should never hbppen
+        if (thisC == null || thbtC == null)
+            return fblse;
 
         if (testing)
-            System.out.println("credential class comparison: " +
-                                thisC + "/" + thatC);
+            System.out.println("credentibl clbss compbrison: " +
+                                thisC + "/" + thbtC);
 
-        if (thisC.equals("*"))
+        if (thisC.equbls("*"))
             return true;
 
         /**
-         * XXX let's not enable this for now --
-         *      if people want it, we'll enable it later
+         * XXX let's not enbble this for now --
+         *      if people wbnt it, we'll enbble it lbter
          */
         /*
         if (thisC.endsWith("*")) {
-            String cClass = thisC.substring(0, thisC.length() - 2);
-            return thatC.startsWith(cClass);
+            String cClbss = thisC.substring(0, thisC.length() - 2);
+            return thbtC.stbrtsWith(cClbss);
         }
         */
 
-        return thisC.equals(thatC);
+        return thisC.equbls(thbtC);
     }
 
-    private boolean impliesPrincipalSet(CredOwner[] thisP, CredOwner[] thatP) {
+    privbte boolebn impliesPrincipblSet(CredOwner[] thisP, CredOwner[] thbtP) {
 
-        // this should never happen
-        if (thisP == null || thatP == null)
-            return false;
+        // this should never hbppen
+        if (thisP == null || thbtP == null)
+            return fblse;
 
-        if (thatP.length == 0)
+        if (thbtP.length == 0)
             return true;
 
         if (thisP.length == 0)
-            return false;
+            return fblse;
 
         for (int i = 0; i < thisP.length; i++) {
-            boolean foundMatch = false;
-            for (int j = 0; j < thatP.length; j++) {
-                if (thisP[i].implies(thatP[j])) {
-                    foundMatch = true;
-                    break;
+            boolebn foundMbtch = fblse;
+            for (int j = 0; j < thbtP.length; j++) {
+                if (thisP[i].implies(thbtP[j])) {
+                    foundMbtch = true;
+                    brebk;
                 }
             }
-            if (!foundMatch) {
-                return false;
+            if (!foundMbtch) {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Reads this object from a stream (i.e., deserializes it)
+     * Rebds this object from b strebm (i.e., deseriblizes it)
      */
-    private void readObject(java.io.ObjectInputStream s) throws
-                                        java.io.IOException,
-                                        ClassNotFoundException {
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s) throws
+                                        jbvb.io.IOException,
+                                        ClbssNotFoundException {
 
-        s.defaultReadObject();
+        s.defbultRebdObject();
 
-        // perform new initialization from the permission name
+        // perform new initiblizbtion from the permission nbme
 
-        if (getName().indexOf(' ') == -1 && getName().indexOf('"') == -1) {
+        if (getNbme().indexOf(' ') == -1 && getNbme().indexOf('"') == -1) {
 
-            // name only has a credential class specified
-            credentialClass = getName();
+            // nbme only hbs b credentibl clbss specified
+            credentiblClbss = getNbme();
             credOwners = EMPTY_PRINCIPALS;
 
         } else {
 
-            // perform regular initialization
-            init(getName());
+            // perform regulbr initiblizbtion
+            init(getNbme());
         }
     }
 
     /**
-     * @serial include
+     * @seribl include
      */
-    static class CredOwner implements java.io.Serializable {
+    stbtic clbss CredOwner implements jbvb.io.Seriblizbble {
 
-        private static final long serialVersionUID = -5607449830436408266L;
+        privbte stbtic finbl long seriblVersionUID = -5607449830436408266L;
 
         /**
-         * @serial
+         * @seribl
          */
-        String principalClass;
+        String principblClbss;
         /**
-         * @serial
+         * @seribl
          */
-        String principalName;
+        String principblNbme;
 
-        CredOwner(String principalClass, String principalName) {
-            this.principalClass = principalClass;
-            this.principalName = principalName;
+        CredOwner(String principblClbss, String principblNbme) {
+            this.principblClbss = principblClbss;
+            this.principblNbme = principblNbme;
         }
 
-        public boolean implies(Object obj) {
-            if (obj == null || !(obj instanceof CredOwner))
-                return false;
+        public boolebn implies(Object obj) {
+            if (obj == null || !(obj instbnceof CredOwner))
+                return fblse;
 
-            CredOwner that = (CredOwner)obj;
+            CredOwner thbt = (CredOwner)obj;
 
-            if (principalClass.equals("*") ||
-                principalClass.equals(that.principalClass)) {
+            if (principblClbss.equbls("*") ||
+                principblClbss.equbls(thbt.principblClbss)) {
 
-                if (principalName.equals("*") ||
-                    principalName.equals(that.principalName)) {
+                if (principblNbme.equbls("*") ||
+                    principblNbme.equbls(thbt.principblNbme)) {
                     return true;
                 }
             }
 
             /**
-             * XXX no code yet to support a.b.*
+             * XXX no code yet to support b.b.*
              */
 
-            return false;
+            return fblse;
         }
 
         public String toString() {
-            MessageFormat form = new MessageFormat(ResourcesMgr.getString
-                ("CredOwner.Principal.Class.class.Principal.Name.name"));
-            Object[] source = {principalClass, principalName};
-            return (form.format(source));
+            MessbgeFormbt form = new MessbgeFormbt(ResourcesMgr.getString
+                ("CredOwner.Principbl.Clbss.clbss.Principbl.Nbme.nbme"));
+            Object[] source = {principblClbss, principblNbme};
+            return (form.formbt(source));
         }
     }
 }

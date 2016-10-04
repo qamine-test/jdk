@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.lang.ref.*;
-import java.util.*;
-import static java.util.Locale.ENGLISH;
-import java.util.concurrent.atomic.AtomicLong;
-import java.net.Socket;
+import jbvb.lbng.ref.*;
+import jbvb.util.*;
+import stbtic jbvb.util.Locble.ENGLISH;
+import jbvb.util.concurrent.btomic.AtomicLong;
+import jbvb.net.Socket;
 
-import java.security.*;
-import java.security.KeyStore.*;
-import java.security.cert.*;
-import java.security.cert.Certificate;
+import jbvb.security.*;
+import jbvb.security.KeyStore.*;
+import jbvb.security.cert.*;
+import jbvb.security.cert.Certificbte;
 
-import javax.net.ssl.*;
+import jbvbx.net.ssl.*;
 
-import sun.security.provider.certpath.AlgorithmChecker;
+import sun.security.provider.certpbth.AlgorithmChecker;
 
 /**
- * The new X509 key manager implementation. The main differences to the
- * old SunX509 key manager are:
- *  . it is based around the KeyStore.Builder API. This allows it to use
- *    other forms of KeyStore protection or password input (e.g. a
- *    CallbackHandler) or to have keys within one KeyStore protected by
+ * The new X509 key mbnbger implementbtion. The mbin differences to the
+ * old SunX509 key mbnbger bre:
+ *  . it is bbsed bround the KeyStore.Builder API. This bllows it to use
+ *    other forms of KeyStore protection or pbssword input (e.g. b
+ *    CbllbbckHbndler) or to hbve keys within one KeyStore protected by
  *    different keys.
- *  . it can use multiple KeyStores at the same time.
- *  . it is explicitly designed to accommodate KeyStores that change over
+ *  . it cbn use multiple KeyStores bt the sbme time.
+ *  . it is explicitly designed to bccommodbte KeyStores thbt chbnge over
  *    the lifetime of the process.
- *  . it makes an effort to choose the key that matches best, i.e. one that
- *    is not expired and has the appropriate certificate extensions.
+ *  . it mbkes bn effort to choose the key thbt mbtches best, i.e. one thbt
+ *    is not expired bnd hbs the bppropribte certificbte extensions.
  *
- * Note that this code is not explicitly performance optimzied yet.
+ * Note thbt this code is not explicitly performbnce optimzied yet.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-final class X509KeyManagerImpl extends X509ExtendedKeyManager
-        implements X509KeyManager {
+finbl clbss X509KeyMbnbgerImpl extends X509ExtendedKeyMbnbger
+        implements X509KeyMbnbger {
 
-    private static final Debug debug = Debug.getInstance("ssl");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("ssl");
 
-    private final static boolean useDebug =
-                            (debug != null) && Debug.isOn("keymanager");
+    privbte finbl stbtic boolebn useDebug =
+                            (debug != null) && Debug.isOn("keymbnbger");
 
-    // for unit testing only, set via privileged reflection
-    private static Date verificationDate;
+    // for unit testing only, set vib privileged reflection
+    privbte stbtic Dbte verificbtionDbte;
 
     // list of the builders
-    private final List<Builder> builders;
+    privbte finbl List<Builder> builders;
 
-    // counter to generate unique ids for the aliases
-    private final AtomicLong uidCounter;
+    // counter to generbte unique ids for the blibses
+    privbte finbl AtomicLong uidCounter;
 
-    // cached entries
-    private final Map<String,Reference<PrivateKeyEntry>> entryCacheMap;
+    // cbched entries
+    privbte finbl Mbp<String,Reference<PrivbteKeyEntry>> entryCbcheMbp;
 
-    X509KeyManagerImpl(Builder builder) {
+    X509KeyMbnbgerImpl(Builder builder) {
         this(Collections.singletonList(builder));
     }
 
-    X509KeyManagerImpl(List<Builder> builders) {
+    X509KeyMbnbgerImpl(List<Builder> builders) {
         this.builders = builders;
         uidCounter = new AtomicLong();
-        entryCacheMap = Collections.synchronizedMap
-                        (new SizedMap<String,Reference<PrivateKeyEntry>>());
+        entryCbcheMbp = Collections.synchronizedMbp
+                        (new SizedMbp<String,Reference<PrivbteKeyEntry>>());
     }
 
-    // LinkedHashMap with a max size of 10
-    // see LinkedHashMap JavaDocs
-    private static class SizedMap<K,V> extends LinkedHashMap<K,V> {
-        private static final long serialVersionUID = -8211222668790986062L;
+    // LinkedHbshMbp with b mbx size of 10
+    // see LinkedHbshMbp JbvbDocs
+    privbte stbtic clbss SizedMbp<K,V> extends LinkedHbshMbp<K,V> {
+        privbte stbtic finbl long seriblVersionUID = -8211222668790986062L;
 
-        @Override protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
+        @Override protected boolebn removeEldestEntry(Mbp.Entry<K,V> eldest) {
             return size() > 10;
         }
     }
@@ -103,452 +103,452 @@ final class X509KeyManagerImpl extends X509ExtendedKeyManager
     //
 
     @Override
-    public X509Certificate[] getCertificateChain(String alias) {
-        PrivateKeyEntry entry = getEntry(alias);
+    public X509Certificbte[] getCertificbteChbin(String blibs) {
+        PrivbteKeyEntry entry = getEntry(blibs);
         return entry == null ? null :
-                (X509Certificate[])entry.getCertificateChain();
+                (X509Certificbte[])entry.getCertificbteChbin();
     }
 
     @Override
-    public PrivateKey getPrivateKey(String alias) {
-        PrivateKeyEntry entry = getEntry(alias);
-        return entry == null ? null : entry.getPrivateKey();
+    public PrivbteKey getPrivbteKey(String blibs) {
+        PrivbteKeyEntry entry = getEntry(blibs);
+        return entry == null ? null : entry.getPrivbteKey();
     }
 
     @Override
-    public String chooseClientAlias(String[] keyTypes, Principal[] issuers,
+    public String chooseClientAlibs(String[] keyTypes, Principbl[] issuers,
             Socket socket) {
-        return chooseAlias(getKeyTypes(keyTypes), issuers, CheckType.CLIENT,
-                        getAlgorithmConstraints(socket));
+        return chooseAlibs(getKeyTypes(keyTypes), issuers, CheckType.CLIENT,
+                        getAlgorithmConstrbints(socket));
     }
 
     @Override
-    public String chooseEngineClientAlias(String[] keyTypes,
-            Principal[] issuers, SSLEngine engine) {
-        return chooseAlias(getKeyTypes(keyTypes), issuers, CheckType.CLIENT,
-                        getAlgorithmConstraints(engine));
+    public String chooseEngineClientAlibs(String[] keyTypes,
+            Principbl[] issuers, SSLEngine engine) {
+        return chooseAlibs(getKeyTypes(keyTypes), issuers, CheckType.CLIENT,
+                        getAlgorithmConstrbints(engine));
     }
 
     @Override
-    public String chooseServerAlias(String keyType,
-            Principal[] issuers, Socket socket) {
-        return chooseAlias(getKeyTypes(keyType), issuers, CheckType.SERVER,
-            getAlgorithmConstraints(socket),
-            X509TrustManagerImpl.getRequestedServerNames(socket),
-            "HTTPS");    // The SNI HostName is a fully qualified domain name.
-                         // The certificate selection scheme for SNI HostName
-                         // is similar to HTTPS endpoint identification scheme
+    public String chooseServerAlibs(String keyType,
+            Principbl[] issuers, Socket socket) {
+        return chooseAlibs(getKeyTypes(keyType), issuers, CheckType.SERVER,
+            getAlgorithmConstrbints(socket),
+            X509TrustMbnbgerImpl.getRequestedServerNbmes(socket),
+            "HTTPS");    // The SNI HostNbme is b fully qublified dombin nbme.
+                         // The certificbte selection scheme for SNI HostNbme
+                         // is similbr to HTTPS endpoint identificbtion scheme
                          // implemented in this provider.
                          //
-                         // Using HTTPS endpoint identification scheme to guide
-                         // the selection of an appropriate authentication
-                         // certificate according to requested SNI extension.
+                         // Using HTTPS endpoint identificbtion scheme to guide
+                         // the selection of bn bppropribte buthenticbtion
+                         // certificbte bccording to requested SNI extension.
                          //
-                         // It is not a really HTTPS endpoint identification.
+                         // It is not b reblly HTTPS endpoint identificbtion.
     }
 
     @Override
-    public String chooseEngineServerAlias(String keyType,
-            Principal[] issuers, SSLEngine engine) {
-        return chooseAlias(getKeyTypes(keyType), issuers, CheckType.SERVER,
-            getAlgorithmConstraints(engine),
-            X509TrustManagerImpl.getRequestedServerNames(engine),
-            "HTTPS");    // The SNI HostName is a fully qualified domain name.
-                         // The certificate selection scheme for SNI HostName
-                         // is similar to HTTPS endpoint identification scheme
+    public String chooseEngineServerAlibs(String keyType,
+            Principbl[] issuers, SSLEngine engine) {
+        return chooseAlibs(getKeyTypes(keyType), issuers, CheckType.SERVER,
+            getAlgorithmConstrbints(engine),
+            X509TrustMbnbgerImpl.getRequestedServerNbmes(engine),
+            "HTTPS");    // The SNI HostNbme is b fully qublified dombin nbme.
+                         // The certificbte selection scheme for SNI HostNbme
+                         // is similbr to HTTPS endpoint identificbtion scheme
                          // implemented in this provider.
                          //
-                         // Using HTTPS endpoint identification scheme to guide
-                         // the selection of an appropriate authentication
-                         // certificate according to requested SNI extension.
+                         // Using HTTPS endpoint identificbtion scheme to guide
+                         // the selection of bn bppropribte buthenticbtion
+                         // certificbte bccording to requested SNI extension.
                          //
-                         // It is not a really HTTPS endpoint identification.
+                         // It is not b reblly HTTPS endpoint identificbtion.
     }
 
     @Override
-    public String[] getClientAliases(String keyType, Principal[] issuers) {
-        return getAliases(keyType, issuers, CheckType.CLIENT, null);
+    public String[] getClientAlibses(String keyType, Principbl[] issuers) {
+        return getAlibses(keyType, issuers, CheckType.CLIENT, null);
     }
 
     @Override
-    public String[] getServerAliases(String keyType, Principal[] issuers) {
-        return getAliases(keyType, issuers, CheckType.SERVER, null);
+    public String[] getServerAlibses(String keyType, Principbl[] issuers) {
+        return getAlibses(keyType, issuers, CheckType.SERVER, null);
     }
 
     //
-    // implementation private methods
+    // implementbtion privbte methods
     //
 
-    // Gets algorithm constraints of the socket.
-    private AlgorithmConstraints getAlgorithmConstraints(Socket socket) {
+    // Gets blgorithm constrbints of the socket.
+    privbte AlgorithmConstrbints getAlgorithmConstrbints(Socket socket) {
         if (socket != null && socket.isConnected() &&
-                                        socket instanceof SSLSocket) {
+                                        socket instbnceof SSLSocket) {
 
             SSLSocket sslSocket = (SSLSocket)socket;
-            SSLSession session = sslSocket.getHandshakeSession();
+            SSLSession session = sslSocket.getHbndshbkeSession();
 
             if (session != null) {
                 ProtocolVersion protocolVersion =
-                    ProtocolVersion.valueOf(session.getProtocol());
+                    ProtocolVersion.vblueOf(session.getProtocol());
                 if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
                     String[] peerSupportedSignAlgs = null;
 
-                    if (session instanceof ExtendedSSLSession) {
+                    if (session instbnceof ExtendedSSLSession) {
                         ExtendedSSLSession extSession =
                             (ExtendedSSLSession)session;
                         peerSupportedSignAlgs =
-                            extSession.getPeerSupportedSignatureAlgorithms();
+                            extSession.getPeerSupportedSignbtureAlgorithms();
                     }
 
-                    return new SSLAlgorithmConstraints(
+                    return new SSLAlgorithmConstrbints(
                         sslSocket, peerSupportedSignAlgs, true);
                 }
             }
 
-            return new SSLAlgorithmConstraints(sslSocket, true);
+            return new SSLAlgorithmConstrbints(sslSocket, true);
         }
 
-        return new SSLAlgorithmConstraints((SSLSocket)null, true);
+        return new SSLAlgorithmConstrbints((SSLSocket)null, true);
     }
 
-    // Gets algorithm constraints of the engine.
-    private AlgorithmConstraints getAlgorithmConstraints(SSLEngine engine) {
+    // Gets blgorithm constrbints of the engine.
+    privbte AlgorithmConstrbints getAlgorithmConstrbints(SSLEngine engine) {
         if (engine != null) {
-            SSLSession session = engine.getHandshakeSession();
+            SSLSession session = engine.getHbndshbkeSession();
             if (session != null) {
                 ProtocolVersion protocolVersion =
-                    ProtocolVersion.valueOf(session.getProtocol());
+                    ProtocolVersion.vblueOf(session.getProtocol());
                 if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
                     String[] peerSupportedSignAlgs = null;
 
-                    if (session instanceof ExtendedSSLSession) {
+                    if (session instbnceof ExtendedSSLSession) {
                         ExtendedSSLSession extSession =
                             (ExtendedSSLSession)session;
                         peerSupportedSignAlgs =
-                            extSession.getPeerSupportedSignatureAlgorithms();
+                            extSession.getPeerSupportedSignbtureAlgorithms();
                     }
 
-                    return new SSLAlgorithmConstraints(
+                    return new SSLAlgorithmConstrbints(
                         engine, peerSupportedSignAlgs, true);
                 }
             }
         }
 
-        return new SSLAlgorithmConstraints(engine, true);
+        return new SSLAlgorithmConstrbints(engine, true);
     }
 
-    // we construct the alias we return to JSSE as seen in the code below
-    // a unique id is included to allow us to reliably cache entries
-    // between the calls to getCertificateChain() and getPrivateKey()
-    // even if tokens are inserted or removed
-    private String makeAlias(EntryStatus entry) {
+    // we construct the blibs we return to JSSE bs seen in the code below
+    // b unique id is included to bllow us to relibbly cbche entries
+    // between the cblls to getCertificbteChbin() bnd getPrivbteKey()
+    // even if tokens bre inserted or removed
+    privbte String mbkeAlibs(EntryStbtus entry) {
         return uidCounter.incrementAndGet() + "." + entry.builderIndex + "."
-                + entry.alias;
+                + entry.blibs;
     }
 
-    private PrivateKeyEntry getEntry(String alias) {
-        // if the alias is null, return immediately
-        if (alias == null) {
+    privbte PrivbteKeyEntry getEntry(String blibs) {
+        // if the blibs is null, return immedibtely
+        if (blibs == null) {
             return null;
         }
 
-        // try to get the entry from cache
-        Reference<PrivateKeyEntry> ref = entryCacheMap.get(alias);
-        PrivateKeyEntry entry = (ref != null) ? ref.get() : null;
+        // try to get the entry from cbche
+        Reference<PrivbteKeyEntry> ref = entryCbcheMbp.get(blibs);
+        PrivbteKeyEntry entry = (ref != null) ? ref.get() : null;
         if (entry != null) {
             return entry;
         }
 
-        // parse the alias
-        int firstDot = alias.indexOf('.');
-        int secondDot = alias.indexOf('.', firstDot + 1);
+        // pbrse the blibs
+        int firstDot = blibs.indexOf('.');
+        int secondDot = blibs.indexOf('.', firstDot + 1);
         if ((firstDot == -1) || (secondDot == firstDot)) {
-            // invalid alias
+            // invblid blibs
             return null;
         }
         try {
-            int builderIndex = Integer.parseInt
-                                (alias.substring(firstDot + 1, secondDot));
-            String keyStoreAlias = alias.substring(secondDot + 1);
+            int builderIndex = Integer.pbrseInt
+                                (blibs.substring(firstDot + 1, secondDot));
+            String keyStoreAlibs = blibs.substring(secondDot + 1);
             Builder builder = builders.get(builderIndex);
             KeyStore ks = builder.getKeyStore();
             Entry newEntry = ks.getEntry
-                    (keyStoreAlias, builder.getProtectionParameter(alias));
-            if (newEntry instanceof PrivateKeyEntry == false) {
+                    (keyStoreAlibs, builder.getProtectionPbrbmeter(blibs));
+            if (newEntry instbnceof PrivbteKeyEntry == fblse) {
                 // unexpected type of entry
                 return null;
             }
-            entry = (PrivateKeyEntry)newEntry;
-            entryCacheMap.put(alias, new SoftReference<PrivateKeyEntry>(entry));
+            entry = (PrivbteKeyEntry)newEntry;
+            entryCbcheMbp.put(blibs, new SoftReference<PrivbteKeyEntry>(entry));
             return entry;
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             // ignore
             return null;
         }
     }
 
-    // Class to help verify that the public key algorithm (and optionally
-    // the signature algorithm) of a certificate matches what we need.
-    private static class KeyType {
+    // Clbss to help verify thbt the public key blgorithm (bnd optionblly
+    // the signbture blgorithm) of b certificbte mbtches whbt we need.
+    privbte stbtic clbss KeyType {
 
-        final String keyAlgorithm;
+        finbl String keyAlgorithm;
 
-        // In TLS 1.2, the signature algorithm  has been obsoleted by the
-        // supported_signature_algorithms, and the certificate type no longer
-        // restricts the algorithm used to sign the certificate.
-        // However, because we don't support certificate type checking other
-        // than rsa_sign, dss_sign and ecdsa_sign, we don't have to check the
+        // In TLS 1.2, the signbture blgorithm  hbs been obsoleted by the
+        // supported_signbture_blgorithms, bnd the certificbte type no longer
+        // restricts the blgorithm used to sign the certificbte.
+        // However, becbuse we don't support certificbte type checking other
+        // thbn rsb_sign, dss_sign bnd ecdsb_sign, we don't hbve to check the
         // protocol version here.
-        final String sigKeyAlgorithm;
+        finbl String sigKeyAlgorithm;
 
-        KeyType(String algorithm) {
-            int k = algorithm.indexOf('_');
+        KeyType(String blgorithm) {
+            int k = blgorithm.indexOf('_');
             if (k == -1) {
-                keyAlgorithm = algorithm;
+                keyAlgorithm = blgorithm;
                 sigKeyAlgorithm = null;
             } else {
-                keyAlgorithm = algorithm.substring(0, k);
-                sigKeyAlgorithm = algorithm.substring(k + 1);
+                keyAlgorithm = blgorithm.substring(0, k);
+                sigKeyAlgorithm = blgorithm.substring(k + 1);
             }
         }
 
-        boolean matches(Certificate[] chain) {
-            if (!chain[0].getPublicKey().getAlgorithm().equals(keyAlgorithm)) {
-                return false;
+        boolebn mbtches(Certificbte[] chbin) {
+            if (!chbin[0].getPublicKey().getAlgorithm().equbls(keyAlgorithm)) {
+                return fblse;
             }
             if (sigKeyAlgorithm == null) {
                 return true;
             }
-            if (chain.length > 1) {
+            if (chbin.length > 1) {
                 // if possible, check the public key in the issuer cert
-                return sigKeyAlgorithm.equals(
-                        chain[1].getPublicKey().getAlgorithm());
+                return sigKeyAlgorithm.equbls(
+                        chbin[1].getPublicKey().getAlgorithm());
             } else {
-                // Check the signature algorithm of the certificate itself.
+                // Check the signbture blgorithm of the certificbte itself.
                 // Look for the "withRSA" in "SHA1withRSA", etc.
-                X509Certificate issuer = (X509Certificate)chain[0];
-                String sigAlgName = issuer.getSigAlgName().toUpperCase(ENGLISH);
-                String pattern = "WITH" + sigKeyAlgorithm.toUpperCase(ENGLISH);
-                return sigAlgName.contains(pattern);
+                X509Certificbte issuer = (X509Certificbte)chbin[0];
+                String sigAlgNbme = issuer.getSigAlgNbme().toUpperCbse(ENGLISH);
+                String pbttern = "WITH" + sigKeyAlgorithm.toUpperCbse(ENGLISH);
+                return sigAlgNbme.contbins(pbttern);
             }
         }
     }
 
-    private static List<KeyType> getKeyTypes(String ... keyTypes) {
+    privbte stbtic List<KeyType> getKeyTypes(String ... keyTypes) {
         if ((keyTypes == null) ||
                 (keyTypes.length == 0) || (keyTypes[0] == null)) {
             return null;
         }
-        List<KeyType> list = new ArrayList<>(keyTypes.length);
+        List<KeyType> list = new ArrbyList<>(keyTypes.length);
         for (String keyType : keyTypes) {
-            list.add(new KeyType(keyType));
+            list.bdd(new KeyType(keyType));
         }
         return list;
     }
 
     /*
-     * Return the best alias that fits the given parameters.
-     * The algorithm we use is:
-     *   . scan through all the aliases in all builders in order
-     *   . as soon as we find a perfect match, return
-     *     (i.e. a match with a cert that has appropriate key usage,
-     *      qualified endpoint identity, and is not expired).
-     *   . if we do not find a perfect match, keep looping and remember
-     *     the imperfect matches
-     *   . at the end, sort the imperfect matches. we prefer expired certs
-     *     with appropriate key usage to certs with the wrong key usage.
+     * Return the best blibs thbt fits the given pbrbmeters.
+     * The blgorithm we use is:
+     *   . scbn through bll the blibses in bll builders in order
+     *   . bs soon bs we find b perfect mbtch, return
+     *     (i.e. b mbtch with b cert thbt hbs bppropribte key usbge,
+     *      qublified endpoint identity, bnd is not expired).
+     *   . if we do not find b perfect mbtch, keep looping bnd remember
+     *     the imperfect mbtches
+     *   . bt the end, sort the imperfect mbtches. we prefer expired certs
+     *     with bppropribte key usbge to certs with the wrong key usbge.
      *     return the first one of them.
      */
-    private String chooseAlias(List<KeyType> keyTypeList, Principal[] issuers,
-            CheckType checkType, AlgorithmConstraints constraints) {
+    privbte String chooseAlibs(List<KeyType> keyTypeList, Principbl[] issuers,
+            CheckType checkType, AlgorithmConstrbints constrbints) {
 
-        return chooseAlias(keyTypeList, issuers,
-                                    checkType, constraints, null, null);
+        return chooseAlibs(keyTypeList, issuers,
+                                    checkType, constrbints, null, null);
     }
 
-    private String chooseAlias(List<KeyType> keyTypeList, Principal[] issuers,
-            CheckType checkType, AlgorithmConstraints constraints,
-            List<SNIServerName> requestedServerNames, String idAlgorithm) {
+    privbte String chooseAlibs(List<KeyType> keyTypeList, Principbl[] issuers,
+            CheckType checkType, AlgorithmConstrbints constrbints,
+            List<SNIServerNbme> requestedServerNbmes, String idAlgorithm) {
 
         if (keyTypeList == null || keyTypeList.isEmpty()) {
             return null;
         }
 
-        Set<Principal> issuerSet = getIssuerSet(issuers);
-        List<EntryStatus> allResults = null;
+        Set<Principbl> issuerSet = getIssuerSet(issuers);
+        List<EntryStbtus> bllResults = null;
         for (int i = 0, n = builders.size(); i < n; i++) {
             try {
-                List<EntryStatus> results = getAliases(i, keyTypeList,
-                            issuerSet, false, checkType, constraints,
-                            requestedServerNames, idAlgorithm);
+                List<EntryStbtus> results = getAlibses(i, keyTypeList,
+                            issuerSet, fblse, checkType, constrbints,
+                            requestedServerNbmes, idAlgorithm);
                 if (results != null) {
-                    // the results will either be a single perfect match
-                    // or 1 or more imperfect matches
-                    // if it's a perfect match, return immediately
-                    EntryStatus status = results.get(0);
-                    if (status.checkResult == CheckResult.OK) {
+                    // the results will either be b single perfect mbtch
+                    // or 1 or more imperfect mbtches
+                    // if it's b perfect mbtch, return immedibtely
+                    EntryStbtus stbtus = results.get(0);
+                    if (stbtus.checkResult == CheckResult.OK) {
                         if (useDebug) {
-                            debug.println("KeyMgr: choosing key: " + status);
+                            debug.println("KeyMgr: choosing key: " + stbtus);
                         }
-                        return makeAlias(status);
+                        return mbkeAlibs(stbtus);
                     }
-                    if (allResults == null) {
-                        allResults = new ArrayList<EntryStatus>();
+                    if (bllResults == null) {
+                        bllResults = new ArrbyList<EntryStbtus>();
                     }
-                    allResults.addAll(results);
+                    bllResults.bddAll(results);
                 }
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 // ignore
             }
         }
-        if (allResults == null) {
+        if (bllResults == null) {
             if (useDebug) {
-                debug.println("KeyMgr: no matching key found");
+                debug.println("KeyMgr: no mbtching key found");
             }
             return null;
         }
-        Collections.sort(allResults);
+        Collections.sort(bllResults);
         if (useDebug) {
-            debug.println("KeyMgr: no good matching key found, "
-                        + "returning best match out of:");
-            debug.println(allResults.toString());
+            debug.println("KeyMgr: no good mbtching key found, "
+                        + "returning best mbtch out of:");
+            debug.println(bllResults.toString());
         }
-        return makeAlias(allResults.get(0));
+        return mbkeAlibs(bllResults.get(0));
     }
 
     /*
-     * Return all aliases that (approximately) fit the parameters.
-     * These are perfect matches plus imperfect matches (expired certificates
-     * and certificates with the wrong extensions).
-     * The perfect matches will be first in the array.
+     * Return bll blibses thbt (bpproximbtely) fit the pbrbmeters.
+     * These bre perfect mbtches plus imperfect mbtches (expired certificbtes
+     * bnd certificbtes with the wrong extensions).
+     * The perfect mbtches will be first in the brrby.
      */
-    public String[] getAliases(String keyType, Principal[] issuers,
-            CheckType checkType, AlgorithmConstraints constraints) {
+    public String[] getAlibses(String keyType, Principbl[] issuers,
+            CheckType checkType, AlgorithmConstrbints constrbints) {
         if (keyType == null) {
             return null;
         }
 
-        Set<Principal> issuerSet = getIssuerSet(issuers);
+        Set<Principbl> issuerSet = getIssuerSet(issuers);
         List<KeyType> keyTypeList = getKeyTypes(keyType);
-        List<EntryStatus> allResults = null;
+        List<EntryStbtus> bllResults = null;
         for (int i = 0, n = builders.size(); i < n; i++) {
             try {
-                List<EntryStatus> results = getAliases(i, keyTypeList,
-                                    issuerSet, true, checkType, constraints,
+                List<EntryStbtus> results = getAlibses(i, keyTypeList,
+                                    issuerSet, true, checkType, constrbints,
                                     null, null);
                 if (results != null) {
-                    if (allResults == null) {
-                        allResults = new ArrayList<EntryStatus>();
+                    if (bllResults == null) {
+                        bllResults = new ArrbyList<EntryStbtus>();
                     }
-                    allResults.addAll(results);
+                    bllResults.bddAll(results);
                 }
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 // ignore
             }
         }
-        if (allResults == null || allResults.isEmpty()) {
+        if (bllResults == null || bllResults.isEmpty()) {
             if (useDebug) {
-                debug.println("KeyMgr: no matching alias found");
+                debug.println("KeyMgr: no mbtching blibs found");
             }
             return null;
         }
-        Collections.sort(allResults);
+        Collections.sort(bllResults);
         if (useDebug) {
-            debug.println("KeyMgr: getting aliases: " + allResults);
+            debug.println("KeyMgr: getting blibses: " + bllResults);
         }
-        return toAliases(allResults);
+        return toAlibses(bllResults);
     }
 
-    // turn candidate entries into unique aliases we can return to JSSE
-    private String[] toAliases(List<EntryStatus> results) {
+    // turn cbndidbte entries into unique blibses we cbn return to JSSE
+    privbte String[] toAlibses(List<EntryStbtus> results) {
         String[] s = new String[results.size()];
         int i = 0;
-        for (EntryStatus result : results) {
-            s[i++] = makeAlias(result);
+        for (EntryStbtus result : results) {
+            s[i++] = mbkeAlibs(result);
         }
         return s;
     }
 
-    // make a Set out of the array
-    private Set<Principal> getIssuerSet(Principal[] issuers) {
+    // mbke b Set out of the brrby
+    privbte Set<Principbl> getIssuerSet(Principbl[] issuers) {
         if ((issuers != null) && (issuers.length != 0)) {
-            return new HashSet<>(Arrays.asList(issuers));
+            return new HbshSet<>(Arrbys.bsList(issuers));
         } else {
             return null;
         }
     }
 
-    // a candidate match
-    // identifies the entry by builder and alias
-    // and includes the result of the certificate check
-    private static class EntryStatus implements Comparable<EntryStatus> {
+    // b cbndidbte mbtch
+    // identifies the entry by builder bnd blibs
+    // bnd includes the result of the certificbte check
+    privbte stbtic clbss EntryStbtus implements Compbrbble<EntryStbtus> {
 
-        final int builderIndex;
-        final int keyIndex;
-        final String alias;
-        final CheckResult checkResult;
+        finbl int builderIndex;
+        finbl int keyIndex;
+        finbl String blibs;
+        finbl CheckResult checkResult;
 
-        EntryStatus(int builderIndex, int keyIndex, String alias,
-                Certificate[] chain, CheckResult checkResult) {
+        EntryStbtus(int builderIndex, int keyIndex, String blibs,
+                Certificbte[] chbin, CheckResult checkResult) {
             this.builderIndex = builderIndex;
             this.keyIndex = keyIndex;
-            this.alias = alias;
+            this.blibs = blibs;
             this.checkResult = checkResult;
         }
 
         @Override
-        public int compareTo(EntryStatus other) {
-            int result = this.checkResult.compareTo(other.checkResult);
+        public int compbreTo(EntryStbtus other) {
+            int result = this.checkResult.compbreTo(other.checkResult);
             return (result == 0) ? (this.keyIndex - other.keyIndex) : result;
         }
 
         @Override
         public String toString() {
-            String s = alias + " (verified: " + checkResult + ")";
+            String s = blibs + " (verified: " + checkResult + ")";
             if (builderIndex == 0) {
                 return s;
             } else {
-                return "Builder #" + builderIndex + ", alias: " + s;
+                return "Builder #" + builderIndex + ", blibs: " + s;
             }
         }
     }
 
-    // enum for the type of certificate check we want to perform
+    // enum for the type of certificbte check we wbnt to perform
     // (client or server)
-    // also includes the check code itself
-    private static enum CheckType {
+    // blso includes the check code itself
+    privbte stbtic enum CheckType {
 
-        // enum constant for "no check" (currently not used)
+        // enum constbnt for "no check" (currently not used)
         NONE(Collections.<String>emptySet()),
 
-        // enum constant for "tls client" check
-        // valid EKU for TLS client: any, tls_client
-        CLIENT(new HashSet<String>(Arrays.asList(new String[] {
+        // enum constbnt for "tls client" check
+        // vblid EKU for TLS client: bny, tls_client
+        CLIENT(new HbshSet<String>(Arrbys.bsList(new String[] {
             "2.5.29.37.0", "1.3.6.1.5.5.7.3.2" }))),
 
-        // enum constant for "tls server" check
-        // valid EKU for TLS server: any, tls_server, ns_sgc, ms_sgc
-        SERVER(new HashSet<String>(Arrays.asList(new String[] {
+        // enum constbnt for "tls server" check
+        // vblid EKU for TLS server: bny, tls_server, ns_sgc, ms_sgc
+        SERVER(new HbshSet<String>(Arrbys.bsList(new String[] {
             "2.5.29.37.0", "1.3.6.1.5.5.7.3.1", "2.16.840.1.113730.4.1",
             "1.3.6.1.4.1.311.10.3.3" })));
 
-        // set of valid EKU values for this type
-        final Set<String> validEku;
+        // set of vblid EKU vblues for this type
+        finbl Set<String> vblidEku;
 
-        CheckType(Set<String> validEku) {
-            this.validEku = validEku;
+        CheckType(Set<String> vblidEku) {
+            this.vblidEku = vblidEku;
         }
 
-        private static boolean getBit(boolean[] keyUsage, int bit) {
-            return (bit < keyUsage.length) && keyUsage[bit];
+        privbte stbtic boolebn getBit(boolebn[] keyUsbge, int bit) {
+            return (bit < keyUsbge.length) && keyUsbge[bit];
         }
 
-        // check if this certificate is appropriate for this type of use
-        // first check extensions, if they match, check expiration
-        // note: we may want to move this code into the sun.security.validator
-        // package
-        CheckResult check(X509Certificate cert, Date date,
-                List<SNIServerName> serverNames, String idAlgorithm) {
+        // check if this certificbte is bppropribte for this type of use
+        // first check extensions, if they mbtch, check expirbtion
+        // note: we mby wbnt to move this code into the sun.security.vblidbtor
+        // pbckbge
+        CheckResult check(X509Certificbte cert, Dbte dbte,
+                List<SNIServerNbme> serverNbmes, String idAlgorithm) {
 
             if (this == NONE) {
                 return CheckResult.OK;
@@ -556,105 +556,105 @@ final class X509KeyManagerImpl extends X509ExtendedKeyManager
 
             // check extensions
             try {
-                // check extended key usage
-                List<String> certEku = cert.getExtendedKeyUsage();
+                // check extended key usbge
+                List<String> certEku = cert.getExtendedKeyUsbge();
                 if ((certEku != null) &&
-                        Collections.disjoint(validEku, certEku)) {
-                    // if extension present and it does not contain any of
-                    // the valid EKU OIDs, return extension_mismatch
+                        Collections.disjoint(vblidEku, certEku)) {
+                    // if extension present bnd it does not contbin bny of
+                    // the vblid EKU OIDs, return extension_mismbtch
                     return CheckResult.EXTENSION_MISMATCH;
                 }
 
-                // check key usage
-                boolean[] ku = cert.getKeyUsage();
+                // check key usbge
+                boolebn[] ku = cert.getKeyUsbge();
                 if (ku != null) {
-                    String algorithm = cert.getPublicKey().getAlgorithm();
-                    boolean kuSignature = getBit(ku, 0);
-                    switch (algorithm) {
-                        case "RSA":
-                            // require either signature bit
-                            // or if server also allow key encipherment bit
-                            if (kuSignature == false) {
-                                if ((this == CLIENT) || (getBit(ku, 2) == false)) {
+                    String blgorithm = cert.getPublicKey().getAlgorithm();
+                    boolebn kuSignbture = getBit(ku, 0);
+                    switch (blgorithm) {
+                        cbse "RSA":
+                            // require either signbture bit
+                            // or if server blso bllow key encipherment bit
+                            if (kuSignbture == fblse) {
+                                if ((this == CLIENT) || (getBit(ku, 2) == fblse)) {
                                     return CheckResult.EXTENSION_MISMATCH;
                                 }
                             }
-                            break;
-                        case "DSA":
-                            // require signature bit
-                            if (kuSignature == false) {
+                            brebk;
+                        cbse "DSA":
+                            // require signbture bit
+                            if (kuSignbture == fblse) {
                                 return CheckResult.EXTENSION_MISMATCH;
                             }
-                            break;
-                        case "DH":
-                            // require keyagreement bit
-                            if (getBit(ku, 4) == false) {
+                            brebk;
+                        cbse "DH":
+                            // require keybgreement bit
+                            if (getBit(ku, 4) == fblse) {
                                 return CheckResult.EXTENSION_MISMATCH;
                             }
-                            break;
-                        case "EC":
-                            // require signature bit
-                            if (kuSignature == false) {
+                            brebk;
+                        cbse "EC":
+                            // require signbture bit
+                            if (kuSignbture == fblse) {
                                 return CheckResult.EXTENSION_MISMATCH;
                             }
-                            // For servers, also require key agreement.
-                            // This is not totally accurate as the keyAgreement
-                            // bit is only necessary for static ECDH key
-                            // exchange and not ephemeral ECDH. We leave it in
-                            // for now until there are signs that this check
-                            // causes problems for real world EC certificates.
-                            if ((this == SERVER) && (getBit(ku, 4) == false)) {
+                            // For servers, blso require key bgreement.
+                            // This is not totblly bccurbte bs the keyAgreement
+                            // bit is only necessbry for stbtic ECDH key
+                            // exchbnge bnd not ephemerbl ECDH. We lebve it in
+                            // for now until there bre signs thbt this check
+                            // cbuses problems for rebl world EC certificbtes.
+                            if ((this == SERVER) && (getBit(ku, 4) == fblse)) {
                                 return CheckResult.EXTENSION_MISMATCH;
                             }
-                            break;
+                            brebk;
                     }
                 }
-            } catch (CertificateException e) {
-                // extensions unparseable, return failure
+            } cbtch (CertificbteException e) {
+                // extensions unpbrsebble, return fbilure
                 return CheckResult.EXTENSION_MISMATCH;
             }
 
             try {
-                cert.checkValidity(date);
-            } catch (CertificateException e) {
+                cert.checkVblidity(dbte);
+            } cbtch (CertificbteException e) {
                 return CheckResult.EXPIRED;
             }
 
-            if (serverNames != null && !serverNames.isEmpty()) {
-                for (SNIServerName serverName : serverNames) {
-                    if (serverName.getType() ==
-                                StandardConstants.SNI_HOST_NAME) {
-                        if (!(serverName instanceof SNIHostName)) {
+            if (serverNbmes != null && !serverNbmes.isEmpty()) {
+                for (SNIServerNbme serverNbme : serverNbmes) {
+                    if (serverNbme.getType() ==
+                                StbndbrdConstbnts.SNI_HOST_NAME) {
+                        if (!(serverNbme instbnceof SNIHostNbme)) {
                             try {
-                                serverName =
-                                    new SNIHostName(serverName.getEncoded());
-                            } catch (IllegalArgumentException iae) {
-                                // unlikely to happen, just in case ...
+                                serverNbme =
+                                    new SNIHostNbme(serverNbme.getEncoded());
+                            } cbtch (IllegblArgumentException ibe) {
+                                // unlikely to hbppen, just in cbse ...
                                 if (useDebug) {
                                     debug.println(
-                                       "Illegal server name: " + serverName);
+                                       "Illegbl server nbme: " + serverNbme);
                                 }
 
                                 return CheckResult.INSENSITIVE;
                             }
                         }
-                        String hostname =
-                                ((SNIHostName)serverName).getAsciiName();
+                        String hostnbme =
+                                ((SNIHostNbme)serverNbme).getAsciiNbme();
 
                         try {
-                            X509TrustManagerImpl.checkIdentity(hostname,
+                            X509TrustMbnbgerImpl.checkIdentity(hostnbme,
                                                         cert, idAlgorithm);
-                        } catch (CertificateException e) {
+                        } cbtch (CertificbteException e) {
                             if (useDebug) {
                                 debug.println(
-                                   "Certificate identity does not match " +
-                                   "Server Name Inidication (SNI): " +
-                                   hostname);
+                                   "Certificbte identity does not mbtch " +
+                                   "Server Nbme Inidicbtion (SNI): " +
+                                   hostnbme);
                             }
                             return CheckResult.INSENSITIVE;
                         }
 
-                        break;
+                        brebk;
                     }
                 }
             }
@@ -664,75 +664,75 @@ final class X509KeyManagerImpl extends X509ExtendedKeyManager
     }
 
     // enum for the result of the extension check
-    // NOTE: the order of the constants is important as they are used
-    // for sorting, i.e. OK is best, followed by EXPIRED and EXTENSION_MISMATCH
-    private static enum CheckResult {
+    // NOTE: the order of the constbnts is importbnt bs they bre used
+    // for sorting, i.e. OK is best, followed by EXPIRED bnd EXTENSION_MISMATCH
+    privbte stbtic enum CheckResult {
         OK,                     // ok or not checked
-        INSENSITIVE,            // server name indication insensitive
-        EXPIRED,                // extensions valid but cert expired
-        EXTENSION_MISMATCH,     // extensions invalid (expiration not checked)
+        INSENSITIVE,            // server nbme indicbtion insensitive
+        EXPIRED,                // extensions vblid but cert expired
+        EXTENSION_MISMATCH,     // extensions invblid (expirbtion not checked)
     }
 
     /*
-     * Return a List of all candidate matches in the specified builder
-     * that fit the parameters.
-     * We exclude entries in the KeyStore if they are not:
-     *  . private key entries
-     *  . the certificates are not X509 certificates
-     *  . the algorithm of the key in the EE cert doesn't match one of keyTypes
-     *  . none of the certs is issued by a Principal in issuerSet
-     * Using those entries would not be possible or they would almost
-     * certainly be rejected by the peer.
+     * Return b List of bll cbndidbte mbtches in the specified builder
+     * thbt fit the pbrbmeters.
+     * We exclude entries in the KeyStore if they bre not:
+     *  . privbte key entries
+     *  . the certificbtes bre not X509 certificbtes
+     *  . the blgorithm of the key in the EE cert doesn't mbtch one of keyTypes
+     *  . none of the certs is issued by b Principbl in issuerSet
+     * Using those entries would not be possible or they would blmost
+     * certbinly be rejected by the peer.
      *
-     * In addition to those checks, we also check the extensions in the EE
-     * cert and its expiration. Even if there is a mismatch, we include
-     * such certificates because they technically work and might be accepted
-     * by the peer. This leads to more graceful failure and better error
-     * messages if the cert expires from one day to the next.
+     * In bddition to those checks, we blso check the extensions in the EE
+     * cert bnd its expirbtion. Even if there is b mismbtch, we include
+     * such certificbtes becbuse they technicblly work bnd might be bccepted
+     * by the peer. This lebds to more grbceful fbilure bnd better error
+     * messbges if the cert expires from one dby to the next.
      *
-     * The return values are:
-     *   . null, if there are no matching entries at all
-     *   . if 'findAll' is 'false' and there is a perfect match, a List
-     *     with a single element (early return)
-     *   . if 'findAll' is 'false' and there is NO perfect match, a List
-     *     with all the imperfect matches (expired, wrong extensions)
-     *   . if 'findAll' is 'true', a List with all perfect and imperfect
-     *     matches
+     * The return vblues bre:
+     *   . null, if there bre no mbtching entries bt bll
+     *   . if 'findAll' is 'fblse' bnd there is b perfect mbtch, b List
+     *     with b single element (ebrly return)
+     *   . if 'findAll' is 'fblse' bnd there is NO perfect mbtch, b List
+     *     with bll the imperfect mbtches (expired, wrong extensions)
+     *   . if 'findAll' is 'true', b List with bll perfect bnd imperfect
+     *     mbtches
      */
-    private List<EntryStatus> getAliases(int builderIndex,
-            List<KeyType> keyTypes, Set<Principal> issuerSet,
-            boolean findAll, CheckType checkType,
-            AlgorithmConstraints constraints,
-            List<SNIServerName> requestedServerNames,
+    privbte List<EntryStbtus> getAlibses(int builderIndex,
+            List<KeyType> keyTypes, Set<Principbl> issuerSet,
+            boolebn findAll, CheckType checkType,
+            AlgorithmConstrbints constrbints,
+            List<SNIServerNbme> requestedServerNbmes,
             String idAlgorithm) throws Exception {
 
         Builder builder = builders.get(builderIndex);
         KeyStore ks = builder.getKeyStore();
-        List<EntryStatus> results = null;
-        Date date = verificationDate;
-        boolean preferred = false;
-        for (Enumeration<String> e = ks.aliases(); e.hasMoreElements(); ) {
-            String alias = e.nextElement();
-            // check if it is a key entry (private key or secret key)
-            if (ks.isKeyEntry(alias) == false) {
+        List<EntryStbtus> results = null;
+        Dbte dbte = verificbtionDbte;
+        boolebn preferred = fblse;
+        for (Enumerbtion<String> e = ks.blibses(); e.hbsMoreElements(); ) {
+            String blibs = e.nextElement();
+            // check if it is b key entry (privbte key or secret key)
+            if (ks.isKeyEntry(blibs) == fblse) {
                 continue;
             }
 
-            Certificate[] chain = ks.getCertificateChain(alias);
-            if ((chain == null) || (chain.length == 0)) {
+            Certificbte[] chbin = ks.getCertificbteChbin(blibs);
+            if ((chbin == null) || (chbin.length == 0)) {
                 // must be secret key entry, ignore
                 continue;
             }
 
-            boolean incompatible = false;
-            for (Certificate cert : chain) {
-                if (cert instanceof X509Certificate == false) {
-                    // not an X509Certificate, ignore this alias
-                    incompatible = true;
-                    break;
+            boolebn incompbtible = fblse;
+            for (Certificbte cert : chbin) {
+                if (cert instbnceof X509Certificbte == fblse) {
+                    // not bn X509Certificbte, ignore this blibs
+                    incompbtible = true;
+                    brebk;
                 }
             }
-            if (incompatible) {
+            if (incompbtible) {
                 continue;
             }
 
@@ -740,95 +740,95 @@ final class X509KeyManagerImpl extends X509ExtendedKeyManager
             int keyIndex = -1;
             int j = 0;
             for (KeyType keyType : keyTypes) {
-                if (keyType.matches(chain)) {
+                if (keyType.mbtches(chbin)) {
                     keyIndex = j;
-                    break;
+                    brebk;
                 }
                 j++;
             }
             if (keyIndex == -1) {
                 if (useDebug) {
-                    debug.println("Ignoring alias " + alias
-                                + ": key algorithm does not match");
+                    debug.println("Ignoring blibs " + blibs
+                                + ": key blgorithm does not mbtch");
                 }
                 continue;
             }
             // check issuers
             if (issuerSet != null) {
-                boolean found = false;
-                for (Certificate cert : chain) {
-                    X509Certificate xcert = (X509Certificate)cert;
-                    if (issuerSet.contains(xcert.getIssuerX500Principal())) {
+                boolebn found = fblse;
+                for (Certificbte cert : chbin) {
+                    X509Certificbte xcert = (X509Certificbte)cert;
+                    if (issuerSet.contbins(xcert.getIssuerX500Principbl())) {
                         found = true;
-                        break;
+                        brebk;
                     }
                 }
-                if (found == false) {
+                if (found == fblse) {
                     if (useDebug) {
-                        debug.println("Ignoring alias " + alias
-                                    + ": issuers do not match");
+                        debug.println("Ignoring blibs " + blibs
+                                    + ": issuers do not mbtch");
                     }
                     continue;
                 }
             }
 
-            // check the algorithm constraints
-            if (constraints != null &&
-                    !conformsToAlgorithmConstraints(constraints, chain)) {
+            // check the blgorithm constrbints
+            if (constrbints != null &&
+                    !conformsToAlgorithmConstrbints(constrbints, chbin)) {
 
                 if (useDebug) {
-                    debug.println("Ignoring alias " + alias +
-                            ": certificate list does not conform to " +
-                            "algorithm constraints");
+                    debug.println("Ignoring blibs " + blibs +
+                            ": certificbte list does not conform to " +
+                            "blgorithm constrbints");
                 }
                 continue;
             }
 
-            if (date == null) {
-                date = new Date();
+            if (dbte == null) {
+                dbte = new Dbte();
             }
             CheckResult checkResult =
-                    checkType.check((X509Certificate)chain[0], date,
-                                    requestedServerNames, idAlgorithm);
-            EntryStatus status =
-                    new EntryStatus(builderIndex, keyIndex,
-                                        alias, chain, checkResult);
+                    checkType.check((X509Certificbte)chbin[0], dbte,
+                                    requestedServerNbmes, idAlgorithm);
+            EntryStbtus stbtus =
+                    new EntryStbtus(builderIndex, keyIndex,
+                                        blibs, chbin, checkResult);
             if (!preferred && checkResult == CheckResult.OK && keyIndex == 0) {
                 preferred = true;
             }
-            if (preferred && (findAll == false)) {
-                // if we have a good match and do not need all matches,
-                // return immediately
-                return Collections.singletonList(status);
+            if (preferred && (findAll == fblse)) {
+                // if we hbve b good mbtch bnd do not need bll mbtches,
+                // return immedibtely
+                return Collections.singletonList(stbtus);
             } else {
                 if (results == null) {
-                    results = new ArrayList<EntryStatus>();
+                    results = new ArrbyList<EntryStbtus>();
                 }
-                results.add(status);
+                results.bdd(stbtus);
             }
         }
         return results;
     }
 
-    private static boolean conformsToAlgorithmConstraints(
-            AlgorithmConstraints constraints, Certificate[] chain) {
+    privbte stbtic boolebn conformsToAlgorithmConstrbints(
+            AlgorithmConstrbints constrbints, Certificbte[] chbin) {
 
-        AlgorithmChecker checker = new AlgorithmChecker(constraints);
+        AlgorithmChecker checker = new AlgorithmChecker(constrbints);
         try {
-            checker.init(false);
-        } catch (CertPathValidatorException cpve) {
-            // unlikely to happen
-            return false;
+            checker.init(fblse);
+        } cbtch (CertPbthVblidbtorException cpve) {
+            // unlikely to hbppen
+            return fblse;
         }
 
-        // It is a forward checker, so we need to check from trust to target.
-        for (int i = chain.length - 1; i >= 0; i--) {
-            Certificate cert = chain[i];
+        // It is b forwbrd checker, so we need to check from trust to tbrget.
+        for (int i = chbin.length - 1; i >= 0; i--) {
+            Certificbte cert = chbin[i];
             try {
-                // We don't care about the unresolved critical extensions.
+                // We don't cbre bbout the unresolved criticbl extensions.
                 checker.check(cert, Collections.<String>emptySet());
-            } catch (CertPathValidatorException cpve) {
-                return false;
+            } cbtch (CertPbthVblidbtorException cpve) {
+                return fblse;
             }
         }
 

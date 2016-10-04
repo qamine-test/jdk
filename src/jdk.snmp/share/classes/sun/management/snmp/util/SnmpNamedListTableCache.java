@@ -1,267 +1,267 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.util;
+pbckbge sun.mbnbgement.snmp.util;
 
 import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.mbeanserver.Util;
+import com.sun.jmx.mbebnserver.Util;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
-import java.util.Comparator;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.List;
-import java.util.Iterator;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import jbvb.util.Mbp;
+import jbvb.util.TreeMbp;
+import jbvb.util.List;
+import jbvb.util.Iterbtor;
 
-import java.lang.ref.WeakReference;
+import jbvb.lbng.ref.WebkReference;
 
 
 /**
- * This abstract class implements a weak cache that holds table data, for
- * a table whose data is obtained from a list  where a name can be obtained
- * for each item in the list.
- * <p>This object maintains a map between an entry name and its associated
- * SnmpOid index, so that a given entry is always associated to the same
+ * This bbstrbct clbss implements b webk cbche thbt holds tbble dbtb, for
+ * b tbble whose dbtb is obtbined from b list  where b nbme cbn be obtbined
+ * for ebch item in the list.
+ * <p>This object mbintbins b mbp between bn entry nbme bnd its bssocibted
+ * SnmpOid index, so thbt b given entry is blwbys bssocibted to the sbme
  * index.</p>
- * <p><b>NOTE: This class is not synchronized, subclasses must implement
- *          the appropriate synchronization whwn needed.</b></p>
+ * <p><b>NOTE: This clbss is not synchronized, subclbsses must implement
+ *          the bppropribte synchronizbtion whwn needed.</b></p>
  **/
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class SnmpNamedListTableCache extends SnmpListTableCache {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public bbstrbct clbss SnmpNbmedListTbbleCbche extends SnmpListTbbleCbche {
 
     /**
-     * This map associate an entry name with the SnmpOid index that's
-     * been allocated for it.
+     * This mbp bssocibte bn entry nbme with the SnmpOid index thbt's
+     * been bllocbted for it.
      **/
-    protected TreeMap<String, SnmpOid> names = new TreeMap<>();
+    protected TreeMbp<String, SnmpOid> nbmes = new TreeMbp<>();
 
     /**
-     * The last allocate index.
+     * The lbst bllocbte index.
      **/
-    protected long last = 0;
+    protected long lbst = 0;
 
     /**
-     * true if the index has wrapped.
+     * true if the index hbs wrbpped.
      **/
-    boolean   wrapped = false;
+    boolebn   wrbpped = fblse;
 
     /**
-     * Returns the key to use as name for the given <var>item</var>.
-     * <br>This method is called by {@link #getIndex(Object,List,int,Object)}.
-     * The given <var>item</var> is expected to be always associated with
-     * the same name.
-     * @param context The context passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rawDatas Raw table datas passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rank Rank of the given <var>item</var> in the
-     *        <var>rawDatas</var> list iterator.
-     * @param item The raw data object for which a key name must be determined.
+     * Returns the key to use bs nbme for the given <vbr>item</vbr>.
+     * <br>This method is cblled by {@link #getIndex(Object,List,int,Object)}.
+     * The given <vbr>item</vbr> is expected to be blwbys bssocibted with
+     * the sbme nbme.
+     * @pbrbm context The context pbssed to
+     *        {@link #updbteCbchedDbtbs(Object,List)}.
+     * @pbrbm rbwDbtbs Rbw tbble dbtbs pbssed to
+     *        {@link #updbteCbchedDbtbs(Object,List)}.
+     * @pbrbm rbnk Rbnk of the given <vbr>item</vbr> in the
+     *        <vbr>rbwDbtbs</vbr> list iterbtor.
+     * @pbrbm item The rbw dbtb object for which b key nbme must be determined.
      **/
-    protected abstract String getKey(Object context, List<?> rawDatas,
-                                     int rank, Object item);
+    protected bbstrbct String getKey(Object context, List<?> rbwDbtbs,
+                                     int rbnk, Object item);
 
     /**
-     * Find a new index for the entry corresponding to the
-     * given <var>item</var>.
-     * <br>This method is called by {@link #getIndex(Object,List,int,Object)}
-     * when a new index needs to be allocated for an <var>item</var>. The
-     * index returned must not be already in used.
-     * @param context The context passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rawDatas Raw table datas passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rank Rank of the given <var>item</var> in the
-     *        <var>rawDatas</var> list iterator.
-     * @param item The raw data object for which an index must be determined.
+     * Find b new index for the entry corresponding to the
+     * given <vbr>item</vbr>.
+     * <br>This method is cblled by {@link #getIndex(Object,List,int,Object)}
+     * when b new index needs to be bllocbted for bn <vbr>item</vbr>. The
+     * index returned must not be blrebdy in used.
+     * @pbrbm context The context pbssed to
+     *        {@link #updbteCbchedDbtbs(Object,List)}.
+     * @pbrbm rbwDbtbs Rbw tbble dbtbs pbssed to
+     *        {@link #updbteCbchedDbtbs(Object,List)}.
+     * @pbrbm rbnk Rbnk of the given <vbr>item</vbr> in the
+     *        <vbr>rbwDbtbs</vbr> list iterbtor.
+     * @pbrbm item The rbw dbtb object for which bn index must be determined.
      **/
-    protected SnmpOid makeIndex(Object context, List<?> rawDatas,
-                                int rank, Object item) {
+    protected SnmpOid mbkeIndex(Object context, List<?> rbwDbtbs,
+                                int rbnk, Object item) {
 
-        // check we are in the limits of an unsigned32.
-        if (++last > 0x00000000FFFFFFFFL) {
-            // we just wrapped.
-            log.debug("makeIndex", "Index wrapping...");
-            last = 0;
-            wrapped=true;
+        // check we bre in the limits of bn unsigned32.
+        if (++lbst > 0x00000000FFFFFFFFL) {
+            // we just wrbpped.
+            log.debug("mbkeIndex", "Index wrbpping...");
+            lbst = 0;
+            wrbpped=true;
         }
 
-        // If we never wrapped, we can safely return last as new index.
-        if (!wrapped) return new SnmpOid(last);
+        // If we never wrbpped, we cbn sbfely return lbst bs new index.
+        if (!wrbpped) return new SnmpOid(lbst);
 
-        // We wrapped. We must look for an unused index.
+        // We wrbpped. We must look for bn unused index.
         for (int i=1;i < 0x00000000FFFFFFFFL;i++) {
-            if (++last >  0x00000000FFFFFFFFL) last = 1;
-            final SnmpOid testOid = new SnmpOid(last);
+            if (++lbst >  0x00000000FFFFFFFFL) lbst = 1;
+            finbl SnmpOid testOid = new SnmpOid(lbst);
 
-            // Was this index already in use?
-            if (names == null) return testOid;
-            if (names.containsValue(testOid)) continue;
+            // Wbs this index blrebdy in use?
+            if (nbmes == null) return testOid;
+            if (nbmes.contbinsVblue(testOid)) continue;
 
-            // Have we just used it in a previous iteration?
+            // Hbve we just used it in b previous iterbtion?
             if (context == null) return testOid;
-            if (((Map)context).containsValue(testOid)) continue;
+            if (((Mbp)context).contbinsVblue(testOid)) continue;
 
             // Ok, not in use.
             return testOid;
         }
-        // all indexes are in use! we're stuck.
-        // // throw new IndexOutOfBoundsException("No index available.");
-        // better to return null and log an error.
+        // bll indexes bre in use! we're stuck.
+        // // throw new IndexOutOfBoundsException("No index bvbilbble.");
+        // better to return null bnd log bn error.
         return null;
     }
 
     /**
-     * Call {@link #getKey(Object,List,int,Object)} in order to get
-     * the item name. Then check whether an index was already allocated
-     * for the entry by that name. If yes return it. Otherwise, call
-     * {@link #makeIndex(Object,List,int,Object)} to compute a new
-     * index for that entry.
-     * Finally store the association between
-     * the name and index in the context TreeMap.
-     * @param context The context passed to
-     *        {@link #updateCachedDatas(Object,List)}.
+     * Cbll {@link #getKey(Object,List,int,Object)} in order to get
+     * the item nbme. Then check whether bn index wbs blrebdy bllocbted
+     * for the entry by thbt nbme. If yes return it. Otherwise, cbll
+     * {@link #mbkeIndex(Object,List,int,Object)} to compute b new
+     * index for thbt entry.
+     * Finblly store the bssocibtion between
+     * the nbme bnd index in the context TreeMbp.
+     * @pbrbm context The context pbssed to
+     *        {@link #updbteCbchedDbtbs(Object,List)}.
      *        It is expected to
-     *        be an instance of  {@link TreeMap}.
-     * @param rawDatas Raw table datas passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rank Rank of the given <var>item</var> in the
-     *        <var>rawDatas</var> list iterator.
-     * @param item The raw data object for which an index must be determined.
+     *        be bn instbnce of  {@link TreeMbp}.
+     * @pbrbm rbwDbtbs Rbw tbble dbtbs pbssed to
+     *        {@link #updbteCbchedDbtbs(Object,List)}.
+     * @pbrbm rbnk Rbnk of the given <vbr>item</vbr> in the
+     *        <vbr>rbwDbtbs</vbr> list iterbtor.
+     * @pbrbm item The rbw dbtb object for which bn index must be determined.
      **/
-    protected SnmpOid getIndex(Object context, List<?> rawDatas,
-                               int rank, Object item) {
-        final String key   = getKey(context,rawDatas,rank,item);
-        final Object index = (names==null||key==null)?null:names.get(key);
-        final SnmpOid result =
-            ((index != null)?((SnmpOid)index):makeIndex(context,rawDatas,
-                                                      rank,item));
+    protected SnmpOid getIndex(Object context, List<?> rbwDbtbs,
+                               int rbnk, Object item) {
+        finbl String key   = getKey(context,rbwDbtbs,rbnk,item);
+        finbl Object index = (nbmes==null||key==null)?null:nbmes.get(key);
+        finbl SnmpOid result =
+            ((index != null)?((SnmpOid)index):mbkeIndex(context,rbwDbtbs,
+                                                      rbnk,item));
         if ((context != null) && (key != null) && (result != null)) {
-            Map<Object, Object> map = Util.cast(context);
-            map.put(key,result);
+            Mbp<Object, Object> mbp = Util.cbst(context);
+            mbp.put(key,result);
         }
         log.debug("getIndex","key="+key+", index="+result);
         return result;
     }
 
     /**
-     * Allocate a new {@link TreeMap} to serve as context, then
-     * call {@link SnmpListTableCache#updateCachedDatas(Object,List)}, and
-     * finally replace the {@link #names} TreeMap by the new allocated
-     * TreeMap.
-     * @param rawDatas The table datas from which the cached data will be
+     * Allocbte b new {@link TreeMbp} to serve bs context, then
+     * cbll {@link SnmpListTbbleCbche#updbteCbchedDbtbs(Object,List)}, bnd
+     * finblly replbce the {@link #nbmes} TreeMbp by the new bllocbted
+     * TreeMbp.
+     * @pbrbm rbwDbtbs The tbble dbtbs from which the cbched dbtb will be
      *        computed.
      **/
-    protected SnmpCachedData updateCachedDatas(Object context, List<?> rawDatas) {
-        TreeMap<String,SnmpOid> ctxt = new TreeMap<>();
-        final SnmpCachedData result =
-            super.updateCachedDatas(context,rawDatas);
-        names = ctxt;
+    protected SnmpCbchedDbtb updbteCbchedDbtbs(Object context, List<?> rbwDbtbs) {
+        TreeMbp<String,SnmpOid> ctxt = new TreeMbp<>();
+        finbl SnmpCbchedDbtb result =
+            super.updbteCbchedDbtbs(context,rbwDbtbs);
+        nbmes = ctxt;
         return result;
     }
 
 
     /**
-     * Load a list of raw data from which to build the cached data.
-     * This method is called when nothing is found in the request
-     * contextual cache.
-     * @param userData The request contextual cache allocated by
-     *        the {@link JvmContextFactory}.
+     * Lobd b list of rbw dbtb from which to build the cbched dbtb.
+     * This method is cblled when nothing is found in the request
+     * contextubl cbche.
+     * @pbrbm userDbtb The request contextubl cbche bllocbted by
+     *        the {@link JvmContextFbctory}.
      *
      **/
-    protected abstract List<?>  loadRawDatas(Map<Object,Object> userData);
+    protected bbstrbct List<?>  lobdRbwDbtbs(Mbp<Object,Object> userDbtb);
 
     /**
-     *The name under which the raw data is to be found/put in
-     *        the request contextual cache.
+     *The nbme under which the rbw dbtb is to be found/put in
+     *        the request contextubl cbche.
      **/
-    protected abstract String getRawDatasKey();
+    protected bbstrbct String getRbwDbtbsKey();
 
     /**
-     * Get a list of raw data from which to build the cached data.
-     * Obtains a list of raw data by first looking it up in the
-     * request contextual cache <var>userData</var> under the given
-     * <var>key</var>. If nothing is found in the cache, calls
-     * {@link #loadRawDatas(Map)} to obtain a new rawData list,
-     * and cache the result in <var>userData</var> under <var>key</var>.
-     * @param userData The request contextual cache allocated by
-     *        the {@link JvmContextFactory}.
-     * @param key The name under which the raw data is to be found/put in
-     *        the request contextual cache.
+     * Get b list of rbw dbtb from which to build the cbched dbtb.
+     * Obtbins b list of rbw dbtb by first looking it up in the
+     * request contextubl cbche <vbr>userDbtb</vbr> under the given
+     * <vbr>key</vbr>. If nothing is found in the cbche, cblls
+     * {@link #lobdRbwDbtbs(Mbp)} to obtbin b new rbwDbtb list,
+     * bnd cbche the result in <vbr>userDbtb</vbr> under <vbr>key</vbr>.
+     * @pbrbm userDbtb The request contextubl cbche bllocbted by
+     *        the {@link JvmContextFbctory}.
+     * @pbrbm key The nbme under which the rbw dbtb is to be found/put in
+     *        the request contextubl cbche.
      *
      **/
-    protected List<?> getRawDatas(Map<Object, Object> userData, String key) {
-        List<?> rawDatas = null;
+    protected List<?> getRbwDbtbs(Mbp<Object, Object> userDbtb, String key) {
+        List<?> rbwDbtbs = null;
 
-        // Look for memory manager list in request contextual cache.
-        if (userData != null)
-            rawDatas =  (List<?>)userData.get(key);
+        // Look for memory mbnbger list in request contextubl cbche.
+        if (userDbtb != null)
+            rbwDbtbs =  (List<?>)userDbtb.get(key);
 
-        if (rawDatas == null) {
-            // No list in contextual cache, get it from API
-            rawDatas = loadRawDatas(userData);
+        if (rbwDbtbs == null) {
+            // No list in contextubl cbche, get it from API
+            rbwDbtbs = lobdRbwDbtbs(userDbtb);
 
 
-            // Put list in cache...
-            if (rawDatas != null && userData != null)
-                userData.put(key, rawDatas);
+            // Put list in cbche...
+            if (rbwDbtbs != null && userDbtb != null)
+                userDbtb.put(key, rbwDbtbs);
         }
 
-        return rawDatas;
+        return rbwDbtbs;
     }
 
     /**
-     * Update cahed datas.
-     * Obtains a {@link List} of raw datas by calling
-     * {@link #getRawDatas(Map,String) getRawDatas((Map)context,getRawDatasKey())}.<br>
-     * Then allocate a new {@link TreeMap} to serve as temporary map between
-     * names and indexes, and call {@link #updateCachedDatas(Object,List)}
-     * with that temporary map as context.<br>
-     * Finally replaces the {@link #names} TreeMap by the temporary
-     * TreeMap.
-     * @param context The request contextual cache allocated by the
-     *        {@link JvmContextFactory}.
+     * Updbte cbhed dbtbs.
+     * Obtbins b {@link List} of rbw dbtbs by cblling
+     * {@link #getRbwDbtbs(Mbp,String) getRbwDbtbs((Mbp)context,getRbwDbtbsKey())}.<br>
+     * Then bllocbte b new {@link TreeMbp} to serve bs temporbry mbp between
+     * nbmes bnd indexes, bnd cbll {@link #updbteCbchedDbtbs(Object,List)}
+     * with thbt temporbry mbp bs context.<br>
+     * Finblly replbces the {@link #nbmes} TreeMbp by the temporbry
+     * TreeMbp.
+     * @pbrbm context The request contextubl cbche bllocbted by the
+     *        {@link JvmContextFbctory}.
      **/
-    protected SnmpCachedData updateCachedDatas(Object context) {
+    protected SnmpCbchedDbtb updbteCbchedDbtbs(Object context) {
 
-        final Map<Object, Object> userData =
-            (context instanceof Map)?Util.<Map<Object, Object>>cast(context):null;
+        finbl Mbp<Object, Object> userDbtb =
+            (context instbnceof Mbp)?Util.<Mbp<Object, Object>>cbst(context):null;
 
-        // Look for memory manager list in request contextual cache.
-        final List<?> rawDatas = getRawDatas(userData,getRawDatasKey());
+        // Look for memory mbnbger list in request contextubl cbche.
+        finbl List<?> rbwDbtbs = getRbwDbtbs(userDbtb,getRbwDbtbsKey());
 
-        log.debug("updateCachedDatas","rawDatas.size()=" +
-              ((rawDatas==null)?"<no data>":""+rawDatas.size()));
+        log.debug("updbteCbchedDbtbs","rbwDbtbs.size()=" +
+              ((rbwDbtbs==null)?"<no dbtb>":""+rbwDbtbs.size()));
 
-        TreeMap<String,SnmpOid> ctxt = new TreeMap<>();
-        final SnmpCachedData result =
-            super.updateCachedDatas(ctxt,rawDatas);
-        names = ctxt;
+        TreeMbp<String,SnmpOid> ctxt = new TreeMbp<>();
+        finbl SnmpCbchedDbtb result =
+            super.updbteCbchedDbtbs(ctxt,rbwDbtbs);
+        nbmes = ctxt;
         return result;
     }
 
-    static final MibLogger log = new MibLogger(SnmpNamedListTableCache.class);
+    stbtic finbl MibLogger log = new MibLogger(SnmpNbmedListTbbleCbche.clbss);
 }

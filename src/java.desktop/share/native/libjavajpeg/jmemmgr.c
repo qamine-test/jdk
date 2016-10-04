@@ -5,210 +5,210 @@
 /*
  * jmemmgr.c
  *
- * Copyright (C) 1991-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1991-1997, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains the JPEG system-independent memory management
- * routines.  This code is usable across a wide variety of machines; most
- * of the system dependencies have been isolated in a separate file.
- * The major functions provided here are:
- *   * pool-based allocation and freeing of memory;
- *   * policy decisions about how to divide available memory among the
- *     virtual arrays;
- *   * control logic for swapping virtual arrays between main memory and
- *     backing storage.
- * The separate system-dependent file provides the actual backing-storage
- * access code, and it contains the policy decision about how much total
- * main memory to use.
- * This file is system-dependent in the sense that some of its functions
- * are unnecessary in some systems.  For example, if there is enough virtual
- * memory so that backing storage will never be used, much of the virtual
- * array control logic could be removed.  (Of course, if you have that much
- * memory then you shouldn't care about a little bit of unused code...)
+ * This file contbins the JPEG system-independent memory mbnbgement
+ * routines.  This code is usbble bcross b wide vbriety of mbchines; most
+ * of the system dependencies hbve been isolbted in b sepbrbte file.
+ * The mbjor functions provided here bre:
+ *   * pool-bbsed bllocbtion bnd freeing of memory;
+ *   * policy decisions bbout how to divide bvbilbble memory bmong the
+ *     virtubl brrbys;
+ *   * control logic for swbpping virtubl brrbys between mbin memory bnd
+ *     bbcking storbge.
+ * The sepbrbte system-dependent file provides the bctubl bbcking-storbge
+ * bccess code, bnd it contbins the policy decision bbout how much totbl
+ * mbin memory to use.
+ * This file is system-dependent in the sense thbt some of its functions
+ * bre unnecessbry in some systems.  For exbmple, if there is enough virtubl
+ * memory so thbt bbcking storbge will never be used, much of the virtubl
+ * brrby control logic could be removed.  (Of course, if you hbve thbt much
+ * memory then you shouldn't cbre bbout b little bit of unused code...)
  */
 
 #define JPEG_INTERNALS
-#define AM_MEMORY_MANAGER       /* we define jvirt_Xarray_control structs */
+#define AM_MEMORY_MANAGER       /* we define jvirt_Xbrrby_control structs */
 #include "jinclude.h"
 #include "jpeglib.h"
-#include "jmemsys.h"            /* import the system-dependent declarations */
+#include "jmemsys.h"            /* import the system-dependent declbrbtions */
 
 #ifndef NO_GETENV
-#ifndef HAVE_STDLIB_H           /* <stdlib.h> should declare getenv() */
-extern char * getenv JPP((const char * name));
+#ifndef HAVE_STDLIB_H           /* <stdlib.h> should declbre getenv() */
+extern chbr * getenv JPP((const chbr * nbme));
 #endif
 #endif
 
 
 /*
- * Some important notes:
- *   The allocation routines provided here must never return NULL.
+ * Some importbnt notes:
+ *   The bllocbtion routines provided here must never return NULL.
  *   They should exit to error_exit if unsuccessful.
  *
- *   It's not a good idea to try to merge the sarray and barray routines,
- *   even though they are textually almost the same, because samples are
- *   usually stored as bytes while coefficients are shorts or ints.  Thus,
- *   in machines where byte pointers have a different representation from
- *   word pointers, the resulting machine code could not be the same.
+ *   It's not b good ideb to try to merge the sbrrby bnd bbrrby routines,
+ *   even though they bre textublly blmost the sbme, becbuse sbmples bre
+ *   usublly stored bs bytes while coefficients bre shorts or ints.  Thus,
+ *   in mbchines where byte pointers hbve b different representbtion from
+ *   word pointers, the resulting mbchine code could not be the sbme.
  */
 
 
 /*
- * Many machines require storage alignment: longs must start on 4-byte
- * boundaries, doubles on 8-byte boundaries, etc.  On such machines, malloc()
- * always returns pointers that are multiples of the worst-case alignment
- * requirement, and we had better do so too.
- * There isn't any really portable way to determine the worst-case alignment
- * requirement.  This module assumes that the alignment requirement is
+ * Mbny mbchines require storbge blignment: longs must stbrt on 4-byte
+ * boundbries, doubles on 8-byte boundbries, etc.  On such mbchines, mblloc()
+ * blwbys returns pointers thbt bre multiples of the worst-cbse blignment
+ * requirement, bnd we hbd better do so too.
+ * There isn't bny reblly portbble wby to determine the worst-cbse blignment
+ * requirement.  This module bssumes thbt the blignment requirement is
  * multiples of sizeof(ALIGN_TYPE).
- * By default, we define ALIGN_TYPE as double.  This is necessary on some
- * workstations (where doubles really do need 8-byte alignment) and will work
- * fine on nearly everything.  If your machine has lesser alignment needs,
- * you can save a few bytes by making ALIGN_TYPE smaller.
- * The only place I know of where this will NOT work is certain Macintosh
- * 680x0 compilers that define double as a 10-byte IEEE extended float.
- * Doing 10-byte alignment is counterproductive because longwords won't be
- * aligned well.  Put "#define ALIGN_TYPE long" in jconfig.h if you have
- * such a compiler.
+ * By defbult, we define ALIGN_TYPE bs double.  This is necessbry on some
+ * workstbtions (where doubles reblly do need 8-byte blignment) bnd will work
+ * fine on nebrly everything.  If your mbchine hbs lesser blignment needs,
+ * you cbn sbve b few bytes by mbking ALIGN_TYPE smbller.
+ * The only plbce I know of where this will NOT work is certbin Mbcintosh
+ * 680x0 compilers thbt define double bs b 10-byte IEEE extended flobt.
+ * Doing 10-byte blignment is counterproductive becbuse longwords won't be
+ * bligned well.  Put "#define ALIGN_TYPE long" in jconfig.h if you hbve
+ * such b compiler.
  */
 
-#ifndef ALIGN_TYPE              /* so can override from jconfig.h */
+#ifndef ALIGN_TYPE              /* so cbn override from jconfig.h */
 #define ALIGN_TYPE  double
 #endif
 
 
 /*
- * We allocate objects from "pools", where each pool is gotten with a single
- * request to jpeg_get_small() or jpeg_get_large().  There is no per-object
- * overhead within a pool, except for alignment padding.  Each pool has a
- * header with a link to the next pool of the same class.
- * Small and large pool headers are identical except that the latter's
- * link pointer must be FAR on 80x86 machines.
- * Notice that the "real" header fields are union'ed with a dummy ALIGN_TYPE
- * field.  This forces the compiler to make SIZEOF(small_pool_hdr) a multiple
- * of the alignment requirement of ALIGN_TYPE.
+ * We bllocbte objects from "pools", where ebch pool is gotten with b single
+ * request to jpeg_get_smbll() or jpeg_get_lbrge().  There is no per-object
+ * overhebd within b pool, except for blignment pbdding.  Ebch pool hbs b
+ * hebder with b link to the next pool of the sbme clbss.
+ * Smbll bnd lbrge pool hebders bre identicbl except thbt the lbtter's
+ * link pointer must be FAR on 80x86 mbchines.
+ * Notice thbt the "rebl" hebder fields bre union'ed with b dummy ALIGN_TYPE
+ * field.  This forces the compiler to mbke SIZEOF(smbll_pool_hdr) b multiple
+ * of the blignment requirement of ALIGN_TYPE.
  */
 
-typedef union small_pool_struct * small_pool_ptr;
+typedef union smbll_pool_struct * smbll_pool_ptr;
 
-typedef union small_pool_struct {
+typedef union smbll_pool_struct {
   struct {
-    small_pool_ptr next;        /* next in list of pools */
-    size_t bytes_used;          /* how many bytes already used within pool */
-    size_t bytes_left;          /* bytes still available in this pool */
+    smbll_pool_ptr next;        /* next in list of pools */
+    size_t bytes_used;          /* how mbny bytes blrebdy used within pool */
+    size_t bytes_left;          /* bytes still bvbilbble in this pool */
   } hdr;
-  ALIGN_TYPE dummy;             /* included in union to ensure alignment */
-} small_pool_hdr;
+  ALIGN_TYPE dummy;             /* included in union to ensure blignment */
+} smbll_pool_hdr;
 
-typedef union large_pool_struct FAR * large_pool_ptr;
+typedef union lbrge_pool_struct FAR * lbrge_pool_ptr;
 
-typedef union large_pool_struct {
+typedef union lbrge_pool_struct {
   struct {
-    large_pool_ptr next;        /* next in list of pools */
-    size_t bytes_used;          /* how many bytes already used within pool */
-    size_t bytes_left;          /* bytes still available in this pool */
+    lbrge_pool_ptr next;        /* next in list of pools */
+    size_t bytes_used;          /* how mbny bytes blrebdy used within pool */
+    size_t bytes_left;          /* bytes still bvbilbble in this pool */
   } hdr;
-  ALIGN_TYPE dummy;             /* included in union to ensure alignment */
-} large_pool_hdr;
+  ALIGN_TYPE dummy;             /* included in union to ensure blignment */
+} lbrge_pool_hdr;
 
 
 /*
- * Here is the full definition of a memory manager object.
+ * Here is the full definition of b memory mbnbger object.
  */
 
 typedef struct {
   struct jpeg_memory_mgr pub;   /* public fields */
 
-  /* Each pool identifier (lifetime class) names a linked list of pools. */
-  small_pool_ptr small_list[JPOOL_NUMPOOLS];
-  large_pool_ptr large_list[JPOOL_NUMPOOLS];
+  /* Ebch pool identifier (lifetime clbss) nbmes b linked list of pools. */
+  smbll_pool_ptr smbll_list[JPOOL_NUMPOOLS];
+  lbrge_pool_ptr lbrge_list[JPOOL_NUMPOOLS];
 
-  /* Since we only have one lifetime class of virtual arrays, only one
-   * linked list is necessary (for each datatype).  Note that the virtual
-   * array control blocks being linked together are actually stored somewhere
-   * in the small-pool list.
+  /* Since we only hbve one lifetime clbss of virtubl brrbys, only one
+   * linked list is necessbry (for ebch dbtbtype).  Note thbt the virtubl
+   * brrby control blocks being linked together bre bctublly stored somewhere
+   * in the smbll-pool list.
    */
-  jvirt_sarray_ptr virt_sarray_list;
-  jvirt_barray_ptr virt_barray_list;
+  jvirt_sbrrby_ptr virt_sbrrby_list;
+  jvirt_bbrrby_ptr virt_bbrrby_list;
 
-  /* This counts total space obtained from jpeg_get_small/large */
-  size_t total_space_allocated;
+  /* This counts totbl spbce obtbined from jpeg_get_smbll/lbrge */
+  size_t totbl_spbce_bllocbted;
 
-  /* alloc_sarray and alloc_barray set this value for use by virtual
-   * array routines.
+  /* blloc_sbrrby bnd blloc_bbrrby set this vblue for use by virtubl
+   * brrby routines.
    */
-  JDIMENSION last_rowsperchunk; /* from most recent alloc_sarray/barray */
+  JDIMENSION lbst_rowsperchunk; /* from most recent blloc_sbrrby/bbrrby */
 } my_memory_mgr;
 
 typedef my_memory_mgr * my_mem_ptr;
 
 
 /*
- * The control blocks for virtual arrays.
- * Note that these blocks are allocated in the "small" pool area.
- * System-dependent info for the associated backing store (if any) is hidden
- * inside the backing_store_info struct.
+ * The control blocks for virtubl brrbys.
+ * Note thbt these blocks bre bllocbted in the "smbll" pool breb.
+ * System-dependent info for the bssocibted bbcking store (if bny) is hidden
+ * inside the bbcking_store_info struct.
  */
 
-struct jvirt_sarray_control {
+struct jvirt_sbrrby_control {
   JSAMPARRAY mem_buffer;        /* => the in-memory buffer */
-  JDIMENSION rows_in_array;     /* total virtual array height */
-  JDIMENSION samplesperrow;     /* width of array (and of memory buffer) */
-  JDIMENSION maxaccess;         /* max rows accessed by access_virt_sarray */
+  JDIMENSION rows_in_brrby;     /* totbl virtubl brrby height */
+  JDIMENSION sbmplesperrow;     /* width of brrby (bnd of memory buffer) */
+  JDIMENSION mbxbccess;         /* mbx rows bccessed by bccess_virt_sbrrby */
   JDIMENSION rows_in_mem;       /* height of memory buffer */
-  JDIMENSION rowsperchunk;      /* allocation chunk size in mem_buffer */
-  JDIMENSION cur_start_row;     /* first logical row # in the buffer */
-  JDIMENSION first_undef_row;   /* row # of first uninitialized row */
-  boolean pre_zero;             /* pre-zero mode requested? */
-  boolean dirty;                /* do current buffer contents need written? */
-  boolean b_s_open;             /* is backing-store data valid? */
-  jvirt_sarray_ptr next;        /* link to next virtual sarray control block */
-  backing_store_info b_s_info;  /* System-dependent control info */
+  JDIMENSION rowsperchunk;      /* bllocbtion chunk size in mem_buffer */
+  JDIMENSION cur_stbrt_row;     /* first logicbl row # in the buffer */
+  JDIMENSION first_undef_row;   /* row # of first uninitiblized row */
+  boolebn pre_zero;             /* pre-zero mode requested? */
+  boolebn dirty;                /* do current buffer contents need written? */
+  boolebn b_s_open;             /* is bbcking-store dbtb vblid? */
+  jvirt_sbrrby_ptr next;        /* link to next virtubl sbrrby control block */
+  bbcking_store_info b_s_info;  /* System-dependent control info */
 };
 
-struct jvirt_barray_control {
+struct jvirt_bbrrby_control {
   JBLOCKARRAY mem_buffer;       /* => the in-memory buffer */
-  JDIMENSION rows_in_array;     /* total virtual array height */
-  JDIMENSION blocksperrow;      /* width of array (and of memory buffer) */
-  JDIMENSION maxaccess;         /* max rows accessed by access_virt_barray */
+  JDIMENSION rows_in_brrby;     /* totbl virtubl brrby height */
+  JDIMENSION blocksperrow;      /* width of brrby (bnd of memory buffer) */
+  JDIMENSION mbxbccess;         /* mbx rows bccessed by bccess_virt_bbrrby */
   JDIMENSION rows_in_mem;       /* height of memory buffer */
-  JDIMENSION rowsperchunk;      /* allocation chunk size in mem_buffer */
-  JDIMENSION cur_start_row;     /* first logical row # in the buffer */
-  JDIMENSION first_undef_row;   /* row # of first uninitialized row */
-  boolean pre_zero;             /* pre-zero mode requested? */
-  boolean dirty;                /* do current buffer contents need written? */
-  boolean b_s_open;             /* is backing-store data valid? */
-  jvirt_barray_ptr next;        /* link to next virtual barray control block */
-  backing_store_info b_s_info;  /* System-dependent control info */
+  JDIMENSION rowsperchunk;      /* bllocbtion chunk size in mem_buffer */
+  JDIMENSION cur_stbrt_row;     /* first logicbl row # in the buffer */
+  JDIMENSION first_undef_row;   /* row # of first uninitiblized row */
+  boolebn pre_zero;             /* pre-zero mode requested? */
+  boolebn dirty;                /* do current buffer contents need written? */
+  boolebn b_s_open;             /* is bbcking-store dbtb vblid? */
+  jvirt_bbrrby_ptr next;        /* link to next virtubl bbrrby control block */
+  bbcking_store_info b_s_info;  /* System-dependent control info */
 };
 
 
-#ifdef MEM_STATS                /* optional extra stuff for statistics */
+#ifdef MEM_STATS                /* optionbl extrb stuff for stbtistics */
 
 LOCAL(void)
-print_mem_stats (j_common_ptr cinfo, int pool_id)
+print_mem_stbts (j_common_ptr cinfo, int pool_id)
 {
   my_mem_ptr mem = (my_mem_ptr) cinfo->mem;
-  small_pool_ptr shdr_ptr;
-  large_pool_ptr lhdr_ptr;
+  smbll_pool_ptr shdr_ptr;
+  lbrge_pool_ptr lhdr_ptr;
 
-  /* Since this is only a debugging stub, we can cheat a little by using
-   * fprintf directly rather than going through the trace message code.
-   * This is helpful because message parm array can't handle longs.
+  /* Since this is only b debugging stub, we cbn chebt b little by using
+   * fprintf directly rbther thbn going through the trbce messbge code.
+   * This is helpful becbuse messbge pbrm brrby cbn't hbndle longs.
    */
-  fprintf(stderr, "Freeing pool %d, total space = %ld\n",
-          pool_id, mem->total_space_allocated);
+  fprintf(stderr, "Freeing pool %d, totbl spbce = %ld\n",
+          pool_id, mem->totbl_spbce_bllocbted);
 
-  for (lhdr_ptr = mem->large_list[pool_id]; lhdr_ptr != NULL;
+  for (lhdr_ptr = mem->lbrge_list[pool_id]; lhdr_ptr != NULL;
        lhdr_ptr = lhdr_ptr->hdr.next) {
-    fprintf(stderr, "  Large chunk used %ld\n",
+    fprintf(stderr, "  Lbrge chunk used %ld\n",
             (long) lhdr_ptr->hdr.bytes_used);
   }
 
-  for (shdr_ptr = mem->small_list[pool_id]; shdr_ptr != NULL;
+  for (shdr_ptr = mem->smbll_list[pool_id]; shdr_ptr != NULL;
        shdr_ptr = shdr_ptr->hdr.next) {
-    fprintf(stderr, "  Small chunk used %ld free %ld\n",
+    fprintf(stderr, "  Smbll chunk used %ld free %ld\n",
             (long) shdr_ptr->hdr.bytes_used,
             (long) shdr_ptr->hdr.bytes_left);
   }
@@ -219,218 +219,218 @@ print_mem_stats (j_common_ptr cinfo, int pool_id)
 
 LOCAL(void)
 out_of_memory (j_common_ptr cinfo, int which)
-/* Report an out-of-memory error and stop execution */
-/* If we compiled MEM_STATS support, report alloc requests before dying */
+/* Report bn out-of-memory error bnd stop execution */
+/* If we compiled MEM_STATS support, report blloc requests before dying */
 {
 #ifdef MEM_STATS
-  cinfo->err->trace_level = 2;  /* force self_destruct to report stats */
+  cinfo->err->trbce_level = 2;  /* force self_destruct to report stbts */
 #endif
   ERREXIT1(cinfo, JERR_OUT_OF_MEMORY, which);
 }
 
 
 /*
- * Allocation of "small" objects.
+ * Allocbtion of "smbll" objects.
  *
- * For these, we use pooled storage.  When a new pool must be created,
- * we try to get enough space for the current request plus a "slop" factor,
- * where the slop will be the amount of leftover space in the new pool.
- * The speed vs. space tradeoff is largely determined by the slop values.
- * A different slop value is provided for each pool class (lifetime),
- * and we also distinguish the first pool of a class from later ones.
- * NOTE: the values given work fairly well on both 16- and 32-bit-int
- * machines, but may be too small if longs are 64 bits or more.
+ * For these, we use pooled storbge.  When b new pool must be crebted,
+ * we try to get enough spbce for the current request plus b "slop" fbctor,
+ * where the slop will be the bmount of leftover spbce in the new pool.
+ * The speed vs. spbce trbdeoff is lbrgely determined by the slop vblues.
+ * A different slop vblue is provided for ebch pool clbss (lifetime),
+ * bnd we blso distinguish the first pool of b clbss from lbter ones.
+ * NOTE: the vblues given work fbirly well on both 16- bnd 32-bit-int
+ * mbchines, but mby be too smbll if longs bre 64 bits or more.
  */
 
-static const size_t first_pool_slop[JPOOL_NUMPOOLS] =
+stbtic const size_t first_pool_slop[JPOOL_NUMPOOLS] =
 {
         1600,                   /* first PERMANENT pool */
         16000                   /* first IMAGE pool */
 };
 
-static const size_t extra_pool_slop[JPOOL_NUMPOOLS] =
+stbtic const size_t extrb_pool_slop[JPOOL_NUMPOOLS] =
 {
-        0,                      /* additional PERMANENT pools */
-        5000                    /* additional IMAGE pools */
+        0,                      /* bdditionbl PERMANENT pools */
+        5000                    /* bdditionbl IMAGE pools */
 };
 
-#define MIN_SLOP  50            /* greater than 0 to avoid futile looping */
+#define MIN_SLOP  50            /* grebter thbn 0 to bvoid futile looping */
 
 
 METHODDEF(void *)
-alloc_small (j_common_ptr cinfo, int pool_id, size_t sizeofobject)
-/* Allocate a "small" object */
+blloc_smbll (j_common_ptr cinfo, int pool_id, size_t sizeofobject)
+/* Allocbte b "smbll" object */
 {
   my_mem_ptr mem = (my_mem_ptr) cinfo->mem;
-  small_pool_ptr hdr_ptr, prev_hdr_ptr;
-  char * data_ptr;
+  smbll_pool_ptr hdr_ptr, prev_hdr_ptr;
+  chbr * dbtb_ptr;
   size_t odd_bytes, min_request, slop;
 
-  /* Check for unsatisfiable request (do now to ensure no overflow below) */
-  if (sizeofobject > (size_t) (MAX_ALLOC_CHUNK-SIZEOF(small_pool_hdr)))
-    out_of_memory(cinfo, 1);    /* request exceeds malloc's ability */
+  /* Check for unsbtisfibble request (do now to ensure no overflow below) */
+  if (sizeofobject > (size_t) (MAX_ALLOC_CHUNK-SIZEOF(smbll_pool_hdr)))
+    out_of_memory(cinfo, 1);    /* request exceeds mblloc's bbility */
 
-  /* Round up the requested size to a multiple of SIZEOF(ALIGN_TYPE) */
+  /* Round up the requested size to b multiple of SIZEOF(ALIGN_TYPE) */
   odd_bytes = sizeofobject % SIZEOF(ALIGN_TYPE);
   if (odd_bytes > 0)
     sizeofobject += SIZEOF(ALIGN_TYPE) - odd_bytes;
 
-  /* See if space is available in any existing pool */
+  /* See if spbce is bvbilbble in bny existing pool */
   if (pool_id < 0 || pool_id >= JPOOL_NUMPOOLS)
-    ERREXIT1(cinfo, JERR_BAD_POOL_ID, pool_id); /* safety check */
+    ERREXIT1(cinfo, JERR_BAD_POOL_ID, pool_id); /* sbfety check */
   prev_hdr_ptr = NULL;
-  hdr_ptr = mem->small_list[pool_id];
+  hdr_ptr = mem->smbll_list[pool_id];
   while (hdr_ptr != NULL) {
     if (hdr_ptr->hdr.bytes_left >= sizeofobject)
-      break;                    /* found pool with enough space */
+      brebk;                    /* found pool with enough spbce */
     prev_hdr_ptr = hdr_ptr;
     hdr_ptr = hdr_ptr->hdr.next;
   }
 
-  /* Time to make a new pool? */
+  /* Time to mbke b new pool? */
   if (hdr_ptr == NULL) {
-    /* min_request is what we need now, slop is what will be leftover */
-    min_request = sizeofobject + SIZEOF(small_pool_hdr);
-    if (prev_hdr_ptr == NULL)   /* first pool in class? */
+    /* min_request is whbt we need now, slop is whbt will be leftover */
+    min_request = sizeofobject + SIZEOF(smbll_pool_hdr);
+    if (prev_hdr_ptr == NULL)   /* first pool in clbss? */
       slop = first_pool_slop[pool_id];
     else
-      slop = extra_pool_slop[pool_id];
-    /* Don't ask for more than MAX_ALLOC_CHUNK */
+      slop = extrb_pool_slop[pool_id];
+    /* Don't bsk for more thbn MAX_ALLOC_CHUNK */
     if (slop > (size_t) (MAX_ALLOC_CHUNK-min_request))
       slop = (size_t) (MAX_ALLOC_CHUNK-min_request);
-    /* Try to get space, if fail reduce slop and try again */
+    /* Try to get spbce, if fbil reduce slop bnd try bgbin */
     for (;;) {
-      hdr_ptr = (small_pool_ptr) jpeg_get_small(cinfo, min_request + slop);
+      hdr_ptr = (smbll_pool_ptr) jpeg_get_smbll(cinfo, min_request + slop);
       if (hdr_ptr != NULL)
-        break;
+        brebk;
       slop /= 2;
-      if (slop < MIN_SLOP)      /* give up when it gets real small */
-        out_of_memory(cinfo, 2); /* jpeg_get_small failed */
+      if (slop < MIN_SLOP)      /* give up when it gets rebl smbll */
+        out_of_memory(cinfo, 2); /* jpeg_get_smbll fbiled */
     }
-    mem->total_space_allocated += min_request + slop;
-    /* Success, initialize the new pool header and add to end of list */
+    mem->totbl_spbce_bllocbted += min_request + slop;
+    /* Success, initiblize the new pool hebder bnd bdd to end of list */
     hdr_ptr->hdr.next = NULL;
     hdr_ptr->hdr.bytes_used = 0;
     hdr_ptr->hdr.bytes_left = sizeofobject + slop;
-    if (prev_hdr_ptr == NULL)   /* first pool in class? */
-      mem->small_list[pool_id] = hdr_ptr;
+    if (prev_hdr_ptr == NULL)   /* first pool in clbss? */
+      mem->smbll_list[pool_id] = hdr_ptr;
     else
       prev_hdr_ptr->hdr.next = hdr_ptr;
   }
 
-  /* OK, allocate the object from the current pool */
-  data_ptr = (char *) (hdr_ptr + 1); /* point to first data byte in pool */
-  data_ptr += hdr_ptr->hdr.bytes_used; /* point to place for object */
+  /* OK, bllocbte the object from the current pool */
+  dbtb_ptr = (chbr *) (hdr_ptr + 1); /* point to first dbtb byte in pool */
+  dbtb_ptr += hdr_ptr->hdr.bytes_used; /* point to plbce for object */
   hdr_ptr->hdr.bytes_used += sizeofobject;
   hdr_ptr->hdr.bytes_left -= sizeofobject;
 
-  return (void *) data_ptr;
+  return (void *) dbtb_ptr;
 }
 
 
 /*
- * Allocation of "large" objects.
+ * Allocbtion of "lbrge" objects.
  *
- * The external semantics of these are the same as "small" objects,
- * except that FAR pointers are used on 80x86.  However the pool
- * management heuristics are quite different.  We assume that each
- * request is large enough that it may as well be passed directly to
- * jpeg_get_large; the pool management just links everything together
- * so that we can free it all on demand.
- * Note: the major use of "large" objects is in JSAMPARRAY and JBLOCKARRAY
- * structures.  The routines that create these structures (see below)
- * deliberately bunch rows together to ensure a large request size.
+ * The externbl sembntics of these bre the sbme bs "smbll" objects,
+ * except thbt FAR pointers bre used on 80x86.  However the pool
+ * mbnbgement heuristics bre quite different.  We bssume thbt ebch
+ * request is lbrge enough thbt it mby bs well be pbssed directly to
+ * jpeg_get_lbrge; the pool mbnbgement just links everything together
+ * so thbt we cbn free it bll on dembnd.
+ * Note: the mbjor use of "lbrge" objects is in JSAMPARRAY bnd JBLOCKARRAY
+ * structures.  The routines thbt crebte these structures (see below)
+ * deliberbtely bunch rows together to ensure b lbrge request size.
  */
 
 METHODDEF(void FAR *)
-alloc_large (j_common_ptr cinfo, int pool_id, size_t sizeofobject)
-/* Allocate a "large" object */
+blloc_lbrge (j_common_ptr cinfo, int pool_id, size_t sizeofobject)
+/* Allocbte b "lbrge" object */
 {
   my_mem_ptr mem = (my_mem_ptr) cinfo->mem;
-  large_pool_ptr hdr_ptr;
+  lbrge_pool_ptr hdr_ptr;
   size_t odd_bytes;
 
-  /* Check for unsatisfiable request (do now to ensure no overflow below) */
-  if (sizeofobject > (size_t) (MAX_ALLOC_CHUNK-SIZEOF(large_pool_hdr)))
-    out_of_memory(cinfo, 3);    /* request exceeds malloc's ability */
+  /* Check for unsbtisfibble request (do now to ensure no overflow below) */
+  if (sizeofobject > (size_t) (MAX_ALLOC_CHUNK-SIZEOF(lbrge_pool_hdr)))
+    out_of_memory(cinfo, 3);    /* request exceeds mblloc's bbility */
 
-  /* Round up the requested size to a multiple of SIZEOF(ALIGN_TYPE) */
+  /* Round up the requested size to b multiple of SIZEOF(ALIGN_TYPE) */
   odd_bytes = sizeofobject % SIZEOF(ALIGN_TYPE);
   if (odd_bytes > 0)
     sizeofobject += SIZEOF(ALIGN_TYPE) - odd_bytes;
 
-  /* Always make a new pool */
+  /* Alwbys mbke b new pool */
   if (pool_id < 0 || pool_id >= JPOOL_NUMPOOLS)
-    ERREXIT1(cinfo, JERR_BAD_POOL_ID, pool_id); /* safety check */
+    ERREXIT1(cinfo, JERR_BAD_POOL_ID, pool_id); /* sbfety check */
 
-  hdr_ptr = (large_pool_ptr) jpeg_get_large(cinfo, sizeofobject +
-                                            SIZEOF(large_pool_hdr));
+  hdr_ptr = (lbrge_pool_ptr) jpeg_get_lbrge(cinfo, sizeofobject +
+                                            SIZEOF(lbrge_pool_hdr));
   if (hdr_ptr == NULL)
-    out_of_memory(cinfo, 4);    /* jpeg_get_large failed */
-  mem->total_space_allocated += sizeofobject + SIZEOF(large_pool_hdr);
+    out_of_memory(cinfo, 4);    /* jpeg_get_lbrge fbiled */
+  mem->totbl_spbce_bllocbted += sizeofobject + SIZEOF(lbrge_pool_hdr);
 
-  /* Success, initialize the new pool header and add to list */
-  hdr_ptr->hdr.next = mem->large_list[pool_id];
-  /* We maintain space counts in each pool header for statistical purposes,
-   * even though they are not needed for allocation.
+  /* Success, initiblize the new pool hebder bnd bdd to list */
+  hdr_ptr->hdr.next = mem->lbrge_list[pool_id];
+  /* We mbintbin spbce counts in ebch pool hebder for stbtisticbl purposes,
+   * even though they bre not needed for bllocbtion.
    */
   hdr_ptr->hdr.bytes_used = sizeofobject;
   hdr_ptr->hdr.bytes_left = 0;
-  mem->large_list[pool_id] = hdr_ptr;
+  mem->lbrge_list[pool_id] = hdr_ptr;
 
-  return (void FAR *) (hdr_ptr + 1); /* point to first data byte in pool */
+  return (void FAR *) (hdr_ptr + 1); /* point to first dbtb byte in pool */
 }
 
 
 /*
- * Creation of 2-D sample arrays.
- * The pointers are in near heap, the samples themselves in FAR heap.
+ * Crebtion of 2-D sbmple brrbys.
+ * The pointers bre in nebr hebp, the sbmples themselves in FAR hebp.
  *
- * To minimize allocation overhead and to allow I/O of large contiguous
- * blocks, we allocate the sample rows in groups of as many rows as possible
- * without exceeding MAX_ALLOC_CHUNK total bytes per allocation request.
- * NB: the virtual array control routines, later in this file, know about
- * this chunking of rows.  The rowsperchunk value is left in the mem manager
- * object so that it can be saved away if this sarray is the workspace for
- * a virtual array.
+ * To minimize bllocbtion overhebd bnd to bllow I/O of lbrge contiguous
+ * blocks, we bllocbte the sbmple rows in groups of bs mbny rows bs possible
+ * without exceeding MAX_ALLOC_CHUNK totbl bytes per bllocbtion request.
+ * NB: the virtubl brrby control routines, lbter in this file, know bbout
+ * this chunking of rows.  The rowsperchunk vblue is left in the mem mbnbger
+ * object so thbt it cbn be sbved bwby if this sbrrby is the workspbce for
+ * b virtubl brrby.
  */
 
 METHODDEF(JSAMPARRAY)
-alloc_sarray (j_common_ptr cinfo, int pool_id,
-              JDIMENSION samplesperrow, JDIMENSION numrows)
-/* Allocate a 2-D sample array */
+blloc_sbrrby (j_common_ptr cinfo, int pool_id,
+              JDIMENSION sbmplesperrow, JDIMENSION numrows)
+/* Allocbte b 2-D sbmple brrby */
 {
   my_mem_ptr mem = (my_mem_ptr) cinfo->mem;
   JSAMPARRAY result;
-  JSAMPROW workspace;
+  JSAMPROW workspbce;
   JDIMENSION rowsperchunk, currow, i;
   long ltemp;
 
-  /* Calculate max # of rows allowed in one allocation chunk */
-  ltemp = (MAX_ALLOC_CHUNK-SIZEOF(large_pool_hdr)) /
-          ((long) samplesperrow * SIZEOF(JSAMPLE));
+  /* Cblculbte mbx # of rows bllowed in one bllocbtion chunk */
+  ltemp = (MAX_ALLOC_CHUNK-SIZEOF(lbrge_pool_hdr)) /
+          ((long) sbmplesperrow * SIZEOF(JSAMPLE));
   if (ltemp <= 0)
     ERREXIT(cinfo, JERR_WIDTH_OVERFLOW);
   if (ltemp < (long) numrows)
     rowsperchunk = (JDIMENSION) ltemp;
   else
     rowsperchunk = numrows;
-  mem->last_rowsperchunk = rowsperchunk;
+  mem->lbst_rowsperchunk = rowsperchunk;
 
-  /* Get space for row pointers (small object) */
-  result = (JSAMPARRAY) alloc_small(cinfo, pool_id,
+  /* Get spbce for row pointers (smbll object) */
+  result = (JSAMPARRAY) blloc_smbll(cinfo, pool_id,
                                     (size_t) (numrows * SIZEOF(JSAMPROW)));
 
-  /* Get the rows themselves (large objects) */
+  /* Get the rows themselves (lbrge objects) */
   currow = 0;
   while (currow < numrows) {
     rowsperchunk = MIN(rowsperchunk, numrows - currow);
-    workspace = (JSAMPROW) alloc_large(cinfo, pool_id,
-        (size_t) ((size_t) rowsperchunk * (size_t) samplesperrow
+    workspbce = (JSAMPROW) blloc_lbrge(cinfo, pool_id,
+        (size_t) ((size_t) rowsperchunk * (size_t) sbmplesperrow
                   * SIZEOF(JSAMPLE)));
     for (i = rowsperchunk; i > 0; i--) {
-      result[currow++] = workspace;
-      workspace += samplesperrow;
+      result[currow++] = workspbce;
+      workspbce += sbmplesperrow;
     }
   }
 
@@ -439,23 +439,23 @@ alloc_sarray (j_common_ptr cinfo, int pool_id,
 
 
 /*
- * Creation of 2-D coefficient-block arrays.
- * This is essentially the same as the code for sample arrays, above.
+ * Crebtion of 2-D coefficient-block brrbys.
+ * This is essentiblly the sbme bs the code for sbmple brrbys, bbove.
  */
 
 METHODDEF(JBLOCKARRAY)
-alloc_barray (j_common_ptr cinfo, int pool_id,
+blloc_bbrrby (j_common_ptr cinfo, int pool_id,
               JDIMENSION blocksperrow, JDIMENSION numrows)
-/* Allocate a 2-D coefficient-block array */
+/* Allocbte b 2-D coefficient-block brrby */
 {
   my_mem_ptr mem = (my_mem_ptr) cinfo->mem;
   JBLOCKARRAY result;
-  JBLOCKROW workspace;
+  JBLOCKROW workspbce;
   JDIMENSION rowsperchunk, currow, i;
   long ltemp;
 
-  /* Calculate max # of rows allowed in one allocation chunk */
-  ltemp = (MAX_ALLOC_CHUNK-SIZEOF(large_pool_hdr)) /
+  /* Cblculbte mbx # of rows bllowed in one bllocbtion chunk */
+  ltemp = (MAX_ALLOC_CHUNK-SIZEOF(lbrge_pool_hdr)) /
           ((long) blocksperrow * SIZEOF(JBLOCK));
   if (ltemp <= 0)
     ERREXIT(cinfo, JERR_WIDTH_OVERFLOW);
@@ -463,22 +463,22 @@ alloc_barray (j_common_ptr cinfo, int pool_id,
     rowsperchunk = (JDIMENSION) ltemp;
   else
     rowsperchunk = numrows;
-  mem->last_rowsperchunk = rowsperchunk;
+  mem->lbst_rowsperchunk = rowsperchunk;
 
-  /* Get space for row pointers (small object) */
-  result = (JBLOCKARRAY) alloc_small(cinfo, pool_id,
+  /* Get spbce for row pointers (smbll object) */
+  result = (JBLOCKARRAY) blloc_smbll(cinfo, pool_id,
                                      (size_t) (numrows * SIZEOF(JBLOCKROW)));
 
-  /* Get the rows themselves (large objects) */
+  /* Get the rows themselves (lbrge objects) */
   currow = 0;
   while (currow < numrows) {
     rowsperchunk = MIN(rowsperchunk, numrows - currow);
-    workspace = (JBLOCKROW) alloc_large(cinfo, pool_id,
+    workspbce = (JBLOCKROW) blloc_lbrge(cinfo, pool_id,
         (size_t) ((size_t) rowsperchunk * (size_t) blocksperrow
                   * SIZEOF(JBLOCK)));
     for (i = rowsperchunk; i > 0; i--) {
-      result[currow++] = workspace;
-      workspace += blocksperrow;
+      result[currow++] = workspbce;
+      workspbce += blocksperrow;
     }
   }
 
@@ -487,202 +487,202 @@ alloc_barray (j_common_ptr cinfo, int pool_id,
 
 
 /*
- * About virtual array management:
+ * About virtubl brrby mbnbgement:
  *
- * The above "normal" array routines are only used to allocate strip buffers
- * (as wide as the image, but just a few rows high).  Full-image-sized buffers
- * are handled as "virtual" arrays.  The array is still accessed a strip at a
- * time, but the memory manager must save the whole array for repeated
- * accesses.  The intended implementation is that there is a strip buffer in
- * memory (as high as is possible given the desired memory limit), plus a
- * backing file that holds the rest of the array.
+ * The bbove "normbl" brrby routines bre only used to bllocbte strip buffers
+ * (bs wide bs the imbge, but just b few rows high).  Full-imbge-sized buffers
+ * bre hbndled bs "virtubl" brrbys.  The brrby is still bccessed b strip bt b
+ * time, but the memory mbnbger must sbve the whole brrby for repebted
+ * bccesses.  The intended implementbtion is thbt there is b strip buffer in
+ * memory (bs high bs is possible given the desired memory limit), plus b
+ * bbcking file thbt holds the rest of the brrby.
  *
- * The request_virt_array routines are told the total size of the image and
- * the maximum number of rows that will be accessed at once.  The in-memory
- * buffer must be at least as large as the maxaccess value.
+ * The request_virt_brrby routines bre told the totbl size of the imbge bnd
+ * the mbximum number of rows thbt will be bccessed bt once.  The in-memory
+ * buffer must be bt lebst bs lbrge bs the mbxbccess vblue.
  *
- * The request routines create control blocks but not the in-memory buffers.
- * That is postponed until realize_virt_arrays is called.  At that time the
- * total amount of space needed is known (approximately, anyway), so free
- * memory can be divided up fairly.
+ * The request routines crebte control blocks but not the in-memory buffers.
+ * Thbt is postponed until reblize_virt_brrbys is cblled.  At thbt time the
+ * totbl bmount of spbce needed is known (bpproximbtely, bnywby), so free
+ * memory cbn be divided up fbirly.
  *
- * The access_virt_array routines are responsible for making a specific strip
- * area accessible (after reading or writing the backing file, if necessary).
- * Note that the access routines are told whether the caller intends to modify
- * the accessed strip; during a read-only pass this saves having to rewrite
- * data to disk.  The access routines are also responsible for pre-zeroing
- * any newly accessed rows, if pre-zeroing was requested.
+ * The bccess_virt_brrby routines bre responsible for mbking b specific strip
+ * breb bccessible (bfter rebding or writing the bbcking file, if necessbry).
+ * Note thbt the bccess routines bre told whether the cbller intends to modify
+ * the bccessed strip; during b rebd-only pbss this sbves hbving to rewrite
+ * dbtb to disk.  The bccess routines bre blso responsible for pre-zeroing
+ * bny newly bccessed rows, if pre-zeroing wbs requested.
  *
- * In current usage, the access requests are usually for nonoverlapping
- * strips; that is, successive access start_row numbers differ by exactly
- * num_rows = maxaccess.  This means we can get good performance with simple
- * buffer dump/reload logic, by making the in-memory buffer be a multiple
- * of the access height; then there will never be accesses across bufferload
- * boundaries.  The code will still work with overlapping access requests,
- * but it doesn't handle bufferload overlaps very efficiently.
+ * In current usbge, the bccess requests bre usublly for nonoverlbpping
+ * strips; thbt is, successive bccess stbrt_row numbers differ by exbctly
+ * num_rows = mbxbccess.  This mebns we cbn get good performbnce with simple
+ * buffer dump/relobd logic, by mbking the in-memory buffer be b multiple
+ * of the bccess height; then there will never be bccesses bcross bufferlobd
+ * boundbries.  The code will still work with overlbpping bccess requests,
+ * but it doesn't hbndle bufferlobd overlbps very efficiently.
  */
 
 
-METHODDEF(jvirt_sarray_ptr)
-request_virt_sarray (j_common_ptr cinfo, int pool_id, boolean pre_zero,
-                     JDIMENSION samplesperrow, JDIMENSION numrows,
-                     JDIMENSION maxaccess)
-/* Request a virtual 2-D sample array */
+METHODDEF(jvirt_sbrrby_ptr)
+request_virt_sbrrby (j_common_ptr cinfo, int pool_id, boolebn pre_zero,
+                     JDIMENSION sbmplesperrow, JDIMENSION numrows,
+                     JDIMENSION mbxbccess)
+/* Request b virtubl 2-D sbmple brrby */
 {
   my_mem_ptr mem = (my_mem_ptr) cinfo->mem;
-  jvirt_sarray_ptr result;
+  jvirt_sbrrby_ptr result;
 
-  /* Only IMAGE-lifetime virtual arrays are currently supported */
+  /* Only IMAGE-lifetime virtubl brrbys bre currently supported */
   if (pool_id != JPOOL_IMAGE)
-    ERREXIT1(cinfo, JERR_BAD_POOL_ID, pool_id); /* safety check */
+    ERREXIT1(cinfo, JERR_BAD_POOL_ID, pool_id); /* sbfety check */
 
   /* get control block */
-  result = (jvirt_sarray_ptr) alloc_small(cinfo, pool_id,
-                                          SIZEOF(struct jvirt_sarray_control));
+  result = (jvirt_sbrrby_ptr) blloc_smbll(cinfo, pool_id,
+                                          SIZEOF(struct jvirt_sbrrby_control));
 
-  result->mem_buffer = NULL;    /* marks array not yet realized */
-  result->rows_in_array = numrows;
-  result->samplesperrow = samplesperrow;
-  result->maxaccess = maxaccess;
+  result->mem_buffer = NULL;    /* mbrks brrby not yet reblized */
+  result->rows_in_brrby = numrows;
+  result->sbmplesperrow = sbmplesperrow;
+  result->mbxbccess = mbxbccess;
   result->pre_zero = pre_zero;
-  result->b_s_open = FALSE;     /* no associated backing-store object */
-  result->next = mem->virt_sarray_list; /* add to list of virtual arrays */
-  mem->virt_sarray_list = result;
+  result->b_s_open = FALSE;     /* no bssocibted bbcking-store object */
+  result->next = mem->virt_sbrrby_list; /* bdd to list of virtubl brrbys */
+  mem->virt_sbrrby_list = result;
 
   return result;
 }
 
 
-METHODDEF(jvirt_barray_ptr)
-request_virt_barray (j_common_ptr cinfo, int pool_id, boolean pre_zero,
+METHODDEF(jvirt_bbrrby_ptr)
+request_virt_bbrrby (j_common_ptr cinfo, int pool_id, boolebn pre_zero,
                      JDIMENSION blocksperrow, JDIMENSION numrows,
-                     JDIMENSION maxaccess)
-/* Request a virtual 2-D coefficient-block array */
+                     JDIMENSION mbxbccess)
+/* Request b virtubl 2-D coefficient-block brrby */
 {
   my_mem_ptr mem = (my_mem_ptr) cinfo->mem;
-  jvirt_barray_ptr result;
+  jvirt_bbrrby_ptr result;
 
-  /* Only IMAGE-lifetime virtual arrays are currently supported */
+  /* Only IMAGE-lifetime virtubl brrbys bre currently supported */
   if (pool_id != JPOOL_IMAGE)
-    ERREXIT1(cinfo, JERR_BAD_POOL_ID, pool_id); /* safety check */
+    ERREXIT1(cinfo, JERR_BAD_POOL_ID, pool_id); /* sbfety check */
 
   /* get control block */
-  result = (jvirt_barray_ptr) alloc_small(cinfo, pool_id,
-                                          SIZEOF(struct jvirt_barray_control));
+  result = (jvirt_bbrrby_ptr) blloc_smbll(cinfo, pool_id,
+                                          SIZEOF(struct jvirt_bbrrby_control));
 
-  result->mem_buffer = NULL;    /* marks array not yet realized */
-  result->rows_in_array = numrows;
+  result->mem_buffer = NULL;    /* mbrks brrby not yet reblized */
+  result->rows_in_brrby = numrows;
   result->blocksperrow = blocksperrow;
-  result->maxaccess = maxaccess;
+  result->mbxbccess = mbxbccess;
   result->pre_zero = pre_zero;
-  result->b_s_open = FALSE;     /* no associated backing-store object */
-  result->next = mem->virt_barray_list; /* add to list of virtual arrays */
-  mem->virt_barray_list = result;
+  result->b_s_open = FALSE;     /* no bssocibted bbcking-store object */
+  result->next = mem->virt_bbrrby_list; /* bdd to list of virtubl brrbys */
+  mem->virt_bbrrby_list = result;
 
   return result;
 }
 
 
 METHODDEF(void)
-realize_virt_arrays (j_common_ptr cinfo)
-/* Allocate the in-memory buffers for any unrealized virtual arrays */
+reblize_virt_brrbys (j_common_ptr cinfo)
+/* Allocbte the in-memory buffers for bny unreblized virtubl brrbys */
 {
   my_mem_ptr mem = (my_mem_ptr) cinfo->mem;
-  size_t space_per_minheight, maximum_space, avail_mem;
-  size_t minheights, max_minheights;
-  jvirt_sarray_ptr sptr;
-  jvirt_barray_ptr bptr;
+  size_t spbce_per_minheight, mbximum_spbce, bvbil_mem;
+  size_t minheights, mbx_minheights;
+  jvirt_sbrrby_ptr sptr;
+  jvirt_bbrrby_ptr bptr;
 
-  /* Compute the minimum space needed (maxaccess rows in each buffer)
-   * and the maximum space needed (full image height in each buffer).
-   * These may be of use to the system-dependent jpeg_mem_available routine.
+  /* Compute the minimum spbce needed (mbxbccess rows in ebch buffer)
+   * bnd the mbximum spbce needed (full imbge height in ebch buffer).
+   * These mby be of use to the system-dependent jpeg_mem_bvbilbble routine.
    */
-  space_per_minheight = 0;
-  maximum_space = 0;
-  for (sptr = mem->virt_sarray_list; sptr != NULL; sptr = sptr->next) {
-    if (sptr->mem_buffer == NULL) { /* if not realized yet */
-      space_per_minheight += (long) sptr->maxaccess *
-                             (long) sptr->samplesperrow * SIZEOF(JSAMPLE);
-      maximum_space += (long) sptr->rows_in_array *
-                       (long) sptr->samplesperrow * SIZEOF(JSAMPLE);
+  spbce_per_minheight = 0;
+  mbximum_spbce = 0;
+  for (sptr = mem->virt_sbrrby_list; sptr != NULL; sptr = sptr->next) {
+    if (sptr->mem_buffer == NULL) { /* if not reblized yet */
+      spbce_per_minheight += (long) sptr->mbxbccess *
+                             (long) sptr->sbmplesperrow * SIZEOF(JSAMPLE);
+      mbximum_spbce += (long) sptr->rows_in_brrby *
+                       (long) sptr->sbmplesperrow * SIZEOF(JSAMPLE);
     }
   }
-  for (bptr = mem->virt_barray_list; bptr != NULL; bptr = bptr->next) {
-    if (bptr->mem_buffer == NULL) { /* if not realized yet */
-      space_per_minheight += (long) bptr->maxaccess *
+  for (bptr = mem->virt_bbrrby_list; bptr != NULL; bptr = bptr->next) {
+    if (bptr->mem_buffer == NULL) { /* if not reblized yet */
+      spbce_per_minheight += (long) bptr->mbxbccess *
                              (long) bptr->blocksperrow * SIZEOF(JBLOCK);
-      maximum_space += (long) bptr->rows_in_array *
+      mbximum_spbce += (long) bptr->rows_in_brrby *
                        (long) bptr->blocksperrow * SIZEOF(JBLOCK);
     }
   }
 
-  if (space_per_minheight <= 0)
-    return;                     /* no unrealized arrays, no work */
+  if (spbce_per_minheight <= 0)
+    return;                     /* no unreblized brrbys, no work */
 
-  /* Determine amount of memory to actually use; this is system-dependent. */
-  avail_mem = jpeg_mem_available(cinfo, space_per_minheight, maximum_space,
-                                 mem->total_space_allocated);
+  /* Determine bmount of memory to bctublly use; this is system-dependent. */
+  bvbil_mem = jpeg_mem_bvbilbble(cinfo, spbce_per_minheight, mbximum_spbce,
+                                 mem->totbl_spbce_bllocbted);
 
-  /* If the maximum space needed is available, make all the buffers full
-   * height; otherwise parcel it out with the same number of minheights
-   * in each buffer.
+  /* If the mbximum spbce needed is bvbilbble, mbke bll the buffers full
+   * height; otherwise pbrcel it out with the sbme number of minheights
+   * in ebch buffer.
    */
-  if (avail_mem >= maximum_space)
-    max_minheights = 1000000000L;
+  if (bvbil_mem >= mbximum_spbce)
+    mbx_minheights = 1000000000L;
   else {
-    max_minheights = avail_mem / space_per_minheight;
-    /* If there doesn't seem to be enough space, try to get the minimum
-     * anyway.  This allows a "stub" implementation of jpeg_mem_available().
+    mbx_minheights = bvbil_mem / spbce_per_minheight;
+    /* If there doesn't seem to be enough spbce, try to get the minimum
+     * bnywby.  This bllows b "stub" implementbtion of jpeg_mem_bvbilbble().
      */
-    if (max_minheights <= 0)
-      max_minheights = 1;
+    if (mbx_minheights <= 0)
+      mbx_minheights = 1;
   }
 
-  /* Allocate the in-memory buffers and initialize backing store as needed. */
+  /* Allocbte the in-memory buffers bnd initiblize bbcking store bs needed. */
 
-  for (sptr = mem->virt_sarray_list; sptr != NULL; sptr = sptr->next) {
-    if (sptr->mem_buffer == NULL) { /* if not realized yet */
-      minheights = ((long) sptr->rows_in_array - 1L) / sptr->maxaccess + 1L;
-      if (minheights <= max_minheights) {
+  for (sptr = mem->virt_sbrrby_list; sptr != NULL; sptr = sptr->next) {
+    if (sptr->mem_buffer == NULL) { /* if not reblized yet */
+      minheights = ((long) sptr->rows_in_brrby - 1L) / sptr->mbxbccess + 1L;
+      if (minheights <= mbx_minheights) {
         /* This buffer fits in memory */
-        sptr->rows_in_mem = sptr->rows_in_array;
+        sptr->rows_in_mem = sptr->rows_in_brrby;
       } else {
-        /* It doesn't fit in memory, create backing store. */
-        sptr->rows_in_mem = (JDIMENSION) (max_minheights * sptr->maxaccess);
-        jpeg_open_backing_store(cinfo, & sptr->b_s_info,
-                                (long) sptr->rows_in_array *
-                                (long) sptr->samplesperrow *
+        /* It doesn't fit in memory, crebte bbcking store. */
+        sptr->rows_in_mem = (JDIMENSION) (mbx_minheights * sptr->mbxbccess);
+        jpeg_open_bbcking_store(cinfo, & sptr->b_s_info,
+                                (long) sptr->rows_in_brrby *
+                                (long) sptr->sbmplesperrow *
                                 (long) SIZEOF(JSAMPLE));
         sptr->b_s_open = TRUE;
       }
-      sptr->mem_buffer = alloc_sarray(cinfo, JPOOL_IMAGE,
-                                      sptr->samplesperrow, sptr->rows_in_mem);
-      sptr->rowsperchunk = mem->last_rowsperchunk;
-      sptr->cur_start_row = 0;
+      sptr->mem_buffer = blloc_sbrrby(cinfo, JPOOL_IMAGE,
+                                      sptr->sbmplesperrow, sptr->rows_in_mem);
+      sptr->rowsperchunk = mem->lbst_rowsperchunk;
+      sptr->cur_stbrt_row = 0;
       sptr->first_undef_row = 0;
       sptr->dirty = FALSE;
     }
   }
 
-  for (bptr = mem->virt_barray_list; bptr != NULL; bptr = bptr->next) {
-    if (bptr->mem_buffer == NULL) { /* if not realized yet */
-      minheights = ((long) bptr->rows_in_array - 1L) / bptr->maxaccess + 1L;
-      if (minheights <= max_minheights) {
+  for (bptr = mem->virt_bbrrby_list; bptr != NULL; bptr = bptr->next) {
+    if (bptr->mem_buffer == NULL) { /* if not reblized yet */
+      minheights = ((long) bptr->rows_in_brrby - 1L) / bptr->mbxbccess + 1L;
+      if (minheights <= mbx_minheights) {
         /* This buffer fits in memory */
-        bptr->rows_in_mem = bptr->rows_in_array;
+        bptr->rows_in_mem = bptr->rows_in_brrby;
       } else {
-        /* It doesn't fit in memory, create backing store. */
-        bptr->rows_in_mem = (JDIMENSION) (max_minheights * bptr->maxaccess);
-        jpeg_open_backing_store(cinfo, & bptr->b_s_info,
-                                (long) bptr->rows_in_array *
+        /* It doesn't fit in memory, crebte bbcking store. */
+        bptr->rows_in_mem = (JDIMENSION) (mbx_minheights * bptr->mbxbccess);
+        jpeg_open_bbcking_store(cinfo, & bptr->b_s_info,
+                                (long) bptr->rows_in_brrby *
                                 (long) bptr->blocksperrow *
                                 (long) SIZEOF(JBLOCK));
         bptr->b_s_open = TRUE;
       }
-      bptr->mem_buffer = alloc_barray(cinfo, JPOOL_IMAGE,
+      bptr->mem_buffer = blloc_bbrrby(cinfo, JPOOL_IMAGE,
                                       bptr->blocksperrow, bptr->rows_in_mem);
-      bptr->rowsperchunk = mem->last_rowsperchunk;
-      bptr->cur_start_row = 0;
+      bptr->rowsperchunk = mem->lbst_rowsperchunk;
+      bptr->cur_stbrt_row = 0;
       bptr->first_undef_row = 0;
       bptr->dirty = FALSE;
     }
@@ -691,31 +691,31 @@ realize_virt_arrays (j_common_ptr cinfo)
 
 
 LOCAL(void)
-do_sarray_io (j_common_ptr cinfo, jvirt_sarray_ptr ptr, boolean writing)
-/* Do backing store read or write of a virtual sample array */
+do_sbrrby_io (j_common_ptr cinfo, jvirt_sbrrby_ptr ptr, boolebn writing)
+/* Do bbcking store rebd or write of b virtubl sbmple brrby */
 {
   long bytesperrow, file_offset, byte_count, rows, thisrow, i;
 
-  bytesperrow = (long) ptr->samplesperrow * SIZEOF(JSAMPLE);
-  file_offset = ptr->cur_start_row * bytesperrow;
-  /* Loop to read or write each allocation chunk in mem_buffer */
+  bytesperrow = (long) ptr->sbmplesperrow * SIZEOF(JSAMPLE);
+  file_offset = ptr->cur_stbrt_row * bytesperrow;
+  /* Loop to rebd or write ebch bllocbtion chunk in mem_buffer */
   for (i = 0; i < (long) ptr->rows_in_mem; i += ptr->rowsperchunk) {
-    /* One chunk, but check for short chunk at end of buffer */
+    /* One chunk, but check for short chunk bt end of buffer */
     rows = MIN((long) ptr->rowsperchunk, (long) ptr->rows_in_mem - i);
-    /* Transfer no more than is currently defined */
-    thisrow = (long) ptr->cur_start_row + i;
+    /* Trbnsfer no more thbn is currently defined */
+    thisrow = (long) ptr->cur_stbrt_row + i;
     rows = MIN(rows, (long) ptr->first_undef_row - thisrow);
-    /* Transfer no more than fits in file */
-    rows = MIN(rows, (long) ptr->rows_in_array - thisrow);
-    if (rows <= 0)              /* this chunk might be past end of file! */
-      break;
+    /* Trbnsfer no more thbn fits in file */
+    rows = MIN(rows, (long) ptr->rows_in_brrby - thisrow);
+    if (rows <= 0)              /* this chunk might be pbst end of file! */
+      brebk;
     byte_count = rows * bytesperrow;
     if (writing)
-      (*ptr->b_s_info.write_backing_store) (cinfo, & ptr->b_s_info,
+      (*ptr->b_s_info.write_bbcking_store) (cinfo, & ptr->b_s_info,
                                             (void FAR *) ptr->mem_buffer[i],
                                             file_offset, byte_count);
     else
-      (*ptr->b_s_info.read_backing_store) (cinfo, & ptr->b_s_info,
+      (*ptr->b_s_info.rebd_bbcking_store) (cinfo, & ptr->b_s_info,
                                            (void FAR *) ptr->mem_buffer[i],
                                            file_offset, byte_count);
     file_offset += byte_count;
@@ -724,31 +724,31 @@ do_sarray_io (j_common_ptr cinfo, jvirt_sarray_ptr ptr, boolean writing)
 
 
 LOCAL(void)
-do_barray_io (j_common_ptr cinfo, jvirt_barray_ptr ptr, boolean writing)
-/* Do backing store read or write of a virtual coefficient-block array */
+do_bbrrby_io (j_common_ptr cinfo, jvirt_bbrrby_ptr ptr, boolebn writing)
+/* Do bbcking store rebd or write of b virtubl coefficient-block brrby */
 {
   long bytesperrow, file_offset, byte_count, rows, thisrow, i;
 
   bytesperrow = (long) ptr->blocksperrow * SIZEOF(JBLOCK);
-  file_offset = ptr->cur_start_row * bytesperrow;
-  /* Loop to read or write each allocation chunk in mem_buffer */
+  file_offset = ptr->cur_stbrt_row * bytesperrow;
+  /* Loop to rebd or write ebch bllocbtion chunk in mem_buffer */
   for (i = 0; i < (long) ptr->rows_in_mem; i += ptr->rowsperchunk) {
-    /* One chunk, but check for short chunk at end of buffer */
+    /* One chunk, but check for short chunk bt end of buffer */
     rows = MIN((long) ptr->rowsperchunk, (long) ptr->rows_in_mem - i);
-    /* Transfer no more than is currently defined */
-    thisrow = (long) ptr->cur_start_row + i;
+    /* Trbnsfer no more thbn is currently defined */
+    thisrow = (long) ptr->cur_stbrt_row + i;
     rows = MIN(rows, (long) ptr->first_undef_row - thisrow);
-    /* Transfer no more than fits in file */
-    rows = MIN(rows, (long) ptr->rows_in_array - thisrow);
-    if (rows <= 0)              /* this chunk might be past end of file! */
-      break;
+    /* Trbnsfer no more thbn fits in file */
+    rows = MIN(rows, (long) ptr->rows_in_brrby - thisrow);
+    if (rows <= 0)              /* this chunk might be pbst end of file! */
+      brebk;
     byte_count = rows * bytesperrow;
     if (writing)
-      (*ptr->b_s_info.write_backing_store) (cinfo, & ptr->b_s_info,
+      (*ptr->b_s_info.write_bbcking_store) (cinfo, & ptr->b_s_info,
                                             (void FAR *) ptr->mem_buffer[i],
                                             file_offset, byte_count);
     else
-      (*ptr->b_s_info.read_backing_store) (cinfo, & ptr->b_s_info,
+      (*ptr->b_s_info.rebd_bbcking_store) (cinfo, & ptr->b_s_info,
                                            (void FAR *) ptr->mem_buffer[i],
                                            file_offset, byte_count);
     file_offset += byte_count;
@@ -757,241 +757,241 @@ do_barray_io (j_common_ptr cinfo, jvirt_barray_ptr ptr, boolean writing)
 
 
 METHODDEF(JSAMPARRAY)
-access_virt_sarray (j_common_ptr cinfo, jvirt_sarray_ptr ptr,
-                    JDIMENSION start_row, JDIMENSION num_rows,
-                    boolean writable)
-/* Access the part of a virtual sample array starting at start_row */
-/* and extending for num_rows rows.  writable is true if  */
-/* caller intends to modify the accessed area. */
+bccess_virt_sbrrby (j_common_ptr cinfo, jvirt_sbrrby_ptr ptr,
+                    JDIMENSION stbrt_row, JDIMENSION num_rows,
+                    boolebn writbble)
+/* Access the pbrt of b virtubl sbmple brrby stbrting bt stbrt_row */
+/* bnd extending for num_rows rows.  writbble is true if  */
+/* cbller intends to modify the bccessed breb. */
 {
-  JDIMENSION end_row = start_row + num_rows;
+  JDIMENSION end_row = stbrt_row + num_rows;
   JDIMENSION undef_row;
 
   /* debugging check */
-  if (end_row > ptr->rows_in_array || num_rows > ptr->maxaccess ||
+  if (end_row > ptr->rows_in_brrby || num_rows > ptr->mbxbccess ||
       ptr->mem_buffer == NULL)
     ERREXIT(cinfo, JERR_BAD_VIRTUAL_ACCESS);
 
-  /* Make the desired part of the virtual array accessible */
-  if (start_row < ptr->cur_start_row ||
-      end_row > ptr->cur_start_row+ptr->rows_in_mem) {
+  /* Mbke the desired pbrt of the virtubl brrby bccessible */
+  if (stbrt_row < ptr->cur_stbrt_row ||
+      end_row > ptr->cur_stbrt_row+ptr->rows_in_mem) {
     if (! ptr->b_s_open)
       ERREXIT(cinfo, JERR_VIRTUAL_BUG);
-    /* Flush old buffer contents if necessary */
+    /* Flush old buffer contents if necessbry */
     if (ptr->dirty) {
-      do_sarray_io(cinfo, ptr, TRUE);
+      do_sbrrby_io(cinfo, ptr, TRUE);
       ptr->dirty = FALSE;
     }
-    /* Decide what part of virtual array to access.
-     * Algorithm: if target address > current window, assume forward scan,
-     * load starting at target address.  If target address < current window,
-     * assume backward scan, load so that target area is top of window.
-     * Note that when switching from forward write to forward read, will have
-     * start_row = 0, so the limiting case applies and we load from 0 anyway.
+    /* Decide whbt pbrt of virtubl brrby to bccess.
+     * Algorithm: if tbrget bddress > current window, bssume forwbrd scbn,
+     * lobd stbrting bt tbrget bddress.  If tbrget bddress < current window,
+     * bssume bbckwbrd scbn, lobd so thbt tbrget breb is top of window.
+     * Note thbt when switching from forwbrd write to forwbrd rebd, will hbve
+     * stbrt_row = 0, so the limiting cbse bpplies bnd we lobd from 0 bnywby.
      */
-    if (start_row > ptr->cur_start_row) {
-      ptr->cur_start_row = start_row;
+    if (stbrt_row > ptr->cur_stbrt_row) {
+      ptr->cur_stbrt_row = stbrt_row;
     } else {
-      /* use long arithmetic here to avoid overflow & unsigned problems */
+      /* use long brithmetic here to bvoid overflow & unsigned problems */
       long ltemp;
 
       ltemp = (long) end_row - (long) ptr->rows_in_mem;
       if (ltemp < 0)
-        ltemp = 0;              /* don't fall off front end of file */
-      ptr->cur_start_row = (JDIMENSION) ltemp;
+        ltemp = 0;              /* don't fbll off front end of file */
+      ptr->cur_stbrt_row = (JDIMENSION) ltemp;
     }
-    /* Read in the selected part of the array.
-     * During the initial write pass, we will do no actual read
-     * because the selected part is all undefined.
+    /* Rebd in the selected pbrt of the brrby.
+     * During the initibl write pbss, we will do no bctubl rebd
+     * becbuse the selected pbrt is bll undefined.
      */
-    do_sarray_io(cinfo, ptr, FALSE);
+    do_sbrrby_io(cinfo, ptr, FALSE);
   }
-  /* Ensure the accessed part of the array is defined; prezero if needed.
-   * To improve locality of access, we only prezero the part of the array
-   * that the caller is about to access, not the entire in-memory array.
+  /* Ensure the bccessed pbrt of the brrby is defined; prezero if needed.
+   * To improve locblity of bccess, we only prezero the pbrt of the brrby
+   * thbt the cbller is bbout to bccess, not the entire in-memory brrby.
    */
   if (ptr->first_undef_row < end_row) {
-    if (ptr->first_undef_row < start_row) {
-      if (writable)             /* writer skipped over a section of array */
+    if (ptr->first_undef_row < stbrt_row) {
+      if (writbble)             /* writer skipped over b section of brrby */
         ERREXIT(cinfo, JERR_BAD_VIRTUAL_ACCESS);
-      undef_row = start_row;    /* but reader is allowed to read ahead */
+      undef_row = stbrt_row;    /* but rebder is bllowed to rebd bhebd */
     } else {
       undef_row = ptr->first_undef_row;
     }
-    if (writable)
+    if (writbble)
       ptr->first_undef_row = end_row;
     if (ptr->pre_zero) {
-      size_t bytesperrow = (size_t) ptr->samplesperrow * SIZEOF(JSAMPLE);
-      undef_row -= ptr->cur_start_row; /* make indexes relative to buffer */
-      end_row -= ptr->cur_start_row;
+      size_t bytesperrow = (size_t) ptr->sbmplesperrow * SIZEOF(JSAMPLE);
+      undef_row -= ptr->cur_stbrt_row; /* mbke indexes relbtive to buffer */
+      end_row -= ptr->cur_stbrt_row;
       while (undef_row < end_row) {
-        jzero_far((void FAR *) ptr->mem_buffer[undef_row], bytesperrow);
+        jzero_fbr((void FAR *) ptr->mem_buffer[undef_row], bytesperrow);
         undef_row++;
       }
     } else {
-      if (! writable)           /* reader looking at undefined data */
+      if (! writbble)           /* rebder looking bt undefined dbtb */
         ERREXIT(cinfo, JERR_BAD_VIRTUAL_ACCESS);
     }
   }
-  /* Flag the buffer dirty if caller will write in it */
-  if (writable)
+  /* Flbg the buffer dirty if cbller will write in it */
+  if (writbble)
     ptr->dirty = TRUE;
-  /* Return address of proper part of the buffer */
-  return ptr->mem_buffer + (start_row - ptr->cur_start_row);
+  /* Return bddress of proper pbrt of the buffer */
+  return ptr->mem_buffer + (stbrt_row - ptr->cur_stbrt_row);
 }
 
 
 METHODDEF(JBLOCKARRAY)
-access_virt_barray (j_common_ptr cinfo, jvirt_barray_ptr ptr,
-                    JDIMENSION start_row, JDIMENSION num_rows,
-                    boolean writable)
-/* Access the part of a virtual block array starting at start_row */
-/* and extending for num_rows rows.  writable is true if  */
-/* caller intends to modify the accessed area. */
+bccess_virt_bbrrby (j_common_ptr cinfo, jvirt_bbrrby_ptr ptr,
+                    JDIMENSION stbrt_row, JDIMENSION num_rows,
+                    boolebn writbble)
+/* Access the pbrt of b virtubl block brrby stbrting bt stbrt_row */
+/* bnd extending for num_rows rows.  writbble is true if  */
+/* cbller intends to modify the bccessed breb. */
 {
-  JDIMENSION end_row = start_row + num_rows;
+  JDIMENSION end_row = stbrt_row + num_rows;
   JDIMENSION undef_row;
 
   /* debugging check */
-  if (end_row > ptr->rows_in_array || num_rows > ptr->maxaccess ||
+  if (end_row > ptr->rows_in_brrby || num_rows > ptr->mbxbccess ||
       ptr->mem_buffer == NULL)
     ERREXIT(cinfo, JERR_BAD_VIRTUAL_ACCESS);
 
-  /* Make the desired part of the virtual array accessible */
-  if (start_row < ptr->cur_start_row ||
-      end_row > ptr->cur_start_row+ptr->rows_in_mem) {
+  /* Mbke the desired pbrt of the virtubl brrby bccessible */
+  if (stbrt_row < ptr->cur_stbrt_row ||
+      end_row > ptr->cur_stbrt_row+ptr->rows_in_mem) {
     if (! ptr->b_s_open)
       ERREXIT(cinfo, JERR_VIRTUAL_BUG);
-    /* Flush old buffer contents if necessary */
+    /* Flush old buffer contents if necessbry */
     if (ptr->dirty) {
-      do_barray_io(cinfo, ptr, TRUE);
+      do_bbrrby_io(cinfo, ptr, TRUE);
       ptr->dirty = FALSE;
     }
-    /* Decide what part of virtual array to access.
-     * Algorithm: if target address > current window, assume forward scan,
-     * load starting at target address.  If target address < current window,
-     * assume backward scan, load so that target area is top of window.
-     * Note that when switching from forward write to forward read, will have
-     * start_row = 0, so the limiting case applies and we load from 0 anyway.
+    /* Decide whbt pbrt of virtubl brrby to bccess.
+     * Algorithm: if tbrget bddress > current window, bssume forwbrd scbn,
+     * lobd stbrting bt tbrget bddress.  If tbrget bddress < current window,
+     * bssume bbckwbrd scbn, lobd so thbt tbrget breb is top of window.
+     * Note thbt when switching from forwbrd write to forwbrd rebd, will hbve
+     * stbrt_row = 0, so the limiting cbse bpplies bnd we lobd from 0 bnywby.
      */
-    if (start_row > ptr->cur_start_row) {
-      ptr->cur_start_row = start_row;
+    if (stbrt_row > ptr->cur_stbrt_row) {
+      ptr->cur_stbrt_row = stbrt_row;
     } else {
-      /* use long arithmetic here to avoid overflow & unsigned problems */
+      /* use long brithmetic here to bvoid overflow & unsigned problems */
       long ltemp;
 
       ltemp = (long) end_row - (long) ptr->rows_in_mem;
       if (ltemp < 0)
-        ltemp = 0;              /* don't fall off front end of file */
-      ptr->cur_start_row = (JDIMENSION) ltemp;
+        ltemp = 0;              /* don't fbll off front end of file */
+      ptr->cur_stbrt_row = (JDIMENSION) ltemp;
     }
-    /* Read in the selected part of the array.
-     * During the initial write pass, we will do no actual read
-     * because the selected part is all undefined.
+    /* Rebd in the selected pbrt of the brrby.
+     * During the initibl write pbss, we will do no bctubl rebd
+     * becbuse the selected pbrt is bll undefined.
      */
-    do_barray_io(cinfo, ptr, FALSE);
+    do_bbrrby_io(cinfo, ptr, FALSE);
   }
-  /* Ensure the accessed part of the array is defined; prezero if needed.
-   * To improve locality of access, we only prezero the part of the array
-   * that the caller is about to access, not the entire in-memory array.
+  /* Ensure the bccessed pbrt of the brrby is defined; prezero if needed.
+   * To improve locblity of bccess, we only prezero the pbrt of the brrby
+   * thbt the cbller is bbout to bccess, not the entire in-memory brrby.
    */
   if (ptr->first_undef_row < end_row) {
-    if (ptr->first_undef_row < start_row) {
-      if (writable)             /* writer skipped over a section of array */
+    if (ptr->first_undef_row < stbrt_row) {
+      if (writbble)             /* writer skipped over b section of brrby */
         ERREXIT(cinfo, JERR_BAD_VIRTUAL_ACCESS);
-      undef_row = start_row;    /* but reader is allowed to read ahead */
+      undef_row = stbrt_row;    /* but rebder is bllowed to rebd bhebd */
     } else {
       undef_row = ptr->first_undef_row;
     }
-    if (writable)
+    if (writbble)
       ptr->first_undef_row = end_row;
     if (ptr->pre_zero) {
       size_t bytesperrow = (size_t) ptr->blocksperrow * SIZEOF(JBLOCK);
-      undef_row -= ptr->cur_start_row; /* make indexes relative to buffer */
-      end_row -= ptr->cur_start_row;
+      undef_row -= ptr->cur_stbrt_row; /* mbke indexes relbtive to buffer */
+      end_row -= ptr->cur_stbrt_row;
       while (undef_row < end_row) {
-        jzero_far((void FAR *) ptr->mem_buffer[undef_row], bytesperrow);
+        jzero_fbr((void FAR *) ptr->mem_buffer[undef_row], bytesperrow);
         undef_row++;
       }
     } else {
-      if (! writable)           /* reader looking at undefined data */
+      if (! writbble)           /* rebder looking bt undefined dbtb */
         ERREXIT(cinfo, JERR_BAD_VIRTUAL_ACCESS);
     }
   }
-  /* Flag the buffer dirty if caller will write in it */
-  if (writable)
+  /* Flbg the buffer dirty if cbller will write in it */
+  if (writbble)
     ptr->dirty = TRUE;
-  /* Return address of proper part of the buffer */
-  return ptr->mem_buffer + (start_row - ptr->cur_start_row);
+  /* Return bddress of proper pbrt of the buffer */
+  return ptr->mem_buffer + (stbrt_row - ptr->cur_stbrt_row);
 }
 
 
 /*
- * Release all objects belonging to a specified pool.
+ * Relebse bll objects belonging to b specified pool.
  */
 
 METHODDEF(void)
 free_pool (j_common_ptr cinfo, int pool_id)
 {
   my_mem_ptr mem = (my_mem_ptr) cinfo->mem;
-  small_pool_ptr shdr_ptr;
-  large_pool_ptr lhdr_ptr;
-  size_t space_freed;
+  smbll_pool_ptr shdr_ptr;
+  lbrge_pool_ptr lhdr_ptr;
+  size_t spbce_freed;
 
   if (pool_id < 0 || pool_id >= JPOOL_NUMPOOLS)
-    ERREXIT1(cinfo, JERR_BAD_POOL_ID, pool_id); /* safety check */
+    ERREXIT1(cinfo, JERR_BAD_POOL_ID, pool_id); /* sbfety check */
 
 #ifdef MEM_STATS
-  if (cinfo->err->trace_level > 1)
-    print_mem_stats(cinfo, pool_id); /* print pool's memory usage statistics */
+  if (cinfo->err->trbce_level > 1)
+    print_mem_stbts(cinfo, pool_id); /* print pool's memory usbge stbtistics */
 #endif
 
-  /* If freeing IMAGE pool, close any virtual arrays first */
+  /* If freeing IMAGE pool, close bny virtubl brrbys first */
   if (pool_id == JPOOL_IMAGE) {
-    jvirt_sarray_ptr sptr;
-    jvirt_barray_ptr bptr;
+    jvirt_sbrrby_ptr sptr;
+    jvirt_bbrrby_ptr bptr;
 
-    for (sptr = mem->virt_sarray_list; sptr != NULL; sptr = sptr->next) {
-      if (sptr->b_s_open) {     /* there may be no backing store */
+    for (sptr = mem->virt_sbrrby_list; sptr != NULL; sptr = sptr->next) {
+      if (sptr->b_s_open) {     /* there mby be no bbcking store */
         sptr->b_s_open = FALSE; /* prevent recursive close if error */
-        (*sptr->b_s_info.close_backing_store) (cinfo, & sptr->b_s_info);
+        (*sptr->b_s_info.close_bbcking_store) (cinfo, & sptr->b_s_info);
       }
     }
-    mem->virt_sarray_list = NULL;
-    for (bptr = mem->virt_barray_list; bptr != NULL; bptr = bptr->next) {
-      if (bptr->b_s_open) {     /* there may be no backing store */
+    mem->virt_sbrrby_list = NULL;
+    for (bptr = mem->virt_bbrrby_list; bptr != NULL; bptr = bptr->next) {
+      if (bptr->b_s_open) {     /* there mby be no bbcking store */
         bptr->b_s_open = FALSE; /* prevent recursive close if error */
-        (*bptr->b_s_info.close_backing_store) (cinfo, & bptr->b_s_info);
+        (*bptr->b_s_info.close_bbcking_store) (cinfo, & bptr->b_s_info);
       }
     }
-    mem->virt_barray_list = NULL;
+    mem->virt_bbrrby_list = NULL;
   }
 
-  /* Release large objects */
-  lhdr_ptr = mem->large_list[pool_id];
-  mem->large_list[pool_id] = NULL;
+  /* Relebse lbrge objects */
+  lhdr_ptr = mem->lbrge_list[pool_id];
+  mem->lbrge_list[pool_id] = NULL;
 
   while (lhdr_ptr != NULL) {
-    large_pool_ptr next_lhdr_ptr = lhdr_ptr->hdr.next;
-    space_freed = lhdr_ptr->hdr.bytes_used +
+    lbrge_pool_ptr next_lhdr_ptr = lhdr_ptr->hdr.next;
+    spbce_freed = lhdr_ptr->hdr.bytes_used +
                   lhdr_ptr->hdr.bytes_left +
-                  SIZEOF(large_pool_hdr);
-    jpeg_free_large(cinfo, (void FAR *) lhdr_ptr, space_freed);
-    mem->total_space_allocated -= space_freed;
+                  SIZEOF(lbrge_pool_hdr);
+    jpeg_free_lbrge(cinfo, (void FAR *) lhdr_ptr, spbce_freed);
+    mem->totbl_spbce_bllocbted -= spbce_freed;
     lhdr_ptr = next_lhdr_ptr;
   }
 
-  /* Release small objects */
-  shdr_ptr = mem->small_list[pool_id];
-  mem->small_list[pool_id] = NULL;
+  /* Relebse smbll objects */
+  shdr_ptr = mem->smbll_list[pool_id];
+  mem->smbll_list[pool_id] = NULL;
 
   while (shdr_ptr != NULL) {
-    small_pool_ptr next_shdr_ptr = shdr_ptr->hdr.next;
-    space_freed = shdr_ptr->hdr.bytes_used +
+    smbll_pool_ptr next_shdr_ptr = shdr_ptr->hdr.next;
+    spbce_freed = shdr_ptr->hdr.bytes_used +
                   shdr_ptr->hdr.bytes_left +
-                  SIZEOF(small_pool_hdr);
-    jpeg_free_small(cinfo, (void *) shdr_ptr, space_freed);
-    mem->total_space_allocated -= space_freed;
+                  SIZEOF(smbll_pool_hdr);
+    jpeg_free_smbll(cinfo, (void *) shdr_ptr, spbce_freed);
+    mem->totbl_spbce_bllocbted -= spbce_freed;
     shdr_ptr = next_shdr_ptr;
   }
 }
@@ -999,7 +999,7 @@ free_pool (j_common_ptr cinfo, int pool_id)
 
 /*
  * Close up shop entirely.
- * Note that this cannot be called unless cinfo->mem is non-NULL.
+ * Note thbt this cbnnot be cblled unless cinfo->mem is non-NULL.
  */
 
 METHODDEF(void)
@@ -1007,115 +1007,115 @@ self_destruct (j_common_ptr cinfo)
 {
   int pool;
 
-  /* Close all backing store, release all memory.
-   * Releasing pools in reverse order might help avoid fragmentation
-   * with some (brain-damaged) malloc libraries.
+  /* Close bll bbcking store, relebse bll memory.
+   * Relebsing pools in reverse order might help bvoid frbgmentbtion
+   * with some (brbin-dbmbged) mblloc librbries.
    */
   for (pool = JPOOL_NUMPOOLS-1; pool >= JPOOL_PERMANENT; pool--) {
     free_pool(cinfo, pool);
   }
 
-  /* Release the memory manager control block too. */
-  jpeg_free_small(cinfo, (void *) cinfo->mem, SIZEOF(my_memory_mgr));
-  cinfo->mem = NULL;            /* ensures I will be called only once */
+  /* Relebse the memory mbnbger control block too. */
+  jpeg_free_smbll(cinfo, (void *) cinfo->mem, SIZEOF(my_memory_mgr));
+  cinfo->mem = NULL;            /* ensures I will be cblled only once */
 
-  jpeg_mem_term(cinfo);         /* system-dependent cleanup */
+  jpeg_mem_term(cinfo);         /* system-dependent clebnup */
 }
 
 
 /*
- * Memory manager initialization.
- * When this is called, only the error manager pointer is valid in cinfo!
+ * Memory mbnbger initiblizbtion.
+ * When this is cblled, only the error mbnbger pointer is vblid in cinfo!
  */
 
 GLOBAL(void)
 jinit_memory_mgr (j_common_ptr cinfo)
 {
   my_mem_ptr mem;
-  size_t max_to_use;
+  size_t mbx_to_use;
   int pool;
-  size_t test_mac;
+  size_t test_mbc;
 
-  cinfo->mem = NULL;            /* for safety if init fails */
+  cinfo->mem = NULL;            /* for sbfety if init fbils */
 
-  /* Check for configuration errors.
-   * SIZEOF(ALIGN_TYPE) should be a power of 2; otherwise, it probably
-   * doesn't reflect any real hardware alignment requirement.
-   * The test is a little tricky: for X>0, X and X-1 have no one-bits
-   * in common if and only if X is a power of 2, ie has only one one-bit.
-   * Some compilers may give an "unreachable code" warning here; ignore it.
+  /* Check for configurbtion errors.
+   * SIZEOF(ALIGN_TYPE) should be b power of 2; otherwise, it probbbly
+   * doesn't reflect bny rebl hbrdwbre blignment requirement.
+   * The test is b little tricky: for X>0, X bnd X-1 hbve no one-bits
+   * in common if bnd only if X is b power of 2, ie hbs only one one-bit.
+   * Some compilers mby give bn "unrebchbble code" wbrning here; ignore it.
    */
   if ((SIZEOF(ALIGN_TYPE) & (SIZEOF(ALIGN_TYPE)-1)) != 0)
     ERREXIT(cinfo, JERR_BAD_ALIGN_TYPE);
-  /* MAX_ALLOC_CHUNK must be representable as type size_t, and must be
-   * a multiple of SIZEOF(ALIGN_TYPE).
-   * Again, an "unreachable code" warning may be ignored here.
-   * But a "constant too large" warning means you need to fix MAX_ALLOC_CHUNK.
+  /* MAX_ALLOC_CHUNK must be representbble bs type size_t, bnd must be
+   * b multiple of SIZEOF(ALIGN_TYPE).
+   * Agbin, bn "unrebchbble code" wbrning mby be ignored here.
+   * But b "constbnt too lbrge" wbrning mebns you need to fix MAX_ALLOC_CHUNK.
    */
-  test_mac = (size_t) MAX_ALLOC_CHUNK;
-  if ((long) test_mac != MAX_ALLOC_CHUNK ||
+  test_mbc = (size_t) MAX_ALLOC_CHUNK;
+  if ((long) test_mbc != MAX_ALLOC_CHUNK ||
       (MAX_ALLOC_CHUNK % SIZEOF(ALIGN_TYPE)) != 0)
     ERREXIT(cinfo, JERR_BAD_ALLOC_CHUNK);
 
-  max_to_use = jpeg_mem_init(cinfo); /* system-dependent initialization */
+  mbx_to_use = jpeg_mem_init(cinfo); /* system-dependent initiblizbtion */
 
-  /* Attempt to allocate memory manager's control block */
-  mem = (my_mem_ptr) jpeg_get_small(cinfo, SIZEOF(my_memory_mgr));
+  /* Attempt to bllocbte memory mbnbger's control block */
+  mem = (my_mem_ptr) jpeg_get_smbll(cinfo, SIZEOF(my_memory_mgr));
 
   if (mem == NULL) {
-    jpeg_mem_term(cinfo);       /* system-dependent cleanup */
+    jpeg_mem_term(cinfo);       /* system-dependent clebnup */
     ERREXIT1(cinfo, JERR_OUT_OF_MEMORY, 0);
   }
 
   /* OK, fill in the method pointers */
-  mem->pub.alloc_small = alloc_small;
-  mem->pub.alloc_large = alloc_large;
-  mem->pub.alloc_sarray = alloc_sarray;
-  mem->pub.alloc_barray = alloc_barray;
-  mem->pub.request_virt_sarray = request_virt_sarray;
-  mem->pub.request_virt_barray = request_virt_barray;
-  mem->pub.realize_virt_arrays = realize_virt_arrays;
-  mem->pub.access_virt_sarray = access_virt_sarray;
-  mem->pub.access_virt_barray = access_virt_barray;
+  mem->pub.blloc_smbll = blloc_smbll;
+  mem->pub.blloc_lbrge = blloc_lbrge;
+  mem->pub.blloc_sbrrby = blloc_sbrrby;
+  mem->pub.blloc_bbrrby = blloc_bbrrby;
+  mem->pub.request_virt_sbrrby = request_virt_sbrrby;
+  mem->pub.request_virt_bbrrby = request_virt_bbrrby;
+  mem->pub.reblize_virt_brrbys = reblize_virt_brrbys;
+  mem->pub.bccess_virt_sbrrby = bccess_virt_sbrrby;
+  mem->pub.bccess_virt_bbrrby = bccess_virt_bbrrby;
   mem->pub.free_pool = free_pool;
   mem->pub.self_destruct = self_destruct;
 
-  /* Make MAX_ALLOC_CHUNK accessible to other modules */
-  mem->pub.max_alloc_chunk = MAX_ALLOC_CHUNK;
+  /* Mbke MAX_ALLOC_CHUNK bccessible to other modules */
+  mem->pub.mbx_blloc_chunk = MAX_ALLOC_CHUNK;
 
-  /* Initialize working state */
-  mem->pub.max_memory_to_use = max_to_use;
+  /* Initiblize working stbte */
+  mem->pub.mbx_memory_to_use = mbx_to_use;
 
   for (pool = JPOOL_NUMPOOLS-1; pool >= JPOOL_PERMANENT; pool--) {
-    mem->small_list[pool] = NULL;
-    mem->large_list[pool] = NULL;
+    mem->smbll_list[pool] = NULL;
+    mem->lbrge_list[pool] = NULL;
   }
-  mem->virt_sarray_list = NULL;
-  mem->virt_barray_list = NULL;
+  mem->virt_sbrrby_list = NULL;
+  mem->virt_bbrrby_list = NULL;
 
-  mem->total_space_allocated = SIZEOF(my_memory_mgr);
+  mem->totbl_spbce_bllocbted = SIZEOF(my_memory_mgr);
 
-  /* Declare ourselves open for business */
+  /* Declbre ourselves open for business */
   cinfo->mem = & mem->pub;
 
-  /* Check for an environment variable JPEGMEM; if found, override the
-   * default max_memory setting from jpeg_mem_init.  Note that the
-   * surrounding application may again override this value.
-   * If your system doesn't support getenv(), define NO_GETENV to disable
-   * this feature.
+  /* Check for bn environment vbribble JPEGMEM; if found, override the
+   * defbult mbx_memory setting from jpeg_mem_init.  Note thbt the
+   * surrounding bpplicbtion mby bgbin override this vblue.
+   * If your system doesn't support getenv(), define NO_GETENV to disbble
+   * this febture.
    */
 #ifndef NO_GETENV
-  { char * memenv;
+  { chbr * memenv;
 
     if ((memenv = getenv("JPEGMEM")) != NULL) {
-      char ch = 'x';
-      unsigned int mem_max = 0u;
+      chbr ch = 'x';
+      unsigned int mem_mbx = 0u;
 
-      if (sscanf(memenv, "%u%c", &mem_max, &ch) > 0) {
-        max_to_use = (size_t)mem_max;
+      if (sscbnf(memenv, "%u%c", &mem_mbx, &ch) > 0) {
+        mbx_to_use = (size_t)mem_mbx;
         if (ch == 'm' || ch == 'M')
-          max_to_use *= 1000L;
-        mem->pub.max_memory_to_use = max_to_use * 1000L;
+          mbx_to_use *= 1000L;
+        mem->pub.mbx_memory_to_use = mbx_to_use * 1000L;
       }
     }
   }

@@ -1,307 +1,307 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.windows;
+pbckbge sun.jbvb2d.windows;
 
-import java.awt.Rectangle;
-import java.awt.GraphicsConfiguration;
-import java.awt.color.ColorSpace;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Raster;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.ComponentColorModel;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.Rbster;
 
-import sun.awt.SunHints;
-import sun.awt.Win32GraphicsConfig;
-import sun.awt.Win32GraphicsDevice;
-import sun.awt.windows.WComponentPeer;
-import sun.java2d.ScreenUpdateManager;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.SurfaceDataProxy;
-import sun.java2d.pipe.Region;
-import sun.java2d.pipe.PixelToShapeConverter;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.RenderLoops;
-import sun.java2d.loops.XORComposite;
+import sun.bwt.SunHints;
+import sun.bwt.Win32GrbphicsConfig;
+import sun.bwt.Win32GrbphicsDevice;
+import sun.bwt.windows.WComponentPeer;
+import sun.jbvb2d.ScreenUpdbteMbnbger;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.SurfbceDbtbProxy;
+import sun.jbvb2d.pipe.Region;
+import sun.jbvb2d.pipe.PixelToShbpeConverter;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.RenderLoops;
+import sun.jbvb2d.loops.XORComposite;
 
-public class GDIWindowSurfaceData extends SurfaceData {
-    private WComponentPeer peer;
-    private Win32GraphicsConfig graphicsConfig;
-    private RenderLoops solidloops;
+public clbss GDIWindowSurfbceDbtb extends SurfbceDbtb {
+    privbte WComponentPeer peer;
+    privbte Win32GrbphicsConfig grbphicsConfig;
+    privbte RenderLoops solidloops;
 
-    // GDI onscreen surface type
-    public static final String
+    // GDI onscreen surfbce type
+    public stbtic finbl String
         DESC_GDI                = "GDI";
 
-    // Generic GDI surface type - used for registering all loops
-    public static final SurfaceType AnyGdi =
-        SurfaceType.IntRgb.deriveSubType(DESC_GDI);
+    // Generic GDI surfbce type - used for registering bll loops
+    public stbtic finbl SurfbceType AnyGdi =
+        SurfbceType.IntRgb.deriveSubType(DESC_GDI);
 
-    public static final SurfaceType IntRgbGdi =
-        SurfaceType.IntRgb.deriveSubType(DESC_GDI);
+    public stbtic finbl SurfbceType IntRgbGdi =
+        SurfbceType.IntRgb.deriveSubType(DESC_GDI);
 
-    public static final SurfaceType Ushort565RgbGdi =
-        SurfaceType.Ushort565Rgb.deriveSubType(DESC_GDI);
+    public stbtic finbl SurfbceType Ushort565RgbGdi =
+        SurfbceType.Ushort565Rgb.deriveSubType(DESC_GDI);
 
-    public static final SurfaceType Ushort555RgbGdi =
-        SurfaceType.Ushort555Rgb.deriveSubType(DESC_GDI);
+    public stbtic finbl SurfbceType Ushort555RgbGdi =
+        SurfbceType.Ushort555Rgb.deriveSubType(DESC_GDI);
 
-    public static final SurfaceType ThreeByteBgrGdi =
-        SurfaceType.ThreeByteBgr.deriveSubType(DESC_GDI);
+    public stbtic finbl SurfbceType ThreeByteBgrGdi =
+        SurfbceType.ThreeByteBgr.deriveSubType(DESC_GDI);
 
-    private static native void initIDs(Class<?> xorComp);
+    privbte stbtic nbtive void initIDs(Clbss<?> xorComp);
 
-    static {
-        initIDs(XORComposite.class);
-        if (WindowsFlags.isGdiBlitEnabled()) {
+    stbtic {
+        initIDs(XORComposite.clbss);
+        if (WindowsFlbgs.isGdiBlitEnbbled()) {
             // Register our gdi Blit loops
             GDIBlitLoops.register();
         }
     }
 
-    public static SurfaceType getSurfaceType(ColorModel cm) {
+    public stbtic SurfbceType getSurfbceType(ColorModel cm) {
         switch (cm.getPixelSize()) {
-        case 32:
-        case 24:
-            if (cm instanceof DirectColorModel) {
-                if (((DirectColorModel)cm).getRedMask() == 0xff0000) {
+        cbse 32:
+        cbse 24:
+            if (cm instbnceof DirectColorModel) {
+                if (((DirectColorModel)cm).getRedMbsk() == 0xff0000) {
                     return IntRgbGdi;
                 } else {
-                    return SurfaceType.IntRgbx;
+                    return SurfbceType.IntRgbx;
                 }
             } else {
                 return ThreeByteBgrGdi;
             }
-        case 15:
+        cbse 15:
             return Ushort555RgbGdi;
-        case 16:
-            if ((cm instanceof DirectColorModel) &&
-                (((DirectColorModel)cm).getBlueMask() == 0x3e))
+        cbse 16:
+            if ((cm instbnceof DirectColorModel) &&
+                (((DirectColorModel)cm).getBlueMbsk() == 0x3e))
             {
-                return SurfaceType.Ushort555Rgbx;
+                return SurfbceType.Ushort555Rgbx;
             } else {
                 return Ushort565RgbGdi;
             }
-        case 8:
-            if (cm.getColorSpace().getType() == ColorSpace.TYPE_GRAY &&
-                cm instanceof ComponentColorModel) {
-                return SurfaceType.ByteGray;
-            } else if (cm instanceof IndexColorModel &&
-                       isOpaqueGray((IndexColorModel)cm)) {
-                return SurfaceType.Index8Gray;
+        cbse 8:
+            if (cm.getColorSpbce().getType() == ColorSpbce.TYPE_GRAY &&
+                cm instbnceof ComponentColorModel) {
+                return SurfbceType.ByteGrby;
+            } else if (cm instbnceof IndexColorModel &&
+                       isOpbqueGrby((IndexColorModel)cm)) {
+                return SurfbceType.Index8Grby;
             } else {
-                return SurfaceType.ByteIndexedOpaque;
+                return SurfbceType.ByteIndexedOpbque;
             }
-        default:
-            throw new sun.java2d.InvalidPipeException("Unsupported bit " +
+        defbult:
+            throw new sun.jbvb2d.InvblidPipeException("Unsupported bit " +
                                                       "depth: " +
                                                       cm.getPixelSize());
         }
     }
 
-    public static GDIWindowSurfaceData createData(WComponentPeer peer) {
-        SurfaceType sType = getSurfaceType(peer.getDeviceColorModel());
-        return new GDIWindowSurfaceData(peer, sType);
+    public stbtic GDIWindowSurfbceDbtb crebteDbtb(WComponentPeer peer) {
+        SurfbceType sType = getSurfbceType(peer.getDeviceColorModel());
+        return new GDIWindowSurfbceDbtb(peer, sType);
     }
 
     @Override
-    public SurfaceDataProxy makeProxyFor(SurfaceData srcData) {
-        return SurfaceDataProxy.UNCACHED;
+    public SurfbceDbtbProxy mbkeProxyFor(SurfbceDbtb srcDbtb) {
+        return SurfbceDbtbProxy.UNCACHED;
     }
 
-    public Raster getRaster(int x, int y, int w, int h) {
-        throw new InternalError("not implemented yet");
+    public Rbster getRbster(int x, int y, int w, int h) {
+        throw new InternblError("not implemented yet");
     }
 
-    protected static GDIRenderer gdiPipe;
-    protected static PixelToShapeConverter gdiTxPipe;
+    protected stbtic GDIRenderer gdiPipe;
+    protected stbtic PixelToShbpeConverter gdiTxPipe;
 
-    static {
+    stbtic {
         gdiPipe = new GDIRenderer();
-        if (GraphicsPrimitive.tracingEnabled()) {
-            gdiPipe = gdiPipe.traceWrap();
+        if (GrbphicsPrimitive.trbcingEnbbled()) {
+            gdiPipe = gdiPipe.trbceWrbp();
         }
-        gdiTxPipe = new PixelToShapeConverter(gdiPipe);
+        gdiTxPipe = new PixelToShbpeConverter(gdiPipe);
 
     }
 
-    public void validatePipe(SunGraphics2D sg2d) {
-        if (sg2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_ON &&
-            sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR &&
-            (sg2d.compositeState <= SunGraphics2D.COMP_ISCOPY ||
-             sg2d.compositeState == SunGraphics2D.COMP_XOR))
+    public void vblidbtePipe(SunGrbphics2D sg2d) {
+        if (sg2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON &&
+            sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR &&
+            (sg2d.compositeStbte <= SunGrbphics2D.COMP_ISCOPY ||
+             sg2d.compositeStbte == SunGrbphics2D.COMP_XOR))
         {
-            if (sg2d.clipState == SunGraphics2D.CLIP_SHAPE) {
+            if (sg2d.clipStbte == SunGrbphics2D.CLIP_SHAPE) {
                 // Do this to init textpipe correctly; we will override the
                 // other non-text pipes below
-                // REMIND: we should clean this up eventually instead of
-                // having this work duplicated.
-                super.validatePipe(sg2d);
+                // REMIND: we should clebn this up eventublly instebd of
+                // hbving this work duplicbted.
+                super.vblidbtePipe(sg2d);
             } else {
-                switch (sg2d.textAntialiasHint) {
+                switch (sg2d.textAntiblibsHint) {
 
-                case SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT:
-                    /* equate DEFAULT to OFF which it is for us */
-                case SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
+                cbse SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT:
+                    /* equbte DEFAULT to OFF which it is for us */
+                cbse SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
                     sg2d.textpipe = solidTextRenderer;
-                    break;
+                    brebk;
 
-                case SunHints.INTVAL_TEXT_ANTIALIAS_ON:
-                    sg2d.textpipe = aaTextRenderer;
-                    break;
+                cbse SunHints.INTVAL_TEXT_ANTIALIAS_ON:
+                    sg2d.textpipe = bbTextRenderer;
+                    brebk;
 
-                default:
-                    switch (sg2d.getFontInfo().aaHint) {
+                defbult:
+                    switch (sg2d.getFontInfo().bbHint) {
 
-                    case SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
-                    case SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
+                    cbse SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
+                    cbse SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
                         sg2d.textpipe = lcdTextRenderer;
-                        break;
+                        brebk;
 
-                    case SunHints.INTVAL_TEXT_ANTIALIAS_ON:
-                        sg2d.textpipe = aaTextRenderer;
-                        break;
+                    cbse SunHints.INTVAL_TEXT_ANTIALIAS_ON:
+                        sg2d.textpipe = bbTextRenderer;
+                        brebk;
 
-                    default:
+                    defbult:
                         sg2d.textpipe = solidTextRenderer;
                     }
                 }
             }
-            sg2d.imagepipe = imagepipe;
-            if (sg2d.transformState >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
-                sg2d.drawpipe = gdiTxPipe;
+            sg2d.imbgepipe = imbgepipe;
+            if (sg2d.trbnsformStbte >= SunGrbphics2D.TRANSFORM_TRANSLATESCALE) {
+                sg2d.drbwpipe = gdiTxPipe;
                 sg2d.fillpipe = gdiTxPipe;
-            } else if (sg2d.strokeState != SunGraphics2D.STROKE_THIN){
-                sg2d.drawpipe = gdiTxPipe;
+            } else if (sg2d.strokeStbte != SunGrbphics2D.STROKE_THIN){
+                sg2d.drbwpipe = gdiTxPipe;
                 sg2d.fillpipe = gdiPipe;
             } else {
-                sg2d.drawpipe = gdiPipe;
+                sg2d.drbwpipe = gdiPipe;
                 sg2d.fillpipe = gdiPipe;
             }
-            sg2d.shapepipe = gdiPipe;
+            sg2d.shbpepipe = gdiPipe;
             // This is needed for AA text.
-            // Note that even a SolidTextRenderer can dispatch AA text
-            // if a GlyphVector overrides the AA setting.
-            // We use getRenderLoops() rather than setting solidloops
-            // directly so that we get the appropriate loops in XOR mode.
+            // Note thbt even b SolidTextRenderer cbn dispbtch AA text
+            // if b GlyphVector overrides the AA setting.
+            // We use getRenderLoops() rbther thbn setting solidloops
+            // directly so thbt we get the bppropribte loops in XOR mode.
             if (sg2d.loops == null) {
-                // assert(some pipe will always be a LoopBasedPipe)
+                // bssert(some pipe will blwbys be b LoopBbsedPipe)
                 sg2d.loops = getRenderLoops(sg2d);
             }
         } else {
-            super.validatePipe(sg2d);
+            super.vblidbtePipe(sg2d);
         }
     }
 
-    public RenderLoops getRenderLoops(SunGraphics2D sg2d) {
-        if (sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR &&
-            sg2d.compositeState <= SunGraphics2D.COMP_ISCOPY)
+    public RenderLoops getRenderLoops(SunGrbphics2D sg2d) {
+        if (sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR &&
+            sg2d.compositeStbte <= SunGrbphics2D.COMP_ISCOPY)
         {
             return solidloops;
         }
         return super.getRenderLoops(sg2d);
     }
 
-    public GraphicsConfiguration getDeviceConfiguration() {
-        return graphicsConfig;
+    public GrbphicsConfigurbtion getDeviceConfigurbtion() {
+        return grbphicsConfig;
     }
 
     /**
-     * Initializes the native Ops pointer.
+     * Initiblizes the nbtive Ops pointer.
      */
-    private native void initOps(WComponentPeer peer, int depth, int redMask,
-                                int greenMask, int blueMask, int screen);
+    privbte nbtive void initOps(WComponentPeer peer, int depth, int redMbsk,
+                                int greenMbsk, int blueMbsk, int screen);
 
-    private GDIWindowSurfaceData(WComponentPeer peer, SurfaceType sType) {
+    privbte GDIWindowSurfbceDbtb(WComponentPeer peer, SurfbceType sType) {
         super(sType, peer.getDeviceColorModel());
         ColorModel cm = peer.getDeviceColorModel();
         this.peer = peer;
-        int rMask = 0, gMask = 0, bMask = 0;
+        int rMbsk = 0, gMbsk = 0, bMbsk = 0;
         int depth;
         switch (cm.getPixelSize()) {
-        case 32:
-        case 24:
-            if (cm instanceof DirectColorModel) {
+        cbse 32:
+        cbse 24:
+            if (cm instbnceof DirectColorModel) {
                 depth = 32;
             } else {
                 depth = 24;
             }
-            break;
-        default:
+            brebk;
+        defbult:
             depth = cm.getPixelSize();
         }
-        if (cm instanceof DirectColorModel) {
+        if (cm instbnceof DirectColorModel) {
             DirectColorModel dcm = (DirectColorModel)cm;
-            rMask = dcm.getRedMask();
-            gMask = dcm.getGreenMask();
-            bMask = dcm.getBlueMask();
+            rMbsk = dcm.getRedMbsk();
+            gMbsk = dcm.getGreenMbsk();
+            bMbsk = dcm.getBlueMbsk();
         }
-        this.graphicsConfig =
-            (Win32GraphicsConfig) peer.getGraphicsConfiguration();
-        this.solidloops = graphicsConfig.getSolidLoops(sType);
+        this.grbphicsConfig =
+            (Win32GrbphicsConfig) peer.getGrbphicsConfigurbtion();
+        this.solidloops = grbphicsConfig.getSolidLoops(sType);
 
-        Win32GraphicsDevice gd =
-            (Win32GraphicsDevice)graphicsConfig.getDevice();
-        initOps(peer, depth, rMask, gMask, bMask, gd.getScreen());
-        setBlitProxyKey(graphicsConfig.getProxyKey());
+        Win32GrbphicsDevice gd =
+            (Win32GrbphicsDevice)grbphicsConfig.getDevice();
+        initOps(peer, depth, rMbsk, gMbsk, bMbsk, gd.getScreen());
+        setBlitProxyKey(grbphicsConfig.getProxyKey());
     }
 
     /**
      * {@inheritDoc}
      *
-     * Overridden to use ScreenUpdateManager to obtain the replacement surface.
+     * Overridden to use ScreenUpdbteMbnbger to obtbin the replbcement surfbce.
      *
-     * @see sun.java2d.ScreenUpdateManager#getReplacementScreenSurface
+     * @see sun.jbvb2d.ScreenUpdbteMbnbger#getReplbcementScreenSurfbce
      */
     @Override
-    public SurfaceData getReplacement() {
-        ScreenUpdateManager mgr = ScreenUpdateManager.getInstance();
-        return mgr.getReplacementScreenSurface(peer, this);
+    public SurfbceDbtb getReplbcement() {
+        ScreenUpdbteMbnbger mgr = ScreenUpdbteMbnbger.getInstbnce();
+        return mgr.getReplbcementScreenSurfbce(peer, this);
     }
 
-    public Rectangle getBounds() {
-        Rectangle r = peer.getBounds();
+    public Rectbngle getBounds() {
+        Rectbngle r = peer.getBounds();
         r.x = r.y = 0;
         return r;
     }
 
-    public boolean copyArea(SunGraphics2D sg2d,
+    public boolebn copyAreb(SunGrbphics2D sg2d,
                             int x, int y, int w, int h, int dx, int dy)
     {
-        CompositeType comptype = sg2d.imageComp;
-        if (sg2d.transformState < SunGraphics2D.TRANSFORM_TRANSLATESCALE &&
-            sg2d.clipState != SunGraphics2D.CLIP_SHAPE &&
-            (CompositeType.SrcOverNoEa.equals(comptype) ||
-             CompositeType.SrcNoEa.equals(comptype)))
+        CompositeType comptype = sg2d.imbgeComp;
+        if (sg2d.trbnsformStbte < SunGrbphics2D.TRANSFORM_TRANSLATESCALE &&
+            sg2d.clipStbte != SunGrbphics2D.CLIP_SHAPE &&
+            (CompositeType.SrcOverNoEb.equbls(comptype) ||
+             CompositeType.SrcNoEb.equbls(comptype)))
         {
-            x += sg2d.transX;
-            y += sg2d.transY;
+            x += sg2d.trbnsX;
+            y += sg2d.trbnsY;
             int dstx1 = x + dx;
             int dsty1 = y + dy;
             int dstx2 = dstx1 + w;
@@ -312,31 +312,31 @@ public class GDIWindowSurfaceData extends SurfaceData {
             if (dstx2 > clip.getHiX()) dstx2 = clip.getHiX();
             if (dsty2 > clip.getHiY()) dsty2 = clip.getHiY();
             if (dstx1 < dstx2 && dsty1 < dsty2) {
-                gdiPipe.devCopyArea(this, dstx1 - dx, dsty1 - dy,
+                gdiPipe.devCopyAreb(this, dstx1 - dx, dsty1 - dy,
                                     dx, dy,
                                     dstx2 - dstx1, dsty2 - dsty1);
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    private native void invalidateSD();
+    privbte nbtive void invblidbteSD();
     @Override
-    public void invalidate() {
-        if (isValid()) {
-            invalidateSD();
-            super.invalidate();
-            //peer.invalidateBackBuffer();
+    public void invblidbte() {
+        if (isVblid()) {
+            invblidbteSD();
+            super.invblidbte();
+            //peer.invblidbteBbckBuffer();
         }
     }
 
     /**
-     * Returns destination Component associated with this SurfaceData.
+     * Returns destinbtion Component bssocibted with this SurfbceDbtb.
      */
     @Override
-    public Object getDestination() {
-        return peer.getTarget();
+    public Object getDestinbtion() {
+        return peer.getTbrget();
     }
 
     public WComponentPeer getPeer() {

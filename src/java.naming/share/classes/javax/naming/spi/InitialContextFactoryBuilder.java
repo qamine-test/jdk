@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.spi;
+pbckbge jbvbx.nbming.spi;
 
-import java.util.Hashtable;
-import javax.naming.NamingException;
+import jbvb.util.Hbshtbble;
+import jbvbx.nbming.NbmingException;
 
 /**
-  * This interface represents a builder that creates initial context factories.
+  * This interfbce represents b builder thbt crebtes initibl context fbctories.
   *<p>
-  * The JNDI framework allows for different initial context implementations
-  * to be specified at runtime.  An initial context is created using
-  * an initial context factory. A program can install its own builder
-  * that creates initial context factories, thereby overriding the
-  * default policies used by the framework, by calling
-  * NamingManager.setInitialContextFactoryBuilder().
-  * The InitialContextFactoryBuilder interface must be implemented by
-  * such a builder.
+  * The JNDI frbmework bllows for different initibl context implementbtions
+  * to be specified bt runtime.  An initibl context is crebted using
+  * bn initibl context fbctory. A progrbm cbn instbll its own builder
+  * thbt crebtes initibl context fbctories, thereby overriding the
+  * defbult policies used by the frbmework, by cblling
+  * NbmingMbnbger.setInitiblContextFbctoryBuilder().
+  * The InitiblContextFbctoryBuilder interfbce must be implemented by
+  * such b builder.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
-  * @see InitialContextFactory
-  * @see NamingManager#getInitialContext
-  * @see NamingManager#setInitialContextFactoryBuilder
-  * @see NamingManager#hasInitialContextFactoryBuilder
-  * @see javax.naming.InitialContext
-  * @see javax.naming.directory.InitialDirContext
+  * @see InitiblContextFbctory
+  * @see NbmingMbnbger#getInitiblContext
+  * @see NbmingMbnbger#setInitiblContextFbctoryBuilder
+  * @see NbmingMbnbger#hbsInitiblContextFbctoryBuilder
+  * @see jbvbx.nbming.InitiblContext
+  * @see jbvbx.nbming.directory.InitiblDirContext
   * @since 1.3
   */
-public interface InitialContextFactoryBuilder {
+public interfbce InitiblContextFbctoryBuilder {
     /**
-      * Creates an initial context factory using the specified
+      * Crebtes bn initibl context fbctory using the specified
       * environment.
       *<p>
-      * The environment parameter is owned by the caller.
-      * The implementation will not modify the object or keep a reference
-      * to it, although it may keep a reference to a clone or copy.
+      * The environment pbrbmeter is owned by the cbller.
+      * The implementbtion will not modify the object or keep b reference
+      * to it, blthough it mby keep b reference to b clone or copy.
       *
-      * @param environment Environment used in creating an initial
-      *                 context implementation. Can be null.
-      * @return A non-null initial context factory.
-      * @exception NamingException If an initial context factory could not be created.
+      * @pbrbm environment Environment used in crebting bn initibl
+      *                 context implementbtion. Cbn be null.
+      * @return A non-null initibl context fbctory.
+      * @exception NbmingException If bn initibl context fbctory could not be crebted.
       */
-    public InitialContextFactory
-        createInitialContextFactory(Hashtable<?,?> environment)
-        throws NamingException;
+    public InitiblContextFbctory
+        crebteInitiblContextFbctory(Hbshtbble<?,?> environment)
+        throws NbmingException;
 }

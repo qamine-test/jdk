@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,129 +30,129 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  */
 
-import javax.management.*;
-import javax.management.remote.*;
-import java.io.IOException;
-import java.net.MalformedURLException;
+import jbvbx.mbnbgement.*;
+import jbvbx.mbnbgement.remote.*;
+import jbvb.io.IOException;
+import jbvb.net.MblformedURLException;
 
 /**
- * This VerboseGC class demonstrates the capability to get
- * the garbage collection statistics and memory usage remotely.
+ * This VerboseGC clbss demonstrbtes the cbpbbility to get
+ * the gbrbbge collection stbtistics bnd memory usbge remotely.
  */
-public class VerboseGC {
-    private MBeanServerConnection server;
-    private JMXConnector jmxc;
-    public VerboseGC(String hostname, int port) {
-        System.out.println("Connecting to " + hostname + ":" + port);
+public clbss VerboseGC {
+    privbte MBebnServerConnection server;
+    privbte JMXConnector jmxc;
+    public VerboseGC(String hostnbme, int port) {
+        System.out.println("Connecting to " + hostnbme + ":" + port);
 
-        // Create an RMI connector client and connect it to
+        // Crebte bn RMI connector client bnd connect it to
         // the RMI connector server
-        String urlPath = "/jndi/rmi://" + hostname + ":" + port + "/jmxrmi";
-        connect(urlPath);
+        String urlPbth = "/jndi/rmi://" + hostnbme + ":" + port + "/jmxrmi";
+        connect(urlPbth);
    }
 
-   public void dump(long interval, long samples) {
+   public void dump(long intervbl, long sbmples) {
         try {
-            PrintGCStat pstat = new PrintGCStat(server);
-            for (int i = 0; i < samples; i++) {
-                pstat.printVerboseGc();
+            PrintGCStbt pstbt = new PrintGCStbt(server);
+            for (int i = 0; i < sbmples; i++) {
+                pstbt.printVerboseGc();
                 try {
-                    Thread.sleep(interval);
-                } catch (InterruptedException e) {
+                    Threbd.sleep(intervbl);
+                } cbtch (InterruptedException e) {
                     System.exit(1);
                 }
             }
-        } catch (IOException e) {
-            System.err.println("\nCommunication error: " + e.getMessage());
+        } cbtch (IOException e) {
+            System.err.println("\nCommunicbtion error: " + e.getMessbge());
             System.exit(1);
         }
     }
 
     /**
-     * Connect to a JMX agent of a given URL.
+     * Connect to b JMX bgent of b given URL.
      */
-    private void connect(String urlPath) {
+    privbte void connect(String urlPbth) {
         try {
-            JMXServiceURL url = new JMXServiceURL("rmi", "", 0, urlPath);
-            this.jmxc = JMXConnectorFactory.connect(url);
-            this.server = jmxc.getMBeanServerConnection();
-        } catch (MalformedURLException e) {
-            // should not reach here
-        } catch (IOException e) {
-            System.err.println("\nCommunication error: " + e.getMessage());
+            JMXServiceURL url = new JMXServiceURL("rmi", "", 0, urlPbth);
+            this.jmxc = JMXConnectorFbctory.connect(url);
+            this.server = jmxc.getMBebnServerConnection();
+        } cbtch (MblformedURLException e) {
+            // should not rebch here
+        } cbtch (IOException e) {
+            System.err.println("\nCommunicbtion error: " + e.getMessbge());
             System.exit(1);
         }
     }
 
-    public static void main(String[] args) {
-        if (args.length < 1) {
-            usage();
+    public stbtic void mbin(String[] brgs) {
+        if (brgs.length < 1) {
+            usbge();
         }
 
-        String hostname = "";
+        String hostnbme = "";
         int port = -1;
-        long interval = 5000; // default is 5 second interval
+        long intervbl = 5000; // defbult is 5 second intervbl
         long mins = 5;
-        for (String arg: args) {
-            if (arg.startsWith("-")) {
-                if (arg.equals("-h") ||
-                    arg.equals("-help") ||
-                    arg.equals("-?")) {
-                    usage();
-                } else if (arg.startsWith("-interval=")) {
+        for (String brg: brgs) {
+            if (brg.stbrtsWith("-")) {
+                if (brg.equbls("-h") ||
+                    brg.equbls("-help") ||
+                    brg.equbls("-?")) {
+                    usbge();
+                } else if (brg.stbrtsWith("-intervbl=")) {
                     try {
-                        interval = Integer.parseInt(arg.substring(10)) * 1000;
-                    } catch (NumberFormatException ex) {
-                        usage();
+                        intervbl = Integer.pbrseInt(brg.substring(10)) * 1000;
+                    } cbtch (NumberFormbtException ex) {
+                        usbge();
                     }
-                } else if (arg.startsWith("-duration=")) {
+                } else if (brg.stbrtsWith("-durbtion=")) {
                     try {
-                        mins = Integer.parseInt(arg.substring(10));
-                    } catch (NumberFormatException ex) {
-                        usage();
+                        mins = Integer.pbrseInt(brg.substring(10));
+                    } cbtch (NumberFormbtException ex) {
+                        usbge();
                     }
                 } else {
                     // Unknown switch
-                    System.err.println("Unrecognized option: " + arg);
-                    usage();
+                    System.err.println("Unrecognized option: " + brg);
+                    usbge();
                 }
             } else {
-                String[] arg2 = arg.split(":");
-                if (arg2.length != 2) {
-                    usage();
+                String[] brg2 = brg.split(":");
+                if (brg2.length != 2) {
+                    usbge();
                 }
-                hostname = arg2[0];
+                hostnbme = brg2[0];
                 try {
-                    port = Integer.parseInt(arg2[1]);
-                } catch (NumberFormatException x) {
-                    usage();
+                    port = Integer.pbrseInt(brg2[1]);
+                } cbtch (NumberFormbtException x) {
+                    usbge();
                 }
                 if (port < 0) {
-                    usage();
+                    usbge();
                 }
             }
         }
 
-        // get full thread dump and perform deadlock detection
-        VerboseGC vgc = new VerboseGC(hostname, port);
-        long samples = (mins * 60 * 1000) / interval;
-        vgc.dump(interval, samples);
+        // get full threbd dump bnd perform debdlock detection
+        VerboseGC vgc = new VerboseGC(hostnbme, port);
+        long sbmples = (mins * 60 * 1000) / intervbl;
+        vgc.dump(intervbl, sbmples);
 
     }
 
-    private static void usage() {
-        System.out.print("Usage: java VerboseGC <hostname>:<port> ");
-        System.out.println(" [-interval=seconds] [-duration=minutes]");
+    privbte stbtic void usbge() {
+        System.out.print("Usbge: jbvb VerboseGC <hostnbme>:<port> ");
+        System.out.println(" [-intervbl=seconds] [-durbtion=minutes]");
     }
 }

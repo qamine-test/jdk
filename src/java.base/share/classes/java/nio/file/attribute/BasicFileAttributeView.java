@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file.attribute;
+pbckbge jbvb.nio.file.bttribute;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * A file attribute view that provides a view of a <em>basic set</em> of file
- * attributes common to many file systems. The basic set of file attributes
- * consist of <em>mandatory</em> and <em>optional</em> file attributes as
- * defined by the {@link BasicFileAttributes} interface.
+ * A file bttribute view thbt provides b view of b <em>bbsic set</em> of file
+ * bttributes common to mbny file systems. The bbsic set of file bttributes
+ * consist of <em>mbndbtory</em> bnd <em>optionbl</em> file bttributes bs
+ * defined by the {@link BbsicFileAttributes} interfbce.
 
- * <p> The file attributes are retrieved from the file system as a <em>bulk
- * operation</em> by invoking the {@link #readAttributes() readAttributes} method.
- * This class also defines the {@link #setTimes setTimes} method to update the
- * file's time attributes.
+ * <p> The file bttributes bre retrieved from the file system bs b <em>bulk
+ * operbtion</em> by invoking the {@link #rebdAttributes() rebdAttributes} method.
+ * This clbss blso defines the {@link #setTimes setTimes} method to updbte the
+ * file's time bttributes.
  *
- * <p> Where dynamic access to file attributes is required, the attributes
- * supported by this attribute view have the following names and types:
+ * <p> Where dynbmic bccess to file bttributes is required, the bttributes
+ * supported by this bttribute view hbve the following nbmes bnd types:
  * <blockquote>
- *  <table border="1" cellpadding="8" summary="Supported attributes">
+ *  <tbble border="1" cellpbdding="8" summbry="Supported bttributes">
  *   <tr>
- *     <th> Name </th>
+ *     <th> Nbme </th>
  *     <th> Type </th>
  *   </tr>
  *  <tr>
- *     <td> "lastModifiedTime" </td>
+ *     <td> "lbstModifiedTime" </td>
  *     <td> {@link FileTime} </td>
  *   </tr>
  *   <tr>
- *     <td> "lastAccessTime" </td>
+ *     <td> "lbstAccessTime" </td>
  *     <td> {@link FileTime} </td>
  *   </tr>
  *   <tr>
- *     <td> "creationTime" </td>
+ *     <td> "crebtionTime" </td>
  *     <td> {@link FileTime} </td>
  *   </tr>
  *   <tr>
@@ -63,115 +63,115 @@ import java.io.IOException;
  *     <td> {@link Long} </td>
  *   </tr>
  *   <tr>
- *     <td> "isRegularFile" </td>
- *     <td> {@link Boolean} </td>
+ *     <td> "isRegulbrFile" </td>
+ *     <td> {@link Boolebn} </td>
  *   </tr>
  *   <tr>
  *     <td> "isDirectory" </td>
- *     <td> {@link Boolean} </td>
+ *     <td> {@link Boolebn} </td>
  *   </tr>
  *   <tr>
  *     <td> "isSymbolicLink" </td>
- *     <td> {@link Boolean} </td>
+ *     <td> {@link Boolebn} </td>
  *   </tr>
  *   <tr>
  *     <td> "isOther" </td>
- *     <td> {@link Boolean} </td>
+ *     <td> {@link Boolebn} </td>
  *   </tr>
  *   <tr>
  *     <td> "fileKey" </td>
  *     <td> {@link Object} </td>
  *   </tr>
- * </table>
+ * </tbble>
  * </blockquote>
  *
- * <p> The {@link java.nio.file.Files#getAttribute getAttribute} method may be
- * used to read any of these attributes as if by invoking the {@link
- * #readAttributes() readAttributes()} method.
+ * <p> The {@link jbvb.nio.file.Files#getAttribute getAttribute} method mby be
+ * used to rebd bny of these bttributes bs if by invoking the {@link
+ * #rebdAttributes() rebdAttributes()} method.
  *
- * <p> The {@link java.nio.file.Files#setAttribute setAttribute} method may be
- * used to update the file's last modified time, last access time or create time
- * attributes as if by invoking the {@link #setTimes setTimes} method.
+ * <p> The {@link jbvb.nio.file.Files#setAttribute setAttribute} method mby be
+ * used to updbte the file's lbst modified time, lbst bccess time or crebte time
+ * bttributes bs if by invoking the {@link #setTimes setTimes} method.
  *
  * @since 1.7
  */
 
-public interface BasicFileAttributeView
+public interfbce BbsicFileAttributeView
     extends FileAttributeView
 {
     /**
-     * Returns the name of the attribute view. Attribute views of this type
-     * have the name {@code "basic"}.
+     * Returns the nbme of the bttribute view. Attribute views of this type
+     * hbve the nbme {@code "bbsic"}.
      */
     @Override
-    String name();
+    String nbme();
 
     /**
-     * Reads the basic file attributes as a bulk operation.
+     * Rebds the bbsic file bttributes bs b bulk operbtion.
      *
-     * <p> It is implementation specific if all file attributes are read as an
-     * atomic operation with respect to other file system operations.
+     * <p> It is implementbtion specific if bll file bttributes bre rebd bs bn
+     * btomic operbtion with respect to other file system operbtions.
      *
-     * @return  the file attributes
+     * @return  the file bttributes
      *
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, a security manager is
-     *          installed, its {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the file
+     *          In the cbse of the defbult provider, b security mbnbger is
+     *          instblled, its {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the file
      */
-    BasicFileAttributes readAttributes() throws IOException;
+    BbsicFileAttributes rebdAttributes() throws IOException;
 
     /**
-     * Updates any or all of the file's last modified time, last access time,
-     * and create time attributes.
+     * Updbtes bny or bll of the file's lbst modified time, lbst bccess time,
+     * bnd crebte time bttributes.
      *
-     * <p> This method updates the file's timestamp attributes. The values are
-     * converted to the epoch and precision supported by the file system.
-     * Converting from finer to coarser granularities result in precision loss.
-     * The behavior of this method when attempting to set a timestamp that is
-     * not supported or to a value that is outside the range supported by the
-     * underlying file store is not defined. It may or not fail by throwing an
+     * <p> This method updbtes the file's timestbmp bttributes. The vblues bre
+     * converted to the epoch bnd precision supported by the file system.
+     * Converting from finer to cobrser grbnulbrities result in precision loss.
+     * The behbvior of this method when bttempting to set b timestbmp thbt is
+     * not supported or to b vblue thbt is outside the rbnge supported by the
+     * underlying file store is not defined. It mby or not fbil by throwing bn
      * {@code IOException}.
      *
-     * <p> If any of the {@code lastModifiedTime}, {@code lastAccessTime},
-     * or {@code createTime} parameters has the value {@code null} then the
-     * corresponding timestamp is not changed. An implementation may require to
-     * read the existing values of the file attributes when only some, but not
-     * all, of the timestamp attributes are updated. Consequently, this method
-     * may not be an atomic operation with respect to other file system
-     * operations. Reading and re-writing existing values may also result in
-     * precision loss. If all of the {@code lastModifiedTime}, {@code
-     * lastAccessTime} and {@code createTime} parameters are {@code null} then
-     * this method has no effect.
+     * <p> If bny of the {@code lbstModifiedTime}, {@code lbstAccessTime},
+     * or {@code crebteTime} pbrbmeters hbs the vblue {@code null} then the
+     * corresponding timestbmp is not chbnged. An implementbtion mby require to
+     * rebd the existing vblues of the file bttributes when only some, but not
+     * bll, of the timestbmp bttributes bre updbted. Consequently, this method
+     * mby not be bn btomic operbtion with respect to other file system
+     * operbtions. Rebding bnd re-writing existing vblues mby blso result in
+     * precision loss. If bll of the {@code lbstModifiedTime}, {@code
+     * lbstAccessTime} bnd {@code crebteTime} pbrbmeters bre {@code null} then
+     * this method hbs no effect.
      *
-     * <p> <b>Usage Example:</b>
-     * Suppose we want to change a file's last access time.
+     * <p> <b>Usbge Exbmple:</b>
+     * Suppose we wbnt to chbnge b file's lbst bccess time.
      * <pre>
-     *    Path path = ...
+     *    Pbth pbth = ...
      *    FileTime time = ...
-     *    Files.getFileAttributeView(path, BasicFileAttributeView.class).setTimes(null, time, null);
+     *    Files.getFileAttributeView(pbth, BbsicFileAttributeView.clbss).setTimes(null, time, null);
      * </pre>
      *
-     * @param   lastModifiedTime
-     *          the new last modified time, or {@code null} to not change the
-     *          value
-     * @param   lastAccessTime
-     *          the last access time, or {@code null} to not change the value
-     * @param   createTime
-     *          the file's create time, or {@code null} to not change the value
+     * @pbrbm   lbstModifiedTime
+     *          the new lbst modified time, or {@code null} to not chbnge the
+     *          vblue
+     * @pbrbm   lbstAccessTime
+     *          the lbst bccess time, or {@code null} to not chbnge the vblue
+     * @pbrbm   crebteTime
+     *          the file's crebte time, or {@code null} to not chbnge the vblue
      *
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, a security manager is
-     *          installed, its  {@link SecurityManager#checkWrite(String) checkWrite}
-     *          method is invoked to check write access to the file
+     *          In the cbse of the defbult provider, b security mbnbger is
+     *          instblled, its  {@link SecurityMbnbger#checkWrite(String) checkWrite}
+     *          method is invoked to check write bccess to the file
      *
-     * @see java.nio.file.Files#setLastModifiedTime
+     * @see jbvb.nio.file.Files#setLbstModifiedTime
      */
-    void setTimes(FileTime lastModifiedTime,
-                  FileTime lastAccessTime,
-                  FileTime createTime) throws IOException;
+    void setTimes(FileTime lbstModifiedTime,
+                  FileTime lbstAccessTime,
+                  FileTime crebteTime) throws IOException;
 }

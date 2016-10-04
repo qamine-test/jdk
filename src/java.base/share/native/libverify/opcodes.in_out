@@ -1,31 +1,31 @@
 /* 
- * Copyright (c) 1998, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-char * const opcode_in_out[][2] = {
+chbr * const opcode_in_out[][2] = {
    {"", ""}, 		/* nop */
-   {"", "A"}, 		/* aconst_null */
+   {"", "A"}, 		/* bconst_null */
    {"", "I"}, 		/* iconst_m1 */
    {"", "I"}, 		/* iconst_0 */
    {"", "I"}, 		/* iconst_1 */
@@ -45,44 +45,44 @@ char * const opcode_in_out[][2] = {
    {"", "?"}, 		/* ldc */
    {"", "?"}, 		/* ldc_w */
    {"", "?"}, 		/* ldc2_w */
-   {"", "I"}, 		/* iload */
-   {"", "L"}, 		/* lload */
-   {"", "F"}, 		/* fload */
-   {"", "D"}, 		/* dload */
-   {"", "A"}, 		/* aload */
-   {"", "I"}, 		/* iload_0 */
-   {"", "I"}, 		/* iload_1 */
-   {"", "I"}, 		/* iload_2 */
-   {"", "I"}, 		/* iload_3 */
-   {"", "L"}, 		/* lload_0 */
-   {"", "L"}, 		/* lload_1 */
-   {"", "L"}, 		/* lload_2 */
-   {"", "L"}, 		/* lload_3 */
-   {"", "F"}, 		/* fload_0 */
-   {"", "F"}, 		/* fload_1 */
-   {"", "F"}, 		/* fload_2 */
-   {"", "F"}, 		/* fload_3 */
-   {"", "D"}, 		/* dload_0 */
-   {"", "D"}, 		/* dload_1 */
-   {"", "D"}, 		/* dload_2 */
-   {"", "D"}, 		/* dload_3 */
-   {"", "A"}, 		/* aload_0 */
-   {"", "A"}, 		/* aload_1 */
-   {"", "A"}, 		/* aload_2 */
-   {"", "A"}, 		/* aload_3 */
-   {"[I]I", "I"}, 		/* iaload */
-   {"[L]I", "L"}, 		/* laload */
-   {"[F]I", "F"}, 		/* faload */
-   {"[D]I", "D"}, 		/* daload */
-   {"[A]I", "A"}, 		/* aaload */
-   {"[B]I", "I"}, 		/* baload */
-   {"[C]I", "I"}, 		/* caload */
-   {"[S]I", "I"}, 		/* saload */
+   {"", "I"}, 		/* ilobd */
+   {"", "L"}, 		/* llobd */
+   {"", "F"}, 		/* flobd */
+   {"", "D"}, 		/* dlobd */
+   {"", "A"}, 		/* blobd */
+   {"", "I"}, 		/* ilobd_0 */
+   {"", "I"}, 		/* ilobd_1 */
+   {"", "I"}, 		/* ilobd_2 */
+   {"", "I"}, 		/* ilobd_3 */
+   {"", "L"}, 		/* llobd_0 */
+   {"", "L"}, 		/* llobd_1 */
+   {"", "L"}, 		/* llobd_2 */
+   {"", "L"}, 		/* llobd_3 */
+   {"", "F"}, 		/* flobd_0 */
+   {"", "F"}, 		/* flobd_1 */
+   {"", "F"}, 		/* flobd_2 */
+   {"", "F"}, 		/* flobd_3 */
+   {"", "D"}, 		/* dlobd_0 */
+   {"", "D"}, 		/* dlobd_1 */
+   {"", "D"}, 		/* dlobd_2 */
+   {"", "D"}, 		/* dlobd_3 */
+   {"", "A"}, 		/* blobd_0 */
+   {"", "A"}, 		/* blobd_1 */
+   {"", "A"}, 		/* blobd_2 */
+   {"", "A"}, 		/* blobd_3 */
+   {"[I]I", "I"}, 		/* iblobd */
+   {"[L]I", "L"}, 		/* lblobd */
+   {"[F]I", "F"}, 		/* fblobd */
+   {"[D]I", "D"}, 		/* dblobd */
+   {"[A]I", "A"}, 		/* bblobd */
+   {"[B]I", "I"}, 		/* bblobd */
+   {"[C]I", "I"}, 		/* cblobd */
+   {"[S]I", "I"}, 		/* sblobd */
    {"I", ""}, 		/* istore */
    {"L", ""}, 		/* lstore */
    {"F", ""}, 		/* fstore */
    {"D", ""}, 		/* dstore */
-   {"A", ""}, 		/* astore */
+   {"A", ""}, 		/* bstore */
    {"I", ""}, 		/* istore_0 */
    {"I", ""}, 		/* istore_1 */
    {"I", ""}, 		/* istore_2 */
@@ -99,18 +99,18 @@ char * const opcode_in_out[][2] = {
    {"D", ""}, 		/* dstore_1 */
    {"D", ""}, 		/* dstore_2 */
    {"D", ""}, 		/* dstore_3 */
-   {"A", ""}, 		/* astore_0 */
-   {"A", ""}, 		/* astore_1 */
-   {"A", ""}, 		/* astore_2 */
-   {"A", ""}, 		/* astore_3 */
-   {"[I]II", ""}, 		/* iastore */
-   {"[L]IL", ""}, 		/* lastore */
-   {"[F]IF", ""}, 		/* fastore */
-   {"[D]ID", ""}, 		/* dastore */
-   {"[A]IA", ""}, 		/* aastore */
-   {"[B]II", ""}, 		/* bastore */
-   {"[C]II", ""}, 		/* castore */
-   {"[S]II", ""}, 		/* sastore */
+   {"A", ""}, 		/* bstore_0 */
+   {"A", ""}, 		/* bstore_1 */
+   {"A", ""}, 		/* bstore_2 */
+   {"A", ""}, 		/* bstore_3 */
+   {"[I]II", ""}, 		/* ibstore */
+   {"[L]IL", ""}, 		/* lbstore */
+   {"[F]IF", ""}, 		/* fbstore */
+   {"[D]ID", ""}, 		/* dbstore */
+   {"[A]IA", ""}, 		/* bbstore */
+   {"[B]II", ""}, 		/* bbstore */
+   {"[C]II", ""}, 		/* cbstore */
+   {"[S]II", ""}, 		/* sbstore */
    {"1", ""}, 		/* pop */
    {"2+1", ""}, 		/* pop2 */
    {"1", "11"}, 		/* dup */
@@ -119,11 +119,11 @@ char * const opcode_in_out[][2] = {
    {"2+1", "2121"}, 		/* dup2 */
    {"32+1", "21321"}, 		/* dup2_x1 */
    {"4+32+1", "214321"}, 		/* dup2_x2 */
-   {"21", "12"}, 		/* swap */
-   {"II", "I"}, 		/* iadd */
-   {"LL", "L"}, 		/* ladd */
-   {"FF", "F"}, 		/* fadd */
-   {"DD", "D"}, 		/* dadd */
+   {"21", "12"}, 		/* swbp */
+   {"II", "I"}, 		/* ibdd */
+   {"LL", "L"}, 		/* lbdd */
+   {"FF", "F"}, 		/* fbdd */
+   {"DD", "D"}, 		/* dbdd */
    {"II", "I"}, 		/* isub */
    {"LL", "L"}, 		/* lsub */
    {"FF", "F"}, 		/* fsub */
@@ -150,8 +150,8 @@ char * const opcode_in_out[][2] = {
    {"LI", "L"}, 		/* lshr */
    {"II", "I"}, 		/* iushr */
    {"LI", "L"}, 		/* lushr */
-   {"II", "I"}, 		/* iand */
-   {"LL", "L"}, 		/* land */
+   {"II", "I"}, 		/* ibnd */
+   {"LL", "L"}, 		/* lbnd */
    {"II", "I"}, 		/* ior */
    {"LL", "L"}, 		/* lor */
    {"II", "I"}, 		/* ixor */
@@ -189,44 +189,44 @@ char * const opcode_in_out[][2] = {
    {"II", ""}, 		/* if_icmpge */
    {"II", ""}, 		/* if_icmpgt */
    {"II", ""}, 		/* if_icmple */
-   {"AA", ""}, 		/* if_acmpeq */
-   {"AA", ""}, 		/* if_acmpne */
+   {"AA", ""}, 		/* if_bcmpeq */
+   {"AA", ""}, 		/* if_bcmpne */
    {"", ""}, 		/* goto */
    {"", "R"}, 		/* jsr */
    {"", ""}, 		/* ret */
-   {"I", ""}, 		/* tableswitch */
+   {"I", ""}, 		/* tbbleswitch */
    {"I", ""}, 		/* lookupswitch */
    {"I", ""}, 		/* ireturn */
    {"L", ""}, 		/* lreturn */
    {"F", ""}, 		/* freturn */
    {"D", ""}, 		/* dreturn */
-   {"A", ""}, 		/* areturn */
+   {"A", ""}, 		/* breturn */
    {"", ""}, 		/* return */
-   {"", "?"}, 		/* getstatic */
-   {"?", ""}, 		/* putstatic */
+   {"", "?"}, 		/* getstbtic */
+   {"?", ""}, 		/* putstbtic */
    {"A", "?"}, 		/* getfield */
    {"?", ""}, 		/* putfield */
-   {"?", "?"}, 		/* invokevirtual */
-   {"?", "?"}, 		/* invokespecial */
-   {"?", "?"}, 		/* invokestatic */
-   {"?", "?"}, 		/* invokeinterface */
-   {"?", "?"}, 		/* invokedynamic */
+   {"?", "?"}, 		/* invokevirtubl */
+   {"?", "?"}, 		/* invokespecibl */
+   {"?", "?"}, 		/* invokestbtic */
+   {"?", "?"}, 		/* invokeinterfbce */
+   {"?", "?"}, 		/* invokedynbmic */
    {"", "A"}, 		/* new */
-   {"I", "A"}, 		/* newarray */
-   {"I", "A"}, 		/* anewarray */
-   {"[?]", "I"}, 		/* arraylength */
-   {"O", ""}, 		/* athrow */
-   {"A", "A"}, 		/* checkcast */
-   {"A", "I"}, 		/* instanceof */
+   {"I", "A"}, 		/* newbrrby */
+   {"I", "A"}, 		/* bnewbrrby */
+   {"[?]", "I"}, 		/* brrbylength */
+   {"O", ""}, 		/* bthrow */
+   {"A", "A"}, 		/* checkcbst */
+   {"A", "I"}, 		/* instbnceof */
    {"A", ""}, 		/* monitorenter */
    {"A", ""}, 		/* monitorexit */
    {"", ""}, 		/* wide */
-   {"?", "A"}, 		/* multianewarray */
+   {"?", "A"}, 		/* multibnewbrrby */
    {"A", ""}, 		/* ifnull */
    {"A", ""}, 		/* ifnonnull */
    {"", ""}, 		/* goto_w */
    {"", "R"}, 		/* jsr_w */
-   {"", ""}, 		/* breakpoint */
+   {"", ""}, 		/* brebkpoint */
    {"", "?"}, 		/* ldc_quick */
    {"", "?"}, 		/* ldc_w_quick */
    {"", "?"}, 		/* ldc2_w_quick */
@@ -234,23 +234,23 @@ char * const opcode_in_out[][2] = {
    {"?", ""}, 		/* putfield_quick */
    {"A", "?"}, 		/* getfield2_quick */
    {"?", ""}, 		/* putfield2_quick */
-   {"", "?"}, 		/* getstatic_quick */
-   {"?", ""}, 		/* putstatic_quick */
-   {"", "?"}, 		/* getstatic2_quick */
-   {"?", "_"}, 		/* putstatic2_quick */
-   {"?", "?"}, 		/* invokevirtual_quick */
-   {"?", "?"}, 		/* invokenonvirtual_quick */
+   {"", "?"}, 		/* getstbtic_quick */
+   {"?", ""}, 		/* putstbtic_quick */
+   {"", "?"}, 		/* getstbtic2_quick */
+   {"?", "_"}, 		/* putstbtic2_quick */
+   {"?", "?"}, 		/* invokevirtubl_quick */
+   {"?", "?"}, 		/* invokenonvirtubl_quick */
    {"?", "?"}, 		/* invokesuper_quick */
-   {"?", "?"}, 		/* invokestatic_quick */
-   {"?", "?"}, 		/* invokeinterface_quick */
-   {"?", "?"}, 		/* invokevirtualobject_quick */
+   {"?", "?"}, 		/* invokestbtic_quick */
+   {"?", "?"}, 		/* invokeinterfbce_quick */
+   {"?", "?"}, 		/* invokevirtublobject_quick */
    {"?", "?"}, 		/* invokeignored_quick */
    {"", "A"}, 		/* new_quick */
-   {"I", "A"}, 		/* anewarray_quick */
-   {"?", "A"}, 		/* multianewarray_quick */
-   {"A", "A"}, 		/* checkcast_quick */
-   {"A", "I"}, 		/* instanceof_quick */
-   {"?", "?"}, 		/* invokevirtual_quick_w */
+   {"I", "A"}, 		/* bnewbrrby_quick */
+   {"?", "A"}, 		/* multibnewbrrby_quick */
+   {"A", "A"}, 		/* checkcbst_quick */
+   {"A", "I"}, 		/* instbnceof_quick */
+   {"?", "?"}, 		/* invokevirtubl_quick_w */
    {"A", "?"}, 		/* getfield_quick_w */
    {"?", ""}, 		/* putfield_quick_w */
    {"A", ""}, 		/* nonnull_quick */

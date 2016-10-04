@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Toolkit;
-import javax.swing.Icon;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Toolkit;
+import jbvbx.swing.Icon;
 
 /**
  * <p>
- * A collection of <em>well known</em> or common attribute keys
- * and methods to apply to an AttributeSet or MutableAttributeSet
- * to get/set the properties in a typesafe manner.
+ * A collection of <em>well known</em> or common bttribute keys
+ * bnd methods to bpply to bn AttributeSet or MutbbleAttributeSet
+ * to get/set the properties in b typesbfe mbnner.
  * <p>
- * The paragraph attributes form the definition of a paragraph to be rendered.
- * All sizes are specified in points (such as found in postscript), a
- * device independent measure.
+ * The pbrbgrbph bttributes form the definition of b pbrbgrbph to be rendered.
+ * All sizes bre specified in points (such bs found in postscript), b
+ * device independent mebsure.
  * </p>
- * <p style="text-align:center"><img src="doc-files/paragraph.gif"
- * alt="Diagram shows SpaceAbove, FirstLineIndent, LeftIndent, RightIndent,
- *      and SpaceBelow a paragraph."></p>
+ * <p style="text-blign:center"><img src="doc-files/pbrbgrbph.gif"
+ * blt="Dibgrbm shows SpbceAbove, FirstLineIndent, LeftIndent, RightIndent,
+ *      bnd SpbceBelow b pbrbgrbph."></p>
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public class StyleConstants {
+public clbss StyleConstbnts {
 
     /**
-     * Name of elements used to represent components.
+     * Nbme of elements used to represent components.
      */
-    public static final String ComponentElementName = "component";
+    public stbtic finbl String ComponentElementNbme = "component";
 
     /**
-     * Name of elements used to represent icons.
+     * Nbme of elements used to represent icons.
      */
-    public static final String IconElementName = "icon";
+    public stbtic finbl String IconElementNbme = "icon";
 
     /**
-     * Attribute name used to name the collection of
-     * attributes.
+     * Attribute nbme used to nbme the collection of
+     * bttributes.
      */
-    public static final Object NameAttribute = new StyleConstants("name");
+    public stbtic finbl Object NbmeAttribute = new StyleConstbnts("nbme");
 
     /**
-     * Attribute name used to identify the resolving parent
-     * set of attributes, if one is defined.
+     * Attribute nbme used to identify the resolving pbrent
+     * set of bttributes, if one is defined.
      */
-    public static final Object ResolveAttribute = new StyleConstants("resolver");
+    public stbtic finbl Object ResolveAttribute = new StyleConstbnts("resolver");
 
     /**
      * Attribute used to identify the model for embedded
-     * objects that have a model view separation.
+     * objects thbt hbve b model view sepbrbtion.
      */
-    public static final Object ModelAttribute = new StyleConstants("model");
+    public stbtic finbl Object ModelAttribute = new StyleConstbnts("model");
 
     /**
-     * Returns the string representation.
+     * Returns the string representbtion.
      *
      * @return the string
      */
     public String toString() {
-        return representation;
+        return representbtion;
     }
 
-    // ---- character constants -----------------------------------
+    // ---- chbrbcter constbnts -----------------------------------
 
     /**
-     * Bidirectional level of a character as assigned by the Unicode bidi
-     * algorithm.
+     * Bidirectionbl level of b chbrbcter bs bssigned by the Unicode bidi
+     * blgorithm.
      */
-    public static final Object BidiLevel = new CharacterConstants("bidiLevel");
+    public stbtic finbl Object BidiLevel = new ChbrbcterConstbnts("bidiLevel");
 
     /**
-     * Name of the font family.
+     * Nbme of the font fbmily.
      */
-    public static final Object FontFamily = new FontConstants("family");
+    public stbtic finbl Object FontFbmily = new FontConstbnts("fbmily");
 
     /**
-     * Name of the font family.
+     * Nbme of the font fbmily.
      *
      * @since 1.5
      */
-    public static final Object Family = FontFamily;
+    public stbtic finbl Object Fbmily = FontFbmily;
 
     /**
-     * Name of the font size.
+     * Nbme of the font size.
      */
-    public static final Object FontSize = new FontConstants("size");
+    public stbtic finbl Object FontSize = new FontConstbnts("size");
 
     /**
-     * Name of the font size.
+     * Nbme of the font size.
      *
      * @since 1.5
      */
-    public static final Object Size = FontSize;
+    public stbtic finbl Object Size = FontSize;
 
     /**
-     * Name of the bold attribute.
+     * Nbme of the bold bttribute.
      */
-    public static final Object Bold = new FontConstants("bold");
+    public stbtic finbl Object Bold = new FontConstbnts("bold");
 
     /**
-     * Name of the italic attribute.
+     * Nbme of the itblic bttribute.
      */
-    public static final Object Italic = new FontConstants("italic");
+    public stbtic finbl Object Itblic = new FontConstbnts("itblic");
 
     /**
-     * Name of the underline attribute.
+     * Nbme of the underline bttribute.
      */
-    public static final Object Underline = new CharacterConstants("underline");
+    public stbtic finbl Object Underline = new ChbrbcterConstbnts("underline");
 
     /**
-     * Name of the Strikethrough attribute.
+     * Nbme of the Strikethrough bttribute.
      */
-    public static final Object StrikeThrough = new CharacterConstants("strikethrough");
+    public stbtic finbl Object StrikeThrough = new ChbrbcterConstbnts("strikethrough");
 
     /**
-     * Name of the Superscript attribute.
+     * Nbme of the Superscript bttribute.
      */
-    public static final Object Superscript = new CharacterConstants("superscript");
+    public stbtic finbl Object Superscript = new ChbrbcterConstbnts("superscript");
 
     /**
-     * Name of the Subscript attribute.
+     * Nbme of the Subscript bttribute.
      */
-    public static final Object Subscript = new CharacterConstants("subscript");
+    public stbtic finbl Object Subscript = new ChbrbcterConstbnts("subscript");
 
     /**
-     * Name of the foreground color attribute.
+     * Nbme of the foreground color bttribute.
      */
-    public static final Object Foreground = new ColorConstants("foreground");
+    public stbtic finbl Object Foreground = new ColorConstbnts("foreground");
 
     /**
-     * Name of the background color attribute.
+     * Nbme of the bbckground color bttribute.
      */
-    public static final Object Background = new ColorConstants("background");
+    public stbtic finbl Object Bbckground = new ColorConstbnts("bbckground");
 
     /**
-     * Name of the component attribute.
+     * Nbme of the component bttribute.
      */
-    public static final Object ComponentAttribute = new CharacterConstants("component");
+    public stbtic finbl Object ComponentAttribute = new ChbrbcterConstbnts("component");
 
     /**
-     * Name of the icon attribute.
+     * Nbme of the icon bttribute.
      */
-    public static final Object IconAttribute = new CharacterConstants("icon");
+    public stbtic finbl Object IconAttribute = new ChbrbcterConstbnts("icon");
 
     /**
-     * Name of the input method composed text attribute. The value of
-     * this attribute is an instance of AttributedString which represents
+     * Nbme of the input method composed text bttribute. The vblue of
+     * this bttribute is bn instbnce of AttributedString which represents
      * the composed text.
      */
-    public static final Object ComposedTextAttribute = new StyleConstants("composed text");
+    public stbtic finbl Object ComposedTextAttribute = new StyleConstbnts("composed text");
 
     /**
-     * The amount of space to indent the first
-     * line of the paragraph.  This value may be negative
+     * The bmount of spbce to indent the first
+     * line of the pbrbgrbph.  This vblue mby be negbtive
      * to offset in the reverse direction.  The type
-     * is Float and specifies the size of the space
+     * is Flobt bnd specifies the size of the spbce
      * in points.
      */
-    public static final Object FirstLineIndent = new ParagraphConstants("FirstLineIndent");
+    public stbtic finbl Object FirstLineIndent = new PbrbgrbphConstbnts("FirstLineIndent");
 
     /**
-     * The amount to indent the left side
-     * of the paragraph.
-     * Type is float and specifies the size in points.
+     * The bmount to indent the left side
+     * of the pbrbgrbph.
+     * Type is flobt bnd specifies the size in points.
      */
-    public static final Object LeftIndent = new ParagraphConstants("LeftIndent");
+    public stbtic finbl Object LeftIndent = new PbrbgrbphConstbnts("LeftIndent");
 
     /**
-     * The amount to indent the right side
-     * of the paragraph.
-     * Type is float and specifies the size in points.
+     * The bmount to indent the right side
+     * of the pbrbgrbph.
+     * Type is flobt bnd specifies the size in points.
      */
-    public static final Object RightIndent = new ParagraphConstants("RightIndent");
+    public stbtic finbl Object RightIndent = new PbrbgrbphConstbnts("RightIndent");
 
     /**
-     * The amount of space between lines
-     * of the paragraph.
-     * Type is float and specifies the size as a factor of the line height
+     * The bmount of spbce between lines
+     * of the pbrbgrbph.
+     * Type is flobt bnd specifies the size bs b fbctor of the line height
      */
-    public static final Object LineSpacing = new ParagraphConstants("LineSpacing");
+    public stbtic finbl Object LineSpbcing = new PbrbgrbphConstbnts("LineSpbcing");
 
     /**
-     * The amount of space above the paragraph.
-     * Type is float and specifies the size in points.
+     * The bmount of spbce bbove the pbrbgrbph.
+     * Type is flobt bnd specifies the size in points.
      */
-    public static final Object SpaceAbove = new ParagraphConstants("SpaceAbove");
+    public stbtic finbl Object SpbceAbove = new PbrbgrbphConstbnts("SpbceAbove");
 
     /**
-     * The amount of space below the paragraph.
-     * Type is float and specifies the size in points.
+     * The bmount of spbce below the pbrbgrbph.
+     * Type is flobt bnd specifies the size in points.
      */
-    public static final Object SpaceBelow = new ParagraphConstants("SpaceBelow");
+    public stbtic finbl Object SpbceBelow = new PbrbgrbphConstbnts("SpbceBelow");
 
     /**
-     * Alignment for the paragraph.  The type is
-     * Integer.  Valid values are:
+     * Alignment for the pbrbgrbph.  The type is
+     * Integer.  Vblid vblues bre:
      * <ul>
      * <li>ALIGN_LEFT
      * <li>ALIGN_RIGHT
@@ -226,326 +226,326 @@ public class StyleConstants {
      * </ul>
      *
      */
-    public static final Object Alignment = new ParagraphConstants("Alignment");
+    public stbtic finbl Object Alignment = new PbrbgrbphConstbnts("Alignment");
 
     /**
-     * TabSet for the paragraph, type is a TabSet containing
-     * TabStops.
+     * TbbSet for the pbrbgrbph, type is b TbbSet contbining
+     * TbbStops.
      */
-    public static final Object TabSet = new ParagraphConstants("TabSet");
+    public stbtic finbl Object TbbSet = new PbrbgrbphConstbnts("TbbSet");
 
     /**
-     * Orientation for a paragraph.
+     * Orientbtion for b pbrbgrbph.
      */
-    public static final Object Orientation = new ParagraphConstants("Orientation");
+    public stbtic finbl Object Orientbtion = new PbrbgrbphConstbnts("Orientbtion");
     /**
-     * A possible value for paragraph alignment.  This
-     * specifies that the text is aligned to the left
-     * indent and extra whitespace should be placed on
+     * A possible vblue for pbrbgrbph blignment.  This
+     * specifies thbt the text is bligned to the left
+     * indent bnd extrb whitespbce should be plbced on
      * the right.
      */
-    public static final int ALIGN_LEFT = 0;
+    public stbtic finbl int ALIGN_LEFT = 0;
 
     /**
-     * A possible value for paragraph alignment.  This
-     * specifies that the text is aligned to the center
-     * and extra whitespace should be placed equally on
-     * the left and right.
+     * A possible vblue for pbrbgrbph blignment.  This
+     * specifies thbt the text is bligned to the center
+     * bnd extrb whitespbce should be plbced equblly on
+     * the left bnd right.
      */
-    public static final int ALIGN_CENTER = 1;
+    public stbtic finbl int ALIGN_CENTER = 1;
 
     /**
-     * A possible value for paragraph alignment.  This
-     * specifies that the text is aligned to the right
-     * indent and extra whitespace should be placed on
+     * A possible vblue for pbrbgrbph blignment.  This
+     * specifies thbt the text is bligned to the right
+     * indent bnd extrb whitespbce should be plbced on
      * the left.
      */
-    public static final int ALIGN_RIGHT = 2;
+    public stbtic finbl int ALIGN_RIGHT = 2;
 
     /**
-     * A possible value for paragraph alignment.  This
-     * specifies that extra whitespace should be spread
-     * out through the rows of the paragraph with the
-     * text lined up with the left and right indent
-     * except on the last line which should be aligned
+     * A possible vblue for pbrbgrbph blignment.  This
+     * specifies thbt extrb whitespbce should be sprebd
+     * out through the rows of the pbrbgrbph with the
+     * text lined up with the left bnd right indent
+     * except on the lbst line which should be bligned
      * to the left.
      */
-    public static final int ALIGN_JUSTIFIED = 3;
+    public stbtic finbl int ALIGN_JUSTIFIED = 3;
 
-    // --- character attribute accessors ---------------------------
+    // --- chbrbcter bttribute bccessors ---------------------------
 
     /**
      * Gets the BidiLevel setting.
      *
-     * @param a the attribute set
-     * @return the value
+     * @pbrbm b the bttribute set
+     * @return the vblue
      */
-    public static int getBidiLevel(AttributeSet a) {
-        Integer o = (Integer) a.getAttribute(BidiLevel);
+    public stbtic int getBidiLevel(AttributeSet b) {
+        Integer o = (Integer) b.getAttribute(BidiLevel);
         if (o != null) {
-            return o.intValue();
+            return o.intVblue();
         }
-        return 0;  // Level 0 is base level (non-embedded) left-to-right
+        return 0;  // Level 0 is bbse level (non-embedded) left-to-right
     }
 
     /**
      * Sets the BidiLevel.
      *
-     * @param a the attribute set
-     * @param o the bidi level value
+     * @pbrbm b the bttribute set
+     * @pbrbm o the bidi level vblue
      */
-    public static void setBidiLevel(MutableAttributeSet a, int o) {
-        a.addAttribute(BidiLevel, Integer.valueOf(o));
+    public stbtic void setBidiLevel(MutbbleAttributeSet b, int o) {
+        b.bddAttribute(BidiLevel, Integer.vblueOf(o));
     }
 
     /**
-     * Gets the component setting from the attribute list.
+     * Gets the component setting from the bttribute list.
      *
-     * @param a the attribute set
+     * @pbrbm b the bttribute set
      * @return the component, null if none
      */
-    public static Component getComponent(AttributeSet a) {
-        return (Component) a.getAttribute(ComponentAttribute);
+    public stbtic Component getComponent(AttributeSet b) {
+        return (Component) b.getAttribute(ComponentAttribute);
     }
 
     /**
-     * Sets the component attribute.
+     * Sets the component bttribute.
      *
-     * @param a the attribute set
-     * @param c the component
+     * @pbrbm b the bttribute set
+     * @pbrbm c the component
      */
-    public static void setComponent(MutableAttributeSet a, Component c) {
-        a.addAttribute(AbstractDocument.ElementNameAttribute, ComponentElementName);
-        a.addAttribute(ComponentAttribute, c);
+    public stbtic void setComponent(MutbbleAttributeSet b, Component c) {
+        b.bddAttribute(AbstrbctDocument.ElementNbmeAttribute, ComponentElementNbme);
+        b.bddAttribute(ComponentAttribute, c);
     }
 
     /**
-     * Gets the icon setting from the attribute list.
+     * Gets the icon setting from the bttribute list.
      *
-     * @param a the attribute set
+     * @pbrbm b the bttribute set
      * @return the icon, null if none
      */
-    public static Icon getIcon(AttributeSet a) {
-        return (Icon) a.getAttribute(IconAttribute);
+    public stbtic Icon getIcon(AttributeSet b) {
+        return (Icon) b.getAttribute(IconAttribute);
     }
 
     /**
-     * Sets the icon attribute.
+     * Sets the icon bttribute.
      *
-     * @param a the attribute set
-     * @param c the icon
+     * @pbrbm b the bttribute set
+     * @pbrbm c the icon
      */
-    public static void setIcon(MutableAttributeSet a, Icon c) {
-        a.addAttribute(AbstractDocument.ElementNameAttribute, IconElementName);
-        a.addAttribute(IconAttribute, c);
+    public stbtic void setIcon(MutbbleAttributeSet b, Icon c) {
+        b.bddAttribute(AbstrbctDocument.ElementNbmeAttribute, IconElementNbme);
+        b.bddAttribute(IconAttribute, c);
     }
 
     /**
-     * Gets the font family setting from the attribute list.
+     * Gets the font fbmily setting from the bttribute list.
      *
-     * @param a the attribute set
-     * @return the font family, "Monospaced" as the default
+     * @pbrbm b the bttribute set
+     * @return the font fbmily, "Monospbced" bs the defbult
      */
-    public static String getFontFamily(AttributeSet a) {
-        String family = (String) a.getAttribute(FontFamily);
-        if (family == null) {
-            family = "Monospaced";
+    public stbtic String getFontFbmily(AttributeSet b) {
+        String fbmily = (String) b.getAttribute(FontFbmily);
+        if (fbmily == null) {
+            fbmily = "Monospbced";
         }
-        return family;
+        return fbmily;
     }
 
     /**
-     * Sets the font attribute.
+     * Sets the font bttribute.
      *
-     * @param a the attribute set
-     * @param fam the font
+     * @pbrbm b the bttribute set
+     * @pbrbm fbm the font
      */
-    public static void setFontFamily(MutableAttributeSet a, String fam) {
-        a.addAttribute(FontFamily, fam);
+    public stbtic void setFontFbmily(MutbbleAttributeSet b, String fbm) {
+        b.bddAttribute(FontFbmily, fbm);
     }
 
     /**
-     * Gets the font size setting from the attribute list.
+     * Gets the font size setting from the bttribute list.
      *
-     * @param a the attribute set
-     * @return the font size, 12 as the default
+     * @pbrbm b the bttribute set
+     * @return the font size, 12 bs the defbult
      */
-    public static int getFontSize(AttributeSet a) {
-        Integer size = (Integer) a.getAttribute(FontSize);
+    public stbtic int getFontSize(AttributeSet b) {
+        Integer size = (Integer) b.getAttribute(FontSize);
         if (size != null) {
-            return size.intValue();
+            return size.intVblue();
         }
         return 12;
     }
 
     /**
-     * Sets the font size attribute.
+     * Sets the font size bttribute.
      *
-     * @param a the attribute set
-     * @param s the font size
+     * @pbrbm b the bttribute set
+     * @pbrbm s the font size
      */
-    public static void setFontSize(MutableAttributeSet a, int s) {
-        a.addAttribute(FontSize, Integer.valueOf(s));
+    public stbtic void setFontSize(MutbbleAttributeSet b, int s) {
+        b.bddAttribute(FontSize, Integer.vblueOf(s));
     }
 
     /**
-     * Checks whether the bold attribute is set.
+     * Checks whether the bold bttribute is set.
      *
-     * @param a the attribute set
-     * @return true if set else false
+     * @pbrbm b the bttribute set
+     * @return true if set else fblse
      */
-    public static boolean isBold(AttributeSet a) {
-        Boolean bold = (Boolean) a.getAttribute(Bold);
+    public stbtic boolebn isBold(AttributeSet b) {
+        Boolebn bold = (Boolebn) b.getAttribute(Bold);
         if (bold != null) {
-            return bold.booleanValue();
+            return bold.boolebnVblue();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Sets the bold attribute.
+     * Sets the bold bttribute.
      *
-     * @param a the attribute set
-     * @param b specifies true/false for setting the attribute
+     * @pbrbm b the bttribute set
+     * @pbrbm b specifies true/fblse for setting the bttribute
      */
-    public static void setBold(MutableAttributeSet a, boolean b) {
-        a.addAttribute(Bold, Boolean.valueOf(b));
+    public stbtic void setBold(MutbbleAttributeSet b, boolebn b) {
+        b.bddAttribute(Bold, Boolebn.vblueOf(b));
     }
 
     /**
-     * Checks whether the italic attribute is set.
+     * Checks whether the itblic bttribute is set.
      *
-     * @param a the attribute set
-     * @return true if set else false
+     * @pbrbm b the bttribute set
+     * @return true if set else fblse
      */
-    public static boolean isItalic(AttributeSet a) {
-        Boolean italic = (Boolean) a.getAttribute(Italic);
-        if (italic != null) {
-            return italic.booleanValue();
+    public stbtic boolebn isItblic(AttributeSet b) {
+        Boolebn itblic = (Boolebn) b.getAttribute(Itblic);
+        if (itblic != null) {
+            return itblic.boolebnVblue();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Sets the italic attribute.
+     * Sets the itblic bttribute.
      *
-     * @param a the attribute set
-     * @param b specifies true/false for setting the attribute
+     * @pbrbm b the bttribute set
+     * @pbrbm b specifies true/fblse for setting the bttribute
      */
-    public static void setItalic(MutableAttributeSet a, boolean b) {
-        a.addAttribute(Italic, Boolean.valueOf(b));
+    public stbtic void setItblic(MutbbleAttributeSet b, boolebn b) {
+        b.bddAttribute(Itblic, Boolebn.vblueOf(b));
     }
 
     /**
-     * Checks whether the underline attribute is set.
+     * Checks whether the underline bttribute is set.
      *
-     * @param a the attribute set
-     * @return true if set else false
+     * @pbrbm b the bttribute set
+     * @return true if set else fblse
      */
-    public static boolean isUnderline(AttributeSet a) {
-        Boolean underline = (Boolean) a.getAttribute(Underline);
+    public stbtic boolebn isUnderline(AttributeSet b) {
+        Boolebn underline = (Boolebn) b.getAttribute(Underline);
         if (underline != null) {
-            return underline.booleanValue();
+            return underline.boolebnVblue();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Checks whether the strikethrough attribute is set.
+     * Checks whether the strikethrough bttribute is set.
      *
-     * @param a the attribute set
-     * @return true if set else false
+     * @pbrbm b the bttribute set
+     * @return true if set else fblse
      */
-    public static boolean isStrikeThrough(AttributeSet a) {
-        Boolean strike = (Boolean) a.getAttribute(StrikeThrough);
+    public stbtic boolebn isStrikeThrough(AttributeSet b) {
+        Boolebn strike = (Boolebn) b.getAttribute(StrikeThrough);
         if (strike != null) {
-            return strike.booleanValue();
+            return strike.boolebnVblue();
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Checks whether the superscript attribute is set.
+     * Checks whether the superscript bttribute is set.
      *
-     * @param a the attribute set
-     * @return true if set else false
+     * @pbrbm b the bttribute set
+     * @return true if set else fblse
      */
-    public static boolean isSuperscript(AttributeSet a) {
-        Boolean superscript = (Boolean) a.getAttribute(Superscript);
+    public stbtic boolebn isSuperscript(AttributeSet b) {
+        Boolebn superscript = (Boolebn) b.getAttribute(Superscript);
         if (superscript != null) {
-            return superscript.booleanValue();
+            return superscript.boolebnVblue();
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Checks whether the subscript attribute is set.
+     * Checks whether the subscript bttribute is set.
      *
-     * @param a the attribute set
-     * @return true if set else false
+     * @pbrbm b the bttribute set
+     * @return true if set else fblse
      */
-    public static boolean isSubscript(AttributeSet a) {
-        Boolean subscript = (Boolean) a.getAttribute(Subscript);
+    public stbtic boolebn isSubscript(AttributeSet b) {
+        Boolebn subscript = (Boolebn) b.getAttribute(Subscript);
         if (subscript != null) {
-            return subscript.booleanValue();
+            return subscript.boolebnVblue();
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Sets the underline attribute.
+     * Sets the underline bttribute.
      *
-     * @param a the attribute set
-     * @param b specifies true/false for setting the attribute
+     * @pbrbm b the bttribute set
+     * @pbrbm b specifies true/fblse for setting the bttribute
      */
-    public static void setUnderline(MutableAttributeSet a, boolean b) {
-        a.addAttribute(Underline, Boolean.valueOf(b));
+    public stbtic void setUnderline(MutbbleAttributeSet b, boolebn b) {
+        b.bddAttribute(Underline, Boolebn.vblueOf(b));
     }
 
     /**
-     * Sets the strikethrough attribute.
+     * Sets the strikethrough bttribute.
      *
-     * @param a the attribute set
-     * @param b specifies true/false for setting the attribute
+     * @pbrbm b the bttribute set
+     * @pbrbm b specifies true/fblse for setting the bttribute
      */
-    public static void setStrikeThrough(MutableAttributeSet a, boolean b) {
-        a.addAttribute(StrikeThrough, Boolean.valueOf(b));
+    public stbtic void setStrikeThrough(MutbbleAttributeSet b, boolebn b) {
+        b.bddAttribute(StrikeThrough, Boolebn.vblueOf(b));
     }
 
     /**
-     * Sets the superscript attribute.
+     * Sets the superscript bttribute.
      *
-     * @param a the attribute set
-     * @param b specifies true/false for setting the attribute
+     * @pbrbm b the bttribute set
+     * @pbrbm b specifies true/fblse for setting the bttribute
      */
-    public static void setSuperscript(MutableAttributeSet a, boolean b) {
-        a.addAttribute(Superscript, Boolean.valueOf(b));
+    public stbtic void setSuperscript(MutbbleAttributeSet b, boolebn b) {
+        b.bddAttribute(Superscript, Boolebn.vblueOf(b));
     }
 
     /**
-     * Sets the subscript attribute.
+     * Sets the subscript bttribute.
      *
-     * @param a the attribute set
-     * @param b specifies true/false for setting the attribute
+     * @pbrbm b the bttribute set
+     * @pbrbm b specifies true/fblse for setting the bttribute
      */
-    public static void setSubscript(MutableAttributeSet a, boolean b) {
-        a.addAttribute(Subscript, Boolean.valueOf(b));
+    public stbtic void setSubscript(MutbbleAttributeSet b, boolebn b) {
+        b.bddAttribute(Subscript, Boolebn.vblueOf(b));
     }
 
 
     /**
-     * Gets the foreground color setting from the attribute list.
+     * Gets the foreground color setting from the bttribute list.
      *
-     * @param a the attribute set
-     * @return the color, Color.black as the default
+     * @pbrbm b the bttribute set
+     * @return the color, Color.blbck bs the defbult
      */
-    public static Color getForeground(AttributeSet a) {
-        Color fg = (Color) a.getAttribute(Foreground);
+    public stbtic Color getForeground(AttributeSet b) {
+        Color fg = (Color) b.getAttribute(Foreground);
         if (fg == null) {
-            fg = Color.black;
+            fg = Color.blbck;
         }
         return fg;
     }
@@ -553,50 +553,50 @@ public class StyleConstants {
     /**
      * Sets the foreground color.
      *
-     * @param a the attribute set
-     * @param fg the color
+     * @pbrbm b the bttribute set
+     * @pbrbm fg the color
      */
-    public static void setForeground(MutableAttributeSet a, Color fg) {
-        a.addAttribute(Foreground, fg);
+    public stbtic void setForeground(MutbbleAttributeSet b, Color fg) {
+        b.bddAttribute(Foreground, fg);
     }
 
     /**
-     * Gets the background color setting from the attribute list.
+     * Gets the bbckground color setting from the bttribute list.
      *
-     * @param a the attribute set
-     * @return the color, Color.black as the default
+     * @pbrbm b the bttribute set
+     * @return the color, Color.blbck bs the defbult
      */
-    public static Color getBackground(AttributeSet a) {
-        Color fg = (Color) a.getAttribute(Background);
+    public stbtic Color getBbckground(AttributeSet b) {
+        Color fg = (Color) b.getAttribute(Bbckground);
         if (fg == null) {
-            fg = Color.black;
+            fg = Color.blbck;
         }
         return fg;
     }
 
     /**
-     * Sets the background color.
+     * Sets the bbckground color.
      *
-     * @param a the attribute set
-     * @param fg the color
+     * @pbrbm b the bttribute set
+     * @pbrbm fg the color
      */
-    public static void setBackground(MutableAttributeSet a, Color fg) {
-        a.addAttribute(Background, fg);
+    public stbtic void setBbckground(MutbbleAttributeSet b, Color fg) {
+        b.bddAttribute(Bbckground, fg);
     }
 
 
-    // --- paragraph attribute accessors ----------------------------
+    // --- pbrbgrbph bttribute bccessors ----------------------------
 
     /**
      * Gets the first line indent setting.
      *
-     * @param a the attribute set
-     * @return the value, 0 if not set
+     * @pbrbm b the bttribute set
+     * @return the vblue, 0 if not set
      */
-    public static float getFirstLineIndent(AttributeSet a) {
-        Float indent = (Float) a.getAttribute(FirstLineIndent);
+    public stbtic flobt getFirstLineIndent(AttributeSet b) {
+        Flobt indent = (Flobt) b.getAttribute(FirstLineIndent);
         if (indent != null) {
-            return indent.floatValue();
+            return indent.flobtVblue();
         }
         return 0;
     }
@@ -604,23 +604,23 @@ public class StyleConstants {
     /**
      * Sets the first line indent.
      *
-     * @param a the attribute set
-     * @param i the value
+     * @pbrbm b the bttribute set
+     * @pbrbm i the vblue
      */
-    public static void setFirstLineIndent(MutableAttributeSet a, float i) {
-        a.addAttribute(FirstLineIndent, new Float(i));
+    public stbtic void setFirstLineIndent(MutbbleAttributeSet b, flobt i) {
+        b.bddAttribute(FirstLineIndent, new Flobt(i));
     }
 
     /**
      * Gets the right indent setting.
      *
-     * @param a the attribute set
-     * @return the value, 0 if not set
+     * @pbrbm b the bttribute set
+     * @return the vblue, 0 if not set
      */
-    public static float getRightIndent(AttributeSet a) {
-        Float indent = (Float) a.getAttribute(RightIndent);
+    public stbtic flobt getRightIndent(AttributeSet b) {
+        Flobt indent = (Flobt) b.getAttribute(RightIndent);
         if (indent != null) {
-            return indent.floatValue();
+            return indent.flobtVblue();
         }
         return 0;
     }
@@ -628,23 +628,23 @@ public class StyleConstants {
     /**
      * Sets right indent.
      *
-     * @param a the attribute set
-     * @param i the value
+     * @pbrbm b the bttribute set
+     * @pbrbm i the vblue
      */
-    public static void setRightIndent(MutableAttributeSet a, float i) {
-        a.addAttribute(RightIndent, new Float(i));
+    public stbtic void setRightIndent(MutbbleAttributeSet b, flobt i) {
+        b.bddAttribute(RightIndent, new Flobt(i));
     }
 
     /**
      * Gets the left indent setting.
      *
-     * @param a the attribute set
-     * @return the value, 0 if not set
+     * @pbrbm b the bttribute set
+     * @return the vblue, 0 if not set
      */
-    public static float getLeftIndent(AttributeSet a) {
-        Float indent = (Float) a.getAttribute(LeftIndent);
+    public stbtic flobt getLeftIndent(AttributeSet b) {
+        Flobt indent = (Flobt) b.getAttribute(LeftIndent);
         if (indent != null) {
-            return indent.floatValue();
+            return indent.flobtVblue();
         }
         return 0;
     }
@@ -652,198 +652,198 @@ public class StyleConstants {
     /**
      * Sets left indent.
      *
-     * @param a the attribute set
-     * @param i the value
+     * @pbrbm b the bttribute set
+     * @pbrbm i the vblue
      */
-    public static void setLeftIndent(MutableAttributeSet a, float i) {
-        a.addAttribute(LeftIndent, new Float(i));
+    public stbtic void setLeftIndent(MutbbleAttributeSet b, flobt i) {
+        b.bddAttribute(LeftIndent, new Flobt(i));
     }
 
     /**
-     * Gets the line spacing setting.
+     * Gets the line spbcing setting.
      *
-     * @param a the attribute set
-     * @return the value, 0 if not set
+     * @pbrbm b the bttribute set
+     * @return the vblue, 0 if not set
      */
-    public static float getLineSpacing(AttributeSet a) {
-        Float space = (Float) a.getAttribute(LineSpacing);
-        if (space != null) {
-            return space.floatValue();
+    public stbtic flobt getLineSpbcing(AttributeSet b) {
+        Flobt spbce = (Flobt) b.getAttribute(LineSpbcing);
+        if (spbce != null) {
+            return spbce.flobtVblue();
         }
         return 0;
     }
 
     /**
-     * Sets line spacing.
+     * Sets line spbcing.
      *
-     * @param a the attribute set
-     * @param i the value
+     * @pbrbm b the bttribute set
+     * @pbrbm i the vblue
      */
-    public static void setLineSpacing(MutableAttributeSet a, float i) {
-        a.addAttribute(LineSpacing, new Float(i));
+    public stbtic void setLineSpbcing(MutbbleAttributeSet b, flobt i) {
+        b.bddAttribute(LineSpbcing, new Flobt(i));
     }
 
     /**
-     * Gets the space above setting.
+     * Gets the spbce bbove setting.
      *
-     * @param a the attribute set
-     * @return the value, 0 if not set
+     * @pbrbm b the bttribute set
+     * @return the vblue, 0 if not set
      */
-    public static float getSpaceAbove(AttributeSet a) {
-        Float space = (Float) a.getAttribute(SpaceAbove);
-        if (space != null) {
-            return space.floatValue();
+    public stbtic flobt getSpbceAbove(AttributeSet b) {
+        Flobt spbce = (Flobt) b.getAttribute(SpbceAbove);
+        if (spbce != null) {
+            return spbce.flobtVblue();
         }
         return 0;
     }
 
     /**
-     * Sets space above.
+     * Sets spbce bbove.
      *
-     * @param a the attribute set
-     * @param i the value
+     * @pbrbm b the bttribute set
+     * @pbrbm i the vblue
      */
-    public static void setSpaceAbove(MutableAttributeSet a, float i) {
-        a.addAttribute(SpaceAbove, new Float(i));
+    public stbtic void setSpbceAbove(MutbbleAttributeSet b, flobt i) {
+        b.bddAttribute(SpbceAbove, new Flobt(i));
     }
 
     /**
-     * Gets the space below setting.
+     * Gets the spbce below setting.
      *
-     * @param a the attribute set
-     * @return the value, 0 if not set
+     * @pbrbm b the bttribute set
+     * @return the vblue, 0 if not set
      */
-    public static float getSpaceBelow(AttributeSet a) {
-        Float space = (Float) a.getAttribute(SpaceBelow);
-        if (space != null) {
-            return space.floatValue();
+    public stbtic flobt getSpbceBelow(AttributeSet b) {
+        Flobt spbce = (Flobt) b.getAttribute(SpbceBelow);
+        if (spbce != null) {
+            return spbce.flobtVblue();
         }
         return 0;
     }
 
     /**
-     * Sets space below.
+     * Sets spbce below.
      *
-     * @param a the attribute set
-     * @param i the value
+     * @pbrbm b the bttribute set
+     * @pbrbm i the vblue
      */
-    public static void setSpaceBelow(MutableAttributeSet a, float i) {
-        a.addAttribute(SpaceBelow, new Float(i));
+    public stbtic void setSpbceBelow(MutbbleAttributeSet b, flobt i) {
+        b.bddAttribute(SpbceBelow, new Flobt(i));
     }
 
     /**
-     * Gets the alignment setting.
+     * Gets the blignment setting.
      *
-     * @param a the attribute set
-     * @return the value <code>StyleConstants.ALIGN_LEFT</code> if not set
+     * @pbrbm b the bttribute set
+     * @return the vblue <code>StyleConstbnts.ALIGN_LEFT</code> if not set
      */
-    public static int getAlignment(AttributeSet a) {
-        Integer align = (Integer) a.getAttribute(Alignment);
-        if (align != null) {
-            return align.intValue();
+    public stbtic int getAlignment(AttributeSet b) {
+        Integer blign = (Integer) b.getAttribute(Alignment);
+        if (blign != null) {
+            return blign.intVblue();
         }
         return ALIGN_LEFT;
     }
 
     /**
-     * Sets alignment.
+     * Sets blignment.
      *
-     * @param a the attribute set
-     * @param align the alignment value
+     * @pbrbm b the bttribute set
+     * @pbrbm blign the blignment vblue
      */
-    public static void setAlignment(MutableAttributeSet a, int align) {
-        a.addAttribute(Alignment, Integer.valueOf(align));
+    public stbtic void setAlignment(MutbbleAttributeSet b, int blign) {
+        b.bddAttribute(Alignment, Integer.vblueOf(blign));
     }
 
     /**
-     * Gets the TabSet.
+     * Gets the TbbSet.
      *
-     * @param a the attribute set
-     * @return the <code>TabSet</code>
+     * @pbrbm b the bttribute set
+     * @return the <code>TbbSet</code>
      */
-    public static TabSet getTabSet(AttributeSet a) {
-        TabSet tabs = (TabSet)a.getAttribute(TabSet);
-        // PENDING: should this return a default?
-        return tabs;
+    public stbtic TbbSet getTbbSet(AttributeSet b) {
+        TbbSet tbbs = (TbbSet)b.getAttribute(TbbSet);
+        // PENDING: should this return b defbult?
+        return tbbs;
     }
 
     /**
-     * Sets the TabSet.
+     * Sets the TbbSet.
      *
-     * @param a the attribute set.
-     * @param tabs the TabSet
+     * @pbrbm b the bttribute set.
+     * @pbrbm tbbs the TbbSet
      */
-    public static void setTabSet(MutableAttributeSet a, TabSet tabs) {
-        a.addAttribute(TabSet, tabs);
+    public stbtic void setTbbSet(MutbbleAttributeSet b, TbbSet tbbs) {
+        b.bddAttribute(TbbSet, tbbs);
     }
 
-    // --- privates ---------------------------------------------
+    // --- privbtes ---------------------------------------------
 
-    static Object[] keys = {
-        NameAttribute, ResolveAttribute, BidiLevel,
-        FontFamily, FontSize, Bold, Italic, Underline,
+    stbtic Object[] keys = {
+        NbmeAttribute, ResolveAttribute, BidiLevel,
+        FontFbmily, FontSize, Bold, Itblic, Underline,
         StrikeThrough, Superscript, Subscript, Foreground,
-        Background, ComponentAttribute, IconAttribute,
-        FirstLineIndent, LeftIndent, RightIndent, LineSpacing,
-        SpaceAbove, SpaceBelow, Alignment, TabSet, Orientation,
+        Bbckground, ComponentAttribute, IconAttribute,
+        FirstLineIndent, LeftIndent, RightIndent, LineSpbcing,
+        SpbceAbove, SpbceBelow, Alignment, TbbSet, Orientbtion,
         ModelAttribute, ComposedTextAttribute
     };
 
-    StyleConstants(String representation) {
-        this.representation = representation;
+    StyleConstbnts(String representbtion) {
+        this.representbtion = representbtion;
     }
 
-    private String representation;
+    privbte String representbtion;
 
     /**
-     * This is a typesafe enumeration of the <em>well-known</em>
-     * attributes that contribute to a paragraph style.  These are
-     * aliased by the outer class for general presentation.
+     * This is b typesbfe enumerbtion of the <em>well-known</em>
+     * bttributes thbt contribute to b pbrbgrbph style.  These bre
+     * blibsed by the outer clbss for generbl presentbtion.
      */
-    public static class ParagraphConstants extends StyleConstants
-        implements AttributeSet.ParagraphAttribute {
+    public stbtic clbss PbrbgrbphConstbnts extends StyleConstbnts
+        implements AttributeSet.PbrbgrbphAttribute {
 
-        private ParagraphConstants(String representation) {
-            super(representation);
+        privbte PbrbgrbphConstbnts(String representbtion) {
+            super(representbtion);
         }
     }
 
     /**
-     * This is a typesafe enumeration of the <em>well-known</em>
-     * attributes that contribute to a character style.  These are
-     * aliased by the outer class for general presentation.
+     * This is b typesbfe enumerbtion of the <em>well-known</em>
+     * bttributes thbt contribute to b chbrbcter style.  These bre
+     * blibsed by the outer clbss for generbl presentbtion.
      */
-    public static class CharacterConstants extends StyleConstants
-        implements AttributeSet.CharacterAttribute {
+    public stbtic clbss ChbrbcterConstbnts extends StyleConstbnts
+        implements AttributeSet.ChbrbcterAttribute {
 
-        private CharacterConstants(String representation) {
-            super(representation);
+        privbte ChbrbcterConstbnts(String representbtion) {
+            super(representbtion);
         }
     }
 
     /**
-     * This is a typesafe enumeration of the <em>well-known</em>
-     * attributes that contribute to a color.  These are aliased
-     * by the outer class for general presentation.
+     * This is b typesbfe enumerbtion of the <em>well-known</em>
+     * bttributes thbt contribute to b color.  These bre blibsed
+     * by the outer clbss for generbl presentbtion.
      */
-    public static class ColorConstants extends StyleConstants
-        implements AttributeSet.ColorAttribute,  AttributeSet.CharacterAttribute {
+    public stbtic clbss ColorConstbnts extends StyleConstbnts
+        implements AttributeSet.ColorAttribute,  AttributeSet.ChbrbcterAttribute {
 
-        private ColorConstants(String representation) {
-            super(representation);
+        privbte ColorConstbnts(String representbtion) {
+            super(representbtion);
         }
     }
 
     /**
-     * This is a typesafe enumeration of the <em>well-known</em>
-     * attributes that contribute to a font.  These are aliased
-     * by the outer class for general presentation.
+     * This is b typesbfe enumerbtion of the <em>well-known</em>
+     * bttributes thbt contribute to b font.  These bre blibsed
+     * by the outer clbss for generbl presentbtion.
      */
-    public static class FontConstants extends StyleConstants
-        implements AttributeSet.FontAttribute, AttributeSet.CharacterAttribute {
+    public stbtic clbss FontConstbnts extends StyleConstbnts
+        implements AttributeSet.FontAttribute, AttributeSet.ChbrbcterAttribute {
 
-        private FontConstants(String representation) {
-            super(representation);
+        privbte FontConstbnts(String representbtion) {
+            super(representbtion);
         }
     }
 

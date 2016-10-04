@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.security;
+pbckbge com.sun.jmx.remote.security;
 
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import javax.management.remote.JMXPrincipal;
-import javax.management.remote.JMXAuthenticator;
-import javax.security.auth.AuthPermission;
-import javax.security.auth.Subject;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.AppConfigurationEntry;
-import javax.security.auth.login.Configuration;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
-import javax.security.auth.spi.LoginModule;
-import com.sun.jmx.remote.util.ClassLogger;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.security.Principbl;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Properties;
+import jbvbx.mbnbgement.remote.JMXPrincipbl;
+import jbvbx.mbnbgement.remote.JMXAuthenticbtor;
+import jbvbx.security.buth.AuthPermission;
+import jbvbx.security.buth.Subject;
+import jbvbx.security.buth.cbllbbck.*;
+import jbvbx.security.buth.login.AppConfigurbtionEntry;
+import jbvbx.security.buth.login.Configurbtion;
+import jbvbx.security.buth.login.LoginContext;
+import jbvbx.security.buth.login.LoginException;
+import jbvbx.security.buth.spi.LoginModule;
+import com.sun.jmx.remote.util.ClbssLogger;
 import com.sun.jmx.remote.util.EnvHelp;
 
 /**
- * <p>This class represents a
- * <a href="{@docRoot}/../guide/security/jaas/JAASRefGuide.html">JAAS</a>
- * based implementation of the {@link JMXAuthenticator} interface.</p>
+ * <p>This clbss represents b
+ * <b href="{@docRoot}/../guide/security/jbbs/JAASRefGuide.html">JAAS</b>
+ * bbsed implementbtion of the {@link JMXAuthenticbtor} interfbce.</p>
  *
- * <p>Authentication is performed by passing the supplied user's credentials
- * to one or more authentication mechanisms ({@link LoginModule}) for
- * verification. An authentication mechanism acquires the user's credentials
- * by calling {@link NameCallback} and/or {@link PasswordCallback}.
- * If authentication is successful then an authenticated {@link Subject}
- * filled in with a {@link Principal} is returned.  Authorization checks
- * will then be performed based on this <code>Subject</code>.</p>
+ * <p>Authenticbtion is performed by pbssing the supplied user's credentibls
+ * to one or more buthenticbtion mechbnisms ({@link LoginModule}) for
+ * verificbtion. An buthenticbtion mechbnism bcquires the user's credentibls
+ * by cblling {@link NbmeCbllbbck} bnd/or {@link PbsswordCbllbbck}.
+ * If buthenticbtion is successful then bn buthenticbted {@link Subject}
+ * filled in with b {@link Principbl} is returned.  Authorizbtion checks
+ * will then be performed bbsed on this <code>Subject</code>.</p>
  *
- * <p>By default, a single file-based authentication mechanism
+ * <p>By defbult, b single file-bbsed buthenticbtion mechbnism
  * {@link FileLoginModule} is configured (<code>FileLoginConfig</code>).</p>
  *
- * <p>To override the default configuration use the
- * <code>com.sun.management.jmxremote.login.config</code> management property
- * described in the JRE/lib/management/management.properties file.
- * Set this property to the name of a JAAS configuration entry and ensure that
- * the entry is loaded by the installed {@link Configuration}. In addition,
- * ensure that the authentication mechanisms specified in the entry acquire
- * the user's credentials by calling {@link NameCallback} and
- * {@link PasswordCallback} and that they return a {@link Subject} filled-in
- * with a {@link Principal}, for those users that are successfully
- * authenticated.</p>
+ * <p>To override the defbult configurbtion use the
+ * <code>com.sun.mbnbgement.jmxremote.login.config</code> mbnbgement property
+ * described in the JRE/lib/mbnbgement/mbnbgement.properties file.
+ * Set this property to the nbme of b JAAS configurbtion entry bnd ensure thbt
+ * the entry is lobded by the instblled {@link Configurbtion}. In bddition,
+ * ensure thbt the buthenticbtion mechbnisms specified in the entry bcquire
+ * the user's credentibls by cblling {@link NbmeCbllbbck} bnd
+ * {@link PbsswordCbllbbck} bnd thbt they return b {@link Subject} filled-in
+ * with b {@link Principbl}, for those users thbt bre successfully
+ * buthenticbted.</p>
  */
-public final class JMXPluggableAuthenticator implements JMXAuthenticator {
+public finbl clbss JMXPluggbbleAuthenticbtor implements JMXAuthenticbtor {
 
     /**
-     * Creates an instance of <code>JMXPluggableAuthenticator</code>
-     * and initializes it with a {@link LoginContext}.
+     * Crebtes bn instbnce of <code>JMXPluggbbleAuthenticbtor</code>
+     * bnd initiblizes it with b {@link LoginContext}.
      *
-     * @param env the environment containing configuration properties for the
-     *            authenticator. Can be null, which is equivalent to an empty
-     *            Map.
-     * @exception SecurityException if the authentication mechanism cannot be
-     *            initialized.
+     * @pbrbm env the environment contbining configurbtion properties for the
+     *            buthenticbtor. Cbn be null, which is equivblent to bn empty
+     *            Mbp.
+     * @exception SecurityException if the buthenticbtion mechbnism cbnnot be
+     *            initiblized.
      */
-    public JMXPluggableAuthenticator(Map<?, ?> env) {
+    public JMXPluggbbleAuthenticbtor(Mbp<?, ?> env) {
 
-        String loginConfigName = null;
-        String passwordFile = null;
+        String loginConfigNbme = null;
+        String pbsswordFile = null;
 
         if (env != null) {
-            loginConfigName = (String) env.get(LOGIN_CONFIG_PROP);
-            passwordFile = (String) env.get(PASSWORD_FILE_PROP);
+            loginConfigNbme = (String) env.get(LOGIN_CONFIG_PROP);
+            pbsswordFile = (String) env.get(PASSWORD_FILE_PROP);
         }
 
         try {
 
-            if (loginConfigName != null) {
-                // use the supplied JAAS login configuration
+            if (loginConfigNbme != null) {
+                // use the supplied JAAS login configurbtion
                 loginContext =
-                    new LoginContext(loginConfigName, new JMXCallbackHandler());
+                    new LoginContext(loginConfigNbme, new JMXCbllbbckHbndler());
 
             } else {
-                // use the default JAAS login configuration (file-based)
-                SecurityManager sm = System.getSecurityManager();
+                // use the defbult JAAS login configurbtion (file-bbsed)
+                SecurityMbnbger sm = System.getSecurityMbnbger();
                 if (sm != null) {
                     sm.checkPermission(
-                            new AuthPermission("createLoginContext." +
+                            new AuthPermission("crebteLoginContext." +
                                                LOGIN_CONFIG_NAME));
                 }
 
-                final String pf = passwordFile;
+                finbl String pf = pbsswordFile;
                 try {
                     loginContext = AccessController.doPrivileged(
                         new PrivilegedExceptionAction<LoginContext>() {
@@ -121,225 +121,225 @@ public final class JMXPluggableAuthenticator implements JMXAuthenticator {
                                 return new LoginContext(
                                                 LOGIN_CONFIG_NAME,
                                                 null,
-                                                new JMXCallbackHandler(),
+                                                new JMXCbllbbckHbndler(),
                                                 new FileLoginConfig(pf));
                             }
                         });
-                } catch (PrivilegedActionException pae) {
-                    throw (LoginException) pae.getException();
+                } cbtch (PrivilegedActionException pbe) {
+                    throw (LoginException) pbe.getException();
                 }
             }
 
-        } catch (LoginException le) {
-            authenticationFailure("authenticate", le);
+        } cbtch (LoginException le) {
+            buthenticbtionFbilure("buthenticbte", le);
 
-        } catch (SecurityException se) {
-            authenticationFailure("authenticate", se);
+        } cbtch (SecurityException se) {
+            buthenticbtionFbilure("buthenticbte", se);
         }
     }
 
     /**
-     * Authenticate the <code>MBeanServerConnection</code> client
-     * with the given client credentials.
+     * Authenticbte the <code>MBebnServerConnection</code> client
+     * with the given client credentibls.
      *
-     * @param credentials the user-defined credentials to be passed in
-     * to the server in order to authenticate the user before creating
-     * the <code>MBeanServerConnection</code>.  This parameter must
-     * be a two-element <code>String[]</code> containing the client's
-     * username and password in that order.
+     * @pbrbm credentibls the user-defined credentibls to be pbssed in
+     * to the server in order to buthenticbte the user before crebting
+     * the <code>MBebnServerConnection</code>.  This pbrbmeter must
+     * be b two-element <code>String[]</code> contbining the client's
+     * usernbme bnd pbssword in thbt order.
      *
-     * @return the authenticated subject containing a
-     * <code>JMXPrincipal(username)</code>.
+     * @return the buthenticbted subject contbining b
+     * <code>JMXPrincipbl(usernbme)</code>.
      *
-     * @exception SecurityException if the server cannot authenticate the user
-     * with the provided credentials.
+     * @exception SecurityException if the server cbnnot buthenticbte the user
+     * with the provided credentibls.
      */
-    public Subject authenticate(Object credentials) {
-        // Verify that credentials is of type String[].
+    public Subject buthenticbte(Object credentibls) {
+        // Verify thbt credentibls is of type String[].
         //
-        if (!(credentials instanceof String[])) {
-            // Special case for null so we get a more informative message
-            if (credentials == null)
-                authenticationFailure("authenticate", "Credentials required");
+        if (!(credentibls instbnceof String[])) {
+            // Specibl cbse for null so we get b more informbtive messbge
+            if (credentibls == null)
+                buthenticbtionFbilure("buthenticbte", "Credentibls required");
 
-            final String message =
-                "Credentials should be String[] instead of " +
-                 credentials.getClass().getName();
-            authenticationFailure("authenticate", message);
+            finbl String messbge =
+                "Credentibls should be String[] instebd of " +
+                 credentibls.getClbss().getNbme();
+            buthenticbtionFbilure("buthenticbte", messbge);
         }
-        // Verify that the array contains two elements.
+        // Verify thbt the brrby contbins two elements.
         //
-        final String[] aCredentials = (String[]) credentials;
-        if (aCredentials.length != 2) {
-            final String message =
-                "Credentials should have 2 elements not " +
-                aCredentials.length;
-            authenticationFailure("authenticate", message);
+        finbl String[] bCredentibls = (String[]) credentibls;
+        if (bCredentibls.length != 2) {
+            finbl String messbge =
+                "Credentibls should hbve 2 elements not " +
+                bCredentibls.length;
+            buthenticbtionFbilure("buthenticbte", messbge);
         }
-        // Verify that username exists and the associated
-        // password matches the one supplied by the client.
+        // Verify thbt usernbme exists bnd the bssocibted
+        // pbssword mbtches the one supplied by the client.
         //
-        username = aCredentials[0];
-        password = aCredentials[1];
-        if (username == null || password == null) {
-            final String message = "Username or password is null";
-            authenticationFailure("authenticate", message);
+        usernbme = bCredentibls[0];
+        pbssword = bCredentibls[1];
+        if (usernbme == null || pbssword == null) {
+            finbl String messbge = "Usernbme or pbssword is null";
+            buthenticbtionFbilure("buthenticbte", messbge);
         }
 
-        // Perform authentication
+        // Perform buthenticbtion
         try {
             loginContext.login();
-            final Subject subject = loginContext.getSubject();
+            finbl Subject subject = loginContext.getSubject();
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                     public Void run() {
-                        subject.setReadOnly();
+                        subject.setRebdOnly();
                         return null;
                     }
                 });
 
             return subject;
 
-        } catch (LoginException le) {
-            authenticationFailure("authenticate", le);
+        } cbtch (LoginException le) {
+            buthenticbtionFbilure("buthenticbte", le);
         }
         return null;
     }
 
-    private static void authenticationFailure(String method, String message)
+    privbte stbtic void buthenticbtionFbilure(String method, String messbge)
         throws SecurityException {
-        final String msg = "Authentication failed! " + message;
-        final SecurityException e = new SecurityException(msg);
+        finbl String msg = "Authenticbtion fbiled! " + messbge;
+        finbl SecurityException e = new SecurityException(msg);
         logException(method, msg, e);
         throw e;
     }
 
-    private static void authenticationFailure(String method,
+    privbte stbtic void buthenticbtionFbilure(String method,
                                               Exception exception)
         throws SecurityException {
         String msg;
         SecurityException se;
-        if (exception instanceof SecurityException) {
-            msg = exception.getMessage();
+        if (exception instbnceof SecurityException) {
+            msg = exception.getMessbge();
             se = (SecurityException) exception;
         } else {
-            msg = "Authentication failed! " + exception.getMessage();
-            final SecurityException e = new SecurityException(msg);
-            EnvHelp.initCause(e, exception);
+            msg = "Authenticbtion fbiled! " + exception.getMessbge();
+            finbl SecurityException e = new SecurityException(msg);
+            EnvHelp.initCbuse(e, exception);
             se = e;
         }
         logException(method, msg, se);
         throw se;
     }
 
-    private static void logException(String method,
-                                     String message,
+    privbte stbtic void logException(String method,
+                                     String messbge,
                                      Exception e) {
-        if (logger.traceOn()) {
-            logger.trace(method, message);
+        if (logger.trbceOn()) {
+            logger.trbce(method, messbge);
         }
         if (logger.debugOn()) {
             logger.debug(method, e);
         }
     }
 
-    private LoginContext loginContext;
-    private String username;
-    private String password;
-    private static final String LOGIN_CONFIG_PROP =
+    privbte LoginContext loginContext;
+    privbte String usernbme;
+    privbte String pbssword;
+    privbte stbtic finbl String LOGIN_CONFIG_PROP =
         "jmx.remote.x.login.config";
-    private static final String LOGIN_CONFIG_NAME = "JMXPluggableAuthenticator";
-    private static final String PASSWORD_FILE_PROP =
-        "jmx.remote.x.password.file";
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc", LOGIN_CONFIG_NAME);
+    privbte stbtic finbl String LOGIN_CONFIG_NAME = "JMXPluggbbleAuthenticbtor";
+    privbte stbtic finbl String PASSWORD_FILE_PROP =
+        "jmx.remote.x.pbssword.file";
+    privbte stbtic finbl ClbssLogger logger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.misc", LOGIN_CONFIG_NAME);
 
 /**
- * This callback handler supplies the username and password (which was
- * originally supplied by the JMX user) to the JAAS login module performing
- * the authentication. No interactive user prompting is required because the
- * credentials are already available to this class (via its enclosing class).
+ * This cbllbbck hbndler supplies the usernbme bnd pbssword (which wbs
+ * originblly supplied by the JMX user) to the JAAS login module performing
+ * the buthenticbtion. No interbctive user prompting is required becbuse the
+ * credentibls bre blrebdy bvbilbble to this clbss (vib its enclosing clbss).
  */
-private final class JMXCallbackHandler implements CallbackHandler {
+privbte finbl clbss JMXCbllbbckHbndler implements CbllbbckHbndler {
 
     /**
-     * Sets the username and password in the appropriate Callback object.
+     * Sets the usernbme bnd pbssword in the bppropribte Cbllbbck object.
      */
-    public void handle(Callback[] callbacks)
-        throws IOException, UnsupportedCallbackException {
+    public void hbndle(Cbllbbck[] cbllbbcks)
+        throws IOException, UnsupportedCbllbbckException {
 
-        for (int i = 0; i < callbacks.length; i++) {
-            if (callbacks[i] instanceof NameCallback) {
-                ((NameCallback)callbacks[i]).setName(username);
+        for (int i = 0; i < cbllbbcks.length; i++) {
+            if (cbllbbcks[i] instbnceof NbmeCbllbbck) {
+                ((NbmeCbllbbck)cbllbbcks[i]).setNbme(usernbme);
 
-            } else if (callbacks[i] instanceof PasswordCallback) {
-                ((PasswordCallback)callbacks[i])
-                    .setPassword(password.toCharArray());
+            } else if (cbllbbcks[i] instbnceof PbsswordCbllbbck) {
+                ((PbsswordCbllbbck)cbllbbcks[i])
+                    .setPbssword(pbssword.toChbrArrby());
 
             } else {
-                throw new UnsupportedCallbackException
-                    (callbacks[i], "Unrecognized Callback");
+                throw new UnsupportedCbllbbckException
+                    (cbllbbcks[i], "Unrecognized Cbllbbck");
             }
         }
     }
 }
 
 /**
- * This class defines the JAAS configuration for file-based authentication.
- * It is equivalent to the following textual configuration entry:
+ * This clbss defines the JAAS configurbtion for file-bbsed buthenticbtion.
+ * It is equivblent to the following textubl configurbtion entry:
  * <pre>
- *     JMXPluggableAuthenticator {
+ *     JMXPluggbbleAuthenticbtor {
  *         com.sun.jmx.remote.security.FileLoginModule required;
  *     };
  * </pre>
  */
-private static class FileLoginConfig extends Configuration {
+privbte stbtic clbss FileLoginConfig extends Configurbtion {
 
-    // The JAAS configuration for file-based authentication
-    private AppConfigurationEntry[] entries;
+    // The JAAS configurbtion for file-bbsed buthenticbtion
+    privbte AppConfigurbtionEntry[] entries;
 
-    // The classname of the login module for file-based authentication
-    private static final String FILE_LOGIN_MODULE =
-        FileLoginModule.class.getName();
+    // The clbssnbme of the login module for file-bbsed buthenticbtion
+    privbte stbtic finbl String FILE_LOGIN_MODULE =
+        FileLoginModule.clbss.getNbme();
 
-    // The option that identifies the password file to use
-    private static final String PASSWORD_FILE_OPTION = "passwordFile";
+    // The option thbt identifies the pbssword file to use
+    privbte stbtic finbl String PASSWORD_FILE_OPTION = "pbsswordFile";
 
     /**
-     * Creates an instance of <code>FileLoginConfig</code>
+     * Crebtes bn instbnce of <code>FileLoginConfig</code>
      *
-     * @param passwordFile A filepath that identifies the password file to use.
-     *                     If null then the default password file is used.
+     * @pbrbm pbsswordFile A filepbth thbt identifies the pbssword file to use.
+     *                     If null then the defbult pbssword file is used.
      */
-    public FileLoginConfig(String passwordFile) {
+    public FileLoginConfig(String pbsswordFile) {
 
-        Map<String, String> options;
-        if (passwordFile != null) {
-            options = new HashMap<String, String>(1);
-            options.put(PASSWORD_FILE_OPTION, passwordFile);
+        Mbp<String, String> options;
+        if (pbsswordFile != null) {
+            options = new HbshMbp<String, String>(1);
+            options.put(PASSWORD_FILE_OPTION, pbsswordFile);
         } else {
-            options = Collections.emptyMap();
+            options = Collections.emptyMbp();
         }
 
-        entries = new AppConfigurationEntry[] {
-            new AppConfigurationEntry(FILE_LOGIN_MODULE,
-                AppConfigurationEntry.LoginModuleControlFlag.REQUIRED,
+        entries = new AppConfigurbtionEntry[] {
+            new AppConfigurbtionEntry(FILE_LOGIN_MODULE,
+                AppConfigurbtionEntry.LoginModuleControlFlbg.REQUIRED,
                     options)
         };
     }
 
     /**
-     * Gets the JAAS configuration for file-based authentication
+     * Gets the JAAS configurbtion for file-bbsed buthenticbtion
      */
-    public AppConfigurationEntry[] getAppConfigurationEntry(String name) {
+    public AppConfigurbtionEntry[] getAppConfigurbtionEntry(String nbme) {
 
-        return name.equals(LOGIN_CONFIG_NAME) ? entries : null;
+        return nbme.equbls(LOGIN_CONFIG_NAME) ? entries : null;
     }
 
     /**
-     * Refreshes the configuration.
+     * Refreshes the configurbtion.
      */
     public void refresh() {
-        // the configuration is fixed
+        // the configurbtion is fixed
     }
 }
 

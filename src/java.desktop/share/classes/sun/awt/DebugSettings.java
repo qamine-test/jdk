@@ -1,310 +1,310 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.io.*;
+import jbvb.io.*;
 
-import java.util.*;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.*;
+import sun.util.logging.PlbtformLogger;
 
 /*
- * Internal class that manages sun.awt.Debug settings.
- * Settings can be specified on a global, per-package,
- * or per-class level.
+ * Internbl clbss thbt mbnbges sun.bwt.Debug settings.
+ * Settings cbn be specified on b globbl, per-pbckbge,
+ * or per-clbss level.
  *
- * Properties affecting the behaviour of the Debug class are
- * loaded from the awtdebug.properties file at class load
- * time. The properties file is assumed to be in the
- * user.home directory. A different file can be used
- * by setting the awtdebug.properties system property.
- *      e.g. java -Dawtdebug.properties=foo.properties
+ * Properties bffecting the behbviour of the Debug clbss bre
+ * lobded from the bwtdebug.properties file bt clbss lobd
+ * time. The properties file is bssumed to be in the
+ * user.home directory. A different file cbn be used
+ * by setting the bwtdebug.properties system property.
+ *      e.g. jbvb -Dbwtdebug.properties=foo.properties
  *
- * Only properties beginning with 'awtdebug' have any
- * meaning-- all other properties are ignored.
+ * Only properties beginning with 'bwtdebug' hbve bny
+ * mebning-- bll other properties bre ignored.
  *
- * You can override the properties file by specifying
- * 'awtdebug' props as system properties on the command line.
- *      e.g. java -Dawtdebug.trace=true
- * Properties specific to a package or a class can be set
- * by qualifying the property names as follows:
- *      awtdebug.<property name>.<class or package name>
- * So for example, turning on tracing in the com.acme.Fubar
- * class would be done as follows:
- *      awtdebug.trace.com.acme.Fubar=true
+ * You cbn override the properties file by specifying
+ * 'bwtdebug' props bs system properties on the commbnd line.
+ *      e.g. jbvb -Dbwtdebug.trbce=true
+ * Properties specific to b pbckbge or b clbss cbn be set
+ * by qublifying the property nbmes bs follows:
+ *      bwtdebug.<property nbme>.<clbss or pbckbge nbme>
+ * So for exbmple, turning on trbcing in the com.bcme.Fubbr
+ * clbss would be done bs follows:
+ *      bwtdebug.trbce.com.bcme.Fubbr=true
  *
- * Class settings always override package settings, which in
- * turn override global settings.
+ * Clbss settings blwbys override pbckbge settings, which in
+ * turn override globbl settings.
  *
  * Addition from July, 2007.
  *
- * After the fix for 4638447 all the usage of DebugHelper
- * classes in Java code are replaced with the corresponding
- * Java Logging API calls. This file is now used only to
- * control native logging.
+ * After the fix for 4638447 bll the usbge of DebugHelper
+ * clbsses in Jbvb code bre replbced with the corresponding
+ * Jbvb Logging API cblls. This file is now used only to
+ * control nbtive logging.
  *
- * To enable native logging you should set the following
- * system property to 'true': sun.awt.nativedebug. After
- * the native logging is enabled, the actual debug settings
- * are read the same way as described above (as before
+ * To enbble nbtive logging you should set the following
+ * system property to 'true': sun.bwt.nbtivedebug. After
+ * the nbtive logging is enbbled, the bctubl debug settings
+ * bre rebd the sbme wby bs described bbove (bs before
  * the fix for 4638447).
  */
-final class DebugSettings {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.debug.DebugSettings");
+finbl clbss DebugSettings {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.debug.DebugSettings");
 
-    /* standard debug property key names */
-    static final String PREFIX = "awtdebug";
-    static final String PROP_FILE = "properties";
+    /* stbndbrd debug property key nbmes */
+    stbtic finbl String PREFIX = "bwtdebug";
+    stbtic finbl String PROP_FILE = "properties";
 
-    /* default property settings */
-    private static final String DEFAULT_PROPS[] = {
-        "awtdebug.assert=true",
-        "awtdebug.trace=false",
-        "awtdebug.on=true",
-        "awtdebug.ctrace=false"
+    /* defbult property settings */
+    privbte stbtic finbl String DEFAULT_PROPS[] = {
+        "bwtdebug.bssert=true",
+        "bwtdebug.trbce=fblse",
+        "bwtdebug.on=true",
+        "bwtdebug.ctrbce=fblse"
     };
 
-    /* global instance of the settings object */
-    private static DebugSettings instance = null;
+    /* globbl instbnce of the settings object */
+    privbte stbtic DebugSettings instbnce = null;
 
-    private Properties props = new Properties();
+    privbte Properties props = new Properties();
 
-    static void init() {
-        if (instance != null) {
+    stbtic void init() {
+        if (instbnce != null) {
             return;
         }
 
-        NativeLibLoader.loadLibraries();
-        instance = new DebugSettings();
-        instance.loadNativeSettings();
+        NbtiveLibLobder.lobdLibrbries();
+        instbnce = new DebugSettings();
+        instbnce.lobdNbtiveSettings();
     }
 
-    private DebugSettings() {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    privbte DebugSettings() {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    loadProperties();
+                    lobdProperties();
                     return null;
                 }
             });
     }
 
     /*
-     * Load debug properties from file, then override
-     * with any command line specified properties
+     * Lobd debug properties from file, then override
+     * with bny commbnd line specified properties
      */
-    private synchronized void loadProperties() {
-        // setup initial properties
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    privbte synchronized void lobdProperties() {
+        // setup initibl properties
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    loadDefaultProperties();
-                    loadFileProperties();
-                    loadSystemProperties();
+                    lobdDefbultProperties();
+                    lobdFileProperties();
+                    lobdSystemProperties();
                     return null;
                 }
             });
 
-        // echo the initial property settings to stdout
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        // echo the initibl property settings to stdout
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("DebugSettings:\n{0}", this);
         }
     }
 
     public String toString() {
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        PrintStream pout = new PrintStream(bout);
-        for (String key : props.stringPropertyNames()) {
-            String value = props.getProperty(key, "");
-            pout.println(key + " = " + value);
+        ByteArrbyOutputStrebm bout = new ByteArrbyOutputStrebm();
+        PrintStrebm pout = new PrintStrebm(bout);
+        for (String key : props.stringPropertyNbmes()) {
+            String vblue = props.getProperty(key, "");
+            pout.println(key + " = " + vblue);
         }
-        return new String(bout.toByteArray());
+        return new String(bout.toByteArrby());
     }
 
     /*
-     * Sets up default property values
+     * Sets up defbult property vblues
      */
-    private void loadDefaultProperties() {
-        // is there a more inefficient way to setup default properties?
-        // maybe, but this has got to be close to 100% non-optimal
+    privbte void lobdDefbultProperties() {
+        // is there b more inefficient wby to setup defbult properties?
+        // mbybe, but this hbs got to be close to 100% non-optimbl
         try {
             for ( int nprop = 0; nprop < DEFAULT_PROPS.length; nprop++ ) {
-                StringBufferInputStream in = new StringBufferInputStream(DEFAULT_PROPS[nprop]);
-                props.load(in);
+                StringBufferInputStrebm in = new StringBufferInputStrebm(DEFAULT_PROPS[nprop]);
+                props.lobd(in);
                 in.close();
             }
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
         }
     }
 
     /*
-     * load properties from file, overriding defaults
+     * lobd properties from file, overriding defbults
      */
-    private void loadFileProperties() {
-        String          propPath;
+    privbte void lobdFileProperties() {
+        String          propPbth;
         Properties      fileProps;
 
-        // check if the user specified a particular settings file
-        propPath = System.getProperty(PREFIX + "." + PROP_FILE, "");
-        if (propPath.equals("")) {
+        // check if the user specified b pbrticulbr settings file
+        propPbth = System.getProperty(PREFIX + "." + PROP_FILE, "");
+        if (propPbth.equbls("")) {
         // otherwise get it from the user's home directory
-            propPath = System.getProperty("user.home", "") +
-                        File.separator +
+            propPbth = System.getProperty("user.home", "") +
+                        File.sepbrbtor +
                         PREFIX + "." + PROP_FILE;
         }
 
-        File    propFile = new File(propPath);
+        File    propFile = new File(propPbth);
         try {
-            println("Reading debug settings from '" + propFile.getCanonicalPath() + "'...");
-            FileInputStream     fin = new FileInputStream(propFile);
-            props.load(fin);
+            println("Rebding debug settings from '" + propFile.getCbnonicblPbth() + "'...");
+            FileInputStrebm     fin = new FileInputStrebm(propFile);
+            props.lobd(fin);
             fin.close();
-        } catch ( FileNotFoundException fne ) {
+        } cbtch ( FileNotFoundException fne ) {
             println("Did not find settings file.");
-        } catch ( IOException ioe ) {
-            println("Problem reading settings, IOException: " + ioe.getMessage());
+        } cbtch ( IOException ioe ) {
+            println("Problem rebding settings, IOException: " + ioe.getMessbge());
         }
     }
 
     /*
-     * load properties from system props (command line spec'd usually),
-     * overriding default or file properties
+     * lobd properties from system props (commbnd line spec'd usublly),
+     * overriding defbult or file properties
      */
-    private void loadSystemProperties() {
+    privbte void lobdSystemProperties() {
         // override file properties with system properties
         Properties sysProps = System.getProperties();
-        for (String key : sysProps.stringPropertyNames()) {
-            String value = sysProps.getProperty(key,"");
-            // copy any "awtdebug" properties over
-            if ( key.startsWith(PREFIX) ) {
-                props.setProperty(key, value);
+        for (String key : sysProps.stringPropertyNbmes()) {
+            String vblue = sysProps.getProperty(key,"");
+            // copy bny "bwtdebug" properties over
+            if ( key.stbrtsWith(PREFIX) ) {
+                props.setProperty(key, vblue);
             }
         }
     }
 
     /**
-     * Gets named boolean property
-     * @param key       Name of property
-     * @param defval    Default value if property does not exist
-     * @return boolean value of the named property
+     * Gets nbmed boolebn property
+     * @pbrbm key       Nbme of property
+     * @pbrbm defvbl    Defbult vblue if property does not exist
+     * @return boolebn vblue of the nbmed property
      */
-    public synchronized boolean getBoolean(String key, boolean defval) {
-        String  value = getString(key, String.valueOf(defval));
-        return value.equalsIgnoreCase("true");
+    public synchronized boolebn getBoolebn(String key, boolebn defvbl) {
+        String  vblue = getString(key, String.vblueOf(defvbl));
+        return vblue.equblsIgnoreCbse("true");
     }
 
     /**
-     * Gets named integer property
-     * @param key       Name of property
-     * @param defval    Default value if property does not exist
-     * @return integer value of the named property
+     * Gets nbmed integer property
+     * @pbrbm key       Nbme of property
+     * @pbrbm defvbl    Defbult vblue if property does not exist
+     * @return integer vblue of the nbmed property
      */
-    public synchronized int getInt(String key, int defval) {
-        String  value = getString(key, String.valueOf(defval));
-        return Integer.parseInt(value);
+    public synchronized int getInt(String key, int defvbl) {
+        String  vblue = getString(key, String.vblueOf(defvbl));
+        return Integer.pbrseInt(vblue);
     }
 
     /**
-     * Gets named String property
-     * @param key       Name of property
-     * @param defval    Default value if property does not exist
-     * @return string value of the named property
+     * Gets nbmed String property
+     * @pbrbm key       Nbme of property
+     * @pbrbm defvbl    Defbult vblue if property does not exist
+     * @return string vblue of the nbmed property
      */
-    public synchronized String getString(String key, String defval) {
-        String  actualKeyName = PREFIX + "." + key;
-        String  value = props.getProperty(actualKeyName, defval);
-        //println(actualKeyName+"="+value);
-        return value;
+    public synchronized String getString(String key, String defvbl) {
+        String  bctublKeyNbme = PREFIX + "." + key;
+        String  vblue = props.getProperty(bctublKeyNbme, defvbl);
+        //println(bctublKeyNbme+"="+vblue);
+        return vblue;
     }
 
-    private synchronized List<String> getPropertyNames() {
-        List<String> propNames = new LinkedList<>();
-        // remove global prefix from property names
-        for (String propName : props.stringPropertyNames()) {
-            propName = propName.substring(PREFIX.length()+1);
-            propNames.add(propName);
+    privbte synchronized List<String> getPropertyNbmes() {
+        List<String> propNbmes = new LinkedList<>();
+        // remove globbl prefix from property nbmes
+        for (String propNbme : props.stringPropertyNbmes()) {
+            propNbme = propNbme.substring(PREFIX.length()+1);
+            propNbmes.bdd(propNbme);
         }
-        return propNames;
+        return propNbmes;
     }
 
-    private void println(Object object) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
+    privbte void println(Object object) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
             log.finer(object.toString());
         }
     }
 
-    private static final String PROP_CTRACE = "ctrace";
-    private static final int PROP_CTRACE_LEN = PROP_CTRACE.length();
+    privbte stbtic finbl String PROP_CTRACE = "ctrbce";
+    privbte stbtic finbl int PROP_CTRACE_LEN = PROP_CTRACE.length();
 
-    private native synchronized void setCTracingOn(boolean enabled);
-    private native synchronized void setCTracingOn(boolean enabled, String file);
-    private native synchronized void setCTracingOn(boolean enabled, String file, int line);
+    privbte nbtive synchronized void setCTrbcingOn(boolebn enbbled);
+    privbte nbtive synchronized void setCTrbcingOn(boolebn enbbled, String file);
+    privbte nbtive synchronized void setCTrbcingOn(boolebn enbbled, String file, int line);
 
-    private void loadNativeSettings() {
-        boolean        ctracingOn;
+    privbte void lobdNbtiveSettings() {
+        boolebn        ctrbcingOn;
 
-        ctracingOn = getBoolean(PROP_CTRACE, false);
-        setCTracingOn(ctracingOn);
+        ctrbcingOn = getBoolebn(PROP_CTRACE, fblse);
+        setCTrbcingOn(ctrbcingOn);
 
         //
-        // Filter out file/line ctrace properties from debug settings
+        // Filter out file/line ctrbce properties from debug settings
         //
-        List<String> traces = new LinkedList<>();
+        List<String> trbces = new LinkedList<>();
 
-        for (String key : getPropertyNames()) {
-            if (key.startsWith(PROP_CTRACE) && key.length() > PROP_CTRACE_LEN) {
-                traces.add(key);
+        for (String key : getPropertyNbmes()) {
+            if (key.stbrtsWith(PROP_CTRACE) && key.length() > PROP_CTRACE_LEN) {
+                trbces.bdd(key);
             }
         }
 
-        // sort traces list so file-level traces will be before line-level ones
-        Collections.sort(traces);
+        // sort trbces list so file-level trbces will be before line-level ones
+        Collections.sort(trbces);
 
         //
-        // Setup the trace points
+        // Setup the trbce points
         //
-        for (String key : traces) {
-            String        trace = key.substring(PROP_CTRACE_LEN+1);
+        for (String key : trbces) {
+            String        trbce = key.substring(PROP_CTRACE_LEN+1);
             String        filespec;
             String        linespec;
-            int           delim= trace.indexOf('@');
-            boolean       enabled;
+            int           delim= trbce.indexOf('@');
+            boolebn       enbbled;
 
-            // parse out the filename and linenumber from the property name
-            filespec = delim != -1 ? trace.substring(0, delim) : trace;
-            linespec = delim != -1 ? trace.substring(delim+1) : "";
-            enabled = getBoolean(key, false);
-            //System.out.println("Key="+key+", File="+filespec+", Line="+linespec+", Enabled="+enabled);
+            // pbrse out the filenbme bnd linenumber from the property nbme
+            filespec = delim != -1 ? trbce.substring(0, delim) : trbce;
+            linespec = delim != -1 ? trbce.substring(delim+1) : "";
+            enbbled = getBoolebn(key, fblse);
+            //System.out.println("Key="+key+", File="+filespec+", Line="+linespec+", Enbbled="+enbbled);
 
             if ( linespec.length() == 0 ) {
-            // set file specific trace setting
-                    setCTracingOn(enabled, filespec);
+            // set file specific trbce setting
+                    setCTrbcingOn(enbbled, filespec);
             } else {
-            // set line specific trace setting
-                int        linenum = Integer.parseInt(linespec, 10);
-                setCTracingOn(enabled, filespec, linenum);
+            // set line specific trbce setting
+                int        linenum = Integer.pbrseInt(linespec, 10);
+                setCTrbcingOn(enbbled, filespec, linenum);
             }
         }
     }

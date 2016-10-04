@@ -1,683 +1,683 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
-import java.util.AbstractQueue;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Queue;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.LockSupport;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Consumer;
+import jbvb.util.AbstrbctQueue;
+import jbvb.util.Collection;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Queue;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.concurrent.locks.LockSupport;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.Consumer;
 
 /**
- * An unbounded {@link TransferQueue} based on linked nodes.
+ * An unbounded {@link TrbnsferQueue} bbsed on linked nodes.
  * This queue orders elements FIFO (first-in-first-out) with respect
- * to any given producer.  The <em>head</em> of the queue is that
- * element that has been on the queue the longest time for some
- * producer.  The <em>tail</em> of the queue is that element that has
+ * to bny given producer.  The <em>hebd</em> of the queue is thbt
+ * element thbt hbs been on the queue the longest time for some
+ * producer.  The <em>tbil</em> of the queue is thbt element thbt hbs
  * been on the queue the shortest time for some producer.
  *
- * <p>Beware that, unlike in most collections, the {@code size} method
- * is <em>NOT</em> a constant-time operation. Because of the
- * asynchronous nature of these queues, determining the current number
- * of elements requires a traversal of the elements, and so may report
- * inaccurate results if this collection is modified during traversal.
- * Additionally, the bulk operations {@code addAll},
- * {@code removeAll}, {@code retainAll}, {@code containsAll},
- * {@code equals}, and {@code toArray} are <em>not</em> guaranteed
- * to be performed atomically. For example, an iterator operating
- * concurrently with an {@code addAll} operation might view only some
- * of the added elements.
+ * <p>Bewbre thbt, unlike in most collections, the {@code size} method
+ * is <em>NOT</em> b constbnt-time operbtion. Becbuse of the
+ * bsynchronous nbture of these queues, determining the current number
+ * of elements requires b trbversbl of the elements, bnd so mby report
+ * inbccurbte results if this collection is modified during trbversbl.
+ * Additionblly, the bulk operbtions {@code bddAll},
+ * {@code removeAll}, {@code retbinAll}, {@code contbinsAll},
+ * {@code equbls}, bnd {@code toArrby} bre <em>not</em> gubrbnteed
+ * to be performed btomicblly. For exbmple, bn iterbtor operbting
+ * concurrently with bn {@code bddAll} operbtion might view only some
+ * of the bdded elements.
  *
- * <p>This class and its iterator implement all of the
- * <em>optional</em> methods of the {@link Collection} and {@link
- * Iterator} interfaces.
+ * <p>This clbss bnd its iterbtor implement bll of the
+ * <em>optionbl</em> methods of the {@link Collection} bnd {@link
+ * Iterbtor} interfbces.
  *
  * <p>Memory consistency effects: As with other concurrent
- * collections, actions in a thread prior to placing an object into a
- * {@code LinkedTransferQueue}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions subsequent to the access or removal of that element from
- * the {@code LinkedTransferQueue} in another thread.
+ * collections, bctions in b threbd prior to plbcing bn object into b
+ * {@code LinkedTrbnsferQueue}
+ * <b href="pbckbge-summbry.html#MemoryVisibility"><i>hbppen-before</i></b>
+ * bctions subsequent to the bccess or removbl of thbt element from
+ * the {@code LinkedTrbnsferQueue} in bnother threbd.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
  * @since 1.7
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @buthor Doug Leb
+ * @pbrbm <E> the type of elements held in this collection
  */
-public class LinkedTransferQueue<E> extends AbstractQueue<E>
-    implements TransferQueue<E>, java.io.Serializable {
-    private static final long serialVersionUID = -3223113410248163686L;
+public clbss LinkedTrbnsferQueue<E> extends AbstrbctQueue<E>
+    implements TrbnsferQueue<E>, jbvb.io.Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = -3223113410248163686L;
 
     /*
-     * *** Overview of Dual Queues with Slack ***
+     * *** Overview of Dubl Queues with Slbck ***
      *
-     * Dual Queues, introduced by Scherer and Scott
-     * (http://www.cs.rice.edu/~wns1/papers/2004-DISC-DDS.pdf) are
-     * (linked) queues in which nodes may represent either data or
-     * requests.  When a thread tries to enqueue a data node, but
-     * encounters a request node, it instead "matches" and removes it;
-     * and vice versa for enqueuing requests. Blocking Dual Queues
-     * arrange that threads enqueuing unmatched requests block until
-     * other threads provide the match. Dual Synchronous Queues (see
-     * Scherer, Lea, & Scott
-     * http://www.cs.rochester.edu/u/scott/papers/2009_Scherer_CACM_SSQ.pdf)
-     * additionally arrange that threads enqueuing unmatched data also
-     * block.  Dual Transfer Queues support all of these modes, as
-     * dictated by callers.
+     * Dubl Queues, introduced by Scherer bnd Scott
+     * (http://www.cs.rice.edu/~wns1/pbpers/2004-DISC-DDS.pdf) bre
+     * (linked) queues in which nodes mby represent either dbtb or
+     * requests.  When b threbd tries to enqueue b dbtb node, but
+     * encounters b request node, it instebd "mbtches" bnd removes it;
+     * bnd vice versb for enqueuing requests. Blocking Dubl Queues
+     * brrbnge thbt threbds enqueuing unmbtched requests block until
+     * other threbds provide the mbtch. Dubl Synchronous Queues (see
+     * Scherer, Leb, & Scott
+     * http://www.cs.rochester.edu/u/scott/pbpers/2009_Scherer_CACM_SSQ.pdf)
+     * bdditionblly brrbnge thbt threbds enqueuing unmbtched dbtb blso
+     * block.  Dubl Trbnsfer Queues support bll of these modes, bs
+     * dictbted by cbllers.
      *
-     * A FIFO dual queue may be implemented using a variation of the
-     * Michael & Scott (M&S) lock-free queue algorithm
-     * (http://www.cs.rochester.edu/u/scott/papers/1996_PODC_queues.pdf).
-     * It maintains two pointer fields, "head", pointing to a
-     * (matched) node that in turn points to the first actual
-     * (unmatched) queue node (or null if empty); and "tail" that
-     * points to the last node on the queue (or again null if
-     * empty). For example, here is a possible queue with four data
+     * A FIFO dubl queue mby be implemented using b vbribtion of the
+     * Michbel & Scott (M&S) lock-free queue blgorithm
+     * (http://www.cs.rochester.edu/u/scott/pbpers/1996_PODC_queues.pdf).
+     * It mbintbins two pointer fields, "hebd", pointing to b
+     * (mbtched) node thbt in turn points to the first bctubl
+     * (unmbtched) queue node (or null if empty); bnd "tbil" thbt
+     * points to the lbst node on the queue (or bgbin null if
+     * empty). For exbmple, here is b possible queue with four dbtb
      * elements:
      *
-     *  head                tail
+     *  hebd                tbil
      *    |                   |
      *    v                   v
      *    M -> U -> U -> U -> U
      *
-     * The M&S queue algorithm is known to be prone to scalability and
-     * overhead limitations when maintaining (via CAS) these head and
-     * tail pointers. This has led to the development of
-     * contention-reducing variants such as elimination arrays (see
-     * Moir et al http://portal.acm.org/citation.cfm?id=1074013) and
-     * optimistic back pointers (see Ladan-Mozes & Shavit
-     * http://people.csail.mit.edu/edya/publications/OptimisticFIFOQueue-journal.pdf).
-     * However, the nature of dual queues enables a simpler tactic for
-     * improving M&S-style implementations when dual-ness is needed.
+     * The M&S queue blgorithm is known to be prone to scblbbility bnd
+     * overhebd limitbtions when mbintbining (vib CAS) these hebd bnd
+     * tbil pointers. This hbs led to the development of
+     * contention-reducing vbribnts such bs eliminbtion brrbys (see
+     * Moir et bl http://portbl.bcm.org/citbtion.cfm?id=1074013) bnd
+     * optimistic bbck pointers (see Lbdbn-Mozes & Shbvit
+     * http://people.csbil.mit.edu/edyb/publicbtions/OptimisticFIFOQueue-journbl.pdf).
+     * However, the nbture of dubl queues enbbles b simpler tbctic for
+     * improving M&S-style implementbtions when dubl-ness is needed.
      *
-     * In a dual queue, each node must atomically maintain its match
-     * status. While there are other possible variants, we implement
-     * this here as: for a data-mode node, matching entails CASing an
-     * "item" field from a non-null data value to null upon match, and
-     * vice-versa for request nodes, CASing from null to a data
-     * value. (Note that the linearization properties of this style of
-     * queue are easy to verify -- elements are made available by
-     * linking, and unavailable by matching.) Compared to plain M&S
-     * queues, this property of dual queues requires one additional
-     * successful atomic operation per enq/deq pair. But it also
-     * enables lower cost variants of queue maintenance mechanics. (A
-     * variation of this idea applies even for non-dual queues that
-     * support deletion of interior elements, such as
+     * In b dubl queue, ebch node must btomicblly mbintbin its mbtch
+     * stbtus. While there bre other possible vbribnts, we implement
+     * this here bs: for b dbtb-mode node, mbtching entbils CASing bn
+     * "item" field from b non-null dbtb vblue to null upon mbtch, bnd
+     * vice-versb for request nodes, CASing from null to b dbtb
+     * vblue. (Note thbt the linebrizbtion properties of this style of
+     * queue bre ebsy to verify -- elements bre mbde bvbilbble by
+     * linking, bnd unbvbilbble by mbtching.) Compbred to plbin M&S
+     * queues, this property of dubl queues requires one bdditionbl
+     * successful btomic operbtion per enq/deq pbir. But it blso
+     * enbbles lower cost vbribnts of queue mbintenbnce mechbnics. (A
+     * vbribtion of this ideb bpplies even for non-dubl queues thbt
+     * support deletion of interior elements, such bs
      * j.u.c.ConcurrentLinkedQueue.)
      *
-     * Once a node is matched, its match status can never again
-     * change.  We may thus arrange that the linked list of them
-     * contain a prefix of zero or more matched nodes, followed by a
-     * suffix of zero or more unmatched nodes. (Note that we allow
-     * both the prefix and suffix to be zero length, which in turn
-     * means that we do not use a dummy header.)  If we were not
-     * concerned with either time or space efficiency, we could
-     * correctly perform enqueue and dequeue operations by traversing
-     * from a pointer to the initial node; CASing the item of the
-     * first unmatched node on match and CASing the next field of the
-     * trailing node on appends. (Plus some special-casing when
-     * initially empty).  While this would be a terrible idea in
-     * itself, it does have the benefit of not requiring ANY atomic
-     * updates on head/tail fields.
+     * Once b node is mbtched, its mbtch stbtus cbn never bgbin
+     * chbnge.  We mby thus brrbnge thbt the linked list of them
+     * contbin b prefix of zero or more mbtched nodes, followed by b
+     * suffix of zero or more unmbtched nodes. (Note thbt we bllow
+     * both the prefix bnd suffix to be zero length, which in turn
+     * mebns thbt we do not use b dummy hebder.)  If we were not
+     * concerned with either time or spbce efficiency, we could
+     * correctly perform enqueue bnd dequeue operbtions by trbversing
+     * from b pointer to the initibl node; CASing the item of the
+     * first unmbtched node on mbtch bnd CASing the next field of the
+     * trbiling node on bppends. (Plus some specibl-cbsing when
+     * initiblly empty).  While this would be b terrible ideb in
+     * itself, it does hbve the benefit of not requiring ANY btomic
+     * updbtes on hebd/tbil fields.
      *
-     * We introduce here an approach that lies between the extremes of
-     * never versus always updating queue (head and tail) pointers.
-     * This offers a tradeoff between sometimes requiring extra
-     * traversal steps to locate the first and/or last unmatched
-     * nodes, versus the reduced overhead and contention of fewer
-     * updates to queue pointers. For example, a possible snapshot of
-     * a queue is:
+     * We introduce here bn bpprobch thbt lies between the extremes of
+     * never versus blwbys updbting queue (hebd bnd tbil) pointers.
+     * This offers b trbdeoff between sometimes requiring extrb
+     * trbversbl steps to locbte the first bnd/or lbst unmbtched
+     * nodes, versus the reduced overhebd bnd contention of fewer
+     * updbtes to queue pointers. For exbmple, b possible snbpshot of
+     * b queue is:
      *
-     *  head           tail
+     *  hebd           tbil
      *    |              |
      *    v              v
      *    M -> M -> U -> U -> U -> U
      *
-     * The best value for this "slack" (the targeted maximum distance
-     * between the value of "head" and the first unmatched node, and
-     * similarly for "tail") is an empirical matter. We have found
-     * that using very small constants in the range of 1-3 work best
-     * over a range of platforms. Larger values introduce increasing
-     * costs of cache misses and risks of long traversal chains, while
-     * smaller values increase CAS contention and overhead.
+     * The best vblue for this "slbck" (the tbrgeted mbximum distbnce
+     * between the vblue of "hebd" bnd the first unmbtched node, bnd
+     * similbrly for "tbil") is bn empiricbl mbtter. We hbve found
+     * thbt using very smbll constbnts in the rbnge of 1-3 work best
+     * over b rbnge of plbtforms. Lbrger vblues introduce increbsing
+     * costs of cbche misses bnd risks of long trbversbl chbins, while
+     * smbller vblues increbse CAS contention bnd overhebd.
      *
-     * Dual queues with slack differ from plain M&S dual queues by
-     * virtue of only sometimes updating head or tail pointers when
-     * matching, appending, or even traversing nodes; in order to
-     * maintain a targeted slack.  The idea of "sometimes" may be
-     * operationalized in several ways. The simplest is to use a
-     * per-operation counter incremented on each traversal step, and
-     * to try (via CAS) to update the associated queue pointer
-     * whenever the count exceeds a threshold. Another, that requires
-     * more overhead, is to use random number generators to update
-     * with a given probability per traversal step.
+     * Dubl queues with slbck differ from plbin M&S dubl queues by
+     * virtue of only sometimes updbting hebd or tbil pointers when
+     * mbtching, bppending, or even trbversing nodes; in order to
+     * mbintbin b tbrgeted slbck.  The ideb of "sometimes" mby be
+     * operbtionblized in severbl wbys. The simplest is to use b
+     * per-operbtion counter incremented on ebch trbversbl step, bnd
+     * to try (vib CAS) to updbte the bssocibted queue pointer
+     * whenever the count exceeds b threshold. Another, thbt requires
+     * more overhebd, is to use rbndom number generbtors to updbte
+     * with b given probbbility per trbversbl step.
      *
-     * In any strategy along these lines, because CASes updating
-     * fields may fail, the actual slack may exceed targeted
-     * slack. However, they may be retried at any time to maintain
-     * targets.  Even when using very small slack values, this
-     * approach works well for dual queues because it allows all
-     * operations up to the point of matching or appending an item
-     * (hence potentially allowing progress by another thread) to be
-     * read-only, thus not introducing any further contention. As
-     * described below, we implement this by performing slack
-     * maintenance retries only after these points.
+     * In bny strbtegy blong these lines, becbuse CASes updbting
+     * fields mby fbil, the bctubl slbck mby exceed tbrgeted
+     * slbck. However, they mby be retried bt bny time to mbintbin
+     * tbrgets.  Even when using very smbll slbck vblues, this
+     * bpprobch works well for dubl queues becbuse it bllows bll
+     * operbtions up to the point of mbtching or bppending bn item
+     * (hence potentiblly bllowing progress by bnother threbd) to be
+     * rebd-only, thus not introducing bny further contention. As
+     * described below, we implement this by performing slbck
+     * mbintenbnce retries only bfter these points.
      *
-     * As an accompaniment to such techniques, traversal overhead can
-     * be further reduced without increasing contention of head
-     * pointer updates: Threads may sometimes shortcut the "next" link
-     * path from the current "head" node to be closer to the currently
-     * known first unmatched node, and similarly for tail. Again, this
-     * may be triggered with using thresholds or randomization.
+     * As bn bccompbniment to such techniques, trbversbl overhebd cbn
+     * be further reduced without increbsing contention of hebd
+     * pointer updbtes: Threbds mby sometimes shortcut the "next" link
+     * pbth from the current "hebd" node to be closer to the currently
+     * known first unmbtched node, bnd similbrly for tbil. Agbin, this
+     * mby be triggered with using thresholds or rbndomizbtion.
      *
-     * These ideas must be further extended to avoid unbounded amounts
-     * of costly-to-reclaim garbage caused by the sequential "next"
-     * links of nodes starting at old forgotten head nodes: As first
-     * described in detail by Boehm
-     * (http://portal.acm.org/citation.cfm?doid=503272.503282) if a GC
-     * delays noticing that any arbitrarily old node has become
-     * garbage, all newer dead nodes will also be unreclaimed.
-     * (Similar issues arise in non-GC environments.)  To cope with
-     * this in our implementation, upon CASing to advance the head
-     * pointer, we set the "next" link of the previous head to point
-     * only to itself; thus limiting the length of connected dead lists.
-     * (We also take similar care to wipe out possibly garbage
-     * retaining values held in other Node fields.)  However, doing so
-     * adds some further complexity to traversal: If any "next"
-     * pointer links to itself, it indicates that the current thread
-     * has lagged behind a head-update, and so the traversal must
-     * continue from the "head".  Traversals trying to find the
-     * current tail starting from "tail" may also encounter
-     * self-links, in which case they also continue at "head".
+     * These idebs must be further extended to bvoid unbounded bmounts
+     * of costly-to-reclbim gbrbbge cbused by the sequentibl "next"
+     * links of nodes stbrting bt old forgotten hebd nodes: As first
+     * described in detbil by Boehm
+     * (http://portbl.bcm.org/citbtion.cfm?doid=503272.503282) if b GC
+     * delbys noticing thbt bny brbitrbrily old node hbs become
+     * gbrbbge, bll newer debd nodes will blso be unreclbimed.
+     * (Similbr issues brise in non-GC environments.)  To cope with
+     * this in our implementbtion, upon CASing to bdvbnce the hebd
+     * pointer, we set the "next" link of the previous hebd to point
+     * only to itself; thus limiting the length of connected debd lists.
+     * (We blso tbke similbr cbre to wipe out possibly gbrbbge
+     * retbining vblues held in other Node fields.)  However, doing so
+     * bdds some further complexity to trbversbl: If bny "next"
+     * pointer links to itself, it indicbtes thbt the current threbd
+     * hbs lbgged behind b hebd-updbte, bnd so the trbversbl must
+     * continue from the "hebd".  Trbversbls trying to find the
+     * current tbil stbrting from "tbil" mby blso encounter
+     * self-links, in which cbse they blso continue bt "hebd".
      *
-     * It is tempting in slack-based scheme to not even use CAS for
-     * updates (similarly to Ladan-Mozes & Shavit). However, this
-     * cannot be done for head updates under the above link-forgetting
-     * mechanics because an update may leave head at a detached node.
-     * And while direct writes are possible for tail updates, they
-     * increase the risk of long retraversals, and hence long garbage
-     * chains, which can be much more costly than is worthwhile
-     * considering that the cost difference of performing a CAS vs
-     * write is smaller when they are not triggered on each operation
-     * (especially considering that writes and CASes equally require
-     * additional GC bookkeeping ("write barriers") that are sometimes
-     * more costly than the writes themselves because of contention).
+     * It is tempting in slbck-bbsed scheme to not even use CAS for
+     * updbtes (similbrly to Lbdbn-Mozes & Shbvit). However, this
+     * cbnnot be done for hebd updbtes under the bbove link-forgetting
+     * mechbnics becbuse bn updbte mby lebve hebd bt b detbched node.
+     * And while direct writes bre possible for tbil updbtes, they
+     * increbse the risk of long retrbversbls, bnd hence long gbrbbge
+     * chbins, which cbn be much more costly thbn is worthwhile
+     * considering thbt the cost difference of performing b CAS vs
+     * write is smbller when they bre not triggered on ebch operbtion
+     * (especiblly considering thbt writes bnd CASes equblly require
+     * bdditionbl GC bookkeeping ("write bbrriers") thbt bre sometimes
+     * more costly thbn the writes themselves becbuse of contention).
      *
-     * *** Overview of implementation ***
+     * *** Overview of implementbtion ***
      *
-     * We use a threshold-based approach to updates, with a slack
-     * threshold of two -- that is, we update head/tail when the
-     * current pointer appears to be two or more steps away from the
-     * first/last node. The slack value is hard-wired: a path greater
-     * than one is naturally implemented by checking equality of
-     * traversal pointers except when the list has only one element,
-     * in which case we keep slack threshold at one. Avoiding tracking
-     * explicit counts across method calls slightly simplifies an
-     * already-messy implementation. Using randomization would
-     * probably work better if there were a low-quality dirt-cheap
-     * per-thread one available, but even ThreadLocalRandom is too
-     * heavy for these purposes.
+     * We use b threshold-bbsed bpprobch to updbtes, with b slbck
+     * threshold of two -- thbt is, we updbte hebd/tbil when the
+     * current pointer bppebrs to be two or more steps bwby from the
+     * first/lbst node. The slbck vblue is hbrd-wired: b pbth grebter
+     * thbn one is nbturblly implemented by checking equblity of
+     * trbversbl pointers except when the list hbs only one element,
+     * in which cbse we keep slbck threshold bt one. Avoiding trbcking
+     * explicit counts bcross method cblls slightly simplifies bn
+     * blrebdy-messy implementbtion. Using rbndomizbtion would
+     * probbbly work better if there were b low-qublity dirt-chebp
+     * per-threbd one bvbilbble, but even ThrebdLocblRbndom is too
+     * hebvy for these purposes.
      *
-     * With such a small slack threshold value, it is not worthwhile
-     * to augment this with path short-circuiting (i.e., unsplicing
-     * interior nodes) except in the case of cancellation/removal (see
+     * With such b smbll slbck threshold vblue, it is not worthwhile
+     * to bugment this with pbth short-circuiting (i.e., unsplicing
+     * interior nodes) except in the cbse of cbncellbtion/removbl (see
      * below).
      *
-     * We allow both the head and tail fields to be null before any
-     * nodes are enqueued; initializing upon first append.  This
-     * simplifies some other logic, as well as providing more
-     * efficient explicit control paths instead of letting JVMs insert
-     * implicit NullPointerExceptions when they are null.  While not
-     * currently fully implemented, we also leave open the possibility
-     * of re-nulling these fields when empty (which is complicated to
-     * arrange, for little benefit.)
+     * We bllow both the hebd bnd tbil fields to be null before bny
+     * nodes bre enqueued; initiblizing upon first bppend.  This
+     * simplifies some other logic, bs well bs providing more
+     * efficient explicit control pbths instebd of letting JVMs insert
+     * implicit NullPointerExceptions when they bre null.  While not
+     * currently fully implemented, we blso lebve open the possibility
+     * of re-nulling these fields when empty (which is complicbted to
+     * brrbnge, for little benefit.)
      *
-     * All enqueue/dequeue operations are handled by the single method
-     * "xfer" with parameters indicating whether to act as some form
-     * of offer, put, poll, take, or transfer (each possibly with
-     * timeout). The relative complexity of using one monolithic
-     * method outweighs the code bulk and maintenance problems of
-     * using separate methods for each case.
+     * All enqueue/dequeue operbtions bre hbndled by the single method
+     * "xfer" with pbrbmeters indicbting whether to bct bs some form
+     * of offer, put, poll, tbke, or trbnsfer (ebch possibly with
+     * timeout). The relbtive complexity of using one monolithic
+     * method outweighs the code bulk bnd mbintenbnce problems of
+     * using sepbrbte methods for ebch cbse.
      *
-     * Operation consists of up to three phases. The first is
-     * implemented within method xfer, the second in tryAppend, and
-     * the third in method awaitMatch.
+     * Operbtion consists of up to three phbses. The first is
+     * implemented within method xfer, the second in tryAppend, bnd
+     * the third in method bwbitMbtch.
      *
-     * 1. Try to match an existing node
+     * 1. Try to mbtch bn existing node
      *
-     *    Starting at head, skip already-matched nodes until finding
-     *    an unmatched node of opposite mode, if one exists, in which
-     *    case matching it and returning, also if necessary updating
-     *    head to one past the matched node (or the node itself if the
-     *    list has no other unmatched nodes). If the CAS misses, then
-     *    a loop retries advancing head by two steps until either
-     *    success or the slack is at most two. By requiring that each
-     *    attempt advances head by two (if applicable), we ensure that
-     *    the slack does not grow without bound. Traversals also check
-     *    if the initial head is now off-list, in which case they
-     *    start at the new head.
+     *    Stbrting bt hebd, skip blrebdy-mbtched nodes until finding
+     *    bn unmbtched node of opposite mode, if one exists, in which
+     *    cbse mbtching it bnd returning, blso if necessbry updbting
+     *    hebd to one pbst the mbtched node (or the node itself if the
+     *    list hbs no other unmbtched nodes). If the CAS misses, then
+     *    b loop retries bdvbncing hebd by two steps until either
+     *    success or the slbck is bt most two. By requiring thbt ebch
+     *    bttempt bdvbnces hebd by two (if bpplicbble), we ensure thbt
+     *    the slbck does not grow without bound. Trbversbls blso check
+     *    if the initibl hebd is now off-list, in which cbse they
+     *    stbrt bt the new hebd.
      *
-     *    If no candidates are found and the call was untimed
-     *    poll/offer, (argument "how" is NOW) return.
+     *    If no cbndidbtes bre found bnd the cbll wbs untimed
+     *    poll/offer, (brgument "how" is NOW) return.
      *
-     * 2. Try to append a new node (method tryAppend)
+     * 2. Try to bppend b new node (method tryAppend)
      *
-     *    Starting at current tail pointer, find the actual last node
-     *    and try to append a new node (or if head was null, establish
-     *    the first node). Nodes can be appended only if their
-     *    predecessors are either already matched or are of the same
-     *    mode. If we detect otherwise, then a new node with opposite
-     *    mode must have been appended during traversal, so we must
-     *    restart at phase 1. The traversal and update steps are
-     *    otherwise similar to phase 1: Retrying upon CAS misses and
-     *    checking for staleness.  In particular, if a self-link is
-     *    encountered, then we can safely jump to a node on the list
-     *    by continuing the traversal at current head.
+     *    Stbrting bt current tbil pointer, find the bctubl lbst node
+     *    bnd try to bppend b new node (or if hebd wbs null, estbblish
+     *    the first node). Nodes cbn be bppended only if their
+     *    predecessors bre either blrebdy mbtched or bre of the sbme
+     *    mode. If we detect otherwise, then b new node with opposite
+     *    mode must hbve been bppended during trbversbl, so we must
+     *    restbrt bt phbse 1. The trbversbl bnd updbte steps bre
+     *    otherwise similbr to phbse 1: Retrying upon CAS misses bnd
+     *    checking for stbleness.  In pbrticulbr, if b self-link is
+     *    encountered, then we cbn sbfely jump to b node on the list
+     *    by continuing the trbversbl bt current hebd.
      *
-     *    On successful append, if the call was ASYNC, return.
+     *    On successful bppend, if the cbll wbs ASYNC, return.
      *
-     * 3. Await match or cancellation (method awaitMatch)
+     * 3. Awbit mbtch or cbncellbtion (method bwbitMbtch)
      *
-     *    Wait for another thread to match node; instead cancelling if
-     *    the current thread was interrupted or the wait timed out. On
-     *    multiprocessors, we use front-of-queue spinning: If a node
-     *    appears to be the first unmatched node in the queue, it
-     *    spins a bit before blocking. In either case, before blocking
-     *    it tries to unsplice any nodes between the current "head"
-     *    and the first unmatched node.
+     *    Wbit for bnother threbd to mbtch node; instebd cbncelling if
+     *    the current threbd wbs interrupted or the wbit timed out. On
+     *    multiprocessors, we use front-of-queue spinning: If b node
+     *    bppebrs to be the first unmbtched node in the queue, it
+     *    spins b bit before blocking. In either cbse, before blocking
+     *    it tries to unsplice bny nodes between the current "hebd"
+     *    bnd the first unmbtched node.
      *
-     *    Front-of-queue spinning vastly improves performance of
-     *    heavily contended queues. And so long as it is relatively
-     *    brief and "quiet", spinning does not much impact performance
-     *    of less-contended queues.  During spins threads check their
-     *    interrupt status and generate a thread-local random number
-     *    to decide to occasionally perform a Thread.yield. While
-     *    yield has underdefined specs, we assume that it might help,
-     *    and will not hurt, in limiting impact of spinning on busy
-     *    systems.  We also use smaller (1/2) spins for nodes that are
-     *    not known to be front but whose predecessors have not
-     *    blocked -- these "chained" spins avoid artifacts of
-     *    front-of-queue rules which otherwise lead to alternating
-     *    nodes spinning vs blocking. Further, front threads that
-     *    represent phase changes (from data to request node or vice
-     *    versa) compared to their predecessors receive additional
-     *    chained spins, reflecting longer paths typically required to
-     *    unblock threads during phase changes.
+     *    Front-of-queue spinning vbstly improves performbnce of
+     *    hebvily contended queues. And so long bs it is relbtively
+     *    brief bnd "quiet", spinning does not much impbct performbnce
+     *    of less-contended queues.  During spins threbds check their
+     *    interrupt stbtus bnd generbte b threbd-locbl rbndom number
+     *    to decide to occbsionblly perform b Threbd.yield. While
+     *    yield hbs underdefined specs, we bssume thbt it might help,
+     *    bnd will not hurt, in limiting impbct of spinning on busy
+     *    systems.  We blso use smbller (1/2) spins for nodes thbt bre
+     *    not known to be front but whose predecessors hbve not
+     *    blocked -- these "chbined" spins bvoid brtifbcts of
+     *    front-of-queue rules which otherwise lebd to blternbting
+     *    nodes spinning vs blocking. Further, front threbds thbt
+     *    represent phbse chbnges (from dbtb to request node or vice
+     *    versb) compbred to their predecessors receive bdditionbl
+     *    chbined spins, reflecting longer pbths typicblly required to
+     *    unblock threbds during phbse chbnges.
      *
      *
      * ** Unlinking removed interior nodes **
      *
-     * In addition to minimizing garbage retention via self-linking
-     * described above, we also unlink removed interior nodes. These
-     * may arise due to timed out or interrupted waits, or calls to
-     * remove(x) or Iterator.remove.  Normally, given a node that was
-     * at one time known to be the predecessor of some node s that is
-     * to be removed, we can unsplice s by CASing the next field of
+     * In bddition to minimizing gbrbbge retention vib self-linking
+     * described bbove, we blso unlink removed interior nodes. These
+     * mby brise due to timed out or interrupted wbits, or cblls to
+     * remove(x) or Iterbtor.remove.  Normblly, given b node thbt wbs
+     * bt one time known to be the predecessor of some node s thbt is
+     * to be removed, we cbn unsplice s by CASing the next field of
      * its predecessor if it still points to s (otherwise s must
-     * already have been removed or is now offlist). But there are two
-     * situations in which we cannot guarantee to make node s
-     * unreachable in this way: (1) If s is the trailing node of list
-     * (i.e., with null next), then it is pinned as the target node
-     * for appends, so can only be removed later after other nodes are
-     * appended. (2) We cannot necessarily unlink s given a
-     * predecessor node that is matched (including the case of being
-     * cancelled): the predecessor may already be unspliced, in which
-     * case some previous reachable node may still point to s.
-     * (For further explanation see Herlihy & Shavit "The Art of
-     * Multiprocessor Programming" chapter 9).  Although, in both
-     * cases, we can rule out the need for further action if either s
-     * or its predecessor are (or can be made to be) at, or fall off
-     * from, the head of list.
+     * blrebdy hbve been removed or is now offlist). But there bre two
+     * situbtions in which we cbnnot gubrbntee to mbke node s
+     * unrebchbble in this wby: (1) If s is the trbiling node of list
+     * (i.e., with null next), then it is pinned bs the tbrget node
+     * for bppends, so cbn only be removed lbter bfter other nodes bre
+     * bppended. (2) We cbnnot necessbrily unlink s given b
+     * predecessor node thbt is mbtched (including the cbse of being
+     * cbncelled): the predecessor mby blrebdy be unspliced, in which
+     * cbse some previous rebchbble node mby still point to s.
+     * (For further explbnbtion see Herlihy & Shbvit "The Art of
+     * Multiprocessor Progrbmming" chbpter 9).  Although, in both
+     * cbses, we cbn rule out the need for further bction if either s
+     * or its predecessor bre (or cbn be mbde to be) bt, or fbll off
+     * from, the hebd of list.
      *
-     * Without taking these into account, it would be possible for an
-     * unbounded number of supposedly removed nodes to remain
-     * reachable.  Situations leading to such buildup are uncommon but
-     * can occur in practice; for example when a series of short timed
-     * calls to poll repeatedly time out but never otherwise fall off
-     * the list because of an untimed call to take at the front of the
+     * Without tbking these into bccount, it would be possible for bn
+     * unbounded number of supposedly removed nodes to rembin
+     * rebchbble.  Situbtions lebding to such buildup bre uncommon but
+     * cbn occur in prbctice; for exbmple when b series of short timed
+     * cblls to poll repebtedly time out but never otherwise fbll off
+     * the list becbuse of bn untimed cbll to tbke bt the front of the
      * queue.
      *
-     * When these cases arise, rather than always retraversing the
-     * entire list to find an actual predecessor to unlink (which
-     * won't help for case (1) anyway), we record a conservative
-     * estimate of possible unsplice failures (in "sweepVotes").
-     * We trigger a full sweep when the estimate exceeds a threshold
-     * ("SWEEP_THRESHOLD") indicating the maximum number of estimated
-     * removal failures to tolerate before sweeping through, unlinking
-     * cancelled nodes that were not unlinked upon initial removal.
-     * We perform sweeps by the thread hitting threshold (rather than
-     * background threads or by spreading work to other threads)
-     * because in the main contexts in which removal occurs, the
-     * caller is already timed-out, cancelled, or performing a
-     * potentially O(n) operation (e.g. remove(x)), none of which are
-     * time-critical enough to warrant the overhead that alternatives
-     * would impose on other threads.
+     * When these cbses brise, rbther thbn blwbys retrbversing the
+     * entire list to find bn bctubl predecessor to unlink (which
+     * won't help for cbse (1) bnywby), we record b conservbtive
+     * estimbte of possible unsplice fbilures (in "sweepVotes").
+     * We trigger b full sweep when the estimbte exceeds b threshold
+     * ("SWEEP_THRESHOLD") indicbting the mbximum number of estimbted
+     * removbl fbilures to tolerbte before sweeping through, unlinking
+     * cbncelled nodes thbt were not unlinked upon initibl removbl.
+     * We perform sweeps by the threbd hitting threshold (rbther thbn
+     * bbckground threbds or by sprebding work to other threbds)
+     * becbuse in the mbin contexts in which removbl occurs, the
+     * cbller is blrebdy timed-out, cbncelled, or performing b
+     * potentiblly O(n) operbtion (e.g. remove(x)), none of which bre
+     * time-criticbl enough to wbrrbnt the overhebd thbt blternbtives
+     * would impose on other threbds.
      *
-     * Because the sweepVotes estimate is conservative, and because
-     * nodes become unlinked "naturally" as they fall off the head of
-     * the queue, and because we allow votes to accumulate even while
-     * sweeps are in progress, there are typically significantly fewer
-     * such nodes than estimated.  Choice of a threshold value
-     * balances the likelihood of wasted effort and contention, versus
-     * providing a worst-case bound on retention of interior nodes in
-     * quiescent queues. The value defined below was chosen
-     * empirically to balance these under various timeout scenarios.
+     * Becbuse the sweepVotes estimbte is conservbtive, bnd becbuse
+     * nodes become unlinked "nbturblly" bs they fbll off the hebd of
+     * the queue, bnd becbuse we bllow votes to bccumulbte even while
+     * sweeps bre in progress, there bre typicblly significbntly fewer
+     * such nodes thbn estimbted.  Choice of b threshold vblue
+     * bblbnces the likelihood of wbsted effort bnd contention, versus
+     * providing b worst-cbse bound on retention of interior nodes in
+     * quiescent queues. The vblue defined below wbs chosen
+     * empiricblly to bblbnce these under vbrious timeout scenbrios.
      *
-     * Note that we cannot self-link unlinked interior nodes during
-     * sweeps. However, the associated garbage chains terminate when
-     * some successor ultimately falls off the head of the list and is
+     * Note thbt we cbnnot self-link unlinked interior nodes during
+     * sweeps. However, the bssocibted gbrbbge chbins terminbte when
+     * some successor ultimbtely fblls off the hebd of the list bnd is
      * self-linked.
      */
 
     /** True if on multiprocessor */
-    private static final boolean MP =
-        Runtime.getRuntime().availableProcessors() > 1;
+    privbte stbtic finbl boolebn MP =
+        Runtime.getRuntime().bvbilbbleProcessors() > 1;
 
     /**
-     * The number of times to spin (with randomly interspersed calls
-     * to Thread.yield) on multiprocessor before blocking when a node
-     * is apparently the first waiter in the queue.  See above for
-     * explanation. Must be a power of two. The value is empirically
-     * derived -- it works pretty well across a variety of processors,
-     * numbers of CPUs, and OSes.
+     * The number of times to spin (with rbndomly interspersed cblls
+     * to Threbd.yield) on multiprocessor before blocking when b node
+     * is bppbrently the first wbiter in the queue.  See bbove for
+     * explbnbtion. Must be b power of two. The vblue is empiricblly
+     * derived -- it works pretty well bcross b vbriety of processors,
+     * numbers of CPUs, bnd OSes.
      */
-    private static final int FRONT_SPINS   = 1 << 7;
+    privbte stbtic finbl int FRONT_SPINS   = 1 << 7;
 
     /**
-     * The number of times to spin before blocking when a node is
-     * preceded by another node that is apparently spinning.  Also
-     * serves as an increment to FRONT_SPINS on phase changes, and as
-     * base average frequency for yielding during spins. Must be a
+     * The number of times to spin before blocking when b node is
+     * preceded by bnother node thbt is bppbrently spinning.  Also
+     * serves bs bn increment to FRONT_SPINS on phbse chbnges, bnd bs
+     * bbse bverbge frequency for yielding during spins. Must be b
      * power of two.
      */
-    private static final int CHAINED_SPINS = FRONT_SPINS >>> 1;
+    privbte stbtic finbl int CHAINED_SPINS = FRONT_SPINS >>> 1;
 
     /**
-     * The maximum number of estimated removal failures (sweepVotes)
-     * to tolerate before sweeping through the queue unlinking
-     * cancelled nodes that were not unlinked upon initial
-     * removal. See above for explanation. The value must be at least
-     * two to avoid useless sweeps when removing trailing nodes.
+     * The mbximum number of estimbted removbl fbilures (sweepVotes)
+     * to tolerbte before sweeping through the queue unlinking
+     * cbncelled nodes thbt were not unlinked upon initibl
+     * removbl. See bbove for explbnbtion. The vblue must be bt lebst
+     * two to bvoid useless sweeps when removing trbiling nodes.
      */
-    static final int SWEEP_THRESHOLD = 32;
+    stbtic finbl int SWEEP_THRESHOLD = 32;
 
     /**
-     * Queue nodes. Uses Object, not E, for items to allow forgetting
-     * them after use.  Relies heavily on Unsafe mechanics to minimize
-     * unnecessary ordering constraints: Writes that are intrinsically
-     * ordered wrt other accesses or CASes use simple relaxed forms.
+     * Queue nodes. Uses Object, not E, for items to bllow forgetting
+     * them bfter use.  Relies hebvily on Unsbfe mechbnics to minimize
+     * unnecessbry ordering constrbints: Writes thbt bre intrinsicblly
+     * ordered wrt other bccesses or CASes use simple relbxed forms.
      */
-    static final class Node {
-        final boolean isData;   // false if this is a request node
-        volatile Object item;   // initially non-null if isData; CASed to match
-        volatile Node next;
-        volatile Thread waiter; // null until waiting
+    stbtic finbl clbss Node {
+        finbl boolebn isDbtb;   // fblse if this is b request node
+        volbtile Object item;   // initiblly non-null if isDbtb; CASed to mbtch
+        volbtile Node next;
+        volbtile Threbd wbiter; // null until wbiting
 
         // CAS methods for fields
-        final boolean casNext(Node cmp, Node val) {
-            return UNSAFE.compareAndSwapObject(this, nextOffset, cmp, val);
+        finbl boolebn cbsNext(Node cmp, Node vbl) {
+            return UNSAFE.compbreAndSwbpObject(this, nextOffset, cmp, vbl);
         }
 
-        final boolean casItem(Object cmp, Object val) {
-            // assert cmp == null || cmp.getClass() != Node.class;
-            return UNSAFE.compareAndSwapObject(this, itemOffset, cmp, val);
-        }
-
-        /**
-         * Constructs a new node.  Uses relaxed write because item can
-         * only be seen after publication via casNext.
-         */
-        Node(Object item, boolean isData) {
-            UNSAFE.putObject(this, itemOffset, item); // relaxed write
-            this.isData = isData;
+        finbl boolebn cbsItem(Object cmp, Object vbl) {
+            // bssert cmp == null || cmp.getClbss() != Node.clbss;
+            return UNSAFE.compbreAndSwbpObject(this, itemOffset, cmp, vbl);
         }
 
         /**
-         * Links node to itself to avoid garbage retention.  Called
-         * only after CASing head field, so uses relaxed write.
+         * Constructs b new node.  Uses relbxed write becbuse item cbn
+         * only be seen bfter publicbtion vib cbsNext.
          */
-        final void forgetNext() {
+        Node(Object item, boolebn isDbtb) {
+            UNSAFE.putObject(this, itemOffset, item); // relbxed write
+            this.isDbtb = isDbtb;
+        }
+
+        /**
+         * Links node to itself to bvoid gbrbbge retention.  Cblled
+         * only bfter CASing hebd field, so uses relbxed write.
+         */
+        finbl void forgetNext() {
             UNSAFE.putObject(this, nextOffset, this);
         }
 
         /**
-         * Sets item to self and waiter to null, to avoid garbage
-         * retention after matching or cancelling. Uses relaxed writes
-         * because order is already constrained in the only calling
-         * contexts: item is forgotten only after volatile/atomic
-         * mechanics that extract items.  Similarly, clearing waiter
-         * follows either CAS or return from park (if ever parked;
-         * else we don't care).
+         * Sets item to self bnd wbiter to null, to bvoid gbrbbge
+         * retention bfter mbtching or cbncelling. Uses relbxed writes
+         * becbuse order is blrebdy constrbined in the only cblling
+         * contexts: item is forgotten only bfter volbtile/btomic
+         * mechbnics thbt extrbct items.  Similbrly, clebring wbiter
+         * follows either CAS or return from pbrk (if ever pbrked;
+         * else we don't cbre).
          */
-        final void forgetContents() {
+        finbl void forgetContents() {
             UNSAFE.putObject(this, itemOffset, this);
-            UNSAFE.putObject(this, waiterOffset, null);
+            UNSAFE.putObject(this, wbiterOffset, null);
         }
 
         /**
-         * Returns true if this node has been matched, including the
-         * case of artificial matches due to cancellation.
+         * Returns true if this node hbs been mbtched, including the
+         * cbse of brtificibl mbtches due to cbncellbtion.
          */
-        final boolean isMatched() {
+        finbl boolebn isMbtched() {
             Object x = item;
-            return (x == this) || ((x == null) == isData);
+            return (x == this) || ((x == null) == isDbtb);
         }
 
         /**
-         * Returns true if this is an unmatched request node.
+         * Returns true if this is bn unmbtched request node.
          */
-        final boolean isUnmatchedRequest() {
-            return !isData && item == null;
+        finbl boolebn isUnmbtchedRequest() {
+            return !isDbtb && item == null;
         }
 
         /**
-         * Returns true if a node with the given mode cannot be
-         * appended to this node because this node is unmatched and
-         * has opposite data mode.
+         * Returns true if b node with the given mode cbnnot be
+         * bppended to this node becbuse this node is unmbtched bnd
+         * hbs opposite dbtb mode.
          */
-        final boolean cannotPrecede(boolean haveData) {
-            boolean d = isData;
+        finbl boolebn cbnnotPrecede(boolebn hbveDbtb) {
+            boolebn d = isDbtb;
             Object x;
-            return d != haveData && (x = item) != this && (x != null) == d;
+            return d != hbveDbtb && (x = item) != this && (x != null) == d;
         }
 
         /**
-         * Tries to artificially match a data node -- used by remove.
+         * Tries to brtificiblly mbtch b dbtb node -- used by remove.
          */
-        final boolean tryMatchData() {
-            // assert isData;
+        finbl boolebn tryMbtchDbtb() {
+            // bssert isDbtb;
             Object x = item;
-            if (x != null && x != this && casItem(x, null)) {
-                LockSupport.unpark(waiter);
+            if (x != null && x != this && cbsItem(x, null)) {
+                LockSupport.unpbrk(wbiter);
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        private static final long serialVersionUID = -3375979862319811754L;
+        privbte stbtic finbl long seriblVersionUID = -3375979862319811754L;
 
-        // Unsafe mechanics
-        private static final sun.misc.Unsafe UNSAFE;
-        private static final long itemOffset;
-        private static final long nextOffset;
-        private static final long waiterOffset;
-        static {
+        // Unsbfe mechbnics
+        privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+        privbte stbtic finbl long itemOffset;
+        privbte stbtic finbl long nextOffset;
+        privbte stbtic finbl long wbiterOffset;
+        stbtic {
             try {
-                UNSAFE = sun.misc.Unsafe.getUnsafe();
-                Class<?> k = Node.class;
+                UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+                Clbss<?> k = Node.clbss;
                 itemOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("item"));
+                    (k.getDeclbredField("item"));
                 nextOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("next"));
-                waiterOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("waiter"));
-            } catch (Exception e) {
+                    (k.getDeclbredField("next"));
+                wbiterOffset = UNSAFE.objectFieldOffset
+                    (k.getDeclbredField("wbiter"));
+            } cbtch (Exception e) {
                 throw new Error(e);
             }
         }
     }
 
-    /** head of the queue; null until first enqueue */
-    transient volatile Node head;
+    /** hebd of the queue; null until first enqueue */
+    trbnsient volbtile Node hebd;
 
-    /** tail of the queue; null until first append */
-    private transient volatile Node tail;
+    /** tbil of the queue; null until first bppend */
+    privbte trbnsient volbtile Node tbil;
 
-    /** The number of apparent failures to unsplice removed nodes */
-    private transient volatile int sweepVotes;
+    /** The number of bppbrent fbilures to unsplice removed nodes */
+    privbte trbnsient volbtile int sweepVotes;
 
     // CAS methods for fields
-    private boolean casTail(Node cmp, Node val) {
-        return UNSAFE.compareAndSwapObject(this, tailOffset, cmp, val);
+    privbte boolebn cbsTbil(Node cmp, Node vbl) {
+        return UNSAFE.compbreAndSwbpObject(this, tbilOffset, cmp, vbl);
     }
 
-    private boolean casHead(Node cmp, Node val) {
-        return UNSAFE.compareAndSwapObject(this, headOffset, cmp, val);
+    privbte boolebn cbsHebd(Node cmp, Node vbl) {
+        return UNSAFE.compbreAndSwbpObject(this, hebdOffset, cmp, vbl);
     }
 
-    private boolean casSweepVotes(int cmp, int val) {
-        return UNSAFE.compareAndSwapInt(this, sweepVotesOffset, cmp, val);
+    privbte boolebn cbsSweepVotes(int cmp, int vbl) {
+        return UNSAFE.compbreAndSwbpInt(this, sweepVotesOffset, cmp, vbl);
     }
 
     /*
-     * Possible values for "how" argument in xfer method.
+     * Possible vblues for "how" brgument in xfer method.
      */
-    private static final int NOW   = 0; // for untimed poll, tryTransfer
-    private static final int ASYNC = 1; // for offer, put, add
-    private static final int SYNC  = 2; // for transfer, take
-    private static final int TIMED = 3; // for timed poll, tryTransfer
+    privbte stbtic finbl int NOW   = 0; // for untimed poll, tryTrbnsfer
+    privbte stbtic finbl int ASYNC = 1; // for offer, put, bdd
+    privbte stbtic finbl int SYNC  = 2; // for trbnsfer, tbke
+    privbte stbtic finbl int TIMED = 3; // for timed poll, tryTrbnsfer
 
-    @SuppressWarnings("unchecked")
-    static <E> E cast(Object item) {
-        // assert item == null || item.getClass() != Node.class;
+    @SuppressWbrnings("unchecked")
+    stbtic <E> E cbst(Object item) {
+        // bssert item == null || item.getClbss() != Node.clbss;
         return (E) item;
     }
 
     /**
-     * Implements all queuing methods. See above for explanation.
+     * Implements bll queuing methods. See bbove for explbnbtion.
      *
-     * @param e the item or null for take
-     * @param haveData true if this is a put, else a take
-     * @param how NOW, ASYNC, SYNC, or TIMED
-     * @param nanos timeout in nanosecs, used only if mode is TIMED
-     * @return an item if matched, else e
-     * @throws NullPointerException if haveData mode but e is null
+     * @pbrbm e the item or null for tbke
+     * @pbrbm hbveDbtb true if this is b put, else b tbke
+     * @pbrbm how NOW, ASYNC, SYNC, or TIMED
+     * @pbrbm nbnos timeout in nbnosecs, used only if mode is TIMED
+     * @return bn item if mbtched, else e
+     * @throws NullPointerException if hbveDbtb mode but e is null
      */
-    private E xfer(E e, boolean haveData, int how, long nanos) {
-        if (haveData && (e == null))
+    privbte E xfer(E e, boolebn hbveDbtb, int how, long nbnos) {
+        if (hbveDbtb && (e == null))
             throw new NullPointerException();
-        Node s = null;                        // the node to append, if needed
+        Node s = null;                        // the node to bppend, if needed
 
         retry:
-        for (;;) {                            // restart on append race
+        for (;;) {                            // restbrt on bppend rbce
 
-            for (Node h = head, p = h; p != null;) { // find & match first node
-                boolean isData = p.isData;
+            for (Node h = hebd, p = h; p != null;) { // find & mbtch first node
+                boolebn isDbtb = p.isDbtb;
                 Object item = p.item;
-                if (item != p && (item != null) == isData) { // unmatched
-                    if (isData == haveData)   // can't match
-                        break;
-                    if (p.casItem(item, e)) { // match
+                if (item != p && (item != null) == isDbtb) { // unmbtched
+                    if (isDbtb == hbveDbtb)   // cbn't mbtch
+                        brebk;
+                    if (p.cbsItem(item, e)) { // mbtch
                         for (Node q = p; q != h;) {
-                            Node n = q.next;  // update by 2 unless singleton
-                            if (head == h && casHead(h, n == null ? q : n)) {
+                            Node n = q.next;  // updbte by 2 unless singleton
+                            if (hebd == h && cbsHebd(h, n == null ? q : n)) {
                                 h.forgetNext();
-                                break;
-                            }                 // advance and retry
-                            if ((h = head)   == null ||
-                                (q = h.next) == null || !q.isMatched())
-                                break;        // unless slack < 2
+                                brebk;
+                            }                 // bdvbnce bnd retry
+                            if ((h = hebd)   == null ||
+                                (q = h.next) == null || !q.isMbtched())
+                                brebk;        // unless slbck < 2
                         }
-                        LockSupport.unpark(p.waiter);
-                        return LinkedTransferQueue.<E>cast(item);
+                        LockSupport.unpbrk(p.wbiter);
+                        return LinkedTrbnsferQueue.<E>cbst(item);
                     }
                 }
                 Node n = p.next;
-                p = (p != n) ? n : (h = head); // Use head if p offlist
+                p = (p != n) ? n : (h = hebd); // Use hebd if p offlist
             }
 
-            if (how != NOW) {                 // No matches available
+            if (how != NOW) {                 // No mbtches bvbilbble
                 if (s == null)
-                    s = new Node(e, haveData);
-                Node pred = tryAppend(s, haveData);
+                    s = new Node(e, hbveDbtb);
+                Node pred = tryAppend(s, hbveDbtb);
                 if (pred == null)
-                    continue retry;           // lost race vs opposite mode
+                    continue retry;           // lost rbce vs opposite mode
                 if (how != ASYNC)
-                    return awaitMatch(s, pred, e, (how == TIMED), nanos);
+                    return bwbitMbtch(s, pred, e, (how == TIMED), nbnos);
             }
-            return e; // not waiting
+            return e; // not wbiting
         }
     }
 
     /**
-     * Tries to append node s as tail.
+     * Tries to bppend node s bs tbil.
      *
-     * @param s the node to append
-     * @param haveData true if appending in data mode
-     * @return null on failure due to losing race with append in
+     * @pbrbm s the node to bppend
+     * @pbrbm hbveDbtb true if bppending in dbtb mode
+     * @return null on fbilure due to losing rbce with bppend in
      * different mode, else s's predecessor, or s itself if no
      * predecessor
      */
-    private Node tryAppend(Node s, boolean haveData) {
-        for (Node t = tail, p = t;;) {        // move p to last node and append
-            Node n, u;                        // temps for reads of next & tail
-            if (p == null && (p = head) == null) {
-                if (casHead(null, s))
-                    return s;                 // initialize
+    privbte Node tryAppend(Node s, boolebn hbveDbtb) {
+        for (Node t = tbil, p = t;;) {        // move p to lbst node bnd bppend
+            Node n, u;                        // temps for rebds of next & tbil
+            if (p == null && (p = hebd) == null) {
+                if (cbsHebd(null, s))
+                    return s;                 // initiblize
             }
-            else if (p.cannotPrecede(haveData))
-                return null;                  // lost race vs opposite mode
-            else if ((n = p.next) != null)    // not last; keep traversing
-                p = p != t && t != (u = tail) ? (t = u) : // stale tail
-                    (p != n) ? n : null;      // restart if off list
-            else if (!p.casNext(null, s))
-                p = p.next;                   // re-read on CAS failure
+            else if (p.cbnnotPrecede(hbveDbtb))
+                return null;                  // lost rbce vs opposite mode
+            else if ((n = p.next) != null)    // not lbst; keep trbversing
+                p = p != t && t != (u = tbil) ? (t = u) : // stble tbil
+                    (p != n) ? n : null;      // restbrt if off list
+            else if (!p.cbsNext(null, s))
+                p = p.next;                   // re-rebd on CAS fbilure
             else {
-                if (p != t) {                 // update if slack now >= 2
-                    while ((tail != t || !casTail(t, s)) &&
-                           (t = tail)   != null &&
-                           (s = t.next) != null && // advance and retry
+                if (p != t) {                 // updbte if slbck now >= 2
+                    while ((tbil != t || !cbsTbil(t, s)) &&
+                           (t = tbil)   != null &&
+                           (s = t.next) != null && // bdvbnce bnd retry
                            (s = s.next) != null && s != t);
                 }
                 return p;
@@ -686,127 +686,127 @@ public class LinkedTransferQueue<E> extends AbstractQueue<E>
     }
 
     /**
-     * Spins/yields/blocks until node s is matched or caller gives up.
+     * Spins/yields/blocks until node s is mbtched or cbller gives up.
      *
-     * @param s the waiting node
-     * @param pred the predecessor of s, or s itself if it has no
-     * predecessor, or null if unknown (the null case does not occur
-     * in any current calls but may in possible future extensions)
-     * @param e the comparison value for checking match
-     * @param timed if true, wait only until timeout elapses
-     * @param nanos timeout in nanosecs, used only if timed is true
-     * @return matched item, or e if unmatched on interrupt or timeout
+     * @pbrbm s the wbiting node
+     * @pbrbm pred the predecessor of s, or s itself if it hbs no
+     * predecessor, or null if unknown (the null cbse does not occur
+     * in bny current cblls but mby in possible future extensions)
+     * @pbrbm e the compbrison vblue for checking mbtch
+     * @pbrbm timed if true, wbit only until timeout elbpses
+     * @pbrbm nbnos timeout in nbnosecs, used only if timed is true
+     * @return mbtched item, or e if unmbtched on interrupt or timeout
      */
-    private E awaitMatch(Node s, Node pred, E e, boolean timed, long nanos) {
-        final long deadline = timed ? System.nanoTime() + nanos : 0L;
-        Thread w = Thread.currentThread();
-        int spins = -1; // initialized after first item and cancel checks
-        ThreadLocalRandom randomYields = null; // bound if needed
+    privbte E bwbitMbtch(Node s, Node pred, E e, boolebn timed, long nbnos) {
+        finbl long debdline = timed ? System.nbnoTime() + nbnos : 0L;
+        Threbd w = Threbd.currentThrebd();
+        int spins = -1; // initiblized bfter first item bnd cbncel checks
+        ThrebdLocblRbndom rbndomYields = null; // bound if needed
 
         for (;;) {
             Object item = s.item;
-            if (item != e) {                  // matched
-                // assert item != s;
-                s.forgetContents();           // avoid garbage
-                return LinkedTransferQueue.<E>cast(item);
+            if (item != e) {                  // mbtched
+                // bssert item != s;
+                s.forgetContents();           // bvoid gbrbbge
+                return LinkedTrbnsferQueue.<E>cbst(item);
             }
-            if ((w.isInterrupted() || (timed && nanos <= 0)) &&
-                    s.casItem(e, s)) {        // cancel
+            if ((w.isInterrupted() || (timed && nbnos <= 0)) &&
+                    s.cbsItem(e, s)) {        // cbncel
                 unsplice(pred, s);
                 return e;
             }
 
-            if (spins < 0) {                  // establish spins at/near front
-                if ((spins = spinsFor(pred, s.isData)) > 0)
-                    randomYields = ThreadLocalRandom.current();
+            if (spins < 0) {                  // estbblish spins bt/nebr front
+                if ((spins = spinsFor(pred, s.isDbtb)) > 0)
+                    rbndomYields = ThrebdLocblRbndom.current();
             }
             else if (spins > 0) {             // spin
                 --spins;
-                if (randomYields.nextInt(CHAINED_SPINS) == 0)
-                    Thread.yield();           // occasionally yield
+                if (rbndomYields.nextInt(CHAINED_SPINS) == 0)
+                    Threbd.yield();           // occbsionblly yield
             }
-            else if (s.waiter == null) {
-                s.waiter = w;                 // request unpark then recheck
+            else if (s.wbiter == null) {
+                s.wbiter = w;                 // request unpbrk then recheck
             }
             else if (timed) {
-                nanos = deadline - System.nanoTime();
-                if (nanos > 0L)
-                    LockSupport.parkNanos(this, nanos);
+                nbnos = debdline - System.nbnoTime();
+                if (nbnos > 0L)
+                    LockSupport.pbrkNbnos(this, nbnos);
             }
             else {
-                LockSupport.park(this);
+                LockSupport.pbrk(this);
             }
         }
     }
 
     /**
-     * Returns spin/yield value for a node with given predecessor and
-     * data mode. See above for explanation.
+     * Returns spin/yield vblue for b node with given predecessor bnd
+     * dbtb mode. See bbove for explbnbtion.
      */
-    private static int spinsFor(Node pred, boolean haveData) {
+    privbte stbtic int spinsFor(Node pred, boolebn hbveDbtb) {
         if (MP && pred != null) {
-            if (pred.isData != haveData)      // phase change
+            if (pred.isDbtb != hbveDbtb)      // phbse chbnge
                 return FRONT_SPINS + CHAINED_SPINS;
-            if (pred.isMatched())             // probably at front
+            if (pred.isMbtched())             // probbbly bt front
                 return FRONT_SPINS;
-            if (pred.waiter == null)          // pred apparently spinning
+            if (pred.wbiter == null)          // pred bppbrently spinning
                 return CHAINED_SPINS;
         }
         return 0;
     }
 
-    /* -------------- Traversal methods -------------- */
+    /* -------------- Trbversbl methods -------------- */
 
     /**
-     * Returns the successor of p, or the head node if p.next has been
-     * linked to self, which will only be true if traversing with a
-     * stale pointer that is now off the list.
+     * Returns the successor of p, or the hebd node if p.next hbs been
+     * linked to self, which will only be true if trbversing with b
+     * stble pointer thbt is now off the list.
      */
-    final Node succ(Node p) {
+    finbl Node succ(Node p) {
         Node next = p.next;
-        return (p == next) ? head : next;
+        return (p == next) ? hebd : next;
     }
 
     /**
-     * Returns the first unmatched node of the given mode, or null if
-     * none.  Used by methods isEmpty, hasWaitingConsumer.
+     * Returns the first unmbtched node of the given mode, or null if
+     * none.  Used by methods isEmpty, hbsWbitingConsumer.
      */
-    private Node firstOfMode(boolean isData) {
-        for (Node p = head; p != null; p = succ(p)) {
-            if (!p.isMatched())
-                return (p.isData == isData) ? p : null;
+    privbte Node firstOfMode(boolebn isDbtb) {
+        for (Node p = hebd; p != null; p = succ(p)) {
+            if (!p.isMbtched())
+                return (p.isDbtb == isDbtb) ? p : null;
         }
         return null;
     }
 
     /**
-     * Version of firstOfMode used by Spliterator
+     * Version of firstOfMode used by Spliterbtor
      */
-    final Node firstDataNode() {
-        for (Node p = head; p != null;) {
+    finbl Node firstDbtbNode() {
+        for (Node p = hebd; p != null;) {
             Object item = p.item;
-            if (p.isData) {
+            if (p.isDbtb) {
                 if (item != null && item != p)
                     return p;
             }
             else if (item == null)
-                break;
+                brebk;
             if (p == (p = p.next))
-                p = head;
+                p = hebd;
         }
         return null;
     }
 
     /**
-     * Returns the item in the first unmatched node with isData; or
+     * Returns the item in the first unmbtched node with isDbtb; or
      * null if none.  Used by peek.
      */
-    private E firstDataItem() {
-        for (Node p = head; p != null; p = succ(p)) {
+    privbte E firstDbtbItem() {
+        for (Node p = hebd; p != null; p = succ(p)) {
             Object item = p.item;
-            if (p.isData) {
+            if (p.isDbtb) {
                 if (item != null && item != p)
-                    return LinkedTransferQueue.<E>cast(item);
+                    return LinkedTrbnsferQueue.<E>cbst(item);
             }
             else if (item == null)
                 return null;
@@ -815,275 +815,275 @@ public class LinkedTransferQueue<E> extends AbstractQueue<E>
     }
 
     /**
-     * Traverses and counts unmatched nodes of the given mode.
-     * Used by methods size and getWaitingConsumerCount.
+     * Trbverses bnd counts unmbtched nodes of the given mode.
+     * Used by methods size bnd getWbitingConsumerCount.
      */
-    private int countOfMode(boolean data) {
+    privbte int countOfMode(boolebn dbtb) {
         int count = 0;
-        for (Node p = head; p != null; ) {
-            if (!p.isMatched()) {
-                if (p.isData != data)
+        for (Node p = hebd; p != null; ) {
+            if (!p.isMbtched()) {
+                if (p.isDbtb != dbtb)
                     return 0;
-                if (++count == Integer.MAX_VALUE) // saturated
-                    break;
+                if (++count == Integer.MAX_VALUE) // sbturbted
+                    brebk;
             }
             Node n = p.next;
             if (n != p)
                 p = n;
             else {
                 count = 0;
-                p = head;
+                p = hebd;
             }
         }
         return count;
     }
 
-    final class Itr implements Iterator<E> {
-        private Node nextNode;   // next node to return item for
-        private E nextItem;      // the corresponding item
-        private Node lastRet;    // last returned node, to support remove
-        private Node lastPred;   // predecessor to unlink lastRet
+    finbl clbss Itr implements Iterbtor<E> {
+        privbte Node nextNode;   // next node to return item for
+        privbte E nextItem;      // the corresponding item
+        privbte Node lbstRet;    // lbst returned node, to support remove
+        privbte Node lbstPred;   // predecessor to unlink lbstRet
 
         /**
-         * Moves to next node after prev, or first node if prev null.
+         * Moves to next node bfter prev, or first node if prev null.
          */
-        private void advance(Node prev) {
+        privbte void bdvbnce(Node prev) {
             /*
-             * To track and avoid buildup of deleted nodes in the face
-             * of calls to both Queue.remove and Itr.remove, we must
-             * include variants of unsplice and sweep upon each
-             * advance: Upon Itr.remove, we may need to catch up links
-             * from lastPred, and upon other removes, we might need to
-             * skip ahead from stale nodes and unsplice deleted ones
-             * found while advancing.
+             * To trbck bnd bvoid buildup of deleted nodes in the fbce
+             * of cblls to both Queue.remove bnd Itr.remove, we must
+             * include vbribnts of unsplice bnd sweep upon ebch
+             * bdvbnce: Upon Itr.remove, we mby need to cbtch up links
+             * from lbstPred, bnd upon other removes, we might need to
+             * skip bhebd from stble nodes bnd unsplice deleted ones
+             * found while bdvbncing.
              */
 
-            Node r, b; // reset lastPred upon possible deletion of lastRet
-            if ((r = lastRet) != null && !r.isMatched())
-                lastPred = r;    // next lastPred is old lastRet
-            else if ((b = lastPred) == null || b.isMatched())
-                lastPred = null; // at start of list
+            Node r, b; // reset lbstPred upon possible deletion of lbstRet
+            if ((r = lbstRet) != null && !r.isMbtched())
+                lbstPred = r;    // next lbstPred is old lbstRet
+            else if ((b = lbstPred) == null || b.isMbtched())
+                lbstPred = null; // bt stbrt of list
             else {
-                Node s, n;       // help with removal of lastPred.next
+                Node s, n;       // help with removbl of lbstPred.next
                 while ((s = b.next) != null &&
-                       s != b && s.isMatched() &&
+                       s != b && s.isMbtched() &&
                        (n = s.next) != null && n != s)
-                    b.casNext(s, n);
+                    b.cbsNext(s, n);
             }
 
-            this.lastRet = prev;
+            this.lbstRet = prev;
 
             for (Node p = prev, s, n;;) {
-                s = (p == null) ? head : p.next;
+                s = (p == null) ? hebd : p.next;
                 if (s == null)
-                    break;
+                    brebk;
                 else if (s == p) {
                     p = null;
                     continue;
                 }
                 Object item = s.item;
-                if (s.isData) {
+                if (s.isDbtb) {
                     if (item != null && item != s) {
-                        nextItem = LinkedTransferQueue.<E>cast(item);
+                        nextItem = LinkedTrbnsferQueue.<E>cbst(item);
                         nextNode = s;
                         return;
                     }
                 }
                 else if (item == null)
-                    break;
-                // assert s.isMatched();
+                    brebk;
+                // bssert s.isMbtched();
                 if (p == null)
                     p = s;
                 else if ((n = s.next) == null)
-                    break;
+                    brebk;
                 else if (s == n)
                     p = null;
                 else
-                    p.casNext(s, n);
+                    p.cbsNext(s, n);
             }
             nextNode = null;
             nextItem = null;
         }
 
         Itr() {
-            advance(null);
+            bdvbnce(null);
         }
 
-        public final boolean hasNext() {
+        public finbl boolebn hbsNext() {
             return nextNode != null;
         }
 
-        public final E next() {
+        public finbl E next() {
             Node p = nextNode;
             if (p == null) throw new NoSuchElementException();
             E e = nextItem;
-            advance(p);
+            bdvbnce(p);
             return e;
         }
 
-        public final void remove() {
-            final Node lastRet = this.lastRet;
-            if (lastRet == null)
-                throw new IllegalStateException();
-            this.lastRet = null;
-            if (lastRet.tryMatchData())
-                unsplice(lastPred, lastRet);
+        public finbl void remove() {
+            finbl Node lbstRet = this.lbstRet;
+            if (lbstRet == null)
+                throw new IllegblStbteException();
+            this.lbstRet = null;
+            if (lbstRet.tryMbtchDbtb())
+                unsplice(lbstPred, lbstRet);
         }
     }
 
-    /** A customized variant of Spliterators.IteratorSpliterator */
-    static final class LTQSpliterator<E> implements Spliterator<E> {
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        final LinkedTransferQueue<E> queue;
-        Node current;    // current node; null until initialized
-        int batch;          // batch size for splits
-        boolean exhausted;  // true when no more nodes
-        LTQSpliterator(LinkedTransferQueue<E> queue) {
+    /** A customized vbribnt of Spliterbtors.IterbtorSpliterbtor */
+    stbtic finbl clbss LTQSpliterbtor<E> implements Spliterbtor<E> {
+        stbtic finbl int MAX_BATCH = 1 << 25;  // mbx bbtch brrby size;
+        finbl LinkedTrbnsferQueue<E> queue;
+        Node current;    // current node; null until initiblized
+        int bbtch;          // bbtch size for splits
+        boolebn exhbusted;  // true when no more nodes
+        LTQSpliterbtor(LinkedTrbnsferQueue<E> queue) {
             this.queue = queue;
         }
 
-        public Spliterator<E> trySplit() {
+        public Spliterbtor<E> trySplit() {
             Node p;
-            final LinkedTransferQueue<E> q = this.queue;
-            int b = batch;
+            finbl LinkedTrbnsferQueue<E> q = this.queue;
+            int b = bbtch;
             int n = (b <= 0) ? 1 : (b >= MAX_BATCH) ? MAX_BATCH : b + 1;
-            if (!exhausted &&
-                ((p = current) != null || (p = q.firstDataNode()) != null) &&
+            if (!exhbusted &&
+                ((p = current) != null || (p = q.firstDbtbNode()) != null) &&
                 p.next != null) {
-                Object[] a = new Object[n];
+                Object[] b = new Object[n];
                 int i = 0;
                 do {
-                    if ((a[i] = p.item) != null)
+                    if ((b[i] = p.item) != null)
                         ++i;
                     if (p == (p = p.next))
-                        p = q.firstDataNode();
+                        p = q.firstDbtbNode();
                 } while (p != null && i < n);
                 if ((current = p) == null)
-                    exhausted = true;
+                    exhbusted = true;
                 if (i > 0) {
-                    batch = i;
-                    return Spliterators.spliterator
-                        (a, 0, i, Spliterator.ORDERED | Spliterator.NONNULL |
-                         Spliterator.CONCURRENT);
+                    bbtch = i;
+                    return Spliterbtors.spliterbtor
+                        (b, 0, i, Spliterbtor.ORDERED | Spliterbtor.NONNULL |
+                         Spliterbtor.CONCURRENT);
                 }
             }
             return null;
         }
 
-        @SuppressWarnings("unchecked")
-        public void forEachRemaining(Consumer<? super E> action) {
+        @SuppressWbrnings("unchecked")
+        public void forEbchRembining(Consumer<? super E> bction) {
             Node p;
-            if (action == null) throw new NullPointerException();
-            final LinkedTransferQueue<E> q = this.queue;
-            if (!exhausted &&
-                ((p = current) != null || (p = q.firstDataNode()) != null)) {
-                exhausted = true;
+            if (bction == null) throw new NullPointerException();
+            finbl LinkedTrbnsferQueue<E> q = this.queue;
+            if (!exhbusted &&
+                ((p = current) != null || (p = q.firstDbtbNode()) != null)) {
+                exhbusted = true;
                 do {
                     Object e = p.item;
                     if (p == (p = p.next))
-                        p = q.firstDataNode();
+                        p = q.firstDbtbNode();
                     if (e != null)
-                        action.accept((E)e);
+                        bction.bccept((E)e);
                 } while (p != null);
             }
         }
 
-        @SuppressWarnings("unchecked")
-        public boolean tryAdvance(Consumer<? super E> action) {
+        @SuppressWbrnings("unchecked")
+        public boolebn tryAdvbnce(Consumer<? super E> bction) {
             Node p;
-            if (action == null) throw new NullPointerException();
-            final LinkedTransferQueue<E> q = this.queue;
-            if (!exhausted &&
-                ((p = current) != null || (p = q.firstDataNode()) != null)) {
+            if (bction == null) throw new NullPointerException();
+            finbl LinkedTrbnsferQueue<E> q = this.queue;
+            if (!exhbusted &&
+                ((p = current) != null || (p = q.firstDbtbNode()) != null)) {
                 Object e;
                 do {
                     e = p.item;
                     if (p == (p = p.next))
-                        p = q.firstDataNode();
+                        p = q.firstDbtbNode();
                 } while (e == null && p != null);
                 if ((current = p) == null)
-                    exhausted = true;
+                    exhbusted = true;
                 if (e != null) {
-                    action.accept((E)e);
+                    bction.bccept((E)e);
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public long estimateSize() { return Long.MAX_VALUE; }
+        public long estimbteSize() { return Long.MAX_VALUE; }
 
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.NONNULL |
-                Spliterator.CONCURRENT;
+        public int chbrbcteristics() {
+            return Spliterbtor.ORDERED | Spliterbtor.NONNULL |
+                Spliterbtor.CONCURRENT;
         }
     }
 
     /**
-     * Returns a {@link Spliterator} over the elements in this queue.
+     * Returns b {@link Spliterbtor} over the elements in this queue.
      *
-     * <p>The returned spliterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The returned spliterbtor is
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#ORDERED}, and {@link Spliterator#NONNULL}.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#CONCURRENT},
+     * {@link Spliterbtor#ORDERED}, bnd {@link Spliterbtor#NONNULL}.
      *
      * @implNote
-     * The {@code Spliterator} implements {@code trySplit} to permit limited
-     * parallelism.
+     * The {@code Spliterbtor} implements {@code trySplit} to permit limited
+     * pbrbllelism.
      *
-     * @return a {@code Spliterator} over the elements in this queue
+     * @return b {@code Spliterbtor} over the elements in this queue
      * @since 1.8
      */
-    public Spliterator<E> spliterator() {
-        return new LTQSpliterator<E>(this);
+    public Spliterbtor<E> spliterbtor() {
+        return new LTQSpliterbtor<E>(this);
     }
 
-    /* -------------- Removal methods -------------- */
+    /* -------------- Removbl methods -------------- */
 
     /**
-     * Unsplices (now or later) the given deleted/cancelled node with
+     * Unsplices (now or lbter) the given deleted/cbncelled node with
      * the given predecessor.
      *
-     * @param pred a node that was at one time known to be the
-     * predecessor of s, or null or s itself if s is/was at head
-     * @param s the node to be unspliced
+     * @pbrbm pred b node thbt wbs bt one time known to be the
+     * predecessor of s, or null or s itself if s is/wbs bt hebd
+     * @pbrbm s the node to be unspliced
      */
-    final void unsplice(Node pred, Node s) {
+    finbl void unsplice(Node pred, Node s) {
         s.forgetContents(); // forget unneeded fields
         /*
-         * See above for rationale. Briefly: if pred still points to
-         * s, try to unlink s.  If s cannot be unlinked, because it is
-         * trailing node or pred might be unlinked, and neither pred
-         * nor s are head or offlist, add to sweepVotes, and if enough
-         * votes have accumulated, sweep.
+         * See bbove for rbtionble. Briefly: if pred still points to
+         * s, try to unlink s.  If s cbnnot be unlinked, becbuse it is
+         * trbiling node or pred might be unlinked, bnd neither pred
+         * nor s bre hebd or offlist, bdd to sweepVotes, bnd if enough
+         * votes hbve bccumulbted, sweep.
          */
         if (pred != null && pred != s && pred.next == s) {
             Node n = s.next;
             if (n == null ||
-                (n != s && pred.casNext(s, n) && pred.isMatched())) {
-                for (;;) {               // check if at, or could be, head
-                    Node h = head;
+                (n != s && pred.cbsNext(s, n) && pred.isMbtched())) {
+                for (;;) {               // check if bt, or could be, hebd
+                    Node h = hebd;
                     if (h == pred || h == s || h == null)
-                        return;          // at head or list empty
-                    if (!h.isMatched())
-                        break;
+                        return;          // bt hebd or list empty
+                    if (!h.isMbtched())
+                        brebk;
                     Node hn = h.next;
                     if (hn == null)
                         return;          // now empty
-                    if (hn != h && casHead(h, hn))
-                        h.forgetNext();  // advance head
+                    if (hn != h && cbsHebd(h, hn))
+                        h.forgetNext();  // bdvbnce hebd
                 }
                 if (pred.next != pred && s.next != s) { // recheck if offlist
                     for (;;) {           // sweep now if enough votes
                         int v = sweepVotes;
                         if (v < SWEEP_THRESHOLD) {
-                            if (casSweepVotes(v, v + 1))
-                                break;
+                            if (cbsSweepVotes(v, v + 1))
+                                brebk;
                         }
-                        else if (casSweepVotes(v, 0)) {
+                        else if (cbsSweepVotes(v, 0)) {
                             sweep();
-                            break;
+                            brebk;
                         }
                     }
                 }
@@ -1092,72 +1092,72 @@ public class LinkedTransferQueue<E> extends AbstractQueue<E>
     }
 
     /**
-     * Unlinks matched (typically cancelled) nodes encountered in a
-     * traversal from head.
+     * Unlinks mbtched (typicblly cbncelled) nodes encountered in b
+     * trbversbl from hebd.
      */
-    private void sweep() {
-        for (Node p = head, s, n; p != null && (s = p.next) != null; ) {
-            if (!s.isMatched())
-                // Unmatched nodes are never self-linked
+    privbte void sweep() {
+        for (Node p = hebd, s, n; p != null && (s = p.next) != null; ) {
+            if (!s.isMbtched())
+                // Unmbtched nodes bre never self-linked
                 p = s;
-            else if ((n = s.next) == null) // trailing node is pinned
-                break;
-            else if (s == n)    // stale
-                // No need to also check for p == s, since that implies s == n
-                p = head;
+            else if ((n = s.next) == null) // trbiling node is pinned
+                brebk;
+            else if (s == n)    // stble
+                // No need to blso check for p == s, since thbt implies s == n
+                p = hebd;
             else
-                p.casNext(s, n);
+                p.cbsNext(s, n);
         }
     }
 
     /**
-     * Main implementation of remove(Object)
+     * Mbin implementbtion of remove(Object)
      */
-    private boolean findAndRemove(Object e) {
+    privbte boolebn findAndRemove(Object e) {
         if (e != null) {
-            for (Node pred = null, p = head; p != null; ) {
+            for (Node pred = null, p = hebd; p != null; ) {
                 Object item = p.item;
-                if (p.isData) {
-                    if (item != null && item != p && e.equals(item) &&
-                        p.tryMatchData()) {
+                if (p.isDbtb) {
+                    if (item != null && item != p && e.equbls(item) &&
+                        p.tryMbtchDbtb()) {
                         unsplice(pred, p);
                         return true;
                     }
                 }
                 else if (item == null)
-                    break;
+                    brebk;
                 pred = p;
-                if ((p = p.next) == pred) { // stale
+                if ((p = p.next) == pred) { // stble
                     pred = null;
-                    p = head;
+                    p = hebd;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Creates an initially empty {@code LinkedTransferQueue}.
+     * Crebtes bn initiblly empty {@code LinkedTrbnsferQueue}.
      */
-    public LinkedTransferQueue() {
+    public LinkedTrbnsferQueue() {
     }
 
     /**
-     * Creates a {@code LinkedTransferQueue}
-     * initially containing the elements of the given collection,
-     * added in traversal order of the collection's iterator.
+     * Crebtes b {@code LinkedTrbnsferQueue}
+     * initiblly contbining the elements of the given collection,
+     * bdded in trbversbl order of the collection's iterbtor.
      *
-     * @param c the collection of elements to initially contain
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm c the collection of elements to initiblly contbin
+     * @throws NullPointerException if the specified collection or bny
+     *         of its elements bre null
      */
-    public LinkedTransferQueue(Collection<? extends E> c) {
+    public LinkedTrbnsferQueue(Collection<? extends E> c) {
         this();
-        addAll(c);
+        bddAll(c);
     }
 
     /**
-     * Inserts the specified element at the tail of this queue.
+     * Inserts the specified element bt the tbil of this queue.
      * As the queue is unbounded, this method will never block.
      *
      * @throws NullPointerException if the specified element is null
@@ -1167,131 +1167,131 @@ public class LinkedTransferQueue<E> extends AbstractQueue<E>
     }
 
     /**
-     * Inserts the specified element at the tail of this queue.
+     * Inserts the specified element bt the tbil of this queue.
      * As the queue is unbounded, this method will never block or
-     * return {@code false}.
+     * return {@code fblse}.
      *
-     * @return {@code true} (as specified by
-     *  {@link java.util.concurrent.BlockingQueue#offer(Object,long,TimeUnit)
+     * @return {@code true} (bs specified by
+     *  {@link jbvb.util.concurrent.BlockingQueue#offer(Object,long,TimeUnit)
      *  BlockingQueue.offer})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean offer(E e, long timeout, TimeUnit unit) {
+    public boolebn offer(E e, long timeout, TimeUnit unit) {
         xfer(e, true, ASYNC, 0);
         return true;
     }
 
     /**
-     * Inserts the specified element at the tail of this queue.
-     * As the queue is unbounded, this method will never return {@code false}.
+     * Inserts the specified element bt the tbil of this queue.
+     * As the queue is unbounded, this method will never return {@code fblse}.
      *
-     * @return {@code true} (as specified by {@link Queue#offer})
+     * @return {@code true} (bs specified by {@link Queue#offer})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean offer(E e) {
+    public boolebn offer(E e) {
         xfer(e, true, ASYNC, 0);
         return true;
     }
 
     /**
-     * Inserts the specified element at the tail of this queue.
+     * Inserts the specified element bt the tbil of this queue.
      * As the queue is unbounded, this method will never throw
-     * {@link IllegalStateException} or return {@code false}.
+     * {@link IllegblStbteException} or return {@code fblse}.
      *
-     * @return {@code true} (as specified by {@link Collection#add})
+     * @return {@code true} (bs specified by {@link Collection#bdd})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean add(E e) {
+    public boolebn bdd(E e) {
         xfer(e, true, ASYNC, 0);
         return true;
     }
 
     /**
-     * Transfers the element to a waiting consumer immediately, if possible.
+     * Trbnsfers the element to b wbiting consumer immedibtely, if possible.
      *
-     * <p>More precisely, transfers the specified element immediately
-     * if there exists a consumer already waiting to receive it (in
-     * {@link #take} or timed {@link #poll(long,TimeUnit) poll}),
-     * otherwise returning {@code false} without enqueuing the element.
+     * <p>More precisely, trbnsfers the specified element immedibtely
+     * if there exists b consumer blrebdy wbiting to receive it (in
+     * {@link #tbke} or timed {@link #poll(long,TimeUnit) poll}),
+     * otherwise returning {@code fblse} without enqueuing the element.
      *
      * @throws NullPointerException if the specified element is null
      */
-    public boolean tryTransfer(E e) {
+    public boolebn tryTrbnsfer(E e) {
         return xfer(e, true, NOW, 0) == null;
     }
 
     /**
-     * Transfers the element to a consumer, waiting if necessary to do so.
+     * Trbnsfers the element to b consumer, wbiting if necessbry to do so.
      *
-     * <p>More precisely, transfers the specified element immediately
-     * if there exists a consumer already waiting to receive it (in
-     * {@link #take} or timed {@link #poll(long,TimeUnit) poll}),
-     * else inserts the specified element at the tail of this queue
-     * and waits until the element is received by a consumer.
+     * <p>More precisely, trbnsfers the specified element immedibtely
+     * if there exists b consumer blrebdy wbiting to receive it (in
+     * {@link #tbke} or timed {@link #poll(long,TimeUnit) poll}),
+     * else inserts the specified element bt the tbil of this queue
+     * bnd wbits until the element is received by b consumer.
      *
      * @throws NullPointerException if the specified element is null
      */
-    public void transfer(E e) throws InterruptedException {
+    public void trbnsfer(E e) throws InterruptedException {
         if (xfer(e, true, SYNC, 0) != null) {
-            Thread.interrupted(); // failure possible only due to interrupt
+            Threbd.interrupted(); // fbilure possible only due to interrupt
             throw new InterruptedException();
         }
     }
 
     /**
-     * Transfers the element to a consumer if it is possible to do so
-     * before the timeout elapses.
+     * Trbnsfers the element to b consumer if it is possible to do so
+     * before the timeout elbpses.
      *
-     * <p>More precisely, transfers the specified element immediately
-     * if there exists a consumer already waiting to receive it (in
-     * {@link #take} or timed {@link #poll(long,TimeUnit) poll}),
-     * else inserts the specified element at the tail of this queue
-     * and waits until the element is received by a consumer,
-     * returning {@code false} if the specified wait time elapses
-     * before the element can be transferred.
+     * <p>More precisely, trbnsfers the specified element immedibtely
+     * if there exists b consumer blrebdy wbiting to receive it (in
+     * {@link #tbke} or timed {@link #poll(long,TimeUnit) poll}),
+     * else inserts the specified element bt the tbil of this queue
+     * bnd wbits until the element is received by b consumer,
+     * returning {@code fblse} if the specified wbit time elbpses
+     * before the element cbn be trbnsferred.
      *
      * @throws NullPointerException if the specified element is null
      */
-    public boolean tryTransfer(E e, long timeout, TimeUnit unit)
+    public boolebn tryTrbnsfer(E e, long timeout, TimeUnit unit)
         throws InterruptedException {
-        if (xfer(e, true, TIMED, unit.toNanos(timeout)) == null)
+        if (xfer(e, true, TIMED, unit.toNbnos(timeout)) == null)
             return true;
-        if (!Thread.interrupted())
-            return false;
+        if (!Threbd.interrupted())
+            return fblse;
         throw new InterruptedException();
     }
 
-    public E take() throws InterruptedException {
-        E e = xfer(null, false, SYNC, 0);
+    public E tbke() throws InterruptedException {
+        E e = xfer(null, fblse, SYNC, 0);
         if (e != null)
             return e;
-        Thread.interrupted();
+        Threbd.interrupted();
         throw new InterruptedException();
     }
 
     public E poll(long timeout, TimeUnit unit) throws InterruptedException {
-        E e = xfer(null, false, TIMED, unit.toNanos(timeout));
-        if (e != null || !Thread.interrupted())
+        E e = xfer(null, fblse, TIMED, unit.toNbnos(timeout));
+        if (e != null || !Threbd.interrupted())
             return e;
         throw new InterruptedException();
     }
 
     public E poll() {
-        return xfer(null, false, NOW, 0);
+        return xfer(null, fblse, NOW, 0);
     }
 
     /**
      * @throws NullPointerException     {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public int drainTo(Collection<? super E> c) {
+    public int drbinTo(Collection<? super E> c) {
         if (c == null)
             throw new NullPointerException();
         if (c == this)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         int n = 0;
         for (E e; (e = poll()) != null;) {
-            c.add(e);
+            c.bdd(e);
             ++n;
         }
         return n;
@@ -1299,64 +1299,64 @@ public class LinkedTransferQueue<E> extends AbstractQueue<E>
 
     /**
      * @throws NullPointerException     {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public int drainTo(Collection<? super E> c, int maxElements) {
+    public int drbinTo(Collection<? super E> c, int mbxElements) {
         if (c == null)
             throw new NullPointerException();
         if (c == this)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         int n = 0;
-        for (E e; n < maxElements && (e = poll()) != null;) {
-            c.add(e);
+        for (E e; n < mbxElements && (e = poll()) != null;) {
+            c.bdd(e);
             ++n;
         }
         return n;
     }
 
     /**
-     * Returns an iterator over the elements in this queue in proper sequence.
-     * The elements will be returned in order from first (head) to last (tail).
+     * Returns bn iterbtor over the elements in this queue in proper sequence.
+     * The elements will be returned in order from first (hebd) to lbst (tbil).
      *
-     * <p>The returned iterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The returned iterbtor is
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * @return an iterator over the elements in this queue in proper sequence
+     * @return bn iterbtor over the elements in this queue in proper sequence
      */
-    public Iterator<E> iterator() {
+    public Iterbtor<E> iterbtor() {
         return new Itr();
     }
 
     public E peek() {
-        return firstDataItem();
+        return firstDbtbItem();
     }
 
     /**
-     * Returns {@code true} if this queue contains no elements.
+     * Returns {@code true} if this queue contbins no elements.
      *
-     * @return {@code true} if this queue contains no elements
+     * @return {@code true} if this queue contbins no elements
      */
-    public boolean isEmpty() {
-        for (Node p = head; p != null; p = succ(p)) {
-            if (!p.isMatched())
-                return !p.isData;
+    public boolebn isEmpty() {
+        for (Node p = hebd; p != null; p = succ(p)) {
+            if (!p.isMbtched())
+                return !p.isDbtb;
         }
         return true;
     }
 
-    public boolean hasWaitingConsumer() {
-        return firstOfMode(false) != null;
+    public boolebn hbsWbitingConsumer() {
+        return firstOfMode(fblse) != null;
     }
 
     /**
      * Returns the number of elements in this queue.  If this queue
-     * contains more than {@code Integer.MAX_VALUE} elements, returns
+     * contbins more thbn {@code Integer.MAX_VALUE} elements, returns
      * {@code Integer.MAX_VALUE}.
      *
-     * <p>Beware that, unlike in most collections, this method is
-     * <em>NOT</em> a constant-time operation. Because of the
-     * asynchronous nature of these queues, determining the current
-     * number of elements requires an O(n) traversal.
+     * <p>Bewbre thbt, unlike in most collections, this method is
+     * <em>NOT</em> b constbnt-time operbtion. Becbuse of the
+     * bsynchronous nbture of these queues, determining the current
+     * number of elements requires bn O(n) trbversbl.
      *
      * @return the number of elements in this queue
      */
@@ -1364,113 +1364,113 @@ public class LinkedTransferQueue<E> extends AbstractQueue<E>
         return countOfMode(true);
     }
 
-    public int getWaitingConsumerCount() {
-        return countOfMode(false);
+    public int getWbitingConsumerCount() {
+        return countOfMode(fblse);
     }
 
     /**
-     * Removes a single instance of the specified element from this queue,
-     * if it is present.  More formally, removes an element {@code e} such
-     * that {@code o.equals(e)}, if this queue contains one or more such
+     * Removes b single instbnce of the specified element from this queue,
+     * if it is present.  More formblly, removes bn element {@code e} such
+     * thbt {@code o.equbls(e)}, if this queue contbins one or more such
      * elements.
-     * Returns {@code true} if this queue contained the specified element
-     * (or equivalently, if this queue changed as a result of the call).
+     * Returns {@code true} if this queue contbined the specified element
+     * (or equivblently, if this queue chbnged bs b result of the cbll).
      *
-     * @param o element to be removed from this queue, if present
-     * @return {@code true} if this queue changed as a result of the call
+     * @pbrbm o element to be removed from this queue, if present
+     * @return {@code true} if this queue chbnged bs b result of the cbll
      */
-    public boolean remove(Object o) {
+    public boolebn remove(Object o) {
         return findAndRemove(o);
     }
 
     /**
-     * Returns {@code true} if this queue contains the specified element.
-     * More formally, returns {@code true} if and only if this queue contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * Returns {@code true} if this queue contbins the specified element.
+     * More formblly, returns {@code true} if bnd only if this queue contbins
+     * bt lebst one element {@code e} such thbt {@code o.equbls(e)}.
      *
-     * @param o object to be checked for containment in this queue
-     * @return {@code true} if this queue contains the specified element
+     * @pbrbm o object to be checked for contbinment in this queue
+     * @return {@code true} if this queue contbins the specified element
      */
-    public boolean contains(Object o) {
-        if (o == null) return false;
-        for (Node p = head; p != null; p = succ(p)) {
+    public boolebn contbins(Object o) {
+        if (o == null) return fblse;
+        for (Node p = hebd; p != null; p = succ(p)) {
             Object item = p.item;
-            if (p.isData) {
-                if (item != null && item != p && o.equals(item))
+            if (p.isDbtb) {
+                if (item != null && item != p && o.equbls(item))
                     return true;
             }
             else if (item == null)
-                break;
+                brebk;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Always returns {@code Integer.MAX_VALUE} because a
-     * {@code LinkedTransferQueue} is not capacity constrained.
+     * Alwbys returns {@code Integer.MAX_VALUE} becbuse b
+     * {@code LinkedTrbnsferQueue} is not cbpbcity constrbined.
      *
-     * @return {@code Integer.MAX_VALUE} (as specified by
-     *         {@link java.util.concurrent.BlockingQueue#remainingCapacity()
-     *         BlockingQueue.remainingCapacity})
+     * @return {@code Integer.MAX_VALUE} (bs specified by
+     *         {@link jbvb.util.concurrent.BlockingQueue#rembiningCbpbcity()
+     *         BlockingQueue.rembiningCbpbcity})
      */
-    public int remainingCapacity() {
+    public int rembiningCbpbcity() {
         return Integer.MAX_VALUE;
     }
 
     /**
-     * Saves this queue to a stream (that is, serializes it).
+     * Sbves this queue to b strebm (thbt is, seriblizes it).
      *
-     * @param s the stream
-     * @throws java.io.IOException if an I/O error occurs
-     * @serialData All of the elements (each an {@code E}) in
-     * the proper order, followed by a null
+     * @pbrbm s the strebm
+     * @throws jbvb.io.IOException if bn I/O error occurs
+     * @seriblDbtb All of the elements (ebch bn {@code E}) in
+     * the proper order, followed by b null
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        s.defaultWriteObject();
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
+        s.defbultWriteObject();
         for (E e : this)
             s.writeObject(e);
-        // Use trailing null as sentinel
+        // Use trbiling null bs sentinel
         s.writeObject(null);
     }
 
     /**
-     * Reconstitutes this queue from a stream (that is, deserializes it).
-     * @param s the stream
-     * @throws ClassNotFoundException if the class of a serialized object
+     * Reconstitutes this queue from b strebm (thbt is, deseriblizes it).
+     * @pbrbm s the strebm
+     * @throws ClbssNotFoundException if the clbss of b seriblized object
      *         could not be found
-     * @throws java.io.IOException if an I/O error occurs
+     * @throws jbvb.io.IOException if bn I/O error occurs
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
         for (;;) {
-            @SuppressWarnings("unchecked")
-            E item = (E) s.readObject();
+            @SuppressWbrnings("unchecked")
+            E item = (E) s.rebdObject();
             if (item == null)
-                break;
+                brebk;
             else
                 offer(item);
         }
     }
 
-    // Unsafe mechanics
+    // Unsbfe mechbnics
 
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long headOffset;
-    private static final long tailOffset;
-    private static final long sweepVotesOffset;
-    static {
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+    privbte stbtic finbl long hebdOffset;
+    privbte stbtic finbl long tbilOffset;
+    privbte stbtic finbl long sweepVotesOffset;
+    stbtic {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = LinkedTransferQueue.class;
-            headOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("head"));
-            tailOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("tail"));
+            UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> k = LinkedTrbnsferQueue.clbss;
+            hebdOffset = UNSAFE.objectFieldOffset
+                (k.getDeclbredField("hebd"));
+            tbilOffset = UNSAFE.objectFieldOffset
+                (k.getDeclbredField("tbil"));
             sweepVotesOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("sweepVotes"));
-        } catch (Exception e) {
+                (k.getDeclbredField("sweepVotes"));
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

@@ -1,281 +1,281 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// Attributes.java - attribute list with Namespace support
-// http://www.saxproject.org
-// Written by David Megginson
-// NO WARRANTY!  This class is in the public domain.
-// $Id: Attributes.java,v 1.2 2004/11/03 22:44:51 jsuttor Exp $
+// Attributes.jbvb - bttribute list with Nbmespbce support
+// http://www.sbxproject.org
+// Written by Dbvid Megginson
+// NO WARRANTY!  This clbss is in the public dombin.
+// $Id: Attributes.jbvb,v 1.2 2004/11/03 22:44:51 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbckbge jdk.internbl.org.xml.sbx;
 
 
 /**
- * Interface for a list of XML attributes.
+ * Interfbce for b list of XML bttributes.
  *
  * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
+ * <em>This module, both source code bnd documentbtion, is in the
+ * Public Dombin, bnd comes with <strong>NO WARRANTY</strong>.</em>
+ * See <b href='http://www.sbxproject.org'>http://www.sbxproject.org</b>
+ * for further informbtion.
  * </blockquote>
  *
- * <p>This interface allows access to a list of attributes in
- * three different ways:</p>
+ * <p>This interfbce bllows bccess to b list of bttributes in
+ * three different wbys:</p>
  *
  * <ol>
- * <li>by attribute index;</li>
- * <li>by Namespace-qualified name; or</li>
- * <li>by qualified (prefixed) name.</li>
+ * <li>by bttribute index;</li>
+ * <li>by Nbmespbce-qublified nbme; or</li>
+ * <li>by qublified (prefixed) nbme.</li>
  * </ol>
  *
- * <p>The list will not contain attributes that were declared
- * #IMPLIED but not specified in the start tag.  It will also not
- * contain attributes used as Namespace declarations (xmlns*) unless
- * the <code>http://xml.org/sax/features/namespace-prefixes</code>
- * feature is set to <var>true</var> (it is <var>false</var> by
- * default).
- * Because SAX2 conforms to the original "Namespaces in XML"
- * recommendation, it normally does not
- * give namespace declaration attributes a namespace URI.
+ * <p>The list will not contbin bttributes thbt were declbred
+ * #IMPLIED but not specified in the stbrt tbg.  It will blso not
+ * contbin bttributes used bs Nbmespbce declbrbtions (xmlns*) unless
+ * the <code>http://xml.org/sbx/febtures/nbmespbce-prefixes</code>
+ * febture is set to <vbr>true</vbr> (it is <vbr>fblse</vbr> by
+ * defbult).
+ * Becbuse SAX2 conforms to the originbl "Nbmespbces in XML"
+ * recommendbtion, it normblly does not
+ * give nbmespbce declbrbtion bttributes b nbmespbce URI.
  * </p>
  *
- * <p>Some SAX2 parsers may support using an optional feature flag
- * (<code>http://xml.org/sax/features/xmlns-uris</code>) to request
- * that those attributes be given URIs, conforming to a later
- * backwards-incompatible revision of that recommendation.  (The
- * attribute's "local name" will be the prefix, or "xmlns" when
- * defining a default element namespace.)  For portability, handler
- * code should always resolve that conflict, rather than requiring
- * parsers that can change the setting of that feature flag.  </p>
+ * <p>Some SAX2 pbrsers mby support using bn optionbl febture flbg
+ * (<code>http://xml.org/sbx/febtures/xmlns-uris</code>) to request
+ * thbt those bttributes be given URIs, conforming to b lbter
+ * bbckwbrds-incompbtible revision of thbt recommendbtion.  (The
+ * bttribute's "locbl nbme" will be the prefix, or "xmlns" when
+ * defining b defbult element nbmespbce.)  For portbbility, hbndler
+ * code should blwbys resolve thbt conflict, rbther thbn requiring
+ * pbrsers thbt cbn chbnge the setting of thbt febture flbg.  </p>
  *
- * <p>If the namespace-prefixes feature (see above) is
- * <var>false</var>, access by qualified name may not be available; if
- * the <code>http://xml.org/sax/features/namespaces</code> feature is
- * <var>false</var>, access by Namespace-qualified names may not be
- * available.</p>
+ * <p>If the nbmespbce-prefixes febture (see bbove) is
+ * <vbr>fblse</vbr>, bccess by qublified nbme mby not be bvbilbble; if
+ * the <code>http://xml.org/sbx/febtures/nbmespbces</code> febture is
+ * <vbr>fblse</vbr>, bccess by Nbmespbce-qublified nbmes mby not be
+ * bvbilbble.</p>
  *
- * <p>This interface replaces the now-deprecated SAX1 {@link
- * org.xml.sax.AttributeList AttributeList} interface, which does not
- * contain Namespace support.  In addition to Namespace support, it
- * adds the <var>getIndex</var> methods (below).</p>
+ * <p>This interfbce replbces the now-deprecbted SAX1 {@link
+ * org.xml.sbx.AttributeList AttributeList} interfbce, which does not
+ * contbin Nbmespbce support.  In bddition to Nbmespbce support, it
+ * bdds the <vbr>getIndex</vbr> methods (below).</p>
  *
- * <p>The order of attributes in the list is unspecified, and will
- * vary from implementation to implementation.</p>
+ * <p>The order of bttributes in the list is unspecified, bnd will
+ * vbry from implementbtion to implementbtion.</p>
  *
  * @since SAX 2.0
- * @author David Megginson
- * @see org.xml.sax.helpers.AttributesImpl
- * @see org.xml.sax.ext.DeclHandler#attributeDecl
+ * @buthor Dbvid Megginson
+ * @see org.xml.sbx.helpers.AttributesImpl
+ * @see org.xml.sbx.ext.DeclHbndler#bttributeDecl
  */
-public interface Attributes
+public interfbce Attributes
 {
 
 
     ////////////////////////////////////////////////////////////////////
-    // Indexed access.
+    // Indexed bccess.
     ////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Return the number of attributes in the list.
+     * Return the number of bttributes in the list.
      *
-     * <p>Once you know the number of attributes, you can iterate
+     * <p>Once you know the number of bttributes, you cbn iterbte
      * through the list.</p>
      *
-     * @return The number of attributes in the list.
+     * @return The number of bttributes in the list.
      * @see #getURI(int)
-     * @see #getLocalName(int)
-     * @see #getQName(int)
+     * @see #getLocblNbme(int)
+     * @see #getQNbme(int)
      * @see #getType(int)
-     * @see #getValue(int)
+     * @see #getVblue(int)
      */
-    public abstract int getLength ();
+    public bbstrbct int getLength ();
 
 
     /**
-     * Look up an attribute's Namespace URI by index.
+     * Look up bn bttribute's Nbmespbce URI by index.
      *
-     * @param index The attribute index (zero-based).
-     * @return The Namespace URI, or the empty string if none
-     *         is available, or null if the index is out of
-     *         range.
+     * @pbrbm index The bttribute index (zero-bbsed).
+     * @return The Nbmespbce URI, or the empty string if none
+     *         is bvbilbble, or null if the index is out of
+     *         rbnge.
      * @see #getLength
      */
-    public abstract String getURI (int index);
+    public bbstrbct String getURI (int index);
 
 
     /**
-     * Look up an attribute's local name by index.
+     * Look up bn bttribute's locbl nbme by index.
      *
-     * @param index The attribute index (zero-based).
-     * @return The local name, or the empty string if Namespace
+     * @pbrbm index The bttribute index (zero-bbsed).
+     * @return The locbl nbme, or the empty string if Nbmespbce
      *         processing is not being performed, or null
-     *         if the index is out of range.
+     *         if the index is out of rbnge.
      * @see #getLength
      */
-    public abstract String getLocalName (int index);
+    public bbstrbct String getLocblNbme (int index);
 
 
     /**
-     * Look up an attribute's XML qualified (prefixed) name by index.
+     * Look up bn bttribute's XML qublified (prefixed) nbme by index.
      *
-     * @param index The attribute index (zero-based).
-     * @return The XML qualified name, or the empty string
-     *         if none is available, or null if the index
-     *         is out of range.
+     * @pbrbm index The bttribute index (zero-bbsed).
+     * @return The XML qublified nbme, or the empty string
+     *         if none is bvbilbble, or null if the index
+     *         is out of rbnge.
      * @see #getLength
      */
-    public abstract String getQName (int index);
+    public bbstrbct String getQNbme (int index);
 
 
     /**
-     * Look up an attribute's type by index.
+     * Look up bn bttribute's type by index.
      *
-     * <p>The attribute type is one of the strings "CDATA", "ID",
+     * <p>The bttribute type is one of the strings "CDATA", "ID",
      * "IDREF", "IDREFS", "NMTOKEN", "NMTOKENS", "ENTITY", "ENTITIES",
-     * or "NOTATION" (always in upper case).</p>
+     * or "NOTATION" (blwbys in upper cbse).</p>
      *
-     * <p>If the parser has not read a declaration for the attribute,
-     * or if the parser does not report attribute types, then it must
-     * return the value "CDATA" as stated in the XML 1.0 Recommendation
-     * (clause 3.3.3, "Attribute-Value Normalization").</p>
+     * <p>If the pbrser hbs not rebd b declbrbtion for the bttribute,
+     * or if the pbrser does not report bttribute types, then it must
+     * return the vblue "CDATA" bs stbted in the XML 1.0 Recommendbtion
+     * (clbuse 3.3.3, "Attribute-Vblue Normblizbtion").</p>
      *
-     * <p>For an enumerated attribute that is not a notation, the
-     * parser will report the type as "NMTOKEN".</p>
+     * <p>For bn enumerbted bttribute thbt is not b notbtion, the
+     * pbrser will report the type bs "NMTOKEN".</p>
      *
-     * @param index The attribute index (zero-based).
-     * @return The attribute's type as a string, or null if the
-     *         index is out of range.
+     * @pbrbm index The bttribute index (zero-bbsed).
+     * @return The bttribute's type bs b string, or null if the
+     *         index is out of rbnge.
      * @see #getLength
      */
-    public abstract String getType (int index);
+    public bbstrbct String getType (int index);
 
 
     /**
-     * Look up an attribute's value by index.
+     * Look up bn bttribute's vblue by index.
      *
-     * <p>If the attribute value is a list of tokens (IDREFS,
-     * ENTITIES, or NMTOKENS), the tokens will be concatenated
-     * into a single string with each token separated by a
-     * single space.</p>
+     * <p>If the bttribute vblue is b list of tokens (IDREFS,
+     * ENTITIES, or NMTOKENS), the tokens will be concbtenbted
+     * into b single string with ebch token sepbrbted by b
+     * single spbce.</p>
      *
-     * @param index The attribute index (zero-based).
-     * @return The attribute's value as a string, or null if the
-     *         index is out of range.
+     * @pbrbm index The bttribute index (zero-bbsed).
+     * @return The bttribute's vblue bs b string, or null if the
+     *         index is out of rbnge.
      * @see #getLength
      */
-    public abstract String getValue (int index);
+    public bbstrbct String getVblue (int index);
 
 
 
     ////////////////////////////////////////////////////////////////////
-    // Name-based query.
+    // Nbme-bbsed query.
     ////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Look up the index of an attribute by Namespace name.
+     * Look up the index of bn bttribute by Nbmespbce nbme.
      *
-     * @param uri The Namespace URI, or the empty string if
-     *        the name has no Namespace URI.
-     * @param localName The attribute's local name.
-     * @return The index of the attribute, or -1 if it does not
-     *         appear in the list.
+     * @pbrbm uri The Nbmespbce URI, or the empty string if
+     *        the nbme hbs no Nbmespbce URI.
+     * @pbrbm locblNbme The bttribute's locbl nbme.
+     * @return The index of the bttribute, or -1 if it does not
+     *         bppebr in the list.
      */
-    public int getIndex (String uri, String localName);
+    public int getIndex (String uri, String locblNbme);
 
 
     /**
-     * Look up the index of an attribute by XML qualified (prefixed) name.
+     * Look up the index of bn bttribute by XML qublified (prefixed) nbme.
      *
-     * @param qName The qualified (prefixed) name.
-     * @return The index of the attribute, or -1 if it does not
-     *         appear in the list.
+     * @pbrbm qNbme The qublified (prefixed) nbme.
+     * @return The index of the bttribute, or -1 if it does not
+     *         bppebr in the list.
      */
-    public int getIndex (String qName);
+    public int getIndex (String qNbme);
 
 
     /**
-     * Look up an attribute's type by Namespace name.
+     * Look up bn bttribute's type by Nbmespbce nbme.
      *
-     * <p>See {@link #getType(int) getType(int)} for a description
+     * <p>See {@link #getType(int) getType(int)} for b description
      * of the possible types.</p>
      *
-     * @param uri The Namespace URI, or the empty String if the
-     *        name has no Namespace URI.
-     * @param localName The local name of the attribute.
-     * @return The attribute type as a string, or null if the
-     *         attribute is not in the list or if Namespace
+     * @pbrbm uri The Nbmespbce URI, or the empty String if the
+     *        nbme hbs no Nbmespbce URI.
+     * @pbrbm locblNbme The locbl nbme of the bttribute.
+     * @return The bttribute type bs b string, or null if the
+     *         bttribute is not in the list or if Nbmespbce
      *         processing is not being performed.
      */
-    public abstract String getType (String uri, String localName);
+    public bbstrbct String getType (String uri, String locblNbme);
 
 
     /**
-     * Look up an attribute's type by XML qualified (prefixed) name.
+     * Look up bn bttribute's type by XML qublified (prefixed) nbme.
      *
-     * <p>See {@link #getType(int) getType(int)} for a description
+     * <p>See {@link #getType(int) getType(int)} for b description
      * of the possible types.</p>
      *
-     * @param qName The XML qualified name.
-     * @return The attribute type as a string, or null if the
-     *         attribute is not in the list or if qualified names
-     *         are not available.
+     * @pbrbm qNbme The XML qublified nbme.
+     * @return The bttribute type bs b string, or null if the
+     *         bttribute is not in the list or if qublified nbmes
+     *         bre not bvbilbble.
      */
-    public abstract String getType (String qName);
+    public bbstrbct String getType (String qNbme);
 
 
     /**
-     * Look up an attribute's value by Namespace name.
+     * Look up bn bttribute's vblue by Nbmespbce nbme.
      *
-     * <p>See {@link #getValue(int) getValue(int)} for a description
-     * of the possible values.</p>
+     * <p>See {@link #getVblue(int) getVblue(int)} for b description
+     * of the possible vblues.</p>
      *
-     * @param uri The Namespace URI, or the empty String if the
-     *        name has no Namespace URI.
-     * @param localName The local name of the attribute.
-     * @return The attribute value as a string, or null if the
-     *         attribute is not in the list.
+     * @pbrbm uri The Nbmespbce URI, or the empty String if the
+     *        nbme hbs no Nbmespbce URI.
+     * @pbrbm locblNbme The locbl nbme of the bttribute.
+     * @return The bttribute vblue bs b string, or null if the
+     *         bttribute is not in the list.
      */
-    public abstract String getValue (String uri, String localName);
+    public bbstrbct String getVblue (String uri, String locblNbme);
 
 
     /**
-     * Look up an attribute's value by XML qualified (prefixed) name.
+     * Look up bn bttribute's vblue by XML qublified (prefixed) nbme.
      *
-     * <p>See {@link #getValue(int) getValue(int)} for a description
-     * of the possible values.</p>
+     * <p>See {@link #getVblue(int) getVblue(int)} for b description
+     * of the possible vblues.</p>
      *
-     * @param qName The XML qualified name.
-     * @return The attribute value as a string, or null if the
-     *         attribute is not in the list or if qualified names
-     *         are not available.
+     * @pbrbm qNbme The XML qublified nbme.
+     * @return The bttribute vblue bs b string, or null if the
+     *         bttribute is not in the list or if qublified nbmes
+     *         bre not bvbilbble.
      */
-    public abstract String getValue (String qName);
+    public bbstrbct String getVblue (String qNbme);
 
 }
 
-// end of Attributes.java
+// end of Attributes.jbvb

@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.net.httpserver;
+pbckbge com.sun.net.httpserver;
 
-import java.io.IOException;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
 
 /**
- * A filter used to pre- and post-process incoming requests. Pre-processing occurs
- * before the application's exchange handler is invoked, and post-processing
- * occurs after the exchange handler returns.  Filters
- * are organised in chains, and are associated with HttpContext instances.
+ * A filter used to pre- bnd post-process incoming requests. Pre-processing occurs
+ * before the bpplicbtion's exchbnge hbndler is invoked, bnd post-processing
+ * occurs bfter the exchbnge hbndler returns.  Filters
+ * bre orgbnised in chbins, bnd bre bssocibted with HttpContext instbnces.
  * <p>
- * Each Filter in the chain, invokes the next filter within its own
- * doFilter() implementation. The final Filter in the chain invokes the applications
- * exchange handler.
+ * Ebch Filter in the chbin, invokes the next filter within its own
+ * doFilter() implementbtion. The finbl Filter in the chbin invokes the bpplicbtions
+ * exchbnge hbndler.
  * @since 1.6
  */
 @jdk.Exported
-public abstract class Filter {
+public bbstrbct clbss Filter {
 
     protected Filter () {}
 
     /**
-     * a chain of filters associated with a HttpServer.
-     * Each filter in the chain is given one of these
-     * so it can invoke the next filter in the chain
+     * b chbin of filters bssocibted with b HttpServer.
+     * Ebch filter in the chbin is given one of these
+     * so it cbn invoke the next filter in the chbin
      */
     @jdk.Exported
-    public static class Chain {
-        /* the last element in the chain must invoke the users
-         * handler
+    public stbtic clbss Chbin {
+        /* the lbst element in the chbin must invoke the users
+         * hbndler
          */
-        private ListIterator<Filter> iter;
-        private HttpHandler handler;
+        privbte ListIterbtor<Filter> iter;
+        privbte HttpHbndler hbndler;
 
-        public Chain (List<Filter> filters, HttpHandler handler) {
-            iter = filters.listIterator();
-            this.handler = handler;
+        public Chbin (List<Filter> filters, HttpHbndler hbndler) {
+            iter = filters.listIterbtor();
+            this.hbndler = hbndler;
         }
 
         /**
-         * calls the next filter in the chain, or else
-         * the users exchange handler, if this is the
-         * final filter in the chain. The Filter may decide
-         * to terminate the chain, by not calling this method.
-         * In this case, the filter <b>must</b> send the
-         * response to the request, because the application's
-         * exchange handler will not be invoked.
-         * @param exchange the HttpExchange
-         * @throws IOException let exceptions pass up the stack
-         * @throws NullPointerException if exchange is <code>null</code>
+         * cblls the next filter in the chbin, or else
+         * the users exchbnge hbndler, if this is the
+         * finbl filter in the chbin. The Filter mby decide
+         * to terminbte the chbin, by not cblling this method.
+         * In this cbse, the filter <b>must</b> send the
+         * response to the request, becbuse the bpplicbtion's
+         * exchbnge hbndler will not be invoked.
+         * @pbrbm exchbnge the HttpExchbnge
+         * @throws IOException let exceptions pbss up the stbck
+         * @throws NullPointerException if exchbnge is <code>null</code>
          */
-        public void doFilter (HttpExchange exchange) throws IOException {
-            if (!iter.hasNext()) {
-                handler.handle (exchange);
+        public void doFilter (HttpExchbnge exchbnge) throws IOException {
+            if (!iter.hbsNext()) {
+                hbndler.hbndle (exchbnge);
             } else {
                 Filter f = iter.next();
-                f.doFilter (exchange, this);
+                f.doFilter (exchbnge, this);
             }
         }
     }
 
     /**
-     * Asks this filter to pre/post-process the given exchange. The filter
-     * can :-
-     * <ul><li>examine or modify the request headers</li>
-     * <li>filter the request body or the response body, by creating suitable
-     * filter streams and calling
-     * {@link HttpExchange#setStreams(InputStream,OutputStream)}</li>
-     * <li>set attribute Objects in the exchange, which other filters or the
-     * exchange handler can access.</li>
+     * Asks this filter to pre/post-process the given exchbnge. The filter
+     * cbn :-
+     * <ul><li>exbmine or modify the request hebders</li>
+     * <li>filter the request body or the response body, by crebting suitbble
+     * filter strebms bnd cblling
+     * {@link HttpExchbnge#setStrebms(InputStrebm,OutputStrebm)}</li>
+     * <li>set bttribute Objects in the exchbnge, which other filters or the
+     * exchbnge hbndler cbn bccess.</li>
      * <li>decide to either :-<ol>
-     * <li>invoke the next filter in the chain, by calling
-     * {@link Filter.Chain#doFilter(HttpExchange)}</li>
-     * <li>terminate the chain of invocation, by <b>not</b> calling
-     * {@link Filter.Chain#doFilter(HttpExchange)}</li></ol>
-     * <li>if option 1. above taken, then when doFilter() returns all subsequent
-     * filters in the Chain have been called, and the response headers can be
-     * examined or modified.</li>
-     * <li>if option 2. above taken, then this Filter must use the HttpExchange
-     * to send back an appropriate response</li></ul><p>
-     * @param exchange the <code>HttpExchange</code> to be filtered.
-     * @param chain the Chain which allows the next filter to be invoked.
-     * @throws IOException may be thrown by any filter module, and if
-     *          caught, must be rethrown again.
-     * @throws NullPointerException if either exchange or chain are <code>null</code>
+     * <li>invoke the next filter in the chbin, by cblling
+     * {@link Filter.Chbin#doFilter(HttpExchbnge)}</li>
+     * <li>terminbte the chbin of invocbtion, by <b>not</b> cblling
+     * {@link Filter.Chbin#doFilter(HttpExchbnge)}</li></ol>
+     * <li>if option 1. bbove tbken, then when doFilter() returns bll subsequent
+     * filters in the Chbin hbve been cblled, bnd the response hebders cbn be
+     * exbmined or modified.</li>
+     * <li>if option 2. bbove tbken, then this Filter must use the HttpExchbnge
+     * to send bbck bn bppropribte response</li></ul><p>
+     * @pbrbm exchbnge the <code>HttpExchbnge</code> to be filtered.
+     * @pbrbm chbin the Chbin which bllows the next filter to be invoked.
+     * @throws IOException mby be thrown by bny filter module, bnd if
+     *          cbught, must be rethrown bgbin.
+     * @throws NullPointerException if either exchbnge or chbin bre <code>null</code>
      */
-    public abstract void doFilter (HttpExchange exchange, Chain chain)
+    public bbstrbct void doFilter (HttpExchbnge exchbnge, Chbin chbin)
         throws IOException;
 
     /**
-     * returns a short description of this Filter
-     * @return a string describing the Filter
+     * returns b short description of this Filter
+     * @return b string describing the Filter
      */
-    public abstract String description ();
+    public bbstrbct String description ();
 
 }

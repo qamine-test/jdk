@@ -1,187 +1,187 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.plaf.basic.*;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingConstants;
-public class XButtonPeer extends XComponentPeer implements ButtonPeer {
-    private boolean pressed;
-    private boolean armed;
-    private Insets focusInsets;
-    private Insets borderInsets;
-    private Insets contentAreaInsets;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.FocusEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.event.ActionEvent;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.SwingUtilities;
+import jbvbx.swing.SwingConstbnts;
+public clbss XButtonPeer extends XComponentPeer implements ButtonPeer {
+    privbte boolebn pressed;
+    privbte boolebn brmed;
+    privbte Insets focusInsets;
+    privbte Insets borderInsets;
+    privbte Insets contentArebInsets;
 
-    private final static String propertyPrefix = "Button" + ".";
+    privbte finbl stbtic String propertyPrefix = "Button" + ".";
     protected Color focusColor =  SystemColor.windowText;
 
-    private boolean disposed = false;
+    privbte boolebn disposed = fblse;
 
-    String label;
+    String lbbel;
 
     protected String getPropertyPrefix() {
         return propertyPrefix;
     }
 
-    void preInit(XCreateWindowParams params) {
-        super.preInit(params);
+    void preInit(XCrebteWindowPbrbms pbrbms) {
+        super.preInit(pbrbms);
         borderInsets = new Insets(2,2,2,2);
         focusInsets = new Insets(0,0,0,0);
-        contentAreaInsets = new Insets(3,3,3,3);
+        contentArebInsets = new Insets(3,3,3,3);
     }
 
 
-    public  XButtonPeer(Button target) {
-        super(target);
-        pressed = false;
-        armed = false;
-        label = target.getLabel();
-        updateMotifColors(getPeerBackground());
+    public  XButtonPeer(Button tbrget) {
+        super(tbrget);
+        pressed = fblse;
+        brmed = fblse;
+        lbbel = tbrget.getLbbel();
+        updbteMotifColors(getPeerBbckground());
     }
 
     public  void dispose() {
-        synchronized (target)
+        synchronized (tbrget)
         {
             disposed = true;
         }
         super.dispose();
     }
 
-    public boolean isFocusable() {
+    public boolebn isFocusbble() {
         return true;
     }
 
     @Override
-    public void setLabel(String label) {
-        if (label == null) {
-            label = "";
+    public void setLbbel(String lbbel) {
+        if (lbbel == null) {
+            lbbel = "";
         }
-        if (!label.equals(this.label)) {
-            this.label = label;
-            repaint();
+        if (!lbbel.equbls(this.lbbel)) {
+            this.lbbel = lbbel;
+            repbint();
         }
     }
 
-    public void setBackground(Color c) {
-        updateMotifColors(c);
-        super.setBackground(c);
+    public void setBbckground(Color c) {
+        updbteMotifColors(c);
+        super.setBbckground(c);
     }
 
-    void handleJavaMouseEvent(MouseEvent e) {
-        super.handleJavaMouseEvent(e);
+    void hbndleJbvbMouseEvent(MouseEvent e) {
+        super.hbndleJbvbMouseEvent(e);
         int id = e.getID();
         switch (id) {
-          case MouseEvent.MOUSE_PRESSED:
+          cbse MouseEvent.MOUSE_PRESSED:
               if (XToolkit.isLeftMouseButton(e) ) {
                   Button b = (Button) e.getSource();
 
-                  if(b.contains(e.getX(), e.getY())) {
-                      if (!isEnabled()) {
-                          // Disabled buttons ignore all input...
+                  if(b.contbins(e.getX(), e.getY())) {
+                      if (!isEnbbled()) {
+                          // Disbbled buttons ignore bll input...
                           return;
                       }
                       pressed = true;
-                      armed = true;
-                      repaint();
+                      brmed = true;
+                      repbint();
                   }
               }
 
-              break;
+              brebk;
 
-          case MouseEvent.MOUSE_RELEASED:
+          cbse MouseEvent.MOUSE_RELEASED:
               if (XToolkit.isLeftMouseButton(e)) {
-                  if (armed)
+                  if (brmed)
                   {
-                      action(e.getWhen(),e.getModifiers());
+                      bction(e.getWhen(),e.getModifiers());
                   }
-                  pressed = false;
-                  armed = false;
-                  repaint();
+                  pressed = fblse;
+                  brmed = fblse;
+                  repbint();
               }
 
-              break;
+              brebk;
 
-          case  MouseEvent.MOUSE_ENTERED:
+          cbse  MouseEvent.MOUSE_ENTERED:
               if (pressed)
-                  armed = true;
-              break;
-          case MouseEvent.MOUSE_EXITED:
-              armed = false;
-              break;
+                  brmed = true;
+              brebk;
+          cbse MouseEvent.MOUSE_EXITED:
+              brmed = fblse;
+              brebk;
         }
     }
 
 
-    // NOTE: This method is called by privileged threads.
+    // NOTE: This method is cblled by privileged threbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void action(final long when, final int modifiers) {
-        postEvent(new ActionEvent(target, ActionEvent.ACTION_PERFORMED,
-                                  ((Button)target).getActionCommand(),
+    public void bction(finbl long when, finbl int modifiers) {
+        postEvent(new ActionEvent(tbrget, ActionEvent.ACTION_PERFORMED,
+                                  ((Button)tbrget).getActionCommbnd(),
                                   when, modifiers));
     }
 
 
-    public void focusGained(FocusEvent e) {
-        super.focusGained(e);
-        repaint();
+    public void focusGbined(FocusEvent e) {
+        super.focusGbined(e);
+        repbint();
     }
 
     public void focusLost(FocusEvent e) {
         super.focusLost(e);
-        repaint();
+        repbint();
     }
 
-    void handleJavaKeyEvent(KeyEvent e) {
+    void hbndleJbvbKeyEvent(KeyEvent e) {
         int id = e.getID();
         switch (id) {
-          case KeyEvent.KEY_PRESSED:
+          cbse KeyEvent.KEY_PRESSED:
               if (e.getKeyCode() == KeyEvent.VK_SPACE)
               {
                   pressed=true;
-                  armed=true;
-                  repaint();
-                  action(e.getWhen(),e.getModifiers());
+                  brmed=true;
+                  repbint();
+                  bction(e.getWhen(),e.getModifiers());
               }
 
-              break;
+              brebk;
 
-          case KeyEvent.KEY_RELEASED:
+          cbse KeyEvent.KEY_RELEASED:
               if (e.getKeyCode() == KeyEvent.VK_SPACE)
               {
-                  pressed = false;
-                  armed = false;
-                  repaint();
+                  pressed = fblse;
+                  brmed = fblse;
+                  repbint();
               }
 
-              break;
+              brebk;
 
 
         }
@@ -189,10 +189,10 @@ public class XButtonPeer extends XComponentPeer implements ButtonPeer {
 
     public Dimension getMinimumSize() {
         FontMetrics fm = getFontMetrics(getPeerFont());
-        if ( label == null ) {
-            label = "";
+        if ( lbbel == null ) {
+            lbbel = "";
         }
-        return new Dimension(fm.stringWidth(label) + 14,
+        return new Dimension(fm.stringWidth(lbbel) + 14,
                              fm.getHeight() + 8);
     }
 
@@ -203,55 +203,55 @@ public class XButtonPeer extends XComponentPeer implements ButtonPeer {
         return getMinimumSize();
     }
     /**
-     * This method is called from Toolkit Thread and so it should not call any
+     * This method is cblled from Toolkit Threbd bnd so it should not cbll bny
      * client code.
      */
     @Override
-    void paintPeer(final Graphics g) {
+    void pbintPeer(finbl Grbphics g) {
         if (!disposed) {
             Dimension size = getPeerSize();
-            g.setColor( getPeerBackground() );   /* erase the existing button remains */
+            g.setColor( getPeerBbckground() );   /* erbse the existing button rembins */
             g.fillRect(0,0, size.width , size.height);
-            paintBorder(g,borderInsets.left,
+            pbintBorder(g,borderInsets.left,
                         borderInsets.top,
                         size.width-(borderInsets.left+borderInsets.right),
                         size.height-(borderInsets.top+borderInsets.bottom));
 
             FontMetrics fm = g.getFontMetrics();
 
-            Rectangle textRect,iconRect,viewRect;
+            Rectbngle textRect,iconRect,viewRect;
 
-            textRect = new Rectangle();
-            viewRect = new Rectangle();
-            iconRect = new Rectangle();
+            textRect = new Rectbngle();
+            viewRect = new Rectbngle();
+            iconRect = new Rectbngle();
 
 
-            viewRect.width = size.width - (contentAreaInsets.left+contentAreaInsets.right);
-            viewRect.height = size.height - (contentAreaInsets.top+contentAreaInsets.bottom);
-            viewRect.x = contentAreaInsets.left;
-            viewRect.y = contentAreaInsets.top;
-            String llabel = (label != null) ? label : "";
-            // layout the text and icon
-            String text = SwingUtilities.layoutCompoundLabel(
-                                                             fm, llabel, null,
-                                                             SwingConstants.CENTER, SwingConstants.CENTER,
-                                                             SwingConstants.CENTER, SwingConstants.CENTER,
+            viewRect.width = size.width - (contentArebInsets.left+contentArebInsets.right);
+            viewRect.height = size.height - (contentArebInsets.top+contentArebInsets.bottom);
+            viewRect.x = contentArebInsets.left;
+            viewRect.y = contentArebInsets.top;
+            String llbbel = (lbbel != null) ? lbbel : "";
+            // lbyout the text bnd icon
+            String text = SwingUtilities.lbyoutCompoundLbbel(
+                                                             fm, llbbel, null,
+                                                             SwingConstbnts.CENTER, SwingConstbnts.CENTER,
+                                                             SwingConstbnts.CENTER, SwingConstbnts.CENTER,
                                                              viewRect, iconRect, textRect, 0);
 
             Font f = getPeerFont();
 
             g.setFont(f);
 
-            // perform UI specific press action, e.g. Windows L&F shifts text
-            if (pressed && armed) {
-                paintButtonPressed(g,target);
+            // perform UI specific press bction, e.g. Windows L&F shifts text
+            if (pressed && brmed) {
+                pbintButtonPressed(g,tbrget);
             }
 
-            paintText(g, target, textRect, text);
+            pbintText(g, tbrget, textRect, text);
 
-            if (hasFocus()) {
-                // paint UI specific focus
-                paintFocus(g,focusInsets.left,
+            if (hbsFocus()) {
+                // pbint UI specific focus
+                pbintFocus(g,focusInsets.left,
                            focusInsets.top,
                            size.width-(focusInsets.left+focusInsets.right)-1,
                            size.height-(focusInsets.top+focusInsets.bottom)-1);
@@ -260,42 +260,42 @@ public class XButtonPeer extends XComponentPeer implements ButtonPeer {
         flush();
     }
 
-    public void paintBorder(Graphics g, int x, int y, int w, int h) {
-        drawMotif3DRect(g, x, y, w-1, h-1, pressed);
+    public void pbintBorder(Grbphics g, int x, int y, int w, int h) {
+        drbwMotif3DRect(g, x, y, w-1, h-1, pressed);
     }
 
-    protected void paintFocus(Graphics g, int x, int y, int w, int h){
+    protected void pbintFocus(Grbphics g, int x, int y, int w, int h){
         g.setColor(focusColor);
-        g.drawRect(x,y,w,h);
+        g.drbwRect(x,y,w,h);
     }
 
-    protected void paintButtonPressed(Graphics g, Component b) {
+    protected void pbintButtonPressed(Grbphics g, Component b) {
         Dimension size = getPeerSize();
         g.setColor(selectColor);
-        g.fillRect(contentAreaInsets.left,
-                   contentAreaInsets.top,
-                   size.width-(contentAreaInsets.left+contentAreaInsets.right),
-                   size.height-(contentAreaInsets.top+contentAreaInsets.bottom));
+        g.fillRect(contentArebInsets.left,
+                   contentArebInsets.top,
+                   size.width-(contentArebInsets.left+contentArebInsets.right),
+                   size.height-(contentArebInsets.top+contentArebInsets.bottom));
 
     }
-    protected void paintText(Graphics g, Component c, Rectangle textRect, String text) {
+    protected void pbintText(Grbphics g, Component c, Rectbngle textRect, String text) {
         FontMetrics fm = g.getFontMetrics();
 
         int mnemonicIndex = -1;
 
-        /* Draw the Text */
-        if(isEnabled()) {
-            /*** paint the text normally */
+        /* Drbw the Text */
+        if(isEnbbled()) {
+            /*** pbint the text normblly */
             g.setColor(getPeerForeground());
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g,text,mnemonicIndex , textRect.x , textRect.y + fm.getAscent() );
+            BbsicGrbphicsUtils.drbwStringUnderlineChbrAt(g,text,mnemonicIndex , textRect.x , textRect.y + fm.getAscent() );
         }
         else {
-            /*** paint the text disabled ***/
-            g.setColor(getPeerBackground().brighter());
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g,text, mnemonicIndex,
+            /*** pbint the text disbbled ***/
+            g.setColor(getPeerBbckground().brighter());
+            BbsicGrbphicsUtils.drbwStringUnderlineChbrAt(g,text, mnemonicIndex,
                                                          textRect.x, textRect.y + fm.getAscent());
-            g.setColor(getPeerBackground().darker());
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g,text, mnemonicIndex,
+            g.setColor(getPeerBbckground().dbrker());
+            BbsicGrbphicsUtils.drbwStringUnderlineChbrAt(g,text, mnemonicIndex,
                                                          textRect.x - 1, textRect.y + fm.getAscent() - 1);
         }
     }

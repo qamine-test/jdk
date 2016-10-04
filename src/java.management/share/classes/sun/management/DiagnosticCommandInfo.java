@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * Diagnostic command information. It contains the description of a
- * diagnostic command.
+ * Dibgnostic commbnd informbtion. It contbins the description of b
+ * dibgnostic commbnd.
  *
  * @since 1.8
  */
 
-class DiagnosticCommandInfo {
-    private final String name;
-    private final String description;
-    private final String impact;
-    private final String permissionClass;
-    private final String permissionName;
-    private final String permissionAction;
-    private final boolean enabled;
-    private final List<DiagnosticCommandArgumentInfo> arguments;
+clbss DibgnosticCommbndInfo {
+    privbte finbl String nbme;
+    privbte finbl String description;
+    privbte finbl String impbct;
+    privbte finbl String permissionClbss;
+    privbte finbl String permissionNbme;
+    privbte finbl String permissionAction;
+    privbte finbl boolebn enbbled;
+    privbte finbl List<DibgnosticCommbndArgumentInfo> brguments;
 
     /**
-     * Returns the diagnostic command name.
+     * Returns the dibgnostic commbnd nbme.
      *
-     * @return the diagnostic command name
+     * @return the dibgnostic commbnd nbme
      */
-    String getName() {
-        return name;
+    String getNbme() {
+        return nbme;
     }
 
    /**
-     * Returns the diagnostic command description.
+     * Returns the dibgnostic commbnd description.
      *
-     * @return the diagnostic command description
+     * @return the dibgnostic commbnd description
      */
     String getDescription() {
         return description;
     }
 
     /**
-     * Returns the potential impact of the diagnostic command execution
-     *         on the Java virtual machine behavior.
+     * Returns the potentibl impbct of the dibgnostic commbnd execution
+     *         on the Jbvb virtubl mbchine behbvior.
      *
-     * @return the potential impact of the diagnostic command execution
-     *         on the Java virtual machine behavior
+     * @return the potentibl impbct of the dibgnostic commbnd execution
+     *         on the Jbvb virtubl mbchine behbvior
      */
-    String getImpact() {
-        return impact;
+    String getImpbct() {
+        return impbct;
     }
 
     /**
-     * Returns the name of the permission class required to be allowed
-     *         to invoke the diagnostic command, or null if no permission
+     * Returns the nbme of the permission clbss required to be bllowed
+     *         to invoke the dibgnostic commbnd, or null if no permission
      *         is required.
      *
-     * @return the name of the permission class name required to be allowed
-     *         to invoke the diagnostic command, or null if no permission
+     * @return the nbme of the permission clbss nbme required to be bllowed
+     *         to invoke the dibgnostic commbnd, or null if no permission
      *         is required
      */
-    String getPermissionClass() {
-        return permissionClass;
+    String getPermissionClbss() {
+        return permissionClbss;
     }
 
     /**
-     * Returns the permission name required to be allowed to invoke the
-     *         diagnostic command, or null if no permission is required.
+     * Returns the permission nbme required to be bllowed to invoke the
+     *         dibgnostic commbnd, or null if no permission is required.
      *
-     * @return the permission name required to be allowed to invoke the
-     *         diagnostic command, or null if no permission is required
+     * @return the permission nbme required to be bllowed to invoke the
+     *         dibgnostic commbnd, or null if no permission is required
      */
-    String getPermissionName() {
-        return permissionName;
+    String getPermissionNbme() {
+        return permissionNbme;
     }
 
     /**
-     * Returns the permission action required to be allowed to invoke the
-     *         diagnostic command, or null if no permission is required or
-     *         if the permission has no action specified.
+     * Returns the permission bction required to be bllowed to invoke the
+     *         dibgnostic commbnd, or null if no permission is required or
+     *         if the permission hbs no bction specified.
      *
-     * @return the permission action required to be allowed to invoke the
-     *         diagnostic command, or null if no permission is required or
-     *         if the permission has no action specified
+     * @return the permission bction required to be bllowed to invoke the
+     *         dibgnostic commbnd, or null if no permission is required or
+     *         if the permission hbs no bction specified
      */
     String getPermissionAction() {
         return permissionAction;
     }
 
     /**
-     * Returns {@code true} if the diagnostic command is enabled,
-     *         {@code false} otherwise. The enabled/disabled
-     *         status of a diagnostic command can evolve during
-     *         the lifetime of the Java virtual machine.
+     * Returns {@code true} if the dibgnostic commbnd is enbbled,
+     *         {@code fblse} otherwise. The enbbled/disbbled
+     *         stbtus of b dibgnostic commbnd cbn evolve during
+     *         the lifetime of the Jbvb virtubl mbchine.
      *
-     * @return {@code true} if the diagnostic command is enabled,
-     *         {@code false} otherwise
+     * @return {@code true} if the dibgnostic commbnd is enbbled,
+     *         {@code fblse} otherwise
      */
-    boolean isEnabled() {
-        return enabled;
+    boolebn isEnbbled() {
+        return enbbled;
     }
 
     /**
-     * Returns the list of the diagnostic command arguments description.
-     * If the diagnostic command has no arguments, it returns an empty list.
+     * Returns the list of the dibgnostic commbnd brguments description.
+     * If the dibgnostic commbnd hbs no brguments, it returns bn empty list.
      *
-     * @return a list of the diagnostic command arguments description
+     * @return b list of the dibgnostic commbnd brguments description
      */
-    List<DiagnosticCommandArgumentInfo> getArgumentsInfo() {
-        return arguments;
+    List<DibgnosticCommbndArgumentInfo> getArgumentsInfo() {
+        return brguments;
     }
 
-    DiagnosticCommandInfo(String name, String description,
-                                    String impact, String permissionClass,
-                                    String permissionName, String permissionAction,
-                                    boolean enabled,
-                                    List<DiagnosticCommandArgumentInfo> arguments)
+    DibgnosticCommbndInfo(String nbme, String description,
+                                    String impbct, String permissionClbss,
+                                    String permissionNbme, String permissionAction,
+                                    boolebn enbbled,
+                                    List<DibgnosticCommbndArgumentInfo> brguments)
     {
-        this.name = name;
+        this.nbme = nbme;
         this.description = description;
-        this.impact = impact;
-        this.permissionClass = permissionClass;
-        this.permissionName = permissionName;
+        this.impbct = impbct;
+        this.permissionClbss = permissionClbss;
+        this.permissionNbme = permissionNbme;
         this.permissionAction = permissionAction;
-        this.enabled = enabled;
-        this.arguments = arguments;
+        this.enbbled = enbbled;
+        this.brguments = brguments;
     }
 }

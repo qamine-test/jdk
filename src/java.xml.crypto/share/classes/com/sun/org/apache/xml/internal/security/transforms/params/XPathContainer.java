@@ -3,57 +3,57 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.transforms.params;
+pbckbge com.sun.org.bpbche.xml.internbl.security.trbnsforms.pbrbms;
 
 
-import com.sun.org.apache.xml.internal.security.transforms.TransformParam;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.TrbnsformPbrbm;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
 /**
- * This Object serves both as namespace prefix resolver and as container for
- * the <CODE>ds:XPath</CODE> Element. It implements the {@link org.w3c.dom.Element} interface
- * and can be used directly in a DOM tree.
+ * This Object serves both bs nbmespbce prefix resolver bnd bs contbiner for
+ * the <CODE>ds:XPbth</CODE> Element. It implements the {@link org.w3c.dom.Element} interfbce
+ * bnd cbn be used directly in b DOM tree.
  *
- * @author Christian Geuer-Pollmann
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public class XPathContainer extends SignatureElementProxy implements TransformParam {
+public clbss XPbthContbiner extends SignbtureElementProxy implements TrbnsformPbrbm {
 
     /**
-     * Constructor XPathContainer
+     * Constructor XPbthContbiner
      *
-     * @param doc
+     * @pbrbm doc
      */
-    public XPathContainer(Document doc) {
+    public XPbthContbiner(Document doc) {
         super(doc);
     }
 
     /**
-     * Sets the TEXT value of the <CODE>ds:XPath</CODE> Element.
+     * Sets the TEXT vblue of the <CODE>ds:XPbth</CODE> Element.
      *
-     * @param xpath
+     * @pbrbm xpbth
      */
-    public void setXPath(String xpath) {
+    public void setXPbth(String xpbth) {
         if (this.constructionElement.getChildNodes() != null) {
             NodeList nl = this.constructionElement.getChildNodes();
 
@@ -62,21 +62,21 @@ public class XPathContainer extends SignatureElementProxy implements TransformPa
             }
         }
 
-        Text xpathText = this.doc.createTextNode(xpath);
-        this.constructionElement.appendChild(xpathText);
+        Text xpbthText = this.doc.crebteTextNode(xpbth);
+        this.constructionElement.bppendChild(xpbthText);
     }
 
     /**
-     * Returns the TEXT value of the <CODE>ds:XPath</CODE> Element.
+     * Returns the TEXT vblue of the <CODE>ds:XPbth</CODE> Element.
      *
-     * @return the TEXT value of the <CODE>ds:XPath</CODE> Element.
+     * @return the TEXT vblue of the <CODE>ds:XPbth</CODE> Element.
      */
-    public String getXPath() {
+    public String getXPbth() {
         return this.getTextFromTextChild();
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_XPATH;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_XPATH;
     }
 }

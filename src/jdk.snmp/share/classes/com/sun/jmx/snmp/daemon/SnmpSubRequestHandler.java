@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbckbge com.sun.jmx.snmp.dbemon;
 
 
 
-// java import
+// jbvb import
 //
-import java.util.logging.Level;
-import java.util.Vector;
+import jbvb.util.logging.Level;
+import jbvb.util.Vector;
 
 // jmx imports
 //
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
+import stbtic com.sun.jmx.defbults.JmxProperties.SNMP_ADAPTOR_LOGGER;
 import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpVarBind;
+import com.sun.jmx.snmp.SnmpVbrBind;
 import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpEngine;
 
 // SNMP Runtime import
 //
-import com.sun.jmx.snmp.agent.SnmpMibAgent;
-import com.sun.jmx.snmp.agent.SnmpMibRequest;
-import com.sun.jmx.snmp.ThreadContext;
-import com.sun.jmx.snmp.internal.SnmpIncomingRequest;
+import com.sun.jmx.snmp.bgent.SnmpMibAgent;
+import com.sun.jmx.snmp.bgent.SnmpMibRequest;
+import com.sun.jmx.snmp.ThrebdContext;
+import com.sun.jmx.snmp.internbl.SnmpIncomingRequest;
 
-class SnmpSubRequestHandler implements SnmpDefinitions, Runnable {
+clbss SnmpSubRequestHbndler implements SnmpDefinitions, Runnbble {
 
     protected SnmpIncomingRequest incRequest = null;
     protected SnmpEngine engine = null;
     /**
-     * V3 enabled Adaptor. Each Oid is added using updateRequest method.
+     * V3 enbbled Adbptor. Ebch Oid is bdded using updbteRequest method.
      */
-    protected SnmpSubRequestHandler(SnmpEngine engine,
+    protected SnmpSubRequestHbndler(SnmpEngine engine,
                                     SnmpIncomingRequest incRequest,
-                                    SnmpMibAgent agent,
+                                    SnmpMibAgent bgent,
                                     SnmpPdu req) {
-        this(agent, req);
+        this(bgent, req);
         init(engine, incRequest);
     }
 
     /**
-     * V3 enabled Adaptor.
+     * V3 enbbled Adbptor.
      */
-    protected SnmpSubRequestHandler(SnmpEngine engine,
+    protected SnmpSubRequestHbndler(SnmpEngine engine,
                                     SnmpIncomingRequest incRequest,
-                                    SnmpMibAgent agent,
+                                    SnmpMibAgent bgent,
                                     SnmpPdu req,
-                                    boolean nouse) {
-        this(agent, req, nouse);
+                                    boolebn nouse) {
+        this(bgent, req, nouse);
         init(engine, incRequest);
     }
     /**
-     * SNMP V1/V2 . To be called with updateRequest.
+     * SNMP V1/V2 . To be cblled with updbteRequest.
      */
-    protected SnmpSubRequestHandler(SnmpMibAgent agent, SnmpPdu req) {
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                "constructor", "creating instance for request " + String.valueOf(req.requestId));
+    protected SnmpSubRequestHbndler(SnmpMibAgent bgent, SnmpPdu req) {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHbndler.clbss.getNbme(),
+                "constructor", "crebting instbnce for request " + String.vblueOf(req.requestId));
         }
 
         version= req.version;
         type= req.type;
-        this.agent= agent;
+        this.bgent= bgent;
 
-        // We get a ref on the pdu in order to pass it to SnmpMibRequest.
+        // We get b ref on the pdu in order to pbss it to SnmpMibRequest.
         reqPdu = req;
 
-        //Pre-allocate room for storing varbindlist and translation table.
+        //Pre-bllocbte room for storing vbrbindlist bnd trbnslbtion tbble.
         //
-        int length= req.varBindList.length;
-        translation= new int[length];
-        varBind= new NonSyncVector<SnmpVarBind>(length);
+        int length= req.vbrBindList.length;
+        trbnslbtion= new int[length];
+        vbrBind= new NonSyncVector<SnmpVbrBind>(length);
     }
 
     /**
-     * SNMP V1/V2 The constructor initialize the subrequest with the whole varbind list contained
-     * in the original request.
+     * SNMP V1/V2 The constructor initiblize the subrequest with the whole vbrbind list contbined
+     * in the originbl request.
      */
-    @SuppressWarnings("unchecked")  // cast to NonSyncVector<SnmpVarBind>
-    protected SnmpSubRequestHandler(SnmpMibAgent agent,
+    @SuppressWbrnings("unchecked")  // cbst to NonSyncVector<SnmpVbrBind>
+    protected SnmpSubRequestHbndler(SnmpMibAgent bgent,
                                     SnmpPdu req,
-                                    boolean nouse) {
-        this(agent,req);
+                                    boolebn nouse) {
+        this(bgent,req);
 
-        // The translation table is easy in this case ...
+        // The trbnslbtion tbble is ebsy in this cbse ...
         //
-        int max= translation.length;
-        SnmpVarBind[] list= req.varBindList;
-        for(int i=0; i < max; i++) {
-            translation[i]= i;
-            ((NonSyncVector<SnmpVarBind>)varBind).addNonSyncElement(list[i]);
+        int mbx= trbnslbtion.length;
+        SnmpVbrBind[] list= req.vbrBindList;
+        for(int i=0; i < mbx; i++) {
+            trbnslbtion[i]= i;
+            ((NonSyncVector<SnmpVbrBind>)vbrBind).bddNonSyncElement(list[i]);
         }
     }
 
-    SnmpMibRequest createMibRequest(Vector<SnmpVarBind> vblist,
+    SnmpMibRequest crebteMibRequest(Vector<SnmpVbrBind> vblist,
                                     int protocolVersion,
-                                    Object userData) {
+                                    Object userDbtb) {
 
-        // This is an optimization:
-        //    The SnmpMibRequest created in the check() phase is
-        //    reused in the set() phase.
+        // This is bn optimizbtion:
+        //    The SnmpMibRequest crebted in the check() phbse is
+        //    reused in the set() phbse.
         //
         if (type == pduSetRequestPdu && mibRequest != null)
             return mibRequest;
 
-        //This is a request comming from an SnmpV3AdaptorServer.
+        //This is b request comming from bn SnmpV3AdbptorServer.
         //Full power.
         SnmpMibRequest result = null;
         if(incRequest != null) {
@@ -137,221 +137,221 @@ class SnmpSubRequestHandler implements SnmpDefinitions, Runnable {
                                                 reqPdu,
                                                 vblist,
                                                 protocolVersion,
-                                                userData,
-                                                incRequest.getPrincipal(),
+                                                userDbtb,
+                                                incRequest.getPrincipbl(),
                                                 incRequest.getSecurityLevel(),
                                                 incRequest.getSecurityModel(),
-                                                incRequest.getContextName(),
+                                                incRequest.getContextNbme(),
                                                 incRequest.getAccessContext());
         } else {
             result = SnmpMibAgent.newMibRequest(reqPdu,
                                                 vblist,
                                                 protocolVersion,
-                                                userData);
+                                                userDbtb);
         }
-        // If we're doing the check() phase, we store the SnmpMibRequest
-        // so that we can reuse it in the set() phase.
+        // If we're doing the check() phbse, we store the SnmpMibRequest
+        // so thbt we cbn reuse it in the set() phbse.
         //
-        if (type == pduWalkRequest)
+        if (type == pduWblkRequest)
             mibRequest = result;
 
         return result;
     }
 
-    void setUserData(Object userData) {
-        data = userData;
+    void setUserDbtb(Object userDbtb) {
+        dbtb = userDbtb;
     }
 
     public void run() {
 
         try {
-            final ThreadContext oldContext =
-                ThreadContext.push("SnmpUserData",data);
+            finbl ThrebdContext oldContext =
+                ThrebdContext.push("SnmpUserDbtb",dbtb);
             try {
                 switch(type) {
-                case pduGetRequestPdu:
-                    // Invoke a get operation
+                cbse pduGetRequestPdu:
+                    // Invoke b get operbtion
                     //
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "run", "[" + Thread.currentThread() +
-                              "]:get operation on " + agent.getMibName());
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHbndler.clbss.getNbme(),
+                            "run", "[" + Threbd.currentThrebd() +
+                              "]:get operbtion on " + bgent.getMibNbme());
                     }
 
-                    agent.get(createMibRequest(varBind,version,data));
-                    break;
+                    bgent.get(crebteMibRequest(vbrBind,version,dbtb));
+                    brebk;
 
-                case pduGetNextRequestPdu:
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "run", "[" + Thread.currentThread() +
-                              "]:getNext operation on " + agent.getMibName());
+                cbse pduGetNextRequestPdu:
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHbndler.clbss.getNbme(),
+                            "run", "[" + Threbd.currentThrebd() +
+                              "]:getNext operbtion on " + bgent.getMibNbme());
                     }
                     //#ifdef DEBUG
-                    agent.getNext(createMibRequest(varBind,version,data));
-                    break;
+                    bgent.getNext(crebteMibRequest(vbrBind,version,dbtb));
+                    brebk;
 
-                case pduSetRequestPdu:
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "run", "[" + Thread.currentThread() +
-                            "]:set operation on " + agent.getMibName());
+                cbse pduSetRequestPdu:
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHbndler.clbss.getNbme(),
+                            "run", "[" + Threbd.currentThrebd() +
+                            "]:set operbtion on " + bgent.getMibNbme());
                     }
-                    agent.set(createMibRequest(varBind,version,data));
-                    break;
+                    bgent.set(crebteMibRequest(vbrBind,version,dbtb));
+                    brebk;
 
-                case pduWalkRequest:
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "run", "[" + Thread.currentThread() +
-                            "]:check operation on " + agent.getMibName());
+                cbse pduWblkRequest:
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHbndler.clbss.getNbme(),
+                            "run", "[" + Threbd.currentThrebd() +
+                            "]:check operbtion on " + bgent.getMibNbme());
                     }
-                    agent.check(createMibRequest(varBind,version,data));
-                    break;
+                    bgent.check(crebteMibRequest(vbrBind,version,dbtb));
+                    brebk;
 
-                default:
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                            "run", "[" + Thread.currentThread() +
-                              "]:unknown operation (" +  type + ") on " +
-                              agent.getMibName());
+                defbult:
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHbndler.clbss.getNbme(),
+                            "run", "[" + Threbd.currentThrebd() +
+                              "]:unknown operbtion (" +  type + ") on " +
+                              bgent.getMibNbme());
                     }
-                    errorStatus= snmpRspGenErr;
+                    errorStbtus= snmpRspGenErr;
                     errorIndex= 1;
-                    break;
+                    brebk;
 
                 }// end of switch
 
-            } finally {
-                ThreadContext.restore(oldContext);
+            } finblly {
+                ThrebdContext.restore(oldContext);
             }
-        } catch(SnmpStatusException x) {
-            errorStatus = x.getStatus() ;
+        } cbtch(SnmpStbtusException x) {
+            errorStbtus = x.getStbtus() ;
             errorIndex=  x.getErrorIndex();
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                    "run", "[" + Thread.currentThread() +
-                      "]:an Snmp error occurred during the operation", x);
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHbndler.clbss.getNbme(),
+                    "run", "[" + Threbd.currentThrebd() +
+                      "]:bn Snmp error occurred during the operbtion", x);
             }
         }
-        catch(Exception x) {
-            errorStatus = SnmpDefinitions.snmpRspGenErr ;
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                    "run", "[" + Thread.currentThread() +
-                      "]:a generic error occurred during the operation", x);
+        cbtch(Exception x) {
+            errorStbtus = SnmpDefinitions.snmpRspGenErr ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHbndler.clbss.getNbme(),
+                    "run", "[" + Threbd.currentThrebd() +
+                      "]:b generic error occurred during the operbtion", x);
             }
         }
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                "run", "[" + Thread.currentThread() + "]:operation completed");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHbndler.clbss.getNbme(),
+                "run", "[" + Threbd.currentThrebd() + "]:operbtion completed");
         }
     }
 
     // -------------------------------------------------------------
     //
-    // This function does a best-effort to map global error status
-    // to SNMP v1 valid global error status.
+    // This function does b best-effort to mbp globbl error stbtus
+    // to SNMP v1 vblid globbl error stbtus.
     //
-    // An SnmpStatusException can contain either:
-    // <li> v2 local error codes (that should be stored in the varbind)</li>
-    // <li> v2 global error codes </li>
-    // <li> v1 global error codes </li>
+    // An SnmpStbtusException cbn contbin either:
+    // <li> v2 locbl error codes (thbt should be stored in the vbrbind)</li>
+    // <li> v2 globbl error codes </li>
+    // <li> v1 globbl error codes </li>
     //
-    // v2 local error codes (noSuchInstance, noSuchObject) are
-    // transformed in a global v1 snmpRspNoSuchName error.
+    // v2 locbl error codes (noSuchInstbnce, noSuchObject) bre
+    // trbnsformed in b globbl v1 snmpRspNoSuchNbme error.
     //
-    // v2 global error codes are transformed in the following way:
+    // v2 globbl error codes bre trbnsformed in the following wby:
     //
-    //    If the request was a GET/GETNEXT then either
-    //         snmpRspNoSuchName or snmpRspGenErr is returned.
+    //    If the request wbs b GET/GETNEXT then either
+    //         snmpRspNoSuchNbme or snmpRspGenErr is returned.
     //
     //    Otherwise:
-    //      snmpRspNoAccess, snmpRspInconsistentName
-    //               => snmpRspNoSuchName
-    //      snmpRspAuthorizationError, snmpRspNotWritable, snmpRspNoCreation
-    //               => snmpRspReadOnly  (snmpRspNoSuchName for GET/GETNEXT)
+    //      snmpRspNoAccess, snmpRspInconsistentNbme
+    //               => snmpRspNoSuchNbme
+    //      snmpRspAuthorizbtionError, snmpRspNotWritbble, snmpRspNoCrebtion
+    //               => snmpRspRebdOnly  (snmpRspNoSuchNbme for GET/GETNEXT)
     //      snmpRspWrong*
-    //               => snmpRspBadValue  (snmpRspNoSuchName for GET/GETNEXT)
-    //      snmpRspResourceUnavailable, snmpRspRspCommitFailed,
-    //      snmpRspUndoFailed
+    //               => snmpRspBbdVblue  (snmpRspNoSuchNbme for GET/GETNEXT)
+    //      snmpRspResourceUnbvbilbble, snmpRspRspCommitFbiled,
+    //      snmpRspUndoFbiled
     //                  => snmpRspGenErr
     //
     // -------------------------------------------------------------
     //
-    static final int mapErrorStatusToV1(int errorStatus, int reqPduType) {
-        // Map v2 codes onto v1 codes
+    stbtic finbl int mbpErrorStbtusToV1(int errorStbtus, int reqPduType) {
+        // Mbp v2 codes onto v1 codes
         //
-        if (errorStatus == SnmpDefinitions.snmpRspNoError)
+        if (errorStbtus == SnmpDefinitions.snmpRspNoError)
             return SnmpDefinitions.snmpRspNoError;
 
-        if (errorStatus == SnmpDefinitions.snmpRspGenErr)
+        if (errorStbtus == SnmpDefinitions.snmpRspGenErr)
             return SnmpDefinitions.snmpRspGenErr;
 
-        if (errorStatus == SnmpDefinitions.snmpRspNoSuchName)
-            return SnmpDefinitions.snmpRspNoSuchName;
+        if (errorStbtus == SnmpDefinitions.snmpRspNoSuchNbme)
+            return SnmpDefinitions.snmpRspNoSuchNbme;
 
-        if ((errorStatus == SnmpStatusException.noSuchInstance) ||
-            (errorStatus == SnmpStatusException.noSuchObject)   ||
-            (errorStatus == SnmpDefinitions.snmpRspNoAccess)    ||
-            (errorStatus == SnmpDefinitions.snmpRspInconsistentName) ||
-            (errorStatus == SnmpDefinitions.snmpRspAuthorizationError)){
+        if ((errorStbtus == SnmpStbtusException.noSuchInstbnce) ||
+            (errorStbtus == SnmpStbtusException.noSuchObject)   ||
+            (errorStbtus == SnmpDefinitions.snmpRspNoAccess)    ||
+            (errorStbtus == SnmpDefinitions.snmpRspInconsistentNbme) ||
+            (errorStbtus == SnmpDefinitions.snmpRspAuthorizbtionError)){
 
-            return SnmpDefinitions.snmpRspNoSuchName;
+            return SnmpDefinitions.snmpRspNoSuchNbme;
 
-        } else if ((errorStatus ==
-                    SnmpDefinitions.snmpRspAuthorizationError)         ||
-                   (errorStatus == SnmpDefinitions.snmpRspNotWritable)) {
+        } else if ((errorStbtus ==
+                    SnmpDefinitions.snmpRspAuthorizbtionError)         ||
+                   (errorStbtus == SnmpDefinitions.snmpRspNotWritbble)) {
 
-            if (reqPduType == SnmpDefinitions.pduWalkRequest)
-                return SnmpDefinitions.snmpRspReadOnly;
+            if (reqPduType == SnmpDefinitions.pduWblkRequest)
+                return SnmpDefinitions.snmpRspRebdOnly;
             else
-                return SnmpDefinitions.snmpRspNoSuchName;
+                return SnmpDefinitions.snmpRspNoSuchNbme;
 
-        } else if ((errorStatus == SnmpDefinitions.snmpRspNoCreation)) {
+        } else if ((errorStbtus == SnmpDefinitions.snmpRspNoCrebtion)) {
 
-                return SnmpDefinitions.snmpRspNoSuchName;
+                return SnmpDefinitions.snmpRspNoSuchNbme;
 
-        } else if ((errorStatus == SnmpDefinitions.snmpRspWrongType)      ||
-                   (errorStatus == SnmpDefinitions.snmpRspWrongLength)    ||
-                   (errorStatus == SnmpDefinitions.snmpRspWrongEncoding)  ||
-                   (errorStatus == SnmpDefinitions.snmpRspWrongValue)     ||
-                   (errorStatus == SnmpDefinitions.snmpRspWrongLength)    ||
-                   (errorStatus ==
-                    SnmpDefinitions.snmpRspInconsistentValue)) {
+        } else if ((errorStbtus == SnmpDefinitions.snmpRspWrongType)      ||
+                   (errorStbtus == SnmpDefinitions.snmpRspWrongLength)    ||
+                   (errorStbtus == SnmpDefinitions.snmpRspWrongEncoding)  ||
+                   (errorStbtus == SnmpDefinitions.snmpRspWrongVblue)     ||
+                   (errorStbtus == SnmpDefinitions.snmpRspWrongLength)    ||
+                   (errorStbtus ==
+                    SnmpDefinitions.snmpRspInconsistentVblue)) {
 
             if ((reqPduType == SnmpDefinitions.pduSetRequestPdu) ||
-                (reqPduType == SnmpDefinitions.pduWalkRequest))
-                return SnmpDefinitions.snmpRspBadValue;
+                (reqPduType == SnmpDefinitions.pduWblkRequest))
+                return SnmpDefinitions.snmpRspBbdVblue;
             else
-                return SnmpDefinitions.snmpRspNoSuchName;
+                return SnmpDefinitions.snmpRspNoSuchNbme;
 
-        } else if ((errorStatus ==
-                    SnmpDefinitions.snmpRspResourceUnavailable) ||
-                   (errorStatus ==
-                    SnmpDefinitions.snmpRspCommitFailed)        ||
-                   (errorStatus == SnmpDefinitions.snmpRspUndoFailed)) {
+        } else if ((errorStbtus ==
+                    SnmpDefinitions.snmpRspResourceUnbvbilbble) ||
+                   (errorStbtus ==
+                    SnmpDefinitions.snmpRspCommitFbiled)        ||
+                   (errorStbtus == SnmpDefinitions.snmpRspUndoFbiled)) {
 
             return SnmpDefinitions.snmpRspGenErr;
 
         }
 
-        // At this point we should have a V1 error code
+        // At this point we should hbve b V1 error code
         //
-        if (errorStatus == SnmpDefinitions.snmpRspTooBig)
+        if (errorStbtus == SnmpDefinitions.snmpRspTooBig)
             return SnmpDefinitions.snmpRspTooBig;
 
-        if( (errorStatus == SnmpDefinitions.snmpRspBadValue) ||
-            (errorStatus == SnmpDefinitions.snmpRspReadOnly)) {
+        if( (errorStbtus == SnmpDefinitions.snmpRspBbdVblue) ||
+            (errorStbtus == SnmpDefinitions.snmpRspRebdOnly)) {
             if ((reqPduType == SnmpDefinitions.pduSetRequestPdu) ||
-                (reqPduType == SnmpDefinitions.pduWalkRequest))
-                return errorStatus;
+                (reqPduType == SnmpDefinitions.pduWblkRequest))
+                return errorStbtus;
             else
-                return SnmpDefinitions.snmpRspNoSuchName;
+                return SnmpDefinitions.snmpRspNoSuchNbme;
         }
 
-        // We have a snmpRspGenErr, or something which is not defined
-        // in RFC1905 => return a snmpRspGenErr
+        // We hbve b snmpRspGenErr, or something which is not defined
+        // in RFC1905 => return b snmpRspGenErr
         //
         return SnmpDefinitions.snmpRspGenErr;
 
@@ -359,189 +359,189 @@ class SnmpSubRequestHandler implements SnmpDefinitions, Runnable {
 
     // -------------------------------------------------------------
     //
-    // This function does a best-effort to map global error status
-    // to SNMP v2 valid global error status.
+    // This function does b best-effort to mbp globbl error stbtus
+    // to SNMP v2 vblid globbl error stbtus.
     //
-    // An SnmpStatusException can contain either:
-    // <li> v2 local error codes (that should be stored in the varbind)</li>
-    // <li> v2 global error codes </li>
-    // <li> v1 global error codes </li>
+    // An SnmpStbtusException cbn contbin either:
+    // <li> v2 locbl error codes (thbt should be stored in the vbrbind)</li>
+    // <li> v2 globbl error codes </li>
+    // <li> v1 globbl error codes </li>
     //
-    // v2 local error codes (noSuchInstance, noSuchObject)
-    // should not raise this level: they should have been stored in the
-    // varbind earlier. If they, do there is nothing much we can do except
-    // to transform them into:
-    // <li> a global snmpRspGenErr (if the request is a GET/GETNEXT) </li>
-    // <li> a global snmpRspNoSuchName otherwise. </li>
+    // v2 locbl error codes (noSuchInstbnce, noSuchObject)
+    // should not rbise this level: they should hbve been stored in the
+    // vbrbind ebrlier. If they, do there is nothing much we cbn do except
+    // to trbnsform them into:
+    // <li> b globbl snmpRspGenErr (if the request is b GET/GETNEXT) </li>
+    // <li> b globbl snmpRspNoSuchNbme otherwise. </li>
     //
-    // v2 global error codes are transformed in the following way:
+    // v2 globbl error codes bre trbnsformed in the following wby:
     //
-    //    If the request was a GET/GETNEXT then snmpRspGenErr is returned.
-    //    (snmpRspGenErr is the only global error that is expected to be
-    //     raised by a GET/GETNEXT request).
+    //    If the request wbs b GET/GETNEXT then snmpRspGenErr is returned.
+    //    (snmpRspGenErr is the only globbl error thbt is expected to be
+    //     rbised by b GET/GETNEXT request).
     //
     //    Otherwise the v2 code itself is returned
     //
-    // v1 global error codes are transformed in the following way:
+    // v1 globbl error codes bre trbnsformed in the following wby:
     //
-    //      snmpRspNoSuchName
+    //      snmpRspNoSuchNbme
     //               => snmpRspNoAccess  (snmpRspGenErr for GET/GETNEXT)
-    //      snmpRspReadOnly
-    //               => snmpRspNotWritable (snmpRspGenErr for GET/GETNEXT)
-    //      snmpRspBadValue
-    //               => snmpRspWrongValue  (snmpRspGenErr for GET/GETNEXT)
+    //      snmpRspRebdOnly
+    //               => snmpRspNotWritbble (snmpRspGenErr for GET/GETNEXT)
+    //      snmpRspBbdVblue
+    //               => snmpRspWrongVblue  (snmpRspGenErr for GET/GETNEXT)
     //
     // -------------------------------------------------------------
     //
-    static final int mapErrorStatusToV2(int errorStatus, int reqPduType) {
-        // Map v1 codes onto v2 codes
+    stbtic finbl int mbpErrorStbtusToV2(int errorStbtus, int reqPduType) {
+        // Mbp v1 codes onto v2 codes
         //
-        if (errorStatus == SnmpDefinitions.snmpRspNoError)
+        if (errorStbtus == SnmpDefinitions.snmpRspNoError)
             return SnmpDefinitions.snmpRspNoError;
 
-        if (errorStatus == SnmpDefinitions.snmpRspGenErr)
+        if (errorStbtus == SnmpDefinitions.snmpRspGenErr)
             return SnmpDefinitions.snmpRspGenErr;
 
-        if (errorStatus == SnmpDefinitions.snmpRspTooBig)
+        if (errorStbtus == SnmpDefinitions.snmpRspTooBig)
             return SnmpDefinitions.snmpRspTooBig;
 
-        // For get / getNext / getBulk the only global error
+        // For get / getNext / getBulk the only globbl error
         // (PDU-level) possible is genErr.
         //
         if ((reqPduType != SnmpDefinitions.pduSetRequestPdu) &&
-            (reqPduType != SnmpDefinitions.pduWalkRequest)) {
-            if(errorStatus == SnmpDefinitions.snmpRspAuthorizationError)
-                return errorStatus;
+            (reqPduType != SnmpDefinitions.pduWblkRequest)) {
+            if(errorStbtus == SnmpDefinitions.snmpRspAuthorizbtionError)
+                return errorStbtus;
             else
                 return SnmpDefinitions.snmpRspGenErr;
         }
 
-        // Map to noSuchName
-        //      if ((errorStatus == SnmpDefinitions.snmpRspNoSuchName) ||
-        //   (errorStatus == SnmpStatusException.noSuchInstance) ||
-        //  (errorStatus == SnmpStatusException.noSuchObject))
-        //  return SnmpDefinitions.snmpRspNoSuchName;
+        // Mbp to noSuchNbme
+        //      if ((errorStbtus == SnmpDefinitions.snmpRspNoSuchNbme) ||
+        //   (errorStbtus == SnmpStbtusException.noSuchInstbnce) ||
+        //  (errorStbtus == SnmpStbtusException.noSuchObject))
+        //  return SnmpDefinitions.snmpRspNoSuchNbme;
 
-        // SnmpStatusException.noSuchInstance and
-        // SnmpStatusException.noSuchObject can't happen...
+        // SnmpStbtusException.noSuchInstbnce bnd
+        // SnmpStbtusException.noSuchObject cbn't hbppen...
 
-        if (errorStatus == SnmpDefinitions.snmpRspNoSuchName)
+        if (errorStbtus == SnmpDefinitions.snmpRspNoSuchNbme)
             return SnmpDefinitions.snmpRspNoAccess;
 
-        // Map to notWritable
-        if (errorStatus == SnmpDefinitions.snmpRspReadOnly)
-                return SnmpDefinitions.snmpRspNotWritable;
+        // Mbp to notWritbble
+        if (errorStbtus == SnmpDefinitions.snmpRspRebdOnly)
+                return SnmpDefinitions.snmpRspNotWritbble;
 
-        // Map to wrongValue
-        if (errorStatus == SnmpDefinitions.snmpRspBadValue)
-            return SnmpDefinitions.snmpRspWrongValue;
+        // Mbp to wrongVblue
+        if (errorStbtus == SnmpDefinitions.snmpRspBbdVblue)
+            return SnmpDefinitions.snmpRspWrongVblue;
 
-        // Other valid V2 codes
-        if ((errorStatus == SnmpDefinitions.snmpRspNoAccess) ||
-            (errorStatus == SnmpDefinitions.snmpRspInconsistentName) ||
-            (errorStatus == SnmpDefinitions.snmpRspAuthorizationError) ||
-            (errorStatus == SnmpDefinitions.snmpRspNotWritable) ||
-            (errorStatus == SnmpDefinitions.snmpRspNoCreation) ||
-            (errorStatus == SnmpDefinitions.snmpRspWrongType) ||
-            (errorStatus == SnmpDefinitions.snmpRspWrongLength) ||
-            (errorStatus == SnmpDefinitions.snmpRspWrongEncoding) ||
-            (errorStatus == SnmpDefinitions.snmpRspWrongValue) ||
-            (errorStatus == SnmpDefinitions.snmpRspWrongLength) ||
-            (errorStatus == SnmpDefinitions.snmpRspInconsistentValue) ||
-            (errorStatus == SnmpDefinitions.snmpRspResourceUnavailable) ||
-            (errorStatus == SnmpDefinitions.snmpRspCommitFailed) ||
-            (errorStatus == SnmpDefinitions.snmpRspUndoFailed))
-            return errorStatus;
+        // Other vblid V2 codes
+        if ((errorStbtus == SnmpDefinitions.snmpRspNoAccess) ||
+            (errorStbtus == SnmpDefinitions.snmpRspInconsistentNbme) ||
+            (errorStbtus == SnmpDefinitions.snmpRspAuthorizbtionError) ||
+            (errorStbtus == SnmpDefinitions.snmpRspNotWritbble) ||
+            (errorStbtus == SnmpDefinitions.snmpRspNoCrebtion) ||
+            (errorStbtus == SnmpDefinitions.snmpRspWrongType) ||
+            (errorStbtus == SnmpDefinitions.snmpRspWrongLength) ||
+            (errorStbtus == SnmpDefinitions.snmpRspWrongEncoding) ||
+            (errorStbtus == SnmpDefinitions.snmpRspWrongVblue) ||
+            (errorStbtus == SnmpDefinitions.snmpRspWrongLength) ||
+            (errorStbtus == SnmpDefinitions.snmpRspInconsistentVblue) ||
+            (errorStbtus == SnmpDefinitions.snmpRspResourceUnbvbilbble) ||
+            (errorStbtus == SnmpDefinitions.snmpRspCommitFbiled) ||
+            (errorStbtus == SnmpDefinitions.snmpRspUndoFbiled))
+            return errorStbtus;
 
-        // Ivalid V2 code => genErr
+        // Ivblid V2 code => genErr
         return SnmpDefinitions.snmpRspGenErr;
     }
 
-    static final int mapErrorStatus(int errorStatus,
+    stbtic finbl int mbpErrorStbtus(int errorStbtus,
                                     int protocolVersion,
                                     int reqPduType) {
-        if (errorStatus == SnmpDefinitions.snmpRspNoError)
+        if (errorStbtus == SnmpDefinitions.snmpRspNoError)
             return SnmpDefinitions.snmpRspNoError;
 
-        // Too bad, an error occurs ... we need to translate it ...
+        // Too bbd, bn error occurs ... we need to trbnslbte it ...
         //
         if (protocolVersion == SnmpDefinitions.snmpVersionOne)
-            return mapErrorStatusToV1(errorStatus,reqPduType);
+            return mbpErrorStbtusToV1(errorStbtus,reqPduType);
         if (protocolVersion == SnmpDefinitions.snmpVersionTwo ||
             protocolVersion == SnmpDefinitions.snmpVersionThree)
-            return mapErrorStatusToV2(errorStatus,reqPduType);
+            return mbpErrorStbtusToV2(errorStbtus,reqPduType);
 
         return SnmpDefinitions.snmpRspGenErr;
     }
 
     /**
-     * The method returns the error status of the operation.
-     * The method takes into account the protocol version.
+     * The method returns the error stbtus of the operbtion.
+     * The method tbkes into bccount the protocol version.
      */
-    protected int getErrorStatus() {
-        if (errorStatus == snmpRspNoError)
+    protected int getErrorStbtus() {
+        if (errorStbtus == snmpRspNoError)
             return snmpRspNoError;
 
-        return mapErrorStatus(errorStatus,version,type);
+        return mbpErrorStbtus(errorStbtus,version,type);
     }
 
     /**
-     * The method returns the error index as a position in the var bind list.
-     * The value returned by the method corresponds to the index in the original
-     * var bind list as received by the SNMP protocol adaptor.
+     * The method returns the error index bs b position in the vbr bind list.
+     * The vblue returned by the method corresponds to the index in the originbl
+     * vbr bind list bs received by the SNMP protocol bdbptor.
      */
     protected int getErrorIndex() {
-        if  (errorStatus == snmpRspNoError)
+        if  (errorStbtus == snmpRspNoError)
             return -1;
 
-        // An error occurs. We need to be carefull because the index
-        // we are getting is a valid SNMP index (so range starts at 1).
-        // FIX ME: Shall we double-check the range here ?
+        // An error occurs. We need to be cbrefull becbuse the index
+        // we bre getting is b vblid SNMP index (so rbnge stbrts bt 1).
+        // FIX ME: Shbll we double-check the rbnge here ?
         // The response is : YES :
         if ((errorIndex == 0) || (errorIndex == -1))
             errorIndex = 1;
 
-        return translation[errorIndex -1];
+        return trbnslbtion[errorIndex -1];
     }
 
     /**
-     * The method updates the varbind list of the subrequest.
+     * The method updbtes the vbrbind list of the subrequest.
      */
-    protected  void updateRequest(SnmpVarBind var, int pos) {
-        int size= varBind.size();
-        translation[size]= pos;
-        varBind.addElement(var);
+    protected  void updbteRequest(SnmpVbrBind vbr, int pos) {
+        int size= vbrBind.size();
+        trbnslbtion[size]= pos;
+        vbrBind.bddElement(vbr);
     }
 
     /**
-     * The method updates a given var bind list with the result of a
-     * previsouly invoked operation.
-     * Prior to calling the method, one must make sure that the operation was
-     * successful. As such the method getErrorIndex or getErrorStatus should be
-     * called.
+     * The method updbtes b given vbr bind list with the result of b
+     * previsouly invoked operbtion.
+     * Prior to cblling the method, one must mbke sure thbt the operbtion wbs
+     * successful. As such the method getErrorIndex or getErrorStbtus should be
+     * cblled.
      */
-    protected void updateResult(SnmpVarBind[] result) {
+    protected void updbteResult(SnmpVbrBind[] result) {
 
         if (result == null) return;
-        final int max=varBind.size();
-        final int len=result.length;
-        for(int i= 0; i< max ; i++) {
-            // bugId 4641694: must check position in order to avoid
-            //       ArrayIndexOutOfBoundException
-            final int pos=translation[i];
+        finbl int mbx=vbrBind.size();
+        finbl int len=result.length;
+        for(int i= 0; i< mbx ; i++) {
+            // bugId 4641694: must check position in order to bvoid
+            //       ArrbyIndexOutOfBoundException
+            finbl int pos=trbnslbtion[i];
             if (pos < len) {
                 result[pos] =
-                    (SnmpVarBind)((NonSyncVector)varBind).elementAtNonSync(i);
+                    (SnmpVbrBind)((NonSyncVector)vbrBind).elementAtNonSync(i);
             } else {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                        "updateResult","Position `"+pos+"' is out of bound...");
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHbndler.clbss.getNbme(),
+                        "updbteResult","Position `"+pos+"' is out of bound...");
                 }
             }
         }
     }
 
-    private void init(SnmpEngine engine,
+    privbte void init(SnmpEngine engine,
                       SnmpIncomingRequest incRequest) {
         this.incRequest = incRequest;
         this.engine = engine;
@@ -551,80 +551,80 @@ class SnmpSubRequestHandler implements SnmpDefinitions, Runnable {
     //------------------
 
     /**
-     * Store the protocol version to handle
+     * Store the protocol version to hbndle
      */
     protected int version= snmpVersionOne;
 
     /**
-     * Store the operation type. Remember if the type is Walk, it means
-     * that we have to invoke the check method ...
+     * Store the operbtion type. Remember if the type is Wblk, it mebns
+     * thbt we hbve to invoke the check method ...
      */
     protected int type= 0;
 
     /**
-     * Agent directly handled by the sub-request handler.
+     * Agent directly hbndled by the sub-request hbndler.
      */
-    protected SnmpMibAgent agent;
+    protected SnmpMibAgent bgent;
 
     /**
-     * Error status.
+     * Error stbtus.
      */
-    protected int errorStatus= snmpRspNoError;
+    protected int errorStbtus= snmpRspNoError;
 
     /**
      * Index of error.
-     * A value of -1 means no error.
+     * A vblue of -1 mebns no error.
      */
     protected int errorIndex= -1;
 
     /**
-     * The varbind list specific to the current sub request.
-     * The vector must contain object of type SnmpVarBind.
+     * The vbrbind list specific to the current sub request.
+     * The vector must contbin object of type SnmpVbrBind.
      */
-    protected Vector<SnmpVarBind> varBind;
+    protected Vector<SnmpVbrBind> vbrBind;
 
     /**
-     * The array giving the index translation between the content of
-     * <VAR>varBind</VAR> and the varbind list as specified in the request.
+     * The brrby giving the index trbnslbtion between the content of
+     * <VAR>vbrBind</VAR> bnd the vbrbind list bs specified in the request.
      */
-    protected int[] translation;
+    protected int[] trbnslbtion;
 
     /**
-     * Contextual object allocated by the SnmpUserDataFactory.
+     * Contextubl object bllocbted by the SnmpUserDbtbFbctory.
      **/
-    protected Object data;
+    protected Object dbtb;
 
     /**
-     * The SnmpMibRequest that will be passed to the agent.
+     * The SnmpMibRequest thbt will be pbssed to the bgent.
      *
      **/
-    private   SnmpMibRequest mibRequest = null;
+    privbte   SnmpMibRequest mibRequest = null;
 
     /**
-     * The SnmpPdu that will be passed to the request.
+     * The SnmpPdu thbt will be pbssed to the request.
      *
      **/
-    private   SnmpPdu reqPdu = null;
+    privbte   SnmpPdu reqPdu = null;
 
-    // All the methods of the Vector class are synchronized.
-    // Synchronization is a very expensive operation. In our case it is not always
+    // All the methods of the Vector clbss bre synchronized.
+    // Synchronizbtion is b very expensive operbtion. In our cbse it is not blwbys
     // required...
     //
-    @SuppressWarnings("serial")  // we never serialize this
-    class NonSyncVector<E> extends Vector<E> {
+    @SuppressWbrnings("seribl")  // we never seriblize this
+    clbss NonSyncVector<E> extends Vector<E> {
 
         public NonSyncVector(int size) {
             super(size);
         }
 
-        final void addNonSyncElement(E obj) {
-            ensureCapacity(elementCount + 1);
-            elementData[elementCount++] = obj;
+        finbl void bddNonSyncElement(E obj) {
+            ensureCbpbcity(elementCount + 1);
+            elementDbtb[elementCount++] = obj;
         }
 
-        @SuppressWarnings("unchecked")  // cast to E
-        final E elementAtNonSync(int index) {
-            return (E) elementData[index];
+        @SuppressWbrnings("unchecked")  // cbst to E
+        finbl E elementAtNonSync(int index) {
+            return (E) elementDbtb[index];
         }
     };
 }

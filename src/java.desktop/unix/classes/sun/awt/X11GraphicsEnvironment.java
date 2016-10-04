@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.AWTError;
-import java.awt.GraphicsDevice;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.StreamTokenizer;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import jbvb.bwt.AWTError;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.io.BufferedRebder;
+import jbvb.io.File;
+import jbvb.io.FileRebder;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.StrebmTokenizer;
+import jbvb.net.InetAddress;
+import jbvb.net.NetworkInterfbce;
+import jbvb.net.SocketException;
+import jbvb.net.UnknownHostException;
 
-import java.util.*;
+import jbvb.util.*;
 
-import sun.awt.motif.MFontConfiguration;
-import sun.font.FcFontConfiguration;
+import sun.bwt.motif.MFontConfigurbtion;
+import sun.font.FcFontConfigurbtion;
 import sun.font.Font2D;
-import sun.font.FontManager;
-import sun.font.NativeFont;
-import sun.java2d.SunGraphicsEnvironment;
-import sun.java2d.SurfaceManagerFactory;
-import sun.java2d.UnixSurfaceManagerFactory;
-import sun.util.logging.PlatformLogger;
-import sun.java2d.xr.XRSurfaceData;
+import sun.font.FontMbnbger;
+import sun.font.NbtiveFont;
+import sun.jbvb2d.SunGrbphicsEnvironment;
+import sun.jbvb2d.SurfbceMbnbgerFbctory;
+import sun.jbvb2d.UnixSurfbceMbnbgerFbctory;
+import sun.util.logging.PlbtformLogger;
+import sun.jbvb2d.xr.XRSurfbceDbtb;
 
 /**
- * This is an implementation of a GraphicsEnvironment object for the
- * default local GraphicsEnvironment used by the Java Runtime Environment
+ * This is bn implementbtion of b GrbphicsEnvironment object for the
+ * defbult locbl GrbphicsEnvironment used by the Jbvb Runtime Environment
  * for X11 environments.
  *
- * @see GraphicsDevice
- * @see GraphicsConfiguration
+ * @see GrbphicsDevice
+ * @see GrbphicsConfigurbtion
  */
-public class X11GraphicsEnvironment
-    extends SunGraphicsEnvironment
+public clbss X11GrbphicsEnvironment
+    extends SunGrbphicsEnvironment
 {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11GraphicsEnvironment");
-    private static final PlatformLogger screenLog = PlatformLogger.getLogger("sun.awt.screen.X11GraphicsEnvironment");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11GrbphicsEnvironment");
+    privbte stbtic finbl PlbtformLogger screenLog = PlbtformLogger.getLogger("sun.bwt.screen.X11GrbphicsEnvironment");
 
-    private static Boolean xinerState;
+    privbte stbtic Boolebn xinerStbte;
 
-    static {
-        java.security.AccessController.doPrivileged(
-                          new java.security.PrivilegedAction<Object>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+                          new jbvb.security.PrivilegedAction<Object>() {
             public Object run() {
-                System.loadLibrary("awt");
+                System.lobdLibrbry("bwt");
 
                 /*
-                 * Note: The MToolkit object depends on the static initializer
-                 * of X11GraphicsEnvironment to initialize the connection to
+                 * Note: The MToolkit object depends on the stbtic initiblizer
+                 * of X11GrbphicsEnvironment to initiblize the connection to
                  * the X11 server.
                  */
-                if (!isHeadless()) {
+                if (!isHebdless()) {
                     // first check the OGL system property
-                    boolean glxRequested = false;
-                    String prop = System.getProperty("sun.java2d.opengl");
+                    boolebn glxRequested = fblse;
+                    String prop = System.getProperty("sun.jbvb2d.opengl");
                     if (prop != null) {
-                        if (prop.equals("true") || prop.equals("t")) {
+                        if (prop.equbls("true") || prop.equbls("t")) {
                             glxRequested = true;
-                        } else if (prop.equals("True") || prop.equals("T")) {
+                        } else if (prop.equbls("True") || prop.equbls("T")) {
                             glxRequested = true;
                             glxVerbose = true;
                         }
                     }
 
                     // Now check for XRender system property
-                    boolean xRenderRequested = true;
-                    boolean xRenderIgnoreLinuxVersion = false;
-                    String xProp = System.getProperty("sun.java2d.xrender");
+                    boolebn xRenderRequested = true;
+                    boolebn xRenderIgnoreLinuxVersion = fblse;
+                    String xProp = System.getProperty("sun.jbvb2d.xrender");
                         if (xProp != null) {
-                        if (xProp.equals("false") || xProp.equals("f")) {
-                            xRenderRequested = false;
-                        } else if (xProp.equals("True") || xProp.equals("T")) {
+                        if (xProp.equbls("fblse") || xProp.equbls("f")) {
+                            xRenderRequested = fblse;
+                        } else if (xProp.equbls("True") || xProp.equbls("T")) {
                             xRenderRequested = true;
                             xRenderVerbose = true;
                         }
 
-                        if(xProp.equalsIgnoreCase("t") || xProp.equalsIgnoreCase("true")) {
+                        if(xProp.equblsIgnoreCbse("t") || xProp.equblsIgnoreCbse("true")) {
                             xRenderIgnoreLinuxVersion = true;
                         }
                     }
 
-                    // initialize the X11 display connection
-                    initDisplay(glxRequested);
+                    // initiblize the X11 displby connection
+                    initDisplby(glxRequested);
 
-                    // only attempt to initialize GLX if it was requested
+                    // only bttempt to initiblize GLX if it wbs requested
                     if (glxRequested) {
-                        glxAvailable = initGLX();
-                        if (glxVerbose && !glxAvailable) {
+                        glxAvbilbble = initGLX();
+                        if (glxVerbose && !glxAvbilbble) {
                             System.out.println(
-                                "Could not enable OpenGL " +
-                                "pipeline (GLX 1.3 not available)");
+                                "Could not enbble OpenGL " +
+                                "pipeline (GLX 1.3 not bvbilbble)");
                         }
                     }
 
-                    // only attempt to initialize Xrender if it was requested
+                    // only bttempt to initiblize Xrender if it wbs requested
                     if (xRenderRequested) {
-                        xRenderAvailable = initXRender(xRenderVerbose, xRenderIgnoreLinuxVersion);
-                        if (xRenderVerbose && !xRenderAvailable) {
+                        xRenderAvbilbble = initXRender(xRenderVerbose, xRenderIgnoreLinuxVersion);
+                        if (xRenderVerbose && !xRenderAvbilbble) {
                             System.out.println(
-                                         "Could not enable XRender pipeline");
+                                         "Could not enbble XRender pipeline");
                         }
                     }
 
-                    if (xRenderAvailable) {
-                        XRSurfaceData.initXRSurfaceData();
+                    if (xRenderAvbilbble) {
+                        XRSurfbceDbtb.initXRSurfbceDbtb();
                     }
                 }
 
@@ -142,100 +142,100 @@ public class X11GraphicsEnvironment
             }
          });
 
-        // Install the correct surface manager factory.
-        SurfaceManagerFactory.setInstance(new UnixSurfaceManagerFactory());
+        // Instbll the correct surfbce mbnbger fbctory.
+        SurfbceMbnbgerFbctory.setInstbnce(new UnixSurfbceMbnbgerFbctory());
 
     }
 
 
-    private static boolean glxAvailable;
-    private static boolean glxVerbose;
+    privbte stbtic boolebn glxAvbilbble;
+    privbte stbtic boolebn glxVerbose;
 
-    private static native boolean initGLX();
+    privbte stbtic nbtive boolebn initGLX();
 
-    public static boolean isGLXAvailable() {
-        return glxAvailable;
+    public stbtic boolebn isGLXAvbilbble() {
+        return glxAvbilbble;
     }
 
-    public static boolean isGLXVerbose() {
+    public stbtic boolebn isGLXVerbose() {
         return glxVerbose;
     }
 
-    private static boolean xRenderVerbose;
-    private static boolean xRenderAvailable;
+    privbte stbtic boolebn xRenderVerbose;
+    privbte stbtic boolebn xRenderAvbilbble;
 
-    private static native boolean initXRender(boolean verbose, boolean ignoreLinuxVersion);
-    public static boolean isXRenderAvailable() {
-        return xRenderAvailable;
+    privbte stbtic nbtive boolebn initXRender(boolebn verbose, boolebn ignoreLinuxVersion);
+    public stbtic boolebn isXRenderAvbilbble() {
+        return xRenderAvbilbble;
     }
 
-    public static boolean isXRenderVerbose() {
+    public stbtic boolebn isXRenderVerbose() {
         return xRenderVerbose;
     }
 
     /**
-     * Checks if Shared Memory extension can be used.
+     * Checks if Shbred Memory extension cbn be used.
      * Returns:
      *   -1 if server doesn't support MITShm
-     *    1 if server supports it and it can be used
+     *    1 if server supports it bnd it cbn be used
      *    0 otherwise
      */
-    private static native int checkShmExt();
+    privbte stbtic nbtive int checkShmExt();
 
-    private static  native String getDisplayString();
-    private Boolean isDisplayLocal;
+    privbte stbtic  nbtive String getDisplbyString();
+    privbte Boolebn isDisplbyLocbl;
 
     /**
-     * This should only be called from the static initializer, so no need for
+     * This should only be cblled from the stbtic initiblizer, so no need for
      * the synchronized keyword.
      */
-    private static native void initDisplay(boolean glxRequested);
+    privbte stbtic nbtive void initDisplby(boolebn glxRequested);
 
-    public X11GraphicsEnvironment() {
+    public X11GrbphicsEnvironment() {
     }
 
-    protected native int getNumScreens();
+    protected nbtive int getNumScreens();
 
-    protected GraphicsDevice makeScreenDevice(int screennum) {
-        return new X11GraphicsDevice(screennum);
+    protected GrbphicsDevice mbkeScreenDevice(int screennum) {
+        return new X11GrbphicsDevice(screennum);
     }
 
-    protected native int getDefaultScreenNum();
+    protected nbtive int getDefbultScreenNum();
     /**
-     * Returns the default screen graphics device.
+     * Returns the defbult screen grbphics device.
      */
-    public GraphicsDevice getDefaultScreenDevice() {
-        GraphicsDevice[] screens = getScreenDevices();
+    public GrbphicsDevice getDefbultScreenDevice() {
+        GrbphicsDevice[] screens = getScreenDevices();
         if (screens.length == 0) {
             throw new AWTError("no screen devices");
         }
-        int index = getDefaultScreenNum();
+        int index = getDefbultScreenNum();
         return screens[0 < index && index < screens.length ? index : 0];
     }
 
-    public boolean isDisplayLocal() {
-        if (isDisplayLocal == null) {
-            SunToolkit.awtLock();
+    public boolebn isDisplbyLocbl() {
+        if (isDisplbyLocbl == null) {
+            SunToolkit.bwtLock();
             try {
-                if (isDisplayLocal == null) {
-                    isDisplayLocal = Boolean.valueOf(_isDisplayLocal());
+                if (isDisplbyLocbl == null) {
+                    isDisplbyLocbl = Boolebn.vblueOf(_isDisplbyLocbl());
                 }
-            } finally {
-                SunToolkit.awtUnlock();
+            } finblly {
+                SunToolkit.bwtUnlock();
             }
         }
-        return isDisplayLocal.booleanValue();
+        return isDisplbyLocbl.boolebnVblue();
     }
 
-    private static boolean _isDisplayLocal() {
-        if (isHeadless()) {
+    privbte stbtic boolebn _isDisplbyLocbl() {
+        if (isHebdless()) {
             return true;
         }
 
-        String isRemote = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("sun.java2d.remote"));
+        String isRemote = jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction("sun.jbvb2d.remote"));
         if (isRemote != null) {
-            return isRemote.equals("false");
+            return isRemote.equbls("fblse");
         }
 
         int shm = checkShmExt();
@@ -244,74 +244,74 @@ public class X11GraphicsEnvironment
         }
 
         // If XServer doesn't support ShMem extension,
-        // try the other way
+        // try the other wby
 
-        String display = getDisplayString();
-        int ind = display.indexOf(':');
-        final String hostName = display.substring(0, ind);
+        String displby = getDisplbyString();
+        int ind = displby.indexOf(':');
+        finbl String hostNbme = displby.substring(0, ind);
         if (ind <= 0) {
-            // ':0' case
+            // ':0' cbse
             return true;
         }
 
-        Boolean result = java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Boolean>() {
-            public Boolean run() {
+        Boolebn result = jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Boolebn>() {
+            public Boolebn run() {
                 InetAddress remAddr[] = null;
-                Enumeration<InetAddress> locals = null;
-                Enumeration<NetworkInterface> interfaces = null;
+                Enumerbtion<InetAddress> locbls = null;
+                Enumerbtion<NetworkInterfbce> interfbces = null;
                 try {
-                    interfaces = NetworkInterface.getNetworkInterfaces();
-                    remAddr = InetAddress.getAllByName(hostName);
+                    interfbces = NetworkInterfbce.getNetworkInterfbces();
+                    remAddr = InetAddress.getAllByNbme(hostNbme);
                     if (remAddr == null) {
-                        return Boolean.FALSE;
+                        return Boolebn.FALSE;
                     }
-                } catch (UnknownHostException e) {
-                    System.err.println("Unknown host: " + hostName);
-                    return Boolean.FALSE;
-                } catch (SocketException e1) {
-                    System.err.println(e1.getMessage());
-                    return Boolean.FALSE;
+                } cbtch (UnknownHostException e) {
+                    System.err.println("Unknown host: " + hostNbme);
+                    return Boolebn.FALSE;
+                } cbtch (SocketException e1) {
+                    System.err.println(e1.getMessbge());
+                    return Boolebn.FALSE;
                 }
 
-                for (; interfaces.hasMoreElements();) {
-                    locals = interfaces.nextElement().getInetAddresses();
-                    for (; locals.hasMoreElements();) {
-                        final InetAddress localAddr = locals.nextElement();
+                for (; interfbces.hbsMoreElements();) {
+                    locbls = interfbces.nextElement().getInetAddresses();
+                    for (; locbls.hbsMoreElements();) {
+                        finbl InetAddress locblAddr = locbls.nextElement();
                         for (int i = 0; i < remAddr.length; i++) {
-                            if (localAddr.equals(remAddr[i])) {
-                                return Boolean.TRUE;
+                            if (locblAddr.equbls(remAddr[i])) {
+                                return Boolebn.TRUE;
                             }
                         }
                     }
                 }
-                return Boolean.FALSE;
+                return Boolebn.FALSE;
             }});
-        return result.booleanValue();
+        return result.boolebnVblue();
     }
 
 
 
     /**
-     * Returns face name for default font, or null if
-     * no face names are used for CompositeFontDescriptors
-     * for this platform.
+     * Returns fbce nbme for defbult font, or null if
+     * no fbce nbmes bre used for CompositeFontDescriptors
+     * for this plbtform.
      */
-    public String getDefaultFontFaceName() {
+    public String getDefbultFontFbceNbme() {
 
         return null;
     }
 
-    private static native boolean pRunningXinerama();
-    private static native Point getXineramaCenterPoint();
+    privbte stbtic nbtive boolebn pRunningXinerbmb();
+    privbte stbtic nbtive Point getXinerbmbCenterPoint();
 
     /**
-     * Override for Xinerama case: call new Solaris API for getting the correct
+     * Override for Xinerbmb cbse: cbll new Solbris API for getting the correct
      * centering point from the windowing system.
      */
     public Point getCenterPoint() {
-        if (runningXinerama()) {
-            Point p = getXineramaCenterPoint();
+        if (runningXinerbmb()) {
+            Point p = getXinerbmbCenterPoint();
             if (p != null) {
                 return p;
             }
@@ -320,89 +320,89 @@ public class X11GraphicsEnvironment
     }
 
     /**
-     * Override for Xinerama case
+     * Override for Xinerbmb cbse
      */
-    public Rectangle getMaximumWindowBounds() {
-        if (runningXinerama()) {
-            return getXineramaWindowBounds();
+    public Rectbngle getMbximumWindowBounds() {
+        if (runningXinerbmb()) {
+            return getXinerbmbWindowBounds();
         } else {
-            return super.getMaximumWindowBounds();
+            return super.getMbximumWindowBounds();
         }
     }
 
-    public boolean runningXinerama() {
-        if (xinerState == null) {
-            // pRunningXinerama() simply returns a global boolean variable,
+    public boolebn runningXinerbmb() {
+        if (xinerStbte == null) {
+            // pRunningXinerbmb() simply returns b globbl boolebn vbribble,
             // so there is no need to synchronize here
-            xinerState = Boolean.valueOf(pRunningXinerama());
-            if (screenLog.isLoggable(PlatformLogger.Level.FINER)) {
-                screenLog.finer("Running Xinerama: " + xinerState);
+            xinerStbte = Boolebn.vblueOf(pRunningXinerbmb());
+            if (screenLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                screenLog.finer("Running Xinerbmb: " + xinerStbte);
             }
         }
-        return xinerState.booleanValue();
+        return xinerStbte.boolebnVblue();
     }
 
     /**
-     * Return the bounds for a centered Window on a system running in Xinerama
+     * Return the bounds for b centered Window on b system running in Xinerbmb
      * mode.
      *
-     * Calculations are based on the assumption of a perfectly rectangular
-     * display area (display edges line up with one another, and displays
-     * have consistent width and/or height).
+     * Cblculbtions bre bbsed on the bssumption of b perfectly rectbngulbr
+     * displby breb (displby edges line up with one bnother, bnd displbys
+     * hbve consistent width bnd/or height).
      *
-     * The bounds to return depend on the arrangement of displays and on where
-     * Windows are to be centered.  There are two common situations:
+     * The bounds to return depend on the brrbngement of displbys bnd on where
+     * Windows bre to be centered.  There bre two common situbtions:
      *
-     * 1) The center point lies at the center of the combined area of all the
-     *    displays.  In this case, the combined area of all displays is
+     * 1) The center point lies bt the center of the combined breb of bll the
+     *    displbys.  In this cbse, the combined breb of bll displbys is
      *    returned.
      *
-     * 2) The center point lies at the center of a single display.  In this case
-     *    the user most likely wants centered Windows to be constrained to that
-     *    single display.  The boundaries of the one display are returned.
+     * 2) The center point lies bt the center of b single displby.  In this cbse
+     *    the user most likely wbnts centered Windows to be constrbined to thbt
+     *    single displby.  The boundbries of the one displby bre returned.
      *
-     * It is possible for the center point to be at both the center of the
-     * entire display space AND at the center of a single monitor (a square of
-     * 9 monitors, for instance).  In this case, the entire display area is
+     * It is possible for the center point to be bt both the center of the
+     * entire displby spbce AND bt the center of b single monitor (b squbre of
+     * 9 monitors, for instbnce).  In this cbse, the entire displby breb is
      * returned.
      *
-     * Because the center point is arbitrarily settable by the user, it could
-     * fit neither of the cases above.  The fallback case is to simply return
-     * the combined area for all screens.
+     * Becbuse the center point is brbitrbrily settbble by the user, it could
+     * fit neither of the cbses bbove.  The fbllbbck cbse is to simply return
+     * the combined breb for bll screens.
      */
-    protected Rectangle getXineramaWindowBounds() {
+    protected Rectbngle getXinerbmbWindowBounds() {
         Point center = getCenterPoint();
-        Rectangle unionRect, tempRect;
-        GraphicsDevice[] gds = getScreenDevices();
-        Rectangle centerMonitorRect = null;
+        Rectbngle unionRect, tempRect;
+        GrbphicsDevice[] gds = getScreenDevices();
+        Rectbngle centerMonitorRect = null;
         int i;
 
-        // if center point is at the center of all monitors
-        // return union of all bounds
+        // if center point is bt the center of bll monitors
+        // return union of bll bounds
         //
         //  MM*MM     MMM       M
         //            M*M       *
         //            MMM       M
 
-        // if center point is at center of a single monitor (but not of all
+        // if center point is bt center of b single monitor (but not of bll
         // monitors)
         // return bounds of single monitor
         //
         // MMM         MM
         // MM*         *M
 
-        // else, center is in some strange spot (such as on the border between
-        // monitors), and we should just return the union of all monitors
+        // else, center is in some strbnge spot (such bs on the border between
+        // monitors), bnd we should just return the union of bll monitors
         //
         // MM          MMM
         // MM          MMM
 
-        unionRect = getUsableBounds(gds[0]);
+        unionRect = getUsbbleBounds(gds[0]);
 
         for (i = 0; i < gds.length; i++) {
-            tempRect = getUsableBounds(gds[i]);
+            tempRect = getUsbbleBounds(gds[i]);
             if (centerMonitorRect == null &&
-                // add a pixel or two for fudge-factor
+                // bdd b pixel or two for fudge-fbctor
                 (tempRect.width / 2) + tempRect.x > center.x - 1 &&
                 (tempRect.height / 2) + tempRect.y > center.y - 1 &&
                 (tempRect.width / 2) + tempRect.x < center.x + 1 &&
@@ -412,40 +412,40 @@ public class X11GraphicsEnvironment
             unionRect = unionRect.union(tempRect);
         }
 
-        // first: check for center of all monitors (video wall)
-        // add a pixel or two for fudge-factor
+        // first: check for center of bll monitors (video wbll)
+        // bdd b pixel or two for fudge-fbctor
         if ((unionRect.width / 2) + unionRect.x > center.x - 1 &&
             (unionRect.height / 2) + unionRect.y > center.y - 1 &&
             (unionRect.width / 2) + unionRect.x < center.x + 1 &&
             (unionRect.height / 2) + unionRect.y < center.y + 1) {
 
-            if (screenLog.isLoggable(PlatformLogger.Level.FINER)) {
-                screenLog.finer("Video Wall: center point is at center of all displays.");
+            if (screenLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                screenLog.finer("Video Wbll: center point is bt center of bll displbys.");
             }
             return unionRect;
         }
 
-        // next, check if at center of one monitor
+        // next, check if bt center of one monitor
         if (centerMonitorRect != null) {
-            if (screenLog.isLoggable(PlatformLogger.Level.FINER)) {
-                screenLog.finer("Center point at center of a particular " +
-                                "monitor, but not of the entire virtual display.");
+            if (screenLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                screenLog.finer("Center point bt center of b pbrticulbr " +
+                                "monitor, but not of the entire virtubl displby.");
             }
             return centerMonitorRect;
         }
 
-        // otherwise, the center is at some weird spot: return unionRect
-        if (screenLog.isLoggable(PlatformLogger.Level.FINER)) {
-            screenLog.finer("Center point is somewhere strange - return union of all bounds.");
+        // otherwise, the center is bt some weird spot: return unionRect
+        if (screenLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+            screenLog.finer("Center point is somewhere strbnge - return union of bll bounds.");
         }
         return unionRect;
     }
 
     /**
-     * From the DisplayChangedListener interface; devices do not need
-     * to react to this event.
+     * From the DisplbyChbngedListener interfbce; devices do not need
+     * to rebct to this event.
      */
     @Override
-    public void paletteChanged() {
+    public void pbletteChbnged() {
     }
 }

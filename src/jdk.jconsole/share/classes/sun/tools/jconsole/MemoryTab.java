@@ -1,321 +1,321 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.lang.management.*;
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.concurrent.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.io.*;
+import jbvb.lbng.mbnbgement.*;
+import jbvb.lbng.reflect.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.*;
 
-import javax.accessibility.*;
-import javax.management.*;
-import javax.management.openmbean.CompositeData;
-import javax.swing.*;
-import javax.swing.border.*;
+import jbvbx.bccessibility.*;
+import jbvbx.mbnbgement.*;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
 
 
-import static sun.tools.jconsole.Formatter.*;
-import static sun.tools.jconsole.Utilities.*;
+import stbtic sun.tools.jconsole.Formbtter.*;
+import stbtic sun.tools.jconsole.Utilities.*;
 
-@SuppressWarnings("serial")
-class MemoryTab extends Tab implements ActionListener, ItemListener {
+@SuppressWbrnings("seribl")
+clbss MemoryTbb extends Tbb implements ActionListener, ItemListener {
     JComboBox<Plotter> plotterChoice;
     TimeComboBox timeComboBox;
     JButton gcButton;
 
-    PlotterPanel plotterPanel;
-    JPanel bottomPanel;
-    HTMLPane details;
-    PoolChart poolChart;
+    PlotterPbnel plotterPbnel;
+    JPbnel bottomPbnel;
+    HTMLPbne detbils;
+    PoolChbrt poolChbrt;
 
-    ArrayList<Plotter> plotterList;
-    Plotter heapPlotter, nonHeapPlotter;
+    ArrbyList<Plotter> plotterList;
+    Plotter hebpPlotter, nonHebpPlotter;
 
-    private MemoryOverviewPanel overviewPanel;
+    privbte MemoryOverviewPbnel overviewPbnel;
 
-    private static final String usedKey        = "used";
-    private static final String committedKey   = "committed";
-    private static final String maxKey         = "max";
-    private static final String thresholdKey   = "threshold";
-    private static final Color  usedColor      = Plotter.defaultColor;
-    private static final Color  committedColor = null;
-    private static final Color  maxColor       = null;
-    private static final Color  thresholdColor = Color.red;
+    privbte stbtic finbl String usedKey        = "used";
+    privbte stbtic finbl String committedKey   = "committed";
+    privbte stbtic finbl String mbxKey         = "mbx";
+    privbte stbtic finbl String thresholdKey   = "threshold";
+    privbte stbtic finbl Color  usedColor      = Plotter.defbultColor;
+    privbte stbtic finbl Color  committedColor = null;
+    privbte stbtic finbl Color  mbxColor       = null;
+    privbte stbtic finbl Color  thresholdColor = Color.red;
 
     /*
-      Hierarchy of panels and layouts for this tab:
+      Hierbrchy of pbnels bnd lbyouts for this tbb:
 
-        MemoryTab (BorderLayout)
+        MemoryTbb (BorderLbyout)
 
-            North:  topPanel (BorderLayout)
+            North:  topPbnel (BorderLbyout)
 
-                        Center: controlPanel (FlowLayout)
+                        Center: controlPbnel (FlowLbyout)
                                     plotterChoice, timeComboBox
 
-                        East:   topRightPanel (FlowLayout)
+                        Ebst:   topRightPbnel (FlowLbyout)
                                     gcButton
 
-            Center: plotterPanel
+            Center: plotterPbnel
 
                         Center: plotter
 
-            South:  bottomPanel (BorderLayout)
+            South:  bottomPbnel (BorderLbyout)
 
-                        Center: details
-                        East:   poolChart
+                        Center: detbils
+                        Ebst:   poolChbrt
     */
 
 
-    public static String getTabName() {
-        return Messages.MEMORY;
+    public stbtic String getTbbNbme() {
+        return Messbges.MEMORY;
     }
 
-    public MemoryTab(VMPanel vmPanel) {
-        super(vmPanel, getTabName());
+    public MemoryTbb(VMPbnel vmPbnel) {
+        super(vmPbnel, getTbbNbme());
 
-        setLayout(new BorderLayout(0, 0));
+        setLbyout(new BorderLbyout(0, 0));
         setBorder(new EmptyBorder(4, 4, 3, 4));
 
-        JPanel topPanel     = new JPanel(new BorderLayout());
-               plotterPanel = new PlotterPanel(null);
-               bottomPanel  = new JPanel(new BorderLayout());
+        JPbnel topPbnel     = new JPbnel(new BorderLbyout());
+               plotterPbnel = new PlotterPbnel(null);
+               bottomPbnel  = new JPbnel(new BorderLbyout());
 
-        add(topPanel,     BorderLayout.NORTH);
-        add(plotterPanel, BorderLayout.CENTER);
+        bdd(topPbnel,     BorderLbyout.NORTH);
+        bdd(plotterPbnel, BorderLbyout.CENTER);
 
-        JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 20, 5));
-        topPanel.add(controlPanel, BorderLayout.CENTER);
+        JPbnel controlPbnel = new JPbnel(new FlowLbyout(FlowLbyout.LEADING, 20, 5));
+        topPbnel.bdd(controlPbnel, BorderLbyout.CENTER);
 
         // Plotter choice
         plotterChoice = new JComboBox<Plotter>();
-        plotterChoice.addItemListener(this);
-        controlPanel.add(new LabeledComponent(Messages.CHART_COLON,
-                                              Resources.getMnemonicInt(Messages.CHART_COLON),
+        plotterChoice.bddItemListener(this);
+        controlPbnel.bdd(new LbbeledComponent(Messbges.CHART_COLON,
+                                              Resources.getMnemonicInt(Messbges.CHART_COLON),
                                               plotterChoice));
 
-        // Range control
+        // Rbnge control
         timeComboBox = new TimeComboBox();
-        controlPanel.add(new LabeledComponent(Messages.TIME_RANGE_COLON,
-                                              Resources.getMnemonicInt(Messages.TIME_RANGE_COLON),
+        controlPbnel.bdd(new LbbeledComponent(Messbges.TIME_RANGE_COLON,
+                                              Resources.getMnemonicInt(Messbges.TIME_RANGE_COLON),
                                               timeComboBox));
 
-        gcButton = new JButton(Messages.PERFORM_GC);
-        gcButton.setMnemonic(Resources.getMnemonicInt(Messages.PERFORM_GC));
-        gcButton.addActionListener(this);
-        gcButton.setToolTipText(Messages.PERFORM_GC_TOOLTIP);
-        JPanel topRightPanel = new JPanel();
-        topRightPanel.setBorder(new EmptyBorder(0, 65-8, 0, 70));
-        topRightPanel.add(gcButton);
-        topPanel.add(topRightPanel, BorderLayout.AFTER_LINE_ENDS);
+        gcButton = new JButton(Messbges.PERFORM_GC);
+        gcButton.setMnemonic(Resources.getMnemonicInt(Messbges.PERFORM_GC));
+        gcButton.bddActionListener(this);
+        gcButton.setToolTipText(Messbges.PERFORM_GC_TOOLTIP);
+        JPbnel topRightPbnel = new JPbnel();
+        topRightPbnel.setBorder(new EmptyBorder(0, 65-8, 0, 70));
+        topRightPbnel.bdd(gcButton);
+        topPbnel.bdd(topRightPbnel, BorderLbyout.AFTER_LINE_ENDS);
 
-        bottomPanel.setBorder(new CompoundBorder(new TitledBorder(Messages.DETAILS),
+        bottomPbnel.setBorder(new CompoundBorder(new TitledBorder(Messbges.DETAILS),
                                                   new EmptyBorder(10, 10, 10, 10)));
 
-        details = new HTMLPane();
-        setAccessibleName(details, Messages.DETAILS);
-        bottomPanel.add(new JScrollPane(details), BorderLayout.CENTER);
+        detbils = new HTMLPbne();
+        setAccessibleNbme(detbils, Messbges.DETAILS);
+        bottomPbnel.bdd(new JScrollPbne(detbils), BorderLbyout.CENTER);
 
-        poolChart = new PoolChart();
-        bottomPanel.add(poolChart, BorderLayout.AFTER_LINE_ENDS);
+        poolChbrt = new PoolChbrt();
+        bottomPbnel.bdd(poolChbrt, BorderLbyout.AFTER_LINE_ENDS);
     }
 
 
-    private void createPlotters() throws IOException {
-        plotterList = new ArrayList<Plotter>();
+    privbte void crebtePlotters() throws IOException {
+        plotterList = new ArrbyList<Plotter>();
 
-        ProxyClient proxyClient = vmPanel.getProxyClient();
+        ProxyClient proxyClient = vmPbnel.getProxyClient();
 
-        heapPlotter = new Plotter(Plotter.Unit.BYTES) {
+        hebpPlotter = new Plotter(Plotter.Unit.BYTES) {
             public String toString() {
-                return Messages.HEAP_MEMORY_USAGE;
+                return Messbges.HEAP_MEMORY_USAGE;
             }
         };
-        proxyClient.addWeakPropertyChangeListener(heapPlotter);
+        proxyClient.bddWebkPropertyChbngeListener(hebpPlotter);
 
-        nonHeapPlotter = new Plotter(Plotter.Unit.BYTES) {
+        nonHebpPlotter = new Plotter(Plotter.Unit.BYTES) {
             public String toString() {
-                return Messages.NON_HEAP_MEMORY_USAGE;
+                return Messbges.NON_HEAP_MEMORY_USAGE;
             }
         };
 
-        setAccessibleName(heapPlotter,
-                          Messages.MEMORY_TAB_HEAP_PLOTTER_ACCESSIBLE_NAME);
-        setAccessibleName(nonHeapPlotter,
-                          Messages.MEMORY_TAB_NON_HEAP_PLOTTER_ACCESSIBLE_NAME);
+        setAccessibleNbme(hebpPlotter,
+                          Messbges.MEMORY_TAB_HEAP_PLOTTER_ACCESSIBLE_NAME);
+        setAccessibleNbme(nonHebpPlotter,
+                          Messbges.MEMORY_TAB_NON_HEAP_PLOTTER_ACCESSIBLE_NAME);
 
-        proxyClient.addWeakPropertyChangeListener(nonHeapPlotter);
+        proxyClient.bddWebkPropertyChbngeListener(nonHebpPlotter);
 
-        heapPlotter.createSequence(usedKey,         Messages.USED,      usedColor,      true);
-        heapPlotter.createSequence(committedKey,    Messages.COMMITTED, committedColor, false);
-        heapPlotter.createSequence(maxKey,          Messages.MAX,       maxColor,       false);
+        hebpPlotter.crebteSequence(usedKey,         Messbges.USED,      usedColor,      true);
+        hebpPlotter.crebteSequence(committedKey,    Messbges.COMMITTED, committedColor, fblse);
+        hebpPlotter.crebteSequence(mbxKey,          Messbges.MAX,       mbxColor,       fblse);
 
-        nonHeapPlotter.createSequence(usedKey,      Messages.USED,      usedColor,      true);
-        nonHeapPlotter.createSequence(committedKey, Messages.COMMITTED, committedColor, false);
-        nonHeapPlotter.createSequence(maxKey,       Messages.MAX,       maxColor,       false);
+        nonHebpPlotter.crebteSequence(usedKey,      Messbges.USED,      usedColor,      true);
+        nonHebpPlotter.crebteSequence(committedKey, Messbges.COMMITTED, committedColor, fblse);
+        nonHebpPlotter.crebteSequence(mbxKey,       Messbges.MAX,       mbxColor,       fblse);
 
-        plotterList.add(heapPlotter);
-        plotterList.add(nonHeapPlotter);
+        plotterList.bdd(hebpPlotter);
+        plotterList.bdd(nonHebpPlotter);
 
-        // Now add memory pools
-        Map<ObjectName, MBeanInfo> mBeanMap = proxyClient.getMBeans("java.lang");
-        Set<ObjectName> keys = mBeanMap.keySet();
-        ObjectName[] objectNames = keys.toArray(new ObjectName[keys.size()]);
-        ArrayList<PoolPlotter> nonHeapPlotters = new ArrayList<PoolPlotter>(2);
-        for (ObjectName objectName : objectNames) {
-            String type = objectName.getKeyProperty("type");
-            if (type.equals("MemoryPool")) {
-                String name = Resources.format(Messages.MEMORY_POOL_LABEL,
-                                               objectName.getKeyProperty("name"));
-                // Heap or non-heap?
-                boolean isHeap = false;
-                AttributeList al =
-                    proxyClient.getAttributes(objectName,
+        // Now bdd memory pools
+        Mbp<ObjectNbme, MBebnInfo> mBebnMbp = proxyClient.getMBebns("jbvb.lbng");
+        Set<ObjectNbme> keys = mBebnMbp.keySet();
+        ObjectNbme[] objectNbmes = keys.toArrby(new ObjectNbme[keys.size()]);
+        ArrbyList<PoolPlotter> nonHebpPlotters = new ArrbyList<PoolPlotter>(2);
+        for (ObjectNbme objectNbme : objectNbmes) {
+            String type = objectNbme.getKeyProperty("type");
+            if (type.equbls("MemoryPool")) {
+                String nbme = Resources.formbt(Messbges.MEMORY_POOL_LABEL,
+                                               objectNbme.getKeyProperty("nbme"));
+                // Hebp or non-hebp?
+                boolebn isHebp = fblse;
+                AttributeList bl =
+                    proxyClient.getAttributes(objectNbme,
                                               new String[] { "Type" });
-                if (al.size() > 0) {
-                    isHeap = MemoryType.HEAP.name().equals(((Attribute)al.get(0)).getValue());
+                if (bl.size() > 0) {
+                    isHebp = MemoryType.HEAP.nbme().equbls(((Attribute)bl.get(0)).getVblue());
                 }
-                PoolPlotter poolPlotter = new PoolPlotter(objectName, name, isHeap);
-                proxyClient.addWeakPropertyChangeListener(poolPlotter);
+                PoolPlotter poolPlotter = new PoolPlotter(objectNbme, nbme, isHebp);
+                proxyClient.bddWebkPropertyChbngeListener(poolPlotter);
 
-                poolPlotter.createSequence(usedKey,      Messages.USED,      usedColor,      true);
-                poolPlotter.createSequence(committedKey, Messages.COMMITTED, committedColor, false);
-                poolPlotter.createSequence(maxKey,       Messages.MAX,       maxColor,       false);
-                poolPlotter.createSequence(thresholdKey, Messages.THRESHOLD, thresholdColor, false);
-                poolPlotter.setUseDashedTransitions(thresholdKey, true);
+                poolPlotter.crebteSequence(usedKey,      Messbges.USED,      usedColor,      true);
+                poolPlotter.crebteSequence(committedKey, Messbges.COMMITTED, committedColor, fblse);
+                poolPlotter.crebteSequence(mbxKey,       Messbges.MAX,       mbxColor,       fblse);
+                poolPlotter.crebteSequence(thresholdKey, Messbges.THRESHOLD, thresholdColor, fblse);
+                poolPlotter.setUseDbshedTrbnsitions(thresholdKey, true);
 
-                if (isHeap) {
-                    plotterList.add(poolPlotter);
+                if (isHebp) {
+                    plotterList.bdd(poolPlotter);
                 } else {
-                    // Will be added to plotterList below
-                    nonHeapPlotters.add(poolPlotter);
+                    // Will be bdded to plotterList below
+                    nonHebpPlotters.bdd(poolPlotter);
                 }
             }
         }
-        // Add non-heap plotters last
-        for (PoolPlotter poolPlotter : nonHeapPlotters) {
-            plotterList.add(poolPlotter);
+        // Add non-hebp plotters lbst
+        for (PoolPlotter poolPlotter : nonHebpPlotters) {
+            plotterList.bdd(poolPlotter);
         }
     }
 
 
-    public void itemStateChanged(ItemEvent ev) {
-        if (ev.getStateChange() == ItemEvent.SELECTED) {
+    public void itemStbteChbnged(ItemEvent ev) {
+        if (ev.getStbteChbnge() == ItemEvent.SELECTED) {
             Plotter plotter = (Plotter)plotterChoice.getSelectedItem();
-            plotterPanel.setPlotter(plotter);
-            plotterPanel.repaint();
+            plotterPbnel.setPlotter(plotter);
+            plotterPbnel.repbint();
         }
     }
 
     public void gc() {
-        new Thread("MemoryPanel.gc") {
+        new Threbd("MemoryPbnel.gc") {
             public void run() {
-                ProxyClient proxyClient = vmPanel.getProxyClient();
+                ProxyClient proxyClient = vmPbnel.getProxyClient();
                 try {
-                    proxyClient.getMemoryMXBean().gc();
-                } catch (UndeclaredThrowableException e) {
-                    proxyClient.markAsDead();
-                } catch (IOException e) {
+                    proxyClient.getMemoryMXBebn().gc();
+                } cbtch (UndeclbredThrowbbleException e) {
+                    proxyClient.mbrkAsDebd();
+                } cbtch (IOException e) {
                     // Ignore
                 }
             }
-        }.start();
+        }.stbrt();
     }
 
     public SwingWorker<?, ?> newSwingWorker() {
-        return new SwingWorker<Boolean, Object>() {
-            private long[] used, committed, max, threshold;
-            private long timeStamp;
-            private String detailsStr;
-            private boolean initialRun = false;
+        return new SwingWorker<Boolebn, Object>() {
+            privbte long[] used, committed, mbx, threshold;
+            privbte long timeStbmp;
+            privbte String detbilsStr;
+            privbte boolebn initiblRun = fblse;
 
-            public Boolean doInBackground() {
-                ProxyClient proxyClient = vmPanel.getProxyClient();
+            public Boolebn doInBbckground() {
+                ProxyClient proxyClient = vmPbnel.getProxyClient();
 
                 if (plotterList == null) {
                     try {
-                        createPlotters();
-                    } catch (UndeclaredThrowableException e) {
-                        proxyClient.markAsDead();
-                        return false;
-                    } catch (final IOException ex) {
-                        return false;
+                        crebtePlotters();
+                    } cbtch (UndeclbredThrowbbleException e) {
+                        proxyClient.mbrkAsDebd();
+                        return fblse;
+                    } cbtch (finbl IOException ex) {
+                        return fblse;
                     }
-                    initialRun = true;
+                    initiblRun = true;
                 }
 
                 int n = plotterList.size();
                 used      = new long[n];
                 committed = new long[n];
-                max       = new long[n];
+                mbx       = new long[n];
                 threshold = new long[n];
-                timeStamp = System.currentTimeMillis();
+                timeStbmp = System.currentTimeMillis();
 
                 for (int i = 0; i < n; i++) {
                     Plotter plotter = plotterList.get(i);
-                    MemoryUsage mu = null;
+                    MemoryUsbge mu = null;
                     used[i] = -1L;
                     threshold[i] = -1L;
 
                     try {
-                        if (plotter instanceof PoolPlotter) {
+                        if (plotter instbnceof PoolPlotter) {
                             PoolPlotter poolPlotter = (PoolPlotter)plotter;
-                            ObjectName objectName = poolPlotter.objectName;
-                            AttributeList al =
-                                proxyClient.getAttributes(objectName,
-                                                          new String[] { "Usage", "UsageThreshold" });
-                            if (al.size() > 0) {
-                                CompositeData cd = (CompositeData)((Attribute)al.get(0)).getValue();
-                                mu = MemoryUsage.from(cd);
+                            ObjectNbme objectNbme = poolPlotter.objectNbme;
+                            AttributeList bl =
+                                proxyClient.getAttributes(objectNbme,
+                                                          new String[] { "Usbge", "UsbgeThreshold" });
+                            if (bl.size() > 0) {
+                                CompositeDbtb cd = (CompositeDbtb)((Attribute)bl.get(0)).getVblue();
+                                mu = MemoryUsbge.from(cd);
 
-                                if (al.size() > 1) {
-                                    threshold[i] = (Long)((Attribute)al.get(1)).getValue();
+                                if (bl.size() > 1) {
+                                    threshold[i] = (Long)((Attribute)bl.get(1)).getVblue();
                                 }
                             }
-                        } else if (plotter == heapPlotter) {
-                            mu = proxyClient.getMemoryMXBean().getHeapMemoryUsage();
-                        } else if (plotter == nonHeapPlotter) {
-                            mu = proxyClient.getMemoryMXBean().getNonHeapMemoryUsage();
+                        } else if (plotter == hebpPlotter) {
+                            mu = proxyClient.getMemoryMXBebn().getHebpMemoryUsbge();
+                        } else if (plotter == nonHebpPlotter) {
+                            mu = proxyClient.getMemoryMXBebn().getNonHebpMemoryUsbge();
                         }
-                    } catch (UndeclaredThrowableException e) {
-                        proxyClient.markAsDead();
-                        return false;
-                    } catch (IOException ex) {
+                    } cbtch (UndeclbredThrowbbleException e) {
+                        proxyClient.mbrkAsDebd();
+                        return fblse;
+                    } cbtch (IOException ex) {
                         // Skip this plotter
                     }
 
                     if (mu != null) {
                         used[i]      = mu.getUsed();
                         committed[i] = mu.getCommitted();
-                        max[i]       = mu.getMax();
+                        mbx[i]       = mu.getMbx();
                     }
                 }
-                detailsStr = formatDetails();
+                detbilsStr = formbtDetbils();
 
                 return true;
             }
@@ -325,22 +325,22 @@ class MemoryTab extends Tab implements ActionListener, ItemListener {
                     if (!get()) {
                         return;
                     }
-                } catch (InterruptedException ex) {
+                } cbtch (InterruptedException ex) {
                     return;
-                } catch (ExecutionException ex) {
+                } cbtch (ExecutionException ex) {
                     if (JConsole.isDebug()) {
-                        ex.printStackTrace();
+                        ex.printStbckTrbce();
                     }
                     return;
                 }
 
-                if (initialRun) {
+                if (initiblRun) {
                     // Add Memory Pools
                     for (Plotter p : plotterList) {
-                        plotterChoice.addItem(p);
-                        timeComboBox.addPlotter(p);
+                        plotterChoice.bddItem(p);
+                        timeComboBox.bddPlotter(p);
                     }
-                    add(bottomPanel,  BorderLayout.SOUTH);
+                    bdd(bottomPbnel,  BorderLbyout.SOUTH);
                 }
 
 
@@ -350,319 +350,319 @@ class MemoryTab extends Tab implements ActionListener, ItemListener {
                 for (int i = 0; i < n; i++) {
                     Plotter plotter = plotterList.get(i);
                     if (used[i] >= 0L) {
-                        if (plotter instanceof PoolPlotter) {
-                            plotter.addValues(timeStamp, used[i], committed[i], max[i], threshold[i]);
+                        if (plotter instbnceof PoolPlotter) {
+                            plotter.bddVblues(timeStbmp, used[i], committed[i], mbx[i], threshold[i]);
                             if (threshold[i] > 0L) {
                                 plotter.setIsPlotted(thresholdKey, true);
                             }
-                            poolChart.setValue(poolCount++, (PoolPlotter)plotter,
-                                               used[i], threshold[i], max[i]);
+                            poolChbrt.setVblue(poolCount++, (PoolPlotter)plotter,
+                                               used[i], threshold[i], mbx[i]);
                         } else {
-                            plotter.addValues(timeStamp, used[i], committed[i], max[i]);
+                            plotter.bddVblues(timeStbmp, used[i], committed[i], mbx[i]);
                         }
 
-                        if (plotter == heapPlotter && overviewPanel != null) {
-                            overviewPanel.getPlotter().addValues(timeStamp, used[i]);
-                            overviewPanel.updateMemoryInfo(used[i], committed[i], max[i]);
+                        if (plotter == hebpPlotter && overviewPbnel != null) {
+                            overviewPbnel.getPlotter().bddVblues(timeStbmp, used[i]);
+                            overviewPbnel.updbteMemoryInfo(used[i], committed[i], mbx[i]);
                         }
                     }
                 }
-                details.setText(detailsStr);
+                detbils.setText(detbilsStr);
             }
         };
     }
 
-    private String formatDetails() {
-        ProxyClient proxyClient = vmPanel.getProxyClient();
-        if (proxyClient.isDead()) {
+    privbte String formbtDetbils() {
+        ProxyClient proxyClient = vmPbnel.getProxyClient();
+        if (proxyClient.isDebd()) {
             return "";
         }
 
-        String text = "<table cellspacing=0 cellpadding=0>";
+        String text = "<tbble cellspbcing=0 cellpbdding=0>";
 
         Plotter plotter = (Plotter)plotterChoice.getSelectedItem();
         if (plotter == null) {
             return "";
         }
 
-        //long time = plotter.getLastTimeStamp();
+        //long time = plotter.getLbstTimeStbmp();
         long time = System.currentTimeMillis();
-        String timeStamp = formatDateTime(time);
-        text += newRow(Messages.TIME, timeStamp);
+        String timeStbmp = formbtDbteTime(time);
+        text += newRow(Messbges.TIME, timeStbmp);
 
-        long used = plotter.getLastValue(usedKey);
-        long committed = plotter.getLastValue(committedKey);
-        long max = plotter.getLastValue(maxKey);
-        long threshold = plotter.getLastValue(thresholdKey);
+        long used = plotter.getLbstVblue(usedKey);
+        long committed = plotter.getLbstVblue(committedKey);
+        long mbx = plotter.getLbstVblue(mbxKey);
+        long threshold = plotter.getLbstVblue(thresholdKey);
 
-        text += newRow(Messages.USED, formatKBytes(used));
+        text += newRow(Messbges.USED, formbtKBytes(used));
         if (committed > 0L) {
-            text += newRow(Messages.COMMITTED, formatKBytes(committed));
+            text += newRow(Messbges.COMMITTED, formbtKBytes(committed));
         }
-        if (max > 0L) {
-            text += newRow(Messages.MAX, formatKBytes(max));
+        if (mbx > 0L) {
+            text += newRow(Messbges.MAX, formbtKBytes(mbx));
         }
         if (threshold > 0L) {
-            text += newRow(Messages.USAGE_THRESHOLD, formatKBytes(threshold));
+            text += newRow(Messbges.USAGE_THRESHOLD, formbtKBytes(threshold));
         }
 
         try {
-            Collection<GarbageCollectorMXBean> garbageCollectors =
-                proxyClient.getGarbageCollectorMXBeans();
+            Collection<GbrbbgeCollectorMXBebn> gbrbbgeCollectors =
+                proxyClient.getGbrbbgeCollectorMXBebns();
 
-            boolean descPrinted = false;
-            for (GarbageCollectorMXBean garbageCollectorMBean : garbageCollectors) {
-                String gcName = garbageCollectorMBean.getName();
-                long gcCount = garbageCollectorMBean.getCollectionCount();
-                long gcTime = garbageCollectorMBean.getCollectionTime();
-                String str = Resources.format(Messages.GC_TIME_DETAILS, justify(formatTime(gcTime), 14),
-                                              gcName,
-                                              String.format("%,d",gcCount));
+            boolebn descPrinted = fblse;
+            for (GbrbbgeCollectorMXBebn gbrbbgeCollectorMBebn : gbrbbgeCollectors) {
+                String gcNbme = gbrbbgeCollectorMBebn.getNbme();
+                long gcCount = gbrbbgeCollectorMBebn.getCollectionCount();
+                long gcTime = gbrbbgeCollectorMBebn.getCollectionTime();
+                String str = Resources.formbt(Messbges.GC_TIME_DETAILS, justify(formbtTime(gcTime), 14),
+                                              gcNbme,
+                                              String.formbt("%,d",gcCount));
                 if (!descPrinted) {
-                    text += newRow(Messages.GC_TIME, str);
+                    text += newRow(Messbges.GC_TIME, str);
                     descPrinted = true;
                 } else {
                     text += newRow(null, str);
                 }
            }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
         }
 
         return text;
     }
 
-    public void actionPerformed(ActionEvent ev) {
+    public void bctionPerformed(ActionEvent ev) {
         Object src = ev.getSource();
         if (src == gcButton) {
             gc();
         }
     }
 
-    private class PoolPlotter extends Plotter {
-        ObjectName objectName;
-        String name;
-        boolean isHeap;
-        long value, threshold, max;
-        int barX;
+    privbte clbss PoolPlotter extends Plotter {
+        ObjectNbme objectNbme;
+        String nbme;
+        boolebn isHebp;
+        long vblue, threshold, mbx;
+        int bbrX;
 
-        public PoolPlotter(ObjectName objectName, String name, boolean isHeap) {
+        public PoolPlotter(ObjectNbme objectNbme, String nbme, boolebn isHebp) {
             super(Plotter.Unit.BYTES);
 
-            this.objectName = objectName;
-            this.name       = name;
-            this.isHeap     = isHeap;
+            this.objectNbme = objectNbme;
+            this.nbme       = nbme;
+            this.isHebp     = isHebp;
 
-            setAccessibleName(this,
-                              Resources.format(Messages.MEMORY_TAB_POOL_PLOTTER_ACCESSIBLE_NAME,
-                                               name));
+            setAccessibleNbme(this,
+                              Resources.formbt(Messbges.MEMORY_TAB_POOL_PLOTTER_ACCESSIBLE_NAME,
+                                               nbme));
         }
 
 
         public String toString() {
-            return name;
+            return nbme;
         }
     }
 
-    private class PoolChart extends BorderedComponent
+    privbte clbss PoolChbrt extends BorderedComponent
                             implements Accessible, MouseListener {
-        final int height       = 150;
-        final int leftMargin   =  50;
-        final int rightMargin  =  23;
-        final int bottomMargin =  35;
-        final int barWidth     =  22;
-        final int barGap       =   3;
-        final int groupGap     =   8;
-        final int barHeight    = height * 2 / 3;
+        finbl int height       = 150;
+        finbl int leftMbrgin   =  50;
+        finbl int rightMbrgin  =  23;
+        finbl int bottomMbrgin =  35;
+        finbl int bbrWidth     =  22;
+        finbl int bbrGbp       =   3;
+        finbl int groupGbp     =   8;
+        finbl int bbrHeight    = height * 2 / 3;
 
-        final Color greenBar           = new Color(100, 255, 100);
-        final Color greenBarBackground = new Color(210, 255, 210);
-        final Color redBarBackground   = new Color(255, 210, 210);
+        finbl Color greenBbr           = new Color(100, 255, 100);
+        finbl Color greenBbrBbckground = new Color(210, 255, 210);
+        finbl Color redBbrBbckground   = new Color(255, 210, 210);
 
-        Font smallFont = null;
+        Font smbllFont = null;
 
-        ArrayList<PoolPlotter> poolPlotters = new ArrayList<PoolPlotter>(5);
+        ArrbyList<PoolPlotter> poolPlotters = new ArrbyList<PoolPlotter>(5);
 
-        int nHeapPools    = 0;
-        int nNonHeapPools = 0;
-        Rectangle heapRect    = new Rectangle(leftMargin,            height - bottomMargin + 6, barWidth, 20);
-        Rectangle nonHeapRect = new Rectangle(leftMargin + groupGap, height - bottomMargin + 6, barWidth, 20);
+        int nHebpPools    = 0;
+        int nNonHebpPools = 0;
+        Rectbngle hebpRect    = new Rectbngle(leftMbrgin,            height - bottomMbrgin + 6, bbrWidth, 20);
+        Rectbngle nonHebpRect = new Rectbngle(leftMbrgin + groupGbp, height - bottomMbrgin + 6, bbrWidth, 20);
 
-        public PoolChart() {
+        public PoolChbrt() {
             super(null, null);
 
-            setFocusable(true);
-            addMouseListener(this);
-            ToolTipManager.sharedInstance().registerComponent(this);
+            setFocusbble(true);
+            bddMouseListener(this);
+            ToolTipMbnbger.shbredInstbnce().registerComponent(this);
         }
 
-        public void setValue(int poolIndex, PoolPlotter poolPlotter,
-                             long value, long threshold, long max) {
-            poolPlotter.value = value;
+        public void setVblue(int poolIndex, PoolPlotter poolPlotter,
+                             long vblue, long threshold, long mbx) {
+            poolPlotter.vblue = vblue;
             poolPlotter.threshold = threshold;
-            poolPlotter.max = max;
+            poolPlotter.mbx = mbx;
 
             if (poolIndex == poolPlotters.size()) {
-                poolPlotters.add(poolPlotter);
-                if (poolPlotter.isHeap) {
-                    poolPlotter.barX = nHeapPools * (barWidth + barGap);
-                    nHeapPools++;
-                    heapRect.width = nHeapPools * barWidth + (nHeapPools - 1) * barGap;
-                    nonHeapRect.x  = leftMargin + heapRect.width + groupGap;
+                poolPlotters.bdd(poolPlotter);
+                if (poolPlotter.isHebp) {
+                    poolPlotter.bbrX = nHebpPools * (bbrWidth + bbrGbp);
+                    nHebpPools++;
+                    hebpRect.width = nHebpPools * bbrWidth + (nHebpPools - 1) * bbrGbp;
+                    nonHebpRect.x  = leftMbrgin + hebpRect.width + groupGbp;
                 } else {
-                    poolPlotter.barX = nonHeapRect.x - leftMargin + nNonHeapPools * (barWidth + barGap);
-                    nNonHeapPools++;
-                    nonHeapRect.width = nNonHeapPools * barWidth + (nNonHeapPools - 1) * barGap;
+                    poolPlotter.bbrX = nonHebpRect.x - leftMbrgin + nNonHebpPools * (bbrWidth + bbrGbp);
+                    nNonHebpPools++;
+                    nonHebpRect.width = nNonHebpPools * bbrWidth + (nNonHebpPools - 1) * bbrGbp;
                 }
             } else {
                 poolPlotters.set(poolIndex, poolPlotter);
             }
-            repaint();
+            repbint();
         }
 
-        private void paintPoolBar(Graphics g, PoolPlotter poolPlotter) {
-            Rectangle barRect = getBarRect(poolPlotter);
-            g.setColor(Color.gray);
-            g.drawRect(barRect.x, barRect.y, barRect.width, barRect.height);
+        privbte void pbintPoolBbr(Grbphics g, PoolPlotter poolPlotter) {
+            Rectbngle bbrRect = getBbrRect(poolPlotter);
+            g.setColor(Color.grby);
+            g.drbwRect(bbrRect.x, bbrRect.y, bbrRect.width, bbrRect.height);
 
-            long value = poolPlotter.value;
-            long max   = poolPlotter.max;
-            if (max > 0L) {
-                g.translate(barRect.x, barRect.y);
+            long vblue = poolPlotter.vblue;
+            long mbx   = poolPlotter.mbx;
+            if (mbx > 0L) {
+                g.trbnslbte(bbrRect.x, bbrRect.y);
 
-                // Paint green background
-                g.setColor(greenBarBackground);
-                g.fillRect(1, 1, barRect.width - 1, barRect.height - 1);
+                // Pbint green bbckground
+                g.setColor(greenBbrBbckground);
+                g.fillRect(1, 1, bbrRect.width - 1, bbrRect.height - 1);
 
-                int greenHeight = (int)(value * barRect.height / max);
+                int greenHeight = (int)(vblue * bbrRect.height / mbx);
                 long threshold = poolPlotter.threshold;
                 if (threshold > 0L) {
-                    int redHeight = (int)(threshold * barRect.height / max);
+                    int redHeight = (int)(threshold * bbrRect.height / mbx);
 
-                    // Paint red background
-                    g.setColor(redBarBackground);
-                    g.fillRect(1, 1, barRect.width - 1, barRect.height - redHeight);
+                    // Pbint red bbckground
+                    g.setColor(redBbrBbckground);
+                    g.fillRect(1, 1, bbrRect.width - 1, bbrRect.height - redHeight);
 
-                    if (value > threshold) {
-                        // Over threshold, paint red bar
+                    if (vblue > threshold) {
+                        // Over threshold, pbint red bbr
                         g.setColor(thresholdColor);
-                        g.fillRect(1, barRect.height - greenHeight,
-                                   barRect.width - 1, greenHeight - redHeight);
+                        g.fillRect(1, bbrRect.height - greenHeight,
+                                   bbrRect.width - 1, greenHeight - redHeight);
                         greenHeight = redHeight;
                     }
                 }
 
-                // Paint green bar
-                g.setColor(greenBar);
-                g.fillRect(1, barRect.height - greenHeight,
-                           barRect.width - 1, greenHeight);
+                // Pbint green bbr
+                g.setColor(greenBbr);
+                g.fillRect(1, bbrRect.height - greenHeight,
+                           bbrRect.width - 1, greenHeight);
 
-                g.translate(-barRect.x, -barRect.y);
+                g.trbnslbte(-bbrRect.x, -bbrRect.y);
             }
         }
 
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
+        public void pbintComponent(Grbphics g) {
+            super.pbintComponent(g);
 
             if (poolPlotters.size() == 0) {
                 return;
             }
 
-            if (smallFont == null) {
-                smallFont = g.getFont().deriveFont(9.0F);
+            if (smbllFont == null) {
+                smbllFont = g.getFont().deriveFont(9.0F);
             }
 
-            // Paint background for chart area
-            g.setColor(getBackground());
-            Rectangle r = g.getClipBounds();
+            // Pbint bbckground for chbrt breb
+            g.setColor(getBbckground());
+            Rectbngle r = g.getClipBounds();
             g.fillRect(r.x, r.y, r.width, r.height);
 
-            g.setFont(smallFont);
+            g.setFont(smbllFont);
             FontMetrics fm = g.getFontMetrics();
             int fontDescent = fm.getDescent();
 
-            // Paint percentage axis
+            // Pbint percentbge bxis
             g.setColor(getForeground());
             for (int pc : new int[] { 0, 25, 50, 75, 100 }) {
                 String str = pc + "% --";
-                g.drawString(str,
-                             leftMargin - fm.stringWidth(str) - 4,
-                             height - bottomMargin - (pc * barHeight / 100) + fontDescent + 1);
+                g.drbwString(str,
+                             leftMbrgin - fm.stringWidth(str) - 4,
+                             height - bottomMbrgin - (pc * bbrHeight / 100) + fontDescent + 1);
             }
 
             for (PoolPlotter poolPlotter : poolPlotters) {
-                paintPoolBar(g, poolPlotter);
+                pbintPoolBbr(g, poolPlotter);
             }
 
-            g.setColor(Color.gray);
-            g.drawRect(heapRect.x,    heapRect.y,    heapRect.width,    heapRect.height);
-            g.drawRect(nonHeapRect.x, nonHeapRect.y, nonHeapRect.width, nonHeapRect.height);
+            g.setColor(Color.grby);
+            g.drbwRect(hebpRect.x,    hebpRect.y,    hebpRect.width,    hebpRect.height);
+            g.drbwRect(nonHebpRect.x, nonHebpRect.y, nonHebpRect.width, nonHebpRect.height);
 
-            Color heapColor    = greenBar;
-            Color nonHeapColor = greenBar;
+            Color hebpColor    = greenBbr;
+            Color nonHebpColor = greenBbr;
 
 
             for (PoolPlotter poolPlotter : poolPlotters) {
-                if (poolPlotter.threshold > 0L && poolPlotter.value > poolPlotter.threshold) {
-                    if (poolPlotter.isHeap) {
-                        heapColor = thresholdColor;
+                if (poolPlotter.threshold > 0L && poolPlotter.vblue > poolPlotter.threshold) {
+                    if (poolPlotter.isHebp) {
+                        hebpColor = thresholdColor;
                     } else {
-                        nonHeapColor = thresholdColor;
+                        nonHebpColor = thresholdColor;
                     }
                 }
             }
-            g.setColor(heapColor);
-            g.fillRect(heapRect.x + 1,    heapRect.y + 1,    heapRect.width - 1,    heapRect.height - 1);
-            g.setColor(nonHeapColor);
-            g.fillRect(nonHeapRect.x + 1, nonHeapRect.y + 1, nonHeapRect.width - 1, nonHeapRect.height - 1);
+            g.setColor(hebpColor);
+            g.fillRect(hebpRect.x + 1,    hebpRect.y + 1,    hebpRect.width - 1,    hebpRect.height - 1);
+            g.setColor(nonHebpColor);
+            g.fillRect(nonHebpRect.x + 1, nonHebpRect.y + 1, nonHebpRect.width - 1, nonHebpRect.height - 1);
 
-            String str = Messages.HEAP;
+            String str = Messbges.HEAP;
             int stringWidth = fm.stringWidth(str);
-            int x = heapRect.x + (heapRect.width - stringWidth) / 2;
-            int y = heapRect.y + heapRect.height - 6;
+            int x = hebpRect.x + (hebpRect.width - stringWidth) / 2;
+            int y = hebpRect.y + hebpRect.height - 6;
             g.setColor(Color.white);
-            g.drawString(str, x-1, y-1);
-            g.drawString(str, x+1, y-1);
-            g.drawString(str, x-1, y+1);
-            g.drawString(str, x+1, y+1);
-            g.setColor(Color.black);
-            g.drawString(str, x, y);
+            g.drbwString(str, x-1, y-1);
+            g.drbwString(str, x+1, y-1);
+            g.drbwString(str, x-1, y+1);
+            g.drbwString(str, x+1, y+1);
+            g.setColor(Color.blbck);
+            g.drbwString(str, x, y);
 
-            str = Messages.NON_HEAP;
+            str = Messbges.NON_HEAP;
             stringWidth = fm.stringWidth(str);
-            x = nonHeapRect.x + (nonHeapRect.width - stringWidth) / 2;
-            y = nonHeapRect.y + nonHeapRect.height - 6;
+            x = nonHebpRect.x + (nonHebpRect.width - stringWidth) / 2;
+            y = nonHebpRect.y + nonHebpRect.height - 6;
             g.setColor(Color.white);
-            g.drawString(str, x-1, y-1);
-            g.drawString(str, x+1, y-1);
-            g.drawString(str, x-1, y+1);
-            g.drawString(str, x+1, y+1);
-            g.setColor(Color.black);
-            g.drawString(str, x, y);
+            g.drbwString(str, x-1, y-1);
+            g.drbwString(str, x+1, y-1);
+            g.drbwString(str, x-1, y+1);
+            g.drbwString(str, x+1, y+1);
+            g.setColor(Color.blbck);
+            g.drbwString(str, x, y);
 
             // Highlight current plotter
             g.setColor(Color.blue);
             r = null;
             Plotter plotter = (Plotter)plotterChoice.getSelectedItem();
-            if (plotter == heapPlotter) {
-                r = heapRect;
-            } else if (plotter == nonHeapPlotter) {
-                r = nonHeapRect;
-            } else if (plotter instanceof PoolPlotter) {
-                r = getBarRect((PoolPlotter)plotter);
+            if (plotter == hebpPlotter) {
+                r = hebpRect;
+            } else if (plotter == nonHebpPlotter) {
+                r = nonHebpRect;
+            } else if (plotter instbnceof PoolPlotter) {
+                r = getBbrRect((PoolPlotter)plotter);
             }
             if (r != null) {
-                g.drawRect(r.x - 1, r.y - 1, r.width + 2, r.height + 2);
+                g.drbwRect(r.x - 1, r.y - 1, r.width + 2, r.height + 2);
             }
         }
 
-        private Rectangle getBarRect(PoolPlotter poolPlotter) {
-            return new Rectangle(leftMargin + poolPlotter.barX,
-                                 height - bottomMargin - barHeight,
-                                 barWidth, barHeight);
+        privbte Rectbngle getBbrRect(PoolPlotter poolPlotter) {
+            return new Rectbngle(leftMbrgin + poolPlotter.bbrX,
+                                 height - bottomMbrgin - bbrHeight,
+                                 bbrWidth, bbrHeight);
         }
 
         public Dimension getPreferredSize() {
-            return new Dimension(nonHeapRect.x + nonHeapRect.width + rightMargin,
+            return new Dimension(nonHebpRect.x + nonHebpRect.width + rightMbrgin,
                                  height);
         }
 
@@ -672,7 +672,7 @@ class MemoryTab extends Tab implements ActionListener, ItemListener {
 
             if (plotter != null && plotter != plotterChoice.getSelectedItem()) {
                 plotterChoice.setSelectedItem(plotter);
-                repaint();
+                repbint();
             }
         }
 
@@ -682,19 +682,19 @@ class MemoryTab extends Tab implements ActionListener, ItemListener {
             return (plotter != null) ? plotter.toString() : null;
         }
 
-        private Plotter getPlotter(MouseEvent e) {
+        privbte Plotter getPlotter(MouseEvent e) {
             Point p = e.getPoint();
             Plotter plotter = null;
 
-            if (heapRect.contains(p)) {
-                plotter = heapPlotter;
-            } else if (nonHeapRect.contains(p)) {
-                plotter = nonHeapPlotter;
+            if (hebpRect.contbins(p)) {
+                plotter = hebpPlotter;
+            } else if (nonHebpRect.contbins(p)) {
+                plotter = nonHebpPlotter;
             } else {
                 for (PoolPlotter poolPlotter : poolPlotters) {
-                    if (getBarRect(poolPlotter).contains(p)) {
+                    if (getBbrRect(poolPlotter).contbins(p)) {
                         plotter = poolPlotter;
-                        break;
+                        brebk;
                     }
                 }
             }
@@ -702,67 +702,67 @@ class MemoryTab extends Tab implements ActionListener, ItemListener {
         }
 
         public void mousePressed(MouseEvent e) {}
-        public void mouseReleased(MouseEvent e) {}
+        public void mouseRelebsed(MouseEvent e) {}
         public void mouseEntered(MouseEvent e) {}
         public void mouseExited(MouseEvent e) {}
 
 
         public AccessibleContext getAccessibleContext() {
-            if (accessibleContext == null) {
-                accessibleContext = new AccessiblePoolChart();
+            if (bccessibleContext == null) {
+                bccessibleContext = new AccessiblePoolChbrt();
             }
-            return accessibleContext;
+            return bccessibleContext;
         }
 
-        protected class AccessiblePoolChart extends AccessibleJPanel {
-            public String getAccessibleName() {
-                String name = Messages.MEMORY_TAB_POOL_CHART_ACCESSIBLE_NAME;
+        protected clbss AccessiblePoolChbrt extends AccessibleJPbnel {
+            public String getAccessibleNbme() {
+                String nbme = Messbges.MEMORY_TAB_POOL_CHART_ACCESSIBLE_NAME;
 
-                String keyValueList = "";
+                String keyVblueList = "";
                 for (PoolPlotter poolPlotter : poolPlotters) {
-                    String value = (poolPlotter.value * 100 / poolPlotter.max) + "%";
-                    // Assume format string ends with newline
-                    keyValueList +=
-                        Resources.format(Messages.PLOTTER_ACCESSIBLE_NAME_KEY_AND_VALUE,
-                                         poolPlotter.toString(), value);
+                    String vblue = (poolPlotter.vblue * 100 / poolPlotter.mbx) + "%";
+                    // Assume formbt string ends with newline
+                    keyVblueList +=
+                        Resources.formbt(Messbges.PLOTTER_ACCESSIBLE_NAME_KEY_AND_VALUE,
+                                         poolPlotter.toString(), vblue);
                     if (poolPlotter.threshold > 0L) {
                         String threshold =
-                            (poolPlotter.threshold * 100 / poolPlotter.max) + "%";
-                        if (poolPlotter.value > poolPlotter.threshold) {
-                            keyValueList +=
-                               Resources.format(Messages.MEMORY_TAB_POOL_CHART_ABOVE_THRESHOLD,
+                            (poolPlotter.threshold * 100 / poolPlotter.mbx) + "%";
+                        if (poolPlotter.vblue > poolPlotter.threshold) {
+                            keyVblueList +=
+                               Resources.formbt(Messbges.MEMORY_TAB_POOL_CHART_ABOVE_THRESHOLD,
                                                 threshold);
                         } else {
-                            keyValueList +=
-                                    Resources.format(Messages.MEMORY_TAB_POOL_CHART_BELOW_THRESHOLD,
+                            keyVblueList +=
+                                    Resources.formbt(Messbges.MEMORY_TAB_POOL_CHART_BELOW_THRESHOLD,
                                                      threshold);
                         }
                     }
                 }
 
-                return name + "\n" + keyValueList + ".";
+                return nbme + "\n" + keyVblueList + ".";
             }
         }
     }
 
 
-    OverviewPanel[] getOverviewPanels() {
-        if (overviewPanel == null) {
-            overviewPanel = new MemoryOverviewPanel();
+    OverviewPbnel[] getOverviewPbnels() {
+        if (overviewPbnel == null) {
+            overviewPbnel = new MemoryOverviewPbnel();
         }
-        return new OverviewPanel[] { overviewPanel };
+        return new OverviewPbnel[] { overviewPbnel };
     }
 
-    private static class MemoryOverviewPanel extends OverviewPanel {
-        MemoryOverviewPanel() {
-            super(Messages.HEAP_MEMORY_USAGE, usedKey, Messages.USED, Plotter.Unit.BYTES);
+    privbte stbtic clbss MemoryOverviewPbnel extends OverviewPbnel {
+        MemoryOverviewPbnel() {
+            super(Messbges.HEAP_MEMORY_USAGE, usedKey, Messbges.USED, Plotter.Unit.BYTES);
         }
 
-        private void updateMemoryInfo(long used, long committed, long max) {
-            getInfoLabel().setText(Resources.format(Messages.MEMORY_TAB_INFO_LABEL_FORMAT,
-                                                    formatBytes(used, true),
-                                                    formatBytes(committed, true),
-                                                    formatBytes(max, true)));
+        privbte void updbteMemoryInfo(long used, long committed, long mbx) {
+            getInfoLbbel().setText(Resources.formbt(Messbges.MEMORY_TAB_INFO_LABEL_FORMAT,
+                                                    formbtBytes(used, true),
+                                                    formbtBytes(committed, true),
+                                                    formbtBytes(mbx, true)));
         }
     }
 }

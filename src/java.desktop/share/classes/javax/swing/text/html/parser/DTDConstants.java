@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text.html.parser;
+pbckbge jbvbx.swing.text.html.pbrser;
 
 /**
- * SGML constants used in a DTD. The names of the
- * constants correspond the the equivalent SGML constructs
- * as described in "The SGML Handbook" by  Charles F. Goldfarb.
+ * SGML constbnts used in b DTD. The nbmes of the
+ * constbnts correspond the the equivblent SGML constructs
+ * bs described in "The SGML Hbndbook" by  Chbrles F. Goldfbrb.
  *
  * @see DTD
  * @see Element
- * @author Arthur van Hoff
+ * @buthor Arthur vbn Hoff
  */
 public
-interface DTDConstants {
-    // Attribute value types
+interfbce DTDConstbnts {
+    // Attribute vblue types
 
     /**
-     * The DTD constant corresponds to CDATA
+     * The DTD constbnt corresponds to CDATA
      */
     int CDATA           = 1;
 
     /**
-     * The DTD constant corresponds to ENTITY
+     * The DTD constbnt corresponds to ENTITY
      */
     int ENTITY          = 2;
 
     /**
-     * The DTD constant corresponds to ENTITIES
+     * The DTD constbnt corresponds to ENTITIES
      */
     int ENTITIES        = 3;
 
     /**
-     * The DTD constant corresponds to ID
+     * The DTD constbnt corresponds to ID
      */
     int ID              = 4;
 
     /**
-     * The DTD constant corresponds to IDREF
+     * The DTD constbnt corresponds to IDREF
      */
     int IDREF           = 5;
 
     /**
-     * The DTD constant corresponds to IDREFS
+     * The DTD constbnt corresponds to IDREFS
      */
     int IDREFS          = 6;
 
     /**
-     * The DTD constant corresponds to NAME
+     * The DTD constbnt corresponds to NAME
      */
     int NAME            = 7;
 
     /**
-     * The DTD constant corresponds to NAMES
+     * The DTD constbnt corresponds to NAMES
      */
     int NAMES           = 8;
 
     /**
-     * The DTD constant corresponds to NMTOKEN
+     * The DTD constbnt corresponds to NMTOKEN
      */
     int NMTOKEN         = 9;
 
     /**
-     * The DTD constant corresponds to NMTOKENS
+     * The DTD constbnt corresponds to NMTOKENS
      */
     int NMTOKENS        = 10;
 
     /**
-     * The DTD constant corresponds to NOTATION
+     * The DTD constbnt corresponds to NOTATION
      */
     int NOTATION        = 11;
 
     /**
-     * The DTD constant corresponds to NUMBER
+     * The DTD constbnt corresponds to NUMBER
      */
     int NUMBER          = 12;
 
     /**
-     * The DTD constant corresponds to NUMBERS
+     * The DTD constbnt corresponds to NUMBERS
      */
     int NUMBERS         = 13;
 
     /**
-     * The DTD constant corresponds to NUTOKEN
+     * The DTD constbnt corresponds to NUTOKEN
      */
     int NUTOKEN         = 14;
 
     /**
-     * The DTD constant corresponds to NUTOKENS
+     * The DTD constbnt corresponds to NUTOKENS
      */
     int NUTOKENS        = 15;
 
     // Content model types
 
     /**
-     * The DTD constant corresponds to RCDATA
+     * The DTD constbnt corresponds to RCDATA
      */
     int RCDATA          = 16;
 
     /**
-     * The DTD constant corresponds to EMPTY
+     * The DTD constbnt corresponds to EMPTY
      */
     int EMPTY           = 17;
 
     /**
-     * The DTD constant corresponds to MODEL
+     * The DTD constbnt corresponds to MODEL
      */
     int MODEL           = 18;
 
     /**
-     * The DTD constant corresponds to ANY
+     * The DTD constbnt corresponds to ANY
      */
     int ANY             = 19;
 
-    // Attribute value modifiers
+    // Attribute vblue modifiers
 
     /**
-     * The DTD constant corresponds to FIXED
+     * The DTD constbnt corresponds to FIXED
      */
     int FIXED           = 1;
 
     /**
-     * The DTD constant corresponds to REQUIRED
+     * The DTD constbnt corresponds to REQUIRED
      */
     int REQUIRED        = 2;
 
     /**
-     * The DTD constant corresponds to CURRENT
+     * The DTD constbnt corresponds to CURRENT
      */
     int CURRENT         = 3;
 
     /**
-     * The DTD constant corresponds to CONREF
+     * The DTD constbnt corresponds to CONREF
      */
     int CONREF          = 4;
 
     /**
-     * The DTD constant corresponds to IMPLIED
+     * The DTD constbnt corresponds to IMPLIED
      */
     int IMPLIED         = 5;
 
     // Entity types
 
     /**
-     * The DTD constant corresponds to PUBLIC
+     * The DTD constbnt corresponds to PUBLIC
      */
     int PUBLIC          = 10;
 
     /**
-     * The DTD constant corresponds to SDATA
+     * The DTD constbnt corresponds to SDATA
      */
     int SDATA           = 11;
 
     /**
-     * The DTD constant corresponds to PI
+     * The DTD constbnt corresponds to PI
      */
     int PI              = 12;
 
     /**
-     * The DTD constant corresponds to STARTTAG
+     * The DTD constbnt corresponds to STARTTAG
      */
     int STARTTAG        = 13;
 
     /**
-     * The DTD constant corresponds to ENDTAG
+     * The DTD constbnt corresponds to ENDTAG
      */
     int ENDTAG          = 14;
 
     /**
-     * The DTD constant corresponds to MS
+     * The DTD constbnt corresponds to MS
      */
     int MS              = 15;
 
     /**
-     * The DTD constant corresponds to MD
+     * The DTD constbnt corresponds to MD
      */
     int MD              = 16;
 
     /**
-     * The DTD constant corresponds to SYSTEM
+     * The DTD constbnt corresponds to SYSTEM
      */
     int SYSTEM          = 17;
 
     /**
-     * The DTD constant corresponds to GENERAL
+     * The DTD constbnt corresponds to GENERAL
      */
 
     int GENERAL         = 1<<16;
 
     /**
-     * The DTD constant corresponds to DEFAULT
+     * The DTD constbnt corresponds to DEFAULT
      */
     int DEFAULT         = 1<<17;
 
     /**
-     * The DTD constant corresponds to PARAMETER
+     * The DTD constbnt corresponds to PARAMETER
      */
     int PARAMETER       = 1<<18;
 }

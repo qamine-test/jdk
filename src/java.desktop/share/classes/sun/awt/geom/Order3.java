@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.geom;
+pbckbge sun.bwt.geom;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.PathIterator;
-import java.awt.geom.QuadCurve2D;
-import java.util.Vector;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.geom.QubdCurve2D;
+import jbvb.util.Vector;
 
-final class Order3 extends Curve {
-    private double x0;
-    private double y0;
-    private double cx0;
-    private double cy0;
-    private double cx1;
-    private double cy1;
-    private double x1;
-    private double y1;
+finbl clbss Order3 extends Curve {
+    privbte double x0;
+    privbte double y0;
+    privbte double cx0;
+    privbte double cy0;
+    privbte double cx1;
+    privbte double cy1;
+    privbte double x1;
+    privbte double y1;
 
-    private double xmin;
-    private double xmax;
+    privbte double xmin;
+    privbte double xmbx;
 
-    private double xcoeff0;
-    private double xcoeff1;
-    private double xcoeff2;
-    private double xcoeff3;
+    privbte double xcoeff0;
+    privbte double xcoeff1;
+    privbte double xcoeff2;
+    privbte double xcoeff3;
 
-    private double ycoeff0;
-    private double ycoeff1;
-    private double ycoeff2;
-    private double ycoeff3;
+    privbte double ycoeff0;
+    privbte double ycoeff1;
+    privbte double ycoeff2;
+    privbte double ycoeff3;
 
-    public static void insert(Vector<Curve> curves, double tmp[],
+    public stbtic void insert(Vector<Curve> curves, double tmp[],
                               double x0, double y0,
                               double cx0, double cy0,
                               double cx1, double cy1,
                               double x1, double y1,
                               int direction)
     {
-        int numparams = getHorizontalParams(y0, cy0, cy1, y1, tmp);
-        if (numparams == 0) {
-            // We are using addInstance here to avoid inserting horisontal
+        int numpbrbms = getHorizontblPbrbms(y0, cy0, cy1, y1, tmp);
+        if (numpbrbms == 0) {
+            // We bre using bddInstbnce here to bvoid inserting horisontbl
             // segments
-            addInstance(curves, x0, y0, cx0, cy0, cx1, cy1, x1, y1, direction);
+            bddInstbnce(curves, x0, y0, cx0, cy0, cx1, cy1, x1, y1, direction);
             return;
         }
-        // Store coordinates for splitting at tmp[3..10]
+        // Store coordinbtes for splitting bt tmp[3..10]
         tmp[3] = x0;  tmp[4]  = y0;
         tmp[5] = cx0; tmp[6]  = cy0;
         tmp[7] = cx1; tmp[8]  = cy1;
         tmp[9] = x1;  tmp[10] = y1;
         double t = tmp[0];
-        if (numparams > 1 && t > tmp[1]) {
-            // Perform a "2 element sort"...
+        if (numpbrbms > 1 && t > tmp[1]) {
+            // Perform b "2 element sort"...
             tmp[0] = tmp[1];
             tmp[1] = t;
             t = tmp[0];
         }
         split(tmp, 3, t);
-        if (numparams > 1) {
-            // Recalculate tmp[1] relative to the range [tmp[0]...1]
+        if (numpbrbms > 1) {
+            // Recblculbte tmp[1] relbtive to the rbnge [tmp[0]...1]
             t = (tmp[1] - t) / (1 - t);
             split(tmp, 9, t);
         }
         int index = 3;
         if (direction == DECREASING) {
-            index += numparams * 6;
+            index += numpbrbms * 6;
         }
-        while (numparams >= 0) {
-            addInstance(curves,
+        while (numpbrbms >= 0) {
+            bddInstbnce(curves,
                         tmp[index + 0], tmp[index + 1],
                         tmp[index + 2], tmp[index + 3],
                         tmp[index + 4], tmp[index + 5],
                         tmp[index + 6], tmp[index + 7],
                         direction);
-            numparams--;
+            numpbrbms--;
             if (direction == INCREASING) {
                 index += 6;
             } else {
@@ -105,27 +105,27 @@ final class Order3 extends Curve {
         }
     }
 
-    public static void addInstance(Vector<Curve> curves,
+    public stbtic void bddInstbnce(Vector<Curve> curves,
                                    double x0, double y0,
                                    double cx0, double cy0,
                                    double cx1, double cy1,
                                    double x1, double y1,
                                    int direction) {
         if (y0 > y1) {
-            curves.add(new Order3(x1, y1, cx1, cy1, cx0, cy0, x0, y0,
+            curves.bdd(new Order3(x1, y1, cx1, cy1, cx0, cy0, x0, y0,
                                   -direction));
         } else if (y1 > y0) {
-            curves.add(new Order3(x0, y0, cx0, cy0, cx1, cy1, x1, y1,
+            curves.bdd(new Order3(x0, y0, cx0, cy0, cx1, cy1, x1, y1,
                                   direction));
         }
     }
 
     /*
-     * Return the count of the number of horizontal sections of the
-     * specified cubic Bezier curve.  Put the parameters for the
-     * horizontal sections into the specified <code>ret</code> array.
+     * Return the count of the number of horizontbl sections of the
+     * specified cubic Bezier curve.  Put the pbrbmeters for the
+     * horizontbl sections into the specified <code>ret</code> brrby.
      * <p>
-     * If we examine the parametric equation in t, we have:
+     * If we exbmine the pbrbmetric equbtion in t, we hbve:
      *   Py(t) = C0(1-t)^3 + 3CP0 t(1-t)^2 + 3CP1 t^2(1-t) + C1 t^3
      *         = C0 - 3C0t + 3C0t^2 - C0t^3 +
      *           3CP0t - 6CP0t^2 + 3CP0t^3 +
@@ -135,7 +135,7 @@ final class Order3 extends Curve {
      *           (3C0 - 6CP0 + 3CP1) t^2 +
      *           (3CP0 - 3C0) t +
      *           (C0)
-     * If we take the derivative, we get:
+     * If we tbke the derivbtive, we get:
      *   Py(t) = Dt^3 + At^2 + Bt + C
      *   dPy(t) = 3Dt^2 + 2At + B = 0
      *        0 = 3*(C1 - 3*CP1 + 3*CP0 - C0)t^2
@@ -153,12 +153,12 @@ final class Order3 extends Curve {
      *        0 = ((C1 - CP1) - (CP1 - CP0) - (CP1 - CP0) + (CP0 - C0))t^2
      *          + 2*((CP1 - CP0) - (CP0 - C0))t
      *          + (CP0 - C0)
-     * Note that this method will return 0 if the equation is a line,
-     * which is either always horizontal or never horizontal.
-     * Completely horizontal curves need to be eliminated by other
-     * means outside of this method.
+     * Note thbt this method will return 0 if the equbtion is b line,
+     * which is either blwbys horizontbl or never horizontbl.
+     * Completely horizontbl curves need to be eliminbted by other
+     * mebns outside of this method.
      */
-    public static int getHorizontalParams(double c0, double cp0,
+    public stbtic int getHorizontblPbrbms(double c0, double cp0,
                                           double cp1, double c1,
                                           double ret[]) {
         if (c0 <= cp0 && cp0 <= cp1 && cp1 <= c1) {
@@ -170,11 +170,11 @@ final class Order3 extends Curve {
         ret[0] = cp0;
         ret[1] = (cp1 - cp0) * 2;
         ret[2] = (c1 - cp1 - cp1 + cp0);
-        int numroots = QuadCurve2D.solveQuadratic(ret, ret);
+        int numroots = QubdCurve2D.solveQubdrbtic(ret, ret);
         int j = 0;
         for (int i = 0; i < numroots; i++) {
             double t = ret[i];
-            // No splits at t==0 and t==1
+            // No splits bt t==0 bnd t==1
             if (t > 0 && t < 1) {
                 if (j < i) {
                     ret[j] = t;
@@ -186,12 +186,12 @@ final class Order3 extends Curve {
     }
 
     /*
-     * Split the cubic Bezier stored at coords[pos...pos+7] representing
-     * the parametric range [0..1] into two subcurves representing the
-     * parametric subranges [0..t] and [t..1].  Store the results back
-     * into the array at coords[pos...pos+7] and coords[pos+6...pos+13].
+     * Split the cubic Bezier stored bt coords[pos...pos+7] representing
+     * the pbrbmetric rbnge [0..1] into two subcurves representing the
+     * pbrbmetric subrbnges [0..t] bnd [t..1].  Store the results bbck
+     * into the brrby bt coords[pos...pos+7] bnd coords[pos+6...pos+13].
      */
-    public static void split(double coords[], int pos, double t) {
+    public stbtic void split(double coords[], int pos, double t) {
         double x0, y0, cx0, cy0, cx1, cy1, x1, y1;
         coords[pos+12] = x1 = coords[pos+6];
         coords[pos+13] = y1 = coords[pos+7];
@@ -230,9 +230,9 @@ final class Order3 extends Curve {
                   int direction)
     {
         super(direction);
-        // REMIND: Better accuracy in the root finding methods would
-        //  ensure that cys are in range.  As it stands, they are never
-        //  more than "1 mantissa bit" out of range...
+        // REMIND: Better bccurbcy in the root finding methods would
+        //  ensure thbt cys bre in rbnge.  As it stbnds, they bre never
+        //  more thbn "1 mbntissb bit" out of rbnge...
         if (cy0 < y0) cy0 = y0;
         if (cy1 > y1) cy1 = y1;
         this.x0 = x0;
@@ -243,8 +243,8 @@ final class Order3 extends Curve {
         this.cy1 = cy1;
         this.x1 = x1;
         this.y1 = y1;
-        xmin = Math.min(Math.min(x0, x1), Math.min(cx0, cx1));
-        xmax = Math.max(Math.max(x0, x1), Math.max(cx0, cx1));
+        xmin = Mbth.min(Mbth.min(x0, x1), Mbth.min(cx0, cx1));
+        xmbx = Mbth.mbx(Mbth.mbx(x0, x1), Mbth.mbx(cx0, cx1));
         xcoeff0 = x0;
         xcoeff1 = (cx0 - x0) * 3.0;
         xcoeff2 = (cx1 - cx0 - cx0 + x0) * 3.0;
@@ -280,8 +280,8 @@ final class Order3 extends Curve {
         return xmin;
     }
 
-    public double getXMax() {
-        return xmax;
+    public double getXMbx() {
+        return xmbx;
     }
 
     public double getX0() {
@@ -316,19 +316,19 @@ final class Order3 extends Curve {
         return (direction == DECREASING) ? y0 : y1;
     }
 
-    private double TforY1;
-    private double YforT1;
-    private double TforY2;
-    private double YforT2;
-    private double TforY3;
-    private double YforT3;
+    privbte double TforY1;
+    privbte double YforT1;
+    privbte double TforY2;
+    privbte double YforT2;
+    privbte double TforY3;
+    privbte double YforT3;
 
     /*
-     * Solve the cubic whose coefficients are in the a,b,c,d fields and
-     * return the first root in the range [0, 1].
-     * The cubic solved is represented by the equation:
+     * Solve the cubic whose coefficients bre in the b,b,c,d fields bnd
+     * return the first root in the rbnge [0, 1].
+     * The cubic solved is represented by the equbtion:
      *     x^3 + (ycoeff2)x^2 + (ycoeff1)x + (ycoeff0) = y
-     * @return the first valid root (in the range [0, 1])
+     * @return the first vblid root (in the rbnge [0, 1])
      */
     public double TforY(double y) {
         if (y <= y0) return 0;
@@ -336,54 +336,54 @@ final class Order3 extends Curve {
         if (y == YforT1) return TforY1;
         if (y == YforT2) return TforY2;
         if (y == YforT3) return TforY3;
-        // From Numerical Recipes, 5.6, Quadratic and Cubic Equations
+        // From Numericbl Recipes, 5.6, Qubdrbtic bnd Cubic Equbtions
         if (ycoeff3 == 0.0) {
-            // The cubic degenerated to quadratic (or line or ...).
+            // The cubic degenerbted to qubdrbtic (or line or ...).
             return Order2.TforY(y, ycoeff0, ycoeff1, ycoeff2);
         }
-        double a = ycoeff2 / ycoeff3;
+        double b = ycoeff2 / ycoeff3;
         double b = ycoeff1 / ycoeff3;
         double c = (ycoeff0 - y) / ycoeff3;
         int roots = 0;
-        double Q = (a * a - 3.0 * b) / 9.0;
-        double R = (2.0 * a * a * a - 9.0 * a * b + 27.0 * c) / 54.0;
+        double Q = (b * b - 3.0 * b) / 9.0;
+        double R = (2.0 * b * b * b - 9.0 * b * b + 27.0 * c) / 54.0;
         double R2 = R * R;
         double Q3 = Q * Q * Q;
-        double a_3 = a / 3.0;
+        double b_3 = b / 3.0;
         double t;
         if (R2 < Q3) {
-            double theta = Math.acos(R / Math.sqrt(Q3));
-            Q = -2.0 * Math.sqrt(Q);
-            t = refine(a, b, c, y, Q * Math.cos(theta / 3.0) - a_3);
+            double thetb = Mbth.bcos(R / Mbth.sqrt(Q3));
+            Q = -2.0 * Mbth.sqrt(Q);
+            t = refine(b, b, c, y, Q * Mbth.cos(thetb / 3.0) - b_3);
             if (t < 0) {
-                t = refine(a, b, c, y,
-                           Q * Math.cos((theta + Math.PI * 2.0)/ 3.0) - a_3);
+                t = refine(b, b, c, y,
+                           Q * Mbth.cos((thetb + Mbth.PI * 2.0)/ 3.0) - b_3);
             }
             if (t < 0) {
-                t = refine(a, b, c, y,
-                           Q * Math.cos((theta - Math.PI * 2.0)/ 3.0) - a_3);
+                t = refine(b, b, c, y,
+                           Q * Mbth.cos((thetb - Mbth.PI * 2.0)/ 3.0) - b_3);
             }
         } else {
-            boolean neg = (R < 0.0);
-            double S = Math.sqrt(R2 - Q3);
+            boolebn neg = (R < 0.0);
+            double S = Mbth.sqrt(R2 - Q3);
             if (neg) {
                 R = -R;
             }
-            double A = Math.pow(R + S, 1.0 / 3.0);
+            double A = Mbth.pow(R + S, 1.0 / 3.0);
             if (!neg) {
                 A = -A;
             }
             double B = (A == 0.0) ? 0.0 : (Q / A);
-            t = refine(a, b, c, y, (A + B) - a_3);
+            t = refine(b, b, c, y, (A + B) - b_3);
         }
         if (t < 0) {
-            //throw new InternalError("bad t");
+            //throw new InternblError("bbd t");
             double t0 = 0;
             double t1 = 1;
             while (true) {
                 t = (t0 + t1) / 2;
                 if (t == t0 || t == t1) {
-                    break;
+                    brebk;
                 }
                 double yt = YforT(t);
                 if (yt < y) {
@@ -391,7 +391,7 @@ final class Order3 extends Curve {
                 } else if (yt > y) {
                     t1 = t;
                 } else {
-                    break;
+                    brebk;
                 }
             }
         }
@@ -406,15 +406,15 @@ final class Order3 extends Curve {
         return t;
     }
 
-    public double refine(double a, double b, double c,
-                         double target, double t)
+    public double refine(double b, double b, double c,
+                         double tbrget, double t)
     {
         if (t < -0.1 || t > 1.1) {
             return -1;
         }
         double y = YforT(t);
         double t0, t1;
-        if (y < target) {
+        if (y < tbrget) {
             t0 = t;
             t1 = 1;
         } else {
@@ -423,46 +423,46 @@ final class Order3 extends Curve {
         }
         double origt = t;
         double origy = y;
-        boolean useslope = true;
-        while (y != target) {
+        boolebn useslope = true;
+        while (y != tbrget) {
             if (!useslope) {
                 double t2 = (t0 + t1) / 2;
                 if (t2 == t0 || t2 == t1) {
-                    break;
+                    brebk;
                 }
                 t = t2;
             } else {
                 double slope = dYforT(t, 1);
                 if (slope == 0) {
-                    useslope = false;
+                    useslope = fblse;
                     continue;
                 }
-                double t2 = t + ((target - y) / slope);
+                double t2 = t + ((tbrget - y) / slope);
                 if (t2 == t || t2 <= t0 || t2 >= t1) {
-                    useslope = false;
+                    useslope = fblse;
                     continue;
                 }
                 t = t2;
             }
             y = YforT(t);
-            if (y < target) {
+            if (y < tbrget) {
                 t0 = t;
-            } else if (y > target) {
+            } else if (y > tbrget) {
                 t1 = t;
             } else {
-                break;
+                brebk;
             }
         }
-        boolean verbose = false;
-        if (false && t >= 0 && t <= 1) {
+        boolebn verbose = fblse;
+        if (fblse && t >= 0 && t <= 1) {
             y = YforT(t);
             long tdiff = diffbits(t, origt);
             long ydiff = diffbits(y, origy);
-            long yerr = diffbits(y, target);
+            long yerr = diffbits(y, tbrget);
             if (yerr > 0 || (verbose && tdiff > 0)) {
-                System.out.println("target was y = "+target);
-                System.out.println("original was y = "+origy+", t = "+origt);
-                System.out.println("final was y = "+y+", t = "+t);
+                System.out.println("tbrget wbs y = "+tbrget);
+                System.out.println("originbl wbs y = "+origy+", t = "+origt);
+                System.out.println("finbl wbs y = "+y+", t = "+t);
                 System.out.println("t diff is "+tdiff);
                 System.out.println("y diff is "+ydiff);
                 System.out.println("y error is "+yerr);
@@ -470,10 +470,10 @@ final class Order3 extends Curve {
                 double ylow = YforT(tlow);
                 double thi = next(t);
                 double yhi = YforT(thi);
-                if (Math.abs(target - ylow) < Math.abs(target - y) ||
-                    Math.abs(target - yhi) < Math.abs(target - y))
+                if (Mbth.bbs(tbrget - ylow) < Mbth.bbs(tbrget - y) ||
+                    Mbth.bbs(tbrget - yhi) < Mbth.bbs(tbrget - y))
                 {
-                    System.out.println("adjacent y's = ["+ylow+", "+yhi+"]");
+                    System.out.println("bdjbcent y's = ["+ylow+", "+yhi+"]");
                 }
             }
         }
@@ -500,37 +500,37 @@ final class Order3 extends Curve {
 
     public double dXforT(double t, int deriv) {
         switch (deriv) {
-        case 0:
+        cbse 0:
             return (((xcoeff3 * t) + xcoeff2) * t + xcoeff1) * t + xcoeff0;
-        case 1:
+        cbse 1:
             return ((3 * xcoeff3 * t) + 2 * xcoeff2) * t + xcoeff1;
-        case 2:
+        cbse 2:
             return (6 * xcoeff3 * t) + 2 * xcoeff2;
-        case 3:
+        cbse 3:
             return 6 * xcoeff3;
-        default:
+        defbult:
             return 0;
         }
     }
 
     public double dYforT(double t, int deriv) {
         switch (deriv) {
-        case 0:
+        cbse 0:
             return (((ycoeff3 * t) + ycoeff2) * t + ycoeff1) * t + ycoeff0;
-        case 1:
+        cbse 1:
             return ((3 * ycoeff3 * t) + 2 * ycoeff2) * t + ycoeff1;
-        case 2:
+        cbse 2:
             return (6 * ycoeff3 * t) + 2 * ycoeff2;
-        case 3:
+        cbse 3:
             return 6 * ycoeff3;
-        default:
+        defbult:
             return 0;
         }
     }
 
-    public double nextVertical(double t0, double t1) {
+    public double nextVerticbl(double t0, double t1) {
         double eqn[] = {xcoeff1, 2 * xcoeff2, 3 * xcoeff3};
-        int numroots = QuadCurve2D.solveQuadratic(eqn, eqn);
+        int numroots = QubdCurve2D.solveQubdrbtic(eqn, eqn);
         for (int i = 0; i < numroots; i++) {
             if (eqn[i] > t0 && eqn[i] < t1) {
                 t1 = eqn[i];
@@ -539,26 +539,26 @@ final class Order3 extends Curve {
         return t1;
     }
 
-    public void enlarge(Rectangle2D r) {
-        r.add(x0, y0);
+    public void enlbrge(Rectbngle2D r) {
+        r.bdd(x0, y0);
         double eqn[] = {xcoeff1, 2 * xcoeff2, 3 * xcoeff3};
-        int numroots = QuadCurve2D.solveQuadratic(eqn, eqn);
+        int numroots = QubdCurve2D.solveQubdrbtic(eqn, eqn);
         for (int i = 0; i < numroots; i++) {
             double t = eqn[i];
             if (t > 0 && t < 1) {
-                r.add(XforT(t), YforT(t));
+                r.bdd(XforT(t), YforT(t));
             }
         }
-        r.add(x1, y1);
+        r.bdd(x1, y1);
     }
 
-    public Curve getSubCurve(double ystart, double yend, int dir) {
-        if (ystart <= y0 && yend >= y1) {
+    public Curve getSubCurve(double ystbrt, double yend, int dir) {
+        if (ystbrt <= y0 && yend >= y1) {
             return getWithDirection(dir);
         }
         double eqn[] = new double[14];
         double t0, t1;
-        t0 = TforY(ystart);
+        t0 = TforY(ystbrt);
         t1 = TforY(yend);
         eqn[0] = x0;
         eqn[1] = y0;
@@ -569,19 +569,19 @@ final class Order3 extends Curve {
         eqn[6] = x1;
         eqn[7] = y1;
         if (t0 > t1) {
-            /* This happens in only rare cases where ystart is
-             * very near yend and solving for the yend root ends
-             * up stepping slightly lower in t than solving for
-             * the ystart root.
-             * Ideally we might want to skip this tiny little
-             * segment and just fudge the surrounding coordinates
-             * to bridge the gap left behind, but there is no way
-             * to do that from here.  Higher levels could
-             * potentially eliminate these tiny "fixup" segments,
-             * but not without a lot of extra work on the code that
-             * coalesces chains of curves into subpaths.  The
+            /* This hbppens in only rbre cbses where ystbrt is
+             * very nebr yend bnd solving for the yend root ends
+             * up stepping slightly lower in t thbn solving for
+             * the ystbrt root.
+             * Ideblly we might wbnt to skip this tiny little
+             * segment bnd just fudge the surrounding coordinbtes
+             * to bridge the gbp left behind, but there is no wby
+             * to do thbt from here.  Higher levels could
+             * potentiblly eliminbte these tiny "fixup" segments,
+             * but not without b lot of extrb work on the code thbt
+             * coblesces chbins of curves into subpbths.  The
              * simplest solution for now is to just reorder the t
-             * values and chop out a miniscule curve piece.
+             * vblues bnd chop out b miniscule curve piece.
              */
             double t = t0;
             t0 = t1;
@@ -597,7 +597,7 @@ final class Order3 extends Curve {
             split(eqn, 0, t0 / t1);
             i = 6;
         }
-        return new Order3(eqn[i+0], ystart,
+        return new Order3(eqn[i+0], ystbrt,
                           eqn[i+2], eqn[i+3],
                           eqn[i+4], eqn[i+5],
                           eqn[i+6], yend,
@@ -624,7 +624,7 @@ final class Order3 extends Curve {
             coords[4] = x0;
             coords[5] = y0;
         }
-        return PathIterator.SEG_CUBICTO;
+        return PbthIterbtor.SEG_CUBICTO;
     }
 
     public String controlPointString() {

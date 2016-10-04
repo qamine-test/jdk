@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.SocketException;
-import javax.net.ServerSocketFactory;
-import java.security.*;
+import jbvb.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.net.ServerSocket;
+import jbvb.net.SocketException;
+import jbvbx.net.ServerSocketFbctory;
+import jbvb.security.*;
 
 /**
- * <code>SSLServerSocketFactory</code>s create
+ * <code>SSLServerSocketFbctory</code>s crebte
  * <code>SSLServerSocket</code>s.
  *
  * @since 1.4
  * @see SSLSocket
  * @see SSLServerSocket
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-public abstract class SSLServerSocketFactory extends ServerSocketFactory
+public bbstrbct clbss SSLServerSocketFbctory extends ServerSocketFbctory
 {
-    private static SSLServerSocketFactory theFactory;
+    privbte stbtic SSLServerSocketFbctory theFbctory;
 
-    private static boolean propertyChecked;
+    privbte stbtic boolebn propertyChecked;
 
-    private static void log(String msg) {
-        if (SSLSocketFactory.DEBUG) {
+    privbte stbtic void log(String msg) {
+        if (SSLSocketFbctory.DEBUG) {
             System.out.println(msg);
         }
     }
 
     /**
-     * Constructor is used only by subclasses.
+     * Constructor is used only by subclbsses.
      */
-    protected SSLServerSocketFactory() { /* NOTHING */ }
+    protected SSLServerSocketFbctory() { /* NOTHING */ }
 
     /**
-     * Returns the default SSL server socket factory.
+     * Returns the defbult SSL server socket fbctory.
      *
-     * <p>The first time this method is called, the security property
-     * "ssl.ServerSocketFactory.provider" is examined. If it is non-null, a
-     * class by that name is loaded and instantiated. If that is successful and
-     * the object is an instance of SSLServerSocketFactory, it is made the
-     * default SSL server socket factory.
+     * <p>The first time this method is cblled, the security property
+     * "ssl.ServerSocketFbctory.provider" is exbmined. If it is non-null, b
+     * clbss by thbt nbme is lobded bnd instbntibted. If thbt is successful bnd
+     * the object is bn instbnce of SSLServerSocketFbctory, it is mbde the
+     * defbult SSL server socket fbctory.
      *
      * <p>Otherwise, this method returns
-     * <code>SSLContext.getDefault().getServerSocketFactory()</code>. If that
-     * call fails, an inoperative factory is returned.
+     * <code>SSLContext.getDefbult().getServerSocketFbctory()</code>. If thbt
+     * cbll fbils, bn inoperbtive fbctory is returned.
      *
-     * @return the default <code>ServerSocketFactory</code>
-     * @see SSLContext#getDefault
+     * @return the defbult <code>ServerSocketFbctory</code>
+     * @see SSLContext#getDefbult
      */
-    public static synchronized ServerSocketFactory getDefault() {
-        if (theFactory != null) {
-            return theFactory;
+    public stbtic synchronized ServerSocketFbctory getDefbult() {
+        if (theFbctory != null) {
+            return theFbctory;
         }
 
-        if (propertyChecked == false) {
+        if (propertyChecked == fblse) {
             propertyChecked = true;
-            String clsName = SSLSocketFactory.getSecurityProperty
-                                        ("ssl.ServerSocketFactory.provider");
-            if (clsName != null) {
-                log("setting up default SSLServerSocketFactory");
+            String clsNbme = SSLSocketFbctory.getSecurityProperty
+                                        ("ssl.ServerSocketFbctory.provider");
+            if (clsNbme != null) {
+                log("setting up defbult SSLServerSocketFbctory");
                 try {
-                    Class<?> cls = null;
+                    Clbss<?> cls = null;
                     try {
-                        cls = Class.forName(clsName);
-                    } catch (ClassNotFoundException e) {
-                        ClassLoader cl = ClassLoader.getSystemClassLoader();
+                        cls = Clbss.forNbme(clsNbme);
+                    } cbtch (ClbssNotFoundException e) {
+                        ClbssLobder cl = ClbssLobder.getSystemClbssLobder();
                         if (cl != null) {
-                            cls = cl.loadClass(clsName);
+                            cls = cl.lobdClbss(clsNbme);
                         }
                     }
-                    log("class " + clsName + " is loaded");
-                    SSLServerSocketFactory fac = (SSLServerSocketFactory)cls.newInstance();
-                    log("instantiated an instance of class " + clsName);
-                    theFactory = fac;
-                    return fac;
-                } catch (Exception e) {
-                    log("SSLServerSocketFactory instantiation failed: " + e);
-                    theFactory = new DefaultSSLServerSocketFactory(e);
-                    return theFactory;
+                    log("clbss " + clsNbme + " is lobded");
+                    SSLServerSocketFbctory fbc = (SSLServerSocketFbctory)cls.newInstbnce();
+                    log("instbntibted bn instbnce of clbss " + clsNbme);
+                    theFbctory = fbc;
+                    return fbc;
+                } cbtch (Exception e) {
+                    log("SSLServerSocketFbctory instbntibtion fbiled: " + e);
+                    theFbctory = new DefbultSSLServerSocketFbctory(e);
+                    return theFbctory;
                 }
             }
         }
 
         try {
-            return SSLContext.getDefault().getServerSocketFactory();
-        } catch (NoSuchAlgorithmException e) {
-            return new DefaultSSLServerSocketFactory(e);
+            return SSLContext.getDefbult().getServerSocketFbctory();
+        } cbtch (NoSuchAlgorithmException e) {
+            return new DefbultSSLServerSocketFbctory(e);
         }
     }
 
     /**
-     * Returns the list of cipher suites which are enabled by default.
-     * Unless a different list is enabled, handshaking on an SSL connection
-     * will use one of these cipher suites.  The minimum quality of service
-     * for these defaults requires confidentiality protection and server
-     * authentication (that is, no anonymous cipher suites).
+     * Returns the list of cipher suites which bre enbbled by defbult.
+     * Unless b different list is enbbled, hbndshbking on bn SSL connection
+     * will use one of these cipher suites.  The minimum qublity of service
+     * for these defbults requires confidentiblity protection bnd server
+     * buthenticbtion (thbt is, no bnonymous cipher suites).
      *
      * @see #getSupportedCipherSuites()
-     * @return array of the cipher suites enabled by default
+     * @return brrby of the cipher suites enbbled by defbult
      */
-    public abstract String [] getDefaultCipherSuites();
+    public bbstrbct String [] getDefbultCipherSuites();
 
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on an SSL connection created by this factory.
-     * Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not meet quality of service requirements for those defaults.  Such
-     * cipher suites are useful in specialized applications.
+     * Returns the nbmes of the cipher suites which could be enbbled for use
+     * on bn SSL connection crebted by this fbctory.
+     * Normblly, only b subset of these will bctublly
+     * be enbbled by defbult, since this list mby include cipher suites which
+     * do not meet qublity of service requirements for those defbults.  Such
+     * cipher suites bre useful in speciblized bpplicbtions.
      *
-     * @return an array of cipher suite names
-     * @see #getDefaultCipherSuites()
+     * @return bn brrby of cipher suite nbmes
+     * @see #getDefbultCipherSuites()
      */
-    public abstract String [] getSupportedCipherSuites();
+    public bbstrbct String [] getSupportedCipherSuites();
 }
 
 
 //
-// The default factory does NOTHING.
+// The defbult fbctory does NOTHING.
 //
-class DefaultSSLServerSocketFactory extends SSLServerSocketFactory {
+clbss DefbultSSLServerSocketFbctory extends SSLServerSocketFbctory {
 
-    private final Exception reason;
+    privbte finbl Exception rebson;
 
-    DefaultSSLServerSocketFactory(Exception reason) {
-        this.reason = reason;
+    DefbultSSLServerSocketFbctory(Exception rebson) {
+        this.rebson = rebson;
     }
 
-    private ServerSocket throwException() throws SocketException {
+    privbte ServerSocket throwException() throws SocketException {
         throw (SocketException)
-            new SocketException(reason.toString()).initCause(reason);
+            new SocketException(rebson.toString()).initCbuse(rebson);
     }
 
     @Override
-    public ServerSocket createServerSocket() throws IOException {
+    public ServerSocket crebteServerSocket() throws IOException {
         return throwException();
     }
 
 
     @Override
-    public ServerSocket createServerSocket(int port)
+    public ServerSocket crebteServerSocket(int port)
     throws IOException
     {
         return throwException();
     }
 
     @Override
-    public ServerSocket createServerSocket(int port, int backlog)
+    public ServerSocket crebteServerSocket(int port, int bbcklog)
     throws IOException
     {
         return throwException();
@@ -182,14 +182,14 @@ class DefaultSSLServerSocketFactory extends SSLServerSocketFactory {
 
     @Override
     public ServerSocket
-    createServerSocket(int port, int backlog, InetAddress ifAddress)
+    crebteServerSocket(int port, int bbcklog, InetAddress ifAddress)
     throws IOException
     {
         return throwException();
     }
 
     @Override
-    public String [] getDefaultCipherSuites() {
+    public String [] getDefbultCipherSuites() {
         return new String[0];
     }
 

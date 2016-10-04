@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.validator;
+pbckbge sun.security.vblidbtor;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.cert.*;
+import jbvb.security.cert.*;
 
-import sun.security.x509.NetscapeCertTypeExtension;
+import sun.security.x509.NetscbpeCertTypeExtension;
 
 /**
- * Class to check if an end entity cert is suitable for use in some
+ * Clbss to check if bn end entity cert is suitbble for use in some
  * context.<p>
  *
- * This class is used internally by the validator. Currently, seven variants
- * are supported defined as VAR_XXX constants in the Validator class:
+ * This clbss is used internblly by the vblidbtor. Currently, seven vbribnts
+ * bre supported defined bs VAR_XXX constbnts in the Vblidbtor clbss:
  * <ul>
- * <li>Generic. No additional requirements, all certificates are ok.
+ * <li>Generic. No bdditionbl requirements, bll certificbtes bre ok.
  *
- * <li>TLS server. Requires that a String parameter is passed to
- * validate that specifies the name of the TLS key exchange algorithm
- * in use. See the JSSE X509TrustManager spec for details.
+ * <li>TLS server. Requires thbt b String pbrbmeter is pbssed to
+ * vblidbte thbt specifies the nbme of the TLS key exchbnge blgorithm
+ * in use. See the JSSE X509TrustMbnbger spec for detbils.
  *
  * <li>TLS client.
  *
  * <li>Code signing.
  *
- * <li>JCE code signing. Some early JCE code signing certs issued to
- * providers had incorrect extensions. In this mode the checks
- * are relaxed compared to standard code signing checks in order to
- * allow these certificates to pass.
+ * <li>JCE code signing. Some ebrly JCE code signing certs issued to
+ * providers hbd incorrect extensions. In this mode the checks
+ * bre relbxed compbred to stbndbrd code signing checks in order to
+ * bllow these certificbtes to pbss.
  *
- * <li>Plugin code signing. WebStart and Plugin require their own variant
- * which is equivalent to VAR_CODE_SIGNING with additional checks for
- * compatibility/special cases. See also PKIXValidator.
+ * <li>Plugin code signing. WebStbrt bnd Plugin require their own vbribnt
+ * which is equivblent to VAR_CODE_SIGNING with bdditionbl checks for
+ * compbtibility/specibl cbses. See blso PKIXVblidbtor.
  *
  * <li>TSA Server (see RFC 3161, section 2.3).
  *
  * </ul>
  *
- * @author Andreas Sterbenz
+ * @buthor Andrebs Sterbenz
  */
-class EndEntityChecker {
+clbss EndEntityChecker {
 
-    // extended key usage OIDs for TLS server, TLS client, code signing
-    // and any usage
+    // extended key usbge OIDs for TLS server, TLS client, code signing
+    // bnd bny usbge
 
-    private final static String OID_EXTENDED_KEY_USAGE =
-                                SimpleValidator.OID_EXTENDED_KEY_USAGE;
+    privbte finbl stbtic String OID_EXTENDED_KEY_USAGE =
+                                SimpleVblidbtor.OID_EXTENDED_KEY_USAGE;
 
-    private final static String OID_EKU_TLS_SERVER = "1.3.6.1.5.5.7.3.1";
+    privbte finbl stbtic String OID_EKU_TLS_SERVER = "1.3.6.1.5.5.7.3.1";
 
-    private final static String OID_EKU_TLS_CLIENT = "1.3.6.1.5.5.7.3.2";
+    privbte finbl stbtic String OID_EKU_TLS_CLIENT = "1.3.6.1.5.5.7.3.2";
 
-    private final static String OID_EKU_CODE_SIGNING = "1.3.6.1.5.5.7.3.3";
+    privbte finbl stbtic String OID_EKU_CODE_SIGNING = "1.3.6.1.5.5.7.3.3";
 
-    private final static String OID_EKU_TIME_STAMPING = "1.3.6.1.5.5.7.3.8";
+    privbte finbl stbtic String OID_EKU_TIME_STAMPING = "1.3.6.1.5.5.7.3.8";
 
-    private final static String OID_EKU_ANY_USAGE = "2.5.29.37.0";
+    privbte finbl stbtic String OID_EKU_ANY_USAGE = "2.5.29.37.0";
 
-    // the Netscape Server-Gated-Cryptography EKU extension OID
-    private final static String OID_EKU_NS_SGC = "2.16.840.1.113730.4.1";
+    // the Netscbpe Server-Gbted-Cryptogrbphy EKU extension OID
+    privbte finbl stbtic String OID_EKU_NS_SGC = "2.16.840.1.113730.4.1";
 
-    // the Microsoft Server-Gated-Cryptography EKU extension OID
-    private final static String OID_EKU_MS_SGC = "1.3.6.1.4.1.311.10.3.3";
+    // the Microsoft Server-Gbted-Cryptogrbphy EKU extension OID
+    privbte finbl stbtic String OID_EKU_MS_SGC = "1.3.6.1.4.1.311.10.3.3";
 
     // the recognized extension OIDs
-    private final static String OID_SUBJECT_ALT_NAME = "2.5.29.17";
+    privbte finbl stbtic String OID_SUBJECT_ALT_NAME = "2.5.29.17";
 
-    private final static String NSCT_SSL_CLIENT =
-                                NetscapeCertTypeExtension.SSL_CLIENT;
+    privbte finbl stbtic String NSCT_SSL_CLIENT =
+                                NetscbpeCertTypeExtension.SSL_CLIENT;
 
-    private final static String NSCT_SSL_SERVER =
-                                NetscapeCertTypeExtension.SSL_SERVER;
+    privbte finbl stbtic String NSCT_SSL_SERVER =
+                                NetscbpeCertTypeExtension.SSL_SERVER;
 
-    private final static String NSCT_CODE_SIGNING =
-                                NetscapeCertTypeExtension.OBJECT_SIGNING;
+    privbte finbl stbtic String NSCT_CODE_SIGNING =
+                                NetscbpeCertTypeExtension.OBJECT_SIGNING;
 
-    // bit numbers in the key usage extension
-    private final static int KU_SIGNATURE = 0;
-    private final static int KU_KEY_ENCIPHERMENT = 2;
-    private final static int KU_KEY_AGREEMENT = 4;
+    // bit numbers in the key usbge extension
+    privbte finbl stbtic int KU_SIGNATURE = 0;
+    privbte finbl stbtic int KU_KEY_ENCIPHERMENT = 2;
+    privbte finbl stbtic int KU_KEY_AGREEMENT = 4;
 
-    // TLS key exchange algorithms requiring digitalSignature key usage
-    private final static Collection<String> KU_SERVER_SIGNATURE =
-        Arrays.asList("DHE_DSS", "DHE_RSA", "ECDHE_ECDSA", "ECDHE_RSA",
+    // TLS key exchbnge blgorithms requiring digitblSignbture key usbge
+    privbte finbl stbtic Collection<String> KU_SERVER_SIGNATURE =
+        Arrbys.bsList("DHE_DSS", "DHE_RSA", "ECDHE_ECDSA", "ECDHE_RSA",
             "RSA_EXPORT", "UNKNOWN");
 
-    // TLS key exchange algorithms requiring keyEncipherment key usage
-    private final static Collection<String> KU_SERVER_ENCRYPTION =
-        Arrays.asList("RSA");
+    // TLS key exchbnge blgorithms requiring keyEncipherment key usbge
+    privbte finbl stbtic Collection<String> KU_SERVER_ENCRYPTION =
+        Arrbys.bsList("RSA");
 
-    // TLS key exchange algorithms requiring keyAgreement key usage
-    private final static Collection<String> KU_SERVER_KEY_AGREEMENT =
-        Arrays.asList("DH_DSS", "DH_RSA", "ECDH_ECDSA", "ECDH_RSA");
+    // TLS key exchbnge blgorithms requiring keyAgreement key usbge
+    privbte finbl stbtic Collection<String> KU_SERVER_KEY_AGREEMENT =
+        Arrbys.bsList("DH_DSS", "DH_RSA", "ECDH_ECDSA", "ECDH_RSA");
 
-    // variant of this end entity cert checker
-    private final String variant;
+    // vbribnt of this end entity cert checker
+    privbte finbl String vbribnt;
 
-    // type of the validator this checker belongs to
-    private final String type;
+    // type of the vblidbtor this checker belongs to
+    privbte finbl String type;
 
-    private EndEntityChecker(String type, String variant) {
+    privbte EndEntityChecker(String type, String vbribnt) {
         this.type = type;
-        this.variant = variant;
+        this.vbribnt = vbribnt;
     }
 
-    static EndEntityChecker getInstance(String type, String variant) {
-        return new EndEntityChecker(type, variant);
+    stbtic EndEntityChecker getInstbnce(String type, String vbribnt) {
+        return new EndEntityChecker(type, vbribnt);
     }
 
-    void check(X509Certificate cert, Object parameter)
-            throws CertificateException {
-        if (variant.equals(Validator.VAR_GENERIC)) {
+    void check(X509Certificbte cert, Object pbrbmeter)
+            throws CertificbteException {
+        if (vbribnt.equbls(Vblidbtor.VAR_GENERIC)) {
             // no checks
             return;
-        } else if (variant.equals(Validator.VAR_TLS_SERVER)) {
-            checkTLSServer(cert, (String)parameter);
-        } else if (variant.equals(Validator.VAR_TLS_CLIENT)) {
+        } else if (vbribnt.equbls(Vblidbtor.VAR_TLS_SERVER)) {
+            checkTLSServer(cert, (String)pbrbmeter);
+        } else if (vbribnt.equbls(Vblidbtor.VAR_TLS_CLIENT)) {
             checkTLSClient(cert);
-        } else if (variant.equals(Validator.VAR_CODE_SIGNING)) {
+        } else if (vbribnt.equbls(Vblidbtor.VAR_CODE_SIGNING)) {
             checkCodeSigning(cert);
-        } else if (variant.equals(Validator.VAR_JCE_SIGNING)) {
+        } else if (vbribnt.equbls(Vblidbtor.VAR_JCE_SIGNING)) {
             checkCodeSigning(cert);
-        } else if (variant.equals(Validator.VAR_PLUGIN_CODE_SIGNING)) {
+        } else if (vbribnt.equbls(Vblidbtor.VAR_PLUGIN_CODE_SIGNING)) {
             checkCodeSigning(cert);
-        } else if (variant.equals(Validator.VAR_TSA_SERVER)) {
+        } else if (vbribnt.equbls(Vblidbtor.VAR_TSA_SERVER)) {
             checkTSAServer(cert);
         } else {
-            throw new CertificateException("Unknown variant: " + variant);
+            throw new CertificbteException("Unknown vbribnt: " + vbribnt);
         }
     }
 
     /**
-     * Utility method returning the Set of critical extensions for
-     * certificate cert (never null).
+     * Utility method returning the Set of criticbl extensions for
+     * certificbte cert (never null).
      */
-    private Set<String> getCriticalExtensions(X509Certificate cert) {
-        Set<String> exts = cert.getCriticalExtensionOIDs();
+    privbte Set<String> getCriticblExtensions(X509Certificbte cert) {
+        Set<String> exts = cert.getCriticblExtensionOIDs();
         if (exts == null) {
             exts = Collections.emptySet();
         }
@@ -167,216 +167,216 @@ class EndEntityChecker {
     }
 
     /**
-     * Utility method checking if there are any unresolved critical extensions.
-     * @throws CertificateException if so.
+     * Utility method checking if there bre bny unresolved criticbl extensions.
+     * @throws CertificbteException if so.
      */
-    private void checkRemainingExtensions(Set<String> exts)
-            throws CertificateException {
-        // basic constraints irrelevant in EE certs
-        exts.remove(SimpleValidator.OID_BASIC_CONSTRAINTS);
+    privbte void checkRembiningExtensions(Set<String> exts)
+            throws CertificbteException {
+        // bbsic constrbints irrelevbnt in EE certs
+        exts.remove(SimpleVblidbtor.OID_BASIC_CONSTRAINTS);
 
-        // If the subject field contains an empty sequence, the subjectAltName
-        // extension MUST be marked critical.
-        // We do not check the validity of the critical extension, just mark
-        // it recognizable here.
+        // If the subject field contbins bn empty sequence, the subjectAltNbme
+        // extension MUST be mbrked criticbl.
+        // We do not check the vblidity of the criticbl extension, just mbrk
+        // it recognizbble here.
         exts.remove(OID_SUBJECT_ALT_NAME);
 
         if (!exts.isEmpty()) {
-            throw new CertificateException("Certificate contains unsupported "
-                + "critical extensions: " + exts);
+            throw new CertificbteException("Certificbte contbins unsupported "
+                + "criticbl extensions: " + exts);
         }
     }
 
     /**
-     * Utility method checking if the extended key usage extension in
-     * certificate cert allows use for expectedEKU.
+     * Utility method checking if the extended key usbge extension in
+     * certificbte cert bllows use for expectedEKU.
      */
-    private boolean checkEKU(X509Certificate cert, Set<String> exts,
-            String expectedEKU) throws CertificateException {
-        List<String> eku = cert.getExtendedKeyUsage();
+    privbte boolebn checkEKU(X509Certificbte cert, Set<String> exts,
+            String expectedEKU) throws CertificbteException {
+        List<String> eku = cert.getExtendedKeyUsbge();
         if (eku == null) {
             return true;
         }
-        return eku.contains(expectedEKU) || eku.contains(OID_EKU_ANY_USAGE);
+        return eku.contbins(expectedEKU) || eku.contbins(OID_EKU_ANY_USAGE);
     }
 
     /**
-     * Utility method checking if bit 'bit' is set in this certificates
-     * key usage extension.
-     * @throws CertificateException if not
+     * Utility method checking if bit 'bit' is set in this certificbtes
+     * key usbge extension.
+     * @throws CertificbteException if not
      */
-    private boolean checkKeyUsage(X509Certificate cert, int bit)
-            throws CertificateException {
-        boolean[] keyUsage = cert.getKeyUsage();
-        if (keyUsage == null) {
+    privbte boolebn checkKeyUsbge(X509Certificbte cert, int bit)
+            throws CertificbteException {
+        boolebn[] keyUsbge = cert.getKeyUsbge();
+        if (keyUsbge == null) {
             return true;
         }
-        return (keyUsage.length > bit) && keyUsage[bit];
+        return (keyUsbge.length > bit) && keyUsbge[bit];
     }
 
     /**
-     * Check whether this certificate can be used for TLS client
-     * authentication.
-     * @throws CertificateException if not.
+     * Check whether this certificbte cbn be used for TLS client
+     * buthenticbtion.
+     * @throws CertificbteException if not.
      */
-    private void checkTLSClient(X509Certificate cert)
-            throws CertificateException {
-        Set<String> exts = getCriticalExtensions(cert);
+    privbte void checkTLSClient(X509Certificbte cert)
+            throws CertificbteException {
+        Set<String> exts = getCriticblExtensions(cert);
 
-        if (checkKeyUsage(cert, KU_SIGNATURE) == false) {
-            throw new ValidatorException
-                ("KeyUsage does not allow digital signatures",
-                ValidatorException.T_EE_EXTENSIONS, cert);
+        if (checkKeyUsbge(cert, KU_SIGNATURE) == fblse) {
+            throw new VblidbtorException
+                ("KeyUsbge does not bllow digitbl signbtures",
+                VblidbtorException.T_EE_EXTENSIONS, cert);
         }
 
-        if (checkEKU(cert, exts, OID_EKU_TLS_CLIENT) == false) {
-            throw new ValidatorException("Extended key usage does not "
-                + "permit use for TLS client authentication",
-                ValidatorException.T_EE_EXTENSIONS, cert);
+        if (checkEKU(cert, exts, OID_EKU_TLS_CLIENT) == fblse) {
+            throw new VblidbtorException("Extended key usbge does not "
+                + "permit use for TLS client buthenticbtion",
+                VblidbtorException.T_EE_EXTENSIONS, cert);
         }
 
-        if (!SimpleValidator.getNetscapeCertTypeBit(cert, NSCT_SSL_CLIENT)) {
-            throw new ValidatorException
-                ("Netscape cert type does not permit use for SSL client",
-                ValidatorException.T_EE_EXTENSIONS, cert);
+        if (!SimpleVblidbtor.getNetscbpeCertTypeBit(cert, NSCT_SSL_CLIENT)) {
+            throw new VblidbtorException
+                ("Netscbpe cert type does not permit use for SSL client",
+                VblidbtorException.T_EE_EXTENSIONS, cert);
         }
 
         // remove extensions we checked
-        exts.remove(SimpleValidator.OID_KEY_USAGE);
-        exts.remove(SimpleValidator.OID_EXTENDED_KEY_USAGE);
-        exts.remove(SimpleValidator.OID_NETSCAPE_CERT_TYPE);
+        exts.remove(SimpleVblidbtor.OID_KEY_USAGE);
+        exts.remove(SimpleVblidbtor.OID_EXTENDED_KEY_USAGE);
+        exts.remove(SimpleVblidbtor.OID_NETSCAPE_CERT_TYPE);
 
-        checkRemainingExtensions(exts);
+        checkRembiningExtensions(exts);
     }
 
     /**
-     * Check whether this certificate can be used for TLS server authentication
-     * using the specified authentication type parameter. See X509TrustManager
-     * specification for details.
-     * @throws CertificateException if not.
+     * Check whether this certificbte cbn be used for TLS server buthenticbtion
+     * using the specified buthenticbtion type pbrbmeter. See X509TrustMbnbger
+     * specificbtion for detbils.
+     * @throws CertificbteException if not.
      */
-    private void checkTLSServer(X509Certificate cert, String parameter)
-            throws CertificateException {
-        Set<String> exts = getCriticalExtensions(cert);
+    privbte void checkTLSServer(X509Certificbte cert, String pbrbmeter)
+            throws CertificbteException {
+        Set<String> exts = getCriticblExtensions(cert);
 
-        if (KU_SERVER_ENCRYPTION.contains(parameter)) {
-            if (checkKeyUsage(cert, KU_KEY_ENCIPHERMENT) == false) {
-                throw new ValidatorException
-                        ("KeyUsage does not allow key encipherment",
-                        ValidatorException.T_EE_EXTENSIONS, cert);
+        if (KU_SERVER_ENCRYPTION.contbins(pbrbmeter)) {
+            if (checkKeyUsbge(cert, KU_KEY_ENCIPHERMENT) == fblse) {
+                throw new VblidbtorException
+                        ("KeyUsbge does not bllow key encipherment",
+                        VblidbtorException.T_EE_EXTENSIONS, cert);
             }
-        } else if (KU_SERVER_SIGNATURE.contains(parameter)) {
-            if (checkKeyUsage(cert, KU_SIGNATURE) == false) {
-                throw new ValidatorException
-                        ("KeyUsage does not allow digital signatures",
-                        ValidatorException.T_EE_EXTENSIONS, cert);
+        } else if (KU_SERVER_SIGNATURE.contbins(pbrbmeter)) {
+            if (checkKeyUsbge(cert, KU_SIGNATURE) == fblse) {
+                throw new VblidbtorException
+                        ("KeyUsbge does not bllow digitbl signbtures",
+                        VblidbtorException.T_EE_EXTENSIONS, cert);
             }
-        } else if (KU_SERVER_KEY_AGREEMENT.contains(parameter)) {
-            if (checkKeyUsage(cert, KU_KEY_AGREEMENT) == false) {
-                throw new ValidatorException
-                        ("KeyUsage does not allow key agreement",
-                        ValidatorException.T_EE_EXTENSIONS, cert);
+        } else if (KU_SERVER_KEY_AGREEMENT.contbins(pbrbmeter)) {
+            if (checkKeyUsbge(cert, KU_KEY_AGREEMENT) == fblse) {
+                throw new VblidbtorException
+                        ("KeyUsbge does not bllow key bgreement",
+                        VblidbtorException.T_EE_EXTENSIONS, cert);
             }
         } else {
-            throw new CertificateException("Unknown authType: " + parameter);
+            throw new CertificbteException("Unknown buthType: " + pbrbmeter);
         }
 
-        if (checkEKU(cert, exts, OID_EKU_TLS_SERVER) == false) {
-            // check for equivalent but now obsolete Server-Gated-Cryptography
-            // (aka Step-Up, 128 bit) EKU OIDs
-            if ((checkEKU(cert, exts, OID_EKU_MS_SGC) == false) &&
-                (checkEKU(cert, exts, OID_EKU_NS_SGC) == false)) {
-                throw new ValidatorException
-                    ("Extended key usage does not permit use for TLS "
-                    + "server authentication",
-                    ValidatorException.T_EE_EXTENSIONS, cert);
+        if (checkEKU(cert, exts, OID_EKU_TLS_SERVER) == fblse) {
+            // check for equivblent but now obsolete Server-Gbted-Cryptogrbphy
+            // (bkb Step-Up, 128 bit) EKU OIDs
+            if ((checkEKU(cert, exts, OID_EKU_MS_SGC) == fblse) &&
+                (checkEKU(cert, exts, OID_EKU_NS_SGC) == fblse)) {
+                throw new VblidbtorException
+                    ("Extended key usbge does not permit use for TLS "
+                    + "server buthenticbtion",
+                    VblidbtorException.T_EE_EXTENSIONS, cert);
             }
         }
 
-        if (!SimpleValidator.getNetscapeCertTypeBit(cert, NSCT_SSL_SERVER)) {
-            throw new ValidatorException
-                ("Netscape cert type does not permit use for SSL server",
-                ValidatorException.T_EE_EXTENSIONS, cert);
+        if (!SimpleVblidbtor.getNetscbpeCertTypeBit(cert, NSCT_SSL_SERVER)) {
+            throw new VblidbtorException
+                ("Netscbpe cert type does not permit use for SSL server",
+                VblidbtorException.T_EE_EXTENSIONS, cert);
         }
 
         // remove extensions we checked
-        exts.remove(SimpleValidator.OID_KEY_USAGE);
-        exts.remove(SimpleValidator.OID_EXTENDED_KEY_USAGE);
-        exts.remove(SimpleValidator.OID_NETSCAPE_CERT_TYPE);
+        exts.remove(SimpleVblidbtor.OID_KEY_USAGE);
+        exts.remove(SimpleVblidbtor.OID_EXTENDED_KEY_USAGE);
+        exts.remove(SimpleVblidbtor.OID_NETSCAPE_CERT_TYPE);
 
-        checkRemainingExtensions(exts);
+        checkRembiningExtensions(exts);
     }
 
     /**
-     * Check whether this certificate can be used for code signing.
-     * @throws CertificateException if not.
+     * Check whether this certificbte cbn be used for code signing.
+     * @throws CertificbteException if not.
      */
-    private void checkCodeSigning(X509Certificate cert)
-            throws CertificateException {
-        Set<String> exts = getCriticalExtensions(cert);
+    privbte void checkCodeSigning(X509Certificbte cert)
+            throws CertificbteException {
+        Set<String> exts = getCriticblExtensions(cert);
 
-        if (checkKeyUsage(cert, KU_SIGNATURE) == false) {
-            throw new ValidatorException
-                ("KeyUsage does not allow digital signatures",
-                ValidatorException.T_EE_EXTENSIONS, cert);
+        if (checkKeyUsbge(cert, KU_SIGNATURE) == fblse) {
+            throw new VblidbtorException
+                ("KeyUsbge does not bllow digitbl signbtures",
+                VblidbtorException.T_EE_EXTENSIONS, cert);
         }
 
-        if (checkEKU(cert, exts, OID_EKU_CODE_SIGNING) == false) {
-            throw new ValidatorException
-                ("Extended key usage does not permit use for code signing",
-                ValidatorException.T_EE_EXTENSIONS, cert);
+        if (checkEKU(cert, exts, OID_EKU_CODE_SIGNING) == fblse) {
+            throw new VblidbtorException
+                ("Extended key usbge does not permit use for code signing",
+                VblidbtorException.T_EE_EXTENSIONS, cert);
         }
 
-        // do not check Netscape cert type for JCE code signing checks
+        // do not check Netscbpe cert type for JCE code signing checks
         // (some certs were issued with incorrect extensions)
-        if (variant.equals(Validator.VAR_JCE_SIGNING) == false) {
-            if (!SimpleValidator.getNetscapeCertTypeBit(cert, NSCT_CODE_SIGNING)) {
-                throw new ValidatorException
-                    ("Netscape cert type does not permit use for code signing",
-                    ValidatorException.T_EE_EXTENSIONS, cert);
+        if (vbribnt.equbls(Vblidbtor.VAR_JCE_SIGNING) == fblse) {
+            if (!SimpleVblidbtor.getNetscbpeCertTypeBit(cert, NSCT_CODE_SIGNING)) {
+                throw new VblidbtorException
+                    ("Netscbpe cert type does not permit use for code signing",
+                    VblidbtorException.T_EE_EXTENSIONS, cert);
             }
-            exts.remove(SimpleValidator.OID_NETSCAPE_CERT_TYPE);
+            exts.remove(SimpleVblidbtor.OID_NETSCAPE_CERT_TYPE);
         }
 
         // remove extensions we checked
-        exts.remove(SimpleValidator.OID_KEY_USAGE);
-        exts.remove(SimpleValidator.OID_EXTENDED_KEY_USAGE);
+        exts.remove(SimpleVblidbtor.OID_KEY_USAGE);
+        exts.remove(SimpleVblidbtor.OID_EXTENDED_KEY_USAGE);
 
-        checkRemainingExtensions(exts);
+        checkRembiningExtensions(exts);
     }
 
     /**
-     * Check whether this certificate can be used by a time stamping authority
+     * Check whether this certificbte cbn be used by b time stbmping buthority
      * server (see RFC 3161, section 2.3).
-     * @throws CertificateException if not.
+     * @throws CertificbteException if not.
      */
-    private void checkTSAServer(X509Certificate cert)
-            throws CertificateException {
-        Set<String> exts = getCriticalExtensions(cert);
+    privbte void checkTSAServer(X509Certificbte cert)
+            throws CertificbteException {
+        Set<String> exts = getCriticblExtensions(cert);
 
-        if (checkKeyUsage(cert, KU_SIGNATURE) == false) {
-            throw new ValidatorException
-                ("KeyUsage does not allow digital signatures",
-                ValidatorException.T_EE_EXTENSIONS, cert);
+        if (checkKeyUsbge(cert, KU_SIGNATURE) == fblse) {
+            throw new VblidbtorException
+                ("KeyUsbge does not bllow digitbl signbtures",
+                VblidbtorException.T_EE_EXTENSIONS, cert);
         }
 
-        if (cert.getExtendedKeyUsage() == null) {
-            throw new ValidatorException
-                ("Certificate does not contain an extended key usage " +
-                "extension required for a TSA server",
-                ValidatorException.T_EE_EXTENSIONS, cert);
+        if (cert.getExtendedKeyUsbge() == null) {
+            throw new VblidbtorException
+                ("Certificbte does not contbin bn extended key usbge " +
+                "extension required for b TSA server",
+                VblidbtorException.T_EE_EXTENSIONS, cert);
         }
 
-        if (checkEKU(cert, exts, OID_EKU_TIME_STAMPING) == false) {
-            throw new ValidatorException
-                ("Extended key usage does not permit use for TSA server",
-                ValidatorException.T_EE_EXTENSIONS, cert);
+        if (checkEKU(cert, exts, OID_EKU_TIME_STAMPING) == fblse) {
+            throw new VblidbtorException
+                ("Extended key usbge does not permit use for TSA server",
+                VblidbtorException.T_EE_EXTENSIONS, cert);
         }
 
         // remove extensions we checked
-        exts.remove(SimpleValidator.OID_KEY_USAGE);
-        exts.remove(SimpleValidator.OID_EXTENDED_KEY_USAGE);
+        exts.remove(SimpleVblidbtor.OID_KEY_USAGE);
+        exts.remove(SimpleVblidbtor.OID_EXTENDED_KEY_USAGE);
 
-        checkRemainingExtensions(exts);
+        checkRembiningExtensions(exts);
     }
 }

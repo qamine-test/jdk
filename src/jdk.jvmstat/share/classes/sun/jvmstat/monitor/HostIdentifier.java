@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.monitor;
+pbckbge sun.jvmstbt.monitor;
 
-import java.net.*;
+import jbvb.net.*;
 
 /**
- * An abstraction that identifies a target host and communications
- * protocol. The HostIdentifier, or hostid, provides a convenient string
- * representation of the information needed to locate and communicate with
- * a target host. The string, based on a {@link URI}, may specify the
- * the communications protocol, host name, and protocol specific information
- * for a target host. The format for a HostIdentifier string is:
+ * An bbstrbction thbt identifies b tbrget host bnd communicbtions
+ * protocol. The HostIdentifier, or hostid, provides b convenient string
+ * representbtion of the informbtion needed to locbte bnd communicbte with
+ * b tbrget host. The string, bbsed on b {@link URI}, mby specify the
+ * the communicbtions protocol, host nbme, bnd protocol specific informbtion
+ * for b tbrget host. The formbt for b HostIdentifier string is:
  * <pre>
- *       [<I>protocol</I>:][[<I>//</I>]<I>hostname</I>][<I>:port</I>][<I>/servername</I>]
+ *       [<I>protocol</I>:][[<I>//</I>]<I>hostnbme</I>][<I>:port</I>][<I>/servernbme</I>]
  * </pre>
- * There are actually no required components of this string, as a null string
- * is interpreted to mean a local connection to the local host and is equivalent
- * to the string <em>local://localhost</em>. The components of the
- * HostIdentifier are:
+ * There bre bctublly no required components of this string, bs b null string
+ * is interpreted to mebn b locbl connection to the locbl host bnd is equivblent
+ * to the string <em>locbl://locblhost</em>. The components of the
+ * HostIdentifier bre:
  * <ul>
- *   <li><p><tt>protocol</tt> - The communications protocol. If omitted,
- *          and a hostname is not specified, then default local protocol,
- *          <em>local:</em>, is assumed. If the protocol is omitted and a
- *          hostname is specified then the default remote protocol,
- *          <em>rmi:</em> is assumed.
+ *   <li><p><tt>protocol</tt> - The communicbtions protocol. If omitted,
+ *          bnd b hostnbme is not specified, then defbult locbl protocol,
+ *          <em>locbl:</em>, is bssumed. If the protocol is omitted bnd b
+ *          hostnbme is specified then the defbult remote protocol,
+ *          <em>rmi:</em> is bssumed.
  *       </p></li>
- *   <li><p><tt>hostname</tt> - The hostname. If omitted, then
- *          <em>localhost</em> is assumed. If the protocol is also omitted,
- *          then default local protocol <em>local:</em> is also assumed.
- *          If the hostname is not omitted but the protocol is omitted,
- *          then the default remote protocol, <em>rmi:</em> is assumed.
+ *   <li><p><tt>hostnbme</tt> - The hostnbme. If omitted, then
+ *          <em>locblhost</em> is bssumed. If the protocol is blso omitted,
+ *          then defbult locbl protocol <em>locbl:</em> is blso bssumed.
+ *          If the hostnbme is not omitted but the protocol is omitted,
+ *          then the defbult remote protocol, <em>rmi:</em> is bssumed.
  *       </p></li>
- *   <li><p><tt>port</tt> - The port for the communications protocol.
- *          Treatment of the <tt>port</tt> parameter is implementation
- *          (protocol) specific. It is unused by the default local protocol,
- *          <em>local:</em>. For the default remote protocol, <em>rmi:</em>,
- *          <tt>port</tt> indicates the port number of the <em>rmiregistry</em>
- *          on the target host and defaults to port 1099.
+ *   <li><p><tt>port</tt> - The port for the communicbtions protocol.
+ *          Trebtment of the <tt>port</tt> pbrbmeter is implementbtion
+ *          (protocol) specific. It is unused by the defbult locbl protocol,
+ *          <em>locbl:</em>. For the defbult remote protocol, <em>rmi:</em>,
+ *          <tt>port</tt> indicbtes the port number of the <em>rmiregistry</em>
+ *          on the tbrget host bnd defbults to port 1099.
  *       </p></li>
- *   <li><p><tt>servername</tt> - The treatment of the Path, Query, and
- *          Fragment components of the HostIdentifier are implementation
- *          (protocol) dependent. These components are ignored by the
- *          default local protocol, <em>local:</em>. For the default remote
- *          protocol, <em>rmi</em>, the Path component is interpreted as
- *          the name of the RMI remote object. The Query component may
- *          contain an access mode specifier <em>?mode=</em> specifying
- *          <em>"r"</em> or <em>"rw"</em> access (write access currently
- *          ignored). The Fragment part is ignored.
+ *   <li><p><tt>servernbme</tt> - The trebtment of the Pbth, Query, bnd
+ *          Frbgment components of the HostIdentifier bre implementbtion
+ *          (protocol) dependent. These components bre ignored by the
+ *          defbult locbl protocol, <em>locbl:</em>. For the defbult remote
+ *          protocol, <em>rmi</em>, the Pbth component is interpreted bs
+ *          the nbme of the RMI remote object. The Query component mby
+ *          contbin bn bccess mode specifier <em>?mode=</em> specifying
+ *          <em>"r"</em> or <em>"rw"</em> bccess (write bccess currently
+ *          ignored). The Frbgment pbrt is ignored.
  *       </p></li>
  * </ul>
  * <p>
- * All HostIdentifier objects are represented as absolute, hierarchical URIs.
- * The constructors accept relative URIs, but these will generally be
- * transformed into an absolute URI specifying a default protocol. A
- * HostIdentifier differs from a URI in that certain contractions and
- * illicit syntactical constructions are allowed. The following are all
- * valid HostIdentifier strings:
+ * All HostIdentifier objects bre represented bs bbsolute, hierbrchicbl URIs.
+ * The constructors bccept relbtive URIs, but these will generblly be
+ * trbnsformed into bn bbsolute URI specifying b defbult protocol. A
+ * HostIdentifier differs from b URI in thbt certbin contrbctions bnd
+ * illicit syntbcticbl constructions bre bllowed. The following bre bll
+ * vblid HostIdentifier strings:
  *
  * <ul>
- *   <li><p>&lt null &gt - transformed into "//localhost"</p></li>
- *   <li><p>localhost - transformed into "//localhost"</p></li>
- *   <li><p>hostname - transformed into "//hostname"</p></li>
- *   <li><p>hostname:port - transformed into "//hostname:port"</p></li>
- *   <li><p>proto:hostname - transformed into "proto://hostname"</p></li>
- *   <li><p>proto:hostname:port - transformed into
- *          "proto://hostname:port"</p></li>
- *   <li><p>proto://hostname:port</p></li>
+ *   <li><p>&lt null &gt - trbnsformed into "//locblhost"</p></li>
+ *   <li><p>locblhost - trbnsformed into "//locblhost"</p></li>
+ *   <li><p>hostnbme - trbnsformed into "//hostnbme"</p></li>
+ *   <li><p>hostnbme:port - trbnsformed into "//hostnbme:port"</p></li>
+ *   <li><p>proto:hostnbme - trbnsformed into "proto://hostnbme"</p></li>
+ *   <li><p>proto:hostnbme:port - trbnsformed into
+ *          "proto://hostnbme:port"</p></li>
+ *   <li><p>proto://hostnbme:port</p></li>
  * </ul>
  * </p>
  *
  * @see URI
  * @see VmIdentifier
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class HostIdentifier {
-    private URI uri;
+public clbss HostIdentifier {
+    privbte URI uri;
 
     /**
-     * creates a canonical representation of the uriString. This method
-     * performs certain translations depending on the type of URI generated
+     * crebtes b cbnonicbl representbtion of the uriString. This method
+     * performs certbin trbnslbtions depending on the type of URI generbted
      * by the string.
      */
-    private URI canonicalize(String uriString) throws URISyntaxException {
-        if ((uriString == null) || (uriString.compareTo("localhost") == 0)) {
-            uriString = "//localhost";
+    privbte URI cbnonicblize(String uriString) throws URISyntbxException {
+        if ((uriString == null) || (uriString.compbreTo("locblhost") == 0)) {
+            uriString = "//locblhost";
             return new URI(uriString);
         }
 
         URI u = new URI(uriString);
 
         if (u.isAbsolute()) {
-            if (u.isOpaque()) {
+            if (u.isOpbque()) {
                 /*
-                 * this code is here to deal with a special case. For ease of
-                 * use, we'd like to be able to handle the case where the user
-                 * specifies hostname:port, not requiring the scheme part.
+                 * this code is here to debl with b specibl cbse. For ebse of
+                 * use, we'd like to be bble to hbndle the cbse where the user
+                 * specifies hostnbme:port, not requiring the scheme pbrt.
                  * This introduces some subtleties.
-                 *     hostname:port - scheme = hostname
-                 *                   - schemespecificpart = port
-                 *                   - hostname = null
+                 *     hostnbme:port - scheme = hostnbme
+                 *                   - schemespecificpbrt = port
+                 *                   - hostnbme = null
                  *                   - userinfo=null
-                 * however, someone could also enter scheme:hostname:port and
-                 * get into this code. the strategy is to consider this
-                 * syntax illegal and provide some code to defend against it.
-                 * Basically, we test that the string contains only one ":"
-                 * and that the ssp is numeric. If we get two colons, we will
-                 * attempt to insert the "//" after the first colon and then
-                 * try to create a URI from the resulting string.
+                 * however, someone could blso enter scheme:hostnbme:port bnd
+                 * get into this code. the strbtegy is to consider this
+                 * syntbx illegbl bnd provide some code to defend bgbinst it.
+                 * Bbsicblly, we test thbt the string contbins only one ":"
+                 * bnd thbt the ssp is numeric. If we get two colons, we will
+                 * bttempt to insert the "//" bfter the first colon bnd then
+                 * try to crebte b URI from the resulting string.
                  */
                 String scheme = u.getScheme();
-                String ssp = u.getSchemeSpecificPart();
-                String frag = u.getFragment();
+                String ssp = u.getSchemeSpecificPbrt();
+                String frbg = u.getFrbgment();
                 URI u2 = null;
 
                 int c1index = uriString.indexOf(':');
-                int c2index = uriString.lastIndexOf(':');
+                int c2index = uriString.lbstIndexOf(':');
                 if (c2index != c1index) {
                     /*
-                     * this is the scheme:hostname:port case. Attempt to
-                     * transform this to scheme://hostname:port. If a path
-                     * part is part of the original strings, it will be
-                     * included in the SchemeSpecificPart. however, the
-                     * fragment part must be handled separately.
+                     * this is the scheme:hostnbme:port cbse. Attempt to
+                     * trbnsform this to scheme://hostnbme:port. If b pbth
+                     * pbrt is pbrt of the originbl strings, it will be
+                     * included in the SchemeSpecificPbrt. however, the
+                     * frbgment pbrt must be hbndled sepbrbtely.
                      */
-                    if (frag == null) {
+                    if (frbg == null) {
                         u2 = new URI(scheme + "://" + ssp);
                     } else {
-                        u2 = new URI(scheme + "://" + ssp + "#" + frag);
+                        u2 = new URI(scheme + "://" + ssp + "#" + frbg);
                     }
                     return u2;
                 }
                 /*
-                 * here we have the <string>:<string> case, possibly with
-                 * optional path and fragment components. we assume that
-                 * the part following the colon is a number. we don't check
-                 * this condition here as it will get detected later anyway.
+                 * here we hbve the <string>:<string> cbse, possibly with
+                 * optionbl pbth bnd frbgment components. we bssume thbt
+                 * the pbrt following the colon is b number. we don't check
+                 * this condition here bs it will get detected lbter bnywby.
                  */
                 u2 = new URI("//" + uriString);
                 return u2;
@@ -168,15 +168,15 @@ public class HostIdentifier {
             }
         } else {
             /*
-             * This is the case where we were given a hostname followed
-             * by a path part, fragment part, or both a path and fragment
-             * part. The key here is that no scheme part was specified.
-             * For this case, if the scheme specific part does not begin
-             * with "//", then we prefix the "//" to the given string and
-             * attempt to create a URI from the resulting string.
+             * This is the cbse where we were given b hostnbme followed
+             * by b pbth pbrt, frbgment pbrt, or both b pbth bnd frbgment
+             * pbrt. The key here is thbt no scheme pbrt wbs specified.
+             * For this cbse, if the scheme specific pbrt does not begin
+             * with "//", then we prefix the "//" to the given string bnd
+             * bttempt to crebte b URI from the resulting string.
              */
-            String ssp = u.getSchemeSpecificPart();
-            if (ssp.startsWith("//")) {
+            String ssp = u.getSchemeSpecificPbrt();
+            if (ssp.stbrtsWith("//")) {
                 return u;
             } else {
                 return new URI("//" + uriString);
@@ -185,169 +185,169 @@ public class HostIdentifier {
     }
 
     /**
-     * Create a HostIdentifier instance from a string value.
+     * Crebte b HostIdentifier instbnce from b string vblue.
      *
-     * @param uriString a string representing a target host. The syntax of
+     * @pbrbm uriString b string representing b tbrget host. The syntbx of
      *                  the string must conform to the rules specified in the
-     *                  class documentation.
+     *                  clbss documentbtion.
      *
-     * @throws URISyntaxException Thrown when the uriString or its canonical
-     *                            form is poorly formed. This exception may
-     *                            get encapsulated into a MonitorException in
-     *                            a future version.
+     * @throws URISyntbxException Thrown when the uriString or its cbnonicbl
+     *                            form is poorly formed. This exception mby
+     *                            get encbpsulbted into b MonitorException in
+     *                            b future version.
      *
      */
-    public HostIdentifier(String uriString) throws URISyntaxException {
-        uri = canonicalize(uriString);
+    public HostIdentifier(String uriString) throws URISyntbxException {
+        uri = cbnonicblize(uriString);
     }
 
     /**
-     * Create a HostIdentifier instance from component parts of a URI.
+     * Crebte b HostIdentifier instbnce from component pbrts of b URI.
      *
-     * @param scheme the {@link URI#getScheme} component of a URI.
-     * @param authority the {@link URI#getAuthority} component of a URI.
-     * @param path the {@link URI#getPath} component of a URI.
-     * @param query the {@link URI#getQuery} component of a URI.
-     * @param fragment the {@link URI#getFragment} component of a URI.
+     * @pbrbm scheme the {@link URI#getScheme} component of b URI.
+     * @pbrbm buthority the {@link URI#getAuthority} component of b URI.
+     * @pbrbm pbth the {@link URI#getPbth} component of b URI.
+     * @pbrbm query the {@link URI#getQuery} component of b URI.
+     * @pbrbm frbgment the {@link URI#getFrbgment} component of b URI.
      *
-     * @throws URISyntaxException Thrown when the uriString or its canonical
-     *                            form is poorly formed. This exception may
-     *                            get encapsulated into a MonitorException in
-     *                            a future version.
+     * @throws URISyntbxException Thrown when the uriString or its cbnonicbl
+     *                            form is poorly formed. This exception mby
+     *                            get encbpsulbted into b MonitorException in
+     *                            b future version.
      * @see URI
      */
-    public HostIdentifier(String scheme, String authority, String path,
-                          String query, String fragment)
-           throws URISyntaxException {
-        uri = new URI(scheme, authority, path, query, fragment);
+    public HostIdentifier(String scheme, String buthority, String pbth,
+                          String query, String frbgment)
+           throws URISyntbxException {
+        uri = new URI(scheme, buthority, pbth, query, frbgment);
     }
 
     /**
-     * Create a HostIdentifier instance from a VmIdentifier.
+     * Crebte b HostIdentifier instbnce from b VmIdentifier.
      *
-     * The necessary components of the VmIdentifier are extracted and
-     * reassembled into a HostIdentifier. If a "file:" scheme (protocol)
-     * is specified, the the returned HostIdentifier will always be
-     * equivalent to HostIdentifier("file://localhost").
+     * The necessbry components of the VmIdentifier bre extrbcted bnd
+     * rebssembled into b HostIdentifier. If b "file:" scheme (protocol)
+     * is specified, the the returned HostIdentifier will blwbys be
+     * equivblent to HostIdentifier("file://locblhost").
      *
-     * @param vmid the VmIdentifier use to construct the HostIdentifier.
+     * @pbrbm vmid the VmIdentifier use to construct the HostIdentifier.
      */
     public HostIdentifier(VmIdentifier vmid) {
         /*
-         * Extract all components of the VmIdentifier URI except the
-         * user-info part of the authority (the lvmid).
+         * Extrbct bll components of the VmIdentifier URI except the
+         * user-info pbrt of the buthority (the lvmid).
          */
         StringBuilder sb = new StringBuilder();
         String scheme = vmid.getScheme();
         String host = vmid.getHost();
-        String authority = vmid.getAuthority();
+        String buthority = vmid.getAuthority();
 
-        // check for 'file:' VmIdentifiers and handled as a special case.
-        if ((scheme != null) && (scheme.compareTo("file") == 0)) {
+        // check for 'file:' VmIdentifiers bnd hbndled bs b specibl cbse.
+        if ((scheme != null) && (scheme.compbreTo("file") == 0)) {
             try {
-                uri = new URI("file://localhost");
-            } catch (URISyntaxException e) { };
+                uri = new URI("file://locblhost");
+            } cbtch (URISyntbxException e) { };
             return;
         }
 
-        if ((host != null) && (host.compareTo(authority) == 0)) {
+        if ((host != null) && (host.compbreTo(buthority) == 0)) {
             /*
              * this condition occurs when the VmIdentifier specifies only
-             * the authority (i.e. the lvmid ), and not a host name.
+             * the buthority (i.e. the lvmid ), bnd not b host nbme.
              */
             host = null;
         }
 
         if (scheme == null) {
             if (host == null) {
-                scheme = "local";            // default local scheme
+                scheme = "locbl";            // defbult locbl scheme
             } else {
                 /*
-                 * rmi is the default remote scheme. if the VmIdentifier
-                 * specifies some other protocol, this default is overridden.
+                 * rmi is the defbult remote scheme. if the VmIdentifier
+                 * specifies some other protocol, this defbult is overridden.
                  */
                 scheme = "rmi";
             }
         }
 
-        sb.append(scheme).append("://");
+        sb.bppend(scheme).bppend("://");
 
         if (host == null) {
-            sb.append("localhost");          // default host name
+            sb.bppend("locblhost");          // defbult host nbme
         } else {
-            sb.append(host);
+            sb.bppend(host);
         }
 
         int port = vmid.getPort();
         if (port != -1) {
-            sb.append(":").append(port);
+            sb.bppend(":").bppend(port);
         }
 
-        String path = vmid.getPath();
-        if ((path != null) && (path.length() != 0)) {
-            sb.append(path);
+        String pbth = vmid.getPbth();
+        if ((pbth != null) && (pbth.length() != 0)) {
+            sb.bppend(pbth);
         }
 
         String query = vmid.getQuery();
         if (query != null) {
-            sb.append("?").append(query);
+            sb.bppend("?").bppend(query);
         }
 
-        String frag = vmid.getFragment();
-        if (frag != null) {
-            sb.append("#").append(frag);
+        String frbg = vmid.getFrbgment();
+        if (frbg != null) {
+            sb.bppend("#").bppend(frbg);
         }
 
         try {
            uri = new URI(sb.toString());
-        } catch (URISyntaxException e) {
-           // shouldn't happen, as we were passed a valid VmIdentifier
-           throw new RuntimeException("Internal Error", e);
+        } cbtch (URISyntbxException e) {
+           // shouldn't hbppen, bs we were pbssed b vblid VmIdentifier
+           throw new RuntimeException("Internbl Error", e);
         }
     }
 
     /**
-     * Resolve a VmIdentifier with this HostIdentifier. A VmIdentifier, such
-     * as <em>1234</em> or <em>1234@hostname</em> or any other string that
-     * omits certain components of the URI string may be valid, but is certainly
-     * incomplete. They are missing critical information for identifying the
-     * the communications protocol, target host, or other parameters. A
+     * Resolve b VmIdentifier with this HostIdentifier. A VmIdentifier, such
+     * bs <em>1234</em> or <em>1234@hostnbme</em> or bny other string thbt
+     * omits certbin components of the URI string mby be vblid, but is certbinly
+     * incomplete. They bre missing criticbl informbtion for identifying the
+     * the communicbtions protocol, tbrget host, or other pbrbmeters. A
      * VmIdentifier of this form is considered <em>unresolved</em>. This method
      * uses components of the HostIdentifier to resolve the missing components
      * of the VmIdentifier.
      * <p>
-     * Specified components of the unresolved VmIdentifier take precedence
-     * over their HostIdentifier counterparts. For example, if the VmIdentifier
-     * indicates <em>1234@hostname:2099</em> and the HostIdentifier indicates
-     * <em>rmi://hostname:1099/</em>, then the resolved VmIdentifier will
-     * be <em>rmi://1234@hostname:2099</em>. Any component not explicitly
-     * specified or assumed by the HostIdentifier, will remain unresolved in
+     * Specified components of the unresolved VmIdentifier tbke precedence
+     * over their HostIdentifier counterpbrts. For exbmple, if the VmIdentifier
+     * indicbtes <em>1234@hostnbme:2099</em> bnd the HostIdentifier indicbtes
+     * <em>rmi://hostnbme:1099/</em>, then the resolved VmIdentifier will
+     * be <em>rmi://1234@hostnbme:2099</em>. Any component not explicitly
+     * specified or bssumed by the HostIdentifier, will rembin unresolved in
      * resolved VmIdentifier.
      *  <p>
-     * A VmIdentifier specifying a <em>file:</em> scheme (protocol), is
-     * not changed in any way by this method.
+     * A VmIdentifier specifying b <em>file:</em> scheme (protocol), is
+     * not chbnged in bny wby by this method.
      *
-     * @param vmid the unresolved VmIdentifier.
-     * @return VmIdentifier - the resolved VmIdentifier. If vmid was resolved
+     * @pbrbm vmid the unresolved VmIdentifier.
+     * @return VmIdentifier - the resolved VmIdentifier. If vmid wbs resolved
      *                        on entry to this method, then the returned
-     *                        VmIdentifier will be equal, but not identical, to
+     *                        VmIdentifier will be equbl, but not identicbl, to
      *                        vmid.
      */
     public VmIdentifier resolve(VmIdentifier vmid)
-           throws URISyntaxException, MonitorException {
+           throws URISyntbxException, MonitorException {
         String scheme = vmid.getScheme();
         String host = vmid.getHost();
-        String authority = vmid.getAuthority();
+        String buthority = vmid.getAuthority();
 
-        if ((scheme != null) && (scheme.compareTo("file") == 0)) {
-            // don't attempt to resolve a file based VmIdentifier.
+        if ((scheme != null) && (scheme.compbreTo("file") == 0)) {
+            // don't bttempt to resolve b file bbsed VmIdentifier.
             return vmid;
         }
 
-        if ((host != null) && (host.compareTo(authority) == 0)) {
+        if ((host != null) && (host.compbreTo(buthority) == 0)) {
             /*
              * this condition occurs when the VmIdentifier specifies only
-             * the authority (i.e. an lvmid), and not a host name.
+             * the buthority (i.e. bn lvmid), bnd not b host nbme.
              */
             host = null;
         }
@@ -360,19 +360,19 @@ public class HostIdentifier {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append(scheme).append("://");
+        sb.bppend(scheme).bppend("://");
 
         String userInfo = vmid.getUserInfo();
         if (userInfo != null) {
-            sb.append(userInfo);
+            sb.bppend(userInfo);
         } else {
-            sb.append(vmid.getAuthority());
+            sb.bppend(vmid.getAuthority());
         }
 
         if (host == null) {
             host = getHost();
         }
-        sb.append("@").append(host);
+        sb.bppend("@").bppend(host);
 
         int port = vmid.getPort();
         if (port == -1) {
@@ -380,16 +380,16 @@ public class HostIdentifier {
         }
 
         if (port != -1) {
-            sb.append(":").append(port);
+            sb.bppend(":").bppend(port);
         }
 
-        String path = vmid.getPath();
-        if ((path == null) || (path.length() == 0)) {
-            path = getPath();
+        String pbth = vmid.getPbth();
+        if ((pbth == null) || (pbth.length() == 0)) {
+            pbth = getPbth();
         }
 
-        if ((path != null) && (path.length() > 0)) {
-            sb.append(path);
+        if ((pbth != null) && (pbth.length() > 0)) {
+            sb.bppend(pbth);
         }
 
         String query = vmid.getQuery();
@@ -397,15 +397,15 @@ public class HostIdentifier {
             query = getQuery();
         }
         if (query != null) {
-            sb.append("?").append(query);
+            sb.bppend("?").bppend(query);
         }
 
-        String fragment = vmid.getFragment();
-        if (fragment == null) {
-            fragment = getFragment();
+        String frbgment = vmid.getFrbgment();
+        if (frbgment == null) {
+            frbgment = getFrbgment();
         }
-        if (fragment != null) {
-            sb.append("#").append(fragment);
+        if (frbgment != null) {
+            sb.bppend("#").bppend(frbgment);
         }
 
         String s = sb.toString();
@@ -423,19 +423,19 @@ public class HostIdentifier {
     }
 
     /**
-     * Return the Scheme Specific Part of this HostIdentifier.
+     * Return the Scheme Specific Pbrt of this HostIdentifier.
      *
-     * @return String - the scheme specific part for this HostIdentifier.
-     * @see URI#getSchemeSpecificPart()
+     * @return String - the scheme specific pbrt for this HostIdentifier.
+     * @see URI#getSchemeSpecificPbrt()
      */
-    public String getSchemeSpecificPart() {
-        return  uri.getSchemeSpecificPart();
+    public String getSchemeSpecificPbrt() {
+        return  uri.getSchemeSpecificPbrt();
     }
 
     /**
-     * Return the User Info part of this HostIdentifier.
+     * Return the User Info pbrt of this HostIdentifier.
      *
-     * @return String - the user info part for this HostIdentifier.
+     * @return String - the user info pbrt for this HostIdentifier.
      * @see URI#getUserInfo()
      */
     public String getUserInfo() {
@@ -443,14 +443,14 @@ public class HostIdentifier {
     }
 
     /**
-     * Return the Host part of this HostIdentifier.
+     * Return the Host pbrt of this HostIdentifier.
      *
-     * @return String - the host part for this HostIdentifier, or
-     *                  "localhost" if the URI.getHost() returns null.
+     * @return String - the host pbrt for this HostIdentifier, or
+     *                  "locblhost" if the URI.getHost() returns null.
      * @see URI#getUserInfo()
      */
     public String getHost() {
-        return (uri.getHost() == null) ? "localhost" : uri.getHost();
+        return (uri.getHost() == null) ? "locblhost" : uri.getHost();
     }
 
     /**
@@ -464,19 +464,19 @@ public class HostIdentifier {
     }
 
     /**
-     * Return the Path part of this HostIdentifier.
+     * Return the Pbth pbrt of this HostIdentifier.
      *
-     * @return String - the path part for this HostIdentifier.
-     * @see URI#getPath()
+     * @return String - the pbth pbrt for this HostIdentifier.
+     * @see URI#getPbth()
      */
-    public String getPath() {
-        return uri.getPath();
+    public String getPbth() {
+        return uri.getPbth();
     }
 
     /**
-     * Return the Query part of this HostIdentifier.
+     * Return the Query pbrt of this HostIdentifier.
      *
-     * @return String - the query part for this HostIdentifier.
+     * @return String - the query pbrt for this HostIdentifier.
      * @see URI#getQuery()
      */
     public String getQuery() {
@@ -484,17 +484,17 @@ public class HostIdentifier {
     }
 
     /**
-     * Return the Fragment part of this HostIdentifier.
+     * Return the Frbgment pbrt of this HostIdentifier.
      *
-     * @return String - the fragment part for this HostIdentifier.
-     * @see URI#getFragment()
+     * @return String - the frbgment pbrt for this HostIdentifier.
+     * @see URI#getFrbgment()
      */
-    public String getFragment() {
-        return uri.getFragment();
+    public String getFrbgment() {
+        return uri.getFrbgment();
     }
 
     /**
-     * Return the mode indicated in this HostIdentifier.
+     * Return the mode indicbted in this HostIdentifier.
      *
      * @return String - the mode string. If no mode is specified, then "r"
      *                  is returned. otherwise, the specified mode is returned.
@@ -504,7 +504,7 @@ public class HostIdentifier {
         if (query != null) {
             String[] queryArgs = query.split("\\+");
             for (int i = 0; i < queryArgs.length; i++) {
-                if (queryArgs[i].startsWith("mode=")) {
+                if (queryArgs[i].stbrtsWith("mode=")) {
                     int index = queryArgs[i].indexOf('=');
                     return queryArgs[i].substring(index+1);
                 }
@@ -514,7 +514,7 @@ public class HostIdentifier {
     }
 
     /**
-     * Return the URI associated with the HostIdentifier.
+     * Return the URI bssocibted with the HostIdentifier.
      *
      * @return URI - the URI.
      * @see URI
@@ -524,42 +524,42 @@ public class HostIdentifier {
     }
 
     /**
-     * Return the hash code for this HostIdentifier. The hash code is
-     * identical to the hash code for the contained URI.
+     * Return the hbsh code for this HostIdentifier. The hbsh code is
+     * identicbl to the hbsh code for the contbined URI.
      *
-     * @return int - the hashcode.
-     * @see URI#hashCode()
+     * @return int - the hbshcode.
+     * @see URI#hbshCode()
      */
-    public int hashCode() {
-        return uri.hashCode();
+    public int hbshCode() {
+        return uri.hbshCode();
     }
 
     /**
-     * Test for quality with other objects.
+     * Test for qublity with other objects.
      *
-     * @param object the object to be test for equality.
-     * @return boolean - returns true if the given object is of type
-     *                   HostIdentifier and its URI field is equal to this
-     *                   object's URI field. Otherwise, returns false.
+     * @pbrbm object the object to be test for equblity.
+     * @return boolebn - returns true if the given object is of type
+     *                   HostIdentifier bnd its URI field is equbl to this
+     *                   object's URI field. Otherwise, returns fblse.
      *
-     * @see URI#equals(Object)
+     * @see URI#equbls(Object)
      */
-    public boolean equals(Object object) {
+    public boolebn equbls(Object object) {
         if (object == this) {
             return true;
         }
-        if (!(object instanceof HostIdentifier)) {
-            return false;
+        if (!(object instbnceof HostIdentifier)) {
+            return fblse;
         }
-        return uri.equals(((HostIdentifier)object).uri);
+        return uri.equbls(((HostIdentifier)object).uri);
     }
 
 
     /**
-     * Convert to a string representation. Conversion is identical to
-     * calling getURI().toString(). This may change in a future release.
+     * Convert to b string representbtion. Conversion is identicbl to
+     * cblling getURI().toString(). This mby chbnge in b future relebse.
      *
-     * @return String - a String representation of the HostIdentifier.
+     * @return String - b String representbtion of the HostIdentifier.
      *
      * @see URI#toString()
      */

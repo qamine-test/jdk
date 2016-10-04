@@ -1,312 +1,312 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.https;
+pbckbge sun.net.www.protocol.https;
 
-import java.net.URL;
-import java.net.Proxy;
-import java.net.SecureCacheResponse;
-import java.security.Principal;
-import java.io.IOException;
-import java.util.List;
-import javax.net.ssl.SSLPeerUnverifiedException;
+import jbvb.net.URL;
+import jbvb.net.Proxy;
+import jbvb.net.SecureCbcheResponse;
+import jbvb.security.Principbl;
+import jbvb.io.IOException;
+import jbvb.util.List;
+import jbvbx.net.ssl.SSLPeerUnverifiedException;
 import sun.net.www.http.*;
 import sun.net.www.protocol.http.HttpURLConnection;
 
 /**
  * HTTPS URL connection support.
- * We need this delegate because HttpsURLConnection is a subclass of
- * java.net.HttpURLConnection. We will avoid copying over the code from
- * sun.net.www.protocol.http.HttpURLConnection by having this class
+ * We need this delegbte becbuse HttpsURLConnection is b subclbss of
+ * jbvb.net.HttpURLConnection. We will bvoid copying over the code from
+ * sun.net.www.protocol.http.HttpURLConnection by hbving this clbss
  *
  */
-public abstract class AbstractDelegateHttpsURLConnection extends
+public bbstrbct clbss AbstrbctDelegbteHttpsURLConnection extends
         HttpURLConnection {
 
-    protected AbstractDelegateHttpsURLConnection(URL url,
-            sun.net.www.protocol.http.Handler handler) throws IOException {
-        this(url, null, handler);
+    protected AbstrbctDelegbteHttpsURLConnection(URL url,
+            sun.net.www.protocol.http.Hbndler hbndler) throws IOException {
+        this(url, null, hbndler);
     }
 
-    protected AbstractDelegateHttpsURLConnection(URL url, Proxy p,
-            sun.net.www.protocol.http.Handler handler) throws IOException {
-        super(url, p, handler);
+    protected AbstrbctDelegbteHttpsURLConnection(URL url, Proxy p,
+            sun.net.www.protocol.http.Hbndler hbndler) throws IOException {
+        super(url, p, hbndler);
     }
 
-    protected abstract javax.net.ssl.SSLSocketFactory getSSLSocketFactory();
+    protected bbstrbct jbvbx.net.ssl.SSLSocketFbctory getSSLSocketFbctory();
 
-    protected abstract javax.net.ssl.HostnameVerifier getHostnameVerifier();
+    protected bbstrbct jbvbx.net.ssl.HostnbmeVerifier getHostnbmeVerifier();
 
     /**
-     * No user application is able to call these routines, as no one
-     * should ever get access to an instance of
-     * DelegateHttpsURLConnection (sun.* or com.*)
+     * No user bpplicbtion is bble to cbll these routines, bs no one
+     * should ever get bccess to bn instbnce of
+     * DelegbteHttpsURLConnection (sun.* or com.*)
      */
 
     /**
-     * Create a new HttpClient object, bypassing the cache of
+     * Crebte b new HttpClient object, bypbssing the cbche of
      * HTTP client objects/connections.
      *
-     * Note: this method is changed from protected to public because
-     * the com.sun.ssl.internal.www.protocol.https handler reuses this
-     * class for its actual implemantation
+     * Note: this method is chbnged from protected to public becbuse
+     * the com.sun.ssl.internbl.www.protocol.https hbndler reuses this
+     * clbss for its bctubl implembntbtion
      *
-     * @param url the URL being accessed
+     * @pbrbm url the URL being bccessed
      */
     public void setNewClient (URL url)
         throws IOException {
-        setNewClient (url, false);
+        setNewClient (url, fblse);
     }
 
     /**
-     * Obtain a HttpClient object. Use the cached copy if specified.
+     * Obtbin b HttpClient object. Use the cbched copy if specified.
      *
-     * Note: this method is changed from protected to public because
-     * the com.sun.ssl.internal.www.protocol.https handler reuses this
-     * class for its actual implemantation
+     * Note: this method is chbnged from protected to public becbuse
+     * the com.sun.ssl.internbl.www.protocol.https hbndler reuses this
+     * clbss for its bctubl implembntbtion
      *
-     * @param url       the URL being accessed
-     * @param useCache  whether the cached connection should be used
+     * @pbrbm url       the URL being bccessed
+     * @pbrbm useCbche  whether the cbched connection should be used
      *        if present
      */
-    public void setNewClient (URL url, boolean useCache)
+    public void setNewClient (URL url, boolebn useCbche)
         throws IOException {
-        http = HttpsClient.New (getSSLSocketFactory(),
+        http = HttpsClient.New (getSSLSocketFbctory(),
                                 url,
-                                getHostnameVerifier(),
-                                useCache, this);
-        ((HttpsClient)http).afterConnect();
+                                getHostnbmeVerifier(),
+                                useCbche, this);
+        ((HttpsClient)http).bfterConnect();
     }
 
     /**
-     * Create a new HttpClient object, set up so that it uses
-     * per-instance proxying to the given HTTP proxy.  This
-     * bypasses the cache of HTTP client objects/connections.
+     * Crebte b new HttpClient object, set up so thbt it uses
+     * per-instbnce proxying to the given HTTP proxy.  This
+     * bypbsses the cbche of HTTP client objects/connections.
      *
-     * Note: this method is changed from protected to public because
-     * the com.sun.ssl.internal.www.protocol.https handler reuses this
-     * class for its actual implemantation
+     * Note: this method is chbnged from protected to public becbuse
+     * the com.sun.ssl.internbl.www.protocol.https hbndler reuses this
+     * clbss for its bctubl implembntbtion
      *
-     * @param url       the URL being accessed
-     * @param proxyHost the proxy host to use
-     * @param proxyPort the proxy port to use
+     * @pbrbm url       the URL being bccessed
+     * @pbrbm proxyHost the proxy host to use
+     * @pbrbm proxyPort the proxy port to use
      */
     public void setProxiedClient (URL url, String proxyHost, int proxyPort)
             throws IOException {
-        setProxiedClient(url, proxyHost, proxyPort, false);
+        setProxiedClient(url, proxyHost, proxyPort, fblse);
     }
 
     /**
-     * Obtain a HttpClient object, set up so that it uses per-instance
-     * proxying to the given HTTP proxy. Use the cached copy of HTTP
+     * Obtbin b HttpClient object, set up so thbt it uses per-instbnce
+     * proxying to the given HTTP proxy. Use the cbched copy of HTTP
      * client objects/connections if specified.
      *
-     * Note: this method is changed from protected to public because
-     * the com.sun.ssl.internal.www.protocol.https handler reuses this
-     * class for its actual implemantation
+     * Note: this method is chbnged from protected to public becbuse
+     * the com.sun.ssl.internbl.www.protocol.https hbndler reuses this
+     * clbss for its bctubl implembntbtion
      *
-     * @param url       the URL being accessed
-     * @param proxyHost the proxy host to use
-     * @param proxyPort the proxy port to use
-     * @param useCache  whether the cached connection should be used
+     * @pbrbm url       the URL being bccessed
+     * @pbrbm proxyHost the proxy host to use
+     * @pbrbm proxyPort the proxy port to use
+     * @pbrbm useCbche  whether the cbched connection should be used
      *        if present
      */
     public void setProxiedClient (URL url, String proxyHost, int proxyPort,
-            boolean useCache) throws IOException {
-        proxiedConnect(url, proxyHost, proxyPort, useCache);
-        if (!http.isCachedConnection()) {
+            boolebn useCbche) throws IOException {
+        proxiedConnect(url, proxyHost, proxyPort, useCbche);
+        if (!http.isCbchedConnection()) {
             doTunneling();
         }
-        ((HttpsClient)http).afterConnect();
+        ((HttpsClient)http).bfterConnect();
     }
 
     protected void proxiedConnect(URL url, String proxyHost, int proxyPort,
-            boolean useCache) throws IOException {
+            boolebn useCbche) throws IOException {
         if (connected)
             return;
-        http = HttpsClient.New (getSSLSocketFactory(),
+        http = HttpsClient.New (getSSLSocketFbctory(),
                                 url,
-                                getHostnameVerifier(),
-                                proxyHost, proxyPort, useCache, this);
+                                getHostnbmeVerifier(),
+                                proxyHost, proxyPort, useCbche, this);
         connected = true;
     }
 
     /**
-     * Used by subclass to access "connected" variable.
+     * Used by subclbss to bccess "connected" vbribble.
      */
-    public boolean isConnected() {
+    public boolebn isConnected() {
         return connected;
     }
 
     /**
-     * Used by subclass to access "connected" variable.
+     * Used by subclbss to bccess "connected" vbribble.
      */
-    public void setConnected(boolean conn) {
+    public void setConnected(boolebn conn) {
         connected = conn;
     }
 
     /**
-     * Implements the HTTP protocol handler's "connect" method,
-     * establishing an SSL connection to the server as necessary.
+     * Implements the HTTP protocol hbndler's "connect" method,
+     * estbblishing bn SSL connection to the server bs necessbry.
      */
     public void connect() throws IOException {
         if (connected)
             return;
-        plainConnect();
-        if (cachedResponse != null) {
-            // using cached response
+        plbinConnect();
+        if (cbchedResponse != null) {
+            // using cbched response
             return;
         }
-        if (!http.isCachedConnection() && http.needsTunneling()) {
+        if (!http.isCbchedConnection() && http.needsTunneling()) {
             doTunneling();
         }
-        ((HttpsClient)http).afterConnect();
+        ((HttpsClient)http).bfterConnect();
     }
 
-    // will try to use cached HttpsClient
+    // will try to use cbched HttpsClient
     protected HttpClient getNewHttpClient(URL url, Proxy p, int connectTimeout)
         throws IOException {
-        return HttpsClient.New(getSSLSocketFactory(), url,
-                               getHostnameVerifier(), p, true, connectTimeout,
+        return HttpsClient.New(getSSLSocketFbctory(), url,
+                               getHostnbmeVerifier(), p, true, connectTimeout,
                                this);
     }
 
     // will open new connection
     protected HttpClient getNewHttpClient(URL url, Proxy p, int connectTimeout,
-                                          boolean useCache)
+                                          boolebn useCbche)
         throws IOException {
-        return HttpsClient.New(getSSLSocketFactory(), url,
-                               getHostnameVerifier(), p,
-                               useCache, connectTimeout, this);
+        return HttpsClient.New(getSSLSocketFbctory(), url,
+                               getHostnbmeVerifier(), p,
+                               useCbche, connectTimeout, this);
     }
 
     /**
      * Returns the cipher suite in use on this connection.
      */
     public String getCipherSuite () {
-        if (cachedResponse != null) {
-            return ((SecureCacheResponse)cachedResponse).getCipherSuite();
+        if (cbchedResponse != null) {
+            return ((SecureCbcheResponse)cbchedResponse).getCipherSuite();
         }
         if (http == null) {
-            throw new IllegalStateException("connection not yet open");
+            throw new IllegblStbteException("connection not yet open");
         } else {
            return ((HttpsClient)http).getCipherSuite ();
         }
     }
 
     /**
-     * Returns the certificate chain the client sent to the
-     * server, or null if the client did not authenticate.
+     * Returns the certificbte chbin the client sent to the
+     * server, or null if the client did not buthenticbte.
      */
-    public java.security.cert.Certificate[] getLocalCertificates() {
-        if (cachedResponse != null) {
-            List<java.security.cert.Certificate> l = ((SecureCacheResponse)cachedResponse).getLocalCertificateChain();
+    public jbvb.security.cert.Certificbte[] getLocblCertificbtes() {
+        if (cbchedResponse != null) {
+            List<jbvb.security.cert.Certificbte> l = ((SecureCbcheResponse)cbchedResponse).getLocblCertificbteChbin();
             if (l == null) {
                 return null;
             } else {
-                return l.toArray(new java.security.cert.Certificate[0]);
+                return l.toArrby(new jbvb.security.cert.Certificbte[0]);
             }
         }
         if (http == null) {
-            throw new IllegalStateException("connection not yet open");
+            throw new IllegblStbteException("connection not yet open");
         } else {
-            return (((HttpsClient)http).getLocalCertificates ());
+            return (((HttpsClient)http).getLocblCertificbtes ());
         }
     }
 
     /**
-     * Returns the server's certificate chain, or throws
+     * Returns the server's certificbte chbin, or throws
      * SSLPeerUnverified Exception if
-     * the server did not authenticate.
+     * the server did not buthenticbte.
      */
-    public java.security.cert.Certificate[] getServerCertificates()
+    public jbvb.security.cert.Certificbte[] getServerCertificbtes()
             throws SSLPeerUnverifiedException {
-        if (cachedResponse != null) {
-            List<java.security.cert.Certificate> l = ((SecureCacheResponse)cachedResponse).getServerCertificateChain();
+        if (cbchedResponse != null) {
+            List<jbvb.security.cert.Certificbte> l = ((SecureCbcheResponse)cbchedResponse).getServerCertificbteChbin();
             if (l == null) {
                 return null;
             } else {
-                return l.toArray(new java.security.cert.Certificate[0]);
+                return l.toArrby(new jbvb.security.cert.Certificbte[0]);
             }
         }
 
         if (http == null) {
-            throw new IllegalStateException("connection not yet open");
+            throw new IllegblStbteException("connection not yet open");
         } else {
-            return (((HttpsClient)http).getServerCertificates ());
+            return (((HttpsClient)http).getServerCertificbtes ());
         }
     }
 
     /**
-     * Returns the server's X.509 certificate chain, or null if
-     * the server did not authenticate.
+     * Returns the server's X.509 certificbte chbin, or null if
+     * the server did not buthenticbte.
      */
-    public javax.security.cert.X509Certificate[] getServerCertificateChain()
+    public jbvbx.security.cert.X509Certificbte[] getServerCertificbteChbin()
             throws SSLPeerUnverifiedException {
-        if (cachedResponse != null) {
-            throw new UnsupportedOperationException("this method is not supported when using cache");
+        if (cbchedResponse != null) {
+            throw new UnsupportedOperbtionException("this method is not supported when using cbche");
         }
         if (http == null) {
-            throw new IllegalStateException("connection not yet open");
+            throw new IllegblStbteException("connection not yet open");
         } else {
-            return ((HttpsClient)http).getServerCertificateChain ();
+            return ((HttpsClient)http).getServerCertificbteChbin ();
         }
     }
 
     /**
-     * Returns the server's principal, or throws SSLPeerUnverifiedException
-     * if the server did not authenticate.
+     * Returns the server's principbl, or throws SSLPeerUnverifiedException
+     * if the server did not buthenticbte.
      */
-    Principal getPeerPrincipal()
+    Principbl getPeerPrincipbl()
             throws SSLPeerUnverifiedException
     {
-        if (cachedResponse != null) {
-            return ((SecureCacheResponse)cachedResponse).getPeerPrincipal();
+        if (cbchedResponse != null) {
+            return ((SecureCbcheResponse)cbchedResponse).getPeerPrincipbl();
         }
 
         if (http == null) {
-            throw new IllegalStateException("connection not yet open");
+            throw new IllegblStbteException("connection not yet open");
         } else {
-            return (((HttpsClient)http).getPeerPrincipal());
+            return (((HttpsClient)http).getPeerPrincipbl());
         }
     }
 
     /**
-     * Returns the principal the client sent to the
-     * server, or null if the client did not authenticate.
+     * Returns the principbl the client sent to the
+     * server, or null if the client did not buthenticbte.
      */
-    Principal getLocalPrincipal()
+    Principbl getLocblPrincipbl()
     {
-        if (cachedResponse != null) {
-            return ((SecureCacheResponse)cachedResponse).getLocalPrincipal();
+        if (cbchedResponse != null) {
+            return ((SecureCbcheResponse)cbchedResponse).getLocblPrincipbl();
         }
 
         if (http == null) {
-            throw new IllegalStateException("connection not yet open");
+            throw new IllegblStbteException("connection not yet open");
         } else {
-            return (((HttpsClient)http).getLocalPrincipal());
+            return (((HttpsClient)http).getLocblPrincipbl());
         }
     }
 

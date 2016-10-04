@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
-import java.lang.annotation.*;
+import jbvb.lbng.bnnotbtion.*;
 
 /**
- * A field may be annotated as stable if all of its component variables
- * changes value at most once.
- * A field's value counts as its component value.
- * If the field is typed as an array, then all the non-null components
- * of the array, of depth up to the rank of the field's array type,
- * also count as component values.
- * By extension, any variable (either array or field) which has annotated
- * as stable is called a stable variable, and its non-null or non-zero
- * value is called a stable value.
+ * A field mby be bnnotbted bs stbble if bll of its component vbribbles
+ * chbnges vblue bt most once.
+ * A field's vblue counts bs its component vblue.
+ * If the field is typed bs bn brrby, then bll the non-null components
+ * of the brrby, of depth up to the rbnk of the field's brrby type,
+ * blso count bs component vblues.
+ * By extension, bny vbribble (either brrby or field) which hbs bnnotbted
+ * bs stbble is cblled b stbble vbribble, bnd its non-null or non-zero
+ * vblue is cblled b stbble vblue.
  * <p>
- * Since all fields begin with a default value of null for references
- * (resp., zero for primitives), it follows that this annotation indicates
- * that the first non-null (resp., non-zero) value stored in the field
- * will never be changed.
+ * Since bll fields begin with b defbult vblue of null for references
+ * (resp., zero for primitives), it follows thbt this bnnotbtion indicbtes
+ * thbt the first non-null (resp., non-zero) vblue stored in the field
+ * will never be chbnged.
  * <p>
- * If the field is not of an array type, there are no array elements,
- * then the value indicated as stable is simply the value of the field.
- * If the dynamic type of the field value is an array but the static type
- * is not, the components of the array are <em>not</em> regarded as stable.
+ * If the field is not of bn brrby type, there bre no brrby elements,
+ * then the vblue indicbted bs stbble is simply the vblue of the field.
+ * If the dynbmic type of the field vblue is bn brrby but the stbtic type
+ * is not, the components of the brrby bre <em>not</em> regbrded bs stbble.
  * <p>
- * If the field is an array type, then both the field value and
- * all the components of the field value (if the field value is non-null)
- * are indicated to be stable.
- * If the field type is an array type with rank {@code N &gt; 1},
- * then each component of the field value (if the field value is non-null),
- * is regarded as a stable array of rank {@code N-1}.
+ * If the field is bn brrby type, then both the field vblue bnd
+ * bll the components of the field vblue (if the field vblue is non-null)
+ * bre indicbted to be stbble.
+ * If the field type is bn brrby type with rbnk {@code N &gt; 1},
+ * then ebch component of the field vblue (if the field vblue is non-null),
+ * is regbrded bs b stbble brrby of rbnk {@code N-1}.
  * <p>
- * Fields which are declared {@code final} may also be annotated as stable.
- * Since final fields already behave as stable values, such an annotation
- * indicates no additional information, unless the type of the field is
- * an array type.
+ * Fields which bre declbred {@code finbl} mby blso be bnnotbted bs stbble.
+ * Since finbl fields blrebdy behbve bs stbble vblues, such bn bnnotbtion
+ * indicbtes no bdditionbl informbtion, unless the type of the field is
+ * bn brrby type.
  * <p>
- * It is (currently) undefined what happens if a field annotated as stable
- * is given a third value.  In practice, if the JVM relies on this annotation
- * to promote a field reference to a constant, it may be that the Java memory
- * model would appear to be broken, if such a constant (the second value of the field)
- * is used as the value of the field even after the field value has changed.
+ * It is (currently) undefined whbt hbppens if b field bnnotbted bs stbble
+ * is given b third vblue.  In prbctice, if the JVM relies on this bnnotbtion
+ * to promote b field reference to b constbnt, it mby be thbt the Jbvb memory
+ * model would bppebr to be broken, if such b constbnt (the second vblue of the field)
+ * is used bs the vblue of the field even bfter the field vblue hbs chbnged.
  */
-/* package-private */
-@Target(ElementType.FIELD)
+/* pbckbge-privbte */
+@Tbrget(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@interface Stable {
+@interfbce Stbble {
 }

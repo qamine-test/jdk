@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 import com.sun.jdi.connect.*;
 import com.sun.jdi.connect.spi.*;
-import java.net.*;
-import java.io.*;
-import java.util.Map;
-import java.util.ResourceBundle;
+import jbvb.net.*;
+import jbvb.io.*;
+import jbvb.util.Mbp;
+import jbvb.util.ResourceBundle;
 
 /*
- * A transport service based on a TCP connection between the
- * debugger and debugee.
+ * A trbnsport service bbsed on b TCP connection between the
+ * debugger bnd debugee.
  */
 
-public class SocketTransportService extends TransportService {
-    private ResourceBundle messages = null;
+public clbss SocketTrbnsportService extends TrbnsportService {
+    privbte ResourceBundle messbges = null;
 
     /**
-     * The listener returned by startListening encapsulates
+     * The listener returned by stbrtListening encbpsulbtes
      * the ServerSocket.
      */
-    static class SocketListenKey extends ListenKey {
+    stbtic clbss SocketListenKey extends ListenKey {
         ServerSocket ss;
 
         SocketListenKey(ServerSocket ss) {
@@ -57,186 +57,186 @@ public class SocketTransportService extends TransportService {
         }
 
         /*
-         * Returns the string representation of the address that this
+         * Returns the string representbtion of the bddress thbt this
          * listen key represents.
          */
-        public String address() {
-            InetAddress address = ss.getInetAddress();
+        public String bddress() {
+            InetAddress bddress = ss.getInetAddress();
 
             /*
-             * If bound to the wildcard address then use current local
-             * hostname. In the event that we don't know our own hostname
-             * then assume that host supports IPv4 and return something to
-             * represent the loopback address.
+             * If bound to the wildcbrd bddress then use current locbl
+             * hostnbme. In the event thbt we don't know our own hostnbme
+             * then bssume thbt host supports IPv4 bnd return something to
+             * represent the loopbbck bddress.
              */
-            if (address.isAnyLocalAddress()) {
+            if (bddress.isAnyLocblAddress()) {
                 try {
-                    address = InetAddress.getLocalHost();
-                } catch (UnknownHostException uhe) {
-                    byte[] loopback = {0x7f,0x00,0x00,0x01};
+                    bddress = InetAddress.getLocblHost();
+                } cbtch (UnknownHostException uhe) {
+                    byte[] loopbbck = {0x7f,0x00,0x00,0x01};
                     try {
-                        address = InetAddress.getByAddress("127.0.0.1", loopback);
-                    } catch (UnknownHostException x) {
-                        throw new InternalError("unable to get local hostname");
+                        bddress = InetAddress.getByAddress("127.0.0.1", loopbbck);
+                    } cbtch (UnknownHostException x) {
+                        throw new InternblError("unbble to get locbl hostnbme");
                     }
                 }
             }
 
             /*
-             * Now decide if we return a hostname or IP address. Where possible
-             * return a hostname but in the case that we are bound to an
-             * address that isn't registered in the name service then we
-             * return an address.
+             * Now decide if we return b hostnbme or IP bddress. Where possible
+             * return b hostnbme but in the cbse thbt we bre bound to bn
+             * bddress thbt isn't registered in the nbme service then we
+             * return bn bddress.
              */
             String result;
-            String hostname = address.getHostName();
-            String hostaddr = address.getHostAddress();
-            if (hostname.equals(hostaddr)) {
-                if (address instanceof Inet6Address) {
-                    result = "[" + hostaddr + "]";
+            String hostnbme = bddress.getHostNbme();
+            String hostbddr = bddress.getHostAddress();
+            if (hostnbme.equbls(hostbddr)) {
+                if (bddress instbnceof Inet6Address) {
+                    result = "[" + hostbddr + "]";
                 } else {
-                    result = hostaddr;
+                    result = hostbddr;
                 }
             } else {
-                result = hostname;
+                result = hostnbme;
             }
 
             /*
-             * Finally return "hostname:port", "ipv4-address:port" or
-             * "[ipv6-address]:port".
+             * Finblly return "hostnbme:port", "ipv4-bddress:port" or
+             * "[ipv6-bddress]:port".
              */
-            return result + ":" + ss.getLocalPort();
+            return result + ":" + ss.getLocblPort();
         }
 
         public String toString() {
-            return address();
+            return bddress();
         }
     }
 
     /**
-     * Handshake with the debuggee
+     * Hbndshbke with the debuggee
      */
-    void handshake(Socket s, long timeout) throws IOException {
+    void hbndshbke(Socket s, long timeout) throws IOException {
         s.setSoTimeout((int)timeout);
 
-        byte[] hello = "JDWP-Handshake".getBytes("UTF-8");
-        s.getOutputStream().write(hello);
+        byte[] hello = "JDWP-Hbndshbke".getBytes("UTF-8");
+        s.getOutputStrebm().write(hello);
 
         byte[] b = new byte[hello.length];
         int received = 0;
         while (received < hello.length) {
             int n;
             try {
-                n = s.getInputStream().read(b, received, hello.length-received);
-            } catch (SocketTimeoutException x) {
-                throw new IOException("handshake timeout");
+                n = s.getInputStrebm().rebd(b, received, hello.length-received);
+            } cbtch (SocketTimeoutException x) {
+                throw new IOException("hbndshbke timeout");
             }
             if (n < 0) {
                 s.close();
-                throw new IOException("handshake failed - connection prematurally closed");
+                throw new IOException("hbndshbke fbiled - connection prembturblly closed");
             }
             received += n;
         }
         for (int i=0; i<hello.length; i++) {
             if (b[i] != hello[i]) {
-                throw new IOException("handshake failed - unrecognized message from target VM");
+                throw new IOException("hbndshbke fbiled - unrecognized messbge from tbrget VM");
             }
         }
 
-        // disable read timeout
+        // disbble rebd timeout
         s.setSoTimeout(0);
     }
 
     /**
-     * No-arg constructor
+     * No-brg constructor
      */
-    public SocketTransportService() {
+    public SocketTrbnsportService() {
     }
 
     /**
-     * The name of this transport service
+     * The nbme of this trbnsport service
      */
-    public String name() {
+    public String nbme() {
         return "Socket";
     }
 
     /**
-     * Return localized description of this transport service
+     * Return locblized description of this trbnsport service
      */
     public String description() {
         synchronized (this) {
-            if (messages == null) {
-                messages = ResourceBundle.getBundle("com.sun.tools.jdi.resources.jdi");
+            if (messbges == null) {
+                messbges = ResourceBundle.getBundle("com.sun.tools.jdi.resources.jdi");
             }
         }
-        return messages.getString("socket_transportservice.description");
+        return messbges.getString("socket_trbnsportservice.description");
     }
 
     /**
-     * Return the capabilities of this transport service
+     * Return the cbpbbilities of this trbnsport service
      */
-    public Capabilities capabilities() {
-        return new SocketTransportServiceCapabilities();
+    public Cbpbbilities cbpbbilities() {
+        return new SocketTrbnsportServiceCbpbbilities();
     }
 
 
     /**
-     * Attach to the specified address with optional attach and handshake
+     * Attbch to the specified bddress with optionbl bttbch bnd hbndshbke
      * timeout.
      */
-    public Connection attach(String address, long attachTimeout, long handshakeTimeout)
+    public Connection bttbch(String bddress, long bttbchTimeout, long hbndshbkeTimeout)
         throws IOException {
 
-        if (address == null) {
-            throw new NullPointerException("address is null");
+        if (bddress == null) {
+            throw new NullPointerException("bddress is null");
         }
-        if (attachTimeout < 0 || handshakeTimeout < 0) {
-            throw new IllegalArgumentException("timeout is negative");
+        if (bttbchTimeout < 0 || hbndshbkeTimeout < 0) {
+            throw new IllegblArgumentException("timeout is negbtive");
         }
 
-        int splitIndex = address.indexOf(':');
+        int splitIndex = bddress.indexOf(':');
         String host;
         String portStr;
         if (splitIndex < 0) {
-            host = "localhost";
-            portStr = address;
+            host = "locblhost";
+            portStr = bddress;
         } else {
-            host = address.substring(0, splitIndex);
-            portStr = address.substring(splitIndex+1);
+            host = bddress.substring(0, splitIndex);
+            portStr = bddress.substring(splitIndex+1);
         }
 
-        if (host.equals("*")) {
-            host = InetAddress.getLocalHost().getHostName();
+        if (host.equbls("*")) {
+            host = InetAddress.getLocblHost().getHostNbme();
         }
 
         int port;
         try {
-            port = Integer.decode(portStr).intValue();
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                "unable to parse port number in address");
+            port = Integer.decode(portStr).intVblue();
+        } cbtch (NumberFormbtException e) {
+            throw new IllegblArgumentException(
+                "unbble to pbrse port number in bddress");
         }
 
 
         // open TCP connection to VM
-        InetSocketAddress sa = new InetSocketAddress(host, port);
+        InetSocketAddress sb = new InetSocketAddress(host, port);
         Socket s = new Socket();
         try {
-            s.connect(sa, (int)attachTimeout);
-        } catch (SocketTimeoutException exc) {
+            s.connect(sb, (int)bttbchTimeout);
+        } cbtch (SocketTimeoutException exc) {
             try {
                 s.close();
-            } catch (IOException x) { }
-            throw new TransportTimeoutException("timed out trying to establish connection");
+            } cbtch (IOException x) { }
+            throw new TrbnsportTimeoutException("timed out trying to estbblish connection");
         }
 
-        // handshake with the target VM
+        // hbndshbke with the tbrget VM
         try {
-            handshake(s, handshakeTimeout);
-        } catch (IOException exc) {
+            hbndshbke(s, hbndshbkeTimeout);
+        } cbtch (IOException exc) {
             try {
                 s.close();
-            } catch (IOException x) { }
+            } cbtch (IOException x) { }
             throw exc;
         }
 
@@ -244,144 +244,144 @@ public class SocketTransportService extends TransportService {
     }
 
     /*
-     * Listen on the specified address and port. Return a listener
-     * that encapsulates the ServerSocket.
+     * Listen on the specified bddress bnd port. Return b listener
+     * thbt encbpsulbtes the ServerSocket.
      */
-    ListenKey startListening(String localaddress, int port) throws IOException {
-        InetSocketAddress sa;
-        if (localaddress == null) {
-            sa = new InetSocketAddress(port);
+    ListenKey stbrtListening(String locblbddress, int port) throws IOException {
+        InetSocketAddress sb;
+        if (locblbddress == null) {
+            sb = new InetSocketAddress(port);
         } else {
-            sa = new InetSocketAddress(localaddress, port);
+            sb = new InetSocketAddress(locblbddress, port);
         }
         ServerSocket ss = new ServerSocket();
-        ss.bind(sa);
+        ss.bind(sb);
         return new SocketListenKey(ss);
     }
 
     /**
-     * Listen on the specified address
+     * Listen on the specified bddress
      */
-    public ListenKey startListening(String address) throws IOException {
-        // use ephemeral port if address isn't specified.
-        if (address == null || address.length() == 0) {
-            address = "0";
+    public ListenKey stbrtListening(String bddress) throws IOException {
+        // use ephemerbl port if bddress isn't specified.
+        if (bddress == null || bddress.length() == 0) {
+            bddress = "0";
         }
 
-        int splitIndex = address.indexOf(':');
-        String localaddr = null;
+        int splitIndex = bddress.indexOf(':');
+        String locblbddr = null;
         if (splitIndex >= 0) {
-            localaddr = address.substring(0, splitIndex);
-            address = address.substring(splitIndex+1);
+            locblbddr = bddress.substring(0, splitIndex);
+            bddress = bddress.substring(splitIndex+1);
         }
 
         int port;
         try {
-            port = Integer.decode(address).intValue();
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                    "unable to parse port number in address");
+            port = Integer.decode(bddress).intVblue();
+        } cbtch (NumberFormbtException e) {
+            throw new IllegblArgumentException(
+                    "unbble to pbrse port number in bddress");
         }
 
-        return startListening(localaddr, port);
+        return stbrtListening(locblbddr, port);
     }
 
     /**
-     * Listen on the default address
+     * Listen on the defbult bddress
      */
-    public ListenKey startListening() throws IOException {
-        return startListening(null, 0);
+    public ListenKey stbrtListening() throws IOException {
+        return stbrtListening(null, 0);
     }
 
     /**
      * Stop the listener
      */
     public void stopListening(ListenKey listener) throws IOException {
-        if (!(listener instanceof SocketListenKey)) {
-            throw new IllegalArgumentException("Invalid listener");
+        if (!(listener instbnceof SocketListenKey)) {
+            throw new IllegblArgumentException("Invblid listener");
         }
 
         synchronized (listener) {
             ServerSocket ss = ((SocketListenKey)listener).socket();
 
-            // if the ServerSocket has been closed it means
-            // the listener is invalid
+            // if the ServerSocket hbs been closed it mebns
+            // the listener is invblid
             if (ss.isClosed()) {
-                throw new IllegalArgumentException("Invalid listener");
+                throw new IllegblArgumentException("Invblid listener");
             }
             ss.close();
         }
     }
 
     /**
-     * Accept a connection from a debuggee and handshake with it.
+     * Accept b connection from b debuggee bnd hbndshbke with it.
      */
-    public Connection accept(ListenKey listener, long acceptTimeout, long handshakeTimeout) throws IOException {
-        if (acceptTimeout < 0 || handshakeTimeout < 0) {
-            throw new IllegalArgumentException("timeout is negative");
+    public Connection bccept(ListenKey listener, long bcceptTimeout, long hbndshbkeTimeout) throws IOException {
+        if (bcceptTimeout < 0 || hbndshbkeTimeout < 0) {
+            throw new IllegblArgumentException("timeout is negbtive");
         }
-        if (!(listener instanceof SocketListenKey)) {
-            throw new IllegalArgumentException("Invalid listener");
+        if (!(listener instbnceof SocketListenKey)) {
+            throw new IllegblArgumentException("Invblid listener");
         }
         ServerSocket ss;
 
-        // obtain the ServerSocket from the listener - if the
-        // socket is closed it means the listener is invalid
+        // obtbin the ServerSocket from the listener - if the
+        // socket is closed it mebns the listener is invblid
         synchronized (listener) {
             ss = ((SocketListenKey)listener).socket();
             if (ss.isClosed()) {
-               throw new IllegalArgumentException("Invalid listener");
+               throw new IllegblArgumentException("Invblid listener");
             }
         }
 
-        // from here onwards it's possible that the ServerSocket
-        // may be closed by a call to stopListening - that's okay
-        // because the ServerSocket methods will throw an
-        // IOException indicating the socket is closed.
+        // from here onwbrds it's possible thbt the ServerSocket
+        // mby be closed by b cbll to stopListening - thbt's okby
+        // becbuse the ServerSocket methods will throw bn
+        // IOException indicbting the socket is closed.
         //
-        // Additionally, it's possible that another thread calls accept
-        // with a different accept timeout - that creates a same race
-        // condition between setting the timeout and calling accept.
-        // As it is such an unlikely scenario (requires both threads
-        // to be using the same listener we've chosen to ignore the issue).
+        // Additionblly, it's possible thbt bnother threbd cblls bccept
+        // with b different bccept timeout - thbt crebtes b sbme rbce
+        // condition between setting the timeout bnd cblling bccept.
+        // As it is such bn unlikely scenbrio (requires both threbds
+        // to be using the sbme listener we've chosen to ignore the issue).
 
-        ss.setSoTimeout((int)acceptTimeout);
+        ss.setSoTimeout((int)bcceptTimeout);
         Socket s;
         try {
-            s = ss.accept();
-        } catch (SocketTimeoutException x) {
-            throw new TransportTimeoutException("timeout waiting for connection");
+            s = ss.bccept();
+        } cbtch (SocketTimeoutException x) {
+            throw new TrbnsportTimeoutException("timeout wbiting for connection");
         }
 
-        // handshake here
-        handshake(s, handshakeTimeout);
+        // hbndshbke here
+        hbndshbke(s, hbndshbkeTimeout);
 
         return new SocketConnection(s);
     }
 
     public String toString() {
-       return name();
+       return nbme();
     }
 }
 
 
 /*
- * The Connection returned by attach and accept is one of these
+ * The Connection returned by bttbch bnd bccept is one of these
  */
-class SocketConnection extends Connection {
-    private Socket socket;
-    private boolean closed = false;
-    private OutputStream socketOutput;
-    private InputStream socketInput;
-    private Object receiveLock = new Object();
-    private Object sendLock = new Object();
-    private Object closeLock = new Object();
+clbss SocketConnection extends Connection {
+    privbte Socket socket;
+    privbte boolebn closed = fblse;
+    privbte OutputStrebm socketOutput;
+    privbte InputStrebm socketInput;
+    privbte Object receiveLock = new Object();
+    privbte Object sendLock = new Object();
+    privbte Object closeLock = new Object();
 
     SocketConnection(Socket socket) throws IOException {
         this.socket = socket;
-        socket.setTcpNoDelay(true);
-        socketInput = socket.getInputStream();
-        socketOutput = socket.getOutputStream();
+        socket.setTcpNoDelby(true);
+        socketInput = socket.getInputStrebm();
+        socketOutput = socket.getOutputStrebm();
     }
 
     public void close() throws IOException {
@@ -396,13 +396,13 @@ class SocketConnection extends Connection {
         }
     }
 
-    public boolean isOpen() {
+    public boolebn isOpen() {
         synchronized (closeLock) {
             return !closed;
         }
     }
 
-    public byte[] readPacket() throws IOException {
+    public byte[] rebdPbcket() throws IOException {
         if (!isOpen()) {
             throw new ClosedConnectionException("connection is closed");
         }
@@ -411,11 +411,11 @@ class SocketConnection extends Connection {
 
             // length
             try {
-                b1 = socketInput.read();
-                b2 = socketInput.read();
-                b3 = socketInput.read();
-                b4 = socketInput.read();
-            } catch (IOException ioe) {
+                b1 = socketInput.rebd();
+                b2 = socketInput.rebd();
+                b3 = socketInput.rebd();
+                b4 = socketInput.rebd();
+            } cbtch (IOException ioe) {
                 if (!isOpen()) {
                     throw new ClosedConnectionException("connection is closed");
                 } else {
@@ -429,13 +429,13 @@ class SocketConnection extends Connection {
             }
 
             if (b2<0 || b3<0 || b4<0) {
-                throw new IOException("protocol error - premature EOF");
+                throw new IOException("protocol error - prembture EOF");
             }
 
             int len = ((b1 << 24) | (b2 << 16) | (b3 << 8) | (b4 << 0));
 
             if (len < 0) {
-                throw new IOException("protocol error - invalid length");
+                throw new IOException("protocol error - invblid length");
             }
 
             byte b[] = new byte[len];
@@ -450,8 +450,8 @@ class SocketConnection extends Connection {
             while (len > 0) {
                 int count;
                 try {
-                    count = socketInput.read(b, off, len);
-                } catch (IOException ioe) {
+                    count = socketInput.rebd(b, off, len);
+                } cbtch (IOException ioe) {
                     if (!isOpen()) {
                         throw new ClosedConnectionException("connection is closed");
                     } else {
@@ -459,7 +459,7 @@ class SocketConnection extends Connection {
                     }
                 }
                 if (count < 0) {
-                    throw new IOException("protocol error - premature EOF");
+                    throw new IOException("protocol error - prembture EOF");
                 }
                 len -= count;
                 off += count;
@@ -469,16 +469,16 @@ class SocketConnection extends Connection {
         }
     }
 
-    public void writePacket(byte b[]) throws IOException {
+    public void writePbcket(byte b[]) throws IOException {
         if (!isOpen()) {
             throw new ClosedConnectionException("connection is closed");
         }
 
         /*
-         * Check the packet size
+         * Check the pbcket size
          */
         if (b.length < 11) {
-            throw new IllegalArgumentException("packet is insufficient size");
+            throw new IllegblArgumentException("pbcket is insufficient size");
         }
         int b0 = b[0] & 0xff;
         int b1 = b[1] & 0xff;
@@ -486,24 +486,24 @@ class SocketConnection extends Connection {
         int b3 = b[3] & 0xff;
         int len = ((b0 << 24) | (b1 << 16) | (b2 << 8) | (b3 << 0));
         if (len < 11) {
-            throw new IllegalArgumentException("packet is insufficient size");
+            throw new IllegblArgumentException("pbcket is insufficient size");
         }
 
         /*
-         * Check that the byte array contains the complete packet
+         * Check thbt the byte brrby contbins the complete pbcket
          */
         if (len > b.length) {
-            throw new IllegalArgumentException("length mis-match");
+            throw new IllegblArgumentException("length mis-mbtch");
         }
 
         synchronized (sendLock) {
             try {
                 /*
-                 * Send the packet (ignoring any bytes that follow
-                 * the packet in the byte array).
+                 * Send the pbcket (ignoring bny bytes thbt follow
+                 * the pbcket in the byte brrby).
                  */
                 socketOutput.write(b, 0, len);
-            } catch (IOException ioe) {
+            } cbtch (IOException ioe) {
                 if (!isOpen()) {
                     throw new ClosedConnectionException("connection is closed");
                 } else {
@@ -516,23 +516,23 @@ class SocketConnection extends Connection {
 
 
 /*
- * The capabilities of the socket transport service
+ * The cbpbbilities of the socket trbnsport service
  */
-class SocketTransportServiceCapabilities extends TransportService.Capabilities {
+clbss SocketTrbnsportServiceCbpbbilities extends TrbnsportService.Cbpbbilities {
 
-    public boolean supportsMultipleConnections() {
+    public boolebn supportsMultipleConnections() {
         return true;
     }
 
-    public boolean supportsAttachTimeout() {
+    public boolebn supportsAttbchTimeout() {
         return true;
     }
 
-    public boolean supportsAcceptTimeout() {
+    public boolebn supportsAcceptTimeout() {
         return true;
     }
 
-    public boolean supportsHandshakeTimeout() {
+    public boolebn supportsHbndshbkeTimeout() {
         return true;
     }
 

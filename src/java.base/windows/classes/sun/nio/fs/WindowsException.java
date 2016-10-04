@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
+import jbvb.nio.file.*;
+import jbvb.io.IOException;
 
-import static sun.nio.fs.WindowsConstants.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Internal exception thrown when a Win32 calls fails.
+ * Internbl exception thrown when b Win32 cblls fbils.
  */
 
-class WindowsException extends Exception {
-    static final long serialVersionUID = 2765039493083748820L;
+clbss WindowsException extends Exception {
+    stbtic finbl long seriblVersionUID = 2765039493083748820L;
 
-    private int lastError;
-    private String msg;
+    privbte int lbstError;
+    privbte String msg;
 
-    WindowsException(int lastError) {
-        this.lastError = lastError;
+    WindowsException(int lbstError) {
+        this.lbstError = lbstError;
         this.msg = null;
     }
 
     WindowsException(String msg) {
-        this.lastError = 0;
+        this.lbstError = 0;
         this.msg = msg;
     }
 
-    int lastError() {
-        return lastError;
+    int lbstError() {
+        return lbstError;
     }
 
     String errorString() {
         if (msg == null) {
-            msg = WindowsNativeDispatcher.FormatMessage(lastError);
+            msg = WindowsNbtiveDispbtcher.FormbtMessbge(lbstError);
             if (msg == null) {
-                msg = "Unknown error: 0x" + Integer.toHexString(lastError);
+                msg = "Unknown error: 0x" + Integer.toHexString(lbstError);
             }
         }
         return msg;
     }
 
     @Override
-    public String getMessage() {
+    public String getMessbge() {
         return errorString();
     }
 
-    private IOException translateToIOException(String file, String other) {
-        // not created with last error
-        if (lastError() == 0)
+    privbte IOException trbnslbteToIOException(String file, String other) {
+        // not crebted with lbst error
+        if (lbstError() == 0)
             return new IOException(errorString());
 
-        // handle specific cases
-        if (lastError() == ERROR_FILE_NOT_FOUND || lastError() == ERROR_PATH_NOT_FOUND)
+        // hbndle specific cbses
+        if (lbstError() == ERROR_FILE_NOT_FOUND || lbstError() == ERROR_PATH_NOT_FOUND)
             return new NoSuchFileException(file, other, null);
-        if (lastError() == ERROR_FILE_EXISTS || lastError() == ERROR_ALREADY_EXISTS)
-            return new FileAlreadyExistsException(file, other, null);
-        if (lastError() == ERROR_ACCESS_DENIED)
+        if (lbstError() == ERROR_FILE_EXISTS || lbstError() == ERROR_ALREADY_EXISTS)
+            return new FileAlrebdyExistsException(file, other, null);
+        if (lbstError() == ERROR_ACCESS_DENIED)
             return new AccessDeniedException(file, other, null);
 
-        // fallback to the more general exception
+        // fbllbbck to the more generbl exception
         return new FileSystemException(file, other, errorString());
     }
 
     void rethrowAsIOException(String file) throws IOException {
-        IOException x = translateToIOException(file, null);
+        IOException x = trbnslbteToIOException(file, null);
         throw x;
     }
 
-    void rethrowAsIOException(WindowsPath file, WindowsPath other) throws IOException {
-        String a = (file == null) ? null : file.getPathForExceptionMessage();
-        String b = (other == null) ? null : other.getPathForExceptionMessage();
-        IOException x = translateToIOException(a, b);
+    void rethrowAsIOException(WindowsPbth file, WindowsPbth other) throws IOException {
+        String b = (file == null) ? null : file.getPbthForExceptionMessbge();
+        String b = (other == null) ? null : other.getPbthForExceptionMessbge();
+        IOException x = trbnslbteToIOException(b, b);
         throw x;
     }
 
-    void rethrowAsIOException(WindowsPath file) throws IOException {
+    void rethrowAsIOException(WindowsPbth file) throws IOException {
         rethrowAsIOException(file, null);
     }
 
-    IOException asIOException(WindowsPath file) {
-        return translateToIOException(file.getPathForExceptionMessage(), null);
+    IOException bsIOException(WindowsPbth file) {
+        return trbnslbteToIOException(file.getPbthForExceptionMessbge(), null);
     }
 
 }

@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Spliterator;
-import java.util.function.IntFunction;
+import jbvb.util.Spliterbtor;
+import jbvb.util.function.IntFunction;
 
 /**
- * Helper class for executing <a href="package-summary.html#StreamOps">
- * stream pipelines</a>, capturing all of the information about a stream
- * pipeline (output shape, intermediate operations, stream flags, parallelism,
- * etc) in one place.
+ * Helper clbss for executing <b href="pbckbge-summbry.html#StrebmOps">
+ * strebm pipelines</b>, cbpturing bll of the informbtion bbout b strebm
+ * pipeline (output shbpe, intermedibte operbtions, strebm flbgs, pbrbllelism,
+ * etc) in one plbce.
  *
  * <p>
- * A {@code PipelineHelper} describes the initial segment of a stream pipeline,
- * including its source, intermediate operations, and may additionally
- * incorporate information about the terminal (or stateful) operation which
- * follows the last intermediate operation described by this
- * {@code PipelineHelper}. The {@code PipelineHelper} is passed to the
- * {@link TerminalOp#evaluateParallel(PipelineHelper, java.util.Spliterator)},
- * {@link TerminalOp#evaluateSequential(PipelineHelper, java.util.Spliterator)},
- * and {@link AbstractPipeline#opEvaluateParallel(PipelineHelper, java.util.Spliterator,
- * java.util.function.IntFunction)}, methods, which can use the
- * {@code PipelineHelper} to access information about the pipeline such as
- * head shape, stream flags, and size, and use the helper methods
- * such as {@link #wrapAndCopyInto(Sink, Spliterator)},
- * {@link #copyInto(Sink, Spliterator)}, and {@link #wrapSink(Sink)} to execute
- * pipeline operations.
+ * A {@code PipelineHelper} describes the initibl segment of b strebm pipeline,
+ * including its source, intermedibte operbtions, bnd mby bdditionblly
+ * incorporbte informbtion bbout the terminbl (or stbteful) operbtion which
+ * follows the lbst intermedibte operbtion described by this
+ * {@code PipelineHelper}. The {@code PipelineHelper} is pbssed to the
+ * {@link TerminblOp#evblubtePbrbllel(PipelineHelper, jbvb.util.Spliterbtor)},
+ * {@link TerminblOp#evblubteSequentibl(PipelineHelper, jbvb.util.Spliterbtor)},
+ * bnd {@link AbstrbctPipeline#opEvblubtePbrbllel(PipelineHelper, jbvb.util.Spliterbtor,
+ * jbvb.util.function.IntFunction)}, methods, which cbn use the
+ * {@code PipelineHelper} to bccess informbtion bbout the pipeline such bs
+ * hebd shbpe, strebm flbgs, bnd size, bnd use the helper methods
+ * such bs {@link #wrbpAndCopyInto(Sink, Spliterbtor)},
+ * {@link #copyInto(Sink, Spliterbtor)}, bnd {@link #wrbpSink(Sink)} to execute
+ * pipeline operbtions.
  *
- * @param <P_OUT> type of output elements from the pipeline
+ * @pbrbm <P_OUT> type of output elements from the pipeline
  * @since 1.8
  */
-abstract class PipelineHelper<P_OUT> {
+bbstrbct clbss PipelineHelper<P_OUT> {
 
     /**
-     * Gets the stream shape for the source of the pipeline segment.
+     * Gets the strebm shbpe for the source of the pipeline segment.
      *
-     * @return the stream shape for the source of the pipeline segment.
+     * @return the strebm shbpe for the source of the pipeline segment.
      */
-    abstract StreamShape getSourceShape();
+    bbstrbct StrebmShbpe getSourceShbpe();
 
     /**
-     * Gets the combined stream and operation flags for the output of the described
-     * pipeline.  This will incorporate stream flags from the stream source, all
-     * the intermediate operations and the terminal operation.
+     * Gets the combined strebm bnd operbtion flbgs for the output of the described
+     * pipeline.  This will incorporbte strebm flbgs from the strebm source, bll
+     * the intermedibte operbtions bnd the terminbl operbtion.
      *
-     * @return the combined stream and operation flags
-     * @see StreamOpFlag
+     * @return the combined strebm bnd operbtion flbgs
+     * @see StrebmOpFlbg
      */
-    abstract int getStreamAndOpFlags();
+    bbstrbct int getStrebmAndOpFlbgs();
 
     /**
-     * Returns the exact output size of the portion of the output resulting from
-     * applying the pipeline stages described by this {@code PipelineHelper} to
+     * Returns the exbct output size of the portion of the output resulting from
+     * bpplying the pipeline stbges described by this {@code PipelineHelper} to
      * the portion of the input described by the provided
-     * {@code Spliterator}, if known.  If not known or known infinite, will
+     * {@code Spliterbtor}, if known.  If not known or known infinite, will
      * return {@code -1}.
      *
-     * @apiNote
-     * The exact output size is known if the {@code Spliterator} has the
-     * {@code SIZED} characteristic, and the operation flags
-     * {@link StreamOpFlag#SIZED} is known on the combined stream and operation
-     * flags.
+     * @bpiNote
+     * The exbct output size is known if the {@code Spliterbtor} hbs the
+     * {@code SIZED} chbrbcteristic, bnd the operbtion flbgs
+     * {@link StrebmOpFlbg#SIZED} is known on the combined strebm bnd operbtion
+     * flbgs.
      *
-     * @param spliterator the spliterator describing the relevant portion of the
-     *        source data
-     * @return the exact size if known, or -1 if infinite or unknown
+     * @pbrbm spliterbtor the spliterbtor describing the relevbnt portion of the
+     *        source dbtb
+     * @return the exbct size if known, or -1 if infinite or unknown
      */
-    abstract<P_IN> long exactOutputSizeIfKnown(Spliterator<P_IN> spliterator);
+    bbstrbct<P_IN> long exbctOutputSizeIfKnown(Spliterbtor<P_IN> spliterbtor);
 
     /**
-     * Applies the pipeline stages described by this {@code PipelineHelper} to
-     * the provided {@code Spliterator} and send the results to the provided
+     * Applies the pipeline stbges described by this {@code PipelineHelper} to
+     * the provided {@code Spliterbtor} bnd send the results to the provided
      * {@code Sink}.
      *
      * @implSpec
-     * The implementation behaves as if:
+     * The implementbtion behbves bs if:
      * <pre>{@code
-     *     intoWrapped(wrapSink(sink), spliterator);
+     *     intoWrbpped(wrbpSink(sink), spliterbtor);
      * }</pre>
      *
-     * @param sink the {@code Sink} to receive the results
-     * @param spliterator the spliterator describing the source input to process
+     * @pbrbm sink the {@code Sink} to receive the results
+     * @pbrbm spliterbtor the spliterbtor describing the source input to process
      */
-    abstract<P_IN, S extends Sink<P_OUT>> S wrapAndCopyInto(S sink, Spliterator<P_IN> spliterator);
+    bbstrbct<P_IN, S extends Sink<P_OUT>> S wrbpAndCopyInto(S sink, Spliterbtor<P_IN> spliterbtor);
 
     /**
-     * Pushes elements obtained from the {@code Spliterator} into the provided
-     * {@code Sink}.  If the stream pipeline is known to have short-circuiting
-     * stages in it (see {@link StreamOpFlag#SHORT_CIRCUIT}), the
-     * {@link Sink#cancellationRequested()} is checked after each
-     * element, stopping if cancellation is requested.
+     * Pushes elements obtbined from the {@code Spliterbtor} into the provided
+     * {@code Sink}.  If the strebm pipeline is known to hbve short-circuiting
+     * stbges in it (see {@link StrebmOpFlbg#SHORT_CIRCUIT}), the
+     * {@link Sink#cbncellbtionRequested()} is checked bfter ebch
+     * element, stopping if cbncellbtion is requested.
      *
      * @implSpec
-     * This method conforms to the {@code Sink} protocol of calling
-     * {@code Sink.begin} before pushing elements, via {@code Sink.accept}, and
-     * calling {@code Sink.end} after all elements have been pushed.
+     * This method conforms to the {@code Sink} protocol of cblling
+     * {@code Sink.begin} before pushing elements, vib {@code Sink.bccept}, bnd
+     * cblling {@code Sink.end} bfter bll elements hbve been pushed.
      *
-     * @param wrappedSink the destination {@code Sink}
-     * @param spliterator the source {@code Spliterator}
+     * @pbrbm wrbppedSink the destinbtion {@code Sink}
+     * @pbrbm spliterbtor the source {@code Spliterbtor}
      */
-    abstract<P_IN> void copyInto(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator);
+    bbstrbct<P_IN> void copyInto(Sink<P_IN> wrbppedSink, Spliterbtor<P_IN> spliterbtor);
 
     /**
-     * Pushes elements obtained from the {@code Spliterator} into the provided
-     * {@code Sink}, checking {@link Sink#cancellationRequested()} after each
-     * element, and stopping if cancellation is requested.
+     * Pushes elements obtbined from the {@code Spliterbtor} into the provided
+     * {@code Sink}, checking {@link Sink#cbncellbtionRequested()} bfter ebch
+     * element, bnd stopping if cbncellbtion is requested.
      *
      * @implSpec
-     * This method conforms to the {@code Sink} protocol of calling
-     * {@code Sink.begin} before pushing elements, via {@code Sink.accept}, and
-     * calling {@code Sink.end} after all elements have been pushed or if
-     * cancellation is requested.
+     * This method conforms to the {@code Sink} protocol of cblling
+     * {@code Sink.begin} before pushing elements, vib {@code Sink.bccept}, bnd
+     * cblling {@code Sink.end} bfter bll elements hbve been pushed or if
+     * cbncellbtion is requested.
      *
-     * @param wrappedSink the destination {@code Sink}
-     * @param spliterator the source {@code Spliterator}
+     * @pbrbm wrbppedSink the destinbtion {@code Sink}
+     * @pbrbm spliterbtor the source {@code Spliterbtor}
      */
-    abstract <P_IN> void copyIntoWithCancel(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator);
+    bbstrbct <P_IN> void copyIntoWithCbncel(Sink<P_IN> wrbppedSink, Spliterbtor<P_IN> spliterbtor);
 
     /**
-     * Takes a {@code Sink} that accepts elements of the output type of the
-     * {@code PipelineHelper}, and wrap it with a {@code Sink} that accepts
-     * elements of the input type and implements all the intermediate operations
+     * Tbkes b {@code Sink} thbt bccepts elements of the output type of the
+     * {@code PipelineHelper}, bnd wrbp it with b {@code Sink} thbt bccepts
+     * elements of the input type bnd implements bll the intermedibte operbtions
      * described by this {@code PipelineHelper}, delivering the result into the
      * provided {@code Sink}.
      *
-     * @param sink the {@code Sink} to receive the results
-     * @return a {@code Sink} that implements the pipeline stages and sends
+     * @pbrbm sink the {@code Sink} to receive the results
+     * @return b {@code Sink} thbt implements the pipeline stbges bnd sends
      *         results to the provided {@code Sink}
      */
-    abstract<P_IN> Sink<P_IN> wrapSink(Sink<P_OUT> sink);
+    bbstrbct<P_IN> Sink<P_IN> wrbpSink(Sink<P_OUT> sink);
 
     /**
      *
-     * @param spliterator
-     * @param <P_IN>
+     * @pbrbm spliterbtor
+     * @pbrbm <P_IN>
      * @return
      */
-    abstract<P_IN> Spliterator<P_OUT> wrapSpliterator(Spliterator<P_IN> spliterator);
+    bbstrbct<P_IN> Spliterbtor<P_OUT> wrbpSpliterbtor(Spliterbtor<P_IN> spliterbtor);
 
     /**
-     * Constructs a @{link Node.Builder} compatible with the output shape of
+     * Constructs b @{link Node.Builder} compbtible with the output shbpe of
      * this {@code PipelineHelper}.
      *
-     * @param exactSizeIfKnown if >=0 then a builder will be created that has a
-     *        fixed capacity of exactly sizeIfKnown elements; if < 0 then the
-     *        builder has variable capacity.  A fixed capacity builder will fail
-     *        if an element is added after the builder has reached capacity.
-     * @param generator a factory function for array instances
-     * @return a {@code Node.Builder} compatible with the output shape of this
+     * @pbrbm exbctSizeIfKnown if >=0 then b builder will be crebted thbt hbs b
+     *        fixed cbpbcity of exbctly sizeIfKnown elements; if < 0 then the
+     *        builder hbs vbribble cbpbcity.  A fixed cbpbcity builder will fbil
+     *        if bn element is bdded bfter the builder hbs rebched cbpbcity.
+     * @pbrbm generbtor b fbctory function for brrby instbnces
+     * @return b {@code Node.Builder} compbtible with the output shbpe of this
      *         {@code PipelineHelper}
      */
-    abstract Node.Builder<P_OUT> makeNodeBuilder(long exactSizeIfKnown,
-                                                 IntFunction<P_OUT[]> generator);
+    bbstrbct Node.Builder<P_OUT> mbkeNodeBuilder(long exbctSizeIfKnown,
+                                                 IntFunction<P_OUT[]> generbtor);
 
     /**
-     * Collects all output elements resulting from applying the pipeline stages
-     * to the source {@code Spliterator} into a {@code Node}.
+     * Collects bll output elements resulting from bpplying the pipeline stbges
+     * to the source {@code Spliterbtor} into b {@code Node}.
      *
      * @implNote
-     * If the pipeline has no intermediate operations and the source is backed
-     * by a {@code Node} then that {@code Node} will be returned (or flattened
-     * and then returned). This reduces copying for a pipeline consisting of a
-     * stateful operation followed by a terminal operation that returns an
-     * array, such as:
+     * If the pipeline hbs no intermedibte operbtions bnd the source is bbcked
+     * by b {@code Node} then thbt {@code Node} will be returned (or flbttened
+     * bnd then returned). This reduces copying for b pipeline consisting of b
+     * stbteful operbtion followed by b terminbl operbtion thbt returns bn
+     * brrby, such bs:
      * <pre>{@code
-     *     stream.sorted().toArray();
+     *     strebm.sorted().toArrby();
      * }</pre>
      *
-     * @param spliterator the source {@code Spliterator}
-     * @param flatten if true and the pipeline is a parallel pipeline then the
-     *        {@code Node} returned will contain no children, otherwise the
-     *        {@code Node} may represent the root in a tree that reflects the
-     *        shape of the computation tree.
-     * @param generator a factory function for array instances
-     * @return the {@code Node} containing all output elements
+     * @pbrbm spliterbtor the source {@code Spliterbtor}
+     * @pbrbm flbtten if true bnd the pipeline is b pbrbllel pipeline then the
+     *        {@code Node} returned will contbin no children, otherwise the
+     *        {@code Node} mby represent the root in b tree thbt reflects the
+     *        shbpe of the computbtion tree.
+     * @pbrbm generbtor b fbctory function for brrby instbnces
+     * @return the {@code Node} contbining bll output elements
      */
-    abstract<P_IN> Node<P_OUT> evaluate(Spliterator<P_IN> spliterator,
-                                        boolean flatten,
-                                        IntFunction<P_OUT[]> generator);
+    bbstrbct<P_IN> Node<P_OUT> evblubte(Spliterbtor<P_IN> spliterbtor,
+                                        boolebn flbtten,
+                                        IntFunction<P_OUT[]> generbtor);
 }

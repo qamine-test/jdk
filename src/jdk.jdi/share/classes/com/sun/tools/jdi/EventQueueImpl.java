@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.EventQueue;
 import com.sun.jdi.event.EventSet;
 
-import java.util.*;
+import jbvb.util.*;
 
-public class EventQueueImpl extends MirrorImpl implements EventQueue {
+public clbss EventQueueImpl extends MirrorImpl implements EventQueue {
 
     /*
-     * Note this is not a synchronized list. Iteration/update should be
+     * Note this is not b synchronized list. Iterbtion/updbte should be
      * protected through the 'this' monitor.
      */
     LinkedList<EventSet> eventSets = new LinkedList<EventSet>();
 
-    TargetVM target;
-    boolean closed = false;
+    TbrgetVM tbrget;
+    boolebn closed = fblse;
 
-    EventQueueImpl(VirtualMachine vm, TargetVM target) {
+    EventQueueImpl(VirtublMbchine vm, TbrgetVM tbrget) {
         super(vm);
-        this.target = target;
-        target.addEventQueue(this);
+        this.tbrget = tbrget;
+        tbrget.bddEventQueue(this);
     }
 
     /*
-     * Override superclass back to default equality
+     * Override superclbss bbck to defbult equblity
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         return this == obj;
     }
 
-    public int hashCode() {
-        return System.identityHashCode(this);
+    public int hbshCode() {
+        return System.identityHbshCode(this);
     }
 
     synchronized void enqueue(EventSet eventSet) {
-        eventSets.add(eventSet);
+        eventSets.bdd(eventSet);
         notifyAll();
     }
 
@@ -72,7 +72,7 @@ public class EventQueueImpl extends MirrorImpl implements EventQueue {
         if (!closed) {
             closed = true; // OK for this the be first since synchronized
 
-            // place VMDisconnectEvent into queue
+            // plbce VMDisconnectEvent into queue
             enqueue(new EventSetImpl(vm,
                                      (byte)JDWP.EventKind.VM_DISCONNECTED));
         }
@@ -88,7 +88,7 @@ public class EventQueueImpl extends MirrorImpl implements EventQueue {
      */
     public EventSet remove(long timeout) throws InterruptedException {
         if (timeout < 0) {
-            throw new IllegalArgumentException("Timeout cannot be negative");
+            throw new IllegblArgumentException("Timeout cbnnot be negbtive");
         }
 
         EventSet eventSet;
@@ -96,17 +96,17 @@ public class EventQueueImpl extends MirrorImpl implements EventQueue {
             EventSetImpl fullEventSet = removeUnfiltered(timeout);
             if (fullEventSet == null) {
                 eventSet = null;  // timeout
-                break;
+                brebk;
             }
             /*
              * Remove events from the event set for which
-             * there is no corresponding enabled request (
-             * this includes our internally requested events.)
+             * there is no corresponding enbbled request (
+             * this includes our internblly requested events.)
              * This never returns null
              */
             eventSet = fullEventSet.userFilter();
             if (!eventSet.isEmpty()) {
-                break;
+                brebk;
             }
         }
 
@@ -117,80 +117,80 @@ public class EventQueueImpl extends MirrorImpl implements EventQueue {
         return eventSet;
     }
 
-    EventSet removeInternal() throws InterruptedException {
+    EventSet removeInternbl() throws InterruptedException {
         EventSet eventSet;
         do {
-            // Waiting forever, so removeUnfiltered() is never null
-            eventSet = removeUnfiltered(0).internalFilter();
+            // Wbiting forever, so removeUnfiltered() is never null
+            eventSet = removeUnfiltered(0).internblFilter();
         } while (eventSet == null || eventSet.isEmpty());
 
         /*
-         * Currently, no internal events are requested with a suspend
-         * policy other than none, so we don't check for notifySuspend()
-         * here. If this changes in the future, there is much
-         * infrastructure that needs to be updated.
+         * Currently, no internbl events bre requested with b suspend
+         * policy other thbn none, so we don't check for notifySuspend()
+         * here. If this chbnges in the future, there is much
+         * infrbstructure thbt needs to be updbted.
          */
 
         return eventSet;
     }
 
-    private TimerThread startTimerThread(long timeout) {
-        TimerThread thread = new TimerThread(timeout);
-        thread.setDaemon(true);
-        thread.start();
-        return thread;
+    privbte TimerThrebd stbrtTimerThrebd(long timeout) {
+        TimerThrebd threbd = new TimerThrebd(timeout);
+        threbd.setDbemon(true);
+        threbd.stbrt();
+        return threbd;
     }
 
-    private boolean shouldWait(TimerThread timerThread) {
+    privbte boolebn shouldWbit(TimerThrebd timerThrebd) {
         return !closed && eventSets.isEmpty() &&
-               ((timerThread == null) ? true : !timerThread.timedOut());
+               ((timerThrebd == null) ? true : !timerThrebd.timedOut());
     }
 
-    private EventSetImpl removeUnfiltered(long timeout)
+    privbte EventSetImpl removeUnfiltered(long timeout)
                                                throws InterruptedException {
         EventSetImpl eventSet = null;
 
         /*
-         * Make sure the VM has completed initialization before
+         * Mbke sure the VM hbs completed initiblizbtion before
          * trying to build events.
          */
-        vm.waitInitCompletion();
+        vm.wbitInitCompletion();
 
         synchronized(this) {
             if (!eventSets.isEmpty()) {
                 /*
-                 * If there's already something there, no need
-                 * for anything elaborate.
+                 * If there's blrebdy something there, no need
+                 * for bnything elbborbte.
                  */
                 eventSet = (EventSetImpl)eventSets.removeFirst();
             } else {
                 /*
-                 * If a timeout was specified, create a thread to
-                 * notify this one when a timeout
-                 * occurs. We can't use the timed version of wait()
-                 * because it is possible for multiple enqueue() calls
+                 * If b timeout wbs specified, crebte b threbd to
+                 * notify this one when b timeout
+                 * occurs. We cbn't use the timed version of wbit()
+                 * becbuse it is possible for multiple enqueue() cblls
                  * before we see something in the eventSet queue
-                 * (this is possible when multiple threads call
-                 * remove() concurrently -- not a great idea, but
-                 * it should be supported). Even if enqueue() did a
-                 * notify() instead of notifyAll() we are not able to
-                 * use a timed wait because there's no way to distinguish
-                 * a timeout from a notify.  That limitation implies a
-                 * possible race condition between a timed out thread
-                 * and a notified thread.
+                 * (this is possible when multiple threbds cbll
+                 * remove() concurrently -- not b grebt ideb, but
+                 * it should be supported). Even if enqueue() did b
+                 * notify() instebd of notifyAll() we bre not bble to
+                 * use b timed wbit becbuse there's no wby to distinguish
+                 * b timeout from b notify.  Thbt limitbtion implies b
+                 * possible rbce condition between b timed out threbd
+                 * bnd b notified threbd.
                  */
-                TimerThread timerThread = null;
+                TimerThrebd timerThrebd = null;
                 try {
                     if (timeout > 0) {
-                        timerThread = startTimerThread(timeout);
+                        timerThrebd = stbrtTimerThrebd(timeout);
                     }
 
-                    while (shouldWait(timerThread)) {
-                        this.wait();
+                    while (shouldWbit(timerThrebd)) {
+                        this.wbit();
                     }
-                } finally {
-                    if ((timerThread != null) && !timerThread.timedOut()) {
-                        timerThread.interrupt();
+                } finblly {
+                    if ((timerThrebd != null) && !timerThrebd.timedOut()) {
+                        timerThrebd.interrupt();
                     }
                 }
 
@@ -207,34 +207,34 @@ public class EventQueueImpl extends MirrorImpl implements EventQueue {
         // The build is synchronized on the event set, don't hold
         // the queue lock.
         if (eventSet != null) {
-            target.notifyDequeueEventSet();
+            tbrget.notifyDequeueEventSet();
             eventSet.build();
         }
         return eventSet;
     }
 
-    private class TimerThread extends Thread {
-        private boolean timedOut = false;
-        private long timeout;
+    privbte clbss TimerThrebd extends Threbd {
+        privbte boolebn timedOut = fblse;
+        privbte long timeout;
 
-        TimerThread(long timeout) {
-            super(vm.threadGroupForJDI(), "JDI Event Queue Timer");
+        TimerThrebd(long timeout) {
+            super(vm.threbdGroupForJDI(), "JDI Event Queue Timer");
             this.timeout = timeout;
         }
 
-        boolean timedOut() {
+        boolebn timedOut() {
             return timedOut;
         }
 
         public void run() {
             try {
-                Thread.sleep(timeout);
+                Threbd.sleep(timeout);
                 EventQueueImpl queue = EventQueueImpl.this;
                 synchronized(queue) {
                     timedOut = true;
                     queue.notifyAll();
                 }
-            } catch (InterruptedException e) {
+            } cbtch (InterruptedException e) {
                 // Exit without notifying
             }
         }

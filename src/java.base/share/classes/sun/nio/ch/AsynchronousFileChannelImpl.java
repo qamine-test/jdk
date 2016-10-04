@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.ByteBuffer;
-import java.nio.channels.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.locks.*;
-import java.io.FileDescriptor;
-import java.io.IOException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.concurrent.ExecutorService;
+import jbvb.util.concurrent.Future;
+import jbvb.util.concurrent.locks.*;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
 
 /**
- * Base implementation of AsynchronousFileChannel.
+ * Bbse implementbtion of AsynchronousFileChbnnel.
  */
 
-abstract class AsynchronousFileChannelImpl
-    extends AsynchronousFileChannel
+bbstrbct clbss AsynchronousFileChbnnelImpl
+    extends AsynchronousFileChbnnel
 {
     // close support
-    protected final ReadWriteLock closeLock = new ReentrantReadWriteLock();
-    protected volatile boolean closed;
+    protected finbl RebdWriteLock closeLock = new ReentrbntRebdWriteLock();
+    protected volbtile boolebn closed;
 
     // file descriptor
-    protected final FileDescriptor fdObj;
+    protected finbl FileDescriptor fdObj;
 
-    // indicates if open for reading/writing
-    protected final boolean reading;
-    protected final boolean writing;
+    // indicbtes if open for rebding/writing
+    protected finbl boolebn rebding;
+    protected finbl boolebn writing;
 
-    // associated Executor
-    protected final ExecutorService executor;
+    // bssocibted Executor
+    protected finbl ExecutorService executor;
 
-    protected AsynchronousFileChannelImpl(FileDescriptor fdObj,
-                                          boolean reading,
-                                          boolean writing,
+    protected AsynchronousFileChbnnelImpl(FileDescriptor fdObj,
+                                          boolebn rebding,
+                                          boolebn writing,
                                           ExecutorService executor)
     {
         this.fdObj = fdObj;
-        this.reading = reading;
+        this.rebding = rebding;
         this.writing = writing;
         this.executor = executor;
     }
 
-    final ExecutorService executor() {
+    finbl ExecutorService executor() {
         return executor;
     }
 
     @Override
-    public final boolean isOpen() {
+    public finbl boolebn isOpen() {
         return !closed;
     }
 
     /**
-     * Marks the beginning of an I/O operation.
+     * Mbrks the beginning of bn I/O operbtion.
      *
-     * @throws  ClosedChannelException  If channel is closed
+     * @throws  ClosedChbnnelException  If chbnnel is closed
      */
-    protected final void begin() throws IOException {
-        closeLock.readLock().lock();
+    protected finbl void begin() throws IOException {
+        closeLock.rebdLock().lock();
         if (closed)
-            throw new ClosedChannelException();
+            throw new ClosedChbnnelException();
     }
 
     /**
-     * Marks the end of an I/O operation.
+     * Mbrks the end of bn I/O operbtion.
      */
-    protected final void end() {
-        closeLock.readLock().unlock();
+    protected finbl void end() {
+        closeLock.rebdLock().unlock();
     }
 
     /**
-     * Marks end of I/O operation
+     * Mbrks end of I/O operbtion
      */
-    protected final void end(boolean completed) throws IOException {
+    protected finbl void end(boolebn completed) throws IOException {
         end();
         if (!completed && !isOpen())
             throw new AsynchronousCloseException();
@@ -103,53 +103,53 @@ abstract class AsynchronousFileChannelImpl
 
     // -- file locking --
 
-    abstract <A> Future<FileLock> implLock(long position,
+    bbstrbct <A> Future<FileLock> implLock(long position,
                                            long size,
-                                           boolean shared,
-                                           A attachment,
-                                           CompletionHandler<FileLock,? super A> handler);
+                                           boolebn shbred,
+                                           A bttbchment,
+                                           CompletionHbndler<FileLock,? super A> hbndler);
 
     @Override
-    public final Future<FileLock> lock(long position,
+    public finbl Future<FileLock> lock(long position,
                                        long size,
-                                       boolean shared)
+                                       boolebn shbred)
 
     {
-        return implLock(position, size, shared, null, null);
+        return implLock(position, size, shbred, null, null);
     }
 
     @Override
-    public final <A> void lock(long position,
+    public finbl <A> void lock(long position,
                                long size,
-                               boolean shared,
-                               A attachment,
-                               CompletionHandler<FileLock,? super A> handler)
+                               boolebn shbred,
+                               A bttbchment,
+                               CompletionHbndler<FileLock,? super A> hbndler)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        implLock(position, size, shared, attachment, handler);
+        if (hbndler == null)
+            throw new NullPointerException("'hbndler' is null");
+        implLock(position, size, shbred, bttbchment, hbndler);
     }
 
-    private volatile FileLockTable fileLockTable;
+    privbte volbtile FileLockTbble fileLockTbble;
 
-    final void ensureFileLockTableInitialized() throws IOException {
-        if (fileLockTable == null) {
+    finbl void ensureFileLockTbbleInitiblized() throws IOException {
+        if (fileLockTbble == null) {
             synchronized (this) {
-                if (fileLockTable == null) {
-                    fileLockTable = FileLockTable.newSharedFileLockTable(this, fdObj);
+                if (fileLockTbble == null) {
+                    fileLockTbble = FileLockTbble.newShbredFileLockTbble(this, fdObj);
                 }
             }
         }
     }
 
-    final void invalidateAllLocks() throws IOException {
-        if (fileLockTable != null) {
-            for (FileLock fl: fileLockTable.removeAll()) {
+    finbl void invblidbteAllLocks() throws IOException {
+        if (fileLockTbble != null) {
+            for (FileLock fl: fileLockTbble.removeAll()) {
                 synchronized (fl) {
-                    if (fl.isValid()) {
+                    if (fl.isVblid()) {
                         FileLockImpl fli = (FileLockImpl)fl;
-                        implRelease(fli);
-                        fli.invalidate();
+                        implRelebse(fli);
+                        fli.invblidbte();
                     }
                 }
             }
@@ -157,97 +157,97 @@ abstract class AsynchronousFileChannelImpl
     }
 
     /**
-     * Adds region to lock table
+     * Adds region to lock tbble
      */
-    protected final FileLockImpl addToFileLockTable(long position, long size, boolean shared) {
-        final FileLockImpl fli;
+    protected finbl FileLockImpl bddToFileLockTbble(long position, long size, boolebn shbred) {
+        finbl FileLockImpl fli;
         try {
-            // like begin() but returns null instead of exception
-            closeLock.readLock().lock();
+            // like begin() but returns null instebd of exception
+            closeLock.rebdLock().lock();
             if (closed)
                 return null;
 
             try {
-                ensureFileLockTableInitialized();
-            } catch (IOException x) {
-                // should not happen
+                ensureFileLockTbbleInitiblized();
+            } cbtch (IOException x) {
+                // should not hbppen
                 throw new AssertionError(x);
             }
-            fli = new FileLockImpl(this, position, size, shared);
-            // may throw OverlappedFileLockException
-            fileLockTable.add(fli);
-        } finally {
+            fli = new FileLockImpl(this, position, size, shbred);
+            // mby throw OverlbppedFileLockException
+            fileLockTbble.bdd(fli);
+        } finblly {
             end();
         }
         return fli;
     }
 
-    protected final void removeFromFileLockTable(FileLockImpl fli) {
-        fileLockTable.remove(fli);
+    protected finbl void removeFromFileLockTbble(FileLockImpl fli) {
+        fileLockTbble.remove(fli);
     }
 
     /**
-     * Releases the given file lock.
+     * Relebses the given file lock.
      */
-    protected abstract void implRelease(FileLockImpl fli) throws IOException;
+    protected bbstrbct void implRelebse(FileLockImpl fli) throws IOException;
 
     /**
-     * Invoked by FileLockImpl to release the given file lock and remove it
-     * from the lock table.
+     * Invoked by FileLockImpl to relebse the given file lock bnd remove it
+     * from the lock tbble.
      */
-    final void release(FileLockImpl fli) throws IOException {
+    finbl void relebse(FileLockImpl fli) throws IOException {
         try {
             begin();
-            implRelease(fli);
-            removeFromFileLockTable(fli);
-        } finally {
+            implRelebse(fli);
+            removeFromFileLockTbble(fli);
+        } finblly {
             end();
         }
     }
 
 
-    // -- reading and writing --
+    // -- rebding bnd writing --
 
-    abstract <A> Future<Integer> implRead(ByteBuffer dst,
+    bbstrbct <A> Future<Integer> implRebd(ByteBuffer dst,
                                          long position,
-                                         A attachment,
-                                         CompletionHandler<Integer,? super A> handler);
+                                         A bttbchment,
+                                         CompletionHbndler<Integer,? super A> hbndler);
 
     @Override
-    public final Future<Integer> read(ByteBuffer dst, long position) {
-        return implRead(dst, position, null, null);
+    public finbl Future<Integer> rebd(ByteBuffer dst, long position) {
+        return implRebd(dst, position, null, null);
     }
 
     @Override
-    public final <A> void read(ByteBuffer dst,
+    public finbl <A> void rebd(ByteBuffer dst,
                                long position,
-                               A attachment,
-                               CompletionHandler<Integer,? super A> handler)
+                               A bttbchment,
+                               CompletionHbndler<Integer,? super A> hbndler)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        implRead(dst, position, attachment, handler);
+        if (hbndler == null)
+            throw new NullPointerException("'hbndler' is null");
+        implRebd(dst, position, bttbchment, hbndler);
     }
 
-    abstract <A> Future<Integer> implWrite(ByteBuffer src,
+    bbstrbct <A> Future<Integer> implWrite(ByteBuffer src,
                                            long position,
-                                           A attachment,
-                                           CompletionHandler<Integer,? super A> handler);
+                                           A bttbchment,
+                                           CompletionHbndler<Integer,? super A> hbndler);
 
 
     @Override
-    public final Future<Integer> write(ByteBuffer src, long position) {
+    public finbl Future<Integer> write(ByteBuffer src, long position) {
         return implWrite(src, position, null, null);
     }
 
     @Override
-    public final <A> void write(ByteBuffer src,
+    public finbl <A> void write(ByteBuffer src,
                                 long position,
-                                A attachment,
-                                CompletionHandler<Integer,? super A> handler)
+                                A bttbchment,
+                                CompletionHbndler<Integer,? super A> hbndler)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        implWrite(src, position, attachment, handler);
+        if (hbndler == null)
+            throw new NullPointerException("'hbndler' is null");
+        implWrite(src, position, bttbchment, hbndler);
     }
 }

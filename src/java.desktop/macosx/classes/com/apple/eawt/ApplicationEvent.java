@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
-import java.util.EventObject;
+import jbvb.util.EventObject;
 
 /**
- * The class of events sent to the deprecated ApplicationListener callbacks.
+ * The clbss of events sent to the deprecbted ApplicbtionListener cbllbbcks.
  *
- * @deprecated replaced by {@link AboutHandler}, {@link PreferencesHandler}, {@link AppReOpenedListener}, {@link OpenFilesHandler}, {@link PrintFilesHandler}, {@link QuitHandler}, {@link QuitResponse}
+ * @deprecbted replbced by {@link AboutHbndler}, {@link PreferencesHbndler}, {@link AppReOpenedListener}, {@link OpenFilesHbndler}, {@link PrintFilesHbndler}, {@link QuitHbndler}, {@link QuitResponse}
  * @since 1.4
  */
-@Deprecated
-@SuppressWarnings("serial") // JDK implementation class
-public class ApplicationEvent extends EventObject {
-    private String fFilename = null;
-    private boolean fHandled = false;
+@Deprecbted
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public clbss ApplicbtionEvent extends EventObject {
+    privbte String fFilenbme = null;
+    privbte boolebn fHbndled = fblse;
 
-    ApplicationEvent(final Object source) {
+    ApplicbtionEvent(finbl Object source) {
         super(source);
     }
 
-    ApplicationEvent(final Object source, final String filename) {
+    ApplicbtionEvent(finbl Object source, finbl String filenbme) {
         super(source);
-        fFilename = filename;
+        fFilenbme = filenbme;
     }
 
     /**
-     * Determines whether an ApplicationListener has acted on a particular event.
-     * An event is marked as having been handled with <code>setHandled(true)</code>.
+     * Determines whether bn ApplicbtionListener hbs bcted on b pbrticulbr event.
+     * An event is mbrked bs hbving been hbndled with <code>setHbndled(true)</code>.
      *
-     * @return <code>true</code> if the event has been handled, otherwise <code>false</code>
+     * @return <code>true</code> if the event hbs been hbndled, otherwise <code>fblse</code>
      *
      * @since 1.4
-     * @deprecated
+     * @deprecbted
      */
-    @Deprecated
-    public boolean isHandled() {
-        return fHandled;
+    @Deprecbted
+    public boolebn isHbndled() {
+        return fHbndled;
     }
 
     /**
-     * Marks the event as handled.
-     * After this method handles an ApplicationEvent, it may be useful to specify that it has been handled.
-     * This is usually used in conjunction with <code>getHandled()</code>.
-     * Set to <code>true</code> to designate that this event has been handled. By default it is <code>false</code>.
+     * Mbrks the event bs hbndled.
+     * After this method hbndles bn ApplicbtionEvent, it mby be useful to specify thbt it hbs been hbndled.
+     * This is usublly used in conjunction with <code>getHbndled()</code>.
+     * Set to <code>true</code> to designbte thbt this event hbs been hbndled. By defbult it is <code>fblse</code>.
      *
-     * @param state <code>true</code> if the event has been handled, otherwise <code>false</code>.
+     * @pbrbm stbte <code>true</code> if the event hbs been hbndled, otherwise <code>fblse</code>.
      *
      * @since 1.4
-     * @deprecated
+     * @deprecbted
      */
-    @Deprecated
-    public void setHandled(final boolean state) {
-        fHandled = state;
+    @Deprecbted
+    public void setHbndled(finbl boolebn stbte) {
+        fHbndled = stbte;
     }
 
     /**
-     * Provides the filename associated with a particular AppleEvent.
-     * When the ApplicationEvent corresponds to an AppleEvent that needs to act on a particular file, the ApplicationEvent carries the name of the specific file with it.
-     * For example, the Print and Open events refer to specific files.
-     * For these cases, this returns the appropriate file name.
+     * Provides the filenbme bssocibted with b pbrticulbr AppleEvent.
+     * When the ApplicbtionEvent corresponds to bn AppleEvent thbt needs to bct on b pbrticulbr file, the ApplicbtionEvent cbrries the nbme of the specific file with it.
+     * For exbmple, the Print bnd Open events refer to specific files.
+     * For these cbses, this returns the bppropribte file nbme.
      *
-     * @return the full path to the file associated with the event, if applicable, otherwise <code>null</code>
+     * @return the full pbth to the file bssocibted with the event, if bpplicbble, otherwise <code>null</code>
      *
      * @since 1.4
-     * @deprecated use {@link OpenFilesHandler} or {@link PrintFilesHandler} instead
+     * @deprecbted use {@link OpenFilesHbndler} or {@link PrintFilesHbndler} instebd
      */
-    @Deprecated
-    public String getFilename() {
-        return fFilename;
+    @Deprecbted
+    public String getFilenbme() {
+        return fFilenbme;
     }
 }

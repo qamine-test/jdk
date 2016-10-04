@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 
 
 
 /**
- * Represents an SNMP IpAddress.
+ * Represents bn SNMP IpAddress.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public class SnmpIpAddress extends SnmpOid {
-    private static final long serialVersionUID = 7204629998270874474L;
+public clbss SnmpIpAddress extends SnmpOid {
+    privbte stbtic finbl long seriblVersionUID = 7204629998270874474L;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new <CODE>SnmpIpAddress</CODE> from the specified bytes array.
-     * @param bytes The four bytes composing the address.
-     * @exception IllegalArgumentException The length of the array is not equal to four.
+     * Constructs b new <CODE>SnmpIpAddress</CODE> from the specified bytes brrby.
+     * @pbrbm bytes The four bytes composing the bddress.
+     * @exception IllegblArgumentException The length of the brrby is not equbl to four.
      */
-    public SnmpIpAddress(byte[] bytes) throws IllegalArgumentException {
-        buildFromByteArray(bytes);
+    public SnmpIpAddress(byte[] bytes) throws IllegblArgumentException {
+        buildFromByteArrby(bytes);
     }
 
     /**
-     * Constructs a new <CODE>SnmpIpAddress</CODE> from the specified long value.
-     * @param addr The initialization value.
+     * Constructs b new <CODE>SnmpIpAddress</CODE> from the specified long vblue.
+     * @pbrbm bddr The initiblizbtion vblue.
      */
-    public SnmpIpAddress(long addr) {
-        int address = (int)addr ;
-        byte[] ipaddr = new byte[4];
+    public SnmpIpAddress(long bddr) {
+        int bddress = (int)bddr ;
+        byte[] ipbddr = new byte[4];
 
-        ipaddr[0] = (byte) ((address >>> 24) & 0xFF);
-        ipaddr[1] = (byte) ((address >>> 16) & 0xFF);
-        ipaddr[2] = (byte) ((address >>> 8) & 0xFF);
-        ipaddr[3] = (byte) (address & 0xFF);
+        ipbddr[0] = (byte) ((bddress >>> 24) & 0xFF);
+        ipbddr[1] = (byte) ((bddress >>> 16) & 0xFF);
+        ipbddr[2] = (byte) ((bddress >>> 8) & 0xFF);
+        ipbddr[3] = (byte) (bddress & 0xFF);
 
-        buildFromByteArray(ipaddr);
+        buildFromByteArrby(ipbddr);
     }
 
     /**
-     * Constructs a new <CODE>SnmpIpAddress</CODE> from a dot-formatted <CODE>String</CODE>.
-     * The dot-formatted <CODE>String</CODE> is formulated x.x.x.x .
-     * @param dotAddress The initialization value.
-     * @exception IllegalArgumentException The string does not correspond to an ip address.
+     * Constructs b new <CODE>SnmpIpAddress</CODE> from b dot-formbtted <CODE>String</CODE>.
+     * The dot-formbtted <CODE>String</CODE> is formulbted x.x.x.x .
+     * @pbrbm dotAddress The initiblizbtion vblue.
+     * @exception IllegblArgumentException The string does not correspond to bn ip bddress.
      */
-    public SnmpIpAddress(String dotAddress) throws IllegalArgumentException {
+    public SnmpIpAddress(String dotAddress) throws IllegblArgumentException {
         super(dotAddress) ;
         if ((componentCount > 4) ||
             (components[0] > 255) ||
             (components[1] > 255) ||
             (components[2] > 255) ||
             (components[3] > 255)) {
-            throw new IllegalArgumentException(dotAddress) ;
+            throw new IllegblArgumentException(dotAddress) ;
         }
     }
 
     /**
-     * Constructs a new <CODE>SnmpIpAddress</CODE> from four long values.
-     * @param b1 Byte 1.
-     * @param b2 Byte 2.
-     * @param b3 Byte 3.
-     * @param b4 Byte 4.
-     * @exception IllegalArgumentException A value is outside of [0-255].
+     * Constructs b new <CODE>SnmpIpAddress</CODE> from four long vblues.
+     * @pbrbm b1 Byte 1.
+     * @pbrbm b2 Byte 2.
+     * @pbrbm b3 Byte 3.
+     * @pbrbm b4 Byte 4.
+     * @exception IllegblArgumentException A vblue is outside of [0-255].
      */
     public SnmpIpAddress(long b1, long b2, long b3, long b4) {
         super(b1, b2, b3, b4) ;
@@ -97,17 +97,17 @@ public class SnmpIpAddress extends SnmpOid {
             (components[1] > 255) ||
             (components[2] > 255) ||
             (components[3] > 255)) {
-            throw new IllegalArgumentException() ;
+            throw new IllegblArgumentException() ;
         }
     }
 
     // PUBLIC METHODS
     //---------------
     /**
-     * Converts the address value to its byte array form.
-     * @return The byte array representation of the value.
+     * Converts the bddress vblue to its byte brrby form.
+     * @return The byte brrby representbtion of the vblue.
      */
-    public byte[] byteValue() {
+    public byte[] byteVblue() {
         byte[] result = new byte[4] ;
         result[0] = (byte)components[0] ;
         result[1] = (byte)components[1] ;
@@ -118,87 +118,87 @@ public class SnmpIpAddress extends SnmpOid {
     }
 
     /**
-     * Converts the address to its <CODE>String</CODE> form.
-     * Same as <CODE>toString()</CODE>. Exists only to follow a naming scheme.
-     * @return The <CODE>String</CODE> representation of the value.
+     * Converts the bddress to its <CODE>String</CODE> form.
+     * Sbme bs <CODE>toString()</CODE>. Exists only to follow b nbming scheme.
+     * @return The <CODE>String</CODE> representbtion of the vblue.
      */
-    public String stringValue() {
+    public String stringVblue() {
         return toString() ;
     }
 
     /**
-     * Extracts the ip address from an index OID and returns its
-     * value converted as an <CODE>SnmpOid</CODE>.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The OID representing the ip address value.
-     * @exception SnmpStatusException There is no ip address value
-     * available at the start position.
+     * Extrbcts the ip bddress from bn index OID bnd returns its
+     * vblue converted bs bn <CODE>SnmpOid</CODE>.
+     * @pbrbm index The index brrby.
+     * @pbrbm stbrt The position in the index brrby.
+     * @return The OID representing the ip bddress vblue.
+     * @exception SnmpStbtusException There is no ip bddress vblue
+     * bvbilbble bt the stbrt position.
      */
-    public static SnmpOid toOid(long[] index, int start) throws SnmpStatusException {
-        if (start + 4 <= index.length) {
+    public stbtic SnmpOid toOid(long[] index, int stbrt) throws SnmpStbtusException {
+        if (stbrt + 4 <= index.length) {
             try {
                 return new SnmpOid(
-                                   index[start],
-                                   index[start+1],
-                                   index[start+2],
-                                   index[start+3]) ;
+                                   index[stbrt],
+                                   index[stbrt+1],
+                                   index[stbrt+2],
+                                   index[stbrt+3]) ;
             }
-            catch(IllegalArgumentException e) {
-                throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+            cbtch(IllegblArgumentException e) {
+                throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme) ;
             }
         }
         else {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme) ;
         }
     }
 
     /**
-     * Scans an index OID, skips the address value and returns the position
-     * of the next value.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The position of the next value.
-     * @exception SnmpStatusException There is no address value
-     * available at the start position.
+     * Scbns bn index OID, skips the bddress vblue bnd returns the position
+     * of the next vblue.
+     * @pbrbm index The index brrby.
+     * @pbrbm stbrt The position in the index brrby.
+     * @return The position of the next vblue.
+     * @exception SnmpStbtusException There is no bddress vblue
+     * bvbilbble bt the stbrt position.
      */
-    public static int nextOid(long[] index, int start) throws SnmpStatusException {
-        if (start + 4 <= index.length) {
-            return start + 4 ;
+    public stbtic int nextOid(long[] index, int stbrt) throws SnmpStbtusException {
+        if (stbrt + 4 <= index.length) {
+            return stbrt + 4 ;
         }
         else {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchNbme) ;
         }
     }
 
     /**
-     * Appends an <CODE>SnmpOid</CODE> representing an <CODE>SnmpIpAddress</CODE> to another OID.
-     * @param source An OID representing an <CODE>SnmpIpAddress</CODE> value.
-     * @param dest Where source should be appended.
+     * Appends bn <CODE>SnmpOid</CODE> representing bn <CODE>SnmpIpAddress</CODE> to bnother OID.
+     * @pbrbm source An OID representing bn <CODE>SnmpIpAddress</CODE> vblue.
+     * @pbrbm dest Where source should be bppended.
      */
-    public static void appendToOid(SnmpOid source, SnmpOid dest) {
+    public stbtic void bppendToOid(SnmpOid source, SnmpOid dest) {
         if (source.getLength() != 4) {
-            throw new IllegalArgumentException() ;
+            throw new IllegblArgumentException() ;
         }
-        dest.append(source) ;
+        dest.bppend(source) ;
     }
 
     /**
-     * Returns a textual description of the type object.
-     * @return ASN.1 textual description.
+     * Returns b textubl description of the type object.
+     * @return ASN.1 textubl description.
      */
-    final public String getTypeName() {
-        return name ;
+    finbl public String getTypeNbme() {
+        return nbme ;
     }
 
     // PRIVATE METHODS
     //----------------
     /**
-     * Build Ip address from byte array.
+     * Build Ip bddress from byte brrby.
      */
-    private void buildFromByteArray(byte[] bytes) {
+    privbte void buildFromByteArrby(byte[] bytes) {
         if (bytes.length != 4) {
-            throw new IllegalArgumentException() ;
+            throw new IllegblArgumentException() ;
         }
         components = new long[4] ;
         componentCount= 4;
@@ -211,7 +211,7 @@ public class SnmpIpAddress extends SnmpOid {
     // VARIABLES
     //----------
     /**
-     * Name of the type.
+     * Nbme of the type.
      */
-    final static String name = "IpAddress" ;
+    finbl stbtic String nbme = "IpAddress" ;
 }

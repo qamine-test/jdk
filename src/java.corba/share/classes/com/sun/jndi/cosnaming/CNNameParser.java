@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.cosnaming;
+pbckbge com.sun.jndi.cosnbming;
 
-import javax.naming.*;
-import java.util.Properties;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvbx.nbming.*;
+import jbvb.util.Properties;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
 
-import org.omg.CosNaming.NameComponent;
+import org.omg.CosNbming.NbmeComponent;
 
 /**
-  * Parsing routines for NameParser as well as COS Naming stringified names.
-  * This is used by CNCtx to create a NameComponent[] object and vice versa.
-  * It follows Section 4.5 of Interoperable Naming Service (INS) 98-10-11.
-  * In summary, the stringified form is a left-to-right, forward-slash
-  * separated name. id and kinds are separated by '.'. backslash is the
-  * escape character.
+  * Pbrsing routines for NbmePbrser bs well bs COS Nbming stringified nbmes.
+  * This is used by CNCtx to crebte b NbmeComponent[] object bnd vice versb.
+  * It follows Section 4.5 of Interoperbble Nbming Service (INS) 98-10-11.
+  * In summbry, the stringified form is b left-to-right, forwbrd-slbsh
+  * sepbrbted nbme. id bnd kinds bre sepbrbted by '.'. bbckslbsh is the
+  * escbpe chbrbcter.
   *
-  * @author Rosanna Lee
+  * @buthor Rosbnnb Lee
   */
 
-final public class CNNameParser implements NameParser {
+finbl public clbss CNNbmePbrser implements NbmePbrser {
 
-    private static final Properties mySyntax = new Properties();
-    private static final char kindSeparator = '.';
-    private static final char compSeparator = '/';
-    private static final char escapeChar = '\\';
-    static {
-        mySyntax.put("jndi.syntax.direction", "left_to_right");
-        mySyntax.put("jndi.syntax.separator", ""+compSeparator);
-        mySyntax.put("jndi.syntax.escape", ""+escapeChar);
+    privbte stbtic finbl Properties mySyntbx = new Properties();
+    privbte stbtic finbl chbr kindSepbrbtor = '.';
+    privbte stbtic finbl chbr compSepbrbtor = '/';
+    privbte stbtic finbl chbr escbpeChbr = '\\';
+    stbtic {
+        mySyntbx.put("jndi.syntbx.direction", "left_to_right");
+        mySyntbx.put("jndi.syntbx.sepbrbtor", ""+compSepbrbtor);
+        mySyntbx.put("jndi.syntbx.escbpe", ""+escbpeChbr);
     };
 
   /**
-    * Constructs a new name parser for parsing names in INS syntax.
+    * Constructs b new nbme pbrser for pbrsing nbmes in INS syntbx.
     */
-    public CNNameParser() {
+    public CNNbmePbrser() {
     }
 
   /**
-    * Returns a CompoundName given a string in INS syntax.
-    * @param name The non-null string representation of the name.
-    * @return a non-null CompoundName
+    * Returns b CompoundNbme given b string in INS syntbx.
+    * @pbrbm nbme The non-null string representbtion of the nbme.
+    * @return b non-null CompoundNbme
     */
-    public Name parse(String name) throws NamingException {
-        Vector<String> comps = insStringToStringifiedComps(name);
-        return new CNCompoundName(comps.elements());
+    public Nbme pbrse(String nbme) throws NbmingException {
+        Vector<String> comps = insStringToStringifiedComps(nbme);
+        return new CNCompoundNbme(comps.elements());
     }
 
     /**
-     * Creates a NameComponent[] from a Name structure.
-     * Used by CNCtx to convert the input Name arg into a NameComponent[].
-     * @param a CompoundName or a CompositeName;
-     * each component must be the stringified form of a NameComponent.
+     * Crebtes b NbmeComponent[] from b Nbme structure.
+     * Used by CNCtx to convert the input Nbme brg into b NbmeComponent[].
+     * @pbrbm b CompoundNbme or b CompositeNbme;
+     * ebch component must be the stringified form of b NbmeComponent.
      */
-    static NameComponent[] nameToCosName(Name name)
-        throws InvalidNameException {
-            int len = name.size();
+    stbtic NbmeComponent[] nbmeToCosNbme(Nbme nbme)
+        throws InvblidNbmeException {
+            int len = nbme.size();
             if (len == 0) {
-                return new NameComponent[0];
+                return new NbmeComponent[0];
             }
 
-            NameComponent[] answer = new NameComponent[len];
+            NbmeComponent[] bnswer = new NbmeComponent[len];
             for (int i = 0; i < len; i++) {
-                answer[i] = parseComponent(name.get(i));
+                bnswer[i] = pbrseComponent(nbme.get(i));
             }
-            return answer;
+            return bnswer;
     }
 
     /**
-     * Returns the INS stringified form of a NameComponent[].
-     * Used by CNCtx.getNameInNamespace(), CNCompoundName.toString().
+     * Returns the INS stringified form of b NbmeComponent[].
+     * Used by CNCtx.getNbmeInNbmespbce(), CNCompoundNbme.toString().
      */
-    static String cosNameToInsString(NameComponent[] cname) {
+    stbtic String cosNbmeToInsString(NbmeComponent[] cnbme) {
       StringBuilder str = new StringBuilder();
-      for ( int i = 0; i < cname.length; i++) {
+      for ( int i = 0; i < cnbme.length; i++) {
           if ( i > 0) {
-              str.append(compSeparator);
+              str.bppend(compSepbrbtor);
           }
-          str.append(stringifyComponent(cname[i]));
+          str.bppend(stringifyComponent(cnbme[i]));
       }
       return str.toString();
     }
 
     /**
-     * Creates a CompositeName from a NameComponent[].
-     * Used by ExceptionMapper and CNBindingEnumeration to convert
-     * a NameComponent[] into a composite name.
+     * Crebtes b CompositeNbme from b NbmeComponent[].
+     * Used by ExceptionMbpper bnd CNBindingEnumerbtion to convert
+     * b NbmeComponent[] into b composite nbme.
      */
-    static Name cosNameToName(NameComponent[] cname) {
-        Name nm = new CompositeName();
-        for ( int i = 0; cname != null && i < cname.length; i++) {
+    stbtic Nbme cosNbmeToNbme(NbmeComponent[] cnbme) {
+        Nbme nm = new CompositeNbme();
+        for ( int i = 0; cnbme != null && i < cnbme.length; i++) {
             try {
-                nm.add(stringifyComponent(cname[i]));
-            } catch (InvalidNameException e) {
+                nm.bdd(stringifyComponent(cnbme[i]));
+            } cbtch (InvblidNbmeException e) {
                 // ignore
             }
         }
@@ -124,61 +124,61 @@ final public class CNNameParser implements NameParser {
     }
 
     /**
-     * Converts an INS-syntax string name into a Vector in which
-     * each element of the vector contains a stringified form of
-     * a NameComponent.
+     * Converts bn INS-syntbx string nbme into b Vector in which
+     * ebch element of the vector contbins b stringified form of
+     * b NbmeComponent.
      */
-    private static Vector<String> insStringToStringifiedComps(String str)
-        throws InvalidNameException {
+    privbte stbtic Vector<String> insStringToStringifiedComps(String str)
+        throws InvblidNbmeException {
 
         int len = str.length();
         Vector<String> components = new Vector<>(10);
-        char[] id = new char[len];
-        char[] kind = new char[len];
+        chbr[] id = new chbr[len];
+        chbr[] kind = new chbr[len];
         int idCount, kindCount;
-        boolean idMode;
+        boolebn idMode;
         for (int i = 0; i < len; ) {
             idCount = kindCount = 0; // reset for new component
-            idMode = true;           // always start off parsing id
+            idMode = true;           // blwbys stbrt off pbrsing id
             while (i < len) {
-                if (str.charAt(i) == compSeparator) {
-                    break;
+                if (str.chbrAt(i) == compSepbrbtor) {
+                    brebk;
 
-                } else if (str.charAt(i) == escapeChar) {
+                } else if (str.chbrAt(i) == escbpeChbr) {
                     if (i + 1 >= len) {
-                        throw new InvalidNameException(str +
-                            ": unescaped \\ at end of component");
-                    } else if (isMeta(str.charAt(i+1))) {
-                        ++i; // skip escape and let meta through
+                        throw new InvblidNbmeException(str +
+                            ": unescbped \\ bt end of component");
+                    } else if (isMetb(str.chbrAt(i+1))) {
+                        ++i; // skip escbpe bnd let metb through
                         if (idMode) {
-                            id[idCount++] = str.charAt(i++);
+                            id[idCount++] = str.chbrAt(i++);
                         } else {
-                            kind[kindCount++] = str.charAt(i++);
+                            kind[kindCount++] = str.chbrAt(i++);
                         }
                     } else {
-                        throw new InvalidNameException(str +
-                            ": invalid character being escaped");
+                        throw new InvblidNbmeException(str +
+                            ": invblid chbrbcter being escbped");
                     }
 
-                } else if (idMode && str.charAt(i) == kindSeparator) {
-                    // just look for the first kindSeparator
-                    ++i; // skip kind separator
-                    idMode = false;
+                } else if (idMode && str.chbrAt(i) == kindSepbrbtor) {
+                    // just look for the first kindSepbrbtor
+                    ++i; // skip kind sepbrbtor
+                    idMode = fblse;
 
                 } else {
                     if (idMode) {
-                        id[idCount++] = str.charAt(i++);
+                        id[idCount++] = str.chbrAt(i++);
                     } else {
-                        kind[kindCount++] = str.charAt(i++);
+                        kind[kindCount++] = str.chbrAt(i++);
                     }
                 }
             }
-            components.addElement(stringifyComponent(
-                new NameComponent(new String(id, 0, idCount),
+            components.bddElement(stringifyComponent(
+                new NbmeComponent(new String(id, 0, idCount),
                     new String(kind, 0, kindCount))));
 
             if (i < len) {
-                ++i; // skip separator
+                ++i; // skip sepbrbtor
             }
         }
 
@@ -186,37 +186,37 @@ final public class CNNameParser implements NameParser {
     }
 
     /**
-     * Return a NameComponent given its stringified form.
+     * Return b NbmeComponent given its stringified form.
      */
-    private static NameComponent parseComponent(String compStr)
-    throws InvalidNameException {
-        NameComponent comp = new NameComponent();
+    privbte stbtic NbmeComponent pbrseComponent(String compStr)
+    throws InvblidNbmeException {
+        NbmeComponent comp = new NbmeComponent();
         int kindSep = -1;
         int len = compStr.length();
 
         int j = 0;
-        char[] newStr = new char[len];
-        boolean escaped = false;
+        chbr[] newStr = new chbr[len];
+        boolebn escbped = fblse;
 
-        // Find the kind separator
+        // Find the kind sepbrbtor
         for (int i = 0; i < len && kindSep < 0; i++) {
-            if (escaped) {
-                newStr[j++] = compStr.charAt(i);
-                escaped = false;
-            } else if (compStr.charAt(i) == escapeChar) {
+            if (escbped) {
+                newStr[j++] = compStr.chbrAt(i);
+                escbped = fblse;
+            } else if (compStr.chbrAt(i) == escbpeChbr) {
                 if (i + 1 >= len) {
-                    throw new InvalidNameException(compStr +
-                            ": unescaped \\ at end of component");
-                } else if (isMeta(compStr.charAt(i+1))) {
-                    escaped = true;
+                    throw new InvblidNbmeException(compStr +
+                            ": unescbped \\ bt end of component");
+                } else if (isMetb(compStr.chbrAt(i+1))) {
+                    escbped = true;
                 } else {
-                    throw new InvalidNameException(compStr +
-                        ": invalid character being escaped");
+                    throw new InvblidNbmeException(compStr +
+                        ": invblid chbrbcter being escbped");
                 }
-            } else if (compStr.charAt(i) == kindSeparator) {
+            } else if (compStr.chbrAt(i) == kindSepbrbtor) {
                 kindSep = i;
             } else {
-                newStr[j++] = compStr.charAt(i);
+                newStr[j++] = compStr.chbrAt(i);
             }
         }
 
@@ -225,27 +225,27 @@ final public class CNNameParser implements NameParser {
 
         // Set kind
         if (kindSep < 0) {
-            comp.kind = "";  // no kind separator
+            comp.kind = "";  // no kind sepbrbtor
         } else {
-            // unescape kind
+            // unescbpe kind
             j = 0;
-            escaped = false;
+            escbped = fblse;
             for (int i = kindSep+1; i < len; i++) {
-                if (escaped) {
-                    newStr[j++] = compStr.charAt(i);
-                    escaped = false;
-                } else if (compStr.charAt(i) == escapeChar) {
+                if (escbped) {
+                    newStr[j++] = compStr.chbrAt(i);
+                    escbped = fblse;
+                } else if (compStr.chbrAt(i) == escbpeChbr) {
                     if (i + 1 >= len) {
-                        throw new InvalidNameException(compStr +
-                            ": unescaped \\ at end of component");
-                    } else if (isMeta(compStr.charAt(i+1))) {
-                        escaped = true;
+                        throw new InvblidNbmeException(compStr +
+                            ": unescbped \\ bt end of component");
+                    } else if (isMetb(compStr.chbrAt(i+1))) {
+                        escbped = true;
                     } else {
-                        throw new InvalidNameException(compStr +
-                            ": invalid character being escaped");
+                        throw new InvblidNbmeException(compStr +
+                            ": invblid chbrbcter being escbped");
                     }
                 } else {
-                    newStr[j++] = compStr.charAt(i);
+                    newStr[j++] = compStr.chbrAt(i);
                 }
             }
             comp.kind = new String(newStr, 0, j);
@@ -253,196 +253,196 @@ final public class CNNameParser implements NameParser {
         return comp;
     }
 
-    private static String stringifyComponent(NameComponent comp) {
-        StringBuilder one = new StringBuilder(escape(comp.id));
-        if (comp.kind != null && !comp.kind.equals("")) {
-            one.append(kindSeparator + escape(comp.kind));
+    privbte stbtic String stringifyComponent(NbmeComponent comp) {
+        StringBuilder one = new StringBuilder(escbpe(comp.id));
+        if (comp.kind != null && !comp.kind.equbls("")) {
+            one.bppend(kindSepbrbtor + escbpe(comp.kind));
         }
         if (one.length() == 0) {
-            return ""+kindSeparator;  // if neither id nor kind specified
+            return ""+kindSepbrbtor;  // if neither id nor kind specified
         } else {
             return one.toString();
         }
     }
 
     /**
-     * Returns a string with '.', '\', '/' escaped. Used when
-     * stringifying the name into its INS stringified form.
+     * Returns b string with '.', '\', '/' escbped. Used when
+     * stringifying the nbme into its INS stringified form.
      */
-    private static String escape(String str) {
-        if (str.indexOf(kindSeparator) < 0 &&
-            str.indexOf(compSeparator) < 0 &&
-            str.indexOf(escapeChar) < 0) {
-            return str;                         // no meta characters to escape
+    privbte stbtic String escbpe(String str) {
+        if (str.indexOf(kindSepbrbtor) < 0 &&
+            str.indexOf(compSepbrbtor) < 0 &&
+            str.indexOf(escbpeChbr) < 0) {
+            return str;                         // no metb chbrbcters to escbpe
         } else {
             int len = str.length();
             int j = 0;
-            char[] newStr = new char[len+len];
+            chbr[] newStr = new chbr[len+len];
             for (int i = 0; i < len; i++) {
-                if (isMeta(str.charAt(i))) {
-                    newStr[j++] = escapeChar;   // escape meta character
+                if (isMetb(str.chbrAt(i))) {
+                    newStr[j++] = escbpeChbr;   // escbpe metb chbrbcter
                 }
-                newStr[j++] = str.charAt(i);
+                newStr[j++] = str.chbrAt(i);
             }
             return new String(newStr, 0, j);
         }
     }
 
     /**
-     * In INS, there are three meta characters: '.', '/' and '\'.
+     * In INS, there bre three metb chbrbcters: '.', '/' bnd '\'.
      */
-    private static boolean isMeta(char ch) {
+    privbte stbtic boolebn isMetb(chbr ch) {
         switch (ch) {
-        case kindSeparator:
-        case compSeparator:
-        case escapeChar:
+        cbse kindSepbrbtor:
+        cbse compSepbrbtor:
+        cbse escbpeChbr:
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * An implementation of CompoundName that bypasses the parsing
-     * and stringifying code of the default CompoundName.
+     * An implementbtion of CompoundNbme thbt bypbsses the pbrsing
+     * bnd stringifying code of the defbult CompoundNbme.
      */
-    static final class CNCompoundName extends CompoundName {
-        CNCompoundName(Enumeration<String> enum_) {
-            super(enum_, CNNameParser.mySyntax);
+    stbtic finbl clbss CNCompoundNbme extends CompoundNbme {
+        CNCompoundNbme(Enumerbtion<String> enum_) {
+            super(enum_, CNNbmePbrser.mySyntbx);
         }
 
         public Object clone() {
-            return new CNCompoundName(getAll());
+            return new CNCompoundNbme(getAll());
         }
 
-        public Name getPrefix(int posn) {
-            Enumeration<String> comps = super.getPrefix(posn).getAll();
-            return new CNCompoundName(comps);
+        public Nbme getPrefix(int posn) {
+            Enumerbtion<String> comps = super.getPrefix(posn).getAll();
+            return new CNCompoundNbme(comps);
         }
 
-        public Name getSuffix(int posn) {
-            Enumeration<String> comps = super.getSuffix(posn).getAll();
-            return new CNCompoundName(comps);
+        public Nbme getSuffix(int posn) {
+            Enumerbtion<String> comps = super.getSuffix(posn).getAll();
+            return new CNCompoundNbme(comps);
         }
 
         public String toString() {
             try {
-                // Convert Name to NameComponent[] then stringify
-                return cosNameToInsString(nameToCosName(this));
-            } catch (InvalidNameException e) {
+                // Convert Nbme to NbmeComponent[] then stringify
+                return cosNbmeToInsString(nbmeToCosNbme(this));
+            } cbtch (InvblidNbmeException e) {
                 return super.toString();
             }
         }
 
-        private static final long serialVersionUID = -6599252802678482317L;
+        privbte stbtic finbl long seriblVersionUID = -6599252802678482317L;
     }
 
 // for testing only
 /*
-    private static void print(String input) {
+    privbte stbtic void print(String input) {
         try {
             System.out.println("\n >>>>>> input: " + input);
 
-            System.out.println("--Compound Name: ");
-            NameParser parser = new CNNameParser();
-            Name name = parser.parse(input);
-            for (int i = 0; i < name.size(); i++) {
-                System.out.println("\t" + i + ": " + name.get(i));
-                NameComponent cp = parseComponent(name.get(i));
+            System.out.println("--Compound Nbme: ");
+            NbmePbrser pbrser = new CNNbmePbrser();
+            Nbme nbme = pbrser.pbrse(input);
+            for (int i = 0; i < nbme.size(); i++) {
+                System.out.println("\t" + i + ": " + nbme.get(i));
+                NbmeComponent cp = pbrseComponent(nbme.get(i));
                 System.out.println("\t\t" + "id: " + cp.id + ";kind: " + cp.kind);
             }
-            System.out.println("\t" + name.toString());
+            System.out.println("\t" + nbme.toString());
 
-            System.out.println("--Composite Name: ");
-            Name composite = new CompositeName(input);
+            System.out.println("--Composite Nbme: ");
+            Nbme composite = new CompositeNbme(input);
             for (int i = 0; i < composite.size(); i++) {
                 System.out.println("\t" + i+": " + composite.get(i));
             }
             System.out.println("\t" + composite.toString());
 
-            System.out.println("--Composite To NameComponent");
-            NameComponent[] names = nameToCosName(composite);
+            System.out.println("--Composite To NbmeComponent");
+            NbmeComponent[] nbmes = nbmeToCosNbme(composite);
             for (int i = 0; i < composite.size(); i++) {
-                System.out.println("\t" + i+": id: " + names[i].id + "; kind: " + names[i].kind);
+                System.out.println("\t" + i+": id: " + nbmes[i].id + "; kind: " + nbmes[i].kind);
             }
-            System.out.println("\t" + cosNameToInsString(names));
-        } catch (NamingException e) {
+            System.out.println("\t" + cosNbmeToInsString(nbmes));
+        } cbtch (NbmingException e) {
             System.out.println(e);
         }
     }
 
-    private static void checkName(Name name, String[] comps) throws Exception {
-        if (name.size() != comps.length) {
+    privbte stbtic void checkNbme(Nbme nbme, String[] comps) throws Exception {
+        if (nbme.size() != comps.length) {
             throw new Exception(
-                "test failed; incorrect component count in " + name + "; " +
-                "expecting " + comps.length + " got " + name.size());
+                "test fbiled; incorrect component count in " + nbme + "; " +
+                "expecting " + comps.length + " got " + nbme.size());
         }
-        for (int i = 0; i < name.size(); i++) {
-            if (!comps[i].equals(name.get(i))) {
+        for (int i = 0; i < nbme.size(); i++) {
+            if (!comps[i].equbls(nbme.get(i))) {
                 throw new Exception (
-                    "test failed; invalid component in " + name + "; " +
-                    "expecting '" + comps[i] + "' got '" + name.get(i) + "'");
+                    "test fbiled; invblid component in " + nbme + "; " +
+                    "expecting '" + comps[i] + "' got '" + nbme.get(i) + "'");
             }
         }
     }
 
-    private static void checkCompound(NameParser parser,
+    privbte stbtic void checkCompound(NbmePbrser pbrser,
         String input, String[] comps) throws Exception {
-        checkName(parser.parse(input), comps);
+        checkNbme(pbrser.pbrse(input), comps);
     }
 
-    private static void checkComposite(String input, String[] comps)
+    privbte stbtic void checkComposite(String input, String[] comps)
     throws Exception {
-        checkName(new CompositeName(input), comps);
+        checkNbme(new CompositeNbme(input), comps);
     }
 
-    private static String[] compounds = {
-        "a/b/c",
-        "a.b/c.d",
-        "a",
+    privbte stbtic String[] compounds = {
+        "b/b/c",
+        "b.b/c.d",
+        "b",
         ".",
-        "a.",
+        "b.",
         "c.d",
         ".e",
-        "a/x\\/y\\/z/b",
-        "a\\.b.c\\.d/e.f",
-        "a/b\\\\/c",
+        "b/x\\/y\\/z/b",
+        "b\\.b.c\\.d/e.f",
+        "b/b\\\\/c",
         "x\\\\.y",
         "x\\.y",
         "x.\\\\y",
         "x.y\\\\",
         "\\\\x.y",
-        "a.b\\.c/d"
+        "b.b\\.c/d"
     };
-    private static String[][] compoundComps = {
-        {"a", "b", "c"},
-        {"a.b", "c.d"},
-        {"a"},
+    privbte stbtic String[][] compoundComps = {
+        {"b", "b", "c"},
+        {"b.b", "c.d"},
+        {"b"},
         {"."},
-        {"a"},
+        {"b"},
         {"c.d"},
         {".e"},
-        {"a", "x\\/y\\/z", "b"},
-        {"a\\.b.c\\.d", "e.f"},
-        {"a", "b\\\\", "c"},
+        {"b", "x\\/y\\/z", "b"},
+        {"b\\.b.c\\.d", "e.f"},
+        {"b", "b\\\\", "c"},
         {"x\\\\.y"},
         {"x\\.y"},
         {"x.\\\\y"},
         {"x.y\\\\"},
         {"\\\\x.y"},
-        {"a.b\\.c", "d"},
+        {"b.b\\.c", "d"},
     };
 
-    private static String[] composites = {
-        "a/b/c",
-        "a.b/c.d",
-        "a",
+    privbte stbtic String[] composites = {
+        "b/b/c",
+        "b.b/c.d",
+        "b",
         ".",
-        "a.",
+        "b.",
         "c.d",
         ".e",
-        "a/x\\\\\\/y\\\\\\/z/b",
-        "a\\\\.b.c\\\\.d/e.f",
-        "a/b\\\\\\\\/c",
+        "b/x\\\\\\/y\\\\\\/z/b",
+        "b\\\\.b.c\\\\.d/e.f",
+        "b/b\\\\\\\\/c",
         "x\\\\\\.y",
         "x\\\\.y",
         "x.\\\\\\\\y",
@@ -450,17 +450,17 @@ final public class CNNameParser implements NameParser {
         "\\\\\\\\x.y"
     };
 
-    private static String[][] compositeComps = {
-        {"a", "b", "c"},
-        {"a.b", "c.d"},
-        {"a"},
+    privbte stbtic String[][] compositeComps = {
+        {"b", "b", "c"},
+        {"b.b", "c.d"},
+        {"b"},
         {"."},
-        {"a."},  // unlike compound, kind sep is not consumed
+        {"b."},  // unlike compound, kind sep is not consumed
         {"c.d"},
         {".e"},
-        {"a", "x\\/y\\/z", "b"},
-        {"a\\.b.c\\.d", "e.f"},
-        {"a", "b\\\\", "c"},
+        {"b", "x\\/y\\/z", "b"},
+        {"b\\.b.c\\.d", "e.f"},
+        {"b", "b\\\\", "c"},
         {"x\\\\.y"},
         {"x\\.y"},
         {"x.\\\\y"},
@@ -468,10 +468,10 @@ final public class CNNameParser implements NameParser {
         {"\\\\x.y"}
     };
 
-    public static void main(String[] args) throws Exception {
-        if (args.length > 0) {
-            for (int i = 0; i < args.length; i++) {
-                print(args[0]);
+    public stbtic void mbin(String[] brgs) throws Exception {
+        if (brgs.length > 0) {
+            for (int i = 0; i < brgs.length; i++) {
+                print(brgs[0]);
             }
         } else {
             print("x\\\\.y");
@@ -481,20 +481,20 @@ final public class CNNameParser implements NameParser {
             print("\\\\x.y");
         }
 
-        NameParser parser = new com.sun.jndi.cosnaming.CNNameParser();
+        NbmePbrser pbrser = new com.sun.jndi.cosnbming.CNNbmePbrser();
         for (int i = 0; i < compounds.length; i++) {
-            checkCompound(parser, compounds[i], compoundComps[i]);
+            checkCompound(pbrser, compounds[i], compoundComps[i]);
         }
         for (int i = 0; i < composites.length; i++) {
             checkComposite(composites[i], compositeComps[i]);
         }
 
-        System.out.println("hardwire");
-        NameComponent[] foo = new NameComponent[1];
-        foo[0] = new NameComponent("foo\\", "bar");
+        System.out.println("hbrdwire");
+        NbmeComponent[] foo = new NbmeComponent[1];
+        foo[0] = new NbmeComponent("foo\\", "bbr");
 
-        System.out.println(cosNameToInsString(foo));
-        System.out.println(cosNameToName(foo));
+        System.out.println(cosNbmeToInsString(foo));
+        System.out.println(cosNbmeToNbme(foo));
     }
 */
 }

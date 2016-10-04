@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.io.Serializable;
-import java.awt.Component;
-import java.awt.Adjustable;
-import java.awt.Dimension;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.Graphics;
+import jbvb.io.Seriblizbble;
+import jbvb.bwt.Component;
+import jbvb.bwt.Adjustbble;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.event.AdjustmentListener;
+import jbvb.bwt.event.AdjustmentEvent;
+import jbvb.bwt.Grbphics;
 
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 
 
 /**
- * An implementation of a scrollbar. The user positions the knob in the
- * scrollbar to determine the contents of the viewing area. The
- * program typically adjusts the display so that the end of the
- * scrollbar represents the end of the displayable contents, or 100%
- * of the contents. The start of the scrollbar is the beginning of the
- * displayable contents, or 0%. The position of the knob within
- * those bounds then translates to the corresponding percentage of
- * the displayable contents.
+ * An implementbtion of b scrollbbr. The user positions the knob in the
+ * scrollbbr to determine the contents of the viewing breb. The
+ * progrbm typicblly bdjusts the displby so thbt the end of the
+ * scrollbbr represents the end of the displbybble contents, or 100%
+ * of the contents. The stbrt of the scrollbbr is the beginning of the
+ * displbybble contents, or 0%. The position of the knob within
+ * those bounds then trbnslbtes to the corresponding percentbge of
+ * the displbybble contents.
  * <p>
- * Typically, as the position of the knob in the scrollbar changes
- * a corresponding change is made to the position of the JViewport on
- * the underlying view, changing the contents of the JViewport.
+ * Typicblly, bs the position of the knob in the scrollbbr chbnges
+ * b corresponding chbnge is mbde to the position of the JViewport on
+ * the underlying view, chbnging the contents of the JViewport.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see JScrollPane
- * @beaninfo
- *      attribute: isContainer false
- *    description: A component that helps determine the visible content range of an area.
+ * @see JScrollPbne
+ * @bebninfo
+ *      bttribute: isContbiner fblse
+ *    description: A component thbt helps determine the visible content rbnge of bn breb.
  *
- * @author David Kloba
+ * @buthor Dbvid Klobb
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JScrollBar extends JComponent implements Adjustable, Accessible
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JScrollBbr extends JComponent implements Adjustbble, Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "ScrollBarUI";
+    privbte stbtic finbl String uiClbssID = "ScrollBbrUI";
 
     /**
-     * All changes from the model are treated as though the user moved
-     * the scrollbar knob.
+     * All chbnges from the model bre trebted bs though the user moved
+     * the scrollbbr knob.
      */
-    private ChangeListener fwdAdjustmentEvents = new ModelListener();
+    privbte ChbngeListener fwdAdjustmentEvents = new ModelListener();
 
 
     /**
-     * The model that represents the scrollbar's minimum, maximum, extent
-     * (aka "visibleAmount") and current value.
+     * The model thbt represents the scrollbbr's minimum, mbximum, extent
+     * (bkb "visibleAmount") bnd current vblue.
      * @see #setModel
      */
-    protected BoundedRangeModel model;
+    protected BoundedRbngeModel model;
 
 
     /**
-     * @see #setOrientation
+     * @see #setOrientbtion
      */
-    protected int orientation;
+    protected int orientbtion;
 
 
     /**
@@ -121,253 +121,253 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
     protected int blockIncrement;
 
 
-    private void checkOrientation(int orientation) {
-        switch (orientation) {
-        case VERTICAL:
-        case HORIZONTAL:
-            break;
-        default:
-            throw new IllegalArgumentException("orientation must be one of: VERTICAL, HORIZONTAL");
+    privbte void checkOrientbtion(int orientbtion) {
+        switch (orientbtion) {
+        cbse VERTICAL:
+        cbse HORIZONTAL:
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("orientbtion must be one of: VERTICAL, HORIZONTAL");
         }
     }
 
 
     /**
-     * Creates a scrollbar with the specified orientation,
-     * value, extent, minimum, and maximum.
-     * The "extent" is the size of the viewable area. It is also known
-     * as the "visible amount".
+     * Crebtes b scrollbbr with the specified orientbtion,
+     * vblue, extent, minimum, bnd mbximum.
+     * The "extent" is the size of the viewbble breb. It is blso known
+     * bs the "visible bmount".
      * <p>
      * Note: Use <code>setBlockIncrement</code> to set the block
-     * increment to a size slightly smaller than the view's extent.
-     * That way, when the user jumps the knob to an adjacent position,
-     * one or two lines of the original contents remain in view.
+     * increment to b size slightly smbller thbn the view's extent.
+     * Thbt wby, when the user jumps the knob to bn bdjbcent position,
+     * one or two lines of the originbl contents rembin in view.
      *
-     * @exception IllegalArgumentException if orientation is not one of VERTICAL, HORIZONTAL
+     * @exception IllegblArgumentException if orientbtion is not one of VERTICAL, HORIZONTAL
      *
-     * @see #setOrientation
-     * @see #setValue
+     * @see #setOrientbtion
+     * @see #setVblue
      * @see #setVisibleAmount
      * @see #setMinimum
-     * @see #setMaximum
+     * @see #setMbximum
      *
-     * @param orientation an orientation of the {@code JScrollBar}
-     * @param value an int giving the current value
-     * @param extent an int giving the amount by which the value can "jump"
-     * @param min an int giving the minimum value
-     * @param max an int giving the maximum value
+     * @pbrbm orientbtion bn orientbtion of the {@code JScrollBbr}
+     * @pbrbm vblue bn int giving the current vblue
+     * @pbrbm extent bn int giving the bmount by which the vblue cbn "jump"
+     * @pbrbm min bn int giving the minimum vblue
+     * @pbrbm mbx bn int giving the mbximum vblue
      */
-    public JScrollBar(int orientation, int value, int extent, int min, int max)
+    public JScrollBbr(int orientbtion, int vblue, int extent, int min, int mbx)
     {
-        checkOrientation(orientation);
+        checkOrientbtion(orientbtion);
         this.unitIncrement = 1;
         this.blockIncrement = (extent == 0) ? 1 : extent;
-        this.orientation = orientation;
-        this.model = new DefaultBoundedRangeModel(value, extent, min, max);
-        this.model.addChangeListener(fwdAdjustmentEvents);
-        setRequestFocusEnabled(false);
-        updateUI();
+        this.orientbtion = orientbtion;
+        this.model = new DefbultBoundedRbngeModel(vblue, extent, min, mbx);
+        this.model.bddChbngeListener(fwdAdjustmentEvents);
+        setRequestFocusEnbbled(fblse);
+        updbteUI();
     }
 
 
     /**
-     * Creates a scrollbar with the specified orientation
-     * and the following initial values:
+     * Crebtes b scrollbbr with the specified orientbtion
+     * bnd the following initibl vblues:
      * <pre>
      * minimum = 0
-     * maximum = 100
-     * value = 0
+     * mbximum = 100
+     * vblue = 0
      * extent = 10
      * </pre>
      *
-     * @param orientation an orientation of the {@code JScrollBar}
+     * @pbrbm orientbtion bn orientbtion of the {@code JScrollBbr}
      */
-    public JScrollBar(int orientation) {
-        this(orientation, 0, 10, 0, 100);
+    public JScrollBbr(int orientbtion) {
+        this(orientbtion, 0, 10, 0, 100);
     }
 
 
     /**
-     * Creates a vertical scrollbar with the following initial values:
+     * Crebtes b verticbl scrollbbr with the following initibl vblues:
      * <pre>
      * minimum = 0
-     * maximum = 100
-     * value = 0
+     * mbximum = 100
+     * vblue = 0
      * extent = 10
      * </pre>
      */
-    public JScrollBar() {
+    public JScrollBbr() {
         this(VERTICAL);
     }
 
 
     /**
-     * Sets the {@literal L&F} object that renders this component.
+     * Sets the {@literbl L&F} object thbt renders this component.
      *
-     * @param ui  the <code>ScrollBarUI</code> {@literal L&F} object
-     * @see UIDefaults#getUI
+     * @pbrbm ui  the <code>ScrollBbrUI</code> {@literbl L&F} object
+     * @see UIDefbults#getUI
      * @since 1.4
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel
      */
-    public void setUI(ScrollBarUI ui) {
+    public void setUI(ScrollBbrUI ui) {
         super.setUI(ui);
     }
 
 
     /**
-     * Returns the delegate that implements the look and feel for
+     * Returns the delegbte thbt implements the look bnd feel for
      * this component.
      *
-     * @return the scroll bar's current UI.
+     * @return the scroll bbr's current UI.
      * @see JComponent#setUI
      */
-    public ScrollBarUI getUI() {
-        return (ScrollBarUI)ui;
+    public ScrollBbrUI getUI() {
+        return (ScrollBbrUI)ui;
     }
 
 
     /**
-     * Overrides <code>JComponent.updateUI</code>.
-     * @see JComponent#updateUI
+     * Overrides <code>JComponent.updbteUI</code>.
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((ScrollBarUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((ScrollBbrUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Returns the name of the LookAndFeel class for this component.
+     * Returns the nbme of the LookAndFeel clbss for this component.
      *
-     * @return "ScrollBarUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @return "ScrollBbrUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
 
     /**
-     * Returns the component's orientation (horizontal or vertical).
+     * Returns the component's orientbtion (horizontbl or verticbl).
      *
      * @return VERTICAL or HORIZONTAL
-     * @see #setOrientation
-     * @see java.awt.Adjustable#getOrientation
+     * @see #setOrientbtion
+     * @see jbvb.bwt.Adjustbble#getOrientbtion
      */
-    public int getOrientation() {
-        return orientation;
+    public int getOrientbtion() {
+        return orientbtion;
     }
 
 
     /**
-     * Set the scrollbar's orientation to either VERTICAL or
+     * Set the scrollbbr's orientbtion to either VERTICAL or
      * HORIZONTAL.
      *
-     * @param orientation an orientation of the {@code JScrollBar}
-     * @exception IllegalArgumentException if orientation is not one of VERTICAL, HORIZONTAL
-     * @see #getOrientation
-     * @beaninfo
+     * @pbrbm orientbtion bn orientbtion of the {@code JScrollBbr}
+     * @exception IllegblArgumentException if orientbtion is not one of VERTICAL, HORIZONTAL
+     * @see #getOrientbtion
+     * @bebninfo
      *    preferred: true
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: The scrollbar's orientation.
-     *         enum: VERTICAL JScrollBar.VERTICAL
-     *               HORIZONTAL JScrollBar.HORIZONTAL
+     *    bttribute: visublUpdbte true
+     *  description: The scrollbbr's orientbtion.
+     *         enum: VERTICAL JScrollBbr.VERTICAL
+     *               HORIZONTAL JScrollBbr.HORIZONTAL
      */
-    public void setOrientation(int orientation)
+    public void setOrientbtion(int orientbtion)
     {
-        checkOrientation(orientation);
-        int oldValue = this.orientation;
-        this.orientation = orientation;
-        firePropertyChange("orientation", oldValue, orientation);
+        checkOrientbtion(orientbtion);
+        int oldVblue = this.orientbtion;
+        this.orientbtion = orientbtion;
+        firePropertyChbnge("orientbtion", oldVblue, orientbtion);
 
-        if ((oldValue != orientation) && (accessibleContext != null)) {
-            accessibleContext.firePropertyChange(
+        if ((oldVblue != orientbtion) && (bccessibleContext != null)) {
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    ((oldValue == VERTICAL)
-                     ? AccessibleState.VERTICAL : AccessibleState.HORIZONTAL),
-                    ((orientation == VERTICAL)
-                     ? AccessibleState.VERTICAL : AccessibleState.HORIZONTAL));
+                    ((oldVblue == VERTICAL)
+                     ? AccessibleStbte.VERTICAL : AccessibleStbte.HORIZONTAL),
+                    ((orientbtion == VERTICAL)
+                     ? AccessibleStbte.VERTICAL : AccessibleStbte.HORIZONTAL));
         }
-        if (orientation != oldValue) {
-            revalidate();
+        if (orientbtion != oldVblue) {
+            revblidbte();
         }
     }
 
 
     /**
-     * Returns data model that handles the scrollbar's four
-     * fundamental properties: minimum, maximum, value, extent.
+     * Returns dbtb model thbt hbndles the scrollbbr's four
+     * fundbmentbl properties: minimum, mbximum, vblue, extent.
      *
-     * @return the data model
+     * @return the dbtb model
      *
      * @see #setModel
      */
-    public BoundedRangeModel getModel() {
+    public BoundedRbngeModel getModel() {
         return model;
     }
 
 
     /**
-     * Sets the model that handles the scrollbar's four
-     * fundamental properties: minimum, maximum, value, extent.
+     * Sets the model thbt hbndles the scrollbbr's four
+     * fundbmentbl properties: minimum, mbximum, vblue, extent.
      *
-     * @param newModel a new model
+     * @pbrbm newModel b new model
      * @see #getModel
-     * @beaninfo
+     * @bebninfo
      *       bound: true
      *       expert: true
-     * description: The scrollbar's BoundedRangeModel.
+     * description: The scrollbbr's BoundedRbngeModel.
      */
-    public void setModel(BoundedRangeModel newModel) {
-        Integer oldValue = null;
-        BoundedRangeModel oldModel = model;
+    public void setModel(BoundedRbngeModel newModel) {
+        Integer oldVblue = null;
+        BoundedRbngeModel oldModel = model;
         if (model != null) {
-            model.removeChangeListener(fwdAdjustmentEvents);
-            oldValue = Integer.valueOf(model.getValue());
+            model.removeChbngeListener(fwdAdjustmentEvents);
+            oldVblue = Integer.vblueOf(model.getVblue());
         }
         model = newModel;
         if (model != null) {
-            model.addChangeListener(fwdAdjustmentEvents);
+            model.bddChbngeListener(fwdAdjustmentEvents);
         }
 
-        firePropertyChange("model", oldModel, model);
+        firePropertyChbnge("model", oldModel, model);
 
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
+        if (bccessibleContext != null) {
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_VALUE_PROPERTY,
-                    oldValue, model.getValue());
+                    oldVblue, model.getVblue());
         }
     }
 
 
     /**
-     * Returns the amount to change the scrollbar's value by,
-     * given a unit up/down request.  A ScrollBarUI implementation
-     * typically calls this method when the user clicks on a scrollbar
-     * up/down arrow and uses the result to update the scrollbar's
-     * value.   Subclasses my override this method to compute
-     * a value, e.g. the change required to scroll up or down one
-     * (variable height) line text or one row in a table.
+     * Returns the bmount to chbnge the scrollbbr's vblue by,
+     * given b unit up/down request.  A ScrollBbrUI implementbtion
+     * typicblly cblls this method when the user clicks on b scrollbbr
+     * up/down brrow bnd uses the result to updbte the scrollbbr's
+     * vblue.   Subclbsses my override this method to compute
+     * b vblue, e.g. the chbnge required to scroll up or down one
+     * (vbribble height) line text or one row in b tbble.
      * <p>
-     * The JScrollPane component creates scrollbars (by default)
-     * that override this method and delegate to the viewports
-     * Scrollable view, if it has one.  The Scrollable interface
-     * provides a more specialized version of this method.
+     * The JScrollPbne component crebtes scrollbbrs (by defbult)
+     * thbt override this method bnd delegbte to the viewports
+     * Scrollbble view, if it hbs one.  The Scrollbble interfbce
+     * provides b more speciblized version of this method.
      * <p>
-     * Some look and feels implement custom scrolling behavior
-     * and ignore this property.
+     * Some look bnd feels implement custom scrolling behbvior
+     * bnd ignore this property.
      *
-     * @param direction is -1 or 1 for up/down respectively
-     * @return the value of the unitIncrement property
+     * @pbrbm direction is -1 or 1 for up/down respectively
+     * @return the vblue of the unitIncrement property
      * @see #setUnitIncrement
-     * @see #setValue
-     * @see Scrollable#getScrollableUnitIncrement
+     * @see #setVblue
+     * @see Scrollbble#getScrollbbleUnitIncrement
      */
     public int getUnitIncrement(int direction) {
         return unitIncrement;
@@ -377,47 +377,47 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
     /**
      * Sets the unitIncrement property.
      * <p>
-     * Note, that if the argument is equal to the value of Integer.MIN_VALUE,
-     * the most look and feels will not provide the scrolling to the right/down.
+     * Note, thbt if the brgument is equbl to the vblue of Integer.MIN_VALUE,
+     * the most look bnd feels will not provide the scrolling to the right/down.
      * <p>
-     * Some look and feels implement custom scrolling behavior
-     * and ignore this property.
+     * Some look bnd feels implement custom scrolling behbvior
+     * bnd ignore this property.
      *
      * @see #getUnitIncrement
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The scrollbar's unit increment.
+     * description: The scrollbbr's unit increment.
      */
     public void setUnitIncrement(int unitIncrement) {
-        int oldValue = this.unitIncrement;
+        int oldVblue = this.unitIncrement;
         this.unitIncrement = unitIncrement;
-        firePropertyChange("unitIncrement", oldValue, unitIncrement);
+        firePropertyChbnge("unitIncrement", oldVblue, unitIncrement);
     }
 
 
     /**
-     * Returns the amount to change the scrollbar's value by,
-     * given a block (usually "page") up/down request.  A ScrollBarUI
-     * implementation typically calls this method when the user clicks
-     * above or below the scrollbar "knob" to change the value
-     * up or down by large amount.  Subclasses my override this
-     * method to compute a value, e.g. the change required to scroll
-     * up or down one paragraph in a text document.
+     * Returns the bmount to chbnge the scrollbbr's vblue by,
+     * given b block (usublly "pbge") up/down request.  A ScrollBbrUI
+     * implementbtion typicblly cblls this method when the user clicks
+     * bbove or below the scrollbbr "knob" to chbnge the vblue
+     * up or down by lbrge bmount.  Subclbsses my override this
+     * method to compute b vblue, e.g. the chbnge required to scroll
+     * up or down one pbrbgrbph in b text document.
      * <p>
-     * The JScrollPane component creates scrollbars (by default)
-     * that override this method and delegate to the viewports
-     * Scrollable view, if it has one.  The Scrollable interface
-     * provides a more specialized version of this method.
+     * The JScrollPbne component crebtes scrollbbrs (by defbult)
+     * thbt override this method bnd delegbte to the viewports
+     * Scrollbble view, if it hbs one.  The Scrollbble interfbce
+     * provides b more speciblized version of this method.
      * <p>
-     * Some look and feels implement custom scrolling behavior
-     * and ignore this property.
+     * Some look bnd feels implement custom scrolling behbvior
+     * bnd ignore this property.
      *
-     * @param direction is -1 or 1 for up/down respectively
-     * @return the value of the blockIncrement property
+     * @pbrbm direction is -1 or 1 for up/down respectively
+     * @return the vblue of the blockIncrement property
      * @see #setBlockIncrement
-     * @see #setValue
-     * @see Scrollable#getScrollableBlockIncrement
+     * @see #setVblue
+     * @see Scrollbble#getScrollbbleBlockIncrement
      */
     public int getBlockIncrement(int direction) {
         return blockIncrement;
@@ -427,28 +427,28 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
     /**
      * Sets the blockIncrement property.
      * <p>
-     * Note, that if the argument is equal to the value of Integer.MIN_VALUE,
-     * the most look and feels will not provide the scrolling to the right/down.
+     * Note, thbt if the brgument is equbl to the vblue of Integer.MIN_VALUE,
+     * the most look bnd feels will not provide the scrolling to the right/down.
      * <p>
-     * Some look and feels implement custom scrolling behavior
-     * and ignore this property.
+     * Some look bnd feels implement custom scrolling behbvior
+     * bnd ignore this property.
      *
      * @see #getBlockIncrement()
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The scrollbar's block increment.
+     * description: The scrollbbr's block increment.
      */
     public void setBlockIncrement(int blockIncrement) {
-        int oldValue = this.blockIncrement;
+        int oldVblue = this.blockIncrement;
         this.blockIncrement = blockIncrement;
-        firePropertyChange("blockIncrement", oldValue, blockIncrement);
+        firePropertyChbnge("blockIncrement", oldVblue, blockIncrement);
     }
 
 
     /**
-     * For backwards compatibility with java.awt.Scrollbar.
-     * @see Adjustable#getUnitIncrement
+     * For bbckwbrds compbtibility with jbvb.bwt.Scrollbbr.
+     * @see Adjustbble#getUnitIncrement
      * @see #getUnitIncrement(int)
      */
     public int getUnitIncrement() {
@@ -457,8 +457,8 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
 
 
     /**
-     * For backwards compatibility with java.awt.Scrollbar.
-     * @see Adjustable#getBlockIncrement
+     * For bbckwbrds compbtibility with jbvb.bwt.Scrollbbr.
+     * @see Adjustbble#getBlockIncrement
      * @see #getBlockIncrement(int)
      */
     public int getBlockIncrement() {
@@ -467,45 +467,45 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
 
 
     /**
-     * Returns the scrollbar's value.
-     * @return the model's value property
-     * @see #setValue
+     * Returns the scrollbbr's vblue.
+     * @return the model's vblue property
+     * @see #setVblue
      */
-    public int getValue() {
-        return getModel().getValue();
+    public int getVblue() {
+        return getModel().getVblue();
     }
 
 
     /**
-     * Sets the scrollbar's value.  This method just forwards the value
+     * Sets the scrollbbr's vblue.  This method just forwbrds the vblue
      * to the model.
      *
-     * @see #getValue
-     * @see BoundedRangeModel#setValue
-     * @beaninfo
+     * @see #getVblue
+     * @see BoundedRbngeModel#setVblue
+     * @bebninfo
      *   preferred: true
-     * description: The scrollbar's current value.
+     * description: The scrollbbr's current vblue.
      */
-    public void setValue(int value) {
-        BoundedRangeModel m = getModel();
-        int oldValue = m.getValue();
-        m.setValue(value);
+    public void setVblue(int vblue) {
+        BoundedRbngeModel m = getModel();
+        int oldVblue = m.getVblue();
+        m.setVblue(vblue);
 
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
+        if (bccessibleContext != null) {
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_VALUE_PROPERTY,
-                    Integer.valueOf(oldValue),
-                    Integer.valueOf(m.getValue()));
+                    Integer.vblueOf(oldVblue),
+                    Integer.vblueOf(m.getVblue()));
         }
     }
 
 
     /**
-     * Returns the scrollbar's extent, aka its "visibleAmount".  In many
-     * scrollbar look and feel implementations the size of the
-     * scrollbar "knob" or "thumb" is proportional to the extent.
+     * Returns the scrollbbr's extent, bkb its "visibleAmount".  In mbny
+     * scrollbbr look bnd feel implementbtions the size of the
+     * scrollbbr "knob" or "thumb" is proportionbl to the extent.
      *
-     * @return the value of the model's extent property
+     * @return the vblue of the model's extent property
      * @see #setVisibleAmount
      */
     public int getVisibleAmount() {
@@ -517,10 +517,10 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * Set the model's extent property.
      *
      * @see #getVisibleAmount
-     * @see BoundedRangeModel#setExtent
-     * @beaninfo
+     * @see BoundedRbngeModel#setExtent
+     * @bebninfo
      *   preferred: true
-     * description: The amount of the view that is currently visible.
+     * description: The bmount of the view thbt is currently visible.
      */
     public void setVisibleAmount(int extent) {
         getModel().setExtent(extent);
@@ -528,10 +528,10 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
 
 
     /**
-     * Returns the minimum value supported by the scrollbar
-     * (usually zero).
+     * Returns the minimum vblue supported by the scrollbbr
+     * (usublly zero).
      *
-     * @return the value of the model's minimum property
+     * @return the vblue of the model's minimum property
      * @see #setMinimum
      */
     public int getMinimum() {
@@ -543,10 +543,10 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * Sets the model's minimum property.
      *
      * @see #getMinimum
-     * @see BoundedRangeModel#setMinimum
-     * @beaninfo
+     * @see BoundedRbngeModel#setMinimum
+     * @bebninfo
      *   preferred: true
-     * description: The scrollbar's minimum value.
+     * description: The scrollbbr's minimum vblue.
      */
     public void setMinimum(int minimum) {
         getModel().setMinimum(minimum);
@@ -554,202 +554,202 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
 
 
     /**
-     * The maximum value of the scrollbar is maximum - extent.
+     * The mbximum vblue of the scrollbbr is mbximum - extent.
      *
-     * @return the value of the model's maximum property
-     * @see #setMaximum
+     * @return the vblue of the model's mbximum property
+     * @see #setMbximum
      */
-    public int getMaximum() {
-        return getModel().getMaximum();
+    public int getMbximum() {
+        return getModel().getMbximum();
     }
 
 
     /**
-     * Sets the model's maximum property.  Note that the scrollbar's value
-     * can only be set to maximum - extent.
+     * Sets the model's mbximum property.  Note thbt the scrollbbr's vblue
+     * cbn only be set to mbximum - extent.
      *
-     * @see #getMaximum
-     * @see BoundedRangeModel#setMaximum
-     * @beaninfo
+     * @see #getMbximum
+     * @see BoundedRbngeModel#setMbximum
+     * @bebninfo
      *   preferred: true
-     * description: The scrollbar's maximum value.
+     * description: The scrollbbr's mbximum vblue.
      */
-    public void setMaximum(int maximum) {
-        getModel().setMaximum(maximum);
+    public void setMbximum(int mbximum) {
+        getModel().setMbximum(mbximum);
     }
 
 
     /**
-     * True if the scrollbar knob is being dragged.
+     * True if the scrollbbr knob is being drbgged.
      *
-     * @return the value of the model's valueIsAdjusting property
-     * @see #setValueIsAdjusting
+     * @return the vblue of the model's vblueIsAdjusting property
+     * @see #setVblueIsAdjusting
      */
-    public boolean getValueIsAdjusting() {
-        return getModel().getValueIsAdjusting();
+    public boolebn getVblueIsAdjusting() {
+        return getModel().getVblueIsAdjusting();
     }
 
 
     /**
-     * Sets the model's valueIsAdjusting property.  Scrollbar look and
-     * feel implementations should set this property to true when
-     * a knob drag begins, and to false when the drag ends.  The
-     * scrollbar model will not generate ChangeEvents while
-     * valueIsAdjusting is true.
+     * Sets the model's vblueIsAdjusting property.  Scrollbbr look bnd
+     * feel implementbtions should set this property to true when
+     * b knob drbg begins, bnd to fblse when the drbg ends.  The
+     * scrollbbr model will not generbte ChbngeEvents while
+     * vblueIsAdjusting is true.
      *
-     * @param b {@code true} if the upcoming changes to the value property are part of a series
+     * @pbrbm b {@code true} if the upcoming chbnges to the vblue property bre pbrt of b series
      *
-     * @see #getValueIsAdjusting
-     * @see BoundedRangeModel#setValueIsAdjusting
-     * @beaninfo
+     * @see #getVblueIsAdjusting
+     * @see BoundedRbngeModel#setVblueIsAdjusting
+     * @bebninfo
      *      expert: true
-     * description: True if the scrollbar thumb is being dragged.
+     * description: True if the scrollbbr thumb is being drbgged.
      */
-    public void setValueIsAdjusting(boolean b) {
-        BoundedRangeModel m = getModel();
-        boolean oldValue = m.getValueIsAdjusting();
-        m.setValueIsAdjusting(b);
+    public void setVblueIsAdjusting(boolebn b) {
+        BoundedRbngeModel m = getModel();
+        boolebn oldVblue = m.getVblueIsAdjusting();
+        m.setVblueIsAdjusting(b);
 
-        if ((oldValue != b) && (accessibleContext != null)) {
-            accessibleContext.firePropertyChange(
+        if ((oldVblue != b) && (bccessibleContext != null)) {
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    ((oldValue) ? AccessibleState.BUSY : null),
-                    ((b) ? AccessibleState.BUSY : null));
+                    ((oldVblue) ? AccessibleStbte.BUSY : null),
+                    ((b) ? AccessibleStbte.BUSY : null));
         }
     }
 
 
     /**
-     * Sets the four BoundedRangeModel properties after forcing
-     * the arguments to obey the usual constraints:
+     * Sets the four BoundedRbngeModel properties bfter forcing
+     * the brguments to obey the usubl constrbints:
      * <pre>
-     * minimum &le; value &le; value+extent &le; maximum
+     * minimum &le; vblue &le; vblue+extent &le; mbximum
      * </pre>
      *
-     * @param newValue an int giving the current value
-     * @param newExtent an int giving the amount by which the value can "jump"
-     * @param newMin an int giving the minimum value
-     * @param newMax an int giving the maximum value
+     * @pbrbm newVblue bn int giving the current vblue
+     * @pbrbm newExtent bn int giving the bmount by which the vblue cbn "jump"
+     * @pbrbm newMin bn int giving the minimum vblue
+     * @pbrbm newMbx bn int giving the mbximum vblue
      *
-     * @see BoundedRangeModel#setRangeProperties
-     * @see #setValue
+     * @see BoundedRbngeModel#setRbngeProperties
+     * @see #setVblue
      * @see #setVisibleAmount
      * @see #setMinimum
-     * @see #setMaximum
+     * @see #setMbximum
      */
-    public void setValues(int newValue, int newExtent, int newMin, int newMax)
+    public void setVblues(int newVblue, int newExtent, int newMin, int newMbx)
     {
-        BoundedRangeModel m = getModel();
-        int oldValue = m.getValue();
-        m.setRangeProperties(newValue, newExtent, newMin, newMax, m.getValueIsAdjusting());
+        BoundedRbngeModel m = getModel();
+        int oldVblue = m.getVblue();
+        m.setRbngeProperties(newVblue, newExtent, newMin, newMbx, m.getVblueIsAdjusting());
 
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
+        if (bccessibleContext != null) {
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_VALUE_PROPERTY,
-                    Integer.valueOf(oldValue),
-                    Integer.valueOf(m.getValue()));
+                    Integer.vblueOf(oldVblue),
+                    Integer.vblueOf(m.getVblue()));
         }
     }
 
 
     /**
-     * Adds an AdjustmentListener.  Adjustment listeners are notified
-     * each time the scrollbar's model changes.  Adjustment events are
-     * provided for backwards compatibility with java.awt.Scrollbar.
+     * Adds bn AdjustmentListener.  Adjustment listeners bre notified
+     * ebch time the scrollbbr's model chbnges.  Adjustment events bre
+     * provided for bbckwbrds compbtibility with jbvb.bwt.Scrollbbr.
      * <p>
-     * Note that the AdjustmentEvents type property will always have a
-     * placeholder value of AdjustmentEvent.TRACK because all changes
-     * to a BoundedRangeModels value are considered equivalent.  To change
-     * the value of a BoundedRangeModel one just sets its value property,
-     * i.e. model.setValue(123).  No information about the origin of the
-     * change, e.g. it's a block decrement, is provided.  We don't try
-     * fabricate the origin of the change here.
+     * Note thbt the AdjustmentEvents type property will blwbys hbve b
+     * plbceholder vblue of AdjustmentEvent.TRACK becbuse bll chbnges
+     * to b BoundedRbngeModels vblue bre considered equivblent.  To chbnge
+     * the vblue of b BoundedRbngeModel one just sets its vblue property,
+     * i.e. model.setVblue(123).  No informbtion bbout the origin of the
+     * chbnge, e.g. it's b block decrement, is provided.  We don't try
+     * fbbricbte the origin of the chbnge here.
      *
-     * @param l the AdjustmentLister to add
+     * @pbrbm l the AdjustmentLister to bdd
      * @see #removeAdjustmentListener
-     * @see BoundedRangeModel#addChangeListener
+     * @see BoundedRbngeModel#bddChbngeListener
      */
-    public void addAdjustmentListener(AdjustmentListener l)   {
-        listenerList.add(AdjustmentListener.class, l);
+    public void bddAdjustmentListener(AdjustmentListener l)   {
+        listenerList.bdd(AdjustmentListener.clbss, l);
     }
 
 
     /**
-     * Removes an AdjustmentEvent listener.
+     * Removes bn AdjustmentEvent listener.
      *
-     * @param l the AdjustmentLister to remove
-     * @see #addAdjustmentListener
+     * @pbrbm l the AdjustmentLister to remove
+     * @see #bddAdjustmentListener
      */
     public void removeAdjustmentListener(AdjustmentListener l)  {
-        listenerList.remove(AdjustmentListener.class, l);
+        listenerList.remove(AdjustmentListener.clbss, l);
     }
 
 
     /**
-     * Returns an array of all the <code>AdjustmentListener</code>s added
-     * to this JScrollBar with addAdjustmentListener().
+     * Returns bn brrby of bll the <code>AdjustmentListener</code>s bdded
+     * to this JScrollBbr with bddAdjustmentListener().
      *
-     * @return all of the <code>AdjustmentListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>AdjustmentListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
     public AdjustmentListener[] getAdjustmentListeners() {
-        return listenerList.getListeners(AdjustmentListener.class);
+        return listenerList.getListeners(AdjustmentListener.clbss);
     }
 
 
     /**
-     * Notify listeners that the scrollbar's model has changed.
+     * Notify listeners thbt the scrollbbr's model hbs chbnged.
      *
-     * @param id an integer indicating the type of event.
-     * @param type an integer indicating the adjustment type.
-     * @param value the current value of the adjustment
+     * @pbrbm id bn integer indicbting the type of event.
+     * @pbrbm type bn integer indicbting the bdjustment type.
+     * @pbrbm vblue the current vblue of the bdjustment
      *
-     * @see #addAdjustmentListener
+     * @see #bddAdjustmentListener
      * @see EventListenerList
      */
-    protected void fireAdjustmentValueChanged(int id, int type, int value) {
-        fireAdjustmentValueChanged(id, type, value, getValueIsAdjusting());
+    protected void fireAdjustmentVblueChbnged(int id, int type, int vblue) {
+        fireAdjustmentVblueChbnged(id, type, vblue, getVblueIsAdjusting());
     }
 
     /**
-     * Notify listeners that the scrollbar's model has changed.
+     * Notify listeners thbt the scrollbbr's model hbs chbnged.
      *
-     * @see #addAdjustmentListener
+     * @see #bddAdjustmentListener
      * @see EventListenerList
      */
-    private void fireAdjustmentValueChanged(int id, int type, int value,
-                                            boolean isAdjusting) {
+    privbte void fireAdjustmentVblueChbnged(int id, int type, int vblue,
+                                            boolebn isAdjusting) {
         Object[] listeners = listenerList.getListenerList();
         AdjustmentEvent e = null;
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i]==AdjustmentListener.class) {
+            if (listeners[i]==AdjustmentListener.clbss) {
                 if (e == null) {
-                    e = new AdjustmentEvent(this, id, type, value, isAdjusting);
+                    e = new AdjustmentEvent(this, id, type, vblue, isAdjusting);
                 }
-                ((AdjustmentListener)listeners[i+1]).adjustmentValueChanged(e);
+                ((AdjustmentListener)listeners[i+1]).bdjustmentVblueChbnged(e);
             }
         }
     }
 
 
     /**
-     * This class listens to ChangeEvents on the model and forwards
-     * AdjustmentEvents for the sake of backwards compatibility.
-     * Unfortunately there's no way to determine the proper
-     * type of the AdjustmentEvent as all updates to the model's
-     * value are considered equivalent.
+     * This clbss listens to ChbngeEvents on the model bnd forwbrds
+     * AdjustmentEvents for the sbke of bbckwbrds compbtibility.
+     * Unfortunbtely there's no wby to determine the proper
+     * type of the AdjustmentEvent bs bll updbtes to the model's
+     * vblue bre considered equivblent.
      */
-    private class ModelListener implements ChangeListener, Serializable {
-        public void stateChanged(ChangeEvent e)   {
+    privbte clbss ModelListener implements ChbngeListener, Seriblizbble {
+        public void stbteChbnged(ChbngeEvent e)   {
             Object obj = e.getSource();
-            if (obj instanceof BoundedRangeModel) {
+            if (obj instbnceof BoundedRbngeModel) {
                 int id = AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED;
                 int type = AdjustmentEvent.TRACK;
-                BoundedRangeModel model = (BoundedRangeModel)obj;
-                int value = model.getValue();
-                boolean isAdjusting = model.getValueIsAdjusting();
-                fireAdjustmentValueChanged(id, type, value, isAdjusting);
+                BoundedRbngeModel model = (BoundedRbngeModel)obj;
+                int vblue = model.getVblue();
+                boolebn isAdjusting = model.getVblueIsAdjusting();
+                fireAdjustmentVblueChbnged(id, type, vblue, isAdjusting);
             }
         }
     }
@@ -757,12 +757,12 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
     // PENDING(hmuller) - the next three methods should be removed
 
     /**
-     * The scrollbar is flexible along it's scrolling axis and
-     * rigid along the other axis.
+     * The scrollbbr is flexible blong it's scrolling bxis bnd
+     * rigid blong the other bxis.
      */
     public Dimension getMinimumSize() {
         Dimension pref = getPreferredSize();
-        if (orientation == VERTICAL) {
+        if (orientbtion == VERTICAL) {
             return new Dimension(pref.width, 5);
         } else {
             return new Dimension(5, pref.height);
@@ -770,12 +770,12 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
     }
 
     /**
-     * The scrollbar is flexible along it's scrolling axis and
-     * rigid along the other axis.
+     * The scrollbbr is flexible blong it's scrolling bxis bnd
+     * rigid blong the other bxis.
      */
-    public Dimension getMaximumSize() {
+    public Dimension getMbximumSize() {
         Dimension pref = getPreferredSize();
-        if (getOrientation() == VERTICAL) {
+        if (getOrientbtion() == VERTICAL) {
             return new Dimension(pref.width, Short.MAX_VALUE);
         } else {
             return new Dimension(Short.MAX_VALUE, pref.height);
@@ -783,52 +783,52 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
     }
 
     /**
-     * Enables the component so that the knob position can be changed.
-     * When the disabled, the knob position cannot be changed.
+     * Enbbles the component so thbt the knob position cbn be chbnged.
+     * When the disbbled, the knob position cbnnot be chbnged.
      *
-     * @param x a boolean value, where true enables the component and
-     *          false disables it
+     * @pbrbm x b boolebn vblue, where true enbbles the component bnd
+     *          fblse disbbles it
      */
-    public void setEnabled(boolean x)  {
-        super.setEnabled(x);
+    public void setEnbbled(boolebn x)  {
+        super.setEnbbled(x);
         Component[] children = getComponents();
         for (Component child : children) {
-            child.setEnabled(x);
+            child.setEnbbled(x);
         }
     }
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * See rebdObject() bnd writeObject() in JComponent for more
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this JScrollBar. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this JScrollBbr. This method
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this JScrollBar.
+     * @return  b string representbtion of this JScrollBbr.
      */
-    protected String paramString() {
-        String orientationString = (orientation == HORIZONTAL ?
+    protected String pbrbmString() {
+        String orientbtionString = (orientbtion == HORIZONTAL ?
                                     "HORIZONTAL" : "VERTICAL");
 
-        return super.paramString() +
+        return super.pbrbmString() +
         ",blockIncrement=" + blockIncrement +
-        ",orientation=" + orientationString +
+        ",orientbtion=" + orientbtionString +
         ",unitIncrement=" + unitIncrement;
     }
 
@@ -837,64 +837,64 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JScrollBar.
-     * For JScrollBar, the AccessibleContext takes the form of an
-     * AccessibleJScrollBar.
-     * A new AccessibleJScrollBar instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JScrollBbr.
+     * For JScrollBbr, the AccessibleContext tbkes the form of bn
+     * AccessibleJScrollBbr.
+     * A new AccessibleJScrollBbr instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJScrollBar that serves as the
-     *         AccessibleContext of this JScrollBar
+     * @return bn AccessibleJScrollBbr thbt serves bs the
+     *         AccessibleContext of this JScrollBbr
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJScrollBar();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJScrollBbr();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JScrollBar</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to scroll bar user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JScrollBbr</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to scroll bbr user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJScrollBar extends AccessibleJComponent
-        implements AccessibleValue {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJScrollBbr extends AccessibleJComponent
+        implements AccessibleVblue {
 
         /**
-         * Get the state set of this object.
+         * Get the stbte set of this object.
          *
-         * @return an instance of AccessibleState containing the current state
+         * @return bn instbnce of AccessibleStbte contbining the current stbte
          * of the object
-         * @see AccessibleState
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            if (getValueIsAdjusting()) {
-                states.add(AccessibleState.BUSY);
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            if (getVblueIsAdjusting()) {
+                stbtes.bdd(AccessibleStbte.BUSY);
             }
-            if (getOrientation() == VERTICAL) {
-                states.add(AccessibleState.VERTICAL);
+            if (getOrientbtion() == VERTICAL) {
+                stbtes.bdd(AccessibleStbte.VERTICAL);
             } else {
-                states.add(AccessibleState.HORIZONTAL);
+                stbtes.bdd(AccessibleStbte.HORIZONTAL);
             }
-            return states;
+            return stbtes;
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          */
         public AccessibleRole getAccessibleRole() {
@@ -902,58 +902,58 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
         }
 
         /**
-         * Get the AccessibleValue associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleVblue bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleValue interface on behalf of itself.
+         * AccessibleVblue interfbce on behblf of itself.
          *
          * @return this object
          */
-        public AccessibleValue getAccessibleValue() {
+        public AccessibleVblue getAccessibleVblue() {
             return this;
         }
 
         /**
-         * Get the accessible value of this object.
+         * Get the bccessible vblue of this object.
          *
-         * @return The current value of this object.
+         * @return The current vblue of this object.
          */
-        public Number getCurrentAccessibleValue() {
-            return Integer.valueOf(getValue());
+        public Number getCurrentAccessibleVblue() {
+            return Integer.vblueOf(getVblue());
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Set the vblue of this object bs b Number.
          *
-         * @return True if the value was set.
+         * @return True if the vblue wbs set.
          */
-        public boolean setCurrentAccessibleValue(Number n) {
+        public boolebn setCurrentAccessibleVblue(Number n) {
             // TIGER - 4422535
             if (n == null) {
-                return false;
+                return fblse;
             }
-            setValue(n.intValue());
+            setVblue(n.intVblue());
             return true;
         }
 
         /**
-         * Get the minimum accessible value of this object.
+         * Get the minimum bccessible vblue of this object.
          *
-         * @return The minimum value of this object.
+         * @return The minimum vblue of this object.
          */
-        public Number getMinimumAccessibleValue() {
-            return Integer.valueOf(getMinimum());
+        public Number getMinimumAccessibleVblue() {
+            return Integer.vblueOf(getMinimum());
         }
 
         /**
-         * Get the maximum accessible value of this object.
+         * Get the mbximum bccessible vblue of this object.
          *
-         * @return The maximum value of this object.
+         * @return The mbximum vblue of this object.
          */
-        public Number getMaximumAccessibleValue() {
+        public Number getMbximumAccessibleVblue() {
             // TIGER - 4422362
-            return model.getMaximum() - model.getExtent();
+            return model.getMbximum() - model.getExtent();
         }
 
-    } // AccessibleJScrollBar
+    } // AccessibleJScrollBbr
 }

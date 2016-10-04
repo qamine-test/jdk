@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
 import sun.security.util.ObjectIdentifier;
 
 /**
- * This immutable class is used when randomly generating a key pair and the
- * consumer only specifies the length of the key and therefore a curve for that
- * key size must be picked from a the list of supported curves using this spec.
+ * This immutbble clbss is used when rbndomly generbting b key pbir bnd the
+ * consumer only specifies the length of the key bnd therefore b curve for thbt
+ * key size must be picked from b the list of supported curves using this spec.
  *
- * @see AlgorithmParameterSpec
- * @see ECGenParameterSpec
+ * @see AlgorithmPbrbmeterSpec
+ * @see ECGenPbrbmeterSpec
  */
-public class ECKeySizeParameterSpec implements AlgorithmParameterSpec {
+public clbss ECKeySizePbrbmeterSpec implements AlgorithmPbrbmeterSpec {
 
-    private int keySize;
+    privbte int keySize;
 
     /**
-     * Creates a parameter specification for EC curve
-     * generation using a standard (or predefined) key size
-     * <code>keySize</code> in order to generate the corresponding
+     * Crebtes b pbrbmeter specificbtion for EC curve
+     * generbtion using b stbndbrd (or predefined) key size
+     * <code>keySize</code> in order to generbte the corresponding
      * (precomputed) elliptic curve.
      * <p>
      * Note, if the curve of the specified length is not supported,
-     * <code>AlgorithmParameters.init</code> will throw an exception.
+     * <code>AlgorithmPbrbmeters.init</code> will throw bn exception.
      *
-     * @param keySize the key size of the curve to lookup
+     * @pbrbm keySize the key size of the curve to lookup
      */
-    public ECKeySizeParameterSpec(int keySize) {
+    public ECKeySizePbrbmeterSpec(int keySize) {
         this.keySize = keySize;
     }
 
     /**
      * Returns the key size of this spec.
      *
-     * @return the standard or predefined key size.
+     * @return the stbndbrd or predefined key size.
      */
     public int getKeySize() {
         return keySize;

@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Date;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Dbte;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
  * From RFC 3280:
  * <p>
- * The invalidity date is a non-critical CRL entry extension that
- * provides the date on which it is known or suspected that the private
- * key was compromised or that the certificate otherwise became invalid.
- * This date may be earlier than the revocation date in the CRL entry,
- * which is the date at which the CA processed the revocation.  When a
- * revocation is first posted by a CRL issuer in a CRL, the invalidity
- * date may precede the date of issue of earlier CRLs, but the
- * revocation date SHOULD NOT precede the date of issue of earlier CRLs.
- * Whenever this information is available, CRL issuers are strongly
- * encouraged to share it with CRL users.
+ * The invblidity dbte is b non-criticbl CRL entry extension thbt
+ * provides the dbte on which it is known or suspected thbt the privbte
+ * key wbs compromised or thbt the certificbte otherwise becbme invblid.
+ * This dbte mby be ebrlier thbn the revocbtion dbte in the CRL entry,
+ * which is the dbte bt which the CA processed the revocbtion.  When b
+ * revocbtion is first posted by b CRL issuer in b CRL, the invblidity
+ * dbte mby precede the dbte of issue of ebrlier CRLs, but the
+ * revocbtion dbte SHOULD NOT precede the dbte of issue of ebrlier CRLs.
+ * Whenever this informbtion is bvbilbble, CRL issuers bre strongly
+ * encourbged to shbre it with CRL users.
  * <p>
- * The GeneralizedTime values included in this field MUST be expressed
- * in Greenwich Mean Time (Zulu), and MUST be specified and interpreted
- * as defined in section 4.1.2.5.2.
+ * The GenerblizedTime vblues included in this field MUST be expressed
+ * in Greenwich Mebn Time (Zulu), bnd MUST be specified bnd interpreted
+ * bs defined in section 4.1.2.5.2.
  * <pre>
- * id-ce-invalidityDate OBJECT IDENTIFIER ::= { id-ce 24 }
+ * id-ce-invblidityDbte OBJECT IDENTIFIER ::= { id-ce 24 }
  *
- * invalidityDate ::=  GeneralizedTime
+ * invblidityDbte ::=  GenerblizedTime
  * </pre>
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public class InvalidityDateExtension extends Extension
+public clbss InvblidityDbteExtension extends Extension
     implements CertAttrSet<String> {
 
     /**
-     * Attribute name and Reason codes
+     * Attribute nbme bnd Rebson codes
      */
-    public static final String NAME = "InvalidityDate";
-    public static final String DATE = "date";
+    public stbtic finbl String NAME = "InvblidityDbte";
+    public stbtic finbl String DATE = "dbte";
 
-    private Date date;
+    privbte Dbte dbte;
 
-    private void encodeThis() throws IOException {
-        if (date == null) {
-            this.extensionValue = null;
+    privbte void encodeThis() throws IOException {
+        if (dbte == null) {
+            this.extensionVblue = null;
             return;
         }
-        DerOutputStream dos = new DerOutputStream();
-        dos.putGeneralizedTime(date);
-        this.extensionValue = dos.toByteArray();
+        DerOutputStrebm dos = new DerOutputStrebm();
+        dos.putGenerblizedTime(dbte);
+        this.extensionVblue = dos.toByteArrby();
     }
 
     /**
-     * Create a InvalidityDateExtension with the passed in date.
-     * Criticality automatically set to false.
+     * Crebte b InvblidityDbteExtension with the pbssed in dbte.
+     * Criticblity butombticblly set to fblse.
      *
-     * @param date the invalidity date
+     * @pbrbm dbte the invblidity dbte
      */
-    public InvalidityDateExtension(Date date) throws IOException {
-        this(false, date);
+    public InvblidityDbteExtension(Dbte dbte) throws IOException {
+        this(fblse, dbte);
     }
 
     /**
-     * Create a InvalidityDateExtension with the passed in date.
+     * Crebte b InvblidityDbteExtension with the pbssed in dbte.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param date the invalidity date
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm dbte the invblidity dbte
      */
-    public InvalidityDateExtension(boolean critical, Date date)
+    public InvblidityDbteExtension(boolebn criticbl, Dbte dbte)
     throws IOException {
-        this.extensionId = PKIXExtensions.InvalidityDate_Id;
-        this.critical = critical;
-        this.date = date;
+        this.extensionId = PKIXExtensions.InvblidityDbte_Id;
+        this.criticbl = criticbl;
+        this.dbte = dbte;
         encodeThis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crebte the extension from the pbssed DER encoded vblue of the sbme.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-    public InvalidityDateExtension(Boolean critical, Object value)
+    public InvblidityDbteExtension(Boolebn criticbl, Object vblue)
     throws IOException {
-        this.extensionId = PKIXExtensions.InvalidityDate_Id;
-        this.critical = critical.booleanValue();
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        this.date = val.getGeneralizedTime();
+        this.extensionId = PKIXExtensions.InvblidityDbte_Id;
+        this.criticbl = criticbl.boolebnVblue();
+        this.extensionVblue = (byte[]) vblue;
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        this.dbte = vbl.getGenerblizedTime();
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Date)) {
-            throw new IOException("Attribute must be of type Date.");
+    public void set(String nbme, Object obj) throws IOException {
+        if (!(obj instbnceof Dbte)) {
+            throw new IOException("Attribute must be of type Dbte.");
         }
-        if (name.equalsIgnoreCase(DATE)) {
-            date = (Date) obj;
+        if (nbme.equblsIgnoreCbse(DATE)) {
+            dbte = (Dbte) obj;
         } else {
             throw new IOException
-                ("Name not supported by InvalidityDateExtension");
+                ("Nbme not supported by InvblidityDbteExtension");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public Date get(String name) throws IOException {
-        if (name.equalsIgnoreCase(DATE)) {
-            if (date == null) {
+    public Dbte get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(DATE)) {
+            if (dbte == null) {
                 return null;
             } else {
-                return (new Date(date.getTime()));    // clone
+                return (new Dbte(dbte.getTime()));    // clone
             }
         } else {
             throw new IOException
-                ("Name not supported by InvalidityDateExtension");
+                ("Nbme not supported by InvblidityDbteExtension");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(DATE)) {
-            date = null;
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(DATE)) {
+            dbte = null;
         } else {
             throw new IOException
-                ("Name not supported by InvalidityDateExtension");
+                ("Nbme not supported by InvblidityDbteExtension");
         }
         encodeThis();
     }
 
     /**
-     * Returns a printable representation of the Invalidity Date.
+     * Returns b printbble representbtion of the Invblidity Dbte.
      */
     public String toString() {
-        return super.toString() + "    Invalidity Date: " + String.valueOf(date);
+        return super.toString() + "    Invblidity Dbte: " + String.vblueOf(dbte);
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Write the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to
+     * @pbrbm out the DerOutputStrebm to write the extension to
      * @exception IOException on encoding errors
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream  tmp = new DerOutputStream();
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm  tmp = new DerOutputStrebm();
 
-        if (this.extensionValue == null) {
-            this.extensionId = PKIXExtensions.InvalidityDate_Id;
-            this.critical = false;
+        if (this.extensionVblue == null) {
+            this.extensionId = PKIXExtensions.InvblidityDbte_Id;
+            this.criticbl = fblse;
             encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(DATE);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(DATE);
 
         return elements.elements();
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return NAME;
     }
 
-    public static InvalidityDateExtension toImpl(java.security.cert.Extension ext)
+    public stbtic InvblidityDbteExtension toImpl(jbvb.security.cert.Extension ext)
         throws IOException {
-        if (ext instanceof InvalidityDateExtension) {
-            return (InvalidityDateExtension) ext;
+        if (ext instbnceof InvblidityDbteExtension) {
+            return (InvblidityDbteExtension) ext;
         } else {
-            return new InvalidityDateExtension
-                (Boolean.valueOf(ext.isCritical()), ext.getValue());
+            return new InvblidityDbteExtension
+                (Boolebn.vblueOf(ext.isCriticbl()), ext.getVblue());
         }
     }
 }

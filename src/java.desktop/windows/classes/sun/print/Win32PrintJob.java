@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.net.URI;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.Reader;
-import java.net.URL;
-import java.util.Vector;
+import jbvb.net.URI;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.Rebder;
+import jbvb.net.URL;
+import jbvb.util.Vector;
 
-import javax.print.CancelablePrintJob;
-import javax.print.Doc;
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.PrintService;
-import javax.print.PrintException;
-import javax.print.event.PrintJobEvent;
-import javax.print.event.PrintJobListener;
-import javax.print.event.PrintJobAttributeListener;
+import jbvbx.print.CbncelbblePrintJob;
+import jbvbx.print.Doc;
+import jbvbx.print.DocFlbvor;
+import jbvbx.print.DocPrintJob;
+import jbvbx.print.PrintService;
+import jbvbx.print.PrintException;
+import jbvbx.print.event.PrintJobEvent;
+import jbvbx.print.event.PrintJobListener;
+import jbvbx.print.event.PrintJobAttributeListener;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.AttributeSetUtilities;
-import javax.print.attribute.DocAttributeSet;
-import javax.print.attribute.HashPrintJobAttributeSet;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintJobAttribute;
-import javax.print.attribute.PrintJobAttributeSet;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.DocumentName;
-import javax.print.attribute.standard.Fidelity;
-import javax.print.attribute.standard.JobName;
-import javax.print.attribute.standard.JobOriginatingUserName;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaSizeName;
-import javax.print.attribute.standard.OrientationRequested;
-import javax.print.attribute.standard.RequestingUserName;
-import javax.print.attribute.standard.Destination;
-import javax.print.attribute.standard.PrinterIsAcceptingJobs;
-import javax.print.attribute.standard.PrinterState;
-import javax.print.attribute.standard.PrinterStateReason;
-import javax.print.attribute.standard.PrinterStateReasons;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.AttributeSet;
+import jbvbx.print.bttribute.AttributeSetUtilities;
+import jbvbx.print.bttribute.DocAttributeSet;
+import jbvbx.print.bttribute.HbshPrintJobAttributeSet;
+import jbvbx.print.bttribute.HbshPrintRequestAttributeSet;
+import jbvbx.print.bttribute.PrintJobAttribute;
+import jbvbx.print.bttribute.PrintJobAttributeSet;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintRequestAttributeSet;
+import jbvbx.print.bttribute.stbndbrd.Copies;
+import jbvbx.print.bttribute.stbndbrd.DocumentNbme;
+import jbvbx.print.bttribute.stbndbrd.Fidelity;
+import jbvbx.print.bttribute.stbndbrd.JobNbme;
+import jbvbx.print.bttribute.stbndbrd.JobOriginbtingUserNbme;
+import jbvbx.print.bttribute.stbndbrd.Medib;
+import jbvbx.print.bttribute.stbndbrd.MedibSize;
+import jbvbx.print.bttribute.stbndbrd.MedibSizeNbme;
+import jbvbx.print.bttribute.stbndbrd.OrientbtionRequested;
+import jbvbx.print.bttribute.stbndbrd.RequestingUserNbme;
+import jbvbx.print.bttribute.stbndbrd.Destinbtion;
+import jbvbx.print.bttribute.stbndbrd.PrinterIsAcceptingJobs;
+import jbvbx.print.bttribute.stbndbrd.PrinterStbte;
+import jbvbx.print.bttribute.stbndbrd.PrinterStbteRebson;
+import jbvbx.print.bttribute.stbndbrd.PrinterStbteRebsons;
 
-import java.awt.print.*;
+import jbvb.bwt.print.*;
 
-public class Win32PrintJob implements CancelablePrintJob {
+public clbss Win32PrintJob implements CbncelbblePrintJob {
 
-    transient private Vector<PrintJobListener> jobListeners;
-    transient private Vector<PrintJobAttributeListener> attrListeners;
-    transient private Vector<PrintJobAttributeSet> listenedAttributeSets;
+    trbnsient privbte Vector<PrintJobListener> jobListeners;
+    trbnsient privbte Vector<PrintJobAttributeListener> bttrListeners;
+    trbnsient privbte Vector<PrintJobAttributeSet> listenedAttributeSets;
 
-    private Win32PrintService service;
-    private boolean fidelity;
-    private boolean printing = false;
-    private boolean printReturned = false;
-    private PrintRequestAttributeSet reqAttrSet = null;
-    private PrintJobAttributeSet jobAttrSet = null;
-    private PrinterJob job;
-    private Doc doc;
-    private String mDestination = null;
+    privbte Win32PrintService service;
+    privbte boolebn fidelity;
+    privbte boolebn printing = fblse;
+    privbte boolebn printReturned = fblse;
+    privbte PrintRequestAttributeSet reqAttrSet = null;
+    privbte PrintJobAttributeSet jobAttrSet = null;
+    privbte PrinterJob job;
+    privbte Doc doc;
+    privbte String mDestinbtion = null;
 
-    /* these variables used globally to store reference to the print
-     * data retrieved as a stream. On completion these are always closed
+    /* these vbribbles used globblly to store reference to the print
+     * dbtb retrieved bs b strebm. On completion these bre blwbys closed
      * if non-null.
      */
-    private InputStream instream = null;
-    private Reader reader = null;
+    privbte InputStrebm instrebm = null;
+    privbte Rebder rebder = null;
 
-    /* default values overridden by those extracted from the attributes */
-    private String jobName = "Java Printing";
-    private int copies = 0;
-    private MediaSizeName mediaName = null;
-    private MediaSize     mediaSize = null;
-    private OrientationRequested orient = null;
+    /* defbult vblues overridden by those extrbcted from the bttributes */
+    privbte String jobNbme = "Jbvb Printing";
+    privbte int copies = 0;
+    privbte MedibSizeNbme medibNbme = null;
+    privbte MedibSize     medibSize = null;
+    privbte OrientbtionRequested orient = null;
 
-    /* print job handle used by native code */
-    private long hPrintJob;
+    /* print job hbndle used by nbtive code */
+    privbte long hPrintJob;
 
-    /* buffer length for printing raw data */
-    private static final int PRINTBUFFERLEN = 8192;
+    /* buffer length for printing rbw dbtb */
+    privbte stbtic finbl int PRINTBUFFERLEN = 8192;
 
     Win32PrintJob(Win32PrintService service) {
         this.service = service;
@@ -124,16 +124,16 @@ public class Win32PrintJob implements CancelablePrintJob {
     public PrintJobAttributeSet getAttributes() {
         synchronized (this) {
             if (jobAttrSet == null) {
-                /* just return an empty set until the job is submitted */
-                PrintJobAttributeSet jobSet = new HashPrintJobAttributeSet();
-                return AttributeSetUtilities.unmodifiableView(jobSet);
+                /* just return bn empty set until the job is submitted */
+                PrintJobAttributeSet jobSet = new HbshPrintJobAttributeSet();
+                return AttributeSetUtilities.unmodifibbleView(jobSet);
             } else {
               return jobAttrSet;
             }
         }
     }
 
-    public void addPrintJobListener(PrintJobListener listener) {
+    public void bddPrintJobListener(PrintJobListener listener) {
         synchronized (this) {
             if (listener == null) {
                 return;
@@ -141,7 +141,7 @@ public class Win32PrintJob implements CancelablePrintJob {
             if (jobListeners == null) {
                 jobListeners = new Vector<>();
             }
-            jobListeners.add(listener);
+            jobListeners.bdd(listener);
         }
     }
 
@@ -158,593 +158,593 @@ public class Win32PrintJob implements CancelablePrintJob {
     }
 
 
-    /* Closes any stream already retrieved for the data.
-     * We want to avoid unnecessarily asking the Doc to create a stream only
-     * to get a reference in order to close it because the job failed.
-     * If the representation class is itself a "stream", this
-     * closes that stream too.
+    /* Closes bny strebm blrebdy retrieved for the dbtb.
+     * We wbnt to bvoid unnecessbrily bsking the Doc to crebte b strebm only
+     * to get b reference in order to close it becbuse the job fbiled.
+     * If the representbtion clbss is itself b "strebm", this
+     * closes thbt strebm too.
      */
-    private void closeDataStreams() {
+    privbte void closeDbtbStrebms() {
 
         if (doc == null) {
             return;
         }
 
-        Object data = null;
+        Object dbtb = null;
 
         try {
-            data = doc.getPrintData();
-        } catch (IOException e) {
+            dbtb = doc.getPrintDbtb();
+        } cbtch (IOException e) {
             return;
         }
 
-        if (instream != null) {
+        if (instrebm != null) {
             try {
-                instream.close();
-            } catch (IOException e) {
-            } finally {
-                instream = null;
+                instrebm.close();
+            } cbtch (IOException e) {
+            } finblly {
+                instrebm = null;
             }
         }
-        else if (reader != null) {
+        else if (rebder != null) {
             try {
-                reader.close();
-            } catch (IOException e) {
-            } finally {
-                reader = null;
+                rebder.close();
+            } cbtch (IOException e) {
+            } finblly {
+                rebder = null;
             }
         }
-        else if (data instanceof InputStream) {
+        else if (dbtb instbnceof InputStrebm) {
             try {
-                ((InputStream)data).close();
-            } catch (IOException e) {
+                ((InputStrebm)dbtb).close();
+            } cbtch (IOException e) {
             }
         }
-        else if (data instanceof Reader) {
+        else if (dbtb instbnceof Rebder) {
             try {
-                ((Reader)data).close();
-            } catch (IOException e) {
+                ((Rebder)dbtb).close();
+            } cbtch (IOException e) {
             }
         }
     }
 
-    private void notifyEvent(int reason) {
+    privbte void notifyEvent(int rebson) {
 
-        /* since this method should always get called, here's where
-         * we will perform the clean up of any data stream supplied.
+        /* since this method should blwbys get cblled, here's where
+         * we will perform the clebn up of bny dbtb strebm supplied.
          */
-        switch (reason) {
-            case PrintJobEvent.DATA_TRANSFER_COMPLETE:
-            case PrintJobEvent.JOB_CANCELED :
-            case PrintJobEvent.JOB_FAILED :
-            case PrintJobEvent.NO_MORE_EVENTS :
-            case PrintJobEvent.JOB_COMPLETE :
-                closeDataStreams();
+        switch (rebson) {
+            cbse PrintJobEvent.DATA_TRANSFER_COMPLETE:
+            cbse PrintJobEvent.JOB_CANCELED :
+            cbse PrintJobEvent.JOB_FAILED :
+            cbse PrintJobEvent.NO_MORE_EVENTS :
+            cbse PrintJobEvent.JOB_COMPLETE :
+                closeDbtbStrebms();
         }
 
         synchronized (this) {
             if (jobListeners != null) {
                 PrintJobListener listener;
-                PrintJobEvent event = new PrintJobEvent(this, reason);
+                PrintJobEvent event = new PrintJobEvent(this, rebson);
                 for (int i = 0; i < jobListeners.size(); i++) {
                     listener = jobListeners.elementAt(i);
-                    switch (reason) {
+                    switch (rebson) {
 
-                        case PrintJobEvent.JOB_COMPLETE :
+                        cbse PrintJobEvent.JOB_COMPLETE :
                             listener.printJobCompleted(event);
-                            break;
+                            brebk;
 
-                        case PrintJobEvent.JOB_CANCELED :
-                            listener.printJobCanceled(event);
-                            break;
+                        cbse PrintJobEvent.JOB_CANCELED :
+                            listener.printJobCbnceled(event);
+                            brebk;
 
-                        case PrintJobEvent.JOB_FAILED :
-                            listener.printJobFailed(event);
-                            break;
+                        cbse PrintJobEvent.JOB_FAILED :
+                            listener.printJobFbiled(event);
+                            brebk;
 
-                        case PrintJobEvent.DATA_TRANSFER_COMPLETE :
-                            listener.printDataTransferCompleted(event);
-                            break;
+                        cbse PrintJobEvent.DATA_TRANSFER_COMPLETE :
+                            listener.printDbtbTrbnsferCompleted(event);
+                            brebk;
 
-                        case PrintJobEvent.NO_MORE_EVENTS :
+                        cbse PrintJobEvent.NO_MORE_EVENTS :
                             listener.printJobNoMoreEvents(event);
-                            break;
+                            brebk;
 
-                        default:
-                            break;
+                        defbult:
+                            brebk;
                     }
                 }
             }
        }
     }
 
-    public void addPrintJobAttributeListener(
+    public void bddPrintJobAttributeListener(
                                   PrintJobAttributeListener listener,
-                                  PrintJobAttributeSet attributes) {
+                                  PrintJobAttributeSet bttributes) {
         synchronized (this) {
             if (listener == null) {
                 return;
             }
-            if (attrListeners == null) {
-                attrListeners = new Vector<>();
+            if (bttrListeners == null) {
+                bttrListeners = new Vector<>();
                 listenedAttributeSets = new Vector<>();
             }
-            attrListeners.add(listener);
-            if (attributes == null) {
-                attributes = new HashPrintJobAttributeSet();
+            bttrListeners.bdd(listener);
+            if (bttributes == null) {
+                bttributes = new HbshPrintJobAttributeSet();
             }
-            listenedAttributeSets.add(attributes);
+            listenedAttributeSets.bdd(bttributes);
         }
     }
 
     public void removePrintJobAttributeListener(
                                         PrintJobAttributeListener listener) {
         synchronized (this) {
-            if (listener == null || attrListeners == null ) {
+            if (listener == null || bttrListeners == null ) {
                 return;
             }
-            int index = attrListeners.indexOf(listener);
+            int index = bttrListeners.indexOf(listener);
             if (index == -1) {
                 return;
             } else {
-                attrListeners.remove(index);
+                bttrListeners.remove(index);
                 listenedAttributeSets.remove(index);
-                if (attrListeners.isEmpty()) {
-                    attrListeners = null;
+                if (bttrListeners.isEmpty()) {
+                    bttrListeners = null;
                     listenedAttributeSets = null;
                 }
             }
         }
     }
 
-    public void print(Doc doc, PrintRequestAttributeSet attributes)
+    public void print(Doc doc, PrintRequestAttributeSet bttributes)
         throws PrintException {
 
         synchronized (this) {
             if (printing) {
-                throw new PrintException("already printing");
+                throw new PrintException("blrebdy printing");
             } else {
                 printing = true;
             }
         }
 
-        PrinterState prnState = service.getAttribute(PrinterState.class);
-        if (prnState == PrinterState.STOPPED) {
-            PrinterStateReasons prnStateReasons =
-                service.getAttribute(PrinterStateReasons.class);
-                if ((prnStateReasons != null) &&
-                    (prnStateReasons.containsKey(PrinterStateReason.SHUTDOWN)))
+        PrinterStbte prnStbte = service.getAttribute(PrinterStbte.clbss);
+        if (prnStbte == PrinterStbte.STOPPED) {
+            PrinterStbteRebsons prnStbteRebsons =
+                service.getAttribute(PrinterStbteRebsons.clbss);
+                if ((prnStbteRebsons != null) &&
+                    (prnStbteRebsons.contbinsKey(PrinterStbteRebson.SHUTDOWN)))
                 {
-                    throw new PrintException("PrintService is no longer available.");
+                    throw new PrintException("PrintService is no longer bvbilbble.");
                 }
         }
 
-        if (service.getAttribute(PrinterIsAcceptingJobs.class) ==
+        if (service.getAttribute(PrinterIsAcceptingJobs.clbss) ==
             PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS) {
-            throw new PrintException("Printer is not accepting job.");
+            throw new PrintException("Printer is not bccepting job.");
         }
 
 
         this.doc = doc;
-        /* check if the parameters are valid before doing much processing */
-        DocFlavor flavor = doc.getDocFlavor();
-        Object data;
+        /* check if the pbrbmeters bre vblid before doing much processing */
+        DocFlbvor flbvor = doc.getDocFlbvor();
+        Object dbtb;
 
         try {
-            data = doc.getPrintData();
-        } catch (IOException e) {
+            dbtb = doc.getPrintDbtb();
+        } cbtch (IOException e) {
             notifyEvent(PrintJobEvent.JOB_FAILED);
-            throw new PrintException("can't get print data: " + e.toString());
+            throw new PrintException("cbn't get print dbtb: " + e.toString());
         }
 
-        if (data == null) {
-            throw new PrintException("Null print data.");
+        if (dbtb == null) {
+            throw new PrintException("Null print dbtb.");
         }
 
-        if (flavor == null || (!service.isDocFlavorSupported(flavor))) {
+        if (flbvor == null || (!service.isDocFlbvorSupported(flbvor))) {
             notifyEvent(PrintJobEvent.JOB_FAILED);
-            throw new PrintJobFlavorException("invalid flavor", flavor);
+            throw new PrintJobFlbvorException("invblid flbvor", flbvor);
         }
 
-        initializeAttributeSets(doc, attributes);
+        initiblizeAttributeSets(doc, bttributes);
 
-        getAttributeValues(flavor);
+        getAttributeVblues(flbvor);
 
-        String repClassName = flavor.getRepresentationClassName();
+        String repClbssNbme = flbvor.getRepresentbtionClbssNbme();
 
-        if (flavor.equals(DocFlavor.INPUT_STREAM.GIF) ||
-            flavor.equals(DocFlavor.INPUT_STREAM.JPEG) ||
-            flavor.equals(DocFlavor.INPUT_STREAM.PNG) ||
-            flavor.equals(DocFlavor.BYTE_ARRAY.GIF) ||
-            flavor.equals(DocFlavor.BYTE_ARRAY.JPEG) ||
-            flavor.equals(DocFlavor.BYTE_ARRAY.PNG)) {
+        if (flbvor.equbls(DocFlbvor.INPUT_STREAM.GIF) ||
+            flbvor.equbls(DocFlbvor.INPUT_STREAM.JPEG) ||
+            flbvor.equbls(DocFlbvor.INPUT_STREAM.PNG) ||
+            flbvor.equbls(DocFlbvor.BYTE_ARRAY.GIF) ||
+            flbvor.equbls(DocFlbvor.BYTE_ARRAY.JPEG) ||
+            flbvor.equbls(DocFlbvor.BYTE_ARRAY.PNG)) {
             try {
-                instream = doc.getStreamForBytes();
-                if (instream == null) {
+                instrebm = doc.getStrebmForBytes();
+                if (instrebm == null) {
                     notifyEvent(PrintJobEvent.JOB_FAILED);
-                    throw new PrintException("No stream for data");
+                    throw new PrintException("No strebm for dbtb");
                 }
-                printableJob(new ImagePrinter(instream));
-                service.wakeNotifier();
+                printbbleJob(new ImbgePrinter(instrebm));
+                service.wbkeNotifier();
                 return;
-            } catch (ClassCastException cce) {
+            } cbtch (ClbssCbstException cce) {
                 notifyEvent(PrintJobEvent.JOB_FAILED);
                 throw new PrintException(cce);
-            } catch (IOException ioe) {
+            } cbtch (IOException ioe) {
                 notifyEvent(PrintJobEvent.JOB_FAILED);
                 throw new PrintException(ioe);
             }
-        } else if (flavor.equals(DocFlavor.URL.GIF) ||
-                   flavor.equals(DocFlavor.URL.JPEG) ||
-                   flavor.equals(DocFlavor.URL.PNG)) {
+        } else if (flbvor.equbls(DocFlbvor.URL.GIF) ||
+                   flbvor.equbls(DocFlbvor.URL.JPEG) ||
+                   flbvor.equbls(DocFlbvor.URL.PNG)) {
             try {
-                printableJob(new ImagePrinter((URL)data));
-                service.wakeNotifier();
+                printbbleJob(new ImbgePrinter((URL)dbtb));
+                service.wbkeNotifier();
                 return;
-            } catch (ClassCastException cce) {
+            } cbtch (ClbssCbstException cce) {
                 notifyEvent(PrintJobEvent.JOB_FAILED);
                 throw new PrintException(cce);
             }
-        } else if (repClassName.equals("java.awt.print.Pageable")) {
+        } else if (repClbssNbme.equbls("jbvb.bwt.print.Pbgebble")) {
             try {
-                pageableJob((Pageable)doc.getPrintData());
-                service.wakeNotifier();
+                pbgebbleJob((Pbgebble)doc.getPrintDbtb());
+                service.wbkeNotifier();
                 return;
-            } catch (ClassCastException cce) {
+            } cbtch (ClbssCbstException cce) {
                 notifyEvent(PrintJobEvent.JOB_FAILED);
                 throw new PrintException(cce);
-            } catch (IOException ioe) {
+            } cbtch (IOException ioe) {
                 notifyEvent(PrintJobEvent.JOB_FAILED);
                 throw new PrintException(ioe);
             }
-        } else if (repClassName.equals("java.awt.print.Printable")) {
+        } else if (repClbssNbme.equbls("jbvb.bwt.print.Printbble")) {
             try {
-                printableJob((Printable)doc.getPrintData());
-                service.wakeNotifier();
+                printbbleJob((Printbble)doc.getPrintDbtb());
+                service.wbkeNotifier();
                 return;
-            } catch (ClassCastException cce) {
+            } cbtch (ClbssCbstException cce) {
                 notifyEvent(PrintJobEvent.JOB_FAILED);
                 throw new PrintException(cce);
-            } catch (IOException ioe) {
+            } cbtch (IOException ioe) {
                 notifyEvent(PrintJobEvent.JOB_FAILED);
                 throw new PrintException(ioe);
             }
-        } else if (repClassName.equals("[B") ||
-                   repClassName.equals("java.io.InputStream") ||
-                   repClassName.equals("java.net.URL")) {
+        } else if (repClbssNbme.equbls("[B") ||
+                   repClbssNbme.equbls("jbvb.io.InputStrebm") ||
+                   repClbssNbme.equbls("jbvb.net.URL")) {
 
-            if (repClassName.equals("java.net.URL")) {
-                URL url = (URL)data;
+            if (repClbssNbme.equbls("jbvb.net.URL")) {
+                URL url = (URL)dbtb;
                 try {
-                    instream = url.openStream();
-                } catch (IOException e) {
+                    instrebm = url.openStrebm();
+                } cbtch (IOException e) {
                     notifyEvent(PrintJobEvent.JOB_FAILED);
                     throw new PrintException(e.toString());
                 }
             } else {
                 try {
-                    instream = doc.getStreamForBytes();
-                } catch (IOException ioe) {
+                    instrebm = doc.getStrebmForBytes();
+                } cbtch (IOException ioe) {
                     notifyEvent(PrintJobEvent.JOB_FAILED);
                     throw new PrintException(ioe.toString());
                 }
             }
 
-            if (instream == null) {
+            if (instrebm == null) {
                 notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException("No stream for data");
+                throw new PrintException("No strebm for dbtb");
             }
 
-            if (mDestination != null) { // if destination attribute is set
+            if (mDestinbtion != null) { // if destinbtion bttribute is set
                 try {
-                    FileOutputStream fos = new FileOutputStream(mDestination);
+                    FileOutputStrebm fos = new FileOutputStrebm(mDestinbtion);
                     byte []buffer = new byte[1024];
-                    int cread;
+                    int crebd;
 
-                    while ((cread = instream.read(buffer, 0, buffer.length)) >=0) {
-                        fos.write(buffer, 0, cread);
+                    while ((crebd = instrebm.rebd(buffer, 0, buffer.length)) >=0) {
+                        fos.write(buffer, 0, crebd);
                     }
                     fos.flush();
                     fos.close();
-                } catch (FileNotFoundException fnfe) {
+                } cbtch (FileNotFoundException fnfe) {
                     notifyEvent(PrintJobEvent.JOB_FAILED);
                     throw new PrintException(fnfe.toString());
-                } catch (IOException ioe) {
+                } cbtch (IOException ioe) {
                     notifyEvent(PrintJobEvent.JOB_FAILED);
                     throw new PrintException(ioe.toString());
                 }
                 notifyEvent(PrintJobEvent.DATA_TRANSFER_COMPLETE);
                 notifyEvent(PrintJobEvent.JOB_COMPLETE);
-                service.wakeNotifier();
+                service.wbkeNotifier();
                 return;
             }
 
-            if (!startPrintRawData(service.getName(), jobName)) {
+            if (!stbrtPrintRbwDbtb(service.getNbme(), jobNbme)) {
                 notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException("Print job failed to start.");
+                throw new PrintException("Print job fbiled to stbrt.");
             }
-            BufferedInputStream  bin = new BufferedInputStream(instream);
-            int bread = 0;
+            BufferedInputStrebm  bin = new BufferedInputStrebm(instrebm);
+            int brebd = 0;
             try {
                 byte[] buffer = new byte[PRINTBUFFERLEN];
 
-                while ((bread = bin.read(buffer, 0, PRINTBUFFERLEN)) >=0) {
-                    if (!printRawData(buffer, bread)) {
+                while ((brebd = bin.rebd(buffer, 0, PRINTBUFFERLEN)) >=0) {
+                    if (!printRbwDbtb(buffer, brebd)) {
                         bin.close();
                         notifyEvent(PrintJobEvent.JOB_FAILED);
-                        throw new PrintException ("Problem while spooling data");
+                        throw new PrintException ("Problem while spooling dbtb");
                     }
                 }
                 bin.close();
-                if (!endPrintRawData()) {
+                if (!endPrintRbwDbtb()) {
                     notifyEvent(PrintJobEvent.JOB_FAILED);
-                    throw new PrintException("Print job failed to close properly.");
+                    throw new PrintException("Print job fbiled to close properly.");
                 }
                 notifyEvent(PrintJobEvent.DATA_TRANSFER_COMPLETE);
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 notifyEvent(PrintJobEvent.JOB_FAILED);
                 throw new PrintException (e.toString());
-            } finally {
+            } finblly {
                 notifyEvent(PrintJobEvent.NO_MORE_EVENTS);
             }
         } else {
             notifyEvent(PrintJobEvent.JOB_FAILED);
-            throw new PrintException("unrecognized class: "+repClassName);
+            throw new PrintException("unrecognized clbss: "+repClbssNbme);
         }
-        service.wakeNotifier();
+        service.wbkeNotifier();
     }
 
-    public void printableJob(Printable printable) throws PrintException {
+    public void printbbleJob(Printbble printbble) throws PrintException {
         try {
             synchronized(this) {
-                if (job != null) { // shouldn't happen
-                    throw new PrintException("already printing");
+                if (job != null) { // shouldn't hbppen
+                    throw new PrintException("blrebdy printing");
                 } else {
-                    job = new sun.awt.windows.WPrinterJob();
+                    job = new sun.bwt.windows.WPrinterJob();
                 }
             }
             PrintService svc = getPrintService();
             job.setPrintService(svc);
             if (copies == 0) {
-                Copies c = (Copies)svc.getDefaultAttributeValue(Copies.class);
-                copies = c.getValue();
+                Copies c = (Copies)svc.getDefbultAttributeVblue(Copies.clbss);
+                copies = c.getVblue();
             }
 
-            if (mediaName == null) {
-                Object media = svc.getDefaultAttributeValue(Media.class);
-                if (media instanceof MediaSizeName) {
-                    mediaName = (MediaSizeName) media;
-                    mediaSize = MediaSize.getMediaSizeForName(mediaName);
+            if (medibNbme == null) {
+                Object medib = svc.getDefbultAttributeVblue(Medib.clbss);
+                if (medib instbnceof MedibSizeNbme) {
+                    medibNbme = (MedibSizeNbme) medib;
+                    medibSize = MedibSize.getMedibSizeForNbme(medibNbme);
                 }
             }
 
             if (orient == null) {
                 orient =
-                    (OrientationRequested)svc.getDefaultAttributeValue(OrientationRequested.class);
+                    (OrientbtionRequested)svc.getDefbultAttributeVblue(OrientbtionRequested.clbss);
             }
 
             job.setCopies(copies);
-            job.setJobName(jobName);
-            PageFormat pf = new PageFormat();
-            if (mediaSize != null) {
-                Paper p = new Paper();
-                p.setSize(mediaSize.getX(MediaSize.INCH)*72.0,
-                          mediaSize.getY(MediaSize.INCH)*72.0);
-                p.setImageableArea(72.0, 72.0, p.getWidth()-144.0,
+            job.setJobNbme(jobNbme);
+            PbgeFormbt pf = new PbgeFormbt();
+            if (medibSize != null) {
+                Pbper p = new Pbper();
+                p.setSize(medibSize.getX(MedibSize.INCH)*72.0,
+                          medibSize.getY(MedibSize.INCH)*72.0);
+                p.setImbgebbleAreb(72.0, 72.0, p.getWidth()-144.0,
                                    p.getHeight()-144.0);
-                pf.setPaper(p);
+                pf.setPbper(p);
             }
-            if (orient == OrientationRequested.REVERSE_LANDSCAPE) {
-                pf.setOrientation(PageFormat.REVERSE_LANDSCAPE);
-            } else if (orient == OrientationRequested.LANDSCAPE) {
-                pf.setOrientation(PageFormat.LANDSCAPE);
+            if (orient == OrientbtionRequested.REVERSE_LANDSCAPE) {
+                pf.setOrientbtion(PbgeFormbt.REVERSE_LANDSCAPE);
+            } else if (orient == OrientbtionRequested.LANDSCAPE) {
+                pf.setOrientbtion(PbgeFormbt.LANDSCAPE);
             }
-            job.setPrintable(printable, pf);
+            job.setPrintbble(printbble, pf);
             job.print(reqAttrSet);
             notifyEvent(PrintJobEvent.DATA_TRANSFER_COMPLETE);
             return;
-        } catch (PrinterException pe) {
+        } cbtch (PrinterException pe) {
             notifyEvent(PrintJobEvent.JOB_FAILED);
             throw new PrintException(pe);
-        } finally {
+        } finblly {
             printReturned = true;
             notifyEvent(PrintJobEvent.NO_MORE_EVENTS);
         }
     }
 
-    public void pageableJob(Pageable pageable) throws PrintException {
+    public void pbgebbleJob(Pbgebble pbgebble) throws PrintException {
         try {
             synchronized(this) {
-                if (job != null) { // shouldn't happen
-                    throw new PrintException("already printing");
+                if (job != null) { // shouldn't hbppen
+                    throw new PrintException("blrebdy printing");
                 } else {
-                    job = new sun.awt.windows.WPrinterJob();
+                    job = new sun.bwt.windows.WPrinterJob();
                 }
             }
             PrintService svc = getPrintService();
             job.setPrintService(svc);
             if (copies == 0) {
-                Copies c = (Copies)svc.getDefaultAttributeValue(Copies.class);
-                copies = c.getValue();
+                Copies c = (Copies)svc.getDefbultAttributeVblue(Copies.clbss);
+                copies = c.getVblue();
             }
             job.setCopies(copies);
-            job.setJobName(jobName);
-            job.setPageable(pageable);
+            job.setJobNbme(jobNbme);
+            job.setPbgebble(pbgebble);
             job.print(reqAttrSet);
             notifyEvent(PrintJobEvent.DATA_TRANSFER_COMPLETE);
             return;
-        } catch (PrinterException pe) {
+        } cbtch (PrinterException pe) {
             notifyEvent(PrintJobEvent.JOB_FAILED);
             throw new PrintException(pe);
-        } finally {
+        } finblly {
             printReturned = true;
             notifyEvent(PrintJobEvent.NO_MORE_EVENTS);
         }
     }
 
-    /* There's some inefficiency here as the job set is created even though
-     * it may never be requested.
+    /* There's some inefficiency here bs the job set is crebted even though
+     * it mby never be requested.
      */
-    private synchronized void
-        initializeAttributeSets(Doc doc, PrintRequestAttributeSet reqSet) {
+    privbte synchronized void
+        initiblizeAttributeSets(Doc doc, PrintRequestAttributeSet reqSet) {
 
-        reqAttrSet = new HashPrintRequestAttributeSet();
-        jobAttrSet = new HashPrintJobAttributeSet();
+        reqAttrSet = new HbshPrintRequestAttributeSet();
+        jobAttrSet = new HbshPrintJobAttributeSet();
 
-        Attribute[] attrs;
+        Attribute[] bttrs;
         if (reqSet != null) {
-            reqAttrSet.addAll(reqSet);
-            attrs = reqSet.toArray();
-            for (int i=0; i<attrs.length; i++) {
-                if (attrs[i] instanceof PrintJobAttribute) {
-                    jobAttrSet.add(attrs[i]);
+            reqAttrSet.bddAll(reqSet);
+            bttrs = reqSet.toArrby();
+            for (int i=0; i<bttrs.length; i++) {
+                if (bttrs[i] instbnceof PrintJobAttribute) {
+                    jobAttrSet.bdd(bttrs[i]);
                 }
             }
         }
 
         DocAttributeSet docSet = doc.getAttributes();
         if (docSet != null) {
-            attrs = docSet.toArray();
-            for (int i=0; i<attrs.length; i++) {
-                if (attrs[i] instanceof PrintRequestAttribute) {
-                    reqAttrSet.add(attrs[i]);
+            bttrs = docSet.toArrby();
+            for (int i=0; i<bttrs.length; i++) {
+                if (bttrs[i] instbnceof PrintRequestAttribute) {
+                    reqAttrSet.bdd(bttrs[i]);
                 }
-                if (attrs[i] instanceof PrintJobAttribute) {
-                    jobAttrSet.add(attrs[i]);
+                if (bttrs[i] instbnceof PrintJobAttribute) {
+                    jobAttrSet.bdd(bttrs[i]);
                 }
             }
         }
 
-        /* add the user name to the job */
-        String userName = "";
+        /* bdd the user nbme to the job */
+        String userNbme = "";
         try {
-          userName = System.getProperty("user.name");
-        } catch (SecurityException se) {
+          userNbme = System.getProperty("user.nbme");
+        } cbtch (SecurityException se) {
         }
 
-        if (userName == null || userName.equals("")) {
-            RequestingUserName ruName =
-                (RequestingUserName)reqSet.get(RequestingUserName.class);
-            if (ruName != null) {
-                jobAttrSet.add(
-                    new JobOriginatingUserName(ruName.getValue(),
-                                               ruName.getLocale()));
+        if (userNbme == null || userNbme.equbls("")) {
+            RequestingUserNbme ruNbme =
+                (RequestingUserNbme)reqSet.get(RequestingUserNbme.clbss);
+            if (ruNbme != null) {
+                jobAttrSet.bdd(
+                    new JobOriginbtingUserNbme(ruNbme.getVblue(),
+                                               ruNbme.getLocble()));
             } else {
-                jobAttrSet.add(new JobOriginatingUserName("", null));
+                jobAttrSet.bdd(new JobOriginbtingUserNbme("", null));
             }
         } else {
-            jobAttrSet.add(new JobOriginatingUserName(userName, null));
+            jobAttrSet.bdd(new JobOriginbtingUserNbme(userNbme, null));
         }
 
-        /* if no job name supplied use doc name (if supplied), if none and
-         * its a URL use that, else finally anything .. */
-        if (jobAttrSet.get(JobName.class) == null) {
-            JobName jobName;
-            if (docSet != null && docSet.get(DocumentName.class) != null) {
-                DocumentName docName =
-                    (DocumentName)docSet.get(DocumentName.class);
-                jobName = new JobName(docName.getValue(), docName.getLocale());
-                jobAttrSet.add(jobName);
+        /* if no job nbme supplied use doc nbme (if supplied), if none bnd
+         * its b URL use thbt, else finblly bnything .. */
+        if (jobAttrSet.get(JobNbme.clbss) == null) {
+            JobNbme jobNbme;
+            if (docSet != null && docSet.get(DocumentNbme.clbss) != null) {
+                DocumentNbme docNbme =
+                    (DocumentNbme)docSet.get(DocumentNbme.clbss);
+                jobNbme = new JobNbme(docNbme.getVblue(), docNbme.getLocble());
+                jobAttrSet.bdd(jobNbme);
             } else {
                 String str = "JPS Job:" + doc;
                 try {
-                    Object printData = doc.getPrintData();
-                    if (printData instanceof URL) {
-                        str = ((URL)(doc.getPrintData())).toString();
+                    Object printDbtb = doc.getPrintDbtb();
+                    if (printDbtb instbnceof URL) {
+                        str = ((URL)(doc.getPrintDbtb())).toString();
                     }
-                } catch (IOException e) {
+                } cbtch (IOException e) {
                 }
-                jobName = new JobName(str, null);
-                jobAttrSet.add(jobName);
+                jobNbme = new JobNbme(str, null);
+                jobAttrSet.bdd(jobNbme);
             }
         }
 
-        jobAttrSet = AttributeSetUtilities.unmodifiableView(jobAttrSet);
+        jobAttrSet = AttributeSetUtilities.unmodifibbleView(jobAttrSet);
     }
 
-    private void getAttributeValues(DocFlavor flavor) throws PrintException {
+    privbte void getAttributeVblues(DocFlbvor flbvor) throws PrintException {
 
-        if (reqAttrSet.get(Fidelity.class) == Fidelity.FIDELITY_TRUE) {
+        if (reqAttrSet.get(Fidelity.clbss) == Fidelity.FIDELITY_TRUE) {
             fidelity = true;
         } else {
-            fidelity = false;
+            fidelity = fblse;
         }
 
-        Class<? extends Attribute> category;
-        Attribute [] attrs = reqAttrSet.toArray();
-        for (int i=0; i<attrs.length; i++) {
-            Attribute attr = attrs[i];
-            category = attr.getCategory();
+        Clbss<? extends Attribute> cbtegory;
+        Attribute [] bttrs = reqAttrSet.toArrby();
+        for (int i=0; i<bttrs.length; i++) {
+            Attribute bttr = bttrs[i];
+            cbtegory = bttr.getCbtegory();
             if (fidelity == true) {
-                if (!service.isAttributeCategorySupported(category)) {
+                if (!service.isAttributeCbtegorySupported(cbtegory)) {
                     notifyEvent(PrintJobEvent.JOB_FAILED);
                     throw new PrintJobAttributeException(
-                        "unsupported category: " + category, category, null);
+                        "unsupported cbtegory: " + cbtegory, cbtegory, null);
                 } else if
-                    (!service.isAttributeValueSupported(attr, flavor, null)) {
+                    (!service.isAttributeVblueSupported(bttr, flbvor, null)) {
                     notifyEvent(PrintJobEvent.JOB_FAILED);
                     throw new PrintJobAttributeException(
-                        "unsupported attribute: " + attr, null, attr);
+                        "unsupported bttribute: " + bttr, null, bttr);
                 }
             }
-            if (category == Destination.class) {
-              URI uri = ((Destination)attr).getURI();
-              if (!"file".equals(uri.getScheme())) {
+            if (cbtegory == Destinbtion.clbss) {
+              URI uri = ((Destinbtion)bttr).getURI();
+              if (!"file".equbls(uri.getScheme())) {
                 notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException("Not a file: URI");
+                throw new PrintException("Not b file: URI");
               } else {
                 try {
-                  mDestination = (new File(uri)).getPath();
-                } catch (Exception e) {
+                  mDestinbtion = (new File(uri)).getPbth();
+                } cbtch (Exception e) {
                   throw new PrintException(e);
                 }
-                // check write access
-                SecurityManager security = System.getSecurityManager();
+                // check write bccess
+                SecurityMbnbger security = System.getSecurityMbnbger();
                 if (security != null) {
                   try {
-                    security.checkWrite(mDestination);
-                  } catch (SecurityException se) {
+                    security.checkWrite(mDestinbtion);
+                  } cbtch (SecurityException se) {
                     notifyEvent(PrintJobEvent.JOB_FAILED);
                     throw new PrintException(se);
                   }
                 }
               }
-            } else if (category == JobName.class) {
-                jobName = ((JobName)attr).getValue();
-            } else if (category == Copies.class) {
-                copies = ((Copies)attr).getValue();
-            } else if (category == Media.class) {
-              if (attr instanceof MediaSizeName) {
-                    mediaName = (MediaSizeName)attr;
-                    // If requested MediaSizeName is not supported,
-                    // get the corresponding media size - this will
-                    // be used to create a new PageFormat.
-                    if (!service.isAttributeValueSupported(attr, null, null)) {
-                        mediaSize = MediaSize.getMediaSizeForName(mediaName);
+            } else if (cbtegory == JobNbme.clbss) {
+                jobNbme = ((JobNbme)bttr).getVblue();
+            } else if (cbtegory == Copies.clbss) {
+                copies = ((Copies)bttr).getVblue();
+            } else if (cbtegory == Medib.clbss) {
+              if (bttr instbnceof MedibSizeNbme) {
+                    medibNbme = (MedibSizeNbme)bttr;
+                    // If requested MedibSizeNbme is not supported,
+                    // get the corresponding medib size - this will
+                    // be used to crebte b new PbgeFormbt.
+                    if (!service.isAttributeVblueSupported(bttr, null, null)) {
+                        medibSize = MedibSize.getMedibSizeForNbme(medibNbme);
                     }
                 }
-            } else if (category == OrientationRequested.class) {
-                orient = (OrientationRequested)attr;
+            } else if (cbtegory == OrientbtionRequested.clbss) {
+                orient = (OrientbtionRequested)bttr;
             }
         }
     }
 
-    private native boolean startPrintRawData(String printerName,
-                                             String jobName);
-    private native boolean printRawData(byte[] data, int count);
-    private native boolean endPrintRawData();
+    privbte nbtive boolebn stbrtPrintRbwDbtb(String printerNbme,
+                                             String jobNbme);
+    privbte nbtive boolebn printRbwDbtb(byte[] dbtb, int count);
+    privbte nbtive boolebn endPrintRbwDbtb();
 
-    /* Cancel PrinterJob jobs that haven't yet completed. */
-   public void cancel() throws PrintException {
+    /* Cbncel PrinterJob jobs thbt hbven't yet completed. */
+   public void cbncel() throws PrintException {
         synchronized (this) {
             if (!printing) {
                 throw new PrintException("Job is not yet submitted.");
             } else if (job != null && !printReturned) {
-                job.cancel();
+                job.cbncel();
                 notifyEvent(PrintJobEvent.JOB_CANCELED);
                 return;
             } else {
-                throw new PrintException("Job could not be cancelled.");
+                throw new PrintException("Job could not be cbncelled.");
             }
         }
     }

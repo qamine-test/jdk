@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1996, 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 1997, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  * COPYRIGHT goes here
  */
 
-package sun.applet;
+pbckbge sun.bpplet;
 
-import java.io.*;
-import java.lang.reflect.Array;
+import jbvb.io.*;
+import jbvb.lbng.reflect.Arrby;
 
 /**
- * This subclass of ObjectInputStream delegates loading of classes to
- * an existing ClassLoader.
+ * This subclbss of ObjectInputStrebm delegbtes lobding of clbsses to
+ * bn existing ClbssLobder.
  */
 
-class AppletObjectInputStream extends ObjectInputStream
+clbss AppletObjectInputStrebm extends ObjectInputStrebm
 {
-    private AppletClassLoader loader;
+    privbte AppletClbssLobder lobder;
 
     /**
-     * Loader must be non-null;
+     * Lobder must be non-null;
      */
 
-    public AppletObjectInputStream(InputStream in, AppletClassLoader loader)
-            throws IOException, StreamCorruptedException {
+    public AppletObjectInputStrebm(InputStrebm in, AppletClbssLobder lobder)
+            throws IOException, StrebmCorruptedException {
 
         super(in);
-        if (loader == null) {
-            throw new AppletIllegalArgumentException("appletillegalargumentexception.objectinputstream");
+        if (lobder == null) {
+            throw new AppletIllegblArgumentException("bppletillegblbrgumentexception.objectinputstrebm");
 
         }
-        this.loader = loader;
+        this.lobder = lobder;
     }
 
     /**
-     * Make a primitive array class
+     * Mbke b primitive brrby clbss
      */
 
-    private Class<?> primitiveType(char type) {
+    privbte Clbss<?> primitiveType(chbr type) {
         switch (type) {
-        case 'B': return byte.class;
-        case 'C': return char.class;
-        case 'D': return double.class;
-        case 'F': return float.class;
-        case 'I': return int.class;
-        case 'J': return long.class;
-        case 'S': return short.class;
-        case 'Z': return boolean.class;
-        default: return null;
+        cbse 'B': return byte.clbss;
+        cbse 'C': return chbr.clbss;
+        cbse 'D': return double.clbss;
+        cbse 'F': return flobt.clbss;
+        cbse 'I': return int.clbss;
+        cbse 'J': return long.clbss;
+        cbse 'S': return short.clbss;
+        cbse 'Z': return boolebn.clbss;
+        defbult: return null;
         }
     }
 
     /**
-     * Use the given ClassLoader rather than using the system class
+     * Use the given ClbssLobder rbther thbn using the system clbss
      */
-    protected Class<?> resolveClass(ObjectStreamClass classDesc)
-        throws IOException, ClassNotFoundException {
+    protected Clbss<?> resolveClbss(ObjectStrebmClbss clbssDesc)
+        throws IOException, ClbssNotFoundException {
 
-        String cname = classDesc.getName();
-        if (cname.startsWith("[")) {
-            // An array
-            Class<?> component;            // component class
+        String cnbme = clbssDesc.getNbme();
+        if (cnbme.stbrtsWith("[")) {
+            // An brrby
+            Clbss<?> component;            // component clbss
             int dcount;                 // dimension
-            for (dcount=1; cname.charAt(dcount)=='['; dcount++) ;
-            if (cname.charAt(dcount) == 'L') {
-                component = loader.loadClass(cname.substring(dcount+1,
-                                                             cname.length()-1));
+            for (dcount=1; cnbme.chbrAt(dcount)=='['; dcount++) ;
+            if (cnbme.chbrAt(dcount) == 'L') {
+                component = lobder.lobdClbss(cnbme.substring(dcount+1,
+                                                             cnbme.length()-1));
             } else {
-                if (cname.length() != dcount+1) {
-                    throw new ClassNotFoundException(cname);// malformed
+                if (cnbme.length() != dcount+1) {
+                    throw new ClbssNotFoundException(cnbme);// mblformed
                 }
-                component = primitiveType(cname.charAt(dcount));
+                component = primitiveType(cnbme.chbrAt(dcount));
             }
             int dim[] = new int[dcount];
             for (int i=0; i<dcount; i++) {
                 dim[i]=0;
             }
-            return Array.newInstance(component, dim).getClass();
+            return Arrby.newInstbnce(component, dim).getClbss();
         } else {
-            return loader.loadClass(cname);
+            return lobder.lobdClbss(cnbme);
         }
     }
 }

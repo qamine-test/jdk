@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt;
+pbckbge sun.lwbwt;
 
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Window;
-import java.awt.dnd.DropTarget;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Window;
+import jbvb.bwt.dnd.DropTbrget;
 
-import sun.awt.CausedFocusEvent;
-import sun.awt.LightweightFrame;
-import sun.swing.JLightweightFrame;
+import sun.bwt.CbusedFocusEvent;
+import sun.bwt.LightweightFrbme;
+import sun.swing.JLightweightFrbme;
 import sun.swing.SwingAccessor;
 
-public class LWLightweightFramePeer extends LWWindowPeer {
+public clbss LWLightweightFrbmePeer extends LWWindowPeer {
 
-    public LWLightweightFramePeer(LightweightFrame target,
-                                  PlatformComponent platformComponent,
-                                  PlatformWindow platformWindow)
+    public LWLightweightFrbmePeer(LightweightFrbme tbrget,
+                                  PlbtformComponent plbtformComponent,
+                                  PlbtformWindow plbtformWindow)
     {
-        super(target, platformComponent, platformWindow, LWWindowPeer.PeerType.LW_FRAME);
+        super(tbrget, plbtformComponent, plbtformWindow, LWWindowPeer.PeerType.LW_FRAME);
     }
 
-    private LightweightFrame getLwTarget() {
-        return (LightweightFrame)getTarget();
-    }
-
-    @Override
-    public Graphics getGraphics() {
-        return getLwTarget().getGraphics();
+    privbte LightweightFrbme getLwTbrget() {
+        return (LightweightFrbme)getTbrget();
     }
 
     @Override
-    protected void setVisibleImpl(final boolean visible) {
+    public Grbphics getGrbphics() {
+        return getLwTbrget().getGrbphics();
     }
 
     @Override
-    public boolean requestWindowFocus(CausedFocusEvent.Cause cause) {
+    protected void setVisibleImpl(finbl boolebn visible) {
+    }
+
+    @Override
+    public boolebn requestWindowFocus(CbusedFocusEvent.Cbuse cbuse) {
         if (!focusAllowedFor()) {
-            return false;
+            return fblse;
         }
-        if (getPlatformWindow().rejectFocusRequest(cause)) {
-            return false;
+        if (getPlbtformWindow().rejectFocusRequest(cbuse)) {
+            return fblse;
         }
 
-        Window opposite = LWKeyboardFocusManagerPeer.getInstance().
+        Window opposite = LWKeybobrdFocusMbnbgerPeer.getInstbnce().
             getCurrentFocusedWindow();
 
-        changeFocusedWindow(true, opposite);
+        chbngeFocusedWindow(true, opposite);
 
         return true;
     }
 
     @Override
-    public Point getLocationOnScreen() {
-        Rectangle bounds = getBounds();
+    public Point getLocbtionOnScreen() {
+        Rectbngle bounds = getBounds();
         return new Point(bounds.x, bounds.y); // todo
     }
 
@@ -89,29 +89,29 @@ public class LWLightweightFramePeer extends LWWindowPeer {
 
     @Override
     public void setBounds(int x, int y, int w, int h, int op) {
-        setBounds(x, y, w, h, op, true, false);
+        setBounds(x, y, w, h, op, true, fblse);
     }
 
     @Override
-    public void addDropTarget(DropTarget dt) {
+    public void bddDropTbrget(DropTbrget dt) {
     }
 
     @Override
-    public void removeDropTarget(DropTarget dt) {
+    public void removeDropTbrget(DropTbrget dt) {
     }
 
     @Override
-    public void grab() {
-        getLwTarget().grabFocus();
+    public void grbb() {
+        getLwTbrget().grbbFocus();
     }
 
     @Override
-    public void ungrab() {
-        getLwTarget().ungrabFocus();
+    public void ungrbb() {
+        getLwTbrget().ungrbbFocus();
     }
 
     @Override
-    public void updateCursorImmediately() {
-        SwingAccessor.getJLightweightFrameAccessor().updateCursor((JLightweightFrame)getLwTarget());
+    public void updbteCursorImmedibtely() {
+        SwingAccessor.getJLightweightFrbmeAccessor().updbteCursor((JLightweightFrbme)getLwTbrget());
     }
 }

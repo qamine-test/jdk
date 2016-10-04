@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.Locale;
-import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
-import java.security.AccessController;
-import static java.security.AccessController.doPrivileged;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.FileDescriptor;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Arrbys;
+import jbvb.util.EnumSet;
+import jbvb.util.Locble;
+import jbvb.util.Set;
+import jbvb.util.concurrent.Executors;
+import jbvb.util.concurrent.Executor;
+import jbvb.util.concurrent.ThrebdFbctory;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.security.AccessController;
+import stbtic jbvb.security.AccessController.doPrivileged;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
 
 /**
- * java.lang.Process subclass in the UNIX environment.
+ * jbvb.lbng.Process subclbss in the UNIX environment.
  *
- * @author Mario Wolczko and Ross Knippel.
- * @author Konstantin Kladko (ported to Linux and Bsd)
- * @author Martin Buchholz
- * @author Volker Simonis (ported to AIX)
+ * @buthor Mbrio Wolczko bnd Ross Knippel.
+ * @buthor Konstbntin Klbdko (ported to Linux bnd Bsd)
+ * @buthor Mbrtin Buchholz
+ * @buthor Volker Simonis (ported to AIX)
  */
-final class UNIXProcess extends Process {
-    private static final sun.misc.JavaIOFileDescriptorAccess fdAccess
-        = sun.misc.SharedSecrets.getJavaIOFileDescriptorAccess();
+finbl clbss UNIXProcess extends Process {
+    privbte stbtic finbl sun.misc.JbvbIOFileDescriptorAccess fdAccess
+        = sun.misc.ShbredSecrets.getJbvbIOFileDescriptorAccess();
 
-    private final int pid;
-    private int exitcode;
-    private boolean hasExited;
+    privbte finbl int pid;
+    privbte int exitcode;
+    privbte boolebn hbsExited;
 
-    private /* final */ OutputStream stdin;
-    private /* final */ InputStream  stdout;
-    private /* final */ InputStream  stderr;
+    privbte /* finbl */ OutputStrebm stdin;
+    privbte /* finbl */ InputStrebm  stdout;
+    privbte /* finbl */ InputStrebm  stderr;
 
-    // only used on Solaris
-    private /* final */ DeferredCloseInputStream stdout_inner_stream;
+    // only used on Solbris
+    privbte /* finbl */ DeferredCloseInputStrebm stdout_inner_strebm;
 
-    private static enum LaunchMechanism {
-        // order IS important!
+    privbte stbtic enum LbunchMechbnism {
+        // order IS importbnt!
         FORK,
         POSIX_SPAWN,
         VFORK
     }
 
-    private static enum Platform {
+    privbte stbtic enum Plbtform {
 
-        LINUX(LaunchMechanism.VFORK, LaunchMechanism.FORK),
+        LINUX(LbunchMechbnism.VFORK, LbunchMechbnism.FORK),
 
-        BSD(LaunchMechanism.POSIX_SPAWN, LaunchMechanism.FORK),
+        BSD(LbunchMechbnism.POSIX_SPAWN, LbunchMechbnism.FORK),
 
-        SOLARIS(LaunchMechanism.POSIX_SPAWN, LaunchMechanism.FORK),
+        SOLARIS(LbunchMechbnism.POSIX_SPAWN, LbunchMechbnism.FORK),
 
-        AIX(LaunchMechanism.POSIX_SPAWN, LaunchMechanism.FORK);
+        AIX(LbunchMechbnism.POSIX_SPAWN, LbunchMechbnism.FORK);
 
-        final LaunchMechanism defaultLaunchMechanism;
-        final Set<LaunchMechanism> validLaunchMechanisms;
+        finbl LbunchMechbnism defbultLbunchMechbnism;
+        finbl Set<LbunchMechbnism> vblidLbunchMechbnisms;
 
-        Platform(LaunchMechanism ... launchMechanisms) {
-            this.defaultLaunchMechanism = launchMechanisms[0];
-            this.validLaunchMechanisms =
-                EnumSet.copyOf(Arrays.asList(launchMechanisms));
+        Plbtform(LbunchMechbnism ... lbunchMechbnisms) {
+            this.defbultLbunchMechbnism = lbunchMechbnisms[0];
+            this.vblidLbunchMechbnisms =
+                EnumSet.copyOf(Arrbys.bsList(lbunchMechbnisms));
         }
 
-        @SuppressWarnings("fallthrough")
-        private String helperPath(String javahome, String osArch) {
+        @SuppressWbrnings("fbllthrough")
+        privbte String helperPbth(String jbvbhome, String osArch) {
             switch (this) {
-                case SOLARIS:
-                    if (osArch.equals("x86")) { osArch = "i386"; }
-                    else if (osArch.equals("x86_64")) { osArch = "amd64"; }
-                    // fall through...
-                case LINUX:
-                case AIX:
-                    return javahome + "/lib/" + osArch + "/jspawnhelper";
+                cbse SOLARIS:
+                    if (osArch.equbls("x86")) { osArch = "i386"; }
+                    else if (osArch.equbls("x86_64")) { osArch = "bmd64"; }
+                    // fbll through...
+                cbse LINUX:
+                cbse AIX:
+                    return jbvbhome + "/lib/" + osArch + "/jspbwnhelper";
 
-                case BSD:
-                    return javahome + "/lib/jspawnhelper";
+                cbse BSD:
+                    return jbvbhome + "/lib/jspbwnhelper";
 
-                default:
-                    throw new AssertionError("Unsupported platform: " + this);
+                defbult:
+                    throw new AssertionError("Unsupported plbtform: " + this);
             }
         }
 
-        String helperPath() {
+        String helperPbth() {
             return AccessController.doPrivileged(
                 (PrivilegedAction<String>) () ->
-                    helperPath(System.getProperty("java.home"),
-                               System.getProperty("os.arch"))
+                    helperPbth(System.getProperty("jbvb.home"),
+                               System.getProperty("os.brch"))
             );
         }
 
-        LaunchMechanism launchMechanism() {
+        LbunchMechbnism lbunchMechbnism() {
             return AccessController.doPrivileged(
-                (PrivilegedAction<LaunchMechanism>) () -> {
+                (PrivilegedAction<LbunchMechbnism>) () -> {
                     String s = System.getProperty(
-                        "jdk.lang.Process.launchMechanism");
-                    LaunchMechanism lm;
+                        "jdk.lbng.Process.lbunchMechbnism");
+                    LbunchMechbnism lm;
                     if (s == null) {
-                        lm = defaultLaunchMechanism;
-                        s = lm.name().toLowerCase(Locale.ENGLISH);
+                        lm = defbultLbunchMechbnism;
+                        s = lm.nbme().toLowerCbse(Locble.ENGLISH);
                     } else {
                         try {
-                            lm = LaunchMechanism.valueOf(
-                                s.toUpperCase(Locale.ENGLISH));
-                        } catch (IllegalArgumentException e) {
+                            lm = LbunchMechbnism.vblueOf(
+                                s.toUpperCbse(Locble.ENGLISH));
+                        } cbtch (IllegblArgumentException e) {
                             lm = null;
                         }
                     }
-                    if (lm == null || !validLaunchMechanisms.contains(lm)) {
+                    if (lm == null || !vblidLbunchMechbnisms.contbins(lm)) {
                         throw new Error(
-                            s + " is not a supported " +
-                            "process launch mechanism on this platform."
+                            s + " is not b supported " +
+                            "process lbunch mechbnism on this plbtform."
                         );
                     }
                     return lm;
@@ -152,329 +152,329 @@ final class UNIXProcess extends Process {
             );
         }
 
-        static Platform get() {
-            String osName = AccessController.doPrivileged(
-                (PrivilegedAction<String>) () -> System.getProperty("os.name")
+        stbtic Plbtform get() {
+            String osNbme = AccessController.doPrivileged(
+                (PrivilegedAction<String>) () -> System.getProperty("os.nbme")
             );
 
-            if (osName.equals("Linux")) { return LINUX; }
-            if (osName.contains("OS X")) { return BSD; }
-            if (osName.equals("SunOS")) { return SOLARIS; }
-            if (osName.equals("AIX")) { return AIX; }
+            if (osNbme.equbls("Linux")) { return LINUX; }
+            if (osNbme.contbins("OS X")) { return BSD; }
+            if (osNbme.equbls("SunOS")) { return SOLARIS; }
+            if (osNbme.equbls("AIX")) { return AIX; }
 
-            throw new Error(osName + " is not a supported OS platform.");
+            throw new Error(osNbme + " is not b supported OS plbtform.");
         }
     }
 
-    private static final Platform platform = Platform.get();
-    private static final LaunchMechanism launchMechanism = platform.launchMechanism();
-    private static final byte[] helperpath = toCString(platform.helperPath());
+    privbte stbtic finbl Plbtform plbtform = Plbtform.get();
+    privbte stbtic finbl LbunchMechbnism lbunchMechbnism = plbtform.lbunchMechbnism();
+    privbte stbtic finbl byte[] helperpbth = toCString(plbtform.helperPbth());
 
-    private static byte[] toCString(String s) {
+    privbte stbtic byte[] toCString(String s) {
         if (s == null)
             return null;
         byte[] bytes = s.getBytes();
         byte[] result = new byte[bytes.length + 1];
-        System.arraycopy(bytes, 0,
+        System.brrbycopy(bytes, 0,
                          result, 0,
                          bytes.length);
         result[result.length-1] = (byte)0;
         return result;
     }
 
-    /* this is for the reaping thread */
-    private native int waitForProcessExit(int pid);
+    /* this is for the rebping threbd */
+    privbte nbtive int wbitForProcessExit(int pid);
 
     /**
-     * Creates a process. Depending on the {@code mode} flag, this is done by
-     * one of the following mechanisms:
+     * Crebtes b process. Depending on the {@code mode} flbg, this is done by
+     * one of the following mechbnisms:
      * <pre>
-     *   1 - fork(2) and exec(2)
-     *   2 - posix_spawn(3P)
-     *   3 - vfork(2) and exec(2)
+     *   1 - fork(2) bnd exec(2)
+     *   2 - posix_spbwn(3P)
+     *   3 - vfork(2) bnd exec(2)
      *
-     *  (4 - clone(2) and exec(2) - obsolete and currently disabled in native code)
+     *  (4 - clone(2) bnd exec(2) - obsolete bnd currently disbbled in nbtive code)
      * </pre>
-     * @param fds an array of three file descriptors.
-     *        Indexes 0, 1, and 2 correspond to standard input,
-     *        standard output and standard error, respectively.  On
-     *        input, a value of -1 means to create a pipe to connect
-     *        child and parent processes.  On output, a value which
-     *        is not -1 is the parent pipe fd corresponding to the
-     *        pipe which has been created.  An element of this array
-     *        is -1 on input if and only if it is <em>not</em> -1 on
+     * @pbrbm fds bn brrby of three file descriptors.
+     *        Indexes 0, 1, bnd 2 correspond to stbndbrd input,
+     *        stbndbrd output bnd stbndbrd error, respectively.  On
+     *        input, b vblue of -1 mebns to crebte b pipe to connect
+     *        child bnd pbrent processes.  On output, b vblue which
+     *        is not -1 is the pbrent pipe fd corresponding to the
+     *        pipe which hbs been crebted.  An element of this brrby
+     *        is -1 on input if bnd only if it is <em>not</em> -1 on
      *        output.
      * @return the pid of the subprocess
      */
-    private native int forkAndExec(int mode, byte[] helperpath,
+    privbte nbtive int forkAndExec(int mode, byte[] helperpbth,
                                    byte[] prog,
-                                   byte[] argBlock, int argc,
+                                   byte[] brgBlock, int brgc,
                                    byte[] envBlock, int envc,
                                    byte[] dir,
                                    int[] fds,
-                                   boolean redirectErrorStream)
+                                   boolebn redirectErrorStrebm)
         throws IOException;
 
     /**
-     * The thread pool of "process reaper" daemon threads.
+     * The threbd pool of "process rebper" dbemon threbds.
      */
-    private static final Executor processReaperExecutor =
+    privbte stbtic finbl Executor processRebperExecutor =
         doPrivileged((PrivilegedAction<Executor>) () -> {
 
-            ThreadGroup tg = Thread.currentThread().getThreadGroup();
-            while (tg.getParent() != null) tg = tg.getParent();
-            ThreadGroup systemThreadGroup = tg;
+            ThrebdGroup tg = Threbd.currentThrebd().getThrebdGroup();
+            while (tg.getPbrent() != null) tg = tg.getPbrent();
+            ThrebdGroup systemThrebdGroup = tg;
 
-            ThreadFactory threadFactory = grimReaper -> {
-                // Our thread stack requirement is quite modest.
-                Thread t = new Thread(systemThreadGroup, grimReaper,
-                                      "process reaper", 32768);
-                t.setDaemon(true);
-                // A small attempt (probably futile) to avoid priority inversion
-                t.setPriority(Thread.MAX_PRIORITY);
+            ThrebdFbctory threbdFbctory = grimRebper -> {
+                // Our threbd stbck requirement is quite modest.
+                Threbd t = new Threbd(systemThrebdGroup, grimRebper,
+                                      "process rebper", 32768);
+                t.setDbemon(true);
+                // A smbll bttempt (probbbly futile) to bvoid priority inversion
+                t.setPriority(Threbd.MAX_PRIORITY);
                 return t;
             };
 
-            return Executors.newCachedThreadPool(threadFactory);
+            return Executors.newCbchedThrebdPool(threbdFbctory);
         });
 
-    UNIXProcess(final byte[] prog,
-                final byte[] argBlock, final int argc,
-                final byte[] envBlock, final int envc,
-                final byte[] dir,
-                final int[] fds,
-                final boolean redirectErrorStream)
+    UNIXProcess(finbl byte[] prog,
+                finbl byte[] brgBlock, finbl int brgc,
+                finbl byte[] envBlock, finbl int envc,
+                finbl byte[] dir,
+                finbl int[] fds,
+                finbl boolebn redirectErrorStrebm)
             throws IOException {
 
-        pid = forkAndExec(launchMechanism.ordinal() + 1,
-                          helperpath,
+        pid = forkAndExec(lbunchMechbnism.ordinbl() + 1,
+                          helperpbth,
                           prog,
-                          argBlock, argc,
+                          brgBlock, brgc,
                           envBlock, envc,
                           dir,
                           fds,
-                          redirectErrorStream);
+                          redirectErrorStrebm);
 
         try {
             doPrivileged((PrivilegedExceptionAction<Void>) () -> {
-                initStreams(fds);
+                initStrebms(fds);
                 return null;
             });
-        } catch (PrivilegedActionException ex) {
+        } cbtch (PrivilegedActionException ex) {
             throw (IOException) ex.getException();
         }
     }
 
-    static FileDescriptor newFileDescriptor(int fd) {
+    stbtic FileDescriptor newFileDescriptor(int fd) {
         FileDescriptor fileDescriptor = new FileDescriptor();
         fdAccess.set(fileDescriptor, fd);
         return fileDescriptor;
     }
 
-    void initStreams(int[] fds) throws IOException {
-        switch (platform) {
-            case LINUX:
-            case BSD:
+    void initStrebms(int[] fds) throws IOException {
+        switch (plbtform) {
+            cbse LINUX:
+            cbse BSD:
                 stdin = (fds[0] == -1) ?
-                        ProcessBuilder.NullOutputStream.INSTANCE :
-                        new ProcessPipeOutputStream(fds[0]);
+                        ProcessBuilder.NullOutputStrebm.INSTANCE :
+                        new ProcessPipeOutputStrebm(fds[0]);
 
                 stdout = (fds[1] == -1) ?
-                         ProcessBuilder.NullInputStream.INSTANCE :
-                         new ProcessPipeInputStream(fds[1]);
+                         ProcessBuilder.NullInputStrebm.INSTANCE :
+                         new ProcessPipeInputStrebm(fds[1]);
 
                 stderr = (fds[2] == -1) ?
-                         ProcessBuilder.NullInputStream.INSTANCE :
-                         new ProcessPipeInputStream(fds[2]);
+                         ProcessBuilder.NullInputStrebm.INSTANCE :
+                         new ProcessPipeInputStrebm(fds[2]);
 
-                processReaperExecutor.execute(() -> {
-                    int exitcode = waitForProcessExit(pid);
+                processRebperExecutor.execute(() -> {
+                    int exitcode = wbitForProcessExit(pid);
 
                     synchronized (this) {
                         this.exitcode = exitcode;
-                        this.hasExited = true;
+                        this.hbsExited = true;
                         this.notifyAll();
                     }
 
-                    if (stdout instanceof ProcessPipeInputStream)
-                        ((ProcessPipeInputStream) stdout).processExited();
+                    if (stdout instbnceof ProcessPipeInputStrebm)
+                        ((ProcessPipeInputStrebm) stdout).processExited();
 
-                    if (stderr instanceof ProcessPipeInputStream)
-                        ((ProcessPipeInputStream) stderr).processExited();
+                    if (stderr instbnceof ProcessPipeInputStrebm)
+                        ((ProcessPipeInputStrebm) stderr).processExited();
 
-                    if (stdin instanceof ProcessPipeOutputStream)
-                        ((ProcessPipeOutputStream) stdin).processExited();
+                    if (stdin instbnceof ProcessPipeOutputStrebm)
+                        ((ProcessPipeOutputStrebm) stdin).processExited();
                 });
-                break;
+                brebk;
 
-            case SOLARIS:
+            cbse SOLARIS:
                 stdin = (fds[0] == -1) ?
-                        ProcessBuilder.NullOutputStream.INSTANCE :
-                        new BufferedOutputStream(
-                            new FileOutputStream(newFileDescriptor(fds[0])));
+                        ProcessBuilder.NullOutputStrebm.INSTANCE :
+                        new BufferedOutputStrebm(
+                            new FileOutputStrebm(newFileDescriptor(fds[0])));
 
                 stdout = (fds[1] == -1) ?
-                         ProcessBuilder.NullInputStream.INSTANCE :
-                         new BufferedInputStream(
-                             stdout_inner_stream =
-                                 new DeferredCloseInputStream(
+                         ProcessBuilder.NullInputStrebm.INSTANCE :
+                         new BufferedInputStrebm(
+                             stdout_inner_strebm =
+                                 new DeferredCloseInputStrebm(
                                      newFileDescriptor(fds[1])));
 
                 stderr = (fds[2] == -1) ?
-                         ProcessBuilder.NullInputStream.INSTANCE :
-                         new DeferredCloseInputStream(newFileDescriptor(fds[2]));
+                         ProcessBuilder.NullInputStrebm.INSTANCE :
+                         new DeferredCloseInputStrebm(newFileDescriptor(fds[2]));
 
                 /*
-                 * For each subprocess forked a corresponding reaper task
-                 * is submitted.  That task is the only thread which waits
-                 * for the subprocess to terminate and it doesn't hold any
-                 * locks while doing so.  This design allows waitFor() and
-                 * exitStatus() to be safely executed in parallel (and they
-                 * need no native code).
+                 * For ebch subprocess forked b corresponding rebper tbsk
+                 * is submitted.  Thbt tbsk is the only threbd which wbits
+                 * for the subprocess to terminbte bnd it doesn't hold bny
+                 * locks while doing so.  This design bllows wbitFor() bnd
+                 * exitStbtus() to be sbfely executed in pbrbllel (bnd they
+                 * need no nbtive code).
                  */
-                processReaperExecutor.execute(() -> {
-                    int exitcode = waitForProcessExit(pid);
+                processRebperExecutor.execute(() -> {
+                    int exitcode = wbitForProcessExit(pid);
 
                     synchronized (this) {
                         this.exitcode = exitcode;
-                        this.hasExited = true;
+                        this.hbsExited = true;
                         this.notifyAll();
                     }
                 });
-                break;
+                brebk;
 
-            case AIX:
+            cbse AIX:
                 stdin = (fds[0] == -1) ?
-                        ProcessBuilder.NullOutputStream.INSTANCE :
-                        new ProcessPipeOutputStream(fds[0]);
+                        ProcessBuilder.NullOutputStrebm.INSTANCE :
+                        new ProcessPipeOutputStrebm(fds[0]);
 
                 stdout = (fds[1] == -1) ?
-                         ProcessBuilder.NullInputStream.INSTANCE :
-                         new DeferredCloseProcessPipeInputStream(fds[1]);
+                         ProcessBuilder.NullInputStrebm.INSTANCE :
+                         new DeferredCloseProcessPipeInputStrebm(fds[1]);
 
                 stderr = (fds[2] == -1) ?
-                         ProcessBuilder.NullInputStream.INSTANCE :
-                         new DeferredCloseProcessPipeInputStream(fds[2]);
+                         ProcessBuilder.NullInputStrebm.INSTANCE :
+                         new DeferredCloseProcessPipeInputStrebm(fds[2]);
 
-                processReaperExecutor.execute(() -> {
-                    int exitcode = waitForProcessExit(pid);
+                processRebperExecutor.execute(() -> {
+                    int exitcode = wbitForProcessExit(pid);
 
                     synchronized (this) {
                         this.exitcode = exitcode;
-                        this.hasExited = true;
+                        this.hbsExited = true;
                         this.notifyAll();
                     }
 
-                    if (stdout instanceof DeferredCloseProcessPipeInputStream)
-                        ((DeferredCloseProcessPipeInputStream) stdout).processExited();
+                    if (stdout instbnceof DeferredCloseProcessPipeInputStrebm)
+                        ((DeferredCloseProcessPipeInputStrebm) stdout).processExited();
 
-                    if (stderr instanceof DeferredCloseProcessPipeInputStream)
-                        ((DeferredCloseProcessPipeInputStream) stderr).processExited();
+                    if (stderr instbnceof DeferredCloseProcessPipeInputStrebm)
+                        ((DeferredCloseProcessPipeInputStrebm) stderr).processExited();
 
-                    if (stdin instanceof ProcessPipeOutputStream)
-                        ((ProcessPipeOutputStream) stdin).processExited();
+                    if (stdin instbnceof ProcessPipeOutputStrebm)
+                        ((ProcessPipeOutputStrebm) stdin).processExited();
                 });
-                break;
+                brebk;
 
-            default: throw new AssertionError("Unsupported platform: " + platform);
+            defbult: throw new AssertionError("Unsupported plbtform: " + plbtform);
         }
     }
 
-    public OutputStream getOutputStream() {
+    public OutputStrebm getOutputStrebm() {
         return stdin;
     }
 
-    public InputStream getInputStream() {
+    public InputStrebm getInputStrebm() {
         return stdout;
     }
 
-    public InputStream getErrorStream() {
+    public InputStrebm getErrorStrebm() {
         return stderr;
     }
 
-    public synchronized int waitFor() throws InterruptedException {
-        while (!hasExited) {
-            wait();
+    public synchronized int wbitFor() throws InterruptedException {
+        while (!hbsExited) {
+            wbit();
         }
         return exitcode;
     }
 
     @Override
-    public synchronized boolean waitFor(long timeout, TimeUnit unit)
+    public synchronized boolebn wbitFor(long timeout, TimeUnit unit)
         throws InterruptedException
     {
-        if (hasExited) return true;
-        if (timeout <= 0) return false;
+        if (hbsExited) return true;
+        if (timeout <= 0) return fblse;
 
-        long timeoutAsNanos = unit.toNanos(timeout);
-        long startTime = System.nanoTime();
-        long rem = timeoutAsNanos;
+        long timeoutAsNbnos = unit.toNbnos(timeout);
+        long stbrtTime = System.nbnoTime();
+        long rem = timeoutAsNbnos;
 
-        while (!hasExited && (rem > 0)) {
-            wait(Math.max(TimeUnit.NANOSECONDS.toMillis(rem), 1));
-            rem = timeoutAsNanos - (System.nanoTime() - startTime);
+        while (!hbsExited && (rem > 0)) {
+            wbit(Mbth.mbx(TimeUnit.NANOSECONDS.toMillis(rem), 1));
+            rem = timeoutAsNbnos - (System.nbnoTime() - stbrtTime);
         }
-        return hasExited;
+        return hbsExited;
     }
 
-    public synchronized int exitValue() {
-        if (!hasExited) {
-            throw new IllegalThreadStateException("process hasn't exited");
+    public synchronized int exitVblue() {
+        if (!hbsExited) {
+            throw new IllegblThrebdStbteException("process hbsn't exited");
         }
         return exitcode;
     }
 
-    private static native void destroyProcess(int pid, boolean force);
+    privbte stbtic nbtive void destroyProcess(int pid, boolebn force);
 
-    private void destroy(boolean force) {
-        switch (platform) {
-            case LINUX:
-            case BSD:
-            case AIX:
-                // There is a risk that pid will be recycled, causing us to
-                // kill the wrong process!  So we only terminate processes
-                // that appear to still be running.  Even with this check,
-                // there is an unavoidable race condition here, but the window
-                // is very small, and OSes try hard to not recycle pids too
-                // soon, so this is quite safe.
+    privbte void destroy(boolebn force) {
+        switch (plbtform) {
+            cbse LINUX:
+            cbse BSD:
+            cbse AIX:
+                // There is b risk thbt pid will be recycled, cbusing us to
+                // kill the wrong process!  So we only terminbte processes
+                // thbt bppebr to still be running.  Even with this check,
+                // there is bn unbvoidbble rbce condition here, but the window
+                // is very smbll, bnd OSes try hbrd to not recycle pids too
+                // soon, so this is quite sbfe.
                 synchronized (this) {
-                    if (!hasExited)
+                    if (!hbsExited)
                         destroyProcess(pid, force);
                 }
-                try { stdin.close();  } catch (IOException ignored) {}
-                try { stdout.close(); } catch (IOException ignored) {}
-                try { stderr.close(); } catch (IOException ignored) {}
-                break;
+                try { stdin.close();  } cbtch (IOException ignored) {}
+                try { stdout.close(); } cbtch (IOException ignored) {}
+                try { stderr.close(); } cbtch (IOException ignored) {}
+                brebk;
 
-            case SOLARIS:
-                // There is a risk that pid will be recycled, causing us to
-                // kill the wrong process!  So we only terminate processes
-                // that appear to still be running.  Even with this check,
-                // there is an unavoidable race condition here, but the window
-                // is very small, and OSes try hard to not recycle pids too
-                // soon, so this is quite safe.
+            cbse SOLARIS:
+                // There is b risk thbt pid will be recycled, cbusing us to
+                // kill the wrong process!  So we only terminbte processes
+                // thbt bppebr to still be running.  Even with this check,
+                // there is bn unbvoidbble rbce condition here, but the window
+                // is very smbll, bnd OSes try hbrd to not recycle pids too
+                // soon, so this is quite sbfe.
                 synchronized (this) {
-                    if (!hasExited)
+                    if (!hbsExited)
                         destroyProcess(pid, force);
                     try {
                         stdin.close();
-                        if (stdout_inner_stream != null)
-                            stdout_inner_stream.closeDeferred(stdout);
-                        if (stderr instanceof DeferredCloseInputStream)
-                            ((DeferredCloseInputStream) stderr)
+                        if (stdout_inner_strebm != null)
+                            stdout_inner_strebm.closeDeferred(stdout);
+                        if (stderr instbnceof DeferredCloseInputStrebm)
+                            ((DeferredCloseInputStrebm) stderr)
                                 .closeDeferred(stderr);
-                    } catch (IOException e) {
+                    } cbtch (IOException e) {
                         // ignore
                     }
                 }
-                break;
+                brebk;
 
-            default: throw new AssertionError("Unsupported platform: " + platform);
+            defbult: throw new AssertionError("Unsupported plbtform: " + plbtform);
         }
     }
 
     public void destroy() {
-        destroy(false);
+        destroy(fblse);
     }
 
     @Override
@@ -489,64 +489,64 @@ final class UNIXProcess extends Process {
     }
 
     @Override
-    public synchronized boolean isAlive() {
-        return !hasExited;
+    public synchronized boolebn isAlive() {
+        return !hbsExited;
     }
 
-    private static native void init();
+    privbte stbtic nbtive void init();
 
-    static {
+    stbtic {
         init();
     }
 
     /**
-     * A buffered input stream for a subprocess pipe file descriptor
-     * that allows the underlying file descriptor to be reclaimed when
-     * the process exits, via the processExited hook.
+     * A buffered input strebm for b subprocess pipe file descriptor
+     * thbt bllows the underlying file descriptor to be reclbimed when
+     * the process exits, vib the processExited hook.
      *
-     * This is tricky because we do not want the user-level InputStream to be
-     * closed until the user invokes close(), and we need to continue to be
-     * able to read any buffered data lingering in the OS pipe buffer.
+     * This is tricky becbuse we do not wbnt the user-level InputStrebm to be
+     * closed until the user invokes close(), bnd we need to continue to be
+     * bble to rebd bny buffered dbtb lingering in the OS pipe buffer.
      */
-    private static class ProcessPipeInputStream extends BufferedInputStream {
-        private final Object closeLock = new Object();
+    privbte stbtic clbss ProcessPipeInputStrebm extends BufferedInputStrebm {
+        privbte finbl Object closeLock = new Object();
 
-        ProcessPipeInputStream(int fd) {
-            super(new FileInputStream(newFileDescriptor(fd)));
+        ProcessPipeInputStrebm(int fd) {
+            super(new FileInputStrebm(newFileDescriptor(fd)));
         }
-        private static byte[] drainInputStream(InputStream in)
+        privbte stbtic byte[] drbinInputStrebm(InputStrebm in)
                 throws IOException {
             int n = 0;
             int j;
-            byte[] a = null;
-            while ((j = in.available()) > 0) {
-                a = (a == null) ? new byte[j] : Arrays.copyOf(a, n + j);
-                n += in.read(a, n, j);
+            byte[] b = null;
+            while ((j = in.bvbilbble()) > 0) {
+                b = (b == null) ? new byte[j] : Arrbys.copyOf(b, n + j);
+                n += in.rebd(b, n, j);
             }
-            return (a == null || n == a.length) ? a : Arrays.copyOf(a, n);
+            return (b == null || n == b.length) ? b : Arrbys.copyOf(b, n);
         }
 
-        /** Called by the process reaper thread when the process exits. */
+        /** Cblled by the process rebper threbd when the process exits. */
         synchronized void processExited() {
             synchronized (closeLock) {
                 try {
-                    InputStream in = this.in;
-                    // this stream is closed if and only if: in == null
+                    InputStrebm in = this.in;
+                    // this strebm is closed if bnd only if: in == null
                     if (in != null) {
-                        byte[] stragglers = drainInputStream(in);
+                        byte[] strbgglers = drbinInputStrebm(in);
                         in.close();
-                        this.in = (stragglers == null) ?
-                            ProcessBuilder.NullInputStream.INSTANCE :
-                            new ByteArrayInputStream(stragglers);
+                        this.in = (strbgglers == null) ?
+                            ProcessBuilder.NullInputStrebm.INSTANCE :
+                            new ByteArrbyInputStrebm(strbgglers);
                     }
-                } catch (IOException ignored) {}
+                } cbtch (IOException ignored) {}
             }
         }
 
         @Override
         public void close() throws IOException {
-            // BufferedInputStream#close() is not synchronized unlike most other
-            // methods. Synchronizing helps avoid race with processExited().
+            // BufferedInputStrebm#close() is not synchronized unlike most other
+            // methods. Synchronizing helps bvoid rbce with processExited().
             synchronized (closeLock) {
                 super.close();
             }
@@ -554,76 +554,76 @@ final class UNIXProcess extends Process {
     }
 
     /**
-     * A buffered output stream for a subprocess pipe file descriptor
-     * that allows the underlying file descriptor to be reclaimed when
-     * the process exits, via the processExited hook.
+     * A buffered output strebm for b subprocess pipe file descriptor
+     * thbt bllows the underlying file descriptor to be reclbimed when
+     * the process exits, vib the processExited hook.
      */
-    private static class ProcessPipeOutputStream extends BufferedOutputStream {
-        ProcessPipeOutputStream(int fd) {
-            super(new FileOutputStream(newFileDescriptor(fd)));
+    privbte stbtic clbss ProcessPipeOutputStrebm extends BufferedOutputStrebm {
+        ProcessPipeOutputStrebm(int fd) {
+            super(new FileOutputStrebm(newFileDescriptor(fd)));
         }
 
-        /** Called by the process reaper thread when the process exits. */
+        /** Cblled by the process rebper threbd when the process exits. */
         synchronized void processExited() {
-            OutputStream out = this.out;
+            OutputStrebm out = this.out;
             if (out != null) {
                 try {
                     out.close();
-                } catch (IOException ignored) {
-                    // We know of no reason to get an IOException, but if
-                    // we do, there's nothing else to do but carry on.
+                } cbtch (IOException ignored) {
+                    // We know of no rebson to get bn IOException, but if
+                    // we do, there's nothing else to do but cbrry on.
                 }
-                this.out = ProcessBuilder.NullOutputStream.INSTANCE;
+                this.out = ProcessBuilder.NullOutputStrebm.INSTANCE;
             }
         }
     }
 
-    // A FileInputStream that supports the deferment of the actual close
-    // operation until the last pending I/O operation on the stream has
-    // finished.  This is required on Solaris because we must close the stdin
-    // and stdout streams in the destroy method in order to reclaim the
-    // underlying file descriptors.  Doing so, however, causes any thread
-    // currently blocked in a read on one of those streams to receive an
-    // IOException("Bad file number"), which is incompatible with historical
-    // behavior.  By deferring the close we allow any pending reads to see -1
-    // (EOF) as they did before.
+    // A FileInputStrebm thbt supports the deferment of the bctubl close
+    // operbtion until the lbst pending I/O operbtion on the strebm hbs
+    // finished.  This is required on Solbris becbuse we must close the stdin
+    // bnd stdout strebms in the destroy method in order to reclbim the
+    // underlying file descriptors.  Doing so, however, cbuses bny threbd
+    // currently blocked in b rebd on one of those strebms to receive bn
+    // IOException("Bbd file number"), which is incompbtible with historicbl
+    // behbvior.  By deferring the close we bllow bny pending rebds to see -1
+    // (EOF) bs they did before.
     //
-    private static class DeferredCloseInputStream extends FileInputStream
+    privbte stbtic clbss DeferredCloseInputStrebm extends FileInputStrebm
     {
-        DeferredCloseInputStream(FileDescriptor fd) {
+        DeferredCloseInputStrebm(FileDescriptor fd) {
             super(fd);
         }
 
-        private Object lock = new Object();     // For the following fields
-        private boolean closePending = false;
-        private int useCount = 0;
-        private InputStream streamToClose;
+        privbte Object lock = new Object();     // For the following fields
+        privbte boolebn closePending = fblse;
+        privbte int useCount = 0;
+        privbte InputStrebm strebmToClose;
 
-        private void raise() {
+        privbte void rbise() {
             synchronized (lock) {
                 useCount++;
             }
         }
 
-        private void lower() throws IOException {
+        privbte void lower() throws IOException {
             synchronized (lock) {
                 useCount--;
                 if (useCount == 0 && closePending) {
-                    streamToClose.close();
+                    strebmToClose.close();
                 }
             }
         }
 
-        // stc is the actual stream to be closed; it might be this object, or
-        // it might be an upstream object for which this object is downstream.
+        // stc is the bctubl strebm to be closed; it might be this object, or
+        // it might be bn upstrebm object for which this object is downstrebm.
         //
-        private void closeDeferred(InputStream stc) throws IOException {
+        privbte void closeDeferred(InputStrebm stc) throws IOException {
             synchronized (lock) {
                 if (useCount == 0) {
                     stc.close();
                 } else {
                     closePending = true;
-                    streamToClose = stc;
+                    strebmToClose = stc;
                 }
             }
         }
@@ -631,195 +631,195 @@ final class UNIXProcess extends Process {
         public void close() throws IOException {
             synchronized (lock) {
                 useCount = 0;
-                closePending = false;
+                closePending = fblse;
             }
             super.close();
         }
 
-        public int read() throws IOException {
-            raise();
+        public int rebd() throws IOException {
+            rbise();
             try {
-                return super.read();
-            } finally {
+                return super.rebd();
+            } finblly {
                 lower();
             }
         }
 
-        public int read(byte[] b) throws IOException {
-            raise();
+        public int rebd(byte[] b) throws IOException {
+            rbise();
             try {
-                return super.read(b);
-            } finally {
+                return super.rebd(b);
+            } finblly {
                 lower();
             }
         }
 
-        public int read(byte[] b, int off, int len) throws IOException {
-            raise();
+        public int rebd(byte[] b, int off, int len) throws IOException {
+            rbise();
             try {
-                return super.read(b, off, len);
-            } finally {
+                return super.rebd(b, off, len);
+            } finblly {
                 lower();
             }
         }
 
         public long skip(long n) throws IOException {
-            raise();
+            rbise();
             try {
                 return super.skip(n);
-            } finally {
+            } finblly {
                 lower();
             }
         }
 
-        public int available() throws IOException {
-            raise();
+        public int bvbilbble() throws IOException {
+            rbise();
             try {
-                return super.available();
-            } finally {
+                return super.bvbilbble();
+            } finblly {
                 lower();
             }
         }
     }
 
     /**
-     * A buffered input stream for a subprocess pipe file descriptor
-     * that allows the underlying file descriptor to be reclaimed when
-     * the process exits, via the processExited hook.
+     * A buffered input strebm for b subprocess pipe file descriptor
+     * thbt bllows the underlying file descriptor to be reclbimed when
+     * the process exits, vib the processExited hook.
      *
-     * This is tricky because we do not want the user-level InputStream to be
-     * closed until the user invokes close(), and we need to continue to be
-     * able to read any buffered data lingering in the OS pipe buffer.
+     * This is tricky becbuse we do not wbnt the user-level InputStrebm to be
+     * closed until the user invokes close(), bnd we need to continue to be
+     * bble to rebd bny buffered dbtb lingering in the OS pipe buffer.
      *
-     * On AIX this is especially tricky, because the 'close()' system call
-     * will block if another thread is at the same time blocked in a file
-     * operation (e.g. 'read()') on the same file descriptor. We therefore
-     * combine 'ProcessPipeInputStream' approach used on Linux and Bsd
-     * with the DeferredCloseInputStream approach used on Solaris. This means
-     * that every potentially blocking operation on the file descriptor
-     * increments a counter before it is executed and decrements it once it
-     * finishes. The 'close()' operation will only be executed if there are
-     * no pending operations. Otherwise it is deferred after the last pending
-     * operation has finished.
+     * On AIX this is especiblly tricky, becbuse the 'close()' system cbll
+     * will block if bnother threbd is bt the sbme time blocked in b file
+     * operbtion (e.g. 'rebd()') on the sbme file descriptor. We therefore
+     * combine 'ProcessPipeInputStrebm' bpprobch used on Linux bnd Bsd
+     * with the DeferredCloseInputStrebm bpprobch used on Solbris. This mebns
+     * thbt every potentiblly blocking operbtion on the file descriptor
+     * increments b counter before it is executed bnd decrements it once it
+     * finishes. The 'close()' operbtion will only be executed if there bre
+     * no pending operbtions. Otherwise it is deferred bfter the lbst pending
+     * operbtion hbs finished.
      *
      */
-    private static class DeferredCloseProcessPipeInputStream
-        extends BufferedInputStream {
+    privbte stbtic clbss DeferredCloseProcessPipeInputStrebm
+        extends BufferedInputStrebm {
 
-        private final Object closeLock = new Object();
-        private int useCount = 0;
-        private boolean closePending = false;
+        privbte finbl Object closeLock = new Object();
+        privbte int useCount = 0;
+        privbte boolebn closePending = fblse;
 
-        DeferredCloseProcessPipeInputStream(int fd) {
-            super(new FileInputStream(newFileDescriptor(fd)));
+        DeferredCloseProcessPipeInputStrebm(int fd) {
+            super(new FileInputStrebm(newFileDescriptor(fd)));
         }
 
-        private InputStream drainInputStream(InputStream in)
+        privbte InputStrebm drbinInputStrebm(InputStrebm in)
                 throws IOException {
             int n = 0;
             int j;
-            byte[] a = null;
+            byte[] b = null;
             synchronized (closeLock) {
-                if (buf == null) // asynchronous close()?
-                    return null; // discard
-                j = in.available();
+                if (buf == null) // bsynchronous close()?
+                    return null; // discbrd
+                j = in.bvbilbble();
             }
             while (j > 0) {
-                a = (a == null) ? new byte[j] : Arrays.copyOf(a, n + j);
+                b = (b == null) ? new byte[j] : Arrbys.copyOf(b, n + j);
                 synchronized (closeLock) {
-                    if (buf == null) // asynchronous close()?
-                        return null; // discard
-                    n += in.read(a, n, j);
-                    j = in.available();
+                    if (buf == null) // bsynchronous close()?
+                        return null; // discbrd
+                    n += in.rebd(b, n, j);
+                    j = in.bvbilbble();
                 }
             }
-            return (a == null) ?
-                    ProcessBuilder.NullInputStream.INSTANCE :
-                    new ByteArrayInputStream(n == a.length ? a : Arrays.copyOf(a, n));
+            return (b == null) ?
+                    ProcessBuilder.NullInputStrebm.INSTANCE :
+                    new ByteArrbyInputStrebm(n == b.length ? b : Arrbys.copyOf(b, n));
         }
 
-        /** Called by the process reaper thread when the process exits. */
+        /** Cblled by the process rebper threbd when the process exits. */
         synchronized void processExited() {
             try {
-                InputStream in = this.in;
+                InputStrebm in = this.in;
                 if (in != null) {
-                    InputStream stragglers = drainInputStream(in);
+                    InputStrebm strbgglers = drbinInputStrebm(in);
                     in.close();
-                    this.in = stragglers;
+                    this.in = strbgglers;
                 }
-            } catch (IOException ignored) { }
+            } cbtch (IOException ignored) { }
         }
 
-        private void raise() {
+        privbte void rbise() {
             synchronized (closeLock) {
                 useCount++;
             }
         }
 
-        private void lower() throws IOException {
+        privbte void lower() throws IOException {
             synchronized (closeLock) {
                 useCount--;
                 if (useCount == 0 && closePending) {
-                    closePending = false;
+                    closePending = fblse;
                     super.close();
                 }
             }
         }
 
         @Override
-        public int read() throws IOException {
-            raise();
+        public int rebd() throws IOException {
+            rbise();
             try {
-                return super.read();
-            } finally {
+                return super.rebd();
+            } finblly {
                 lower();
             }
         }
 
         @Override
-        public int read(byte[] b) throws IOException {
-            raise();
+        public int rebd(byte[] b) throws IOException {
+            rbise();
             try {
-                return super.read(b);
-            } finally {
+                return super.rebd(b);
+            } finblly {
                 lower();
             }
         }
 
         @Override
-        public int read(byte[] b, int off, int len) throws IOException {
-            raise();
+        public int rebd(byte[] b, int off, int len) throws IOException {
+            rbise();
             try {
-                return super.read(b, off, len);
-            } finally {
+                return super.rebd(b, off, len);
+            } finblly {
                 lower();
             }
         }
 
         @Override
         public long skip(long n) throws IOException {
-            raise();
+            rbise();
             try {
                 return super.skip(n);
-            } finally {
+            } finblly {
                 lower();
             }
         }
 
         @Override
-        public int available() throws IOException {
-            raise();
+        public int bvbilbble() throws IOException {
+            rbise();
             try {
-                return super.available();
-            } finally {
+                return super.bvbilbble();
+            } finblly {
                 lower();
             }
         }
 
         @Override
         public void close() throws IOException {
-            // BufferedInputStream#close() is not synchronized unlike most other
-            // methods. Synchronizing helps avoid racing with drainInputStream().
+            // BufferedInputStrebm#close() is not synchronized unlike most other
+            // methods. Synchronizing helps bvoid rbcing with drbinInputStrebm().
             synchronized (closeLock) {
                 if (useCount == 0) {
                     super.close();

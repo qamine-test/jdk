@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvb.bwt.*;
 import com.sun.jdi.*;
-import com.sun.tools.example.debug.bdi.*;
-import com.sun.tools.example.debug.expr.ExpressionParser;
-import com.sun.tools.example.debug.expr.ParseException;
+import com.sun.tools.exbmple.debug.bdi.*;
+import com.sun.tools.exbmple.debug.expr.ExpressionPbrser;
+import com.sun.tools.exbmple.debug.expr.PbrseException;
 
-public class MonitorTool extends JPanel {
+public clbss MonitorTool extends JPbnel {
 
-    private static final long serialVersionUID = -645235951031726647L;
-    private ExecutionManager runtime;
-    private ContextManager context;
+    privbte stbtic finbl long seriblVersionUID = -645235951031726647L;
+    privbte ExecutionMbnbger runtime;
+    privbte ContextMbnbger context;
 
-    private JList list;
+    privbte JList list;
 
     public MonitorTool(Environment env) {
-        super(new BorderLayout());
-        this.runtime = env.getExecutionManager();
-        this.context = env.getContextManager();
+        super(new BorderLbyout());
+        this.runtime = env.getExecutionMbnbger();
+        this.context = env.getContextMbnbger();
 
         list = new JList(env.getMonitorListModel());
         list.setCellRenderer(new MonitorRenderer());
 
-        JScrollPane listView = new JScrollPane(list);
-        add(listView);
+        JScrollPbne listView = new JScrollPbne(list);
+        bdd(listView);
 
-        // Create listener.
+        // Crebte listener.
         MonitorToolListener listener = new MonitorToolListener();
-        list.addListSelectionListener(listener);
+        list.bddListSelectionListener(listener);
         //### remove listeners on exit!
     }
 
-    private class MonitorToolListener implements ListSelectionListener {
+    privbte clbss MonitorToolListener implements ListSelectionListener {
         @Override
-        public void valueChanged(ListSelectionEvent e) {
+        public void vblueChbnged(ListSelectionEvent e) {
             int index = list.getSelectedIndex();
             if (index != -1) {
             }
         }
     }
 
-    private Value evaluate(String expr) throws ParseException,
-                                            InvocationException,
-                                            InvalidTypeException,
-                                            ClassNotLoadedException,
-                                            IncompatibleThreadStateException {
-        ExpressionParser.GetFrame frameGetter =
-            new ExpressionParser.GetFrame() {
+    privbte Vblue evblubte(String expr) throws PbrseException,
+                                            InvocbtionException,
+                                            InvblidTypeException,
+                                            ClbssNotLobdedException,
+                                            IncompbtibleThrebdStbteException {
+        ExpressionPbrser.GetFrbme frbmeGetter =
+            new ExpressionPbrser.GetFrbme() {
                 @Override
-                public StackFrame get()
-                    throws IncompatibleThreadStateException
+                public StbckFrbme get()
+                    throws IncompbtibleThrebdStbteException
                 {
                     try {
-                        return context.getCurrentFrame();
-                    } catch (VMNotInterruptedException exc) {
-                        throw new IncompatibleThreadStateException();
+                        return context.getCurrentFrbme();
+                    } cbtch (VMNotInterruptedException exc) {
+                        throw new IncompbtibleThrebdStbteException();
                     }
                 }
             };
-        return ExpressionParser.evaluate(expr, runtime.vm(), frameGetter);
+        return ExpressionPbrser.evblubte(expr, runtime.vm(), frbmeGetter);
     }
 
-    private class MonitorRenderer extends DefaultListCellRenderer {
+    privbte clbss MonitorRenderer extends DefbultListCellRenderer {
 
         @Override
         public Component getListCellRendererComponent(JList list,
-                                                      Object value,
+                                                      Object vblue,
                                                       int index,
-                                                      boolean isSelected,
-                                                      boolean cellHasFocus) {
+                                                      boolebn isSelected,
+                                                      boolebn cellHbsFocus) {
 
-            //### We should indicate the current thread independently of the
-            //### selection, e.g., with an icon, because the user may change
-            //### the selection graphically without affecting the current
-            //### thread.
+            //### We should indicbte the current threbd independently of the
+            //### selection, e.g., with bn icon, becbuse the user mby chbnge
+            //### the selection grbphicblly without bffecting the current
+            //### threbd.
 
-            super.getListCellRendererComponent(list, value, index,
-                                               isSelected, cellHasFocus);
-            if (value == null) {
-                this.setText("<unavailable>");
+            super.getListCellRendererComponent(list, vblue, index,
+                                               isSelected, cellHbsFocus);
+            if (vblue == null) {
+                this.setText("<unbvbilbble>");
             } else {
-                String expr = (String)value;
+                String expr = (String)vblue;
                 try {
-                    Value result = evaluate(expr);
+                    Vblue result = evblubte(expr);
                     this.setText(expr + " = " + result);
-                } catch (ParseException exc) {
-                    this.setText(expr + " ? " + exc.getMessage());
-                } catch (IncompatibleThreadStateException exc) {
+                } cbtch (PbrseException exc) {
+                    this.setText(expr + " ? " + exc.getMessbge());
+                } cbtch (IncompbtibleThrebdStbteException exc) {
                     this.setText(expr + " ...");
-                } catch (Exception exc) {
+                } cbtch (Exception exc) {
                     this.setText(expr + " ? " + exc);
                 }
             }

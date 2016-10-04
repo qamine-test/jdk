@@ -1,263 +1,263 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.Control;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.Line;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.Mixer;
-import javax.sound.sampled.SourceDataLine;
-import javax.sound.sampled.AudioFormat.Encoding;
-import javax.sound.sampled.Control.Type;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.AudioSystem;
+import jbvbx.sound.sbmpled.Clip;
+import jbvbx.sound.sbmpled.Control;
+import jbvbx.sound.sbmpled.DbtbLine;
+import jbvbx.sound.sbmpled.Line;
+import jbvbx.sound.sbmpled.LineEvent;
+import jbvbx.sound.sbmpled.LineListener;
+import jbvbx.sound.sbmpled.LineUnbvbilbbleException;
+import jbvbx.sound.sbmpled.Mixer;
+import jbvbx.sound.sbmpled.SourceDbtbLine;
+import jbvbx.sound.sbmpled.AudioFormbt.Encoding;
+import jbvbx.sound.sbmpled.Control.Type;
 
 /**
- * Software audio mixer
+ * Softwbre budio mixer
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftMixingMixer implements Mixer {
+public finbl clbss SoftMixingMixer implements Mixer {
 
-    private static class Info extends Mixer.Info {
+    privbte stbtic clbss Info extends Mixer.Info {
         Info() {
             super(INFO_NAME, INFO_VENDOR, INFO_DESCRIPTION, INFO_VERSION);
         }
     }
 
-    static final String INFO_NAME = "Gervill Sound Mixer";
+    stbtic finbl String INFO_NAME = "Gervill Sound Mixer";
 
-    static final String INFO_VENDOR = "OpenJDK Proposal";
+    stbtic finbl String INFO_VENDOR = "OpenJDK Proposbl";
 
-    static final String INFO_DESCRIPTION = "Software Sound Mixer";
+    stbtic finbl String INFO_DESCRIPTION = "Softwbre Sound Mixer";
 
-    static final String INFO_VERSION = "1.0";
+    stbtic finbl String INFO_VERSION = "1.0";
 
-    static final Mixer.Info info = new Info();
+    stbtic finbl Mixer.Info info = new Info();
 
-    final Object control_mutex = this;
+    finbl Object control_mutex = this;
 
-    boolean implicitOpen = false;
+    boolebn implicitOpen = fblse;
 
-    private boolean open = false;
+    privbte boolebn open = fblse;
 
-    private SoftMixingMainMixer mainmixer = null;
+    privbte SoftMixingMbinMixer mbinmixer = null;
 
-    private AudioFormat format = new AudioFormat(44100, 16, 2, true, false);
+    privbte AudioFormbt formbt = new AudioFormbt(44100, 16, 2, true, fblse);
 
-    private SourceDataLine sourceDataLine = null;
+    privbte SourceDbtbLine sourceDbtbLine = null;
 
-    private SoftAudioPusher pusher = null;
+    privbte SoftAudioPusher pusher = null;
 
-    private AudioInputStream pusher_stream = null;
+    privbte AudioInputStrebm pusher_strebm = null;
 
-    private final float controlrate = 147f;
+    privbte finbl flobt controlrbte = 147f;
 
-    private final long latency = 100000; // 100 msec
+    privbte finbl long lbtency = 100000; // 100 msec
 
-    private final boolean jitter_correction = false;
+    privbte finbl boolebn jitter_correction = fblse;
 
-    private final List<LineListener> listeners = new ArrayList<LineListener>();
+    privbte finbl List<LineListener> listeners = new ArrbyList<LineListener>();
 
-    private final javax.sound.sampled.Line.Info[] sourceLineInfo;
+    privbte finbl jbvbx.sound.sbmpled.Line.Info[] sourceLineInfo;
 
     public SoftMixingMixer() {
 
-        sourceLineInfo = new javax.sound.sampled.Line.Info[2];
+        sourceLineInfo = new jbvbx.sound.sbmpled.Line.Info[2];
 
-        ArrayList<AudioFormat> formats = new ArrayList<AudioFormat>();
-        for (int channels = 1; channels <= 2; channels++) {
-            formats.add(new AudioFormat(Encoding.PCM_SIGNED,
-                    AudioSystem.NOT_SPECIFIED, 8, channels, channels,
-                    AudioSystem.NOT_SPECIFIED, false));
-            formats.add(new AudioFormat(Encoding.PCM_UNSIGNED,
-                    AudioSystem.NOT_SPECIFIED, 8, channels, channels,
-                    AudioSystem.NOT_SPECIFIED, false));
+        ArrbyList<AudioFormbt> formbts = new ArrbyList<AudioFormbt>();
+        for (int chbnnels = 1; chbnnels <= 2; chbnnels++) {
+            formbts.bdd(new AudioFormbt(Encoding.PCM_SIGNED,
+                    AudioSystem.NOT_SPECIFIED, 8, chbnnels, chbnnels,
+                    AudioSystem.NOT_SPECIFIED, fblse));
+            formbts.bdd(new AudioFormbt(Encoding.PCM_UNSIGNED,
+                    AudioSystem.NOT_SPECIFIED, 8, chbnnels, chbnnels,
+                    AudioSystem.NOT_SPECIFIED, fblse));
             for (int bits = 16; bits < 32; bits += 8) {
-                formats.add(new AudioFormat(Encoding.PCM_SIGNED,
-                        AudioSystem.NOT_SPECIFIED, bits, channels, channels
-                                * bits / 8, AudioSystem.NOT_SPECIFIED, false));
-                formats.add(new AudioFormat(Encoding.PCM_UNSIGNED,
-                        AudioSystem.NOT_SPECIFIED, bits, channels, channels
-                                * bits / 8, AudioSystem.NOT_SPECIFIED, false));
-                formats.add(new AudioFormat(Encoding.PCM_SIGNED,
-                        AudioSystem.NOT_SPECIFIED, bits, channels, channels
+                formbts.bdd(new AudioFormbt(Encoding.PCM_SIGNED,
+                        AudioSystem.NOT_SPECIFIED, bits, chbnnels, chbnnels
+                                * bits / 8, AudioSystem.NOT_SPECIFIED, fblse));
+                formbts.bdd(new AudioFormbt(Encoding.PCM_UNSIGNED,
+                        AudioSystem.NOT_SPECIFIED, bits, chbnnels, chbnnels
+                                * bits / 8, AudioSystem.NOT_SPECIFIED, fblse));
+                formbts.bdd(new AudioFormbt(Encoding.PCM_SIGNED,
+                        AudioSystem.NOT_SPECIFIED, bits, chbnnels, chbnnels
                                 * bits / 8, AudioSystem.NOT_SPECIFIED, true));
-                formats.add(new AudioFormat(Encoding.PCM_UNSIGNED,
-                        AudioSystem.NOT_SPECIFIED, bits, channels, channels
+                formbts.bdd(new AudioFormbt(Encoding.PCM_UNSIGNED,
+                        AudioSystem.NOT_SPECIFIED, bits, chbnnels, chbnnels
                                 * bits / 8, AudioSystem.NOT_SPECIFIED, true));
             }
-            formats.add(new AudioFormat(Encoding.PCM_FLOAT,
-                    AudioSystem.NOT_SPECIFIED, 32, channels, channels * 4,
-                    AudioSystem.NOT_SPECIFIED, false));
-            formats.add(new AudioFormat(Encoding.PCM_FLOAT,
-                    AudioSystem.NOT_SPECIFIED, 32, channels, channels * 4,
+            formbts.bdd(new AudioFormbt(Encoding.PCM_FLOAT,
+                    AudioSystem.NOT_SPECIFIED, 32, chbnnels, chbnnels * 4,
+                    AudioSystem.NOT_SPECIFIED, fblse));
+            formbts.bdd(new AudioFormbt(Encoding.PCM_FLOAT,
+                    AudioSystem.NOT_SPECIFIED, 32, chbnnels, chbnnels * 4,
                     AudioSystem.NOT_SPECIFIED, true));
-            formats.add(new AudioFormat(Encoding.PCM_FLOAT,
-                    AudioSystem.NOT_SPECIFIED, 64, channels, channels * 8,
-                    AudioSystem.NOT_SPECIFIED, false));
-            formats.add(new AudioFormat(Encoding.PCM_FLOAT,
-                    AudioSystem.NOT_SPECIFIED, 64, channels, channels * 8,
+            formbts.bdd(new AudioFormbt(Encoding.PCM_FLOAT,
+                    AudioSystem.NOT_SPECIFIED, 64, chbnnels, chbnnels * 8,
+                    AudioSystem.NOT_SPECIFIED, fblse));
+            formbts.bdd(new AudioFormbt(Encoding.PCM_FLOAT,
+                    AudioSystem.NOT_SPECIFIED, 64, chbnnels, chbnnels * 8,
                     AudioSystem.NOT_SPECIFIED, true));
         }
-        AudioFormat[] formats_array = formats.toArray(new AudioFormat[formats
+        AudioFormbt[] formbts_brrby = formbts.toArrby(new AudioFormbt[formbts
                 .size()]);
-        sourceLineInfo[0] = new DataLine.Info(SourceDataLine.class,
-                formats_array, AudioSystem.NOT_SPECIFIED,
+        sourceLineInfo[0] = new DbtbLine.Info(SourceDbtbLine.clbss,
+                formbts_brrby, AudioSystem.NOT_SPECIFIED,
                 AudioSystem.NOT_SPECIFIED);
-        sourceLineInfo[1] = new DataLine.Info(Clip.class, formats_array,
+        sourceLineInfo[1] = new DbtbLine.Info(Clip.clbss, formbts_brrby,
                 AudioSystem.NOT_SPECIFIED, AudioSystem.NOT_SPECIFIED);
     }
 
-    public Line getLine(Line.Info info) throws LineUnavailableException {
+    public Line getLine(Line.Info info) throws LineUnbvbilbbleException {
 
         if (!isLineSupported(info))
-            throw new IllegalArgumentException("Line unsupported: " + info);
+            throw new IllegblArgumentException("Line unsupported: " + info);
 
-        if ((info.getLineClass() == SourceDataLine.class)) {
-            return new SoftMixingSourceDataLine(this, (DataLine.Info) info);
+        if ((info.getLineClbss() == SourceDbtbLine.clbss)) {
+            return new SoftMixingSourceDbtbLine(this, (DbtbLine.Info) info);
         }
-        if ((info.getLineClass() == Clip.class)) {
-            return new SoftMixingClip(this, (DataLine.Info) info);
+        if ((info.getLineClbss() == Clip.clbss)) {
+            return new SoftMixingClip(this, (DbtbLine.Info) info);
         }
 
-        throw new IllegalArgumentException("Line unsupported: " + info);
+        throw new IllegblArgumentException("Line unsupported: " + info);
     }
 
-    public int getMaxLines(Line.Info info) {
-        if (info.getLineClass() == SourceDataLine.class)
+    public int getMbxLines(Line.Info info) {
+        if (info.getLineClbss() == SourceDbtbLine.clbss)
             return AudioSystem.NOT_SPECIFIED;
-        if (info.getLineClass() == Clip.class)
+        if (info.getLineClbss() == Clip.clbss)
             return AudioSystem.NOT_SPECIFIED;
         return 0;
     }
 
-    public javax.sound.sampled.Mixer.Info getMixerInfo() {
+    public jbvbx.sound.sbmpled.Mixer.Info getMixerInfo() {
         return info;
     }
 
-    public javax.sound.sampled.Line.Info[] getSourceLineInfo() {
-        Line.Info[] localArray = new Line.Info[sourceLineInfo.length];
-        System.arraycopy(sourceLineInfo, 0, localArray, 0,
+    public jbvbx.sound.sbmpled.Line.Info[] getSourceLineInfo() {
+        Line.Info[] locblArrby = new Line.Info[sourceLineInfo.length];
+        System.brrbycopy(sourceLineInfo, 0, locblArrby, 0,
                 sourceLineInfo.length);
-        return localArray;
+        return locblArrby;
     }
 
-    public javax.sound.sampled.Line.Info[] getSourceLineInfo(
-            javax.sound.sampled.Line.Info info) {
+    public jbvbx.sound.sbmpled.Line.Info[] getSourceLineInfo(
+            jbvbx.sound.sbmpled.Line.Info info) {
         int i;
-        ArrayList<javax.sound.sampled.Line.Info> infos = new ArrayList<javax.sound.sampled.Line.Info>();
+        ArrbyList<jbvbx.sound.sbmpled.Line.Info> infos = new ArrbyList<jbvbx.sound.sbmpled.Line.Info>();
 
         for (i = 0; i < sourceLineInfo.length; i++) {
-            if (info.matches(sourceLineInfo[i])) {
-                infos.add(sourceLineInfo[i]);
+            if (info.mbtches(sourceLineInfo[i])) {
+                infos.bdd(sourceLineInfo[i]);
             }
         }
-        return infos.toArray(new Line.Info[infos.size()]);
+        return infos.toArrby(new Line.Info[infos.size()]);
     }
 
     public Line[] getSourceLines() {
 
-        Line[] localLines;
+        Line[] locblLines;
 
         synchronized (control_mutex) {
 
-            if (mainmixer == null)
+            if (mbinmixer == null)
                 return new Line[0];
-            SoftMixingDataLine[] sourceLines = mainmixer.getOpenLines();
+            SoftMixingDbtbLine[] sourceLines = mbinmixer.getOpenLines();
 
-            localLines = new Line[sourceLines.length];
+            locblLines = new Line[sourceLines.length];
 
-            for (int i = 0; i < localLines.length; i++) {
-                localLines[i] = sourceLines[i];
+            for (int i = 0; i < locblLines.length; i++) {
+                locblLines[i] = sourceLines[i];
             }
         }
 
-        return localLines;
+        return locblLines;
     }
 
-    public javax.sound.sampled.Line.Info[] getTargetLineInfo() {
-        return new javax.sound.sampled.Line.Info[0];
+    public jbvbx.sound.sbmpled.Line.Info[] getTbrgetLineInfo() {
+        return new jbvbx.sound.sbmpled.Line.Info[0];
     }
 
-    public javax.sound.sampled.Line.Info[] getTargetLineInfo(
-            javax.sound.sampled.Line.Info info) {
-        return new javax.sound.sampled.Line.Info[0];
+    public jbvbx.sound.sbmpled.Line.Info[] getTbrgetLineInfo(
+            jbvbx.sound.sbmpled.Line.Info info) {
+        return new jbvbx.sound.sbmpled.Line.Info[0];
     }
 
-    public Line[] getTargetLines() {
+    public Line[] getTbrgetLines() {
         return new Line[0];
     }
 
-    public boolean isLineSupported(javax.sound.sampled.Line.Info info) {
+    public boolebn isLineSupported(jbvbx.sound.sbmpled.Line.Info info) {
         if (info != null) {
             for (int i = 0; i < sourceLineInfo.length; i++) {
-                if (info.matches(sourceLineInfo[i])) {
+                if (info.mbtches(sourceLineInfo[i])) {
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
-    public boolean isSynchronizationSupported(Line[] lines, boolean maintainSync) {
-        return false;
+    public boolebn isSynchronizbtionSupported(Line[] lines, boolebn mbintbinSync) {
+        return fblse;
     }
 
-    public void synchronize(Line[] lines, boolean maintainSync) {
-        throw new IllegalArgumentException(
-                "Synchronization not supported by this mixer.");
+    public void synchronize(Line[] lines, boolebn mbintbinSync) {
+        throw new IllegblArgumentException(
+                "Synchronizbtion not supported by this mixer.");
     }
 
     public void unsynchronize(Line[] lines) {
-        throw new IllegalArgumentException(
-                "Synchronization not supported by this mixer.");
+        throw new IllegblArgumentException(
+                "Synchronizbtion not supported by this mixer.");
     }
 
-    public void addLineListener(LineListener listener) {
+    public void bddLineListener(LineListener listener) {
         synchronized (control_mutex) {
-            listeners.add(listener);
+            listeners.bdd(listener);
         }
     }
 
-    private void sendEvent(LineEvent event) {
+    privbte void sendEvent(LineEvent event) {
         if (listeners.size() == 0)
             return;
-        LineListener[] listener_array = listeners
-                .toArray(new LineListener[listeners.size()]);
-        for (LineListener listener : listener_array) {
-            listener.update(event);
+        LineListener[] listener_brrby = listeners
+                .toArrby(new LineListener[listeners.size()]);
+        for (LineListener listener : listener_brrby) {
+            listener.updbte(event);
         }
     }
 
@@ -269,39 +269,39 @@ public final class SoftMixingMixer implements Mixer {
                 AudioSystem.NOT_SPECIFIED));
 
         SoftAudioPusher pusher_to_be_closed = null;
-        AudioInputStream pusher_stream_to_be_closed = null;
+        AudioInputStrebm pusher_strebm_to_be_closed = null;
         synchronized (control_mutex) {
             if (pusher != null) {
                 pusher_to_be_closed = pusher;
-                pusher_stream_to_be_closed = pusher_stream;
+                pusher_strebm_to_be_closed = pusher_strebm;
                 pusher = null;
-                pusher_stream = null;
+                pusher_strebm = null;
             }
         }
 
         if (pusher_to_be_closed != null) {
-            // Pusher must not be closed synchronized against control_mutex
-            // this may result in synchronized conflict between pusher and
-            // current thread.
+            // Pusher must not be closed synchronized bgbinst control_mutex
+            // this mby result in synchronized conflict between pusher bnd
+            // current threbd.
             pusher_to_be_closed.stop();
 
             try {
-                pusher_stream_to_be_closed.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+                pusher_strebm_to_be_closed.close();
+            } cbtch (IOException e) {
+                e.printStbckTrbce();
             }
         }
 
         synchronized (control_mutex) {
 
-            if (mainmixer != null)
-                mainmixer.close();
-            open = false;
+            if (mbinmixer != null)
+                mbinmixer.close();
+            open = fblse;
 
-            if (sourceDataLine != null) {
-                sourceDataLine.drain();
-                sourceDataLine.close();
-                sourceDataLine = null;
+            if (sourceDbtbLine != null) {
+                sourceDbtbLine.drbin();
+                sourceDbtbLine.close();
+                sourceDbtbLine = null;
             }
 
         }
@@ -309,7 +309,7 @@ public final class SoftMixingMixer implements Mixer {
     }
 
     public Control getControl(Type control) {
-        throw new IllegalArgumentException("Unsupported control type : "
+        throw new IllegblArgumentException("Unsupported control type : "
                 + control);
     }
 
@@ -317,31 +317,31 @@ public final class SoftMixingMixer implements Mixer {
         return new Control[0];
     }
 
-    public javax.sound.sampled.Line.Info getLineInfo() {
-        return new Line.Info(Mixer.class);
+    public jbvbx.sound.sbmpled.Line.Info getLineInfo() {
+        return new Line.Info(Mixer.clbss);
     }
 
-    public boolean isControlSupported(Type control) {
-        return false;
+    public boolebn isControlSupported(Type control) {
+        return fblse;
     }
 
-    public boolean isOpen() {
+    public boolebn isOpen() {
         synchronized (control_mutex) {
             return open;
         }
     }
 
-    public void open() throws LineUnavailableException {
+    public void open() throws LineUnbvbilbbleException {
         if (isOpen()) {
-            implicitOpen = false;
+            implicitOpen = fblse;
             return;
         }
         open(null);
     }
 
-    public void open(SourceDataLine line) throws LineUnavailableException {
+    public void open(SourceDbtbLine line) throws LineUnbvbilbbleException {
         if (isOpen()) {
-            implicitOpen = false;
+            implicitOpen = fblse;
             return;
         }
         synchronized (control_mutex) {
@@ -349,105 +349,105 @@ public final class SoftMixingMixer implements Mixer {
             try {
 
                 if (line != null)
-                    format = line.getFormat();
+                    formbt = line.getFormbt();
 
-                AudioInputStream ais = openStream(getFormat());
+                AudioInputStrebm bis = openStrebm(getFormbt());
 
                 if (line == null) {
                     synchronized (SoftMixingMixerProvider.mutex) {
-                        SoftMixingMixerProvider.lockthread = Thread
-                                .currentThread();
+                        SoftMixingMixerProvider.lockthrebd = Threbd
+                                .currentThrebd();
                     }
 
                     try {
-                        Mixer defaultmixer = AudioSystem.getMixer(null);
-                        if (defaultmixer != null)
+                        Mixer defbultmixer = AudioSystem.getMixer(null);
+                        if (defbultmixer != null)
                         {
-                            // Search for suitable line
+                            // Sebrch for suitbble line
 
-                            DataLine.Info idealinfo = null;
-                            AudioFormat idealformat = null;
+                            DbtbLine.Info ideblinfo = null;
+                            AudioFormbt ideblformbt = null;
 
-                            Line.Info[] lineinfos = defaultmixer.getSourceLineInfo();
-                            idealFound:
+                            Line.Info[] lineinfos = defbultmixer.getSourceLineInfo();
+                            ideblFound:
                             for (int i = 0; i < lineinfos.length; i++) {
-                                if(lineinfos[i].getLineClass() == SourceDataLine.class)
+                                if(lineinfos[i].getLineClbss() == SourceDbtbLine.clbss)
                                 {
-                                    DataLine.Info info = (DataLine.Info)lineinfos[i];
-                                    AudioFormat[] formats = info.getFormats();
-                                    for (int j = 0; j < formats.length; j++) {
-                                        AudioFormat format = formats[j];
-                                        if(format.getChannels() == 2 ||
-                                                format.getChannels() == AudioSystem.NOT_SPECIFIED)
-                                        if(format.getEncoding().equals(Encoding.PCM_SIGNED) ||
-                                                format.getEncoding().equals(Encoding.PCM_UNSIGNED))
-                                        if(format.getSampleRate() == AudioSystem.NOT_SPECIFIED ||
-                                                format.getSampleRate() == 48000.0)
-                                        if(format.getSampleSizeInBits() == AudioSystem.NOT_SPECIFIED ||
-                                                format.getSampleSizeInBits() == 16)
+                                    DbtbLine.Info info = (DbtbLine.Info)lineinfos[i];
+                                    AudioFormbt[] formbts = info.getFormbts();
+                                    for (int j = 0; j < formbts.length; j++) {
+                                        AudioFormbt formbt = formbts[j];
+                                        if(formbt.getChbnnels() == 2 ||
+                                                formbt.getChbnnels() == AudioSystem.NOT_SPECIFIED)
+                                        if(formbt.getEncoding().equbls(Encoding.PCM_SIGNED) ||
+                                                formbt.getEncoding().equbls(Encoding.PCM_UNSIGNED))
+                                        if(formbt.getSbmpleRbte() == AudioSystem.NOT_SPECIFIED ||
+                                                formbt.getSbmpleRbte() == 48000.0)
+                                        if(formbt.getSbmpleSizeInBits() == AudioSystem.NOT_SPECIFIED ||
+                                                formbt.getSbmpleSizeInBits() == 16)
                                         {
-                                            idealinfo = info;
-                                            int ideal_channels = format.getChannels();
-                                            boolean ideal_signed = format.getEncoding().equals(Encoding.PCM_SIGNED);
-                                            float ideal_rate = format.getSampleRate();
-                                            boolean ideal_endian = format.isBigEndian();
-                                            int ideal_bits = format.getSampleSizeInBits();
-                                            if(ideal_bits == AudioSystem.NOT_SPECIFIED) ideal_bits = 16;
-                                            if(ideal_channels == AudioSystem.NOT_SPECIFIED) ideal_channels = 2;
-                                            if(ideal_rate == AudioSystem.NOT_SPECIFIED) ideal_rate = 48000;
-                                            idealformat = new AudioFormat(ideal_rate, ideal_bits,
-                                                    ideal_channels, ideal_signed, ideal_endian);
-                                            break idealFound;
+                                            ideblinfo = info;
+                                            int idebl_chbnnels = formbt.getChbnnels();
+                                            boolebn idebl_signed = formbt.getEncoding().equbls(Encoding.PCM_SIGNED);
+                                            flobt idebl_rbte = formbt.getSbmpleRbte();
+                                            boolebn idebl_endibn = formbt.isBigEndibn();
+                                            int idebl_bits = formbt.getSbmpleSizeInBits();
+                                            if(idebl_bits == AudioSystem.NOT_SPECIFIED) idebl_bits = 16;
+                                            if(idebl_chbnnels == AudioSystem.NOT_SPECIFIED) idebl_chbnnels = 2;
+                                            if(idebl_rbte == AudioSystem.NOT_SPECIFIED) idebl_rbte = 48000;
+                                            ideblformbt = new AudioFormbt(idebl_rbte, idebl_bits,
+                                                    idebl_chbnnels, idebl_signed, idebl_endibn);
+                                            brebk ideblFound;
                                         }
                                     }
                                 }
                             }
 
-                            if(idealformat != null)
+                            if(ideblformbt != null)
                             {
-                                format = idealformat;
-                                line = (SourceDataLine) defaultmixer.getLine(idealinfo);
+                                formbt = ideblformbt;
+                                line = (SourceDbtbLine) defbultmixer.getLine(ideblinfo);
                             }
                         }
 
                         if(line == null)
-                            line = AudioSystem.getSourceDataLine(format);
-                    } finally {
+                            line = AudioSystem.getSourceDbtbLine(formbt);
+                    } finblly {
                         synchronized (SoftMixingMixerProvider.mutex) {
-                            SoftMixingMixerProvider.lockthread = null;
+                            SoftMixingMixerProvider.lockthrebd = null;
                         }
                     }
 
                     if (line == null)
-                        throw new IllegalArgumentException("No line matching "
+                        throw new IllegblArgumentException("No line mbtching "
                                 + info.toString() + " is supported.");
                 }
 
-                double latency = this.latency;
+                double lbtency = this.lbtency;
 
                 if (!line.isOpen()) {
-                    int bufferSize = getFormat().getFrameSize()
-                            * (int) (getFormat().getFrameRate() * (latency / 1000000f));
-                    line.open(getFormat(), bufferSize);
+                    int bufferSize = getFormbt().getFrbmeSize()
+                            * (int) (getFormbt().getFrbmeRbte() * (lbtency / 1000000f));
+                    line.open(getFormbt(), bufferSize);
 
-                    // Remember that we opened that line
-                    // so we can close again in SoftSynthesizer.close()
-                    sourceDataLine = line;
+                    // Remember thbt we opened thbt line
+                    // so we cbn close bgbin in SoftSynthesizer.close()
+                    sourceDbtbLine = line;
                 }
                 if (!line.isActive())
-                    line.start();
+                    line.stbrt();
 
                 int controlbuffersize = 512;
                 try {
-                    controlbuffersize = ais.available();
-                } catch (IOException e) {
+                    controlbuffersize = bis.bvbilbble();
+                } cbtch (IOException e) {
                 }
 
-                // Tell mixer not fill read buffers fully.
-                // This lowers latency, and tells DataPusher
-                // to read in smaller amounts.
-                // mainmixer.readfully = false;
-                // pusher = new DataPusher(line, ais);
+                // Tell mixer not fill rebd buffers fully.
+                // This lowers lbtency, bnd tells DbtbPusher
+                // to rebd in smbller bmounts.
+                // mbinmixer.rebdfully = fblse;
+                // pusher = new DbtbPusher(line, bis);
 
                 int buffersize = line.getBufferSize();
                 buffersize -= buffersize % controlbuffersize;
@@ -456,43 +456,43 @@ public final class SoftMixingMixer implements Mixer {
                     buffersize = 3 * controlbuffersize;
 
                 if (jitter_correction) {
-                    ais = new SoftJitterCorrector(ais, buffersize,
+                    bis = new SoftJitterCorrector(bis, buffersize,
                             controlbuffersize);
                 }
-                pusher = new SoftAudioPusher(line, ais, controlbuffersize);
-                pusher_stream = ais;
-                pusher.start();
+                pusher = new SoftAudioPusher(line, bis, controlbuffersize);
+                pusher_strebm = bis;
+                pusher.stbrt();
 
-            } catch (LineUnavailableException e) {
+            } cbtch (LineUnbvbilbbleException e) {
                 if (isOpen())
                     close();
-                throw new LineUnavailableException(e.toString());
+                throw new LineUnbvbilbbleException(e.toString());
             }
 
         }
     }
 
-    public AudioInputStream openStream(AudioFormat targetFormat)
-            throws LineUnavailableException {
+    public AudioInputStrebm openStrebm(AudioFormbt tbrgetFormbt)
+            throws LineUnbvbilbbleException {
 
         if (isOpen())
-            throw new LineUnavailableException("Mixer is already open");
+            throw new LineUnbvbilbbleException("Mixer is blrebdy open");
 
         synchronized (control_mutex) {
 
             open = true;
 
-            implicitOpen = false;
+            implicitOpen = fblse;
 
-            if (targetFormat != null)
-                format = targetFormat;
+            if (tbrgetFormbt != null)
+                formbt = tbrgetFormbt;
 
-            mainmixer = new SoftMixingMainMixer(this);
+            mbinmixer = new SoftMixingMbinMixer(this);
 
             sendEvent(new LineEvent(this, LineEvent.Type.OPEN,
                     AudioSystem.NOT_SPECIFIED));
 
-            return mainmixer.getInputStream();
+            return mbinmixer.getInputStrebm();
 
         }
 
@@ -504,26 +504,26 @@ public final class SoftMixingMixer implements Mixer {
         }
     }
 
-    public long getLatency() {
+    public long getLbtency() {
         synchronized (control_mutex) {
-            return latency;
+            return lbtency;
         }
     }
 
-    public AudioFormat getFormat() {
+    public AudioFormbt getFormbt() {
         synchronized (control_mutex) {
-            return format;
+            return formbt;
         }
     }
 
-    float getControlRate() {
-        return controlrate;
+    flobt getControlRbte() {
+        return controlrbte;
     }
 
-    SoftMixingMainMixer getMainMixer() {
+    SoftMixingMbinMixer getMbinMixer() {
         if (!isOpen())
             return null;
-        return mainmixer;
+        return mbinmixer;
     }
 
 }

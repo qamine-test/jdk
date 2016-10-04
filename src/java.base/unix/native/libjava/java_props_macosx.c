@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <dlfcn.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <arpa/inet.h>
+#include <brpb/inet.h>
 
 #include <Security/AuthSession.h>
-#include <CoreFoundation/CoreFoundation.h>
-#include <SystemConfiguration/SystemConfiguration.h>
-#include <Foundation/Foundation.h>
+#include <CoreFoundbtion/CoreFoundbtion.h>
+#include <SystemConfigurbtion/SystemConfigurbtion.h>
+#include <Foundbtion/Foundbtion.h>
 
-#include "java_props_macosx.h"
+#include "jbvb_props_mbcosx.h"
 
 
-// need dlopen/dlsym trick to avoid pulling in JavaRuntimeSupport before libjava.dylib is loaded
-static void *getJRSFramework() {
-    static void *jrsFwk = NULL;
+// need dlopen/dlsym trick to bvoid pulling in JbvbRuntimeSupport before libjbvb.dylib is lobded
+stbtic void *getJRSFrbmework() {
+    stbtic void *jrsFwk = NULL;
     if (jrsFwk == NULL) {
-       jrsFwk = dlopen("/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/JavaRuntimeSupport", RTLD_LAZY | RTLD_LOCAL);
+       jrsFwk = dlopen("/System/Librbry/Frbmeworks/JbvbVM.frbmework/Frbmeworks/JbvbRuntimeSupport.frbmework/JbvbRuntimeSupport", RTLD_LAZY | RTLD_LOCAL);
     }
     return jrsFwk;
 }
 
-char *getPosixLocale(int cat) {
-    char *lc = setlocale(cat, NULL);
+chbr *getPosixLocble(int cbt) {
+    chbr *lc = setlocble(cbt, NULL);
     if ((lc == NULL) || (strcmp(lc, "C") == 0)) {
         lc = getenv("LANG");
     }
@@ -55,85 +55,85 @@ char *getPosixLocale(int cat) {
 }
 
 #define LOCALEIDLENGTH  128
-char *getMacOSXLocale(int cat) {
-    switch (cat) {
-    case LC_MESSAGES:
+chbr *getMbcOSXLocble(int cbt) {
+    switch (cbt) {
+    cbse LC_MESSAGES:
         {
-            void *jrsFwk = getJRSFramework();
+            void *jrsFwk = getJRSFrbmework();
             if (jrsFwk == NULL) return NULL;
 
-            char *(*JRSCopyPrimaryLanguage)() = dlsym(jrsFwk, "JRSCopyPrimaryLanguage");
-            char *primaryLanguage = JRSCopyPrimaryLanguage ? JRSCopyPrimaryLanguage() : NULL;
-            if (primaryLanguage == NULL) return NULL;
+            chbr *(*JRSCopyPrimbryLbngubge)() = dlsym(jrsFwk, "JRSCopyPrimbryLbngubge");
+            chbr *primbryLbngubge = JRSCopyPrimbryLbngubge ? JRSCopyPrimbryLbngubge() : NULL;
+            if (primbryLbngubge == NULL) return NULL;
 
-            char *(*JRSCopyCanonicalLanguageForPrimaryLanguage)(char *) = dlsym(jrsFwk, "JRSCopyCanonicalLanguageForPrimaryLanguage");
-            char *canonicalLanguage = JRSCopyCanonicalLanguageForPrimaryLanguage ?  JRSCopyCanonicalLanguageForPrimaryLanguage(primaryLanguage) : NULL;
-            free (primaryLanguage);
+            chbr *(*JRSCopyCbnonicblLbngubgeForPrimbryLbngubge)(chbr *) = dlsym(jrsFwk, "JRSCopyCbnonicblLbngubgeForPrimbryLbngubge");
+            chbr *cbnonicblLbngubge = JRSCopyCbnonicblLbngubgeForPrimbryLbngubge ?  JRSCopyCbnonicblLbngubgeForPrimbryLbngubge(primbryLbngubge) : NULL;
+            free (primbryLbngubge);
 
-            return canonicalLanguage;
+            return cbnonicblLbngubge;
         }
-        break;
-    default:
+        brebk;
+    defbult:
         {
-            char localeString[LOCALEIDLENGTH];
-            if (CFStringGetCString(CFLocaleGetIdentifier(CFLocaleCopyCurrent()),
-                                   localeString, LOCALEIDLENGTH, CFStringGetSystemEncoding())) {
-                return strdup(localeString);
+            chbr locbleString[LOCALEIDLENGTH];
+            if (CFStringGetCString(CFLocbleGetIdentifier(CFLocbleCopyCurrent()),
+                                   locbleString, LOCALEIDLENGTH, CFStringGetSystemEncoding())) {
+                return strdup(locbleString);
             }
         }
-        break;
+        brebk;
     }
 
     return NULL;
 }
 
-char *setupMacOSXLocale(int cat) {
-    char * ret = getMacOSXLocale(cat);
+chbr *setupMbcOSXLocble(int cbt) {
+    chbr * ret = getMbcOSXLocble(cbt);
 
-    if (cat == LC_MESSAGES && ret != NULL) {
-        void *jrsFwk = getJRSFramework();
+    if (cbt == LC_MESSAGES && ret != NULL) {
+        void *jrsFwk = getJRSFrbmework();
         if (jrsFwk != NULL) {
-            void (*JRSSetDefaultLocalization)(char *) = dlsym(jrsFwk, "JRSSetDefaultLocalization");
-            if (JRSSetDefaultLocalization) JRSSetDefaultLocalization(ret);
+            void (*JRSSetDefbultLocblizbtion)(chbr *) = dlsym(jrsFwk, "JRSSetDefbultLocblizbtion");
+            if (JRSSetDefbultLocblizbtion) JRSSetDefbultLocblizbtion(ret);
         }
     }
 
     if (ret == NULL) {
-        return getPosixLocale(cat);
+        return getPosixLocble(cbt);
     } else {
         return ret;
     }
 }
 
-int isInAquaSession() {
-    // environment variable to bypass the aqua session check
-    char *ev = getenv("AWT_FORCE_HEADFUL");
-    if (ev && (strncasecmp(ev, "true", 4) == 0)) {
-        // if "true" then tell the caller we're in an Aqua session without actually checking
+int isInAqubSession() {
+    // environment vbribble to bypbss the bqub session check
+    chbr *ev = getenv("AWT_FORCE_HEADFUL");
+    if (ev && (strncbsecmp(ev, "true", 4) == 0)) {
+        // if "true" then tell the cbller we're in bn Aqub session without bctublly checking
         return 1;
     }
-    // Is the WindowServer available?
+    // Is the WindowServer bvbilbble?
     SecuritySessionId session_id;
     SessionAttributeBits session_info;
-    OSStatus status = SessionGetInfo(callerSecuritySession, &session_id, &session_info);
-    if (status == noErr) {
-        if (session_info & sessionHasGraphicAccess) {
+    OSStbtus stbtus = SessionGetInfo(cbllerSecuritySession, &session_id, &session_info);
+    if (stbtus == noErr) {
+        if (session_info & sessionHbsGrbphicAccess) {
             return 1;
         }
     }
     return 0;
 }
 
-void setOSNameAndVersion(java_props_t *sprops) {
-    /* Don't rely on JRSCopyOSName because there's no guarantee the value will
-     * remain the same, or even if the JRS functions will continue to be part of
-     * Mac OS X.  So hardcode os_name, and fill in os_version if we can.
+void setOSNbmeAndVersion(jbvb_props_t *sprops) {
+    /* Don't rely on JRSCopyOSNbme becbuse there's no gubrbntee the vblue will
+     * rembin the sbme, or even if the JRS functions will continue to be pbrt of
+     * Mbc OS X.  So hbrdcode os_nbme, bnd fill in os_version if we cbn.
      */
-    sprops->os_name = strdup("Mac OS X");
+    sprops->os_nbme = strdup("Mbc OS X");
 
-    void *jrsFwk = getJRSFramework();
+    void *jrsFwk = getJRSFrbmework();
     if (jrsFwk != NULL) {
-        char *(*copyOSVersion)() = dlsym(jrsFwk, "JRSCopyOSVersion");
+        chbr *(*copyOSVersion)() = dlsym(jrsFwk, "JRSCopyOSVersion");
         if (copyOSVersion != NULL) {
             sprops->os_version = copyOSVersion();
             return;
@@ -143,88 +143,88 @@ void setOSNameAndVersion(java_props_t *sprops) {
 }
 
 
-static Boolean getProxyInfoForProtocol(CFDictionaryRef inDict, CFStringRef inEnabledKey, CFStringRef inHostKey, CFStringRef inPortKey, CFStringRef *outProxyHost, int *ioProxyPort) {
-    /* See if the proxy is enabled. */
-    CFNumberRef cf_enabled = CFDictionaryGetValue(inDict, inEnabledKey);
-    if (cf_enabled == NULL) {
-        return false;
+stbtic Boolebn getProxyInfoForProtocol(CFDictionbryRef inDict, CFStringRef inEnbbledKey, CFStringRef inHostKey, CFStringRef inPortKey, CFStringRef *outProxyHost, int *ioProxyPort) {
+    /* See if the proxy is enbbled. */
+    CFNumberRef cf_enbbled = CFDictionbryGetVblue(inDict, inEnbbledKey);
+    if (cf_enbbled == NULL) {
+        return fblse;
     }
 
-    int isEnabled = false;
-    if (!CFNumberGetValue(cf_enabled, kCFNumberIntType, &isEnabled)) {
-        return isEnabled;
+    int isEnbbled = fblse;
+    if (!CFNumberGetVblue(cf_enbbled, kCFNumberIntType, &isEnbbled)) {
+        return isEnbbled;
     }
 
-    if (!isEnabled) return false;
-    *outProxyHost = CFDictionaryGetValue(inDict, inHostKey);
+    if (!isEnbbled) return fblse;
+    *outProxyHost = CFDictionbryGetVblue(inDict, inHostKey);
 
-    // If cf_host is null, that means the checkbox is set,
-    //   but no host was entered. We'll treat that as NOT ENABLED.
-    // If cf_port is null or cf_port isn't a number, that means
-    //   no port number was entered. Treat this as ENABLED with the
-    //   protocol's default port.
+    // If cf_host is null, thbt mebns the checkbox is set,
+    //   but no host wbs entered. We'll trebt thbt bs NOT ENABLED.
+    // If cf_port is null or cf_port isn't b number, thbt mebns
+    //   no port number wbs entered. Trebt this bs ENABLED with the
+    //   protocol's defbult port.
     if (*outProxyHost == NULL) {
-        return false;
+        return fblse;
     }
 
     if (CFStringGetLength(*outProxyHost) == 0) {
-        return false;
+        return fblse;
     }
 
     int newPort = 0;
     CFNumberRef cf_port = NULL;
-    if ((cf_port = CFDictionaryGetValue(inDict, inPortKey)) != NULL &&
-        CFNumberGetValue(cf_port, kCFNumberIntType, &newPort) &&
+    if ((cf_port = CFDictionbryGetVblue(inDict, inPortKey)) != NULL &&
+        CFNumberGetVblue(cf_port, kCFNumberIntType, &newPort) &&
         newPort > 0) {
         *ioProxyPort = newPort;
     } else {
-        // bad port or no port - leave *ioProxyPort unchanged
+        // bbd port or no port - lebve *ioProxyPort unchbnged
     }
 
     return true;
 }
 
-static char *createUTF8CString(const CFStringRef theString) {
+stbtic chbr *crebteUTF8CString(const CFStringRef theString) {
     if (theString == NULL) return NULL;
 
     const CFIndex stringLength = CFStringGetLength(theString);
-    const CFIndex bufSize = CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8) + 1;
-    char *returnVal = (char *)malloc(bufSize);
+    const CFIndex bufSize = CFStringGetMbximumSizeForEncoding(stringLength, kCFStringEncodingUTF8) + 1;
+    chbr *returnVbl = (chbr *)mblloc(bufSize);
 
-    if (CFStringGetCString(theString, returnVal, bufSize, kCFStringEncodingUTF8)) {
-        return returnVal;
+    if (CFStringGetCString(theString, returnVbl, bufSize, kCFStringEncodingUTF8)) {
+        return returnVbl;
     }
 
-    free(returnVal);
+    free(returnVbl);
     return NULL;
 }
 
-// Return TRUE if str is a syntactically valid IP address.
-// Using inet_pton() instead of inet_aton() for IPv6 support.
-// len is only a hint; cstr must still be nul-terminated
-static int looksLikeIPAddress(char *cstr, size_t len) {
+// Return TRUE if str is b syntbcticblly vblid IP bddress.
+// Using inet_pton() instebd of inet_bton() for IPv6 support.
+// len is only b hint; cstr must still be nul-terminbted
+stbtic int looksLikeIPAddress(chbr *cstr, size_t len) {
     if (len == 0  ||  (len == 1 && cstr[0] == '.')) return FALSE;
 
-    char dst[16]; // big enough for INET6
+    chbr dst[16]; // big enough for INET6
     return (1 == inet_pton(AF_INET, cstr, dst)  ||
             1 == inet_pton(AF_INET6, cstr, dst));
 }
 
 
 
-// Convert Mac OS X proxy exception entry to Java syntax.
-// See Radar #3441134 for details.
-// Returns NULL if this exception should be ignored by Java.
-// May generate a string with multiple exceptions separated by '|'.
-static char * createConvertedException(CFStringRef cf_original) {
-    // This is done with char* instead of CFString because inet_pton()
-    // needs a C string.
-    char *c_exception = createUTF8CString(cf_original);
+// Convert Mbc OS X proxy exception entry to Jbvb syntbx.
+// See Rbdbr #3441134 for detbils.
+// Returns NULL if this exception should be ignored by Jbvb.
+// Mby generbte b string with multiple exceptions sepbrbted by '|'.
+stbtic chbr * crebteConvertedException(CFStringRef cf_originbl) {
+    // This is done with chbr* instebd of CFString becbuse inet_pton()
+    // needs b C string.
+    chbr *c_exception = crebteUTF8CString(cf_originbl);
     if (!c_exception) return NULL;
 
     int c_len = strlen(c_exception);
 
-    // 1. sanitize exception prefix
+    // 1. sbnitize exception prefix
     if (c_len >= 1  &&  0 == strncmp(c_exception, ".", 1)) {
         memmove(c_exception, c_exception+1, c_len);
         c_len -= 1;
@@ -233,20 +233,20 @@ static char * createConvertedException(CFStringRef cf_original) {
         c_len -= 2;
     }
 
-    // 2. pre-reject other exception wildcards
+    // 2. pre-reject other exception wildcbrds
     if (strchr(c_exception, '*')) {
         free(c_exception);
         return NULL;
     }
 
-    // 3. no IP wildcarding
+    // 3. no IP wildcbrding
     if (looksLikeIPAddress(c_exception, c_len)) {
         return c_exception;
     }
 
-    // 4. allow domain suffixes
-    // c_exception is now "str\0" - change to "str|*.str\0"
-    c_exception = reallocf(c_exception, c_len+3+c_len+1);
+    // 4. bllow dombin suffixes
+    // c_exception is now "str\0" - chbnge to "str|*.str\0"
+    c_exception = rebllocf(c_exception, c_len+3+c_len+1);
     if (!c_exception) return NULL;
 
     strncpy(c_exception+c_len, "|*.", 3);
@@ -256,24 +256,24 @@ static char * createConvertedException(CFStringRef cf_original) {
 }
 
 /*
- * Method for fetching the user.home path and storing it in the property list.
- * For signed .apps running in the Mac App Sandbox, user.home is set to the
- * app's sandbox container.
+ * Method for fetching the user.home pbth bnd storing it in the property list.
+ * For signed .bpps running in the Mbc App Sbndbox, user.home is set to the
+ * bpp's sbndbox contbiner.
  */
-void setUserHome(java_props_t *sprops) {
+void setUserHome(jbvb_props_t *sprops) {
     if (sprops == NULL) { return; }
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    sprops->user_home = createUTF8CString((CFStringRef)NSHomeDirectory());
-    [pool drain];
+    NSAutorelebsePool *pool = [[NSAutorelebsePool blloc] init];
+    sprops->user_home = crebteUTF8CString((CFStringRef)NSHomeDirectory());
+    [pool drbin];
 }
 
 /*
- * Method for fetching proxy info and storing it in the property list.
+ * Method for fetching proxy info bnd storing it in the property list.
  */
-void setProxyProperties(java_props_t *sProps) {
+void setProxyProperties(jbvb_props_t *sProps) {
     if (sProps == NULL) return;
 
-    char buf[16];    /* Used for %d of an int - 16 is plenty */
+    chbr buf[16];    /* Used for %d of bn int - 16 is plenty */
     CFStringRef
     cf_httpHost = NULL,
     cf_httpsHost = NULL,
@@ -281,36 +281,36 @@ void setProxyProperties(java_props_t *sProps) {
     cf_socksHost = NULL,
     cf_gopherHost = NULL;
     int
-    httpPort = 80, // Default proxy port values
+    httpPort = 80, // Defbult proxy port vblues
     httpsPort = 443,
     ftpPort = 21,
     socksPort = 1080,
     gopherPort = 70;
 
-    CFDictionaryRef dict = SCDynamicStoreCopyProxies(NULL);
+    CFDictionbryRef dict = SCDynbmicStoreCopyProxies(NULL);
     if (dict == NULL) return;
 
-    /* Read the proxy exceptions list */
-    CFArrayRef cf_list = CFDictionaryGetValue(dict, kSCPropNetProxiesExceptionsList);
+    /* Rebd the proxy exceptions list */
+    CFArrbyRef cf_list = CFDictionbryGetVblue(dict, kSCPropNetProxiesExceptionsList);
 
-    CFMutableStringRef cf_exceptionList = NULL;
+    CFMutbbleStringRef cf_exceptionList = NULL;
     if (cf_list != NULL) {
-        CFIndex len = CFArrayGetCount(cf_list), idx;
+        CFIndex len = CFArrbyGetCount(cf_list), idx;
 
-        cf_exceptionList = CFStringCreateMutable(NULL, 0);
+        cf_exceptionList = CFStringCrebteMutbble(NULL, 0);
         for (idx = (CFIndex)0; idx < len; idx++) {
             CFStringRef cf_ehost;
-            if ((cf_ehost = CFArrayGetValueAtIndex(cf_list, idx))) {
-                /* Convert this exception from Mac OS X syntax to Java syntax.
-                 See Radar #3441134 for details. This may generate a string
-                 with multiple Java exceptions separated by '|'. */
-                char *c_exception = createConvertedException(cf_ehost);
+            if ((cf_ehost = CFArrbyGetVblueAtIndex(cf_list, idx))) {
+                /* Convert this exception from Mbc OS X syntbx to Jbvb syntbx.
+                 See Rbdbr #3441134 for detbils. This mby generbte b string
+                 with multiple Jbvb exceptions sepbrbted by '|'. */
+                chbr *c_exception = crebteConvertedException(cf_ehost);
                 if (c_exception) {
                     /* Append the host to the list of exclusions. */
                     if (CFStringGetLength(cf_exceptionList) > 0) {
-                        CFStringAppendCString(cf_exceptionList, "|", kCFStringEncodingMacRoman);
+                        CFStringAppendCString(cf_exceptionList, "|", kCFStringEncodingMbcRombn);
                     }
-                    CFStringAppendCString(cf_exceptionList, c_exception, kCFStringEncodingMacRoman);
+                    CFStringAppendCString(cf_exceptionList, c_exception, kCFStringEncodingMbcRombn);
                     free(c_exception);
                 }
             }
@@ -319,21 +319,21 @@ void setProxyProperties(java_props_t *sProps) {
 
     if (cf_exceptionList != NULL) {
         if (CFStringGetLength(cf_exceptionList) > 0) {
-            sProps->exceptionList = createUTF8CString(cf_exceptionList);
+            sProps->exceptionList = crebteUTF8CString(cf_exceptionList);
         }
-        CFRelease(cf_exceptionList);
+        CFRelebse(cf_exceptionList);
     }
 
 #define CHECK_PROXY(protocol, PROTOCOL)                                     \
-    sProps->protocol##ProxyEnabled =                                        \
-    getProxyInfoForProtocol(dict, kSCPropNetProxies##PROTOCOL##Enable,      \
+    sProps->protocol##ProxyEnbbled =                                        \
+    getProxyInfoForProtocol(dict, kSCPropNetProxies##PROTOCOL##Enbble,      \
     kSCPropNetProxies##PROTOCOL##Proxy,         \
     kSCPropNetProxies##PROTOCOL##Port,          \
     &cf_##protocol##Host, &protocol##Port);     \
-    if (sProps->protocol##ProxyEnabled) {                                   \
-        sProps->protocol##Host = createUTF8CString(cf_##protocol##Host);    \
+    if (sProps->protocol##ProxyEnbbled) {                                   \
+        sProps->protocol##Host = crebteUTF8CString(cf_##protocol##Host);    \
         snprintf(buf, sizeof(buf), "%d", protocol##Port);                   \
-        sProps->protocol##Port = malloc(strlen(buf) + 1);                   \
+        sProps->protocol##Port = mblloc(strlen(buf) + 1);                   \
         strcpy(sProps->protocol##Port, buf);                                \
     }
 
@@ -345,5 +345,5 @@ void setProxyProperties(java_props_t *sProps) {
 
 #undef CHECK_PROXY
 
-    CFRelease(dict);
+    CFRelebse(dict);
 }

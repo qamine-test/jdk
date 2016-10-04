@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: unpack200
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: Javaデプロイメント・ツール
-.\" Software: JDK 8
+.\" Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\" Title: unpbck200
+.\" Lbngubge: English
+.\" Dbte: 2013年11月21日
+.\" SectDesc: Jbvbデプロイメント・ツール
+.\" Softwbre: JDK 8
 .\" Arch: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "unpack200" "1" "2013年11月21日" "JDK 8" "Javaデプロイメント・ツール"
+.TH "unpbck200" "1" "2013年11月21日" "JDK 8" "Jbvbデプロイメント・ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-unpack200 \- pack200(1)で作成されたパック・ファイルを、WebデプロイメントのためにJARファイルに変換します。
+unpbck200 \- pbck200(1)で作成されたパック・ファイルを、WebデプロイメントのためにJARファイルに変換します。
 .SH "概要"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIunpack200\fR [ \fIoptions\fR ] input\-file \fIJAR\-file\fR
+\fIunpbck200\fR [ \fIoptions\fR ] input\-file \fIJAR\-file\fR
 .fi
 .if n \{\
 .RE
@@ -69,7 +69,7 @@ unpack200 \- pack200(1)で作成されたパック・ファイルを、Webデプロイメントのために
 .PP
 \fIinput\-file\fR
 .RS 4
-入力ファイルの名前。pack200 gzipファイルかpack200ファイルを指定できます。入力ファイルには、\fIpack200\fR(1)で作成されたJARファイルを指定することもできます(手間は\fI0\fRです)。この場合、入力ファイルの内容はPack2000マーカーで出力JARファイルにコピーされます。
+入力ファイルの名前。pbck200 gzipファイルかpbck200ファイルを指定できます。入力ファイルには、\fIpbck200\fR(1)で作成されたJARファイルを指定することもできます(手間は\fI0\fRです)。この場合、入力ファイルの内容はPbck2000マーカーで出力JARファイルにコピーされます。
 .RE
 .PP
 \fIJAR\-file\fR
@@ -78,25 +78,25 @@ unpack200 \- pack200(1)で作成されたパック・ファイルを、Webデプロイメントのために
 .RE
 .SH "説明"
 .PP
-\fIunpack200\fRコマンドは、\fIpack200\fR\fI(1)\fRで作成されたパック・ファイルをJARファイルに変換するネイティブ実装です。一般的な使用方法は次のとおりです。次の例では、デフォルトの\fIunpack200\fRコマンド設定で、\fImyarchive\&.jar\fRファイルが\fImyarchive\&.pack\&.gz\fRから作成されます。
+\fIunpbck200\fRコマンドは、\fIpbck200\fR\fI(1)\fRで作成されたパック・ファイルをJARファイルに変換するネイティブ実装です。一般的な使用方法は次のとおりです。次の例では、デフォルトの\fIunpbck200\fRコマンド設定で、\fImybrchive\&.jbr\fRファイルが\fImybrchive\&.pbck\&.gz\fRから作成されます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-unpack200 myarchive\&.pack\&.gz myarchive\&.jar
+unpbck200 mybrchive\&.pbck\&.gz mybrchive\&.jbr
 .fi
 .if n \{\
 .RE
 .\}
 .SH "オプション"
 .PP
-\-Hvalue \-\-deflate\-hint=\fIvalue\fR
+\-Hvblue \-\-deflbte\-hint=\fIvblue\fR
 .RS 4
-JARファイル内のすべてのエントリに\fItrue\fR、\fIfalse\fRまたは\fIkeep\fRのデフレーションを設定します。デフォルト・モードは\fIkeep\fRです。値が\fItrue\fRまたは\fIfalse\fR場合、\fI\-\-deflate=hint\fRオプションはデフォルトの動作をオーバーライドして、出力JARファイル内のすべてのエントリのデフレーション・モードが設定されます。
+JARファイル内のすべてのエントリに\fItrue\fR、\fIfblse\fRまたは\fIkeep\fRのデフレーションを設定します。デフォルト・モードは\fIkeep\fRです。値が\fItrue\fRまたは\fIfblse\fR場合、\fI\-\-deflbte=hint\fRオプションはデフォルトの動作をオーバーライドして、出力JARファイル内のすべてのエントリのデフレーション・モードが設定されます。
 .RE
 .PP
-\-r \-\-remove\-pack\-file
+\-r \-\-remove\-pbck\-file
 .RS 4
 入力パック・ファイルを削除します。
 .RE
@@ -111,30 +111,30 @@ JARファイル内のすべてのエントリに\fItrue\fR、\fIfalse\fRまたは\fIkeep\fRのデフレ
 メッセージを表示せずに動作するように指定します。
 .RE
 .PP
-\-lfilename \-\-log\-file=\fIfilename\fR
+\-lfilenbme \-\-log\-file=\fIfilenbme\fR
 .RS 4
 出力メッセージが記録されるログ・ファイルを指定します。
 .RE
 .PP
 \-? \-h \-\-help
 .RS 4
-\fIunpack200\fRコマンドに関するヘルプ情報を出力します。
+\fIunpbck200\fRコマンドに関するヘルプ情報を出力します。
 .RE
 .PP
 \-V \-\-version
 .RS 4
-\fIunpack200\fRコマンドに関するバージョン情報を出力します。
+\fIunpbck200\fRコマンドに関するバージョン情報を出力します。
 .RE
 .PP
 \-J\fIoption\fR
 .RS 4
-Java仮想マシンにoptionを渡します。\fIoption\fRには、Javaアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。java(1)を参照してください。
+Jbvb仮想マシンにoptionを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
 .RE
 .SH "注意"
 .PP
-このコマンドと\fIunpack\fRコマンドを混同しないでください。これらは別製品です。
+このコマンドと\fIunpbck\fRコマンドを混同しないでください。これらは別製品です。
 .PP
-JDKに付属するJava SE API仕様との相違が見つかった場合には、仕様を優先してください。
+JDKに付属するJbvb SE API仕様との相違が見つかった場合には、仕様を優先してください。
 .SH "終了ステータス"
 .PP
 次の終了値が返されます: 正常終了の場合は0、エラーが発生した場合は0より大きい値。
@@ -148,7 +148,7 @@ JDKに付属するJava SE API仕様との相違が見つかった場合には、仕様を優先してください
 .sp -1
 .IP \(bu 2.3
 .\}
-pack200(1)
+pbck200(1)
 .RE
 .sp
 .RS 4
@@ -159,7 +159,7 @@ pack200(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-jar(1)
+jbr(1)
 .RE
 .sp
 .RS 4
@@ -170,7 +170,7 @@ jar(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-jarsigner(1)
+jbrsigner(1)
 .RE
 .sp
 .RS 4
@@ -181,8 +181,8 @@ jarsigner(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-「Pack200 and Compression」
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/deployment/deployment\-guide/pack200\&.html)
+「Pbck200 bnd Compression」
+(http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/deployment/deployment\-guide/pbck200\&.html)
 .RE
 .sp
 .RS 4
@@ -193,8 +193,8 @@ jarsigner(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-「Java SE Technical Documentation」
-(http://docs\&.oracle\&.com/javase/)
+「Jbvb SE Technicbl Documentbtion」
+(http://docs\&.orbcle\&.com/jbvbse/)
 .RE
 .br
 'pl 8.5i

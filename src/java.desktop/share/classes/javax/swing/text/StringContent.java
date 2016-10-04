@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.util.Vector;
-import java.io.Serializable;
-import javax.swing.undo.*;
-import javax.swing.SwingUtilities;
+import jbvb.util.Vector;
+import jbvb.io.Seriblizbble;
+import jbvbx.swing.undo.*;
+import jbvbx.swing.SwingUtilities;
 
 /**
- * An implementation of the AbstractDocument.Content interface that is
- * a brute force implementation that is useful for relatively small
- * documents and/or debugging.  It manages the character content
- * as a simple character array.  It is also quite inefficient.
+ * An implementbtion of the AbstrbctDocument.Content interfbce thbt is
+ * b brute force implementbtion thbt is useful for relbtively smbll
+ * documents bnd/or debugging.  It mbnbges the chbrbcter content
+ * bs b simple chbrbcter brrby.  It is blso quite inefficient.
  * <p>
- * It is generally recommended that the gap buffer or piece table
- * implementations be used instead.  This buffer does not scale up
- * to large sizes.
+ * It is generblly recommended thbt the gbp buffer or piece tbble
+ * implementbtions be used instebd.  This buffer does not scble up
+ * to lbrge sizes.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public final class StringContent implements AbstractDocument.Content, Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public finbl clbss StringContent implements AbstrbctDocument.Content, Seriblizbble {
 
     /**
-     * Creates a new StringContent object.  Initial size defaults to 10.
+     * Crebtes b new StringContent object.  Initibl size defbults to 10.
      */
     public StringContent() {
         this(10);
     }
 
     /**
-     * Creates a new StringContent object, with the initial
-     * size specified.  If the length is &lt; 1, a size of 1 is used.
+     * Crebtes b new StringContent object, with the initibl
+     * size specified.  If the length is &lt; 1, b size of 1 is used.
      *
-     * @param initialLength the initial size
+     * @pbrbm initiblLength the initibl size
      */
-    public StringContent(int initialLength) {
-        if (initialLength < 1) {
-            initialLength = 1;
+    public StringContent(int initiblLength) {
+        if (initiblLength < 1) {
+            initiblLength = 1;
         }
-        data = new char[initialLength];
-        data[0] = '\n';
+        dbtb = new chbr[initiblLength];
+        dbtb[0] = '\n';
         count = 1;
     }
 
@@ -79,279 +79,279 @@ public final class StringContent implements AbstractDocument.Content, Serializab
      * Returns the length of the content.
      *
      * @return the length &gt;= 1
-     * @see AbstractDocument.Content#length
+     * @see AbstrbctDocument.Content#length
      */
     public int length() {
         return count;
     }
 
     /**
-     * Inserts a string into the content.
+     * Inserts b string into the content.
      *
-     * @param where the starting position &gt;= 0 &amp;&amp; &lt; length()
-     * @param str the non-null string to insert
-     * @return an UndoableEdit object for undoing
-     * @exception BadLocationException if the specified position is invalid
-     * @see AbstractDocument.Content#insertString
+     * @pbrbm where the stbrting position &gt;= 0 &bmp;&bmp; &lt; length()
+     * @pbrbm str the non-null string to insert
+     * @return bn UndobbleEdit object for undoing
+     * @exception BbdLocbtionException if the specified position is invblid
+     * @see AbstrbctDocument.Content#insertString
      */
-    public UndoableEdit insertString(int where, String str) throws BadLocationException {
+    public UndobbleEdit insertString(int where, String str) throws BbdLocbtionException {
         if (where >= count || where < 0) {
-            throw new BadLocationException("Invalid location", count);
+            throw new BbdLocbtionException("Invblid locbtion", count);
         }
-        char[] chars = str.toCharArray();
-        replace(where, 0, chars, 0, chars.length);
-        if (marks != null) {
-            updateMarksForInsert(where, str.length());
+        chbr[] chbrs = str.toChbrArrby();
+        replbce(where, 0, chbrs, 0, chbrs.length);
+        if (mbrks != null) {
+            updbteMbrksForInsert(where, str.length());
         }
         return new InsertUndo(where, str.length());
     }
 
     /**
-     * Removes part of the content.  where + nitems must be &lt; length().
+     * Removes pbrt of the content.  where + nitems must be &lt; length().
      *
-     * @param where the starting position &gt;= 0
-     * @param nitems the number of characters to remove &gt;= 0
-     * @return an UndoableEdit object for undoing
-     * @exception BadLocationException if the specified position is invalid
-     * @see AbstractDocument.Content#remove
+     * @pbrbm where the stbrting position &gt;= 0
+     * @pbrbm nitems the number of chbrbcters to remove &gt;= 0
+     * @return bn UndobbleEdit object for undoing
+     * @exception BbdLocbtionException if the specified position is invblid
+     * @see AbstrbctDocument.Content#remove
      */
-    public UndoableEdit remove(int where, int nitems) throws BadLocationException {
+    public UndobbleEdit remove(int where, int nitems) throws BbdLocbtionException {
         if (where + nitems >= count) {
-            throw new BadLocationException("Invalid range", count);
+            throw new BbdLocbtionException("Invblid rbnge", count);
         }
         String removedString = getString(where, nitems);
-        UndoableEdit edit = new RemoveUndo(where, removedString);
-        replace(where, nitems, empty, 0, 0);
-        if (marks != null) {
-            updateMarksForRemove(where, nitems);
+        UndobbleEdit edit = new RemoveUndo(where, removedString);
+        replbce(where, nitems, empty, 0, 0);
+        if (mbrks != null) {
+            updbteMbrksForRemove(where, nitems);
         }
         return edit;
 
     }
 
     /**
-     * Retrieves a portion of the content.  where + len must be &lt;= length().
+     * Retrieves b portion of the content.  where + len must be &lt;= length().
      *
-     * @param where the starting position &gt;= 0
-     * @param len the length to retrieve &gt;= 0
-     * @return a string representing the content; may be empty
-     * @exception BadLocationException if the specified position is invalid
-     * @see AbstractDocument.Content#getString
+     * @pbrbm where the stbrting position &gt;= 0
+     * @pbrbm len the length to retrieve &gt;= 0
+     * @return b string representing the content; mby be empty
+     * @exception BbdLocbtionException if the specified position is invblid
+     * @see AbstrbctDocument.Content#getString
      */
-    public String getString(int where, int len) throws BadLocationException {
+    public String getString(int where, int len) throws BbdLocbtionException {
         if (where + len > count) {
-            throw new BadLocationException("Invalid range", count);
+            throw new BbdLocbtionException("Invblid rbnge", count);
         }
-        return new String(data, where, len);
+        return new String(dbtb, where, len);
     }
 
     /**
-     * Retrieves a portion of the content.  where + len must be &lt;= length()
+     * Retrieves b portion of the content.  where + len must be &lt;= length()
      *
-     * @param where the starting position &gt;= 0
-     * @param len the number of characters to retrieve &gt;= 0
-     * @param chars the Segment object to return the characters in
-     * @exception BadLocationException if the specified position is invalid
-     * @see AbstractDocument.Content#getChars
+     * @pbrbm where the stbrting position &gt;= 0
+     * @pbrbm len the number of chbrbcters to retrieve &gt;= 0
+     * @pbrbm chbrs the Segment object to return the chbrbcters in
+     * @exception BbdLocbtionException if the specified position is invblid
+     * @see AbstrbctDocument.Content#getChbrs
      */
-    public void getChars(int where, int len, Segment chars) throws BadLocationException {
+    public void getChbrs(int where, int len, Segment chbrs) throws BbdLocbtionException {
         if (where + len > count) {
-            throw new BadLocationException("Invalid location", count);
+            throw new BbdLocbtionException("Invblid locbtion", count);
         }
-        chars.array = data;
-        chars.offset = where;
-        chars.count = len;
+        chbrs.brrby = dbtb;
+        chbrs.offset = where;
+        chbrs.count = len;
     }
 
     /**
-     * Creates a position within the content that will
-     * track change as the content is mutated.
+     * Crebtes b position within the content thbt will
+     * trbck chbnge bs the content is mutbted.
      *
-     * @param offset the offset to create a position for &gt;= 0
+     * @pbrbm offset the offset to crebte b position for &gt;= 0
      * @return the position
-     * @exception BadLocationException if the specified position is invalid
+     * @exception BbdLocbtionException if the specified position is invblid
      */
-    public Position createPosition(int offset) throws BadLocationException {
-        // some small documents won't have any sticky positions
-        // at all, so the buffer is created lazily.
-        if (marks == null) {
-            marks = new Vector<PosRec>();
+    public Position crebtePosition(int offset) throws BbdLocbtionException {
+        // some smbll documents won't hbve bny sticky positions
+        // bt bll, so the buffer is crebted lbzily.
+        if (mbrks == null) {
+            mbrks = new Vector<PosRec>();
         }
         return new StickyPosition(offset);
     }
 
-    // --- local methods ---------------------------------------
+    // --- locbl methods ---------------------------------------
 
     /**
-     * Replaces some of the characters in the array
-     * @param offset  offset into the array to start the replace
-     * @param length  number of characters to remove
-     * @param replArray replacement array
-     * @param replOffset offset into the replacement array
-     * @param replLength number of character to use from the
-     *   replacement array.
+     * Replbces some of the chbrbcters in the brrby
+     * @pbrbm offset  offset into the brrby to stbrt the replbce
+     * @pbrbm length  number of chbrbcters to remove
+     * @pbrbm replArrby replbcement brrby
+     * @pbrbm replOffset offset into the replbcement brrby
+     * @pbrbm replLength number of chbrbcter to use from the
+     *   replbcement brrby.
      */
-    void replace(int offset, int length,
-                 char[] replArray, int replOffset, int replLength) {
-        int delta = replLength - length;
+    void replbce(int offset, int length,
+                 chbr[] replArrby, int replOffset, int replLength) {
+        int deltb = replLength - length;
         int src = offset + length;
         int nmove = count - src;
-        int dest = src + delta;
-        if ((count + delta) >= data.length) {
-            // need to grow the array
-            int newLength = Math.max(2*data.length, count + delta);
-            char[] newData = new char[newLength];
-            System.arraycopy(data, 0, newData, 0, offset);
-            System.arraycopy(replArray, replOffset, newData, offset, replLength);
-            System.arraycopy(data, src, newData, dest, nmove);
-            data = newData;
+        int dest = src + deltb;
+        if ((count + deltb) >= dbtb.length) {
+            // need to grow the brrby
+            int newLength = Mbth.mbx(2*dbtb.length, count + deltb);
+            chbr[] newDbtb = new chbr[newLength];
+            System.brrbycopy(dbtb, 0, newDbtb, 0, offset);
+            System.brrbycopy(replArrby, replOffset, newDbtb, offset, replLength);
+            System.brrbycopy(dbtb, src, newDbtb, dest, nmove);
+            dbtb = newDbtb;
         } else {
-            // patch the existing array
-            System.arraycopy(data, src, data, dest, nmove);
-            System.arraycopy(replArray, replOffset, data, offset, replLength);
+            // pbtch the existing brrby
+            System.brrbycopy(dbtb, src, dbtb, dest, nmove);
+            System.brrbycopy(replArrby, replOffset, dbtb, offset, replLength);
         }
-        count = count + delta;
+        count = count + deltb;
     }
 
     void resize(int ncount) {
-        char[] ndata = new char[ncount];
-        System.arraycopy(data, 0, ndata, 0, Math.min(ncount, count));
-        data = ndata;
+        chbr[] ndbtb = new chbr[ncount];
+        System.brrbycopy(dbtb, 0, ndbtb, 0, Mbth.min(ncount, count));
+        dbtb = ndbtb;
     }
 
-    synchronized void updateMarksForInsert(int offset, int length) {
+    synchronized void updbteMbrksForInsert(int offset, int length) {
         if (offset == 0) {
-            // zero is a special case where we update only
-            // marks after it.
+            // zero is b specibl cbse where we updbte only
+            // mbrks bfter it.
             offset = 1;
         }
-        int n = marks.size();
+        int n = mbrks.size();
         for (int i = 0; i < n; i++) {
-            PosRec mark = marks.elementAt(i);
-            if (mark.unused) {
+            PosRec mbrk = mbrks.elementAt(i);
+            if (mbrk.unused) {
                 // this record is no longer used, get rid of it
-                marks.removeElementAt(i);
+                mbrks.removeElementAt(i);
                 i -= 1;
                 n -= 1;
-            } else if (mark.offset >= offset) {
-                mark.offset += length;
+            } else if (mbrk.offset >= offset) {
+                mbrk.offset += length;
             }
         }
     }
 
-    synchronized void updateMarksForRemove(int offset, int length) {
-        int n = marks.size();
+    synchronized void updbteMbrksForRemove(int offset, int length) {
+        int n = mbrks.size();
         for (int i = 0; i < n; i++) {
-            PosRec mark = marks.elementAt(i);
-            if (mark.unused) {
+            PosRec mbrk = mbrks.elementAt(i);
+            if (mbrk.unused) {
                 // this record is no longer used, get rid of it
-                marks.removeElementAt(i);
+                mbrks.removeElementAt(i);
                 i -= 1;
                 n -= 1;
-            } else if (mark.offset >= (offset + length)) {
-                mark.offset -= length;
-            } else if (mark.offset >= offset) {
-                mark.offset = offset;
+            } else if (mbrk.offset >= (offset + length)) {
+                mbrk.offset -= length;
+            } else if (mbrk.offset >= offset) {
+                mbrk.offset = offset;
             }
         }
     }
 
     /**
-     * Returns a Vector containing instances of UndoPosRef for the
-     * Positions in the range
+     * Returns b Vector contbining instbnces of UndoPosRef for the
+     * Positions in the rbnge
      * <code>offset</code> to <code>offset</code> + <code>length</code>.
-     * If <code>v</code> is not null the matching Positions are placed in
-     * there. The vector with the resulting Positions are returned.
+     * If <code>v</code> is not null the mbtching Positions bre plbced in
+     * there. The vector with the resulting Positions bre returned.
      * <p>
-     * This is meant for internal usage, and is generally not of interest
-     * to subclasses.
+     * This is mebnt for internbl usbge, bnd is generblly not of interest
+     * to subclbsses.
      *
-     * @param v the Vector to use, with a new one created on null
-     * @param offset the starting offset &gt;= 0
-     * @param length the length &gt;= 0
-     * @return the set of instances
+     * @pbrbm v the Vector to use, with b new one crebted on null
+     * @pbrbm offset the stbrting offset &gt;= 0
+     * @pbrbm length the length &gt;= 0
+     * @return the set of instbnces
      */
-    protected Vector<UndoPosRef> getPositionsInRange(Vector<UndoPosRef> v, int offset,
+    protected Vector<UndoPosRef> getPositionsInRbnge(Vector<UndoPosRef> v, int offset,
                                                       int length) {
-        int n = marks.size();
+        int n = mbrks.size();
         int end = offset + length;
-        Vector<UndoPosRef> placeIn = (v == null) ? new Vector<>() : v;
+        Vector<UndoPosRef> plbceIn = (v == null) ? new Vector<>() : v;
         for (int i = 0; i < n; i++) {
-            PosRec mark = marks.elementAt(i);
-            if (mark.unused) {
+            PosRec mbrk = mbrks.elementAt(i);
+            if (mbrk.unused) {
                 // this record is no longer used, get rid of it
-                marks.removeElementAt(i);
+                mbrks.removeElementAt(i);
                 i -= 1;
                 n -= 1;
-            } else if(mark.offset >= offset && mark.offset <= end)
-                placeIn.addElement(new UndoPosRef(mark));
+            } else if(mbrk.offset >= offset && mbrk.offset <= end)
+                plbceIn.bddElement(new UndoPosRef(mbrk));
         }
-        return placeIn;
+        return plbceIn;
     }
 
     /**
-     * Resets the location for all the UndoPosRef instances
+     * Resets the locbtion for bll the UndoPosRef instbnces
      * in <code>positions</code>.
      * <p>
-     * This is meant for internal usage, and is generally not of interest
-     * to subclasses.
+     * This is mebnt for internbl usbge, bnd is generblly not of interest
+     * to subclbsses.
      *
-     * @param positions the positions of the instances
+     * @pbrbm positions the positions of the instbnces
      */
-    protected void updateUndoPositions(Vector<UndoPosRef> positions) {
+    protected void updbteUndoPositions(Vector<UndoPosRef> positions) {
         for(int counter = positions.size() - 1; counter >= 0; counter--) {
             UndoPosRef ref = positions.elementAt(counter);
-            // Check if the Position is still valid.
+            // Check if the Position is still vblid.
             if(ref.rec.unused) {
                 positions.removeElementAt(counter);
             }
             else
-                ref.resetLocation();
+                ref.resetLocbtion();
         }
     }
 
-    private static final char[] empty = new char[0];
-    private char[] data;
-    private int count;
-    transient Vector<PosRec> marks;
+    privbte stbtic finbl chbr[] empty = new chbr[0];
+    privbte chbr[] dbtb;
+    privbte int count;
+    trbnsient Vector<PosRec> mbrks;
 
     /**
-     * holds the data for a mark... separately from
-     * the real mark so that the real mark can be
-     * collected if there are no more references to
-     * it.... the update table holds only a reference
+     * holds the dbtb for b mbrk... sepbrbtely from
+     * the rebl mbrk so thbt the rebl mbrk cbn be
+     * collected if there bre no more references to
+     * it.... the updbte tbble holds only b reference
      * to this grungy thing.
      */
-    final class PosRec {
+    finbl clbss PosRec {
 
         PosRec(int offset) {
             this.offset = offset;
         }
 
         int offset;
-        boolean unused;
+        boolebn unused;
     }
 
     /**
-     * This really wants to be a weak reference but
-     * in 1.1 we don't have a 100% pure solution for
-     * this... so this class trys to hack a solution
-     * to causing the marks to be collected.
+     * This reblly wbnts to be b webk reference but
+     * in 1.1 we don't hbve b 100% pure solution for
+     * this... so this clbss trys to hbck b solution
+     * to cbusing the mbrks to be collected.
      */
-    final class StickyPosition implements Position {
+    finbl clbss StickyPosition implements Position {
 
         StickyPosition(int offset) {
             rec = new PosRec(offset);
-            marks.addElement(rec);
+            mbrks.bddElement(rec);
         }
 
         public int getOffset() {
             return rec.offset;
         }
 
-        protected void finalize() throws Throwable {
-            // schedule the record to be removed later
-            // on another thread.
+        protected void finblize() throws Throwbble {
+            // schedule the record to be removed lbter
+            // on bnother threbd.
             rec.unused = true;
         }
 
@@ -363,68 +363,68 @@ public final class StringContent implements AbstractDocument.Content, Serializab
     }
 
     /**
-     * Used to hold a reference to a Position that is being reset as the
+     * Used to hold b reference to b Position thbt is being reset bs the
      * result of removing from the content.
      */
-    final class UndoPosRef {
+    finbl clbss UndoPosRef {
         UndoPosRef(PosRec rec) {
             this.rec = rec;
-            this.undoLocation = rec.offset;
+            this.undoLocbtion = rec.offset;
         }
 
         /**
-         * Resets the location of the Position to the offset when the
-         * receiver was instantiated.
+         * Resets the locbtion of the Position to the offset when the
+         * receiver wbs instbntibted.
          */
-        protected void resetLocation() {
-            rec.offset = undoLocation;
+        protected void resetLocbtion() {
+            rec.offset = undoLocbtion;
         }
 
-        /** Location to reset to when resetLocatino is invoked. */
-        protected int undoLocation;
+        /** Locbtion to reset to when resetLocbtino is invoked. */
+        protected int undoLocbtion;
         /** Position to reset offset. */
         protected PosRec rec;
     }
 
     /**
-     * UnoableEdit created for inserts.
+     * UnobbleEdit crebted for inserts.
      */
-    class InsertUndo extends AbstractUndoableEdit {
+    clbss InsertUndo extends AbstrbctUndobbleEdit {
         protected InsertUndo(int offset, int length) {
             super();
             this.offset = offset;
             this.length = length;
         }
 
-        public void undo() throws CannotUndoException {
+        public void undo() throws CbnnotUndoException {
             super.undo();
             try {
                 synchronized(StringContent.this) {
-                    // Get the Positions in the range being removed.
-                    if(marks != null)
-                        posRefs = getPositionsInRange(null, offset, length);
+                    // Get the Positions in the rbnge being removed.
+                    if(mbrks != null)
+                        posRefs = getPositionsInRbnge(null, offset, length);
                     string = getString(offset, length);
                     remove(offset, length);
                 }
-            } catch (BadLocationException bl) {
-              throw new CannotUndoException();
+            } cbtch (BbdLocbtionException bl) {
+              throw new CbnnotUndoException();
             }
         }
 
-        public void redo() throws CannotRedoException {
+        public void redo() throws CbnnotRedoException {
             super.redo();
             try {
                 synchronized(StringContent.this) {
                     insertString(offset, string);
                     string = null;
-                    // Update the Positions that were in the range removed.
+                    // Updbte the Positions thbt were in the rbnge removed.
                     if(posRefs != null) {
-                        updateUndoPositions(posRefs);
+                        updbteUndoPositions(posRefs);
                         posRefs = null;
                     }
               }
-            } catch (BadLocationException bl) {
-              throw new CannotRedoException();
+            } cbtch (BbdLocbtionException bl) {
+              throw new CbnnotRedoException();
             }
         }
 
@@ -432,57 +432,57 @@ public final class StringContent implements AbstractDocument.Content, Serializab
         protected int offset;
         // Length of the string.
         protected int length;
-        // The string that was inserted. To cut down on space needed this
-        // will only be valid after an undo.
+        // The string thbt wbs inserted. To cut down on spbce needed this
+        // will only be vblid bfter bn undo.
         protected String string;
-        // An array of instances of UndoPosRef for the Positions in the
-        // range that was removed, valid after undo.
+        // An brrby of instbnces of UndoPosRef for the Positions in the
+        // rbnge thbt wbs removed, vblid bfter undo.
         protected Vector<UndoPosRef> posRefs;
     }
 
 
     /**
-     * UndoableEdit created for removes.
+     * UndobbleEdit crebted for removes.
      */
-    class RemoveUndo extends AbstractUndoableEdit {
+    clbss RemoveUndo extends AbstrbctUndobbleEdit {
         protected RemoveUndo(int offset, String string) {
             super();
             this.offset = offset;
             this.string = string;
             this.length = string.length();
-            if(marks != null)
-                posRefs = getPositionsInRange(null, offset, length);
+            if(mbrks != null)
+                posRefs = getPositionsInRbnge(null, offset, length);
         }
 
-        public void undo() throws CannotUndoException {
+        public void undo() throws CbnnotUndoException {
             super.undo();
             try {
                 synchronized(StringContent.this) {
                     insertString(offset, string);
-                    // Update the Positions that were in the range removed.
+                    // Updbte the Positions thbt were in the rbnge removed.
                     if(posRefs != null) {
-                        updateUndoPositions(posRefs);
+                        updbteUndoPositions(posRefs);
                         posRefs = null;
                     }
                     string = null;
                 }
-            } catch (BadLocationException bl) {
-              throw new CannotUndoException();
+            } cbtch (BbdLocbtionException bl) {
+              throw new CbnnotUndoException();
             }
         }
 
-        public void redo() throws CannotRedoException {
+        public void redo() throws CbnnotRedoException {
             super.redo();
             try {
                 synchronized(StringContent.this) {
                     string = getString(offset, length);
-                    // Get the Positions in the range being removed.
-                    if(marks != null)
-                        posRefs = getPositionsInRange(null, offset, length);
+                    // Get the Positions in the rbnge being removed.
+                    if(mbrks != null)
+                        posRefs = getPositionsInRbnge(null, offset, length);
                     remove(offset, length);
                 }
-            } catch (BadLocationException bl) {
-              throw new CannotRedoException();
+            } cbtch (BbdLocbtionException bl) {
+              throw new CbnnotRedoException();
             }
         }
 
@@ -490,10 +490,10 @@ public final class StringContent implements AbstractDocument.Content, Serializab
         protected int offset;
         // Length of the string.
         protected int length;
-        // The string that was inserted. This will be null after an undo.
+        // The string thbt wbs inserted. This will be null bfter bn undo.
         protected String string;
-        // An array of instances of UndoPosRef for the Positions in the
-        // range that was removed, valid before undo.
+        // An brrby of instbnces of UndoPosRef for the Positions in the
+        // rbnge thbt wbs removed, vblid before undo.
         protected Vector<UndoPosRef> posRefs;
     }
 }

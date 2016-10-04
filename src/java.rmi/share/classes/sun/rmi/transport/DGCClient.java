@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport;
+pbckbge sun.rmi.trbnsport;
 
-import java.lang.ref.PhantomReference;
-import java.lang.ref.ReferenceQueue;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.rmi.ConnectException;
-import java.rmi.RemoteException;
-import java.rmi.dgc.DGC;
-import java.rmi.dgc.Lease;
-import java.rmi.dgc.VMID;
-import java.rmi.server.ObjID;
+import jbvb.lbng.ref.PhbntomReference;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.rmi.ConnectException;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.dgc.DGC;
+import jbvb.rmi.dgc.Lebse;
+import jbvb.rmi.dgc.VMID;
+import jbvb.rmi.server.ObjID;
 import sun.misc.GC;
-import sun.rmi.runtime.NewThreadAction;
-import sun.rmi.server.UnicastRef;
+import sun.rmi.runtime.NewThrebdAction;
+import sun.rmi.server.UnicbstRef;
 import sun.rmi.server.Util;
 
 /**
- * DGCClient implements the client-side of the RMI distributed garbage
+ * DGCClient implements the client-side of the RMI distributed gbrbbge
  * collection system.
  *
- * The external interface to DGCClient is the "registerRefs" method.
- * When a LiveRef to a remote object enters the VM, it needs to be
- * registered with the DGCClient to participate in distributed garbage
+ * The externbl interfbce to DGCClient is the "registerRefs" method.
+ * When b LiveRef to b remote object enters the VM, it needs to be
+ * registered with the DGCClient to pbrticipbte in distributed gbrbbge
  * collection.
  *
- * When the first LiveRef to a particular remote object is registered,
- * a "dirty" call is made to the server-side distributed garbage
- * collector for the remote object, which returns a lease guaranteeing
- * that the server-side DGC will not collect the remote object for a
- * certain period of time.  While LiveRef instances to remote objects
- * on a particular server exist, the DGCClient periodically sends more
- * "dirty" calls to renew its lease.
+ * When the first LiveRef to b pbrticulbr remote object is registered,
+ * b "dirty" cbll is mbde to the server-side distributed gbrbbge
+ * collector for the remote object, which returns b lebse gubrbnteeing
+ * thbt the server-side DGC will not collect the remote object for b
+ * certbin period of time.  While LiveRef instbnces to remote objects
+ * on b pbrticulbr server exist, the DGCClient periodicblly sends more
+ * "dirty" cblls to renew its lebse.
  *
- * The DGCClient tracks the local reachability of registered LiveRef
- * instances (using phantom references).  When the LiveRef instance
- * for a particular remote object becomes garbage collected locally,
- * a "clean" call is made to the server-side distributed garbage
- * collector, indicating that the server no longer needs to keep the
- * remote object alive for this client.
+ * The DGCClient trbcks the locbl rebchbbility of registered LiveRef
+ * instbnces (using phbntom references).  When the LiveRef instbnce
+ * for b pbrticulbr remote object becomes gbrbbge collected locblly,
+ * b "clebn" cbll is mbde to the server-side distributed gbrbbge
+ * collector, indicbting thbt the server no longer needs to keep the
+ * remote object blive for this client.
  *
- * @see java.rmi.dgc.DGC, sun.rmi.transport.DGCImpl
+ * @see jbvb.rmi.dgc.DGC, sun.rmi.trbnsport.DGCImpl
  *
- * @author  Ann Wollrath
- * @author  Peter Jones
+ * @buthor  Ann Wollrbth
+ * @buthor  Peter Jones
  */
-final class DGCClient {
+finbl clbss DGCClient {
 
-    /** next sequence number for DGC calls (access synchronized on class) */
-    private static long nextSequenceNum = Long.MIN_VALUE;
+    /** next sequence number for DGC cblls (bccess synchronized on clbss) */
+    privbte stbtic long nextSequenceNum = Long.MIN_VALUE;
 
-    /** unique identifier for this VM as a client of DGC */
-    private static VMID vmid = new VMID();
+    /** unique identifier for this VM bs b client of DGC */
+    privbte stbtic VMID vmid = new VMID();
 
-    /** lease duration to request (usually ignored by server) */
-    private static final long leaseValue =              // default 10 minutes
+    /** lebse durbtion to request (usublly ignored by server) */
+    privbte stbtic finbl long lebseVblue =              // defbult 10 minutes
         AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("java.rmi.dgc.leaseValue", 600000));
+            Long.getLong("jbvb.rmi.dgc.lebseVblue", 600000));
 
-    /** maximum interval between retries of failed clean calls */
-    private static final long cleanInterval =           // default 3 minutes
+    /** mbximum intervbl between retries of fbiled clebn cblls */
+    privbte stbtic finbl long clebnIntervbl =           // defbult 3 minutes
         AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("sun.rmi.dgc.cleanInterval", 180000));
+            Long.getLong("sun.rmi.dgc.clebnIntervbl", 180000));
 
-    /** maximum interval between complete garbage collections of local heap */
-    private static final long gcInterval =              // default 1 hour
+    /** mbximum intervbl between complete gbrbbge collections of locbl hebp */
+    privbte stbtic finbl long gcIntervbl =              // defbult 1 hour
         AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("sun.rmi.dgc.client.gcInterval", 3600000));
+            Long.getLong("sun.rmi.dgc.client.gcIntervbl", 3600000));
 
-    /** minimum retry count for dirty calls that fail */
-    private static final int dirtyFailureRetries = 5;
+    /** minimum retry count for dirty cblls thbt fbil */
+    privbte stbtic finbl int dirtyFbilureRetries = 5;
 
-    /** retry count for clean calls that fail with ConnectException */
-    private static final int cleanFailureRetries = 5;
+    /** retry count for clebn cblls thbt fbil with ConnectException */
+    privbte stbtic finbl int clebnFbilureRetries = 5;
 
-    /** constant empty ObjID array for lease renewal optimization */
-    private static final ObjID[] emptyObjIDArray = new ObjID[0];
+    /** constbnt empty ObjID brrby for lebse renewbl optimizbtion */
+    privbte stbtic finbl ObjID[] emptyObjIDArrby = new ObjID[0];
 
     /** ObjID for server-side DGC object */
-    private static final ObjID dgcID = new ObjID(ObjID.DGC_ID);
+    privbte stbtic finbl ObjID dgcID = new ObjID(ObjID.DGC_ID);
 
     /*
-     * Disallow anyone from creating one of these.
+     * Disbllow bnyone from crebting one of these.
      */
-    private DGCClient() {}
+    privbte DGCClient() {}
 
     /**
-     * Register the LiveRef instances in the supplied list to participate
-     * in distributed garbage collection.
+     * Register the LiveRef instbnces in the supplied list to pbrticipbte
+     * in distributed gbrbbge collection.
      *
-     * All of the LiveRefs in the list must be for remote objects at the
+     * All of the LiveRefs in the list must be for remote objects bt the
      * given endpoint.
      */
-    static void registerRefs(Endpoint ep, List<LiveRef> refs) {
+    stbtic void registerRefs(Endpoint ep, List<LiveRef> refs) {
         /*
-         * Look up the given endpoint and register the refs with it.
-         * The retrieved entry may get removed from the global endpoint
-         * table before EndpointEntry.registerRefs() is able to acquire
-         * its lock; in this event, it returns false, and we loop and
-         * try again.
+         * Look up the given endpoint bnd register the refs with it.
+         * The retrieved entry mby get removed from the globbl endpoint
+         * tbble before EndpointEntry.registerRefs() is bble to bcquire
+         * its lock; in this event, it returns fblse, bnd we loop bnd
+         * try bgbin.
          */
         EndpointEntry epEntry;
         do {
@@ -136,198 +136,198 @@ final class DGCClient {
     }
 
     /**
-     * Get the next sequence number to be used for a dirty or clean
-     * operation from this VM.  This method should only be called while
-     * synchronized on the EndpointEntry whose data structures the
-     * operation affects.
+     * Get the next sequence number to be used for b dirty or clebn
+     * operbtion from this VM.  This method should only be cblled while
+     * synchronized on the EndpointEntry whose dbtb structures the
+     * operbtion bffects.
      */
-    private static synchronized long getNextSequenceNum() {
+    privbte stbtic synchronized long getNextSequenceNum() {
         return nextSequenceNum++;
     }
 
     /**
-     * Given the length of a lease and the time that it was granted,
-     * compute the absolute time at which it should be renewed, giving
-     * room for reasonable computational and communication delays.
+     * Given the length of b lebse bnd the time thbt it wbs grbnted,
+     * compute the bbsolute time bt which it should be renewed, giving
+     * room for rebsonbble computbtionbl bnd communicbtion delbys.
      */
-    private static long computeRenewTime(long grantTime, long duration) {
+    privbte stbtic long computeRenewTime(long grbntTime, long durbtion) {
         /*
-         * REMIND: This algorithm should be more sophisticated, waiting
-         * a longer fraction of the lease duration for longer leases.
+         * REMIND: This blgorithm should be more sophisticbted, wbiting
+         * b longer frbction of the lebse durbtion for longer lebses.
          */
-        return grantTime + (duration / 2);
+        return grbntTime + (durbtion / 2);
     }
 
     /**
-     * EndpointEntry encapsulates the client-side DGC information specific
-     * to a particular Endpoint.  Of most significance is the table that
-     * maps LiveRef value to RefEntry objects and the renew/clean thread
-     * that handles asynchronous client-side DGC operations.
+     * EndpointEntry encbpsulbtes the client-side DGC informbtion specific
+     * to b pbrticulbr Endpoint.  Of most significbnce is the tbble thbt
+     * mbps LiveRef vblue to RefEntry objects bnd the renew/clebn threbd
+     * thbt hbndles bsynchronous client-side DGC operbtions.
      */
-    private static class EndpointEntry {
+    privbte stbtic clbss EndpointEntry {
 
-        /** the endpoint that this entry is for */
-        private Endpoint endpoint;
+        /** the endpoint thbt this entry is for */
+        privbte Endpoint endpoint;
         /** synthesized reference to the remote server-side DGC */
-        private DGC dgc;
+        privbte DGC dgc;
 
-        /** table of refs held for endpoint: maps LiveRef to RefEntry */
-        private Map<LiveRef, RefEntry> refTable = new HashMap<>(5);
-        /** set of RefEntry instances from last (failed) dirty call */
-        private Set<RefEntry> invalidRefs = new HashSet<>(5);
+        /** tbble of refs held for endpoint: mbps LiveRef to RefEntry */
+        privbte Mbp<LiveRef, RefEntry> refTbble = new HbshMbp<>(5);
+        /** set of RefEntry instbnces from lbst (fbiled) dirty cbll */
+        privbte Set<RefEntry> invblidRefs = new HbshSet<>(5);
 
-        /** true if this entry has been removed from the global table */
-        private boolean removed = false;
+        /** true if this entry hbs been removed from the globbl tbble */
+        privbte boolebn removed = fblse;
 
-        /** absolute time to renew current lease to this endpoint */
-        private long renewTime = Long.MAX_VALUE;
-        /** absolute time current lease to this endpoint will expire */
-        private long expirationTime = Long.MIN_VALUE;
-        /** count of recent dirty calls that have failed */
-        private int dirtyFailures = 0;
-        /** absolute time of first recent failed dirty call */
-        private long dirtyFailureStartTime;
-        /** (average) elapsed time for recent failed dirty calls */
-        private long dirtyFailureDuration;
+        /** bbsolute time to renew current lebse to this endpoint */
+        privbte long renewTime = Long.MAX_VALUE;
+        /** bbsolute time current lebse to this endpoint will expire */
+        privbte long expirbtionTime = Long.MIN_VALUE;
+        /** count of recent dirty cblls thbt hbve fbiled */
+        privbte int dirtyFbilures = 0;
+        /** bbsolute time of first recent fbiled dirty cbll */
+        privbte long dirtyFbilureStbrtTime;
+        /** (bverbge) elbpsed time for recent fbiled dirty cblls */
+        privbte long dirtyFbilureDurbtion;
 
-        /** renew/clean thread for handling lease renewals and clean calls */
-        private Thread renewCleanThread;
-        /** true if renew/clean thread may be interrupted */
-        private boolean interruptible = false;
+        /** renew/clebn threbd for hbndling lebse renewbls bnd clebn cblls */
+        privbte Threbd renewClebnThrebd;
+        /** true if renew/clebn threbd mby be interrupted */
+        privbte boolebn interruptible = fblse;
 
-        /** reference queue for phantom references */
-        private ReferenceQueue<LiveRef> refQueue = new ReferenceQueue<>();
-        /** set of clean calls that need to be made */
-        private Set<CleanRequest> pendingCleans = new HashSet<>(5);
+        /** reference queue for phbntom references */
+        privbte ReferenceQueue<LiveRef> refQueue = new ReferenceQueue<>();
+        /** set of clebn cblls thbt need to be mbde */
+        privbte Set<ClebnRequest> pendingClebns = new HbshSet<>(5);
 
-        /** global endpoint table: maps Endpoint to EndpointEntry */
-        private static Map<Endpoint,EndpointEntry> endpointTable = new HashMap<>(5);
-        /** handle for GC latency request (for future cancellation) */
-        private static GC.LatencyRequest gcLatencyRequest = null;
+        /** globbl endpoint tbble: mbps Endpoint to EndpointEntry */
+        privbte stbtic Mbp<Endpoint,EndpointEntry> endpointTbble = new HbshMbp<>(5);
+        /** hbndle for GC lbtency request (for future cbncellbtion) */
+        privbte stbtic GC.LbtencyRequest gcLbtencyRequest = null;
 
         /**
          * Look up the EndpointEntry for the given Endpoint.  An entry is
-         * created if one does not already exist.
+         * crebted if one does not blrebdy exist.
          */
-        public static EndpointEntry lookup(Endpoint ep) {
-            synchronized (endpointTable) {
-                EndpointEntry entry = endpointTable.get(ep);
+        public stbtic EndpointEntry lookup(Endpoint ep) {
+            synchronized (endpointTbble) {
+                EndpointEntry entry = endpointTbble.get(ep);
                 if (entry == null) {
                     entry = new EndpointEntry(ep);
-                    endpointTable.put(ep, entry);
+                    endpointTbble.put(ep, entry);
                     /*
-                     * While we are tracking live remote references registered
-                     * in this VM, request a maximum latency for inspecting the
-                     * entire heap from the local garbage collector, to place
-                     * an upper bound on the time to discover remote references
-                     * that have become unreachable (see bugid 4171278).
+                     * While we bre trbcking live remote references registered
+                     * in this VM, request b mbximum lbtency for inspecting the
+                     * entire hebp from the locbl gbrbbge collector, to plbce
+                     * bn upper bound on the time to discover remote references
+                     * thbt hbve become unrebchbble (see bugid 4171278).
                      */
-                    if (gcLatencyRequest == null) {
-                        gcLatencyRequest = GC.requestLatency(gcInterval);
+                    if (gcLbtencyRequest == null) {
+                        gcLbtencyRequest = GC.requestLbtency(gcIntervbl);
                     }
                 }
                 return entry;
             }
         }
 
-        private EndpointEntry(final Endpoint endpoint) {
+        privbte EndpointEntry(finbl Endpoint endpoint) {
             this.endpoint = endpoint;
             try {
-                LiveRef dgcRef = new LiveRef(dgcID, endpoint, false);
-                dgc = (DGC) Util.createProxy(DGCImpl.class,
-                                             new UnicastRef(dgcRef), true);
-            } catch (RemoteException e) {
-                throw new Error("internal error creating DGC stub");
+                LiveRef dgcRef = new LiveRef(dgcID, endpoint, fblse);
+                dgc = (DGC) Util.crebteProxy(DGCImpl.clbss,
+                                             new UnicbstRef(dgcRef), true);
+            } cbtch (RemoteException e) {
+                throw new Error("internbl error crebting DGC stub");
             }
-            renewCleanThread =  AccessController.doPrivileged(
-                new NewThreadAction(new RenewCleanThread(),
-                                    "RenewClean-" + endpoint, true));
-            renewCleanThread.start();
+            renewClebnThrebd =  AccessController.doPrivileged(
+                new NewThrebdAction(new RenewClebnThrebd(),
+                                    "RenewClebn-" + endpoint, true));
+            renewClebnThrebd.stbrt();
         }
 
         /**
-         * Register the LiveRef instances in the supplied list to participate
-         * in distributed garbage collection.
+         * Register the LiveRef instbnces in the supplied list to pbrticipbte
+         * in distributed gbrbbge collection.
          *
-         * This method returns false if this entry was removed from the
-         * global endpoint table (because it was empty) before these refs
-         * could be registered.  In that case, a new EndpointEntry needs
+         * This method returns fblse if this entry wbs removed from the
+         * globbl endpoint tbble (becbuse it wbs empty) before these refs
+         * could be registered.  In thbt cbse, b new EndpointEntry needs
          * to be looked up.
          *
-         * This method must NOT be called while synchronized on this entry.
+         * This method must NOT be cblled while synchronized on this entry.
          */
-        public boolean registerRefs(List<LiveRef> refs) {
-            assert !Thread.holdsLock(this);
+        public boolebn registerRefs(List<LiveRef> refs) {
+            bssert !Threbd.holdsLock(this);
 
             Set<RefEntry> refsToDirty = null;     // entries for refs needing dirty
-            long sequenceNum;           // sequence number for dirty call
+            long sequenceNum;           // sequence number for dirty cbll
 
             synchronized (this) {
                 if (removed) {
-                    return false;
+                    return fblse;
                 }
 
-                Iterator<LiveRef> iter = refs.iterator();
-                while (iter.hasNext()) {
+                Iterbtor<LiveRef> iter = refs.iterbtor();
+                while (iter.hbsNext()) {
                     LiveRef ref = iter.next();
-                    assert ref.getEndpoint().equals(endpoint);
+                    bssert ref.getEndpoint().equbls(endpoint);
 
-                    RefEntry refEntry = refTable.get(ref);
+                    RefEntry refEntry = refTbble.get(ref);
                     if (refEntry == null) {
                         LiveRef refClone = (LiveRef) ref.clone();
                         refEntry = new RefEntry(refClone);
-                        refTable.put(refClone, refEntry);
+                        refTbble.put(refClone, refEntry);
                         if (refsToDirty == null) {
-                            refsToDirty = new HashSet<>(5);
+                            refsToDirty = new HbshSet<>(5);
                         }
-                        refsToDirty.add(refEntry);
+                        refsToDirty.bdd(refEntry);
                     }
 
-                    refEntry.addInstanceToRefSet(ref);
+                    refEntry.bddInstbnceToRefSet(ref);
                 }
 
                 if (refsToDirty == null) {
                     return true;
                 }
 
-                refsToDirty.addAll(invalidRefs);
-                invalidRefs.clear();
+                refsToDirty.bddAll(invblidRefs);
+                invblidRefs.clebr();
 
                 sequenceNum = getNextSequenceNum();
             }
 
-            makeDirtyCall(refsToDirty, sequenceNum);
+            mbkeDirtyCbll(refsToDirty, sequenceNum);
             return true;
         }
 
         /**
-         * Remove the given RefEntry from the ref table.  If that makes
-         * the ref table empty, remove this entry from the global endpoint
-         * table.
+         * Remove the given RefEntry from the ref tbble.  If thbt mbkes
+         * the ref tbble empty, remove this entry from the globbl endpoint
+         * tbble.
          *
-         * This method must ONLY be called while synchronized on this entry.
+         * This method must ONLY be cblled while synchronized on this entry.
          */
-        private void removeRefEntry(RefEntry refEntry) {
-            assert Thread.holdsLock(this);
-            assert !removed;
-            assert refTable.containsKey(refEntry.getRef());
+        privbte void removeRefEntry(RefEntry refEntry) {
+            bssert Threbd.holdsLock(this);
+            bssert !removed;
+            bssert refTbble.contbinsKey(refEntry.getRef());
 
-            refTable.remove(refEntry.getRef());
-            invalidRefs.remove(refEntry);
-            if (refTable.isEmpty()) {
-                synchronized (endpointTable) {
-                    endpointTable.remove(endpoint);
-                    Transport transport = endpoint.getOutboundTransport();
-                    transport.free(endpoint);
+            refTbble.remove(refEntry.getRef());
+            invblidRefs.remove(refEntry);
+            if (refTbble.isEmpty()) {
+                synchronized (endpointTbble) {
+                    endpointTbble.remove(endpoint);
+                    Trbnsport trbnsport = endpoint.getOutboundTrbnsport();
+                    trbnsport.free(endpoint);
                     /*
-                     * If there are no longer any live remote references
-                     * registered, we are no longer concerned with the
-                     * latency of local garbage collection here.
+                     * If there bre no longer bny live remote references
+                     * registered, we bre no longer concerned with the
+                     * lbtency of locbl gbrbbge collection here.
                      */
-                    if (endpointTable.isEmpty()) {
-                        assert gcLatencyRequest != null;
-                        gcLatencyRequest.cancel();
-                        gcLatencyRequest = null;
+                    if (endpointTbble.isEmpty()) {
+                        bssert gcLbtencyRequest != null;
+                        gcLbtencyRequest.cbncel();
+                        gcLbtencyRequest = null;
                     }
                     removed = true;
                 }
@@ -335,89 +335,89 @@ final class DGCClient {
         }
 
         /**
-         * Make a DGC dirty call to this entry's endpoint, for the ObjIDs
-         * corresponding to the given set of refs and with the given
+         * Mbke b DGC dirty cbll to this entry's endpoint, for the ObjIDs
+         * corresponding to the given set of refs bnd with the given
          * sequence number.
          *
-         * This method must NOT be called while synchronized on this entry.
+         * This method must NOT be cblled while synchronized on this entry.
          */
-        private void makeDirtyCall(Set<RefEntry> refEntries, long sequenceNum) {
-            assert !Thread.holdsLock(this);
+        privbte void mbkeDirtyCbll(Set<RefEntry> refEntries, long sequenceNum) {
+            bssert !Threbd.holdsLock(this);
 
             ObjID[] ids;
             if (refEntries != null) {
-                ids = createObjIDArray(refEntries);
+                ids = crebteObjIDArrby(refEntries);
             } else {
-                ids = emptyObjIDArray;
+                ids = emptyObjIDArrby;
             }
 
-            long startTime = System.currentTimeMillis();
+            long stbrtTime = System.currentTimeMillis();
             try {
-                Lease lease =
-                    dgc.dirty(ids, sequenceNum, new Lease(vmid, leaseValue));
-                long duration = lease.getValue();
+                Lebse lebse =
+                    dgc.dirty(ids, sequenceNum, new Lebse(vmid, lebseVblue));
+                long durbtion = lebse.getVblue();
 
-                long newRenewTime = computeRenewTime(startTime, duration);
-                long newExpirationTime = startTime + duration;
+                long newRenewTime = computeRenewTime(stbrtTime, durbtion);
+                long newExpirbtionTime = stbrtTime + durbtion;
 
                 synchronized (this) {
-                    dirtyFailures = 0;
+                    dirtyFbilures = 0;
                     setRenewTime(newRenewTime);
-                    expirationTime = newExpirationTime;
+                    expirbtionTime = newExpirbtionTime;
                 }
 
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 long endTime = System.currentTimeMillis();
 
                 synchronized (this) {
-                    dirtyFailures++;
+                    dirtyFbilures++;
 
-                    if (dirtyFailures == 1) {
+                    if (dirtyFbilures == 1) {
                         /*
-                         * If this was the first recent failed dirty call,
-                         * reschedule another one immediately, in case there
-                         * was just a transient network problem, and remember
-                         * the start time and duration of this attempt for
-                         * future calculations of the delays between retries.
+                         * If this wbs the first recent fbiled dirty cbll,
+                         * reschedule bnother one immedibtely, in cbse there
+                         * wbs just b trbnsient network problem, bnd remember
+                         * the stbrt time bnd durbtion of this bttempt for
+                         * future cblculbtions of the delbys between retries.
                          */
-                        dirtyFailureStartTime = startTime;
-                        dirtyFailureDuration = endTime - startTime;
+                        dirtyFbilureStbrtTime = stbrtTime;
+                        dirtyFbilureDurbtion = endTime - stbrtTime;
                         setRenewTime(endTime);
                     } else {
                         /*
-                         * For each successive failed dirty call, wait for a
-                         * (binary) exponentially increasing delay before
-                         * retrying, to avoid network congestion.
+                         * For ebch successive fbiled dirty cbll, wbit for b
+                         * (binbry) exponentiblly increbsing delby before
+                         * retrying, to bvoid network congestion.
                          */
-                        int n = dirtyFailures - 2;
+                        int n = dirtyFbilures - 2;
                         if (n == 0) {
                             /*
-                             * Calculate the initial retry delay from the
-                             * average time elapsed for each of the first
-                             * two failed dirty calls.  The result must be
-                             * at least 1000ms, to prevent a tight loop.
+                             * Cblculbte the initibl retry delby from the
+                             * bverbge time elbpsed for ebch of the first
+                             * two fbiled dirty cblls.  The result must be
+                             * bt lebst 1000ms, to prevent b tight loop.
                              */
-                            dirtyFailureDuration =
-                                Math.max((dirtyFailureDuration +
-                                          (endTime - startTime)) >> 1, 1000);
+                            dirtyFbilureDurbtion =
+                                Mbth.mbx((dirtyFbilureDurbtion +
+                                          (endTime - stbrtTime)) >> 1, 1000);
                         }
                         long newRenewTime =
-                            endTime + (dirtyFailureDuration << n);
+                            endTime + (dirtyFbilureDurbtion << n);
 
                         /*
-                         * Continue if the last known held lease has not
-                         * expired, or else at least a fixed number of times,
-                         * or at least until we've tried for a fixed amount
-                         * of time (the default lease value we request).
+                         * Continue if the lbst known held lebse hbs not
+                         * expired, or else bt lebst b fixed number of times,
+                         * or bt lebst until we've tried for b fixed bmount
+                         * of time (the defbult lebse vblue we request).
                          */
-                        if (newRenewTime < expirationTime ||
-                            dirtyFailures < dirtyFailureRetries ||
-                            newRenewTime < dirtyFailureStartTime + leaseValue)
+                        if (newRenewTime < expirbtionTime ||
+                            dirtyFbilures < dirtyFbilureRetries ||
+                            newRenewTime < dirtyFbilureStbrtTime + lebseVblue)
                         {
                             setRenewTime(newRenewTime);
                         } else {
                             /*
-                             * Give up: postpone lease renewals until next
+                             * Give up: postpone lebse renewbls until next
                              * ref is registered for this endpoint.
                              */
                             setRenewTime(Long.MAX_VALUE);
@@ -426,45 +426,45 @@ final class DGCClient {
 
                     if (refEntries != null) {
                         /*
-                         * Add all of these refs to the set of refs for this
-                         * endpoint that may be invalid (this VM may not be in
-                         * the server's referenced set), so that we will
-                         * attempt to explicitly dirty them again in the
+                         * Add bll of these refs to the set of refs for this
+                         * endpoint thbt mby be invblid (this VM mby not be in
+                         * the server's referenced set), so thbt we will
+                         * bttempt to explicitly dirty them bgbin in the
                          * future.
                          */
-                        invalidRefs.addAll(refEntries);
+                        invblidRefs.bddAll(refEntries);
 
                         /*
-                         * Record that a dirty call has failed for all of these
-                         * refs, so that clean calls for them in the future
+                         * Record thbt b dirty cbll hbs fbiled for bll of these
+                         * refs, so thbt clebn cblls for them in the future
                          * will be strong.
                          */
-                        Iterator<RefEntry> iter = refEntries.iterator();
-                        while (iter.hasNext()) {
+                        Iterbtor<RefEntry> iter = refEntries.iterbtor();
+                        while (iter.hbsNext()) {
                             RefEntry refEntry = iter.next();
-                            refEntry.markDirtyFailed();
+                            refEntry.mbrkDirtyFbiled();
                         }
                     }
 
                     /*
-                     * If the last known held lease will have expired before
-                     * the next renewal, all refs might be invalid.
+                     * If the lbst known held lebse will hbve expired before
+                     * the next renewbl, bll refs might be invblid.
                      */
-                    if (renewTime >= expirationTime) {
-                        invalidRefs.addAll(refTable.values());
+                    if (renewTime >= expirbtionTime) {
+                        invblidRefs.bddAll(refTbble.vblues());
                     }
                 }
             }
         }
 
         /**
-         * Set the absolute time at which the lease for this entry should
+         * Set the bbsolute time bt which the lebse for this entry should
          * be renewed.
          *
-         * This method must ONLY be called while synchronized on this entry.
+         * This method must ONLY be cblled while synchronized on this entry.
          */
-        private void setRenewTime(long newRenewTime) {
-            assert Thread.holdsLock(this);
+        privbte void setRenewTime(long newRenewTime) {
+            bssert Threbd.holdsLock(this);
 
             if (newRenewTime < renewTime) {
                 renewTime = newRenewTime;
@@ -472,7 +472,7 @@ final class DGCClient {
                     AccessController.doPrivileged(
                         new PrivilegedAction<Void>() {
                             public Void run() {
-                            renewCleanThread.interrupt();
+                            renewClebnThrebd.interrupt();
                             return null;
                         }
                     });
@@ -483,162 +483,162 @@ final class DGCClient {
         }
 
         /**
-         * RenewCleanThread handles the asynchronous client-side DGC activity
-         * for this entry: renewing the leases and making clean calls.
+         * RenewClebnThrebd hbndles the bsynchronous client-side DGC bctivity
+         * for this entry: renewing the lebses bnd mbking clebn cblls.
          */
-        private class RenewCleanThread implements Runnable {
+        privbte clbss RenewClebnThrebd implements Runnbble {
 
             public void run() {
                 do {
-                    long timeToWait;
-                    RefEntry.PhantomLiveRef phantom = null;
-                    boolean needRenewal = false;
+                    long timeToWbit;
+                    RefEntry.PhbntomLiveRef phbntom = null;
+                    boolebn needRenewbl = fblse;
                     Set<RefEntry> refsToDirty = null;
                     long sequenceNum = Long.MIN_VALUE;
 
                     synchronized (EndpointEntry.this) {
                         /*
-                         * Calculate time to block (waiting for phantom
-                         * reference notifications).  It is the time until the
-                         * lease renewal should be done, bounded on the low
-                         * end by 1 ms so that the reference queue will always
-                         * get processed, and if there are pending clean
-                         * requests (remaining because some clean calls
-                         * failed), bounded on the high end by the maximum
-                         * clean call retry interval.
+                         * Cblculbte time to block (wbiting for phbntom
+                         * reference notificbtions).  It is the time until the
+                         * lebse renewbl should be done, bounded on the low
+                         * end by 1 ms so thbt the reference queue will blwbys
+                         * get processed, bnd if there bre pending clebn
+                         * requests (rembining becbuse some clebn cblls
+                         * fbiled), bounded on the high end by the mbximum
+                         * clebn cbll retry intervbl.
                          */
                         long timeUntilRenew =
                             renewTime - System.currentTimeMillis();
-                        timeToWait = Math.max(timeUntilRenew, 1);
-                        if (!pendingCleans.isEmpty()) {
-                            timeToWait = Math.min(timeToWait, cleanInterval);
+                        timeToWbit = Mbth.mbx(timeUntilRenew, 1);
+                        if (!pendingClebns.isEmpty()) {
+                            timeToWbit = Mbth.min(timeToWbit, clebnIntervbl);
                         }
 
                         /*
-                         * Set flag indicating that it is OK to interrupt this
-                         * thread now, such as if a earlier lease renewal time
-                         * is set, because we are only going to be blocking
-                         * and can deal with interrupts.
+                         * Set flbg indicbting thbt it is OK to interrupt this
+                         * threbd now, such bs if b ebrlier lebse renewbl time
+                         * is set, becbuse we bre only going to be blocking
+                         * bnd cbn debl with interrupts.
                          */
                         interruptible = true;
                     }
 
                     try {
                         /*
-                         * Wait for the duration calculated above for any of
-                         * our phantom references to be enqueued.
+                         * Wbit for the durbtion cblculbted bbove for bny of
+                         * our phbntom references to be enqueued.
                          */
-                        phantom = (RefEntry.PhantomLiveRef)
-                            refQueue.remove(timeToWait);
-                    } catch (InterruptedException e) {
+                        phbntom = (RefEntry.PhbntomLiveRef)
+                            refQueue.remove(timeToWbit);
+                    } cbtch (InterruptedException e) {
                     }
 
                     synchronized (EndpointEntry.this) {
                         /*
-                         * Set flag indicating that it is NOT OK to interrupt
-                         * this thread now, because we may be undertaking I/O
-                         * operations that should not be interrupted (and we
-                         * will not be blocking arbitrarily).
+                         * Set flbg indicbting thbt it is NOT OK to interrupt
+                         * this threbd now, becbuse we mby be undertbking I/O
+                         * operbtions thbt should not be interrupted (bnd we
+                         * will not be blocking brbitrbrily).
                          */
-                        interruptible = false;
-                        Thread.interrupted();   // clear interrupted state
+                        interruptible = fblse;
+                        Threbd.interrupted();   // clebr interrupted stbte
 
                         /*
-                         * If there was a phantom reference enqueued, process
-                         * it and all the rest on the queue, generating
-                         * clean requests as necessary.
+                         * If there wbs b phbntom reference enqueued, process
+                         * it bnd bll the rest on the queue, generbting
+                         * clebn requests bs necessbry.
                          */
-                        if (phantom != null) {
-                            processPhantomRefs(phantom);
+                        if (phbntom != null) {
+                            processPhbntomRefs(phbntom);
                         }
 
                         /*
-                         * Check if it is time to renew this entry's lease.
+                         * Check if it is time to renew this entry's lebse.
                          */
                         long currentTime = System.currentTimeMillis();
                         if (currentTime > renewTime) {
-                            needRenewal = true;
-                            if (!invalidRefs.isEmpty()) {
-                                refsToDirty = invalidRefs;
-                                invalidRefs = new HashSet<>(5);
+                            needRenewbl = true;
+                            if (!invblidRefs.isEmpty()) {
+                                refsToDirty = invblidRefs;
+                                invblidRefs = new HbshSet<>(5);
                             }
                             sequenceNum = getNextSequenceNum();
                         }
                     }
 
-                    if (needRenewal) {
-                        makeDirtyCall(refsToDirty, sequenceNum);
+                    if (needRenewbl) {
+                        mbkeDirtyCbll(refsToDirty, sequenceNum);
                     }
 
-                    if (!pendingCleans.isEmpty()) {
-                        makeCleanCalls();
+                    if (!pendingClebns.isEmpty()) {
+                        mbkeClebnCblls();
                     }
-                } while (!removed || !pendingCleans.isEmpty());
+                } while (!removed || !pendingClebns.isEmpty());
             }
         }
 
         /**
-         * Process the notification of the given phantom reference and any
-         * others that are on this entry's reference queue.  Each phantom
+         * Process the notificbtion of the given phbntom reference bnd bny
+         * others thbt bre on this entry's reference queue.  Ebch phbntom
          * reference is removed from its RefEntry's ref set.  All ref
-         * entries that have no more registered instances are collected
-         * into up to two batched clean call requests: one for refs
-         * requiring a "strong" clean call, and one for the rest.
+         * entries thbt hbve no more registered instbnces bre collected
+         * into up to two bbtched clebn cbll requests: one for refs
+         * requiring b "strong" clebn cbll, bnd one for the rest.
          *
-         * This method must ONLY be called while synchronized on this entry.
+         * This method must ONLY be cblled while synchronized on this entry.
          */
-        private void processPhantomRefs(RefEntry.PhantomLiveRef phantom) {
-            assert Thread.holdsLock(this);
+        privbte void processPhbntomRefs(RefEntry.PhbntomLiveRef phbntom) {
+            bssert Threbd.holdsLock(this);
 
-            Set<RefEntry> strongCleans = null;
-            Set<RefEntry> normalCleans = null;
+            Set<RefEntry> strongClebns = null;
+            Set<RefEntry> normblClebns = null;
 
             do {
-                RefEntry refEntry = phantom.getRefEntry();
-                refEntry.removeInstanceFromRefSet(phantom);
+                RefEntry refEntry = phbntom.getRefEntry();
+                refEntry.removeInstbnceFromRefSet(phbntom);
                 if (refEntry.isRefSetEmpty()) {
-                    if (refEntry.hasDirtyFailed()) {
-                        if (strongCleans == null) {
-                            strongCleans = new HashSet<>(5);
+                    if (refEntry.hbsDirtyFbiled()) {
+                        if (strongClebns == null) {
+                            strongClebns = new HbshSet<>(5);
                         }
-                        strongCleans.add(refEntry);
+                        strongClebns.bdd(refEntry);
                     } else {
-                        if (normalCleans == null) {
-                            normalCleans = new HashSet<>(5);
+                        if (normblClebns == null) {
+                            normblClebns = new HbshSet<>(5);
                         }
-                        normalCleans.add(refEntry);
+                        normblClebns.bdd(refEntry);
                     }
                     removeRefEntry(refEntry);
                 }
-            } while ((phantom =
-                (RefEntry.PhantomLiveRef) refQueue.poll()) != null);
+            } while ((phbntom =
+                (RefEntry.PhbntomLiveRef) refQueue.poll()) != null);
 
-            if (strongCleans != null) {
-                pendingCleans.add(
-                    new CleanRequest(createObjIDArray(strongCleans),
+            if (strongClebns != null) {
+                pendingClebns.bdd(
+                    new ClebnRequest(crebteObjIDArrby(strongClebns),
                                      getNextSequenceNum(), true));
             }
-            if (normalCleans != null) {
-                pendingCleans.add(
-                    new CleanRequest(createObjIDArray(normalCleans),
-                                     getNextSequenceNum(), false));
+            if (normblClebns != null) {
+                pendingClebns.bdd(
+                    new ClebnRequest(crebteObjIDArrby(normblClebns),
+                                     getNextSequenceNum(), fblse));
             }
         }
 
         /**
-         * CleanRequest holds the data for the parameters of a clean call
-         * that needs to be made.
+         * ClebnRequest holds the dbtb for the pbrbmeters of b clebn cbll
+         * thbt needs to be mbde.
          */
-        private static class CleanRequest {
+        privbte stbtic clbss ClebnRequest {
 
-            final ObjID[] objIDs;
-            final long sequenceNum;
-            final boolean strong;
+            finbl ObjID[] objIDs;
+            finbl long sequenceNum;
+            finbl boolebn strong;
 
-            /** how many times this request has failed */
-            int failures = 0;
+            /** how mbny times this request hbs fbiled */
+            int fbilures = 0;
 
-            CleanRequest(ObjID[] objIDs, long sequenceNum, boolean strong) {
+            ClebnRequest(ObjID[] objIDs, long sequenceNum, boolebn strong) {
                 this.objIDs = objIDs;
                 this.sequenceNum = sequenceNum;
                 this.strong = strong;
@@ -646,29 +646,29 @@ final class DGCClient {
         }
 
         /**
-         * Make all of the clean calls described by the clean requests in
-         * this entry's set of "pending cleans".  Clean requests for clean
-         * calls that succeed are removed from the "pending cleans" set.
+         * Mbke bll of the clebn cblls described by the clebn requests in
+         * this entry's set of "pending clebns".  Clebn requests for clebn
+         * cblls thbt succeed bre removed from the "pending clebns" set.
          *
-         * This method must NOT be called while synchronized on this entry.
+         * This method must NOT be cblled while synchronized on this entry.
          */
-        private void makeCleanCalls() {
-            assert !Thread.holdsLock(this);
+        privbte void mbkeClebnCblls() {
+            bssert !Threbd.holdsLock(this);
 
-            Iterator<CleanRequest> iter = pendingCleans.iterator();
-            while (iter.hasNext()) {
-                CleanRequest request = iter.next();
+            Iterbtor<ClebnRequest> iter = pendingClebns.iterbtor();
+            while (iter.hbsNext()) {
+                ClebnRequest request = iter.next();
                 try {
-                    dgc.clean(request.objIDs, request.sequenceNum, vmid,
+                    dgc.clebn(request.objIDs, request.sequenceNum, vmid,
                               request.strong);
                     iter.remove();
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                     /*
-                     * Many types of exceptions here could have been
-                     * caused by a transient failure, so try again a
+                     * Mbny types of exceptions here could hbve been
+                     * cbused by b trbnsient fbilure, so try bgbin b
                      * few times, but not forever.
                      */
-                    if (++request.failures >= cleanFailureRetries) {
+                    if (++request.fbilures >= clebnFbilureRetries) {
                         iter.remove();
                     }
                 }
@@ -676,12 +676,12 @@ final class DGCClient {
         }
 
         /**
-         * Create an array of ObjIDs (needed for the DGC remote calls)
+         * Crebte bn brrby of ObjIDs (needed for the DGC remote cblls)
          * from the ids in the given set of refs.
          */
-        private static ObjID[] createObjIDArray(Set<RefEntry> refEntries) {
+        privbte stbtic ObjID[] crebteObjIDArrby(Set<RefEntry> refEntries) {
             ObjID[] ids = new ObjID[refEntries.size()];
-            Iterator<RefEntry> iter = refEntries.iterator();
+            Iterbtor<RefEntry> iter = refEntries.iterbtor();
             for (int i = 0; i < ids.length; i++) {
                 ids[i] = iter.next().getRef().getObjID();
             }
@@ -689,108 +689,108 @@ final class DGCClient {
         }
 
         /**
-         * RefEntry encapsulates the client-side DGC information specific
-         * to a particular LiveRef value.  In particular, it contains a
-         * set of phantom references to all of the instances of the LiveRef
-         * value registered in the system (but not garbage collected
-         * locally).
+         * RefEntry encbpsulbtes the client-side DGC informbtion specific
+         * to b pbrticulbr LiveRef vblue.  In pbrticulbr, it contbins b
+         * set of phbntom references to bll of the instbnces of the LiveRef
+         * vblue registered in the system (but not gbrbbge collected
+         * locblly).
          */
-        private class RefEntry {
+        privbte clbss RefEntry {
 
-            /** LiveRef value for this entry (not a registered instance) */
-            private LiveRef ref;
-            /** set of phantom references to registered instances */
-            private Set<PhantomLiveRef> refSet = new HashSet<>(5);
-            /** true if a dirty call containing this ref has failed */
-            private boolean dirtyFailed = false;
+            /** LiveRef vblue for this entry (not b registered instbnce) */
+            privbte LiveRef ref;
+            /** set of phbntom references to registered instbnces */
+            privbte Set<PhbntomLiveRef> refSet = new HbshSet<>(5);
+            /** true if b dirty cbll contbining this ref hbs fbiled */
+            privbte boolebn dirtyFbiled = fblse;
 
             public RefEntry(LiveRef ref) {
                 this.ref = ref;
             }
 
             /**
-             * Return the LiveRef value for this entry (not a registered
-             * instance).
+             * Return the LiveRef vblue for this entry (not b registered
+             * instbnce).
              */
             public LiveRef getRef() {
                 return ref;
             }
 
             /**
-             * Add a LiveRef to the set of registered instances for this entry.
+             * Add b LiveRef to the set of registered instbnces for this entry.
              *
              * This method must ONLY be invoked while synchronized on this
              * RefEntry's EndpointEntry.
              */
-            public void addInstanceToRefSet(LiveRef ref) {
-                assert Thread.holdsLock(EndpointEntry.this);
-                assert ref.equals(this.ref);
+            public void bddInstbnceToRefSet(LiveRef ref) {
+                bssert Threbd.holdsLock(EndpointEntry.this);
+                bssert ref.equbls(this.ref);
 
                 /*
-                 * Only keep a phantom reference to the registered instance,
-                 * so that it can be garbage collected normally (and we can be
-                 * notified when that happens).
+                 * Only keep b phbntom reference to the registered instbnce,
+                 * so thbt it cbn be gbrbbge collected normblly (bnd we cbn be
+                 * notified when thbt hbppens).
                  */
-                refSet.add(new PhantomLiveRef(ref));
+                refSet.bdd(new PhbntomLiveRef(ref));
             }
 
             /**
-             * Remove a PhantomLiveRef from the set of registered instances.
+             * Remove b PhbntomLiveRef from the set of registered instbnces.
              *
              * This method must ONLY be invoked while synchronized on this
              * RefEntry's EndpointEntry.
              */
-            public void removeInstanceFromRefSet(PhantomLiveRef phantom) {
-                assert Thread.holdsLock(EndpointEntry.this);
-                assert refSet.contains(phantom);
-                refSet.remove(phantom);
+            public void removeInstbnceFromRefSet(PhbntomLiveRef phbntom) {
+                bssert Threbd.holdsLock(EndpointEntry.this);
+                bssert refSet.contbins(phbntom);
+                refSet.remove(phbntom);
             }
 
             /**
-             * Return true if there are no registered LiveRef instances for
-             * this entry still reachable in this VM.
+             * Return true if there bre no registered LiveRef instbnces for
+             * this entry still rebchbble in this VM.
              *
              * This method must ONLY be invoked while synchronized on this
              * RefEntry's EndpointEntry.
              */
-            public boolean isRefSetEmpty() {
-                assert Thread.holdsLock(EndpointEntry.this);
+            public boolebn isRefSetEmpty() {
+                bssert Threbd.holdsLock(EndpointEntry.this);
                 return refSet.size() == 0;
             }
 
             /**
-             * Record that a dirty call that explicitly contained this
-             * entry's ref has failed.
+             * Record thbt b dirty cbll thbt explicitly contbined this
+             * entry's ref hbs fbiled.
              *
              * This method must ONLY be invoked while synchronized on this
              * RefEntry's EndpointEntry.
              */
-            public void markDirtyFailed() {
-                assert Thread.holdsLock(EndpointEntry.this);
-                dirtyFailed = true;
+            public void mbrkDirtyFbiled() {
+                bssert Threbd.holdsLock(EndpointEntry.this);
+                dirtyFbiled = true;
             }
 
             /**
-             * Return true if a dirty call that explicitly contained this
-             * entry's ref has failed (and therefore a clean call for this
-             * ref needs to be marked "strong").
+             * Return true if b dirty cbll thbt explicitly contbined this
+             * entry's ref hbs fbiled (bnd therefore b clebn cbll for this
+             * ref needs to be mbrked "strong").
              *
              * This method must ONLY be invoked while synchronized on this
              * RefEntry's EndpointEntry.
              */
-            public boolean hasDirtyFailed() {
-                assert Thread.holdsLock(EndpointEntry.this);
-                return dirtyFailed;
+            public boolebn hbsDirtyFbiled() {
+                bssert Threbd.holdsLock(EndpointEntry.this);
+                return dirtyFbiled;
             }
 
             /**
-             * PhantomLiveRef is a PhantomReference to a LiveRef instance,
-             * used to detect when the LiveRef becomes permanently
-             * unreachable in this VM.
+             * PhbntomLiveRef is b PhbntomReference to b LiveRef instbnce,
+             * used to detect when the LiveRef becomes permbnently
+             * unrebchbble in this VM.
              */
-            private class PhantomLiveRef extends PhantomReference<LiveRef> {
+            privbte clbss PhbntomLiveRef extends PhbntomReference<LiveRef> {
 
-                public PhantomLiveRef(LiveRef ref) {
+                public PhbntomLiveRef(LiveRef ref) {
                     super(ref, EndpointEntry.this.refQueue);
                 }
 

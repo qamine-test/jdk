@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -33,134 +33,134 @@
 #define ALL_REFS -1
 
 /*
- * Each object sent to the front end is tracked with the RefNode struct
+ * Ebch object sent to the front end is trbcked with the RefNode struct
  * (see util.h).
- * External to this module, objects are identified by a jlong id which is
- * simply the sequence number. A weak reference is usually used so that
- * the presence of a debugger-tracked object will not prevent
- * its collection. Once an object is collected, its RefNode may be
- * deleted and the weak ref inside may be reused (these may happen in
+ * Externbl to this module, objects bre identified by b jlong id which is
+ * simply the sequence number. A webk reference is usublly used so thbt
+ * the presence of b debugger-trbcked object will not prevent
+ * its collection. Once bn object is collected, its RefNode mby be
+ * deleted bnd the webk ref inside mby be reused (these mby hbppen in
  * either order). Using the sequence number
- * as the object id prevents ambiguity in the object id when the weak ref
- * is reused. The RefNode* is stored with the object as it's JVMTI Tag.
+ * bs the object id prevents bmbiguity in the object id when the webk ref
+ * is reused. The RefNode* is stored with the object bs it's JVMTI Tbg.
  *
- * The ref member is changed from weak to strong when
+ * The ref member is chbnged from webk to strong when
  * gc of the object is to be prevented.
  * Whether or not it is strong, it is never exported from this module.
  *
- * A reference count of each jobject is also maintained here. It tracks
- * the number times an object has been referenced through
+ * A reference count of ebch jobject is blso mbintbined here. It trbcks
+ * the number times bn object hbs been referenced through
  * commonRef_refToID. A RefNode is freed once the reference
- * count is decremented to 0 (with commonRef_release*), even if the
- * corresponding object has not been collected.
+ * count is decremented to 0 (with commonRef_relebse*), even if the
+ * corresponding object hbs not been collected.
  *
- * One hash table is maintained. The mapping of ID to jobject (or RefNode*)
- * is handled with one hash table that will re-size itself as the number
+ * One hbsh tbble is mbintbined. The mbpping of ID to jobject (or RefNode*)
+ * is hbndled with one hbsh tbble thbt will re-size itself bs the number
  * of RefNode's grow.
  */
 
-/* Initial hash table size (must be power of 2) */
+/* Initibl hbsh tbble size (must be power of 2) */
 #define HASH_INIT_SIZE 512
-/* If element count exceeds HASH_EXPAND_SCALE*hash_size we expand & re-hash */
+/* If element count exceeds HASH_EXPAND_SCALE*hbsh_size we expbnd & re-hbsh */
 #define HASH_EXPAND_SCALE 8
-/* Maximum hash table size (must be power of 2) */
+/* Mbximum hbsh tbble size (must be power of 2) */
 #define HASH_MAX_SIZE  (1024*HASH_INIT_SIZE)
 
-/* Map a key (ID) to a hash bucket */
-static jint
-hashBucket(jlong key)
+/* Mbp b key (ID) to b hbsh bucket */
+stbtic jint
+hbshBucket(jlong key)
 {
-    /* Size should always be a power of 2, use mask instead of mod operator */
+    /* Size should blwbys be b power of 2, use mbsk instebd of mod operbtor */
     /*LINTED*/
-    return ((jint)key) & (gdata->objectsByIDsize-1);
+    return ((jint)key) & (gdbtb->objectsByIDsize-1);
 }
 
-/* Generate a new ID */
-static jlong
+/* Generbte b new ID */
+stbtic jlong
 newSeqNum(void)
 {
-    return gdata->nextSeqNum++;
+    return gdbtb->nextSeqNum++;
 }
 
-/* Create a fresh RefNode structure, create a weak ref and tag the object */
-static RefNode *
-createNode(JNIEnv *env, jobject ref)
+/* Crebte b fresh RefNode structure, crebte b webk ref bnd tbg the object */
+stbtic RefNode *
+crebteNode(JNIEnv *env, jobject ref)
 {
     RefNode   *node;
-    jobject    weakRef;
+    jobject    webkRef;
     jvmtiError error;
 
-    /* Could allocate RefNode's in blocks, not sure it would help much */
-    node = (RefNode*)jvmtiAllocate((int)sizeof(RefNode));
+    /* Could bllocbte RefNode's in blocks, not sure it would help much */
+    node = (RefNode*)jvmtiAllocbte((int)sizeof(RefNode));
     if (node == NULL) {
         return NULL;
     }
 
-    /* Create weak reference to make sure we have a reference */
-    weakRef = JNI_FUNC_PTR(env,NewWeakGlobalRef)(env, ref);
-    if (weakRef == NULL) {
-        jvmtiDeallocate(node);
+    /* Crebte webk reference to mbke sure we hbve b reference */
+    webkRef = JNI_FUNC_PTR(env,NewWebkGlobblRef)(env, ref);
+    if (webkRef == NULL) {
+        jvmtiDebllocbte(node);
         return NULL;
     }
 
-    /* Set tag on weakRef */
-    error = JVMTI_FUNC_PTR(gdata->jvmti, SetTag)
-                          (gdata->jvmti, weakRef, ptr_to_jlong(node));
+    /* Set tbg on webkRef */
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti, SetTbg)
+                          (gdbtb->jvmti, webkRef, ptr_to_jlong(node));
     if ( error != JVMTI_ERROR_NONE ) {
-        JNI_FUNC_PTR(env,DeleteWeakGlobalRef)(env, weakRef);
-        jvmtiDeallocate(node);
+        JNI_FUNC_PTR(env,DeleteWebkGlobblRef)(env, webkRef);
+        jvmtiDebllocbte(node);
         return NULL;
     }
 
     /* Fill in RefNode */
-    node->ref      = weakRef;
+    node->ref      = webkRef;
     node->isStrong = JNI_FALSE;
     node->count    = 1;
     node->seqNum   = newSeqNum();
 
-    /* Count RefNode's created */
-    gdata->objectsByIDcount++;
+    /* Count RefNode's crebted */
+    gdbtb->objectsByIDcount++;
     return node;
 }
 
-/* Delete a RefNode allocation, delete weak/global ref and clear tag */
-static void
+/* Delete b RefNode bllocbtion, delete webk/globbl ref bnd clebr tbg */
+stbtic void
 deleteNode(JNIEnv *env, RefNode *node)
 {
     LOG_MISC(("Freeing %d (%x)\n", (int)node->seqNum, node->ref));
 
     if ( node->ref != NULL ) {
-        /* Clear tag */
-        (void)JVMTI_FUNC_PTR(gdata->jvmti,SetTag)
-                            (gdata->jvmti, node->ref, NULL_OBJECT_ID);
+        /* Clebr tbg */
+        (void)JVMTI_FUNC_PTR(gdbtb->jvmti,SetTbg)
+                            (gdbtb->jvmti, node->ref, NULL_OBJECT_ID);
         if (node->isStrong) {
-            JNI_FUNC_PTR(env,DeleteGlobalRef)(env, node->ref);
+            JNI_FUNC_PTR(env,DeleteGlobblRef)(env, node->ref);
         } else {
-            JNI_FUNC_PTR(env,DeleteWeakGlobalRef)(env, node->ref);
+            JNI_FUNC_PTR(env,DeleteWebkGlobblRef)(env, node->ref);
         }
     }
-    gdata->objectsByIDcount--;
-    jvmtiDeallocate(node);
+    gdbtb->objectsByIDcount--;
+    jvmtiDebllocbte(node);
 }
 
-/* Change a RefNode to have a strong reference */
-static jobject
+/* Chbnge b RefNode to hbve b strong reference */
+stbtic jobject
 strengthenNode(JNIEnv *env, RefNode *node)
 {
     if (!node->isStrong) {
         jobject strongRef;
 
-        strongRef = JNI_FUNC_PTR(env,NewGlobalRef)(env, node->ref);
+        strongRef = JNI_FUNC_PTR(env,NewGlobblRef)(env, node->ref);
         /*
-         * NewGlobalRef on a weak ref will return NULL if the weak
-         * reference has been collected or if out of memory.
+         * NewGlobblRef on b webk ref will return NULL if the webk
+         * reference hbs been collected or if out of memory.
          * We need to distinguish those two occurrences.
          */
-        if ((strongRef == NULL) && !isSameObject(env, node->ref, NULL)) {
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"NewGlobalRef");
+        if ((strongRef == NULL) && !isSbmeObject(env, node->ref, NULL)) {
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"NewGlobblRef");
         }
         if (strongRef != NULL) {
-            JNI_FUNC_PTR(env,DeleteWeakGlobalRef)(env, node->ref);
+            JNI_FUNC_PTR(env,DeleteWebkGlobblRef)(env, node->ref);
             node->ref      = strongRef;
             node->isStrong = JNI_TRUE;
         }
@@ -170,58 +170,58 @@ strengthenNode(JNIEnv *env, RefNode *node)
     }
 }
 
-/* Change a RefNode to have a weak reference */
-static jweak
-weakenNode(JNIEnv *env, RefNode *node)
+/* Chbnge b RefNode to hbve b webk reference */
+stbtic jwebk
+webkenNode(JNIEnv *env, RefNode *node)
 {
     if (node->isStrong) {
-        jweak weakRef;
+        jwebk webkRef;
 
-        weakRef = JNI_FUNC_PTR(env,NewWeakGlobalRef)(env, node->ref);
-        if (weakRef != NULL) {
-            JNI_FUNC_PTR(env,DeleteGlobalRef)(env, node->ref);
-            node->ref      = weakRef;
+        webkRef = JNI_FUNC_PTR(env,NewWebkGlobblRef)(env, node->ref);
+        if (webkRef != NULL) {
+            JNI_FUNC_PTR(env,DeleteGlobblRef)(env, node->ref);
+            node->ref      = webkRef;
             node->isStrong = JNI_FALSE;
         }
-        return weakRef;
+        return webkRef;
     } else {
         return node->ref;
     }
 }
 
 /*
- * Returns the node which contains the common reference for the
- * given object. The passed reference should not be a weak reference
- * managed in the object hash table (i.e. returned by commonRef_idToRef)
- * because no sequence number checking is done.
+ * Returns the node which contbins the common reference for the
+ * given object. The pbssed reference should not be b webk reference
+ * mbnbged in the object hbsh tbble (i.e. returned by commonRef_idToRef)
+ * becbuse no sequence number checking is done.
  */
-static RefNode *
+stbtic RefNode *
 findNodeByRef(JNIEnv *env, jobject ref)
 {
     jvmtiError error;
-    jlong      tag;
+    jlong      tbg;
 
-    tag   = NULL_OBJECT_ID;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetTag)(gdata->jvmti, ref, &tag);
+    tbg   = NULL_OBJECT_ID;
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetTbg)(gdbtb->jvmti, ref, &tbg);
     if ( error == JVMTI_ERROR_NONE ) {
         RefNode   *node;
 
-        node = (RefNode*)jlong_to_ptr(tag);
+        node = (RefNode*)jlong_to_ptr(tbg);
         return node;
     }
     return NULL;
 }
 
-/* Locate and delete a node based on ID */
-static void
+/* Locbte bnd delete b node bbsed on ID */
+stbtic void
 deleteNodeByID(JNIEnv *env, jlong id, jint refCount)
 {
     jint     slot;
     RefNode *node;
     RefNode *prev;
 
-    slot = hashBucket(id);
-    node = gdata->objectsByID[slot];
+    slot = hbshBucket(id);
+    node = gdbtb->objectsByID[slot];
     prev = NULL;
 
     while (node != NULL) {
@@ -235,15 +235,15 @@ deleteNodeByID(JNIEnv *env, jlong id, jint refCount)
                 if ( node->count < 0 ) {
                     EXIT_ERROR(AGENT_ERROR_INTERNAL,"RefNode count < 0");
                 }
-                /* Detach from id hash table */
+                /* Detbch from id hbsh tbble */
                 if (prev == NULL) {
-                    gdata->objectsByID[slot] = node->next;
+                    gdbtb->objectsByID[slot] = node->next;
                 } else {
                     prev->next = node->next;
                 }
                 deleteNode(env, node);
             }
-            break;
+            brebk;
         }
         prev = node;
         node = node->next;
@@ -251,94 +251,94 @@ deleteNodeByID(JNIEnv *env, jlong id, jint refCount)
 }
 
 /*
- * Returns the node stored in the object hash table for the given object
- * id. The id should be a value previously returned by
+ * Returns the node stored in the object hbsh tbble for the given object
+ * id. The id should be b vblue previously returned by
  * commonRef_refToID.
  *
- *  NOTE: It is possible that a match is found here, but that the object
- *        is garbage collected by the time the caller inspects node->ref.
- *        Callers should take care using the node->ref object returned here.
+ *  NOTE: It is possible thbt b mbtch is found here, but thbt the object
+ *        is gbrbbge collected by the time the cbller inspects node->ref.
+ *        Cbllers should tbke cbre using the node->ref object returned here.
  *
  */
-static RefNode *
+stbtic RefNode *
 findNodeByID(JNIEnv *env, jlong id)
 {
     jint     slot;
     RefNode *node;
     RefNode *prev;
 
-    slot = hashBucket(id);
-    node = gdata->objectsByID[slot];
+    slot = hbshBucket(id);
+    node = gdbtb->objectsByID[slot];
     prev = NULL;
 
     while (node != NULL) {
         if ( id == node->seqNum ) {
             if ( prev != NULL ) {
-                /* Re-order hash list so this one is up front */
+                /* Re-order hbsh list so this one is up front */
                 prev->next = node->next;
-                node->next = gdata->objectsByID[slot];
-                gdata->objectsByID[slot] = node;
+                node->next = gdbtb->objectsByID[slot];
+                gdbtb->objectsByID[slot] = node;
             }
-            break;
+            brebk;
         }
         node = node->next;
     }
     return node;
 }
 
-/* Initialize the hash table stored in gdata area */
-static void
-initializeObjectsByID(int size)
+/* Initiblize the hbsh tbble stored in gdbtb breb */
+stbtic void
+initiblizeObjectsByID(int size)
 {
-    /* Size should always be a power of 2 */
+    /* Size should blwbys be b power of 2 */
     if ( size > HASH_MAX_SIZE ) size = HASH_MAX_SIZE;
-    gdata->objectsByIDsize  = size;
-    gdata->objectsByIDcount = 0;
-    gdata->objectsByID      = (RefNode**)jvmtiAllocate((int)sizeof(RefNode*)*size);
-    (void)memset(gdata->objectsByID, 0, (int)sizeof(RefNode*)*size);
+    gdbtb->objectsByIDsize  = size;
+    gdbtb->objectsByIDcount = 0;
+    gdbtb->objectsByID      = (RefNode**)jvmtiAllocbte((int)sizeof(RefNode*)*size);
+    (void)memset(gdbtb->objectsByID, 0, (int)sizeof(RefNode*)*size);
 }
 
-/* hash in a RefNode */
-static void
-hashIn(RefNode *node)
+/* hbsh in b RefNode */
+stbtic void
+hbshIn(RefNode *node)
 {
     jint     slot;
 
-    /* Add to id hashtable */
-    slot                     = hashBucket(node->seqNum);
-    node->next               = gdata->objectsByID[slot];
-    gdata->objectsByID[slot] = node;
+    /* Add to id hbshtbble */
+    slot                     = hbshBucket(node->seqNum);
+    node->next               = gdbtb->objectsByID[slot];
+    gdbtb->objectsByID[slot] = node;
 }
 
-/* Allocate and add RefNode to hash table */
-static RefNode *
+/* Allocbte bnd bdd RefNode to hbsh tbble */
+stbtic RefNode *
 newCommonRef(JNIEnv *env, jobject ref)
 {
     RefNode *node;
 
-    /* Allocate the node and set it up */
-    node = createNode(env, ref);
+    /* Allocbte the node bnd set it up */
+    node = crebteNode(env, ref);
     if ( node == NULL ) {
         return NULL;
     }
 
-    /* See if hash table needs expansion */
-    if ( gdata->objectsByIDcount > gdata->objectsByIDsize*HASH_EXPAND_SCALE &&
-         gdata->objectsByIDsize < HASH_MAX_SIZE ) {
+    /* See if hbsh tbble needs expbnsion */
+    if ( gdbtb->objectsByIDcount > gdbtb->objectsByIDsize*HASH_EXPAND_SCALE &&
+         gdbtb->objectsByIDsize < HASH_MAX_SIZE ) {
         RefNode **old;
         int       oldsize;
         int       newsize;
         int       i;
 
-        /* Save old information */
-        old     = gdata->objectsByID;
-        oldsize = gdata->objectsByIDsize;
-        /* Allocate new hash table */
-        gdata->objectsByID = NULL;
+        /* Sbve old informbtion */
+        old     = gdbtb->objectsByID;
+        oldsize = gdbtb->objectsByIDsize;
+        /* Allocbte new hbsh tbble */
+        gdbtb->objectsByID = NULL;
         newsize = oldsize*HASH_EXPAND_SCALE;
         if ( newsize > HASH_MAX_SIZE ) newsize = HASH_MAX_SIZE;
-        initializeObjectsByID(newsize);
-        /* Walk over old one and hash in all the RefNodes */
+        initiblizeObjectsByID(newsize);
+        /* Wblk over old one bnd hbsh in bll the RefNodes */
         for ( i = 0 ; i < oldsize ; i++ ) {
             RefNode *onode;
 
@@ -347,38 +347,38 @@ newCommonRef(JNIEnv *env, jobject ref)
                 RefNode *next;
 
                 next = onode->next;
-                hashIn(onode);
+                hbshIn(onode);
                 onode = next;
             }
         }
-        jvmtiDeallocate(old);
+        jvmtiDebllocbte(old);
     }
 
-    /* Add to id hashtable */
-    hashIn(node);
+    /* Add to id hbshtbble */
+    hbshIn(node);
     return node;
 }
 
-/* Initialize the commonRefs usage */
+/* Initiblize the commonRefs usbge */
 void
-commonRef_initialize(void)
+commonRef_initiblize(void)
 {
-    gdata->refLock = debugMonitorCreate("JDWP Reference Table Monitor");
-    gdata->nextSeqNum       = 1; /* 0 used for error indication */
-    initializeObjectsByID(HASH_INIT_SIZE);
+    gdbtb->refLock = debugMonitorCrebte("JDWP Reference Tbble Monitor");
+    gdbtb->nextSeqNum       = 1; /* 0 used for error indicbtion */
+    initiblizeObjectsByID(HASH_INIT_SIZE);
 }
 
-/* Reset the commonRefs usage */
+/* Reset the commonRefs usbge */
 void
 commonRef_reset(JNIEnv *env)
 {
-    debugMonitorEnter(gdata->refLock); {
+    debugMonitorEnter(gdbtb->refLock); {
         int i;
 
-        for (i = 0; i < gdata->objectsByIDsize; i++) {
+        for (i = 0; i < gdbtb->objectsByIDsize; i++) {
             RefNode *node;
 
-            node = gdata->objectsByID[i];
+            node = gdbtb->objectsByID[i];
             while (node != NULL) {
                 RefNode *next;
 
@@ -386,21 +386,21 @@ commonRef_reset(JNIEnv *env)
                 deleteNode(env, node);
                 node = next;
             }
-            gdata->objectsByID[i] = NULL;
+            gdbtb->objectsByID[i] = NULL;
         }
 
-        /* Toss entire hash table and re-create a new one */
-        jvmtiDeallocate(gdata->objectsByID);
-        gdata->objectsByID      = NULL;
-        gdata->nextSeqNum       = 1; /* 0 used for error indication */
-        initializeObjectsByID(HASH_INIT_SIZE);
+        /* Toss entire hbsh tbble bnd re-crebte b new one */
+        jvmtiDebllocbte(gdbtb->objectsByID);
+        gdbtb->objectsByID      = NULL;
+        gdbtb->nextSeqNum       = 1; /* 0 used for error indicbtion */
+        initiblizeObjectsByID(HASH_INIT_SIZE);
 
-    } debugMonitorExit(gdata->refLock);
+    } debugMonitorExit(gdbtb->refLock);
 }
 
 /*
- * Given a reference obtained from JNI or JVMTI, return an object
- * id suitable for sending to the debugger front end.
+ * Given b reference obtbined from JNI or JVMTI, return bn object
+ * id suitbble for sending to the debugger front end.
  */
 jlong
 commonRef_refToID(JNIEnv *env, jobject ref)
@@ -412,7 +412,7 @@ commonRef_refToID(JNIEnv *env, jobject ref)
     }
 
     id = NULL_OBJECT_ID;
-    debugMonitorEnter(gdata->refLock); {
+    debugMonitorEnter(gdbtb->refLock); {
         RefNode *node;
 
         node = findNodeByRef(env, ref);
@@ -425,15 +425,15 @@ commonRef_refToID(JNIEnv *env, jobject ref)
             id = node->seqNum;
             node->count++;
         }
-    } debugMonitorExit(gdata->refLock);
+    } debugMonitorExit(gdbtb->refLock);
     return id;
 }
 
 /*
- * Given an object ID obtained from the debugger front end, return a
- * strong, global reference to that object (or NULL if the object
- * has been collected). The reference can then be used for JNI and
- * JVMTI calls. Caller is resposible for deleting the returned reference.
+ * Given bn object ID obtbined from the debugger front end, return b
+ * strong, globbl reference to thbt object (or NULL if the object
+ * hbs been collected). The reference cbn then be used for JNI bnd
+ * JVMTI cblls. Cbller is resposible for deleting the returned reference.
  */
 jobject
 commonRef_idToRef(JNIEnv *env, jlong id)
@@ -441,42 +441,42 @@ commonRef_idToRef(JNIEnv *env, jlong id)
     jobject ref;
 
     ref = NULL;
-    debugMonitorEnter(gdata->refLock); {
+    debugMonitorEnter(gdbtb->refLock); {
         RefNode *node;
 
         node = findNodeByID(env, id);
         if (node != NULL) {
             if (node->isStrong) {
-                saveGlobalRef(env, node->ref, &ref);
+                sbveGlobblRef(env, node->ref, &ref);
             } else {
                 jobject lref;
 
-                lref = JNI_FUNC_PTR(env,NewLocalRef)(env, node->ref);
+                lref = JNI_FUNC_PTR(env,NewLocblRef)(env, node->ref);
                 if ( lref == NULL ) {
-                    /* Object was GC'd shortly after we found the node */
+                    /* Object wbs GC'd shortly bfter we found the node */
                     deleteNodeByID(env, node->seqNum, ALL_REFS);
                 } else {
-                    saveGlobalRef(env, node->ref, &ref);
-                    JNI_FUNC_PTR(env,DeleteLocalRef)(env, lref);
+                    sbveGlobblRef(env, node->ref, &ref);
+                    JNI_FUNC_PTR(env,DeleteLocblRef)(env, lref);
                 }
             }
         }
-    } debugMonitorExit(gdata->refLock);
+    } debugMonitorExit(gdbtb->refLock);
     return ref;
 }
 
-/* Deletes the global reference that commonRef_idToRef() created */
+/* Deletes the globbl reference thbt commonRef_idToRef() crebted */
 void
 commonRef_idToRef_delete(JNIEnv *env, jobject ref)
 {
     if ( ref==NULL ) {
         return;
     }
-    tossGlobalRef(env, &ref);
+    tossGlobblRef(env, &ref);
 }
 
 
-/* Prevent garbage collection of an object */
+/* Prevent gbrbbge collection of bn object */
 jvmtiError
 commonRef_pin(jlong id)
 {
@@ -486,7 +486,7 @@ commonRef_pin(jlong id)
     if (id == NULL_OBJECT_ID) {
         return error;
     }
-    debugMonitorEnter(gdata->refLock); {
+    debugMonitorEnter(gdbtb->refLock); {
         JNIEnv  *env;
         RefNode *node;
 
@@ -500,61 +500,61 @@ commonRef_pin(jlong id)
             strongRef = strengthenNode(env, node);
             if (strongRef == NULL) {
                 /*
-                 * Referent has been collected, clean up now.
+                 * Referent hbs been collected, clebn up now.
                  */
                 error = AGENT_ERROR_INVALID_OBJECT;
                 deleteNodeByID(env, id, ALL_REFS);
             }
         }
-    } debugMonitorExit(gdata->refLock);
+    } debugMonitorExit(gdbtb->refLock);
     return error;
 }
 
-/* Permit garbage collection of an object */
+/* Permit gbrbbge collection of bn object */
 jvmtiError
 commonRef_unpin(jlong id)
 {
     jvmtiError error;
 
     error = JVMTI_ERROR_NONE;
-    debugMonitorEnter(gdata->refLock); {
+    debugMonitorEnter(gdbtb->refLock); {
         JNIEnv  *env;
         RefNode *node;
 
         env  = getEnv();
         node = findNodeByID(env, id);
         if (node != NULL) {
-            jweak weakRef;
+            jwebk webkRef;
 
-            weakRef = weakenNode(env, node);
-            if (weakRef == NULL) {
+            webkRef = webkenNode(env, node);
+            if (webkRef == NULL) {
                 error = AGENT_ERROR_OUT_OF_MEMORY;
             }
         }
-    } debugMonitorExit(gdata->refLock);
+    } debugMonitorExit(gdbtb->refLock);
     return error;
 }
 
-/* Release tracking of an object by ID */
+/* Relebse trbcking of bn object by ID */
 void
-commonRef_release(JNIEnv *env, jlong id)
+commonRef_relebse(JNIEnv *env, jlong id)
 {
-    debugMonitorEnter(gdata->refLock); {
+    debugMonitorEnter(gdbtb->refLock); {
         deleteNodeByID(env, id, 1);
-    } debugMonitorExit(gdata->refLock);
+    } debugMonitorExit(gdbtb->refLock);
 }
 
 void
-commonRef_releaseMultiple(JNIEnv *env, jlong id, jint refCount)
+commonRef_relebseMultiple(JNIEnv *env, jlong id, jint refCount)
 {
-    debugMonitorEnter(gdata->refLock); {
+    debugMonitorEnter(gdbtb->refLock); {
         deleteNodeByID(env, id, refCount);
-    } debugMonitorExit(gdata->refLock);
+    } debugMonitorExit(gdbtb->refLock);
 }
 
-/* Get rid of RefNodes for objects that no longer exist */
+/* Get rid of RefNodes for objects thbt no longer exist */
 void
-commonRef_compact(void)
+commonRef_compbct(void)
 {
     JNIEnv  *env;
     RefNode *node;
@@ -562,24 +562,24 @@ commonRef_compact(void)
     int      i;
 
     env = getEnv();
-    debugMonitorEnter(gdata->refLock); {
-        if ( gdata->objectsByIDsize > 0 ) {
+    debugMonitorEnter(gdbtb->refLock); {
+        if ( gdbtb->objectsByIDsize > 0 ) {
             /*
-             * Walk through the id-based hash table. Detach any nodes
-             * for which the ref has been collected.
+             * Wblk through the id-bbsed hbsh tbble. Detbch bny nodes
+             * for which the ref hbs been collected.
              */
-            for (i = 0; i < gdata->objectsByIDsize; i++) {
-                node = gdata->objectsByID[i];
+            for (i = 0; i < gdbtb->objectsByIDsize; i++) {
+                node = gdbtb->objectsByID[i];
                 prev = NULL;
                 while (node != NULL) {
-                    /* Has the object been collected? */
+                    /* Hbs the object been collected? */
                     if ( (!node->isStrong) &&
-                          isSameObject(env, node->ref, NULL)) {
+                          isSbmeObject(env, node->ref, NULL)) {
                         RefNode *freed;
 
-                        /* Detach from the ID list */
+                        /* Detbch from the ID list */
                         if (prev == NULL) {
-                            gdata->objectsByID[i] = node->next;
+                            gdbtb->objectsByID[i] = node->next;
                         } else {
                             prev->next = node->next;
                         }
@@ -593,19 +593,19 @@ commonRef_compact(void)
                 }
             }
         }
-    } debugMonitorExit(gdata->refLock);
+    } debugMonitorExit(gdbtb->refLock);
 }
 
-/* Lock the commonRef tables */
+/* Lock the commonRef tbbles */
 void
 commonRef_lock(void)
 {
-    debugMonitorEnter(gdata->refLock);
+    debugMonitorEnter(gdbtb->refLock);
 }
 
-/* Unlock the commonRef tables */
+/* Unlock the commonRef tbbles */
 void
 commonRef_unlock(void)
 {
-    debugMonitorExit(gdata->refLock);
+    debugMonitorExit(gdbtb->refLock);
 }

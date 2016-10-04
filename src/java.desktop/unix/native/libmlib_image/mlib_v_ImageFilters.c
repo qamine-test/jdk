@@ -1,31 +1,31 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
-/*  Table mlib_filters_u8_bl
+/*  Tbble mlib_filters_u8_bl
  *
  *  DESCRIPTION
  *    mlib_filters_u8_bl[i].s[0] = mlib_filters_u8_bl[i + 256].s[0] = (511 - 2*i) << SHIFT;
@@ -37,7 +37,7 @@
  *    SHIFT = 5;
  *    i = 0, 1, ..., 255;
  *
- *  Tables mlib_filters_u8_bc and mlib_filters_u8_bc2
+ *  Tbbles mlib_filters_u8_bc bnd mlib_filters_u8_bc2
  *
  *  DESCRIPTION
  *    mlib_filters_u8_bc[i].s[0] = (mlib_s16) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC - 0.5);
@@ -54,7 +54,7 @@
  *    PREC = ((double) (1 << 14));
  *    dx = (double)i/256 + 1./512.; i = 0, 1, ..., 255;
  *
- *  Tables mlib_filters_u8_bc_3 and mlib_filters_u8_bc2_3
+ *  Tbbles mlib_filters_u8_bc_3 bnd mlib_filters_u8_bc2_3
  *
  *  DESCRIPTION
  *    mlib_filters_u8_bc_3[3*i].s[0-2]   = (mlib_s16) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC - 0.5);
@@ -75,7 +75,7 @@
  *    PREC = ((double) (1 << 14));
  *    dx = (double)i/256 + 1./512.; i = 0, 1, ..., 255;
  *
- *  Tables mlib_filters_u8_bc_4 and mlib_filters_u8_bc2_4
+ *  Tbbles mlib_filters_u8_bc_4 bnd mlib_filters_u8_bc2_4
  *
  *  DESCRIPTION
  *    mlib_filters_u8_bc_4[4*i].s[0-3]   = (mlib_s16) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC - 0.5);
@@ -92,7 +92,7 @@
  *    PREC = ((double) (1 << 14));
  *    dx = (double)i/256 + 1./512.; i = 0, 1, ..., 255;
  *
- *  Tables mlib_filters_s16_bc and mlib_filters_s16_bc2
+ *  Tbbles mlib_filters_s16_bc bnd mlib_filters_s16_bc2
  *
  *  DESCRIPTION
  *    mlib_filters_s16_bc[i].s[0] = (mlib_s16) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC - 0.5);
@@ -108,9 +108,9 @@
  *  Where
  *    PREC = ((double) (1 << 15));
  *    dx = (double)i/512 + 1./1024.; i = 0, 1, ..., 511;
- *    All 32768 are replace to 32767
+ *    All 32768 bre replbce to 32767
  *
- *  Tables mlib_filters_s16_bc_3 and mlib_filters_s16_bc2_3
+ *  Tbbles mlib_filters_s16_bc_3 bnd mlib_filters_s16_bc2_3
  *
  *  DESCRIPTION
  *    mlib_filters_s16_bc_3[3*i].s[0-2]   = (mlib_s16) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC - 0.5);
@@ -130,9 +130,9 @@
  *  Where
  *    PREC = ((double) (1 << 15));
  *    dx = (double)i/512 + 1./1024.; i = 0, 1, ..., 511;
- *    All 32768 are replace to 32767
+ *    All 32768 bre replbce to 32767
  *
- *  Tables mlib_filters_s16_bc_4 and mlib_filters_s16_bc2_4
+ *  Tbbles mlib_filters_s16_bc_4 bnd mlib_filters_s16_bc2_4
  *
  *  DESCRIPTION
  *    mlib_filters_s16_bc_4[4*i].s[0-3]   = (mlib_s16) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC - 0.5);
@@ -148,21 +148,21 @@
  *  Where
  *    PREC = ((double) (1 << 15));
  *    dx = (double)i/512 + 1./1024.; i = 0, 1, ..., 511;
- *    All 32768 are replace to 32767
+ *    All 32768 bre replbce to 32767
  *
  *  COMMENTS
- *    These tables are used by VIS versions of the following functions:
- *      mlib_ImageRotate(Index)
- *      mlib_ImageAffine(Index)
- *      mlib_ImageZoom(Index)
- *      mlib_ImageGridWarp
- *      mlib_ImagePolynomialWarp
+ *    These tbbles bre used by VIS versions of the following functions:
+ *      mlib_ImbgeRotbte(Index)
+ *      mlib_ImbgeAffine(Index)
+ *      mlib_ImbgeZoom(Index)
+ *      mlib_ImbgeGridWbrp
+ *      mlib_ImbgePolynomiblWbrp
  *
  */
 
-#include "mlib_image.h"
+#include "mlib_imbge.h"
 #define __INIT_TABLE
-#include "mlib_v_ImageFilters.h"
+#include "mlib_v_ImbgeFilters.h"
 
 /***************************************************************/
 const mlib_s16 mlib_filters_u8_bl[] = {

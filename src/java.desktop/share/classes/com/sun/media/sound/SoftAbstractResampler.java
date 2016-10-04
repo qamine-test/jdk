@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.IOException;
-import java.util.Arrays;
+import jbvb.io.IOException;
+import jbvb.util.Arrbys;
 
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.VoiceStatus;
+import jbvbx.sound.midi.MidiChbnnel;
+import jbvbx.sound.midi.VoiceStbtus;
 
 /**
- * Abstract resampler class.
+ * Abstrbct resbmpler clbss.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public abstract class SoftAbstractResampler implements SoftResampler {
+public bbstrbct clbss SoftAbstrbctResbmpler implements SoftResbmpler {
 
-    private class ModelAbstractResamplerStream implements SoftResamplerStreamer {
+    privbte clbss ModelAbstrbctResbmplerStrebm implements SoftResbmplerStrebmer {
 
-        AudioFloatInputStream stream;
-        boolean stream_eof = false;
+        AudioFlobtInputStrebm strebm;
+        boolebn strebm_eof = fblse;
         int loopmode;
-        boolean loopdirection = true; // true = forward
-        float loopstart;
-        float looplen;
-        float target_pitch;
-        float[] current_pitch = new float[1];
-        boolean started;
-        boolean eof;
+        boolebn loopdirection = true; // true = forwbrd
+        flobt loopstbrt;
+        flobt looplen;
+        flobt tbrget_pitch;
+        flobt[] current_pitch = new flobt[1];
+        boolebn stbrted;
+        boolebn eof;
         int sector_pos = 0;
         int sector_size = 400;
-        int sector_loopstart = -1;
-        boolean markset = false;
-        int marklimit = 0;
-        int streampos = 0;
-        int nrofchannels = 2;
-        boolean noteOff_flag = false;
-        float[][] ibuffer;
-        boolean ibuffer_order = true;
-        float[] sbuffer;
-        int pad;
-        int pad2;
-        float[] ix = new float[1];
+        int sector_loopstbrt = -1;
+        boolebn mbrkset = fblse;
+        int mbrklimit = 0;
+        int strebmpos = 0;
+        int nrofchbnnels = 2;
+        boolebn noteOff_flbg = fblse;
+        flobt[][] ibuffer;
+        boolebn ibuffer_order = true;
+        flobt[] sbuffer;
+        int pbd;
+        int pbd2;
+        flobt[] ix = new flobt[1];
         int[] ox = new int[1];
-        float samplerateconv = 1;
-        float pitchcorrection = 0;
+        flobt sbmplerbteconv = 1;
+        flobt pitchcorrection = 0;
 
-        ModelAbstractResamplerStream() {
-            pad = getPadding();
-            pad2 = getPadding() * 2;
-            ibuffer = new float[2][sector_size + pad2];
+        ModelAbstrbctResbmplerStrebm() {
+            pbd = getPbdding();
+            pbd2 = getPbdding() * 2;
+            ibuffer = new flobt[2][sector_size + pbd2];
             ibuffer_order = true;
         }
 
-        public void noteOn(MidiChannel channel, VoiceStatus voice,
+        public void noteOn(MidiChbnnel chbnnel, VoiceStbtus voice,
                 int noteNumber, int velocity) {
         }
 
         public void noteOff(int velocity) {
-            noteOff_flag = true;
+            noteOff_flbg = true;
         }
 
-        public void open(ModelWavetable osc, float outputsamplerate)
+        public void open(ModelWbvetbble osc, flobt outputsbmplerbte)
                 throws IOException {
 
-            eof = false;
-            nrofchannels = osc.getChannels();
-            if (ibuffer.length < nrofchannels) {
-                ibuffer = new float[nrofchannels][sector_size + pad2];
+            eof = fblse;
+            nrofchbnnels = osc.getChbnnels();
+            if (ibuffer.length < nrofchbnnels) {
+                ibuffer = new flobt[nrofchbnnels][sector_size + pbd2];
             }
 
-            stream = osc.openStream();
-            streampos = 0;
-            stream_eof = false;
+            strebm = osc.openStrebm();
+            strebmpos = 0;
+            strebm_eof = fblse;
             pitchcorrection = osc.getPitchcorrection();
-            samplerateconv
-                    = stream.getFormat().getSampleRate() / outputsamplerate;
+            sbmplerbteconv
+                    = strebm.getFormbt().getSbmpleRbte() / outputsbmplerbte;
             looplen = osc.getLoopLength();
-            loopstart = osc.getLoopStart();
-            sector_loopstart = (int) (loopstart / sector_size);
-            sector_loopstart = sector_loopstart - 1;
+            loopstbrt = osc.getLoopStbrt();
+            sector_loopstbrt = (int) (loopstbrt / sector_size);
+            sector_loopstbrt = sector_loopstbrt - 1;
 
             sector_pos = 0;
 
-            if (sector_loopstart < 0)
-                sector_loopstart = 0;
-            started = false;
+            if (sector_loopstbrt < 0)
+                sector_loopstbrt = 0;
+            stbrted = fblse;
             loopmode = osc.getLoopType();
 
             if (loopmode != 0) {
-                markset = false;
-                marklimit = nrofchannels * (int) (looplen + pad2 + 1);
+                mbrkset = fblse;
+                mbrklimit = nrofchbnnels * (int) (looplen + pbd2 + 1);
             } else
-                markset = true;
+                mbrkset = true;
             // loopmode = 0;
 
-            target_pitch = samplerateconv;
-            current_pitch[0] = samplerateconv;
+            tbrget_pitch = sbmplerbteconv;
+            current_pitch[0] = sbmplerbteconv;
 
             ibuffer_order = true;
             loopdirection = true;
-            noteOff_flag = false;
+            noteOff_flbg = fblse;
 
-            for (int i = 0; i < nrofchannels; i++)
-                Arrays.fill(ibuffer[i], sector_size, sector_size + pad2, 0);
-            ix[0] = pad;
-            eof = false;
+            for (int i = 0; i < nrofchbnnels; i++)
+                Arrbys.fill(ibuffer[i], sector_size, sector_size + pbd2, 0);
+            ix[0] = pbd;
+            eof = fblse;
 
-            ix[0] = sector_size + pad;
+            ix[0] = sector_size + pbd;
             sector_pos = -1;
-            streampos = -sector_size;
+            strebmpos = -sector_size;
 
             nextBuffer();
         }
 
-        public void setPitch(float pitch) {
+        public void setPitch(flobt pitch) {
             /*
-            this.pitch = (float) Math.pow(2f,
+            this.pitch = (flobt) Mbth.pow(2f,
             (pitchcorrection + pitch) / 1200.0f)
-             * samplerateconv;
+             * sbmplerbteconv;
              */
-            this.target_pitch = (float)Math.exp(
-                    (pitchcorrection + pitch) * (Math.log(2.0) / 1200.0))
-                * samplerateconv;
+            this.tbrget_pitch = (flobt)Mbth.exp(
+                    (pitchcorrection + pitch) * (Mbth.log(2.0) / 1200.0))
+                * sbmplerbteconv;
 
-            if (!started)
-                current_pitch[0] = this.target_pitch;
+            if (!stbrted)
+                current_pitch[0] = this.tbrget_pitch;
         }
 
         public void nextBuffer() throws IOException {
-            if (ix[0] < pad) {
-                if (markset) {
-                    // reset to target sector
-                    stream.reset();
-                    ix[0] += streampos - (sector_loopstart * sector_size);
-                    sector_pos = sector_loopstart;
-                    streampos = sector_pos * sector_size;
+            if (ix[0] < pbd) {
+                if (mbrkset) {
+                    // reset to tbrget sector
+                    strebm.reset();
+                    ix[0] += strebmpos - (sector_loopstbrt * sector_size);
+                    sector_pos = sector_loopstbrt;
+                    strebmpos = sector_pos * sector_size;
 
-                    // and go one sector backward
+                    // bnd go one sector bbckwbrd
                     ix[0] += sector_size;
                     sector_pos -= 1;
-                    streampos -= sector_size;
-                    stream_eof = false;
+                    strebmpos -= sector_size;
+                    strebm_eof = fblse;
                 }
             }
 
-            if (ix[0] >= sector_size + pad) {
-                if (stream_eof) {
+            if (ix[0] >= sector_size + pbd) {
+                if (strebm_eof) {
                     eof = true;
                     return;
                 }
             }
 
-            if (ix[0] >= sector_size * 4 + pad) {
-                int skips = (int)((ix[0] - sector_size * 4 + pad) / sector_size);
+            if (ix[0] >= sector_size * 4 + pbd) {
+                int skips = (int)((ix[0] - sector_size * 4 + pbd) / sector_size);
                 ix[0] -= sector_size * skips;
                 sector_pos += skips;
-                streampos += sector_size * skips;
-                stream.skip(sector_size * skips);
+                strebmpos += sector_size * skips;
+                strebm.skip(sector_size * skips);
             }
 
-            while (ix[0] >= sector_size + pad) {
-                if (!markset) {
-                    if (sector_pos + 1 == sector_loopstart) {
-                        stream.mark(marklimit);
-                        markset = true;
+            while (ix[0] >= sector_size + pbd) {
+                if (!mbrkset) {
+                    if (sector_pos + 1 == sector_loopstbrt) {
+                        strebm.mbrk(mbrklimit);
+                        mbrkset = true;
                     }
                 }
                 ix[0] -= sector_size;
                 sector_pos++;
-                streampos += sector_size;
+                strebmpos += sector_size;
 
-                for (int c = 0; c < nrofchannels; c++) {
-                    float[] cbuffer = ibuffer[c];
-                    for (int i = 0; i < pad2; i++)
+                for (int c = 0; c < nrofchbnnels; c++) {
+                    flobt[] cbuffer = ibuffer[c];
+                    for (int i = 0; i < pbd2; i++)
                         cbuffer[i] = cbuffer[i + sector_size];
                 }
 
                 int ret;
-                if (nrofchannels == 1)
-                    ret = stream.read(ibuffer[0], pad2, sector_size);
+                if (nrofchbnnels == 1)
+                    ret = strebm.rebd(ibuffer[0], pbd2, sector_size);
                 else {
-                    int slen = sector_size * nrofchannels;
+                    int slen = sector_size * nrofchbnnels;
                     if (sbuffer == null || sbuffer.length < slen)
-                        sbuffer = new float[slen];
-                    int sret = stream.read(sbuffer, 0, slen);
+                        sbuffer = new flobt[slen];
+                    int sret = strebm.rebd(sbuffer, 0, slen);
                     if (sret == -1)
                         ret = -1;
                     else {
-                        ret = sret / nrofchannels;
-                        for (int i = 0; i < nrofchannels; i++) {
-                            float[] buff = ibuffer[i];
+                        ret = sret / nrofchbnnels;
+                        for (int i = 0; i < nrofchbnnels; i++) {
+                            flobt[] buff = ibuffer[i];
                             int ix = i;
-                            int ix_step = nrofchannels;
-                            int ox = pad2;
+                            int ix_step = nrofchbnnels;
+                            int ox = pbd2;
                             for (int j = 0; j < ret; j++, ix += ix_step, ox++)
                                 buff[ox] = sbuffer[ix];
                         }
@@ -224,14 +224,14 @@ public abstract class SoftAbstractResampler implements SoftResampler {
 
                 if (ret == -1) {
                     ret = 0;
-                    stream_eof = true;
-                    for (int i = 0; i < nrofchannels; i++)
-                        Arrays.fill(ibuffer[i], pad2, pad2 + sector_size, 0f);
+                    strebm_eof = true;
+                    for (int i = 0; i < nrofchbnnels; i++)
+                        Arrbys.fill(ibuffer[i], pbd2, pbd2 + sector_size, 0f);
                     return;
                 }
                 if (ret != sector_size) {
-                    for (int i = 0; i < nrofchannels; i++)
-                        Arrays.fill(ibuffer[i], pad2 + ret, pad2 + sector_size, 0f);
+                    for (int i = 0; i < nrofchbnnels; i++)
+                        Arrbys.fill(ibuffer[i], pbd2 + ret, pbd2 + sector_size, 0f);
                 }
 
                 ibuffer_order = true;
@@ -242,59 +242,59 @@ public abstract class SoftAbstractResampler implements SoftResampler {
 
         public void reverseBuffers() {
             ibuffer_order = !ibuffer_order;
-            for (int c = 0; c < nrofchannels; c++) {
-                float[] cbuff = ibuffer[c];
+            for (int c = 0; c < nrofchbnnels; c++) {
+                flobt[] cbuff = ibuffer[c];
                 int len = cbuff.length - 1;
                 int len2 = cbuff.length / 2;
                 for (int i = 0; i < len2; i++) {
-                    float x = cbuff[i];
+                    flobt x = cbuff[i];
                     cbuff[i] = cbuff[len - i];
                     cbuff[len - i] = x;
                 }
             }
         }
 
-        public int read(float[][] buffer, int offset, int len)
+        public int rebd(flobt[][] buffer, int offset, int len)
                 throws IOException {
 
             if (eof)
                 return -1;
 
-            if (noteOff_flag)
+            if (noteOff_flbg)
                 if ((loopmode & 2) != 0)
                     if (loopdirection)
                         loopmode = 0;
 
 
-            float pitchstep = (target_pitch - current_pitch[0]) / len;
-            float[] current_pitch = this.current_pitch;
-            started = true;
+            flobt pitchstep = (tbrget_pitch - current_pitch[0]) / len;
+            flobt[] current_pitch = this.current_pitch;
+            stbrted = true;
 
             int[] ox = this.ox;
             ox[0] = offset;
             int ox_end = len + offset;
 
-            float ixend = sector_size + pad;
+            flobt ixend = sector_size + pbd;
             if (!loopdirection)
-                ixend = pad;
+                ixend = pbd;
             while (ox[0] != ox_end) {
                 nextBuffer();
                 if (!loopdirection) {
-                    // If we are in backward playing part of pingpong
+                    // If we bre in bbckwbrd plbying pbrt of pingpong
                     // or reverse loop
 
-                    if (streampos < (loopstart + pad)) {
-                        ixend = loopstart - streampos + pad2;
+                    if (strebmpos < (loopstbrt + pbd)) {
+                        ixend = loopstbrt - strebmpos + pbd2;
                         if (ix[0] <= ixend) {
                             if ((loopmode & 4) != 0) {
-                                // Ping pong loop, change loopdirection
+                                // Ping pong loop, chbnge loopdirection
                                 loopdirection = true;
-                                ixend = sector_size + pad;
+                                ixend = sector_size + pbd;
                                 continue;
                             }
 
                             ix[0] += looplen;
-                            ixend = pad;
+                            ixend = pbd;
                             continue;
                         }
                     }
@@ -302,45 +302,45 @@ public abstract class SoftAbstractResampler implements SoftResampler {
                     if (ibuffer_order != loopdirection)
                         reverseBuffers();
 
-                    ix[0] = (sector_size + pad2) - ix[0];
-                    ixend = (sector_size + pad2) - ixend;
+                    ix[0] = (sector_size + pbd2) - ix[0];
+                    ixend = (sector_size + pbd2) - ixend;
                     ixend++;
 
-                    float bak_ix = ix[0];
-                    int bak_ox = ox[0];
-                    float bak_pitch = current_pitch[0];
-                    for (int i = 0; i < nrofchannels; i++) {
+                    flobt bbk_ix = ix[0];
+                    int bbk_ox = ox[0];
+                    flobt bbk_pitch = current_pitch[0];
+                    for (int i = 0; i < nrofchbnnels; i++) {
                         if (buffer[i] != null) {
-                            ix[0] = bak_ix;
-                            ox[0] = bak_ox;
-                            current_pitch[0] = bak_pitch;
-                            interpolate(ibuffer[i], ix, ixend, current_pitch,
+                            ix[0] = bbk_ix;
+                            ox[0] = bbk_ox;
+                            current_pitch[0] = bbk_pitch;
+                            interpolbte(ibuffer[i], ix, ixend, current_pitch,
                                     pitchstep, buffer[i], ox, ox_end);
                         }
                     }
 
-                    ix[0] = (sector_size + pad2) - ix[0];
+                    ix[0] = (sector_size + pbd2) - ix[0];
                     ixend--;
-                    ixend = (sector_size + pad2) - ixend;
+                    ixend = (sector_size + pbd2) - ixend;
 
                     if (eof) {
-                        current_pitch[0] = this.target_pitch;
+                        current_pitch[0] = this.tbrget_pitch;
                         return ox[0] - offset;
                     }
 
                     continue;
                 }
                 if (loopmode != 0) {
-                    if (streampos + sector_size > (looplen + loopstart + pad)) {
-                        ixend = loopstart + looplen - streampos + pad2;
+                    if (strebmpos + sector_size > (looplen + loopstbrt + pbd)) {
+                        ixend = loopstbrt + looplen - strebmpos + pbd2;
                         if (ix[0] >= ixend) {
                             if ((loopmode & 4) != 0 || (loopmode & 8) != 0) {
-                                // Ping pong or revese loop, change loopdirection
-                                loopdirection = false;
-                                ixend = pad;
+                                // Ping pong or revese loop, chbnge loopdirection
+                                loopdirection = fblse;
+                                ixend = pbd;
                                 continue;
                             }
-                            ixend = sector_size + pad;
+                            ixend = sector_size + pbd;
                             ix[0] -= looplen;
                             continue;
                         }
@@ -350,41 +350,41 @@ public abstract class SoftAbstractResampler implements SoftResampler {
                 if (ibuffer_order != loopdirection)
                     reverseBuffers();
 
-                float bak_ix = ix[0];
-                int bak_ox = ox[0];
-                float bak_pitch = current_pitch[0];
-                for (int i = 0; i < nrofchannels; i++) {
+                flobt bbk_ix = ix[0];
+                int bbk_ox = ox[0];
+                flobt bbk_pitch = current_pitch[0];
+                for (int i = 0; i < nrofchbnnels; i++) {
                     if (buffer[i] != null) {
-                        ix[0] = bak_ix;
-                        ox[0] = bak_ox;
-                        current_pitch[0] = bak_pitch;
-                        interpolate(ibuffer[i], ix, ixend, current_pitch,
+                        ix[0] = bbk_ix;
+                        ox[0] = bbk_ox;
+                        current_pitch[0] = bbk_pitch;
+                        interpolbte(ibuffer[i], ix, ixend, current_pitch,
                                 pitchstep, buffer[i], ox, ox_end);
                     }
                 }
 
                 if (eof) {
-                    current_pitch[0] = this.target_pitch;
+                    current_pitch[0] = this.tbrget_pitch;
                     return ox[0] - offset;
                 }
             }
 
-            current_pitch[0] = this.target_pitch;
+            current_pitch[0] = this.tbrget_pitch;
             return len;
         }
 
         public void close() throws IOException {
-            stream.close();
+            strebm.close();
         }
     }
 
-    public abstract int getPadding();
+    public bbstrbct int getPbdding();
 
-    public abstract void interpolate(float[] in, float[] in_offset,
-            float in_end, float[] pitch, float pitchstep, float[] out,
+    public bbstrbct void interpolbte(flobt[] in, flobt[] in_offset,
+            flobt in_end, flobt[] pitch, flobt pitchstep, flobt[] out,
             int[] out_offset, int out_end);
 
-    public final SoftResamplerStreamer openStreamer() {
-        return new ModelAbstractResamplerStream();
+    public finbl SoftResbmplerStrebmer openStrebmer() {
+        return new ModelAbstrbctResbmplerStrebm();
     }
 }

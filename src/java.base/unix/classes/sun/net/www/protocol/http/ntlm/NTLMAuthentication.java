@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.http.ntlm;
+pbckbge sun.net.www.protocol.http.ntlm;
 
 import com.sun.security.ntlm.Client;
 import com.sun.security.ntlm.NTLMException;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.PasswordAuthentication;
-import java.net.UnknownHostException;
-import java.net.URL;
-import java.security.GeneralSecurityException;
-import java.util.Base64;
+import jbvb.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.net.PbsswordAuthenticbtion;
+import jbvb.net.UnknownHostException;
+import jbvb.net.URL;
+import jbvb.security.GenerblSecurityException;
+import jbvb.util.Bbse64;
 
-import sun.net.www.HeaderParser;
-import sun.net.www.protocol.http.AuthenticationInfo;
+import sun.net.www.HebderPbrser;
+import sun.net.www.protocol.http.AuthenticbtionInfo;
 import sun.net.www.protocol.http.AuthScheme;
 import sun.net.www.protocol.http.HttpURLConnection;
 
 /**
- * NTLMAuthentication:
+ * NTLMAuthenticbtion:
  *
- * @author Michael McMahon
+ * @buthor Michbel McMbhon
  */
 
 /*
- * NTLM authentication is nominally based on the framework defined in RFC2617,
- * but differs from the standard (Basic & Digest) schemes as follows:
+ * NTLM buthenticbtion is nominblly bbsed on the frbmework defined in RFC2617,
+ * but differs from the stbndbrd (Bbsic & Digest) schemes bs follows:
  *
- * 1. A complete authentication requires three request/response transactions
- *    as shown below:
+ * 1. A complete buthenticbtion requires three request/response trbnsbctions
+ *    bs shown below:
  *            REQ ------------------------------->
- *            <---- 401 (signalling NTLM) --------
+ *            <---- 401 (signblling NTLM) --------
  *
  *            REQ (with type1 NTLM msg) --------->
  *            <---- 401 (with type 2 NTLM msg) ---
@@ -61,63 +61,63 @@ import sun.net.www.protocol.http.HttpURLConnection;
  *            REQ (with type3 NTLM msg) --------->
  *            <---- OK ---------------------------
  *
- * 2. The scope of the authentication is the TCP connection (which must be kept-alive)
- *    after the type2 response is received. This means that NTLM does not work end-to-end
- *    through a proxy, rather between client and proxy, or between client and server (with no proxy)
+ * 2. The scope of the buthenticbtion is the TCP connection (which must be kept-blive)
+ *    bfter the type2 response is received. This mebns thbt NTLM does not work end-to-end
+ *    through b proxy, rbther between client bnd proxy, or between client bnd server (with no proxy)
  */
 
-public class NTLMAuthentication extends AuthenticationInfo {
-    private static final long serialVersionUID = 170L;
+public clbss NTLMAuthenticbtion extends AuthenticbtionInfo {
+    privbte stbtic finbl long seriblVersionUID = 170L;
 
-    private static final NTLMAuthenticationCallback NTLMAuthCallback =
-        NTLMAuthenticationCallback.getNTLMAuthenticationCallback();
+    privbte stbtic finbl NTLMAuthenticbtionCbllbbck NTLMAuthCbllbbck =
+        NTLMAuthenticbtionCbllbbck.getNTLMAuthenticbtionCbllbbck();
 
-    private String hostname;
-    private static String defaultDomain; /* Domain to use if not specified by user */
+    privbte String hostnbme;
+    privbte stbtic String defbultDombin; /* Dombin to use if not specified by user */
 
-    static {
-        defaultDomain = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("http.auth.ntlm.domain", ""));
+    stbtic {
+        defbultDombin = jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction("http.buth.ntlm.dombin", ""));
     };
 
-    public static boolean supportsTransparentAuth () {
-        return false;
+    public stbtic boolebn supportsTrbnspbrentAuth () {
+        return fblse;
     }
 
     /**
-     * Returns true if the given site is trusted, i.e. we can try
-     * transparent Authentication.
+     * Returns true if the given site is trusted, i.e. we cbn try
+     * trbnspbrent Authenticbtion.
      */
-    public static boolean isTrustedSite(URL url) {
-        return NTLMAuthCallback.isTrustedSite(url);
+    public stbtic boolebn isTrustedSite(URL url) {
+        return NTLMAuthCbllbbck.isTrustedSite(url);
     }
 
-    private void init0() {
+    privbte void init0() {
 
-        hostname = java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<String>() {
+        hostnbme = jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<String>() {
             public String run() {
-                String localhost;
+                String locblhost;
                 try {
-                    localhost = InetAddress.getLocalHost().getHostName();
-                } catch (UnknownHostException e) {
-                     localhost = "localhost";
+                    locblhost = InetAddress.getLocblHost().getHostNbme();
+                } cbtch (UnknownHostException e) {
+                     locblhost = "locblhost";
                 }
-                return localhost;
+                return locblhost;
             }
         });
     };
 
-    PasswordAuthentication pw;
+    PbsswordAuthenticbtion pw;
 
     Client client;
     /**
-     * Create a NTLMAuthentication:
-     * Username may be specified as domain<BACKSLASH>username in the application Authenticator.
-     * If this notation is not used, then the domain will be taken
-     * from a system property: "http.auth.ntlm.domain".
+     * Crebte b NTLMAuthenticbtion:
+     * Usernbme mby be specified bs dombin<BACKSLASH>usernbme in the bpplicbtion Authenticbtor.
+     * If this notbtion is not used, then the dombin will be tbken
+     * from b system property: "http.buth.ntlm.dombin".
      */
-    public NTLMAuthentication(boolean isProxy, URL url, PasswordAuthentication pw) {
+    public NTLMAuthenticbtion(boolebn isProxy, URL url, PbsswordAuthenticbtion pw) {
         super(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
                 AuthScheme.NTLM,
                 url,
@@ -125,31 +125,31 @@ public class NTLMAuthentication extends AuthenticationInfo {
         init (pw);
     }
 
-    private void init (PasswordAuthentication pw) {
-        String username;
-        String ntdomain;
-        char[] password;
+    privbte void init (PbsswordAuthenticbtion pw) {
+        String usernbme;
+        String ntdombin;
+        chbr[] pbssword;
         this.pw = pw;
-        String s = pw.getUserName();
+        String s = pw.getUserNbme();
         int i = s.indexOf ('\\');
         if (i == -1) {
-            username = s;
-            ntdomain = defaultDomain;
+            usernbme = s;
+            ntdombin = defbultDombin;
         } else {
-            ntdomain = s.substring (0, i).toUpperCase();
-            username = s.substring (i+1);
+            ntdombin = s.substring (0, i).toUpperCbse();
+            usernbme = s.substring (i+1);
         }
-        password = pw.getPassword();
+        pbssword = pw.getPbssword();
         init0();
         try {
-            client = new Client(System.getProperty("ntlm.version"), hostname,
-                    username, ntdomain, password);
-        } catch (NTLMException ne) {
+            client = new Client(System.getProperty("ntlm.version"), hostnbme,
+                    usernbme, ntdombin, pbssword);
+        } cbtch (NTLMException ne) {
             try {
-                client = new Client(null, hostname, username, ntdomain, password);
-            } catch (NTLMException ne2) {
-                // Will never happen
-                throw new AssertionError("Really?");
+                client = new Client(null, hostnbme, usernbme, ntdombin, pbssword);
+            } cbtch (NTLMException ne2) {
+                // Will never hbppen
+                throw new AssertionError("Reblly?");
             }
         }
     }
@@ -157,8 +157,8 @@ public class NTLMAuthentication extends AuthenticationInfo {
    /**
     * Constructor used for proxy entries
     */
-    public NTLMAuthentication(boolean isProxy, String host, int port,
-                                PasswordAuthentication pw) {
+    public NTLMAuthenticbtion(boolebn isProxy, String host, int port,
+                                PbsswordAuthenticbtion pw) {
         super(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
                 AuthScheme.NTLM,
                 host,
@@ -168,78 +168,78 @@ public class NTLMAuthentication extends AuthenticationInfo {
     }
 
     /**
-     * @return true if this authentication supports preemptive authorization
+     * @return true if this buthenticbtion supports preemptive buthorizbtion
      */
     @Override
-    public boolean supportsPreemptiveAuthorization() {
-        return false;
+    public boolebn supportsPreemptiveAuthorizbtion() {
+        return fblse;
     }
 
     /**
-     * Not supported. Must use the setHeaders() method
+     * Not supported. Must use the setHebders() method
      */
     @Override
-    public String getHeaderValue(URL url, String method) {
-        throw new RuntimeException ("getHeaderValue not supported");
+    public String getHebderVblue(URL url, String method) {
+        throw new RuntimeException ("getHebderVblue not supported");
     }
 
     /**
-     * Check if the header indicates that the current auth. parameters are stale.
-     * If so, then replace the relevant field with the new value
-     * and return true. Otherwise return false.
-     * returning true means the request can be retried with the same userid/password
-     * returning false means we have to go back to the user to ask for a new
-     * username password.
+     * Check if the hebder indicbtes thbt the current buth. pbrbmeters bre stble.
+     * If so, then replbce the relevbnt field with the new vblue
+     * bnd return true. Otherwise return fblse.
+     * returning true mebns the request cbn be retried with the sbme userid/pbssword
+     * returning fblse mebns we hbve to go bbck to the user to bsk for b new
+     * usernbme pbssword.
      */
     @Override
-    public boolean isAuthorizationStale (String header) {
-        return false; /* should not be called for ntlm */
+    public boolebn isAuthorizbtionStble (String hebder) {
+        return fblse; /* should not be cblled for ntlm */
     }
 
     /**
-     * Set header(s) on the given connection.
-     * @param conn The connection to apply the header(s) to
-     * @param p A source of header values for this connection, not used because
-     *          HeaderParser converts the fields to lower case, use raw instead
-     * @param raw The raw header field.
-     * @return true if all goes well, false if no headers were set.
+     * Set hebder(s) on the given connection.
+     * @pbrbm conn The connection to bpply the hebder(s) to
+     * @pbrbm p A source of hebder vblues for this connection, not used becbuse
+     *          HebderPbrser converts the fields to lower cbse, use rbw instebd
+     * @pbrbm rbw The rbw hebder field.
+     * @return true if bll goes well, fblse if no hebders were set.
      */
     @Override
-    public synchronized boolean setHeaders(HttpURLConnection conn, HeaderParser p, String raw) {
+    public synchronized boolebn setHebders(HttpURLConnection conn, HebderPbrser p, String rbw) {
 
         try {
             String response;
-            if (raw.length() < 6) { /* NTLM<sp> */
+            if (rbw.length() < 6) { /* NTLM<sp> */
                 response = buildType1Msg ();
             } else {
-                String msg = raw.substring (5); /* skip NTLM<sp> */
+                String msg = rbw.substring (5); /* skip NTLM<sp> */
                 response = buildType3Msg (msg);
             }
-            conn.setAuthenticationProperty(getHeaderName(), response);
+            conn.setAuthenticbtionProperty(getHebderNbme(), response);
             return true;
-        } catch (IOException e) {
-            return false;
-        } catch (GeneralSecurityException e) {
-            return false;
+        } cbtch (IOException e) {
+            return fblse;
+        } cbtch (GenerblSecurityException e) {
+            return fblse;
         }
     }
 
-    private String buildType1Msg () {
+    privbte String buildType1Msg () {
         byte[] msg = client.type1();
-        String result = "NTLM " + Base64.getEncoder().encodeToString(msg);
+        String result = "NTLM " + Bbse64.getEncoder().encodeToString(msg);
         return result;
     }
 
-    private String buildType3Msg (String challenge) throws GeneralSecurityException,
+    privbte String buildType3Msg (String chbllenge) throws GenerblSecurityException,
                                                            IOException  {
-        /* First decode the type2 message to get the server nonce */
-        /* nonce is located at type2[24] for 8 bytes */
+        /* First decode the type2 messbge to get the server nonce */
+        /* nonce is locbted bt type2[24] for 8 bytes */
 
-        byte[] type2 = Base64.getDecoder().decode(challenge);
+        byte[] type2 = Bbse64.getDecoder().decode(chbllenge);
         byte[] nonce = new byte[8];
-        new java.util.Random().nextBytes(nonce);
+        new jbvb.util.Rbndom().nextBytes(nonce);
         byte[] msg = client.type3(type2, nonce);
-        String result = "NTLM " + Base64.getEncoder().encodeToString(msg);
+        String result = "NTLM " + Bbse64.getEncoder().encodeToString(msg);
         return result;
     }
 }

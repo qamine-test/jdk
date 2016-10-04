@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.IntConsumer;
-import java.util.function.Predicate;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.file.Files;
+import jbvb.nio.file.Pbth;
+import jbvb.util.Collection;
+import jbvb.util.Iterbtor;
+import jbvb.util.Spliterbtor;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.function.Predicbte;
 
 /**
- * Base interface for streams, which are sequences of elements supporting
- * sequential and parallel aggregate operations.  The following example
- * illustrates an aggregate operation using the stream types {@link Stream}
- * and {@link IntStream}, computing the sum of the weights of the red widgets:
+ * Bbse interfbce for strebms, which bre sequences of elements supporting
+ * sequentibl bnd pbrbllel bggregbte operbtions.  The following exbmple
+ * illustrbtes bn bggregbte operbtion using the strebm types {@link Strebm}
+ * bnd {@link IntStrebm}, computing the sum of the weights of the red widgets:
  *
  * <pre>{@code
- *     int sum = widgets.stream()
+ *     int sum = widgets.strebm()
  *                      .filter(w -> w.getColor() == RED)
- *                      .mapToInt(w -> w.getWeight())
+ *                      .mbpToInt(w -> w.getWeight())
  *                      .sum();
  * }</pre>
  *
- * See the class documentation for {@link Stream} and the package documentation
- * for <a href="package-summary.html">java.util.stream</a> for additional
- * specification of streams, stream operations, stream pipelines, and
- * parallelism, which governs the behavior of all stream types.
+ * See the clbss documentbtion for {@link Strebm} bnd the pbckbge documentbtion
+ * for <b href="pbckbge-summbry.html">jbvb.util.strebm</b> for bdditionbl
+ * specificbtion of strebms, strebm operbtions, strebm pipelines, bnd
+ * pbrbllelism, which governs the behbvior of bll strebm types.
  *
- * @param <T> the type of the stream elements
- * @param <S> the type of the stream implementing {@code BaseStream}
+ * @pbrbm <T> the type of the strebm elements
+ * @pbrbm <S> the type of the strebm implementing {@code BbseStrebm}
  * @since 1.8
- * @see Stream
- * @see IntStream
- * @see LongStream
- * @see DoubleStream
- * @see <a href="package-summary.html">java.util.stream</a>
+ * @see Strebm
+ * @see IntStrebm
+ * @see LongStrebm
+ * @see DoubleStrebm
+ * @see <b href="pbckbge-summbry.html">jbvb.util.strebm</b>
  */
-public interface BaseStream<T, S extends BaseStream<T, S>>
-        extends AutoCloseable {
+public interfbce BbseStrebm<T, S extends BbseStrebm<T, S>>
+        extends AutoClosebble {
     /**
-     * Returns an iterator for the elements of this stream.
+     * Returns bn iterbtor for the elements of this strebm.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl
+     * operbtion</b>.
      *
-     * @return the element iterator for this stream
+     * @return the element iterbtor for this strebm
      */
-    Iterator<T> iterator();
+    Iterbtor<T> iterbtor();
 
     /**
-     * Returns a spliterator for the elements of this stream.
+     * Returns b spliterbtor for the elements of this strebm.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl
+     * operbtion</b>.
      *
-     * @return the element spliterator for this stream
+     * @return the element spliterbtor for this strebm
      */
-    Spliterator<T> spliterator();
+    Spliterbtor<T> spliterbtor();
 
     /**
-     * Returns whether this stream, if a terminal operation were to be executed,
-     * would execute in parallel.  Calling this method after invoking an
-     * terminal stream operation method may yield unpredictable results.
+     * Returns whether this strebm, if b terminbl operbtion were to be executed,
+     * would execute in pbrbllel.  Cblling this method bfter invoking bn
+     * terminbl strebm operbtion method mby yield unpredictbble results.
      *
-     * @return {@code true} if this stream would execute in parallel if executed
+     * @return {@code true} if this strebm would execute in pbrbllel if executed
      */
-    boolean isParallel();
+    boolebn isPbrbllel();
 
     /**
-     * Returns an equivalent stream that is sequential.  May return
-     * itself, either because the stream was already sequential, or because
-     * the underlying stream state was modified to be sequential.
+     * Returns bn equivblent strebm thbt is sequentibl.  Mby return
+     * itself, either becbuse the strebm wbs blrebdy sequentibl, or becbuse
+     * the underlying strebm stbte wbs modified to be sequentibl.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * @return a sequential stream
+     * @return b sequentibl strebm
      */
-    S sequential();
+    S sequentibl();
 
     /**
-     * Returns an equivalent stream that is parallel.  May return
-     * itself, either because the stream was already parallel, or because
-     * the underlying stream state was modified to be parallel.
+     * Returns bn equivblent strebm thbt is pbrbllel.  Mby return
+     * itself, either becbuse the strebm wbs blrebdy pbrbllel, or becbuse
+     * the underlying strebm stbte wbs modified to be pbrbllel.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * @return a parallel stream
+     * @return b pbrbllel strebm
      */
-    S parallel();
+    S pbrbllel();
 
     /**
-     * Returns an equivalent stream that is
-     * <a href="package-summary.html#Ordering">unordered</a>.  May return
-     * itself, either because the stream was already unordered, or because
-     * the underlying stream state was modified to be unordered.
+     * Returns bn equivblent strebm thbt is
+     * <b href="pbckbge-summbry.html#Ordering">unordered</b>.  Mby return
+     * itself, either becbuse the strebm wbs blrebdy unordered, or becbuse
+     * the underlying strebm stbte wbs modified to be unordered.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * @return an unordered stream
+     * @return bn unordered strebm
      */
     S unordered();
 
     /**
-     * Returns an equivalent stream with an additional close handler.  Close
-     * handlers are run when the {@link #close()} method
-     * is called on the stream, and are executed in the order they were
-     * added.  All close handlers are run, even if earlier close handlers throw
-     * exceptions.  If any close handler throws an exception, the first
-     * exception thrown will be relayed to the caller of {@code close()}, with
-     * any remaining exceptions added to that exception as suppressed exceptions
-     * (unless one of the remaining exceptions is the same exception as the
-     * first exception, since an exception cannot suppress itself.)  May
+     * Returns bn equivblent strebm with bn bdditionbl close hbndler.  Close
+     * hbndlers bre run when the {@link #close()} method
+     * is cblled on the strebm, bnd bre executed in the order they were
+     * bdded.  All close hbndlers bre run, even if ebrlier close hbndlers throw
+     * exceptions.  If bny close hbndler throws bn exception, the first
+     * exception thrown will be relbyed to the cbller of {@code close()}, with
+     * bny rembining exceptions bdded to thbt exception bs suppressed exceptions
+     * (unless one of the rembining exceptions is the sbme exception bs the
+     * first exception, since bn exception cbnnot suppress itself.)  Mby
      * return itself.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * @param closeHandler A task to execute when the stream is closed
-     * @return a stream with a handler that is run if the stream is closed
+     * @pbrbm closeHbndler A tbsk to execute when the strebm is closed
+     * @return b strebm with b hbndler thbt is run if the strebm is closed
      */
-    S onClose(Runnable closeHandler);
+    S onClose(Runnbble closeHbndler);
 
     /**
-     * Closes this stream, causing all close handlers for this stream pipeline
-     * to be called.
+     * Closes this strebm, cbusing bll close hbndlers for this strebm pipeline
+     * to be cblled.
      *
-     * @see AutoCloseable#close()
+     * @see AutoClosebble#close()
      */
     @Override
     void close();

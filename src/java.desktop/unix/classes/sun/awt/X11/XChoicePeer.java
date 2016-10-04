@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.*;
+import sun.util.logging.PlbtformLogger;
 
-// FIXME: tab traversal should be disabled when mouse is captured (4816336)
+// FIXME: tbb trbversbl should be disbbled when mouse is cbptured (4816336)
 
-// FIXME: key and mouse events should not be delivered to listeners when the Choice is unfurled.  Must override handleNativeKey/MouseEvent (4816336)
+// FIXME: key bnd mouse events should not be delivered to listeners when the Choice is unfurled.  Must override hbndleNbtiveKey/MouseEvent (4816336)
 
-// FIXME: test programmatic add/remove/clear/etc
+// FIXME: test progrbmmbtic bdd/remove/clebr/etc
 
-// FIXME: account for unfurling at the edge of the screen
-// Note: can't set x,y on layout(), 'cause moving the top-level to the
-// edge of the screen won't call layout().  Just do it on paint, I guess
+// FIXME: bccount for unfurling bt the edge of the screen
+// Note: cbn't set x,y on lbyout(), 'cbuse moving the top-level to the
+// edge of the screen won't cbll lbyout().  Just do it on pbint, I guess
 
-// TODO: make painting more efficient (i.e. when down arrow is pressed, only two items should need to be repainted.
+// TODO: mbke pbinting more efficient (i.e. when down brrow is pressed, only two items should need to be repbinted.
 
-public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelStateListener {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XChoicePeer");
+public clbss XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelStbteListener {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XChoicePeer");
 
-    private static final int MAX_UNFURLED_ITEMS = 10;  // Maximum number of
-    // items to be displayed
-    // at a time in an
+    privbte stbtic finbl int MAX_UNFURLED_ITEMS = 10;  // Mbximum number of
+    // items to be displbyed
+    // bt b time in bn
     // unfurled Choice
-    // Description of these constants in ListHelper
-    public final static int TEXT_SPACE = 1;
-    public final static int BORDER_WIDTH = 1;
-    public final static int ITEM_MARGIN = 1;
-    public final static int SCROLLBAR_WIDTH = 15;
+    // Description of these constbnts in ListHelper
+    public finbl stbtic int TEXT_SPACE = 1;
+    public finbl stbtic int BORDER_WIDTH = 1;
+    public finbl stbtic int ITEM_MARGIN = 1;
+    public finbl stbtic int SCROLLBAR_WIDTH = 15;
 
 
     // SHARE THESE!
-    private static final Insets focusInsets = new Insets(0,0,0,0);
+    privbte stbtic finbl Insets focusInsets = new Insets(0,0,0,0);
 
 
-    static final int WIDGET_OFFSET = 18;
+    stbtic finbl int WIDGET_OFFSET = 18;
 
     // Stolen from Tiny
-    static final int            TEXT_XPAD = 8;
-    static final int            TEXT_YPAD = 6;
+    stbtic finbl int            TEXT_XPAD = 8;
+    stbtic finbl int            TEXT_YPAD = 6;
 
-    // FIXME: Motif uses a different focus color for the item within
-    // the unfurled Choice list and for when the Choice itself is focused and
+    // FIXME: Motif uses b different focus color for the item within
+    // the unfurled Choice list bnd for when the Choice itself is focused bnd
     // popped up.
-    static final Color focusColor = Color.black;
+    stbtic finbl Color focusColor = Color.blbck;
 
-    // TODO: there is a time value that the mouse is held down.  If short
-    // enough,  the Choice stays popped down.  If long enough, Choice
-    // is furled when the mouse is released
+    // TODO: there is b time vblue thbt the mouse is held down.  If short
+    // enough,  the Choice stbys popped down.  If long enough, Choice
+    // is furled when the mouse is relebsed
 
-    private boolean unfurled = false;        // Choice list is popped down
+    privbte boolebn unfurled = fblse;        // Choice list is popped down
 
-    private boolean dragging = false;        // Mouse was pressed and is being
-                                             // dragged over the (unfurled)
+    privbte boolebn drbgging = fblse;        // Mouse wbs pressed bnd is being
+                                             // drbgged over the (unfurled)
                                              // Choice
 
-    private boolean mouseInSB = false;       // Mouse is interacting with the
-                                             // scrollbar
+    privbte boolebn mouseInSB = fblse;       // Mouse is interbcting with the
+                                             // scrollbbr
 
-    private boolean firstPress = false;      // mouse was pressed on
+    privbte boolebn firstPress = fblse;      // mouse wbs pressed on
                                              // furled Choice so we
                                              // not need to furl the
                                              // Choice when MOUSE_RELEASED occurred
 
-    // 6425067. Mouse was pressed on furled choice and dropdown list appeared over Choice itself
-    // and then there were no mouse movements until MOUSE_RELEASE.
-    // This scenario leads to ItemStateChanged as the choice logic uses
-    // MouseReleased event to send ItemStateChanged. To prevent it we should
-    // use a combination of firstPress and wasDragged variables.
-    // The only difference in dragging and wasDragged is: last one will not
-    // set to false on mouse ungrab. It become false after MouseRelased() finishes.
-    private boolean wasDragged = false;
-    private ListHelper helper;
-    private UnfurledChoice unfurledChoice;
+    // 6425067. Mouse wbs pressed on furled choice bnd dropdown list bppebred over Choice itself
+    // bnd then there were no mouse movements until MOUSE_RELEASE.
+    // This scenbrio lebds to ItemStbteChbnged bs the choice logic uses
+    // MouseRelebsed event to send ItemStbteChbnged. To prevent it we should
+    // use b combinbtion of firstPress bnd wbsDrbgged vbribbles.
+    // The only difference in drbgging bnd wbsDrbgged is: lbst one will not
+    // set to fblse on mouse ungrbb. It become fblse bfter MouseRelbsed() finishes.
+    privbte boolebn wbsDrbgged = fblse;
+    privbte ListHelper helper;
+    privbte UnfurledChoice unfurledChoice;
 
-    // TODO: Choice remembers where it was scrolled to when unfurled - it's not
-    // always to the currently selected item.
+    // TODO: Choice remembers where it wbs scrolled to when unfurled - it's not
+    // blwbys to the currently selected item.
 
-    // Indicates whether or not to paint selected item in the choice.
-    // Default is to paint
-    private boolean drawSelectedItem = true;
+    // Indicbtes whether or not to pbint selected item in the choice.
+    // Defbult is to pbint
+    privbte boolebn drbwSelectedItem = true;
 
-    // If set, indicates components under which choice popup should be showed.
-    // The choice's popup width and location should be adjust to appear
-    // under both choice and alignUnder component.
-    private Component alignUnder;
+    // If set, indicbtes components under which choice popup should be showed.
+    // The choice's popup width bnd locbtion should be bdjust to bppebr
+    // under both choice bnd blignUnder component.
+    privbte Component blignUnder;
 
-    // If cursor is outside of an unfurled Choice when the mouse is
-    // released, Choice item should NOT be updated.  Remember the proper index.
-    private int dragStartIdx = -1;
+    // If cursor is outside of bn unfurled Choice when the mouse is
+    // relebsed, Choice item should NOT be updbted.  Remember the proper index.
+    privbte int drbgStbrtIdx = -1;
 
-    // Holds the listener (XFileDialogPeer) which the processing events from the choice
-    // See 6240074 for more information
-    private XChoicePeerListener choiceListener;
+    // Holds the listener (XFileDiblogPeer) which the processing events from the choice
+    // See 6240074 for more informbtion
+    privbte XChoicePeerListener choiceListener;
 
-    XChoicePeer(Choice target) {
-        super(target);
+    XChoicePeer(Choice tbrget) {
+        super(tbrget);
     }
 
-    void preInit(XCreateWindowParams params) {
-        super.preInit(params);
-        Choice target = (Choice)this.target;
-        int numItems = target.getItemCount();
-        unfurledChoice = new UnfurledChoice(target);
-        getToplevelXWindow().addToplevelStateListener(this);
+    void preInit(XCrebteWindowPbrbms pbrbms) {
+        super.preInit(pbrbms);
+        Choice tbrget = (Choice)this.tbrget;
+        int numItems = tbrget.getItemCount();
+        unfurledChoice = new UnfurledChoice(tbrget);
+        getToplevelXWindow().bddToplevelStbteListener(this);
         helper = new ListHelper(unfurledChoice,
                                 getGUIcolors(),
                                 numItems,
-                                false,
+                                fblse,
                                 true,
-                                false,
-                                target.getFont(),
+                                fblse,
+                                tbrget.getFont(),
                                 MAX_UNFURLED_ITEMS,
                                 TEXT_SPACE,
                                 ITEM_MARGIN,
@@ -144,27 +144,27 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
                                 SCROLLBAR_WIDTH);
     }
 
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
-        Choice target = (Choice)this.target;
-        int numItems = target.getItemCount();
+    void postInit(XCrebteWindowPbrbms pbrbms) {
+        super.postInit(pbrbms);
+        Choice tbrget = (Choice)this.tbrget;
+        int numItems = tbrget.getItemCount();
 
-        // Add all items
+        // Add bll items
         for (int i = 0; i < numItems; i++) {
-            helper.add(target.getItem(i));
+            helper.bdd(tbrget.getItem(i));
         }
         if (!helper.isEmpty()) {
-            helper.select(target.getSelectedIndex());
-            helper.setFocusedIndex(target.getSelectedIndex());
+            helper.select(tbrget.getSelectedIndex());
+            helper.setFocusedIndex(tbrget.getSelectedIndex());
         }
-        helper.updateColors(getGUIcolors());
-        updateMotifColors(getPeerBackground());
+        helper.updbteColors(getGUIcolors());
+        updbteMotifColors(getPeerBbckground());
     }
 
-    public boolean isFocusable() { return true; }
+    public boolebn isFocusbble() { return true; }
 
-    // 6399679. check if super.setBounds() actually changes the size of the
-    // component and then compare current Choice size with a new one. If
+    // 6399679. check if super.setBounds() bctublly chbnges the size of the
+    // component bnd then compbre current Choice size with b new one. If
     // they differs then hide dropdown menu
     public void setBounds(int x, int y, int width, int height, int op) {
         int oldX = this.x;
@@ -177,43 +177,43 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
         }
     }
 
-    public void focusGained(FocusEvent e) {
-        // TODO: only need to paint the focus bit
-        super.focusGained(e);
-        repaint();
+    public void focusGbined(FocusEvent e) {
+        // TODO: only need to pbint the focus bit
+        super.focusGbined(e);
+        repbint();
     }
 
     /*
-     * Fix for 6246503 : Disabling a choice after selection locks keyboard, mouse and makes the system unusable, Xtoolkit
-     * if setEnabled(false) invoked we should close opened choice in
-     * order to prevent keyboard/mouse lock.
+     * Fix for 6246503 : Disbbling b choice bfter selection locks keybobrd, mouse bnd mbkes the system unusbble, Xtoolkit
+     * if setEnbbled(fblse) invoked we should close opened choice in
+     * order to prevent keybobrd/mouse lock.
      */
-    public void setEnabled(boolean value) {
-        super.setEnabled(value);
-        helper.updateColors(getGUIcolors());
-        if (!value && unfurled){
+    public void setEnbbled(boolebn vblue) {
+        super.setEnbbled(vblue);
+        helper.updbteColors(getGUIcolors());
+        if (!vblue && unfurled){
             hidePopdownMenu();
         }
     }
 
     public void focusLost(FocusEvent e) {
-        // TODO: only need to paint the focus bit?
+        // TODO: only need to pbint the focus bit?
         super.focusLost(e);
-        repaint();
+        repbint();
     }
 
-    void ungrabInputImpl() {
+    void ungrbbInputImpl() {
         if (unfurled) {
-            unfurled = false;
-            dragging = false;
-            mouseInSB = false;
-            unfurledChoice.setVisible(false);
+            unfurled = fblse;
+            drbgging = fblse;
+            mouseInSB = fblse;
+            unfurledChoice.setVisible(fblse);
         }
 
-        super.ungrabInputImpl();
+        super.ungrbbInputImpl();
     }
 
-    void handleJavaKeyEvent(KeyEvent e) {
+    void hbndleJbvbKeyEvent(KeyEvent e) {
         if (e.getID() == KeyEvent.KEY_PRESSED) {
             keyPressed(e);
         }
@@ -221,140 +221,140 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
 
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()) {
-            // UP & DOWN are same if furled or unfurled
-          case KeyEvent.VK_DOWN:
-          case KeyEvent.VK_KP_DOWN: {
+            // UP & DOWN bre sbme if furled or unfurled
+          cbse KeyEvent.VK_DOWN:
+          cbse KeyEvent.VK_KP_DOWN: {
               if (helper.getItemCount() > 1) {
                   helper.down();
                   int newIdx = helper.getSelectedIndex();
 
-                  ((Choice)target).select(newIdx);
-                  postEvent(new ItemEvent((Choice)target,
+                  ((Choice)tbrget).select(newIdx);
+                  postEvent(new ItemEvent((Choice)tbrget,
                                           ItemEvent.ITEM_STATE_CHANGED,
-                                          ((Choice)target).getItem(newIdx),
+                                          ((Choice)tbrget).getItem(newIdx),
                                           ItemEvent.SELECTED));
-                  repaint();
+                  repbint();
               }
-              break;
+              brebk;
           }
-          case KeyEvent.VK_UP:
-          case KeyEvent.VK_KP_UP: {
+          cbse KeyEvent.VK_UP:
+          cbse KeyEvent.VK_KP_UP: {
               if (helper.getItemCount() > 1) {
                   helper.up();
                   int newIdx = helper.getSelectedIndex();
 
-                  ((Choice)target).select(newIdx);
-                  postEvent(new ItemEvent((Choice)target,
+                  ((Choice)tbrget).select(newIdx);
+                  postEvent(new ItemEvent((Choice)tbrget,
                                           ItemEvent.ITEM_STATE_CHANGED,
-                                          ((Choice)target).getItem(newIdx),
+                                          ((Choice)tbrget).getItem(newIdx),
                                           ItemEvent.SELECTED));
-                  repaint();
+                  repbint();
               }
-              break;
+              brebk;
           }
-          case KeyEvent.VK_PAGE_DOWN:
-              if (unfurled && !dragging) {
+          cbse KeyEvent.VK_PAGE_DOWN:
+              if (unfurled && !drbgging) {
                   int oldIdx = helper.getSelectedIndex();
-                  helper.pageDown();
+                  helper.pbgeDown();
                   int newIdx = helper.getSelectedIndex();
                   if (oldIdx != newIdx) {
-                      ((Choice)target).select(newIdx);
-                      postEvent(new ItemEvent((Choice)target,
+                      ((Choice)tbrget).select(newIdx);
+                      postEvent(new ItemEvent((Choice)tbrget,
                                               ItemEvent.ITEM_STATE_CHANGED,
-                                              ((Choice)target).getItem(newIdx),
+                                              ((Choice)tbrget).getItem(newIdx),
                                               ItemEvent.SELECTED));
-                      repaint();
+                      repbint();
                   }
               }
-              break;
-          case KeyEvent.VK_PAGE_UP:
-              if (unfurled && !dragging) {
+              brebk;
+          cbse KeyEvent.VK_PAGE_UP:
+              if (unfurled && !drbgging) {
                   int oldIdx = helper.getSelectedIndex();
-                  helper.pageUp();
+                  helper.pbgeUp();
                   int newIdx = helper.getSelectedIndex();
                   if (oldIdx != newIdx) {
-                      ((Choice)target).select(newIdx);
-                      postEvent(new ItemEvent((Choice)target,
+                      ((Choice)tbrget).select(newIdx);
+                      postEvent(new ItemEvent((Choice)tbrget,
                                               ItemEvent.ITEM_STATE_CHANGED,
-                                              ((Choice)target).getItem(newIdx),
+                                              ((Choice)tbrget).getItem(newIdx),
                                               ItemEvent.SELECTED));
-                      repaint();
+                      repbint();
                   }
               }
-              break;
-          case KeyEvent.VK_ESCAPE:
-          case KeyEvent.VK_ENTER:
+              brebk;
+          cbse KeyEvent.VK_ESCAPE:
+          cbse KeyEvent.VK_ENTER:
               if (unfurled) {
-                  if (dragging){
+                  if (drbgging){
                       if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
-                          //This also happens on
+                          //This blso hbppens on
                           // - MouseButton2,3, etc. press
                           // - ENTER press
-                          helper.select(dragStartIdx);
+                          helper.select(drbgStbrtIdx);
                       } else { //KeyEvent.VK_ENTER:
                           int newIdx = helper.getSelectedIndex();
-                          ((Choice)target).select(newIdx);
-                          postEvent(new ItemEvent((Choice)target,
+                          ((Choice)tbrget).select(newIdx);
+                          postEvent(new ItemEvent((Choice)tbrget,
                                                   ItemEvent.ITEM_STATE_CHANGED,
-                                                  ((Choice)target).getItem(newIdx),
+                                                  ((Choice)tbrget).getItem(newIdx),
                                                   ItemEvent.SELECTED));
                       }
                   }
                   hidePopdownMenu();
-                  dragging = false;
-                  wasDragged = false;
-                  mouseInSB = false;
+                  drbgging = fblse;
+                  wbsDrbgged = fblse;
+                  mouseInSB = fblse;
 
-                  // See 6240074 for more information
+                  // See 6240074 for more informbtion
                   if (choiceListener != null){
                       choiceListener.unfurledChoiceClosing();
                   }
               }
-              break;
-          default:
+              brebk;
+          defbult:
               if (unfurled) {
-                  Toolkit.getDefaultToolkit().beep();
+                  Toolkit.getDefbultToolkit().beep();
               }
-              break;
+              brebk;
         }
     }
 
-    public boolean handlesWheelScrolling() { return true; }
+    public boolebn hbndlesWheelScrolling() { return true; }
 
-    void handleJavaMouseWheelEvent(MouseWheelEvent e) {
+    void hbndleJbvbMouseWheelEvent(MouseWheelEvent e) {
         if (unfurled && helper.isVSBVisible()) {
             if (ListHelper.doWheelScroll(helper.getVSB(), null, e)) {
-                repaint();
+                repbint();
             }
         }
     }
 
-    void handleJavaMouseEvent(MouseEvent e) {
-        super.handleJavaMouseEvent(e);
+    void hbndleJbvbMouseEvent(MouseEvent e) {
+        super.hbndleJbvbMouseEvent(e);
         int i = e.getID();
         switch (i) {
-          case MouseEvent.MOUSE_PRESSED:
+          cbse MouseEvent.MOUSE_PRESSED:
               mousePressed(e);
-              break;
-          case MouseEvent.MOUSE_RELEASED:
-              mouseReleased(e);
-              break;
-          case MouseEvent.MOUSE_DRAGGED:
-              mouseDragged(e);
-              break;
+              brebk;
+          cbse MouseEvent.MOUSE_RELEASED:
+              mouseRelebsed(e);
+              brebk;
+          cbse MouseEvent.MOUSE_DRAGGED:
+              mouseDrbgged(e);
+              brebk;
         }
     }
 
     public void mousePressed(MouseEvent e) {
         /*
-         * fix for 5003166: a Choice on XAWT shouldn't react to any
+         * fix for 5003166: b Choice on XAWT shouldn't rebct to bny
          * mouse button presses except left. This involves presses on
-         * Choice but not on opened part of choice.
+         * Choice but not on opened pbrt of choice.
          */
         if (e.getButton() == MouseEvent.BUTTON1){
-            dragStartIdx = helper.getSelectedIndex();
+            drbgStbrtIdx = helper.getSelectedIndex();
             if (unfurled) {
-                //fix 6259328: PIT: Choice scrolls when dragging the parent frame while drop-down is active, XToolkit
+                //fix 6259328: PIT: Choice scrolls when drbgging the pbrent frbme while drop-down is bctive, XToolkit
                 if (! (isMouseEventInChoice(e) ||
                        unfurledChoice.isMouseEventInside(e)))
                 {
@@ -362,179 +362,179 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
                 }
                 // Press on unfurled Choice.  Highlight the item under the cursor,
                 // but don't send item event or set the text on the button yet
-                unfurledChoice.trackMouse(e);
+                unfurledChoice.trbckMouse(e);
             }
             else {
                 // Choice is up - unfurl it
-                grabInput();
+                grbbInput();
                 unfurledChoice.toFront();
                 firstPress = true;
-                wasDragged = false;
+                wbsDrbgged = fblse;
                 unfurled = true;
             }
         }
     }
 
     /*
-     * helper method for mouseReleased routine
+     * helper method for mouseRelebsed routine
      */
     void hidePopdownMenu(){
-        ungrabInput();
-        unfurledChoice.setVisible(false);
-        unfurled = false;
+        ungrbbInput();
+        unfurledChoice.setVisible(fblse);
+        unfurled = fblse;
     }
 
-    public void mouseReleased(MouseEvent e) {
+    public void mouseRelebsed(MouseEvent e) {
         if (unfurled) {
             if (mouseInSB) {
-                unfurledChoice.trackMouse(e);
+                unfurledChoice.trbckMouse(e);
             }
             else {
-                // We pressed and dragged onto the Choice, or, this is the
-                // second release after clicking to make the Choice "stick"
+                // We pressed bnd drbgged onto the Choice, or, this is the
+                // second relebse bfter clicking to mbke the Choice "stick"
                 // unfurled.
-                // This release should ungrab/furl, and set the new item if
-                // release was over the unfurled Choice.
+                // This relebse should ungrbb/furl, bnd set the new item if
+                // relebse wbs over the unfurled Choice.
 
                 // Fix for 6239944 : Choice shouldn't close its
-                // pop-down menu if user presses Mouse on Choice's Scrollbar
-                // some additional cases like releasing mouse outside
-                // of Choice are considered too
-                boolean isMouseEventInside = unfurledChoice.isMouseEventInside( e );
-                boolean isMouseInListArea = unfurledChoice.isMouseInListArea( e );
+                // pop-down menu if user presses Mouse on Choice's Scrollbbr
+                // some bdditionbl cbses like relebsing mouse outside
+                // of Choice bre considered too
+                boolebn isMouseEventInside = unfurledChoice.isMouseEventInside( e );
+                boolebn isMouseInListAreb = unfurledChoice.isMouseInListAreb( e );
 
-                // Fixed 6318746: REG: File Selection is failing
+                // Fixed 6318746: REG: File Selection is fbiling
                 // We shouldn't restore the selected item
-                // if the mouse was dragged outside the drop-down choice area
-                if (!helper.isEmpty() && !isMouseInListArea && dragging) {
-                    // Set the selected item back how it was.
-                    ((Choice)target).select(dragStartIdx);
+                // if the mouse wbs drbgged outside the drop-down choice breb
+                if (!helper.isEmpty() && !isMouseInListAreb && drbgging) {
+                    // Set the selected item bbck how it wbs.
+                    ((Choice)tbrget).select(drbgStbrtIdx);
                 }
 
-                // Choice must be closed if user releases mouse on
+                // Choice must be closed if user relebses mouse on
                 // pop-down menu on the second click
-                if ( !firstPress && isMouseInListArea) {
+                if ( !firstPress && isMouseInListAreb) {
                     hidePopdownMenu();
                 }
-                // Choice must be closed if user releases mouse
+                // Choice must be closed if user relebses mouse
                 // outside of Choice's pop-down menu  on the second click
                 if ( !firstPress && !isMouseEventInside) {
                     hidePopdownMenu();
                 }
-                //if user drags Mouse on pop-down menu, Scrollbar or
+                //if user drbgs Mouse on pop-down menu, Scrollbbr or
                 // outside the Choice
-                if ( firstPress && dragging) {
+                if ( firstPress && drbgging) {
                     hidePopdownMenu();
                 }
-                /* this could happen when user has opened a Choice and
-                 * released mouse button. Then he drags mouse on the
-                 * Scrollbar and releases mouse again.
+                /* this could hbppen when user hbs opened b Choice bnd
+                 * relebsed mouse button. Then he drbgs mouse on the
+                 * Scrollbbr bnd relebses mouse bgbin.
                  */
-                if ( !firstPress && !isMouseInListArea &&
-                     isMouseEventInside && dragging)
+                if ( !firstPress && !isMouseInListAreb &&
+                     isMouseEventInside && drbgging)
                 {
                     hidePopdownMenu();
                 }
 
                 if (!helper.isEmpty()) {
-                    // Only update the Choice if the mouse button is released
+                    // Only updbte the Choice if the mouse button is relebsed
                     // over the list of items.
-                    if (unfurledChoice.isMouseInListArea(e)) {
+                    if (unfurledChoice.isMouseInListAreb(e)) {
                         int newIdx = helper.getSelectedIndex();
                         if (newIdx >= 0) {
-                            // Update the selected item in the target now that
+                            // Updbte the selected item in the tbrget now thbt
                             // the mouse selection is complete.
-                            if (newIdx != dragStartIdx) {
-                                ((Choice)target).select(newIdx);
-                                // NOTE: We get a repaint when Choice.select()
-                                // calls our peer.select().
+                            if (newIdx != drbgStbrtIdx) {
+                                ((Choice)tbrget).select(newIdx);
+                                // NOTE: We get b repbint when Choice.select()
+                                // cblls our peer.select().
                             }
-                            if (wasDragged && e.getButton() != MouseEvent.BUTTON1){
-                                ((Choice)target).select(dragStartIdx);
+                            if (wbsDrbgged && e.getButton() != MouseEvent.BUTTON1){
+                                ((Choice)tbrget).select(drbgStbrtIdx);
                             }
 
-                            /*fix for 6239941 : Choice triggers ItemEvent when selecting an item with right mouse button, Xtoolkit
-                            * We should generate ItemEvent if only
+                            /*fix for 6239941 : Choice triggers ItemEvent when selecting bn item with right mouse button, Xtoolkit
+                            * We should generbte ItemEvent if only
                             * LeftMouseButton used */
                             if (e.getButton() == MouseEvent.BUTTON1 &&
-                                (!firstPress || wasDragged ))
+                                (!firstPress || wbsDrbgged ))
                             {
-                                postEvent(new ItemEvent((Choice)target,
+                                postEvent(new ItemEvent((Choice)tbrget,
                                                         ItemEvent.ITEM_STATE_CHANGED,
-                                                        ((Choice)target).getItem(newIdx),
+                                                        ((Choice)tbrget).getItem(newIdx),
                                                         ItemEvent.SELECTED));
                             }
 
-                            // see 6240074 for more information
+                            // see 6240074 for more informbtion
                             if (choiceListener != null) {
                                 choiceListener.unfurledChoiceClosing();
                             }
                         }
                     }
                 }
-                // See 6243382 for more information
-                unfurledChoice.trackMouse(e);
+                // See 6243382 for more informbtion
+                unfurledChoice.trbckMouse(e);
             }
         }
 
-        dragging = false;
-        wasDragged = false;
-        firstPress = false;
-        dragStartIdx = -1;
+        drbgging = fblse;
+        wbsDrbgged = fblse;
+        firstPress = fblse;
+        drbgStbrtIdx = -1;
     }
 
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDrbgged(MouseEvent e) {
         /*
-         * fix for 5003166. On Motif user are unable to drag
-         * mouse inside opened Choice if he drags the mouse with
+         * fix for 5003166. On Motif user bre unbble to drbg
+         * mouse inside opened Choice if he drbgs the mouse with
          * different from LEFT mouse button ( e.g. RIGHT or MIDDLE).
-         * This fix make impossible to drag mouse inside opened choice
-         * with other mouse buttons rather then LEFT one.
+         * This fix mbke impossible to drbg mouse inside opened choice
+         * with other mouse buttons rbther then LEFT one.
          */
         if ( e.getModifiers() == MouseEvent.BUTTON1_MASK ){
-            dragging = true;
-            wasDragged = true;
-            unfurledChoice.trackMouse(e);
+            drbgging = true;
+            wbsDrbgged = true;
+            unfurledChoice.trbckMouse(e);
         }
     }
 
     // Stolen from TinyChoicePeer
     public Dimension getMinimumSize() {
         // TODO: move this impl into ListHelper?
-        FontMetrics fm = getFontMetrics(target.getFont());
-        Choice c = (Choice)target;
+        FontMetrics fm = getFontMetrics(tbrget.getFont());
+        Choice c = (Choice)tbrget;
         int w = 0;
         for (int i = c.countItems() ; i-- > 0 ;) {
-            w = Math.max(fm.stringWidth(c.getItem(i)), w);
+            w = Mbth.mbx(fm.stringWidth(c.getItem(i)), w);
         }
         return new Dimension(w + TEXT_XPAD + WIDGET_OFFSET,
-                             fm.getMaxAscent() + fm.getMaxDescent() + TEXT_YPAD);
+                             fm.getMbxAscent() + fm.getMbxDescent() + TEXT_YPAD);
     }
 
     /*
-     * Layout the...
+     * Lbyout the...
      */
-    public void layout() {
+    public void lbyout() {
         /*
-          Dimension size = target.getSize();
-          Font f = target.getFont();
-          FontMetrics fm = target.getFontMetrics(f);
-          String text = ((Choice)target).getLabel();
+          Dimension size = tbrget.getSize();
+          Font f = tbrget.getFont();
+          FontMetrics fm = tbrget.getFontMetrics(f);
+          String text = ((Choice)tbrget).getLbbel();
 
           textRect.height = fm.getHeight();
 
           checkBoxSize = getChoiceSize(fm);
 
-          // Note - Motif appears to use an left inset that is slightly
-          // scaled to the checkbox/font size.
+          // Note - Motif bppebrs to use bn left inset thbt is slightly
+          // scbled to the checkbox/font size.
           cbX = borderInsets.left + checkBoxInsetFromText;
           cbY = size.height / 2 - checkBoxSize / 2;
           int minTextX = borderInsets.left + 2 * checkBoxInsetFromText + checkBoxSize;
-          // FIXME: will need to account for alignment?
-          // FIXME: call layout() on alignment changes
+          // FIXME: will need to bccount for blignment?
+          // FIXME: cbll lbyout() on blignment chbnges
           //textRect.width = fm.stringWidth(text);
           textRect.width = fm.stringWidth(text == null ? "" : text);
-          textRect.x = Math.max(minTextX, size.width / 2 - textRect.width / 2);
+          textRect.x = Mbth.mbx(minTextX, size.width / 2 - textRect.width / 2);
           textRect.y = size.height / 2 - textRect.height / 2 + borderInsets.top;
 
           focusRect.x = focusInsets.left;
@@ -542,57 +542,57 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
           focusRect.width = size.width-(focusInsets.left+focusInsets.right)-1;
           focusRect.height = size.height-(focusInsets.top+focusInsets.bottom)-1;
 
-          myCheckMark = AffineTransform.getScaleInstance((double)target.getFont().getSize() / MASTER_SIZE, (double)target.getFont().getSize() / MASTER_SIZE).createTransformedShape(MASTER_CHECKMARK);
+          myCheckMbrk = AffineTrbnsform.getScbleInstbnce((double)tbrget.getFont().getSize() / MASTER_SIZE, (double)tbrget.getFont().getSize() / MASTER_SIZE).crebteTrbnsformedShbpe(MASTER_CHECKMARK);
         */
 
     }
 
     /**
-     * Paint the choice
+     * Pbint the choice
      */
     @Override
-    void paintPeer(final Graphics g) {
+    void pbintPeer(finbl Grbphics g) {
         flush();
         Dimension size = getPeerSize();
-        // TODO: when mouse is down over button, widget should be drawn depressed
-        g.setColor(getPeerBackground());
+        // TODO: when mouse is down over button, widget should be drbwn depressed
+        g.setColor(getPeerBbckground());
         g.fillRect(0, 0, width, height);
 
-        drawMotif3DRect(g, 1, 1, width-2, height-2, false);
-        drawMotif3DRect(g, width - WIDGET_OFFSET, (height / 2) - 3, 12, 6, false);
+        drbwMotif3DRect(g, 1, 1, width-2, height-2, fblse);
+        drbwMotif3DRect(g, width - WIDGET_OFFSET, (height / 2) - 3, 12, 6, fblse);
 
         if (!helper.isEmpty() && helper.getSelectedIndex() != -1) {
             g.setFont(getPeerFont());
             FontMetrics fm = g.getFontMetrics();
             String lbl = helper.getItem(helper.getSelectedIndex());
-            if (lbl != null && drawSelectedItem) {
+            if (lbl != null && drbwSelectedItem) {
                 g.setClip(1, 1, width - WIDGET_OFFSET - 2, height);
-                if (isEnabled()) {
+                if (isEnbbled()) {
                     g.setColor(getPeerForeground());
-                    g.drawString(lbl, 5, (height + fm.getMaxAscent()-fm.getMaxDescent())/2);
+                    g.drbwString(lbl, 5, (height + fm.getMbxAscent()-fm.getMbxDescent())/2);
                 }
                 else {
-                    g.setColor(getPeerBackground().brighter());
-                    g.drawString(lbl, 5, (height + fm.getMaxAscent()-fm.getMaxDescent())/2);
-                    g.setColor(getPeerBackground().darker());
-                    g.drawString(lbl, 4, ((height + fm.getMaxAscent()-fm.getMaxDescent())/2)-1);
+                    g.setColor(getPeerBbckground().brighter());
+                    g.drbwString(lbl, 5, (height + fm.getMbxAscent()-fm.getMbxDescent())/2);
+                    g.setColor(getPeerBbckground().dbrker());
+                    g.drbwString(lbl, 4, ((height + fm.getMbxAscent()-fm.getMbxDescent())/2)-1);
                 }
                 g.setClip(0, 0, width, height);
             }
         }
-        if (hasFocus()) {
-            paintFocus(g,focusInsets.left,focusInsets.top,size.width-(focusInsets.left+focusInsets.right)-1,size.height-(focusInsets.top+focusInsets.bottom)-1);
+        if (hbsFocus()) {
+            pbintFocus(g,focusInsets.left,focusInsets.top,size.width-(focusInsets.left+focusInsets.right)-1,size.height-(focusInsets.top+focusInsets.bottom)-1);
         }
         if (unfurled) {
-            unfurledChoice.repaint();
+            unfurledChoice.repbint();
         }
         flush();
     }
 
-    protected void paintFocus(Graphics g,
+    protected void pbintFocus(Grbphics g,
                               int x, int y, int w, int h) {
         g.setColor(focusColor);
-        g.drawRect(x,y,w,h);
+        g.drbwRect(x,y,w,h);
     }
 
 
@@ -604,17 +604,17 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
     public void select(int index) {
         helper.select(index);
         helper.setFocusedIndex(index);
-        repaint();
+        repbint();
     }
 
-    public void add(String item, int index) {
-        helper.add(item, index);
-        repaint();
+    public void bdd(String item, int index) {
+        helper.bdd(item, index);
+        repbint();
     }
 
     public void remove(int index) {
-        boolean selected = (index == helper.getSelectedIndex());
-        boolean visibled = (index >= helper.firstDisplayedIndex() && index <= helper.lastDisplayedIndex());
+        boolebn selected = (index == helper.getSelectedIndex());
+        boolebn visibled = (index >= helper.firstDisplbyedIndex() && index <= helper.lbstDisplbyedIndex());
         helper.remove(index);
         if (selected) {
             if (helper.isEmpty()) {
@@ -626,41 +626,41 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
         }
         /*
          * Fix for 6248016
-         * After removing the item of the choice we need to reshape unfurled choice
-         * in order to keep actual bounds of the choice
+         * After removing the item of the choice we need to reshbpe unfurled choice
+         * in order to keep bctubl bounds of the choice
          */
 
         /*
-         * condition added only for performance
+         * condition bdded only for performbnce
          */
         if (!unfurled) {
-            // Fix 6292186: PIT: Choice is not refreshed properly when the last item gets removed, XToolkit
-            // We should take into account that there is no 'select' invoking (hence 'repaint')
-            // if the choice is empty (see Choice.java method removeNoInvalidate())
-            // The condition isn't 'visibled' since it would be cause of the twice repainting
+            // Fix 6292186: PIT: Choice is not refreshed properly when the lbst item gets removed, XToolkit
+            // We should tbke into bccount thbt there is no 'select' invoking (hence 'repbint')
+            // if the choice is empty (see Choice.jbvb method removeNoInvblidbte())
+            // The condition isn't 'visibled' since it would be cbuse of the twice repbinting
             if (helper.isEmpty()) {
-                repaint();
+                repbint();
             }
             return;
         }
 
         /*
-         * condition added only for performance
-         * the count of the visible items changed
+         * condition bdded only for performbnce
+         * the count of the visible items chbnged
          */
         if (visibled){
-            Rectangle r = unfurledChoice.placeOnScreen();
-            unfurledChoice.reshape(r.x, r.y, r.width, r.height);
+            Rectbngle r = unfurledChoice.plbceOnScreen();
+            unfurledChoice.reshbpe(r.x, r.y, r.width, r.height);
             return;
         }
 
         /*
-         * condition added only for performance
-         * the structure of visible items changed
-         * if removable item is non visible and non selected then there is no repaint
+         * condition bdded only for performbnce
+         * the structure of visible items chbnged
+         * if removbble item is non visible bnd non selected then there is no repbint
          */
         if (visibled || selected){
-            repaint();
+            repbint();
         }
     }
 
@@ -669,19 +669,19 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
         helper.select(-1);
         /*
          * Fix for 6248016
-         * After removing the item of the choice we need to reshape unfurled choice
-         * in order to keep actual bounds of the choice
+         * After removing the item of the choice we need to reshbpe unfurled choice
+         * in order to keep bctubl bounds of the choice
          */
-        Rectangle r = unfurledChoice.placeOnScreen();
-        unfurledChoice.reshape(r.x, r.y, r.width, r.height);
-        repaint();
+        Rectbngle r = unfurledChoice.plbceOnScreen();
+        unfurledChoice.reshbpe(r.x, r.y, r.width, r.height);
+        repbint();
     }
 
     /**
-     * DEPRECATED: Replaced by add(String, int).
+     * DEPRECATED: Replbced by bdd(String, int).
      */
-    public void addItem(String item, int index) {
-        add(item, index);
+    public void bddItem(String item, int index) {
+        bdd(item, index);
     }
 
     public void setFont(Font font) {
@@ -691,120 +691,120 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
 
     public void setForeground(Color c) {
         super.setForeground(c);
-        helper.updateColors(getGUIcolors());
+        helper.updbteColors(getGUIcolors());
     }
 
-    public void setBackground(Color c) {
-        super.setBackground(c);
-        unfurledChoice.setBackground(c);
-        helper.updateColors(getGUIcolors());
-        updateMotifColors(c);
+    public void setBbckground(Color c) {
+        super.setBbckground(c);
+        unfurledChoice.setBbckground(c);
+        helper.updbteColors(getGUIcolors());
+        updbteMotifColors(c);
     }
 
-    public void setDrawSelectedItem(boolean value) {
-        drawSelectedItem = value;
+    public void setDrbwSelectedItem(boolebn vblue) {
+        drbwSelectedItem = vblue;
     }
 
     public void setAlignUnder(Component comp) {
-        alignUnder = comp;
+        blignUnder = comp;
     }
 
-    // see 6240074 for more information
-    public void addXChoicePeerListener(XChoicePeerListener l){
+    // see 6240074 for more informbtion
+    public void bddXChoicePeerListener(XChoicePeerListener l){
         choiceListener = l;
     }
 
-    // see 6240074 for more information
+    // see 6240074 for more informbtion
     public void removeXChoicePeerListener(){
         choiceListener = null;
     }
 
-    public boolean isUnfurled(){
+    public boolebn isUnfurled(){
         return unfurled;
     }
 
-    /* fix for 6261352. We should detect if current parent Window (containing a Choice) become iconified and hide pop-down menu with grab release.
-     * In this case we should hide pop-down menu.
+    /* fix for 6261352. We should detect if current pbrent Window (contbining b Choice) become iconified bnd hide pop-down menu with grbb relebse.
+     * In this cbse we should hide pop-down menu.
      */
-    //calls from XWindowPeer. Could accept X-styled state events
-    public void stateChangedICCCM(int oldState, int newState) {
-        if (unfurled && oldState != newState){
+    //cblls from XWindowPeer. Could bccept X-styled stbte events
+    public void stbteChbngedICCCM(int oldStbte, int newStbte) {
+        if (unfurled && oldStbte != newStbte){
                 hidePopdownMenu();
         }
     }
 
-    //calls from XFramePeer. Could accept Frame's states.
-    public void stateChangedJava(int oldState, int newState) {
-        if (unfurled && oldState != newState){
+    //cblls from XFrbmePeer. Could bccept Frbme's stbtes.
+    public void stbteChbngedJbvb(int oldStbte, int newStbte) {
+        if (unfurled && oldStbte != newStbte){
             hidePopdownMenu();
         }
     }
 
     /**************************************************************************/
-    /* Common functionality between List & Choice
+    /* Common functionblity between List & Choice
        /**************************************************************************/
 
     /**
-     * Inner class for the unfurled Choice list
+     * Inner clbss for the unfurled Choice list
      * Much, much more docs
      */
-    class UnfurledChoice extends XWindow /*implements XScrollbarClient*/ {
+    clbss UnfurledChoice extends XWindow /*implements XScrollbbrClient*/ {
 
-        // First try - use Choice as the target
+        // First try - use Choice bs the tbrget
 
-        public UnfurledChoice(Component target) {
-            super(target);
+        public UnfurledChoice(Component tbrget) {
+            super(tbrget);
         }
 
-        // Override so we can do our own create()
-        public void preInit(XCreateWindowParams params) {
-            // A parent of this window is the target, at this point: wrong.
-            // Remove parent window; in the following preInit() call we'll calculate as a default
-            // a correct root window which is the proper parent for override redirect.
-            params.delete(PARENT_WINDOW);
-            super.preInit(params);
-            // Reset bounds(we'll set them later), set overrideRedirect
-            params.remove(BOUNDS);
-            params.add(OVERRIDE_REDIRECT, Boolean.TRUE);
+        // Override so we cbn do our own crebte()
+        public void preInit(XCrebteWindowPbrbms pbrbms) {
+            // A pbrent of this window is the tbrget, bt this point: wrong.
+            // Remove pbrent window; in the following preInit() cbll we'll cblculbte bs b defbult
+            // b correct root window which is the proper pbrent for override redirect.
+            pbrbms.delete(PARENT_WINDOW);
+            super.preInit(pbrbms);
+            // Reset bounds(we'll set them lbter), set overrideRedirect
+            pbrbms.remove(BOUNDS);
+            pbrbms.bdd(OVERRIDE_REDIRECT, Boolebn.TRUE);
         }
 
-        // Generally, bounds should be:
-        //  x = target.x
-        //  y = target.y + target.height
-        //  w = Max(target.width, getLongestItemWidth) + possible vertScrollbar
-        //  h = Min(MAX_UNFURLED_ITEMS, target.getItemCount()) * itemHeight
-        Rectangle placeOnScreen() {
-            int numItemsDisplayed;
-            // Motif paints an empty Choice the same size as a single item
+        // Generblly, bounds should be:
+        //  x = tbrget.x
+        //  y = tbrget.y + tbrget.height
+        //  w = Mbx(tbrget.width, getLongestItemWidth) + possible vertScrollbbr
+        //  h = Min(MAX_UNFURLED_ITEMS, tbrget.getItemCount()) * itemHeight
+        Rectbngle plbceOnScreen() {
+            int numItemsDisplbyed;
+            // Motif pbints bn empty Choice the sbme size bs b single item
             if (helper.isEmpty()) {
-                numItemsDisplayed = 1;
+                numItemsDisplbyed = 1;
             }
             else {
                 int numItems = helper.getItemCount();
-                numItemsDisplayed = Math.min(MAX_UNFURLED_ITEMS, numItems);
+                numItemsDisplbyed = Mbth.min(MAX_UNFURLED_ITEMS, numItems);
             }
-            Point global = XChoicePeer.this.toGlobal(0,0);
-            Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+            Point globbl = XChoicePeer.this.toGlobbl(0,0);
+            Dimension screen = Toolkit.getDefbultToolkit().getScreenSize();
 
-            if (alignUnder != null) {
-                Rectangle choiceRec = XChoicePeer.this.getBounds();
-                choiceRec.setLocation(0, 0);
-                choiceRec = XChoicePeer.this.toGlobal(choiceRec);
-                Rectangle alignUnderRec = new Rectangle(alignUnder.getLocationOnScreen(), alignUnder.getSize()); // TODO: Security?
-                Rectangle result = choiceRec.union(alignUnderRec);
-                // we've got the left and width, calculate top and height
+            if (blignUnder != null) {
+                Rectbngle choiceRec = XChoicePeer.this.getBounds();
+                choiceRec.setLocbtion(0, 0);
+                choiceRec = XChoicePeer.this.toGlobbl(choiceRec);
+                Rectbngle blignUnderRec = new Rectbngle(blignUnder.getLocbtionOnScreen(), blignUnder.getSize()); // TODO: Security?
+                Rectbngle result = choiceRec.union(blignUnderRec);
+                // we've got the left bnd width, cblculbte top bnd height
                 width = result.width;
                 x = result.x;
                 y = result.y + result.height;
                 height = 2*BORDER_WIDTH +
-                    numItemsDisplayed*(helper.getItemHeight()+2*ITEM_MARGIN);
+                    numItemsDisplbyed*(helper.getItemHeight()+2*ITEM_MARGIN);
             } else {
-                x = global.x;
-                y = global.y + XChoicePeer.this.height;
-                width = Math.max(XChoicePeer.this.width,
-                                 helper.getMaxItemWidth() + 2 * (BORDER_WIDTH + ITEM_MARGIN + TEXT_SPACE) + (helper.isVSBVisible() ? SCROLLBAR_WIDTH : 0));
+                x = globbl.x;
+                y = globbl.y + XChoicePeer.this.height;
+                width = Mbth.mbx(XChoicePeer.this.width,
+                                 helper.getMbxItemWidth() + 2 * (BORDER_WIDTH + ITEM_MARGIN + TEXT_SPACE) + (helper.isVSBVisible() ? SCROLLBAR_WIDTH : 0));
                 height = 2*BORDER_WIDTH +
-                    numItemsDisplayed*(helper.getItemHeight()+2*ITEM_MARGIN);
+                    numItemsDisplbyed*(helper.getItemHeight()+2*ITEM_MARGIN);
             }
             // Don't run off the edge of the screen
             if (x < 0) {
@@ -815,196 +815,196 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
             }
 
             if (y + height > screen.height) {
-                y = global.y - height;
+                y = globbl.y - height;
             }
             if (y < 0) {
                 y = 0;
             }
-            return new Rectangle(x, y, width, height);
+            return new Rectbngle(x, y, width, height);
         }
 
         public void toFront() {
-            // see 6240074 for more information
+            // see 6240074 for more informbtion
             if (choiceListener != null)
                 choiceListener.unfurledChoiceOpening(helper);
 
-            Rectangle r = placeOnScreen();
-            reshape(r.x, r.y, r.width, r.height);
+            Rectbngle r = plbceOnScreen();
+            reshbpe(r.x, r.y, r.width, r.height);
             super.toFront();
             setVisible(true);
         }
 
         /*
-         * Track a MouseEvent (either a drag or a press) and paint a new
-         * selected item, if necessary.
+         * Trbck b MouseEvent (either b drbg or b press) bnd pbint b new
+         * selected item, if necessbry.
          */
-        // FIXME: first unfurl after move is not at edge of the screen  onto second monitor doesn't
-        // track mouse correctly.  Problem is w/ UnfurledChoice coords
-        public void trackMouse(MouseEvent e) {
-            // Event coords are relative to the button, so translate a bit
-            Point local = toLocalCoords(e);
+        // FIXME: first unfurl bfter move is not bt edge of the screen  onto second monitor doesn't
+        // trbck mouse correctly.  Problem is w/ UnfurledChoice coords
+        public void trbckMouse(MouseEvent e) {
+            // Event coords bre relbtive to the button, so trbnslbte b bit
+            Point locbl = toLocblCoords(e);
 
             // If x,y is over unfurled Choice,
             // highlight item under cursor
 
             switch (e.getID()) {
-              case MouseEvent.MOUSE_PRESSED:
-                  // FIXME: If the Choice is unfurled and the mouse is pressed
-                  // outside of the Choice, the mouse should ungrab on the
-                  // the press, not the release
-                  if (helper.isInVertSB(getBounds(), local.x, local.y)) {
+              cbse MouseEvent.MOUSE_PRESSED:
+                  // FIXME: If the Choice is unfurled bnd the mouse is pressed
+                  // outside of the Choice, the mouse should ungrbb on the
+                  // the press, not the relebse
+                  if (helper.isInVertSB(getBounds(), locbl.x, locbl.y)) {
                       mouseInSB = true;
-                      helper.handleVSBEvent(e, getBounds(), local.x, local.y);
+                      helper.hbndleVSBEvent(e, getBounds(), locbl.x, locbl.y);
                   }
                   else {
-                      trackSelection(local.x, local.y);
+                      trbckSelection(locbl.x, locbl.y);
                   }
-                  break;
-              case MouseEvent.MOUSE_RELEASED:
+                  brebk;
+              cbse MouseEvent.MOUSE_RELEASED:
                   if (mouseInSB) {
-                      mouseInSB = false;
-                      helper.handleVSBEvent(e, getBounds(), local.x, local.y);
+                      mouseInSB = fblse;
+                      helper.hbndleVSBEvent(e, getBounds(), locbl.x, locbl.y);
                   }else{
-                      // See 6243382 for more information
-                      helper.trackMouseReleasedScroll();
+                      // See 6243382 for more informbtion
+                      helper.trbckMouseRelebsedScroll();
                   }
                   /*
                     else {
-                    trackSelection(local.x, local.y);
+                    trbckSelection(locbl.x, locbl.y);
                     }
                   */
-                  break;
-              case MouseEvent.MOUSE_DRAGGED:
+                  brebk;
+              cbse MouseEvent.MOUSE_DRAGGED:
                   if (mouseInSB) {
-                      helper.handleVSBEvent(e, getBounds(), local.x, local.y);
+                      helper.hbndleVSBEvent(e, getBounds(), locbl.x, locbl.y);
                   }
                   else {
-                      // See 6243382 for more information
-                      helper.trackMouseDraggedScroll(local.x, local.y, width, height);
-                      trackSelection(local.x, local.y);
+                      // See 6243382 for more informbtion
+                      helper.trbckMouseDrbggedScroll(locbl.x, locbl.y, width, height);
+                      trbckSelection(locbl.x, locbl.y);
                   }
-                  break;
+                  brebk;
             }
         }
 
-        private void trackSelection(int transX, int transY) {
+        privbte void trbckSelection(int trbnsX, int trbnsY) {
             if (!helper.isEmpty()) {
-                if (transX > 0 && transX < width &&
-                    transY > 0 && transY < height) {
-                    int newIdx = helper.y2index(transY);
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("transX=" + transX + ", transY=" + transY
+                if (trbnsX > 0 && trbnsX < width &&
+                    trbnsY > 0 && trbnsY < height) {
+                    int newIdx = helper.y2index(trbnsY);
+                    if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                        log.fine("trbnsX=" + trbnsX + ", trbnsY=" + trbnsY
                                  + ",width=" + width + ", height=" + height
-                                 + ", newIdx=" + newIdx + " on " + target);
+                                 + ", newIdx=" + newIdx + " on " + tbrget);
                     }
                     if ((newIdx >=0) && (newIdx < helper.getItemCount())
                         && (newIdx != helper.getSelectedIndex()))
                     {
                         helper.select(newIdx);
-                        unfurledChoice.repaint();
+                        unfurledChoice.repbint();
                     }
                 }
             }
-            // FIXME: If dragged off top or bottom, scroll if there's a vsb
-            // (ICK - we'll need a timer or our own event or something)
+            // FIXME: If drbgged off top or bottom, scroll if there's b vsb
+            // (ICK - we'll need b timer or our own event or something)
         }
 
         /*
-         * fillRect with current Background color on the whole dropdown list.
+         * fillRect with current Bbckground color on the whole dropdown list.
          */
-        public void paintBackground() {
-            final Graphics g = getGraphics();
+        public void pbintBbckground() {
+            finbl Grbphics g = getGrbphics();
             if (g != null) {
                 try {
-                    g.setColor(getPeerBackground());
+                    g.setColor(getPeerBbckground());
                     g.fillRect(0, 0, width, height);
-                } finally {
+                } finblly {
                     g.dispose();
                 }
             }
         }
         /*
-         * 6405689. In some cases we should erase background to eliminate painting
-         * artefacts.
+         * 6405689. In some cbses we should erbse bbckground to eliminbte pbinting
+         * brtefbcts.
          */
         @Override
-        public void repaint() {
+        public void repbint() {
             if (!isVisible()) {
                 return;
             }
-            if (helper.checkVsbVisibilityChangedAndReset()){
-                paintBackground();
+            if (helper.checkVsbVisibilityChbngedAndReset()){
+                pbintBbckground();
             }
-            super.repaint();
+            super.repbint();
         }
         @Override
-        public void paintPeer(Graphics g) {
-            //System.out.println("UC.paint()");
-            Choice choice = (Choice)target;
+        public void pbintPeer(Grbphics g) {
+            //System.out.println("UC.pbint()");
+            Choice choice = (Choice)tbrget;
             Color colors[] = XChoicePeer.this.getGUIcolors();
-            draw3DRect(g, getSystemColors(), 0, 0, width - 1, height - 1, true);
-            draw3DRect(g, getSystemColors(), 1, 1, width - 3, height - 3, true);
+            drbw3DRect(g, getSystemColors(), 0, 0, width - 1, height - 1, true);
+            drbw3DRect(g, getSystemColors(), 1, 1, width - 3, height - 3, true);
 
-            helper.paintAllItems(g,
+            helper.pbintAllItems(g,
                                  colors,
                                  getBounds());
         }
 
-        public void setVisible(boolean vis) {
+        public void setVisible(boolebn vis) {
             xSetVisible(vis);
 
-            if (!vis && alignUnder != null) {
-                alignUnder.requestFocusInWindow();
+            if (!vis && blignUnder != null) {
+                blignUnder.requestFocusInWindow();
             }
         }
 
         /**
-         * Return a MouseEvent's Point in coordinates relative to the
+         * Return b MouseEvent's Point in coordinbtes relbtive to the
          * UnfurledChoice.
          */
-        private Point toLocalCoords(MouseEvent e) {
-            // Event coords are relative to the button, so translate a bit
-            Point global = e.getLocationOnScreen();
+        privbte Point toLocblCoords(MouseEvent e) {
+            // Event coords bre relbtive to the button, so trbnslbte b bit
+            Point globbl = e.getLocbtionOnScreen();
 
-            global.x -= x;
-            global.y -= y;
-            return global;
+            globbl.x -= x;
+            globbl.y -= y;
+            return globbl;
         }
 
-        /* Returns true if the MouseEvent coords (which are based on the Choice)
-         * are inside of the UnfurledChoice.
+        /* Returns true if the MouseEvent coords (which bre bbsed on the Choice)
+         * bre inside of the UnfurledChoice.
          */
-        private boolean isMouseEventInside(MouseEvent e) {
-            Point local = toLocalCoords(e);
-            if (local.x > 0 && local.x < width &&
-                local.y > 0 && local.y < height) {
+        privbte boolebn isMouseEventInside(MouseEvent e) {
+            Point locbl = toLocblCoords(e);
+            if (locbl.x > 0 && locbl.x < width &&
+                locbl.y > 0 && locbl.y < height) {
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         /**
          * Tests if the mouse cursor is in the Unfurled Choice, yet not
-         * in the vertical scrollbar
+         * in the verticbl scrollbbr
          */
-        private boolean isMouseInListArea(MouseEvent e) {
+        privbte boolebn isMouseInListAreb(MouseEvent e) {
             if (isMouseEventInside(e)) {
-                Point local = toLocalCoords(e);
-                Rectangle bounds = getBounds();
-                if (!helper.isInVertSB(bounds, local.x, local.y)) {
+                Point locbl = toLocblCoords(e);
+                Rectbngle bounds = getBounds();
+                if (!helper.isInVertSB(bounds, locbl.x, locbl.y)) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
         /*
-         * Overridden from XWindow() because we don't want to send
+         * Overridden from XWindow() becbuse we don't wbnt to send
          * ComponentEvents
          */
-        public void handleConfigureNotifyEvent(XEvent xev) {}
-        public void handleMapNotifyEvent(XEvent xev) {}
-        public void handleUnmapNotifyEvent(XEvent xev) {}
+        public void hbndleConfigureNotifyEvent(XEvent xev) {}
+        public void hbndleMbpNotifyEvent(XEvent xev) {}
+        public void hbndleUnmbpNotifyEvent(XEvent xev) {}
     } //UnfurledChoice
 
     public void dispose() {
@@ -1015,30 +1015,30 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
     }
 
     /*
-     * fix for 6239938 : Choice drop-down does not disappear when it loses
+     * fix for 6239938 : Choice drop-down does not disbppebr when it loses
      * focus, on XToolkit
-     * We are able to handle all _Key_ events received by Choice when
-     * it is in opened state without sending it to EventQueue.
-     * If Choice is in closed state we should behave like before: send
-     * all events to EventQueue.
-     * To be compatible with Motif we should handle all KeyEvents in
-     * Choice if it is opened. KeyEvents should be sent into Java if Choice is not opened.
+     * We bre bble to hbndle bll _Key_ events received by Choice when
+     * it is in opened stbte without sending it to EventQueue.
+     * If Choice is in closed stbte we should behbve like before: send
+     * bll events to EventQueue.
+     * To be compbtible with Motif we should hbndle bll KeyEvents in
+     * Choice if it is opened. KeyEvents should be sent into Jbvb if Choice is not opened.
      */
-    boolean prePostEvent(final AWTEvent e) {
+    boolebn prePostEvent(finbl AWTEvent e) {
         if (unfurled){
             // fix for 6253211: PIT: MouseWheel events not triggered for Choice drop down in XAWT
-            if (e instanceof MouseWheelEvent){
+            if (e instbnceof MouseWheelEvent){
                 return super.prePostEvent(e);
             }
-            //fix 6252982: PIT: Keyboard FocusTraversal not working when choice's drop-down is visible, on XToolkit
-            if (e instanceof KeyEvent){
-                // notify XWindow that this event had been already handled and no need to post it again
-                InvocationEvent ev = new InvocationEvent(target, new Runnable() {
+            //fix 6252982: PIT: Keybobrd FocusTrbversbl not working when choice's drop-down is visible, on XToolkit
+            if (e instbnceof KeyEvent){
+                // notify XWindow thbt this event hbd been blrebdy hbndled bnd no need to post it bgbin
+                InvocbtionEvent ev = new InvocbtionEvent(tbrget, new Runnbble() {
                     public void run() {
-                        if(target.isFocusable() &&
-                                getParentTopLevel().isFocusableWindow() )
+                        if(tbrget.isFocusbble() &&
+                                getPbrentTopLevel().isFocusbbleWindow() )
                         {
-                            handleJavaKeyEvent((KeyEvent)e);
+                            hbndleJbvbKeyEvent((KeyEvent)e);
                         }
                     }
                 });
@@ -1046,27 +1046,27 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
 
                 return true;
             } else {
-                if (e instanceof MouseEvent){
-                    // Fix for 6240046 : REG:Choice's Drop-down does not disappear when clicking somewhere, after popup menu is disposed
+                if (e instbnceof MouseEvent){
+                    // Fix for 6240046 : REG:Choice's Drop-down does not disbppebr when clicking somewhere, bfter popup menu is disposed
                     // if user presses Right Mouse Button on opened (unfurled)
-                    // Choice then we mustn't open a popup menu. We could filter
-                    // Mouse Events and handle them in XChoicePeer if Choice
-                    // currently in opened state.
+                    // Choice then we mustn't open b popup menu. We could filter
+                    // Mouse Events bnd hbndle them in XChoicePeer if Choice
+                    // currently in opened stbte.
                     MouseEvent me = (MouseEvent)e;
                     int eventId = e.getID();
-                    // fix 6251983: PIT: MouseDragged events not triggered
-                    // fix 6251988: PIT: Choice consumes MouseReleased, MouseClicked events when clicking it with left button,
+                    // fix 6251983: PIT: MouseDrbgged events not triggered
+                    // fix 6251988: PIT: Choice consumes MouseRelebsed, MouseClicked events when clicking it with left button,
                     if ((unfurledChoice.isMouseEventInside(me) ||
                          (!firstPress && eventId == MouseEvent.MOUSE_DRAGGED)))
                     {
-                        return handleMouseEventByChoice(me);
+                        return hbndleMouseEventByChoice(me);
                     }
                     // MouseMoved events should be fired in Choice's comp if it's not opened
-                    // Shouldn't generate Moved Events. CR : 6251995
+                    // Shouldn't generbte Moved Events. CR : 6251995
                     if (eventId == MouseEvent.MOUSE_MOVED){
-                        return handleMouseEventByChoice(me);
+                        return hbndleMouseEventByChoice(me);
                     }
-                    //fix for 6272965: PIT: Choice triggers MousePressed when pressing mouse outside comp while drop-down is active, XTkt
+                    //fix for 6272965: PIT: Choice triggers MousePressed when pressing mouse outside comp while drop-down is bctive, XTkt
                     if (  !firstPress && !( isMouseEventInChoice(me) ||
                              unfurledChoice.isMouseEventInside(me)) &&
                              ( eventId == MouseEvent.MOUSE_PRESSED ||
@@ -1074,7 +1074,7 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
                                eventId == MouseEvent.MOUSE_CLICKED )
                           )
                     {
-                        return handleMouseEventByChoice(me);
+                        return hbndleMouseEventByChoice(me);
                     }
                 }
             }//else KeyEvent
@@ -1083,11 +1083,11 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
     }
 
     //convenient method
-    //do not generate this kind of Events
-    public boolean handleMouseEventByChoice(final MouseEvent me){
-        InvocationEvent ev = new InvocationEvent(target, new Runnable() {
+    //do not generbte this kind of Events
+    public boolebn hbndleMouseEventByChoice(finbl MouseEvent me){
+        InvocbtionEvent ev = new InvocbtionEvent(tbrget, new Runnbble() {
             public void run() {
-                handleJavaMouseEvent(me);
+                hbndleJbvbMouseEvent(me);
             }
         });
         postEvent(ev);
@@ -1096,18 +1096,18 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
     }
 
     /* Returns true if the MouseEvent coords
-     * are inside of the Choice itself (it doesnt's depends on
+     * bre inside of the Choice itself (it doesnt's depends on
      * if this choice opened or not).
      */
-    private boolean isMouseEventInChoice(MouseEvent e) {
+    privbte boolebn isMouseEventInChoice(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        Rectangle choiceRect = getBounds();
+        Rectbngle choiceRect = getBounds();
 
         if (x < 0 || x > choiceRect.width ||
             y < 0 || y > choiceRect.height)
         {
-            return false;
+            return fblse;
         }
         return true;
     }

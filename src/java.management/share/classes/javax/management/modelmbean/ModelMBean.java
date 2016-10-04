@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * @author    IBM Corp.
+ * @buthor    IBM Corp.
  *
  * Copyright IBM Corp. 1999-2000.  All rights reserved.
  */
 
-package javax.management.modelmbean;
+pbckbge jbvbx.mbnbgement.modelmbebn;
 
-import javax.management.DynamicMBean;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
-import javax.management.PersistentMBean;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgement.DynbmicMBebn;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.PersistentMBebn;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
 
 /**
- * This interface must be implemented by the ModelMBeans. An implementation of this interface
+ * This interfbce must be implemented by the ModelMBebns. An implementbtion of this interfbce
  * must be shipped with every JMX Agent.
  * <P>
- * Java resources wishing to be manageable instantiate the ModelMBean using the MBeanServer's
- * createMBean method.  The resource then sets the ModelMBeanInfo (with Descriptors) for the ModelMBean
- * instance. The attributes and operations exposed via the ModelMBeanInfo for the ModelMBean are accessible
- * from MBeans, connectors/adaptors like other MBeans. Through the ModelMBeanInfo Descriptors, values and methods in
- * the managed application can be defined and mapped to attributes and operations of the ModelMBean.
- * This mapping can be defined during development in an XML formatted file or dynamically and
- * programmatically at runtime.
+ * Jbvb resources wishing to be mbnbgebble instbntibte the ModelMBebn using the MBebnServer's
+ * crebteMBebn method.  The resource then sets the ModelMBebnInfo (with Descriptors) for the ModelMBebn
+ * instbnce. The bttributes bnd operbtions exposed vib the ModelMBebnInfo for the ModelMBebn bre bccessible
+ * from MBebns, connectors/bdbptors like other MBebns. Through the ModelMBebnInfo Descriptors, vblues bnd methods in
+ * the mbnbged bpplicbtion cbn be defined bnd mbpped to bttributes bnd operbtions of the ModelMBebn.
+ * This mbpping cbn be defined during development in bn XML formbtted file or dynbmicblly bnd
+ * progrbmmbticblly bt runtime.
  * <P>
- * Every ModelMBean which is instantiated in the MBeanServer becomes manageable:
- * its attributes and operations
- * become remotely accessible through the connectors/adaptors connected to that MBeanServer.
- * A Java object cannot be registered in the MBeanServer unless it is a JMX compliant MBean.
- * By instantiating a ModelMBean, resources are guaranteed that the MBean is valid.
+ * Every ModelMBebn which is instbntibted in the MBebnServer becomes mbnbgebble:
+ * its bttributes bnd operbtions
+ * become remotely bccessible through the connectors/bdbptors connected to thbt MBebnServer.
+ * A Jbvb object cbnnot be registered in the MBebnServer unless it is b JMX complibnt MBebn.
+ * By instbntibting b ModelMBebn, resources bre gubrbnteed thbt the MBebn is vblid.
  * <P>
- * MBeanException and RuntimeOperationsException must be thrown on every public method.  This allows
- * for wrapping exceptions from distributed communications (RMI, EJB, etc.).  These exceptions do
- * not have to be thrown by the implementation except in the scenarios described in the specification
- * and javadoc.
+ * MBebnException bnd RuntimeOperbtionsException must be thrown on every public method.  This bllows
+ * for wrbpping exceptions from distributed communicbtions (RMI, EJB, etc.).  These exceptions do
+ * not hbve to be thrown by the implementbtion except in the scenbrios described in the specificbtion
+ * bnd jbvbdoc.
  *
  * @since 1.5
  */
 
-public interface ModelMBean extends
-         DynamicMBean,
-         PersistentMBean,
-         ModelMBeanNotificationBroadcaster
+public interfbce ModelMBebn extends
+         DynbmicMBebn,
+         PersistentMBebn,
+         ModelMBebnNotificbtionBrobdcbster
 {
 
         /**
-         * Initializes a ModelMBean object using ModelMBeanInfo passed in.
-         * This method makes it possible to set a customized ModelMBeanInfo on
-         * the ModelMBean as long as it is not registered with the MBeanServer.
+         * Initiblizes b ModelMBebn object using ModelMBebnInfo pbssed in.
+         * This method mbkes it possible to set b customized ModelMBebnInfo on
+         * the ModelMBebn bs long bs it is not registered with the MBebnServer.
          * <br>
-         * Once the ModelMBean's ModelMBeanInfo (with Descriptors) are
-         * customized and set on the ModelMBean, the  ModelMBean can be
-         * registered with the MBeanServer.
+         * Once the ModelMBebn's ModelMBebnInfo (with Descriptors) bre
+         * customized bnd set on the ModelMBebn, the  ModelMBebn cbn be
+         * registered with the MBebnServer.
          * <P>
-         * If the ModelMBean is currently registered, this method throws
-         * a {@link javax.management.RuntimeOperationsException} wrapping an
-         * {@link IllegalStateException}
+         * If the ModelMBebn is currently registered, this method throws
+         * b {@link jbvbx.mbnbgement.RuntimeOperbtionsException} wrbpping bn
+         * {@link IllegblStbteException}
          *
-         * @param inModelMBeanInfo The ModelMBeanInfo object to be used
-         *        by the ModelMBean.
+         * @pbrbm inModelMBebnInfo The ModelMBebnInfo object to be used
+         *        by the ModelMBebn.
          *
-         * @exception MBeanException Wraps a distributed communication
+         * @exception MBebnException Wrbps b distributed communicbtion
          *        Exception.
-         * @exception RuntimeOperationsException
-         * <ul><li>Wraps an {@link IllegalArgumentException} if
-         *         the MBeanInfo passed in parameter is null.</li>
-         *     <li>Wraps an {@link IllegalStateException} if the ModelMBean
-         *         is currently registered in the MBeanServer.</li>
+         * @exception RuntimeOperbtionsException
+         * <ul><li>Wrbps bn {@link IllegblArgumentException} if
+         *         the MBebnInfo pbssed in pbrbmeter is null.</li>
+         *     <li>Wrbps bn {@link IllegblStbteException} if the ModelMBebn
+         *         is currently registered in the MBebnServer.</li>
          * </ul>
          *
          **/
-        public void setModelMBeanInfo(ModelMBeanInfo inModelMBeanInfo)
-            throws MBeanException, RuntimeOperationsException;
+        public void setModelMBebnInfo(ModelMBebnInfo inModelMBebnInfo)
+            throws MBebnException, RuntimeOperbtionsException;
 
         /**
-         * Sets the instance handle of the object against which to
-         * execute all methods in this ModelMBean management interface
-         * (MBeanInfo and Descriptors).
+         * Sets the instbnce hbndle of the object bgbinst which to
+         * execute bll methods in this ModelMBebn mbnbgement interfbce
+         * (MBebnInfo bnd Descriptors).
          *
-         * @param mr Object that is the managed resource
-         * @param mr_type The type of reference for the managed resource.  Can be: ObjectReference,
-         *               Handle, IOR, EJBHandle, RMIReference.
-         *               If the MBeanServer cannot process the mr_type passed in, an InvalidTargetTypeException
+         * @pbrbm mr Object thbt is the mbnbged resource
+         * @pbrbm mr_type The type of reference for the mbnbged resource.  Cbn be: ObjectReference,
+         *               Hbndle, IOR, EJBHbndle, RMIReference.
+         *               If the MBebnServer cbnnot process the mr_type pbssed in, bn InvblidTbrgetTypeException
          *               will be thrown.
          *
          *
-         * @exception MBeanException The initializer of the object has thrown an exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException:
-         *       The managed resource type passed in parameter is null.
-         * @exception InstanceNotFoundException The managed resource object could not be found
-         * @exception InvalidTargetObjectTypeException The managed resource type cannot be processed by the
-         * ModelMBean or JMX Agent.
+         * @exception MBebnException The initiblizer of the object hbs thrown bn exception.
+         * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException:
+         *       The mbnbged resource type pbssed in pbrbmeter is null.
+         * @exception InstbnceNotFoundException The mbnbged resource object could not be found
+         * @exception InvblidTbrgetObjectTypeException The mbnbged resource type cbnnot be processed by the
+         * ModelMBebn or JMX Agent.
          */
-        public void setManagedResource(Object mr, String mr_type)
-        throws MBeanException, RuntimeOperationsException,
-                 InstanceNotFoundException, InvalidTargetObjectTypeException ;
+        public void setMbnbgedResource(Object mr, String mr_type)
+        throws MBebnException, RuntimeOperbtionsException,
+                 InstbnceNotFoundException, InvblidTbrgetObjectTypeException ;
 
 }

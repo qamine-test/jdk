@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,78 +28,78 @@
 
 
 /*
- * Callback for CoreText which uses the CoreTextProviderStruct to
- * feed CT UniChars.  We only use it for one-off lines, and don't
- * attempt to fragment our strings.
+ * Cbllbbck for CoreText which uses the CoreTextProviderStruct to
+ * feed CT UniChbrs.  We only use it for one-off lines, bnd don't
+ * bttempt to frbgment our strings.
  */
-const UniChar *
-CTS_Provider(CFIndex stringIndex, CFIndex *charCount,
-             CFDictionaryRef *attributes, void *refCon)
+const UniChbr *
+CTS_Provider(CFIndex stringIndex, CFIndex *chbrCount,
+             CFDictionbryRef *bttributes, void *refCon)
 {
-    // if we have a zero length string we can just return NULL for the string
-    // or if the index anything other than 0 we are not using core text
-    // correctly since we only have one run.
+    // if we hbve b zero length string we cbn just return NULL for the string
+    // or if the index bnything other thbn 0 we bre not using core text
+    // correctly since we only hbve one run.
     if (stringIndex != 0) {
         return NULL;
     }
 
     CTS_ProviderStruct *ctps = (CTS_ProviderStruct *)refCon;
-    *charCount = ctps->length;
-    *attributes = ctps->attributes;
+    *chbrCount = ctps->length;
+    *bttributes = ctps->bttributes;
     return ctps->unicodes;
 }
 
 
-#pragma mark --- Retain/Release CoreText State Dictionary ---
+#prbgmb mbrk --- Retbin/Relebse CoreText Stbte Dictionbry ---
 
 /*
- * Gets a Dictionary filled with common details we want to use for CoreText
- * when we are interacting with it from Java.
+ * Gets b Dictionbry filled with common detbils we wbnt to use for CoreText
+ * when we bre interbcting with it from Jbvb.
  */
-static inline CFMutableDictionaryRef
-GetCTStateDictionaryFor(const NSFont *font, BOOL useFractionalMetrics)
+stbtic inline CFMutbbleDictionbryRef
+GetCTStbteDictionbryFor(const NSFont *font, BOOL useFrbctionblMetrics)
 {
     NSNumber *gZeroNumber = [NSNumber numberWithInt:0];
     NSNumber *gOneNumber = [NSNumber numberWithInt:1];
 
-    CFMutableDictionaryRef dictRef = (CFMutableDictionaryRef)
-        [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-        font, NSFontAttributeName,
-        // TODO(cpc): following attribute is private...
-        //gOneNumber,  (id)kCTForegroundColorFromContextAttributeName,
-        // force integer hack in CoreText to help with Java integer assumptions
-        useFractionalMetrics ? gZeroNumber : gOneNumber, @"CTIntegerMetrics",
-        gZeroNumber, NSLigatureAttributeName,
-        gZeroNumber, NSKernAttributeName,
+    CFMutbbleDictionbryRef dictRef = (CFMutbbleDictionbryRef)
+        [[NSMutbbleDictionbry blloc] initWithObjectsAndKeys:
+        font, NSFontAttributeNbme,
+        // TODO(cpc): following bttribute is privbte...
+        //gOneNumber,  (id)kCTForegroundColorFromContextAttributeNbme,
+        // force integer hbck in CoreText to help with Jbvb integer bssumptions
+        useFrbctionblMetrics ? gZeroNumber : gOneNumber, @"CTIntegerMetrics",
+        gZeroNumber, NSLigbtureAttributeNbme,
+        gZeroNumber, NSKernAttributeNbme,
         NULL];
-    CFRetain(dictRef); // GC
-    [(id)dictRef release];
+    CFRetbin(dictRef); // GC
+    [(id)dictRef relebse];
 
     return dictRef;
 }
 
 /*
- * Releases the CoreText Dictionary - in the future we should hold on
- * to these to improve performance.
+ * Relebses the CoreText Dictionbry - in the future we should hold on
+ * to these to improve performbnce.
  */
-static inline void
-ReleaseCTStateDictionary(CFDictionaryRef ctStateDict)
+stbtic inline void
+RelebseCTStbteDictionbry(CFDictionbryRef ctStbteDict)
 {
-    CFRelease(ctStateDict); // GC
+    CFRelebse(ctStbteDict); // GC
 }
 
 /*
- *    Transform Unicode characters into glyphs.
+ *    Trbnsform Unicode chbrbcters into glyphs.
  *
- *    Fills the "glyphsAsInts" array with the glyph codes for the current font,
- *    or the negative unicode value if we know the character can be hot-substituted.
+ *    Fills the "glyphsAsInts" brrby with the glyph codes for the current font,
+ *    or the negbtive unicode vblue if we know the chbrbcter cbn be hot-substituted.
  *
- *    This is the heart of "Universal Font Substitution" in Java.
+ *    This is the hebrt of "Universbl Font Substitution" in Jbvb.
  */
-void CTS_GetGlyphsAsIntsForCharacters
-(const AWTFont *font, const UniChar unicodes[], CGGlyph glyphs[], jint glyphsAsInts[], const size_t count)
+void CTS_GetGlyphsAsIntsForChbrbcters
+(const AWTFont *font, const UniChbr unicodes[], CGGlyph glyphs[], jint glyphsAsInts[], const size_t count)
 {
-    CTFontGetGlyphsForCharacters((CTFontRef)font->fFont, unicodes, glyphs, count);
+    CTFontGetGlyphsForChbrbcters((CTFontRef)font->fFont, unicodes, glyphs, count);
 
     size_t i;
     for (i = 0; i < count; i++) {
@@ -109,64 +109,64 @@ void CTS_GetGlyphsAsIntsForCharacters
             continue;
         }
 
-        UniChar unicode = unicodes[i];
-        const CTFontRef fallback = JRSFontCreateFallbackFontForCharacters((CTFontRef)font->fFont, &unicode, 1);
-        if (fallback) {
-            CTFontGetGlyphsForCharacters(fallback, &unicode, &glyph, 1);
-            CFRelease(fallback);
+        UniChbr unicode = unicodes[i];
+        const CTFontRef fbllbbck = JRSFontCrebteFbllbbckFontForChbrbcters((CTFontRef)font->fFont, &unicode, 1);
+        if (fbllbbck) {
+            CTFontGetGlyphsForChbrbcters(fbllbbck, &unicode, &glyph, 1);
+            CFRelebse(fbllbbck);
         }
 
         if (glyph > 0) {
-            glyphsAsInts[i] = -unicode; // set the glyph code to the negative unicode value
+            glyphsAsInts[i] = -unicode; // set the glyph code to the negbtive unicode vblue
         } else {
-            glyphsAsInts[i] = 0; // CoreText couldn't find a glyph for this character either
+            glyphsAsInts[i] = 0; // CoreText couldn't find b glyph for this chbrbcter either
         }
     }
 }
 
 /*
- * Translates a Unicode into a CGGlyph/CTFontRef pair
- * Returns the substituted font, and places the appropriate glyph into "glyphRef"
+ * Trbnslbtes b Unicode into b CGGlyph/CTFontRef pbir
+ * Returns the substituted font, bnd plbces the bppropribte glyph into "glyphRef"
  */
-CTFontRef CTS_CopyCTFallbackFontAndGlyphForUnicode
-(const AWTFont *font, const UTF16Char *charRef, CGGlyph *glyphRef, int count) {
-    CTFontRef fallback = JRSFontCreateFallbackFontForCharacters((CTFontRef)font->fFont, charRef, count);
-    if (fallback == NULL)
+CTFontRef CTS_CopyCTFbllbbckFontAndGlyphForUnicode
+(const AWTFont *font, const UTF16Chbr *chbrRef, CGGlyph *glyphRef, int count) {
+    CTFontRef fbllbbck = JRSFontCrebteFbllbbckFontForChbrbcters((CTFontRef)font->fFont, chbrRef, count);
+    if (fbllbbck == NULL)
     {
-        // use the original font if we somehow got duped into trying to fallback something we can't
-        fallback = (CTFontRef)font->fFont;
-        CFRetain(fallback);
+        // use the originbl font if we somehow got duped into trying to fbllbbck something we cbn't
+        fbllbbck = (CTFontRef)font->fFont;
+        CFRetbin(fbllbbck);
     }
 
-    CTFontGetGlyphsForCharacters(fallback, charRef, glyphRef, count);
-    return fallback;
+    CTFontGetGlyphsForChbrbcters(fbllbbck, chbrRef, glyphRef, count);
+    return fbllbbck;
 }
 
 /*
- * Translates a Java glyph code int (might be a negative unicode value) into a CGGlyph/CTFontRef pair
- * Returns the substituted font, and places the appropriate glyph into "glyphRef"
+ * Trbnslbtes b Jbvb glyph code int (might be b negbtive unicode vblue) into b CGGlyph/CTFontRef pbir
+ * Returns the substituted font, bnd plbces the bppropribte glyph into "glyphRef"
  */
-CTFontRef CTS_CopyCTFallbackFontAndGlyphForJavaGlyphCode
+CTFontRef CTS_CopyCTFbllbbckFontAndGlyphForJbvbGlyphCode
 (const AWTFont *font, const jint glyphCode, CGGlyph *glyphRef)
 {
-    // negative glyph codes are really unicodes, which were placed there by the mapper
-    // to indicate we should use CoreText to substitute the character
+    // negbtive glyph codes bre reblly unicodes, which were plbced there by the mbpper
+    // to indicbte we should use CoreText to substitute the chbrbcter
     if (glyphCode >= 0)
     {
         *glyphRef = glyphCode;
-        CFRetain(font->fFont);
+        CFRetbin(font->fFont);
         return (CTFontRef)font->fFont;
     }
 
-    UTF16Char character = -glyphCode;
-    return CTS_CopyCTFallbackFontAndGlyphForUnicode(font, &character, glyphRef, 1);
+    UTF16Chbr chbrbcter = -glyphCode;
+    return CTS_CopyCTFbllbbckFontAndGlyphForUnicode(font, &chbrbcter, glyphRef, 1);
 }
 
-// Breakup a 32 bit unicode value into the component surrogate pairs
-void CTS_BreakupUnicodeIntoSurrogatePairs(int uniChar, UTF16Char charRef[]) {
-    int value = uniChar - 0x10000;
-    UTF16Char low_surrogate = (value & 0x3FF) | LO_SURROGATE_START;
-    UTF16Char high_surrogate = (((int)(value & 0xFFC00)) >> 10) | HI_SURROGATE_START;
-    charRef[0] = high_surrogate;
-    charRef[1] = low_surrogate;
+// Brebkup b 32 bit unicode vblue into the component surrogbte pbirs
+void CTS_BrebkupUnicodeIntoSurrogbtePbirs(int uniChbr, UTF16Chbr chbrRef[]) {
+    int vblue = uniChbr - 0x10000;
+    UTF16Chbr low_surrogbte = (vblue & 0x3FF) | LO_SURROGATE_START;
+    UTF16Chbr high_surrogbte = (((int)(vblue & 0xFFC00)) >> 10) | HI_SURROGATE_START;
+    chbrRef[0] = high_surrogbte;
+    chbrRef[1] = low_surrogbte;
 }

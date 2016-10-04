@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
 
-import java.io.*;
-import java.awt.Component;
+import jbvb.io.*;
+import jbvb.bwt.Component;
 
 
 
 /**
- * Monitors the progress of reading from some InputStream. This ProgressMonitor
- * is normally invoked in roughly this form:
+ * Monitors the progress of rebding from some InputStrebm. This ProgressMonitor
+ * is normblly invoked in roughly this form:
  * <pre>
- * InputStream in = new BufferedInputStream(
- *                          new ProgressMonitorInputStream(
- *                                  parentComponent,
- *                                  "Reading " + fileName,
- *                                  new FileInputStream(fileName)));
+ * InputStrebm in = new BufferedInputStrebm(
+ *                          new ProgressMonitorInputStrebm(
+ *                                  pbrentComponent,
+ *                                  "Rebding " + fileNbme,
+ *                                  new FileInputStrebm(fileNbme)));
  * </pre><p>
- * This creates a progress monitor to monitor the progress of reading
- * the input stream.  If it's taking a while, a ProgressDialog will
- * be popped up to inform the user.  If the user hits the Cancel button
- * an InterruptedIOException will be thrown on the next read.
- * All the right cleanup is done when the stream is closed.
+ * This crebtes b progress monitor to monitor the progress of rebding
+ * the input strebm.  If it's tbking b while, b ProgressDiblog will
+ * be popped up to inform the user.  If the user hits the Cbncel button
+ * bn InterruptedIOException will be thrown on the next rebd.
+ * All the right clebnup is done when the strebm is closed.
  *
  *
  * <p>
  *
- * For further documentation and examples see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/progress.html">How to Monitor Progress</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For further documentbtion bnd exbmples see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/progress.html">How to Monitor Progress</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  *
  * @see ProgressMonitor
- * @see JOptionPane
- * @author James Gosling
+ * @see JOptionPbne
+ * @buthor Jbmes Gosling
  * @since 1.2
  */
-public class ProgressMonitorInputStream extends FilterInputStream
+public clbss ProgressMonitorInputStrebm extends FilterInputStrebm
 {
-    private ProgressMonitor monitor;
-    private int             nread = 0;
-    private int             size = 0;
+    privbte ProgressMonitor monitor;
+    privbte int             nrebd = 0;
+    privbte int             size = 0;
 
 
     /**
-     * Constructs an object to monitor the progress of an input stream.
+     * Constructs bn object to monitor the progress of bn input strebm.
      *
-     * @param message Descriptive text to be placed in the dialog box
+     * @pbrbm messbge Descriptive text to be plbced in the diblog box
      *                if one is popped up.
-     * @param parentComponent The component triggering the operation
+     * @pbrbm pbrentComponent The component triggering the operbtion
      *                        being monitored.
-     * @param in The input stream to be monitored.
+     * @pbrbm in The input strebm to be monitored.
      */
-    public ProgressMonitorInputStream(Component parentComponent,
-                                      Object message,
-                                      InputStream in) {
+    public ProgressMonitorInputStrebm(Component pbrentComponent,
+                                      Object messbge,
+                                      InputStrebm in) {
         super(in);
         try {
-            size = in.available();
+            size = in.bvbilbble();
         }
-        catch(IOException ioe) {
+        cbtch(IOException ioe) {
             size = 0;
         }
-        monitor = new ProgressMonitor(parentComponent, message, null, 0, size);
+        monitor = new ProgressMonitor(pbrentComponent, messbge, null, 0, size);
     }
 
 
     /**
-     * Get the ProgressMonitor object being used by this stream. Normally
-     * this isn't needed unless you want to do something like change the
-     * descriptive text partway through reading the file.
+     * Get the ProgressMonitor object being used by this strebm. Normblly
+     * this isn't needed unless you wbnt to do something like chbnge the
+     * descriptive text pbrtwby through rebding the file.
      * @return the ProgressMonitor object used by this object
      */
     public ProgressMonitor getProgressMonitor() {
@@ -104,16 +104,16 @@ public class ProgressMonitorInputStream extends FilterInputStream
 
 
     /**
-     * Overrides <code>FilterInputStream.read</code>
-     * to update the progress monitor after the read.
+     * Overrides <code>FilterInputStrebm.rebd</code>
+     * to updbte the progress monitor bfter the rebd.
      */
-    public int read() throws IOException {
-        int c = in.read();
-        if (c >= 0) monitor.setProgress(++nread);
-        if (monitor.isCanceled()) {
+    public int rebd() throws IOException {
+        int c = in.rebd();
+        if (c >= 0) monitor.setProgress(++nrebd);
+        if (monitor.isCbnceled()) {
             InterruptedIOException exc =
                                     new InterruptedIOException("progress");
-            exc.bytesTransferred = nread;
+            exc.bytesTrbnsferred = nrebd;
             throw exc;
         }
         return c;
@@ -121,16 +121,16 @@ public class ProgressMonitorInputStream extends FilterInputStream
 
 
     /**
-     * Overrides <code>FilterInputStream.read</code>
-     * to update the progress monitor after the read.
+     * Overrides <code>FilterInputStrebm.rebd</code>
+     * to updbte the progress monitor bfter the rebd.
      */
-    public int read(byte b[]) throws IOException {
-        int nr = in.read(b);
-        if (nr > 0) monitor.setProgress(nread += nr);
-        if (monitor.isCanceled()) {
+    public int rebd(byte b[]) throws IOException {
+        int nr = in.rebd(b);
+        if (nr > 0) monitor.setProgress(nrebd += nr);
+        if (monitor.isCbnceled()) {
             InterruptedIOException exc =
                                     new InterruptedIOException("progress");
-            exc.bytesTransferred = nread;
+            exc.bytesTrbnsferred = nrebd;
             throw exc;
         }
         return nr;
@@ -138,18 +138,18 @@ public class ProgressMonitorInputStream extends FilterInputStream
 
 
     /**
-     * Overrides <code>FilterInputStream.read</code>
-     * to update the progress monitor after the read.
+     * Overrides <code>FilterInputStrebm.rebd</code>
+     * to updbte the progress monitor bfter the rebd.
      */
-    public int read(byte b[],
+    public int rebd(byte b[],
                     int off,
                     int len) throws IOException {
-        int nr = in.read(b, off, len);
-        if (nr > 0) monitor.setProgress(nread += nr);
-        if (monitor.isCanceled()) {
+        int nr = in.rebd(b, off, len);
+        if (nr > 0) monitor.setProgress(nrebd += nr);
+        if (monitor.isCbnceled()) {
             InterruptedIOException exc =
                                     new InterruptedIOException("progress");
-            exc.bytesTransferred = nread;
+            exc.bytesTrbnsferred = nrebd;
             throw exc;
         }
         return nr;
@@ -157,19 +157,19 @@ public class ProgressMonitorInputStream extends FilterInputStream
 
 
     /**
-     * Overrides <code>FilterInputStream.skip</code>
-     * to update the progress monitor after the skip.
+     * Overrides <code>FilterInputStrebm.skip</code>
+     * to updbte the progress monitor bfter the skip.
      */
     public long skip(long n) throws IOException {
         long nr = in.skip(n);
-        if (nr > 0) monitor.setProgress(nread += nr);
+        if (nr > 0) monitor.setProgress(nrebd += nr);
         return nr;
     }
 
 
     /**
-     * Overrides <code>FilterInputStream.close</code>
-     * to close the progress monitor as well as the stream.
+     * Overrides <code>FilterInputStrebm.close</code>
+     * to close the progress monitor bs well bs the strebm.
      */
     public void close() throws IOException {
         in.close();
@@ -178,12 +178,12 @@ public class ProgressMonitorInputStream extends FilterInputStream
 
 
     /**
-     * Overrides <code>FilterInputStream.reset</code>
-     * to reset the progress monitor as well as the stream.
+     * Overrides <code>FilterInputStrebm.reset</code>
+     * to reset the progress monitor bs well bs the strebm.
      */
     public synchronized void reset() throws IOException {
         in.reset();
-        nread = size - in.available();
-        monitor.setProgress(nread);
+        nrebd = size - in.bvbilbble();
+        monitor.setProgress(nrebd);
     }
 }

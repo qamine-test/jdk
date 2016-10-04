@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import com.sun.java.util.jar.pack.ConstantPool.Entry;
-import com.sun.java.util.jar.pack.ConstantPool.Index;
-import com.sun.java.util.jar.pack.Package.Class.Field;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FilterInputStream;
-import java.io.FilterOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.jar.Pack200;
-import static com.sun.java.util.jar.pack.Constants.*;
-import java.util.LinkedList;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.Entry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.Index;
+import com.sun.jbvb.util.jbr.pbck.Pbckbge.Clbss.Field;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.EOFException;
+import jbvb.io.File;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.FilterInputStrebm;
+import jbvb.io.FilterOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.PrintStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.jbr.Pbck200;
+import stbtic com.sun.jbvb.util.jbr.pbck.Constbnts.*;
+import jbvb.util.LinkedList;
 
 /**
- * Define the structure and ordering of "bands" in a packed file.
- * @author John Rose
+ * Define the structure bnd ordering of "bbnds" in b pbcked file.
+ * @buthor John Rose
  */
-abstract
-class BandStructure {
-    static final int MAX_EFFORT = 9;
-    static final int MIN_EFFORT = 1;
-    static final int DEFAULT_EFFORT = 5;
+bbstrbct
+clbss BbndStructure {
+    stbtic finbl int MAX_EFFORT = 9;
+    stbtic finbl int MIN_EFFORT = 1;
+    stbtic finbl int DEFAULT_EFFORT = 5;
 
-    // Inherit options from Pack200:
-    PropMap p200 = Utils.currentPropMap();
+    // Inherit options from Pbck200:
+    PropMbp p200 = Utils.currentPropMbp();
 
     int verbose = p200.getInteger(Utils.DEBUG_VERBOSE);
-    int effort = p200.getInteger(Pack200.Packer.EFFORT);
+    int effort = p200.getInteger(Pbck200.Pbcker.EFFORT);
     { if (effort == 0)  effort = DEFAULT_EFFORT; }
-    boolean optDumpBands = p200.getBoolean(Utils.COM_PREFIX+"dump.bands");
-    boolean optDebugBands = p200.getBoolean(Utils.COM_PREFIX+"debug.bands");
+    boolebn optDumpBbnds = p200.getBoolebn(Utils.COM_PREFIX+"dump.bbnds");
+    boolebn optDebugBbnds = p200.getBoolebn(Utils.COM_PREFIX+"debug.bbnds");
 
-    // Various heuristic options.
-    boolean optVaryCodings = !p200.getBoolean(Utils.COM_PREFIX+"no.vary.codings");
-    boolean optBigStrings = !p200.getBoolean(Utils.COM_PREFIX+"no.big.strings");
+    // Vbrious heuristic options.
+    boolebn optVbryCodings = !p200.getBoolebn(Utils.COM_PREFIX+"no.vbry.codings");
+    boolebn optBigStrings = !p200.getBoolebn(Utils.COM_PREFIX+"no.big.strings");
 
-    abstract protected Index getCPIndex(byte tag);
+    bbstrbct protected Index getCPIndex(byte tbg);
 
-    // Local copy of highest class version.
-    private Package.Version highestClassVersion = null;
+    // Locbl copy of highest clbss version.
+    privbte Pbckbge.Version highestClbssVersion = null;
 
-    /** Call this exactly once, early, to specify the archive major version. */
-    public void initHighestClassVersion(Package.Version highestClassVersion) throws IOException {
-        if (this.highestClassVersion != null) {
+    /** Cbll this exbctly once, ebrly, to specify the brchive mbjor version. */
+    public void initHighestClbssVersion(Pbckbge.Version highestClbssVersion) throws IOException {
+        if (this.highestClbssVersion != null) {
             throw new IOException(
-                "Highest class major version is already initialized to " +
-                this.highestClassVersion + "; new setting is " + highestClassVersion);
+                "Highest clbss mbjor version is blrebdy initiblized to " +
+                this.highestClbssVersion + "; new setting is " + highestClbssVersion);
         }
-        this.highestClassVersion = highestClassVersion;
-        adjustToClassVersion();
+        this.highestClbssVersion = highestClbssVersion;
+        bdjustToClbssVersion();
     }
 
-    public Package.Version getHighestClassVersion() {
-        return highestClassVersion;
+    public Pbckbge.Version getHighestClbssVersion() {
+        return highestClbssVersion;
     }
 
-    private final boolean isReader = this instanceof PackageReader;
+    privbte finbl boolebn isRebder = this instbnceof PbckbgeRebder;
 
-    protected BandStructure() {}
+    protected BbndStructure() {}
 
-    final static Coding BYTE1 = Coding.of(1,256);
+    finbl stbtic Coding BYTE1 = Coding.of(1,256);
 
-    final static Coding CHAR3 = Coding.of(3,128);
-    // Note:  Tried sharper (3,16) with no post-zip benefit.
+    finbl stbtic Coding CHAR3 = Coding.of(3,128);
+    // Note:  Tried shbrper (3,16) with no post-zip benefit.
 
-    // This is best used with BCI values:
-    final static Coding BCI5 = Coding.of(5,4);  // mostly 1-byte offsets
-    final static Coding BRANCH5 = Coding.of(5,4,2); // mostly forward branches
+    // This is best used with BCI vblues:
+    finbl stbtic Coding BCI5 = Coding.of(5,4);  // mostly 1-byte offsets
+    finbl stbtic Coding BRANCH5 = Coding.of(5,4,2); // mostly forwbrd brbnches
 
-    final static Coding UNSIGNED5 = Coding.of(5,64);
-    final static Coding UDELTA5 = UNSIGNED5.getDeltaCoding();
-    // "sharp" (5,64) zips 0.4% better than "medium" (5,128)
-    // It zips 1.1% better than "flat" (5,192)
+    finbl stbtic Coding UNSIGNED5 = Coding.of(5,64);
+    finbl stbtic Coding UDELTA5 = UNSIGNED5.getDeltbCoding();
+    // "shbrp" (5,64) zips 0.4% better thbn "medium" (5,128)
+    // It zips 1.1% better thbn "flbt" (5,192)
 
-    final static Coding SIGNED5 = Coding.of(5,64,1);  //sharp
-    final static Coding DELTA5 = SIGNED5.getDeltaCoding();
-    // Note:  Tried (5,128,2) and (5,192,2) with no benefit.
+    finbl stbtic Coding SIGNED5 = Coding.of(5,64,1);  //shbrp
+    finbl stbtic Coding DELTA5 = SIGNED5.getDeltbCoding();
+    // Note:  Tried (5,128,2) bnd (5,192,2) with no benefit.
 
-    final static Coding MDELTA5 = Coding.of(5,64,2).getDeltaCoding();
+    finbl stbtic Coding MDELTA5 = Coding.of(5,64,2).getDeltbCoding();
 
-    final private static Coding[] basicCodings = {
-        // Table of "Canonical BHSD Codings" from Pack200 spec.
-        null,  // _meta_default
+    finbl privbte stbtic Coding[] bbsicCodings = {
+        // Tbble of "Cbnonicbl BHSD Codings" from Pbck200 spec.
+        null,  // _metb_defbult
 
         // Fixed-length codings:
         Coding.of(1,256,0),
         Coding.of(1,256,1),
-        Coding.of(1,256,0).getDeltaCoding(),
-        Coding.of(1,256,1).getDeltaCoding(),
+        Coding.of(1,256,0).getDeltbCoding(),
+        Coding.of(1,256,1).getDeltbCoding(),
         Coding.of(2,256,0),
         Coding.of(2,256,1),
-        Coding.of(2,256,0).getDeltaCoding(),
-        Coding.of(2,256,1).getDeltaCoding(),
+        Coding.of(2,256,0).getDeltbCoding(),
+        Coding.of(2,256,1).getDeltbCoding(),
         Coding.of(3,256,0),
         Coding.of(3,256,1),
-        Coding.of(3,256,0).getDeltaCoding(),
-        Coding.of(3,256,1).getDeltaCoding(),
+        Coding.of(3,256,0).getDeltbCoding(),
+        Coding.of(3,256,1).getDeltbCoding(),
         Coding.of(4,256,0),
         Coding.of(4,256,1),
-        Coding.of(4,256,0).getDeltaCoding(),
-        Coding.of(4,256,1).getDeltaCoding(),
+        Coding.of(4,256,0).getDeltbCoding(),
+        Coding.of(4,256,1).getDeltbCoding(),
 
-        // Full-range variable-length codings:
+        // Full-rbnge vbribble-length codings:
         Coding.of(5,  4,0),
         Coding.of(5,  4,1),
         Coding.of(5,  4,2),
@@ -156,47 +156,47 @@ class BandStructure {
         Coding.of(5,128,1),
         Coding.of(5,128,2),
 
-        Coding.of(5,  4,0).getDeltaCoding(),
-        Coding.of(5,  4,1).getDeltaCoding(),
-        Coding.of(5,  4,2).getDeltaCoding(),
-        Coding.of(5, 16,0).getDeltaCoding(),
-        Coding.of(5, 16,1).getDeltaCoding(),
-        Coding.of(5, 16,2).getDeltaCoding(),
-        Coding.of(5, 32,0).getDeltaCoding(),
-        Coding.of(5, 32,1).getDeltaCoding(),
-        Coding.of(5, 32,2).getDeltaCoding(),
-        Coding.of(5, 64,0).getDeltaCoding(),
-        Coding.of(5, 64,1).getDeltaCoding(),
-        Coding.of(5, 64,2).getDeltaCoding(),
-        Coding.of(5,128,0).getDeltaCoding(),
-        Coding.of(5,128,1).getDeltaCoding(),
-        Coding.of(5,128,2).getDeltaCoding(),
+        Coding.of(5,  4,0).getDeltbCoding(),
+        Coding.of(5,  4,1).getDeltbCoding(),
+        Coding.of(5,  4,2).getDeltbCoding(),
+        Coding.of(5, 16,0).getDeltbCoding(),
+        Coding.of(5, 16,1).getDeltbCoding(),
+        Coding.of(5, 16,2).getDeltbCoding(),
+        Coding.of(5, 32,0).getDeltbCoding(),
+        Coding.of(5, 32,1).getDeltbCoding(),
+        Coding.of(5, 32,2).getDeltbCoding(),
+        Coding.of(5, 64,0).getDeltbCoding(),
+        Coding.of(5, 64,1).getDeltbCoding(),
+        Coding.of(5, 64,2).getDeltbCoding(),
+        Coding.of(5,128,0).getDeltbCoding(),
+        Coding.of(5,128,1).getDeltbCoding(),
+        Coding.of(5,128,2).getDeltbCoding(),
 
-        // Variable length subrange codings:
+        // Vbribble length subrbnge codings:
         Coding.of(2,192,0),
         Coding.of(2,224,0),
         Coding.of(2,240,0),
         Coding.of(2,248,0),
         Coding.of(2,252,0),
 
-        Coding.of(2,  8,0).getDeltaCoding(),
-        Coding.of(2,  8,1).getDeltaCoding(),
-        Coding.of(2, 16,0).getDeltaCoding(),
-        Coding.of(2, 16,1).getDeltaCoding(),
-        Coding.of(2, 32,0).getDeltaCoding(),
-        Coding.of(2, 32,1).getDeltaCoding(),
-        Coding.of(2, 64,0).getDeltaCoding(),
-        Coding.of(2, 64,1).getDeltaCoding(),
-        Coding.of(2,128,0).getDeltaCoding(),
-        Coding.of(2,128,1).getDeltaCoding(),
-        Coding.of(2,192,0).getDeltaCoding(),
-        Coding.of(2,192,1).getDeltaCoding(),
-        Coding.of(2,224,0).getDeltaCoding(),
-        Coding.of(2,224,1).getDeltaCoding(),
-        Coding.of(2,240,0).getDeltaCoding(),
-        Coding.of(2,240,1).getDeltaCoding(),
-        Coding.of(2,248,0).getDeltaCoding(),
-        Coding.of(2,248,1).getDeltaCoding(),
+        Coding.of(2,  8,0).getDeltbCoding(),
+        Coding.of(2,  8,1).getDeltbCoding(),
+        Coding.of(2, 16,0).getDeltbCoding(),
+        Coding.of(2, 16,1).getDeltbCoding(),
+        Coding.of(2, 32,0).getDeltbCoding(),
+        Coding.of(2, 32,1).getDeltbCoding(),
+        Coding.of(2, 64,0).getDeltbCoding(),
+        Coding.of(2, 64,1).getDeltbCoding(),
+        Coding.of(2,128,0).getDeltbCoding(),
+        Coding.of(2,128,1).getDeltbCoding(),
+        Coding.of(2,192,0).getDeltbCoding(),
+        Coding.of(2,192,1).getDeltbCoding(),
+        Coding.of(2,224,0).getDeltbCoding(),
+        Coding.of(2,224,1).getDeltbCoding(),
+        Coding.of(2,240,0).getDeltbCoding(),
+        Coding.of(2,240,1).getDeltbCoding(),
+        Coding.of(2,248,0).getDeltbCoding(),
+        Coding.of(2,248,1).getDeltbCoding(),
 
         Coding.of(3,192,0),
         Coding.of(3,224,0),
@@ -204,24 +204,24 @@ class BandStructure {
         Coding.of(3,248,0),
         Coding.of(3,252,0),
 
-        Coding.of(3,  8,0).getDeltaCoding(),
-        Coding.of(3,  8,1).getDeltaCoding(),
-        Coding.of(3, 16,0).getDeltaCoding(),
-        Coding.of(3, 16,1).getDeltaCoding(),
-        Coding.of(3, 32,0).getDeltaCoding(),
-        Coding.of(3, 32,1).getDeltaCoding(),
-        Coding.of(3, 64,0).getDeltaCoding(),
-        Coding.of(3, 64,1).getDeltaCoding(),
-        Coding.of(3,128,0).getDeltaCoding(),
-        Coding.of(3,128,1).getDeltaCoding(),
-        Coding.of(3,192,0).getDeltaCoding(),
-        Coding.of(3,192,1).getDeltaCoding(),
-        Coding.of(3,224,0).getDeltaCoding(),
-        Coding.of(3,224,1).getDeltaCoding(),
-        Coding.of(3,240,0).getDeltaCoding(),
-        Coding.of(3,240,1).getDeltaCoding(),
-        Coding.of(3,248,0).getDeltaCoding(),
-        Coding.of(3,248,1).getDeltaCoding(),
+        Coding.of(3,  8,0).getDeltbCoding(),
+        Coding.of(3,  8,1).getDeltbCoding(),
+        Coding.of(3, 16,0).getDeltbCoding(),
+        Coding.of(3, 16,1).getDeltbCoding(),
+        Coding.of(3, 32,0).getDeltbCoding(),
+        Coding.of(3, 32,1).getDeltbCoding(),
+        Coding.of(3, 64,0).getDeltbCoding(),
+        Coding.of(3, 64,1).getDeltbCoding(),
+        Coding.of(3,128,0).getDeltbCoding(),
+        Coding.of(3,128,1).getDeltbCoding(),
+        Coding.of(3,192,0).getDeltbCoding(),
+        Coding.of(3,192,1).getDeltbCoding(),
+        Coding.of(3,224,0).getDeltbCoding(),
+        Coding.of(3,224,1).getDeltbCoding(),
+        Coding.of(3,240,0).getDeltbCoding(),
+        Coding.of(3,240,1).getDeltbCoding(),
+        Coding.of(3,248,0).getDeltbCoding(),
+        Coding.of(3,248,1).getDeltbCoding(),
 
         Coding.of(4,192,0),
         Coding.of(4,224,0),
@@ -229,277 +229,277 @@ class BandStructure {
         Coding.of(4,248,0),
         Coding.of(4,252,0),
 
-        Coding.of(4,  8,0).getDeltaCoding(),
-        Coding.of(4,  8,1).getDeltaCoding(),
-        Coding.of(4, 16,0).getDeltaCoding(),
-        Coding.of(4, 16,1).getDeltaCoding(),
-        Coding.of(4, 32,0).getDeltaCoding(),
-        Coding.of(4, 32,1).getDeltaCoding(),
-        Coding.of(4, 64,0).getDeltaCoding(),
-        Coding.of(4, 64,1).getDeltaCoding(),
-        Coding.of(4,128,0).getDeltaCoding(),
-        Coding.of(4,128,1).getDeltaCoding(),
-        Coding.of(4,192,0).getDeltaCoding(),
-        Coding.of(4,192,1).getDeltaCoding(),
-        Coding.of(4,224,0).getDeltaCoding(),
-        Coding.of(4,224,1).getDeltaCoding(),
-        Coding.of(4,240,0).getDeltaCoding(),
-        Coding.of(4,240,1).getDeltaCoding(),
-        Coding.of(4,248,0).getDeltaCoding(),
-        Coding.of(4,248,1).getDeltaCoding(),
+        Coding.of(4,  8,0).getDeltbCoding(),
+        Coding.of(4,  8,1).getDeltbCoding(),
+        Coding.of(4, 16,0).getDeltbCoding(),
+        Coding.of(4, 16,1).getDeltbCoding(),
+        Coding.of(4, 32,0).getDeltbCoding(),
+        Coding.of(4, 32,1).getDeltbCoding(),
+        Coding.of(4, 64,0).getDeltbCoding(),
+        Coding.of(4, 64,1).getDeltbCoding(),
+        Coding.of(4,128,0).getDeltbCoding(),
+        Coding.of(4,128,1).getDeltbCoding(),
+        Coding.of(4,192,0).getDeltbCoding(),
+        Coding.of(4,192,1).getDeltbCoding(),
+        Coding.of(4,224,0).getDeltbCoding(),
+        Coding.of(4,224,1).getDeltbCoding(),
+        Coding.of(4,240,0).getDeltbCoding(),
+        Coding.of(4,240,1).getDeltbCoding(),
+        Coding.of(4,248,0).getDeltbCoding(),
+        Coding.of(4,248,1).getDeltbCoding(),
 
         null
     };
-    final private static Map<Coding, Integer> basicCodingIndexes;
-    static {
-        assert(basicCodings[_meta_default] == null);
-        assert(basicCodings[_meta_canon_min] != null);
-        assert(basicCodings[_meta_canon_max] != null);
-        Map<Coding, Integer> map = new HashMap<>();
-        for (int i = 0; i < basicCodings.length; i++) {
-            Coding c = basicCodings[i];
+    finbl privbte stbtic Mbp<Coding, Integer> bbsicCodingIndexes;
+    stbtic {
+        bssert(bbsicCodings[_metb_defbult] == null);
+        bssert(bbsicCodings[_metb_cbnon_min] != null);
+        bssert(bbsicCodings[_metb_cbnon_mbx] != null);
+        Mbp<Coding, Integer> mbp = new HbshMbp<>();
+        for (int i = 0; i < bbsicCodings.length; i++) {
+            Coding c = bbsicCodings[i];
             if (c == null)  continue;
-            assert(i >= _meta_canon_min);
-            assert(i <= _meta_canon_max);
-            map.put(c, i);
+            bssert(i >= _metb_cbnon_min);
+            bssert(i <= _metb_cbnon_mbx);
+            mbp.put(c, i);
         }
-        basicCodingIndexes = map;
+        bbsicCodingIndexes = mbp;
     }
-    public static Coding codingForIndex(int i) {
-        return i < basicCodings.length ? basicCodings[i] : null;
+    public stbtic Coding codingForIndex(int i) {
+        return i < bbsicCodings.length ? bbsicCodings[i] : null;
     }
-    public static int indexOf(Coding c) {
-        Integer i = basicCodingIndexes.get(c);
+    public stbtic int indexOf(Coding c) {
+        Integer i = bbsicCodingIndexes.get(c);
         if (i == null)  return 0;
-        return i.intValue();
+        return i.intVblue();
     }
-    public static Coding[] getBasicCodings() {
-        return basicCodings.clone();
+    public stbtic Coding[] getBbsicCodings() {
+        return bbsicCodings.clone();
     }
 
-    protected byte[] bandHeaderBytes;    // used for input only
-    protected int    bandHeaderBytePos;  // BHB read pointer, for input only
-    protected int    bandHeaderBytePos0; // for debug
+    protected byte[] bbndHebderBytes;    // used for input only
+    protected int    bbndHebderBytePos;  // BHB rebd pointer, for input only
+    protected int    bbndHebderBytePos0; // for debug
 
-    protected CodingMethod getBandHeader(int XB, Coding regularCoding) {
+    protected CodingMethod getBbndHebder(int XB, Coding regulbrCoding) {
         CodingMethod[] res = {null};
-        // push back XB onto the band header bytes
-        bandHeaderBytes[--bandHeaderBytePos] = (byte) XB;
-        bandHeaderBytePos0 = bandHeaderBytePos;
-        // scan forward through XB and any additional band header bytes
-        bandHeaderBytePos = parseMetaCoding(bandHeaderBytes,
-                                            bandHeaderBytePos,
-                                            regularCoding,
+        // push bbck XB onto the bbnd hebder bytes
+        bbndHebderBytes[--bbndHebderBytePos] = (byte) XB;
+        bbndHebderBytePos0 = bbndHebderBytePos;
+        // scbn forwbrd through XB bnd bny bdditionbl bbnd hebder bytes
+        bbndHebderBytePos = pbrseMetbCoding(bbndHebderBytes,
+                                            bbndHebderBytePos,
+                                            regulbrCoding,
                                             res);
         return res[0];
     }
 
-    public static int parseMetaCoding(byte[] bytes, int pos, Coding dflt, CodingMethod[] res) {
-        if ((bytes[pos] & 0xFF) == _meta_default) {
+    public stbtic int pbrseMetbCoding(byte[] bytes, int pos, Coding dflt, CodingMethod[] res) {
+        if ((bytes[pos] & 0xFF) == _metb_defbult) {
             res[0] = dflt;
             return pos+1;
         }
         int pos2;
-        pos2 = Coding.parseMetaCoding(bytes, pos, dflt, res);
+        pos2 = Coding.pbrseMetbCoding(bytes, pos, dflt, res);
         if (pos2 > pos)  return pos2;
-        pos2 = PopulationCoding.parseMetaCoding(bytes, pos, dflt, res);
+        pos2 = PopulbtionCoding.pbrseMetbCoding(bytes, pos, dflt, res);
         if (pos2 > pos)  return pos2;
-        pos2 = AdaptiveCoding.parseMetaCoding(bytes, pos, dflt, res);
+        pos2 = AdbptiveCoding.pbrseMetbCoding(bytes, pos, dflt, res);
         if (pos2 > pos)  return pos2;
-        throw new RuntimeException("Bad meta-coding op "+(bytes[pos]&0xFF));
+        throw new RuntimeException("Bbd metb-coding op "+(bytes[pos]&0xFF));
     }
 
-    static final int SHORT_BAND_HEURISTIC = 100;
+    stbtic finbl int SHORT_BAND_HEURISTIC = 100;
 
-    public static final int NO_PHASE        = 0;
+    public stbtic finbl int NO_PHASE        = 0;
 
-    // package writing phases:
-    public static final int COLLECT_PHASE   = 1; // collect data before write
-    public static final int FROZEN_PHASE    = 3; // no longer collecting
-    public static final int WRITE_PHASE     = 5; // ready to write bytes
+    // pbckbge writing phbses:
+    public stbtic finbl int COLLECT_PHASE   = 1; // collect dbtb before write
+    public stbtic finbl int FROZEN_PHASE    = 3; // no longer collecting
+    public stbtic finbl int WRITE_PHASE     = 5; // rebdy to write bytes
 
-    // package reading phases:
-    public static final int EXPECT_PHASE    = 2; // gather expected counts
-    public static final int READ_PHASE      = 4; // ready to read bytes
-    public static final int DISBURSE_PHASE  = 6; // pass out data after read
+    // pbckbge rebding phbses:
+    public stbtic finbl int EXPECT_PHASE    = 2; // gbther expected counts
+    public stbtic finbl int READ_PHASE      = 4; // rebdy to rebd bytes
+    public stbtic finbl int DISBURSE_PHASE  = 6; // pbss out dbtb bfter rebd
 
-    public static final int DONE_PHASE      = 8; // done writing or reading
+    public stbtic finbl int DONE_PHASE      = 8; // done writing or rebding
 
-    static boolean phaseIsRead(int p) {
+    stbtic boolebn phbseIsRebd(int p) {
         return (p % 2) == 0;
     }
-    static int phaseCmp(int p0, int p1) {
-        assert((p0 % 2) == (p1 % 2) || (p0 % 8) == 0 || (p1 % 8) == 0);
+    stbtic int phbseCmp(int p0, int p1) {
+        bssert((p0 % 2) == (p1 % 2) || (p0 % 8) == 0 || (p1 % 8) == 0);
         return p0 - p1;
     }
 
-    /** The packed file is divided up into a number of segments.
-     *  Most segments are typed as ValueBand, strongly-typed sequences
-     *  of integer values, all interpreted in a single way.
-     *  A few segments are ByteBands, which hetergeneous sequences
+    /** The pbcked file is divided up into b number of segments.
+     *  Most segments bre typed bs VblueBbnd, strongly-typed sequences
+     *  of integer vblues, bll interpreted in b single wby.
+     *  A few segments bre ByteBbnds, which hetergeneous sequences
      *  of bytes.
      *
-     *  The two phases for writing a packed file are COLLECT and WRITE.
-     *  1. When writing a packed file, each band collects
-     *  data in an ad-hoc order.
-     *  2. At the end, each band is assigned a coding scheme,
-     *  and then all the bands are written in their global order.
+     *  The two phbses for writing b pbcked file bre COLLECT bnd WRITE.
+     *  1. When writing b pbcked file, ebch bbnd collects
+     *  dbtb in bn bd-hoc order.
+     *  2. At the end, ebch bbnd is bssigned b coding scheme,
+     *  bnd then bll the bbnds bre written in their globbl order.
      *
-     *  The three phases for reading a packed file are EXPECT, READ,
-     *  and DISBURSE.
-     *  1. For each band, the expected number of integers  is determined.
-     *  2. The data is actually read from the file into the band.
-     *  3. The band pays out its values as requested, in an ad hoc order.
+     *  The three phbses for rebding b pbcked file bre EXPECT, READ,
+     *  bnd DISBURSE.
+     *  1. For ebch bbnd, the expected number of integers  is determined.
+     *  2. The dbtb is bctublly rebd from the file into the bbnd.
+     *  3. The bbnd pbys out its vblues bs requested, in bn bd hoc order.
      *
-     *  When the last phase of a band is done, it is marked so (DONE).
-     *  Clearly, these phases must be properly ordered WRT each other.
+     *  When the lbst phbse of b bbnd is done, it is mbrked so (DONE).
+     *  Clebrly, these phbses must be properly ordered WRT ebch other.
      */
-    abstract class Band {
-        private int    phase = NO_PHASE;
-        private final  String name;
+    bbstrbct clbss Bbnd {
+        privbte int    phbse = NO_PHASE;
+        privbte finbl  String nbme;
 
-        private int    valuesExpected;
+        privbte int    vbluesExpected;
 
-        protected long outputSize = -1;  // cache
+        protected long outputSize = -1;  // cbche
 
-        final public Coding regularCoding;
+        finbl public Coding regulbrCoding;
 
-        final public int seqForDebug;
+        finbl public int seqForDebug;
         public int       elementCountForDebug;
 
 
-        protected Band(String name, Coding regularCoding) {
-            this.name = name;
-            this.regularCoding = regularCoding;
+        protected Bbnd(String nbme, Coding regulbrCoding) {
+            this.nbme = nbme;
+            this.regulbrCoding = regulbrCoding;
             this.seqForDebug = ++nextSeqForDebug;
             if (verbose > 2)
-                Utils.log.fine("Band "+seqForDebug+" is "+name);
-            // caller must call init
+                Utils.log.fine("Bbnd "+seqForDebug+" is "+nbme);
+            // cbller must cbll init
         }
 
-        public Band init() {
-            // Cannot due this from the constructor, because constructor
-            // may wish to initialize some subclass variables.
-            // Set initial phase for reading or writing:
-            if (isReader)
-                readyToExpect();
+        public Bbnd init() {
+            // Cbnnot due this from the constructor, becbuse constructor
+            // mby wish to initiblize some subclbss vbribbles.
+            // Set initibl phbse for rebding or writing:
+            if (isRebder)
+                rebdyToExpect();
             else
-                readyToCollect();
+                rebdyToCollect();
             return this;
         }
 
-        // common operations
-        boolean isReader() { return isReader; }
-        int phase() { return phase; }
-        String name() { return name; }
+        // common operbtions
+        boolebn isRebder() { return isRebder; }
+        int phbse() { return phbse; }
+        String nbme() { return nbme; }
 
-        /** Return -1 if data buffer not allocated, else max length. */
-        public abstract int capacity();
+        /** Return -1 if dbtb buffer not bllocbted, else mbx length. */
+        public bbstrbct int cbpbcity();
 
-        /** Allocate data buffer to specified length. */
-        protected abstract void setCapacity(int cap);
+        /** Allocbte dbtb buffer to specified length. */
+        protected bbstrbct void setCbpbcity(int cbp);
 
-        /** Return current number of values in buffer, which must exist. */
-        public abstract int length();
+        /** Return current number of vblues in buffer, which must exist. */
+        public bbstrbct int length();
 
-        protected abstract int valuesRemainingForDebug();
+        protected bbstrbct int vbluesRembiningForDebug();
 
-        public final int valuesExpected() {
-            return valuesExpected;
+        public finbl int vbluesExpected() {
+            return vbluesExpected;
         }
 
-        /** Write out bytes, encoding the values. */
-        public final void writeTo(OutputStream out) throws IOException {
-            assert(assertReadyToWriteTo(this, out));
-            setPhase(WRITE_PHASE);
-            // subclasses continue by writing their contents to output
-            writeDataTo(out);
+        /** Write out bytes, encoding the vblues. */
+        public finbl void writeTo(OutputStrebm out) throws IOException {
+            bssert(bssertRebdyToWriteTo(this, out));
+            setPhbse(WRITE_PHASE);
+            // subclbsses continue by writing their contents to output
+            writeDbtbTo(out);
             doneWriting();
         }
 
-        abstract void chooseBandCodings() throws IOException;
+        bbstrbct void chooseBbndCodings() throws IOException;
 
-        public final long outputSize() {
+        public finbl long outputSize() {
             if (outputSize >= 0) {
                 long size = outputSize;
-                assert(size == computeOutputSize());
+                bssert(size == computeOutputSize());
                 return size;
             }
             return computeOutputSize();
         }
 
-        protected abstract long computeOutputSize();
+        protected bbstrbct long computeOutputSize();
 
-        abstract protected void writeDataTo(OutputStream out) throws IOException;
+        bbstrbct protected void writeDbtbTo(OutputStrebm out) throws IOException;
 
-        /** Expect a certain number of values. */
+        /** Expect b certbin number of vblues. */
         void expectLength(int l) {
-            assert(assertPhase(this, EXPECT_PHASE));
-            assert(valuesExpected == 0);  // all at once
-            assert(l >= 0);
-            valuesExpected = l;
+            bssert(bssertPhbse(this, EXPECT_PHASE));
+            bssert(vbluesExpected == 0);  // bll bt once
+            bssert(l >= 0);
+            vbluesExpected = l;
         }
-        /** Expect more values.  (Multiple calls accumulate.) */
+        /** Expect more vblues.  (Multiple cblls bccumulbte.) */
         void expectMoreLength(int l) {
-            assert(assertPhase(this, EXPECT_PHASE));
-            valuesExpected += l;
+            bssert(bssertPhbse(this, EXPECT_PHASE));
+            vbluesExpected += l;
         }
 
 
-        /// Phase change markers.
+        /// Phbse chbnge mbrkers.
 
-        private void readyToCollect() { // called implicitly by constructor
-            setCapacity(1);
-            setPhase(COLLECT_PHASE);
+        privbte void rebdyToCollect() { // cblled implicitly by constructor
+            setCbpbcity(1);
+            setPhbse(COLLECT_PHASE);
         }
         protected void doneWriting() {
-            assert(assertPhase(this, WRITE_PHASE));
-            setPhase(DONE_PHASE);
+            bssert(bssertPhbse(this, WRITE_PHASE));
+            setPhbse(DONE_PHASE);
         }
-        private void readyToExpect() { // called implicitly by constructor
-            setPhase(EXPECT_PHASE);
+        privbte void rebdyToExpect() { // cblled implicitly by constructor
+            setPhbse(EXPECT_PHASE);
         }
-        /** Read in bytes, decoding the values. */
-        public final void readFrom(InputStream in) throws IOException {
-            assert(assertReadyToReadFrom(this, in));
-            setCapacity(valuesExpected());
-            setPhase(READ_PHASE);
-            // subclasses continue by reading their contents from input:
-            readDataFrom(in);
-            readyToDisburse();
+        /** Rebd in bytes, decoding the vblues. */
+        public finbl void rebdFrom(InputStrebm in) throws IOException {
+            bssert(bssertRebdyToRebdFrom(this, in));
+            setCbpbcity(vbluesExpected());
+            setPhbse(READ_PHASE);
+            // subclbsses continue by rebding their contents from input:
+            rebdDbtbFrom(in);
+            rebdyToDisburse();
         }
-        abstract protected void readDataFrom(InputStream in) throws IOException;
-        protected void readyToDisburse() {
-            if (verbose > 1)  Utils.log.fine("readyToDisburse "+this);
-            setPhase(DISBURSE_PHASE);
+        bbstrbct protected void rebdDbtbFrom(InputStrebm in) throws IOException;
+        protected void rebdyToDisburse() {
+            if (verbose > 1)  Utils.log.fine("rebdyToDisburse "+this);
+            setPhbse(DISBURSE_PHASE);
         }
         public void doneDisbursing() {
-            assert(assertPhase(this, DISBURSE_PHASE));
-            setPhase(DONE_PHASE);
+            bssert(bssertPhbse(this, DISBURSE_PHASE));
+            setPhbse(DONE_PHASE);
         }
-        public final void doneWithUnusedBand() {
-            if (isReader) {
-                assert(assertPhase(this, EXPECT_PHASE));
-                assert(valuesExpected() == 0);
-                // Fast forward:
-                setPhase(READ_PHASE);
-                setPhase(DISBURSE_PHASE);
-                setPhase(DONE_PHASE);
+        public finbl void doneWithUnusedBbnd() {
+            if (isRebder) {
+                bssert(bssertPhbse(this, EXPECT_PHASE));
+                bssert(vbluesExpected() == 0);
+                // Fbst forwbrd:
+                setPhbse(READ_PHASE);
+                setPhbse(DISBURSE_PHASE);
+                setPhbse(DONE_PHASE);
             } else {
-                setPhase(FROZEN_PHASE);
+                setPhbse(FROZEN_PHASE);
             }
         }
 
-        protected void setPhase(int newPhase) {
-            assert(assertPhaseChangeOK(this, phase, newPhase));
-            this.phase = newPhase;
+        protected void setPhbse(int newPhbse) {
+            bssert(bssertPhbseChbngeOK(this, phbse, newPhbse));
+            this.phbse = newPhbse;
         }
 
         protected int lengthForDebug = -1;  // DEBUG ONLY
         @Override
         public String toString() {  // DEBUG ONLY
             int length = (lengthForDebug != -1 ? lengthForDebug : length());
-            String str = name;
+            String str = nbme;
             if (length != 0)
                 str += "[" + length + "]";
             if (elementCountForDebug != 0)
@@ -508,29 +508,29 @@ class BandStructure {
         }
     }
 
-    class ValueBand extends Band {
-        private int[]  values;   // must be null in EXPECT phase
-        private int    length;
-        private int    valuesDisbursed;
+    clbss VblueBbnd extends Bbnd {
+        privbte int[]  vblues;   // must be null in EXPECT phbse
+        privbte int    length;
+        privbte int    vbluesDisbursed;
 
-        private CodingMethod bandCoding;
-        private byte[] metaCoding;
+        privbte CodingMethod bbndCoding;
+        privbte byte[] metbCoding;
 
-        protected ValueBand(String name, Coding regularCoding) {
-            super(name, regularCoding);
+        protected VblueBbnd(String nbme, Coding regulbrCoding) {
+            super(nbme, regulbrCoding);
         }
 
         @Override
-        public int capacity() {
-            return values == null ? -1 : values.length;
+        public int cbpbcity() {
+            return vblues == null ? -1 : vblues.length;
         }
 
-        /** Declare predicted or needed capacity. */
+        /** Declbre predicted or needed cbpbcity. */
         @Override
-        protected void setCapacity(int cap) {
-            assert(length <= cap);
-            if (cap == -1) { values = null; return; }
-            values = realloc(values, cap);
+        protected void setCbpbcity(int cbp) {
+            bssert(length <= cbp);
+            if (cbp == -1) { vblues = null; return; }
+            vblues = reblloc(vblues, cbp);
         }
 
         @Override
@@ -538,273 +538,273 @@ class BandStructure {
             return length;
         }
         @Override
-        protected int valuesRemainingForDebug() {
-            return length - valuesDisbursed;
+        protected int vbluesRembiningForDebug() {
+            return length - vbluesDisbursed;
         }
-        protected int valueAtForDebug(int i) {
-            return values[i];
+        protected int vblueAtForDebug(int i) {
+            return vblues[i];
         }
 
-        void patchValue(int i, int value) {
+        void pbtchVblue(int i, int vblue) {
             // Only one use for this.
-            assert(this == archive_header_S);
-            assert(i == AH_ARCHIVE_SIZE_HI || i == AH_ARCHIVE_SIZE_LO);
-            assert(i < length);  // must have already output a dummy
-            values[i] = value;
-            outputSize = -1;  // decache
+            bssert(this == brchive_hebder_S);
+            bssert(i == AH_ARCHIVE_SIZE_HI || i == AH_ARCHIVE_SIZE_LO);
+            bssert(i < length);  // must hbve blrebdy output b dummy
+            vblues[i] = vblue;
+            outputSize = -1;  // decbche
         }
 
-        protected void initializeValues(int[] values) {
-            assert(assertCanChangeLength(this));
-            assert(length == 0);
-            this.values = values;
-            this.length = values.length;
+        protected void initiblizeVblues(int[] vblues) {
+            bssert(bssertCbnChbngeLength(this));
+            bssert(length == 0);
+            this.vblues = vblues;
+            this.length = vblues.length;
         }
 
-        /** Collect one value, or store one decoded value. */
-        protected void addValue(int x) {
-            assert(assertCanChangeLength(this));
-            if (length == values.length)
-                setCapacity(length < 1000 ? length * 10 : length * 2);
-            values[length++] = x;
+        /** Collect one vblue, or store one decoded vblue. */
+        protected void bddVblue(int x) {
+            bssert(bssertCbnChbngeLength(this));
+            if (length == vblues.length)
+                setCbpbcity(length < 1000 ? length * 10 : length * 2);
+            vblues[length++] = x;
         }
 
-        private boolean canVaryCoding() {
-            if (!optVaryCodings)           return false;
-            if (length == 0)               return false;
-            // Can't read band_headers w/o the archive header:
-            if (this == archive_header_0)  return false;
-            if (this == archive_header_S)  return false;
-            if (this == archive_header_1)  return false;
-            // BYTE1 bands can't vary codings, but the others can.
-            // All that's needed for the initial escape is at least
-            // 256 negative values or more than 256 non-negative values
-            return (regularCoding.min() <= -256 || regularCoding.max() >= 256);
+        privbte boolebn cbnVbryCoding() {
+            if (!optVbryCodings)           return fblse;
+            if (length == 0)               return fblse;
+            // Cbn't rebd bbnd_hebders w/o the brchive hebder:
+            if (this == brchive_hebder_0)  return fblse;
+            if (this == brchive_hebder_S)  return fblse;
+            if (this == brchive_hebder_1)  return fblse;
+            // BYTE1 bbnds cbn't vbry codings, but the others cbn.
+            // All thbt's needed for the initibl escbpe is bt lebst
+            // 256 negbtive vblues or more thbn 256 non-negbtive vblues
+            return (regulbrCoding.min() <= -256 || regulbrCoding.mbx() >= 256);
         }
 
-        private boolean shouldVaryCoding() {
-            assert(canVaryCoding());
+        privbte boolebn shouldVbryCoding() {
+            bssert(cbnVbryCoding());
             if (effort < MAX_EFFORT && length < SHORT_BAND_HEURISTIC)
-                return false;
+                return fblse;
             return true;
         }
 
         @Override
-        protected void chooseBandCodings() throws IOException {
-            boolean canVary = canVaryCoding();
-            if (!canVary || !shouldVaryCoding()) {
-                if (regularCoding.canRepresent(values, 0, length)) {
-                    bandCoding = regularCoding;
+        protected void chooseBbndCodings() throws IOException {
+            boolebn cbnVbry = cbnVbryCoding();
+            if (!cbnVbry || !shouldVbryCoding()) {
+                if (regulbrCoding.cbnRepresent(vblues, 0, length)) {
+                    bbndCoding = regulbrCoding;
                 } else {
-                    assert(canVary);
+                    bssert(cbnVbry);
                     if (verbose > 1)
-                        Utils.log.fine("regular coding fails in band "+name());
-                    bandCoding = UNSIGNED5;
+                        Utils.log.fine("regulbr coding fbils in bbnd "+nbme());
+                    bbndCoding = UNSIGNED5;
                 }
                 outputSize = -1;
             } else {
                 int[] sizes = {0,0};
-                bandCoding = chooseCoding(values, 0, length,
-                                          regularCoding, name(),
+                bbndCoding = chooseCoding(vblues, 0, length,
+                                          regulbrCoding, nbme(),
                                           sizes);
                 outputSize = sizes[CodingChooser.BYTE_SIZE];
-                if (outputSize == 0)  // CodingChooser failed to size it.
+                if (outputSize == 0)  // CodingChooser fbiled to size it.
                     outputSize = -1;
             }
 
-            // Compute and save the meta-coding bytes also.
-            if (bandCoding != regularCoding) {
-                metaCoding = bandCoding.getMetaCoding(regularCoding);
+            // Compute bnd sbve the metb-coding bytes blso.
+            if (bbndCoding != regulbrCoding) {
+                metbCoding = bbndCoding.getMetbCoding(regulbrCoding);
                 if (verbose > 1) {
-                    Utils.log.fine("alternate coding "+this+" "+bandCoding);
+                    Utils.log.fine("blternbte coding "+this+" "+bbndCoding);
                 }
-            } else if (canVary &&
-                       decodeEscapeValue(values[0], regularCoding) >= 0) {
-                // Need an explicit default.
-                metaCoding = defaultMetaCoding;
+            } else if (cbnVbry &&
+                       decodeEscbpeVblue(vblues[0], regulbrCoding) >= 0) {
+                // Need bn explicit defbult.
+                metbCoding = defbultMetbCoding;
             } else {
-                // Common case:  Zero bytes of meta coding.
-                metaCoding = noMetaCoding;
+                // Common cbse:  Zero bytes of metb coding.
+                metbCoding = noMetbCoding;
             }
-            if (metaCoding.length > 0
-                && (verbose > 2 || verbose > 1 && metaCoding.length > 1)) {
+            if (metbCoding.length > 0
+                && (verbose > 2 || verbose > 1 && metbCoding.length > 1)) {
                 StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < metaCoding.length; i++) {
-                    if (i == 1)  sb.append(" /");
-                    sb.append(" ").append(metaCoding[i] & 0xFF);
+                for (int i = 0; i < metbCoding.length; i++) {
+                    if (i == 1)  sb.bppend(" /");
+                    sb.bppend(" ").bppend(metbCoding[i] & 0xFF);
                 }
-                Utils.log.fine("   meta-coding "+sb);
+                Utils.log.fine("   metb-coding "+sb);
             }
 
-            assert((outputSize < 0) ||
-                   !(bandCoding instanceof Coding) ||
-                   (outputSize == ((Coding)bandCoding)
-                    .getLength(values, 0, length)))
-                : (bandCoding+" : "+
+            bssert((outputSize < 0) ||
+                   !(bbndCoding instbnceof Coding) ||
+                   (outputSize == ((Coding)bbndCoding)
+                    .getLength(vblues, 0, length)))
+                : (bbndCoding+" : "+
                    outputSize+" != "+
-                   ((Coding)bandCoding).getLength(values, 0, length)
-                   +" ?= "+getCodingChooser().computeByteSize(bandCoding,values,0,length)
+                   ((Coding)bbndCoding).getLength(vblues, 0, length)
+                   +" ?= "+getCodingChooser().computeByteSize(bbndCoding,vblues,0,length)
                    );
 
-            // Compute outputSize of the escape value X, if any.
-            if (metaCoding.length > 0) {
-                // First byte XB of meta-coding is treated specially,
-                // but any other bytes go into the band headers band.
-                // This must be done before any other output happens.
+            // Compute outputSize of the escbpe vblue X, if bny.
+            if (metbCoding.length > 0) {
+                // First byte XB of metb-coding is trebted speciblly,
+                // but bny other bytes go into the bbnd hebders bbnd.
+                // This must be done before bny other output hbppens.
                 if (outputSize >= 0)
-                    outputSize += computeEscapeSize();  // good cache
-                // Other bytes go into band_headers.
-                for (int i = 1; i < metaCoding.length; i++) {
-                    band_headers.putByte(metaCoding[i] & 0xFF);
+                    outputSize += computeEscbpeSize();  // good cbche
+                // Other bytes go into bbnd_hebders.
+                for (int i = 1; i < metbCoding.length; i++) {
+                    bbnd_hebders.putByte(metbCoding[i] & 0xFF);
                 }
             }
         }
 
         @Override
         protected long computeOutputSize() {
-            outputSize = getCodingChooser().computeByteSize(bandCoding,
-                                                            values, 0, length);
-            assert(outputSize < Integer.MAX_VALUE);
-            outputSize += computeEscapeSize();
+            outputSize = getCodingChooser().computeByteSize(bbndCoding,
+                                                            vblues, 0, length);
+            bssert(outputSize < Integer.MAX_VALUE);
+            outputSize += computeEscbpeSize();
             return outputSize;
         }
 
-        protected int computeEscapeSize() {
-            if (metaCoding.length == 0)  return 0;
-            int XB = metaCoding[0] & 0xFF;
-            int X = encodeEscapeValue(XB, regularCoding);
-            return regularCoding.setD(0).getLength(X);
+        protected int computeEscbpeSize() {
+            if (metbCoding.length == 0)  return 0;
+            int XB = metbCoding[0] & 0xFF;
+            int X = encodeEscbpeVblue(XB, regulbrCoding);
+            return regulbrCoding.setD(0).getLength(X);
         }
 
         @Override
-        protected void writeDataTo(OutputStream out) throws IOException {
+        protected void writeDbtbTo(OutputStrebm out) throws IOException {
             if (length == 0)  return;  // nothing to write
             long len0 = 0;
             if (out == outputCounter) {
                 len0 = outputCounter.getCount();
             }
-            if (metaCoding.length > 0) {
-                int XB = metaCoding[0] & 0xFF;
-                // We need an explicit band header, either because
-                // there is a non-default coding method, or because
-                // the first value would be parsed as an escape value.
-                int X = encodeEscapeValue(XB, regularCoding);
+            if (metbCoding.length > 0) {
+                int XB = metbCoding[0] & 0xFF;
+                // We need bn explicit bbnd hebder, either becbuse
+                // there is b non-defbult coding method, or becbuse
+                // the first vblue would be pbrsed bs bn escbpe vblue.
+                int X = encodeEscbpeVblue(XB, regulbrCoding);
                 //System.out.println("X="+X+" XB="+XB+" in "+this);
-                regularCoding.setD(0).writeTo(out, X);
+                regulbrCoding.setD(0).writeTo(out, X);
             }
-            bandCoding.writeArrayTo(out, values, 0, length);
+            bbndCoding.writeArrbyTo(out, vblues, 0, length);
             if (out == outputCounter) {
-                assert(outputSize == outputCounter.getCount() - len0)
+                bssert(outputSize == outputCounter.getCount() - len0)
                     : (outputSize+" != "+outputCounter.getCount()+"-"+len0);
             }
-            if (optDumpBands)  dumpBand();
+            if (optDumpBbnds)  dumpBbnd();
         }
 
         @Override
-        protected void readDataFrom(InputStream in) throws IOException {
-            length = valuesExpected();
-            if (length == 0)  return;  // nothing to read
+        protected void rebdDbtbFrom(InputStrebm in) throws IOException {
+            length = vbluesExpected();
+            if (length == 0)  return;  // nothing to rebd
             if (verbose > 1)
-                Utils.log.fine("Reading band "+this);
-            if (!canVaryCoding()) {
-                bandCoding = regularCoding;
-                metaCoding = noMetaCoding;
+                Utils.log.fine("Rebding bbnd "+this);
+            if (!cbnVbryCoding()) {
+                bbndCoding = regulbrCoding;
+                metbCoding = noMetbCoding;
             } else {
-                assert(in.markSupported());  // input must be buffered
-                in.mark(Coding.B_MAX);
-                int X = regularCoding.setD(0).readFrom(in);
-                int XB = decodeEscapeValue(X, regularCoding);
+                bssert(in.mbrkSupported());  // input must be buffered
+                in.mbrk(Coding.B_MAX);
+                int X = regulbrCoding.setD(0).rebdFrom(in);
+                int XB = decodeEscbpeVblue(X, regulbrCoding);
                 if (XB < 0) {
-                    // Do not consume this value.  No alternate coding.
+                    // Do not consume this vblue.  No blternbte coding.
                     in.reset();
-                    bandCoding = regularCoding;
-                    metaCoding = noMetaCoding;
-                } else if (XB == _meta_default) {
-                    bandCoding = regularCoding;
-                    metaCoding = defaultMetaCoding;
+                    bbndCoding = regulbrCoding;
+                    metbCoding = noMetbCoding;
+                } else if (XB == _metb_defbult) {
+                    bbndCoding = regulbrCoding;
+                    metbCoding = defbultMetbCoding;
                 } else {
                     if (verbose > 2)
                         Utils.log.fine("found X="+X+" => XB="+XB);
-                    bandCoding = getBandHeader(XB, regularCoding);
-                    // This is really used only by dumpBands.
-                    int p0 = bandHeaderBytePos0;
-                    int p1 = bandHeaderBytePos;
-                    metaCoding = new byte[p1-p0];
-                    System.arraycopy(bandHeaderBytes, p0,
-                                     metaCoding, 0, metaCoding.length);
+                    bbndCoding = getBbndHebder(XB, regulbrCoding);
+                    // This is reblly used only by dumpBbnds.
+                    int p0 = bbndHebderBytePos0;
+                    int p1 = bbndHebderBytePos;
+                    metbCoding = new byte[p1-p0];
+                    System.brrbycopy(bbndHebderBytes, p0,
+                                     metbCoding, 0, metbCoding.length);
                 }
             }
-            if (bandCoding != regularCoding) {
+            if (bbndCoding != regulbrCoding) {
                 if (verbose > 1)
-                    Utils.log.fine(name()+": irregular coding "+bandCoding);
+                    Utils.log.fine(nbme()+": irregulbr coding "+bbndCoding);
             }
-            bandCoding.readArrayFrom(in, values, 0, length);
-            if (optDumpBands)  dumpBand();
+            bbndCoding.rebdArrbyFrom(in, vblues, 0, length);
+            if (optDumpBbnds)  dumpBbnd();
         }
 
         @Override
         public void doneDisbursing() {
             super.doneDisbursing();
-            values = null;  // for GC
+            vblues = null;  // for GC
         }
 
-        private void dumpBand() throws IOException {
-            assert(optDumpBands);
-            try (PrintStream ps = new PrintStream(getDumpStream(this, ".txt"))) {
-                String irr = (bandCoding == regularCoding) ? "" : " irregular";
+        privbte void dumpBbnd() throws IOException {
+            bssert(optDumpBbnds);
+            try (PrintStrebm ps = new PrintStrebm(getDumpStrebm(this, ".txt"))) {
+                String irr = (bbndCoding == regulbrCoding) ? "" : " irregulbr";
                 ps.print("# length="+length+
                          " size="+outputSize()+
-                         irr+" coding="+bandCoding);
-                if (metaCoding != noMetaCoding) {
+                         irr+" coding="+bbndCoding);
+                if (metbCoding != noMetbCoding) {
                     StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < metaCoding.length; i++) {
-                        if (i == 1)  sb.append(" /");
-                        sb.append(" ").append(metaCoding[i] & 0xFF);
+                    for (int i = 0; i < metbCoding.length; i++) {
+                        if (i == 1)  sb.bppend(" /");
+                        sb.bppend(" ").bppend(metbCoding[i] & 0xFF);
                     }
-                    ps.print(" //header: "+sb);
+                    ps.print(" //hebder: "+sb);
                 }
-                printArrayTo(ps, values, 0, length);
+                printArrbyTo(ps, vblues, 0, length);
             }
-            try (OutputStream ds = getDumpStream(this, ".bnd")) {
-                bandCoding.writeArrayTo(ds, values, 0, length);
+            try (OutputStrebm ds = getDumpStrebm(this, ".bnd")) {
+                bbndCoding.writeArrbyTo(ds, vblues, 0, length);
             }
         }
 
-        /** Disburse one value. */
-        protected int getValue() {
-            assert(phase() == DISBURSE_PHASE);
-            // when debugging return a zero if lengths are zero
-            if (optDebugBands && length == 0 && valuesDisbursed == length)
+        /** Disburse one vblue. */
+        protected int getVblue() {
+            bssert(phbse() == DISBURSE_PHASE);
+            // when debugging return b zero if lengths bre zero
+            if (optDebugBbnds && length == 0 && vbluesDisbursed == length)
                 return 0;
-            assert(valuesDisbursed <= length);
-            return values[valuesDisbursed++];
+            bssert(vbluesDisbursed <= length);
+            return vblues[vbluesDisbursed++];
         }
 
-        /** Reset for another pass over the same value set. */
-        public void resetForSecondPass() {
-            assert(phase() == DISBURSE_PHASE);
-            assert(valuesDisbursed == length());  // 1st pass is complete
-            valuesDisbursed = 0;
+        /** Reset for bnother pbss over the sbme vblue set. */
+        public void resetForSecondPbss() {
+            bssert(phbse() == DISBURSE_PHASE);
+            bssert(vbluesDisbursed == length());  // 1st pbss is complete
+            vbluesDisbursed = 0;
         }
     }
 
-    class ByteBand extends Band {
-        private ByteArrayOutputStream bytes;  // input buffer
-        private ByteArrayOutputStream bytesForDump;
-        private InputStream in;
+    clbss ByteBbnd extends Bbnd {
+        privbte ByteArrbyOutputStrebm bytes;  // input buffer
+        privbte ByteArrbyOutputStrebm bytesForDump;
+        privbte InputStrebm in;
 
-        public ByteBand(String name) {
-            super(name, BYTE1);
+        public ByteBbnd(String nbme) {
+            super(nbme, BYTE1);
         }
 
         @Override
-        public int capacity() {
+        public int cbpbcity() {
             return bytes == null ? -1 : Integer.MAX_VALUE;
         }
         @Override
-        protected void setCapacity(int cap) {
-            assert(bytes == null);  // do this just once
-            bytes = new ByteArrayOutputStream(cap);
+        protected void setCbpbcity(int cbp) {
+            bssert(bytes == null);  // do this just once
+            bytes = new ByteArrbyOutputStrebm(cbp);
         }
         public void destroy() {
             lengthForDebug = length();
@@ -819,34 +819,34 @@ class BandStructure {
             bytes.reset();
         }
         @Override
-        protected int valuesRemainingForDebug() {
-            return (bytes == null) ? -1 : ((ByteArrayInputStream)in).available();
+        protected int vbluesRembiningForDebug() {
+            return (bytes == null) ? -1 : ((ByteArrbyInputStrebm)in).bvbilbble();
         }
 
         @Override
-        protected void chooseBandCodings() throws IOException {
+        protected void chooseBbndCodings() throws IOException {
             // No-op.
-            assert(decodeEscapeValue(regularCoding.min(), regularCoding) < 0);
-            assert(decodeEscapeValue(regularCoding.max(), regularCoding) < 0);
+            bssert(decodeEscbpeVblue(regulbrCoding.min(), regulbrCoding) < 0);
+            bssert(decodeEscbpeVblue(regulbrCoding.mbx(), regulbrCoding) < 0);
         }
 
         @Override
         protected long computeOutputSize() {
-            // do not cache
+            // do not cbche
             return bytes.size();
         }
 
         @Override
-        public void writeDataTo(OutputStream out) throws IOException {
+        public void writeDbtbTo(OutputStrebm out) throws IOException {
             if (length() == 0)  return;
             bytes.writeTo(out);
-            if (optDumpBands)  dumpBand();
+            if (optDumpBbnds)  dumpBbnd();
             destroy();  // done with the bits!
         }
 
-        private void dumpBand() throws IOException {
-            assert(optDumpBands);
-            try (OutputStream ds = getDumpStream(this, ".bnd")) {
+        privbte void dumpBbnd() throws IOException {
+            bssert(optDumpBbnds);
+            try (OutputStrebm ds = getDumpStrebm(this, ".bnd")) {
                 if (bytesForDump != null)
                     bytesForDump.writeTo(ds);
                 else
@@ -855,38 +855,38 @@ class BandStructure {
         }
 
         @Override
-        public void readDataFrom(InputStream in) throws IOException {
-            int vex = valuesExpected();
+        public void rebdDbtbFrom(InputStrebm in) throws IOException {
+            int vex = vbluesExpected();
             if (vex == 0)  return;
             if (verbose > 1) {
                 lengthForDebug = vex;
-                Utils.log.fine("Reading band "+this);
+                Utils.log.fine("Rebding bbnd "+this);
                 lengthForDebug = -1;
             }
-            byte[] buf = new byte[Math.min(vex, 1<<14)];
+            byte[] buf = new byte[Mbth.min(vex, 1<<14)];
             while (vex > 0) {
-                int nr = in.read(buf, 0, Math.min(vex, buf.length));
+                int nr = in.rebd(buf, 0, Mbth.min(vex, buf.length));
                 if (nr < 0)  throw new EOFException();
                 bytes.write(buf, 0, nr);
                 vex -= nr;
             }
-            if (optDumpBands)  dumpBand();
+            if (optDumpBbnds)  dumpBbnd();
         }
 
         @Override
-        public void readyToDisburse() {
-            in = new ByteArrayInputStream(bytes.toByteArray());
-            super.readyToDisburse();
+        public void rebdyToDisburse() {
+            in = new ByteArrbyInputStrebm(bytes.toByteArrby());
+            super.rebdyToDisburse();
         }
 
         @Override
         public void doneDisbursing() {
             super.doneDisbursing();
-            if (optDumpBands
+            if (optDumpBbnds
                 && bytesForDump != null && bytesForDump.size() > 0) {
                 try {
-                    dumpBand();
-                } catch (IOException ee) {
+                    dumpBbnd();
+                } cbtch (IOException ee) {
                     throw new RuntimeException(ee);
                 }
             }
@@ -895,52 +895,52 @@ class BandStructure {
             bytesForDump = null;  // GC
         }
 
-        // alternative to readFrom:
-        public void setInputStreamFrom(InputStream in) throws IOException {
-            assert(bytes == null);
-            assert(assertReadyToReadFrom(this, in));
-            setPhase(READ_PHASE);
+        // blternbtive to rebdFrom:
+        public void setInputStrebmFrom(InputStrebm in) throws IOException {
+            bssert(bytes == null);
+            bssert(bssertRebdyToRebdFrom(this, in));
+            setPhbse(READ_PHASE);
             this.in = in;
-            if (optDumpBands) {
-                // Tap the stream.
-                bytesForDump = new ByteArrayOutputStream();
-                this.in = new FilterInputStream(in) {
+            if (optDumpBbnds) {
+                // Tbp the strebm.
+                bytesForDump = new ByteArrbyOutputStrebm();
+                this.in = new FilterInputStrebm(in) {
                     @Override
-                    public int read() throws IOException {
-                        int ch = in.read();
+                    public int rebd() throws IOException {
+                        int ch = in.rebd();
                         if (ch >= 0)  bytesForDump.write(ch);
                         return ch;
                     }
                     @Override
-                    public int read(byte b[], int off, int len) throws IOException {
-                        int nr = in.read(b, off, len);
+                    public int rebd(byte b[], int off, int len) throws IOException {
+                        int nr = in.rebd(b, off, len);
                         if (nr >= 0)  bytesForDump.write(b, off, nr);
                         return nr;
                     }
                 };
             }
-            super.readyToDisburse();
+            super.rebdyToDisburse();
         }
 
-        public OutputStream collectorStream() {
-            assert(phase() == COLLECT_PHASE);
-            assert(bytes != null);
+        public OutputStrebm collectorStrebm() {
+            bssert(phbse() == COLLECT_PHASE);
+            bssert(bytes != null);
             return bytes;
         }
 
-        public InputStream getInputStream() {
-            assert(phase() == DISBURSE_PHASE);
-            assert(in != null);
+        public InputStrebm getInputStrebm() {
+            bssert(phbse() == DISBURSE_PHASE);
+            bssert(in != null);
             return in;
         }
         public int getByte() throws IOException {
-            int b = getInputStream().read();
+            int b = getInputStrebm().rebd();
             if (b < 0)  throw new EOFException();
             return b;
         }
         public void putByte(int b) throws IOException {
-            assert(b == (b & 0xFF));
-            collectorStream().write(b);
+            bssert(b == (b & 0xFF));
+            collectorStrebm().write(b);
         }
         @Override
         public String toString() {
@@ -948,118 +948,118 @@ class BandStructure {
         }
     }
 
-    class IntBand extends ValueBand {
-        // The usual coding for bands is 7bit/5byte/delta.
-        public IntBand(String name, Coding regularCoding) {
-            super(name, regularCoding);
+    clbss IntBbnd extends VblueBbnd {
+        // The usubl coding for bbnds is 7bit/5byte/deltb.
+        public IntBbnd(String nbme, Coding regulbrCoding) {
+            super(nbme, regulbrCoding);
         }
 
         public void putInt(int x) {
-            assert(phase() == COLLECT_PHASE);
-            addValue(x);
+            bssert(phbse() == COLLECT_PHASE);
+            bddVblue(x);
         }
 
         public int getInt() {
-            return getValue();
+            return getVblue();
         }
-        /** Return the sum of all values in this band. */
-        public int getIntTotal() {
-            assert(phase() == DISBURSE_PHASE);
-            // assert that this is the whole pass; no other reads allowed
-            assert(valuesRemainingForDebug() == length());
-            int total = 0;
+        /** Return the sum of bll vblues in this bbnd. */
+        public int getIntTotbl() {
+            bssert(phbse() == DISBURSE_PHASE);
+            // bssert thbt this is the whole pbss; no other rebds bllowed
+            bssert(vbluesRembiningForDebug() == length());
+            int totbl = 0;
             for (int k = length(); k > 0; k--) {
-                total += getInt();
+                totbl += getInt();
             }
-            resetForSecondPass();
-            return total;
+            resetForSecondPbss();
+            return totbl;
         }
-        /** Return the occurrence count of a specific value in this band. */
-        public int getIntCount(int value) {
-            assert(phase() == DISBURSE_PHASE);
-            // assert that this is the whole pass; no other reads allowed
-            assert(valuesRemainingForDebug() == length());
-            int total = 0;
+        /** Return the occurrence count of b specific vblue in this bbnd. */
+        public int getIntCount(int vblue) {
+            bssert(phbse() == DISBURSE_PHASE);
+            // bssert thbt this is the whole pbss; no other rebds bllowed
+            bssert(vbluesRembiningForDebug() == length());
+            int totbl = 0;
             for (int k = length(); k > 0; k--) {
-                if (getInt() == value) {
-                    total += 1;
+                if (getInt() == vblue) {
+                    totbl += 1;
                 }
             }
-            resetForSecondPass();
-            return total;
+            resetForSecondPbss();
+            return totbl;
         }
     }
 
-    static int getIntTotal(int[] values) {
-        int total = 0;
-        for (int i = 0; i < values.length; i++) {
-            total += values[i];
+    stbtic int getIntTotbl(int[] vblues) {
+        int totbl = 0;
+        for (int i = 0; i < vblues.length; i++) {
+            totbl += vblues[i];
         }
-        return total;
+        return totbl;
     }
 
-    class CPRefBand extends ValueBand {
+    clbss CPRefBbnd extends VblueBbnd {
         Index index;
-        boolean nullOK;
+        boolebn nullOK;
 
-        public CPRefBand(String name, Coding regularCoding, byte cpTag, boolean nullOK) {
-            super(name, regularCoding);
+        public CPRefBbnd(String nbme, Coding regulbrCoding, byte cpTbg, boolebn nullOK) {
+            super(nbme, regulbrCoding);
             this.nullOK = nullOK;
-            if (cpTag != CONSTANT_None)
-                setBandIndex(this, cpTag);
+            if (cpTbg != CONSTANT_None)
+                setBbndIndex(this, cpTbg);
         }
-        public CPRefBand(String name, Coding regularCoding, byte cpTag) {
-            this(name, regularCoding, cpTag, false);
+        public CPRefBbnd(String nbme, Coding regulbrCoding, byte cpTbg) {
+            this(nbme, regulbrCoding, cpTbg, fblse);
         }
-        public CPRefBand(String name, Coding regularCoding, Object undef) {
-            this(name, regularCoding, CONSTANT_None, false);
+        public CPRefBbnd(String nbme, Coding regulbrCoding, Object undef) {
+            this(nbme, regulbrCoding, CONSTANT_None, fblse);
         }
 
         public void setIndex(Index index) {
             this.index = index;
         }
 
-        protected void readDataFrom(InputStream in) throws IOException {
-            super.readDataFrom(in);
-            assert(assertValidCPRefs(this));
+        protected void rebdDbtbFrom(InputStrebm in) throws IOException {
+            super.rebdDbtbFrom(in);
+            bssert(bssertVblidCPRefs(this));
         }
 
-        /** Write a constant pool reference. */
+        /** Write b constbnt pool reference. */
         public void putRef(Entry e) {
-            addValue(encodeRefOrNull(e, index));
+            bddVblue(encodeRefOrNull(e, index));
         }
         public void putRef(Entry e, Index index) {
-            assert(this.index == null);
-            addValue(encodeRefOrNull(e, index));
+            bssert(this.index == null);
+            bddVblue(encodeRefOrNull(e, index));
         }
-        public void putRef(Entry e, byte cptag) {
-            putRef(e, getCPIndex(cptag));
+        public void putRef(Entry e, byte cptbg) {
+            putRef(e, getCPIndex(cptbg));
         }
 
         public Entry getRef() {
-            if (index == null)  Utils.log.warning("No index for "+this);
-            assert(index != null);
-            return decodeRefOrNull(getValue(), index);
+            if (index == null)  Utils.log.wbrning("No index for "+this);
+            bssert(index != null);
+            return decodeRefOrNull(getVblue(), index);
         }
         public Entry getRef(Index index) {
-            assert(this.index == null);
-            return decodeRefOrNull(getValue(), index);
+            bssert(this.index == null);
+            return decodeRefOrNull(getVblue(), index);
         }
-        public Entry getRef(byte cptag) {
-            return getRef(getCPIndex(cptag));
+        public Entry getRef(byte cptbg) {
+            return getRef(getCPIndex(cptbg));
         }
 
-        private int encodeRefOrNull(Entry e, Index index) {
-            int nonNullCode;  // NNC is the coding which assumes nulls are rare
+        privbte int encodeRefOrNull(Entry e, Index index) {
+            int nonNullCode;  // NNC is the coding which bssumes nulls bre rbre
             if (e == null) {
-                nonNullCode = -1;  // negative values are rare
+                nonNullCode = -1;  // negbtive vblues bre rbre
             } else {
                 nonNullCode = encodeRef(e, index);
             }
-            // If nulls are expected, increment, to make -1 code turn to 0.
+            // If nulls bre expected, increment, to mbke -1 code turn to 0.
             return (nullOK ? 1 : 0) + nonNullCode;
         }
-        private Entry decodeRefOrNull(int code, Index index) {
+        privbte Entry decodeRefOrNull(int code, Index index) {
             // Inverse to encodeRefOrNull...
             int nonNullCode = code - (nullOK ? 1 : 0);
             if (nonNullCode == -1) {
@@ -1070,15 +1070,15 @@ class BandStructure {
         }
     }
 
-    // Bootstrap support for CPRefBands.  These are needed to record
-    // intended CP indexes, before the CP has been created.
-    private final List<CPRefBand> allKQBands = new ArrayList<>();
-    private List<Object[]> needPredefIndex = new ArrayList<>();
+    // Bootstrbp support for CPRefBbnds.  These bre needed to record
+    // intended CP indexes, before the CP hbs been crebted.
+    privbte finbl List<CPRefBbnd> bllKQBbnds = new ArrbyList<>();
+    privbte List<Object[]> needPredefIndex = new ArrbyList<>();
 
 
     int encodeRef(Entry e, Index ix) {
         if (ix == null)
-            throw new RuntimeException("null index for " + e.stringValue());
+            throw new RuntimeException("null index for " + e.stringVblue());
         int coding = ix.indexOf(e);
         if (verbose > 2)
             Utils.log.fine("putRef "+coding+" => "+e);
@@ -1087,244 +1087,244 @@ class BandStructure {
 
     Entry decodeRef(int n, Index ix) {
         if (n < 0 || n >= ix.size())
-            Utils.log.warning("decoding bad ref "+n+" in "+ix);
+            Utils.log.wbrning("decoding bbd ref "+n+" in "+ix);
         Entry e = ix.getEntry(n);
         if (verbose > 2)
             Utils.log.fine("getRef "+n+" => "+e);
         return e;
     }
 
-    private CodingChooser codingChooser;
+    privbte CodingChooser codingChooser;
     protected CodingChooser getCodingChooser() {
         if (codingChooser == null) {
-            codingChooser = new CodingChooser(effort, basicCodings);
+            codingChooser = new CodingChooser(effort, bbsicCodings);
             if (codingChooser.stress != null
-                && this instanceof PackageWriter) {
-                // Twist the random state based on my first file.
-                // This sends each segment off in a different direction.
-                List<Package.Class> classes = ((PackageWriter)this).pkg.classes;
-                if (!classes.isEmpty()) {
-                    Package.Class cls = classes.get(0);
-                    codingChooser.addStressSeed(cls.getName().hashCode());
+                && this instbnceof PbckbgeWriter) {
+                // Twist the rbndom stbte bbsed on my first file.
+                // This sends ebch segment off in b different direction.
+                List<Pbckbge.Clbss> clbsses = ((PbckbgeWriter)this).pkg.clbsses;
+                if (!clbsses.isEmpty()) {
+                    Pbckbge.Clbss cls = clbsses.get(0);
+                    codingChooser.bddStressSeed(cls.getNbme().hbshCode());
                 }
             }
         }
         return codingChooser;
     }
 
-    public CodingMethod chooseCoding(int[] values, int start, int end,
-                                     Coding regular, String bandName,
+    public CodingMethod chooseCoding(int[] vblues, int stbrt, int end,
+                                     Coding regulbr, String bbndNbme,
                                      int[] sizes) {
-        assert(optVaryCodings);
+        bssert(optVbryCodings);
         if (effort <= MIN_EFFORT) {
-            return regular;
+            return regulbr;
         }
         CodingChooser cc = getCodingChooser();
         if (verbose > 1 || cc.verbose > 1) {
-            Utils.log.fine("--- chooseCoding "+bandName);
+            Utils.log.fine("--- chooseCoding "+bbndNbme);
         }
-        return cc.choose(values, start, end, regular, sizes);
+        return cc.choose(vblues, stbrt, end, regulbr, sizes);
     }
 
-    static final byte[] defaultMetaCoding = { _meta_default };
-    static final byte[] noMetaCoding      = {};
+    stbtic finbl byte[] defbultMetbCoding = { _metb_defbult };
+    stbtic finbl byte[] noMetbCoding      = {};
 
-    // The first value in a band is always coded with the default coding D.
-    // If this first value X is an escape value, it actually represents the
-    // first (and perhaps only) byte of a meta-coding.
+    // The first vblue in b bbnd is blwbys coded with the defbult coding D.
+    // If this first vblue X is bn escbpe vblue, it bctublly represents the
+    // first (bnd perhbps only) byte of b metb-coding.
     //
-    // If D.S != 0 and D includes the range [-256..-1],
-    // the escape values are in that range,
-    // and the first byte XB is -1-X.
+    // If D.S != 0 bnd D includes the rbnge [-256..-1],
+    // the escbpe vblues bre in thbt rbnge,
+    // bnd the first byte XB is -1-X.
     //
-    // If D.S == 0 and D includes the range [(D.L)..(D.L)+255],
-    // the escape values are in that range,
-    // and XB is X-(D.L).
+    // If D.S == 0 bnd D includes the rbnge [(D.L)..(D.L)+255],
+    // the escbpe vblues bre in thbt rbnge,
+    // bnd XB is X-(D.L).
     //
-    // This representation is designed so that a band header is unlikely
-    // to be confused with the initial value of a headerless band,
-    // and yet so that a band header is likely to occupy only a byte or two.
+    // This representbtion is designed so thbt b bbnd hebder is unlikely
+    // to be confused with the initibl vblue of b hebderless bbnd,
+    // bnd yet so thbt b bbnd hebder is likely to occupy only b byte or two.
     //
-    // Result is in [0..255] if XB was successfully extracted, else -1.
-    // See section "Coding Specifier Meta-Encoding" in the JSR 200 spec.
-    protected static int decodeEscapeValue(int X, Coding regularCoding) {
-        // The first value in a band is always coded with the default coding D.
-        // If this first value X is an escape value, it actually represents the
-        // first (and perhaps only) byte of a meta-coding.
-        // Result is in [0..255] if XB was successfully extracted, else -1.
-        if (regularCoding.B() == 1 || regularCoding.L() == 0)
-            return -1;  // degenerate regular coding (BYTE1)
-        if (regularCoding.S() != 0) {
-            if (-256 <= X && X <= -1 && regularCoding.min() <= -256) {
+    // Result is in [0..255] if XB wbs successfully extrbcted, else -1.
+    // See section "Coding Specifier Metb-Encoding" in the JSR 200 spec.
+    protected stbtic int decodeEscbpeVblue(int X, Coding regulbrCoding) {
+        // The first vblue in b bbnd is blwbys coded with the defbult coding D.
+        // If this first vblue X is bn escbpe vblue, it bctublly represents the
+        // first (bnd perhbps only) byte of b metb-coding.
+        // Result is in [0..255] if XB wbs successfully extrbcted, else -1.
+        if (regulbrCoding.B() == 1 || regulbrCoding.L() == 0)
+            return -1;  // degenerbte regulbr coding (BYTE1)
+        if (regulbrCoding.S() != 0) {
+            if (-256 <= X && X <= -1 && regulbrCoding.min() <= -256) {
                 int XB = -1-X;
-                assert(XB >= 0 && XB < 256);
+                bssert(XB >= 0 && XB < 256);
                 return XB;
             }
         } else {
-            int L = regularCoding.L();
-            if (L <= X && X <= L+255 && regularCoding.max() >= L+255) {
+            int L = regulbrCoding.L();
+            if (L <= X && X <= L+255 && regulbrCoding.mbx() >= L+255) {
                 int XB = X-L;
-                assert(XB >= 0 && XB < 256);
+                bssert(XB >= 0 && XB < 256);
                 return XB;
             }
         }
-        return -1;  // negative value for failure
+        return -1;  // negbtive vblue for fbilure
     }
-    // Inverse to decodeEscapeValue().
-    protected static int encodeEscapeValue(int XB, Coding regularCoding) {
-        assert(XB >= 0 && XB < 256);
-        assert(regularCoding.B() > 1 && regularCoding.L() > 0);
+    // Inverse to decodeEscbpeVblue().
+    protected stbtic int encodeEscbpeVblue(int XB, Coding regulbrCoding) {
+        bssert(XB >= 0 && XB < 256);
+        bssert(regulbrCoding.B() > 1 && regulbrCoding.L() > 0);
         int X;
-        if (regularCoding.S() != 0) {
-            assert(regularCoding.min() <= -256);
+        if (regulbrCoding.S() != 0) {
+            bssert(regulbrCoding.min() <= -256);
             X = -1-XB;
         } else {
-            int L = regularCoding.L();
-            assert(regularCoding.max() >= L+255);
+            int L = regulbrCoding.L();
+            bssert(regulbrCoding.mbx() >= L+255);
             X = XB+L;
         }
-        assert(decodeEscapeValue(X, regularCoding) == XB)
-            : (regularCoding+" XB="+XB+" X="+X);
+        bssert(decodeEscbpeVblue(X, regulbrCoding) == XB)
+            : (regulbrCoding+" XB="+XB+" X="+X);
         return X;
     }
 
-    static {
-        boolean checkXB = false;
-        assert(checkXB = true);
+    stbtic {
+        boolebn checkXB = fblse;
+        bssert(checkXB = true);
         if (checkXB) {
-            for (int i = 0; i < basicCodings.length; i++) {
-                Coding D = basicCodings[i];
+            for (int i = 0; i < bbsicCodings.length; i++) {
+                Coding D = bbsicCodings[i];
                 if (D == null)   continue;
                 if (D.B() == 1)  continue;
                 if (D.L() == 0)  continue;
                 for (int XB = 0; XB <= 255; XB++) {
-                    // The following exercises decodeEscapeValue also:
-                    encodeEscapeValue(XB, D);
+                    // The following exercises decodeEscbpeVblue blso:
+                    encodeEscbpeVblue(XB, D);
                 }
             }
         }
     }
 
-    class MultiBand extends Band {
-        MultiBand(String name, Coding regularCoding) {
-            super(name, regularCoding);
+    clbss MultiBbnd extends Bbnd {
+        MultiBbnd(String nbme, Coding regulbrCoding) {
+            super(nbme, regulbrCoding);
         }
 
         @Override
-        public Band init() {
+        public Bbnd init() {
             super.init();
-            // This is all just to keep the asserts happy:
-            setCapacity(0);
-            if (phase() == EXPECT_PHASE) {
-                // Fast forward:
-                setPhase(READ_PHASE);
-                setPhase(DISBURSE_PHASE);
+            // This is bll just to keep the bsserts hbppy:
+            setCbpbcity(0);
+            if (phbse() == EXPECT_PHASE) {
+                // Fbst forwbrd:
+                setPhbse(READ_PHASE);
+                setPhbse(DISBURSE_PHASE);
             }
             return this;
         }
 
-        Band[] bands     = new Band[10];
-        int    bandCount = 0;
+        Bbnd[] bbnds     = new Bbnd[10];
+        int    bbndCount = 0;
 
         int size() {
-            return bandCount;
+            return bbndCount;
         }
-        Band get(int i) {
-            assert(i < bandCount);
-            return bands[i];
+        Bbnd get(int i) {
+            bssert(i < bbndCount);
+            return bbnds[i];
         }
-        Band[] toArray() {
-            return (Band[]) realloc(bands, bandCount);
+        Bbnd[] toArrby() {
+            return (Bbnd[]) reblloc(bbnds, bbndCount);
         }
 
-        void add(Band b) {
-            assert(bandCount == 0 || notePrevForAssert(b, bands[bandCount-1]));
-            if (bandCount == bands.length) {
-                bands = (Band[]) realloc(bands);
+        void bdd(Bbnd b) {
+            bssert(bbndCount == 0 || notePrevForAssert(b, bbnds[bbndCount-1]));
+            if (bbndCount == bbnds.length) {
+                bbnds = (Bbnd[]) reblloc(bbnds);
             }
-            bands[bandCount++] = b;
+            bbnds[bbndCount++] = b;
         }
 
-        ByteBand newByteBand(String name) {
-            ByteBand b = new ByteBand(name);
-            b.init(); add(b);
+        ByteBbnd newByteBbnd(String nbme) {
+            ByteBbnd b = new ByteBbnd(nbme);
+            b.init(); bdd(b);
             return b;
         }
-        IntBand newIntBand(String name) {
-            IntBand b = new IntBand(name, regularCoding);
-            b.init(); add(b);
+        IntBbnd newIntBbnd(String nbme) {
+            IntBbnd b = new IntBbnd(nbme, regulbrCoding);
+            b.init(); bdd(b);
             return b;
         }
-        IntBand newIntBand(String name, Coding regularCoding) {
-            IntBand b = new IntBand(name, regularCoding);
-            b.init(); add(b);
+        IntBbnd newIntBbnd(String nbme, Coding regulbrCoding) {
+            IntBbnd b = new IntBbnd(nbme, regulbrCoding);
+            b.init(); bdd(b);
             return b;
         }
-        MultiBand newMultiBand(String name, Coding regularCoding) {
-            MultiBand b = new MultiBand(name, regularCoding);
-            b.init(); add(b);
+        MultiBbnd newMultiBbnd(String nbme, Coding regulbrCoding) {
+            MultiBbnd b = new MultiBbnd(nbme, regulbrCoding);
+            b.init(); bdd(b);
             return b;
         }
-        CPRefBand newCPRefBand(String name, byte cpTag) {
-            CPRefBand b = new CPRefBand(name, regularCoding, cpTag);
-            b.init(); add(b);
+        CPRefBbnd newCPRefBbnd(String nbme, byte cpTbg) {
+            CPRefBbnd b = new CPRefBbnd(nbme, regulbrCoding, cpTbg);
+            b.init(); bdd(b);
             return b;
         }
-        CPRefBand newCPRefBand(String name, Coding regularCoding,
-                               byte cpTag) {
-            CPRefBand b = new CPRefBand(name, regularCoding, cpTag);
-            b.init(); add(b);
+        CPRefBbnd newCPRefBbnd(String nbme, Coding regulbrCoding,
+                               byte cpTbg) {
+            CPRefBbnd b = new CPRefBbnd(nbme, regulbrCoding, cpTbg);
+            b.init(); bdd(b);
             return b;
         }
-        CPRefBand newCPRefBand(String name, Coding regularCoding,
-                               byte cpTag, boolean nullOK) {
-            CPRefBand b = new CPRefBand(name, regularCoding, cpTag, nullOK);
-            b.init(); add(b);
+        CPRefBbnd newCPRefBbnd(String nbme, Coding regulbrCoding,
+                               byte cpTbg, boolebn nullOK) {
+            CPRefBbnd b = new CPRefBbnd(nbme, regulbrCoding, cpTbg, nullOK);
+            b.init(); bdd(b);
             return b;
         }
 
-        int bandCount() { return bandCount; }
+        int bbndCount() { return bbndCount; }
 
-        private int cap = -1;
+        privbte int cbp = -1;
         @Override
-        public int capacity() { return cap; }
+        public int cbpbcity() { return cbp; }
         @Override
-        public void setCapacity(int cap) { this.cap = cap; }
+        public void setCbpbcity(int cbp) { this.cbp = cbp; }
 
         @Override
         public int length() { return 0; }
         @Override
-        public int valuesRemainingForDebug() { return 0; }
+        public int vbluesRembiningForDebug() { return 0; }
 
         @Override
-        protected void chooseBandCodings() throws IOException {
-            // coding decision pass
-            for (int i = 0; i < bandCount; i++) {
-                Band b = bands[i];
-                b.chooseBandCodings();
+        protected void chooseBbndCodings() throws IOException {
+            // coding decision pbss
+            for (int i = 0; i < bbndCount; i++) {
+                Bbnd b = bbnds[i];
+                b.chooseBbndCodings();
             }
         }
 
         @Override
         protected long computeOutputSize() {
-            // coding decision pass
+            // coding decision pbss
             long sum = 0;
-            for (int i = 0; i < bandCount; i++) {
-                Band b = bands[i];
+            for (int i = 0; i < bbndCount; i++) {
+                Bbnd b = bbnds[i];
                 long bsize = b.outputSize();
-                assert(bsize >= 0) : b;
+                bssert(bsize >= 0) : b;
                 sum += bsize;
             }
-            // do not cache
+            // do not cbche
             return sum;
         }
 
         @Override
-        protected void writeDataTo(OutputStream out) throws IOException {
+        protected void writeDbtbTo(OutputStrebm out) throws IOException {
             long preCount = 0;
             if (outputCounter != null)  preCount = outputCounter.getCount();
-            for (int i = 0; i < bandCount; i++) {
-                Band b = bands[i];
+            for (int i = 0; i < bbndCount; i++) {
+                Bbnd b = bbnds[i];
                 b.writeTo(out);
                 if (outputCounter != null) {
                     long postCount = outputCounter.getCount();
@@ -1338,33 +1338,33 @@ class BandStructure {
         }
 
         @Override
-        protected void readDataFrom(InputStream in) throws IOException {
-            assert(false);  // not called?
-            for (int i = 0; i < bandCount; i++) {
-                Band b = bands[i];
-                b.readFrom(in);
+        protected void rebdDbtbFrom(InputStrebm in) throws IOException {
+            bssert(fblse);  // not cblled?
+            for (int i = 0; i < bbndCount; i++) {
+                Bbnd b = bbnds[i];
+                b.rebdFrom(in);
                 if ((verbose > 0 && b.length() > 0) || verbose > 1) {
-                    Utils.log.info("  ...read "+b);
+                    Utils.log.info("  ...rebd "+b);
                 }
             }
         }
 
         @Override
         public String toString() {
-            return "{"+bandCount()+" bands: "+super.toString()+"}";
+            return "{"+bbndCount()+" bbnds: "+super.toString()+"}";
         }
     }
 
     /**
-     * An output stream which counts the number of bytes written.
+     * An output strebm which counts the number of bytes written.
      */
-    private static
-    class ByteCounter extends FilterOutputStream {
-        // (should go public under the name CountingOutputStream?)
+    privbte stbtic
+    clbss ByteCounter extends FilterOutputStrebm {
+        // (should go public under the nbme CountingOutputStrebm?)
 
-        private long count;
+        privbte long count;
 
-        public ByteCounter(OutputStream out) {
+        public ByteCounter(OutputStrebm out) {
             super(out);
         }
 
@@ -1383,992 +1383,992 @@ class BandStructure {
         }
         @Override
         public String toString() {
-            return String.valueOf(getCount());
+            return String.vblueOf(getCount());
         }
     }
     ByteCounter outputCounter;
 
-    void writeAllBandsTo(OutputStream out) throws IOException {
-        // Wrap a byte-counter around the output stream.
+    void writeAllBbndsTo(OutputStrebm out) throws IOException {
+        // Wrbp b byte-counter bround the output strebm.
         outputCounter = new ByteCounter(out);
         out = outputCounter;
-        all_bands.writeTo(out);
+        bll_bbnds.writeTo(out);
         if (verbose > 0) {
             long nbytes = outputCounter.getCount();
-            Utils.log.info("Wrote total of "+nbytes+" bytes.");
-            assert(nbytes == archiveSize0+archiveSize1);
+            Utils.log.info("Wrote totbl of "+nbytes+" bytes.");
+            bssert(nbytes == brchiveSize0+brchiveSize1);
         }
         outputCounter = null;
     }
 
-    // random AO_XXX bits, decoded from the archive header
-    protected int archiveOptions;
+    // rbndom AO_XXX bits, decoded from the brchive hebder
+    protected int brchiveOptions;
 
-    // archiveSize1 sizes most of the archive [archive_options..file_bits).
-    protected long archiveSize0; // size through archive_size_lo
-    protected long archiveSize1; // size reported in archive_header
-    protected int  archiveNextCount; // reported in archive_header
+    // brchiveSize1 sizes most of the brchive [brchive_options..file_bits).
+    protected long brchiveSize0; // size through brchive_size_lo
+    protected long brchiveSize1; // size reported in brchive_hebder
+    protected int  brchiveNextCount; // reported in brchive_hebder
 
-    static final int AH_LENGTH_0 = 3;     // archive_header_0 = {minver, majver, options}
-    static final int AH_LENGTH_MIN = 15;  // observed in spec {header_0[3], cp_counts[8], class_counts[4]}
-    // Length contributions from optional archive size fields:
-    static final int AH_LENGTH_S = 2; // archive_header_S = optional {size_hi, size_lo}
-    static final int AH_ARCHIVE_SIZE_HI = 0; // offset in archive_header_S
-    static final int AH_ARCHIVE_SIZE_LO = 1; // offset in archive_header_S
-    // Length contributions from optional header fields:
-    static final int AH_FILE_HEADER_LEN = 5; // file_counts = {{size_hi, size_lo}, next, modtime, files}
-    static final int AH_SPECIAL_FORMAT_LEN = 2; // special_counts = {layouts, band_headers}
-    static final int AH_CP_NUMBER_LEN = 4;  // cp_number_counts = {int, float, long, double}
-    static final int AH_CP_EXTRA_LEN = 4;  // cp_attr_counts = {MH, MT, InDy, BSM}
+    stbtic finbl int AH_LENGTH_0 = 3;     // brchive_hebder_0 = {minver, mbjver, options}
+    stbtic finbl int AH_LENGTH_MIN = 15;  // observed in spec {hebder_0[3], cp_counts[8], clbss_counts[4]}
+    // Length contributions from optionbl brchive size fields:
+    stbtic finbl int AH_LENGTH_S = 2; // brchive_hebder_S = optionbl {size_hi, size_lo}
+    stbtic finbl int AH_ARCHIVE_SIZE_HI = 0; // offset in brchive_hebder_S
+    stbtic finbl int AH_ARCHIVE_SIZE_LO = 1; // offset in brchive_hebder_S
+    // Length contributions from optionbl hebder fields:
+    stbtic finbl int AH_FILE_HEADER_LEN = 5; // file_counts = {{size_hi, size_lo}, next, modtime, files}
+    stbtic finbl int AH_SPECIAL_FORMAT_LEN = 2; // specibl_counts = {lbyouts, bbnd_hebders}
+    stbtic finbl int AH_CP_NUMBER_LEN = 4;  // cp_number_counts = {int, flobt, long, double}
+    stbtic finbl int AH_CP_EXTRA_LEN = 4;  // cp_bttr_counts = {MH, MT, InDy, BSM}
 
-    // Common structure of attribute band groups:
-    static final int AB_FLAGS_HI = 0;
-    static final int AB_FLAGS_LO = 1;
-    static final int AB_ATTR_COUNT = 2;
-    static final int AB_ATTR_INDEXES = 3;
-    static final int AB_ATTR_CALLS = 4;
+    // Common structure of bttribute bbnd groups:
+    stbtic finbl int AB_FLAGS_HI = 0;
+    stbtic finbl int AB_FLAGS_LO = 1;
+    stbtic finbl int AB_ATTR_COUNT = 2;
+    stbtic finbl int AB_ATTR_INDEXES = 3;
+    stbtic finbl int AB_ATTR_CALLS = 4;
 
-    static IntBand getAttrBand(MultiBand xxx_attr_bands, int which) {
-        IntBand b = (IntBand) xxx_attr_bands.get(which);
+    stbtic IntBbnd getAttrBbnd(MultiBbnd xxx_bttr_bbnds, int which) {
+        IntBbnd b = (IntBbnd) xxx_bttr_bbnds.get(which);
         switch (which) {
-        case AB_FLAGS_HI:
-            assert(b.name().endsWith("_flags_hi")); break;
-        case AB_FLAGS_LO:
-            assert(b.name().endsWith("_flags_lo")); break;
-        case AB_ATTR_COUNT:
-            assert(b.name().endsWith("_attr_count")); break;
-        case AB_ATTR_INDEXES:
-            assert(b.name().endsWith("_attr_indexes")); break;
-        case AB_ATTR_CALLS:
-            assert(b.name().endsWith("_attr_calls")); break;
-        default:
-            assert(false); break;
+        cbse AB_FLAGS_HI:
+            bssert(b.nbme().endsWith("_flbgs_hi")); brebk;
+        cbse AB_FLAGS_LO:
+            bssert(b.nbme().endsWith("_flbgs_lo")); brebk;
+        cbse AB_ATTR_COUNT:
+            bssert(b.nbme().endsWith("_bttr_count")); brebk;
+        cbse AB_ATTR_INDEXES:
+            bssert(b.nbme().endsWith("_bttr_indexes")); brebk;
+        cbse AB_ATTR_CALLS:
+            bssert(b.nbme().endsWith("_bttr_cblls")); brebk;
+        defbult:
+            bssert(fblse); brebk;
         }
         return b;
     }
 
-    static private final boolean NULL_IS_OK = true;
+    stbtic privbte finbl boolebn NULL_IS_OK = true;
 
-    MultiBand all_bands = (MultiBand) new MultiBand("(package)", UNSIGNED5).init();
+    MultiBbnd bll_bbnds = (MultiBbnd) new MultiBbnd("(pbckbge)", UNSIGNED5).init();
 
-    // file header (various random bytes)
-    ByteBand archive_magic = all_bands.newByteBand("archive_magic");
-    IntBand  archive_header_0 = all_bands.newIntBand("archive_header_0", UNSIGNED5);
-    IntBand  archive_header_S = all_bands.newIntBand("archive_header_S", UNSIGNED5);
-    IntBand  archive_header_1 = all_bands.newIntBand("archive_header_1", UNSIGNED5);
-    ByteBand band_headers = all_bands.newByteBand("band_headers");
+    // file hebder (vbrious rbndom bytes)
+    ByteBbnd brchive_mbgic = bll_bbnds.newByteBbnd("brchive_mbgic");
+    IntBbnd  brchive_hebder_0 = bll_bbnds.newIntBbnd("brchive_hebder_0", UNSIGNED5);
+    IntBbnd  brchive_hebder_S = bll_bbnds.newIntBbnd("brchive_hebder_S", UNSIGNED5);
+    IntBbnd  brchive_hebder_1 = bll_bbnds.newIntBbnd("brchive_hebder_1", UNSIGNED5);
+    ByteBbnd bbnd_hebders = bll_bbnds.newByteBbnd("bbnd_hebders");
 
-    // constant pool contents
-    MultiBand cp_bands = all_bands.newMultiBand("(constant_pool)", DELTA5);
-    IntBand   cp_Utf8_prefix = cp_bands.newIntBand("cp_Utf8_prefix");
-    IntBand   cp_Utf8_suffix = cp_bands.newIntBand("cp_Utf8_suffix", UNSIGNED5);
-    IntBand   cp_Utf8_chars = cp_bands.newIntBand("cp_Utf8_chars", CHAR3);
-    IntBand   cp_Utf8_big_suffix = cp_bands.newIntBand("cp_Utf8_big_suffix");
-    MultiBand cp_Utf8_big_chars = cp_bands.newMultiBand("(cp_Utf8_big_chars)", DELTA5);
-    IntBand   cp_Int = cp_bands.newIntBand("cp_Int", UDELTA5);
-    IntBand   cp_Float = cp_bands.newIntBand("cp_Float", UDELTA5);
-    IntBand   cp_Long_hi = cp_bands.newIntBand("cp_Long_hi", UDELTA5);
-    IntBand   cp_Long_lo = cp_bands.newIntBand("cp_Long_lo");
-    IntBand   cp_Double_hi = cp_bands.newIntBand("cp_Double_hi", UDELTA5);
-    IntBand   cp_Double_lo = cp_bands.newIntBand("cp_Double_lo");
-    CPRefBand cp_String = cp_bands.newCPRefBand("cp_String", UDELTA5, CONSTANT_Utf8);
-    CPRefBand cp_Class = cp_bands.newCPRefBand("cp_Class", UDELTA5, CONSTANT_Utf8);
-    CPRefBand cp_Signature_form = cp_bands.newCPRefBand("cp_Signature_form", CONSTANT_Utf8);
-    CPRefBand cp_Signature_classes = cp_bands.newCPRefBand("cp_Signature_classes", UDELTA5, CONSTANT_Class);
-    CPRefBand cp_Descr_name = cp_bands.newCPRefBand("cp_Descr_name", CONSTANT_Utf8);
-    CPRefBand cp_Descr_type = cp_bands.newCPRefBand("cp_Descr_type", UDELTA5, CONSTANT_Signature);
-    CPRefBand cp_Field_class = cp_bands.newCPRefBand("cp_Field_class", CONSTANT_Class);
-    CPRefBand cp_Field_desc = cp_bands.newCPRefBand("cp_Field_desc", UDELTA5, CONSTANT_NameandType);
-    CPRefBand cp_Method_class = cp_bands.newCPRefBand("cp_Method_class", CONSTANT_Class);
-    CPRefBand cp_Method_desc = cp_bands.newCPRefBand("cp_Method_desc", UDELTA5, CONSTANT_NameandType);
-    CPRefBand cp_Imethod_class = cp_bands.newCPRefBand("cp_Imethod_class", CONSTANT_Class);
-    CPRefBand cp_Imethod_desc = cp_bands.newCPRefBand("cp_Imethod_desc", UDELTA5, CONSTANT_NameandType);
-    IntBand   cp_MethodHandle_refkind = cp_bands.newIntBand("cp_MethodHandle_refkind", DELTA5);
-    CPRefBand cp_MethodHandle_member = cp_bands.newCPRefBand("cp_MethodHandle_member", UDELTA5, CONSTANT_AnyMember);
-    CPRefBand cp_MethodType = cp_bands.newCPRefBand("cp_MethodType", UDELTA5, CONSTANT_Signature);
-    CPRefBand cp_BootstrapMethod_ref = cp_bands.newCPRefBand("cp_BootstrapMethod_ref", DELTA5, CONSTANT_MethodHandle);
-    IntBand   cp_BootstrapMethod_arg_count = cp_bands.newIntBand("cp_BootstrapMethod_arg_count", UDELTA5);
-    CPRefBand cp_BootstrapMethod_arg = cp_bands.newCPRefBand("cp_BootstrapMethod_arg", DELTA5, CONSTANT_LoadableValue);
-    CPRefBand cp_InvokeDynamic_spec = cp_bands.newCPRefBand("cp_InvokeDynamic_spec", DELTA5, CONSTANT_BootstrapMethod);
-    CPRefBand cp_InvokeDynamic_desc = cp_bands.newCPRefBand("cp_InvokeDynamic_desc", UDELTA5, CONSTANT_NameandType);
+    // constbnt pool contents
+    MultiBbnd cp_bbnds = bll_bbnds.newMultiBbnd("(constbnt_pool)", DELTA5);
+    IntBbnd   cp_Utf8_prefix = cp_bbnds.newIntBbnd("cp_Utf8_prefix");
+    IntBbnd   cp_Utf8_suffix = cp_bbnds.newIntBbnd("cp_Utf8_suffix", UNSIGNED5);
+    IntBbnd   cp_Utf8_chbrs = cp_bbnds.newIntBbnd("cp_Utf8_chbrs", CHAR3);
+    IntBbnd   cp_Utf8_big_suffix = cp_bbnds.newIntBbnd("cp_Utf8_big_suffix");
+    MultiBbnd cp_Utf8_big_chbrs = cp_bbnds.newMultiBbnd("(cp_Utf8_big_chbrs)", DELTA5);
+    IntBbnd   cp_Int = cp_bbnds.newIntBbnd("cp_Int", UDELTA5);
+    IntBbnd   cp_Flobt = cp_bbnds.newIntBbnd("cp_Flobt", UDELTA5);
+    IntBbnd   cp_Long_hi = cp_bbnds.newIntBbnd("cp_Long_hi", UDELTA5);
+    IntBbnd   cp_Long_lo = cp_bbnds.newIntBbnd("cp_Long_lo");
+    IntBbnd   cp_Double_hi = cp_bbnds.newIntBbnd("cp_Double_hi", UDELTA5);
+    IntBbnd   cp_Double_lo = cp_bbnds.newIntBbnd("cp_Double_lo");
+    CPRefBbnd cp_String = cp_bbnds.newCPRefBbnd("cp_String", UDELTA5, CONSTANT_Utf8);
+    CPRefBbnd cp_Clbss = cp_bbnds.newCPRefBbnd("cp_Clbss", UDELTA5, CONSTANT_Utf8);
+    CPRefBbnd cp_Signbture_form = cp_bbnds.newCPRefBbnd("cp_Signbture_form", CONSTANT_Utf8);
+    CPRefBbnd cp_Signbture_clbsses = cp_bbnds.newCPRefBbnd("cp_Signbture_clbsses", UDELTA5, CONSTANT_Clbss);
+    CPRefBbnd cp_Descr_nbme = cp_bbnds.newCPRefBbnd("cp_Descr_nbme", CONSTANT_Utf8);
+    CPRefBbnd cp_Descr_type = cp_bbnds.newCPRefBbnd("cp_Descr_type", UDELTA5, CONSTANT_Signbture);
+    CPRefBbnd cp_Field_clbss = cp_bbnds.newCPRefBbnd("cp_Field_clbss", CONSTANT_Clbss);
+    CPRefBbnd cp_Field_desc = cp_bbnds.newCPRefBbnd("cp_Field_desc", UDELTA5, CONSTANT_NbmebndType);
+    CPRefBbnd cp_Method_clbss = cp_bbnds.newCPRefBbnd("cp_Method_clbss", CONSTANT_Clbss);
+    CPRefBbnd cp_Method_desc = cp_bbnds.newCPRefBbnd("cp_Method_desc", UDELTA5, CONSTANT_NbmebndType);
+    CPRefBbnd cp_Imethod_clbss = cp_bbnds.newCPRefBbnd("cp_Imethod_clbss", CONSTANT_Clbss);
+    CPRefBbnd cp_Imethod_desc = cp_bbnds.newCPRefBbnd("cp_Imethod_desc", UDELTA5, CONSTANT_NbmebndType);
+    IntBbnd   cp_MethodHbndle_refkind = cp_bbnds.newIntBbnd("cp_MethodHbndle_refkind", DELTA5);
+    CPRefBbnd cp_MethodHbndle_member = cp_bbnds.newCPRefBbnd("cp_MethodHbndle_member", UDELTA5, CONSTANT_AnyMember);
+    CPRefBbnd cp_MethodType = cp_bbnds.newCPRefBbnd("cp_MethodType", UDELTA5, CONSTANT_Signbture);
+    CPRefBbnd cp_BootstrbpMethod_ref = cp_bbnds.newCPRefBbnd("cp_BootstrbpMethod_ref", DELTA5, CONSTANT_MethodHbndle);
+    IntBbnd   cp_BootstrbpMethod_brg_count = cp_bbnds.newIntBbnd("cp_BootstrbpMethod_brg_count", UDELTA5);
+    CPRefBbnd cp_BootstrbpMethod_brg = cp_bbnds.newCPRefBbnd("cp_BootstrbpMethod_brg", DELTA5, CONSTANT_LobdbbleVblue);
+    CPRefBbnd cp_InvokeDynbmic_spec = cp_bbnds.newCPRefBbnd("cp_InvokeDynbmic_spec", DELTA5, CONSTANT_BootstrbpMethod);
+    CPRefBbnd cp_InvokeDynbmic_desc = cp_bbnds.newCPRefBbnd("cp_InvokeDynbmic_desc", UDELTA5, CONSTANT_NbmebndType);
 
-    // bands for carrying attribute definitions:
-    MultiBand attr_definition_bands = all_bands.newMultiBand("(attr_definition_bands)", UNSIGNED5);
-    ByteBand attr_definition_headers = attr_definition_bands.newByteBand("attr_definition_headers");
-    CPRefBand attr_definition_name = attr_definition_bands.newCPRefBand("attr_definition_name", CONSTANT_Utf8);
-    CPRefBand attr_definition_layout = attr_definition_bands.newCPRefBand("attr_definition_layout", CONSTANT_Utf8);
+    // bbnds for cbrrying bttribute definitions:
+    MultiBbnd bttr_definition_bbnds = bll_bbnds.newMultiBbnd("(bttr_definition_bbnds)", UNSIGNED5);
+    ByteBbnd bttr_definition_hebders = bttr_definition_bbnds.newByteBbnd("bttr_definition_hebders");
+    CPRefBbnd bttr_definition_nbme = bttr_definition_bbnds.newCPRefBbnd("bttr_definition_nbme", CONSTANT_Utf8);
+    CPRefBbnd bttr_definition_lbyout = bttr_definition_bbnds.newCPRefBbnd("bttr_definition_lbyout", CONSTANT_Utf8);
 
-    // bands for hardwired InnerClasses attribute (shared across the package)
-    MultiBand ic_bands = all_bands.newMultiBand("(ic_bands)", DELTA5);
-    CPRefBand ic_this_class = ic_bands.newCPRefBand("ic_this_class", UDELTA5, CONSTANT_Class);
-    IntBand ic_flags = ic_bands.newIntBand("ic_flags", UNSIGNED5);
-    // These bands contain data only where flags sets ACC_IC_LONG_FORM:
-    CPRefBand ic_outer_class = ic_bands.newCPRefBand("ic_outer_class", DELTA5, CONSTANT_Class, NULL_IS_OK);
-    CPRefBand ic_name = ic_bands.newCPRefBand("ic_name", DELTA5, CONSTANT_Utf8, NULL_IS_OK);
+    // bbnds for hbrdwired InnerClbsses bttribute (shbred bcross the pbckbge)
+    MultiBbnd ic_bbnds = bll_bbnds.newMultiBbnd("(ic_bbnds)", DELTA5);
+    CPRefBbnd ic_this_clbss = ic_bbnds.newCPRefBbnd("ic_this_clbss", UDELTA5, CONSTANT_Clbss);
+    IntBbnd ic_flbgs = ic_bbnds.newIntBbnd("ic_flbgs", UNSIGNED5);
+    // These bbnds contbin dbtb only where flbgs sets ACC_IC_LONG_FORM:
+    CPRefBbnd ic_outer_clbss = ic_bbnds.newCPRefBbnd("ic_outer_clbss", DELTA5, CONSTANT_Clbss, NULL_IS_OK);
+    CPRefBbnd ic_nbme = ic_bbnds.newCPRefBbnd("ic_nbme", DELTA5, CONSTANT_Utf8, NULL_IS_OK);
 
-    // bands for carrying class schema information:
-    MultiBand class_bands = all_bands.newMultiBand("(class_bands)", DELTA5);
-    CPRefBand class_this = class_bands.newCPRefBand("class_this", CONSTANT_Class);
-    CPRefBand class_super = class_bands.newCPRefBand("class_super", CONSTANT_Class);
-    IntBand   class_interface_count = class_bands.newIntBand("class_interface_count");
-    CPRefBand class_interface = class_bands.newCPRefBand("class_interface", CONSTANT_Class);
+    // bbnds for cbrrying clbss schemb informbtion:
+    MultiBbnd clbss_bbnds = bll_bbnds.newMultiBbnd("(clbss_bbnds)", DELTA5);
+    CPRefBbnd clbss_this = clbss_bbnds.newCPRefBbnd("clbss_this", CONSTANT_Clbss);
+    CPRefBbnd clbss_super = clbss_bbnds.newCPRefBbnd("clbss_super", CONSTANT_Clbss);
+    IntBbnd   clbss_interfbce_count = clbss_bbnds.newIntBbnd("clbss_interfbce_count");
+    CPRefBbnd clbss_interfbce = clbss_bbnds.newCPRefBbnd("clbss_interfbce", CONSTANT_Clbss);
 
-    // bands for class members
-    IntBand   class_field_count = class_bands.newIntBand("class_field_count");
-    IntBand   class_method_count = class_bands.newIntBand("class_method_count");
+    // bbnds for clbss members
+    IntBbnd   clbss_field_count = clbss_bbnds.newIntBbnd("clbss_field_count");
+    IntBbnd   clbss_method_count = clbss_bbnds.newIntBbnd("clbss_method_count");
 
-    CPRefBand field_descr = class_bands.newCPRefBand("field_descr", CONSTANT_NameandType);
-    MultiBand field_attr_bands = class_bands.newMultiBand("(field_attr_bands)", UNSIGNED5);
-    IntBand field_flags_hi = field_attr_bands.newIntBand("field_flags_hi");
-    IntBand field_flags_lo = field_attr_bands.newIntBand("field_flags_lo");
-    IntBand field_attr_count = field_attr_bands.newIntBand("field_attr_count");
-    IntBand field_attr_indexes = field_attr_bands.newIntBand("field_attr_indexes");
-    IntBand field_attr_calls = field_attr_bands.newIntBand("field_attr_calls");
+    CPRefBbnd field_descr = clbss_bbnds.newCPRefBbnd("field_descr", CONSTANT_NbmebndType);
+    MultiBbnd field_bttr_bbnds = clbss_bbnds.newMultiBbnd("(field_bttr_bbnds)", UNSIGNED5);
+    IntBbnd field_flbgs_hi = field_bttr_bbnds.newIntBbnd("field_flbgs_hi");
+    IntBbnd field_flbgs_lo = field_bttr_bbnds.newIntBbnd("field_flbgs_lo");
+    IntBbnd field_bttr_count = field_bttr_bbnds.newIntBbnd("field_bttr_count");
+    IntBbnd field_bttr_indexes = field_bttr_bbnds.newIntBbnd("field_bttr_indexes");
+    IntBbnd field_bttr_cblls = field_bttr_bbnds.newIntBbnd("field_bttr_cblls");
 
-    // bands for predefined field attributes
-    CPRefBand field_ConstantValue_KQ = field_attr_bands.newCPRefBand("field_ConstantValue_KQ", CONSTANT_FieldSpecific);
-    CPRefBand field_Signature_RS = field_attr_bands.newCPRefBand("field_Signature_RS", CONSTANT_Signature);
-    MultiBand field_metadata_bands = field_attr_bands.newMultiBand("(field_metadata_bands)", UNSIGNED5);
-    MultiBand field_type_metadata_bands = field_attr_bands.newMultiBand("(field_type_metadata_bands)", UNSIGNED5);
+    // bbnds for predefined field bttributes
+    CPRefBbnd field_ConstbntVblue_KQ = field_bttr_bbnds.newCPRefBbnd("field_ConstbntVblue_KQ", CONSTANT_FieldSpecific);
+    CPRefBbnd field_Signbture_RS = field_bttr_bbnds.newCPRefBbnd("field_Signbture_RS", CONSTANT_Signbture);
+    MultiBbnd field_metbdbtb_bbnds = field_bttr_bbnds.newMultiBbnd("(field_metbdbtb_bbnds)", UNSIGNED5);
+    MultiBbnd field_type_metbdbtb_bbnds = field_bttr_bbnds.newMultiBbnd("(field_type_metbdbtb_bbnds)", UNSIGNED5);
 
-    CPRefBand method_descr = class_bands.newCPRefBand("method_descr", MDELTA5, CONSTANT_NameandType);
-    MultiBand method_attr_bands = class_bands.newMultiBand("(method_attr_bands)", UNSIGNED5);
-    IntBand  method_flags_hi = method_attr_bands.newIntBand("method_flags_hi");
-    IntBand  method_flags_lo = method_attr_bands.newIntBand("method_flags_lo");
-    IntBand  method_attr_count = method_attr_bands.newIntBand("method_attr_count");
-    IntBand  method_attr_indexes = method_attr_bands.newIntBand("method_attr_indexes");
-    IntBand  method_attr_calls = method_attr_bands.newIntBand("method_attr_calls");
-    // band for predefined method attributes
-    IntBand  method_Exceptions_N = method_attr_bands.newIntBand("method_Exceptions_N");
-    CPRefBand method_Exceptions_RC = method_attr_bands.newCPRefBand("method_Exceptions_RC", CONSTANT_Class);
-    CPRefBand method_Signature_RS = method_attr_bands.newCPRefBand("method_Signature_RS", CONSTANT_Signature);
-    MultiBand method_metadata_bands = method_attr_bands.newMultiBand("(method_metadata_bands)", UNSIGNED5);
-    // band for predefine method parameters
-    IntBand  method_MethodParameters_NB = method_attr_bands.newIntBand("method_MethodParameters_NB", BYTE1);
-    CPRefBand method_MethodParameters_name_RUN = method_attr_bands.newCPRefBand("method_MethodParameters_name_RUN", UNSIGNED5, CONSTANT_Utf8, NULL_IS_OK);
-    IntBand   method_MethodParameters_flag_FH = method_attr_bands.newIntBand("method_MethodParameters_flag_FH");
-    MultiBand method_type_metadata_bands = method_attr_bands.newMultiBand("(method_type_metadata_bands)", UNSIGNED5);
+    CPRefBbnd method_descr = clbss_bbnds.newCPRefBbnd("method_descr", MDELTA5, CONSTANT_NbmebndType);
+    MultiBbnd method_bttr_bbnds = clbss_bbnds.newMultiBbnd("(method_bttr_bbnds)", UNSIGNED5);
+    IntBbnd  method_flbgs_hi = method_bttr_bbnds.newIntBbnd("method_flbgs_hi");
+    IntBbnd  method_flbgs_lo = method_bttr_bbnds.newIntBbnd("method_flbgs_lo");
+    IntBbnd  method_bttr_count = method_bttr_bbnds.newIntBbnd("method_bttr_count");
+    IntBbnd  method_bttr_indexes = method_bttr_bbnds.newIntBbnd("method_bttr_indexes");
+    IntBbnd  method_bttr_cblls = method_bttr_bbnds.newIntBbnd("method_bttr_cblls");
+    // bbnd for predefined method bttributes
+    IntBbnd  method_Exceptions_N = method_bttr_bbnds.newIntBbnd("method_Exceptions_N");
+    CPRefBbnd method_Exceptions_RC = method_bttr_bbnds.newCPRefBbnd("method_Exceptions_RC", CONSTANT_Clbss);
+    CPRefBbnd method_Signbture_RS = method_bttr_bbnds.newCPRefBbnd("method_Signbture_RS", CONSTANT_Signbture);
+    MultiBbnd method_metbdbtb_bbnds = method_bttr_bbnds.newMultiBbnd("(method_metbdbtb_bbnds)", UNSIGNED5);
+    // bbnd for predefine method pbrbmeters
+    IntBbnd  method_MethodPbrbmeters_NB = method_bttr_bbnds.newIntBbnd("method_MethodPbrbmeters_NB", BYTE1);
+    CPRefBbnd method_MethodPbrbmeters_nbme_RUN = method_bttr_bbnds.newCPRefBbnd("method_MethodPbrbmeters_nbme_RUN", UNSIGNED5, CONSTANT_Utf8, NULL_IS_OK);
+    IntBbnd   method_MethodPbrbmeters_flbg_FH = method_bttr_bbnds.newIntBbnd("method_MethodPbrbmeters_flbg_FH");
+    MultiBbnd method_type_metbdbtb_bbnds = method_bttr_bbnds.newMultiBbnd("(method_type_metbdbtb_bbnds)", UNSIGNED5);
 
-    MultiBand class_attr_bands = class_bands.newMultiBand("(class_attr_bands)", UNSIGNED5);
-    IntBand class_flags_hi = class_attr_bands.newIntBand("class_flags_hi");
-    IntBand class_flags_lo = class_attr_bands.newIntBand("class_flags_lo");
-    IntBand class_attr_count = class_attr_bands.newIntBand("class_attr_count");
-    IntBand class_attr_indexes = class_attr_bands.newIntBand("class_attr_indexes");
-    IntBand class_attr_calls = class_attr_bands.newIntBand("class_attr_calls");
-    // band for predefined SourceFile and other class attributes
-    CPRefBand class_SourceFile_RUN = class_attr_bands.newCPRefBand("class_SourceFile_RUN", UNSIGNED5, CONSTANT_Utf8, NULL_IS_OK);
-    CPRefBand class_EnclosingMethod_RC = class_attr_bands.newCPRefBand("class_EnclosingMethod_RC", CONSTANT_Class);
-    CPRefBand class_EnclosingMethod_RDN = class_attr_bands.newCPRefBand("class_EnclosingMethod_RDN", UNSIGNED5, CONSTANT_NameandType, NULL_IS_OK);
-    CPRefBand class_Signature_RS = class_attr_bands.newCPRefBand("class_Signature_RS", CONSTANT_Signature);
-    MultiBand class_metadata_bands = class_attr_bands.newMultiBand("(class_metadata_bands)", UNSIGNED5);
-    IntBand   class_InnerClasses_N = class_attr_bands.newIntBand("class_InnerClasses_N");
-    CPRefBand class_InnerClasses_RC = class_attr_bands.newCPRefBand("class_InnerClasses_RC", CONSTANT_Class);
-    IntBand   class_InnerClasses_F = class_attr_bands.newIntBand("class_InnerClasses_F");
-    CPRefBand class_InnerClasses_outer_RCN = class_attr_bands.newCPRefBand("class_InnerClasses_outer_RCN", UNSIGNED5, CONSTANT_Class, NULL_IS_OK);
-    CPRefBand class_InnerClasses_name_RUN = class_attr_bands.newCPRefBand("class_InnerClasses_name_RUN", UNSIGNED5, CONSTANT_Utf8, NULL_IS_OK);
-    IntBand class_ClassFile_version_minor_H = class_attr_bands.newIntBand("class_ClassFile_version_minor_H");
-    IntBand class_ClassFile_version_major_H = class_attr_bands.newIntBand("class_ClassFile_version_major_H");
-    MultiBand class_type_metadata_bands = class_attr_bands.newMultiBand("(class_type_metadata_bands)", UNSIGNED5);
+    MultiBbnd clbss_bttr_bbnds = clbss_bbnds.newMultiBbnd("(clbss_bttr_bbnds)", UNSIGNED5);
+    IntBbnd clbss_flbgs_hi = clbss_bttr_bbnds.newIntBbnd("clbss_flbgs_hi");
+    IntBbnd clbss_flbgs_lo = clbss_bttr_bbnds.newIntBbnd("clbss_flbgs_lo");
+    IntBbnd clbss_bttr_count = clbss_bttr_bbnds.newIntBbnd("clbss_bttr_count");
+    IntBbnd clbss_bttr_indexes = clbss_bttr_bbnds.newIntBbnd("clbss_bttr_indexes");
+    IntBbnd clbss_bttr_cblls = clbss_bttr_bbnds.newIntBbnd("clbss_bttr_cblls");
+    // bbnd for predefined SourceFile bnd other clbss bttributes
+    CPRefBbnd clbss_SourceFile_RUN = clbss_bttr_bbnds.newCPRefBbnd("clbss_SourceFile_RUN", UNSIGNED5, CONSTANT_Utf8, NULL_IS_OK);
+    CPRefBbnd clbss_EnclosingMethod_RC = clbss_bttr_bbnds.newCPRefBbnd("clbss_EnclosingMethod_RC", CONSTANT_Clbss);
+    CPRefBbnd clbss_EnclosingMethod_RDN = clbss_bttr_bbnds.newCPRefBbnd("clbss_EnclosingMethod_RDN", UNSIGNED5, CONSTANT_NbmebndType, NULL_IS_OK);
+    CPRefBbnd clbss_Signbture_RS = clbss_bttr_bbnds.newCPRefBbnd("clbss_Signbture_RS", CONSTANT_Signbture);
+    MultiBbnd clbss_metbdbtb_bbnds = clbss_bttr_bbnds.newMultiBbnd("(clbss_metbdbtb_bbnds)", UNSIGNED5);
+    IntBbnd   clbss_InnerClbsses_N = clbss_bttr_bbnds.newIntBbnd("clbss_InnerClbsses_N");
+    CPRefBbnd clbss_InnerClbsses_RC = clbss_bttr_bbnds.newCPRefBbnd("clbss_InnerClbsses_RC", CONSTANT_Clbss);
+    IntBbnd   clbss_InnerClbsses_F = clbss_bttr_bbnds.newIntBbnd("clbss_InnerClbsses_F");
+    CPRefBbnd clbss_InnerClbsses_outer_RCN = clbss_bttr_bbnds.newCPRefBbnd("clbss_InnerClbsses_outer_RCN", UNSIGNED5, CONSTANT_Clbss, NULL_IS_OK);
+    CPRefBbnd clbss_InnerClbsses_nbme_RUN = clbss_bttr_bbnds.newCPRefBbnd("clbss_InnerClbsses_nbme_RUN", UNSIGNED5, CONSTANT_Utf8, NULL_IS_OK);
+    IntBbnd clbss_ClbssFile_version_minor_H = clbss_bttr_bbnds.newIntBbnd("clbss_ClbssFile_version_minor_H");
+    IntBbnd clbss_ClbssFile_version_mbjor_H = clbss_bttr_bbnds.newIntBbnd("clbss_ClbssFile_version_mbjor_H");
+    MultiBbnd clbss_type_metbdbtb_bbnds = clbss_bttr_bbnds.newMultiBbnd("(clbss_type_metbdbtb_bbnds)", UNSIGNED5);
 
-    MultiBand code_bands = class_bands.newMultiBand("(code_bands)", UNSIGNED5);
-    ByteBand  code_headers = code_bands.newByteBand("code_headers"); //BYTE1
-    IntBand   code_max_stack = code_bands.newIntBand("code_max_stack", UNSIGNED5);
-    IntBand   code_max_na_locals = code_bands.newIntBand("code_max_na_locals", UNSIGNED5);
-    IntBand   code_handler_count = code_bands.newIntBand("code_handler_count", UNSIGNED5);
-    IntBand   code_handler_start_P = code_bands.newIntBand("code_handler_start_P", BCI5);
-    IntBand   code_handler_end_PO = code_bands.newIntBand("code_handler_end_PO", BRANCH5);
-    IntBand   code_handler_catch_PO = code_bands.newIntBand("code_handler_catch_PO", BRANCH5);
-    CPRefBand code_handler_class_RCN = code_bands.newCPRefBand("code_handler_class_RCN", UNSIGNED5, CONSTANT_Class, NULL_IS_OK);
+    MultiBbnd code_bbnds = clbss_bbnds.newMultiBbnd("(code_bbnds)", UNSIGNED5);
+    ByteBbnd  code_hebders = code_bbnds.newByteBbnd("code_hebders"); //BYTE1
+    IntBbnd   code_mbx_stbck = code_bbnds.newIntBbnd("code_mbx_stbck", UNSIGNED5);
+    IntBbnd   code_mbx_nb_locbls = code_bbnds.newIntBbnd("code_mbx_nb_locbls", UNSIGNED5);
+    IntBbnd   code_hbndler_count = code_bbnds.newIntBbnd("code_hbndler_count", UNSIGNED5);
+    IntBbnd   code_hbndler_stbrt_P = code_bbnds.newIntBbnd("code_hbndler_stbrt_P", BCI5);
+    IntBbnd   code_hbndler_end_PO = code_bbnds.newIntBbnd("code_hbndler_end_PO", BRANCH5);
+    IntBbnd   code_hbndler_cbtch_PO = code_bbnds.newIntBbnd("code_hbndler_cbtch_PO", BRANCH5);
+    CPRefBbnd code_hbndler_clbss_RCN = code_bbnds.newCPRefBbnd("code_hbndler_clbss_RCN", UNSIGNED5, CONSTANT_Clbss, NULL_IS_OK);
 
-    MultiBand code_attr_bands = class_bands.newMultiBand("(code_attr_bands)", UNSIGNED5);
-    IntBand   code_flags_hi = code_attr_bands.newIntBand("code_flags_hi");
-    IntBand   code_flags_lo = code_attr_bands.newIntBand("code_flags_lo");
-    IntBand   code_attr_count = code_attr_bands.newIntBand("code_attr_count");
-    IntBand   code_attr_indexes = code_attr_bands.newIntBand("code_attr_indexes");
-    IntBand   code_attr_calls = code_attr_bands.newIntBand("code_attr_calls");
+    MultiBbnd code_bttr_bbnds = clbss_bbnds.newMultiBbnd("(code_bttr_bbnds)", UNSIGNED5);
+    IntBbnd   code_flbgs_hi = code_bttr_bbnds.newIntBbnd("code_flbgs_hi");
+    IntBbnd   code_flbgs_lo = code_bttr_bbnds.newIntBbnd("code_flbgs_lo");
+    IntBbnd   code_bttr_count = code_bttr_bbnds.newIntBbnd("code_bttr_count");
+    IntBbnd   code_bttr_indexes = code_bttr_bbnds.newIntBbnd("code_bttr_indexes");
+    IntBbnd   code_bttr_cblls = code_bttr_bbnds.newIntBbnd("code_bttr_cblls");
 
-    MultiBand stackmap_bands = code_attr_bands.newMultiBand("(StackMapTable_bands)", UNSIGNED5);
-    IntBand   code_StackMapTable_N = stackmap_bands.newIntBand("code_StackMapTable_N");
-    IntBand   code_StackMapTable_frame_T = stackmap_bands.newIntBand("code_StackMapTable_frame_T",BYTE1);
-    IntBand   code_StackMapTable_local_N = stackmap_bands.newIntBand("code_StackMapTable_local_N");
-    IntBand   code_StackMapTable_stack_N = stackmap_bands.newIntBand("code_StackMapTable_stack_N");
-    IntBand   code_StackMapTable_offset = stackmap_bands.newIntBand("code_StackMapTable_offset", UNSIGNED5);
-    IntBand   code_StackMapTable_T = stackmap_bands.newIntBand("code_StackMapTable_T", BYTE1);
-    CPRefBand code_StackMapTable_RC = stackmap_bands.newCPRefBand("code_StackMapTable_RC", CONSTANT_Class);
-    IntBand   code_StackMapTable_P = stackmap_bands.newIntBand("code_StackMapTable_P", BCI5);
+    MultiBbnd stbckmbp_bbnds = code_bttr_bbnds.newMultiBbnd("(StbckMbpTbble_bbnds)", UNSIGNED5);
+    IntBbnd   code_StbckMbpTbble_N = stbckmbp_bbnds.newIntBbnd("code_StbckMbpTbble_N");
+    IntBbnd   code_StbckMbpTbble_frbme_T = stbckmbp_bbnds.newIntBbnd("code_StbckMbpTbble_frbme_T",BYTE1);
+    IntBbnd   code_StbckMbpTbble_locbl_N = stbckmbp_bbnds.newIntBbnd("code_StbckMbpTbble_locbl_N");
+    IntBbnd   code_StbckMbpTbble_stbck_N = stbckmbp_bbnds.newIntBbnd("code_StbckMbpTbble_stbck_N");
+    IntBbnd   code_StbckMbpTbble_offset = stbckmbp_bbnds.newIntBbnd("code_StbckMbpTbble_offset", UNSIGNED5);
+    IntBbnd   code_StbckMbpTbble_T = stbckmbp_bbnds.newIntBbnd("code_StbckMbpTbble_T", BYTE1);
+    CPRefBbnd code_StbckMbpTbble_RC = stbckmbp_bbnds.newCPRefBbnd("code_StbckMbpTbble_RC", CONSTANT_Clbss);
+    IntBbnd   code_StbckMbpTbble_P = stbckmbp_bbnds.newIntBbnd("code_StbckMbpTbble_P", BCI5);
 
-    // bands for predefined LineNumberTable attribute
-    IntBand   code_LineNumberTable_N = code_attr_bands.newIntBand("code_LineNumberTable_N");
-    IntBand   code_LineNumberTable_bci_P = code_attr_bands.newIntBand("code_LineNumberTable_bci_P", BCI5);
-    IntBand   code_LineNumberTable_line = code_attr_bands.newIntBand("code_LineNumberTable_line");
+    // bbnds for predefined LineNumberTbble bttribute
+    IntBbnd   code_LineNumberTbble_N = code_bttr_bbnds.newIntBbnd("code_LineNumberTbble_N");
+    IntBbnd   code_LineNumberTbble_bci_P = code_bttr_bbnds.newIntBbnd("code_LineNumberTbble_bci_P", BCI5);
+    IntBbnd   code_LineNumberTbble_line = code_bttr_bbnds.newIntBbnd("code_LineNumberTbble_line");
 
-    // bands for predefined LocalVariable{Type}Table attributes
-    IntBand   code_LocalVariableTable_N = code_attr_bands.newIntBand("code_LocalVariableTable_N");
-    IntBand   code_LocalVariableTable_bci_P = code_attr_bands.newIntBand("code_LocalVariableTable_bci_P", BCI5);
-    IntBand   code_LocalVariableTable_span_O = code_attr_bands.newIntBand("code_LocalVariableTable_span_O", BRANCH5);
-    CPRefBand code_LocalVariableTable_name_RU = code_attr_bands.newCPRefBand("code_LocalVariableTable_name_RU", CONSTANT_Utf8);
-    CPRefBand code_LocalVariableTable_type_RS = code_attr_bands.newCPRefBand("code_LocalVariableTable_type_RS", CONSTANT_Signature);
-    IntBand   code_LocalVariableTable_slot = code_attr_bands.newIntBand("code_LocalVariableTable_slot");
-    IntBand   code_LocalVariableTypeTable_N = code_attr_bands.newIntBand("code_LocalVariableTypeTable_N");
-    IntBand   code_LocalVariableTypeTable_bci_P = code_attr_bands.newIntBand("code_LocalVariableTypeTable_bci_P", BCI5);
-    IntBand   code_LocalVariableTypeTable_span_O = code_attr_bands.newIntBand("code_LocalVariableTypeTable_span_O", BRANCH5);
-    CPRefBand code_LocalVariableTypeTable_name_RU = code_attr_bands.newCPRefBand("code_LocalVariableTypeTable_name_RU", CONSTANT_Utf8);
-    CPRefBand code_LocalVariableTypeTable_type_RS = code_attr_bands.newCPRefBand("code_LocalVariableTypeTable_type_RS", CONSTANT_Signature);
-    IntBand   code_LocalVariableTypeTable_slot = code_attr_bands.newIntBand("code_LocalVariableTypeTable_slot");
-    MultiBand code_type_metadata_bands = code_attr_bands.newMultiBand("(code_type_metadata_bands)", UNSIGNED5);
+    // bbnds for predefined LocblVbribble{Type}Tbble bttributes
+    IntBbnd   code_LocblVbribbleTbble_N = code_bttr_bbnds.newIntBbnd("code_LocblVbribbleTbble_N");
+    IntBbnd   code_LocblVbribbleTbble_bci_P = code_bttr_bbnds.newIntBbnd("code_LocblVbribbleTbble_bci_P", BCI5);
+    IntBbnd   code_LocblVbribbleTbble_spbn_O = code_bttr_bbnds.newIntBbnd("code_LocblVbribbleTbble_spbn_O", BRANCH5);
+    CPRefBbnd code_LocblVbribbleTbble_nbme_RU = code_bttr_bbnds.newCPRefBbnd("code_LocblVbribbleTbble_nbme_RU", CONSTANT_Utf8);
+    CPRefBbnd code_LocblVbribbleTbble_type_RS = code_bttr_bbnds.newCPRefBbnd("code_LocblVbribbleTbble_type_RS", CONSTANT_Signbture);
+    IntBbnd   code_LocblVbribbleTbble_slot = code_bttr_bbnds.newIntBbnd("code_LocblVbribbleTbble_slot");
+    IntBbnd   code_LocblVbribbleTypeTbble_N = code_bttr_bbnds.newIntBbnd("code_LocblVbribbleTypeTbble_N");
+    IntBbnd   code_LocblVbribbleTypeTbble_bci_P = code_bttr_bbnds.newIntBbnd("code_LocblVbribbleTypeTbble_bci_P", BCI5);
+    IntBbnd   code_LocblVbribbleTypeTbble_spbn_O = code_bttr_bbnds.newIntBbnd("code_LocblVbribbleTypeTbble_spbn_O", BRANCH5);
+    CPRefBbnd code_LocblVbribbleTypeTbble_nbme_RU = code_bttr_bbnds.newCPRefBbnd("code_LocblVbribbleTypeTbble_nbme_RU", CONSTANT_Utf8);
+    CPRefBbnd code_LocblVbribbleTypeTbble_type_RS = code_bttr_bbnds.newCPRefBbnd("code_LocblVbribbleTypeTbble_type_RS", CONSTANT_Signbture);
+    IntBbnd   code_LocblVbribbleTypeTbble_slot = code_bttr_bbnds.newIntBbnd("code_LocblVbribbleTypeTbble_slot");
+    MultiBbnd code_type_metbdbtb_bbnds = code_bttr_bbnds.newMultiBbnd("(code_type_metbdbtb_bbnds)", UNSIGNED5);
 
-    // bands for bytecodes
-    MultiBand bc_bands = all_bands.newMultiBand("(byte_codes)", UNSIGNED5);
-    ByteBand  bc_codes = bc_bands.newByteBand("bc_codes"); //BYTE1
-    // remaining bands provide typed opcode fields required by the bc_codes
+    // bbnds for bytecodes
+    MultiBbnd bc_bbnds = bll_bbnds.newMultiBbnd("(byte_codes)", UNSIGNED5);
+    ByteBbnd  bc_codes = bc_bbnds.newByteBbnd("bc_codes"); //BYTE1
+    // rembining bbnds provide typed opcode fields required by the bc_codes
 
-    IntBand   bc_case_count = bc_bands.newIntBand("bc_case_count");  // *switch
-    IntBand   bc_case_value = bc_bands.newIntBand("bc_case_value", DELTA5);  // *switch
-    ByteBand  bc_byte = bc_bands.newByteBand("bc_byte"); //BYTE1   // bipush, iinc, *newarray
-    IntBand   bc_short = bc_bands.newIntBand("bc_short", DELTA5);  // sipush, wide iinc
-    IntBand   bc_local = bc_bands.newIntBand("bc_local");    // *load, *store, iinc, ret
-    IntBand   bc_label = bc_bands.newIntBand("bc_label", BRANCH5);    // if*, goto*, jsr*, *switch
+    IntBbnd   bc_cbse_count = bc_bbnds.newIntBbnd("bc_cbse_count");  // *switch
+    IntBbnd   bc_cbse_vblue = bc_bbnds.newIntBbnd("bc_cbse_vblue", DELTA5);  // *switch
+    ByteBbnd  bc_byte = bc_bbnds.newByteBbnd("bc_byte"); //BYTE1   // bipush, iinc, *newbrrby
+    IntBbnd   bc_short = bc_bbnds.newIntBbnd("bc_short", DELTA5);  // sipush, wide iinc
+    IntBbnd   bc_locbl = bc_bbnds.newIntBbnd("bc_locbl");    // *lobd, *store, iinc, ret
+    IntBbnd   bc_lbbel = bc_bbnds.newIntBbnd("bc_lbbel", BRANCH5);    // if*, goto*, jsr*, *switch
 
-    // Most CP refs exhibit some correlation, and benefit from delta coding.
-    // The notable exceptions are class and method references.
+    // Most CP refs exhibit some correlbtion, bnd benefit from deltb coding.
+    // The notbble exceptions bre clbss bnd method references.
 
-    // ldc* operands:
-    CPRefBand bc_intref = bc_bands.newCPRefBand("bc_intref", DELTA5, CONSTANT_Integer);
-    CPRefBand bc_floatref = bc_bands.newCPRefBand("bc_floatref", DELTA5, CONSTANT_Float);
-    CPRefBand bc_longref = bc_bands.newCPRefBand("bc_longref", DELTA5, CONSTANT_Long);
-    CPRefBand bc_doubleref = bc_bands.newCPRefBand("bc_doubleref", DELTA5, CONSTANT_Double);
-    CPRefBand bc_stringref = bc_bands.newCPRefBand("bc_stringref", DELTA5, CONSTANT_String);
-    CPRefBand bc_loadablevalueref = bc_bands.newCPRefBand("bc_loadablevalueref", DELTA5, CONSTANT_LoadableValue);
+    // ldc* operbnds:
+    CPRefBbnd bc_intref = bc_bbnds.newCPRefBbnd("bc_intref", DELTA5, CONSTANT_Integer);
+    CPRefBbnd bc_flobtref = bc_bbnds.newCPRefBbnd("bc_flobtref", DELTA5, CONSTANT_Flobt);
+    CPRefBbnd bc_longref = bc_bbnds.newCPRefBbnd("bc_longref", DELTA5, CONSTANT_Long);
+    CPRefBbnd bc_doubleref = bc_bbnds.newCPRefBbnd("bc_doubleref", DELTA5, CONSTANT_Double);
+    CPRefBbnd bc_stringref = bc_bbnds.newCPRefBbnd("bc_stringref", DELTA5, CONSTANT_String);
+    CPRefBbnd bc_lobdbblevblueref = bc_bbnds.newCPRefBbnd("bc_lobdbblevblueref", DELTA5, CONSTANT_LobdbbleVblue);
 
-    // nulls produced by bc_classref are taken to mean the current class
-    CPRefBand bc_classref = bc_bands.newCPRefBand("bc_classref", UNSIGNED5, CONSTANT_Class, NULL_IS_OK);   // new, *anew*, c*cast, i*of, ldc
-    CPRefBand bc_fieldref = bc_bands.newCPRefBand("bc_fieldref", DELTA5, CONSTANT_Fieldref);   // get*, put*
-    CPRefBand bc_methodref = bc_bands.newCPRefBand("bc_methodref", CONSTANT_Methodref); // invoke[vs]*
-    CPRefBand bc_imethodref = bc_bands.newCPRefBand("bc_imethodref", DELTA5, CONSTANT_InterfaceMethodref); // invokeinterface
-    CPRefBand bc_indyref = bc_bands.newCPRefBand("bc_indyref", DELTA5, CONSTANT_InvokeDynamic); // invokedynamic
+    // nulls produced by bc_clbssref bre tbken to mebn the current clbss
+    CPRefBbnd bc_clbssref = bc_bbnds.newCPRefBbnd("bc_clbssref", UNSIGNED5, CONSTANT_Clbss, NULL_IS_OK);   // new, *bnew*, c*cbst, i*of, ldc
+    CPRefBbnd bc_fieldref = bc_bbnds.newCPRefBbnd("bc_fieldref", DELTA5, CONSTANT_Fieldref);   // get*, put*
+    CPRefBbnd bc_methodref = bc_bbnds.newCPRefBbnd("bc_methodref", CONSTANT_Methodref); // invoke[vs]*
+    CPRefBbnd bc_imethodref = bc_bbnds.newCPRefBbnd("bc_imethodref", DELTA5, CONSTANT_InterfbceMethodref); // invokeinterfbce
+    CPRefBbnd bc_indyref = bc_bbnds.newCPRefBbnd("bc_indyref", DELTA5, CONSTANT_InvokeDynbmic); // invokedynbmic
 
-    // _self_linker_op family
-    CPRefBand bc_thisfield = bc_bands.newCPRefBand("bc_thisfield", CONSTANT_None);     // any field within cur. class
-    CPRefBand bc_superfield = bc_bands.newCPRefBand("bc_superfield", CONSTANT_None);   // any field within superclass
-    CPRefBand bc_thismethod = bc_bands.newCPRefBand("bc_thismethod", CONSTANT_None);   // any method within cur. class
-    CPRefBand bc_supermethod = bc_bands.newCPRefBand("bc_supermethod", CONSTANT_None); // any method within superclass
-    // bc_invokeinit family:
-    IntBand   bc_initref = bc_bands.newIntBand("bc_initref");
-    // escapes
-    CPRefBand bc_escref = bc_bands.newCPRefBand("bc_escref", CONSTANT_All);
-    IntBand   bc_escrefsize = bc_bands.newIntBand("bc_escrefsize");
-    IntBand   bc_escsize = bc_bands.newIntBand("bc_escsize");
-    ByteBand  bc_escbyte = bc_bands.newByteBand("bc_escbyte");
+    // _self_linker_op fbmily
+    CPRefBbnd bc_thisfield = bc_bbnds.newCPRefBbnd("bc_thisfield", CONSTANT_None);     // bny field within cur. clbss
+    CPRefBbnd bc_superfield = bc_bbnds.newCPRefBbnd("bc_superfield", CONSTANT_None);   // bny field within superclbss
+    CPRefBbnd bc_thismethod = bc_bbnds.newCPRefBbnd("bc_thismethod", CONSTANT_None);   // bny method within cur. clbss
+    CPRefBbnd bc_supermethod = bc_bbnds.newCPRefBbnd("bc_supermethod", CONSTANT_None); // bny method within superclbss
+    // bc_invokeinit fbmily:
+    IntBbnd   bc_initref = bc_bbnds.newIntBbnd("bc_initref");
+    // escbpes
+    CPRefBbnd bc_escref = bc_bbnds.newCPRefBbnd("bc_escref", CONSTANT_All);
+    IntBbnd   bc_escrefsize = bc_bbnds.newIntBbnd("bc_escrefsize");
+    IntBbnd   bc_escsize = bc_bbnds.newIntBbnd("bc_escsize");
+    ByteBbnd  bc_escbyte = bc_bbnds.newByteBbnd("bc_escbyte");
 
-    // bands for carrying resource files and file attributes:
-    MultiBand file_bands = all_bands.newMultiBand("(file_bands)", UNSIGNED5);
-    CPRefBand file_name = file_bands.newCPRefBand("file_name", CONSTANT_Utf8);
-    IntBand file_size_hi = file_bands.newIntBand("file_size_hi");
-    IntBand file_size_lo = file_bands.newIntBand("file_size_lo");
-    IntBand file_modtime = file_bands.newIntBand("file_modtime", DELTA5);
-    IntBand file_options = file_bands.newIntBand("file_options");
-    ByteBand file_bits = file_bands.newByteBand("file_bits");
+    // bbnds for cbrrying resource files bnd file bttributes:
+    MultiBbnd file_bbnds = bll_bbnds.newMultiBbnd("(file_bbnds)", UNSIGNED5);
+    CPRefBbnd file_nbme = file_bbnds.newCPRefBbnd("file_nbme", CONSTANT_Utf8);
+    IntBbnd file_size_hi = file_bbnds.newIntBbnd("file_size_hi");
+    IntBbnd file_size_lo = file_bbnds.newIntBbnd("file_size_lo");
+    IntBbnd file_modtime = file_bbnds.newIntBbnd("file_modtime", DELTA5);
+    IntBbnd file_options = file_bbnds.newIntBbnd("file_options");
+    ByteBbnd file_bits = file_bbnds.newByteBbnd("file_bits");
 
-    // End of band definitions!
+    // End of bbnd definitions!
 
-    /** Given CP indexes, distribute tag-specific indexes to bands. */
-    protected void setBandIndexes() {
-        // Handle prior calls to setBandIndex:
+    /** Given CP indexes, distribute tbg-specific indexes to bbnds. */
+    protected void setBbndIndexes() {
+        // Hbndle prior cblls to setBbndIndex:
         for (Object[] need : needPredefIndex) {
-            CPRefBand b     = (CPRefBand) need[0];
+            CPRefBbnd b     = (CPRefBbnd) need[0];
             Byte      which = (Byte)      need[1];
-            b.setIndex(getCPIndex(which.byteValue()));
+            b.setIndex(getCPIndex(which.byteVblue()));
         }
         needPredefIndex = null;  // no more predefs
 
         if (verbose > 3) {
-            printCDecl(all_bands);
+            printCDecl(bll_bbnds);
         }
     }
 
-    protected void setBandIndex(CPRefBand b, byte which) {
-        Object[] need = { b, Byte.valueOf(which) };
+    protected void setBbndIndex(CPRefBbnd b, byte which) {
+        Object[] need = { b, Byte.vblueOf(which) };
         if (which == CONSTANT_FieldSpecific) {
-            // I.e., attribute layouts KQ (no null) or KQN (null ok).
-            allKQBands.add(b);
+            // I.e., bttribute lbyouts KQ (no null) or KQN (null ok).
+            bllKQBbnds.bdd(b);
         } else if (needPredefIndex != null) {
-            needPredefIndex.add(need);
+            needPredefIndex.bdd(need);
         } else {
             // Not in predefinition mode; getCPIndex now works.
             b.setIndex(getCPIndex(which));
         }
     }
 
-    protected void setConstantValueIndex(Field f) {
+    protected void setConstbntVblueIndex(Field f) {
         Index ix = null;
         if (f != null) {
-            byte tag = f.getLiteralTag();
-            ix = getCPIndex(tag);
+            byte tbg = f.getLiterblTbg();
+            ix = getCPIndex(tbg);
             if (verbose > 2)
-                Utils.log.fine("setConstantValueIndex "+f+" "+ConstantPool.tagName(tag)+" => "+ix);
-            assert(ix != null);
+                Utils.log.fine("setConstbntVblueIndex "+f+" "+ConstbntPool.tbgNbme(tbg)+" => "+ix);
+            bssert(ix != null);
         }
-        // Typically, allKQBands is the singleton of field_ConstantValue_KQ.
-        for (CPRefBand xxx_KQ : allKQBands) {
+        // Typicblly, bllKQBbnds is the singleton of field_ConstbntVblue_KQ.
+        for (CPRefBbnd xxx_KQ : bllKQBbnds) {
             xxx_KQ.setIndex(ix);
         }
     }
 
-    // Table of bands which contain metadata.
-    protected MultiBand[] metadataBands = new MultiBand[ATTR_CONTEXT_LIMIT];
+    // Tbble of bbnds which contbin metbdbtb.
+    protected MultiBbnd[] metbdbtbBbnds = new MultiBbnd[ATTR_CONTEXT_LIMIT];
     {
-        metadataBands[ATTR_CONTEXT_CLASS] = class_metadata_bands;
-        metadataBands[ATTR_CONTEXT_FIELD] = field_metadata_bands;
-        metadataBands[ATTR_CONTEXT_METHOD] = method_metadata_bands;
+        metbdbtbBbnds[ATTR_CONTEXT_CLASS] = clbss_metbdbtb_bbnds;
+        metbdbtbBbnds[ATTR_CONTEXT_FIELD] = field_metbdbtb_bbnds;
+        metbdbtbBbnds[ATTR_CONTEXT_METHOD] = method_metbdbtb_bbnds;
     }
-    // Table of bands which contains type_metadata (TypeAnnotations)
-    protected MultiBand[] typeMetadataBands = new MultiBand[ATTR_CONTEXT_LIMIT];
+    // Tbble of bbnds which contbins type_metbdbtb (TypeAnnotbtions)
+    protected MultiBbnd[] typeMetbdbtbBbnds = new MultiBbnd[ATTR_CONTEXT_LIMIT];
     {
-        typeMetadataBands[ATTR_CONTEXT_CLASS] = class_type_metadata_bands;
-        typeMetadataBands[ATTR_CONTEXT_FIELD] = field_type_metadata_bands;
-        typeMetadataBands[ATTR_CONTEXT_METHOD] = method_type_metadata_bands;
-        typeMetadataBands[ATTR_CONTEXT_CODE]   = code_type_metadata_bands;
+        typeMetbdbtbBbnds[ATTR_CONTEXT_CLASS] = clbss_type_metbdbtb_bbnds;
+        typeMetbdbtbBbnds[ATTR_CONTEXT_FIELD] = field_type_metbdbtb_bbnds;
+        typeMetbdbtbBbnds[ATTR_CONTEXT_METHOD] = method_type_metbdbtb_bbnds;
+        typeMetbdbtbBbnds[ATTR_CONTEXT_CODE]   = code_type_metbdbtb_bbnds;
     }
 
-    // Attribute layouts.
-    public static final int ADH_CONTEXT_MASK   = 0x3;  // (ad_hdr & ADH_CONTEXT_MASK)
-    public static final int ADH_BIT_SHIFT      = 0x2;  // (ad_hdr >> ADH_BIT_SHIFT)
-    public static final int ADH_BIT_IS_LSB     = 1;
-    public static final int ATTR_INDEX_OVERFLOW  = -1;
+    // Attribute lbyouts.
+    public stbtic finbl int ADH_CONTEXT_MASK   = 0x3;  // (bd_hdr & ADH_CONTEXT_MASK)
+    public stbtic finbl int ADH_BIT_SHIFT      = 0x2;  // (bd_hdr >> ADH_BIT_SHIFT)
+    public stbtic finbl int ADH_BIT_IS_LSB     = 1;
+    public stbtic finbl int ATTR_INDEX_OVERFLOW  = -1;
 
-    public int[] attrIndexLimit = new int[ATTR_CONTEXT_LIMIT];
-    // Each index limit is either 32 or 63, depending on AO_HAVE_XXX_FLAGS_HI.
+    public int[] bttrIndexLimit = new int[ATTR_CONTEXT_LIMIT];
+    // Ebch index limit is either 32 or 63, depending on AO_HAVE_XXX_FLAGS_HI.
 
-    // Which flag bits are taken over by attributes?
-    protected long[] attrFlagMask = new long[ATTR_CONTEXT_LIMIT];
-    // Which flag bits have been taken over explicitly?
-    protected long[] attrDefSeen = new long[ATTR_CONTEXT_LIMIT];
+    // Which flbg bits bre tbken over by bttributes?
+    protected long[] bttrFlbgMbsk = new long[ATTR_CONTEXT_LIMIT];
+    // Which flbg bits hbve been tbken over explicitly?
+    protected long[] bttrDefSeen = new long[ATTR_CONTEXT_LIMIT];
 
-    // What pseudo-attribute bits are there to watch for?
-    protected int[] attrOverflowMask = new int[ATTR_CONTEXT_LIMIT];
-    protected int attrClassFileVersionMask;
+    // Whbt pseudo-bttribute bits bre there to wbtch for?
+    protected int[] bttrOverflowMbsk = new int[ATTR_CONTEXT_LIMIT];
+    protected int bttrClbssFileVersionMbsk;
 
-    // Mapping from Attribute.Layout to Band[] (layout element bands).
-    protected Map<Attribute.Layout, Band[]> attrBandTable = new HashMap<>();
+    // Mbpping from Attribute.Lbyout to Bbnd[] (lbyout element bbnds).
+    protected Mbp<Attribute.Lbyout, Bbnd[]> bttrBbndTbble = new HbshMbp<>();
 
-    // Well-known attributes:
-    protected final Attribute.Layout attrCodeEmpty;
-    protected final Attribute.Layout attrInnerClassesEmpty;
-    protected final Attribute.Layout attrClassFileVersion;
-    protected final Attribute.Layout attrConstantValue;
+    // Well-known bttributes:
+    protected finbl Attribute.Lbyout bttrCodeEmpty;
+    protected finbl Attribute.Lbyout bttrInnerClbssesEmpty;
+    protected finbl Attribute.Lbyout bttrClbssFileVersion;
+    protected finbl Attribute.Lbyout bttrConstbntVblue;
 
-    // Mapping from Attribute.Layout to Integer (inverse of attrDefs)
-    Map<Attribute.Layout, Integer> attrIndexTable = new HashMap<>();
+    // Mbpping from Attribute.Lbyout to Integer (inverse of bttrDefs)
+    Mbp<Attribute.Lbyout, Integer> bttrIndexTbble = new HbshMbp<>();
 
-    // Mapping from attribute index (<32 are flag bits) to attributes.
-    protected List<List<Attribute.Layout>> attrDefs =
+    // Mbpping from bttribute index (<32 bre flbg bits) to bttributes.
+    protected List<List<Attribute.Lbyout>> bttrDefs =
             new FixedList<>(ATTR_CONTEXT_LIMIT);
     {
         for (int i = 0; i < ATTR_CONTEXT_LIMIT; i++) {
-            assert(attrIndexLimit[i] == 0);
-            attrIndexLimit[i] = 32;  // just for the sake of predefs.
-            attrDefs.set(i, new ArrayList<>(Collections.nCopies(
-                    attrIndexLimit[i], (Attribute.Layout)null)));
+            bssert(bttrIndexLimit[i] == 0);
+            bttrIndexLimit[i] = 32;  // just for the sbke of predefs.
+            bttrDefs.set(i, new ArrbyList<>(Collections.nCopies(
+                    bttrIndexLimit[i], (Attribute.Lbyout)null)));
 
         }
 
-        // Add predefined attribute definitions:
-        attrInnerClassesEmpty =
-        predefineAttribute(CLASS_ATTR_InnerClasses, ATTR_CONTEXT_CLASS, null,
-                           "InnerClasses", "");
-        assert(attrInnerClassesEmpty == Package.attrInnerClassesEmpty);
+        // Add predefined bttribute definitions:
+        bttrInnerClbssesEmpty =
+        predefineAttribute(CLASS_ATTR_InnerClbsses, ATTR_CONTEXT_CLASS, null,
+                           "InnerClbsses", "");
+        bssert(bttrInnerClbssesEmpty == Pbckbge.bttrInnerClbssesEmpty);
         predefineAttribute(CLASS_ATTR_SourceFile, ATTR_CONTEXT_CLASS,
-                           new Band[] { class_SourceFile_RUN },
+                           new Bbnd[] { clbss_SourceFile_RUN },
                            "SourceFile", "RUNH");
         predefineAttribute(CLASS_ATTR_EnclosingMethod, ATTR_CONTEXT_CLASS,
-                           new Band[] {
-                               class_EnclosingMethod_RC,
-                               class_EnclosingMethod_RDN
+                           new Bbnd[] {
+                               clbss_EnclosingMethod_RC,
+                               clbss_EnclosingMethod_RDN
                            },
                            "EnclosingMethod", "RCHRDNH");
-        attrClassFileVersion =
-        predefineAttribute(CLASS_ATTR_ClassFile_version, ATTR_CONTEXT_CLASS,
-                           new Band[] {
-                               class_ClassFile_version_minor_H,
-                               class_ClassFile_version_major_H
+        bttrClbssFileVersion =
+        predefineAttribute(CLASS_ATTR_ClbssFile_version, ATTR_CONTEXT_CLASS,
+                           new Bbnd[] {
+                               clbss_ClbssFile_version_minor_H,
+                               clbss_ClbssFile_version_mbjor_H
                            },
-                           ".ClassFile.version", "HH");
-        predefineAttribute(X_ATTR_Signature, ATTR_CONTEXT_CLASS,
-                           new Band[] { class_Signature_RS },
-                           "Signature", "RSH");
-        predefineAttribute(X_ATTR_Deprecated, ATTR_CONTEXT_CLASS, null,
-                           "Deprecated", "");
+                           ".ClbssFile.version", "HH");
+        predefineAttribute(X_ATTR_Signbture, ATTR_CONTEXT_CLASS,
+                           new Bbnd[] { clbss_Signbture_RS },
+                           "Signbture", "RSH");
+        predefineAttribute(X_ATTR_Deprecbted, ATTR_CONTEXT_CLASS, null,
+                           "Deprecbted", "");
         //predefineAttribute(X_ATTR_Synthetic, ATTR_CONTEXT_CLASS, null,
         //                 "Synthetic", "");
         predefineAttribute(X_ATTR_OVERFLOW, ATTR_CONTEXT_CLASS, null,
                            ".Overflow", "");
-        attrConstantValue =
-        predefineAttribute(FIELD_ATTR_ConstantValue, ATTR_CONTEXT_FIELD,
-                           new Band[] { field_ConstantValue_KQ },
-                           "ConstantValue", "KQH");
-        predefineAttribute(X_ATTR_Signature, ATTR_CONTEXT_FIELD,
-                           new Band[] { field_Signature_RS },
-                           "Signature", "RSH");
-        predefineAttribute(X_ATTR_Deprecated, ATTR_CONTEXT_FIELD, null,
-                           "Deprecated", "");
+        bttrConstbntVblue =
+        predefineAttribute(FIELD_ATTR_ConstbntVblue, ATTR_CONTEXT_FIELD,
+                           new Bbnd[] { field_ConstbntVblue_KQ },
+                           "ConstbntVblue", "KQH");
+        predefineAttribute(X_ATTR_Signbture, ATTR_CONTEXT_FIELD,
+                           new Bbnd[] { field_Signbture_RS },
+                           "Signbture", "RSH");
+        predefineAttribute(X_ATTR_Deprecbted, ATTR_CONTEXT_FIELD, null,
+                           "Deprecbted", "");
         //predefineAttribute(X_ATTR_Synthetic, ATTR_CONTEXT_FIELD, null,
         //                 "Synthetic", "");
         predefineAttribute(X_ATTR_OVERFLOW, ATTR_CONTEXT_FIELD, null,
                            ".Overflow", "");
-        attrCodeEmpty =
+        bttrCodeEmpty =
         predefineAttribute(METHOD_ATTR_Code, ATTR_CONTEXT_METHOD, null,
                            "Code", "");
         predefineAttribute(METHOD_ATTR_Exceptions, ATTR_CONTEXT_METHOD,
-                           new Band[] {
+                           new Bbnd[] {
                                method_Exceptions_N,
                                method_Exceptions_RC
                            },
                            "Exceptions", "NH[RCH]");
-        predefineAttribute(METHOD_ATTR_MethodParameters, ATTR_CONTEXT_METHOD,
-                           new Band[]{
-                                method_MethodParameters_NB,
-                                method_MethodParameters_name_RUN,
-                                method_MethodParameters_flag_FH
+        predefineAttribute(METHOD_ATTR_MethodPbrbmeters, ATTR_CONTEXT_METHOD,
+                           new Bbnd[]{
+                                method_MethodPbrbmeters_NB,
+                                method_MethodPbrbmeters_nbme_RUN,
+                                method_MethodPbrbmeters_flbg_FH
                            },
-                           "MethodParameters", "NB[RUNHFH]");
-        assert(attrCodeEmpty == Package.attrCodeEmpty);
-        predefineAttribute(X_ATTR_Signature, ATTR_CONTEXT_METHOD,
-                           new Band[] { method_Signature_RS },
-                           "Signature", "RSH");
-        predefineAttribute(X_ATTR_Deprecated, ATTR_CONTEXT_METHOD, null,
-                           "Deprecated", "");
+                           "MethodPbrbmeters", "NB[RUNHFH]");
+        bssert(bttrCodeEmpty == Pbckbge.bttrCodeEmpty);
+        predefineAttribute(X_ATTR_Signbture, ATTR_CONTEXT_METHOD,
+                           new Bbnd[] { method_Signbture_RS },
+                           "Signbture", "RSH");
+        predefineAttribute(X_ATTR_Deprecbted, ATTR_CONTEXT_METHOD, null,
+                           "Deprecbted", "");
         //predefineAttribute(X_ATTR_Synthetic, ATTR_CONTEXT_METHOD, null,
         //                 "Synthetic", "");
         predefineAttribute(X_ATTR_OVERFLOW, ATTR_CONTEXT_METHOD, null,
                            ".Overflow", "");
 
         for (int ctype = 0; ctype < ATTR_CONTEXT_LIMIT; ctype++) {
-            MultiBand xxx_metadata_bands = metadataBands[ctype];
+            MultiBbnd xxx_metbdbtb_bbnds = metbdbtbBbnds[ctype];
             if (ctype != ATTR_CONTEXT_CODE) {
-                // These arguments cause the bands to be built
-                // automatically for this complicated layout:
-                predefineAttribute(X_ATTR_RuntimeVisibleAnnotations,
+                // These brguments cbuse the bbnds to be built
+                // butombticblly for this complicbted lbyout:
+                predefineAttribute(X_ATTR_RuntimeVisibleAnnotbtions,
                                    ATTR_CONTEXT_NAME[ctype]+"_RVA_",
-                                   xxx_metadata_bands,
+                                   xxx_metbdbtb_bbnds,
                                    Attribute.lookup(null, ctype,
-                                                    "RuntimeVisibleAnnotations"));
-                predefineAttribute(X_ATTR_RuntimeInvisibleAnnotations,
+                                                    "RuntimeVisibleAnnotbtions"));
+                predefineAttribute(X_ATTR_RuntimeInvisibleAnnotbtions,
                                    ATTR_CONTEXT_NAME[ctype]+"_RIA_",
-                                   xxx_metadata_bands,
+                                   xxx_metbdbtb_bbnds,
                                    Attribute.lookup(null, ctype,
-                                                    "RuntimeInvisibleAnnotations"));
+                                                    "RuntimeInvisibleAnnotbtions"));
 
                 if (ctype == ATTR_CONTEXT_METHOD) {
-                    predefineAttribute(METHOD_ATTR_RuntimeVisibleParameterAnnotations,
-                                       "method_RVPA_", xxx_metadata_bands,
+                    predefineAttribute(METHOD_ATTR_RuntimeVisiblePbrbmeterAnnotbtions,
+                                       "method_RVPA_", xxx_metbdbtb_bbnds,
                                        Attribute.lookup(null, ctype,
-                                       "RuntimeVisibleParameterAnnotations"));
-                    predefineAttribute(METHOD_ATTR_RuntimeInvisibleParameterAnnotations,
-                                       "method_RIPA_", xxx_metadata_bands,
+                                       "RuntimeVisiblePbrbmeterAnnotbtions"));
+                    predefineAttribute(METHOD_ATTR_RuntimeInvisiblePbrbmeterAnnotbtions,
+                                       "method_RIPA_", xxx_metbdbtb_bbnds,
                                        Attribute.lookup(null, ctype,
-                                       "RuntimeInvisibleParameterAnnotations"));
-                    predefineAttribute(METHOD_ATTR_AnnotationDefault,
-                                       "method_AD_", xxx_metadata_bands,
+                                       "RuntimeInvisiblePbrbmeterAnnotbtions"));
+                    predefineAttribute(METHOD_ATTR_AnnotbtionDefbult,
+                                       "method_AD_", xxx_metbdbtb_bbnds,
                                        Attribute.lookup(null, ctype,
-                                       "AnnotationDefault"));
+                                       "AnnotbtionDefbult"));
                 }
             }
-            // All contexts have these
-            MultiBand xxx_type_metadata_bands = typeMetadataBands[ctype];
-            predefineAttribute(X_ATTR_RuntimeVisibleTypeAnnotations,
+            // All contexts hbve these
+            MultiBbnd xxx_type_metbdbtb_bbnds = typeMetbdbtbBbnds[ctype];
+            predefineAttribute(X_ATTR_RuntimeVisibleTypeAnnotbtions,
                     ATTR_CONTEXT_NAME[ctype] + "_RVTA_",
-                    xxx_type_metadata_bands,
+                    xxx_type_metbdbtb_bbnds,
                     Attribute.lookup(null, ctype,
-                    "RuntimeVisibleTypeAnnotations"));
-            predefineAttribute(X_ATTR_RuntimeInvisibleTypeAnnotations,
+                    "RuntimeVisibleTypeAnnotbtions"));
+            predefineAttribute(X_ATTR_RuntimeInvisibleTypeAnnotbtions,
                     ATTR_CONTEXT_NAME[ctype] + "_RITA_",
-                    xxx_type_metadata_bands,
+                    xxx_type_metbdbtb_bbnds,
                     Attribute.lookup(null, ctype,
-                    "RuntimeInvisibleTypeAnnotations"));
+                    "RuntimeInvisibleTypeAnnotbtions"));
         }
 
 
-        Attribute.Layout stackMapDef = Attribute.lookup(null, ATTR_CONTEXT_CODE, "StackMapTable").layout();
-        predefineAttribute(CODE_ATTR_StackMapTable, ATTR_CONTEXT_CODE,
-                           stackmap_bands.toArray(),
-                           stackMapDef.name(), stackMapDef.layout());
+        Attribute.Lbyout stbckMbpDef = Attribute.lookup(null, ATTR_CONTEXT_CODE, "StbckMbpTbble").lbyout();
+        predefineAttribute(CODE_ATTR_StbckMbpTbble, ATTR_CONTEXT_CODE,
+                           stbckmbp_bbnds.toArrby(),
+                           stbckMbpDef.nbme(), stbckMbpDef.lbyout());
 
-        predefineAttribute(CODE_ATTR_LineNumberTable, ATTR_CONTEXT_CODE,
-                           new Band[] {
-                               code_LineNumberTable_N,
-                               code_LineNumberTable_bci_P,
-                               code_LineNumberTable_line
+        predefineAttribute(CODE_ATTR_LineNumberTbble, ATTR_CONTEXT_CODE,
+                           new Bbnd[] {
+                               code_LineNumberTbble_N,
+                               code_LineNumberTbble_bci_P,
+                               code_LineNumberTbble_line
                            },
-                           "LineNumberTable", "NH[PHH]");
-        predefineAttribute(CODE_ATTR_LocalVariableTable, ATTR_CONTEXT_CODE,
-                           new Band[] {
-                               code_LocalVariableTable_N,
-                               code_LocalVariableTable_bci_P,
-                               code_LocalVariableTable_span_O,
-                               code_LocalVariableTable_name_RU,
-                               code_LocalVariableTable_type_RS,
-                               code_LocalVariableTable_slot
+                           "LineNumberTbble", "NH[PHH]");
+        predefineAttribute(CODE_ATTR_LocblVbribbleTbble, ATTR_CONTEXT_CODE,
+                           new Bbnd[] {
+                               code_LocblVbribbleTbble_N,
+                               code_LocblVbribbleTbble_bci_P,
+                               code_LocblVbribbleTbble_spbn_O,
+                               code_LocblVbribbleTbble_nbme_RU,
+                               code_LocblVbribbleTbble_type_RS,
+                               code_LocblVbribbleTbble_slot
                            },
-                           "LocalVariableTable", "NH[PHOHRUHRSHH]");
-        predefineAttribute(CODE_ATTR_LocalVariableTypeTable, ATTR_CONTEXT_CODE,
-                           new Band[] {
-                               code_LocalVariableTypeTable_N,
-                               code_LocalVariableTypeTable_bci_P,
-                               code_LocalVariableTypeTable_span_O,
-                               code_LocalVariableTypeTable_name_RU,
-                               code_LocalVariableTypeTable_type_RS,
-                               code_LocalVariableTypeTable_slot
+                           "LocblVbribbleTbble", "NH[PHOHRUHRSHH]");
+        predefineAttribute(CODE_ATTR_LocblVbribbleTypeTbble, ATTR_CONTEXT_CODE,
+                           new Bbnd[] {
+                               code_LocblVbribbleTypeTbble_N,
+                               code_LocblVbribbleTypeTbble_bci_P,
+                               code_LocblVbribbleTypeTbble_spbn_O,
+                               code_LocblVbribbleTypeTbble_nbme_RU,
+                               code_LocblVbribbleTypeTbble_type_RS,
+                               code_LocblVbribbleTypeTbble_slot
                            },
-                           "LocalVariableTypeTable", "NH[PHOHRUHRSHH]");
+                           "LocblVbribbleTypeTbble", "NH[PHOHRUHRSHH]");
         predefineAttribute(X_ATTR_OVERFLOW, ATTR_CONTEXT_CODE, null,
                            ".Overflow", "");
 
-        // Clear the record of having seen these definitions,
-        // so they may be redefined without error.
+        // Clebr the record of hbving seen these definitions,
+        // so they mby be redefined without error.
         for (int i = 0; i < ATTR_CONTEXT_LIMIT; i++) {
-            attrDefSeen[i] = 0;
+            bttrDefSeen[i] = 0;
         }
 
-        // Set up the special masks:
+        // Set up the specibl mbsks:
         for (int i = 0; i < ATTR_CONTEXT_LIMIT; i++) {
-            attrOverflowMask[i] = (1<<X_ATTR_OVERFLOW);
-            attrIndexLimit[i] = 0;  // will make a final decision later
+            bttrOverflowMbsk[i] = (1<<X_ATTR_OVERFLOW);
+            bttrIndexLimit[i] = 0;  // will mbke b finbl decision lbter
         }
-        attrClassFileVersionMask = (1<<CLASS_ATTR_ClassFile_version);
+        bttrClbssFileVersionMbsk = (1<<CLASS_ATTR_ClbssFile_version);
     }
 
-    private void adjustToClassVersion() throws IOException {
-        if (getHighestClassVersion().lessThan(JAVA6_MAX_CLASS_VERSION)) {
-            if (verbose > 0)  Utils.log.fine("Legacy package version");
-            // Revoke definition of pre-1.6 attribute type.
-            undefineAttribute(CODE_ATTR_StackMapTable, ATTR_CONTEXT_CODE);
+    privbte void bdjustToClbssVersion() throws IOException {
+        if (getHighestClbssVersion().lessThbn(JAVA6_MAX_CLASS_VERSION)) {
+            if (verbose > 0)  Utils.log.fine("Legbcy pbckbge version");
+            // Revoke definition of pre-1.6 bttribute type.
+            undefineAttribute(CODE_ATTR_StbckMbpTbble, ATTR_CONTEXT_CODE);
         }
     }
 
     protected void initAttrIndexLimit() {
         for (int i = 0; i < ATTR_CONTEXT_LIMIT; i++) {
-            assert(attrIndexLimit[i] == 0);  // decide on it now!
-            attrIndexLimit[i] = (haveFlagsHi(i)? 63: 32);
-            List<Attribute.Layout> defList = attrDefs.get(i);
-            assert(defList.size() == 32);  // all predef indexes are <32
-            int addMore = attrIndexLimit[i] - defList.size();
-            defList.addAll(Collections.nCopies(addMore, (Attribute.Layout) null));
+            bssert(bttrIndexLimit[i] == 0);  // decide on it now!
+            bttrIndexLimit[i] = (hbveFlbgsHi(i)? 63: 32);
+            List<Attribute.Lbyout> defList = bttrDefs.get(i);
+            bssert(defList.size() == 32);  // bll predef indexes bre <32
+            int bddMore = bttrIndexLimit[i] - defList.size();
+            defList.bddAll(Collections.nCopies(bddMore, (Attribute.Lbyout) null));
         }
     }
 
-    protected boolean haveFlagsHi(int ctype) {
-        int mask = 1<<(LG_AO_HAVE_XXX_FLAGS_HI+ctype);
+    protected boolebn hbveFlbgsHi(int ctype) {
+        int mbsk = 1<<(LG_AO_HAVE_XXX_FLAGS_HI+ctype);
         switch (ctype) {
-        case ATTR_CONTEXT_CLASS:
-            assert(mask == AO_HAVE_CLASS_FLAGS_HI); break;
-        case ATTR_CONTEXT_FIELD:
-            assert(mask == AO_HAVE_FIELD_FLAGS_HI); break;
-        case ATTR_CONTEXT_METHOD:
-            assert(mask == AO_HAVE_METHOD_FLAGS_HI); break;
-        case ATTR_CONTEXT_CODE:
-            assert(mask == AO_HAVE_CODE_FLAGS_HI); break;
-        default:
-            assert(false);
+        cbse ATTR_CONTEXT_CLASS:
+            bssert(mbsk == AO_HAVE_CLASS_FLAGS_HI); brebk;
+        cbse ATTR_CONTEXT_FIELD:
+            bssert(mbsk == AO_HAVE_FIELD_FLAGS_HI); brebk;
+        cbse ATTR_CONTEXT_METHOD:
+            bssert(mbsk == AO_HAVE_METHOD_FLAGS_HI); brebk;
+        cbse ATTR_CONTEXT_CODE:
+            bssert(mbsk == AO_HAVE_CODE_FLAGS_HI); brebk;
+        defbult:
+            bssert(fblse);
         }
-        return testBit(archiveOptions, mask);
+        return testBit(brchiveOptions, mbsk);
     }
 
-    protected List<Attribute.Layout> getPredefinedAttrs(int ctype) {
-        assert(attrIndexLimit[ctype] != 0);
-        List<Attribute.Layout> res = new ArrayList<>(attrIndexLimit[ctype]);
-        // Remove nulls and non-predefs.
-        for (int ai = 0; ai < attrIndexLimit[ctype]; ai++) {
-            if (testBit(attrDefSeen[ctype], 1L<<ai))  continue;
-            Attribute.Layout def = attrDefs.get(ctype).get(ai);
-            if (def == null)  continue;  // unused flag bit
-            assert(isPredefinedAttr(ctype, ai));
-            res.add(def);
+    protected List<Attribute.Lbyout> getPredefinedAttrs(int ctype) {
+        bssert(bttrIndexLimit[ctype] != 0);
+        List<Attribute.Lbyout> res = new ArrbyList<>(bttrIndexLimit[ctype]);
+        // Remove nulls bnd non-predefs.
+        for (int bi = 0; bi < bttrIndexLimit[ctype]; bi++) {
+            if (testBit(bttrDefSeen[ctype], 1L<<bi))  continue;
+            Attribute.Lbyout def = bttrDefs.get(ctype).get(bi);
+            if (def == null)  continue;  // unused flbg bit
+            bssert(isPredefinedAttr(ctype, bi));
+            res.bdd(def);
         }
         return res;
     }
 
-    protected boolean isPredefinedAttr(int ctype, int ai) {
-        assert(attrIndexLimit[ctype] != 0);
-        // Overflow attrs are never predefined.
-        if (ai >= attrIndexLimit[ctype])          return false;
-        // If the bit is set, it was explicitly def'd.
-        if (testBit(attrDefSeen[ctype], 1L<<ai))  return false;
-        return (attrDefs.get(ctype).get(ai) != null);
+    protected boolebn isPredefinedAttr(int ctype, int bi) {
+        bssert(bttrIndexLimit[ctype] != 0);
+        // Overflow bttrs bre never predefined.
+        if (bi >= bttrIndexLimit[ctype])          return fblse;
+        // If the bit is set, it wbs explicitly def'd.
+        if (testBit(bttrDefSeen[ctype], 1L<<bi))  return fblse;
+        return (bttrDefs.get(ctype).get(bi) != null);
     }
 
-    protected void adjustSpecialAttrMasks() {
-        // Clear special masks if new definitions have been seen for them.
-        attrClassFileVersionMask &= ~ attrDefSeen[ATTR_CONTEXT_CLASS];
-        // It is possible to clear the overflow mask (bit 16).
+    protected void bdjustSpeciblAttrMbsks() {
+        // Clebr specibl mbsks if new definitions hbve been seen for them.
+        bttrClbssFileVersionMbsk &= ~ bttrDefSeen[ATTR_CONTEXT_CLASS];
+        // It is possible to clebr the overflow mbsk (bit 16).
         for (int i = 0; i < ATTR_CONTEXT_LIMIT; i++) {
-            attrOverflowMask[i] &= ~ attrDefSeen[i];
+            bttrOverflowMbsk[i] &= ~ bttrDefSeen[i];
         }
     }
 
-    protected Attribute makeClassFileVersionAttr(Package.Version ver) {
-        return attrClassFileVersion.addContent(ver.asBytes());
+    protected Attribute mbkeClbssFileVersionAttr(Pbckbge.Version ver) {
+        return bttrClbssFileVersion.bddContent(ver.bsBytes());
     }
 
-    protected Package.Version parseClassFileVersionAttr(Attribute attr) {
-        assert(attr.layout() == attrClassFileVersion);
-        assert(attr.size() == 4);
-        return Package.Version.of(attr.bytes());
+    protected Pbckbge.Version pbrseClbssFileVersionAttr(Attribute bttr) {
+        bssert(bttr.lbyout() == bttrClbssFileVersion);
+        bssert(bttr.size() == 4);
+        return Pbckbge.Version.of(bttr.bytes());
     }
 
-    private boolean assertBandOKForElems(Band[] ab, Attribute.Layout.Element[] elems) {
+    privbte boolebn bssertBbndOKForElems(Bbnd[] bb, Attribute.Lbyout.Element[] elems) {
         for (int i = 0; i < elems.length; i++) {
-            assert(assertBandOKForElem(ab, elems[i]));
+            bssert(bssertBbndOKForElem(bb, elems[i]));
         }
         return true;
     }
-    private boolean assertBandOKForElem(Band[] ab, Attribute.Layout.Element e) {
-        Band b = null;
-        if (e.bandIndex != Attribute.NO_BAND_INDEX)
-            b = ab[e.bandIndex];
+    privbte boolebn bssertBbndOKForElem(Bbnd[] bb, Attribute.Lbyout.Element e) {
+        Bbnd b = null;
+        if (e.bbndIndex != Attribute.NO_BAND_INDEX)
+            b = bb[e.bbndIndex];
         Coding rc = UNSIGNED5;
-        boolean wantIntBand = true;
+        boolebn wbntIntBbnd = true;
         switch (e.kind) {
-        case Attribute.EK_INT:
-            if (e.flagTest(Attribute.EF_SIGN)) {
+        cbse Attribute.EK_INT:
+            if (e.flbgTest(Attribute.EF_SIGN)) {
                 rc = SIGNED5;
             } else if (e.len == 1) {
                 rc = BYTE1;
             }
-            break;
-        case Attribute.EK_BCI:
-            if (!e.flagTest(Attribute.EF_DELTA)) {
+            brebk;
+        cbse Attribute.EK_BCI:
+            if (!e.flbgTest(Attribute.EF_DELTA)) {
                 rc = BCI5;
             } else {
                 rc = BRANCH5;
             }
-            break;
-        case Attribute.EK_BCO:
+            brebk;
+        cbse Attribute.EK_BCO:
             rc = BRANCH5;
-            break;
-        case Attribute.EK_FLAG:
+            brebk;
+        cbse Attribute.EK_FLAG:
             if (e.len == 1)  rc = BYTE1;
-            break;
-        case Attribute.EK_REPL:
+            brebk;
+        cbse Attribute.EK_REPL:
             if (e.len == 1)  rc = BYTE1;
-            assertBandOKForElems(ab, e.body);
-            break;
-        case Attribute.EK_UN:
-            if (e.flagTest(Attribute.EF_SIGN)) {
+            bssertBbndOKForElems(bb, e.body);
+            brebk;
+        cbse Attribute.EK_UN:
+            if (e.flbgTest(Attribute.EF_SIGN)) {
                 rc = SIGNED5;
             } else if (e.len == 1) {
                 rc = BYTE1;
             }
-            assertBandOKForElems(ab, e.body);
-            break;
-        case Attribute.EK_CASE:
-            assert(b == null);
-            assertBandOKForElems(ab, e.body);
-            return true;  // no direct band
-        case Attribute.EK_CALL:
-            assert(b == null);
-            return true;  // no direct band
-        case Attribute.EK_CBLE:
-            assert(b == null);
-            assertBandOKForElems(ab, e.body);
-            return true;  // no direct band
-        case Attribute.EK_REF:
-            wantIntBand = false;
-            assert(b instanceof CPRefBand);
-            assert(((CPRefBand)b).nullOK == e.flagTest(Attribute.EF_NULL));
-            break;
-        default: assert(false);
+            bssertBbndOKForElems(bb, e.body);
+            brebk;
+        cbse Attribute.EK_CASE:
+            bssert(b == null);
+            bssertBbndOKForElems(bb, e.body);
+            return true;  // no direct bbnd
+        cbse Attribute.EK_CALL:
+            bssert(b == null);
+            return true;  // no direct bbnd
+        cbse Attribute.EK_CBLE:
+            bssert(b == null);
+            bssertBbndOKForElems(bb, e.body);
+            return true;  // no direct bbnd
+        cbse Attribute.EK_REF:
+            wbntIntBbnd = fblse;
+            bssert(b instbnceof CPRefBbnd);
+            bssert(((CPRefBbnd)b).nullOK == e.flbgTest(Attribute.EF_NULL));
+            brebk;
+        defbult: bssert(fblse);
         }
-        assert(b.regularCoding == rc)
+        bssert(b.regulbrCoding == rc)
             : (e+" // "+b);
-        if (wantIntBand)
-            assert(b instanceof IntBand);
+        if (wbntIntBbnd)
+            bssert(b instbnceof IntBbnd);
         return true;
     }
 
-    private
-    Attribute.Layout predefineAttribute(int index, int ctype, Band[] ab,
-                                        String name, String layout) {
-        // Use Attribute.find to get uniquification of layouts.
-        Attribute.Layout def = Attribute.find(ctype, name, layout).layout();
+    privbte
+    Attribute.Lbyout predefineAttribute(int index, int ctype, Bbnd[] bb,
+                                        String nbme, String lbyout) {
+        // Use Attribute.find to get uniquificbtion of lbyouts.
+        Attribute.Lbyout def = Attribute.find(ctype, nbme, lbyout).lbyout();
         //def.predef = true;
         if (index >= 0) {
-            setAttributeLayoutIndex(def, index);
+            setAttributeLbyoutIndex(def, index);
         }
-        if (ab == null) {
-            ab = new Band[0];
+        if (bb == null) {
+            bb = new Bbnd[0];
         }
-        assert(attrBandTable.get(def) == null);  // no redef
-        attrBandTable.put(def, ab);
-        assert(def.bandCount == ab.length)
-            : (def+" // "+Arrays.asList(ab));
-        // Let's make sure the band types match:
-        assert(assertBandOKForElems(ab, def.elems));
+        bssert(bttrBbndTbble.get(def) == null);  // no redef
+        bttrBbndTbble.put(def, bb);
+        bssert(def.bbndCount == bb.length)
+            : (def+" // "+Arrbys.bsList(bb));
+        // Let's mbke sure the bbnd types mbtch:
+        bssert(bssertBbndOKForElems(bb, def.elems));
         return def;
     }
 
-    // This version takes bandPrefix/addHere instead of prebuilt Band[] ab.
-    private
-    Attribute.Layout predefineAttribute(int index,
-                                        String bandPrefix, MultiBand addHere,
-                                        Attribute attr) {
-        //Attribute.Layout def = Attribute.find(ctype, name, layout).layout();
-        Attribute.Layout def = attr.layout();
+    // This version tbkes bbndPrefix/bddHere instebd of prebuilt Bbnd[] bb.
+    privbte
+    Attribute.Lbyout predefineAttribute(int index,
+                                        String bbndPrefix, MultiBbnd bddHere,
+                                        Attribute bttr) {
+        //Attribute.Lbyout def = Attribute.find(ctype, nbme, lbyout).lbyout();
+        Attribute.Lbyout def = bttr.lbyout();
         int ctype = def.ctype();
         return predefineAttribute(index, ctype,
-                                  makeNewAttributeBands(bandPrefix, def, addHere),
-                                  def.name(), def.layout());
+                                  mbkeNewAttributeBbnds(bbndPrefix, def, bddHere),
+                                  def.nbme(), def.lbyout());
     }
 
-    private
+    privbte
     void undefineAttribute(int index, int ctype) {
         if (verbose > 1) {
             System.out.println("Removing predefined "+ATTR_CONTEXT_NAME[ctype]+
-                               " attribute on bit "+index);
+                               " bttribute on bit "+index);
         }
-        List<Attribute.Layout> defList = attrDefs.get(ctype);
-        Attribute.Layout def = defList.get(index);
-        assert(def != null);
+        List<Attribute.Lbyout> defList = bttrDefs.get(ctype);
+        Attribute.Lbyout def = defList.get(index);
+        bssert(def != null);
         defList.set(index, null);
-        attrIndexTable.put(def, null);
-        // Clear the def bit.  (For predefs, it's already clear.)
-        assert(index < 64);
-        attrDefSeen[ctype]  &= ~(1L<<index);
-        attrFlagMask[ctype] &= ~(1L<<index);
-        Band[] ab = attrBandTable.get(def);
-        for (int j = 0; j < ab.length; j++) {
-            ab[j].doneWithUnusedBand();
+        bttrIndexTbble.put(def, null);
+        // Clebr the def bit.  (For predefs, it's blrebdy clebr.)
+        bssert(index < 64);
+        bttrDefSeen[ctype]  &= ~(1L<<index);
+        bttrFlbgMbsk[ctype] &= ~(1L<<index);
+        Bbnd[] bb = bttrBbndTbble.get(def);
+        for (int j = 0; j < bb.length; j++) {
+            bb[j].doneWithUnusedBbnd();
         }
     }
 
-    // Bands which contain non-predefined attrs.
-    protected MultiBand[] attrBands = new MultiBand[ATTR_CONTEXT_LIMIT];
+    // Bbnds which contbin non-predefined bttrs.
+    protected MultiBbnd[] bttrBbnds = new MultiBbnd[ATTR_CONTEXT_LIMIT];
     {
-        attrBands[ATTR_CONTEXT_CLASS] = class_attr_bands;
-        attrBands[ATTR_CONTEXT_FIELD] = field_attr_bands;
-        attrBands[ATTR_CONTEXT_METHOD] = method_attr_bands;
-        attrBands[ATTR_CONTEXT_CODE] = code_attr_bands;
+        bttrBbnds[ATTR_CONTEXT_CLASS] = clbss_bttr_bbnds;
+        bttrBbnds[ATTR_CONTEXT_FIELD] = field_bttr_bbnds;
+        bttrBbnds[ATTR_CONTEXT_METHOD] = method_bttr_bbnds;
+        bttrBbnds[ATTR_CONTEXT_CODE] = code_bttr_bbnds;
     }
 
-    // Create bands for all non-predefined attrs.
-    void makeNewAttributeBands() {
-        // Retract special flag bit bindings, if they were taken over.
-        adjustSpecialAttrMasks();
+    // Crebte bbnds for bll non-predefined bttrs.
+    void mbkeNewAttributeBbnds() {
+        // Retrbct specibl flbg bit bindings, if they were tbken over.
+        bdjustSpeciblAttrMbsks();
 
         for (int ctype = 0; ctype < ATTR_CONTEXT_LIMIT; ctype++) {
-            String cname = ATTR_CONTEXT_NAME[ctype];
-            MultiBand xxx_attr_bands = attrBands[ctype];
-            long defSeen = attrDefSeen[ctype];
-            // Note: attrDefSeen is always a subset of attrFlagMask.
-            assert((defSeen & ~attrFlagMask[ctype]) == 0);
-            for (int i = 0; i < attrDefs.get(ctype).size(); i++) {
-                Attribute.Layout def = attrDefs.get(ctype).get(i);
-                if (def == null)  continue;  // unused flag bit
-                if (def.bandCount == 0)  continue;  // empty attr
-                if (i < attrIndexLimit[ctype] && !testBit(defSeen, 1L<<i)) {
-                    // There are already predefined bands here.
-                    assert(attrBandTable.get(def) != null);
+            String cnbme = ATTR_CONTEXT_NAME[ctype];
+            MultiBbnd xxx_bttr_bbnds = bttrBbnds[ctype];
+            long defSeen = bttrDefSeen[ctype];
+            // Note: bttrDefSeen is blwbys b subset of bttrFlbgMbsk.
+            bssert((defSeen & ~bttrFlbgMbsk[ctype]) == 0);
+            for (int i = 0; i < bttrDefs.get(ctype).size(); i++) {
+                Attribute.Lbyout def = bttrDefs.get(ctype).get(i);
+                if (def == null)  continue;  // unused flbg bit
+                if (def.bbndCount == 0)  continue;  // empty bttr
+                if (i < bttrIndexLimit[ctype] && !testBit(defSeen, 1L<<i)) {
+                    // There bre blrebdy predefined bbnds here.
+                    bssert(bttrBbndTbble.get(def) != null);
                     continue;
                 }
-                int base = xxx_attr_bands.size();
-                String pfx = cname+"_"+def.name()+"_";  // debug only
+                int bbse = xxx_bttr_bbnds.size();
+                String pfx = cnbme+"_"+def.nbme()+"_";  // debug only
                 if (verbose > 1)
-                    Utils.log.fine("Making new bands for "+def);
-                Band[] newAB  = makeNewAttributeBands(pfx, def,
-                                                      xxx_attr_bands);
-                assert(newAB.length == def.bandCount);
-                Band[] prevAB = attrBandTable.put(def, newAB);
+                    Utils.log.fine("Mbking new bbnds for "+def);
+                Bbnd[] newAB  = mbkeNewAttributeBbnds(pfx, def,
+                                                      xxx_bttr_bbnds);
+                bssert(newAB.length == def.bbndCount);
+                Bbnd[] prevAB = bttrBbndTbble.put(def, newAB);
                 if (prevAB != null) {
-                    // We won't be using these predefined bands.
+                    // We won't be using these predefined bbnds.
                     for (int j = 0; j < prevAB.length; j++) {
-                        prevAB[j].doneWithUnusedBand();
+                        prevAB[j].doneWithUnusedBbnd();
                     }
                 }
             }
         }
-        //System.out.println(prevForAssertMap);
+        //System.out.println(prevForAssertMbp);
     }
-    private
-    Band[] makeNewAttributeBands(String pfx, Attribute.Layout def,
-                                 MultiBand addHere) {
-        int base = addHere.size();
-        makeNewAttributeBands(pfx, def.elems, addHere);
-        int nb = addHere.size() - base;
-        Band[] newAB = new Band[nb];
+    privbte
+    Bbnd[] mbkeNewAttributeBbnds(String pfx, Attribute.Lbyout def,
+                                 MultiBbnd bddHere) {
+        int bbse = bddHere.size();
+        mbkeNewAttributeBbnds(pfx, def.elems, bddHere);
+        int nb = bddHere.size() - bbse;
+        Bbnd[] newAB = new Bbnd[nb];
         for (int i = 0; i < nb; i++) {
-            newAB[i] = addHere.get(base+i);
+            newAB[i] = bddHere.get(bbse+i);
         }
         return newAB;
     }
-    // Recursive helper, operates on a "body" or other sequence of elems:
-    private
-    void makeNewAttributeBands(String pfx, Attribute.Layout.Element[] elems,
-                               MultiBand ab) {
+    // Recursive helper, operbtes on b "body" or other sequence of elems:
+    privbte
+    void mbkeNewAttributeBbnds(String pfx, Attribute.Lbyout.Element[] elems,
+                               MultiBbnd bb) {
         for (int i = 0; i < elems.length; i++) {
-            Attribute.Layout.Element e = elems[i];
-            String name = pfx+ab.size()+"_"+e.layout;
+            Attribute.Lbyout.Element e = elems[i];
+            String nbme = pfx+bb.size()+"_"+e.lbyout;
             {
                 int tem;
-                if ((tem = name.indexOf('[')) > 0)
-                    name = name.substring(0, tem);
-                if ((tem = name.indexOf('(')) > 0)
-                    name = name.substring(0, tem);
-                if (name.endsWith("H"))
-                    name = name.substring(0, name.length()-1);
+                if ((tem = nbme.indexOf('[')) > 0)
+                    nbme = nbme.substring(0, tem);
+                if ((tem = nbme.indexOf('(')) > 0)
+                    nbme = nbme.substring(0, tem);
+                if (nbme.endsWith("H"))
+                    nbme = nbme.substring(0, nbme.length()-1);
             }
-            Band nb;
+            Bbnd nb;
             switch (e.kind) {
-            case Attribute.EK_INT:
-                nb = newElemBand(e, name, ab);
-                break;
-            case Attribute.EK_BCI:
-                if (!e.flagTest(Attribute.EF_DELTA)) {
-                    // PH:  transmit R(bci), store bci
-                    nb = ab.newIntBand(name, BCI5);
+            cbse Attribute.EK_INT:
+                nb = newElemBbnd(e, nbme, bb);
+                brebk;
+            cbse Attribute.EK_BCI:
+                if (!e.flbgTest(Attribute.EF_DELTA)) {
+                    // PH:  trbnsmit R(bci), store bci
+                    nb = bb.newIntBbnd(nbme, BCI5);
                 } else {
-                    // POH:  transmit D(R(bci)), store bci
-                    nb = ab.newIntBand(name, BRANCH5);
+                    // POH:  trbnsmit D(R(bci)), store bci
+                    nb = bb.newIntBbnd(nbme, BRANCH5);
                 }
-                // Note:  No case for BYTE1 here.
-                break;
-            case Attribute.EK_BCO:
-                // OH:  transmit D(R(bci)), store D(bci)
-                nb = ab.newIntBand(name, BRANCH5);
-                // Note:  No case for BYTE1 here.
-                break;
-            case Attribute.EK_FLAG:
-                assert(!e.flagTest(Attribute.EF_SIGN));
-                nb = newElemBand(e, name, ab);
-                break;
-            case Attribute.EK_REPL:
-                assert(!e.flagTest(Attribute.EF_SIGN));
-                nb = newElemBand(e, name, ab);
-                makeNewAttributeBands(pfx, e.body, ab);
-                break;
-            case Attribute.EK_UN:
-                nb = newElemBand(e, name, ab);
-                makeNewAttributeBands(pfx, e.body, ab);
-                break;
-            case Attribute.EK_CASE:
-                if (!e.flagTest(Attribute.EF_BACK)) {
-                    // If it's not a duplicate body, make the bands.
-                    makeNewAttributeBands(pfx, e.body, ab);
+                // Note:  No cbse for BYTE1 here.
+                brebk;
+            cbse Attribute.EK_BCO:
+                // OH:  trbnsmit D(R(bci)), store D(bci)
+                nb = bb.newIntBbnd(nbme, BRANCH5);
+                // Note:  No cbse for BYTE1 here.
+                brebk;
+            cbse Attribute.EK_FLAG:
+                bssert(!e.flbgTest(Attribute.EF_SIGN));
+                nb = newElemBbnd(e, nbme, bb);
+                brebk;
+            cbse Attribute.EK_REPL:
+                bssert(!e.flbgTest(Attribute.EF_SIGN));
+                nb = newElemBbnd(e, nbme, bb);
+                mbkeNewAttributeBbnds(pfx, e.body, bb);
+                brebk;
+            cbse Attribute.EK_UN:
+                nb = newElemBbnd(e, nbme, bb);
+                mbkeNewAttributeBbnds(pfx, e.body, bb);
+                brebk;
+            cbse Attribute.EK_CASE:
+                if (!e.flbgTest(Attribute.EF_BACK)) {
+                    // If it's not b duplicbte body, mbke the bbnds.
+                    mbkeNewAttributeBbnds(pfx, e.body, bb);
                 }
-                continue;  // no new band to make
-            case Attribute.EK_REF:
+                continue;  // no new bbnd to mbke
+            cbse Attribute.EK_REF:
                 byte    refKind = e.refKind;
-                boolean nullOK  = e.flagTest(Attribute.EF_NULL);
-                nb = ab.newCPRefBand(name, UNSIGNED5, refKind, nullOK);
-                // Note:  No case for BYTE1 here.
-                break;
-            case Attribute.EK_CALL:
-                continue;  // no new band to make
-            case Attribute.EK_CBLE:
-                makeNewAttributeBands(pfx, e.body, ab);
-                continue;  // no new band to make
-            default: assert(false); continue;
+                boolebn nullOK  = e.flbgTest(Attribute.EF_NULL);
+                nb = bb.newCPRefBbnd(nbme, UNSIGNED5, refKind, nullOK);
+                // Note:  No cbse for BYTE1 here.
+                brebk;
+            cbse Attribute.EK_CALL:
+                continue;  // no new bbnd to mbke
+            cbse Attribute.EK_CBLE:
+                mbkeNewAttributeBbnds(pfx, e.body, bb);
+                continue;  // no new bbnd to mbke
+            defbult: bssert(fblse); continue;
             }
             if (verbose > 1) {
-                Utils.log.fine("New attribute band "+nb);
+                Utils.log.fine("New bttribute bbnd "+nb);
             }
         }
     }
-    private
-    Band newElemBand(Attribute.Layout.Element e, String name, MultiBand ab) {
-        if (e.flagTest(Attribute.EF_SIGN)) {
-            return ab.newIntBand(name, SIGNED5);
+    privbte
+    Bbnd newElemBbnd(Attribute.Lbyout.Element e, String nbme, MultiBbnd bb) {
+        if (e.flbgTest(Attribute.EF_SIGN)) {
+            return bb.newIntBbnd(nbme, SIGNED5);
         } else if (e.len == 1) {
-            return ab.newIntBand(name, BYTE1);  // Not ByteBand, please.
+            return bb.newIntBbnd(nbme, BYTE1);  // Not ByteBbnd, plebse.
         } else {
-            return ab.newIntBand(name, UNSIGNED5);
+            return bb.newIntBbnd(nbme, UNSIGNED5);
         }
     }
 
-    protected int setAttributeLayoutIndex(Attribute.Layout def, int index) {
+    protected int setAttributeLbyoutIndex(Attribute.Lbyout def, int index) {
         int ctype = def.ctype;
-        assert(ATTR_INDEX_OVERFLOW <= index && index < attrIndexLimit[ctype]);
-        List<Attribute.Layout> defList = attrDefs.get(ctype);
+        bssert(ATTR_INDEX_OVERFLOW <= index && index < bttrIndexLimit[ctype]);
+        List<Attribute.Lbyout> defList = bttrDefs.get(ctype);
         if (index == ATTR_INDEX_OVERFLOW) {
-            // Overflow attribute.
+            // Overflow bttribute.
             index = defList.size();
-            defList.add(def);
+            defList.bdd(def);
             if (verbose > 0)
-                Utils.log.info("Adding new attribute at "+def +": "+index);
-            attrIndexTable.put(def, index);
+                Utils.log.info("Adding new bttribute bt "+def +": "+index);
+            bttrIndexTbble.put(def, index);
             return index;
         }
 
         // Detect redefinitions:
-        if (testBit(attrDefSeen[ctype], 1L<<index)) {
-            throw new RuntimeException("Multiple explicit definition at "+index+": "+def);
+        if (testBit(bttrDefSeen[ctype], 1L<<index)) {
+            throw new RuntimeException("Multiple explicit definition bt "+index+": "+def);
         }
-        attrDefSeen[ctype] |= (1L<<index);
+        bttrDefSeen[ctype] |= (1L<<index);
 
-        // Adding a new fixed attribute.
-        assert(0 <= index && index < attrIndexLimit[ctype]);
-        if (verbose > (attrClassFileVersionMask == 0? 2:0))
-            Utils.log.fine("Fixing new attribute at "+index
+        // Adding b new fixed bttribute.
+        bssert(0 <= index && index < bttrIndexLimit[ctype]);
+        if (verbose > (bttrClbssFileVersionMbsk == 0? 2:0))
+            Utils.log.fine("Fixing new bttribute bt "+index
                                +": "+def
                                +(defList.get(index) == null? "":
-                                 "; replacing "+defList.get(index)));
-        attrFlagMask[ctype] |= (1L<<index);
-        // Remove index binding of any previous fixed attr.
-        attrIndexTable.put(defList.get(index), null);
+                                 "; replbcing "+defList.get(index)));
+        bttrFlbgMbsk[ctype] |= (1L<<index);
+        // Remove index binding of bny previous fixed bttr.
+        bttrIndexTbble.put(defList.get(index), null);
         defList.set(index, def);
-        attrIndexTable.put(def, index);
+        bttrIndexTbble.put(def, index);
         return index;
     }
 
-    // encodings found in the code_headers band
-    private static final int[][] shortCodeLimits = {
+    // encodings found in the code_hebders bbnd
+    privbte stbtic finbl int[][] shortCodeLimits = {
         { 12, 12 }, // s<12, l<12, e=0 [1..144]
         {  8,  8 }, //  s<8,  l<8, e=1 [145..208]
         {  7,  7 }, //  s<7,  l<7, e=2 [209..256]
     };
-    public final int shortCodeHeader_h_limit = shortCodeLimits.length;
+    public finbl int shortCodeHebder_h_limit = shortCodeLimits.length;
 
-    // return 0 if it won't encode, else a number in [1..255]
-    static int shortCodeHeader(Code code) {
-        int s = code.max_stack;
-        int l0 = code.max_locals;
-        int h = code.handler_class.length;
+    // return 0 if it won't encode, else b number in [1..255]
+    stbtic int shortCodeHebder(Code code) {
+        int s = code.mbx_stbck;
+        int l0 = code.mbx_locbls;
+        int h = code.hbndler_clbss.length;
         if (h >= shortCodeLimits.length)  return LONG_CODE_HEADER;
         int siglen = code.getMethod().getArgumentSize();
-        assert(l0 >= siglen);  // enough locals for signature!
+        bssert(l0 >= siglen);  // enough locbls for signbture!
         if (l0 < siglen)  return LONG_CODE_HEADER;
-        int l1 = l0 - siglen;  // do not count locals required by the signature
+        int l1 = l0 - siglen;  // do not count locbls required by the signbture
         int lims = shortCodeLimits[h][0];
         int liml = shortCodeLimits[h][1];
         if (s >= lims || l1 >= liml)  return LONG_CODE_HEADER;
-        int sc = shortCodeHeader_h_base(h);
+        int sc = shortCodeHebder_h_bbse(h);
         sc += s + lims*l1;
         if (sc > 255)  return LONG_CODE_HEADER;
-        assert(shortCodeHeader_max_stack(sc) == s);
-        assert(shortCodeHeader_max_na_locals(sc) == l1);
-        assert(shortCodeHeader_handler_count(sc) == h);
+        bssert(shortCodeHebder_mbx_stbck(sc) == s);
+        bssert(shortCodeHebder_mbx_nb_locbls(sc) == l1);
+        bssert(shortCodeHebder_hbndler_count(sc) == h);
         return sc;
     }
 
-    static final int LONG_CODE_HEADER = 0;
-    static int shortCodeHeader_handler_count(int sc) {
-        assert(sc > 0 && sc <= 255);
+    stbtic finbl int LONG_CODE_HEADER = 0;
+    stbtic int shortCodeHebder_hbndler_count(int sc) {
+        bssert(sc > 0 && sc <= 255);
         for (int h = 0; ; h++) {
-            if (sc < shortCodeHeader_h_base(h+1))
+            if (sc < shortCodeHebder_h_bbse(h+1))
                 return h;
         }
     }
-    static int shortCodeHeader_max_stack(int sc) {
-        int h = shortCodeHeader_handler_count(sc);
+    stbtic int shortCodeHebder_mbx_stbck(int sc) {
+        int h = shortCodeHebder_hbndler_count(sc);
         int lims = shortCodeLimits[h][0];
-        return (sc - shortCodeHeader_h_base(h)) % lims;
+        return (sc - shortCodeHebder_h_bbse(h)) % lims;
     }
-    static int shortCodeHeader_max_na_locals(int sc) {
-        int h = shortCodeHeader_handler_count(sc);
+    stbtic int shortCodeHebder_mbx_nb_locbls(int sc) {
+        int h = shortCodeHebder_hbndler_count(sc);
         int lims = shortCodeLimits[h][0];
-        return (sc - shortCodeHeader_h_base(h)) / lims;
+        return (sc - shortCodeHebder_h_bbse(h)) / lims;
     }
 
-    private static int shortCodeHeader_h_base(int h) {
-        assert(h <= shortCodeLimits.length);
+    privbte stbtic int shortCodeHebder_h_bbse(int h) {
+        bssert(h <= shortCodeLimits.length);
         int sc = 1;
         for (int h0 = 0; h0 < h; h0++) {
             int lims = shortCodeLimits[h0][0];
@@ -2378,58 +2378,58 @@ class BandStructure {
         return sc;
     }
 
-    // utilities for accessing the bc_label band:
-    protected void putLabel(IntBand bc_label, Code c, int pc, int targetPC) {
-        bc_label.putInt(c.encodeBCI(targetPC) - c.encodeBCI(pc));
+    // utilities for bccessing the bc_lbbel bbnd:
+    protected void putLbbel(IntBbnd bc_lbbel, Code c, int pc, int tbrgetPC) {
+        bc_lbbel.putInt(c.encodeBCI(tbrgetPC) - c.encodeBCI(pc));
     }
-    protected int getLabel(IntBand bc_label, Code c, int pc) {
-        return c.decodeBCI(bc_label.getInt() + c.encodeBCI(pc));
+    protected int getLbbel(IntBbnd bc_lbbel, Code c, int pc) {
+        return c.decodeBCI(bc_lbbel.getInt() + c.encodeBCI(pc));
     }
 
-    protected CPRefBand getCPRefOpBand(int bc) {
-        switch (Instruction.getCPRefOpTag(bc)) {
-        case CONSTANT_Class:
-            return bc_classref;
-        case CONSTANT_Fieldref:
+    protected CPRefBbnd getCPRefOpBbnd(int bc) {
+        switch (Instruction.getCPRefOpTbg(bc)) {
+        cbse CONSTANT_Clbss:
+            return bc_clbssref;
+        cbse CONSTANT_Fieldref:
             return bc_fieldref;
-        case CONSTANT_Methodref:
+        cbse CONSTANT_Methodref:
             return bc_methodref;
-        case CONSTANT_InterfaceMethodref:
+        cbse CONSTANT_InterfbceMethodref:
             return bc_imethodref;
-        case CONSTANT_InvokeDynamic:
+        cbse CONSTANT_InvokeDynbmic:
             return bc_indyref;
-        case CONSTANT_LoadableValue:
+        cbse CONSTANT_LobdbbleVblue:
             switch (bc) {
-            case _ildc: case _ildc_w:
+            cbse _ildc: cbse _ildc_w:
                 return bc_intref;
-            case _fldc: case _fldc_w:
-                return bc_floatref;
-            case _lldc2_w:
+            cbse _fldc: cbse _fldc_w:
+                return bc_flobtref;
+            cbse _lldc2_w:
                 return bc_longref;
-            case _dldc2_w:
+            cbse _dldc2_w:
                 return bc_doubleref;
-            case _sldc: case _sldc_w:
+            cbse _sldc: cbse _sldc_w:
                 return bc_stringref;
-            case _cldc: case _cldc_w:
-                return bc_classref;
-            case _qldc: case _qldc_w:
-                return bc_loadablevalueref;
+            cbse _cldc: cbse _cldc_w:
+                return bc_clbssref;
+            cbse _qldc: cbse _qldc_w:
+                return bc_lobdbblevblueref;
             }
-            break;
+            brebk;
         }
-        assert(false);
+        bssert(fblse);
         return null;
     }
 
-    protected CPRefBand selfOpRefBand(int self_bc) {
-        assert(Instruction.isSelfLinkerOp(self_bc));
+    protected CPRefBbnd selfOpRefBbnd(int self_bc) {
+        bssert(Instruction.isSelfLinkerOp(self_bc));
         int idx = (self_bc - _self_linker_op);
-        boolean isSuper = (idx >= _self_linker_super_flag);
-        if (isSuper)  idx -= _self_linker_super_flag;
-        boolean isAload = (idx >= _self_linker_aload_flag);
-        if (isAload)  idx -= _self_linker_aload_flag;
+        boolebn isSuper = (idx >= _self_linker_super_flbg);
+        if (isSuper)  idx -= _self_linker_super_flbg;
+        boolebn isAlobd = (idx >= _self_linker_blobd_flbg);
+        if (isAlobd)  idx -= _self_linker_blobd_flbg;
         int origBC = _first_linker_op + idx;
-        boolean isField = Instruction.isFieldOp(origBC);
+        boolebn isField = Instruction.isFieldOp(origBC);
         if (!isSuper)
             return isField? bc_thisfield: bc_thismethod;
         else
@@ -2438,287 +2438,287 @@ class BandStructure {
 
     ////////////////////////////////////////////////////////////////////
 
-    static int nextSeqForDebug;
-    static File dumpDir = null;
-    static OutputStream getDumpStream(Band b, String ext) throws IOException {
-        return getDumpStream(b.name, b.seqForDebug, ext, b);
+    stbtic int nextSeqForDebug;
+    stbtic File dumpDir = null;
+    stbtic OutputStrebm getDumpStrebm(Bbnd b, String ext) throws IOException {
+        return getDumpStrebm(b.nbme, b.seqForDebug, ext, b);
     }
-    static OutputStream getDumpStream(Index ix, String ext) throws IOException {
-        if (ix.size() == 0)  return new ByteArrayOutputStream();
-        int seq = ConstantPool.TAG_ORDER[ix.cpMap[0].tag];
-        return getDumpStream(ix.debugName, seq, ext, ix);
+    stbtic OutputStrebm getDumpStrebm(Index ix, String ext) throws IOException {
+        if (ix.size() == 0)  return new ByteArrbyOutputStrebm();
+        int seq = ConstbntPool.TAG_ORDER[ix.cpMbp[0].tbg];
+        return getDumpStrebm(ix.debugNbme, seq, ext, ix);
     }
-    static OutputStream getDumpStream(String name, int seq, String ext, Object b) throws IOException {
+    stbtic OutputStrebm getDumpStrebm(String nbme, int seq, String ext, Object b) throws IOException {
         if (dumpDir == null) {
-            dumpDir = File.createTempFile("BD_", "", new File("."));
+            dumpDir = File.crebteTempFile("BD_", "", new File("."));
             dumpDir.delete();
             if (dumpDir.mkdir())
-                Utils.log.info("Dumping bands to "+dumpDir);
+                Utils.log.info("Dumping bbnds to "+dumpDir);
         }
-        name = name.replace('(', ' ').replace(')', ' ');
-        name = name.replace('/', ' ');
-        name = name.replace('*', ' ');
-        name = name.trim().replace(' ','_');
-        name = ((10000+seq) + "_" + name).substring(1);
-        File dumpFile = new File(dumpDir, name+ext);
+        nbme = nbme.replbce('(', ' ').replbce(')', ' ');
+        nbme = nbme.replbce('/', ' ');
+        nbme = nbme.replbce('*', ' ');
+        nbme = nbme.trim().replbce(' ','_');
+        nbme = ((10000+seq) + "_" + nbme).substring(1);
+        File dumpFile = new File(dumpDir, nbme+ext);
         Utils.log.info("Dumping "+b+" to "+dumpFile);
-        return new BufferedOutputStream(new FileOutputStream(dumpFile));
+        return new BufferedOutputStrebm(new FileOutputStrebm(dumpFile));
     }
 
-    // DEBUG ONLY:  Validate me at each length change.
-    static boolean assertCanChangeLength(Band b) {
-        switch (b.phase) {
-        case COLLECT_PHASE:
-        case READ_PHASE:
+    // DEBUG ONLY:  Vblidbte me bt ebch length chbnge.
+    stbtic boolebn bssertCbnChbngeLength(Bbnd b) {
+        switch (b.phbse) {
+        cbse COLLECT_PHASE:
+        cbse READ_PHASE:
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    // DEBUG ONLY:  Validate a phase.
-    static boolean assertPhase(Band b, int phaseExpected) {
-        if (b.phase() != phaseExpected) {
-            Utils.log.warning("phase expected "+phaseExpected+" was "+b.phase()+" in "+b);
-            return false;
+    // DEBUG ONLY:  Vblidbte b phbse.
+    stbtic boolebn bssertPhbse(Bbnd b, int phbseExpected) {
+        if (b.phbse() != phbseExpected) {
+            Utils.log.wbrning("phbse expected "+phbseExpected+" wbs "+b.phbse()+" in "+b);
+            return fblse;
         }
         return true;
     }
 
 
     // DEBUG ONLY:  Tells whether verbosity is turned on.
-    static int verbose() {
-        return Utils.currentPropMap().getInteger(Utils.DEBUG_VERBOSE);
+    stbtic int verbose() {
+        return Utils.currentPropMbp().getInteger(Utils.DEBUG_VERBOSE);
     }
 
 
-    // DEBUG ONLY:  Validate me at each phase change.
-    static boolean assertPhaseChangeOK(Band b, int p0, int p1) {
+    // DEBUG ONLY:  Vblidbte me bt ebch phbse chbnge.
+    stbtic boolebn bssertPhbseChbngeOK(Bbnd b, int p0, int p1) {
         switch (p0*10+p1) {
-        /// Writing phases:
-        case NO_PHASE*10+COLLECT_PHASE:
-            // Ready to collect data from the input classes.
-            assert(!b.isReader());
-            assert(b.capacity() >= 0);
-            assert(b.length() == 0);
+        /// Writing phbses:
+        cbse NO_PHASE*10+COLLECT_PHASE:
+            // Rebdy to collect dbtb from the input clbsses.
+            bssert(!b.isRebder());
+            bssert(b.cbpbcity() >= 0);
+            bssert(b.length() == 0);
             return true;
-        case COLLECT_PHASE*10+FROZEN_PHASE:
-        case FROZEN_PHASE*10+FROZEN_PHASE:
-            assert(b.length() == 0);
+        cbse COLLECT_PHASE*10+FROZEN_PHASE:
+        cbse FROZEN_PHASE*10+FROZEN_PHASE:
+            bssert(b.length() == 0);
             return true;
-        case COLLECT_PHASE*10+WRITE_PHASE:
-        case FROZEN_PHASE*10+WRITE_PHASE:
-            // Data is all collected.  Ready to write bytes to disk.
+        cbse COLLECT_PHASE*10+WRITE_PHASE:
+        cbse FROZEN_PHASE*10+WRITE_PHASE:
+            // Dbtb is bll collected.  Rebdy to write bytes to disk.
             return true;
-        case WRITE_PHASE*10+DONE_PHASE:
-            // Done writing to disk.  Ready to reset, in principle.
+        cbse WRITE_PHASE*10+DONE_PHASE:
+            // Done writing to disk.  Rebdy to reset, in principle.
             return true;
 
-        /// Reading phases:
-        case NO_PHASE*10+EXPECT_PHASE:
-            assert(b.isReader());
-            assert(b.capacity() < 0);
+        /// Rebding phbses:
+        cbse NO_PHASE*10+EXPECT_PHASE:
+            bssert(b.isRebder());
+            bssert(b.cbpbcity() < 0);
             return true;
-        case EXPECT_PHASE*10+READ_PHASE:
-            // Ready to read values from disk.
-            assert(Math.max(0,b.capacity()) >= b.valuesExpected());
-            assert(b.length() <= 0);
+        cbse EXPECT_PHASE*10+READ_PHASE:
+            // Rebdy to rebd vblues from disk.
+            bssert(Mbth.mbx(0,b.cbpbcity()) >= b.vbluesExpected());
+            bssert(b.length() <= 0);
             return true;
-        case READ_PHASE*10+DISBURSE_PHASE:
-            // Ready to disburse values.
-            assert(b.valuesRemainingForDebug() == b.length());
+        cbse READ_PHASE*10+DISBURSE_PHASE:
+            // Rebdy to disburse vblues.
+            bssert(b.vbluesRembiningForDebug() == b.length());
             return true;
-        case DISBURSE_PHASE*10+DONE_PHASE:
-            // Done disbursing values.  Ready to reset, in principle.
-            assert(assertDoneDisbursing(b));
+        cbse DISBURSE_PHASE*10+DONE_PHASE:
+            // Done disbursing vblues.  Rebdy to reset, in principle.
+            bssert(bssertDoneDisbursing(b));
             return true;
         }
         if (p0 == p1)
-            Utils.log.warning("Already in phase "+p0);
+            Utils.log.wbrning("Alrebdy in phbse "+p0);
         else
-            Utils.log.warning("Unexpected phase "+p0+" -> "+p1);
-        return false;
+            Utils.log.wbrning("Unexpected phbse "+p0+" -> "+p1);
+        return fblse;
     }
 
-    static private boolean assertDoneDisbursing(Band b) {
-        if (b.phase != DISBURSE_PHASE) {
-            Utils.log.warning("assertDoneDisbursing: still in phase "+b.phase+": "+b);
-            if (verbose() <= 1)  return false;  // fail now
+    stbtic privbte boolebn bssertDoneDisbursing(Bbnd b) {
+        if (b.phbse != DISBURSE_PHASE) {
+            Utils.log.wbrning("bssertDoneDisbursing: still in phbse "+b.phbse+": "+b);
+            if (verbose() <= 1)  return fblse;  // fbil now
         }
-        int left = b.valuesRemainingForDebug();
+        int left = b.vbluesRembiningForDebug();
         if (left > 0) {
-            Utils.log.warning("assertDoneDisbursing: "+left+" values left in "+b);
-            if (verbose() <= 1)  return false;  // fail now
+            Utils.log.wbrning("bssertDoneDisbursing: "+left+" vblues left in "+b);
+            if (verbose() <= 1)  return fblse;  // fbil now
         }
-        if (b instanceof MultiBand) {
-            MultiBand mb = (MultiBand) b;
-            for (int i = 0; i < mb.bandCount; i++) {
-                Band sub = mb.bands[i];
-                if (sub.phase != DONE_PHASE) {
-                    Utils.log.warning("assertDoneDisbursing: sub-band still in phase "+sub.phase+": "+sub);
-                    if (verbose() <= 1)  return false;  // fail now
+        if (b instbnceof MultiBbnd) {
+            MultiBbnd mb = (MultiBbnd) b;
+            for (int i = 0; i < mb.bbndCount; i++) {
+                Bbnd sub = mb.bbnds[i];
+                if (sub.phbse != DONE_PHASE) {
+                    Utils.log.wbrning("bssertDoneDisbursing: sub-bbnd still in phbse "+sub.phbse+": "+sub);
+                    if (verbose() <= 1)  return fblse;  // fbil now
                 }
             }
         }
         return true;
     }
 
-    static private void printCDecl(Band b) {
-        if (b instanceof MultiBand) {
-            MultiBand mb = (MultiBand) b;
-            for (int i = 0; i < mb.bandCount; i++) {
-                printCDecl(mb.bands[i]);
+    stbtic privbte void printCDecl(Bbnd b) {
+        if (b instbnceof MultiBbnd) {
+            MultiBbnd mb = (MultiBbnd) b;
+            for (int i = 0; i < mb.bbndCount; i++) {
+                printCDecl(mb.bbnds[i]);
             }
             return;
         }
         String ixS = "NULL";
-        if (b instanceof CPRefBand) {
-            Index ix = ((CPRefBand)b).index;
-            if (ix != null)  ixS = "INDEX("+ix.debugName+")";
+        if (b instbnceof CPRefBbnd) {
+            Index ix = ((CPRefBbnd)b).index;
+            if (ix != null)  ixS = "INDEX("+ix.debugNbme+")";
         }
         Coding[] knownc = { BYTE1, CHAR3, BCI5, BRANCH5, UNSIGNED5,
                             UDELTA5, SIGNED5, DELTA5, MDELTA5 };
         String[] knowns = { "BYTE1", "CHAR3", "BCI5", "BRANCH5", "UNSIGNED5",
                             "UDELTA5", "SIGNED5", "DELTA5", "MDELTA5" };
-        Coding rc = b.regularCoding;
-        int rci = Arrays.asList(knownc).indexOf(rc);
+        Coding rc = b.regulbrCoding;
+        int rci = Arrbys.bsList(knownc).indexOf(rc);
         String cstr;
         if (rci >= 0)
             cstr = knowns[rci];
         else
             cstr = "CODING"+rc.keyString();
-        System.out.println("  BAND_INIT(\""+b.name()+"\""
+        System.out.println("  BAND_INIT(\""+b.nbme()+"\""
                            +", "+cstr+", "+ixS+"),");
     }
 
-    private Map<Band, Band> prevForAssertMap;
+    privbte Mbp<Bbnd, Bbnd> prevForAssertMbp;
 
-    // DEBUG ONLY:  Record something about the band order.
-    boolean notePrevForAssert(Band b, Band p) {
-        if (prevForAssertMap == null)
-            prevForAssertMap = new HashMap<>();
-        prevForAssertMap.put(b, p);
+    // DEBUG ONLY:  Record something bbout the bbnd order.
+    boolebn notePrevForAssert(Bbnd b, Bbnd p) {
+        if (prevForAssertMbp == null)
+            prevForAssertMbp = new HbshMbp<>();
+        prevForAssertMbp.put(b, p);
         return true;
     }
 
-    // DEBUG ONLY:  Validate next input band, ensure bands are read in sequence
-    private boolean assertReadyToReadFrom(Band b, InputStream in) throws IOException {
-        Band p = prevForAssertMap.get(b);
-        // Any previous band must be done reading before this one starts.
-        if (p != null && phaseCmp(p.phase(), DISBURSE_PHASE) < 0) {
-            Utils.log.warning("Previous band not done reading.");
-            Utils.log.info("    Previous band: "+p);
-            Utils.log.info("        Next band: "+b);
-            assert(verbose > 0);  // die unless verbose is true
+    // DEBUG ONLY:  Vblidbte next input bbnd, ensure bbnds bre rebd in sequence
+    privbte boolebn bssertRebdyToRebdFrom(Bbnd b, InputStrebm in) throws IOException {
+        Bbnd p = prevForAssertMbp.get(b);
+        // Any previous bbnd must be done rebding before this one stbrts.
+        if (p != null && phbseCmp(p.phbse(), DISBURSE_PHASE) < 0) {
+            Utils.log.wbrning("Previous bbnd not done rebding.");
+            Utils.log.info("    Previous bbnd: "+p);
+            Utils.log.info("        Next bbnd: "+b);
+            bssert(verbose > 0);  // die unless verbose is true
         }
-        String name = b.name;
-        if (optDebugBands && !name.startsWith("(")) {
-            assert(bandSequenceList != null);
-            // Verify synchronization between reader & writer:
-            String inName = bandSequenceList.removeFirst();
-            // System.out.println("Reading: " + name);
-            if (!inName.equals(name)) {
-                Utils.log.warning("Expected " + name + " but read: " + inName);
-                return false;
+        String nbme = b.nbme;
+        if (optDebugBbnds && !nbme.stbrtsWith("(")) {
+            bssert(bbndSequenceList != null);
+            // Verify synchronizbtion between rebder & writer:
+            String inNbme = bbndSequenceList.removeFirst();
+            // System.out.println("Rebding: " + nbme);
+            if (!inNbme.equbls(nbme)) {
+                Utils.log.wbrning("Expected " + nbme + " but rebd: " + inNbme);
+                return fblse;
             }
-            Utils.log.info("Read band in sequence: " + name);
+            Utils.log.info("Rebd bbnd in sequence: " + nbme);
         }
         return true;
     }
 
-    // DEBUG ONLY:  Make sure a bunch of cprefs are correct.
-    private boolean assertValidCPRefs(CPRefBand b) {
+    // DEBUG ONLY:  Mbke sure b bunch of cprefs bre correct.
+    privbte boolebn bssertVblidCPRefs(CPRefBbnd b) {
         if (b.index == null)  return true;
         int limit = b.index.size()+1;
         for (int i = 0; i < b.length(); i++) {
-            int v = b.valueAtForDebug(i);
+            int v = b.vblueAtForDebug(i);
             if (v < 0 || v >= limit) {
-                Utils.log.warning("CP ref out of range "+
+                Utils.log.wbrning("CP ref out of rbnge "+
                                    "["+i+"] = "+v+" in "+b);
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
     /*
-     * DEBUG ONLY:  write the bands to a list and read back the list in order,
-     * this works perfectly if we use the java packer and unpacker, typically
-     * this will work with --repack or if they are in the same jvm instance.
+     * DEBUG ONLY:  write the bbnds to b list bnd rebd bbck the list in order,
+     * this works perfectly if we use the jbvb pbcker bnd unpbcker, typicblly
+     * this will work with --repbck or if they bre in the sbme jvm instbnce.
      */
-    static LinkedList<String> bandSequenceList = null;
-    private boolean assertReadyToWriteTo(Band b, OutputStream out) throws IOException {
-        Band p = prevForAssertMap.get(b);
-        // Any previous band must be done writing before this one starts.
-        if (p != null && phaseCmp(p.phase(), DONE_PHASE) < 0) {
-            Utils.log.warning("Previous band not done writing.");
-            Utils.log.info("    Previous band: "+p);
-            Utils.log.info("        Next band: "+b);
-            assert(verbose > 0);  // die unless verbose is true
+    stbtic LinkedList<String> bbndSequenceList = null;
+    privbte boolebn bssertRebdyToWriteTo(Bbnd b, OutputStrebm out) throws IOException {
+        Bbnd p = prevForAssertMbp.get(b);
+        // Any previous bbnd must be done writing before this one stbrts.
+        if (p != null && phbseCmp(p.phbse(), DONE_PHASE) < 0) {
+            Utils.log.wbrning("Previous bbnd not done writing.");
+            Utils.log.info("    Previous bbnd: "+p);
+            Utils.log.info("        Next bbnd: "+b);
+            bssert(verbose > 0);  // die unless verbose is true
         }
-        String name = b.name;
-        if (optDebugBands && !name.startsWith("(")) {
-            if (bandSequenceList == null)
-                bandSequenceList = new LinkedList<>();
-            // Verify synchronization between reader & writer:
-            bandSequenceList.add(name);
+        String nbme = b.nbme;
+        if (optDebugBbnds && !nbme.stbrtsWith("(")) {
+            if (bbndSequenceList == null)
+                bbndSequenceList = new LinkedList<>();
+            // Verify synchronizbtion between rebder & writer:
+            bbndSequenceList.bdd(nbme);
             // System.out.println("Writing: " + b);
         }
         return true;
     }
 
-    protected static boolean testBit(int flags, int bitMask) {
-        return (flags & bitMask) != 0;
+    protected stbtic boolebn testBit(int flbgs, int bitMbsk) {
+        return (flbgs & bitMbsk) != 0;
     }
-    protected static int setBit(int flags, int bitMask, boolean z) {
-        return z ? (flags | bitMask) : (flags &~ bitMask);
+    protected stbtic int setBit(int flbgs, int bitMbsk, boolebn z) {
+        return z ? (flbgs | bitMbsk) : (flbgs &~ bitMbsk);
     }
-    protected static boolean testBit(long flags, long bitMask) {
-        return (flags & bitMask) != 0;
+    protected stbtic boolebn testBit(long flbgs, long bitMbsk) {
+        return (flbgs & bitMbsk) != 0;
     }
-    protected static long setBit(long flags, long bitMask, boolean z) {
-        return z ? (flags | bitMask) : (flags &~ bitMask);
+    protected stbtic long setBit(long flbgs, long bitMbsk, boolebn z) {
+        return z ? (flbgs | bitMbsk) : (flbgs &~ bitMbsk);
     }
 
 
-    static void printArrayTo(PrintStream ps, int[] values, int start, int end) {
-        int len = end-start;
+    stbtic void printArrbyTo(PrintStrebm ps, int[] vblues, int stbrt, int end) {
+        int len = end-stbrt;
         for (int i = 0; i < len; i++) {
             if (i % 10 == 0)
                 ps.println();
             else
                 ps.print(" ");
-            ps.print(values[start+i]);
+            ps.print(vblues[stbrt+i]);
         }
         ps.println();
     }
 
-    static void printArrayTo(PrintStream ps, Entry[] cpMap, int start, int end) {
-        printArrayTo(ps, cpMap, start, end, false);
+    stbtic void printArrbyTo(PrintStrebm ps, Entry[] cpMbp, int stbrt, int end) {
+        printArrbyTo(ps, cpMbp, stbrt, end, fblse);
     }
-    static void printArrayTo(PrintStream ps, Entry[] cpMap, int start, int end, boolean showTags) {
+    stbtic void printArrbyTo(PrintStrebm ps, Entry[] cpMbp, int stbrt, int end, boolebn showTbgs) {
         StringBuffer buf = new StringBuffer();
-        int len = end-start;
+        int len = end-stbrt;
         for (int i = 0; i < len; i++) {
-            Entry e = cpMap[start+i];
-            ps.print(start+i); ps.print("=");
-            if (showTags) { ps.print(e.tag); ps.print(":"); }
-            String s = e.stringValue();
+            Entry e = cpMbp[stbrt+i];
+            ps.print(stbrt+i); ps.print("=");
+            if (showTbgs) { ps.print(e.tbg); ps.print(":"); }
+            String s = e.stringVblue();
             buf.setLength(0);
             for (int j = 0; j < s.length(); j++) {
-                char ch = s.charAt(j);
+                chbr ch = s.chbrAt(j);
                 if (!(ch < ' ' || ch > '~' || ch == '\\')) {
-                    buf.append(ch);
+                    buf.bppend(ch);
                 } else if (ch == '\\') {
-                    buf.append("\\\\");
+                    buf.bppend("\\\\");
                 } else if (ch == '\n') {
-                    buf.append("\\n");
+                    buf.bppend("\\n");
                 } else if (ch == '\t') {
-                    buf.append("\\t");
+                    buf.bppend("\\t");
                 } else if (ch == '\r') {
-                    buf.append("\\r");
+                    buf.bppend("\\r");
                 } else {
                     String str = "000"+Integer.toHexString(ch);
-                    buf.append("\\u").append(str.substring(str.length()-4));
+                    buf.bppend("\\u").bppend(str.substring(str.length()-4));
                 }
             }
             ps.println(buf);
@@ -2726,36 +2726,36 @@ class BandStructure {
     }
 
 
-    // Utilities for reallocating:
-    protected static Object[] realloc(Object[] a, int len) {
-        java.lang.Class<?> elt = a.getClass().getComponentType();
-        Object[] na = (Object[]) java.lang.reflect.Array.newInstance(elt, len);
-        System.arraycopy(a, 0, na, 0, Math.min(a.length, len));
-        return na;
+    // Utilities for rebllocbting:
+    protected stbtic Object[] reblloc(Object[] b, int len) {
+        jbvb.lbng.Clbss<?> elt = b.getClbss().getComponentType();
+        Object[] nb = (Object[]) jbvb.lbng.reflect.Arrby.newInstbnce(elt, len);
+        System.brrbycopy(b, 0, nb, 0, Mbth.min(b.length, len));
+        return nb;
     }
-    protected static Object[] realloc(Object[] a) {
-        return realloc(a, Math.max(10, a.length*2));
+    protected stbtic Object[] reblloc(Object[] b) {
+        return reblloc(b, Mbth.mbx(10, b.length*2));
     }
 
-    protected static int[] realloc(int[] a, int len) {
+    protected stbtic int[] reblloc(int[] b, int len) {
         if (len == 0)  return noInts;
-        if (a == null)  return new int[len];
-        int[] na = new int[len];
-        System.arraycopy(a, 0, na, 0, Math.min(a.length, len));
-        return na;
+        if (b == null)  return new int[len];
+        int[] nb = new int[len];
+        System.brrbycopy(b, 0, nb, 0, Mbth.min(b.length, len));
+        return nb;
     }
-    protected static int[] realloc(int[] a) {
-        return realloc(a, Math.max(10, a.length*2));
+    protected stbtic int[] reblloc(int[] b) {
+        return reblloc(b, Mbth.mbx(10, b.length*2));
     }
 
-    protected static byte[] realloc(byte[] a, int len) {
+    protected stbtic byte[] reblloc(byte[] b, int len) {
         if (len == 0)  return noBytes;
-        if (a == null)  return new byte[len];
-        byte[] na = new byte[len];
-        System.arraycopy(a, 0, na, 0, Math.min(a.length, len));
-        return na;
+        if (b == null)  return new byte[len];
+        byte[] nb = new byte[len];
+        System.brrbycopy(b, 0, nb, 0, Mbth.min(b.length, len));
+        return nb;
     }
-    protected static byte[] realloc(byte[] a) {
-        return realloc(a, Math.max(10, a.length*2));
+    protected stbtic byte[] reblloc(byte[] b) {
+        return reblloc(b, Mbth.mbx(10, b.length*2));
     }
 }

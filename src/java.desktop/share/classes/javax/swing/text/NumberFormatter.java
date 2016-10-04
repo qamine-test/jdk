@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.lang.reflect.*;
-import java.text.*;
-import java.util.*;
+import jbvb.lbng.reflect.*;
+import jbvb.text.*;
+import jbvb.util.*;
 import sun.reflect.misc.ReflectUtil;
 import sun.swing.SwingUtilities2;
 
 /**
- * <code>NumberFormatter</code> subclasses <code>InternationalFormatter</code>
- * adding special behavior for numbers. Among the specializations are
- * (these are only used if the <code>NumberFormatter</code> does not display
- * invalid numbers, for example, <code>setAllowsInvalid(false)</code>):
+ * <code>NumberFormbtter</code> subclbsses <code>InternbtionblFormbtter</code>
+ * bdding specibl behbvior for numbers. Among the speciblizbtions bre
+ * (these bre only used if the <code>NumberFormbtter</code> does not displby
+ * invblid numbers, for exbmple, <code>setAllowsInvblid(fblse)</code>):
  * <ul>
  *   <li>Pressing +/- (- is determined from the
- *       <code>DecimalFormatSymbols</code> associated with the
- *       <code>DecimalFormat</code>) in any field but the exponent
- *       field will attempt to change the sign of the number to
- *       positive/negative.
+ *       <code>DecimblFormbtSymbols</code> bssocibted with the
+ *       <code>DecimblFormbt</code>) in bny field but the exponent
+ *       field will bttempt to chbnge the sign of the number to
+ *       positive/negbtive.
  *   <li>Pressing +/- (- is determined from the
- *       <code>DecimalFormatSymbols</code> associated with the
- *       <code>DecimalFormat</code>) in the exponent field will
- *       attempt to change the sign of the exponent to positive/negative.
+ *       <code>DecimblFormbtSymbols</code> bssocibted with the
+ *       <code>DecimblFormbt</code>) in the exponent field will
+ *       bttempt to chbnge the sign of the exponent to positive/negbtive.
  * </ul>
  * <p>
- * If you are displaying scientific numbers, you may wish to turn on
- * overwrite mode, <code>setOverwriteMode(true)</code>. For example:
+ * If you bre displbying scientific numbers, you mby wish to turn on
+ * overwrite mode, <code>setOverwriteMode(true)</code>. For exbmple:
  * <pre>
- * DecimalFormat decimalFormat = new DecimalFormat("0.000E0");
- * NumberFormatter textFormatter = new NumberFormatter(decimalFormat);
- * textFormatter.setOverwriteMode(true);
- * textFormatter.setAllowsInvalid(false);
+ * DecimblFormbt decimblFormbt = new DecimblFormbt("0.000E0");
+ * NumberFormbtter textFormbtter = new NumberFormbtter(decimblFormbt);
+ * textFormbtter.setOverwriteMode(true);
+ * textFormbtter.setAllowsInvblid(fblse);
  * </pre>
  * <p>
- * If you are going to allow the user to enter decimal
- * values, you should either force the DecimalFormat to contain at least
- * one decimal (<code>#.0###</code>), or allow the value to be invalid
- * <code>setAllowsInvalid(true)</code>. Otherwise users may not be able to
- * input decimal values.
+ * If you bre going to bllow the user to enter decimbl
+ * vblues, you should either force the DecimblFormbt to contbin bt lebst
+ * one decimbl (<code>#.0###</code>), or bllow the vblue to be invblid
+ * <code>setAllowsInvblid(true)</code>. Otherwise users mby not be bble to
+ * input decimbl vblues.
  * <p>
- * <code>NumberFormatter</code> provides slightly different behavior to
- * <code>stringToValue</code> than that of its superclass. If you have
- * specified a Class for values, {@link #setValueClass}, that is one of
- * of <code>Integer</code>, <code>Long</code>, <code>Float</code>,
- * <code>Double</code>, <code>Byte</code> or <code>Short</code> and
- * the Format's <code>parseObject</code> returns an instance of
- * <code>Number</code>, the corresponding instance of the value class
- * will be created using the constructor appropriate for the primitive
- * type the value class represents. For example:
- * <code>setValueClass(Integer.class)</code> will cause the resulting
- * value to be created via
- * <code>new Integer(((Number)formatter.parseObject(string)).intValue())</code>.
- * This is typically useful if you
- * wish to set a min/max value as the various <code>Number</code>
- * implementations are generally not comparable to each other. This is also
- * useful if for some reason you need a specific <code>Number</code>
- * implementation for your values.
+ * <code>NumberFormbtter</code> provides slightly different behbvior to
+ * <code>stringToVblue</code> thbn thbt of its superclbss. If you hbve
+ * specified b Clbss for vblues, {@link #setVblueClbss}, thbt is one of
+ * of <code>Integer</code>, <code>Long</code>, <code>Flobt</code>,
+ * <code>Double</code>, <code>Byte</code> or <code>Short</code> bnd
+ * the Formbt's <code>pbrseObject</code> returns bn instbnce of
+ * <code>Number</code>, the corresponding instbnce of the vblue clbss
+ * will be crebted using the constructor bppropribte for the primitive
+ * type the vblue clbss represents. For exbmple:
+ * <code>setVblueClbss(Integer.clbss)</code> will cbuse the resulting
+ * vblue to be crebted vib
+ * <code>new Integer(((Number)formbtter.pbrseObject(string)).intVblue())</code>.
+ * This is typicblly useful if you
+ * wish to set b min/mbx vblue bs the vbrious <code>Number</code>
+ * implementbtions bre generblly not compbrbble to ebch other. This is blso
+ * useful if for some rebson you need b specific <code>Number</code>
+ * implementbtion for your vblues.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
  * @since 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class NumberFormatter extends InternationalFormatter {
-    /** The special characters from the Format instance. */
-    private String specialChars;
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss NumberFormbtter extends InternbtionblFormbtter {
+    /** The specibl chbrbcters from the Formbt instbnce. */
+    privbte String speciblChbrs;
 
     /**
-     * Creates a <code>NumberFormatter</code> with the a default
-     * <code>NumberFormat</code> instance obtained from
-     * <code>NumberFormat.getNumberInstance()</code>.
+     * Crebtes b <code>NumberFormbtter</code> with the b defbult
+     * <code>NumberFormbt</code> instbnce obtbined from
+     * <code>NumberFormbt.getNumberInstbnce()</code>.
      */
-    public NumberFormatter() {
-        this(NumberFormat.getNumberInstance());
+    public NumberFormbtter() {
+        this(NumberFormbt.getNumberInstbnce());
     }
 
     /**
-     * Creates a NumberFormatter with the specified Format instance.
+     * Crebtes b NumberFormbtter with the specified Formbt instbnce.
      *
-     * @param format Format used to dictate legal values
+     * @pbrbm formbt Formbt used to dictbte legbl vblues
      */
-    public NumberFormatter(NumberFormat format) {
-        super(format);
-        setFormat(format);
-        setAllowsInvalid(true);
-        setCommitsOnValidEdit(false);
-        setOverwriteMode(false);
+    public NumberFormbtter(NumberFormbt formbt) {
+        super(formbt);
+        setFormbt(formbt);
+        setAllowsInvblid(true);
+        setCommitsOnVblidEdit(fblse);
+        setOverwriteMode(fblse);
     }
 
     /**
-     * Sets the format that dictates the legal values that can be edited
-     * and displayed.
+     * Sets the formbt thbt dictbtes the legbl vblues thbt cbn be edited
+     * bnd displbyed.
      * <p>
-     * If you have used the nullary constructor the value of this property
-     * will be determined for the current locale by way of the
-     * <code>NumberFormat.getNumberInstance()</code> method.
+     * If you hbve used the nullbry constructor the vblue of this property
+     * will be determined for the current locble by wby of the
+     * <code>NumberFormbt.getNumberInstbnce()</code> method.
      *
-     * @param format NumberFormat instance used to dictate legal values
+     * @pbrbm formbt NumberFormbt instbnce used to dictbte legbl vblues
      */
-    public void setFormat(Format format) {
-        super.setFormat(format);
+    public void setFormbt(Formbt formbt) {
+        super.setFormbt(formbt);
 
-        DecimalFormatSymbols dfs = getDecimalFormatSymbols();
+        DecimblFormbtSymbols dfs = getDecimblFormbtSymbols();
 
         if (dfs != null) {
             StringBuilder sb = new StringBuilder();
 
-            sb.append(dfs.getCurrencySymbol());
-            sb.append(dfs.getDecimalSeparator());
-            sb.append(dfs.getGroupingSeparator());
-            sb.append(dfs.getInfinity());
-            sb.append(dfs.getInternationalCurrencySymbol());
-            sb.append(dfs.getMinusSign());
-            sb.append(dfs.getMonetaryDecimalSeparator());
-            sb.append(dfs.getNaN());
-            sb.append(dfs.getPercent());
-            sb.append('+');
-            specialChars = sb.toString();
+            sb.bppend(dfs.getCurrencySymbol());
+            sb.bppend(dfs.getDecimblSepbrbtor());
+            sb.bppend(dfs.getGroupingSepbrbtor());
+            sb.bppend(dfs.getInfinity());
+            sb.bppend(dfs.getInternbtionblCurrencySymbol());
+            sb.bppend(dfs.getMinusSign());
+            sb.bppend(dfs.getMonetbryDecimblSepbrbtor());
+            sb.bppend(dfs.getNbN());
+            sb.bppend(dfs.getPercent());
+            sb.bppend('+');
+            speciblChbrs = sb.toString();
         }
         else {
-            specialChars = "";
+            speciblChbrs = "";
         }
     }
 
     /**
-     * Invokes <code>parseObject</code> on <code>f</code>, returning
-     * its value.
+     * Invokes <code>pbrseObject</code> on <code>f</code>, returning
+     * its vblue.
      */
-    Object stringToValue(String text, Format f) throws ParseException {
+    Object stringToVblue(String text, Formbt f) throws PbrseException {
         if (f == null) {
             return text;
         }
-        Object value = f.parseObject(text);
+        Object vblue = f.pbrseObject(text);
 
-        return convertValueToValueClass(value, getValueClass());
+        return convertVblueToVblueClbss(vblue, getVblueClbss());
     }
 
     /**
-     * Converts the passed in value to the passed in class. This only
-     * works if <code>valueClass</code> is one of <code>Integer</code>,
-     * <code>Long</code>, <code>Float</code>, <code>Double</code>,
-     * <code>Byte</code> or <code>Short</code> and <code>value</code>
-     * is an instanceof <code>Number</code>.
+     * Converts the pbssed in vblue to the pbssed in clbss. This only
+     * works if <code>vblueClbss</code> is one of <code>Integer</code>,
+     * <code>Long</code>, <code>Flobt</code>, <code>Double</code>,
+     * <code>Byte</code> or <code>Short</code> bnd <code>vblue</code>
+     * is bn instbnceof <code>Number</code>.
      */
-    private Object convertValueToValueClass(Object value,
-                                            Class<?> valueClass) {
-        if (valueClass != null && (value instanceof Number)) {
-            Number numberValue = (Number)value;
-            if (valueClass == Integer.class) {
-                return Integer.valueOf(numberValue.intValue());
+    privbte Object convertVblueToVblueClbss(Object vblue,
+                                            Clbss<?> vblueClbss) {
+        if (vblueClbss != null && (vblue instbnceof Number)) {
+            Number numberVblue = (Number)vblue;
+            if (vblueClbss == Integer.clbss) {
+                return Integer.vblueOf(numberVblue.intVblue());
             }
-            else if (valueClass == Long.class) {
-                return Long.valueOf(numberValue.longValue());
+            else if (vblueClbss == Long.clbss) {
+                return Long.vblueOf(numberVblue.longVblue());
             }
-            else if (valueClass == Float.class) {
-                return Float.valueOf(numberValue.floatValue());
+            else if (vblueClbss == Flobt.clbss) {
+                return Flobt.vblueOf(numberVblue.flobtVblue());
             }
-            else if (valueClass == Double.class) {
-                return Double.valueOf(numberValue.doubleValue());
+            else if (vblueClbss == Double.clbss) {
+                return Double.vblueOf(numberVblue.doubleVblue());
             }
-            else if (valueClass == Byte.class) {
-                return Byte.valueOf(numberValue.byteValue());
+            else if (vblueClbss == Byte.clbss) {
+                return Byte.vblueOf(numberVblue.byteVblue());
             }
-            else if (valueClass == Short.class) {
-                return Short.valueOf(numberValue.shortValue());
+            else if (vblueClbss == Short.clbss) {
+                return Short.vblueOf(numberVblue.shortVblue());
             }
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Returns the character that is used to toggle to positive values.
+     * Returns the chbrbcter thbt is used to toggle to positive vblues.
      */
-    private char getPositiveSign() {
+    privbte chbr getPositiveSign() {
         return '+';
     }
 
     /**
-     * Returns the character that is used to toggle to negative values.
+     * Returns the chbrbcter thbt is used to toggle to negbtive vblues.
      */
-    private char getMinusSign() {
-        DecimalFormatSymbols dfs = getDecimalFormatSymbols();
+    privbte chbr getMinusSign() {
+        DecimblFormbtSymbols dfs = getDecimblFormbtSymbols();
 
         if (dfs != null) {
             return dfs.getMinusSign();
@@ -219,80 +219,80 @@ public class NumberFormatter extends InternationalFormatter {
     }
 
     /**
-     * Returns the character that is used to toggle to negative values.
+     * Returns the chbrbcter thbt is used to toggle to negbtive vblues.
      */
-    private char getDecimalSeparator() {
-        DecimalFormatSymbols dfs = getDecimalFormatSymbols();
+    privbte chbr getDecimblSepbrbtor() {
+        DecimblFormbtSymbols dfs = getDecimblFormbtSymbols();
 
         if (dfs != null) {
-            return dfs.getDecimalSeparator();
+            return dfs.getDecimblSepbrbtor();
         }
         return '.';
     }
 
     /**
-     * Returns the DecimalFormatSymbols from the Format instance.
+     * Returns the DecimblFormbtSymbols from the Formbt instbnce.
      */
-    private DecimalFormatSymbols getDecimalFormatSymbols() {
-        Format f = getFormat();
+    privbte DecimblFormbtSymbols getDecimblFormbtSymbols() {
+        Formbt f = getFormbt();
 
-        if (f instanceof DecimalFormat) {
-            return ((DecimalFormat)f).getDecimalFormatSymbols();
+        if (f instbnceof DecimblFormbt) {
+            return ((DecimblFormbt)f).getDecimblFormbtSymbols();
         }
         return null;
     }
 
     /**
-     * Subclassed to return false if <code>text</code> contains in an invalid
-     * character to insert, that is, it is not a digit
-     * (<code>Character.isDigit()</code>) and
-     * not one of the characters defined by the DecimalFormatSymbols.
+     * Subclbssed to return fblse if <code>text</code> contbins in bn invblid
+     * chbrbcter to insert, thbt is, it is not b digit
+     * (<code>Chbrbcter.isDigit()</code>) bnd
+     * not one of the chbrbcters defined by the DecimblFormbtSymbols.
      */
-    boolean isLegalInsertText(String text) {
-        if (getAllowsInvalid()) {
+    boolebn isLegblInsertText(String text) {
+        if (getAllowsInvblid()) {
             return true;
         }
         for (int counter = text.length() - 1; counter >= 0; counter--) {
-            char aChar = text.charAt(counter);
+            chbr bChbr = text.chbrAt(counter);
 
-            if (!Character.isDigit(aChar) &&
-                           specialChars.indexOf(aChar) == -1){
-                return false;
+            if (!Chbrbcter.isDigit(bChbr) &&
+                           speciblChbrs.indexOf(bChbr) == -1){
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Subclassed to treat the decimal separator, grouping separator,
-     * exponent symbol, percent, permille, currency and sign as literals.
+     * Subclbssed to trebt the decimbl sepbrbtor, grouping sepbrbtor,
+     * exponent symbol, percent, permille, currency bnd sign bs literbls.
      */
-    boolean isLiteral(Map<?, ?> attrs) {
-        if (!super.isLiteral(attrs)) {
-            if (attrs == null) {
-                return false;
+    boolebn isLiterbl(Mbp<?, ?> bttrs) {
+        if (!super.isLiterbl(bttrs)) {
+            if (bttrs == null) {
+                return fblse;
             }
-            int size = attrs.size();
+            int size = bttrs.size();
 
-            if (attrs.get(NumberFormat.Field.GROUPING_SEPARATOR) != null) {
+            if (bttrs.get(NumberFormbt.Field.GROUPING_SEPARATOR) != null) {
                 size--;
-                if (attrs.get(NumberFormat.Field.INTEGER) != null) {
+                if (bttrs.get(NumberFormbt.Field.INTEGER) != null) {
                     size--;
                 }
             }
-            if (attrs.get(NumberFormat.Field.EXPONENT_SYMBOL) != null) {
+            if (bttrs.get(NumberFormbt.Field.EXPONENT_SYMBOL) != null) {
                 size--;
             }
-            if (attrs.get(NumberFormat.Field.PERCENT) != null) {
+            if (bttrs.get(NumberFormbt.Field.PERCENT) != null) {
                 size--;
             }
-            if (attrs.get(NumberFormat.Field.PERMILLE) != null) {
+            if (bttrs.get(NumberFormbt.Field.PERMILLE) != null) {
                 size--;
             }
-            if (attrs.get(NumberFormat.Field.CURRENCY) != null) {
+            if (bttrs.get(NumberFormbt.Field.CURRENCY) != null) {
                 size--;
             }
-            if (attrs.get(NumberFormat.Field.SIGN) != null) {
+            if (bttrs.get(NumberFormbt.Field.SIGN) != null) {
                 size--;
             }
             return size == 0;
@@ -301,39 +301,39 @@ public class NumberFormatter extends InternationalFormatter {
     }
 
     /**
-     * Subclassed to make the decimal separator navigable, as well
-     * as making the character between the integer field and the next
-     * field navigable.
+     * Subclbssed to mbke the decimbl sepbrbtor nbvigbble, bs well
+     * bs mbking the chbrbcter between the integer field bnd the next
+     * field nbvigbble.
      */
-    boolean isNavigatable(int index) {
-        if (!super.isNavigatable(index)) {
-            // Don't skip the decimal, it causes wierd behavior
-            return getBufferedChar(index) == getDecimalSeparator();
+    boolebn isNbvigbtbble(int index) {
+        if (!super.isNbvigbtbble(index)) {
+            // Don't skip the decimbl, it cbuses wierd behbvior
+            return getBufferedChbr(index) == getDecimblSepbrbtor();
         }
         return true;
     }
 
     /**
-     * Returns the first <code>NumberFormat.Field</code> starting
+     * Returns the first <code>NumberFormbt.Field</code> stbrting
      * <code>index</code> incrementing by <code>direction</code>.
      */
-    private NumberFormat.Field getFieldFrom(int index, int direction) {
-        if (isValidMask()) {
-            int max = getFormattedTextField().getDocument().getLength();
-            AttributedCharacterIterator iterator = getIterator();
+    privbte NumberFormbt.Field getFieldFrom(int index, int direction) {
+        if (isVblidMbsk()) {
+            int mbx = getFormbttedTextField().getDocument().getLength();
+            AttributedChbrbcterIterbtor iterbtor = getIterbtor();
 
-            if (index >= max) {
+            if (index >= mbx) {
                 index += direction;
             }
-            while (index >= 0 && index < max) {
-                iterator.setIndex(index);
+            while (index >= 0 && index < mbx) {
+                iterbtor.setIndex(index);
 
-                Map<?,?> attrs = iterator.getAttributes();
+                Mbp<?,?> bttrs = iterbtor.getAttributes();
 
-                if (attrs != null && attrs.size() > 0) {
-                    for (Object key : attrs.keySet()) {
-                        if (key instanceof NumberFormat.Field) {
-                            return (NumberFormat.Field)key;
+                if (bttrs != null && bttrs.size() > 0) {
+                    for (Object key : bttrs.keySet()) {
+                        if (key instbnceof NumberFormbt.Field) {
+                            return (NumberFormbt.Field)key;
                         }
                     }
                 }
@@ -344,102 +344,102 @@ public class NumberFormatter extends InternationalFormatter {
     }
 
     /**
-     * Overriden to toggle the value if the positive/minus sign
+     * Overriden to toggle the vblue if the positive/minus sign
      * is inserted.
      */
-    void replace(DocumentFilter.FilterBypass fb, int offset, int length,
-                String string, AttributeSet attr) throws BadLocationException {
-        if (!getAllowsInvalid() && length == 0 && string != null &&
+    void replbce(DocumentFilter.FilterBypbss fb, int offset, int length,
+                String string, AttributeSet bttr) throws BbdLocbtionException {
+        if (!getAllowsInvblid() && length == 0 && string != null &&
             string.length() == 1 &&
-            toggleSignIfNecessary(fb, offset, string.charAt(0))) {
+            toggleSignIfNecessbry(fb, offset, string.chbrAt(0))) {
             return;
         }
-        super.replace(fb, offset, length, string, attr);
+        super.replbce(fb, offset, length, string, bttr);
     }
 
     /**
-     * Will change the sign of the integer or exponent field if
-     * <code>aChar</code> is the positive or minus sign. Returns
-     * true if a sign change was attempted.
+     * Will chbnge the sign of the integer or exponent field if
+     * <code>bChbr</code> is the positive or minus sign. Returns
+     * true if b sign chbnge wbs bttempted.
      */
-    private boolean toggleSignIfNecessary(DocumentFilter.FilterBypass fb,
-                                              int offset, char aChar) throws
-                              BadLocationException {
-        if (aChar == getMinusSign() || aChar == getPositiveSign()) {
-            NumberFormat.Field field = getFieldFrom(offset, -1);
-            Object newValue;
+    privbte boolebn toggleSignIfNecessbry(DocumentFilter.FilterBypbss fb,
+                                              int offset, chbr bChbr) throws
+                              BbdLocbtionException {
+        if (bChbr == getMinusSign() || bChbr == getPositiveSign()) {
+            NumberFormbt.Field field = getFieldFrom(offset, -1);
+            Object newVblue;
 
             try {
                 if (field == null ||
-                    (field != NumberFormat.Field.EXPONENT &&
-                     field != NumberFormat.Field.EXPONENT_SYMBOL &&
-                     field != NumberFormat.Field.EXPONENT_SIGN)) {
-                    newValue = toggleSign((aChar == getPositiveSign()));
+                    (field != NumberFormbt.Field.EXPONENT &&
+                     field != NumberFormbt.Field.EXPONENT_SYMBOL &&
+                     field != NumberFormbt.Field.EXPONENT_SIGN)) {
+                    newVblue = toggleSign((bChbr == getPositiveSign()));
                 }
                 else {
                     // exponent
-                    newValue = toggleExponentSign(offset, aChar);
+                    newVblue = toggleExponentSign(offset, bChbr);
                 }
-                if (newValue != null && isValidValue(newValue, false)) {
-                    int lc = getLiteralCountTo(offset);
-                    String string = valueToString(newValue);
+                if (newVblue != null && isVblidVblue(newVblue, fblse)) {
+                    int lc = getLiterblCountTo(offset);
+                    String string = vblueToString(newVblue);
 
                     fb.remove(0, fb.getDocument().getLength());
                     fb.insertString(0, string, null);
-                    updateValue(newValue);
-                    repositionCursor(getLiteralCountTo(offset) -
+                    updbteVblue(newVblue);
+                    repositionCursor(getLiterblCountTo(offset) -
                                      lc + offset, 1);
                     return true;
                 }
-            } catch (ParseException pe) {
-                invalidEdit();
+            } cbtch (PbrseException pe) {
+                invblidEdit();
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Invoked to toggle the sign. For this to work the value class
-     * must have a single arg constructor that takes a String.
+     * Invoked to toggle the sign. For this to work the vblue clbss
+     * must hbve b single brg constructor thbt tbkes b String.
      */
-    private Object toggleSign(boolean positive) throws ParseException {
-        Object value = stringToValue(getFormattedTextField().getText());
+    privbte Object toggleSign(boolebn positive) throws PbrseException {
+        Object vblue = stringToVblue(getFormbttedTextField().getText());
 
-        if (value != null) {
-            // toString isn't localized, so that using +/- should work
+        if (vblue != null) {
+            // toString isn't locblized, so thbt using +/- should work
             // correctly.
-            String string = value.toString();
+            String string = vblue.toString();
 
             if (string != null && string.length() > 0) {
                 if (positive) {
-                    if (string.charAt(0) == '-') {
+                    if (string.chbrAt(0) == '-') {
                         string = string.substring(1);
                     }
                 }
                 else {
-                    if (string.charAt(0) == '+') {
+                    if (string.chbrAt(0) == '+') {
                         string = string.substring(1);
                     }
-                    if (string.length() > 0 && string.charAt(0) != '-') {
+                    if (string.length() > 0 && string.chbrAt(0) != '-') {
                         string = "-" + string;
                     }
                 }
                 if (string != null) {
-                    Class<?> valueClass = getValueClass();
+                    Clbss<?> vblueClbss = getVblueClbss();
 
-                    if (valueClass == null) {
-                        valueClass = value.getClass();
+                    if (vblueClbss == null) {
+                        vblueClbss = vblue.getClbss();
                     }
                     try {
-                        ReflectUtil.checkPackageAccess(valueClass);
-                        SwingUtilities2.checkAccess(valueClass.getModifiers());
-                        Constructor<?> cons = valueClass.getConstructor(
-                                              new Class<?>[] { String.class });
+                        ReflectUtil.checkPbckbgeAccess(vblueClbss);
+                        SwingUtilities2.checkAccess(vblueClbss.getModifiers());
+                        Constructor<?> cons = vblueClbss.getConstructor(
+                                              new Clbss<?>[] { String.clbss });
                         if (cons != null) {
                             SwingUtilities2.checkAccess(cons.getModifiers());
-                            return cons.newInstance(new Object[]{string});
+                            return cons.newInstbnce(new Object[]{string});
                         }
-                    } catch (Throwable ex) { }
+                    } cbtch (Throwbble ex) { }
                 }
             }
         }
@@ -450,23 +450,23 @@ public class NumberFormatter extends InternationalFormatter {
      * Invoked to toggle the sign of the exponent (for scientific
      * numbers).
      */
-    private Object toggleExponentSign(int offset, char aChar) throws
-                             BadLocationException, ParseException {
-        String string = getFormattedTextField().getText();
-        int replaceLength = 0;
-        int loc = getAttributeStart(NumberFormat.Field.EXPONENT_SIGN);
+    privbte Object toggleExponentSign(int offset, chbr bChbr) throws
+                             BbdLocbtionException, PbrseException {
+        String string = getFormbttedTextField().getText();
+        int replbceLength = 0;
+        int loc = getAttributeStbrt(NumberFormbt.Field.EXPONENT_SIGN);
 
         if (loc >= 0) {
-            replaceLength = 1;
+            replbceLength = 1;
             offset = loc;
         }
-        if (aChar == getPositiveSign()) {
-            string = getReplaceString(offset, replaceLength, null);
+        if (bChbr == getPositiveSign()) {
+            string = getReplbceString(offset, replbceLength, null);
         }
         else {
-            string = getReplaceString(offset, replaceLength,
-                                      new String(new char[] { aChar }));
+            string = getReplbceString(offset, replbceLength,
+                                      new String(new chbr[] { bChbr }));
         }
-        return stringToValue(string);
+        return stringToVblue(string);
     }
 }

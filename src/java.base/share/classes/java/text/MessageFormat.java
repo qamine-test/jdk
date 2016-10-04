@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.io.InvalidObjectException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.text.DecimblFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbte;
+import jbvb.util.List;
+import jbvb.util.Locble;
 
 
 /**
- * <code>MessageFormat</code> provides a means to produce concatenated
- * messages in a language-neutral way. Use this to construct messages
- * displayed for end users.
+ * <code>MessbgeFormbt</code> provides b mebns to produce concbtenbted
+ * messbges in b lbngubge-neutrbl wby. Use this to construct messbges
+ * displbyed for end users.
  *
  * <p>
- * <code>MessageFormat</code> takes a set of objects, formats them, then
- * inserts the formatted strings into the pattern at the appropriate places.
+ * <code>MessbgeFormbt</code> tbkes b set of objects, formbts them, then
+ * inserts the formbtted strings into the pbttern bt the bppropribte plbces.
  *
  * <p>
  * <strong>Note:</strong>
- * <code>MessageFormat</code> differs from the other <code>Format</code>
- * classes in that you create a <code>MessageFormat</code> object with one
- * of its constructors (not with a <code>getInstance</code> style factory
- * method). The factory methods aren't necessary because <code>MessageFormat</code>
- * itself doesn't implement locale specific behavior. Any locale specific
- * behavior is defined by the pattern that you provide as well as the
- * subformats used for inserted arguments.
+ * <code>MessbgeFormbt</code> differs from the other <code>Formbt</code>
+ * clbsses in thbt you crebte b <code>MessbgeFormbt</code> object with one
+ * of its constructors (not with b <code>getInstbnce</code> style fbctory
+ * method). The fbctory methods bren't necessbry becbuse <code>MessbgeFormbt</code>
+ * itself doesn't implement locble specific behbvior. Any locble specific
+ * behbvior is defined by the pbttern thbt you provide bs well bs the
+ * subformbts used for inserted brguments.
  *
- * <h3><a name="patterns">Patterns and Their Interpretation</a></h3>
+ * <h3><b nbme="pbtterns">Pbtterns bnd Their Interpretbtion</b></h3>
  *
- * <code>MessageFormat</code> uses patterns of the following form:
+ * <code>MessbgeFormbt</code> uses pbtterns of the following form:
  * <blockquote><pre>
- * <i>MessageFormatPattern:</i>
+ * <i>MessbgeFormbtPbttern:</i>
  *         <i>String</i>
- *         <i>MessageFormatPattern</i> <i>FormatElement</i> <i>String</i>
+ *         <i>MessbgeFormbtPbttern</i> <i>FormbtElement</i> <i>String</i>
  *
- * <i>FormatElement:</i>
+ * <i>FormbtElement:</i>
  *         { <i>ArgumentIndex</i> }
- *         { <i>ArgumentIndex</i> , <i>FormatType</i> }
- *         { <i>ArgumentIndex</i> , <i>FormatType</i> , <i>FormatStyle</i> }
+ *         { <i>ArgumentIndex</i> , <i>FormbtType</i> }
+ *         { <i>ArgumentIndex</i> , <i>FormbtType</i> , <i>FormbtStyle</i> }
  *
- * <i>FormatType: one of </i>
- *         number date time choice
+ * <i>FormbtType: one of </i>
+ *         number dbte time choice
  *
- * <i>FormatStyle:</i>
+ * <i>FormbtStyle:</i>
  *         short
  *         medium
  *         long
@@ -92,1310 +92,1310 @@ import java.util.Locale;
  *         integer
  *         currency
  *         percent
- *         <i>SubformatPattern</i>
+ *         <i>SubformbtPbttern</i>
  * </pre></blockquote>
  *
- * <p>Within a <i>String</i>, a pair of single quotes can be used to
- * quote any arbitrary characters except single quotes. For example,
- * pattern string <code>"'{0}'"</code> represents string
- * <code>"{0}"</code>, not a <i>FormatElement</i>. A single quote itself
- * must be represented by doubled single quotes {@code ''} throughout a
- * <i>String</i>.  For example, pattern string <code>"'{''}'"</code> is
- * interpreted as a sequence of <code>'{</code> (start of quoting and a
- * left curly brace), <code>''</code> (a single quote), and
- * <code>}'</code> (a right curly brace and end of quoting),
- * <em>not</em> <code>'{'</code> and <code>'}'</code> (quoted left and
- * right curly braces): representing string <code>"{'}"</code>,
+ * <p>Within b <i>String</i>, b pbir of single quotes cbn be used to
+ * quote bny brbitrbry chbrbcters except single quotes. For exbmple,
+ * pbttern string <code>"'{0}'"</code> represents string
+ * <code>"{0}"</code>, not b <i>FormbtElement</i>. A single quote itself
+ * must be represented by doubled single quotes {@code ''} throughout b
+ * <i>String</i>.  For exbmple, pbttern string <code>"'{''}'"</code> is
+ * interpreted bs b sequence of <code>'{</code> (stbrt of quoting bnd b
+ * left curly brbce), <code>''</code> (b single quote), bnd
+ * <code>}'</code> (b right curly brbce bnd end of quoting),
+ * <em>not</em> <code>'{'</code> bnd <code>'}'</code> (quoted left bnd
+ * right curly brbces): representing string <code>"{'}"</code>,
  * <em>not</em> <code>"{}"</code>.
  *
- * <p>A <i>SubformatPattern</i> is interpreted by its corresponding
- * subformat, and subformat-dependent pattern rules apply. For example,
- * pattern string <code>"{1,number,<u>$'#',##</u>}"</code>
- * (<i>SubformatPattern</i> with underline) will produce a number format
- * with the pound-sign quoted, with a result such as: {@code
- * "$#31,45"}. Refer to each {@code Format} subclass documentation for
- * details.
+ * <p>A <i>SubformbtPbttern</i> is interpreted by its corresponding
+ * subformbt, bnd subformbt-dependent pbttern rules bpply. For exbmple,
+ * pbttern string <code>"{1,number,<u>$'#',##</u>}"</code>
+ * (<i>SubformbtPbttern</i> with underline) will produce b number formbt
+ * with the pound-sign quoted, with b result such bs: {@code
+ * "$#31,45"}. Refer to ebch {@code Formbt} subclbss documentbtion for
+ * detbils.
  *
- * <p>Any unmatched quote is treated as closed at the end of the given
- * pattern. For example, pattern string {@code "'{0}"} is treated as
- * pattern {@code "'{0}'"}.
+ * <p>Any unmbtched quote is trebted bs closed bt the end of the given
+ * pbttern. For exbmple, pbttern string {@code "'{0}"} is trebted bs
+ * pbttern {@code "'{0}'"}.
  *
- * <p>Any curly braces within an unquoted pattern must be balanced. For
- * example, <code>"ab {0} de"</code> and <code>"ab '}' de"</code> are
- * valid patterns, but <code>"ab {0'}' de"</code>, <code>"ab } de"</code>
- * and <code>"''{''"</code> are not.
+ * <p>Any curly brbces within bn unquoted pbttern must be bblbnced. For
+ * exbmple, <code>"bb {0} de"</code> bnd <code>"bb '}' de"</code> bre
+ * vblid pbtterns, but <code>"bb {0'}' de"</code>, <code>"bb } de"</code>
+ * bnd <code>"''{''"</code> bre not.
  *
- * <dl><dt><b>Warning:</b><dd>The rules for using quotes within message
- * format patterns unfortunately have shown to be somewhat confusing.
- * In particular, it isn't always obvious to localizers whether single
- * quotes need to be doubled or not. Make sure to inform localizers about
- * the rules, and tell them (for example, by using comments in resource
- * bundle source files) which strings will be processed by {@code MessageFormat}.
- * Note that localizers may need to use single quotes in translated
- * strings where the original version doesn't have them.
+ * <dl><dt><b>Wbrning:</b><dd>The rules for using quotes within messbge
+ * formbt pbtterns unfortunbtely hbve shown to be somewhbt confusing.
+ * In pbrticulbr, it isn't blwbys obvious to locblizers whether single
+ * quotes need to be doubled or not. Mbke sure to inform locblizers bbout
+ * the rules, bnd tell them (for exbmple, by using comments in resource
+ * bundle source files) which strings will be processed by {@code MessbgeFormbt}.
+ * Note thbt locblizers mby need to use single quotes in trbnslbted
+ * strings where the originbl version doesn't hbve them.
  * </dl>
  * <p>
- * The <i>ArgumentIndex</i> value is a non-negative integer written
- * using the digits {@code '0'} through {@code '9'}, and represents an index into the
- * {@code arguments} array passed to the {@code format} methods
- * or the result array returned by the {@code parse} methods.
+ * The <i>ArgumentIndex</i> vblue is b non-negbtive integer written
+ * using the digits {@code '0'} through {@code '9'}, bnd represents bn index into the
+ * {@code brguments} brrby pbssed to the {@code formbt} methods
+ * or the result brrby returned by the {@code pbrse} methods.
  * <p>
- * The <i>FormatType</i> and <i>FormatStyle</i> values are used to create
- * a {@code Format} instance for the format element. The following
- * table shows how the values map to {@code Format} instances. Combinations not
- * shown in the table are illegal. A <i>SubformatPattern</i> must
- * be a valid pattern string for the {@code Format} subclass used.
+ * The <i>FormbtType</i> bnd <i>FormbtStyle</i> vblues bre used to crebte
+ * b {@code Formbt} instbnce for the formbt element. The following
+ * tbble shows how the vblues mbp to {@code Formbt} instbnces. Combinbtions not
+ * shown in the tbble bre illegbl. A <i>SubformbtPbttern</i> must
+ * be b vblid pbttern string for the {@code Formbt} subclbss used.
  *
- * <table border=1 summary="Shows how FormatType and FormatStyle values map to Format instances">
+ * <tbble border=1 summbry="Shows how FormbtType bnd FormbtStyle vblues mbp to Formbt instbnces">
  *    <tr>
- *       <th id="ft" class="TableHeadingColor">FormatType
- *       <th id="fs" class="TableHeadingColor">FormatStyle
- *       <th id="sc" class="TableHeadingColor">Subformat Created
+ *       <th id="ft" clbss="TbbleHebdingColor">FormbtType
+ *       <th id="fs" clbss="TbbleHebdingColor">FormbtStyle
+ *       <th id="sc" clbss="TbbleHebdingColor">Subformbt Crebted
  *    <tr>
- *       <td headers="ft"><i>(none)</i>
- *       <td headers="fs"><i>(none)</i>
- *       <td headers="sc"><code>null</code>
+ *       <td hebders="ft"><i>(none)</i>
+ *       <td hebders="fs"><i>(none)</i>
+ *       <td hebders="sc"><code>null</code>
  *    <tr>
- *       <td headers="ft" rowspan=5><code>number</code>
- *       <td headers="fs"><i>(none)</i>
- *       <td headers="sc">{@link NumberFormat#getInstance(Locale) NumberFormat.getInstance}{@code (getLocale())}
+ *       <td hebders="ft" rowspbn=5><code>number</code>
+ *       <td hebders="fs"><i>(none)</i>
+ *       <td hebders="sc">{@link NumberFormbt#getInstbnce(Locble) NumberFormbt.getInstbnce}{@code (getLocble())}
  *    <tr>
- *       <td headers="fs"><code>integer</code>
- *       <td headers="sc">{@link NumberFormat#getIntegerInstance(Locale) NumberFormat.getIntegerInstance}{@code (getLocale())}
+ *       <td hebders="fs"><code>integer</code>
+ *       <td hebders="sc">{@link NumberFormbt#getIntegerInstbnce(Locble) NumberFormbt.getIntegerInstbnce}{@code (getLocble())}
  *    <tr>
- *       <td headers="fs"><code>currency</code>
- *       <td headers="sc">{@link NumberFormat#getCurrencyInstance(Locale) NumberFormat.getCurrencyInstance}{@code (getLocale())}
+ *       <td hebders="fs"><code>currency</code>
+ *       <td hebders="sc">{@link NumberFormbt#getCurrencyInstbnce(Locble) NumberFormbt.getCurrencyInstbnce}{@code (getLocble())}
  *    <tr>
- *       <td headers="fs"><code>percent</code>
- *       <td headers="sc">{@link NumberFormat#getPercentInstance(Locale) NumberFormat.getPercentInstance}{@code (getLocale())}
+ *       <td hebders="fs"><code>percent</code>
+ *       <td hebders="sc">{@link NumberFormbt#getPercentInstbnce(Locble) NumberFormbt.getPercentInstbnce}{@code (getLocble())}
  *    <tr>
- *       <td headers="fs"><i>SubformatPattern</i>
- *       <td headers="sc">{@code new} {@link DecimalFormat#DecimalFormat(String,DecimalFormatSymbols) DecimalFormat}{@code (subformatPattern,} {@link DecimalFormatSymbols#getInstance(Locale) DecimalFormatSymbols.getInstance}{@code (getLocale()))}
+ *       <td hebders="fs"><i>SubformbtPbttern</i>
+ *       <td hebders="sc">{@code new} {@link DecimblFormbt#DecimblFormbt(String,DecimblFormbtSymbols) DecimblFormbt}{@code (subformbtPbttern,} {@link DecimblFormbtSymbols#getInstbnce(Locble) DecimblFormbtSymbols.getInstbnce}{@code (getLocble()))}
  *    <tr>
- *       <td headers="ft" rowspan=6><code>date</code>
- *       <td headers="fs"><i>(none)</i>
- *       <td headers="sc">{@link DateFormat#getDateInstance(int,Locale) DateFormat.getDateInstance}{@code (}{@link DateFormat#DEFAULT}{@code , getLocale())}
+ *       <td hebders="ft" rowspbn=6><code>dbte</code>
+ *       <td hebders="fs"><i>(none)</i>
+ *       <td hebders="sc">{@link DbteFormbt#getDbteInstbnce(int,Locble) DbteFormbt.getDbteInstbnce}{@code (}{@link DbteFormbt#DEFAULT}{@code , getLocble())}
  *    <tr>
- *       <td headers="fs"><code>short</code>
- *       <td headers="sc">{@link DateFormat#getDateInstance(int,Locale) DateFormat.getDateInstance}{@code (}{@link DateFormat#SHORT}{@code , getLocale())}
+ *       <td hebders="fs"><code>short</code>
+ *       <td hebders="sc">{@link DbteFormbt#getDbteInstbnce(int,Locble) DbteFormbt.getDbteInstbnce}{@code (}{@link DbteFormbt#SHORT}{@code , getLocble())}
  *    <tr>
- *       <td headers="fs"><code>medium</code>
- *       <td headers="sc">{@link DateFormat#getDateInstance(int,Locale) DateFormat.getDateInstance}{@code (}{@link DateFormat#DEFAULT}{@code , getLocale())}
+ *       <td hebders="fs"><code>medium</code>
+ *       <td hebders="sc">{@link DbteFormbt#getDbteInstbnce(int,Locble) DbteFormbt.getDbteInstbnce}{@code (}{@link DbteFormbt#DEFAULT}{@code , getLocble())}
  *    <tr>
- *       <td headers="fs"><code>long</code>
- *       <td headers="sc">{@link DateFormat#getDateInstance(int,Locale) DateFormat.getDateInstance}{@code (}{@link DateFormat#LONG}{@code , getLocale())}
+ *       <td hebders="fs"><code>long</code>
+ *       <td hebders="sc">{@link DbteFormbt#getDbteInstbnce(int,Locble) DbteFormbt.getDbteInstbnce}{@code (}{@link DbteFormbt#LONG}{@code , getLocble())}
  *    <tr>
- *       <td headers="fs"><code>full</code>
- *       <td headers="sc">{@link DateFormat#getDateInstance(int,Locale) DateFormat.getDateInstance}{@code (}{@link DateFormat#FULL}{@code , getLocale())}
+ *       <td hebders="fs"><code>full</code>
+ *       <td hebders="sc">{@link DbteFormbt#getDbteInstbnce(int,Locble) DbteFormbt.getDbteInstbnce}{@code (}{@link DbteFormbt#FULL}{@code , getLocble())}
  *    <tr>
- *       <td headers="fs"><i>SubformatPattern</i>
- *       <td headers="sc">{@code new} {@link SimpleDateFormat#SimpleDateFormat(String,Locale) SimpleDateFormat}{@code (subformatPattern, getLocale())}
+ *       <td hebders="fs"><i>SubformbtPbttern</i>
+ *       <td hebders="sc">{@code new} {@link SimpleDbteFormbt#SimpleDbteFormbt(String,Locble) SimpleDbteFormbt}{@code (subformbtPbttern, getLocble())}
  *    <tr>
- *       <td headers="ft" rowspan=6><code>time</code>
- *       <td headers="fs"><i>(none)</i>
- *       <td headers="sc">{@link DateFormat#getTimeInstance(int,Locale) DateFormat.getTimeInstance}{@code (}{@link DateFormat#DEFAULT}{@code , getLocale())}
+ *       <td hebders="ft" rowspbn=6><code>time</code>
+ *       <td hebders="fs"><i>(none)</i>
+ *       <td hebders="sc">{@link DbteFormbt#getTimeInstbnce(int,Locble) DbteFormbt.getTimeInstbnce}{@code (}{@link DbteFormbt#DEFAULT}{@code , getLocble())}
  *    <tr>
- *       <td headers="fs"><code>short</code>
- *       <td headers="sc">{@link DateFormat#getTimeInstance(int,Locale) DateFormat.getTimeInstance}{@code (}{@link DateFormat#SHORT}{@code , getLocale())}
+ *       <td hebders="fs"><code>short</code>
+ *       <td hebders="sc">{@link DbteFormbt#getTimeInstbnce(int,Locble) DbteFormbt.getTimeInstbnce}{@code (}{@link DbteFormbt#SHORT}{@code , getLocble())}
  *    <tr>
- *       <td headers="fs"><code>medium</code>
- *       <td headers="sc">{@link DateFormat#getTimeInstance(int,Locale) DateFormat.getTimeInstance}{@code (}{@link DateFormat#DEFAULT}{@code , getLocale())}
+ *       <td hebders="fs"><code>medium</code>
+ *       <td hebders="sc">{@link DbteFormbt#getTimeInstbnce(int,Locble) DbteFormbt.getTimeInstbnce}{@code (}{@link DbteFormbt#DEFAULT}{@code , getLocble())}
  *    <tr>
- *       <td headers="fs"><code>long</code>
- *       <td headers="sc">{@link DateFormat#getTimeInstance(int,Locale) DateFormat.getTimeInstance}{@code (}{@link DateFormat#LONG}{@code , getLocale())}
+ *       <td hebders="fs"><code>long</code>
+ *       <td hebders="sc">{@link DbteFormbt#getTimeInstbnce(int,Locble) DbteFormbt.getTimeInstbnce}{@code (}{@link DbteFormbt#LONG}{@code , getLocble())}
  *    <tr>
- *       <td headers="fs"><code>full</code>
- *       <td headers="sc">{@link DateFormat#getTimeInstance(int,Locale) DateFormat.getTimeInstance}{@code (}{@link DateFormat#FULL}{@code , getLocale())}
+ *       <td hebders="fs"><code>full</code>
+ *       <td hebders="sc">{@link DbteFormbt#getTimeInstbnce(int,Locble) DbteFormbt.getTimeInstbnce}{@code (}{@link DbteFormbt#FULL}{@code , getLocble())}
  *    <tr>
- *       <td headers="fs"><i>SubformatPattern</i>
- *       <td headers="sc">{@code new} {@link SimpleDateFormat#SimpleDateFormat(String,Locale) SimpleDateFormat}{@code (subformatPattern, getLocale())}
+ *       <td hebders="fs"><i>SubformbtPbttern</i>
+ *       <td hebders="sc">{@code new} {@link SimpleDbteFormbt#SimpleDbteFormbt(String,Locble) SimpleDbteFormbt}{@code (subformbtPbttern, getLocble())}
  *    <tr>
- *       <td headers="ft"><code>choice</code>
- *       <td headers="fs"><i>SubformatPattern</i>
- *       <td headers="sc">{@code new} {@link ChoiceFormat#ChoiceFormat(String) ChoiceFormat}{@code (subformatPattern)}
- * </table>
+ *       <td hebders="ft"><code>choice</code>
+ *       <td hebders="fs"><i>SubformbtPbttern</i>
+ *       <td hebders="sc">{@code new} {@link ChoiceFormbt#ChoiceFormbt(String) ChoiceFormbt}{@code (subformbtPbttern)}
+ * </tbble>
  *
- * <h4>Usage Information</h4>
+ * <h4>Usbge Informbtion</h4>
  *
  * <p>
- * Here are some examples of usage.
- * In real internationalized programs, the message format pattern and other
- * static strings will, of course, be obtained from resource bundles.
- * Other parameters will be dynamically determined at runtime.
+ * Here bre some exbmples of usbge.
+ * In rebl internbtionblized progrbms, the messbge formbt pbttern bnd other
+ * stbtic strings will, of course, be obtbined from resource bundles.
+ * Other pbrbmeters will be dynbmicblly determined bt runtime.
  * <p>
- * The first example uses the static method <code>MessageFormat.format</code>,
- * which internally creates a <code>MessageFormat</code> for one-time use:
+ * The first exbmple uses the stbtic method <code>MessbgeFormbt.formbt</code>,
+ * which internblly crebtes b <code>MessbgeFormbt</code> for one-time use:
  * <blockquote><pre>
- * int planet = 7;
- * String event = "a disturbance in the Force";
+ * int plbnet = 7;
+ * String event = "b disturbbnce in the Force";
  *
- * String result = MessageFormat.format(
- *     "At {1,time} on {1,date}, there was {2} on planet {0,number,integer}.",
- *     planet, new Date(), event);
+ * String result = MessbgeFormbt.formbt(
+ *     "At {1,time} on {1,dbte}, there wbs {2} on plbnet {0,number,integer}.",
+ *     plbnet, new Dbte(), event);
  * </pre></blockquote>
  * The output is:
  * <blockquote><pre>
- * At 12:30 PM on Jul 3, 2053, there was a disturbance in the Force on planet 7.
+ * At 12:30 PM on Jul 3, 2053, there wbs b disturbbnce in the Force on plbnet 7.
  * </pre></blockquote>
  *
  * <p>
- * The following example creates a <code>MessageFormat</code> instance that
- * can be used repeatedly:
+ * The following exbmple crebtes b <code>MessbgeFormbt</code> instbnce thbt
+ * cbn be used repebtedly:
  * <blockquote><pre>
  * int fileCount = 1273;
- * String diskName = "MyDisk";
- * Object[] testArgs = {new Long(fileCount), diskName};
+ * String diskNbme = "MyDisk";
+ * Object[] testArgs = {new Long(fileCount), diskNbme};
  *
- * MessageFormat form = new MessageFormat(
- *     "The disk \"{1}\" contains {0} file(s).");
+ * MessbgeFormbt form = new MessbgeFormbt(
+ *     "The disk \"{1}\" contbins {0} file(s).");
  *
- * System.out.println(form.format(testArgs));
+ * System.out.println(form.formbt(testArgs));
  * </pre></blockquote>
- * The output with different values for <code>fileCount</code>:
+ * The output with different vblues for <code>fileCount</code>:
  * <blockquote><pre>
- * The disk "MyDisk" contains 0 file(s).
- * The disk "MyDisk" contains 1 file(s).
- * The disk "MyDisk" contains 1,273 file(s).
+ * The disk "MyDisk" contbins 0 file(s).
+ * The disk "MyDisk" contbins 1 file(s).
+ * The disk "MyDisk" contbins 1,273 file(s).
  * </pre></blockquote>
  *
  * <p>
- * For more sophisticated patterns, you can use a <code>ChoiceFormat</code>
- * to produce correct forms for singular and plural:
+ * For more sophisticbted pbtterns, you cbn use b <code>ChoiceFormbt</code>
+ * to produce correct forms for singulbr bnd plurbl:
  * <blockquote><pre>
- * MessageFormat form = new MessageFormat("The disk \"{1}\" contains {0}.");
+ * MessbgeFormbt form = new MessbgeFormbt("The disk \"{1}\" contbins {0}.");
  * double[] filelimits = {0,1,2};
- * String[] filepart = {"no files","one file","{0,number} files"};
- * ChoiceFormat fileform = new ChoiceFormat(filelimits, filepart);
- * form.setFormatByArgumentIndex(0, fileform);
+ * String[] filepbrt = {"no files","one file","{0,number} files"};
+ * ChoiceFormbt fileform = new ChoiceFormbt(filelimits, filepbrt);
+ * form.setFormbtByArgumentIndex(0, fileform);
  *
  * int fileCount = 1273;
- * String diskName = "MyDisk";
- * Object[] testArgs = {new Long(fileCount), diskName};
+ * String diskNbme = "MyDisk";
+ * Object[] testArgs = {new Long(fileCount), diskNbme};
  *
- * System.out.println(form.format(testArgs));
+ * System.out.println(form.formbt(testArgs));
  * </pre></blockquote>
- * The output with different values for <code>fileCount</code>:
+ * The output with different vblues for <code>fileCount</code>:
  * <blockquote><pre>
- * The disk "MyDisk" contains no files.
- * The disk "MyDisk" contains one file.
- * The disk "MyDisk" contains 1,273 files.
+ * The disk "MyDisk" contbins no files.
+ * The disk "MyDisk" contbins one file.
+ * The disk "MyDisk" contbins 1,273 files.
  * </pre></blockquote>
  *
  * <p>
- * You can create the <code>ChoiceFormat</code> programmatically, as in the
- * above example, or by using a pattern. See {@link ChoiceFormat}
- * for more information.
+ * You cbn crebte the <code>ChoiceFormbt</code> progrbmmbticblly, bs in the
+ * bbove exbmple, or by using b pbttern. See {@link ChoiceFormbt}
+ * for more informbtion.
  * <blockquote><pre>{@code
- * form.applyPattern(
- *    "There {0,choice,0#are no files|1#is one file|1<are {0,number,integer} files}.");
+ * form.bpplyPbttern(
+ *    "There {0,choice,0#bre no files|1#is one file|1<bre {0,number,integer} files}.");
  * }</pre></blockquote>
  *
  * <p>
- * <strong>Note:</strong> As we see above, the string produced
- * by a <code>ChoiceFormat</code> in <code>MessageFormat</code> is treated as special;
- * occurrences of '{' are used to indicate subformats, and cause recursion.
- * If you create both a <code>MessageFormat</code> and <code>ChoiceFormat</code>
- * programmatically (instead of using the string patterns), then be careful not to
- * produce a format that recurses on itself, which will cause an infinite loop.
+ * <strong>Note:</strong> As we see bbove, the string produced
+ * by b <code>ChoiceFormbt</code> in <code>MessbgeFormbt</code> is trebted bs specibl;
+ * occurrences of '{' bre used to indicbte subformbts, bnd cbuse recursion.
+ * If you crebte both b <code>MessbgeFormbt</code> bnd <code>ChoiceFormbt</code>
+ * progrbmmbticblly (instebd of using the string pbtterns), then be cbreful not to
+ * produce b formbt thbt recurses on itself, which will cbuse bn infinite loop.
  * <p>
- * When a single argument is parsed more than once in the string, the last match
- * will be the final result of the parsing.  For example,
+ * When b single brgument is pbrsed more thbn once in the string, the lbst mbtch
+ * will be the finbl result of the pbrsing.  For exbmple,
  * <blockquote><pre>
- * MessageFormat mf = new MessageFormat("{0,number,#.##}, {0,number,#.#}");
+ * MessbgeFormbt mf = new MessbgeFormbt("{0,number,#.##}, {0,number,#.#}");
  * Object[] objs = {new Double(3.1415)};
- * String result = mf.format( objs );
- * // result now equals "3.14, 3.1"
+ * String result = mf.formbt( objs );
+ * // result now equbls "3.14, 3.1"
  * objs = null;
- * objs = mf.parse(result, new ParsePosition(0));
- * // objs now equals {new Double(3.1)}
+ * objs = mf.pbrse(result, new PbrsePosition(0));
+ * // objs now equbls {new Double(3.1)}
  * </pre></blockquote>
  *
  * <p>
- * Likewise, parsing with a {@code MessageFormat} object using patterns containing
- * multiple occurrences of the same argument would return the last match.  For
- * example,
+ * Likewise, pbrsing with b {@code MessbgeFormbt} object using pbtterns contbining
+ * multiple occurrences of the sbme brgument would return the lbst mbtch.  For
+ * exbmple,
  * <blockquote><pre>
- * MessageFormat mf = new MessageFormat("{0}, {0}, {0}");
- * String forParsing = "x, y, z";
- * Object[] objs = mf.parse(forParsing, new ParsePosition(0));
- * // result now equals {new String("z")}
+ * MessbgeFormbt mf = new MessbgeFormbt("{0}, {0}, {0}");
+ * String forPbrsing = "x, y, z";
+ * Object[] objs = mf.pbrse(forPbrsing, new PbrsePosition(0));
+ * // result now equbls {new String("z")}
  * </pre></blockquote>
  *
- * <h4><a name="synchronization">Synchronization</a></h4>
+ * <h4><b nbme="synchronizbtion">Synchronizbtion</b></h4>
  *
  * <p>
- * Message formats are not synchronized.
- * It is recommended to create separate format instances for each thread.
- * If multiple threads access a format concurrently, it must be synchronized
- * externally.
+ * Messbge formbts bre not synchronized.
+ * It is recommended to crebte sepbrbte formbt instbnces for ebch threbd.
+ * If multiple threbds bccess b formbt concurrently, it must be synchronized
+ * externblly.
  *
- * @see          java.util.Locale
- * @see          Format
- * @see          NumberFormat
- * @see          DecimalFormat
- * @see          DecimalFormatSymbols
- * @see          ChoiceFormat
- * @see          DateFormat
- * @see          SimpleDateFormat
+ * @see          jbvb.util.Locble
+ * @see          Formbt
+ * @see          NumberFormbt
+ * @see          DecimblFormbt
+ * @see          DecimblFormbtSymbols
+ * @see          ChoiceFormbt
+ * @see          DbteFormbt
+ * @see          SimpleDbteFormbt
  *
- * @author       Mark Davis
+ * @buthor       Mbrk Dbvis
  */
 
-public class MessageFormat extends Format {
+public clbss MessbgeFormbt extends Formbt {
 
-    private static final long serialVersionUID = 6479157306784022952L;
+    privbte stbtic finbl long seriblVersionUID = 6479157306784022952L;
 
     /**
-     * Constructs a MessageFormat for the default
-     * {@link java.util.Locale.Category#FORMAT FORMAT} locale and the
-     * specified pattern.
-     * The constructor first sets the locale, then parses the pattern and
-     * creates a list of subformats for the format elements contained in it.
-     * Patterns and their interpretation are specified in the
-     * <a href="#patterns">class description</a>.
+     * Constructs b MessbgeFormbt for the defbult
+     * {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble bnd the
+     * specified pbttern.
+     * The constructor first sets the locble, then pbrses the pbttern bnd
+     * crebtes b list of subformbts for the formbt elements contbined in it.
+     * Pbtterns bnd their interpretbtion bre specified in the
+     * <b href="#pbtterns">clbss description</b>.
      *
-     * @param pattern the pattern for this message format
-     * @exception IllegalArgumentException if the pattern is invalid
+     * @pbrbm pbttern the pbttern for this messbge formbt
+     * @exception IllegblArgumentException if the pbttern is invblid
      */
-    public MessageFormat(String pattern) {
-        this.locale = Locale.getDefault(Locale.Category.FORMAT);
-        applyPattern(pattern);
+    public MessbgeFormbt(String pbttern) {
+        this.locble = Locble.getDefbult(Locble.Cbtegory.FORMAT);
+        bpplyPbttern(pbttern);
     }
 
     /**
-     * Constructs a MessageFormat for the specified locale and
-     * pattern.
-     * The constructor first sets the locale, then parses the pattern and
-     * creates a list of subformats for the format elements contained in it.
-     * Patterns and their interpretation are specified in the
-     * <a href="#patterns">class description</a>.
+     * Constructs b MessbgeFormbt for the specified locble bnd
+     * pbttern.
+     * The constructor first sets the locble, then pbrses the pbttern bnd
+     * crebtes b list of subformbts for the formbt elements contbined in it.
+     * Pbtterns bnd their interpretbtion bre specified in the
+     * <b href="#pbtterns">clbss description</b>.
      *
-     * @param pattern the pattern for this message format
-     * @param locale the locale for this message format
-     * @exception IllegalArgumentException if the pattern is invalid
+     * @pbrbm pbttern the pbttern for this messbge formbt
+     * @pbrbm locble the locble for this messbge formbt
+     * @exception IllegblArgumentException if the pbttern is invblid
      * @since 1.4
      */
-    public MessageFormat(String pattern, Locale locale) {
-        this.locale = locale;
-        applyPattern(pattern);
+    public MessbgeFormbt(String pbttern, Locble locble) {
+        this.locble = locble;
+        bpplyPbttern(pbttern);
     }
 
     /**
-     * Sets the locale to be used when creating or comparing subformats.
-     * This affects subsequent calls
+     * Sets the locble to be used when crebting or compbring subformbts.
+     * This bffects subsequent cblls
      * <ul>
-     * <li>to the {@link #applyPattern applyPattern}
-     *     and {@link #toPattern toPattern} methods if format elements specify
-     *     a format type and therefore have the subformats created in the
-     *     <code>applyPattern</code> method, as well as
-     * <li>to the <code>format</code> and
-     *     {@link #formatToCharacterIterator formatToCharacterIterator} methods
-     *     if format elements do not specify a format type and therefore have
-     *     the subformats created in the formatting methods.
+     * <li>to the {@link #bpplyPbttern bpplyPbttern}
+     *     bnd {@link #toPbttern toPbttern} methods if formbt elements specify
+     *     b formbt type bnd therefore hbve the subformbts crebted in the
+     *     <code>bpplyPbttern</code> method, bs well bs
+     * <li>to the <code>formbt</code> bnd
+     *     {@link #formbtToChbrbcterIterbtor formbtToChbrbcterIterbtor} methods
+     *     if formbt elements do not specify b formbt type bnd therefore hbve
+     *     the subformbts crebted in the formbtting methods.
      * </ul>
-     * Subformats that have already been created are not affected.
+     * Subformbts thbt hbve blrebdy been crebted bre not bffected.
      *
-     * @param locale the locale to be used when creating or comparing subformats
+     * @pbrbm locble the locble to be used when crebting or compbring subformbts
      */
-    public void setLocale(Locale locale) {
-        this.locale = locale;
+    public void setLocble(Locble locble) {
+        this.locble = locble;
     }
 
     /**
-     * Gets the locale that's used when creating or comparing subformats.
+     * Gets the locble thbt's used when crebting or compbring subformbts.
      *
-     * @return the locale used when creating or comparing subformats
+     * @return the locble used when crebting or compbring subformbts
      */
-    public Locale getLocale() {
-        return locale;
+    public Locble getLocble() {
+        return locble;
     }
 
 
     /**
-     * Sets the pattern used by this message format.
-     * The method parses the pattern and creates a list of subformats
-     * for the format elements contained in it.
-     * Patterns and their interpretation are specified in the
-     * <a href="#patterns">class description</a>.
+     * Sets the pbttern used by this messbge formbt.
+     * The method pbrses the pbttern bnd crebtes b list of subformbts
+     * for the formbt elements contbined in it.
+     * Pbtterns bnd their interpretbtion bre specified in the
+     * <b href="#pbtterns">clbss description</b>.
      *
-     * @param pattern the pattern for this message format
-     * @exception IllegalArgumentException if the pattern is invalid
+     * @pbrbm pbttern the pbttern for this messbge formbt
+     * @exception IllegblArgumentException if the pbttern is invblid
      */
-    @SuppressWarnings("fallthrough") // fallthrough in switch is expected, suppress it
-    public void applyPattern(String pattern) {
+    @SuppressWbrnings("fbllthrough") // fbllthrough in switch is expected, suppress it
+    public void bpplyPbttern(String pbttern) {
             StringBuilder[] segments = new StringBuilder[4];
-            // Allocate only segments[SEG_RAW] here. The rest are
-            // allocated on demand.
+            // Allocbte only segments[SEG_RAW] here. The rest bre
+            // bllocbted on dembnd.
             segments[SEG_RAW] = new StringBuilder();
 
-            int part = SEG_RAW;
-            int formatNumber = 0;
-            boolean inQuote = false;
-            int braceStack = 0;
-            maxOffset = -1;
-            for (int i = 0; i < pattern.length(); ++i) {
-                char ch = pattern.charAt(i);
-                if (part == SEG_RAW) {
+            int pbrt = SEG_RAW;
+            int formbtNumber = 0;
+            boolebn inQuote = fblse;
+            int brbceStbck = 0;
+            mbxOffset = -1;
+            for (int i = 0; i < pbttern.length(); ++i) {
+                chbr ch = pbttern.chbrAt(i);
+                if (pbrt == SEG_RAW) {
                     if (ch == '\'') {
-                        if (i + 1 < pattern.length()
-                            && pattern.charAt(i+1) == '\'') {
-                            segments[part].append(ch);  // handle doubles
+                        if (i + 1 < pbttern.length()
+                            && pbttern.chbrAt(i+1) == '\'') {
+                            segments[pbrt].bppend(ch);  // hbndle doubles
                             ++i;
                         } else {
                             inQuote = !inQuote;
                         }
                     } else if (ch == '{' && !inQuote) {
-                        part = SEG_INDEX;
+                        pbrt = SEG_INDEX;
                         if (segments[SEG_INDEX] == null) {
                             segments[SEG_INDEX] = new StringBuilder();
                         }
                     } else {
-                        segments[part].append(ch);
+                        segments[pbrt].bppend(ch);
                     }
                 } else  {
-                    if (inQuote) {              // just copy quotes in parts
-                        segments[part].append(ch);
+                    if (inQuote) {              // just copy quotes in pbrts
+                        segments[pbrt].bppend(ch);
                         if (ch == '\'') {
-                            inQuote = false;
+                            inQuote = fblse;
                         }
                     } else {
                         switch (ch) {
-                        case ',':
-                            if (part < SEG_MODIFIER) {
-                                if (segments[++part] == null) {
-                                    segments[part] = new StringBuilder();
+                        cbse ',':
+                            if (pbrt < SEG_MODIFIER) {
+                                if (segments[++pbrt] == null) {
+                                    segments[pbrt] = new StringBuilder();
                                 }
                             } else {
-                                segments[part].append(ch);
+                                segments[pbrt].bppend(ch);
                             }
-                            break;
-                        case '{':
-                            ++braceStack;
-                            segments[part].append(ch);
-                            break;
-                        case '}':
-                            if (braceStack == 0) {
-                                part = SEG_RAW;
-                                makeFormat(i, formatNumber, segments);
-                                formatNumber++;
-                                // throw away other segments
+                            brebk;
+                        cbse '{':
+                            ++brbceStbck;
+                            segments[pbrt].bppend(ch);
+                            brebk;
+                        cbse '}':
+                            if (brbceStbck == 0) {
+                                pbrt = SEG_RAW;
+                                mbkeFormbt(i, formbtNumber, segments);
+                                formbtNumber++;
+                                // throw bwby other segments
                                 segments[SEG_INDEX] = null;
                                 segments[SEG_TYPE] = null;
                                 segments[SEG_MODIFIER] = null;
                             } else {
-                                --braceStack;
-                                segments[part].append(ch);
+                                --brbceStbck;
+                                segments[pbrt].bppend(ch);
                             }
-                            break;
-                        case ' ':
-                            // Skip any leading space chars for SEG_TYPE.
-                            if (part != SEG_TYPE || segments[SEG_TYPE].length() > 0) {
-                                segments[part].append(ch);
+                            brebk;
+                        cbse ' ':
+                            // Skip bny lebding spbce chbrs for SEG_TYPE.
+                            if (pbrt != SEG_TYPE || segments[SEG_TYPE].length() > 0) {
+                                segments[pbrt].bppend(ch);
                             }
-                            break;
-                        case '\'':
+                            brebk;
+                        cbse '\'':
                             inQuote = true;
-                            // fall through, so we keep quotes in other parts
-                        default:
-                            segments[part].append(ch);
-                            break;
+                            // fbll through, so we keep quotes in other pbrts
+                        defbult:
+                            segments[pbrt].bppend(ch);
+                            brebk;
                         }
                     }
                 }
             }
-            if (braceStack == 0 && part != 0) {
-                maxOffset = -1;
-                throw new IllegalArgumentException("Unmatched braces in the pattern.");
+            if (brbceStbck == 0 && pbrt != 0) {
+                mbxOffset = -1;
+                throw new IllegblArgumentException("Unmbtched brbces in the pbttern.");
             }
-            this.pattern = segments[0].toString();
+            this.pbttern = segments[0].toString();
     }
 
 
     /**
-     * Returns a pattern representing the current state of the message format.
-     * The string is constructed from internal information and therefore
-     * does not necessarily equal the previously applied pattern.
+     * Returns b pbttern representing the current stbte of the messbge formbt.
+     * The string is constructed from internbl informbtion bnd therefore
+     * does not necessbrily equbl the previously bpplied pbttern.
      *
-     * @return a pattern representing the current state of the message format
+     * @return b pbttern representing the current stbte of the messbge formbt
      */
-    public String toPattern() {
-        // later, make this more extensible
-        int lastOffset = 0;
+    public String toPbttern() {
+        // lbter, mbke this more extensible
+        int lbstOffset = 0;
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i <= maxOffset; ++i) {
-            copyAndFixQuotes(pattern, lastOffset, offsets[i], result);
-            lastOffset = offsets[i];
-            result.append('{').append(argumentNumbers[i]);
-            Format fmt = formats[i];
+        for (int i = 0; i <= mbxOffset; ++i) {
+            copyAndFixQuotes(pbttern, lbstOffset, offsets[i], result);
+            lbstOffset = offsets[i];
+            result.bppend('{').bppend(brgumentNumbers[i]);
+            Formbt fmt = formbts[i];
             if (fmt == null) {
-                // do nothing, string format
-            } else if (fmt instanceof NumberFormat) {
-                if (fmt.equals(NumberFormat.getInstance(locale))) {
-                    result.append(",number");
-                } else if (fmt.equals(NumberFormat.getCurrencyInstance(locale))) {
-                    result.append(",number,currency");
-                } else if (fmt.equals(NumberFormat.getPercentInstance(locale))) {
-                    result.append(",number,percent");
-                } else if (fmt.equals(NumberFormat.getIntegerInstance(locale))) {
-                    result.append(",number,integer");
+                // do nothing, string formbt
+            } else if (fmt instbnceof NumberFormbt) {
+                if (fmt.equbls(NumberFormbt.getInstbnce(locble))) {
+                    result.bppend(",number");
+                } else if (fmt.equbls(NumberFormbt.getCurrencyInstbnce(locble))) {
+                    result.bppend(",number,currency");
+                } else if (fmt.equbls(NumberFormbt.getPercentInstbnce(locble))) {
+                    result.bppend(",number,percent");
+                } else if (fmt.equbls(NumberFormbt.getIntegerInstbnce(locble))) {
+                    result.bppend(",number,integer");
                 } else {
-                    if (fmt instanceof DecimalFormat) {
-                        result.append(",number,").append(((DecimalFormat)fmt).toPattern());
-                    } else if (fmt instanceof ChoiceFormat) {
-                        result.append(",choice,").append(((ChoiceFormat)fmt).toPattern());
+                    if (fmt instbnceof DecimblFormbt) {
+                        result.bppend(",number,").bppend(((DecimblFormbt)fmt).toPbttern());
+                    } else if (fmt instbnceof ChoiceFormbt) {
+                        result.bppend(",choice,").bppend(((ChoiceFormbt)fmt).toPbttern());
                     } else {
                         // UNKNOWN
                     }
                 }
-            } else if (fmt instanceof DateFormat) {
+            } else if (fmt instbnceof DbteFormbt) {
                 int index;
                 for (index = MODIFIER_DEFAULT; index < DATE_TIME_MODIFIERS.length; index++) {
-                    DateFormat df = DateFormat.getDateInstance(DATE_TIME_MODIFIERS[index],
-                                                               locale);
-                    if (fmt.equals(df)) {
-                        result.append(",date");
-                        break;
+                    DbteFormbt df = DbteFormbt.getDbteInstbnce(DATE_TIME_MODIFIERS[index],
+                                                               locble);
+                    if (fmt.equbls(df)) {
+                        result.bppend(",dbte");
+                        brebk;
                     }
-                    df = DateFormat.getTimeInstance(DATE_TIME_MODIFIERS[index],
-                                                    locale);
-                    if (fmt.equals(df)) {
-                        result.append(",time");
-                        break;
+                    df = DbteFormbt.getTimeInstbnce(DATE_TIME_MODIFIERS[index],
+                                                    locble);
+                    if (fmt.equbls(df)) {
+                        result.bppend(",time");
+                        brebk;
                     }
                 }
                 if (index >= DATE_TIME_MODIFIERS.length) {
-                    if (fmt instanceof SimpleDateFormat) {
-                        result.append(",date,").append(((SimpleDateFormat)fmt).toPattern());
+                    if (fmt instbnceof SimpleDbteFormbt) {
+                        result.bppend(",dbte,").bppend(((SimpleDbteFormbt)fmt).toPbttern());
                     } else {
                         // UNKNOWN
                     }
                 } else if (index != MODIFIER_DEFAULT) {
-                    result.append(',').append(DATE_TIME_MODIFIER_KEYWORDS[index]);
+                    result.bppend(',').bppend(DATE_TIME_MODIFIER_KEYWORDS[index]);
                 }
             } else {
-                //result.append(", unknown");
+                //result.bppend(", unknown");
             }
-            result.append('}');
+            result.bppend('}');
         }
-        copyAndFixQuotes(pattern, lastOffset, pattern.length(), result);
+        copyAndFixQuotes(pbttern, lbstOffset, pbttern.length(), result);
         return result.toString();
     }
 
     /**
-     * Sets the formats to use for the values passed into
-     * <code>format</code> methods or returned from <code>parse</code>
-     * methods. The indices of elements in <code>newFormats</code>
-     * correspond to the argument indices used in the previously set
-     * pattern string.
-     * The order of formats in <code>newFormats</code> thus corresponds to
-     * the order of elements in the <code>arguments</code> array passed
-     * to the <code>format</code> methods or the result array returned
-     * by the <code>parse</code> methods.
+     * Sets the formbts to use for the vblues pbssed into
+     * <code>formbt</code> methods or returned from <code>pbrse</code>
+     * methods. The indices of elements in <code>newFormbts</code>
+     * correspond to the brgument indices used in the previously set
+     * pbttern string.
+     * The order of formbts in <code>newFormbts</code> thus corresponds to
+     * the order of elements in the <code>brguments</code> brrby pbssed
+     * to the <code>formbt</code> methods or the result brrby returned
+     * by the <code>pbrse</code> methods.
      * <p>
-     * If an argument index is used for more than one format element
-     * in the pattern string, then the corresponding new format is used
-     * for all such format elements. If an argument index is not used
-     * for any format element in the pattern string, then the
-     * corresponding new format is ignored. If fewer formats are provided
-     * than needed, then only the formats for argument indices less
-     * than <code>newFormats.length</code> are replaced.
+     * If bn brgument index is used for more thbn one formbt element
+     * in the pbttern string, then the corresponding new formbt is used
+     * for bll such formbt elements. If bn brgument index is not used
+     * for bny formbt element in the pbttern string, then the
+     * corresponding new formbt is ignored. If fewer formbts bre provided
+     * thbn needed, then only the formbts for brgument indices less
+     * thbn <code>newFormbts.length</code> bre replbced.
      *
-     * @param newFormats the new formats to use
-     * @exception NullPointerException if <code>newFormats</code> is null
+     * @pbrbm newFormbts the new formbts to use
+     * @exception NullPointerException if <code>newFormbts</code> is null
      * @since 1.4
      */
-    public void setFormatsByArgumentIndex(Format[] newFormats) {
-        for (int i = 0; i <= maxOffset; i++) {
-            int j = argumentNumbers[i];
-            if (j < newFormats.length) {
-                formats[i] = newFormats[j];
+    public void setFormbtsByArgumentIndex(Formbt[] newFormbts) {
+        for (int i = 0; i <= mbxOffset; i++) {
+            int j = brgumentNumbers[i];
+            if (j < newFormbts.length) {
+                formbts[i] = newFormbts[j];
             }
         }
     }
 
     /**
-     * Sets the formats to use for the format elements in the
-     * previously set pattern string.
-     * The order of formats in <code>newFormats</code> corresponds to
-     * the order of format elements in the pattern string.
+     * Sets the formbts to use for the formbt elements in the
+     * previously set pbttern string.
+     * The order of formbts in <code>newFormbts</code> corresponds to
+     * the order of formbt elements in the pbttern string.
      * <p>
-     * If more formats are provided than needed by the pattern string,
-     * the remaining ones are ignored. If fewer formats are provided
-     * than needed, then only the first <code>newFormats.length</code>
-     * formats are replaced.
+     * If more formbts bre provided thbn needed by the pbttern string,
+     * the rembining ones bre ignored. If fewer formbts bre provided
+     * thbn needed, then only the first <code>newFormbts.length</code>
+     * formbts bre replbced.
      * <p>
-     * Since the order of format elements in a pattern string often
-     * changes during localization, it is generally better to use the
-     * {@link #setFormatsByArgumentIndex setFormatsByArgumentIndex}
-     * method, which assumes an order of formats corresponding to the
-     * order of elements in the <code>arguments</code> array passed to
-     * the <code>format</code> methods or the result array returned by
-     * the <code>parse</code> methods.
+     * Since the order of formbt elements in b pbttern string often
+     * chbnges during locblizbtion, it is generblly better to use the
+     * {@link #setFormbtsByArgumentIndex setFormbtsByArgumentIndex}
+     * method, which bssumes bn order of formbts corresponding to the
+     * order of elements in the <code>brguments</code> brrby pbssed to
+     * the <code>formbt</code> methods or the result brrby returned by
+     * the <code>pbrse</code> methods.
      *
-     * @param newFormats the new formats to use
-     * @exception NullPointerException if <code>newFormats</code> is null
+     * @pbrbm newFormbts the new formbts to use
+     * @exception NullPointerException if <code>newFormbts</code> is null
      */
-    public void setFormats(Format[] newFormats) {
-        int runsToCopy = newFormats.length;
-        if (runsToCopy > maxOffset + 1) {
-            runsToCopy = maxOffset + 1;
+    public void setFormbts(Formbt[] newFormbts) {
+        int runsToCopy = newFormbts.length;
+        if (runsToCopy > mbxOffset + 1) {
+            runsToCopy = mbxOffset + 1;
         }
         for (int i = 0; i < runsToCopy; i++) {
-            formats[i] = newFormats[i];
+            formbts[i] = newFormbts[i];
         }
     }
 
     /**
-     * Sets the format to use for the format elements within the
-     * previously set pattern string that use the given argument
+     * Sets the formbt to use for the formbt elements within the
+     * previously set pbttern string thbt use the given brgument
      * index.
-     * The argument index is part of the format element definition and
-     * represents an index into the <code>arguments</code> array passed
-     * to the <code>format</code> methods or the result array returned
-     * by the <code>parse</code> methods.
+     * The brgument index is pbrt of the formbt element definition bnd
+     * represents bn index into the <code>brguments</code> brrby pbssed
+     * to the <code>formbt</code> methods or the result brrby returned
+     * by the <code>pbrse</code> methods.
      * <p>
-     * If the argument index is used for more than one format element
-     * in the pattern string, then the new format is used for all such
-     * format elements. If the argument index is not used for any format
-     * element in the pattern string, then the new format is ignored.
+     * If the brgument index is used for more thbn one formbt element
+     * in the pbttern string, then the new formbt is used for bll such
+     * formbt elements. If the brgument index is not used for bny formbt
+     * element in the pbttern string, then the new formbt is ignored.
      *
-     * @param argumentIndex the argument index for which to use the new format
-     * @param newFormat the new format to use
+     * @pbrbm brgumentIndex the brgument index for which to use the new formbt
+     * @pbrbm newFormbt the new formbt to use
      * @since 1.4
      */
-    public void setFormatByArgumentIndex(int argumentIndex, Format newFormat) {
-        for (int j = 0; j <= maxOffset; j++) {
-            if (argumentNumbers[j] == argumentIndex) {
-                formats[j] = newFormat;
+    public void setFormbtByArgumentIndex(int brgumentIndex, Formbt newFormbt) {
+        for (int j = 0; j <= mbxOffset; j++) {
+            if (brgumentNumbers[j] == brgumentIndex) {
+                formbts[j] = newFormbt;
             }
         }
     }
 
     /**
-     * Sets the format to use for the format element with the given
-     * format element index within the previously set pattern string.
-     * The format element index is the zero-based number of the format
-     * element counting from the start of the pattern string.
+     * Sets the formbt to use for the formbt element with the given
+     * formbt element index within the previously set pbttern string.
+     * The formbt element index is the zero-bbsed number of the formbt
+     * element counting from the stbrt of the pbttern string.
      * <p>
-     * Since the order of format elements in a pattern string often
-     * changes during localization, it is generally better to use the
-     * {@link #setFormatByArgumentIndex setFormatByArgumentIndex}
-     * method, which accesses format elements based on the argument
+     * Since the order of formbt elements in b pbttern string often
+     * chbnges during locblizbtion, it is generblly better to use the
+     * {@link #setFormbtByArgumentIndex setFormbtByArgumentIndex}
+     * method, which bccesses formbt elements bbsed on the brgument
      * index they specify.
      *
-     * @param formatElementIndex the index of a format element within the pattern
-     * @param newFormat the format to use for the specified format element
-     * @exception ArrayIndexOutOfBoundsException if {@code formatElementIndex} is equal to or
-     *            larger than the number of format elements in the pattern string
+     * @pbrbm formbtElementIndex the index of b formbt element within the pbttern
+     * @pbrbm newFormbt the formbt to use for the specified formbt element
+     * @exception ArrbyIndexOutOfBoundsException if {@code formbtElementIndex} is equbl to or
+     *            lbrger thbn the number of formbt elements in the pbttern string
      */
-    public void setFormat(int formatElementIndex, Format newFormat) {
-        formats[formatElementIndex] = newFormat;
+    public void setFormbt(int formbtElementIndex, Formbt newFormbt) {
+        formbts[formbtElementIndex] = newFormbt;
     }
 
     /**
-     * Gets the formats used for the values passed into
-     * <code>format</code> methods or returned from <code>parse</code>
-     * methods. The indices of elements in the returned array
-     * correspond to the argument indices used in the previously set
-     * pattern string.
-     * The order of formats in the returned array thus corresponds to
-     * the order of elements in the <code>arguments</code> array passed
-     * to the <code>format</code> methods or the result array returned
-     * by the <code>parse</code> methods.
+     * Gets the formbts used for the vblues pbssed into
+     * <code>formbt</code> methods or returned from <code>pbrse</code>
+     * methods. The indices of elements in the returned brrby
+     * correspond to the brgument indices used in the previously set
+     * pbttern string.
+     * The order of formbts in the returned brrby thus corresponds to
+     * the order of elements in the <code>brguments</code> brrby pbssed
+     * to the <code>formbt</code> methods or the result brrby returned
+     * by the <code>pbrse</code> methods.
      * <p>
-     * If an argument index is used for more than one format element
-     * in the pattern string, then the format used for the last such
-     * format element is returned in the array. If an argument index
-     * is not used for any format element in the pattern string, then
-     * null is returned in the array.
+     * If bn brgument index is used for more thbn one formbt element
+     * in the pbttern string, then the formbt used for the lbst such
+     * formbt element is returned in the brrby. If bn brgument index
+     * is not used for bny formbt element in the pbttern string, then
+     * null is returned in the brrby.
      *
-     * @return the formats used for the arguments within the pattern
+     * @return the formbts used for the brguments within the pbttern
      * @since 1.4
      */
-    public Format[] getFormatsByArgumentIndex() {
-        int maximumArgumentNumber = -1;
-        for (int i = 0; i <= maxOffset; i++) {
-            if (argumentNumbers[i] > maximumArgumentNumber) {
-                maximumArgumentNumber = argumentNumbers[i];
+    public Formbt[] getFormbtsByArgumentIndex() {
+        int mbximumArgumentNumber = -1;
+        for (int i = 0; i <= mbxOffset; i++) {
+            if (brgumentNumbers[i] > mbximumArgumentNumber) {
+                mbximumArgumentNumber = brgumentNumbers[i];
             }
         }
-        Format[] resultArray = new Format[maximumArgumentNumber + 1];
-        for (int i = 0; i <= maxOffset; i++) {
-            resultArray[argumentNumbers[i]] = formats[i];
+        Formbt[] resultArrby = new Formbt[mbximumArgumentNumber + 1];
+        for (int i = 0; i <= mbxOffset; i++) {
+            resultArrby[brgumentNumbers[i]] = formbts[i];
         }
-        return resultArray;
+        return resultArrby;
     }
 
     /**
-     * Gets the formats used for the format elements in the
-     * previously set pattern string.
-     * The order of formats in the returned array corresponds to
-     * the order of format elements in the pattern string.
+     * Gets the formbts used for the formbt elements in the
+     * previously set pbttern string.
+     * The order of formbts in the returned brrby corresponds to
+     * the order of formbt elements in the pbttern string.
      * <p>
-     * Since the order of format elements in a pattern string often
-     * changes during localization, it's generally better to use the
-     * {@link #getFormatsByArgumentIndex getFormatsByArgumentIndex}
-     * method, which assumes an order of formats corresponding to the
-     * order of elements in the <code>arguments</code> array passed to
-     * the <code>format</code> methods or the result array returned by
-     * the <code>parse</code> methods.
+     * Since the order of formbt elements in b pbttern string often
+     * chbnges during locblizbtion, it's generblly better to use the
+     * {@link #getFormbtsByArgumentIndex getFormbtsByArgumentIndex}
+     * method, which bssumes bn order of formbts corresponding to the
+     * order of elements in the <code>brguments</code> brrby pbssed to
+     * the <code>formbt</code> methods or the result brrby returned by
+     * the <code>pbrse</code> methods.
      *
-     * @return the formats used for the format elements in the pattern
+     * @return the formbts used for the formbt elements in the pbttern
      */
-    public Format[] getFormats() {
-        Format[] resultArray = new Format[maxOffset + 1];
-        System.arraycopy(formats, 0, resultArray, 0, maxOffset + 1);
-        return resultArray;
+    public Formbt[] getFormbts() {
+        Formbt[] resultArrby = new Formbt[mbxOffset + 1];
+        System.brrbycopy(formbts, 0, resultArrby, 0, mbxOffset + 1);
+        return resultArrby;
     }
 
     /**
-     * Formats an array of objects and appends the <code>MessageFormat</code>'s
-     * pattern, with format elements replaced by the formatted objects, to the
+     * Formbts bn brrby of objects bnd bppends the <code>MessbgeFormbt</code>'s
+     * pbttern, with formbt elements replbced by the formbtted objects, to the
      * provided <code>StringBuffer</code>.
      * <p>
-     * The text substituted for the individual format elements is derived from
-     * the current subformat of the format element and the
-     * <code>arguments</code> element at the format element's argument index
-     * as indicated by the first matching line of the following table. An
-     * argument is <i>unavailable</i> if <code>arguments</code> is
-     * <code>null</code> or has fewer than argumentIndex+1 elements.
+     * The text substituted for the individubl formbt elements is derived from
+     * the current subformbt of the formbt element bnd the
+     * <code>brguments</code> element bt the formbt element's brgument index
+     * bs indicbted by the first mbtching line of the following tbble. An
+     * brgument is <i>unbvbilbble</i> if <code>brguments</code> is
+     * <code>null</code> or hbs fewer thbn brgumentIndex+1 elements.
      *
-     * <table border=1 summary="Examples of subformat,argument,and formatted text">
+     * <tbble border=1 summbry="Exbmples of subformbt,brgument,bnd formbtted text">
      *    <tr>
-     *       <th>Subformat
+     *       <th>Subformbt
      *       <th>Argument
-     *       <th>Formatted Text
+     *       <th>Formbtted Text
      *    <tr>
-     *       <td><i>any</i>
-     *       <td><i>unavailable</i>
-     *       <td><code>"{" + argumentIndex + "}"</code>
+     *       <td><i>bny</i>
+     *       <td><i>unbvbilbble</i>
+     *       <td><code>"{" + brgumentIndex + "}"</code>
      *    <tr>
-     *       <td><i>any</i>
+     *       <td><i>bny</i>
      *       <td><code>null</code>
      *       <td><code>"null"</code>
      *    <tr>
-     *       <td><code>instanceof ChoiceFormat</code>
-     *       <td><i>any</i>
-     *       <td><code>subformat.format(argument).indexOf('{') &gt;= 0 ?<br>
-     *           (new MessageFormat(subformat.format(argument), getLocale())).format(argument) :
-     *           subformat.format(argument)</code>
+     *       <td><code>instbnceof ChoiceFormbt</code>
+     *       <td><i>bny</i>
+     *       <td><code>subformbt.formbt(brgument).indexOf('{') &gt;= 0 ?<br>
+     *           (new MessbgeFormbt(subformbt.formbt(brgument), getLocble())).formbt(brgument) :
+     *           subformbt.formbt(brgument)</code>
      *    <tr>
      *       <td><code>!= null</code>
-     *       <td><i>any</i>
-     *       <td><code>subformat.format(argument)</code>
+     *       <td><i>bny</i>
+     *       <td><code>subformbt.formbt(brgument)</code>
      *    <tr>
      *       <td><code>null</code>
-     *       <td><code>instanceof Number</code>
-     *       <td><code>NumberFormat.getInstance(getLocale()).format(argument)</code>
+     *       <td><code>instbnceof Number</code>
+     *       <td><code>NumberFormbt.getInstbnce(getLocble()).formbt(brgument)</code>
      *    <tr>
      *       <td><code>null</code>
-     *       <td><code>instanceof Date</code>
-     *       <td><code>DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, getLocale()).format(argument)</code>
+     *       <td><code>instbnceof Dbte</code>
+     *       <td><code>DbteFormbt.getDbteTimeInstbnce(DbteFormbt.SHORT, DbteFormbt.SHORT, getLocble()).formbt(brgument)</code>
      *    <tr>
      *       <td><code>null</code>
-     *       <td><code>instanceof String</code>
-     *       <td><code>argument</code>
+     *       <td><code>instbnceof String</code>
+     *       <td><code>brgument</code>
      *    <tr>
      *       <td><code>null</code>
-     *       <td><i>any</i>
-     *       <td><code>argument.toString()</code>
-     * </table>
+     *       <td><i>bny</i>
+     *       <td><code>brgument.toString()</code>
+     * </tbble>
      * <p>
-     * If <code>pos</code> is non-null, and refers to
-     * <code>Field.ARGUMENT</code>, the location of the first formatted
+     * If <code>pos</code> is non-null, bnd refers to
+     * <code>Field.ARGUMENT</code>, the locbtion of the first formbtted
      * string will be returned.
      *
-     * @param arguments an array of objects to be formatted and substituted.
-     * @param result where text is appended.
-     * @param pos On input: an alignment field, if desired.
-     *            On output: the offsets of the alignment field.
-     * @return the string buffer passed in as {@code result}, with formatted
-     * text appended
-     * @exception IllegalArgumentException if an argument in the
-     *            <code>arguments</code> array is not of the type
-     *            expected by the format element(s) that use it.
+     * @pbrbm brguments bn brrby of objects to be formbtted bnd substituted.
+     * @pbrbm result where text is bppended.
+     * @pbrbm pos On input: bn blignment field, if desired.
+     *            On output: the offsets of the blignment field.
+     * @return the string buffer pbssed in bs {@code result}, with formbtted
+     * text bppended
+     * @exception IllegblArgumentException if bn brgument in the
+     *            <code>brguments</code> brrby is not of the type
+     *            expected by the formbt element(s) thbt use it.
      */
-    public final StringBuffer format(Object[] arguments, StringBuffer result,
+    public finbl StringBuffer formbt(Object[] brguments, StringBuffer result,
                                      FieldPosition pos)
     {
-        return subformat(arguments, result, pos, null);
+        return subformbt(brguments, result, pos, null);
     }
 
     /**
-     * Creates a MessageFormat with the given pattern and uses it
-     * to format the given arguments. This is equivalent to
+     * Crebtes b MessbgeFormbt with the given pbttern bnd uses it
+     * to formbt the given brguments. This is equivblent to
      * <blockquote>
-     *     <code>(new {@link #MessageFormat(String) MessageFormat}(pattern)).{@link #format(java.lang.Object[], java.lang.StringBuffer, java.text.FieldPosition) format}(arguments, new StringBuffer(), null).toString()</code>
+     *     <code>(new {@link #MessbgeFormbt(String) MessbgeFormbt}(pbttern)).{@link #formbt(jbvb.lbng.Object[], jbvb.lbng.StringBuffer, jbvb.text.FieldPosition) formbt}(brguments, new StringBuffer(), null).toString()</code>
      * </blockquote>
      *
-     * @param pattern   the pattern string
-     * @param arguments object(s) to format
-     * @return the formatted string
-     * @exception IllegalArgumentException if the pattern is invalid,
-     *            or if an argument in the <code>arguments</code> array
-     *            is not of the type expected by the format element(s)
-     *            that use it.
+     * @pbrbm pbttern   the pbttern string
+     * @pbrbm brguments object(s) to formbt
+     * @return the formbtted string
+     * @exception IllegblArgumentException if the pbttern is invblid,
+     *            or if bn brgument in the <code>brguments</code> brrby
+     *            is not of the type expected by the formbt element(s)
+     *            thbt use it.
      */
-    public static String format(String pattern, Object ... arguments) {
-        MessageFormat temp = new MessageFormat(pattern);
-        return temp.format(arguments);
+    public stbtic String formbt(String pbttern, Object ... brguments) {
+        MessbgeFormbt temp = new MessbgeFormbt(pbttern);
+        return temp.formbt(brguments);
     }
 
     // Overrides
     /**
-     * Formats an array of objects and appends the <code>MessageFormat</code>'s
-     * pattern, with format elements replaced by the formatted objects, to the
+     * Formbts bn brrby of objects bnd bppends the <code>MessbgeFormbt</code>'s
+     * pbttern, with formbt elements replbced by the formbtted objects, to the
      * provided <code>StringBuffer</code>.
-     * This is equivalent to
+     * This is equivblent to
      * <blockquote>
-     *     <code>{@link #format(java.lang.Object[], java.lang.StringBuffer, java.text.FieldPosition) format}((Object[]) arguments, result, pos)</code>
+     *     <code>{@link #formbt(jbvb.lbng.Object[], jbvb.lbng.StringBuffer, jbvb.text.FieldPosition) formbt}((Object[]) brguments, result, pos)</code>
      * </blockquote>
      *
-     * @param arguments an array of objects to be formatted and substituted.
-     * @param result where text is appended.
-     * @param pos On input: an alignment field, if desired.
-     *            On output: the offsets of the alignment field.
-     * @exception IllegalArgumentException if an argument in the
-     *            <code>arguments</code> array is not of the type
-     *            expected by the format element(s) that use it.
+     * @pbrbm brguments bn brrby of objects to be formbtted bnd substituted.
+     * @pbrbm result where text is bppended.
+     * @pbrbm pos On input: bn blignment field, if desired.
+     *            On output: the offsets of the blignment field.
+     * @exception IllegblArgumentException if bn brgument in the
+     *            <code>brguments</code> brrby is not of the type
+     *            expected by the formbt element(s) thbt use it.
      */
-    public final StringBuffer format(Object arguments, StringBuffer result,
+    public finbl StringBuffer formbt(Object brguments, StringBuffer result,
                                      FieldPosition pos)
     {
-        return subformat((Object[]) arguments, result, pos, null);
+        return subformbt((Object[]) brguments, result, pos, null);
     }
 
     /**
-     * Formats an array of objects and inserts them into the
-     * <code>MessageFormat</code>'s pattern, producing an
-     * <code>AttributedCharacterIterator</code>.
-     * You can use the returned <code>AttributedCharacterIterator</code>
-     * to build the resulting String, as well as to determine information
-     * about the resulting String.
+     * Formbts bn brrby of objects bnd inserts them into the
+     * <code>MessbgeFormbt</code>'s pbttern, producing bn
+     * <code>AttributedChbrbcterIterbtor</code>.
+     * You cbn use the returned <code>AttributedChbrbcterIterbtor</code>
+     * to build the resulting String, bs well bs to determine informbtion
+     * bbout the resulting String.
      * <p>
-     * The text of the returned <code>AttributedCharacterIterator</code> is
-     * the same that would be returned by
+     * The text of the returned <code>AttributedChbrbcterIterbtor</code> is
+     * the sbme thbt would be returned by
      * <blockquote>
-     *     <code>{@link #format(java.lang.Object[], java.lang.StringBuffer, java.text.FieldPosition) format}(arguments, new StringBuffer(), null).toString()</code>
+     *     <code>{@link #formbt(jbvb.lbng.Object[], jbvb.lbng.StringBuffer, jbvb.text.FieldPosition) formbt}(brguments, new StringBuffer(), null).toString()</code>
      * </blockquote>
      * <p>
-     * In addition, the <code>AttributedCharacterIterator</code> contains at
-     * least attributes indicating where text was generated from an
-     * argument in the <code>arguments</code> array. The keys of these attributes are of
-     * type <code>MessageFormat.Field</code>, their values are
-     * <code>Integer</code> objects indicating the index in the <code>arguments</code>
-     * array of the argument from which the text was generated.
+     * In bddition, the <code>AttributedChbrbcterIterbtor</code> contbins bt
+     * lebst bttributes indicbting where text wbs generbted from bn
+     * brgument in the <code>brguments</code> brrby. The keys of these bttributes bre of
+     * type <code>MessbgeFormbt.Field</code>, their vblues bre
+     * <code>Integer</code> objects indicbting the index in the <code>brguments</code>
+     * brrby of the brgument from which the text wbs generbted.
      * <p>
-     * The attributes/value from the underlying <code>Format</code>
-     * instances that <code>MessageFormat</code> uses will also be
-     * placed in the resulting <code>AttributedCharacterIterator</code>.
-     * This allows you to not only find where an argument is placed in the
-     * resulting String, but also which fields it contains in turn.
+     * The bttributes/vblue from the underlying <code>Formbt</code>
+     * instbnces thbt <code>MessbgeFormbt</code> uses will blso be
+     * plbced in the resulting <code>AttributedChbrbcterIterbtor</code>.
+     * This bllows you to not only find where bn brgument is plbced in the
+     * resulting String, but blso which fields it contbins in turn.
      *
-     * @param arguments an array of objects to be formatted and substituted.
-     * @return AttributedCharacterIterator describing the formatted value.
-     * @exception NullPointerException if <code>arguments</code> is null.
-     * @exception IllegalArgumentException if an argument in the
-     *            <code>arguments</code> array is not of the type
-     *            expected by the format element(s) that use it.
+     * @pbrbm brguments bn brrby of objects to be formbtted bnd substituted.
+     * @return AttributedChbrbcterIterbtor describing the formbtted vblue.
+     * @exception NullPointerException if <code>brguments</code> is null.
+     * @exception IllegblArgumentException if bn brgument in the
+     *            <code>brguments</code> brrby is not of the type
+     *            expected by the formbt element(s) thbt use it.
      * @since 1.4
      */
-    public AttributedCharacterIterator formatToCharacterIterator(Object arguments) {
+    public AttributedChbrbcterIterbtor formbtToChbrbcterIterbtor(Object brguments) {
         StringBuffer result = new StringBuffer();
-        ArrayList<AttributedCharacterIterator> iterators = new ArrayList<>();
+        ArrbyList<AttributedChbrbcterIterbtor> iterbtors = new ArrbyList<>();
 
-        if (arguments == null) {
+        if (brguments == null) {
             throw new NullPointerException(
-                   "formatToCharacterIterator must be passed non-null object");
+                   "formbtToChbrbcterIterbtor must be pbssed non-null object");
         }
-        subformat((Object[]) arguments, result, null, iterators);
-        if (iterators.size() == 0) {
-            return createAttributedCharacterIterator("");
+        subformbt((Object[]) brguments, result, null, iterbtors);
+        if (iterbtors.size() == 0) {
+            return crebteAttributedChbrbcterIterbtor("");
         }
-        return createAttributedCharacterIterator(
-                     iterators.toArray(
-                     new AttributedCharacterIterator[iterators.size()]));
+        return crebteAttributedChbrbcterIterbtor(
+                     iterbtors.toArrby(
+                     new AttributedChbrbcterIterbtor[iterbtors.size()]));
     }
 
     /**
-     * Parses the string.
+     * Pbrses the string.
      *
-     * <p>Caveats: The parse may fail in a number of circumstances.
-     * For example:
+     * <p>Cbvebts: The pbrse mby fbil in b number of circumstbnces.
+     * For exbmple:
      * <ul>
-     * <li>If one of the arguments does not occur in the pattern.
-     * <li>If the format of an argument loses information, such as
-     *     with a choice format where a large number formats to "many".
-     * <li>Does not yet handle recursion (where
-     *     the substituted strings contain {n} references.)
-     * <li>Will not always find a match (or the correct match)
-     *     if some part of the parse is ambiguous.
-     *     For example, if the pattern "{1},{2}" is used with the
-     *     string arguments {"a,b", "c"}, it will format as "a,b,c".
-     *     When the result is parsed, it will return {"a", "b,c"}.
-     * <li>If a single argument is parsed more than once in the string,
-     *     then the later parse wins.
+     * <li>If one of the brguments does not occur in the pbttern.
+     * <li>If the formbt of bn brgument loses informbtion, such bs
+     *     with b choice formbt where b lbrge number formbts to "mbny".
+     * <li>Does not yet hbndle recursion (where
+     *     the substituted strings contbin {n} references.)
+     * <li>Will not blwbys find b mbtch (or the correct mbtch)
+     *     if some pbrt of the pbrse is bmbiguous.
+     *     For exbmple, if the pbttern "{1},{2}" is used with the
+     *     string brguments {"b,b", "c"}, it will formbt bs "b,b,c".
+     *     When the result is pbrsed, it will return {"b", "b,c"}.
+     * <li>If b single brgument is pbrsed more thbn once in the string,
+     *     then the lbter pbrse wins.
      * </ul>
-     * When the parse fails, use ParsePosition.getErrorIndex() to find out
-     * where in the string the parsing failed.  The returned error
-     * index is the starting offset of the sub-patterns that the string
-     * is comparing with.  For example, if the parsing string "AAA {0} BBB"
-     * is comparing against the pattern "AAD {0} BBB", the error index is
-     * 0. When an error occurs, the call to this method will return null.
-     * If the source is null, return an empty array.
+     * When the pbrse fbils, use PbrsePosition.getErrorIndex() to find out
+     * where in the string the pbrsing fbiled.  The returned error
+     * index is the stbrting offset of the sub-pbtterns thbt the string
+     * is compbring with.  For exbmple, if the pbrsing string "AAA {0} BBB"
+     * is compbring bgbinst the pbttern "AAD {0} BBB", the error index is
+     * 0. When bn error occurs, the cbll to this method will return null.
+     * If the source is null, return bn empty brrby.
      *
-     * @param source the string to parse
-     * @param pos    the parse position
-     * @return an array of parsed objects
+     * @pbrbm source the string to pbrse
+     * @pbrbm pos    the pbrse position
+     * @return bn brrby of pbrsed objects
      */
-    public Object[] parse(String source, ParsePosition pos) {
+    public Object[] pbrse(String source, PbrsePosition pos) {
         if (source == null) {
             Object[] empty = {};
             return empty;
         }
 
-        int maximumArgumentNumber = -1;
-        for (int i = 0; i <= maxOffset; i++) {
-            if (argumentNumbers[i] > maximumArgumentNumber) {
-                maximumArgumentNumber = argumentNumbers[i];
+        int mbximumArgumentNumber = -1;
+        for (int i = 0; i <= mbxOffset; i++) {
+            if (brgumentNumbers[i] > mbximumArgumentNumber) {
+                mbximumArgumentNumber = brgumentNumbers[i];
             }
         }
-        Object[] resultArray = new Object[maximumArgumentNumber + 1];
+        Object[] resultArrby = new Object[mbximumArgumentNumber + 1];
 
-        int patternOffset = 0;
+        int pbtternOffset = 0;
         int sourceOffset = pos.index;
-        ParsePosition tempStatus = new ParsePosition(0);
-        for (int i = 0; i <= maxOffset; ++i) {
-            // match up to format
-            int len = offsets[i] - patternOffset;
-            if (len == 0 || pattern.regionMatches(patternOffset,
+        PbrsePosition tempStbtus = new PbrsePosition(0);
+        for (int i = 0; i <= mbxOffset; ++i) {
+            // mbtch up to formbt
+            int len = offsets[i] - pbtternOffset;
+            if (len == 0 || pbttern.regionMbtches(pbtternOffset,
                                                   source, sourceOffset, len)) {
                 sourceOffset += len;
-                patternOffset += len;
+                pbtternOffset += len;
             } else {
                 pos.errorIndex = sourceOffset;
-                return null; // leave index as is to signal error
+                return null; // lebve index bs is to signbl error
             }
 
-            // now use format
-            if (formats[i] == null) {   // string format
-                // if at end, use longest possible match
-                // otherwise uses first match to intervening string
-                // does NOT recursively try all possibilities
-                int tempLength = (i != maxOffset) ? offsets[i+1] : pattern.length();
+            // now use formbt
+            if (formbts[i] == null) {   // string formbt
+                // if bt end, use longest possible mbtch
+                // otherwise uses first mbtch to intervening string
+                // does NOT recursively try bll possibilities
+                int tempLength = (i != mbxOffset) ? offsets[i+1] : pbttern.length();
 
                 int next;
-                if (patternOffset >= tempLength) {
+                if (pbtternOffset >= tempLength) {
                     next = source.length();
                 }else{
-                    next = source.indexOf(pattern.substring(patternOffset, tempLength),
+                    next = source.indexOf(pbttern.substring(pbtternOffset, tempLength),
                                           sourceOffset);
                 }
 
                 if (next < 0) {
                     pos.errorIndex = sourceOffset;
-                    return null; // leave index as is to signal error
+                    return null; // lebve index bs is to signbl error
                 } else {
-                    String strValue= source.substring(sourceOffset,next);
-                    if (!strValue.equals("{"+argumentNumbers[i]+"}"))
-                        resultArray[argumentNumbers[i]]
+                    String strVblue= source.substring(sourceOffset,next);
+                    if (!strVblue.equbls("{"+brgumentNumbers[i]+"}"))
+                        resultArrby[brgumentNumbers[i]]
                             = source.substring(sourceOffset,next);
                     sourceOffset = next;
                 }
             } else {
-                tempStatus.index = sourceOffset;
-                resultArray[argumentNumbers[i]]
-                    = formats[i].parseObject(source,tempStatus);
-                if (tempStatus.index == sourceOffset) {
+                tempStbtus.index = sourceOffset;
+                resultArrby[brgumentNumbers[i]]
+                    = formbts[i].pbrseObject(source,tempStbtus);
+                if (tempStbtus.index == sourceOffset) {
                     pos.errorIndex = sourceOffset;
-                    return null; // leave index as is to signal error
+                    return null; // lebve index bs is to signbl error
                 }
-                sourceOffset = tempStatus.index; // update
+                sourceOffset = tempStbtus.index; // updbte
             }
         }
-        int len = pattern.length() - patternOffset;
-        if (len == 0 || pattern.regionMatches(patternOffset,
+        int len = pbttern.length() - pbtternOffset;
+        if (len == 0 || pbttern.regionMbtches(pbtternOffset,
                                               source, sourceOffset, len)) {
             pos.index = sourceOffset + len;
         } else {
             pos.errorIndex = sourceOffset;
-            return null; // leave index as is to signal error
+            return null; // lebve index bs is to signbl error
         }
-        return resultArray;
+        return resultArrby;
     }
 
     /**
-     * Parses text from the beginning of the given string to produce an object
-     * array.
-     * The method may not use the entire text of the given string.
+     * Pbrses text from the beginning of the given string to produce bn object
+     * brrby.
+     * The method mby not use the entire text of the given string.
      * <p>
-     * See the {@link #parse(String, ParsePosition)} method for more information
-     * on message parsing.
+     * See the {@link #pbrse(String, PbrsePosition)} method for more informbtion
+     * on messbge pbrsing.
      *
-     * @param source A <code>String</code> whose beginning should be parsed.
-     * @return An <code>Object</code> array parsed from the string.
-     * @exception ParseException if the beginning of the specified string
-     *            cannot be parsed.
+     * @pbrbm source A <code>String</code> whose beginning should be pbrsed.
+     * @return An <code>Object</code> brrby pbrsed from the string.
+     * @exception PbrseException if the beginning of the specified string
+     *            cbnnot be pbrsed.
      */
-    public Object[] parse(String source) throws ParseException {
-        ParsePosition pos  = new ParsePosition(0);
-        Object[] result = parse(source, pos);
-        if (pos.index == 0)  // unchanged, returned object is null
-            throw new ParseException("MessageFormat parse error!", pos.errorIndex);
+    public Object[] pbrse(String source) throws PbrseException {
+        PbrsePosition pos  = new PbrsePosition(0);
+        Object[] result = pbrse(source, pos);
+        if (pos.index == 0)  // unchbnged, returned object is null
+            throw new PbrseException("MessbgeFormbt pbrse error!", pos.errorIndex);
 
         return result;
     }
 
     /**
-     * Parses text from a string to produce an object array.
+     * Pbrses text from b string to produce bn object brrby.
      * <p>
-     * The method attempts to parse text starting at the index given by
+     * The method bttempts to pbrse text stbrting bt the index given by
      * <code>pos</code>.
-     * If parsing succeeds, then the index of <code>pos</code> is updated
-     * to the index after the last character used (parsing does not necessarily
-     * use all characters up to the end of the string), and the parsed
-     * object array is returned. The updated <code>pos</code> can be used to
-     * indicate the starting point for the next call to this method.
-     * If an error occurs, then the index of <code>pos</code> is not
-     * changed, the error index of <code>pos</code> is set to the index of
-     * the character where the error occurred, and null is returned.
+     * If pbrsing succeeds, then the index of <code>pos</code> is updbted
+     * to the index bfter the lbst chbrbcter used (pbrsing does not necessbrily
+     * use bll chbrbcters up to the end of the string), bnd the pbrsed
+     * object brrby is returned. The updbted <code>pos</code> cbn be used to
+     * indicbte the stbrting point for the next cbll to this method.
+     * If bn error occurs, then the index of <code>pos</code> is not
+     * chbnged, the error index of <code>pos</code> is set to the index of
+     * the chbrbcter where the error occurred, bnd null is returned.
      * <p>
-     * See the {@link #parse(String, ParsePosition)} method for more information
-     * on message parsing.
+     * See the {@link #pbrse(String, PbrsePosition)} method for more informbtion
+     * on messbge pbrsing.
      *
-     * @param source A <code>String</code>, part of which should be parsed.
-     * @param pos A <code>ParsePosition</code> object with index and error
-     *            index information as described above.
-     * @return An <code>Object</code> array parsed from the string. In case of
+     * @pbrbm source A <code>String</code>, pbrt of which should be pbrsed.
+     * @pbrbm pos A <code>PbrsePosition</code> object with index bnd error
+     *            index informbtion bs described bbove.
+     * @return An <code>Object</code> brrby pbrsed from the string. In cbse of
      *         error, returns null.
      * @exception NullPointerException if <code>pos</code> is null.
      */
-    public Object parseObject(String source, ParsePosition pos) {
-        return parse(source, pos);
+    public Object pbrseObject(String source, PbrsePosition pos) {
+        return pbrse(source, pos);
     }
 
     /**
-     * Creates and returns a copy of this object.
+     * Crebtes bnd returns b copy of this object.
      *
-     * @return a clone of this instance.
+     * @return b clone of this instbnce.
      */
     public Object clone() {
-        MessageFormat other = (MessageFormat) super.clone();
+        MessbgeFormbt other = (MessbgeFormbt) super.clone();
 
-        // clone arrays. Can't do with utility because of bug in Cloneable
-        other.formats = formats.clone(); // shallow clone
-        for (int i = 0; i < formats.length; ++i) {
-            if (formats[i] != null)
-                other.formats[i] = (Format)formats[i].clone();
+        // clone brrbys. Cbn't do with utility becbuse of bug in Clonebble
+        other.formbts = formbts.clone(); // shbllow clone
+        for (int i = 0; i < formbts.length; ++i) {
+            if (formbts[i] != null)
+                other.formbts[i] = (Formbt)formbts[i].clone();
         }
-        // for primitives or immutables, shallow clone is enough
+        // for primitives or immutbbles, shbllow clone is enough
         other.offsets = offsets.clone();
-        other.argumentNumbers = argumentNumbers.clone();
+        other.brgumentNumbers = brgumentNumbers.clone();
 
         return other;
     }
 
     /**
-     * Equality comparison between two message format objects
+     * Equblity compbrison between two messbge formbt objects
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj)                      // quick check
             return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-        MessageFormat other = (MessageFormat) obj;
-        return (maxOffset == other.maxOffset
-                && pattern.equals(other.pattern)
-                && ((locale != null && locale.equals(other.locale))
-                 || (locale == null && other.locale == null))
-                && Arrays.equals(offsets,other.offsets)
-                && Arrays.equals(argumentNumbers,other.argumentNumbers)
-                && Arrays.equals(formats,other.formats));
+        if (obj == null || getClbss() != obj.getClbss())
+            return fblse;
+        MessbgeFormbt other = (MessbgeFormbt) obj;
+        return (mbxOffset == other.mbxOffset
+                && pbttern.equbls(other.pbttern)
+                && ((locble != null && locble.equbls(other.locble))
+                 || (locble == null && other.locble == null))
+                && Arrbys.equbls(offsets,other.offsets)
+                && Arrbys.equbls(brgumentNumbers,other.brgumentNumbers)
+                && Arrbys.equbls(formbts,other.formbts));
     }
 
     /**
-     * Generates a hash code for the message format object.
+     * Generbtes b hbsh code for the messbge formbt object.
      */
-    public int hashCode() {
-        return pattern.hashCode(); // enough for reasonable distribution
+    public int hbshCode() {
+        return pbttern.hbshCode(); // enough for rebsonbble distribution
     }
 
 
     /**
-     * Defines constants that are used as attribute keys in the
-     * <code>AttributedCharacterIterator</code> returned
-     * from <code>MessageFormat.formatToCharacterIterator</code>.
+     * Defines constbnts thbt bre used bs bttribute keys in the
+     * <code>AttributedChbrbcterIterbtor</code> returned
+     * from <code>MessbgeFormbt.formbtToChbrbcterIterbtor</code>.
      *
      * @since 1.4
      */
-    public static class Field extends Format.Field {
+    public stbtic clbss Field extends Formbt.Field {
 
-        // Proclaim serial compatibility with 1.4 FCS
-        private static final long serialVersionUID = 7899943957617360810L;
+        // Proclbim seribl compbtibility with 1.4 FCS
+        privbte stbtic finbl long seriblVersionUID = 7899943957617360810L;
 
         /**
-         * Creates a Field with the specified name.
+         * Crebtes b Field with the specified nbme.
          *
-         * @param name Name of the attribute
+         * @pbrbm nbme Nbme of the bttribute
          */
-        protected Field(String name) {
-            super(name);
+        protected Field(String nbme) {
+            super(nbme);
         }
 
         /**
-         * Resolves instances being deserialized to the predefined constants.
+         * Resolves instbnces being deseriblized to the predefined constbnts.
          *
-         * @throws InvalidObjectException if the constant could not be
+         * @throws InvblidObjectException if the constbnt could not be
          *         resolved.
-         * @return resolved MessageFormat.Field constant
+         * @return resolved MessbgeFormbt.Field constbnt
          */
-        protected Object readResolve() throws InvalidObjectException {
-            if (this.getClass() != MessageFormat.Field.class) {
-                throw new InvalidObjectException("subclass didn't correctly implement readResolve");
+        protected Object rebdResolve() throws InvblidObjectException {
+            if (this.getClbss() != MessbgeFormbt.Field.clbss) {
+                throw new InvblidObjectException("subclbss didn't correctly implement rebdResolve");
             }
 
             return ARGUMENT;
         }
 
         //
-        // The constants
+        // The constbnts
         //
 
         /**
-         * Constant identifying a portion of a message that was generated
-         * from an argument passed into <code>formatToCharacterIterator</code>.
-         * The value associated with the key will be an <code>Integer</code>
-         * indicating the index in the <code>arguments</code> array of the
-         * argument from which the text was generated.
+         * Constbnt identifying b portion of b messbge thbt wbs generbted
+         * from bn brgument pbssed into <code>formbtToChbrbcterIterbtor</code>.
+         * The vblue bssocibted with the key will be bn <code>Integer</code>
+         * indicbting the index in the <code>brguments</code> brrby of the
+         * brgument from which the text wbs generbted.
          */
-        public final static Field ARGUMENT =
-                           new Field("message argument field");
+        public finbl stbtic Field ARGUMENT =
+                           new Field("messbge brgument field");
     }
 
-    // ===========================privates============================
+    // ===========================privbtes============================
 
     /**
-     * The locale to use for formatting numbers and dates.
-     * @serial
+     * The locble to use for formbtting numbers bnd dbtes.
+     * @seribl
      */
-    private Locale locale;
+    privbte Locble locble;
 
     /**
-     * The string that the formatted values are to be plugged into.  In other words, this
-     * is the pattern supplied on construction with all of the {} expressions taken out.
-     * @serial
+     * The string thbt the formbtted vblues bre to be plugged into.  In other words, this
+     * is the pbttern supplied on construction with bll of the {} expressions tbken out.
+     * @seribl
      */
-    private String pattern = "";
+    privbte String pbttern = "";
 
-    /** The initially expected number of subformats in the format */
-    private static final int INITIAL_FORMATS = 10;
+    /** The initiblly expected number of subformbts in the formbt */
+    privbte stbtic finbl int INITIAL_FORMATS = 10;
 
     /**
-     * An array of formatters, which are used to format the arguments.
-     * @serial
+     * An brrby of formbtters, which bre used to formbt the brguments.
+     * @seribl
      */
-    private Format[] formats = new Format[INITIAL_FORMATS];
+    privbte Formbt[] formbts = new Formbt[INITIAL_FORMATS];
 
     /**
-     * The positions where the results of formatting each argument are to be inserted
-     * into the pattern.
-     * @serial
+     * The positions where the results of formbtting ebch brgument bre to be inserted
+     * into the pbttern.
+     * @seribl
      */
-    private int[] offsets = new int[INITIAL_FORMATS];
+    privbte int[] offsets = new int[INITIAL_FORMATS];
 
     /**
-     * The argument numbers corresponding to each formatter.  (The formatters are stored
-     * in the order they occur in the pattern, not in the order in which the arguments
-     * are specified.)
-     * @serial
+     * The brgument numbers corresponding to ebch formbtter.  (The formbtters bre stored
+     * in the order they occur in the pbttern, not in the order in which the brguments
+     * bre specified.)
+     * @seribl
      */
-    private int[] argumentNumbers = new int[INITIAL_FORMATS];
+    privbte int[] brgumentNumbers = new int[INITIAL_FORMATS];
 
     /**
-     * One less than the number of entries in <code>offsets</code>.  Can also be thought of
-     * as the index of the highest-numbered element in <code>offsets</code> that is being used.
-     * All of these arrays should have the same number of elements being used as <code>offsets</code>
-     * does, and so this variable suffices to tell us how many entries are in all of them.
-     * @serial
+     * One less thbn the number of entries in <code>offsets</code>.  Cbn blso be thought of
+     * bs the index of the highest-numbered element in <code>offsets</code> thbt is being used.
+     * All of these brrbys should hbve the sbme number of elements being used bs <code>offsets</code>
+     * does, bnd so this vbribble suffices to tell us how mbny entries bre in bll of them.
+     * @seribl
      */
-    private int maxOffset = -1;
+    privbte int mbxOffset = -1;
 
     /**
-     * Internal routine used by format. If <code>characterIterators</code> is
-     * non-null, AttributedCharacterIterator will be created from the
-     * subformats as necessary. If <code>characterIterators</code> is null
-     * and <code>fp</code> is non-null and identifies
-     * <code>Field.MESSAGE_ARGUMENT</code>, the location of
-     * the first replaced argument will be set in it.
+     * Internbl routine used by formbt. If <code>chbrbcterIterbtors</code> is
+     * non-null, AttributedChbrbcterIterbtor will be crebted from the
+     * subformbts bs necessbry. If <code>chbrbcterIterbtors</code> is null
+     * bnd <code>fp</code> is non-null bnd identifies
+     * <code>Field.MESSAGE_ARGUMENT</code>, the locbtion of
+     * the first replbced brgument will be set in it.
      *
-     * @exception IllegalArgumentException if an argument in the
-     *            <code>arguments</code> array is not of the type
-     *            expected by the format element(s) that use it.
+     * @exception IllegblArgumentException if bn brgument in the
+     *            <code>brguments</code> brrby is not of the type
+     *            expected by the formbt element(s) thbt use it.
      */
-    private StringBuffer subformat(Object[] arguments, StringBuffer result,
-                                   FieldPosition fp, List<AttributedCharacterIterator> characterIterators) {
-        // note: this implementation assumes a fast substring & index.
-        // if this is not true, would be better to append chars one by one.
-        int lastOffset = 0;
-        int last = result.length();
-        for (int i = 0; i <= maxOffset; ++i) {
-            result.append(pattern.substring(lastOffset, offsets[i]));
-            lastOffset = offsets[i];
-            int argumentNumber = argumentNumbers[i];
-            if (arguments == null || argumentNumber >= arguments.length) {
-                result.append('{').append(argumentNumber).append('}');
+    privbte StringBuffer subformbt(Object[] brguments, StringBuffer result,
+                                   FieldPosition fp, List<AttributedChbrbcterIterbtor> chbrbcterIterbtors) {
+        // note: this implementbtion bssumes b fbst substring & index.
+        // if this is not true, would be better to bppend chbrs one by one.
+        int lbstOffset = 0;
+        int lbst = result.length();
+        for (int i = 0; i <= mbxOffset; ++i) {
+            result.bppend(pbttern.substring(lbstOffset, offsets[i]));
+            lbstOffset = offsets[i];
+            int brgumentNumber = brgumentNumbers[i];
+            if (brguments == null || brgumentNumber >= brguments.length) {
+                result.bppend('{').bppend(brgumentNumber).bppend('}');
                 continue;
             }
-            // int argRecursion = ((recursionProtection >> (argumentNumber*2)) & 0x3);
-            if (false) { // if (argRecursion == 3){
+            // int brgRecursion = ((recursionProtection >> (brgumentNumber*2)) & 0x3);
+            if (fblse) { // if (brgRecursion == 3){
                 // prevent loop!!!
-                result.append('\uFFFD');
+                result.bppend('\uFFFD');
             } else {
-                Object obj = arguments[argumentNumber];
-                String arg = null;
-                Format subFormatter = null;
+                Object obj = brguments[brgumentNumber];
+                String brg = null;
+                Formbt subFormbtter = null;
                 if (obj == null) {
-                    arg = "null";
-                } else if (formats[i] != null) {
-                    subFormatter = formats[i];
-                    if (subFormatter instanceof ChoiceFormat) {
-                        arg = formats[i].format(obj);
-                        if (arg.indexOf('{') >= 0) {
-                            subFormatter = new MessageFormat(arg, locale);
-                            obj = arguments;
-                            arg = null;
+                    brg = "null";
+                } else if (formbts[i] != null) {
+                    subFormbtter = formbts[i];
+                    if (subFormbtter instbnceof ChoiceFormbt) {
+                        brg = formbts[i].formbt(obj);
+                        if (brg.indexOf('{') >= 0) {
+                            subFormbtter = new MessbgeFormbt(brg, locble);
+                            obj = brguments;
+                            brg = null;
                         }
                     }
-                } else if (obj instanceof Number) {
-                    // format number if can
-                    subFormatter = NumberFormat.getInstance(locale);
-                } else if (obj instanceof Date) {
-                    // format a Date if can
-                    subFormatter = DateFormat.getDateTimeInstance(
-                             DateFormat.SHORT, DateFormat.SHORT, locale);//fix
-                } else if (obj instanceof String) {
-                    arg = (String) obj;
+                } else if (obj instbnceof Number) {
+                    // formbt number if cbn
+                    subFormbtter = NumberFormbt.getInstbnce(locble);
+                } else if (obj instbnceof Dbte) {
+                    // formbt b Dbte if cbn
+                    subFormbtter = DbteFormbt.getDbteTimeInstbnce(
+                             DbteFormbt.SHORT, DbteFormbt.SHORT, locble);//fix
+                } else if (obj instbnceof String) {
+                    brg = (String) obj;
 
                 } else {
-                    arg = obj.toString();
-                    if (arg == null) arg = "null";
+                    brg = obj.toString();
+                    if (brg == null) brg = "null";
                 }
 
-                // At this point we are in two states, either subFormatter
-                // is non-null indicating we should format obj using it,
-                // or arg is non-null and we should use it as the value.
+                // At this point we bre in two stbtes, either subFormbtter
+                // is non-null indicbting we should formbt obj using it,
+                // or brg is non-null bnd we should use it bs the vblue.
 
-                if (characterIterators != null) {
-                    // If characterIterators is non-null, it indicates we need
-                    // to get the CharacterIterator from the child formatter.
-                    if (last != result.length()) {
-                        characterIterators.add(
-                            createAttributedCharacterIterator(result.substring
-                                                              (last)));
-                        last = result.length();
+                if (chbrbcterIterbtors != null) {
+                    // If chbrbcterIterbtors is non-null, it indicbtes we need
+                    // to get the ChbrbcterIterbtor from the child formbtter.
+                    if (lbst != result.length()) {
+                        chbrbcterIterbtors.bdd(
+                            crebteAttributedChbrbcterIterbtor(result.substring
+                                                              (lbst)));
+                        lbst = result.length();
                     }
-                    if (subFormatter != null) {
-                        AttributedCharacterIterator subIterator =
-                                   subFormatter.formatToCharacterIterator(obj);
+                    if (subFormbtter != null) {
+                        AttributedChbrbcterIterbtor subIterbtor =
+                                   subFormbtter.formbtToChbrbcterIterbtor(obj);
 
-                        append(result, subIterator);
-                        if (last != result.length()) {
-                            characterIterators.add(
-                                         createAttributedCharacterIterator(
-                                         subIterator, Field.ARGUMENT,
-                                         Integer.valueOf(argumentNumber)));
-                            last = result.length();
+                        bppend(result, subIterbtor);
+                        if (lbst != result.length()) {
+                            chbrbcterIterbtors.bdd(
+                                         crebteAttributedChbrbcterIterbtor(
+                                         subIterbtor, Field.ARGUMENT,
+                                         Integer.vblueOf(brgumentNumber)));
+                            lbst = result.length();
                         }
-                        arg = null;
+                        brg = null;
                     }
-                    if (arg != null && arg.length() > 0) {
-                        result.append(arg);
-                        characterIterators.add(
-                                 createAttributedCharacterIterator(
-                                 arg, Field.ARGUMENT,
-                                 Integer.valueOf(argumentNumber)));
-                        last = result.length();
+                    if (brg != null && brg.length() > 0) {
+                        result.bppend(brg);
+                        chbrbcterIterbtors.bdd(
+                                 crebteAttributedChbrbcterIterbtor(
+                                 brg, Field.ARGUMENT,
+                                 Integer.vblueOf(brgumentNumber)));
+                        lbst = result.length();
                     }
                 }
                 else {
-                    if (subFormatter != null) {
-                        arg = subFormatter.format(obj);
+                    if (subFormbtter != null) {
+                        brg = subFormbtter.formbt(obj);
                     }
-                    last = result.length();
-                    result.append(arg);
-                    if (i == 0 && fp != null && Field.ARGUMENT.equals(
+                    lbst = result.length();
+                    result.bppend(brg);
+                    if (i == 0 && fp != null && Field.ARGUMENT.equbls(
                                   fp.getFieldAttribute())) {
-                        fp.setBeginIndex(last);
+                        fp.setBeginIndex(lbst);
                         fp.setEndIndex(result.length());
                     }
-                    last = result.length();
+                    lbst = result.length();
                 }
             }
         }
-        result.append(pattern.substring(lastOffset, pattern.length()));
-        if (characterIterators != null && last != result.length()) {
-            characterIterators.add(createAttributedCharacterIterator(
-                                   result.substring(last)));
+        result.bppend(pbttern.substring(lbstOffset, pbttern.length()));
+        if (chbrbcterIterbtors != null && lbst != result.length()) {
+            chbrbcterIterbtors.bdd(crebteAttributedChbrbcterIterbtor(
+                                   result.substring(lbst)));
         }
         return result;
     }
 
     /**
-     * Convenience method to append all the characters in
-     * <code>iterator</code> to the StringBuffer <code>result</code>.
+     * Convenience method to bppend bll the chbrbcters in
+     * <code>iterbtor</code> to the StringBuffer <code>result</code>.
      */
-    private void append(StringBuffer result, CharacterIterator iterator) {
-        if (iterator.first() != CharacterIterator.DONE) {
-            char aChar;
+    privbte void bppend(StringBuffer result, ChbrbcterIterbtor iterbtor) {
+        if (iterbtor.first() != ChbrbcterIterbtor.DONE) {
+            chbr bChbr;
 
-            result.append(iterator.first());
-            while ((aChar = iterator.next()) != CharacterIterator.DONE) {
-                result.append(aChar);
+            result.bppend(iterbtor.first());
+            while ((bChbr = iterbtor.next()) != ChbrbcterIterbtor.DONE) {
+                result.bppend(bChbr);
             }
         }
     }
 
     // Indices for segments
-    private static final int SEG_RAW      = 0;
-    private static final int SEG_INDEX    = 1;
-    private static final int SEG_TYPE     = 2;
-    private static final int SEG_MODIFIER = 3; // modifier or subformat
+    privbte stbtic finbl int SEG_RAW      = 0;
+    privbte stbtic finbl int SEG_INDEX    = 1;
+    privbte stbtic finbl int SEG_TYPE     = 2;
+    privbte stbtic finbl int SEG_MODIFIER = 3; // modifier or subformbt
 
     // Indices for type keywords
-    private static final int TYPE_NULL    = 0;
-    private static final int TYPE_NUMBER  = 1;
-    private static final int TYPE_DATE    = 2;
-    private static final int TYPE_TIME    = 3;
-    private static final int TYPE_CHOICE  = 4;
+    privbte stbtic finbl int TYPE_NULL    = 0;
+    privbte stbtic finbl int TYPE_NUMBER  = 1;
+    privbte stbtic finbl int TYPE_DATE    = 2;
+    privbte stbtic finbl int TYPE_TIME    = 3;
+    privbte stbtic finbl int TYPE_CHOICE  = 4;
 
-    private static final String[] TYPE_KEYWORDS = {
+    privbte stbtic finbl String[] TYPE_KEYWORDS = {
         "",
         "number",
-        "date",
+        "dbte",
         "time",
         "choice"
     };
 
     // Indices for number modifiers
-    private static final int MODIFIER_DEFAULT  = 0; // common in number and date-time
-    private static final int MODIFIER_CURRENCY = 1;
-    private static final int MODIFIER_PERCENT  = 2;
-    private static final int MODIFIER_INTEGER  = 3;
+    privbte stbtic finbl int MODIFIER_DEFAULT  = 0; // common in number bnd dbte-time
+    privbte stbtic finbl int MODIFIER_CURRENCY = 1;
+    privbte stbtic finbl int MODIFIER_PERCENT  = 2;
+    privbte stbtic finbl int MODIFIER_INTEGER  = 3;
 
-    private static final String[] NUMBER_MODIFIER_KEYWORDS = {
+    privbte stbtic finbl String[] NUMBER_MODIFIER_KEYWORDS = {
         "",
         "currency",
         "percent",
         "integer"
     };
 
-    // Indices for date-time modifiers
-    private static final int MODIFIER_SHORT   = 1;
-    private static final int MODIFIER_MEDIUM  = 2;
-    private static final int MODIFIER_LONG    = 3;
-    private static final int MODIFIER_FULL    = 4;
+    // Indices for dbte-time modifiers
+    privbte stbtic finbl int MODIFIER_SHORT   = 1;
+    privbte stbtic finbl int MODIFIER_MEDIUM  = 2;
+    privbte stbtic finbl int MODIFIER_LONG    = 3;
+    privbte stbtic finbl int MODIFIER_FULL    = 4;
 
-    private static final String[] DATE_TIME_MODIFIER_KEYWORDS = {
+    privbte stbtic finbl String[] DATE_TIME_MODIFIER_KEYWORDS = {
         "",
         "short",
         "medium",
@@ -1403,16 +1403,16 @@ public class MessageFormat extends Format {
         "full"
     };
 
-    // Date-time style values corresponding to the date-time modifiers.
-    private static final int[] DATE_TIME_MODIFIERS = {
-        DateFormat.DEFAULT,
-        DateFormat.SHORT,
-        DateFormat.MEDIUM,
-        DateFormat.LONG,
-        DateFormat.FULL,
+    // Dbte-time style vblues corresponding to the dbte-time modifiers.
+    privbte stbtic finbl int[] DATE_TIME_MODIFIERS = {
+        DbteFormbt.DEFAULT,
+        DbteFormbt.SHORT,
+        DbteFormbt.MEDIUM,
+        DbteFormbt.LONG,
+        DbteFormbt.FULL,
     };
 
-    private void makeFormat(int position, int offsetNumber,
+    privbte void mbkeFormbt(int position, int offsetNumber,
                             StringBuilder[] textSegments)
     {
         String[] segments = new String[textSegments.length];
@@ -1421,183 +1421,183 @@ public class MessageFormat extends Format {
             segments[i] = (oneseg != null) ? oneseg.toString() : "";
         }
 
-        // get the argument number
-        int argumentNumber;
+        // get the brgument number
+        int brgumentNumber;
         try {
-            argumentNumber = Integer.parseInt(segments[SEG_INDEX]); // always unlocalized!
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("can't parse argument number: "
+            brgumentNumber = Integer.pbrseInt(segments[SEG_INDEX]); // blwbys unlocblized!
+        } cbtch (NumberFormbtException e) {
+            throw new IllegblArgumentException("cbn't pbrse brgument number: "
                                                + segments[SEG_INDEX], e);
         }
-        if (argumentNumber < 0) {
-            throw new IllegalArgumentException("negative argument number: "
-                                               + argumentNumber);
+        if (brgumentNumber < 0) {
+            throw new IllegblArgumentException("negbtive brgument number: "
+                                               + brgumentNumber);
         }
 
-        // resize format information arrays if necessary
-        if (offsetNumber >= formats.length) {
-            int newLength = formats.length * 2;
-            Format[] newFormats = new Format[newLength];
+        // resize formbt informbtion brrbys if necessbry
+        if (offsetNumber >= formbts.length) {
+            int newLength = formbts.length * 2;
+            Formbt[] newFormbts = new Formbt[newLength];
             int[] newOffsets = new int[newLength];
             int[] newArgumentNumbers = new int[newLength];
-            System.arraycopy(formats, 0, newFormats, 0, maxOffset + 1);
-            System.arraycopy(offsets, 0, newOffsets, 0, maxOffset + 1);
-            System.arraycopy(argumentNumbers, 0, newArgumentNumbers, 0, maxOffset + 1);
-            formats = newFormats;
+            System.brrbycopy(formbts, 0, newFormbts, 0, mbxOffset + 1);
+            System.brrbycopy(offsets, 0, newOffsets, 0, mbxOffset + 1);
+            System.brrbycopy(brgumentNumbers, 0, newArgumentNumbers, 0, mbxOffset + 1);
+            formbts = newFormbts;
             offsets = newOffsets;
-            argumentNumbers = newArgumentNumbers;
+            brgumentNumbers = newArgumentNumbers;
         }
-        int oldMaxOffset = maxOffset;
-        maxOffset = offsetNumber;
+        int oldMbxOffset = mbxOffset;
+        mbxOffset = offsetNumber;
         offsets[offsetNumber] = segments[SEG_RAW].length();
-        argumentNumbers[offsetNumber] = argumentNumber;
+        brgumentNumbers[offsetNumber] = brgumentNumber;
 
-        // now get the format
-        Format newFormat = null;
+        // now get the formbt
+        Formbt newFormbt = null;
         if (segments[SEG_TYPE].length() != 0) {
             int type = findKeyword(segments[SEG_TYPE], TYPE_KEYWORDS);
             switch (type) {
-            case TYPE_NULL:
-                // Type "" is allowed. e.g., "{0,}", "{0,,}", and "{0,,#}"
-                // are treated as "{0}".
-                break;
+            cbse TYPE_NULL:
+                // Type "" is bllowed. e.g., "{0,}", "{0,,}", bnd "{0,,#}"
+                // bre trebted bs "{0}".
+                brebk;
 
-            case TYPE_NUMBER:
+            cbse TYPE_NUMBER:
                 switch (findKeyword(segments[SEG_MODIFIER], NUMBER_MODIFIER_KEYWORDS)) {
-                case MODIFIER_DEFAULT:
-                    newFormat = NumberFormat.getInstance(locale);
-                    break;
-                case MODIFIER_CURRENCY:
-                    newFormat = NumberFormat.getCurrencyInstance(locale);
-                    break;
-                case MODIFIER_PERCENT:
-                    newFormat = NumberFormat.getPercentInstance(locale);
-                    break;
-                case MODIFIER_INTEGER:
-                    newFormat = NumberFormat.getIntegerInstance(locale);
-                    break;
-                default: // DecimalFormat pattern
+                cbse MODIFIER_DEFAULT:
+                    newFormbt = NumberFormbt.getInstbnce(locble);
+                    brebk;
+                cbse MODIFIER_CURRENCY:
+                    newFormbt = NumberFormbt.getCurrencyInstbnce(locble);
+                    brebk;
+                cbse MODIFIER_PERCENT:
+                    newFormbt = NumberFormbt.getPercentInstbnce(locble);
+                    brebk;
+                cbse MODIFIER_INTEGER:
+                    newFormbt = NumberFormbt.getIntegerInstbnce(locble);
+                    brebk;
+                defbult: // DecimblFormbt pbttern
                     try {
-                        newFormat = new DecimalFormat(segments[SEG_MODIFIER],
-                                                      DecimalFormatSymbols.getInstance(locale));
-                    } catch (IllegalArgumentException e) {
-                        maxOffset = oldMaxOffset;
+                        newFormbt = new DecimblFormbt(segments[SEG_MODIFIER],
+                                                      DecimblFormbtSymbols.getInstbnce(locble));
+                    } cbtch (IllegblArgumentException e) {
+                        mbxOffset = oldMbxOffset;
                         throw e;
                     }
-                    break;
+                    brebk;
                 }
-                break;
+                brebk;
 
-            case TYPE_DATE:
-            case TYPE_TIME:
+            cbse TYPE_DATE:
+            cbse TYPE_TIME:
                 int mod = findKeyword(segments[SEG_MODIFIER], DATE_TIME_MODIFIER_KEYWORDS);
                 if (mod >= 0 && mod < DATE_TIME_MODIFIER_KEYWORDS.length) {
                     if (type == TYPE_DATE) {
-                        newFormat = DateFormat.getDateInstance(DATE_TIME_MODIFIERS[mod],
-                                                               locale);
+                        newFormbt = DbteFormbt.getDbteInstbnce(DATE_TIME_MODIFIERS[mod],
+                                                               locble);
                     } else {
-                        newFormat = DateFormat.getTimeInstance(DATE_TIME_MODIFIERS[mod],
-                                                               locale);
+                        newFormbt = DbteFormbt.getTimeInstbnce(DATE_TIME_MODIFIERS[mod],
+                                                               locble);
                     }
                 } else {
-                    // SimpleDateFormat pattern
+                    // SimpleDbteFormbt pbttern
                     try {
-                        newFormat = new SimpleDateFormat(segments[SEG_MODIFIER], locale);
-                    } catch (IllegalArgumentException e) {
-                        maxOffset = oldMaxOffset;
+                        newFormbt = new SimpleDbteFormbt(segments[SEG_MODIFIER], locble);
+                    } cbtch (IllegblArgumentException e) {
+                        mbxOffset = oldMbxOffset;
                         throw e;
                     }
                 }
-                break;
+                brebk;
 
-            case TYPE_CHOICE:
+            cbse TYPE_CHOICE:
                 try {
-                    // ChoiceFormat pattern
-                    newFormat = new ChoiceFormat(segments[SEG_MODIFIER]);
-                } catch (Exception e) {
-                    maxOffset = oldMaxOffset;
-                    throw new IllegalArgumentException("Choice Pattern incorrect: "
+                    // ChoiceFormbt pbttern
+                    newFormbt = new ChoiceFormbt(segments[SEG_MODIFIER]);
+                } cbtch (Exception e) {
+                    mbxOffset = oldMbxOffset;
+                    throw new IllegblArgumentException("Choice Pbttern incorrect: "
                                                        + segments[SEG_MODIFIER], e);
                 }
-                break;
+                brebk;
 
-            default:
-                maxOffset = oldMaxOffset;
-                throw new IllegalArgumentException("unknown format type: " +
+            defbult:
+                mbxOffset = oldMbxOffset;
+                throw new IllegblArgumentException("unknown formbt type: " +
                                                    segments[SEG_TYPE]);
             }
         }
-        formats[offsetNumber] = newFormat;
+        formbts[offsetNumber] = newFormbt;
     }
 
-    private static final int findKeyword(String s, String[] list) {
+    privbte stbtic finbl int findKeyword(String s, String[] list) {
         for (int i = 0; i < list.length; ++i) {
-            if (s.equals(list[i]))
+            if (s.equbls(list[i]))
                 return i;
         }
 
-        // Try trimmed lowercase.
-        String ls = s.trim().toLowerCase(Locale.ROOT);
+        // Try trimmed lowercbse.
+        String ls = s.trim().toLowerCbse(Locble.ROOT);
         if (ls != s) {
             for (int i = 0; i < list.length; ++i) {
-                if (ls.equals(list[i]))
+                if (ls.equbls(list[i]))
                     return i;
             }
         }
         return -1;
     }
 
-    private static final void copyAndFixQuotes(String source, int start, int end,
-                                               StringBuilder target) {
-        boolean quoted = false;
+    privbte stbtic finbl void copyAndFixQuotes(String source, int stbrt, int end,
+                                               StringBuilder tbrget) {
+        boolebn quoted = fblse;
 
-        for (int i = start; i < end; ++i) {
-            char ch = source.charAt(i);
+        for (int i = stbrt; i < end; ++i) {
+            chbr ch = source.chbrAt(i);
             if (ch == '{') {
                 if (!quoted) {
-                    target.append('\'');
+                    tbrget.bppend('\'');
                     quoted = true;
                 }
-                target.append(ch);
+                tbrget.bppend(ch);
             } else if (ch == '\'') {
-                target.append("''");
+                tbrget.bppend("''");
             } else {
                 if (quoted) {
-                    target.append('\'');
-                    quoted = false;
+                    tbrget.bppend('\'');
+                    quoted = fblse;
                 }
-                target.append(ch);
+                tbrget.bppend(ch);
             }
         }
         if (quoted) {
-            target.append('\'');
+            tbrget.bppend('\'');
         }
     }
 
     /**
-     * After reading an object from the input stream, do a simple verification
-     * to maintain class invariants.
-     * @throws InvalidObjectException if the objects read from the stream is invalid.
+     * After rebding bn object from the input strebm, do b simple verificbtion
+     * to mbintbin clbss invbribnts.
+     * @throws InvblidObjectException if the objects rebd from the strebm is invblid.
      */
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        boolean isValid = maxOffset >= -1
-                && formats.length > maxOffset
-                && offsets.length > maxOffset
-                && argumentNumbers.length > maxOffset;
-        if (isValid) {
-            int lastOffset = pattern.length() + 1;
-            for (int i = maxOffset; i >= 0; --i) {
-                if ((offsets[i] < 0) || (offsets[i] > lastOffset)) {
-                    isValid = false;
-                    break;
+    privbte void rebdObject(ObjectInputStrebm in) throws IOException, ClbssNotFoundException {
+        in.defbultRebdObject();
+        boolebn isVblid = mbxOffset >= -1
+                && formbts.length > mbxOffset
+                && offsets.length > mbxOffset
+                && brgumentNumbers.length > mbxOffset;
+        if (isVblid) {
+            int lbstOffset = pbttern.length() + 1;
+            for (int i = mbxOffset; i >= 0; --i) {
+                if ((offsets[i] < 0) || (offsets[i] > lbstOffset)) {
+                    isVblid = fblse;
+                    brebk;
                 } else {
-                    lastOffset = offsets[i];
+                    lbstOffset = offsets[i];
                 }
             }
         }
-        if (!isValid) {
-            throw new InvalidObjectException("Could not reconstruct MessageFormat from corrupt stream.");
+        if (!isVblid) {
+            throw new InvblidObjectException("Could not reconstruct MessbgeFormbt from corrupt strebm.");
         }
     }
 }

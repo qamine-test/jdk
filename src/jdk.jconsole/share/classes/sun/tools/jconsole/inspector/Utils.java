@@ -1,277 +1,277 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-import java.awt.event.*;
-import java.lang.reflect.*;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-import javax.management.*;
-import javax.management.openmbean.*;
-import javax.swing.*;
-import javax.swing.text.*;
+import jbvb.bwt.event.*;
+import jbvb.lbng.reflect.*;
+import jbvb.mbth.BigDecimbl;
+import jbvb.mbth.BigInteger;
+import jbvb.util.*;
+import jbvb.util.concurrent.ExecutionException;
+import jbvbx.mbnbgement.*;
+import jbvbx.mbnbgement.openmbebn.*;
+import jbvbx.swing.*;
+import jbvbx.swing.text.*;
 
-public class Utils {
+public clbss Utils {
 
-    private Utils() {
+    privbte Utils() {
     }
-    private static Set<Integer> tableNavigationKeys =
-            new HashSet<Integer>(Arrays.asList(new Integer[]{
+    privbte stbtic Set<Integer> tbbleNbvigbtionKeys =
+            new HbshSet<Integer>(Arrbys.bsList(new Integer[]{
         KeyEvent.VK_TAB, KeyEvent.VK_ENTER,
         KeyEvent.VK_HOME, KeyEvent.VK_END,
         KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT,
         KeyEvent.VK_UP, KeyEvent.VK_DOWN,
         KeyEvent.VK_PAGE_UP, KeyEvent.VK_PAGE_DOWN
     }));
-    private static final Set<Class<?>> primitiveWrappers =
-            new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
-        Byte.class, Short.class, Integer.class, Long.class,
-        Float.class, Double.class, Character.class, Boolean.class
+    privbte stbtic finbl Set<Clbss<?>> primitiveWrbppers =
+            new HbshSet<Clbss<?>>(Arrbys.bsList(new Clbss<?>[]{
+        Byte.clbss, Short.clbss, Integer.clbss, Long.clbss,
+        Flobt.clbss, Double.clbss, Chbrbcter.clbss, Boolebn.clbss
     }));
-    private static final Set<Class<?>> primitives = new HashSet<Class<?>>();
-    private static final Map<String, Class<?>> primitiveMap =
-            new HashMap<String, Class<?>>();
-    private static final Map<String, Class<?>> primitiveToWrapper =
-            new HashMap<String, Class<?>>();
-    private static final Set<String> editableTypes = new HashSet<String>();
-    private static final Set<Class<?>> extraEditableClasses =
-            new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
-        BigDecimal.class, BigInteger.class, Number.class,
-        String.class, ObjectName.class
+    privbte stbtic finbl Set<Clbss<?>> primitives = new HbshSet<Clbss<?>>();
+    privbte stbtic finbl Mbp<String, Clbss<?>> primitiveMbp =
+            new HbshMbp<String, Clbss<?>>();
+    privbte stbtic finbl Mbp<String, Clbss<?>> primitiveToWrbpper =
+            new HbshMbp<String, Clbss<?>>();
+    privbte stbtic finbl Set<String> editbbleTypes = new HbshSet<String>();
+    privbte stbtic finbl Set<Clbss<?>> extrbEditbbleClbsses =
+            new HbshSet<Clbss<?>>(Arrbys.bsList(new Clbss<?>[]{
+        BigDecimbl.clbss, BigInteger.clbss, Number.clbss,
+        String.clbss, ObjectNbme.clbss
     }));
-    private static final Set<String> numericalTypes = new HashSet<String>();
-    private static final Set<String> extraNumericalTypes =
-            new HashSet<String>(Arrays.asList(new String[]{
-        BigDecimal.class.getName(), BigInteger.class.getName(),
-        Number.class.getName()
+    privbte stbtic finbl Set<String> numericblTypes = new HbshSet<String>();
+    privbte stbtic finbl Set<String> extrbNumericblTypes =
+            new HbshSet<String>(Arrbys.bsList(new String[]{
+        BigDecimbl.clbss.getNbme(), BigInteger.clbss.getNbme(),
+        Number.clbss.getNbme()
     }));
-    private static final Set<String> booleanTypes =
-            new HashSet<String>(Arrays.asList(new String[]{
-        Boolean.TYPE.getName(), Boolean.class.getName()
+    privbte stbtic finbl Set<String> boolebnTypes =
+            new HbshSet<String>(Arrbys.bsList(new String[]{
+        Boolebn.TYPE.getNbme(), Boolebn.clbss.getNbme()
     }));
 
-    static {
-        // compute primitives/primitiveMap/primitiveToWrapper
-        for (Class<?> c : primitiveWrappers) {
+    stbtic {
+        // compute primitives/primitiveMbp/primitiveToWrbpper
+        for (Clbss<?> c : primitiveWrbppers) {
             try {
                 Field f = c.getField("TYPE");
-                Class<?> p = (Class<?>) f.get(null);
-                primitives.add(p);
-                primitiveMap.put(p.getName(), p);
-                primitiveToWrapper.put(p.getName(), c);
-            } catch (Exception e) {
+                Clbss<?> p = (Clbss<?>) f.get(null);
+                primitives.bdd(p);
+                primitiveMbp.put(p.getNbme(), p);
+                primitiveToWrbpper.put(p.getNbme(), c);
+            } cbtch (Exception e) {
                 throw new AssertionError(e);
             }
         }
-        // compute editableTypes
-        for (Class<?> c : primitives) {
-            editableTypes.add(c.getName());
+        // compute editbbleTypes
+        for (Clbss<?> c : primitives) {
+            editbbleTypes.bdd(c.getNbme());
         }
-        for (Class<?> c : primitiveWrappers) {
-            editableTypes.add(c.getName());
+        for (Clbss<?> c : primitiveWrbppers) {
+            editbbleTypes.bdd(c.getNbme());
         }
-        for (Class<?> c : extraEditableClasses) {
-            editableTypes.add(c.getName());
+        for (Clbss<?> c : extrbEditbbleClbsses) {
+            editbbleTypes.bdd(c.getNbme());
         }
-        // compute numericalTypes
-        for (Class<?> c : primitives) {
-            String name = c.getName();
-            if (!name.equals(Boolean.TYPE.getName())) {
-                numericalTypes.add(name);
+        // compute numericblTypes
+        for (Clbss<?> c : primitives) {
+            String nbme = c.getNbme();
+            if (!nbme.equbls(Boolebn.TYPE.getNbme())) {
+                numericblTypes.bdd(nbme);
             }
         }
-        for (Class<?> c : primitiveWrappers) {
-            String name = c.getName();
-            if (!name.equals(Boolean.class.getName())) {
-                numericalTypes.add(name);
+        for (Clbss<?> c : primitiveWrbppers) {
+            String nbme = c.getNbme();
+            if (!nbme.equbls(Boolebn.clbss.getNbme())) {
+                numericblTypes.bdd(nbme);
             }
         }
     }
 
     /**
-     * This method returns the class matching the name className.
-     * It's used to cater for the primitive types.
+     * This method returns the clbss mbtching the nbme clbssNbme.
+     * It's used to cbter for the primitive types.
      */
-    public static Class<?> getClass(String className)
-            throws ClassNotFoundException {
-        Class<?> c;
-        if ((c = primitiveMap.get(className)) != null) {
+    public stbtic Clbss<?> getClbss(String clbssNbme)
+            throws ClbssNotFoundException {
+        Clbss<?> c;
+        if ((c = primitiveMbp.get(clbssNbme)) != null) {
             return c;
         }
-        return Class.forName(className);
+        return Clbss.forNbme(clbssNbme);
     }
 
     /**
-     * Check if the given collection is a uniform collection of the given type.
+     * Check if the given collection is b uniform collection of the given type.
      */
-    public static boolean isUniformCollection(Collection<?> c, Class<?> e) {
+    public stbtic boolebn isUniformCollection(Collection<?> c, Clbss<?> e) {
         if (e == null) {
-            throw new IllegalArgumentException("Null reference type");
+            throw new IllegblArgumentException("Null reference type");
         }
         if (c == null) {
-            throw new IllegalArgumentException("Null collection");
+            throw new IllegblArgumentException("Null collection");
         }
         if (c.isEmpty()) {
-            return false;
+            return fblse;
         }
         for (Object o : c) {
-            if (o == null || !e.isAssignableFrom(o.getClass())) {
-                return false;
+            if (o == null || !e.isAssignbbleFrom(o.getClbss())) {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Check if the given element denotes a supported array-friendly data
-     * structure, i.e. a data structure jconsole can render as an array.
+     * Check if the given element denotes b supported brrby-friendly dbtb
+     * structure, i.e. b dbtb structure jconsole cbn render bs bn brrby.
      */
-    public static boolean canBeRenderedAsArray(Object elem) {
-        if (isSupportedArray(elem)) {
+    public stbtic boolebn cbnBeRenderedAsArrby(Object elem) {
+        if (isSupportedArrby(elem)) {
             return true;
         }
-        if (elem instanceof Collection) {
+        if (elem instbnceof Collection) {
             Collection<?> c = (Collection<?>) elem;
             if (c.isEmpty()) {
-                // Empty collections of any Java type are not handled as arrays
+                // Empty collections of bny Jbvb type bre not hbndled bs brrbys
                 //
-                return false;
+                return fblse;
             } else {
-                // - Collections of CompositeData/TabularData are not handled
-                //   as arrays
-                // - Collections of other Java types are handled as arrays
+                // - Collections of CompositeDbtb/TbbulbrDbtb bre not hbndled
+                //   bs brrbys
+                // - Collections of other Jbvb types bre hbndled bs brrbys
                 //
-                return !isUniformCollection(c, CompositeData.class) &&
-                        !isUniformCollection(c, TabularData.class);
+                return !isUniformCollection(c, CompositeDbtb.clbss) &&
+                        !isUniformCollection(c, TbbulbrDbtb.clbss);
             }
         }
-        if (elem instanceof Map) {
-            return !(elem instanceof TabularData);
+        if (elem instbnceof Mbp) {
+            return !(elem instbnceof TbbulbrDbtb);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Check if the given element is an array.
+     * Check if the given element is bn brrby.
      *
-     * Multidimensional arrays are not supported.
+     * Multidimensionbl brrbys bre not supported.
      *
-     * Non-empty 1-dimensional arrays of CompositeData
-     * and TabularData are not handled as arrays but as
-     * tabular data.
+     * Non-empty 1-dimensionbl brrbys of CompositeDbtb
+     * bnd TbbulbrDbtb bre not hbndled bs brrbys but bs
+     * tbbulbr dbtb.
      */
-    public static boolean isSupportedArray(Object elem) {
-        if (elem == null || !elem.getClass().isArray()) {
-            return false;
+    public stbtic boolebn isSupportedArrby(Object elem) {
+        if (elem == null || !elem.getClbss().isArrby()) {
+            return fblse;
         }
-        Class<?> ct = elem.getClass().getComponentType();
-        if (ct.isArray()) {
-            return false;
+        Clbss<?> ct = elem.getClbss().getComponentType();
+        if (ct.isArrby()) {
+            return fblse;
         }
-        if (Array.getLength(elem) > 0 &&
-                (CompositeData.class.isAssignableFrom(ct) ||
-                TabularData.class.isAssignableFrom(ct))) {
-            return false;
+        if (Arrby.getLength(elem) > 0 &&
+                (CompositeDbtb.clbss.isAssignbbleFrom(ct) ||
+                TbbulbrDbtb.clbss.isAssignbbleFrom(ct))) {
+            return fblse;
         }
         return true;
     }
 
     /**
-     * This method provides a readable classname if it's an array,
-     * i.e. either the classname of the component type for arrays
-     * of java reference types or the name of the primitive type
-     * for arrays of java primitive types. Otherwise, it returns null.
+     * This method provides b rebdbble clbssnbme if it's bn brrby,
+     * i.e. either the clbssnbme of the component type for brrbys
+     * of jbvb reference types or the nbme of the primitive type
+     * for brrbys of jbvb primitive types. Otherwise, it returns null.
      */
-    public static String getArrayClassName(String name) {
-        String className = null;
-        if (name.startsWith("[")) {
-            int index = name.lastIndexOf('[');
-            className = name.substring(index, name.length());
-            if (className.startsWith("[L")) {
-                className = className.substring(2, className.length() - 1);
+    public stbtic String getArrbyClbssNbme(String nbme) {
+        String clbssNbme = null;
+        if (nbme.stbrtsWith("[")) {
+            int index = nbme.lbstIndexOf('[');
+            clbssNbme = nbme.substring(index, nbme.length());
+            if (clbssNbme.stbrtsWith("[L")) {
+                clbssNbme = clbssNbme.substring(2, clbssNbme.length() - 1);
             } else {
                 try {
-                    Class<?> c = Class.forName(className);
-                    className = c.getComponentType().getName();
-                } catch (ClassNotFoundException e) {
-                    // Should not happen
-                    throw new IllegalArgumentException(
-                            "Bad class name " + name, e);
+                    Clbss<?> c = Clbss.forNbme(clbssNbme);
+                    clbssNbme = c.getComponentType().getNbme();
+                } cbtch (ClbssNotFoundException e) {
+                    // Should not hbppen
+                    throw new IllegblArgumentException(
+                            "Bbd clbss nbme " + nbme, e);
                 }
             }
         }
-        return className;
+        return clbssNbme;
     }
 
     /**
-     * This methods provides a readable classname. If the supplied name
-     * parameter denotes an array this method returns either the classname
-     * of the component type for arrays of java reference types or the name
-     * of the primitive type for arrays of java primitive types followed by
-     * n-times "[]" where 'n' denotes the arity of the array. Otherwise, if
-     * the supplied name doesn't denote an array it returns the same classname.
+     * This methods provides b rebdbble clbssnbme. If the supplied nbme
+     * pbrbmeter denotes bn brrby this method returns either the clbssnbme
+     * of the component type for brrbys of jbvb reference types or the nbme
+     * of the primitive type for brrbys of jbvb primitive types followed by
+     * n-times "[]" where 'n' denotes the brity of the brrby. Otherwise, if
+     * the supplied nbme doesn't denote bn brrby it returns the sbme clbssnbme.
      */
-    public static String getReadableClassName(String name) {
-        String className = getArrayClassName(name);
-        if (className == null) {
-            return name;
+    public stbtic String getRebdbbleClbssNbme(String nbme) {
+        String clbssNbme = getArrbyClbssNbme(nbme);
+        if (clbssNbme == null) {
+            return nbme;
         }
-        int index = name.lastIndexOf('[');
-        StringBuilder brackets = new StringBuilder(className);
+        int index = nbme.lbstIndexOf('[');
+        StringBuilder brbckets = new StringBuilder(clbssNbme);
         for (int i = 0; i <= index; i++) {
-            brackets.append("[]");
+            brbckets.bppend("[]");
         }
-        return brackets.toString();
+        return brbckets.toString();
     }
 
     /**
-     * This method tells whether the type is editable
-     * (means can be created with a String or not)
+     * This method tells whether the type is editbble
+     * (mebns cbn be crebted with b String or not)
      */
-    public static boolean isEditableType(String type) {
-        return editableTypes.contains(type);
+    public stbtic boolebn isEditbbleType(String type) {
+        return editbbleTypes.contbins(type);
     }
 
     /**
-     * This method inserts a default value for the standard java types,
-     * else it inserts the text name of the expected class type.
-     * It acts to give a clue as to the input type.
+     * This method inserts b defbult vblue for the stbndbrd jbvb types,
+     * else it inserts the text nbme of the expected clbss type.
+     * It bcts to give b clue bs to the input type.
      */
-    public static String getDefaultValue(String type) {
-        if (numericalTypes.contains(type) ||
-                extraNumericalTypes.contains(type)) {
+    public stbtic String getDefbultVblue(String type) {
+        if (numericblTypes.contbins(type) ||
+                extrbNumericblTypes.contbins(type)) {
             return "0";
         }
-        if (booleanTypes.contains(type)) {
+        if (boolebnTypes.contbins(type)) {
             return "true";
         }
-        type = getReadableClassName(type);
-        int i = type.lastIndexOf('.');
+        type = getRebdbbleClbssNbme(type);
+        int i = type.lbstIndexOf('.');
         if (i > 0) {
             return type.substring(i + 1, type.length());
         } else {
@@ -280,16 +280,16 @@ public class Utils {
     }
 
     /**
-     * Try to create a Java object using a one-string-param constructor.
+     * Try to crebte b Jbvb object using b one-string-pbrbm constructor.
      */
-    public static Object newStringConstructor(String type, String param)
+    public stbtic Object newStringConstructor(String type, String pbrbm)
             throws Exception {
-        Constructor<?> c = Utils.getClass(type).getConstructor(String.class);
+        Constructor<?> c = Utils.getClbss(type).getConstructor(String.clbss);
         try {
-            return c.newInstance(param);
-        } catch (InvocationTargetException e) {
-            Throwable t = e.getTargetException();
-            if (t instanceof Exception) {
+            return c.newInstbnce(pbrbm);
+        } cbtch (InvocbtionTbrgetException e) {
+            Throwbble t = e.getTbrgetException();
+            if (t instbnceof Exception) {
                 throw (Exception) t;
             } else {
                 throw e;
@@ -298,87 +298,87 @@ public class Utils {
     }
 
     /**
-     * Try to convert a string value into a numerical value.
+     * Try to convert b string vblue into b numericbl vblue.
      */
-    private static Number createNumberFromStringValue(String value)
-            throws NumberFormatException {
-        final String suffix = value.substring(value.length() - 1);
-        if ("L".equalsIgnoreCase(suffix)) {
-            return Long.valueOf(value.substring(0, value.length() - 1));
+    privbte stbtic Number crebteNumberFromStringVblue(String vblue)
+            throws NumberFormbtException {
+        finbl String suffix = vblue.substring(vblue.length() - 1);
+        if ("L".equblsIgnoreCbse(suffix)) {
+            return Long.vblueOf(vblue.substring(0, vblue.length() - 1));
         }
-        if ("F".equalsIgnoreCase(suffix)) {
-            return Float.valueOf(value.substring(0, value.length() - 1));
+        if ("F".equblsIgnoreCbse(suffix)) {
+            return Flobt.vblueOf(vblue.substring(0, vblue.length() - 1));
         }
-        if ("D".equalsIgnoreCase(suffix)) {
-            return Double.valueOf(value.substring(0, value.length() - 1));
+        if ("D".equblsIgnoreCbse(suffix)) {
+            return Double.vblueOf(vblue.substring(0, vblue.length() - 1));
         }
         try {
-            return Integer.valueOf(value);
-        } catch (NumberFormatException e) {
+            return Integer.vblueOf(vblue);
+        } cbtch (NumberFormbtException e) {
         // OK: Ignore exception...
         }
         try {
-            return Long.valueOf(value);
-        } catch (NumberFormatException e1) {
+            return Long.vblueOf(vblue);
+        } cbtch (NumberFormbtException e1) {
         // OK: Ignore exception...
         }
         try {
-            return Double.valueOf(value);
-        } catch (NumberFormatException e2) {
+            return Double.vblueOf(vblue);
+        } cbtch (NumberFormbtException e2) {
         // OK: Ignore exception...
         }
-        throw new NumberFormatException("Cannot convert string value '" +
-                value + "' into a numerical value");
+        throw new NumberFormbtException("Cbnnot convert string vblue '" +
+                vblue + "' into b numericbl vblue");
     }
 
     /**
-     * This method attempts to create an object of the given "type"
-     * using the "value" parameter.
-     * e.g. calling createObjectFromString("java.lang.Integer", "10")
-     * will return an Integer object initialized to 10.
+     * This method bttempts to crebte bn object of the given "type"
+     * using the "vblue" pbrbmeter.
+     * e.g. cblling crebteObjectFromString("jbvb.lbng.Integer", "10")
+     * will return bn Integer object initiblized to 10.
      */
-    public static Object createObjectFromString(String type, String value)
+    public stbtic Object crebteObjectFromString(String type, String vblue)
             throws Exception {
         Object result;
-        if (primitiveToWrapper.containsKey(type)) {
-            if (type.equals(Character.TYPE.getName())) {
-                result = value.charAt(0);
+        if (primitiveToWrbpper.contbinsKey(type)) {
+            if (type.equbls(Chbrbcter.TYPE.getNbme())) {
+                result = vblue.chbrAt(0);
             } else {
                 result = newStringConstructor(
-                        ((Class<?>) primitiveToWrapper.get(type)).getName(),
-                        value);
+                        ((Clbss<?>) primitiveToWrbpper.get(type)).getNbme(),
+                        vblue);
             }
-        } else if (type.equals(Character.class.getName())) {
-            result = value.charAt(0);
-        } else if (Number.class.isAssignableFrom(Utils.getClass(type))) {
-            result = createNumberFromStringValue(value);
-        } else if (value == null || value.equals("null")) {
-            // hack for null value
+        } else if (type.equbls(Chbrbcter.clbss.getNbme())) {
+            result = vblue.chbrAt(0);
+        } else if (Number.clbss.isAssignbbleFrom(Utils.getClbss(type))) {
+            result = crebteNumberFromStringVblue(vblue);
+        } else if (vblue == null || vblue.equbls("null")) {
+            // hbck for null vblue
             result = null;
         } else {
-            // try to create a Java object using
-            // the one-string-param constructor
-            result = newStringConstructor(type, value);
+            // try to crebte b Jbvb object using
+            // the one-string-pbrbm constructor
+            result = newStringConstructor(type, vblue);
         }
         return result;
     }
 
     /**
      * This method is responsible for converting the inputs given by the user
-     * into a useful object array for passing into a parameter array.
+     * into b useful object brrby for pbssing into b pbrbmeter brrby.
      */
-    public static Object[] getParameters(XTextField[] inputs, String[] params)
+    public stbtic Object[] getPbrbmeters(XTextField[] inputs, String[] pbrbms)
             throws Exception {
         Object result[] = new Object[inputs.length];
         Object userInput;
         for (int i = 0; i < inputs.length; i++) {
-            userInput = inputs[i].getValue();
-            // if it's already a complex object, use the value
-            // else try to instantiate with string constructor
-            if (userInput instanceof XObject) {
+            userInput = inputs[i].getVblue();
+            // if it's blrebdy b complex object, use the vblue
+            // else try to instbntibte with string constructor
+            if (userInput instbnceof XObject) {
                 result[i] = ((XObject) userInput).getObject();
             } else {
-                result[i] = createObjectFromString(params[i].toString(),
+                result[i] = crebteObjectFromString(pbrbms[i].toString(),
                         (String) userInput);
             }
         }
@@ -386,17 +386,17 @@ public class Utils {
     }
 
     /**
-     * If the exception is wrapped, unwrap it.
+     * If the exception is wrbpped, unwrbp it.
      */
-    public static Throwable getActualException(Throwable e) {
-        if (e instanceof ExecutionException) {
-            e = e.getCause();
+    public stbtic Throwbble getActublException(Throwbble e) {
+        if (e instbnceof ExecutionException) {
+            e = e.getCbuse();
         }
-        if (e instanceof MBeanException ||
-                e instanceof RuntimeMBeanException ||
-                e instanceof RuntimeOperationsException ||
-                e instanceof ReflectionException) {
-            Throwable t = e.getCause();
+        if (e instbnceof MBebnException ||
+                e instbnceof RuntimeMBebnException ||
+                e instbnceof RuntimeOperbtionsException ||
+                e instbnceof ReflectionException) {
+            Throwbble t = e.getCbuse();
             if (t != null) {
                 return t;
             }
@@ -404,22 +404,22 @@ public class Utils {
         return e;
     }
 
-    @SuppressWarnings("serial")
-    public static class ReadOnlyTableCellEditor
-            extends DefaultCellEditor {
+    @SuppressWbrnings("seribl")
+    public stbtic clbss RebdOnlyTbbleCellEditor
+            extends DefbultCellEditor {
 
-        public ReadOnlyTableCellEditor(JTextField tf) {
+        public RebdOnlyTbbleCellEditor(JTextField tf) {
             super(tf);
-            tf.addFocusListener(new Utils.EditFocusAdapter(this));
-            tf.addKeyListener(new Utils.CopyKeyAdapter());
+            tf.bddFocusListener(new Utils.EditFocusAdbpter(this));
+            tf.bddKeyListener(new Utils.CopyKeyAdbpter());
         }
     }
 
-    public static class EditFocusAdapter extends FocusAdapter {
+    public stbtic clbss EditFocusAdbpter extends FocusAdbpter {
 
-        private CellEditor editor;
+        privbte CellEditor editor;
 
-        public EditFocusAdapter(CellEditor editor) {
+        public EditFocusAdbpter(CellEditor editor) {
             this.editor = editor;
         }
 
@@ -429,11 +429,11 @@ public class Utils {
         }
     }
 
-    public static class CopyKeyAdapter extends KeyAdapter {
-        private static final String defaultEditorKitCopyActionName =
-                DefaultEditorKit.copyAction;
-        private static final String transferHandlerCopyActionName =
-                (String) TransferHandler.getCopyAction().getValue(Action.NAME);
+    public stbtic clbss CopyKeyAdbpter extends KeyAdbpter {
+        privbte stbtic finbl String defbultEditorKitCopyActionNbme =
+                DefbultEditorKit.copyAction;
+        privbte stbtic finbl String trbnsferHbndlerCopyActionNbme =
+                (String) TrbnsferHbndler.getCopyAction().getVblue(Action.NAME);
         @Override
         public void keyPressed(KeyEvent e) {
             // Accept "copy" key strokes
@@ -441,15 +441,15 @@ public class Utils {
                     e.getKeyCode(), e.getModifiers());
             JComponent comp = (JComponent) e.getSource();
             for (int i = 0; i < 3; i++) {
-                InputMap im = comp.getInputMap(i);
+                InputMbp im = comp.getInputMbp(i);
                 Object key = im.get(ks);
-                if (defaultEditorKitCopyActionName.equals(key) ||
-                        transferHandlerCopyActionName.equals(key)) {
+                if (defbultEditorKitCopyActionNbme.equbls(key) ||
+                        trbnsferHbndlerCopyActionNbme.equbls(key)) {
                     return;
                 }
             }
-            // Accept JTable navigation key strokes
-            if (!tableNavigationKeys.contains(e.getKeyCode())) {
+            // Accept JTbble nbvigbtion key strokes
+            if (!tbbleNbvigbtionKeys.contbins(e.getKeyCode())) {
                 e.consume();
             }
         }

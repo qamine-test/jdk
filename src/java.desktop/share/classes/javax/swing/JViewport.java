@@ -1,291 +1,291 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.ComponentPeer;
-import java.beans.Transient;
-import javax.swing.plaf.ViewportUI;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.ComponentPeer;
+import jbvb.bebns.Trbnsient;
+import jbvbx.swing.plbf.ViewportUI;
 
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.accessibility.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.border.*;
+import jbvbx.bccessibility.*;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
  * The "viewport" or "porthole" through which you see the underlying
- * information. When you scroll, what moves is the viewport. It is like
- * peering through a camera's viewfinder. Moving the viewfinder upwards
- * brings new things into view at the top of the picture and loses
- * things that were at the bottom.
+ * informbtion. When you scroll, whbt moves is the viewport. It is like
+ * peering through b cbmerb's viewfinder. Moving the viewfinder upwbrds
+ * brings new things into view bt the top of the picture bnd loses
+ * things thbt were bt the bottom.
  * <p>
- * By default, <code>JViewport</code> is opaque. To change this, use the
- * <code>setOpaque</code> method.
+ * By defbult, <code>JViewport</code> is opbque. To chbnge this, use the
+ * <code>setOpbque</code> method.
  * <p>
- * <b>NOTE:</b>We have implemented a faster scrolling algorithm that
- * does not require a buffer to draw in. The algorithm works as follows:
- * <ol><li>The view and parent view and checked to see if they are
+ * <b>NOTE:</b>We hbve implemented b fbster scrolling blgorithm thbt
+ * does not require b buffer to drbw in. The blgorithm works bs follows:
+ * <ol><li>The view bnd pbrent view bnd checked to see if they bre
  * <code>JComponents</code>,
- * if they aren't, stop and repaint the whole viewport.
- * <li>If the viewport is obscured by an ancestor, stop and repaint the whole
+ * if they bren't, stop bnd repbint the whole viewport.
+ * <li>If the viewport is obscured by bn bncestor, stop bnd repbint the whole
  * viewport.
- * <li>Compute the region that will become visible, if it is as big as
- * the viewport, stop and repaint the whole view region.
- * <li>Obtain the ancestor <code>Window</code>'s graphics and
- * do a <code>copyArea</code> on the scrolled region.
- * <li>Message the view to repaint the newly visible region.
- * <li>The next time paint is invoked on the viewport, if the clip region
- * is smaller than the viewport size a timer is kicked off to repaint the
+ * <li>Compute the region thbt will become visible, if it is bs big bs
+ * the viewport, stop bnd repbint the whole view region.
+ * <li>Obtbin the bncestor <code>Window</code>'s grbphics bnd
+ * do b <code>copyAreb</code> on the scrolled region.
+ * <li>Messbge the view to repbint the newly visible region.
+ * <li>The next time pbint is invoked on the viewport, if the clip region
+ * is smbller thbn the viewport size b timer is kicked off to repbint the
  * whole region.
  * </ol>
- * In general this approach is much faster. Compared to the backing store
- * approach this avoids the overhead of maintaining an offscreen buffer and
- * having to do two <code>copyArea</code>s.
- * Compared to the non backing store case this
- * approach will greatly reduce the painted region.
+ * In generbl this bpprobch is much fbster. Compbred to the bbcking store
+ * bpprobch this bvoids the overhebd of mbintbining bn offscreen buffer bnd
+ * hbving to do two <code>copyAreb</code>s.
+ * Compbred to the non bbcking store cbse this
+ * bpprobch will grebtly reduce the pbinted region.
  * <p>
- * This approach can cause slower times than the backing store approach
- * when the viewport is obscured by another window, or partially offscreen.
- * When another window
- * obscures the viewport the copyArea will copy garbage and a
- * paint event will be generated by the system to inform us we need to
- * paint the newly exposed region. The only way to handle this is to
- * repaint the whole viewport, which can cause slower performance than the
- * backing store case. In most applications very rarely will the user be
- * scrolling while the viewport is obscured by another window or offscreen,
- * so this optimization is usually worth the performance hit when obscured.
+ * This bpprobch cbn cbuse slower times thbn the bbcking store bpprobch
+ * when the viewport is obscured by bnother window, or pbrtiblly offscreen.
+ * When bnother window
+ * obscures the viewport the copyAreb will copy gbrbbge bnd b
+ * pbint event will be generbted by the system to inform us we need to
+ * pbint the newly exposed region. The only wby to hbndle this is to
+ * repbint the whole viewport, which cbn cbuse slower performbnce thbn the
+ * bbcking store cbse. In most bpplicbtions very rbrely will the user be
+ * scrolling while the viewport is obscured by bnother window or offscreen,
+ * so this optimizbtion is usublly worth the performbnce hit when obscured.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Hans Muller
- * @author Philip Milne
- * @see JScrollPane
+ * @buthor Hbns Muller
+ * @buthor Philip Milne
+ * @see JScrollPbne
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JViewport extends JComponent implements Accessible
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JViewport extends JComponent implements Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "ViewportUI";
+    privbte stbtic finbl String uiClbssID = "ViewportUI";
 
-    /** Property used to indicate window blitting should not be done.
+    /** Property used to indicbte window blitting should not be done.
      */
-    static final Object EnableWindowBlit = "EnableWindowBlit";
-
-    /**
-     * True when the viewport dimensions have been determined.
-     * The default is false.
-     */
-    protected boolean isViewSizeSet = false;
+    stbtic finbl Object EnbbleWindowBlit = "EnbbleWindowBlit";
 
     /**
-     * The last <code>viewPosition</code> that we've painted, so we know how
-     * much of the backing store image is valid.
+     * True when the viewport dimensions hbve been determined.
+     * The defbult is fblse.
      */
-    protected Point lastPaintPosition = null;
+    protected boolebn isViewSizeSet = fblse;
 
     /**
-     * True when this viewport is maintaining an offscreen image of its
-     * contents, so that some scrolling can take place using fast "bit-blit"
-     * operations instead of by accessing the view object to construct the
-     * display.  The default is <code>false</code>.
+     * The lbst <code>viewPosition</code> thbt we've pbinted, so we know how
+     * much of the bbcking store imbge is vblid.
+     */
+    protected Point lbstPbintPosition = null;
+
+    /**
+     * True when this viewport is mbintbining bn offscreen imbge of its
+     * contents, so thbt some scrolling cbn tbke plbce using fbst "bit-blit"
+     * operbtions instebd of by bccessing the view object to construct the
+     * displby.  The defbult is <code>fblse</code>.
      *
-     * @deprecated As of Java 2 platform v1.3
+     * @deprecbted As of Jbvb 2 plbtform v1.3
      * @see #setScrollMode
      */
-    @Deprecated
-    protected boolean backingStore = false;
+    @Deprecbted
+    protected boolebn bbckingStore = fblse;
 
-    /** The view image used for a backing store. */
-    transient protected Image backingStoreImage = null;
+    /** The view imbge used for b bbcking store. */
+    trbnsient protected Imbge bbckingStoreImbge = null;
 
     /**
-     * The <code>scrollUnderway</code> flag is used for components like
-     * <code>JList</code>.  When the downarrow key is pressed on a
-     * <code>JList</code> and the selected
-     * cell is the last in the list, the <code>scrollpane</code> autoscrolls.
-     * Here, the old selected cell needs repainting and so we need
-     * a flag to make the viewport do the optimized painting
-     * only when there is an explicit call to
+     * The <code>scrollUnderwby</code> flbg is used for components like
+     * <code>JList</code>.  When the downbrrow key is pressed on b
+     * <code>JList</code> bnd the selected
+     * cell is the lbst in the list, the <code>scrollpbne</code> butoscrolls.
+     * Here, the old selected cell needs repbinting bnd so we need
+     * b flbg to mbke the viewport do the optimized pbinting
+     * only when there is bn explicit cbll to
      * <code>setViewPosition(Point)</code>.
-     * When <code>setBounds</code> is called through other routes,
-     * the flag is off and the view repaints normally.  Another approach
+     * When <code>setBounds</code> is cblled through other routes,
+     * the flbg is off bnd the view repbints normblly.  Another bpprobch
      * would be to remove this from the <code>JViewport</code>
-     * class and have the <code>JList</code> manage this case by using
-     * <code>setBackingStoreEnabled</code>.  The default is
-     * <code>false</code>.
+     * clbss bnd hbve the <code>JList</code> mbnbge this cbse by using
+     * <code>setBbckingStoreEnbbled</code>.  The defbult is
+     * <code>fblse</code>.
      */
-    protected boolean scrollUnderway = false;
+    protected boolebn scrollUnderwby = fblse;
 
     /*
-     * Listener that is notified each time the view changes size.
+     * Listener thbt is notified ebch time the view chbnges size.
      */
-    private ComponentListener viewListener = null;
+    privbte ComponentListener viewListener = null;
 
-    /* Only one <code>ChangeEvent</code> is needed per
-     * <code>JViewport</code> instance since the
-     * event's only (read-only) state is the source property.  The source
-     * of events generated here is always "this".
+    /* Only one <code>ChbngeEvent</code> is needed per
+     * <code>JViewport</code> instbnce since the
+     * event's only (rebd-only) stbte is the source property.  The source
+     * of events generbted here is blwbys "this".
      */
-    private transient ChangeEvent changeEvent = null;
+    privbte trbnsient ChbngeEvent chbngeEvent = null;
 
     /**
-      * Use <code>graphics.copyArea</code> to implement scrolling.
-      * This is the fastest for most applications.
+      * Use <code>grbphics.copyAreb</code> to implement scrolling.
+      * This is the fbstest for most bpplicbtions.
       *
       * @see #setScrollMode
       * @since 1.3
       */
-    public static final int BLIT_SCROLL_MODE = 1;
+    public stbtic finbl int BLIT_SCROLL_MODE = 1;
 
     /**
-      * Draws viewport contents into an offscreen image.
-      * This was previously the default mode for <code>JTable</code>.
-      * This mode may offer advantages over "blit mode"
-      * in some cases, but it requires a large chunk of extra RAM.
+      * Drbws viewport contents into bn offscreen imbge.
+      * This wbs previously the defbult mode for <code>JTbble</code>.
+      * This mode mby offer bdvbntbges over "blit mode"
+      * in some cbses, but it requires b lbrge chunk of extrb RAM.
       *
       * @see #setScrollMode
       * @since 1.3
       */
-    public static final int BACKINGSTORE_SCROLL_MODE = 2;
+    public stbtic finbl int BACKINGSTORE_SCROLL_MODE = 2;
 
     /**
-      * This mode uses the very simple method of redrawing the entire
-      * contents of the scrollpane each time it is scrolled.
-      * This was the default behavior in Swing 1.0 and Swing 1.1.
-      * Either of the other two options will provide better performance
-      * in most cases.
+      * This mode uses the very simple method of redrbwing the entire
+      * contents of the scrollpbne ebch time it is scrolled.
+      * This wbs the defbult behbvior in Swing 1.0 bnd Swing 1.1.
+      * Either of the other two options will provide better performbnce
+      * in most cbses.
       *
       * @see #setScrollMode
       * @since 1.3
       */
-    public static final int SIMPLE_SCROLL_MODE = 0;
+    public stbtic finbl int SIMPLE_SCROLL_MODE = 0;
 
     /**
       * @see #setScrollMode
       * @since 1.3
       */
-    private int scrollMode = BLIT_SCROLL_MODE;
+    privbte int scrollMode = BLIT_SCROLL_MODE;
 
     //
     // Window blitting:
     //
-    // As mentioned in the javadoc when using windowBlit a paint event
-    // will be generated by the system if copyArea copies a non-visible
-    // portion of the view (in other words, it copies garbage). We are
-    // not guaranteed to receive the paint event before other mouse events,
-    // so we can not be sure we haven't already copied garbage a bunch of
-    // times to different parts of the view. For that reason when a blit
-    // happens and the Component is obscured (the check for obscurity
-    // is not supported on all platforms and is checked via ComponentPeer
-    // methods) the ivar repaintAll is set to true. When paint is received
-    // if repaintAll is true (we previously did a blit) it is set to
-    // false, and if the clip region is smaller than the viewport
-    // waitingForRepaint is set to true and a timer is started. When
-    // the timer fires if waitingForRepaint is true, repaint is invoked.
-    // In the mean time, if the view is asked to scroll and waitingForRepaint
-    // is true, a blit will not happen, instead the non-backing store case
-    // of scrolling will happen, which will reset waitingForRepaint.
-    // waitingForRepaint is set to false in paint when the clip rect is
-    // bigger (or equal) to the size of the viewport.
-    // A Timer is used instead of just a repaint as it appeared to offer
-    // better performance.
+    // As mentioned in the jbvbdoc when using windowBlit b pbint event
+    // will be generbted by the system if copyAreb copies b non-visible
+    // portion of the view (in other words, it copies gbrbbge). We bre
+    // not gubrbnteed to receive the pbint event before other mouse events,
+    // so we cbn not be sure we hbven't blrebdy copied gbrbbge b bunch of
+    // times to different pbrts of the view. For thbt rebson when b blit
+    // hbppens bnd the Component is obscured (the check for obscurity
+    // is not supported on bll plbtforms bnd is checked vib ComponentPeer
+    // methods) the ivbr repbintAll is set to true. When pbint is received
+    // if repbintAll is true (we previously did b blit) it is set to
+    // fblse, bnd if the clip region is smbller thbn the viewport
+    // wbitingForRepbint is set to true bnd b timer is stbrted. When
+    // the timer fires if wbitingForRepbint is true, repbint is invoked.
+    // In the mebn time, if the view is bsked to scroll bnd wbitingForRepbint
+    // is true, b blit will not hbppen, instebd the non-bbcking store cbse
+    // of scrolling will hbppen, which will reset wbitingForRepbint.
+    // wbitingForRepbint is set to fblse in pbint when the clip rect is
+    // bigger (or equbl) to the size of the viewport.
+    // A Timer is used instebd of just b repbint bs it bppebred to offer
+    // better performbnce.
 
 
     /**
      * This is set to true in <code>setViewPosition</code>
-     * if doing a window blit and the viewport is obscured.
+     * if doing b window blit bnd the viewport is obscured.
      */
-    private transient boolean repaintAll;
+    privbte trbnsient boolebn repbintAll;
 
     /**
-     * This is set to true in paint, if <code>repaintAll</code>
-     * is true and the clip rectangle does not match the bounds.
-     * If true, and scrolling happens the
-     * repaint manager is not cleared which then allows for the repaint
+     * This is set to true in pbint, if <code>repbintAll</code>
+     * is true bnd the clip rectbngle does not mbtch the bounds.
+     * If true, bnd scrolling hbppens the
+     * repbint mbnbger is not clebred which then bllows for the repbint
      * previously invoked to succeed.
      */
-    private transient boolean waitingForRepaint;
+    privbte trbnsient boolebn wbitingForRepbint;
 
     /**
-     * Instead of directly invoking repaint, a <code>Timer</code>
-     * is started and when it fires, repaint is invoked.
+     * Instebd of directly invoking repbint, b <code>Timer</code>
+     * is stbrted bnd when it fires, repbint is invoked.
      */
-    private transient Timer repaintTimer;
+    privbte trbnsient Timer repbintTimer;
 
     /**
-     * Set to true in paintView when paint is invoked.
+     * Set to true in pbintView when pbint is invoked.
      */
-    private transient boolean inBlitPaint;
+    privbte trbnsient boolebn inBlitPbint;
 
     /**
-     * Whether or not a valid view has been installed.
+     * Whether or not b vblid view hbs been instblled.
      */
-    private boolean hasHadValidView;
+    privbte boolebn hbsHbdVblidView;
 
     /**
-     * When view is changed we have to synchronize scrollbar values
-     * with viewport (see the BasicScrollPaneUI#syncScrollPaneWithViewport method).
-     * This flag allows to invoke that method while ScrollPaneLayout#layoutContainer
+     * When view is chbnged we hbve to synchronize scrollbbr vblues
+     * with viewport (see the BbsicScrollPbneUI#syncScrollPbneWithViewport method).
+     * This flbg bllows to invoke thbt method while ScrollPbneLbyout#lbyoutContbiner
      * is running.
      */
-    private boolean viewChanged;
+    privbte boolebn viewChbnged;
 
-    /** Creates a <code>JViewport</code>. */
+    /** Crebtes b <code>JViewport</code>. */
     public JViewport() {
         super();
-        setLayout(createLayoutManager());
-        setOpaque(true);
-        updateUI();
+        setLbyout(crebteLbyoutMbnbger());
+        setOpbque(true);
+        updbteUI();
         setInheritsPopupMenu(true);
     }
 
 
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Returns the L&bmp;F object thbt renders this component.
      *
-     * @return a <code>ViewportUI</code> object
+     * @return b <code>ViewportUI</code> object
      * @since 1.3
      */
     public ViewportUI getUI() {
@@ -294,15 +294,15 @@ public class JViewport extends JComponent implements Accessible
 
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sets the L&bmp;F object thbt renders this component.
      *
-     * @param ui  the <code>ViewportUI</code> L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui  the <code>ViewportUI</code> L&bmp;F object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      * @since 1.3
      */
     public void setUI(ViewportUI ui) {
@@ -311,42 +311,42 @@ public class JViewport extends JComponent implements Accessible
 
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Resets the UI property to b vblue from the current look bnd feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((ViewportUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((ViewportUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Returns a string that specifies the name of the L&amp;F class
-     * that renders this component.
+     * Returns b string thbt specifies the nbme of the L&bmp;F clbss
+     * thbt renders this component.
      *
      * @return the string "ViewportUI"
      *
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
      * Sets the <code>JViewport</code>'s one lightweight child,
-     * which can be <code>null</code>.
+     * which cbn be <code>null</code>.
      * (Since there is only one child which occupies the entire viewport,
-     * the <code>constraints</code> and <code>index</code>
-     * arguments are ignored.)
+     * the <code>constrbints</code> bnd <code>index</code>
+     * brguments bre ignored.)
      *
-     * @param child       the lightweight <code>child</code> of the viewport
-     * @param constraints the <code>constraints</code> to be respected
-     * @param index       the index
+     * @pbrbm child       the lightweight <code>child</code> of the viewport
+     * @pbrbm constrbints the <code>constrbints</code> to be respected
+     * @pbrbm index       the index
      * @see #setView
      */
-    protected void addImpl(Component child, Object constraints, int index) {
+    protected void bddImpl(Component child, Object constrbints, int index) {
       setView(child);
     }
 
@@ -362,37 +362,37 @@ public class JViewport extends JComponent implements Accessible
     }
 
     /**
-     * Scrolls the view so that <code>Rectangle</code>
+     * Scrolls the view so thbt <code>Rectbngle</code>
      * within the view becomes visible.
      * <p>
-     * This attempts to validate the view before scrolling if the
-     * view is currently not valid - <code>isValid</code> returns false.
-     * To avoid excessive validation when the containment hierarchy is
-     * being created this will not validate if one of the ancestors does not
-     * have a peer, or there is no validate root ancestor, or one of the
-     * ancestors is not a <code>Window</code> or <code>Applet</code>.
+     * This bttempts to vblidbte the view before scrolling if the
+     * view is currently not vblid - <code>isVblid</code> returns fblse.
+     * To bvoid excessive vblidbtion when the contbinment hierbrchy is
+     * being crebted this will not vblidbte if one of the bncestors does not
+     * hbve b peer, or there is no vblidbte root bncestor, or one of the
+     * bncestors is not b <code>Window</code> or <code>Applet</code>.
      * <p>
-     * Note that this method will not scroll outside of the
-     * valid viewport; for example, if <code>contentRect</code> is larger
-     * than the viewport, scrolling will be confined to the viewport's
+     * Note thbt this method will not scroll outside of the
+     * vblid viewport; for exbmple, if <code>contentRect</code> is lbrger
+     * thbn the viewport, scrolling will be confined to the viewport's
      * bounds.
      *
-     * @param contentRect the <code>Rectangle</code> to display
-     * @see JComponent#isValidateRoot
-     * @see java.awt.Component#isValid
-     * @see java.awt.Component#getPeer
+     * @pbrbm contentRect the <code>Rectbngle</code> to displby
+     * @see JComponent#isVblidbteRoot
+     * @see jbvb.bwt.Component#isVblid
+     * @see jbvb.bwt.Component#getPeer
      */
-    public void scrollRectToVisible(Rectangle contentRect) {
+    public void scrollRectToVisible(Rectbngle contentRect) {
         Component view = getView();
 
         if (view == null) {
             return;
         } else {
-            if (!view.isValid()) {
-                // If the view is not valid, validate. scrollRectToVisible
-                // may fail if the view is not valid first, contentRect
-                // could be bigger than invalid size.
-                validateView();
+            if (!view.isVblid()) {
+                // If the view is not vblid, vblidbte. scrollRectToVisible
+                // mby fbil if the view is not vblid first, contentRect
+                // could be bigger thbn invblid size.
+                vblidbteView();
             }
             int dx, dy;
 
@@ -402,20 +402,20 @@ public class JViewport extends JComponent implements Accessible
             if (dx != 0 || dy != 0) {
                 Point viewPosition = getViewPosition();
                 Dimension viewSize = view.getSize();
-                int startX = viewPosition.x;
-                int startY = viewPosition.y;
+                int stbrtX = viewPosition.x;
+                int stbrtY = viewPosition.y;
                 Dimension extent = getExtentSize();
 
                 viewPosition.x -= dx;
                 viewPosition.y -= dy;
-                // Only constrain the location if the view is valid. If the
-                // the view isn't valid, it typically indicates the view
-                // isn't visible yet and most likely has a bogus size as will
-                // we, and therefore we shouldn't constrain the scrolling
-                if (view.isValid()) {
-                    if (getParent().getComponentOrientation().isLeftToRight()) {
+                // Only constrbin the locbtion if the view is vblid. If the
+                // the view isn't vblid, it typicblly indicbtes the view
+                // isn't visible yet bnd most likely hbs b bogus size bs will
+                // we, bnd therefore we shouldn't constrbin the scrolling
+                if (view.isVblid()) {
+                    if (getPbrent().getComponentOrientbtion().isLeftToRight()) {
                         if (viewPosition.x + extent.width > viewSize.width) {
-                            viewPosition.x = Math.max(0, viewSize.width - extent.width);
+                            viewPosition.x = Mbth.mbx(0, viewSize.width - extent.width);
                         } else if (viewPosition.x < 0) {
                             viewPosition.x = 0;
                         }
@@ -423,122 +423,122 @@ public class JViewport extends JComponent implements Accessible
                         if (extent.width > viewSize.width) {
                             viewPosition.x = viewSize.width - extent.width;
                         } else {
-                            viewPosition.x = Math.max(0, Math.min(viewSize.width - extent.width, viewPosition.x));
+                            viewPosition.x = Mbth.mbx(0, Mbth.min(viewSize.width - extent.width, viewPosition.x));
                         }
                     }
                     if (viewPosition.y + extent.height > viewSize.height) {
-                        viewPosition.y = Math.max(0, viewSize.height -
+                        viewPosition.y = Mbth.mbx(0, viewSize.height -
                                                   extent.height);
                     }
                     else if (viewPosition.y < 0) {
                         viewPosition.y = 0;
                     }
                 }
-                if (viewPosition.x != startX || viewPosition.y != startY) {
+                if (viewPosition.x != stbrtX || viewPosition.y != stbrtY) {
                     setViewPosition(viewPosition);
                     // NOTE: How JViewport currently works with the
-                    // backing store is not foolproof. The sequence of
+                    // bbcking store is not foolproof. The sequence of
                     // events when setViewPosition
-                    // (scrollRectToVisible) is called is to reset the
-                    // views bounds, which causes a repaint on the
-                    // visible region and sets an ivar indicating
-                    // scrolling (scrollUnderway). When
-                    // JViewport.paint is invoked if scrollUnderway is
-                    // true, the backing store is blitted.  This fails
+                    // (scrollRectToVisible) is cblled is to reset the
+                    // views bounds, which cbuses b repbint on the
+                    // visible region bnd sets bn ivbr indicbting
+                    // scrolling (scrollUnderwby). When
+                    // JViewport.pbint is invoked if scrollUnderwby is
+                    // true, the bbcking store is blitted.  This fbils
                     // if between the time setViewPosition is invoked
-                    // and paint is received another repaint is queued
-                    // indicating part of the view is invalid. There
-                    // is no way for JViewport to notice another
-                    // repaint has occurred and it ends up blitting
-                    // what is now a dirty region and the repaint is
+                    // bnd pbint is received bnother repbint is queued
+                    // indicbting pbrt of the view is invblid. There
+                    // is no wby for JViewport to notice bnother
+                    // repbint hbs occurred bnd it ends up blitting
+                    // whbt is now b dirty region bnd the repbint is
                     // never delivered.
-                    // It just so happens JTable encounters this
-                    // behavior by way of scrollRectToVisible, for
-                    // this reason scrollUnderway is set to false
-                    // here, which effectively disables the backing
+                    // It just so hbppens JTbble encounters this
+                    // behbvior by wby of scrollRectToVisible, for
+                    // this rebson scrollUnderwby is set to fblse
+                    // here, which effectively disbbles the bbcking
                     // store.
-                    scrollUnderway = false;
+                    scrollUnderwby = fblse;
                 }
             }
         }
     }
 
     /**
-     * Ascends the <code>Viewport</code>'s parents stopping when
-     * a component is found that returns
-     * <code>true</code> to <code>isValidateRoot</code>.
-     * If all the <code>Component</code>'s  parents are visible,
-     * <code>validate</code> will then be invoked on it. The
-     * <code>RepaintManager</code> is then invoked with
-     * <code>removeInvalidComponent</code>. This
-     * is the synchronous version of a <code>revalidate</code>.
+     * Ascends the <code>Viewport</code>'s pbrents stopping when
+     * b component is found thbt returns
+     * <code>true</code> to <code>isVblidbteRoot</code>.
+     * If bll the <code>Component</code>'s  pbrents bre visible,
+     * <code>vblidbte</code> will then be invoked on it. The
+     * <code>RepbintMbnbger</code> is then invoked with
+     * <code>removeInvblidComponent</code>. This
+     * is the synchronous version of b <code>revblidbte</code>.
      */
-    private void validateView() {
-        Component validateRoot = SwingUtilities.getValidateRoot(this, false);
+    privbte void vblidbteView() {
+        Component vblidbteRoot = SwingUtilities.getVblidbteRoot(this, fblse);
 
-        if (validateRoot == null) {
+        if (vblidbteRoot == null) {
             return;
         }
 
-        // Validate the root.
-        validateRoot.validate();
+        // Vblidbte the root.
+        vblidbteRoot.vblidbte();
 
-        // And let the RepaintManager it does not have to validate from
-        // validateRoot anymore.
-        RepaintManager rm = RepaintManager.currentManager(this);
+        // And let the RepbintMbnbger it does not hbve to vblidbte from
+        // vblidbteRoot bnymore.
+        RepbintMbnbger rm = RepbintMbnbger.currentMbnbger(this);
 
         if (rm != null) {
-            rm.removeInvalidComponent((JComponent)validateRoot);
+            rm.removeInvblidComponent((JComponent)vblidbteRoot);
         }
     }
 
      /*  Used by the scrollRectToVisible method to determine the
-      *  proper direction and amount to move by. The integer variables are named
-      *  width, but this method is applicable to height also. The code assumes that
-      *  parentWidth/childWidth are positive and childAt can be negative.
+      *  proper direction bnd bmount to move by. The integer vbribbles bre nbmed
+      *  width, but this method is bpplicbble to height blso. The code bssumes thbt
+      *  pbrentWidth/childWidth bre positive bnd childAt cbn be negbtive.
       */
-    private int positionAdjustment(int parentWidth, int childWidth, int childAt)    {
+    privbte int positionAdjustment(int pbrentWidth, int childWidth, int childAt)    {
 
         //   +-----+
-        //   | --- |     No Change
+        //   | --- |     No Chbnge
         //   +-----+
-        if (childAt >= 0 && childWidth + childAt <= parentWidth)    {
+        if (childAt >= 0 && childWidth + childAt <= pbrentWidth)    {
             return 0;
         }
 
         //   +-----+
-        //  ---------   No Change
+        //  ---------   No Chbnge
         //   +-----+
-        if (childAt <= 0 && childWidth + childAt >= parentWidth) {
+        if (childAt <= 0 && childWidth + childAt >= pbrentWidth) {
             return 0;
         }
 
         //   +-----+          +-----+
         //   |   ----    ->   | ----|
         //   +-----+          +-----+
-        if (childAt > 0 && childWidth <= parentWidth)    {
-            return -childAt + parentWidth - childWidth;
+        if (childAt > 0 && childWidth <= pbrentWidth)    {
+            return -childAt + pbrentWidth - childWidth;
         }
 
         //   +-----+             +-----+
         //   |  --------  ->     |--------
         //   +-----+             +-----+
-        if (childAt >= 0 && childWidth >= parentWidth)   {
+        if (childAt >= 0 && childWidth >= pbrentWidth)   {
             return -childAt;
         }
 
         //   +-----+          +-----+
         // ----    |     ->   |---- |
         //   +-----+          +-----+
-        if (childAt <= 0 && childWidth <= parentWidth)   {
+        if (childAt <= 0 && childWidth <= pbrentWidth)   {
             return -childAt;
         }
 
         //   +-----+             +-----+
         //-------- |      ->   --------|
         //   +-----+             +-----+
-        if (childAt < 0 && childWidth >= parentWidth)    {
-            return -childAt + parentWidth - childWidth;
+        if (childAt < 0 && childWidth >= pbrentWidth)    {
+            return -childAt + pbrentWidth - childWidth;
         }
 
         return 0;
@@ -546,58 +546,58 @@ public class JViewport extends JComponent implements Accessible
 
 
     /**
-     * The viewport "scrolls" its child (called the "view") by the
-     * normal parent/child clipping (typically the view is moved in
+     * The viewport "scrolls" its child (cblled the "view") by the
+     * normbl pbrent/child clipping (typicblly the view is moved in
      * the opposite direction of the scroll).  A non-<code>null</code> border,
      * or non-zero insets, isn't supported, to prevent the geometry
      * of this component from becoming complex enough to inhibit
-     * subclassing.  To create a <code>JViewport</code> with a border,
-     * add it to a <code>JPanel</code> that has a border.
+     * subclbssing.  To crebte b <code>JViewport</code> with b border,
+     * bdd it to b <code>JPbnel</code> thbt hbs b border.
      * <p>Note:  If <code>border</code> is non-<code>null</code>, this
-     * method will throw an exception as borders are not supported on
-     * a <code>JViewPort</code>.
+     * method will throw bn exception bs borders bre not supported on
+     * b <code>JViewPort</code>.
      *
-     * @param border the <code>Border</code> to set
-     * @exception IllegalArgumentException this method is not implemented
+     * @pbrbm border the <code>Border</code> to set
+     * @exception IllegblArgumentException this method is not implemented
      */
-    public final void setBorder(Border border) {
+    public finbl void setBorder(Border border) {
         if (border != null) {
-            throw new IllegalArgumentException("JViewport.setBorder() not supported");
+            throw new IllegblArgumentException("JViewport.setBorder() not supported");
         }
     }
 
 
     /**
-     * Returns the insets (border) dimensions as (0,0,0,0), since borders
-     * are not supported on a <code>JViewport</code>.
+     * Returns the insets (border) dimensions bs (0,0,0,0), since borders
+     * bre not supported on b <code>JViewport</code>.
      *
-     * @return a <code>Rectangle</code> of zero dimension and zero origin
+     * @return b <code>Rectbngle</code> of zero dimension bnd zero origin
      * @see #setBorder
      */
-    public final Insets getInsets() {
+    public finbl Insets getInsets() {
         return new Insets(0, 0, 0, 0);
     }
 
     /**
-     * Returns an <code>Insets</code> object containing this
-     * <code>JViewport</code>s inset values.  The passed-in
-     * <code>Insets</code> object will be reinitialized, and
-     * all existing values within this object are overwritten.
+     * Returns bn <code>Insets</code> object contbining this
+     * <code>JViewport</code>s inset vblues.  The pbssed-in
+     * <code>Insets</code> object will be reinitiblized, bnd
+     * bll existing vblues within this object bre overwritten.
      *
-     * @param insets the <code>Insets</code> object which can be reused
-     * @return this viewports inset values
+     * @pbrbm insets the <code>Insets</code> object which cbn be reused
+     * @return this viewports inset vblues
      * @see #getInsets
-     * @beaninfo
+     * @bebninfo
      *   expert: true
      */
-    public final Insets getInsets(Insets insets) {
+    public finbl Insets getInsets(Insets insets) {
         insets.left = insets.top = insets.right = insets.bottom = 0;
         return insets;
     }
 
 
-    private Graphics getBackingStoreGraphics(Graphics g) {
-        Graphics bsg = backingStoreImage.getGraphics();
+    privbte Grbphics getBbckingStoreGrbphics(Grbphics g) {
+        Grbphics bsg = bbckingStoreImbge.getGrbphics();
         bsg.setColor(g.getColor());
         bsg.setFont(g.getFont());
         bsg.setClip(g.getClipBounds());
@@ -605,62 +605,62 @@ public class JViewport extends JComponent implements Accessible
     }
 
 
-    private void paintViaBackingStore(Graphics g) {
-        Graphics bsg = getBackingStoreGraphics(g);
+    privbte void pbintVibBbckingStore(Grbphics g) {
+        Grbphics bsg = getBbckingStoreGrbphics(g);
         try {
-            super.paint(bsg);
-            g.drawImage(backingStoreImage, 0, 0, this);
-        } finally {
+            super.pbint(bsg);
+            g.drbwImbge(bbckingStoreImbge, 0, 0, this);
+        } finblly {
             bsg.dispose();
         }
     }
 
-    private void paintViaBackingStore(Graphics g, Rectangle oClip) {
-        Graphics bsg = getBackingStoreGraphics(g);
+    privbte void pbintVibBbckingStore(Grbphics g, Rectbngle oClip) {
+        Grbphics bsg = getBbckingStoreGrbphics(g);
         try {
-            super.paint(bsg);
+            super.pbint(bsg);
             g.setClip(oClip);
-            g.drawImage(backingStoreImage, 0, 0, this);
-        } finally {
+            g.drbwImbge(bbckingStoreImbge, 0, 0, this);
+        } finblly {
             bsg.dispose();
         }
     }
 
     /**
-     * The <code>JViewport</code> overrides the default implementation of
-     * this method (in <code>JComponent</code>) to return false.
+     * The <code>JViewport</code> overrides the defbult implementbtion of
+     * this method (in <code>JComponent</code>) to return fblse.
      * This ensures
-     * that the drawing machinery will call the <code>Viewport</code>'s
-     * <code>paint</code>
-     * implementation rather than messaging the <code>JViewport</code>'s
+     * thbt the drbwing mbchinery will cbll the <code>Viewport</code>'s
+     * <code>pbint</code>
+     * implementbtion rbther thbn messbging the <code>JViewport</code>'s
      * children directly.
      *
-     * @return false
+     * @return fblse
      */
-    public boolean isOptimizedDrawingEnabled() {
-        return false;
+    public boolebn isOptimizedDrbwingEnbbled() {
+        return fblse;
     }
 
     /**
-     * Returns true if scroll mode is a {@code BACKINGSTORE_SCROLL_MODE} to cause
-     * painting to originate from {@code JViewport}, or one of its
-     * ancestors. Otherwise returns {@code false}.
+     * Returns true if scroll mode is b {@code BACKINGSTORE_SCROLL_MODE} to cbuse
+     * pbinting to originbte from {@code JViewport}, or one of its
+     * bncestors. Otherwise returns {@code fblse}.
      *
-     * @return true if scroll mode is a {@code BACKINGSTORE_SCROLL_MODE}.
-     * @see JComponent#isPaintingOrigin()
+     * @return true if scroll mode is b {@code BACKINGSTORE_SCROLL_MODE}.
+     * @see JComponent#isPbintingOrigin()
      */
-    protected boolean isPaintingOrigin() {
+    protected boolebn isPbintingOrigin() {
         return scrollMode == BACKINGSTORE_SCROLL_MODE;
     }
 
 
     /**
-     * Only used by the paint method below.
+     * Only used by the pbint method below.
      */
-    private Point getViewLocation() {
+    privbte Point getViewLocbtion() {
         Component view = getView();
         if (view != null) {
-            return view.getLocation();
+            return view.getLocbtion();
         }
         else {
             return new Point(0,0);
@@ -668,19 +668,19 @@ public class JViewport extends JComponent implements Accessible
     }
 
     /**
-     * Depending on whether the <code>backingStore</code> is enabled,
-     * either paint the image through the backing store or paint
-     * just the recently exposed part, using the backing store
-     * to "blit" the remainder.
+     * Depending on whether the <code>bbckingStore</code> is enbbled,
+     * either pbint the imbge through the bbcking store or pbint
+     * just the recently exposed pbrt, using the bbcking store
+     * to "blit" the rembinder.
      * <blockquote>
      * The term "blit" is the pronounced version of the PDP-10
-     * BLT (BLock Transfer) instruction, which copied a block of
-     * bits. (In case you were curious.)
+     * BLT (BLock Trbnsfer) instruction, which copied b block of
+     * bits. (In cbse you were curious.)
      * </blockquote>
      *
-     * @param g the <code>Graphics</code> context within which to paint
+     * @pbrbm g the <code>Grbphics</code> context within which to pbint
      */
-    public void paint(Graphics g)
+    public void pbint(Grbphics g)
     {
         int width = getWidth();
         int height = getHeight();
@@ -689,166 +689,166 @@ public class JViewport extends JComponent implements Accessible
             return;
         }
 
-        if (inBlitPaint) {
-            // We invoked paint as part of copyArea cleanup, let it through.
-            super.paint(g);
+        if (inBlitPbint) {
+            // We invoked pbint bs pbrt of copyAreb clebnup, let it through.
+            super.pbint(g);
             return;
         }
 
-        if (repaintAll) {
-            repaintAll = false;
-            Rectangle clipB = g.getClipBounds();
+        if (repbintAll) {
+            repbintAll = fblse;
+            Rectbngle clipB = g.getClipBounds();
             if (clipB.width < getWidth() ||
                 clipB.height < getHeight()) {
-                waitingForRepaint = true;
-                if (repaintTimer == null) {
-                    repaintTimer = createRepaintTimer();
+                wbitingForRepbint = true;
+                if (repbintTimer == null) {
+                    repbintTimer = crebteRepbintTimer();
                 }
-                repaintTimer.stop();
-                repaintTimer.start();
-                // We really don't need to paint, a future repaint will
-                // take care of it, but if we don't we get an ugly flicker.
+                repbintTimer.stop();
+                repbintTimer.stbrt();
+                // We reblly don't need to pbint, b future repbint will
+                // tbke cbre of it, but if we don't we get bn ugly flicker.
             }
             else {
-                if (repaintTimer != null) {
-                    repaintTimer.stop();
+                if (repbintTimer != null) {
+                    repbintTimer.stop();
                 }
-                waitingForRepaint = false;
+                wbitingForRepbint = fblse;
             }
         }
-        else if (waitingForRepaint) {
-            // Need a complete repaint before resetting waitingForRepaint
-            Rectangle clipB = g.getClipBounds();
+        else if (wbitingForRepbint) {
+            // Need b complete repbint before resetting wbitingForRepbint
+            Rectbngle clipB = g.getClipBounds();
             if (clipB.width >= getWidth() &&
                 clipB.height >= getHeight()) {
-                waitingForRepaint = false;
-                repaintTimer.stop();
+                wbitingForRepbint = fblse;
+                repbintTimer.stop();
             }
         }
 
-        if (!backingStore || isBlitting() || getView() == null) {
-            super.paint(g);
-            lastPaintPosition = getViewLocation();
+        if (!bbckingStore || isBlitting() || getView() == null) {
+            super.pbint(g);
+            lbstPbintPosition = getViewLocbtion();
             return;
         }
 
-        // If the view is smaller than the viewport and we are not opaque
-        // (that is, we won't paint our background), we should set the
-        // clip. Otherwise, as the bounds of the view vary, we will
-        // blit garbage into the exposed areas.
-        Rectangle viewBounds = getView().getBounds();
-        if (!isOpaque()) {
+        // If the view is smbller thbn the viewport bnd we bre not opbque
+        // (thbt is, we won't pbint our bbckground), we should set the
+        // clip. Otherwise, bs the bounds of the view vbry, we will
+        // blit gbrbbge into the exposed brebs.
+        Rectbngle viewBounds = getView().getBounds();
+        if (!isOpbque()) {
             g.clipRect(0, 0, viewBounds.width, viewBounds.height);
         }
 
-        if (backingStoreImage == null) {
-            // Backing store is enabled but this is the first call to paint.
-            // Create the backing store, paint it and then copy to g.
-            // The backing store image will be created with the size of
-            // the viewport. We must make sure the clip region is the
-            // same size, otherwise when scrolling the backing image
-            // the region outside of the clipped region will not be painted,
-            // and result in empty areas.
-            backingStoreImage = createImage(width, height);
-            Rectangle clip = g.getClipBounds();
+        if (bbckingStoreImbge == null) {
+            // Bbcking store is enbbled but this is the first cbll to pbint.
+            // Crebte the bbcking store, pbint it bnd then copy to g.
+            // The bbcking store imbge will be crebted with the size of
+            // the viewport. We must mbke sure the clip region is the
+            // sbme size, otherwise when scrolling the bbcking imbge
+            // the region outside of the clipped region will not be pbinted,
+            // bnd result in empty brebs.
+            bbckingStoreImbge = crebteImbge(width, height);
+            Rectbngle clip = g.getClipBounds();
             if (clip.width != width || clip.height != height) {
-                if (!isOpaque()) {
-                    g.setClip(0, 0, Math.min(viewBounds.width, width),
-                              Math.min(viewBounds.height, height));
+                if (!isOpbque()) {
+                    g.setClip(0, 0, Mbth.min(viewBounds.width, width),
+                              Mbth.min(viewBounds.height, height));
                 }
                 else {
                     g.setClip(0, 0, width, height);
                 }
-                paintViaBackingStore(g, clip);
+                pbintVibBbckingStore(g, clip);
             }
             else {
-                paintViaBackingStore(g);
+                pbintVibBbckingStore(g);
             }
         }
         else {
-            if (!scrollUnderway || lastPaintPosition.equals(getViewLocation())) {
-                // No scrolling happened: repaint required area via backing store.
-                paintViaBackingStore(g);
+            if (!scrollUnderwby || lbstPbintPosition.equbls(getViewLocbtion())) {
+                // No scrolling hbppened: repbint required breb vib bbcking store.
+                pbintVibBbckingStore(g);
             } else {
-                // The image was scrolled. Manipulate the backing store and flush it to g.
+                // The imbge wbs scrolled. Mbnipulbte the bbcking store bnd flush it to g.
                 Point blitFrom = new Point();
                 Point blitTo = new Point();
                 Dimension blitSize = new Dimension();
-                Rectangle blitPaint = new Rectangle();
+                Rectbngle blitPbint = new Rectbngle();
 
-                Point newLocation = getViewLocation();
-                int dx = newLocation.x - lastPaintPosition.x;
-                int dy = newLocation.y - lastPaintPosition.y;
-                boolean canBlit = computeBlit(dx, dy, blitFrom, blitTo, blitSize, blitPaint);
-                if (!canBlit) {
-                    // The image was either moved diagonally or
-                    // moved by more than the image size: paint normally.
-                    paintViaBackingStore(g);
+                Point newLocbtion = getViewLocbtion();
+                int dx = newLocbtion.x - lbstPbintPosition.x;
+                int dy = newLocbtion.y - lbstPbintPosition.y;
+                boolebn cbnBlit = computeBlit(dx, dy, blitFrom, blitTo, blitSize, blitPbint);
+                if (!cbnBlit) {
+                    // The imbge wbs either moved dibgonblly or
+                    // moved by more thbn the imbge size: pbint normblly.
+                    pbintVibBbckingStore(g);
                 } else {
                     int bdx = blitTo.x - blitFrom.x;
                     int bdy = blitTo.y - blitFrom.y;
 
-                    // Move the relevant part of the backing store.
-                    Rectangle clip = g.getClipBounds();
-                    // We don't want to inherit the clip region when copying
+                    // Move the relevbnt pbrt of the bbcking store.
+                    Rectbngle clip = g.getClipBounds();
+                    // We don't wbnt to inherit the clip region when copying
                     // bits, if it is inherited it will result in not moving
-                    // all of the image resulting in garbage appearing on
+                    // bll of the imbge resulting in gbrbbge bppebring on
                     // the screen.
                     g.setClip(0, 0, width, height);
-                    Graphics bsg = getBackingStoreGraphics(g);
+                    Grbphics bsg = getBbckingStoreGrbphics(g);
                     try {
-                        bsg.copyArea(blitFrom.x, blitFrom.y, blitSize.width, blitSize.height, bdx, bdy);
+                        bsg.copyAreb(blitFrom.x, blitFrom.y, blitSize.width, blitSize.height, bdx, bdy);
 
                         g.setClip(clip.x, clip.y, clip.width, clip.height);
-                        // Paint the rest of the view; the part that has just been exposed.
-                        Rectangle r = viewBounds.intersection(blitPaint);
+                        // Pbint the rest of the view; the pbrt thbt hbs just been exposed.
+                        Rectbngle r = viewBounds.intersection(blitPbint);
                         bsg.setClip(r);
-                        super.paint(bsg);
+                        super.pbint(bsg);
 
-                        // Copy whole of the backing store to g.
-                        g.drawImage(backingStoreImage, 0, 0, this);
-                    } finally {
+                        // Copy whole of the bbcking store to g.
+                        g.drbwImbge(bbckingStoreImbge, 0, 0, this);
+                    } finblly {
                         bsg.dispose();
                     }
                 }
             }
         }
-        lastPaintPosition = getViewLocation();
-        scrollUnderway = false;
+        lbstPbintPosition = getViewLocbtion();
+        scrollUnderwby = fblse;
     }
 
 
     /**
      * Sets the bounds of this viewport.  If the viewport's width
-     * or height has changed, fire a <code>StateChanged</code> event.
+     * or height hbs chbnged, fire b <code>StbteChbnged</code> event.
      *
-     * @param x left edge of the origin
-     * @param y top edge of the origin
-     * @param w width in pixels
-     * @param h height in pixels
+     * @pbrbm x left edge of the origin
+     * @pbrbm y top edge of the origin
+     * @pbrbm w width in pixels
+     * @pbrbm h height in pixels
      *
-     * @see JComponent#reshape(int, int, int, int)
+     * @see JComponent#reshbpe(int, int, int, int)
      */
-    public void reshape(int x, int y, int w, int h) {
-        boolean sizeChanged = (getWidth() != w) || (getHeight() != h);
-        if (sizeChanged) {
-            backingStoreImage = null;
+    public void reshbpe(int x, int y, int w, int h) {
+        boolebn sizeChbnged = (getWidth() != w) || (getHeight() != h);
+        if (sizeChbnged) {
+            bbckingStoreImbge = null;
         }
-        super.reshape(x, y, w, h);
-        if (sizeChanged || viewChanged) {
-            viewChanged = false;
+        super.reshbpe(x, y, w, h);
+        if (sizeChbnged || viewChbnged) {
+            viewChbnged = fblse;
 
-            fireStateChanged();
+            fireStbteChbnged();
         }
     }
 
 
     /**
       * Used to control the method of scrolling the viewport contents.
-      * You may want to change this mode to get maximum performance for your
-      * use case.
+      * You mby wbnt to chbnge this mode to get mbximum performbnce for your
+      * use cbse.
       *
-      * @param mode one of the following values:
+      * @pbrbm mode one of the following vblues:
       * <ul>
       * <li> JViewport.BLIT_SCROLL_MODE
       * <li> JViewport.BACKINGSTORE_SCROLL_MODE
@@ -859,9 +859,9 @@ public class JViewport extends JComponent implements Accessible
       * @see #BACKINGSTORE_SCROLL_MODE
       * @see #SIMPLE_SCROLL_MODE
       *
-      * @beaninfo
-      *        bound: false
-      *  description: Method of moving contents for incremental scrolls.
+      * @bebninfo
+      *        bound: fblse
+      *  description: Method of moving contents for incrementbl scrolls.
       *         enum: BLIT_SCROLL_MODE JViewport.BLIT_SCROLL_MODE
       *               BACKINGSTORE_SCROLL_MODE JViewport.BACKINGSTORE_SCROLL_MODE
       *               SIMPLE_SCROLL_MODE JViewport.SIMPLE_SCROLL_MODE
@@ -870,7 +870,7 @@ public class JViewport extends JComponent implements Accessible
       */
     public void setScrollMode(int mode) {
         scrollMode = mode;
-        backingStore = mode == BACKINGSTORE_SCROLL_MODE;
+        bbckingStore = mode == BACKINGSTORE_SCROLL_MODE;
     }
 
     /**
@@ -885,46 +885,46 @@ public class JViewport extends JComponent implements Accessible
     }
 
     /**
-     * Returns <code>true</code> if this viewport is maintaining
-     * an offscreen image of its contents.
+     * Returns <code>true</code> if this viewport is mbintbining
+     * bn offscreen imbge of its contents.
      *
      * @return <code>true</code> if <code>scrollMode</code> is
      *    <code>BACKINGSTORE_SCROLL_MODE</code>
      *
-     * @deprecated As of Java 2 platform v1.3, replaced by
+     * @deprecbted As of Jbvb 2 plbtform v1.3, replbced by
      *             <code>getScrollMode()</code>.
      */
-    @Deprecated
-    public boolean isBackingStoreEnabled() {
+    @Deprecbted
+    public boolebn isBbckingStoreEnbbled() {
         return scrollMode == BACKINGSTORE_SCROLL_MODE;
     }
 
 
     /**
-     * If true if this viewport will maintain an offscreen
-     * image of its contents.  The image is used to reduce the cost
-     * of small one dimensional changes to the <code>viewPosition</code>.
-     * Rather than repainting the entire viewport we use
-     * <code>Graphics.copyArea</code> to effect some of the scroll.
+     * If true if this viewport will mbintbin bn offscreen
+     * imbge of its contents.  The imbge is used to reduce the cost
+     * of smbll one dimensionbl chbnges to the <code>viewPosition</code>.
+     * Rbther thbn repbinting the entire viewport we use
+     * <code>Grbphics.copyAreb</code> to effect some of the scroll.
      *
-     * @param enabled if true, maintain an offscreen backing store
+     * @pbrbm enbbled if true, mbintbin bn offscreen bbcking store
      *
-     * @deprecated As of Java 2 platform v1.3, replaced by
+     * @deprecbted As of Jbvb 2 plbtform v1.3, replbced by
      *             <code>setScrollMode()</code>.
      */
-    @Deprecated
-    public void setBackingStoreEnabled(boolean enabled) {
-        if (enabled) {
+    @Deprecbted
+    public void setBbckingStoreEnbbled(boolebn enbbled) {
+        if (enbbled) {
             setScrollMode(BACKINGSTORE_SCROLL_MODE);
         } else {
             setScrollMode(BLIT_SCROLL_MODE);
         }
     }
 
-    private boolean isBlitting() {
+    privbte boolebn isBlitting() {
         Component view = getView();
         return (scrollMode == BLIT_SCROLL_MODE) &&
-               (view instanceof JComponent) && view.isOpaque();
+               (view instbnceof JComponent) && view.isOpbque();
     }
 
 
@@ -941,52 +941,52 @@ public class JViewport extends JComponent implements Accessible
 
     /**
      * Sets the <code>JViewport</code>'s one lightweight child
-     * (<code>view</code>), which can be <code>null</code>.
+     * (<code>view</code>), which cbn be <code>null</code>.
      *
-     * @param view the viewport's new lightweight child
+     * @pbrbm view the viewport's new lightweight child
      *
      * @see #getView
      */
     public void setView(Component view) {
 
-        /* Remove the viewport's existing children, if any.
-         * Note that removeAll() isn't used here because it
-         * doesn't call remove() (which JViewport overrides).
+        /* Remove the viewport's existing children, if bny.
+         * Note thbt removeAll() isn't used here becbuse it
+         * doesn't cbll remove() (which JViewport overrides).
          */
         int n = getComponentCount();
         for(int i = n - 1; i >= 0; i--) {
             remove(getComponent(i));
         }
 
-        isViewSizeSet = false;
+        isViewSizeSet = fblse;
 
         if (view != null) {
-            super.addImpl(view, null, -1);
-            viewListener = createViewListener();
-            view.addComponentListener(viewListener);
+            super.bddImpl(view, null, -1);
+            viewListener = crebteViewListener();
+            view.bddComponentListener(viewListener);
         }
 
-        if (hasHadValidView) {
-            // Only fire a change if a view has been installed.
-            fireStateChanged();
+        if (hbsHbdVblidView) {
+            // Only fire b chbnge if b view hbs been instblled.
+            fireStbteChbnged();
         }
         else if (view != null) {
-            hasHadValidView = true;
+            hbsHbdVblidView = true;
         }
 
-        viewChanged = true;
+        viewChbnged = true;
 
-        revalidate();
-        repaint();
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * If the view's size hasn't been explicitly set, return the
+     * If the view's size hbsn't been explicitly set, return the
      * preferred size, otherwise return the view's current size.
      * If there is no view, return 0,0.
      *
-     * @return a <code>Dimension</code> object specifying the size of the view
+     * @return b <code>Dimension</code> object specifying the size of the view
      */
     public Dimension getViewSize() {
         Component view = getView();
@@ -1004,37 +1004,37 @@ public class JViewport extends JComponent implements Accessible
 
 
     /**
-     * Sets the size of the view.  A state changed event will be fired.
+     * Sets the size of the view.  A stbte chbnged event will be fired.
      *
-     * @param newSize a <code>Dimension</code> object specifying the new
+     * @pbrbm newSize b <code>Dimension</code> object specifying the new
      *          size of the view
      */
     public void setViewSize(Dimension newSize) {
         Component view = getView();
         if (view != null) {
             Dimension oldSize = view.getSize();
-            if (!newSize.equals(oldSize)) {
-                // scrollUnderway will be true if this is invoked as the
-                // result of a validate and setViewPosition was previously
+            if (!newSize.equbls(oldSize)) {
+                // scrollUnderwby will be true if this is invoked bs the
+                // result of b vblidbte bnd setViewPosition wbs previously
                 // invoked.
-                scrollUnderway = false;
+                scrollUnderwby = fblse;
                 view.setSize(newSize);
                 isViewSizeSet = true;
-                fireStateChanged();
+                fireStbteChbnged();
             }
         }
     }
 
     /**
-     * Returns the view coordinates that appear in the upper left
-     * hand corner of the viewport, or 0,0 if there's no view.
+     * Returns the view coordinbtes thbt bppebr in the upper left
+     * hbnd corner of the viewport, or 0,0 if there's no view.
      *
-     * @return a <code>Point</code> object giving the upper left coordinates
+     * @return b <code>Point</code> object giving the upper left coordinbtes
      */
     public Point getViewPosition() {
         Component view = getView();
         if (view != null) {
-            Point p = view.getLocation();
+            Point p = view.getLocbtion();
             p.x = -p.x;
             p.y = -p.y;
             return p;
@@ -1046,10 +1046,10 @@ public class JViewport extends JComponent implements Accessible
 
 
     /**
-     * Sets the view coordinates that appear in the upper left
-     * hand corner of the viewport, does nothing if there's no view.
+     * Sets the view coordinbtes thbt bppebr in the upper left
+     * hbnd corner of the viewport, does nothing if there's no view.
      *
-     * @param p  a <code>Point</code> object giving the upper left coordinates
+     * @pbrbm p  b <code>Point</code> object giving the upper left coordinbtes
      */
     public void setViewPosition(Point p)
     {
@@ -1060,17 +1060,17 @@ public class JViewport extends JComponent implements Accessible
 
         int oldX, oldY, x = p.x, y = p.y;
 
-        /* Collect the old x,y values for the views location
-         * and do the song and dance to avoid allocating
-         * a Rectangle object if we don't have to.
+        /* Collect the old x,y vblues for the views locbtion
+         * bnd do the song bnd dbnce to bvoid bllocbting
+         * b Rectbngle object if we don't hbve to.
          */
-        if (view instanceof JComponent) {
+        if (view instbnceof JComponent) {
             JComponent c = (JComponent)view;
             oldX = c.getX();
             oldY = c.getY();
         }
         else {
-            Rectangle r = view.getBounds();
+            Rectbngle r = view.getBounds();
             oldX = r.x;
             oldY = r.y;
         }
@@ -1082,113 +1082,113 @@ public class JViewport extends JComponent implements Accessible
         int newY = -y;
 
         if ((oldX != newX) || (oldY != newY)) {
-            if (!waitingForRepaint && isBlitting() && canUseWindowBlitter()) {
-                RepaintManager rm = RepaintManager.currentManager(this);
-                // The cast to JComponent will work, if view is not
-                // a JComponent, isBlitting will return false.
+            if (!wbitingForRepbint && isBlitting() && cbnUseWindowBlitter()) {
+                RepbintMbnbger rm = RepbintMbnbger.currentMbnbger(this);
+                // The cbst to JComponent will work, if view is not
+                // b JComponent, isBlitting will return fblse.
                 JComponent jview = (JComponent)view;
-                Rectangle dirty = rm.getDirtyRegion(jview);
-                if (dirty == null || !dirty.contains(jview.getVisibleRect())) {
-                    rm.beginPaint();
+                Rectbngle dirty = rm.getDirtyRegion(jview);
+                if (dirty == null || !dirty.contbins(jview.getVisibleRect())) {
+                    rm.beginPbint();
                     try {
-                        Graphics g = JComponent.safelyGetGraphics(this);
+                        Grbphics g = JComponent.sbfelyGetGrbphics(this);
                         flushViewDirtyRegion(g, dirty);
-                        view.setLocation(newX, newY);
-                        Rectangle r = new Rectangle(
-                            0, 0, getWidth(), Math.min(getHeight(), jview.getHeight()));
+                        view.setLocbtion(newX, newY);
+                        Rectbngle r = new Rectbngle(
+                            0, 0, getWidth(), Mbth.min(getHeight(), jview.getHeight()));
                         g.setClip(r);
-                        // Repaint the complete component if the blit succeeded
-                        // and needsRepaintAfterBlit returns true.
-                        repaintAll = (windowBlitPaint(g) &&
-                                      needsRepaintAfterBlit());
+                        // Repbint the complete component if the blit succeeded
+                        // bnd needsRepbintAfterBlit returns true.
+                        repbintAll = (windowBlitPbint(g) &&
+                                      needsRepbintAfterBlit());
                         g.dispose();
-                        rm.notifyRepaintPerformed(this, r.x, r.y, r.width, r.height);
-                        rm.markCompletelyClean((JComponent)getParent());
-                        rm.markCompletelyClean(this);
-                        rm.markCompletelyClean(jview);
-                    } finally {
-                        rm.endPaint();
+                        rm.notifyRepbintPerformed(this, r.x, r.y, r.width, r.height);
+                        rm.mbrkCompletelyClebn((JComponent)getPbrent());
+                        rm.mbrkCompletelyClebn(this);
+                        rm.mbrkCompletelyClebn(jview);
+                    } finblly {
+                        rm.endPbint();
                     }
                 }
                 else {
-                    // The visible region is dirty, no point in doing copyArea
-                    view.setLocation(newX, newY);
-                    repaintAll = false;
+                    // The visible region is dirty, no point in doing copyAreb
+                    view.setLocbtion(newX, newY);
+                    repbintAll = fblse;
                 }
             }
             else {
-                scrollUnderway = true;
-                // This calls setBounds(), and then repaint().
-                view.setLocation(newX, newY);
-                repaintAll = false;
+                scrollUnderwby = true;
+                // This cblls setBounds(), bnd then repbint().
+                view.setLocbtion(newX, newY);
+                repbintAll = fblse;
             }
-            // we must validate the hierarchy to not break the hw/lw mixing
-            revalidate();
-            fireStateChanged();
+            // we must vblidbte the hierbrchy to not brebk the hw/lw mixing
+            revblidbte();
+            fireStbteChbnged();
         }
     }
 
 
     /**
-     * Returns a rectangle whose origin is <code>getViewPosition</code>
-     * and size is <code>getExtentSize</code>.
-     * This is the visible part of the view, in view coordinates.
+     * Returns b rectbngle whose origin is <code>getViewPosition</code>
+     * bnd size is <code>getExtentSize</code>.
+     * This is the visible pbrt of the view, in view coordinbtes.
      *
-     * @return a <code>Rectangle</code> giving the visible part of
-     *          the view using view coordinates.
+     * @return b <code>Rectbngle</code> giving the visible pbrt of
+     *          the view using view coordinbtes.
      */
-    public Rectangle getViewRect() {
-        return new Rectangle(getViewPosition(), getExtentSize());
+    public Rectbngle getViewRect() {
+        return new Rectbngle(getViewPosition(), getExtentSize());
     }
 
 
     /**
-     * Computes the parameters for a blit where the backing store image
-     * currently contains <code>oldLoc</code> in the upper left hand corner
-     * and we're scrolling to <code>newLoc</code>.
-     * The parameters are modified
-     * to return the values required for the blit.
+     * Computes the pbrbmeters for b blit where the bbcking store imbge
+     * currently contbins <code>oldLoc</code> in the upper left hbnd corner
+     * bnd we're scrolling to <code>newLoc</code>.
+     * The pbrbmeters bre modified
+     * to return the vblues required for the blit.
      *
-     * @param dx  the horizontal delta
-     * @param dy  the vertical delta
-     * @param blitFrom the <code>Point</code> we're blitting from
-     * @param blitTo the <code>Point</code> we're blitting to
-     * @param blitSize the <code>Dimension</code> of the area to blit
-     * @param blitPaint the area to blit
-     * @return  true if the parameters are modified and we're ready to blit;
-     *          false otherwise
+     * @pbrbm dx  the horizontbl deltb
+     * @pbrbm dy  the verticbl deltb
+     * @pbrbm blitFrom the <code>Point</code> we're blitting from
+     * @pbrbm blitTo the <code>Point</code> we're blitting to
+     * @pbrbm blitSize the <code>Dimension</code> of the breb to blit
+     * @pbrbm blitPbint the breb to blit
+     * @return  true if the pbrbmeters bre modified bnd we're rebdy to blit;
+     *          fblse otherwise
      */
-    protected boolean computeBlit(
+    protected boolebn computeBlit(
         int dx,
         int dy,
         Point blitFrom,
         Point blitTo,
         Dimension blitSize,
-        Rectangle blitPaint)
+        Rectbngle blitPbint)
     {
-        int dxAbs = Math.abs(dx);
-        int dyAbs = Math.abs(dy);
+        int dxAbs = Mbth.bbs(dx);
+        int dyAbs = Mbth.bbs(dy);
         Dimension extentSize = getExtentSize();
 
         if ((dx == 0) && (dy != 0) && (dyAbs < extentSize.height)) {
             if (dy < 0) {
                 blitFrom.y = -dy;
                 blitTo.y = 0;
-                blitPaint.y = extentSize.height + dy;
+                blitPbint.y = extentSize.height + dy;
             }
             else {
                 blitFrom.y = 0;
                 blitTo.y = dy;
-                blitPaint.y = 0;
+                blitPbint.y = 0;
             }
 
-            blitPaint.x = blitFrom.x = blitTo.x = 0;
+            blitPbint.x = blitFrom.x = blitTo.x = 0;
 
             blitSize.width = extentSize.width;
             blitSize.height = extentSize.height - dyAbs;
 
-            blitPaint.width = extentSize.width;
-            blitPaint.height = dyAbs;
+            blitPbint.width = extentSize.width;
+            blitPbint.height = dyAbs;
 
             return true;
         }
@@ -1197,225 +1197,225 @@ public class JViewport extends JComponent implements Accessible
             if (dx < 0) {
                 blitFrom.x = -dx;
                 blitTo.x = 0;
-                blitPaint.x = extentSize.width + dx;
+                blitPbint.x = extentSize.width + dx;
             }
             else {
                 blitFrom.x = 0;
                 blitTo.x = dx;
-                blitPaint.x = 0;
+                blitPbint.x = 0;
             }
 
-            blitPaint.y = blitFrom.y = blitTo.y = 0;
+            blitPbint.y = blitFrom.y = blitTo.y = 0;
 
             blitSize.width = extentSize.width - dxAbs;
             blitSize.height = extentSize.height;
 
-            blitPaint.width = dxAbs;
-            blitPaint.height = extentSize.height;
+            blitPbint.width = dxAbs;
+            blitPbint.height = extentSize.height;
 
             return true;
         }
 
         else {
-            return false;
+            return fblse;
         }
     }
 
 
     /**
-     * Returns the size of the visible part of the view in view coordinates.
+     * Returns the size of the visible pbrt of the view in view coordinbtes.
      *
-     * @return a <code>Dimension</code> object giving the size of the view
+     * @return b <code>Dimension</code> object giving the size of the view
      */
-    @Transient
+    @Trbnsient
     public Dimension getExtentSize() {
         return getSize();
     }
 
 
     /**
-     * Converts a size in pixel coordinates to view coordinates.
-     * Subclasses of viewport that support "logical coordinates"
+     * Converts b size in pixel coordinbtes to view coordinbtes.
+     * Subclbsses of viewport thbt support "logicbl coordinbtes"
      * will override this method.
      *
-     * @param size  a <code>Dimension</code> object using pixel coordinates
-     * @return a <code>Dimension</code> object converted to view coordinates
+     * @pbrbm size  b <code>Dimension</code> object using pixel coordinbtes
+     * @return b <code>Dimension</code> object converted to view coordinbtes
      */
-    public Dimension toViewCoordinates(Dimension size) {
+    public Dimension toViewCoordinbtes(Dimension size) {
         return new Dimension(size);
     }
 
     /**
-     * Converts a point in pixel coordinates to view coordinates.
-     * Subclasses of viewport that support "logical coordinates"
+     * Converts b point in pixel coordinbtes to view coordinbtes.
+     * Subclbsses of viewport thbt support "logicbl coordinbtes"
      * will override this method.
      *
-     * @param p  a <code>Point</code> object using pixel coordinates
-     * @return a <code>Point</code> object converted to view coordinates
+     * @pbrbm p  b <code>Point</code> object using pixel coordinbtes
+     * @return b <code>Point</code> object converted to view coordinbtes
      */
-    public Point toViewCoordinates(Point p) {
+    public Point toViewCoordinbtes(Point p) {
         return new Point(p);
     }
 
 
     /**
-     * Sets the size of the visible part of the view using view coordinates.
+     * Sets the size of the visible pbrt of the view using view coordinbtes.
      *
-     * @param newExtent  a <code>Dimension</code> object specifying
+     * @pbrbm newExtent  b <code>Dimension</code> object specifying
      *          the size of the view
      */
     public void setExtentSize(Dimension newExtent) {
         Dimension oldExtent = getExtentSize();
-        if (!newExtent.equals(oldExtent)) {
+        if (!newExtent.equbls(oldExtent)) {
             setSize(newExtent);
-            fireStateChanged();
+            fireStbteChbnged();
         }
     }
 
     /**
      * A listener for the view.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class ViewListener extends ComponentAdapter implements Serializable
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss ViewListener extends ComponentAdbpter implements Seriblizbble
     {
         public void componentResized(ComponentEvent e) {
-            fireStateChanged();
-            revalidate();
+            fireStbteChbnged();
+            revblidbte();
         }
     }
 
     /**
-     * Creates a listener for the view.
-     * @return a <code>ViewListener</code>
+     * Crebtes b listener for the view.
+     * @return b <code>ViewListener</code>
      */
-    protected ViewListener createViewListener() {
+    protected ViewListener crebteViewListener() {
         return new ViewListener();
     }
 
 
     /**
-     * Subclassers can override this to install a different
-     * layout manager (or <code>null</code>) in the constructor.  Returns
-     * the <code>LayoutManager</code> to install on the <code>JViewport</code>.
+     * Subclbssers cbn override this to instbll b different
+     * lbyout mbnbger (or <code>null</code>) in the constructor.  Returns
+     * the <code>LbyoutMbnbger</code> to instbll on the <code>JViewport</code>.
      *
-     * @return a <code>LayoutManager</code>
+     * @return b <code>LbyoutMbnbger</code>
      */
-    protected LayoutManager createLayoutManager() {
-        return ViewportLayout.SHARED_INSTANCE;
+    protected LbyoutMbnbger crebteLbyoutMbnbger() {
+        return ViewportLbyout.SHARED_INSTANCE;
     }
 
 
     /**
-     * Adds a <code>ChangeListener</code> to the list that is
-     * notified each time the view's
-     * size, position, or the viewport's extent size has changed.
+     * Adds b <code>ChbngeListener</code> to the list thbt is
+     * notified ebch time the view's
+     * size, position, or the viewport's extent size hbs chbnged.
      *
-     * @param l the <code>ChangeListener</code> to add
-     * @see #removeChangeListener
+     * @pbrbm l the <code>ChbngeListener</code> to bdd
+     * @see #removeChbngeListener
      * @see #setViewPosition
      * @see #setViewSize
      * @see #setExtentSize
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    public void bddChbngeListener(ChbngeListener l) {
+        listenerList.bdd(ChbngeListener.clbss, l);
     }
 
     /**
-     * Removes a <code>ChangeListener</code> from the list that's notified each
+     * Removes b <code>ChbngeListener</code> from the list thbt's notified ebch
      * time the views size, position, or the viewports extent size
-     * has changed.
+     * hbs chbnged.
      *
-     * @param l the <code>ChangeListener</code> to remove
-     * @see #addChangeListener
+     * @pbrbm l the <code>ChbngeListener</code> to remove
+     * @see #bddChbngeListener
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    public void removeChbngeListener(ChbngeListener l) {
+        listenerList.remove(ChbngeListener.clbss, l);
     }
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this JViewport with addChangeListener().
+     * Returns bn brrby of bll the <code>ChbngeListener</code>s bdded
+     * to this JViewport with bddChbngeListener().
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>ChbngeListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    public ChbngeListener[] getChbngeListeners() {
+        return listenerList.getListeners(ChbngeListener.clbss);
     }
 
     /**
-     * Notifies all <code>ChangeListeners</code> when the views
-     * size, position, or the viewports extent size has changed.
+     * Notifies bll <code>ChbngeListeners</code> when the views
+     * size, position, or the viewports extent size hbs chbnged.
      *
-     * @see #addChangeListener
-     * @see #removeChangeListener
+     * @see #bddChbngeListener
+     * @see #removeChbngeListener
      * @see EventListenerList
      */
-    protected void fireStateChanged()
+    protected void fireStbteChbnged()
     {
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ChangeListener.class) {
-                if (changeEvent == null) {
-                    changeEvent = new ChangeEvent(this);
+            if (listeners[i] == ChbngeListener.clbss) {
+                if (chbngeEvent == null) {
+                    chbngeEvent = new ChbngeEvent(this);
                 }
-                ((ChangeListener)listeners[i + 1]).stateChanged(changeEvent);
+                ((ChbngeListener)listeners[i + 1]).stbteChbnged(chbngeEvent);
             }
         }
     }
 
     /**
-     * Always repaint in the parents coordinate system to make sure
-     * only one paint is performed by the <code>RepaintManager</code>.
+     * Alwbys repbint in the pbrents coordinbte system to mbke sure
+     * only one pbint is performed by the <code>RepbintMbnbger</code>.
      *
-     * @param     tm   maximum time in milliseconds before update
-     * @param     x    the <code>x</code> coordinate (pixels over from left)
-     * @param     y    the <code>y</code> coordinate (pixels down from top)
-     * @param     w    the width
-     * @param     h   the height
-     * @see       java.awt.Component#update(java.awt.Graphics)
+     * @pbrbm     tm   mbximum time in milliseconds before updbte
+     * @pbrbm     x    the <code>x</code> coordinbte (pixels over from left)
+     * @pbrbm     y    the <code>y</code> coordinbte (pixels down from top)
+     * @pbrbm     w    the width
+     * @pbrbm     h   the height
+     * @see       jbvb.bwt.Component#updbte(jbvb.bwt.Grbphics)
      */
-    public void repaint(long tm, int x, int y, int w, int h) {
-        Container parent = getParent();
-        if(parent != null)
-            parent.repaint(tm,x+getX(),y+getY(),w,h);
+    public void repbint(long tm, int x, int y, int w, int h) {
+        Contbiner pbrent = getPbrent();
+        if(pbrent != null)
+            pbrent.repbint(tm,x+getX(),y+getY(),w,h);
         else
-            super.repaint(tm,x,y,w,h);
+            super.repbint(tm,x,y,w,h);
     }
 
 
     /**
-     * Returns a string representation of this <code>JViewport</code>.
+     * Returns b string representbtion of this <code>JViewport</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JViewport</code>
+     * @return  b string representbtion of this <code>JViewport</code>
      */
-    protected String paramString() {
+    protected String pbrbmString() {
         String isViewSizeSetString = (isViewSizeSet ?
-                                      "true" : "false");
-        String lastPaintPositionString = (lastPaintPosition != null ?
-                                          lastPaintPosition.toString() : "");
-        String scrollUnderwayString = (scrollUnderway ?
-                                       "true" : "false");
+                                      "true" : "fblse");
+        String lbstPbintPositionString = (lbstPbintPosition != null ?
+                                          lbstPbintPosition.toString() : "");
+        String scrollUnderwbyString = (scrollUnderwby ?
+                                       "true" : "fblse");
 
-        return super.paramString() +
+        return super.pbrbmString() +
         ",isViewSizeSet=" + isViewSizeSetString +
-        ",lastPaintPosition=" + lastPaintPositionString +
-        ",scrollUnderway=" + scrollUnderwayString;
+        ",lbstPbintPosition=" + lbstPbintPositionString +
+        ",scrollUnderwby=" + scrollUnderwbyString;
     }
 
     //
@@ -1423,19 +1423,19 @@ public class JViewport extends JComponent implements Accessible
     //
 
     /**
-     * Notifies listeners of a property change. This is subclassed to update
+     * Notifies listeners of b property chbnge. This is subclbssed to updbte
      * the <code>windowBlit</code> property.
-     * (The <code>putClientProperty</code> property is final).
+     * (The <code>putClientProperty</code> property is finbl).
      *
-     * @param propertyName a string containing the property name
-     * @param oldValue the old value of the property
-     * @param newValue  the new value of the property
+     * @pbrbm propertyNbme b string contbining the property nbme
+     * @pbrbm oldVblue the old vblue of the property
+     * @pbrbm newVblue  the new vblue of the property
      */
-    protected void firePropertyChange(String propertyName, Object oldValue,
-                                      Object newValue) {
-        super.firePropertyChange(propertyName, oldValue, newValue);
-        if (propertyName.equals(EnableWindowBlit)) {
-            if (newValue != null) {
+    protected void firePropertyChbnge(String propertyNbme, Object oldVblue,
+                                      Object newVblue) {
+        super.firePropertyChbnge(propertyNbme, oldVblue, newVblue);
+        if (propertyNbme.equbls(EnbbleWindowBlit)) {
+            if (newVblue != null) {
                 setScrollMode(BLIT_SCROLL_MODE);
             } else {
                 setScrollMode(SIMPLE_SCROLL_MODE);
@@ -1444,71 +1444,71 @@ public class JViewport extends JComponent implements Accessible
     }
 
     /**
-     * Returns true if the component needs to be completely repainted after
-     * a blit and a paint is received.
+     * Returns true if the component needs to be completely repbinted bfter
+     * b blit bnd b pbint is received.
      */
-    private boolean needsRepaintAfterBlit() {
-        // Find the first heavy weight ancestor. isObscured and
-        // canDetermineObscurity are only appropriate for heavy weights.
-        Component heavyParent = getParent();
+    privbte boolebn needsRepbintAfterBlit() {
+        // Find the first hebvy weight bncestor. isObscured bnd
+        // cbnDetermineObscurity bre only bppropribte for hebvy weights.
+        Component hebvyPbrent = getPbrent();
 
-        while (heavyParent != null && heavyParent.isLightweight()) {
-            heavyParent = heavyParent.getParent();
+        while (hebvyPbrent != null && hebvyPbrent.isLightweight()) {
+            hebvyPbrent = hebvyPbrent.getPbrent();
         }
 
-        if (heavyParent != null) {
-            ComponentPeer peer = heavyParent.getPeer();
+        if (hebvyPbrent != null) {
+            ComponentPeer peer = hebvyPbrent.getPeer();
 
-            if (peer != null && peer.canDetermineObscurity() &&
+            if (peer != null && peer.cbnDetermineObscurity() &&
                                 !peer.isObscured()) {
-                // The peer says we aren't obscured, therefore we can assume
-                // that we won't later be messaged to paint a portion that
-                // we tried to blit that wasn't valid.
-                // It is certainly possible that when we blited we were
-                // obscured, and by the time this is invoked we aren't, but the
-                // chances of that happening are pretty slim.
-                return false;
+                // The peer sbys we bren't obscured, therefore we cbn bssume
+                // thbt we won't lbter be messbged to pbint b portion thbt
+                // we tried to blit thbt wbsn't vblid.
+                // It is certbinly possible thbt when we blited we were
+                // obscured, bnd by the time this is invoked we bren't, but the
+                // chbnces of thbt hbppening bre pretty slim.
+                return fblse;
             }
         }
         return true;
     }
 
-    private Timer createRepaintTimer() {
+    privbte Timer crebteRepbintTimer() {
         Timer timer = new Timer(300, new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                // waitingForRepaint will be false if a paint came down
-                // with the complete clip rect, in which case we don't
-                // have to cause a repaint.
-                if (waitingForRepaint) {
-                    repaint();
+            public void bctionPerformed(ActionEvent be) {
+                // wbitingForRepbint will be fblse if b pbint cbme down
+                // with the complete clip rect, in which cbse we don't
+                // hbve to cbuse b repbint.
+                if (wbitingForRepbint) {
+                    repbint();
                 }
             }
         });
-        timer.setRepeats(false);
+        timer.setRepebts(fblse);
         return timer;
     }
 
     /**
-     * If the repaint manager has a dirty region for the view, the view is
-     * asked to paint.
+     * If the repbint mbnbger hbs b dirty region for the view, the view is
+     * bsked to pbint.
      *
-     * @param g  the <code>Graphics</code> context within which to paint
+     * @pbrbm g  the <code>Grbphics</code> context within which to pbint
      */
-    private void flushViewDirtyRegion(Graphics g, Rectangle dirty) {
+    privbte void flushViewDirtyRegion(Grbphics g, Rectbngle dirty) {
         JComponent view = (JComponent) getView();
         if(dirty != null && dirty.width > 0 && dirty.height > 0) {
             dirty.x += view.getX();
             dirty.y += view.getY();
-            Rectangle clip = g.getClipBounds();
+            Rectbngle clip = g.getClipBounds();
             if (clip == null) {
-                // Only happens in 1.2
+                // Only hbppens in 1.2
                 g.setClip(0, 0, getWidth(), getHeight());
             }
             g.clipRect(dirty.x, dirty.y, dirty.width, dirty.height);
             clip = g.getClipBounds();
-            // Only paint the dirty region if it is visible.
+            // Only pbint the dirty region if it is visible.
             if (clip.width > 0 && clip.height > 0) {
-                paintView(g);
+                pbintView(g);
             }
         }
     }
@@ -1516,187 +1516,187 @@ public class JViewport extends JComponent implements Accessible
     /**
      * Used when blitting.
      *
-     * @param g  the <code>Graphics</code> context within which to paint
-     * @return true if blitting succeeded; otherwise false
+     * @pbrbm g  the <code>Grbphics</code> context within which to pbint
+     * @return true if blitting succeeded; otherwise fblse
      */
-    private boolean windowBlitPaint(Graphics g) {
+    privbte boolebn windowBlitPbint(Grbphics g) {
         int width = getWidth();
         int height = getHeight();
 
         if ((width == 0) || (height == 0)) {
-            return false;
+            return fblse;
         }
 
-        boolean retValue;
-        RepaintManager rm = RepaintManager.currentManager(this);
+        boolebn retVblue;
+        RepbintMbnbger rm = RepbintMbnbger.currentMbnbger(this);
         JComponent view = (JComponent) getView();
 
-        if (lastPaintPosition == null ||
-            lastPaintPosition.equals(getViewLocation())) {
-            paintView(g);
-            retValue = false;
+        if (lbstPbintPosition == null ||
+            lbstPbintPosition.equbls(getViewLocbtion())) {
+            pbintView(g);
+            retVblue = fblse;
         } else {
-            // The image was scrolled. Manipulate the backing store and flush
+            // The imbge wbs scrolled. Mbnipulbte the bbcking store bnd flush
             // it to g.
             Point blitFrom = new Point();
             Point blitTo = new Point();
             Dimension blitSize = new Dimension();
-            Rectangle blitPaint = new Rectangle();
+            Rectbngle blitPbint = new Rectbngle();
 
-            Point newLocation = getViewLocation();
-            int dx = newLocation.x - lastPaintPosition.x;
-            int dy = newLocation.y - lastPaintPosition.y;
-            boolean canBlit = computeBlit(dx, dy, blitFrom, blitTo, blitSize,
-                                          blitPaint);
-            if (!canBlit) {
-                paintView(g);
-                retValue = false;
+            Point newLocbtion = getViewLocbtion();
+            int dx = newLocbtion.x - lbstPbintPosition.x;
+            int dy = newLocbtion.y - lbstPbintPosition.y;
+            boolebn cbnBlit = computeBlit(dx, dy, blitFrom, blitTo, blitSize,
+                                          blitPbint);
+            if (!cbnBlit) {
+                pbintView(g);
+                retVblue = fblse;
             } else {
-                // Prepare the rest of the view; the part that has just been
+                // Prepbre the rest of the view; the pbrt thbt hbs just been
                 // exposed.
-                Rectangle r = view.getBounds().intersection(blitPaint);
+                Rectbngle r = view.getBounds().intersection(blitPbint);
                 r.x -= view.getX();
                 r.y -= view.getY();
 
                 blitDoubleBuffered(view, g, r.x, r.y, r.width, r.height,
                                    blitFrom.x, blitFrom.y, blitTo.x, blitTo.y,
                                    blitSize.width, blitSize.height);
-                retValue = true;
+                retVblue = true;
             }
         }
-        lastPaintPosition = getViewLocation();
-        return retValue;
+        lbstPbintPosition = getViewLocbtion();
+        return retVblue;
     }
 
     //
-    // NOTE: the code below uses paintForceDoubleBuffered for historical
-    // reasons.  If we're going to allow a blit we've already accounted for
-    // everything that paintImmediately and _paintImmediately does, for that
-    // reason we call into paintForceDoubleBuffered to diregard whether or
-    // not setDoubleBuffered(true) was invoked on the view.
+    // NOTE: the code below uses pbintForceDoubleBuffered for historicbl
+    // rebsons.  If we're going to bllow b blit we've blrebdy bccounted for
+    // everything thbt pbintImmedibtely bnd _pbintImmedibtely does, for thbt
+    // rebson we cbll into pbintForceDoubleBuffered to diregbrd whether or
+    // not setDoubleBuffered(true) wbs invoked on the view.
     //
 
-    private void blitDoubleBuffered(JComponent view, Graphics g,
+    privbte void blitDoubleBuffered(JComponent view, Grbphics g,
                                     int clipX, int clipY, int clipW, int clipH,
                                     int blitFromX, int blitFromY, int blitToX, int blitToY,
                                     int blitW, int blitH) {
         // NOTE:
-        //   blitFrom/blitTo are in JViewport coordinates system
-        //     not the views coordinate space.
-        //   clip* are in the views coordinate space.
-        RepaintManager rm = RepaintManager.currentManager(this);
+        //   blitFrom/blitTo bre in JViewport coordinbtes system
+        //     not the views coordinbte spbce.
+        //   clip* bre in the views coordinbte spbce.
+        RepbintMbnbger rm = RepbintMbnbger.currentMbnbger(this);
         int bdx = blitToX - blitFromX;
         int bdy = blitToY - blitFromY;
 
         Composite oldComposite = null;
         // Shift the scrolled region
-        if (g instanceof Graphics2D) {
-            Graphics2D g2d = (Graphics2D) g;
+        if (g instbnceof Grbphics2D) {
+            Grbphics2D g2d = (Grbphics2D) g;
             oldComposite = g2d.getComposite();
-            g2d.setComposite(AlphaComposite.Src);
+            g2d.setComposite(AlphbComposite.Src);
         }
-        rm.copyArea(this, g, blitFromX, blitFromY, blitW, blitH, bdx, bdy,
-                    false);
+        rm.copyAreb(this, g, blitFromX, blitFromY, blitW, blitH, bdx, bdy,
+                    fblse);
         if (oldComposite != null) {
-            ((Graphics2D) g).setComposite(oldComposite);
+            ((Grbphics2D) g).setComposite(oldComposite);
         }
-        // Paint the newly exposed region.
+        // Pbint the newly exposed region.
         int x = view.getX();
         int y = view.getY();
-        g.translate(x, y);
+        g.trbnslbte(x, y);
         g.setClip(clipX, clipY, clipW, clipH);
-        view.paintForceDoubleBuffered(g);
-        g.translate(-x, -y);
+        view.pbintForceDoubleBuffered(g);
+        g.trbnslbte(-x, -y);
     }
 
     /**
-     * Called to paint the view, usually when <code>blitPaint</code>
-     * can not blit.
+     * Cblled to pbint the view, usublly when <code>blitPbint</code>
+     * cbn not blit.
      *
-     * @param g the <code>Graphics</code> context within which to paint
+     * @pbrbm g the <code>Grbphics</code> context within which to pbint
      */
-    private void paintView(Graphics g) {
-        Rectangle clip = g.getClipBounds();
+    privbte void pbintView(Grbphics g) {
+        Rectbngle clip = g.getClipBounds();
         JComponent view = (JComponent)getView();
 
         if (view.getWidth() >= getWidth()) {
-            // Graphics is relative to JViewport, need to map to view's
-            // coordinates space.
+            // Grbphics is relbtive to JViewport, need to mbp to view's
+            // coordinbtes spbce.
             int x = view.getX();
             int y = view.getY();
-            g.translate(x, y);
+            g.trbnslbte(x, y);
             g.setClip(clip.x - x, clip.y - y, clip.width, clip.height);
-            view.paintForceDoubleBuffered(g);
-            g.translate(-x, -y);
+            view.pbintForceDoubleBuffered(g);
+            g.trbnslbte(-x, -y);
             g.setClip(clip.x, clip.y, clip.width, clip.height);
         }
         else {
-            // To avoid any problems that may result from the viewport being
-            // bigger than the view we start painting from the viewport.
+            // To bvoid bny problems thbt mby result from the viewport being
+            // bigger thbn the view we stbrt pbinting from the viewport.
             try {
-                inBlitPaint = true;
-                paintForceDoubleBuffered(g);
-            } finally {
-                inBlitPaint = false;
+                inBlitPbint = true;
+                pbintForceDoubleBuffered(g);
+            } finblly {
+                inBlitPbint = fblse;
             }
         }
     }
 
     /**
-     * Returns true if the viewport is not obscured by one of its ancestors,
-     * or its ancestors children and if the viewport is showing. Blitting
+     * Returns true if the viewport is not obscured by one of its bncestors,
+     * or its bncestors children bnd if the viewport is showing. Blitting
      * when the view isn't showing will work,
-     * or rather <code>copyArea</code> will work,
-     * but will not produce the expected behavior.
+     * or rbther <code>copyAreb</code> will work,
+     * but will not produce the expected behbvior.
      */
-    private boolean canUseWindowBlitter() {
-        if (!isShowing() || (!(getParent() instanceof JComponent) &&
-                             !(getView() instanceof JComponent))) {
-            return false;
+    privbte boolebn cbnUseWindowBlitter() {
+        if (!isShowing() || (!(getPbrent() instbnceof JComponent) &&
+                             !(getView() instbnceof JComponent))) {
+            return fblse;
         }
-        if (isPainting()) {
-            // We're in the process of painting, don't blit. If we were
-            // to blit we would draw on top of what we're already drawing,
-            // so bail.
-            return false;
+        if (isPbinting()) {
+            // We're in the process of pbinting, don't blit. If we were
+            // to blit we would drbw on top of whbt we're blrebdy drbwing,
+            // so bbil.
+            return fblse;
         }
 
-        Rectangle dirtyRegion = RepaintManager.currentManager(this).
-                                getDirtyRegion((JComponent)getParent());
+        Rectbngle dirtyRegion = RepbintMbnbger.currentMbnbger(this).
+                                getDirtyRegion((JComponent)getPbrent());
 
         if (dirtyRegion != null && dirtyRegion.width > 0 &&
             dirtyRegion.height > 0) {
-            // Part of the scrollpane needs to be repainted too, don't blit.
-            return false;
+            // Pbrt of the scrollpbne needs to be repbinted too, don't blit.
+            return fblse;
         }
 
-        Rectangle clip = new Rectangle(0,0,getWidth(),getHeight());
-        Rectangle oldClip = new Rectangle();
-        Rectangle tmp2 = null;
-        Container parent;
-        Component lastParent = null;
+        Rectbngle clip = new Rectbngle(0,0,getWidth(),getHeight());
+        Rectbngle oldClip = new Rectbngle();
+        Rectbngle tmp2 = null;
+        Contbiner pbrent;
+        Component lbstPbrent = null;
         int x, y, w, h;
 
-        for(parent = this; parent != null && isLightweightComponent(parent); parent = parent.getParent()) {
-            x = parent.getX();
-            y = parent.getY();
-            w = parent.getWidth();
-            h = parent.getHeight();
+        for(pbrent = this; pbrent != null && isLightweightComponent(pbrent); pbrent = pbrent.getPbrent()) {
+            x = pbrent.getX();
+            y = pbrent.getY();
+            w = pbrent.getWidth();
+            h = pbrent.getHeight();
 
             oldClip.setBounds(clip);
             SwingUtilities.computeIntersection(0, 0, w, h, clip);
-            if(!clip.equals(oldClip))
-                return false;
+            if(!clip.equbls(oldClip))
+                return fblse;
 
-            if(lastParent != null && parent instanceof JComponent &&
-               !((JComponent)parent).isOptimizedDrawingEnabled()) {
-                Component comps[] = parent.getComponents();
+            if(lbstPbrent != null && pbrent instbnceof JComponent &&
+               !((JComponent)pbrent).isOptimizedDrbwingEnbbled()) {
+                Component comps[] = pbrent.getComponents();
                 int index = 0;
 
                 for(int i = comps.length - 1 ;i >= 0; i--) {
-                    if(comps[i] == lastParent) {
+                    if(comps[i] == lbstPbrent) {
                         index = i - 1;
-                        break;
+                        brebk;
                     }
                 }
 
@@ -1704,17 +1704,17 @@ public class JViewport extends JComponent implements Accessible
                     tmp2 = comps[index].getBounds(tmp2);
 
                     if(tmp2.intersects(clip))
-                        return false;
+                        return fblse;
                     index--;
                 }
             }
             clip.x += x;
             clip.y += y;
-            lastParent = parent;
+            lbstPbrent = pbrent;
         }
-        if (parent == null) {
-            // No Window parent.
-            return false;
+        if (pbrent == null) {
+            // No Window pbrent.
+            return fblse;
         }
         return true;
     }
@@ -1725,45 +1725,45 @@ public class JViewport extends JComponent implements Accessible
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JViewport.
-     * For viewports, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this JViewport.
+     * For viewports, the AccessibleContext tbkes the form of bn
      * AccessibleJViewport.
-     * A new AccessibleJViewport instance is created if necessary.
+     * A new AccessibleJViewport instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJViewport that serves as the
+     * @return bn AccessibleJViewport thbt serves bs the
      *         AccessibleContext of this JViewport
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJViewport();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJViewport();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JViewport</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to viewport user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>JViewport</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to viewport user-interfbce elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJViewport extends AccessibleJComponent {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJViewport extends AccessibleJComponent {
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of
+         * @return bn instbnce of AccessibleRole describing the role of
          * the object
          */
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.VIEWPORT;
         }
-    } // inner class AccessibleJViewport
+    } // inner clbss AccessibleJViewport
 }

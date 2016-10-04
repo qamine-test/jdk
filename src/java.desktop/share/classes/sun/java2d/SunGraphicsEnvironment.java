@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d;
+pbckbge sun.jbvb2d;
 
-import java.awt.AWTError;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.font.TextAttribute;
-import java.awt.image.BufferedImage;
-import java.awt.peer.ComponentPeer;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.text.AttributedCharacterIterator;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
-import java.util.Vector;
-import java.util.concurrent.ConcurrentHashMap;
-import sun.awt.AppContext;
-import sun.awt.DisplayChangedListener;
-import sun.awt.FontConfiguration;
-import sun.awt.SunDisplayChanger;
+import jbvb.bwt.AWTError;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.font.TextAttribute;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.peer.ComponentPeer;
+import jbvb.io.BufferedRebder;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FilenbmeFilter;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.IOException;
+import jbvb.text.AttributedChbrbcterIterbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Set;
+import jbvb.util.StringTokenizer;
+import jbvb.util.TreeMbp;
+import jbvb.util.Vector;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import sun.bwt.AppContext;
+import sun.bwt.DisplbyChbngedListener;
+import sun.bwt.FontConfigurbtion;
+import sun.bwt.SunDisplbyChbnger;
 import sun.font.CompositeFontDescriptor;
 import sun.font.Font2D;
-import sun.font.FontManager;
-import sun.font.FontManagerFactory;
-import sun.font.FontManagerForSGE;
-import sun.font.NativeFont;
+import sun.font.FontMbnbger;
+import sun.font.FontMbnbgerFbctory;
+import sun.font.FontMbnbgerForSGE;
+import sun.font.NbtiveFont;
 
 /**
- * This is an implementation of a GraphicsEnvironment object for the
- * default local GraphicsEnvironment.
+ * This is bn implementbtion of b GrbphicsEnvironment object for the
+ * defbult locbl GrbphicsEnvironment.
  *
- * @see GraphicsDevice
- * @see GraphicsConfiguration
+ * @see GrbphicsDevice
+ * @see GrbphicsConfigurbtion
  */
-public abstract class SunGraphicsEnvironment extends GraphicsEnvironment
-    implements DisplayChangedListener {
+public bbstrbct clbss SunGrbphicsEnvironment extends GrbphicsEnvironment
+    implements DisplbyChbngedListener {
 
-    public static boolean isOpenSolaris;
-    private static Font defaultFont;
+    public stbtic boolebn isOpenSolbris;
+    privbte stbtic Font defbultFont;
 
-    public SunGraphicsEnvironment() {
-        java.security.AccessController.doPrivileged(
-                                    new java.security.PrivilegedAction<Object>() {
+    public SunGrbphicsEnvironment() {
+        jbvb.security.AccessController.doPrivileged(
+                                    new jbvb.security.PrivilegedAction<Object>() {
             public Object run() {
                     String version = System.getProperty("os.version", "0.0");
                     try {
-                        float ver = Float.parseFloat(version);
+                        flobt ver = Flobt.pbrseFlobt(version);
                         if (ver > 5.10f) {
-                            File f = new File("/etc/release");
-                            FileInputStream fis = new FileInputStream(f);
-                            InputStreamReader isr
-                                = new InputStreamReader(fis, "ISO-8859-1");
-                            BufferedReader br = new BufferedReader(isr);
-                            String line = br.readLine();
-                            if (line.indexOf("OpenSolaris") >= 0) {
-                                isOpenSolaris = true;
+                            File f = new File("/etc/relebse");
+                            FileInputStrebm fis = new FileInputStrebm(f);
+                            InputStrebmRebder isr
+                                = new InputStrebmRebder(fis, "ISO-8859-1");
+                            BufferedRebder br = new BufferedRebder(isr);
+                            String line = br.rebdLine();
+                            if (line.indexOf("OpenSolbris") >= 0) {
+                                isOpenSolbris = true;
                             } else {
-                                /* We are using isOpenSolaris as meaning
-                                 * we know the Solaris commercial fonts aren't
-                                 * present. "Solaris Next" (03/10) did not
-                                 * include these even though its was not
-                                 * OpenSolaris. Need to revisit how this is
-                                 * handled but for now as in 6ux, we'll use
-                                 * the test for a standard font resource as
-                                 * being an indicator as to whether we need
-                                 * to treat this as OpenSolaris from a font
+                                /* We bre using isOpenSolbris bs mebning
+                                 * we know the Solbris commercibl fonts bren't
+                                 * present. "Solbris Next" (03/10) did not
+                                 * include these even though its wbs not
+                                 * OpenSolbris. Need to revisit how this is
+                                 * hbndled but for now bs in 6ux, we'll use
+                                 * the test for b stbndbrd font resource bs
+                                 * being bn indicbtor bs to whether we need
+                                 * to trebt this bs OpenSolbris from b font
                                  * config perspective.
                                  */
                                 String courierNew =
                                     "/usr/openwin/lib/X11/fonts/TrueType/CourierNew.ttf";
                                 File courierFile = new File(courierNew);
-                                isOpenSolaris = !courierFile.exists();
+                                isOpenSolbris = !courierFile.exists();
                             }
                             fis.close();
                         }
-                    } catch (Exception e) {
+                    } cbtch (Exception e) {
                     }
 
-                /* Establish the default font to be used by SG2D etc */
-                defaultFont = new Font(Font.DIALOG, Font.PLAIN, 12);
+                /* Estbblish the defbult font to be used by SG2D etc */
+                defbultFont = new Font(Font.DIALOG, Font.PLAIN, 12);
 
                 return null;
             }
         });
     }
 
-    protected GraphicsDevice[] screens;
+    protected GrbphicsDevice[] screens;
 
     /**
-     * Returns an array of all of the screen devices.
+     * Returns bn brrby of bll of the screen devices.
      */
-    public synchronized GraphicsDevice[] getScreenDevices() {
-        GraphicsDevice[] ret = screens;
+    public synchronized GrbphicsDevice[] getScreenDevices() {
+        GrbphicsDevice[] ret = screens;
         if (ret == null) {
             int num = getNumScreens();
-            ret = new GraphicsDevice[num];
+            ret = new GrbphicsDevice[num];
             for (int i = 0; i < num; i++) {
-                ret[i] = makeScreenDevice(i);
+                ret[i] = mbkeScreenDevice(i);
             }
             screens = ret;
         }
@@ -145,28 +145,28 @@ public abstract class SunGraphicsEnvironment extends GraphicsEnvironment
     }
 
     /**
-     * Returns the number of screen devices of this graphics environment.
+     * Returns the number of screen devices of this grbphics environment.
      *
-     * @return the number of screen devices of this graphics environment
+     * @return the number of screen devices of this grbphics environment
      */
-    protected abstract int getNumScreens();
+    protected bbstrbct int getNumScreens();
 
     /**
-     * Create and return the screen device with the specified number. The
-     * device with number <code>0</code> will be the default device (returned
-     * by {@link #getDefaultScreenDevice()}.
+     * Crebte bnd return the screen device with the specified number. The
+     * device with number <code>0</code> will be the defbult device (returned
+     * by {@link #getDefbultScreenDevice()}.
      *
-     * @param screennum the number of the screen to create
+     * @pbrbm screennum the number of the screen to crebte
      *
-     * @return the created screen device
+     * @return the crebted screen device
      */
-    protected abstract GraphicsDevice makeScreenDevice(int screennum);
+    protected bbstrbct GrbphicsDevice mbkeScreenDevice(int screennum);
 
     /**
-     * Returns the default screen graphics device.
+     * Returns the defbult screen grbphics device.
      */
-    public GraphicsDevice getDefaultScreenDevice() {
-        GraphicsDevice[] screens = getScreenDevices();
+    public GrbphicsDevice getDefbultScreenDevice() {
+        GrbphicsDevice[] screens = getScreenDevices();
         if (screens.length == 0) {
             throw new AWTError("no screen devices");
         }
@@ -174,152 +174,152 @@ public abstract class SunGraphicsEnvironment extends GraphicsEnvironment
     }
 
     /**
-     * Returns a Graphics2D object for rendering into the
-     * given BufferedImage.
-     * @throws NullPointerException if BufferedImage argument is null
+     * Returns b Grbphics2D object for rendering into the
+     * given BufferedImbge.
+     * @throws NullPointerException if BufferedImbge brgument is null
      */
-    public Graphics2D createGraphics(BufferedImage img) {
+    public Grbphics2D crebteGrbphics(BufferedImbge img) {
         if (img == null) {
-            throw new NullPointerException("BufferedImage cannot be null");
+            throw new NullPointerException("BufferedImbge cbnnot be null");
         }
-        SurfaceData sd = SurfaceData.getPrimarySurfaceData(img);
-        return new SunGraphics2D(sd, Color.white, Color.black, defaultFont);
+        SurfbceDbtb sd = SurfbceDbtb.getPrimbrySurfbceDbtb(img);
+        return new SunGrbphics2D(sd, Color.white, Color.blbck, defbultFont);
     }
 
-    public static FontManagerForSGE getFontManagerForSGE() {
-        FontManager fm = FontManagerFactory.getInstance();
-        return (FontManagerForSGE) fm;
+    public stbtic FontMbnbgerForSGE getFontMbnbgerForSGE() {
+        FontMbnbger fm = FontMbnbgerFbctory.getInstbnce();
+        return (FontMbnbgerForSGE) fm;
     }
 
-    /* Modifies the behaviour of a subsequent call to preferLocaleFonts()
-     * to use Mincho instead of Gothic for dialoginput in JA locales
-     * on windows. Not needed on other platforms.
+    /* Modifies the behbviour of b subsequent cbll to preferLocbleFonts()
+     * to use Mincho instebd of Gothic for dibloginput in JA locbles
+     * on windows. Not needed on other plbtforms.
      *
      * DO NOT MOVE OR RENAME OR OTHERWISE ALTER THIS METHOD.
      * ITS USED BY SOME NON-JRE INTERNAL CODE.
      */
-    public static void useAlternateFontforJALocales() {
-        getFontManagerForSGE().useAlternateFontforJALocales();
+    public stbtic void useAlternbteFontforJALocbles() {
+        getFontMbnbgerForSGE().useAlternbteFontforJALocbles();
     }
 
      /**
-     * Returns all fonts available in this environment.
+     * Returns bll fonts bvbilbble in this environment.
      */
     public Font[] getAllFonts() {
-        FontManagerForSGE fm = getFontManagerForSGE();
-        Font[] installedFonts = fm.getAllInstalledFonts();
-        Font[] created = fm.getCreatedFonts();
-        if (created == null || created.length == 0) {
-            return installedFonts;
+        FontMbnbgerForSGE fm = getFontMbnbgerForSGE();
+        Font[] instblledFonts = fm.getAllInstblledFonts();
+        Font[] crebted = fm.getCrebtedFonts();
+        if (crebted == null || crebted.length == 0) {
+            return instblledFonts;
         } else {
-            int newlen = installedFonts.length + created.length;
-            Font [] fonts = java.util.Arrays.copyOf(installedFonts, newlen);
-            System.arraycopy(created, 0, fonts,
-                             installedFonts.length, created.length);
+            int newlen = instblledFonts.length + crebted.length;
+            Font [] fonts = jbvb.util.Arrbys.copyOf(instblledFonts, newlen);
+            System.brrbycopy(crebted, 0, fonts,
+                             instblledFonts.length, crebted.length);
             return fonts;
         }
     }
 
-    public String[] getAvailableFontFamilyNames(Locale requestedLocale) {
-        FontManagerForSGE fm = getFontManagerForSGE();
-        String[] installed = fm.getInstalledFontFamilyNames(requestedLocale);
-        /* Use a new TreeMap as used in getInstalledFontFamilyNames
-         * and insert all the keys in lower case, so that the sort order
-         * is the same as the installed families. This preserves historical
-         * behaviour and inserts new families in the right place.
-         * It would have been marginally more efficient to directly obtain
-         * the tree map and just insert new entries, but not so much as
-         * to justify the extra internal interface.
+    public String[] getAvbilbbleFontFbmilyNbmes(Locble requestedLocble) {
+        FontMbnbgerForSGE fm = getFontMbnbgerForSGE();
+        String[] instblled = fm.getInstblledFontFbmilyNbmes(requestedLocble);
+        /* Use b new TreeMbp bs used in getInstblledFontFbmilyNbmes
+         * bnd insert bll the keys in lower cbse, so thbt the sort order
+         * is the sbme bs the instblled fbmilies. This preserves historicbl
+         * behbviour bnd inserts new fbmilies in the right plbce.
+         * It would hbve been mbrginblly more efficient to directly obtbin
+         * the tree mbp bnd just insert new entries, but not so much bs
+         * to justify the extrb internbl interfbce.
          */
-        TreeMap<String, String> map = fm.getCreatedFontFamilyNames();
-        if (map == null || map.size() == 0) {
-            return installed;
+        TreeMbp<String, String> mbp = fm.getCrebtedFontFbmilyNbmes();
+        if (mbp == null || mbp.size() == 0) {
+            return instblled;
         } else {
-            for (int i=0; i<installed.length; i++) {
-                map.put(installed[i].toLowerCase(requestedLocale),
-                        installed[i]);
+            for (int i=0; i<instblled.length; i++) {
+                mbp.put(instblled[i].toLowerCbse(requestedLocble),
+                        instblled[i]);
             }
-            String[] retval =  new String[map.size()];
-            Object [] keyNames = map.keySet().toArray();
-            for (int i=0; i < keyNames.length; i++) {
-                retval[i] = map.get(keyNames[i]);
+            String[] retvbl =  new String[mbp.size()];
+            Object [] keyNbmes = mbp.keySet().toArrby();
+            for (int i=0; i < keyNbmes.length; i++) {
+                retvbl[i] = mbp.get(keyNbmes[i]);
             }
-            return retval;
+            return retvbl;
         }
     }
 
-    public String[] getAvailableFontFamilyNames() {
-        return getAvailableFontFamilyNames(Locale.getDefault());
+    public String[] getAvbilbbleFontFbmilyNbmes() {
+        return getAvbilbbleFontFbmilyNbmes(Locble.getDefbult());
     }
 
     /**
-     * Return the bounds of a GraphicsDevice, less its screen insets.
-     * See also java.awt.GraphicsEnvironment.getUsableBounds();
+     * Return the bounds of b GrbphicsDevice, less its screen insets.
+     * See blso jbvb.bwt.GrbphicsEnvironment.getUsbbleBounds();
      */
-    public static Rectangle getUsableBounds(GraphicsDevice gd) {
-        GraphicsConfiguration gc = gd.getDefaultConfiguration();
-        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
-        Rectangle usableBounds = gc.getBounds();
+    public stbtic Rectbngle getUsbbleBounds(GrbphicsDevice gd) {
+        GrbphicsConfigurbtion gc = gd.getDefbultConfigurbtion();
+        Insets insets = Toolkit.getDefbultToolkit().getScreenInsets(gc);
+        Rectbngle usbbleBounds = gc.getBounds();
 
-        usableBounds.x += insets.left;
-        usableBounds.y += insets.top;
-        usableBounds.width -= (insets.left + insets.right);
-        usableBounds.height -= (insets.top + insets.bottom);
+        usbbleBounds.x += insets.left;
+        usbbleBounds.y += insets.top;
+        usbbleBounds.width -= (insets.left + insets.right);
+        usbbleBounds.height -= (insets.top + insets.bottom);
 
-        return usableBounds;
+        return usbbleBounds;
     }
 
     /**
-     * From the DisplayChangedListener interface; called
-     * when the display mode has been changed.
+     * From the DisplbyChbngedListener interfbce; cblled
+     * when the displby mode hbs been chbnged.
      */
-    public void displayChanged() {
-        // notify screens in device array to do display update stuff
-        for (GraphicsDevice gd : getScreenDevices()) {
-            if (gd instanceof DisplayChangedListener) {
-                ((DisplayChangedListener) gd).displayChanged();
+    public void displbyChbnged() {
+        // notify screens in device brrby to do displby updbte stuff
+        for (GrbphicsDevice gd : getScreenDevices()) {
+            if (gd instbnceof DisplbyChbngedListener) {
+                ((DisplbyChbngedListener) gd).displbyChbnged();
             }
         }
 
-        // notify SunDisplayChanger list (e.g. VolatileSurfaceManagers and
-        // SurfaceDataProxies) about the display change event
-        displayChanger.notifyListeners();
+        // notify SunDisplbyChbnger list (e.g. VolbtileSurfbceMbnbgers bnd
+        // SurfbceDbtbProxies) bbout the displby chbnge event
+        displbyChbnger.notifyListeners();
     }
 
     /**
-     * Part of the DisplayChangedListener interface:
-     * propagate this event to listeners
+     * Pbrt of the DisplbyChbngedListener interfbce:
+     * propbgbte this event to listeners
      */
-    public void paletteChanged() {
-        displayChanger.notifyPaletteChanged();
+    public void pbletteChbnged() {
+        displbyChbnger.notifyPbletteChbnged();
     }
 
     /**
-     * Returns true when the display is local, false for remote displays.
+     * Returns true when the displby is locbl, fblse for remote displbys.
      *
-     * @return true when the display is local, false for remote displays
+     * @return true when the displby is locbl, fblse for remote displbys
      */
-    public abstract boolean isDisplayLocal();
+    public bbstrbct boolebn isDisplbyLocbl();
 
     /*
      * ----DISPLAY CHANGE SUPPORT----
      */
 
-    protected SunDisplayChanger displayChanger = new SunDisplayChanger();
+    protected SunDisplbyChbnger displbyChbnger = new SunDisplbyChbnger();
 
     /**
-     * Add a DisplayChangeListener to be notified when the display settings
-     * are changed.
+     * Add b DisplbyChbngeListener to be notified when the displby settings
+     * bre chbnged.
      */
-    public void addDisplayChangedListener(DisplayChangedListener client) {
-        displayChanger.add(client);
+    public void bddDisplbyChbngedListener(DisplbyChbngedListener client) {
+        displbyChbnger.bdd(client);
     }
 
     /**
-     * Remove a DisplayChangeListener from Win32GraphicsEnvironment
+     * Remove b DisplbyChbngeListener from Win32GrbphicsEnvironment
      */
-    public void removeDisplayChangedListener(DisplayChangedListener client) {
-        displayChanger.remove(client);
+    public void removeDisplbyChbngedListener(DisplbyChbngedListener client) {
+        displbyChbnger.remove(client);
     }
 
     /*
@@ -327,16 +327,16 @@ public abstract class SunGraphicsEnvironment extends GraphicsEnvironment
      */
 
     /**
-     * Returns true if FlipBufferStrategy with COPIED buffer contents
-     * is preferred for this peer's GraphicsConfiguration over
-     * BlitBufferStrategy, false otherwise.
+     * Returns true if FlipBufferStrbtegy with COPIED buffer contents
+     * is preferred for this peer's GrbphicsConfigurbtion over
+     * BlitBufferStrbtegy, fblse otherwise.
      *
-     * The reason FlipBS could be preferred is that in some configurations
-     * an accelerated copy to the screen is supported (like Direct3D 9)
+     * The rebson FlipBS could be preferred is thbt in some configurbtions
+     * bn bccelerbted copy to the screen is supported (like Direct3D 9)
      *
-     * @return true if flip strategy should be used, false otherwise
+     * @return true if flip strbtegy should be used, fblse otherwise
      */
-    public boolean isFlipStrategyPreferred(ComponentPeer peer) {
-        return false;
+    public boolebn isFlipStrbtegyPreferred(ComponentPeer peer) {
+        return fblse;
     }
 }

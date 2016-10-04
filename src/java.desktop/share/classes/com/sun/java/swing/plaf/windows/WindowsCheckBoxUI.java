@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1997, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
-import javax.swing.plaf.basic.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
  * Windows check box.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  */
-public class WindowsCheckBoxUI extends WindowsRadioButtonUI
+public clbss WindowsCheckBoxUI extends WindowsRbdioButtonUI
 {
-    // NOTE: MetalCheckBoxUI inherts from MetalRadioButtonUI instead
-    // of BasicCheckBoxUI because we want to pick up all the
-    // painting changes made in MetalRadioButtonUI.
+    // NOTE: MetblCheckBoxUI inherts from MetblRbdioButtonUI instebd
+    // of BbsicCheckBoxUI becbuse we wbnt to pick up bll the
+    // pbinting chbnges mbde in MetblRbdioButtonUI.
 
-    private static final Object WINDOWS_CHECK_BOX_UI_KEY = new Object();
+    privbte stbtic finbl Object WINDOWS_CHECK_BOX_UI_KEY = new Object();
 
-    private final static String propertyPrefix = "CheckBox" + ".";
+    privbte finbl stbtic String propertyPrefix = "CheckBox" + ".";
 
-    private boolean defaults_initialized = false;
+    privbte boolebn defbults_initiblized = fblse;
 
     // ********************************
-    //          Create PLAF
+    //          Crebte PLAF
     // ********************************
-    public static ComponentUI createUI(JComponent c) {
-        AppContext appContext = AppContext.getAppContext();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        AppContext bppContext = AppContext.getAppContext();
         WindowsCheckBoxUI windowsCheckBoxUI =
-                (WindowsCheckBoxUI) appContext.get(WINDOWS_CHECK_BOX_UI_KEY);
+                (WindowsCheckBoxUI) bppContext.get(WINDOWS_CHECK_BOX_UI_KEY);
         if (windowsCheckBoxUI == null) {
             windowsCheckBoxUI = new WindowsCheckBoxUI();
-            appContext.put(WINDOWS_CHECK_BOX_UI_KEY, windowsCheckBoxUI);
+            bppContext.put(WINDOWS_CHECK_BOX_UI_KEY, windowsCheckBoxUI);
         }
         return windowsCheckBoxUI;
     }
@@ -77,19 +77,19 @@ public class WindowsCheckBoxUI extends WindowsRadioButtonUI
     }
 
     // ********************************
-    //          Defaults
+    //          Defbults
     // ********************************
-    public void installDefaults(AbstractButton b) {
-        super.installDefaults(b);
-        if(!defaults_initialized) {
-            icon = UIManager.getIcon(getPropertyPrefix() + "icon");
-            defaults_initialized = true;
+    public void instbllDefbults(AbstrbctButton b) {
+        super.instbllDefbults(b);
+        if(!defbults_initiblized) {
+            icon = UIMbnbger.getIcon(getPropertyPrefix() + "icon");
+            defbults_initiblized = true;
         }
     }
 
-    public void uninstallDefaults(AbstractButton b) {
-        super.uninstallDefaults(b);
-        defaults_initialized = false;
+    public void uninstbllDefbults(AbstrbctButton b) {
+        super.uninstbllDefbults(b);
+        defbults_initiblized = fblse;
     }
 
 }

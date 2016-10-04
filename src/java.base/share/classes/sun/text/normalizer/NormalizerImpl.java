@@ -1,247 +1,247 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyright IBM Corp. bnd others, 1996-2009 - All Rights Reserved         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.BufferedInputStream;
-import java.io.InputStream;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.InputStrebm;
 
 /**
- * @author  Ram Viswanadha
+ * @buthor  Rbm Viswbnbdhb
  */
-public final class NormalizerImpl {
-    // Static block for the class to initialize its own self
-    static final NormalizerImpl IMPL;
+public finbl clbss NormblizerImpl {
+    // Stbtic block for the clbss to initiblize its own self
+    stbtic finbl NormblizerImpl IMPL;
 
-    static
+    stbtic
     {
         try
         {
-            IMPL = new NormalizerImpl();
+            IMPL = new NormblizerImpl();
         }
-        catch (Exception e)
+        cbtch (Exception e)
         {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e.getMessbge());
         }
     }
 
-    static final int UNSIGNED_BYTE_MASK =0xFF;
-    static final long UNSIGNED_INT_MASK = 0xffffffffL;
+    stbtic finbl int UNSIGNED_BYTE_MASK =0xFF;
+    stbtic finbl long UNSIGNED_INT_MASK = 0xffffffffL;
     /*
-     * This new implementation of the normalization code loads its data from
-     * unorm.icu, which is generated with the gennorm tool.
-     * The format of that file is described at the end of this file.
+     * This new implementbtion of the normblizbtion code lobds its dbtb from
+     * unorm.icu, which is generbted with the gennorm tool.
+     * The formbt of thbt file is described bt the end of this file.
      */
-    private static final String DATA_FILE_NAME = "/sun/text/resources/unorm.icu";
+    privbte stbtic finbl String DATA_FILE_NAME = "/sun/text/resources/unorm.icu";
 
-    // norm32 value constants
+    // norm32 vblue constbnts
 
-    // quick check flags 0..3 set mean "no" for their forms
-    public static final int QC_NFC=0x11;          /* no|maybe */
-    public static final int QC_NFKC=0x22;         /* no|maybe */
-    public static final int QC_NFD=4;             /* no */
-    public static final int QC_NFKD=8;            /* no */
+    // quick check flbgs 0..3 set mebn "no" for their forms
+    public stbtic finbl int QC_NFC=0x11;          /* no|mbybe */
+    public stbtic finbl int QC_NFKC=0x22;         /* no|mbybe */
+    public stbtic finbl int QC_NFD=4;             /* no */
+    public stbtic finbl int QC_NFKD=8;            /* no */
 
-    public static final int QC_ANY_NO=0xf;
+    public stbtic finbl int QC_ANY_NO=0xf;
 
-    /* quick check flags 4..5 mean "maybe" for their forms;
-     * test flags>=QC_MAYBE
+    /* quick check flbgs 4..5 mebn "mbybe" for their forms;
+     * test flbgs>=QC_MAYBE
      */
-    public static final int QC_MAYBE=0x10;
-    public static final int QC_ANY_MAYBE=0x30;
+    public stbtic finbl int QC_MAYBE=0x10;
+    public stbtic finbl int QC_ANY_MAYBE=0x30;
 
-    public static final int QC_MASK=0x3f;
+    public stbtic finbl int QC_MASK=0x3f;
 
-    private static final int COMBINES_FWD=0x40;
-    private static final int COMBINES_BACK=0x80;
-    public  static final int COMBINES_ANY=0xc0;
-    // UnicodeData.txt combining class in bits 15.
-    private static final int CC_SHIFT=8;
-    public  static final int CC_MASK=0xff00;
-    // 16 bits for the index to UChars and other extra data
-    private static final int EXTRA_SHIFT=16;
+    privbte stbtic finbl int COMBINES_FWD=0x40;
+    privbte stbtic finbl int COMBINES_BACK=0x80;
+    public  stbtic finbl int COMBINES_ANY=0xc0;
+    // UnicodeDbtb.txt combining clbss in bits 15.
+    privbte stbtic finbl int CC_SHIFT=8;
+    public  stbtic finbl int CC_MASK=0xff00;
+    // 16 bits for the index to UChbrs bnd other extrb dbtb
+    privbte stbtic finbl int EXTRA_SHIFT=16;
 
-    /* norm32 value constants using >16 bits */
-    private static final long  MIN_SPECIAL    =  0xfc000000 & UNSIGNED_INT_MASK;
-    private static final long  SURROGATES_TOP =  0xfff00000 & UNSIGNED_INT_MASK;
-    private static final long  MIN_HANGUL     =  0xfff00000 & UNSIGNED_INT_MASK;
-//  private static final long  MIN_JAMO_V     =  0xfff20000 & UNSIGNED_INT_MASK;
-    private static final long  JAMO_V_TOP     =  0xfff30000 & UNSIGNED_INT_MASK;
+    /* norm32 vblue constbnts using >16 bits */
+    privbte stbtic finbl long  MIN_SPECIAL    =  0xfc000000 & UNSIGNED_INT_MASK;
+    privbte stbtic finbl long  SURROGATES_TOP =  0xfff00000 & UNSIGNED_INT_MASK;
+    privbte stbtic finbl long  MIN_HANGUL     =  0xfff00000 & UNSIGNED_INT_MASK;
+//  privbte stbtic finbl long  MIN_JAMO_V     =  0xfff20000 & UNSIGNED_INT_MASK;
+    privbte stbtic finbl long  JAMO_V_TOP     =  0xfff30000 & UNSIGNED_INT_MASK;
 
 
-    /* indexes[] value names */
-    /* number of bytes in normalization trie */
-    static final int INDEX_TRIE_SIZE           = 0;
-    /* number of chars in extra data */
-    static final int INDEX_CHAR_COUNT           = 1;
-    /* number of uint16_t words for combining data */
-    static final int INDEX_COMBINE_DATA_COUNT = 2;
+    /* indexes[] vblue nbmes */
+    /* number of bytes in normblizbtion trie */
+    stbtic finbl int INDEX_TRIE_SIZE           = 0;
+    /* number of chbrs in extrb dbtb */
+    stbtic finbl int INDEX_CHAR_COUNT           = 1;
+    /* number of uint16_t words for combining dbtb */
+    stbtic finbl int INDEX_COMBINE_DATA_COUNT = 2;
     /* first code point with quick check NFC NO/MAYBE */
-    public static final int INDEX_MIN_NFC_NO_MAYBE   = 6;
+    public stbtic finbl int INDEX_MIN_NFC_NO_MAYBE   = 6;
     /* first code point with quick check NFKC NO/MAYBE */
-    public static final int INDEX_MIN_NFKC_NO_MAYBE  = 7;
+    public stbtic finbl int INDEX_MIN_NFKC_NO_MAYBE  = 7;
     /* first code point with quick check NFD NO/MAYBE */
-    public static final int INDEX_MIN_NFD_NO_MAYBE   = 8;
+    public stbtic finbl int INDEX_MIN_NFD_NO_MAYBE   = 8;
     /* first code point with quick check NFKD NO/MAYBE */
-    public static final int INDEX_MIN_NFKD_NO_MAYBE  = 9;
+    public stbtic finbl int INDEX_MIN_NFKD_NO_MAYBE  = 9;
     /* number of bytes in FCD trie */
-    static final int INDEX_FCD_TRIE_SIZE      = 10;
-    /* number of bytes in the auxiliary trie */
-    static final int INDEX_AUX_TRIE_SIZE      = 11;
-    /* changing this requires a new formatVersion */
-    static final int INDEX_TOP                = 32;
+    stbtic finbl int INDEX_FCD_TRIE_SIZE      = 10;
+    /* number of bytes in the buxilibry trie */
+    stbtic finbl int INDEX_AUX_TRIE_SIZE      = 11;
+    /* chbnging this requires b new formbtVersion */
+    stbtic finbl int INDEX_TOP                = 32;
 
 
-    /* AUX constants */
-    /* value constants for auxTrie */
-    private static final int AUX_UNSAFE_SHIFT           = 11;
-    private static final int AUX_COMP_EX_SHIFT           = 10;
-    private static final int AUX_NFC_SKIPPABLE_F_SHIFT = 12;
+    /* AUX constbnts */
+    /* vblue constbnts for buxTrie */
+    privbte stbtic finbl int AUX_UNSAFE_SHIFT           = 11;
+    privbte stbtic finbl int AUX_COMP_EX_SHIFT           = 10;
+    privbte stbtic finbl int AUX_NFC_SKIPPABLE_F_SHIFT = 12;
 
-    private static final int AUX_MAX_FNC          =   1<<AUX_COMP_EX_SHIFT;
-    private static final int AUX_UNSAFE_MASK      =   (int)((1<<AUX_UNSAFE_SHIFT) & UNSIGNED_INT_MASK);
-    private static final int AUX_FNC_MASK         =   (int)((AUX_MAX_FNC-1) & UNSIGNED_INT_MASK);
-    private static final int AUX_COMP_EX_MASK     =   (int)((1<<AUX_COMP_EX_SHIFT) & UNSIGNED_INT_MASK);
-    private static final long AUX_NFC_SKIP_F_MASK =   ((UNSIGNED_INT_MASK&1)<<AUX_NFC_SKIPPABLE_F_SHIFT);
+    privbte stbtic finbl int AUX_MAX_FNC          =   1<<AUX_COMP_EX_SHIFT;
+    privbte stbtic finbl int AUX_UNSAFE_MASK      =   (int)((1<<AUX_UNSAFE_SHIFT) & UNSIGNED_INT_MASK);
+    privbte stbtic finbl int AUX_FNC_MASK         =   (int)((AUX_MAX_FNC-1) & UNSIGNED_INT_MASK);
+    privbte stbtic finbl int AUX_COMP_EX_MASK     =   (int)((1<<AUX_COMP_EX_SHIFT) & UNSIGNED_INT_MASK);
+    privbte stbtic finbl long AUX_NFC_SKIP_F_MASK =   ((UNSIGNED_INT_MASK&1)<<AUX_NFC_SKIPPABLE_F_SHIFT);
 
-    private static final int MAX_BUFFER_SIZE                    = 20;
+    privbte stbtic finbl int MAX_BUFFER_SIZE                    = 20;
 
     /*******************************/
 
-    /* Wrappers for Trie implementations */
-    static final class NormTrieImpl implements Trie.DataManipulate{
-        static IntTrie normTrie= null;
+    /* Wrbppers for Trie implementbtions */
+    stbtic finbl clbss NormTrieImpl implements Trie.DbtbMbnipulbte{
+        stbtic IntTrie normTrie= null;
        /**
-        * Called by com.ibm.icu.util.Trie to extract from a lead surrogate's
-        * data the index array offset of the indexes for that lead surrogate.
-        * @param property data value for a surrogate from the trie, including
+        * Cblled by com.ibm.icu.util.Trie to extrbct from b lebd surrogbte's
+        * dbtb the index brrby offset of the indexes for thbt lebd surrogbte.
+        * @pbrbm property dbtb vblue for b surrogbte from the trie, including
         *         the folding offset
-        * @return data offset or 0 if there is no data for the lead surrogate
+        * @return dbtb offset or 0 if there is no dbtb for the lebd surrogbte
         */
-        /* normTrie: 32-bit trie result may contain a special extraData index with the folding offset */
-        public int getFoldingOffset(int value){
+        /* normTrie: 32-bit trie result mby contbin b specibl extrbDbtb index with the folding offset */
+        public int getFoldingOffset(int vblue){
             return  BMP_INDEX_LENGTH+
-                    ((value>>(EXTRA_SHIFT-SURROGATE_BLOCK_BITS))&
+                    ((vblue>>(EXTRA_SHIFT-SURROGATE_BLOCK_BITS))&
                     (0x3ff<<SURROGATE_BLOCK_BITS));
         }
 
     }
-    static final class FCDTrieImpl implements Trie.DataManipulate{
-        static CharTrie fcdTrie=null;
+    stbtic finbl clbss FCDTrieImpl implements Trie.DbtbMbnipulbte{
+        stbtic ChbrTrie fcdTrie=null;
        /**
-        * Called by com.ibm.icu.util.Trie to extract from a lead surrogate's
-        * data the index array offset of the indexes for that lead surrogate.
-        * @param property data value for a surrogate from the trie, including
+        * Cblled by com.ibm.icu.util.Trie to extrbct from b lebd surrogbte's
+        * dbtb the index brrby offset of the indexes for thbt lebd surrogbte.
+        * @pbrbm property dbtb vblue for b surrogbte from the trie, including
         *         the folding offset
-        * @return data offset or 0 if there is no data for the lead surrogate
+        * @return dbtb offset or 0 if there is no dbtb for the lebd surrogbte
         */
-        /* fcdTrie: the folding offset is the lead FCD value itself */
-        public int getFoldingOffset(int value){
-            return value;
+        /* fcdTrie: the folding offset is the lebd FCD vblue itself */
+        public int getFoldingOffset(int vblue){
+            return vblue;
         }
     }
 
-    static final class AuxTrieImpl implements Trie.DataManipulate{
-        static CharTrie auxTrie = null;
+    stbtic finbl clbss AuxTrieImpl implements Trie.DbtbMbnipulbte{
+        stbtic ChbrTrie buxTrie = null;
        /**
-        * Called by com.ibm.icu.util.Trie to extract from a lead surrogate's
-        * data the index array offset of the indexes for that lead surrogate.
-        * @param property data value for a surrogate from the trie, including
+        * Cblled by com.ibm.icu.util.Trie to extrbct from b lebd surrogbte's
+        * dbtb the index brrby offset of the indexes for thbt lebd surrogbte.
+        * @pbrbm property dbtb vblue for b surrogbte from the trie, including
         *        the folding offset
-        * @return data offset or 0 if there is no data for the lead surrogate
+        * @return dbtb offset or 0 if there is no dbtb for the lebd surrogbte
         */
-        /* auxTrie: the folding offset is in bits 9..0 of the 16-bit trie result */
-        public int getFoldingOffset(int value){
-            return (value &AUX_FNC_MASK)<<SURROGATE_BLOCK_BITS;
+        /* buxTrie: the folding offset is in bits 9..0 of the 16-bit trie result */
+        public int getFoldingOffset(int vblue){
+            return (vblue &AUX_FNC_MASK)<<SURROGATE_BLOCK_BITS;
         }
     }
 
     /****************************************************/
 
 
-    private static FCDTrieImpl fcdTrieImpl;
-    private static NormTrieImpl normTrieImpl;
-    private static AuxTrieImpl auxTrieImpl;
-    private static int[] indexes;
-    private static char[] combiningTable;
-    private static char[] extraData;
+    privbte stbtic FCDTrieImpl fcdTrieImpl;
+    privbte stbtic NormTrieImpl normTrieImpl;
+    privbte stbtic AuxTrieImpl buxTrieImpl;
+    privbte stbtic int[] indexes;
+    privbte stbtic chbr[] combiningTbble;
+    privbte stbtic chbr[] extrbDbtb;
 
-    private static boolean isDataLoaded;
-    private static boolean isFormatVersion_2_1;
-    private static boolean isFormatVersion_2_2;
-    private static byte[] unicodeVersion;
-
-    /**
-     * Default buffer size of datafile
-     */
-    private static final int DATA_BUFFER_SIZE = 25000;
+    privbte stbtic boolebn isDbtbLobded;
+    privbte stbtic boolebn isFormbtVersion_2_1;
+    privbte stbtic boolebn isFormbtVersion_2_2;
+    privbte stbtic byte[] unicodeVersion;
 
     /**
-     * FCD check: everything below this code point is known to have a 0
-     * lead combining class
+     * Defbult buffer size of dbtbfile
      */
-    public static final int MIN_WITH_LEAD_CC=0x300;
+    privbte stbtic finbl int DATA_BUFFER_SIZE = 25000;
+
+    /**
+     * FCD check: everything below this code point is known to hbve b 0
+     * lebd combining clbss
+     */
+    public stbtic finbl int MIN_WITH_LEAD_CC=0x300;
 
 
     /**
-     * Bit 7 of the length byte for a decomposition string in extra data is
-     * a flag indicating whether the decomposition string is
-     * preceded by a 16-bit word with the leading and trailing cc
-     * of the decomposition (like for A-umlaut);
-     * if not, then both cc's are zero (like for compatibility ideographs).
+     * Bit 7 of the length byte for b decomposition string in extrb dbtb is
+     * b flbg indicbting whether the decomposition string is
+     * preceded by b 16-bit word with the lebding bnd trbiling cc
+     * of the decomposition (like for A-umlbut);
+     * if not, then both cc's bre zero (like for compbtibility ideogrbphs).
      */
-    private static final int DECOMP_FLAG_LENGTH_HAS_CC=0x80;
+    privbte stbtic finbl int DECOMP_FLAG_LENGTH_HAS_CC=0x80;
     /**
-     * Bits 6..0 of the length byte contain the actual length.
+     * Bits 6..0 of the length byte contbin the bctubl length.
      */
-    private static final int DECOMP_LENGTH_MASK=0x7f;
+    privbte stbtic finbl int DECOMP_LENGTH_MASK=0x7f;
 
-    /** Length of the BMP portion of the index (stage 1) array. */
-    private static final int BMP_INDEX_LENGTH=0x10000>>Trie.INDEX_STAGE_1_SHIFT_;
-    /** Number of bits of a trail surrogate that are used in index table
+    /** Length of the BMP portion of the index (stbge 1) brrby. */
+    privbte stbtic finbl int BMP_INDEX_LENGTH=0x10000>>Trie.INDEX_STAGE_1_SHIFT_;
+    /** Number of bits of b trbil surrogbte thbt bre used in index tbble
      * lookups.
      */
-    private static final int SURROGATE_BLOCK_BITS=10-Trie.INDEX_STAGE_1_SHIFT_;
+    privbte stbtic finbl int SURROGATE_BLOCK_BITS=10-Trie.INDEX_STAGE_1_SHIFT_;
 
 
    // public utility
-   public static int getFromIndexesArr(int index){
+   public stbtic int getFromIndexesArr(int index){
         return indexes[index];
    }
 
@@ -249,261 +249,261 @@ public final class NormalizerImpl {
 
     /**
     * Constructor
-    * @exception thrown when data reading fails or data corrupted
+    * @exception thrown when dbtb rebding fbils or dbtb corrupted
     */
-    private NormalizerImpl() throws IOException {
-        //data should be loaded only once
-        if(!isDataLoaded){
+    privbte NormblizerImpl() throws IOException {
+        //dbtb should be lobded only once
+        if(!isDbtbLobded){
 
-            // jar access
-            InputStream i = ICUData.getRequiredStream(DATA_FILE_NAME);
-            BufferedInputStream b = new BufferedInputStream(i,DATA_BUFFER_SIZE);
-            NormalizerDataReader reader = new NormalizerDataReader(b);
+            // jbr bccess
+            InputStrebm i = ICUDbtb.getRequiredStrebm(DATA_FILE_NAME);
+            BufferedInputStrebm b = new BufferedInputStrebm(i,DATA_BUFFER_SIZE);
+            NormblizerDbtbRebder rebder = new NormblizerDbtbRebder(b);
 
-            // read the indexes
-            indexes = reader.readIndexes(NormalizerImpl.INDEX_TOP);
+            // rebd the indexes
+            indexes = rebder.rebdIndexes(NormblizerImpl.INDEX_TOP);
 
-            byte[] normBytes = new byte[indexes[NormalizerImpl.INDEX_TRIE_SIZE]];
+            byte[] normBytes = new byte[indexes[NormblizerImpl.INDEX_TRIE_SIZE]];
 
-            int combiningTableTop = indexes[NormalizerImpl.INDEX_COMBINE_DATA_COUNT];
-            combiningTable = new char[combiningTableTop];
+            int combiningTbbleTop = indexes[NormblizerImpl.INDEX_COMBINE_DATA_COUNT];
+            combiningTbble = new chbr[combiningTbbleTop];
 
-            int extraDataTop = indexes[NormalizerImpl.INDEX_CHAR_COUNT];
-            extraData = new char[extraDataTop];
+            int extrbDbtbTop = indexes[NormblizerImpl.INDEX_CHAR_COUNT];
+            extrbDbtb = new chbr[extrbDbtbTop];
 
-            byte[] fcdBytes = new byte[indexes[NormalizerImpl.INDEX_FCD_TRIE_SIZE]];
-            byte[] auxBytes = new byte[indexes[NormalizerImpl.INDEX_AUX_TRIE_SIZE]];
+            byte[] fcdBytes = new byte[indexes[NormblizerImpl.INDEX_FCD_TRIE_SIZE]];
+            byte[] buxBytes = new byte[indexes[NormblizerImpl.INDEX_AUX_TRIE_SIZE]];
 
             fcdTrieImpl = new FCDTrieImpl();
             normTrieImpl = new NormTrieImpl();
-            auxTrieImpl = new AuxTrieImpl();
+            buxTrieImpl = new AuxTrieImpl();
 
-            // load the rest of the data data and initialize the data members
-            reader.read(normBytes, fcdBytes,auxBytes, extraData, combiningTable);
+            // lobd the rest of the dbtb dbtb bnd initiblize the dbtb members
+            rebder.rebd(normBytes, fcdBytes,buxBytes, extrbDbtb, combiningTbble);
 
-            NormTrieImpl.normTrie = new IntTrie( new ByteArrayInputStream(normBytes),normTrieImpl );
-            FCDTrieImpl.fcdTrie   = new CharTrie( new ByteArrayInputStream(fcdBytes),fcdTrieImpl  );
-            AuxTrieImpl.auxTrie   = new CharTrie( new ByteArrayInputStream(auxBytes),auxTrieImpl  );
+            NormTrieImpl.normTrie = new IntTrie( new ByteArrbyInputStrebm(normBytes),normTrieImpl );
+            FCDTrieImpl.fcdTrie   = new ChbrTrie( new ByteArrbyInputStrebm(fcdBytes),fcdTrieImpl  );
+            AuxTrieImpl.buxTrie   = new ChbrTrie( new ByteArrbyInputStrebm(buxBytes),buxTrieImpl  );
 
-            // we reached here without any exceptions so the data is fully
-            // loaded set the variable to true
-            isDataLoaded = true;
+            // we rebched here without bny exceptions so the dbtb is fully
+            // lobded set the vbribble to true
+            isDbtbLobded = true;
 
-            // get the data format version
-            byte[] formatVersion = reader.getDataFormatVersion();
+            // get the dbtb formbt version
+            byte[] formbtVersion = rebder.getDbtbFormbtVersion();
 
-            isFormatVersion_2_1 =( formatVersion[0]>2
+            isFormbtVersion_2_1 =( formbtVersion[0]>2
                                     ||
-                                   (formatVersion[0]==2 && formatVersion[1]>=1)
+                                   (formbtVersion[0]==2 && formbtVersion[1]>=1)
                                  );
-            isFormatVersion_2_2 =( formatVersion[0]>2
+            isFormbtVersion_2_2 =( formbtVersion[0]>2
                                     ||
-                                   (formatVersion[0]==2 && formatVersion[1]>=2)
+                                   (formbtVersion[0]==2 && formbtVersion[1]>=2)
                                  );
-            unicodeVersion = reader.getUnicodeVersion();
+            unicodeVersion = rebder.getUnicodeVersion();
             b.close();
         }
     }
 
     /* ---------------------------------------------------------------------- */
 
-    /* Korean Hangul and Jamo constants */
+    /* Korebn Hbngul bnd Jbmo constbnts */
 
-    public static final int JAMO_L_BASE=0x1100;     /* "lead" jamo */
-    public static final int JAMO_V_BASE=0x1161;     /* "vowel" jamo */
-    public static final int JAMO_T_BASE=0x11a7;     /* "trail" jamo */
+    public stbtic finbl int JAMO_L_BASE=0x1100;     /* "lebd" jbmo */
+    public stbtic finbl int JAMO_V_BASE=0x1161;     /* "vowel" jbmo */
+    public stbtic finbl int JAMO_T_BASE=0x11b7;     /* "trbil" jbmo */
 
-    public static final int HANGUL_BASE=0xac00;
+    public stbtic finbl int HANGUL_BASE=0xbc00;
 
-    public static final int JAMO_L_COUNT=19;
-    public static final int JAMO_V_COUNT=21;
-    public static final int JAMO_T_COUNT=28;
-    public  static final int HANGUL_COUNT=JAMO_L_COUNT*JAMO_V_COUNT*JAMO_T_COUNT;
+    public stbtic finbl int JAMO_L_COUNT=19;
+    public stbtic finbl int JAMO_V_COUNT=21;
+    public stbtic finbl int JAMO_T_COUNT=28;
+    public  stbtic finbl int HANGUL_COUNT=JAMO_L_COUNT*JAMO_V_COUNT*JAMO_T_COUNT;
 
-    private static boolean isHangulWithoutJamoT(char c) {
+    privbte stbtic boolebn isHbngulWithoutJbmoT(chbr c) {
         c-=HANGUL_BASE;
         return c<HANGUL_COUNT && c%JAMO_T_COUNT==0;
     }
 
     /* norm32 helpers */
 
-    /* is this a norm32 with a regular index? */
-    private static boolean isNorm32Regular(long norm32) {
+    /* is this b norm32 with b regulbr index? */
+    privbte stbtic boolebn isNorm32Regulbr(long norm32) {
         return norm32<MIN_SPECIAL;
     }
 
-    /* is this a norm32 with a special index for a lead surrogate? */
-    private static boolean isNorm32LeadSurrogate(long norm32) {
+    /* is this b norm32 with b specibl index for b lebd surrogbte? */
+    privbte stbtic boolebn isNorm32LebdSurrogbte(long norm32) {
         return MIN_SPECIAL<=norm32 && norm32<SURROGATES_TOP;
     }
 
-    /* is this a norm32 with a special index for a Hangul syllable or a Jamo? */
-    private static boolean isNorm32HangulOrJamo(long norm32) {
+    /* is this b norm32 with b specibl index for b Hbngul syllbble or b Jbmo? */
+    privbte stbtic boolebn isNorm32HbngulOrJbmo(long norm32) {
         return norm32>=MIN_HANGUL;
     }
 
     /*
-     * Given norm32 for Jamo V or T,
-     * is this a Jamo V?
+     * Given norm32 for Jbmo V or T,
+     * is this b Jbmo V?
      */
-    private static boolean isJamoVTNorm32JamoV(long norm32) {
+    privbte stbtic boolebn isJbmoVTNorm32JbmoV(long norm32) {
         return norm32<JAMO_V_TOP;
     }
 
-    /* data access primitives ----------------------------------------------- */
+    /* dbtb bccess primitives ----------------------------------------------- */
 
-    public static long/*unsigned*/ getNorm32(char c) {
-        return ((UNSIGNED_INT_MASK) & (NormTrieImpl.normTrie.getLeadValue(c)));
+    public stbtic long/*unsigned*/ getNorm32(chbr c) {
+        return ((UNSIGNED_INT_MASK) & (NormTrieImpl.normTrie.getLebdVblue(c)));
     }
 
-    public static long/*unsigned*/ getNorm32FromSurrogatePair(long norm32,
-                                                               char c2) {
+    public stbtic long/*unsigned*/ getNorm32FromSurrogbtePbir(long norm32,
+                                                               chbr c2) {
         /*
-         * the surrogate index in norm32 stores only the number of the surrogate
-         * index block see gennorm/store.c/getFoldedNormValue()
+         * the surrogbte index in norm32 stores only the number of the surrogbte
+         * index block see gennorm/store.c/getFoldedNormVblue()
          */
         return ((UNSIGNED_INT_MASK) &
-                    NormTrieImpl.normTrie.getTrailValue((int)norm32, c2));
+                    NormTrieImpl.normTrie.getTrbilVblue((int)norm32, c2));
     }
     ///CLOVER:OFF
-    private static long getNorm32(int c){
-        return (UNSIGNED_INT_MASK&(NormTrieImpl.normTrie.getCodePointValue(c)));
+    privbte stbtic long getNorm32(int c){
+        return (UNSIGNED_INT_MASK&(NormTrieImpl.normTrie.getCodePointVblue(c)));
     }
 
     /*
-     * get a norm32 from text with complete code points
+     * get b norm32 from text with complete code points
      * (like from decompositions)
      */
-    private static long/*unsigned*/ getNorm32(char[] p,int start,
-                                              int/*unsigned*/ mask) {
-        long/*unsigned*/ norm32= getNorm32(p[start]);
-        if(((norm32&mask)>0) && isNorm32LeadSurrogate(norm32)) {
-            /* *p is a lead surrogate, get the real norm32 */
-            norm32=getNorm32FromSurrogatePair(norm32, p[start+1]);
+    privbte stbtic long/*unsigned*/ getNorm32(chbr[] p,int stbrt,
+                                              int/*unsigned*/ mbsk) {
+        long/*unsigned*/ norm32= getNorm32(p[stbrt]);
+        if(((norm32&mbsk)>0) && isNorm32LebdSurrogbte(norm32)) {
+            /* *p is b lebd surrogbte, get the rebl norm32 */
+            norm32=getNorm32FromSurrogbtePbir(norm32, p[stbrt+1]);
         }
         return norm32;
     }
 
     //// for StringPrep
-    public static VersionInfo getUnicodeVersion(){
-        return VersionInfo.getInstance(unicodeVersion[0], unicodeVersion[1],
+    public stbtic VersionInfo getUnicodeVersion(){
+        return VersionInfo.getInstbnce(unicodeVersion[0], unicodeVersion[1],
                                        unicodeVersion[2], unicodeVersion[3]);
     }
 
-    public static char    getFCD16(char c) {
-        return  FCDTrieImpl.fcdTrie.getLeadValue(c);
+    public stbtic chbr    getFCD16(chbr c) {
+        return  FCDTrieImpl.fcdTrie.getLebdVblue(c);
     }
 
-    public static char getFCD16FromSurrogatePair(char fcd16, char c2) {
-        /* the surrogate index in fcd16 is an absolute offset over the
-         * start of stage 1
+    public stbtic chbr getFCD16FromSurrogbtePbir(chbr fcd16, chbr c2) {
+        /* the surrogbte index in fcd16 is bn bbsolute offset over the
+         * stbrt of stbge 1
          * */
-        return FCDTrieImpl.fcdTrie.getTrailValue(fcd16, c2);
+        return FCDTrieImpl.fcdTrie.getTrbilVblue(fcd16, c2);
     }
-    public static int getFCD16(int c) {
-        return  FCDTrieImpl.fcdTrie.getCodePointValue(c);
+    public stbtic int getFCD16(int c) {
+        return  FCDTrieImpl.fcdTrie.getCodePointVblue(c);
     }
 
-    private static int getExtraDataIndex(long norm32) {
+    privbte stbtic int getExtrbDbtbIndex(long norm32) {
         return (int)(norm32>>EXTRA_SHIFT);
     }
 
-    private static final class DecomposeArgs{
+    privbte stbtic finbl clbss DecomposeArgs{
         int /*unsigned byte*/ cc;
-        int /*unsigned byte*/ trailCC;
+        int /*unsigned byte*/ trbilCC;
         int length;
     }
     /**
      *
-     * get the canonical or compatibility decomposition for one character
+     * get the cbnonicbl or compbtibility decomposition for one chbrbcter
      *
-     * @return index into the extraData array
+     * @return index into the extrbDbtb brrby
      */
-    private static int/*index*/ decompose(long/*unsigned*/ norm32,
-                                          int/*unsigned*/ qcMask,
-                                          DecomposeArgs args) {
-        int p= getExtraDataIndex(norm32);
-        args.length=extraData[p++];
+    privbte stbtic int/*index*/ decompose(long/*unsigned*/ norm32,
+                                          int/*unsigned*/ qcMbsk,
+                                          DecomposeArgs brgs) {
+        int p= getExtrbDbtbIndex(norm32);
+        brgs.length=extrbDbtb[p++];
 
-        if((norm32&qcMask&QC_NFKD)!=0 && args.length>=0x100) {
-            /* use compatibility decomposition, skip canonical data */
-            p+=((args.length>>7)&1)+(args.length&DECOMP_LENGTH_MASK);
-            args.length>>=8;
+        if((norm32&qcMbsk&QC_NFKD)!=0 && brgs.length>=0x100) {
+            /* use compbtibility decomposition, skip cbnonicbl dbtb */
+            p+=((brgs.length>>7)&1)+(brgs.length&DECOMP_LENGTH_MASK);
+            brgs.length>>=8;
         }
 
-        if((args.length&DECOMP_FLAG_LENGTH_HAS_CC)>0) {
-            /* get the lead and trail cc's */
-            char bothCCs=extraData[p++];
-            args.cc=(UNSIGNED_BYTE_MASK) & (bothCCs>>8);
-            args.trailCC=(UNSIGNED_BYTE_MASK) & bothCCs;
+        if((brgs.length&DECOMP_FLAG_LENGTH_HAS_CC)>0) {
+            /* get the lebd bnd trbil cc's */
+            chbr bothCCs=extrbDbtb[p++];
+            brgs.cc=(UNSIGNED_BYTE_MASK) & (bothCCs>>8);
+            brgs.trbilCC=(UNSIGNED_BYTE_MASK) & bothCCs;
         } else {
-            /* lead and trail cc's are both 0 */
-            args.cc=args.trailCC=0;
+            /* lebd bnd trbil cc's bre both 0 */
+            brgs.cc=brgs.trbilCC=0;
         }
 
-        args.length&=DECOMP_LENGTH_MASK;
+        brgs.length&=DECOMP_LENGTH_MASK;
         return p;
     }
 
 
     /**
-     * get the canonical decomposition for one character
-     * @return index into the extraData array
+     * get the cbnonicbl decomposition for one chbrbcter
+     * @return index into the extrbDbtb brrby
      */
-    private static int decompose(long/*unsigned*/ norm32,
-                                 DecomposeArgs args) {
+    privbte stbtic int decompose(long/*unsigned*/ norm32,
+                                 DecomposeArgs brgs) {
 
-        int p= getExtraDataIndex(norm32);
-        args.length=extraData[p++];
+        int p= getExtrbDbtbIndex(norm32);
+        brgs.length=extrbDbtb[p++];
 
-        if((args.length&DECOMP_FLAG_LENGTH_HAS_CC)>0) {
-            /* get the lead and trail cc's */
-            char bothCCs=extraData[p++];
-            args.cc=(UNSIGNED_BYTE_MASK) & (bothCCs>>8);
-            args.trailCC=(UNSIGNED_BYTE_MASK) & bothCCs;
+        if((brgs.length&DECOMP_FLAG_LENGTH_HAS_CC)>0) {
+            /* get the lebd bnd trbil cc's */
+            chbr bothCCs=extrbDbtb[p++];
+            brgs.cc=(UNSIGNED_BYTE_MASK) & (bothCCs>>8);
+            brgs.trbilCC=(UNSIGNED_BYTE_MASK) & bothCCs;
         } else {
-            /* lead and trail cc's are both 0 */
-            args.cc=args.trailCC=0;
+            /* lebd bnd trbil cc's bre both 0 */
+            brgs.cc=brgs.trbilCC=0;
         }
 
-        args.length&=DECOMP_LENGTH_MASK;
+        brgs.length&=DECOMP_LENGTH_MASK;
         return p;
     }
 
 
-    private static final class NextCCArgs{
-        char[] source;
+    privbte stbtic finbl clbss NextCCArgs{
+        chbr[] source;
         int next;
         int limit;
-        char c;
-        char c2;
+        chbr c;
+        chbr c2;
     }
 
     /*
-     * get the combining class of (c, c2)= args.source[args.next++]
-     * before: args.next<args.limit  after: args.next<=args.limit
+     * get the combining clbss of (c, c2)= brgs.source[brgs.next++]
+     * before: brgs.next<brgs.limit  bfter: brgs.next<=brgs.limit
      * if only one code unit is used, then c2==0
      */
-    private static int /*unsigned byte*/ getNextCC(NextCCArgs args) {
+    privbte stbtic int /*unsigned byte*/ getNextCC(NextCCArgs brgs) {
         long /*unsigned*/ norm32;
 
-        args.c=args.source[args.next++];
+        brgs.c=brgs.source[brgs.next++];
 
-        norm32= getNorm32(args.c);
+        norm32= getNorm32(brgs.c);
         if((norm32 & CC_MASK)==0) {
-            args.c2=0;
+            brgs.c2=0;
             return 0;
         } else {
-            if(!isNorm32LeadSurrogate(norm32)) {
-                args.c2=0;
+            if(!isNorm32LebdSurrogbte(norm32)) {
+                brgs.c2=0;
             } else {
-                /* c is a lead surrogate, get the real norm32 */
-                if(args.next!=args.limit &&
-                        UTF16.isTrailSurrogate(args.c2=args.source[args.next])){
-                    ++args.next;
-                    norm32=getNorm32FromSurrogatePair(norm32, args.c2);
+                /* c is b lebd surrogbte, get the rebl norm32 */
+                if(brgs.next!=brgs.limit &&
+                        UTF16.isTrbilSurrogbte(brgs.c2=brgs.source[brgs.next])){
+                    ++brgs.next;
+                    norm32=getNorm32FromSurrogbtePbir(norm32, brgs.c2);
                 } else {
-                    args.c2=0;
+                    brgs.c2=0;
                     return 0;
                 }
             }
@@ -512,185 +512,185 @@ public final class NormalizerImpl {
         }
     }
 
-    private static final class PrevArgs{
-        char[] src;
-        int start;
+    privbte stbtic finbl clbss PrevArgs{
+        chbr[] src;
+        int stbrt;
         int current;
-        char c;
-        char c2;
+        chbr c;
+        chbr c2;
     }
 
     /*
-     * read backwards and get norm32
-     * return 0 if the character is <minC
-     * if c2!=0 then (c2, c) is a surrogate pair (reversed - c2 is first
-     * surrogate but read second!)
+     * rebd bbckwbrds bnd get norm32
+     * return 0 if the chbrbcter is <minC
+     * if c2!=0 then (c2, c) is b surrogbte pbir (reversed - c2 is first
+     * surrogbte but rebd second!)
      */
-    private static long /*unsigned*/ getPrevNorm32(PrevArgs args,
+    privbte stbtic long /*unsigned*/ getPrevNorm32(PrevArgs brgs,
                                                       int/*unsigned*/ minC,
-                                                      int/*unsigned*/ mask) {
+                                                      int/*unsigned*/ mbsk) {
         long/*unsigned*/ norm32;
 
-        args.c=args.src[--args.current];
-        args.c2=0;
+        brgs.c=brgs.src[--brgs.current];
+        brgs.c2=0;
 
-        /* check for a surrogate before getting norm32 to see if we need to
+        /* check for b surrogbte before getting norm32 to see if we need to
          * predecrement further
          */
-        if(args.c<minC) {
+        if(brgs.c<minC) {
             return 0;
-        } else if(!UTF16.isSurrogate(args.c)) {
-            return getNorm32(args.c);
-        } else if(UTF16.isLeadSurrogate(args.c)) {
-            /* unpaired first surrogate */
+        } else if(!UTF16.isSurrogbte(brgs.c)) {
+            return getNorm32(brgs.c);
+        } else if(UTF16.isLebdSurrogbte(brgs.c)) {
+            /* unpbired first surrogbte */
             return 0;
-        } else if(args.current!=args.start &&
-                    UTF16.isLeadSurrogate(args.c2=args.src[args.current-1])) {
-            --args.current;
-            norm32=getNorm32(args.c2);
+        } else if(brgs.current!=brgs.stbrt &&
+                    UTF16.isLebdSurrogbte(brgs.c2=brgs.src[brgs.current-1])) {
+            --brgs.current;
+            norm32=getNorm32(brgs.c2);
 
-            if((norm32&mask)==0) {
-                /* all surrogate pairs with this lead surrogate have
-                 * only irrelevant data
+            if((norm32&mbsk)==0) {
+                /* bll surrogbte pbirs with this lebd surrogbte hbve
+                 * only irrelevbnt dbtb
                  */
                 return 0;
             } else {
-                /* norm32 must be a surrogate special */
-                return getNorm32FromSurrogatePair(norm32, args.c);
+                /* norm32 must be b surrogbte specibl */
+                return getNorm32FromSurrogbtePbir(norm32, brgs.c);
             }
         } else {
-            /* unpaired second surrogate */
-            args.c2=0;
+            /* unpbired second surrogbte */
+            brgs.c2=0;
             return 0;
         }
     }
 
     /*
-     * get the combining class of (c, c2)=*--p
-     * before: start<p  after: start<=p
+     * get the combining clbss of (c, c2)=*--p
+     * before: stbrt<p  bfter: stbrt<=p
      */
-    private static int /*unsigned byte*/ getPrevCC(PrevArgs args) {
+    privbte stbtic int /*unsigned byte*/ getPrevCC(PrevArgs brgs) {
 
-        return (int)((UNSIGNED_BYTE_MASK)&(getPrevNorm32(args, MIN_WITH_LEAD_CC,
+        return (int)((UNSIGNED_BYTE_MASK)&(getPrevNorm32(brgs, MIN_WITH_LEAD_CC,
                                                          CC_MASK)>>CC_SHIFT));
     }
 
     /*
-     * is this a safe boundary character for NF*D?
-     * (lead cc==0)
+     * is this b sbfe boundbry chbrbcter for NF*D?
+     * (lebd cc==0)
      */
-    public static boolean isNFDSafe(long/*unsigned*/ norm32,
-                                     int/*unsigned*/ccOrQCMask,
-                                     int/*unsigned*/ decompQCMask) {
-        if((norm32&ccOrQCMask)==0) {
-            return true; /* cc==0 and no decomposition: this is NF*D safe */
+    public stbtic boolebn isNFDSbfe(long/*unsigned*/ norm32,
+                                     int/*unsigned*/ccOrQCMbsk,
+                                     int/*unsigned*/ decompQCMbsk) {
+        if((norm32&ccOrQCMbsk)==0) {
+            return true; /* cc==0 bnd no decomposition: this is NF*D sbfe */
         }
 
-        /* inspect its decomposition - maybe a Hangul but not a surrogate here*/
-        if(isNorm32Regular(norm32) && (norm32&decompQCMask)!=0) {
-            DecomposeArgs args=new DecomposeArgs();
-            /* decomposes, get everything from the variable-length extra data */
-            decompose(norm32, decompQCMask, args);
-            return args.cc==0;
+        /* inspect its decomposition - mbybe b Hbngul but not b surrogbte here*/
+        if(isNorm32Regulbr(norm32) && (norm32&decompQCMbsk)!=0) {
+            DecomposeArgs brgs=new DecomposeArgs();
+            /* decomposes, get everything from the vbribble-length extrb dbtb */
+            decompose(norm32, decompQCMbsk, brgs);
+            return brgs.cc==0;
         } else {
-            /* no decomposition (or Hangul), test the cc directly */
+            /* no decomposition (or Hbngul), test the cc directly */
             return (norm32&CC_MASK)==0;
         }
     }
 
     /*
-     * is this (or does its decomposition begin with) a "true starter"?
-     * (cc==0 and NF*C_YES)
+     * is this (or does its decomposition begin with) b "true stbrter"?
+     * (cc==0 bnd NF*C_YES)
      */
-    public static boolean isTrueStarter(long/*unsigned*/ norm32,
-                                          int/*unsigned*/ ccOrQCMask,
-                                          int/*unsigned*/ decompQCMask) {
-        if((norm32&ccOrQCMask)==0) {
-            return true; /* this is a true starter (could be Hangul or Jamo L)*/
+    public stbtic boolebn isTrueStbrter(long/*unsigned*/ norm32,
+                                          int/*unsigned*/ ccOrQCMbsk,
+                                          int/*unsigned*/ decompQCMbsk) {
+        if((norm32&ccOrQCMbsk)==0) {
+            return true; /* this is b true stbrter (could be Hbngul or Jbmo L)*/
         }
 
-        /* inspect its decomposition - not a Hangul or a surrogate here */
-        if((norm32&decompQCMask)!=0) {
-            int p; /* index into extra data array */
-            DecomposeArgs args=new DecomposeArgs();
-            /* decomposes, get everything from the variable-length extra data */
-            p=decompose(norm32, decompQCMask, args);
+        /* inspect its decomposition - not b Hbngul or b surrogbte here */
+        if((norm32&decompQCMbsk)!=0) {
+            int p; /* index into extrb dbtb brrby */
+            DecomposeArgs brgs=new DecomposeArgs();
+            /* decomposes, get everything from the vbribble-length extrb dbtb */
+            p=decompose(norm32, decompQCMbsk, brgs);
 
-            if(args.cc==0) {
-                int/*unsigned*/ qcMask=ccOrQCMask&QC_MASK;
+            if(brgs.cc==0) {
+                int/*unsigned*/ qcMbsk=ccOrQCMbsk&QC_MASK;
 
                 /* does it begin with NFC_YES? */
-                if((getNorm32(extraData,p, qcMask)&qcMask)==0) {
-                    /* yes, the decomposition begins with a true starter */
+                if((getNorm32(extrbDbtb,p, qcMbsk)&qcMbsk)==0) {
+                    /* yes, the decomposition begins with b true stbrter */
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
-    /* reorder UTF-16 in-place ---------------------------------------------- */
+    /* reorder UTF-16 in-plbce ---------------------------------------------- */
 
     /**
-     * simpler, single-character version of mergeOrdered() -
+     * simpler, single-chbrbcter version of mergeOrdered() -
      * bubble-insert one single code point into the preceding string
-     * which is already canonically ordered
-     * (c, c2) may or may not yet have been inserted at src[current]..src[p]
+     * which is blrebdy cbnonicblly ordered
+     * (c, c2) mby or mby not yet hbve been inserted bt src[current]..src[p]
      *
      * it must be p=current+lengthof(c, c2) i.e. p=current+(c2==0 ? 1 : 2)
      *
-     * before: src[start]..src[current] is already ordered, and
-     *         src[current]..src[p]     may or may not hold (c, c2) but
-     *                          must be exactly the same length as (c, c2)
-     * after: src[start]..src[p] is ordered
+     * before: src[stbrt]..src[current] is blrebdy ordered, bnd
+     *         src[current]..src[p]     mby or mby not hold (c, c2) but
+     *                          must be exbctly the sbme length bs (c, c2)
+     * bfter: src[stbrt]..src[p] is ordered
      *
-     * @return the trailing combining class
+     * @return the trbiling combining clbss
      */
-    private static int/*unsigned byte*/ insertOrdered(char[] source,
-                                                      int start,
+    privbte stbtic int/*unsigned byte*/ insertOrdered(chbr[] source,
+                                                      int stbrt,
                                                       int current, int p,
-                                                         char c, char c2,
+                                                         chbr c, chbr c2,
                                                          int/*unsigned byte*/ cc) {
-        int back, preBack;
+        int bbck, preBbck;
         int r;
-        int prevCC, trailCC=cc;
+        int prevCC, trbilCC=cc;
 
-        if(start<current && cc!=0) {
-            // search for the insertion point where cc>=prevCC
-            preBack=back=current;
+        if(stbrt<current && cc!=0) {
+            // sebrch for the insertion point where cc>=prevCC
+            preBbck=bbck=current;
             PrevArgs prevArgs = new PrevArgs();
             prevArgs.current  = current;
-            prevArgs.start    = start;
+            prevArgs.stbrt    = stbrt;
             prevArgs.src      = source;
             // get the prevCC
             prevCC=getPrevCC(prevArgs);
-            preBack = prevArgs.current;
+            preBbck = prevArgs.current;
 
             if(cc<prevCC) {
-                // this will be the last code point, so keep its cc
-                trailCC=prevCC;
-                back=preBack;
-                while(start<preBack) {
+                // this will be the lbst code point, so keep its cc
+                trbilCC=prevCC;
+                bbck=preBbck;
+                while(stbrt<preBbck) {
                     prevCC=getPrevCC(prevArgs);
-                    preBack=prevArgs.current;
+                    preBbck=prevArgs.current;
                     if(cc>=prevCC) {
-                        break;
+                        brebk;
                     }
-                    back=preBack;
+                    bbck=preBbck;
                 }
 
 
-                // this is where we are right now with all these indicies:
-                // [start]..[pPreBack] 0..? code points that we can ignore
-                // [pPreBack]..[pBack] 0..1 code points with prevCC<=cc
-                // [pBack]..[current] 0..n code points with >cc, move up to insert (c, c2)
+                // this is where we bre right now with bll these indicies:
+                // [stbrt]..[pPreBbck] 0..? code points thbt we cbn ignore
+                // [pPreBbck]..[pBbck] 0..1 code points with prevCC<=cc
+                // [pBbck]..[current] 0..n code points with >cc, move up to insert (c, c2)
                 // [current]..[p]         1 code point (c, c2) with cc
 
                 // move the code units in between up
                 r=p;
                 do {
                     source[--r]=source[--current];
-                } while(back!=current);
+                } while(bbck!=current);
             }
         }
 
@@ -700,73 +700,73 @@ public final class NormalizerImpl {
             source[(current+1)]=c2;
         }
 
-        // we know the cc of the last code point
-        return trailCC;
+        // we know the cc of the lbst code point
+        return trbilCC;
     }
 
     /**
-     * merge two UTF-16 string parts together
-     * to canonically order (order by combining classes) their concatenation
+     * merge two UTF-16 string pbrts together
+     * to cbnonicblly order (order by combining clbsses) their concbtenbtion
      *
-     * the two strings may already be adjacent, so that the merging is done
-     * in-place if the two strings are not adjacent, then the buffer holding the
-     * first one must be large enough
-     * the second string may or may not be ordered in itself
+     * the two strings mby blrebdy be bdjbcent, so thbt the merging is done
+     * in-plbce if the two strings bre not bdjbcent, then the buffer holding the
+     * first one must be lbrge enough
+     * the second string mby or mby not be ordered in itself
      *
-     * before: [start]..[current] is already ordered, and
-     *         [next]..[limit]    may be ordered in itself, but
-     *                          is not in relation to [start..current[
-     * after: [start..current+(limit-next)[ is ordered
+     * before: [stbrt]..[current] is blrebdy ordered, bnd
+     *         [next]..[limit]    mby be ordered in itself, but
+     *                          is not in relbtion to [stbrt..current[
+     * bfter: [stbrt..current+(limit-next)[ is ordered
      *
-     * the algorithm is a simple bubble-sort that takes the characters from
-     * src[next++] and inserts them in correct combining class order into the
-     * preceding part of the string
+     * the blgorithm is b simple bubble-sort thbt tbkes the chbrbcters from
+     * src[next++] bnd inserts them in correct combining clbss order into the
+     * preceding pbrt of the string
      *
-     * since this function is called much less often than the single-code point
-     * insertOrdered(), it just uses that for easier maintenance
+     * since this function is cblled much less often thbn the single-code point
+     * insertOrdered(), it just uses thbt for ebsier mbintenbnce
      *
-     * @return the trailing combining class
+     * @return the trbiling combining clbss
      */
-    private static int /*unsigned byte*/ mergeOrdered(char[] source,
-                                                      int start,
+    privbte stbtic int /*unsigned byte*/ mergeOrdered(chbr[] source,
+                                                      int stbrt,
                                                       int current,
-                                                      char[] data,
+                                                      chbr[] dbtb,
                                                         int next,
                                                         int limit,
-                                                        boolean isOrdered) {
+                                                        boolebn isOrdered) {
             int r;
-            int /*unsigned byte*/ cc, trailCC=0;
-            boolean adjacent;
+            int /*unsigned byte*/ cc, trbilCC=0;
+            boolebn bdjbcent;
 
-            adjacent= current==next;
+            bdjbcent= current==next;
             NextCCArgs ncArgs = new NextCCArgs();
-            ncArgs.source = data;
+            ncArgs.source = dbtb;
             ncArgs.next   = next;
             ncArgs.limit  = limit;
 
-            if(start!=current || !isOrdered) {
+            if(stbrt!=current || !isOrdered) {
 
                 while(ncArgs.next<ncArgs.limit) {
                     cc=getNextCC(ncArgs);
                     if(cc==0) {
-                        // does not bubble back
-                        trailCC=0;
-                        if(adjacent) {
+                        // does not bubble bbck
+                        trbilCC=0;
+                        if(bdjbcent) {
                             current=ncArgs.next;
                         } else {
-                            data[current++]=ncArgs.c;
+                            dbtb[current++]=ncArgs.c;
                             if(ncArgs.c2!=0) {
-                                data[current++]=ncArgs.c2;
+                                dbtb[current++]=ncArgs.c2;
                             }
                         }
                         if(isOrdered) {
-                            break;
+                            brebk;
                         } else {
-                            start=current;
+                            stbrt=current;
                         }
                     } else {
                         r=current+(ncArgs.c2==0 ? 1 : 2);
-                        trailCC=insertOrdered(source,start, current, r,
+                        trbilCC=insertOrdered(source,stbrt, current, r,
                                               ncArgs.c, ncArgs.c2, cc);
                         current=r;
                     }
@@ -774,78 +774,78 @@ public final class NormalizerImpl {
             }
 
             if(ncArgs.next==ncArgs.limit) {
-                // we know the cc of the last code point
-                return trailCC;
+                // we know the cc of the lbst code point
+                return trbilCC;
             } else {
-                if(!adjacent) {
-                    // copy the second string part
+                if(!bdjbcent) {
+                    // copy the second string pbrt
                     do {
-                        source[current++]=data[ncArgs.next++];
+                        source[current++]=dbtb[ncArgs.next++];
                     } while(ncArgs.next!=ncArgs.limit);
                     ncArgs.limit=current;
                 }
                 PrevArgs prevArgs = new PrevArgs();
-                prevArgs.src   = data;
-                prevArgs.start = start;
+                prevArgs.src   = dbtb;
+                prevArgs.stbrt = stbrt;
                 prevArgs.current =  ncArgs.limit;
                 return getPrevCC(prevArgs);
             }
 
     }
-    private static int /*unsigned byte*/ mergeOrdered(char[] source,
-                                                      int start,
+    privbte stbtic int /*unsigned byte*/ mergeOrdered(chbr[] source,
+                                                      int stbrt,
                                                       int current,
-                                                      char[] data,
-                                                        final int next,
-                                                        final int limit) {
-        return mergeOrdered(source,start,current,data,next,limit,true);
+                                                      chbr[] dbtb,
+                                                        finbl int next,
+                                                        finbl int limit) {
+        return mergeOrdered(source,stbrt,current,dbtb,next,limit,true);
     }
 
-    public static NormalizerBase.QuickCheckResult quickCheck(char[] src,
-                                                            int srcStart,
+    public stbtic NormblizerBbse.QuickCheckResult quickCheck(chbr[] src,
+                                                            int srcStbrt,
                                                             int srcLimit,
-                                                            int minNoMaybe,
-                                                            int qcMask,
+                                                            int minNoMbybe,
+                                                            int qcMbsk,
                                                             int options,
-                                                            boolean allowMaybe,
+                                                            boolebn bllowMbybe,
                                                             UnicodeSet nx){
 
-        int ccOrQCMask;
+        int ccOrQCMbsk;
         long norm32;
-        char c, c2;
-        char cc, prevCC;
+        chbr c, c2;
+        chbr cc, prevCC;
         long qcNorm32;
-        NormalizerBase.QuickCheckResult result;
-        ComposePartArgs args = new ComposePartArgs();
-        char[] buffer ;
-        int start = srcStart;
+        NormblizerBbse.QuickCheckResult result;
+        ComposePbrtArgs brgs = new ComposePbrtArgs();
+        chbr[] buffer ;
+        int stbrt = srcStbrt;
 
-        if(!isDataLoaded) {
-            return NormalizerBase.MAYBE;
+        if(!isDbtbLobded) {
+            return NormblizerBbse.MAYBE;
         }
-        // initialize
-        ccOrQCMask=CC_MASK|qcMask;
-        result=NormalizerBase.YES;
+        // initiblize
+        ccOrQCMbsk=CC_MASK|qcMbsk;
+        result=NormblizerBbse.YES;
         prevCC=0;
 
         for(;;) {
             for(;;) {
-                if(srcStart==srcLimit) {
+                if(srcStbrt==srcLimit) {
                     return result;
-                } else if((c=src[srcStart++])>=minNoMaybe &&
-                                  (( norm32=getNorm32(c)) & ccOrQCMask)!=0) {
-                    break;
+                } else if((c=src[srcStbrt++])>=minNoMbybe &&
+                                  (( norm32=getNorm32(c)) & ccOrQCMbsk)!=0) {
+                    brebk;
                 }
                 prevCC=0;
             }
 
 
-            // check one above-minimum, relevant code unit
-            if(isNorm32LeadSurrogate(norm32)) {
-                // c is a lead surrogate, get the real norm32
-                if(srcStart!=srcLimit&& UTF16.isTrailSurrogate(c2=src[srcStart])) {
-                    ++srcStart;
-                    norm32=getNorm32FromSurrogatePair(norm32,c2);
+            // check one bbove-minimum, relevbnt code unit
+            if(isNorm32LebdSurrogbte(norm32)) {
+                // c is b lebd surrogbte, get the rebl norm32
+                if(srcStbrt!=srcLimit&& UTF16.isTrbilSurrogbte(c2=src[srcStbrt])) {
+                    ++srcStbrt;
+                    norm32=getNorm32FromSurrogbtePbir(norm32,c2);
                 } else {
                     norm32=0;
                     c2=0;
@@ -853,66 +853,66 @@ public final class NormalizerImpl {
             }else{
                 c2=0;
             }
-            if(nx_contains(nx, c, c2)) {
+            if(nx_contbins(nx, c, c2)) {
                 /* excluded: norm32==0 */
                 norm32=0;
             }
 
             // check the combining order
-            cc=(char)((norm32>>CC_SHIFT)&0xFF);
+            cc=(chbr)((norm32>>CC_SHIFT)&0xFF);
             if(cc!=0 && cc<prevCC) {
-                return NormalizerBase.NO;
+                return NormblizerBbse.NO;
             }
             prevCC=cc;
 
-            // check for "no" or "maybe" quick check flags
-            qcNorm32 = norm32 & qcMask;
+            // check for "no" or "mbybe" quick check flbgs
+            qcNorm32 = norm32 & qcMbsk;
             if((qcNorm32& QC_ANY_NO)>=1) {
-                result= NormalizerBase.NO;
-                break;
+                result= NormblizerBbse.NO;
+                brebk;
             } else if(qcNorm32!=0) {
-                // "maybe" can only occur for NFC and NFKC
-                if(allowMaybe){
-                    result=NormalizerBase.MAYBE;
+                // "mbybe" cbn only occur for NFC bnd NFKC
+                if(bllowMbybe){
+                    result=NormblizerBbse.MAYBE;
                 }else{
-                    // normalize a section around here to see if it is really
-                    // normalized or not
-                    int prevStarter;
-                    int/*unsigned*/ decompQCMask;
+                    // normblize b section bround here to see if it is reblly
+                    // normblized or not
+                    int prevStbrter;
+                    int/*unsigned*/ decompQCMbsk;
 
-                    decompQCMask=(qcMask<<2)&0xf; // decomposition quick check mask
+                    decompQCMbsk=(qcMbsk<<2)&0xf; // decomposition quick check mbsk
 
-                    // find the previous starter
+                    // find the previous stbrter
 
-                    // set prevStarter to the beginning of the current character
-                    prevStarter=srcStart-1;
-                    if(UTF16.isTrailSurrogate(src[prevStarter])) {
-                        // safe because unpaired surrogates do not result
-                        // in "maybe"
-                        --prevStarter;
+                    // set prevStbrter to the beginning of the current chbrbcter
+                    prevStbrter=srcStbrt-1;
+                    if(UTF16.isTrbilSurrogbte(src[prevStbrter])) {
+                        // sbfe becbuse unpbired surrogbtes do not result
+                        // in "mbybe"
+                        --prevStbrter;
                     }
-                    prevStarter=findPreviousStarter(src, start, prevStarter,
-                                                    ccOrQCMask, decompQCMask,
-                                                    (char)minNoMaybe);
+                    prevStbrter=findPreviousStbrter(src, stbrt, prevStbrter,
+                                                    ccOrQCMbsk, decompQCMbsk,
+                                                    (chbr)minNoMbybe);
 
-                    // find the next true starter in [src..limit[ - modifies
-                    // src to point to the next starter
-                    srcStart=findNextStarter(src,srcStart, srcLimit, qcMask,
-                                             decompQCMask,(char) minNoMaybe);
+                    // find the next true stbrter in [src..limit[ - modifies
+                    // src to point to the next stbrter
+                    srcStbrt=findNextStbrter(src,srcStbrt, srcLimit, qcMbsk,
+                                             decompQCMbsk,(chbr) minNoMbybe);
 
-                    //set the args for compose part
-                    args.prevCC = prevCC;
+                    //set the brgs for compose pbrt
+                    brgs.prevCC = prevCC;
 
-                    // decompose and recompose [prevStarter..src[
-                    buffer = composePart(args,prevStarter,src,srcStart,srcLimit,options,nx);
+                    // decompose bnd recompose [prevStbrter..src[
+                    buffer = composePbrt(brgs,prevStbrter,src,srcStbrt,srcLimit,options,nx);
 
-                    // compare the normalized version with the original
-                    if(0!=strCompare(buffer,0,args.length,src,prevStarter,srcStart, false)) {
-                        result=NormalizerBase.NO; // normalization differs
-                        break;
+                    // compbre the normblized version with the originbl
+                    if(0!=strCompbre(buffer,0,brgs.length,src,prevStbrter,srcStbrt, fblse)) {
+                        result=NormblizerBbse.NO; // normblizbtion differs
+                        brebk;
                     }
 
-                    // continue after the next starter
+                    // continue bfter the next stbrter
                 }
             }
         }
@@ -921,127 +921,127 @@ public final class NormalizerImpl {
 
 
     //------------------------------------------------------
-    // make NFD & NFKD
+    // mbke NFD & NFKD
     //------------------------------------------------------
 
-    public static int decompose(char[] src,int srcStart,int srcLimit,
-                                char[] dest,int destStart,int destLimit,
-                                 boolean compat,int[] outTrailCC,
+    public stbtic int decompose(chbr[] src,int srcStbrt,int srcLimit,
+                                chbr[] dest,int destStbrt,int destLimit,
+                                 boolebn compbt,int[] outTrbilCC,
                                  UnicodeSet nx) {
 
-        char[] buffer = new char[3];
+        chbr[] buffer = new chbr[3];
         int prevSrc;
         long norm32;
-        int ccOrQCMask, qcMask;
-        int reorderStartIndex, length;
-        char c, c2, minNoMaybe;
-        int/*unsigned byte*/ cc, prevCC, trailCC;
-        char[] p;
-        int pStart;
-        int destIndex = destStart;
-        int srcIndex = srcStart;
-        if(!compat) {
-            minNoMaybe=(char)indexes[INDEX_MIN_NFD_NO_MAYBE];
-            qcMask=QC_NFD;
+        int ccOrQCMbsk, qcMbsk;
+        int reorderStbrtIndex, length;
+        chbr c, c2, minNoMbybe;
+        int/*unsigned byte*/ cc, prevCC, trbilCC;
+        chbr[] p;
+        int pStbrt;
+        int destIndex = destStbrt;
+        int srcIndex = srcStbrt;
+        if(!compbt) {
+            minNoMbybe=(chbr)indexes[INDEX_MIN_NFD_NO_MAYBE];
+            qcMbsk=QC_NFD;
         } else {
-            minNoMaybe=(char)indexes[INDEX_MIN_NFKD_NO_MAYBE];
-            qcMask=QC_NFKD;
+            minNoMbybe=(chbr)indexes[INDEX_MIN_NFKD_NO_MAYBE];
+            qcMbsk=QC_NFKD;
         }
 
-        /* initialize */
-        ccOrQCMask=CC_MASK|qcMask;
-        reorderStartIndex=0;
+        /* initiblize */
+        ccOrQCMbsk=CC_MASK|qcMbsk;
+        reorderStbrtIndex=0;
         prevCC=0;
         norm32=0;
         c=0;
-        pStart=0;
+        pStbrt=0;
 
-        cc=trailCC=-1;//initialize to bogus value
+        cc=trbilCC=-1;//initiblize to bogus vblue
 
         for(;;) {
-            /* count code units below the minimum or with irrelevant data for
+            /* count code units below the minimum or with irrelevbnt dbtb for
              * the quick check
              */
             prevSrc=srcIndex;
 
-            while(srcIndex!=srcLimit &&((c=src[srcIndex])<minNoMaybe ||
-                                        ((norm32=getNorm32(c))&ccOrQCMask)==0)){
+            while(srcIndex!=srcLimit &&((c=src[srcIndex])<minNoMbybe ||
+                                        ((norm32=getNorm32(c))&ccOrQCMbsk)==0)){
                 prevCC=0;
                 ++srcIndex;
             }
 
-            /* copy these code units all at once */
+            /* copy these code units bll bt once */
             if(srcIndex!=prevSrc) {
                 length=srcIndex-prevSrc;
                 if((destIndex+length)<=destLimit) {
-                    System.arraycopy(src,prevSrc,dest,destIndex,length);
+                    System.brrbycopy(src,prevSrc,dest,destIndex,length);
                 }
 
                 destIndex+=length;
-                reorderStartIndex=destIndex;
+                reorderStbrtIndex=destIndex;
             }
 
-            /* end of source reached? */
+            /* end of source rebched? */
             if(srcIndex==srcLimit) {
-                break;
+                brebk;
             }
 
-            /* c already contains *src and norm32 is set for it, increment src*/
+            /* c blrebdy contbins *src bnd norm32 is set for it, increment src*/
             ++srcIndex;
 
-            /* check one above-minimum, relevant code unit */
+            /* check one bbove-minimum, relevbnt code unit */
             /*
-             * generally, set p and length to the decomposition string
-             * in simple cases, p==NULL and (c, c2) will hold the length code
-             * units to append in all cases, set cc to the lead and trailCC to
-             * the trail combining class
+             * generblly, set p bnd length to the decomposition string
+             * in simple cbses, p==NULL bnd (c, c2) will hold the length code
+             * units to bppend in bll cbses, set cc to the lebd bnd trbilCC to
+             * the trbil combining clbss
              *
-             * the following merge-sort of the current character into the
-             * preceding, canonically ordered result text will use the
+             * the following merge-sort of the current chbrbcter into the
+             * preceding, cbnonicblly ordered result text will use the
              * optimized insertOrdered()
              * if there is only one single code point to process;
-             * this is indicated with p==NULL, and (c, c2) is the character to
+             * this is indicbted with p==NULL, bnd (c, c2) is the chbrbcter to
              * insert
-             * ((c, 0) for a BMP character and (lead surrogate, trail surrogate)
-             * for a supplementary character)
+             * ((c, 0) for b BMP chbrbcter bnd (lebd surrogbte, trbil surrogbte)
+             * for b supplementbry chbrbcter)
              * otherwise, p[length] is merged in with _mergeOrdered()
              */
-            if(isNorm32HangulOrJamo(norm32)) {
-                if(nx_contains(nx, c)) {
+            if(isNorm32HbngulOrJbmo(norm32)) {
+                if(nx_contbins(nx, c)) {
                     c2=0;
                     p=null;
                     length=1;
                 } else {
-                    // Hangul syllable: decompose algorithmically
+                    // Hbngul syllbble: decompose blgorithmicblly
                     p=buffer;
-                    pStart=0;
-                    cc=trailCC=0;
+                    pStbrt=0;
+                    cc=trbilCC=0;
 
                     c-=HANGUL_BASE;
 
-                    c2=(char)(c%JAMO_T_COUNT);
+                    c2=(chbr)(c%JAMO_T_COUNT);
                     c/=JAMO_T_COUNT;
                     if(c2>0) {
-                        buffer[2]=(char)(JAMO_T_BASE+c2);
+                        buffer[2]=(chbr)(JAMO_T_BASE+c2);
                         length=3;
                     } else {
                         length=2;
                     }
 
-                    buffer[1]=(char)(JAMO_V_BASE+c%JAMO_V_COUNT);
-                    buffer[0]=(char)(JAMO_L_BASE+c/JAMO_V_COUNT);
+                    buffer[1]=(chbr)(JAMO_V_BASE+c%JAMO_V_COUNT);
+                    buffer[0]=(chbr)(JAMO_L_BASE+c/JAMO_V_COUNT);
                 }
             } else {
-                if(isNorm32Regular(norm32)) {
+                if(isNorm32Regulbr(norm32)) {
                     c2=0;
                     length=1;
                 } else {
-                    // c is a lead surrogate, get the real norm32
+                    // c is b lebd surrogbte, get the rebl norm32
                     if(srcIndex!=srcLimit &&
-                                    UTF16.isTrailSurrogate(c2=src[srcIndex])) {
+                                    UTF16.isTrbilSurrogbte(c2=src[srcIndex])) {
                         ++srcIndex;
                         length=2;
-                        norm32=getNorm32FromSurrogatePair(norm32, c2);
+                        norm32=getNorm32FromSurrogbtePbir(norm32, c2);
                     } else {
                         c2=0;
                         length=1;
@@ -1049,59 +1049,59 @@ public final class NormalizerImpl {
                     }
                 }
 
-                /* get the decomposition and the lead and trail cc's */
-                if(nx_contains(nx, c, c2)) {
+                /* get the decomposition bnd the lebd bnd trbil cc's */
+                if(nx_contbins(nx, c, c2)) {
                     /* excluded: norm32==0 */
-                    cc=trailCC=0;
+                    cc=trbilCC=0;
                     p=null;
-                } else if((norm32&qcMask)==0) {
+                } else if((norm32&qcMbsk)==0) {
                     /* c does not decompose */
-                    cc=trailCC=(int)((UNSIGNED_BYTE_MASK) & (norm32>>CC_SHIFT));
+                    cc=trbilCC=(int)((UNSIGNED_BYTE_MASK) & (norm32>>CC_SHIFT));
                     p=null;
-                    pStart=-1;
+                    pStbrt=-1;
                 } else {
-                    DecomposeArgs arg = new DecomposeArgs();
-                    /* c decomposes, get everything from the variable-length
-                     * extra data
+                    DecomposeArgs brg = new DecomposeArgs();
+                    /* c decomposes, get everything from the vbribble-length
+                     * extrb dbtb
                      */
-                    pStart=decompose(norm32, qcMask, arg);
-                    p=extraData;
-                    length=arg.length;
-                    cc=arg.cc;
-                    trailCC=arg.trailCC;
+                    pStbrt=decompose(norm32, qcMbsk, brg);
+                    p=extrbDbtb;
+                    length=brg.length;
+                    cc=brg.cc;
+                    trbilCC=brg.trbilCC;
                     if(length==1) {
-                        /* fastpath a single code unit from decomposition */
-                        c=p[pStart];
+                        /* fbstpbth b single code unit from decomposition */
+                        c=p[pStbrt];
                         c2=0;
                         p=null;
-                        pStart=-1;
+                        pStbrt=-1;
                     }
                 }
             }
 
-            /* append the decomposition to the destination buffer, assume
+            /* bppend the decomposition to the destinbtion buffer, bssume
              * length>0
              */
             if((destIndex+length)<=destLimit) {
                 int reorderSplit=destIndex;
                 if(p==null) {
-                    /* fastpath: single code point */
+                    /* fbstpbth: single code point */
                     if(cc!=0 && cc<prevCC) {
                         /* (c, c2) is out of order with respect to the preceding
                          *  text
                          */
                         destIndex+=length;
-                        trailCC=insertOrdered(dest,reorderStartIndex,
+                        trbilCC=insertOrdered(dest,reorderStbrtIndex,
                                             reorderSplit, destIndex, c, c2, cc);
                     } else {
-                        /* just append (c, c2) */
+                        /* just bppend (c, c2) */
                         dest[destIndex++]=c;
                         if(c2!=0) {
                             dest[destIndex++]=c2;
                         }
                     }
                 } else {
-                    /* general: multiple code points (ordered by themselves)
+                    /* generbl: multiple code points (ordered by themselves)
                      * from decomposition
                      */
                     if(cc!=0 && cc<prevCC) {
@@ -1109,12 +1109,12 @@ public final class NormalizerImpl {
                          *  preceding text
                          */
                         destIndex+=length;
-                        trailCC=mergeOrdered(dest,reorderStartIndex,
-                                          reorderSplit,p, pStart,pStart+length);
+                        trbilCC=mergeOrdered(dest,reorderStbrtIndex,
+                                          reorderSplit,p, pStbrt,pStbrt+length);
                     } else {
-                        /* just append the decomposition */
+                        /* just bppend the decomposition */
                         do {
-                            dest[destIndex++]=p[pStart++];
+                            dest[destIndex++]=p[pStbrt++];
                         } while(--length>0);
                     }
                 }
@@ -1124,163 +1124,163 @@ public final class NormalizerImpl {
                 destIndex+=length;
             }
 
-            prevCC=trailCC;
+            prevCC=trbilCC;
             if(prevCC==0) {
-                reorderStartIndex=destIndex;
+                reorderStbrtIndex=destIndex;
             }
         }
 
-        outTrailCC[0]=prevCC;
+        outTrbilCC[0]=prevCC;
 
-        return destIndex - destStart;
+        return destIndex - destStbrt;
     }
 
-    /* make NFC & NFKC ------------------------------------------------------ */
-    private static final class NextCombiningArgs{
-        char[] source;
-        int start;
+    /* mbke NFC & NFKC ------------------------------------------------------ */
+    privbte stbtic finbl clbss NextCombiningArgs{
+        chbr[] source;
+        int stbrt;
         //int limit;
-        char c;
-        char c2;
+        chbr c;
+        chbr c2;
         int/*unsigned*/ combiningIndex;
-        char /*unsigned byte*/ cc;
+        chbr /*unsigned byte*/ cc;
     }
 
-    /* get the composition properties of the next character */
-    private static int /*unsigned*/    getNextCombining(NextCombiningArgs args,
+    /* get the composition properties of the next chbrbcter */
+    privbte stbtic int /*unsigned*/    getNextCombining(NextCombiningArgs brgs,
                                                     int limit,
                                                     UnicodeSet nx) {
         long/*unsigned*/ norm32;
-        int combineFlags;
+        int combineFlbgs;
         /* get properties */
-        args.c=args.source[args.start++];
-        norm32=getNorm32(args.c);
+        brgs.c=brgs.source[brgs.stbrt++];
+        norm32=getNorm32(brgs.c);
 
-        /* preset output values for most characters */
-        args.c2=0;
-        args.combiningIndex=0;
-        args.cc=0;
+        /* preset output vblues for most chbrbcters */
+        brgs.c2=0;
+        brgs.combiningIndex=0;
+        brgs.cc=0;
 
         if((norm32&(CC_MASK|COMBINES_ANY))==0) {
             return 0;
         } else {
-            if(isNorm32Regular(norm32)) {
+            if(isNorm32Regulbr(norm32)) {
                 /* set cc etc. below */
-            } else if(isNorm32HangulOrJamo(norm32)) {
-                /* a compatibility decomposition contained Jamos */
-                args.combiningIndex=(int)((UNSIGNED_INT_MASK)&(0xfff0|
+            } else if(isNorm32HbngulOrJbmo(norm32)) {
+                /* b compbtibility decomposition contbined Jbmos */
+                brgs.combiningIndex=(int)((UNSIGNED_INT_MASK)&(0xfff0|
                                                         (norm32>>EXTRA_SHIFT)));
                 return (int)(norm32&COMBINES_ANY);
             } else {
-                /* c is a lead surrogate, get the real norm32 */
-                if(args.start!=limit && UTF16.isTrailSurrogate(args.c2=
-                                                     args.source[args.start])) {
-                    ++args.start;
-                    norm32=getNorm32FromSurrogatePair(norm32, args.c2);
+                /* c is b lebd surrogbte, get the rebl norm32 */
+                if(brgs.stbrt!=limit && UTF16.isTrbilSurrogbte(brgs.c2=
+                                                     brgs.source[brgs.stbrt])) {
+                    ++brgs.stbrt;
+                    norm32=getNorm32FromSurrogbtePbir(norm32, brgs.c2);
                 } else {
-                    args.c2=0;
+                    brgs.c2=0;
                     return 0;
                 }
             }
 
-            if(nx_contains(nx, args.c, args.c2)) {
+            if(nx_contbins(nx, brgs.c, brgs.c2)) {
                 return 0; /* excluded: norm32==0 */
             }
 
-            args.cc= (char)((norm32>>CC_SHIFT)&0xff);
+            brgs.cc= (chbr)((norm32>>CC_SHIFT)&0xff);
 
-            combineFlags=(int)(norm32&COMBINES_ANY);
-            if(combineFlags!=0) {
-                int index = getExtraDataIndex(norm32);
-                args.combiningIndex=index>0 ? extraData[(index-1)] :0;
+            combineFlbgs=(int)(norm32&COMBINES_ANY);
+            if(combineFlbgs!=0) {
+                int index = getExtrbDbtbIndex(norm32);
+                brgs.combiningIndex=index>0 ? extrbDbtb[(index-1)] :0;
             }
 
-            return combineFlags;
+            return combineFlbgs;
         }
     }
 
     /*
-     * given a composition-result starter (c, c2) - which means its cc==0,
-     * it combines forward, it has extra data, its norm32!=0,
-     * it is not a Hangul or Jamo,
+     * given b composition-result stbrter (c, c2) - which mebns its cc==0,
+     * it combines forwbrd, it hbs extrb dbtb, its norm32!=0,
+     * it is not b Hbngul or Jbmo,
      * get just its combineFwdIndex
      *
-     * norm32(c) is special if and only if c2!=0
+     * norm32(c) is specibl if bnd only if c2!=0
      */
-    private static int/*unsigned*/ getCombiningIndexFromStarter(char c,char c2){
+    privbte stbtic int/*unsigned*/ getCombiningIndexFromStbrter(chbr c,chbr c2){
         long/*unsigned*/ norm32;
 
         norm32=getNorm32(c);
         if(c2!=0) {
-            norm32=getNorm32FromSurrogatePair(norm32, c2);
+            norm32=getNorm32FromSurrogbtePbir(norm32, c2);
         }
-        return extraData[(getExtraDataIndex(norm32)-1)];
+        return extrbDbtb[(getExtrbDbtbIndex(norm32)-1)];
     }
 
     /*
      * Find the recomposition result for
-     * a forward-combining character
-     * (specified with a pointer to its part of the combiningTable[])
-     * and a backward-combining character
-     * (specified with its combineBackIndex).
+     * b forwbrd-combining chbrbcter
+     * (specified with b pointer to its pbrt of the combiningTbble[])
+     * bnd b bbckwbrd-combining chbrbcter
+     * (specified with its combineBbckIndex).
      *
-     * If these two characters combine, then set (value, value2)
-     * with the code unit(s) of the composition character.
+     * If these two chbrbcters combine, then set (vblue, vblue2)
+     * with the code unit(s) of the composition chbrbcter.
      *
-     * Return value:
+     * Return vblue:
      * 0    do not combine
      * 1    combine
-     * >1   combine, and the composition is a forward-combining starter
+     * >1   combine, bnd the composition is b forwbrd-combining stbrter
      *
-     * See unormimp.h for a description of the composition table format.
+     * See unormimp.h for b description of the composition tbble formbt.
      */
-    private static int/*unsigned*/ combine(char[]table,int tableStart,
-                                   int/*unsinged*/ combineBackIndex,
-                                    int[] outValues) {
+    privbte stbtic int/*unsigned*/ combine(chbr[]tbble,int tbbleStbrt,
+                                   int/*unsinged*/ combineBbckIndex,
+                                    int[] outVblues) {
         int/*unsigned*/ key;
-        int value,value2;
+        int vblue,vblue2;
 
-        if(outValues.length<2){
-            throw new IllegalArgumentException();
+        if(outVblues.length<2){
+            throw new IllegblArgumentException();
         }
 
-        /* search in the starter's composition table */
+        /* sebrch in the stbrter's composition tbble */
         for(;;) {
-            key=table[tableStart++];
-            if(key>=combineBackIndex) {
-                break;
+            key=tbble[tbbleStbrt++];
+            if(key>=combineBbckIndex) {
+                brebk;
             }
-            tableStart+= ((table[tableStart]&0x8000) != 0)? 2 : 1;
+            tbbleStbrt+= ((tbble[tbbleStbrt]&0x8000) != 0)? 2 : 1;
         }
 
-        /* mask off bit 15, the last-entry-in-the-list flag */
-        if((key&0x7fff)==combineBackIndex) {
+        /* mbsk off bit 15, the lbst-entry-in-the-list flbg */
+        if((key&0x7fff)==combineBbckIndex) {
             /* found! combine! */
-            value=table[tableStart];
+            vblue=tbble[tbbleStbrt];
 
-            /* is the composition a starter that combines forward? */
-            key=(int)((UNSIGNED_INT_MASK)&((value&0x2000)+1));
+            /* is the composition b stbrter thbt combines forwbrd? */
+            key=(int)((UNSIGNED_INT_MASK)&((vblue&0x2000)+1));
 
-            /* get the composition result code point from the variable-length
-             * result value
+            /* get the composition result code point from the vbribble-length
+             * result vblue
              */
-            if((value&0x8000) != 0) {
-                if((value&0x4000) != 0) {
-                    /* surrogate pair composition result */
-                    value=(int)((UNSIGNED_INT_MASK)&((value&0x3ff)|0xd800));
-                    value2=table[tableStart+1];
+            if((vblue&0x8000) != 0) {
+                if((vblue&0x4000) != 0) {
+                    /* surrogbte pbir composition result */
+                    vblue=(int)((UNSIGNED_INT_MASK)&((vblue&0x3ff)|0xd800));
+                    vblue2=tbble[tbbleStbrt+1];
                 } else {
                     /* BMP composition result U+2000..U+ffff */
-                    value=table[tableStart+1];
-                    value2=0;
+                    vblue=tbble[tbbleStbrt+1];
+                    vblue2=0;
                 }
             } else {
                 /* BMP composition result U+0000..U+1fff */
-                value&=0x1fff;
-                value2=0;
+                vblue&=0x1fff;
+                vblue2=0;
             }
-            outValues[0]=value;
-            outValues[1]=value2;
+            outVblues[0]=vblue;
+            outVblues[1]=vblue2;
             return key;
         } else {
             /* not found */
@@ -1289,136 +1289,136 @@ public final class NormalizerImpl {
     }
 
 
-    private static final class RecomposeArgs{
-        char[] source;
-        int start;
+    privbte stbtic finbl clbss RecomposeArgs{
+        chbr[] source;
+        int stbrt;
         int limit;
     }
     /*
-     * recompose the characters in [p..limit[
-     * (which is in NFD - decomposed and canonically ordered),
-     * adjust limit, and return the trailing cc
+     * recompose the chbrbcters in [p..limit[
+     * (which is in NFD - decomposed bnd cbnonicblly ordered),
+     * bdjust limit, bnd return the trbiling cc
      *
-     * since for NFKC we may get Jamos in decompositions, we need to
+     * since for NFKC we mby get Jbmos in decompositions, we need to
      * recompose those too
      *
-     * note that recomposition never lengthens the text:
-     * any character consists of either one or two code units;
-     * a composition may contain at most one more code unit than the original
-     * starter, while the combining mark that is removed has at least one code
+     * note thbt recomposition never lengthens the text:
+     * bny chbrbcter consists of either one or two code units;
+     * b composition mby contbin bt most one more code unit thbn the originbl
+     * stbrter, while the combining mbrk thbt is removed hbs bt lebst one code
      * unit
      */
-    private static char/*unsigned byte*/ recompose(RecomposeArgs args, int options, UnicodeSet nx) {
+    privbte stbtic chbr/*unsigned byte*/ recompose(RecomposeArgs brgs, int options, UnicodeSet nx) {
         int  remove, q, r;
-        int /*unsigned*/ combineFlags;
-        int /*unsigned*/ combineFwdIndex, combineBackIndex;
-        int /*unsigned*/ result, value=0, value2=0;
+        int /*unsigned*/ combineFlbgs;
+        int /*unsigned*/ combineFwdIndex, combineBbckIndex;
+        int /*unsigned*/ result, vblue=0, vblue2=0;
         int /*unsigned byte*/  prevCC;
-        boolean starterIsSupplementary;
-        int starter;
-        int[] outValues = new int[2];
-        starter=-1;                   /* no starter */
-        combineFwdIndex=0;            /* will not be used until starter!=NULL */
-        starterIsSupplementary=false; /* will not be used until starter!=NULL */
+        boolebn stbrterIsSupplementbry;
+        int stbrter;
+        int[] outVblues = new int[2];
+        stbrter=-1;                   /* no stbrter */
+        combineFwdIndex=0;            /* will not be used until stbrter!=NULL */
+        stbrterIsSupplementbry=fblse; /* will not be used until stbrter!=NULL */
         prevCC=0;
 
         NextCombiningArgs ncArg = new NextCombiningArgs();
-        ncArg.source  = args.source;
+        ncArg.source  = brgs.source;
 
         ncArg.cc      =0;
         ncArg.c2      =0;
 
         for(;;) {
-            ncArg.start = args.start;
-            combineFlags=getNextCombining(ncArg,args.limit,nx);
-            combineBackIndex=ncArg.combiningIndex;
-            args.start = ncArg.start;
+            ncArg.stbrt = brgs.stbrt;
+            combineFlbgs=getNextCombining(ncArg,brgs.limit,nx);
+            combineBbckIndex=ncArg.combiningIndex;
+            brgs.stbrt = ncArg.stbrt;
 
-            if(((combineFlags&COMBINES_BACK)!=0) && starter!=-1) {
-                if((combineBackIndex&0x8000)!=0) {
-                    /* c is a Jamo V/T, see if we can compose it with the
-                     * previous character
+            if(((combineFlbgs&COMBINES_BACK)!=0) && stbrter!=-1) {
+                if((combineBbckIndex&0x8000)!=0) {
+                    /* c is b Jbmo V/T, see if we cbn compose it with the
+                     * previous chbrbcter
                      */
-                    /* for the PRI #29 fix, check that there is no intervening combining mark */
+                    /* for the PRI #29 fix, check thbt there is no intervening combining mbrk */
                     if((options&BEFORE_PRI_29)!=0 || prevCC==0) {
-                        remove=-1; /* NULL while no Hangul composition */
-                        combineFlags=0;
-                        ncArg.c2=args.source[starter];
-                        if(combineBackIndex==0xfff2) {
-                            /* Jamo V, compose with previous Jamo L and following
-                             * Jamo T
+                        remove=-1; /* NULL while no Hbngul composition */
+                        combineFlbgs=0;
+                        ncArg.c2=brgs.source[stbrter];
+                        if(combineBbckIndex==0xfff2) {
+                            /* Jbmo V, compose with previous Jbmo L bnd following
+                             * Jbmo T
                              */
-                            ncArg.c2=(char)(ncArg.c2-JAMO_L_BASE);
+                            ncArg.c2=(chbr)(ncArg.c2-JAMO_L_BASE);
                             if(ncArg.c2<JAMO_L_COUNT) {
-                                remove=args.start-1;
-                                ncArg.c=(char)(HANGUL_BASE+(ncArg.c2*JAMO_V_COUNT+
+                                remove=brgs.stbrt-1;
+                                ncArg.c=(chbr)(HANGUL_BASE+(ncArg.c2*JAMO_V_COUNT+
                                                (ncArg.c-JAMO_V_BASE))*JAMO_T_COUNT);
-                                if(args.start!=args.limit &&
-                                            (ncArg.c2=(char)(args.source[args.start]
+                                if(brgs.stbrt!=brgs.limit &&
+                                            (ncArg.c2=(chbr)(brgs.source[brgs.stbrt]
                                              -JAMO_T_BASE))<JAMO_T_COUNT) {
-                                    ++args.start;
+                                    ++brgs.stbrt;
                                     ncArg.c+=ncArg.c2;
                                  } else {
-                                     /* the result is an LV syllable, which is a starter (unlike LVT) */
-                                     combineFlags=COMBINES_FWD;
+                                     /* the result is bn LV syllbble, which is b stbrter (unlike LVT) */
+                                     combineFlbgs=COMBINES_FWD;
                                 }
-                                if(!nx_contains(nx, ncArg.c)) {
-                                    args.source[starter]=ncArg.c;
+                                if(!nx_contbins(nx, ncArg.c)) {
+                                    brgs.source[stbrter]=ncArg.c;
                                    } else {
                                     /* excluded */
-                                    if(!isHangulWithoutJamoT(ncArg.c)) {
-                                        --args.start; /* undo the ++args.start from reading the Jamo T */
+                                    if(!isHbngulWithoutJbmoT(ncArg.c)) {
+                                        --brgs.stbrt; /* undo the ++brgs.stbrt from rebding the Jbmo T */
                                     }
-                                    /* c is modified but not used any more -- c=*(p-1); -- re-read the Jamo V/T */
-                                    remove=args.start;
+                                    /* c is modified but not used bny more -- c=*(p-1); -- re-rebd the Jbmo V/T */
+                                    remove=brgs.stbrt;
                                 }
                             }
 
                         /*
-                         * Normally, the following can not occur:
-                         * Since the input is in NFD, there are no Hangul LV syllables that
-                         * a Jamo T could combine with.
-                         * All Jamo Ts are combined above when handling Jamo Vs.
+                         * Normblly, the following cbn not occur:
+                         * Since the input is in NFD, there bre no Hbngul LV syllbbles thbt
+                         * b Jbmo T could combine with.
+                         * All Jbmo Ts bre combined bbove when hbndling Jbmo Vs.
                          *
-                         * However, before the PRI #29 fix, this can occur due to
-                         * an intervening combining mark between the Hangul LV and the Jamo T.
+                         * However, before the PRI #29 fix, this cbn occur due to
+                         * bn intervening combining mbrk between the Hbngul LV bnd the Jbmo T.
                          */
                         } else {
-                            /* Jamo T, compose with previous Hangul that does not have a Jamo T */
-                            if(isHangulWithoutJamoT(ncArg.c2)) {
+                            /* Jbmo T, compose with previous Hbngul thbt does not hbve b Jbmo T */
+                            if(isHbngulWithoutJbmoT(ncArg.c2)) {
                                 ncArg.c2+=ncArg.c-JAMO_T_BASE;
-                                if(!nx_contains(nx, ncArg.c2)) {
-                                    remove=args.start-1;
-                                    args.source[starter]=ncArg.c2;
+                                if(!nx_contbins(nx, ncArg.c2)) {
+                                    remove=brgs.stbrt-1;
+                                    brgs.source[stbrter]=ncArg.c2;
                                 }
                             }
                         }
 
                         if(remove!=-1) {
-                            /* remove the Jamo(s) */
+                            /* remove the Jbmo(s) */
                             q=remove;
-                            r=args.start;
-                            while(r<args.limit) {
-                                args.source[q++]=args.source[r++];
+                            r=brgs.stbrt;
+                            while(r<brgs.limit) {
+                                brgs.source[q++]=brgs.source[r++];
                             }
-                            args.start=remove;
-                            args.limit=q;
+                            brgs.stbrt=remove;
+                            brgs.limit=q;
                         }
 
-                        ncArg.c2=0; /* c2 held *starter temporarily */
+                        ncArg.c2=0; /* c2 held *stbrter temporbrily */
 
-                        if(combineFlags!=0) {
+                        if(combineFlbgs!=0) {
                             /*
-                             * not starter=NULL because the composition is a Hangul LV syllable
-                             * and might combine once more (but only before the PRI #29 fix)
+                             * not stbrter=NULL becbuse the composition is b Hbngul LV syllbble
+                             * bnd might combine once more (but only before the PRI #29 fix)
                              */
 
                             /* done? */
-                            if(args.start==args.limit) {
-                                return (char)prevCC;
+                            if(brgs.stbrt==brgs.limit) {
+                                return (chbr)prevCC;
                             }
 
-                            /* the composition is a Hangul LV syllable which is a starter that combines forward */
+                            /* the composition is b Hbngul LV syllbble which is b stbrter thbt combines forwbrd */
                             combineFwdIndex=0xfff0;
 
                             /* we combined; continue with looking for compositions */
@@ -1427,82 +1427,82 @@ public final class NormalizerImpl {
                     }
 
                     /*
-                     * now: cc==0 and the combining index does not include
-                     * "forward" -> the rest of the loop body will reset starter
-                     * to NULL; technically, a composed Hangul syllable is a
-                     * starter, but it does not combine forward now that we have
-                     * consumed all eligible Jamos; for Jamo V/T, combineFlags
-                     * does not contain _NORM_COMBINES_FWD
+                     * now: cc==0 bnd the combining index does not include
+                     * "forwbrd" -> the rest of the loop body will reset stbrter
+                     * to NULL; technicblly, b composed Hbngul syllbble is b
+                     * stbrter, but it does not combine forwbrd now thbt we hbve
+                     * consumed bll eligible Jbmos; for Jbmo V/T, combineFlbgs
+                     * does not contbin _NORM_COMBINES_FWD
                      */
 
                 } else if(
-                    /* the starter is not a Hangul LV or Jamo V/T and */
+                    /* the stbrter is not b Hbngul LV or Jbmo V/T bnd */
                     !((combineFwdIndex&0x8000)!=0) &&
-                    /* the combining mark is not blocked and */
+                    /* the combining mbrk is not blocked bnd */
                     ((options&BEFORE_PRI_29)!=0 ?
                         (prevCC!=ncArg.cc || prevCC==0) :
                         (prevCC<ncArg.cc || prevCC==0)) &&
-                    /* the starter and the combining mark (c, c2) do combine */
-                    0!=(result=combine(combiningTable,combineFwdIndex,
-                                       combineBackIndex, outValues)) &&
+                    /* the stbrter bnd the combining mbrk (c, c2) do combine */
+                    0!=(result=combine(combiningTbble,combineFwdIndex,
+                                       combineBbckIndex, outVblues)) &&
                     /* the composition result is not excluded */
-                    !nx_contains(nx, (char)value, (char)value2)
+                    !nx_contbins(nx, (chbr)vblue, (chbr)vblue2)
                 ) {
-                    value=outValues[0];
-                    value2=outValues[1];
-                    /* replace the starter with the composition, remove the
-                     * combining mark
+                    vblue=outVblues[0];
+                    vblue2=outVblues[1];
+                    /* replbce the stbrter with the composition, remove the
+                     * combining mbrk
                      */
-                    remove= ncArg.c2==0 ? args.start-1 : args.start-2; /* index to the combining mark */
+                    remove= ncArg.c2==0 ? brgs.stbrt-1 : brgs.stbrt-2; /* index to the combining mbrk */
 
-                    /* replace the starter with the composition */
-                    args.source[starter]=(char)value;
-                    if(starterIsSupplementary) {
-                        if(value2!=0) {
-                            /* both are supplementary */
-                            args.source[starter+1]=(char)value2;
+                    /* replbce the stbrter with the composition */
+                    brgs.source[stbrter]=(chbr)vblue;
+                    if(stbrterIsSupplementbry) {
+                        if(vblue2!=0) {
+                            /* both bre supplementbry */
+                            brgs.source[stbrter+1]=(chbr)vblue2;
                         } else {
-                            /* the composition is shorter than the starter,
-                             * move the intermediate characters forward one */
-                            starterIsSupplementary=false;
-                            q=starter+1;
+                            /* the composition is shorter thbn the stbrter,
+                             * move the intermedibte chbrbcters forwbrd one */
+                            stbrterIsSupplementbry=fblse;
+                            q=stbrter+1;
                             r=q+1;
                             while(r<remove) {
-                                args.source[q++]=args.source[r++];
+                                brgs.source[q++]=brgs.source[r++];
                             }
                             --remove;
                         }
-                    } else if(value2!=0) { // for U+1109A, U+1109C, and U+110AB
-                        starterIsSupplementary=true;
-                        args.source[starter+1]=(char)value2;
-                    /* } else { both are on the BMP, nothing more to do */
+                    } else if(vblue2!=0) { // for U+1109A, U+1109C, bnd U+110AB
+                        stbrterIsSupplementbry=true;
+                        brgs.source[stbrter+1]=(chbr)vblue2;
+                    /* } else { both bre on the BMP, nothing more to do */
                     }
 
-                    /* remove the combining mark by moving the following text
+                    /* remove the combining mbrk by moving the following text
                      * over it */
-                    if(remove<args.start) {
+                    if(remove<brgs.stbrt) {
                         q=remove;
-                        r=args.start;
-                        while(r<args.limit) {
-                            args.source[q++]=args.source[r++];
+                        r=brgs.stbrt;
+                        while(r<brgs.limit) {
+                            brgs.source[q++]=brgs.source[r++];
                         }
-                        args.start=remove;
-                        args.limit=q;
+                        brgs.stbrt=remove;
+                        brgs.limit=q;
                     }
 
-                    /* keep prevCC because we removed the combining mark */
+                    /* keep prevCC becbuse we removed the combining mbrk */
 
                     /* done? */
-                    if(args.start==args.limit) {
-                        return (char)prevCC;
+                    if(brgs.stbrt==brgs.limit) {
+                        return (chbr)prevCC;
                     }
 
-                    /* is the composition a starter that combines forward? */
+                    /* is the composition b stbrter thbt combines forwbrd? */
                     if(result>1) {
-                       combineFwdIndex=getCombiningIndexFromStarter((char)value,
-                                                                  (char)value2);
+                       combineFwdIndex=getCombiningIndexFromStbrter((chbr)vblue,
+                                                                  (chbr)vblue2);
                     } else {
-                       starter=-1;
+                       stbrter=-1;
                     }
 
                     /* we combined; continue with looking for compositions */
@@ -1510,473 +1510,473 @@ public final class NormalizerImpl {
                 }
             }
 
-            /* no combination this time */
+            /* no combinbtion this time */
             prevCC=ncArg.cc;
-            if(args.start==args.limit) {
-                return (char)prevCC;
+            if(brgs.stbrt==brgs.limit) {
+                return (chbr)prevCC;
             }
 
-            /* if (c, c2) did not combine, then check if it is a starter */
+            /* if (c, c2) did not combine, then check if it is b stbrter */
             if(ncArg.cc==0) {
-                /* found a new starter; combineFlags==0 if (c, c2) is excluded */
-                if((combineFlags&COMBINES_FWD)!=0) {
-                    /* it may combine with something, prepare for it */
+                /* found b new stbrter; combineFlbgs==0 if (c, c2) is excluded */
+                if((combineFlbgs&COMBINES_FWD)!=0) {
+                    /* it mby combine with something, prepbre for it */
                     if(ncArg.c2==0) {
-                        starterIsSupplementary=false;
-                        starter=args.start-1;
+                        stbrterIsSupplementbry=fblse;
+                        stbrter=brgs.stbrt-1;
                     } else {
-                        starterIsSupplementary=false;
-                        starter=args.start-2;
+                        stbrterIsSupplementbry=fblse;
+                        stbrter=brgs.stbrt-2;
                     }
-                    combineFwdIndex=combineBackIndex;
+                    combineFwdIndex=combineBbckIndex;
                 } else {
-                    /* it will not combine with anything */
-                    starter=-1;
+                    /* it will not combine with bnything */
+                    stbrter=-1;
                 }
             } else if((options&OPTIONS_COMPOSE_CONTIGUOUS)!=0) {
-                /* FCC: no discontiguous compositions; any intervening character blocks */
-                starter=-1;
+                /* FCC: no discontiguous compositions; bny intervening chbrbcter blocks */
+                stbrter=-1;
             }
         }
     }
 
-    // find the last true starter between src[start]....src[current] going
-    // backwards and return its index
-    private static int findPreviousStarter(char[]src, int srcStart, int current,
-                                          int/*unsigned*/ ccOrQCMask,
-                                          int/*unsigned*/ decompQCMask,
-                                          char minNoMaybe) {
+    // find the lbst true stbrter between src[stbrt]....src[current] going
+    // bbckwbrds bnd return its index
+    privbte stbtic int findPreviousStbrter(chbr[]src, int srcStbrt, int current,
+                                          int/*unsigned*/ ccOrQCMbsk,
+                                          int/*unsigned*/ decompQCMbsk,
+                                          chbr minNoMbybe) {
        long norm32;
-       PrevArgs args = new PrevArgs();
-       args.src = src;
-       args.start = srcStart;
-       args.current = current;
+       PrevArgs brgs = new PrevArgs();
+       brgs.src = src;
+       brgs.stbrt = srcStbrt;
+       brgs.current = current;
 
-       while(args.start<args.current) {
-           norm32= getPrevNorm32(args, minNoMaybe, ccOrQCMask|decompQCMask);
-           if(isTrueStarter(norm32, ccOrQCMask, decompQCMask)) {
-               break;
+       while(brgs.stbrt<brgs.current) {
+           norm32= getPrevNorm32(brgs, minNoMbybe, ccOrQCMbsk|decompQCMbsk);
+           if(isTrueStbrter(norm32, ccOrQCMbsk, decompQCMbsk)) {
+               brebk;
            }
        }
-       return args.current;
+       return brgs.current;
     }
 
-    /* find the first true starter in [src..limit[ and return the
+    /* find the first true stbrter in [src..limit[ bnd return the
      * pointer to it
      */
-    private static int/*index*/    findNextStarter(char[] src,int start,int limit,
-                                                 int/*unsigned*/ qcMask,
-                                                 int/*unsigned*/ decompQCMask,
-                                                 char minNoMaybe) {
+    privbte stbtic int/*index*/    findNextStbrter(chbr[] src,int stbrt,int limit,
+                                                 int/*unsigned*/ qcMbsk,
+                                                 int/*unsigned*/ decompQCMbsk,
+                                                 chbr minNoMbybe) {
         int p;
         long/*unsigned*/ norm32;
-        int ccOrQCMask;
-        char c, c2;
+        int ccOrQCMbsk;
+        chbr c, c2;
 
-        ccOrQCMask=CC_MASK|qcMask;
+        ccOrQCMbsk=CC_MASK|qcMbsk;
 
         DecomposeArgs decompArgs = new DecomposeArgs();
 
         for(;;) {
-            if(start==limit) {
-                break; /* end of string */
+            if(stbrt==limit) {
+                brebk; /* end of string */
             }
-            c=src[start];
-            if(c<minNoMaybe) {
-                break; /* catches NUL terminater, too */
+            c=src[stbrt];
+            if(c<minNoMbybe) {
+                brebk; /* cbtches NUL terminbter, too */
             }
 
             norm32=getNorm32(c);
-            if((norm32&ccOrQCMask)==0) {
-                break; /* true starter */
+            if((norm32&ccOrQCMbsk)==0) {
+                brebk; /* true stbrter */
             }
 
-            if(isNorm32LeadSurrogate(norm32)) {
-                /* c is a lead surrogate, get the real norm32 */
-                if((start+1)==limit ||
-                                   !UTF16.isTrailSurrogate(c2=(src[start+1]))){
-                    /* unmatched first surrogate: counts as a true starter */
-                    break;
+            if(isNorm32LebdSurrogbte(norm32)) {
+                /* c is b lebd surrogbte, get the rebl norm32 */
+                if((stbrt+1)==limit ||
+                                   !UTF16.isTrbilSurrogbte(c2=(src[stbrt+1]))){
+                    /* unmbtched first surrogbte: counts bs b true stbrter */
+                    brebk;
                 }
-                norm32=getNorm32FromSurrogatePair(norm32, c2);
+                norm32=getNorm32FromSurrogbtePbir(norm32, c2);
 
-                if((norm32&ccOrQCMask)==0) {
-                    break; /* true starter */
+                if((norm32&ccOrQCMbsk)==0) {
+                    brebk; /* true stbrter */
                 }
             } else {
                 c2=0;
             }
 
-            /* (c, c2) is not a true starter but its decomposition may be */
-            if((norm32&decompQCMask)!=0) {
-                /* (c, c2) decomposes, get everything from the variable-length
-                 *  extra data */
-                p=decompose(norm32, decompQCMask, decompArgs);
+            /* (c, c2) is not b true stbrter but its decomposition mby be */
+            if((norm32&decompQCMbsk)!=0) {
+                /* (c, c2) decomposes, get everything from the vbribble-length
+                 *  extrb dbtb */
+                p=decompose(norm32, decompQCMbsk, decompArgs);
 
-                /* get the first character's norm32 to check if it is a true
-                 * starter */
-                if(decompArgs.cc==0 && (getNorm32(extraData,p, qcMask)&qcMask)==0) {
-                    break; /* true starter */
+                /* get the first chbrbcter's norm32 to check if it is b true
+                 * stbrter */
+                if(decompArgs.cc==0 && (getNorm32(extrbDbtb,p, qcMbsk)&qcMbsk)==0) {
+                    brebk; /* true stbrter */
                 }
             }
 
-            start+= c2==0 ? 1 : 2; /* not a true starter, continue */
+            stbrt+= c2==0 ? 1 : 2; /* not b true stbrter, continue */
         }
 
-        return start;
+        return stbrt;
     }
 
 
-    private static final class ComposePartArgs{
+    privbte stbtic finbl clbss ComposePbrtArgs{
         int prevCC;
-        int length;   /* length of decomposed part */
+        int length;   /* length of decomposed pbrt */
     }
 
-     /* decompose and recompose [prevStarter..src[ */
-    private static char[] composePart(ComposePartArgs args,
-                                      int prevStarter,
-                                         char[] src, int start, int limit,
+     /* decompose bnd recompose [prevStbrter..src[ */
+    privbte stbtic chbr[] composePbrt(ComposePbrtArgs brgs,
+                                      int prevStbrter,
+                                         chbr[] src, int stbrt, int limit,
                                        int options,
                                        UnicodeSet nx) {
         int recomposeLimit;
-        boolean compat =((options&OPTIONS_COMPAT)!=0);
+        boolebn compbt =((options&OPTIONS_COMPAT)!=0);
 
-        /* decompose [prevStarter..src[ */
-        int[] outTrailCC = new int[1];
-        char[] buffer = new char[(limit-prevStarter)*MAX_BUFFER_SIZE];
+        /* decompose [prevStbrter..src[ */
+        int[] outTrbilCC = new int[1];
+        chbr[] buffer = new chbr[(limit-prevStbrter)*MAX_BUFFER_SIZE];
 
         for(;;){
-            args.length=decompose(src,prevStarter,(start),
+            brgs.length=decompose(src,prevStbrter,(stbrt),
                                       buffer,0,buffer.length,
-                                      compat,outTrailCC,nx);
-            if(args.length<=buffer.length){
-                break;
+                                      compbt,outTrbilCC,nx);
+            if(brgs.length<=buffer.length){
+                brebk;
             }else{
-                buffer = new char[args.length];
+                buffer = new chbr[brgs.length];
             }
         }
 
         /* recompose the decomposition */
-        recomposeLimit=args.length;
+        recomposeLimit=brgs.length;
 
-        if(args.length>=2) {
+        if(brgs.length>=2) {
             RecomposeArgs rcArgs = new RecomposeArgs();
             rcArgs.source    = buffer;
-            rcArgs.start    = 0;
+            rcArgs.stbrt    = 0;
             rcArgs.limit    = recomposeLimit;
-            args.prevCC=recompose(rcArgs, options, nx);
+            brgs.prevCC=recompose(rcArgs, options, nx);
             recomposeLimit = rcArgs.limit;
         }
 
-        /* return with a pointer to the recomposition and its length */
-        args.length=recomposeLimit;
+        /* return with b pointer to the recomposition bnd its length */
+        brgs.length=recomposeLimit;
         return buffer;
     }
 
-    private static boolean composeHangul(char prev, char c,
+    privbte stbtic boolebn composeHbngul(chbr prev, chbr c,
                                          long/*unsigned*/ norm32,
-                                         char[] src,int[] srcIndex, int limit,
-                                            boolean compat,
-                                         char[] dest,int destIndex,
+                                         chbr[] src,int[] srcIndex, int limit,
+                                            boolebn compbt,
+                                         chbr[] dest,int destIndex,
                                          UnicodeSet nx) {
-        int start=srcIndex[0];
-        if(isJamoVTNorm32JamoV(norm32)) {
-            /* c is a Jamo V, compose with previous Jamo L and
-             * following Jamo T */
-            prev=(char)(prev-JAMO_L_BASE);
+        int stbrt=srcIndex[0];
+        if(isJbmoVTNorm32JbmoV(norm32)) {
+            /* c is b Jbmo V, compose with previous Jbmo L bnd
+             * following Jbmo T */
+            prev=(chbr)(prev-JAMO_L_BASE);
             if(prev<JAMO_L_COUNT) {
-                c=(char)(HANGUL_BASE+(prev*JAMO_V_COUNT+
+                c=(chbr)(HANGUL_BASE+(prev*JAMO_V_COUNT+
                                                  (c-JAMO_V_BASE))*JAMO_T_COUNT);
 
-                /* check if the next character is a Jamo T (normal or
-                 * compatibility) */
-                if(start!=limit) {
-                    char next, t;
+                /* check if the next chbrbcter is b Jbmo T (normbl or
+                 * compbtibility) */
+                if(stbrt!=limit) {
+                    chbr next, t;
 
-                    next=src[start];
-                    if((t=(char)(next-JAMO_T_BASE))<JAMO_T_COUNT) {
-                        /* normal Jamo T */
-                        ++start;
+                    next=src[stbrt];
+                    if((t=(chbr)(next-JAMO_T_BASE))<JAMO_T_COUNT) {
+                        /* normbl Jbmo T */
+                        ++stbrt;
                         c+=t;
-                    } else if(compat) {
-                        /* if NFKC, then check for compatibility Jamo T
+                    } else if(compbt) {
+                        /* if NFKC, then check for compbtibility Jbmo T
                          * (BMP only) */
                         norm32=getNorm32(next);
-                        if(isNorm32Regular(norm32) && ((norm32&QC_NFKD)!=0)) {
-                            int p /*index into extra data array*/;
+                        if(isNorm32Regulbr(norm32) && ((norm32&QC_NFKD)!=0)) {
+                            int p /*index into extrb dbtb brrby*/;
                             DecomposeArgs dcArgs = new DecomposeArgs();
                             p=decompose(norm32, QC_NFKD, dcArgs);
                             if(dcArgs.length==1 &&
-                                   (t=(char)(extraData[p]-JAMO_T_BASE))
+                                   (t=(chbr)(extrbDbtb[p]-JAMO_T_BASE))
                                                    <JAMO_T_COUNT) {
-                                /* compatibility Jamo T */
-                                ++start;
+                                /* compbtibility Jbmo T */
+                                ++stbrt;
                                 c+=t;
                             }
                         }
                     }
                 }
-                if(nx_contains(nx, c)) {
-                    if(!isHangulWithoutJamoT(c)) {
-                        --start; /* undo ++start from reading the Jamo T */
+                if(nx_contbins(nx, c)) {
+                    if(!isHbngulWithoutJbmoT(c)) {
+                        --stbrt; /* undo ++stbrt from rebding the Jbmo T */
                     }
-                    return false;
+                    return fblse;
                 }
                 dest[destIndex]=c;
-                srcIndex[0]=start;
+                srcIndex[0]=stbrt;
                 return true;
             }
-        } else if(isHangulWithoutJamoT(prev)) {
-            /* c is a Jamo T, compose with previous Hangul LV that does not
-             * contain a Jamo T */
-            c=(char)(prev+(c-JAMO_T_BASE));
-            if(nx_contains(nx, c)) {
-                return false;
+        } else if(isHbngulWithoutJbmoT(prev)) {
+            /* c is b Jbmo T, compose with previous Hbngul LV thbt does not
+             * contbin b Jbmo T */
+            c=(chbr)(prev+(c-JAMO_T_BASE));
+            if(nx_contbins(nx, c)) {
+                return fblse;
             }
             dest[destIndex]=c;
-            srcIndex[0]=start;
+            srcIndex[0]=stbrt;
             return true;
         }
-        return false;
+        return fblse;
     }
     /*
-    public static int compose(char[] src, char[] dest,boolean compat, UnicodeSet nx){
-        return compose(src,0,src.length,dest,0,dest.length,compat, nx);
+    public stbtic int compose(chbr[] src, chbr[] dest,boolebn compbt, UnicodeSet nx){
+        return compose(src,0,src.length,dest,0,dest.length,compbt, nx);
     }
     */
 
-    public static int compose(char[] src, int srcStart, int srcLimit,
-                              char[] dest,int destStart,int destLimit,
+    public stbtic int compose(chbr[] src, int srcStbrt, int srcLimit,
+                              chbr[] dest,int destStbrt,int destLimit,
                               int options,UnicodeSet nx) {
 
-        int prevSrc, prevStarter;
+        int prevSrc, prevStbrter;
         long/*unsigned*/ norm32;
-        int ccOrQCMask, qcMask;
-        int  reorderStartIndex, length;
-        char c, c2, minNoMaybe;
+        int ccOrQCMbsk, qcMbsk;
+        int  reorderStbrtIndex, length;
+        chbr c, c2, minNoMbybe;
         int/*unsigned byte*/ cc, prevCC;
         int[] ioIndex = new int[1];
-        int destIndex = destStart;
-        int srcIndex = srcStart;
+        int destIndex = destStbrt;
+        int srcIndex = srcStbrt;
 
         if((options&OPTIONS_COMPAT)!=0) {
-            minNoMaybe=(char)indexes[INDEX_MIN_NFKC_NO_MAYBE];
-            qcMask=QC_NFKC;
+            minNoMbybe=(chbr)indexes[INDEX_MIN_NFKC_NO_MAYBE];
+            qcMbsk=QC_NFKC;
         } else {
-            minNoMaybe=(char)indexes[INDEX_MIN_NFC_NO_MAYBE];
-            qcMask=QC_NFC;
+            minNoMbybe=(chbr)indexes[INDEX_MIN_NFC_NO_MAYBE];
+            qcMbsk=QC_NFC;
         }
 
         /*
-         * prevStarter points to the last character before the current one
-         * that is a "true" starter with cc==0 and quick check "yes".
+         * prevStbrter points to the lbst chbrbcter before the current one
+         * thbt is b "true" stbrter with cc==0 bnd quick check "yes".
          *
-         * prevStarter will be used instead of looking for a true starter
-         * while incrementally decomposing [prevStarter..prevSrc[
-         * in _composePart(). Having a good prevStarter allows to just decompose
-         * the entire [prevStarter..prevSrc[.
+         * prevStbrter will be used instebd of looking for b true stbrter
+         * while incrementblly decomposing [prevStbrter..prevSrc[
+         * in _composePbrt(). Hbving b good prevStbrter bllows to just decompose
+         * the entire [prevStbrter..prevSrc[.
          *
-         * When _composePart() backs out from prevSrc back to prevStarter,
-         * then it also backs out destIndex by the same amount.
-         * Therefore, at all times, the (prevSrc-prevStarter) source units
-         * must correspond 1:1 to destination units counted with destIndex,
+         * When _composePbrt() bbcks out from prevSrc bbck to prevStbrter,
+         * then it blso bbcks out destIndex by the sbme bmount.
+         * Therefore, bt bll times, the (prevSrc-prevStbrter) source units
+         * must correspond 1:1 to destinbtion units counted with destIndex,
          * except for reordering.
-         * This is true for the qc "yes" characters copied in the fast loop,
-         * and for pure reordering.
-         * prevStarter must be set forward to src when this is not true:
-         * In _composePart() and after composing a Hangul syllable.
+         * This is true for the qc "yes" chbrbcters copied in the fbst loop,
+         * bnd for pure reordering.
+         * prevStbrter must be set forwbrd to src when this is not true:
+         * In _composePbrt() bnd bfter composing b Hbngul syllbble.
          *
-         * This mechanism relies on the assumption that the decomposition of a
-         * true starter also begins with a true starter. gennorm/store.c checks
+         * This mechbnism relies on the bssumption thbt the decomposition of b
+         * true stbrter blso begins with b true stbrter. gennorm/store.c checks
          * for this.
          */
-        prevStarter=srcIndex;
+        prevStbrter=srcIndex;
 
-        ccOrQCMask=CC_MASK|qcMask;
-        /*destIndex=*/reorderStartIndex=0;/* ####TODO#### check this **/
+        ccOrQCMbsk=CC_MASK|qcMbsk;
+        /*destIndex=*/reorderStbrtIndex=0;/* ####TODO#### check this **/
         prevCC=0;
 
-        /* avoid compiler warnings */
+        /* bvoid compiler wbrnings */
         norm32=0;
         c=0;
 
         for(;;) {
-            /* count code units below the minimum or with irrelevant data for
+            /* count code units below the minimum or with irrelevbnt dbtb for
              * the quick check */
             prevSrc=srcIndex;
 
-            while(srcIndex!=srcLimit && ((c=src[srcIndex])<minNoMaybe ||
-                     ((norm32=getNorm32(c))&ccOrQCMask)==0)) {
+            while(srcIndex!=srcLimit && ((c=src[srcIndex])<minNoMbybe ||
+                     ((norm32=getNorm32(c))&ccOrQCMbsk)==0)) {
                 prevCC=0;
                 ++srcIndex;
             }
 
 
-            /* copy these code units all at once */
+            /* copy these code units bll bt once */
             if(srcIndex!=prevSrc) {
                 length=srcIndex-prevSrc;
                 if((destIndex+length)<=destLimit) {
-                    System.arraycopy(src,prevSrc,dest,destIndex,length);
+                    System.brrbycopy(src,prevSrc,dest,destIndex,length);
                 }
                 destIndex+=length;
-                reorderStartIndex=destIndex;
+                reorderStbrtIndex=destIndex;
 
-                /* set prevStarter to the last character in the quick check
+                /* set prevStbrter to the lbst chbrbcter in the quick check
                  * loop */
-                prevStarter=srcIndex-1;
-                if(UTF16.isTrailSurrogate(src[prevStarter]) &&
-                    prevSrc<prevStarter &&
-                    UTF16.isLeadSurrogate(src[(prevStarter-1)])) {
-                    --prevStarter;
+                prevStbrter=srcIndex-1;
+                if(UTF16.isTrbilSurrogbte(src[prevStbrter]) &&
+                    prevSrc<prevStbrter &&
+                    UTF16.isLebdSurrogbte(src[(prevStbrter-1)])) {
+                    --prevStbrter;
                 }
 
                 prevSrc=srcIndex;
             }
 
-            /* end of source reached? */
+            /* end of source rebched? */
             if(srcIndex==srcLimit) {
-                break;
+                brebk;
             }
 
-            /* c already contains *src and norm32 is set for it, increment src*/
+            /* c blrebdy contbins *src bnd norm32 is set for it, increment src*/
             ++srcIndex;
 
             /*
              * source buffer pointers:
              *
-             *  all done      quick check   current char  not yet
+             *  bll done      quick check   current chbr  not yet
              *                "yes" but     (c, c2)       processed
-             *                may combine
-             *                forward
+             *                mby combine
+             *                forwbrd
              * [-------------[-------------[-------------[-------------[
              * |             |             |             |             |
-             * start         prevStarter   prevSrc       src           limit
+             * stbrt         prevStbrter   prevSrc       src           limit
              *
              *
-             * destination buffer pointers and indexes:
+             * destinbtion buffer pointers bnd indexes:
              *
-             *  all done      might take    not filled yet
-             *                characters for
+             *  bll done      might tbke    not filled yet
+             *                chbrbcters for
              *                reordering
              * [-------------[-------------[-------------[
              * |             |             |             |
-             * dest      reorderStartIndex destIndex     destCapacity
+             * dest      reorderStbrtIndex destIndex     destCbpbcity
              */
 
-            /* check one above-minimum, relevant code unit */
+            /* check one bbove-minimum, relevbnt code unit */
             /*
-             * norm32 is for c=*(src-1), and the quick check flag is "no" or
-             * "maybe", and/or cc!=0
-             * check for Jamo V/T, then for surrogates and regular characters
-             * c is not a Hangul syllable or Jamo L because
-             * they are not marked with no/maybe for NFC & NFKC(and their cc==0)
+             * norm32 is for c=*(src-1), bnd the quick check flbg is "no" or
+             * "mbybe", bnd/or cc!=0
+             * check for Jbmo V/T, then for surrogbtes bnd regulbr chbrbcters
+             * c is not b Hbngul syllbble or Jbmo L becbuse
+             * they bre not mbrked with no/mbybe for NFC & NFKC(bnd their cc==0)
              */
-            if(isNorm32HangulOrJamo(norm32)) {
+            if(isNorm32HbngulOrJbmo(norm32)) {
                 /*
-                 * c is a Jamo V/T:
-                 * try to compose with the previous character, Jamo V also with
-                 * a following Jamo T, and set values here right now in case we
-                 * just continue with the main loop
+                 * c is b Jbmo V/T:
+                 * try to compose with the previous chbrbcter, Jbmo V blso with
+                 * b following Jbmo T, bnd set vblues here right now in cbse we
+                 * just continue with the mbin loop
                  */
                 prevCC=cc=0;
-                reorderStartIndex=destIndex;
+                reorderStbrtIndex=destIndex;
                 ioIndex[0]=srcIndex;
                 if(
                     destIndex>0 &&
-                    composeHangul(src[(prevSrc-1)], c, norm32,src, ioIndex,
+                    composeHbngul(src[(prevSrc-1)], c, norm32,src, ioIndex,
                                   srcLimit, (options&OPTIONS_COMPAT)!=0, dest,
                                   destIndex<=destLimit ? destIndex-1: 0,
                                   nx)
                 ) {
                     srcIndex=ioIndex[0];
-                    prevStarter=srcIndex;
+                    prevStbrter=srcIndex;
                     continue;
                 }
 
                 srcIndex = ioIndex[0];
 
-                /* the Jamo V/T did not compose into a Hangul syllable, just
-                 * append to dest */
+                /* the Jbmo V/T did not compose into b Hbngul syllbble, just
+                 * bppend to dest */
                 c2=0;
                 length=1;
-                prevStarter=prevSrc;
+                prevStbrter=prevSrc;
             } else {
-                if(isNorm32Regular(norm32)) {
+                if(isNorm32Regulbr(norm32)) {
                     c2=0;
                     length=1;
                 } else {
-                    /* c is a lead surrogate, get the real norm32 */
+                    /* c is b lebd surrogbte, get the rebl norm32 */
                     if(srcIndex!=srcLimit &&
-                                     UTF16.isTrailSurrogate(c2=src[srcIndex])) {
+                                     UTF16.isTrbilSurrogbte(c2=src[srcIndex])) {
                         ++srcIndex;
                         length=2;
-                        norm32=getNorm32FromSurrogatePair(norm32, c2);
+                        norm32=getNorm32FromSurrogbtePbir(norm32, c2);
                     } else {
-                        /* c is an unpaired lead surrogate, nothing to do */
+                        /* c is bn unpbired lebd surrogbte, nothing to do */
                         c2=0;
                         length=1;
                         norm32=0;
                     }
                 }
-                ComposePartArgs args =new ComposePartArgs();
+                ComposePbrtArgs brgs =new ComposePbrtArgs();
 
-                /* we are looking at the character (c, c2) at [prevSrc..src[ */
-                if(nx_contains(nx, c, c2)) {
+                /* we bre looking bt the chbrbcter (c, c2) bt [prevSrc..src[ */
+                if(nx_contbins(nx, c, c2)) {
                     /* excluded: norm32==0 */
                     cc=0;
-                } else if((norm32&qcMask)==0) {
+                } else if((norm32&qcMbsk)==0) {
                     cc=(int)((UNSIGNED_BYTE_MASK)&(norm32>>CC_SHIFT));
                 } else {
-                    char[] p;
+                    chbr[] p;
 
                     /*
-                     * find appropriate boundaries around this character,
-                     * decompose the source text from between the boundaries,
-                     * and recompose it
+                     * find bppropribte boundbries bround this chbrbcter,
+                     * decompose the source text from between the boundbries,
+                     * bnd recompose it
                      *
-                     * this puts the intermediate text into the side buffer because
-                     * it might be longer than the recomposition end result,
-                     * or the destination buffer may be too short or missing
+                     * this puts the intermedibte text into the side buffer becbuse
+                     * it might be longer thbn the recomposition end result,
+                     * or the destinbtion buffer mby be too short or missing
                      *
-                     * note that destIndex may be adjusted backwards to account
-                     * for source text that passed the quick check but needed to
-                     * take part in the recomposition
+                     * note thbt destIndex mby be bdjusted bbckwbrds to bccount
+                     * for source text thbt pbssed the quick check but needed to
+                     * tbke pbrt in the recomposition
                      */
-                    int decompQCMask=(qcMask<<2)&0xf; /* decomposition quick check mask */
+                    int decompQCMbsk=(qcMbsk<<2)&0xf; /* decomposition quick check mbsk */
                     /*
-                     * find the last true starter in [prevStarter..src[
-                     * it is either the decomposition of the current character (at prevSrc),
-                     * or prevStarter
+                     * find the lbst true stbrter in [prevStbrter..src[
+                     * it is either the decomposition of the current chbrbcter (bt prevSrc),
+                     * or prevStbrter
                      */
-                    if(isTrueStarter(norm32, CC_MASK|qcMask, decompQCMask)) {
-                        prevStarter=prevSrc;
+                    if(isTrueStbrter(norm32, CC_MASK|qcMbsk, decompQCMbsk)) {
+                        prevStbrter=prevSrc;
                     } else {
-                        /* adjust destIndex: back out what had been copied with qc "yes" */
-                        destIndex-=prevSrc-prevStarter;
+                        /* bdjust destIndex: bbck out whbt hbd been copied with qc "yes" */
+                        destIndex-=prevSrc-prevStbrter;
                     }
 
-                    /* find the next true starter in [src..limit[ */
-                    srcIndex=findNextStarter(src, srcIndex,srcLimit, qcMask,
-                                               decompQCMask, minNoMaybe);
-                    //args.prevStarter = prevStarter;
-                    args.prevCC    = prevCC;
-                    //args.destIndex = destIndex;
-                    args.length = length;
-                    p=composePart(args,prevStarter,src,srcIndex,srcLimit,options,nx);
+                    /* find the next true stbrter in [src..limit[ */
+                    srcIndex=findNextStbrter(src, srcIndex,srcLimit, qcMbsk,
+                                               decompQCMbsk, minNoMbybe);
+                    //brgs.prevStbrter = prevStbrter;
+                    brgs.prevCC    = prevCC;
+                    //brgs.destIndex = destIndex;
+                    brgs.length = length;
+                    p=composePbrt(brgs,prevStbrter,src,srcIndex,srcLimit,options,nx);
 
                     if(p==null) {
-                        /* an error occurred (out of memory) */
-                        break;
+                        /* bn error occurred (out of memory) */
+                        brebk;
                     }
 
-                    prevCC      = args.prevCC;
-                    length      = args.length;
+                    prevCC      = brgs.prevCC;
+                    length      = brgs.length;
 
-                    /* append the recomposed buffer contents to the destination
+                    /* bppend the recomposed buffer contents to the destinbtion
                      * buffer */
-                    if((destIndex+args.length)<=destLimit) {
+                    if((destIndex+brgs.length)<=destLimit) {
                         int i=0;
-                        while(i<args.length) {
+                        while(i<brgs.length) {
                             dest[destIndex++]=p[i++];
                             --length;
                         }
@@ -1986,22 +1986,22 @@ public final class NormalizerImpl {
                         destIndex+=length;
                     }
 
-                    prevStarter=srcIndex;
+                    prevStbrter=srcIndex;
                     continue;
                 }
             }
 
-            /* append the single code point (c, c2) to the destination buffer */
+            /* bppend the single code point (c, c2) to the destinbtion buffer */
             if((destIndex+length)<=destLimit) {
                 if(cc!=0 && cc<prevCC) {
                     /* (c, c2) is out of order with respect to the preceding
                      * text */
                     int reorderSplit= destIndex;
                     destIndex+=length;
-                    prevCC=insertOrdered(dest,reorderStartIndex, reorderSplit,
+                    prevCC=insertOrdered(dest,reorderStbrtIndex, reorderSplit,
                                          destIndex, c, c2, cc);
                 } else {
-                    /* just append (c, c2) */
+                    /* just bppend (c, c2) */
                     dest[destIndex++]=c;
                     if(c2!=0) {
                         dest[destIndex++]=c2;
@@ -2016,125 +2016,125 @@ public final class NormalizerImpl {
             }
         }
 
-        return destIndex - destStart;
+        return destIndex - destStbrt;
     }
 
-    public static int getCombiningClass(int c) {
+    public stbtic int getCombiningClbss(int c) {
         long norm32;
         norm32=getNorm32(c);
         return (int)((norm32>>CC_SHIFT)&0xFF);
     }
 
-    public static boolean isFullCompositionExclusion(int c) {
-        if(isFormatVersion_2_1) {
-            int aux =AuxTrieImpl.auxTrie.getCodePointValue(c);
-            return (aux & AUX_COMP_EX_MASK)!=0;
+    public stbtic boolebn isFullCompositionExclusion(int c) {
+        if(isFormbtVersion_2_1) {
+            int bux =AuxTrieImpl.buxTrie.getCodePointVblue(c);
+            return (bux & AUX_COMP_EX_MASK)!=0;
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public static boolean isCanonSafeStart(int c) {
-        if(isFormatVersion_2_1) {
-            int aux = AuxTrieImpl.auxTrie.getCodePointValue(c);
-            return (aux & AUX_UNSAFE_MASK)==0;
+    public stbtic boolebn isCbnonSbfeStbrt(int c) {
+        if(isFormbtVersion_2_1) {
+            int bux = AuxTrieImpl.buxTrie.getCodePointVblue(c);
+            return (bux & AUX_UNSAFE_MASK)==0;
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    /* Is c an NF<mode>-skippable code point? See unormimp.h. */
-    public static boolean isNFSkippable(int c, NormalizerBase.Mode mode, long mask) {
+    /* Is c bn NF<mode>-skippbble code point? See unormimp.h. */
+    public stbtic boolebn isNFSkippbble(int c, NormblizerBbse.Mode mode, long mbsk) {
         long /*unsigned int*/ norm32;
-        mask = mask & UNSIGNED_INT_MASK;
-        char aux;
+        mbsk = mbsk & UNSIGNED_INT_MASK;
+        chbr bux;
 
-        /* check conditions (a)..(e), see unormimp.h */
+        /* check conditions (b)..(e), see unormimp.h */
         norm32 = getNorm32(c);
 
-        if((norm32&mask)!=0) {
-            return false; /* fails (a)..(e), not skippable */
+        if((norm32&mbsk)!=0) {
+            return fblse; /* fbils (b)..(e), not skippbble */
         }
 
-        if(mode == NormalizerBase.NFD || mode == NormalizerBase.NFKD || mode == NormalizerBase.NONE){
-            return true; /* NF*D, passed (a)..(c), is skippable */
+        if(mode == NormblizerBbse.NFD || mode == NormblizerBbse.NFKD || mode == NormblizerBbse.NONE){
+            return true; /* NF*D, pbssed (b)..(c), is skippbble */
         }
-        /* check conditions (a)..(e), see unormimp.h */
+        /* check conditions (b)..(e), see unormimp.h */
 
-        /* NF*C/FCC, passed (a)..(e) */
+        /* NF*C/FCC, pbssed (b)..(e) */
         if((norm32& QC_NFD)==0) {
-            return true; /* no canonical decomposition, is skippable */
+            return true; /* no cbnonicbl decomposition, is skippbble */
         }
 
-        /* check Hangul syllables algorithmically */
-        if(isNorm32HangulOrJamo(norm32)) {
-            /* Jamo passed (a)..(e) above, must be Hangul */
-            return !isHangulWithoutJamoT((char)c); /* LVT are skippable, LV are not */
+        /* check Hbngul syllbbles blgorithmicblly */
+        if(isNorm32HbngulOrJbmo(norm32)) {
+            /* Jbmo pbssed (b)..(e) bbove, must be Hbngul */
+            return !isHbngulWithoutJbmoT((chbr)c); /* LVT bre skippbble, LV bre not */
         }
 
-        /* if(mode<=UNORM_NFKC) { -- enable when implementing FCC */
-        /* NF*C, test (f) flag */
-        if(!isFormatVersion_2_2) {
-            return false; /* no (f) data, say not skippable to be safe */
+        /* if(mode<=UNORM_NFKC) { -- enbble when implementing FCC */
+        /* NF*C, test (f) flbg */
+        if(!isFormbtVersion_2_2) {
+            return fblse; /* no (f) dbtb, sby not skippbble to be sbfe */
         }
 
 
-        aux = AuxTrieImpl.auxTrie.getCodePointValue(c);
-        return (aux&AUX_NFC_SKIP_F_MASK)==0; /* TRUE=skippable if the (f) flag is not set */
+        bux = AuxTrieImpl.buxTrie.getCodePointVblue(c);
+        return (bux&AUX_NFC_SKIP_F_MASK)==0; /* TRUE=skippbble if the (f) flbg is not set */
 
-        /* } else { FCC, test fcd<=1 instead of the above } */
+        /* } else { FCC, test fcd<=1 instebd of the bbove } */
     }
 
-    public static UnicodeSet addPropertyStarts(UnicodeSet set) {
+    public stbtic UnicodeSet bddPropertyStbrts(UnicodeSet set) {
         int c;
 
-        /* add the start code point of each same-value range of each trie */
-        //utrie_enum(&normTrie, NULL, _enumPropertyStartsRange, set);
-        TrieIterator normIter = new TrieIterator(NormTrieImpl.normTrie);
-        RangeValueIterator.Element normResult = new RangeValueIterator.Element();
+        /* bdd the stbrt code point of ebch sbme-vblue rbnge of ebch trie */
+        //utrie_enum(&normTrie, NULL, _enumPropertyStbrtsRbnge, set);
+        TrieIterbtor normIter = new TrieIterbtor(NormTrieImpl.normTrie);
+        RbngeVblueIterbtor.Element normResult = new RbngeVblueIterbtor.Element();
 
         while(normIter.next(normResult)){
-            set.add(normResult.start);
+            set.bdd(normResult.stbrt);
         }
 
-        //utrie_enum(&fcdTrie, NULL, _enumPropertyStartsRange, set);
-        TrieIterator fcdIter  = new TrieIterator(FCDTrieImpl.fcdTrie);
-        RangeValueIterator.Element fcdResult = new RangeValueIterator.Element();
+        //utrie_enum(&fcdTrie, NULL, _enumPropertyStbrtsRbnge, set);
+        TrieIterbtor fcdIter  = new TrieIterbtor(FCDTrieImpl.fcdTrie);
+        RbngeVblueIterbtor.Element fcdResult = new RbngeVblueIterbtor.Element();
 
         while(fcdIter.next(fcdResult)){
-            set.add(fcdResult.start);
+            set.bdd(fcdResult.stbrt);
         }
 
-        if(isFormatVersion_2_1){
-            //utrie_enum(&auxTrie, NULL, _enumPropertyStartsRange, set);
-            TrieIterator auxIter  = new TrieIterator(AuxTrieImpl.auxTrie);
-            RangeValueIterator.Element auxResult = new RangeValueIterator.Element();
-            while(auxIter.next(auxResult)){
-                set.add(auxResult.start);
+        if(isFormbtVersion_2_1){
+            //utrie_enum(&buxTrie, NULL, _enumPropertyStbrtsRbnge, set);
+            TrieIterbtor buxIter  = new TrieIterbtor(AuxTrieImpl.buxTrie);
+            RbngeVblueIterbtor.Element buxResult = new RbngeVblueIterbtor.Element();
+            while(buxIter.next(buxResult)){
+                set.bdd(buxResult.stbrt);
             }
         }
-        /* add Hangul LV syllables and LV+1 because of skippables */
+        /* bdd Hbngul LV syllbbles bnd LV+1 becbuse of skippbbles */
         for(c=HANGUL_BASE; c<HANGUL_BASE+HANGUL_COUNT; c+=JAMO_T_COUNT) {
-            set.add(c);
-            set.add(c+1);
+            set.bdd(c);
+            set.bdd(c+1);
         }
-        set.add(HANGUL_BASE+HANGUL_COUNT); /* add Hangul+1 to continue with other properties */
-        return set; // for chaining
+        set.bdd(HANGUL_BASE+HANGUL_COUNT); /* bdd Hbngul+1 to continue with other properties */
+        return set; // for chbining
     }
 
     /**
-     * Internal API, used in UCharacter.getIntPropertyValue().
-     * @internal
-     * @param c code point
-     * @param modeValue numeric value compatible with Mode
-     * @return numeric value compatible with QuickCheck
+     * Internbl API, used in UChbrbcter.getIntPropertyVblue().
+     * @internbl
+     * @pbrbm c code point
+     * @pbrbm modeVblue numeric vblue compbtible with Mode
+     * @return numeric vblue compbtible with QuickCheck
      */
-    public static final int quickCheck(int c, int modeValue) {
-        final int qcMask[/*UNORM_MODE_COUNT*/]={
+    public stbtic finbl int quickCheck(int c, int modeVblue) {
+        finbl int qcMbsk[/*UNORM_MODE_COUNT*/]={
             0, 0, QC_NFD, QC_NFKD, QC_NFC, QC_NFKC
         };
 
-        int norm32=(int)getNorm32(c)&qcMask[modeValue];
+        int norm32=(int)getNorm32(c)&qcMbsk[modeVblue];
 
         if(norm32==0) {
             return 1; // YES
@@ -2145,34 +2145,34 @@ public final class NormalizerImpl {
         }
     }
 
-    private static int strCompare(char[] s1, int s1Start, int s1Limit,
-                                  char[] s2, int s2Start, int s2Limit,
-                                  boolean codePointOrder) {
+    privbte stbtic int strCompbre(chbr[] s1, int s1Stbrt, int s1Limit,
+                                  chbr[] s2, int s2Stbrt, int s2Limit,
+                                  boolebn codePointOrder) {
 
-        int start1, start2, limit1, limit2;
+        int stbrt1, stbrt2, limit1, limit2;
 
-        char c1, c2;
+        chbr c1, c2;
 
         /* setup for fix-up */
-        start1=s1Start;
-        start2=s2Start;
+        stbrt1=s1Stbrt;
+        stbrt2=s2Stbrt;
 
         int length1, length2;
 
-        length1 = s1Limit - s1Start;
-        length2 = s2Limit - s2Start;
+        length1 = s1Limit - s1Stbrt;
+        length2 = s2Limit - s2Stbrt;
 
         int lengthResult;
 
         if(length1<length2) {
             lengthResult=-1;
-            limit1=start1+length1;
+            limit1=stbrt1+length1;
         } else if(length1==length2) {
             lengthResult=0;
-            limit1=start1+length1;
+            limit1=stbrt1+length1;
         } else /* length1>length2 */ {
             lengthResult=1;
-            limit1=start1+length2;
+            limit1=stbrt1+length2;
         }
 
         if(s1==s2) {
@@ -2181,299 +2181,299 @@ public final class NormalizerImpl {
 
         for(;;) {
             /* check pseudo-limit */
-            if(s1Start==limit1) {
+            if(s1Stbrt==limit1) {
                 return lengthResult;
             }
 
-            c1=s1[s1Start];
-            c2=s2[s2Start];
+            c1=s1[s1Stbrt];
+            c2=s2[s2Stbrt];
             if(c1!=c2) {
-                break;
+                brebk;
             }
-            ++s1Start;
-            ++s2Start;
+            ++s1Stbrt;
+            ++s2Stbrt;
         }
 
         /* setup for fix-up */
-        limit1=start1+length1;
-        limit2=start2+length2;
+        limit1=stbrt1+length1;
+        limit2=stbrt2+length2;
 
 
-        /* if both values are in or above the surrogate range, fix them up */
+        /* if both vblues bre in or bbove the surrogbte rbnge, fix them up */
         if(c1>=0xd800 && c2>=0xd800 && codePointOrder) {
-            /* subtract 0x2800 from BMP code points to make them smaller than
-             *  supplementary ones */
+            /* subtrbct 0x2800 from BMP code points to mbke them smbller thbn
+             *  supplementbry ones */
             if(
-                ( c1<=0xdbff && (s1Start+1)!=limit1 &&
-                  UTF16.isTrailSurrogate(s1[(s1Start+1)])
+                ( c1<=0xdbff && (s1Stbrt+1)!=limit1 &&
+                  UTF16.isTrbilSurrogbte(s1[(s1Stbrt+1)])
                 ) ||
-                ( UTF16.isTrailSurrogate(c1) && start1!=s1Start &&
-                  UTF16.isLeadSurrogate(s1[(s1Start-1)])
+                ( UTF16.isTrbilSurrogbte(c1) && stbrt1!=s1Stbrt &&
+                  UTF16.isLebdSurrogbte(s1[(s1Stbrt-1)])
                 )
             ) {
-                /* part of a surrogate pair, leave >=d800 */
+                /* pbrt of b surrogbte pbir, lebve >=d800 */
             } else {
-                /* BMP code point - may be surrogate code point - make <d800 */
+                /* BMP code point - mby be surrogbte code point - mbke <d800 */
                 c1-=0x2800;
             }
 
             if(
-                ( c2<=0xdbff && (s2Start+1)!=limit2 &&
-                  UTF16.isTrailSurrogate(s2[(s2Start+1)])
+                ( c2<=0xdbff && (s2Stbrt+1)!=limit2 &&
+                  UTF16.isTrbilSurrogbte(s2[(s2Stbrt+1)])
                 ) ||
-                ( UTF16.isTrailSurrogate(c2) && start2!=s2Start &&
-                  UTF16.isLeadSurrogate(s2[(s2Start-1)])
+                ( UTF16.isTrbilSurrogbte(c2) && stbrt2!=s2Stbrt &&
+                  UTF16.isLebdSurrogbte(s2[(s2Stbrt-1)])
                 )
             ) {
-                /* part of a surrogate pair, leave >=d800 */
+                /* pbrt of b surrogbte pbir, lebve >=d800 */
             } else {
-                /* BMP code point - may be surrogate code point - make <d800 */
+                /* BMP code point - mby be surrogbte code point - mbke <d800 */
                 c2-=0x2800;
             }
         }
 
-        /* now c1 and c2 are in UTF-32-compatible order */
+        /* now c1 bnd c2 bre in UTF-32-compbtible order */
         return (int)c1-(int)c2;
     }
 
 
     /*
-     * Status of tailored normalization
+     * Stbtus of tbilored normblizbtion
      *
-     * This was done initially for investigation on Unicode public review issue 7
+     * This wbs done initiblly for investigbtion on Unicode public review issue 7
      * (http://www.unicode.org/review/). See Jitterbug 2481.
-     * While the UTC at meeting #94 (2003mar) did not take up the issue, this is
-     * a permanent feature in ICU 2.6 in support of IDNA which requires true
-     * Unicode 3.2 normalization.
-     * (NormalizationCorrections are rolled into IDNA mapping tables.)
+     * While the UTC bt meeting #94 (2003mbr) did not tbke up the issue, this is
+     * b permbnent febture in ICU 2.6 in support of IDNA which requires true
+     * Unicode 3.2 normblizbtion.
+     * (NormblizbtionCorrections bre rolled into IDNA mbpping tbbles.)
      *
-     * Tailored normalization as implemented here allows to "normalize less"
-     * than full Unicode normalization would.
-     * Based internally on a UnicodeSet of code points that are
-     * "excluded from normalization", the normalization functions leave those
-     * code points alone ("inert"). This means that tailored normalization
-     * still transforms text into a canonically equivalent form.
-     * It does not add decompositions to code points that do not have any or
-     * change decomposition results.
+     * Tbilored normblizbtion bs implemented here bllows to "normblize less"
+     * thbn full Unicode normblizbtion would.
+     * Bbsed internblly on b UnicodeSet of code points thbt bre
+     * "excluded from normblizbtion", the normblizbtion functions lebve those
+     * code points blone ("inert"). This mebns thbt tbilored normblizbtion
+     * still trbnsforms text into b cbnonicblly equivblent form.
+     * It does not bdd decompositions to code points thbt do not hbve bny or
+     * chbnge decomposition results.
      *
-     * Any function that searches for a safe boundary has not been touched,
-     * which means that these functions will be over-pessimistic when
-     * exclusions are applied.
-     * This should not matter because subsequent checks and normalizations
-     * do apply the exclusions; only a little more of the text may be processed
-     * than necessary under exclusions.
+     * Any function thbt sebrches for b sbfe boundbry hbs not been touched,
+     * which mebns thbt these functions will be over-pessimistic when
+     * exclusions bre bpplied.
+     * This should not mbtter becbuse subsequent checks bnd normblizbtions
+     * do bpply the exclusions; only b little more of the text mby be processed
+     * thbn necessbry under exclusions.
      *
-     * Normalization exclusions have the following effect on excluded code points c:
+     * Normblizbtion exclusions hbve the following effect on excluded code points c:
      * - c is not decomposed
-     * - c is not a composition target
-     * - c does not combine forward or backward for composition
-     *   except that this is not implemented for Jamo
-     * - c is treated as having a combining class of 0
+     * - c is not b composition tbrget
+     * - c does not combine forwbrd or bbckwbrd for composition
+     *   except thbt this is not implemented for Jbmo
+     * - c is trebted bs hbving b combining clbss of 0
      */
 
     /*
-     * Constants for the bit fields in the options bit set parameter.
+     * Constbnts for the bit fields in the options bit set pbrbmeter.
      * These need not be public.
-     * A user only needs to know the currently assigned values.
-     * The number and positions of reserved bits per field can remain private.
+     * A user only needs to know the currently bssigned vblues.
+     * The number bnd positions of reserved bits per field cbn rembin privbte.
      */
-    private static final int OPTIONS_NX_MASK=0x1f;
-    private static final int OPTIONS_UNICODE_MASK=0xe0;
-    public  static final int OPTIONS_SETS_MASK=0xff;
-//  private static final int OPTIONS_UNICODE_SHIFT=5;
-    private static final UnicodeSet[] nxCache = new UnicodeSet[OPTIONS_SETS_MASK+1];
+    privbte stbtic finbl int OPTIONS_NX_MASK=0x1f;
+    privbte stbtic finbl int OPTIONS_UNICODE_MASK=0xe0;
+    public  stbtic finbl int OPTIONS_SETS_MASK=0xff;
+//  privbte stbtic finbl int OPTIONS_UNICODE_SHIFT=5;
+    privbte stbtic finbl UnicodeSet[] nxCbche = new UnicodeSet[OPTIONS_SETS_MASK+1];
 
-    /* Constants for options flags for normalization.*/
+    /* Constbnts for options flbgs for normblizbtion.*/
 
     /**
-     * Options bit 0, do not decompose Hangul syllables.
-     * @draft ICU 2.6
+     * Options bit 0, do not decompose Hbngul syllbbles.
+     * @drbft ICU 2.6
      */
-    private static final int NX_HANGUL = 1;
+    privbte stbtic finbl int NX_HANGUL = 1;
     /**
-     * Options bit 1, do not decompose CJK compatibility characters.
-     * @draft ICU 2.6
+     * Options bit 1, do not decompose CJK compbtibility chbrbcters.
+     * @drbft ICU 2.6
      */
-    private static final int NX_CJK_COMPAT=2;
+    privbte stbtic finbl int NX_CJK_COMPAT=2;
     /**
      * Options bit 8, use buggy recomposition described in
      * Unicode Public Review Issue #29
-     * at http://www.unicode.org/review/resolved-pri.html#pri29
+     * bt http://www.unicode.org/review/resolved-pri.html#pri29
      *
-     * Used in IDNA implementation according to strict interpretation
-     * of IDNA definition based on Unicode 3.2 which predates PRI #29.
+     * Used in IDNA implementbtion bccording to strict interpretbtion
+     * of IDNA definition bbsed on Unicode 3.2 which predbtes PRI #29.
      *
      * See ICU4C unormimp.h
      *
-     * @draft ICU 3.2
+     * @drbft ICU 3.2
      */
-    public static final int BEFORE_PRI_29=0x100;
+    public stbtic finbl int BEFORE_PRI_29=0x100;
 
     /*
-     * The following options are used only in some composition functions.
-     * They use bits 12 and up to preserve lower bits for the available options
-     * space in unorm_compare() -
-     * see documentation for UNORM_COMPARE_NORM_OPTIONS_SHIFT.
+     * The following options bre used only in some composition functions.
+     * They use bits 12 bnd up to preserve lower bits for the bvbilbble options
+     * spbce in unorm_compbre() -
+     * see documentbtion for UNORM_COMPARE_NORM_OPTIONS_SHIFT.
      */
 
-    /** Options bit 12, for compatibility vs. canonical decomposition. */
-    public static final int OPTIONS_COMPAT=0x1000;
+    /** Options bit 12, for compbtibility vs. cbnonicbl decomposition. */
+    public stbtic finbl int OPTIONS_COMPAT=0x1000;
     /** Options bit 13, no discontiguous composition (FCC vs. NFC). */
-    public static final int OPTIONS_COMPOSE_CONTIGUOUS=0x2000;
+    public stbtic finbl int OPTIONS_COMPOSE_CONTIGUOUS=0x2000;
 
-    /* normalization exclusion sets --------------------------------------------- */
+    /* normblizbtion exclusion sets --------------------------------------------- */
 
     /*
-     * Normalization exclusion UnicodeSets are used for tailored normalization;
-     * see the comment near the beginning of this file.
+     * Normblizbtion exclusion UnicodeSets bre used for tbilored normblizbtion;
+     * see the comment nebr the beginning of this file.
      *
-     * By specifying one or several sets of code points,
-     * those code points become inert for normalization.
+     * By specifying one or severbl sets of code points,
+     * those code points become inert for normblizbtion.
      */
-    private static final synchronized UnicodeSet internalGetNXHangul() {
-        /* internal function, does not check for incoming U_FAILURE */
+    privbte stbtic finbl synchronized UnicodeSet internblGetNXHbngul() {
+        /* internbl function, does not check for incoming U_FAILURE */
 
-        if(nxCache[NX_HANGUL]==null) {
-             nxCache[NX_HANGUL]=new UnicodeSet(0xac00, 0xd7a3);
+        if(nxCbche[NX_HANGUL]==null) {
+             nxCbche[NX_HANGUL]=new UnicodeSet(0xbc00, 0xd7b3);
         }
-        return nxCache[NX_HANGUL];
+        return nxCbche[NX_HANGUL];
     }
 
-    private static final synchronized UnicodeSet internalGetNXCJKCompat() {
-        /* internal function, does not check for incoming U_FAILURE */
+    privbte stbtic finbl synchronized UnicodeSet internblGetNXCJKCompbt() {
+        /* internbl function, does not check for incoming U_FAILURE */
 
-        if(nxCache[NX_CJK_COMPAT]==null) {
+        if(nxCbche[NX_CJK_COMPAT]==null) {
 
-            /* build a set from [CJK Ideographs]&[has canonical decomposition] */
-            UnicodeSet set, hasDecomp;
+            /* build b set from [CJK Ideogrbphs]&[hbs cbnonicbl decomposition] */
+            UnicodeSet set, hbsDecomp;
 
-            set=new UnicodeSet("[:Ideographic:]");
+            set=new UnicodeSet("[:Ideogrbphic:]");
 
-            /* start with an empty set for [has canonical decomposition] */
-            hasDecomp=new UnicodeSet();
+            /* stbrt with bn empty set for [hbs cbnonicbl decomposition] */
+            hbsDecomp=new UnicodeSet();
 
-            /* iterate over all ideographs and remember which canonically decompose */
-            UnicodeSetIterator it = new UnicodeSetIterator(set);
-            int start, end;
+            /* iterbte over bll ideogrbphs bnd remember which cbnonicblly decompose */
+            UnicodeSetIterbtor it = new UnicodeSetIterbtor(set);
+            int stbrt, end;
             long norm32;
 
-            while(it.nextRange() && (it.codepoint != UnicodeSetIterator.IS_STRING)) {
-                start=it.codepoint;
+            while(it.nextRbnge() && (it.codepoint != UnicodeSetIterbtor.IS_STRING)) {
+                stbrt=it.codepoint;
                 end=it.codepointEnd;
-                while(start<=end) {
-                    norm32 = getNorm32(start);
+                while(stbrt<=end) {
+                    norm32 = getNorm32(stbrt);
                     if((norm32 & QC_NFD)>0) {
-                        hasDecomp.add(start);
+                        hbsDecomp.bdd(stbrt);
                     }
-                    ++start;
+                    ++stbrt;
                 }
             }
 
-            /* hasDecomp now contains all ideographs that decompose canonically */
-             nxCache[NX_CJK_COMPAT]=hasDecomp;
+            /* hbsDecomp now contbins bll ideogrbphs thbt decompose cbnonicblly */
+             nxCbche[NX_CJK_COMPAT]=hbsDecomp;
 
         }
 
-        return nxCache[NX_CJK_COMPAT];
+        return nxCbche[NX_CJK_COMPAT];
     }
 
-    private static final synchronized UnicodeSet internalGetNXUnicode(int options) {
+    privbte stbtic finbl synchronized UnicodeSet internblGetNXUnicode(int options) {
         options &= OPTIONS_UNICODE_MASK;
         if(options==0) {
             return null;
         }
 
-        if(nxCache[options]==null) {
-            /* build a set with all code points that were not designated by the specified Unicode version */
+        if(nxCbche[options]==null) {
+            /* build b set with bll code points thbt were not designbted by the specified Unicode version */
             UnicodeSet set = new UnicodeSet();
 
             switch(options) {
-            case NormalizerBase.UNICODE_3_2:
-                set.applyPattern("[:^Age=3.2:]");
-                break;
-            default:
+            cbse NormblizerBbse.UNICODE_3_2:
+                set.bpplyPbttern("[:^Age=3.2:]");
+                brebk;
+            defbult:
                 return null;
             }
 
-            nxCache[options]=set;
+            nxCbche[options]=set;
         }
 
-        return nxCache[options];
+        return nxCbche[options];
     }
 
-    /* Get a decomposition exclusion set. The data must be loaded. */
-    private static final synchronized UnicodeSet internalGetNX(int options) {
+    /* Get b decomposition exclusion set. The dbtb must be lobded. */
+    privbte stbtic finbl synchronized UnicodeSet internblGetNX(int options) {
         options&=OPTIONS_SETS_MASK;
 
-        if(nxCache[options]==null) {
-            /* return basic sets */
+        if(nxCbche[options]==null) {
+            /* return bbsic sets */
             if(options==NX_HANGUL) {
-                return internalGetNXHangul();
+                return internblGetNXHbngul();
             }
             if(options==NX_CJK_COMPAT) {
-                return internalGetNXCJKCompat();
+                return internblGetNXCJKCompbt();
             }
             if((options & OPTIONS_UNICODE_MASK)!=0 && (options & OPTIONS_NX_MASK)==0) {
-                return internalGetNXUnicode(options);
+                return internblGetNXUnicode(options);
             }
 
-            /* build a set from multiple subsets */
+            /* build b set from multiple subsets */
             UnicodeSet set;
             UnicodeSet other;
 
             set=new UnicodeSet();
 
 
-            if((options & NX_HANGUL)!=0 && null!=(other=internalGetNXHangul())) {
-                set.addAll(other);
+            if((options & NX_HANGUL)!=0 && null!=(other=internblGetNXHbngul())) {
+                set.bddAll(other);
             }
-            if((options&NX_CJK_COMPAT)!=0 && null!=(other=internalGetNXCJKCompat())) {
-                set.addAll(other);
+            if((options&NX_CJK_COMPAT)!=0 && null!=(other=internblGetNXCJKCompbt())) {
+                set.bddAll(other);
             }
-            if((options&OPTIONS_UNICODE_MASK)!=0 && null!=(other=internalGetNXUnicode(options))) {
-                set.addAll(other);
+            if((options&OPTIONS_UNICODE_MASK)!=0 && null!=(other=internblGetNXUnicode(options))) {
+                set.bddAll(other);
             }
 
-               nxCache[options]=set;
+               nxCbche[options]=set;
         }
-        return nxCache[options];
+        return nxCbche[options];
     }
 
-    public static final UnicodeSet getNX(int options) {
+    public stbtic finbl UnicodeSet getNX(int options) {
         if((options&=OPTIONS_SETS_MASK)==0) {
-            /* incoming failure, or no decomposition exclusions requested */
+            /* incoming fbilure, or no decomposition exclusions requested */
             return null;
         } else {
-            return internalGetNX(options);
+            return internblGetNX(options);
         }
     }
 
-    private static final boolean nx_contains(UnicodeSet nx, int c) {
-        return nx!=null && nx.contains(c);
+    privbte stbtic finbl boolebn nx_contbins(UnicodeSet nx, int c) {
+        return nx!=null && nx.contbins(c);
     }
 
-    private static final boolean nx_contains(UnicodeSet nx, char c, char c2) {
-        return nx!=null && nx.contains(c2==0 ? c : UCharacterProperty.getRawSupplementary(c, c2));
+    privbte stbtic finbl boolebn nx_contbins(UnicodeSet nx, chbr c, chbr c2) {
+        return nx!=null && nx.contbins(c2==0 ? c : UChbrbcterProperty.getRbwSupplementbry(c, c2));
     }
 
 /*****************************************************************************/
 
     /**
-     * Get the canonical decomposition
-     * sherman  for ComposedCharIter
+     * Get the cbnonicbl decomposition
+     * shermbn  for ComposedChbrIter
      */
 
-    public static int getDecompose(int chars[], String decomps[]) {
-        DecomposeArgs args = new DecomposeArgs();
+    public stbtic int getDecompose(int chbrs[], String decomps[]) {
+        DecomposeArgs brgs = new DecomposeArgs();
         int length=0;
         long norm32 = 0;
         int ch = -1;
         int index = 0;
         int i = 0;
 
-        while (++ch < 0x2fa1e) {   //no cannoical above 0x3ffff
-            //TBD !!!! the hack code heres save us about 50ms for startup
-            //need a better solution/lookup
+        while (++ch < 0x2fb1e) {   //no cbnnoicbl bbove 0x3ffff
+            //TBD !!!! the hbck code heres sbve us bbout 50ms for stbrtup
+            //need b better solution/lookup
             if (ch == 0x30ff)
                 ch = 0xf900;
             else if (ch == 0x10000)
@@ -2481,20 +2481,20 @@ public final class NormalizerImpl {
             else if (ch == 0x1d1c1)
                 ch = 0x2f800;
 
-            norm32 = NormalizerImpl.getNorm32(ch);
-            if((norm32 & QC_NFD)!=0 && i < chars.length) {
-                chars[i] = ch;
-                index = decompose(norm32, args);
-                decomps[i++] = new String(extraData,index, args.length);
+            norm32 = NormblizerImpl.getNorm32(ch);
+            if((norm32 & QC_NFD)!=0 && i < chbrs.length) {
+                chbrs[i] = ch;
+                index = decompose(norm32, brgs);
+                decomps[i++] = new String(extrbDbtb,index, brgs.length);
             }
         }
         return i;
     }
 
     //------------------------------------------------------
-    // special method for Collation
+    // specibl method for Collbtion
     //------------------------------------------------------
-    private static boolean needSingleQuotation(char c) {
+    privbte stbtic boolebn needSingleQuotbtion(chbr c) {
         return (c >= 0x0009 && c <= 0x000D) ||
                (c >= 0x0020 && c <= 0x002F) ||
                (c >= 0x003A && c <= 0x0040) ||
@@ -2502,76 +2502,76 @@ public final class NormalizerImpl {
                (c >= 0x007B && c <= 0x007E);
     }
 
-    public static String canonicalDecomposeWithSingleQuotation(String string) {
-        char[] src = string.toCharArray();
+    public stbtic String cbnonicblDecomposeWithSingleQuotbtion(String string) {
+        chbr[] src = string.toChbrArrby();
         int    srcIndex = 0;
         int    srcLimit = src.length;
-        char[] dest = new char[src.length * 3];  //MAX_BUF_SIZE_DECOMPOSE = 3
+        chbr[] dest = new chbr[src.length * 3];  //MAX_BUF_SIZE_DECOMPOSE = 3
         int    destIndex = 0;
         int    destLimit = dest.length;
 
-        char[] buffer = new char[3];
+        chbr[] buffer = new chbr[3];
         int prevSrc;
         long norm32;
-        int ccOrQCMask;
-        int qcMask = QC_NFD;
-        int reorderStartIndex, length;
-        char c, c2;
-        char minNoMaybe = (char)indexes[INDEX_MIN_NFD_NO_MAYBE];
-        int cc, prevCC, trailCC;
-        char[] p;
-        int pStart;
+        int ccOrQCMbsk;
+        int qcMbsk = QC_NFD;
+        int reorderStbrtIndex, length;
+        chbr c, c2;
+        chbr minNoMbybe = (chbr)indexes[INDEX_MIN_NFD_NO_MAYBE];
+        int cc, prevCC, trbilCC;
+        chbr[] p;
+        int pStbrt;
 
 
-        // initialize
-        ccOrQCMask = CC_MASK | qcMask;
-        reorderStartIndex = 0;
+        // initiblize
+        ccOrQCMbsk = CC_MASK | qcMbsk;
+        reorderStbrtIndex = 0;
         prevCC = 0;
         norm32 = 0;
         c = 0;
-        pStart = 0;
+        pStbrt = 0;
 
-        cc = trailCC = -1; // initialize to bogus value
+        cc = trbilCC = -1; // initiblize to bogus vblue
         for(;;) {
             prevSrc=srcIndex;
-            //quick check (1)less than minNoMaybe (2)no decomp (3)hangual
+            //quick check (1)less thbn minNoMbybe (2)no decomp (3)hbngubl
             while (srcIndex != srcLimit &&
-                   (( c = src[srcIndex]) < minNoMaybe ||
-                    ((norm32 = getNorm32(c)) & ccOrQCMask) == 0 ||
-                    ( c >= '\uac00' && c <= '\ud7a3'))){
+                   (( c = src[srcIndex]) < minNoMbybe ||
+                    ((norm32 = getNorm32(c)) & ccOrQCMbsk) == 0 ||
+                    ( c >= '\ubc00' && c <= '\ud7b3'))){
 
                 prevCC = 0;
                 ++srcIndex;
             }
 
-            // copy these code units all at once
+            // copy these code units bll bt once
             if (srcIndex != prevSrc) {
                 length = srcIndex - prevSrc;
                 if ((destIndex + length) <= destLimit) {
-                    System.arraycopy(src,prevSrc,dest,destIndex,length);
+                    System.brrbycopy(src,prevSrc,dest,destIndex,length);
                 }
 
                 destIndex += length;
-                reorderStartIndex = destIndex;
+                reorderStbrtIndex = destIndex;
             }
 
-            // end of source reached?
+            // end of source rebched?
             if(srcIndex == srcLimit) {
-                break;
+                brebk;
             }
-            // c already contains *src and norm32 is set for it, increment src
+            // c blrebdy contbins *src bnd norm32 is set for it, increment src
             ++srcIndex;
 
-            if(isNorm32Regular(norm32)) {
+            if(isNorm32Regulbr(norm32)) {
                 c2 = 0;
                 length = 1;
             } else {
-                // c is a lead surrogate, get the real norm32
+                // c is b lebd surrogbte, get the rebl norm32
                 if(srcIndex != srcLimit &&
-                    Character.isLowSurrogate(c2 = src[srcIndex])) {
+                    Chbrbcter.isLowSurrogbte(c2 = src[srcIndex])) {
                         ++srcIndex;
                         length = 2;
-                        norm32 = getNorm32FromSurrogatePair(norm32, c2);
+                        norm32 = getNorm32FromSurrogbtePbir(norm32, c2);
                 } else {
                     c2 = 0;
                     length = 1;
@@ -2579,116 +2579,116 @@ public final class NormalizerImpl {
                 }
             }
 
-            // get the decomposition and the lead and trail cc's
-            if((norm32 & qcMask) == 0) {
+            // get the decomposition bnd the lebd bnd trbil cc's
+            if((norm32 & qcMbsk) == 0) {
                 // c does not decompose
-                cc = trailCC = (int)((UNSIGNED_BYTE_MASK) & (norm32 >> CC_SHIFT));
+                cc = trbilCC = (int)((UNSIGNED_BYTE_MASK) & (norm32 >> CC_SHIFT));
                 p = null;
-                pStart = -1;
+                pStbrt = -1;
             } else {
-                DecomposeArgs arg = new DecomposeArgs();
-                // c decomposes, get everything from the variable-length
-                // extra data
-                pStart = decompose(norm32, qcMask, arg);
-                p = extraData;
-                length = arg.length;
-                cc = arg.cc;
-                trailCC = arg.trailCC;
+                DecomposeArgs brg = new DecomposeArgs();
+                // c decomposes, get everything from the vbribble-length
+                // extrb dbtb
+                pStbrt = decompose(norm32, qcMbsk, brg);
+                p = extrbDbtb;
+                length = brg.length;
+                cc = brg.cc;
+                trbilCC = brg.trbilCC;
                 if(length == 1) {
-                    // fastpath a single code unit from decomposition
-                    c = p[pStart];
+                    // fbstpbth b single code unit from decomposition
+                    c = p[pStbrt];
                     c2 = 0;
                     p = null;
-                    pStart = -1;
+                    pStbrt = -1;
                 }
             }
 
-            if((destIndex + length * 3) >= destLimit) {  // 2 SingleQuotations
+            if((destIndex + length * 3) >= destLimit) {  // 2 SingleQuotbtions
                 // buffer overflow
-                char[] tmpBuf = new char[destLimit * 2];
-                System.arraycopy(dest, 0, tmpBuf, 0, destIndex);
+                chbr[] tmpBuf = new chbr[destLimit * 2];
+                System.brrbycopy(dest, 0, tmpBuf, 0, destIndex);
                 dest = tmpBuf;
                 destLimit = dest.length;
             }
-            // append the decomposition to the destination buffer, assume length>0
+            // bppend the decomposition to the destinbtion buffer, bssume length>0
             {
                 int reorderSplit = destIndex;
                 if(p == null) {
-                    // fastpath: single code point
-                    if (needSingleQuotation(c)) {
-                        //if we need single quotation, no need to consider "prevCC"
-                        //and it must NOT be a supplementary pair
+                    // fbstpbth: single code point
+                    if (needSingleQuotbtion(c)) {
+                        //if we need single quotbtion, no need to consider "prevCC"
+                        //bnd it must NOT be b supplementbry pbir
                         dest[destIndex++] = '\'';
                         dest[destIndex++] = c;
                         dest[destIndex++] = '\'';
-                        trailCC = 0;
+                        trbilCC = 0;
                     } else if(cc != 0 && cc < prevCC) {
                         // (c, c2) is out of order with respect to the preceding
                         //  text
                         destIndex += length;
-                        trailCC = insertOrdered(dest,reorderStartIndex,
+                        trbilCC = insertOrdered(dest,reorderStbrtIndex,
                                                 reorderSplit, destIndex, c, c2, cc);
                     } else {
-                        // just append (c, c2)
+                        // just bppend (c, c2)
                         dest[destIndex++] = c;
                         if(c2 != 0) {
                             dest[destIndex++] = c2;
                         }
                     }
                 } else {
-                    // general: multiple code points (ordered by themselves)
+                    // generbl: multiple code points (ordered by themselves)
                     // from decomposition
-                    if (needSingleQuotation(p[pStart])) {
+                    if (needSingleQuotbtion(p[pStbrt])) {
                         dest[destIndex++] = '\'';
-                        dest[destIndex++] = p[pStart++];
+                        dest[destIndex++] = p[pStbrt++];
                         dest[destIndex++] = '\'';
                         length--;
                         do {
-                            dest[destIndex++] = p[pStart++];
+                            dest[destIndex++] = p[pStbrt++];
                         } while(--length > 0);
                     } else
                     if(cc != 0 && cc < prevCC) {
                         destIndex += length;
-                        trailCC = mergeOrdered(dest,reorderStartIndex,
-                                               reorderSplit,p, pStart,pStart+length);
+                        trbilCC = mergeOrdered(dest,reorderStbrtIndex,
+                                               reorderSplit,p, pStbrt,pStbrt+length);
                     } else {
-                        // just append the decomposition
+                        // just bppend the decomposition
                         do {
-                            dest[destIndex++] = p[pStart++];
+                            dest[destIndex++] = p[pStbrt++];
                         } while(--length > 0);
                     }
                 }
             }
-            prevCC = trailCC;
+            prevCC = trbilCC;
             if(prevCC == 0) {
-                reorderStartIndex = destIndex;
+                reorderStbrtIndex = destIndex;
             }
         }
         return new String(dest, 0, destIndex);
     }
 
     //------------------------------------------------------
-    // mapping method for IDNA/StringPrep
+    // mbpping method for IDNA/StringPrep
     //------------------------------------------------------
 
     /*
-     * Normalization using NormalizerBase.UNICODE_3_2 option supports Unicode
-     * 3.2 normalization with Corrigendum 4 corrections. However, normalization
-     * without the corrections is necessary for IDNA/StringPrep support.
-     * This method is called when NormalizerBase.UNICODE_3_2_0_ORIGINAL option
-     * (= sun.text.Normalizer.UNICODE_3_2) is used and normalizes five
-     * characters in Corrigendum 4 before normalization in order to avoid
-     * incorrect normalization.
+     * Normblizbtion using NormblizerBbse.UNICODE_3_2 option supports Unicode
+     * 3.2 normblizbtion with Corrigendum 4 corrections. However, normblizbtion
+     * without the corrections is necessbry for IDNA/StringPrep support.
+     * This method is cblled when NormblizerBbse.UNICODE_3_2_0_ORIGINAL option
+     * (= sun.text.Normblizer.UNICODE_3_2) is used bnd normblizes five
+     * chbrbcters in Corrigendum 4 before normblizbtion in order to bvoid
+     * incorrect normblizbtion.
      * For the Corrigendum 4 issue, refer
      *   http://www.unicode.org/versions/corrigendum4.html
      */
 
     /*
-     * Option used in NormalizerBase.UNICODE_3_2_0_ORIGINAL.
+     * Option used in NormblizerBbse.UNICODE_3_2_0_ORIGINAL.
      */
-    public static final int WITHOUT_CORRIGENDUM4_CORRECTIONS=0x40000;
+    public stbtic finbl int WITHOUT_CORRIGENDUM4_CORRECTIONS=0x40000;
 
-    private static final char[][] corrigendum4MappingTable = {
+    privbte stbtic finbl chbr[][] corrigendum4MbppingTbble = {
         {'\uD844', '\uDF6A'},  // 0x2F868
         {'\u5F33'},            // 0x2F874
         {'\u43AB'},            // 0x2F91F
@@ -2697,37 +2697,37 @@ public final class NormalizerImpl {
 
     /*
      * Removing Corrigendum 4 fix
-     * @return normalized text
+     * @return normblized text
      */
-    public static String convert(String str) {
+    public stbtic String convert(String str) {
         if (str == null) {
             return null;
         }
 
-        int ch  = UCharacterIterator.DONE;
+        int ch  = UChbrbcterIterbtor.DONE;
         StringBuffer dest = new StringBuffer();
-        UCharacterIterator iter = UCharacterIterator.getInstance(str);
+        UChbrbcterIterbtor iter = UChbrbcterIterbtor.getInstbnce(str);
 
-        while ((ch=iter.nextCodePoint())!= UCharacterIterator.DONE){
+        while ((ch=iter.nextCodePoint())!= UChbrbcterIterbtor.DONE){
             switch (ch) {
-            case 0x2F868:
-                dest.append(corrigendum4MappingTable[0]);
-                break;
-            case 0x2F874:
-                dest.append(corrigendum4MappingTable[1]);
-                break;
-            case 0x2F91F:
-                dest.append(corrigendum4MappingTable[2]);
-                break;
-            case 0x2F95F:
-                dest.append(corrigendum4MappingTable[3]);
-                break;
-            case 0x2F9BF:
-                dest.append(corrigendum4MappingTable[4]);
-                break;
-            default:
-                UTF16.append(dest,ch);
-                break;
+            cbse 0x2F868:
+                dest.bppend(corrigendum4MbppingTbble[0]);
+                brebk;
+            cbse 0x2F874:
+                dest.bppend(corrigendum4MbppingTbble[1]);
+                brebk;
+            cbse 0x2F91F:
+                dest.bppend(corrigendum4MbppingTbble[2]);
+                brebk;
+            cbse 0x2F95F:
+                dest.bppend(corrigendum4MbppingTbble[3]);
+                brebk;
+            cbse 0x2F9BF:
+                dest.bppend(corrigendum4MbppingTbble[4]);
+                brebk;
+            defbult:
+                UTF16.bppend(dest,ch);
+                brebk;
             }
         }
 

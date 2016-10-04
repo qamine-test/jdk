@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
-import java.util.Enumeration;
-import java.io.File;
-import java.io.IOException;
+import jbvb.util.Enumerbtion;
+import jbvb.io.File;
+import jbvb.io.IOException;
 
 /**
- * This class is used to represent the classes in a package.
+ * This clbss is used to represent the clbsses in b pbckbge.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class Package {
+clbss Pbckbge {
     /**
-     * The path which we use to locate source files.
+     * The pbth which we use to locbte source files.
      */
-    ClassPath sourcePath;
+    ClbssPbth sourcePbth;
 
     /**
-     * The path which we use to locate class (binary) files.
+     * The pbth which we use to locbte clbss (binbry) files.
      */
-    ClassPath binaryPath;
+    ClbssPbth binbryPbth;
 
     /**
-     * The path name of the package.
+     * The pbth nbme of the pbckbge.
      */
     String pkg;
 
     /**
-     * Create a package given a class path, and package name.
+     * Crebte b pbckbge given b clbss pbth, bnd pbckbge nbme.
      */
-    public Package(ClassPath path, Identifier pkg) throws IOException {
-        this(path, path, pkg);
+    public Pbckbge(ClbssPbth pbth, Identifier pkg) throws IOException {
+        this(pbth, pbth, pkg);
     }
 
     /**
-     * Create a package given a source path, binary path, and package
-     * name.
+     * Crebte b pbckbge given b source pbth, binbry pbth, bnd pbckbge
+     * nbme.
      */
-    public Package(ClassPath sourcePath,
-                   ClassPath binaryPath,
+    public Pbckbge(ClbssPbth sourcePbth,
+                   ClbssPbth binbryPbth,
                    Identifier pkg)
     throws IOException {
         if (pkg.isInner())
-            pkg = Identifier.lookup(pkg.getQualifier(), pkg.getFlatName());
-        this.sourcePath = sourcePath;
-        this.binaryPath = binaryPath;
-        this.pkg = pkg.toString().replace('.', File.separatorChar);
+            pkg = Identifier.lookup(pkg.getQublifier(), pkg.getFlbtNbme());
+        this.sourcePbth = sourcePbth;
+        this.binbryPbth = binbryPbth;
+        this.pkg = pkg.toString().replbce('.', File.sepbrbtorChbr);
     }
 
     /**
-     * Check if a class is defined in this package.
-     * (If it is an inner class name, it is assumed to exist
-     * only if its binary file exists.  This is somewhat pessimistic.)
+     * Check if b clbss is defined in this pbckbge.
+     * (If it is bn inner clbss nbme, it is bssumed to exist
+     * only if its binbry file exists.  This is somewhbt pessimistic.)
      */
-    public boolean classExists(Identifier className) {
-        return getBinaryFile(className) != null ||
-                !className.isInner() &&
-               getSourceFile(className) != null;
+    public boolebn clbssExists(Identifier clbssNbme) {
+        return getBinbryFile(clbssNbme) != null ||
+                !clbssNbme.isInner() &&
+               getSourceFile(clbssNbme) != null;
     }
 
     /**
-     * Check if the package exists
+     * Check if the pbckbge exists
      */
-    public boolean exists() {
-        // Look for the directory on our binary path.
-        ClassFile dir = binaryPath.getDirectory(pkg);
+    public boolebn exists() {
+        // Look for the directory on our binbry pbth.
+        ClbssFile dir = binbryPbth.getDirectory(pkg);
         if (dir != null && dir.isDirectory()) {
             return true;
         }
 
-        if (sourcePath != binaryPath) {
-            // Look for the directory on our source path.
-            dir = sourcePath.getDirectory(pkg);
+        if (sourcePbth != binbryPbth) {
+            // Look for the directory on our source pbth.
+            dir = sourcePbth.getDirectory(pkg);
             if (dir != null && dir.isDirectory()) {
                 return true;
             }
         }
 
-        /* Accommodate ZIP files without CEN entries for directories
-         * (packages): look on class path for at least one binary
-         * file or one source file with the right package prefix
+        /* Accommodbte ZIP files without CEN entries for directories
+         * (pbckbges): look on clbss pbth for bt lebst one binbry
+         * file or one source file with the right pbckbge prefix
          */
-        String prefix = pkg + File.separator;
+        String prefix = pkg + File.sepbrbtor;
 
-        return binaryPath.getFiles(prefix, ".class").hasMoreElements()
-            || sourcePath.getFiles(prefix, ".java").hasMoreElements();
+        return binbryPbth.getFiles(prefix, ".clbss").hbsMoreElements()
+            || sourcePbth.getFiles(prefix, ".jbvb").hbsMoreElements();
     }
 
-    private String makeName(String fileName) {
-        return pkg.equals("") ? fileName : pkg + File.separator + fileName;
-    }
-
-    /**
-     * Get the .class file of a class
-     */
-    public ClassFile getBinaryFile(Identifier className) {
-        className = Type.mangleInnerType(className);
-        String fileName = className.toString() + ".class";
-        return binaryPath.getFile(makeName(fileName));
+    privbte String mbkeNbme(String fileNbme) {
+        return pkg.equbls("") ? fileNbme : pkg + File.sepbrbtor + fileNbme;
     }
 
     /**
-     * Get the .java file of a class
+     * Get the .clbss file of b clbss
      */
-    public ClassFile getSourceFile(Identifier className) {
-        // The source file of an inner class is that of its outer class.
-        className = className.getTopName();
-        String fileName = className.toString() + ".java";
-        return sourcePath.getFile(makeName(fileName));
+    public ClbssFile getBinbryFile(Identifier clbssNbme) {
+        clbssNbme = Type.mbngleInnerType(clbssNbme);
+        String fileNbme = clbssNbme.toString() + ".clbss";
+        return binbryPbth.getFile(mbkeNbme(fileNbme));
     }
 
-    public ClassFile getSourceFile(String fileName) {
-        if (fileName.endsWith(".java")) {
-            return sourcePath.getFile(makeName(fileName));
+    /**
+     * Get the .jbvb file of b clbss
+     */
+    public ClbssFile getSourceFile(Identifier clbssNbme) {
+        // The source file of bn inner clbss is thbt of its outer clbss.
+        clbssNbme = clbssNbme.getTopNbme();
+        String fileNbme = clbssNbme.toString() + ".jbvb";
+        return sourcePbth.getFile(mbkeNbme(fileNbme));
+    }
+
+    public ClbssFile getSourceFile(String fileNbme) {
+        if (fileNbme.endsWith(".jbvb")) {
+            return sourcePbth.getFile(mbkeNbme(fileNbme));
         }
         return null;
     }
 
-    public Enumeration<ClassFile> getSourceFiles() {
-        return sourcePath.getFiles(pkg, ".java");
+    public Enumerbtion<ClbssFile> getSourceFiles() {
+        return sourcePbth.getFiles(pkg, ".jbvb");
     }
 
-    public Enumeration<ClassFile> getBinaryFiles() {
-        return binaryPath.getFiles(pkg, ".class");
+    public Enumerbtion<ClbssFile> getBinbryFiles() {
+        return binbryPbth.getFiles(pkg, ".clbss");
     }
 
     public String toString() {
-        if (pkg.equals("")) {
-            return "unnamed package";
+        if (pkg.equbls("")) {
+            return "unnbmed pbckbge";
         }
-        return "package " + pkg;
+        return "pbckbge " + pkg;
     }
 }

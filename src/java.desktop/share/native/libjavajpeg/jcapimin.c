@@ -3,21 +3,21 @@
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jcapimin.c
+ * jcbpimin.c
  *
- * Copyright (C) 1994-1998, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1994-1998, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains application interface code for the compression half
- * of the JPEG library.  These are the "minimum" API routines that may be
- * needed in either the normal full-compression case or the transcoding-only
- * case.
+ * This file contbins bpplicbtion interfbce code for the compression hblf
+ * of the JPEG librbry.  These bre the "minimum" API routines thbt mby be
+ * needed in either the normbl full-compression cbse or the trbnscoding-only
+ * cbse.
  *
- * Most of the routines intended to be called directly by an application
- * are in this file or in jcapistd.c.  But also see jcparam.c for
- * parameter-setup helper routines, jcomapi.c for routines shared by
- * compression and decompression, and jctrans.c for the transcoding case.
+ * Most of the routines intended to be cblled directly by bn bpplicbtion
+ * bre in this file or in jcbpistd.c.  But blso see jcpbrbm.c for
+ * pbrbmeter-setup helper routines, jcombpi.c for routines shbred by
+ * compression bnd decompression, bnd jctrbns.c for the trbnscoding cbse.
  */
 
 #define JPEG_INTERNALS
@@ -26,66 +26,66 @@
 
 
 /*
- * Initialization of a JPEG compression object.
- * The error manager must already be set up (in case memory manager fails).
+ * Initiblizbtion of b JPEG compression object.
+ * The error mbnbger must blrebdy be set up (in cbse memory mbnbger fbils).
  */
 
 GLOBAL(void)
-jpeg_CreateCompress (j_compress_ptr cinfo, int version, size_t structsize)
+jpeg_CrebteCompress (j_compress_ptr cinfo, int version, size_t structsize)
 {
   int i;
 
-  /* Guard against version mismatches between library and caller. */
-  cinfo->mem = NULL;            /* so jpeg_destroy knows mem mgr not called */
+  /* Gubrd bgbinst version mismbtches between librbry bnd cbller. */
+  cinfo->mem = NULL;            /* so jpeg_destroy knows mem mgr not cblled */
   if (version != JPEG_LIB_VERSION)
     ERREXIT2(cinfo, JERR_BAD_LIB_VERSION, JPEG_LIB_VERSION, version);
   if (structsize != SIZEOF(struct jpeg_compress_struct))
     ERREXIT2(cinfo, JERR_BAD_STRUCT_SIZE,
              (int) SIZEOF(struct jpeg_compress_struct), (int) structsize);
 
-  /* For debugging purposes, we zero the whole master structure.
-   * But the application has already set the err pointer, and may have set
-   * client_data, so we have to save and restore those fields.
-   * Note: if application hasn't set client_data, tools like Purify may
-   * complain here.
+  /* For debugging purposes, we zero the whole mbster structure.
+   * But the bpplicbtion hbs blrebdy set the err pointer, bnd mby hbve set
+   * client_dbtb, so we hbve to sbve bnd restore those fields.
+   * Note: if bpplicbtion hbsn't set client_dbtb, tools like Purify mby
+   * complbin here.
    */
   {
     struct jpeg_error_mgr * err = cinfo->err;
-    void * client_data = cinfo->client_data; /* ignore Purify complaint here */
+    void * client_dbtb = cinfo->client_dbtb; /* ignore Purify complbint here */
     MEMZERO(cinfo, SIZEOF(struct jpeg_compress_struct));
     cinfo->err = err;
-    cinfo->client_data = client_data;
+    cinfo->client_dbtb = client_dbtb;
   }
   cinfo->is_decompressor = FALSE;
 
-  /* Initialize a memory manager instance for this object */
+  /* Initiblize b memory mbnbger instbnce for this object */
   jinit_memory_mgr((j_common_ptr) cinfo);
 
-  /* Zero out pointers to permanent structures. */
+  /* Zero out pointers to permbnent structures. */
   cinfo->progress = NULL;
   cinfo->dest = NULL;
 
   cinfo->comp_info = NULL;
 
   for (i = 0; i < NUM_QUANT_TBLS; i++)
-    cinfo->quant_tbl_ptrs[i] = NULL;
+    cinfo->qubnt_tbl_ptrs[i] = NULL;
 
   for (i = 0; i < NUM_HUFF_TBLS; i++) {
     cinfo->dc_huff_tbl_ptrs[i] = NULL;
-    cinfo->ac_huff_tbl_ptrs[i] = NULL;
+    cinfo->bc_huff_tbl_ptrs[i] = NULL;
   }
 
-  cinfo->script_space = NULL;
+  cinfo->script_spbce = NULL;
 
-  cinfo->input_gamma = 1.0;     /* in case application forgets */
+  cinfo->input_gbmmb = 1.0;     /* in cbse bpplicbtion forgets */
 
-  /* OK, I'm ready */
-  cinfo->global_state = CSTATE_START;
+  /* OK, I'm rebdy */
+  cinfo->globbl_stbte = CSTATE_START;
 }
 
 
 /*
- * Destruction of a JPEG compression object
+ * Destruction of b JPEG compression object
  */
 
 GLOBAL(void)
@@ -96,46 +96,46 @@ jpeg_destroy_compress (j_compress_ptr cinfo)
 
 
 /*
- * Abort processing of a JPEG compression operation,
+ * Abort processing of b JPEG compression operbtion,
  * but don't destroy the object itself.
  */
 
 GLOBAL(void)
-jpeg_abort_compress (j_compress_ptr cinfo)
+jpeg_bbort_compress (j_compress_ptr cinfo)
 {
-  jpeg_abort((j_common_ptr) cinfo); /* use common routine */
+  jpeg_bbort((j_common_ptr) cinfo); /* use common routine */
 }
 
 
 /*
- * Forcibly suppress or un-suppress all quantization and Huffman tables.
- * Marks all currently defined tables as already written (if suppress)
+ * Forcibly suppress or un-suppress bll qubntizbtion bnd Huffmbn tbbles.
+ * Mbrks bll currently defined tbbles bs blrebdy written (if suppress)
  * or not written (if !suppress).  This will control whether they get emitted
- * by a subsequent jpeg_start_compress call.
+ * by b subsequent jpeg_stbrt_compress cbll.
  *
- * This routine is exported for use by applications that want to produce
- * abbreviated JPEG datastreams.  It logically belongs in jcparam.c, but
- * since it is called by jpeg_start_compress, we put it here --- otherwise
- * jcparam.o would be linked whether the application used it or not.
+ * This routine is exported for use by bpplicbtions thbt wbnt to produce
+ * bbbrevibted JPEG dbtbstrebms.  It logicblly belongs in jcpbrbm.c, but
+ * since it is cblled by jpeg_stbrt_compress, we put it here --- otherwise
+ * jcpbrbm.o would be linked whether the bpplicbtion used it or not.
  */
 
 GLOBAL(void)
-jpeg_suppress_tables (j_compress_ptr cinfo, boolean suppress)
+jpeg_suppress_tbbles (j_compress_ptr cinfo, boolebn suppress)
 {
   int i;
   JQUANT_TBL * qtbl;
   JHUFF_TBL * htbl;
 
   for (i = 0; i < NUM_QUANT_TBLS; i++) {
-    if ((qtbl = cinfo->quant_tbl_ptrs[i]) != NULL)
-      qtbl->sent_table = suppress;
+    if ((qtbl = cinfo->qubnt_tbl_ptrs[i]) != NULL)
+      qtbl->sent_tbble = suppress;
   }
 
   for (i = 0; i < NUM_HUFF_TBLS; i++) {
     if ((htbl = cinfo->dc_huff_tbl_ptrs[i]) != NULL)
-      htbl->sent_table = suppress;
-    if ((htbl = cinfo->ac_huff_tbl_ptrs[i]) != NULL)
-      htbl->sent_table = suppress;
+      htbl->sent_tbble = suppress;
+    if ((htbl = cinfo->bc_huff_tbl_ptrs[i]) != NULL)
+      htbl->sent_tbble = suppress;
   }
 }
 
@@ -143,8 +143,8 @@ jpeg_suppress_tables (j_compress_ptr cinfo, boolean suppress)
 /*
  * Finish JPEG compression.
  *
- * If a multipass operating mode was selected, this may do a great deal of
- * work including most of the actual output.
+ * If b multipbss operbting mode wbs selected, this mby do b grebt debl of
+ * work including most of the bctubl output.
  */
 
 GLOBAL(void)
@@ -152,133 +152,133 @@ jpeg_finish_compress (j_compress_ptr cinfo)
 {
   JDIMENSION iMCU_row;
 
-  if (cinfo->global_state == CSTATE_SCANNING ||
-      cinfo->global_state == CSTATE_RAW_OK) {
-    /* Terminate first pass */
-    if (cinfo->next_scanline < cinfo->image_height)
+  if (cinfo->globbl_stbte == CSTATE_SCANNING ||
+      cinfo->globbl_stbte == CSTATE_RAW_OK) {
+    /* Terminbte first pbss */
+    if (cinfo->next_scbnline < cinfo->imbge_height)
       ERREXIT(cinfo, JERR_TOO_LITTLE_DATA);
-    (*cinfo->master->finish_pass) (cinfo);
-  } else if (cinfo->global_state != CSTATE_WRCOEFS)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
-  /* Perform any remaining passes */
-  while (! cinfo->master->is_last_pass) {
-    (*cinfo->master->prepare_for_pass) (cinfo);
-    for (iMCU_row = 0; iMCU_row < cinfo->total_iMCU_rows; iMCU_row++) {
+    (*cinfo->mbster->finish_pbss) (cinfo);
+  } else if (cinfo->globbl_stbte != CSTATE_WRCOEFS)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
+  /* Perform bny rembining pbsses */
+  while (! cinfo->mbster->is_lbst_pbss) {
+    (*cinfo->mbster->prepbre_for_pbss) (cinfo);
+    for (iMCU_row = 0; iMCU_row < cinfo->totbl_iMCU_rows; iMCU_row++) {
       if (cinfo->progress != NULL) {
-        cinfo->progress->pass_counter = (long) iMCU_row;
-        cinfo->progress->pass_limit = (long) cinfo->total_iMCU_rows;
+        cinfo->progress->pbss_counter = (long) iMCU_row;
+        cinfo->progress->pbss_limit = (long) cinfo->totbl_iMCU_rows;
         (*cinfo->progress->progress_monitor) ((j_common_ptr) cinfo);
       }
-      /* We bypass the main controller and invoke coef controller directly;
-       * all work is being done from the coefficient buffer.
+      /* We bypbss the mbin controller bnd invoke coef controller directly;
+       * bll work is being done from the coefficient buffer.
        */
-      if (! (*cinfo->coef->compress_data) (cinfo, (JSAMPIMAGE) NULL))
+      if (! (*cinfo->coef->compress_dbtb) (cinfo, (JSAMPIMAGE) NULL))
         ERREXIT(cinfo, JERR_CANT_SUSPEND);
     }
-    (*cinfo->master->finish_pass) (cinfo);
+    (*cinfo->mbster->finish_pbss) (cinfo);
   }
-  /* Write EOI, do final cleanup */
-  (*cinfo->marker->write_file_trailer) (cinfo);
-  (*cinfo->dest->term_destination) (cinfo);
-  /* We can use jpeg_abort to release memory and reset global_state */
-  jpeg_abort((j_common_ptr) cinfo);
+  /* Write EOI, do finbl clebnup */
+  (*cinfo->mbrker->write_file_trbiler) (cinfo);
+  (*cinfo->dest->term_destinbtion) (cinfo);
+  /* We cbn use jpeg_bbort to relebse memory bnd reset globbl_stbte */
+  jpeg_bbort((j_common_ptr) cinfo);
 }
 
 
 /*
- * Write a special marker.
- * This is only recommended for writing COM or APPn markers.
- * Must be called after jpeg_start_compress() and before
- * first call to jpeg_write_scanlines() or jpeg_write_raw_data().
+ * Write b specibl mbrker.
+ * This is only recommended for writing COM or APPn mbrkers.
+ * Must be cblled bfter jpeg_stbrt_compress() bnd before
+ * first cbll to jpeg_write_scbnlines() or jpeg_write_rbw_dbtb().
  */
 
 GLOBAL(void)
-jpeg_write_marker (j_compress_ptr cinfo, int marker,
-                   const JOCTET *dataptr, unsigned int datalen)
+jpeg_write_mbrker (j_compress_ptr cinfo, int mbrker,
+                   const JOCTET *dbtbptr, unsigned int dbtblen)
 {
-  JMETHOD(void, write_marker_byte, (j_compress_ptr info, int val));
+  JMETHOD(void, write_mbrker_byte, (j_compress_ptr info, int vbl));
 
-  if (cinfo->next_scanline != 0 ||
-      (cinfo->global_state != CSTATE_SCANNING &&
-       cinfo->global_state != CSTATE_RAW_OK &&
-       cinfo->global_state != CSTATE_WRCOEFS))
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+  if (cinfo->next_scbnline != 0 ||
+      (cinfo->globbl_stbte != CSTATE_SCANNING &&
+       cinfo->globbl_stbte != CSTATE_RAW_OK &&
+       cinfo->globbl_stbte != CSTATE_WRCOEFS))
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
 
-  (*cinfo->marker->write_marker_header) (cinfo, marker, datalen);
-  write_marker_byte = cinfo->marker->write_marker_byte; /* copy for speed */
-  while (datalen--) {
-    (*write_marker_byte) (cinfo, *dataptr);
-    dataptr++;
+  (*cinfo->mbrker->write_mbrker_hebder) (cinfo, mbrker, dbtblen);
+  write_mbrker_byte = cinfo->mbrker->write_mbrker_byte; /* copy for speed */
+  while (dbtblen--) {
+    (*write_mbrker_byte) (cinfo, *dbtbptr);
+    dbtbptr++;
   }
 }
 
-/* Same, but piecemeal. */
+/* Sbme, but piecemebl. */
 
 GLOBAL(void)
-jpeg_write_m_header (j_compress_ptr cinfo, int marker, unsigned int datalen)
+jpeg_write_m_hebder (j_compress_ptr cinfo, int mbrker, unsigned int dbtblen)
 {
-  if (cinfo->next_scanline != 0 ||
-      (cinfo->global_state != CSTATE_SCANNING &&
-       cinfo->global_state != CSTATE_RAW_OK &&
-       cinfo->global_state != CSTATE_WRCOEFS))
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+  if (cinfo->next_scbnline != 0 ||
+      (cinfo->globbl_stbte != CSTATE_SCANNING &&
+       cinfo->globbl_stbte != CSTATE_RAW_OK &&
+       cinfo->globbl_stbte != CSTATE_WRCOEFS))
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
 
-  (*cinfo->marker->write_marker_header) (cinfo, marker, datalen);
+  (*cinfo->mbrker->write_mbrker_hebder) (cinfo, mbrker, dbtblen);
 }
 
 GLOBAL(void)
-jpeg_write_m_byte (j_compress_ptr cinfo, int val)
+jpeg_write_m_byte (j_compress_ptr cinfo, int vbl)
 {
-  (*cinfo->marker->write_marker_byte) (cinfo, val);
+  (*cinfo->mbrker->write_mbrker_byte) (cinfo, vbl);
 }
 
 
 /*
- * Alternate compression function: just write an abbreviated table file.
- * Before calling this, all parameters and a data destination must be set up.
+ * Alternbte compression function: just write bn bbbrevibted tbble file.
+ * Before cblling this, bll pbrbmeters bnd b dbtb destinbtion must be set up.
  *
- * To produce a pair of files containing abbreviated tables and abbreviated
- * image data, one would proceed as follows:
+ * To produce b pbir of files contbining bbbrevibted tbbles bnd bbbrevibted
+ * imbge dbtb, one would proceed bs follows:
  *
- *              initialize JPEG object
- *              set JPEG parameters
- *              set destination to table file
- *              jpeg_write_tables(cinfo);
- *              set destination to image file
- *              jpeg_start_compress(cinfo, FALSE);
- *              write data...
+ *              initiblize JPEG object
+ *              set JPEG pbrbmeters
+ *              set destinbtion to tbble file
+ *              jpeg_write_tbbles(cinfo);
+ *              set destinbtion to imbge file
+ *              jpeg_stbrt_compress(cinfo, FALSE);
+ *              write dbtb...
  *              jpeg_finish_compress(cinfo);
  *
- * jpeg_write_tables has the side effect of marking all tables written
- * (same as jpeg_suppress_tables(..., TRUE)).  Thus a subsequent start_compress
- * will not re-emit the tables unless it is passed write_all_tables=TRUE.
+ * jpeg_write_tbbles hbs the side effect of mbrking bll tbbles written
+ * (sbme bs jpeg_suppress_tbbles(..., TRUE)).  Thus b subsequent stbrt_compress
+ * will not re-emit the tbbles unless it is pbssed write_bll_tbbles=TRUE.
  */
 
 GLOBAL(void)
-jpeg_write_tables (j_compress_ptr cinfo)
+jpeg_write_tbbles (j_compress_ptr cinfo)
 {
-  if (cinfo->global_state != CSTATE_START)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+  if (cinfo->globbl_stbte != CSTATE_START)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
 
-  /* (Re)initialize error mgr and destination modules */
+  /* (Re)initiblize error mgr bnd destinbtion modules */
   (*cinfo->err->reset_error_mgr) ((j_common_ptr) cinfo);
-  (*cinfo->dest->init_destination) (cinfo);
-  /* Initialize the marker writer ... bit of a crock to do it here. */
-  jinit_marker_writer(cinfo);
-  /* Write them tables! */
-  (*cinfo->marker->write_tables_only) (cinfo);
-  /* And clean up. */
-  (*cinfo->dest->term_destination) (cinfo);
+  (*cinfo->dest->init_destinbtion) (cinfo);
+  /* Initiblize the mbrker writer ... bit of b crock to do it here. */
+  jinit_mbrker_writer(cinfo);
+  /* Write them tbbles! */
+  (*cinfo->mbrker->write_tbbles_only) (cinfo);
+  /* And clebn up. */
+  (*cinfo->dest->term_destinbtion) (cinfo);
   /*
-   * In library releases up through v6a, we called jpeg_abort() here to free
-   * any working memory allocated by the destination manager and marker
-   * writer.  Some applications had a problem with that: they allocated space
-   * of their own from the library memory manager, and didn't want it to go
-   * away during write_tables.  So now we do nothing.  This will cause a
-   * memory leak if an app calls write_tables repeatedly without doing a full
-   * compression cycle or otherwise resetting the JPEG object.  However, that
-   * seems less bad than unexpectedly freeing memory in the normal case.
-   * An app that prefers the old behavior can call jpeg_abort for itself after
-   * each call to jpeg_write_tables().
+   * In librbry relebses up through v6b, we cblled jpeg_bbort() here to free
+   * bny working memory bllocbted by the destinbtion mbnbger bnd mbrker
+   * writer.  Some bpplicbtions hbd b problem with thbt: they bllocbted spbce
+   * of their own from the librbry memory mbnbger, bnd didn't wbnt it to go
+   * bwby during write_tbbles.  So now we do nothing.  This will cbuse b
+   * memory lebk if bn bpp cblls write_tbbles repebtedly without doing b full
+   * compression cycle or otherwise resetting the JPEG object.  However, thbt
+   * seems less bbd thbn unexpectedly freeing memory in the normbl cbse.
+   * An bpp thbt prefers the old behbvior cbn cbll jpeg_bbort for itself bfter
+   * ebch cbll to jpeg_write_tbbles().
    */
 }

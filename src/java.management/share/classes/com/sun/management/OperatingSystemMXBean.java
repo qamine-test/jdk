@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.management;
+pbckbge com.sun.mbnbgement;
 
 /**
- * Platform-specific management interface for the operating system
- * on which the Java virtual machine is running.
+ * Plbtform-specific mbnbgement interfbce for the operbting system
+ * on which the Jbvb virtubl mbchine is running.
  *
  * <p>
- * The <tt>OperatingSystemMXBean</tt> object returned by
- * {@link java.lang.management.ManagementFactory#getOperatingSystemMXBean()}
- * is an instance of the implementation class of this interface
- * or {@link UnixOperatingSystemMXBean} interface depending on
- * its underlying operating system.
+ * The <tt>OperbtingSystemMXBebn</tt> object returned by
+ * {@link jbvb.lbng.mbnbgement.MbnbgementFbctory#getOperbtingSystemMXBebn()}
+ * is bn instbnce of the implementbtion clbss of this interfbce
+ * or {@link UnixOperbtingSystemMXBebn} interfbce depending on
+ * its underlying operbting system.
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  * @since   1.5
  */
 @jdk.Exported
-public interface OperatingSystemMXBean extends
-    java.lang.management.OperatingSystemMXBean {
+public interfbce OperbtingSystemMXBebn extends
+    jbvb.lbng.mbnbgement.OperbtingSystemMXBebn {
 
     /**
-     * Returns the amount of virtual memory that is guaranteed to
-     * be available to the running process in bytes,
-     * or <tt>-1</tt> if this operation is not supported.
+     * Returns the bmount of virtubl memory thbt is gubrbnteed to
+     * be bvbilbble to the running process in bytes,
+     * or <tt>-1</tt> if this operbtion is not supported.
      *
-     * @return the amount of virtual memory that is guaranteed to
-     * be available to the running process in bytes,
-     * or <tt>-1</tt> if this operation is not supported.
+     * @return the bmount of virtubl memory thbt is gubrbnteed to
+     * be bvbilbble to the running process in bytes,
+     * or <tt>-1</tt> if this operbtion is not supported.
      */
-    public long getCommittedVirtualMemorySize();
+    public long getCommittedVirtublMemorySize();
 
     /**
-     * Returns the total amount of swap space in bytes.
+     * Returns the totbl bmount of swbp spbce in bytes.
      *
-     * @return the total amount of swap space in bytes.
+     * @return the totbl bmount of swbp spbce in bytes.
      */
-    public long getTotalSwapSpaceSize();
+    public long getTotblSwbpSpbceSize();
 
     /**
-     * Returns the amount of free swap space in bytes.
+     * Returns the bmount of free swbp spbce in bytes.
      *
-     * @return the amount of free swap space in bytes.
+     * @return the bmount of free swbp spbce in bytes.
      */
-    public long getFreeSwapSpaceSize();
+    public long getFreeSwbpSpbceSize();
 
     /**
-     * Returns the CPU time used by the process on which the Java
-     * virtual machine is running in nanoseconds.  The returned value
-     * is of nanoseconds precision but not necessarily nanoseconds
-     * accuracy.  This method returns <tt>-1</tt> if the
-     * the platform does not support this operation.
+     * Returns the CPU time used by the process on which the Jbvb
+     * virtubl mbchine is running in nbnoseconds.  The returned vblue
+     * is of nbnoseconds precision but not necessbrily nbnoseconds
+     * bccurbcy.  This method returns <tt>-1</tt> if the
+     * the plbtform does not support this operbtion.
      *
-     * @return the CPU time used by the process in nanoseconds,
-     * or <tt>-1</tt> if this operation is not supported.
+     * @return the CPU time used by the process in nbnoseconds,
+     * or <tt>-1</tt> if this operbtion is not supported.
      */
     public long getProcessCpuTime();
 
     /**
-     * Returns the amount of free physical memory in bytes.
+     * Returns the bmount of free physicbl memory in bytes.
      *
-     * @return the amount of free physical memory in bytes.
+     * @return the bmount of free physicbl memory in bytes.
      */
-    public long getFreePhysicalMemorySize();
+    public long getFreePhysicblMemorySize();
 
     /**
-     * Returns the total amount of physical memory in bytes.
+     * Returns the totbl bmount of physicbl memory in bytes.
      *
-     * @return the total amount of physical memory in  bytes.
+     * @return the totbl bmount of physicbl memory in  bytes.
      */
-    public long getTotalPhysicalMemorySize();
+    public long getTotblPhysicblMemorySize();
 
     /**
-     * Returns the "recent cpu usage" for the whole system. This value is a
-     * double in the [0.0,1.0] interval. A value of 0.0 means that all CPUs
-     * were idle during the recent period of time observed, while a value
-     * of 1.0 means that all CPUs were actively running 100% of the time
-     * during the recent period being observed. All values betweens 0.0 and
-     * 1.0 are possible depending of the activities going on in the system.
-     * If the system recent cpu usage is not available, the method returns a
-     * negative value.
+     * Returns the "recent cpu usbge" for the whole system. This vblue is b
+     * double in the [0.0,1.0] intervbl. A vblue of 0.0 mebns thbt bll CPUs
+     * were idle during the recent period of time observed, while b vblue
+     * of 1.0 mebns thbt bll CPUs were bctively running 100% of the time
+     * during the recent period being observed. All vblues betweens 0.0 bnd
+     * 1.0 bre possible depending of the bctivities going on in the system.
+     * If the system recent cpu usbge is not bvbilbble, the method returns b
+     * negbtive vblue.
      *
-     * @return the "recent cpu usage" for the whole system; a negative
-     * value if not available.
+     * @return the "recent cpu usbge" for the whole system; b negbtive
+     * vblue if not bvbilbble.
      * @since   1.7
      */
-    public double getSystemCpuLoad();
+    public double getSystemCpuLobd();
 
     /**
-     * Returns the "recent cpu usage" for the Java Virtual Machine process.
-     * This value is a double in the [0.0,1.0] interval. A value of 0.0 means
-     * that none of the CPUs were running threads from the JVM process during
-     * the recent period of time observed, while a value of 1.0 means that all
-     * CPUs were actively running threads from the JVM 100% of the time
-     * during the recent period being observed. Threads from the JVM include
-     * the application threads as well as the JVM internal threads. All values
-     * betweens 0.0 and 1.0 are possible depending of the activities going on
-     * in the JVM process and the whole system. If the Java Virtual Machine
-     * recent CPU usage is not available, the method returns a negative value.
+     * Returns the "recent cpu usbge" for the Jbvb Virtubl Mbchine process.
+     * This vblue is b double in the [0.0,1.0] intervbl. A vblue of 0.0 mebns
+     * thbt none of the CPUs were running threbds from the JVM process during
+     * the recent period of time observed, while b vblue of 1.0 mebns thbt bll
+     * CPUs were bctively running threbds from the JVM 100% of the time
+     * during the recent period being observed. Threbds from the JVM include
+     * the bpplicbtion threbds bs well bs the JVM internbl threbds. All vblues
+     * betweens 0.0 bnd 1.0 bre possible depending of the bctivities going on
+     * in the JVM process bnd the whole system. If the Jbvb Virtubl Mbchine
+     * recent CPU usbge is not bvbilbble, the method returns b negbtive vblue.
      *
-     * @return the "recent cpu usage" for the Java Virtual Machine process;
-     * a negative value if not available.
+     * @return the "recent cpu usbge" for the Jbvb Virtubl Mbchine process;
+     * b negbtive vblue if not bvbilbble.
      * @since   1.7
      */
-    public double getProcessCpuLoad();
+    public double getProcessCpuLobd();
 
 }

@@ -1,378 +1,378 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.IPAcl;
+pbckbge com.sun.jmx.snmp.IPAcl;
 
 
 
-// java import
+// jbvb import
 //
-import java.io.Serializable;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Hashtable;
-import java.util.logging.Level;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.security.acl.AclEntry;
-import java.security.acl.NotOwnerException;
+import jbvb.io.Seriblizbble;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileNotFoundException;
+import jbvb.net.InetAddress;
+import jbvb.net.UnknownHostException;
+import jbvb.util.Hbshtbble;
+import jbvb.util.logging.Level;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshSet;
+import jbvb.security.bcl.AclEntry;
+import jbvb.security.bcl.NotOwnerException;
 
 // SNMP Runtime import
 //
-import static com.sun.jmx.defaults.JmxProperties.SNMP_LOGGER;
+import stbtic com.sun.jmx.defbults.JmxProperties.SNMP_LOGGER;
 import com.sun.jmx.snmp.InetAddressAcl;
 
 /**
- * Defines an implementation of the {@link com.sun.jmx.snmp.InetAddressAcl InetAddressAcl} interface.
+ * Defines bn implementbtion of the {@link com.sun.jmx.snmp.InetAddressAcl InetAddressAcl} interfbce.
  * <p>
- * In this implementation the ACL information is stored on a flat file and
- * its default location is "$JRE/lib/snmp.acl" - See
- * {@link #getDefaultAclFileName()}
+ * In this implementbtion the ACL informbtion is stored on b flbt file bnd
+ * its defbult locbtion is "$JRE/lib/snmp.bcl" - See
+ * {@link #getDefbultAclFileNbme()}
  * <p>
  * <OL>
   *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public class SnmpAcl implements InetAddressAcl, Serializable {
-    private static final long serialVersionUID = -6702287103824397063L;
+public clbss SnmpAcl implements InetAddressAcl, Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = -6702287103824397063L;
 
-    static final PermissionImpl READ  = new PermissionImpl("READ");
-    static final PermissionImpl WRITE = new PermissionImpl("WRITE");
+    stbtic finbl PermissionImpl READ  = new PermissionImpl("READ");
+    stbtic finbl PermissionImpl WRITE = new PermissionImpl("WRITE");
 
     /**
-     * Constructs the Java Dynamic Management(TM) Access Control List
-     * based on IP addresses. The ACL will take the given owner name.
-     * The current IP address will be the owner of the ACL.
+     * Constructs the Jbvb Dynbmic Mbnbgement(TM) Access Control List
+     * bbsed on IP bddresses. The ACL will tbke the given owner nbme.
+     * The current IP bddress will be the owner of the ACL.
      *
-     * @param Owner The name of the ACL Owner.
+     * @pbrbm Owner The nbme of the ACL Owner.
      *
-     * @exception UnknownHostException If the local host is unknown.
-     * @exception IllegalArgumentException If the ACL file doesn't exist.
+     * @exception UnknownHostException If the locbl host is unknown.
+     * @exception IllegblArgumentException If the ACL file doesn't exist.
      */
     public SnmpAcl(String Owner)
-        throws UnknownHostException, IllegalArgumentException {
+        throws UnknownHostException, IllegblArgumentException {
         this(Owner,null);
     }
 
     /**
-     * Constructs the Java Dynamic Management(TM) Access Control List
-     * based on IP addresses. The ACL will take the given owner name.
-     * The current IP address will be the owner of the ACL.
+     * Constructs the Jbvb Dynbmic Mbnbgement(TM) Access Control List
+     * bbsed on IP bddresses. The ACL will tbke the given owner nbme.
+     * The current IP bddress will be the owner of the ACL.
      *
-     * @param Owner The name of the ACL Owner.
-     * @param aclFileName The name of the ACL File.
+     * @pbrbm Owner The nbme of the ACL Owner.
+     * @pbrbm bclFileNbme The nbme of the ACL File.
      *
-     * @exception UnknownHostException If the local host is unknown.
-     * @exception IllegalArgumentException If the ACL file doesn't exist.
+     * @exception UnknownHostException If the locbl host is unknown.
+     * @exception IllegblArgumentException If the ACL file doesn't exist.
      */
-    public SnmpAcl(String Owner, String aclFileName)
-        throws UnknownHostException, IllegalArgumentException {
-        trapDestList= new Hashtable<InetAddress, Vector<String>>();
-        informDestList= new Hashtable<InetAddress, Vector<String>>();
+    public SnmpAcl(String Owner, String bclFileNbme)
+        throws UnknownHostException, IllegblArgumentException {
+        trbpDestList= new Hbshtbble<InetAddress, Vector<String>>();
+        informDestList= new Hbshtbble<InetAddress, Vector<String>>();
 
-        // PrincipalImpl() take the current host as entry
-        owner = new PrincipalImpl();
+        // PrincipblImpl() tbke the current host bs entry
+        owner = new PrincipblImpl();
         try {
-            acl = new AclImpl(owner,Owner);
+            bcl = new AclImpl(owner,Owner);
             AclEntry ownEntry = new AclEntryImpl(owner);
-            ownEntry.addPermission(READ);
-            ownEntry.addPermission(WRITE);
-            acl.addEntry(owner,ownEntry);
-        } catch (NotOwnerException ex) {
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.class.getName(),
+            ownEntry.bddPermission(READ);
+            ownEntry.bddPermission(WRITE);
+            bcl.bddEntry(owner,ownEntry);
+        } cbtch (NotOwnerException ex) {
+            if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.clbss.getNbme(),
                     "SnmpAcl(String,String)",
-                    "Should never get NotOwnerException as the owner " +
+                    "Should never get NotOwnerException bs the owner " +
                     "is built in this constructor");
             }
         }
-        if (aclFileName == null) setDefaultFileName();
-        else setAuthorizedListFile(aclFileName);
-        readAuthorizedListFile();
+        if (bclFileNbme == null) setDefbultFileNbme();
+        else setAuthorizedListFile(bclFileNbme);
+        rebdAuthorizedListFile();
     }
 
     /**
-     * Returns an enumeration of the entries in this ACL. Each element in the
-     * enumeration is of type <CODE>java.security.acl.AclEntry</CODE>.
+     * Returns bn enumerbtion of the entries in this ACL. Ebch element in the
+     * enumerbtion is of type <CODE>jbvb.security.bcl.AclEntry</CODE>.
      *
-     * @return An enumeration of the entries in this ACL.
+     * @return An enumerbtion of the entries in this ACL.
      */
-    public Enumeration<AclEntry> entries() {
-        return acl.entries();
+    public Enumerbtion<AclEntry> entries() {
+        return bcl.entries();
     }
 
     /**
-     * Returns ann enumeration of community strings. Community strings are returned as String.
-     * @return The enumeration of community strings.
+     * Returns bnn enumerbtion of community strings. Community strings bre returned bs String.
+     * @return The enumerbtion of community strings.
      */
-    public Enumeration<String> communities() {
-        HashSet<String> set = new HashSet<String>();
+    public Enumerbtion<String> communities() {
+        HbshSet<String> set = new HbshSet<String>();
         Vector<String> res = new Vector<String>();
-        for (Enumeration<AclEntry> e = acl.entries() ; e.hasMoreElements() ;) {
+        for (Enumerbtion<AclEntry> e = bcl.entries() ; e.hbsMoreElements() ;) {
             AclEntryImpl entry = (AclEntryImpl) e.nextElement();
-            for (Enumeration<String> cs = entry.communities();
-                 cs.hasMoreElements() ;) {
-                set.add(cs.nextElement());
+            for (Enumerbtion<String> cs = entry.communities();
+                 cs.hbsMoreElements() ;) {
+                set.bdd(cs.nextElement());
             }
         }
-        String[] objs = set.toArray(new String[0]);
+        String[] objs = set.toArrby(new String[0]);
         for(int i = 0; i < objs.length; i++)
-            res.addElement(objs[i]);
+            res.bddElement(objs[i]);
 
         return res.elements();
     }
 
     /**
-     * Returns the name of the ACL.
+     * Returns the nbme of the ACL.
      *
-     * @return The name of the ACL.
+     * @return The nbme of the ACL.
      */
-    public String getName() {
-        return acl.getName();
+    public String getNbme() {
+        return bcl.getNbme();
     }
 
     /**
-     * Returns the read permission instance used.
+     * Returns the rebd permission instbnce used.
      *
-     * @return The read permission instance.
+     * @return The rebd permission instbnce.
      */
-    static public PermissionImpl getREAD() {
+    stbtic public PermissionImpl getREAD() {
         return READ;
     }
 
     /**
-     * Returns the write permission instance used.
+     * Returns the write permission instbnce used.
      *
-     * @return  The write permission instance.
+     * @return  The write permission instbnce.
      */
-    static public PermissionImpl getWRITE() {
+    stbtic public PermissionImpl getWRITE() {
         return WRITE;
     }
 
     /**
-     * Get the default name for the ACL file.
-     * In this implementation this is "$JRE/lib/snmp.acl"
-     * @return The default name for the ACL file.
+     * Get the defbult nbme for the ACL file.
+     * In this implementbtion this is "$JRE/lib/snmp.bcl"
+     * @return The defbult nbme for the ACL file.
      **/
-    public static String getDefaultAclFileName() {
-        final String fileSeparator =
-            System.getProperty("file.separator");
-        final StringBuilder defaultAclName =
-            new StringBuilder(System.getProperty("java.home")).
-            append(fileSeparator).append("lib").append(fileSeparator).
-            append("snmp.acl");
-        return defaultAclName.toString();
+    public stbtic String getDefbultAclFileNbme() {
+        finbl String fileSepbrbtor =
+            System.getProperty("file.sepbrbtor");
+        finbl StringBuilder defbultAclNbme =
+            new StringBuilder(System.getProperty("jbvb.home")).
+            bppend(fileSepbrbtor).bppend("lib").bppend(fileSepbrbtor).
+            bppend("snmp.bcl");
+        return defbultAclNbme.toString();
     }
 
     /**
-     * Sets the full path of the file containing the ACL information.
+     * Sets the full pbth of the file contbining the ACL informbtion.
      *
-     * @param filename The full path of the file containing the ACL information.
-     * @throws IllegalArgumentException If the passed ACL file doesn't exist.
+     * @pbrbm filenbme The full pbth of the file contbining the ACL informbtion.
+     * @throws IllegblArgumentException If the pbssed ACL file doesn't exist.
      */
-    public void setAuthorizedListFile(String filename)
-        throws IllegalArgumentException {
-        File file = new File(filename);
+    public void setAuthorizedListFile(String filenbme)
+        throws IllegblArgumentException {
+        File file = new File(filenbme);
         if (!file.isFile() ) {
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.class.getName(),
-                    "setAuthorizedListFile", "ACL file not found: " + filename);
+            if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.clbss.getNbme(),
+                    "setAuthorizedListFile", "ACL file not found: " + filenbme);
             }
             throw new
-                IllegalArgumentException("The specified file ["+file+"] "+
-                                         "doesn't exist or is not a file, "+
-                                         "no configuration loaded");
+                IllegblArgumentException("The specified file ["+file+"] "+
+                                         "doesn't exist or is not b file, "+
+                                         "no configurbtion lobded");
         }
-        if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                "setAuthorizedListFile", "Default file set to " + filename);
+        if (SNMP_LOGGER.isLoggbble(Level.FINER)) {
+            SNMP_LOGGER.logp(Level.FINER, SnmpAcl.clbss.getNbme(),
+                "setAuthorizedListFile", "Defbult file set to " + filenbme);
         }
-        authorizedListFile = filename;
+        buthorizedListFile = filenbme;
     }
 
     /**
-     * Resets this ACL to the values contained in the configuration file.
+     * Resets this ACL to the vblues contbined in the configurbtion file.
      *
-     * @exception NotOwnerException If the principal attempting the reset is not an owner of this ACL.
-     * @exception UnknownHostException If IP addresses for hosts contained in the ACL file couldn't be found.
+     * @exception NotOwnerException If the principbl bttempting the reset is not bn owner of this ACL.
+     * @exception UnknownHostException If IP bddresses for hosts contbined in the ACL file couldn't be found.
      */
-    public void rereadTheFile() throws NotOwnerException, UnknownHostException {
-        alwaysAuthorized = false;
-        acl.removeAll(owner);
-        trapDestList.clear();
-        informDestList.clear();
+    public void rerebdTheFile() throws NotOwnerException, UnknownHostException {
+        blwbysAuthorized = fblse;
+        bcl.removeAll(owner);
+        trbpDestList.clebr();
+        informDestList.clebr();
         AclEntry ownEntry = new AclEntryImpl(owner);
-        ownEntry.addPermission(READ);
-        ownEntry.addPermission(WRITE);
-        acl.addEntry(owner,ownEntry);
-        readAuthorizedListFile();
+        ownEntry.bddPermission(READ);
+        ownEntry.bddPermission(WRITE);
+        bcl.bddEntry(owner,ownEntry);
+        rebdAuthorizedListFile();
     }
 
     /**
-     * Returns the full path of the file used to get ACL information.
+     * Returns the full pbth of the file used to get ACL informbtion.
      *
-     * @return The full path of the file used to get ACL information.
+     * @return The full pbth of the file used to get ACL informbtion.
      */
     public String getAuthorizedListFile() {
-        return authorizedListFile;
+        return buthorizedListFile;
     }
 
     /**
-     * Checks whether or not the specified host has <CODE>READ</CODE> access.
+     * Checks whether or not the specified host hbs <CODE>READ</CODE> bccess.
      *
-     * @param address The host address to check.
+     * @pbrbm bddress The host bddress to check.
      *
-     * @return <CODE>true</CODE> if the host has read permission, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the host hbs rebd permission, <CODE>fblse</CODE> otherwise.
      */
-    public boolean checkReadPermission(InetAddress address) {
-        if (alwaysAuthorized) return ( true );
-        PrincipalImpl p = new PrincipalImpl(address);
-        return acl.checkPermission(p, READ);
+    public boolebn checkRebdPermission(InetAddress bddress) {
+        if (blwbysAuthorized) return ( true );
+        PrincipblImpl p = new PrincipblImpl(bddress);
+        return bcl.checkPermission(p, READ);
     }
 
     /**
-     * Checks whether or not the specified host and community have <CODE>READ</CODE> access.
+     * Checks whether or not the specified host bnd community hbve <CODE>READ</CODE> bccess.
      *
-     * @param address The host address to check.
-     * @param community The community associated with the host.
+     * @pbrbm bddress The host bddress to check.
+     * @pbrbm community The community bssocibted with the host.
      *
-     * @return <CODE>true</CODE> if the pair (host, community) has read permission, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the pbir (host, community) hbs rebd permission, <CODE>fblse</CODE> otherwise.
      */
-    public boolean checkReadPermission(InetAddress address, String community) {
-        if (alwaysAuthorized) return ( true );
-        PrincipalImpl p = new PrincipalImpl(address);
-        return acl.checkPermission(p, community, READ);
+    public boolebn checkRebdPermission(InetAddress bddress, String community) {
+        if (blwbysAuthorized) return ( true );
+        PrincipblImpl p = new PrincipblImpl(bddress);
+        return bcl.checkPermission(p, community, READ);
     }
 
     /**
-     * Checks whether or not a community string is defined.
+     * Checks whether or not b community string is defined.
      *
-     * @param community The community to check.
+     * @pbrbm community The community to check.
      *
-     * @return <CODE>true</CODE> if the community is known, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the community is known, <CODE>fblse</CODE> otherwise.
      */
-    public boolean checkCommunity(String community) {
-        return acl.checkCommunity(community);
+    public boolebn checkCommunity(String community) {
+        return bcl.checkCommunity(community);
     }
 
     /**
-     * Checks whether or not the specified host has <CODE>WRITE</CODE> access.
+     * Checks whether or not the specified host hbs <CODE>WRITE</CODE> bccess.
      *
-     * @param address The host address to check.
+     * @pbrbm bddress The host bddress to check.
      *
-     * @return <CODE>true</CODE> if the host has write permission, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the host hbs write permission, <CODE>fblse</CODE> otherwise.
      */
-    public boolean checkWritePermission(InetAddress address) {
-        if (alwaysAuthorized) return ( true );
-        PrincipalImpl p = new PrincipalImpl(address);
-        return acl.checkPermission(p, WRITE);
+    public boolebn checkWritePermission(InetAddress bddress) {
+        if (blwbysAuthorized) return ( true );
+        PrincipblImpl p = new PrincipblImpl(bddress);
+        return bcl.checkPermission(p, WRITE);
     }
 
     /**
-     * Checks whether or not the specified host and community have <CODE>WRITE</CODE> access.
+     * Checks whether or not the specified host bnd community hbve <CODE>WRITE</CODE> bccess.
      *
-     * @param address The host address to check.
-     * @param community The community associated with the host.
+     * @pbrbm bddress The host bddress to check.
+     * @pbrbm community The community bssocibted with the host.
      *
-     * @return <CODE>true</CODE> if the pair (host, community) has write permission, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the pbir (host, community) hbs write permission, <CODE>fblse</CODE> otherwise.
      */
-    public boolean checkWritePermission(InetAddress address, String community) {
-        if (alwaysAuthorized) return ( true );
-        PrincipalImpl p = new PrincipalImpl(address);
-        return acl.checkPermission(p, community, WRITE);
+    public boolebn checkWritePermission(InetAddress bddress, String community) {
+        if (blwbysAuthorized) return ( true );
+        PrincipblImpl p = new PrincipblImpl(bddress);
+        return bcl.checkPermission(p, community, WRITE);
     }
 
     /**
-     * Returns an enumeration of trap destinations.
+     * Returns bn enumerbtion of trbp destinbtions.
      *
-     * @return An enumeration of the trap destinations (enumeration of <CODE>InetAddress</CODE>).
+     * @return An enumerbtion of the trbp destinbtions (enumerbtion of <CODE>InetAddress</CODE>).
      */
-    public Enumeration<InetAddress> getTrapDestinations() {
-        return trapDestList.keys();
+    public Enumerbtion<InetAddress> getTrbpDestinbtions() {
+        return trbpDestList.keys();
     }
 
     /**
-     * Returns an enumeration of trap communities for a given host.
+     * Returns bn enumerbtion of trbp communities for b given host.
      *
-     * @param i The address of the host.
+     * @pbrbm i The bddress of the host.
      *
-     * @return An enumeration of trap communities for a given host (enumeration of <CODE>String</CODE>).
+     * @return An enumerbtion of trbp communities for b given host (enumerbtion of <CODE>String</CODE>).
      */
-    public Enumeration<String> getTrapCommunities(InetAddress i) {
+    public Enumerbtion<String> getTrbpCommunities(InetAddress i) {
         Vector<String> list = null;
-        if ((list = trapDestList.get(i)) != null ) {
-            if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                    "getTrapCommunities", "["+i.toString()+"] is in list");
+        if ((list = trbpDestList.get(i)) != null ) {
+            if (SNMP_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.clbss.getNbme(),
+                    "getTrbpCommunities", "["+i.toString()+"] is in list");
             }
             return list.elements();
         } else {
             list = new Vector<>();
-            if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                    "getTrapCommunities", "["+i.toString()+"] is not in list");
+            if (SNMP_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.clbss.getNbme(),
+                    "getTrbpCommunities", "["+i.toString()+"] is not in list");
             }
             return list.elements();
         }
     }
 
     /**
-     * Returns an enumeration of inform destinations.
+     * Returns bn enumerbtion of inform destinbtions.
      *
-     * @return An enumeration of the inform destinations (enumeration of <CODE>InetAddress</CODE>).
+     * @return An enumerbtion of the inform destinbtions (enumerbtion of <CODE>InetAddress</CODE>).
      */
-    public Enumeration<InetAddress> getInformDestinations() {
+    public Enumerbtion<InetAddress> getInformDestinbtions() {
         return informDestList.keys();
     }
 
     /**
-     * Returns an enumeration of inform communities for a given host.
+     * Returns bn enumerbtion of inform communities for b given host.
      *
-     * @param i The address of the host.
+     * @pbrbm i The bddress of the host.
      *
-     * @return An enumeration of inform communities for a given host (enumeration of <CODE>String</CODE>).
+     * @return An enumerbtion of inform communities for b given host (enumerbtion of <CODE>String</CODE>).
      */
-    public Enumeration<String> getInformCommunities(InetAddress i) {
+    public Enumerbtion<String> getInformCommunities(InetAddress i) {
         Vector<String> list = null;
         if ((list = informDestList.get(i)) != null ) {
-            if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
+            if (SNMP_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.clbss.getNbme(),
                     "getInformCommunities", "["+i.toString()+"] is in list");
             }
             return list.elements();
         } else {
             list = new Vector<>();
-            if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
+            if (SNMP_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.clbss.getNbme(),
                     "getInformCommunities", "["+i.toString()+"] is not in list");
             }
             return list.elements();
@@ -380,64 +380,64 @@ public class SnmpAcl implements InetAddressAcl, Serializable {
     }
 
     /**
-     * Converts the input configuration file into ACL.
+     * Converts the input configurbtion file into ACL.
      */
-    private void readAuthorizedListFile() {
+    privbte void rebdAuthorizedListFile() {
 
-        alwaysAuthorized = false;
+        blwbysAuthorized = fblse;
 
-        if (authorizedListFile == null) {
-            if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                    "readAuthorizedListFile", "alwaysAuthorized set to true");
+        if (buthorizedListFile == null) {
+            if (SNMP_LOGGER.isLoggbble(Level.FINER)) {
+                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.clbss.getNbme(),
+                    "rebdAuthorizedListFile", "blwbysAuthorized set to true");
             }
-            alwaysAuthorized = true ;
+            blwbysAuthorized = true ;
         } else {
-            // Read the file content
-            Parser parser = null;
+            // Rebd the file content
+            Pbrser pbrser = null;
             try {
-                parser= new Parser(new FileInputStream(getAuthorizedListFile()));
-            } catch (FileNotFoundException e) {
-                if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.class.getName(),
-                            "readAuthorizedListFile",
-                            "The specified file was not found, authorize everybody");
+                pbrser= new Pbrser(new FileInputStrebm(getAuthorizedListFile()));
+            } cbtch (FileNotFoundException e) {
+                if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                    SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.clbss.getNbme(),
+                            "rebdAuthorizedListFile",
+                            "The specified file wbs not found, buthorize everybody");
                 }
-                alwaysAuthorized = true ;
+                blwbysAuthorized = true ;
                 return;
             }
 
             try {
-                JDMSecurityDefs n = parser.SecurityDefs();
-                n.buildAclEntries(owner, acl);
-                n.buildTrapEntries(trapDestList);
+                JDMSecurityDefs n = pbrser.SecurityDefs();
+                n.buildAclEntries(owner, bcl);
+                n.buildTrbpEntries(trbpDestList);
                 n.buildInformEntries(informDestList);
-            } catch (ParseException e) {
-                if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.class.getName(),
-                        "readAuthorizedListFile", "Got parsing exception", e);
+            } cbtch (PbrseException e) {
+                if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                    SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.clbss.getNbme(),
+                        "rebdAuthorizedListFile", "Got pbrsing exception", e);
                 }
-                throw new IllegalArgumentException(e.getMessage());
-            } catch (Error err) {
-                if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.class.getName(),
-                        "readAuthorizedListFile", "Got unexpected error", err);
+                throw new IllegblArgumentException(e.getMessbge());
+            } cbtch (Error err) {
+                if (SNMP_LOGGER.isLoggbble(Level.FINEST)) {
+                    SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.clbss.getNbme(),
+                        "rebdAuthorizedListFile", "Got unexpected error", err);
                 }
-                throw new IllegalArgumentException(err.getMessage());
+                throw new IllegblArgumentException(err.getMessbge());
             }
 
-            for(Enumeration<AclEntry> e = acl.entries(); e.hasMoreElements();) {
-                AclEntryImpl aa = (AclEntryImpl) e.nextElement();
-                if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                            "readAuthorizedListFile",
-                            "===> " + aa.getPrincipal().toString());
+            for(Enumerbtion<AclEntry> e = bcl.entries(); e.hbsMoreElements();) {
+                AclEntryImpl bb = (AclEntryImpl) e.nextElement();
+                if (SNMP_LOGGER.isLoggbble(Level.FINER)) {
+                    SNMP_LOGGER.logp(Level.FINER, SnmpAcl.clbss.getNbme(),
+                            "rebdAuthorizedListFile",
+                            "===> " + bb.getPrincipbl().toString());
                 }
-                for (Enumeration<java.security.acl.Permission> eee = aa.permissions();eee.hasMoreElements();) {
-                    java.security.acl.Permission perm = eee.nextElement();
-                    if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                                "readAuthorizedListFile", "perm = " + perm);
+                for (Enumerbtion<jbvb.security.bcl.Permission> eee = bb.permissions();eee.hbsMoreElements();) {
+                    jbvb.security.bcl.Permission perm = eee.nextElement();
+                    if (SNMP_LOGGER.isLoggbble(Level.FINER)) {
+                        SNMP_LOGGER.logp(Level.FINER, SnmpAcl.clbss.getNbme(),
+                                "rebdAuthorizedListFile", "perm = " + perm);
                     }
                 }
             }
@@ -445,13 +445,13 @@ public class SnmpAcl implements InetAddressAcl, Serializable {
     }
 
     /**
-     * Set the default full path for "snmp.acl" input file.
-     * Do not complain if the file does not exists.
+     * Set the defbult full pbth for "snmp.bcl" input file.
+     * Do not complbin if the file does not exists.
      */
-    private void setDefaultFileName() {
+    privbte void setDefbultFileNbme() {
         try {
-            setAuthorizedListFile(getDefaultAclFileName());
-        } catch (IllegalArgumentException x) {
+            setAuthorizedListFile(getDefbultAclFileNbme());
+        } cbtch (IllegblArgumentException x) {
             // OK...
         }
     }
@@ -463,24 +463,24 @@ public class SnmpAcl implements InetAddressAcl, Serializable {
     /**
      * Represents the Access Control List.
      */
-    private AclImpl acl = null;
+    privbte AclImpl bcl = null;
     /**
-     * Flag indicating whether the access is always authorized.
-     * <BR>This is the case if there is no flat file defined.
+     * Flbg indicbting whether the bccess is blwbys buthorized.
+     * <BR>This is the cbse if there is no flbt file defined.
      */
-    private boolean alwaysAuthorized = false;
+    privbte boolebn blwbysAuthorized = fblse;
     /**
-     * Represents the Access Control List flat file.
+     * Represents the Access Control List flbt file.
      */
-    private String authorizedListFile = null;
+    privbte String buthorizedListFile = null;
     /**
-     * Contains the hosts list for trap destination.
+     * Contbins the hosts list for trbp destinbtion.
      */
-    private Hashtable<InetAddress, Vector<String>> trapDestList = null;
+    privbte Hbshtbble<InetAddress, Vector<String>> trbpDestList = null;
     /**
-     * Contains the hosts list for inform destination.
+     * Contbins the hosts list for inform destinbtion.
      */
-    private Hashtable<InetAddress, Vector<String>> informDestList = null;
+    privbte Hbshtbble<InetAddress, Vector<String>> informDestList = null;
 
-    private PrincipalImpl owner = null;
+    privbte PrincipblImpl owner = null;
 }

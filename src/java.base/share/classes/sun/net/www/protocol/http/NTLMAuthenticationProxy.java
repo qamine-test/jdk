@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.net.www.protocol.http;
+pbckbge sun.net.www.protocol.http;
 
-import java.net.URL;
-import java.net.PasswordAuthentication;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import sun.util.logging.PlatformLogger;
+import jbvb.net.URL;
+import jbvb.net.PbsswordAuthenticbtion;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Method;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * Proxy class for loading NTLMAuthentication, so as to remove static
- * dependancy.
+ * Proxy clbss for lobding NTLMAuthenticbtion, so bs to remove stbtic
+ * dependbncy.
  */
-class NTLMAuthenticationProxy {
-    private static Method supportsTA;
-    private static Method isTrustedSite;
-    private static final String clazzStr = "sun.net.www.protocol.http.ntlm.NTLMAuthentication";
-    private static final String supportsTAStr = "supportsTransparentAuth";
-    private static final String isTrustedSiteStr = "isTrustedSite";
+clbss NTLMAuthenticbtionProxy {
+    privbte stbtic Method supportsTA;
+    privbte stbtic Method isTrustedSite;
+    privbte stbtic finbl String clbzzStr = "sun.net.www.protocol.http.ntlm.NTLMAuthenticbtion";
+    privbte stbtic finbl String supportsTAStr = "supportsTrbnspbrentAuth";
+    privbte stbtic finbl String isTrustedSiteStr = "isTrustedSite";
 
-    static final NTLMAuthenticationProxy proxy = tryLoadNTLMAuthentication();
-    static final boolean supported = proxy != null ? true : false;
-    static final boolean supportsTransparentAuth = supported ? supportsTransparentAuth() : false;
+    stbtic finbl NTLMAuthenticbtionProxy proxy = tryLobdNTLMAuthenticbtion();
+    stbtic finbl boolebn supported = proxy != null ? true : fblse;
+    stbtic finbl boolebn supportsTrbnspbrentAuth = supported ? supportsTrbnspbrentAuth() : fblse;
 
-    private final Constructor<? extends AuthenticationInfo> threeArgCtr;
-    private final Constructor<? extends AuthenticationInfo> fiveArgCtr;
+    privbte finbl Constructor<? extends AuthenticbtionInfo> threeArgCtr;
+    privbte finbl Constructor<? extends AuthenticbtionInfo> fiveArgCtr;
 
-    private NTLMAuthenticationProxy(Constructor<? extends AuthenticationInfo> threeArgCtr,
-                                    Constructor<? extends AuthenticationInfo> fiveArgCtr) {
+    privbte NTLMAuthenticbtionProxy(Constructor<? extends AuthenticbtionInfo> threeArgCtr,
+                                    Constructor<? extends AuthenticbtionInfo> fiveArgCtr) {
         this.threeArgCtr = threeArgCtr;
         this.fiveArgCtr = fiveArgCtr;
     }
 
 
-    AuthenticationInfo create(boolean isProxy,
+    AuthenticbtionInfo crebte(boolebn isProxy,
                               URL url,
-                              PasswordAuthentication pw) {
+                              PbsswordAuthenticbtion pw) {
         try {
-            return threeArgCtr.newInstance(isProxy, url, pw);
-        } catch (ReflectiveOperationException roe) {
+            return threeArgCtr.newInstbnce(isProxy, url, pw);
+        } cbtch (ReflectiveOperbtionException roe) {
             finest(roe);
         }
 
         return null;
     }
 
-    AuthenticationInfo create(boolean isProxy,
+    AuthenticbtionInfo crebte(boolebn isProxy,
                               String host,
                               int port,
-                              PasswordAuthentication pw) {
+                              PbsswordAuthenticbtion pw) {
         try {
-            return fiveArgCtr.newInstance(isProxy, host, port, pw);
-        } catch (ReflectiveOperationException roe) {
+            return fiveArgCtr.newInstbnce(isProxy, host, port, pw);
+        } cbtch (ReflectiveOperbtionException roe) {
             finest(roe);
         }
 
         return null;
     }
 
-    /* Returns true if the NTLM implementation supports transparent
-     * authentication (try with the current users credentials before
-     * prompting for username and password, etc).
+    /* Returns true if the NTLM implementbtion supports trbnspbrent
+     * buthenticbtion (try with the current users credentibls before
+     * prompting for usernbme bnd pbssword, etc).
      */
-    private static boolean supportsTransparentAuth() {
+    privbte stbtic boolebn supportsTrbnspbrentAuth() {
         try {
-            return (Boolean)supportsTA.invoke(null);
-        } catch (ReflectiveOperationException roe) {
+            return (Boolebn)supportsTA.invoke(null);
+        } cbtch (ReflectiveOperbtionException roe) {
             finest(roe);
         }
 
-        return false;
+        return fblse;
     }
 
-    /* Transparent authentication should only be tried with a trusted
-     * site ( when running in a secure environment ).
+    /* Trbnspbrent buthenticbtion should only be tried with b trusted
+     * site ( when running in b secure environment ).
      */
-    public static boolean isTrustedSite(URL url) {
+    public stbtic boolebn isTrustedSite(URL url) {
         try {
-            return (Boolean)isTrustedSite.invoke(null, url);
-        } catch (ReflectiveOperationException roe) {
+            return (Boolebn)isTrustedSite.invoke(null, url);
+        } cbtch (ReflectiveOperbtionException roe) {
             finest(roe);
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Loads the NTLM authentiation implementation through reflection. If
-     * the class is present, then it must have the required constructors and
-     * method. Otherwise, it is considered an error.
+     * Lobds the NTLM buthentibtion implementbtion through reflection. If
+     * the clbss is present, then it must hbve the required constructors bnd
+     * method. Otherwise, it is considered bn error.
      */
-    @SuppressWarnings("unchecked")
-    private static NTLMAuthenticationProxy tryLoadNTLMAuthentication() {
-        Class<? extends AuthenticationInfo> cl;
-        Constructor<? extends AuthenticationInfo> threeArg, fiveArg;
+    @SuppressWbrnings("unchecked")
+    privbte stbtic NTLMAuthenticbtionProxy tryLobdNTLMAuthenticbtion() {
+        Clbss<? extends AuthenticbtionInfo> cl;
+        Constructor<? extends AuthenticbtionInfo> threeArg, fiveArg;
         try {
-            cl = (Class<? extends AuthenticationInfo>)Class.forName(clazzStr, true, null);
+            cl = (Clbss<? extends AuthenticbtionInfo>)Clbss.forNbme(clbzzStr, true, null);
             if (cl != null) {
-                threeArg = cl.getConstructor(boolean.class,
-                                             URL.class,
-                                             PasswordAuthentication.class);
-                fiveArg = cl.getConstructor(boolean.class,
-                                            String.class,
-                                            int.class,
-                                            PasswordAuthentication.class);
-                supportsTA = cl.getDeclaredMethod(supportsTAStr);
-                isTrustedSite = cl.getDeclaredMethod(isTrustedSiteStr, java.net.URL.class);
-                return new NTLMAuthenticationProxy(threeArg,
+                threeArg = cl.getConstructor(boolebn.clbss,
+                                             URL.clbss,
+                                             PbsswordAuthenticbtion.clbss);
+                fiveArg = cl.getConstructor(boolebn.clbss,
+                                            String.clbss,
+                                            int.clbss,
+                                            PbsswordAuthenticbtion.clbss);
+                supportsTA = cl.getDeclbredMethod(supportsTAStr);
+                isTrustedSite = cl.getDeclbredMethod(isTrustedSiteStr, jbvb.net.URL.clbss);
+                return new NTLMAuthenticbtionProxy(threeArg,
                                                    fiveArg);
             }
-        } catch (ClassNotFoundException cnfe) {
+        } cbtch (ClbssNotFoundException cnfe) {
             finest(cnfe);
-        } catch (ReflectiveOperationException roe) {
+        } cbtch (ReflectiveOperbtionException roe) {
             throw new AssertionError(roe);
         }
 
         return null;
     }
 
-    static void finest(Exception e) {
-        PlatformLogger logger = HttpURLConnection.getHttpLogger();
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
-            logger.finest("NTLMAuthenticationProxy: " + e);
+    stbtic void finest(Exception e) {
+        PlbtformLogger logger = HttpURLConnection.getHttpLogger();
+        if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
+            logger.finest("NTLMAuthenticbtionProxy: " + e);
         }
     }
 }

@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef LoopMacros_h_Included
-#define LoopMacros_h_Included
+#ifndef LoopMbcros_h_Included
+#define LoopMbcros_h_Included
 
 #include "j2d_md.h"
 
 #include "LineUtils.h"
 
 /*
- * This file contains macros to aid in defining native graphics
+ * This file contbins mbcros to bid in defining nbtive grbphics
  * primitive functions.
  *
- * A number of useful building block macros are defined, but the
- * vast majority of primitives are defined completely by a single
- * macro expansion which uses macro names in the argument list to
- * choose not only from a small number of strategies but also to
- * choose macro packages specific to the source and destination
- * pixel formats - greatly simplifying all aspects of creating
- * a new loop.
+ * A number of useful building block mbcros bre defined, but the
+ * vbst mbjority of primitives bre defined completely by b single
+ * mbcro expbnsion which uses mbcro nbmes in the brgument list to
+ * choose not only from b smbll number of strbtegies but blso to
+ * choose mbcro pbckbges specific to the source bnd destinbtion
+ * pixel formbts - grebtly simplifying bll bspects of crebting
+ * b new loop.
  *
- * See the following macros which define entire functions with
- * just one or two surface names and sometimes a strategy name:
+ * See the following mbcros which define entire functions with
+ * just one or two surfbce nbmes bnd sometimes b strbtegy nbme:
  *     DEFINE_ISOCOPY_BLIT(ANYTYPE)
  *     DEFINE_ISOXOR_BLIT(ANYTYPE)
  *     DEFINE_CONVERT_BLIT(SRC, DST, CONV_METHOD)
@@ -54,310 +54,310 @@
  *     DEFINE_SOLID_FILLSPANS(DST)
  *     DEFINE_SOLID_DRAWLINE(DST)
  *
- * Many of these loop macros take the name of a SurfaceType as
- * an argument and use the ANSI CPP token concatenation operator
- * "##" to reference macro and type definitions that are specific
- * to that type of surface.
+ * Mbny of these loop mbcros tbke the nbme of b SurfbceType bs
+ * bn brgument bnd use the ANSI CPP token concbtenbtion operbtor
+ * "##" to reference mbcro bnd type definitions thbt bre specific
+ * to thbt type of surfbce.
  *
- * A description of the various surface specific macro utilities
- * that are used by these loop macros appears at the end of the
- * file.  The definitions of these surface-specific macros will
- * usually appear in a header file named after the SurfaceType
- * name (i.e. IntArgb.h, ByteGray.h, etc.).
+ * A description of the vbrious surfbce specific mbcro utilities
+ * thbt bre used by these loop mbcros bppebrs bt the end of the
+ * file.  The definitions of these surfbce-specific mbcros will
+ * usublly bppebr in b hebder file nbmed bfter the SurfbceType
+ * nbme (i.e. IntArgb.h, ByteGrby.h, etc.).
  */
 
 /*
- * This loop is the standard "while (--height > 0)" loop used by
+ * This loop is the stbndbrd "while (--height > 0)" loop used by
  * some of the blits below.
  */
 #define BlitLoopHeight(SRCTYPE, SRCPTR, SRCBASE, SRCINFO, \
                        DSTTYPE, DSTPTR, DSTBASE, DSTINFO, DSTPREFIX, \
                        HEIGHT, BODY) \
     do { \
-        SRCTYPE ## DataType *SRCPTR = (SRCTYPE ## DataType *) (SRCBASE); \
-        DSTTYPE ## DataType *DSTPTR = (DSTTYPE ## DataType *) (DSTBASE); \
-        jint srcScan = (SRCINFO)->scanStride; \
-        jint dstScan = (DSTINFO)->scanStride; \
-        Init ## DSTTYPE ## StoreVarsY(DSTPREFIX, DSTINFO); \
+        SRCTYPE ## DbtbType *SRCPTR = (SRCTYPE ## DbtbType *) (SRCBASE); \
+        DSTTYPE ## DbtbType *DSTPTR = (DSTTYPE ## DbtbType *) (DSTBASE); \
+        jint srcScbn = (SRCINFO)->scbnStride; \
+        jint dstScbn = (DSTINFO)->scbnStride; \
+        Init ## DSTTYPE ## StoreVbrsY(DSTPREFIX, DSTINFO); \
         do { \
             BODY; \
-            SRCPTR = PtrAddBytes(SRCPTR, srcScan); \
-            DSTPTR = PtrAddBytes(DSTPTR, dstScan); \
-            Next ## DSTTYPE ## StoreVarsY(DSTPREFIX); \
+            SRCPTR = PtrAddBytes(SRCPTR, srcScbn); \
+            DSTPTR = PtrAddBytes(DSTPTR, dstScbn); \
+            Next ## DSTTYPE ## StoreVbrsY(DSTPREFIX); \
         } while (--HEIGHT > 0); \
     } while (0)
 
 /*
- * This loop is the standard nested "while (--width/height > 0)" loop
- * used by most of the basic blits below.
+ * This loop is the stbndbrd nested "while (--width/height > 0)" loop
+ * used by most of the bbsic blits below.
  */
 #define BlitLoopWidthHeight(SRCTYPE, SRCPTR, SRCBASE, SRCINFO, \
                             DSTTYPE, DSTPTR, DSTBASE, DSTINFO, DSTPREFIX, \
                             WIDTH, HEIGHT, BODY) \
     do { \
-        SRCTYPE ## DataType *SRCPTR = (SRCTYPE ## DataType *) (SRCBASE); \
-        DSTTYPE ## DataType *DSTPTR = (DSTTYPE ## DataType *) (DSTBASE); \
-        jint srcScan = (SRCINFO)->scanStride; \
-        jint dstScan = (DSTINFO)->scanStride; \
-        Init ## DSTTYPE ## StoreVarsY(DSTPREFIX, DSTINFO); \
-        srcScan -= (WIDTH) * SRCTYPE ## PixelStride; \
-        dstScan -= (WIDTH) * DSTTYPE ## PixelStride; \
+        SRCTYPE ## DbtbType *SRCPTR = (SRCTYPE ## DbtbType *) (SRCBASE); \
+        DSTTYPE ## DbtbType *DSTPTR = (DSTTYPE ## DbtbType *) (DSTBASE); \
+        jint srcScbn = (SRCINFO)->scbnStride; \
+        jint dstScbn = (DSTINFO)->scbnStride; \
+        Init ## DSTTYPE ## StoreVbrsY(DSTPREFIX, DSTINFO); \
+        srcScbn -= (WIDTH) * SRCTYPE ## PixelStride; \
+        dstScbn -= (WIDTH) * DSTTYPE ## PixelStride; \
         do { \
             juint w = WIDTH; \
-            Init ## DSTTYPE ## StoreVarsX(DSTPREFIX, DSTINFO); \
+            Init ## DSTTYPE ## StoreVbrsX(DSTPREFIX, DSTINFO); \
             do { \
                 BODY; \
                 SRCPTR = PtrAddBytes(SRCPTR, SRCTYPE ## PixelStride); \
                 DSTPTR = PtrAddBytes(DSTPTR, DSTTYPE ## PixelStride); \
-                Next ## DSTTYPE ## StoreVarsX(DSTPREFIX); \
+                Next ## DSTTYPE ## StoreVbrsX(DSTPREFIX); \
             } while (--w > 0); \
-            SRCPTR = PtrAddBytes(SRCPTR, srcScan); \
-            DSTPTR = PtrAddBytes(DSTPTR, dstScan); \
-            Next ## DSTTYPE ## StoreVarsY(DSTPREFIX); \
+            SRCPTR = PtrAddBytes(SRCPTR, srcScbn); \
+            DSTPTR = PtrAddBytes(DSTPTR, dstScbn); \
+            Next ## DSTTYPE ## StoreVbrsY(DSTPREFIX); \
         } while (--HEIGHT > 0); \
     } while (0)
 
 /*
- * This loop is the standard nested "while (--width/height > 0)" loop
- * used by most of the scaled blits below.  It calculates the proper
- * X source variable
+ * This loop is the stbndbrd nested "while (--width/height > 0)" loop
+ * used by most of the scbled blits below.  It cblculbtes the proper
+ * X source vbribble
  */
-#define BlitLoopScaleWidthHeight(SRCTYPE, SRCPTR, SRCBASE, SRCINFO, \
+#define BlitLoopScbleWidthHeight(SRCTYPE, SRCPTR, SRCBASE, SRCINFO, \
                                  DSTTYPE, DSTPTR, DSTBASE, DSTINFO, DSTPREFIX, \
                                  XVAR, WIDTH, HEIGHT, \
                                  SXLOC, SYLOC, SXINC, SYINC, SHIFT, \
                                  BODY) \
     do { \
-        SRCTYPE ## DataType *SRCPTR; \
-        DSTTYPE ## DataType *DSTPTR = (DSTTYPE ## DataType *) (DSTBASE); \
-        jint srcScan = (SRCINFO)->scanStride; \
-        jint dstScan = (DSTINFO)->scanStride; \
-        Init ## DSTTYPE ## StoreVarsY(DSTPREFIX, DSTINFO); \
-        dstScan -= (WIDTH) * DSTTYPE ## PixelStride; \
+        SRCTYPE ## DbtbType *SRCPTR; \
+        DSTTYPE ## DbtbType *DSTPTR = (DSTTYPE ## DbtbType *) (DSTBASE); \
+        jint srcScbn = (SRCINFO)->scbnStride; \
+        jint dstScbn = (DSTINFO)->scbnStride; \
+        Init ## DSTTYPE ## StoreVbrsY(DSTPREFIX, DSTINFO); \
+        dstScbn -= (WIDTH) * DSTTYPE ## PixelStride; \
         do { \
             juint w = WIDTH; \
             jint tmpsxloc = SXLOC; \
-            SRCPTR = PtrAddBytes(SRCBASE, ((SYLOC >> SHIFT) * srcScan)); \
-            Init ## DSTTYPE ## StoreVarsX(DSTPREFIX, DSTINFO); \
+            SRCPTR = PtrAddBytes(SRCBASE, ((SYLOC >> SHIFT) * srcScbn)); \
+            Init ## DSTTYPE ## StoreVbrsX(DSTPREFIX, DSTINFO); \
             do { \
                 jint XVAR = (tmpsxloc >> SHIFT); \
                 BODY; \
                 DSTPTR = PtrAddBytes(DSTPTR, DSTTYPE ## PixelStride); \
-                Next ## DSTTYPE ## StoreVarsX(DSTPREFIX); \
+                Next ## DSTTYPE ## StoreVbrsX(DSTPREFIX); \
                 tmpsxloc += SXINC; \
             } while (--w > 0); \
-            DSTPTR = PtrAddBytes(DSTPTR, dstScan); \
-            Next ## DSTTYPE ## StoreVarsY(DSTPREFIX); \
+            DSTPTR = PtrAddBytes(DSTPTR, dstScbn); \
+            Next ## DSTTYPE ## StoreVbrsY(DSTPREFIX); \
             SYLOC += SYINC; \
         } while (--HEIGHT > 0); \
     } while (0)
 
 /*
- * This loop is a standard horizontal loop iterating with a "relative"
- * X coordinate (0 <= X < WIDTH) used primarily by the LUT conversion
+ * This loop is b stbndbrd horizontbl loop iterbting with b "relbtive"
+ * X coordinbte (0 <= X < WIDTH) used primbrily by the LUT conversion
  * preprocessing loops below.
  */
 #define BlitLoopXRel(DSTTYPE, DSTINFO, DSTPREFIX, \
                      XVAR, WIDTH, BODY) \
     do { \
         juint XVAR = 0; \
-        Init ## DSTTYPE ## StoreVarsX(DSTPREFIX, DSTINFO); \
+        Init ## DSTTYPE ## StoreVbrsX(DSTPREFIX, DSTINFO); \
         do { \
             BODY; \
-            Next ## DSTTYPE ## StoreVarsX(DSTPREFIX); \
+            Next ## DSTTYPE ## StoreVbrsX(DSTPREFIX); \
         } while (++XVAR < WIDTH); \
     } while (0)
 
 /*
- * This is a "conversion strategy" for use with the DEFINE_CONVERT_BLIT
- * macros.  It converts from the source pixel format to the destination
- * via an intermediate "jint rgb" format.
+ * This is b "conversion strbtegy" for use with the DEFINE_CONVERT_BLIT
+ * mbcros.  It converts from the source pixel formbt to the destinbtion
+ * vib bn intermedibte "jint rgb" formbt.
  */
-#define ConvertVia1IntRgb(SRCPTR, SRCTYPE, SRCPREFIX, \
+#define ConvertVib1IntRgb(SRCPTR, SRCTYPE, SRCPREFIX, \
                           DSTPTR, DSTTYPE, DSTPREFIX, \
                           SXVAR, DXVAR) \
     do { \
         int rgb; \
-        Load ## SRCTYPE ## To1IntRgb(SRCPTR, SRCPREFIX, SXVAR, rgb); \
+        Lobd ## SRCTYPE ## To1IntRgb(SRCPTR, SRCPREFIX, SXVAR, rgb); \
         Store ## DSTTYPE ## From1IntRgb(DSTPTR, DSTPREFIX, DXVAR, rgb); \
     } while (0)
 
 /*
- * This is a "conversion strategy" for use with the DEFINE_CONVERT_BLIT
- * macros.  It converts from the source pixel format to the destination
- * via an intermediate "jint argb" format.
+ * This is b "conversion strbtegy" for use with the DEFINE_CONVERT_BLIT
+ * mbcros.  It converts from the source pixel formbt to the destinbtion
+ * vib bn intermedibte "jint brgb" formbt.
  */
-#define ConvertVia1IntArgb(SRCPTR, SRCTYPE, SRCPREFIX, \
+#define ConvertVib1IntArgb(SRCPTR, SRCTYPE, SRCPREFIX, \
                            DSTPTR, DSTTYPE, DSTPREFIX, \
                            SXVAR, DXVAR) \
     do { \
-        int argb; \
-        Load ## SRCTYPE ## To1IntArgb(SRCPTR, SRCPREFIX, SXVAR, argb); \
-        Store ## DSTTYPE ## From1IntArgb(DSTPTR, DSTPREFIX, DXVAR, argb); \
+        int brgb; \
+        Lobd ## SRCTYPE ## To1IntArgb(SRCPTR, SRCPREFIX, SXVAR, brgb); \
+        Store ## DSTTYPE ## From1IntArgb(DSTPTR, DSTPREFIX, DXVAR, brgb); \
     } while (0)
 
 /*
- * This is a "conversion strategy" for use with the DEFINE_CONVERT_BLIT
- * macros.  It converts from the source pixel format to the destination
- * via an intermediate set of 3 component variables "jint r, g, b".
+ * This is b "conversion strbtegy" for use with the DEFINE_CONVERT_BLIT
+ * mbcros.  It converts from the source pixel formbt to the destinbtion
+ * vib bn intermedibte set of 3 component vbribbles "jint r, g, b".
  */
-#define ConvertVia3ByteRgb(SRCPTR, SRCTYPE, SRCPREFIX, \
+#define ConvertVib3ByteRgb(SRCPTR, SRCTYPE, SRCPREFIX, \
                            DSTPTR, DSTTYPE, DSTPREFIX, \
                            SXVAR, DXVAR) \
     do { \
         jint r, g, b; \
-        Load ## SRCTYPE ## To3ByteRgb(SRCPTR, SRCPREFIX, SXVAR, r, g, b); \
+        Lobd ## SRCTYPE ## To3ByteRgb(SRCPTR, SRCPREFIX, SXVAR, r, g, b); \
         Store ## DSTTYPE ## From3ByteRgb(DSTPTR, DSTPREFIX, DXVAR, r, g, b); \
     } while (0)
 
 /*
- * This is a "conversion strategy" for use with the DEFINE_CONVERT_BLIT
- * macros.  It converts from the source pixel format to the destination
- * via an intermediate set of 4 component variables "jint a, r, g, b".
+ * This is b "conversion strbtegy" for use with the DEFINE_CONVERT_BLIT
+ * mbcros.  It converts from the source pixel formbt to the destinbtion
+ * vib bn intermedibte set of 4 component vbribbles "jint b, r, g, b".
  */
-#define ConvertVia4ByteArgb(SRCPTR, SRCTYPE, SRCPREFIX, \
+#define ConvertVib4ByteArgb(SRCPTR, SRCTYPE, SRCPREFIX, \
                             DSTPTR, DSTTYPE, DSTPREFIX, \
                             SXVAR, DXVAR) \
     do { \
-        jint a, r, g, b; \
-        Load ## SRCTYPE ## To4ByteArgb(SRCPTR, SRCPREFIX, SXVAR, a, r, g, b); \
+        jint b, r, g, b; \
+        Lobd ## SRCTYPE ## To4ByteArgb(SRCPTR, SRCPREFIX, SXVAR, b, r, g, b); \
         Store ## DSTTYPE ## From4ByteArgb(DSTPTR, DSTPREFIX, DXVAR, \
-                                          a, r, g, b); \
+                                          b, r, g, b); \
     } while (0)
 
 /*
- * This is a "conversion strategy" for use with the DEFINE_CONVERT_BLIT
- * macros.  It converts from the source pixel format to the destination
- * via an intermediate "jint gray" format.
+ * This is b "conversion strbtegy" for use with the DEFINE_CONVERT_BLIT
+ * mbcros.  It converts from the source pixel formbt to the destinbtion
+ * vib bn intermedibte "jint grby" formbt.
  */
-#define ConvertVia1ByteGray(SRCPTR, SRCTYPE, SRCPREFIX, \
+#define ConvertVib1ByteGrby(SRCPTR, SRCTYPE, SRCPREFIX, \
                             DSTPTR, DSTTYPE, DSTPREFIX, \
                             SXVAR, DXVAR) \
     do { \
-        jint gray; \
-        Load ## SRCTYPE ## To1ByteGray(SRCPTR, SRCPREFIX, SXVAR, gray); \
-        Store ## DSTTYPE ## From1ByteGray(DSTPTR, DSTPREFIX, DXVAR, gray); \
+        jint grby; \
+        Lobd ## SRCTYPE ## To1ByteGrby(SRCPTR, SRCPREFIX, SXVAR, grby); \
+        Store ## DSTTYPE ## From1ByteGrby(DSTPTR, DSTPREFIX, DXVAR, grby); \
     } while (0)
 
 /*
- * This is a "conversion strategy" for use with the DEFINE_XPAR_CONVERT_BLIT
- * macros.  It converts from the source pixel format to the destination
- * via the specified intermediate format while testing for transparent pixels.
+ * This is b "conversion strbtegy" for use with the DEFINE_XPAR_CONVERT_BLIT
+ * mbcros.  It converts from the source pixel formbt to the destinbtion
+ * vib the specified intermedibte formbt while testing for trbnspbrent pixels.
  */
-#define ConvertXparVia1IntRgb(SRCPTR, SRCTYPE, SRCPREFIX, \
+#define ConvertXpbrVib1IntRgb(SRCPTR, SRCTYPE, SRCPREFIX, \
                               DSTPTR, DSTTYPE, DSTPREFIX, \
                               SXVAR, DXVAR) \
     do { \
-        Declare ## SRCTYPE ## Data(XparLoad); \
-        Load ## SRCTYPE ## Data(SRCPTR, SRCPREFIX, SXVAR, XparLoad); \
-        if (! (Is ## SRCTYPE ## DataTransparent(XparLoad))) { \
+        Declbre ## SRCTYPE ## Dbtb(XpbrLobd); \
+        Lobd ## SRCTYPE ## Dbtb(SRCPTR, SRCPREFIX, SXVAR, XpbrLobd); \
+        if (! (Is ## SRCTYPE ## DbtbTrbnspbrent(XpbrLobd))) { \
             int rgb; \
-            Convert ## SRCTYPE ## DataTo1IntRgb(XparLoad, rgb); \
+            Convert ## SRCTYPE ## DbtbTo1IntRgb(XpbrLobd, rgb); \
             Store ## DSTTYPE ## From1IntRgb(DSTPTR, DSTPREFIX, DXVAR, rgb); \
         } \
     } while (0)
 
 /*
- * This is a "conversion strategy" for use with the DEFINE_XPAR_BLITBG
- * macros.  It converts from the source pixel format to the destination
- * via the specified intermediate format while substituting the specified
- * bgcolor for transparent pixels.
+ * This is b "conversion strbtegy" for use with the DEFINE_XPAR_BLITBG
+ * mbcros.  It converts from the source pixel formbt to the destinbtion
+ * vib the specified intermedibte formbt while substituting the specified
+ * bgcolor for trbnspbrent pixels.
  */
-#define BgCopyXparVia1IntRgb(SRCPTR, SRCTYPE, SRCPREFIX, \
+#define BgCopyXpbrVib1IntRgb(SRCPTR, SRCTYPE, SRCPREFIX, \
                              DSTPTR, DSTTYPE, DSTPREFIX, \
                              SXVAR, DXVAR, BGPIXEL, BGPREFIX) \
     do { \
-        Declare ## SRCTYPE ## Data(XparLoad); \
-        Load ## SRCTYPE ## Data(SRCPTR, SRCPREFIX, SXVAR, XparLoad); \
-        if (Is ## SRCTYPE ## DataTransparent(XparLoad)) { \
-            Store ## DSTTYPE ## PixelData(DSTPTR, DXVAR, BGPIXEL, BGPREFIX); \
+        Declbre ## SRCTYPE ## Dbtb(XpbrLobd); \
+        Lobd ## SRCTYPE ## Dbtb(SRCPTR, SRCPREFIX, SXVAR, XpbrLobd); \
+        if (Is ## SRCTYPE ## DbtbTrbnspbrent(XpbrLobd)) { \
+            Store ## DSTTYPE ## PixelDbtb(DSTPTR, DXVAR, BGPIXEL, BGPREFIX); \
         } else { \
             int rgb; \
-            Convert ## SRCTYPE ## DataTo1IntRgb(XparLoad, rgb); \
+            Convert ## SRCTYPE ## DbtbTo1IntRgb(XpbrLobd, rgb); \
             Store ## DSTTYPE ## From1IntRgb(DSTPTR, DSTPREFIX, DXVAR, rgb); \
         } \
     } while (0)
 
 /*
- * This macro determines whether or not the given pixel is considered
- * "transparent" for XOR purposes.  The ARGB pixel is considered
- * "transparent" if the alpha value is < 0.5.
+ * This mbcro determines whether or not the given pixel is considered
+ * "trbnspbrent" for XOR purposes.  The ARGB pixel is considered
+ * "trbnspbrent" if the blphb vblue is < 0.5.
  */
-#define IsArgbTransparent(pixel) \
+#define IsArgbTrbnspbrent(pixel) \
     (((jint) pixel) >= 0)
 
 /*
- * This is a "conversion strategy" for use with the DEFINE_XOR_BLIT macro.  It
- * converts the source pixel to an intermediate ARGB value and then converts
- * the ARGB value to the pixel representation for the destination surface.  It
- * then XORs the srcpixel, xorpixel, and destination pixel together and stores
- * the result in the destination surface.
+ * This is b "conversion strbtegy" for use with the DEFINE_XOR_BLIT mbcro.  It
+ * converts the source pixel to bn intermedibte ARGB vblue bnd then converts
+ * the ARGB vblue to the pixel representbtion for the destinbtion surfbce.  It
+ * then XORs the srcpixel, xorpixel, bnd destinbtion pixel together bnd stores
+ * the result in the destinbtion surfbce.
  */
-#define XorVia1IntArgb(SRCPTR, SRCTYPE, SRCPREFIX, \
+#define XorVib1IntArgb(SRCPTR, SRCTYPE, SRCPREFIX, \
                        DSTPTR, DSTTYPE, DSTANYTYPE, \
                        XVAR, XORPIXEL, XORPREFIX, \
                        MASK, MASKPREFIX, DSTINFOPTR) \
     do { \
         jint srcpixel; \
-        Declare ## DSTANYTYPE ## PixelData(pix) \
-        Load ## SRCTYPE ## To1IntArgb(SRCPTR, SRCPREFIX, XVAR, srcpixel); \
+        Declbre ## DSTANYTYPE ## PixelDbtb(pix) \
+        Lobd ## SRCTYPE ## To1IntArgb(SRCPTR, SRCPREFIX, XVAR, srcpixel); \
  \
-        if (IsArgbTransparent(srcpixel)) { \
-            break; \
+        if (IsArgbTrbnspbrent(srcpixel)) { \
+            brebk; \
         } \
  \
         DSTTYPE ## PixelFromArgb(srcpixel, srcpixel, DSTINFOPTR); \
  \
-        Extract ## DSTANYTYPE ## PixelData(srcpixel, pix); \
-        Xor ## DSTANYTYPE ## PixelData(srcpixel, pix, DSTPTR, XVAR, \
+        Extrbct ## DSTANYTYPE ## PixelDbtb(srcpixel, pix); \
+        Xor ## DSTANYTYPE ## PixelDbtb(srcpixel, pix, DSTPTR, XVAR, \
                                        XORPIXEL, XORPREFIX, \
                                        MASK, MASKPREFIX); \
     } while (0)
 
 /*
- * "LUT_STRATEGY" macro sets.
+ * "LUT_STRATEGY" mbcro sets.
  *
- * There are 2 major strategies for dealing with luts and 3
- * implementations of those strategies.
+ * There bre 2 mbjor strbtegies for debling with luts bnd 3
+ * implementbtions of those strbtegies.
  *
- * The 2 strategies are "PreProcessLut" and "ConvertOnTheFly".
+ * The 2 strbtegies bre "PreProcessLut" bnd "ConvertOnTheFly".
  *
- * For the "PreProcessLut" strategy, the raw ARGB lut supplied
- * by the SD_LOCK_LUT flag is converted at the beginning into a
- * form that is more suited for storing into the destination
- * pixel format.  The inner loop consists of a series of table
- * lookups with very little conversion from that intermediate
- * pixel format.
+ * For the "PreProcessLut" strbtegy, the rbw ARGB lut supplied
+ * by the SD_LOCK_LUT flbg is converted bt the beginning into b
+ * form thbt is more suited for storing into the destinbtion
+ * pixel formbt.  The inner loop consists of b series of tbble
+ * lookups with very little conversion from thbt intermedibte
+ * pixel formbt.
  *
- * For the "ConvertOnTheFly" strategy, the raw ARGB values are
- * converted on a pixel by pixel basis in the inner loop itself.
- * This strategy is most useful for formats which tend to use
- * the ARGB color format as their pixel format also.
+ * For the "ConvertOnTheFly" strbtegy, the rbw ARGB vblues bre
+ * converted on b pixel by pixel bbsis in the inner loop itself.
+ * This strbtegy is most useful for formbts which tend to use
+ * the ARGB color formbt bs their pixel formbt blso.
  *
- * Each of these strategies has 3 implementations which are needed
- * for the special cases:
- * - straight conversion (invoked from DEFINE_CONVERT_BLIT_LUT)
- * - straight conversion with transparency handling (invoked from
+ * Ebch of these strbtegies hbs 3 implementbtions which bre needed
+ * for the specibl cbses:
+ * - strbight conversion (invoked from DEFINE_CONVERT_BLIT_LUT)
+ * - strbight conversion with trbnspbrency hbndling (invoked from
  *   DEFINE_XPAR_CONVERT_BLIT_LUT)
- * - straight conversion with a bgcolor for the transparent pixels
+ * - strbight conversion with b bgcolor for the trbnspbrent pixels
  *   (invoked from DEFINE_XPAR_BLITBG_LUT)
  */
 
 /***
- * Start of PreProcessLut strategy macros, CONVERT_BLIT implementation.
+ * Stbrt of PreProcessLut strbtegy mbcros, CONVERT_BLIT implementbtion.
  */
 #define LutSize(TYPE) \
     (1 << TYPE ## BitsPerPixel)
 
-#define DeclarePreProcessLutLut(SRC, DST, PIXLUT) \
+#define DeclbrePreProcessLutLut(SRC, DST, PIXLUT) \
     DST ## PixelType PIXLUT[LutSize(SRC)];
 
 #define SetupPreProcessLutLut(SRC, DST, PIXLUT, SRCINFO, DSTINFO) \
     do { \
-        jint *srcLut = (SRCINFO)->lutBase; \
+        jint *srcLut = (SRCINFO)->lutBbse; \
         juint lutSize = (SRCINFO)->lutSize; \
-        Declare ## DST ## StoreVars(PreLut) \
-        Init ## DST ## StoreVarsY(PreLut, DSTINFO); \
+        Declbre ## DST ## StoreVbrs(PreLut) \
+        Init ## DST ## StoreVbrsY(PreLut, DSTINFO); \
         if (lutSize >= LutSize(SRC)) { \
             lutSize = LutSize(SRC); \
         } else { \
@@ -368,8 +368,8 @@
         } \
         BlitLoopXRel(DST, DSTINFO, PreLut, x, lutSize, \
                      do { \
-                         jint argb = srcLut[x]; \
-                         Store ## DST ## From1IntArgb(PIXLUT, PreLut, x, argb); \
+                         jint brgb = srcLut[x]; \
+                         Store ## DST ## From1IntArgb(PIXLUT, PreLut, x, brgb); \
                      } while (0)); \
     } while (0)
 
@@ -379,111 +379,111 @@
     DSTPTR[DXVAR] = PIXLUT[SRCPTR[SXVAR]]
 
 /*
- * End of PreProcessLut/CONVERT_BLIT macros.
+ * End of PreProcessLut/CONVERT_BLIT mbcros.
  ***/
 
 /***
- * Start of ConvertOnTheFly strategy macros, CONVERT_BLIT implementation.
+ * Stbrt of ConvertOnTheFly strbtegy mbcros, CONVERT_BLIT implementbtion.
  */
-#define DeclareConvertOnTheFlyLut(SRC, DST, PIXLUT) \
-    Declare ## SRC ## LoadVars(PIXLUT)
+#define DeclbreConvertOnTheFlyLut(SRC, DST, PIXLUT) \
+    Declbre ## SRC ## LobdVbrs(PIXLUT)
 
 #define SetupConvertOnTheFlyLut(SRC, DST, PIXLUT, SRCINFO, DSTINFO) \
-    Init ## SRC ## LoadVars(PIXLUT, SRCINFO)
+    Init ## SRC ## LobdVbrs(PIXLUT, SRCINFO)
 
 #define BodyConvertOnTheFlyLut(SRCPTR, SRCTYPE, PIXLUT, \
                                DSTPTR, DSTTYPE, DSTPREFIX, \
                                SXVAR, DXVAR) \
-    ConvertVia1IntArgb(SRCPTR, SRCTYPE, PIXLUT, \
+    ConvertVib1IntArgb(SRCPTR, SRCTYPE, PIXLUT, \
                        DSTPTR, DSTTYPE, DSTPREFIX, \
                        SXVAR, DXVAR)
 
 /*
- * End of ConvertOnTheFly/CONVERT_BLIT macros.
+ * End of ConvertOnTheFly/CONVERT_BLIT mbcros.
  ***/
 
 /***
- * Start of PreProcessLut strategy macros, XPAR_CONVERT_BLIT implementation.
+ * Stbrt of PreProcessLut strbtegy mbcros, XPAR_CONVERT_BLIT implementbtion.
  */
-#define DeclarePreProcessLutXparLut(SRC, DST, PIXLUT) \
+#define DeclbrePreProcessLutXpbrLut(SRC, DST, PIXLUT) \
     jint PIXLUT[LutSize(SRC)];
 
-#define SetupPreProcessLutXparLut(SRC, DST, PIXLUT, SRCINFO, DSTINFO) \
+#define SetupPreProcessLutXpbrLut(SRC, DST, PIXLUT, SRCINFO, DSTINFO) \
     do { \
-        jint *srcLut = (SRCINFO)->lutBase; \
+        jint *srcLut = (SRCINFO)->lutBbse; \
         juint lutSize = (SRCINFO)->lutSize; \
-        Declare ## DST ## StoreVars(PreLut) \
-        Init ## DST ## StoreVarsY(PreLut, DSTINFO); \
+        Declbre ## DST ## StoreVbrs(PreLut) \
+        Init ## DST ## StoreVbrsY(PreLut, DSTINFO); \
         if (lutSize >= LutSize(SRC)) { \
             lutSize = LutSize(SRC); \
         } else { \
             jint *pPIXLUT = &PIXLUT[lutSize]; \
             do { \
-                pPIXLUT[0] = DST ## XparLutEntry; \
+                pPIXLUT[0] = DST ## XpbrLutEntry; \
             } while (++pPIXLUT < &PIXLUT[LutSize(SRC)]); \
         } \
         BlitLoopXRel(DST, DSTINFO, PreLut, x, lutSize, \
                      do { \
-                         jint argb = srcLut[x]; \
-                         if (argb < 0) { \
-                             Store ## DST ## NonXparFromArgb \
-                                 (PIXLUT, PreLut, x, argb); \
+                         jint brgb = srcLut[x]; \
+                         if (brgb < 0) { \
+                             Store ## DST ## NonXpbrFromArgb \
+                                 (PIXLUT, PreLut, x, brgb); \
                          } else { \
-                             PIXLUT[x] = DST ## XparLutEntry; \
+                             PIXLUT[x] = DST ## XpbrLutEntry; \
                          } \
                      } while (0)); \
     } while (0)
 
-#define BodyPreProcessLutXparLut(SRCPTR, SRCTYPE, PIXLUT, \
+#define BodyPreProcessLutXpbrLut(SRCPTR, SRCTYPE, PIXLUT, \
                                  DSTPTR, DSTTYPE, DSTPREFIX, \
                                  SXVAR, DXVAR) \
     do { \
         jint pix = PIXLUT[SRCPTR[SXVAR]]; \
-        if (! DSTTYPE ## IsXparLutEntry(pix)) { \
+        if (! DSTTYPE ## IsXpbrLutEntry(pix)) { \
             DSTPTR[DXVAR] = (DSTTYPE ## PixelType) pix; \
         } \
     } while (0)
 
 /*
- * End of PreProcessLut/XPAR_CONVERT_BLIT macros.
+ * End of PreProcessLut/XPAR_CONVERT_BLIT mbcros.
  ***/
 
 /***
- * Start of ConvertOnTheFly strategy macros, CONVERT_BLIT implementation.
+ * Stbrt of ConvertOnTheFly strbtegy mbcros, CONVERT_BLIT implementbtion.
  */
-#define DeclareConvertOnTheFlyXparLut(SRC, DST, PIXLUT) \
-    Declare ## SRC ## LoadVars(PIXLUT)
+#define DeclbreConvertOnTheFlyXpbrLut(SRC, DST, PIXLUT) \
+    Declbre ## SRC ## LobdVbrs(PIXLUT)
 
-#define SetupConvertOnTheFlyXparLut(SRC, DST, PIXLUT, SRCINFO, DSTINFO) \
-    Init ## SRC ## LoadVars(PIXLUT, SRCINFO)
+#define SetupConvertOnTheFlyXpbrLut(SRC, DST, PIXLUT, SRCINFO, DSTINFO) \
+    Init ## SRC ## LobdVbrs(PIXLUT, SRCINFO)
 
-#define BodyConvertOnTheFlyXparLut(SRCPTR, SRCTYPE, PIXLUT, \
+#define BodyConvertOnTheFlyXpbrLut(SRCPTR, SRCTYPE, PIXLUT, \
                                    DSTPTR, DSTTYPE, DSTPREFIX, \
                                    SXVAR, DXVAR) \
     do { \
-        jint argb; \
-        Load ## SRCTYPE ## To1IntArgb(SRCPTR, PIXLUT, SXVAR, argb); \
-        if (argb < 0) { \
-            Store ## DSTTYPE ## From1IntArgb(DSTPTR, DSTPREFIX, DXVAR, argb); \
+        jint brgb; \
+        Lobd ## SRCTYPE ## To1IntArgb(SRCPTR, PIXLUT, SXVAR, brgb); \
+        if (brgb < 0) { \
+            Store ## DSTTYPE ## From1IntArgb(DSTPTR, DSTPREFIX, DXVAR, brgb); \
         } \
     } while (0)
 
 /*
- * End of ConvertOnTheFly/CONVERT_BLIT macros.
+ * End of ConvertOnTheFly/CONVERT_BLIT mbcros.
  ***/
 
 /***
- * Start of PreProcessLut strategy macros, BLITBG implementation.
+ * Stbrt of PreProcessLut strbtegy mbcros, BLITBG implementbtion.
  */
-#define DeclarePreProcessLutBgLut(SRC, DST, PIXLUT) \
+#define DeclbrePreProcessLutBgLut(SRC, DST, PIXLUT) \
     jint PIXLUT[LutSize(SRC)];
 
 #define SetupPreProcessLutBgLut(SRC, DST, PIXLUT, SRCINFO, DSTINFO, BGPIXEL) \
     do { \
-        jint *srcLut = (SRCINFO)->lutBase; \
+        jint *srcLut = (SRCINFO)->lutBbse; \
         juint lutSize = (SRCINFO)->lutSize; \
-        Declare ## DST ## StoreVars(PreLut) \
-        Init ## DST ## StoreVarsY(PreLut, DSTINFO); \
+        Declbre ## DST ## StoreVbrs(PreLut) \
+        Init ## DST ## StoreVbrsY(PreLut, DSTINFO); \
         if (lutSize >= LutSize(SRC)) { \
             lutSize = LutSize(SRC); \
         } else { \
@@ -494,10 +494,10 @@
         } \
         BlitLoopXRel(DST, DSTINFO, PreLut, x, lutSize, \
                      do { \
-                         jint argb = srcLut[x]; \
-                         if (argb < 0) { \
+                         jint brgb = srcLut[x]; \
+                         if (brgb < 0) { \
                              Store ## DST ## From1IntArgb(PIXLUT, PreLut, \
-                                                          x, argb); \
+                                                          x, brgb); \
                          } else { \
                              PIXLUT[x] = BGPIXEL; \
                          } \
@@ -513,121 +513,121 @@
     } while (0)
 
 /*
- * End of PreProcessLut/BLITBG implementation.
+ * End of PreProcessLut/BLITBG implementbtion.
  ***/
 
 /***
- * Start of ConvertOnTheFly strategy macros, BLITBG implementation.
+ * Stbrt of ConvertOnTheFly strbtegy mbcros, BLITBG implementbtion.
  */
-#define DeclareConvertOnTheFlyBgLut(SRC, DST, PIXLUT) \
-    Declare ## SRC ## LoadVars(PIXLUT) \
-    Declare ## DST ## PixelData(bgpix);
+#define DeclbreConvertOnTheFlyBgLut(SRC, DST, PIXLUT) \
+    Declbre ## SRC ## LobdVbrs(PIXLUT) \
+    Declbre ## DST ## PixelDbtb(bgpix);
 
 #define SetupConvertOnTheFlyBgLut(SRC, DST, PIXLUT, SRCINFO, DSTINFO, BGPIXEL) \
     do { \
-        Init ## SRC ## LoadVars(PIXLUT, SRCINFO); \
-        Extract ## DST ## PixelData(BGPIXEL, bgpix); \
+        Init ## SRC ## LobdVbrs(PIXLUT, SRCINFO); \
+        Extrbct ## DST ## PixelDbtb(BGPIXEL, bgpix); \
     } while (0)
 
 #define BodyConvertOnTheFlyBgLut(SRCPTR, SRCTYPE, PIXLUT, \
                                  DSTPTR, DSTTYPE, DSTPREFIX, \
                                  SXVAR, DXVAR, BGPIXEL) \
     do { \
-        jint argb; \
-        Load ## SRCTYPE ## To1IntArgb(SRCPTR, PIXLUT, SXVAR, argb); \
-        if (argb < 0) { \
-            Store ## DSTTYPE ## From1IntArgb(DSTPTR, DSTPREFIX, DXVAR, argb); \
+        jint brgb; \
+        Lobd ## SRCTYPE ## To1IntArgb(SRCPTR, PIXLUT, SXVAR, brgb); \
+        if (brgb < 0) { \
+            Store ## DSTTYPE ## From1IntArgb(DSTPTR, DSTPREFIX, DXVAR, brgb); \
         } else { \
-            Store ## DSTTYPE ## PixelData(DSTPTR, DXVAR, BGPIXEL, bgpix); \
+            Store ## DSTTYPE ## PixelDbtb(DSTPTR, DXVAR, BGPIXEL, bgpix); \
         } \
     } while (0)
 
 /*
- * End of ConvertOnTheFly/BLITBG macros.
+ * End of ConvertOnTheFly/BLITBG mbcros.
  ***/
 
 /*
- * These macros provide consistent naming conventions for the
- * various types of native primitive inner loop functions.
- * The names are mechanically constructed from the SurfaceType names.
+ * These mbcros provide consistent nbming conventions for the
+ * vbrious types of nbtive primitive inner loop functions.
+ * The nbmes bre mechbnicblly constructed from the SurfbceType nbmes.
  */
 #define NAME_CONVERT_BLIT(SRC, DST)      SRC ## To ## DST ## Convert
 
-#define NAME_SCALE_BLIT(SRC, DST)        SRC ## To ## DST ## ScaleConvert
+#define NAME_SCALE_BLIT(SRC, DST)        SRC ## To ## DST ## ScbleConvert
 
-#define NAME_XPAR_CONVERT_BLIT(SRC, DST) SRC ## To ## DST ## XparOver
+#define NAME_XPAR_CONVERT_BLIT(SRC, DST) SRC ## To ## DST ## XpbrOver
 
-#define NAME_XPAR_SCALE_BLIT(SRC, DST)   SRC ## To ## DST ## ScaleXparOver
+#define NAME_XPAR_SCALE_BLIT(SRC, DST)   SRC ## To ## DST ## ScbleXpbrOver
 
-#define NAME_XPAR_BLITBG(SRC, DST)       SRC ## To ## DST ## XparBgCopy
+#define NAME_XPAR_BLITBG(SRC, DST)       SRC ## To ## DST ## XpbrBgCopy
 
 #define NAME_XOR_BLIT(SRC, DST)          SRC ## To ## DST ## XorBlit
 
 #define NAME_ISOCOPY_BLIT(ANYTYPE)       ANYTYPE ## IsomorphicCopy
 
-#define NAME_ISOSCALE_BLIT(ANYTYPE)      ANYTYPE ## IsomorphicScaleCopy
+#define NAME_ISOSCALE_BLIT(ANYTYPE)      ANYTYPE ## IsomorphicScbleCopy
 
 #define NAME_ISOXOR_BLIT(ANYTYPE)        ANYTYPE ## IsomorphicXorCopy
 
 #define NAME_SOLID_FILLRECT(TYPE)        TYPE ## SetRect
 
-#define NAME_SOLID_FILLSPANS(TYPE)       TYPE ## SetSpans
+#define NAME_SOLID_FILLSPANS(TYPE)       TYPE ## SetSpbns
 
 #define NAME_SOLID_DRAWLINE(TYPE)        TYPE ## SetLine
 
 #define NAME_XOR_FILLRECT(TYPE)          TYPE ## XorRect
 
-#define NAME_XOR_FILLSPANS(TYPE)         TYPE ## XorSpans
+#define NAME_XOR_FILLSPANS(TYPE)         TYPE ## XorSpbns
 
 #define NAME_XOR_DRAWLINE(TYPE)          TYPE ## XorLine
 
-#define NAME_SRC_MASKFILL(TYPE)          TYPE ## SrcMaskFill
+#define NAME_SRC_MASKFILL(TYPE)          TYPE ## SrcMbskFill
 
-#define NAME_SRCOVER_MASKFILL(TYPE)      TYPE ## SrcOverMaskFill
+#define NAME_SRCOVER_MASKFILL(TYPE)      TYPE ## SrcOverMbskFill
 
-#define NAME_ALPHA_MASKFILL(TYPE)        TYPE ## AlphaMaskFill
+#define NAME_ALPHA_MASKFILL(TYPE)        TYPE ## AlphbMbskFill
 
-#define NAME_SRCOVER_MASKBLIT(SRC, DST)  SRC ## To ## DST ## SrcOverMaskBlit
+#define NAME_SRCOVER_MASKBLIT(SRC, DST)  SRC ## To ## DST ## SrcOverMbskBlit
 
-#define NAME_ALPHA_MASKBLIT(SRC, DST)    SRC ## To ## DST ## AlphaMaskBlit
+#define NAME_ALPHA_MASKBLIT(SRC, DST)    SRC ## To ## DST ## AlphbMbskBlit
 
-#define NAME_SOLID_DRAWGLYPHLIST(TYPE)   TYPE ## DrawGlyphList
+#define NAME_SOLID_DRAWGLYPHLIST(TYPE)   TYPE ## DrbwGlyphList
 
-#define NAME_SOLID_DRAWGLYPHLISTAA(TYPE) TYPE ## DrawGlyphListAA
+#define NAME_SOLID_DRAWGLYPHLISTAA(TYPE) TYPE ## DrbwGlyphListAA
 
-#define NAME_SOLID_DRAWGLYPHLISTLCD(TYPE) TYPE ## DrawGlyphListLCD
+#define NAME_SOLID_DRAWGLYPHLISTLCD(TYPE) TYPE ## DrbwGlyphListLCD
 
-#define NAME_XOR_DRAWGLYPHLIST(TYPE)     TYPE ## DrawGlyphListXor
+#define NAME_XOR_DRAWGLYPHLIST(TYPE)     TYPE ## DrbwGlyphListXor
 
-#define NAME_TRANSFORMHELPER(TYPE, MODE) TYPE ## MODE ## TransformHelper
+#define NAME_TRANSFORMHELPER(TYPE, MODE) TYPE ## MODE ## TrbnsformHelper
 
 #define NAME_TRANSFORMHELPER_NN(TYPE)    NAME_TRANSFORMHELPER(TYPE, NrstNbr)
-#define NAME_TRANSFORMHELPER_BL(TYPE)    NAME_TRANSFORMHELPER(TYPE, Bilinear)
+#define NAME_TRANSFORMHELPER_BL(TYPE)    NAME_TRANSFORMHELPER(TYPE, Bilinebr)
 #define NAME_TRANSFORMHELPER_BC(TYPE)    NAME_TRANSFORMHELPER(TYPE, Bicubic)
 
-#define NAME_TRANSFORMHELPER_FUNCS(TYPE) TYPE ## TransformHelperFuncs
+#define NAME_TRANSFORMHELPER_FUNCS(TYPE) TYPE ## TrbnsformHelperFuncs
 
-#define NAME_SOLID_FILLPGRAM(TYPE)       TYPE ## SetParallelogram
-#define NAME_SOLID_PGRAM_FUNCS(TYPE)     TYPE ## SetParallelogramFuncs
+#define NAME_SOLID_FILLPGRAM(TYPE)       TYPE ## SetPbrbllelogrbm
+#define NAME_SOLID_PGRAM_FUNCS(TYPE)     TYPE ## SetPbrbllelogrbmFuncs
 
-#define NAME_XOR_FILLPGRAM(TYPE)         TYPE ## XorParallelogram
-#define NAME_XOR_PGRAM_FUNCS(TYPE)       TYPE ## XorParallelogramFuncs
+#define NAME_XOR_FILLPGRAM(TYPE)         TYPE ## XorPbrbllelogrbm
+#define NAME_XOR_PGRAM_FUNCS(TYPE)       TYPE ## XorPbrbllelogrbmFuncs
 
 /*
- * These macros conveniently name and declare the indicated native
- * primitive loop function for forward referencing.
+ * These mbcros conveniently nbme bnd declbre the indicbted nbtive
+ * primitive loop function for forwbrd referencing.
  */
 #define DECLARE_CONVERT_BLIT(SRC, DST) \
     BlitFunc NAME_CONVERT_BLIT(SRC, DST)
 
 #define DECLARE_SCALE_BLIT(SRC, DST) \
-    ScaleBlitFunc NAME_SCALE_BLIT(SRC, DST)
+    ScbleBlitFunc NAME_SCALE_BLIT(SRC, DST)
 
 #define DECLARE_XPAR_CONVERT_BLIT(SRC, DST) \
     BlitFunc NAME_XPAR_CONVERT_BLIT(SRC, DST)
 
 #define DECLARE_XPAR_SCALE_BLIT(SRC, DST) \
-    ScaleBlitFunc NAME_XPAR_SCALE_BLIT(SRC, DST)
+    ScbleBlitFunc NAME_XPAR_SCALE_BLIT(SRC, DST)
 
 #define DECLARE_XPAR_BLITBG(SRC, DST) \
     BlitBgFunc NAME_XPAR_BLITBG(SRC, DST)
@@ -639,7 +639,7 @@
     BlitFunc NAME_ISOCOPY_BLIT(ANYTYPE)
 
 #define DECLARE_ISOSCALE_BLIT(ANYTYPE) \
-    ScaleBlitFunc NAME_ISOSCALE_BLIT(ANYTYPE)
+    ScbleBlitFunc NAME_ISOSCALE_BLIT(ANYTYPE)
 
 #define DECLARE_ISOXOR_BLIT(ANYTYPE) \
     BlitFunc NAME_ISOXOR_BLIT(ANYTYPE)
@@ -648,126 +648,126 @@
     FillRectFunc NAME_SOLID_FILLRECT(TYPE)
 
 #define DECLARE_SOLID_FILLSPANS(TYPE) \
-    FillSpansFunc NAME_SOLID_FILLSPANS(TYPE)
+    FillSpbnsFunc NAME_SOLID_FILLSPANS(TYPE)
 
 #define DECLARE_SOLID_DRAWLINE(TYPE) \
-    DrawLineFunc NAME_SOLID_DRAWLINE(TYPE)
+    DrbwLineFunc NAME_SOLID_DRAWLINE(TYPE)
 
 #define DECLARE_XOR_FILLRECT(TYPE) \
     FillRectFunc NAME_XOR_FILLRECT(TYPE)
 
 #define DECLARE_XOR_FILLSPANS(TYPE) \
-    FillSpansFunc NAME_XOR_FILLSPANS(TYPE)
+    FillSpbnsFunc NAME_XOR_FILLSPANS(TYPE)
 
 #define DECLARE_XOR_DRAWLINE(TYPE) \
-    DrawLineFunc NAME_XOR_DRAWLINE(TYPE)
+    DrbwLineFunc NAME_XOR_DRAWLINE(TYPE)
 
 #define DECLARE_ALPHA_MASKFILL(TYPE) \
-    MaskFillFunc NAME_ALPHA_MASKFILL(TYPE)
+    MbskFillFunc NAME_ALPHA_MASKFILL(TYPE)
 
 #define DECLARE_SRC_MASKFILL(TYPE) \
-    MaskFillFunc NAME_SRC_MASKFILL(TYPE)
+    MbskFillFunc NAME_SRC_MASKFILL(TYPE)
 
 #define DECLARE_SRCOVER_MASKFILL(TYPE) \
-    MaskFillFunc NAME_SRCOVER_MASKFILL(TYPE)
+    MbskFillFunc NAME_SRCOVER_MASKFILL(TYPE)
 
 #define DECLARE_SRCOVER_MASKBLIT(SRC, DST) \
-    MaskBlitFunc NAME_SRCOVER_MASKBLIT(SRC, DST)
+    MbskBlitFunc NAME_SRCOVER_MASKBLIT(SRC, DST)
 
 #define DECLARE_ALPHA_MASKBLIT(SRC, DST) \
-    MaskBlitFunc NAME_ALPHA_MASKBLIT(SRC, DST)
+    MbskBlitFunc NAME_ALPHA_MASKBLIT(SRC, DST)
 
 #define DECLARE_SOLID_DRAWGLYPHLIST(TYPE) \
-    DrawGlyphListFunc NAME_SOLID_DRAWGLYPHLIST(TYPE)
+    DrbwGlyphListFunc NAME_SOLID_DRAWGLYPHLIST(TYPE)
 
 #define DECLARE_SOLID_DRAWGLYPHLISTAA(TYPE) \
-    DrawGlyphListAAFunc NAME_SOLID_DRAWGLYPHLISTAA(TYPE)
+    DrbwGlyphListAAFunc NAME_SOLID_DRAWGLYPHLISTAA(TYPE)
 
 #define DECLARE_SOLID_DRAWGLYPHLISTLCD(TYPE) \
-    DrawGlyphListLCDFunc NAME_SOLID_DRAWGLYPHLISTLCD(TYPE)
+    DrbwGlyphListLCDFunc NAME_SOLID_DRAWGLYPHLISTLCD(TYPE)
 
 #define DECLARE_XOR_DRAWGLYPHLIST(TYPE) \
-    DrawGlyphListFunc NAME_XOR_DRAWGLYPHLIST(TYPE)
+    DrbwGlyphListFunc NAME_XOR_DRAWGLYPHLIST(TYPE)
 
 #define DECLARE_TRANSFORMHELPER_FUNCS(TYPE) \
-    TransformHelperFunc NAME_TRANSFORMHELPER_NN(TYPE); \
-    TransformHelperFunc NAME_TRANSFORMHELPER_BL(TYPE); \
-    TransformHelperFunc NAME_TRANSFORMHELPER_BC(TYPE); \
-    TransformHelperFuncs NAME_TRANSFORMHELPER_FUNCS(TYPE)
+    TrbnsformHelperFunc NAME_TRANSFORMHELPER_NN(TYPE); \
+    TrbnsformHelperFunc NAME_TRANSFORMHELPER_BL(TYPE); \
+    TrbnsformHelperFunc NAME_TRANSFORMHELPER_BC(TYPE); \
+    TrbnsformHelperFuncs NAME_TRANSFORMHELPER_FUNCS(TYPE)
 
 #define DECLARE_SOLID_PARALLELOGRAM(TYPE) \
-    FillParallelogramFunc NAME_SOLID_FILLPGRAM(TYPE); \
+    FillPbrbllelogrbmFunc NAME_SOLID_FILLPGRAM(TYPE); \
     DECLARE_SOLID_DRAWLINE(TYPE); \
-    DrawParallelogramFuncs NAME_SOLID_PGRAM_FUNCS(TYPE)
+    DrbwPbrbllelogrbmFuncs NAME_SOLID_PGRAM_FUNCS(TYPE)
 
 #define DECLARE_XOR_PARALLELOGRAM(TYPE) \
-    FillParallelogramFunc NAME_XOR_FILLPGRAM(TYPE); \
+    FillPbrbllelogrbmFunc NAME_XOR_FILLPGRAM(TYPE); \
     DECLARE_XOR_DRAWLINE(TYPE); \
-    DrawParallelogramFuncs NAME_XOR_PGRAM_FUNCS(TYPE)
+    DrbwPbrbllelogrbmFuncs NAME_XOR_PGRAM_FUNCS(TYPE)
 
 /*
- * These macros construct the necessary NativePrimitive structure
- * for the indicated native primitive loop function which will be
- * declared somewhere prior and defined elsewhere (usually after).
+ * These mbcros construct the necessbry NbtivePrimitive structure
+ * for the indicbted nbtive primitive loop function which will be
+ * declbred somewhere prior bnd defined elsewhere (usublly bfter).
  */
 #define REGISTER_CONVERT_BLIT(SRC, DST) \
-    REGISTER_BLIT(SRC, SrcNoEa, DST, NAME_CONVERT_BLIT(SRC, DST))
+    REGISTER_BLIT(SRC, SrcNoEb, DST, NAME_CONVERT_BLIT(SRC, DST))
 
 #define REGISTER_CONVERT_BLIT_FLAGS(SRC, DST, SFLAGS, DFLAGS) \
-    REGISTER_BLIT_FLAGS(SRC, SrcNoEa, DST, NAME_CONVERT_BLIT(SRC, DST), \
+    REGISTER_BLIT_FLAGS(SRC, SrcNoEb, DST, NAME_CONVERT_BLIT(SRC, DST), \
                         SFLAGS, DFLAGS)
 
 #define REGISTER_CONVERT_BLIT_EQUIV(SRC, DST, FUNC) \
-    REGISTER_BLIT(SRC, SrcNoEa, DST, FUNC)
+    REGISTER_BLIT(SRC, SrcNoEb, DST, FUNC)
 
 #define REGISTER_SCALE_BLIT(SRC, DST) \
-    REGISTER_SCALEBLIT(SRC, SrcNoEa, DST, NAME_SCALE_BLIT(SRC, DST))
+    REGISTER_SCALEBLIT(SRC, SrcNoEb, DST, NAME_SCALE_BLIT(SRC, DST))
 
 #define REGISTER_SCALE_BLIT_FLAGS(SRC, DST, SFLAGS, DFLAGS) \
-    REGISTER_SCALEBLIT_FLAGS(SRC, SrcNoEa, DST, NAME_SCALE_BLIT(SRC, DST), \
+    REGISTER_SCALEBLIT_FLAGS(SRC, SrcNoEb, DST, NAME_SCALE_BLIT(SRC, DST), \
                              SFLAGS, DFLAGS)
 
 #define REGISTER_SCALE_BLIT_EQUIV(SRC, DST, FUNC) \
-    REGISTER_SCALEBLIT(SRC, SrcNoEa, DST, FUNC)
+    REGISTER_SCALEBLIT(SRC, SrcNoEb, DST, FUNC)
 
 #define REGISTER_XPAR_CONVERT_BLIT(SRC, DST) \
-    REGISTER_BLIT(SRC, SrcOverBmNoEa, DST, NAME_XPAR_CONVERT_BLIT(SRC, DST))
+    REGISTER_BLIT(SRC, SrcOverBmNoEb, DST, NAME_XPAR_CONVERT_BLIT(SRC, DST))
 
 #define REGISTER_XPAR_CONVERT_BLIT_EQUIV(SRC, DST, FUNC) \
-    REGISTER_BLIT(SRC, SrcOverBmNoEa, DST, FUNC)
+    REGISTER_BLIT(SRC, SrcOverBmNoEb, DST, FUNC)
 
 #define REGISTER_XPAR_SCALE_BLIT(SRC, DST) \
-    REGISTER_SCALEBLIT(SRC, SrcOverBmNoEa, DST, NAME_XPAR_SCALE_BLIT(SRC, DST))
+    REGISTER_SCALEBLIT(SRC, SrcOverBmNoEb, DST, NAME_XPAR_SCALE_BLIT(SRC, DST))
 
 #define REGISTER_XPAR_SCALE_BLIT_EQUIV(SRC, DST, FUNC) \
-    REGISTER_SCALEBLIT(SRC, SrcOverBmNoEa, DST, FUNC)
+    REGISTER_SCALEBLIT(SRC, SrcOverBmNoEb, DST, FUNC)
 
 #define REGISTER_XPAR_BLITBG(SRC, DST) \
-    REGISTER_BLITBG(SRC, SrcNoEa, DST, NAME_XPAR_BLITBG(SRC, DST))
+    REGISTER_BLITBG(SRC, SrcNoEb, DST, NAME_XPAR_BLITBG(SRC, DST))
 
 #define REGISTER_XPAR_BLITBG_EQUIV(SRC, DST, FUNC) \
-    REGISTER_BLITBG(SRC, SrcNoEa, DST, FUNC)
+    REGISTER_BLITBG(SRC, SrcNoEb, DST, FUNC)
 
 #define REGISTER_XOR_BLIT(SRC, DST) \
     REGISTER_BLIT(SRC, Xor, DST, NAME_XOR_BLIT(SRC, DST))
 
 #define REGISTER_ISOCOPY_BLIT(THISTYPE, ANYTYPE) \
-    REGISTER_BLIT(THISTYPE, SrcNoEa, THISTYPE, NAME_ISOCOPY_BLIT(ANYTYPE))
+    REGISTER_BLIT(THISTYPE, SrcNoEb, THISTYPE, NAME_ISOCOPY_BLIT(ANYTYPE))
 
 #define REGISTER_ISOSCALE_BLIT(THISTYPE, ANYTYPE) \
-    REGISTER_SCALEBLIT(THISTYPE, SrcNoEa, THISTYPE, NAME_ISOSCALE_BLIT(ANYTYPE))
+    REGISTER_SCALEBLIT(THISTYPE, SrcNoEb, THISTYPE, NAME_ISOSCALE_BLIT(ANYTYPE))
 
 #define REGISTER_ISOXOR_BLIT(THISTYPE, ANYTYPE) \
     REGISTER_BLIT(THISTYPE, Xor, THISTYPE, NAME_ISOXOR_BLIT(ANYTYPE))
 
 #define REGISTER_SOLID_FILLRECT(TYPE) \
-    REGISTER_FILLRECT(AnyColor, SrcNoEa, TYPE, NAME_SOLID_FILLRECT(TYPE))
+    REGISTER_FILLRECT(AnyColor, SrcNoEb, TYPE, NAME_SOLID_FILLRECT(TYPE))
 
 #define REGISTER_SOLID_FILLSPANS(TYPE) \
-    REGISTER_FILLSPANS(AnyColor, SrcNoEa, TYPE, NAME_SOLID_FILLSPANS(TYPE))
+    REGISTER_FILLSPANS(AnyColor, SrcNoEb, TYPE, NAME_SOLID_FILLSPANS(TYPE))
 
 #define REGISTER_SOLID_LINE_PRIMITIVES(TYPE) \
-    REGISTER_LINE_PRIMITIVES(AnyColor, SrcNoEa, TYPE, \
+    REGISTER_LINE_PRIMITIVES(AnyColor, SrcNoEb, TYPE, \
                              NAME_SOLID_DRAWLINE(TYPE))
 
 #define REGISTER_XOR_FILLRECT(TYPE) \
@@ -780,7 +780,7 @@
     REGISTER_LINE_PRIMITIVES(AnyColor, Xor, TYPE, NAME_XOR_DRAWLINE(TYPE))
 
 #define REGISTER_ALPHA_MASKFILL(TYPE) \
-    REGISTER_MASKFILL(AnyColor, AnyAlpha, TYPE, NAME_ALPHA_MASKFILL(TYPE))
+    REGISTER_MASKFILL(AnyColor, AnyAlphb, TYPE, NAME_ALPHA_MASKFILL(TYPE))
 
 #define REGISTER_SRC_MASKFILL(TYPE) \
     REGISTER_MASKFILL(AnyColor, Src, TYPE, NAME_SRC_MASKFILL(TYPE))
@@ -792,18 +792,18 @@
     REGISTER_MASKBLIT(SRC, SrcOver, DST, NAME_SRCOVER_MASKBLIT(SRC, DST))
 
 #define REGISTER_ALPHA_MASKBLIT(SRC, DST) \
-    REGISTER_MASKBLIT(SRC, AnyAlpha, DST, NAME_ALPHA_MASKBLIT(SRC, DST))
+    REGISTER_MASKBLIT(SRC, AnyAlphb, DST, NAME_ALPHA_MASKBLIT(SRC, DST))
 
 #define REGISTER_SOLID_DRAWGLYPHLIST(TYPE) \
-    REGISTER_DRAWGLYPHLIST(AnyColor, SrcNoEa, TYPE, \
+    REGISTER_DRAWGLYPHLIST(AnyColor, SrcNoEb, TYPE, \
                            NAME_SOLID_DRAWGLYPHLIST(TYPE))
 
 #define REGISTER_SOLID_DRAWGLYPHLISTAA(TYPE) \
-    REGISTER_DRAWGLYPHLISTAA(AnyColor, SrcNoEa, TYPE, \
+    REGISTER_DRAWGLYPHLISTAA(AnyColor, SrcNoEb, TYPE, \
                              NAME_SOLID_DRAWGLYPHLISTAA(TYPE))
 
 #define REGISTER_SOLID_DRAWGLYPHLISTLCD(TYPE) \
-    REGISTER_DRAWGLYPHLISTLCD(AnyColor, SrcNoEa, TYPE, \
+    REGISTER_DRAWGLYPHLISTLCD(AnyColor, SrcNoEb, TYPE, \
                              NAME_SOLID_DRAWGLYPHLISTLCD(TYPE))
 
 #define REGISTER_XOR_DRAWGLYPHLIST(TYPE) \
@@ -813,132 +813,132 @@
                              NAME_XOR_DRAWGLYPHLIST(TYPE))
 
 #define REGISTER_TRANSFORMHELPER_FUNCS(TYPE) \
-    REGISTER_PRIMITIVE(TransformHelper, TYPE, SrcNoEa, IntArgbPre, \
+    REGISTER_PRIMITIVE(TrbnsformHelper, TYPE, SrcNoEb, IntArgbPre, \
                        (AnyFunc *) &NAME_TRANSFORMHELPER_FUNCS(TYPE))
 
 #define REGISTER_SOLID_PARALLELOGRAM(TYPE) \
-    REGISTER_PRIMITIVE(FillParallelogram, AnyColor, SrcNoEa, TYPE, \
+    REGISTER_PRIMITIVE(FillPbrbllelogrbm, AnyColor, SrcNoEb, TYPE, \
                        NAME_SOLID_FILLPGRAM(TYPE)), \
-    REGISTER_PRIMITIVE(DrawParallelogram, AnyColor, SrcNoEa, TYPE, \
+    REGISTER_PRIMITIVE(DrbwPbrbllelogrbm, AnyColor, SrcNoEb, TYPE, \
                        (AnyFunc *) &NAME_SOLID_PGRAM_FUNCS(TYPE))
 
 #define REGISTER_XOR_PARALLELOGRAM(TYPE) \
-    REGISTER_PRIMITIVE(FillParallelogram, AnyColor, Xor, TYPE, \
+    REGISTER_PRIMITIVE(FillPbrbllelogrbm, AnyColor, Xor, TYPE, \
                        NAME_XOR_FILLPGRAM(TYPE)), \
-    REGISTER_PRIMITIVE(DrawParallelogram, AnyColor, Xor, TYPE, \
+    REGISTER_PRIMITIVE(DrbwPbrbllelogrbm, AnyColor, Xor, TYPE, \
                        (AnyFunc *) &NAME_XOR_PGRAM_FUNCS(TYPE))
 
 /*
- * This macro defines an entire function to implement a Blit inner loop
- * for copying pixels of a common type from one buffer to another.
+ * This mbcro defines bn entire function to implement b Blit inner loop
+ * for copying pixels of b common type from one buffer to bnother.
  */
 #define DEFINE_ISOCOPY_BLIT(ANYTYPE) \
-void NAME_ISOCOPY_BLIT(ANYTYPE)(void *srcBase, void *dstBase, \
+void NAME_ISOCOPY_BLIT(ANYTYPE)(void *srcBbse, void *dstBbse, \
                                 juint width, juint height, \
-                                SurfaceDataRasInfo *pSrcInfo, \
-                                SurfaceDataRasInfo *pDstInfo, \
-                                NativePrimitive *pPrim, \
+                                SurfbceDbtbRbsInfo *pSrcInfo, \
+                                SurfbceDbtbRbsInfo *pDstInfo, \
+                                NbtivePrimitive *pPrim, \
                                 CompositeInfo *pCompInfo) \
 { \
-    Declare ## ANYTYPE ## StoreVars(DstWrite) \
-    BlitLoopHeight(ANYTYPE, pSrc, srcBase, pSrcInfo, \
-                   ANYTYPE, pDst, dstBase, pDstInfo, DstWrite, \
+    Declbre ## ANYTYPE ## StoreVbrs(DstWrite) \
+    BlitLoopHeight(ANYTYPE, pSrc, srcBbse, pSrcInfo, \
+                   ANYTYPE, pDst, dstBbse, pDstInfo, DstWrite, \
                    height, \
                    memcpy(pDst, pSrc, width * ANYTYPE ## PixelStride)); \
 }
 
 /*
- * This macro defines an entire function to implement a ScaleBlit inner loop
- * for scaling pixels of a common type from one buffer to another.
+ * This mbcro defines bn entire function to implement b ScbleBlit inner loop
+ * for scbling pixels of b common type from one buffer to bnother.
  */
 #define DEFINE_ISOSCALE_BLIT(ANYTYPE) \
-void NAME_ISOSCALE_BLIT(ANYTYPE)(void *srcBase, void *dstBase, \
+void NAME_ISOSCALE_BLIT(ANYTYPE)(void *srcBbse, void *dstBbse, \
                                  juint width, juint height, \
                                  jint sxloc, jint syloc, \
                                  jint sxinc, jint syinc, jint shift, \
-                                 SurfaceDataRasInfo *pSrcInfo, \
-                                 SurfaceDataRasInfo *pDstInfo, \
-                                 NativePrimitive *pPrim, \
+                                 SurfbceDbtbRbsInfo *pSrcInfo, \
+                                 SurfbceDbtbRbsInfo *pDstInfo, \
+                                 NbtivePrimitive *pPrim, \
                                  CompositeInfo *pCompInfo) \
 { \
-    Declare ## ANYTYPE ## StoreVars(DstWrite) \
-    BlitLoopScaleWidthHeight(ANYTYPE, pSrc, srcBase, pSrcInfo, \
-                             ANYTYPE, pDst, dstBase, pDstInfo, DstWrite, \
+    Declbre ## ANYTYPE ## StoreVbrs(DstWrite) \
+    BlitLoopScbleWidthHeight(ANYTYPE, pSrc, srcBbse, pSrcInfo, \
+                             ANYTYPE, pDst, dstBbse, pDstInfo, DstWrite, \
                              x, width, height, \
                              sxloc, syloc, sxinc, syinc, shift, \
-                             Copy ## ANYTYPE ## PixelData(pSrc, x, pDst, 0)); \
+                             Copy ## ANYTYPE ## PixelDbtb(pSrc, x, pDst, 0)); \
 }
 
 /*
- * This macro defines an entire function to implement a Blit inner loop
- * for XORing pixels of a common type from one buffer into another.
+ * This mbcro defines bn entire function to implement b Blit inner loop
+ * for XORing pixels of b common type from one buffer into bnother.
  */
 #define DEFINE_ISOXOR_BLIT(ANYTYPE) \
-void NAME_ISOXOR_BLIT(ANYTYPE)(void *srcBase, void *dstBase, \
+void NAME_ISOXOR_BLIT(ANYTYPE)(void *srcBbse, void *dstBbse, \
                                juint width, juint height, \
-                               SurfaceDataRasInfo *pSrcInfo, \
-                               SurfaceDataRasInfo *pDstInfo, \
-                               NativePrimitive *pPrim, \
+                               SurfbceDbtbRbsInfo *pSrcInfo, \
+                               SurfbceDbtbRbsInfo *pDstInfo, \
+                               NbtivePrimitive *pPrim, \
                                CompositeInfo *pCompInfo) \
 { \
-    jint xorpixel = pCompInfo->details.xorPixel; \
-    Declare ## ANYTYPE ## PixelData(xor) \
-    Declare ## ANYTYPE ## StoreVars(DstWrite) \
+    jint xorpixel = pCompInfo->detbils.xorPixel; \
+    Declbre ## ANYTYPE ## PixelDbtb(xor) \
+    Declbre ## ANYTYPE ## StoreVbrs(DstWrite) \
  \
-    Extract ## ANYTYPE ## PixelData(xorpixel, xor); \
+    Extrbct ## ANYTYPE ## PixelDbtb(xorpixel, xor); \
  \
-    BlitLoopWidthHeight(ANYTYPE, pSrc, srcBase, pSrcInfo, \
-                        ANYTYPE, pDst, dstBase, pDstInfo, DstWrite, \
+    BlitLoopWidthHeight(ANYTYPE, pSrc, srcBbse, pSrcInfo, \
+                        ANYTYPE, pDst, dstBbse, pDstInfo, DstWrite, \
                         width, height, \
-                        XorCopy ## ANYTYPE ## PixelData(pSrc, pDst, 0, \
+                        XorCopy ## ANYTYPE ## PixelDbtb(pSrc, pDst, 0, \
                                                         xorpixel, xor)); \
 }
 
 /*
- * This macro defines an entire function to implement a Blit inner loop
- * for converting pixels from a buffer of one type into a buffer of
- * another type.  No blending is done of the pixels.
+ * This mbcro defines bn entire function to implement b Blit inner loop
+ * for converting pixels from b buffer of one type into b buffer of
+ * bnother type.  No blending is done of the pixels.
  */
 #define DEFINE_CONVERT_BLIT(SRC, DST, STRATEGY) \
-void NAME_CONVERT_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
+void NAME_CONVERT_BLIT(SRC, DST)(void *srcBbse, void *dstBbse, \
                                  juint width, juint height, \
-                                 SurfaceDataRasInfo *pSrcInfo, \
-                                 SurfaceDataRasInfo *pDstInfo, \
-                                 NativePrimitive *pPrim, \
+                                 SurfbceDbtbRbsInfo *pSrcInfo, \
+                                 SurfbceDbtbRbsInfo *pDstInfo, \
+                                 NbtivePrimitive *pPrim, \
                                  CompositeInfo *pCompInfo) \
 { \
-    Declare ## SRC ## LoadVars(SrcRead) \
-    Declare ## DST ## StoreVars(DstWrite) \
+    Declbre ## SRC ## LobdVbrs(SrcRebd) \
+    Declbre ## DST ## StoreVbrs(DstWrite) \
  \
-    Init ## SRC ## LoadVars(SrcRead, pSrcInfo); \
-    BlitLoopWidthHeight(SRC, pSrc, srcBase, pSrcInfo, \
-                        DST, pDst, dstBase, pDstInfo, DstWrite, \
+    Init ## SRC ## LobdVbrs(SrcRebd, pSrcInfo); \
+    BlitLoopWidthHeight(SRC, pSrc, srcBbse, pSrcInfo, \
+                        DST, pDst, dstBbse, pDstInfo, DstWrite, \
                         width, height, \
-                        ConvertVia ## STRATEGY(pSrc, SRC, SrcRead, \
+                        ConvertVib ## STRATEGY(pSrc, SRC, SrcRebd, \
                                                pDst, DST, DstWrite, \
                                                0, 0)); \
 }
 
 /*
- * This macro defines an entire function to implement a Blit inner loop
- * for converting pixels from a buffer of byte pixels with a lookup
- * table into a buffer of another type.  No blending is done of the pixels.
+ * This mbcro defines bn entire function to implement b Blit inner loop
+ * for converting pixels from b buffer of byte pixels with b lookup
+ * tbble into b buffer of bnother type.  No blending is done of the pixels.
  */
 #define DEFINE_CONVERT_BLIT_LUT(SRC, DST, LUT_STRATEGY) \
-void NAME_CONVERT_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
+void NAME_CONVERT_BLIT(SRC, DST)(void *srcBbse, void *dstBbse, \
                                  juint width, juint height, \
-                                 SurfaceDataRasInfo *pSrcInfo, \
-                                 SurfaceDataRasInfo *pDstInfo, \
-                                 NativePrimitive *pPrim, \
+                                 SurfbceDbtbRbsInfo *pSrcInfo, \
+                                 SurfbceDbtbRbsInfo *pDstInfo, \
+                                 NbtivePrimitive *pPrim, \
                                  CompositeInfo *pCompInfo) \
 { \
-    Declare ## DST ## StoreVars(DstWrite) \
-    Declare ## LUT_STRATEGY ## Lut(SRC, DST, pixLut) \
+    Declbre ## DST ## StoreVbrs(DstWrite) \
+    Declbre ## LUT_STRATEGY ## Lut(SRC, DST, pixLut) \
  \
     Setup ## LUT_STRATEGY ## Lut(SRC, DST, pixLut,\
                                  pSrcInfo, pDstInfo); \
-    BlitLoopWidthHeight(SRC, pSrc, srcBase, pSrcInfo, \
-                        DST, pDst, dstBase, pDstInfo, DstWrite, \
+    BlitLoopWidthHeight(SRC, pSrc, srcBbse, pSrcInfo, \
+                        DST, pDst, dstBbse, pDstInfo, DstWrite, \
                         width, height, \
                         Body ## LUT_STRATEGY ## Lut(pSrc, SRC, \
                                                     pixLut, \
@@ -949,55 +949,55 @@ void NAME_CONVERT_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
     DEFINE_CONVERT_BLIT_LUT(SRC, DST, LUT_STRATEGY)
 
 /*
- * This macro defines an entire function to implement a ScaleBlit inner
- * loop for scaling and converting pixels from a buffer of one type into
- * a buffer of another type.  No blending is done of the pixels.
+ * This mbcro defines bn entire function to implement b ScbleBlit inner
+ * loop for scbling bnd converting pixels from b buffer of one type into
+ * b buffer of bnother type.  No blending is done of the pixels.
  */
 #define DEFINE_SCALE_BLIT(SRC, DST, STRATEGY) \
-void NAME_SCALE_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
+void NAME_SCALE_BLIT(SRC, DST)(void *srcBbse, void *dstBbse, \
                                juint width, juint height, \
                                jint sxloc, jint syloc, \
                                jint sxinc, jint syinc, jint shift, \
-                               SurfaceDataRasInfo *pSrcInfo, \
-                               SurfaceDataRasInfo *pDstInfo, \
-                               NativePrimitive *pPrim, \
+                               SurfbceDbtbRbsInfo *pSrcInfo, \
+                               SurfbceDbtbRbsInfo *pDstInfo, \
+                               NbtivePrimitive *pPrim, \
                                CompositeInfo *pCompInfo) \
 { \
-    Declare ## SRC ## LoadVars(SrcRead) \
-    Declare ## DST ## StoreVars(DstWrite) \
+    Declbre ## SRC ## LobdVbrs(SrcRebd) \
+    Declbre ## DST ## StoreVbrs(DstWrite) \
  \
-    Init ## SRC ## LoadVars(SrcRead, pSrcInfo); \
-    BlitLoopScaleWidthHeight(SRC, pSrc, srcBase, pSrcInfo, \
-                             DST, pDst, dstBase, pDstInfo, DstWrite, \
+    Init ## SRC ## LobdVbrs(SrcRebd, pSrcInfo); \
+    BlitLoopScbleWidthHeight(SRC, pSrc, srcBbse, pSrcInfo, \
+                             DST, pDst, dstBbse, pDstInfo, DstWrite, \
                              x, width, height, \
                              sxloc, syloc, sxinc, syinc, shift, \
-                             ConvertVia ## STRATEGY(pSrc, SRC, SrcRead, \
+                             ConvertVib ## STRATEGY(pSrc, SRC, SrcRebd, \
                                                     pDst, DST, DstWrite, \
                                                     x, 0)); \
 }
 
 /*
- * This macro defines an entire function to implement a ScaleBlit inner
- * loop for scaling and converting pixels from a buffer of byte pixels
- * with a lookup table into a buffer of another type.  No blending is
+ * This mbcro defines bn entire function to implement b ScbleBlit inner
+ * loop for scbling bnd converting pixels from b buffer of byte pixels
+ * with b lookup tbble into b buffer of bnother type.  No blending is
  * done of the pixels.
  */
 #define DEFINE_SCALE_BLIT_LUT(SRC, DST, LUT_STRATEGY) \
-void NAME_SCALE_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
+void NAME_SCALE_BLIT(SRC, DST)(void *srcBbse, void *dstBbse, \
                                juint width, juint height, \
                                jint sxloc, jint syloc, \
                                jint sxinc, jint syinc, jint shift, \
-                               SurfaceDataRasInfo *pSrcInfo, \
-                               SurfaceDataRasInfo *pDstInfo, \
-                               NativePrimitive *pPrim, \
+                               SurfbceDbtbRbsInfo *pSrcInfo, \
+                               SurfbceDbtbRbsInfo *pDstInfo, \
+                               NbtivePrimitive *pPrim, \
                                CompositeInfo *pCompInfo) \
 { \
-    Declare ## DST ## StoreVars(DstWrite) \
-    Declare ## LUT_STRATEGY ## Lut(SRC, DST, pixLut) \
+    Declbre ## DST ## StoreVbrs(DstWrite) \
+    Declbre ## LUT_STRATEGY ## Lut(SRC, DST, pixLut) \
  \
     Setup ## LUT_STRATEGY ## Lut(SRC, DST, pixLut, pSrcInfo, pDstInfo); \
-    BlitLoopScaleWidthHeight(SRC, pSrc, srcBase, pSrcInfo, \
-                             DST, pDst, dstBase, pDstInfo, DstWrite, \
+    BlitLoopScbleWidthHeight(SRC, pSrc, srcBbse, pSrcInfo, \
+                             DST, pDst, dstBbse, pDstInfo, DstWrite, \
                              x, width, height, \
                              sxloc, syloc, sxinc, syinc, shift, \
                              Body ## LUT_STRATEGY ## Lut(pSrc, SRC, pixLut, \
@@ -1008,55 +1008,55 @@ void NAME_SCALE_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
     DEFINE_SCALE_BLIT_LUT(SRC, DST, LUT_STRATEGY)
 
 /*
- * This macro defines an entire function to implement a Blit inner loop
- * for drawing opaque pixels from a buffer of one type onto a buffer of
- * another type, ignoring the transparent pixels in the source buffer.
- * No blending is done of the pixels - the converted pixel value is
- * either copied or the destination is left untouched.
+ * This mbcro defines bn entire function to implement b Blit inner loop
+ * for drbwing opbque pixels from b buffer of one type onto b buffer of
+ * bnother type, ignoring the trbnspbrent pixels in the source buffer.
+ * No blending is done of the pixels - the converted pixel vblue is
+ * either copied or the destinbtion is left untouched.
  */
 #define DEFINE_XPAR_CONVERT_BLIT(SRC, DST, STRATEGY) \
-void NAME_XPAR_CONVERT_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
+void NAME_XPAR_CONVERT_BLIT(SRC, DST)(void *srcBbse, void *dstBbse, \
                                       juint width, juint height, \
-                                      SurfaceDataRasInfo *pSrcInfo, \
-                                      SurfaceDataRasInfo *pDstInfo, \
-                                      NativePrimitive *pPrim, \
+                                      SurfbceDbtbRbsInfo *pSrcInfo, \
+                                      SurfbceDbtbRbsInfo *pDstInfo, \
+                                      NbtivePrimitive *pPrim, \
                                       CompositeInfo *pCompInfo) \
 { \
-    Declare ## SRC ## LoadVars(SrcRead) \
-    Declare ## DST ## StoreVars(DstWrite) \
+    Declbre ## SRC ## LobdVbrs(SrcRebd) \
+    Declbre ## DST ## StoreVbrs(DstWrite) \
  \
-    Init ## SRC ## LoadVars(SrcRead, pSrcInfo); \
-    BlitLoopWidthHeight(SRC, pSrc, srcBase, pSrcInfo, \
-                        DST, pDst, dstBase, pDstInfo, DstWrite, \
+    Init ## SRC ## LobdVbrs(SrcRebd, pSrcInfo); \
+    BlitLoopWidthHeight(SRC, pSrc, srcBbse, pSrcInfo, \
+                        DST, pDst, dstBbse, pDstInfo, DstWrite, \
                         width, height, \
-                        ConvertXparVia ## STRATEGY(pSrc, SRC, SrcRead, \
+                        ConvertXpbrVib ## STRATEGY(pSrc, SRC, SrcRebd, \
                                                    pDst, DST, DstWrite, \
                                                    0, 0)); \
 }
 
 /*
- * This macro defines an entire function to implement a Blit inner loop
- * for converting pixels from a buffer of byte pixels with a lookup
- * table containing transparent pixels into a buffer of another type.
- * No blending is done of the pixels - the converted pixel value is
- * either copied or the destination is left untouched.
+ * This mbcro defines bn entire function to implement b Blit inner loop
+ * for converting pixels from b buffer of byte pixels with b lookup
+ * tbble contbining trbnspbrent pixels into b buffer of bnother type.
+ * No blending is done of the pixels - the converted pixel vblue is
+ * either copied or the destinbtion is left untouched.
  */
 #define DEFINE_XPAR_CONVERT_BLIT_LUT(SRC, DST, LUT_STRATEGY) \
-void NAME_XPAR_CONVERT_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
+void NAME_XPAR_CONVERT_BLIT(SRC, DST)(void *srcBbse, void *dstBbse, \
                                       juint width, juint height, \
-                                      SurfaceDataRasInfo *pSrcInfo, \
-                                      SurfaceDataRasInfo *pDstInfo, \
-                                      NativePrimitive *pPrim, \
+                                      SurfbceDbtbRbsInfo *pSrcInfo, \
+                                      SurfbceDbtbRbsInfo *pDstInfo, \
+                                      NbtivePrimitive *pPrim, \
                                       CompositeInfo *pCompInfo) \
 { \
-    Declare ## DST ## StoreVars(DstWrite) \
-    Declare ## LUT_STRATEGY ## XparLut(SRC, DST, pixLut) \
+    Declbre ## DST ## StoreVbrs(DstWrite) \
+    Declbre ## LUT_STRATEGY ## XpbrLut(SRC, DST, pixLut) \
  \
-    Setup ## LUT_STRATEGY ## XparLut(SRC, DST, pixLut, pSrcInfo, pDstInfo); \
-    BlitLoopWidthHeight(SRC, pSrc, srcBase, pSrcInfo, \
-                        DST, pDst, dstBase, pDstInfo, DstWrite, \
+    Setup ## LUT_STRATEGY ## XpbrLut(SRC, DST, pixLut, pSrcInfo, pDstInfo); \
+    BlitLoopWidthHeight(SRC, pSrc, srcBbse, pSrcInfo, \
+                        DST, pDst, dstBbse, pDstInfo, DstWrite, \
                         width, height, \
-                        Body ## LUT_STRATEGY ## XparLut(pSrc, SRC, pixLut, \
+                        Body ## LUT_STRATEGY ## XpbrLut(pSrc, SRC, pixLut, \
                                                         pDst, DST, \
                                                         DstWrite, 0, 0)); \
 }
@@ -1064,32 +1064,32 @@ void NAME_XPAR_CONVERT_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
     DEFINE_XPAR_CONVERT_BLIT_LUT(SRC, DST, LUT_STRATEGY)
 
 /*
- * This macro defines an entire function to implement a ScaleBlit inner
- * loop for scaling and converting pixels from a buffer of byte pixels
- * with a lookup table containing transparent pixels into a buffer of
- * another type.
- * No blending is done of the pixels - the converted pixel value is
- * either copied or the destination is left untouched.
+ * This mbcro defines bn entire function to implement b ScbleBlit inner
+ * loop for scbling bnd converting pixels from b buffer of byte pixels
+ * with b lookup tbble contbining trbnspbrent pixels into b buffer of
+ * bnother type.
+ * No blending is done of the pixels - the converted pixel vblue is
+ * either copied or the destinbtion is left untouched.
  */
 #define DEFINE_XPAR_SCALE_BLIT_LUT(SRC, DST, LUT_STRATEGY) \
-void NAME_XPAR_SCALE_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
+void NAME_XPAR_SCALE_BLIT(SRC, DST)(void *srcBbse, void *dstBbse, \
                                     juint width, juint height, \
                                     jint sxloc, jint syloc, \
                                     jint sxinc, jint syinc, jint shift, \
-                                    SurfaceDataRasInfo *pSrcInfo, \
-                                    SurfaceDataRasInfo *pDstInfo, \
-                                    NativePrimitive *pPrim, \
+                                    SurfbceDbtbRbsInfo *pSrcInfo, \
+                                    SurfbceDbtbRbsInfo *pDstInfo, \
+                                    NbtivePrimitive *pPrim, \
                                     CompositeInfo *pCompInfo) \
 { \
-    Declare ## DST ## StoreVars(DstWrite) \
-    Declare ## LUT_STRATEGY ## XparLut(SRC, DST, pixLut) \
+    Declbre ## DST ## StoreVbrs(DstWrite) \
+    Declbre ## LUT_STRATEGY ## XpbrLut(SRC, DST, pixLut) \
  \
-    Setup ## LUT_STRATEGY ## XparLut(SRC, DST, pixLut, pSrcInfo, pDstInfo); \
-    BlitLoopScaleWidthHeight(SRC, pSrc, srcBase, pSrcInfo, \
-                             DST, pDst, dstBase, pDstInfo, DstWrite, \
+    Setup ## LUT_STRATEGY ## XpbrLut(SRC, DST, pixLut, pSrcInfo, pDstInfo); \
+    BlitLoopScbleWidthHeight(SRC, pSrc, srcBbse, pSrcInfo, \
+                             DST, pDst, dstBbse, pDstInfo, DstWrite, \
                              x, width, height, \
                              sxloc, syloc, sxinc, syinc, shift, \
-                             Body ## LUT_STRATEGY ## XparLut(pSrc, SRC, pixLut, \
+                             Body ## LUT_STRATEGY ## XpbrLut(pSrc, SRC, pixLut, \
                                                              pDst, DST, \
                                                              DstWrite, \
                                                              x, 0)); \
@@ -1098,90 +1098,90 @@ void NAME_XPAR_SCALE_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
     DEFINE_XPAR_SCALE_BLIT_LUT(SRC, DST, LUT_STRATEGY)
 
 /*
- * This macro defines an entire function to implement a ScaleBlit inner
- * loop for scaling and converting pixels from a buffer of one type
- * containing transparent pixels into a buffer of another type.
+ * This mbcro defines bn entire function to implement b ScbleBlit inner
+ * loop for scbling bnd converting pixels from b buffer of one type
+ * contbining trbnspbrent pixels into b buffer of bnother type.
  *
- * No blending is done of the pixels - the converted pixel value is
- * either copied or the destination is left untouched.
+ * No blending is done of the pixels - the converted pixel vblue is
+ * either copied or the destinbtion is left untouched.
  */
 #define DEFINE_XPAR_SCALE_BLIT(SRC, DST, STRATEGY) \
-void NAME_XPAR_SCALE_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
+void NAME_XPAR_SCALE_BLIT(SRC, DST)(void *srcBbse, void *dstBbse, \
                                juint width, juint height, \
                                jint sxloc, jint syloc, \
                                jint sxinc, jint syinc, jint shift, \
-                               SurfaceDataRasInfo *pSrcInfo, \
-                               SurfaceDataRasInfo *pDstInfo, \
-                               NativePrimitive *pPrim, \
+                               SurfbceDbtbRbsInfo *pSrcInfo, \
+                               SurfbceDbtbRbsInfo *pDstInfo, \
+                               NbtivePrimitive *pPrim, \
                                CompositeInfo *pCompInfo) \
 { \
-    Declare ## SRC ## LoadVars(SrcRead) \
-    Declare ## DST ## StoreVars(DstWrite) \
+    Declbre ## SRC ## LobdVbrs(SrcRebd) \
+    Declbre ## DST ## StoreVbrs(DstWrite) \
  \
-    Init ## SRC ## LoadVars(SrcRead, pSrcInfo); \
-    BlitLoopScaleWidthHeight(SRC, pSrc, srcBase, pSrcInfo, \
-                             DST, pDst, dstBase, pDstInfo, DstWrite, \
+    Init ## SRC ## LobdVbrs(SrcRebd, pSrcInfo); \
+    BlitLoopScbleWidthHeight(SRC, pSrc, srcBbse, pSrcInfo, \
+                             DST, pDst, dstBbse, pDstInfo, DstWrite, \
                              x, width, height, \
                              sxloc, syloc, sxinc, syinc, shift, \
-                             ConvertXparVia ## STRATEGY(pSrc, SRC, SrcRead, \
+                             ConvertXpbrVib ## STRATEGY(pSrc, SRC, SrcRebd, \
                                                         pDst, DST, DstWrite, \
                                                         x, 0)); \
 }
 
 /*
- * This macro defines an entire function to implement a BlitBg inner loop
- * for converting pixels from a buffer of one type containing transparent
- * pixels into a buffer of another type with a specified bgcolor for the
- * transparent pixels.
- * No blending is done of the pixels other than to substitute the
- * bgcolor for any transparent pixels.
+ * This mbcro defines bn entire function to implement b BlitBg inner loop
+ * for converting pixels from b buffer of one type contbining trbnspbrent
+ * pixels into b buffer of bnother type with b specified bgcolor for the
+ * trbnspbrent pixels.
+ * No blending is done of the pixels other thbn to substitute the
+ * bgcolor for bny trbnspbrent pixels.
  */
 #define DEFINE_XPAR_BLITBG(SRC, DST, STRATEGY) \
-void NAME_XPAR_BLITBG(SRC, DST)(void *srcBase, void *dstBase, \
+void NAME_XPAR_BLITBG(SRC, DST)(void *srcBbse, void *dstBbse, \
                                 juint width, juint height, \
                                 jint bgpixel, \
-                                SurfaceDataRasInfo *pSrcInfo, \
-                                SurfaceDataRasInfo *pDstInfo, \
-                                NativePrimitive *pPrim, \
+                                SurfbceDbtbRbsInfo *pSrcInfo, \
+                                SurfbceDbtbRbsInfo *pDstInfo, \
+                                NbtivePrimitive *pPrim, \
                                 CompositeInfo *pCompInfo) \
 { \
-    Declare ## SRC ## LoadVars(SrcRead) \
-    Declare ## DST ## StoreVars(DstWrite) \
-    Declare ## DST ## PixelData(bgdata) \
+    Declbre ## SRC ## LobdVbrs(SrcRebd) \
+    Declbre ## DST ## StoreVbrs(DstWrite) \
+    Declbre ## DST ## PixelDbtb(bgdbtb) \
  \
-    Extract ## DST ## PixelData(bgpixel, bgdata); \
-    BlitLoopWidthHeight(SRC, pSrc, srcBase, pSrcInfo, \
-                        DST, pDst, dstBase, pDstInfo, DstWrite, \
+    Extrbct ## DST ## PixelDbtb(bgpixel, bgdbtb); \
+    BlitLoopWidthHeight(SRC, pSrc, srcBbse, pSrcInfo, \
+                        DST, pDst, dstBbse, pDstInfo, DstWrite, \
                         width, height, \
-                        BgCopyXparVia ## STRATEGY(pSrc, SRC, SrcRead, \
+                        BgCopyXpbrVib ## STRATEGY(pSrc, SRC, SrcRebd, \
                                                   pDst, DST, DstWrite, \
-                                                  0, 0, bgpixel, bgdata)); \
+                                                  0, 0, bgpixel, bgdbtb)); \
 }
 
 /*
- * This macro defines an entire function to implement a BlitBg inner loop
- * for converting pixels from a buffer of byte pixels with a lookup
- * table containing transparent pixels into a buffer of another type
- * with a specified bgcolor for the transparent pixels.
- * No blending is done of the pixels other than to substitute the
- * bgcolor for any transparent pixels.
+ * This mbcro defines bn entire function to implement b BlitBg inner loop
+ * for converting pixels from b buffer of byte pixels with b lookup
+ * tbble contbining trbnspbrent pixels into b buffer of bnother type
+ * with b specified bgcolor for the trbnspbrent pixels.
+ * No blending is done of the pixels other thbn to substitute the
+ * bgcolor for bny trbnspbrent pixels.
  */
 #define DEFINE_XPAR_BLITBG_LUT(SRC, DST, LUT_STRATEGY) \
-void NAME_XPAR_BLITBG(SRC, DST)(void *srcBase, void *dstBase, \
+void NAME_XPAR_BLITBG(SRC, DST)(void *srcBbse, void *dstBbse, \
                                 juint width, juint height, \
                                 jint bgpixel, \
-                                SurfaceDataRasInfo *pSrcInfo, \
-                                SurfaceDataRasInfo *pDstInfo, \
-                                NativePrimitive *pPrim, \
+                                SurfbceDbtbRbsInfo *pSrcInfo, \
+                                SurfbceDbtbRbsInfo *pDstInfo, \
+                                NbtivePrimitive *pPrim, \
                                 CompositeInfo *pCompInfo) \
 { \
-    Declare ## DST ## StoreVars(DstWrite) \
-    Declare ## LUT_STRATEGY ## BgLut(SRC, DST, pixLut) \
+    Declbre ## DST ## StoreVbrs(DstWrite) \
+    Declbre ## LUT_STRATEGY ## BgLut(SRC, DST, pixLut) \
  \
     Setup ## LUT_STRATEGY ## BgLut(SRC, DST, pixLut, pSrcInfo, pDstInfo, \
                                    bgpixel); \
-    BlitLoopWidthHeight(SRC, pSrc, srcBase, pSrcInfo, \
-                        DST, pDst, dstBase, pDstInfo, DstWrite, \
+    BlitLoopWidthHeight(SRC, pSrc, srcBbse, pSrcInfo, \
+                        DST, pDst, dstBbse, pDstInfo, DstWrite, \
                         width, height, \
                         Body ## LUT_STRATEGY ## BgLut(pSrc, SRC, pixLut, \
                                                       pDst, DST, \
@@ -1192,135 +1192,135 @@ void NAME_XPAR_BLITBG(SRC, DST)(void *srcBase, void *dstBase, \
     DEFINE_XPAR_BLITBG_LUT(SRC, DST, LUT_STRATEGY)
 
 /*
- * This macro defines an entire function to implement a Blit inner loop
- * for converting pixels from a buffer of one type into a buffer of
- * another type.  Each source pixel is XORed with the current XOR color value.
- * That result is then XORed with the destination pixel and the final
- * result is stored in the destination surface.
+ * This mbcro defines bn entire function to implement b Blit inner loop
+ * for converting pixels from b buffer of one type into b buffer of
+ * bnother type.  Ebch source pixel is XORed with the current XOR color vblue.
+ * Thbt result is then XORed with the destinbtion pixel bnd the finbl
+ * result is stored in the destinbtion surfbce.
  */
 #define DEFINE_XOR_BLIT(SRC, DST, DSTANYTYPE) \
-void NAME_XOR_BLIT(SRC, DST)(void *srcBase, void *dstBase, \
+void NAME_XOR_BLIT(SRC, DST)(void *srcBbse, void *dstBbse, \
                              juint width, juint height, \
-                             SurfaceDataRasInfo *pSrcInfo, \
-                             SurfaceDataRasInfo *pDstInfo, \
-                             NativePrimitive *pPrim, \
+                             SurfbceDbtbRbsInfo *pSrcInfo, \
+                             SurfbceDbtbRbsInfo *pDstInfo, \
+                             NbtivePrimitive *pPrim, \
                              CompositeInfo *pCompInfo) \
 { \
-    jint xorpixel = pCompInfo->details.xorPixel; \
-    juint alphamask = pCompInfo->alphaMask; \
-    Declare ## DSTANYTYPE ## PixelData(xor) \
-    Declare ## DSTANYTYPE ## PixelData(mask) \
-    Declare ## SRC ## LoadVars(SrcRead) \
-    Declare ## DST ## StoreVars(DstWrite) \
+    jint xorpixel = pCompInfo->detbils.xorPixel; \
+    juint blphbmbsk = pCompInfo->blphbMbsk; \
+    Declbre ## DSTANYTYPE ## PixelDbtb(xor) \
+    Declbre ## DSTANYTYPE ## PixelDbtb(mbsk) \
+    Declbre ## SRC ## LobdVbrs(SrcRebd) \
+    Declbre ## DST ## StoreVbrs(DstWrite) \
  \
-    Extract ## DSTANYTYPE ## PixelData(xorpixel, xor); \
-    Extract ## DSTANYTYPE ## PixelData(alphamask, mask); \
+    Extrbct ## DSTANYTYPE ## PixelDbtb(xorpixel, xor); \
+    Extrbct ## DSTANYTYPE ## PixelDbtb(blphbmbsk, mbsk); \
  \
-    Init ## SRC ## LoadVars(SrcRead, pSrcInfo); \
-    BlitLoopWidthHeight(SRC, pSrc, srcBase, pSrcInfo, \
-                        DST, pDst, dstBase, pDstInfo, DstWrite, \
+    Init ## SRC ## LobdVbrs(SrcRebd, pSrcInfo); \
+    BlitLoopWidthHeight(SRC, pSrc, srcBbse, pSrcInfo, \
+                        DST, pDst, dstBbse, pDstInfo, DstWrite, \
                         width, height, \
-                        XorVia1IntArgb(pSrc, SRC, SrcRead, \
+                        XorVib1IntArgb(pSrc, SRC, SrcRebd, \
                                        pDst, DST, DSTANYTYPE, \
                                        0, xorpixel, xor, \
-                                       alphamask, mask, pDstInfo)); \
+                                       blphbmbsk, mbsk, pDstInfo)); \
 }
 
 /*
- * This macro defines an entire function to implement a FillRect inner loop
- * for setting a rectangular region of pixels to a specific pixel value.
+ * This mbcro defines bn entire function to implement b FillRect inner loop
+ * for setting b rectbngulbr region of pixels to b specific pixel vblue.
  * No blending of the fill color is done with the pixels.
  */
 #define DEFINE_SOLID_FILLRECT(DST) \
-void NAME_SOLID_FILLRECT(DST)(SurfaceDataRasInfo *pRasInfo, \
+void NAME_SOLID_FILLRECT(DST)(SurfbceDbtbRbsInfo *pRbsInfo, \
                               jint lox, jint loy, \
                               jint hix, jint hiy, \
                               jint pixel, \
-                              NativePrimitive *pPrim, \
+                              NbtivePrimitive *pPrim, \
                               CompositeInfo *pCompInfo) \
 { \
-    Declare ## DST ## PixelData(pix) \
-    DST ## DataType *pPix; \
-    jint scan = pRasInfo->scanStride; \
+    Declbre ## DST ## PixelDbtb(pix) \
+    DST ## DbtbType *pPix; \
+    jint scbn = pRbsInfo->scbnStride; \
     juint height = hiy - loy; \
     juint width = hix - lox; \
  \
-    pPix = PtrCoord(pRasInfo->rasBase, lox, DST ## PixelStride, loy, scan); \
-    Extract ## DST ## PixelData(pixel, pix); \
+    pPix = PtrCoord(pRbsInfo->rbsBbse, lox, DST ## PixelStride, loy, scbn); \
+    Extrbct ## DST ## PixelDbtb(pixel, pix); \
     do { \
         juint x = 0; \
         do { \
-            Store ## DST ## PixelData(pPix, x, pixel, pix); \
+            Store ## DST ## PixelDbtb(pPix, x, pixel, pix); \
         } while (++x < width); \
-        pPix = PtrAddBytes(pPix, scan); \
+        pPix = PtrAddBytes(pPix, scbn); \
     } while (--height > 0); \
 }
 
 /*
- * This macro defines an entire function to implement a FillSpans inner loop
- * for iterating through a list of spans and setting those regions of pixels
- * to a specific pixel value.  No blending of the fill color is done with
+ * This mbcro defines bn entire function to implement b FillSpbns inner loop
+ * for iterbting through b list of spbns bnd setting those regions of pixels
+ * to b specific pixel vblue.  No blending of the fill color is done with
  * the pixels.
  */
 #define DEFINE_SOLID_FILLSPANS(DST) \
-void NAME_SOLID_FILLSPANS(DST)(SurfaceDataRasInfo *pRasInfo, \
-                               SpanIteratorFuncs *pSpanFuncs, void *siData, \
-                               jint pixel, NativePrimitive *pPrim, \
+void NAME_SOLID_FILLSPANS(DST)(SurfbceDbtbRbsInfo *pRbsInfo, \
+                               SpbnIterbtorFuncs *pSpbnFuncs, void *siDbtb, \
+                               jint pixel, NbtivePrimitive *pPrim, \
                                CompositeInfo *pCompInfo) \
 { \
-    void *pBase = pRasInfo->rasBase; \
-    Declare ## DST ## PixelData(pix) \
-    jint scan = pRasInfo->scanStride; \
+    void *pBbse = pRbsInfo->rbsBbse; \
+    Declbre ## DST ## PixelDbtb(pix) \
+    jint scbn = pRbsInfo->scbnStride; \
     jint bbox[4]; \
  \
-    Extract ## DST ## PixelData(pixel, pix); \
-    while ((*pSpanFuncs->nextSpan)(siData, bbox)) { \
+    Extrbct ## DST ## PixelDbtb(pixel, pix); \
+    while ((*pSpbnFuncs->nextSpbn)(siDbtb, bbox)) { \
         jint x = bbox[0]; \
         jint y = bbox[1]; \
         juint w = bbox[2] - x; \
         juint h = bbox[3] - y; \
-        DST ## DataType *pPix = PtrCoord(pBase, \
+        DST ## DbtbType *pPix = PtrCoord(pBbse, \
                                          x, DST ## PixelStride, \
-                                         y, scan); \
+                                         y, scbn); \
         do { \
             juint relx; \
             for (relx = 0; relx < w; relx++) { \
-                Store ## DST ## PixelData(pPix, relx, pixel, pix); \
+                Store ## DST ## PixelDbtb(pPix, relx, pixel, pix); \
             } \
-            pPix = PtrAddBytes(pPix, scan); \
+            pPix = PtrAddBytes(pPix, scbn); \
         } while (--h > 0); \
     } \
 }
 
 /*
- * This macro defines an entire function to implement a FillParallelogram
- * inner loop for tracing 2 diagonal edges (left and right) and setting
- * those regions of pixels between them to a specific pixel value.
+ * This mbcro defines bn entire function to implement b FillPbrbllelogrbm
+ * inner loop for trbcing 2 dibgonbl edges (left bnd right) bnd setting
+ * those regions of pixels between them to b specific pixel vblue.
  * No blending of the fill color is done with the pixels.
  */
 #define DEFINE_SOLID_FILLPGRAM(DST) \
-void NAME_SOLID_FILLPGRAM(DST)(SurfaceDataRasInfo *pRasInfo, \
+void NAME_SOLID_FILLPGRAM(DST)(SurfbceDbtbRbsInfo *pRbsInfo, \
                                jint lox, jint loy, jint hix, jint hiy, \
                                jlong leftx, jlong dleftx, \
                                jlong rightx, jlong drightx, \
-                               jint pixel, struct _NativePrimitive *pPrim, \
+                               jint pixel, struct _NbtivePrimitive *pPrim, \
                                CompositeInfo *pCompInfo) \
 { \
-    Declare ## DST ## PixelData(pix) \
-    jint scan = pRasInfo->scanStride; \
-    DST ## DataType *pPix = PtrCoord(pRasInfo->rasBase, 0, 0, loy, scan); \
+    Declbre ## DST ## PixelDbtb(pix) \
+    jint scbn = pRbsInfo->scbnStride; \
+    DST ## DbtbType *pPix = PtrCoord(pRbsInfo->rbsBbse, 0, 0, loy, scbn); \
  \
-    Extract ## DST ## PixelData(pixel, pix); \
+    Extrbct ## DST ## PixelDbtb(pixel, pix); \
     while (loy < hiy) { \
         jint lx = WholeOfLong(leftx); \
         jint rx = WholeOfLong(rightx); \
         if (lx < lox) lx = lox; \
         if (rx > hix) rx = hix; \
         while (lx < rx) { \
-            Store ## DST ## PixelData(pPix, lx, pixel, pix); \
+            Store ## DST ## PixelDbtb(pPix, lx, pixel, pix); \
             lx++; \
         } \
-        pPix = PtrAddBytes(pPix, scan); \
+        pPix = PtrAddBytes(pPix, scbn); \
         leftx += dleftx; \
         rightx += drightx; \
         loy++; \
@@ -1328,7 +1328,7 @@ void NAME_SOLID_FILLPGRAM(DST)(SurfaceDataRasInfo *pRasInfo, \
 }
 
 #define DEFINE_SOLID_DRAWPARALLELOGRAM_FUNCS(DST) \
-    DrawParallelogramFuncs NAME_SOLID_PGRAM_FUNCS(DST) = { \
+    DrbwPbrbllelogrbmFuncs NAME_SOLID_PGRAM_FUNCS(DST) = { \
         NAME_SOLID_FILLPGRAM(DST), \
         NAME_SOLID_DRAWLINE(DST), \
     };
@@ -1338,22 +1338,22 @@ void NAME_SOLID_FILLPGRAM(DST)(SurfaceDataRasInfo *pRasInfo, \
     DEFINE_SOLID_DRAWPARALLELOGRAM_FUNCS(DST)
 
 /*
- * This macro declares the bumpmajor and bumpminor variables used for the
- * DrawLine functions.
+ * This mbcro declbres the bumpmbjor bnd bumpminor vbribbles used for the
+ * DrbwLine functions.
  */
-#define DeclareBumps(BUMPMAJOR, BUMPMINOR) \
+#define DeclbreBumps(BUMPMAJOR, BUMPMINOR) \
     jint BUMPMAJOR, BUMPMINOR;
 
 /*
- * This macro extracts "instructions" from the bumpmajor and bumpminor masks
- * that determine the initial bumpmajor and bumpminor values.  The bumpmajor
- * and bumpminor masks are laid out in the following format:
+ * This mbcro extrbcts "instructions" from the bumpmbjor bnd bumpminor mbsks
+ * thbt determine the initibl bumpmbjor bnd bumpminor vblues.  The bumpmbjor
+ * bnd bumpminor mbsks bre lbid out in the following formbt:
  *
- * bumpmajormask:                      bumpminormask:
- * bit0: bumpmajor = pixelStride       bit0: bumpminor = pixelStride
- * bit1: bumpmajor = -pixelStride      bit1: bumpminor = -pixelStride
- * bit2: bumpmajor = scanStride        bit2: bumpminor = scanStride
- * bit3: bumpmajor = -scanStride       bit3: bumpminor = -scanStride
+ * bumpmbjormbsk:                      bumpminormbsk:
+ * bit0: bumpmbjor = pixelStride       bit0: bumpminor = pixelStride
+ * bit1: bumpmbjor = -pixelStride      bit1: bumpminor = -pixelStride
+ * bit2: bumpmbjor = scbnStride        bit2: bumpminor = scbnStride
+ * bit3: bumpmbjor = -scbnStride       bit3: bumpminor = -scbnStride
  */
 #define InitBumps(BUMPMAJOR, BUMPMINOR, \
                   BUMPMAJORMASK, BUMPMINORMASK, \
@@ -1370,41 +1370,41 @@ void NAME_SOLID_FILLPGRAM(DST)(SurfaceDataRasInfo *pRasInfo, \
     BUMPMINOR += BUMPMAJOR;
 
 /*
- * This macro defines an entire function to implement a DrawLine inner loop
- * for iterating along a horizontal or vertical line and setting the pixels
- * on that line to a specific pixel value.  No blending of the fill color
+ * This mbcro defines bn entire function to implement b DrbwLine inner loop
+ * for iterbting blong b horizontbl or verticbl line bnd setting the pixels
+ * on thbt line to b specific pixel vblue.  No blending of the fill color
  * is done with the pixels.
  */
 #define DEFINE_SOLID_DRAWLINE(DST) \
-void NAME_SOLID_DRAWLINE(DST)(SurfaceDataRasInfo *pRasInfo, \
+void NAME_SOLID_DRAWLINE(DST)(SurfbceDbtbRbsInfo *pRbsInfo, \
                               jint x1, jint y1, jint pixel, \
                               jint steps, jint error, \
-                              jint bumpmajormask, jint errmajor, \
-                              jint bumpminormask, jint errminor, \
-                              NativePrimitive *pPrim, \
+                              jint bumpmbjormbsk, jint errmbjor, \
+                              jint bumpminormbsk, jint errminor, \
+                              NbtivePrimitive *pPrim, \
                               CompositeInfo *pCompInfo) \
 { \
-    Declare ## DST ## PixelData(pix) \
-    jint scan = pRasInfo->scanStride; \
-    DST ## DataType *pPix = PtrCoord(pRasInfo->rasBase, \
+    Declbre ## DST ## PixelDbtb(pix) \
+    jint scbn = pRbsInfo->scbnStride; \
+    DST ## DbtbType *pPix = PtrCoord(pRbsInfo->rbsBbse, \
                                      x1, DST ## PixelStride, \
-                                     y1, scan); \
-    DeclareBumps(bumpmajor, bumpminor) \
+                                     y1, scbn); \
+    DeclbreBumps(bumpmbjor, bumpminor) \
  \
-    InitBumps(bumpmajor, bumpminor, bumpmajormask, bumpminormask, \
-              DST ## PixelStride, scan); \
-    Extract ## DST ## PixelData(pixel, pix); \
-    if (errmajor == 0) { \
+    InitBumps(bumpmbjor, bumpminor, bumpmbjormbsk, bumpminormbsk, \
+              DST ## PixelStride, scbn); \
+    Extrbct ## DST ## PixelDbtb(pixel, pix); \
+    if (errmbjor == 0) { \
         do { \
-            Store ## DST ## PixelData(pPix, 0, pixel, pix); \
-            pPix = PtrAddBytes(pPix, bumpmajor); \
+            Store ## DST ## PixelDbtb(pPix, 0, pixel, pix); \
+            pPix = PtrAddBytes(pPix, bumpmbjor); \
         } while (--steps > 0); \
     } else { \
         do { \
-            Store ## DST ## PixelData(pPix, 0, pixel, pix); \
+            Store ## DST ## PixelDbtb(pPix, 0, pixel, pix); \
             if (error < 0) { \
-                pPix = PtrAddBytes(pPix, bumpmajor); \
-                error += errmajor; \
+                pPix = PtrAddBytes(pPix, bumpmbjor); \
+                error += errmbjor; \
             } else { \
                 pPix = PtrAddBytes(pPix, bumpminor); \
                 error -= errminor; \
@@ -1414,134 +1414,134 @@ void NAME_SOLID_DRAWLINE(DST)(SurfaceDataRasInfo *pRasInfo, \
 }
 
 /*
- * This macro defines an entire function to implement a FillRect inner loop
- * for setting a rectangular region of pixels to a specific pixel value.
- * Each destination pixel is XORed with the current XOR mode color as well as
+ * This mbcro defines bn entire function to implement b FillRect inner loop
+ * for setting b rectbngulbr region of pixels to b specific pixel vblue.
+ * Ebch destinbtion pixel is XORed with the current XOR mode color bs well bs
  * the current fill color.
  */
 #define DEFINE_XOR_FILLRECT(DST) \
-void NAME_XOR_FILLRECT(DST)(SurfaceDataRasInfo *pRasInfo, \
+void NAME_XOR_FILLRECT(DST)(SurfbceDbtbRbsInfo *pRbsInfo, \
                             jint lox, jint loy, \
                             jint hix, jint hiy, \
                             jint pixel, \
-                            NativePrimitive *pPrim, \
+                            NbtivePrimitive *pPrim, \
                             CompositeInfo *pCompInfo) \
 { \
-    jint xorpixel = pCompInfo->details.xorPixel; \
-    juint alphamask = pCompInfo->alphaMask; \
-    Declare ## DST ## PixelData(xor) \
-    Declare ## DST ## PixelData(pix) \
-    Declare ## DST ## PixelData(mask) \
-    DST ## DataType *pPix; \
-    jint scan = pRasInfo->scanStride; \
+    jint xorpixel = pCompInfo->detbils.xorPixel; \
+    juint blphbmbsk = pCompInfo->blphbMbsk; \
+    Declbre ## DST ## PixelDbtb(xor) \
+    Declbre ## DST ## PixelDbtb(pix) \
+    Declbre ## DST ## PixelDbtb(mbsk) \
+    DST ## DbtbType *pPix; \
+    jint scbn = pRbsInfo->scbnStride; \
     juint height = hiy - loy; \
     juint width = hix - lox; \
  \
-    pPix = PtrCoord(pRasInfo->rasBase, lox, DST ## PixelStride, loy, scan); \
-    Extract ## DST ## PixelData(xorpixel, xor); \
-    Extract ## DST ## PixelData(pixel, pix); \
-    Extract ## DST ## PixelData(alphamask, mask); \
+    pPix = PtrCoord(pRbsInfo->rbsBbse, lox, DST ## PixelStride, loy, scbn); \
+    Extrbct ## DST ## PixelDbtb(xorpixel, xor); \
+    Extrbct ## DST ## PixelDbtb(pixel, pix); \
+    Extrbct ## DST ## PixelDbtb(blphbmbsk, mbsk); \
  \
     do { \
         juint x = 0; \
         do { \
-            Xor ## DST ## PixelData(pixel, pix, pPix, x, \
-                                    xorpixel, xor, alphamask, mask); \
+            Xor ## DST ## PixelDbtb(pixel, pix, pPix, x, \
+                                    xorpixel, xor, blphbmbsk, mbsk); \
         } while (++x < width); \
-        pPix = PtrAddBytes(pPix, scan); \
+        pPix = PtrAddBytes(pPix, scbn); \
     } while (--height > 0); \
 }
 
 /*
- * This macro defines an entire function to implement a FillSpans inner loop
- * for iterating through a list of spans and setting those regions of pixels
- * to a specific pixel value.  Each destination pixel is XORed with the
- * current XOR mode color as well as the current fill color.
+ * This mbcro defines bn entire function to implement b FillSpbns inner loop
+ * for iterbting through b list of spbns bnd setting those regions of pixels
+ * to b specific pixel vblue.  Ebch destinbtion pixel is XORed with the
+ * current XOR mode color bs well bs the current fill color.
  */
 #define DEFINE_XOR_FILLSPANS(DST) \
-void NAME_XOR_FILLSPANS(DST)(SurfaceDataRasInfo *pRasInfo, \
-                             SpanIteratorFuncs *pSpanFuncs, \
-                             void *siData, jint pixel, \
-                             NativePrimitive *pPrim, \
+void NAME_XOR_FILLSPANS(DST)(SurfbceDbtbRbsInfo *pRbsInfo, \
+                             SpbnIterbtorFuncs *pSpbnFuncs, \
+                             void *siDbtb, jint pixel, \
+                             NbtivePrimitive *pPrim, \
                              CompositeInfo *pCompInfo) \
 { \
-    void *pBase = pRasInfo->rasBase; \
-    jint xorpixel = pCompInfo->details.xorPixel; \
-    juint alphamask = pCompInfo->alphaMask; \
-    Declare ## DST ## PixelData(xor) \
-    Declare ## DST ## PixelData(pix) \
-    Declare ## DST ## PixelData(mask) \
-    jint scan = pRasInfo->scanStride; \
+    void *pBbse = pRbsInfo->rbsBbse; \
+    jint xorpixel = pCompInfo->detbils.xorPixel; \
+    juint blphbmbsk = pCompInfo->blphbMbsk; \
+    Declbre ## DST ## PixelDbtb(xor) \
+    Declbre ## DST ## PixelDbtb(pix) \
+    Declbre ## DST ## PixelDbtb(mbsk) \
+    jint scbn = pRbsInfo->scbnStride; \
     jint bbox[4]; \
  \
-    Extract ## DST ## PixelData(xorpixel, xor); \
-    Extract ## DST ## PixelData(pixel, pix); \
-    Extract ## DST ## PixelData(alphamask, mask); \
+    Extrbct ## DST ## PixelDbtb(xorpixel, xor); \
+    Extrbct ## DST ## PixelDbtb(pixel, pix); \
+    Extrbct ## DST ## PixelDbtb(blphbmbsk, mbsk); \
  \
-    while ((*pSpanFuncs->nextSpan)(siData, bbox)) { \
+    while ((*pSpbnFuncs->nextSpbn)(siDbtb, bbox)) { \
         jint x = bbox[0]; \
         jint y = bbox[1]; \
         juint w = bbox[2] - x; \
         juint h = bbox[3] - y; \
-        DST ## DataType *pPix = PtrCoord(pBase, \
+        DST ## DbtbType *pPix = PtrCoord(pBbse, \
                                          x, DST ## PixelStride, \
-                                         y, scan); \
+                                         y, scbn); \
         do { \
             juint relx; \
             for (relx = 0; relx < w; relx++) { \
-                Xor ## DST ## PixelData(pixel, pix, pPix, relx, \
-                                        xorpixel, xor, alphamask, mask); \
+                Xor ## DST ## PixelDbtb(pixel, pix, pPix, relx, \
+                                        xorpixel, xor, blphbmbsk, mbsk); \
             } \
-            pPix = PtrAddBytes(pPix, scan); \
+            pPix = PtrAddBytes(pPix, scbn); \
         } while (--h > 0); \
     } \
 }
 
 /*
- * This macro defines an entire function to implement a DrawLine inner loop
- * for iterating along a horizontal or vertical line and setting the pixels
- * on that line to a specific pixel value.  Each destination pixel is XORed
- * with the current XOR mode color as well as the current draw color.
+ * This mbcro defines bn entire function to implement b DrbwLine inner loop
+ * for iterbting blong b horizontbl or verticbl line bnd setting the pixels
+ * on thbt line to b specific pixel vblue.  Ebch destinbtion pixel is XORed
+ * with the current XOR mode color bs well bs the current drbw color.
  */
 #define DEFINE_XOR_DRAWLINE(DST) \
-void NAME_XOR_DRAWLINE(DST)(SurfaceDataRasInfo *pRasInfo, \
+void NAME_XOR_DRAWLINE(DST)(SurfbceDbtbRbsInfo *pRbsInfo, \
                             jint x1, jint y1, jint pixel, \
                             jint steps, jint error, \
-                            jint bumpmajormask, jint errmajor, \
-                            jint bumpminormask, jint errminor, \
-                            NativePrimitive *pPrim, \
+                            jint bumpmbjormbsk, jint errmbjor, \
+                            jint bumpminormbsk, jint errminor, \
+                            NbtivePrimitive *pPrim, \
                             CompositeInfo *pCompInfo) \
 { \
-    jint xorpixel = pCompInfo->details.xorPixel; \
-    juint alphamask = pCompInfo->alphaMask; \
-    Declare ## DST ## PixelData(xor) \
-    Declare ## DST ## PixelData(pix) \
-    Declare ## DST ## PixelData(mask) \
-    jint scan = pRasInfo->scanStride; \
-    DST ## DataType *pPix = PtrCoord(pRasInfo->rasBase, \
+    jint xorpixel = pCompInfo->detbils.xorPixel; \
+    juint blphbmbsk = pCompInfo->blphbMbsk; \
+    Declbre ## DST ## PixelDbtb(xor) \
+    Declbre ## DST ## PixelDbtb(pix) \
+    Declbre ## DST ## PixelDbtb(mbsk) \
+    jint scbn = pRbsInfo->scbnStride; \
+    DST ## DbtbType *pPix = PtrCoord(pRbsInfo->rbsBbse, \
                                      x1, DST ## PixelStride, \
-                                     y1, scan); \
-    DeclareBumps(bumpmajor, bumpminor) \
+                                     y1, scbn); \
+    DeclbreBumps(bumpmbjor, bumpminor) \
  \
-    InitBumps(bumpmajor, bumpminor, bumpmajormask, bumpminormask, \
-              DST ## PixelStride, scan); \
-    Extract ## DST ## PixelData(xorpixel, xor); \
-    Extract ## DST ## PixelData(pixel, pix); \
-    Extract ## DST ## PixelData(alphamask, mask); \
+    InitBumps(bumpmbjor, bumpminor, bumpmbjormbsk, bumpminormbsk, \
+              DST ## PixelStride, scbn); \
+    Extrbct ## DST ## PixelDbtb(xorpixel, xor); \
+    Extrbct ## DST ## PixelDbtb(pixel, pix); \
+    Extrbct ## DST ## PixelDbtb(blphbmbsk, mbsk); \
  \
-    if (errmajor == 0) { \
+    if (errmbjor == 0) { \
         do { \
-            Xor ## DST ## PixelData(pixel, pix, pPix, 0, \
-                                    xorpixel, xor, alphamask, mask); \
-            pPix = PtrAddBytes(pPix, bumpmajor); \
+            Xor ## DST ## PixelDbtb(pixel, pix, pPix, 0, \
+                                    xorpixel, xor, blphbmbsk, mbsk); \
+            pPix = PtrAddBytes(pPix, bumpmbjor); \
         } while (--steps > 0); \
     } else { \
         do { \
-            Xor ## DST ## PixelData(pixel, pix, pPix, 0, \
-                                    xorpixel, xor, alphamask, mask); \
+            Xor ## DST ## PixelDbtb(pixel, pix, pPix, 0, \
+                                    xorpixel, xor, blphbmbsk, mbsk); \
             if (error < 0) { \
-                pPix = PtrAddBytes(pPix, bumpmajor); \
-                error += errmajor; \
+                pPix = PtrAddBytes(pPix, bumpmbjor); \
+                error += errmbjor; \
             } else { \
                 pPix = PtrAddBytes(pPix, bumpminor); \
                 error -= errminor; \
@@ -1551,10 +1551,10 @@ void NAME_XOR_DRAWLINE(DST)(SurfaceDataRasInfo *pRasInfo, \
 }
 
 /*
- * This macro is used to declare the variables needed by the glyph clipping
- * macro.
+ * This mbcro is used to declbre the vbribbles needed by the glyph clipping
+ * mbcro.
  */
-#define DeclareDrawGlyphListClipVars(PIXELS, ROWBYTES, WIDTH, HEIGHT, \
+#define DeclbreDrbwGlyphListClipVbrs(PIXELS, ROWBYTES, WIDTH, HEIGHT, \
                                      LEFT, TOP, RIGHT, BOTTOM) \
     const jubyte * PIXELS; \
     int ROWBYTES; \
@@ -1563,15 +1563,15 @@ void NAME_XOR_DRAWLINE(DST)(SurfaceDataRasInfo *pRasInfo, \
     int RIGHT, BOTTOM;
 
 /*
- * This macro represents the glyph clipping code used in the various
- * DRAWGLYPHLIST macros.  This macro is typically used within a loop.  Note
- * that the body of this macro is NOT wrapped in a do..while block due to
- * the use of continue statements within the block (those continue statements
- * are intended skip the outer loop, not the do..while loop).  To combat this
- * problem, pass in the code (typically a continue statement) that should be
- * executed when a null glyph is encountered.
+ * This mbcro represents the glyph clipping code used in the vbrious
+ * DRAWGLYPHLIST mbcros.  This mbcro is typicblly used within b loop.  Note
+ * thbt the body of this mbcro is NOT wrbpped in b do..while block due to
+ * the use of continue stbtements within the block (those continue stbtements
+ * bre intended skip the outer loop, not the do..while loop).  To combbt this
+ * problem, pbss in the code (typicblly b continue stbtement) thbt should be
+ * executed when b null glyph is encountered.
  */
-#define ClipDrawGlyphList(DST, PIXELS, BYTESPERPIXEL, ROWBYTES, WIDTH, HEIGHT,\
+#define ClipDrbwGlyphList(DST, PIXELS, BYTESPERPIXEL, ROWBYTES, WIDTH, HEIGHT,\
                           LEFT, TOP, RIGHT, BOTTOM, \
                           CLIPLEFT, CLIPTOP, CLIPRIGHT, CLIPBOTTOM, \
                           GLYPHS, GLYPHCOUNTER, NULLGLYPHCODE) \
@@ -1585,11 +1585,11 @@ void NAME_XOR_DRAWLINE(DST)(SurfaceDataRasInfo *pRasInfo, \
     WIDTH    = GLYPHS[GLYPHCOUNTER].width; \
     HEIGHT   = GLYPHS[GLYPHCOUNTER].height; \
 \
-    /* if any clipping required, modify parameters now */ \
+    /* if bny clipping required, modify pbrbmeters now */ \
     RIGHT  = LEFT + WIDTH; \
     BOTTOM = TOP + HEIGHT; \
     if (LEFT < CLIPLEFT) { \
-    /* Multiply needed for LCD text as PIXELS is really BYTES */ \
+    /* Multiply needed for LCD text bs PIXELS is reblly BYTES */ \
         PIXELS += (CLIPLEFT - LEFT) * BYTESPERPIXEL ; \
         LEFT = CLIPLEFT; \
     } \
@@ -1610,38 +1610,38 @@ void NAME_XOR_DRAWLINE(DST)(SurfaceDataRasInfo *pRasInfo, \
     HEIGHT = BOTTOM - TOP;
 
 #define DEFINE_SOLID_DRAWGLYPHLIST(DST) \
-void NAME_SOLID_DRAWGLYPHLIST(DST)(SurfaceDataRasInfo *pRasInfo, \
-                                   ImageRef *glyphs, \
-                                   jint totalGlyphs, jint fgpixel, \
-                                   jint argbcolor, \
+void NAME_SOLID_DRAWGLYPHLIST(DST)(SurfbceDbtbRbsInfo *pRbsInfo, \
+                                   ImbgeRef *glyphs, \
+                                   jint totblGlyphs, jint fgpixel, \
+                                   jint brgbcolor, \
                                    jint clipLeft, jint clipTop, \
                                    jint clipRight, jint clipBottom, \
-                                   NativePrimitive *pPrim, \
+                                   NbtivePrimitive *pPrim, \
                                    CompositeInfo *pCompInfo) \
 { \
     jint glyphCounter; \
-    jint scan = pRasInfo->scanStride; \
-    Declare ## DST ## PixelData(pix) \
-    DST ## DataType *pPix; \
+    jint scbn = pRbsInfo->scbnStride; \
+    Declbre ## DST ## PixelDbtb(pix) \
+    DST ## DbtbType *pPix; \
 \
-    Extract ## DST ## PixelData(fgpixel, pix); \
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) { \
-        DeclareDrawGlyphListClipVars(pixels, rowBytes, width, height, \
+    Extrbct ## DST ## PixelDbtb(fgpixel, pix); \
+    for (glyphCounter = 0; glyphCounter < totblGlyphs; glyphCounter++) { \
+        DeclbreDrbwGlyphListClipVbrs(pixels, rowBytes, width, height, \
                                      left, top, right, bottom) \
-        ClipDrawGlyphList(DST, pixels, 1, rowBytes, width, height, \
+        ClipDrbwGlyphList(DST, pixels, 1, rowBytes, width, height, \
                           left, top, right, bottom, \
                           clipLeft, clipTop, clipRight, clipBottom, \
                           glyphs, glyphCounter, continue) \
-        pPix = PtrCoord(pRasInfo->rasBase,left,DST ## PixelStride,top,scan); \
+        pPix = PtrCoord(pRbsInfo->rbsBbse,left,DST ## PixelStride,top,scbn); \
 \
         do { \
             int x = 0; \
             do { \
                 if (pixels[x]) { \
-                    Store ## DST ## PixelData(pPix, x, fgpixel, pix); \
+                    Store ## DST ## PixelDbtb(pPix, x, fgpixel, pix); \
                 } \
             } while (++x < width); \
-            pPix = PtrAddBytes(pPix, scan); \
+            pPix = PtrAddBytes(pPix, scbn); \
             pixels += rowBytes; \
         } while (--height > 0); \
     } \
@@ -1650,19 +1650,19 @@ void NAME_SOLID_DRAWGLYPHLIST(DST)(SurfaceDataRasInfo *pRasInfo, \
 #define GlyphListAABlend3ByteRgb(DST, GLYPH_PIXELS, PIXEL_INDEX, DST_PTR, \
                                  FG_PIXEL, PREFIX, SRC_PREFIX) \
    do { \
-        DeclareCompVarsFor3ByteRgb(dst) \
-        jint mixValSrc = GLYPH_PIXELS[PIXEL_INDEX]; \
-        if (mixValSrc) { \
-            if (mixValSrc < 255) { \
-                jint mixValDst = 255 - mixValSrc; \
-                Load ## DST ## To3ByteRgb(DST_PTR, pix, PIXEL_INDEX, \
+        DeclbreCompVbrsFor3ByteRgb(dst) \
+        jint mixVblSrc = GLYPH_PIXELS[PIXEL_INDEX]; \
+        if (mixVblSrc) { \
+            if (mixVblSrc < 255) { \
+                jint mixVblDst = 255 - mixVblSrc; \
+                Lobd ## DST ## To3ByteRgb(DST_PTR, pix, PIXEL_INDEX, \
                                           dstR, dstG, dstB); \
-                MultMultAddAndStore3ByteRgbComps(dst, mixValDst, dst, \
-                                                 mixValSrc, SRC_PREFIX); \
+                MultMultAddAndStore3ByteRgbComps(dst, mixVblDst, dst, \
+                                                 mixVblSrc, SRC_PREFIX); \
                 Store ## DST ## From3ByteRgb(DST_PTR, pix, PIXEL_INDEX, \
                                              dstR, dstG, dstB); \
             } else { \
-                Store ## DST ## PixelData(DST_PTR, PIXEL_INDEX, \
+                Store ## DST ## PixelDbtb(DST_PTR, PIXEL_INDEX, \
                                           FG_PIXEL, PREFIX); \
             } \
         } \
@@ -1671,122 +1671,122 @@ void NAME_SOLID_DRAWGLYPHLIST(DST)(SurfaceDataRasInfo *pRasInfo, \
 #define GlyphListAABlend4ByteArgb(DST, GLYPH_PIXELS, PIXEL_INDEX, DST_PTR, \
                                   FG_PIXEL, PREFIX, SRC_PREFIX) \
    do { \
-        DeclareAlphaVarFor4ByteArgb(dstA) \
-        DeclareCompVarsFor4ByteArgb(dst) \
-        jint mixValSrc = GLYPH_PIXELS[PIXEL_INDEX]; \
-        if (mixValSrc) { \
-            if (mixValSrc < 255) { \
-                jint mixValDst = 255 - mixValSrc; \
-                Load ## DST ## To4ByteArgb(DST_PTR, pix, PIXEL_INDEX, \
+        DeclbreAlphbVbrFor4ByteArgb(dstA) \
+        DeclbreCompVbrsFor4ByteArgb(dst) \
+        jint mixVblSrc = GLYPH_PIXELS[PIXEL_INDEX]; \
+        if (mixVblSrc) { \
+            if (mixVblSrc < 255) { \
+                jint mixVblDst = 255 - mixVblSrc; \
+                Lobd ## DST ## To4ByteArgb(DST_PTR, pix, PIXEL_INDEX, \
                                            dstA, dstR, dstG, dstB); \
-                dstA = MUL8(dstA, mixValDst) + \
-                       MUL8(SRC_PREFIX ## A, mixValSrc); \
-                MultMultAddAndStore4ByteArgbComps(dst, mixValDst, dst, \
-                                                  mixValSrc, SRC_PREFIX); \
-                if (!(DST ## IsOpaque) && \
+                dstA = MUL8(dstA, mixVblDst) + \
+                       MUL8(SRC_PREFIX ## A, mixVblSrc); \
+                MultMultAddAndStore4ByteArgbComps(dst, mixVblDst, dst, \
+                                                  mixVblSrc, SRC_PREFIX); \
+                if (!(DST ## IsOpbque) && \
                     !(DST ## IsPremultiplied) && dstA && dstA < 255) { \
                     DivideAndStore4ByteArgbComps(dst, dst, dstA); \
                 } \
                 Store ## DST ## From4ByteArgbComps(DST_PTR, pix, \
                                                    PIXEL_INDEX, dst); \
             } else { \
-                Store ## DST ## PixelData(DST_PTR, PIXEL_INDEX, \
+                Store ## DST ## PixelDbtb(DST_PTR, PIXEL_INDEX, \
                                           FG_PIXEL, PREFIX); \
             } \
         } \
     } while (0);
 
-#define GlyphListAABlend1ByteGray(DST, GLYPH_PIXELS, PIXEL_INDEX, DST_PTR, \
+#define GlyphListAABlend1ByteGrby(DST, GLYPH_PIXELS, PIXEL_INDEX, DST_PTR, \
                                   FG_PIXEL, PREFIX, SRC_PREFIX) \
    do { \
-        DeclareCompVarsFor1ByteGray(dst) \
-        jint mixValSrc = GLYPH_PIXELS[PIXEL_INDEX]; \
-        if (mixValSrc) { \
-            if (mixValSrc < 255) { \
-                jint mixValDst = 255 - mixValSrc; \
-                Load ## DST ## To1ByteGray(DST_PTR, pix, PIXEL_INDEX, \
+        DeclbreCompVbrsFor1ByteGrby(dst) \
+        jint mixVblSrc = GLYPH_PIXELS[PIXEL_INDEX]; \
+        if (mixVblSrc) { \
+            if (mixVblSrc < 255) { \
+                jint mixVblDst = 255 - mixVblSrc; \
+                Lobd ## DST ## To1ByteGrby(DST_PTR, pix, PIXEL_INDEX, \
                                            dstG); \
-                MultMultAddAndStore1ByteGrayComps(dst, mixValDst, dst, \
-                                                  mixValSrc, SRC_PREFIX); \
-                Store ## DST ## From1ByteGray(DST_PTR, pix, PIXEL_INDEX, \
+                MultMultAddAndStore1ByteGrbyComps(dst, mixVblDst, dst, \
+                                                  mixVblSrc, SRC_PREFIX); \
+                Store ## DST ## From1ByteGrby(DST_PTR, pix, PIXEL_INDEX, \
                                               dstG); \
             } else { \
-                Store ## DST ## PixelData(DST_PTR, PIXEL_INDEX, \
+                Store ## DST ## PixelDbtb(DST_PTR, PIXEL_INDEX, \
                                           FG_PIXEL, PREFIX); \
             } \
         } \
     } while (0);
 
-#define GlyphListAABlend1ShortGray(DST, GLYPH_PIXELS, PIXEL_INDEX, DST_PTR, \
+#define GlyphListAABlend1ShortGrby(DST, GLYPH_PIXELS, PIXEL_INDEX, DST_PTR, \
                                    FG_PIXEL, PREFIX, SRC_PREFIX) \
    do { \
-        DeclareCompVarsFor1ShortGray(dst) \
-        juint mixValSrc = GLYPH_PIXELS[PIXEL_INDEX]; \
-        if (mixValSrc) { \
-            if (mixValSrc < 255) { \
-                juint mixValDst; \
-                PromoteByteAlphaFor1ShortGray(mixValSrc); \
-                mixValDst = 0xffff - mixValSrc; \
-                Load ## DST ## To1ShortGray(DST_PTR, pix, PIXEL_INDEX, \
+        DeclbreCompVbrsFor1ShortGrby(dst) \
+        juint mixVblSrc = GLYPH_PIXELS[PIXEL_INDEX]; \
+        if (mixVblSrc) { \
+            if (mixVblSrc < 255) { \
+                juint mixVblDst; \
+                PromoteByteAlphbFor1ShortGrby(mixVblSrc); \
+                mixVblDst = 0xffff - mixVblSrc; \
+                Lobd ## DST ## To1ShortGrby(DST_PTR, pix, PIXEL_INDEX, \
                                             dstG); \
-                MultMultAddAndStore1ShortGrayComps(dst, mixValDst, dst, \
-                                                   mixValSrc, SRC_PREFIX); \
-                Store ## DST ## From1ShortGray(DST_PTR, pix, PIXEL_INDEX, \
+                MultMultAddAndStore1ShortGrbyComps(dst, mixVblDst, dst, \
+                                                   mixVblSrc, SRC_PREFIX); \
+                Store ## DST ## From1ShortGrby(DST_PTR, pix, PIXEL_INDEX, \
                                                dstG); \
             } else { \
-                Store ## DST ## PixelData(DST_PTR, PIXEL_INDEX, \
+                Store ## DST ## PixelDbtb(DST_PTR, PIXEL_INDEX, \
                                           FG_PIXEL, PREFIX); \
             } \
         } \
     } while (0);
 
 #define DEFINE_SOLID_DRAWGLYPHLISTAA(DST, STRATEGY) \
-void NAME_SOLID_DRAWGLYPHLISTAA(DST)(SurfaceDataRasInfo *pRasInfo, \
-                                     ImageRef *glyphs, \
-                                     jint totalGlyphs, jint fgpixel, \
-                                     jint argbcolor, \
+void NAME_SOLID_DRAWGLYPHLISTAA(DST)(SurfbceDbtbRbsInfo *pRbsInfo, \
+                                     ImbgeRef *glyphs, \
+                                     jint totblGlyphs, jint fgpixel, \
+                                     jint brgbcolor, \
                                      jint clipLeft, jint clipTop, \
                                      jint clipRight, jint clipBottom, \
-                                     NativePrimitive *pPrim, \
+                                     NbtivePrimitive *pPrim, \
                                      CompositeInfo *pCompInfo) \
 { \
     jint glyphCounter; \
-    jint scan = pRasInfo->scanStride; \
-    DST ## DataType *pPix; \
-    Declare ## DST ## PixelData(solidpix) \
-    DeclareAlphaVarFor ## STRATEGY(srcA) \
-    DeclareCompVarsFor ## STRATEGY(src) \
+    jint scbn = pRbsInfo->scbnStride; \
+    DST ## DbtbType *pPix; \
+    Declbre ## DST ## PixelDbtb(solidpix) \
+    DeclbreAlphbVbrFor ## STRATEGY(srcA) \
+    DeclbreCompVbrsFor ## STRATEGY(src) \
 \
-    Declare ## DST ## LoadVars(pix) \
-    Declare ## DST ## StoreVars(pix) \
+    Declbre ## DST ## LobdVbrs(pix) \
+    Declbre ## DST ## StoreVbrs(pix) \
 \
-    Init ## DST ## LoadVars(pix, pRasInfo); \
-    Init ## DST ## StoreVarsY(pix, pRasInfo); \
-    Init ## DST ## StoreVarsX(pix, pRasInfo); \
-    Extract ## STRATEGY ## CompsAndAlphaFromArgb(argbcolor, src); \
-    Extract ## DST ## PixelData(fgpixel, solidpix); \
+    Init ## DST ## LobdVbrs(pix, pRbsInfo); \
+    Init ## DST ## StoreVbrsY(pix, pRbsInfo); \
+    Init ## DST ## StoreVbrsX(pix, pRbsInfo); \
+    Extrbct ## STRATEGY ## CompsAndAlphbFromArgb(brgbcolor, src); \
+    Extrbct ## DST ## PixelDbtb(fgpixel, solidpix); \
 \
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) { \
-        DeclareDrawGlyphListClipVars(pixels, rowBytes, width, height, \
+    for (glyphCounter = 0; glyphCounter < totblGlyphs; glyphCounter++) { \
+        DeclbreDrbwGlyphListClipVbrs(pixels, rowBytes, width, height, \
                                      left, top, right, bottom) \
-        ClipDrawGlyphList(DST, pixels, 1, rowBytes, width, height, \
+        ClipDrbwGlyphList(DST, pixels, 1, rowBytes, width, height, \
                           left, top, right, bottom, \
                           clipLeft, clipTop, clipRight, clipBottom, \
                           glyphs, glyphCounter, continue) \
-        pPix = PtrCoord(pRasInfo->rasBase,left,DST ## PixelStride,top,scan); \
+        pPix = PtrCoord(pRbsInfo->rbsBbse,left,DST ## PixelStride,top,scbn); \
 \
-        Set ## DST ## StoreVarsYPos(pix, pRasInfo, top); \
+        Set ## DST ## StoreVbrsYPos(pix, pRbsInfo, top); \
         do { \
             int x = 0; \
-            Set ## DST ## StoreVarsXPos(pix, pRasInfo, left); \
+            Set ## DST ## StoreVbrsXPos(pix, pRbsInfo, left); \
             do { \
                 GlyphListAABlend ## STRATEGY(DST, pixels, x, pPix, \
                                              fgpixel, solidpix, src); \
-                Next ## DST ## StoreVarsX(pix); \
+                Next ## DST ## StoreVbrsX(pix); \
             } while (++x < width); \
-            pPix = PtrAddBytes(pPix, scan); \
+            pPix = PtrAddBytes(pPix, scbn); \
             pixels += rowBytes; \
-            Next ## DST ## StoreVarsY(pix); \
+            Next ## DST ## StoreVbrsY(pix); \
         } while (--height > 0); \
     } \
 }
@@ -1795,229 +1795,229 @@ void NAME_SOLID_DRAWGLYPHLISTAA(DST)(SurfaceDataRasInfo *pRasInfo, \
 #define GlyphListLCDBlend3ByteRgb(DST, GLYPH_PIXELS, PIXEL_INDEX, DST_PTR, \
                                   FG_PIXEL, PREFIX, SRC_PREFIX) \
    do { \
-        DeclareCompVarsFor3ByteRgb(dst) \
-        jint mixValSrcG = GLYPH_PIXELS[PIXEL_INDEX*3+1]; \
-        jint mixValSrcR, mixValSrcB; \
+        DeclbreCompVbrsFor3ByteRgb(dst) \
+        jint mixVblSrcG = GLYPH_PIXELS[PIXEL_INDEX*3+1]; \
+        jint mixVblSrcR, mixVblSrcB; \
         if (rgbOrder) { \
-            mixValSrcR = GLYPH_PIXELS[PIXEL_INDEX*3]; \
-            mixValSrcB = GLYPH_PIXELS[PIXEL_INDEX*3+2]; \
+            mixVblSrcR = GLYPH_PIXELS[PIXEL_INDEX*3]; \
+            mixVblSrcB = GLYPH_PIXELS[PIXEL_INDEX*3+2]; \
         } else { \
-            mixValSrcR = GLYPH_PIXELS[PIXEL_INDEX*3+2]; \
-            mixValSrcB = GLYPH_PIXELS[PIXEL_INDEX*3]; \
+            mixVblSrcR = GLYPH_PIXELS[PIXEL_INDEX*3+2]; \
+            mixVblSrcB = GLYPH_PIXELS[PIXEL_INDEX*3]; \
         } \
-        if ((mixValSrcR | mixValSrcG | mixValSrcB) != 0) { \
-            if ((mixValSrcR & mixValSrcG & mixValSrcB) < 255) { \
-                jint mixValDstR = 255 - mixValSrcR; \
-                jint mixValDstG = 255 - mixValSrcG; \
-                jint mixValDstB = 255 - mixValSrcB; \
-                Load ## DST ## To3ByteRgb(DST_PTR, pix, PIXEL_INDEX, \
+        if ((mixVblSrcR | mixVblSrcG | mixVblSrcB) != 0) { \
+            if ((mixVblSrcR & mixVblSrcG & mixVblSrcB) < 255) { \
+                jint mixVblDstR = 255 - mixVblSrcR; \
+                jint mixVblDstG = 255 - mixVblSrcG; \
+                jint mixVblDstB = 255 - mixVblSrcB; \
+                Lobd ## DST ## To3ByteRgb(DST_PTR, pix, PIXEL_INDEX, \
                                           dstR, dstG, dstB); \
-                dstR = invGammaLut[dstR]; \
-                dstG = invGammaLut[dstG]; \
-                dstB = invGammaLut[dstB]; \
-                MultMultAddAndStoreLCD3ByteRgbComps(dst, mixValDst, dst, \
-                                                    mixValSrc, SRC_PREFIX); \
-                dstR = gammaLut[dstR]; \
-                dstG = gammaLut[dstG]; \
-                dstB = gammaLut[dstB]; \
+                dstR = invGbmmbLut[dstR]; \
+                dstG = invGbmmbLut[dstG]; \
+                dstB = invGbmmbLut[dstB]; \
+                MultMultAddAndStoreLCD3ByteRgbComps(dst, mixVblDst, dst, \
+                                                    mixVblSrc, SRC_PREFIX); \
+                dstR = gbmmbLut[dstR]; \
+                dstG = gbmmbLut[dstG]; \
+                dstB = gbmmbLut[dstB]; \
                 Store ## DST ## From3ByteRgb(DST_PTR, pix, PIXEL_INDEX, \
                                              dstR, dstG, dstB); \
             } else { \
-                Store ## DST ## PixelData(DST_PTR, PIXEL_INDEX, \
+                Store ## DST ## PixelDbtb(DST_PTR, PIXEL_INDEX, \
                                           FG_PIXEL, PREFIX); \
             } \
         } \
     } while (0)
 
 
-/* There is no alpha channel in the glyph data with which to interpolate
- * between the src and dst alphas, but a reasonable approximation is to
- * sum the coverage alphas of the colour channels and divide by 3.
- * We can approximate division by 3 using mult and shift. See
- * sun/font/scalerMethods.c for a detailed explanation of why "21931"
+/* There is no blphb chbnnel in the glyph dbtb with which to interpolbte
+ * between the src bnd dst blphbs, but b rebsonbble bpproximbtion is to
+ * sum the coverbge blphbs of the colour chbnnels bnd divide by 3.
+ * We cbn bpproximbte division by 3 using mult bnd shift. See
+ * sun/font/scblerMethods.c for b detbiled explbnbtion of why "21931"
  */
 #define GlyphListLCDBlend4ByteArgb(DST, GLYPH_PIXELS, PIXEL_INDEX, DST_PTR, \
                                   FG_PIXEL, PREFIX, SRC_PREFIX) \
    do { \
-        DeclareAlphaVarFor4ByteArgb(dstA) \
-        DeclareCompVarsFor4ByteArgb(dst) \
-        jint mixValSrcG = GLYPH_PIXELS[PIXEL_INDEX*3+1]; \
-        jint mixValSrcR, mixValSrcB; \
+        DeclbreAlphbVbrFor4ByteArgb(dstA) \
+        DeclbreCompVbrsFor4ByteArgb(dst) \
+        jint mixVblSrcG = GLYPH_PIXELS[PIXEL_INDEX*3+1]; \
+        jint mixVblSrcR, mixVblSrcB; \
         if (rgbOrder) { \
-            mixValSrcR = GLYPH_PIXELS[PIXEL_INDEX*3]; \
-            mixValSrcB = GLYPH_PIXELS[PIXEL_INDEX*3+2]; \
+            mixVblSrcR = GLYPH_PIXELS[PIXEL_INDEX*3]; \
+            mixVblSrcB = GLYPH_PIXELS[PIXEL_INDEX*3+2]; \
         } else { \
-            mixValSrcR = GLYPH_PIXELS[PIXEL_INDEX*3+2]; \
-            mixValSrcB = GLYPH_PIXELS[PIXEL_INDEX*3]; \
+            mixVblSrcR = GLYPH_PIXELS[PIXEL_INDEX*3+2]; \
+            mixVblSrcB = GLYPH_PIXELS[PIXEL_INDEX*3]; \
         } \
-        if ((mixValSrcR | mixValSrcG | mixValSrcB) != 0) { \
-            if ((mixValSrcR & mixValSrcG & mixValSrcB) < 255) { \
-                jint mixValDstR = 255 - mixValSrcR; \
-                jint mixValDstG = 255 - mixValSrcG; \
-                jint mixValDstB = 255 - mixValSrcB; \
-                jint mixValSrcA = ((mixValSrcR + mixValSrcG + mixValSrcB) \
+        if ((mixVblSrcR | mixVblSrcG | mixVblSrcB) != 0) { \
+            if ((mixVblSrcR & mixVblSrcG & mixVblSrcB) < 255) { \
+                jint mixVblDstR = 255 - mixVblSrcR; \
+                jint mixVblDstG = 255 - mixVblSrcG; \
+                jint mixVblDstB = 255 - mixVblSrcB; \
+                jint mixVblSrcA = ((mixVblSrcR + mixVblSrcG + mixVblSrcB) \
                                     * 21931) >> 16;\
-                jint mixValDstA = 255 - mixValSrcA; \
-                Load ## DST ## To4ByteArgb(DST_PTR, pix, PIXEL_INDEX, \
+                jint mixVblDstA = 255 - mixVblSrcA; \
+                Lobd ## DST ## To4ByteArgb(DST_PTR, pix, PIXEL_INDEX, \
                                            dstA, dstR, dstG, dstB); \
-                dstR = invGammaLut[dstR]; \
-                dstG = invGammaLut[dstG]; \
-                dstB = invGammaLut[dstB]; \
-                dstA = MUL8(dstA, mixValDstA) + \
-                       MUL8(SRC_PREFIX ## A, mixValSrcA); \
-                MultMultAddAndStoreLCD4ByteArgbComps(dst, mixValDst, dst, \
-                                                  mixValSrc, SRC_PREFIX); \
-                dstR = gammaLut[dstR]; \
-                dstG = gammaLut[dstG]; \
-                dstB = gammaLut[dstB]; \
-                if (!(DST ## IsOpaque) && \
+                dstR = invGbmmbLut[dstR]; \
+                dstG = invGbmmbLut[dstG]; \
+                dstB = invGbmmbLut[dstB]; \
+                dstA = MUL8(dstA, mixVblDstA) + \
+                       MUL8(SRC_PREFIX ## A, mixVblSrcA); \
+                MultMultAddAndStoreLCD4ByteArgbComps(dst, mixVblDst, dst, \
+                                                  mixVblSrc, SRC_PREFIX); \
+                dstR = gbmmbLut[dstR]; \
+                dstG = gbmmbLut[dstG]; \
+                dstB = gbmmbLut[dstB]; \
+                if (!(DST ## IsOpbque) && \
                     !(DST ## IsPremultiplied) && dstA && dstA < 255) { \
                     DivideAndStore4ByteArgbComps(dst, dst, dstA); \
                 } \
                 Store ## DST ## From4ByteArgbComps(DST_PTR, pix, \
                                                    PIXEL_INDEX, dst); \
             } else { \
-                Store ## DST ## PixelData(DST_PTR, PIXEL_INDEX, \
+                Store ## DST ## PixelDbtb(DST_PTR, PIXEL_INDEX, \
                                           FG_PIXEL, PREFIX); \
             } \
         } \
     } while (0);
 
 #define DEFINE_SOLID_DRAWGLYPHLISTLCD(DST, STRATEGY) \
-void NAME_SOLID_DRAWGLYPHLISTLCD(DST)(SurfaceDataRasInfo *pRasInfo, \
-                                     ImageRef *glyphs, \
-                                     jint totalGlyphs, jint fgpixel, \
-                                     jint argbcolor, \
+void NAME_SOLID_DRAWGLYPHLISTLCD(DST)(SurfbceDbtbRbsInfo *pRbsInfo, \
+                                     ImbgeRef *glyphs, \
+                                     jint totblGlyphs, jint fgpixel, \
+                                     jint brgbcolor, \
                                      jint clipLeft, jint clipTop, \
                                      jint clipRight, jint clipBottom, \
                                      jint rgbOrder, \
-                                     unsigned char *gammaLut, \
-                                     unsigned char * invGammaLut, \
-                                     NativePrimitive *pPrim, \
+                                     unsigned chbr *gbmmbLut, \
+                                     unsigned chbr * invGbmmbLut, \
+                                     NbtivePrimitive *pPrim, \
                                      CompositeInfo *pCompInfo) \
 { \
     jint glyphCounter, bpp; \
-    jint scan = pRasInfo->scanStride; \
-    DST ## DataType *pPix; \
-    Declare ## DST ## PixelData(solidpix) \
-    DeclareAlphaVarFor ## STRATEGY(srcA) \
-    DeclareCompVarsFor ## STRATEGY(src) \
+    jint scbn = pRbsInfo->scbnStride; \
+    DST ## DbtbType *pPix; \
+    Declbre ## DST ## PixelDbtb(solidpix) \
+    DeclbreAlphbVbrFor ## STRATEGY(srcA) \
+    DeclbreCompVbrsFor ## STRATEGY(src) \
 \
-    Declare ## DST ## LoadVars(pix) \
-    Declare ## DST ## StoreVars(pix) \
+    Declbre ## DST ## LobdVbrs(pix) \
+    Declbre ## DST ## StoreVbrs(pix) \
 \
-    Init ## DST ## LoadVars(pix, pRasInfo); \
-    Init ## DST ## StoreVarsY(pix, pRasInfo); \
-    Init ## DST ## StoreVarsX(pix, pRasInfo); \
-    Extract ## STRATEGY ## CompsAndAlphaFromArgb(argbcolor, src); \
-    Extract ## DST ## PixelData(fgpixel, solidpix); \
-    srcR = invGammaLut[srcR]; \
-    srcG = invGammaLut[srcG]; \
-    srcB = invGammaLut[srcB]; \
+    Init ## DST ## LobdVbrs(pix, pRbsInfo); \
+    Init ## DST ## StoreVbrsY(pix, pRbsInfo); \
+    Init ## DST ## StoreVbrsX(pix, pRbsInfo); \
+    Extrbct ## STRATEGY ## CompsAndAlphbFromArgb(brgbcolor, src); \
+    Extrbct ## DST ## PixelDbtb(fgpixel, solidpix); \
+    srcR = invGbmmbLut[srcR]; \
+    srcG = invGbmmbLut[srcG]; \
+    srcB = invGbmmbLut[srcB]; \
 \
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) { \
-        DeclareDrawGlyphListClipVars(pixels, rowBytes, width, height, \
+    for (glyphCounter = 0; glyphCounter < totblGlyphs; glyphCounter++) { \
+        DeclbreDrbwGlyphListClipVbrs(pixels, rowBytes, width, height, \
                                      left, top, right, bottom) \
         bpp = \
         (glyphs[glyphCounter].rowBytes == glyphs[glyphCounter].width) ? 1 : 3;\
-        ClipDrawGlyphList(DST, pixels, bpp, rowBytes, width, height, \
+        ClipDrbwGlyphList(DST, pixels, bpp, rowBytes, width, height, \
                           left, top, right, bottom, \
                           clipLeft, clipTop, clipRight, clipBottom, \
                           glyphs, glyphCounter, continue) \
-        pPix = PtrCoord(pRasInfo->rasBase,left,DST ## PixelStride,top,scan); \
+        pPix = PtrCoord(pRbsInfo->rbsBbse,left,DST ## PixelStride,top,scbn); \
 \
-        Set ## DST ## StoreVarsYPos(pix, pRasInfo, top); \
+        Set ## DST ## StoreVbrsYPos(pix, pRbsInfo, top); \
         if (bpp!=1) { \
-           /* subpixel positioning adjustment */ \
+           /* subpixel positioning bdjustment */ \
             pixels += glyphs[glyphCounter].rowBytesOffset; \
         } \
         do { \
             int x = 0; \
-            Set ## DST ## StoreVarsXPos(pix, pRasInfo, left); \
+            Set ## DST ## StoreVbrsXPos(pix, pRbsInfo, left); \
             if (bpp==1) { \
                 do { \
                     if (pixels[x]) { \
-                        Store ## DST ## PixelData(pPix, x, fgpixel, solidpix);\
+                        Store ## DST ## PixelDbtb(pPix, x, fgpixel, solidpix);\
                     } \
                 } while (++x < width); \
             } else { \
                 do { \
                     GlyphListLCDBlend ## STRATEGY(DST, pixels, x, pPix, \
                                                    fgpixel, solidpix, src); \
-                    Next ## DST ## StoreVarsX(pix); \
+                    Next ## DST ## StoreVbrsX(pix); \
                 } while (++x < width); \
             } \
-            pPix = PtrAddBytes(pPix, scan); \
+            pPix = PtrAddBytes(pPix, scbn); \
             pixels += rowBytes; \
-            Next ## DST ## StoreVarsY(pix); \
+            Next ## DST ## StoreVbrsY(pix); \
         } while (--height > 0); \
     } \
 }
 
 #define DEFINE_XOR_DRAWGLYPHLIST(DST) \
-void NAME_XOR_DRAWGLYPHLIST(DST)(SurfaceDataRasInfo *pRasInfo, \
-                                 ImageRef *glyphs, \
-                                 jint totalGlyphs, jint fgpixel, \
-                                 jint argbcolor, \
+void NAME_XOR_DRAWGLYPHLIST(DST)(SurfbceDbtbRbsInfo *pRbsInfo, \
+                                 ImbgeRef *glyphs, \
+                                 jint totblGlyphs, jint fgpixel, \
+                                 jint brgbcolor, \
                                  jint clipLeft, jint clipTop, \
                                  jint clipRight, jint clipBottom, \
-                                 NativePrimitive *pPrim, \
+                                 NbtivePrimitive *pPrim, \
                                  CompositeInfo *pCompInfo) \
 { \
     jint glyphCounter; \
-    jint scan = pRasInfo->scanStride; \
-    jint xorpixel = pCompInfo->details.xorPixel; \
-    juint alphamask = pCompInfo->alphaMask; \
-    Declare ## DST ## PixelData(xor) \
-    Declare ## DST ## PixelData(pix) \
-    Declare ## DST ## PixelData(mask) \
-    DST ## DataType *pPix; \
+    jint scbn = pRbsInfo->scbnStride; \
+    jint xorpixel = pCompInfo->detbils.xorPixel; \
+    juint blphbmbsk = pCompInfo->blphbMbsk; \
+    Declbre ## DST ## PixelDbtb(xor) \
+    Declbre ## DST ## PixelDbtb(pix) \
+    Declbre ## DST ## PixelDbtb(mbsk) \
+    DST ## DbtbType *pPix; \
  \
-    Extract ## DST ## PixelData(xorpixel, xor); \
-    Extract ## DST ## PixelData(fgpixel, pix); \
-    Extract ## DST ## PixelData(alphamask, mask); \
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) { \
-        DeclareDrawGlyphListClipVars(pixels, rowBytes, width, height, \
+    Extrbct ## DST ## PixelDbtb(xorpixel, xor); \
+    Extrbct ## DST ## PixelDbtb(fgpixel, pix); \
+    Extrbct ## DST ## PixelDbtb(blphbmbsk, mbsk); \
+    for (glyphCounter = 0; glyphCounter < totblGlyphs; glyphCounter++) { \
+        DeclbreDrbwGlyphListClipVbrs(pixels, rowBytes, width, height, \
                                      left, top, right, bottom) \
-        ClipDrawGlyphList(DST, pixels, 1, rowBytes, width, height, \
+        ClipDrbwGlyphList(DST, pixels, 1, rowBytes, width, height, \
                           left, top, right, bottom, \
                           clipLeft, clipTop, clipRight, clipBottom, \
                           glyphs, glyphCounter, continue) \
-        pPix = PtrCoord(pRasInfo->rasBase,left,DST ## PixelStride,top,scan); \
+        pPix = PtrCoord(pRbsInfo->rbsBbse,left,DST ## PixelStride,top,scbn); \
  \
         do { \
             int x = 0; \
             do { \
                 if (pixels[x]) { \
-                    Xor ## DST ## PixelData(fgpixel, pix, pPix, x, \
-                                            xorpixel, xor, alphamask, mask); \
+                    Xor ## DST ## PixelDbtb(fgpixel, pix, pPix, x, \
+                                            xorpixel, xor, blphbmbsk, mbsk); \
                 } \
             } while (++x < width); \
-            pPix = PtrAddBytes(pPix, scan); \
+            pPix = PtrAddBytes(pPix, scbn); \
             pixels += rowBytes; \
         } while (--height > 0); \
     } \
 }
 
 #define DEFINE_TRANSFORMHELPER_NN(SRC) \
-void NAME_TRANSFORMHELPER_NN(SRC)(SurfaceDataRasInfo *pSrcInfo, \
+void NAME_TRANSFORMHELPER_NN(SRC)(SurfbceDbtbRbsInfo *pSrcInfo, \
                                   jint *pRGB, jint numpix, \
                                   jlong xlong, jlong dxlong, \
                                   jlong ylong, jlong dylong) \
 { \
-    Declare ## SRC ## LoadVars(SrcRead) \
-    SRC ## DataType *pBase = pSrcInfo->rasBase; \
-    jint scan = pSrcInfo->scanStride; \
+    Declbre ## SRC ## LobdVbrs(SrcRebd) \
+    SRC ## DbtbType *pBbse = pSrcInfo->rbsBbse; \
+    jint scbn = pSrcInfo->scbnStride; \
     jint *pEnd = pRGB + numpix; \
  \
     xlong += IntToLong(pSrcInfo->bounds.x1); \
     ylong += IntToLong(pSrcInfo->bounds.y1); \
  \
-    Init ## SRC ## LoadVars(SrcRead, pSrcInfo); \
+    Init ## SRC ## LobdVbrs(SrcRebd, pSrcInfo); \
     while (pRGB < pEnd) { \
-        SRC ## DataType *pRow = PtrAddBytes(pBase, WholeOfLong(ylong) * scan); \
+        SRC ## DbtbType *pRow = PtrAddBytes(pBbse, WholeOfLong(ylong) * scbn); \
         Copy ## SRC ## ToIntArgbPre(pRGB, 0, \
-                                    SrcRead, pRow, WholeOfLong(xlong)); \
+                                    SrcRebd, pRow, WholeOfLong(xlong)); \
         pRGB++; \
         xlong += dxlong; \
         ylong += dylong; \
@@ -2025,13 +2025,13 @@ void NAME_TRANSFORMHELPER_NN(SRC)(SurfaceDataRasInfo *pSrcInfo, \
 }
 
 #define DEFINE_TRANSFORMHELPER_BL(SRC) \
-void NAME_TRANSFORMHELPER_BL(SRC)(SurfaceDataRasInfo *pSrcInfo, \
+void NAME_TRANSFORMHELPER_BL(SRC)(SurfbceDbtbRbsInfo *pSrcInfo, \
                                   jint *pRGB, jint numpix, \
                                   jlong xlong, jlong dxlong, \
                                   jlong ylong, jlong dylong) \
 { \
-    Declare ## SRC ## LoadVars(SrcRead) \
-    jint scan = pSrcInfo->scanStride; \
+    Declbre ## SRC ## LobdVbrs(SrcRebd) \
+    jint scbn = pSrcInfo->scbnStride; \
     jint cx, cy, cw, ch; \
     jint *pEnd = pRGB + numpix*4; \
  \
@@ -2041,34 +2041,34 @@ void NAME_TRANSFORMHELPER_BL(SRC)(SurfaceDataRasInfo *pSrcInfo, \
     cy = pSrcInfo->bounds.y1; \
     ch = pSrcInfo->bounds.y2-cy; \
  \
-    xlong -= LongOneHalf; \
-    ylong -= LongOneHalf; \
+    xlong -= LongOneHblf; \
+    ylong -= LongOneHblf; \
  \
-    Init ## SRC ## LoadVars(SrcRead, pSrcInfo); \
+    Init ## SRC ## LobdVbrs(SrcRebd, pSrcInfo); \
     while (pRGB < pEnd) { \
         jint xwhole = WholeOfLong(xlong); \
         jint ywhole = WholeOfLong(ylong); \
-        jint xdelta, ydelta, isneg; \
-        SRC ## DataType *pRow; \
+        jint xdeltb, ydeltb, isneg; \
+        SRC ## DbtbType *pRow; \
  \
-        xdelta = ((juint) (xwhole + 1 - cw)) >> 31; \
+        xdeltb = ((juint) (xwhole + 1 - cw)) >> 31; \
         isneg = xwhole >> 31; \
         xwhole -= isneg; \
-        xdelta += isneg; \
+        xdeltb += isneg; \
  \
-        ydelta = ((ywhole + 1 - ch) >> 31); \
+        ydeltb = ((ywhole + 1 - ch) >> 31); \
         isneg = ywhole >> 31; \
         ywhole -= isneg; \
-        ydelta -= isneg; \
-        ydelta &= scan; \
+        ydeltb -= isneg; \
+        ydeltb &= scbn; \
  \
         xwhole += cx; \
-        pRow = PtrAddBytes(pSrcInfo->rasBase, (ywhole + cy) * scan); \
-        Copy ## SRC ## ToIntArgbPre(pRGB, 0, SrcRead, pRow, xwhole); \
-        Copy ## SRC ## ToIntArgbPre(pRGB, 1, SrcRead, pRow, xwhole+xdelta); \
-        pRow = PtrAddBytes(pRow, ydelta); \
-        Copy ## SRC ## ToIntArgbPre(pRGB, 2, SrcRead, pRow, xwhole); \
-        Copy ## SRC ## ToIntArgbPre(pRGB, 3, SrcRead, pRow, xwhole+xdelta); \
+        pRow = PtrAddBytes(pSrcInfo->rbsBbse, (ywhole + cy) * scbn); \
+        Copy ## SRC ## ToIntArgbPre(pRGB, 0, SrcRebd, pRow, xwhole); \
+        Copy ## SRC ## ToIntArgbPre(pRGB, 1, SrcRebd, pRow, xwhole+xdeltb); \
+        pRow = PtrAddBytes(pRow, ydeltb); \
+        Copy ## SRC ## ToIntArgbPre(pRGB, 2, SrcRebd, pRow, xwhole); \
+        Copy ## SRC ## ToIntArgbPre(pRGB, 3, SrcRebd, pRow, xwhole+xdeltb); \
  \
         pRGB += 4; \
         xlong += dxlong; \
@@ -2077,13 +2077,13 @@ void NAME_TRANSFORMHELPER_BL(SRC)(SurfaceDataRasInfo *pSrcInfo, \
 }
 
 #define DEFINE_TRANSFORMHELPER_BC(SRC) \
-void NAME_TRANSFORMHELPER_BC(SRC)(SurfaceDataRasInfo *pSrcInfo, \
+void NAME_TRANSFORMHELPER_BC(SRC)(SurfbceDbtbRbsInfo *pSrcInfo, \
                                   jint *pRGB, jint numpix, \
                                   jlong xlong, jlong dxlong, \
                                   jlong ylong, jlong dylong) \
 { \
-    Declare ## SRC ## LoadVars(SrcRead) \
-    jint scan = pSrcInfo->scanStride; \
+    Declbre ## SRC ## LobdVbrs(SrcRebd) \
+    jint scbn = pSrcInfo->scbnStride; \
     jint cx, cy, cw, ch; \
     jint *pEnd = pRGB + numpix*16; \
  \
@@ -2093,55 +2093,55 @@ void NAME_TRANSFORMHELPER_BC(SRC)(SurfaceDataRasInfo *pSrcInfo, \
     cy = pSrcInfo->bounds.y1; \
     ch = pSrcInfo->bounds.y2-cy; \
  \
-    xlong -= LongOneHalf; \
-    ylong -= LongOneHalf; \
+    xlong -= LongOneHblf; \
+    ylong -= LongOneHblf; \
  \
-    Init ## SRC ## LoadVars(SrcRead, pSrcInfo); \
+    Init ## SRC ## LobdVbrs(SrcRebd, pSrcInfo); \
     while (pRGB < pEnd) { \
         jint xwhole = WholeOfLong(xlong); \
         jint ywhole = WholeOfLong(ylong); \
-        jint xdelta0, xdelta1, xdelta2; \
-        jint ydelta0, ydelta1, ydelta2; \
+        jint xdeltb0, xdeltb1, xdeltb2; \
+        jint ydeltb0, ydeltb1, ydeltb2; \
         jint isneg; \
-        SRC ## DataType *pRow; \
+        SRC ## DbtbType *pRow; \
  \
-        xdelta0 = (-xwhole) >> 31; \
-        xdelta1 = ((juint) (xwhole + 1 - cw)) >> 31; \
-        xdelta2 = ((juint) (xwhole + 2 - cw)) >> 31; \
+        xdeltb0 = (-xwhole) >> 31; \
+        xdeltb1 = ((juint) (xwhole + 1 - cw)) >> 31; \
+        xdeltb2 = ((juint) (xwhole + 2 - cw)) >> 31; \
         isneg = xwhole >> 31; \
         xwhole -= isneg; \
-        xdelta1 += isneg; \
-        xdelta2 += xdelta1; \
+        xdeltb1 += isneg; \
+        xdeltb2 += xdeltb1; \
  \
-        ydelta0 = ((-ywhole) >> 31) & (-scan); \
-        ydelta1 = ((ywhole + 1 - ch) >> 31) & scan; \
-        ydelta2 = ((ywhole + 2 - ch) >> 31) & scan; \
+        ydeltb0 = ((-ywhole) >> 31) & (-scbn); \
+        ydeltb1 = ((ywhole + 1 - ch) >> 31) & scbn; \
+        ydeltb2 = ((ywhole + 2 - ch) >> 31) & scbn; \
         isneg = ywhole >> 31; \
         ywhole -= isneg; \
-        ydelta1 += (isneg & -scan); \
+        ydeltb1 += (isneg & -scbn); \
  \
         xwhole += cx; \
-        pRow = PtrAddBytes(pSrcInfo->rasBase, (ywhole + cy) * scan); \
-        pRow = PtrAddBytes(pRow, ydelta0); \
-        Copy ## SRC ## ToIntArgbPre(pRGB,  0, SrcRead, pRow, xwhole+xdelta0); \
-        Copy ## SRC ## ToIntArgbPre(pRGB,  1, SrcRead, pRow, xwhole        ); \
-        Copy ## SRC ## ToIntArgbPre(pRGB,  2, SrcRead, pRow, xwhole+xdelta1); \
-        Copy ## SRC ## ToIntArgbPre(pRGB,  3, SrcRead, pRow, xwhole+xdelta2); \
-        pRow = PtrAddBytes(pRow, -ydelta0); \
-        Copy ## SRC ## ToIntArgbPre(pRGB,  4, SrcRead, pRow, xwhole+xdelta0); \
-        Copy ## SRC ## ToIntArgbPre(pRGB,  5, SrcRead, pRow, xwhole        ); \
-        Copy ## SRC ## ToIntArgbPre(pRGB,  6, SrcRead, pRow, xwhole+xdelta1); \
-        Copy ## SRC ## ToIntArgbPre(pRGB,  7, SrcRead, pRow, xwhole+xdelta2); \
-        pRow = PtrAddBytes(pRow, ydelta1); \
-        Copy ## SRC ## ToIntArgbPre(pRGB,  8, SrcRead, pRow, xwhole+xdelta0); \
-        Copy ## SRC ## ToIntArgbPre(pRGB,  9, SrcRead, pRow, xwhole        ); \
-        Copy ## SRC ## ToIntArgbPre(pRGB, 10, SrcRead, pRow, xwhole+xdelta1); \
-        Copy ## SRC ## ToIntArgbPre(pRGB, 11, SrcRead, pRow, xwhole+xdelta2); \
-        pRow = PtrAddBytes(pRow, ydelta2); \
-        Copy ## SRC ## ToIntArgbPre(pRGB, 12, SrcRead, pRow, xwhole+xdelta0); \
-        Copy ## SRC ## ToIntArgbPre(pRGB, 13, SrcRead, pRow, xwhole        ); \
-        Copy ## SRC ## ToIntArgbPre(pRGB, 14, SrcRead, pRow, xwhole+xdelta1); \
-        Copy ## SRC ## ToIntArgbPre(pRGB, 15, SrcRead, pRow, xwhole+xdelta2); \
+        pRow = PtrAddBytes(pSrcInfo->rbsBbse, (ywhole + cy) * scbn); \
+        pRow = PtrAddBytes(pRow, ydeltb0); \
+        Copy ## SRC ## ToIntArgbPre(pRGB,  0, SrcRebd, pRow, xwhole+xdeltb0); \
+        Copy ## SRC ## ToIntArgbPre(pRGB,  1, SrcRebd, pRow, xwhole        ); \
+        Copy ## SRC ## ToIntArgbPre(pRGB,  2, SrcRebd, pRow, xwhole+xdeltb1); \
+        Copy ## SRC ## ToIntArgbPre(pRGB,  3, SrcRebd, pRow, xwhole+xdeltb2); \
+        pRow = PtrAddBytes(pRow, -ydeltb0); \
+        Copy ## SRC ## ToIntArgbPre(pRGB,  4, SrcRebd, pRow, xwhole+xdeltb0); \
+        Copy ## SRC ## ToIntArgbPre(pRGB,  5, SrcRebd, pRow, xwhole        ); \
+        Copy ## SRC ## ToIntArgbPre(pRGB,  6, SrcRebd, pRow, xwhole+xdeltb1); \
+        Copy ## SRC ## ToIntArgbPre(pRGB,  7, SrcRebd, pRow, xwhole+xdeltb2); \
+        pRow = PtrAddBytes(pRow, ydeltb1); \
+        Copy ## SRC ## ToIntArgbPre(pRGB,  8, SrcRebd, pRow, xwhole+xdeltb0); \
+        Copy ## SRC ## ToIntArgbPre(pRGB,  9, SrcRebd, pRow, xwhole        ); \
+        Copy ## SRC ## ToIntArgbPre(pRGB, 10, SrcRebd, pRow, xwhole+xdeltb1); \
+        Copy ## SRC ## ToIntArgbPre(pRGB, 11, SrcRebd, pRow, xwhole+xdeltb2); \
+        pRow = PtrAddBytes(pRow, ydeltb2); \
+        Copy ## SRC ## ToIntArgbPre(pRGB, 12, SrcRebd, pRow, xwhole+xdeltb0); \
+        Copy ## SRC ## ToIntArgbPre(pRGB, 13, SrcRebd, pRow, xwhole        ); \
+        Copy ## SRC ## ToIntArgbPre(pRGB, 14, SrcRebd, pRow, xwhole+xdeltb1); \
+        Copy ## SRC ## ToIntArgbPre(pRGB, 15, SrcRebd, pRow, xwhole+xdeltb2); \
  \
         pRGB += 16; \
         xlong += dxlong; \
@@ -2150,7 +2150,7 @@ void NAME_TRANSFORMHELPER_BC(SRC)(SurfaceDataRasInfo *pSrcInfo, \
 }
 
 #define DEFINE_TRANSFORMHELPER_FUNCS(SRC) \
-    TransformHelperFuncs NAME_TRANSFORMHELPER_FUNCS(SRC) = { \
+    TrbnsformHelperFuncs NAME_TRANSFORMHELPER_FUNCS(SRC) = { \
         NAME_TRANSFORMHELPER_NN(SRC), \
         NAME_TRANSFORMHELPER_BL(SRC), \
         NAME_TRANSFORMHELPER_BC(SRC), \
@@ -2163,62 +2163,62 @@ void NAME_TRANSFORMHELPER_BC(SRC)(SurfaceDataRasInfo *pSrcInfo, \
     DEFINE_TRANSFORMHELPER_FUNCS(SRC)
 
 /*
- * The macros defined above use the following macro definitions supplied
- * for the various surface types to manipulate pixels and pixel data.
- * The surface-specific macros are typically supplied by header files
- * named after the SurfaceType name (i.e. IntArgb.h, ByteGray.h, etc.).
+ * The mbcros defined bbove use the following mbcro definitions supplied
+ * for the vbrious surfbce types to mbnipulbte pixels bnd pixel dbtb.
+ * The surfbce-specific mbcros bre typicblly supplied by hebder files
+ * nbmed bfter the SurfbceType nbme (i.e. IntArgb.h, ByteGrby.h, etc.).
  *
- * In the macro names in the following definitions, the string <stype>
- * is used as a place holder for the SurfaceType name (i.e. IntArgb).
- * The macros above access these type specific macros using the ANSI
- * CPP token concatenation operator "##".
+ * In the mbcro nbmes in the following definitions, the string <stype>
+ * is used bs b plbce holder for the SurfbceType nbme (i.e. IntArgb).
+ * The mbcros bbove bccess these type specific mbcros using the ANSI
+ * CPP token concbtenbtion operbtor "##".
  *
- * <stype>DataType               A typedef for the type of the pointer
- *                               that is used to access the raster data
- *                               for the given surface type.
- * <stype>PixelStride            Pixel stride for the surface type.
+ * <stype>DbtbType               A typedef for the type of the pointer
+ *                               thbt is used to bccess the rbster dbtb
+ *                               for the given surfbce type.
+ * <stype>PixelStride            Pixel stride for the surfbce type.
  *
- * Declare<stype>LoadVars        Declare the variables needed to control
- *                               loading color information from an stype
- *                               raster (i.e. lookup tables).
- * Init<stype>LoadVars           Init the lookup table variables.
- * Declare<stype>StoreVars       Declare the storage variables needed to
- *                               control storing pixel data based on the
- *                               pixel coordinate (i.e. dithering variables).
- * Init<stype>StoreVarsY         Init the dither variables for starting Y.
- * Next<stype>StoreVarsY         Increment the dither variables for next Y.
- * Init<stype>StoreVarsX         Init the dither variables for starting X.
- * Next<stype>StoreVarsX         Increment the dither variables for next X.
+ * Declbre<stype>LobdVbrs        Declbre the vbribbles needed to control
+ *                               lobding color informbtion from bn stype
+ *                               rbster (i.e. lookup tbbles).
+ * Init<stype>LobdVbrs           Init the lookup tbble vbribbles.
+ * Declbre<stype>StoreVbrs       Declbre the storbge vbribbles needed to
+ *                               control storing pixel dbtb bbsed on the
+ *                               pixel coordinbte (i.e. dithering vbribbles).
+ * Init<stype>StoreVbrsY         Init the dither vbribbles for stbrting Y.
+ * Next<stype>StoreVbrsY         Increment the dither vbribbles for next Y.
+ * Init<stype>StoreVbrsX         Init the dither vbribbles for stbrting X.
+ * Next<stype>StoreVbrsX         Increment the dither vbribbles for next X.
  *
- * Load<stype>To1IntRgb          Load a pixel and form an INT_RGB integer.
- * Store<stype>From1IntRgb       Store a pixel from an INT_RGB integer.
- * Load<stype>To1IntArgb         Load a pixel and form an INT_ARGB integer.
- * Store<stype>From1IntArgb      Store a pixel from an INT_ARGB integer.
- * Load<stype>To3ByteRgb         Load a pixel into R, G, and B components.
- * Store<stype>From3ByteRgb      Store a pixel from R, G, and B components.
- * Load<stype>To4ByteArgb        Load a pixel into A, R, G, and B components.
- * Store<stype>From4ByteArgb     Store a pixel from A, R, G, and B components.
- * Load<stype>To1ByteGray        Load a pixel and form a BYTE_GRAY byte.
- * Store<stype>From1ByteGray     Store a pixel from a BYTE_GRAY byte.
+ * Lobd<stype>To1IntRgb          Lobd b pixel bnd form bn INT_RGB integer.
+ * Store<stype>From1IntRgb       Store b pixel from bn INT_RGB integer.
+ * Lobd<stype>To1IntArgb         Lobd b pixel bnd form bn INT_ARGB integer.
+ * Store<stype>From1IntArgb      Store b pixel from bn INT_ARGB integer.
+ * Lobd<stype>To3ByteRgb         Lobd b pixel into R, G, bnd B components.
+ * Store<stype>From3ByteRgb      Store b pixel from R, G, bnd B components.
+ * Lobd<stype>To4ByteArgb        Lobd b pixel into A, R, G, bnd B components.
+ * Store<stype>From4ByteArgb     Store b pixel from A, R, G, bnd B components.
+ * Lobd<stype>To1ByteGrby        Lobd b pixel bnd form b BYTE_GRAY byte.
+ * Store<stype>From1ByteGrby     Store b pixel from b BYTE_GRAY byte.
  *
- * <stype>PixelType              Typedef for a "single quantity pixel" (SQP)
- *                               that can hold the data for one stype pixel.
- * <stype>XparLutEntry           An SQP that can be used to represent a
- *                               transparent pixel for stype.
- * Store<stype>NonXparFromArgb   Store an SQP from an INT_ARGB integer in
- *                               such a way that it would not be confused
- *                               with the XparLutEntry value for stype.
- * <stype>IsXparLutEntry         Test an SQP for the XparLutEntry value.
- * Store<stype>Pixel             Store the pixel data from an SQP.
- * <stype>PixelFromArgb          Converts an INT_ARGB value into the specific
- *                               pixel representation for the surface type.
+ * <stype>PixelType              Typedef for b "single qubntity pixel" (SQP)
+ *                               thbt cbn hold the dbtb for one stype pixel.
+ * <stype>XpbrLutEntry           An SQP thbt cbn be used to represent b
+ *                               trbnspbrent pixel for stype.
+ * Store<stype>NonXpbrFromArgb   Store bn SQP from bn INT_ARGB integer in
+ *                               such b wby thbt it would not be confused
+ *                               with the XpbrLutEntry vblue for stype.
+ * <stype>IsXpbrLutEntry         Test bn SQP for the XpbrLutEntry vblue.
+ * Store<stype>Pixel             Store the pixel dbtb from bn SQP.
+ * <stype>PixelFromArgb          Converts bn INT_ARGB vblue into the specific
+ *                               pixel representbtion for the surfbce type.
  *
- * Declare<stype>PixelData       Declare the pixel data variables (PDV) needed
- *                               to hold the elements of pixel data ready to
- *                               store into an stype raster (may be empty for
- *                               stypes whose SQP format is their data format).
- * Extract<stype>PixelData       Extract an SQP value into the PDVs.
- * Store<stype>PixelData         Store the PDVs into an stype raster.
- * XorCopy<stype>PixelData       Xor the PDVs into an stype raster.
+ * Declbre<stype>PixelDbtb       Declbre the pixel dbtb vbribbles (PDV) needed
+ *                               to hold the elements of pixel dbtb rebdy to
+ *                               store into bn stype rbster (mby be empty for
+ *                               stypes whose SQP formbt is their dbtb formbt).
+ * Extrbct<stype>PixelDbtb       Extrbct bn SQP vblue into the PDVs.
+ * Store<stype>PixelDbtb         Store the PDVs into bn stype rbster.
+ * XorCopy<stype>PixelDbtb       Xor the PDVs into bn stype rbster.
  */
-#endif /* LoopMacros_h_Included */
+#endif /* LoopMbcros_h_Included */

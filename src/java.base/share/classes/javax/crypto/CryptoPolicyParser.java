@@ -1,485 +1,485 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.io.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import static java.util.Locale.ENGLISH;
+import jbvb.io.*;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import stbtic jbvb.util.Locble.ENGLISH;
 
-import java.security.GeneralSecurityException;
-import java.security.spec.AlgorithmParameterSpec;
-import java.lang.reflect.*;
+import jbvb.security.GenerblSecurityException;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.lbng.reflect.*;
 
 /**
- * JCE has two pairs of jurisdiction policy files: one represents U.S. export
- * laws, and the other represents the local laws of the country where the
+ * JCE hbs two pbirs of jurisdiction policy files: one represents U.S. export
+ * lbws, bnd the other represents the locbl lbws of the country where the
  * JCE will be used.
  *
- * The jurisdiction policy file has the same syntax as JDK policy files except
- * that JCE has new permission classes called javax.crypto.CryptoPermission
- * and javax.crypto.CryptoAllPermission.
+ * The jurisdiction policy file hbs the sbme syntbx bs JDK policy files except
+ * thbt JCE hbs new permission clbsses cblled jbvbx.crypto.CryptoPermission
+ * bnd jbvbx.crypto.CryptoAllPermission.
  *
- * The format of a permission entry in the jurisdiction policy file is:
+ * The formbt of b permission entry in the jurisdiction policy file is:
  *
- *   permission <crypto permission class name>[, <algorithm name>
- *              [[, <exemption mechanism name>][, <maxKeySize>
- *              [, <AlgrithomParameterSpec class name>, <parameters
- *              for constructing an AlgrithomParameterSpec object>]]]];
+ *   permission <crypto permission clbss nbme>[, <blgorithm nbme>
+ *              [[, <exemption mechbnism nbme>][, <mbxKeySize>
+ *              [, <AlgrithomPbrbmeterSpec clbss nbme>, <pbrbmeters
+ *              for constructing bn AlgrithomPbrbmeterSpec object>]]]];
  *
- * @author Sharon Liu
+ * @buthor Shbron Liu
  *
- * @see java.security.Permissions
- * @see java.security.spec.AlgorithmParameterSpec
- * @see javax.crypto.CryptoPermission
- * @see javax.crypto.CryptoAllPermission
- * @see javax.crypto.CryptoPermissions
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.spec.AlgorithmPbrbmeterSpec
+ * @see jbvbx.crypto.CryptoPermission
+ * @see jbvbx.crypto.CryptoAllPermission
+ * @see jbvbx.crypto.CryptoPermissions
  * @since 1.4
  */
 
-final class CryptoPolicyParser {
+finbl clbss CryptoPolicyPbrser {
 
-    private Vector<GrantEntry> grantEntries;
+    privbte Vector<GrbntEntry> grbntEntries;
 
-    // Convenience variables for parsing
-    private StreamTokenizer st;
-    private int lookahead;
+    // Convenience vbribbles for pbrsing
+    privbte StrebmTokenizer st;
+    privbte int lookbhebd;
 
     /**
-     * Creates a CryptoPolicyParser object.
+     * Crebtes b CryptoPolicyPbrser object.
      */
-    CryptoPolicyParser() {
-        grantEntries = new Vector<GrantEntry>();
+    CryptoPolicyPbrser() {
+        grbntEntries = new Vector<GrbntEntry>();
     }
 
     /**
-     * Reads a policy configuration using a Reader object. <p>
+     * Rebds b policy configurbtion using b Rebder object. <p>
      *
-     * @param policy the policy Reader object.
+     * @pbrbm policy the policy Rebder object.
      *
-     * @exception ParsingException if the policy configuration
-     * contains a syntax error.
+     * @exception PbrsingException if the policy configurbtion
+     * contbins b syntbx error.
      *
-     * @exception IOException if an error occurs while reading
-     * the policy configuration.
+     * @exception IOException if bn error occurs while rebding
+     * the policy configurbtion.
      */
 
-    void read(Reader policy)
-        throws ParsingException, IOException
+    void rebd(Rebder policy)
+        throws PbrsingException, IOException
     {
-        if (!(policy instanceof BufferedReader)) {
-            policy = new BufferedReader(policy);
+        if (!(policy instbnceof BufferedRebder)) {
+            policy = new BufferedRebder(policy);
         }
 
         /*
-         * Configure the stream tokenizer:
+         * Configure the strebm tokenizer:
          *      Recognize strings between "..."
-         *      Don't convert words to lowercase
-         *      Recognize both C-style and C++-style comments
-         *      Treat end-of-line as white space, not as a token
+         *      Don't convert words to lowercbse
+         *      Recognize both C-style bnd C++-style comments
+         *      Trebt end-of-line bs white spbce, not bs b token
          */
-        st = new StreamTokenizer(policy);
+        st = new StrebmTokenizer(policy);
 
-        st.resetSyntax();
-        st.wordChars('a', 'z');
-        st.wordChars('A', 'Z');
-        st.wordChars('.', '.');
-        st.wordChars('0', '9');
-        st.wordChars('_', '_');
-        st.wordChars('$', '$');
-        st.wordChars(128 + 32, 255);
-        st.whitespaceChars(0, ' ');
-        st.commentChar('/');
-        st.quoteChar('\'');
-        st.quoteChar('"');
-        st.lowerCaseMode(false);
-        st.ordinaryChar('/');
-        st.slashSlashComments(true);
-        st.slashStarComments(true);
-        st.parseNumbers();
+        st.resetSyntbx();
+        st.wordChbrs('b', 'z');
+        st.wordChbrs('A', 'Z');
+        st.wordChbrs('.', '.');
+        st.wordChbrs('0', '9');
+        st.wordChbrs('_', '_');
+        st.wordChbrs('$', '$');
+        st.wordChbrs(128 + 32, 255);
+        st.whitespbceChbrs(0, ' ');
+        st.commentChbr('/');
+        st.quoteChbr('\'');
+        st.quoteChbr('"');
+        st.lowerCbseMode(fblse);
+        st.ordinbryChbr('/');
+        st.slbshSlbshComments(true);
+        st.slbshStbrComments(true);
+        st.pbrseNumbers();
 
         /*
          * The crypto jurisdiction policy must be consistent. The
-         * following hashtable is used for checking consistency.
+         * following hbshtbble is used for checking consistency.
          */
-        Hashtable<String, Vector<String>> processedPermissions = null;
+        Hbshtbble<String, Vector<String>> processedPermissions = null;
 
         /*
-         * The main parsing loop.  The loop is executed once for each entry
-         * in the policy file. The entries are delimited by semicolons. Once
-         * we've read in the information for an entry, go ahead and try to
-         * add it to the grantEntries.
+         * The mbin pbrsing loop.  The loop is executed once for ebch entry
+         * in the policy file. The entries bre delimited by semicolons. Once
+         * we've rebd in the informbtion for bn entry, go bhebd bnd try to
+         * bdd it to the grbntEntries.
          */
-        lookahead = st.nextToken();
-        while (lookahead != StreamTokenizer.TT_EOF) {
-            if (peek("grant")) {
-                GrantEntry ge = parseGrantEntry(processedPermissions);
+        lookbhebd = st.nextToken();
+        while (lookbhebd != StrebmTokenizer.TT_EOF) {
+            if (peek("grbnt")) {
+                GrbntEntry ge = pbrseGrbntEntry(processedPermissions);
                 if (ge != null)
-                    grantEntries.addElement(ge);
+                    grbntEntries.bddElement(ge);
             } else {
-                throw new ParsingException(st.lineno(), "expected grant " +
-                                           "statement");
+                throw new PbrsingException(st.lineno(), "expected grbnt " +
+                                           "stbtement");
             }
-            match(";");
+            mbtch(";");
         }
     }
 
     /**
-     * parse a Grant entry
+     * pbrse b Grbnt entry
      */
-    private GrantEntry parseGrantEntry(
-            Hashtable<String, Vector<String>> processedPermissions)
-        throws ParsingException, IOException
+    privbte GrbntEntry pbrseGrbntEntry(
+            Hbshtbble<String, Vector<String>> processedPermissions)
+        throws PbrsingException, IOException
     {
-        GrantEntry e = new GrantEntry();
+        GrbntEntry e = new GrbntEntry();
 
-        match("grant");
-        match("{");
+        mbtch("grbnt");
+        mbtch("{");
 
         while(!peek("}")) {
             if (peek("Permission")) {
                 CryptoPermissionEntry pe =
-                    parsePermissionEntry(processedPermissions);
-                e.add(pe);
-                match(";");
+                    pbrsePermissionEntry(processedPermissions);
+                e.bdd(pe);
+                mbtch(";");
             } else {
                 throw new
-                    ParsingException(st.lineno(), "expected permission entry");
+                    PbrsingException(st.lineno(), "expected permission entry");
             }
         }
-        match("}");
+        mbtch("}");
 
         return e;
     }
 
     /**
-     * parse a CryptoPermission entry
+     * pbrse b CryptoPermission entry
      */
-    private CryptoPermissionEntry parsePermissionEntry(
-            Hashtable<String, Vector<String>> processedPermissions)
-        throws ParsingException, IOException
+    privbte CryptoPermissionEntry pbrsePermissionEntry(
+            Hbshtbble<String, Vector<String>> processedPermissions)
+        throws PbrsingException, IOException
     {
         CryptoPermissionEntry e = new CryptoPermissionEntry();
 
-        match("Permission");
-        e.cryptoPermission = match("permission type");
+        mbtch("Permission");
+        e.cryptoPermission = mbtch("permission type");
 
-        if (e.cryptoPermission.equals("javax.crypto.CryptoAllPermission")) {
+        if (e.cryptoPermission.equbls("jbvbx.crypto.CryptoAllPermission")) {
             // Done with the CryptoAllPermission entry.
-            e.alg = CryptoAllPermission.ALG_NAME;
-            e.maxKeySize = Integer.MAX_VALUE;
+            e.blg = CryptoAllPermission.ALG_NAME;
+            e.mbxKeySize = Integer.MAX_VALUE;
             return e;
         }
 
-        // Should see the algorithm name.
+        // Should see the blgorithm nbme.
         if (peek("\"")) {
-            // Algorithm name - always convert to upper case after parsing.
-            e.alg = match("quoted string").toUpperCase(ENGLISH);
+            // Algorithm nbme - blwbys convert to upper cbse bfter pbrsing.
+            e.blg = mbtch("quoted string").toUpperCbse(ENGLISH);
         } else {
-            // The algorithm name can be a wildcard.
+            // The blgorithm nbme cbn be b wildcbrd.
             if (peek("*")) {
-                match("*");
-                e.alg = CryptoPermission.ALG_NAME_WILDCARD;
+                mbtch("*");
+                e.blg = CryptoPermission.ALG_NAME_WILDCARD;
             } else {
-                throw new ParsingException(st.lineno(),
-                                           "Missing the algorithm name");
+                throw new PbrsingException(st.lineno(),
+                                           "Missing the blgorithm nbme");
             }
         }
 
-        peekAndMatch(",");
+        peekAndMbtch(",");
 
-        // May see the exemption mechanism name.
+        // Mby see the exemption mechbnism nbme.
         if (peek("\"")) {
-            // Exemption mechanism name - convert to upper case too.
-            e.exemptionMechanism = match("quoted string").toUpperCase(ENGLISH);
+            // Exemption mechbnism nbme - convert to upper cbse too.
+            e.exemptionMechbnism = mbtch("quoted string").toUpperCbse(ENGLISH);
         }
 
-        peekAndMatch(",");
+        peekAndMbtch(",");
 
         // Check whether this entry is consistent with other permission entries
-        // that have been read.
-        if (!isConsistent(e.alg, e.exemptionMechanism, processedPermissions)) {
-            throw new ParsingException(st.lineno(), "Inconsistent policy");
+        // thbt hbve been rebd.
+        if (!isConsistent(e.blg, e.exemptionMechbnism, processedPermissions)) {
+            throw new PbrsingException(st.lineno(), "Inconsistent policy");
         }
 
-        // Should see the maxKeySize if not at the end of this entry yet.
+        // Should see the mbxKeySize if not bt the end of this entry yet.
         if (peek("number")) {
-            e.maxKeySize = match();
+            e.mbxKeySize = mbtch();
         } else {
             if (peek("*")) {
-                match("*");
-                e.maxKeySize = Integer.MAX_VALUE;
+                mbtch("*");
+                e.mbxKeySize = Integer.MAX_VALUE;
             } else {
                 if (!peek(";")) {
-                    throw new ParsingException(st.lineno(),
-                                               "Missing the maximum " +
-                                               "allowable key size");
+                    throw new PbrsingException(st.lineno(),
+                                               "Missing the mbximum " +
+                                               "bllowbble key size");
                 } else {
                     // At the end of this permission entry
-                    e.maxKeySize = Integer.MAX_VALUE;
+                    e.mbxKeySize = Integer.MAX_VALUE;
                 }
             }
         }
 
-        peekAndMatch(",");
+        peekAndMbtch(",");
 
-        // May see an AlgorithmParameterSpec class name.
+        // Mby see bn AlgorithmPbrbmeterSpec clbss nbme.
         if (peek("\"")) {
-            // AlgorithmParameterSpec class name.
-            String algParamSpecClassName = match("quoted string");
+            // AlgorithmPbrbmeterSpec clbss nbme.
+            String blgPbrbmSpecClbssNbme = mbtch("quoted string");
 
-            Vector<Integer> paramsV = new Vector<>(1);
+            Vector<Integer> pbrbmsV = new Vector<>(1);
             while (peek(",")) {
-                match(",");
+                mbtch(",");
                 if (peek("number")) {
-                    paramsV.addElement(match());
+                    pbrbmsV.bddElement(mbtch());
                 } else {
                     if (peek("*")) {
-                        match("*");
-                        paramsV.addElement(Integer.MAX_VALUE);
+                        mbtch("*");
+                        pbrbmsV.bddElement(Integer.MAX_VALUE);
                     } else {
-                        throw new ParsingException(st.lineno(),
-                                                   "Expecting an integer");
+                        throw new PbrsingException(st.lineno(),
+                                                   "Expecting bn integer");
                     }
                 }
             }
 
-            Integer[] params = new Integer[paramsV.size()];
-            paramsV.copyInto(params);
+            Integer[] pbrbms = new Integer[pbrbmsV.size()];
+            pbrbmsV.copyInto(pbrbms);
 
-            e.checkParam = true;
-            e.algParamSpec = getInstance(algParamSpecClassName, params);
+            e.checkPbrbm = true;
+            e.blgPbrbmSpec = getInstbnce(blgPbrbmSpecClbssNbme, pbrbms);
         }
 
         return e;
     }
 
-    private static final AlgorithmParameterSpec getInstance(String type,
-                                                            Integer[] params)
-        throws ParsingException
+    privbte stbtic finbl AlgorithmPbrbmeterSpec getInstbnce(String type,
+                                                            Integer[] pbrbms)
+        throws PbrsingException
     {
-        AlgorithmParameterSpec ret = null;
+        AlgorithmPbrbmeterSpec ret = null;
 
         try {
-            Class<?> apsClass = Class.forName(type);
-            Class<?>[] paramClasses = new Class<?>[params.length];
+            Clbss<?> bpsClbss = Clbss.forNbme(type);
+            Clbss<?>[] pbrbmClbsses = new Clbss<?>[pbrbms.length];
 
-            for (int i = 0; i < params.length; i++) {
-                paramClasses[i] = int.class;
+            for (int i = 0; i < pbrbms.length; i++) {
+                pbrbmClbsses[i] = int.clbss;
             }
 
-            Constructor<?> c = apsClass.getConstructor(paramClasses);
-            ret = (AlgorithmParameterSpec) c.newInstance((Object[]) params);
-        } catch (Exception e) {
-            throw new ParsingException("Cannot call the constructor of " +
+            Constructor<?> c = bpsClbss.getConstructor(pbrbmClbsses);
+            ret = (AlgorithmPbrbmeterSpec) c.newInstbnce((Object[]) pbrbms);
+        } cbtch (Exception e) {
+            throw new PbrsingException("Cbnnot cbll the constructor of " +
                                        type + e);
         }
         return ret;
     }
 
 
-    private boolean peekAndMatch(String expect)
-        throws ParsingException, IOException
+    privbte boolebn peekAndMbtch(String expect)
+        throws PbrsingException, IOException
     {
         if (peek(expect)) {
-            match(expect);
+            mbtch(expect);
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    private boolean peek(String expect) {
-        boolean found = false;
+    privbte boolebn peek(String expect) {
+        boolebn found = fblse;
 
-        switch (lookahead) {
+        switch (lookbhebd) {
 
-        case StreamTokenizer.TT_WORD:
-            if (expect.equalsIgnoreCase(st.sval))
+        cbse StrebmTokenizer.TT_WORD:
+            if (expect.equblsIgnoreCbse(st.svbl))
                 found = true;
-            break;
-        case StreamTokenizer.TT_NUMBER:
-            if (expect.equalsIgnoreCase("number")) {
+            brebk;
+        cbse StrebmTokenizer.TT_NUMBER:
+            if (expect.equblsIgnoreCbse("number")) {
                 found = true;
             }
-            break;
-        case ',':
-            if (expect.equals(","))
+            brebk;
+        cbse ',':
+            if (expect.equbls(","))
                 found = true;
-            break;
-        case '{':
-            if (expect.equals("{"))
+            brebk;
+        cbse '{':
+            if (expect.equbls("{"))
                 found = true;
-            break;
-        case '}':
-            if (expect.equals("}"))
+            brebk;
+        cbse '}':
+            if (expect.equbls("}"))
                 found = true;
-            break;
-        case '"':
-            if (expect.equals("\""))
+            brebk;
+        cbse '"':
+            if (expect.equbls("\""))
                 found = true;
-            break;
-        case '*':
-            if (expect.equals("*"))
+            brebk;
+        cbse '*':
+            if (expect.equbls("*"))
                 found = true;
-            break;
-        case ';':
-            if (expect.equals(";"))
+            brebk;
+        cbse ';':
+            if (expect.equbls(";"))
                 found = true;
-            break;
-        default:
-            break;
+            brebk;
+        defbult:
+            brebk;
         }
         return found;
     }
 
     /**
-     * Excepts to match a non-negative number.
+     * Excepts to mbtch b non-negbtive number.
      */
-    private int match()
-        throws ParsingException, IOException
+    privbte int mbtch()
+        throws PbrsingException, IOException
     {
-        int value = -1;
+        int vblue = -1;
         int lineno = st.lineno();
-        String sValue = null;
+        String sVblue = null;
 
-        switch (lookahead) {
-        case StreamTokenizer.TT_NUMBER:
-            value = (int)st.nval;
-            if (value < 0) {
-                sValue = String.valueOf(st.nval);
+        switch (lookbhebd) {
+        cbse StrebmTokenizer.TT_NUMBER:
+            vblue = (int)st.nvbl;
+            if (vblue < 0) {
+                sVblue = String.vblueOf(st.nvbl);
             }
-            lookahead = st.nextToken();
-            break;
-        default:
-            sValue = st.sval;
-            break;
+            lookbhebd = st.nextToken();
+            brebk;
+        defbult:
+            sVblue = st.svbl;
+            brebk;
         }
-        if (value <= 0) {
-            throw new ParsingException(lineno, "a non-negative number",
-                                       sValue);
+        if (vblue <= 0) {
+            throw new PbrsingException(lineno, "b non-negbtive number",
+                                       sVblue);
         }
-        return value;
+        return vblue;
     }
 
-    private String match(String expect)
-        throws ParsingException, IOException
+    privbte String mbtch(String expect)
+        throws PbrsingException, IOException
     {
-        String value = null;
+        String vblue = null;
 
-        switch (lookahead) {
-        case StreamTokenizer.TT_NUMBER:
-            throw new ParsingException(st.lineno(), expect,
-                                       "number "+String.valueOf(st.nval));
-        case StreamTokenizer.TT_EOF:
-           throw new ParsingException("expected "+expect+", read end of file");
-        case StreamTokenizer.TT_WORD:
-            if (expect.equalsIgnoreCase(st.sval)) {
-                lookahead = st.nextToken();
+        switch (lookbhebd) {
+        cbse StrebmTokenizer.TT_NUMBER:
+            throw new PbrsingException(st.lineno(), expect,
+                                       "number "+String.vblueOf(st.nvbl));
+        cbse StrebmTokenizer.TT_EOF:
+           throw new PbrsingException("expected "+expect+", rebd end of file");
+        cbse StrebmTokenizer.TT_WORD:
+            if (expect.equblsIgnoreCbse(st.svbl)) {
+                lookbhebd = st.nextToken();
             }
-            else if (expect.equalsIgnoreCase("permission type")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            }
-            else
-                throw new ParsingException(st.lineno(), expect, st.sval);
-            break;
-        case '"':
-            if (expect.equalsIgnoreCase("quoted string")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            } else if (expect.equalsIgnoreCase("permission type")) {
-                value = st.sval;
-                lookahead = st.nextToken();
+            else if (expect.equblsIgnoreCbse("permission type")) {
+                vblue = st.svbl;
+                lookbhebd = st.nextToken();
             }
             else
-                throw new ParsingException(st.lineno(), expect, st.sval);
-            break;
-        case ',':
-            if (expect.equals(","))
-                lookahead = st.nextToken();
+                throw new PbrsingException(st.lineno(), expect, st.svbl);
+            brebk;
+        cbse '"':
+            if (expect.equblsIgnoreCbse("quoted string")) {
+                vblue = st.svbl;
+                lookbhebd = st.nextToken();
+            } else if (expect.equblsIgnoreCbse("permission type")) {
+                vblue = st.svbl;
+                lookbhebd = st.nextToken();
+            }
             else
-                throw new ParsingException(st.lineno(), expect, ",");
-            break;
-        case '{':
-            if (expect.equals("{"))
-                lookahead = st.nextToken();
+                throw new PbrsingException(st.lineno(), expect, st.svbl);
+            brebk;
+        cbse ',':
+            if (expect.equbls(","))
+                lookbhebd = st.nextToken();
             else
-                throw new ParsingException(st.lineno(), expect, "{");
-            break;
-        case '}':
-            if (expect.equals("}"))
-                lookahead = st.nextToken();
+                throw new PbrsingException(st.lineno(), expect, ",");
+            brebk;
+        cbse '{':
+            if (expect.equbls("{"))
+                lookbhebd = st.nextToken();
             else
-                throw new ParsingException(st.lineno(), expect, "}");
-            break;
-        case ';':
-            if (expect.equals(";"))
-                lookahead = st.nextToken();
+                throw new PbrsingException(st.lineno(), expect, "{");
+            brebk;
+        cbse '}':
+            if (expect.equbls("}"))
+                lookbhebd = st.nextToken();
             else
-                throw new ParsingException(st.lineno(), expect, ";");
-            break;
-        case '*':
-            if (expect.equals("*"))
-                lookahead = st.nextToken();
+                throw new PbrsingException(st.lineno(), expect, "}");
+            brebk;
+        cbse ';':
+            if (expect.equbls(";"))
+                lookbhebd = st.nextToken();
             else
-                throw new ParsingException(st.lineno(), expect, "*");
-            break;
-        default:
-            throw new ParsingException(st.lineno(), expect,
-                               new String(new char[] {(char)lookahead}));
+                throw new PbrsingException(st.lineno(), expect, ";");
+            brebk;
+        cbse '*':
+            if (expect.equbls("*"))
+                lookbhebd = st.nextToken();
+            else
+                throw new PbrsingException(st.lineno(), expect, "*");
+            brebk;
+        defbult:
+            throw new PbrsingException(st.lineno(), expect,
+                               new String(new chbr[] {(chbr)lookbhebd}));
         }
-        return value;
+        return vblue;
     }
 
     CryptoPermission[] getPermissions() {
         Vector<CryptoPermission> result = new Vector<>();
 
-        Enumeration<GrantEntry> grantEnum = grantEntries.elements();
-        while (grantEnum.hasMoreElements()) {
-            GrantEntry ge = grantEnum.nextElement();
-            Enumeration<CryptoPermissionEntry> permEnum =
+        Enumerbtion<GrbntEntry> grbntEnum = grbntEntries.elements();
+        while (grbntEnum.hbsMoreElements()) {
+            GrbntEntry ge = grbntEnum.nextElement();
+            Enumerbtion<CryptoPermissionEntry> permEnum =
                     ge.permissionElements();
-            while (permEnum.hasMoreElements()) {
+            while (permEnum.hbsMoreElements()) {
                 CryptoPermissionEntry pe = permEnum.nextElement();
-                if (pe.cryptoPermission.equals(
-                                        "javax.crypto.CryptoAllPermission")) {
-                    result.addElement(CryptoAllPermission.INSTANCE);
+                if (pe.cryptoPermission.equbls(
+                                        "jbvbx.crypto.CryptoAllPermission")) {
+                    result.bddElement(CryptoAllPermission.INSTANCE);
                 } else {
-                    if (pe.checkParam) {
-                        result.addElement(new CryptoPermission(
-                                                pe.alg,
-                                                pe.maxKeySize,
-                                                pe.algParamSpec,
-                                                pe.exemptionMechanism));
+                    if (pe.checkPbrbm) {
+                        result.bddElement(new CryptoPermission(
+                                                pe.blg,
+                                                pe.mbxKeySize,
+                                                pe.blgPbrbmSpec,
+                                                pe.exemptionMechbnism));
                     } else {
-                        result.addElement(new CryptoPermission(
-                                                pe.alg,
-                                                pe.maxKeySize,
-                                                pe.exemptionMechanism));
+                        result.bddElement(new CryptoPermission(
+                                                pe.blg,
+                                                pe.mbxKeySize,
+                                                pe.exemptionMechbnism));
                     }
                 }
             }
@@ -491,216 +491,216 @@ final class CryptoPolicyParser {
         return ret;
     }
 
-    private boolean isConsistent(String alg, String exemptionMechanism,
-            Hashtable<String, Vector<String>> processedPermissions) {
-        String thisExemptionMechanism =
-            exemptionMechanism == null ? "none" : exemptionMechanism;
+    privbte boolebn isConsistent(String blg, String exemptionMechbnism,
+            Hbshtbble<String, Vector<String>> processedPermissions) {
+        String thisExemptionMechbnism =
+            exemptionMechbnism == null ? "none" : exemptionMechbnism;
 
         if (processedPermissions == null) {
-            processedPermissions = new Hashtable<String, Vector<String>>();
-            Vector<String> exemptionMechanisms = new Vector<>(1);
-            exemptionMechanisms.addElement(thisExemptionMechanism);
-            processedPermissions.put(alg, exemptionMechanisms);
+            processedPermissions = new Hbshtbble<String, Vector<String>>();
+            Vector<String> exemptionMechbnisms = new Vector<>(1);
+            exemptionMechbnisms.bddElement(thisExemptionMechbnism);
+            processedPermissions.put(blg, exemptionMechbnisms);
             return true;
         }
 
-        if (processedPermissions.containsKey(CryptoAllPermission.ALG_NAME)) {
-            return false;
+        if (processedPermissions.contbinsKey(CryptoAllPermission.ALG_NAME)) {
+            return fblse;
         }
 
-        Vector<String> exemptionMechanisms;
+        Vector<String> exemptionMechbnisms;
 
-        if (processedPermissions.containsKey(alg)) {
-            exemptionMechanisms = processedPermissions.get(alg);
-            if (exemptionMechanisms.contains(thisExemptionMechanism)) {
-                return false;
+        if (processedPermissions.contbinsKey(blg)) {
+            exemptionMechbnisms = processedPermissions.get(blg);
+            if (exemptionMechbnisms.contbins(thisExemptionMechbnism)) {
+                return fblse;
             }
         } else {
-            exemptionMechanisms = new Vector<String>(1);
+            exemptionMechbnisms = new Vector<String>(1);
         }
 
-        exemptionMechanisms.addElement(thisExemptionMechanism);
-        processedPermissions.put(alg, exemptionMechanisms);
+        exemptionMechbnisms.bddElement(thisExemptionMechbnism);
+        processedPermissions.put(blg, exemptionMechbnisms);
         return true;
     }
 
     /**
-     * Each grant entry in the policy configuration file is  represented by a
-     * GrantEntry object.  <p>
+     * Ebch grbnt entry in the policy configurbtion file is  represented by b
+     * GrbntEntry object.  <p>
      *
      * <p>
-     * For example, the entry
+     * For exbmple, the entry
      * <pre>
-     *      grant {
-     *       permission javax.crypto.CryptoPermission "DES", 56;
+     *      grbnt {
+     *       permission jbvbx.crypto.CryptoPermission "DES", 56;
      *      };
      *
      * </pre>
-     * is represented internally
+     * is represented internblly
      * <pre>
      *
-     * pe = new CryptoPermissionEntry("javax.crypto.CryptoPermission",
+     * pe = new CryptoPermissionEntry("jbvbx.crypto.CryptoPermission",
      *                           "DES", 56);
      *
-     * ge = new GrantEntry();
+     * ge = new GrbntEntry();
      *
-     * ge.add(pe);
+     * ge.bdd(pe);
      *
      * </pre>
      *
-     * @see java.security.Permission
-     * @see javax.crypto.CryptoPermission
-     * @see javax.crypto.CryptoPermissions
+     * @see jbvb.security.Permission
+     * @see jbvbx.crypto.CryptoPermission
+     * @see jbvbx.crypto.CryptoPermissions
      */
 
-    private static class GrantEntry {
+    privbte stbtic clbss GrbntEntry {
 
-        private Vector<CryptoPermissionEntry> permissionEntries;
+        privbte Vector<CryptoPermissionEntry> permissionEntries;
 
-        GrantEntry() {
+        GrbntEntry() {
             permissionEntries = new Vector<CryptoPermissionEntry>();
         }
 
-        void add(CryptoPermissionEntry pe)
+        void bdd(CryptoPermissionEntry pe)
         {
-            permissionEntries.addElement(pe);
+            permissionEntries.bddElement(pe);
         }
 
-        boolean remove(CryptoPermissionEntry pe)
+        boolebn remove(CryptoPermissionEntry pe)
         {
             return permissionEntries.removeElement(pe);
         }
 
-        boolean contains(CryptoPermissionEntry pe)
+        boolebn contbins(CryptoPermissionEntry pe)
         {
-            return permissionEntries.contains(pe);
+            return permissionEntries.contbins(pe);
         }
 
         /**
-         * Enumerate all the permission entries in this GrantEntry.
+         * Enumerbte bll the permission entries in this GrbntEntry.
          */
-        Enumeration<CryptoPermissionEntry> permissionElements(){
+        Enumerbtion<CryptoPermissionEntry> permissionElements(){
             return permissionEntries.elements();
         }
 
     }
 
     /**
-     * Each crypto permission entry in the policy configuration file is
-     * represented by a CryptoPermissionEntry object.  <p>
+     * Ebch crypto permission entry in the policy configurbtion file is
+     * represented by b CryptoPermissionEntry object.  <p>
      *
      * <p>
-     * For example, the entry
+     * For exbmple, the entry
      * <pre>
-     *     permission javax.crypto.CryptoPermission "DES", 56;
+     *     permission jbvbx.crypto.CryptoPermission "DES", 56;
      * </pre>
-     * is represented internally
+     * is represented internblly
      * <pre>
      *
-     * pe = new CryptoPermissionEntry("javax.crypto.cryptoPermission",
+     * pe = new CryptoPermissionEntry("jbvbx.crypto.cryptoPermission",
      *                           "DES", 56);
      * </pre>
      *
-     * @see java.security.Permissions
-     * @see javax.crypto.CryptoPermission
-     * @see javax.crypto.CryptoAllPermission
+     * @see jbvb.security.Permissions
+     * @see jbvbx.crypto.CryptoPermission
+     * @see jbvbx.crypto.CryptoAllPermission
      */
 
-    private static class CryptoPermissionEntry {
+    privbte stbtic clbss CryptoPermissionEntry {
 
         String cryptoPermission;
-        String alg;
-        String exemptionMechanism;
-        int maxKeySize;
-        boolean checkParam;
-        AlgorithmParameterSpec algParamSpec;
+        String blg;
+        String exemptionMechbnism;
+        int mbxKeySize;
+        boolebn checkPbrbm;
+        AlgorithmPbrbmeterSpec blgPbrbmSpec;
 
         CryptoPermissionEntry() {
-            // Set default values.
-            maxKeySize = 0;
-            alg = null;
-            exemptionMechanism = null;
-            checkParam = false;
-            algParamSpec = null;
+            // Set defbult vblues.
+            mbxKeySize = 0;
+            blg = null;
+            exemptionMechbnism = null;
+            checkPbrbm = fblse;
+            blgPbrbmSpec = null;
         }
 
         /**
-         * Calculates a hash code value for the object.  Objects
-         * which are equal will also have the same hashcode.
+         * Cblculbtes b hbsh code vblue for the object.  Objects
+         * which bre equbl will blso hbve the sbme hbshcode.
          */
-        public int hashCode() {
-            int retval = cryptoPermission.hashCode();
-            if (alg != null) retval ^= alg.hashCode();
-            if (exemptionMechanism != null) {
-                retval ^= exemptionMechanism.hashCode();
+        public int hbshCode() {
+            int retvbl = cryptoPermission.hbshCode();
+            if (blg != null) retvbl ^= blg.hbshCode();
+            if (exemptionMechbnism != null) {
+                retvbl ^= exemptionMechbnism.hbshCode();
             }
-            retval ^= maxKeySize;
-            if (checkParam) retval ^= 100;
-            if (algParamSpec != null) {
-                retval ^= algParamSpec.hashCode();
+            retvbl ^= mbxKeySize;
+            if (checkPbrbm) retvbl ^= 100;
+            if (blgPbrbmSpec != null) {
+                retvbl ^= blgPbrbmSpec.hbshCode();
             }
-            return retval;
+            return retvbl;
         }
 
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (obj == this)
                 return true;
 
-            if (!(obj instanceof CryptoPermissionEntry))
-                return false;
+            if (!(obj instbnceof CryptoPermissionEntry))
+                return fblse;
 
-            CryptoPermissionEntry that = (CryptoPermissionEntry) obj;
+            CryptoPermissionEntry thbt = (CryptoPermissionEntry) obj;
 
             if (this.cryptoPermission == null) {
-                if (that.cryptoPermission != null) return false;
+                if (thbt.cryptoPermission != null) return fblse;
             } else {
-                if (!this.cryptoPermission.equals(
-                                                 that.cryptoPermission))
-                    return false;
+                if (!this.cryptoPermission.equbls(
+                                                 thbt.cryptoPermission))
+                    return fblse;
             }
 
-            if (this.alg == null) {
-                if (that.alg != null) return false;
+            if (this.blg == null) {
+                if (thbt.blg != null) return fblse;
             } else {
-                if (!this.alg.equalsIgnoreCase(that.alg))
-                    return false;
+                if (!this.blg.equblsIgnoreCbse(thbt.blg))
+                    return fblse;
             }
 
-            if (!(this.maxKeySize == that.maxKeySize)) return false;
+            if (!(this.mbxKeySize == thbt.mbxKeySize)) return fblse;
 
-            if (this.checkParam != that.checkParam) return false;
+            if (this.checkPbrbm != thbt.checkPbrbm) return fblse;
 
-            if (this.algParamSpec == null) {
-                if (that.algParamSpec != null) return false;
+            if (this.blgPbrbmSpec == null) {
+                if (thbt.blgPbrbmSpec != null) return fblse;
             } else {
-                if (!this.algParamSpec.equals(that.algParamSpec))
-                    return false;
+                if (!this.blgPbrbmSpec.equbls(thbt.blgPbrbmSpec))
+                    return fblse;
             }
 
-            // everything matched -- the 2 objects are equal
+            // everything mbtched -- the 2 objects bre equbl
             return true;
         }
     }
 
-    static final class ParsingException extends GeneralSecurityException {
+    stbtic finbl clbss PbrsingException extends GenerblSecurityException {
 
-        private static final long serialVersionUID = 7147241245566588374L;
+        privbte stbtic finbl long seriblVersionUID = 7147241245566588374L;
 
         /**
-         * Constructs a ParsingException with the specified
-         * detail message.
-         * @param msg the detail message.
+         * Constructs b PbrsingException with the specified
+         * detbil messbge.
+         * @pbrbm msg the detbil messbge.
          */
-        ParsingException(String msg) {
+        PbrsingException(String msg) {
             super(msg);
         }
 
-        ParsingException(int line, String msg) {
+        PbrsingException(int line, String msg) {
             super("line " + line + ": " + msg);
         }
 
-        ParsingException(int line, String expect, String actual) {
-            super("line "+line+": expected '"+expect+"', found '"+actual+"'");
+        PbrsingException(int line, String expect, String bctubl) {
+            super("line "+line+": expected '"+expect+"', found '"+bctubl+"'");
         }
     }
 }

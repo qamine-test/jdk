@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.java2d.cmm.lcms;
+pbckbge sun.jbvb2d.cmm.lcms;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.ComponentSampleModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
-import java.awt.image.SampleModel;
-import sun.awt.image.ByteComponentRaster;
-import sun.awt.image.ShortComponentRaster;
-import sun.awt.image.IntegerComponentRaster;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ComponentColorModel;
+import jbvb.bwt.imbge.ComponentSbmpleModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.SbmpleModel;
+import sun.bwt.imbge.ByteComponentRbster;
+import sun.bwt.imbge.ShortComponentRbster;
+import sun.bwt.imbge.IntegerComponentRbster;
 
-class LCMSImageLayout {
+clbss LCMSImbgeLbyout {
 
-    public static int BYTES_SH(int x) {
+    public stbtic int BYTES_SH(int x) {
         return x;
     }
 
-    public static int EXTRA_SH(int x) {
+    public stbtic int EXTRA_SH(int x) {
         return x << 7;
     }
 
-    public static int CHANNELS_SH(int x) {
+    public stbtic int CHANNELS_SH(int x) {
         return x << 3;
     }
-    public static final int SWAPFIRST = 1 << 14;
-    public static final int DOSWAP = 1 << 10;
-    public static final int PT_RGB_8 =
+    public stbtic finbl int SWAPFIRST = 1 << 14;
+    public stbtic finbl int DOSWAP = 1 << 10;
+    public stbtic finbl int PT_RGB_8 =
             CHANNELS_SH(3) | BYTES_SH(1);
-    public static final int PT_GRAY_8 =
+    public stbtic finbl int PT_GRAY_8 =
             CHANNELS_SH(1) | BYTES_SH(1);
-    public static final int PT_GRAY_16 =
+    public stbtic finbl int PT_GRAY_16 =
             CHANNELS_SH(1) | BYTES_SH(2);
-    public static final int PT_RGBA_8 =
+    public stbtic finbl int PT_RGBA_8 =
             EXTRA_SH(1) | CHANNELS_SH(3) | BYTES_SH(1);
-    public static final int PT_ARGB_8 =
+    public stbtic finbl int PT_ARGB_8 =
             EXTRA_SH(1) | CHANNELS_SH(3) | BYTES_SH(1) | SWAPFIRST;
-    public static final int PT_BGR_8 =
+    public stbtic finbl int PT_BGR_8 =
             DOSWAP | CHANNELS_SH(3) | BYTES_SH(1);
-    public static final int PT_ABGR_8 =
+    public stbtic finbl int PT_ABGR_8 =
             DOSWAP | EXTRA_SH(1) | CHANNELS_SH(3) | BYTES_SH(1);
-    public static final int PT_BGRA_8 = EXTRA_SH(1) | CHANNELS_SH(3)
+    public stbtic finbl int PT_BGRA_8 = EXTRA_SH(1) | CHANNELS_SH(3)
             | BYTES_SH(1) | DOSWAP | SWAPFIRST;
-    public static final int DT_BYTE = 0;
-    public static final int DT_SHORT = 1;
-    public static final int DT_INT = 2;
-    public static final int DT_DOUBLE = 3;
-    boolean isIntPacked = false;
+    public stbtic finbl int DT_BYTE = 0;
+    public stbtic finbl int DT_SHORT = 1;
+    public stbtic finbl int DT_INT = 2;
+    public stbtic finbl int DT_DOUBLE = 3;
+    boolebn isIntPbcked = fblse;
     int pixelType;
-    int dataType;
+    int dbtbType;
     int width;
     int height;
     int nextRowOffset;
-    private int nextPixelOffset;
+    privbte int nextPixelOffset;
     int offset;
 
-    /* This flag indicates whether the image can be processed
-     * at once by doTransfrom() native call. Otherwise, the
-     * image is processed scan by scan.
+    /* This flbg indicbtes whether the imbge cbn be processed
+     * bt once by doTrbnsfrom() nbtive cbll. Otherwise, the
+     * imbge is processed scbn by scbn.
      */
-    private boolean imageAtOnce = false;
-    Object dataArray;
+    privbte boolebn imbgeAtOnce = fblse;
+    Object dbtbArrby;
 
-    private int dataArrayLength; /* in bytes */
+    privbte int dbtbArrbyLength; /* in bytes */
 
-    private LCMSImageLayout(int np, int pixelType, int pixelSize)
-            throws ImageLayoutException
+    privbte LCMSImbgeLbyout(int np, int pixelType, int pixelSize)
+            throws ImbgeLbyoutException
     {
         this.pixelType = pixelType;
         width = np;
         height = 1;
         nextPixelOffset = pixelSize;
-        nextRowOffset = safeMult(pixelSize, np);
+        nextRowOffset = sbfeMult(pixelSize, np);
         offset = 0;
     }
 
-    private LCMSImageLayout(int width, int height, int pixelType,
+    privbte LCMSImbgeLbyout(int width, int height, int pixelType,
                             int pixelSize)
-            throws ImageLayoutException
+            throws ImbgeLbyoutException
     {
         this.pixelType = pixelType;
         this.width = width;
         this.height = height;
         nextPixelOffset = pixelSize;
-        nextRowOffset = safeMult(pixelSize, width);
+        nextRowOffset = sbfeMult(pixelSize, width);
         offset = 0;
     }
 
 
-    public LCMSImageLayout(byte[] data, int np, int pixelType, int pixelSize)
-            throws ImageLayoutException
+    public LCMSImbgeLbyout(byte[] dbtb, int np, int pixelType, int pixelSize)
+            throws ImbgeLbyoutException
     {
         this(np, pixelType, pixelSize);
-        dataType = DT_BYTE;
-        dataArray = data;
-        dataArrayLength = data.length;
+        dbtbType = DT_BYTE;
+        dbtbArrby = dbtb;
+        dbtbArrbyLength = dbtb.length;
 
         verify();
     }
 
-    public LCMSImageLayout(short[] data, int np, int pixelType, int pixelSize)
-            throws ImageLayoutException
+    public LCMSImbgeLbyout(short[] dbtb, int np, int pixelType, int pixelSize)
+            throws ImbgeLbyoutException
     {
         this(np, pixelType, pixelSize);
-        dataType = DT_SHORT;
-        dataArray = data;
-        dataArrayLength = 2 * data.length;
+        dbtbType = DT_SHORT;
+        dbtbArrby = dbtb;
+        dbtbArrbyLength = 2 * dbtb.length;
 
         verify();
     }
 
-    public LCMSImageLayout(int[] data, int np, int pixelType, int pixelSize)
-            throws ImageLayoutException
+    public LCMSImbgeLbyout(int[] dbtb, int np, int pixelType, int pixelSize)
+            throws ImbgeLbyoutException
     {
         this(np, pixelType, pixelSize);
-        dataType = DT_INT;
-        dataArray = data;
-        dataArrayLength = 4 * data.length;
+        dbtbType = DT_INT;
+        dbtbArrby = dbtb;
+        dbtbArrbyLength = 4 * dbtb.length;
 
         verify();
     }
 
-    public LCMSImageLayout(double[] data, int np, int pixelType, int pixelSize)
-            throws ImageLayoutException
+    public LCMSImbgeLbyout(double[] dbtb, int np, int pixelType, int pixelSize)
+            throws ImbgeLbyoutException
     {
         this(np, pixelType, pixelSize);
-        dataType = DT_DOUBLE;
-        dataArray = data;
-        dataArrayLength = 8 * data.length;
+        dbtbType = DT_DOUBLE;
+        dbtbArrby = dbtb;
+        dbtbArrbyLength = 8 * dbtb.length;
 
         verify();
     }
 
-    private LCMSImageLayout() {
+    privbte LCMSImbgeLbyout() {
     }
 
-    /* This method creates a layout object for given image.
-     * Returns null if the image is not supported by current implementation.
+    /* This method crebtes b lbyout object for given imbge.
+     * Returns null if the imbge is not supported by current implementbtion.
      */
-    public static LCMSImageLayout createImageLayout(BufferedImage image) throws ImageLayoutException {
-        LCMSImageLayout l = new LCMSImageLayout();
+    public stbtic LCMSImbgeLbyout crebteImbgeLbyout(BufferedImbge imbge) throws ImbgeLbyoutException {
+        LCMSImbgeLbyout l = new LCMSImbgeLbyout();
 
-        switch (image.getType()) {
-            case BufferedImage.TYPE_INT_RGB:
+        switch (imbge.getType()) {
+            cbse BufferedImbge.TYPE_INT_RGB:
                 l.pixelType = PT_ARGB_8;
-                l.isIntPacked = true;
-                break;
-            case BufferedImage.TYPE_INT_ARGB:
+                l.isIntPbcked = true;
+                brebk;
+            cbse BufferedImbge.TYPE_INT_ARGB:
                 l.pixelType = PT_ARGB_8;
-                l.isIntPacked = true;
-                break;
-            case BufferedImage.TYPE_INT_BGR:
+                l.isIntPbcked = true;
+                brebk;
+            cbse BufferedImbge.TYPE_INT_BGR:
                 l.pixelType = PT_ABGR_8;
-                l.isIntPacked = true;
-                break;
-            case BufferedImage.TYPE_3BYTE_BGR:
+                l.isIntPbcked = true;
+                brebk;
+            cbse BufferedImbge.TYPE_3BYTE_BGR:
                 l.pixelType = PT_BGR_8;
-                break;
-            case BufferedImage.TYPE_4BYTE_ABGR:
+                brebk;
+            cbse BufferedImbge.TYPE_4BYTE_ABGR:
                 l.pixelType = PT_ABGR_8;
-                break;
-            case BufferedImage.TYPE_BYTE_GRAY:
+                brebk;
+            cbse BufferedImbge.TYPE_BYTE_GRAY:
                 l.pixelType = PT_GRAY_8;
-                break;
-            case BufferedImage.TYPE_USHORT_GRAY:
+                brebk;
+            cbse BufferedImbge.TYPE_USHORT_GRAY:
                 l.pixelType = PT_GRAY_16;
-                break;
-            default:
-                /* ColorConvertOp creates component images as
-                 * default destination, so this kind of images
-                 * has to be supported.
+                brebk;
+            defbult:
+                /* ColorConvertOp crebtes component imbges bs
+                 * defbult destinbtion, so this kind of imbges
+                 * hbs to be supported.
                  */
-                ColorModel cm = image.getColorModel();
-                if (cm instanceof ComponentColorModel) {
+                ColorModel cm = imbge.getColorModel();
+                if (cm instbnceof ComponentColorModel) {
                     ComponentColorModel ccm = (ComponentColorModel) cm;
 
                     // verify whether the component size is fine
@@ -207,220 +207,220 @@ class LCMSImageLayout {
                         }
                     }
 
-                    return createImageLayout(image.getRaster());
+                    return crebteImbgeLbyout(imbge.getRbster());
 
                 }
                 return null;
         }
 
-        l.width = image.getWidth();
-        l.height = image.getHeight();
+        l.width = imbge.getWidth();
+        l.height = imbge.getHeight();
 
-        switch (image.getType()) {
-            case BufferedImage.TYPE_INT_RGB:
-            case BufferedImage.TYPE_INT_ARGB:
-            case BufferedImage.TYPE_INT_BGR:
+        switch (imbge.getType()) {
+            cbse BufferedImbge.TYPE_INT_RGB:
+            cbse BufferedImbge.TYPE_INT_ARGB:
+            cbse BufferedImbge.TYPE_INT_BGR:
                 do {
-                    IntegerComponentRaster intRaster = (IntegerComponentRaster)
-                            image.getRaster();
-                    l.nextRowOffset = safeMult(4, intRaster.getScanlineStride());
-                    l.nextPixelOffset = safeMult(4, intRaster.getPixelStride());
-                    l.offset = safeMult(4, intRaster.getDataOffset(0));
-                    l.dataArray = intRaster.getDataStorage();
-                    l.dataArrayLength = 4 * intRaster.getDataStorage().length;
-                    l.dataType = DT_INT;
+                    IntegerComponentRbster intRbster = (IntegerComponentRbster)
+                            imbge.getRbster();
+                    l.nextRowOffset = sbfeMult(4, intRbster.getScbnlineStride());
+                    l.nextPixelOffset = sbfeMult(4, intRbster.getPixelStride());
+                    l.offset = sbfeMult(4, intRbster.getDbtbOffset(0));
+                    l.dbtbArrby = intRbster.getDbtbStorbge();
+                    l.dbtbArrbyLength = 4 * intRbster.getDbtbStorbge().length;
+                    l.dbtbType = DT_INT;
 
-                    if (l.nextRowOffset == l.width * 4 * intRaster.getPixelStride()) {
-                        l.imageAtOnce = true;
+                    if (l.nextRowOffset == l.width * 4 * intRbster.getPixelStride()) {
+                        l.imbgeAtOnce = true;
                     }
-                } while (false);
-                break;
+                } while (fblse);
+                brebk;
 
-            case BufferedImage.TYPE_3BYTE_BGR:
-            case BufferedImage.TYPE_4BYTE_ABGR:
+            cbse BufferedImbge.TYPE_3BYTE_BGR:
+            cbse BufferedImbge.TYPE_4BYTE_ABGR:
                 do {
-                    ByteComponentRaster byteRaster = (ByteComponentRaster)
-                            image.getRaster();
-                    l.nextRowOffset = byteRaster.getScanlineStride();
-                    l.nextPixelOffset = byteRaster.getPixelStride();
+                    ByteComponentRbster byteRbster = (ByteComponentRbster)
+                            imbge.getRbster();
+                    l.nextRowOffset = byteRbster.getScbnlineStride();
+                    l.nextPixelOffset = byteRbster.getPixelStride();
 
-                    int firstBand = image.getSampleModel().getNumBands() - 1;
-                    l.offset = byteRaster.getDataOffset(firstBand);
-                    l.dataArray = byteRaster.getDataStorage();
-                    l.dataArrayLength = byteRaster.getDataStorage().length;
-                    l.dataType = DT_BYTE;
-                    if (l.nextRowOffset == l.width * byteRaster.getPixelStride()) {
-                        l.imageAtOnce = true;
+                    int firstBbnd = imbge.getSbmpleModel().getNumBbnds() - 1;
+                    l.offset = byteRbster.getDbtbOffset(firstBbnd);
+                    l.dbtbArrby = byteRbster.getDbtbStorbge();
+                    l.dbtbArrbyLength = byteRbster.getDbtbStorbge().length;
+                    l.dbtbType = DT_BYTE;
+                    if (l.nextRowOffset == l.width * byteRbster.getPixelStride()) {
+                        l.imbgeAtOnce = true;
                     }
-                } while (false);
-                break;
+                } while (fblse);
+                brebk;
 
-            case BufferedImage.TYPE_BYTE_GRAY:
+            cbse BufferedImbge.TYPE_BYTE_GRAY:
                 do {
-                    ByteComponentRaster byteRaster = (ByteComponentRaster)
-                            image.getRaster();
-                    l.nextRowOffset = byteRaster.getScanlineStride();
-                    l.nextPixelOffset = byteRaster.getPixelStride();
+                    ByteComponentRbster byteRbster = (ByteComponentRbster)
+                            imbge.getRbster();
+                    l.nextRowOffset = byteRbster.getScbnlineStride();
+                    l.nextPixelOffset = byteRbster.getPixelStride();
 
-                    l.dataArrayLength = byteRaster.getDataStorage().length;
-                    l.offset = byteRaster.getDataOffset(0);
-                    l.dataArray = byteRaster.getDataStorage();
-                    l.dataType = DT_BYTE;
+                    l.dbtbArrbyLength = byteRbster.getDbtbStorbge().length;
+                    l.offset = byteRbster.getDbtbOffset(0);
+                    l.dbtbArrby = byteRbster.getDbtbStorbge();
+                    l.dbtbType = DT_BYTE;
 
-                    if (l.nextRowOffset == l.width * byteRaster.getPixelStride()) {
-                        l.imageAtOnce = true;
+                    if (l.nextRowOffset == l.width * byteRbster.getPixelStride()) {
+                        l.imbgeAtOnce = true;
                     }
-                } while (false);
-                break;
+                } while (fblse);
+                brebk;
 
-            case BufferedImage.TYPE_USHORT_GRAY:
+            cbse BufferedImbge.TYPE_USHORT_GRAY:
                 do {
-                    ShortComponentRaster shortRaster = (ShortComponentRaster)
-                            image.getRaster();
-                    l.nextRowOffset = safeMult(2, shortRaster.getScanlineStride());
-                    l.nextPixelOffset = safeMult(2, shortRaster.getPixelStride());
+                    ShortComponentRbster shortRbster = (ShortComponentRbster)
+                            imbge.getRbster();
+                    l.nextRowOffset = sbfeMult(2, shortRbster.getScbnlineStride());
+                    l.nextPixelOffset = sbfeMult(2, shortRbster.getPixelStride());
 
-                    l.offset = safeMult(2, shortRaster.getDataOffset(0));
-                    l.dataArray = shortRaster.getDataStorage();
-                    l.dataArrayLength = 2 * shortRaster.getDataStorage().length;
-                    l.dataType = DT_SHORT;
+                    l.offset = sbfeMult(2, shortRbster.getDbtbOffset(0));
+                    l.dbtbArrby = shortRbster.getDbtbStorbge();
+                    l.dbtbArrbyLength = 2 * shortRbster.getDbtbStorbge().length;
+                    l.dbtbType = DT_SHORT;
 
-                    if (l.nextRowOffset == l.width * 2 * shortRaster.getPixelStride()) {
-                        l.imageAtOnce = true;
+                    if (l.nextRowOffset == l.width * 2 * shortRbster.getPixelStride()) {
+                        l.imbgeAtOnce = true;
                     }
-                } while (false);
-                break;
-            default:
+                } while (fblse);
+                brebk;
+            defbult:
                 return null;
         }
         l.verify();
         return l;
     }
 
-    private static enum BandOrder {
+    privbte stbtic enum BbndOrder {
         DIRECT,
         INVERTED,
         ARBITRARY,
         UNKNOWN;
 
-        public static BandOrder getBandOrder(int[] bandOffsets) {
-            BandOrder order = UNKNOWN;
+        public stbtic BbndOrder getBbndOrder(int[] bbndOffsets) {
+            BbndOrder order = UNKNOWN;
 
-            int numBands = bandOffsets.length;
+            int numBbnds = bbndOffsets.length;
 
-            for (int i = 0; (order != ARBITRARY) && (i < bandOffsets.length); i++) {
+            for (int i = 0; (order != ARBITRARY) && (i < bbndOffsets.length); i++) {
                 switch (order) {
-                    case UNKNOWN:
-                        if (bandOffsets[i] == i) {
+                    cbse UNKNOWN:
+                        if (bbndOffsets[i] == i) {
                             order = DIRECT;
-                        } else if (bandOffsets[i] == (numBands - 1 - i)) {
+                        } else if (bbndOffsets[i] == (numBbnds - 1 - i)) {
                             order = INVERTED;
                         } else {
                             order = ARBITRARY;
                         }
-                        break;
-                    case DIRECT:
-                        if (bandOffsets[i] != i) {
+                        brebk;
+                    cbse DIRECT:
+                        if (bbndOffsets[i] != i) {
                             order = ARBITRARY;
                         }
-                        break;
-                    case INVERTED:
-                        if (bandOffsets[i] != (numBands - 1 - i)) {
+                        brebk;
+                    cbse INVERTED:
+                        if (bbndOffsets[i] != (numBbnds - 1 - i)) {
                             order = ARBITRARY;
                         }
-                        break;
+                        brebk;
                 }
             }
             return order;
         }
     }
 
-    private void verify() throws ImageLayoutException {
+    privbte void verify() throws ImbgeLbyoutException {
 
-        if (offset < 0 || offset >= dataArrayLength) {
-            throw new ImageLayoutException("Invalid image layout");
+        if (offset < 0 || offset >= dbtbArrbyLength) {
+            throw new ImbgeLbyoutException("Invblid imbge lbyout");
         }
 
         if (nextPixelOffset != getBytesPerPixel(pixelType)) {
-            throw new ImageLayoutException("Invalid image layout");
+            throw new ImbgeLbyoutException("Invblid imbge lbyout");
         }
 
-        int lastScanOffset = safeMult(nextRowOffset, (height - 1));
+        int lbstScbnOffset = sbfeMult(nextRowOffset, (height - 1));
 
-        int lastPixelOffset = safeMult(nextPixelOffset, (width -1 ));
+        int lbstPixelOffset = sbfeMult(nextPixelOffset, (width -1 ));
 
-        lastPixelOffset = safeAdd(lastPixelOffset, lastScanOffset);
+        lbstPixelOffset = sbfeAdd(lbstPixelOffset, lbstScbnOffset);
 
-        int off = safeAdd(offset, lastPixelOffset);
+        int off = sbfeAdd(offset, lbstPixelOffset);
 
-        if (off < 0 || off >= dataArrayLength) {
-            throw new ImageLayoutException("Invalid image layout");
+        if (off < 0 || off >= dbtbArrbyLength) {
+            throw new ImbgeLbyoutException("Invblid imbge lbyout");
         }
     }
 
-    static int safeAdd(int a, int b) throws ImageLayoutException {
-        long res = a;
+    stbtic int sbfeAdd(int b, int b) throws ImbgeLbyoutException {
+        long res = b;
         res += b;
         if (res < Integer.MIN_VALUE || res > Integer.MAX_VALUE) {
-            throw new ImageLayoutException("Invalid image layout");
+            throw new ImbgeLbyoutException("Invblid imbge lbyout");
         }
         return (int)res;
     }
 
-    static int safeMult(int a, int b) throws ImageLayoutException {
-        long res = a;
+    stbtic int sbfeMult(int b, int b) throws ImbgeLbyoutException {
+        long res = b;
         res *= b;
         if (res < Integer.MIN_VALUE || res > Integer.MAX_VALUE) {
-            throw new ImageLayoutException("Invalid image layout");
+            throw new ImbgeLbyoutException("Invblid imbge lbyout");
         }
         return (int)res;
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    public static class ImageLayoutException extends Exception {
-        public ImageLayoutException(String message) {
-            super(message);
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    public stbtic clbss ImbgeLbyoutException extends Exception {
+        public ImbgeLbyoutException(String messbge) {
+            super(messbge);
         }
     }
-    public static LCMSImageLayout createImageLayout(Raster r) {
-        LCMSImageLayout l = new LCMSImageLayout();
-        if (r instanceof ByteComponentRaster &&
-                r.getSampleModel() instanceof ComponentSampleModel) {
-            ByteComponentRaster br = (ByteComponentRaster)r;
+    public stbtic LCMSImbgeLbyout crebteImbgeLbyout(Rbster r) {
+        LCMSImbgeLbyout l = new LCMSImbgeLbyout();
+        if (r instbnceof ByteComponentRbster &&
+                r.getSbmpleModel() instbnceof ComponentSbmpleModel) {
+            ByteComponentRbster br = (ByteComponentRbster)r;
 
-            ComponentSampleModel csm = (ComponentSampleModel)r.getSampleModel();
+            ComponentSbmpleModel csm = (ComponentSbmpleModel)r.getSbmpleModel();
 
-            l.pixelType = CHANNELS_SH(br.getNumBands()) | BYTES_SH(1);
+            l.pixelType = CHANNELS_SH(br.getNumBbnds()) | BYTES_SH(1);
 
-            int[] bandOffsets = csm.getBandOffsets();
-            BandOrder order = BandOrder.getBandOrder(bandOffsets);
+            int[] bbndOffsets = csm.getBbndOffsets();
+            BbndOrder order = BbndOrder.getBbndOrder(bbndOffsets);
 
-            int firstBand = 0;
+            int firstBbnd = 0;
             switch (order) {
-                case INVERTED:
+                cbse INVERTED:
                     l.pixelType |= DOSWAP;
-                    firstBand  = csm.getNumBands() - 1;
-                    break;
-                case DIRECT:
+                    firstBbnd  = csm.getNumBbnds() - 1;
+                    brebk;
+                cbse DIRECT:
                     // do nothing
-                    break;
-                default:
-                    // unable to create the image layout;
+                    brebk;
+                defbult:
+                    // unbble to crebte the imbge lbyout;
                     return null;
             }
 
-            l.nextRowOffset = br.getScanlineStride();
+            l.nextRowOffset = br.getScbnlineStride();
             l.nextPixelOffset = br.getPixelStride();
 
-            l.offset = br.getDataOffset(firstBand);
-            l.dataArray = br.getDataStorage();
-            l.dataType = DT_BYTE;
+            l.offset = br.getDbtbOffset(firstBbnd);
+            l.dbtbArrby = br.getDbtbStorbge();
+            l.dbtbType = DT_BYTE;
 
             l.width = br.getWidth();
             l.height = br.getHeight();
 
             if (l.nextRowOffset == l.width * br.getPixelStride()) {
-                l.imageAtOnce = true;
+                l.imbgeAtOnce = true;
             }
             return l;
         }
@@ -428,23 +428,23 @@ class LCMSImageLayout {
     }
 
     /**
-     * Derives number of bytes per pixel from the pixel format.
-     * Following bit fields are used here:
-     *  [0..2] - bytes per sample
-     *  [3..6] - number of color samples per pixel
-     *  [7..9] - number of non-color samples per pixel
+     * Derives number of bytes per pixel from the pixel formbt.
+     * Following bit fields bre used here:
+     *  [0..2] - bytes per sbmple
+     *  [3..6] - number of color sbmples per pixel
+     *  [7..9] - number of non-color sbmples per pixel
      *
-     * A complete description of the pixel format can be found
+     * A complete description of the pixel formbt cbn be found
      * here: lcms2.h, lines 651 - 667.
      *
-     * @param pixelType pixel format in lcms2 notation.
-     * @return number of bytes per pixel for given pixel format.
+     * @pbrbm pixelType pixel formbt in lcms2 notbtion.
+     * @return number of bytes per pixel for given pixel formbt.
      */
-    private static int getBytesPerPixel(int pixelType) {
-        int bytesPerSample = (0x7 & pixelType);
-        int colorSamplesPerPixel = 0xF & (pixelType >> 3);
-        int extraSamplesPerPixel = 0x7 & (pixelType >> 7);
+    privbte stbtic int getBytesPerPixel(int pixelType) {
+        int bytesPerSbmple = (0x7 & pixelType);
+        int colorSbmplesPerPixel = 0xF & (pixelType >> 3);
+        int extrbSbmplesPerPixel = 0x7 & (pixelType >> 7);
 
-        return bytesPerSample * (colorSamplesPerPixel + extraSamplesPerPixel);
+        return bytesPerSbmple * (colorSbmplesPerPixel + extrbSbmplesPerPixel);
     }
 }

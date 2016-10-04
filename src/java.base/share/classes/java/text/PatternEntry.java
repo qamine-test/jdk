@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1996, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996, 1997 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.lang.Character;
+import jbvb.lbng.Chbrbcter;
 
 /**
- * Utility class for normalizing and merging patterns for collation.
- * This is to be used with MergeCollation for adding patterns to an
- * existing rule table.
- * @see        MergeCollation
- * @author     Mark Davis, Helena Shih
+ * Utility clbss for normblizing bnd merging pbtterns for collbtion.
+ * This is to be used with MergeCollbtion for bdding pbtterns to bn
+ * existing rule tbble.
+ * @see        MergeCollbtion
+ * @buthor     Mbrk Dbvis, Helenb Shih
  */
 
-class PatternEntry {
+clbss PbtternEntry {
     /**
      * Gets the current extension, quoted
      */
-    public void appendQuotedExtension(StringBuffer toAddTo) {
-        appendQuoted(extension,toAddTo);
+    public void bppendQuotedExtension(StringBuffer toAddTo) {
+        bppendQuoted(extension,toAddTo);
     }
 
     /**
-     * Gets the current chars, quoted
+     * Gets the current chbrs, quoted
      */
-    public void appendQuotedChars(StringBuffer toAddTo) {
-        appendQuoted(chars,toAddTo);
+    public void bppendQuotedChbrs(StringBuffer toAddTo) {
+        bppendQuoted(chbrs,toAddTo);
     }
 
     /**
-     * WARNING this is used for searching in a Vector.
-     * Because Vector.indexOf doesn't take a comparator,
-     * this method is ill-defined and ignores strength.
+     * WARNING this is used for sebrching in b Vector.
+     * Becbuse Vector.indexOf doesn't tbke b compbrbtor,
+     * this method is ill-defined bnd ignores strength.
      */
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        PatternEntry other = (PatternEntry) obj;
-        boolean result = chars.equals(other.chars);
+    public boolebn equbls(Object obj) {
+        if (obj == null) return fblse;
+        PbtternEntry other = (PbtternEntry) obj;
+        boolebn result = chbrs.equbls(other.chbrs);
         return result;
     }
 
-    public int hashCode() {
-        return chars.hashCode();
+    public int hbshCode() {
+        return chbrs.hbshCode();
     }
 
     /**
@@ -84,211 +84,211 @@ class PatternEntry {
      */
     public String toString() {
         StringBuffer result = new StringBuffer();
-        addToBuffer(result, true, false, null);
+        bddToBuffer(result, true, fblse, null);
         return result.toString();
     }
 
     /**
      * Gets the strength of the entry.
      */
-    final int getStrength() {
+    finbl int getStrength() {
         return strength;
     }
 
     /**
-     * Gets the expanding characters of the entry.
+     * Gets the expbnding chbrbcters of the entry.
      */
-    final String getExtension() {
+    finbl String getExtension() {
         return extension;
     }
 
     /**
-     * Gets the core characters of the entry.
+     * Gets the core chbrbcters of the entry.
      */
-    final String getChars() {
-        return chars;
+    finbl String getChbrs() {
+        return chbrs;
     }
 
-    // ===== privates =====
+    // ===== privbtes =====
 
-    void addToBuffer(StringBuffer toAddTo,
-                     boolean showExtension,
-                     boolean showWhiteSpace,
-                     PatternEntry lastEntry)
+    void bddToBuffer(StringBuffer toAddTo,
+                     boolebn showExtension,
+                     boolebn showWhiteSpbce,
+                     PbtternEntry lbstEntry)
     {
-        if (showWhiteSpace && toAddTo.length() > 0)
-            if (strength == Collator.PRIMARY || lastEntry != null)
-                toAddTo.append('\n');
+        if (showWhiteSpbce && toAddTo.length() > 0)
+            if (strength == Collbtor.PRIMARY || lbstEntry != null)
+                toAddTo.bppend('\n');
             else
-                toAddTo.append(' ');
-        if (lastEntry != null) {
-            toAddTo.append('&');
-            if (showWhiteSpace)
-                toAddTo.append(' ');
-            lastEntry.appendQuotedChars(toAddTo);
-            appendQuotedExtension(toAddTo);
-            if (showWhiteSpace)
-                toAddTo.append(' ');
+                toAddTo.bppend(' ');
+        if (lbstEntry != null) {
+            toAddTo.bppend('&');
+            if (showWhiteSpbce)
+                toAddTo.bppend(' ');
+            lbstEntry.bppendQuotedChbrs(toAddTo);
+            bppendQuotedExtension(toAddTo);
+            if (showWhiteSpbce)
+                toAddTo.bppend(' ');
         }
         switch (strength) {
-        case Collator.IDENTICAL: toAddTo.append('='); break;
-        case Collator.TERTIARY:  toAddTo.append(','); break;
-        case Collator.SECONDARY: toAddTo.append(';'); break;
-        case Collator.PRIMARY:   toAddTo.append('<'); break;
-        case RESET: toAddTo.append('&'); break;
-        case UNSET: toAddTo.append('?'); break;
+        cbse Collbtor.IDENTICAL: toAddTo.bppend('='); brebk;
+        cbse Collbtor.TERTIARY:  toAddTo.bppend(','); brebk;
+        cbse Collbtor.SECONDARY: toAddTo.bppend(';'); brebk;
+        cbse Collbtor.PRIMARY:   toAddTo.bppend('<'); brebk;
+        cbse RESET: toAddTo.bppend('&'); brebk;
+        cbse UNSET: toAddTo.bppend('?'); brebk;
         }
-        if (showWhiteSpace)
-            toAddTo.append(' ');
-        appendQuoted(chars,toAddTo);
+        if (showWhiteSpbce)
+            toAddTo.bppend(' ');
+        bppendQuoted(chbrs,toAddTo);
         if (showExtension && extension.length() != 0) {
-            toAddTo.append('/');
-            appendQuoted(extension,toAddTo);
+            toAddTo.bppend('/');
+            bppendQuoted(extension,toAddTo);
         }
     }
 
-    static void appendQuoted(String chars, StringBuffer toAddTo) {
-        boolean inQuote = false;
-        char ch = chars.charAt(0);
-        if (Character.isSpaceChar(ch)) {
+    stbtic void bppendQuoted(String chbrs, StringBuffer toAddTo) {
+        boolebn inQuote = fblse;
+        chbr ch = chbrs.chbrAt(0);
+        if (Chbrbcter.isSpbceChbr(ch)) {
             inQuote = true;
-            toAddTo.append('\'');
+            toAddTo.bppend('\'');
         } else {
-          if (PatternEntry.isSpecialChar(ch)) {
+          if (PbtternEntry.isSpeciblChbr(ch)) {
                 inQuote = true;
-                toAddTo.append('\'');
+                toAddTo.bppend('\'');
             } else {
                 switch (ch) {
-                    case 0x0010: case '\f': case '\r':
-                    case '\t': case '\n':  case '@':
+                    cbse 0x0010: cbse '\f': cbse '\r':
+                    cbse '\t': cbse '\n':  cbse '@':
                     inQuote = true;
-                    toAddTo.append('\'');
-                    break;
-                case '\'':
+                    toAddTo.bppend('\'');
+                    brebk;
+                cbse '\'':
                     inQuote = true;
-                    toAddTo.append('\'');
-                    break;
-                default:
+                    toAddTo.bppend('\'');
+                    brebk;
+                defbult:
                     if (inQuote) {
-                        inQuote = false; toAddTo.append('\'');
+                        inQuote = fblse; toAddTo.bppend('\'');
                     }
-                    break;
+                    brebk;
                 }
            }
         }
-        toAddTo.append(chars);
+        toAddTo.bppend(chbrs);
         if (inQuote)
-            toAddTo.append('\'');
+            toAddTo.bppend('\'');
     }
 
     //========================================================================
-    // Parsing a pattern into a list of PatternEntries....
+    // Pbrsing b pbttern into b list of PbtternEntries....
     //========================================================================
 
-    PatternEntry(int strength,
-                 StringBuffer chars,
+    PbtternEntry(int strength,
+                 StringBuffer chbrs,
                  StringBuffer extension)
     {
         this.strength = strength;
-        this.chars = chars.toString();
+        this.chbrs = chbrs.toString();
         this.extension = (extension.length() > 0) ? extension.toString()
                                                   : "";
     }
 
-    static class Parser {
-        private String pattern;
-        private int i;
+    stbtic clbss Pbrser {
+        privbte String pbttern;
+        privbte int i;
 
-        public Parser(String pattern) {
-            this.pattern = pattern;
+        public Pbrser(String pbttern) {
+            this.pbttern = pbttern;
             this.i = 0;
         }
 
-        public PatternEntry next() throws ParseException {
+        public PbtternEntry next() throws PbrseException {
             int newStrength = UNSET;
 
-            newChars.setLength(0);
+            newChbrs.setLength(0);
             newExtension.setLength(0);
 
-            boolean inChars = true;
-            boolean inQuote = false;
-        mainLoop:
-            while (i < pattern.length()) {
-                char ch = pattern.charAt(i);
+            boolebn inChbrs = true;
+            boolebn inQuote = fblse;
+        mbinLoop:
+            while (i < pbttern.length()) {
+                chbr ch = pbttern.chbrAt(i);
                 if (inQuote) {
                     if (ch == '\'') {
-                        inQuote = false;
+                        inQuote = fblse;
                     } else {
-                        if (newChars.length() == 0) newChars.append(ch);
-                        else if (inChars) newChars.append(ch);
-                        else newExtension.append(ch);
+                        if (newChbrs.length() == 0) newChbrs.bppend(ch);
+                        else if (inChbrs) newChbrs.bppend(ch);
+                        else newExtension.bppend(ch);
                     }
                 } else switch (ch) {
-                case '=': if (newStrength != UNSET) break mainLoop;
-                    newStrength = Collator.IDENTICAL; break;
-                case ',': if (newStrength != UNSET) break mainLoop;
-                    newStrength = Collator.TERTIARY; break;
-                case ';': if (newStrength != UNSET) break mainLoop;
-                    newStrength = Collator.SECONDARY; break;
-                case '<': if (newStrength != UNSET) break mainLoop;
-                    newStrength = Collator.PRIMARY; break;
-                case '&': if (newStrength != UNSET) break mainLoop;
-                    newStrength = RESET; break;
-                case '\t':
-                case '\n':
-                case '\f':
-                case '\r':
-                case ' ': break; // skip whitespace TODO use Character
-                case '/': inChars = false; break;
-                case '\'':
+                cbse '=': if (newStrength != UNSET) brebk mbinLoop;
+                    newStrength = Collbtor.IDENTICAL; brebk;
+                cbse ',': if (newStrength != UNSET) brebk mbinLoop;
+                    newStrength = Collbtor.TERTIARY; brebk;
+                cbse ';': if (newStrength != UNSET) brebk mbinLoop;
+                    newStrength = Collbtor.SECONDARY; brebk;
+                cbse '<': if (newStrength != UNSET) brebk mbinLoop;
+                    newStrength = Collbtor.PRIMARY; brebk;
+                cbse '&': if (newStrength != UNSET) brebk mbinLoop;
+                    newStrength = RESET; brebk;
+                cbse '\t':
+                cbse '\n':
+                cbse '\f':
+                cbse '\r':
+                cbse ' ': brebk; // skip whitespbce TODO use Chbrbcter
+                cbse '/': inChbrs = fblse; brebk;
+                cbse '\'':
                     inQuote = true;
-                    ch = pattern.charAt(++i);
-                    if (newChars.length() == 0) newChars.append(ch);
-                    else if (inChars) newChars.append(ch);
-                    else newExtension.append(ch);
-                    break;
-                default:
+                    ch = pbttern.chbrAt(++i);
+                    if (newChbrs.length() == 0) newChbrs.bppend(ch);
+                    else if (inChbrs) newChbrs.bppend(ch);
+                    else newExtension.bppend(ch);
+                    brebk;
+                defbult:
                     if (newStrength == UNSET) {
-                        throw new ParseException
-                            ("missing char (=,;<&) : " +
-                             pattern.substring(i,
-                                (i+10 < pattern.length()) ?
-                                 i+10 : pattern.length()),
+                        throw new PbrseException
+                            ("missing chbr (=,;<&) : " +
+                             pbttern.substring(i,
+                                (i+10 < pbttern.length()) ?
+                                 i+10 : pbttern.length()),
                              i);
                     }
-                    if (PatternEntry.isSpecialChar(ch) && (inQuote == false))
-                        throw new ParseException
-                            ("Unquoted punctuation character : " + Integer.toString(ch, 16), i);
-                    if (inChars) {
-                        newChars.append(ch);
+                    if (PbtternEntry.isSpeciblChbr(ch) && (inQuote == fblse))
+                        throw new PbrseException
+                            ("Unquoted punctubtion chbrbcter : " + Integer.toString(ch, 16), i);
+                    if (inChbrs) {
+                        newChbrs.bppend(ch);
                     } else {
-                        newExtension.append(ch);
+                        newExtension.bppend(ch);
                     }
-                    break;
+                    brebk;
                 }
                 i++;
             }
             if (newStrength == UNSET)
                 return null;
-            if (newChars.length() == 0) {
-                throw new ParseException
-                    ("missing chars (=,;<&): " +
-                      pattern.substring(i,
-                          (i+10 < pattern.length()) ?
-                           i+10 : pattern.length()),
+            if (newChbrs.length() == 0) {
+                throw new PbrseException
+                    ("missing chbrs (=,;<&): " +
+                      pbttern.substring(i,
+                          (i+10 < pbttern.length()) ?
+                           i+10 : pbttern.length()),
                      i);
             }
 
-            return new PatternEntry(newStrength, newChars, newExtension);
+            return new PbtternEntry(newStrength, newChbrs, newExtension);
         }
 
-        // We re-use these objects in order to improve performance
-        private StringBuffer newChars = new StringBuffer();
-        private StringBuffer newExtension = new StringBuffer();
+        // We re-use these objects in order to improve performbnce
+        privbte StringBuffer newChbrs = new StringBuffer();
+        privbte StringBuffer newExtension = new StringBuffer();
 
     }
 
-    static boolean isSpecialChar(char ch) {
+    stbtic boolebn isSpeciblChbr(chbr ch) {
         return ((ch == '\u0020') ||
                 ((ch <= '\u002F') && (ch >= '\u0022')) ||
                 ((ch <= '\u003F') && (ch >= '\u003A')) ||
@@ -297,10 +297,10 @@ class PatternEntry {
     }
 
 
-    static final int RESET = -2;
-    static final int UNSET = -1;
+    stbtic finbl int RESET = -2;
+    stbtic finbl int UNSET = -1;
 
     int strength = UNSET;
-    String chars = "";
+    String chbrs = "";
     String extension = "";
 }

@@ -1,179 +1,179 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
-import java.io.Serializable;
-import java.util.function.LongBinaryOperator;
+pbckbge jbvb.util.concurrent.btomic;
+import jbvb.io.Seriblizbble;
+import jbvb.util.function.LongBinbryOperbtor;
 
 /**
- * One or more variables that together maintain a running {@code long}
- * value updated using a supplied function.  When updates (method
- * {@link #accumulate}) are contended across threads, the set of variables
- * may grow dynamically to reduce contention.  Method {@link #get}
- * (or, equivalently, {@link #longValue}) returns the current value
- * across the variables maintaining updates.
+ * One or more vbribbles thbt together mbintbin b running {@code long}
+ * vblue updbted using b supplied function.  When updbtes (method
+ * {@link #bccumulbte}) bre contended bcross threbds, the set of vbribbles
+ * mby grow dynbmicblly to reduce contention.  Method {@link #get}
+ * (or, equivblently, {@link #longVblue}) returns the current vblue
+ * bcross the vbribbles mbintbining updbtes.
  *
- * <p>This class is usually preferable to {@link AtomicLong} when
- * multiple threads update a common value that is used for purposes such
- * as collecting statistics, not for fine-grained synchronization
- * control.  Under low update contention, the two classes have similar
- * characteristics. But under high contention, expected throughput of
- * this class is significantly higher, at the expense of higher space
+ * <p>This clbss is usublly preferbble to {@link AtomicLong} when
+ * multiple threbds updbte b common vblue thbt is used for purposes such
+ * bs collecting stbtistics, not for fine-grbined synchronizbtion
+ * control.  Under low updbte contention, the two clbsses hbve similbr
+ * chbrbcteristics. But under high contention, expected throughput of
+ * this clbss is significbntly higher, bt the expense of higher spbce
  * consumption.
  *
- * <p>The order of accumulation within or across threads is not
- * guaranteed and cannot be depended upon, so this class is only
- * applicable to functions for which the order of accumulation does
- * not matter. The supplied accumulator function should be
- * side-effect-free, since it may be re-applied when attempted updates
- * fail due to contention among threads. The function is applied with
- * the current value as its first argument, and the given update as
- * the second argument.  For example, to maintain a running maximum
- * value, you could supply {@code Long::max} along with {@code
- * Long.MIN_VALUE} as the identity.
+ * <p>The order of bccumulbtion within or bcross threbds is not
+ * gubrbnteed bnd cbnnot be depended upon, so this clbss is only
+ * bpplicbble to functions for which the order of bccumulbtion does
+ * not mbtter. The supplied bccumulbtor function should be
+ * side-effect-free, since it mby be re-bpplied when bttempted updbtes
+ * fbil due to contention bmong threbds. The function is bpplied with
+ * the current vblue bs its first brgument, bnd the given updbte bs
+ * the second brgument.  For exbmple, to mbintbin b running mbximum
+ * vblue, you could supply {@code Long::mbx} blong with {@code
+ * Long.MIN_VALUE} bs the identity.
  *
- * <p>Class {@link LongAdder} provides analogs of the functionality of
- * this class for the common special case of maintaining counts and
- * sums.  The call {@code new LongAdder()} is equivalent to {@code new
- * LongAccumulator((x, y) -> x + y, 0L}.
+ * <p>Clbss {@link LongAdder} provides bnblogs of the functionblity of
+ * this clbss for the common specibl cbse of mbintbining counts bnd
+ * sums.  The cbll {@code new LongAdder()} is equivblent to {@code new
+ * LongAccumulbtor((x, y) -> x + y, 0L}.
  *
- * <p>This class extends {@link Number}, but does <em>not</em> define
- * methods such as {@code equals}, {@code hashCode} and {@code
- * compareTo} because instances are expected to be mutated, and so are
- * not useful as collection keys.
+ * <p>This clbss extends {@link Number}, but does <em>not</em> define
+ * methods such bs {@code equbls}, {@code hbshCode} bnd {@code
+ * compbreTo} becbuse instbnces bre expected to be mutbted, bnd so bre
+ * not useful bs collection keys.
  *
  * @since 1.8
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class LongAccumulator extends Striped64 implements Serializable {
-    private static final long serialVersionUID = 7249069246863182397L;
+public clbss LongAccumulbtor extends Striped64 implements Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 7249069246863182397L;
 
-    private final LongBinaryOperator function;
-    private final long identity;
+    privbte finbl LongBinbryOperbtor function;
+    privbte finbl long identity;
 
     /**
-     * Creates a new instance using the given accumulator function
-     * and identity element.
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @param identity identity (initial value) for the accumulator function
+     * Crebtes b new instbnce using the given bccumulbtor function
+     * bnd identity element.
+     * @pbrbm bccumulbtorFunction b side-effect-free function of two brguments
+     * @pbrbm identity identity (initibl vblue) for the bccumulbtor function
      */
-    public LongAccumulator(LongBinaryOperator accumulatorFunction,
+    public LongAccumulbtor(LongBinbryOperbtor bccumulbtorFunction,
                            long identity) {
-        this.function = accumulatorFunction;
-        base = this.identity = identity;
+        this.function = bccumulbtorFunction;
+        bbse = this.identity = identity;
     }
 
     /**
-     * Updates with the given value.
+     * Updbtes with the given vblue.
      *
-     * @param x the value
+     * @pbrbm x the vblue
      */
-    public void accumulate(long x) {
-        Cell[] as; long b, v, r; int m; Cell a;
-        if ((as = cells) != null ||
-            (r = function.applyAsLong(b = base, x)) != b && !casBase(b, r)) {
-            boolean uncontended = true;
-            if (as == null || (m = as.length - 1) < 0 ||
-                (a = as[getProbe() & m]) == null ||
+    public void bccumulbte(long x) {
+        Cell[] bs; long b, v, r; int m; Cell b;
+        if ((bs = cells) != null ||
+            (r = function.bpplyAsLong(b = bbse, x)) != b && !cbsBbse(b, r)) {
+            boolebn uncontended = true;
+            if (bs == null || (m = bs.length - 1) < 0 ||
+                (b = bs[getProbe() & m]) == null ||
                 !(uncontended =
-                  (r = function.applyAsLong(v = a.value, x)) == v ||
-                  a.cas(v, r)))
-                longAccumulate(x, function, uncontended);
+                  (r = function.bpplyAsLong(v = b.vblue, x)) == v ||
+                  b.cbs(v, r)))
+                longAccumulbte(x, function, uncontended);
         }
     }
 
     /**
-     * Returns the current value.  The returned value is <em>NOT</em>
-     * an atomic snapshot; invocation in the absence of concurrent
-     * updates returns an accurate result, but concurrent updates that
-     * occur while the value is being calculated might not be
-     * incorporated.
+     * Returns the current vblue.  The returned vblue is <em>NOT</em>
+     * bn btomic snbpshot; invocbtion in the bbsence of concurrent
+     * updbtes returns bn bccurbte result, but concurrent updbtes thbt
+     * occur while the vblue is being cblculbted might not be
+     * incorporbted.
      *
-     * @return the current value
+     * @return the current vblue
      */
     public long get() {
-        Cell[] as = cells; Cell a;
-        long result = base;
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null)
-                    result = function.applyAsLong(result, a.value);
+        Cell[] bs = cells; Cell b;
+        long result = bbse;
+        if (bs != null) {
+            for (int i = 0; i < bs.length; ++i) {
+                if ((b = bs[i]) != null)
+                    result = function.bpplyAsLong(result, b.vblue);
             }
         }
         return result;
     }
 
     /**
-     * Resets variables maintaining updates to the identity value.
-     * This method may be a useful alternative to creating a new
-     * updater, but is only effective if there are no concurrent
-     * updates.  Because this method is intrinsically racy, it should
-     * only be used when it is known that no threads are concurrently
-     * updating.
+     * Resets vbribbles mbintbining updbtes to the identity vblue.
+     * This method mby be b useful blternbtive to crebting b new
+     * updbter, but is only effective if there bre no concurrent
+     * updbtes.  Becbuse this method is intrinsicblly rbcy, it should
+     * only be used when it is known thbt no threbds bre concurrently
+     * updbting.
      */
     public void reset() {
-        Cell[] as = cells; Cell a;
-        base = identity;
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null)
-                    a.value = identity;
+        Cell[] bs = cells; Cell b;
+        bbse = identity;
+        if (bs != null) {
+            for (int i = 0; i < bs.length; ++i) {
+                if ((b = bs[i]) != null)
+                    b.vblue = identity;
             }
         }
     }
 
     /**
-     * Equivalent in effect to {@link #get} followed by {@link
-     * #reset}. This method may apply for example during quiescent
-     * points between multithreaded computations.  If there are
-     * updates concurrent with this method, the returned value is
-     * <em>not</em> guaranteed to be the final value occurring before
+     * Equivblent in effect to {@link #get} followed by {@link
+     * #reset}. This method mby bpply for exbmple during quiescent
+     * points between multithrebded computbtions.  If there bre
+     * updbtes concurrent with this method, the returned vblue is
+     * <em>not</em> gubrbnteed to be the finbl vblue occurring before
      * the reset.
      *
-     * @return the value before reset
+     * @return the vblue before reset
      */
     public long getThenReset() {
-        Cell[] as = cells; Cell a;
-        long result = base;
-        base = identity;
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null) {
-                    long v = a.value;
-                    a.value = identity;
-                    result = function.applyAsLong(result, v);
+        Cell[] bs = cells; Cell b;
+        long result = bbse;
+        bbse = identity;
+        if (bs != null) {
+            for (int i = 0; i < bs.length; ++i) {
+                if ((b = bs[i]) != null) {
+                    long v = b.vblue;
+                    b.vblue = identity;
+                    result = function.bpplyAsLong(result, v);
                 }
             }
         }
@@ -181,110 +181,110 @@ public class LongAccumulator extends Striped64 implements Serializable {
     }
 
     /**
-     * Returns the String representation of the current value.
-     * @return the String representation of the current value
+     * Returns the String representbtion of the current vblue.
+     * @return the String representbtion of the current vblue
      */
     public String toString() {
         return Long.toString(get());
     }
 
     /**
-     * Equivalent to {@link #get}.
+     * Equivblent to {@link #get}.
      *
-     * @return the current value
+     * @return the current vblue
      */
-    public long longValue() {
+    public long longVblue() {
         return get();
     }
 
     /**
-     * Returns the {@linkplain #get current value} as an {@code int}
-     * after a narrowing primitive conversion.
+     * Returns the {@linkplbin #get current vblue} bs bn {@code int}
+     * bfter b nbrrowing primitive conversion.
      */
-    public int intValue() {
+    public int intVblue() {
         return (int)get();
     }
 
     /**
-     * Returns the {@linkplain #get current value} as a {@code float}
-     * after a widening primitive conversion.
+     * Returns the {@linkplbin #get current vblue} bs b {@code flobt}
+     * bfter b widening primitive conversion.
      */
-    public float floatValue() {
-        return (float)get();
+    public flobt flobtVblue() {
+        return (flobt)get();
     }
 
     /**
-     * Returns the {@linkplain #get current value} as a {@code double}
-     * after a widening primitive conversion.
+     * Returns the {@linkplbin #get current vblue} bs b {@code double}
+     * bfter b widening primitive conversion.
      */
-    public double doubleValue() {
+    public double doubleVblue() {
         return (double)get();
     }
 
     /**
-     * Serialization proxy, used to avoid reference to the non-public
-     * Striped64 superclass in serialized forms.
-     * @serial include
+     * Seriblizbtion proxy, used to bvoid reference to the non-public
+     * Striped64 superclbss in seriblized forms.
+     * @seribl include
      */
-    private static class SerializationProxy implements Serializable {
-        private static final long serialVersionUID = 7249069246863182397L;
+    privbte stbtic clbss SeriblizbtionProxy implements Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 7249069246863182397L;
 
         /**
-         * The current value returned by get().
-         * @serial
+         * The current vblue returned by get().
+         * @seribl
          */
-        private final long value;
+        privbte finbl long vblue;
         /**
-         * The function used for updates.
-         * @serial
+         * The function used for updbtes.
+         * @seribl
          */
-        private final LongBinaryOperator function;
+        privbte finbl LongBinbryOperbtor function;
         /**
-         * The identity value
-         * @serial
+         * The identity vblue
+         * @seribl
          */
-        private final long identity;
+        privbte finbl long identity;
 
-        SerializationProxy(LongAccumulator a) {
-            function = a.function;
-            identity = a.identity;
-            value = a.get();
+        SeriblizbtionProxy(LongAccumulbtor b) {
+            function = b.function;
+            identity = b.identity;
+            vblue = b.get();
         }
 
         /**
-         * Returns a {@code LongAccumulator} object with initial state
+         * Returns b {@code LongAccumulbtor} object with initibl stbte
          * held by this proxy.
          *
-         * @return a {@code LongAccumulator} object with initial state
+         * @return b {@code LongAccumulbtor} object with initibl stbte
          * held by this proxy.
          */
-        private Object readResolve() {
-            LongAccumulator a = new LongAccumulator(function, identity);
-            a.base = value;
-            return a;
+        privbte Object rebdResolve() {
+            LongAccumulbtor b = new LongAccumulbtor(function, identity);
+            b.bbse = vblue;
+            return b;
         }
     }
 
     /**
-     * Returns a
-     * <a href="../../../../serialized-form.html#java.util.concurrent.atomic.LongAccumulator.SerializationProxy">
-     * SerializationProxy</a>
-     * representing the state of this instance.
+     * Returns b
+     * <b href="../../../../seriblized-form.html#jbvb.util.concurrent.btomic.LongAccumulbtor.SeriblizbtionProxy">
+     * SeriblizbtionProxy</b>
+     * representing the stbte of this instbnce.
      *
-     * @return a {@link SerializationProxy}
-     * representing the state of this instance
+     * @return b {@link SeriblizbtionProxy}
+     * representing the stbte of this instbnce
      */
-    private Object writeReplace() {
-        return new SerializationProxy(this);
+    privbte Object writeReplbce() {
+        return new SeriblizbtionProxy(this);
     }
 
     /**
-     * @param s the stream
-     * @throws java.io.InvalidObjectException always
+     * @pbrbm s the strebm
+     * @throws jbvb.io.InvblidObjectException blwbys
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.InvalidObjectException {
-        throw new java.io.InvalidObjectException("Proxy required");
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.InvblidObjectException {
+        throw new jbvb.io.InvblidObjectException("Proxy required");
     }
 
 }

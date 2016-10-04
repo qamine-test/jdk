@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath.ssl;
+pbckbge sun.security.provider.certpbth.ssl;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.security.GeneralSecurityException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.Provider;
-import java.security.cert.CertificateException;
-import java.security.cert.CertSelector;
-import java.security.cert.CertStore;
-import java.security.cert.CertStoreException;
-import java.security.cert.CertStoreParameters;
-import java.security.cert.CertStoreSpi;
-import java.security.cert.CRLSelector;
-import java.security.cert.X509Certificate;
-import java.security.cert.X509CRL;
-import java.net.Socket;
-import java.net.URLConnection;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLEngine;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509ExtendedTrustManager;
+import jbvb.io.IOException;
+import jbvb.net.URI;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.security.GenerblSecurityException;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.Provider;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertSelector;
+import jbvb.security.cert.CertStore;
+import jbvb.security.cert.CertStoreException;
+import jbvb.security.cert.CertStorePbrbmeters;
+import jbvb.security.cert.CertStoreSpi;
+import jbvb.security.cert.CRLSelector;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.X509CRL;
+import jbvb.net.Socket;
+import jbvb.net.URLConnection;
+import jbvbx.net.ssl.HostnbmeVerifier;
+import jbvbx.net.ssl.HttpsURLConnection;
+import jbvbx.net.ssl.SSLContext;
+import jbvbx.net.ssl.SSLSession;
+import jbvbx.net.ssl.SSLEngine;
+import jbvbx.net.ssl.SSLSocketFbctory;
+import jbvbx.net.ssl.TrustMbnbger;
+import jbvbx.net.ssl.X509ExtendedTrustMbnbger;
 
 /**
- * A CertStore that retrieves an SSL server's certificate chain.
+ * A CertStore thbt retrieves bn SSL server's certificbte chbin.
  */
-public final class SSLServerCertStore extends CertStoreSpi {
+public finbl clbss SSLServerCertStore extends CertStoreSpi {
 
-    private final URI uri;
-    private final static GetChainTrustManager trustManager;
-    private final static SSLSocketFactory socketFactory;
-    private final static HostnameVerifier hostnameVerifier;
+    privbte finbl URI uri;
+    privbte finbl stbtic GetChbinTrustMbnbger trustMbnbger;
+    privbte finbl stbtic SSLSocketFbctory socketFbctory;
+    privbte finbl stbtic HostnbmeVerifier hostnbmeVerifier;
 
-    static {
-        trustManager = new GetChainTrustManager();
-        hostnameVerifier = new HostnameVerifier() {
-            public boolean verify(String hostname, SSLSession session) {
+    stbtic {
+        trustMbnbger = new GetChbinTrustMbnbger();
+        hostnbmeVerifier = new HostnbmeVerifier() {
+            public boolebn verify(String hostnbme, SSLSession session) {
                 return true;
             }
         };
 
-        SSLSocketFactory tempFactory;
+        SSLSocketFbctory tempFbctory;
         try {
-            SSLContext context = SSLContext.getInstance("SSL");
-            context.init(null, new TrustManager[] { trustManager }, null);
-            tempFactory = context.getSocketFactory();
-        } catch (GeneralSecurityException gse) {
-            tempFactory = null;
+            SSLContext context = SSLContext.getInstbnce("SSL");
+            context.init(null, new TrustMbnbger[] { trustMbnbger }, null);
+            tempFbctory = context.getSocketFbctory();
+        } cbtch (GenerblSecurityException gse) {
+            tempFbctory = null;
         }
 
-        socketFactory = tempFactory;
+        socketFbctory = tempFbctory;
     }
 
-    SSLServerCertStore(URI uri) throws InvalidAlgorithmParameterException {
+    SSLServerCertStore(URI uri) throws InvblidAlgorithmPbrbmeterException {
         super(null);
         this.uri = uri;
     }
 
-    public Collection<X509Certificate> engineGetCertificates
+    public Collection<X509Certificbte> engineGetCertificbtes
             (CertSelector selector) throws CertStoreException {
 
         try {
             URLConnection urlConn = uri.toURL().openConnection();
-            if (urlConn instanceof HttpsURLConnection) {
-                if (socketFactory == null) {
+            if (urlConn instbnceof HttpsURLConnection) {
+                if (socketFbctory == null) {
                     throw new CertStoreException(
-                        "No initialized SSLSocketFactory");
+                        "No initiblized SSLSocketFbctory");
                 }
 
                 HttpsURLConnection https = (HttpsURLConnection)urlConn;
-                https.setSSLSocketFactory(socketFactory);
-                https.setHostnameVerifier(hostnameVerifier);
-                synchronized (trustManager) {
+                https.setSSLSocketFbctory(socketFbctory);
+                https.setHostnbmeVerifier(hostnbmeVerifier);
+                synchronized (trustMbnbger) {
                     try {
                         https.connect();
-                        return getMatchingCerts(
-                            trustManager.serverChain, selector);
-                    } catch (IOException ioe) {
-                        // If the server certificate has already been
-                        // retrieved, don't mind the connection state.
-                        if (trustManager.exchangedServerCerts) {
-                            return getMatchingCerts(
-                                trustManager.serverChain, selector);
+                        return getMbtchingCerts(
+                            trustMbnbger.serverChbin, selector);
+                    } cbtch (IOException ioe) {
+                        // If the server certificbte hbs blrebdy been
+                        // retrieved, don't mind the connection stbte.
+                        if (trustMbnbger.exchbngedServerCerts) {
+                            return getMbtchingCerts(
+                                trustMbnbger.serverChbin, selector);
                         }
 
                         // otherwise, rethrow the exception
                         throw ioe;
-                    } finally {
-                        trustManager.cleanup();
+                    } finblly {
+                        trustMbnbger.clebnup();
                     }
                 }
             }
-        } catch (IOException ioe) {
+        } cbtch (IOException ioe) {
             throw new CertStoreException(ioe);
         }
 
-        return Collections.<X509Certificate>emptySet();
+        return Collections.<X509Certificbte>emptySet();
     }
 
-    private static List<X509Certificate> getMatchingCerts
-        (List<X509Certificate> certs, CertSelector selector)
+    privbte stbtic List<X509Certificbte> getMbtchingCerts
+        (List<X509Certificbte> certs, CertSelector selector)
     {
-        // if selector not specified, all certs match
+        // if selector not specified, bll certs mbtch
         if (selector == null) {
             return certs;
         }
-        List<X509Certificate> matchedCerts = new ArrayList<>(certs.size());
-        for (X509Certificate cert : certs) {
-            if (selector.match(cert)) {
-                matchedCerts.add(cert);
+        List<X509Certificbte> mbtchedCerts = new ArrbyList<>(certs.size());
+        for (X509Certificbte cert : certs) {
+            if (selector.mbtch(cert)) {
+                mbtchedCerts.bdd(cert);
             }
         }
-        return matchedCerts;
+        return mbtchedCerts;
     }
 
     public Collection<X509CRL> engineGetCRLs(CRLSelector selector)
         throws CertStoreException
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
-    static CertStore getInstance(URI uri)
-        throws InvalidAlgorithmParameterException
+    stbtic CertStore getInstbnce(URI uri)
+        throws InvblidAlgorithmPbrbmeterException
     {
         return new CS(new SSLServerCertStore(uri), null, "SSLServer", null);
     }
 
     /*
-     * An X509ExtendedTrustManager that ignores the server certificate
-     * validation.
+     * An X509ExtendedTrustMbnbger thbt ignores the server certificbte
+     * vblidbtion.
      */
-    private static class GetChainTrustManager
-            extends X509ExtendedTrustManager {
+    privbte stbtic clbss GetChbinTrustMbnbger
+            extends X509ExtendedTrustMbnbger {
 
-        private List<X509Certificate> serverChain =
-                        Collections.<X509Certificate>emptyList();
-        private boolean exchangedServerCerts = false;
+        privbte List<X509Certificbte> serverChbin =
+                        Collections.<X509Certificbte>emptyList();
+        privbte boolebn exchbngedServerCerts = fblse;
 
         @Override
-        public X509Certificate[] getAcceptedIssuers() {
-            return new X509Certificate[0];
+        public X509Certificbte[] getAcceptedIssuers() {
+            return new X509Certificbte[0];
         }
 
         @Override
-        public void checkClientTrusted(X509Certificate[] chain,
-                String authType) throws CertificateException {
+        public void checkClientTrusted(X509Certificbte[] chbin,
+                String buthType) throws CertificbteException {
 
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType,
-                Socket socket) throws CertificateException {
+        public void checkClientTrusted(X509Certificbte[] chbin, String buthType,
+                Socket socket) throws CertificbteException {
 
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType,
-                SSLEngine engine) throws CertificateException {
+        public void checkClientTrusted(X509Certificbte[] chbin, String buthType,
+                SSLEngine engine) throws CertificbteException {
 
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        public void checkServerTrusted(X509Certificate[] chain,
-                String authType) throws CertificateException {
+        public void checkServerTrusted(X509Certificbte[] chbin,
+                String buthType) throws CertificbteException {
 
-            exchangedServerCerts = true;
-            this.serverChain = (chain == null)
-                           ? Collections.<X509Certificate>emptyList()
-                           : Arrays.<X509Certificate>asList(chain);
+            exchbngedServerCerts = true;
+            this.serverChbin = (chbin == null)
+                           ? Collections.<X509Certificbte>emptyList()
+                           : Arrbys.<X509Certificbte>bsList(chbin);
 
         }
 
         @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType,
-                Socket socket) throws CertificateException {
+        public void checkServerTrusted(X509Certificbte[] chbin, String buthType,
+                Socket socket) throws CertificbteException {
 
-            checkServerTrusted(chain, authType);
+            checkServerTrusted(chbin, buthType);
         }
 
         @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType,
-                SSLEngine engine) throws CertificateException {
+        public void checkServerTrusted(X509Certificbte[] chbin, String buthType,
+                SSLEngine engine) throws CertificbteException {
 
-            checkServerTrusted(chain, authType);
+            checkServerTrusted(chbin, buthType);
         }
 
-        void cleanup() {
-            exchangedServerCerts = false;
-            serverChain = Collections.<X509Certificate>emptyList();
+        void clebnup() {
+            exchbngedServerCerts = fblse;
+            serverChbin = Collections.<X509Certificbte>emptyList();
         }
     }
 
     /**
-     * This class allows the SSLServerCertStore to be accessed as a CertStore.
+     * This clbss bllows the SSLServerCertStore to be bccessed bs b CertStore.
      */
-    private static class CS extends CertStore {
+    privbte stbtic clbss CS extends CertStore {
         protected CS(CertStoreSpi spi, Provider p, String type,
-                     CertStoreParameters params)
+                     CertStorePbrbmeters pbrbms)
         {
-            super(spi, p, type, params);
+            super(spi, p, type, pbrbms);
         }
     }
 }

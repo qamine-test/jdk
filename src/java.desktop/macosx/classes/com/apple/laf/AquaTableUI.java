@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeEvent;
 
-import javax.swing.*;
-import javax.swing.event.MouseInputListener;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicTableUI;
+import jbvbx.swing.*;
+import jbvbx.swing.event.MouseInputListener;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.bbsic.BbsicTbbleUI;
 
 /**
- * A Mac L&F implementation of JTable
+ * A Mbc L&F implementbtion of JTbble
  *
- * All this does is look for a ThemeBorder and invalidate it when the focus changes
+ * All this does is look for b ThemeBorder bnd invblidbte it when the focus chbnges
  */
-public class AquaTableUI extends BasicTableUI {
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaTableUI();
+public clbss AqubTbbleUI extends BbsicTbbleUI {
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubTbbleUI();
     }
 
     /**
-     * Creates the focus listener to repaint the focus ring
+     * Crebtes the focus listener to repbint the focus ring
      */
-    protected FocusListener createFocusListener() {
-        return new AquaTableUI.FocusHandler();
+    protected FocusListener crebteFocusListener() {
+        return new AqubTbbleUI.FocusHbndler();
     }
 
     /**
-     * Creates the mouse listener for the JTable.
+     * Crebtes the mouse listener for the JTbble.
      */
-    protected MouseInputListener createMouseInputListener() {
-        return new AquaTableUI.MouseInputHandler();
+    protected MouseInputListener crebteMouseInputListener() {
+        return new AqubTbbleUI.MouseInputHbndler();
     }
 
     /**
-     * This inner class is marked &quot;public&quot; due to a compiler bug.
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicTableUI.
+     * This inner clbss is mbrked &quot;public&quot; due to b compiler bug.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of BbsicTbbleUI.
      */
-    public class FocusHandler extends BasicTableUI.FocusHandler {
-        public void focusGained(final FocusEvent e) {
-            super.focusGained(e);
-            AquaBorder.repaintBorder(getComponent());
+    public clbss FocusHbndler extends BbsicTbbleUI.FocusHbndler {
+        public void focusGbined(finbl FocusEvent e) {
+            super.focusGbined(e);
+            AqubBorder.repbintBorder(getComponent());
         }
 
-        public void focusLost(final FocusEvent e) {
+        public void focusLost(finbl FocusEvent e) {
             super.focusLost(e);
-            AquaBorder.repaintBorder(getComponent());
+            AqubBorder.repbintBorder(getComponent());
         }
     }
 
-    protected AquaFocusHandler focusHandler = new AquaFocusHandler() {
-        public void propertyChange(final PropertyChangeEvent ev) {
-            super.propertyChange(ev);
-            if (!FRAME_ACTIVE_PROPERTY.equals(ev.getPropertyName())) return;
-            AquaFocusHandler.swapSelectionColors("Table", getComponent(), ev.getNewValue());
+    protected AqubFocusHbndler focusHbndler = new AqubFocusHbndler() {
+        public void propertyChbnge(finbl PropertyChbngeEvent ev) {
+            super.propertyChbnge(ev);
+            if (!FRAME_ACTIVE_PROPERTY.equbls(ev.getPropertyNbme())) return;
+            AqubFocusHbndler.swbpSelectionColors("Tbble", getComponent(), ev.getNewVblue());
         }
     };
-    protected void installListeners() {
-        super.installListeners();
-        table.addFocusListener(focusHandler);
-        table.addPropertyChangeListener(focusHandler);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        tbble.bddFocusListener(focusHbndler);
+        tbble.bddPropertyChbngeListener(focusHbndler);
     }
 
-    protected void uninstallListeners() {
-        table.removePropertyChangeListener(focusHandler);
-        table.removeFocusListener(focusHandler);
-        super.uninstallListeners();
+    protected void uninstbllListeners() {
+        tbble.removePropertyChbngeListener(focusHbndler);
+        tbble.removeFocusListener(focusHbndler);
+        super.uninstbllListeners();
     }
 
-    // TODO: Using default handler for now, need to handle cmd-key
+    // TODO: Using defbult hbndler for now, need to hbndle cmd-key
 
-    // Replace the mouse event with one that returns the cmd-key state when asked
-    // for the control-key state, which super assumes is what everyone does to discontiguously extend selections
-    public class MouseInputHandler extends BasicTableUI.MouseInputHandler {
-        /*public void mousePressed(final MouseEvent e) {
+    // Replbce the mouse event with one thbt returns the cmd-key stbte when bsked
+    // for the control-key stbte, which super bssumes is whbt everyone does to discontiguously extend selections
+    public clbss MouseInputHbndler extends BbsicTbbleUI.MouseInputHbndler {
+        /*public void mousePressed(finbl MouseEvent e) {
             super.mousePressed(new SelectionMouseEvent(e));
         }
-        public void mouseDragged(final MouseEvent e) {
-            super.mouseDragged(new SelectionMouseEvent(e));
+        public void mouseDrbgged(finbl MouseEvent e) {
+            super.mouseDrbgged(new SelectionMouseEvent(e));
         }*/
     }
 
-    JTable getComponent() {
-        return table;
+    JTbble getComponent() {
+        return tbble;
     }
 }

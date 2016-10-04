@@ -1,380 +1,380 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi.connect.spi;
+pbckbge com.sun.jdi.connect.spi;
 
-import java.io.IOException;
-import com.sun.jdi.connect.TransportTimeoutException;
+import jbvb.io.IOException;
+import com.sun.jdi.connect.TrbnsportTimeoutException;
 
 /**
- * A transport service for connections between a debugger and
- * a target VM.
+ * A trbnsport service for connections between b debugger bnd
+ * b tbrget VM.
  *
- * <p> A transport service is a concrete subclass of this class
- * that has a zero-argument constructor and implements the abstract
+ * <p> A trbnsport service is b concrete subclbss of this clbss
+ * thbt hbs b zero-brgument constructor bnd implements the bbstrbct
  * methods specified below. It is the underlying service
- * used by a {@link com.sun.jdi.connect.Transport} for
- * connections between a debugger and a target VM.
+ * used by b {@link com.sun.jdi.connect.Trbnsport} for
+ * connections between b debugger bnd b tbrget VM.
  *
- * <p> A transport service is used to establish a connection
- * between a debugger and a target VM, and to transport Java
- * Debug Wire Protocol (JDWP) packets over an underlying
- * communication protocol. In essence a transport service
- * implementation binds JDWP (as specified in the
- * <a href="../../../../../../../../../technotes/guides/jpda/jdwp-spec.html">
- * JDWP specification</a>) to an underlying communication
- * protocol. A transport service implementation provides
- * a reliable JDWP packet transportation service. JDWP
- * packets are sent to and from the target VM without duplication
- * or data loss. A transport service implementation may be
- * based on an underlying communication protocol that is
- * reliable or unreliable. If the underlying communication
- * protocol is reliable then the transport service implementation
- * may be relatively simple and may only need to transport JDWP
- * packets as payloads of the underlying communication
- * protocol. In the case of an unreliable communication
- * protocol the transport service implementation may include
- * additional protocol support in order to ensure that packets
- * are not duplicated and that there is no data loss. The
- * details of such protocols are specific to the implementation
- * but may involve techniques such as the <i>positive
- * acknowledgment with retransmission</i> technique used in
- * protocols such as the Transmission Control Protocol (TCP)
- * (see <a href="http://www.ietf.org/rfc/rfc0793.txt"> RFC 793
- * </a>).
+ * <p> A trbnsport service is used to estbblish b connection
+ * between b debugger bnd b tbrget VM, bnd to trbnsport Jbvb
+ * Debug Wire Protocol (JDWP) pbckets over bn underlying
+ * communicbtion protocol. In essence b trbnsport service
+ * implementbtion binds JDWP (bs specified in the
+ * <b href="../../../../../../../../../technotes/guides/jpdb/jdwp-spec.html">
+ * JDWP specificbtion</b>) to bn underlying communicbtion
+ * protocol. A trbnsport service implementbtion provides
+ * b relibble JDWP pbcket trbnsportbtion service. JDWP
+ * pbckets bre sent to bnd from the tbrget VM without duplicbtion
+ * or dbtb loss. A trbnsport service implementbtion mby be
+ * bbsed on bn underlying communicbtion protocol thbt is
+ * relibble or unrelibble. If the underlying communicbtion
+ * protocol is relibble then the trbnsport service implementbtion
+ * mby be relbtively simple bnd mby only need to trbnsport JDWP
+ * pbckets bs pbylobds of the underlying communicbtion
+ * protocol. In the cbse of bn unrelibble communicbtion
+ * protocol the trbnsport service implementbtion mby include
+ * bdditionbl protocol support in order to ensure thbt pbckets
+ * bre not duplicbted bnd thbt there is no dbtb loss. The
+ * detbils of such protocols bre specific to the implementbtion
+ * but mby involve techniques such bs the <i>positive
+ * bcknowledgment with retrbnsmission</i> technique used in
+ * protocols such bs the Trbnsmission Control Protocol (TCP)
+ * (see <b href="http://www.ietf.org/rfc/rfc0793.txt"> RFC 793
+ * </b>).
  *
- * <p> A transport service can be used to initiate a connection
- * to a target VM. This is done by invoking the {@link #attach}
- * method. Alternatively, a transport service can listen and
- * accept connections initiated by a target VM. This is done
- * by invoking the {@link #startListening(String)} method to
- * put the transport into listen mode. Then the {@link #accept}
- * method is used to accept a connection initiated by a
- * target VM.
+ * <p> A trbnsport service cbn be used to initibte b connection
+ * to b tbrget VM. This is done by invoking the {@link #bttbch}
+ * method. Alternbtively, b trbnsport service cbn listen bnd
+ * bccept connections initibted by b tbrget VM. This is done
+ * by invoking the {@link #stbrtListening(String)} method to
+ * put the trbnsport into listen mode. Then the {@link #bccept}
+ * method is used to bccept b connection initibted by b
+ * tbrget VM.
  *
  * @since 1.5
  */
 
 @jdk.Exported
-public abstract class TransportService {
+public bbstrbct clbss TrbnsportService {
 
     /**
-     * Returns a name to identify the transport service.
+     * Returns b nbme to identify the trbnsport service.
      *
-     * @return  The name of the transport service
+     * @return  The nbme of the trbnsport service
      */
-    public abstract String name();
+    public bbstrbct String nbme();
 
     /**
-     * Returns a description of the transport service.
+     * Returns b description of the trbnsport service.
      *
-     * @return  The description of the transport service
+     * @return  The description of the trbnsport service
      */
-    public abstract String description();
+    public bbstrbct String description();
 
     /**
-     * The transport service capabilities.
+     * The trbnsport service cbpbbilities.
      */
     @jdk.Exported
-    public static abstract class Capabilities {
+    public stbtic bbstrbct clbss Cbpbbilities {
 
         /**
-         * Tells whether or not this transport service can support
-         * multiple concurrent connections to a single address that
+         * Tells whether or not this trbnsport service cbn support
+         * multiple concurrent connections to b single bddress thbt
          * it is listening on.
          *
-         * @return  <tt>true</tt> if, and only if, this transport
+         * @return  <tt>true</tt> if, bnd only if, this trbnsport
          *          service supports multiple connections.
          */
-        public abstract boolean supportsMultipleConnections();
+        public bbstrbct boolebn supportsMultipleConnections();
 
 
         /**
-         * Tell whether or not this transport service supports a timeout
-         * when attaching to a target VM.
+         * Tell whether or not this trbnsport service supports b timeout
+         * when bttbching to b tbrget VM.
          *
-         * @return      <tt>true</tt> if, and only if, this transport
-         *              service supports attaching with a timeout.
+         * @return      <tt>true</tt> if, bnd only if, this trbnsport
+         *              service supports bttbching with b timeout.
          *
-         * @see #attach(String,long,long)
+         * @see #bttbch(String,long,long)
          */
-        public abstract boolean supportsAttachTimeout();
+        public bbstrbct boolebn supportsAttbchTimeout();
 
         /**
-         * Tell whether or not this transport service supports a
-         * timeout while waiting for a target VM to connect.
+         * Tell whether or not this trbnsport service supports b
+         * timeout while wbiting for b tbrget VM to connect.
          *
-         * @return  <tt>true</tt> if, and only if, this transport
-         *          service supports timeout while waiting for
-         *          a target VM to connect.
+         * @return  <tt>true</tt> if, bnd only if, this trbnsport
+         *          service supports timeout while wbiting for
+         *          b tbrget VM to connect.
          *
-         * @see #accept(TransportService.ListenKey,long,long)
+         * @see #bccept(TrbnsportService.ListenKey,long,long)
          */
-        public abstract boolean supportsAcceptTimeout();
+        public bbstrbct boolebn supportsAcceptTimeout();
 
         /**
-         * Tells whether or not this transport service supports a
-         * timeout when handshaking with the target VM.
+         * Tells whether or not this trbnsport service supports b
+         * timeout when hbndshbking with the tbrget VM.
          *
-         * @return  <tt>true</tt> if, and only if, this transport
-         *          service supports a timeout while handshaking
-         *          with the target VM.
+         * @return  <tt>true</tt> if, bnd only if, this trbnsport
+         *          service supports b timeout while hbndshbking
+         *          with the tbrget VM.
          *
-         * @see #attach(String,long,long)
-         * @see #accept(TransportService.ListenKey,long,long)
+         * @see #bttbch(String,long,long)
+         * @see #bccept(TrbnsportService.ListenKey,long,long)
          */
-        public abstract boolean supportsHandshakeTimeout();
+        public bbstrbct boolebn supportsHbndshbkeTimeout();
 
     }
 
     /**
-     * Returns the capabilities of the transport service.
+     * Returns the cbpbbilities of the trbnsport service.
      *
-     * @return  the transport service capabilities
+     * @return  the trbnsport service cbpbbilities
      */
-    public abstract Capabilities capabilities();
+    public bbstrbct Cbpbbilities cbpbbilities();
 
     /**
-     * Attaches to the specified address.
+     * Attbches to the specified bddress.
      *
-     * <p> Attaches to the specified address and returns a connection
-     * representing the bi-directional communication channel to the
-     * target VM.
+     * <p> Attbches to the specified bddress bnd returns b connection
+     * representing the bi-directionbl communicbtion chbnnel to the
+     * tbrget VM.
      *
-     * <p> Attaching to the target VM involves two steps:
-     * First, a connection is established to specified address. This
-     * is followed by a handshake to ensure that the connection is
-     * to a target VM. The handshake involves the exchange
-     * of a string <i>JDWP-Handshake</i> as specified in the <a
-     * href="../../../../../../../../../technotes/guides/jpda/jdwp-spec.html">
-     * Java Debug Wire Protocol</a> specification.
+     * <p> Attbching to the tbrget VM involves two steps:
+     * First, b connection is estbblished to specified bddress. This
+     * is followed by b hbndshbke to ensure thbt the connection is
+     * to b tbrget VM. The hbndshbke involves the exchbnge
+     * of b string <i>JDWP-Hbndshbke</i> bs specified in the <b
+     * href="../../../../../../../../../technotes/guides/jpdb/jdwp-spec.html">
+     * Jbvb Debug Wire Protocol</b> specificbtion.
      *
-     * @param   address
-     *          The address of the target VM.
+     * @pbrbm   bddress
+     *          The bddress of the tbrget VM.
      *
-     * @param   attachTimeout
-     *          If this transport service supports an attach timeout,
-     *          and if <tt>attachTimeout</tt> is positive, then it specifies
+     * @pbrbm   bttbchTimeout
+     *          If this trbnsport service supports bn bttbch timeout,
+     *          bnd if <tt>bttbchTimeout</tt> is positive, then it specifies
      *          the timeout, in milliseconds (more or less), to use
-     *          when attaching to the target VM.  If the transport service
-     *          does not support an attach timeout, or if <tt>attachTimeout</tt>
-     *          is specified as zero then attach without any timeout.
+     *          when bttbching to the tbrget VM.  If the trbnsport service
+     *          does not support bn bttbch timeout, or if <tt>bttbchTimeout</tt>
+     *          is specified bs zero then bttbch without bny timeout.
      *
-     * @param   handshakeTimeout
-     *          If this transport service supports a handshake timeout,
-     *          and if <tt>handshakeTimeout</tt> is positive, then it
+     * @pbrbm   hbndshbkeTimeout
+     *          If this trbnsport service supports b hbndshbke timeout,
+     *          bnd if <tt>hbndshbkeTimeout</tt> is positive, then it
      *          specifies the timeout, in milliseconds (more or less), to
-     *          use when handshaking with the target VM. The exact
-     *          usage of the timeout are specific to the transport service.
-     *          A transport service may, for example, use the handshake
-     *          timeout as the inter-character timeout while waiting for
-     *          the <i>JDWP-Handshake</i> message from the target VM.
-     *          Alternatively, a transport service may, for example,
-     *          use the handshakeTimeout as a timeout for the duration of the
-     *          handshake exchange.
-     *          If the transport service does not support a handshake
-     *          timeout, or if <tt>handshakeTimeout</tt> is specified
-     *          as zero then the handshake does not timeout if there
-     *          isn't a response from the target VM.
+     *          use when hbndshbking with the tbrget VM. The exbct
+     *          usbge of the timeout bre specific to the trbnsport service.
+     *          A trbnsport service mby, for exbmple, use the hbndshbke
+     *          timeout bs the inter-chbrbcter timeout while wbiting for
+     *          the <i>JDWP-Hbndshbke</i> messbge from the tbrget VM.
+     *          Alternbtively, b trbnsport service mby, for exbmple,
+     *          use the hbndshbkeTimeout bs b timeout for the durbtion of the
+     *          hbndshbke exchbnge.
+     *          If the trbnsport service does not support b hbndshbke
+     *          timeout, or if <tt>hbndshbkeTimeout</tt> is specified
+     *          bs zero then the hbndshbke does not timeout if there
+     *          isn't b response from the tbrget VM.
      *
-     * @return  The Connection representing the bi-directional
-     *          communication channel to the target VM.
+     * @return  The Connection representing the bi-directionbl
+     *          communicbtion chbnnel to the tbrget VM.
      *
-     * @throws  TransportTimeoutException
-     *          If a timeout occurs while establishing the connection.
+     * @throws  TrbnsportTimeoutException
+     *          If b timeout occurs while estbblishing the connection.
      *
      * @throws  IOException
-     *          If an I/O error occurs (including a timeout when
-     *          handshaking).
+     *          If bn I/O error occurs (including b timeout when
+     *          hbndshbking).
      *
-     * @throws  IllegalArgumentException
-     *          If the address is invalid or the value of the
-     *          attach timeout or handshake timeout is negative.
+     * @throws  IllegblArgumentException
+     *          If the bddress is invblid or the vblue of the
+     *          bttbch timeout or hbndshbke timeout is negbtive.
      *
-     * @see TransportService.Capabilities#supportsAttachTimeout()
+     * @see TrbnsportService.Cbpbbilities#supportsAttbchTimeout()
      */
-    public abstract Connection attach(String address, long attachTimeout,
-        long handshakeTimeout) throws IOException;
+    public bbstrbct Connection bttbch(String bddress, long bttbchTimeout,
+        long hbndshbkeTimeout) throws IOException;
 
     /**
      * A <i>listen key</i>.
      *
-     * <p> A <tt>TransportService</tt> may listen on multiple, yet
-     * different, addresses at the same time. To uniquely identify
-     * each <tt>listener</tt> a listen key is created each time that
-     * {@link #startListening startListening} is called. The listen
-     * key is used in calls to the {@link #accept accept} method
-     * to accept inbound connections to that listener. A listen
-     * key is valid until it is used as an argument to {@link
-     * #stopListening stopListening} to stop the transport
-     * service from listening on an address.
+     * <p> A <tt>TrbnsportService</tt> mby listen on multiple, yet
+     * different, bddresses bt the sbme time. To uniquely identify
+     * ebch <tt>listener</tt> b listen key is crebted ebch time thbt
+     * {@link #stbrtListening stbrtListening} is cblled. The listen
+     * key is used in cblls to the {@link #bccept bccept} method
+     * to bccept inbound connections to thbt listener. A listen
+     * key is vblid until it is used bs bn brgument to {@link
+     * #stopListening stopListening} to stop the trbnsport
+     * service from listening on bn bddress.
      */
     @jdk.Exported
-    public static abstract class ListenKey {
+    public stbtic bbstrbct clbss ListenKey {
 
         /**
-         * Returns a string representation of the listen key.
+         * Returns b string representbtion of the listen key.
          */
-        public abstract String address();
+        public bbstrbct String bddress();
     }
 
     /**
-     * Listens on the specified address for inbound connections.
+     * Listens on the specified bddress for inbound connections.
      *
-     * <p> This method starts the transport service listening on
-     * the specified address so that it can subsequently accept
-     * an inbound connection. It does not wait until an inbound
-     * connection is established.
+     * <p> This method stbrts the trbnsport service listening on
+     * the specified bddress so thbt it cbn subsequently bccept
+     * bn inbound connection. It does not wbit until bn inbound
+     * connection is estbblished.
      *
-     * @param   address
-     *          The address to start listening for connections,
-     *          or <tt>null</tt> to listen on an address chosen
-     *          by the transport service.
+     * @pbrbm   bddress
+     *          The bddress to stbrt listening for connections,
+     *          or <tt>null</tt> to listen on bn bddress chosen
+     *          by the trbnsport service.
      *
-     * @return  a listen key to be used in subsequent calls to be
-     *          {@link #accept accept} or {@link #stopListening
+     * @return  b listen key to be used in subsequent cblls to be
+     *          {@link #bccept bccept} or {@link #stopListening
      *          stopListening} methods.
      *
      * @throws  IOException
-     *          If an I/O error occurs.
+     *          If bn I/O error occurs.
      *
-     * @throws  IllegalArgumentException
-     *          If the specific address is invalid
+     * @throws  IllegblArgumentException
+     *          If the specific bddress is invblid
      */
-    public abstract ListenKey startListening(String address) throws IOException;
+    public bbstrbct ListenKey stbrtListening(String bddress) throws IOException;
 
     /**
-     * Listens on an address chosen by the transport service.
+     * Listens on bn bddress chosen by the trbnsport service.
      *
-     * <p> This convenience method works as if by invoking {@link
-     * #startListening(String) startListening(<tt>null</tt>)}. </p>
+     * <p> This convenience method works bs if by invoking {@link
+     * #stbrtListening(String) stbrtListening(<tt>null</tt>)}. </p>
      *
-     * @return  a listen key to be used in subsequent calls to be
-     *          {@link #accept accept} or {@link #stopListening
+     * @return  b listen key to be used in subsequent cblls to be
+     *          {@link #bccept bccept} or {@link #stopListening
      *          stopListening} methods.
      *
      * @throws  IOException
-     *          If an I/O error occurs.
+     *          If bn I/O error occurs.
      */
-    public abstract ListenKey startListening() throws IOException;
+    public bbstrbct ListenKey stbrtListening() throws IOException;
 
     /**
      * Stop listening for inbound connections.
      *
-     * <p> Invoking this method while another thread is blocked
-     * in {@link #accept accept}, with the same listen key,
-     * waiting to accept a connection will cause that thread to
-     * throw an IOException. If the thread blocked in accept
-     * has already accepted a connection from a target VM and
-     * is in the process of handshaking with the target VM then
-     * invoking this method will not cause the thread to throw
-     * an exception.
+     * <p> Invoking this method while bnother threbd is blocked
+     * in {@link #bccept bccept}, with the sbme listen key,
+     * wbiting to bccept b connection will cbuse thbt threbd to
+     * throw bn IOException. If the threbd blocked in bccept
+     * hbs blrebdy bccepted b connection from b tbrget VM bnd
+     * is in the process of hbndshbking with the tbrget VM then
+     * invoking this method will not cbuse the threbd to throw
+     * bn exception.
      *
-     * @param   listenKey
-     *          The listen key obtained from a previous call to {@link
-     *          #startListening(String)} or {@link #startListening()}.
+     * @pbrbm   listenKey
+     *          The listen key obtbined from b previous cbll to {@link
+     *          #stbrtListening(String)} or {@link #stbrtListening()}.
      *
-     * @throws  IllegalArgumentException
-     *          If the listen key is invalid
+     * @throws  IllegblArgumentException
+     *          If the listen key is invblid
      *
      * @throws  IOException
-     *          If an I/O error occurs.
+     *          If bn I/O error occurs.
      */
-    public abstract void stopListening(ListenKey listenKey) throws IOException;
+    public bbstrbct void stopListening(ListenKey listenKey) throws IOException;
 
     /**
-     * Accept a connection from a target VM.
+     * Accept b connection from b tbrget VM.
      *
-     * <p> Waits (indefinitely or with timeout) to accept a connection
-     * from a target VM. Returns a connection representing the
-     * bi-directional communication channel to the target VM.
+     * <p> Wbits (indefinitely or with timeout) to bccept b connection
+     * from b tbrget VM. Returns b connection representing the
+     * bi-directionbl communicbtion chbnnel to the tbrget VM.
      *
-     * <p> Accepting a connection from a target VM involves two
-     * steps. First, the transport service waits to accept
-     * the connection from the target VM. Once the connection is
-     * established a handshake is performed to ensure that the
-     * connection is indeed to a target VM. The handshake involves
-     * the exchange of a string <i>JDWP-Handshake</i> as specified
-     * in the <a
-     * href="../../../../../../../../../technotes/guides/jpda/jdwp-spec.html">
-     * Java Debug Wire Protocol</a> specification.
+     * <p> Accepting b connection from b tbrget VM involves two
+     * steps. First, the trbnsport service wbits to bccept
+     * the connection from the tbrget VM. Once the connection is
+     * estbblished b hbndshbke is performed to ensure thbt the
+     * connection is indeed to b tbrget VM. The hbndshbke involves
+     * the exchbnge of b string <i>JDWP-Hbndshbke</i> bs specified
+     * in the <b
+     * href="../../../../../../../../../technotes/guides/jpdb/jdwp-spec.html">
+     * Jbvb Debug Wire Protocol</b> specificbtion.
      *
-     * @param   listenKey
-     *          A listen key obtained from a previous call to {@link
-     *          #startListening(String)} or {@link #startListening()}.
+     * @pbrbm   listenKey
+     *          A listen key obtbined from b previous cbll to {@link
+     *          #stbrtListening(String)} or {@link #stbrtListening()}.
      *
-     * @param   acceptTimeout
-     *          if this transport service supports an accept timeout, and
-     *          if <tt>acceptTimeout</tt> is positive then block for up to
-     *          <tt>acceptTimeout</tt> milliseconds, more or less, while waiting
-     *          for the target VM to connect.
-     *          If the transport service does not support an accept timeout
-     *          or if <tt>acceptTimeout</tt> is zero then block indefinitely
-     *          for a target VM to connect.
+     * @pbrbm   bcceptTimeout
+     *          if this trbnsport service supports bn bccept timeout, bnd
+     *          if <tt>bcceptTimeout</tt> is positive then block for up to
+     *          <tt>bcceptTimeout</tt> milliseconds, more or less, while wbiting
+     *          for the tbrget VM to connect.
+     *          If the trbnsport service does not support bn bccept timeout
+     *          or if <tt>bcceptTimeout</tt> is zero then block indefinitely
+     *          for b tbrget VM to connect.
      *
-     * @param   handshakeTimeout
-     *          If this transport service supports a handshake timeout,
-     *          and if <tt>handshakeTimeout</tt> is positive, then it
+     * @pbrbm   hbndshbkeTimeout
+     *          If this trbnsport service supports b hbndshbke timeout,
+     *          bnd if <tt>hbndshbkeTimeout</tt> is positive, then it
      *          specifies the timeout, in milliseconds (more or less), to
-     *          use when handshaking with the target VM. The exact
-     *          usage of the timeout is specific to the transport service.
-     *          A transport service may, for example, use the handshake
-     *          timeout as the inter-character timeout while waiting for
-     *          the <i>JDWP-Handshake</i> message from the target VM.
-     *          Alternatively, a transport service may, for example,
-     *          use the timeout as a timeout for the duration of the
-     *          handshake exchange.
-     *          If the transport service does not support a handshake
-     *          timeout, of if <tt>handshakeTimeout</tt> is specified
-     *          as zero then the handshake does not timeout if there
-     *          isn't a response from the target VM.
+     *          use when hbndshbking with the tbrget VM. The exbct
+     *          usbge of the timeout is specific to the trbnsport service.
+     *          A trbnsport service mby, for exbmple, use the hbndshbke
+     *          timeout bs the inter-chbrbcter timeout while wbiting for
+     *          the <i>JDWP-Hbndshbke</i> messbge from the tbrget VM.
+     *          Alternbtively, b trbnsport service mby, for exbmple,
+     *          use the timeout bs b timeout for the durbtion of the
+     *          hbndshbke exchbnge.
+     *          If the trbnsport service does not support b hbndshbke
+     *          timeout, of if <tt>hbndshbkeTimeout</tt> is specified
+     *          bs zero then the hbndshbke does not timeout if there
+     *          isn't b response from the tbrget VM.
      *
-     * @return  The Connection representing the bi-directional
-     *          communication channel to the target VM.
+     * @return  The Connection representing the bi-directionbl
+     *          communicbtion chbnnel to the tbrget VM.
      *
-     * @throws  TransportTimeoutException
-     *          If a timeout occurs while waiting for a target VM
+     * @throws  TrbnsportTimeoutException
+     *          If b timeout occurs while wbiting for b tbrget VM
      *          to connect.
      *
      * @throws  IOException
-     *          If an I/O error occurs (including a timeout when
-     *          handshaking).
+     *          If bn I/O error occurs (including b timeout when
+     *          hbndshbking).
      *
-     * @throws  IllegalArgumentException
-     *          If the value of the acceptTimeout argument, or
-     *          handshakeTimeout is negative, or an invalid listen key
+     * @throws  IllegblArgumentException
+     *          If the vblue of the bcceptTimeout brgument, or
+     *          hbndshbkeTimeout is negbtive, or bn invblid listen key
      *          is provided.
      *
-     * @throws  IllegalStateException
-     *          If {@link #stopListening stopListening} has already been
-     *          called with this listen key and the transport service
+     * @throws  IllegblStbteException
+     *          If {@link #stopListening stopListening} hbs blrebdy been
+     *          cblled with this listen key bnd the trbnsport service
      *          is no longer listening for inbound connections.
      *
-     * @see TransportService.Capabilities#supportsAcceptTimeout()
+     * @see TrbnsportService.Cbpbbilities#supportsAcceptTimeout()
      */
-    public abstract Connection accept(ListenKey listenKey, long acceptTimeout,
-        long handshakeTimeout) throws IOException;
+    public bbstrbct Connection bccept(ListenKey listenKey, long bcceptTimeout,
+        long hbndshbkeTimeout) throws IOException;
 
 }

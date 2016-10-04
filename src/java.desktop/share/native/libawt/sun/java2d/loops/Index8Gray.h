@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2001, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef Index8Gray_h_Included
-#define Index8Gray_h_Included
+#ifndef Index8Grby_h_Included
+#define Index8Grby_h_Included
 
 #include "IntDcm.h"
-#include "ByteGray.h"
+#include "ByteGrby.h"
 
 /*
- * This file contains macro and type definitions used by the macros in
- * LoopMacros.h to manipulate a surface of type "Index8Gray".
+ * This file contbins mbcro bnd type definitions used by the mbcros in
+ * LoopMbcros.h to mbnipulbte b surfbce of type "Index8Grby".
  */
 
-typedef jubyte  Index8GrayPixelType;
-typedef jubyte  Index8GrayDataType;
+typedef jubyte  Index8GrbyPixelType;
+typedef jubyte  Index8GrbyDbtbType;
 
-#define Index8GrayIsOpaque 1
+#define Index8GrbyIsOpbque 1
 
-#define Index8GrayPixelStride           1
-#define Index8GrayBitsPerPixel          8
+#define Index8GrbyPixelStride           1
+#define Index8GrbyBitsPerPixel          8
 
-#define DeclareIndex8GrayLoadVars(PREFIX) \
+#define DeclbreIndex8GrbyLobdVbrs(PREFIX) \
     jint *PREFIX ## Lut;
 
-#define DeclareIndex8GrayStoreVars(PREFIX) \
-    jint *PREFIX ## InvGrayLut;
+#define DeclbreIndex8GrbyStoreVbrs(PREFIX) \
+    jint *PREFIX ## InvGrbyLut;
 
-#define SetIndex8GrayStoreVarsYPos(PREFIX, pRasInfo, LOC)
-#define SetIndex8GrayStoreVarsXPos(PREFIX, pRasInfo, LOC)
-#define InitIndex8GrayLoadVars(PREFIX, pRasInfo) \
-    PREFIX ## Lut = (pRasInfo)->lutBase
+#define SetIndex8GrbyStoreVbrsYPos(PREFIX, pRbsInfo, LOC)
+#define SetIndex8GrbyStoreVbrsXPos(PREFIX, pRbsInfo, LOC)
+#define InitIndex8GrbyLobdVbrs(PREFIX, pRbsInfo) \
+    PREFIX ## Lut = (pRbsInfo)->lutBbse
 
-#define InitIndex8GrayStoreVarsY(PREFIX, pRasInfo) \
-    PREFIX ## InvGrayLut = (pRasInfo)->invGrayTable;
+#define InitIndex8GrbyStoreVbrsY(PREFIX, pRbsInfo) \
+    PREFIX ## InvGrbyLut = (pRbsInfo)->invGrbyTbble;
 
-#define InitIndex8GrayStoreVarsX(PREFIX, pRasInfo)
-#define NextIndex8GrayStoreVarsX(PREFIX)
-#define NextIndex8GrayStoreVarsY(PREFIX)
+#define InitIndex8GrbyStoreVbrsX(PREFIX, pRbsInfo)
+#define NextIndex8GrbyStoreVbrsX(PREFIX)
+#define NextIndex8GrbyStoreVbrsY(PREFIX)
 
-#define Index8GrayXparLutEntry                  -1
-#define Index8GrayIsXparLutEntry(pix)           (pix < 0)
-#define StoreIndex8GrayNonXparFromArgb          StoreIndex8GrayFrom1IntArgb
+#define Index8GrbyXpbrLutEntry                  -1
+#define Index8GrbyIsXpbrLutEntry(pix)           (pix < 0)
+#define StoreIndex8GrbyNonXpbrFromArgb          StoreIndex8GrbyFrom1IntArgb
 
-#define StoreIndex8GrayPixel(pRas, x, pixel) \
-    ((pRas)[x] = (jubyte) (pixel))
+#define StoreIndex8GrbyPixel(pRbs, x, pixel) \
+    ((pRbs)[x] = (jubyte) (pixel))
 
-#define DeclareIndex8GrayPixelData(PREFIX)
+#define DeclbreIndex8GrbyPixelDbtb(PREFIX)
 
-#define ExtractIndex8GrayPixelData(PIXEL, PREFIX)
+#define ExtrbctIndex8GrbyPixelDbtb(PIXEL, PREFIX)
 
-#define StoreIndex8GrayPixelData(pPix, x, pixel, PREFIX) \
+#define StoreIndex8GrbyPixelDbtb(pPix, x, pixel, PREFIX) \
     ((pPix)[x] = (jubyte)(pixel))
 
-#define Index8GrayPixelFromArgb(pixel, rgb, pRasInfo) \
+#define Index8GrbyPixelFromArgb(pixel, rgb, pRbsInfo) \
     do { \
-        jint r, g, b, gray; \
-        ExtractIntDcmComponentsX123(rgb, r, g, b); \
-        gray = ComposeByteGrayFrom3ByteRgb(r, g, b); \
-        (pixel) = (pRasInfo)->invGrayTable[gray]; \
+        jint r, g, b, grby; \
+        ExtrbctIntDcmComponentsX123(rgb, r, g, b); \
+        grby = ComposeByteGrbyFrom3ByteRgb(r, g, b); \
+        (pixel) = (pRbsInfo)->invGrbyTbble[grby]; \
     } while (0)
 
-#define LoadIndex8GrayTo1IntRgb(pRas, PREFIX, x, rgb) \
-    (rgb) = PREFIX ## Lut[pRas[x]]
+#define LobdIndex8GrbyTo1IntRgb(pRbs, PREFIX, x, rgb) \
+    (rgb) = PREFIX ## Lut[pRbs[x]]
 
-#define LoadIndex8GrayTo1IntArgb(pRas, PREFIX, x, argb) \
-    (argb) = PREFIX ## Lut[pRas[x]]
+#define LobdIndex8GrbyTo1IntArgb(pRbs, PREFIX, x, brgb) \
+    (brgb) = PREFIX ## Lut[pRbs[x]]
 
-#define LoadIndex8GrayTo1ByteGray(pRas, PREFIX, x, gray) \
-    (gray) = (jubyte)PREFIX ## Lut[pRas[x]]
+#define LobdIndex8GrbyTo1ByteGrby(pRbs, PREFIX, x, grby) \
+    (grby) = (jubyte)PREFIX ## Lut[pRbs[x]]
 
-#define LoadIndex8GrayTo3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    r = g = b = (jubyte)PREFIX ## Lut[pRas[x]]
+#define LobdIndex8GrbyTo3ByteRgb(pRbs, PREFIX, x, r, g, b) \
+    r = g = b = (jubyte)PREFIX ## Lut[pRbs[x]]
 
-#define LoadIndex8GrayTo4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
+#define LobdIndex8GrbyTo4ByteArgb(pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        a = 0xff; \
-        LoadIndex8GrayTo3ByteRgb(pRas, PREFIX, x, r, g, b); \
+        b = 0xff; \
+        LobdIndex8GrbyTo3ByteRgb(pRbs, PREFIX, x, r, g, b); \
     } while (0)
 
-#define StoreIndex8GrayFrom1IntRgb(pRas, PREFIX, x, rgb) \
+#define StoreIndex8GrbyFrom1IntRgb(pRbs, PREFIX, x, rgb) \
     do { \
         int r, g, b; \
-        ExtractIntDcmComponentsX123(rgb, r, g, b); \
-        StoreIndex8GrayFrom3ByteRgb(pRas, PREFIX, x, r, g, b); \
+        ExtrbctIntDcmComponentsX123(rgb, r, g, b); \
+        StoreIndex8GrbyFrom3ByteRgb(pRbs, PREFIX, x, r, g, b); \
     } while (0)
 
-#define StoreIndex8GrayFrom1IntArgb(pRas, PREFIX, x, argb) \
-    StoreIndex8GrayFrom1IntRgb(pRas, PREFIX, x, argb)
+#define StoreIndex8GrbyFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+    StoreIndex8GrbyFrom1IntRgb(pRbs, PREFIX, x, brgb)
 
-#define StoreIndex8GrayFrom3ByteRgb(pRas, PREFIX, x, r, g, b) \
+#define StoreIndex8GrbyFrom3ByteRgb(pRbs, PREFIX, x, r, g, b) \
     do { \
-        int gray = ComposeByteGrayFrom3ByteRgb(r, g, b); \
-        (pRas)[x] = (jubyte) (PREFIX ## InvGrayLut[gray]); \
+        int grby = ComposeByteGrbyFrom3ByteRgb(r, g, b); \
+        (pRbs)[x] = (jubyte) (PREFIX ## InvGrbyLut[grby]); \
     } while (0)
 
-#define StoreIndex8GrayFrom4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
-    StoreIndex8GrayFrom3ByteRgb(pRas, PREFIX, x, r, g, b)
+#define StoreIndex8GrbyFrom4ByteArgb(pRbs, PREFIX, x, b, r, g, b) \
+    StoreIndex8GrbyFrom3ByteRgb(pRbs, PREFIX, x, r, g, b)
 
-#define StoreIndex8GrayFrom1ByteGray(pRas, PREFIX, x, gray) \
-    (pRas)[x] = (jubyte) (PREFIX ## InvGrayLut[gray]);
+#define StoreIndex8GrbyFrom1ByteGrby(pRbs, PREFIX, x, grby) \
+    (pRbs)[x] = (jubyte) (PREFIX ## InvGrbyLut[grby]);
 
-#define CopyIndex8GrayToIntArgbPre(pRGB, i, PREFIX, pRow, x) \
+#define CopyIndex8GrbyToIntArgbPre(pRGB, i, PREFIX, pRow, x) \
     (pRGB)[i] = PREFIX ## Lut[pRow[x]]
 
 
-#define DeclareIndex8GrayAlphaLoadData(PREFIX) \
+#define DeclbreIndex8GrbyAlphbLobdDbtb(PREFIX) \
     jint *PREFIX ## Lut;
 
-#define InitIndex8GrayAlphaLoadData(PREFIX, pRasInfo) \
-    PREFIX ## Lut = (pRasInfo)->lutBase
+#define InitIndex8GrbyAlphbLobdDbtb(PREFIX, pRbsInfo) \
+    PREFIX ## Lut = (pRbsInfo)->lutBbse
 
-#define LoadAlphaFromIndex8GrayFor1ByteGray(pRas, PREFIX, COMP_PREFIX) \
+#define LobdAlphbFromIndex8GrbyFor1ByteGrby(pRbs, PREFIX, COMP_PREFIX) \
     COMP_PREFIX ## A = 0xff
 
-#define Postload1ByteGrayFromIndex8Gray(pRas, PREFIX, COMP_PREFIX) \
-    COMP_PREFIX ## G = (jubyte)PREFIX ## Lut[(pRas)[0]]
+#define Postlobd1ByteGrbyFromIndex8Grby(pRbs, PREFIX, COMP_PREFIX) \
+    COMP_PREFIX ## G = (jubyte)PREFIX ## Lut[(pRbs)[0]]
 
-#define StoreIndex8GrayFrom1ByteGrayComps(pRas, PREFIX, x, COMP_PREFIX) \
-    StoreIndex8GrayFrom1ByteGray(pRas, PREFIX, x, COMP_PREFIX ## G)
+#define StoreIndex8GrbyFrom1ByteGrbyComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StoreIndex8GrbyFrom1ByteGrby(pRbs, PREFIX, x, COMP_PREFIX ## G)
 
-#define Index8GrayIsPremultiplied       0
+#define Index8GrbyIsPremultiplied       0
 
-#endif /* Index8Gray_h_Included */
+#endif /* Index8Grby_h_Included */

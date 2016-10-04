@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <windows.h>
@@ -28,53 +28,53 @@
 
 
 /*
- * Convert UTF-8 to a platform string
+ * Convert UTF-8 to b plbtform string
  */
 int
-convertUft8ToPlatformString(char* utf8_str, int utf8_len, char* platform_str, int platform_len) {
-    LANGID langID;
-    LCID localeID;
-    TCHAR strCodePage[7];       // ANSI code page id
-    UINT codePage;
+convertUft8ToPlbtformString(chbr* utf8_str, int utf8_len, chbr* plbtform_str, int plbtform_len) {
+    LANGID lbngID;
+    LCID locbleID;
+    TCHAR strCodePbge[7];       // ANSI code pbge id
+    UINT codePbge;
     int wlen, plen;
     WCHAR* wstr;
 
     /*
-     * Get the code page for this locale
+     * Get the code pbge for this locble
      */
-    langID = LANGIDFROMLCID(GetUserDefaultLCID());
-    localeID = MAKELCID(langID, SORT_DEFAULT);
-    if (GetLocaleInfo(localeID, LOCALE_IDEFAULTANSICODEPAGE,
-                      strCodePage, sizeof(strCodePage)/sizeof(TCHAR)) > 0 ) {
-        codePage = atoi(strCodePage);
+    lbngID = LANGIDFROMLCID(GetUserDefbultLCID());
+    locbleID = MAKELCID(lbngID, SORT_DEFAULT);
+    if (GetLocbleInfo(locbleID, LOCALE_IDEFAULTANSICODEPAGE,
+                      strCodePbge, sizeof(strCodePbge)/sizeof(TCHAR)) > 0 ) {
+        codePbge = btoi(strCodePbge);
     } else {
-        codePage = GetACP();
+        codePbge = GetACP();
     }
 
     /*
-     * To convert the string to platform encoding we must first convert
-     * to unicode, and then convert to the platform encoding
+     * To convert the string to plbtform encoding we must first convert
+     * to unicode, bnd then convert to the plbtform encoding
      */
     plen = -1;
-    wlen = MultiByteToWideChar(CP_UTF8, 0, utf8_str, utf8_len, NULL, 0);
+    wlen = MultiByteToWideChbr(CP_UTF8, 0, utf8_str, utf8_len, NULL, 0);
     if (wlen > 0) {
-        wstr = (WCHAR*)malloc(wlen * sizeof(WCHAR));
+        wstr = (WCHAR*)mblloc(wlen * sizeof(WCHAR));
         if (wstr != NULL) {
-            if (MultiByteToWideChar(CP_UTF8,
+            if (MultiByteToWideChbr(CP_UTF8,
                                     0,
                                     utf8_str,
                                     utf8_len,
                                     wstr, wlen) > 0) {
-                plen = WideCharToMultiByte(codePage,
+                plen = WideChbrToMultiByte(codePbge,
                                            0,
                                            wstr,
                                            wlen,
-                                           platform_str,
-                                           platform_len,
+                                           plbtform_str,
+                                           plbtform_len,
                                            NULL,
                                            NULL);
                 if (plen >= 0) {
-                    platform_str[plen] = '\0';
+                    plbtform_str[plen] = '\0';
                 }
                 free(wstr);
             }

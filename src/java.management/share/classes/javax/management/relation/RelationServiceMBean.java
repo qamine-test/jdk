@@ -1,798 +1,798 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.relation;
+pbckbge jbvbx.mbnbgement.relbtion;
 
-import javax.management.ObjectName;
-import javax.management.InstanceNotFoundException;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
 
-import java.util.List;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * The Relation Service is in charge of creating and deleting relation types
- * and relations, of handling the consistency and of providing query
- * mechanisms.
+ * The Relbtion Service is in chbrge of crebting bnd deleting relbtion types
+ * bnd relbtions, of hbndling the consistency bnd of providing query
+ * mechbnisms.
  *
  * @since 1.5
  */
-public interface RelationServiceMBean {
+public interfbce RelbtionServiceMBebn {
 
     /**
-     * Checks if the Relation Service is active.
-     * Current condition is that the Relation Service must be registered in the
-     * MBean Server
+     * Checks if the Relbtion Service is bctive.
+     * Current condition is thbt the Relbtion Service must be registered in the
+     * MBebn Server
      *
-     * @exception RelationServiceNotRegisteredException  if it is not
+     * @exception RelbtionServiceNotRegisteredException  if it is not
      * registered
      */
     public void isActive()
-        throws RelationServiceNotRegisteredException;
+        throws RelbtionServiceNotRegisteredException;
 
     //
     // Accessors
     //
 
     /**
-     * Returns the flag to indicate if when a notification is received for the
-     * unregistration of an MBean referenced in a relation, if an immediate
-     * "purge" of the relations (look for the relations no longer valid)
-     * has to be performed, or if that will be performed only when the
-     * purgeRelations method is explicitly called.
-     * <P>true is immediate purge.
+     * Returns the flbg to indicbte if when b notificbtion is received for the
+     * unregistrbtion of bn MBebn referenced in b relbtion, if bn immedibte
+     * "purge" of the relbtions (look for the relbtions no longer vblid)
+     * hbs to be performed, or if thbt will be performed only when the
+     * purgeRelbtions method is explicitly cblled.
+     * <P>true is immedibte purge.
      *
-     * @return true if purges are immediate.
+     * @return true if purges bre immedibte.
      *
-     * @see #setPurgeFlag
+     * @see #setPurgeFlbg
      */
-    public boolean getPurgeFlag();
+    public boolebn getPurgeFlbg();
 
     /**
-     * Sets the flag to indicate if when a notification is received for the
-     * unregistration of an MBean referenced in a relation, if an immediate
-     * "purge" of the relations (look for the relations no longer valid)
-     * has to be performed, or if that will be performed only when the
-     * purgeRelations method is explicitly called.
-     * <P>true is immediate purge.
+     * Sets the flbg to indicbte if when b notificbtion is received for the
+     * unregistrbtion of bn MBebn referenced in b relbtion, if bn immedibte
+     * "purge" of the relbtions (look for the relbtions no longer vblid)
+     * hbs to be performed, or if thbt will be performed only when the
+     * purgeRelbtions method is explicitly cblled.
+     * <P>true is immedibte purge.
      *
-     * @param purgeFlag  flag
+     * @pbrbm purgeFlbg  flbg
      *
-     * @see #getPurgeFlag
+     * @see #getPurgeFlbg
      */
-    public void setPurgeFlag(boolean purgeFlag);
+    public void setPurgeFlbg(boolebn purgeFlbg);
 
     //
-    // Relation type handling
+    // Relbtion type hbndling
     //
 
     /**
-     * Creates a relation type (RelationTypeSupport object) with given
-     * role infos (provided by the RoleInfo objects), and adds it in the
-     * Relation Service.
+     * Crebtes b relbtion type (RelbtionTypeSupport object) with given
+     * role infos (provided by the RoleInfo objects), bnd bdds it in the
+     * Relbtion Service.
      *
-     * @param relationTypeName  name of the relation type
-     * @param roleInfoArray  array of role infos
+     * @pbrbm relbtionTypeNbme  nbme of the relbtion type
+     * @pbrbm roleInfoArrby  brrby of role infos
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception InvalidRelationTypeException  If:
-     * <P>- there is already a relation type with that name
-     * <P>- the same name has been used for two different role infos
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception InvblidRelbtionTypeException  If:
+     * <P>- there is blrebdy b relbtion type with thbt nbme
+     * <P>- the sbme nbme hbs been used for two different role infos
      * <P>- no role info provided
      * <P>- one null role info provided
      */
-    public void createRelationType(String relationTypeName,
-                                   RoleInfo[] roleInfoArray)
-        throws IllegalArgumentException,
-               InvalidRelationTypeException;
+    public void crebteRelbtionType(String relbtionTypeNbme,
+                                   RoleInfo[] roleInfoArrby)
+        throws IllegblArgumentException,
+               InvblidRelbtionTypeException;
 
     /**
-     * Adds given object as a relation type. The object is expected to
-     * implement the RelationType interface.
+     * Adds given object bs b relbtion type. The object is expected to
+     * implement the RelbtionType interfbce.
      *
-     * @param relationTypeObj  relation type object (implementing the
-     * RelationType interface)
+     * @pbrbm relbtionTypeObj  relbtion type object (implementing the
+     * RelbtionType interfbce)
      *
-     * @exception IllegalArgumentException  if null parameter or if
-     * {@link RelationType#getRelationTypeName
-     * relationTypeObj.getRelationTypeName()} returns null.
-     * @exception InvalidRelationTypeException  if there is already a relation
-     * type with that name
+     * @exception IllegblArgumentException  if null pbrbmeter or if
+     * {@link RelbtionType#getRelbtionTypeNbme
+     * relbtionTypeObj.getRelbtionTypeNbme()} returns null.
+     * @exception InvblidRelbtionTypeException  if there is blrebdy b relbtion
+     * type with thbt nbme
      */
-    public void addRelationType(RelationType relationTypeObj)
-        throws IllegalArgumentException,
-               InvalidRelationTypeException;
+    public void bddRelbtionType(RelbtionType relbtionTypeObj)
+        throws IllegblArgumentException,
+               InvblidRelbtionTypeException;
 
     /**
-     * Retrieves names of all known relation types.
+     * Retrieves nbmes of bll known relbtion types.
      *
-     * @return ArrayList of relation type names (Strings)
+     * @return ArrbyList of relbtion type nbmes (Strings)
      */
-    public List<String> getAllRelationTypeNames();
+    public List<String> getAllRelbtionTypeNbmes();
 
     /**
-     * Retrieves list of role infos (RoleInfo objects) of a given relation
+     * Retrieves list of role infos (RoleInfo objects) of b given relbtion
      * type.
      *
-     * @param relationTypeName  name of relation type
+     * @pbrbm relbtionTypeNbme  nbme of relbtion type
      *
-     * @return ArrayList of RoleInfo.
+     * @return ArrbyList of RoleInfo.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationTypeNotFoundException  if there is no relation type
-     * with that name.
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionTypeNotFoundException  if there is no relbtion type
+     * with thbt nbme.
      */
-    public List<RoleInfo> getRoleInfos(String relationTypeName)
-        throws IllegalArgumentException,
-               RelationTypeNotFoundException;
+    public List<RoleInfo> getRoleInfos(String relbtionTypeNbme)
+        throws IllegblArgumentException,
+               RelbtionTypeNotFoundException;
 
     /**
-     * Retrieves role info for given role of a given relation type.
+     * Retrieves role info for given role of b given relbtion type.
      *
-     * @param relationTypeName  name of relation type
-     * @param roleInfoName  name of role
+     * @pbrbm relbtionTypeNbme  nbme of relbtion type
+     * @pbrbm roleInfoNbme  nbme of role
      *
      * @return RoleInfo object.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationTypeNotFoundException  if the relation type is not
-     * known in the Relation Service
-     * @exception RoleInfoNotFoundException  if the role is not part of the
-     * relation type.
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionTypeNotFoundException  if the relbtion type is not
+     * known in the Relbtion Service
+     * @exception RoleInfoNotFoundException  if the role is not pbrt of the
+     * relbtion type.
      */
-    public RoleInfo getRoleInfo(String relationTypeName,
-                                String roleInfoName)
-        throws IllegalArgumentException,
-               RelationTypeNotFoundException,
+    public RoleInfo getRoleInfo(String relbtionTypeNbme,
+                                String roleInfoNbme)
+        throws IllegblArgumentException,
+               RelbtionTypeNotFoundException,
                RoleInfoNotFoundException;
 
     /**
-     * Removes given relation type from Relation Service.
-     * <P>The relation objects of that type will be removed from the
-     * Relation Service.
+     * Removes given relbtion type from Relbtion Service.
+     * <P>The relbtion objects of thbt type will be removed from the
+     * Relbtion Service.
      *
-     * @param relationTypeName  name of the relation type to be removed
+     * @pbrbm relbtionTypeNbme  nbme of the relbtion type to be removed
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationTypeNotFoundException  If there is no relation type
-     * with that name
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionTypeNotFoundException  If there is no relbtion type
+     * with thbt nbme
      */
-    public void removeRelationType(String relationTypeName)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
-               RelationTypeNotFoundException;
+    public void removeRelbtionType(String relbtionTypeNbme)
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
+               RelbtionTypeNotFoundException;
 
     //
-    // Relation handling
+    // Relbtion hbndling
     //
 
     /**
-     * Creates a simple relation (represented by a RelationSupport object) of
-     * given relation type, and adds it in the Relation Service.
-     * <P>Roles are initialized according to the role list provided in
-     * parameter. The ones not initialized in this way are set to an empty
-     * ArrayList of ObjectNames.
-     * <P>A RelationNotification, with type RELATION_BASIC_CREATION, is sent.
+     * Crebtes b simple relbtion (represented by b RelbtionSupport object) of
+     * given relbtion type, bnd bdds it in the Relbtion Service.
+     * <P>Roles bre initiblized bccording to the role list provided in
+     * pbrbmeter. The ones not initiblized in this wby bre set to bn empty
+     * ArrbyList of ObjectNbmes.
+     * <P>A RelbtionNotificbtion, with type RELATION_BASIC_CREATION, is sent.
      *
-     * @param relationId  relation identifier, to identify uniquely the relation
-     * inside the Relation Service
-     * @param relationTypeName  name of the relation type (has to be created
-     * in the Relation Service)
-     * @param roleList  role list to initialize roles of the relation (can
+     * @pbrbm relbtionId  relbtion identifier, to identify uniquely the relbtion
+     * inside the Relbtion Service
+     * @pbrbm relbtionTypeNbme  nbme of the relbtion type (hbs to be crebted
+     * in the Relbtion Service)
+     * @pbrbm roleList  role list to initiblize roles of the relbtion (cbn
      * be null).
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RoleNotFoundException  if a value is provided for a role
-     * that does not exist in the relation type
-     * @exception InvalidRelationIdException  if relation id already used
-     * @exception RelationTypeNotFoundException  if relation type not known in
-     * Relation Service
-     * @exception InvalidRoleValueException if:
-     * <P>- the same role name is used for two different roles
-     * <P>- the number of referenced MBeans in given value is less than
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RoleNotFoundException  if b vblue is provided for b role
+     * thbt does not exist in the relbtion type
+     * @exception InvblidRelbtionIdException  if relbtion id blrebdy used
+     * @exception RelbtionTypeNotFoundException  if relbtion type not known in
+     * Relbtion Service
+     * @exception InvblidRoleVblueException if:
+     * <P>- the sbme role nbme is used for two different roles
+     * <P>- the number of referenced MBebns in given vblue is less thbn
      * expected minimum degree
-     * <P>- the number of referenced MBeans in provided value exceeds expected
-     * maximum degree
-     * <P>- one referenced MBean in the value is not an Object of the MBean
-     * class expected for that role
-     * <P>- an MBean provided for that role does not exist
+     * <P>- the number of referenced MBebns in provided vblue exceeds expected
+     * mbximum degree
+     * <P>- one referenced MBebn in the vblue is not bn Object of the MBebn
+     * clbss expected for thbt role
+     * <P>- bn MBebn provided for thbt role does not exist
      */
-    public void createRelation(String relationId,
-                               String relationTypeName,
+    public void crebteRelbtion(String relbtionId,
+                               String relbtionTypeNbme,
                                RoleList roleList)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
                RoleNotFoundException,
-               InvalidRelationIdException,
-               RelationTypeNotFoundException,
-               InvalidRoleValueException;
+               InvblidRelbtionIdException,
+               RelbtionTypeNotFoundException,
+               InvblidRoleVblueException;
 
     /**
-     * Adds an MBean created by the user (and registered by him in the MBean
-     * Server) as a relation in the Relation Service.
-     * <P>To be added as a relation, the MBean must conform to the
+     * Adds bn MBebn crebted by the user (bnd registered by him in the MBebn
+     * Server) bs b relbtion in the Relbtion Service.
+     * <P>To be bdded bs b relbtion, the MBebn must conform to the
      * following:
-     * <P>- implement the Relation interface
-     * <P>- have for RelationService ObjectName the ObjectName of current
-     * Relation Service
-     * <P>- have a relation id that is unique and unused in current Relation Service
-     * <P>- have for relation type a relation type created in the Relation
+     * <P>- implement the Relbtion interfbce
+     * <P>- hbve for RelbtionService ObjectNbme the ObjectNbme of current
+     * Relbtion Service
+     * <P>- hbve b relbtion id thbt is unique bnd unused in current Relbtion Service
+     * <P>- hbve for relbtion type b relbtion type crebted in the Relbtion
      * Service
-     * <P>- have roles conforming to the role info provided in the relation
+     * <P>- hbve roles conforming to the role info provided in the relbtion
      * type.
      *
-     * @param relationObjectName  ObjectName of the relation MBean to be added.
+     * @pbrbm relbtionObjectNbme  ObjectNbme of the relbtion MBebn to be bdded.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception NoSuchMethodException  If the MBean does not implement the
-     * Relation interface
-     * @exception InvalidRelationIdException  if:
-     * <P>- no relation identifier in MBean
-     * <P>- the relation identifier is already used in the Relation Service
-     * @exception InstanceNotFoundException  if the MBean for given ObjectName
-     * has not been registered
-     * @exception InvalidRelationServiceException  if:
-     * <P>- no Relation Service name in MBean
-     * <P>- the Relation Service name in the MBean is not the one of the
-     * current Relation Service
-     * @exception RelationTypeNotFoundException  if:
-     * <P>- no relation type name in MBean
-     * <P>- the relation type name in MBean does not correspond to a relation
-     * type created in the Relation Service
-     * @exception InvalidRoleValueException  if:
-     * <P>- the number of referenced MBeans in a role is less than
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception NoSuchMethodException  If the MBebn does not implement the
+     * Relbtion interfbce
+     * @exception InvblidRelbtionIdException  if:
+     * <P>- no relbtion identifier in MBebn
+     * <P>- the relbtion identifier is blrebdy used in the Relbtion Service
+     * @exception InstbnceNotFoundException  if the MBebn for given ObjectNbme
+     * hbs not been registered
+     * @exception InvblidRelbtionServiceException  if:
+     * <P>- no Relbtion Service nbme in MBebn
+     * <P>- the Relbtion Service nbme in the MBebn is not the one of the
+     * current Relbtion Service
+     * @exception RelbtionTypeNotFoundException  if:
+     * <P>- no relbtion type nbme in MBebn
+     * <P>- the relbtion type nbme in MBebn does not correspond to b relbtion
+     * type crebted in the Relbtion Service
+     * @exception InvblidRoleVblueException  if:
+     * <P>- the number of referenced MBebns in b role is less thbn
      * expected minimum degree
-     * <P>- the number of referenced MBeans in a role exceeds expected
-     * maximum degree
-     * <P>- one referenced MBean in the value is not an Object of the MBean
-     * class expected for that role
-     * <P>- an MBean provided for a role does not exist
-     * @exception RoleNotFoundException  if a value is provided for a role
-     * that does not exist in the relation type
+     * <P>- the number of referenced MBebns in b role exceeds expected
+     * mbximum degree
+     * <P>- one referenced MBebn in the vblue is not bn Object of the MBebn
+     * clbss expected for thbt role
+     * <P>- bn MBebn provided for b role does not exist
+     * @exception RoleNotFoundException  if b vblue is provided for b role
+     * thbt does not exist in the relbtion type
      */
-    public void addRelation(ObjectName relationObjectName)
-        throws IllegalArgumentException,
-               RelationServiceNotRegisteredException,
+    public void bddRelbtion(ObjectNbme relbtionObjectNbme)
+        throws IllegblArgumentException,
+               RelbtionServiceNotRegisteredException,
                NoSuchMethodException,
-               InvalidRelationIdException,
-               InstanceNotFoundException,
-               InvalidRelationServiceException,
-               RelationTypeNotFoundException,
+               InvblidRelbtionIdException,
+               InstbnceNotFoundException,
+               InvblidRelbtionServiceException,
+               RelbtionTypeNotFoundException,
                RoleNotFoundException,
-               InvalidRoleValueException;
+               InvblidRoleVblueException;
 
     /**
-     * If the relation is represented by an MBean (created by the user and
-     * added as a relation in the Relation Service), returns the ObjectName of
-     * the MBean.
+     * If the relbtion is represented by bn MBebn (crebted by the user bnd
+     * bdded bs b relbtion in the Relbtion Service), returns the ObjectNbme of
+     * the MBebn.
      *
-     * @param relationId  relation id identifying the relation
+     * @pbrbm relbtionId  relbtion id identifying the relbtion
      *
-     * @return ObjectName of the corresponding relation MBean, or null if
-     * the relation is not an MBean.
+     * @return ObjectNbme of the corresponding relbtion MBebn, or null if
+     * the relbtion is not bn MBebn.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException there is no relation associated
-     * to that id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException there is no relbtion bssocibted
+     * to thbt id
      */
-    public ObjectName isRelationMBean(String relationId)
-        throws IllegalArgumentException,
-               RelationNotFoundException;
+    public ObjectNbme isRelbtionMBebn(String relbtionId)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException;
 
     /**
-     * Returns the relation id associated to the given ObjectName if the
-     * MBean has been added as a relation in the Relation Service.
+     * Returns the relbtion id bssocibted to the given ObjectNbme if the
+     * MBebn hbs been bdded bs b relbtion in the Relbtion Service.
      *
-     * @param objectName  ObjectName of supposed relation
+     * @pbrbm objectNbme  ObjectNbme of supposed relbtion
      *
-     * @return relation id (String) or null (if the ObjectName is not a
-     * relation handled by the Relation Service)
+     * @return relbtion id (String) or null (if the ObjectNbme is not b
+     * relbtion hbndled by the Relbtion Service)
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public String isRelation(ObjectName objectName)
-        throws IllegalArgumentException;
+    public String isRelbtion(ObjectNbme objectNbme)
+        throws IllegblArgumentException;
 
     /**
-     * Checks if there is a relation identified in Relation Service with given
-     * relation id.
+     * Checks if there is b relbtion identified in Relbtion Service with given
+     * relbtion id.
      *
-     * @param relationId  relation id identifying the relation
+     * @pbrbm relbtionId  relbtion id identifying the relbtion
      *
-     * @return boolean: true if there is a relation, false else
+     * @return boolebn: true if there is b relbtion, fblse else
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public Boolean hasRelation(String relationId)
-        throws IllegalArgumentException;
+    public Boolebn hbsRelbtion(String relbtionId)
+        throws IllegblArgumentException;
 
     /**
-     * Returns all the relation ids for all the relations handled by the
-     * Relation Service.
+     * Returns bll the relbtion ids for bll the relbtions hbndled by the
+     * Relbtion Service.
      *
-     * @return ArrayList of String
+     * @return ArrbyList of String
      */
-    public List<String> getAllRelationIds();
+    public List<String> getAllRelbtionIds();
 
     /**
-     * Checks if given Role can be read in a relation of the given type.
+     * Checks if given Role cbn be rebd in b relbtion of the given type.
      *
-     * @param roleName  name of role to be checked
-     * @param relationTypeName  name of the relation type
+     * @pbrbm roleNbme  nbme of role to be checked
+     * @pbrbm relbtionTypeNbme  nbme of the relbtion type
      *
-     * @return an Integer wrapping an integer corresponding to possible
-     * problems represented as constants in RoleUnresolved:
-     * <P>- 0 if role can be read
-     * <P>- integer corresponding to RoleStatus.NO_ROLE_WITH_NAME
-     * <P>- integer corresponding to RoleStatus.ROLE_NOT_READABLE
+     * @return bn Integer wrbpping bn integer corresponding to possible
+     * problems represented bs constbnts in RoleUnresolved:
+     * <P>- 0 if role cbn be rebd
+     * <P>- integer corresponding to RoleStbtus.NO_ROLE_WITH_NAME
+     * <P>- integer corresponding to RoleStbtus.ROLE_NOT_READABLE
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationTypeNotFoundException  if the relation type is not
-     * known in the Relation Service
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionTypeNotFoundException  if the relbtion type is not
+     * known in the Relbtion Service
      */
-    public Integer checkRoleReading(String roleName,
-                                    String relationTypeName)
-        throws IllegalArgumentException,
-               RelationTypeNotFoundException;
+    public Integer checkRoleRebding(String roleNbme,
+                                    String relbtionTypeNbme)
+        throws IllegblArgumentException,
+               RelbtionTypeNotFoundException;
 
     /**
-     * Checks if given Role can be set in a relation of given type.
+     * Checks if given Role cbn be set in b relbtion of given type.
      *
-     * @param role  role to be checked
-     * @param relationTypeName  name of relation type
-     * @param initFlag  flag to specify that the checking is done for the
-     * initialization of a role, write access shall not be verified.
+     * @pbrbm role  role to be checked
+     * @pbrbm relbtionTypeNbme  nbme of relbtion type
+     * @pbrbm initFlbg  flbg to specify thbt the checking is done for the
+     * initiblizbtion of b role, write bccess shbll not be verified.
      *
-     * @return an Integer wrapping an integer corresponding to possible
-     * problems represented as constants in RoleUnresolved:
-     * <P>- 0 if role can be set
-     * <P>- integer corresponding to RoleStatus.NO_ROLE_WITH_NAME
-     * <P>- integer for RoleStatus.ROLE_NOT_WRITABLE
-     * <P>- integer for RoleStatus.LESS_THAN_MIN_ROLE_DEGREE
-     * <P>- integer for RoleStatus.MORE_THAN_MAX_ROLE_DEGREE
-     * <P>- integer for RoleStatus.REF_MBEAN_OF_INCORRECT_CLASS
-     * <P>- integer for RoleStatus.REF_MBEAN_NOT_REGISTERED
+     * @return bn Integer wrbpping bn integer corresponding to possible
+     * problems represented bs constbnts in RoleUnresolved:
+     * <P>- 0 if role cbn be set
+     * <P>- integer corresponding to RoleStbtus.NO_ROLE_WITH_NAME
+     * <P>- integer for RoleStbtus.ROLE_NOT_WRITABLE
+     * <P>- integer for RoleStbtus.LESS_THAN_MIN_ROLE_DEGREE
+     * <P>- integer for RoleStbtus.MORE_THAN_MAX_ROLE_DEGREE
+     * <P>- integer for RoleStbtus.REF_MBEAN_OF_INCORRECT_CLASS
+     * <P>- integer for RoleStbtus.REF_MBEAN_NOT_REGISTERED
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationTypeNotFoundException  if unknown relation type
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionTypeNotFoundException  if unknown relbtion type
      */
     public Integer checkRoleWriting(Role role,
-                                    String relationTypeName,
-                                    Boolean initFlag)
-        throws IllegalArgumentException,
-               RelationTypeNotFoundException;
+                                    String relbtionTypeNbme,
+                                    Boolebn initFlbg)
+        throws IllegblArgumentException,
+               RelbtionTypeNotFoundException;
 
     /**
-     * Sends a notification (RelationNotification) for a relation creation.
-     * The notification type is:
-     * <P>- RelationNotification.RELATION_BASIC_CREATION if the relation is an
-     * object internal to the Relation Service
-     * <P>- RelationNotification.RELATION_MBEAN_CREATION if the relation is a
-     * MBean added as a relation.
-     * <P>The source object is the Relation Service itself.
-     * <P>It is called in Relation Service createRelation() and
-     * addRelation() methods.
+     * Sends b notificbtion (RelbtionNotificbtion) for b relbtion crebtion.
+     * The notificbtion type is:
+     * <P>- RelbtionNotificbtion.RELATION_BASIC_CREATION if the relbtion is bn
+     * object internbl to the Relbtion Service
+     * <P>- RelbtionNotificbtion.RELATION_MBEAN_CREATION if the relbtion is b
+     * MBebn bdded bs b relbtion.
+     * <P>The source object is the Relbtion Service itself.
+     * <P>It is cblled in Relbtion Service crebteRelbtion() bnd
+     * bddRelbtion() methods.
      *
-     * @param relationId  relation identifier of the updated relation
+     * @pbrbm relbtionId  relbtion identifier of the updbted relbtion
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if there is no relation for given
-     * relation id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if there is no relbtion for given
+     * relbtion id
      */
-    public void sendRelationCreationNotification(String relationId)
-        throws IllegalArgumentException,
-               RelationNotFoundException;
+    public void sendRelbtionCrebtionNotificbtion(String relbtionId)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException;
 
     /**
-     * Sends a notification (RelationNotification) for a role update in the
-     * given relation. The notification type is:
-     * <P>- RelationNotification.RELATION_BASIC_UPDATE if the relation is an
-     * object internal to the Relation Service
-     * <P>- RelationNotification.RELATION_MBEAN_UPDATE if the relation is a
-     * MBean added as a relation.
-     * <P>The source object is the Relation Service itself.
-     * <P>It is called in relation MBean setRole() (for given role) and
-     * setRoles() (for each role) methods (implementation provided in
-     * RelationSupport class).
-     * <P>It is also called in Relation Service setRole() (for given role) and
-     * setRoles() (for each role) methods.
+     * Sends b notificbtion (RelbtionNotificbtion) for b role updbte in the
+     * given relbtion. The notificbtion type is:
+     * <P>- RelbtionNotificbtion.RELATION_BASIC_UPDATE if the relbtion is bn
+     * object internbl to the Relbtion Service
+     * <P>- RelbtionNotificbtion.RELATION_MBEAN_UPDATE if the relbtion is b
+     * MBebn bdded bs b relbtion.
+     * <P>The source object is the Relbtion Service itself.
+     * <P>It is cblled in relbtion MBebn setRole() (for given role) bnd
+     * setRoles() (for ebch role) methods (implementbtion provided in
+     * RelbtionSupport clbss).
+     * <P>It is blso cblled in Relbtion Service setRole() (for given role) bnd
+     * setRoles() (for ebch role) methods.
      *
-     * @param relationId  relation identifier of the updated relation
-     * @param newRole  new role (name and new value)
-     * @param oldRoleValue  old role value (List of ObjectName objects)
+     * @pbrbm relbtionId  relbtion identifier of the updbted relbtion
+     * @pbrbm newRole  new role (nbme bnd new vblue)
+     * @pbrbm oldRoleVblue  old role vblue (List of ObjectNbme objects)
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if there is no relation for given
-     * relation id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if there is no relbtion for given
+     * relbtion id
      */
-    public void sendRoleUpdateNotification(String relationId,
+    public void sendRoleUpdbteNotificbtion(String relbtionId,
                                            Role newRole,
-                                           List<ObjectName> oldRoleValue)
-        throws IllegalArgumentException,
-               RelationNotFoundException;
+                                           List<ObjectNbme> oldRoleVblue)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException;
 
     /**
-     * Sends a notification (RelationNotification) for a relation removal.
-     * The notification type is:
-     * <P>- RelationNotification.RELATION_BASIC_REMOVAL if the relation is an
-     * object internal to the Relation Service
-     * <P>- RelationNotification.RELATION_MBEAN_REMOVAL if the relation is a
-     * MBean added as a relation.
-     * <P>The source object is the Relation Service itself.
-     * <P>It is called in Relation Service removeRelation() method.
+     * Sends b notificbtion (RelbtionNotificbtion) for b relbtion removbl.
+     * The notificbtion type is:
+     * <P>- RelbtionNotificbtion.RELATION_BASIC_REMOVAL if the relbtion is bn
+     * object internbl to the Relbtion Service
+     * <P>- RelbtionNotificbtion.RELATION_MBEAN_REMOVAL if the relbtion is b
+     * MBebn bdded bs b relbtion.
+     * <P>The source object is the Relbtion Service itself.
+     * <P>It is cblled in Relbtion Service removeRelbtion() method.
      *
-     * @param relationId  relation identifier of the updated relation
-     * @param unregMBeanList  List of ObjectNames of MBeans expected
-     * to be unregistered due to relation removal (can be null)
+     * @pbrbm relbtionId  relbtion identifier of the updbted relbtion
+     * @pbrbm unregMBebnList  List of ObjectNbmes of MBebns expected
+     * to be unregistered due to relbtion removbl (cbn be null)
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if there is no relation for given
-     * relation id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if there is no relbtion for given
+     * relbtion id
      */
-    public void sendRelationRemovalNotification(String relationId,
-                                                List<ObjectName> unregMBeanList)
-        throws IllegalArgumentException,
-               RelationNotFoundException;
+    public void sendRelbtionRemovblNotificbtion(String relbtionId,
+                                                List<ObjectNbme> unregMBebnList)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException;
 
     /**
-     * Handles update of the Relation Service role map for the update of given
-     * role in given relation.
-     * <P>It is called in relation MBean setRole() (for given role) and
-     * setRoles() (for each role) methods (implementation provided in
-     * RelationSupport class).
-     * <P>It is also called in Relation Service setRole() (for given role) and
-     * setRoles() (for each role) methods.
-     * <P>To allow the Relation Service to maintain the consistency (in case
-     * of MBean unregistration) and to be able to perform queries, this method
-     * must be called when a role is updated.
+     * Hbndles updbte of the Relbtion Service role mbp for the updbte of given
+     * role in given relbtion.
+     * <P>It is cblled in relbtion MBebn setRole() (for given role) bnd
+     * setRoles() (for ebch role) methods (implementbtion provided in
+     * RelbtionSupport clbss).
+     * <P>It is blso cblled in Relbtion Service setRole() (for given role) bnd
+     * setRoles() (for ebch role) methods.
+     * <P>To bllow the Relbtion Service to mbintbin the consistency (in cbse
+     * of MBebn unregistrbtion) bnd to be bble to perform queries, this method
+     * must be cblled when b role is updbted.
      *
-     * @param relationId  relation identifier of the updated relation
-     * @param newRole  new role (name and new value)
-     * @param oldRoleValue  old role value (List of ObjectName objects)
+     * @pbrbm relbtionId  relbtion identifier of the updbted relbtion
+     * @pbrbm newRole  new role (nbme bnd new vblue)
+     * @pbrbm oldRoleVblue  old role vblue (List of ObjectNbme objects)
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception RelationNotFoundException  if no relation for given id.
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception RelbtionNotFoundException  if no relbtion for given id.
      */
-    public void updateRoleMap(String relationId,
+    public void updbteRoleMbp(String relbtionId,
                               Role newRole,
-                              List<ObjectName> oldRoleValue)
-        throws IllegalArgumentException,
-               RelationServiceNotRegisteredException,
-               RelationNotFoundException;
+                              List<ObjectNbme> oldRoleVblue)
+        throws IllegblArgumentException,
+               RelbtionServiceNotRegisteredException,
+               RelbtionNotFoundException;
 
     /**
-     * Removes given relation from the Relation Service.
-     * <P>A RelationNotification notification is sent, its type being:
-     * <P>- RelationNotification.RELATION_BASIC_REMOVAL if the relation was
-     * only internal to the Relation Service
-     * <P>- RelationNotification.RELATION_MBEAN_REMOVAL if the relation is
-     * registered as an MBean.
-     * <P>For MBeans referenced in such relation, nothing will be done,
+     * Removes given relbtion from the Relbtion Service.
+     * <P>A RelbtionNotificbtion notificbtion is sent, its type being:
+     * <P>- RelbtionNotificbtion.RELATION_BASIC_REMOVAL if the relbtion wbs
+     * only internbl to the Relbtion Service
+     * <P>- RelbtionNotificbtion.RELATION_MBEAN_REMOVAL if the relbtion is
+     * registered bs bn MBebn.
+     * <P>For MBebns referenced in such relbtion, nothing will be done,
      *
-     * @param relationId  relation id of the relation to be removed
+     * @pbrbm relbtionId  relbtion id of the relbtion to be removed
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation corresponding to
-     * given relation id
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion corresponding to
+     * given relbtion id
      */
-    public void removeRelation(String relationId)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
-               RelationNotFoundException;
+    public void removeRelbtion(String relbtionId)
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
+               RelbtionNotFoundException;
 
     /**
-     * Purges the relations.
+     * Purges the relbtions.
      *
-     * <P>Depending on the purgeFlag value, this method is either called
-     * automatically when a notification is received for the unregistration of
-     * an MBean referenced in a relation (if the flag is set to true), or not
-     * (if the flag is set to false).
-     * <P>In that case it is up to the user to call it to maintain the
-     * consistency of the relations. To be kept in mind that if an MBean is
-     * unregistered and the purge not done immediately, if the ObjectName is
-     * reused and assigned to another MBean referenced in a relation, calling
-     * manually this purgeRelations() method will cause trouble, as will
-     * consider the ObjectName as corresponding to the unregistered MBean, not
+     * <P>Depending on the purgeFlbg vblue, this method is either cblled
+     * butombticblly when b notificbtion is received for the unregistrbtion of
+     * bn MBebn referenced in b relbtion (if the flbg is set to true), or not
+     * (if the flbg is set to fblse).
+     * <P>In thbt cbse it is up to the user to cbll it to mbintbin the
+     * consistency of the relbtions. To be kept in mind thbt if bn MBebn is
+     * unregistered bnd the purge not done immedibtely, if the ObjectNbme is
+     * reused bnd bssigned to bnother MBebn referenced in b relbtion, cblling
+     * mbnublly this purgeRelbtions() method will cbuse trouble, bs will
+     * consider the ObjectNbme bs corresponding to the unregistered MBebn, not
      * seeing the new one.
      *
-     * <P>The behavior depends on the cardinality of the role where the
-     * unregistered MBean is referenced:
-     * <P>- if removing one MBean reference in the role makes its number of
-     * references less than the minimum degree, the relation has to be removed.
-     * <P>- if the remaining number of references after removing the MBean
-     * reference is still in the cardinality range, keep the relation and
-     * update it calling its handleMBeanUnregistration() callback.
+     * <P>The behbvior depends on the cbrdinblity of the role where the
+     * unregistered MBebn is referenced:
+     * <P>- if removing one MBebn reference in the role mbkes its number of
+     * references less thbn the minimum degree, the relbtion hbs to be removed.
+     * <P>- if the rembining number of references bfter removing the MBebn
+     * reference is still in the cbrdinblity rbnge, keep the relbtion bnd
+     * updbte it cblling its hbndleMBebnUnregistrbtion() cbllbbck.
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server.
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server.
      */
-    public void purgeRelations()
-        throws RelationServiceNotRegisteredException;
+    public void purgeRelbtions()
+        throws RelbtionServiceNotRegisteredException;
 
     /**
-     * Retrieves the relations where a given MBean is referenced.
-     * <P>This corresponds to the CIM "References" and "ReferenceNames"
-     * operations.
+     * Retrieves the relbtions where b given MBebn is referenced.
+     * <P>This corresponds to the CIM "References" bnd "ReferenceNbmes"
+     * operbtions.
      *
-     * @param mbeanName  ObjectName of MBean
-     * @param relationTypeName  can be null; if specified, only the relations
-     * of that type will be considered in the search. Else all relation types
-     * are considered.
-     * @param roleName  can be null; if specified, only the relations
-     * where the MBean is referenced in that role will be returned. Else all
-     * roles are considered.
+     * @pbrbm mbebnNbme  ObjectNbme of MBebn
+     * @pbrbm relbtionTypeNbme  cbn be null; if specified, only the relbtions
+     * of thbt type will be considered in the sebrch. Else bll relbtion types
+     * bre considered.
+     * @pbrbm roleNbme  cbn be null; if specified, only the relbtions
+     * where the MBebn is referenced in thbt role will be returned. Else bll
+     * roles bre considered.
      *
-     * @return an HashMap, where the keys are the relation ids of the relations
-     * where the MBean is referenced, and the value is, for each key,
-     * an ArrayList of role names (as an MBean can be referenced in several
-     * roles in the same relation).
+     * @return bn HbshMbp, where the keys bre the relbtion ids of the relbtions
+     * where the MBebn is referenced, bnd the vblue is, for ebch key,
+     * bn ArrbyList of role nbmes (bs bn MBebn cbn be referenced in severbl
+     * roles in the sbme relbtion).
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public Map<String,List<String>>
-        findReferencingRelations(ObjectName mbeanName,
-                                 String relationTypeName,
-                                 String roleName)
-            throws IllegalArgumentException;
+    public Mbp<String,List<String>>
+        findReferencingRelbtions(ObjectNbme mbebnNbme,
+                                 String relbtionTypeNbme,
+                                 String roleNbme)
+            throws IllegblArgumentException;
 
     /**
-     * Retrieves the MBeans associated to given one in a relation.
-     * <P>This corresponds to CIM Associators and AssociatorNames operations.
+     * Retrieves the MBebns bssocibted to given one in b relbtion.
+     * <P>This corresponds to CIM Associbtors bnd AssocibtorNbmes operbtions.
      *
-     * @param mbeanName  ObjectName of MBean
-     * @param relationTypeName  can be null; if specified, only the relations
-     * of that type will be considered in the search. Else all
-     * relation types are considered.
-     * @param roleName  can be null; if specified, only the relations
-     * where the MBean is referenced in that role will be considered. Else all
-     * roles are considered.
+     * @pbrbm mbebnNbme  ObjectNbme of MBebn
+     * @pbrbm relbtionTypeNbme  cbn be null; if specified, only the relbtions
+     * of thbt type will be considered in the sebrch. Else bll
+     * relbtion types bre considered.
+     * @pbrbm roleNbme  cbn be null; if specified, only the relbtions
+     * where the MBebn is referenced in thbt role will be considered. Else bll
+     * roles bre considered.
      *
-     * @return an HashMap, where the keys are the ObjectNames of the MBeans
-     * associated to given MBean, and the value is, for each key, an ArrayList
-     * of the relation ids of the relations where the key MBean is
-     * associated to given one (as they can be associated in several different
-     * relations).
+     * @return bn HbshMbp, where the keys bre the ObjectNbmes of the MBebns
+     * bssocibted to given MBebn, bnd the vblue is, for ebch key, bn ArrbyList
+     * of the relbtion ids of the relbtions where the key MBebn is
+     * bssocibted to given one (bs they cbn be bssocibted in severbl different
+     * relbtions).
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public Map<ObjectName,List<String>>
-        findAssociatedMBeans(ObjectName mbeanName,
-                             String relationTypeName,
-                             String roleName)
-            throws IllegalArgumentException;
+    public Mbp<ObjectNbme,List<String>>
+        findAssocibtedMBebns(ObjectNbme mbebnNbme,
+                             String relbtionTypeNbme,
+                             String roleNbme)
+            throws IllegblArgumentException;
 
     /**
-     * Returns the relation ids for relations of the given type.
+     * Returns the relbtion ids for relbtions of the given type.
      *
-     * @param relationTypeName  relation type name
+     * @pbrbm relbtionTypeNbme  relbtion type nbme
      *
-     * @return an ArrayList of relation ids.
+     * @return bn ArrbyList of relbtion ids.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationTypeNotFoundException  if there is no relation type
-     * with that name.
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionTypeNotFoundException  if there is no relbtion type
+     * with thbt nbme.
      */
-    public List<String> findRelationsOfType(String relationTypeName)
-        throws IllegalArgumentException,
-               RelationTypeNotFoundException;
+    public List<String> findRelbtionsOfType(String relbtionTypeNbme)
+        throws IllegblArgumentException,
+               RelbtionTypeNotFoundException;
 
     /**
-     * Retrieves role value for given role name in given relation.
+     * Retrieves role vblue for given role nbme in given relbtion.
      *
-     * @param relationId  relation id
-     * @param roleName  name of role
+     * @pbrbm relbtionId  relbtion id
+     * @pbrbm roleNbme  nbme of role
      *
-     * @return the ArrayList of ObjectName objects being the role value
+     * @return the ArrbyList of ObjectNbme objects being the role vblue
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
      * Service is not registered
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation with given id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion with given id
      * @exception RoleNotFoundException  if:
-     * <P>- there is no role with given name
+     * <P>- there is no role with given nbme
      * <P>or
-     * <P>- the role is not readable.
+     * <P>- the role is not rebdbble.
      *
      * @see #setRole
      */
-    public List<ObjectName> getRole(String relationId,
-                                    String roleName)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
-               RelationNotFoundException,
+    public List<ObjectNbme> getRole(String relbtionId,
+                                    String roleNbme)
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
+               RelbtionNotFoundException,
                RoleNotFoundException;
 
     /**
-     * Retrieves values of roles with given names in given relation.
+     * Retrieves vblues of roles with given nbmes in given relbtion.
      *
-     * @param relationId  relation id
-     * @param roleNameArray  array of names of roles to be retrieved
+     * @pbrbm relbtionId  relbtion id
+     * @pbrbm roleNbmeArrby  brrby of nbmes of roles to be retrieved
      *
-     * @return a RoleResult object, including a RoleList (for roles
-     * successfully retrieved) and a RoleUnresolvedList (for roles not
+     * @return b RoleResult object, including b RoleList (for roles
+     * successfully retrieved) bnd b RoleUnresolvedList (for roles not
      * retrieved).
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation with given id
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion with given id
      *
      * @see #setRoles
      */
-    public RoleResult getRoles(String relationId,
-                               String[] roleNameArray)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
-               RelationNotFoundException;
+    public RoleResult getRoles(String relbtionId,
+                               String[] roleNbmeArrby)
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
+               RelbtionNotFoundException;
 
     /**
-     * Returns all roles present in the relation.
+     * Returns bll roles present in the relbtion.
      *
-     * @param relationId  relation id
+     * @pbrbm relbtionId  relbtion id
      *
-     * @return a RoleResult object, including a RoleList (for roles
-     * successfully retrieved) and a RoleUnresolvedList (for roles not
-     * readable).
+     * @return b RoleResult object, including b RoleList (for roles
+     * successfully retrieved) bnd b RoleUnresolvedList (for roles not
+     * rebdbble).
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation for given id
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion for given id
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
      */
-    public RoleResult getAllRoles(String relationId)
-        throws IllegalArgumentException,
-               RelationNotFoundException,
-               RelationServiceNotRegisteredException;
+    public RoleResult getAllRoles(String relbtionId)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException,
+               RelbtionServiceNotRegisteredException;
 
     /**
-     * Retrieves the number of MBeans currently referenced in the
+     * Retrieves the number of MBebns currently referenced in the
      * given role.
      *
-     * @param relationId  relation id
-     * @param roleName  name of role
+     * @pbrbm relbtionId  relbtion id
+     * @pbrbm roleNbme  nbme of role
      *
-     * @return the number of currently referenced MBeans in that role
+     * @return the number of currently referenced MBebns in thbt role
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation with given id
-     * @exception RoleNotFoundException  if there is no role with given name
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion with given id
+     * @exception RoleNotFoundException  if there is no role with given nbme
      */
-    public Integer getRoleCardinality(String relationId,
-                                      String roleName)
-        throws IllegalArgumentException,
-               RelationNotFoundException,
+    public Integer getRoleCbrdinblity(String relbtionId,
+                                      String roleNbme)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException,
                RoleNotFoundException;
 
     /**
-     * Sets the given role in given relation.
-     * <P>Will check the role according to its corresponding role definition
-     * provided in relation's relation type
-     * <P>The Relation Service will keep track of the change to keep the
-     * consistency of relations by handling referenced MBean deregistrations.
+     * Sets the given role in given relbtion.
+     * <P>Will check the role bccording to its corresponding role definition
+     * provided in relbtion's relbtion type
+     * <P>The Relbtion Service will keep trbck of the chbnge to keep the
+     * consistency of relbtions by hbndling referenced MBebn deregistrbtions.
      *
-     * @param relationId  relation id
-     * @param role  role to be set (name and new value)
+     * @pbrbm relbtionId  relbtion id
+     * @pbrbm role  role to be set (nbme bnd new vblue)
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation with given id
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion with given id
      * @exception RoleNotFoundException  if:
-     * <P>- internal relation
-     * <P>and
-     * <P>- the role does not exist or is not writable
-     * @exception InvalidRoleValueException  if internal relation and value
-     * provided for role is not valid:
-     * <P>- the number of referenced MBeans in given value is less than
+     * <P>- internbl relbtion
+     * <P>bnd
+     * <P>- the role does not exist or is not writbble
+     * @exception InvblidRoleVblueException  if internbl relbtion bnd vblue
+     * provided for role is not vblid:
+     * <P>- the number of referenced MBebns in given vblue is less thbn
      * expected minimum degree
      * <P>or
-     * <P>- the number of referenced MBeans in provided value exceeds expected
-     * maximum degree
+     * <P>- the number of referenced MBebns in provided vblue exceeds expected
+     * mbximum degree
      * <P>or
-     * <P>- one referenced MBean in the value is not an Object of the MBean
-     * class expected for that role
+     * <P>- one referenced MBebn in the vblue is not bn Object of the MBebn
+     * clbss expected for thbt role
      * <P>or
-     * <P>- an MBean provided for that role does not exist
-     * @exception RelationTypeNotFoundException  if unknown relation type
+     * <P>- bn MBebn provided for thbt role does not exist
+     * @exception RelbtionTypeNotFoundException  if unknown relbtion type
      *
      * @see #getRole
      */
-    public void setRole(String relationId,
+    public void setRole(String relbtionId,
                         Role role)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
-               RelationNotFoundException,
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
+               RelbtionNotFoundException,
                RoleNotFoundException,
-               InvalidRoleValueException,
-               RelationTypeNotFoundException;
+               InvblidRoleVblueException,
+               RelbtionTypeNotFoundException;
 
     /**
-     * Sets the given roles in given relation.
-     * <P>Will check the role according to its corresponding role definition
-     * provided in relation's relation type
-     * <P>The Relation Service keeps track of the changes to keep the
-     * consistency of relations by handling referenced MBean deregistrations.
+     * Sets the given roles in given relbtion.
+     * <P>Will check the role bccording to its corresponding role definition
+     * provided in relbtion's relbtion type
+     * <P>The Relbtion Service keeps trbck of the chbnges to keep the
+     * consistency of relbtions by hbndling referenced MBebn deregistrbtions.
      *
-     * @param relationId  relation id
-     * @param roleList  list of roles to be set
+     * @pbrbm relbtionId  relbtion id
+     * @pbrbm roleList  list of roles to be set
      *
-     * @return a RoleResult object, including a RoleList (for roles
-     * successfully set) and a RoleUnresolvedList (for roles not
+     * @return b RoleResult object, including b RoleList (for roles
+     * successfully set) bnd b RoleUnresolvedList (for roles not
      * set).
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation with given id
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion with given id
      *
      * @see #getRoles
      */
-    public RoleResult setRoles(String relationId,
+    public RoleResult setRoles(String relbtionId,
                                RoleList roleList)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
-               RelationNotFoundException;
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
+               RelbtionNotFoundException;
 
     /**
-     * Retrieves MBeans referenced in the various roles of the relation.
+     * Retrieves MBebns referenced in the vbrious roles of the relbtion.
      *
-     * @param relationId  relation id
+     * @pbrbm relbtionId  relbtion id
      *
-     * @return a HashMap mapping:
-     * <P> ObjectName {@literal ->} ArrayList of String (role
-     * names)
+     * @return b HbshMbp mbpping:
+     * <P> ObjectNbme {@literbl ->} ArrbyList of String (role
+     * nbmes)
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation for given
-     * relation id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion for given
+     * relbtion id
      */
-    public Map<ObjectName,List<String>> getReferencedMBeans(String relationId)
-        throws IllegalArgumentException,
-               RelationNotFoundException;
+    public Mbp<ObjectNbme,List<String>> getReferencedMBebns(String relbtionId)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException;
 
     /**
-     * Returns name of associated relation type for given relation.
+     * Returns nbme of bssocibted relbtion type for given relbtion.
      *
-     * @param relationId  relation id
+     * @pbrbm relbtionId  relbtion id
      *
-     * @return the name of the associated relation type.
+     * @return the nbme of the bssocibted relbtion type.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation for given
-     * relation id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion for given
+     * relbtion id
      */
-    public String getRelationTypeName(String relationId)
-        throws IllegalArgumentException,
-               RelationNotFoundException;
+    public String getRelbtionTypeNbme(String relbtionId)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException;
 }

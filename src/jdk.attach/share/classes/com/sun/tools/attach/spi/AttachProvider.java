@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.attach.spi;
+pbckbge com.sun.tools.bttbch.spi;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.List;
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.VirtualMachineDescriptor;
-import com.sun.tools.attach.AttachPermission;
-import com.sun.tools.attach.AttachNotSupportedException;
-import java.util.ServiceLoader;
+import jbvb.io.IOException;
+import jbvb.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import com.sun.tools.bttbch.VirtublMbchine;
+import com.sun.tools.bttbch.VirtublMbchineDescriptor;
+import com.sun.tools.bttbch.AttbchPermission;
+import com.sun.tools.bttbch.AttbchNotSupportedException;
+import jbvb.util.ServiceLobder;
 
 /**
- * Attach provider class for attaching to a Java virtual machine.
+ * Attbch provider clbss for bttbching to b Jbvb virtubl mbchine.
  *
- * <p> An attach provider is a concrete subclass of this class that has a
- * zero-argument constructor and implements the abstract methods specified
+ * <p> An bttbch provider is b concrete subclbss of this clbss thbt hbs b
+ * zero-brgument constructor bnd implements the bbstrbct methods specified
  * below. </p>
  *
- * <p> An attach provider implementation is typically tied to a Java virtual
- * machine implementation, version, or even mode of operation. That is, a specific
- * provider implementation will typically only be capable of attaching to
- * a specific Java virtual machine implementation or version. For example, Sun's
- * JDK implementation ships with provider implementations that can only attach to
- * Sun's <i>HotSpot</i> virtual machine. In general, if an environment
- * consists of Java virtual machines of different versions and from different
- * vendors then there will be an attach provider implementation for each
- * <i>family</i> of implementations or versions. </p>
+ * <p> An bttbch provider implementbtion is typicblly tied to b Jbvb virtubl
+ * mbchine implementbtion, version, or even mode of operbtion. Thbt is, b specific
+ * provider implementbtion will typicblly only be cbpbble of bttbching to
+ * b specific Jbvb virtubl mbchine implementbtion or version. For exbmple, Sun's
+ * JDK implementbtion ships with provider implementbtions thbt cbn only bttbch to
+ * Sun's <i>HotSpot</i> virtubl mbchine. In generbl, if bn environment
+ * consists of Jbvb virtubl mbchines of different versions bnd from different
+ * vendors then there will be bn bttbch provider implementbtion for ebch
+ * <i>fbmily</i> of implementbtions or versions. </p>
  *
- * <p> An attach provider is identified by its {@link #name <i>name</i>} and
- * {@link #type <i>type</i>}. The <i>name</i> is typically, but not required to
- * be, a name that corresponds to the VM vendor. The Sun JDK implementation,
- * for example, ships with attach providers that use the name <i>"sun"</i>. The
- * <i>type</i> typically corresponds to the attach mechanism. For example, an
- * implementation that uses the Doors inter-process communication mechanism
- * might use the type <i>"doors"</i>. The purpose of the name and type is to
- * identify providers in environments where there are multiple providers
- * installed. </p>
+ * <p> An bttbch provider is identified by its {@link #nbme <i>nbme</i>} bnd
+ * {@link #type <i>type</i>}. The <i>nbme</i> is typicblly, but not required to
+ * be, b nbme thbt corresponds to the VM vendor. The Sun JDK implementbtion,
+ * for exbmple, ships with bttbch providers thbt use the nbme <i>"sun"</i>. The
+ * <i>type</i> typicblly corresponds to the bttbch mechbnism. For exbmple, bn
+ * implementbtion thbt uses the Doors inter-process communicbtion mechbnism
+ * might use the type <i>"doors"</i>. The purpose of the nbme bnd type is to
+ * identify providers in environments where there bre multiple providers
+ * instblled. </p>
  *
- * <p> AttachProvider implementations are loaded and instantiated at the first
- * invocation of the {@link #providers() providers} method. This method
- * attempts to load all provider implementations that are installed on the
- * platform. </p>
+ * <p> AttbchProvider implementbtions bre lobded bnd instbntibted bt the first
+ * invocbtion of the {@link #providers() providers} method. This method
+ * bttempts to lobd bll provider implementbtions thbt bre instblled on the
+ * plbtform. </p>
  *
- * <p> All of the methods in this class are safe for use by multiple
- * concurrent threads. </p>
+ * <p> All of the methods in this clbss bre sbfe for use by multiple
+ * concurrent threbds. </p>
  *
  * @since 1.6
  */
 
 @jdk.Exported
-public abstract class AttachProvider {
+public bbstrbct clbss AttbchProvider {
 
-    private static final Object lock = new Object();
-    private static List<AttachProvider> providers = null;
+    privbte stbtic finbl Object lock = new Object();
+    privbte stbtic List<AttbchProvider> providers = null;
 
     /**
-     * Initializes a new instance of this class.  </p>
+     * Initiblizes b new instbnce of this clbss.  </p>
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link com.sun.tools.attach.AttachPermission AttachPermission}
-     *          <tt>("createAttachProvider")</tt>
+     *          If b security mbnbger hbs been instblled bnd it denies
+     *          {@link com.sun.tools.bttbch.AttbchPermission AttbchPermission}
+     *          <tt>("crebteAttbchProvider")</tt>
      */
-    protected AttachProvider() {
-        SecurityManager sm = System.getSecurityManager();
+    protected AttbchProvider() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkPermission(new AttachPermission("createAttachProvider"));
+            sm.checkPermission(new AttbchPermission("crebteAttbchProvider"));
     }
 
     /**
-     * Return this provider's name. </p>
+     * Return this provider's nbme. </p>
      *
-     * @return  The name of this provider
+     * @return  The nbme of this provider
      */
-    public abstract String name();
+    public bbstrbct String nbme();
 
     /**
      * Return this provider's type. </p>
      *
      * @return  The type of this provider
      */
-    public abstract String type();
+    public bbstrbct String type();
 
     /**
-     * Attaches to a Java virtual machine.
+     * Attbches to b Jbvb virtubl mbchine.
      *
-     * <p> A Java virtual machine is identified by an abstract identifier. The
-     * nature of this identifier is platform dependent but in many cases it will be the
-     * string representation of the process identifier (or pid). </p>
+     * <p> A Jbvb virtubl mbchine is identified by bn bbstrbct identifier. The
+     * nbture of this identifier is plbtform dependent but in mbny cbses it will be the
+     * string representbtion of the process identifier (or pid). </p>
      *
-     * <p> This method parses the identifier and maps the identifier to a Java
-     * virtual machine (in an implementation dependent manner). If the identifier
-     * cannot be parsed by the provider then an {@link
-     * com.sun.tools.attach.AttachNotSupportedException AttachNotSupportedException}
-     * is thrown. Once parsed this method attempts to attach to the Java virtual machine.
-     * If the provider detects that the identifier corresponds to a Java virtual machine
-     * that does not exist, or it corresponds to a Java virtual machine that does not support
-     * the attach mechanism implemented by this provider, or it detects that the
-     * Java virtual machine is a version to which this provider cannot attach, then
-     * an <code>AttachNotSupportedException</code> is thrown. </p>
+     * <p> This method pbrses the identifier bnd mbps the identifier to b Jbvb
+     * virtubl mbchine (in bn implementbtion dependent mbnner). If the identifier
+     * cbnnot be pbrsed by the provider then bn {@link
+     * com.sun.tools.bttbch.AttbchNotSupportedException AttbchNotSupportedException}
+     * is thrown. Once pbrsed this method bttempts to bttbch to the Jbvb virtubl mbchine.
+     * If the provider detects thbt the identifier corresponds to b Jbvb virtubl mbchine
+     * thbt does not exist, or it corresponds to b Jbvb virtubl mbchine thbt does not support
+     * the bttbch mechbnism implemented by this provider, or it detects thbt the
+     * Jbvb virtubl mbchine is b version to which this provider cbnnot bttbch, then
+     * bn <code>AttbchNotSupportedException</code> is thrown. </p>
      *
-     * @param  id
-     *         The abstract identifier that identifies the Java virtual machine.
+     * @pbrbm  id
+     *         The bbstrbct identifier thbt identifies the Jbvb virtubl mbchine.
      *
-     * @return  VirtualMachine representing the target virtual machine.
+     * @return  VirtublMbchine representing the tbrget virtubl mbchine.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link com.sun.tools.attach.AttachPermission AttachPermission}
-     *          <tt>("attachVirtualMachine")</tt>, or other permission
-     *          required by the implementation.
+     *          If b security mbnbger hbs been instblled bnd it denies
+     *          {@link com.sun.tools.bttbch.AttbchPermission AttbchPermission}
+     *          <tt>("bttbchVirtublMbchine")</tt>, or other permission
+     *          required by the implementbtion.
      *
-     * @throws  AttachNotSupportedException
-     *          If the identifier cannot be parsed, or it corresponds to
-     *          to a Java virtual machine that does not exist, or it
-     *          corresponds to a Java virtual machine which this
-     *          provider cannot attach.
+     * @throws  AttbchNotSupportedException
+     *          If the identifier cbnnot be pbrsed, or it corresponds to
+     *          to b Jbvb virtubl mbchine thbt does not exist, or it
+     *          corresponds to b Jbvb virtubl mbchine which this
+     *          provider cbnnot bttbch.
      *
      * @throws  IOException
      *          If some other I/O error occurs
@@ -149,35 +149,35 @@ public abstract class AttachProvider {
      * @throws  NullPointerException
      *          If <code>id</code> is <code>null</code>
      */
-    public abstract VirtualMachine attachVirtualMachine(String id)
-        throws AttachNotSupportedException, IOException;
+    public bbstrbct VirtublMbchine bttbchVirtublMbchine(String id)
+        throws AttbchNotSupportedException, IOException;
 
     /**
-     * Attaches to a Java virtual machine.
+     * Attbches to b Jbvb virtubl mbchine.
      *
-     * <p> A Java virtual machine can be described using a {@link
-     * com.sun.tools.attach.VirtualMachineDescriptor VirtualMachineDescriptor}.
+     * <p> A Jbvb virtubl mbchine cbn be described using b {@link
+     * com.sun.tools.bttbch.VirtublMbchineDescriptor VirtublMbchineDescriptor}.
      * This method invokes the descriptor's {@link
-     * com.sun.tools.attach.VirtualMachineDescriptor#provider() provider()} method
-     * to check that it is equal to this provider. It then attempts to attach to the
-     * Java virtual machine.
+     * com.sun.tools.bttbch.VirtublMbchineDescriptor#provider() provider()} method
+     * to check thbt it is equbl to this provider. It then bttempts to bttbch to the
+     * Jbvb virtubl mbchine.
      *
-     * @param  vmd
-     *         The virtual machine descriptor
+     * @pbrbm  vmd
+     *         The virtubl mbchine descriptor
      *
-     * @return  VirtualMachine representing the target virtual machine.
+     * @return  VirtublMbchine representing the tbrget virtubl mbchine.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link com.sun.tools.attach.AttachPermission AttachPermission}
-     *          <tt>("attachVirtualMachine")</tt>, or other permission
-     *          required by the implementation.
+     *          If b security mbnbger hbs been instblled bnd it denies
+     *          {@link com.sun.tools.bttbch.AttbchPermission AttbchPermission}
+     *          <tt>("bttbchVirtublMbchine")</tt>, or other permission
+     *          required by the implementbtion.
      *
-     * @throws  AttachNotSupportedException
+     * @throws  AttbchNotSupportedException
      *          If the descriptor's {@link
-     *          com.sun.tools.attach.VirtualMachineDescriptor#provider() provider()} method
-     *          returns a provider that is not this provider, or it does not correspond
-     *          to a Java virtual machine to which this provider can attach.
+     *          com.sun.tools.bttbch.VirtublMbchineDescriptor#provider() provider()} method
+     *          returns b provider thbt is not this provider, or it does not correspond
+     *          to b Jbvb virtubl mbchine to which this provider cbn bttbch.
      *
      * @throws  IOException
      *          If some other I/O error occurs
@@ -185,90 +185,90 @@ public abstract class AttachProvider {
      * @throws  NullPointerException
      *          If <code>vmd</code> is <code>null</code>
      */
-    public VirtualMachine attachVirtualMachine(VirtualMachineDescriptor vmd)
-        throws AttachNotSupportedException, IOException
+    public VirtublMbchine bttbchVirtublMbchine(VirtublMbchineDescriptor vmd)
+        throws AttbchNotSupportedException, IOException
     {
         if (vmd.provider() != this) {
-            throw new AttachNotSupportedException("provider mismatch");
+            throw new AttbchNotSupportedException("provider mismbtch");
         }
-        return attachVirtualMachine(vmd.id());
+        return bttbchVirtublMbchine(vmd.id());
     }
 
     /**
-     * Lists the Java virtual machines known to this provider.
+     * Lists the Jbvb virtubl mbchines known to this provider.
      *
-     * <p> This method returns a list of {@link
-     * com.sun.tools.attach.VirtualMachineDescriptor} elements. Each
-     * <code>VirtualMachineDescriptor</code> describes a Java virtual machine
-     * to which this provider can <i>potentially</i> attach.  There isn't any
-     * guarantee that invoking {@link #attachVirtualMachine(VirtualMachineDescriptor)
-     * attachVirtualMachine} on each descriptor in the list will succeed.
+     * <p> This method returns b list of {@link
+     * com.sun.tools.bttbch.VirtublMbchineDescriptor} elements. Ebch
+     * <code>VirtublMbchineDescriptor</code> describes b Jbvb virtubl mbchine
+     * to which this provider cbn <i>potentiblly</i> bttbch.  There isn't bny
+     * gubrbntee thbt invoking {@link #bttbchVirtublMbchine(VirtublMbchineDescriptor)
+     * bttbchVirtublMbchine} on ebch descriptor in the list will succeed.
      *
-     * @return  The list of virtual machine descriptors which describe the
-     *          Java virtual machines known to this provider (may be empty).
+     * @return  The list of virtubl mbchine descriptors which describe the
+     *          Jbvb virtubl mbchines known to this provider (mby be empty).
      */
-    public abstract List<VirtualMachineDescriptor> listVirtualMachines();
+    public bbstrbct List<VirtublMbchineDescriptor> listVirtublMbchines();
 
 
     /**
-     * Returns a list of the installed attach providers.
+     * Returns b list of the instblled bttbch providers.
      *
-     * <p> An AttachProvider is installed on the platform if:
+     * <p> An AttbchProvider is instblled on the plbtform if:
      *
      * <ul>
-     *   <li><p>It is installed in a JAR file that is visible to the defining
-     *   class loader of the AttachProvider type (usually, but not required
-     *   to be, the {@link java.lang.ClassLoader#getSystemClassLoader system
-     *   class loader}).</p></li>
+     *   <li><p>It is instblled in b JAR file thbt is visible to the defining
+     *   clbss lobder of the AttbchProvider type (usublly, but not required
+     *   to be, the {@link jbvb.lbng.ClbssLobder#getSystemClbssLobder system
+     *   clbss lobder}).</p></li>
      *
-     *   <li><p>The JAR file contains a provider configuration named
-     *   <tt>com.sun.tools.attach.spi.AttachProvider</tt> in the resource directory
+     *   <li><p>The JAR file contbins b provider configurbtion nbmed
+     *   <tt>com.sun.tools.bttbch.spi.AttbchProvider</tt> in the resource directory
      *   <tt>META-INF/services</tt>. </p></li>
      *
-     *   <li><p>The provider configuration file lists the full-qualified class
-     *   name of the AttachProvider implementation. </p></li>
+     *   <li><p>The provider configurbtion file lists the full-qublified clbss
+     *   nbme of the AttbchProvider implementbtion. </p></li>
      * </ul>
      *
-     * <p> The format of the provider configuration file is one fully-qualified
-     * class name per line. Space and tab characters surrounding each class name,
-     * as well as blank lines are ignored. The comment character is
-     *  <tt>'#'</tt> (<tt>0x23</tt>), and on each line all characters following
-     * the first comment character are ignored. The file must be encoded in
+     * <p> The formbt of the provider configurbtion file is one fully-qublified
+     * clbss nbme per line. Spbce bnd tbb chbrbcters surrounding ebch clbss nbme,
+     * bs well bs blbnk lines bre ignored. The comment chbrbcter is
+     *  <tt>'#'</tt> (<tt>0x23</tt>), bnd on ebch line bll chbrbcters following
+     * the first comment chbrbcter bre ignored. The file must be encoded in
      * UTF-8. </p>
      *
-     * <p> AttachProvider implementations are loaded and instantiated
-     * (using the zero-arg constructor) at the first invocation of this method.
-     * The list returned by the first invocation of this method is the list
-     * of providers. Subsequent invocations of this method return a list of the same
-     * providers. The list is unmodifable.</p>
+     * <p> AttbchProvider implementbtions bre lobded bnd instbntibted
+     * (using the zero-brg constructor) bt the first invocbtion of this method.
+     * The list returned by the first invocbtion of this method is the list
+     * of providers. Subsequent invocbtions of this method return b list of the sbme
+     * providers. The list is unmodifbble.</p>
      *
-     * @return  A list of the installed attach providers.
+     * @return  A list of the instblled bttbch providers.
      */
-    public static List<AttachProvider> providers() {
+    public stbtic List<AttbchProvider> providers() {
         synchronized (lock) {
             if (providers == null) {
-                providers = new ArrayList<AttachProvider>();
+                providers = new ArrbyList<AttbchProvider>();
 
-                ServiceLoader<AttachProvider> providerLoader =
-                    ServiceLoader.load(AttachProvider.class,
-                                       AttachProvider.class.getClassLoader());
+                ServiceLobder<AttbchProvider> providerLobder =
+                    ServiceLobder.lobd(AttbchProvider.clbss,
+                                       AttbchProvider.clbss.getClbssLobder());
 
-                Iterator<AttachProvider> i = providerLoader.iterator();
+                Iterbtor<AttbchProvider> i = providerLobder.iterbtor();
 
-                while (i.hasNext()) {
+                while (i.hbsNext()) {
                     try {
-                        providers.add(i.next());
-                    } catch (Throwable t) {
-                        if (t instanceof ThreadDeath) {
-                            ThreadDeath td = (ThreadDeath)t;
+                        providers.bdd(i.next());
+                    } cbtch (Throwbble t) {
+                        if (t instbnceof ThrebdDebth) {
+                            ThrebdDebth td = (ThrebdDebth)t;
                             throw td;
                         }
-                        // Ignore errors and exceptions
+                        // Ignore errors bnd exceptions
                         System.err.println(t);
                     }
                 }
             }
-            return Collections.unmodifiableList(providers);
+            return Collections.unmodifibbleList(providers);
         }
     }
 }

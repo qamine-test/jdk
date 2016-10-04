@@ -1,831 +1,831 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
-import java.util.List;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * The type of an object in a target VM. ReferenceType encompasses
- * classes, interfaces, and array types as defined in
- * <cite>The Java&trade; Language Specification</cite>.
+ * The type of bn object in b tbrget VM. ReferenceType encompbsses
+ * clbsses, interfbces, bnd brrby types bs defined in
+ * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
  * All ReferenceType objects belong to one of the following
- * subinterfaces:
- * {@link ClassType} for classes,
- * {@link InterfaceType} for interfaces, and
- * {@link ArrayType} for arrays.
- * Note that primitive classes (for example, the
- * {@link ClassObjectReference#reflectedType() reflected type} of
- * {@link java.lang.Integer#TYPE Integer.TYPE})
- * are represented as ClassType.
- * The VM creates Class objects for all three, so from the VM perspective,
- * each ReferenceType maps to a distinct Class object.
+ * subinterfbces:
+ * {@link ClbssType} for clbsses,
+ * {@link InterfbceType} for interfbces, bnd
+ * {@link ArrbyType} for brrbys.
+ * Note thbt primitive clbsses (for exbmple, the
+ * {@link ClbssObjectReference#reflectedType() reflected type} of
+ * {@link jbvb.lbng.Integer#TYPE Integer.TYPE})
+ * bre represented bs ClbssType.
+ * The VM crebtes Clbss objects for bll three, so from the VM perspective,
+ * ebch ReferenceType mbps to b distinct Clbss object.
  * <p>
- * ReferenceTypes can
- * be obtained by querying a particular {@link ObjectReference} for its
- * type or by getting a list of all reference types from the
- * {@link VirtualMachine}.
+ * ReferenceTypes cbn
+ * be obtbined by querying b pbrticulbr {@link ObjectReference} for its
+ * type or by getting b list of bll reference types from the
+ * {@link VirtublMbchine}.
  * <p>
- * ReferenceType provides access to static type information such as
- * methods and fields and provides access to dynamic type
- * information such as the corresponding Class object and the classloader.
- * <p>
- * Any method on <code>ReferenceType</code> which directly or
- * indirectly takes <code>ReferenceType</code> as an parameter may throw
- * {@link com.sun.jdi.VMDisconnectedException} if the target VM is
- * disconnected and the {@link com.sun.jdi.event.VMDisconnectEvent} has been or is
- * available to be read from the {@link com.sun.jdi.event.EventQueue}.
+ * ReferenceType provides bccess to stbtic type informbtion such bs
+ * methods bnd fields bnd provides bccess to dynbmic type
+ * informbtion such bs the corresponding Clbss object bnd the clbsslobder.
  * <p>
  * Any method on <code>ReferenceType</code> which directly or
- * indirectly takes <code>ReferenceType</code> as an parameter may throw
- * {@link com.sun.jdi.VMOutOfMemoryException} if the target VM has run out of memory.
+ * indirectly tbkes <code>ReferenceType</code> bs bn pbrbmeter mby throw
+ * {@link com.sun.jdi.VMDisconnectedException} if the tbrget VM is
+ * disconnected bnd the {@link com.sun.jdi.event.VMDisconnectEvent} hbs been or is
+ * bvbilbble to be rebd from the {@link com.sun.jdi.event.EventQueue}.
  * <p>
- * Any method on <code>ReferenceType</code> or which directly or indirectly takes
- * <code>ReferenceType</code> as parameter may throw
- * {@link com.sun.jdi.ObjectCollectedException} if the mirrored type has been unloaded.
+ * Any method on <code>ReferenceType</code> which directly or
+ * indirectly tbkes <code>ReferenceType</code> bs bn pbrbmeter mby throw
+ * {@link com.sun.jdi.VMOutOfMemoryException} if the tbrget VM hbs run out of memory.
+ * <p>
+ * Any method on <code>ReferenceType</code> or which directly or indirectly tbkes
+ * <code>ReferenceType</code> bs pbrbmeter mby throw
+ * {@link com.sun.jdi.ObjectCollectedException} if the mirrored type hbs been unlobded.
  *
  * @see ObjectReference
  * @see ObjectReference#referenceType
- * @see VirtualMachine
- * @see VirtualMachine#allClasses
+ * @see VirtublMbchine
+ * @see VirtublMbchine#bllClbsses
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
+ * @buthor Robert Field
+ * @buthor Gordon Hirsch
+ * @buthor Jbmes McIlree
  * @since  1.3
  */
 @jdk.Exported
-public interface ReferenceType
-    extends Type, Comparable<ReferenceType>, Accessible
+public interfbce ReferenceType
+    extends Type, Compbrbble<ReferenceType>, Accessible
 {
 
     /**
-     * Gets the fully qualified name of this type. The returned name
-     * is formatted as it might appear in a Java programming langauge
-     * declaration for objects of this type.
+     * Gets the fully qublified nbme of this type. The returned nbme
+     * is formbtted bs it might bppebr in b Jbvb progrbmming lbngbuge
+     * declbrbtion for objects of this type.
      * <p>
-     * For primitive classes
-     * the returned name is the name of the corresponding primitive
-     * type; for example, "int" is returned as the name of the class
-     * represented by {@link java.lang.Integer#TYPE Integer.TYPE}.
-     * @return a string containing the type name.
+     * For primitive clbsses
+     * the returned nbme is the nbme of the corresponding primitive
+     * type; for exbmple, "int" is returned bs the nbme of the clbss
+     * represented by {@link jbvb.lbng.Integer#TYPE Integer.TYPE}.
+     * @return b string contbining the type nbme.
      */
-    String name();
+    String nbme();
 
     /**
-     * Gets the generic signature for this type if there is one.
-     * Generic signatures are described in the
-     * <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * Gets the generic signbture for this type if there is one.
+     * Generic signbtures bre described in the
+     * <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
      *
-     * @return a string containing the generic signature, or <code>null</code>
-     * if there is no generic signature.
+     * @return b string contbining the generic signbture, or <code>null</code>
+     * if there is no generic signbture.
      *
      * @since 1.5
      */
-    String genericSignature();
+    String genericSignbture();
 
     /**
-     * Gets the classloader object which loaded the class corresponding
+     * Gets the clbsslobder object which lobded the clbss corresponding
      * to this type.
      *
-     * @return a {@link ClassLoaderReference} which mirrors the classloader,
-     * or <code>null</code> if the class was loaded through the bootstrap class
-     * loader.
+     * @return b {@link ClbssLobderReference} which mirrors the clbsslobder,
+     * or <code>null</code> if the clbss wbs lobded through the bootstrbp clbss
+     * lobder.
      */
-    ClassLoaderReference classLoader();
+    ClbssLobderReference clbssLobder();
 
     /**
-     * Gets an identifying name for the source corresponding to the
-     * declaration of this type. Interpretation of this string is
-     * the responsibility of the source repository mechanism.
+     * Gets bn identifying nbme for the source corresponding to the
+     * declbrbtion of this type. Interpretbtion of this string is
+     * the responsibility of the source repository mechbnism.
      * <P>
-     * The returned name is dependent on VM's default stratum
-     * ({@link VirtualMachine#getDefaultStratum()}).
-     * In the reference implementation, when using the base stratum,
+     * The returned nbme is dependent on VM's defbult strbtum
+     * ({@link VirtublMbchine#getDefbultStrbtum()}).
+     * In the reference implementbtion, when using the bbse strbtum,
      * the returned string is the
-     * unqualified name of the source file containing the declaration
-     * of this type.  In other strata the returned source name is
-     * the first source name for that stratum.  Since other languages
-     * may have more than one source name for a reference type,
-     * the use of {@link Location#sourceName()} or
-     * {@link #sourceNames(String)} is preferred.
+     * unqublified nbme of the source file contbining the declbrbtion
+     * of this type.  In other strbtb the returned source nbme is
+     * the first source nbme for thbt strbtum.  Since other lbngubges
+     * mby hbve more thbn one source nbme for b reference type,
+     * the use of {@link Locbtion#sourceNbme()} or
+     * {@link #sourceNbmes(String)} is preferred.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * AbsentInformationException is always thrown.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * AbsentInformbtionException is blwbys thrown.
      *
-     * @return the string source file name
-     * @throws AbsentInformationException if the source name is not
+     * @return the string source file nbme
+     * @throws AbsentInformbtionException if the source nbme is not
      * known
      */
-    String sourceName() throws AbsentInformationException;
+    String sourceNbme() throws AbsentInformbtionException;
 
     /**
-     * Gets the identifying names for all the source corresponding to the
-     * declaration of this type. Interpretation of these names is
-     * the responsibility of the source repository mechanism.
+     * Gets the identifying nbmes for bll the source corresponding to the
+     * declbrbtion of this type. Interpretbtion of these nbmes is
+     * the responsibility of the source repository mechbnism.
      * <P>
-     * The returned names are for the specified stratum
-     * (see {@link Location} for a description of strata).
-     * In the reference implementation, when using the Java
-     * programming language stratum,
-     * the returned List contains one element: a String which is the
-     * unqualified name of the source file containing the declaration
-     * of this type.  In other strata the returned source names are
-     * all the source names defined for that stratum.
+     * The returned nbmes bre for the specified strbtum
+     * (see {@link Locbtion} for b description of strbtb).
+     * In the reference implementbtion, when using the Jbvb
+     * progrbmming lbngubge strbtum,
+     * the returned List contbins one element: b String which is the
+     * unqublified nbme of the source file contbining the declbrbtion
+     * of this type.  In other strbtb the returned source nbmes bre
+     * bll the source nbmes defined for thbt strbtum.
      *
-     * @param stratum The stratum to retrieve information from
-     * or <code>null</code> for the declaring type's
-     * default stratum.
+     * @pbrbm strbtum The strbtum to retrieve informbtion from
+     * or <code>null</code> for the declbring type's
+     * defbult strbtum.
      *
-     * @return a List of String objects each representing a source name
+     * @return b List of String objects ebch representing b source nbme
      *
-     * @throws AbsentInformationException if the source names are not
+     * @throws AbsentInformbtionException if the source nbmes bre not
      * known.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * AbsentInformationException is always thrown.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * AbsentInformbtionException is blwbys thrown.
      *
      * @since 1.4
      */
-    List<String> sourceNames(String stratum) throws AbsentInformationException;
+    List<String> sourceNbmes(String strbtum) throws AbsentInformbtionException;
 
     /**
-     * Gets the paths to the source corresponding to the
-     * declaration of this type. Interpretation of these paths is
-     * the responsibility of the source repository mechanism.
+     * Gets the pbths to the source corresponding to the
+     * declbrbtion of this type. Interpretbtion of these pbths is
+     * the responsibility of the source repository mechbnism.
      * <P>
-     * The returned paths are for the specified stratum
-     * (see {@link Location} for a description of strata).
-     * In the reference implementation, for strata which
-     * do not explicitly specify source path (the Java
-     * programming language stratum never does), the returned
-     * strings are the {@link #sourceNames(String)} prefixed by
-     * the package name of this ReferenceType
-     * converted to a platform dependent path.
-     * For example, on a Windows platform,
-     * <CODE>java.lang.Thread</CODE>
-     * would return a List containing one element:
-     * <CODE>"java\lang\Thread.java"</CODE>.
+     * The returned pbths bre for the specified strbtum
+     * (see {@link Locbtion} for b description of strbtb).
+     * In the reference implementbtion, for strbtb which
+     * do not explicitly specify source pbth (the Jbvb
+     * progrbmming lbngubge strbtum never does), the returned
+     * strings bre the {@link #sourceNbmes(String)} prefixed by
+     * the pbckbge nbme of this ReferenceType
+     * converted to b plbtform dependent pbth.
+     * For exbmple, on b Windows plbtform,
+     * <CODE>jbvb.lbng.Threbd</CODE>
+     * would return b List contbining one element:
+     * <CODE>"jbvb\lbng\Threbd.jbvb"</CODE>.
      *
-     * @param stratum The stratum to retrieve information from
-     * or <code>null</code> for the declaring type's
-     * default stratum.
+     * @pbrbm strbtum The strbtum to retrieve informbtion from
+     * or <code>null</code> for the declbring type's
+     * defbult strbtum.
      *
-     * @return a List of String objects each representing a source path
+     * @return b List of String objects ebch representing b source pbth
      *
-     * @throws AbsentInformationException if the source names are not
+     * @throws AbsentInformbtionException if the source nbmes bre not
      * known.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * AbsentInformationException is always thrown.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * AbsentInformbtionException is blwbys thrown.
      *
      * @since 1.4
      */
-    List<String> sourcePaths(String stratum) throws AbsentInformationException;
+    List<String> sourcePbths(String strbtum) throws AbsentInformbtionException;
 
     /**
      * Get the source debug extension of this type.
      * <p>
-     * Not all target virtual machines support this operation.
+     * Not bll tbrget virtubl mbchines support this operbtion.
      * Use
-     * {@link VirtualMachine#canGetSourceDebugExtension() canGetSourceDebugExtension()}
-     * to determine if the operation is supported.
-     * @return as a string the source debug extension attribute
-     * @throws AbsentInformationException if the extension is not
+     * {@link VirtublMbchine#cbnGetSourceDebugExtension() cbnGetSourceDebugExtension()}
+     * to determine if the operbtion is supported.
+     * @return bs b string the source debug extension bttribute
+     * @throws AbsentInformbtionException if the extension is not
      * specified
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetSourceDebugExtension() canGetSourceDebugExtension()},
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion - see
+     * {@link VirtublMbchine#cbnGetSourceDebugExtension() cbnGetSourceDebugExtension()},
      */
-    String sourceDebugExtension() throws AbsentInformationException;
+    String sourceDebugExtension() throws AbsentInformbtionException;
 
     /**
-     * Determines if this type was declared static. Only nested types,
-     * can be declared static, so <code>false</code> is returned
-     * for any package-level type, array type, or primitive class.
+     * Determines if this type wbs declbred stbtic. Only nested types,
+     * cbn be declbred stbtic, so <code>fblse</code> is returned
+     * for bny pbckbge-level type, brrby type, or primitive clbss.
      *
-     * @return <code>true</code> if this type is static; false otherwise.
+     * @return <code>true</code> if this type is stbtic; fblse otherwise.
      */
-    boolean isStatic();
+    boolebn isStbtic();
 
     /**
-     * Determines if this type was declared abstract.
+     * Determines if this type wbs declbred bbstrbct.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the return value is undefined.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * the return vblue is undefined.
      *
-     * @return <code>true</code> if this type is abstract; false otherwise.
+     * @return <code>true</code> if this type is bbstrbct; fblse otherwise.
      */
-    boolean isAbstract();
+    boolebn isAbstrbct();
 
     /**
-     * Determines if this type was declared final.
+     * Determines if this type wbs declbred finbl.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the return value is always true.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * the return vblue is blwbys true.
      *
-     * @return <code>true</code> if this type is final; false otherwise.
+     * @return <code>true</code> if this type is finbl; fblse otherwise.
      */
-    boolean isFinal();
+    boolebn isFinbl();
 
     /**
-     * Determines if this type has been prepared. See the JVM
-     * specification for a definition of class preparation.
+     * Determines if this type hbs been prepbred. See the JVM
+     * specificbtion for b definition of clbss prepbrbtion.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the return value is undefined.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * the return vblue is undefined.
      *
-     * @return <code>true</code> if this type is prepared; false otherwise.
+     * @return <code>true</code> if this type is prepbred; fblse otherwise.
      */
-    boolean isPrepared();
+    boolebn isPrepbred();
 
     /**
-     * Determines if this type has been verified. See the JVM
-     * specification for a definition of class verification.
+     * Determines if this type hbs been verified. See the JVM
+     * specificbtion for b definition of clbss verificbtion.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the return value is undefined.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * the return vblue is undefined.
      *
-     * @return <code>true</code> if this type is verified; false otherwise.
+     * @return <code>true</code> if this type is verified; fblse otherwise.
      */
-    boolean isVerified();
+    boolebn isVerified();
 
     /**
-     * Determines if this type has been initialized. See the JVM
-     * specification for a definition of class verification.
-     * For {@link InterfaceType}, this method always returns the
-     * same value as {@link #isPrepared()}.
+     * Determines if this type hbs been initiblized. See the JVM
+     * specificbtion for b definition of clbss verificbtion.
+     * For {@link InterfbceType}, this method blwbys returns the
+     * sbme vblue bs {@link #isPrepbred()}.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the return value is undefined.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * the return vblue is undefined.
      *
-     * @return <code>true</code> if this type is initialized; false otherwise.
+     * @return <code>true</code> if this type is initiblized; fblse otherwise.
      */
-    boolean isInitialized();
+    boolebn isInitiblized();
 
     /**
-     * Determines if initialization failed for this class. See the JVM
-     * specification for details on class initialization.
+     * Determines if initiblizbtion fbiled for this clbss. See the JVM
+     * specificbtion for detbils on clbss initiblizbtion.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the return value is undefined.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * the return vblue is undefined.
      *
-     * @return <code>true</code> if initialization was attempted and
-     * failed; false otherwise.
+     * @return <code>true</code> if initiblizbtion wbs bttempted bnd
+     * fbiled; fblse otherwise.
      */
-    boolean failedToInitialize();
+    boolebn fbiledToInitiblize();
 
     /**
-     * Returns a list containing each {@link Field} declared in this type.
-     * Inherited fields are not included. Any synthetic fields created
-     * by the compiler are included in the list.
+     * Returns b list contbining ebch {@link Field} declbred in this type.
+     * Inherited fields bre not included. Any synthetic fields crebted
+     * by the compiler bre included in the list.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses, the returned
+     * list is blwbys empty.
      *
-     * @return a list {@link Field} objects; the list has length 0
+     * @return b list {@link Field} objects; the list hbs length 0
      * if no fields exist.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @throws ClbssNotPrepbredException if this clbss not yet been
+     * prepbred.
      */
     List<Field> fields();
 
     /**
-     * Returns a list containing each unhidden and unambiguous {@link Field}
+     * Returns b list contbining ebch unhidden bnd unbmbiguous {@link Field}
      * in this type.
-     * Each field that can be accessed from the class
-     * or its instances with its simple name is included. Fields that
-     * are ambiguously multiply inherited or fields that are hidden by
-     * fields with the same name in a more recently inherited class
-     * cannot be accessed
-     * by their simple names and are not included in the returned
-     * list. All other inherited fields are included.
-     * See JLS section 8.3 for details.
+     * Ebch field thbt cbn be bccessed from the clbss
+     * or its instbnces with its simple nbme is included. Fields thbt
+     * bre bmbiguously multiply inherited or fields thbt bre hidden by
+     * fields with the sbme nbme in b more recently inherited clbss
+     * cbnnot be bccessed
+     * by their simple nbmes bnd bre not included in the returned
+     * list. All other inherited fields bre included.
+     * See JLS section 8.3 for detbils.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses, the returned
+     * list is blwbys empty.
      *
-     * @return a List of {@link Field} objects; the list has length
+     * @return b List of {@link Field} objects; the list hbs length
      * 0 if no visible fields exist.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @throws ClbssNotPrepbredException if this clbss not yet been
+     * prepbred.
      */
     List<Field> visibleFields();
 
     /**
-     * Returns a list containing each {@link Field} declared in this type,
-     * and its superclasses, implemented interfaces, and/or superinterfaces.
-     * All declared and inherited
-     * fields are included, regardless of whether they are hidden or
+     * Returns b list contbining ebch {@link Field} declbred in this type,
+     * bnd its superclbsses, implemented interfbces, bnd/or superinterfbces.
+     * All declbred bnd inherited
+     * fields bre included, regbrdless of whether they bre hidden or
      * multiply inherited.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses, the returned
+     * list is blwbys empty.
      *
-     * @return a List of {@link Field} objects; the list has length
+     * @return b List of {@link Field} objects; the list hbs length
      * 0 if no fields exist.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @throws ClbssNotPrepbredException if this clbss not yet been
+     * prepbred.
      */
-    List<Field> allFields();
+    List<Field> bllFields();
 
     /**
      * Finds the visible {@link Field} with the given
-     * non-ambiguous name. This method follows the
-     * inheritance rules specified in the JLS (8.3.3) to determine
+     * non-bmbiguous nbme. This method follows the
+     * inheritbnce rules specified in the JLS (8.3.3) to determine
      * visibility.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * value is always null.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses, the returned
+     * vblue is blwbys null.
      *
-     * @param fieldName a String containing the name of desired field.
-     * @return a {@link Field} object which mirrors the found field, or
-     * null if there is no field with the given name or if the given
-     * name is ambiguous.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @pbrbm fieldNbme b String contbining the nbme of desired field.
+     * @return b {@link Field} object which mirrors the found field, or
+     * null if there is no field with the given nbme or if the given
+     * nbme is bmbiguous.
+     * @throws ClbssNotPrepbredException if this clbss not yet been
+     * prepbred.
      */
-    Field fieldByName(String fieldName);
+    Field fieldByNbme(String fieldNbme);
 
     /**
-     * Returns a list containing each {@link Method} declared
+     * Returns b list contbining ebch {@link Method} declbred
      * directly in this type.
-     * Inherited methods are not included. Constructors,
-     * the initialization method if any, and any synthetic methods created
-     * by the compiler are included in the list.
+     * Inherited methods bre not included. Constructors,
+     * the initiblizbtion method if bny, bnd bny synthetic methods crebted
+     * by the compiler bre included in the list.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses, the returned
+     * list is blwbys empty.
      *
-     * @return a list {@link Method} objects; the list has length 0
+     * @return b list {@link Method} objects; the list hbs length 0
      * if no methods exist.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @throws ClbssNotPrepbredException if this clbss not yet been
+     * prepbred.
      */
     List<Method> methods();
 
     /**
-     * Returns a list containing each {@link Method}
-     * declared or inherited by this type. Methods from superclasses
-     * or superinterfaces that that have been hidden or overridden
-     * are not included.
+     * Returns b list contbining ebch {@link Method}
+     * declbred or inherited by this type. Methods from superclbsses
+     * or superinterfbces thbt thbt hbve been hidden or overridden
+     * bre not included.
      * <p>
-     * Note that despite this exclusion, multiple inherited methods
-     * with the same signature can be present in the returned list, but
-     * at most one can be a member of a {@link ClassType}.
-     * See JLS section 8.4.6 for details.
+     * Note thbt despite this exclusion, multiple inherited methods
+     * with the sbme signbture cbn be present in the returned list, but
+     * bt most one cbn be b member of b {@link ClbssType}.
+     * See JLS section 8.4.6 for detbils.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses, the returned
+     * list is blwbys empty.
      *
-     * @return a List of {@link Method} objects; the list has length
+     * @return b List of {@link Method} objects; the list hbs length
      * 0 if no visible methods exist.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @throws ClbssNotPrepbredException if this clbss not yet been
+     * prepbred.
      */
     List<Method> visibleMethods();
 
     /**
-     * Returns a list containing each {@link Method} declared in this type,
-     * and its superclasses, implemented interfaces, and/or superinterfaces.
-     * All declared and inherited
-     * methods are included, regardless of whether they are hidden or
+     * Returns b list contbining ebch {@link Method} declbred in this type,
+     * bnd its superclbsses, implemented interfbces, bnd/or superinterfbces.
+     * All declbred bnd inherited
+     * methods bre included, regbrdless of whether they bre hidden or
      * overridden.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses, the returned
+     * list is blwbys empty.
      *
-     * @return a List of {@link Method} objects; the list has length
+     * @return b List of {@link Method} objects; the list hbs length
      * 0 if no methods exist.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @throws ClbssNotPrepbredException if this clbss not yet been
+     * prepbred.
      */
-    List<Method> allMethods();
+    List<Method> bllMethods();
 
     /**
-     * Returns a List containing each visible {@link Method} that
-     * has the given name.  This is most commonly used to
-     * find overloaded methods.
+     * Returns b List contbining ebch visible {@link Method} thbt
+     * hbs the given nbme.  This is most commonly used to
+     * find overlobded methods.
      * <p>
-     * Overridden and hidden methods are not included.
-     * See JLS (8.4.6) for details.
+     * Overridden bnd hidden methods bre not included.
+     * See JLS (8.4.6) for detbils.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses, the returned
+     * list is blwbys empty.
      *
-     * @param name the name of the method to find.
-     * @return a List of {@link Method} objects that match the given
-     * name; the list has length 0 if no matching methods are found.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @pbrbm nbme the nbme of the method to find.
+     * @return b List of {@link Method} objects thbt mbtch the given
+     * nbme; the list hbs length 0 if no mbtching methods bre found.
+     * @throws ClbssNotPrepbredException if this clbss not yet been
+     * prepbred.
      */
-    List<Method> methodsByName(String name);
+    List<Method> methodsByNbme(String nbme);
 
     /**
-     * Returns a List containing each visible {@link Method} that
-     * has the given name and signature.
-     * The signature string is the
-     * JNI signature for the target method:
+     * Returns b List contbining ebch visible {@link Method} thbt
+     * hbs the given nbme bnd signbture.
+     * The signbture string is the
+     * JNI signbture for the tbrget method:
      * <ul>
      * <li><code>()V</code>
-     * <li><code>([Ljava/lang/String;)V</code>
+     * <li><code>([Ljbvb/lbng/String;)V</code>
      * <li><code>(IIII)Z</code>
      * </ul>
-     * This method follows the inheritance rules specified
+     * This method follows the inheritbnce rules specified
      * in the JLS (8.4.6) to determine visibility.
      * <p>
-     * At most one method in the list is a concrete method and a
-     * component of {@link ClassType}; any other methods in the list
-     * are abstract. Use {@link ClassType#concreteMethodByName} to
-     * retrieve only the matching concrete method.
+     * At most one method in the list is b concrete method bnd b
+     * component of {@link ClbssType}; bny other methods in the list
+     * bre bbstrbct. Use {@link ClbssType#concreteMethodByNbme} to
+     * retrieve only the mbtching concrete method.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses, the returned
+     * list is blwbys empty.
      *
-     * @param name the name of the method to find.
-     * @param signature the signature of the method to find
-     * @return a List of {@link Method} objects that match the given
-     * name and signature; the list has length 0 if no matching methods
-     * are found.
-     * @throws ClassNotPreparedException if this class not yet been
-     * prepared.
+     * @pbrbm nbme the nbme of the method to find.
+     * @pbrbm signbture the signbture of the method to find
+     * @return b List of {@link Method} objects thbt mbtch the given
+     * nbme bnd signbture; the list hbs length 0 if no mbtching methods
+     * bre found.
+     * @throws ClbssNotPrepbredException if this clbss not yet been
+     * prepbred.
      */
-    List<Method> methodsByName(String name, String signature);
+    List<Method> methodsByNbme(String nbme, String signbture);
 
     /**
-     * Returns a List containing {@link ReferenceType} objects that are
-     * declared within this type and are currently loaded into the Virtual
-     * Machine.  Both static nested types and non-static nested
-     * types (that is, inner types) are included. Local inner types
-     * (declared within a code block somewhere in this reference type) are
-     * also included in the returned list.
+     * Returns b List contbining {@link ReferenceType} objects thbt bre
+     * declbred within this type bnd bre currently lobded into the Virtubl
+     * Mbchine.  Both stbtic nested types bnd non-stbtic nested
+     * types (thbt is, inner types) bre included. Locbl inner types
+     * (declbred within b code block somewhere in this reference type) bre
+     * blso included in the returned list.
      * <p>
-     * For arrays ({@link ArrayType}) and primitive classes, the returned
-     * list is always empty.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses, the returned
+     * list is blwbys empty.
      *
-     * @return a List of nested {@link ReferenceType} objects; the list
-     * has 0 length if there are no nested types.
+     * @return b List of nested {@link ReferenceType} objects; the list
+     * hbs 0 length if there bre no nested types.
      */
     List<ReferenceType> nestedTypes();
 
     /**
-     * Gets the {@link Value} of a given static {@link Field} in this type.
-     * The Field must be valid for this type;
-     * that is, it must be declared in this type, a superclass, a
-     * superinterface, or an implemented interface.
+     * Gets the {@link Vblue} of b given stbtic {@link Field} in this type.
+     * The Field must be vblid for this type;
+     * thbt is, it must be declbred in this type, b superclbss, b
+     * superinterfbce, or bn implemented interfbce.
      *
-     * @param field the field containing the requested value
-     * @return the {@link Value} of the instance field.
-     * @throws java.lang.IllegalArgumentException if the field is not valid for
-     * this object's class.
+     * @pbrbm field the field contbining the requested vblue
+     * @return the {@link Vblue} of the instbnce field.
+     * @throws jbvb.lbng.IllegblArgumentException if the field is not vblid for
+     * this object's clbss.
      */
-    Value getValue(Field field);
+    Vblue getVblue(Field field);
 
     /**
-     * Returns a map containing the {@link Value} of each
-     * static {@link Field} in the given list.
-     * The Fields must be valid for this type;
-     * that is, they must be declared in this type, a superclass, a
-     * superinterface, or an implemented interface.
+     * Returns b mbp contbining the {@link Vblue} of ebch
+     * stbtic {@link Field} in the given list.
+     * The Fields must be vblid for this type;
+     * thbt is, they must be declbred in this type, b superclbss, b
+     * superinterfbce, or bn implemented interfbce.
      *
-     * @param fields a list of {@link Field} objects containing the
-     * requested values.
-     * @return a Map of the requested {@link Field} objects with
-     * their {@link Value}.
-     * @throws java.lang.IllegalArgumentException if any field is not valid for
-     * this object's class.
-     * @throws VMMismatchException if a {@link Mirror} argument and this mirror
-     * do not belong to the same {@link VirtualMachine}.
+     * @pbrbm fields b list of {@link Field} objects contbining the
+     * requested vblues.
+     * @return b Mbp of the requested {@link Field} objects with
+     * their {@link Vblue}.
+     * @throws jbvb.lbng.IllegblArgumentException if bny field is not vblid for
+     * this object's clbss.
+     * @throws VMMismbtchException if b {@link Mirror} brgument bnd this mirror
+     * do not belong to the sbme {@link VirtublMbchine}.
      */
-    Map<Field,Value> getValues(List<? extends Field> fields);
+    Mbp<Field,Vblue> getVblues(List<? extends Field> fields);
 
     /**
-     * Returns the class object that corresponds to this type in the
-     * target VM. The VM creates class objects for every kind of
-     * ReferenceType: classes, interfaces, and array types.
-     * @return the {@link ClassObjectReference} for this reference type
-     * in the target VM.
+     * Returns the clbss object thbt corresponds to this type in the
+     * tbrget VM. The VM crebtes clbss objects for every kind of
+     * ReferenceType: clbsses, interfbces, bnd brrby types.
+     * @return the {@link ClbssObjectReference} for this reference type
+     * in the tbrget VM.
      */
-    ClassObjectReference classObject();
+    ClbssObjectReference clbssObject();
 
     /**
-     * Returns a list containing a {@link Location} object
-     * for each executable source line in this reference type.
+     * Returns b list contbining b {@link Locbtion} object
+     * for ebch executbble source line in this reference type.
      * <P>
-     * This method is equivalent to
-     * <code>allLineLocations(vm.getDefaultStratum(),null)</code> -
-     * see {@link #allLineLocations(String,String)}
-     * for more information.
+     * This method is equivblent to
+     * <code>bllLineLocbtions(vm.getDefbultStrbtum(),null)</code> -
+     * see {@link #bllLineLocbtions(String,String)}
+     * for more informbtion.
      *
-     * @throws AbsentInformationException if there is no line
-     * number information for this class and there are non-native,
-     * non-abstract executable members of this class.
+     * @throws AbsentInformbtionException if there is no line
+     * number informbtion for this clbss bnd there bre non-nbtive,
+     * non-bbstrbct executbble members of this clbss.
      *
-     * @throws ClassNotPreparedException if this class not yet
-     * been prepared.
+     * @throws ClbssNotPrepbredException if this clbss not yet
+     * been prepbred.
      */
-    List<Location> allLineLocations() throws AbsentInformationException;
+    List<Locbtion> bllLineLocbtions() throws AbsentInformbtionException;
 
     /**
-     * Returns a list containing a {@link Location} object
-     * for each executable source line in this reference type.
-     * Each location maps a source line to a range of code
+     * Returns b list contbining b {@link Locbtion} object
+     * for ebch executbble source line in this reference type.
+     * Ebch locbtion mbps b source line to b rbnge of code
      * indices.
-     * The beginning of the range can be determined through
-     * {@link Location#codeIndex}.  The returned list may contain
-     * multiple locations for a particular line number, if the
-     * compiler and/or VM has mapped that line to two or more
-     * disjoint code index ranges.  Note that it is possible for
-     * the same source line to represent different code index
-     * ranges in <i>different</i> methods.
+     * The beginning of the rbnge cbn be determined through
+     * {@link Locbtion#codeIndex}.  The returned list mby contbin
+     * multiple locbtions for b pbrticulbr line number, if the
+     * compiler bnd/or VM hbs mbpped thbt line to two or more
+     * disjoint code index rbnges.  Note thbt it is possible for
+     * the sbme source line to represent different code index
+     * rbnges in <i>different</i> methods.
      * <P>
-     * For arrays ({@link ArrayType}) and primitive classes, the
-     * returned list is always empty.  For interfaces ({@link
-     * InterfaceType}), the returned list will be non-empty only
-     * if the interface has executable code in its class
-     * initialization.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses, the
+     * returned list is blwbys empty.  For interfbces ({@link
+     * InterfbceType}), the returned list will be non-empty only
+     * if the interfbce hbs executbble code in its clbss
+     * initiblizbtion.
      * <P>
-     * Returned list is for the specified <i>stratum</i>
-     * (see {@link Location} for a description of strata).
+     * Returned list is for the specified <i>strbtum</i>
+     * (see {@link Locbtion} for b description of strbtb).
      *
-     * @param stratum The stratum to retrieve information from
-     * or <code>null</code> for the {@link #defaultStratum()}.
+     * @pbrbm strbtum The strbtum to retrieve informbtion from
+     * or <code>null</code> for the {@link #defbultStrbtum()}.
      *
-     * @param sourceName Return locations only within this
-     * source file or <code>null</code> to return locations.
+     * @pbrbm sourceNbme Return locbtions only within this
+     * source file or <code>null</code> to return locbtions.
      *
-     * @return a List of all source line {@link Location} objects.
+     * @return b List of bll source line {@link Locbtion} objects.
      *
-     * @throws AbsentInformationException if there is no line
-     * number information for this class and there are non-native,
-     * non-abstract executable members of this class.
-     * Or if <i>sourceName</i> is non-<code>null</code>
-     * and source name information is not present.
+     * @throws AbsentInformbtionException if there is no line
+     * number informbtion for this clbss bnd there bre non-nbtive,
+     * non-bbstrbct executbble members of this clbss.
+     * Or if <i>sourceNbme</i> is non-<code>null</code>
+     * bnd source nbme informbtion is not present.
      *
-     * @throws ClassNotPreparedException if this class not yet
-     * been prepared.
+     * @throws ClbssNotPrepbredException if this clbss not yet
+     * been prepbred.
      *
      * @since 1.4
      */
-    List<Location> allLineLocations(String stratum, String sourceName)
-                             throws AbsentInformationException;
+    List<Locbtion> bllLineLocbtions(String strbtum, String sourceNbme)
+                             throws AbsentInformbtionException;
 
     /**
-     * Returns a List containing all {@link Location} objects
-     * that map to the given line number.
+     * Returns b List contbining bll {@link Locbtion} objects
+     * thbt mbp to the given line number.
      * <P>
-     * This method is equivalent to
-     * <code>locationsOfLine(vm.getDefaultStratum(), null,
+     * This method is equivblent to
+     * <code>locbtionsOfLine(vm.getDefbultStrbtum(), null,
      * lineNumber)</code> -
      * see {@link
-     * #locationsOfLine(java.lang.String,java.lang.String,int)}
-     * for more information.
+     * #locbtionsOfLine(jbvb.lbng.String,jbvb.lbng.String,int)}
+     * for more informbtion.
      *
-     * @param lineNumber the line number
+     * @pbrbm lineNumber the line number
      *
-     * @return a List of all {@link Location} objects that map to
+     * @return b List of bll {@link Locbtion} objects thbt mbp to
      * the given line.
      *
-     * @throws AbsentInformationException if there is no line
-     * number information for this class.
+     * @throws AbsentInformbtionException if there is no line
+     * number informbtion for this clbss.
      *
-     * @throws ClassNotPreparedException if this class not yet
-     * been prepared.
+     * @throws ClbssNotPrepbredException if this clbss not yet
+     * been prepbred.
      *
-     * @see VirtualMachine#getDefaultStratum()
+     * @see VirtublMbchine#getDefbultStrbtum()
      */
-    List<Location> locationsOfLine(int lineNumber)
-        throws AbsentInformationException;
+    List<Locbtion> locbtionsOfLine(int lineNumber)
+        throws AbsentInformbtionException;
 
     /**
-     * Returns a List containing all {@link Location} objects
-     * that map to the given line number.
+     * Returns b List contbining bll {@link Locbtion} objects
+     * thbt mbp to the given line number.
      * <P>
-     * For arrays ({@link ArrayType}) and primitive classes, the
-     * returned list is always empty.
-     * For interfaces ({@link InterfaceType}), the returned list
-     * will be non-empty only if the interface has executable code
-     * in its class initialization at the specified line number.
-     * An empty list will be returned if there is no executable
-     * code at the specified line number.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses, the
+     * returned list is blwbys empty.
+     * For interfbces ({@link InterfbceType}), the returned list
+     * will be non-empty only if the interfbce hbs executbble code
+     * in its clbss initiblizbtion bt the specified line number.
+     * An empty list will be returned if there is no executbble
+     * code bt the specified line number.
      * <p>
-     * Returned list is for the specified <i>stratum</i>
-     * (see {@link Location} for a description of strata).
+     * Returned list is for the specified <i>strbtum</i>
+     * (see {@link Locbtion} for b description of strbtb).
      *
-     * @param stratum the stratum to use for comparing line number
-     *                and source name, or <code>null</code> to
-     *                use the {@link #defaultStratum()}.
+     * @pbrbm strbtum the strbtum to use for compbring line number
+     *                bnd source nbme, or <code>null</code> to
+     *                use the {@link #defbultStrbtum()}.
      *
-     * @param sourceName the source name containing the line
-     *                   number, or <code>null</code> to match
-     *                   all source names
+     * @pbrbm sourceNbme the source nbme contbining the line
+     *                   number, or <code>null</code> to mbtch
+     *                   bll source nbmes
      *
-     * @param lineNumber the line number
+     * @pbrbm lineNumber the line number
      *
-     * @return a List of all {@link Location} objects that map
+     * @return b List of bll {@link Locbtion} objects thbt mbp
      *         to the given line.
      *
-     * @throws AbsentInformationException if there is no line
-     *         number information for this class.
-     *         Or if <i>sourceName</i> is non-<code>null</code>
-     *         and source name information is not present.
+     * @throws AbsentInformbtionException if there is no line
+     *         number informbtion for this clbss.
+     *         Or if <i>sourceNbme</i> is non-<code>null</code>
+     *         bnd source nbme informbtion is not present.
      *
-     * @throws ClassNotPreparedException if this class not yet
-     *         been prepared.
+     * @throws ClbssNotPrepbredException if this clbss not yet
+     *         been prepbred.
      *
      * @since 1.4
      */
-    List<Location> locationsOfLine(String stratum,
-                                   String sourceName,
+    List<Locbtion> locbtionsOfLine(String strbtum,
+                                   String sourceNbme,
                                    int lineNumber)
-                     throws AbsentInformationException;
+                     throws AbsentInformbtionException;
 
     /**
-     * Return the available strata for this reference type.
+     * Return the bvbilbble strbtb for this reference type.
      * <P>
-     * See the {@link Location} for a description of strata.
+     * See the {@link Locbtion} for b description of strbtb.
      *
-     * @return List of <CODE>java.lang.String</CODE>, each
-     * representing a stratum
+     * @return List of <CODE>jbvb.lbng.String</CODE>, ebch
+     * representing b strbtum
      *
      * @since 1.4
      */
-    List<String> availableStrata();
+    List<String> bvbilbbleStrbtb();
 
     /**
-     * Returns the default stratum for this reference type.
-     * This value is specified in the class file and cannot
-     * be set by the user.  If the class file does not
-     * specify a default stratum the base stratum
-     * (<code>"Java"</code>) will be returned.
+     * Returns the defbult strbtum for this reference type.
+     * This vblue is specified in the clbss file bnd cbnnot
+     * be set by the user.  If the clbss file does not
+     * specify b defbult strbtum the bbse strbtum
+     * (<code>"Jbvb"</code>) will be returned.
      * <P>
-     * See the {@link Location} for a description of strata.
+     * See the {@link Locbtion} for b description of strbtb.
      *
      * @since 1.4
      */
-    String defaultStratum();
+    String defbultStrbtum();
 
     /**
-     * Returns instances of this ReferenceType.
-     * Only instances that are reachable for the purposes of garbage collection
-     * are returned.
+     * Returns instbnces of this ReferenceType.
+     * Only instbnces thbt bre rebchbble for the purposes of gbrbbge collection
+     * bre returned.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetInstanceInfo()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnGetInstbnceInfo()}
+     * to determine if the operbtion is supported.
      *
-     * @see VirtualMachine#instanceCounts(List)
+     * @see VirtublMbchine#instbnceCounts(List)
      * @see ObjectReference#referringObjects(long)
      *
-     * @param maxInstances the maximum number of instances to return.
-     *        Must be non-negative.  If zero, all instances are returned.
-     * @return a List of {@link ObjectReference} objects.  If there are
-     * no instances of this ReferenceType, a zero-length list is returned.
+     * @pbrbm mbxInstbnces the mbximum number of instbnces to return.
+     *        Must be non-negbtive.  If zero, bll instbnces bre returned.
+     * @return b List of {@link ObjectReference} objects.  If there bre
+     * no instbnces of this ReferenceType, b zero-length list is returned.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetInstanceInfo() canGetInstanceInfo()}
-     * @throws java.lang.IllegalArgumentException if maxInstances is less
-     *         than zero.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion - see
+     * {@link VirtublMbchine#cbnGetInstbnceInfo() cbnGetInstbnceInfo()}
+     * @throws jbvb.lbng.IllegblArgumentException if mbxInstbnces is less
+     *         thbn zero.
      * @since 1.6
      */
-    List<ObjectReference> instances(long maxInstances);
+    List<ObjectReference> instbnces(long mbxInstbnces);
 
     /**
-     * Compares the specified Object with this ReferenceType for equality.
+     * Compbres the specified Object with this ReferenceType for equblity.
      *
-     * @return  true if the Object is a {@link ReferenceType}, if the
-     * ReferenceTypes belong to the same VM, and if they mirror classes
-     * which correspond to the same instance of java.lang.Class in that VM.
+     * @return  true if the Object is b {@link ReferenceType}, if the
+     * ReferenceTypes belong to the sbme VM, bnd if they mirror clbsses
+     * which correspond to the sbme instbnce of jbvb.lbng.Clbss in thbt VM.
      */
-    boolean equals(Object obj);
+    boolebn equbls(Object obj);
 
     /**
-     * Returns the hash code value for this ObjectReference.
+     * Returns the hbsh code vblue for this ObjectReference.
      *
-     * @return the integer hash code
+     * @return the integer hbsh code
      */
-    int hashCode();
+    int hbshCode();
 
     /**
-     * Returns the class major version number, as defined in the class file format
-     * of the Java Virtual Machine Specification.
+     * Returns the clbss mbjor version number, bs defined in the clbss file formbt
+     * of the Jbvb Virtubl Mbchine Specificbtion.
      *
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the returned major version number value is zero.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * the returned mbjor version number vblue is zero.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetClassFileVersion()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnGetClbssFileVersion()}
+     * to determine if the operbtion is supported.
      *
-     * @return the major version number of the class.
+     * @return the mbjor version number of the clbss.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetClassFileVersion() canGetClassFileVersion()}
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion - see
+     * {@link VirtublMbchine#cbnGetClbssFileVersion() cbnGetClbssFileVersion()}
      *
      * @since 1.6
      */
-    int majorVersion();
+    int mbjorVersion();
 
 
     /**
-     * Returns the class minor version number, as defined in the class file format
-     * of the Java Virtual Machine Specification.
+     * Returns the clbss minor version number, bs defined in the clbss file formbt
+     * of the Jbvb Virtubl Mbchine Specificbtion.
      *
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the returned minor version number value is zero.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * the returned minor version number vblue is zero.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetClassFileVersion()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnGetClbssFileVersion()}
+     * to determine if the operbtion is supported.
      *
-     * @return the minor version number of the class.
+     * @return the minor version number of the clbss.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetClassFileVersion() canGetClassFileVersion()}
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion - see
+     * {@link VirtublMbchine#cbnGetClbssFileVersion() cbnGetClbssFileVersion()}
      *
      * @since 1.6
      */
     int minorVersion();
 
     /**
-     * Returns the number of entries in the constant pool plus one.
-     * This corresponds to the constant_pool_count item of the Class File Format
-     * in the Java Virtual Machine Specification.
+     * Returns the number of entries in the constbnt pool plus one.
+     * This corresponds to the constbnt_pool_count item of the Clbss File Formbt
+     * in the Jbvb Virtubl Mbchine Specificbtion.
      *
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * the returned constant pool count value is zero.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * the returned constbnt pool count vblue is zero.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetConstantPool()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnGetConstbntPool()}
+     * to determine if the operbtion is supported.
      *
-     * @return total number of constant pool entries for a class plus one.
+     * @return totbl number of constbnt pool entries for b clbss plus one.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetConstantPool() canGetConstantPool()}
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion - see
+     * {@link VirtublMbchine#cbnGetConstbntPool() cbnGetConstbntPool()}
      *
-     * @see #constantPool()
+     * @see #constbntPool()
      * @since 1.6
      */
-    int constantPoolCount();
+    int constbntPoolCount();
 
     /**
-     * Returns the raw bytes of the constant pool in the format of the
-     * constant_pool item of the Class File Format in the Java Virtual
-     * Machine Specification. The format of the constant pool may
-     * differ between versions of the Class File Format, so, the
-     * minor and major class version numbers should be checked for
-     * compatibility.
+     * Returns the rbw bytes of the constbnt pool in the formbt of the
+     * constbnt_pool item of the Clbss File Formbt in the Jbvb Virtubl
+     * Mbchine Specificbtion. The formbt of the constbnt pool mby
+     * differ between versions of the Clbss File Formbt, so, the
+     * minor bnd mbjor clbss version numbers should be checked for
+     * compbtibility.
      *
-     * For arrays ({@link ArrayType}) and primitive classes,
-     * a zero length byte array is returned.
+     * For brrbys ({@link ArrbyType}) bnd primitive clbsses,
+     * b zero length byte brrby is returned.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetConstantPool()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnGetConstbntPool()}
+     * to determine if the operbtion is supported.
      *
-     * @return the raw bytes of constant pool.
+     * @return the rbw bytes of constbnt pool.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetConstantPool() canGetConstantPool()}
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion - see
+     * {@link VirtublMbchine#cbnGetConstbntPool() cbnGetConstbntPool()}
      *
-     * @see #constantPoolCount()
+     * @see #constbntPoolCount()
      * @since 1.6
      */
-     byte[] constantPool();
+     byte[] constbntPool();
 
 }

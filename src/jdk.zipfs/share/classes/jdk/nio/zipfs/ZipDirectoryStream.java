@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.nio.zipfs;
+pbckbge jdk.nio.zipfs;
 
-import java.nio.file.DirectoryStream;
-import java.nio.file.ClosedDirectoryStreamException;
-import java.nio.file.NotDirectoryException;
-import java.nio.file.Path;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.io.IOException;
+import jbvb.nio.file.DirectoryStrebm;
+import jbvb.nio.file.ClosedDirectoryStrebmException;
+import jbvb.nio.file.NotDirectoryException;
+import jbvb.nio.file.Pbth;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.io.IOException;
 
 /**
  *
- * @author  Xueming Shen, Rajendra Gutupalli, Jaya Hangal
+ * @buthor  Xueming Shen, Rbjendrb Gutupblli, Jbyb Hbngbl
  */
 
-class ZipDirectoryStream implements DirectoryStream<Path> {
+clbss ZipDirectoryStrebm implements DirectoryStrebm<Pbth> {
 
-    private final ZipFileSystem zipfs;
-    private final byte[] path;
-    private final DirectoryStream.Filter<? super Path> filter;
-    private volatile boolean isClosed;
-    private volatile Iterator<Path> itr;
+    privbte finbl ZipFileSystem zipfs;
+    privbte finbl byte[] pbth;
+    privbte finbl DirectoryStrebm.Filter<? super Pbth> filter;
+    privbte volbtile boolebn isClosed;
+    privbte volbtile Iterbtor<Pbth> itr;
 
-    ZipDirectoryStream(ZipPath zipPath,
-                       DirectoryStream.Filter<? super java.nio.file.Path> filter)
+    ZipDirectoryStrebm(ZipPbth zipPbth,
+                       DirectoryStrebm.Filter<? super jbvb.nio.file.Pbth> filter)
         throws IOException
     {
-        this.zipfs = zipPath.getFileSystem();
-        this.path = zipPath.getResolvedPath();
+        this.zipfs = zipPbth.getFileSystem();
+        this.pbth = zipPbth.getResolvedPbth();
         this.filter = filter;
-        // sanity check
-        if (!zipfs.isDirectory(path))
-            throw new NotDirectoryException(zipPath.toString());
+        // sbnity check
+        if (!zipfs.isDirectory(pbth))
+            throw new NotDirectoryException(zipPbth.toString());
     }
 
     @Override
-    public synchronized Iterator<Path> iterator() {
+    public synchronized Iterbtor<Pbth> iterbtor() {
         if (isClosed)
-            throw new ClosedDirectoryStreamException();
+            throw new ClosedDirectoryStrebmException();
         if (itr != null)
-            throw new IllegalStateException("Iterator has already been returned");
+            throw new IllegblStbteException("Iterbtor hbs blrebdy been returned");
 
         try {
-            itr = zipfs.iteratorOf(path, filter);
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
+            itr = zipfs.iterbtorOf(pbth, filter);
+        } cbtch (IOException e) {
+            throw new IllegblStbteException(e);
         }
-        return new Iterator<Path>() {
-            private Path next;
+        return new Iterbtor<Pbth>() {
+            privbte Pbth next;
             @Override
-            public boolean hasNext() {
+            public boolebn hbsNext() {
                 if (isClosed)
-                    return false;
-                return itr.hasNext();
+                    return fblse;
+                return itr.hbsNext();
             }
 
             @Override
-            public synchronized Path next() {
+            public synchronized Pbth next() {
                 if (isClosed)
                     throw new NoSuchElementException();
                 return itr.next();
@@ -88,7 +88,7 @@ class ZipDirectoryStream implements DirectoryStream<Path> {
 
             @Override
             public void remove() {
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperbtionException();
             }
         };
     }

@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.krb5;
+pbckbge sun.security.jgss.krb5;
 
 import org.ietf.jgss.*;
 import sun.security.jgss.GSSUtil;
-import sun.security.jgss.GSSCaller;
+import sun.security.jgss.GSSCbller;
 import sun.security.jgss.spi.*;
-import javax.security.auth.kerberos.ServicePermission;
-import java.security.Provider;
-import java.util.Vector;
+import jbvbx.security.buth.kerberos.ServicePermission;
+import jbvb.security.Provider;
+import jbvb.util.Vector;
 
 /**
- * Krb5 Mechanism plug in for JGSS
- * This is the properties object required by the JGSS framework.
- * All mechanism specific information is defined here.
+ * Krb5 Mechbnism plug in for JGSS
+ * This is the properties object required by the JGSS frbmework.
+ * All mechbnism specific informbtion is defined here.
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  */
 
-public final class Krb5MechFactory implements MechanismFactory {
+public finbl clbss Krb5MechFbctory implements MechbnismFbctory {
 
-    private static final boolean DEBUG = Krb5Util.DEBUG;
+    privbte stbtic finbl boolebn DEBUG = Krb5Util.DEBUG;
 
-    static final Provider PROVIDER =
+    stbtic finbl Provider PROVIDER =
         new sun.security.jgss.SunProvider();
 
-    static final Oid GSS_KRB5_MECH_OID =
-        createOid("1.2.840.113554.1.2.2");
+    stbtic finbl Oid GSS_KRB5_MECH_OID =
+        crebteOid("1.2.840.113554.1.2.2");
 
-    static final Oid NT_GSS_KRB5_PRINCIPAL =
-        createOid("1.2.840.113554.1.2.2.1");
+    stbtic finbl Oid NT_GSS_KRB5_PRINCIPAL =
+        crebteOid("1.2.840.113554.1.2.2.1");
 
-    private static Oid[] nameTypes =
-        new Oid[] { GSSName.NT_USER_NAME,
-                        GSSName.NT_HOSTBASED_SERVICE,
-                        GSSName.NT_EXPORT_NAME,
+    privbte stbtic Oid[] nbmeTypes =
+        new Oid[] { GSSNbme.NT_USER_NAME,
+                        GSSNbme.NT_HOSTBASED_SERVICE,
+                        GSSNbme.NT_EXPORT_NAME,
                         NT_GSS_KRB5_PRINCIPAL};
 
-    final private GSSCaller caller;
+    finbl privbte GSSCbller cbller;
 
-    private static Krb5CredElement getCredFromSubject(GSSNameSpi name,
-                                                      boolean initiate)
+    privbte stbtic Krb5CredElement getCredFromSubject(GSSNbmeSpi nbme,
+                                                      boolebn initibte)
         throws GSSException {
         Vector<Krb5CredElement> creds =
-            GSSUtil.searchSubject(name, GSS_KRB5_MECH_OID, initiate,
-                                  (initiate ?
-                                   Krb5InitCredential.class :
-                                   Krb5AcceptCredential.class));
+            GSSUtil.sebrchSubject(nbme, GSS_KRB5_MECH_OID, initibte,
+                                  (initibte ?
+                                   Krb5InitCredentibl.clbss :
+                                   Krb5AcceptCredentibl.clbss));
 
         Krb5CredElement result = ((creds == null || creds.isEmpty()) ?
                                   null : creds.firstElement());
 
-        // Force permission check before returning the cred to caller
+        // Force permission check before returning the cred to cbller
         if (result != null) {
-            if (initiate) {
-                checkInitCredPermission((Krb5NameElement) result.getName());
+            if (initibte) {
+                checkInitCredPermission((Krb5NbmeElement) result.getNbme());
             } else {
                 checkAcceptCredPermission
-                    ((Krb5NameElement) result.getName(), name);
+                    ((Krb5NbmeElement) result.getNbme(), nbme);
             }
         }
         return result;
     }
 
-    public Krb5MechFactory() {
-        this(GSSCaller.CALLER_UNKNOWN);
+    public Krb5MechFbctory() {
+        this(GSSCbller.CALLER_UNKNOWN);
     }
 
-    public Krb5MechFactory(GSSCaller caller) {
-        this.caller = caller;
+    public Krb5MechFbctory(GSSCbller cbller) {
+        this.cbller = cbller;
     }
 
-    public GSSNameSpi getNameElement(String nameStr, Oid nameType)
+    public GSSNbmeSpi getNbmeElement(String nbmeStr, Oid nbmeType)
         throws GSSException {
-        return Krb5NameElement.getInstance(nameStr, nameType);
+        return Krb5NbmeElement.getInstbnce(nbmeStr, nbmeType);
     }
 
-    public GSSNameSpi getNameElement(byte[] name, Oid nameType)
+    public GSSNbmeSpi getNbmeElement(byte[] nbme, Oid nbmeType)
         throws GSSException {
-        // At this point, even an exported name is stripped down to safe
+        // At this point, even bn exported nbme is stripped down to sbfe
         // bytes only
         // XXX Use encoding here
-        return Krb5NameElement.getInstance(new String(name), nameType);
+        return Krb5NbmeElement.getInstbnce(new String(nbme), nbmeType);
     }
 
-    public GSSCredentialSpi getCredentialElement(GSSNameSpi name,
-           int initLifetime, int acceptLifetime,
-           int usage) throws GSSException {
+    public GSSCredentiblSpi getCredentiblElement(GSSNbmeSpi nbme,
+           int initLifetime, int bcceptLifetime,
+           int usbge) throws GSSException {
 
-        if (name != null && !(name instanceof Krb5NameElement)) {
-            name = Krb5NameElement.getInstance(name.toString(),
-                                       name.getStringNameType());
+        if (nbme != null && !(nbme instbnceof Krb5NbmeElement)) {
+            nbme = Krb5NbmeElement.getInstbnce(nbme.toString(),
+                                       nbme.getStringNbmeType());
         }
 
         Krb5CredElement credElement = getCredFromSubject
-            (name, (usage != GSSCredential.ACCEPT_ONLY));
+            (nbme, (usbge != GSSCredentibl.ACCEPT_ONLY));
 
         if (credElement == null) {
-            if (usage == GSSCredential.INITIATE_ONLY ||
-                usage == GSSCredential.INITIATE_AND_ACCEPT) {
-                credElement = Krb5InitCredential.getInstance
-                    (caller, (Krb5NameElement) name, initLifetime);
+            if (usbge == GSSCredentibl.INITIATE_ONLY ||
+                usbge == GSSCredentibl.INITIATE_AND_ACCEPT) {
+                credElement = Krb5InitCredentibl.getInstbnce
+                    (cbller, (Krb5NbmeElement) nbme, initLifetime);
                 checkInitCredPermission
-                    ((Krb5NameElement) credElement.getName());
-            } else if (usage == GSSCredential.ACCEPT_ONLY) {
+                    ((Krb5NbmeElement) credElement.getNbme());
+            } else if (usbge == GSSCredentibl.ACCEPT_ONLY) {
                 credElement =
-                    Krb5AcceptCredential.getInstance(caller,
-                                                     (Krb5NameElement) name);
+                    Krb5AcceptCredentibl.getInstbnce(cbller,
+                                                     (Krb5NbmeElement) nbme);
                 checkAcceptCredPermission
-                    ((Krb5NameElement) credElement.getName(), name);
+                    ((Krb5NbmeElement) credElement.getNbme(), nbme);
             } else
                 throw new GSSException(GSSException.FAILURE, -1,
-                                       "Unknown usage mode requested");
+                                       "Unknown usbge mode requested");
         }
         return credElement;
     }
 
-    public static void checkInitCredPermission(Krb5NameElement name) {
-        SecurityManager sm = System.getSecurityManager();
+    public stbtic void checkInitCredPermission(Krb5NbmeElement nbme) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            String realm = (name.getKrb5PrincipalName()).getRealmAsString();
-            String tgsPrincipal =
-                new String("krbtgt/" + realm + '@' + realm);
+            String reblm = (nbme.getKrb5PrincipblNbme()).getReblmAsString();
+            String tgsPrincipbl =
+                new String("krbtgt/" + reblm + '@' + reblm);
             ServicePermission perm =
-                new ServicePermission(tgsPrincipal, "initiate");
+                new ServicePermission(tgsPrincipbl, "initibte");
             try {
                 sm.checkPermission(perm);
-            } catch (SecurityException e) {
+            } cbtch (SecurityException e) {
                 if (DEBUG) {
-                    System.out.println("Permission to initiate" +
-                        "kerberos init credential" + e.getMessage());
+                    System.out.println("Permission to initibte" +
+                        "kerberos init credentibl" + e.getMessbge());
                 }
                 throw e;
             }
         }
     }
 
-    public static void checkAcceptCredPermission(Krb5NameElement name,
-                                           GSSNameSpi originalName) {
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null && name != null) {
+    public stbtic void checkAcceptCredPermission(Krb5NbmeElement nbme,
+                                           GSSNbmeSpi originblNbme) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
+        if (sm != null && nbme != null) {
             ServicePermission perm = new ServicePermission
-                (name.getKrb5PrincipalName().getName(), "accept");
+                (nbme.getKrb5PrincipblNbme().getNbme(), "bccept");
             try {
                 sm.checkPermission(perm);
-            } catch (SecurityException e) {
-                if (originalName == null) {
-                    // Don't disclose the name of the principal
-                    e = new SecurityException("No permission to acquire "
-                                      + "Kerberos accept credential");
-                    // Don't call e.initCause() with caught exception
+            } cbtch (SecurityException e) {
+                if (originblNbme == null) {
+                    // Don't disclose the nbme of the principbl
+                    e = new SecurityException("No permission to bcquire "
+                                      + "Kerberos bccept credentibl");
+                    // Don't cbll e.initCbuse() with cbught exception
                 }
                 throw e;
             }
         }
     }
 
-    public GSSContextSpi getMechanismContext(GSSNameSpi peer,
-                             GSSCredentialSpi myInitiatorCred, int lifetime)
+    public GSSContextSpi getMechbnismContext(GSSNbmeSpi peer,
+                             GSSCredentiblSpi myInitibtorCred, int lifetime)
         throws GSSException {
-        if (peer != null && !(peer instanceof Krb5NameElement)) {
-            peer = Krb5NameElement.getInstance(peer.toString(),
-                                       peer.getStringNameType());
+        if (peer != null && !(peer instbnceof Krb5NbmeElement)) {
+            peer = Krb5NbmeElement.getInstbnce(peer.toString(),
+                                       peer.getStringNbmeType());
         }
-        // XXX Convert myInitiatorCred to Krb5CredElement
-        if (myInitiatorCred == null) {
-            myInitiatorCred = getCredentialElement(null, lifetime, 0,
-                GSSCredential.INITIATE_ONLY);
+        // XXX Convert myInitibtorCred to Krb5CredElement
+        if (myInitibtorCred == null) {
+            myInitibtorCred = getCredentiblElement(null, lifetime, 0,
+                GSSCredentibl.INITIATE_ONLY);
         }
-        return new Krb5Context(caller, (Krb5NameElement)peer,
-                               (Krb5CredElement)myInitiatorCred, lifetime);
+        return new Krb5Context(cbller, (Krb5NbmeElement)peer,
+                               (Krb5CredElement)myInitibtorCred, lifetime);
     }
 
-    public GSSContextSpi getMechanismContext(GSSCredentialSpi myAcceptorCred)
+    public GSSContextSpi getMechbnismContext(GSSCredentiblSpi myAcceptorCred)
         throws GSSException {
         // XXX Convert myAcceptorCred to Krb5CredElement
         if (myAcceptorCred == null) {
-            myAcceptorCred = getCredentialElement(null, 0,
-                GSSCredential.INDEFINITE_LIFETIME, GSSCredential.ACCEPT_ONLY);
+            myAcceptorCred = getCredentiblElement(null, 0,
+                GSSCredentibl.INDEFINITE_LIFETIME, GSSCredentibl.ACCEPT_ONLY);
         }
-        return new Krb5Context(caller, (Krb5CredElement)myAcceptorCred);
+        return new Krb5Context(cbller, (Krb5CredElement)myAcceptorCred);
     }
 
-    public GSSContextSpi getMechanismContext(byte[] exportedContext)
+    public GSSContextSpi getMechbnismContext(byte[] exportedContext)
         throws GSSException {
-        return new Krb5Context(caller, exportedContext);
+        return new Krb5Context(cbller, exportedContext);
     }
 
 
-    public final Oid getMechanismOid() {
+    public finbl Oid getMechbnismOid() {
         return GSS_KRB5_MECH_OID;
     }
 
@@ -219,18 +219,18 @@ public final class Krb5MechFactory implements MechanismFactory {
         return PROVIDER;
     }
 
-    public Oid[] getNameTypes() {
-        // nameTypes is cloned in GSSManager.getNamesForMech
-        return nameTypes;
+    public Oid[] getNbmeTypes() {
+        // nbmeTypes is cloned in GSSMbnbger.getNbmesForMech
+        return nbmeTypes;
     }
 
-    private static Oid createOid(String oidStr) {
-        Oid retVal = null;
+    privbte stbtic Oid crebteOid(String oidStr) {
+        Oid retVbl = null;
         try {
-            retVal = new Oid(oidStr);
-        } catch (GSSException e) {
-            // Should not happen!
+            retVbl = new Oid(oidStr);
+        } cbtch (GSSException e) {
+            // Should not hbppen!
         }
-        return retVal;
+        return retVbl;
     }
 }

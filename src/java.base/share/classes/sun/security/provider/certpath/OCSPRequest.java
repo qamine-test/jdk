@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.io.IOException;
-import java.security.cert.Extension;
-import java.util.Collections;
-import java.util.List;
+import jbvb.io.IOException;
+import jbvb.security.cert.Extension;
+import jbvb.util.Collections;
+import jbvb.util.List;
 
 import sun.misc.HexDumpEncoder;
 import sun.security.util.*;
 
 /**
- * This class can be used to generate an OCSP request and send it over
- * an outputstream. Currently we do not support signing requests
- * The OCSP Request is specified in RFC 2560 and
- * the ASN.1 definition is as follows:
+ * This clbss cbn be used to generbte bn OCSP request bnd send it over
+ * bn outputstrebm. Currently we do not support signing requests
+ * The OCSP Request is specified in RFC 2560 bnd
+ * the ASN.1 definition is bs follows:
  * <pre>
  *
  * OCSPRequest     ::=     SEQUENCE {
  *      tbsRequest                  TBSRequest,
- *      optionalSignature   [0]     EXPLICIT Signature OPTIONAL }
+ *      optionblSignbture   [0]     EXPLICIT Signbture OPTIONAL }
  *
  *   TBSRequest      ::=     SEQUENCE {
  *      version             [0]     EXPLICIT Version DEFAULT v1,
- *      requestorName       [1]     EXPLICIT GeneralName OPTIONAL,
+ *      requestorNbme       [1]     EXPLICIT GenerblNbme OPTIONAL,
  *      requestList                 SEQUENCE OF Request,
  *      requestExtensions   [2]     EXPLICIT Extensions OPTIONAL }
  *
- *  Signature       ::=     SEQUENCE {
- *      signatureAlgorithm      AlgorithmIdentifier,
- *      signature               BIT STRING,
- *      certs               [0] EXPLICIT SEQUENCE OF Certificate OPTIONAL
+ *  Signbture       ::=     SEQUENCE {
+ *      signbtureAlgorithm      AlgorithmIdentifier,
+ *      signbture               BIT STRING,
+ *      certs               [0] EXPLICIT SEQUENCE OF Certificbte OPTIONAL
  *   }
  *
  *  Version         ::=             INTEGER  {  v1(0) }
@@ -63,30 +63,30 @@ import sun.security.util.*;
  *      singleRequestExtensions     [0] EXPLICIT Extensions OPTIONAL }
  *
  *  CertID          ::= SEQUENCE {
- *       hashAlgorithm  AlgorithmIdentifier,
- *       issuerNameHash OCTET STRING, -- Hash of Issuer's DN
- *       issuerKeyHash  OCTET STRING, -- Hash of Issuers public key
- *       serialNumber   CertificateSerialNumber
+ *       hbshAlgorithm  AlgorithmIdentifier,
+ *       issuerNbmeHbsh OCTET STRING, -- Hbsh of Issuer's DN
+ *       issuerKeyHbsh  OCTET STRING, -- Hbsh of Issuers public key
+ *       seriblNumber   CertificbteSeriblNumber
  * }
  *
  * </pre>
  *
- * @author      Ram Marti
+ * @buthor      Rbm Mbrti
  */
 
-class OCSPRequest {
+clbss OCSPRequest {
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    private static final boolean dump = debug != null && Debug.isOn("ocsp");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
+    privbte stbtic finbl boolebn dump = debug != null && Debug.isOn("ocsp");
 
     // List of request CertIds
-    private final List<CertId> certIds;
-    private final List<Extension> extensions;
-    private byte[] nonce;
+    privbte finbl List<CertId> certIds;
+    privbte finbl List<Extension> extensions;
+    privbte byte[] nonce;
 
     /*
-     * Constructs an OCSPRequest. This constructor is used
-     * to construct an unsigned OCSP Request for a single user cert.
+     * Constructs bn OCSPRequest. This constructor is used
+     * to construct bn unsigned OCSP Request for b single user cert.
      */
     OCSPRequest(CertId certId) {
         this(Collections.singletonList(certId));
@@ -105,37 +105,37 @@ class OCSPRequest {
     byte[] encodeBytes() throws IOException {
 
         // encode tbsRequest
-        DerOutputStream tmp = new DerOutputStream();
-        DerOutputStream requestsOut = new DerOutputStream();
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        DerOutputStrebm requestsOut = new DerOutputStrebm();
         for (CertId certId : certIds) {
-            DerOutputStream certIdOut = new DerOutputStream();
+            DerOutputStrebm certIdOut = new DerOutputStrebm();
             certId.encode(certIdOut);
-            requestsOut.write(DerValue.tag_Sequence, certIdOut);
+            requestsOut.write(DerVblue.tbg_Sequence, certIdOut);
         }
 
-        tmp.write(DerValue.tag_Sequence, requestsOut);
+        tmp.write(DerVblue.tbg_Sequence, requestsOut);
         if (!extensions.isEmpty()) {
-            DerOutputStream extOut = new DerOutputStream();
+            DerOutputStrebm extOut = new DerOutputStrebm();
             for (Extension ext : extensions) {
                 ext.encode(extOut);
-                if (ext.getId().equals(OCSP.NONCE_EXTENSION_OID.toString())) {
-                    nonce = ext.getValue();
+                if (ext.getId().equbls(OCSP.NONCE_EXTENSION_OID.toString())) {
+                    nonce = ext.getVblue();
                 }
             }
-            DerOutputStream extsOut = new DerOutputStream();
-            extsOut.write(DerValue.tag_Sequence, extOut);
-            tmp.write(DerValue.createTag(DerValue.TAG_CONTEXT,
+            DerOutputStrebm extsOut = new DerOutputStrebm();
+            extsOut.write(DerVblue.tbg_Sequence, extOut);
+            tmp.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                                          true, (byte)2), extsOut);
         }
 
-        DerOutputStream tbsRequest = new DerOutputStream();
-        tbsRequest.write(DerValue.tag_Sequence, tmp);
+        DerOutputStrebm tbsRequest = new DerOutputStrebm();
+        tbsRequest.write(DerVblue.tbg_Sequence, tmp);
 
-        // OCSPRequest without the signature
-        DerOutputStream ocspRequest = new DerOutputStream();
-        ocspRequest.write(DerValue.tag_Sequence, tbsRequest);
+        // OCSPRequest without the signbture
+        DerOutputStrebm ocspRequest = new DerOutputStrebm();
+        ocspRequest.write(DerVblue.tbg_Sequence, tbsRequest);
 
-        byte[] bytes = ocspRequest.toByteArray();
+        byte[] bytes = ocspRequest.toByteArrby();
 
         if (dump) {
             HexDumpEncoder hexEnc = new HexDumpEncoder();

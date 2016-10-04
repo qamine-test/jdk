@@ -1,485 +1,485 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.jar;
+pbckbge jbvb.util.jbr;
 
-import java.util.SortedMap;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.File;
-import java.io.IOException;
+import jbvb.util.SortedMbp;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.File;
+import jbvb.io.IOException;
 
 
 /**
- * Transforms a JAR file to or from a packed stream in Pack200 format.
- * Please refer to Network Transfer Format JSR 200 Specification at
- * <a href=http://jcp.org/aboutJava/communityprocess/review/jsr200/index.html>http://jcp.org/aboutJava/communityprocess/review/jsr200/index.html</a>
+ * Trbnsforms b JAR file to or from b pbcked strebm in Pbck200 formbt.
+ * Plebse refer to Network Trbnsfer Formbt JSR 200 Specificbtion bt
+ * <b href=http://jcp.org/bboutJbvb/communityprocess/review/jsr200/index.html>http://jcp.org/bboutJbvb/communityprocess/review/jsr200/index.html</b>
  * <p>
- * Typically the packer engine is used by application developers
- * to deploy or host JAR files on a website.
- * The unpacker  engine is used by deployment applications to
- * transform the byte-stream back to JAR format.
+ * Typicblly the pbcker engine is used by bpplicbtion developers
+ * to deploy or host JAR files on b website.
+ * The unpbcker  engine is used by deployment bpplicbtions to
+ * trbnsform the byte-strebm bbck to JAR formbt.
  * <p>
- * Here is an example using  packer and unpacker:
+ * Here is bn exbmple using  pbcker bnd unpbcker:
  * <pre>{@code
- *    import java.util.jar.Pack200;
- *    import java.util.jar.Pack200.*;
+ *    import jbvb.util.jbr.Pbck200;
+ *    import jbvb.util.jbr.Pbck200.*;
  *    ...
- *    // Create the Packer object
- *    Packer packer = Pack200.newPacker();
+ *    // Crebte the Pbcker object
+ *    Pbcker pbcker = Pbck200.newPbcker();
  *
- *    // Initialize the state by setting the desired properties
- *    Map p = packer.properties();
- *    // take more time choosing codings for better compression
- *    p.put(Packer.EFFORT, "7");  // default is "5"
- *    // use largest-possible archive segments (>10% better compression).
- *    p.put(Packer.SEGMENT_LIMIT, "-1");
+ *    // Initiblize the stbte by setting the desired properties
+ *    Mbp p = pbcker.properties();
+ *    // tbke more time choosing codings for better compression
+ *    p.put(Pbcker.EFFORT, "7");  // defbult is "5"
+ *    // use lbrgest-possible brchive segments (>10% better compression).
+ *    p.put(Pbcker.SEGMENT_LIMIT, "-1");
  *    // reorder files for better compression.
- *    p.put(Packer.KEEP_FILE_ORDER, Packer.FALSE);
- *    // smear modification times to a single value.
- *    p.put(Packer.MODIFICATION_TIME, Packer.LATEST);
- *    // ignore all JAR deflation requests,
- *    // transmitting a single request to use "store" mode.
- *    p.put(Packer.DEFLATE_HINT, Packer.FALSE);
- *    // discard debug attributes
- *    p.put(Packer.CODE_ATTRIBUTE_PFX+"LineNumberTable", Packer.STRIP);
- *    // throw an error if an attribute is unrecognized
- *    p.put(Packer.UNKNOWN_ATTRIBUTE, Packer.ERROR);
- *    // pass one class file uncompressed:
- *    p.put(Packer.PASS_FILE_PFX+0, "mutants/Rogue.class");
+ *    p.put(Pbcker.KEEP_FILE_ORDER, Pbcker.FALSE);
+ *    // smebr modificbtion times to b single vblue.
+ *    p.put(Pbcker.MODIFICATION_TIME, Pbcker.LATEST);
+ *    // ignore bll JAR deflbtion requests,
+ *    // trbnsmitting b single request to use "store" mode.
+ *    p.put(Pbcker.DEFLATE_HINT, Pbcker.FALSE);
+ *    // discbrd debug bttributes
+ *    p.put(Pbcker.CODE_ATTRIBUTE_PFX+"LineNumberTbble", Pbcker.STRIP);
+ *    // throw bn error if bn bttribute is unrecognized
+ *    p.put(Pbcker.UNKNOWN_ATTRIBUTE, Pbcker.ERROR);
+ *    // pbss one clbss file uncompressed:
+ *    p.put(Pbcker.PASS_FILE_PFX+0, "mutbnts/Rogue.clbss");
  *    try {
- *        JarFile jarFile = new JarFile("/tmp/testref.jar");
- *        FileOutputStream fos = new FileOutputStream("/tmp/test.pack");
- *        // Call the packer
- *        packer.pack(jarFile, fos);
- *        jarFile.close();
+ *        JbrFile jbrFile = new JbrFile("/tmp/testref.jbr");
+ *        FileOutputStrebm fos = new FileOutputStrebm("/tmp/test.pbck");
+ *        // Cbll the pbcker
+ *        pbcker.pbck(jbrFile, fos);
+ *        jbrFile.close();
  *        fos.close();
  *
- *        File f = new File("/tmp/test.pack");
- *        FileOutputStream fostream = new FileOutputStream("/tmp/test.jar");
- *        JarOutputStream jostream = new JarOutputStream(fostream);
- *        Unpacker unpacker = Pack200.newUnpacker();
- *        // Call the unpacker
- *        unpacker.unpack(f, jostream);
+ *        File f = new File("/tmp/test.pbck");
+ *        FileOutputStrebm fostrebm = new FileOutputStrebm("/tmp/test.jbr");
+ *        JbrOutputStrebm jostrebm = new JbrOutputStrebm(fostrebm);
+ *        Unpbcker unpbcker = Pbck200.newUnpbcker();
+ *        // Cbll the unpbcker
+ *        unpbcker.unpbck(f, jostrebm);
  *        // Must explicitly close the output.
- *        jostream.close();
- *    } catch (IOException ioe) {
- *        ioe.printStackTrace();
+ *        jostrebm.close();
+ *    } cbtch (IOException ioe) {
+ *        ioe.printStbckTrbce();
  *    }
  * }</pre>
  * <p>
- * A Pack200 file compressed with gzip can be hosted on HTTP/1.1 web servers.
- * The deployment applications can use "Accept-Encoding=pack200-gzip". This
- * indicates to the server that the client application desires a version of
- * the file encoded with Pack200 and further compressed with gzip. Please
- * refer to  <a href="{@docRoot}/../technotes/guides/deployment/deployment-guide/pack200.html">Java Deployment Guide</a> for more details and
+ * A Pbck200 file compressed with gzip cbn be hosted on HTTP/1.1 web servers.
+ * The deployment bpplicbtions cbn use "Accept-Encoding=pbck200-gzip". This
+ * indicbtes to the server thbt the client bpplicbtion desires b version of
+ * the file encoded with Pbck200 bnd further compressed with gzip. Plebse
+ * refer to  <b href="{@docRoot}/../technotes/guides/deployment/deployment-guide/pbck200.html">Jbvb Deployment Guide</b> for more detbils bnd
  * techniques.
  * <p>
- * Unless otherwise noted, passing a <tt>null</tt> argument to a constructor or
- * method in this class will cause a {@link NullPointerException} to be thrown.
+ * Unless otherwise noted, pbssing b <tt>null</tt> brgument to b constructor or
+ * method in this clbss will cbuse b {@link NullPointerException} to be thrown.
  *
- * @author John Rose
- * @author Kumar Srinivasan
+ * @buthor John Rose
+ * @buthor Kumbr Srinivbsbn
  * @since 1.5
  */
-public abstract class Pack200 {
-    private Pack200() {} //prevent instantiation
+public bbstrbct clbss Pbck200 {
+    privbte Pbck200() {} //prevent instbntibtion
 
-    // Static methods of the Pack200 class.
+    // Stbtic methods of the Pbck200 clbss.
     /**
-     * Obtain new instance of a class that implements Packer.
+     * Obtbin new instbnce of b clbss thbt implements Pbcker.
      * <ul>
-     * <li><p>If the system property <tt>java.util.jar.Pack200.Packer</tt>
-     * is defined, then the value is taken to be the fully-qualified name
-     * of a concrete implementation class, which must implement Packer.
-     * This class is loaded and instantiated.  If this process fails
-     * then an unspecified error is thrown.</p></li>
+     * <li><p>If the system property <tt>jbvb.util.jbr.Pbck200.Pbcker</tt>
+     * is defined, then the vblue is tbken to be the fully-qublified nbme
+     * of b concrete implementbtion clbss, which must implement Pbcker.
+     * This clbss is lobded bnd instbntibted.  If this process fbils
+     * then bn unspecified error is thrown.</p></li>
      *
-     * <li><p>If an implementation has not been specified with the system
-     * property, then the system-default implementation class is instantiated,
-     * and the result is returned.</p></li>
+     * <li><p>If bn implementbtion hbs not been specified with the system
+     * property, then the system-defbult implementbtion clbss is instbntibted,
+     * bnd the result is returned.</p></li>
      * </ul>
      *
-     * <p>Note:  The returned object is not guaranteed to operate
-     * correctly if multiple threads use it at the same time.
-     * A multi-threaded application should either allocate multiple
-     * packer engines, or else serialize use of one engine with a lock.
+     * <p>Note:  The returned object is not gubrbnteed to operbte
+     * correctly if multiple threbds use it bt the sbme time.
+     * A multi-threbded bpplicbtion should either bllocbte multiple
+     * pbcker engines, or else seriblize use of one engine with b lock.
      *
-     * @return  A newly allocated Packer engine.
+     * @return  A newly bllocbted Pbcker engine.
      */
-    public synchronized static Packer newPacker() {
-        return (Packer) newInstance(PACK_PROVIDER);
+    public synchronized stbtic Pbcker newPbcker() {
+        return (Pbcker) newInstbnce(PACK_PROVIDER);
     }
 
 
     /**
-     * Obtain new instance of a class that implements Unpacker.
+     * Obtbin new instbnce of b clbss thbt implements Unpbcker.
      * <ul>
-     * <li><p>If the system property <tt>java.util.jar.Pack200.Unpacker</tt>
-     * is defined, then the value is taken to be the fully-qualified
-     * name of a concrete implementation class, which must implement Unpacker.
-     * The class is loaded and instantiated.  If this process fails
-     * then an unspecified error is thrown.</p></li>
+     * <li><p>If the system property <tt>jbvb.util.jbr.Pbck200.Unpbcker</tt>
+     * is defined, then the vblue is tbken to be the fully-qublified
+     * nbme of b concrete implementbtion clbss, which must implement Unpbcker.
+     * The clbss is lobded bnd instbntibted.  If this process fbils
+     * then bn unspecified error is thrown.</p></li>
      *
-     * <li><p>If an implementation has not been specified with the
-     * system property, then the system-default implementation class
-     * is instantiated, and the result is returned.</p></li>
+     * <li><p>If bn implementbtion hbs not been specified with the
+     * system property, then the system-defbult implementbtion clbss
+     * is instbntibted, bnd the result is returned.</p></li>
      * </ul>
      *
-     * <p>Note:  The returned object is not guaranteed to operate
-     * correctly if multiple threads use it at the same time.
-     * A multi-threaded application should either allocate multiple
-     * unpacker engines, or else serialize use of one engine with a lock.
+     * <p>Note:  The returned object is not gubrbnteed to operbte
+     * correctly if multiple threbds use it bt the sbme time.
+     * A multi-threbded bpplicbtion should either bllocbte multiple
+     * unpbcker engines, or else seriblize use of one engine with b lock.
      *
-     * @return  A newly allocated Unpacker engine.
+     * @return  A newly bllocbted Unpbcker engine.
      */
 
-    public static Unpacker newUnpacker() {
-        return (Unpacker) newInstance(UNPACK_PROVIDER);
+    public stbtic Unpbcker newUnpbcker() {
+        return (Unpbcker) newInstbnce(UNPACK_PROVIDER);
     }
 
-    // Interfaces
+    // Interfbces
     /**
-     * The packer engine applies various transformations to the input JAR file,
-     * making the pack stream highly compressible by a compressor such as
-     * gzip or zip. An instance of the engine can be obtained
-     * using {@link #newPacker}.
+     * The pbcker engine bpplies vbrious trbnsformbtions to the input JAR file,
+     * mbking the pbck strebm highly compressible by b compressor such bs
+     * gzip or zip. An instbnce of the engine cbn be obtbined
+     * using {@link #newPbcker}.
 
-     * The high degree of compression is achieved
-     * by using a number of techniques described in the JSR 200 specification.
-     * Some of the techniques are sorting, re-ordering and co-location of the
-     * constant pool.
+     * The high degree of compression is bchieved
+     * by using b number of techniques described in the JSR 200 specificbtion.
+     * Some of the techniques bre sorting, re-ordering bnd co-locbtion of the
+     * constbnt pool.
      * <p>
-     * The pack engine is initialized to an initial state as described
+     * The pbck engine is initiblized to bn initibl stbte bs described
      * by their properties below.
-     * The initial state can be manipulated by getting the
-     * engine properties (using {@link #properties}) and storing
-     * the modified properties on the map.
-     * The resource files will be passed through with no changes at all.
-     * The class files will not contain identical bytes, since the unpacker
-     * is free to change minor class file features such as constant pool order.
-     * However, the class files will be semantically identical,
-     * as specified in
-     * <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * The initibl stbte cbn be mbnipulbted by getting the
+     * engine properties (using {@link #properties}) bnd storing
+     * the modified properties on the mbp.
+     * The resource files will be pbssed through with no chbnges bt bll.
+     * The clbss files will not contbin identicbl bytes, since the unpbcker
+     * is free to chbnge minor clbss file febtures such bs constbnt pool order.
+     * However, the clbss files will be sembnticblly identicbl,
+     * bs specified in
+     * <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
      * <p>
-     * By default, the packer does not change the order of JAR elements.
-     * Also, the modification time and deflation hint of each
-     * JAR element is passed unchanged.
-     * (Any other ZIP-archive information, such as extra attributes
-     * giving Unix file permissions, are lost.)
+     * By defbult, the pbcker does not chbnge the order of JAR elements.
+     * Also, the modificbtion time bnd deflbtion hint of ebch
+     * JAR element is pbssed unchbnged.
+     * (Any other ZIP-brchive informbtion, such bs extrb bttributes
+     * giving Unix file permissions, bre lost.)
      * <p>
-     * Note that packing and unpacking a JAR will in general alter the
-     * bytewise contents of classfiles in the JAR.  This means that packing
-     * and unpacking will in general invalidate any digital signatures
-     * which rely on bytewise images of JAR elements.  In order both to sign
-     * and to pack a JAR, you must first pack and unpack the JAR to
-     * "normalize" it, then compute signatures on the unpacked JAR elements,
-     * and finally repack the signed JAR.
-     * Both packing steps should
-     * use precisely the same options, and the segment limit may also
-     * need to be set to "-1", to prevent accidental variation of segment
-     * boundaries as class file sizes change slightly.
+     * Note thbt pbcking bnd unpbcking b JAR will in generbl blter the
+     * bytewise contents of clbssfiles in the JAR.  This mebns thbt pbcking
+     * bnd unpbcking will in generbl invblidbte bny digitbl signbtures
+     * which rely on bytewise imbges of JAR elements.  In order both to sign
+     * bnd to pbck b JAR, you must first pbck bnd unpbck the JAR to
+     * "normblize" it, then compute signbtures on the unpbcked JAR elements,
+     * bnd finblly repbck the signed JAR.
+     * Both pbcking steps should
+     * use precisely the sbme options, bnd the segment limit mby blso
+     * need to be set to "-1", to prevent bccidentbl vbribtion of segment
+     * boundbries bs clbss file sizes chbnge slightly.
      * <p>
-     * (Here's why this works:  Any reordering the packer does
-     * of any classfile structures is idempotent, so the second packing
-     * does not change the orderings produced by the first packing.
-     * Also, the unpacker is guaranteed by the JSR 200 specification
-     * to produce a specific bytewise image for any given transmission
-     * ordering of archive elements.)
+     * (Here's why this works:  Any reordering the pbcker does
+     * of bny clbssfile structures is idempotent, so the second pbcking
+     * does not chbnge the orderings produced by the first pbcking.
+     * Also, the unpbcker is gubrbnteed by the JSR 200 specificbtion
+     * to produce b specific bytewise imbge for bny given trbnsmission
+     * ordering of brchive elements.)
      * <p>
-     * In order to maintain backward compatibility, the pack file's version is
-     * set to accommodate the class files present in the input JAR file. In
-     * other words, the pack file version will be the latest, if the class files
-     * are the latest and conversely the pack file version will be the oldest
-     * if the class file versions are also the oldest. For intermediate class
-     * file versions the corresponding pack file version will be used.
-     * For example:
-     *    If the input JAR-files are solely comprised of 1.5  (or  lesser)
-     * class files, a 1.5 compatible pack file is  produced. This will also be
-     * the case for archives that have no class files.
-     *    If the input JAR-files contains a 1.6 class file, then the pack file
+     * In order to mbintbin bbckwbrd compbtibility, the pbck file's version is
+     * set to bccommodbte the clbss files present in the input JAR file. In
+     * other words, the pbck file version will be the lbtest, if the clbss files
+     * bre the lbtest bnd conversely the pbck file version will be the oldest
+     * if the clbss file versions bre blso the oldest. For intermedibte clbss
+     * file versions the corresponding pbck file version will be used.
+     * For exbmple:
+     *    If the input JAR-files bre solely comprised of 1.5  (or  lesser)
+     * clbss files, b 1.5 compbtible pbck file is  produced. This will blso be
+     * the cbse for brchives thbt hbve no clbss files.
+     *    If the input JAR-files contbins b 1.6 clbss file, then the pbck file
      * version will be set to 1.6.
      * <p>
-     * Note: Unless otherwise noted, passing a <tt>null</tt> argument to a
-     * constructor or method in this class will cause a {@link NullPointerException}
+     * Note: Unless otherwise noted, pbssing b <tt>null</tt> brgument to b
+     * constructor or method in this clbss will cbuse b {@link NullPointerException}
      * to be thrown.
      *
      * @since 1.5
      */
-    public interface Packer {
+    public interfbce Pbcker {
         /**
-         * This property is a numeral giving the estimated target size N
-         * (in bytes) of each archive segment.
-         * If a single input file requires more than N bytes,
-         * it will be given its own archive segment.
+         * This property is b numerbl giving the estimbted tbrget size N
+         * (in bytes) of ebch brchive segment.
+         * If b single input file requires more thbn N bytes,
+         * it will be given its own brchive segment.
          * <p>
-         * As a special case, a value of -1 will produce a single large
-         * segment with all input files, while a value of 0 will
-         * produce one segment for each class.
-         * Larger archive segments result in less fragmentation and
+         * As b specibl cbse, b vblue of -1 will produce b single lbrge
+         * segment with bll input files, while b vblue of 0 will
+         * produce one segment for ebch clbss.
+         * Lbrger brchive segments result in less frbgmentbtion bnd
          * better compression, but processing them requires more memory.
          * <p>
-         * The size of each segment is estimated by counting the size of each
-         * input file to be transmitted in the segment, along with the size
-         * of its name and other transmitted properties.
+         * The size of ebch segment is estimbted by counting the size of ebch
+         * input file to be trbnsmitted in the segment, blong with the size
+         * of its nbme bnd other trbnsmitted properties.
          * <p>
-         * The default is -1, which means the packer will always create a single
-         * segment output file. In cases where extremely large output files are
-         * generated, users are strongly encouraged to use segmenting or break
-         * up the input file into smaller JARs.
+         * The defbult is -1, which mebns the pbcker will blwbys crebte b single
+         * segment output file. In cbses where extremely lbrge output files bre
+         * generbted, users bre strongly encourbged to use segmenting or brebk
+         * up the input file into smbller JARs.
          * <p>
-         * A 10Mb JAR packed without this limit will
-         * typically pack about 10% smaller, but the packer may require
-         * a larger Java heap (about ten times the segment limit).
+         * A 10Mb JAR pbcked without this limit will
+         * typicblly pbck bbout 10% smbller, but the pbcker mby require
+         * b lbrger Jbvb hebp (bbout ten times the segment limit).
          */
-        String SEGMENT_LIMIT    = "pack.segment.limit";
+        String SEGMENT_LIMIT    = "pbck.segment.limit";
 
         /**
-         * If this property is set to {@link #TRUE}, the packer will transmit
-         * all elements in their original order within the source archive.
+         * If this property is set to {@link #TRUE}, the pbcker will trbnsmit
+         * bll elements in their originbl order within the source brchive.
          * <p>
-         * If it is set to {@link #FALSE}, the packer may reorder elements,
-         * and also remove JAR directory entries, which carry no useful
-         * information for Java applications.
-         * (Typically this enables better compression.)
+         * If it is set to {@link #FALSE}, the pbcker mby reorder elements,
+         * bnd blso remove JAR directory entries, which cbrry no useful
+         * informbtion for Jbvb bpplicbtions.
+         * (Typicblly this enbbles better compression.)
          * <p>
-         * The default is {@link #TRUE}, which preserves the input information,
-         * but may cause the transmitted archive to be larger than necessary.
+         * The defbult is {@link #TRUE}, which preserves the input informbtion,
+         * but mby cbuse the trbnsmitted brchive to be lbrger thbn necessbry.
          */
-        String KEEP_FILE_ORDER = "pack.keep.file.order";
+        String KEEP_FILE_ORDER = "pbck.keep.file.order";
 
 
         /**
-         * If this property is set to a single decimal digit, the packer will
-         * use the indicated amount of effort in compressing the archive.
-         * Level 1 may produce somewhat larger size and faster compression speed,
-         * while level 9 will take much longer but may produce better compression.
+         * If this property is set to b single decimbl digit, the pbcker will
+         * use the indicbted bmount of effort in compressing the brchive.
+         * Level 1 mby produce somewhbt lbrger size bnd fbster compression speed,
+         * while level 9 will tbke much longer but mby produce better compression.
          * <p>
-         * The special value 0 instructs the packer to copy through the
-         * original JAR file directly, with no compression.  The JSR 200
-         * standard requires any unpacker to understand this special case
-         * as a pass-through of the entire archive.
+         * The specibl vblue 0 instructs the pbcker to copy through the
+         * originbl JAR file directly, with no compression.  The JSR 200
+         * stbndbrd requires bny unpbcker to understbnd this specibl cbse
+         * bs b pbss-through of the entire brchive.
          * <p>
-         * The default is 5, investing a modest amount of time to
-         * produce reasonable compression.
+         * The defbult is 5, investing b modest bmount of time to
+         * produce rebsonbble compression.
          */
-        String EFFORT           = "pack.effort";
+        String EFFORT           = "pbck.effort";
 
         /**
-         * If this property is set to {@link #TRUE} or {@link #FALSE}, the packer
-         * will set the deflation hint accordingly in the output archive, and
-         * will not transmit the individual deflation hints of archive elements.
+         * If this property is set to {@link #TRUE} or {@link #FALSE}, the pbcker
+         * will set the deflbtion hint bccordingly in the output brchive, bnd
+         * will not trbnsmit the individubl deflbtion hints of brchive elements.
          * <p>
-         * If this property is set to the special string {@link #KEEP}, the packer
-         * will attempt to determine an independent deflation hint for each
-         * available element of the input archive, and transmit this hint separately.
+         * If this property is set to the specibl string {@link #KEEP}, the pbcker
+         * will bttempt to determine bn independent deflbtion hint for ebch
+         * bvbilbble element of the input brchive, bnd trbnsmit this hint sepbrbtely.
          * <p>
-         * The default is {@link #KEEP}, which preserves the input information,
-         * but may cause the transmitted archive to be larger than necessary.
+         * The defbult is {@link #KEEP}, which preserves the input informbtion,
+         * but mby cbuse the trbnsmitted brchive to be lbrger thbn necessbry.
          * <p>
-         * It is up to the unpacker implementation
-         * to take action upon the hint to suitably compress the elements of
-         * the resulting unpacked jar.
+         * It is up to the unpbcker implementbtion
+         * to tbke bction upon the hint to suitbbly compress the elements of
+         * the resulting unpbcked jbr.
          * <p>
-         * The deflation hint of a ZIP or JAR element indicates
-         * whether the element was deflated or stored directly.
+         * The deflbtion hint of b ZIP or JAR element indicbtes
+         * whether the element wbs deflbted or stored directly.
          */
-        String DEFLATE_HINT     = "pack.deflate.hint";
+        String DEFLATE_HINT     = "pbck.deflbte.hint";
 
         /**
-         * If this property is set to the special string {@link #LATEST},
-         * the packer will attempt to determine the latest modification time,
-         * among all the available entries in the original archive or the latest
-         * modification time of all the available entries in each segment.
-         * This single value will be transmitted as part of the segment and applied
-         * to all the entries in each segment, {@link #SEGMENT_LIMIT}.
+         * If this property is set to the specibl string {@link #LATEST},
+         * the pbcker will bttempt to determine the lbtest modificbtion time,
+         * bmong bll the bvbilbble entries in the originbl brchive or the lbtest
+         * modificbtion time of bll the bvbilbble entries in ebch segment.
+         * This single vblue will be trbnsmitted bs pbrt of the segment bnd bpplied
+         * to bll the entries in ebch segment, {@link #SEGMENT_LIMIT}.
          * <p>
-         * This can marginally decrease the transmitted size of the
-         * archive, at the expense of setting all installed files to a single
-         * date.
+         * This cbn mbrginblly decrebse the trbnsmitted size of the
+         * brchive, bt the expense of setting bll instblled files to b single
+         * dbte.
          * <p>
-         * If this property is set to the special string {@link #KEEP},
-         * the packer transmits a separate modification time for each input
+         * If this property is set to the specibl string {@link #KEEP},
+         * the pbcker trbnsmits b sepbrbte modificbtion time for ebch input
          * element.
          * <p>
-         * The default is {@link #KEEP}, which preserves the input information,
-         * but may cause the transmitted archive to be larger than necessary.
+         * The defbult is {@link #KEEP}, which preserves the input informbtion,
+         * but mby cbuse the trbnsmitted brchive to be lbrger thbn necessbry.
          * <p>
-         * It is up to the unpacker implementation to take action to suitably
-         * set the modification time of each element of its output file.
+         * It is up to the unpbcker implementbtion to tbke bction to suitbbly
+         * set the modificbtion time of ebch element of its output file.
          * @see #SEGMENT_LIMIT
          */
-        String MODIFICATION_TIME        = "pack.modification.time";
+        String MODIFICATION_TIME        = "pbck.modificbtion.time";
 
         /**
-         * Indicates that a file should be passed through bytewise, with no
-         * compression.  Multiple files may be specified by specifying
-         * additional properties with distinct strings appended, to
-         * make a family of properties with the common prefix.
+         * Indicbtes thbt b file should be pbssed through bytewise, with no
+         * compression.  Multiple files mby be specified by specifying
+         * bdditionbl properties with distinct strings bppended, to
+         * mbke b fbmily of properties with the common prefix.
          * <p>
-         * There is no pathname transformation, except
-         * that the system file separator is replaced by the JAR file
-         * separator '/'.
+         * There is no pbthnbme trbnsformbtion, except
+         * thbt the system file sepbrbtor is replbced by the JAR file
+         * sepbrbtor '/'.
          * <p>
-         * The resulting file names must match exactly as strings with their
+         * The resulting file nbmes must mbtch exbctly bs strings with their
          * occurrences in the JAR file.
          * <p>
-         * If a property value is a directory name, all files under that
-         * directory will be passed also.
+         * If b property vblue is b directory nbme, bll files under thbt
+         * directory will be pbssed blso.
          * <p>
-         * Examples:
+         * Exbmples:
          * <pre>{@code
-         *     Map p = packer.properties();
-         *     p.put(PASS_FILE_PFX+0, "mutants/Rogue.class");
-         *     p.put(PASS_FILE_PFX+1, "mutants/Wolverine.class");
-         *     p.put(PASS_FILE_PFX+2, "mutants/Storm.class");
-         *     # Pass all files in an entire directory hierarchy:
+         *     Mbp p = pbcker.properties();
+         *     p.put(PASS_FILE_PFX+0, "mutbnts/Rogue.clbss");
+         *     p.put(PASS_FILE_PFX+1, "mutbnts/Wolverine.clbss");
+         *     p.put(PASS_FILE_PFX+2, "mutbnts/Storm.clbss");
+         *     # Pbss bll files in bn entire directory hierbrchy:
          *     p.put(PASS_FILE_PFX+3, "police/");
          * }</pre>
          */
-        String PASS_FILE_PFX            = "pack.pass.file.";
+        String PASS_FILE_PFX            = "pbck.pbss.file.";
 
         /// Attribute control.
 
         /**
-         * Indicates the action to take when a class-file containing an unknown
-         * attribute is encountered.  Possible values are the strings {@link #ERROR},
-         * {@link #STRIP}, and {@link #PASS}.
+         * Indicbtes the bction to tbke when b clbss-file contbining bn unknown
+         * bttribute is encountered.  Possible vblues bre the strings {@link #ERROR},
+         * {@link #STRIP}, bnd {@link #PASS}.
          * <p>
-         * The string {@link #ERROR} means that the pack operation
-         * as a whole will fail, with an exception of type <code>IOException</code>.
+         * The string {@link #ERROR} mebns thbt the pbck operbtion
+         * bs b whole will fbil, with bn exception of type <code>IOException</code>.
          * The string
-         * {@link #STRIP} means that the attribute will be dropped.
+         * {@link #STRIP} mebns thbt the bttribute will be dropped.
          * The string
-         * {@link #PASS} means that the whole class-file will be passed through
-         * (as if it were a resource file) without compression, with  a suitable warning.
-         * This is the default value for this property.
+         * {@link #PASS} mebns thbt the whole clbss-file will be pbssed through
+         * (bs if it were b resource file) without compression, with  b suitbble wbrning.
+         * This is the defbult vblue for this property.
          * <p>
-         * Examples:
+         * Exbmples:
          * <pre>{@code
-         *     Map p = pack200.getProperties();
+         *     Mbp p = pbck200.getProperties();
          *     p.put(UNKNOWN_ATTRIBUTE, ERROR);
          *     p.put(UNKNOWN_ATTRIBUTE, STRIP);
          *     p.put(UNKNOWN_ATTRIBUTE, PASS);
          * }</pre>
          */
-        String UNKNOWN_ATTRIBUTE        = "pack.unknown.attribute";
+        String UNKNOWN_ATTRIBUTE        = "pbck.unknown.bttribute";
 
         /**
-         * When concatenated with a class attribute name,
-         * indicates the format of that attribute,
-         * using the layout language specified in the JSR 200 specification.
+         * When concbtenbted with b clbss bttribute nbme,
+         * indicbtes the formbt of thbt bttribute,
+         * using the lbyout lbngubge specified in the JSR 200 specificbtion.
          * <p>
-         * For example, the effect of this option is built in:
-         * <code>pack.class.attribute.SourceFile=RUH</code>.
+         * For exbmple, the effect of this option is built in:
+         * <code>pbck.clbss.bttribute.SourceFile=RUH</code>.
          * <p>
-         * The special strings {@link #ERROR}, {@link #STRIP}, and {@link #PASS} are
-         * also allowed, with the same meaning as {@link #UNKNOWN_ATTRIBUTE}.
-         * This provides a way for users to request that specific attributes be
-         * refused, stripped, or passed bitwise (with no class compression).
+         * The specibl strings {@link #ERROR}, {@link #STRIP}, bnd {@link #PASS} bre
+         * blso bllowed, with the sbme mebning bs {@link #UNKNOWN_ATTRIBUTE}.
+         * This provides b wby for users to request thbt specific bttributes be
+         * refused, stripped, or pbssed bitwise (with no clbss compression).
          * <p>
-         * Code like this might be used to support attributes for JCOV:
+         * Code like this might be used to support bttributes for JCOV:
          * <pre><code>
-         *     Map p = packer.properties();
-         *     p.put(CODE_ATTRIBUTE_PFX+"CoverageTable",       "NH[PHHII]");
-         *     p.put(CODE_ATTRIBUTE_PFX+"CharacterRangeTable", "NH[PHPOHIIH]");
+         *     Mbp p = pbcker.properties();
+         *     p.put(CODE_ATTRIBUTE_PFX+"CoverbgeTbble",       "NH[PHHII]");
+         *     p.put(CODE_ATTRIBUTE_PFX+"ChbrbcterRbngeTbble", "NH[PHPOHIIH]");
          *     p.put(CLASS_ATTRIBUTE_PFX+"SourceID",           "RUH");
-         *     p.put(CLASS_ATTRIBUTE_PFX+"CompilationID",      "RUH");
+         *     p.put(CLASS_ATTRIBUTE_PFX+"CompilbtionID",      "RUH");
          * </code></pre>
          * <p>
-         * Code like this might be used to strip debugging attributes:
+         * Code like this might be used to strip debugging bttributes:
          * <pre><code>
-         *     Map p = packer.properties();
-         *     p.put(CODE_ATTRIBUTE_PFX+"LineNumberTable",    STRIP);
-         *     p.put(CODE_ATTRIBUTE_PFX+"LocalVariableTable", STRIP);
+         *     Mbp p = pbcker.properties();
+         *     p.put(CODE_ATTRIBUTE_PFX+"LineNumberTbble",    STRIP);
+         *     p.put(CODE_ATTRIBUTE_PFX+"LocblVbribbleTbble", STRIP);
          *     p.put(CLASS_ATTRIBUTE_PFX+"SourceFile",        STRIP);
          * </code></pre>
          */
-        String CLASS_ATTRIBUTE_PFX      = "pack.class.attribute.";
+        String CLASS_ATTRIBUTE_PFX      = "pbck.clbss.bttribute.";
 
         /**
-         * When concatenated with a field attribute name,
-         * indicates the format of that attribute.
-         * For example, the effect of this option is built in:
-         * <code>pack.field.attribute.Deprecated=</code>.
-         * The special strings {@link #ERROR}, {@link #STRIP}, and
-         * {@link #PASS} are also allowed.
+         * When concbtenbted with b field bttribute nbme,
+         * indicbtes the formbt of thbt bttribute.
+         * For exbmple, the effect of this option is built in:
+         * <code>pbck.field.bttribute.Deprecbted=</code>.
+         * The specibl strings {@link #ERROR}, {@link #STRIP}, bnd
+         * {@link #PASS} bre blso bllowed.
          * @see #CLASS_ATTRIBUTE_PFX
          */
-        String FIELD_ATTRIBUTE_PFX      = "pack.field.attribute.";
+        String FIELD_ATTRIBUTE_PFX      = "pbck.field.bttribute.";
 
         /**
-         * When concatenated with a method attribute name,
-         * indicates the format of that attribute.
-         * For example, the effect of this option is built in:
-         * <code>pack.method.attribute.Exceptions=NH[RCH]</code>.
-         * The special strings {@link #ERROR}, {@link #STRIP}, and {@link #PASS}
-         * are also allowed.
+         * When concbtenbted with b method bttribute nbme,
+         * indicbtes the formbt of thbt bttribute.
+         * For exbmple, the effect of this option is built in:
+         * <code>pbck.method.bttribute.Exceptions=NH[RCH]</code>.
+         * The specibl strings {@link #ERROR}, {@link #STRIP}, bnd {@link #PASS}
+         * bre blso bllowed.
          * @see #CLASS_ATTRIBUTE_PFX
          */
-        String METHOD_ATTRIBUTE_PFX     = "pack.method.attribute.";
+        String METHOD_ATTRIBUTE_PFX     = "pbck.method.bttribute.";
 
         /**
-         * When concatenated with a code attribute name,
-         * indicates the format of that attribute.
-         * For example, the effect of this option is built in:
-         * <code>pack.code.attribute.LocalVariableTable=NH[PHOHRUHRSHH]</code>.
-         * The special strings {@link #ERROR}, {@link #STRIP}, and {@link #PASS}
-         * are also allowed.
+         * When concbtenbted with b code bttribute nbme,
+         * indicbtes the formbt of thbt bttribute.
+         * For exbmple, the effect of this option is built in:
+         * <code>pbck.code.bttribute.LocblVbribbleTbble=NH[PHOHRUHRSHH]</code>.
+         * The specibl strings {@link #ERROR}, {@link #STRIP}, bnd {@link #PASS}
+         * bre blso bllowed.
          * @see #CLASS_ATTRIBUTE_PFX
          */
-        String CODE_ATTRIBUTE_PFX       = "pack.code.attribute.";
+        String CODE_ATTRIBUTE_PFX       = "pbck.code.bttribute.";
 
         /**
-         * The unpacker's progress as a percentage, as periodically
-         * updated by the unpacker.
-         * Values of 0 - 100 are normal, and -1 indicates a stall.
-         * Progress can be monitored by polling the value of this
+         * The unpbcker's progress bs b percentbge, bs periodicblly
+         * updbted by the unpbcker.
+         * Vblues of 0 - 100 bre normbl, bnd -1 indicbtes b stbll.
+         * Progress cbn be monitored by polling the vblue of this
          * property.
          * <p>
-         * At a minimum, the unpacker must set progress to 0
-         * at the beginning of a packing operation, and to 100
-         * at the end.
+         * At b minimum, the unpbcker must set progress to 0
+         * bt the beginning of b pbcking operbtion, bnd to 100
+         * bt the end.
          */
-        String PROGRESS                 = "pack.progress";
+        String PROGRESS                 = "pbck.progress";
 
-        /** The string "keep", a possible value for certain properties.
+        /** The string "keep", b possible vblue for certbin properties.
          * @see #DEFLATE_HINT
          * @see #MODIFICATION_TIME
          */
         String KEEP  = "keep";
 
-        /** The string "pass", a possible value for certain properties.
+        /** The string "pbss", b possible vblue for certbin properties.
          * @see #UNKNOWN_ATTRIBUTE
          * @see #CLASS_ATTRIBUTE_PFX
          * @see #FIELD_ATTRIBUTE_PFX
          * @see #METHOD_ATTRIBUTE_PFX
          * @see #CODE_ATTRIBUTE_PFX
          */
-        String PASS  = "pass";
+        String PASS  = "pbss";
 
-        /** The string "strip", a possible value for certain properties.
+        /** The string "strip", b possible vblue for certbin properties.
          * @see #UNKNOWN_ATTRIBUTE
          * @see #CLASS_ATTRIBUTE_PFX
          * @see #FIELD_ATTRIBUTE_PFX
@@ -488,7 +488,7 @@ public abstract class Pack200 {
          */
         String STRIP = "strip";
 
-        /** The string "error", a possible value for certain properties.
+        /** The string "error", b possible vblue for certbin properties.
          * @see #UNKNOWN_ATTRIBUTE
          * @see #CLASS_ATTRIBUTE_PFX
          * @see #FIELD_ATTRIBUTE_PFX
@@ -497,225 +497,225 @@ public abstract class Pack200 {
          */
         String ERROR = "error";
 
-        /** The string "true", a possible value for certain properties.
+        /** The string "true", b possible vblue for certbin properties.
          * @see #KEEP_FILE_ORDER
          * @see #DEFLATE_HINT
          */
         String TRUE = "true";
 
-        /** The string "false", a possible value for certain properties.
+        /** The string "fblse", b possible vblue for certbin properties.
          * @see #KEEP_FILE_ORDER
          * @see #DEFLATE_HINT
          */
-        String FALSE = "false";
+        String FALSE = "fblse";
 
-        /** The string "latest", a possible value for certain properties.
+        /** The string "lbtest", b possible vblue for certbin properties.
          * @see #MODIFICATION_TIME
          */
-        String LATEST = "latest";
+        String LATEST = "lbtest";
 
         /**
          * Get the set of this engine's properties.
-         * This set is a "live view", so that changing its
-         * contents immediately affects the Packer engine, and
-         * changes from the engine (such as progress indications)
-         * are immediately visible in the map.
+         * This set is b "live view", so thbt chbnging its
+         * contents immedibtely bffects the Pbcker engine, bnd
+         * chbnges from the engine (such bs progress indicbtions)
+         * bre immedibtely visible in the mbp.
          *
-         * <p>The property map may contain pre-defined implementation
-         * specific and default properties.  Users are encouraged to
-         * read the information and fully understand the implications,
+         * <p>The property mbp mby contbin pre-defined implementbtion
+         * specific bnd defbult properties.  Users bre encourbged to
+         * rebd the informbtion bnd fully understbnd the implicbtions,
          * before modifying pre-existing properties.
          * <p>
-         * Implementation specific properties are prefixed with a
-         * package name associated with the implementor, beginning
-         * with <tt>com.</tt> or a similar prefix.
-         * All property names beginning with <tt>pack.</tt> and
-         * <tt>unpack.</tt> are reserved for use by this API.
+         * Implementbtion specific properties bre prefixed with b
+         * pbckbge nbme bssocibted with the implementor, beginning
+         * with <tt>com.</tt> or b similbr prefix.
+         * All property nbmes beginning with <tt>pbck.</tt> bnd
+         * <tt>unpbck.</tt> bre reserved for use by this API.
          * <p>
-         * Unknown properties may be ignored or rejected with an
-         * unspecified error, and invalid entries may cause an
+         * Unknown properties mby be ignored or rejected with bn
+         * unspecified error, bnd invblid entries mby cbuse bn
          * unspecified error to be thrown.
          *
          * <p>
-         * The returned map implements all optional {@link SortedMap} operations
-         * @return A sorted association of property key strings to property
-         * values.
+         * The returned mbp implements bll optionbl {@link SortedMbp} operbtions
+         * @return A sorted bssocibtion of property key strings to property
+         * vblues.
          */
-        SortedMap<String,String> properties();
+        SortedMbp<String,String> properties();
 
         /**
-         * Takes a JarFile and converts it into a Pack200 archive.
+         * Tbkes b JbrFile bnd converts it into b Pbck200 brchive.
          * <p>
-         * Closes its input but not its output.  (Pack200 archives are appendable.)
-         * @param in a JarFile
-         * @param out an OutputStream
-         * @exception IOException if an error is encountered.
+         * Closes its input but not its output.  (Pbck200 brchives bre bppendbble.)
+         * @pbrbm in b JbrFile
+         * @pbrbm out bn OutputStrebm
+         * @exception IOException if bn error is encountered.
          */
-        void pack(JarFile in, OutputStream out) throws IOException ;
+        void pbck(JbrFile in, OutputStrebm out) throws IOException ;
 
         /**
-         * Takes a JarInputStream and converts it into a Pack200 archive.
+         * Tbkes b JbrInputStrebm bnd converts it into b Pbck200 brchive.
          * <p>
-         * Closes its input but not its output.  (Pack200 archives are appendable.)
+         * Closes its input but not its output.  (Pbck200 brchives bre bppendbble.)
          * <p>
-         * The modification time and deflation hint attributes are not available,
-         * for the JAR manifest file and its containing directory.
+         * The modificbtion time bnd deflbtion hint bttributes bre not bvbilbble,
+         * for the JAR mbnifest file bnd its contbining directory.
          *
          * @see #MODIFICATION_TIME
          * @see #DEFLATE_HINT
-         * @param in a JarInputStream
-         * @param out an OutputStream
-         * @exception IOException if an error is encountered.
+         * @pbrbm in b JbrInputStrebm
+         * @pbrbm out bn OutputStrebm
+         * @exception IOException if bn error is encountered.
          */
-        void pack(JarInputStream in, OutputStream out) throws IOException ;
+        void pbck(JbrInputStrebm in, OutputStrebm out) throws IOException ;
     }
 
     /**
-     * The unpacker engine converts the packed stream to a JAR file.
-     * An instance of the engine can be obtained
-     * using {@link #newUnpacker}.
+     * The unpbcker engine converts the pbcked strebm to b JAR file.
+     * An instbnce of the engine cbn be obtbined
+     * using {@link #newUnpbcker}.
      * <p>
      * Every JAR file produced by this engine will include the string
-     * "<tt>PACK200</tt>" as a zip file comment.
-     * This allows a deployer to detect if a JAR archive was packed and unpacked.
+     * "<tt>PACK200</tt>" bs b zip file comment.
+     * This bllows b deployer to detect if b JAR brchive wbs pbcked bnd unpbcked.
      * <p>
-     * Note: Unless otherwise noted, passing a <tt>null</tt> argument to a
-     * constructor or method in this class will cause a {@link NullPointerException}
+     * Note: Unless otherwise noted, pbssing b <tt>null</tt> brgument to b
+     * constructor or method in this clbss will cbuse b {@link NullPointerException}
      * to be thrown.
      * <p>
-     * This version of the unpacker is compatible with all previous versions.
+     * This version of the unpbcker is compbtible with bll previous versions.
      * @since 1.5
      */
-    public interface Unpacker {
+    public interfbce Unpbcker {
 
-        /** The string "keep", a possible value for certain properties.
+        /** The string "keep", b possible vblue for certbin properties.
          * @see #DEFLATE_HINT
          */
         String KEEP  = "keep";
 
-        /** The string "true", a possible value for certain properties.
+        /** The string "true", b possible vblue for certbin properties.
          * @see #DEFLATE_HINT
          */
         String TRUE = "true";
 
-        /** The string "false", a possible value for certain properties.
+        /** The string "fblse", b possible vblue for certbin properties.
          * @see #DEFLATE_HINT
          */
-        String FALSE = "false";
+        String FALSE = "fblse";
 
         /**
-         * Property indicating that the unpacker should
-         * ignore all transmitted values for DEFLATE_HINT,
-         * replacing them by the given value, {@link #TRUE} or {@link #FALSE}.
-         * The default value is the special string {@link #KEEP},
-         * which asks the unpacker to preserve all transmitted
-         * deflation hints.
+         * Property indicbting thbt the unpbcker should
+         * ignore bll trbnsmitted vblues for DEFLATE_HINT,
+         * replbcing them by the given vblue, {@link #TRUE} or {@link #FALSE}.
+         * The defbult vblue is the specibl string {@link #KEEP},
+         * which bsks the unpbcker to preserve bll trbnsmitted
+         * deflbtion hints.
          */
-        String DEFLATE_HINT      = "unpack.deflate.hint";
+        String DEFLATE_HINT      = "unpbck.deflbte.hint";
 
 
 
         /**
-         * The unpacker's progress as a percentage, as periodically
-         * updated by the unpacker.
-         * Values of 0 - 100 are normal, and -1 indicates a stall.
-         * Progress can be monitored by polling the value of this
+         * The unpbcker's progress bs b percentbge, bs periodicblly
+         * updbted by the unpbcker.
+         * Vblues of 0 - 100 bre normbl, bnd -1 indicbtes b stbll.
+         * Progress cbn be monitored by polling the vblue of this
          * property.
          * <p>
-         * At a minimum, the unpacker must set progress to 0
-         * at the beginning of a packing operation, and to 100
-         * at the end.
+         * At b minimum, the unpbcker must set progress to 0
+         * bt the beginning of b pbcking operbtion, bnd to 100
+         * bt the end.
          */
-        String PROGRESS         = "unpack.progress";
+        String PROGRESS         = "unpbck.progress";
 
         /**
          * Get the set of this engine's properties. This set is
-         * a "live view", so that changing its
-         * contents immediately affects the Packer engine, and
-         * changes from the engine (such as progress indications)
-         * are immediately visible in the map.
+         * b "live view", so thbt chbnging its
+         * contents immedibtely bffects the Pbcker engine, bnd
+         * chbnges from the engine (such bs progress indicbtions)
+         * bre immedibtely visible in the mbp.
          *
-         * <p>The property map may contain pre-defined implementation
-         * specific and default properties.  Users are encouraged to
-         * read the information and fully understand the implications,
+         * <p>The property mbp mby contbin pre-defined implementbtion
+         * specific bnd defbult properties.  Users bre encourbged to
+         * rebd the informbtion bnd fully understbnd the implicbtions,
          * before modifying pre-existing properties.
          * <p>
-         * Implementation specific properties are prefixed with a
-         * package name associated with the implementor, beginning
-         * with <tt>com.</tt> or a similar prefix.
-         * All property names beginning with <tt>pack.</tt> and
-         * <tt>unpack.</tt> are reserved for use by this API.
+         * Implementbtion specific properties bre prefixed with b
+         * pbckbge nbme bssocibted with the implementor, beginning
+         * with <tt>com.</tt> or b similbr prefix.
+         * All property nbmes beginning with <tt>pbck.</tt> bnd
+         * <tt>unpbck.</tt> bre reserved for use by this API.
          * <p>
-         * Unknown properties may be ignored or rejected with an
-         * unspecified error, and invalid entries may cause an
+         * Unknown properties mby be ignored or rejected with bn
+         * unspecified error, bnd invblid entries mby cbuse bn
          * unspecified error to be thrown.
          *
-         * @return A sorted association of option key strings to option values.
+         * @return A sorted bssocibtion of option key strings to option vblues.
          */
-        SortedMap<String,String> properties();
+        SortedMbp<String,String> properties();
 
         /**
-         * Read a Pack200 archive, and write the encoded JAR to
-         * a JarOutputStream.
-         * The entire contents of the input stream will be read.
-         * It may be more efficient to read the Pack200 archive
-         * to a file and pass the File object, using the alternate
+         * Rebd b Pbck200 brchive, bnd write the encoded JAR to
+         * b JbrOutputStrebm.
+         * The entire contents of the input strebm will be rebd.
+         * It mby be more efficient to rebd the Pbck200 brchive
+         * to b file bnd pbss the File object, using the blternbte
          * method described below.
          * <p>
-         * Closes its input but not its output.  (The output can accumulate more elements.)
-         * @param in an InputStream.
-         * @param out a JarOutputStream.
-         * @exception IOException if an error is encountered.
+         * Closes its input but not its output.  (The output cbn bccumulbte more elements.)
+         * @pbrbm in bn InputStrebm.
+         * @pbrbm out b JbrOutputStrebm.
+         * @exception IOException if bn error is encountered.
          */
-        void unpack(InputStream in, JarOutputStream out) throws IOException;
+        void unpbck(InputStrebm in, JbrOutputStrebm out) throws IOException;
 
         /**
-         * Read a Pack200 archive, and write the encoded JAR to
-         * a JarOutputStream.
+         * Rebd b Pbck200 brchive, bnd write the encoded JAR to
+         * b JbrOutputStrebm.
          * <p>
-         * Does not close its output.  (The output can accumulate more elements.)
-         * @param in a File.
-         * @param out a JarOutputStream.
-         * @exception IOException if an error is encountered.
+         * Does not close its output.  (The output cbn bccumulbte more elements.)
+         * @pbrbm in b File.
+         * @pbrbm out b JbrOutputStrebm.
+         * @exception IOException if bn error is encountered.
          */
-        void unpack(File in, JarOutputStream out) throws IOException;
+        void unpbck(File in, JbrOutputStrebm out) throws IOException;
     }
 
-    // Private stuff....
+    // Privbte stuff....
 
-    private static final String PACK_PROVIDER = "java.util.jar.Pack200.Packer";
-    private static final String UNPACK_PROVIDER = "java.util.jar.Pack200.Unpacker";
+    privbte stbtic finbl String PACK_PROVIDER = "jbvb.util.jbr.Pbck200.Pbcker";
+    privbte stbtic finbl String UNPACK_PROVIDER = "jbvb.util.jbr.Pbck200.Unpbcker";
 
-    private static Class<?> packerImpl;
-    private static Class<?> unpackerImpl;
+    privbte stbtic Clbss<?> pbckerImpl;
+    privbte stbtic Clbss<?> unpbckerImpl;
 
-    private synchronized static Object newInstance(String prop) {
-        String implName = "(unknown)";
+    privbte synchronized stbtic Object newInstbnce(String prop) {
+        String implNbme = "(unknown)";
         try {
-            Class<?> impl = (PACK_PROVIDER.equals(prop))? packerImpl: unpackerImpl;
+            Clbss<?> impl = (PACK_PROVIDER.equbls(prop))? pbckerImpl: unpbckerImpl;
             if (impl == null) {
-                // The first time, we must decide which class to use.
-                implName = java.security.AccessController.doPrivileged(
-                    new sun.security.action.GetPropertyAction(prop,""));
-                if (implName != null && !implName.equals(""))
-                    impl = Class.forName(implName);
-                else if (PACK_PROVIDER.equals(prop))
-                    impl = com.sun.java.util.jar.pack.PackerImpl.class;
+                // The first time, we must decide which clbss to use.
+                implNbme = jbvb.security.AccessController.doPrivileged(
+                    new sun.security.bction.GetPropertyAction(prop,""));
+                if (implNbme != null && !implNbme.equbls(""))
+                    impl = Clbss.forNbme(implNbme);
+                else if (PACK_PROVIDER.equbls(prop))
+                    impl = com.sun.jbvb.util.jbr.pbck.PbckerImpl.clbss;
                 else
-                    impl = com.sun.java.util.jar.pack.UnpackerImpl.class;
+                    impl = com.sun.jbvb.util.jbr.pbck.UnpbckerImpl.clbss;
             }
-            // We have a class.  Now instantiate it.
-            return impl.newInstance();
-        } catch (ClassNotFoundException e) {
-            throw new Error("Class not found: " + implName +
+            // We hbve b clbss.  Now instbntibte it.
+            return impl.newInstbnce();
+        } cbtch (ClbssNotFoundException e) {
+            throw new Error("Clbss not found: " + implNbme +
                                 ":\ncheck property " + prop +
                                 " in your properties file.", e);
-        } catch (InstantiationException e) {
-            throw new Error("Could not instantiate: " + implName +
+        } cbtch (InstbntibtionException e) {
+            throw new Error("Could not instbntibte: " + implNbme +
                                 ":\ncheck property " + prop +
                                 " in your properties file.", e);
-        } catch (IllegalAccessException e) {
-            throw new Error("Cannot access class: " + implName +
+        } cbtch (IllegblAccessException e) {
+            throw new Error("Cbnnot bccess clbss: " + implNbme +
                                 ":\ncheck property " + prop +
                                 " in your properties file.", e);
         }

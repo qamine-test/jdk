@@ -1,41 +1,41 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.security.PrivilegedAction;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
-import static sun.awt.OSInfo.OSType.*;
+import stbtic sun.bwt.OSInfo.OSType.*;
 
 /**
- * @author Pavel Porvatov
+ * @buthor Pbvel Porvbtov
  */
-public class OSInfo {
-    public static enum OSType {
+public clbss OSInfo {
+    public stbtic enum OSType {
         WINDOWS,
         LINUX,
         SOLARIS,
@@ -44,128 +44,128 @@ public class OSInfo {
     }
 
     /*
-       The map windowsVersionMap must contain all windows version constants except WINDOWS_UNKNOWN,
-       and so the method getWindowsVersion() will return the constant for known OS.
-       It allows compare objects by "==" instead of "equals".
+       The mbp windowsVersionMbp must contbin bll windows version constbnts except WINDOWS_UNKNOWN,
+       bnd so the method getWindowsVersion() will return the constbnt for known OS.
+       It bllows compbre objects by "==" instebd of "equbls".
      */
-    public static final WindowsVersion WINDOWS_UNKNOWN = new WindowsVersion(-1, -1);
-    public static final WindowsVersion WINDOWS_95 = new WindowsVersion(4, 0);
-    public static final WindowsVersion WINDOWS_98 = new WindowsVersion(4, 10);
-    public static final WindowsVersion WINDOWS_ME = new WindowsVersion(4, 90);
-    public static final WindowsVersion WINDOWS_2000 = new WindowsVersion(5, 0);
-    public static final WindowsVersion WINDOWS_XP = new WindowsVersion(5, 1);
-    public static final WindowsVersion WINDOWS_2003 = new WindowsVersion(5, 2);
-    public static final WindowsVersion WINDOWS_VISTA = new WindowsVersion(6, 0);
+    public stbtic finbl WindowsVersion WINDOWS_UNKNOWN = new WindowsVersion(-1, -1);
+    public stbtic finbl WindowsVersion WINDOWS_95 = new WindowsVersion(4, 0);
+    public stbtic finbl WindowsVersion WINDOWS_98 = new WindowsVersion(4, 10);
+    public stbtic finbl WindowsVersion WINDOWS_ME = new WindowsVersion(4, 90);
+    public stbtic finbl WindowsVersion WINDOWS_2000 = new WindowsVersion(5, 0);
+    public stbtic finbl WindowsVersion WINDOWS_XP = new WindowsVersion(5, 1);
+    public stbtic finbl WindowsVersion WINDOWS_2003 = new WindowsVersion(5, 2);
+    public stbtic finbl WindowsVersion WINDOWS_VISTA = new WindowsVersion(6, 0);
 
-    private static final String OS_NAME = "os.name";
-    private static final String OS_VERSION = "os.version";
+    privbte stbtic finbl String OS_NAME = "os.nbme";
+    privbte stbtic finbl String OS_VERSION = "os.version";
 
-    private final static Map<String, WindowsVersion> windowsVersionMap = new HashMap<String, OSInfo.WindowsVersion>();
+    privbte finbl stbtic Mbp<String, WindowsVersion> windowsVersionMbp = new HbshMbp<String, OSInfo.WindowsVersion>();
 
-    static {
-        windowsVersionMap.put(WINDOWS_95.toString(), WINDOWS_95);
-        windowsVersionMap.put(WINDOWS_98.toString(), WINDOWS_98);
-        windowsVersionMap.put(WINDOWS_ME.toString(), WINDOWS_ME);
-        windowsVersionMap.put(WINDOWS_2000.toString(), WINDOWS_2000);
-        windowsVersionMap.put(WINDOWS_XP.toString(), WINDOWS_XP);
-        windowsVersionMap.put(WINDOWS_2003.toString(), WINDOWS_2003);
-        windowsVersionMap.put(WINDOWS_VISTA.toString(), WINDOWS_VISTA);
+    stbtic {
+        windowsVersionMbp.put(WINDOWS_95.toString(), WINDOWS_95);
+        windowsVersionMbp.put(WINDOWS_98.toString(), WINDOWS_98);
+        windowsVersionMbp.put(WINDOWS_ME.toString(), WINDOWS_ME);
+        windowsVersionMbp.put(WINDOWS_2000.toString(), WINDOWS_2000);
+        windowsVersionMbp.put(WINDOWS_XP.toString(), WINDOWS_XP);
+        windowsVersionMbp.put(WINDOWS_2003.toString(), WINDOWS_2003);
+        windowsVersionMbp.put(WINDOWS_VISTA.toString(), WINDOWS_VISTA);
     }
 
-    private static final PrivilegedAction<OSType> osTypeAction = new PrivilegedAction<OSType>() {
+    privbte stbtic finbl PrivilegedAction<OSType> osTypeAction = new PrivilegedAction<OSType>() {
         public OSType run() {
             return getOSType();
         }
     };
 
-    private OSInfo() {
-        // Don't allow to create instances
+    privbte OSInfo() {
+        // Don't bllow to crebte instbnces
     }
 
     /**
-     * Returns type of operating system.
+     * Returns type of operbting system.
      */
-    public static OSType getOSType() throws SecurityException {
-        String osName = System.getProperty(OS_NAME);
+    public stbtic OSType getOSType() throws SecurityException {
+        String osNbme = System.getProperty(OS_NAME);
 
-        if (osName != null) {
-            if (osName.contains("Windows")) {
+        if (osNbme != null) {
+            if (osNbme.contbins("Windows")) {
                 return WINDOWS;
             }
 
-            if (osName.contains("Linux")) {
+            if (osNbme.contbins("Linux")) {
                 return LINUX;
             }
 
-            if (osName.contains("Solaris") || osName.contains("SunOS")) {
+            if (osNbme.contbins("Solbris") || osNbme.contbins("SunOS")) {
                 return SOLARIS;
             }
 
-            if (osName.contains("OS X")) {
+            if (osNbme.contbins("OS X")) {
                 return MACOSX;
             }
 
-            // determine another OS here
+            // determine bnother OS here
         }
 
         return UNKNOWN;
     }
 
-    public static PrivilegedAction<OSType> getOSTypeAction() {
+    public stbtic PrivilegedAction<OSType> getOSTypeAction() {
         return osTypeAction;
     }
 
-    public static WindowsVersion getWindowsVersion() throws SecurityException {
+    public stbtic WindowsVersion getWindowsVersion() throws SecurityException {
         String osVersion = System.getProperty(OS_VERSION);
 
         if (osVersion == null) {
             return WINDOWS_UNKNOWN;
         }
 
-        synchronized (windowsVersionMap) {
-            WindowsVersion result = windowsVersionMap.get(osVersion);
+        synchronized (windowsVersionMbp) {
+            WindowsVersion result = windowsVersionMbp.get(osVersion);
 
             if (result == null) {
-                // Try parse version and put object into windowsVersionMap
-                String[] arr = osVersion.split("\\.");
+                // Try pbrse version bnd put object into windowsVersionMbp
+                String[] brr = osVersion.split("\\.");
 
-                if (arr.length == 2) {
+                if (brr.length == 2) {
                     try {
-                        result = new WindowsVersion(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
-                    } catch (NumberFormatException e) {
+                        result = new WindowsVersion(Integer.pbrseInt(brr[0]), Integer.pbrseInt(brr[1]));
+                    } cbtch (NumberFormbtException e) {
                         return WINDOWS_UNKNOWN;
                     }
                 } else {
                     return WINDOWS_UNKNOWN;
                 }
 
-                windowsVersionMap.put(osVersion, result);
+                windowsVersionMbp.put(osVersion, result);
             }
 
             return result;
         }
     }
 
-    public static class WindowsVersion implements Comparable<WindowsVersion> {
-        private final int major;
+    public stbtic clbss WindowsVersion implements Compbrbble<WindowsVersion> {
+        privbte finbl int mbjor;
 
-        private final int minor;
+        privbte finbl int minor;
 
-        private WindowsVersion(int major, int minor) {
-            this.major = major;
+        privbte WindowsVersion(int mbjor, int minor) {
+            this.mbjor = mbjor;
             this.minor = minor;
         }
 
-        public int getMajor() {
-            return major;
+        public int getMbjor() {
+            return mbjor;
         }
 
         public int getMinor() {
             return minor;
         }
 
-        public int compareTo(WindowsVersion o) {
-            int result = major - o.getMajor();
+        public int compbreTo(WindowsVersion o) {
+            int result = mbjor - o.getMbjor();
 
             if (result == 0) {
                 result = minor - o.getMinor();
@@ -174,16 +174,16 @@ public class OSInfo {
             return result;
         }
 
-        public boolean equals(Object obj) {
-            return obj instanceof WindowsVersion && compareTo((WindowsVersion) obj) == 0;
+        public boolebn equbls(Object obj) {
+            return obj instbnceof WindowsVersion && compbreTo((WindowsVersion) obj) == 0;
         }
 
-        public int hashCode() {
-            return 31 * major + minor;
+        public int hbshCode() {
+            return 31 * mbjor + minor;
         }
 
         public String toString() {
-            return major + "." + minor;
+            return mbjor + "." + minor;
         }
     }
 }

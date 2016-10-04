@@ -1,404 +1,404 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.imbge.ColorModel;
 
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
 
-import sun.lwawt.macosx.CPlatformView;
+import sun.lwbwt.mbcosx.CPlbtformView;
 
-public abstract class CGLSurfaceData extends OGLSurfaceData {
+public bbstrbct clbss CGLSurfbceDbtb extends OGLSurfbceDbtb {
 
-    protected final int scale;
-    protected final int width;
-    protected final int height;
-    protected CPlatformView pView;
-    private CGLGraphicsConfig graphicsConfig;
+    protected finbl int scble;
+    protected finbl int width;
+    protected finbl int height;
+    protected CPlbtformView pView;
+    privbte CGLGrbphicsConfig grbphicsConfig;
 
-    native void validate(int xoff, int yoff, int width, int height, boolean isOpaque);
+    nbtive void vblidbte(int xoff, int yoff, int width, int height, boolebn isOpbque);
 
-    private native void initOps(long pConfigInfo, long pPeerData, long layerPtr,
-                                int xoff, int yoff, boolean isOpaque);
+    privbte nbtive void initOps(long pConfigInfo, long pPeerDbtb, long lbyerPtr,
+                                int xoff, int yoff, boolebn isOpbque);
 
-    protected native boolean initPbuffer(long pData, long pConfigInfo,
-            boolean isOpaque, int width, int height);
+    protected nbtive boolebn initPbuffer(long pDbtb, long pConfigInfo,
+            boolebn isOpbque, int width, int height);
 
-    protected CGLSurfaceData(CGLGraphicsConfig gc, ColorModel cm, int type,
+    protected CGLSurfbceDbtb(CGLGrbphicsConfig gc, ColorModel cm, int type,
                              int width, int height) {
         super(gc, cm, type);
-        // TEXTURE shouldn't be scaled, it is used for managed BufferedImages.
-        scale = type == TEXTURE ? 1 : gc.getDevice().getScaleFactor();
-        this.width = width * scale;
-        this.height = height * scale;
+        // TEXTURE shouldn't be scbled, it is used for mbnbged BufferedImbges.
+        scble = type == TEXTURE ? 1 : gc.getDevice().getScbleFbctor();
+        this.width = width * scble;
+        this.height = height * scble;
     }
 
-    protected CGLSurfaceData(CPlatformView pView, CGLGraphicsConfig gc,
+    protected CGLSurfbceDbtb(CPlbtformView pView, CGLGrbphicsConfig gc,
                              ColorModel cm, int type,int width, int height)
     {
         this(gc, cm, type, width, height);
         this.pView = pView;
-        this.graphicsConfig = gc;
+        this.grbphicsConfig = gc;
 
-        long pConfigInfo = gc.getNativeConfigInfo();
-        long pPeerData = 0L;
-        boolean isOpaque = true;
+        long pConfigInfo = gc.getNbtiveConfigInfo();
+        long pPeerDbtb = 0L;
+        boolebn isOpbque = true;
         if (pView != null) {
-            pPeerData = pView.getAWTView();
-            isOpaque = pView.isOpaque();
+            pPeerDbtb = pView.getAWTView();
+            isOpbque = pView.isOpbque();
         }
-        initOps(pConfigInfo, pPeerData, 0, 0, 0, isOpaque);
+        initOps(pConfigInfo, pPeerDbtb, 0, 0, 0, isOpbque);
     }
 
-    protected CGLSurfaceData(CGLLayer layer, CGLGraphicsConfig gc,
+    protected CGLSurfbceDbtb(CGLLbyer lbyer, CGLGrbphicsConfig gc,
                              ColorModel cm, int type,int width, int height)
     {
         this(gc, cm, type, width, height);
-        this.graphicsConfig = gc;
+        this.grbphicsConfig = gc;
 
-        long pConfigInfo = gc.getNativeConfigInfo();
-        long layerPtr = 0L;
-        boolean isOpaque = true;
-        if (layer != null) {
-            layerPtr = layer.getPointer();
-            isOpaque = layer.isOpaque();
+        long pConfigInfo = gc.getNbtiveConfigInfo();
+        long lbyerPtr = 0L;
+        boolebn isOpbque = true;
+        if (lbyer != null) {
+            lbyerPtr = lbyer.getPointer();
+            isOpbque = lbyer.isOpbque();
         }
-        initOps(pConfigInfo, 0, layerPtr, 0, 0, isOpaque);
+        initOps(pConfigInfo, 0, lbyerPtr, 0, 0, isOpbque);
     }
 
-    @Override //SurfaceData
-    public GraphicsConfiguration getDeviceConfiguration() {
-        return graphicsConfig;
+    @Override //SurfbceDbtb
+    public GrbphicsConfigurbtion getDeviceConfigurbtion() {
+        return grbphicsConfig;
     }
 
     /**
-     * Creates a SurfaceData object representing the primary (front) buffer of
-     * an on-screen Window.
+     * Crebtes b SurfbceDbtb object representing the primbry (front) buffer of
+     * bn on-screen Window.
      */
-    public static CGLWindowSurfaceData createData(CPlatformView pView) {
-        CGLGraphicsConfig gc = getGC(pView);
-        return new CGLWindowSurfaceData(pView, gc);
+    public stbtic CGLWindowSurfbceDbtb crebteDbtb(CPlbtformView pView) {
+        CGLGrbphicsConfig gc = getGC(pView);
+        return new CGLWindowSurfbceDbtb(pView, gc);
     }
 
     /**
-     * Creates a SurfaceData object representing the intermediate buffer
-     * between the Java2D flusher thread and the AppKit thread.
+     * Crebtes b SurfbceDbtb object representing the intermedibte buffer
+     * between the Jbvb2D flusher threbd bnd the AppKit threbd.
      */
-    public static CGLLayerSurfaceData createData(CGLLayer layer) {
-        CGLGraphicsConfig gc = getGC(layer);
-        Rectangle r = layer.getBounds();
-        return new CGLLayerSurfaceData(layer, gc, r.width, r.height);
+    public stbtic CGLLbyerSurfbceDbtb crebteDbtb(CGLLbyer lbyer) {
+        CGLGrbphicsConfig gc = getGC(lbyer);
+        Rectbngle r = lbyer.getBounds();
+        return new CGLLbyerSurfbceDbtb(lbyer, gc, r.width, r.height);
     }
 
     /**
-     * Creates a SurfaceData object representing the back buffer of a
+     * Crebtes b SurfbceDbtb object representing the bbck buffer of b
      * double-buffered on-screen Window.
      */
-    public static CGLOffScreenSurfaceData createData(CPlatformView pView,
-            Image image, int type) {
-        CGLGraphicsConfig gc = getGC(pView);
-        Rectangle r = pView.getBounds();
+    public stbtic CGLOffScreenSurfbceDbtb crebteDbtb(CPlbtformView pView,
+            Imbge imbge, int type) {
+        CGLGrbphicsConfig gc = getGC(pView);
+        Rectbngle r = pView.getBounds();
         if (type == FLIP_BACKBUFFER) {
-            return new CGLOffScreenSurfaceData(pView, gc, r.width, r.height,
-                    image, gc.getColorModel(), FLIP_BACKBUFFER);
+            return new CGLOffScreenSurfbceDbtb(pView, gc, r.width, r.height,
+                    imbge, gc.getColorModel(), FLIP_BACKBUFFER);
         } else {
-            return new CGLVSyncOffScreenSurfaceData(pView, gc, r.width,
-                    r.height, image, gc.getColorModel(), type);
+            return new CGLVSyncOffScreenSurfbceDbtb(pView, gc, r.width,
+                    r.height, imbge, gc.getColorModel(), type);
         }
     }
 
     /**
-     * Creates a SurfaceData object representing an off-screen buffer (either a
+     * Crebtes b SurfbceDbtb object representing bn off-screen buffer (either b
      * Pbuffer or Texture).
      */
-    public static CGLOffScreenSurfaceData createData(CGLGraphicsConfig gc,
-            int width, int height, ColorModel cm, Image image, int type) {
-        return new CGLOffScreenSurfaceData(null, gc, width, height, image, cm,
+    public stbtic CGLOffScreenSurfbceDbtb crebteDbtb(CGLGrbphicsConfig gc,
+            int width, int height, ColorModel cm, Imbge imbge, int type) {
+        return new CGLOffScreenSurfbceDbtb(null, gc, width, height, imbge, cm,
                 type);
     }
 
-    public static CGLGraphicsConfig getGC(CPlatformView pView) {
+    public stbtic CGLGrbphicsConfig getGC(CPlbtformView pView) {
         if (pView != null) {
-            return (CGLGraphicsConfig)pView.getGraphicsConfiguration();
+            return (CGLGrbphicsConfig)pView.getGrbphicsConfigurbtion();
         } else {
-            // REMIND: this should rarely (never?) happen, but what if
-            // default config is not CGL?
-            GraphicsEnvironment env = GraphicsEnvironment
-                .getLocalGraphicsEnvironment();
-            GraphicsDevice gd = env.getDefaultScreenDevice();
-            return (CGLGraphicsConfig) gd.getDefaultConfiguration();
+            // REMIND: this should rbrely (never?) hbppen, but whbt if
+            // defbult config is not CGL?
+            GrbphicsEnvironment env = GrbphicsEnvironment
+                .getLocblGrbphicsEnvironment();
+            GrbphicsDevice gd = env.getDefbultScreenDevice();
+            return (CGLGrbphicsConfig) gd.getDefbultConfigurbtion();
         }
     }
 
-    public static CGLGraphicsConfig getGC(CGLLayer layer) {
-        return (CGLGraphicsConfig)layer.getGraphicsConfiguration();
+    public stbtic CGLGrbphicsConfig getGC(CGLLbyer lbyer) {
+        return (CGLGrbphicsConfig)lbyer.getGrbphicsConfigurbtion();
     }
 
-    public void validate() {
-        // Overridden in CGLWindowSurfaceData below
-    }
-
-    @Override
-    public int getDefaultScale() {
-        return scale;
+    public void vblidbte() {
+        // Overridden in CGLWindowSurfbceDbtb below
     }
 
     @Override
-    public boolean copyArea(SunGraphics2D sg2d, int x, int y, int w, int h,
+    public int getDefbultScble() {
+        return scble;
+    }
+
+    @Override
+    public boolebn copyAreb(SunGrbphics2D sg2d, int x, int y, int w, int h,
                             int dx, int dy) {
-        final int state = sg2d.transformState;
-        if (state > SunGraphics2D.TRANSFORM_TRANSLATESCALE
-            || sg2d.compositeState >= SunGraphics2D.COMP_XOR) {
-            return false;
+        finbl int stbte = sg2d.trbnsformStbte;
+        if (stbte > SunGrbphics2D.TRANSFORM_TRANSLATESCALE
+            || sg2d.compositeStbte >= SunGrbphics2D.COMP_XOR) {
+            return fblse;
         }
-        if (state <= SunGraphics2D.TRANSFORM_ANY_TRANSLATE) {
-            x += sg2d.transX;
-            y += sg2d.transY;
-        } else if (state == SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
-            final double[] coords = {x, y, x + w, y + h, x + dx, y + dy};
-            sg2d.transform.transform(coords, 0, coords, 0, 3);
-            x = (int) Math.ceil(coords[0] - 0.5);
-            y = (int) Math.ceil(coords[1] - 0.5);
-            w = ((int) Math.ceil(coords[2] - 0.5)) - x;
-            h = ((int) Math.ceil(coords[3] - 0.5)) - y;
-            dx = ((int) Math.ceil(coords[4] - 0.5)) - x;
-            dy = ((int) Math.ceil(coords[5] - 0.5)) - y;
+        if (stbte <= SunGrbphics2D.TRANSFORM_ANY_TRANSLATE) {
+            x += sg2d.trbnsX;
+            y += sg2d.trbnsY;
+        } else if (stbte == SunGrbphics2D.TRANSFORM_TRANSLATESCALE) {
+            finbl double[] coords = {x, y, x + w, y + h, x + dx, y + dy};
+            sg2d.trbnsform.trbnsform(coords, 0, coords, 0, 3);
+            x = (int) Mbth.ceil(coords[0] - 0.5);
+            y = (int) Mbth.ceil(coords[1] - 0.5);
+            w = ((int) Mbth.ceil(coords[2] - 0.5)) - x;
+            h = ((int) Mbth.ceil(coords[3] - 0.5)) - y;
+            dx = ((int) Mbth.ceil(coords[4] - 0.5)) - x;
+            dy = ((int) Mbth.ceil(coords[5] - 0.5)) - y;
         }
-        oglRenderPipe.copyArea(sg2d, x, y, w, h, dx, dy);
+        oglRenderPipe.copyAreb(sg2d, x, y, w, h, dx, dy);
         return true;
     }
 
-    protected native void clearWindow();
+    protected nbtive void clebrWindow();
 
-    public static class CGLWindowSurfaceData extends CGLSurfaceData {
+    public stbtic clbss CGLWindowSurfbceDbtb extends CGLSurfbceDbtb {
 
-        public CGLWindowSurfaceData(CPlatformView pView,
-                CGLGraphicsConfig gc) {
+        public CGLWindowSurfbceDbtb(CPlbtformView pView,
+                CGLGrbphicsConfig gc) {
             super(pView, gc, gc.getColorModel(), WINDOW, 0, 0);
         }
 
         @Override
-        public SurfaceData getReplacement() {
-            return pView.getSurfaceData();
+        public SurfbceDbtb getReplbcement() {
+            return pView.getSurfbceDbtb();
         }
 
         @Override
-        public Rectangle getBounds() {
-            Rectangle r = pView.getBounds();
-            return new Rectangle(0, 0, r.width, r.height);
+        public Rectbngle getBounds() {
+            Rectbngle r = pView.getBounds();
+            return new Rectbngle(0, 0, r.width, r.height);
         }
 
         /**
-         * Returns destination Component associated with this SurfaceData.
+         * Returns destinbtion Component bssocibted with this SurfbceDbtb.
          */
         @Override
-        public Object getDestination() {
-            return pView.getDestination();
+        public Object getDestinbtion() {
+            return pView.getDestinbtion();
         }
 
-        public void validate() {
-            OGLRenderQueue rq = OGLRenderQueue.getInstance();
+        public void vblidbte() {
+            OGLRenderQueue rq = OGLRenderQueue.getInstbnce();
             rq.lock();
             try {
-                rq.flushAndInvokeNow(new Runnable() {
+                rq.flushAndInvokeNow(new Runnbble() {
                     public void run() {
-                        Rectangle peerBounds = pView.getBounds();
-                        validate(0, 0, peerBounds.width, peerBounds.height, pView.isOpaque());
+                        Rectbngle peerBounds = pView.getBounds();
+                        vblidbte(0, 0, peerBounds.width, peerBounds.height, pView.isOpbque());
                     }
                 });
-            } finally {
+            } finblly {
                 rq.unlock();
             }
         }
 
         @Override
-        public void invalidate() {
-            super.invalidate();
-            clearWindow();
+        public void invblidbte() {
+            super.invblidbte();
+            clebrWindow();
         }
     }
 
     /**
-     * A surface which implements an intermediate buffer between
-     * the Java2D flusher thread and the AppKit thread.
+     * A surfbce which implements bn intermedibte buffer between
+     * the Jbvb2D flusher threbd bnd the AppKit threbd.
      *
-     * This surface serves as a buffer attached to a CGLLayer and
-     * the layer redirects all painting to the buffer's graphics.
+     * This surfbce serves bs b buffer bttbched to b CGLLbyer bnd
+     * the lbyer redirects bll pbinting to the buffer's grbphics.
      */
-    public static class CGLLayerSurfaceData extends CGLSurfaceData {
+    public stbtic clbss CGLLbyerSurfbceDbtb extends CGLSurfbceDbtb {
 
-        private CGLLayer layer;
+        privbte CGLLbyer lbyer;
 
-        public CGLLayerSurfaceData(CGLLayer layer, CGLGraphicsConfig gc,
+        public CGLLbyerSurfbceDbtb(CGLLbyer lbyer, CGLGrbphicsConfig gc,
                                    int width, int height) {
-            super(layer, gc, gc.getColorModel(), FBOBJECT, width, height);
-            this.layer = layer;
-            initSurface(this.width, this.height);
+            super(lbyer, gc, gc.getColorModel(), FBOBJECT, width, height);
+            this.lbyer = lbyer;
+            initSurfbce(this.width, this.height);
         }
 
         @Override
-        public SurfaceData getReplacement() {
-            return layer.getSurfaceData();
+        public SurfbceDbtb getReplbcement() {
+            return lbyer.getSurfbceDbtb();
         }
 
         @Override
-        boolean isOnScreen() {
+        boolebn isOnScreen() {
             return true;
         }
 
         @Override
-        public Rectangle getBounds() {
-            return new Rectangle(width, height);
+        public Rectbngle getBounds() {
+            return new Rectbngle(width, height);
         }
 
         @Override
-        public Object getDestination() {
-            return layer.getDestination();
+        public Object getDestinbtion() {
+            return lbyer.getDestinbtion();
         }
 
         @Override
-        public int getTransparency() {
-            return layer.getTransparency();
+        public int getTrbnspbrency() {
+            return lbyer.getTrbnspbrency();
         }
 
         @Override
-        public void invalidate() {
-            super.invalidate();
-            clearWindow();
+        public void invblidbte() {
+            super.invblidbte();
+            clebrWindow();
         }
     }
 
     /**
-     * A surface which implements a v-synced flip back-buffer with COPIED
+     * A surfbce which implements b v-synced flip bbck-buffer with COPIED
      * FlipContents.
      *
-     * This surface serves as a back-buffer to the outside world, while it is
-     * actually an offscreen surface. When the BufferStrategy this surface
-     * belongs to is showed, it is first copied to the real private
+     * This surfbce serves bs b bbck-buffer to the outside world, while it is
+     * bctublly bn offscreen surfbce. When the BufferStrbtegy this surfbce
+     * belongs to is showed, it is first copied to the rebl privbte
      * FLIP_BACKBUFFER, which is then flipped.
      */
-    public static class CGLVSyncOffScreenSurfaceData extends
-            CGLOffScreenSurfaceData {
-        private CGLOffScreenSurfaceData flipSurface;
+    public stbtic clbss CGLVSyncOffScreenSurfbceDbtb extends
+            CGLOffScreenSurfbceDbtb {
+        privbte CGLOffScreenSurfbceDbtb flipSurfbce;
 
-        public CGLVSyncOffScreenSurfaceData(CPlatformView pView,
-                CGLGraphicsConfig gc, int width, int height, Image image,
+        public CGLVSyncOffScreenSurfbceDbtb(CPlbtformView pView,
+                CGLGrbphicsConfig gc, int width, int height, Imbge imbge,
                 ColorModel cm, int type) {
-            super(pView, gc, width, height, image, cm, type);
-            flipSurface = CGLSurfaceData.createData(pView, image,
+            super(pView, gc, width, height, imbge, cm, type);
+            flipSurfbce = CGLSurfbceDbtb.crebteDbtb(pView, imbge,
                     FLIP_BACKBUFFER);
         }
 
-        public SurfaceData getFlipSurface() {
-            return flipSurface;
+        public SurfbceDbtb getFlipSurfbce() {
+            return flipSurfbce;
         }
 
         @Override
         public void flush() {
-            flipSurface.flush();
+            flipSurfbce.flush();
             super.flush();
         }
     }
 
-    public static class CGLOffScreenSurfaceData extends CGLSurfaceData {
-        private Image offscreenImage;
+    public stbtic clbss CGLOffScreenSurfbceDbtb extends CGLSurfbceDbtb {
+        privbte Imbge offscreenImbge;
 
-        public CGLOffScreenSurfaceData(CPlatformView pView,
-                                       CGLGraphicsConfig gc, int width, int height, Image image,
+        public CGLOffScreenSurfbceDbtb(CPlbtformView pView,
+                                       CGLGrbphicsConfig gc, int width, int height, Imbge imbge,
                                        ColorModel cm, int type) {
             super(pView, gc, cm, type, width, height);
-            offscreenImage = image;
-            initSurface(this.width, this.height);
+            offscreenImbge = imbge;
+            initSurfbce(this.width, this.height);
         }
 
         @Override
-        public SurfaceData getReplacement() {
-            return restoreContents(offscreenImage);
+        public SurfbceDbtb getReplbcement() {
+            return restoreContents(offscreenImbge);
         }
 
         @Override
-        public Rectangle getBounds() {
+        public Rectbngle getBounds() {
             if (type == FLIP_BACKBUFFER) {
-                Rectangle r = pView.getBounds();
-                return new Rectangle(0, 0, r.width, r.height);
+                Rectbngle r = pView.getBounds();
+                return new Rectbngle(0, 0, r.width, r.height);
             } else {
-                return new Rectangle(width, height);
+                return new Rectbngle(width, height);
             }
         }
 
         /**
-         * Returns destination Image associated with this SurfaceData.
+         * Returns destinbtion Imbge bssocibted with this SurfbceDbtb.
          */
         @Override
-        public Object getDestination() {
-            return offscreenImage;
+        public Object getDestinbtion() {
+            return offscreenImbge;
         }
     }
 
-    // Mac OS X specific APIs for JOGL/Java2D bridge...
+    // Mbc OS X specific APIs for JOGL/Jbvb2D bridge...
 
-    // given a surface create and attach GL context, then return it
-    private native static long createCGLContextOnSurface(CGLSurfaceData sd,
-            long sharedContext);
+    // given b surfbce crebte bnd bttbch GL context, then return it
+    privbte nbtive stbtic long crebteCGLContextOnSurfbce(CGLSurfbceDbtb sd,
+            long shbredContext);
 
-    public static long createOGLContextOnSurface(Graphics g, long sharedContext) {
-        SurfaceData sd = ((SunGraphics2D) g).surfaceData;
-        if ((sd instanceof CGLSurfaceData) == true) {
-            CGLSurfaceData cglsd = (CGLSurfaceData) sd;
-            return createCGLContextOnSurface(cglsd, sharedContext);
+    public stbtic long crebteOGLContextOnSurfbce(Grbphics g, long shbredContext) {
+        SurfbceDbtb sd = ((SunGrbphics2D) g).surfbceDbtb;
+        if ((sd instbnceof CGLSurfbceDbtb) == true) {
+            CGLSurfbceDbtb cglsd = (CGLSurfbceDbtb) sd;
+            return crebteCGLContextOnSurfbce(cglsd, shbredContext);
         } else {
             return 0L;
         }
     }
 
-    // returns whether or not the makeCurrent operation succeeded
-    native static boolean makeCGLContextCurrentOnSurface(CGLSurfaceData sd,
+    // returns whether or not the mbkeCurrent operbtion succeeded
+    nbtive stbtic boolebn mbkeCGLContextCurrentOnSurfbce(CGLSurfbceDbtb sd,
             long ctx);
 
-    public static boolean makeOGLContextCurrentOnSurface(Graphics g, long ctx) {
-        SurfaceData sd = ((SunGraphics2D) g).surfaceData;
-        if ((ctx != 0L) && ((sd instanceof CGLSurfaceData) == true)) {
-            CGLSurfaceData cglsd = (CGLSurfaceData) sd;
-            return makeCGLContextCurrentOnSurface(cglsd, ctx);
+    public stbtic boolebn mbkeOGLContextCurrentOnSurfbce(Grbphics g, long ctx) {
+        SurfbceDbtb sd = ((SunGrbphics2D) g).surfbceDbtb;
+        if ((ctx != 0L) && ((sd instbnceof CGLSurfbceDbtb) == true)) {
+            CGLSurfbceDbtb cglsd = (CGLSurfbceDbtb) sd;
+            return mbkeCGLContextCurrentOnSurfbce(cglsd, ctx);
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    // additional cleanup
-    private native static void destroyCGLContext(long ctx);
+    // bdditionbl clebnup
+    privbte nbtive stbtic void destroyCGLContext(long ctx);
 
-    public static void destroyOGLContext(long ctx) {
+    public stbtic void destroyOGLContext(long ctx) {
         if (ctx != 0L) {
             destroyCGLContext(ctx);
         }

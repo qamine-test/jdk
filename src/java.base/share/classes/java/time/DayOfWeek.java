@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2007-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,399 +59,399 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbckbge jbvb.time;
 
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
-import static java.time.temporal.ChronoUnit.DAYS;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_WEEK;
+import stbtic jbvb.time.temporbl.ChronoUnit.DAYS;
 
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.TextStyle;
-import java.time.temporal.ChronoField;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.time.temporal.WeekFields;
-import java.util.Locale;
+import jbvb.time.formbt.DbteTimeFormbtterBuilder;
+import jbvb.time.formbt.TextStyle;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.time.temporbl.WeekFields;
+import jbvb.util.Locble;
 
 /**
- * A day-of-week, such as 'Tuesday'.
+ * A dby-of-week, such bs 'Tuesdby'.
  * <p>
- * {@code DayOfWeek} is an enum representing the 7 days of the week -
- * Monday, Tuesday, Wednesday, Thursday, Friday, Saturday and Sunday.
+ * {@code DbyOfWeek} is bn enum representing the 7 dbys of the week -
+ * Mondby, Tuesdby, Wednesdby, Thursdby, Fridby, Sbturdby bnd Sundby.
  * <p>
- * In addition to the textual enum name, each day-of-week has an {@code int} value.
- * The {@code int} value follows the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).
- * It is recommended that applications use the enum rather than the {@code int} value
- * to ensure code clarity.
+ * In bddition to the textubl enum nbme, ebch dby-of-week hbs bn {@code int} vblue.
+ * The {@code int} vblue follows the ISO-8601 stbndbrd, from 1 (Mondby) to 7 (Sundby).
+ * It is recommended thbt bpplicbtions use the enum rbther thbn the {@code int} vblue
+ * to ensure code clbrity.
  * <p>
- * This enum provides access to the localized textual form of the day-of-week.
- * Some locales also assign different numeric values to the days, declaring
- * Sunday to have the value 1, however this class provides no support for this.
- * See {@link WeekFields} for localized week-numbering.
+ * This enum provides bccess to the locblized textubl form of the dby-of-week.
+ * Some locbles blso bssign different numeric vblues to the dbys, declbring
+ * Sundby to hbve the vblue 1, however this clbss provides no support for this.
+ * See {@link WeekFields} for locblized week-numbering.
  * <p>
- * <b>Do not use {@code ordinal()} to obtain the numeric representation of {@code DayOfWeek}.
- * Use {@code getValue()} instead.</b>
+ * <b>Do not use {@code ordinbl()} to obtbin the numeric representbtion of {@code DbyOfWeek}.
+ * Use {@code getVblue()} instebd.</b>
  * <p>
- * This enum represents a common concept that is found in many calendar systems.
- * As such, this enum may be used by any calendar system that has the day-of-week
- * concept defined exactly equivalent to the ISO calendar system.
+ * This enum represents b common concept thbt is found in mbny cblendbr systems.
+ * As such, this enum mby be used by bny cblendbr system thbt hbs the dby-of-week
+ * concept defined exbctly equivblent to the ISO cblendbr system.
  *
  * @implSpec
- * This is an immutable and thread-safe enum.
+ * This is bn immutbble bnd threbd-sbfe enum.
  *
  * @since 1.8
  */
-public enum DayOfWeek implements TemporalAccessor, TemporalAdjuster {
+public enum DbyOfWeek implements TemporblAccessor, TemporblAdjuster {
 
     /**
-     * The singleton instance for the day-of-week of Monday.
-     * This has the numeric value of {@code 1}.
+     * The singleton instbnce for the dby-of-week of Mondby.
+     * This hbs the numeric vblue of {@code 1}.
      */
     MONDAY,
     /**
-     * The singleton instance for the day-of-week of Tuesday.
-     * This has the numeric value of {@code 2}.
+     * The singleton instbnce for the dby-of-week of Tuesdby.
+     * This hbs the numeric vblue of {@code 2}.
      */
     TUESDAY,
     /**
-     * The singleton instance for the day-of-week of Wednesday.
-     * This has the numeric value of {@code 3}.
+     * The singleton instbnce for the dby-of-week of Wednesdby.
+     * This hbs the numeric vblue of {@code 3}.
      */
     WEDNESDAY,
     /**
-     * The singleton instance for the day-of-week of Thursday.
-     * This has the numeric value of {@code 4}.
+     * The singleton instbnce for the dby-of-week of Thursdby.
+     * This hbs the numeric vblue of {@code 4}.
      */
     THURSDAY,
     /**
-     * The singleton instance for the day-of-week of Friday.
-     * This has the numeric value of {@code 5}.
+     * The singleton instbnce for the dby-of-week of Fridby.
+     * This hbs the numeric vblue of {@code 5}.
      */
     FRIDAY,
     /**
-     * The singleton instance for the day-of-week of Saturday.
-     * This has the numeric value of {@code 6}.
+     * The singleton instbnce for the dby-of-week of Sbturdby.
+     * This hbs the numeric vblue of {@code 6}.
      */
     SATURDAY,
     /**
-     * The singleton instance for the day-of-week of Sunday.
-     * This has the numeric value of {@code 7}.
+     * The singleton instbnce for the dby-of-week of Sundby.
+     * This hbs the numeric vblue of {@code 7}.
      */
     SUNDAY;
     /**
-     * Private cache of all the constants.
+     * Privbte cbche of bll the constbnts.
      */
-    private static final DayOfWeek[] ENUMS = DayOfWeek.values();
+    privbte stbtic finbl DbyOfWeek[] ENUMS = DbyOfWeek.vblues();
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code DayOfWeek} from an {@code int} value.
+     * Obtbins bn instbnce of {@code DbyOfWeek} from bn {@code int} vblue.
      * <p>
-     * {@code DayOfWeek} is an enum representing the 7 days of the week.
-     * This factory allows the enum to be obtained from the {@code int} value.
-     * The {@code int} value follows the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).
+     * {@code DbyOfWeek} is bn enum representing the 7 dbys of the week.
+     * This fbctory bllows the enum to be obtbined from the {@code int} vblue.
+     * The {@code int} vblue follows the ISO-8601 stbndbrd, from 1 (Mondby) to 7 (Sundby).
      *
-     * @param dayOfWeek  the day-of-week to represent, from 1 (Monday) to 7 (Sunday)
-     * @return the day-of-week singleton, not null
-     * @throws DateTimeException if the day-of-week is invalid
+     * @pbrbm dbyOfWeek  the dby-of-week to represent, from 1 (Mondby) to 7 (Sundby)
+     * @return the dby-of-week singleton, not null
+     * @throws DbteTimeException if the dby-of-week is invblid
      */
-    public static DayOfWeek of(int dayOfWeek) {
-        if (dayOfWeek < 1 || dayOfWeek > 7) {
-            throw new DateTimeException("Invalid value for DayOfWeek: " + dayOfWeek);
+    public stbtic DbyOfWeek of(int dbyOfWeek) {
+        if (dbyOfWeek < 1 || dbyOfWeek > 7) {
+            throw new DbteTimeException("Invblid vblue for DbyOfWeek: " + dbyOfWeek);
         }
-        return ENUMS[dayOfWeek - 1];
+        return ENUMS[dbyOfWeek - 1];
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code DayOfWeek} from a temporal object.
+     * Obtbins bn instbnce of {@code DbyOfWeek} from b temporbl object.
      * <p>
-     * This obtains a day-of-week based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code DayOfWeek}.
+     * This obtbins b dby-of-week bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code DbyOfWeek}.
      * <p>
-     * The conversion extracts the {@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} field.
+     * The conversion extrbcts the {@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} field.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code DayOfWeek::from}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code DbyOfWeek::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the day-of-week, not null
-     * @throws DateTimeException if unable to convert to a {@code DayOfWeek}
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the dby-of-week, not null
+     * @throws DbteTimeException if unbble to convert to b {@code DbyOfWeek}
      */
-    public static DayOfWeek from(TemporalAccessor temporal) {
-        if (temporal instanceof DayOfWeek) {
-            return (DayOfWeek) temporal;
+    public stbtic DbyOfWeek from(TemporblAccessor temporbl) {
+        if (temporbl instbnceof DbyOfWeek) {
+            return (DbyOfWeek) temporbl;
         }
         try {
-            return of(temporal.get(DAY_OF_WEEK));
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain DayOfWeek from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
+            return of(temporbl.get(DAY_OF_WEEK));
+        } cbtch (DbteTimeException ex) {
+            throw new DbteTimeException("Unbble to obtbin DbyOfWeek from TemporblAccessor: " +
+                    temporbl + " of type " + temporbl.getClbss().getNbme(), ex);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the day-of-week {@code int} value.
+     * Gets the dby-of-week {@code int} vblue.
      * <p>
-     * The values are numbered following the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).
-     * See {@link java.time.temporal.WeekFields#dayOfWeek()} for localized week-numbering.
+     * The vblues bre numbered following the ISO-8601 stbndbrd, from 1 (Mondby) to 7 (Sundby).
+     * See {@link jbvb.time.temporbl.WeekFields#dbyOfWeek()} for locblized week-numbering.
      *
-     * @return the day-of-week, from 1 (Monday) to 7 (Sunday)
+     * @return the dby-of-week, from 1 (Mondby) to 7 (Sundby)
      */
-    public int getValue() {
-        return ordinal() + 1;
+    public int getVblue() {
+        return ordinbl() + 1;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the textual representation, such as 'Mon' or 'Friday'.
+     * Gets the textubl representbtion, such bs 'Mon' or 'Fridby'.
      * <p>
-     * This returns the textual name used to identify the day-of-week,
-     * suitable for presentation to the user.
-     * The parameters control the style of the returned text and the locale.
+     * This returns the textubl nbme used to identify the dby-of-week,
+     * suitbble for presentbtion to the user.
+     * The pbrbmeters control the style of the returned text bnd the locble.
      * <p>
-     * If no textual mapping is found then the {@link #getValue() numeric value} is returned.
+     * If no textubl mbpping is found then the {@link #getVblue() numeric vblue} is returned.
      *
-     * @param style  the length of the text required, not null
-     * @param locale  the locale to use, not null
-     * @return the text value of the day-of-week, not null
+     * @pbrbm style  the length of the text required, not null
+     * @pbrbm locble  the locble to use, not null
+     * @return the text vblue of the dby-of-week, not null
      */
-    public String getDisplayName(TextStyle style, Locale locale) {
-        return new DateTimeFormatterBuilder().appendText(DAY_OF_WEEK, style).toFormatter(locale).format(this);
+    public String getDisplbyNbme(TextStyle style, Locble locble) {
+        return new DbteTimeFormbtterBuilder().bppendText(DAY_OF_WEEK, style).toFormbtter(locble).formbt(this);
     }
 
     //-----------------------------------------------------------------------
     /**
      * Checks if the specified field is supported.
      * <p>
-     * This checks if this day-of-week can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range} and
-     * {@link #get(TemporalField) get} methods will throw an exception.
+     * This checks if this dby-of-week cbn be queried for the specified field.
+     * If fblse, then cblling the {@link #rbnge(TemporblField) rbnge} bnd
+     * {@link #get(TemporblField) get} methods will throw bn exception.
      * <p>
      * If the field is {@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} then
      * this method returns true.
-     * All other {@code ChronoField} instances will return false.
+     * All other {@code ChronoField} instbnces will return fblse.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.isSupportedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this day-of-week, false if not
+     * @pbrbm field  the field to check, null returns fblse
+     * @return true if the field is supported on this dby-of-week, fblse if not
      */
     @Override
-    public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public boolebn isSupported(TemporblField field) {
+        if (field instbnceof ChronoField) {
             return field == DAY_OF_WEEK;
         }
         return field != null && field.isSupportedBy(this);
     }
 
     /**
-     * Gets the range of valid values for the specified field.
+     * Gets the rbnge of vblid vblues for the specified field.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This day-of-week is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * The rbnge object expresses the minimum bnd mbximum vblid vblues for b field.
+     * This dby-of-week is used to enhbnce the bccurbcy of the returned rbnge.
+     * If it is not possible to return the rbnge, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
      * If the field is {@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} then the
-     * range of the day-of-week, from 1 to 7, will be returned.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * rbnge of the dby-of-week, from 1 to 7, will be returned.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.rbngeRefinedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
+     * Whether the rbnge cbn be obtbined is determined by the field.
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to query the rbnge for, not null
+     * @return the rbnge of vblid vblues for the field, not null
+     * @throws DbteTimeException if the rbnge for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      */
     @Override
-    public ValueRange range(TemporalField field) {
+    public VblueRbnge rbnge(TemporblField field) {
         if (field == DAY_OF_WEEK) {
-            return field.range();
+            return field.rbnge();
         }
-        return TemporalAccessor.super.range(field);
+        return TemporblAccessor.super.rbnge(field);
     }
 
     /**
-     * Gets the value of the specified field from this day-of-week as an {@code int}.
+     * Gets the vblue of the specified field from this dby-of-week bs bn {@code int}.
      * <p>
-     * This queries this day-of-week for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this dby-of-week for the vblue of the specified field.
+     * The returned vblue will blwbys be within the vblid rbnge of vblues for the field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
      * If the field is {@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} then the
-     * value of the day-of-week, from 1 to 7, will be returned.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * vblue of the dby-of-week, from 1 to 7, will be returned.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field, within the valid range of values
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field, within the vblid rbnge of vblues
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined or
+     *         the vblue is outside the rbnge of vblid vblues for the field
+     * @throws UnsupportedTemporblTypeException if the field is not supported or
+     *         the rbnge of vblues exceeds bn {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public int get(TemporalField field) {
+    public int get(TemporblField field) {
         if (field == DAY_OF_WEEK) {
-            return getValue();
+            return getVblue();
         }
-        return TemporalAccessor.super.get(field);
+        return TemporblAccessor.super.get(field);
     }
 
     /**
-     * Gets the value of the specified field from this day-of-week as a {@code long}.
+     * Gets the vblue of the specified field from this dby-of-week bs b {@code long}.
      * <p>
-     * This queries this day-of-week for the value of the specified field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this dby-of-week for the vblue of the specified field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
      * If the field is {@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} then the
-     * value of the day-of-week, from 1 to 7, will be returned.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * vblue of the dby-of-week, from 1 to 7, will be returned.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long getLong(TemporalField field) {
+    public long getLong(TemporblField field) {
         if (field == DAY_OF_WEEK) {
-            return getValue();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            return getVblue();
+        } else if (field instbnceof ChronoField) {
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
         return field.getFrom(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns the day-of-week that is the specified number of days after this one.
+     * Returns the dby-of-week thbt is the specified number of dbys bfter this one.
      * <p>
-     * The calculation rolls around the end of the week from Sunday to Monday.
-     * The specified period may be negative.
+     * The cblculbtion rolls bround the end of the week from Sundby to Mondby.
+     * The specified period mby be negbtive.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param days  the days to add, positive or negative
-     * @return the resulting day-of-week, not null
+     * @pbrbm dbys  the dbys to bdd, positive or negbtive
+     * @return the resulting dby-of-week, not null
      */
-    public DayOfWeek plus(long days) {
-        int amount = (int) (days % 7);
-        return ENUMS[(ordinal() + (amount + 7)) % 7];
+    public DbyOfWeek plus(long dbys) {
+        int bmount = (int) (dbys % 7);
+        return ENUMS[(ordinbl() + (bmount + 7)) % 7];
     }
 
     /**
-     * Returns the day-of-week that is the specified number of days before this one.
+     * Returns the dby-of-week thbt is the specified number of dbys before this one.
      * <p>
-     * The calculation rolls around the start of the year from Monday to Sunday.
-     * The specified period may be negative.
+     * The cblculbtion rolls bround the stbrt of the yebr from Mondby to Sundby.
+     * The specified period mby be negbtive.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param days  the days to subtract, positive or negative
-     * @return the resulting day-of-week, not null
+     * @pbrbm dbys  the dbys to subtrbct, positive or negbtive
+     * @return the resulting dby-of-week, not null
      */
-    public DayOfWeek minus(long days) {
-        return plus(-(days % 7));
+    public DbyOfWeek minus(long dbys) {
+        return plus(-(dbys % 7));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Queries this day-of-week using the specified query.
+     * Queries this dby-of-week using the specified query.
      * <p>
-     * This queries this day-of-week using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * This queries this dby-of-week using the specified query strbtegy object.
+     * The {@code TemporblQuery} object defines the logic to be used to
+     * obtbin the result. Rebd the documentbtion of the query to understbnd
+     * whbt the result of this method will be.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblQuery#queryFrom(TemporblAccessor)} method on the
+     * specified query pbssing {@code this} bs the brgument.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
+     * @pbrbm <R> the type of the result
+     * @pbrbm query  the query to invoke, not null
+     * @return the query result, null mby be returned (defined by the query)
+     * @throws DbteTimeException if unbble to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.precision()) {
+    public <R> R query(TemporblQuery<R> query) {
+        if (query == TemporblQueries.precision()) {
             return (R) DAYS;
         }
-        return TemporalAccessor.super.query(query);
+        return TemporblAccessor.super.query(query);
     }
 
     /**
-     * Adjusts the specified temporal object to have this day-of-week.
+     * Adjusts the specified temporbl object to hbve this dby-of-week.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with the day-of-week changed to be the same as this.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with the dby-of-week chbnged to be the sbme bs this.
      * <p>
-     * The adjustment is equivalent to using {@link Temporal#with(TemporalField, long)}
-     * passing {@link ChronoField#DAY_OF_WEEK} as the field.
-     * Note that this adjusts forwards or backwards within a Monday to Sunday week.
-     * See {@link java.time.temporal.WeekFields#dayOfWeek()} for localized week start days.
-     * See {@code TemporalAdjuster} for other adjusters with more control,
-     * such as {@code next(MONDAY)}.
+     * The bdjustment is equivblent to using {@link Temporbl#with(TemporblField, long)}
+     * pbssing {@link ChronoField#DAY_OF_WEEK} bs the field.
+     * Note thbt this bdjusts forwbrds or bbckwbrds within b Mondby to Sundby week.
+     * See {@link jbvb.time.temporbl.WeekFields#dbyOfWeek()} for locblized week stbrt dbys.
+     * See {@code TemporblAdjuster} for other bdjusters with more control,
+     * such bs {@code next(MONDAY)}.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#with(TemporalAdjuster)}:
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#with(TemporblAdjuster)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisDayOfWeek.adjustInto(temporal);
-     *   temporal = temporal.with(thisDayOfWeek);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisDbyOfWeek.bdjustInto(temporbl);
+     *   temporbl = temporbl.with(thisDbyOfWeek);
      * </pre>
      * <p>
-     * For example, given a date that is a Wednesday, the following are output:
+     * For exbmple, given b dbte thbt is b Wednesdby, the following bre output:
      * <pre>
-     *   dateOnWed.with(MONDAY);     // two days earlier
-     *   dateOnWed.with(TUESDAY);    // one day earlier
-     *   dateOnWed.with(WEDNESDAY);  // same date
-     *   dateOnWed.with(THURSDAY);   // one day later
-     *   dateOnWed.with(FRIDAY);     // two days later
-     *   dateOnWed.with(SATURDAY);   // three days later
-     *   dateOnWed.with(SUNDAY);     // four days later
+     *   dbteOnWed.with(MONDAY);     // two dbys ebrlier
+     *   dbteOnWed.with(TUESDAY);    // one dby ebrlier
+     *   dbteOnWed.with(WEDNESDAY);  // sbme dbte
+     *   dbteOnWed.with(THURSDAY);   // one dby lbter
+     *   dbteOnWed.with(FRIDAY);     // two dbys lbter
+     *   dbteOnWed.with(SATURDAY);   // three dbys lbter
+     *   dbteOnWed.with(SUNDAY);     // four dbys lbter
      * </pre>
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the target object to be adjusted, not null
-     * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
+     * @pbrbm temporbl  the tbrget object to be bdjusted, not null
+     * @return the bdjusted object, not null
+     * @throws DbteTimeException if unbble to mbke the bdjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Temporal adjustInto(Temporal temporal) {
-        return temporal.with(DAY_OF_WEEK, getValue());
+    public Temporbl bdjustInto(Temporbl temporbl) {
+        return temporbl.with(DAY_OF_WEEK, getVblue());
     }
 
 }

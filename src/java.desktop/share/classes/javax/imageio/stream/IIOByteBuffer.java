@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1999, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.stream;
+pbckbge jbvbx.imbgeio.strebm;
 
 /**
- * A class representing a mutable reference to an array of bytes and
- * an offset and length within that array.  <code>IIOByteBuffer</code>
- * is used by <code>ImageInputStream</code> to supply a sequence of bytes
- * to the caller, possibly with fewer copies than using the conventional
- * <code>read</code> methods that take a user-supplied byte array.
+ * A clbss representing b mutbble reference to bn brrby of bytes bnd
+ * bn offset bnd length within thbt brrby.  <code>IIOByteBuffer</code>
+ * is used by <code>ImbgeInputStrebm</code> to supply b sequence of bytes
+ * to the cbller, possibly with fewer copies thbn using the conventionbl
+ * <code>rebd</code> methods thbt tbke b user-supplied byte brrby.
  *
- * <p> The byte array referenced by an <code>IIOByteBuffer</code> will
- * generally be part of an internal data structure belonging to an
- * <code>ImageReader</code> implementation; its contents should be
- * considered read-only and must not be modified.
+ * <p> The byte brrby referenced by bn <code>IIOByteBuffer</code> will
+ * generblly be pbrt of bn internbl dbtb structure belonging to bn
+ * <code>ImbgeRebder</code> implementbtion; its contents should be
+ * considered rebd-only bnd must not be modified.
  *
  */
-public class IIOByteBuffer {
+public clbss IIOByteBuffer {
 
-    private byte[] data;
+    privbte byte[] dbtb;
 
-    private int offset;
+    privbte int offset;
 
-    private int length;
+    privbte int length;
 
     /**
-     * Constructs an <code>IIOByteBuffer</code> that references a
-     * given byte array, offset, and length.
+     * Constructs bn <code>IIOByteBuffer</code> thbt references b
+     * given byte brrby, offset, bnd length.
      *
-     * @param data a byte array.
-     * @param offset an int offset within the array.
-     * @param length an int specifying the length of the data of
-     * interest within byte array, in bytes.
+     * @pbrbm dbtb b byte brrby.
+     * @pbrbm offset bn int offset within the brrby.
+     * @pbrbm length bn int specifying the length of the dbtb of
+     * interest within byte brrby, in bytes.
      */
-    public IIOByteBuffer(byte[] data, int offset, int length) {
-        this.data = data;
+    public IIOByteBuffer(byte[] dbtb, int offset, int length) {
+        this.dbtb = dbtb;
         this.offset = offset;
         this.length = length;
     }
 
     /**
-     * Returns a reference to the byte array.  The returned value should
-     * be treated as read-only, and only the portion specified by the
-     * values of <code>getOffset</code> and <code>getLength</code> should
+     * Returns b reference to the byte brrby.  The returned vblue should
+     * be trebted bs rebd-only, bnd only the portion specified by the
+     * vblues of <code>getOffset</code> bnd <code>getLength</code> should
      * be used.
      *
-     * @return a byte array reference.
+     * @return b byte brrby reference.
      *
      * @see #getOffset
      * @see #getLength
-     * @see #setData
+     * @see #setDbtb
      */
-    public byte[] getData() {
-        return data;
+    public byte[] getDbtb() {
+        return dbtb;
     }
 
     /**
-     * Updates the array reference that will be returned by subsequent calls
-     * to the <code>getData</code> method.
+     * Updbtes the brrby reference thbt will be returned by subsequent cblls
+     * to the <code>getDbtb</code> method.
      *
-     * @param data a byte array reference containing the new data value.
+     * @pbrbm dbtb b byte brrby reference contbining the new dbtb vblue.
      *
-     * @see #getData
+     * @see #getDbtb
      */
-    public void setData(byte[] data) {
-        this.data = data;
+    public void setDbtb(byte[] dbtb) {
+        this.dbtb = dbtb;
     }
 
     /**
-     * Returns the offset within the byte array returned by
-     * <code>getData</code> at which the data of interest start.
+     * Returns the offset within the byte brrby returned by
+     * <code>getDbtb</code> bt which the dbtb of interest stbrt.
      *
-     * @return an int offset.
+     * @return bn int offset.
      *
-     * @see #getData
+     * @see #getDbtb
      * @see #getLength
      * @see #setOffset
      */
@@ -104,10 +104,10 @@ public class IIOByteBuffer {
     }
 
     /**
-     * Updates the value that will be returned by subsequent calls
+     * Updbtes the vblue thbt will be returned by subsequent cblls
      * to the <code>getOffset</code> method.
      *
-     * @param offset an int containing the new offset value.
+     * @pbrbm offset bn int contbining the new offset vblue.
      *
      * @see #getOffset
      */
@@ -116,12 +116,12 @@ public class IIOByteBuffer {
     }
 
     /**
-     * Returns the length of the data of interest within the byte
-     * array returned by <code>getData</code>.
+     * Returns the length of the dbtb of interest within the byte
+     * brrby returned by <code>getDbtb</code>.
      *
-     * @return an int length.
+     * @return bn int length.
      *
-     * @see #getData
+     * @see #getDbtb
      * @see #getOffset
      * @see #setLength
      */
@@ -130,10 +130,10 @@ public class IIOByteBuffer {
     }
 
     /**
-     * Updates the value that will be returned by subsequent calls
+     * Updbtes the vblue thbt will be returned by subsequent cblls
      * to the <code>getLength</code> method.
      *
-     * @param length an int containing the new length value.
+     * @pbrbm length bn int contbining the new length vblue.
      *
      * @see #getLength
      */

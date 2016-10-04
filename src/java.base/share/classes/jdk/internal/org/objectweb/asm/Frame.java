@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,214 +56,214 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * Information about the input and output stack map frames of a basic block.
+ * Informbtion bbout the input bnd output stbck mbp frbmes of b bbsic block.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-final class Frame {
+finbl clbss Frbme {
 
     /*
-     * Frames are computed in a two steps process: during the visit of each
-     * instruction, the state of the frame at the end of current basic block is
-     * updated by simulating the action of the instruction on the previous state
-     * of this so called "output frame". In visitMaxs, a fix point algorithm is
-     * used to compute the "input frame" of each basic block, i.e. the stack map
-     * frame at the beginning of the basic block, starting from the input frame
-     * of the first basic block (which is computed from the method descriptor),
-     * and by using the previously computed output frames to compute the input
-     * state of the other blocks.
+     * Frbmes bre computed in b two steps process: during the visit of ebch
+     * instruction, the stbte of the frbme bt the end of current bbsic block is
+     * updbted by simulbting the bction of the instruction on the previous stbte
+     * of this so cblled "output frbme". In visitMbxs, b fix point blgorithm is
+     * used to compute the "input frbme" of ebch bbsic block, i.e. the stbck mbp
+     * frbme bt the beginning of the bbsic block, stbrting from the input frbme
+     * of the first bbsic block (which is computed from the method descriptor),
+     * bnd by using the previously computed output frbmes to compute the input
+     * stbte of the other blocks.
      *
-     * All output and input frames are stored as arrays of integers. Reference
-     * and array types are represented by an index into a type table (which is
-     * not the same as the constant pool of the class, in order to avoid adding
-     * unnecessary constants in the pool - not all computed frames will end up
-     * being stored in the stack map table). This allows very fast type
-     * comparisons.
+     * All output bnd input frbmes bre stored bs brrbys of integers. Reference
+     * bnd brrby types bre represented by bn index into b type tbble (which is
+     * not the sbme bs the constbnt pool of the clbss, in order to bvoid bdding
+     * unnecessbry constbnts in the pool - not bll computed frbmes will end up
+     * being stored in the stbck mbp tbble). This bllows very fbst type
+     * compbrisons.
      *
-     * Output stack map frames are computed relatively to the input frame of the
-     * basic block, which is not yet known when output frames are computed. It
-     * is therefore necessary to be able to represent abstract types such as
-     * "the type at position x in the input frame locals" or "the type at
-     * position x from the top of the input frame stack" or even "the type at
-     * position x in the input frame, with y more (or less) array dimensions".
-     * This explains the rather complicated type format used in output frames.
+     * Output stbck mbp frbmes bre computed relbtively to the input frbme of the
+     * bbsic block, which is not yet known when output frbmes bre computed. It
+     * is therefore necessbry to be bble to represent bbstrbct types such bs
+     * "the type bt position x in the input frbme locbls" or "the type bt
+     * position x from the top of the input frbme stbck" or even "the type bt
+     * position x in the input frbme, with y more (or less) brrby dimensions".
+     * This explbins the rbther complicbted type formbt used in output frbmes.
      *
-     * This format is the following: DIM KIND VALUE (4, 4 and 24 bits). DIM is a
-     * signed number of array dimensions (from -8 to 7). KIND is either BASE,
-     * LOCAL or STACK. BASE is used for types that are not relative to the input
-     * frame. LOCAL is used for types that are relative to the input local
-     * variable types. STACK is used for types that are relative to the input
-     * stack types. VALUE depends on KIND. For LOCAL types, it is an index in
-     * the input local variable types. For STACK types, it is a position
-     * relatively to the top of input frame stack. For BASE types, it is either
-     * one of the constants defined below, or for OBJECT and UNINITIALIZED
-     * types, a tag and an index in the type table.
+     * This formbt is the following: DIM KIND VALUE (4, 4 bnd 24 bits). DIM is b
+     * signed number of brrby dimensions (from -8 to 7). KIND is either BASE,
+     * LOCAL or STACK. BASE is used for types thbt bre not relbtive to the input
+     * frbme. LOCAL is used for types thbt bre relbtive to the input locbl
+     * vbribble types. STACK is used for types thbt bre relbtive to the input
+     * stbck types. VALUE depends on KIND. For LOCAL types, it is bn index in
+     * the input locbl vbribble types. For STACK types, it is b position
+     * relbtively to the top of input frbme stbck. For BASE types, it is either
+     * one of the constbnts defined below, or for OBJECT bnd UNINITIALIZED
+     * types, b tbg bnd bn index in the type tbble.
      *
-     * Output frames can contain types of any kind and with a positive or
-     * negative dimension (and even unassigned types, represented by 0 - which
-     * does not correspond to any valid type value). Input frames can only
-     * contain BASE types of positive or null dimension. In all cases the type
-     * table contains only internal type names (array type descriptors are
+     * Output frbmes cbn contbin types of bny kind bnd with b positive or
+     * negbtive dimension (bnd even unbssigned types, represented by 0 - which
+     * does not correspond to bny vblid type vblue). Input frbmes cbn only
+     * contbin BASE types of positive or null dimension. In bll cbses the type
+     * tbble contbins only internbl type nbmes (brrby type descriptors bre
      * forbidden - dimensions must be represented through the DIM field).
      *
-     * The LONG and DOUBLE types are always represented by using two slots (LONG
-     * + TOP or DOUBLE + TOP), for local variable types as well as in the
-     * operand stack. This is necessary to be able to simulate DUPx_y
-     * instructions, whose effect would be dependent on the actual type values
-     * if types were always represented by a single slot in the stack (and this
-     * is not possible, since actual type values are not always known - cf LOCAL
-     * and STACK type kinds).
+     * The LONG bnd DOUBLE types bre blwbys represented by using two slots (LONG
+     * + TOP or DOUBLE + TOP), for locbl vbribble types bs well bs in the
+     * operbnd stbck. This is necessbry to be bble to simulbte DUPx_y
+     * instructions, whose effect would be dependent on the bctubl type vblues
+     * if types were blwbys represented by b single slot in the stbck (bnd this
+     * is not possible, since bctubl type vblues bre not blwbys known - cf LOCAL
+     * bnd STACK type kinds).
      */
 
     /**
-     * Mask to get the dimension of a frame type. This dimension is a signed
-     * integer between -8 and 7.
+     * Mbsk to get the dimension of b frbme type. This dimension is b signed
+     * integer between -8 bnd 7.
      */
-    static final int DIM = 0xF0000000;
+    stbtic finbl int DIM = 0xF0000000;
 
     /**
-     * Constant to be added to a type to get a type with one more dimension.
+     * Constbnt to be bdded to b type to get b type with one more dimension.
      */
-    static final int ARRAY_OF = 0x10000000;
+    stbtic finbl int ARRAY_OF = 0x10000000;
 
     /**
-     * Constant to be added to a type to get a type with one less dimension.
+     * Constbnt to be bdded to b type to get b type with one less dimension.
      */
-    static final int ELEMENT_OF = 0xF0000000;
+    stbtic finbl int ELEMENT_OF = 0xF0000000;
 
     /**
-     * Mask to get the kind of a frame type.
+     * Mbsk to get the kind of b frbme type.
      *
      * @see #BASE
      * @see #LOCAL
      * @see #STACK
      */
-    static final int KIND = 0xF000000;
+    stbtic finbl int KIND = 0xF000000;
 
     /**
-     * Flag used for LOCAL and STACK types. Indicates that if this type happens
-     * to be a long or double type (during the computations of input frames),
-     * then it must be set to TOP because the second word of this value has been
-     * reused to store other data in the basic block. Hence the first word no
-     * longer stores a valid long or double value.
+     * Flbg used for LOCAL bnd STACK types. Indicbtes thbt if this type hbppens
+     * to be b long or double type (during the computbtions of input frbmes),
+     * then it must be set to TOP becbuse the second word of this vblue hbs been
+     * reused to store other dbtb in the bbsic block. Hence the first word no
+     * longer stores b vblid long or double vblue.
      */
-    static final int TOP_IF_LONG_OR_DOUBLE = 0x800000;
+    stbtic finbl int TOP_IF_LONG_OR_DOUBLE = 0x800000;
 
     /**
-     * Mask to get the value of a frame type.
+     * Mbsk to get the vblue of b frbme type.
      */
-    static final int VALUE = 0x7FFFFF;
+    stbtic finbl int VALUE = 0x7FFFFF;
 
     /**
-     * Mask to get the kind of base types.
+     * Mbsk to get the kind of bbse types.
      */
-    static final int BASE_KIND = 0xFF00000;
+    stbtic finbl int BASE_KIND = 0xFF00000;
 
     /**
-     * Mask to get the value of base types.
+     * Mbsk to get the vblue of bbse types.
      */
-    static final int BASE_VALUE = 0xFFFFF;
+    stbtic finbl int BASE_VALUE = 0xFFFFF;
 
     /**
-     * Kind of the types that are not relative to an input stack map frame.
+     * Kind of the types thbt bre not relbtive to bn input stbck mbp frbme.
      */
-    static final int BASE = 0x1000000;
+    stbtic finbl int BASE = 0x1000000;
 
     /**
-     * Base kind of the base reference types. The BASE_VALUE of such types is an
-     * index into the type table.
+     * Bbse kind of the bbse reference types. The BASE_VALUE of such types is bn
+     * index into the type tbble.
      */
-    static final int OBJECT = BASE | 0x700000;
+    stbtic finbl int OBJECT = BASE | 0x700000;
 
     /**
-     * Base kind of the uninitialized base types. The BASE_VALUE of such types
-     * in an index into the type table (the Item at that index contains both an
-     * instruction offset and an internal class name).
+     * Bbse kind of the uninitiblized bbse types. The BASE_VALUE of such types
+     * in bn index into the type tbble (the Item bt thbt index contbins both bn
+     * instruction offset bnd bn internbl clbss nbme).
      */
-    static final int UNINITIALIZED = BASE | 0x800000;
+    stbtic finbl int UNINITIALIZED = BASE | 0x800000;
 
     /**
-     * Kind of the types that are relative to the local variable types of an
-     * input stack map frame. The value of such types is a local variable index.
+     * Kind of the types thbt bre relbtive to the locbl vbribble types of bn
+     * input stbck mbp frbme. The vblue of such types is b locbl vbribble index.
      */
-    private static final int LOCAL = 0x2000000;
+    privbte stbtic finbl int LOCAL = 0x2000000;
 
     /**
-     * Kind of the the types that are relative to the stack of an input stack
-     * map frame. The value of such types is a position relatively to the top of
-     * this stack.
+     * Kind of the the types thbt bre relbtive to the stbck of bn input stbck
+     * mbp frbme. The vblue of such types is b position relbtively to the top of
+     * this stbck.
      */
-    private static final int STACK = 0x3000000;
+    privbte stbtic finbl int STACK = 0x3000000;
 
     /**
-     * The TOP type. This is a BASE type.
+     * The TOP type. This is b BASE type.
      */
-    static final int TOP = BASE | 0;
+    stbtic finbl int TOP = BASE | 0;
 
     /**
-     * The BOOLEAN type. This is a BASE type mainly used for array types.
+     * The BOOLEAN type. This is b BASE type mbinly used for brrby types.
      */
-    static final int BOOLEAN = BASE | 9;
+    stbtic finbl int BOOLEAN = BASE | 9;
 
     /**
-     * The BYTE type. This is a BASE type mainly used for array types.
+     * The BYTE type. This is b BASE type mbinly used for brrby types.
      */
-    static final int BYTE = BASE | 10;
+    stbtic finbl int BYTE = BASE | 10;
 
     /**
-     * The CHAR type. This is a BASE type mainly used for array types.
+     * The CHAR type. This is b BASE type mbinly used for brrby types.
      */
-    static final int CHAR = BASE | 11;
+    stbtic finbl int CHAR = BASE | 11;
 
     /**
-     * The SHORT type. This is a BASE type mainly used for array types.
+     * The SHORT type. This is b BASE type mbinly used for brrby types.
      */
-    static final int SHORT = BASE | 12;
+    stbtic finbl int SHORT = BASE | 12;
 
     /**
-     * The INTEGER type. This is a BASE type.
+     * The INTEGER type. This is b BASE type.
      */
-    static final int INTEGER = BASE | 1;
+    stbtic finbl int INTEGER = BASE | 1;
 
     /**
-     * The FLOAT type. This is a BASE type.
+     * The FLOAT type. This is b BASE type.
      */
-    static final int FLOAT = BASE | 2;
+    stbtic finbl int FLOAT = BASE | 2;
 
     /**
-     * The DOUBLE type. This is a BASE type.
+     * The DOUBLE type. This is b BASE type.
      */
-    static final int DOUBLE = BASE | 3;
+    stbtic finbl int DOUBLE = BASE | 3;
 
     /**
-     * The LONG type. This is a BASE type.
+     * The LONG type. This is b BASE type.
      */
-    static final int LONG = BASE | 4;
+    stbtic finbl int LONG = BASE | 4;
 
     /**
-     * The NULL type. This is a BASE type.
+     * The NULL type. This is b BASE type.
      */
-    static final int NULL = BASE | 5;
+    stbtic finbl int NULL = BASE | 5;
 
     /**
-     * The UNINITIALIZED_THIS type. This is a BASE type.
+     * The UNINITIALIZED_THIS type. This is b BASE type.
      */
-    static final int UNINITIALIZED_THIS = BASE | 6;
+    stbtic finbl int UNINITIALIZED_THIS = BASE | 6;
 
     /**
-     * The stack size variation corresponding to each JVM instruction. This
-     * stack variation is equal to the size of the values produced by an
-     * instruction, minus the size of the values consumed by this instruction.
+     * The stbck size vbribtion corresponding to ebch JVM instruction. This
+     * stbck vbribtion is equbl to the size of the vblues produced by bn
+     * instruction, minus the size of the vblues consumed by this instruction.
      */
-    static final int[] SIZE;
+    stbtic finbl int[] SIZE;
 
     /**
-     * Computes the stack size variation corresponding to each JVM instruction.
+     * Computes the stbck size vbribtion corresponding to ebch JVM instruction.
      */
-    static {
+    stbtic {
         int i;
         int[] b = new int[202];
         String s = "EFFFFFFFFGGFFFGGFFFEEFGFGFEEEEEEEEEEEEEEEEEEEEDEDEDDDDD"
@@ -271,13 +271,13 @@ final class Frame {
                 + "CDCEEEEDDDDDDDCDCDCEFEFDDEEFFDEDEEEBDDBBDDDDDDCCCCCCCCEFED"
                 + "DDCDCDEEEEEEEEEEFEEEEEEDDEEDDEE";
         for (i = 0; i < b.length; ++i) {
-            b[i] = s.charAt(i) - 'E';
+            b[i] = s.chbrAt(i) - 'E';
         }
         SIZE = b;
 
-        // code to generate the above string
+        // code to generbte the bbove string
         //
-        // int NA = 0; // not applicable (unused opcode or variable size opcode)
+        // int NA = 0; // not bpplicbble (unused opcode or vbribble size opcode)
         //
         // b = new int[] {
         // 0, //NOP, // visitInsn
@@ -301,7 +301,7 @@ final class Frame {
         // 1, //LDC, // visitLdcInsn
         // NA, //LDC_W, // -
         // NA, //LDC2_W, // -
-        // 1, //ILOAD, // visitVarInsn
+        // 1, //ILOAD, // visitVbrInsn
         // 2, //LLOAD, // -
         // 1, //FLOAD, // -
         // 2, //DLOAD, // -
@@ -334,7 +334,7 @@ final class Frame {
         // -1, //BALOAD, // -
         // -1, //CALOAD, // -
         // -1, //SALOAD, // -
-        // -1, //ISTORE, // visitVarInsn
+        // -1, //ISTORE, // visitVbrInsn
         // -2, //LSTORE, // -
         // -1, //FSTORE, // -
         // -2, //DSTORE, // -
@@ -449,8 +449,8 @@ final class Frame {
         // -2, //IF_ACMPNE, // -
         // 0, //GOTO, // -
         // 1, //JSR, // -
-        // 0, //RET, // visitVarInsn
-        // -1, //TABLESWITCH, // visiTableSwitchInsn
+        // 0, //RET, // visitVbrInsn
+        // -1, //TABLESWITCH, // visiTbbleSwitchInsn
         // -1, //LOOKUPSWITCH, // visitLookupSwitch
         // -1, //IRETURN, // visitInsn
         // -2, //LRETURN, // -
@@ -466,7 +466,7 @@ final class Frame {
         // NA, //INVOKESPECIAL, // -
         // NA, //INVOKESTATIC, // -
         // NA, //INVOKEINTERFACE, // -
-        // NA, //INVOKEDYNAMIC, // visitInvokeDynamicInsn
+        // NA, //INVOKEDYNAMIC, // visitInvokeDynbmicInsn
         // 1, //NEW, // visitTypeInsn
         // 0, //NEWARRAY, // visitIntInsn
         // 0, //ANEWARRAY, // visitTypeInsn
@@ -477,161 +477,161 @@ final class Frame {
         // -1, //MONITORENTER, // visitInsn
         // -1, //MONITOREXIT, // -
         // NA, //WIDE, // NOT VISITED
-        // NA, //MULTIANEWARRAY, // visitMultiANewArrayInsn
+        // NA, //MULTIANEWARRAY, // visitMultiANewArrbyInsn
         // -1, //IFNULL, // visitJumpInsn
         // -1, //IFNONNULL, // -
         // NA, //GOTO_W, // -
         // NA, //JSR_W, // -
         // };
         // for (i = 0; i < b.length; ++i) {
-        // System.err.print((char)('E' + b[i]));
+        // System.err.print((chbr)('E' + b[i]));
         // }
         // System.err.println();
     }
 
     /**
-     * The label (i.e. basic block) to which these input and output stack map
-     * frames correspond.
+     * The lbbel (i.e. bbsic block) to which these input bnd output stbck mbp
+     * frbmes correspond.
      */
-    Label owner;
+    Lbbel owner;
 
     /**
-     * The input stack map frame locals.
+     * The input stbck mbp frbme locbls.
      */
-    int[] inputLocals;
+    int[] inputLocbls;
 
     /**
-     * The input stack map frame stack.
+     * The input stbck mbp frbme stbck.
      */
-    int[] inputStack;
+    int[] inputStbck;
 
     /**
-     * The output stack map frame locals.
+     * The output stbck mbp frbme locbls.
      */
-    private int[] outputLocals;
+    privbte int[] outputLocbls;
 
     /**
-     * The output stack map frame stack.
+     * The output stbck mbp frbme stbck.
      */
-    private int[] outputStack;
+    privbte int[] outputStbck;
 
     /**
-     * Relative size of the output stack. The exact semantics of this field
-     * depends on the algorithm that is used.
+     * Relbtive size of the output stbck. The exbct sembntics of this field
+     * depends on the blgorithm thbt is used.
      *
-     * When only the maximum stack size is computed, this field is the size of
-     * the output stack relatively to the top of the input stack.
+     * When only the mbximum stbck size is computed, this field is the size of
+     * the output stbck relbtively to the top of the input stbck.
      *
-     * When the stack map frames are completely computed, this field is the
-     * actual number of types in {@link #outputStack}.
+     * When the stbck mbp frbmes bre completely computed, this field is the
+     * bctubl number of types in {@link #outputStbck}.
      */
-    private int outputStackTop;
+    privbte int outputStbckTop;
 
     /**
-     * Number of types that are initialized in the basic block.
+     * Number of types thbt bre initiblized in the bbsic block.
      *
-     * @see #initializations
+     * @see #initiblizbtions
      */
-    private int initializationCount;
+    privbte int initiblizbtionCount;
 
     /**
-     * The types that are initialized in the basic block. A constructor
-     * invocation on an UNINITIALIZED or UNINITIALIZED_THIS type must replace
-     * <i>every occurence</i> of this type in the local variables and in the
-     * operand stack. This cannot be done during the first phase of the
-     * algorithm since, during this phase, the local variables and the operand
-     * stack are not completely computed. It is therefore necessary to store the
-     * types on which constructors are invoked in the basic block, in order to
-     * do this replacement during the second phase of the algorithm, where the
-     * frames are fully computed. Note that this array can contain types that
-     * are relative to input locals or to the input stack (see below for the
-     * description of the algorithm).
+     * The types thbt bre initiblized in the bbsic block. A constructor
+     * invocbtion on bn UNINITIALIZED or UNINITIALIZED_THIS type must replbce
+     * <i>every occurence</i> of this type in the locbl vbribbles bnd in the
+     * operbnd stbck. This cbnnot be done during the first phbse of the
+     * blgorithm since, during this phbse, the locbl vbribbles bnd the operbnd
+     * stbck bre not completely computed. It is therefore necessbry to store the
+     * types on which constructors bre invoked in the bbsic block, in order to
+     * do this replbcement during the second phbse of the blgorithm, where the
+     * frbmes bre fully computed. Note thbt this brrby cbn contbin types thbt
+     * bre relbtive to input locbls or to the input stbck (see below for the
+     * description of the blgorithm).
      */
-    private int[] initializations;
+    privbte int[] initiblizbtions;
 
     /**
-     * Returns the output frame local variable type at the given index.
+     * Returns the output frbme locbl vbribble type bt the given index.
      *
-     * @param local
-     *            the index of the local that must be returned.
-     * @return the output frame local variable type at the given index.
+     * @pbrbm locbl
+     *            the index of the locbl thbt must be returned.
+     * @return the output frbme locbl vbribble type bt the given index.
      */
-    private int get(final int local) {
-        if (outputLocals == null || local >= outputLocals.length) {
-            // this local has never been assigned in this basic block,
-            // so it is still equal to its value in the input frame
-            return LOCAL | local;
+    privbte int get(finbl int locbl) {
+        if (outputLocbls == null || locbl >= outputLocbls.length) {
+            // this locbl hbs never been bssigned in this bbsic block,
+            // so it is still equbl to its vblue in the input frbme
+            return LOCAL | locbl;
         } else {
-            int type = outputLocals[local];
+            int type = outputLocbls[locbl];
             if (type == 0) {
-                // this local has never been assigned in this basic block,
-                // so it is still equal to its value in the input frame
-                type = outputLocals[local] = LOCAL | local;
+                // this locbl hbs never been bssigned in this bbsic block,
+                // so it is still equbl to its vblue in the input frbme
+                type = outputLocbls[locbl] = LOCAL | locbl;
             }
             return type;
         }
     }
 
     /**
-     * Sets the output frame local variable type at the given index.
+     * Sets the output frbme locbl vbribble type bt the given index.
      *
-     * @param local
-     *            the index of the local that must be set.
-     * @param type
-     *            the value of the local that must be set.
+     * @pbrbm locbl
+     *            the index of the locbl thbt must be set.
+     * @pbrbm type
+     *            the vblue of the locbl thbt must be set.
      */
-    private void set(final int local, final int type) {
-        // creates and/or resizes the output local variables array if necessary
-        if (outputLocals == null) {
-            outputLocals = new int[10];
+    privbte void set(finbl int locbl, finbl int type) {
+        // crebtes bnd/or resizes the output locbl vbribbles brrby if necessbry
+        if (outputLocbls == null) {
+            outputLocbls = new int[10];
         }
-        int n = outputLocals.length;
-        if (local >= n) {
-            int[] t = new int[Math.max(local + 1, 2 * n)];
-            System.arraycopy(outputLocals, 0, t, 0, n);
-            outputLocals = t;
+        int n = outputLocbls.length;
+        if (locbl >= n) {
+            int[] t = new int[Mbth.mbx(locbl + 1, 2 * n)];
+            System.brrbycopy(outputLocbls, 0, t, 0, n);
+            outputLocbls = t;
         }
-        // sets the local variable
-        outputLocals[local] = type;
+        // sets the locbl vbribble
+        outputLocbls[locbl] = type;
     }
 
     /**
-     * Pushes a new type onto the output frame stack.
+     * Pushes b new type onto the output frbme stbck.
      *
-     * @param type
-     *            the type that must be pushed.
+     * @pbrbm type
+     *            the type thbt must be pushed.
      */
-    private void push(final int type) {
-        // creates and/or resizes the output stack array if necessary
-        if (outputStack == null) {
-            outputStack = new int[10];
+    privbte void push(finbl int type) {
+        // crebtes bnd/or resizes the output stbck brrby if necessbry
+        if (outputStbck == null) {
+            outputStbck = new int[10];
         }
-        int n = outputStack.length;
-        if (outputStackTop >= n) {
-            int[] t = new int[Math.max(outputStackTop + 1, 2 * n)];
-            System.arraycopy(outputStack, 0, t, 0, n);
-            outputStack = t;
+        int n = outputStbck.length;
+        if (outputStbckTop >= n) {
+            int[] t = new int[Mbth.mbx(outputStbckTop + 1, 2 * n)];
+            System.brrbycopy(outputStbck, 0, t, 0, n);
+            outputStbck = t;
         }
-        // pushes the type on the output stack
-        outputStack[outputStackTop++] = type;
-        // updates the maximun height reached by the output stack, if needed
-        int top = owner.inputStackTop + outputStackTop;
-        if (top > owner.outputStackMax) {
-            owner.outputStackMax = top;
+        // pushes the type on the output stbck
+        outputStbck[outputStbckTop++] = type;
+        // updbtes the mbximun height rebched by the output stbck, if needed
+        int top = owner.inputStbckTop + outputStbckTop;
+        if (top > owner.outputStbckMbx) {
+            owner.outputStbckMbx = top;
         }
     }
 
     /**
-     * Pushes a new type onto the output frame stack.
+     * Pushes b new type onto the output frbme stbck.
      *
-     * @param cw
-     *            the ClassWriter to which this label belongs.
-     * @param desc
-     *            the descriptor of the type to be pushed. Can also be a method
-     *            descriptor (in this case this method pushes its return type
-     *            onto the output frame stack).
+     * @pbrbm cw
+     *            the ClbssWriter to which this lbbel belongs.
+     * @pbrbm desc
+     *            the descriptor of the type to be pushed. Cbn blso be b method
+     *            descriptor (in this cbse this method pushes its return type
+     *            onto the output frbme stbck).
      */
-    private void push(final ClassWriter cw, final String desc) {
+    privbte void push(finbl ClbssWriter cw, finbl String desc) {
         int type = type(cw, desc);
         if (type != 0) {
             push(type);
@@ -644,119 +644,119 @@ final class Frame {
     /**
      * Returns the int encoding of the given type.
      *
-     * @param cw
-     *            the ClassWriter to which this label belongs.
-     * @param desc
-     *            a type descriptor.
+     * @pbrbm cw
+     *            the ClbssWriter to which this lbbel belongs.
+     * @pbrbm desc
+     *            b type descriptor.
      * @return the int encoding of the given type.
      */
-    private static int type(final ClassWriter cw, final String desc) {
+    privbte stbtic int type(finbl ClbssWriter cw, finbl String desc) {
         String t;
-        int index = desc.charAt(0) == '(' ? desc.indexOf(')') + 1 : 0;
-        switch (desc.charAt(index)) {
-        case 'V':
+        int index = desc.chbrAt(0) == '(' ? desc.indexOf(')') + 1 : 0;
+        switch (desc.chbrAt(index)) {
+        cbse 'V':
             return 0;
-        case 'Z':
-        case 'C':
-        case 'B':
-        case 'S':
-        case 'I':
+        cbse 'Z':
+        cbse 'C':
+        cbse 'B':
+        cbse 'S':
+        cbse 'I':
             return INTEGER;
-        case 'F':
+        cbse 'F':
             return FLOAT;
-        case 'J':
+        cbse 'J':
             return LONG;
-        case 'D':
+        cbse 'D':
             return DOUBLE;
-        case 'L':
-            // stores the internal name, not the descriptor!
+        cbse 'L':
+            // stores the internbl nbme, not the descriptor!
             t = desc.substring(index + 1, desc.length() - 1);
-            return OBJECT | cw.addType(t);
-            // case '[':
-        default:
-            // extracts the dimensions and the element type
-            int data;
+            return OBJECT | cw.bddType(t);
+            // cbse '[':
+        defbult:
+            // extrbcts the dimensions bnd the element type
+            int dbtb;
             int dims = index + 1;
-            while (desc.charAt(dims) == '[') {
+            while (desc.chbrAt(dims) == '[') {
                 ++dims;
             }
-            switch (desc.charAt(dims)) {
-            case 'Z':
-                data = BOOLEAN;
-                break;
-            case 'C':
-                data = CHAR;
-                break;
-            case 'B':
-                data = BYTE;
-                break;
-            case 'S':
-                data = SHORT;
-                break;
-            case 'I':
-                data = INTEGER;
-                break;
-            case 'F':
-                data = FLOAT;
-                break;
-            case 'J':
-                data = LONG;
-                break;
-            case 'D':
-                data = DOUBLE;
-                break;
-            // case 'L':
-            default:
-                // stores the internal name, not the descriptor
+            switch (desc.chbrAt(dims)) {
+            cbse 'Z':
+                dbtb = BOOLEAN;
+                brebk;
+            cbse 'C':
+                dbtb = CHAR;
+                brebk;
+            cbse 'B':
+                dbtb = BYTE;
+                brebk;
+            cbse 'S':
+                dbtb = SHORT;
+                brebk;
+            cbse 'I':
+                dbtb = INTEGER;
+                brebk;
+            cbse 'F':
+                dbtb = FLOAT;
+                brebk;
+            cbse 'J':
+                dbtb = LONG;
+                brebk;
+            cbse 'D':
+                dbtb = DOUBLE;
+                brebk;
+            // cbse 'L':
+            defbult:
+                // stores the internbl nbme, not the descriptor
                 t = desc.substring(dims + 1, desc.length() - 1);
-                data = OBJECT | cw.addType(t);
+                dbtb = OBJECT | cw.bddType(t);
             }
-            return (dims - index) << 28 | data;
+            return (dims - index) << 28 | dbtb;
         }
     }
 
     /**
-     * Pops a type from the output frame stack and returns its value.
+     * Pops b type from the output frbme stbck bnd returns its vblue.
      *
-     * @return the type that has been popped from the output frame stack.
+     * @return the type thbt hbs been popped from the output frbme stbck.
      */
-    private int pop() {
-        if (outputStackTop > 0) {
-            return outputStack[--outputStackTop];
+    privbte int pop() {
+        if (outputStbckTop > 0) {
+            return outputStbck[--outputStbckTop];
         } else {
-            // if the output frame stack is empty, pops from the input stack
-            return STACK | -(--owner.inputStackTop);
+            // if the output frbme stbck is empty, pops from the input stbck
+            return STACK | -(--owner.inputStbckTop);
         }
     }
 
     /**
-     * Pops the given number of types from the output frame stack.
+     * Pops the given number of types from the output frbme stbck.
      *
-     * @param elements
-     *            the number of types that must be popped.
+     * @pbrbm elements
+     *            the number of types thbt must be popped.
      */
-    private void pop(final int elements) {
-        if (outputStackTop >= elements) {
-            outputStackTop -= elements;
+    privbte void pop(finbl int elements) {
+        if (outputStbckTop >= elements) {
+            outputStbckTop -= elements;
         } else {
-            // if the number of elements to be popped is greater than the number
-            // of elements in the output stack, clear it, and pops the remaining
-            // elements from the input stack.
-            owner.inputStackTop -= elements - outputStackTop;
-            outputStackTop = 0;
+            // if the number of elements to be popped is grebter thbn the number
+            // of elements in the output stbck, clebr it, bnd pops the rembining
+            // elements from the input stbck.
+            owner.inputStbckTop -= elements - outputStbckTop;
+            outputStbckTop = 0;
         }
     }
 
     /**
-     * Pops a type from the output frame stack.
+     * Pops b type from the output frbme stbck.
      *
-     * @param desc
-     *            the descriptor of the type to be popped. Can also be a method
-     *            descriptor (in this case this method pops the types
-     *            corresponding to the method arguments).
+     * @pbrbm desc
+     *            the descriptor of the type to be popped. Cbn blso be b method
+     *            descriptor (in this cbse this method pops the types
+     *            corresponding to the method brguments).
      */
-    private void pop(final String desc) {
-        char c = desc.charAt(0);
+    privbte void pop(finbl String desc) {
+        chbr c = desc.chbrAt(0);
         if (c == '(') {
             pop((Type.getArgumentsAndReturnSizes(desc) >> 2) - 1);
         } else if (c == 'J' || c == 'D') {
@@ -767,56 +767,56 @@ final class Frame {
     }
 
     /**
-     * Adds a new type to the list of types on which a constructor is invoked in
-     * the basic block.
+     * Adds b new type to the list of types on which b constructor is invoked in
+     * the bbsic block.
      *
-     * @param var
-     *            a type on a which a constructor is invoked.
+     * @pbrbm vbr
+     *            b type on b which b constructor is invoked.
      */
-    private void init(final int var) {
-        // creates and/or resizes the initializations array if necessary
-        if (initializations == null) {
-            initializations = new int[2];
+    privbte void init(finbl int vbr) {
+        // crebtes bnd/or resizes the initiblizbtions brrby if necessbry
+        if (initiblizbtions == null) {
+            initiblizbtions = new int[2];
         }
-        int n = initializations.length;
-        if (initializationCount >= n) {
-            int[] t = new int[Math.max(initializationCount + 1, 2 * n)];
-            System.arraycopy(initializations, 0, t, 0, n);
-            initializations = t;
+        int n = initiblizbtions.length;
+        if (initiblizbtionCount >= n) {
+            int[] t = new int[Mbth.mbx(initiblizbtionCount + 1, 2 * n)];
+            System.brrbycopy(initiblizbtions, 0, t, 0, n);
+            initiblizbtions = t;
         }
-        // stores the type to be initialized
-        initializations[initializationCount++] = var;
+        // stores the type to be initiblized
+        initiblizbtions[initiblizbtionCount++] = vbr;
     }
 
     /**
-     * Replaces the given type with the appropriate type if it is one of the
-     * types on which a constructor is invoked in the basic block.
+     * Replbces the given type with the bppropribte type if it is one of the
+     * types on which b constructor is invoked in the bbsic block.
      *
-     * @param cw
-     *            the ClassWriter to which this label belongs.
-     * @param t
-     *            a type
-     * @return t or, if t is one of the types on which a constructor is invoked
-     *         in the basic block, the type corresponding to this constructor.
+     * @pbrbm cw
+     *            the ClbssWriter to which this lbbel belongs.
+     * @pbrbm t
+     *            b type
+     * @return t or, if t is one of the types on which b constructor is invoked
+     *         in the bbsic block, the type corresponding to this constructor.
      */
-    private int init(final ClassWriter cw, final int t) {
+    privbte int init(finbl ClbssWriter cw, finbl int t) {
         int s;
         if (t == UNINITIALIZED_THIS) {
-            s = OBJECT | cw.addType(cw.thisName);
+            s = OBJECT | cw.bddType(cw.thisNbme);
         } else if ((t & (DIM | BASE_KIND)) == UNINITIALIZED) {
-            String type = cw.typeTable[t & BASE_VALUE].strVal1;
-            s = OBJECT | cw.addType(type);
+            String type = cw.typeTbble[t & BASE_VALUE].strVbl1;
+            s = OBJECT | cw.bddType(type);
         } else {
             return t;
         }
-        for (int j = 0; j < initializationCount; ++j) {
-            int u = initializations[j];
+        for (int j = 0; j < initiblizbtionCount; ++j) {
+            int u = initiblizbtions[j];
             int dim = u & DIM;
             int kind = u & KIND;
             if (kind == LOCAL) {
-                u = dim + inputLocals[u & VALUE];
+                u = dim + inputLocbls[u & VALUE];
             } else if (kind == STACK) {
-                u = dim + inputStack[inputStack.length - (u & VALUE)];
+                u = dim + inputStbck[inputStbck.length - (u & VALUE)];
             }
             if (t == u) {
                 return s;
@@ -826,251 +826,251 @@ final class Frame {
     }
 
     /**
-     * Initializes the input frame of the first basic block from the method
+     * Initiblizes the input frbme of the first bbsic block from the method
      * descriptor.
      *
-     * @param cw
-     *            the ClassWriter to which this label belongs.
-     * @param access
-     *            the access flags of the method to which this label belongs.
-     * @param args
-     *            the formal parameter types of this method.
-     * @param maxLocals
-     *            the maximum number of local variables of this method.
+     * @pbrbm cw
+     *            the ClbssWriter to which this lbbel belongs.
+     * @pbrbm bccess
+     *            the bccess flbgs of the method to which this lbbel belongs.
+     * @pbrbm brgs
+     *            the formbl pbrbmeter types of this method.
+     * @pbrbm mbxLocbls
+     *            the mbximum number of locbl vbribbles of this method.
      */
-    void initInputFrame(final ClassWriter cw, final int access,
-            final Type[] args, final int maxLocals) {
-        inputLocals = new int[maxLocals];
-        inputStack = new int[0];
+    void initInputFrbme(finbl ClbssWriter cw, finbl int bccess,
+            finbl Type[] brgs, finbl int mbxLocbls) {
+        inputLocbls = new int[mbxLocbls];
+        inputStbck = new int[0];
         int i = 0;
-        if ((access & Opcodes.ACC_STATIC) == 0) {
-            if ((access & MethodWriter.ACC_CONSTRUCTOR) == 0) {
-                inputLocals[i++] = OBJECT | cw.addType(cw.thisName);
+        if ((bccess & Opcodes.ACC_STATIC) == 0) {
+            if ((bccess & MethodWriter.ACC_CONSTRUCTOR) == 0) {
+                inputLocbls[i++] = OBJECT | cw.bddType(cw.thisNbme);
             } else {
-                inputLocals[i++] = UNINITIALIZED_THIS;
+                inputLocbls[i++] = UNINITIALIZED_THIS;
             }
         }
-        for (int j = 0; j < args.length; ++j) {
-            int t = type(cw, args[j].getDescriptor());
-            inputLocals[i++] = t;
+        for (int j = 0; j < brgs.length; ++j) {
+            int t = type(cw, brgs[j].getDescriptor());
+            inputLocbls[i++] = t;
             if (t == LONG || t == DOUBLE) {
-                inputLocals[i++] = TOP;
+                inputLocbls[i++] = TOP;
             }
         }
-        while (i < maxLocals) {
-            inputLocals[i++] = TOP;
+        while (i < mbxLocbls) {
+            inputLocbls[i++] = TOP;
         }
     }
 
     /**
-     * Simulates the action of the given instruction on the output stack frame.
+     * Simulbtes the bction of the given instruction on the output stbck frbme.
      *
-     * @param opcode
+     * @pbrbm opcode
      *            the opcode of the instruction.
-     * @param arg
-     *            the operand of the instruction, if any.
-     * @param cw
-     *            the class writer to which this label belongs.
-     * @param item
-     *            the operand of the instructions, if any.
+     * @pbrbm brg
+     *            the operbnd of the instruction, if bny.
+     * @pbrbm cw
+     *            the clbss writer to which this lbbel belongs.
+     * @pbrbm item
+     *            the operbnd of the instructions, if bny.
      */
-    void execute(final int opcode, final int arg, final ClassWriter cw,
-            final Item item) {
+    void execute(finbl int opcode, finbl int brg, finbl ClbssWriter cw,
+            finbl Item item) {
         int t1, t2, t3, t4;
         switch (opcode) {
-        case Opcodes.NOP:
-        case Opcodes.INEG:
-        case Opcodes.LNEG:
-        case Opcodes.FNEG:
-        case Opcodes.DNEG:
-        case Opcodes.I2B:
-        case Opcodes.I2C:
-        case Opcodes.I2S:
-        case Opcodes.GOTO:
-        case Opcodes.RETURN:
-            break;
-        case Opcodes.ACONST_NULL:
+        cbse Opcodes.NOP:
+        cbse Opcodes.INEG:
+        cbse Opcodes.LNEG:
+        cbse Opcodes.FNEG:
+        cbse Opcodes.DNEG:
+        cbse Opcodes.I2B:
+        cbse Opcodes.I2C:
+        cbse Opcodes.I2S:
+        cbse Opcodes.GOTO:
+        cbse Opcodes.RETURN:
+            brebk;
+        cbse Opcodes.ACONST_NULL:
             push(NULL);
-            break;
-        case Opcodes.ICONST_M1:
-        case Opcodes.ICONST_0:
-        case Opcodes.ICONST_1:
-        case Opcodes.ICONST_2:
-        case Opcodes.ICONST_3:
-        case Opcodes.ICONST_4:
-        case Opcodes.ICONST_5:
-        case Opcodes.BIPUSH:
-        case Opcodes.SIPUSH:
-        case Opcodes.ILOAD:
+            brebk;
+        cbse Opcodes.ICONST_M1:
+        cbse Opcodes.ICONST_0:
+        cbse Opcodes.ICONST_1:
+        cbse Opcodes.ICONST_2:
+        cbse Opcodes.ICONST_3:
+        cbse Opcodes.ICONST_4:
+        cbse Opcodes.ICONST_5:
+        cbse Opcodes.BIPUSH:
+        cbse Opcodes.SIPUSH:
+        cbse Opcodes.ILOAD:
             push(INTEGER);
-            break;
-        case Opcodes.LCONST_0:
-        case Opcodes.LCONST_1:
-        case Opcodes.LLOAD:
+            brebk;
+        cbse Opcodes.LCONST_0:
+        cbse Opcodes.LCONST_1:
+        cbse Opcodes.LLOAD:
             push(LONG);
             push(TOP);
-            break;
-        case Opcodes.FCONST_0:
-        case Opcodes.FCONST_1:
-        case Opcodes.FCONST_2:
-        case Opcodes.FLOAD:
+            brebk;
+        cbse Opcodes.FCONST_0:
+        cbse Opcodes.FCONST_1:
+        cbse Opcodes.FCONST_2:
+        cbse Opcodes.FLOAD:
             push(FLOAT);
-            break;
-        case Opcodes.DCONST_0:
-        case Opcodes.DCONST_1:
-        case Opcodes.DLOAD:
+            brebk;
+        cbse Opcodes.DCONST_0:
+        cbse Opcodes.DCONST_1:
+        cbse Opcodes.DLOAD:
             push(DOUBLE);
             push(TOP);
-            break;
-        case Opcodes.LDC:
+            brebk;
+        cbse Opcodes.LDC:
             switch (item.type) {
-            case ClassWriter.INT:
+            cbse ClbssWriter.INT:
                 push(INTEGER);
-                break;
-            case ClassWriter.LONG:
+                brebk;
+            cbse ClbssWriter.LONG:
                 push(LONG);
                 push(TOP);
-                break;
-            case ClassWriter.FLOAT:
+                brebk;
+            cbse ClbssWriter.FLOAT:
                 push(FLOAT);
-                break;
-            case ClassWriter.DOUBLE:
+                brebk;
+            cbse ClbssWriter.DOUBLE:
                 push(DOUBLE);
                 push(TOP);
-                break;
-            case ClassWriter.CLASS:
-                push(OBJECT | cw.addType("java/lang/Class"));
-                break;
-            case ClassWriter.STR:
-                push(OBJECT | cw.addType("java/lang/String"));
-                break;
-            case ClassWriter.MTYPE:
-                push(OBJECT | cw.addType("java/lang/invoke/MethodType"));
-                break;
-            // case ClassWriter.HANDLE_BASE + [1..9]:
-            default:
-                push(OBJECT | cw.addType("java/lang/invoke/MethodHandle"));
+                brebk;
+            cbse ClbssWriter.CLASS:
+                push(OBJECT | cw.bddType("jbvb/lbng/Clbss"));
+                brebk;
+            cbse ClbssWriter.STR:
+                push(OBJECT | cw.bddType("jbvb/lbng/String"));
+                brebk;
+            cbse ClbssWriter.MTYPE:
+                push(OBJECT | cw.bddType("jbvb/lbng/invoke/MethodType"));
+                brebk;
+            // cbse ClbssWriter.HANDLE_BASE + [1..9]:
+            defbult:
+                push(OBJECT | cw.bddType("jbvb/lbng/invoke/MethodHbndle"));
             }
-            break;
-        case Opcodes.ALOAD:
-            push(get(arg));
-            break;
-        case Opcodes.IALOAD:
-        case Opcodes.BALOAD:
-        case Opcodes.CALOAD:
-        case Opcodes.SALOAD:
+            brebk;
+        cbse Opcodes.ALOAD:
+            push(get(brg));
+            brebk;
+        cbse Opcodes.IALOAD:
+        cbse Opcodes.BALOAD:
+        cbse Opcodes.CALOAD:
+        cbse Opcodes.SALOAD:
             pop(2);
             push(INTEGER);
-            break;
-        case Opcodes.LALOAD:
-        case Opcodes.D2L:
+            brebk;
+        cbse Opcodes.LALOAD:
+        cbse Opcodes.D2L:
             pop(2);
             push(LONG);
             push(TOP);
-            break;
-        case Opcodes.FALOAD:
+            brebk;
+        cbse Opcodes.FALOAD:
             pop(2);
             push(FLOAT);
-            break;
-        case Opcodes.DALOAD:
-        case Opcodes.L2D:
+            brebk;
+        cbse Opcodes.DALOAD:
+        cbse Opcodes.L2D:
             pop(2);
             push(DOUBLE);
             push(TOP);
-            break;
-        case Opcodes.AALOAD:
+            brebk;
+        cbse Opcodes.AALOAD:
             pop(1);
             t1 = pop();
             push(ELEMENT_OF + t1);
-            break;
-        case Opcodes.ISTORE:
-        case Opcodes.FSTORE:
-        case Opcodes.ASTORE:
+            brebk;
+        cbse Opcodes.ISTORE:
+        cbse Opcodes.FSTORE:
+        cbse Opcodes.ASTORE:
             t1 = pop();
-            set(arg, t1);
-            if (arg > 0) {
-                t2 = get(arg - 1);
-                // if t2 is of kind STACK or LOCAL we cannot know its size!
+            set(brg, t1);
+            if (brg > 0) {
+                t2 = get(brg - 1);
+                // if t2 is of kind STACK or LOCAL we cbnnot know its size!
                 if (t2 == LONG || t2 == DOUBLE) {
-                    set(arg - 1, TOP);
+                    set(brg - 1, TOP);
                 } else if ((t2 & KIND) != BASE) {
-                    set(arg - 1, t2 | TOP_IF_LONG_OR_DOUBLE);
+                    set(brg - 1, t2 | TOP_IF_LONG_OR_DOUBLE);
                 }
             }
-            break;
-        case Opcodes.LSTORE:
-        case Opcodes.DSTORE:
+            brebk;
+        cbse Opcodes.LSTORE:
+        cbse Opcodes.DSTORE:
             pop(1);
             t1 = pop();
-            set(arg, t1);
-            set(arg + 1, TOP);
-            if (arg > 0) {
-                t2 = get(arg - 1);
-                // if t2 is of kind STACK or LOCAL we cannot know its size!
+            set(brg, t1);
+            set(brg + 1, TOP);
+            if (brg > 0) {
+                t2 = get(brg - 1);
+                // if t2 is of kind STACK or LOCAL we cbnnot know its size!
                 if (t2 == LONG || t2 == DOUBLE) {
-                    set(arg - 1, TOP);
+                    set(brg - 1, TOP);
                 } else if ((t2 & KIND) != BASE) {
-                    set(arg - 1, t2 | TOP_IF_LONG_OR_DOUBLE);
+                    set(brg - 1, t2 | TOP_IF_LONG_OR_DOUBLE);
                 }
             }
-            break;
-        case Opcodes.IASTORE:
-        case Opcodes.BASTORE:
-        case Opcodes.CASTORE:
-        case Opcodes.SASTORE:
-        case Opcodes.FASTORE:
-        case Opcodes.AASTORE:
+            brebk;
+        cbse Opcodes.IASTORE:
+        cbse Opcodes.BASTORE:
+        cbse Opcodes.CASTORE:
+        cbse Opcodes.SASTORE:
+        cbse Opcodes.FASTORE:
+        cbse Opcodes.AASTORE:
             pop(3);
-            break;
-        case Opcodes.LASTORE:
-        case Opcodes.DASTORE:
+            brebk;
+        cbse Opcodes.LASTORE:
+        cbse Opcodes.DASTORE:
             pop(4);
-            break;
-        case Opcodes.POP:
-        case Opcodes.IFEQ:
-        case Opcodes.IFNE:
-        case Opcodes.IFLT:
-        case Opcodes.IFGE:
-        case Opcodes.IFGT:
-        case Opcodes.IFLE:
-        case Opcodes.IRETURN:
-        case Opcodes.FRETURN:
-        case Opcodes.ARETURN:
-        case Opcodes.TABLESWITCH:
-        case Opcodes.LOOKUPSWITCH:
-        case Opcodes.ATHROW:
-        case Opcodes.MONITORENTER:
-        case Opcodes.MONITOREXIT:
-        case Opcodes.IFNULL:
-        case Opcodes.IFNONNULL:
+            brebk;
+        cbse Opcodes.POP:
+        cbse Opcodes.IFEQ:
+        cbse Opcodes.IFNE:
+        cbse Opcodes.IFLT:
+        cbse Opcodes.IFGE:
+        cbse Opcodes.IFGT:
+        cbse Opcodes.IFLE:
+        cbse Opcodes.IRETURN:
+        cbse Opcodes.FRETURN:
+        cbse Opcodes.ARETURN:
+        cbse Opcodes.TABLESWITCH:
+        cbse Opcodes.LOOKUPSWITCH:
+        cbse Opcodes.ATHROW:
+        cbse Opcodes.MONITORENTER:
+        cbse Opcodes.MONITOREXIT:
+        cbse Opcodes.IFNULL:
+        cbse Opcodes.IFNONNULL:
             pop(1);
-            break;
-        case Opcodes.POP2:
-        case Opcodes.IF_ICMPEQ:
-        case Opcodes.IF_ICMPNE:
-        case Opcodes.IF_ICMPLT:
-        case Opcodes.IF_ICMPGE:
-        case Opcodes.IF_ICMPGT:
-        case Opcodes.IF_ICMPLE:
-        case Opcodes.IF_ACMPEQ:
-        case Opcodes.IF_ACMPNE:
-        case Opcodes.LRETURN:
-        case Opcodes.DRETURN:
+            brebk;
+        cbse Opcodes.POP2:
+        cbse Opcodes.IF_ICMPEQ:
+        cbse Opcodes.IF_ICMPNE:
+        cbse Opcodes.IF_ICMPLT:
+        cbse Opcodes.IF_ICMPGE:
+        cbse Opcodes.IF_ICMPGT:
+        cbse Opcodes.IF_ICMPLE:
+        cbse Opcodes.IF_ACMPEQ:
+        cbse Opcodes.IF_ACMPNE:
+        cbse Opcodes.LRETURN:
+        cbse Opcodes.DRETURN:
             pop(2);
-            break;
-        case Opcodes.DUP:
+            brebk;
+        cbse Opcodes.DUP:
             t1 = pop();
             push(t1);
             push(t1);
-            break;
-        case Opcodes.DUP_X1:
+            brebk;
+        cbse Opcodes.DUP_X1:
             t1 = pop();
             t2 = pop();
             push(t1);
             push(t2);
             push(t1);
-            break;
-        case Opcodes.DUP_X2:
+            brebk;
+        cbse Opcodes.DUP_X2:
             t1 = pop();
             t2 = pop();
             t3 = pop();
@@ -1078,16 +1078,16 @@ final class Frame {
             push(t3);
             push(t2);
             push(t1);
-            break;
-        case Opcodes.DUP2:
+            brebk;
+        cbse Opcodes.DUP2:
             t1 = pop();
             t2 = pop();
             push(t2);
             push(t1);
             push(t2);
             push(t1);
-            break;
-        case Opcodes.DUP2_X1:
+            brebk;
+        cbse Opcodes.DUP2_X1:
             t1 = pop();
             t2 = pop();
             t3 = pop();
@@ -1096,8 +1096,8 @@ final class Frame {
             push(t3);
             push(t2);
             push(t1);
-            break;
-        case Opcodes.DUP2_X2:
+            brebk;
+        cbse Opcodes.DUP2_X2:
             t1 = pop();
             t2 = pop();
             t3 = pop();
@@ -1108,226 +1108,226 @@ final class Frame {
             push(t3);
             push(t2);
             push(t1);
-            break;
-        case Opcodes.SWAP:
+            brebk;
+        cbse Opcodes.SWAP:
             t1 = pop();
             t2 = pop();
             push(t1);
             push(t2);
-            break;
-        case Opcodes.IADD:
-        case Opcodes.ISUB:
-        case Opcodes.IMUL:
-        case Opcodes.IDIV:
-        case Opcodes.IREM:
-        case Opcodes.IAND:
-        case Opcodes.IOR:
-        case Opcodes.IXOR:
-        case Opcodes.ISHL:
-        case Opcodes.ISHR:
-        case Opcodes.IUSHR:
-        case Opcodes.L2I:
-        case Opcodes.D2I:
-        case Opcodes.FCMPL:
-        case Opcodes.FCMPG:
+            brebk;
+        cbse Opcodes.IADD:
+        cbse Opcodes.ISUB:
+        cbse Opcodes.IMUL:
+        cbse Opcodes.IDIV:
+        cbse Opcodes.IREM:
+        cbse Opcodes.IAND:
+        cbse Opcodes.IOR:
+        cbse Opcodes.IXOR:
+        cbse Opcodes.ISHL:
+        cbse Opcodes.ISHR:
+        cbse Opcodes.IUSHR:
+        cbse Opcodes.L2I:
+        cbse Opcodes.D2I:
+        cbse Opcodes.FCMPL:
+        cbse Opcodes.FCMPG:
             pop(2);
             push(INTEGER);
-            break;
-        case Opcodes.LADD:
-        case Opcodes.LSUB:
-        case Opcodes.LMUL:
-        case Opcodes.LDIV:
-        case Opcodes.LREM:
-        case Opcodes.LAND:
-        case Opcodes.LOR:
-        case Opcodes.LXOR:
+            brebk;
+        cbse Opcodes.LADD:
+        cbse Opcodes.LSUB:
+        cbse Opcodes.LMUL:
+        cbse Opcodes.LDIV:
+        cbse Opcodes.LREM:
+        cbse Opcodes.LAND:
+        cbse Opcodes.LOR:
+        cbse Opcodes.LXOR:
             pop(4);
             push(LONG);
             push(TOP);
-            break;
-        case Opcodes.FADD:
-        case Opcodes.FSUB:
-        case Opcodes.FMUL:
-        case Opcodes.FDIV:
-        case Opcodes.FREM:
-        case Opcodes.L2F:
-        case Opcodes.D2F:
+            brebk;
+        cbse Opcodes.FADD:
+        cbse Opcodes.FSUB:
+        cbse Opcodes.FMUL:
+        cbse Opcodes.FDIV:
+        cbse Opcodes.FREM:
+        cbse Opcodes.L2F:
+        cbse Opcodes.D2F:
             pop(2);
             push(FLOAT);
-            break;
-        case Opcodes.DADD:
-        case Opcodes.DSUB:
-        case Opcodes.DMUL:
-        case Opcodes.DDIV:
-        case Opcodes.DREM:
+            brebk;
+        cbse Opcodes.DADD:
+        cbse Opcodes.DSUB:
+        cbse Opcodes.DMUL:
+        cbse Opcodes.DDIV:
+        cbse Opcodes.DREM:
             pop(4);
             push(DOUBLE);
             push(TOP);
-            break;
-        case Opcodes.LSHL:
-        case Opcodes.LSHR:
-        case Opcodes.LUSHR:
+            brebk;
+        cbse Opcodes.LSHL:
+        cbse Opcodes.LSHR:
+        cbse Opcodes.LUSHR:
             pop(3);
             push(LONG);
             push(TOP);
-            break;
-        case Opcodes.IINC:
-            set(arg, INTEGER);
-            break;
-        case Opcodes.I2L:
-        case Opcodes.F2L:
+            brebk;
+        cbse Opcodes.IINC:
+            set(brg, INTEGER);
+            brebk;
+        cbse Opcodes.I2L:
+        cbse Opcodes.F2L:
             pop(1);
             push(LONG);
             push(TOP);
-            break;
-        case Opcodes.I2F:
+            brebk;
+        cbse Opcodes.I2F:
             pop(1);
             push(FLOAT);
-            break;
-        case Opcodes.I2D:
-        case Opcodes.F2D:
+            brebk;
+        cbse Opcodes.I2D:
+        cbse Opcodes.F2D:
             pop(1);
             push(DOUBLE);
             push(TOP);
-            break;
-        case Opcodes.F2I:
-        case Opcodes.ARRAYLENGTH:
-        case Opcodes.INSTANCEOF:
+            brebk;
+        cbse Opcodes.F2I:
+        cbse Opcodes.ARRAYLENGTH:
+        cbse Opcodes.INSTANCEOF:
             pop(1);
             push(INTEGER);
-            break;
-        case Opcodes.LCMP:
-        case Opcodes.DCMPL:
-        case Opcodes.DCMPG:
+            brebk;
+        cbse Opcodes.LCMP:
+        cbse Opcodes.DCMPL:
+        cbse Opcodes.DCMPG:
             pop(4);
             push(INTEGER);
-            break;
-        case Opcodes.JSR:
-        case Opcodes.RET:
+            brebk;
+        cbse Opcodes.JSR:
+        cbse Opcodes.RET:
             throw new RuntimeException(
-                    "JSR/RET are not supported with computeFrames option");
-        case Opcodes.GETSTATIC:
-            push(cw, item.strVal3);
-            break;
-        case Opcodes.PUTSTATIC:
-            pop(item.strVal3);
-            break;
-        case Opcodes.GETFIELD:
+                    "JSR/RET bre not supported with computeFrbmes option");
+        cbse Opcodes.GETSTATIC:
+            push(cw, item.strVbl3);
+            brebk;
+        cbse Opcodes.PUTSTATIC:
+            pop(item.strVbl3);
+            brebk;
+        cbse Opcodes.GETFIELD:
             pop(1);
-            push(cw, item.strVal3);
-            break;
-        case Opcodes.PUTFIELD:
-            pop(item.strVal3);
+            push(cw, item.strVbl3);
+            brebk;
+        cbse Opcodes.PUTFIELD:
+            pop(item.strVbl3);
             pop();
-            break;
-        case Opcodes.INVOKEVIRTUAL:
-        case Opcodes.INVOKESPECIAL:
-        case Opcodes.INVOKESTATIC:
-        case Opcodes.INVOKEINTERFACE:
-            pop(item.strVal3);
+            brebk;
+        cbse Opcodes.INVOKEVIRTUAL:
+        cbse Opcodes.INVOKESPECIAL:
+        cbse Opcodes.INVOKESTATIC:
+        cbse Opcodes.INVOKEINTERFACE:
+            pop(item.strVbl3);
             if (opcode != Opcodes.INVOKESTATIC) {
                 t1 = pop();
                 if (opcode == Opcodes.INVOKESPECIAL
-                        && item.strVal2.charAt(0) == '<') {
+                        && item.strVbl2.chbrAt(0) == '<') {
                     init(t1);
                 }
             }
-            push(cw, item.strVal3);
-            break;
-        case Opcodes.INVOKEDYNAMIC:
-            pop(item.strVal2);
-            push(cw, item.strVal2);
-            break;
-        case Opcodes.NEW:
-            push(UNINITIALIZED | cw.addUninitializedType(item.strVal1, arg));
-            break;
-        case Opcodes.NEWARRAY:
+            push(cw, item.strVbl3);
+            brebk;
+        cbse Opcodes.INVOKEDYNAMIC:
+            pop(item.strVbl2);
+            push(cw, item.strVbl2);
+            brebk;
+        cbse Opcodes.NEW:
+            push(UNINITIALIZED | cw.bddUninitiblizedType(item.strVbl1, brg));
+            brebk;
+        cbse Opcodes.NEWARRAY:
             pop();
-            switch (arg) {
-            case Opcodes.T_BOOLEAN:
+            switch (brg) {
+            cbse Opcodes.T_BOOLEAN:
                 push(ARRAY_OF | BOOLEAN);
-                break;
-            case Opcodes.T_CHAR:
+                brebk;
+            cbse Opcodes.T_CHAR:
                 push(ARRAY_OF | CHAR);
-                break;
-            case Opcodes.T_BYTE:
+                brebk;
+            cbse Opcodes.T_BYTE:
                 push(ARRAY_OF | BYTE);
-                break;
-            case Opcodes.T_SHORT:
+                brebk;
+            cbse Opcodes.T_SHORT:
                 push(ARRAY_OF | SHORT);
-                break;
-            case Opcodes.T_INT:
+                brebk;
+            cbse Opcodes.T_INT:
                 push(ARRAY_OF | INTEGER);
-                break;
-            case Opcodes.T_FLOAT:
+                brebk;
+            cbse Opcodes.T_FLOAT:
                 push(ARRAY_OF | FLOAT);
-                break;
-            case Opcodes.T_DOUBLE:
+                brebk;
+            cbse Opcodes.T_DOUBLE:
                 push(ARRAY_OF | DOUBLE);
-                break;
-            // case Opcodes.T_LONG:
-            default:
+                brebk;
+            // cbse Opcodes.T_LONG:
+            defbult:
                 push(ARRAY_OF | LONG);
-                break;
+                brebk;
             }
-            break;
-        case Opcodes.ANEWARRAY:
-            String s = item.strVal1;
+            brebk;
+        cbse Opcodes.ANEWARRAY:
+            String s = item.strVbl1;
             pop();
-            if (s.charAt(0) == '[') {
+            if (s.chbrAt(0) == '[') {
                 push(cw, '[' + s);
             } else {
-                push(ARRAY_OF | OBJECT | cw.addType(s));
+                push(ARRAY_OF | OBJECT | cw.bddType(s));
             }
-            break;
-        case Opcodes.CHECKCAST:
-            s = item.strVal1;
+            brebk;
+        cbse Opcodes.CHECKCAST:
+            s = item.strVbl1;
             pop();
-            if (s.charAt(0) == '[') {
+            if (s.chbrAt(0) == '[') {
                 push(cw, s);
             } else {
-                push(OBJECT | cw.addType(s));
+                push(OBJECT | cw.bddType(s));
             }
-            break;
-        // case Opcodes.MULTIANEWARRAY:
-        default:
-            pop(arg);
-            push(cw, item.strVal1);
-            break;
+            brebk;
+        // cbse Opcodes.MULTIANEWARRAY:
+        defbult:
+            pop(brg);
+            push(cw, item.strVbl1);
+            brebk;
         }
     }
 
     /**
-     * Merges the input frame of the given basic block with the input and output
-     * frames of this basic block. Returns <tt>true</tt> if the input frame of
-     * the given label has been changed by this operation.
+     * Merges the input frbme of the given bbsic block with the input bnd output
+     * frbmes of this bbsic block. Returns <tt>true</tt> if the input frbme of
+     * the given lbbel hbs been chbnged by this operbtion.
      *
-     * @param cw
-     *            the ClassWriter to which this label belongs.
-     * @param frame
-     *            the basic block whose input frame must be updated.
-     * @param edge
-     *            the kind of the {@link Edge} between this label and 'label'.
+     * @pbrbm cw
+     *            the ClbssWriter to which this lbbel belongs.
+     * @pbrbm frbme
+     *            the bbsic block whose input frbme must be updbted.
+     * @pbrbm edge
+     *            the kind of the {@link Edge} between this lbbel bnd 'lbbel'.
      *            See {@link Edge#info}.
-     * @return <tt>true</tt> if the input frame of the given label has been
-     *         changed by this operation.
+     * @return <tt>true</tt> if the input frbme of the given lbbel hbs been
+     *         chbnged by this operbtion.
      */
-    boolean merge(final ClassWriter cw, final Frame frame, final int edge) {
-        boolean changed = false;
+    boolebn merge(finbl ClbssWriter cw, finbl Frbme frbme, finbl int edge) {
+        boolebn chbnged = fblse;
         int i, s, dim, kind, t;
 
-        int nLocal = inputLocals.length;
-        int nStack = inputStack.length;
-        if (frame.inputLocals == null) {
-            frame.inputLocals = new int[nLocal];
-            changed = true;
+        int nLocbl = inputLocbls.length;
+        int nStbck = inputStbck.length;
+        if (frbme.inputLocbls == null) {
+            frbme.inputLocbls = new int[nLocbl];
+            chbnged = true;
         }
 
-        for (i = 0; i < nLocal; ++i) {
-            if (outputLocals != null && i < outputLocals.length) {
-                s = outputLocals[i];
+        for (i = 0; i < nLocbl; ++i) {
+            if (outputLocbls != null && i < outputLocbls.length) {
+                s = outputLocbls[i];
                 if (s == 0) {
-                    t = inputLocals[i];
+                    t = inputLocbls[i];
                 } else {
                     dim = s & DIM;
                     kind = s & KIND;
@@ -1335,9 +1335,9 @@ final class Frame {
                         t = s;
                     } else {
                         if (kind == LOCAL) {
-                            t = dim + inputLocals[s & VALUE];
+                            t = dim + inputLocbls[s & VALUE];
                         } else {
-                            t = dim + inputStack[nStack - (s & VALUE)];
+                            t = dim + inputStbck[nStbck - (s & VALUE)];
                         }
                         if ((s & TOP_IF_LONG_OR_DOUBLE) != 0
                                 && (t == LONG || t == DOUBLE)) {
@@ -1346,146 +1346,146 @@ final class Frame {
                     }
                 }
             } else {
-                t = inputLocals[i];
+                t = inputLocbls[i];
             }
-            if (initializations != null) {
+            if (initiblizbtions != null) {
                 t = init(cw, t);
             }
-            changed |= merge(cw, t, frame.inputLocals, i);
+            chbnged |= merge(cw, t, frbme.inputLocbls, i);
         }
 
         if (edge > 0) {
-            for (i = 0; i < nLocal; ++i) {
-                t = inputLocals[i];
-                changed |= merge(cw, t, frame.inputLocals, i);
+            for (i = 0; i < nLocbl; ++i) {
+                t = inputLocbls[i];
+                chbnged |= merge(cw, t, frbme.inputLocbls, i);
             }
-            if (frame.inputStack == null) {
-                frame.inputStack = new int[1];
-                changed = true;
+            if (frbme.inputStbck == null) {
+                frbme.inputStbck = new int[1];
+                chbnged = true;
             }
-            changed |= merge(cw, edge, frame.inputStack, 0);
-            return changed;
+            chbnged |= merge(cw, edge, frbme.inputStbck, 0);
+            return chbnged;
         }
 
-        int nInputStack = inputStack.length + owner.inputStackTop;
-        if (frame.inputStack == null) {
-            frame.inputStack = new int[nInputStack + outputStackTop];
-            changed = true;
+        int nInputStbck = inputStbck.length + owner.inputStbckTop;
+        if (frbme.inputStbck == null) {
+            frbme.inputStbck = new int[nInputStbck + outputStbckTop];
+            chbnged = true;
         }
 
-        for (i = 0; i < nInputStack; ++i) {
-            t = inputStack[i];
-            if (initializations != null) {
+        for (i = 0; i < nInputStbck; ++i) {
+            t = inputStbck[i];
+            if (initiblizbtions != null) {
                 t = init(cw, t);
             }
-            changed |= merge(cw, t, frame.inputStack, i);
+            chbnged |= merge(cw, t, frbme.inputStbck, i);
         }
-        for (i = 0; i < outputStackTop; ++i) {
-            s = outputStack[i];
+        for (i = 0; i < outputStbckTop; ++i) {
+            s = outputStbck[i];
             dim = s & DIM;
             kind = s & KIND;
             if (kind == BASE) {
                 t = s;
             } else {
                 if (kind == LOCAL) {
-                    t = dim + inputLocals[s & VALUE];
+                    t = dim + inputLocbls[s & VALUE];
                 } else {
-                    t = dim + inputStack[nStack - (s & VALUE)];
+                    t = dim + inputStbck[nStbck - (s & VALUE)];
                 }
                 if ((s & TOP_IF_LONG_OR_DOUBLE) != 0
                         && (t == LONG || t == DOUBLE)) {
                     t = TOP;
                 }
             }
-            if (initializations != null) {
+            if (initiblizbtions != null) {
                 t = init(cw, t);
             }
-            changed |= merge(cw, t, frame.inputStack, nInputStack + i);
+            chbnged |= merge(cw, t, frbme.inputStbck, nInputStbck + i);
         }
-        return changed;
+        return chbnged;
     }
 
     /**
-     * Merges the type at the given index in the given type array with the given
-     * type. Returns <tt>true</tt> if the type array has been modified by this
-     * operation.
+     * Merges the type bt the given index in the given type brrby with the given
+     * type. Returns <tt>true</tt> if the type brrby hbs been modified by this
+     * operbtion.
      *
-     * @param cw
-     *            the ClassWriter to which this label belongs.
-     * @param t
-     *            the type with which the type array element must be merged.
-     * @param types
-     *            an array of types.
-     * @param index
-     *            the index of the type that must be merged in 'types'.
-     * @return <tt>true</tt> if the type array has been modified by this
-     *         operation.
+     * @pbrbm cw
+     *            the ClbssWriter to which this lbbel belongs.
+     * @pbrbm t
+     *            the type with which the type brrby element must be merged.
+     * @pbrbm types
+     *            bn brrby of types.
+     * @pbrbm index
+     *            the index of the type thbt must be merged in 'types'.
+     * @return <tt>true</tt> if the type brrby hbs been modified by this
+     *         operbtion.
      */
-    private static boolean merge(final ClassWriter cw, int t,
-            final int[] types, final int index) {
+    privbte stbtic boolebn merge(finbl ClbssWriter cw, int t,
+            finbl int[] types, finbl int index) {
         int u = types[index];
         if (u == t) {
-            // if the types are equal, merge(u,t)=u, so there is no change
-            return false;
+            // if the types bre equbl, merge(u,t)=u, so there is no chbnge
+            return fblse;
         }
         if ((t & ~DIM) == NULL) {
             if (u == NULL) {
-                return false;
+                return fblse;
             }
             t = NULL;
         }
         if (u == 0) {
-            // if types[index] has never been assigned, merge(u,t)=t
+            // if types[index] hbs never been bssigned, merge(u,t)=t
             types[index] = t;
             return true;
         }
         int v;
         if ((u & BASE_KIND) == OBJECT || (u & DIM) != 0) {
-            // if u is a reference type of any dimension
+            // if u is b reference type of bny dimension
             if (t == NULL) {
-                // if t is the NULL type, merge(u,t)=u, so there is no change
-                return false;
+                // if t is the NULL type, merge(u,t)=u, so there is no chbnge
+                return fblse;
             } else if ((t & (DIM | BASE_KIND)) == (u & (DIM | BASE_KIND))) {
-                // if t and u have the same dimension and same base kind
+                // if t bnd u hbve the sbme dimension bnd sbme bbse kind
                 if ((u & BASE_KIND) == OBJECT) {
-                    // if t is also a reference type, and if u and t have the
-                    // same dimension merge(u,t) = dim(t) | common parent of the
-                    // element types of u and t
+                    // if t is blso b reference type, bnd if u bnd t hbve the
+                    // sbme dimension merge(u,t) = dim(t) | common pbrent of the
+                    // element types of u bnd t
                     v = (t & DIM) | OBJECT
                             | cw.getMergedType(t & BASE_VALUE, u & BASE_VALUE);
                 } else {
-                    // if u and t are array types, but not with the same element
-                    // type, merge(u,t) = dim(u) - 1 | java/lang/Object
+                    // if u bnd t bre brrby types, but not with the sbme element
+                    // type, merge(u,t) = dim(u) - 1 | jbvb/lbng/Object
                     int vdim = ELEMENT_OF + (u & DIM);
-                    v = vdim | OBJECT | cw.addType("java/lang/Object");
+                    v = vdim | OBJECT | cw.bddType("jbvb/lbng/Object");
                 }
             } else if ((t & BASE_KIND) == OBJECT || (t & DIM) != 0) {
-                // if t is any other reference or array type, the merged type
-                // is min(udim, tdim) | java/lang/Object, where udim is the
-                // array dimension of u, minus 1 if u is an array type with a
-                // primitive element type (and similarly for tdim).
+                // if t is bny other reference or brrby type, the merged type
+                // is min(udim, tdim) | jbvb/lbng/Object, where udim is the
+                // brrby dimension of u, minus 1 if u is bn brrby type with b
+                // primitive element type (bnd similbrly for tdim).
                 int tdim = (((t & DIM) == 0 || (t & BASE_KIND) == OBJECT) ? 0
                         : ELEMENT_OF) + (t & DIM);
                 int udim = (((u & DIM) == 0 || (u & BASE_KIND) == OBJECT) ? 0
                         : ELEMENT_OF) + (u & DIM);
-                v = Math.min(tdim, udim) | OBJECT
-                        | cw.addType("java/lang/Object");
+                v = Mbth.min(tdim, udim) | OBJECT
+                        | cw.bddType("jbvb/lbng/Object");
             } else {
-                // if t is any other type, merge(u,t)=TOP
+                // if t is bny other type, merge(u,t)=TOP
                 v = TOP;
             }
         } else if (u == NULL) {
             // if u is the NULL type, merge(u,t)=t,
-            // or TOP if t is not a reference type
+            // or TOP if t is not b reference type
             v = (t & BASE_KIND) == OBJECT || (t & DIM) != 0 ? t : TOP;
         } else {
-            // if u is any other type, merge(u,t)=TOP whatever t
+            // if u is bny other type, merge(u,t)=TOP whbtever t
             v = TOP;
         }
         if (u != v) {
             types[index] = v;
             return true;
         }
-        return false;
+        return fblse;
     }
 }

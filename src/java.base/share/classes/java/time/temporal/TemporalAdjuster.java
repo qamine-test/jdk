@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,94 +59,94 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbckbge jbvb.time.temporbl;
 
-import java.time.DateTimeException;
+import jbvb.time.DbteTimeException;
 
 /**
- * Strategy for adjusting a temporal object.
+ * Strbtegy for bdjusting b temporbl object.
  * <p>
- * Adjusters are a key tool for modifying temporal objects.
- * They exist to externalize the process of adjustment, permitting different
- * approaches, as per the strategy design pattern.
- * Examples might be an adjuster that sets the date avoiding weekends, or one that
- * sets the date to the last day of the month.
+ * Adjusters bre b key tool for modifying temporbl objects.
+ * They exist to externblize the process of bdjustment, permitting different
+ * bpprobches, bs per the strbtegy design pbttern.
+ * Exbmples might be bn bdjuster thbt sets the dbte bvoiding weekends, or one thbt
+ * sets the dbte to the lbst dby of the month.
  * <p>
- * There are two equivalent ways of using a {@code TemporalAdjuster}.
- * The first is to invoke the method on this interface directly.
- * The second is to use {@link Temporal#with(TemporalAdjuster)}:
+ * There bre two equivblent wbys of using b {@code TemporblAdjuster}.
+ * The first is to invoke the method on this interfbce directly.
+ * The second is to use {@link Temporbl#with(TemporblAdjuster)}:
  * <pre>
- *   // these two lines are equivalent, but the second approach is recommended
- *   temporal = thisAdjuster.adjustInto(temporal);
- *   temporal = temporal.with(thisAdjuster);
+ *   // these two lines bre equivblent, but the second bpprobch is recommended
+ *   temporbl = thisAdjuster.bdjustInto(temporbl);
+ *   temporbl = temporbl.with(thisAdjuster);
  * </pre>
- * It is recommended to use the second approach, {@code with(TemporalAdjuster)},
- * as it is a lot clearer to read in code.
+ * It is recommended to use the second bpprobch, {@code with(TemporblAdjuster)},
+ * bs it is b lot clebrer to rebd in code.
  * <p>
- * The {@link TemporalAdjusters} class contains a standard set of adjusters,
- * available as static methods.
+ * The {@link TemporblAdjusters} clbss contbins b stbndbrd set of bdjusters,
+ * bvbilbble bs stbtic methods.
  * These include:
  * <ul>
- * <li>finding the first or last day of the month
- * <li>finding the first day of next month
- * <li>finding the first or last day of the year
- * <li>finding the first day of next year
- * <li>finding the first or last day-of-week within a month, such as "first Wednesday in June"
- * <li>finding the next or previous day-of-week, such as "next Thursday"
+ * <li>finding the first or lbst dby of the month
+ * <li>finding the first dby of next month
+ * <li>finding the first or lbst dby of the yebr
+ * <li>finding the first dby of next yebr
+ * <li>finding the first or lbst dby-of-week within b month, such bs "first Wednesdby in June"
+ * <li>finding the next or previous dby-of-week, such bs "next Thursdby"
  * </ul>
  *
  * @implSpec
- * This interface places no restrictions on the mutability of implementations,
- * however immutability is strongly recommended.
+ * This interfbce plbces no restrictions on the mutbbility of implementbtions,
+ * however immutbbility is strongly recommended.
  *
- * @see TemporalAdjusters
+ * @see TemporblAdjusters
  * @since 1.8
  */
-@FunctionalInterface
-public interface TemporalAdjuster {
+@FunctionblInterfbce
+public interfbce TemporblAdjuster {
 
     /**
-     * Adjusts the specified temporal object.
+     * Adjusts the specified temporbl object.
      * <p>
-     * This adjusts the specified temporal object using the logic
-     * encapsulated in the implementing class.
-     * Examples might be an adjuster that sets the date avoiding weekends, or one that
-     * sets the date to the last day of the month.
+     * This bdjusts the specified temporbl object using the logic
+     * encbpsulbted in the implementing clbss.
+     * Exbmples might be bn bdjuster thbt sets the dbte bvoiding weekends, or one thbt
+     * sets the dbte to the lbst dby of the month.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method directly.
-     * The second is to use {@link Temporal#with(TemporalAdjuster)}:
+     * The second is to use {@link Temporbl#with(TemporblAdjuster)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisAdjuster.adjustInto(temporal);
-     *   temporal = temporal.with(thisAdjuster);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisAdjuster.bdjustInto(temporbl);
+     *   temporbl = temporbl.with(thisAdjuster);
      * </pre>
-     * It is recommended to use the second approach, {@code with(TemporalAdjuster)},
-     * as it is a lot clearer to read in code.
+     * It is recommended to use the second bpprobch, {@code with(TemporblAdjuster)},
+     * bs it is b lot clebrer to rebd in code.
      *
      * @implSpec
-     * The implementation must take the input object and adjust it.
-     * The implementation defines the logic of the adjustment and is responsible for
-     * documenting that logic. It may use any method on {@code Temporal} to
-     * query the temporal object and perform the adjustment.
-     * The returned object must have the same observable type as the input object
+     * The implementbtion must tbke the input object bnd bdjust it.
+     * The implementbtion defines the logic of the bdjustment bnd is responsible for
+     * documenting thbt logic. It mby use bny method on {@code Temporbl} to
+     * query the temporbl object bnd perform the bdjustment.
+     * The returned object must hbve the sbme observbble type bs the input object
      * <p>
-     * The input object must not be altered.
-     * Instead, an adjusted copy of the original must be returned.
-     * This provides equivalent, safe behavior for immutable and mutable temporal objects.
+     * The input object must not be bltered.
+     * Instebd, bn bdjusted copy of the originbl must be returned.
+     * This provides equivblent, sbfe behbvior for immutbble bnd mutbble temporbl objects.
      * <p>
-     * The input temporal object may be in a calendar system other than ISO.
-     * Implementations may choose to document compatibility with other calendar systems,
-     * or reject non-ISO temporal objects by {@link TemporalQueries#chronology() querying the chronology}.
+     * The input temporbl object mby be in b cblendbr system other thbn ISO.
+     * Implementbtions mby choose to document compbtibility with other cblendbr systems,
+     * or reject non-ISO temporbl objects by {@link TemporblQueries#chronology() querying the chronology}.
      * <p>
-     * This method may be called from multiple threads in parallel.
-     * It must be thread-safe when invoked.
+     * This method mby be cblled from multiple threbds in pbrbllel.
+     * It must be threbd-sbfe when invoked.
      *
-     * @param temporal  the temporal object to adjust, not null
-     * @return an object of the same observable type with the adjustment made, not null
-     * @throws DateTimeException if unable to make the adjustment
+     * @pbrbm temporbl  the temporbl object to bdjust, not null
+     * @return bn object of the sbme observbble type with the bdjustment mbde, not null
+     * @throws DbteTimeException if unbble to mbke the bdjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
-    Temporal adjustInto(Temporal temporal);
+    Temporbl bdjustInto(Temporbl temporbl);
 
 }

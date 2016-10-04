@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.IntBuffer;
-import java.util.Locale;
-import java.nio.charset.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.IntBuffer;
+import jbvb.util.Locble;
+import jbvb.nio.chbrset.*;
 
 /*
- * A tt font has a CMAP table which is in turn made up of sub-tables which
- * describe the char to glyph mapping in (possibly) multiple ways.
- * CMAP subtables are described by 3 values.
- * 1. Platform ID (eg 3=Microsoft, which is the id we look for in JDK)
+ * A tt font hbs b CMAP tbble which is in turn mbde up of sub-tbbles which
+ * describe the chbr to glyph mbpping in (possibly) multiple wbys.
+ * CMAP subtbbles bre described by 3 vblues.
+ * 1. Plbtform ID (eg 3=Microsoft, which is the id we look for in JDK)
  * 2. Encoding (eg 0=symbol, 1=unicode)
- * 3. TrueType subtable format (how the char->glyph mapping for the encoding
- * is stored in the subtable). See the TrueType spec. Format 4 is required
- * by MS in fonts for windows. Its uses segmented mapping to delta values.
- * Most typically we see are (3,1,4) :
- * CMAP Platform ID=3 is what we use.
- * Encodings that are used in practice by JDK on Solaris are
+ * 3. TrueType subtbble formbt (how the chbr->glyph mbpping for the encoding
+ * is stored in the subtbble). See the TrueType spec. Formbt 4 is required
+ * by MS in fonts for windows. Its uses segmented mbpping to deltb vblues.
+ * Most typicblly we see bre (3,1,4) :
+ * CMAP Plbtform ID=3 is whbt we use.
+ * Encodings thbt bre used in prbctice by JDK on Solbris bre
  *  symbol (3,0)
  *  unicode (3,1)
- *  GBK (3,5) (note that solaris zh fonts report 3,4 but are really 3,5)
- * The format for almost all subtables is 4. However the solaris (3,5)
- * encodings are typically in format 2.
+ *  GBK (3,5) (note thbt solbris zh fonts report 3,4 but bre reblly 3,5)
+ * The formbt for blmost bll subtbbles is 4. However the solbris (3,5)
+ * encodings bre typicblly in formbt 2.
  */
-abstract class CMap {
+bbstrbct clbss CMbp {
 
-//     static char WingDings_b2c[] = {
+//     stbtic chbr WingDings_b2c[] = {
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
@@ -69,24 +69,24 @@ abstract class CMap {
 //         0xfffd, 0x2751, 0x2752, 0xfffd, 0xfffd, 0x2756, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0x2740, 0x273f, 0x275d, 0x275e, 0xfffd,
 //         0xfffd, 0x2780, 0x2781, 0x2782, 0x2783, 0x2784, 0x2785, 0x2786,
-//         0x2787, 0x2788, 0x2789, 0xfffd, 0x278a, 0x278b, 0x278c, 0x278d,
+//         0x2787, 0x2788, 0x2789, 0xfffd, 0x278b, 0x278b, 0x278c, 0x278d,
 //         0x278e, 0x278f, 0x2790, 0x2791, 0x2792, 0x2793, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0x274d, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0x2736, 0x2734, 0xfffd, 0x2735,
-//         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0x272a, 0x2730, 0xfffd,
+//         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0x272b, 0x2730, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
-//         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0x27a5, 0xfffd, 0x27a6, 0xfffd,
+//         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0x27b5, 0xfffd, 0x27b6, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
-//         0x27a2, 0xfffd, 0xfffd, 0xfffd, 0x27b3, 0xfffd, 0xfffd, 0xfffd,
+//         0x27b2, 0xfffd, 0xfffd, 0xfffd, 0x27b3, 0xfffd, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
-//         0x27a1, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
-//         0x27a9, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
+//         0x27b1, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
+//         0x27b9, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0x2717, 0x2713, 0xfffd, 0xfffd, 0xfffd,
 //    };
 
-//     static char Symbols_b2c[] = {
+//     stbtic chbr Symbols_b2c[] = {
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
@@ -95,12 +95,12 @@ abstract class CMap {
 //         0xfffd, 0xfffd, 0x2217, 0xfffd, 0xfffd, 0x2212, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
-//         0x2245, 0x0391, 0x0392, 0x03a7, 0x0394, 0x0395, 0x03a6, 0x0393,
-//         0x0397, 0x0399, 0x03d1, 0x039a, 0x039b, 0x039c, 0x039d, 0x039f,
-//         0x03a0, 0x0398, 0x03a1, 0x03a3, 0x03a4, 0x03a5, 0x03c2, 0x03a9,
-//         0x039e, 0x03a8, 0x0396, 0xfffd, 0x2234, 0xfffd, 0x22a5, 0xfffd,
+//         0x2245, 0x0391, 0x0392, 0x03b7, 0x0394, 0x0395, 0x03b6, 0x0393,
+//         0x0397, 0x0399, 0x03d1, 0x039b, 0x039b, 0x039c, 0x039d, 0x039f,
+//         0x03b0, 0x0398, 0x03b1, 0x03b3, 0x03b4, 0x03b5, 0x03c2, 0x03b9,
+//         0x039e, 0x03b8, 0x0396, 0xfffd, 0x2234, 0xfffd, 0x22b5, 0xfffd,
 //         0xfffd, 0x03b1, 0x03b2, 0x03c7, 0x03b4, 0x03b5, 0x03c6, 0x03b3,
-//         0x03b7, 0x03b9, 0x03d5, 0x03ba, 0x03bb, 0x03bc, 0x03bd, 0x03bf,
+//         0x03b7, 0x03b9, 0x03d5, 0x03bb, 0x03bb, 0x03bc, 0x03bd, 0x03bf,
 //         0x03c0, 0x03b8, 0x03c1, 0x03c3, 0x03c4, 0x03c5, 0x03d6, 0x03c9,
 //         0x03be, 0x03c8, 0x03b6, 0xfffd, 0xfffd, 0xfffd, 0x223c, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
@@ -112,8 +112,8 @@ abstract class CMap {
 //         0x2218, 0xfffd, 0xfffd, 0x2265, 0xfffd, 0x221d, 0xfffd, 0x2219,
 //         0xfffd, 0x2260, 0x2261, 0x2248, 0x22ef, 0x2223, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0x2297, 0x2295, 0x2205, 0x2229,
-//         0x222a, 0x2283, 0x2287, 0x2284, 0x2282, 0x2286, 0x2208, 0x2209,
-//         0xfffd, 0x2207, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0x221a, 0x22c5,
+//         0x222b, 0x2283, 0x2287, 0x2284, 0x2282, 0x2286, 0x2208, 0x2209,
+//         0xfffd, 0x2207, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0x221b, 0x22c5,
 //         0xfffd, 0x2227, 0x2228, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
 //         0x22c4, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0x2211, 0xfffd, 0xfffd,
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
@@ -121,204 +121,204 @@ abstract class CMap {
 //         0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
 //     };
 
-    static final short ShiftJISEncoding = 2;
-    static final short GBKEncoding      = 3;
-    static final short Big5Encoding     = 4;
-    static final short WansungEncoding  = 5;
-    static final short JohabEncoding    = 6;
-    static final short MSUnicodeSurrogateEncoding = 10;
+    stbtic finbl short ShiftJISEncoding = 2;
+    stbtic finbl short GBKEncoding      = 3;
+    stbtic finbl short Big5Encoding     = 4;
+    stbtic finbl short WbnsungEncoding  = 5;
+    stbtic finbl short JohbbEncoding    = 6;
+    stbtic finbl short MSUnicodeSurrogbteEncoding = 10;
 
-    static final char noSuchChar = (char)0xfffd;
-    static final int SHORTMASK = 0x0000ffff;
-    static final int INTMASK   = 0xffffffff;
+    stbtic finbl chbr noSuchChbr = (chbr)0xfffd;
+    stbtic finbl int SHORTMASK = 0x0000ffff;
+    stbtic finbl int INTMASK   = 0xffffffff;
 
-    static final char[][] converterMaps = new char[7][];
+    stbtic finbl chbr[][] converterMbps = new chbr[7][];
 
     /*
-     * Unicode->other encoding translation array. A pre-computed look up
-     * which can be shared across all fonts using that encoding.
-     * Using this saves running character coverters repeatedly.
+     * Unicode->other encoding trbnslbtion brrby. A pre-computed look up
+     * which cbn be shbred bcross bll fonts using thbt encoding.
+     * Using this sbves running chbrbcter coverters repebtedly.
      */
-    char[] xlat;
+    chbr[] xlbt;
 
-    static CMap initialize(TrueTypeFont font) {
+    stbtic CMbp initiblize(TrueTypeFont font) {
 
-        CMap cmap = null;
+        CMbp cmbp = null;
 
-        int offset, platformID, encodingID=-1;
+        int offset, plbtformID, encodingID=-1;
 
         int three0=0, three1=0, three2=0, three3=0, three4=0, three5=0,
             three6=0, three10=0;
-        boolean threeStar = false;
+        boolebn threeStbr = fblse;
 
-        ByteBuffer cmapBuffer = font.getTableBuffer(TrueTypeFont.cmapTag);
-        int cmapTableOffset = font.getTableSize(TrueTypeFont.cmapTag);
-        short numberSubTables = cmapBuffer.getShort(2);
+        ByteBuffer cmbpBuffer = font.getTbbleBuffer(TrueTypeFont.cmbpTbg);
+        int cmbpTbbleOffset = font.getTbbleSize(TrueTypeFont.cmbpTbg);
+        short numberSubTbbles = cmbpBuffer.getShort(2);
 
-        /* locate the offsets of all 3,*  (ie Microsoft platform) encodings */
-        for (int i=0; i<numberSubTables; i++) {
-            cmapBuffer.position(i * 8 + 4);
-            platformID = cmapBuffer.getShort();
-            if (platformID == 3) {
-                threeStar = true;
-                encodingID = cmapBuffer.getShort();
-                offset     = cmapBuffer.getInt();
+        /* locbte the offsets of bll 3,*  (ie Microsoft plbtform) encodings */
+        for (int i=0; i<numberSubTbbles; i++) {
+            cmbpBuffer.position(i * 8 + 4);
+            plbtformID = cmbpBuffer.getShort();
+            if (plbtformID == 3) {
+                threeStbr = true;
+                encodingID = cmbpBuffer.getShort();
+                offset     = cmbpBuffer.getInt();
                 switch (encodingID) {
-                case 0:  three0  = offset; break; // MS Symbol encoding
-                case 1:  three1  = offset; break; // MS Unicode cmap
-                case 2:  three2  = offset; break; // ShiftJIS cmap.
-                case 3:  three3  = offset; break; // GBK cmap
-                case 4:  three4  = offset; break; // Big 5 cmap
-                case 5:  three5  = offset; break; // Wansung
-                case 6:  three6  = offset; break; // Johab
-                case 10: three10 = offset; break; // MS Unicode surrogates
+                cbse 0:  three0  = offset; brebk; // MS Symbol encoding
+                cbse 1:  three1  = offset; brebk; // MS Unicode cmbp
+                cbse 2:  three2  = offset; brebk; // ShiftJIS cmbp.
+                cbse 3:  three3  = offset; brebk; // GBK cmbp
+                cbse 4:  three4  = offset; brebk; // Big 5 cmbp
+                cbse 5:  three5  = offset; brebk; // Wbnsung
+                cbse 6:  three6  = offset; brebk; // Johbb
+                cbse 10: three10 = offset; brebk; // MS Unicode surrogbtes
                 }
             }
         }
 
-        /* This defines the preference order for cmap subtables */
-        if (threeStar) {
+        /* This defines the preference order for cmbp subtbbles */
+        if (threeStbr) {
             if (three10 != 0) {
-                cmap = createCMap(cmapBuffer, three10, null);
+                cmbp = crebteCMbp(cmbpBuffer, three10, null);
             }
             else if  (three0 != 0) {
-                /* The special case treatment of these fonts leads to
-                 * anomalies where a user can view "wingdings" and "wingdings2"
-                 * and the latter shows all its code points in the unicode
-                 * private use area at 0xF000->0XF0FF and the former shows
-                 * a scattered subset of its glyphs that are known mappings to
+                /* The specibl cbse trebtment of these fonts lebds to
+                 * bnomblies where b user cbn view "wingdings" bnd "wingdings2"
+                 * bnd the lbtter shows bll its code points in the unicode
+                 * privbte use breb bt 0xF000->0XF0FF bnd the former shows
+                 * b scbttered subset of its glyphs thbt bre known mbppings to
                  * unicode code points.
-                 * The primary purpose of these mappings was to facilitate
-                 * display of symbol chars etc in composite fonts, however
-                 * this is not needed as all these code points are covered
-                 * by Lucida Sans Regular.
+                 * The primbry purpose of these mbppings wbs to fbcilitbte
+                 * displby of symbol chbrs etc in composite fonts, however
+                 * this is not needed bs bll these code points bre covered
+                 * by Lucidb Sbns Regulbr.
                  * Commenting this out reduces the role of these two files
-                 * (assuming that they continue to be used in font.properties)
-                 * to just one of contributing to the overall composite
-                 * font metrics, and also AWT can still access the fonts.
-                 * Clients which explicitly accessed these fonts as names
-                 * "Symbol" and "Wingdings" (ie as physical fonts) and
-                 * expected to see a scattering of these characters will
-                 * see them now as missing. How much of a problem is this?
-                 * Perhaps we could still support this mapping just for
+                 * (bssuming thbt they continue to be used in font.properties)
+                 * to just one of contributing to the overbll composite
+                 * font metrics, bnd blso AWT cbn still bccess the fonts.
+                 * Clients which explicitly bccessed these fonts bs nbmes
+                 * "Symbol" bnd "Wingdings" (ie bs physicbl fonts) bnd
+                 * expected to see b scbttering of these chbrbcters will
+                 * see them now bs missing. How much of b problem is this?
+                 * Perhbps we could still support this mbpping just for
                  * "Symbol.ttf" but I suspect some users would prefer it
-                 * to be mapped in to the Latin range as that is how
-                 * the "symbol" font is used in native apps.
+                 * to be mbpped in to the Lbtin rbnge bs thbt is how
+                 * the "symbol" font is used in nbtive bpps.
                  */
-//              String name = font.platName.toLowerCase(Locale.ENGLISH);
-//              if (name.endsWith("symbol.ttf")) {
-//                  cmap = createSymbolCMap(cmapBuffer, three0, Symbols_b2c);
-//              } else if (name.endsWith("wingding.ttf")) {
-//                  cmap = createSymbolCMap(cmapBuffer, three0, WingDings_b2c);
+//              String nbme = font.plbtNbme.toLowerCbse(Locble.ENGLISH);
+//              if (nbme.endsWith("symbol.ttf")) {
+//                  cmbp = crebteSymbolCMbp(cmbpBuffer, three0, Symbols_b2c);
+//              } else if (nbme.endsWith("wingding.ttf")) {
+//                  cmbp = crebteSymbolCMbp(cmbpBuffer, three0, WingDings_b2c);
 //              } else {
-                    cmap = createCMap(cmapBuffer, three0, null);
+                    cmbp = crebteCMbp(cmbpBuffer, three0, null);
 //              }
             }
             else if (three1 != 0) {
-                cmap = createCMap(cmapBuffer, three1, null);
+                cmbp = crebteCMbp(cmbpBuffer, three1, null);
             }
             else if (three2 != 0) {
-                cmap = createCMap(cmapBuffer, three2,
-                                  getConverterMap(ShiftJISEncoding));
+                cmbp = crebteCMbp(cmbpBuffer, three2,
+                                  getConverterMbp(ShiftJISEncoding));
             }
             else if (three3 != 0) {
-                cmap = createCMap(cmapBuffer, three3,
-                                  getConverterMap(GBKEncoding));
+                cmbp = crebteCMbp(cmbpBuffer, three3,
+                                  getConverterMbp(GBKEncoding));
             }
             else if (three4 != 0) {
-                /* GB2312 TrueType fonts on Solaris have wrong encoding ID for
-                 * cmap table, these fonts have EncodingID 4 which is Big5
-                 * encoding according the TrueType spec, but actually the
-                 * fonts are using gb2312 encoding, have to use this
-                 * workaround to make Solaris zh_CN locale work.  -sherman
+                /* GB2312 TrueType fonts on Solbris hbve wrong encoding ID for
+                 * cmbp tbble, these fonts hbve EncodingID 4 which is Big5
+                 * encoding bccording the TrueType spec, but bctublly the
+                 * fonts bre using gb2312 encoding, hbve to use this
+                 * workbround to mbke Solbris zh_CN locble work.  -shermbn
                  */
-                if (FontUtilities.isSolaris && font.platName != null &&
-                    (font.platName.startsWith(
-                     "/usr/openwin/lib/locale/zh_CN.EUC/X11/fonts/TrueType") ||
-                     font.platName.startsWith(
-                     "/usr/openwin/lib/locale/zh_CN/X11/fonts/TrueType") ||
-                     font.platName.startsWith(
-                     "/usr/openwin/lib/locale/zh/X11/fonts/TrueType"))) {
-                    cmap = createCMap(cmapBuffer, three4,
-                                       getConverterMap(GBKEncoding));
+                if (FontUtilities.isSolbris && font.plbtNbme != null &&
+                    (font.plbtNbme.stbrtsWith(
+                     "/usr/openwin/lib/locble/zh_CN.EUC/X11/fonts/TrueType") ||
+                     font.plbtNbme.stbrtsWith(
+                     "/usr/openwin/lib/locble/zh_CN/X11/fonts/TrueType") ||
+                     font.plbtNbme.stbrtsWith(
+                     "/usr/openwin/lib/locble/zh/X11/fonts/TrueType"))) {
+                    cmbp = crebteCMbp(cmbpBuffer, three4,
+                                       getConverterMbp(GBKEncoding));
                 }
                 else {
-                    cmap = createCMap(cmapBuffer, three4,
-                                      getConverterMap(Big5Encoding));
+                    cmbp = crebteCMbp(cmbpBuffer, three4,
+                                      getConverterMbp(Big5Encoding));
                 }
             }
             else if (three5 != 0) {
-                cmap = createCMap(cmapBuffer, three5,
-                                  getConverterMap(WansungEncoding));
+                cmbp = crebteCMbp(cmbpBuffer, three5,
+                                  getConverterMbp(WbnsungEncoding));
             }
             else if (three6 != 0) {
-                cmap = createCMap(cmapBuffer, three6,
-                                  getConverterMap(JohabEncoding));
+                cmbp = crebteCMbp(cmbpBuffer, three6,
+                                  getConverterMbp(JohbbEncoding));
             }
         } else {
-            /* No 3,* subtable was found. Just use whatever is the first
-             * table listed. Not very useful but maybe better than
+            /* No 3,* subtbble wbs found. Just use whbtever is the first
+             * tbble listed. Not very useful but mbybe better thbn
              * rejecting the font entirely?
              */
-            cmap = createCMap(cmapBuffer, cmapBuffer.getInt(8), null);
+            cmbp = crebteCMbp(cmbpBuffer, cmbpBuffer.getInt(8), null);
         }
-        return cmap;
+        return cmbp;
     }
 
-    /* speed up the converting by setting the range for double
-     * byte characters;
+    /* speed up the converting by setting the rbnge for double
+     * byte chbrbcters;
      */
-    static char[] getConverter(short encodingID) {
+    stbtic chbr[] getConverter(short encodingID) {
         int dBegin = 0x8000;
         int dEnd   = 0xffff;
         String encoding;
 
         switch (encodingID) {
-        case ShiftJISEncoding:
+        cbse ShiftJISEncoding:
             dBegin = 0x8140;
             dEnd   = 0xfcfc;
             encoding = "SJIS";
-            break;
-        case GBKEncoding:
+            brebk;
+        cbse GBKEncoding:
             dBegin = 0x8140;
-            dEnd   = 0xfea0;
+            dEnd   = 0xfeb0;
             encoding = "GBK";
-            break;
-        case Big5Encoding:
-            dBegin = 0xa140;
+            brebk;
+        cbse Big5Encoding:
+            dBegin = 0xb140;
             dEnd   = 0xfefe;
             encoding = "Big5";
-            break;
-        case WansungEncoding:
-            dBegin = 0xa1a1;
+            brebk;
+        cbse WbnsungEncoding:
+            dBegin = 0xb1b1;
             dEnd   = 0xfede;
             encoding = "EUC_KR";
-            break;
-        case JohabEncoding:
+            brebk;
+        cbse JohbbEncoding:
             dBegin = 0x8141;
             dEnd   = 0xfdfe;
-            encoding = "Johab";
-            break;
-        default:
+            encoding = "Johbb";
+            brebk;
+        defbult:
             return null;
         }
 
         try {
-            char[] convertedChars = new char[65536];
+            chbr[] convertedChbrs = new chbr[65536];
             for (int i=0; i<65536; i++) {
-                convertedChars[i] = noSuchChar;
+                convertedChbrs[i] = noSuchChbr;
             }
 
             byte[] inputBytes = new byte[(dEnd-dBegin+1)*2];
-            char[] outputChars = new char[(dEnd-dBegin+1)];
+            chbr[] outputChbrs = new chbr[(dEnd-dBegin+1)];
 
             int j = 0;
             int firstByte;
             if (encodingID == ShiftJISEncoding) {
                 for (int i = dBegin; i <= dEnd; i++) {
                     firstByte = (i >> 8 & 0xff);
-                    if (firstByte >= 0xa1 && firstByte <= 0xdf) {
-                        //sjis halfwidth katakana
+                    if (firstByte >= 0xb1 && firstByte <= 0xdf) {
+                        //sjis hblfwidth kbtbkbnb
                         inputBytes[j++] = (byte)0xff;
                         inputBytes[j++] = (byte)0xff;
                     } else {
@@ -333,197 +333,197 @@ abstract class CMap {
                 }
             }
 
-            Charset.forName(encoding).newDecoder()
-            .onMalformedInput(CodingErrorAction.REPLACE)
-            .onUnmappableCharacter(CodingErrorAction.REPLACE)
-            .replaceWith("\u0000")
-            .decode(ByteBuffer.wrap(inputBytes, 0, inputBytes.length),
-                    CharBuffer.wrap(outputChars, 0, outputChars.length),
+            Chbrset.forNbme(encoding).newDecoder()
+            .onMblformedInput(CodingErrorAction.REPLACE)
+            .onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE)
+            .replbceWith("\u0000")
+            .decode(ByteBuffer.wrbp(inputBytes, 0, inputBytes.length),
+                    ChbrBuffer.wrbp(outputChbrs, 0, outputChbrs.length),
                     true);
 
-            // ensure single byte ascii
+            // ensure single byte bscii
             for (int i = 0x20; i <= 0x7e; i++) {
-                convertedChars[i] = (char)i;
+                convertedChbrs[i] = (chbr)i;
             }
 
-            //sjis halfwidth katakana
+            //sjis hblfwidth kbtbkbnb
             if (encodingID == ShiftJISEncoding) {
-                for (int i = 0xa1; i <= 0xdf; i++) {
-                    convertedChars[i] = (char)(i - 0xa1 + 0xff61);
+                for (int i = 0xb1; i <= 0xdf; i++) {
+                    convertedChbrs[i] = (chbr)(i - 0xb1 + 0xff61);
                 }
             }
 
-            /* It would save heap space (approx 60Kbytes for each of these
-             * converters) if stored only valid ranges (ie returned
-             * outputChars directly. But this is tricky since want to
-             * include the ASCII range too.
+            /* It would sbve hebp spbce (bpprox 60Kbytes for ebch of these
+             * converters) if stored only vblid rbnges (ie returned
+             * outputChbrs directly. But this is tricky since wbnt to
+             * include the ASCII rbnge too.
              */
-//          System.err.println("oc.len="+outputChars.length);
-//          System.err.println("cc.len="+convertedChars.length);
+//          System.err.println("oc.len="+outputChbrs.length);
+//          System.err.println("cc.len="+convertedChbrs.length);
 //          System.err.println("dbegin="+dBegin);
-            System.arraycopy(outputChars, 0, convertedChars, dBegin,
-                             outputChars.length);
+            System.brrbycopy(outputChbrs, 0, convertedChbrs, dBegin,
+                             outputChbrs.length);
 
-            //return convertedChars;
-            /* invert this map as now want it to map from Unicode
+            //return convertedChbrs;
+            /* invert this mbp bs now wbnt it to mbp from Unicode
              * to other encoding.
              */
-            char [] invertedChars = new char[65536];
+            chbr [] invertedChbrs = new chbr[65536];
             for (int i=0;i<65536;i++) {
-                if (convertedChars[i] != noSuchChar) {
-                    invertedChars[convertedChars[i]] = (char)i;
+                if (convertedChbrs[i] != noSuchChbr) {
+                    invertedChbrs[convertedChbrs[i]] = (chbr)i;
                 }
             }
-            return invertedChars;
+            return invertedChbrs;
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } cbtch (Exception e) {
+            e.printStbckTrbce();
         }
         return null;
     }
 
     /*
-     * The returned array maps to unicode from some other 2 byte encoding
-     * eg for a 2byte index which represents a SJIS char, the indexed
-     * value is the corresponding unicode char.
+     * The returned brrby mbps to unicode from some other 2 byte encoding
+     * eg for b 2byte index which represents b SJIS chbr, the indexed
+     * vblue is the corresponding unicode chbr.
      */
-    static char[] getConverterMap(short encodingID) {
-        if (converterMaps[encodingID] == null) {
-           converterMaps[encodingID] = getConverter(encodingID);
+    stbtic chbr[] getConverterMbp(short encodingID) {
+        if (converterMbps[encodingID] == null) {
+           converterMbps[encodingID] = getConverter(encodingID);
         }
-        return converterMaps[encodingID];
+        return converterMbps[encodingID];
     }
 
 
-    static CMap createCMap(ByteBuffer buffer, int offset, char[] xlat) {
-        /* First do a sanity check that this cmap subtable is contained
-         * within the cmap table.
+    stbtic CMbp crebteCMbp(ByteBuffer buffer, int offset, chbr[] xlbt) {
+        /* First do b sbnity check thbt this cmbp subtbble is contbined
+         * within the cmbp tbble.
          */
-        int subtableFormat = buffer.getChar(offset);
-        long subtableLength;
-        if (subtableFormat < 8) {
-            subtableLength = buffer.getChar(offset+2);
+        int subtbbleFormbt = buffer.getChbr(offset);
+        long subtbbleLength;
+        if (subtbbleFormbt < 8) {
+            subtbbleLength = buffer.getChbr(offset+2);
         } else {
-            subtableLength = buffer.getInt(offset+4) & INTMASK;
+            subtbbleLength = buffer.getInt(offset+4) & INTMASK;
         }
-        if (offset+subtableLength > buffer.capacity()) {
+        if (offset+subtbbleLength > buffer.cbpbcity()) {
             if (FontUtilities.isLogging()) {
-                FontUtilities.getLogger().warning("Cmap subtable overflows buffer.");
+                FontUtilities.getLogger().wbrning("Cmbp subtbble overflows buffer.");
             }
         }
-        switch (subtableFormat) {
-        case 0:  return new CMapFormat0(buffer, offset);
-        case 2:  return new CMapFormat2(buffer, offset, xlat);
-        case 4:  return new CMapFormat4(buffer, offset, xlat);
-        case 6:  return new CMapFormat6(buffer, offset, xlat);
-        case 8:  return new CMapFormat8(buffer, offset, xlat);
-        case 10: return new CMapFormat10(buffer, offset, xlat);
-        case 12: return new CMapFormat12(buffer, offset, xlat);
-        default: throw new RuntimeException("Cmap format unimplemented: " +
-                                            (int)buffer.getChar(offset));
+        switch (subtbbleFormbt) {
+        cbse 0:  return new CMbpFormbt0(buffer, offset);
+        cbse 2:  return new CMbpFormbt2(buffer, offset, xlbt);
+        cbse 4:  return new CMbpFormbt4(buffer, offset, xlbt);
+        cbse 6:  return new CMbpFormbt6(buffer, offset, xlbt);
+        cbse 8:  return new CMbpFormbt8(buffer, offset, xlbt);
+        cbse 10: return new CMbpFormbt10(buffer, offset, xlbt);
+        cbse 12: return new CMbpFormbt12(buffer, offset, xlbt);
+        defbult: throw new RuntimeException("Cmbp formbt unimplemented: " +
+                                            (int)buffer.getChbr(offset));
         }
     }
 
 /*
-    final char charVal(byte[] cmap, int index) {
-        return (char)(((0xff & cmap[index]) << 8)+(0xff & cmap[index+1]));
+    finbl chbr chbrVbl(byte[] cmbp, int index) {
+        return (chbr)(((0xff & cmbp[index]) << 8)+(0xff & cmbp[index+1]));
     }
 
-    final short shortVal(byte[] cmap, int index) {
-        return (short)(((0xff & cmap[index]) << 8)+(0xff & cmap[index+1]));
+    finbl short shortVbl(byte[] cmbp, int index) {
+        return (short)(((0xff & cmbp[index]) << 8)+(0xff & cmbp[index+1]));
     }
 */
-    abstract char getGlyph(int charCode);
+    bbstrbct chbr getGlyph(int chbrCode);
 
-    /* Format 4 Header is
-     * ushort format (off=0)
+    /* Formbt 4 Hebder is
+     * ushort formbt (off=0)
      * ushort length (off=2)
-     * ushort language (off=4)
+     * ushort lbngubge (off=4)
      * ushort segCountX2 (off=6)
-     * ushort searchRange (off=8)
+     * ushort sebrchRbnge (off=8)
      * ushort entrySelector (off=10)
-     * ushort rangeShift (off=12)
+     * ushort rbngeShift (off=12)
      * ushort endCount[segCount] (off=14)
-     * ushort reservedPad
-     * ushort startCount[segCount]
-     * short idDelta[segCount]
-     * idRangeOFfset[segCount]
-     * ushort glyphIdArray[]
+     * ushort reservedPbd
+     * ushort stbrtCount[segCount]
+     * short idDeltb[segCount]
+     * idRbngeOFfset[segCount]
+     * ushort glyphIdArrby[]
      */
-    static class CMapFormat4 extends CMap {
+    stbtic clbss CMbpFormbt4 extends CMbp {
         int segCount;
         int entrySelector;
-        int rangeShift;
-        char[] endCount;
-        char[] startCount;
-        short[] idDelta;
-        char[] idRangeOffset;
-        char[] glyphIds;
+        int rbngeShift;
+        chbr[] endCount;
+        chbr[] stbrtCount;
+        short[] idDeltb;
+        chbr[] idRbngeOffset;
+        chbr[] glyphIds;
 
-        CMapFormat4(ByteBuffer bbuffer, int offset, char[] xlat) {
+        CMbpFormbt4(ByteBuffer bbuffer, int offset, chbr[] xlbt) {
 
-            this.xlat = xlat;
+            this.xlbt = xlbt;
 
             bbuffer.position(offset);
-            CharBuffer buffer = bbuffer.asCharBuffer();
-            buffer.get(); // skip, we already know format=4
-            int subtableLength = buffer.get();
-            /* Try to recover from some bad fonts which specify a subtable
-             * length that would overflow the byte buffer holding the whole
-             * cmap table. If this isn't a recoverable situation an exception
-             * may be thrown which is caught higher up the call stack.
-             * Whilst this may seem lenient, in practice, unless the "bad"
-             * subtable we are using is the last one in the cmap table we
-             * would have no way of knowing about this problem anyway.
+            ChbrBuffer buffer = bbuffer.bsChbrBuffer();
+            buffer.get(); // skip, we blrebdy know formbt=4
+            int subtbbleLength = buffer.get();
+            /* Try to recover from some bbd fonts which specify b subtbble
+             * length thbt would overflow the byte buffer holding the whole
+             * cmbp tbble. If this isn't b recoverbble situbtion bn exception
+             * mby be thrown which is cbught higher up the cbll stbck.
+             * Whilst this mby seem lenient, in prbctice, unless the "bbd"
+             * subtbble we bre using is the lbst one in the cmbp tbble we
+             * would hbve no wby of knowing bbout this problem bnywby.
              */
-            if (offset+subtableLength > bbuffer.capacity()) {
-                subtableLength = bbuffer.capacity() - offset;
+            if (offset+subtbbleLength > bbuffer.cbpbcity()) {
+                subtbbleLength = bbuffer.cbpbcity() - offset;
             }
-            buffer.get(); // skip language
+            buffer.get(); // skip lbngubge
             segCount = buffer.get()/2;
-            int searchRange = buffer.get();
+            int sebrchRbnge = buffer.get();
             entrySelector = buffer.get();
-            rangeShift    = buffer.get()/2;
-            startCount = new char[segCount];
-            endCount = new char[segCount];
-            idDelta = new short[segCount];
-            idRangeOffset = new char[segCount];
+            rbngeShift    = buffer.get()/2;
+            stbrtCount = new chbr[segCount];
+            endCount = new chbr[segCount];
+            idDeltb = new short[segCount];
+            idRbngeOffset = new chbr[segCount];
 
             for (int i=0; i<segCount; i++) {
                 endCount[i] = buffer.get();
             }
-            buffer.get(); // 2 bytes for reserved pad
+            buffer.get(); // 2 bytes for reserved pbd
             for (int i=0; i<segCount; i++) {
-                startCount[i] = buffer.get();
+                stbrtCount[i] = buffer.get();
             }
 
             for (int i=0; i<segCount; i++) {
-                idDelta[i] = (short)buffer.get();
+                idDeltb[i] = (short)buffer.get();
             }
 
             for (int i=0; i<segCount; i++) {
-                char ctmp = buffer.get();
-                idRangeOffset[i] = (char)((ctmp>>1)&0xffff);
+                chbr ctmp = buffer.get();
+                idRbngeOffset[i] = (chbr)((ctmp>>1)&0xffff);
             }
-            /* Can calculate the number of glyph IDs by subtracting
-             * "pos" from the length of the cmap
+            /* Cbn cblculbte the number of glyph IDs by subtrbcting
+             * "pos" from the length of the cmbp
              */
             int pos = (segCount*8+16)/2;
             buffer.position(pos);
-            int numGlyphIds = (subtableLength/2 - pos);
-            glyphIds = new char[numGlyphIds];
+            int numGlyphIds = (subtbbleLength/2 - pos);
+            glyphIds = new chbr[numGlyphIds];
             for (int i=0;i<numGlyphIds;i++) {
                 glyphIds[i] = buffer.get();
             }
 /*
             System.err.println("segcount="+segCount);
             System.err.println("entrySelector="+entrySelector);
-            System.err.println("rangeShift="+rangeShift);
+            System.err.println("rbngeShift="+rbngeShift);
             for (int j=0;j<segCount;j++) {
-              System.err.println("j="+j+ " sc="+(int)(startCount[j]&0xffff)+
+              System.err.println("j="+j+ " sc="+(int)(stbrtCount[j]&0xffff)+
                                  " ec="+(int)(endCount[j]&0xffff)+
-                                 " delta="+idDelta[j] +
-                                 " ro="+(int)idRangeOffset[j]);
+                                 " deltb="+idDeltb[j] +
+                                 " ro="+(int)idRbngeOffset[j]);
             }
 
             //System.err.println("numglyphs="+glyphIds.length);
@@ -533,49 +533,49 @@ abstract class CMap {
 */
         }
 
-        char getGlyph(int charCode) {
+        chbr getGlyph(int chbrCode) {
 
             int index = 0;
-            char glyphCode = 0;
+            chbr glyphCode = 0;
 
-            int controlGlyph = getControlCodeGlyph(charCode, true);
+            int controlGlyph = getControlCodeGlyph(chbrCode, true);
             if (controlGlyph >= 0) {
-                return (char)controlGlyph;
+                return (chbr)controlGlyph;
             }
 
-            /* presence of translation array indicates that this
-             * cmap is in some other (non-unicode encoding).
-             * In order to look-up a char->glyph mapping we need to
-             * translate the unicode code point to the encoding of
-             * the cmap.
+            /* presence of trbnslbtion brrby indicbtes thbt this
+             * cmbp is in some other (non-unicode encoding).
+             * In order to look-up b chbr->glyph mbpping we need to
+             * trbnslbte the unicode code point to the encoding of
+             * the cmbp.
              * REMIND: VALID CHARCODES??
              */
-            if (xlat != null) {
-                charCode = xlat[charCode];
+            if (xlbt != null) {
+                chbrCode = xlbt[chbrCode];
             }
 
             /*
-             * Citation from the TrueType (and OpenType) spec:
-             *   The segments are sorted in order of increasing endCode
-             *   values, and the segment values are specified in four parallel
-             *   arrays. You search for the first endCode that is greater than
-             *   or equal to the character code you want to map. If the
-             *   corresponding startCode is less than or equal to the
-             *   character code, then you use the corresponding idDelta and
-             *   idRangeOffset to map the character code to a glyph index
+             * Citbtion from the TrueType (bnd OpenType) spec:
+             *   The segments bre sorted in order of increbsing endCode
+             *   vblues, bnd the segment vblues bre specified in four pbrbllel
+             *   brrbys. You sebrch for the first endCode thbt is grebter thbn
+             *   or equbl to the chbrbcter code you wbnt to mbp. If the
+             *   corresponding stbrtCode is less thbn or equbl to the
+             *   chbrbcter code, then you use the corresponding idDeltb bnd
+             *   idRbngeOffset to mbp the chbrbcter code to b glyph index
              *   (otherwise, the missingGlyph is returned).
              */
 
             /*
-             * CMAP format4 defines several fields for optimized search of
-             * the segment list (entrySelector, searchRange, rangeShift).
-             * However, benefits are neglible and some fonts have incorrect
-             * data - so we use straightforward binary search (see bug 6247425)
+             * CMAP formbt4 defines severbl fields for optimized sebrch of
+             * the segment list (entrySelector, sebrchRbnge, rbngeShift).
+             * However, benefits bre neglible bnd some fonts hbve incorrect
+             * dbtb - so we use strbightforwbrd binbry sebrch (see bug 6247425)
              */
-            int left = 0, right = startCount.length;
-            index = startCount.length >> 1;
+            int left = 0, right = stbrtCount.length;
+            index = stbrtCount.length >> 1;
             while (left < right) {
-                if (endCount[index] < charCode) {
+                if (endCount[index] < chbrCode) {
                     left = index + 1;
                 } else {
                     right = index;
@@ -583,106 +583,106 @@ abstract class CMap {
                 index = (left + right) >> 1;
             }
 
-            if (charCode >= startCount[index] && charCode <= endCount[index]) {
-                int rangeOffset = idRangeOffset[index];
+            if (chbrCode >= stbrtCount[index] && chbrCode <= endCount[index]) {
+                int rbngeOffset = idRbngeOffset[index];
 
-                if (rangeOffset == 0) {
-                    glyphCode = (char)(charCode + idDelta[index]);
+                if (rbngeOffset == 0) {
+                    glyphCode = (chbr)(chbrCode + idDeltb[index]);
                 } else {
-                    /* Calculate an index into the glyphIds array */
+                    /* Cblculbte bn index into the glyphIds brrby */
 
 /*
-                    System.err.println("rangeoffset="+rangeOffset+
-                                       " charCode=" + charCode +
-                                       " scnt["+index+"]="+(int)startCount[index] +
+                    System.err.println("rbngeoffset="+rbngeOffset+
+                                       " chbrCode=" + chbrCode +
+                                       " scnt["+index+"]="+(int)stbrtCount[index] +
                                        " segCnt="+segCount);
 */
 
-                    int glyphIDIndex = rangeOffset - segCount + index
-                                         + (charCode - startCount[index]);
+                    int glyphIDIndex = rbngeOffset - segCount + index
+                                         + (chbrCode - stbrtCount[index]);
                     glyphCode = glyphIds[glyphIDIndex];
                     if (glyphCode != 0) {
-                        glyphCode = (char)(glyphCode + idDelta[index]);
+                        glyphCode = (chbr)(glyphCode + idDeltb[index]);
                     }
                 }
             }
             if (glyphCode != 0) {
-            //System.err.println("cc="+Integer.toHexString((int)charCode) + " gc="+(int)glyphCode);
+            //System.err.println("cc="+Integer.toHexString((int)chbrCode) + " gc="+(int)glyphCode);
             }
             return glyphCode;
         }
     }
 
-    // Format 0: Byte Encoding table
-    static class CMapFormat0 extends CMap {
-        byte [] cmap;
+    // Formbt 0: Byte Encoding tbble
+    stbtic clbss CMbpFormbt0 extends CMbp {
+        byte [] cmbp;
 
-        CMapFormat0(ByteBuffer buffer, int offset) {
+        CMbpFormbt0(ByteBuffer buffer, int offset) {
 
-            /* skip 6 bytes of format, length, and version */
-            int len = buffer.getChar(offset+2);
-            cmap = new byte[len-6];
+            /* skip 6 bytes of formbt, length, bnd version */
+            int len = buffer.getChbr(offset+2);
+            cmbp = new byte[len-6];
             buffer.position(offset+6);
-            buffer.get(cmap);
+            buffer.get(cmbp);
         }
 
-        char getGlyph(int charCode) {
-            if (charCode < 256) {
-                if (charCode < 0x0010) {
-                    switch (charCode) {
-                    case 0x0009:
-                    case 0x000a:
-                    case 0x000d: return CharToGlyphMapper.INVISIBLE_GLYPH_ID;
+        chbr getGlyph(int chbrCode) {
+            if (chbrCode < 256) {
+                if (chbrCode < 0x0010) {
+                    switch (chbrCode) {
+                    cbse 0x0009:
+                    cbse 0x000b:
+                    cbse 0x000d: return ChbrToGlyphMbpper.INVISIBLE_GLYPH_ID;
                     }
                 }
-                return (char)(0xff & cmap[charCode]);
+                return (chbr)(0xff & cmbp[chbrCode]);
             } else {
                 return 0;
             }
         }
     }
 
-//     static CMap createSymbolCMap(ByteBuffer buffer, int offset, char[] syms) {
+//     stbtic CMbp crebteSymbolCMbp(ByteBuffer buffer, int offset, chbr[] syms) {
 
-//      CMap cmap = createCMap(buffer, offset, null);
-//      if (cmap == null) {
+//      CMbp cmbp = crebteCMbp(buffer, offset, null);
+//      if (cmbp == null) {
 //          return null;
 //      } else {
-//          return new CMapFormatSymbol(cmap, syms);
+//          return new CMbpFormbtSymbol(cmbp, syms);
 //      }
 //     }
 
-//     static class CMapFormatSymbol extends CMap {
+//     stbtic clbss CMbpFormbtSymbol extends CMbp {
 
-//      CMap cmap;
-//      static final int NUM_BUCKETS = 128;
+//      CMbp cmbp;
+//      stbtic finbl int NUM_BUCKETS = 128;
 //      Bucket[] buckets = new Bucket[NUM_BUCKETS];
 
-//      class Bucket {
-//          char unicode;
-//          char glyph;
+//      clbss Bucket {
+//          chbr unicode;
+//          chbr glyph;
 //          Bucket next;
 
-//          Bucket(char u, char g) {
+//          Bucket(chbr u, chbr g) {
 //              unicode = u;
 //              glyph = g;
 //          }
 //      }
 
-//      CMapFormatSymbol(CMap cmap, char[] syms) {
+//      CMbpFormbtSymbol(CMbp cmbp, chbr[] syms) {
 
-//          this.cmap = cmap;
+//          this.cmbp = cmbp;
 
 //          for (int i=0;i<syms.length;i++) {
-//              char unicode = syms[i];
-//              if (unicode != noSuchChar) {
-//                  char glyph = cmap.getGlyph(i + 0xf000);
-//                  int hash = unicode % NUM_BUCKETS;
+//              chbr unicode = syms[i];
+//              if (unicode != noSuchChbr) {
+//                  chbr glyph = cmbp.getGlyph(i + 0xf000);
+//                  int hbsh = unicode % NUM_BUCKETS;
 //                  Bucket bucket = new Bucket(unicode, glyph);
-//                  if (buckets[hash] == null) {
-//                      buckets[hash] = bucket;
+//                  if (buckets[hbsh] == null) {
+//                      buckets[hbsh] = bucket;
 //                  } else {
-//                      Bucket b = buckets[hash];
+//                      Bucket b = buckets[hbsh];
 //                      while (b.next != null) {
 //                          b = b.next;
 //                      }
@@ -692,12 +692,12 @@ abstract class CMap {
 //          }
 //      }
 
-//      char getGlyph(int unicode) {
+//      chbr getGlyph(int unicode) {
 //          if (unicode >= 0x1000) {
 //              return 0;
 //          }
 //          else if (unicode >=0xf000 && unicode < 0xf100) {
-//              return cmap.getGlyph(unicode);
+//              return cmbp.getGlyph(unicode);
 //          } else {
 //              Bucket b = buckets[unicode % NUM_BUCKETS];
 //              while (b != null) {
@@ -712,119 +712,119 @@ abstract class CMap {
 //      }
 //     }
 
-    // Format 2: High-byte mapping through table
-    static class CMapFormat2 extends CMap {
+    // Formbt 2: High-byte mbpping through tbble
+    stbtic clbss CMbpFormbt2 extends CMbp {
 
-        char[] subHeaderKey = new char[256];
-         /* Store subheaders in individual arrays
-          * A SubHeader entry theortically looks like {
-          *   char firstCode;
-          *   char entryCount;
-          *   short idDelta;
-          *   char idRangeOffset;
+        chbr[] subHebderKey = new chbr[256];
+         /* Store subhebders in individubl brrbys
+          * A SubHebder entry theorticblly looks like {
+          *   chbr firstCode;
+          *   chbr entryCount;
+          *   short idDeltb;
+          *   chbr idRbngeOffset;
           * }
           */
-        char[] firstCodeArray;
-        char[] entryCountArray;
-        short[] idDeltaArray;
-        char[] idRangeOffSetArray;
+        chbr[] firstCodeArrby;
+        chbr[] entryCountArrby;
+        short[] idDeltbArrby;
+        chbr[] idRbngeOffSetArrby;
 
-        char[] glyphIndexArray;
+        chbr[] glyphIndexArrby;
 
-        CMapFormat2(ByteBuffer buffer, int offset, char[] xlat) {
+        CMbpFormbt2(ByteBuffer buffer, int offset, chbr[] xlbt) {
 
-            this.xlat = xlat;
+            this.xlbt = xlbt;
 
-            int tableLen = buffer.getChar(offset+2);
+            int tbbleLen = buffer.getChbr(offset+2);
             buffer.position(offset+6);
-            CharBuffer cBuffer = buffer.asCharBuffer();
-            char maxSubHeader = 0;
+            ChbrBuffer cBuffer = buffer.bsChbrBuffer();
+            chbr mbxSubHebder = 0;
             for (int i=0;i<256;i++) {
-                subHeaderKey[i] = cBuffer.get();
-                if (subHeaderKey[i] > maxSubHeader) {
-                    maxSubHeader = subHeaderKey[i];
+                subHebderKey[i] = cBuffer.get();
+                if (subHebderKey[i] > mbxSubHebder) {
+                    mbxSubHebder = subHebderKey[i];
                 }
             }
-            /* The value of the subHeaderKey is 8 * the subHeader index,
-             * so the number of subHeaders can be obtained by dividing
-             * this value bv 8 and adding 1.
+            /* The vblue of the subHebderKey is 8 * the subHebder index,
+             * so the number of subHebders cbn be obtbined by dividing
+             * this vblue bv 8 bnd bdding 1.
              */
-            int numSubHeaders = (maxSubHeader >> 3) +1;
-            firstCodeArray = new char[numSubHeaders];
-            entryCountArray = new char[numSubHeaders];
-            idDeltaArray  = new short[numSubHeaders];
-            idRangeOffSetArray  = new char[numSubHeaders];
-            for (int i=0; i<numSubHeaders; i++) {
-                firstCodeArray[i] = cBuffer.get();
-                entryCountArray[i] = cBuffer.get();
-                idDeltaArray[i] = (short)cBuffer.get();
-                idRangeOffSetArray[i] = cBuffer.get();
-//              System.out.println("sh["+i+"]:fc="+(int)firstCodeArray[i]+
-//                                 " ec="+(int)entryCountArray[i]+
-//                                 " delta="+(int)idDeltaArray[i]+
-//                                 " offset="+(int)idRangeOffSetArray[i]);
+            int numSubHebders = (mbxSubHebder >> 3) +1;
+            firstCodeArrby = new chbr[numSubHebders];
+            entryCountArrby = new chbr[numSubHebders];
+            idDeltbArrby  = new short[numSubHebders];
+            idRbngeOffSetArrby  = new chbr[numSubHebders];
+            for (int i=0; i<numSubHebders; i++) {
+                firstCodeArrby[i] = cBuffer.get();
+                entryCountArrby[i] = cBuffer.get();
+                idDeltbArrby[i] = (short)cBuffer.get();
+                idRbngeOffSetArrby[i] = cBuffer.get();
+//              System.out.println("sh["+i+"]:fc="+(int)firstCodeArrby[i]+
+//                                 " ec="+(int)entryCountArrby[i]+
+//                                 " deltb="+(int)idDeltbArrby[i]+
+//                                 " offset="+(int)idRbngeOffSetArrby[i]);
             }
 
-            int glyphIndexArrSize = (tableLen-518-numSubHeaders*8)/2;
-            glyphIndexArray = new char[glyphIndexArrSize];
+            int glyphIndexArrSize = (tbbleLen-518-numSubHebders*8)/2;
+            glyphIndexArrby = new chbr[glyphIndexArrSize];
             for (int i=0; i<glyphIndexArrSize;i++) {
-                glyphIndexArray[i] = cBuffer.get();
+                glyphIndexArrby[i] = cBuffer.get();
             }
         }
 
-        char getGlyph(int charCode) {
-            int controlGlyph = getControlCodeGlyph(charCode, true);
+        chbr getGlyph(int chbrCode) {
+            int controlGlyph = getControlCodeGlyph(chbrCode, true);
             if (controlGlyph >= 0) {
-                return (char)controlGlyph;
+                return (chbr)controlGlyph;
             }
 
-            if (xlat != null) {
-                charCode = xlat[charCode];
+            if (xlbt != null) {
+                chbrCode = xlbt[chbrCode];
             }
 
-            char highByte = (char)(charCode >> 8);
-            char lowByte = (char)(charCode & 0xff);
-            int key = subHeaderKey[highByte]>>3; // index into subHeaders
-            char mapMe;
+            chbr highByte = (chbr)(chbrCode >> 8);
+            chbr lowByte = (chbr)(chbrCode & 0xff);
+            int key = subHebderKey[highByte]>>3; // index into subHebders
+            chbr mbpMe;
 
             if (key != 0) {
-                mapMe = lowByte;
+                mbpMe = lowByte;
             } else {
-                mapMe = highByte;
-                if (mapMe == 0) {
-                    mapMe = lowByte;
+                mbpMe = highByte;
+                if (mbpMe == 0) {
+                    mbpMe = lowByte;
                 }
             }
 
-//          System.err.println("charCode="+Integer.toHexString(charCode)+
-//                             " key="+key+ " mapMe="+Integer.toHexString(mapMe));
-            char firstCode = firstCodeArray[key];
-            if (mapMe < firstCode) {
+//          System.err.println("chbrCode="+Integer.toHexString(chbrCode)+
+//                             " key="+key+ " mbpMe="+Integer.toHexString(mbpMe));
+            chbr firstCode = firstCodeArrby[key];
+            if (mbpMe < firstCode) {
                 return 0;
             } else {
-                mapMe -= firstCode;
+                mbpMe -= firstCode;
             }
 
-            if (mapMe < entryCountArray[key]) {
-                /* "address" arithmetic is needed to calculate the offset
-                 * into glyphIndexArray. "idRangeOffSetArray[key]" specifies
-                 * the number of bytes from that location in the table where
-                 * the subarray of glyphIndexes starting at "firstCode" begins.
-                 * Each entry in the subHeader table is 8 bytes, and the
-                 * idRangeOffSetArray field is at offset 6 in the entry.
-                 * The glyphIndexArray immediately follows the subHeaders.
-                 * So if there are "N" entries then the number of bytes to the
-                 * start of glyphIndexArray is (N-key)*8-6.
-                 * Subtract this from the idRangeOffSetArray value to get
-                 * the number of bytes into glyphIndexArray and divide by 2 to
-                 * get the (char) array index.
+            if (mbpMe < entryCountArrby[key]) {
+                /* "bddress" brithmetic is needed to cblculbte the offset
+                 * into glyphIndexArrby. "idRbngeOffSetArrby[key]" specifies
+                 * the number of bytes from thbt locbtion in the tbble where
+                 * the subbrrby of glyphIndexes stbrting bt "firstCode" begins.
+                 * Ebch entry in the subHebder tbble is 8 bytes, bnd the
+                 * idRbngeOffSetArrby field is bt offset 6 in the entry.
+                 * The glyphIndexArrby immedibtely follows the subHebders.
+                 * So if there bre "N" entries then the number of bytes to the
+                 * stbrt of glyphIndexArrby is (N-key)*8-6.
+                 * Subtrbct this from the idRbngeOffSetArrby vblue to get
+                 * the number of bytes into glyphIndexArrby bnd divide by 2 to
+                 * get the (chbr) brrby index.
                  */
-                int glyphArrayOffset = ((idRangeOffSetArray.length-key)*8)-6;
-                int glyphSubArrayStart =
-                        (idRangeOffSetArray[key] - glyphArrayOffset)/2;
-                char glyphCode = glyphIndexArray[glyphSubArrayStart+mapMe];
+                int glyphArrbyOffset = ((idRbngeOffSetArrby.length-key)*8)-6;
+                int glyphSubArrbyStbrt =
+                        (idRbngeOffSetArrby[key] - glyphArrbyOffset)/2;
+                chbr glyphCode = glyphIndexArrby[glyphSubArrbyStbrt+mbpMe];
                 if (glyphCode != 0) {
-                    glyphCode += idDeltaArray[key]; //idDelta
+                    glyphCode += idDeltbArrby[key]; //idDeltb
                     return glyphCode;
                 }
             }
@@ -832,68 +832,68 @@ abstract class CMap {
         }
     }
 
-    // Format 6: Trimmed table mapping
-    static class CMapFormat6 extends CMap {
+    // Formbt 6: Trimmed tbble mbpping
+    stbtic clbss CMbpFormbt6 extends CMbp {
 
-        char firstCode;
-        char entryCount;
-        char[] glyphIdArray;
+        chbr firstCode;
+        chbr entryCount;
+        chbr[] glyphIdArrby;
 
-        CMapFormat6(ByteBuffer bbuffer, int offset, char[] xlat) {
+        CMbpFormbt6(ByteBuffer bbuffer, int offset, chbr[] xlbt) {
 
              bbuffer.position(offset+6);
-             CharBuffer buffer = bbuffer.asCharBuffer();
+             ChbrBuffer buffer = bbuffer.bsChbrBuffer();
              firstCode = buffer.get();
              entryCount = buffer.get();
-             glyphIdArray = new char[entryCount];
+             glyphIdArrby = new chbr[entryCount];
              for (int i=0; i< entryCount; i++) {
-                 glyphIdArray[i] = buffer.get();
+                 glyphIdArrby[i] = buffer.get();
              }
          }
 
-         char getGlyph(int charCode) {
-            int controlGlyph = getControlCodeGlyph(charCode, true);
+         chbr getGlyph(int chbrCode) {
+            int controlGlyph = getControlCodeGlyph(chbrCode, true);
             if (controlGlyph >= 0) {
-                return (char)controlGlyph;
+                return (chbr)controlGlyph;
             }
 
-             if (xlat != null) {
-                 charCode = xlat[charCode];
+             if (xlbt != null) {
+                 chbrCode = xlbt[chbrCode];
              }
 
-             charCode -= firstCode;
-             if (charCode < 0 || charCode >= entryCount) {
+             chbrCode -= firstCode;
+             if (chbrCode < 0 || chbrCode >= entryCount) {
                   return 0;
              } else {
-                  return glyphIdArray[charCode];
+                  return glyphIdArrby[chbrCode];
              }
          }
     }
 
-    // Format 8: mixed 16-bit and 32-bit coverage
-    // Seems unlikely this code will ever get tested as we look for
-    // MS platform Cmaps and MS states (in the Opentype spec on their website)
-    // that MS doesn't support this format
-    static class CMapFormat8 extends CMap {
+    // Formbt 8: mixed 16-bit bnd 32-bit coverbge
+    // Seems unlikely this code will ever get tested bs we look for
+    // MS plbtform Cmbps bnd MS stbtes (in the Opentype spec on their website)
+    // thbt MS doesn't support this formbt
+    stbtic clbss CMbpFormbt8 extends CMbp {
          byte[] is32 = new byte[8192];
          int nGroups;
-         int[] startCharCode;
-         int[] endCharCode;
-         int[] startGlyphID;
+         int[] stbrtChbrCode;
+         int[] endChbrCode;
+         int[] stbrtGlyphID;
 
-         CMapFormat8(ByteBuffer bbuffer, int offset, char[] xlat) {
+         CMbpFormbt8(ByteBuffer bbuffer, int offset, chbr[] xlbt) {
 
              bbuffer.position(12);
              bbuffer.get(is32);
              nGroups = bbuffer.getInt();
-             startCharCode = new int[nGroups];
-             endCharCode   = new int[nGroups];
-             startGlyphID  = new int[nGroups];
+             stbrtChbrCode = new int[nGroups];
+             endChbrCode   = new int[nGroups];
+             stbrtGlyphID  = new int[nGroups];
          }
 
-        char getGlyph(int charCode) {
-            if (xlat != null) {
-                throw new RuntimeException("xlat array for cmap fmt=8");
+        chbr getGlyph(int chbrCode) {
+            if (xlbt != null) {
+                throw new RuntimeException("xlbt brrby for cmbp fmt=8");
             }
             return 0;
         }
@@ -901,129 +901,129 @@ abstract class CMap {
     }
 
 
-    // Format 4-byte 10: Trimmed table mapping
-    // Seems unlikely this code will ever get tested as we look for
-    // MS platform Cmaps and MS states (in the Opentype spec on their website)
-    // that MS doesn't support this format
-    static class CMapFormat10 extends CMap {
+    // Formbt 4-byte 10: Trimmed tbble mbpping
+    // Seems unlikely this code will ever get tested bs we look for
+    // MS plbtform Cmbps bnd MS stbtes (in the Opentype spec on their website)
+    // thbt MS doesn't support this formbt
+    stbtic clbss CMbpFormbt10 extends CMbp {
 
          long firstCode;
          int entryCount;
-         char[] glyphIdArray;
+         chbr[] glyphIdArrby;
 
-         CMapFormat10(ByteBuffer bbuffer, int offset, char[] xlat) {
+         CMbpFormbt10(ByteBuffer bbuffer, int offset, chbr[] xlbt) {
 
              firstCode = bbuffer.getInt() & INTMASK;
              entryCount = bbuffer.getInt() & INTMASK;
              bbuffer.position(offset+20);
-             CharBuffer buffer = bbuffer.asCharBuffer();
-             glyphIdArray = new char[entryCount];
+             ChbrBuffer buffer = bbuffer.bsChbrBuffer();
+             glyphIdArrby = new chbr[entryCount];
              for (int i=0; i< entryCount; i++) {
-                 glyphIdArray[i] = buffer.get();
+                 glyphIdArrby[i] = buffer.get();
              }
          }
 
-         char getGlyph(int charCode) {
+         chbr getGlyph(int chbrCode) {
 
-             if (xlat != null) {
-                 throw new RuntimeException("xlat array for cmap fmt=10");
+             if (xlbt != null) {
+                 throw new RuntimeException("xlbt brrby for cmbp fmt=10");
              }
 
-             int code = (int)(charCode - firstCode);
+             int code = (int)(chbrCode - firstCode);
              if (code < 0 || code >= entryCount) {
                  return 0;
              } else {
-                 return glyphIdArray[code];
+                 return glyphIdArrby[code];
              }
          }
     }
 
-    // Format 12: Segmented coverage for UCS-4 (fonts supporting
-    // surrogate pairs)
-    static class CMapFormat12 extends CMap {
+    // Formbt 12: Segmented coverbge for UCS-4 (fonts supporting
+    // surrogbte pbirs)
+    stbtic clbss CMbpFormbt12 extends CMbp {
 
         int numGroups;
         int highBit =0;
         int power;
-        int extra;
-        long[] startCharCode;
-        long[] endCharCode;
-        int[] startGlyphID;
+        int extrb;
+        long[] stbrtChbrCode;
+        long[] endChbrCode;
+        int[] stbrtGlyphID;
 
-        CMapFormat12(ByteBuffer buffer, int offset, char[] xlat) {
-            if (xlat != null) {
-                throw new RuntimeException("xlat array for cmap fmt=12");
+        CMbpFormbt12(ByteBuffer buffer, int offset, chbr[] xlbt) {
+            if (xlbt != null) {
+                throw new RuntimeException("xlbt brrby for cmbp fmt=12");
             }
 
             numGroups = buffer.getInt(offset+12);
-            startCharCode = new long[numGroups];
-            endCharCode = new long[numGroups];
-            startGlyphID = new int[numGroups];
+            stbrtChbrCode = new long[numGroups];
+            endChbrCode = new long[numGroups];
+            stbrtGlyphID = new int[numGroups];
             buffer.position(offset+16);
             buffer = buffer.slice();
-            IntBuffer ibuffer = buffer.asIntBuffer();
+            IntBuffer ibuffer = buffer.bsIntBuffer();
             for (int i=0; i<numGroups; i++) {
-                startCharCode[i] = ibuffer.get() & INTMASK;
-                endCharCode[i] = ibuffer.get() & INTMASK;
-                startGlyphID[i] = ibuffer.get() & INTMASK;
+                stbrtChbrCode[i] = ibuffer.get() & INTMASK;
+                endChbrCode[i] = ibuffer.get() & INTMASK;
+                stbrtGlyphID[i] = ibuffer.get() & INTMASK;
             }
 
-            /* Finds the high bit by binary searching through the bits */
-            int value = numGroups;
+            /* Finds the high bit by binbry sebrching through the bits */
+            int vblue = numGroups;
 
-            if (value >= 1 << 16) {
-                value >>= 16;
+            if (vblue >= 1 << 16) {
+                vblue >>= 16;
                 highBit += 16;
             }
 
-            if (value >= 1 << 8) {
-                value >>= 8;
+            if (vblue >= 1 << 8) {
+                vblue >>= 8;
                 highBit += 8;
             }
 
-            if (value >= 1 << 4) {
-                value >>= 4;
+            if (vblue >= 1 << 4) {
+                vblue >>= 4;
                 highBit += 4;
             }
 
-            if (value >= 1 << 2) {
-                value >>= 2;
+            if (vblue >= 1 << 2) {
+                vblue >>= 2;
                 highBit += 2;
             }
 
-            if (value >= 1 << 1) {
-                value >>= 1;
+            if (vblue >= 1 << 1) {
+                vblue >>= 1;
                 highBit += 1;
             }
 
             power = 1 << highBit;
-            extra = numGroups - power;
+            extrb = numGroups - power;
         }
 
-        char getGlyph(int charCode) {
-            int controlGlyph = getControlCodeGlyph(charCode, false);
+        chbr getGlyph(int chbrCode) {
+            int controlGlyph = getControlCodeGlyph(chbrCode, fblse);
             if (controlGlyph >= 0) {
-                return (char)controlGlyph;
+                return (chbr)controlGlyph;
             }
             int probe = power;
-            int range = 0;
+            int rbnge = 0;
 
-            if (startCharCode[extra] <= charCode) {
-                range = extra;
+            if (stbrtChbrCode[extrb] <= chbrCode) {
+                rbnge = extrb;
             }
 
             while (probe > 1) {
                 probe >>= 1;
 
-                if (startCharCode[range+probe] <= charCode) {
-                    range += probe;
+                if (stbrtChbrCode[rbnge+probe] <= chbrCode) {
+                    rbnge += probe;
                 }
             }
 
-            if (startCharCode[range] <= charCode &&
-                  endCharCode[range] >= charCode) {
-                return (char)
-                    (startGlyphID[range] + (charCode - startCharCode[range]));
+            if (stbrtChbrCode[rbnge] <= chbrCode &&
+                  endChbrCode[rbnge] >= chbrCode) {
+                return (chbr)
+                    (stbrtGlyphID[rbnge] + (chbrCode - stbrtChbrCode[rbnge]));
             }
 
             return 0;
@@ -1031,29 +1031,29 @@ abstract class CMap {
 
     }
 
-    /* Used to substitute for bad Cmaps. */
-    static class NullCMapClass extends CMap {
+    /* Used to substitute for bbd Cmbps. */
+    stbtic clbss NullCMbpClbss extends CMbp {
 
-        char getGlyph(int charCode) {
+        chbr getGlyph(int chbrCode) {
             return 0;
         }
     }
 
-    public static final NullCMapClass theNullCmap = new NullCMapClass();
+    public stbtic finbl NullCMbpClbss theNullCmbp = new NullCMbpClbss();
 
-    final int getControlCodeGlyph(int charCode, boolean noSurrogates) {
-        if (charCode < 0x0010) {
-            switch (charCode) {
-            case 0x0009:
-            case 0x000a:
-            case 0x000d: return CharToGlyphMapper.INVISIBLE_GLYPH_ID;
+    finbl int getControlCodeGlyph(int chbrCode, boolebn noSurrogbtes) {
+        if (chbrCode < 0x0010) {
+            switch (chbrCode) {
+            cbse 0x0009:
+            cbse 0x000b:
+            cbse 0x000d: return ChbrToGlyphMbpper.INVISIBLE_GLYPH_ID;
             }
-        } else if (charCode >= 0x200c) {
-            if ((charCode <= 0x200f) ||
-                (charCode >= 0x2028 && charCode <= 0x202e) ||
-                (charCode >= 0x206a && charCode <= 0x206f)) {
-                return CharToGlyphMapper.INVISIBLE_GLYPH_ID;
-            } else if (noSurrogates && charCode >= 0xFFFF) {
+        } else if (chbrCode >= 0x200c) {
+            if ((chbrCode <= 0x200f) ||
+                (chbrCode >= 0x2028 && chbrCode <= 0x202e) ||
+                (chbrCode >= 0x206b && chbrCode <= 0x206f)) {
+                return ChbrToGlyphMbpper.INVISIBLE_GLYPH_ID;
+            } else if (noSurrogbtes && chbrCode >= 0xFFFF) {
                 return 0;
             }
         }

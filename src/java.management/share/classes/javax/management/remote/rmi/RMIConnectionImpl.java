@@ -1,215 +1,215 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.remote.rmi;
+pbckbge jbvbx.mbnbgement.remote.rmi;
 
-import java.io.IOException;
-import java.rmi.MarshalledObject;
-import java.rmi.UnmarshalException;
-import java.rmi.server.Unreferenced;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.security.Permissions;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.ProtectionDomain;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.rmi.MbrshblledObject;
+import jbvb.rmi.UnmbrshblException;
+import jbvb.rmi.server.Unreferenced;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.Permission;
+import jbvb.security.PermissionCollection;
+import jbvb.security.Permissions;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.ProtectionDombin;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-import javax.management.*;
-import javax.management.remote.JMXServerErrorException;
-import javax.management.remote.NotificationResult;
-import javax.management.remote.TargetedNotification;
-import javax.security.auth.Subject;
+import jbvbx.mbnbgement.*;
+import jbvbx.mbnbgement.remote.JMXServerErrorException;
+import jbvbx.mbnbgement.remote.NotificbtionResult;
+import jbvbx.mbnbgement.remote.TbrgetedNotificbtion;
+import jbvbx.security.buth.Subject;
 import sun.reflect.misc.ReflectUtil;
 
-import static com.sun.jmx.mbeanserver.Util.cast;
-import com.sun.jmx.remote.internal.ServerCommunicatorAdmin;
-import com.sun.jmx.remote.internal.ServerNotifForwarder;
-import com.sun.jmx.remote.security.JMXSubjectDomainCombiner;
-import com.sun.jmx.remote.security.SubjectDelegator;
-import com.sun.jmx.remote.util.ClassLoaderWithRepository;
-import com.sun.jmx.remote.util.ClassLogger;
+import stbtic com.sun.jmx.mbebnserver.Util.cbst;
+import com.sun.jmx.remote.internbl.ServerCommunicbtorAdmin;
+import com.sun.jmx.remote.internbl.ServerNotifForwbrder;
+import com.sun.jmx.remote.security.JMXSubjectDombinCombiner;
+import com.sun.jmx.remote.security.SubjectDelegbtor;
+import com.sun.jmx.remote.util.ClbssLobderWithRepository;
+import com.sun.jmx.remote.util.ClbssLogger;
 import com.sun.jmx.remote.util.EnvHelp;
-import com.sun.jmx.remote.util.OrderClassLoaders;
+import com.sun.jmx.remote.util.OrderClbssLobders;
 
 /**
- * <p>Implementation of the {@link RMIConnection} interface.  User
- * code will not usually reference this class.</p>
+ * <p>Implementbtion of the {@link RMIConnection} interfbce.  User
+ * code will not usublly reference this clbss.</p>
  *
  * @since 1.5
  */
 /*
- * Notice that we omit the type parameter from MarshalledObject everywhere,
- * even though it would add useful information to the documentation.  The
- * reason is that it was only added in Mustang (Java SE 6), whereas versions
- * 1.4 and 2.0 of the JMX API must be implementable on Tiger per our
+ * Notice thbt we omit the type pbrbmeter from MbrshblledObject everywhere,
+ * even though it would bdd useful informbtion to the documentbtion.  The
+ * rebson is thbt it wbs only bdded in Mustbng (Jbvb SE 6), wherebs versions
+ * 1.4 bnd 2.0 of the JMX API must be implementbble on Tiger per our
  * commitments for JSR 255.
  */
-public class RMIConnectionImpl implements RMIConnection, Unreferenced {
+public clbss RMIConnectionImpl implements RMIConnection, Unreferenced {
 
     /**
-     * Constructs a new {@link RMIConnection}. This connection can be
-     * used with either the JRMP or IIOP transport. This object does
-     * not export itself: it is the responsibility of the caller to
-     * export it appropriately (see {@link
-     * RMIJRMPServerImpl#makeClient(String,Subject)} and {@link
-     * RMIIIOPServerImpl#makeClient(String,Subject)}.
+     * Constructs b new {@link RMIConnection}. This connection cbn be
+     * used with either the JRMP or IIOP trbnsport. This object does
+     * not export itself: it is the responsibility of the cbller to
+     * export it bppropribtely (see {@link
+     * RMIJRMPServerImpl#mbkeClient(String,Subject)} bnd {@link
+     * RMIIIOPServerImpl#mbkeClient(String,Subject)}.
      *
-     * @param rmiServer The RMIServerImpl object for which this
-     * connection is created.  The behavior is unspecified if this
-     * parameter is null.
-     * @param connectionId The ID for this connection.  The behavior
-     * is unspecified if this parameter is null.
-     * @param defaultClassLoader The default ClassLoader to be used
-     * when deserializing marshalled objects.  Can be null, to signify
-     * the bootstrap class loader.
-     * @param subject the authenticated subject to be used for
-     * authorization.  Can be null, to signify that no subject has
-     * been authenticated.
-     * @param env the environment containing attributes for the new
-     * <code>RMIServerImpl</code>.  Can be null, equivalent to an
-     * empty map.
+     * @pbrbm rmiServer The RMIServerImpl object for which this
+     * connection is crebted.  The behbvior is unspecified if this
+     * pbrbmeter is null.
+     * @pbrbm connectionId The ID for this connection.  The behbvior
+     * is unspecified if this pbrbmeter is null.
+     * @pbrbm defbultClbssLobder The defbult ClbssLobder to be used
+     * when deseriblizing mbrshblled objects.  Cbn be null, to signify
+     * the bootstrbp clbss lobder.
+     * @pbrbm subject the buthenticbted subject to be used for
+     * buthorizbtion.  Cbn be null, to signify thbt no subject hbs
+     * been buthenticbted.
+     * @pbrbm env the environment contbining bttributes for the new
+     * <code>RMIServerImpl</code>.  Cbn be null, equivblent to bn
+     * empty mbp.
      */
     public RMIConnectionImpl(RMIServerImpl rmiServer,
                              String connectionId,
-                             ClassLoader defaultClassLoader,
+                             ClbssLobder defbultClbssLobder,
                              Subject subject,
-                             Map<String,?> env) {
+                             Mbp<String,?> env) {
         if (rmiServer == null || connectionId == null)
-            throw new NullPointerException("Illegal null argument");
+            throw new NullPointerException("Illegbl null brgument");
         if (env == null)
-            env = Collections.emptyMap();
+            env = Collections.emptyMbp();
         this.rmiServer = rmiServer;
         this.connectionId = connectionId;
-        this.defaultClassLoader = defaultClassLoader;
+        this.defbultClbssLobder = defbultClbssLobder;
 
-        this.subjectDelegator = new SubjectDelegator();
+        this.subjectDelegbtor = new SubjectDelegbtor();
         this.subject = subject;
         if (subject == null) {
-            this.acc = null;
-            this.removeCallerContext = false;
+            this.bcc = null;
+            this.removeCbllerContext = fblse;
         } else {
-            this.removeCallerContext =
-                SubjectDelegator.checkRemoveCallerContext(subject);
-            if (this.removeCallerContext) {
-                this.acc =
-                    JMXSubjectDomainCombiner.getDomainCombinerContext(subject);
+            this.removeCbllerContext =
+                SubjectDelegbtor.checkRemoveCbllerContext(subject);
+            if (this.removeCbllerContext) {
+                this.bcc =
+                    JMXSubjectDombinCombiner.getDombinCombinerContext(subject);
             } else {
-                this.acc =
-                    JMXSubjectDomainCombiner.getContext(subject);
+                this.bcc =
+                    JMXSubjectDombinCombiner.getContext(subject);
             }
         }
-        this.mbeanServer = rmiServer.getMBeanServer();
+        this.mbebnServer = rmiServer.getMBebnServer();
 
-        final ClassLoader dcl = defaultClassLoader;
+        finbl ClbssLobder dcl = defbultClbssLobder;
 
-        this.classLoaderWithRepository =
+        this.clbssLobderWithRepository =
             AccessController.doPrivileged(
-                new PrivilegedAction<ClassLoaderWithRepository>() {
-                    public ClassLoaderWithRepository run() {
-                        return new ClassLoaderWithRepository(
-                                      mbeanServer.getClassLoaderRepository(),
+                new PrivilegedAction<ClbssLobderWithRepository>() {
+                    public ClbssLobderWithRepository run() {
+                        return new ClbssLobderWithRepository(
+                                      mbebnServer.getClbssLobderRepository(),
                                       dcl);
                     }
                 },
 
-                withPermissions( new MBeanPermission("*", "getClassLoaderRepository"),
-                                 new RuntimePermission("createClassLoader"))
+                withPermissions( new MBebnPermission("*", "getClbssLobderRepository"),
+                                 new RuntimePermission("crebteClbssLobder"))
             );
 
 
-        this.defaultContextClassLoader =
+        this.defbultContextClbssLobder =
             AccessController.doPrivileged(
-                new PrivilegedAction<ClassLoader>() {
+                new PrivilegedAction<ClbssLobder>() {
             @Override
-                    public ClassLoader run() {
-                        return new CombinedClassLoader(Thread.currentThread().getContextClassLoader(),
+                    public ClbssLobder run() {
+                        return new CombinedClbssLobder(Threbd.currentThrebd().getContextClbssLobder(),
                                 dcl);
                     }
                 });
 
-        serverCommunicatorAdmin = new
-          RMIServerCommunicatorAdmin(EnvHelp.getServerConnectionTimeout(env));
+        serverCommunicbtorAdmin = new
+          RMIServerCommunicbtorAdmin(EnvHelp.getServerConnectionTimeout(env));
 
         this.env = env;
     }
 
-    private static AccessControlContext withPermissions(Permission ... perms){
+    privbte stbtic AccessControlContext withPermissions(Permission ... perms){
         Permissions col = new Permissions();
 
         for (Permission thePerm : perms ) {
-            col.add(thePerm);
+            col.bdd(thePerm);
         }
 
-        final ProtectionDomain pd = new ProtectionDomain(null, col);
-        return new AccessControlContext( new ProtectionDomain[] { pd });
+        finbl ProtectionDombin pd = new ProtectionDombin(null, col);
+        return new AccessControlContext( new ProtectionDombin[] { pd });
     }
 
-    private synchronized ServerNotifForwarder getServerNotifFwd() {
-        // Lazily created when first use. Mainly when
-        // addNotificationListener is first called.
-        if (serverNotifForwarder == null)
-            serverNotifForwarder =
-                new ServerNotifForwarder(mbeanServer,
+    privbte synchronized ServerNotifForwbrder getServerNotifFwd() {
+        // Lbzily crebted when first use. Mbinly when
+        // bddNotificbtionListener is first cblled.
+        if (serverNotifForwbrder == null)
+            serverNotifForwbrder =
+                new ServerNotifForwbrder(mbebnServer,
                                          env,
                                          rmiServer.getNotifBuffer(),
                                          connectionId);
-        return serverNotifForwarder;
+        return serverNotifForwbrder;
     }
 
     public String getConnectionId() throws IOException {
-        // We should call reqIncomming() here... shouldn't we?
+        // We should cbll reqIncomming() here... shouldn't we?
         return connectionId;
     }
 
     public void close() throws IOException {
-        final boolean debug = logger.debugOn();
-        final String  idstr = (debug?"["+this.toString()+"]":null);
+        finbl boolebn debug = logger.debugOn();
+        finbl String  idstr = (debug?"["+this.toString()+"]":null);
 
         synchronized (this) {
-            if (terminated) {
-                if (debug) logger.debug("close",idstr + " already terminated.");
+            if (terminbted) {
+                if (debug) logger.debug("close",idstr + " blrebdy terminbted.");
                 return;
             }
 
             if (debug) logger.debug("close",idstr + " closing.");
 
-            terminated = true;
+            terminbted = true;
 
-            if (serverCommunicatorAdmin != null) {
-                serverCommunicatorAdmin.terminate();
+            if (serverCommunicbtorAdmin != null) {
+                serverCommunicbtorAdmin.terminbte();
             }
 
-            if (serverNotifForwarder != null) {
-                serverNotifForwarder.terminate();
+            if (serverNotifForwbrder != null) {
+                serverNotifForwbrder.terminbte();
             }
         }
 
@@ -219,816 +219,816 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
     }
 
     public void unreferenced() {
-        logger.debug("unreferenced", "called");
+        logger.debug("unreferenced", "cblled");
         try {
             close();
             logger.debug("unreferenced", "done");
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             logger.fine("unreferenced", e);
         }
     }
 
     //-------------------------------------------------------------------------
-    // MBeanServerConnection Wrapper
+    // MBebnServerConnection Wrbpper
     //-------------------------------------------------------------------------
 
-    public ObjectInstance createMBean(String className,
-                                      ObjectName name,
-                                      Subject delegationSubject)
+    public ObjectInstbnce crebteMBebn(String clbssNbme,
+                                      ObjectNbme nbme,
+                                      Subject delegbtionSubject)
         throws
         ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        MBebnException,
+        NotComplibntMBebnException,
         IOException {
         try {
-            final Object params[] =
-                new Object[] { className, name };
+            finbl Object pbrbms[] =
+                new Object[] { clbssNbme, nbme };
 
             if (logger.debugOn())
-                logger.debug("createMBean(String,ObjectName)",
-                             "connectionId=" + connectionId +", className=" +
-                             className+", name=" + name);
+                logger.debug("crebteMBebn(String,ObjectNbme)",
+                             "connectionId=" + connectionId +", clbssNbme=" +
+                             clbssNbme+", nbme=" + nbme);
 
-            return (ObjectInstance)
-                doPrivilegedOperation(
+            return (ObjectInstbnce)
+                doPrivilegedOperbtion(
                   CREATE_MBEAN,
-                  params,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof ReflectionException)
+                  pbrbms,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof ReflectionException)
                 throw (ReflectionException) e;
-            if (e instanceof InstanceAlreadyExistsException)
-                throw (InstanceAlreadyExistsException) e;
-            if (e instanceof MBeanRegistrationException)
-                throw (MBeanRegistrationException) e;
-            if (e instanceof MBeanException)
-                throw (MBeanException) e;
-            if (e instanceof NotCompliantMBeanException)
-                throw (NotCompliantMBeanException) e;
-            if (e instanceof IOException)
+            if (e instbnceof InstbnceAlrebdyExistsException)
+                throw (InstbnceAlrebdyExistsException) e;
+            if (e instbnceof MBebnRegistrbtionException)
+                throw (MBebnRegistrbtionException) e;
+            if (e instbnceof MBebnException)
+                throw (MBebnException) e;
+            if (e instbnceof NotComplibntMBebnException)
+                throw (NotComplibntMBebnException) e;
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public ObjectInstance createMBean(String className,
-                                      ObjectName name,
-                                      ObjectName loaderName,
-                                      Subject delegationSubject)
+    public ObjectInstbnce crebteMBebn(String clbssNbme,
+                                      ObjectNbme nbme,
+                                      ObjectNbme lobderNbme,
+                                      Subject delegbtionSubject)
         throws
         ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
-        InstanceNotFoundException,
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        MBebnException,
+        NotComplibntMBebnException,
+        InstbnceNotFoundException,
         IOException {
         try {
-            final Object params[] =
-                new Object[] { className, name, loaderName };
+            finbl Object pbrbms[] =
+                new Object[] { clbssNbme, nbme, lobderNbme };
 
             if (logger.debugOn())
-                logger.debug("createMBean(String,ObjectName,ObjectName)",
+                logger.debug("crebteMBebn(String,ObjectNbme,ObjectNbme)",
                       "connectionId=" + connectionId
-                      +", className=" + className
-                      +", name=" + name
-                      +", loaderName=" + loaderName);
+                      +", clbssNbme=" + clbssNbme
+                      +", nbme=" + nbme
+                      +", lobderNbme=" + lobderNbme);
 
-            return (ObjectInstance)
-                doPrivilegedOperation(
+            return (ObjectInstbnce)
+                doPrivilegedOperbtion(
                   CREATE_MBEAN_LOADER,
-                  params,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof ReflectionException)
+                  pbrbms,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof ReflectionException)
                 throw (ReflectionException) e;
-            if (e instanceof InstanceAlreadyExistsException)
-                throw (InstanceAlreadyExistsException) e;
-            if (e instanceof MBeanRegistrationException)
-                throw (MBeanRegistrationException) e;
-            if (e instanceof MBeanException)
-                throw (MBeanException) e;
-            if (e instanceof NotCompliantMBeanException)
-                throw (NotCompliantMBeanException) e;
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof IOException)
+            if (e instbnceof InstbnceAlrebdyExistsException)
+                throw (InstbnceAlrebdyExistsException) e;
+            if (e instbnceof MBebnRegistrbtionException)
+                throw (MBebnRegistrbtionException) e;
+            if (e instbnceof MBebnException)
+                throw (MBebnException) e;
+            if (e instbnceof NotComplibntMBebnException)
+                throw (NotComplibntMBebnException) e;
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    @SuppressWarnings("rawtypes")  // MarshalledObject
-    public ObjectInstance createMBean(String className,
-                                      ObjectName name,
-                                      MarshalledObject params,
-                                      String signature[],
-                                      Subject delegationSubject)
+    @SuppressWbrnings("rbwtypes")  // MbrshblledObject
+    public ObjectInstbnce crebteMBebn(String clbssNbme,
+                                      ObjectNbme nbme,
+                                      MbrshblledObject pbrbms,
+                                      String signbture[],
+                                      Subject delegbtionSubject)
         throws
         ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        MBebnException,
+        NotComplibntMBebnException,
         IOException {
 
-        final Object[] values;
-        final boolean debug = logger.debugOn();
+        finbl Object[] vblues;
+        finbl boolebn debug = logger.debugOn();
 
         if (debug) logger.debug(
-                  "createMBean(String,ObjectName,Object[],String[])",
+                  "crebteMBebn(String,ObjectNbme,Object[],String[])",
                   "connectionId=" + connectionId
-                  +", unwrapping parameters using classLoaderWithRepository.");
+                  +", unwrbpping pbrbmeters using clbssLobderWithRepository.");
 
-        values =
-            nullIsEmpty(unwrap(params, classLoaderWithRepository, Object[].class));
+        vblues =
+            nullIsEmpty(unwrbp(pbrbms, clbssLobderWithRepository, Object[].clbss));
 
         try {
-            final Object params2[] =
-                new Object[] { className, name, values,
-                               nullIsEmpty(signature) };
+            finbl Object pbrbms2[] =
+                new Object[] { clbssNbme, nbme, vblues,
+                               nullIsEmpty(signbture) };
 
             if (debug)
-               logger.debug("createMBean(String,ObjectName,Object[],String[])",
+               logger.debug("crebteMBebn(String,ObjectNbme,Object[],String[])",
                              "connectionId=" + connectionId
-                             +", className=" + className
-                             +", name=" + name
-                             +", params=" + objects(values)
-                             +", signature=" + strings(signature));
+                             +", clbssNbme=" + clbssNbme
+                             +", nbme=" + nbme
+                             +", pbrbms=" + objects(vblues)
+                             +", signbture=" + strings(signbture));
 
-            return (ObjectInstance)
-                doPrivilegedOperation(
+            return (ObjectInstbnce)
+                doPrivilegedOperbtion(
                   CREATE_MBEAN_PARAMS,
-                  params2,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof ReflectionException)
+                  pbrbms2,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof ReflectionException)
                 throw (ReflectionException) e;
-            if (e instanceof InstanceAlreadyExistsException)
-                throw (InstanceAlreadyExistsException) e;
-            if (e instanceof MBeanRegistrationException)
-                throw (MBeanRegistrationException) e;
-            if (e instanceof MBeanException)
-                throw (MBeanException) e;
-            if (e instanceof NotCompliantMBeanException)
-                throw (NotCompliantMBeanException) e;
-            if (e instanceof IOException)
+            if (e instbnceof InstbnceAlrebdyExistsException)
+                throw (InstbnceAlrebdyExistsException) e;
+            if (e instbnceof MBebnRegistrbtionException)
+                throw (MBebnRegistrbtionException) e;
+            if (e instbnceof MBebnException)
+                throw (MBebnException) e;
+            if (e instbnceof NotComplibntMBebnException)
+                throw (NotComplibntMBebnException) e;
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    @SuppressWarnings("rawtypes")  // MarshalledObject
-    public ObjectInstance createMBean(String className,
-                                 ObjectName name,
-                                 ObjectName loaderName,
-                                 MarshalledObject params,
-                                 String signature[],
-                                 Subject delegationSubject)
+    @SuppressWbrnings("rbwtypes")  // MbrshblledObject
+    public ObjectInstbnce crebteMBebn(String clbssNbme,
+                                 ObjectNbme nbme,
+                                 ObjectNbme lobderNbme,
+                                 MbrshblledObject pbrbms,
+                                 String signbture[],
+                                 Subject delegbtionSubject)
         throws
         ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
-        InstanceNotFoundException,
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        MBebnException,
+        NotComplibntMBebnException,
+        InstbnceNotFoundException,
         IOException {
 
-        final Object[] values;
-        final boolean debug = logger.debugOn();
+        finbl Object[] vblues;
+        finbl boolebn debug = logger.debugOn();
 
         if (debug) logger.debug(
-                 "createMBean(String,ObjectName,ObjectName,Object[],String[])",
+                 "crebteMBebn(String,ObjectNbme,ObjectNbme,Object[],String[])",
                  "connectionId=" + connectionId
-                 +", unwrapping params with MBean extended ClassLoader.");
+                 +", unwrbpping pbrbms with MBebn extended ClbssLobder.");
 
-        values = nullIsEmpty(unwrap(params,
-                                    getClassLoader(loaderName),
-                                    defaultClassLoader,
-                                    Object[].class));
+        vblues = nullIsEmpty(unwrbp(pbrbms,
+                                    getClbssLobder(lobderNbme),
+                                    defbultClbssLobder,
+                                    Object[].clbss));
 
         try {
-            final Object params2[] =
-               new Object[] { className, name, loaderName, values,
-                              nullIsEmpty(signature) };
+            finbl Object pbrbms2[] =
+               new Object[] { clbssNbme, nbme, lobderNbme, vblues,
+                              nullIsEmpty(signbture) };
 
            if (debug) logger.debug(
-                 "createMBean(String,ObjectName,ObjectName,Object[],String[])",
+                 "crebteMBebn(String,ObjectNbme,ObjectNbme,Object[],String[])",
                  "connectionId=" + connectionId
-                 +", className=" + className
-                 +", name=" + name
-                 +", loaderName=" + loaderName
-                 +", params=" + objects(values)
-                 +", signature=" + strings(signature));
+                 +", clbssNbme=" + clbssNbme
+                 +", nbme=" + nbme
+                 +", lobderNbme=" + lobderNbme
+                 +", pbrbms=" + objects(vblues)
+                 +", signbture=" + strings(signbture));
 
-            return (ObjectInstance)
-                doPrivilegedOperation(
+            return (ObjectInstbnce)
+                doPrivilegedOperbtion(
                   CREATE_MBEAN_LOADER_PARAMS,
-                  params2,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof ReflectionException)
+                  pbrbms2,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof ReflectionException)
                 throw (ReflectionException) e;
-            if (e instanceof InstanceAlreadyExistsException)
-                throw (InstanceAlreadyExistsException) e;
-            if (e instanceof MBeanRegistrationException)
-                throw (MBeanRegistrationException) e;
-            if (e instanceof MBeanException)
-                throw (MBeanException) e;
-            if (e instanceof NotCompliantMBeanException)
-                throw (NotCompliantMBeanException) e;
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof IOException)
+            if (e instbnceof InstbnceAlrebdyExistsException)
+                throw (InstbnceAlrebdyExistsException) e;
+            if (e instbnceof MBebnRegistrbtionException)
+                throw (MBebnRegistrbtionException) e;
+            if (e instbnceof MBebnException)
+                throw (MBebnException) e;
+            if (e instbnceof NotComplibntMBebnException)
+                throw (NotComplibntMBebnException) e;
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public void unregisterMBean(ObjectName name, Subject delegationSubject)
+    public void unregisterMBebn(ObjectNbme nbme, Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
-        MBeanRegistrationException,
+        InstbnceNotFoundException,
+        MBebnRegistrbtionException,
         IOException {
         try {
-            final Object params[] = new Object[] { name };
+            finbl Object pbrbms[] = new Object[] { nbme };
 
-            if (logger.debugOn()) logger.debug("unregisterMBean",
+            if (logger.debugOn()) logger.debug("unregisterMBebn",
                  "connectionId=" + connectionId
-                 +", name="+name);
+                 +", nbme="+nbme);
 
-            doPrivilegedOperation(
+            doPrivilegedOperbtion(
               UNREGISTER_MBEAN,
-              params,
-              delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof MBeanRegistrationException)
-                throw (MBeanRegistrationException) e;
-            if (e instanceof IOException)
+              pbrbms,
+              delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof MBebnRegistrbtionException)
+                throw (MBebnRegistrbtionException) e;
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public ObjectInstance getObjectInstance(ObjectName name,
-                                            Subject delegationSubject)
+    public ObjectInstbnce getObjectInstbnce(ObjectNbme nbme,
+                                            Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         IOException {
 
-        checkNonNull("ObjectName", name);
+        checkNonNull("ObjectNbme", nbme);
 
         try {
-            final Object params[] = new Object[] { name };
+            finbl Object pbrbms[] = new Object[] { nbme };
 
-            if (logger.debugOn()) logger.debug("getObjectInstance",
+            if (logger.debugOn()) logger.debug("getObjectInstbnce",
                  "connectionId=" + connectionId
-                 +", name="+name);
+                 +", nbme="+nbme);
 
-            return (ObjectInstance)
-                doPrivilegedOperation(
+            return (ObjectInstbnce)
+                doPrivilegedOperbtion(
                   GET_OBJECT_INSTANCE,
-                  params,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof IOException)
+                  pbrbms,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    @SuppressWarnings("rawtypes")  // MarshalledObject
-    public Set<ObjectInstance>
-        queryMBeans(ObjectName name,
-                    MarshalledObject query,
-                    Subject delegationSubject)
+    @SuppressWbrnings("rbwtypes")  // MbrshblledObject
+    public Set<ObjectInstbnce>
+        queryMBebns(ObjectNbme nbme,
+                    MbrshblledObject query,
+                    Subject delegbtionSubject)
         throws IOException {
-        final QueryExp queryValue;
-        final boolean debug=logger.debugOn();
+        finbl QueryExp queryVblue;
+        finbl boolebn debug=logger.debugOn();
 
-        if (debug) logger.debug("queryMBeans",
+        if (debug) logger.debug("queryMBebns",
                  "connectionId=" + connectionId
-                 +" unwrapping query with defaultClassLoader.");
+                 +" unwrbpping query with defbultClbssLobder.");
 
-        queryValue = unwrap(query, defaultContextClassLoader, QueryExp.class);
+        queryVblue = unwrbp(query, defbultContextClbssLobder, QueryExp.clbss);
 
         try {
-            final Object params[] = new Object[] { name, queryValue };
+            finbl Object pbrbms[] = new Object[] { nbme, queryVblue };
 
-            if (debug) logger.debug("queryMBeans",
+            if (debug) logger.debug("queryMBebns",
                  "connectionId=" + connectionId
-                 +", name="+name +", query="+query);
+                 +", nbme="+nbme +", query="+query);
 
-            return cast(
-                doPrivilegedOperation(
+            return cbst(
+                doPrivilegedOperbtion(
                   QUERY_MBEANS,
-                  params,
-                  delegationSubject));
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof IOException)
+                  pbrbms,
+                  delegbtionSubject));
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    @SuppressWarnings("rawtypes")  // MarshalledObject
-    public Set<ObjectName>
-        queryNames(ObjectName name,
-                   MarshalledObject query,
-                   Subject delegationSubject)
+    @SuppressWbrnings("rbwtypes")  // MbrshblledObject
+    public Set<ObjectNbme>
+        queryNbmes(ObjectNbme nbme,
+                   MbrshblledObject query,
+                   Subject delegbtionSubject)
         throws IOException {
-        final QueryExp queryValue;
-        final boolean debug=logger.debugOn();
+        finbl QueryExp queryVblue;
+        finbl boolebn debug=logger.debugOn();
 
-        if (debug) logger.debug("queryNames",
+        if (debug) logger.debug("queryNbmes",
                  "connectionId=" + connectionId
-                 +" unwrapping query with defaultClassLoader.");
+                 +" unwrbpping query with defbultClbssLobder.");
 
-        queryValue = unwrap(query, defaultContextClassLoader, QueryExp.class);
+        queryVblue = unwrbp(query, defbultContextClbssLobder, QueryExp.clbss);
 
         try {
-            final Object params[] = new Object[] { name, queryValue };
+            finbl Object pbrbms[] = new Object[] { nbme, queryVblue };
 
-            if (debug) logger.debug("queryNames",
+            if (debug) logger.debug("queryNbmes",
                  "connectionId=" + connectionId
-                 +", name="+name +", query="+query);
+                 +", nbme="+nbme +", query="+query);
 
-            return cast(
-                doPrivilegedOperation(
+            return cbst(
+                doPrivilegedOperbtion(
                   QUERY_NAMES,
-                  params,
-                  delegationSubject));
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof IOException)
+                  pbrbms,
+                  delegbtionSubject));
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public boolean isRegistered(ObjectName name,
-                                Subject delegationSubject) throws IOException {
+    public boolebn isRegistered(ObjectNbme nbme,
+                                Subject delegbtionSubject) throws IOException {
         try {
-            final Object params[] = new Object[] { name };
-            return ((Boolean)
-                doPrivilegedOperation(
+            finbl Object pbrbms[] = new Object[] { nbme };
+            return ((Boolebn)
+                doPrivilegedOperbtion(
                   IS_REGISTERED,
-                  params,
-                  delegationSubject)).booleanValue();
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof IOException)
+                  pbrbms,
+                  delegbtionSubject)).boolebnVblue();
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public Integer getMBeanCount(Subject delegationSubject)
+    public Integer getMBebnCount(Subject delegbtionSubject)
         throws IOException {
         try {
-            final Object params[] = new Object[] { };
+            finbl Object pbrbms[] = new Object[] { };
 
-            if (logger.debugOn()) logger.debug("getMBeanCount",
+            if (logger.debugOn()) logger.debug("getMBebnCount",
                  "connectionId=" + connectionId);
 
             return (Integer)
-                doPrivilegedOperation(
+                doPrivilegedOperbtion(
                   GET_MBEAN_COUNT,
-                  params,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof IOException)
+                  pbrbms,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public Object getAttribute(ObjectName name,
-                               String attribute,
-                               Subject delegationSubject)
+    public Object getAttribute(ObjectNbme nbme,
+                               String bttribute,
+                               Subject delegbtionSubject)
         throws
-        MBeanException,
+        MBebnException,
         AttributeNotFoundException,
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ReflectionException,
         IOException {
         try {
-            final Object params[] = new Object[] { name, attribute };
+            finbl Object pbrbms[] = new Object[] { nbme, bttribute };
             if (logger.debugOn()) logger.debug("getAttribute",
                                    "connectionId=" + connectionId
-                                   +", name=" + name
-                                   +", attribute="+ attribute);
+                                   +", nbme=" + nbme
+                                   +", bttribute="+ bttribute);
 
             return
-                doPrivilegedOperation(
+                doPrivilegedOperbtion(
                   GET_ATTRIBUTE,
-                  params,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof MBeanException)
-                throw (MBeanException) e;
-            if (e instanceof AttributeNotFoundException)
+                  pbrbms,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof MBebnException)
+                throw (MBebnException) e;
+            if (e instbnceof AttributeNotFoundException)
                 throw (AttributeNotFoundException) e;
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof ReflectionException)
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof ReflectionException)
                 throw (ReflectionException) e;
-            if (e instanceof IOException)
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public AttributeList getAttributes(ObjectName name,
-                                       String[] attributes,
-                                       Subject delegationSubject)
+    public AttributeList getAttributes(ObjectNbme nbme,
+                                       String[] bttributes,
+                                       Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ReflectionException,
         IOException {
         try {
-            final Object params[] = new Object[] { name, attributes };
+            finbl Object pbrbms[] = new Object[] { nbme, bttributes };
 
             if (logger.debugOn()) logger.debug("getAttributes",
                                    "connectionId=" + connectionId
-                                   +", name=" + name
-                                   +", attributes="+ strings(attributes));
+                                   +", nbme=" + nbme
+                                   +", bttributes="+ strings(bttributes));
 
             return (AttributeList)
-                doPrivilegedOperation(
+                doPrivilegedOperbtion(
                   GET_ATTRIBUTES,
-                  params,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof ReflectionException)
+                  pbrbms,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof ReflectionException)
                 throw (ReflectionException) e;
-            if (e instanceof IOException)
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    @SuppressWarnings("rawtypes")  // MarshalledObject
-    public void setAttribute(ObjectName name,
-                             MarshalledObject attribute,
-                             Subject delegationSubject)
+    @SuppressWbrnings("rbwtypes")  // MbrshblledObject
+    public void setAttribute(ObjectNbme nbme,
+                             MbrshblledObject bttribute,
+                             Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         AttributeNotFoundException,
-        InvalidAttributeValueException,
-        MBeanException,
+        InvblidAttributeVblueException,
+        MBebnException,
         ReflectionException,
         IOException {
-        final Attribute attr;
-        final boolean debug=logger.debugOn();
+        finbl Attribute bttr;
+        finbl boolebn debug=logger.debugOn();
 
         if (debug) logger.debug("setAttribute",
                  "connectionId=" + connectionId
-                 +" unwrapping attribute with MBean extended ClassLoader.");
+                 +" unwrbpping bttribute with MBebn extended ClbssLobder.");
 
-        attr = unwrap(attribute,
-                      getClassLoaderFor(name),
-                      defaultClassLoader,
-                      Attribute.class);
+        bttr = unwrbp(bttribute,
+                      getClbssLobderFor(nbme),
+                      defbultClbssLobder,
+                      Attribute.clbss);
 
         try {
-            final Object params[] = new Object[] { name, attr };
+            finbl Object pbrbms[] = new Object[] { nbme, bttr };
 
             if (debug) logger.debug("setAttribute",
                              "connectionId=" + connectionId
-                             +", name="+name
-                             +", attribute="+attr);
+                             +", nbme="+nbme
+                             +", bttribute="+bttr);
 
-            doPrivilegedOperation(
+            doPrivilegedOperbtion(
               SET_ATTRIBUTE,
-              params,
-              delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof AttributeNotFoundException)
+              pbrbms,
+              delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof AttributeNotFoundException)
                 throw (AttributeNotFoundException) e;
-            if (e instanceof InvalidAttributeValueException)
-                throw (InvalidAttributeValueException) e;
-            if (e instanceof MBeanException)
-                throw (MBeanException) e;
-            if (e instanceof ReflectionException)
+            if (e instbnceof InvblidAttributeVblueException)
+                throw (InvblidAttributeVblueException) e;
+            if (e instbnceof MBebnException)
+                throw (MBebnException) e;
+            if (e instbnceof ReflectionException)
                 throw (ReflectionException) e;
-            if (e instanceof IOException)
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    @SuppressWarnings("rawtypes")  // MarshalledObject
-    public AttributeList setAttributes(ObjectName name,
-                         MarshalledObject attributes,
-                         Subject delegationSubject)
+    @SuppressWbrnings("rbwtypes")  // MbrshblledObject
+    public AttributeList setAttributes(ObjectNbme nbme,
+                         MbrshblledObject bttributes,
+                         Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ReflectionException,
         IOException {
-        final AttributeList attrlist;
-        final boolean debug=logger.debugOn();
+        finbl AttributeList bttrlist;
+        finbl boolebn debug=logger.debugOn();
 
         if (debug) logger.debug("setAttributes",
                  "connectionId=" + connectionId
-                 +" unwrapping attributes with MBean extended ClassLoader.");
+                 +" unwrbpping bttributes with MBebn extended ClbssLobder.");
 
-        attrlist =
-            unwrap(attributes,
-                   getClassLoaderFor(name),
-                   defaultClassLoader,
-                   AttributeList.class);
+        bttrlist =
+            unwrbp(bttributes,
+                   getClbssLobderFor(nbme),
+                   defbultClbssLobder,
+                   AttributeList.clbss);
 
         try {
-            final Object params[] = new Object[] { name, attrlist };
+            finbl Object pbrbms[] = new Object[] { nbme, bttrlist };
 
             if (debug) logger.debug("setAttributes",
                              "connectionId=" + connectionId
-                             +", name="+name
-                             +", attributes="+attrlist);
+                             +", nbme="+nbme
+                             +", bttributes="+bttrlist);
 
             return (AttributeList)
-                doPrivilegedOperation(
+                doPrivilegedOperbtion(
                   SET_ATTRIBUTES,
-                  params,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof ReflectionException)
+                  pbrbms,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof ReflectionException)
                 throw (ReflectionException) e;
-            if (e instanceof IOException)
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    @SuppressWarnings("rawtypes")  // MarshalledObject
-    public Object invoke(ObjectName name,
-                         String operationName,
-                         MarshalledObject params,
-                         String signature[],
-                         Subject delegationSubject)
+    @SuppressWbrnings("rbwtypes")  // MbrshblledObject
+    public Object invoke(ObjectNbme nbme,
+                         String operbtionNbme,
+                         MbrshblledObject pbrbms,
+                         String signbture[],
+                         Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
-        MBeanException,
+        InstbnceNotFoundException,
+        MBebnException,
         ReflectionException,
         IOException {
 
-        checkNonNull("ObjectName", name);
-        checkNonNull("Operation name", operationName);
+        checkNonNull("ObjectNbme", nbme);
+        checkNonNull("Operbtion nbme", operbtionNbme);
 
-        final Object[] values;
-        final boolean debug=logger.debugOn();
+        finbl Object[] vblues;
+        finbl boolebn debug=logger.debugOn();
 
         if (debug) logger.debug("invoke",
                  "connectionId=" + connectionId
-                 +" unwrapping params with MBean extended ClassLoader.");
+                 +" unwrbpping pbrbms with MBebn extended ClbssLobder.");
 
-        values = nullIsEmpty(unwrap(params,
-                                    getClassLoaderFor(name),
-                                    defaultClassLoader,
-                                    Object[].class));
+        vblues = nullIsEmpty(unwrbp(pbrbms,
+                                    getClbssLobderFor(nbme),
+                                    defbultClbssLobder,
+                                    Object[].clbss));
 
         try {
-            final Object params2[] =
-                new Object[] { name, operationName, values,
-                               nullIsEmpty(signature) };
+            finbl Object pbrbms2[] =
+                new Object[] { nbme, operbtionNbme, vblues,
+                               nullIsEmpty(signbture) };
 
             if (debug) logger.debug("invoke",
                              "connectionId=" + connectionId
-                             +", name="+name
-                             +", operationName="+operationName
-                             +", params="+objects(values)
-                             +", signature="+strings(signature));
+                             +", nbme="+nbme
+                             +", operbtionNbme="+operbtionNbme
+                             +", pbrbms="+objects(vblues)
+                             +", signbture="+strings(signbture));
 
             return
-                doPrivilegedOperation(
+                doPrivilegedOperbtion(
                   INVOKE,
-                  params2,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof MBeanException)
-                throw (MBeanException) e;
-            if (e instanceof ReflectionException)
+                  pbrbms2,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof MBebnException)
+                throw (MBebnException) e;
+            if (e instbnceof ReflectionException)
                 throw (ReflectionException) e;
-            if (e instanceof IOException)
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public String getDefaultDomain(Subject delegationSubject)
+    public String getDefbultDombin(Subject delegbtionSubject)
         throws IOException {
         try {
-            final Object params[] = new Object[] { };
+            finbl Object pbrbms[] = new Object[] { };
 
-            if (logger.debugOn())  logger.debug("getDefaultDomain",
+            if (logger.debugOn())  logger.debug("getDefbultDombin",
                                     "connectionId=" + connectionId);
 
             return (String)
-                doPrivilegedOperation(
+                doPrivilegedOperbtion(
                   GET_DEFAULT_DOMAIN,
-                  params,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof IOException)
+                  pbrbms,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public String[] getDomains(Subject delegationSubject) throws IOException {
+    public String[] getDombins(Subject delegbtionSubject) throws IOException {
         try {
-            final Object params[] = new Object[] { };
+            finbl Object pbrbms[] = new Object[] { };
 
-            if (logger.debugOn())  logger.debug("getDomains",
+            if (logger.debugOn())  logger.debug("getDombins",
                                     "connectionId=" + connectionId);
 
             return (String[])
-                doPrivilegedOperation(
+                doPrivilegedOperbtion(
                   GET_DOMAINS,
-                  params,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof IOException)
+                  pbrbms,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public MBeanInfo getMBeanInfo(ObjectName name, Subject delegationSubject)
+    public MBebnInfo getMBebnInfo(ObjectNbme nbme, Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         IntrospectionException,
         ReflectionException,
         IOException {
 
-        checkNonNull("ObjectName", name);
+        checkNonNull("ObjectNbme", nbme);
 
         try {
-            final Object params[] = new Object[] { name };
+            finbl Object pbrbms[] = new Object[] { nbme };
 
-            if (logger.debugOn())  logger.debug("getMBeanInfo",
+            if (logger.debugOn())  logger.debug("getMBebnInfo",
                                     "connectionId=" + connectionId
-                                    +", name="+name);
+                                    +", nbme="+nbme);
 
-            return (MBeanInfo)
-                doPrivilegedOperation(
+            return (MBebnInfo)
+                doPrivilegedOperbtion(
                   GET_MBEAN_INFO,
-                  params,
-                  delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof IntrospectionException)
+                  pbrbms,
+                  delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof IntrospectionException)
                 throw (IntrospectionException) e;
-            if (e instanceof ReflectionException)
+            if (e instbnceof ReflectionException)
                 throw (ReflectionException) e;
-            if (e instanceof IOException)
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public boolean isInstanceOf(ObjectName name,
-                                String className,
-                                Subject delegationSubject)
-        throws InstanceNotFoundException, IOException {
+    public boolebn isInstbnceOf(ObjectNbme nbme,
+                                String clbssNbme,
+                                Subject delegbtionSubject)
+        throws InstbnceNotFoundException, IOException {
 
-        checkNonNull("ObjectName", name);
+        checkNonNull("ObjectNbme", nbme);
 
         try {
-            final Object params[] = new Object[] { name, className };
+            finbl Object pbrbms[] = new Object[] { nbme, clbssNbme };
 
-            if (logger.debugOn())  logger.debug("isInstanceOf",
+            if (logger.debugOn())  logger.debug("isInstbnceOf",
                                     "connectionId=" + connectionId
-                                    +", name="+name
-                                    +", className="+className);
+                                    +", nbme="+nbme
+                                    +", clbssNbme="+clbssNbme);
 
-            return ((Boolean)
-                doPrivilegedOperation(
+            return ((Boolebn)
+                doPrivilegedOperbtion(
                   IS_INSTANCE_OF,
-                  params,
-                  delegationSubject)).booleanValue();
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof IOException)
+                  pbrbms,
+                  delegbtionSubject)).boolebnVblue();
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    @SuppressWarnings("rawtypes")  // MarshalledObject
-    public Integer[] addNotificationListeners(ObjectName[] names,
-                      MarshalledObject[] filters,
-                      Subject[] delegationSubjects)
-            throws InstanceNotFoundException, IOException {
+    @SuppressWbrnings("rbwtypes")  // MbrshblledObject
+    public Integer[] bddNotificbtionListeners(ObjectNbme[] nbmes,
+                      MbrshblledObject[] filters,
+                      Subject[] delegbtionSubjects)
+            throws InstbnceNotFoundException, IOException {
 
-        if (names == null || filters == null) {
-            throw new IllegalArgumentException("Got null arguments.");
+        if (nbmes == null || filters == null) {
+            throw new IllegblArgumentException("Got null brguments.");
         }
 
-        Subject[] sbjs = (delegationSubjects != null) ? delegationSubjects :
-        new Subject[names.length];
-        if (names.length != filters.length || filters.length != sbjs.length) {
-            final String msg =
-                "The value lengths of 3 parameters are not same.";
-            throw new IllegalArgumentException(msg);
+        Subject[] sbjs = (delegbtionSubjects != null) ? delegbtionSubjects :
+        new Subject[nbmes.length];
+        if (nbmes.length != filters.length || filters.length != sbjs.length) {
+            finbl String msg =
+                "The vblue lengths of 3 pbrbmeters bre not sbme.";
+            throw new IllegblArgumentException(msg);
         }
 
-        for (int i=0; i<names.length; i++) {
-            if (names[i] == null) {
-                throw new IllegalArgumentException("Null Object name.");
+        for (int i=0; i<nbmes.length; i++) {
+            if (nbmes[i] == null) {
+                throw new IllegblArgumentException("Null Object nbme.");
             }
         }
 
         int i=0;
-        ClassLoader targetCl;
-        NotificationFilter[] filterValues =
-            new NotificationFilter[names.length];
-        Integer[] ids = new Integer[names.length];
-        final boolean debug=logger.debugOn();
+        ClbssLobder tbrgetCl;
+        NotificbtionFilter[] filterVblues =
+            new NotificbtionFilter[nbmes.length];
+        Integer[] ids = new Integer[nbmes.length];
+        finbl boolebn debug=logger.debugOn();
 
         try {
-            for (; i<names.length; i++) {
-                targetCl = getClassLoaderFor(names[i]);
+            for (; i<nbmes.length; i++) {
+                tbrgetCl = getClbssLobderFor(nbmes[i]);
 
-                if (debug) logger.debug("addNotificationListener"+
-                                        "(ObjectName,NotificationFilter)",
+                if (debug) logger.debug("bddNotificbtionListener"+
+                                        "(ObjectNbme,NotificbtionFilter)",
                                         "connectionId=" + connectionId +
-                      " unwrapping filter with target extended ClassLoader.");
+                      " unwrbpping filter with tbrget extended ClbssLobder.");
 
-                filterValues[i] =
-                    unwrap(filters[i], targetCl, defaultClassLoader,
-                           NotificationFilter.class);
+                filterVblues[i] =
+                    unwrbp(filters[i], tbrgetCl, defbultClbssLobder,
+                           NotificbtionFilter.clbss);
 
-                if (debug) logger.debug("addNotificationListener"+
-                                        "(ObjectName,NotificationFilter)",
+                if (debug) logger.debug("bddNotificbtionListener"+
+                                        "(ObjectNbme,NotificbtionFilter)",
                                         "connectionId=" + connectionId
-                                        +", name=" + names[i]
-                                        +", filter=" + filterValues[i]);
+                                        +", nbme=" + nbmes[i]
+                                        +", filter=" + filterVblues[i]);
 
                 ids[i] = (Integer)
-                    doPrivilegedOperation(ADD_NOTIFICATION_LISTENERS,
-                                          new Object[] { names[i],
-                                                         filterValues[i] },
+                    doPrivilegedOperbtion(ADD_NOTIFICATION_LISTENERS,
+                                          new Object[] { nbmes[i],
+                                                         filterVblues[i] },
                                           sbjs[i]);
             }
 
             return ids;
-        } catch (Exception e) {
-            // remove all registered listeners
+        } cbtch (Exception e) {
+            // remove bll registered listeners
             for (int j=0; j<i; j++) {
                 try {
-                    getServerNotifFwd().removeNotificationListener(names[j],
+                    getServerNotifFwd().removeNotificbtionListener(nbmes[j],
                                                                    ids[j]);
-                } catch (Exception eee) {
-                    // strange
+                } cbtch (Exception eee) {
+                    // strbnge
                 }
             }
 
-            if (e instanceof PrivilegedActionException) {
-                e = extractException(e);
+            if (e instbnceof PrivilegedActionException) {
+                e = extrbctException(e);
             }
 
-            if (e instanceof ClassCastException) {
-                throw (ClassCastException) e;
-            } else if (e instanceof IOException) {
+            if (e instbnceof ClbssCbstException) {
+                throw (ClbssCbstException) e;
+            } else if (e instbnceof IOException) {
                 throw (IOException)e;
-            } else if (e instanceof InstanceNotFoundException) {
-                throw (InstanceNotFoundException) e;
-            } else if (e instanceof RuntimeException) {
+            } else if (e instbnceof InstbnceNotFoundException) {
+                throw (InstbnceNotFoundException) e;
+            } else if (e instbnceof RuntimeException) {
                 throw (RuntimeException) e;
             } else {
                 throw newIOException("Got unexpected server exception: "+e,e);
@@ -1036,255 +1036,255 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         }
     }
 
-    @SuppressWarnings("rawtypes")  // MarshalledObject
-    public void addNotificationListener(ObjectName name,
-                       ObjectName listener,
-                       MarshalledObject filter,
-                       MarshalledObject handback,
-                       Subject delegationSubject)
-        throws InstanceNotFoundException, IOException {
+    @SuppressWbrnings("rbwtypes")  // MbrshblledObject
+    public void bddNotificbtionListener(ObjectNbme nbme,
+                       ObjectNbme listener,
+                       MbrshblledObject filter,
+                       MbrshblledObject hbndbbck,
+                       Subject delegbtionSubject)
+        throws InstbnceNotFoundException, IOException {
 
-        checkNonNull("Target MBean name", name);
-        checkNonNull("Listener MBean name", listener);
+        checkNonNull("Tbrget MBebn nbme", nbme);
+        checkNonNull("Listener MBebn nbme", listener);
 
-        final NotificationFilter filterValue;
-        final Object handbackValue;
-        final boolean debug=logger.debugOn();
+        finbl NotificbtionFilter filterVblue;
+        finbl Object hbndbbckVblue;
+        finbl boolebn debug=logger.debugOn();
 
-        final ClassLoader targetCl = getClassLoaderFor(name);
+        finbl ClbssLobder tbrgetCl = getClbssLobderFor(nbme);
 
-        if (debug) logger.debug("addNotificationListener"+
-                 "(ObjectName,ObjectName,NotificationFilter,Object)",
+        if (debug) logger.debug("bddNotificbtionListener"+
+                 "(ObjectNbme,ObjectNbme,NotificbtionFilter,Object)",
                  "connectionId=" + connectionId
-                 +" unwrapping filter with target extended ClassLoader.");
+                 +" unwrbpping filter with tbrget extended ClbssLobder.");
 
-        filterValue =
-            unwrap(filter, targetCl, defaultClassLoader, NotificationFilter.class);
+        filterVblue =
+            unwrbp(filter, tbrgetCl, defbultClbssLobder, NotificbtionFilter.clbss);
 
-        if (debug) logger.debug("addNotificationListener"+
-                 "(ObjectName,ObjectName,NotificationFilter,Object)",
+        if (debug) logger.debug("bddNotificbtionListener"+
+                 "(ObjectNbme,ObjectNbme,NotificbtionFilter,Object)",
                  "connectionId=" + connectionId
-                 +" unwrapping handback with target extended ClassLoader.");
+                 +" unwrbpping hbndbbck with tbrget extended ClbssLobder.");
 
-        handbackValue =
-            unwrap(handback, targetCl, defaultClassLoader, Object.class);
+        hbndbbckVblue =
+            unwrbp(hbndbbck, tbrgetCl, defbultClbssLobder, Object.clbss);
 
         try {
-            final Object params[] =
-                new Object[] { name, listener, filterValue, handbackValue };
+            finbl Object pbrbms[] =
+                new Object[] { nbme, listener, filterVblue, hbndbbckVblue };
 
-            if (debug) logger.debug("addNotificationListener"+
-                 "(ObjectName,ObjectName,NotificationFilter,Object)",
+            if (debug) logger.debug("bddNotificbtionListener"+
+                 "(ObjectNbme,ObjectNbme,NotificbtionFilter,Object)",
                              "connectionId=" + connectionId
-                             +", name=" + name
-                             +", listenerName=" + listener
-                             +", filter=" + filterValue
-                             +", handback=" + handbackValue);
+                             +", nbme=" + nbme
+                             +", listenerNbme=" + listener
+                             +", filter=" + filterVblue
+                             +", hbndbbck=" + hbndbbckVblue);
 
-            doPrivilegedOperation(
+            doPrivilegedOperbtion(
               ADD_NOTIFICATION_LISTENER_OBJECTNAME,
-              params,
-              delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof IOException)
+              pbrbms,
+              delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public void removeNotificationListeners(ObjectName name,
+    public void removeNotificbtionListeners(ObjectNbme nbme,
                                             Integer[] listenerIDs,
-                                            Subject delegationSubject)
+                                            Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ListenerNotFoundException,
         IOException {
 
-        if (name == null || listenerIDs == null)
-            throw new IllegalArgumentException("Illegal null parameter");
+        if (nbme == null || listenerIDs == null)
+            throw new IllegblArgumentException("Illegbl null pbrbmeter");
 
         for (int i = 0; i < listenerIDs.length; i++) {
             if (listenerIDs[i] == null)
-                throw new IllegalArgumentException("Null listener ID");
+                throw new IllegblArgumentException("Null listener ID");
         }
 
         try {
-            final Object params[] = new Object[] { name, listenerIDs };
+            finbl Object pbrbms[] = new Object[] { nbme, listenerIDs };
 
-            if (logger.debugOn()) logger.debug("removeNotificationListener"+
-                                   "(ObjectName,Integer[])",
+            if (logger.debugOn()) logger.debug("removeNotificbtionListener"+
+                                   "(ObjectNbme,Integer[])",
                                    "connectionId=" + connectionId
-                                   +", name=" + name
+                                   +", nbme=" + nbme
                                    +", listenerIDs=" + objects(listenerIDs));
 
-            doPrivilegedOperation(
+            doPrivilegedOperbtion(
               REMOVE_NOTIFICATION_LISTENER,
-              params,
-              delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof ListenerNotFoundException)
+              pbrbms,
+              delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof ListenerNotFoundException)
                 throw (ListenerNotFoundException) e;
-            if (e instanceof IOException)
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener,
-                                           Subject delegationSubject)
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           ObjectNbme listener,
+                                           Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ListenerNotFoundException,
         IOException {
 
-        checkNonNull("Target MBean name", name);
-        checkNonNull("Listener MBean name", listener);
+        checkNonNull("Tbrget MBebn nbme", nbme);
+        checkNonNull("Listener MBebn nbme", listener);
 
         try {
-            final Object params[] = new Object[] { name, listener };
+            finbl Object pbrbms[] = new Object[] { nbme, listener };
 
-            if (logger.debugOn()) logger.debug("removeNotificationListener"+
-                                   "(ObjectName,ObjectName)",
+            if (logger.debugOn()) logger.debug("removeNotificbtionListener"+
+                                   "(ObjectNbme,ObjectNbme)",
                                    "connectionId=" + connectionId
-                                   +", name=" + name
-                                   +", listenerName=" + listener);
+                                   +", nbme=" + nbme
+                                   +", listenerNbme=" + listener);
 
-            doPrivilegedOperation(
+            doPrivilegedOperbtion(
               REMOVE_NOTIFICATION_LISTENER_OBJECTNAME,
-              params,
-              delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof ListenerNotFoundException)
+              pbrbms,
+              delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof ListenerNotFoundException)
                 throw (ListenerNotFoundException) e;
-            if (e instanceof IOException)
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    @SuppressWarnings("rawtypes")  // MarshalledObject
-    public void removeNotificationListener(ObjectName name,
-                        ObjectName listener,
-                        MarshalledObject filter,
-                        MarshalledObject handback,
-                        Subject delegationSubject)
+    @SuppressWbrnings("rbwtypes")  // MbrshblledObject
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                        ObjectNbme listener,
+                        MbrshblledObject filter,
+                        MbrshblledObject hbndbbck,
+                        Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ListenerNotFoundException,
         IOException {
 
-        checkNonNull("Target MBean name", name);
-        checkNonNull("Listener MBean name", listener);
+        checkNonNull("Tbrget MBebn nbme", nbme);
+        checkNonNull("Listener MBebn nbme", listener);
 
-        final NotificationFilter filterValue;
-        final Object handbackValue;
-        final boolean debug=logger.debugOn();
+        finbl NotificbtionFilter filterVblue;
+        finbl Object hbndbbckVblue;
+        finbl boolebn debug=logger.debugOn();
 
-        final ClassLoader targetCl = getClassLoaderFor(name);
+        finbl ClbssLobder tbrgetCl = getClbssLobderFor(nbme);
 
-        if (debug) logger.debug("removeNotificationListener"+
-                 "(ObjectName,ObjectName,NotificationFilter,Object)",
+        if (debug) logger.debug("removeNotificbtionListener"+
+                 "(ObjectNbme,ObjectNbme,NotificbtionFilter,Object)",
                  "connectionId=" + connectionId
-                 +" unwrapping filter with target extended ClassLoader.");
+                 +" unwrbpping filter with tbrget extended ClbssLobder.");
 
-        filterValue =
-            unwrap(filter, targetCl, defaultClassLoader, NotificationFilter.class);
+        filterVblue =
+            unwrbp(filter, tbrgetCl, defbultClbssLobder, NotificbtionFilter.clbss);
 
-        if (debug) logger.debug("removeNotificationListener"+
-                 "(ObjectName,ObjectName,NotificationFilter,Object)",
+        if (debug) logger.debug("removeNotificbtionListener"+
+                 "(ObjectNbme,ObjectNbme,NotificbtionFilter,Object)",
                  "connectionId=" + connectionId
-                 +" unwrapping handback with target extended ClassLoader.");
+                 +" unwrbpping hbndbbck with tbrget extended ClbssLobder.");
 
-        handbackValue =
-            unwrap(handback, targetCl, defaultClassLoader, Object.class);
+        hbndbbckVblue =
+            unwrbp(hbndbbck, tbrgetCl, defbultClbssLobder, Object.clbss);
 
         try {
-            final Object params[] =
-                new Object[] { name, listener, filterValue, handbackValue };
+            finbl Object pbrbms[] =
+                new Object[] { nbme, listener, filterVblue, hbndbbckVblue };
 
-            if (debug) logger.debug("removeNotificationListener"+
-                 "(ObjectName,ObjectName,NotificationFilter,Object)",
+            if (debug) logger.debug("removeNotificbtionListener"+
+                 "(ObjectNbme,ObjectNbme,NotificbtionFilter,Object)",
                              "connectionId=" + connectionId
-                             +", name=" + name
-                             +", listenerName=" + listener
-                             +", filter=" + filterValue
-                             +", handback=" + handbackValue);
+                             +", nbme=" + nbme
+                             +", listenerNbme=" + listener
+                             +", filter=" + filterVblue
+                             +", hbndbbck=" + hbndbbckVblue);
 
-            doPrivilegedOperation(
+            doPrivilegedOperbtion(
               REMOVE_NOTIFICATION_LISTENER_OBJECTNAME_FILTER_HANDBACK,
-              params,
-              delegationSubject);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
-                throw (InstanceNotFoundException) e;
-            if (e instanceof ListenerNotFoundException)
+              pbrbms,
+              delegbtionSubject);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof InstbnceNotFoundException)
+                throw (InstbnceNotFoundException) e;
+            if (e instbnceof ListenerNotFoundException)
                 throw (ListenerNotFoundException) e;
-            if (e instanceof IOException)
+            if (e instbnceof IOException)
                 throw (IOException) e;
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
-    public NotificationResult fetchNotifications(long clientSequenceNumber,
-                                                 int maxNotifications,
+    public NotificbtionResult fetchNotificbtions(long clientSequenceNumber,
+                                                 int mbxNotificbtions,
                                                  long timeout)
         throws IOException {
 
-        if (logger.debugOn()) logger.debug("fetchNotifications",
+        if (logger.debugOn()) logger.debug("fetchNotificbtions",
                                "connectionId=" + connectionId
                                +", timeout=" + timeout);
 
-        if (maxNotifications < 0 || timeout < 0)
-            throw new IllegalArgumentException("Illegal negative argument");
+        if (mbxNotificbtions < 0 || timeout < 0)
+            throw new IllegblArgumentException("Illegbl negbtive brgument");
 
-        final boolean serverTerminated =
-            serverCommunicatorAdmin.reqIncoming();
+        finbl boolebn serverTerminbted =
+            serverCommunicbtorAdmin.reqIncoming();
         try {
-            if (serverTerminated) {
-                // we must not call fetchNotifs() if the server is
-                // terminated (timeout elapsed).
+            if (serverTerminbted) {
+                // we must not cbll fetchNotifs() if the server is
+                // terminbted (timeout elbpsed).
                 //
-                return new NotificationResult(0L, 0L,
-                                              new TargetedNotification[0]);
+                return new NotificbtionResult(0L, 0L,
+                                              new TbrgetedNotificbtion[0]);
 
             }
-            final long csn = clientSequenceNumber;
-            final int mn = maxNotifications;
-            final long t = timeout;
-            PrivilegedAction<NotificationResult> action =
-                new PrivilegedAction<NotificationResult>() {
-                    public NotificationResult run() {
+            finbl long csn = clientSequenceNumber;
+            finbl int mn = mbxNotificbtions;
+            finbl long t = timeout;
+            PrivilegedAction<NotificbtionResult> bction =
+                new PrivilegedAction<NotificbtionResult>() {
+                    public NotificbtionResult run() {
                         return getServerNotifFwd().fetchNotifs(csn, t, mn);
                     }
             };
-            if (acc == null)
-                return action.run();
+            if (bcc == null)
+                return bction.run();
             else
-                return AccessController.doPrivileged(action, acc);
-        } finally {
-            serverCommunicatorAdmin.rspOutgoing();
+                return AccessController.doPrivileged(bction, bcc);
+        } finblly {
+            serverCommunicbtorAdmin.rspOutgoing();
         }
     }
 
     /**
-     * <p>Returns a string representation of this object.  In general,
-     * the <code>toString</code> method returns a string that
-     * "textually represents" this object. The result should be a
-     * concise but informative representation that is easy for a
-     * person to read.</p>
+     * <p>Returns b string representbtion of this object.  In generbl,
+     * the <code>toString</code> method returns b string thbt
+     * "textublly represents" this object. The result should be b
+     * concise but informbtive representbtion thbt is ebsy for b
+     * person to rebd.</p>
      *
-     * @return a String representation of this object.
+     * @return b String representbtion of this object.
      **/
     @Override
     public String toString() {
@@ -1292,40 +1292,40 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
     }
 
     //------------------------------------------------------------------------
-    // private classes
+    // privbte clbsses
     //------------------------------------------------------------------------
 
-    private class PrivilegedOperation
+    privbte clbss PrivilegedOperbtion
             implements PrivilegedExceptionAction<Object> {
 
-        public PrivilegedOperation(int operation, Object[] params) {
-            this.operation = operation;
-            this.params = params;
+        public PrivilegedOperbtion(int operbtion, Object[] pbrbms) {
+            this.operbtion = operbtion;
+            this.pbrbms = pbrbms;
         }
 
         public Object run() throws Exception {
-            return doOperation(operation, params);
+            return doOperbtion(operbtion, pbrbms);
         }
 
-        private int operation;
-        private Object[] params;
+        privbte int operbtion;
+        privbte Object[] pbrbms;
     }
 
     //------------------------------------------------------------------------
-    // private classes
+    // privbte clbsses
     //------------------------------------------------------------------------
-    private class RMIServerCommunicatorAdmin extends ServerCommunicatorAdmin {
-        public RMIServerCommunicatorAdmin(long timeout) {
+    privbte clbss RMIServerCommunicbtorAdmin extends ServerCommunicbtorAdmin {
+        public RMIServerCommunicbtorAdmin(long timeout) {
             super(timeout);
         }
 
         protected void doStop() {
             try {
                 close();
-            } catch (IOException ie) {
-                logger.warning("RMIServerCommunicatorAdmin-doStop",
-                               "Failed to close: " + ie);
-                logger.debug("RMIServerCommunicatorAdmin-doStop",ie);
+            } cbtch (IOException ie) {
+                logger.wbrning("RMIServerCommunicbtorAdmin-doStop",
+                               "Fbiled to close: " + ie);
+                logger.debug("RMIServerCommunicbtorAdmin-doStop",ie);
             }
         }
 
@@ -1333,477 +1333,477 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
 
 
     //------------------------------------------------------------------------
-    // private methods
+    // privbte methods
     //------------------------------------------------------------------------
 
-    private ClassLoader getClassLoader(final ObjectName name)
-        throws InstanceNotFoundException {
+    privbte ClbssLobder getClbssLobder(finbl ObjectNbme nbme)
+        throws InstbnceNotFoundException {
         try {
             return
                 AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<ClassLoader>() {
-                        public ClassLoader run() throws InstanceNotFoundException {
-                            return mbeanServer.getClassLoader(name);
+                    new PrivilegedExceptionAction<ClbssLobder>() {
+                        public ClbssLobder run() throws InstbnceNotFoundException {
+                            return mbebnServer.getClbssLobder(nbme);
                         }
                     },
-                    withPermissions(new MBeanPermission("*", "getClassLoader"))
+                    withPermissions(new MBebnPermission("*", "getClbssLobder"))
             );
-        } catch (PrivilegedActionException pe) {
-            throw (InstanceNotFoundException) extractException(pe);
+        } cbtch (PrivilegedActionException pe) {
+            throw (InstbnceNotFoundException) extrbctException(pe);
         }
     }
 
-    private ClassLoader getClassLoaderFor(final ObjectName name)
-        throws InstanceNotFoundException {
+    privbte ClbssLobder getClbssLobderFor(finbl ObjectNbme nbme)
+        throws InstbnceNotFoundException {
         try {
-            return (ClassLoader)
+            return (ClbssLobder)
                 AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Object>() {
-                        public Object run() throws InstanceNotFoundException {
-                            return mbeanServer.getClassLoaderFor(name);
+                        public Object run() throws InstbnceNotFoundException {
+                            return mbebnServer.getClbssLobderFor(nbme);
                         }
                     },
-                    withPermissions(new MBeanPermission("*", "getClassLoaderFor"))
+                    withPermissions(new MBebnPermission("*", "getClbssLobderFor"))
             );
-        } catch (PrivilegedActionException pe) {
-            throw (InstanceNotFoundException) extractException(pe);
+        } cbtch (PrivilegedActionException pe) {
+            throw (InstbnceNotFoundException) extrbctException(pe);
         }
     }
 
-    private Object doPrivilegedOperation(final int operation,
-                                         final Object[] params,
-                                         final Subject delegationSubject)
+    privbte Object doPrivilegedOperbtion(finbl int operbtion,
+                                         finbl Object[] pbrbms,
+                                         finbl Subject delegbtionSubject)
         throws PrivilegedActionException, IOException {
 
-        serverCommunicatorAdmin.reqIncoming();
+        serverCommunicbtorAdmin.reqIncoming();
         try {
 
-            final AccessControlContext reqACC;
-            if (delegationSubject == null)
-                reqACC = acc;
+            finbl AccessControlContext reqACC;
+            if (delegbtionSubject == null)
+                reqACC = bcc;
             else {
                 if (subject == null) {
-                    final String msg =
-                        "Subject delegation cannot be enabled unless " +
-                        "an authenticated subject is put in place";
+                    finbl String msg =
+                        "Subject delegbtion cbnnot be enbbled unless " +
+                        "bn buthenticbted subject is put in plbce";
                     throw new SecurityException(msg);
                 }
-                reqACC = subjectDelegator.delegatedContext(
-                    acc, delegationSubject, removeCallerContext);
+                reqACC = subjectDelegbtor.delegbtedContext(
+                    bcc, delegbtionSubject, removeCbllerContext);
             }
 
-            PrivilegedOperation op =
-                new PrivilegedOperation(operation, params);
+            PrivilegedOperbtion op =
+                new PrivilegedOperbtion(operbtion, pbrbms);
             if (reqACC == null) {
                 try {
                     return op.run();
-                } catch (Exception e) {
-                    if (e instanceof RuntimeException)
+                } cbtch (Exception e) {
+                    if (e instbnceof RuntimeException)
                         throw (RuntimeException) e;
                     throw new PrivilegedActionException(e);
                 }
             } else {
                 return AccessController.doPrivileged(op, reqACC);
             }
-        } catch (Error e) {
+        } cbtch (Error e) {
             throw new JMXServerErrorException(e.toString(),e);
-        } finally {
-            serverCommunicatorAdmin.rspOutgoing();
+        } finblly {
+            serverCommunicbtorAdmin.rspOutgoing();
         }
     }
 
-    private Object doOperation(int operation, Object[] params)
+    privbte Object doOperbtion(int operbtion, Object[] pbrbms)
         throws Exception {
 
-        switch (operation) {
+        switch (operbtion) {
 
-        case CREATE_MBEAN:
-            return mbeanServer.createMBean((String)params[0],
-                                           (ObjectName)params[1]);
+        cbse CREATE_MBEAN:
+            return mbebnServer.crebteMBebn((String)pbrbms[0],
+                                           (ObjectNbme)pbrbms[1]);
 
-        case CREATE_MBEAN_LOADER:
-            return mbeanServer.createMBean((String)params[0],
-                                           (ObjectName)params[1],
-                                           (ObjectName)params[2]);
+        cbse CREATE_MBEAN_LOADER:
+            return mbebnServer.crebteMBebn((String)pbrbms[0],
+                                           (ObjectNbme)pbrbms[1],
+                                           (ObjectNbme)pbrbms[2]);
 
-        case CREATE_MBEAN_PARAMS:
-            return mbeanServer.createMBean((String)params[0],
-                                           (ObjectName)params[1],
-                                           (Object[])params[2],
-                                           (String[])params[3]);
+        cbse CREATE_MBEAN_PARAMS:
+            return mbebnServer.crebteMBebn((String)pbrbms[0],
+                                           (ObjectNbme)pbrbms[1],
+                                           (Object[])pbrbms[2],
+                                           (String[])pbrbms[3]);
 
-        case CREATE_MBEAN_LOADER_PARAMS:
-            return mbeanServer.createMBean((String)params[0],
-                                           (ObjectName)params[1],
-                                           (ObjectName)params[2],
-                                           (Object[])params[3],
-                                           (String[])params[4]);
+        cbse CREATE_MBEAN_LOADER_PARAMS:
+            return mbebnServer.crebteMBebn((String)pbrbms[0],
+                                           (ObjectNbme)pbrbms[1],
+                                           (ObjectNbme)pbrbms[2],
+                                           (Object[])pbrbms[3],
+                                           (String[])pbrbms[4]);
 
-        case GET_ATTRIBUTE:
-            return mbeanServer.getAttribute((ObjectName)params[0],
-                                            (String)params[1]);
+        cbse GET_ATTRIBUTE:
+            return mbebnServer.getAttribute((ObjectNbme)pbrbms[0],
+                                            (String)pbrbms[1]);
 
-        case GET_ATTRIBUTES:
-            return mbeanServer.getAttributes((ObjectName)params[0],
-                                             (String[])params[1]);
+        cbse GET_ATTRIBUTES:
+            return mbebnServer.getAttributes((ObjectNbme)pbrbms[0],
+                                             (String[])pbrbms[1]);
 
-        case GET_DEFAULT_DOMAIN:
-            return mbeanServer.getDefaultDomain();
+        cbse GET_DEFAULT_DOMAIN:
+            return mbebnServer.getDefbultDombin();
 
-        case GET_DOMAINS:
-            return mbeanServer.getDomains();
+        cbse GET_DOMAINS:
+            return mbebnServer.getDombins();
 
-        case GET_MBEAN_COUNT:
-            return mbeanServer.getMBeanCount();
+        cbse GET_MBEAN_COUNT:
+            return mbebnServer.getMBebnCount();
 
-        case GET_MBEAN_INFO:
-            return mbeanServer.getMBeanInfo((ObjectName)params[0]);
+        cbse GET_MBEAN_INFO:
+            return mbebnServer.getMBebnInfo((ObjectNbme)pbrbms[0]);
 
-        case GET_OBJECT_INSTANCE:
-            return mbeanServer.getObjectInstance((ObjectName)params[0]);
+        cbse GET_OBJECT_INSTANCE:
+            return mbebnServer.getObjectInstbnce((ObjectNbme)pbrbms[0]);
 
-        case INVOKE:
-            return mbeanServer.invoke((ObjectName)params[0],
-                                      (String)params[1],
-                                      (Object[])params[2],
-                                      (String[])params[3]);
+        cbse INVOKE:
+            return mbebnServer.invoke((ObjectNbme)pbrbms[0],
+                                      (String)pbrbms[1],
+                                      (Object[])pbrbms[2],
+                                      (String[])pbrbms[3]);
 
-        case IS_INSTANCE_OF:
-            return mbeanServer.isInstanceOf((ObjectName)params[0],
-                                            (String)params[1])
-                ? Boolean.TRUE : Boolean.FALSE;
+        cbse IS_INSTANCE_OF:
+            return mbebnServer.isInstbnceOf((ObjectNbme)pbrbms[0],
+                                            (String)pbrbms[1])
+                ? Boolebn.TRUE : Boolebn.FALSE;
 
-        case IS_REGISTERED:
-            return mbeanServer.isRegistered((ObjectName)params[0])
-                ? Boolean.TRUE : Boolean.FALSE;
+        cbse IS_REGISTERED:
+            return mbebnServer.isRegistered((ObjectNbme)pbrbms[0])
+                ? Boolebn.TRUE : Boolebn.FALSE;
 
-        case QUERY_MBEANS:
-            return mbeanServer.queryMBeans((ObjectName)params[0],
-                                           (QueryExp)params[1]);
+        cbse QUERY_MBEANS:
+            return mbebnServer.queryMBebns((ObjectNbme)pbrbms[0],
+                                           (QueryExp)pbrbms[1]);
 
-        case QUERY_NAMES:
-            return mbeanServer.queryNames((ObjectName)params[0],
-                                          (QueryExp)params[1]);
+        cbse QUERY_NAMES:
+            return mbebnServer.queryNbmes((ObjectNbme)pbrbms[0],
+                                          (QueryExp)pbrbms[1]);
 
-        case SET_ATTRIBUTE:
-            mbeanServer.setAttribute((ObjectName)params[0],
-                                     (Attribute)params[1]);
+        cbse SET_ATTRIBUTE:
+            mbebnServer.setAttribute((ObjectNbme)pbrbms[0],
+                                     (Attribute)pbrbms[1]);
             return null;
 
-        case SET_ATTRIBUTES:
-            return mbeanServer.setAttributes((ObjectName)params[0],
-                                             (AttributeList)params[1]);
+        cbse SET_ATTRIBUTES:
+            return mbebnServer.setAttributes((ObjectNbme)pbrbms[0],
+                                             (AttributeList)pbrbms[1]);
 
-        case UNREGISTER_MBEAN:
-            mbeanServer.unregisterMBean((ObjectName)params[0]);
+        cbse UNREGISTER_MBEAN:
+            mbebnServer.unregisterMBebn((ObjectNbme)pbrbms[0]);
             return null;
 
-        case ADD_NOTIFICATION_LISTENERS:
-            return getServerNotifFwd().addNotificationListener(
-                                                (ObjectName)params[0],
-                                                (NotificationFilter)params[1]);
+        cbse ADD_NOTIFICATION_LISTENERS:
+            return getServerNotifFwd().bddNotificbtionListener(
+                                                (ObjectNbme)pbrbms[0],
+                                                (NotificbtionFilter)pbrbms[1]);
 
-        case ADD_NOTIFICATION_LISTENER_OBJECTNAME:
-            mbeanServer.addNotificationListener((ObjectName)params[0],
-                                                (ObjectName)params[1],
-                                                (NotificationFilter)params[2],
-                                                params[3]);
+        cbse ADD_NOTIFICATION_LISTENER_OBJECTNAME:
+            mbebnServer.bddNotificbtionListener((ObjectNbme)pbrbms[0],
+                                                (ObjectNbme)pbrbms[1],
+                                                (NotificbtionFilter)pbrbms[2],
+                                                pbrbms[3]);
             return null;
 
-        case REMOVE_NOTIFICATION_LISTENER:
-            getServerNotifFwd().removeNotificationListener(
-                                                   (ObjectName)params[0],
-                                                   (Integer[])params[1]);
+        cbse REMOVE_NOTIFICATION_LISTENER:
+            getServerNotifFwd().removeNotificbtionListener(
+                                                   (ObjectNbme)pbrbms[0],
+                                                   (Integer[])pbrbms[1]);
             return null;
 
-        case REMOVE_NOTIFICATION_LISTENER_OBJECTNAME:
-            mbeanServer.removeNotificationListener((ObjectName)params[0],
-                                                   (ObjectName)params[1]);
+        cbse REMOVE_NOTIFICATION_LISTENER_OBJECTNAME:
+            mbebnServer.removeNotificbtionListener((ObjectNbme)pbrbms[0],
+                                                   (ObjectNbme)pbrbms[1]);
             return null;
 
-        case REMOVE_NOTIFICATION_LISTENER_OBJECTNAME_FILTER_HANDBACK:
-            mbeanServer.removeNotificationListener(
-                                          (ObjectName)params[0],
-                                          (ObjectName)params[1],
-                                          (NotificationFilter)params[2],
-                                          params[3]);
+        cbse REMOVE_NOTIFICATION_LISTENER_OBJECTNAME_FILTER_HANDBACK:
+            mbebnServer.removeNotificbtionListener(
+                                          (ObjectNbme)pbrbms[0],
+                                          (ObjectNbme)pbrbms[1],
+                                          (NotificbtionFilter)pbrbms[2],
+                                          pbrbms[3]);
             return null;
 
-        default:
-            throw new IllegalArgumentException("Invalid operation");
+        defbult:
+            throw new IllegblArgumentException("Invblid operbtion");
         }
     }
 
-    private static class SetCcl implements PrivilegedExceptionAction<ClassLoader> {
-        private final ClassLoader classLoader;
+    privbte stbtic clbss SetCcl implements PrivilegedExceptionAction<ClbssLobder> {
+        privbte finbl ClbssLobder clbssLobder;
 
-        SetCcl(ClassLoader classLoader) {
-            this.classLoader = classLoader;
+        SetCcl(ClbssLobder clbssLobder) {
+            this.clbssLobder = clbssLobder;
         }
 
-        public ClassLoader run() {
-            Thread currentThread = Thread.currentThread();
-            ClassLoader old = currentThread.getContextClassLoader();
-            currentThread.setContextClassLoader(classLoader);
+        public ClbssLobder run() {
+            Threbd currentThrebd = Threbd.currentThrebd();
+            ClbssLobder old = currentThrebd.getContextClbssLobder();
+            currentThrebd.setContextClbssLobder(clbssLobder);
             return old;
         }
     }
 
-    private static <T> T unwrap(final MarshalledObject<?> mo,
-                                final ClassLoader cl,
-                                final Class<T> wrappedClass)
+    privbte stbtic <T> T unwrbp(finbl MbrshblledObject<?> mo,
+                                finbl ClbssLobder cl,
+                                finbl Clbss<T> wrbppedClbss)
             throws IOException {
         if (mo == null) {
             return null;
         }
         try {
-            final ClassLoader old = AccessController.doPrivileged(new SetCcl(cl));
+            finbl ClbssLobder old = AccessController.doPrivileged(new SetCcl(cl));
             try {
-                return wrappedClass.cast(mo.get());
-            } catch (ClassNotFoundException cnfe) {
-                throw new UnmarshalException(cnfe.toString(), cnfe);
-            } finally {
+                return wrbppedClbss.cbst(mo.get());
+            } cbtch (ClbssNotFoundException cnfe) {
+                throw new UnmbrshblException(cnfe.toString(), cnfe);
+            } finblly {
                 AccessController.doPrivileged(new SetCcl(old));
             }
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof IOException) {
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof IOException) {
                 throw (IOException) e;
             }
-            if (e instanceof ClassNotFoundException) {
-                throw new UnmarshalException(e.toString(), e);
+            if (e instbnceof ClbssNotFoundException) {
+                throw new UnmbrshblException(e.toString(), e);
             }
-            logger.warning("unwrap", "Failed to unmarshall object: " + e);
-            logger.debug("unwrap", e);
+            logger.wbrning("unwrbp", "Fbiled to unmbrshbll object: " + e);
+            logger.debug("unwrbp", e);
         }
         return null;
     }
 
-    private static <T> T unwrap(final MarshalledObject<?> mo,
-                                final ClassLoader cl1,
-                                final ClassLoader cl2,
-                                final Class<T> wrappedClass)
+    privbte stbtic <T> T unwrbp(finbl MbrshblledObject<?> mo,
+                                finbl ClbssLobder cl1,
+                                finbl ClbssLobder cl2,
+                                finbl Clbss<T> wrbppedClbss)
         throws IOException {
         if (mo == null) {
             return null;
         }
         try {
-            ClassLoader orderCL = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<ClassLoader>() {
-                    public ClassLoader run() throws Exception {
-                        return new CombinedClassLoader(Thread.currentThread().getContextClassLoader(),
-                                new OrderClassLoaders(cl1, cl2));
+            ClbssLobder orderCL = AccessController.doPrivileged(
+                new PrivilegedExceptionAction<ClbssLobder>() {
+                    public ClbssLobder run() throws Exception {
+                        return new CombinedClbssLobder(Threbd.currentThrebd().getContextClbssLobder(),
+                                new OrderClbssLobders(cl1, cl2));
                     }
                 }
             );
-            return unwrap(mo, orderCL, wrappedClass);
-        } catch (PrivilegedActionException pe) {
-            Exception e = extractException(pe);
-            if (e instanceof IOException) {
+            return unwrbp(mo, orderCL, wrbppedClbss);
+        } cbtch (PrivilegedActionException pe) {
+            Exception e = extrbctException(pe);
+            if (e instbnceof IOException) {
                 throw (IOException) e;
             }
-            if (e instanceof ClassNotFoundException) {
-                throw new UnmarshalException(e.toString(), e);
+            if (e instbnceof ClbssNotFoundException) {
+                throw new UnmbrshblException(e.toString(), e);
             }
-            logger.warning("unwrap", "Failed to unmarshall object: " + e);
-            logger.debug("unwrap", e);
+            logger.wbrning("unwrbp", "Fbiled to unmbrshbll object: " + e);
+            logger.debug("unwrbp", e);
         }
         return null;
     }
 
     /**
-     * Construct a new IOException with a nested exception.
-     * The nested exception is set only if JDK {@literal >= 1.4}
+     * Construct b new IOException with b nested exception.
+     * The nested exception is set only if JDK {@literbl >= 1.4}
      */
-    private static IOException newIOException(String message,
-                                              Throwable cause) {
-        final IOException x = new IOException(message);
-        return EnvHelp.initCause(x,cause);
+    privbte stbtic IOException newIOException(String messbge,
+                                              Throwbble cbuse) {
+        finbl IOException x = new IOException(messbge);
+        return EnvHelp.initCbuse(x,cbuse);
     }
 
     /**
-     * Iterate until we extract the real exception
-     * from a stack of PrivilegedActionExceptions.
+     * Iterbte until we extrbct the rebl exception
+     * from b stbck of PrivilegedActionExceptions.
      */
-    private static Exception extractException(Exception e) {
-        while (e instanceof PrivilegedActionException) {
+    privbte stbtic Exception extrbctException(Exception e) {
+        while (e instbnceof PrivilegedActionException) {
             e = ((PrivilegedActionException)e).getException();
         }
         return e;
     }
 
-    private static final Object[] NO_OBJECTS = new Object[0];
-    private static final String[] NO_STRINGS = new String[0];
+    privbte stbtic finbl Object[] NO_OBJECTS = new Object[0];
+    privbte stbtic finbl String[] NO_STRINGS = new String[0];
 
     /*
-     * The JMX spec doesn't explicitly say that a null Object[] or
-     * String[] in e.g. MBeanServer.invoke is equivalent to an empty
-     * array, but the RI behaves that way.  In the interests of
-     * maximal interoperability, we make it so even when we're
-     * connected to some other JMX implementation that might not do
-     * that.  This should be clarified in the next version of JMX.
+     * The JMX spec doesn't explicitly sby thbt b null Object[] or
+     * String[] in e.g. MBebnServer.invoke is equivblent to bn empty
+     * brrby, but the RI behbves thbt wby.  In the interests of
+     * mbximbl interoperbbility, we mbke it so even when we're
+     * connected to some other JMX implementbtion thbt might not do
+     * thbt.  This should be clbrified in the next version of JMX.
      */
-    private static Object[] nullIsEmpty(Object[] array) {
-        return (array == null) ? NO_OBJECTS : array;
+    privbte stbtic Object[] nullIsEmpty(Object[] brrby) {
+        return (brrby == null) ? NO_OBJECTS : brrby;
     }
 
-    private static String[] nullIsEmpty(String[] array) {
-        return (array == null) ? NO_STRINGS : array;
+    privbte stbtic String[] nullIsEmpty(String[] brrby) {
+        return (brrby == null) ? NO_STRINGS : brrby;
     }
 
     /*
-     * Similarly, the JMX spec says for some but not all methods in
-     * MBeanServer that take an ObjectName target, that if it's null
-     * you get this exception.  We specify it for all of them, and
-     * make it so for the ones where it's not specified in JMX even if
-     * the JMX implementation doesn't do so.
+     * Similbrly, the JMX spec sbys for some but not bll methods in
+     * MBebnServer thbt tbke bn ObjectNbme tbrget, thbt if it's null
+     * you get this exception.  We specify it for bll of them, bnd
+     * mbke it so for the ones where it's not specified in JMX even if
+     * the JMX implementbtion doesn't do so.
      */
-    private static void checkNonNull(String what, Object x) {
+    privbte stbtic void checkNonNull(String whbt, Object x) {
         if (x == null) {
-            RuntimeException wrapped =
-                new IllegalArgumentException(what + " must not be null");
-            throw new RuntimeOperationsException(wrapped);
+            RuntimeException wrbpped =
+                new IllegblArgumentException(whbt + " must not be null");
+            throw new RuntimeOperbtionsException(wrbpped);
         }
     }
 
     //------------------------------------------------------------------------
-    // private variables
+    // privbte vbribbles
     //------------------------------------------------------------------------
 
-    private final Subject subject;
+    privbte finbl Subject subject;
 
-    private final SubjectDelegator subjectDelegator;
+    privbte finbl SubjectDelegbtor subjectDelegbtor;
 
-    private final boolean removeCallerContext;
+    privbte finbl boolebn removeCbllerContext;
 
-    private final AccessControlContext acc;
+    privbte finbl AccessControlContext bcc;
 
-    private final RMIServerImpl rmiServer;
+    privbte finbl RMIServerImpl rmiServer;
 
-    private final MBeanServer mbeanServer;
+    privbte finbl MBebnServer mbebnServer;
 
-    private final ClassLoader defaultClassLoader;
+    privbte finbl ClbssLobder defbultClbssLobder;
 
-    private final ClassLoader defaultContextClassLoader;
+    privbte finbl ClbssLobder defbultContextClbssLobder;
 
-    private final ClassLoaderWithRepository classLoaderWithRepository;
+    privbte finbl ClbssLobderWithRepository clbssLobderWithRepository;
 
-    private boolean terminated = false;
+    privbte boolebn terminbted = fblse;
 
-    private final String connectionId;
+    privbte finbl String connectionId;
 
-    private final ServerCommunicatorAdmin serverCommunicatorAdmin;
+    privbte finbl ServerCommunicbtorAdmin serverCommunicbtorAdmin;
 
-    // Method IDs for doOperation
+    // Method IDs for doOperbtion
     //---------------------------
 
-    private final static int
+    privbte finbl stbtic int
         ADD_NOTIFICATION_LISTENERS                              = 1;
-    private final static int
+    privbte finbl stbtic int
         ADD_NOTIFICATION_LISTENER_OBJECTNAME                    = 2;
-    private final static int
+    privbte finbl stbtic int
         CREATE_MBEAN                                            = 3;
-    private final static int
+    privbte finbl stbtic int
         CREATE_MBEAN_PARAMS                                     = 4;
-    private final static int
+    privbte finbl stbtic int
         CREATE_MBEAN_LOADER                                     = 5;
-    private final static int
+    privbte finbl stbtic int
         CREATE_MBEAN_LOADER_PARAMS                              = 6;
-    private final static int
+    privbte finbl stbtic int
         GET_ATTRIBUTE                                           = 7;
-    private final static int
+    privbte finbl stbtic int
         GET_ATTRIBUTES                                          = 8;
-    private final static int
+    privbte finbl stbtic int
         GET_DEFAULT_DOMAIN                                      = 9;
-    private final static int
+    privbte finbl stbtic int
         GET_DOMAINS                                             = 10;
-    private final static int
+    privbte finbl stbtic int
         GET_MBEAN_COUNT                                         = 11;
-    private final static int
+    privbte finbl stbtic int
         GET_MBEAN_INFO                                          = 12;
-    private final static int
+    privbte finbl stbtic int
         GET_OBJECT_INSTANCE                                     = 13;
-    private final static int
+    privbte finbl stbtic int
         INVOKE                                                  = 14;
-    private final static int
+    privbte finbl stbtic int
         IS_INSTANCE_OF                                          = 15;
-    private final static int
+    privbte finbl stbtic int
         IS_REGISTERED                                           = 16;
-    private final static int
+    privbte finbl stbtic int
         QUERY_MBEANS                                            = 17;
-    private final static int
+    privbte finbl stbtic int
         QUERY_NAMES                                             = 18;
-    private final static int
+    privbte finbl stbtic int
         REMOVE_NOTIFICATION_LISTENER                            = 19;
-    private final static int
+    privbte finbl stbtic int
         REMOVE_NOTIFICATION_LISTENER_OBJECTNAME                 = 20;
-    private final static int
+    privbte finbl stbtic int
         REMOVE_NOTIFICATION_LISTENER_OBJECTNAME_FILTER_HANDBACK = 21;
-    private final static int
+    privbte finbl stbtic int
         SET_ATTRIBUTE                                           = 22;
-    private final static int
+    privbte finbl stbtic int
         SET_ATTRIBUTES                                          = 23;
-    private final static int
+    privbte finbl stbtic int
         UNREGISTER_MBEAN                                        = 24;
 
     // SERVER NOTIFICATION
     //--------------------
 
-    private ServerNotifForwarder serverNotifForwarder;
-    private Map<String, ?> env;
+    privbte ServerNotifForwbrder serverNotifForwbrder;
+    privbte Mbp<String, ?> env;
 
     // TRACES & DEBUG
     //---------------
 
-    private static String objects(final Object[] objs) {
+    privbte stbtic String objects(finbl Object[] objs) {
         if (objs == null)
             return "null";
         else
-            return Arrays.asList(objs).toString();
+            return Arrbys.bsList(objs).toString();
     }
 
-    private static String strings(final String[] strs) {
+    privbte stbtic String strings(finbl String[] strs) {
         return objects(strs);
     }
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.rmi", "RMIConnectionImpl");
+    privbte stbtic finbl ClbssLogger logger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.rmi", "RMIConnectionImpl");
 
-    private static final class CombinedClassLoader extends ClassLoader {
+    privbte stbtic finbl clbss CombinedClbssLobder extends ClbssLobder {
 
-        private final static class ClassLoaderWrapper extends ClassLoader {
-            ClassLoaderWrapper(ClassLoader cl) {
+        privbte finbl stbtic clbss ClbssLobderWrbpper extends ClbssLobder {
+            ClbssLobderWrbpper(ClbssLobder cl) {
                 super(cl);
             }
 
             @Override
-            protected Class<?> loadClass(String name, boolean resolve)
-                    throws ClassNotFoundException {
-                return super.loadClass(name, resolve);
+            protected Clbss<?> lobdClbss(String nbme, boolebn resolve)
+                    throws ClbssNotFoundException {
+                return super.lobdClbss(nbme, resolve);
             }
         };
 
-        final ClassLoaderWrapper defaultCL;
+        finbl ClbssLobderWrbpper defbultCL;
 
-        private CombinedClassLoader(ClassLoader parent, ClassLoader defaultCL) {
-            super(parent);
-            this.defaultCL = new ClassLoaderWrapper(defaultCL);
+        privbte CombinedClbssLobder(ClbssLobder pbrent, ClbssLobder defbultCL) {
+            super(pbrent);
+            this.defbultCL = new ClbssLobderWrbpper(defbultCL);
         }
 
         @Override
-        protected Class<?> loadClass(String name, boolean resolve)
-        throws ClassNotFoundException {
-            ReflectUtil.checkPackageAccess(name);
+        protected Clbss<?> lobdClbss(String nbme, boolebn resolve)
+        throws ClbssNotFoundException {
+            ReflectUtil.checkPbckbgeAccess(nbme);
             try {
-                super.loadClass(name, resolve);
-            } catch(Exception e) {
-                for(Throwable t = e; t != null; t = t.getCause()) {
-                    if(t instanceof SecurityException) {
-                        throw t==e?(SecurityException)t:new SecurityException(t.getMessage(), e);
+                super.lobdClbss(nbme, resolve);
+            } cbtch(Exception e) {
+                for(Throwbble t = e; t != null; t = t.getCbuse()) {
+                    if(t instbnceof SecurityException) {
+                        throw t==e?(SecurityException)t:new SecurityException(t.getMessbge(), e);
                     }
                 }
             }
-            final Class<?> cl = defaultCL.loadClass(name, resolve);
+            finbl Clbss<?> cl = defbultCL.lobdClbss(nbme, resolve);
             return cl;
         }
 

@@ -1,173 +1,173 @@
 '\" t
-.\"  Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
 .\"     SectDesc: Security Tools
-.\"     Title: jarsigner.1
+.\"     Title: jbrsigner.1
 .\"
 .if n .pl 99999
-.TH jarsigner 1 "21 November 2013" "JDK 8" "Security Tools"
+.TH jbrsigner 1 "21 November 2013" "JDK 8" "Security Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jarsigner \- Signs and verifies Java Archive (JAR) files\&.
+jbrsigner \- Signs bnd verifies Jbvb Archive (JAR) files\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjarsigner\fR [ \fIoptions\fR ] \fIjar\-file\fR \fIalias\fR
+\fBjbrsigner\fR [ \fIoptions\fR ] \fIjbr\-file\fR \fIblibs\fR
 .fi     
 .nf     
 
-\fBjarsigner\fR \fB\-verify\fR [ \fIoptions\fR ] \fIjar\-file\fR [\fIalias \&.\&.\&.\fR]
+\fBjbrsigner\fR \fB\-verify\fR [ \fIoptions\fR ] \fIjbr\-file\fR [\fIblibs \&.\&.\&.\fR]
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+The commbnd-line options\&. See Options\&.
 .TP
 -verify
 .br
-The \f3-verify\fR option can take zero or more keystore alias names after the JAR file name\&. When the \f3-verify\fR option is specified, the \f3jarsigner\fR command checks that the certificate used to verify each signed entry in the JAR file matches one of the keystore aliases\&. The aliases are defined in the keystore specified by \f3-keystore\fR or the default keystore\&.
+The \f3-verify\fR option cbn tbke zero or more keystore blibs nbmes bfter the JAR file nbme\&. When the \f3-verify\fR option is specified, the \f3jbrsigner\fR commbnd checks thbt the certificbte used to verify ebch signed entry in the JAR file mbtches one of the keystore blibses\&. The blibses bre defined in the keystore specified by \f3-keystore\fR or the defbult keystore\&.
 
-If you also specified the \f3-strict\fR option, and the \f3jarsigner\fR command detected severe warnings, the message, "jar verified, with signer errors" is displayed\&.
+If you blso specified the \f3-strict\fR option, bnd the \f3jbrsigner\fR commbnd detected severe wbrnings, the messbge, "jbr verified, with signer errors" is displbyed\&.
 .TP     
-\fIjar-file\fR
+\fIjbr-file\fR
 The JAR file to be signed\&.
 
-If you also specified the \f3-strict\fR option, and the \f3jarsigner\fR command detected severe warnings, the message, "jar signed, with signer errors" is displayed\&.
+If you blso specified the \f3-strict\fR option, bnd the \f3jbrsigner\fR commbnd detected severe wbrnings, the messbge, "jbr signed, with signer errors" is displbyed\&.
 .TP     
-\fIalias\fR
-The aliases are defined in the keystore specified by \f3-keystore\fR or the default keystore\&.
+\fIblibs\fR
+The blibses bre defined in the keystore specified by \f3-keystore\fR or the defbult keystore\&.
 .SH DESCRIPTION    
-The \f3jarsigner\fR tool has two purposes:
+The \f3jbrsigner\fR tool hbs two purposes:
 .TP 0.2i    
 \(bu
-To sign Java Archive (JAR) files\&.
+To sign Jbvb Archive (JAR) files\&.
 .TP 0.2i    
 \(bu
-To verify the signatures and integrity of signed JAR files\&.
+To verify the signbtures bnd integrity of signed JAR files\&.
 .PP
-The JAR feature enables the packaging of class files, images, sounds, and other digital data in a single file for faster and easier distribution\&. A tool named \f3jar\fR enables developers to produce JAR files\&. (Technically, any zip file can also be considered a JAR file, although when created by the \f3jar\fR command or processed by the \f3jarsigner\fR command, JAR files also contain a \f3META-INF/MANIFEST\&.MF\fR file\&.)
+The JAR febture enbbles the pbckbging of clbss files, imbges, sounds, bnd other digitbl dbtb in b single file for fbster bnd ebsier distribution\&. A tool nbmed \f3jbr\fR enbbles developers to produce JAR files\&. (Technicblly, bny zip file cbn blso be considered b JAR file, blthough when crebted by the \f3jbr\fR commbnd or processed by the \f3jbrsigner\fR commbnd, JAR files blso contbin b \f3META-INF/MANIFEST\&.MF\fR file\&.)
 .PP
-A digital signature is a string of bits that is computed from some data (the data being signed) and the private key of an entity (a person, company, and so on)\&. Similar to a handwritten signature, a digital signature has many useful characteristics:
+A digitbl signbture is b string of bits thbt is computed from some dbtb (the dbtb being signed) bnd the privbte key of bn entity (b person, compbny, bnd so on)\&. Similbr to b hbndwritten signbture, b digitbl signbture hbs mbny useful chbrbcteristics:
 .TP 0.2i    
 \(bu
-Its authenticity can be verified by a computation that uses the public key corresponding to the private key used to generate the signature\&.
+Its buthenticity cbn be verified by b computbtion thbt uses the public key corresponding to the privbte key used to generbte the signbture\&.
 .TP 0.2i    
 \(bu
-It cannot be forged, assuming the private key is kept secret\&.
+It cbnnot be forged, bssuming the privbte key is kept secret\&.
 .TP 0.2i    
 \(bu
-It is a function of the data signed and thus cannot be claimed to be the signature for other data as well\&.
+It is b function of the dbtb signed bnd thus cbnnot be clbimed to be the signbture for other dbtb bs well\&.
 .TP 0.2i    
 \(bu
-The signed data cannot be changed\&. If the data is changed, then the signature cannot be verified as authentic\&.
+The signed dbtb cbnnot be chbnged\&. If the dbtb is chbnged, then the signbture cbnnot be verified bs buthentic\&.
 .PP
-To generate an entity\&'s signature for a file, the entity must first have a public/private key pair associated with it and one or more certificates that authenticate its public key\&. A certificate is a digitally signed statement from one entity that says that the public key of another entity has a particular value\&.
+To generbte bn entity\&'s signbture for b file, the entity must first hbve b public/privbte key pbir bssocibted with it bnd one or more certificbtes thbt buthenticbte its public key\&. A certificbte is b digitblly signed stbtement from one entity thbt sbys thbt the public key of bnother entity hbs b pbrticulbr vblue\&.
 .PP
-The \f3jarsigner\fR command uses key and certificate information from a keystore to generate digital signatures for JAR files\&. A keystore is a database of private keys and their associated X\&.509 certificate chains that authenticate the corresponding public keys\&. The \f3keytool\fR command is used to create and administer keystores\&.
+The \f3jbrsigner\fR commbnd uses key bnd certificbte informbtion from b keystore to generbte digitbl signbtures for JAR files\&. A keystore is b dbtbbbse of privbte keys bnd their bssocibted X\&.509 certificbte chbins thbt buthenticbte the corresponding public keys\&. The \f3keytool\fR commbnd is used to crebte bnd bdminister keystores\&.
 .PP
-The \f3jarsigner\fR command uses an entity\&'s private key to generate a signature\&. The signed JAR file contains, among other things, a copy of the certificate from the keystore for the public key corresponding to the private key used to sign the file\&. The \f3jarsigner\fR command can verify the digital signature of the signed JAR file using the certificate inside it (in its signature block file)\&.
+The \f3jbrsigner\fR commbnd uses bn entity\&'s privbte key to generbte b signbture\&. The signed JAR file contbins, bmong other things, b copy of the certificbte from the keystore for the public key corresponding to the privbte key used to sign the file\&. The \f3jbrsigner\fR commbnd cbn verify the digitbl signbture of the signed JAR file using the certificbte inside it (in its signbture block file)\&.
 .PP
-The \f3jarsigner\fR command can generate signatures that include a time stamp that lets a systems or deployer (including Java Plug-in) to check whether the JAR file was signed while the signing certificate was still valid\&. In addition, APIs allow applications to obtain the timestamp information\&.
+The \f3jbrsigner\fR commbnd cbn generbte signbtures thbt include b time stbmp thbt lets b systems or deployer (including Jbvb Plug-in) to check whether the JAR file wbs signed while the signing certificbte wbs still vblid\&. In bddition, APIs bllow bpplicbtions to obtbin the timestbmp informbtion\&.
 .PP
-At this time, the \f3jarsigner\fR command can only sign JAR files created by the \f3jar\fR command or zip files\&. JAR files are the same as zip files, except they also have a \f3META-INF/MANIFEST\&.MF\fR file\&. A \f3META-INF/MANIFEST\&.MF\fR file is created when the \f3jarsigner\fR command signs a zip file\&.
+At this time, the \f3jbrsigner\fR commbnd cbn only sign JAR files crebted by the \f3jbr\fR commbnd or zip files\&. JAR files bre the sbme bs zip files, except they blso hbve b \f3META-INF/MANIFEST\&.MF\fR file\&. A \f3META-INF/MANIFEST\&.MF\fR file is crebted when the \f3jbrsigner\fR commbnd signs b zip file\&.
 .PP
-The default \f3jarsigner\fR command behavior is to sign a JAR or zip file\&. Use the \f3-verify\fR option to verify a signed JAR file\&.
+The defbult \f3jbrsigner\fR commbnd behbvior is to sign b JAR or zip file\&. Use the \f3-verify\fR option to verify b signed JAR file\&.
 .PP
-The \f3jarsigner\fR command also attempts to validate the signer\&'s certificate after signing or verifying\&. If there is a validation error or any other problem, the command generates warning messages\&. If you specify the \f3-strict\fR option, then the command treats severe warnings as errors\&. See Errors and Warnings\&.
+The \f3jbrsigner\fR commbnd blso bttempts to vblidbte the signer\&'s certificbte bfter signing or verifying\&. If there is b vblidbtion error or bny other problem, the commbnd generbtes wbrning messbges\&. If you specify the \f3-strict\fR option, then the commbnd trebts severe wbrnings bs errors\&. See Errors bnd Wbrnings\&.
 .SS KEYSTORE\ ALIASES    
-All keystore entities are accessed with unique aliases\&.
+All keystore entities bre bccessed with unique blibses\&.
 .PP
-When you use the \f3jarsigner\fR command to sign a JAR file, you must specify the alias for the keystore entry that contains the private key needed to generate the signature\&. For example, the following command signs the JAR file named \f3MyJARFile\&.jar\fR with the private key associated with the alias \f3duke\fR in the keystore named \f3mystore\fR in the \f3working\fR directory\&. Because no output file is specified, it overwrites \f3MyJARFile\&.jar\fR with the signed JAR file\&.
+When you use the \f3jbrsigner\fR commbnd to sign b JAR file, you must specify the blibs for the keystore entry thbt contbins the privbte key needed to generbte the signbture\&. For exbmple, the following commbnd signs the JAR file nbmed \f3MyJARFile\&.jbr\fR with the privbte key bssocibted with the blibs \f3duke\fR in the keystore nbmed \f3mystore\fR in the \f3working\fR directory\&. Becbuse no output file is specified, it overwrites \f3MyJARFile\&.jbr\fR with the signed JAR file\&.
 .sp     
 .nf     
-\f3jarsigner \-keystore /working/mystore \-storepass <keystore password>\fP
+\f3jbrsigner \-keystore /working/mystore \-storepbss <keystore pbssword>\fP
 .fi     
 .nf     
-\f3      \-keypass <private key password> MyJARFile\&.jar duke\fP
+\f3      \-keypbss <privbte key pbssword> MyJARFile\&.jbr duke\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-Keystores are protected with a password, so the store password must be specified\&. You are prompted for it when you do not specify it on the command line\&. Similarly, private keys are protected in a keystore with a password, so the private key\&'s password must be specified, and you are prompted for the password when you do not specify it on the command line and it is not the same as the store password\&.
+Keystores bre protected with b pbssword, so the store pbssword must be specified\&. You bre prompted for it when you do not specify it on the commbnd line\&. Similbrly, privbte keys bre protected in b keystore with b pbssword, so the privbte key\&'s pbssword must be specified, bnd you bre prompted for the pbssword when you do not specify it on the commbnd line bnd it is not the sbme bs the store pbssword\&.
 .SS KEYSTORE\ LOCATION    
-The \f3jarsigner\fR command has a \f3-keystore\fR option for specifying the URL of the keystore to be used\&. The keystore is by default stored in a file named \f3\&.keystore\fR in the user\&'s home directory, as determined by the \f3user\&.home\fR system property\&.
+The \f3jbrsigner\fR commbnd hbs b \f3-keystore\fR option for specifying the URL of the keystore to be used\&. The keystore is by defbult stored in b file nbmed \f3\&.keystore\fR in the user\&'s home directory, bs determined by the \f3user\&.home\fR system property\&.
 .PP
-On Oracle Solaris systems, \f3user\&.home\fR defaults to the user\&'s home directory\&.
+On Orbcle Solbris systems, \f3user\&.home\fR defbults to the user\&'s home directory\&.
 .PP
-The input stream from the \f3-keystore\fR option is passed to the \f3KeyStore\&.load\fR method\&. If \f3NONE\fR is specified as the URL, then a null stream is passed to the \f3KeyStore\&.load\fR method\&. \f3NONE\fR should be specified when the \f3KeyStore\fR class is not file based, for example, when it resides on a hardware token device\&.
+The input strebm from the \f3-keystore\fR option is pbssed to the \f3KeyStore\&.lobd\fR method\&. If \f3NONE\fR is specified bs the URL, then b null strebm is pbssed to the \f3KeyStore\&.lobd\fR method\&. \f3NONE\fR should be specified when the \f3KeyStore\fR clbss is not file bbsed, for exbmple, when it resides on b hbrdwbre token device\&.
 .SS KEYSTORE\ IMPLEMENTATION    
-The \f3KeyStore\fR class provided in the \f3java\&.security\fR package supplies a number of well-defined interfaces to access and modify the information in a keystore\&. You can have multiple different concrete implementations, where each implementation is for a particular type of keystore\&.
+The \f3KeyStore\fR clbss provided in the \f3jbvb\&.security\fR pbckbge supplies b number of well-defined interfbces to bccess bnd modify the informbtion in b keystore\&. You cbn hbve multiple different concrete implementbtions, where ebch implementbtion is for b pbrticulbr type of keystore\&.
 .PP
-Currently, there are two command-line tools that use keystore implementations (\f3keytool\fR and \f3jarsigner\fR), and a GUI-based tool named Policy Tool\&. Because the \f3KeyStore\fR class is publicly available, JDK users can write additional security applications that use it\&.
+Currently, there bre two commbnd-line tools thbt use keystore implementbtions (\f3keytool\fR bnd \f3jbrsigner\fR), bnd b GUI-bbsed tool nbmed Policy Tool\&. Becbuse the \f3KeyStore\fR clbss is publicly bvbilbble, JDK users cbn write bdditionbl security bpplicbtions thbt use it\&.
 .PP
-There is a built-in default implementation provided by Oracle that implements the keystore as a file, that uses a proprietary keystore type (format) named JKS\&. The built-in implementation protects each private key with its individual password and protects the integrity of the entire keystore with a (possibly different) password\&.
+There is b built-in defbult implementbtion provided by Orbcle thbt implements the keystore bs b file, thbt uses b proprietbry keystore type (formbt) nbmed JKS\&. The built-in implementbtion protects ebch privbte key with its individubl pbssword bnd protects the integrity of the entire keystore with b (possibly different) pbssword\&.
 .PP
-Keystore implementations are provider-based, which means the application interfaces supplied by the \f3KeyStore\fR class are implemented in terms of a Service Provider Interface (SPI)\&. There is a corresponding abstract \f3KeystoreSpi\fR class, also in the \f3java\&.security package\fR, that defines the Service Provider Interface methods that providers must implement\&. The term provider refers to a package or a set of packages that supply a concrete implementation of a subset of services that can be accessed by the Java Security API\&. To provide a keystore implementation, clients must implement a provider and supply a \f3KeystoreSpi\fR subclass implementation, as described in How to Implement a Provider in the Java Cryptography Architecture at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/HowToImplAProvider\&.html
+Keystore implementbtions bre provider-bbsed, which mebns the bpplicbtion interfbces supplied by the \f3KeyStore\fR clbss bre implemented in terms of b Service Provider Interfbce (SPI)\&. There is b corresponding bbstrbct \f3KeystoreSpi\fR clbss, blso in the \f3jbvb\&.security pbckbge\fR, thbt defines the Service Provider Interfbce methods thbt providers must implement\&. The term provider refers to b pbckbge or b set of pbckbges thbt supply b concrete implementbtion of b subset of services thbt cbn be bccessed by the Jbvb Security API\&. To provide b keystore implementbtion, clients must implement b provider bnd supply b \f3KeystoreSpi\fR subclbss implementbtion, bs described in How to Implement b Provider in the Jbvb Cryptogrbphy Architecture bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/crypto/HowToImplAProvider\&.html
 .PP
-Applications can choose different types of keystore implementations from different providers, with the \f3getInstance\fR factory method in the \f3KeyStore\fR class\&. A keystore type defines the storage and data format of the keystore information and the algorithms used to protect private keys in the keystore and the integrity of the keystore itself\&. Keystore implementations of different types are not compatible\&.
+Applicbtions cbn choose different types of keystore implementbtions from different providers, with the \f3getInstbnce\fR fbctory method in the \f3KeyStore\fR clbss\&. A keystore type defines the storbge bnd dbtb formbt of the keystore informbtion bnd the blgorithms used to protect privbte keys in the keystore bnd the integrity of the keystore itself\&. Keystore implementbtions of different types bre not compbtible\&.
 .PP
-The \f3jarsigner\fR and \f3policytool\fR commands can read file-based keystores from any location that can be specified using a URL\&. In addition, these commands can read non-file-based keystores such as those provided by MSCAPI on Windows and PKCS11 on all platforms\&.
+The \f3jbrsigner\fR bnd \f3policytool\fR commbnds cbn rebd file-bbsed keystores from bny locbtion thbt cbn be specified using b URL\&. In bddition, these commbnds cbn rebd non-file-bbsed keystores such bs those provided by MSCAPI on Windows bnd PKCS11 on bll plbtforms\&.
 .PP
-For the \f3jarsigner\fR and \f3keytool\fR commands, you can specify a keystore type at the command line with the \f3-storetype\fR option\&. For Policy Tool, you can specify a keystore type with the \fIEdit\fR command in the \fIKeyStore\fR menu\&.
+For the \f3jbrsigner\fR bnd \f3keytool\fR commbnds, you cbn specify b keystore type bt the commbnd line with the \f3-storetype\fR option\&. For Policy Tool, you cbn specify b keystore type with the \fIEdit\fR commbnd in the \fIKeyStore\fR menu\&.
 .PP
-If you do not explicitly specify a keystore type, then the tools choose a keystore implementation based on the value of the \f3keystore\&.type\fR property specified in the security properties file\&. The security properties file is called \f3java\&.security\fR, and it resides in the JDK security properties directory, \f3java\&.home/lib/security\fR, where \f3java\&.home\fR is the runtime environment\&'s directory\&. The \f3jre\fR directory in the JDK or the top-level directory of the Java Runtime Environment (JRE)\&.
+If you do not explicitly specify b keystore type, then the tools choose b keystore implementbtion bbsed on the vblue of the \f3keystore\&.type\fR property specified in the security properties file\&. The security properties file is cblled \f3jbvb\&.security\fR, bnd it resides in the JDK security properties directory, \f3jbvb\&.home/lib/security\fR, where \f3jbvb\&.home\fR is the runtime environment\&'s directory\&. The \f3jre\fR directory in the JDK or the top-level directory of the Jbvb Runtime Environment (JRE)\&.
 .PP
-Each tool gets the \f3keystore\&.type\fR value and then examines all the installed providers until it finds one that implements keystores of that type\&. It then uses the keystore implementation from that provider\&.
+Ebch tool gets the \f3keystore\&.type\fR vblue bnd then exbmines bll the instblled providers until it finds one thbt implements keystores of thbt type\&. It then uses the keystore implementbtion from thbt provider\&.
 .PP
-The \f3KeyStore\fR class defines a static method named \f3getDefaultType\fR that lets applications and applets retrieve the value of the \f3keystore\&.type\fR property\&. The following line of code creates an instance of the default keystore type as specified in the \f3keystore\&.type property\fR:
+The \f3KeyStore\fR clbss defines b stbtic method nbmed \f3getDefbultType\fR thbt lets bpplicbtions bnd bpplets retrieve the vblue of the \f3keystore\&.type\fR property\&. The following line of code crebtes bn instbnce of the defbult keystore type bs specified in the \f3keystore\&.type property\fR:
 .sp     
 .nf     
-\f3KeyStore keyStore = KeyStore\&.getInstance(KeyStore\&.getDefaultType());\fP
+\f3KeyStore keyStore = KeyStore\&.getInstbnce(KeyStore\&.getDefbultType());\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-The default keystore type is \f3jks\fR (the proprietary type of the keystore implementation provided by Oracle)\&. This is specified by the following line in the security properties file:
+The defbult keystore type is \f3jks\fR (the proprietbry type of the keystore implementbtion provided by Orbcle)\&. This is specified by the following line in the security properties file:
 .sp     
 .nf     
 \f3keystore\&.type=jks\fP
@@ -176,9 +176,9 @@ The default keystore type is \f3jks\fR (the proprietary type of the keystore imp
 \f3\fR
 .fi     
 .sp     
-Case does not matter in keystore type designations\&. For example, \f3JKS\fR is the same as \f3jks\fR\&.
+Cbse does not mbtter in keystore type designbtions\&. For exbmple, \f3JKS\fR is the sbme bs \f3jks\fR\&.
 .PP
-To have the tools use a keystore implementation other than the default, change that line to specify a different keystore type\&. For example, if you have a provider package that supplies a keystore implementation for a keystore type called \f3pkcs12\fR, then change the line to the following:
+To hbve the tools use b keystore implementbtion other thbn the defbult, chbnge thbt line to specify b different keystore type\&. For exbmple, if you hbve b provider pbckbge thbt supplies b keystore implementbtion for b keystore type cblled \f3pkcs12\fR, then chbnge the line to the following:
 .sp     
 .nf     
 \f3keystore\&.type=pkcs12\fP
@@ -187,114 +187,114 @@ To have the tools use a keystore implementation other than the default, change t
 \f3\fR
 .fi     
 .sp     
-\fINote:\fR If you use the PKCS 11 provider package, then see "KeyTool" and "JarSigner" in Java PKCS #11 Reference Guide at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/p11guide\&.html
+\fINote:\fR If you use the PKCS 11 provider pbckbge, then see "KeyTool" bnd "JbrSigner" in Jbvb PKCS #11 Reference Guide bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/p11guide\&.html
 .SS SUPPORTED\ ALGORITHMS    
-By default, the \f3jarsigner\fR command signs a JAR file using one of the following algorithms:
+By defbult, the \f3jbrsigner\fR commbnd signs b JAR file using one of the following blgorithms:
 .TP 0.2i    
 \(bu
-Digital Signature Algorithm (DSA) with the SHA1 digest algorithm
+Digitbl Signbture Algorithm (DSA) with the SHA1 digest blgorithm
 .TP 0.2i    
 \(bu
-RSA algorithm with the SHA256 digest algorithm
+RSA blgorithm with the SHA256 digest blgorithm
 .TP 0.2i    
 \(bu
-Elliptic Curve (EC) cryptography algorithm with the SHA256 with Elliptic Curve Digital Signature Algorithm (ECDSA)\&.
+Elliptic Curve (EC) cryptogrbphy blgorithm with the SHA256 with Elliptic Curve Digitbl Signbture Algorithm (ECDSA)\&.
 .PP
-If the signer\&'s public and private keys are DSA keys, then \f3jarsigner\fR signs the JAR file with the \f3SHA1withDSA\fR algorithm\&. If the signer\&'s keys are RSA keys, then \f3jarsigner\fR attempts to sign the JAR file with the \f3SHA256withRSA\fR algorithm\&. If the signer\&'s keys are EC keys, then \f3jarsigner\fR signs the JAR file with the \f3SHA256withECDSA\fR algorithm\&.
+If the signer\&'s public bnd privbte keys bre DSA keys, then \f3jbrsigner\fR signs the JAR file with the \f3SHA1withDSA\fR blgorithm\&. If the signer\&'s keys bre RSA keys, then \f3jbrsigner\fR bttempts to sign the JAR file with the \f3SHA256withRSA\fR blgorithm\&. If the signer\&'s keys bre EC keys, then \f3jbrsigner\fR signs the JAR file with the \f3SHA256withECDSA\fR blgorithm\&.
 .PP
-These default signature algorithms can be overridden using the \f3-sigalg\fR option\&.
+These defbult signbture blgorithms cbn be overridden using the \f3-sigblg\fR option\&.
 .SS THE\ SIGNED\ JAR\ FILE    
-When the \f3jarsigner\fR command is used to sign a JAR file, the output signed JAR file is exactly the same as the input JAR file, except that it has two additional files placed in the META-INF directory:
+When the \f3jbrsigner\fR commbnd is used to sign b JAR file, the output signed JAR file is exbctly the sbme bs the input JAR file, except thbt it hbs two bdditionbl files plbced in the META-INF directory:
 .TP 0.2i    
 \(bu
-A signature file with an \f3\&.SF\fR extension
+A signbture file with bn \f3\&.SF\fR extension
 .TP 0.2i    
 \(bu
-A signature block file with a \f3\&.DSA\fR, \f3\&.RSA\fR, or \f3\&.EC\fR extension
+A signbture block file with b \f3\&.DSA\fR, \f3\&.RSA\fR, or \f3\&.EC\fR extension
 .PP
-The base file names for these two files come from the value of the \f3-sigFile\fR option\&. For example, when the option is \f3-sigFile MKSIGN\fR, the files are named \f3MKSIGN\&.SF\fR and \f3MKSIGN\&.DSA\fR
+The bbse file nbmes for these two files come from the vblue of the \f3-sigFile\fR option\&. For exbmple, when the option is \f3-sigFile MKSIGN\fR, the files bre nbmed \f3MKSIGN\&.SF\fR bnd \f3MKSIGN\&.DSA\fR
 .PP
-If no \f3-sigfile\fR option appears on the command line, then the base file name for the \f3\&.SF\fR and \f3\&.DSA\fR files is the first 8 characters of the alias name specified on the command line, all converted to uppercase\&. If the alias name has fewer than 8 characters, then the full alias name is used\&. If the alias name contains any characters that are not allowed in a signature file name, then each such character is converted to an underscore (_) character in forming the file name\&. Valid characters include letters, digits, underscores, and hyphens\&.
+If no \f3-sigfile\fR option bppebrs on the commbnd line, then the bbse file nbme for the \f3\&.SF\fR bnd \f3\&.DSA\fR files is the first 8 chbrbcters of the blibs nbme specified on the commbnd line, bll converted to uppercbse\&. If the blibs nbme hbs fewer thbn 8 chbrbcters, then the full blibs nbme is used\&. If the blibs nbme contbins bny chbrbcters thbt bre not bllowed in b signbture file nbme, then ebch such chbrbcter is converted to bn underscore (_) chbrbcter in forming the file nbme\&. Vblid chbrbcters include letters, digits, underscores, bnd hyphens\&.
 .PP
-Signature File
+Signbture File
 
-A signature file (\f3\&.SF\fR file) looks similar to the manifest file that is always included in a JAR file when the \f3jarsigner\fR command is used to sign the file\&. For each source file included in the JAR file, the \f3\&.SF\fR file has three lines, such as in the manifest file, that list the following:
+A signbture file (\f3\&.SF\fR file) looks similbr to the mbnifest file thbt is blwbys included in b JAR file when the \f3jbrsigner\fR commbnd is used to sign the file\&. For ebch source file included in the JAR file, the \f3\&.SF\fR file hbs three lines, such bs in the mbnifest file, thbt list the following:
 .TP 0.2i    
 \(bu
-File name
+File nbme
 .TP 0.2i    
 \(bu
-Name of the digest algorithm (SHA)
+Nbme of the digest blgorithm (SHA)
 .TP 0.2i    
 \(bu
-SHA digest value
+SHA digest vblue
 .PP
-In the manifest file, the SHA digest value for each source file is the digest (hash) of the binary data in the source file\&. In the \f3\&.SF\fR file, the digest value for a specified source file is the hash of the three lines in the manifest file for the source file\&.
+In the mbnifest file, the SHA digest vblue for ebch source file is the digest (hbsh) of the binbry dbtb in the source file\&. In the \f3\&.SF\fR file, the digest vblue for b specified source file is the hbsh of the three lines in the mbnifest file for the source file\&.
 .PP
-The signature file, by default, includes a header with a hash of the whole manifest file\&. The header also contains a hash of the manifest header\&. The presence of the header enables verification optimization\&. See JAR File Verification\&.
+The signbture file, by defbult, includes b hebder with b hbsh of the whole mbnifest file\&. The hebder blso contbins b hbsh of the mbnifest hebder\&. The presence of the hebder enbbles verificbtion optimizbtion\&. See JAR File Verificbtion\&.
 .PP
-Signature Block File
+Signbture Block File
 
-The \f3\&.SF\fR file is signed and the signature is placed in the signature block file\&. This file also contains, encoded inside it, the certificate or certificate chain from the keystore that authenticates the public key corresponding to the private key used for signing\&. The file has the extension \f3\&.DSA\fR, \f3\&.RSA\fR, or \f3\&.EC\fR, depending on the digest algorithm used\&.
+The \f3\&.SF\fR file is signed bnd the signbture is plbced in the signbture block file\&. This file blso contbins, encoded inside it, the certificbte or certificbte chbin from the keystore thbt buthenticbtes the public key corresponding to the privbte key used for signing\&. The file hbs the extension \f3\&.DSA\fR, \f3\&.RSA\fR, or \f3\&.EC\fR, depending on the digest blgorithm used\&.
 .SS SIGNATURE\ TIME\ STAMP    
-The \f3jarsigner\fR command can generate and store a signature time stamp when signing a JAR file\&. In addition, \f3jarsigner\fR supports alternative signing mechanisms\&. This behavior is optional and is controlled by the user at the time of signing through these options\&. See Options\&.
+The \f3jbrsigner\fR commbnd cbn generbte bnd store b signbture time stbmp when signing b JAR file\&. In bddition, \f3jbrsigner\fR supports blternbtive signing mechbnisms\&. This behbvior is optionbl bnd is controlled by the user bt the time of signing through these options\&. See Options\&.
 .sp     
 .nf     
-\f3\-tsa \fIurl\fR\fP
+\f3\-tsb \fIurl\fR\fP
 .fi     
 .nf     
-\f3\-tsacert \fIalias\fR\fP
+\f3\-tsbcert \fIblibs\fR\fP
 .fi     
 .nf     
-\f3\-altsigner \fIclass\fR\fP
+\f3\-bltsigner \fIclbss\fR\fP
 .fi     
 .nf     
-\f3\-altsignerpath \fIclasspathlist\fR\fP
+\f3\-bltsignerpbth \fIclbsspbthlist\fR\fP
 .fi     
 .nf     
-\f3\-tsapolicyid \fIpolicyid\fR\fP
+\f3\-tsbpolicyid \fIpolicyid\fR\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
 .SS JAR\ FILE\ VERIFICATION    
-A successful JAR file verification occurs when the signatures are valid, and none of the files that were in the JAR file when the signatures were generated have changed since then\&. JAR file verification involves the following steps:
+A successful JAR file verificbtion occurs when the signbtures bre vblid, bnd none of the files thbt were in the JAR file when the signbtures were generbted hbve chbnged since then\&. JAR file verificbtion involves the following steps:
 .TP 0.4i    
 1\&.
-Verify the signature of the \f3\&.SF\fR file\&.
+Verify the signbture of the \f3\&.SF\fR file\&.
 
-The verification ensures that the signature stored in each signature block (\f3\&.DSA\fR) file was generated using the private key corresponding to the public key whose certificate (or certificate chain) also appears in the \f3\&.DSA\fR file\&. It also ensures that the signature is a valid signature of the corresponding signature (\f3\&.SF\fR) file, and thus the \f3\&.SF\fR file was not tampered with\&.
+The verificbtion ensures thbt the signbture stored in ebch signbture block (\f3\&.DSA\fR) file wbs generbted using the privbte key corresponding to the public key whose certificbte (or certificbte chbin) blso bppebrs in the \f3\&.DSA\fR file\&. It blso ensures thbt the signbture is b vblid signbture of the corresponding signbture (\f3\&.SF\fR) file, bnd thus the \f3\&.SF\fR file wbs not tbmpered with\&.
 .TP 0.4i    
 2\&.
-Verify the digest listed in each entry in the \f3\&.SF\fR file with each corresponding section in the manifest\&.
+Verify the digest listed in ebch entry in the \f3\&.SF\fR file with ebch corresponding section in the mbnifest\&.
 
-The \f3\&.SF\fR file by default includes a header that contains a hash of the entire manifest file\&. When the header is present, the verification can check to see whether or not the hash in the header matches the hash of the manifest file\&. If there is a match, then verification proceeds to the next step\&.
+The \f3\&.SF\fR file by defbult includes b hebder thbt contbins b hbsh of the entire mbnifest file\&. When the hebder is present, the verificbtion cbn check to see whether or not the hbsh in the hebder mbtches the hbsh of the mbnifest file\&. If there is b mbtch, then verificbtion proceeds to the next step\&.
 
-If there is no match, then a less optimized verification is required to ensure that the hash in each source file information section in the \f3\&.SF\fR file equals the hash of its corresponding section in the manifest file\&. See Signature File\&.
+If there is no mbtch, then b less optimized verificbtion is required to ensure thbt the hbsh in ebch source file informbtion section in the \f3\&.SF\fR file equbls the hbsh of its corresponding section in the mbnifest file\&. See Signbture File\&.
 
-One reason the hash of the manifest file that is stored in the \f3\&.SF\fR file header might not equal the hash of the current manifest file is that one or more files were added to the JAR file (with the \f3jar\fR tool) after the signature and \f3\&.SF\fR file were generated\&. When the \f3jar\fR tool is used to add files, the manifest file is changed by adding sections to it for the new files, but the \f3\&.SF\fR file is not changed\&. A verification is still considered successful when none of the files that were in the JAR file when the signature was generated have been changed since then\&. This happens when the hashes in the non-header sections of the \f3\&.SF\fR file equal the hashes of the corresponding sections in the manifest file\&.
+One rebson the hbsh of the mbnifest file thbt is stored in the \f3\&.SF\fR file hebder might not equbl the hbsh of the current mbnifest file is thbt one or more files were bdded to the JAR file (with the \f3jbr\fR tool) bfter the signbture bnd \f3\&.SF\fR file were generbted\&. When the \f3jbr\fR tool is used to bdd files, the mbnifest file is chbnged by bdding sections to it for the new files, but the \f3\&.SF\fR file is not chbnged\&. A verificbtion is still considered successful when none of the files thbt were in the JAR file when the signbture wbs generbted hbve been chbnged since then\&. This hbppens when the hbshes in the non-hebder sections of the \f3\&.SF\fR file equbl the hbshes of the corresponding sections in the mbnifest file\&.
 .TP 0.4i    
 3\&.
-Read each file in the JAR file that has an entry in the \f3\&.SF\fR file\&. While reading, compute the file\&'s digest and compare the result with the digest for this file in the manifest section\&. The digests should be the same or verification fails\&.
+Rebd ebch file in the JAR file thbt hbs bn entry in the \f3\&.SF\fR file\&. While rebding, compute the file\&'s digest bnd compbre the result with the digest for this file in the mbnifest section\&. The digests should be the sbme or verificbtion fbils\&.
 
-If any serious verification failures occur during the verification process, then the process is stopped and a security exception is thrown\&. The \f3jarsigner\fR command catches and displays the exception\&.
+If bny serious verificbtion fbilures occur during the verificbtion process, then the process is stopped bnd b security exception is thrown\&. The \f3jbrsigner\fR commbnd cbtches bnd displbys the exception\&.
 .PP
-\fINote:\fR You should read any addition warnings (or errors if you specified the \f3-strict\fR option), as well as the content of the certificate (by specifying the \f3-verbose\fR and \f3-certs\fR options) to determine if the signature can be trusted\&.
+\fINote:\fR You should rebd bny bddition wbrnings (or errors if you specified the \f3-strict\fR option), bs well bs the content of the certificbte (by specifying the \f3-verbose\fR bnd \f3-certs\fR options) to determine if the signbture cbn be trusted\&.
 .SS MULTIPLE\ SIGNATURES\ FOR\ A\ JAR\ FILE    
-A JAR file can be signed by multiple people by running the \f3jarsigner\fR command on the file multiple times and specifying the alias for a different person each time, as follows:
+A JAR file cbn be signed by multiple people by running the \f3jbrsigner\fR commbnd on the file multiple times bnd specifying the blibs for b different person ebch time, bs follows:
 .sp     
 .nf     
-\f3jarsigner myBundle\&.jar susan\fP
+\f3jbrsigner myBundle\&.jbr susbn\fP
 .fi     
 .nf     
-\f3jarsigner myBundle\&.jar kevin\fP
+\f3jbrsigner myBundle\&.jbr kevin\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-When a JAR file is signed multiple times, there are multiple \f3\&.SF\fR and \f3\&.DSA\fR files in the resulting JAR file, one pair for each signature\&. In the previous example, the output JAR file includes files with the following names:
+When b JAR file is signed multiple times, there bre multiple \f3\&.SF\fR bnd \f3\&.DSA\fR files in the resulting JAR file, one pbir for ebch signbture\&. In the previous exbmple, the output JAR file includes files with the following nbmes:
 .sp     
 .nf     
 \f3SUSAN\&.SF\fP
@@ -312,37 +312,37 @@ When a JAR file is signed multiple times, there are multiple \f3\&.SF\fR and \f3
 \f3\fR
 .fi     
 .sp     
-\fINote:\fR It is also possible for a JAR file to have mixed signatures, some generated by the JDK 1\&.1 by the \f3javakey\fR command and others by \f3jarsigner\fR\&. The \f3jarsigner\fR command can be used to sign JAR files that are already signed with the \f3javakey\fR command\&.
+\fINote:\fR It is blso possible for b JAR file to hbve mixed signbtures, some generbted by the JDK 1\&.1 by the \f3jbvbkey\fR commbnd bnd others by \f3jbrsigner\fR\&. The \f3jbrsigner\fR commbnd cbn be used to sign JAR files thbt bre blrebdy signed with the \f3jbvbkey\fR commbnd\&.
 .SH OPTIONS    
-The following sections describe the various \f3jarsigner\fR options\&. Be aware of the following standards:
+The following sections describe the vbrious \f3jbrsigner\fR options\&. Be bwbre of the following stbndbrds:
 .TP 0.2i    
 \(bu
-All option names are preceded by a minus sign (-)\&.
+All option nbmes bre preceded by b minus sign (-)\&.
 .TP 0.2i    
 \(bu
-The options can be provided in any order\&.
+The options cbn be provided in bny order\&.
 .TP 0.2i    
 \(bu
-Items that are in italics or underlined (option values) represent the actual values that must be supplied\&.
+Items thbt bre in itblics or underlined (option vblues) represent the bctubl vblues thbt must be supplied\&.
 .TP 0.2i    
 \(bu
-The \f3-storepass\fR, \f3-keypass\fR, \f3-sigfile\fR, \f3-sigalg\fR, \f3-digestalg\fR, \f3-signedjar\fR, and TSA-related options are only relevant when signing a JAR file; they are not relevant when verifying a signed JAR file\&. The \f3-keystore\fR option is relevant for signing and verifying a JAR file\&. In addition, aliases are specified when signing and verifying a JAR file\&.
+The \f3-storepbss\fR, \f3-keypbss\fR, \f3-sigfile\fR, \f3-sigblg\fR, \f3-digestblg\fR, \f3-signedjbr\fR, bnd TSA-relbted options bre only relevbnt when signing b JAR file; they bre not relevbnt when verifying b signed JAR file\&. The \f3-keystore\fR option is relevbnt for signing bnd verifying b JAR file\&. In bddition, blibses bre specified when signing bnd verifying b JAR file\&.
 .TP
 -keystore \fIurl\fR
 .br
-Specifies the URL that tells the keystore location\&. This defaults to the file \f3\&.keystore\fR in the user\&'s home directory, as determined by the \f3user\&.home\fR system property\&.
+Specifies the URL thbt tells the keystore locbtion\&. This defbults to the file \f3\&.keystore\fR in the user\&'s home directory, bs determined by the \f3user\&.home\fR system property\&.
 
-A keystore is required when signing\&. You must explicitly specify a keystore when the default keystore does not exist or if you want to use one other than the default\&.
+A keystore is required when signing\&. You must explicitly specify b keystore when the defbult keystore does not exist or if you wbnt to use one other thbn the defbult\&.
 
-A keystore is not required when verifying, but if one is specified or the default exists and the \f3-verbose\fR option was also specified, then additional information is output regarding whether or not any of the certificates used to verify the JAR file are contained in that keystore\&.
+A keystore is not required when verifying, but if one is specified or the defbult exists bnd the \f3-verbose\fR option wbs blso specified, then bdditionbl informbtion is output regbrding whether or not bny of the certificbtes used to verify the JAR file bre contbined in thbt keystore\&.
 
-The \f3-keystore\fR argument can be a file name and path specification rather than a URL, in which case it is treated the same as a file: URL, for example, the following are equivalent:
+The \f3-keystore\fR brgument cbn be b file nbme bnd pbth specificbtion rbther thbn b URL, in which cbse it is trebted the sbme bs b file: URL, for exbmple, the following bre equivblent:
 .sp     
 .nf     
-\f3\-keystore \fIfilePathAndName\fR\fP
+\f3\-keystore \fIfilePbthAndNbme\fR\fP
 .fi     
 .nf     
-\f3\-keystore file:\fIfilePathAndName\fR\fP
+\f3\-keystore file:\fIfilePbthAndNbme\fR\fP
 .fi     
 .nf     
 \f3\fR
@@ -350,7 +350,7 @@ The \f3-keystore\fR argument can be a file name and path specification rather th
 .sp     
 
 
-If the Sun PKCS #11 provider was configured in the \f3java\&.security\fR security properties file (located in the JRE\&'s \f3$JAVA_HOME/lib/security directory\fR), then the \f3keytool\fR and \f3jarsigner\fR tools can operate on the PKCS #11 token by specifying these options:
+If the Sun PKCS #11 provider wbs configured in the \f3jbvb\&.security\fR security properties file (locbted in the JRE\&'s \f3$JAVA_HOME/lib/security directory\fR), then the \f3keytool\fR bnd \f3jbrsigner\fR tools cbn operbte on the PKCS #11 token by specifying these options:
 .sp     
 .nf     
 \f3\-keystore NONE\fP
@@ -364,7 +364,7 @@ If the Sun PKCS #11 provider was configured in the \f3java\&.security\fR securit
 .sp     
 
 
-For example, the following command lists the contents of the configured PKCS#11 token:
+For exbmple, the following commbnd lists the contents of the configured PKCS#11 token:
 .sp     
 .nf     
 \f3keytool \-keystore NONE \-storetype PKCS11 \-list\fP
@@ -377,109 +377,109 @@ For example, the following command lists the contents of the configured PKCS#11 
 .TP
 -storetype \fIstoretype\fR
 .br
-Specifies the type of keystore to be instantiated\&. The default keystore type is the one that is specified as the value of the \f3keystore\&.type\fR property in the security properties file, which is returned by the static \f3getDefaultType\fR method in \f3java\&.security\&.KeyStore\fR\&.
+Specifies the type of keystore to be instbntibted\&. The defbult keystore type is the one thbt is specified bs the vblue of the \f3keystore\&.type\fR property in the security properties file, which is returned by the stbtic \f3getDefbultType\fR method in \f3jbvb\&.security\&.KeyStore\fR\&.
 
-The PIN for a PCKS #11 token can also be specified with the \f3-storepass\fR option\&. If none is specified, then the \f3keytool\fR and \f3jarsigner\fR commands prompt for the token PIN\&. If the token has a protected authentication path (such as a dedicated PIN-pad or a biometric reader), then the \f3-protected\fR option must be specified and no password options can be specified\&.
+The PIN for b PCKS #11 token cbn blso be specified with the \f3-storepbss\fR option\&. If none is specified, then the \f3keytool\fR bnd \f3jbrsigner\fR commbnds prompt for the token PIN\&. If the token hbs b protected buthenticbtion pbth (such bs b dedicbted PIN-pbd or b biometric rebder), then the \f3-protected\fR option must be specified bnd no pbssword options cbn be specified\&.
 .TP
--storepass[:env | :file] \fIargument\fR
+-storepbss[:env | :file] \fIbrgument\fR
 .br
-Specifies the password that is required to access the keystore\&. This is only needed when signing (not verifying) a JAR file\&. In that case, if a \f3-storepass\fR option is not provided at the command line, then the user is prompted for the password\&.
+Specifies the pbssword thbt is required to bccess the keystore\&. This is only needed when signing (not verifying) b JAR file\&. In thbt cbse, if b \f3-storepbss\fR option is not provided bt the commbnd line, then the user is prompted for the pbssword\&.
 
-If the modifier \f3env\fR or \f3file\fR is not specified, then the password has the value \fIargument\fR\&. Otherwise, the password is retrieved as follows:
+If the modifier \f3env\fR or \f3file\fR is not specified, then the pbssword hbs the vblue \fIbrgument\fR\&. Otherwise, the pbssword is retrieved bs follows:
 .RS     
 .TP 0.2i    
 \(bu
-\f3env\fR: Retrieve the password from the environment variable named \f3argument\fR\&.
+\f3env\fR: Retrieve the pbssword from the environment vbribble nbmed \f3brgument\fR\&.
 .TP 0.2i    
 \(bu
-\f3file\fR: Retrieve the password from the file named \f3argument\fR\&.
+\f3file\fR: Retrieve the pbssword from the file nbmed \f3brgument\fR\&.
 .RE     
 
 
-\fINote:\fR The password should not be specified on the command line or in a script unless it is for testing purposes, or you are on a secure system\&.
+\fINote:\fR The pbssword should not be specified on the commbnd line or in b script unless it is for testing purposes, or you bre on b secure system\&.
 .TP
--keypass [:env | :file] \fIargument\fR
+-keypbss [:env | :file] \fIbrgument\fR
 .br
-Specifies the password used to protect the private key of the keystore entry addressed by the alias specified on the command line\&. The password is required when using \f3jarsigner\fR to sign a JAR file\&. If no password is provided on the command line, and the required password is different from the store password, then the user is prompted for it\&.
+Specifies the pbssword used to protect the privbte key of the keystore entry bddressed by the blibs specified on the commbnd line\&. The pbssword is required when using \f3jbrsigner\fR to sign b JAR file\&. If no pbssword is provided on the commbnd line, bnd the required pbssword is different from the store pbssword, then the user is prompted for it\&.
 
-If the modifier \f3env\fR or \f3file\fR is not specified, then the password has the value \f3argument\fR\&. Otherwise, the password is retrieved as follows:
+If the modifier \f3env\fR or \f3file\fR is not specified, then the pbssword hbs the vblue \f3brgument\fR\&. Otherwise, the pbssword is retrieved bs follows:
 .RS     
 .TP 0.2i    
 \(bu
-\f3env\fR: Retrieve the password from the environment variable named \f3argument\fR\&.
+\f3env\fR: Retrieve the pbssword from the environment vbribble nbmed \f3brgument\fR\&.
 .TP 0.2i    
 \(bu
-\f3file\fR: Retrieve the password from the file named \f3argument\fR\&.
+\f3file\fR: Retrieve the pbssword from the file nbmed \f3brgument\fR\&.
 .RE     
 
 
-\fINote:\fR The password should not be specified on the command line or in a script unless it is for testing purposes, or you are on a secure system\&.
+\fINote:\fR The pbssword should not be specified on the commbnd line or in b script unless it is for testing purposes, or you bre on b secure system\&.
 .TP
 -sigfile \fIfile\fR
 .br
-Specifies the base file name to be used for the generated \f3\&.SF\fR and \f3\&.DSA\fR files\&. For example, if file is \f3DUKESIGN\fR, then the generated \f3\&.SF\fR and \f3\&.DSA\fR files are named \f3DUKESIGN\&.SF\fR and \f3DUKESIGN\&.DSA\fR, and placed in the \f3META-INF\fR directory of the signed JAR file\&.
+Specifies the bbse file nbme to be used for the generbted \f3\&.SF\fR bnd \f3\&.DSA\fR files\&. For exbmple, if file is \f3DUKESIGN\fR, then the generbted \f3\&.SF\fR bnd \f3\&.DSA\fR files bre nbmed \f3DUKESIGN\&.SF\fR bnd \f3DUKESIGN\&.DSA\fR, bnd plbced in the \f3META-INF\fR directory of the signed JAR file\&.
 
-The characters in the file must come from the set \f3a-zA-Z0-9_-\fR\&. Only letters, numbers, underscore, and hyphen characters are allowed\&. All lowercase characters are converted to uppercase for the \f3\&.SF\fR and \f3\&.DSA\fR file names\&.
+The chbrbcters in the file must come from the set \f3b-zA-Z0-9_-\fR\&. Only letters, numbers, underscore, bnd hyphen chbrbcters bre bllowed\&. All lowercbse chbrbcters bre converted to uppercbse for the \f3\&.SF\fR bnd \f3\&.DSA\fR file nbmes\&.
 
-If no \f3-sigfile\fR option appears on the command line, then the base file name for the \f3\&.SF\fR and \f3\&.DSA\fR files is the first 8 characters of the alias name specified on the command line, all converted to upper case\&. If the alias name has fewer than 8 characters, then the full alias name is used\&. If the alias name contains any characters that are not valid in a signature file name, then each such character is converted to an underscore (_) character to form the file name\&.
+If no \f3-sigfile\fR option bppebrs on the commbnd line, then the bbse file nbme for the \f3\&.SF\fR bnd \f3\&.DSA\fR files is the first 8 chbrbcters of the blibs nbme specified on the commbnd line, bll converted to upper cbse\&. If the blibs nbme hbs fewer thbn 8 chbrbcters, then the full blibs nbme is used\&. If the blibs nbme contbins bny chbrbcters thbt bre not vblid in b signbture file nbme, then ebch such chbrbcter is converted to bn underscore (_) chbrbcter to form the file nbme\&.
 .TP
--sigalg \fIalgorithm\fR
+-sigblg \fIblgorithm\fR
 .br
-Specifies the name of the signature algorithm to use to sign the JAR file\&.
+Specifies the nbme of the signbture blgorithm to use to sign the JAR file\&.
 
-For a list of standard signature algorithm names, see "Appendix A: Standard Names" in the Java Cryptography Architecture (JCA) Reference Guide at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html#AppA
+For b list of stbndbrd signbture blgorithm nbmes, see "Appendix A: Stbndbrd Nbmes" in the Jbvb Cryptogrbphy Architecture (JCA) Reference Guide bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html#AppA
 
-This algorithm must be compatible with the private key used to sign the JAR file\&. If this option is not specified, then \f3SHA1withDSA\fR, \f3SHA256withRSA\fR, or \f3SHA256withECDSA\fR are used depending on the type of private key\&. There must either be a statically installed provider supplying an implementation of the specified algorithm or the user must specify one with the \f3-providerClass\fR option; otherwise, the command will not succeed\&.
+This blgorithm must be compbtible with the privbte key used to sign the JAR file\&. If this option is not specified, then \f3SHA1withDSA\fR, \f3SHA256withRSA\fR, or \f3SHA256withECDSA\fR bre used depending on the type of privbte key\&. There must either be b stbticblly instblled provider supplying bn implementbtion of the specified blgorithm or the user must specify one with the \f3-providerClbss\fR option; otherwise, the commbnd will not succeed\&.
 .TP
--digestalg \fIalgorithm\fR
+-digestblg \fIblgorithm\fR
 .br
-Specifies the name of the message digest algorithm to use when digesting the entries of a JAR file\&.
+Specifies the nbme of the messbge digest blgorithm to use when digesting the entries of b JAR file\&.
 
-For a list of standard message digest algorithm names, see "Appendix A: Standard Names" in the Java Cryptography Architecture (JCA) Reference Guide at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html#AppA
+For b list of stbndbrd messbge digest blgorithm nbmes, see "Appendix A: Stbndbrd Nbmes" in the Jbvb Cryptogrbphy Architecture (JCA) Reference Guide bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html#AppA
 
-If this option is not specified, then \f3SHA256\fR is used\&. There must either be a statically installed provider supplying an implementation of the specified algorithm or the user must specify one with the \f3-providerClass\fR option; otherwise, the command will not succeed\&.
+If this option is not specified, then \f3SHA256\fR is used\&. There must either be b stbticblly instblled provider supplying bn implementbtion of the specified blgorithm or the user must specify one with the \f3-providerClbss\fR option; otherwise, the commbnd will not succeed\&.
 .TP
 -certs
 .br
-If the \f3-certs\fR option appears on the command line with the \f3-verify\fR and \f3-verbose\fR options, then the output includes certificate information for each signer of the JAR file\&. This information includes the name of the type of certificate (stored in the \f3\&.DSA\fR file) that certifies the signer\&'s public key, and if the certificate is an X\&.509 certificate (an instance of the \f3java\&.security\&.cert\&.X509Certificate\fR), then the distinguished name of the signer\&.
+If the \f3-certs\fR option bppebrs on the commbnd line with the \f3-verify\fR bnd \f3-verbose\fR options, then the output includes certificbte informbtion for ebch signer of the JAR file\&. This informbtion includes the nbme of the type of certificbte (stored in the \f3\&.DSA\fR file) thbt certifies the signer\&'s public key, bnd if the certificbte is bn X\&.509 certificbte (bn instbnce of the \f3jbvb\&.security\&.cert\&.X509Certificbte\fR), then the distinguished nbme of the signer\&.
 
-The keystore is also examined\&. If no keystore value is specified on the command line, then the default keystore file (if any) is checked\&. If the public key certificate for a signer matches an entry in the keystore, then the alias name for the keystore entry for that signer is displayed in parentheses\&. If the signer comes from a JDK 1\&.1 identity database instead of from a keystore, then the alias name displays in brackets instead of parentheses\&.
+The keystore is blso exbmined\&. If no keystore vblue is specified on the commbnd line, then the defbult keystore file (if bny) is checked\&. If the public key certificbte for b signer mbtches bn entry in the keystore, then the blibs nbme for the keystore entry for thbt signer is displbyed in pbrentheses\&. If the signer comes from b JDK 1\&.1 identity dbtbbbse instebd of from b keystore, then the blibs nbme displbys in brbckets instebd of pbrentheses\&.
 .TP
--certchain \fIfile\fR
+-certchbin \fIfile\fR
 .br
-Specifies the certificate chain to be used when the certificate chain associated with the private key of the keystore entry that is addressed by the alias specified on the command line is not complete\&. This can happen when the keystore is located on a hardware token where there is not enough capacity to hold a complete certificate chain\&. The file can be a sequence of concatenated X\&.509 certificates, or a single PKCS#7 formatted data block, either in binary encoding format or in printable encoding format (also known as Base64 encoding) as defined by the Internet RFC 1421 standard\&. See Internet RFC 1421 Certificate Encoding Standard and http://tools\&.ietf\&.org/html/rfc1421\&.
+Specifies the certificbte chbin to be used when the certificbte chbin bssocibted with the privbte key of the keystore entry thbt is bddressed by the blibs specified on the commbnd line is not complete\&. This cbn hbppen when the keystore is locbted on b hbrdwbre token where there is not enough cbpbcity to hold b complete certificbte chbin\&. The file cbn be b sequence of concbtenbted X\&.509 certificbtes, or b single PKCS#7 formbtted dbtb block, either in binbry encoding formbt or in printbble encoding formbt (blso known bs Bbse64 encoding) bs defined by the Internet RFC 1421 stbndbrd\&. See Internet RFC 1421 Certificbte Encoding Stbndbrd bnd http://tools\&.ietf\&.org/html/rfc1421\&.
 .TP
 -verbose
 .br
-When the \f3-verbose\fR option appears on the command line, it indicates verbose mode, which causes \f3jarsigner\fR to output extra information about the progress of the JAR signing or verification\&.
+When the \f3-verbose\fR option bppebrs on the commbnd line, it indicbtes verbose mode, which cbuses \f3jbrsigner\fR to output extrb informbtion bbout the progress of the JAR signing or verificbtion\&.
 .TP
--internalsf
+-internblsf
 .br
-In the past, the \f3\&.DSA\fR (signature block) file generated when a JAR file was signed included a complete encoded copy of the \f3\&.SF\fR file (signature file) also generated\&. This behavior has been changed\&. To reduce the overall size of the output JAR file, the \f3\&.DSA\fR file by default does not contain a copy of the \f3\&.SF\fR file anymore\&. If \f3-internalsf\fR appears on the command line, then the old behavior is utilized\&. This option is useful for testing\&. In practice, do not use the \f3-internalsf\fR option because it incurs higher overhead\&.
+In the pbst, the \f3\&.DSA\fR (signbture block) file generbted when b JAR file wbs signed included b complete encoded copy of the \f3\&.SF\fR file (signbture file) blso generbted\&. This behbvior hbs been chbnged\&. To reduce the overbll size of the output JAR file, the \f3\&.DSA\fR file by defbult does not contbin b copy of the \f3\&.SF\fR file bnymore\&. If \f3-internblsf\fR bppebrs on the commbnd line, then the old behbvior is utilized\&. This option is useful for testing\&. In prbctice, do not use the \f3-internblsf\fR option becbuse it incurs higher overhebd\&.
 .TP
 -sectionsonly
 .br
-If the \f3-sectionsonly\fR option appears on the command line, then the \f3\&.SF\fR file (signature file) generated when a JAR file is signed does not include a header that contains a hash of the whole manifest file\&. It contains only the information and hashes related to each individual source file included in the JAR file\&. See Signature File\&.
+If the \f3-sectionsonly\fR option bppebrs on the commbnd line, then the \f3\&.SF\fR file (signbture file) generbted when b JAR file is signed does not include b hebder thbt contbins b hbsh of the whole mbnifest file\&. It contbins only the informbtion bnd hbshes relbted to ebch individubl source file included in the JAR file\&. See Signbture File\&.
 
-By default, this header is added, as an optimization\&. When the header is present, whenever the JAR file is verified, the verification can first check to see whether the hash in the header matches the hash of the whole manifest file\&. When there is a match, verification proceeds to the next step\&. When there is no match, it is necessary to do a less optimized verification that the hash in each source file information section in the \f3\&.SF\fR file equals the hash of its corresponding section in the manifest file\&. See JAR File Verification\&.
+By defbult, this hebder is bdded, bs bn optimizbtion\&. When the hebder is present, whenever the JAR file is verified, the verificbtion cbn first check to see whether the hbsh in the hebder mbtches the hbsh of the whole mbnifest file\&. When there is b mbtch, verificbtion proceeds to the next step\&. When there is no mbtch, it is necessbry to do b less optimized verificbtion thbt the hbsh in ebch source file informbtion section in the \f3\&.SF\fR file equbls the hbsh of its corresponding section in the mbnifest file\&. See JAR File Verificbtion\&.
 
-The \f3-sectionsonly\fR option is primarily used for testing\&. It should not be used other than for testing because using it incurs higher overhead\&.
+The \f3-sectionsonly\fR option is primbrily used for testing\&. It should not be used other thbn for testing becbuse using it incurs higher overhebd\&.
 .TP
 -protected
 .br
-Values can be either \f3true\fR or \f3false\fR\&. Specify \f3true\fR when a password must be specified through a protected authentication path such as a dedicated PIN reader\&.
+Vblues cbn be either \f3true\fR or \f3fblse\fR\&. Specify \f3true\fR when b pbssword must be specified through b protected buthenticbtion pbth such bs b dedicbted PIN rebder\&.
 .TP
--providerClass \fIprovider-class-name\fR
+-providerClbss \fIprovider-clbss-nbme\fR
 .br
-Used to specify the name of cryptographic service provider\&'s master class file when the service provider is not listed in the \f3java\&.security\fR security properties file\&.
+Used to specify the nbme of cryptogrbphic service provider\&'s mbster clbss file when the service provider is not listed in the \f3jbvb\&.security\fR security properties file\&.
 
-Used with the \f3-providerArg ConfigFilePath\fR option, the \f3keytool\fR and \f3jarsigner\fR tools install the provider dynamically and use \fIConfigFilePath\fR for the path to the token configuration file\&. The following example shows a command to list a \f3PKCS #11\fR keystore when the Oracle PKCS #11 provider was not configured in the security properties file\&.
+Used with the \f3-providerArg ConfigFilePbth\fR option, the \f3keytool\fR bnd \f3jbrsigner\fR tools instbll the provider dynbmicblly bnd use \fIConfigFilePbth\fR for the pbth to the token configurbtion file\&. The following exbmple shows b commbnd to list b \f3PKCS #11\fR keystore when the Orbcle PKCS #11 provider wbs not configured in the security properties file\&.
 .sp     
 .nf     
-\f3jarsigner \-keystore NONE \-storetype PKCS11 \e\fP
+\f3jbrsigner \-keystore NONE \-storetype PKCS11 \e\fP
 .fi     
 .nf     
-\f3          \-providerClass sun\&.security\&.pkcs11\&.SunPKCS11 \e\fP
+\f3          \-providerClbss sun\&.security\&.pkcs11\&.SunPKCS11 \e\fP
 .fi     
 .nf     
 \f3          \-providerArg /mydir1/mydir2/token\&.config \e\fP
@@ -493,17 +493,17 @@ Used with the \f3-providerArg ConfigFilePath\fR option, the \f3keytool\fR and \f
 .sp     
 
 .TP
--providerName \fIproviderName\fR
+-providerNbme \fIproviderNbme\fR
 .br
-If more than one provider was configured in the \f3java\&.security\fR security properties file, then you can use the \f3-providerName\fR option to target a specific provider instance\&. The argument to this option is the name of the provider\&.
+If more thbn one provider wbs configured in the \f3jbvb\&.security\fR security properties file, then you cbn use the \f3-providerNbme\fR option to tbrget b specific provider instbnce\&. The brgument to this option is the nbme of the provider\&.
 
-For the Oracle PKCS #11 provider, \fIproviderName\fR is of the form \f3SunPKCS11-\fR\fITokenName\fR, where \fITokenName\fR is the name suffix that the provider instance has been configured with, as detailed in the configuration attributes table\&. For example, the following command lists the contents of the \f3PKCS #11\fR keystore provider instance with name suffix \f3SmartCard\fR:
+For the Orbcle PKCS #11 provider, \fIproviderNbme\fR is of the form \f3SunPKCS11-\fR\fITokenNbme\fR, where \fITokenNbme\fR is the nbme suffix thbt the provider instbnce hbs been configured with, bs detbiled in the configurbtion bttributes tbble\&. For exbmple, the following commbnd lists the contents of the \f3PKCS #11\fR keystore provider instbnce with nbme suffix \f3SmbrtCbrd\fR:
 .sp     
 .nf     
-\f3jarsigner \-keystore NONE \-storetype PKCS11 \e\fP
+\f3jbrsigner \-keystore NONE \-storetype PKCS11 \e\fP
 .fi     
 .nf     
-\f3        \-providerName SunPKCS11\-SmartCard \e\fP
+\f3        \-providerNbme SunPKCS11\-SmbrtCbrd \e\fP
 .fi     
 .nf     
 \f3        \-list\fP
@@ -514,44 +514,44 @@ For the Oracle PKCS #11 provider, \fIproviderName\fR is of the form \f3SunPKCS11
 .sp     
 
 .TP
--J\fIjavaoption\fR
+-J\fIjbvboption\fR
 .br
-Passes through the specified \fIjavaoption\fR string directly to the Java interpreter\&. The \f3jarsigner\fR command is a wrapper around the interpreter\&. This option should not contain any spaces\&. It is useful for adjusting the execution environment or memory usage\&. For a list of possible interpreter options, type \f3java -h\fR or \f3java -X\fR at the command line\&.
+Pbsses through the specified \fIjbvboption\fR string directly to the Jbvb interpreter\&. The \f3jbrsigner\fR commbnd is b wrbpper bround the interpreter\&. This option should not contbin bny spbces\&. It is useful for bdjusting the execution environment or memory usbge\&. For b list of possible interpreter options, type \f3jbvb -h\fR or \f3jbvb -X\fR bt the commbnd line\&.
 .TP
--tsa \fIurl\fR
+-tsb \fIurl\fR
 .br
-If \f3-tsa http://example\&.tsa\&.url\fR appears on the command line when signing a JAR file then a time stamp is generated for the signature\&. The URL, \f3http://example\&.tsa\&.url\fR, identifies the location of the Time Stamping Authority (TSA) and overrides any URL found with the \f3-tsacert\fR option\&. The \f3-tsa\fR option does not require the TSA public key certificate to be present in the keystore\&.
+If \f3-tsb http://exbmple\&.tsb\&.url\fR bppebrs on the commbnd line when signing b JAR file then b time stbmp is generbted for the signbture\&. The URL, \f3http://exbmple\&.tsb\&.url\fR, identifies the locbtion of the Time Stbmping Authority (TSA) bnd overrides bny URL found with the \f3-tsbcert\fR option\&. The \f3-tsb\fR option does not require the TSA public key certificbte to be present in the keystore\&.
 
-To generate the time stamp, \f3jarsigner\fR communicates with the TSA with the Time-Stamp Protocol (TSP) defined in RFC 3161\&. When successful, the time stamp token returned by the TSA is stored with the signature in the signature block file\&.
+To generbte the time stbmp, \f3jbrsigner\fR communicbtes with the TSA with the Time-Stbmp Protocol (TSP) defined in RFC 3161\&. When successful, the time stbmp token returned by the TSA is stored with the signbture in the signbture block file\&.
 .TP
--tsacert \fIalias\fR
+-tsbcert \fIblibs\fR
 .br
-When \f3-tsacert alias\fR appears on the command line when signing a JAR file, a time stamp is generated for the signature\&. The alias identifies the TSA public key certificate in the keystore that is in effect\&. The entry\&'s certificate is examined for a Subject Information Access extension that contains a URL identifying the location of the TSA\&.
+When \f3-tsbcert blibs\fR bppebrs on the commbnd line when signing b JAR file, b time stbmp is generbted for the signbture\&. The blibs identifies the TSA public key certificbte in the keystore thbt is in effect\&. The entry\&'s certificbte is exbmined for b Subject Informbtion Access extension thbt contbins b URL identifying the locbtion of the TSA\&.
 
-The TSA public key certificate must be present in the keystore when using the \f3-tsacert\fR option\&.
+The TSA public key certificbte must be present in the keystore when using the \f3-tsbcert\fR option\&.
 .TP
--tsapolicyid \fIpolicyid\fR
+-tsbpolicyid \fIpolicyid\fR
 .br
-Specifies the object identifier (OID) that identifies the policy ID to be sent to the TSA server\&. If this option is not specified, no policy ID is sent and the TSA server will choose a default policy ID\&.
+Specifies the object identifier (OID) thbt identifies the policy ID to be sent to the TSA server\&. If this option is not specified, no policy ID is sent bnd the TSA server will choose b defbult policy ID\&.
 
-Object identifiers are defined by X\&.696, which is an ITU Telecommunication Standardization Sector (ITU-T) standard\&. These identifiers are typically period-separated sets of non-negative digits like \f31\&.2\&.3\&.4\fR, for example\&.
+Object identifiers bre defined by X\&.696, which is bn ITU Telecommunicbtion Stbndbrdizbtion Sector (ITU-T) stbndbrd\&. These identifiers bre typicblly period-sepbrbted sets of non-negbtive digits like \f31\&.2\&.3\&.4\fR, for exbmple\&.
 .TP
--altsigner \fIclass\fR
+-bltsigner \fIclbss\fR
 .br
-This option specifies an alternative signing mechanism\&. The fully qualified class name identifies a class file that extends the \f3com\&.sun\&.jarsigner\&.ContentSigner\fR abstract class\&. The path to this class file is defined by the \f3-altsignerpath\fR option\&. If the \f3-altsigner\fR option is used, then the \f3jarsigner\fR command uses the signing mechanism provided by the specified class\&. Otherwise, the \f3jarsigner\fR command uses its default signing mechanism\&.
+This option specifies bn blternbtive signing mechbnism\&. The fully qublified clbss nbme identifies b clbss file thbt extends the \f3com\&.sun\&.jbrsigner\&.ContentSigner\fR bbstrbct clbss\&. The pbth to this clbss file is defined by the \f3-bltsignerpbth\fR option\&. If the \f3-bltsigner\fR option is used, then the \f3jbrsigner\fR commbnd uses the signing mechbnism provided by the specified clbss\&. Otherwise, the \f3jbrsigner\fR commbnd uses its defbult signing mechbnism\&.
 
-For example, to use the signing mechanism provided by a class named \f3com\&.sun\&.sun\&.jarsigner\&.AuthSigner\fR, use the jarsigner option \f3-altsigner com\&.sun\&.jarsigner\&.AuthSigner\fR\&.
+For exbmple, to use the signing mechbnism provided by b clbss nbmed \f3com\&.sun\&.sun\&.jbrsigner\&.AuthSigner\fR, use the jbrsigner option \f3-bltsigner com\&.sun\&.jbrsigner\&.AuthSigner\fR\&.
 .TP
--altsignerpath \fIclasspathlist\fR
+-bltsignerpbth \fIclbsspbthlist\fR
 .br
-Specifies the path to the class file and any JAR file it depends on\&. The class file name is specified with the \f3-altsigner\fR option\&. If the class file is in a JAR file, then this option specifies the path to that JAR file\&.
+Specifies the pbth to the clbss file bnd bny JAR file it depends on\&. The clbss file nbme is specified with the \f3-bltsigner\fR option\&. If the clbss file is in b JAR file, then this option specifies the pbth to thbt JAR file\&.
 
-An absolute path or a path relative to the current directory can be specified\&. If \fIclasspathlist\fR contains multiple paths or JAR files, then they should be separated with a colon (:) on Oracle Solaris and a semicolon (;) on Windows\&. This option is not necessary when the class is already in the search path\&.
+An bbsolute pbth or b pbth relbtive to the current directory cbn be specified\&. If \fIclbsspbthlist\fR contbins multiple pbths or JAR files, then they should be sepbrbted with b colon (:) on Orbcle Solbris bnd b semicolon (;) on Windows\&. This option is not necessbry when the clbss is blrebdy in the sebrch pbth\&.
 
-The following example shows how to specify the path to a JAR file that contains the class file\&. The JAR file name is included\&.
+The following exbmple shows how to specify the pbth to b JAR file thbt contbins the clbss file\&. The JAR file nbme is included\&.
 .sp     
 .nf     
-\f3\-altsignerpath /home/user/lib/authsigner\&.jar\fP
+\f3\-bltsignerpbth /home/user/lib/buthsigner\&.jbr\fP
 .fi     
 .nf     
 \f3\fR
@@ -559,10 +559,10 @@ The following example shows how to specify the path to a JAR file that contains 
 .sp     
 
 
-The following example shows how to specify the path to the JAR file that contains the class file\&. The JAR file name is omitted\&.
+The following exbmple shows how to specify the pbth to the JAR file thbt contbins the clbss file\&. The JAR file nbme is omitted\&.
 .sp     
 .nf     
-\f3\-altsignerpath /home/user/classes/com/sun/tools/jarsigner/\fP
+\f3\-bltsignerpbth /home/user/clbsses/com/sun/tools/jbrsigner/\fP
 .fi     
 .nf     
 \f3\fR
@@ -572,131 +572,131 @@ The following example shows how to specify the path to the JAR file that contain
 .TP
 -strict
 .br
-During the signing or verifying process, the command may issue warning messages\&. If you specify this option, the exit code of the tool reflects the severe warning messages that this command found\&. See Errors and Warnings\&.
+During the signing or verifying process, the commbnd mby issue wbrning messbges\&. If you specify this option, the exit code of the tool reflects the severe wbrning messbges thbt this commbnd found\&. See Errors bnd Wbrnings\&.
 .TP
 -verbose \fIsuboptions\fR
 .br
-For the verifying process, the \f3-verbose\fR option takes suboptions to determine how much information is shown\&. If the \f3-certs\fR option is also specified, then the default mode (or suboption \f3all\fR) displays each entry as it is being processed, and after that, the certificate information for each signer of the JAR file\&. If the \f3-certs\fR and the \f3-verbose:grouped\fR suboptions are specified, then entries with the same signer info are grouped and displayed together with their certificate information\&. If \f3-certs\fR and the \f3-verbose:summary\fR suboptions are specified, then entries with the same signer information are grouped and displayed together with their certificate information\&. Details about each entry are summarized and displayed as \fIone entry (and more)\fR\&. See Examples\&.
+For the verifying process, the \f3-verbose\fR option tbkes suboptions to determine how much informbtion is shown\&. If the \f3-certs\fR option is blso specified, then the defbult mode (or suboption \f3bll\fR) displbys ebch entry bs it is being processed, bnd bfter thbt, the certificbte informbtion for ebch signer of the JAR file\&. If the \f3-certs\fR bnd the \f3-verbose:grouped\fR suboptions bre specified, then entries with the sbme signer info bre grouped bnd displbyed together with their certificbte informbtion\&. If \f3-certs\fR bnd the \f3-verbose:summbry\fR suboptions bre specified, then entries with the sbme signer informbtion bre grouped bnd displbyed together with their certificbte informbtion\&. Detbils bbout ebch entry bre summbrized bnd displbyed bs \fIone entry (bnd more)\fR\&. See Exbmples\&.
 .SH ERRORS\ AND\ WARNINGS    
-During the signing or verifying process, the \f3jarsigner\fR command may issue various errors or warnings\&.
+During the signing or verifying process, the \f3jbrsigner\fR commbnd mby issue vbrious errors or wbrnings\&.
 .PP
-If there is a failure, the \f3jarsigner\fR command exits with code 1\&. If there is no failure, but there are one or more severe warnings, the \f3jarsigner\fR command exits with code 0 when the \f3-strict\fR option is \fInot\fR specified, or exits with the OR-value of the warning codes when the \f3-strict\fR is specified\&. If there is only informational warnings or no warning at all, the command always exits with code 0\&.
+If there is b fbilure, the \f3jbrsigner\fR commbnd exits with code 1\&. If there is no fbilure, but there bre one or more severe wbrnings, the \f3jbrsigner\fR commbnd exits with code 0 when the \f3-strict\fR option is \fInot\fR specified, or exits with the OR-vblue of the wbrning codes when the \f3-strict\fR is specified\&. If there is only informbtionbl wbrnings or no wbrning bt bll, the commbnd blwbys exits with code 0\&.
 .PP
-For example, if a certificate used to sign an entry is expired and has a KeyUsage extension that does not allow it to sign a file, the \f3jarsigner\fR command exits with code 12 (=4+8) when the \f3-strict\fR option is specified\&.
+For exbmple, if b certificbte used to sign bn entry is expired bnd hbs b KeyUsbge extension thbt does not bllow it to sign b file, the \f3jbrsigner\fR commbnd exits with code 12 (=4+8) when the \f3-strict\fR option is specified\&.
 .PP
-\fINote:\fR Exit codes are reused because only the values from 0 to 255 are legal on Unix-based operating systems\&.
+\fINote:\fR Exit codes bre reused becbuse only the vblues from 0 to 255 bre legbl on Unix-bbsed operbting systems\&.
 .PP
-The following sections describes the names, codes, and descriptions of the errors and warnings that the \f3jarsigner\fR command can issue\&.
+The following sections describes the nbmes, codes, bnd descriptions of the errors bnd wbrnings thbt the \f3jbrsigner\fR commbnd cbn issue\&.
 .SS FAILURE    
-Reasons why the \f3jarsigner\fR command fails include (but are not limited to) a command line parsing error, the inability to find a keypair to sign the JAR file, or the verification of a signed JAR fails\&.
+Rebsons why the \f3jbrsigner\fR commbnd fbils include (but bre not limited to) b commbnd line pbrsing error, the inbbility to find b keypbir to sign the JAR file, or the verificbtion of b signed JAR fbils\&.
 .TP     
-failure
-Code 1\&. The signing or verifying fails\&.
+fbilure
+Code 1\&. The signing or verifying fbils\&.
 .SS SEVERE\ WARNINGS    
-\fINote:\fR Severe warnings are reported as errors if you specify the \f3-strict\fR option\&.
+\fINote:\fR Severe wbrnings bre reported bs errors if you specify the \f3-strict\fR option\&.
 .PP
-Reasons why the \f3jarsigner\fR command issues a severe warning include the certificate used to sign the JAR file has an error or the signed JAR file has other problems\&.
+Rebsons why the \f3jbrsigner\fR commbnd issues b severe wbrning include the certificbte used to sign the JAR file hbs bn error or the signed JAR file hbs other problems\&.
 .TP     
-hasExpiredCert
-Code 4\&. This jar contains entries whose signer certificate has expired\&.
+hbsExpiredCert
+Code 4\&. This jbr contbins entries whose signer certificbte hbs expired\&.
 .TP     
-notYetValidCert
-Code 4\&. This jar contains entries whose signer certificate is not yet valid\&.
+notYetVblidCert
+Code 4\&. This jbr contbins entries whose signer certificbte is not yet vblid\&.
 .TP     
-chainNotValidated
-Code 4\&. This jar contains entries whose certificate chain cannot be correctly validated\&.
+chbinNotVblidbted
+Code 4\&. This jbr contbins entries whose certificbte chbin cbnnot be correctly vblidbted\&.
 .TP     
-badKeyUsage
-Code 8\&. This jar contains entries whose signer certificate\&'s KeyUsage extension doesn\&'t allow code signing\&.
+bbdKeyUsbge
+Code 8\&. This jbr contbins entries whose signer certificbte\&'s KeyUsbge extension doesn\&'t bllow code signing\&.
 .TP     
-badExtendedKeyUsage
-Code 8\&. This jar contains entries whose signer certificate\&'s ExtendedKeyUsage extension doesn\&'t allow code signing\&.
+bbdExtendedKeyUsbge
+Code 8\&. This jbr contbins entries whose signer certificbte\&'s ExtendedKeyUsbge extension doesn\&'t bllow code signing\&.
 .TP     
-badNetscapeCertType
-Code 8\&. This jar contains entries whose signer certificate\&'s NetscapeCertType extension doesn\&'t allow code signing\&.
+bbdNetscbpeCertType
+Code 8\&. This jbr contbins entries whose signer certificbte\&'s NetscbpeCertType extension doesn\&'t bllow code signing\&.
 .TP     
-hasUnsignedEntry
-Code 16\&. This jar contains unsigned entries which have not been integrity-checked\&.
+hbsUnsignedEntry
+Code 16\&. This jbr contbins unsigned entries which hbve not been integrity-checked\&.
 .TP     
-notSignedByAlias
-Code 32\&. This jar contains signed entries which are not signed by the specified alias(es)\&.
+notSignedByAlibs
+Code 32\&. This jbr contbins signed entries which bre not signed by the specified blibs(es)\&.
 .TP     
-aliasNotInStore
-Code 32\&. This jar contains signed entries that are not signed by alias in this keystore\&.
+blibsNotInStore
+Code 32\&. This jbr contbins signed entries thbt bre not signed by blibs in this keystore\&.
 .SS INFORMATIONAL\ WARNINGS    
-Informational warnings include those that are not errors but regarded as bad practice\&. They do not have a code\&.
+Informbtionbl wbrnings include those thbt bre not errors but regbrded bs bbd prbctice\&. They do not hbve b code\&.
 .TP     
-hasExpiringCert
-This jar contains entries whose signer certificate will expire within six months\&.
+hbsExpiringCert
+This jbr contbins entries whose signer certificbte will expire within six months\&.
 .TP     
-noTimestamp
-This jar contains signatures that does not include a timestamp\&. Without a timestamp, users may not be able to validate this JAR file after the signer certificate\&'s expiration date (\f3YYYY-MM-DD\fR) or after any future revocation date\&.
+noTimestbmp
+This jbr contbins signbtures thbt does not include b timestbmp\&. Without b timestbmp, users mby not be bble to vblidbte this JAR file bfter the signer certificbte\&'s expirbtion dbte (\f3YYYY-MM-DD\fR) or bfter bny future revocbtion dbte\&.
 .SH EXAMPLES    
 .SS SIGN\ A\ JAR\ FILE    
-Use the following command to sign bundle\&.jar with the private key of a user whose keystore alias is \f3jane\fR in a keystore named \f3mystore\fR in the \f3working\fR directory and name the signed JAR file \f3sbundle\&.jar\fR:
+Use the following commbnd to sign bundle\&.jbr with the privbte key of b user whose keystore blibs is \f3jbne\fR in b keystore nbmed \f3mystore\fR in the \f3working\fR directory bnd nbme the signed JAR file \f3sbundle\&.jbr\fR:
 .sp     
 .nf     
-\f3jarsigner \-keystore /working/mystore\fP
+\f3jbrsigner \-keystore /working/mystore\fP
 .fi     
 .nf     
-\f3    \-storepass <keystore password>\fP
+\f3    \-storepbss <keystore pbssword>\fP
 .fi     
 .nf     
-\f3    \-keypass <private key password>\fP
+\f3    \-keypbss <privbte key pbssword>\fP
 .fi     
 .nf     
-\f3    \-signedjar sbundle\&.jar bundle\&.jar jane\fP
+\f3    \-signedjbr sbundle\&.jbr bundle\&.jbr jbne\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-There is no \f3-sigfile\fR specified in the previous command so the generated \f3\&.SF\fR and \f3\&.DSA\fR files to be placed in the signed JAR file have default names based on the alias name\&. They are named \f3JANE\&.SF\fR and \f3JANE\&.DSA\fR\&.
+There is no \f3-sigfile\fR specified in the previous commbnd so the generbted \f3\&.SF\fR bnd \f3\&.DSA\fR files to be plbced in the signed JAR file hbve defbult nbmes bbsed on the blibs nbme\&. They bre nbmed \f3JANE\&.SF\fR bnd \f3JANE\&.DSA\fR\&.
 .PP
-If you want to be prompted for the store password and the private key password, then you could shorten the previous command to the following:
+If you wbnt to be prompted for the store pbssword bnd the privbte key pbssword, then you could shorten the previous commbnd to the following:
 .sp     
 .nf     
-\f3jarsigner \-keystore /working/mystore\fP
+\f3jbrsigner \-keystore /working/mystore\fP
 .fi     
 .nf     
-\f3    \-signedjar sbundle\&.jar bundle\&.jar jane\fP
-.fi     
-.nf     
-\f3\fR
-.fi     
-.sp     
-If the keystore is the default keystore (\&.keystore in your home directory), then you do not need to specify a keystore, as follows:
-.sp     
-.nf     
-\f3jarsigner \-signedjar sbundle\&.jar bundle\&.jar jane\fP
+\f3    \-signedjbr sbundle\&.jbr bundle\&.jbr jbne\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-If you want the signed JAR file to overwrite the input JAR file (bundle\&.jar), then you do not need to specify a \f3-signedjar\fR option, as follows:
+If the keystore is the defbult keystore (\&.keystore in your home directory), then you do not need to specify b keystore, bs follows:
 .sp     
 .nf     
-\f3jarsigner bundle\&.jar jane\fP
+\f3jbrsigner \-signedjbr sbundle\&.jbr bundle\&.jbr jbne\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+If you wbnt the signed JAR file to overwrite the input JAR file (bundle\&.jbr), then you do not need to specify b \f3-signedjbr\fR option, bs follows:
+.sp     
+.nf     
+\f3jbrsigner bundle\&.jbr jbne\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
 .SS VERIFY\ A\ SIGNED\ JAR\ FILE    
-To verify a signed JAR file to ensure that the signature is valid and the JAR file was not been tampered with, use a command such as the following:
+To verify b signed JAR file to ensure thbt the signbture is vblid bnd the JAR file wbs not been tbmpered with, use b commbnd such bs the following:
 .sp     
 .nf     
-\f3jarsigner \-verify sbundle\&.jar\fP
+\f3jbrsigner \-verify sbundle\&.jbr\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-When the verification is successful, \f3jar verified\fR is displayed\&. Otherwise, an error message is displayed\&. You can get more information when you use the \f3-verbose\fR option\&. A sample use of \f3jarsigner\fR with the\f3-verbose\fR option follows:
+When the verificbtion is successful, \f3jbr verified\fR is displbyed\&. Otherwise, bn error messbge is displbyed\&. You cbn get more informbtion when you use the \f3-verbose\fR option\&. A sbmple use of \f3jbrsigner\fR with the\f3-verbose\fR option follows:
 .sp     
 .nf     
-\f3jarsigner \-verify \-verbose sbundle\&.jar\fP
+\f3jbrsigner \-verify \-verbose sbundle\&.jbr\fP
 .fi     
 .nf     
 \f3\fR
@@ -711,38 +711,38 @@ When the verification is successful, \f3jar verified\fR is displayed\&. Otherwis
 \f3          1013 Fri Sep 26 16:22:10 PDT 1997 META\-INF/JANE\&.DSA\fP
 .fi     
 .nf     
-\f3    smk   2752 Fri Sep 26 16:12:30 PDT 1997 AclEx\&.class\fP
+\f3    smk   2752 Fri Sep 26 16:12:30 PDT 1997 AclEx\&.clbss\fP
 .fi     
 .nf     
-\f3    smk    849 Fri Sep 26 16:12:46 PDT 1997 test\&.class\fP
-.fi     
-.nf     
-\f3\fR
-.fi     
-.nf     
-\f3      s = signature was verified\fP
-.fi     
-.nf     
-\f3      m = entry is listed in manifest\fP
-.fi     
-.nf     
-\f3      k = at least one certificate was found in keystore\fP
+\f3    smk    849 Fri Sep 26 16:12:46 PDT 1997 test\&.clbss\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .nf     
-\f3    jar verified\&.\fP
+\f3      s = signbture wbs verified\fP
+.fi     
+.nf     
+\f3      m = entry is listed in mbnifest\fP
+.fi     
+.nf     
+\f3      k = bt lebst one certificbte wbs found in keystore\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3    jbr verified\&.\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
 .SS VERIFICATION\ WITH\ CERTIFICATE\ INFORMATION    
-If you specify the \f3-certs\fR option with the \f3-verify\fR and \f3-verbose\fR options, then the output includes certificate information for each signer of the JAR file\&. The information includes the certificate type, the signer distinguished name information (when it is an X\&.509 certificate), and in parentheses, the keystore alias for the signer when the public key certificate in the JAR file matches the one in a keystore entry, for example:
+If you specify the \f3-certs\fR option with the \f3-verify\fR bnd \f3-verbose\fR options, then the output includes certificbte informbtion for ebch signer of the JAR file\&. The informbtion includes the certificbte type, the signer distinguished nbme informbtion (when it is bn X\&.509 certificbte), bnd in pbrentheses, the keystore blibs for the signer when the public key certificbte in the JAR file mbtches the one in b keystore entry, for exbmple:
 .sp     
 .nf     
-\f3jarsigner \-keystore /working/mystore \-verify \-verbose \-certs myTest\&.jar\fP
+\f3jbrsigner \-keystore /working/mystore \-verify \-verbose \-certs myTest\&.jbr\fP
 .fi     
 .nf     
 \f3\fR
@@ -763,47 +763,47 @@ If you specify the \f3-certs\fR option with the \f3-verify\fR and \f3-verbose\fR
 \f3          1087 Fri Sep 26 16:23:30 PDT 1997 META\-INF/JAVATEST\&.DSA\fP
 .fi     
 .nf     
-\f3    smk   2752 Fri Sep 26 16:12:30 PDT 1997 Tst\&.class\fP
+\f3    smk   2752 Fri Sep 26 16:12:30 PDT 1997 Tst\&.clbss\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .nf     
-\f3      X\&.509, CN=Test Group, OU=Java Software, O=Oracle, L=CUP, S=CA, C=US (javatest)\fP
+\f3      X\&.509, CN=Test Group, OU=Jbvb Softwbre, O=Orbcle, L=CUP, S=CA, C=US (jbvbtest)\fP
 .fi     
 .nf     
-\f3      X\&.509, CN=Jane Smith, OU=Java Software, O=Oracle, L=cup, S=ca, C=us (jane)\fP
-.fi     
-.nf     
-\f3\fR
-.fi     
-.nf     
-\f3      s = signature was verified\fP
-.fi     
-.nf     
-\f3      m = entry is listed in manifest\fP
-.fi     
-.nf     
-\f3      k = at least one certificate was found in keystore\fP
+\f3      X\&.509, CN=Jbne Smith, OU=Jbvb Softwbre, O=Orbcle, L=cup, S=cb, C=us (jbne)\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .nf     
-\f3    jar verified\&.\fP
+\f3      s = signbture wbs verified\fP
+.fi     
+.nf     
+\f3      m = entry is listed in mbnifest\fP
+.fi     
+.nf     
+\f3      k = bt lebst one certificbte wbs found in keystore\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3    jbr verified\&.\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-If the certificate for a signer is not an X\&.509 certificate, then there is no distinguished name information\&. In that case, just the certificate type and the alias are shown\&. For example, if the certificate is a PGP certificate, and the alias is \f3bob\fR, then you would get: \f3PGP, (bob)\fR\&.
+If the certificbte for b signer is not bn X\&.509 certificbte, then there is no distinguished nbme informbtion\&. In thbt cbse, just the certificbte type bnd the blibs bre shown\&. For exbmple, if the certificbte is b PGP certificbte, bnd the blibs is \f3bob\fR, then you would get: \f3PGP, (bob)\fR\&.
 .SS VERIFICATION\ THAT\ INCLUDES\ IDENTITY\ DATABASE\ SIGNERS    
-If a JAR file was signed with the JDK 1\&.1 \f3javakey\fR tool, and the signer is an alias in an identity database, then the verification output includes an \f3i\fR\&. If the JAR file was signed by both an alias in an identity database and an alias in a keystore, then both \f3k\fR and \f3i\fR appear\&.
+If b JAR file wbs signed with the JDK 1\&.1 \f3jbvbkey\fR tool, bnd the signer is bn blibs in bn identity dbtbbbse, then the verificbtion output includes bn \f3i\fR\&. If the JAR file wbs signed by both bn blibs in bn identity dbtbbbse bnd bn blibs in b keystore, then both \f3k\fR bnd \f3i\fR bppebr\&.
 .PP
-When the \f3-certs\fR option is used, any identity database aliases are shown in brackets rather than the parentheses used for keystore aliases, for example:
+When the \f3-certs\fR option is used, bny identity dbtbbbse blibses bre shown in brbckets rbther thbn the pbrentheses used for keystore blibses, for exbmple:
 .sp     
 .nf     
-\f3    jarsigner \-keystore /working/mystore \-verify \-verbose \-certs writeFile\&.jar\fP
+\f3    jbrsigner \-keystore /working/mystore \-verify \-verbose \-certs writeFile\&.jbr\fP
 .fi     
 .nf     
 \f3\fR
@@ -830,155 +830,155 @@ When the \f3-certs\fR option is used, any identity database aliases are shown in
 \f3\fR
 .fi     
 .nf     
-\f3      X\&.509, CN=Jane Smith, OU=Java Software, O=Oracle, L=cup, S=ca, C=us (jane)\fP
+\f3      X\&.509, CN=Jbne Smith, OU=Jbvb Softwbre, O=Orbcle, L=cup, S=cb, C=us (jbne)\fP
 .fi     
 .nf     
-\f3      X\&.509, CN=Duke, OU=Java Software, O=Oracle, L=cup, S=ca, C=us [duke]\fP
-.fi     
-.nf     
-\f3\fR
-.fi     
-.nf     
-\f3      s = signature was verified\fP
-.fi     
-.nf     
-\f3      m = entry is listed in manifest\fP
-.fi     
-.nf     
-\f3      k = at least one certificate was found in keystore\fP
-.fi     
-.nf     
-\f3      i = at least one certificate was found in identity scope\fP
+\f3      X\&.509, CN=Duke, OU=Jbvb Softwbre, O=Orbcle, L=cup, S=cb, C=us [duke]\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .nf     
-\f3    jar verified\&.\fP
+\f3      s = signbture wbs verified\fP
+.fi     
+.nf     
+\f3      m = entry is listed in mbnifest\fP
+.fi     
+.nf     
+\f3      k = bt lebst one certificbte wbs found in keystore\fP
+.fi     
+.nf     
+\f3      i = bt lebst one certificbte wbs found in identity scope\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3    jbr verified\&.\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-\fINote:\fR The alias \f3duke\fR is in brackets to denote that it is an identity database alias, and not a keystore alias\&.
+\fINote:\fR The blibs \f3duke\fR is in brbckets to denote thbt it is bn identity dbtbbbse blibs, bnd not b keystore blibs\&.
 .SH JDK\ 1\&.1\ COMPATIBILITY    
-The \f3keytool\fR and \f3jarsigner\fR tools replace the \f3javakey\fR tool in JDK 1\&.1\&. These new tools provide more features than \f3javakey\fR, including the ability to protect the keystore and private keys with passwords, and the ability to verify signatures in addition to generating them\&.
+The \f3keytool\fR bnd \f3jbrsigner\fR tools replbce the \f3jbvbkey\fR tool in JDK 1\&.1\&. These new tools provide more febtures thbn \f3jbvbkey\fR, including the bbility to protect the keystore bnd privbte keys with pbsswords, bnd the bbility to verify signbtures in bddition to generbting them\&.
 .PP
-The new keystore architecture replaces the identity database that \f3javakey\fR created and managed\&. There is no backward compatibility between the keystore format and the database format used by \f3javakey\fR in JDK 1\&.1\&. However, be aware of the following:
+The new keystore brchitecture replbces the identity dbtbbbse thbt \f3jbvbkey\fR crebted bnd mbnbged\&. There is no bbckwbrd compbtibility between the keystore formbt bnd the dbtbbbse formbt used by \f3jbvbkey\fR in JDK 1\&.1\&. However, be bwbre of the following:
 .TP 0.2i    
 \(bu
-It is possible to import the information from an identity database into a keystore through the \f3keytool -identitydb\fR command\&.
+It is possible to import the informbtion from bn identity dbtbbbse into b keystore through the \f3keytool -identitydb\fR commbnd\&.
 .TP 0.2i    
 \(bu
-The \f3jarsigner\fR command can sign JAR files that were signed with the \f3javakey\fR command\&.
+The \f3jbrsigner\fR commbnd cbn sign JAR files thbt were signed with the \f3jbvbkey\fR commbnd\&.
 .TP 0.2i    
 \(bu
-The \f3jarsigner\fR command can verify JAR files signed with \f3javakey\fR\&. The \f3jarsigner\fR command recognizes and can work with signer aliases that are from a JDK 1\&.1 identity database rather than a JDK keystore\&.
+The \f3jbrsigner\fR commbnd cbn verify JAR files signed with \f3jbvbkey\fR\&. The \f3jbrsigner\fR commbnd recognizes bnd cbn work with signer blibses thbt bre from b JDK 1\&.1 identity dbtbbbse rbther thbn b JDK keystore\&.
 .SS UNSIGNED\ JARS    
-Unsigned JARs have the default privileges that are granted to all code\&.
+Unsigned JARs hbve the defbult privileges thbt bre grbnted to bll code\&.
 .SS SIGNED\ JARS    
-Signed JARs have the privilege configurations based on their JDK 1\&.1\&.\fIn\fR identity and policy file status as described\&. Only trusted identities can be imported into the JDK keystore\&.
+Signed JARs hbve the privilege configurbtions bbsed on their JDK 1\&.1\&.\fIn\fR identity bnd policy file stbtus bs described\&. Only trusted identities cbn be imported into the JDK keystore\&.
 .PP
-Default Privileges Granted to All Code
+Defbult Privileges Grbnted to All Code
 
-Identity in 1\&.1 database: \fINo\fR
+Identity in 1\&.1 dbtbbbse: \fINo\fR
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fINo\fR
+Trusted identity imported into Jbvb keystore from 1\&.1\&. dbtbbbse: \fINo\fR
 .br     
-Policy file grants privileges to identity/alias: \fINo\fR
-.PP
-
-.PP
-Identity in 1\&.1 database: \fINo\fR
-.br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fIYes\fR
-.br     
-Policy file grants privileges to identity/alias: \fINo\fR
+Policy file grbnts privileges to identity/blibs: \fINo\fR
 .PP
 
 .PP
-Identity in 1\&.1 database: Yes/Untrusted
+Identity in 1\&.1 dbtbbbse: \fINo\fR
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fINo\fR
+Trusted identity imported into Jbvb keystore from 1\&.1\&. dbtbbbse: \fIYes\fR
 .br     
-Policy file grants privileges to identity/alias: \fINo\fR
-.br     
-See 3 in Notes Regarding Privileges of Signed JARs\&.
+Policy file grbnts privileges to identity/blibs: \fINo\fR
 .PP
 
 .PP
-Identity in 1\&.1 database: Yes/Untrusted
+Identity in 1\&.1 dbtbbbse: Yes/Untrusted
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fINo\fR
+Trusted identity imported into Jbvb keystore from 1\&.1\&. dbtbbbse: \fINo\fR
 .br     
-Policy file grants privileges to identity/alias: \fIYes\fR
+Policy file grbnts privileges to identity/blibs: \fINo\fR
 .br     
-See 1 and 3 in Notes Regarding Privileges of Signed JARs\&.
-.PP
-Default Privileges and Policy File Privileges Granted
-
-Identity in 1\&.1 database: \fINo\fR
-.br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fIYes\fR
-.br     
-Policy file grants privileges to identity/alias: \fIYes\fR
+See 3 in Notes Regbrding Privileges of Signed JARs\&.
 .PP
 
 .PP
-Identity in 1\&.1 database: \fIYes/Trusted\fR
+Identity in 1\&.1 dbtbbbse: Yes/Untrusted
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fIYes\fR
+Trusted identity imported into Jbvb keystore from 1\&.1\&. dbtbbbse: \fINo\fR
 .br     
-Policy file grants privileges to identity/alias: \fIYes\fR
+Policy file grbnts privileges to identity/blibs: \fIYes\fR
 .br     
-See 2 in Notes Regarding Privileges of Signed JARs\&.
+See 1 bnd 3 in Notes Regbrding Privileges of Signed JARs\&.
 .PP
-All Privileges Granted
+Defbult Privileges bnd Policy File Privileges Grbnted
 
-Identity in 1\&.1 database: \fIYes/Trusted\fR
+Identity in 1\&.1 dbtbbbse: \fINo\fR
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fINo\fR
+Trusted identity imported into Jbvb keystore from 1\&.1\&. dbtbbbse: \fIYes\fR
 .br     
-Policy file grants privileges to identity/alias: \fINo\fR
+Policy file grbnts privileges to identity/blibs: \fIYes\fR
 .PP
 
 .PP
-Identity in 1\&.1 database: \fIYes/Trusted\fR
+Identity in 1\&.1 dbtbbbse: \fIYes/Trusted\fR
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fIYes\fR
+Trusted identity imported into Jbvb keystore from 1\&.1\&. dbtbbbse: \fIYes\fR
 .br     
-Policy file grants privileges to identity/alias: \fINo\fR
+Policy file grbnts privileges to identity/blibs: \fIYes\fR
 .br     
-See 1 in Notes Regarding Privileges of Signed JARs\&.
+See 2 in Notes Regbrding Privileges of Signed JARs\&.
 .PP
-Identity in 1\&.1 database: \fIYes/Trusted\fR
+All Privileges Grbnted
+
+Identity in 1\&.1 dbtbbbse: \fIYes/Trusted\fR
 .br     
-Trusted identity imported into Java keystore from 1\&.1\&. database: \fINo\fR
+Trusted identity imported into Jbvb keystore from 1\&.1\&. dbtbbbse: \fINo\fR
 .br     
-Policy file grants privileges to identity/alias: \fIYes\fR
-.br     
-See 1 in Notes Regarding Privileges of Signed JARs\&.
+Policy file grbnts privileges to identity/blibs: \fINo\fR
 .PP
-Notes Regarding Privileges of Signed JARs
+
+.PP
+Identity in 1\&.1 dbtbbbse: \fIYes/Trusted\fR
+.br     
+Trusted identity imported into Jbvb keystore from 1\&.1\&. dbtbbbse: \fIYes\fR
+.br     
+Policy file grbnts privileges to identity/blibs: \fINo\fR
+.br     
+See 1 in Notes Regbrding Privileges of Signed JARs\&.
+.PP
+Identity in 1\&.1 dbtbbbse: \fIYes/Trusted\fR
+.br     
+Trusted identity imported into Jbvb keystore from 1\&.1\&. dbtbbbse: \fINo\fR
+.br     
+Policy file grbnts privileges to identity/blibs: \fIYes\fR
+.br     
+See 1 in Notes Regbrding Privileges of Signed JARs\&.
+.PP
+Notes Regbrding Privileges of Signed JARs
 .TP 0.4i    
 1\&.
-If an identity or alias is mentioned in the policy file, then it must be imported into the keystore for the policy file to have any effect on privileges granted\&.
+If bn identity or blibs is mentioned in the policy file, then it must be imported into the keystore for the policy file to hbve bny effect on privileges grbnted\&.
 .TP 0.4i    
 2\&.
-The policy file/keystore combination has precedence over a trusted identity in the identity database\&.
+The policy file/keystore combinbtion hbs precedence over b trusted identity in the identity dbtbbbse\&.
 .TP 0.4i    
 3\&.
-Untrusted identities are ignored in the Java platform\&.
+Untrusted identities bre ignored in the Jbvb plbtform\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-jar(1)
+jbr(1)
 .TP 0.2i    
 \(bu
 keytool(1)
 .TP 0.2i    
 \(bu
-Trail: Security Features in Java SE at http://docs\&.oracle\&.com/javase/tutorial/security/index\&.html
+Trbil: Security Febtures in Jbvb SE bt http://docs\&.orbcle\&.com/jbvbse/tutoribl/security/index\&.html
 .RE
 .br
 'pl 8.5i

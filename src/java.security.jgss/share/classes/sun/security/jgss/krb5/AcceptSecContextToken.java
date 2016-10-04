@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.krb5;
+pbckbge sun.security.jgss.krb5;
 
 import org.ietf.jgss.*;
-import java.io.InputStream;
-import java.io.IOException;
-import java.security.AccessController;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
 
-import sun.security.action.GetBooleanAction;
+import sun.security.bction.GetBoolebnAction;
 import sun.security.krb5.*;
 
-class AcceptSecContextToken extends InitialToken {
+clbss AcceptSecContextToken extends InitiblToken {
 
-    private KrbApRep apRep = null;
+    privbte KrbApRep bpRep = null;
 
     /**
-     * Creates an AcceptSecContextToken for the context acceptor to send to
-     * the context initiator.
+     * Crebtes bn AcceptSecContextToken for the context bcceptor to send to
+     * the context initibtor.
      */
     public AcceptSecContextToken(Krb5Context context,
-                                 KrbApReq apReq)
+                                 KrbApReq bpReq)
         throws KrbException, IOException, GSSException {
 
-        boolean useSubkey = AccessController.doPrivileged(
-                new GetBooleanAction("sun.security.krb5.acceptor.subkey"));
+        boolebn useSubkey = AccessController.doPrivileged(
+                new GetBoolebnAction("sun.security.krb5.bcceptor.subkey"));
 
-        boolean useSequenceNumber = true;
+        boolebn useSequenceNumber = true;
 
         EncryptionKey subKey = null;
         if (useSubkey) {
-            subKey = new EncryptionKey(apReq.getCreds().getSessionKey());
+            subKey = new EncryptionKey(bpReq.getCreds().getSessionKey());
             context.setKey(Krb5Context.ACCEPTOR_SUBKEY, subKey);
         }
-        apRep = new KrbApRep(apReq, useSequenceNumber, subKey);
+        bpRep = new KrbApRep(bpReq, useSequenceNumber, subKey);
 
-        context.resetMySequenceNumber(apRep.getSeqNumber().intValue());
+        context.resetMySequenceNumber(bpRep.getSeqNumber().intVblue());
 
         /*
-         * Note: The acceptor side context key was set when the
-         * InitSecContextToken was received.
+         * Note: The bcceptor side context key wbs set when the
+         * InitSecContextToken wbs received.
          */
     }
 
     /**
-     * Creates an AcceptSecContextToken at the context initiator's side
-     * using the bytes received from  the acceptor.
+     * Crebtes bn AcceptSecContextToken bt the context initibtor's side
+     * using the bytes received from  the bcceptor.
      */
     public AcceptSecContextToken(Krb5Context context,
-                                 Credentials serviceCreds, KrbApReq apReq,
-                                 InputStream is)
+                                 Credentibls serviceCreds, KrbApReq bpReq,
+                                 InputStrebm is)
         throws IOException, GSSException, KrbException  {
 
-        int tokenId = ((is.read()<<8) | is.read());
+        int tokenId = ((is.rebd()<<8) | is.rebd());
 
         if (tokenId != Krb5Token.AP_REP_ID)
             throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                                   "AP_REP token id does not match!");
+                                   "AP_REP token id does not mbtch!");
 
-        byte[] apRepBytes =
-            new sun.security.util.DerValue(is).toByteArray();
+        byte[] bpRepBytes =
+            new sun.security.util.DerVblue(is).toByteArrby();
 
-        KrbApRep apRep = new KrbApRep(apRepBytes, serviceCreds, apReq);
+        KrbApRep bpRep = new KrbApRep(bpRepBytes, serviceCreds, bpReq);
 
         /*
-         * Allow the context acceptor to set a subkey if desired, even
-         * though our context acceptor will not do so.
+         * Allow the context bcceptor to set b subkey if desired, even
+         * though our context bcceptor will not do so.
          */
-        EncryptionKey subKey = apRep.getSubKey();
+        EncryptionKey subKey = bpRep.getSubKey();
         if (subKey != null) {
             context.setKey(Krb5Context.ACCEPTOR_SUBKEY, subKey);
             /*
@@ -98,18 +98,18 @@ class AcceptSecContextToken extends InitialToken {
             */
         }
 
-        Integer apRepSeqNumber = apRep.getSeqNumber();
-        int peerSeqNumber = (apRepSeqNumber != null ?
-                             apRepSeqNumber.intValue() :
+        Integer bpRepSeqNumber = bpRep.getSeqNumber();
+        int peerSeqNumber = (bpRepSeqNumber != null ?
+                             bpRepSeqNumber.intVblue() :
                              0);
         context.resetPeerSequenceNumber(peerSeqNumber);
     }
 
-    public final byte[] encode() throws IOException {
-        byte[] apRepBytes = apRep.getMessage();
-        byte[] retVal = new byte[2 + apRepBytes.length];
-        writeInt(Krb5Token.AP_REP_ID, retVal, 0);
-        System.arraycopy(apRepBytes, 0, retVal, 2, apRepBytes.length);
-        return retVal;
+    public finbl byte[] encode() throws IOException {
+        byte[] bpRepBytes = bpRep.getMessbge();
+        byte[] retVbl = new byte[2 + bpRepBytes.length];
+        writeInt(Krb5Token.AP_REP_ID, retVbl, 0);
+        System.brrbycopy(bpRepBytes, 0, retVbl, 2, bpRepBytes.length);
+        return retVbl;
     }
 }

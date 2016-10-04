@@ -1,349 +1,349 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util;
+pbckbge jbvb.util;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.Function;
+import jbvb.util.function.Predicbte;
+import jbvb.util.function.Supplier;
 
 /**
- * A container object which may or may not contain a non-null value.
- * If a value is present, {@code isPresent()} will return {@code true} and
- * {@code get()} will return the value.
+ * A contbiner object which mby or mby not contbin b non-null vblue.
+ * If b vblue is present, {@code isPresent()} will return {@code true} bnd
+ * {@code get()} will return the vblue.
  *
- * <p>Additional methods that depend on the presence or absence of a contained
- * value are provided, such as {@link #orElse(java.lang.Object) orElse()}
- * (return a default value if value not present) and
- * {@link #ifPresent(java.util.function.Consumer) ifPresent()} (execute a block
- * of code if the value is present).
+ * <p>Additionbl methods thbt depend on the presence or bbsence of b contbined
+ * vblue bre provided, such bs {@link #orElse(jbvb.lbng.Object) orElse()}
+ * (return b defbult vblue if vblue not present) bnd
+ * {@link #ifPresent(jbvb.util.function.Consumer) ifPresent()} (execute b block
+ * of code if the vblue is present).
  *
- * <p>This is a <a href="../lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code Optional} may have unpredictable results and should be avoided.
+ * <p>This is b <b href="../lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code Optionbl} mby hbve unpredictbble results bnd should be bvoided.
  *
  * @since 1.8
  */
-public final class Optional<T> {
+public finbl clbss Optionbl<T> {
     /**
-     * Common instance for {@code empty()}.
+     * Common instbnce for {@code empty()}.
      */
-    private static final Optional<?> EMPTY = new Optional<>();
+    privbte stbtic finbl Optionbl<?> EMPTY = new Optionbl<>();
 
     /**
-     * If non-null, the value; if null, indicates no value is present
+     * If non-null, the vblue; if null, indicbtes no vblue is present
      */
-    private final T value;
+    privbte finbl T vblue;
 
     /**
-     * Constructs an empty instance.
+     * Constructs bn empty instbnce.
      *
-     * @implNote Generally only one empty instance, {@link Optional#EMPTY},
+     * @implNote Generblly only one empty instbnce, {@link Optionbl#EMPTY},
      * should exist per VM.
      */
-    private Optional() {
-        this.value = null;
+    privbte Optionbl() {
+        this.vblue = null;
     }
 
     /**
-     * Returns an empty {@code Optional} instance.  No value is present for this
-     * Optional.
+     * Returns bn empty {@code Optionbl} instbnce.  No vblue is present for this
+     * Optionbl.
      *
-     * @apiNote Though it may be tempting to do so, avoid testing if an object
-     * is empty by comparing with {@code ==} against instances returned by
-     * {@code Option.empty()}. There is no guarantee that it is a singleton.
-     * Instead, use {@link #isPresent()}.
+     * @bpiNote Though it mby be tempting to do so, bvoid testing if bn object
+     * is empty by compbring with {@code ==} bgbinst instbnces returned by
+     * {@code Option.empty()}. There is no gubrbntee thbt it is b singleton.
+     * Instebd, use {@link #isPresent()}.
      *
-     * @param <T> Type of the non-existent value
-     * @return an empty {@code Optional}
+     * @pbrbm <T> Type of the non-existent vblue
+     * @return bn empty {@code Optionbl}
      */
-    public static<T> Optional<T> empty() {
-        @SuppressWarnings("unchecked")
-        Optional<T> t = (Optional<T>) EMPTY;
+    public stbtic<T> Optionbl<T> empty() {
+        @SuppressWbrnings("unchecked")
+        Optionbl<T> t = (Optionbl<T>) EMPTY;
         return t;
     }
 
     /**
-     * Constructs an instance with the value present.
+     * Constructs bn instbnce with the vblue present.
      *
-     * @param value the non-null value to be present
-     * @throws NullPointerException if value is null
+     * @pbrbm vblue the non-null vblue to be present
+     * @throws NullPointerException if vblue is null
      */
-    private Optional(T value) {
-        this.value = Objects.requireNonNull(value);
+    privbte Optionbl(T vblue) {
+        this.vblue = Objects.requireNonNull(vblue);
     }
 
     /**
-     * Returns an {@code Optional} with the specified present non-null value.
+     * Returns bn {@code Optionbl} with the specified present non-null vblue.
      *
-     * @param <T> the class of the value
-     * @param value the value to be present, which must be non-null
-     * @return an {@code Optional} with the value present
-     * @throws NullPointerException if value is null
+     * @pbrbm <T> the clbss of the vblue
+     * @pbrbm vblue the vblue to be present, which must be non-null
+     * @return bn {@code Optionbl} with the vblue present
+     * @throws NullPointerException if vblue is null
      */
-    public static <T> Optional<T> of(T value) {
-        return new Optional<>(value);
+    public stbtic <T> Optionbl<T> of(T vblue) {
+        return new Optionbl<>(vblue);
     }
 
     /**
-     * Returns an {@code Optional} describing the specified value, if non-null,
-     * otherwise returns an empty {@code Optional}.
+     * Returns bn {@code Optionbl} describing the specified vblue, if non-null,
+     * otherwise returns bn empty {@code Optionbl}.
      *
-     * @param <T> the class of the value
-     * @param value the possibly-null value to describe
-     * @return an {@code Optional} with a present value if the specified value
-     * is non-null, otherwise an empty {@code Optional}
+     * @pbrbm <T> the clbss of the vblue
+     * @pbrbm vblue the possibly-null vblue to describe
+     * @return bn {@code Optionbl} with b present vblue if the specified vblue
+     * is non-null, otherwise bn empty {@code Optionbl}
      */
-    public static <T> Optional<T> ofNullable(T value) {
-        return value == null ? empty() : of(value);
+    public stbtic <T> Optionbl<T> ofNullbble(T vblue) {
+        return vblue == null ? empty() : of(vblue);
     }
 
     /**
-     * If a value is present in this {@code Optional}, returns the value,
+     * If b vblue is present in this {@code Optionbl}, returns the vblue,
      * otherwise throws {@code NoSuchElementException}.
      *
-     * @return the non-null value held by this {@code Optional}
-     * @throws NoSuchElementException if there is no value present
+     * @return the non-null vblue held by this {@code Optionbl}
+     * @throws NoSuchElementException if there is no vblue present
      *
-     * @see Optional#isPresent()
+     * @see Optionbl#isPresent()
      */
     public T get() {
-        if (value == null) {
-            throw new NoSuchElementException("No value present");
+        if (vblue == null) {
+            throw new NoSuchElementException("No vblue present");
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Return {@code true} if there is a value present, otherwise {@code false}.
+     * Return {@code true} if there is b vblue present, otherwise {@code fblse}.
      *
-     * @return {@code true} if there is a value present, otherwise {@code false}
+     * @return {@code true} if there is b vblue present, otherwise {@code fblse}
      */
-    public boolean isPresent() {
-        return value != null;
+    public boolebn isPresent() {
+        return vblue != null;
     }
 
     /**
-     * If a value is present, invoke the specified consumer with the value,
+     * If b vblue is present, invoke the specified consumer with the vblue,
      * otherwise do nothing.
      *
-     * @param consumer block to be executed if a value is present
-     * @throws NullPointerException if value is present and {@code consumer} is
+     * @pbrbm consumer block to be executed if b vblue is present
+     * @throws NullPointerException if vblue is present bnd {@code consumer} is
      * null
      */
     public void ifPresent(Consumer<? super T> consumer) {
-        if (value != null)
-            consumer.accept(value);
+        if (vblue != null)
+            consumer.bccept(vblue);
     }
 
     /**
-     * If a value is present, and the value matches the given predicate,
-     * return an {@code Optional} describing the value, otherwise return an
-     * empty {@code Optional}.
+     * If b vblue is present, bnd the vblue mbtches the given predicbte,
+     * return bn {@code Optionbl} describing the vblue, otherwise return bn
+     * empty {@code Optionbl}.
      *
-     * @param predicate a predicate to apply to the value, if present
-     * @return an {@code Optional} describing the value of this {@code Optional}
-     * if a value is present and the value matches the given predicate,
-     * otherwise an empty {@code Optional}
-     * @throws NullPointerException if the predicate is null
+     * @pbrbm predicbte b predicbte to bpply to the vblue, if present
+     * @return bn {@code Optionbl} describing the vblue of this {@code Optionbl}
+     * if b vblue is present bnd the vblue mbtches the given predicbte,
+     * otherwise bn empty {@code Optionbl}
+     * @throws NullPointerException if the predicbte is null
      */
-    public Optional<T> filter(Predicate<? super T> predicate) {
-        Objects.requireNonNull(predicate);
+    public Optionbl<T> filter(Predicbte<? super T> predicbte) {
+        Objects.requireNonNull(predicbte);
         if (!isPresent())
             return this;
         else
-            return predicate.test(value) ? this : empty();
+            return predicbte.test(vblue) ? this : empty();
     }
 
     /**
-     * If a value is present, apply the provided mapping function to it,
-     * and if the result is non-null, return an {@code Optional} describing the
-     * result.  Otherwise return an empty {@code Optional}.
+     * If b vblue is present, bpply the provided mbpping function to it,
+     * bnd if the result is non-null, return bn {@code Optionbl} describing the
+     * result.  Otherwise return bn empty {@code Optionbl}.
      *
-     * @apiNote This method supports post-processing on optional values, without
-     * the need to explicitly check for a return status.  For example, the
-     * following code traverses a stream of file names, selects one that has
-     * not yet been processed, and then opens that file, returning an
-     * {@code Optional<FileInputStream>}:
+     * @bpiNote This method supports post-processing on optionbl vblues, without
+     * the need to explicitly check for b return stbtus.  For exbmple, the
+     * following code trbverses b strebm of file nbmes, selects one thbt hbs
+     * not yet been processed, bnd then opens thbt file, returning bn
+     * {@code Optionbl<FileInputStrebm>}:
      *
      * <pre>{@code
-     *     Optional<FileInputStream> fis =
-     *         names.stream().filter(name -> !isProcessedYet(name))
+     *     Optionbl<FileInputStrebm> fis =
+     *         nbmes.strebm().filter(nbme -> !isProcessedYet(nbme))
      *                       .findFirst()
-     *                       .map(name -> new FileInputStream(name));
+     *                       .mbp(nbme -> new FileInputStrebm(nbme));
      * }</pre>
      *
-     * Here, {@code findFirst} returns an {@code Optional<String>}, and then
-     * {@code map} returns an {@code Optional<FileInputStream>} for the desired
+     * Here, {@code findFirst} returns bn {@code Optionbl<String>}, bnd then
+     * {@code mbp} returns bn {@code Optionbl<FileInputStrebm>} for the desired
      * file if one exists.
      *
-     * @param <U> The type of the result of the mapping function
-     * @param mapper a mapping function to apply to the value, if present
-     * @return an {@code Optional} describing the result of applying a mapping
-     * function to the value of this {@code Optional}, if a value is present,
-     * otherwise an empty {@code Optional}
-     * @throws NullPointerException if the mapping function is null
+     * @pbrbm <U> The type of the result of the mbpping function
+     * @pbrbm mbpper b mbpping function to bpply to the vblue, if present
+     * @return bn {@code Optionbl} describing the result of bpplying b mbpping
+     * function to the vblue of this {@code Optionbl}, if b vblue is present,
+     * otherwise bn empty {@code Optionbl}
+     * @throws NullPointerException if the mbpping function is null
      */
-    public<U> Optional<U> map(Function<? super T, ? extends U> mapper) {
-        Objects.requireNonNull(mapper);
+    public<U> Optionbl<U> mbp(Function<? super T, ? extends U> mbpper) {
+        Objects.requireNonNull(mbpper);
         if (!isPresent())
             return empty();
         else {
-            return Optional.ofNullable(mapper.apply(value));
+            return Optionbl.ofNullbble(mbpper.bpply(vblue));
         }
     }
 
     /**
-     * If a value is present, apply the provided {@code Optional}-bearing
-     * mapping function to it, return that result, otherwise return an empty
-     * {@code Optional}.  This method is similar to {@link #map(Function)},
-     * but the provided mapper is one whose result is already an {@code Optional},
-     * and if invoked, {@code flatMap} does not wrap it with an additional
-     * {@code Optional}.
+     * If b vblue is present, bpply the provided {@code Optionbl}-bebring
+     * mbpping function to it, return thbt result, otherwise return bn empty
+     * {@code Optionbl}.  This method is similbr to {@link #mbp(Function)},
+     * but the provided mbpper is one whose result is blrebdy bn {@code Optionbl},
+     * bnd if invoked, {@code flbtMbp} does not wrbp it with bn bdditionbl
+     * {@code Optionbl}.
      *
-     * @param <U> The type parameter to the {@code Optional} returned by
-     * @param mapper a mapping function to apply to the value, if present
-     *           the mapping function
-     * @return the result of applying an {@code Optional}-bearing mapping
-     * function to the value of this {@code Optional}, if a value is present,
-     * otherwise an empty {@code Optional}
-     * @throws NullPointerException if the mapping function is null or returns
-     * a null result
+     * @pbrbm <U> The type pbrbmeter to the {@code Optionbl} returned by
+     * @pbrbm mbpper b mbpping function to bpply to the vblue, if present
+     *           the mbpping function
+     * @return the result of bpplying bn {@code Optionbl}-bebring mbpping
+     * function to the vblue of this {@code Optionbl}, if b vblue is present,
+     * otherwise bn empty {@code Optionbl}
+     * @throws NullPointerException if the mbpping function is null or returns
+     * b null result
      */
-    public<U> Optional<U> flatMap(Function<? super T, Optional<U>> mapper) {
-        Objects.requireNonNull(mapper);
+    public<U> Optionbl<U> flbtMbp(Function<? super T, Optionbl<U>> mbpper) {
+        Objects.requireNonNull(mbpper);
         if (!isPresent())
             return empty();
         else {
-            return Objects.requireNonNull(mapper.apply(value));
+            return Objects.requireNonNull(mbpper.bpply(vblue));
         }
     }
 
     /**
-     * Return the value if present, otherwise return {@code other}.
+     * Return the vblue if present, otherwise return {@code other}.
      *
-     * @param other the value to be returned if there is no value present, may
+     * @pbrbm other the vblue to be returned if there is no vblue present, mby
      * be null
-     * @return the value, if present, otherwise {@code other}
+     * @return the vblue, if present, otherwise {@code other}
      */
     public T orElse(T other) {
-        return value != null ? value : other;
+        return vblue != null ? vblue : other;
     }
 
     /**
-     * Return the value if present, otherwise invoke {@code other} and return
-     * the result of that invocation.
+     * Return the vblue if present, otherwise invoke {@code other} bnd return
+     * the result of thbt invocbtion.
      *
-     * @param other a {@code Supplier} whose result is returned if no value
+     * @pbrbm other b {@code Supplier} whose result is returned if no vblue
      * is present
-     * @return the value if present otherwise the result of {@code other.get()}
-     * @throws NullPointerException if value is not present and {@code other} is
+     * @return the vblue if present otherwise the result of {@code other.get()}
+     * @throws NullPointerException if vblue is not present bnd {@code other} is
      * null
      */
     public T orElseGet(Supplier<? extends T> other) {
-        return value != null ? value : other.get();
+        return vblue != null ? vblue : other.get();
     }
 
     /**
-     * Return the contained value, if present, otherwise throw an exception
-     * to be created by the provided supplier.
+     * Return the contbined vblue, if present, otherwise throw bn exception
+     * to be crebted by the provided supplier.
      *
-     * @apiNote A method reference to the exception constructor with an empty
-     * argument list can be used as the supplier. For example,
-     * {@code IllegalStateException::new}
+     * @bpiNote A method reference to the exception constructor with bn empty
+     * brgument list cbn be used bs the supplier. For exbmple,
+     * {@code IllegblStbteException::new}
      *
-     * @param <X> Type of the exception to be thrown
-     * @param exceptionSupplier The supplier which will return the exception to
+     * @pbrbm <X> Type of the exception to be thrown
+     * @pbrbm exceptionSupplier The supplier which will return the exception to
      * be thrown
-     * @return the present value
-     * @throws X if there is no value present
-     * @throws NullPointerException if no value is present and
+     * @return the present vblue
+     * @throws X if there is no vblue present
+     * @throws NullPointerException if no vblue is present bnd
      * {@code exceptionSupplier} is null
      */
-    public <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
-        if (value != null) {
-            return value;
+    public <X extends Throwbble> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+        if (vblue != null) {
+            return vblue;
         } else {
             throw exceptionSupplier.get();
         }
     }
 
     /**
-     * Indicates whether some other object is "equal to" this Optional. The
-     * other object is considered equal if:
+     * Indicbtes whether some other object is "equbl to" this Optionbl. The
+     * other object is considered equbl if:
      * <ul>
-     * <li>it is also an {@code Optional} and;
-     * <li>both instances have no value present or;
-     * <li>the present values are "equal to" each other via {@code equals()}.
+     * <li>it is blso bn {@code Optionbl} bnd;
+     * <li>both instbnces hbve no vblue present or;
+     * <li>the present vblues bre "equbl to" ebch other vib {@code equbls()}.
      * </ul>
      *
-     * @param obj an object to be tested for equality
-     * @return {code true} if the other object is "equal to" this object
-     * otherwise {@code false}
+     * @pbrbm obj bn object to be tested for equblity
+     * @return {code true} if the other object is "equbl to" this object
+     * otherwise {@code fblse}
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (!(obj instanceof Optional)) {
-            return false;
+        if (!(obj instbnceof Optionbl)) {
+            return fblse;
         }
 
-        Optional<?> other = (Optional<?>) obj;
-        return Objects.equals(value, other.value);
+        Optionbl<?> other = (Optionbl<?>) obj;
+        return Objects.equbls(vblue, other.vblue);
     }
 
     /**
-     * Returns the hash code value of the present value, if any, or 0 (zero) if
-     * no value is present.
+     * Returns the hbsh code vblue of the present vblue, if bny, or 0 (zero) if
+     * no vblue is present.
      *
-     * @return hash code value of the present value or 0 if no value is present
+     * @return hbsh code vblue of the present vblue or 0 if no vblue is present
      */
     @Override
-    public int hashCode() {
-        return Objects.hashCode(value);
+    public int hbshCode() {
+        return Objects.hbshCode(vblue);
     }
 
     /**
-     * Returns a non-empty string representation of this Optional suitable for
-     * debugging. The exact presentation format is unspecified and may vary
-     * between implementations and versions.
+     * Returns b non-empty string representbtion of this Optionbl suitbble for
+     * debugging. The exbct presentbtion formbt is unspecified bnd mby vbry
+     * between implementbtions bnd versions.
      *
-     * @implSpec If a value is present the result must include its string
-     * representation in the result. Empty and present Optionals must be
-     * unambiguously differentiable.
+     * @implSpec If b vblue is present the result must include its string
+     * representbtion in the result. Empty bnd present Optionbls must be
+     * unbmbiguously differentibble.
      *
-     * @return the string representation of this instance
+     * @return the string representbtion of this instbnce
      */
     @Override
     public String toString() {
-        return value != null
-            ? String.format("Optional[%s]", value)
-            : "Optional.empty";
+        return vblue != null
+            ? String.formbt("Optionbl[%s]", vblue)
+            : "Optionbl.empty";
     }
 }

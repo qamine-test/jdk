@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,12 +28,12 @@
 #include "jvm.h"
 #include "jlong.h"
 
-#include <sys/param.h>
+#include <sys/pbrbm.h>
 #include <sys/mount.h>
 #ifdef ST_RDONLY
-#define statfs statvfs
-#define getfsstat getvfsstat
-#define f_flags f_flag
+#define stbtfs stbtvfs
+#define getfsstbt getvfsstbt
+#define f_flbgs f_flbg
 #define ISREADONLY ST_RDONLY
 #else
 #define ISREADONLY MNT_RDONLY
@@ -42,21 +42,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-static jfieldID entry_name;
-static jfieldID entry_dir;
-static jfieldID entry_fstype;
-static jfieldID entry_options;
+stbtic jfieldID entry_nbme;
+stbtic jfieldID entry_dir;
+stbtic jfieldID entry_fstype;
+stbtic jfieldID entry_options;
 
-struct fsstat_iter {
-    struct statfs *buf;
+struct fsstbt_iter {
+    struct stbtfs *buf;
     int pos;
     int nentries;
 };
 
-#include "sun_nio_fs_BsdNativeDispatcher.h"
+#include "sun_nio_fs_BsdNbtiveDispbtcher.h"
 
-static void throwUnixException(JNIEnv* env, int errnum) {
-    jobject x = JNU_NewObjectByName(env, "sun/nio/fs/UnixException",
+stbtic void throwUnixException(JNIEnv* env, int errnum) {
+    jobject x = JNU_NewObjectByNbme(env, "sun/nio/fs/UnixException",
         "(I)V", errnum);
     if (x != NULL) {
         (*env)->Throw(env, x);
@@ -64,34 +64,34 @@ static void throwUnixException(JNIEnv* env, int errnum) {
 }
 
 /**
- * Initialize jfieldIDs
+ * Initiblize jfieldIDs
  */
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_BsdNativeDispatcher_initIDs(JNIEnv* env, jclass this)
+Jbvb_sun_nio_fs_BsdNbtiveDispbtcher_initIDs(JNIEnv* env, jclbss this)
 {
-    jclass clazz;
+    jclbss clbzz;
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/UnixMountEntry");
-    CHECK_NULL(clazz);
-    entry_name = (*env)->GetFieldID(env, clazz, "name", "[B");
-    CHECK_NULL(entry_name);
-    entry_dir = (*env)->GetFieldID(env, clazz, "dir", "[B");
+    clbzz = (*env)->FindClbss(env, "sun/nio/fs/UnixMountEntry");
+    CHECK_NULL(clbzz);
+    entry_nbme = (*env)->GetFieldID(env, clbzz, "nbme", "[B");
+    CHECK_NULL(entry_nbme);
+    entry_dir = (*env)->GetFieldID(env, clbzz, "dir", "[B");
     CHECK_NULL(entry_dir);
-    entry_fstype = (*env)->GetFieldID(env, clazz, "fstype", "[B");
+    entry_fstype = (*env)->GetFieldID(env, clbzz, "fstype", "[B");
     CHECK_NULL(entry_fstype);
-    entry_options = (*env)->GetFieldID(env, clazz, "opts", "[B");
+    entry_options = (*env)->GetFieldID(env, clbzz, "opts", "[B");
     CHECK_NULL(entry_options);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_BsdNativeDispatcher_getfsstat(JNIEnv* env, jclass this)
+Jbvb_sun_nio_fs_BsdNbtiveDispbtcher_getfsstbt(JNIEnv* env, jclbss this)
 {
     int nentries;
     size_t bufsize;
-    struct fsstat_iter *iter = malloc(sizeof(*iter));
+    struct fsstbt_iter *iter = mblloc(sizeof(*iter));
 
     if (iter == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "native heap");
+        JNU_ThrowOutOfMemoryError(env, "nbtive hebp");
         return 0;
     }
 
@@ -99,7 +99,7 @@ Java_sun_nio_fs_BsdNativeDispatcher_getfsstat(JNIEnv* env, jclass this)
     iter->nentries = 0;
     iter->buf = NULL;
 
-    nentries = getfsstat(NULL, 0, MNT_NOWAIT);
+    nentries = getfsstbt(NULL, 0, MNT_NOWAIT);
 
     if (nentries <= 0) {
         free(iter);
@@ -107,24 +107,24 @@ Java_sun_nio_fs_BsdNativeDispatcher_getfsstat(JNIEnv* env, jclass this)
         return 0;
     }
 
-    // It's possible that a new filesystem gets mounted between
-    // the first getfsstat and the second so loop until consistant
+    // It's possible thbt b new filesystem gets mounted between
+    // the first getfsstbt bnd the second so loop until consistbnt
 
     while (nentries != iter->nentries) {
         if (iter->buf != NULL)
             free(iter->buf);
 
-        bufsize = nentries * sizeof(struct statfs);
+        bufsize = nentries * sizeof(struct stbtfs);
         iter->nentries = nentries;
 
-        iter->buf = malloc(bufsize);
+        iter->buf = mblloc(bufsize);
         if (iter->buf == NULL) {
             free(iter);
-            JNU_ThrowOutOfMemoryError(env, "native heap");
+            JNU_ThrowOutOfMemoryError(env, "nbtive hebp");
             return 0;
         }
 
-        nentries = getfsstat(iter->buf, bufsize, MNT_WAIT);
+        nentries = getfsstbt(iter->buf, bufsize, MNT_WAIT);
         if (nentries <= 0) {
             free(iter->buf);
             free(iter);
@@ -137,66 +137,66 @@ Java_sun_nio_fs_BsdNativeDispatcher_getfsstat(JNIEnv* env, jclass this)
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_BsdNativeDispatcher_fsstatEntry(JNIEnv* env, jclass this,
-    jlong value, jobject entry)
+Jbvb_sun_nio_fs_BsdNbtiveDispbtcher_fsstbtEntry(JNIEnv* env, jclbss this,
+    jlong vblue, jobject entry)
 {
-    struct fsstat_iter *iter = jlong_to_ptr(value);
+    struct fsstbt_iter *iter = jlong_to_ptr(vblue);
     jsize len;
-    jbyteArray bytes;
-    char* name;
-    char* dir;
-    char* fstype;
-    char* options;
+    jbyteArrby bytes;
+    chbr* nbme;
+    chbr* dir;
+    chbr* fstype;
+    chbr* options;
     dev_t dev;
 
     if (iter == NULL || iter->pos >= iter->nentries)
        return -1;
 
-    name = iter->buf[iter->pos].f_mntfromname;
-    dir = iter->buf[iter->pos].f_mntonname;
-    fstype = iter->buf[iter->pos].f_fstypename;
-    if (iter->buf[iter->pos].f_flags & ISREADONLY)
+    nbme = iter->buf[iter->pos].f_mntfromnbme;
+    dir = iter->buf[iter->pos].f_mntonnbme;
+    fstype = iter->buf[iter->pos].f_fstypenbme;
+    if (iter->buf[iter->pos].f_flbgs & ISREADONLY)
         options="ro";
     else
         options="";
 
     iter->pos++;
 
-    len = strlen(name);
-    bytes = (*env)->NewByteArray(env, len);
+    len = strlen(nbme);
+    bytes = (*env)->NewByteArrby(env, len);
     if (bytes == NULL)
         return -1;
-    (*env)->SetByteArrayRegion(env, bytes, 0, len, (jbyte*)name);
-    (*env)->SetObjectField(env, entry, entry_name, bytes);
+    (*env)->SetByteArrbyRegion(env, bytes, 0, len, (jbyte*)nbme);
+    (*env)->SetObjectField(env, entry, entry_nbme, bytes);
 
     len = strlen(dir);
-    bytes = (*env)->NewByteArray(env, len);
+    bytes = (*env)->NewByteArrby(env, len);
     if (bytes == NULL)
         return -1;
-    (*env)->SetByteArrayRegion(env, bytes, 0, len, (jbyte*)dir);
+    (*env)->SetByteArrbyRegion(env, bytes, 0, len, (jbyte*)dir);
     (*env)->SetObjectField(env, entry, entry_dir, bytes);
 
     len = strlen(fstype);
-    bytes = (*env)->NewByteArray(env, len);
+    bytes = (*env)->NewByteArrby(env, len);
     if (bytes == NULL)
         return -1;
-    (*env)->SetByteArrayRegion(env, bytes, 0, len, (jbyte*)fstype);
+    (*env)->SetByteArrbyRegion(env, bytes, 0, len, (jbyte*)fstype);
     (*env)->SetObjectField(env, entry, entry_fstype, bytes);
 
     len = strlen(options);
-    bytes = (*env)->NewByteArray(env, len);
+    bytes = (*env)->NewByteArrby(env, len);
     if (bytes == NULL)
         return -1;
-    (*env)->SetByteArrayRegion(env, bytes, 0, len, (jbyte*)options);
+    (*env)->SetByteArrbyRegion(env, bytes, 0, len, (jbyte*)options);
     (*env)->SetObjectField(env, entry, entry_options, bytes);
 
     return 0;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_BsdNativeDispatcher_endfsstat(JNIEnv* env, jclass this, jlong value)
+Jbvb_sun_nio_fs_BsdNbtiveDispbtcher_endfsstbt(JNIEnv* env, jclbss this, jlong vblue)
 {
-    struct fsstat_iter *iter = jlong_to_ptr(value);
+    struct fsstbt_iter *iter = jlong_to_ptr(vblue);
 
     if (iter != NULL) {
         free(iter->buf);

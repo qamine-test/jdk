@@ -1,43 +1,43 @@
-DTrace HotSpot probes samples
+DTrbce HotSpot probes sbmples
 =============================
 
-This directory contains the list of D scripts which could be used to trace
-Java application with help of Solaris(tm) 10 Dynamic Tracing (DTrace)
+This directory contbins the list of D scripts which could be used to trbce
+Jbvb bpplicbtion with help of Solbris(tm) 10 Dynbmic Trbcing (DTrbce)
 probes.
 
-The directory is organized as:
+The directory is orgbnized bs:
 
 * helpers/
 
-  This directory contains the auxiliary script to launch Java application
+  This directory contbins the buxilibry script to lbunch Jbvb bpplicbtion
   with D script to debug. See more comments in the scripts.
 
 * hotspot/
   
-  This directory contains D scripts which demonstrate usage of 'hotspot'
+  This directory contbins D scripts which demonstrbte usbge of 'hotspot'
   provider probes.
 
 
 * hotspot_jni/
 
-  This directory contains D scripts which demonstrate usage of 'hotspot_jni'
+  This directory contbins D scripts which demonstrbte usbge of 'hotspot_jni'
   provider probes.
 
 
 
-Requirements to run DTrace
+Requirements to run DTrbce
 ==========================
 
-1. dtrace framework should be installed; (check if /usr/sbin/dtrace exists)
+1. dtrbce frbmework should be instblled; (check if /usr/sbin/dtrbce exists)
 
-2. the user should have the following rights: 
-   dtrace_proc, dtrace_user, dtrace_kernel
+2. the user should hbve the following rights: 
+   dtrbce_proc, dtrbce_user, dtrbce_kernel
 
-    To give a user a privilege on login, insert a line into the 
-    /etc/user_attr file of the form: 
-    user-name::::defaultpriv=basic,dtrace_proc,dtrace_user,dtrace_kernel
+    To give b user b privilege on login, insert b line into the 
+    /etc/user_bttr file of the form: 
+    user-nbme::::defbultpriv=bbsic,dtrbce_proc,dtrbce_user,dtrbce_kernel
 
     or
 
-    To give a running process an DTrace privilege, use the ppriv(1) command:
+    To give b running process bn DTrbce privilege, use the ppriv(1) commbnd:
     # ppriv -s A+privilege process-ID

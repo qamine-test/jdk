@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbckbge com.sun.tools.hbt.internbl.server;
 
-import com.sun.tools.hat.internal.model.*;
-import com.sun.tools.hat.internal.util.ArraySorter;
-import com.sun.tools.hat.internal.util.Comparer;
-import java.util.Enumeration;
+import com.sun.tools.hbt.internbl.model.*;
+import com.sun.tools.hbt.internbl.util.ArrbySorter;
+import com.sun.tools.hbt.internbl.util.Compbrer;
+import jbvb.util.Enumerbtion;
 
 /**
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
 
-class InstancesCountQuery extends QueryHandler {
+clbss InstbncesCountQuery extends QueryHbndler {
 
 
-    private boolean excludePlatform;
+    privbte boolebn excludePlbtform;
 
-    public InstancesCountQuery(boolean excludePlatform) {
-        this.excludePlatform = excludePlatform;
+    public InstbncesCountQuery(boolebn excludePlbtform) {
+        this.excludePlbtform = excludePlbtform;
     }
 
     public void run() {
-        if (excludePlatform) {
-            startHtml("Instance Counts for All Classes (excluding platform)");
+        if (excludePlbtform) {
+            stbrtHtml("Instbnce Counts for All Clbsses (excluding plbtform)");
         } else {
-            startHtml("Instance Counts for All Classes (including platform)");
+            stbrtHtml("Instbnce Counts for All Clbsses (including plbtform)");
         }
 
-        JavaClass[] classes = snapshot.getClassesArray();
-        if (excludePlatform) {
+        JbvbClbss[] clbsses = snbpshot.getClbssesArrby();
+        if (excludePlbtform) {
             int num = 0;
-            for (int i = 0; i < classes.length; i++) {
-                if (! PlatformClasses.isPlatformClass(classes[i])) {
-                    classes[num++] = classes[i];
+            for (int i = 0; i < clbsses.length; i++) {
+                if (! PlbtformClbsses.isPlbtformClbss(clbsses[i])) {
+                    clbsses[num++] = clbsses[i];
                 }
             }
-            JavaClass[] tmp = new JavaClass[num];
-            System.arraycopy(classes, 0, tmp, 0, tmp.length);
-            classes = tmp;
+            JbvbClbss[] tmp = new JbvbClbss[num];
+            System.brrbycopy(clbsses, 0, tmp, 0, tmp.length);
+            clbsses = tmp;
         }
-        ArraySorter.sort(classes, new Comparer() {
-            public int compare(Object lhso, Object rhso) {
-                JavaClass lhs = (JavaClass) lhso;
-                JavaClass rhs = (JavaClass) rhso;
-                int diff = lhs.getInstancesCount(false)
-                                - rhs.getInstancesCount(false);
+        ArrbySorter.sort(clbsses, new Compbrer() {
+            public int compbre(Object lhso, Object rhso) {
+                JbvbClbss lhs = (JbvbClbss) lhso;
+                JbvbClbss rhs = (JbvbClbss) rhso;
+                int diff = lhs.getInstbncesCount(fblse)
+                                - rhs.getInstbncesCount(fblse);
                 if (diff != 0) {
-                    return -diff;       // Sort from biggest to smallest
+                    return -diff;       // Sort from biggest to smbllest
                 }
-                String left = lhs.getName();
-                String right = rhs.getName();
-                if (left.startsWith("[") != right.startsWith("[")) {
-                    // Arrays at the end
-                    if (left.startsWith("[")) {
+                String left = lhs.getNbme();
+                String right = rhs.getNbme();
+                if (left.stbrtsWith("[") != right.stbrtsWith("[")) {
+                    // Arrbys bt the end
+                    if (left.stbrtsWith("[")) {
                         return 1;
                     } else {
                         return -1;
                     }
                 }
-                return left.compareTo(right);
+                return left.compbreTo(right);
             }
         });
 
-        String lastPackage = null;
-        long totalSize = 0;
-        long instances = 0;
-        for (int i = 0; i < classes.length; i++) {
-            JavaClass clazz = classes[i];
-            int count = clazz.getInstancesCount(false);
+        String lbstPbckbge = null;
+        long totblSize = 0;
+        long instbnces = 0;
+        for (int i = 0; i < clbsses.length; i++) {
+            JbvbClbss clbzz = clbsses[i];
+            int count = clbzz.getInstbncesCount(fblse);
             print("" + count);
-            printAnchorStart();
-            print("instances/" + encodeForURL(classes[i]));
+            printAnchorStbrt();
+            print("instbnces/" + encodeForURL(clbsses[i]));
             out.print("\"> ");
             if (count == 1) {
-                print("instance");
+                print("instbnce");
             } else {
-                print("instances");
+                print("instbnces");
             }
-            out.print("</a> ");
-            if (snapshot.getHasNewSet()) {
-                Enumeration<JavaHeapObject> objects = clazz.getInstances(false);
+            out.print("</b> ");
+            if (snbpshot.getHbsNewSet()) {
+                Enumerbtion<JbvbHebpObject> objects = clbzz.getInstbnces(fblse);
                 int newInst = 0;
-                while (objects.hasMoreElements()) {
-                    JavaHeapObject obj = objects.nextElement();
+                while (objects.hbsMoreElements()) {
+                    JbvbHebpObject obj = objects.nextElement();
                     if (obj.isNew()) {
                         newInst++;
                     }
                 }
                 print("(");
-                printAnchorStart();
-                print("newInstances/" + encodeForURL(classes[i]));
+                printAnchorStbrt();
+                print("newInstbnces/" + encodeForURL(clbsses[i]));
                 out.print("\">");
                 print("" + newInst + " new");
-                out.print("</a>) ");
+                out.print("</b>) ");
             }
             print("of ");
-            printClass(classes[i]);
+            printClbss(clbsses[i]);
             out.println("<br>");
-            instances += count;
-            totalSize += classes[i].getTotalInstanceSize();
+            instbnces += count;
+            totblSize += clbsses[i].getTotblInstbnceSize();
         }
-        out.println("<h2>Total of " + instances + " instances occupying " + totalSize + " bytes.</h2>");
+        out.println("<h2>Totbl of " + instbnces + " instbnces occupying " + totblSize + " bytes.</h2>");
 
         out.println("<h2>Other Queries</h2>");
         out.println("<ul>");
 
         out.print("<li>");
-        printAnchorStart();
-        if (!excludePlatform) {
-            out.print("showInstanceCounts/\">");
-            print("Show instance counts for all classes (excluding platform)");
+        printAnchorStbrt();
+        if (!excludePlbtform) {
+            out.print("showInstbnceCounts/\">");
+            print("Show instbnce counts for bll clbsses (excluding plbtform)");
         } else {
-            out.print("showInstanceCounts/includePlatform/\">");
-            print("Show instance counts for all classes (including platform)");
+            out.print("showInstbnceCounts/includePlbtform/\">");
+            print("Show instbnce counts for bll clbsses (including plbtform)");
         }
-        out.println("</a>");
+        out.println("</b>");
 
         out.print("<li>");
-        printAnchorStart();
-        out.print("allClassesWithPlatform/\">");
-        print("Show All Classes (including platform)");
-        out.println("</a>");
+        printAnchorStbrt();
+        out.print("bllClbssesWithPlbtform/\">");
+        print("Show All Clbsses (including plbtform)");
+        out.println("</b>");
 
         out.print("<li>");
-        printAnchorStart();
+        printAnchorStbrt();
         out.print("\">");
-        print("Show All Classes (excluding platform)");
-        out.println("</a>");
+        print("Show All Clbsses (excluding plbtform)");
+        out.println("</b>");
 
         out.println("</ul>");
 

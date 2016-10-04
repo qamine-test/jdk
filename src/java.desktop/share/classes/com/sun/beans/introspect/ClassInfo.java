@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.introspect;
+pbckbge com.sun.bebns.introspect;
 
-import com.sun.beans.util.Cache;
+import com.sun.bebns.util.Cbche;
 
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import static sun.reflect.misc.ReflectUtil.checkPackageAccess;
+import stbtic sun.reflect.misc.ReflectUtil.checkPbckbgeAccess;
 
-public final class ClassInfo {
-    private static final ClassInfo DEFAULT = new ClassInfo(null);
-    private static final Cache<Class<?>,ClassInfo> CACHE
-            = new Cache<Class<?>,ClassInfo>(Cache.Kind.SOFT, Cache.Kind.SOFT) {
+public finbl clbss ClbssInfo {
+    privbte stbtic finbl ClbssInfo DEFAULT = new ClbssInfo(null);
+    privbte stbtic finbl Cbche<Clbss<?>,ClbssInfo> CACHE
+            = new Cbche<Clbss<?>,ClbssInfo>(Cbche.Kind.SOFT, Cbche.Kind.SOFT) {
         @Override
-        public ClassInfo create(Class<?> type) {
-            return new ClassInfo(type);
+        public ClbssInfo crebte(Clbss<?> type) {
+            return new ClbssInfo(type);
         }
     };
 
-    public static ClassInfo get(Class<?> type) {
+    public stbtic ClbssInfo get(Clbss<?> type) {
         if (type == null) {
             return DEFAULT;
         }
         try {
-            checkPackageAccess(type);
+            checkPbckbgeAccess(type);
             return CACHE.get(type);
-        } catch (SecurityException exception) {
+        } cbtch (SecurityException exception) {
             return DEFAULT;
         }
     }
 
-    private final Object mutex = new Object();
-    private final Class<?> type;
-    private List<Method> methods;
-    private Map<String,PropertyInfo> properties;
-    private Map<String,EventSetInfo> eventSets;
+    privbte finbl Object mutex = new Object();
+    privbte finbl Clbss<?> type;
+    privbte List<Method> methods;
+    privbte Mbp<String,PropertyInfo> properties;
+    privbte Mbp<String,EventSetInfo> eventSets;
 
-    private ClassInfo(Class<?> type) {
+    privbte ClbssInfo(Clbss<?> type) {
         this.type = type;
     }
 
@@ -75,7 +75,7 @@ public final class ClassInfo {
         return this.methods;
     }
 
-    public Map<String,PropertyInfo> getProperties() {
+    public Mbp<String,PropertyInfo> getProperties() {
         if (this.properties == null) {
             synchronized (this.mutex) {
                 if (this.properties == null) {
@@ -86,7 +86,7 @@ public final class ClassInfo {
         return this.properties;
     }
 
-    public Map<String,EventSetInfo> getEventSets() {
+    public Mbp<String,EventSetInfo> getEventSets() {
         if (this.eventSets == null) {
             synchronized (this.mutex) {
                 if (this.eventSets == null) {

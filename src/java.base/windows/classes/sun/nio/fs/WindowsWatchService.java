@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
-import java.util.*;
-import com.sun.nio.file.ExtendedWatchEventModifier;
-import sun.misc.Unsafe;
+import jbvb.nio.file.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
+import com.sun.nio.file.ExtendedWbtchEventModifier;
+import sun.misc.Unsbfe;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtic sun.nio.fs.WindowsNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
 
 /*
- * Win32 implementation of WatchService based on ReadDirectoryChangesW.
+ * Win32 implementbtion of WbtchService bbsed on RebdDirectoryChbngesW.
  */
 
-class WindowsWatchService
-    extends AbstractWatchService
+clbss WindowsWbtchService
+    extends AbstrbctWbtchService
 {
-    private final static int WAKEUP_COMPLETION_KEY = 0;
-    private final Unsafe unsafe = Unsafe.getUnsafe();
+    privbte finbl stbtic int WAKEUP_COMPLETION_KEY = 0;
+    privbte finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    // background thread to service I/O completion port
-    private final Poller poller;
+    // bbckground threbd to service I/O completion port
+    privbte finbl Poller poller;
 
     /**
-     * Creates an I/O completion port and a daemon thread to service it
+     * Crebtes bn I/O completion port bnd b dbemon threbd to service it
      */
-    WindowsWatchService(WindowsFileSystem fs) throws IOException {
-        // create I/O completion port
+    WindowsWbtchService(WindowsFileSystem fs) throws IOException {
+        // crebte I/O completion port
         long port = 0L;
         try {
-            port = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0);
-        } catch (WindowsException x) {
-            throw new IOException(x.getMessage());
+            port = CrebteIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0);
+        } cbtch (WindowsException x) {
+            throw new IOException(x.getMessbge());
         }
 
         this.poller = new Poller(fs, this, port);
-        this.poller.start();
+        this.poller.stbrt();
     }
 
     @Override
-    WatchKey register(Path path,
-                      WatchEvent.Kind<?>[] events,
-                      WatchEvent.Modifier... modifiers)
+    WbtchKey register(Pbth pbth,
+                      WbtchEvent.Kind<?>[] events,
+                      WbtchEvent.Modifier... modifiers)
          throws IOException
     {
-        // delegate to poller
-        return poller.register(path, events, modifiers);
+        // delegbte to poller
+        return poller.register(pbth, events, modifiers);
     }
 
     @Override
     void implClose() throws IOException {
-        // delegate to poller
+        // delegbte to poller
         poller.close();
     }
 
     /**
-     * Windows implementation of WatchKey.
+     * Windows implementbtion of WbtchKey.
      */
-    private class WindowsWatchKey extends AbstractWatchKey {
-        // file key (used to detect existing registrations)
-        private final FileKey fileKey;
+    privbte clbss WindowsWbtchKey extends AbstrbctWbtchKey {
+        // file key (used to detect existing registrbtions)
+        privbte finbl FileKey fileKey;
 
-        // handle to directory
-        private volatile long handle = INVALID_HANDLE_VALUE;
+        // hbndle to directory
+        privbte volbtile long hbndle = INVALID_HANDLE_VALUE;
 
         // interest events
-        private Set<? extends WatchEvent.Kind<?>> events;
+        privbte Set<? extends WbtchEvent.Kind<?>> events;
 
         // subtree
-        private boolean watchSubtree;
+        privbte boolebn wbtchSubtree;
 
-        // buffer for change events
-        private NativeBuffer buffer;
+        // buffer for chbnge events
+        privbte NbtiveBuffer buffer;
 
         // pointer to bytes returned (in buffer)
-        private long countAddress;
+        privbte long countAddress;
 
-        // pointer to overlapped structure (in buffer)
-        private long overlappedAddress;
+        // pointer to overlbpped structure (in buffer)
+        privbte long overlbppedAddress;
 
-        // completion key (used to map I/O completion to WatchKey)
-        private int completionKey;
+        // completion key (used to mbp I/O completion to WbtchKey)
+        privbte int completionKey;
 
-        WindowsWatchKey(Path dir,
-                        AbstractWatchService watcher,
+        WindowsWbtchKey(Pbth dir,
+                        AbstrbctWbtchService wbtcher,
                         FileKey fileKey)
         {
-            super(dir, watcher);
+            super(dir, wbtcher);
             this.fileKey = fileKey;
         }
 
-        WindowsWatchKey init(long handle,
-                             Set<? extends WatchEvent.Kind<?>> events,
-                             boolean watchSubtree,
-                             NativeBuffer buffer,
+        WindowsWbtchKey init(long hbndle,
+                             Set<? extends WbtchEvent.Kind<?>> events,
+                             boolebn wbtchSubtree,
+                             NbtiveBuffer buffer,
                              long countAddress,
-                             long overlappedAddress,
+                             long overlbppedAddress,
                              int completionKey)
         {
-            this.handle = handle;
+            this.hbndle = hbndle;
             this.events = events;
-            this.watchSubtree = watchSubtree;
+            this.wbtchSubtree = wbtchSubtree;
             this.buffer = buffer;
             this.countAddress = countAddress;
-            this.overlappedAddress = overlappedAddress;
+            this.overlbppedAddress = overlbppedAddress;
             this.completionKey = completionKey;
             return this;
         }
 
-        long handle() {
-            return handle;
+        long hbndle() {
+            return hbndle;
         }
 
-        Set<? extends WatchEvent.Kind<?>> events() {
+        Set<? extends WbtchEvent.Kind<?>> events() {
             return events;
         }
 
-        void setEvents(Set<? extends WatchEvent.Kind<?>> events) {
+        void setEvents(Set<? extends WbtchEvent.Kind<?>> events) {
             this.events = events;
         }
 
-        boolean watchSubtree() {
-            return watchSubtree;
+        boolebn wbtchSubtree() {
+            return wbtchSubtree;
         }
 
-        NativeBuffer buffer() {
+        NbtiveBuffer buffer() {
             return buffer;
         }
 
@@ -157,8 +157,8 @@ class WindowsWatchService
             return countAddress;
         }
 
-        long overlappedAddress() {
-            return overlappedAddress;
+        long overlbppedAddress() {
+            return overlbppedAddress;
         }
 
         FileKey fileKey() {
@@ -169,67 +169,67 @@ class WindowsWatchService
             return completionKey;
         }
 
-        // close directory and release buffer
-        void releaseResources() {
-            CloseHandle(handle);
-            buffer.cleaner().clean();
+        // close directory bnd relebse buffer
+        void relebseResources() {
+            CloseHbndle(hbndle);
+            buffer.clebner().clebn();
         }
 
-        // Invalidate key by closing directory and releasing buffer
-        void invalidate() {
-            releaseResources();
-            handle = INVALID_HANDLE_VALUE;
+        // Invblidbte key by closing directory bnd relebsing buffer
+        void invblidbte() {
+            relebseResources();
+            hbndle = INVALID_HANDLE_VALUE;
             buffer = null;
             countAddress = 0;
-            overlappedAddress = 0;
+            overlbppedAddress = 0;
         }
 
         @Override
-        public boolean isValid() {
-            return handle != INVALID_HANDLE_VALUE;
+        public boolebn isVblid() {
+            return hbndle != INVALID_HANDLE_VALUE;
         }
 
         @Override
-        public void cancel() {
-            if (isValid()) {
-                // delegate to poller
-                poller.cancel(this);
+        public void cbncel() {
+            if (isVblid()) {
+                // delegbte to poller
+                poller.cbncel(this);
             }
         }
     }
 
     // file key to unique identify (open) directory
-    private static class FileKey {
-        private final int volSerialNumber;
-        private final int fileIndexHigh;
-        private final int fileIndexLow;
+    privbte stbtic clbss FileKey {
+        privbte finbl int volSeriblNumber;
+        privbte finbl int fileIndexHigh;
+        privbte finbl int fileIndexLow;
 
-        FileKey(int volSerialNumber, int fileIndexHigh, int fileIndexLow) {
-            this.volSerialNumber = volSerialNumber;
+        FileKey(int volSeriblNumber, int fileIndexHigh, int fileIndexLow) {
+            this.volSeriblNumber = volSeriblNumber;
             this.fileIndexHigh = fileIndexHigh;
             this.fileIndexLow = fileIndexLow;
         }
 
         @Override
-        public int hashCode() {
-            return volSerialNumber ^ fileIndexHigh ^ fileIndexLow;
+        public int hbshCode() {
+            return volSeriblNumber ^ fileIndexHigh ^ fileIndexLow;
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (obj == this)
                 return true;
-            if (!(obj instanceof FileKey))
-                return false;
+            if (!(obj instbnceof FileKey))
+                return fblse;
             FileKey other = (FileKey)obj;
-            if (this.volSerialNumber != other.volSerialNumber) return false;
-            if (this.fileIndexHigh != other.fileIndexHigh) return false;
+            if (this.volSeriblNumber != other.volSeriblNumber) return fblse;
+            if (this.fileIndexHigh != other.fileIndexHigh) return fblse;
             return this.fileIndexLow == other.fileIndexLow;
         }
     }
 
-    // all change events
-    private static final int ALL_FILE_NOTIFY_EVENTS =
+    // bll chbnge events
+    privbte stbtic finbl int ALL_FILE_NOTIFY_EVENTS =
         FILE_NOTIFY_CHANGE_FILE_NAME |
         FILE_NOTIFY_CHANGE_DIR_NAME |
         FILE_NOTIFY_CHANGE_ATTRIBUTES  |
@@ -239,353 +239,353 @@ class WindowsWatchService
         FILE_NOTIFY_CHANGE_SECURITY;
 
     /**
-     * Background thread to service I/O completion port.
+     * Bbckground threbd to service I/O completion port.
      */
-    private class Poller extends AbstractPoller {
+    privbte clbss Poller extends AbstrbctPoller {
         /*
          * typedef struct _OVERLAPPED {
-         *     DWORD  Internal;
-         *     DWORD  InternalHigh;
+         *     DWORD  Internbl;
+         *     DWORD  InternblHigh;
          *     DWORD  Offset;
          *     DWORD  OffsetHigh;
          *     HANDLE hEvent;
          * } OVERLAPPED;
          */
-        private static final short SIZEOF_DWORD         = 4;
-        private static final short SIZEOF_OVERLAPPED    = 32; // 20 on 32-bit
+        privbte stbtic finbl short SIZEOF_DWORD         = 4;
+        privbte stbtic finbl short SIZEOF_OVERLAPPED    = 32; // 20 on 32-bit
 
         /*
          * typedef struct _FILE_NOTIFY_INFORMATION {
          *     DWORD NextEntryOffset;
          *     DWORD Action;
-         *     DWORD FileNameLength;
-         *     WCHAR FileName[1];
-         * } FileNameLength;
+         *     DWORD FileNbmeLength;
+         *     WCHAR FileNbme[1];
+         * } FileNbmeLength;
          */
-        private static final short OFFSETOF_NEXTENTRYOFFSET = 0;
-        private static final short OFFSETOF_ACTION          = 4;
-        private static final short OFFSETOF_FILENAMELENGTH  = 8;
-        private static final short OFFSETOF_FILENAME        = 12;
+        privbte stbtic finbl short OFFSETOF_NEXTENTRYOFFSET = 0;
+        privbte stbtic finbl short OFFSETOF_ACTION          = 4;
+        privbte stbtic finbl short OFFSETOF_FILENAMELENGTH  = 8;
+        privbte stbtic finbl short OFFSETOF_FILENAME        = 12;
 
-        // size of per-directory buffer for events (FIXME - make this configurable)
-        // Need to be less than 4*16384 = 65536. DWORD align.
-        private static final int CHANGES_BUFFER_SIZE    = 16 * 1024;
+        // size of per-directory buffer for events (FIXME - mbke this configurbble)
+        // Need to be less thbn 4*16384 = 65536. DWORD blign.
+        privbte stbtic finbl int CHANGES_BUFFER_SIZE    = 16 * 1024;
 
-        private final WindowsFileSystem fs;
-        private final WindowsWatchService watcher;
-        private final long port;
+        privbte finbl WindowsFileSystem fs;
+        privbte finbl WindowsWbtchService wbtcher;
+        privbte finbl long port;
 
-        // maps completion key to WatchKey
-        private final Map<Integer,WindowsWatchKey> ck2key;
+        // mbps completion key to WbtchKey
+        privbte finbl Mbp<Integer,WindowsWbtchKey> ck2key;
 
-        // maps file key to WatchKey
-        private final Map<FileKey,WindowsWatchKey> fk2key;
+        // mbps file key to WbtchKey
+        privbte finbl Mbp<FileKey,WindowsWbtchKey> fk2key;
 
-        // unique completion key for each directory
-        // native completion key capacity is 64 bits on Win64.
-        private int lastCompletionKey;
+        // unique completion key for ebch directory
+        // nbtive completion key cbpbcity is 64 bits on Win64.
+        privbte int lbstCompletionKey;
 
-        Poller(WindowsFileSystem fs, WindowsWatchService watcher, long port) {
+        Poller(WindowsFileSystem fs, WindowsWbtchService wbtcher, long port) {
             this.fs = fs;
-            this.watcher = watcher;
+            this.wbtcher = wbtcher;
             this.port = port;
-            this.ck2key = new HashMap<>();
-            this.fk2key = new HashMap<>();
-            this.lastCompletionKey = 0;
+            this.ck2key = new HbshMbp<>();
+            this.fk2key = new HbshMbp<>();
+            this.lbstCompletionKey = 0;
         }
 
         @Override
-        void wakeup() throws IOException {
+        void wbkeup() throws IOException {
             try {
-                PostQueuedCompletionStatus(port, WAKEUP_COMPLETION_KEY);
-            } catch (WindowsException x) {
-                throw new IOException(x.getMessage());
+                PostQueuedCompletionStbtus(port, WAKEUP_COMPLETION_KEY);
+            } cbtch (WindowsException x) {
+                throw new IOException(x.getMessbge());
             }
         }
 
         /**
-         * Register a directory for changes as follows:
+         * Register b directory for chbnges bs follows:
          *
          * 1. Open directory
-         * 2. Read its attributes (and check it really is a directory)
-         * 3. Assign completion key and associated handle with completion port
-         * 4. Call ReadDirectoryChangesW to start (async) read of changes
-         * 5. Create or return existing key representing registration
+         * 2. Rebd its bttributes (bnd check it reblly is b directory)
+         * 3. Assign completion key bnd bssocibted hbndle with completion port
+         * 4. Cbll RebdDirectoryChbngesW to stbrt (bsync) rebd of chbnges
+         * 5. Crebte or return existing key representing registrbtion
          */
         @Override
-        Object implRegister(Path obj,
-                            Set<? extends WatchEvent.Kind<?>> events,
-                            WatchEvent.Modifier... modifiers)
+        Object implRegister(Pbth obj,
+                            Set<? extends WbtchEvent.Kind<?>> events,
+                            WbtchEvent.Modifier... modifiers)
         {
-            WindowsPath dir = (WindowsPath)obj;
-            boolean watchSubtree = false;
+            WindowsPbth dir = (WindowsPbth)obj;
+            boolebn wbtchSubtree = fblse;
 
-            // FILE_TREE modifier allowed
-            for (WatchEvent.Modifier modifier: modifiers) {
-                if (modifier == ExtendedWatchEventModifier.FILE_TREE) {
-                    watchSubtree = true;
+            // FILE_TREE modifier bllowed
+            for (WbtchEvent.Modifier modifier: modifiers) {
+                if (modifier == ExtendedWbtchEventModifier.FILE_TREE) {
+                    wbtchSubtree = true;
                 } else {
                     if (modifier == null)
                         return new NullPointerException();
-                    if (modifier instanceof com.sun.nio.file.SensitivityWatchEventModifier)
+                    if (modifier instbnceof com.sun.nio.file.SensitivityWbtchEventModifier)
                         continue; // ignore
-                    return new UnsupportedOperationException("Modifier not supported");
+                    return new UnsupportedOperbtionException("Modifier not supported");
                 }
             }
 
             // open directory
-            long handle;
+            long hbndle;
             try {
-                handle = CreateFile(dir.getPathForWin32Calls(),
+                hbndle = CrebteFile(dir.getPbthForWin32Cblls(),
                                     FILE_LIST_DIRECTORY,
                                     (FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE),
                                     OPEN_EXISTING,
                                     FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED);
-            } catch (WindowsException x) {
-                return x.asIOException(dir);
+            } cbtch (WindowsException x) {
+                return x.bsIOException(dir);
             }
 
-            boolean registered = false;
+            boolebn registered = fblse;
             try {
-                // read attributes and check file is a directory
-                WindowsFileAttributes attrs;
+                // rebd bttributes bnd check file is b directory
+                WindowsFileAttributes bttrs;
                 try {
-                    attrs = WindowsFileAttributes.readAttributes(handle);
-                } catch (WindowsException x) {
-                    return x.asIOException(dir);
+                    bttrs = WindowsFileAttributes.rebdAttributes(hbndle);
+                } cbtch (WindowsException x) {
+                    return x.bsIOException(dir);
                 }
-                if (!attrs.isDirectory()) {
-                    return new NotDirectoryException(dir.getPathForExceptionMessage());
+                if (!bttrs.isDirectory()) {
+                    return new NotDirectoryException(dir.getPbthForExceptionMessbge());
                 }
 
-                // check if this directory is already registered
-                FileKey fk = new FileKey(attrs.volSerialNumber(),
-                                         attrs.fileIndexHigh(),
-                                         attrs.fileIndexLow());
-                WindowsWatchKey existing = fk2key.get(fk);
+                // check if this directory is blrebdy registered
+                FileKey fk = new FileKey(bttrs.volSeriblNumber(),
+                                         bttrs.fileIndexHigh(),
+                                         bttrs.fileIndexLow());
+                WindowsWbtchKey existing = fk2key.get(fk);
 
-                // if already registered and we're not changing the subtree
-                // modifier then simply update the event and return the key.
-                if (existing != null && watchSubtree == existing.watchSubtree()) {
+                // if blrebdy registered bnd we're not chbnging the subtree
+                // modifier then simply updbte the event bnd return the key.
+                if (existing != null && wbtchSubtree == existing.wbtchSubtree()) {
                     existing.setEvents(events);
                     return existing;
                 }
 
-                // Can overflow the int type capacity.
-                // Skip WAKEUP_COMPLETION_KEY value.
-                int completionKey = ++lastCompletionKey;
+                // Cbn overflow the int type cbpbcity.
+                // Skip WAKEUP_COMPLETION_KEY vblue.
+                int completionKey = ++lbstCompletionKey;
                 if (completionKey == WAKEUP_COMPLETION_KEY)
-                    completionKey = ++lastCompletionKey;
+                    completionKey = ++lbstCompletionKey;
 
-                // associate handle with completion port
+                // bssocibte hbndle with completion port
                 try {
-                    CreateIoCompletionPort(handle, port, completionKey);
-                } catch (WindowsException x) {
-                    return new IOException(x.getMessage());
+                    CrebteIoCompletionPort(hbndle, port, completionKey);
+                } cbtch (WindowsException x) {
+                    return new IOException(x.getMessbge());
                 }
 
-                // allocate memory for events, including space for other structures
-                // needed to do overlapped I/O
+                // bllocbte memory for events, including spbce for other structures
+                // needed to do overlbpped I/O
                 int size = CHANGES_BUFFER_SIZE + SIZEOF_DWORD + SIZEOF_OVERLAPPED;
-                NativeBuffer buffer = NativeBuffers.getNativeBuffer(size);
+                NbtiveBuffer buffer = NbtiveBuffers.getNbtiveBuffer(size);
 
-                long bufferAddress = buffer.address();
-                long overlappedAddress = bufferAddress + size - SIZEOF_OVERLAPPED;
-                long countAddress = overlappedAddress - SIZEOF_DWORD;
+                long bufferAddress = buffer.bddress();
+                long overlbppedAddress = bufferAddress + size - SIZEOF_OVERLAPPED;
+                long countAddress = overlbppedAddress - SIZEOF_DWORD;
 
-                // start async read of changes to directory
+                // stbrt bsync rebd of chbnges to directory
                 try {
-                    ReadDirectoryChangesW(handle,
+                    RebdDirectoryChbngesW(hbndle,
                                           bufferAddress,
                                           CHANGES_BUFFER_SIZE,
-                                          watchSubtree,
+                                          wbtchSubtree,
                                           ALL_FILE_NOTIFY_EVENTS,
                                           countAddress,
-                                          overlappedAddress);
-                } catch (WindowsException x) {
-                    buffer.release();
-                    return new IOException(x.getMessage());
+                                          overlbppedAddress);
+                } cbtch (WindowsException x) {
+                    buffer.relebse();
+                    return new IOException(x.getMessbge());
                 }
 
-                WindowsWatchKey watchKey;
+                WindowsWbtchKey wbtchKey;
                 if (existing == null) {
-                    // not registered so create new watch key
-                    watchKey = new WindowsWatchKey(dir, watcher, fk)
-                        .init(handle, events, watchSubtree, buffer, countAddress,
-                              overlappedAddress, completionKey);
-                    // map file key to watch key
-                    fk2key.put(fk, watchKey);
+                    // not registered so crebte new wbtch key
+                    wbtchKey = new WindowsWbtchKey(dir, wbtcher, fk)
+                        .init(hbndle, events, wbtchSubtree, buffer, countAddress,
+                              overlbppedAddress, completionKey);
+                    // mbp file key to wbtch key
+                    fk2key.put(fk, wbtchKey);
                 } else {
-                    // directory already registered so need to:
-                    // 1. remove mapping from old completion key to existing watch key
-                    // 2. release existing key's resources (handle/buffer)
-                    // 3. re-initialize key with new handle/buffer
+                    // directory blrebdy registered so need to:
+                    // 1. remove mbpping from old completion key to existing wbtch key
+                    // 2. relebse existing key's resources (hbndle/buffer)
+                    // 3. re-initiblize key with new hbndle/buffer
                     ck2key.remove(existing.completionKey());
-                    existing.releaseResources();
-                    watchKey = existing.init(handle, events, watchSubtree, buffer,
-                        countAddress, overlappedAddress, completionKey);
+                    existing.relebseResources();
+                    wbtchKey = existing.init(hbndle, events, wbtchSubtree, buffer,
+                        countAddress, overlbppedAddress, completionKey);
                 }
-                // map completion map to watch key
-                ck2key.put(completionKey, watchKey);
+                // mbp completion mbp to wbtch key
+                ck2key.put(completionKey, wbtchKey);
 
                 registered = true;
-                return watchKey;
+                return wbtchKey;
 
-            } finally {
-                if (!registered) CloseHandle(handle);
+            } finblly {
+                if (!registered) CloseHbndle(hbndle);
             }
         }
 
-        // cancel single key
+        // cbncel single key
         @Override
-        void implCancelKey(WatchKey obj) {
-            WindowsWatchKey key = (WindowsWatchKey)obj;
-            if (key.isValid()) {
+        void implCbncelKey(WbtchKey obj) {
+            WindowsWbtchKey key = (WindowsWbtchKey)obj;
+            if (key.isVblid()) {
                 fk2key.remove(key.fileKey());
                 ck2key.remove(key.completionKey());
-                key.invalidate();
+                key.invblidbte();
             }
         }
 
-        // close watch service
+        // close wbtch service
         @Override
         void implCloseAll() {
-            // cancel all keys
-            for (Map.Entry<Integer, WindowsWatchKey> entry: ck2key.entrySet()) {
-                entry.getValue().invalidate();
+            // cbncel bll keys
+            for (Mbp.Entry<Integer, WindowsWbtchKey> entry: ck2key.entrySet()) {
+                entry.getVblue().invblidbte();
             }
-            fk2key.clear();
-            ck2key.clear();
+            fk2key.clebr();
+            ck2key.clebr();
 
             // close I/O completion port
-            CloseHandle(port);
+            CloseHbndle(port);
         }
 
-        // Translate file change action into watch event
-        private WatchEvent.Kind<?> translateActionToEvent(int action)
+        // Trbnslbte file chbnge bction into wbtch event
+        privbte WbtchEvent.Kind<?> trbnslbteActionToEvent(int bction)
         {
-            switch (action) {
-                case FILE_ACTION_MODIFIED :
-                    return StandardWatchEventKinds.ENTRY_MODIFY;
+            switch (bction) {
+                cbse FILE_ACTION_MODIFIED :
+                    return StbndbrdWbtchEventKinds.ENTRY_MODIFY;
 
-                case FILE_ACTION_ADDED :
-                case FILE_ACTION_RENAMED_NEW_NAME :
-                    return StandardWatchEventKinds.ENTRY_CREATE;
+                cbse FILE_ACTION_ADDED :
+                cbse FILE_ACTION_RENAMED_NEW_NAME :
+                    return StbndbrdWbtchEventKinds.ENTRY_CREATE;
 
-                case FILE_ACTION_REMOVED :
-                case FILE_ACTION_RENAMED_OLD_NAME :
-                    return StandardWatchEventKinds.ENTRY_DELETE;
+                cbse FILE_ACTION_REMOVED :
+                cbse FILE_ACTION_RENAMED_OLD_NAME :
+                    return StbndbrdWbtchEventKinds.ENTRY_DELETE;
 
-                default :
-                    return null;  // action not recognized
+                defbult :
+                    return null;  // bction not recognized
             }
         }
 
         // process events (list of FILE_NOTIFY_INFORMATION structures)
-        private void processEvents(WindowsWatchKey key, int size) {
-            long address = key.buffer().address();
+        privbte void processEvents(WindowsWbtchKey key, int size) {
+            long bddress = key.buffer().bddress();
 
             int nextOffset;
             do {
-                int action = unsafe.getInt(address + OFFSETOF_ACTION);
+                int bction = unsbfe.getInt(bddress + OFFSETOF_ACTION);
 
-                // map action to event
-                WatchEvent.Kind<?> kind = translateActionToEvent(action);
-                if (key.events().contains(kind)) {
-                    // copy the name
-                    int nameLengthInBytes = unsafe.getInt(address + OFFSETOF_FILENAMELENGTH);
-                    if ((nameLengthInBytes % 2) != 0) {
-                        throw new AssertionError("FileNameLength.FileNameLength is not a multiple of 2");
+                // mbp bction to event
+                WbtchEvent.Kind<?> kind = trbnslbteActionToEvent(bction);
+                if (key.events().contbins(kind)) {
+                    // copy the nbme
+                    int nbmeLengthInBytes = unsbfe.getInt(bddress + OFFSETOF_FILENAMELENGTH);
+                    if ((nbmeLengthInBytes % 2) != 0) {
+                        throw new AssertionError("FileNbmeLength.FileNbmeLength is not b multiple of 2");
                     }
-                    char[] nameAsArray = new char[nameLengthInBytes/2];
-                    unsafe.copyMemory(null, address + OFFSETOF_FILENAME, nameAsArray,
-                        Unsafe.ARRAY_CHAR_BASE_OFFSET, nameLengthInBytes);
+                    chbr[] nbmeAsArrby = new chbr[nbmeLengthInBytes/2];
+                    unsbfe.copyMemory(null, bddress + OFFSETOF_FILENAME, nbmeAsArrby,
+                        Unsbfe.ARRAY_CHAR_BASE_OFFSET, nbmeLengthInBytes);
 
-                    // create FileName and queue event
-                    WindowsPath name = WindowsPath
-                        .createFromNormalizedPath(fs, new String(nameAsArray));
-                    key.signalEvent(kind, name);
+                    // crebte FileNbme bnd queue event
+                    WindowsPbth nbme = WindowsPbth
+                        .crebteFromNormblizedPbth(fs, new String(nbmeAsArrby));
+                    key.signblEvent(kind, nbme);
                 }
 
                 // next event
-                nextOffset = unsafe.getInt(address + OFFSETOF_NEXTENTRYOFFSET);
-                address += (long)nextOffset;
+                nextOffset = unsbfe.getInt(bddress + OFFSETOF_NEXTENTRYOFFSET);
+                bddress += (long)nextOffset;
             } while (nextOffset != 0);
         }
 
         /**
-         * Poller main loop
+         * Poller mbin loop
          */
         @Override
         public void run() {
             for (;;) {
-                CompletionStatus info;
+                CompletionStbtus info;
                 try {
-                    info = GetQueuedCompletionStatus(port);
-                } catch (WindowsException x) {
-                    // this should not happen
-                    x.printStackTrace();
+                    info = GetQueuedCompletionStbtus(port);
+                } cbtch (WindowsException x) {
+                    // this should not hbppen
+                    x.printStbckTrbce();
                     return;
                 }
 
-                // wakeup
+                // wbkeup
                 if (info.completionKey() == WAKEUP_COMPLETION_KEY) {
-                    boolean shutdown = processRequests();
+                    boolebn shutdown = processRequests();
                     if (shutdown) {
                         return;
                     }
                     continue;
                 }
 
-                // map completionKey to get WatchKey
-                WindowsWatchKey key = ck2key.get((int)info.completionKey());
+                // mbp completionKey to get WbtchKey
+                WindowsWbtchKey key = ck2key.get((int)info.completionKey());
                 if (key == null) {
-                    // We get here when a registration is changed. In that case
-                    // the directory is closed which causes an event with the
+                    // We get here when b registrbtion is chbnged. In thbt cbse
+                    // the directory is closed which cbuses bn event with the
                     // old completion key.
                     continue;
                 }
 
-                boolean criticalError = false;
+                boolebn criticblError = fblse;
                 int errorCode = info.error();
-                int messageSize = info.bytesTransferred();
+                int messbgeSize = info.bytesTrbnsferred();
                 if (errorCode == ERROR_NOTIFY_ENUM_DIR) {
                     // buffer overflow
-                    key.signalEvent(StandardWatchEventKinds.OVERFLOW, null);
+                    key.signblEvent(StbndbrdWbtchEventKinds.OVERFLOW, null);
                 } else if (errorCode != 0 && errorCode != ERROR_MORE_DATA) {
-                    // ReadDirectoryChangesW failed
-                    criticalError = true;
+                    // RebdDirectoryChbngesW fbiled
+                    criticblError = true;
                 } else {
-                    // ERROR_MORE_DATA is a warning about incomplete
-                    // data transfer over TCP/UDP stack. For the case
-                    // [messageSize] is zero in the most of cases.
+                    // ERROR_MORE_DATA is b wbrning bbout incomplete
+                    // dbtb trbnsfer over TCP/UDP stbck. For the cbse
+                    // [messbgeSize] is zero in the most of cbses.
 
-                    if (messageSize > 0) {
+                    if (messbgeSize > 0) {
                         // process non-empty events.
-                        processEvents(key, messageSize);
+                        processEvents(key, messbgeSize);
                     } else if (errorCode == 0) {
                         // insufficient buffer size
-                        // not described, but can happen.
-                        key.signalEvent(StandardWatchEventKinds.OVERFLOW, null);
+                        // not described, but cbn hbppen.
+                        key.signblEvent(StbndbrdWbtchEventKinds.OVERFLOW, null);
                     }
 
-                    // start read for next batch of changes
+                    // stbrt rebd for next bbtch of chbnges
                     try {
-                        ReadDirectoryChangesW(key.handle(),
-                                              key.buffer().address(),
+                        RebdDirectoryChbngesW(key.hbndle(),
+                                              key.buffer().bddress(),
                                               CHANGES_BUFFER_SIZE,
-                                              key.watchSubtree(),
+                                              key.wbtchSubtree(),
                                               ALL_FILE_NOTIFY_EVENTS,
                                               key.countAddress(),
-                                              key.overlappedAddress());
-                    } catch (WindowsException x) {
-                        // no choice but to cancel key
-                        criticalError = true;
+                                              key.overlbppedAddress());
+                    } cbtch (WindowsException x) {
+                        // no choice but to cbncel key
+                        criticblError = true;
                     }
                 }
-                if (criticalError) {
-                    implCancelKey(key);
-                    key.signal();
+                if (criticblError) {
+                    implCbncelKey(key);
+                    key.signbl();
                 }
             }
         }

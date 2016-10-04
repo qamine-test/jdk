@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.security.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
+import jbvb.security.*;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.StringTokenizer;
 
 /**
- * This class is for Serializable permissions. A SerializablePermission
- * contains a name (also referred to as a "target name") but
- * no actions list; you either have the named permission
+ * This clbss is for Seriblizbble permissions. A SeriblizbblePermission
+ * contbins b nbme (blso referred to bs b "tbrget nbme") but
+ * no bctions list; you either hbve the nbmed permission
  * or you don't.
  *
  * <P>
- * The target name is the name of the Serializable permission (see below).
+ * The tbrget nbme is the nbme of the Seriblizbble permission (see below).
  *
  * <P>
- * The following table lists all the possible SerializablePermission target names,
- * and for each provides a description of what the permission allows
- * and a discussion of the risks of granting code the permission.
+ * The following tbble lists bll the possible SeriblizbblePermission tbrget nbmes,
+ * bnd for ebch provides b description of whbt the permission bllows
+ * bnd b discussion of the risks of grbnting code the permission.
  *
- * <table border=1 cellpadding=5 summary="Permission target name, what the permission allows, and associated risks">
+ * <tbble border=1 cellpbdding=5 summbry="Permission tbrget nbme, whbt the permission bllows, bnd bssocibted risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
+ * <th>Permission Tbrget Nbme</th>
+ * <th>Whbt the Permission Allows</th>
  * <th>Risks of Allowing this Permission</th>
  * </tr>
  *
  * <tr>
- *   <td>enableSubclassImplementation</td>
- *   <td>Subclass implementation of ObjectOutputStream or ObjectInputStream
- * to override the default serialization or deserialization, respectively,
+ *   <td>enbbleSubclbssImplementbtion</td>
+ *   <td>Subclbss implementbtion of ObjectOutputStrebm or ObjectInputStrebm
+ * to override the defbult seriblizbtion or deseriblizbtion, respectively,
  * of objects</td>
- *   <td>Code can use this to serialize or
- * deserialize classes in a purposefully malfeasant manner. For example,
- * during serialization, malicious code can use this to
- * purposefully store confidential private field data in a way easily accessible
- * to attackers. Or, during deserialization it could, for example, deserialize
- * a class with all its private fields zeroed out.</td>
+ *   <td>Code cbn use this to seriblize or
+ * deseriblize clbsses in b purposefully mblfebsbnt mbnner. For exbmple,
+ * during seriblizbtion, mblicious code cbn use this to
+ * purposefully store confidentibl privbte field dbtb in b wby ebsily bccessible
+ * to bttbckers. Or, during deseriblizbtion it could, for exbmple, deseriblize
+ * b clbss with bll its privbte fields zeroed out.</td>
  * </tr>
  *
  * <tr>
- *   <td>enableSubstitution</td>
- *   <td>Substitution of one object for another during
- * serialization or deserialization</td>
- *   <td>This is dangerous because malicious code
- * can replace the actual object with one which has incorrect or
- * malignant data.</td>
+ *   <td>enbbleSubstitution</td>
+ *   <td>Substitution of one object for bnother during
+ * seriblizbtion or deseriblizbtion</td>
+ *   <td>This is dbngerous becbuse mblicious code
+ * cbn replbce the bctubl object with one which hbs incorrect or
+ * mblignbnt dbtb.</td>
  * </tr>
  *
- * </table>
+ * </tbble>
  *
- * @see java.security.BasicPermission
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @see jbvb.security.BbsicPermission
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
+ * @see jbvb.lbng.SecurityMbnbger
  *
  *
- * @author Joe Fialli
+ * @buthor Joe Fiblli
  * @since 1.2
  */
 
-/* code was borrowed originally from java.lang.RuntimePermission. */
+/* code wbs borrowed originblly from jbvb.lbng.RuntimePermission. */
 
-public final class SerializablePermission extends BasicPermission {
+public finbl clbss SeriblizbblePermission extends BbsicPermission {
 
-    private static final long serialVersionUID = 8537212141160296410L;
-
-    /**
-     * @serial
-     */
-    private String actions;
+    privbte stbtic finbl long seriblVersionUID = 8537212141160296410L;
 
     /**
-     * Creates a new SerializablePermission with the specified name.
-     * The name is the symbolic name of the SerializablePermission, such as
-     * "enableSubstitution", etc.
-     *
-     * @param name the name of the SerializablePermission.
-     *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty.
+     * @seribl
      */
-    public SerializablePermission(String name)
+    privbte String bctions;
+
+    /**
+     * Crebtes b new SeriblizbblePermission with the specified nbme.
+     * The nbme is the symbolic nbme of the SeriblizbblePermission, such bs
+     * "enbbleSubstitution", etc.
+     *
+     * @pbrbm nbme the nbme of the SeriblizbblePermission.
+     *
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>nbme</code> is empty.
+     */
+    public SeriblizbblePermission(String nbme)
     {
-        super(name);
+        super(nbme);
     }
 
     /**
-     * Creates a new SerializablePermission object with the specified name.
-     * The name is the symbolic name of the SerializablePermission, and the
-     * actions String is currently unused and should be null.
+     * Crebtes b new SeriblizbblePermission object with the specified nbme.
+     * The nbme is the symbolic nbme of the SeriblizbblePermission, bnd the
+     * bctions String is currently unused bnd should be null.
      *
-     * @param name the name of the SerializablePermission.
-     * @param actions currently unused and must be set to null
+     * @pbrbm nbme the nbme of the SeriblizbblePermission.
+     * @pbrbm bctions currently unused bnd must be set to null
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty.
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>nbme</code> is empty.
      */
 
-    public SerializablePermission(String name, String actions)
+    public SeriblizbblePermission(String nbme, String bctions)
     {
-        super(name, actions);
+        super(nbme, bctions);
     }
 }

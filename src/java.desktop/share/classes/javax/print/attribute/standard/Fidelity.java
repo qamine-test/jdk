@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintJobAttribute;
-import javax.print.attribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.PrintJobAttribute;
+import jbvbx.print.bttribute.PrintRequestAttribute;
 
 /**
- * Class Fidelity is a printing attribute class, an enumeration,
- * that indicates whether total fidelity to client supplied print request
- * attributes is required.
- * If FIDELITY_TRUE is specified and a service cannot print the job exactly
- * as specified it must reject the job.
- * If FIDELITY_FALSE is specified a reasonable attempt to print the job is
- * acceptable. If not supplied the default is FIDELITY_FALSE.
+ * Clbss Fidelity is b printing bttribute clbss, bn enumerbtion,
+ * thbt indicbtes whether totbl fidelity to client supplied print request
+ * bttributes is required.
+ * If FIDELITY_TRUE is specified bnd b service cbnnot print the job exbctly
+ * bs specified it must reject the job.
+ * If FIDELITY_FALSE is specified b rebsonbble bttempt to print the job is
+ * bcceptbble. If not supplied the defbult is FIDELITY_FALSE.
  *
  * <P>
- * <B>IPP Compatibility:</B> The IPP boolean value is "true" for FIDELITY_TRUE
- * and "false" for FIDELITY_FALSE. The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
- * See <a href="http://www.ietf.org/rfc/rfc2911.txt">RFC 2911</a> Section 15.1 for
- * a fuller description of the IPP fidelity attribute.
+ * <B>IPP Compbtibility:</B> The IPP boolebn vblue is "true" for FIDELITY_TRUE
+ * bnd "fblse" for FIDELITY_FALSE. The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> is the IPP bttribute nbme.  The enumerbtion's
+ * integer vblue is the IPP enum vblue.  The <code>toString()</code> method
+ * returns the IPP string representbtion of the bttribute vblue.
+ * See <b href="http://www.ietf.org/rfc/rfc2911.txt">RFC 2911</b> Section 15.1 for
+ * b fuller description of the IPP fidelity bttribute.
  *
  */
-public final class Fidelity extends EnumSyntax
+public finbl clbss Fidelity extends EnumSyntbx
         implements PrintJobAttribute, PrintRequestAttribute {
 
-    private static final long serialVersionUID = 6320827847329172308L;
+    privbte stbtic finbl long seriblVersionUID = 6320827847329172308L;
 
     /**
-     * The job must be printed exactly as specified. or else rejected.
+     * The job must be printed exbctly bs specified. or else rejected.
      */
-    public static final Fidelity
+    public stbtic finbl Fidelity
         FIDELITY_TRUE = new Fidelity(0);
 
     /**
-     * The printer should make reasonable attempts to print the job,
-     * even if it cannot print it exactly as specified.
+     * The printer should mbke rebsonbble bttempts to print the job,
+     * even if it cbnnot print it exbctly bs specified.
      */
-    public static final Fidelity
+    public stbtic finbl Fidelity
         FIDELITY_FALSE = new Fidelity(1);
 
     /**
-     * Construct a new fidelity enumeration value with the
-     * given integer value.
+     * Construct b new fidelity enumerbtion vblue with the
+     * given integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected Fidelity(int value) {
-        super (value);
+    protected Fidelity(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
+    privbte stbtic finbl String[] myStringTbble = {
         "true",
-        "false"
+        "fblse"
     };
 
 
-    private static final Fidelity[] myEnumValueTable = {
+    privbte stbtic finbl Fidelity[] myEnumVblueTbble = {
         FIDELITY_TRUE,
         FIDELITY_FALSE
     };
 
     /**
-     * Returns the string table for class Fidelity.
+     * Returns the string tbble for clbss Fidelity.
      */
-    protected String[] getStringTable() {
-        return myStringTable;
+    protected String[] getStringTbble() {
+        return myStringTbble;
     }
 
     /**
-     * Returns the enumeration value table for class Fidelity.
+     * Returns the enumerbtion vblue tbble for clbss Fidelity.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return myEnumValueTable;
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return myEnumVblueTbble;
     }   /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class Fidelity the category is class Fidelity itself.
+     * For clbss Fidelity the cbtegory is clbss Fidelity itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return Fidelity.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return Fidelity.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class Fidelity the category name is
-     * <CODE>"ipp-attribute-fidelity"</CODE>.
+     * For clbss Fidelity the cbtegory nbme is
+     * <CODE>"ipp-bttribute-fidelity"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "ipp-attribute-fidelity";
+    public finbl String getNbme() {
+        return "ipp-bttribute-fidelity";
     }
 
 }

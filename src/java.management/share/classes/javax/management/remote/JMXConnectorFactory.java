@@ -1,268 +1,268 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.remote;
+pbckbge jbvbx.mbnbgement.remote;
 
-import com.sun.jmx.mbeanserver.Util;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.ServiceLoader;
-import java.util.StringTokenizer;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import com.sun.jmx.mbebnserver.Util;
+import jbvb.io.IOException;
+import jbvb.net.MblformedURLException;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.ServiceLobder;
+import jbvb.util.StringTokenizer;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import com.sun.jmx.remote.util.ClassLogger;
+import com.sun.jmx.remote.util.ClbssLogger;
 import com.sun.jmx.remote.util.EnvHelp;
 import sun.reflect.misc.ReflectUtil;
 
 
 /**
- * <p>Factory to create JMX API connector clients.  There
- * are no instances of this class.</p>
+ * <p>Fbctory to crebte JMX API connector clients.  There
+ * bre no instbnces of this clbss.</p>
  *
- * <p>Connections are usually made using the {@link
- * #connect(JMXServiceURL) connect} method of this class.  More
- * advanced applications can separate the creation of the connector
- * client, using {@link #newJMXConnector(JMXServiceURL, Map)
- * newJMXConnector} and the establishment of the connection itself, using
- * {@link JMXConnector#connect(Map)}.</p>
+ * <p>Connections bre usublly mbde using the {@link
+ * #connect(JMXServiceURL) connect} method of this clbss.  More
+ * bdvbnced bpplicbtions cbn sepbrbte the crebtion of the connector
+ * client, using {@link #newJMXConnector(JMXServiceURL, Mbp)
+ * newJMXConnector} bnd the estbblishment of the connection itself, using
+ * {@link JMXConnector#connect(Mbp)}.</p>
  *
- * <p>Each client is created by an instance of {@link
- * JMXConnectorProvider}.  This instance is found as follows.  Suppose
+ * <p>Ebch client is crebted by bn instbnce of {@link
+ * JMXConnectorProvider}.  This instbnce is found bs follows.  Suppose
  * the given {@link JMXServiceURL} looks like
- * <code>"service:jmx:<em>protocol</em>:<em>remainder</em>"</code>.
- * Then the factory will attempt to find the appropriate {@link
- * JMXConnectorProvider} for <code><em>protocol</em></code>.  Each
- * occurrence of the character <code>+</code> or <code>-</code> in
- * <code><em>protocol</em></code> is replaced by <code>.</code> or
+ * <code>"service:jmx:<em>protocol</em>:<em>rembinder</em>"</code>.
+ * Then the fbctory will bttempt to find the bppropribte {@link
+ * JMXConnectorProvider} for <code><em>protocol</em></code>.  Ebch
+ * occurrence of the chbrbcter <code>+</code> or <code>-</code> in
+ * <code><em>protocol</em></code> is replbced by <code>.</code> or
  * <code>_</code>, respectively.</p>
  *
- * <p>A <em>provider package list</em> is searched for as follows:</p>
+ * <p>A <em>provider pbckbge list</em> is sebrched for bs follows:</p>
  *
  * <ol>
  *
- * <li>If the <code>environment</code> parameter to {@link
- * #newJMXConnector(JMXServiceURL, Map) newJMXConnector} contains the
+ * <li>If the <code>environment</code> pbrbmeter to {@link
+ * #newJMXConnector(JMXServiceURL, Mbp) newJMXConnector} contbins the
  * key <code>jmx.remote.protocol.provider.pkgs</code> then the
- * associated value is the provider package list.
+ * bssocibted vblue is the provider pbckbge list.
  *
  * <li>Otherwise, if the system property
- * <code>jmx.remote.protocol.provider.pkgs</code> exists, then its value
- * is the provider package list.
+ * <code>jmx.remote.protocol.provider.pkgs</code> exists, then its vblue
+ * is the provider pbckbge list.
  *
- * <li>Otherwise, there is no provider package list.
+ * <li>Otherwise, there is no provider pbckbge list.
  *
  * </ol>
  *
- * <p>The provider package list is a string that is interpreted as a
- * list of non-empty Java package names separated by vertical bars
+ * <p>The provider pbckbge list is b string thbt is interpreted bs b
+ * list of non-empty Jbvb pbckbge nbmes sepbrbted by verticbl bbrs
  * (<code>|</code>).  If the string is empty, then so is the provider
- * package list.  If the provider package list is not a String, or if
- * it contains an element that is an empty string, a {@link
+ * pbckbge list.  If the provider pbckbge list is not b String, or if
+ * it contbins bn element thbt is bn empty string, b {@link
  * JMXProviderException} is thrown.</p>
  *
- * <p>If the provider package list exists and is not empty, then for
- * each element <code><em>pkg</em></code> of the list, the factory
- * will attempt to load the class
+ * <p>If the provider pbckbge list exists bnd is not empty, then for
+ * ebch element <code><em>pkg</em></code> of the list, the fbctory
+ * will bttempt to lobd the clbss
  *
  * <blockquote>
  * <code><em>pkg</em>.<em>protocol</em>.ClientProvider</code>
  * </blockquote>
 
- * <p>If the <code>environment</code> parameter to {@link
- * #newJMXConnector(JMXServiceURL, Map) newJMXConnector} contains the
- * key <code>jmx.remote.protocol.provider.class.loader</code> then the
- * associated value is the class loader to use to load the provider.
- * If the associated value is not an instance of {@link
- * java.lang.ClassLoader}, an {@link
- * java.lang.IllegalArgumentException} is thrown.</p>
+ * <p>If the <code>environment</code> pbrbmeter to {@link
+ * #newJMXConnector(JMXServiceURL, Mbp) newJMXConnector} contbins the
+ * key <code>jmx.remote.protocol.provider.clbss.lobder</code> then the
+ * bssocibted vblue is the clbss lobder to use to lobd the provider.
+ * If the bssocibted vblue is not bn instbnce of {@link
+ * jbvb.lbng.ClbssLobder}, bn {@link
+ * jbvb.lbng.IllegblArgumentException} is thrown.</p>
  *
- * <p>If the <code>jmx.remote.protocol.provider.class.loader</code>
- * key is not present in the <code>environment</code> parameter, the
- * calling thread's context class loader is used.</p>
+ * <p>If the <code>jmx.remote.protocol.provider.clbss.lobder</code>
+ * key is not present in the <code>environment</code> pbrbmeter, the
+ * cblling threbd's context clbss lobder is used.</p>
  *
- * <p>If the attempt to load this class produces a {@link
- * ClassNotFoundException}, the search for a handler continues with
+ * <p>If the bttempt to lobd this clbss produces b {@link
+ * ClbssNotFoundException}, the sebrch for b hbndler continues with
  * the next element of the list.</p>
  *
- * <p>Otherwise, a problem with the provider found is signalled by a
+ * <p>Otherwise, b problem with the provider found is signblled by b
  * {@link JMXProviderException} whose {@link
- * JMXProviderException#getCause() <em>cause</em>} indicates the underlying
- * exception, as follows:</p>
+ * JMXProviderException#getCbuse() <em>cbuse</em>} indicbtes the underlying
+ * exception, bs follows:</p>
  *
  * <ul>
  *
- * <li>if the attempt to load the class produces an exception other
- * than <code>ClassNotFoundException</code>, that is the
- * <em>cause</em>;
+ * <li>if the bttempt to lobd the clbss produces bn exception other
+ * thbn <code>ClbssNotFoundException</code>, thbt is the
+ * <em>cbuse</em>;
  *
- * <li>if {@link Class#newInstance()} for the class produces an
- * exception, that is the <em>cause</em>.
+ * <li>if {@link Clbss#newInstbnce()} for the clbss produces bn
+ * exception, thbt is the <em>cbuse</em>.
  *
  * </ul>
  *
- * <p>If no provider is found by the above steps, including the
- * default case where there is no provider package list, then the
- * implementation will use its own provider for
- * <code><em>protocol</em></code>, or it will throw a
- * <code>MalformedURLException</code> if there is none.  An
- * implementation may choose to find providers by other means.  For
- * example, it may support the <a
- * href="{@docRoot}/../technotes/guides/jar/jar.html#Service%20Provider">
- * JAR conventions for service providers</a>, where the service
- * interface is <code>JMXConnectorProvider</code>.</p>
+ * <p>If no provider is found by the bbove steps, including the
+ * defbult cbse where there is no provider pbckbge list, then the
+ * implementbtion will use its own provider for
+ * <code><em>protocol</em></code>, or it will throw b
+ * <code>MblformedURLException</code> if there is none.  An
+ * implementbtion mby choose to find providers by other mebns.  For
+ * exbmple, it mby support the <b
+ * href="{@docRoot}/../technotes/guides/jbr/jbr.html#Service%20Provider">
+ * JAR conventions for service providers</b>, where the service
+ * interfbce is <code>JMXConnectorProvider</code>.</p>
  *
- * <p>Every implementation must support the RMI connector protocol with
- * the default RMI transport, specified with string <code>rmi</code>.
- * An implementation may optionally support the RMI connector protocol
- * with the RMI/IIOP transport, specified with the string
+ * <p>Every implementbtion must support the RMI connector protocol with
+ * the defbult RMI trbnsport, specified with string <code>rmi</code>.
+ * An implementbtion mby optionblly support the RMI connector protocol
+ * with the RMI/IIOP trbnsport, specified with the string
  * <code>iiop</code>.</p>
  *
- * <p>Once a provider is found, the result of the
- * <code>newJMXConnector</code> method is the result of calling {@link
- * JMXConnectorProvider#newJMXConnector(JMXServiceURL,Map) newJMXConnector}
+ * <p>Once b provider is found, the result of the
+ * <code>newJMXConnector</code> method is the result of cblling {@link
+ * JMXConnectorProvider#newJMXConnector(JMXServiceURL,Mbp) newJMXConnector}
  * on the provider.</p>
  *
- * <p>The <code>Map</code> parameter passed to the
- * <code>JMXConnectorProvider</code> is a new read-only
- * <code>Map</code> that contains all the entries that were in the
- * <code>environment</code> parameter to {@link
- * #newJMXConnector(JMXServiceURL,Map)
- * JMXConnectorFactory.newJMXConnector}, if there was one.
- * Additionally, if the
- * <code>jmx.remote.protocol.provider.class.loader</code> key is not
- * present in the <code>environment</code> parameter, it is added to
- * the new read-only <code>Map</code>.  The associated value is the
- * calling thread's context class loader.</p>
+ * <p>The <code>Mbp</code> pbrbmeter pbssed to the
+ * <code>JMXConnectorProvider</code> is b new rebd-only
+ * <code>Mbp</code> thbt contbins bll the entries thbt were in the
+ * <code>environment</code> pbrbmeter to {@link
+ * #newJMXConnector(JMXServiceURL,Mbp)
+ * JMXConnectorFbctory.newJMXConnector}, if there wbs one.
+ * Additionblly, if the
+ * <code>jmx.remote.protocol.provider.clbss.lobder</code> key is not
+ * present in the <code>environment</code> pbrbmeter, it is bdded to
+ * the new rebd-only <code>Mbp</code>.  The bssocibted vblue is the
+ * cblling threbd's context clbss lobder.</p>
  *
  * @since 1.5
  */
-public class JMXConnectorFactory {
+public clbss JMXConnectorFbctory {
 
     /**
-     * <p>Name of the attribute that specifies the default class
-     * loader. This class loader is used to deserialize return values and
-     * exceptions from remote <code>MBeanServerConnection</code>
-     * calls.  The value associated with this attribute is an instance
-     * of {@link ClassLoader}.</p>
+     * <p>Nbme of the bttribute thbt specifies the defbult clbss
+     * lobder. This clbss lobder is used to deseriblize return vblues bnd
+     * exceptions from remote <code>MBebnServerConnection</code>
+     * cblls.  The vblue bssocibted with this bttribute is bn instbnce
+     * of {@link ClbssLobder}.</p>
      */
-    public static final String DEFAULT_CLASS_LOADER =
-        "jmx.remote.default.class.loader";
+    public stbtic finbl String DEFAULT_CLASS_LOADER =
+        "jmx.remote.defbult.clbss.lobder";
 
     /**
-     * <p>Name of the attribute that specifies the provider packages
-     * that are consulted when looking for the handler for a protocol.
-     * The value associated with this attribute is a string with
-     * package names separated by vertical bars (<code>|</code>).</p>
+     * <p>Nbme of the bttribute thbt specifies the provider pbckbges
+     * thbt bre consulted when looking for the hbndler for b protocol.
+     * The vblue bssocibted with this bttribute is b string with
+     * pbckbge nbmes sepbrbted by verticbl bbrs (<code>|</code>).</p>
      */
-    public static final String PROTOCOL_PROVIDER_PACKAGES =
+    public stbtic finbl String PROTOCOL_PROVIDER_PACKAGES =
         "jmx.remote.protocol.provider.pkgs";
 
     /**
-     * <p>Name of the attribute that specifies the class
-     * loader for loading protocol providers.
-     * The value associated with this attribute is an instance
-     * of {@link ClassLoader}.</p>
+     * <p>Nbme of the bttribute thbt specifies the clbss
+     * lobder for lobding protocol providers.
+     * The vblue bssocibted with this bttribute is bn instbnce
+     * of {@link ClbssLobder}.</p>
      */
-    public static final String PROTOCOL_PROVIDER_CLASS_LOADER =
-        "jmx.remote.protocol.provider.class.loader";
+    public stbtic finbl String PROTOCOL_PROVIDER_CLASS_LOADER =
+        "jmx.remote.protocol.provider.clbss.lobder";
 
-    private static final String PROTOCOL_PROVIDER_DEFAULT_PACKAGE =
+    privbte stbtic finbl String PROTOCOL_PROVIDER_DEFAULT_PACKAGE =
         "com.sun.jmx.remote.protocol";
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc", "JMXConnectorFactory");
+    privbte stbtic finbl ClbssLogger logger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.misc", "JMXConnectorFbctory");
 
-    /** There are no instances of this class.  */
-    private JMXConnectorFactory() {
+    /** There bre no instbnces of this clbss.  */
+    privbte JMXConnectorFbctory() {
     }
 
     /**
-     * <p>Creates a connection to the connector server at the given
-     * address.</p>
+     * <p>Crebtes b connection to the connector server bt the given
+     * bddress.</p>
      *
-     * <p>This method is equivalent to {@link
-     * #connect(JMXServiceURL,Map) connect(serviceURL, null)}.</p>
+     * <p>This method is equivblent to {@link
+     * #connect(JMXServiceURL,Mbp) connect(serviceURL, null)}.</p>
      *
-     * @param serviceURL the address of the connector server to
+     * @pbrbm serviceURL the bddress of the connector server to
      * connect to.
      *
-     * @return a <code>JMXConnector</code> whose {@link
-     * JMXConnector#connect connect} method has been called.
+     * @return b <code>JMXConnector</code> whose {@link
+     * JMXConnector#connect connect} method hbs been cblled.
      *
      * @exception NullPointerException if <code>serviceURL</code> is null.
      *
      * @exception IOException if the connector client or the
-     * connection cannot be made because of a communication problem.
+     * connection cbnnot be mbde becbuse of b communicbtion problem.
      *
-     * @exception SecurityException if the connection cannot be made
-     * for security reasons.
+     * @exception SecurityException if the connection cbnnot be mbde
+     * for security rebsons.
      */
-    public static JMXConnector connect(JMXServiceURL serviceURL)
+    public stbtic JMXConnector connect(JMXServiceURL serviceURL)
             throws IOException {
         return connect(serviceURL, null);
     }
 
     /**
-     * <p>Creates a connection to the connector server at the given
-     * address.</p>
+     * <p>Crebtes b connection to the connector server bt the given
+     * bddress.</p>
      *
-     * <p>This method is equivalent to:</p>
+     * <p>This method is equivblent to:</p>
      *
      * <pre>
-     * JMXConnector conn = JMXConnectorFactory.newJMXConnector(serviceURL,
+     * JMXConnector conn = JMXConnectorFbctory.newJMXConnector(serviceURL,
      *                                                         environment);
      * conn.connect(environment);
      * </pre>
      *
-     * @param serviceURL the address of the connector server to connect to.
+     * @pbrbm serviceURL the bddress of the connector server to connect to.
      *
-     * @param environment a set of attributes to determine how the
-     * connection is made.  This parameter can be null.  Keys in this
-     * map must be Strings.  The appropriate type of each associated
-     * value depends on the attribute.  The contents of
-     * <code>environment</code> are not changed by this call.
+     * @pbrbm environment b set of bttributes to determine how the
+     * connection is mbde.  This pbrbmeter cbn be null.  Keys in this
+     * mbp must be Strings.  The bppropribte type of ebch bssocibted
+     * vblue depends on the bttribute.  The contents of
+     * <code>environment</code> bre not chbnged by this cbll.
      *
-     * @return a <code>JMXConnector</code> representing the newly-made
-     * connection.  Each successful call to this method produces a
+     * @return b <code>JMXConnector</code> representing the newly-mbde
+     * connection.  Ebch successful cbll to this method produces b
      * different object.
      *
      * @exception NullPointerException if <code>serviceURL</code> is null.
      *
      * @exception IOException if the connector client or the
-     * connection cannot be made because of a communication problem.
+     * connection cbnnot be mbde becbuse of b communicbtion problem.
      *
-     * @exception SecurityException if the connection cannot be made
-     * for security reasons.
+     * @exception SecurityException if the connection cbnnot be mbde
+     * for security rebsons.
      */
-    public static JMXConnector connect(JMXServiceURL serviceURL,
-                                       Map<String,?> environment)
+    public stbtic JMXConnector connect(JMXServiceURL serviceURL,
+                                       Mbp<String,?> environment)
             throws IOException {
         if (serviceURL == null)
             throw new NullPointerException("Null JMXServiceURL");
@@ -271,107 +271,107 @@ public class JMXConnectorFactory {
         return conn;
     }
 
-    private static <K,V> Map<K,V> newHashMap() {
-        return new HashMap<K,V>();
+    privbte stbtic <K,V> Mbp<K,V> newHbshMbp() {
+        return new HbshMbp<K,V>();
     }
 
-    private static <K> Map<K,Object> newHashMap(Map<K,?> map) {
-        return new HashMap<K,Object>(map);
+    privbte stbtic <K> Mbp<K,Object> newHbshMbp(Mbp<K,?> mbp) {
+        return new HbshMbp<K,Object>(mbp);
     }
 
     /**
-     * <p>Creates a connector client for the connector server at the
-     * given address.  The resultant client is not connected until its
-     * {@link JMXConnector#connect(Map) connect} method is called.</p>
+     * <p>Crebtes b connector client for the connector server bt the
+     * given bddress.  The resultbnt client is not connected until its
+     * {@link JMXConnector#connect(Mbp) connect} method is cblled.</p>
      *
-     * @param serviceURL the address of the connector server to connect to.
+     * @pbrbm serviceURL the bddress of the connector server to connect to.
      *
-     * @param environment a set of attributes to determine how the
-     * connection is made.  This parameter can be null.  Keys in this
-     * map must be Strings.  The appropriate type of each associated
-     * value depends on the attribute.  The contents of
-     * <code>environment</code> are not changed by this call.
+     * @pbrbm environment b set of bttributes to determine how the
+     * connection is mbde.  This pbrbmeter cbn be null.  Keys in this
+     * mbp must be Strings.  The bppropribte type of ebch bssocibted
+     * vblue depends on the bttribute.  The contents of
+     * <code>environment</code> bre not chbnged by this cbll.
      *
-     * @return a <code>JMXConnector</code> representing the new
-     * connector client.  Each successful call to this method produces
-     * a different object.
+     * @return b <code>JMXConnector</code> representing the new
+     * connector client.  Ebch successful cbll to this method produces
+     * b different object.
      *
      * @exception NullPointerException if <code>serviceURL</code> is null.
      *
-     * @exception IOException if the connector client cannot be made
-     * because of a communication problem.
+     * @exception IOException if the connector client cbnnot be mbde
+     * becbuse of b communicbtion problem.
      *
-     * @exception MalformedURLException if there is no provider for the
+     * @exception MblformedURLException if there is no provider for the
      * protocol in <code>serviceURL</code>.
      *
-     * @exception JMXProviderException if there is a provider for the
-     * protocol in <code>serviceURL</code> but it cannot be used for
-     * some reason.
+     * @exception JMXProviderException if there is b provider for the
+     * protocol in <code>serviceURL</code> but it cbnnot be used for
+     * some rebson.
      */
-    public static JMXConnector newJMXConnector(JMXServiceURL serviceURL,
-                                               Map<String,?> environment)
+    public stbtic JMXConnector newJMXConnector(JMXServiceURL serviceURL,
+                                               Mbp<String,?> environment)
             throws IOException {
 
-        final Map<String,Object> envcopy;
+        finbl Mbp<String,Object> envcopy;
         if (environment == null)
-            envcopy = newHashMap();
+            envcopy = newHbshMbp();
         else {
             EnvHelp.checkAttributes(environment);
-            envcopy = newHashMap(environment);
+            envcopy = newHbshMbp(environment);
         }
 
-        final ClassLoader loader = resolveClassLoader(envcopy);
-        final Class<JMXConnectorProvider> targetInterface =
-                JMXConnectorProvider.class;
-        final String protocol = serviceURL.getProtocol();
-        final String providerClassName = "ClientProvider";
-        final JMXServiceURL providerURL = serviceURL;
+        finbl ClbssLobder lobder = resolveClbssLobder(envcopy);
+        finbl Clbss<JMXConnectorProvider> tbrgetInterfbce =
+                JMXConnectorProvider.clbss;
+        finbl String protocol = serviceURL.getProtocol();
+        finbl String providerClbssNbme = "ClientProvider";
+        finbl JMXServiceURL providerURL = serviceURL;
 
         JMXConnectorProvider provider = getProvider(providerURL, envcopy,
-                                               providerClassName,
-                                               targetInterface,
-                                               loader);
+                                               providerClbssNbme,
+                                               tbrgetInterfbce,
+                                               lobder);
 
         IOException exception = null;
         if (provider == null) {
-            // Loader is null when context class loader is set to null
-            // and no loader has been provided in map.
-            // com.sun.jmx.remote.util.Service class extracted from j2se
-            // provider search algorithm doesn't handle well null classloader.
-            if (loader != null) {
+            // Lobder is null when context clbss lobder is set to null
+            // bnd no lobder hbs been provided in mbp.
+            // com.sun.jmx.remote.util.Service clbss extrbcted from j2se
+            // provider sebrch blgorithm doesn't hbndle well null clbsslobder.
+            if (lobder != null) {
                 try {
                     JMXConnector connection =
-                        getConnectorAsService(loader, providerURL, envcopy);
+                        getConnectorAsService(lobder, providerURL, envcopy);
                     if (connection != null)
                         return connection;
-                } catch (JMXProviderException e) {
+                } cbtch (JMXProviderException e) {
                     throw e;
-                } catch (IOException e) {
+                } cbtch (IOException e) {
                     exception = e;
                 }
             }
             provider = getProvider(protocol, PROTOCOL_PROVIDER_DEFAULT_PACKAGE,
-                            JMXConnectorFactory.class.getClassLoader(),
-                            providerClassName, targetInterface);
+                            JMXConnectorFbctory.clbss.getClbssLobder(),
+                            providerClbssNbme, tbrgetInterfbce);
         }
 
         if (provider == null) {
-            MalformedURLException e =
-                new MalformedURLException("Unsupported protocol: " + protocol);
+            MblformedURLException e =
+                new MblformedURLException("Unsupported protocol: " + protocol);
             if (exception == null) {
                 throw e;
             } else {
-                throw EnvHelp.initCause(e, exception);
+                throw EnvHelp.initCbuse(e, exception);
             }
         }
 
-        final Map<String,Object> fixedenv =
-                Collections.unmodifiableMap(envcopy);
+        finbl Mbp<String,Object> fixedenv =
+                Collections.unmodifibbleMbp(envcopy);
 
         return provider.newJMXConnector(serviceURL, fixedenv);
     }
 
-    private static String resolvePkgs(Map<String, ?> env)
+    privbte stbtic String resolvePkgs(Mbp<String, ?> env)
             throws JMXProviderException {
 
         Object pkgsObject = null;
@@ -390,105 +390,105 @@ public class JMXConnectorFactory {
         if (pkgsObject == null)
             return null;
 
-        if (!(pkgsObject instanceof String)) {
-            final String msg = "Value of " + PROTOCOL_PROVIDER_PACKAGES +
-                " parameter is not a String: " +
-                pkgsObject.getClass().getName();
+        if (!(pkgsObject instbnceof String)) {
+            finbl String msg = "Vblue of " + PROTOCOL_PROVIDER_PACKAGES +
+                " pbrbmeter is not b String: " +
+                pkgsObject.getClbss().getNbme();
             throw new JMXProviderException(msg);
         }
 
-        final String pkgs = (String) pkgsObject;
-        if (pkgs.trim().equals(""))
+        finbl String pkgs = (String) pkgsObject;
+        if (pkgs.trim().equbls(""))
             return null;
 
-        // pkgs may not contain an empty element
-        if (pkgs.startsWith("|") || pkgs.endsWith("|") ||
+        // pkgs mby not contbin bn empty element
+        if (pkgs.stbrtsWith("|") || pkgs.endsWith("|") ||
             pkgs.indexOf("||") >= 0) {
-            final String msg = "Value of " + PROTOCOL_PROVIDER_PACKAGES +
-                " contains an empty element: " + pkgs;
+            finbl String msg = "Vblue of " + PROTOCOL_PROVIDER_PACKAGES +
+                " contbins bn empty element: " + pkgs;
             throw new JMXProviderException(msg);
         }
 
         return pkgs;
     }
 
-    static <T> T getProvider(JMXServiceURL serviceURL,
-                             final Map<String, Object> environment,
-                             String providerClassName,
-                             Class<T> targetInterface,
-                             final ClassLoader loader)
+    stbtic <T> T getProvider(JMXServiceURL serviceURL,
+                             finbl Mbp<String, Object> environment,
+                             String providerClbssNbme,
+                             Clbss<T> tbrgetInterfbce,
+                             finbl ClbssLobder lobder)
             throws IOException {
 
-        final String protocol = serviceURL.getProtocol();
+        finbl String protocol = serviceURL.getProtocol();
 
-        final String pkgs = resolvePkgs(environment);
+        finbl String pkgs = resolvePkgs(environment);
 
-        T instance = null;
+        T instbnce = null;
 
         if (pkgs != null) {
-            instance =
-                getProvider(protocol, pkgs, loader, providerClassName,
-                            targetInterface);
+            instbnce =
+                getProvider(protocol, pkgs, lobder, providerClbssNbme,
+                            tbrgetInterfbce);
 
-            if (instance != null) {
-                boolean needsWrap = (loader != instance.getClass().getClassLoader());
-                environment.put(PROTOCOL_PROVIDER_CLASS_LOADER, needsWrap ? wrap(loader) : loader);
+            if (instbnce != null) {
+                boolebn needsWrbp = (lobder != instbnce.getClbss().getClbssLobder());
+                environment.put(PROTOCOL_PROVIDER_CLASS_LOADER, needsWrbp ? wrbp(lobder) : lobder);
             }
         }
 
-        return instance;
+        return instbnce;
     }
 
-    static <T> Iterator<T> getProviderIterator(final Class<T> providerClass,
-                                               final ClassLoader loader) {
-       ServiceLoader<T> serviceLoader =
-                ServiceLoader.load(providerClass, loader);
-       return serviceLoader.iterator();
+    stbtic <T> Iterbtor<T> getProviderIterbtor(finbl Clbss<T> providerClbss,
+                                               finbl ClbssLobder lobder) {
+       ServiceLobder<T> serviceLobder =
+                ServiceLobder.lobd(providerClbss, lobder);
+       return serviceLobder.iterbtor();
     }
 
-    private static ClassLoader wrap(final ClassLoader parent) {
-        return parent != null ? AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+    privbte stbtic ClbssLobder wrbp(finbl ClbssLobder pbrent) {
+        return pbrent != null ? AccessController.doPrivileged(new PrivilegedAction<ClbssLobder>() {
             @Override
-            public ClassLoader run() {
-                return new ClassLoader(parent) {
+            public ClbssLobder run() {
+                return new ClbssLobder(pbrent) {
                     @Override
-                    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-                        ReflectUtil.checkPackageAccess(name);
-                        return super.loadClass(name, resolve);
+                    protected Clbss<?> lobdClbss(String nbme, boolebn resolve) throws ClbssNotFoundException {
+                        ReflectUtil.checkPbckbgeAccess(nbme);
+                        return super.lobdClbss(nbme, resolve);
                     }
                 };
             }
         }) : null;
     }
 
-    private static JMXConnector getConnectorAsService(ClassLoader loader,
+    privbte stbtic JMXConnector getConnectorAsService(ClbssLobder lobder,
                                                       JMXServiceURL url,
-                                                      Map<String, ?> map)
+                                                      Mbp<String, ?> mbp)
         throws IOException {
 
-        Iterator<JMXConnectorProvider> providers =
-                getProviderIterator(JMXConnectorProvider.class, loader);
+        Iterbtor<JMXConnectorProvider> providers =
+                getProviderIterbtor(JMXConnectorProvider.clbss, lobder);
         JMXConnector connection;
         IOException exception = null;
-        while (providers.hasNext()) {
+        while (providers.hbsNext()) {
             JMXConnectorProvider provider = providers.next();
             try {
-                connection = provider.newJMXConnector(url, map);
+                connection = provider.newJMXConnector(url, mbp);
                 return connection;
-            } catch (JMXProviderException e) {
+            } cbtch (JMXProviderException e) {
                 throw e;
-            } catch (Exception e) {
-                if (logger.traceOn())
-                    logger.trace("getConnectorAsService",
+            } cbtch (Exception e) {
+                if (logger.trbceOn())
+                    logger.trbce("getConnectorAsService",
                                  "URL[" + url +
                                  "] Service provider exception: " + e);
-                if (!(e instanceof MalformedURLException)) {
+                if (!(e instbnceof MblformedURLException)) {
                     if (exception == null) {
-                        if (e instanceof IOException) {
+                        if (e instbnceof IOException) {
                             exception = (IOException) e;
                         } else {
-                            exception = EnvHelp.initCause(
-                                new IOException(e.getMessage()), e);
+                            exception = EnvHelp.initCbuse(
+                                new IOException(e.getMessbge()), e);
                         }
                     }
                 }
@@ -501,42 +501,42 @@ public class JMXConnectorFactory {
             throw exception;
     }
 
-    static <T> T getProvider(String protocol,
+    stbtic <T> T getProvider(String protocol,
                               String pkgs,
-                              ClassLoader loader,
-                              String providerClassName,
-                              Class<T> targetInterface)
+                              ClbssLobder lobder,
+                              String providerClbssNbme,
+                              Clbss<T> tbrgetInterfbce)
             throws IOException {
 
         StringTokenizer tokenizer = new StringTokenizer(pkgs, "|");
 
-        while (tokenizer.hasMoreTokens()) {
+        while (tokenizer.hbsMoreTokens()) {
             String pkg = tokenizer.nextToken();
-            String className = (pkg + "." + protocol2package(protocol) +
-                                "." + providerClassName);
-            Class<?> providerClass;
+            String clbssNbme = (pkg + "." + protocol2pbckbge(protocol) +
+                                "." + providerClbssNbme);
+            Clbss<?> providerClbss;
             try {
-                providerClass = Class.forName(className, true, loader);
-            } catch (ClassNotFoundException e) {
-                //Add trace.
+                providerClbss = Clbss.forNbme(clbssNbme, true, lobder);
+            } cbtch (ClbssNotFoundException e) {
+                //Add trbce.
                 continue;
             }
 
-            if (!targetInterface.isAssignableFrom(providerClass)) {
-                final String msg =
-                    "Provider class does not implement " +
-                    targetInterface.getName() + ": " +
-                    providerClass.getName();
+            if (!tbrgetInterfbce.isAssignbbleFrom(providerClbss)) {
+                finbl String msg =
+                    "Provider clbss does not implement " +
+                    tbrgetInterfbce.getNbme() + ": " +
+                    providerClbss.getNbme();
                 throw new JMXProviderException(msg);
             }
 
-            // We have just proved that this cast is correct
-            Class<? extends T> providerClassT = Util.cast(providerClass);
+            // We hbve just proved thbt this cbst is correct
+            Clbss<? extends T> providerClbssT = Util.cbst(providerClbss);
             try {
-                return providerClassT.newInstance();
-            } catch (Exception e) {
-                final String msg =
-                    "Exception when instantiating provider [" + className +
+                return providerClbssT.newInstbnce();
+            } cbtch (Exception e) {
+                finbl String msg =
+                    "Exception when instbntibting provider [" + clbssNbme +
                     "]";
                 throw new JMXProviderException(msg, e);
             }
@@ -545,30 +545,30 @@ public class JMXConnectorFactory {
         return null;
     }
 
-    static ClassLoader resolveClassLoader(Map<String, ?> environment) {
-        ClassLoader loader = null;
+    stbtic ClbssLobder resolveClbssLobder(Mbp<String, ?> environment) {
+        ClbssLobder lobder = null;
 
         if (environment != null) {
             try {
-                loader = (ClassLoader)
+                lobder = (ClbssLobder)
                     environment.get(PROTOCOL_PROVIDER_CLASS_LOADER);
-            } catch (ClassCastException e) {
-                final String msg =
-                    "The ClassLoader supplied in the environment map using " +
+            } cbtch (ClbssCbstException e) {
+                finbl String msg =
+                    "The ClbssLobder supplied in the environment mbp using " +
                     "the " + PROTOCOL_PROVIDER_CLASS_LOADER +
-                    " attribute is not an instance of java.lang.ClassLoader";
-                throw new IllegalArgumentException(msg);
+                    " bttribute is not bn instbnce of jbvb.lbng.ClbssLobder";
+                throw new IllegblArgumentException(msg);
             }
         }
 
-        if (loader == null) {
-            loader = Thread.currentThread().getContextClassLoader();
+        if (lobder == null) {
+            lobder = Threbd.currentThrebd().getContextClbssLobder();
         }
 
-        return loader;
+        return lobder;
     }
 
-    private static String protocol2package(String protocol) {
-        return protocol.replace('+', '.').replace('-', '_');
+    privbte stbtic String protocol2pbckbge(String protocol) {
+        return protocol.replbce('+', '.').replbce('-', '_');
     }
 }

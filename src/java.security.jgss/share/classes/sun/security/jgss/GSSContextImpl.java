@@ -1,206 +1,206 @@
 /*
- * Copyright (c) 2000, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss;
+pbckbge sun.security.jgss;
 
 import org.ietf.jgss.*;
 import sun.security.jgss.spi.*;
 import sun.security.util.ObjectIdentifier;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
 import com.sun.security.jgss.*;
 
 /**
- * This class represents the JGSS security context and its associated
- * operations.  JGSS security contexts are established between
- * peers using locally established credentials.  Multiple contexts
- * may exist simultaneously between a pair of peers, using the same
- * or different set of credentials.  The JGSS is independent of
- * the underlying transport protocols and depends on its callers to
- * transport the tokens between peers.
+ * This clbss represents the JGSS security context bnd its bssocibted
+ * operbtions.  JGSS security contexts bre estbblished between
+ * peers using locblly estbblished credentibls.  Multiple contexts
+ * mby exist simultbneously between b pbir of peers, using the sbme
+ * or different set of credentibls.  The JGSS is independent of
+ * the underlying trbnsport protocols bnd depends on its cbllers to
+ * trbnsport the tokens between peers.
  * <p>
- * The context object can be thought of as having 3 implicit states:
- * before it is established, during its context establishment, and
- * after a fully established context exists.
+ * The context object cbn be thought of bs hbving 3 implicit stbtes:
+ * before it is estbblished, during its context estbblishment, bnd
+ * bfter b fully estbblished context exists.
  * <p>
- * Before the context establishment phase is initiated, the context
- * initiator may request specific characteristics desired of the
- * established context. These can be set using the set methods. After the
- * context is established, the caller can check the actual characteristic
- * and services offered by the context using the query methods.
+ * Before the context estbblishment phbse is initibted, the context
+ * initibtor mby request specific chbrbcteristics desired of the
+ * estbblished context. These cbn be set using the set methods. After the
+ * context is estbblished, the cbller cbn check the bctubl chbrbcteristic
+ * bnd services offered by the context using the query methods.
  * <p>
- * The context establishment phase begins with the first call to the
- * initSecContext method by the context initiator. During this phase the
- * initSecContext and acceptSecContext methods will produce GSS-API
- * authentication tokens which the calling application needs to send to its
- * peer. The initSecContext and acceptSecContext methods may
- * return a CONTINUE_NEEDED code which indicates that a token is needed
- * from its peer in order to continue the context establishment phase. A
- * return code of COMPLETE signals that the local end of the context is
- * established. This may still require that a token be sent to the peer,
- * depending if one is produced by GSS-API. The isEstablished method can
- * also be used to determine if the local end of the context has been
- * fully established. During the context establishment phase, the
- * isProtReady method may be called to determine if the context can be
- * used for the per-message operations. This allows implementation to
- * use per-message operations on contexts which aren't fully established.
+ * The context estbblishment phbse begins with the first cbll to the
+ * initSecContext method by the context initibtor. During this phbse the
+ * initSecContext bnd bcceptSecContext methods will produce GSS-API
+ * buthenticbtion tokens which the cblling bpplicbtion needs to send to its
+ * peer. The initSecContext bnd bcceptSecContext methods mby
+ * return b CONTINUE_NEEDED code which indicbtes thbt b token is needed
+ * from its peer in order to continue the context estbblishment phbse. A
+ * return code of COMPLETE signbls thbt the locbl end of the context is
+ * estbblished. This mby still require thbt b token be sent to the peer,
+ * depending if one is produced by GSS-API. The isEstbblished method cbn
+ * blso be used to determine if the locbl end of the context hbs been
+ * fully estbblished. During the context estbblishment phbse, the
+ * isProtRebdy method mby be cblled to determine if the context cbn be
+ * used for the per-messbge operbtions. This bllows implementbtion to
+ * use per-messbge operbtions on contexts which bren't fully estbblished.
  * <p>
- * After the context has been established or the isProtReady method
- * returns "true", the query routines can be invoked to determine the actual
- * characteristics and services of the established context. The
- * application can also start using the per-message methods of wrap and
- * getMIC to obtain cryptographic operations on application supplied data.
+ * After the context hbs been estbblished or the isProtRebdy method
+ * returns "true", the query routines cbn be invoked to determine the bctubl
+ * chbrbcteristics bnd services of the estbblished context. The
+ * bpplicbtion cbn blso stbrt using the per-messbge methods of wrbp bnd
+ * getMIC to obtbin cryptogrbphic operbtions on bpplicbtion supplied dbtb.
  * <p>
- * When the context is no longer needed, the application should call
- * dispose to release any system resources the context may be using.
+ * When the context is no longer needed, the bpplicbtion should cbll
+ * dispose to relebse bny system resources the context mby be using.
  * <DL><DT><B>RFC 2078</b>
- *    <DD>This class corresponds to the context level calls together with
- * the per message calls of RFC 2078. The gss_init_sec_context and
- * gss_accept_sec_context calls have been made simpler by only taking
- * required parameters.  The context can have its properties set before
- * the first call to initSecContext. The supplementary status codes for the
- * per-message operations are returned in an instance of the MessageProp
- * class, which is used as an argument in these calls.</dl>
+ *    <DD>This clbss corresponds to the context level cblls together with
+ * the per messbge cblls of RFC 2078. The gss_init_sec_context bnd
+ * gss_bccept_sec_context cblls hbve been mbde simpler by only tbking
+ * required pbrbmeters.  The context cbn hbve its properties set before
+ * the first cbll to initSecContext. The supplementbry stbtus codes for the
+ * per-messbge operbtions bre returned in bn instbnce of the MessbgeProp
+ * clbss, which is used bs bn brgument in these cblls.</dl>
  */
-class GSSContextImpl implements ExtendedGSSContext {
+clbss GSSContextImpl implements ExtendedGSSContext {
 
-    private final GSSManagerImpl gssManager;
-    private final boolean initiator;
+    privbte finbl GSSMbnbgerImpl gssMbnbger;
+    privbte finbl boolebn initibtor;
 
-    // private flags for the context state
-    private static final int PRE_INIT = 1;
-    private static final int IN_PROGRESS = 2;
-    private static final int READY = 3;
-    private static final int DELETED = 4;
+    // privbte flbgs for the context stbte
+    privbte stbtic finbl int PRE_INIT = 1;
+    privbte stbtic finbl int IN_PROGRESS = 2;
+    privbte stbtic finbl int READY = 3;
+    privbte stbtic finbl int DELETED = 4;
 
-    // instance variables
-    private int currentState = PRE_INIT;
+    // instbnce vbribbles
+    privbte int currentStbte = PRE_INIT;
 
-    private GSSContextSpi mechCtxt = null;
-    private Oid mechOid = null;
-    private ObjectIdentifier objId = null;
+    privbte GSSContextSpi mechCtxt = null;
+    privbte Oid mechOid = null;
+    privbte ObjectIdentifier objId = null;
 
-    private GSSCredentialImpl myCred = null;
+    privbte GSSCredentiblImpl myCred = null;
 
-    private GSSNameImpl srcName = null;
-    private GSSNameImpl targName = null;
+    privbte GSSNbmeImpl srcNbme = null;
+    privbte GSSNbmeImpl tbrgNbme = null;
 
-    private int reqLifetime = INDEFINITE_LIFETIME;
-    private ChannelBinding channelBindings = null;
+    privbte int reqLifetime = INDEFINITE_LIFETIME;
+    privbte ChbnnelBinding chbnnelBindings = null;
 
-    private boolean reqConfState = true;
-    private boolean reqIntegState = true;
-    private boolean reqMutualAuthState = true;
-    private boolean reqReplayDetState = true;
-    private boolean reqSequenceDetState = true;
-    private boolean reqCredDelegState = false;
-    private boolean reqAnonState = false;
-    private boolean reqDelegPolicyState = false;
+    privbte boolebn reqConfStbte = true;
+    privbte boolebn reqIntegStbte = true;
+    privbte boolebn reqMutublAuthStbte = true;
+    privbte boolebn reqReplbyDetStbte = true;
+    privbte boolebn reqSequenceDetStbte = true;
+    privbte boolebn reqCredDelegStbte = fblse;
+    privbte boolebn reqAnonStbte = fblse;
+    privbte boolebn reqDelegPolicyStbte = fblse;
 
     /**
-     * Creates a GSSContextImp on the context initiator's side.
+     * Crebtes b GSSContextImp on the context initibtor's side.
      */
-    public GSSContextImpl(GSSManagerImpl gssManager, GSSName peer, Oid mech,
-                          GSSCredential myCred, int lifetime)
+    public GSSContextImpl(GSSMbnbgerImpl gssMbnbger, GSSNbme peer, Oid mech,
+                          GSSCredentibl myCred, int lifetime)
         throws GSSException {
-        if ((peer == null) || !(peer instanceof GSSNameImpl)) {
+        if ((peer == null) || !(peer instbnceof GSSNbmeImpl)) {
             throw new GSSException(GSSException.BAD_NAME);
         }
         if (mech == null) mech = ProviderList.DEFAULT_MECH_OID;
 
-        this.gssManager = gssManager;
-        this.myCred = (GSSCredentialImpl) myCred;  // XXX Check first
+        this.gssMbnbger = gssMbnbger;
+        this.myCred = (GSSCredentiblImpl) myCred;  // XXX Check first
         reqLifetime = lifetime;
-        targName = (GSSNameImpl)peer;
+        tbrgNbme = (GSSNbmeImpl)peer;
         this.mechOid = mech;
-        initiator = true;
+        initibtor = true;
     }
 
     /**
-     * Creates a GSSContextImpl on the context acceptor's side.
+     * Crebtes b GSSContextImpl on the context bcceptor's side.
      */
-    public GSSContextImpl(GSSManagerImpl gssManager, GSSCredential myCred)
+    public GSSContextImpl(GSSMbnbgerImpl gssMbnbger, GSSCredentibl myCred)
         throws GSSException {
-        this.gssManager = gssManager;
-        this.myCred = (GSSCredentialImpl) myCred; // XXX Check first
-        initiator = false;
+        this.gssMbnbger = gssMbnbger;
+        this.myCred = (GSSCredentiblImpl) myCred; // XXX Check first
+        initibtor = fblse;
     }
 
     /**
-     * Creates a GSSContextImpl out of a previously exported
+     * Crebtes b GSSContextImpl out of b previously exported
      * GSSContext.
      *
-     * @see #isTransferable
+     * @see #isTrbnsferbble
      */
-    public GSSContextImpl(GSSManagerImpl gssManager, byte[] interProcessToken)
+    public GSSContextImpl(GSSMbnbgerImpl gssMbnbger, byte[] interProcessToken)
         throws GSSException {
-        this.gssManager = gssManager;
-        mechCtxt = gssManager.getMechanismContext(interProcessToken);
-        initiator = mechCtxt.isInitiator();
+        this.gssMbnbger = gssMbnbger;
+        mechCtxt = gssMbnbger.getMechbnismContext(interProcessToken);
+        initibtor = mechCtxt.isInitibtor();
         this.mechOid = mechCtxt.getMech();
     }
 
     public byte[] initSecContext(byte inputBuf[], int offset, int len)
         throws GSSException {
         /*
-         * Size of ByteArrayOutputStream will double each time that extra
-         * bytes are to be written. Usually, without delegation, a GSS
-         * initial token containing the Kerberos AP-REQ is between 400 and
+         * Size of ByteArrbyOutputStrebm will double ebch time thbt extrb
+         * bytes bre to be written. Usublly, without delegbtion, b GSS
+         * initibl token contbining the Kerberos AP-REQ is between 400 bnd
          * 600 bytes.
          */
-        ByteArrayOutputStream bos = new ByteArrayOutputStream(600);
-        ByteArrayInputStream bin =
-            new ByteArrayInputStream(inputBuf, offset, len);
+        ByteArrbyOutputStrebm bos = new ByteArrbyOutputStrebm(600);
+        ByteArrbyInputStrebm bin =
+            new ByteArrbyInputStrebm(inputBuf, offset, len);
         int size = initSecContext(bin, bos);
-        return (size == 0? null : bos.toByteArray());
+        return (size == 0? null : bos.toByteArrby());
     }
 
-    public int initSecContext(InputStream inStream,
-                              OutputStream outStream) throws GSSException {
+    public int initSecContext(InputStrebm inStrebm,
+                              OutputStrebm outStrebm) throws GSSException {
 
-        if (mechCtxt != null && currentState != IN_PROGRESS) {
+        if (mechCtxt != null && currentStbte != IN_PROGRESS) {
             throw new GSSExceptionImpl(GSSException.FAILURE,
-                                   "Illegal call to initSecContext");
+                                   "Illegbl cbll to initSecContext");
         }
 
-        GSSHeader gssHeader = null;
+        GSSHebder gssHebder = null;
         int inTokenLen = -1;
-        GSSCredentialSpi credElement = null;
-        boolean firstToken = false;
+        GSSCredentiblSpi credElement = null;
+        boolebn firstToken = fblse;
 
         try {
             if (mechCtxt == null) {
                 if (myCred != null) {
                     try {
                         credElement = myCred.getElement(mechOid, true);
-                    } catch (GSSException ge) {
+                    } cbtch (GSSException ge) {
                         if (GSSUtil.isSpNegoMech(mechOid) &&
-                            ge.getMajor() == GSSException.NO_CRED) {
+                            ge.getMbjor() == GSSException.NO_CRED) {
                             credElement = myCred.getElement
                                 (myCred.getMechs()[0], true);
                         } else {
@@ -208,372 +208,372 @@ class GSSContextImpl implements ExtendedGSSContext {
                         }
                     }
                 }
-                GSSNameSpi nameElement = targName.getElement(mechOid);
-                mechCtxt = gssManager.getMechanismContext(nameElement,
+                GSSNbmeSpi nbmeElement = tbrgNbme.getElement(mechOid);
+                mechCtxt = gssMbnbger.getMechbnismContext(nbmeElement,
                                                           credElement,
                                                           reqLifetime,
                                                           mechOid);
-                mechCtxt.requestConf(reqConfState);
-                mechCtxt.requestInteg(reqIntegState);
-                mechCtxt.requestCredDeleg(reqCredDelegState);
-                mechCtxt.requestMutualAuth(reqMutualAuthState);
-                mechCtxt.requestReplayDet(reqReplayDetState);
-                mechCtxt.requestSequenceDet(reqSequenceDetState);
-                mechCtxt.requestAnonymity(reqAnonState);
-                mechCtxt.setChannelBinding(channelBindings);
-                mechCtxt.requestDelegPolicy(reqDelegPolicyState);
+                mechCtxt.requestConf(reqConfStbte);
+                mechCtxt.requestInteg(reqIntegStbte);
+                mechCtxt.requestCredDeleg(reqCredDelegStbte);
+                mechCtxt.requestMutublAuth(reqMutublAuthStbte);
+                mechCtxt.requestReplbyDet(reqReplbyDetStbte);
+                mechCtxt.requestSequenceDet(reqSequenceDetStbte);
+                mechCtxt.requestAnonymity(reqAnonStbte);
+                mechCtxt.setChbnnelBinding(chbnnelBindings);
+                mechCtxt.requestDelegPolicy(reqDelegPolicyStbte);
 
                 objId = new ObjectIdentifier(mechOid.toString());
 
-                currentState = IN_PROGRESS;
+                currentStbte = IN_PROGRESS;
                 firstToken = true;
             } else {
-                if (mechCtxt.getProvider().getName().equals("SunNativeGSS") ||
+                if (mechCtxt.getProvider().getNbme().equbls("SunNbtiveGSS") ||
                     GSSUtil.isSpNegoMech(mechOid)) {
-                    // do not parse GSS header for native provider or SPNEGO
+                    // do not pbrse GSS hebder for nbtive provider or SPNEGO
                     // mech
                 } else {
-                    // parse GSS header
-                    gssHeader = new GSSHeader(inStream);
-                    if (!gssHeader.getOid().equals((Object) objId))
+                    // pbrse GSS hebder
+                    gssHebder = new GSSHebder(inStrebm);
+                    if (!gssHebder.getOid().equbls((Object) objId))
                         throw new GSSExceptionImpl
                             (GSSException.DEFECTIVE_TOKEN,
-                             "Mechanism not equal to " +
+                             "Mechbnism not equbl to " +
                              mechOid.toString() +
                              " in initSecContext token");
-                    inTokenLen = gssHeader.getMechTokenLength();
+                    inTokenLen = gssHebder.getMechTokenLength();
                 }
             }
 
-            byte[] obuf = mechCtxt.initSecContext(inStream, inTokenLen);
+            byte[] obuf = mechCtxt.initSecContext(inStrebm, inTokenLen);
 
-            int retVal = 0;
+            int retVbl = 0;
 
             if (obuf != null) {
-                retVal = obuf.length;
-                if (mechCtxt.getProvider().getName().equals("SunNativeGSS") ||
+                retVbl = obuf.length;
+                if (mechCtxt.getProvider().getNbme().equbls("SunNbtiveGSS") ||
                     (!firstToken && GSSUtil.isSpNegoMech(mechOid))) {
-                    // do not add GSS header for native provider or SPNEGO
+                    // do not bdd GSS hebder for nbtive provider or SPNEGO
                     // except for the first SPNEGO token
                 } else {
-                    // add GSS header
-                    gssHeader = new GSSHeader(objId, obuf.length);
-                    retVal += gssHeader.encode(outStream);
+                    // bdd GSS hebder
+                    gssHebder = new GSSHebder(objId, obuf.length);
+                    retVbl += gssHebder.encode(outStrebm);
                 }
-                outStream.write(obuf);
+                outStrebm.write(obuf);
             }
 
-            if (mechCtxt.isEstablished())
-                currentState = READY;
+            if (mechCtxt.isEstbblished())
+                currentStbte = READY;
 
-            return retVal;
+            return retVbl;
 
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new GSSExceptionImpl(GSSException.DEFECTIVE_TOKEN,
-                                   e.getMessage());
+                                   e.getMessbge());
         }
     }
 
-    public byte[] acceptSecContext(byte inTok[], int offset, int len)
+    public byte[] bcceptSecContext(byte inTok[], int offset, int len)
         throws GSSException {
 
         /*
-         * Usually initial GSS token containing a Kerberos AP-REP is less
-         * than 100 bytes.
+         * Usublly initibl GSS token contbining b Kerberos AP-REP is less
+         * thbn 100 bytes.
          */
-        ByteArrayOutputStream bos = new ByteArrayOutputStream(100);
-        acceptSecContext(new ByteArrayInputStream(inTok, offset, len),
+        ByteArrbyOutputStrebm bos = new ByteArrbyOutputStrebm(100);
+        bcceptSecContext(new ByteArrbyInputStrebm(inTok, offset, len),
                          bos);
-        byte[] out = bos.toByteArray();
+        byte[] out = bos.toByteArrby();
         return (out.length == 0) ? null : out;
     }
 
-    public void acceptSecContext(InputStream inStream,
-                                 OutputStream outStream) throws GSSException {
+    public void bcceptSecContext(InputStrebm inStrebm,
+                                 OutputStrebm outStrebm) throws GSSException {
 
-        if (mechCtxt != null && currentState != IN_PROGRESS) {
+        if (mechCtxt != null && currentStbte != IN_PROGRESS) {
             throw new GSSExceptionImpl(GSSException.FAILURE,
-                                       "Illegal call to acceptSecContext");
+                                       "Illegbl cbll to bcceptSecContext");
         }
 
-        GSSHeader gssHeader = null;
+        GSSHebder gssHebder = null;
         int inTokenLen = -1;
-        GSSCredentialSpi credElement = null;
+        GSSCredentiblSpi credElement = null;
 
         try {
             if (mechCtxt == null) {
-                // mechOid will be null for an acceptor's context
-                gssHeader = new GSSHeader(inStream);
-                inTokenLen = gssHeader.getMechTokenLength();
+                // mechOid will be null for bn bcceptor's context
+                gssHebder = new GSSHebder(inStrebm);
+                inTokenLen = gssHebder.getMechTokenLength();
 
                 /*
                  * Convert ObjectIdentifier to Oid
                  */
-                objId = gssHeader.getOid();
+                objId = gssHebder.getOid();
                 mechOid = new Oid(objId.toString());
-                // System.out.println("Entered GSSContextImpl.acceptSecContext"
-                //                      + " with mechanism = " + mechOid);
+                // System.out.println("Entered GSSContextImpl.bcceptSecContext"
+                //                      + " with mechbnism = " + mechOid);
                 if (myCred != null) {
-                    credElement = myCred.getElement(mechOid, false);
+                    credElement = myCred.getElement(mechOid, fblse);
                 }
 
-                mechCtxt = gssManager.getMechanismContext(credElement,
+                mechCtxt = gssMbnbger.getMechbnismContext(credElement,
                                                           mechOid);
-                mechCtxt.setChannelBinding(channelBindings);
+                mechCtxt.setChbnnelBinding(chbnnelBindings);
 
-                currentState = IN_PROGRESS;
+                currentStbte = IN_PROGRESS;
             } else {
-                if (mechCtxt.getProvider().getName().equals("SunNativeGSS") ||
+                if (mechCtxt.getProvider().getNbme().equbls("SunNbtiveGSS") ||
                     (GSSUtil.isSpNegoMech(mechOid))) {
-                    // do not parse GSS header for native provider and SPNEGO
+                    // do not pbrse GSS hebder for nbtive provider bnd SPNEGO
                 } else {
-                    // parse GSS Header
-                    gssHeader = new GSSHeader(inStream);
-                    if (!gssHeader.getOid().equals((Object) objId))
+                    // pbrse GSS Hebder
+                    gssHebder = new GSSHebder(inStrebm);
+                    if (!gssHebder.getOid().equbls((Object) objId))
                         throw new GSSExceptionImpl
                             (GSSException.DEFECTIVE_TOKEN,
-                             "Mechanism not equal to " +
+                             "Mechbnism not equbl to " +
                              mechOid.toString() +
-                             " in acceptSecContext token");
-                    inTokenLen = gssHeader.getMechTokenLength();
+                             " in bcceptSecContext token");
+                    inTokenLen = gssHebder.getMechTokenLength();
                 }
             }
 
-            byte[] obuf = mechCtxt.acceptSecContext(inStream, inTokenLen);
+            byte[] obuf = mechCtxt.bcceptSecContext(inStrebm, inTokenLen);
 
             if (obuf != null) {
-                int retVal = obuf.length;
-                if (mechCtxt.getProvider().getName().equals("SunNativeGSS") ||
+                int retVbl = obuf.length;
+                if (mechCtxt.getProvider().getNbme().equbls("SunNbtiveGSS") ||
                     (GSSUtil.isSpNegoMech(mechOid))) {
-                    // do not add GSS header for native provider and SPNEGO
+                    // do not bdd GSS hebder for nbtive provider bnd SPNEGO
                 } else {
-                    // add GSS header
-                    gssHeader = new GSSHeader(objId, obuf.length);
-                    retVal += gssHeader.encode(outStream);
+                    // bdd GSS hebder
+                    gssHebder = new GSSHebder(objId, obuf.length);
+                    retVbl += gssHebder.encode(outStrebm);
                 }
-                outStream.write(obuf);
+                outStrebm.write(obuf);
             }
 
-            if (mechCtxt.isEstablished()) {
-                currentState = READY;
+            if (mechCtxt.isEstbblished()) {
+                currentStbte = READY;
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new GSSExceptionImpl(GSSException.DEFECTIVE_TOKEN,
-                                   e.getMessage());
+                                   e.getMessbge());
         }
     }
 
-    public boolean isEstablished() {
+    public boolebn isEstbblished() {
         if (mechCtxt == null)
-            return false;
+            return fblse;
         else
-            return (currentState == READY);
+            return (currentStbte == READY);
     }
 
-    public int getWrapSizeLimit(int qop, boolean confReq,
-                                int maxTokenSize) throws GSSException {
+    public int getWrbpSizeLimit(int qop, boolebn confReq,
+                                int mbxTokenSize) throws GSSException {
         if (mechCtxt != null)
-            return mechCtxt.getWrapSizeLimit(qop, confReq, maxTokenSize);
+            return mechCtxt.getWrbpSizeLimit(qop, confReq, mbxTokenSize);
         else
             throw new GSSExceptionImpl(GSSException.NO_CONTEXT,
-                                  "No mechanism context yet!");
+                                  "No mechbnism context yet!");
     }
 
-    public byte[] wrap(byte inBuf[], int offset, int len,
-                       MessageProp msgProp) throws GSSException {
+    public byte[] wrbp(byte inBuf[], int offset, int len,
+                       MessbgeProp msgProp) throws GSSException {
         if (mechCtxt != null)
-            return mechCtxt.wrap(inBuf, offset, len, msgProp);
+            return mechCtxt.wrbp(inBuf, offset, len, msgProp);
         else
             throw new GSSExceptionImpl(GSSException.NO_CONTEXT,
-                                   "No mechanism context yet!");
+                                   "No mechbnism context yet!");
     }
 
-    public void wrap(InputStream inStream, OutputStream outStream,
-                     MessageProp msgProp) throws GSSException {
+    public void wrbp(InputStrebm inStrebm, OutputStrebm outStrebm,
+                     MessbgeProp msgProp) throws GSSException {
         if (mechCtxt != null)
-            mechCtxt.wrap(inStream, outStream, msgProp);
+            mechCtxt.wrbp(inStrebm, outStrebm, msgProp);
         else
             throw new GSSExceptionImpl(GSSException.NO_CONTEXT,
-                                  "No mechanism context yet!");
+                                  "No mechbnism context yet!");
     }
 
-    public byte [] unwrap(byte[] inBuf, int offset, int len,
-                          MessageProp msgProp) throws GSSException {
+    public byte [] unwrbp(byte[] inBuf, int offset, int len,
+                          MessbgeProp msgProp) throws GSSException {
         if (mechCtxt != null)
-            return mechCtxt.unwrap(inBuf, offset, len, msgProp);
+            return mechCtxt.unwrbp(inBuf, offset, len, msgProp);
         else
             throw new GSSExceptionImpl(GSSException.NO_CONTEXT,
-                                  "No mechanism context yet!");
+                                  "No mechbnism context yet!");
     }
 
-    public void unwrap(InputStream inStream, OutputStream outStream,
-                       MessageProp msgProp) throws GSSException {
+    public void unwrbp(InputStrebm inStrebm, OutputStrebm outStrebm,
+                       MessbgeProp msgProp) throws GSSException {
         if (mechCtxt != null)
-            mechCtxt.unwrap(inStream, outStream, msgProp);
+            mechCtxt.unwrbp(inStrebm, outStrebm, msgProp);
         else
             throw new GSSExceptionImpl(GSSException.NO_CONTEXT,
-                                  "No mechanism context yet!");
+                                  "No mechbnism context yet!");
     }
 
     public byte[] getMIC(byte []inMsg, int offset, int len,
-                         MessageProp msgProp) throws GSSException {
+                         MessbgeProp msgProp) throws GSSException {
         if (mechCtxt != null)
             return mechCtxt.getMIC(inMsg, offset, len, msgProp);
         else
             throw new GSSExceptionImpl(GSSException.NO_CONTEXT,
-                                  "No mechanism context yet!");
+                                  "No mechbnism context yet!");
     }
 
-    public void getMIC(InputStream inStream, OutputStream outStream,
-                       MessageProp msgProp) throws GSSException {
+    public void getMIC(InputStrebm inStrebm, OutputStrebm outStrebm,
+                       MessbgeProp msgProp) throws GSSException {
         if (mechCtxt != null)
-            mechCtxt.getMIC(inStream, outStream, msgProp);
+            mechCtxt.getMIC(inStrebm, outStrebm, msgProp);
         else
             throw new GSSExceptionImpl(GSSException.NO_CONTEXT,
-                                  "No mechanism context yet!");
+                                  "No mechbnism context yet!");
     }
 
     public void verifyMIC(byte[] inTok, int tokOffset, int tokLen,
                           byte[] inMsg, int msgOffset, int msgLen,
-                          MessageProp msgProp) throws GSSException {
+                          MessbgeProp msgProp) throws GSSException {
         if (mechCtxt != null)
             mechCtxt.verifyMIC(inTok, tokOffset, tokLen,
                                inMsg, msgOffset, msgLen, msgProp);
         else
             throw new GSSExceptionImpl(GSSException.NO_CONTEXT,
-                                  "No mechanism context yet!");
+                                  "No mechbnism context yet!");
     }
 
-    public void verifyMIC(InputStream tokStream, InputStream msgStream,
-                          MessageProp msgProp) throws GSSException {
+    public void verifyMIC(InputStrebm tokStrebm, InputStrebm msgStrebm,
+                          MessbgeProp msgProp) throws GSSException {
         if (mechCtxt != null)
-            mechCtxt.verifyMIC(tokStream, msgStream, msgProp);
+            mechCtxt.verifyMIC(tokStrebm, msgStrebm, msgProp);
         else
             throw new GSSExceptionImpl(GSSException.NO_CONTEXT,
-                                  "No mechanism context yet!");
+                                  "No mechbnism context yet!");
     }
 
     public byte[] export() throws GSSException {
-        // Defaults to null to match old behavior
+        // Defbults to null to mbtch old behbvior
         byte[] result = null;
-        // Only allow context export from native provider since JGSS
-        // still has not defined its own interprocess token format
-        if (mechCtxt.isTransferable() &&
-            mechCtxt.getProvider().getName().equals("SunNativeGSS")) {
+        // Only bllow context export from nbtive provider since JGSS
+        // still hbs not defined its own interprocess token formbt
+        if (mechCtxt.isTrbnsferbble() &&
+            mechCtxt.getProvider().getNbme().equbls("SunNbtiveGSS")) {
             result = mechCtxt.export();
         }
         return result;
     }
 
-    public void requestMutualAuth(boolean state) throws GSSException {
-        if (mechCtxt == null && initiator)
-            reqMutualAuthState = state;
+    public void requestMutublAuth(boolebn stbte) throws GSSException {
+        if (mechCtxt == null && initibtor)
+            reqMutublAuthStbte = stbte;
     }
 
-    public void requestReplayDet(boolean state) throws GSSException {
-        if (mechCtxt == null && initiator)
-            reqReplayDetState = state;
+    public void requestReplbyDet(boolebn stbte) throws GSSException {
+        if (mechCtxt == null && initibtor)
+            reqReplbyDetStbte = stbte;
     }
 
-    public void requestSequenceDet(boolean state) throws GSSException {
-        if (mechCtxt == null && initiator)
-            reqSequenceDetState = state;
+    public void requestSequenceDet(boolebn stbte) throws GSSException {
+        if (mechCtxt == null && initibtor)
+            reqSequenceDetStbte = stbte;
     }
 
-    public void requestCredDeleg(boolean state) throws GSSException {
-        if (mechCtxt == null && initiator)
-            reqCredDelegState = state;
+    public void requestCredDeleg(boolebn stbte) throws GSSException {
+        if (mechCtxt == null && initibtor)
+            reqCredDelegStbte = stbte;
     }
 
-    public void requestAnonymity(boolean state) throws GSSException {
-        if (mechCtxt == null && initiator)
-            reqAnonState = state;
+    public void requestAnonymity(boolebn stbte) throws GSSException {
+        if (mechCtxt == null && initibtor)
+            reqAnonStbte = stbte;
     }
 
-    public void requestConf(boolean state) throws GSSException {
-        if (mechCtxt == null && initiator)
-            reqConfState = state;
+    public void requestConf(boolebn stbte) throws GSSException {
+        if (mechCtxt == null && initibtor)
+            reqConfStbte = stbte;
     }
 
-    public void requestInteg(boolean state) throws GSSException {
-        if (mechCtxt == null && initiator)
-            reqIntegState = state;
+    public void requestInteg(boolebn stbte) throws GSSException {
+        if (mechCtxt == null && initibtor)
+            reqIntegStbte = stbte;
     }
 
     public void requestLifetime(int lifetime) throws GSSException {
-        if (mechCtxt == null && initiator)
+        if (mechCtxt == null && initibtor)
             reqLifetime = lifetime;
     }
 
-    public void setChannelBinding(ChannelBinding channelBindings)
+    public void setChbnnelBinding(ChbnnelBinding chbnnelBindings)
         throws GSSException {
 
         if (mechCtxt == null)
-            this.channelBindings = channelBindings;
+            this.chbnnelBindings = chbnnelBindings;
 
     }
 
-    public boolean getCredDelegState() {
+    public boolebn getCredDelegStbte() {
         if (mechCtxt != null)
-            return mechCtxt.getCredDelegState();
+            return mechCtxt.getCredDelegStbte();
         else
-            return reqCredDelegState;
+            return reqCredDelegStbte;
     }
 
-    public boolean getMutualAuthState() {
+    public boolebn getMutublAuthStbte() {
         if (mechCtxt != null)
-            return mechCtxt.getMutualAuthState();
+            return mechCtxt.getMutublAuthStbte();
         else
-            return reqMutualAuthState;
+            return reqMutublAuthStbte;
     }
 
-    public boolean getReplayDetState() {
+    public boolebn getReplbyDetStbte() {
         if (mechCtxt != null)
-            return mechCtxt.getReplayDetState();
+            return mechCtxt.getReplbyDetStbte();
         else
-            return reqReplayDetState;
+            return reqReplbyDetStbte;
     }
 
-    public boolean getSequenceDetState() {
+    public boolebn getSequenceDetStbte() {
         if (mechCtxt != null)
-            return mechCtxt.getSequenceDetState();
+            return mechCtxt.getSequenceDetStbte();
         else
-            return reqSequenceDetState;
+            return reqSequenceDetStbte;
     }
 
-    public boolean getAnonymityState() {
+    public boolebn getAnonymityStbte() {
         if (mechCtxt != null)
-            return mechCtxt.getAnonymityState();
+            return mechCtxt.getAnonymityStbte();
         else
-            return reqAnonState;
+            return reqAnonStbte;
     }
 
-    public boolean isTransferable() throws GSSException {
+    public boolebn isTrbnsferbble() throws GSSException {
         if (mechCtxt != null)
-            return mechCtxt.isTransferable();
+            return mechCtxt.isTrbnsferbble();
         else
-            return false;
+            return fblse;
     }
 
-    public boolean isProtReady() {
+    public boolebn isProtRebdy() {
         if (mechCtxt != null)
-            return mechCtxt.isProtReady();
+            return mechCtxt.isProtRebdy();
         else
-            return false;
+            return fblse;
     }
 
-    public boolean getConfState() {
+    public boolebn getConfStbte() {
         if (mechCtxt != null)
-            return mechCtxt.getConfState();
+            return mechCtxt.getConfStbte();
         else
-            return reqConfState;
+            return reqConfStbte;
     }
 
-    public boolean getIntegState() {
+    public boolebn getIntegStbte() {
         if (mechCtxt != null)
-            return mechCtxt.getIntegState();
+            return mechCtxt.getIntegStbte();
         else
-            return reqIntegState;
+            return reqIntegStbte;
     }
 
     public int getLifetime() {
@@ -583,20 +583,20 @@ class GSSContextImpl implements ExtendedGSSContext {
             return reqLifetime;
     }
 
-    public GSSName getSrcName() throws GSSException {
-        if (srcName == null) {
-            srcName = GSSNameImpl.wrapElement
-                (gssManager, mechCtxt.getSrcName());
+    public GSSNbme getSrcNbme() throws GSSException {
+        if (srcNbme == null) {
+            srcNbme = GSSNbmeImpl.wrbpElement
+                (gssMbnbger, mechCtxt.getSrcNbme());
         }
-        return srcName;
+        return srcNbme;
     }
 
-    public GSSName getTargName() throws GSSException {
-        if (targName == null) {
-            targName = GSSNameImpl.wrapElement
-                (gssManager, mechCtxt.getTargName());
+    public GSSNbme getTbrgNbme() throws GSSException {
+        if (tbrgNbme == null) {
+            tbrgNbme = GSSNbmeImpl.wrbpElement
+                (gssMbnbger, mechCtxt.getTbrgNbme());
         }
-        return targName;
+        return tbrgNbme;
     }
 
     public Oid getMech() throws GSSException {
@@ -606,36 +606,36 @@ class GSSContextImpl implements ExtendedGSSContext {
         return mechOid;
     }
 
-    public GSSCredential getDelegCred() throws GSSException {
+    public GSSCredentibl getDelegCred() throws GSSException {
 
         if (mechCtxt == null)
             throw new GSSExceptionImpl(GSSException.NO_CONTEXT,
-                                   "No mechanism context yet!");
-        GSSCredentialSpi delCredElement = mechCtxt.getDelegCred();
+                                   "No mechbnism context yet!");
+        GSSCredentiblSpi delCredElement = mechCtxt.getDelegCred();
         return (delCredElement == null ?
-            null : new GSSCredentialImpl(gssManager, delCredElement));
+            null : new GSSCredentiblImpl(gssMbnbger, delCredElement));
     }
 
-    public boolean isInitiator() throws GSSException {
-        return initiator;
+    public boolebn isInitibtor() throws GSSException {
+        return initibtor;
     }
 
     public void dispose() throws GSSException {
-        currentState = DELETED;
+        currentStbte = DELETED;
         if (mechCtxt != null) {
             mechCtxt.dispose();
             mechCtxt = null;
         }
         myCred = null;
-        srcName = null;
-        targName = null;
+        srcNbme = null;
+        tbrgNbme = null;
     }
 
     // ExtendedGSSContext methods:
 
     @Override
     public Object inquireSecContext(InquireType type) throws GSSException {
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(new InquireSecContextPermission(type.toString()));
         }
@@ -646,16 +646,16 @@ class GSSContextImpl implements ExtendedGSSContext {
     }
 
     @Override
-    public void requestDelegPolicy(boolean state) throws GSSException {
-        if (mechCtxt == null && initiator)
-            reqDelegPolicyState = state;
+    public void requestDelegPolicy(boolebn stbte) throws GSSException {
+        if (mechCtxt == null && initibtor)
+            reqDelegPolicyStbte = stbte;
     }
 
     @Override
-    public boolean getDelegPolicyState() {
+    public boolebn getDelegPolicyStbte() {
         if (mechCtxt != null)
-            return mechCtxt.getDelegPolicyState();
+            return mechCtxt.getDelegPolicyStbte();
         else
-            return reqDelegPolicyState;
+            return reqDelegPolicyStbte;
     }
 }

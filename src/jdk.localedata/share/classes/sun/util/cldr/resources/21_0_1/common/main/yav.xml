@@ -3,302 +3,302 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="yav"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="ybv"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ak">akánɛ</language>
-			<language type="am">amalíke</language>
-			<language type="ar">́pakas</language>
-			<language type="be">pielúse</language>
-			<language type="bg">bulgálɛ</language>
-			<language type="bn">pengálɛ́ɛ</language>
-			<language type="cs">cɛ́kɛ́ɛ</language>
-			<language type="de">ŋndiáman</language>
-			<language type="el">yavánɛ</language>
-			<language type="en">íŋgilísé</language>
-			<language type="es">nuɛspanyɔ́lɛ</language>
-			<language type="fa">nupɛ́lisɛ</language>
-			<language type="fr">feleŋsí</language>
-			<language type="ha">pakas</language>
-			<language type="hi">índí</language>
-			<language type="hu">ɔ́ŋgɛ</language>
-			<language type="id">índonísiɛ</language>
-			<language type="ig">íbo</language>
-			<language type="it">itáliɛ</language>
-			<language type="ja">ndiáman</language>
-			<language type="jv">yávanɛ</language>
-			<language type="km">kímɛɛ</language>
-			<language type="ko">kolíe</language>
-			<language type="ms">máliɛ</language>
-			<language type="my">bímanɛ</language>
-			<language type="ne">nunipálɛ</language>
-			<language type="nl">nilándɛ</language>
-			<language type="pa">nupunsapíɛ́</language>
-			<language type="pl">nupolonɛ́ɛ</language>
-			<language type="pt">nupɔlitukɛ́ɛ</language>
-			<language type="ro">nulumɛ́ŋɛ</language>
-			<language type="ru">nulúse</language>
-			<language type="rw">nuluándɛ́ɛ</language>
-			<language type="so">nusomalíɛ</language>
-			<language type="sv">nusuetua</language>
-			<language type="ta">nutámule</language>
-			<language type="th">nutáyɛ</language>
-			<language type="tr">nutúluke</language>
-			<language type="uk">nukeleniɛ́ŋɛ</language>
-			<language type="ur">nulutú</language>
-			<language type="vi">nufiɛtnamíɛŋ</language>
-			<language type="yav">nuasue</language>
-			<language type="yo">nuyolúpa</language>
-			<language type="zh">sinúɛ</language>
-			<language type="zu">nusulú</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bk">bkánɛ</lbngubge>
+			<lbngubge type="bm">bmblíke</lbngubge>
+			<lbngubge type="br">́pbkbs</lbngubge>
+			<lbngubge type="be">pielúse</lbngubge>
+			<lbngubge type="bg">bulgálɛ</lbngubge>
+			<lbngubge type="bn">pengálɛ́ɛ</lbngubge>
+			<lbngubge type="cs">cɛ́kɛ́ɛ</lbngubge>
+			<lbngubge type="de">ŋndiámbn</lbngubge>
+			<lbngubge type="el">ybvánɛ</lbngubge>
+			<lbngubge type="en">íŋgilísé</lbngubge>
+			<lbngubge type="es">nuɛspbnyɔ́lɛ</lbngubge>
+			<lbngubge type="fb">nupɛ́lisɛ</lbngubge>
+			<lbngubge type="fr">feleŋsí</lbngubge>
+			<lbngubge type="hb">pbkbs</lbngubge>
+			<lbngubge type="hi">índí</lbngubge>
+			<lbngubge type="hu">ɔ́ŋgɛ</lbngubge>
+			<lbngubge type="id">índonísiɛ</lbngubge>
+			<lbngubge type="ig">íbo</lbngubge>
+			<lbngubge type="it">itáliɛ</lbngubge>
+			<lbngubge type="jb">ndiámbn</lbngubge>
+			<lbngubge type="jv">yávbnɛ</lbngubge>
+			<lbngubge type="km">kímɛɛ</lbngubge>
+			<lbngubge type="ko">kolíe</lbngubge>
+			<lbngubge type="ms">máliɛ</lbngubge>
+			<lbngubge type="my">bímbnɛ</lbngubge>
+			<lbngubge type="ne">nunipálɛ</lbngubge>
+			<lbngubge type="nl">nilándɛ</lbngubge>
+			<lbngubge type="pb">nupunsbpíɛ́</lbngubge>
+			<lbngubge type="pl">nupolonɛ́ɛ</lbngubge>
+			<lbngubge type="pt">nupɔlitukɛ́ɛ</lbngubge>
+			<lbngubge type="ro">nulumɛ́ŋɛ</lbngubge>
+			<lbngubge type="ru">nulúse</lbngubge>
+			<lbngubge type="rw">nuluándɛ́ɛ</lbngubge>
+			<lbngubge type="so">nusomblíɛ</lbngubge>
+			<lbngubge type="sv">nusuetub</lbngubge>
+			<lbngubge type="tb">nutámule</lbngubge>
+			<lbngubge type="th">nutáyɛ</lbngubge>
+			<lbngubge type="tr">nutúluke</lbngubge>
+			<lbngubge type="uk">nukeleniɛ́ŋɛ</lbngubge>
+			<lbngubge type="ur">nulutú</lbngubge>
+			<lbngubge type="vi">nufiɛtnbmíɛŋ</lbngubge>
+			<lbngubge type="ybv">nubsue</lbngubge>
+			<lbngubge type="yo">nuyolúpb</lbngubge>
+			<lbngubge type="zh">sinúɛ</lbngubge>
+			<lbngubge type="zu">nusulú</lbngubge>
+		</lbngubges>
 		<territories>
-			<territory type="AD">Aŋtúla</territory>
-			<territory type="AE">imiláat i paaláap</territory>
-			<territory type="AF">Afkanistáŋ</territory>
-			<territory type="AG">Aŋtíka na Palpúta</territory>
-			<territory type="AI">Aŋkíla</territory>
-			<territory type="AL">Alpaní</territory>
-			<territory type="AM">Almanía</territory>
-			<territory type="AN">andíiy u nitililáand</territory>
-			<territory type="AO">Aŋkúla</territory>
-			<territory type="AR">Alsaŋtín</territory>
-			<territory type="AS">Sámua u Amelíka</territory>
+			<territory type="AD">Aŋtúlb</territory>
+			<territory type="AE">imilábt i pbblábp</territory>
+			<territory type="AF">Afkbnistáŋ</territory>
+			<territory type="AG">Aŋtíkb nb Pblpútb</territory>
+			<territory type="AI">Aŋkílb</territory>
+			<territory type="AL">Alpbní</territory>
+			<territory type="AM">Almbníb</territory>
+			<territory type="AN">bndíiy u nitililábnd</territory>
+			<territory type="AO">Aŋkúlb</territory>
+			<territory type="AR">Alsbŋtín</territory>
+			<territory type="AS">Sámub u Amelíkb</territory>
 			<territory type="AT">Otilís</territory>
-			<territory type="AU">Otalalí</territory>
-			<territory type="AW">Alúpa</territory>
-			<territory type="AZ">Asɛlpaisáŋ</territory>
-			<territory type="BA">Pusiní-ɛlkofína</territory>
-			<territory type="BB">Palpatós</territory>
-			<territory type="BD">Paŋkalatɛs</territory>
+			<territory type="AU">Otblblí</territory>
+			<territory type="AW">Alúpb</territory>
+			<territory type="AZ">Asɛlpbisáŋ</territory>
+			<territory type="BA">Pusiní-ɛlkofínb</territory>
+			<territory type="BB">Pblpbtós</territory>
+			<territory type="BD">Pbŋkblbtɛs</territory>
 			<territory type="BE">Pɛlsíik</territory>
-			<territory type="BF">Pulikínafásó</territory>
-			<territory type="BG">Pulukalíi</territory>
-			<territory type="BH">Palɛŋ</territory>
+			<territory type="BF">Pulikínbfásó</territory>
+			<territory type="BG">Pulukblíi</territory>
+			<territory type="BH">Pblɛŋ</territory>
 			<territory type="BI">Púlúndí</territory>
 			<territory type="BJ">Penɛŋ</territory>
-			<territory type="BM">Pɛlmúta</territory>
+			<territory type="BM">Pɛlmútb</territory>
 			<territory type="BN">Pulunéy</territory>
-			<territory type="BO">Polífia</territory>
+			<territory type="BO">Polífib</territory>
 			<territory type="BR">Pilesíl</territory>
-			<territory type="BS">Pahámas</territory>
-			<territory type="BT">Putaŋ</territory>
-			<territory type="BW">Posuána</territory>
-			<territory type="BY">Pelalús</territory>
+			<territory type="BS">Pbhámbs</territory>
+			<territory type="BT">Putbŋ</territory>
+			<territory type="BW">Posuánb</territory>
+			<territory type="BY">Pelblús</territory>
 			<territory type="BZ">Pelíse</territory>
-			<territory type="CA">Kánáta</territory>
+			<territory type="CA">Kánátb</territory>
 			<territory type="CD">kitɔŋ kí kongó</territory>
-			<territory type="CF">Santalafilíik</territory>
+			<territory type="CF">Sbntblbfilíik</territory>
 			<territory type="CG">Kongó</territory>
 			<territory type="CH">suwíis</territory>
-			<territory type="CI">Kótifualɛ</territory>
+			<territory type="CI">Kótifublɛ</territory>
 			<territory type="CK">Kúuke</territory>
 			<territory type="CL">Silí</territory>
 			<territory type="CM">Kemelún</territory>
 			<territory type="CN">Síine</territory>
-			<territory type="CO">Kɔlɔ́mbía</territory>
-			<territory type="CR">Kóstálíka</territory>
+			<territory type="CO">Kɔlɔ́mbíb</territory>
+			<territory type="CR">Kóstálíkb</territory>
 			<territory type="CS">sɛlpí e mɔ́ŋténékolo</territory>
-			<territory type="CU">kúpa</territory>
+			<territory type="CU">kúpb</territory>
 			<territory type="CV">Kápfɛl</territory>
 			<territory type="CY">síplɛ</territory>
 			<territory type="CZ">kitɔŋ kí cɛ́k</territory>
-			<territory type="DE">nsáman</territory>
+			<territory type="DE">nsámbn</territory>
 			<territory type="DJ">síputí</territory>
-			<territory type="DK">tanemálk</territory>
+			<territory type="DK">tbnemálk</territory>
 			<territory type="DM">túmúnéke</territory>
 			<territory type="DO">kitɔŋ kí tumunikɛ́ŋ</territory>
 			<territory type="DZ">Alselí</territory>
-			<territory type="EC">ekuatɛ́l</territory>
+			<territory type="EC">ekubtɛ́l</territory>
 			<territory type="EE">ɛstoni</territory>
 			<territory type="EG">isípit</territory>
 			<territory type="ER">elitée</territory>
-			<territory type="ES">panyá</territory>
+			<territory type="ES">pbnyá</territory>
 			<territory type="ET">etiopí</territory>
 			<territory type="FI">fɛnlánd</territory>
 			<territory type="FJ">físi</territory>
-			<territory type="FK">maluwín</territory>
+			<territory type="FK">mbluwín</territory>
 			<territory type="FM">mikolonesí</territory>
 			<territory type="FR">felensí</territory>
-			<territory type="GA">kapɔ́ŋ</territory>
+			<territory type="GA">kbpɔ́ŋ</territory>
 			<territory type="GB">ingilíís</territory>
-			<territory type="GD">kelenáat</territory>
+			<territory type="GD">kelenábt</territory>
 			<territory type="GE">sɔlsíi</territory>
-			<territory type="GF">kuyáan u felensí</territory>
-			<territory type="GH">kaná</territory>
-			<territory type="GI">sílpalatáal</territory>
+			<territory type="GF">kuyábn u felensí</territory>
+			<territory type="GH">kbná</territory>
+			<territory type="GI">sílpblbtábl</territory>
 			<territory type="GL">kuluɛnlánd</territory>
-			<territory type="GM">kambíi</territory>
+			<territory type="GM">kbmbíi</territory>
 			<territory type="GN">kiiné</territory>
-			<territory type="GP">kuatelúup</territory>
-			<territory type="GQ">kinéekuatolial</territory>
+			<territory type="GP">kubtelúup</territory>
+			<territory type="GQ">kinéekubtolibl</territory>
 			<territory type="GR">kilɛ́ɛk</territory>
-			<territory type="GT">kuatemalá</territory>
-			<territory type="GU">kuamiɛ</territory>
-			<territory type="GW">kiinépisaó</territory>
-			<territory type="GY">kuyáan</territory>
-			<territory type="HN">ɔndúlas</territory>
-			<territory type="HR">Kolowasíi</territory>
-			<territory type="HT">ayíti</territory>
+			<territory type="GT">kubtemblá</territory>
+			<territory type="GU">kubmiɛ</territory>
+			<territory type="GW">kiinépisbó</territory>
+			<territory type="GY">kuyábn</territory>
+			<territory type="HN">ɔndúlbs</territory>
+			<territory type="HR">Kolowbsíi</territory>
+			<territory type="HT">byíti</territory>
 			<territory type="HU">ɔngilí</territory>
 			<territory type="ID">ɛndonesí</territory>
 			<territory type="IE">ililánd</territory>
-			<territory type="IL">ísilayɛ́l</territory>
+			<territory type="IL">ísilbyɛ́l</territory>
 			<territory type="IN">ɛ́ɛnd</territory>
 			<territory type="IO">Kɔɔ́m kí ndián yi ngilís</territory>
 			<territory type="IQ">ilák</territory>
 			<territory type="IR">iláŋ</territory>
-			<territory type="IS">isláand</territory>
-			<territory type="IT">italí</territory>
-			<territory type="JM">samayíik</territory>
-			<territory type="JO">sɔltaní</territory>
-			<territory type="JP">sapɔ́ɔŋ</territory>
-			<territory type="KE">kénia</territory>
+			<territory type="IS">islábnd</territory>
+			<territory type="IT">itblí</territory>
+			<territory type="JM">sbmbyíik</territory>
+			<territory type="JO">sɔltbní</territory>
+			<territory type="JP">sbpɔ́ɔŋ</territory>
+			<territory type="KE">kénib</territory>
 			<territory type="KG">kilikisistáŋ</territory>
 			<territory type="KH">Kámbóse</territory>
-			<territory type="KI">kilipatí</territory>
+			<territory type="KI">kilipbtí</territory>
 			<territory type="KM">Kɔmɔ́ɔl</territory>
 			<territory type="KN">sɛ́ŋkilistɔ́f eniɛ́f</territory>
 			<territory type="KP">kɔlé u muɛnɛ́</territory>
 			<territory type="KR">kɔlé wu mbát</territory>
 			<territory type="KW">kowéet</territory>
-			<territory type="KY">Káyímanɛ</territory>
-			<territory type="KZ">kasaksitáŋ</territory>
-			<territory type="LA">lawós</territory>
+			<territory type="KY">Káyímbnɛ</territory>
+			<territory type="KZ">kbsbksitáŋ</territory>
+			<territory type="LA">lbwós</territory>
 			<territory type="LB">lipáŋ</territory>
 			<territory type="LC">sɛ́ŋtɛ́lusí</territory>
 			<territory type="LI">lístɛ́nsitáyin</territory>
-			<territory type="LK">silíláŋka</territory>
-			<territory type="LR">lipélia</territory>
+			<territory type="LK">silíláŋkb</territory>
+			<territory type="LR">lipélib</territory>
 			<territory type="LS">lesotó</territory>
-			<territory type="LT">litiyaní</territory>
-			<territory type="LU">liksambúul</territory>
+			<territory type="LT">litiybní</territory>
+			<territory type="LU">liksbmbúul</territory>
 			<territory type="LV">letoní</territory>
 			<territory type="LY">lipíi</territory>
-			<territory type="MA">malóok</territory>
-			<territory type="MC">monakó</territory>
-			<territory type="MD">moltafí</territory>
-			<territory type="MG">matakaskáal</territory>
-			<territory type="MH">ílmalasáal</territory>
-			<territory type="MK">masetuán</territory>
-			<territory type="ML">malí</territory>
-			<territory type="MM">miaŋmáal</territory>
+			<territory type="MA">mblóok</territory>
+			<territory type="MC">monbkó</territory>
+			<territory type="MD">moltbfí</territory>
+			<territory type="MG">mbtbkbskábl</territory>
+			<territory type="MH">ílmblbsábl</territory>
+			<territory type="MK">mbsetuán</territory>
+			<territory type="ML">mblí</territory>
+			<territory type="MM">mibŋmábl</territory>
 			<territory type="MN">mongolí</territory>
-			<territory type="MP">il maliyanɛ u muɛnɛ́</territory>
-			<territory type="MQ">maltiníik</territory>
-			<territory type="MR">molitaní</territory>
+			<territory type="MP">il mbliybnɛ u muɛnɛ́</territory>
+			<territory type="MQ">mbltiníik</territory>
+			<territory type="MR">molitbní</territory>
 			<territory type="MS">mɔŋsilá</territory>
 			<territory type="MT">málɛ́t</territory>
 			<territory type="MU">molís</territory>
-			<territory type="MV">maletíif</territory>
-			<territory type="MW">malawí</territory>
+			<territory type="MV">mbletíif</territory>
+			<territory type="MW">mblbwí</territory>
 			<territory type="MX">mɛksíik</territory>
-			<territory type="MY">malesí</territory>
-			<territory type="MZ">mosambík</territory>
-			<territory type="NA">namipí</territory>
-			<territory type="NC">nufɛ́l kaletoní</territory>
+			<territory type="MY">mblesí</territory>
+			<territory type="MZ">mosbmbík</territory>
+			<territory type="NA">nbmipí</territory>
+			<territory type="NC">nufɛ́l kbletoní</territory>
 			<territory type="NE">nisɛ́ɛl</territory>
 			<territory type="NF">il nɔ́lfɔ́lɔk</territory>
-			<territory type="NG">nisélia</territory>
-			<territory type="NI">nikalaká</territory>
-			<territory type="NL">nitililáand</territory>
+			<territory type="NG">nisélib</territory>
+			<territory type="NI">nikblbká</territory>
+			<territory type="NL">nitililábnd</territory>
 			<territory type="NO">nɔlfɛ́ɛs</territory>
-			<territory type="NP">nepáal</territory>
-			<territory type="NR">nawulú</territory>
+			<territory type="NP">nepábl</territory>
+			<territory type="NR">nbwulú</territory>
 			<territory type="NU">niyuwé</territory>
-			<territory type="NZ">nufɛ́l seláand</territory>
+			<territory type="NZ">nufɛ́l selábnd</territory>
 			<territory type="OM">omáŋ</territory>
-			<territory type="PA">panamá</territory>
+			<territory type="PA">pbnbmá</territory>
 			<territory type="PE">pelú</territory>
 			<territory type="PF">polinesí u felensí</territory>
-			<territory type="PG">papuasí nufɛ́l kiiné</territory>
+			<territory type="PG">pbpubsí nufɛ́l kiiné</territory>
 			<territory type="PH">filipíin</territory>
-			<territory type="PK">pakistáŋ</territory>
+			<territory type="PK">pbkistáŋ</territory>
 			<territory type="PL">pɔlɔ́ɔny</territory>
 			<territory type="PM">sɛ́ŋpiɛ́l e mikelɔ́ŋ</territory>
 			<territory type="PN">pitikɛ́ɛlínɛ́</territory>
 			<territory type="PR">pólótolíko</territory>
-			<territory type="PS">kitɔŋ ki palɛstíin</territory>
-			<territory type="PT">pɔltukáal</territory>
-			<territory type="PW">palawú</territory>
-			<territory type="PY">palakúé</territory>
-			<territory type="QA">katáal</territory>
+			<territory type="PS">kitɔŋ ki pblɛstíin</territory>
+			<territory type="PT">pɔltukábl</territory>
+			<territory type="PW">pblbwú</territory>
+			<territory type="PY">pblbkúé</territory>
+			<territory type="QA">kbtábl</territory>
 			<territory type="RE">elewuniɔ́ŋ</territory>
-			<territory type="RO">ulumaní</territory>
+			<territory type="RO">ulumbní</territory>
 			<territory type="RU">ulusí</territory>
 			<territory type="RW">uluándá</territory>
-			<territory type="SA">alapísawutíit</territory>
-			<territory type="SB">il salomɔ́ŋ</territory>
+			<territory type="SA">blbpísbwutíit</territory>
+			<territory type="SB">il sblomɔ́ŋ</territory>
 			<territory type="SC">sesɛ́ɛl</territory>
-			<territory type="SD">sutáaŋ</territory>
+			<territory type="SD">sutábŋ</territory>
 			<territory type="SE">suɛ́t</territory>
-			<territory type="SG">singapúul</territory>
+			<territory type="SG">singbpúul</territory>
 			<territory type="SH">sɛ́ŋtɛ́ elɛ́ɛnɛ</territory>
 			<territory type="SI">silofení</territory>
-			<territory type="SK">silofakí</territory>
+			<territory type="SK">silofbkí</territory>
 			<territory type="SL">sieláleyɔ́ɔn</territory>
-			<territory type="SM">san malíno</territory>
-			<territory type="SN">senekáal</territory>
-			<territory type="SO">somalí</territory>
-			<territory type="SR">sulináam</territory>
+			<territory type="SM">sbn mblíno</territory>
+			<territory type="SN">senekábl</territory>
+			<territory type="SO">somblí</territory>
+			<territory type="SR">sulinábm</territory>
 			<territory type="ST">sáwó tomé e pelensípe</territory>
-			<territory type="SV">salfatɔ́ɔl</territory>
-			<territory type="SZ">suasiláand</territory>
-			<territory type="TC">túluk na káyiik</territory>
-			<territory type="TD">Sáat</territory>
+			<territory type="SV">sblfbtɔ́ɔl</territory>
+			<territory type="SZ">subsilábnd</territory>
+			<territory type="TC">túluk nb káyiik</territory>
+			<territory type="TD">Sábt</territory>
 			<territory type="TG">tokó</territory>
-			<territory type="TH">tayiláand</territory>
-			<territory type="TJ">tasikistáaŋ</territory>
+			<territory type="TH">tbyilábnd</territory>
+			<territory type="TJ">tbsikistábŋ</territory>
 			<territory type="TK">tokeló</territory>
 			<territory type="TL">timɔ́ɔl u nipálɛ́n</territory>
-			<territory type="TM">tulukmenisitáaŋ</territory>
+			<territory type="TM">tulukmenisitábŋ</territory>
 			<territory type="TN">tunusí</territory>
-			<territory type="TO">tɔ́ŋka</territory>
+			<territory type="TO">tɔ́ŋkb</territory>
 			<territory type="TR">tulukíi</territory>
-			<territory type="TT">tilinitáat na tupákɔ</territory>
-			<territory type="TV">tufalú</territory>
-			<territory type="TW">tayiwáan</territory>
-			<territory type="TZ">taŋsaní</territory>
+			<territory type="TT">tilinitábt nb tupákɔ</territory>
+			<territory type="TV">tufblú</territory>
+			<territory type="TW">tbyiwábn</territory>
+			<territory type="TZ">tbŋsbní</territory>
 			<territory type="UA">ukilɛ́ɛn</territory>
-			<territory type="UG">ukánda</territory>
-			<territory type="US">amálíka</territory>
+			<territory type="UG">ukándb</territory>
+			<territory type="US">bmálíkb</territory>
 			<territory type="UY">ulukuéy</territory>
-			<territory type="UZ">usupekistáaŋ</territory>
-			<territory type="VA">fatikáaŋ</territory>
-			<territory type="VC">sɛ́ŋ fɛŋsáŋ elekelenatíin</territory>
+			<territory type="UZ">usupekistábŋ</territory>
+			<territory type="VA">fbtikábŋ</territory>
+			<territory type="VC">sɛ́ŋ fɛŋsáŋ elekelenbtíin</territory>
 			<territory type="VE">fenesuwelá</territory>
 			<territory type="VG">Filisíin ungilís</territory>
-			<territory type="VI">pindisúlɛ́ pi amálíka</territory>
-			<territory type="VN">fiɛtnáam</territory>
-			<territory type="VU">fanuatú</territory>
-			<territory type="WF">walíis na futúna</territory>
-			<territory type="WS">samowá</territory>
+			<territory type="VI">pindisúlɛ́ pi bmálíkb</territory>
+			<territory type="VN">fiɛtnábm</territory>
+			<territory type="VU">fbnubtú</territory>
+			<territory type="WF">wblíis nb futúnb</territory>
+			<territory type="WS">sbmowá</territory>
 			<territory type="YE">yémɛn</territory>
-			<territory type="YT">mayɔ́ɔt</territory>
-			<territory type="ZA">afilí mbátɛ́</territory>
-			<territory type="ZM">saambíi</territory>
-			<territory type="ZW">simbapuwé</territory>
+			<territory type="YT">mbyɔ́ɔt</territory>
+			<territory type="ZA">bfilí mbátɛ́</territory>
+			<territory type="ZM">sbbmbíi</territory>
+			<territory type="ZW">simbbpuwé</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a á à â ǎ ā b c d e é è ɛ {ɛ\u0301} {ɛ\u0300} f h i í ì î ī k l m {mb} n {ny} ŋ {ŋg} o ó ò ô ǒ ō ɔ {ɔ\u0301} {ɔ\u0300} p s t u ú ù û ǔ ū v w y]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[g j q r x z]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B C D E Ɛ F H I K L M N Ŋ O Ɔ P S T U V W Y]</exemplarCharacters>
-	</characters>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b á à â ǎ ā b c d e é è ɛ {ɛ\u0301} {ɛ\u0300} f h i í ì î ī k l m {mb} n {ny} ŋ {ŋg} o ó ò ô ǒ ō ɔ {ɔ\u0301} {ɔ\u0300} p s t u ú ù û ǔ ū v w y]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[g j q r x z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index">[A B C D E Ɛ F H I K L M N Ŋ O Ɔ P S T U V W Y]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>«</quotationStart>
-		<quotationEnd>»</quotationEnd>
-		<alternateQuotationStart>«</alternateQuotationStart>
-		<alternateQuotationEnd>»</alternateQuotationEnd>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionEnd>»</quotbtionEnd>
+		<blternbteQuotbtionStbrt>«</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>»</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="1">o.1</month>
 							<month type="2">o.2</month>
 							<month type="3">o.3</month>
@@ -313,7 +313,7 @@
 							<month type="12">o.12</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">pikítíkítie, oólí ú kutúan</month>
+							<month type="1">pikítíkítie, oólí ú kutúbn</month>
 							<month type="2">siɛyɛ́, oóli ú kándíɛ</month>
 							<month type="3">ɔnsúmbɔl, oóli ú kátátúɛ</month>
 							<month type="4">mesiŋ, oóli ú kénie</month>
@@ -323,292 +323,292 @@
 							<month type="8">pisuyú</month>
 							<month type="9">imɛŋ i puɔs</month>
 							<month type="10">imɛŋ i putúk,oóli ú kátíɛ</month>
-							<month type="11">makandikɛ</month>
+							<month type="11">mbkbndikɛ</month>
 							<month type="12">pilɔndɔ́</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">sd</day>
-							<day type="mon">md</day>
-							<day type="tue">mw</day>
-							<day type="wed">et</day>
-							<day type="thu">kl</day>
-							<day type="fri">fl</day>
-							<day type="sat">ss</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">sɔ́ndiɛ</day>
-							<day type="mon">móndie</day>
-							<day type="tue">muányáŋmóndie</day>
-							<day type="wed">metúkpíápɛ</day>
-							<day type="thu">kúpélimetúkpiapɛ</day>
-							<day type="fri">feléte</day>
-							<day type="sat">séselé</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">s</day>
-							<day type="mon">m</day>
-							<day type="tue">m</day>
-							<day type="wed">e</day>
-							<day type="thu">k</day>
-							<day type="fri">f</day>
-							<day type="sat">s</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">Q1</quarter>
-							<quarter type="2">Q2</quarter>
-							<quarter type="3">Q3</quarter>
-							<quarter type="4">Q4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">ndátúɛ 1</quarter>
-							<quarter type="2">ndátúɛ 2</quarter>
-							<quarter type="3">ndátúɛ 3</quarter>
-							<quarter type="4">ndátúɛ 4</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">kiɛmɛ́ɛm</dayPeriod>
-							<dayPeriod type="pm">kisɛ́ndɛ</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">katikupíen Yésuse</era>
-						<era type="1">ékélémkúnupíén n</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">-J.C.</era>
-						<era type="1">+J.C.</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E d/M</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="ms">m:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E d/M/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">sd</dby>
+							<dby type="mon">md</dby>
+							<dby type="tue">mw</dby>
+							<dby type="wed">et</dby>
+							<dby type="thu">kl</dby>
+							<dby type="fri">fl</dby>
+							<dby type="sbt">ss</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">sɔ́ndiɛ</dby>
+							<dby type="mon">móndie</dby>
+							<dby type="tue">muányáŋmóndie</dby>
+							<dby type="wed">metúkpíápɛ</dby>
+							<dby type="thu">kúpélimetúkpibpɛ</dby>
+							<dby type="fri">feléte</dby>
+							<dby type="sbt">séselé</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">s</dby>
+							<dby type="mon">m</dby>
+							<dby type="tue">m</dby>
+							<dby type="wed">e</dby>
+							<dby type="thu">k</dby>
+							<dby type="fri">f</dby>
+							<dby type="sbt">s</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">Q1</qubrter>
+							<qubrter type="2">Q2</qubrter>
+							<qubrter type="3">Q3</qubrter>
+							<qubrter type="4">Q4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">ndátúɛ 1</qubrter>
+							<qubrter type="2">ndátúɛ 2</qubrter>
+							<qubrter type="3">ndátúɛ 3</qubrter>
+							<qubrter type="4">ndátúɛ 4</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">kiɛmɛ́ɛm</dbyPeriod>
+							<dbyPeriod type="pm">kisɛ́ndɛ</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">kbtikupíen Yésuse</erb>
+						<erb type="1">ékélémkúnupíén n</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0">-J.C.</erb>
+						<erb type="1">+J.C.</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>HH:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>HH:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="d">d</dbteFormbtItem>
+						<dbteFormbtItem id="Ed">E d</dbteFormbtItem>
+						<dbteFormbtItem id="hm">h:mm b</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">HH:mm</dbteFormbtItem>
+						<dbteFormbtItem id="hms">h:mm:ss b</dbteFormbtItem>
+						<dbteFormbtItem id="Hms">HH:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="M">L</dbteFormbtItem>
+						<dbteFormbtItem id="Md">d/M</dbteFormbtItem>
+						<dbteFormbtItem id="MEd">E d/M</dbteFormbtItem>
+						<dbteFormbtItem id="MMM">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="ms">m:ss</dbteFormbtItem>
+						<dbteFormbtItem id="y">y</dbteFormbtItem>
+						<dbteFormbtItem id="yM">M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMd">d/M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E d/M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd">d MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E d MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yQ">Q y</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ y</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>kipéŋén</displayName>
+					<field type="erb">
+						<displbyNbme>kipéŋén</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>yɔɔŋ</displayName>
+					<field type="yebr">
+						<displbyNbme>yɔɔŋ</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>oóli</displayName>
+						<displbyNbme>oóli</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>sɔ́ndiɛ</displayName>
+						<displbyNbme>sɔ́ndiɛ</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>puɔ́sɛ́</displayName>
-						<relative type="-1">púyoó</relative>
-						<relative type="0">ínaan</relative>
-						<relative type="1">nakinyám</relative>
+					<field type="dby">
+						<displbyNbme>puɔ́sɛ́</displbyNbme>
+						<relbtive type="-1">púyoó</relbtive>
+						<relbtive type="0">ínbbn</relbtive>
+						<relbtive type="1">nbkinyám</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>metúk mɔ́sɔ́ndiɛ</displayName>
+					<field type="weekdby">
+						<displbyNbme>metúk mɔ́sɔ́ndiɛ</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName>kiɛmɛ́ɛm,kisɛ́ndɛ</displayName>
+					<field type="dbyperiod">
+						<displbyNbme>kiɛmɛ́ɛm,kisɛ́ndɛ</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>kisikɛl,</displayName>
+						<displbyNbme>kisikɛl,</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>minít</displayName>
+						<displbyNbme>minít</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>síkɛn</displayName>
+						<displbyNbme>síkɛn</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName>kinúki kisikɛl ɔ́ pitɔŋ</displayName>
+						<displbyNbme>kinúki kisikɛl ɔ́ pitɔŋ</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>,</decimbl>
 			<group> </group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00 ¤;(#,##0.00 ¤)</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength>
+				<decimblFormbt>
+					<pbttern>#,##0.###</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<percentFormbts numberSystem="lbtn">
+			<percentFormbtLength>
+				<percentFormbt>
+					<pbttern>#,##0%</pbttern>
+				</percentFormbt>
+			</percentFormbtLength>
+		</percentFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>#,##0.00 ¤;(#,##0.00 ¤)</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="AOA">
-				<displayName>kuansa wu angolá</displayName>
+				<displbyNbme>kubnsb wu bngolá</displbyNbme>
 			</currency>
 			<currency type="AUD">
-				<displayName>toláal wu ostalalí</displayName>
+				<displbyNbme>tolábl wu ostblblí</displbyNbme>
 			</currency>
 			<currency type="BHD">
-				<displayName>tináal wu paaléen</displayName>
+				<displbyNbme>tinábl wu pbbléen</displbyNbme>
 			</currency>
 			<currency type="BIF">
-				<displayName>faláŋɛ u pulundí</displayName>
+				<displbyNbme>fbláŋɛ u pulundí</displbyNbme>
 			</currency>
 			<currency type="BWP">
-				<displayName>pula pu posuána</displayName>
+				<displbyNbme>pulb pu posuánb</displbyNbme>
 			</currency>
 			<currency type="CAD">
-				<displayName>toláal u kanáta</displayName>
+				<displbyNbme>tolábl u kbnátb</displbyNbme>
 			</currency>
 			<currency type="CDF">
-				<displayName>́faláŋɛ u kongó</displayName>
+				<displbyNbme>́fbláŋɛ u kongó</displbyNbme>
 			</currency>
 			<currency type="CNY">
-				<displayName>yuan ɛlɛnmimbí</displayName>
+				<displbyNbme>yubn ɛlɛnmimbí</displbyNbme>
 			</currency>
 			<currency type="CVE">
-				<displayName>ɛskúdo u kápfɛ́ɛl</displayName>
+				<displbyNbme>ɛskúdo u kápfɛ́ɛl</displbyNbme>
 			</currency>
 			<currency type="DJF">
-				<displayName>́faláŋɛ u síputí</displayName>
+				<displbyNbme>́fbláŋɛ u síputí</displbyNbme>
 			</currency>
 			<currency type="DZD">
-				<displayName>tináal wu alselí</displayName>
+				<displbyNbme>tinábl wu blselí</displbyNbme>
 			</currency>
 			<currency type="EGP">
-				<displayName>lífilɛ wu isípit</displayName>
+				<displbyNbme>lífilɛ wu isípit</displbyNbme>
 			</currency>
 			<currency type="ERN">
-				<displayName>náfka wu elitilée</displayName>
+				<displbyNbme>náfkb wu elitilée</displbyNbme>
 			</currency>
 			<currency type="ETB">
-				<displayName>píil wu etiopí</displayName>
+				<displbyNbme>píil wu etiopí</displbyNbme>
 			</currency>
 			<currency type="EUR">
-				<displayName>olóo</displayName>
+				<displbyNbme>olóo</displbyNbme>
 			</currency>
 			<currency type="GBP">
-				<displayName>lífilɛ sitelelíiŋ</displayName>
+				<displbyNbme>lífilɛ sitelelíiŋ</displbyNbme>
 			</currency>
 			<currency type="GHC">
-				<displayName>setí</displayName>
+				<displbyNbme>setí</displbyNbme>
 			</currency>
 			<currency type="GMD">
-				<displayName>talasí u kaambí</displayName>
+				<displbyNbme>tblbsí u kbbmbí</displbyNbme>
 			</currency>
 			<currency type="GNS">
-				<displayName>silí u kiiné</displayName>
+				<displbyNbme>silí u kiiné</displbyNbme>
 			</currency>
 			<currency type="INR">
-				<displayName>ulupí</displayName>
+				<displbyNbme>ulupí</displbyNbme>
 			</currency>
 			<currency type="JPY">
-				<displayName>yɛ́ɛn u sapɔ́ɔŋ</displayName>
+				<displbyNbme>yɛ́ɛn u sbpɔ́ɔŋ</displbyNbme>
 			</currency>
 			<currency type="KES">
-				<displayName>síliŋ u kénia</displayName>
+				<displbyNbme>síliŋ u kénib</displbyNbme>
 			</currency>
 			<currency type="KMF">
-				<displayName>́faláŋɛ u kɔmɔ́ɔl</displayName>
+				<displbyNbme>́fbláŋɛ u kɔmɔ́ɔl</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>ɛ́ɛ́ɛ:ɛ</yesstr>
-			<nostr>aákó:a</nostr>
-		</messages>
+			<nostr>bákó:b</nostr>
+		</messbges>
 	</posix>
 </ldml>
 

@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.event.ActionEvent;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
-import javax.swing.text.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * A text component that can be marked up with attributes that are
- * represented graphically.
- * You can find how-to information and examples of using text panes in
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/text.html">Using Text Components</a>,
- * a section in <em>The Java Tutorial.</em>
+ * A text component thbt cbn be mbrked up with bttributes thbt bre
+ * represented grbphicblly.
+ * You cbn find how-to informbtion bnd exbmples of using text pbnes in
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/text.html">Using Text Components</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  *
  * <p>
- * This component models paragraphs
- * that are composed of runs of character level attributes.  Each
- * paragraph may have a logical style attached to it which contains
- * the default attributes to use if not overridden by attributes set
- * on the paragraph or character run.  Components and images may
+ * This component models pbrbgrbphs
+ * thbt bre composed of runs of chbrbcter level bttributes.  Ebch
+ * pbrbgrbph mby hbve b logicbl style bttbched to it which contbins
+ * the defbult bttributes to use if not overridden by bttributes set
+ * on the pbrbgrbph or chbrbcter run.  Components bnd imbges mby
  * be embedded in the flow of text.
  *
  * <dl>
  * <dt><b>Newlines</b>
  * <dd>
- * For a discussion on how newlines are handled, see
- * <a href="text/DefaultEditorKit.html">DefaultEditorKit</a>.
+ * For b discussion on how newlines bre hbndled, see
+ * <b href="text/DefbultEditorKit.html">DefbultEditorKit</b>.
  * </dl>
  *
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *   attribute: isContainer true
- * description: A text component that can be marked up with attributes that are graphically represented.
+ * @bebninfo
+ *   bttribute: isContbiner true
+ * description: A text component thbt cbn be mbrked up with bttributes thbt bre grbphicblly represented.
  *
- * @author  Timothy Prinzing
- * @see javax.swing.text.StyledEditorKit
+ * @buthor  Timothy Prinzing
+ * @see jbvbx.swing.text.StyledEditorKit
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JTextPane extends JEditorPane {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JTextPbne extends JEditorPbne {
 
     /**
-     * Creates a new <code>JTextPane</code>.  A new instance of
+     * Crebtes b new <code>JTextPbne</code>.  A new instbnce of
      * <code>StyledEditorKit</code> is
-     * created and set, and the document model set to <code>null</code>.
+     * crebted bnd set, bnd the document model set to <code>null</code>.
      */
-    public JTextPane() {
+    public JTextPbne() {
         super();
-        EditorKit editorKit = createDefaultEditorKit();
+        EditorKit editorKit = crebteDefbultEditorKit();
         String contentType = editorKit.getContentType();
         if (contentType != null
-            && getEditorKitClassNameForContentType(contentType) ==
-                 defaultEditorKitMap.get(contentType)) {
+            && getEditorKitClbssNbmeForContentType(contentType) ==
+                 defbultEditorKitMbp.get(contentType)) {
             setEditorKitForContentType(contentType, editorKit);
         }
         setEditorKit(editorKit);
     }
 
     /**
-     * Creates a new <code>JTextPane</code>, with a specified document model.
-     * A new instance of <code>javax.swing.text.StyledEditorKit</code>
-     *  is created and set.
+     * Crebtes b new <code>JTextPbne</code>, with b specified document model.
+     * A new instbnce of <code>jbvbx.swing.text.StyledEditorKit</code>
+     *  is crebted bnd set.
      *
-     * @param doc the document model
+     * @pbrbm doc the document model
      */
-    public JTextPane(StyledDocument doc) {
+    public JTextPbne(StyledDocument doc) {
         this();
         setStyledDocument(doc);
     }
 
     /**
-     * Returns the class ID for the UI.
+     * Returns the clbss ID for the UI.
      *
-     * @return the string "TextPaneUI"
+     * @return the string "TextPbneUI"
      *
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
     /**
-     * Associates the editor with a text document.  This
-     * must be a <code>StyledDocument</code>.
+     * Associbtes the editor with b text document.  This
+     * must be b <code>StyledDocument</code>.
      *
-     * @param doc  the document to display/edit
-     * @exception IllegalArgumentException  if <code>doc</code> can't
-     *   be narrowed to a <code>StyledDocument</code> which is the
+     * @pbrbm doc  the document to displby/edit
+     * @exception IllegblArgumentException  if <code>doc</code> cbn't
+     *   be nbrrowed to b <code>StyledDocument</code> which is the
      *   required type of model for this text component
      */
     public void setDocument(Document doc) {
-        if (doc instanceof StyledDocument) {
+        if (doc instbnceof StyledDocument) {
             super.setDocument(doc);
         } else {
-            throw new IllegalArgumentException("Model must be StyledDocument");
+            throw new IllegblArgumentException("Model must be StyledDocument");
         }
     }
 
     /**
-     * Associates the editor with a text document.
-     * The currently registered factory is used to build a view for
-     * the document, which gets displayed by the editor.
+     * Associbtes the editor with b text document.
+     * The currently registered fbctory is used to build b view for
+     * the document, which gets displbyed by the editor.
      *
-     * @param doc  the document to display/edit
+     * @pbrbm doc  the document to displby/edit
      */
     public void setStyledDocument(StyledDocument doc) {
         super.setDocument(doc);
     }
 
     /**
-     * Fetches the model associated with the editor.
+     * Fetches the model bssocibted with the editor.
      *
      * @return the model
      */
@@ -162,132 +162,132 @@ public class JTextPane extends JEditorPane {
     }
 
     /**
-     * Replaces the currently selected content with new content
+     * Replbces the currently selected content with new content
      * represented by the given string.  If there is no selection
-     * this amounts to an insert of the given text.  If there
-     * is no replacement text this amounts to a removal of the
-     * current selection.  The replacement text will have the
-     * attributes currently defined for input at the point of
-     * insertion.  If the document is not editable, beep and return.
+     * this bmounts to bn insert of the given text.  If there
+     * is no replbcement text this bmounts to b removbl of the
+     * current selection.  The replbcement text will hbve the
+     * bttributes currently defined for input bt the point of
+     * insertion.  If the document is not editbble, beep bnd return.
      *
-     * @param content  the content to replace the selection with
+     * @pbrbm content  the content to replbce the selection with
      */
     @Override
-    public void replaceSelection(String content) {
-        replaceSelection(content, true);
+    public void replbceSelection(String content) {
+        replbceSelection(content, true);
     }
 
-    private void replaceSelection(String content, boolean checkEditable) {
-        if (checkEditable && !isEditable()) {
-            UIManager.getLookAndFeel().provideErrorFeedback(JTextPane.this);
+    privbte void replbceSelection(String content, boolebn checkEditbble) {
+        if (checkEditbble && !isEditbble()) {
+            UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JTextPbne.this);
             return;
         }
         Document doc = getStyledDocument();
         if (doc != null) {
             try {
-                Caret caret = getCaret();
-                boolean composedTextSaved = saveComposedText(caret.getDot());
-                int p0 = Math.min(caret.getDot(), caret.getMark());
-                int p1 = Math.max(caret.getDot(), caret.getMark());
-                AttributeSet attr = getInputAttributes().copyAttributes();
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).replace(p0, p1 - p0, content,attr);
+                Cbret cbret = getCbret();
+                boolebn composedTextSbved = sbveComposedText(cbret.getDot());
+                int p0 = Mbth.min(cbret.getDot(), cbret.getMbrk());
+                int p1 = Mbth.mbx(cbret.getDot(), cbret.getMbrk());
+                AttributeSet bttr = getInputAttributes().copyAttributes();
+                if (doc instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)doc).replbce(p0, p1 - p0, content,bttr);
                 }
                 else {
                     if (p0 != p1) {
                         doc.remove(p0, p1 - p0);
                     }
                     if (content != null && content.length() > 0) {
-                        doc.insertString(p0, content, attr);
+                        doc.insertString(p0, content, bttr);
                     }
                 }
-                if (composedTextSaved) {
+                if (composedTextSbved) {
                     restoreComposedText();
                 }
-            } catch (BadLocationException e) {
-                UIManager.getLookAndFeel().provideErrorFeedback(JTextPane.this);
+            } cbtch (BbdLocbtionException e) {
+                UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JTextPbne.this);
             }
         }
     }
 
     /**
-     * Inserts a component into the document as a replacement
+     * Inserts b component into the document bs b replbcement
      * for the currently selected content.  If there is no
-     * selection the component is effectively inserted at the
-     * current position of the caret.  This is represented in
-     * the associated document as an attribute of one character
+     * selection the component is effectively inserted bt the
+     * current position of the cbret.  This is represented in
+     * the bssocibted document bs bn bttribute of one chbrbcter
      * of content.
      * <p>
-     * The component given is the actual component used by the
-     * JTextPane.  Since components cannot be a child of more than
-     * one container, this method should not be used in situations
-     * where the model is shared by text components.
+     * The component given is the bctubl component used by the
+     * JTextPbne.  Since components cbnnot be b child of more thbn
+     * one contbiner, this method should not be used in situbtions
+     * where the model is shbred by text components.
      * <p>
-     * The component is placed relative to the text baseline
-     * according to the value returned by
+     * The component is plbced relbtive to the text bbseline
+     * bccording to the vblue returned by
      * <code>Component.getAlignmentY</code>.  For Swing components
-     * this value can be conveniently set using the method
-     * <code>JComponent.setAlignmentY</code>.  For example, setting
-     * a value of <code>0.75</code> will cause 75 percent of the
-     * component to be above the baseline, and 25 percent of the
-     * component to be below the baseline.
+     * this vblue cbn be conveniently set using the method
+     * <code>JComponent.setAlignmentY</code>.  For exbmple, setting
+     * b vblue of <code>0.75</code> will cbuse 75 percent of the
+     * component to be bbove the bbseline, bnd 25 percent of the
+     * component to be below the bbseline.
      *
-     * @param c    the component to insert
+     * @pbrbm c    the component to insert
      */
     public void insertComponent(Component c) {
-        MutableAttributeSet inputAttributes = getInputAttributes();
+        MutbbleAttributeSet inputAttributes = getInputAttributes();
         inputAttributes.removeAttributes(inputAttributes);
-        StyleConstants.setComponent(inputAttributes, c);
-        replaceSelection(" ", false);
+        StyleConstbnts.setComponent(inputAttributes, c);
+        replbceSelection(" ", fblse);
         inputAttributes.removeAttributes(inputAttributes);
     }
 
     /**
-     * Inserts an icon into the document as a replacement
+     * Inserts bn icon into the document bs b replbcement
      * for the currently selected content.  If there is no
-     * selection the icon is effectively inserted at the
-     * current position of the caret.  This is represented in
-     * the associated document as an attribute of one character
+     * selection the icon is effectively inserted bt the
+     * current position of the cbret.  This is represented in
+     * the bssocibted document bs bn bttribute of one chbrbcter
      * of content.
      *
-     * @param g    the icon to insert
+     * @pbrbm g    the icon to insert
      * @see Icon
      */
     public void insertIcon(Icon g) {
-        MutableAttributeSet inputAttributes = getInputAttributes();
+        MutbbleAttributeSet inputAttributes = getInputAttributes();
         inputAttributes.removeAttributes(inputAttributes);
-        StyleConstants.setIcon(inputAttributes, g);
-        replaceSelection(" ", false);
+        StyleConstbnts.setIcon(inputAttributes, g);
+        replbceSelection(" ", fblse);
         inputAttributes.removeAttributes(inputAttributes);
     }
 
     /**
-     * Adds a new style into the logical style hierarchy.  Style attributes
-     * resolve from bottom up so an attribute specified in a child
-     * will override an attribute specified in the parent.
+     * Adds b new style into the logicbl style hierbrchy.  Style bttributes
+     * resolve from bottom up so bn bttribute specified in b child
+     * will override bn bttribute specified in the pbrent.
      *
-     * @param nm   the name of the style (must be unique within the
-     *   collection of named styles).  The name may be <code>null</code>
-     *   if the style is unnamed, but the caller is responsible
-     *   for managing the reference returned as an unnamed style can't
-     *   be fetched by name.  An unnamed style may be useful for things
-     *   like character attribute overrides such as found in a style
+     * @pbrbm nm   the nbme of the style (must be unique within the
+     *   collection of nbmed styles).  The nbme mby be <code>null</code>
+     *   if the style is unnbmed, but the cbller is responsible
+     *   for mbnbging the reference returned bs bn unnbmed style cbn't
+     *   be fetched by nbme.  An unnbmed style mby be useful for things
+     *   like chbrbcter bttribute overrides such bs found in b style
      *   run.
-     * @param parent the parent style.  This may be <code>null</code>
+     * @pbrbm pbrent the pbrent style.  This mby be <code>null</code>
      *   if unspecified
-     *   attributes need not be resolved in some other style.
+     *   bttributes need not be resolved in some other style.
      * @return the new <code>Style</code>
      */
-    public Style addStyle(String nm, Style parent) {
+    public Style bddStyle(String nm, Style pbrent) {
         StyledDocument doc = getStyledDocument();
-        return doc.addStyle(nm, parent);
+        return doc.bddStyle(nm, pbrent);
     }
 
     /**
-     * Removes a named non-<code>null</code> style previously added to
+     * Removes b nbmed non-<code>null</code> style previously bdded to
      * the document.
      *
-     * @param nm  the name of the style to remove
+     * @pbrbm nm  the nbme of the style to remove
      */
     public void removeStyle(String nm) {
         StyledDocument doc = getStyledDocument();
@@ -295,9 +295,9 @@ public class JTextPane extends JEditorPane {
     }
 
     /**
-     * Fetches a named non-<code>null</code> style previously added.
+     * Fetches b nbmed non-<code>null</code> style previously bdded.
      *
-     * @param nm  the name of the style
+     * @pbrbm nm  the nbme of the style
      * @return the <code>Style</code>
      */
     public Style getStyle(String nm) {
@@ -306,41 +306,41 @@ public class JTextPane extends JEditorPane {
     }
 
     /**
-     * Sets the logical style to use for the paragraph at the
-     * current caret position.  If attributes aren't explicitly set
-     * for character and paragraph attributes they will resolve
-     * through the logical style assigned to the paragraph, which
-     * in term may resolve through some hierarchy completely
-     * independent of the element hierarchy in the document.
+     * Sets the logicbl style to use for the pbrbgrbph bt the
+     * current cbret position.  If bttributes bren't explicitly set
+     * for chbrbcter bnd pbrbgrbph bttributes they will resolve
+     * through the logicbl style bssigned to the pbrbgrbph, which
+     * in term mby resolve through some hierbrchy completely
+     * independent of the element hierbrchy in the document.
      *
-     * @param s  the logical style to assign to the paragraph,
+     * @pbrbm s  the logicbl style to bssign to the pbrbgrbph,
      *          or <code>null</code> for no style
      */
-    public void setLogicalStyle(Style s) {
+    public void setLogicblStyle(Style s) {
         StyledDocument doc = getStyledDocument();
-        doc.setLogicalStyle(getCaretPosition(), s);
+        doc.setLogicblStyle(getCbretPosition(), s);
     }
 
     /**
-     * Fetches the logical style assigned to the paragraph represented
-     * by the current position of the caret, or <code>null</code>.
+     * Fetches the logicbl style bssigned to the pbrbgrbph represented
+     * by the current position of the cbret, or <code>null</code>.
      *
      * @return the <code>Style</code>
      */
-    public Style getLogicalStyle() {
+    public Style getLogicblStyle() {
         StyledDocument doc = getStyledDocument();
-        return doc.getLogicalStyle(getCaretPosition());
+        return doc.getLogicblStyle(getCbretPosition());
     }
 
     /**
-     * Fetches the character attributes in effect at the
-     * current location of the caret, or <code>null</code>.
+     * Fetches the chbrbcter bttributes in effect bt the
+     * current locbtion of the cbret, or <code>null</code>.
      *
-     * @return the attributes, or <code>null</code>
+     * @return the bttributes, or <code>null</code>
      */
-    public AttributeSet getCharacterAttributes() {
+    public AttributeSet getChbrbcterAttributes() {
         StyledDocument doc = getStyledDocument();
-        Element run = doc.getCharacterElement(getCaretPosition());
+        Element run = doc.getChbrbcterElement(getCbretPosition());
         if (run != null) {
             return run.getAttributes();
         }
@@ -348,69 +348,69 @@ public class JTextPane extends JEditorPane {
     }
 
     /**
-     * Applies the given attributes to character
-     * content.  If there is a selection, the attributes
-     * are applied to the selection range.  If there
-     * is no selection, the attributes are applied to
-     * the input attribute set which defines the attributes
-     * for any new text that gets inserted.
+     * Applies the given bttributes to chbrbcter
+     * content.  If there is b selection, the bttributes
+     * bre bpplied to the selection rbnge.  If there
+     * is no selection, the bttributes bre bpplied to
+     * the input bttribute set which defines the bttributes
+     * for bny new text thbt gets inserted.
      *
-     * @param attr the attributes
-     * @param replace if true, then replace the existing attributes first
+     * @pbrbm bttr the bttributes
+     * @pbrbm replbce if true, then replbce the existing bttributes first
      */
-    public void setCharacterAttributes(AttributeSet attr, boolean replace) {
-        int p0 = getSelectionStart();
+    public void setChbrbcterAttributes(AttributeSet bttr, boolebn replbce) {
+        int p0 = getSelectionStbrt();
         int p1 = getSelectionEnd();
         if (p0 != p1) {
             StyledDocument doc = getStyledDocument();
-            doc.setCharacterAttributes(p0, p1 - p0, attr, replace);
+            doc.setChbrbcterAttributes(p0, p1 - p0, bttr, replbce);
         } else {
-            MutableAttributeSet inputAttributes = getInputAttributes();
-            if (replace) {
+            MutbbleAttributeSet inputAttributes = getInputAttributes();
+            if (replbce) {
                 inputAttributes.removeAttributes(inputAttributes);
             }
-            inputAttributes.addAttributes(attr);
+            inputAttributes.bddAttributes(bttr);
         }
     }
 
     /**
-     * Fetches the current paragraph attributes in effect
-     * at the location of the caret, or <code>null</code> if none.
+     * Fetches the current pbrbgrbph bttributes in effect
+     * bt the locbtion of the cbret, or <code>null</code> if none.
      *
-     * @return the attributes
+     * @return the bttributes
      */
-    public AttributeSet getParagraphAttributes() {
+    public AttributeSet getPbrbgrbphAttributes() {
         StyledDocument doc = getStyledDocument();
-        Element paragraph = doc.getParagraphElement(getCaretPosition());
-        if (paragraph != null) {
-            return paragraph.getAttributes();
+        Element pbrbgrbph = doc.getPbrbgrbphElement(getCbretPosition());
+        if (pbrbgrbph != null) {
+            return pbrbgrbph.getAttributes();
         }
         return null;
     }
 
     /**
-     * Applies the given attributes to paragraphs.  If
-     * there is a selection, the attributes are applied
-     * to the paragraphs that intersect the selection.
-     * If there is no selection, the attributes are applied
-     * to the paragraph at the current caret position.
+     * Applies the given bttributes to pbrbgrbphs.  If
+     * there is b selection, the bttributes bre bpplied
+     * to the pbrbgrbphs thbt intersect the selection.
+     * If there is no selection, the bttributes bre bpplied
+     * to the pbrbgrbph bt the current cbret position.
      *
-     * @param attr the non-<code>null</code> attributes
-     * @param replace if true, replace the existing attributes first
+     * @pbrbm bttr the non-<code>null</code> bttributes
+     * @pbrbm replbce if true, replbce the existing bttributes first
      */
-    public void setParagraphAttributes(AttributeSet attr, boolean replace) {
-        int p0 = getSelectionStart();
+    public void setPbrbgrbphAttributes(AttributeSet bttr, boolebn replbce) {
+        int p0 = getSelectionStbrt();
         int p1 = getSelectionEnd();
         StyledDocument doc = getStyledDocument();
-        doc.setParagraphAttributes(p0, p1 - p0, attr, replace);
+        doc.setPbrbgrbphAttributes(p0, p1 - p0, bttr, replbce);
     }
 
     /**
-     * Gets the input attributes for the pane.
+     * Gets the input bttributes for the pbne.
      *
-     * @return the attributes
+     * @return the bttributes
      */
-    public MutableAttributeSet getInputAttributes() {
+    public MutbbleAttributeSet getInputAttributes() {
         return getStyledEditorKit().getInputAttributes();
     }
 
@@ -419,77 +419,77 @@ public class JTextPane extends JEditorPane {
      *
      * @return the editor kit
      */
-    protected final StyledEditorKit getStyledEditorKit() {
+    protected finbl StyledEditorKit getStyledEditorKit() {
         return (StyledEditorKit) getEditorKit();
     }
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "TextPaneUI";
+    privbte stbtic finbl String uiClbssID = "TextPbneUI";
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      *
-     * @param s the output stream
+     * @pbrbm s the output strebm
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
-    // --- JEditorPane ------------------------------------
+    // --- JEditorPbne ------------------------------------
 
     /**
-     * Creates the <code>EditorKit</code> to use by default.  This
-     * is implemented to return <code>javax.swing.text.StyledEditorKit</code>.
+     * Crebtes the <code>EditorKit</code> to use by defbult.  This
+     * is implemented to return <code>jbvbx.swing.text.StyledEditorKit</code>.
      *
      * @return the editor kit
      */
-    protected EditorKit createDefaultEditorKit() {
+    protected EditorKit crebteDefbultEditorKit() {
         return new StyledEditorKit();
     }
 
     /**
-     * Sets the currently installed kit for handling
-     * content.  This is the bound property that
-     * establishes the content type of the editor.
+     * Sets the currently instblled kit for hbndling
+     * content.  This is the bound property thbt
+     * estbblishes the content type of the editor.
      *
-     * @param kit the desired editor behavior
-     * @exception IllegalArgumentException if kit is not a
+     * @pbrbm kit the desired editor behbvior
+     * @exception IllegblArgumentException if kit is not b
      *          <code>StyledEditorKit</code>
      */
-    public final void setEditorKit(EditorKit kit) {
-        if (kit instanceof StyledEditorKit) {
+    public finbl void setEditorKit(EditorKit kit) {
+        if (kit instbnceof StyledEditorKit) {
             super.setEditorKit(kit);
         } else {
-            throw new IllegalArgumentException("Must be StyledEditorKit");
+            throw new IllegblArgumentException("Must be StyledEditorKit");
         }
     }
 
     /**
-     * Returns a string representation of this <code>JTextPane</code>.
+     * Returns b string representbtion of this <code>JTextPbne</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JTextPane</code>
+     * @return  b string representbtion of this <code>JTextPbne</code>
      */
-    protected String paramString() {
-        return super.paramString();
+    protected String pbrbmString() {
+        return super.pbrbmString();
     }
 
 }

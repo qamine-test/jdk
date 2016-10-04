@@ -1,258 +1,258 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.javac;
+pbckbge sun.tools.jbvbc;
 
-import sun.tools.java.*;
+import sun.tools.jbvb.*;
 import sun.tools.tree.Node;
-import sun.tools.java.Package;
+import sun.tools.jbvb.Pbckbge;
 
-import java.util.*;
-import java.io.*;
+import jbvb.util.*;
+import jbvb.io.*;
 
 /**
- * Main environment of the batch version of the Java compiler,
+ * Mbin environment of the bbtch version of the Jbvb compiler,
  * this needs more work.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
-@Deprecated
+@Deprecbted
 public
-class BatchEnvironment extends Environment implements ErrorConsumer {
+clbss BbtchEnvironment extends Environment implements ErrorConsumer {
     /**
-     * The stream where error message are printed.
+     * The strebm where error messbge bre printed.
      */
-    OutputStream out;
+    OutputStrebm out;
 
     /**
-     * The path we use for finding source files.
+     * The pbth we use for finding source files.
      */
-    protected ClassPath sourcePath;
+    protected ClbssPbth sourcePbth;
 
     /**
-     * The path we use for finding class (binary) files.
+     * The pbth we use for finding clbss (binbry) files.
      */
-    protected ClassPath binaryPath;
+    protected ClbssPbth binbryPbth;
 
     /**
-     * A hashtable of resource contexts.
+     * A hbshtbble of resource contexts.
      */
-    Hashtable<Identifier, Package> packages = new Hashtable<>(31);
+    Hbshtbble<Identifier, Pbckbge> pbckbges = new Hbshtbble<>(31);
 
     /**
-     * The classes, in order of appearance.
+     * The clbsses, in order of bppebrbnce.
      */
-    Vector<ClassDeclaration> classesOrdered = new Vector<>();
+    Vector<ClbssDeclbrbtion> clbssesOrdered = new Vector<>();
 
     /**
-     * The classes, keyed by ClassDeclaration.
+     * The clbsses, keyed by ClbssDeclbrbtion.
      */
-    Hashtable<Type, ClassDeclaration> classes = new Hashtable<>(351);
+    Hbshtbble<Type, ClbssDeclbrbtion> clbsses = new Hbshtbble<>(351);
 
     /**
-     * flags
+     * flbgs
      */
-    public int flags;
+    public int flbgs;
 
     /**
-     * Major and minor versions to use for generated class files.
-     * Environments that extend BatchEnvironment (such as javadoc's
-     * Env class) get the default values below.
+     * Mbjor bnd minor versions to use for generbted clbss files.
+     * Environments thbt extend BbtchEnvironment (such bs jbvbdoc's
+     * Env clbss) get the defbult vblues below.
      *
-     * javac itself may override these versions with values determined
-     * from the command line "-target" option.
+     * jbvbc itself mby override these versions with vblues determined
+     * from the commbnd line "-tbrget" option.
      */
-    public short majorVersion = JAVA_DEFAULT_VERSION;
+    public short mbjorVersion = JAVA_DEFAULT_VERSION;
     public short minorVersion = JAVA_DEFAULT_MINOR_VERSION;
 
 // JCOV
     /**
-     * coverage data file
+     * coverbge dbtb file
      */
     public File covFile;
 // end JCOV
 
     /**
-     * The number of errors and warnings
+     * The number of errors bnd wbrnings
      */
     public int nerrors;
-    public int nwarnings;
-    public int ndeprecations;
+    public int nwbrnings;
+    public int ndeprecbtions;
 
     /**
-     * A list of files containing deprecation warnings.
+     * A list of files contbining deprecbtion wbrnings.
      */
-    Vector<Object> deprecationFiles = new Vector<>();
+    Vector<Object> deprecbtionFiles = new Vector<>();
 
         /**
-         * writes out error messages
+         * writes out error messbges
          */
 
         ErrorConsumer errorConsumer;
 
     /**
-     * Old constructors -- these constructors build a BatchEnvironment
-     * with an old-style class path.
+     * Old constructors -- these constructors build b BbtchEnvironment
+     * with bn old-style clbss pbth.
      */
-    public BatchEnvironment(ClassPath path) {
-        this(System.out, path);
+    public BbtchEnvironment(ClbssPbth pbth) {
+        this(System.out, pbth);
     }
-    public BatchEnvironment(OutputStream out,
-                            ClassPath path) {
-        this(out, path, (ErrorConsumer) null);
+    public BbtchEnvironment(OutputStrebm out,
+                            ClbssPbth pbth) {
+        this(out, pbth, (ErrorConsumer) null);
     }
-    public BatchEnvironment(OutputStream out,
-                            ClassPath path,
+    public BbtchEnvironment(OutputStrebm out,
+                            ClbssPbth pbth,
                             ErrorConsumer errorConsumer) {
-        this(out, path, path, errorConsumer);
+        this(out, pbth, pbth, errorConsumer);
     }
 
     /**
-     * New constructors -- these constructors build a BatchEnvironment
-     * with a source path and a binary path.
+     * New constructors -- these constructors build b BbtchEnvironment
+     * with b source pbth bnd b binbry pbth.
      */
-    public BatchEnvironment(ClassPath sourcePath,
-                            ClassPath binaryPath) {
-        this(System.out, sourcePath, binaryPath);
+    public BbtchEnvironment(ClbssPbth sourcePbth,
+                            ClbssPbth binbryPbth) {
+        this(System.out, sourcePbth, binbryPbth);
     }
-    public BatchEnvironment(OutputStream out,
-                            ClassPath sourcePath,
-                            ClassPath binaryPath) {
-        this(out, sourcePath, binaryPath, (ErrorConsumer) null);
+    public BbtchEnvironment(OutputStrebm out,
+                            ClbssPbth sourcePbth,
+                            ClbssPbth binbryPbth) {
+        this(out, sourcePbth, binbryPbth, (ErrorConsumer) null);
     }
-    public BatchEnvironment(OutputStream out,
-                            ClassPath sourcePath,
-                            ClassPath binaryPath,
+    public BbtchEnvironment(OutputStrebm out,
+                            ClbssPbth sourcePbth,
+                            ClbssPbth binbryPbth,
                             ErrorConsumer errorConsumer) {
         this.out = out;
-        this.sourcePath = sourcePath;
-        this.binaryPath = binaryPath;
+        this.sourcePbth = sourcePbth;
+        this.binbryPbth = binbryPbth;
         this.errorConsumer = (errorConsumer == null) ? this : errorConsumer;
     }
 
     /**
-     * Factory
+     * Fbctory
      */
-    static BatchEnvironment create(OutputStream out,
-                                   String srcPathString,
-                                   String classPathString,
-                                   String sysClassPathString,
+    stbtic BbtchEnvironment crebte(OutputStrebm out,
+                                   String srcPbthString,
+                                   String clbssPbthString,
+                                   String sysClbssPbthString,
                                    String extDirsString){
-        ClassPath[] classPaths = classPaths(srcPathString, classPathString,
-                                            sysClassPathString, extDirsString);
-        return new BatchEnvironment(out, classPaths[0], classPaths[1]);
+        ClbssPbth[] clbssPbths = clbssPbths(srcPbthString, clbssPbthString,
+                                            sysClbssPbthString, extDirsString);
+        return new BbtchEnvironment(out, clbssPbths[0], clbssPbths[1]);
     }
 
-    protected static ClassPath[] classPaths(String srcPathString,
-                                            String classPathString,
-                                            String sysClassPathString,
+    protected stbtic ClbssPbth[] clbssPbths(String srcPbthString,
+                                            String clbssPbthString,
+                                            String sysClbssPbthString,
                                             String extDirsString) {
-        // Create our source classpath and our binary classpath
-        ClassPath sourcePath;
-        ClassPath binaryPath;
-        StringBuffer binaryPathBuffer = new StringBuffer();
+        // Crebte our source clbsspbth bnd our binbry clbsspbth
+        ClbssPbth sourcePbth;
+        ClbssPbth binbryPbth;
+        StringBuffer binbryPbthBuffer = new StringBuffer();
 
-        if (classPathString == null) {
-            // The env.class.path property is the user's CLASSPATH
-            // environment variable, and it set by the wrapper (ie,
-            // javac.exe).
-            classPathString = System.getProperty("env.class.path");
-            if (classPathString == null) {
-                classPathString = ".";
+        if (clbssPbthString == null) {
+            // The env.clbss.pbth property is the user's CLASSPATH
+            // environment vbribble, bnd it set by the wrbpper (ie,
+            // jbvbc.exe).
+            clbssPbthString = System.getProperty("env.clbss.pbth");
+            if (clbssPbthString == null) {
+                clbssPbthString = ".";
             }
         }
-        if (srcPathString == null) {
-            srcPathString = classPathString;
+        if (srcPbthString == null) {
+            srcPbthString = clbssPbthString;
         }
-        if (sysClassPathString == null) {
-            sysClassPathString = System.getProperty("sun.boot.class.path");
-            if (sysClassPathString == null) { // shouldn't happen; recover gracefully
-                sysClassPathString = classPathString;
+        if (sysClbssPbthString == null) {
+            sysClbssPbthString = System.getProperty("sun.boot.clbss.pbth");
+            if (sysClbssPbthString == null) { // shouldn't hbppen; recover grbcefully
+                sysClbssPbthString = clbssPbthString;
             }
         }
-        appendPath(binaryPathBuffer, sysClassPathString);
+        bppendPbth(binbryPbthBuffer, sysClbssPbthString);
 
         if (extDirsString == null) {
-            extDirsString = System.getProperty("java.ext.dirs");
+            extDirsString = System.getProperty("jbvb.ext.dirs");
         }
         if (extDirsString != null) {
             StringTokenizer st = new StringTokenizer(extDirsString,
-                                                     File.pathSeparator);
-            while (st.hasMoreTokens()) {
-                String dirName = st.nextToken();
-                File dir = new File(dirName);
-                if (!dirName.endsWith(File.separator)) {
-                    dirName += File.separator;
+                                                     File.pbthSepbrbtor);
+            while (st.hbsMoreTokens()) {
+                String dirNbme = st.nextToken();
+                File dir = new File(dirNbme);
+                if (!dirNbme.endsWith(File.sepbrbtor)) {
+                    dirNbme += File.sepbrbtor;
                 }
                 if (dir.isDirectory()) {
                     String[] files = dir.list();
                     for (int i = 0; i < files.length; ++i) {
-                        String name = files[i];
-                        if (name.endsWith(".jar")) {
-                            appendPath(binaryPathBuffer, dirName + name);
+                        String nbme = files[i];
+                        if (nbme.endsWith(".jbr")) {
+                            bppendPbth(binbryPbthBuffer, dirNbme + nbme);
                         }
                     }
                 }
             }
         }
 
-        appendPath(binaryPathBuffer, classPathString);
+        bppendPbth(binbryPbthBuffer, clbssPbthString);
 
-        sourcePath = new ClassPath(srcPathString);
-        binaryPath = new ClassPath(binaryPathBuffer.toString());
+        sourcePbth = new ClbssPbth(srcPbthString);
+        binbryPbth = new ClbssPbth(binbryPbthBuffer.toString());
 
-        return new ClassPath[]{sourcePath, binaryPath};
+        return new ClbssPbth[]{sourcePbth, binbryPbth};
     }
 
-    private static void appendPath(StringBuffer buf, String str) {
+    privbte stbtic void bppendPbth(StringBuffer buf, String str) {
         if (str.length() > 0) {
             if (buf.length() > 0) {
-                buf.append(File.pathSeparator);
+                buf.bppend(File.pbthSepbrbtor);
             }
-            buf.append(str);
+            buf.bppend(str);
         }
     }
 
     /**
-     * Return flags
+     * Return flbgs
      */
-    public int getFlags() {
-        return flags;
+    public int getFlbgs() {
+        return flbgs;
     }
 
     /**
-     * Return major version to use for generated class files
+     * Return mbjor version to use for generbted clbss files
      */
-    public short getMajorVersion() {
-        return majorVersion;
+    public short getMbjorVersion() {
+        return mbjorVersion;
     }
 
     /**
-     * Return minor version to use for generated class files
+     * Return minor version to use for generbted clbss files
      */
     public short getMinorVersion() {
         return minorVersion;
@@ -260,7 +260,7 @@ class BatchEnvironment extends Environment implements ErrorConsumer {
 
 // JCOV
     /**
-     * Return coverage data file
+     * Return coverbge dbtb file
      */
     public File getcovFile() {
         return covFile;
@@ -268,802 +268,802 @@ class BatchEnvironment extends Environment implements ErrorConsumer {
 // end JCOV
 
     /**
-     * Return an enumeration of all the currently defined classes
-     * in order of appearance to getClassDeclaration().
+     * Return bn enumerbtion of bll the currently defined clbsses
+     * in order of bppebrbnce to getClbssDeclbrbtion().
      */
-    public Enumeration<ClassDeclaration> getClasses() {
-        return classesOrdered.elements();
+    public Enumerbtion<ClbssDeclbrbtion> getClbsses() {
+        return clbssesOrdered.elements();
     }
 
     /**
-     * A set of Identifiers for all packages exempt from the "exists"
-     * check in Imports#resolve().  These are the current packages for
-     * all classes being compiled as of the first call to isExemptPackage.
+     * A set of Identifiers for bll pbckbges exempt from the "exists"
+     * check in Imports#resolve().  These bre the current pbckbges for
+     * bll clbsses being compiled bs of the first cbll to isExemptPbckbge.
      */
-    private Set<Identifier> exemptPackages;
+    privbte Set<Identifier> exemptPbckbges;
 
     /**
-     * Tells whether an Identifier refers to a package which should be
+     * Tells whether bn Identifier refers to b pbckbge which should be
      * exempt from the "exists" check in Imports#resolve().
      */
-    public boolean isExemptPackage(Identifier id) {
-        if (exemptPackages == null) {
-            // Collect a list of the packages of all classes currently
+    public boolebn isExemptPbckbge(Identifier id) {
+        if (exemptPbckbges == null) {
+            // Collect b list of the pbckbges of bll clbsses currently
             // being compiled.
-            setExemptPackages();
+            setExemptPbckbges();
         }
 
-        return exemptPackages.contains(id);
+        return exemptPbckbges.contbins(id);
     }
 
     /**
-     * Set the set of packages which are exempt from the exists check
+     * Set the set of pbckbges which bre exempt from the exists check
      * in Imports#resolve().
      */
-    private void setExemptPackages() {
-        // The JLS gives us the freedom to define "accessibility" of
-        // a package in whatever manner we wish.  After the evaluation
-        // of bug 4093217, we have decided to consider a package P
-        // accessible if either:
+    privbte void setExemptPbckbges() {
+        // The JLS gives us the freedom to define "bccessibility" of
+        // b pbckbge in whbtever mbnner we wish.  After the evblubtion
+        // of bug 4093217, we hbve decided to consider b pbckbge P
+        // bccessible if either:
         //
-        // 1. The directory corresponding to P exists on the classpath.
-        // 2. For any class C currently being compiled, C belongs to
-        //    package P.
-        // 3. For any class C currently being compiled, C belongs to
-        //    package Q and Q is a subpackage of P.
+        // 1. The directory corresponding to P exists on the clbsspbth.
+        // 2. For bny clbss C currently being compiled, C belongs to
+        //    pbckbge P.
+        // 3. For bny clbss C currently being compiled, C belongs to
+        //    pbckbge Q bnd Q is b subpbckbge of P.
         //
-        // In order to implement this, we collect the current packages
-        // (and prefixes) of all packages we have found so far.  These
+        // In order to implement this, we collect the current pbckbges
+        // (bnd prefixes) of bll pbckbges we hbve found so fbr.  These
         // will be exempt from the "exists" check in
-        // sun.tools.java.Imports#resolve().
+        // sun.tools.jbvb.Imports#resolve().
 
-        exemptPackages = new HashSet<>(101);
+        exemptPbckbges = new HbshSet<>(101);
 
-        // Add all of the current packages and their prefixes to our set.
-        for (Enumeration<ClassDeclaration> e = getClasses(); e.hasMoreElements(); ) {
-            ClassDeclaration c = e.nextElement();
-            if (c.getStatus() == CS_PARSED) {
-                SourceClass def = (SourceClass) c.getClassDefinition();
-                if (def.isLocal())
+        // Add bll of the current pbckbges bnd their prefixes to our set.
+        for (Enumerbtion<ClbssDeclbrbtion> e = getClbsses(); e.hbsMoreElements(); ) {
+            ClbssDeclbrbtion c = e.nextElement();
+            if (c.getStbtus() == CS_PARSED) {
+                SourceClbss def = (SourceClbss) c.getClbssDefinition();
+                if (def.isLocbl())
                     continue;
 
-                Identifier pkg = def.getImports().getCurrentPackage();
+                Identifier pkg = def.getImports().getCurrentPbckbge();
 
-                // Add the name of this package and all of its prefixes
+                // Add the nbme of this pbckbge bnd bll of its prefixes
                 // to our set.
-                while (pkg != idNull && exemptPackages.add(pkg)) {
-                    pkg = pkg.getQualifier();
+                while (pkg != idNull && exemptPbckbges.bdd(pkg)) {
+                    pkg = pkg.getQublifier();
                 }
             }
         }
 
-        // Before we go any further, we make sure java.lang is
-        // accessible and that it is not ambiguous.  These checks
-        // are performed for "ordinary" packages in
-        // sun.tools.java.Imports#resolve().  The reason we perform
-        // them specially for java.lang is that we want to report
-        // the error once, and outside of any particular file.
+        // Before we go bny further, we mbke sure jbvb.lbng is
+        // bccessible bnd thbt it is not bmbiguous.  These checks
+        // bre performed for "ordinbry" pbckbges in
+        // sun.tools.jbvb.Imports#resolve().  The rebson we perform
+        // them speciblly for jbvb.lbng is thbt we wbnt to report
+        // the error once, bnd outside of bny pbrticulbr file.
 
-        // Check to see if java.lang is accessible.
-        if (!exemptPackages.contains(idJavaLang)) {
-            // Add java.lang to the set of exempt packages.
-            exemptPackages.add(idJavaLang);
+        // Check to see if jbvb.lbng is bccessible.
+        if (!exemptPbckbges.contbins(idJbvbLbng)) {
+            // Add jbvb.lbng to the set of exempt pbckbges.
+            exemptPbckbges.bdd(idJbvbLbng);
 
             try {
-                if (!getPackage(idJavaLang).exists()) {
-                    // java.lang doesn't exist.
-                    error(0, "package.not.found.strong", idJavaLang);
+                if (!getPbckbge(idJbvbLbng).exists()) {
+                    // jbvb.lbng doesn't exist.
+                    error(0, "pbckbge.not.found.strong", idJbvbLbng);
                     return;
                 }
-            } catch (IOException ee) {
-                // We got an IO exception checking to see if the package
-                // java.lang exists.
-                error(0, "io.exception.package", idJavaLang);
+            } cbtch (IOException ee) {
+                // We got bn IO exception checking to see if the pbckbge
+                // jbvb.lbng exists.
+                error(0, "io.exception.pbckbge", idJbvbLbng);
             }
         }
 
-        // Next we ensure that java.lang is not both a class and
-        // a package.  (Fix for 4101529)
+        // Next we ensure thbt jbvb.lbng is not both b clbss bnd
+        // b pbckbge.  (Fix for 4101529)
         //
-        // This change has been backed out because, on WIN32, it
-        // failed to take character case into account.  It will
-        // be put back in later.
+        // This chbnge hbs been bbcked out becbuse, on WIN32, it
+        // fbiled to tbke chbrbcter cbse into bccount.  It will
+        // be put bbck in lbter.
         //
-        // Identifier resolvedName =
-        //   resolvePackageQualifiedName(idJavaLang);
-        // Identifier topClassName = resolvedName.getTopName();
-        //     //if (Imports.importable(topClassName, env)) {
-        // if (Imports.importable(topClassName, this)) {
-        //    // It is a package and a class.  Emit the error.
-        //    error(0, "package.class.conflict.strong",
-        //            idJavaLang, topClassName);
+        // Identifier resolvedNbme =
+        //   resolvePbckbgeQublifiedNbme(idJbvbLbng);
+        // Identifier topClbssNbme = resolvedNbme.getTopNbme();
+        //     //if (Imports.importbble(topClbssNbme, env)) {
+        // if (Imports.importbble(topClbssNbme, this)) {
+        //    // It is b pbckbge bnd b clbss.  Emit the error.
+        //    error(0, "pbckbge.clbss.conflict.strong",
+        //            idJbvbLbng, topClbssNbme);
         //    return;
         // }
     }
 
     /**
-     * Get a class, given the fully qualified class name
+     * Get b clbss, given the fully qublified clbss nbme
      */
-    public ClassDeclaration getClassDeclaration(Identifier nm) {
-        return getClassDeclaration(Type.tClass(nm));
+    public ClbssDeclbrbtion getClbssDeclbrbtion(Identifier nm) {
+        return getClbssDeclbrbtion(Type.tClbss(nm));
     }
 
-    public ClassDeclaration getClassDeclaration(Type t) {
-        ClassDeclaration c = classes.get(t);
+    public ClbssDeclbrbtion getClbssDeclbrbtion(Type t) {
+        ClbssDeclbrbtion c = clbsses.get(t);
         if (c == null) {
-            classes.put(t, c = new ClassDeclaration(t.getClassName()));
-            classesOrdered.addElement(c);
+            clbsses.put(t, c = new ClbssDeclbrbtion(t.getClbssNbme()));
+            clbssesOrdered.bddElement(c);
         }
         return c;
     }
 
     /**
-     * Check if a class exists
-     * Applies only to package members (non-nested classes).
+     * Check if b clbss exists
+     * Applies only to pbckbge members (non-nested clbsses).
      */
-    public boolean classExists(Identifier nm) {
+    public boolebn clbssExists(Identifier nm) {
         if (nm.isInner()) {
-            nm = nm.getTopName();       // just in case
+            nm = nm.getTopNbme();       // just in cbse
         }
-        Type t = Type.tClass(nm);
+        Type t = Type.tClbss(nm);
         try {
-            ClassDeclaration c = classes.get(t);
-            return (c != null) ? c.getName().equals(nm) :
-                getPackage(nm.getQualifier()).classExists(nm.getName());
-        } catch (IOException e) {
+            ClbssDeclbrbtion c = clbsses.get(t);
+            return (c != null) ? c.getNbme().equbls(nm) :
+                getPbckbge(nm.getQublifier()).clbssExists(nm.getNbme());
+        } cbtch (IOException e) {
             return true;
         }
     }
 
     /**
-     * Generate a new name similar to the given one.
-     * Do it in such a way that repeated compilations of
-     * the same source generate the same series of names.
+     * Generbte b new nbme similbr to the given one.
+     * Do it in such b wby thbt repebted compilbtions of
+     * the sbme source generbte the sbme series of nbmes.
      */
 
-    // This code does not perform as stated above.
-    // Correction below is part of fix for bug id 4056065.
+    // This code does not perform bs stbted bbove.
+    // Correction below is pbrt of fix for bug id 4056065.
     //
-    // NOTE: The method 'generateName' has now been folded into its
-    // single caller, 'makeClassDefinition', which appears later in
+    // NOTE: The method 'generbteNbme' hbs now been folded into its
+    // single cbller, 'mbkeClbssDefinition', which bppebrs lbter in
     // this file.
 
     /*--------------------------*
-    public Identifier generateName(ClassDefinition outerClass, Identifier nm) {
-        Identifier outerNm = outerClass.getName();
-        Identifier flat = outerNm.getFlatName();
-        Identifier stem = Identifier.lookup(outerNm.getQualifier(),
-                                            flat.getHead());
+    public Identifier generbteNbme(ClbssDefinition outerClbss, Identifier nm) {
+        Identifier outerNm = outerClbss.getNbme();
+        Identifier flbt = outerNm.getFlbtNbme();
+        Identifier stem = Identifier.lookup(outerNm.getQublifier(),
+                                            flbt.getHebd());
         for (int i = 1; ; i++) {
-            String name = i + (nm.equals(idNull) ? "" : SIG_INNERCLASS + nm);
+            String nbme = i + (nm.equbls(idNull) ? "" : SIG_INNERCLASS + nm);
             Identifier nm1 = Identifier.lookupInner(stem,
-                                                    Identifier.lookup(name));
-            if (classes.get(Type.tClass(nm1)) == null)
+                                                    Identifier.lookup(nbme));
+            if (clbsses.get(Type.tClbss(nm1)) == null)
                 return nm1;
         }
     }
     *--------------------------*/
 
     /**
-     * Get the package path for a package
+     * Get the pbckbge pbth for b pbckbge
      */
-    public Package getPackage(Identifier pkg) throws IOException {
-        Package p = packages.get(pkg);
+    public Pbckbge getPbckbge(Identifier pkg) throws IOException {
+        Pbckbge p = pbckbges.get(pkg);
         if (p == null) {
-            packages.put(pkg, p = new Package(sourcePath, binaryPath, pkg));
+            pbckbges.put(pkg, p = new Pbckbge(sourcePbth, binbryPbth, pkg));
         }
         return p;
     }
 
     /**
-     * Parse a source file
+     * Pbrse b source file
      */
-    public void parseFile(ClassFile file) throws FileNotFoundException {
+    public void pbrseFile(ClbssFile file) throws FileNotFoundException {
         long tm = System.currentTimeMillis();
-        InputStream input;
-        BatchParser p;
+        InputStrebm input;
+        BbtchPbrser p;
 
-        if (tracing) dtEnter("parseFile: PARSING SOURCE " + file);
+        if (trbcing) dtEnter("pbrseFile: PARSING SOURCE " + file);
 
         Environment env = new Environment(this, file);
 
         try {
-            input = file.getInputStream();
-            env.setCharacterEncoding(getCharacterEncoding());
-            //      p = new BatchParser(e, new BufferedInputStream(input));
-            p = new BatchParser(env, input);
-        } catch(IOException ex) {
-            if (tracing) dtEvent("parseFile: IO EXCEPTION " + file);
+            input = file.getInputStrebm();
+            env.setChbrbcterEncoding(getChbrbcterEncoding());
+            //      p = new BbtchPbrser(e, new BufferedInputStrebm(input));
+            p = new BbtchPbrser(env, input);
+        } cbtch(IOException ex) {
+            if (trbcing) dtEvent("pbrseFile: IO EXCEPTION " + file);
             throw new FileNotFoundException();
         }
 
         try {
-            p.parseFile();
-        } catch(Exception e) {
+            p.pbrseFile();
+        } cbtch(Exception e) {
             throw new CompilerError(e);
         }
 
         try {
             input.close();
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             // We're turn with the input, so ignore this.
         }
 
         if (verbose()) {
             tm = System.currentTimeMillis() - tm;
-            output(Main.getText("benv.parsed_in", file.getPath(),
+            output(Mbin.getText("benv.pbrsed_in", file.getPbth(),
                                 Long.toString(tm)));
         }
 
-        if (p.classes.size() == 0) {
-            // The JLS allows a file to contain no compilation units --
-            // that is, it allows a file to contain no classes or interfaces.
-            // In this case, we are still responsible for checking that the
-            // imports resolve properly.  The way the compiler is organized,
-            // this is the last point at which we still have enough information
+        if (p.clbsses.size() == 0) {
+            // The JLS bllows b file to contbin no compilbtion units --
+            // thbt is, it bllows b file to contbin no clbsses or interfbces.
+            // In this cbse, we bre still responsible for checking thbt the
+            // imports resolve properly.  The wby the compiler is orgbnized,
+            // this is the lbst point bt which we still hbve enough informbtion
             // to do so. (Fix for 4041851).
             p.imports.resolve(env);
         } else {
-            // In an attempt to see that classes which come from the
-            // same source file are all recompiled when any one of them
+            // In bn bttempt to see thbt clbsses which come from the
+            // sbme source file bre bll recompiled when bny one of them
             // would be recompiled (when using the -depend option) we
-            // introduce artificial dependencies between these classes.
-            // We do this by calling the addDependency() method, which
-            // adds a (potentially unused) class reference to the constant
-            // pool of the class.
+            // introduce brtificibl dependencies between these clbsses.
+            // We do this by cblling the bddDependency() method, which
+            // bdds b (potentiblly unused) clbss reference to the constbnt
+            // pool of the clbss.
             //
-            // Previously, we added a dependency from every class in the
-            // file, to every class in the file.  This introduced, in
-            // total, a quadratic number of potentially bogus constant
-            // pool entries.  This was bad.  Now we add our artificial
-            // dependencies in such a way that the classes are connected
-            // in a circle.  While single links is probably sufficient, the
-            // code below adds double links just to be diligent.
+            // Previously, we bdded b dependency from every clbss in the
+            // file, to every clbss in the file.  This introduced, in
+            // totbl, b qubdrbtic number of potentiblly bogus constbnt
+            // pool entries.  This wbs bbd.  Now we bdd our brtificibl
+            // dependencies in such b wby thbt the clbsses bre connected
+            // in b circle.  While single links is probbbly sufficient, the
+            // code below bdds double links just to be diligent.
             // (Fix for 4108286).
             //
-            // Note that we don't chain in inner classes.  The links
-            // between them and their outerclass should be sufficient
+            // Note thbt we don't chbin in inner clbsses.  The links
+            // between them bnd their outerclbss should be sufficient
             // here.
             // (Fix for 4107960).
             //
-            // The dependency code was previously in BatchParser.java.
-            Enumeration<SourceClass> e = p.classes.elements();
+            // The dependency code wbs previously in BbtchPbrser.jbvb.
+            Enumerbtion<SourceClbss> e = p.clbsses.elements();
 
-            // first will not be an inner class.
-            ClassDefinition first = e.nextElement();
-            if (first.isInnerClass()) {
-                throw new CompilerError("BatchEnvironment, first is inner");
+            // first will not be bn inner clbss.
+            ClbssDefinition first = e.nextElement();
+            if (first.isInnerClbss()) {
+                throw new CompilerError("BbtchEnvironment, first is inner");
             }
 
-            ClassDefinition current = first;
-            ClassDefinition next;
-            while (e.hasMoreElements()) {
+            ClbssDefinition current = first;
+            ClbssDefinition next;
+            while (e.hbsMoreElements()) {
                 next = e.nextElement();
-                // Don't chain in inner classes.
-                if (next.isInnerClass()) {
+                // Don't chbin in inner clbsses.
+                if (next.isInnerClbss()) {
                     continue;
                 }
-                current.addDependency(next.getClassDeclaration());
-                next.addDependency(current.getClassDeclaration());
+                current.bddDependency(next.getClbssDeclbrbtion());
+                next.bddDependency(current.getClbssDeclbrbtion());
                 current = next;
             }
-            // Make a circle.  Don't bother to add a dependency if there
-            // is only one class in the file.
+            // Mbke b circle.  Don't bother to bdd b dependency if there
+            // is only one clbss in the file.
             if (current != first) {
-                current.addDependency(first.getClassDeclaration());
-                first.addDependency(current.getClassDeclaration());
+                current.bddDependency(first.getClbssDeclbrbtion());
+                first.bddDependency(current.getClbssDeclbrbtion());
             }
         }
 
-        if (tracing) dtExit("parseFile: SOURCE PARSED " + file);
+        if (trbcing) dtExit("pbrseFile: SOURCE PARSED " + file);
     }
 
     /**
-     * Load a binary file
+     * Lobd b binbry file
      */
-    BinaryClass loadFile(ClassFile file) throws IOException {
+    BinbryClbss lobdFile(ClbssFile file) throws IOException {
         long tm = System.currentTimeMillis();
-        InputStream input = file.getInputStream();
-        BinaryClass c = null;
+        InputStrebm input = file.getInputStrebm();
+        BinbryClbss c = null;
 
-        if (tracing) dtEnter("loadFile: LOADING CLASSFILE " + file);
+        if (trbcing) dtEnter("lobdFile: LOADING CLASSFILE " + file);
 
         try {
-            DataInputStream is =
-                new DataInputStream(new BufferedInputStream(input));
-            c = BinaryClass.load(new Environment(this, file), is,
-                                 loadFileFlags());
-        } catch (ClassFormatError e) {
-            error(0, "class.format", file.getPath(), e.getMessage());
-            if (tracing) dtExit("loadFile: CLASS FORMAT ERROR " + file);
+            DbtbInputStrebm is =
+                new DbtbInputStrebm(new BufferedInputStrebm(input));
+            c = BinbryClbss.lobd(new Environment(this, file), is,
+                                 lobdFileFlbgs());
+        } cbtch (ClbssFormbtError e) {
+            error(0, "clbss.formbt", file.getPbth(), e.getMessbge());
+            if (trbcing) dtExit("lobdFile: CLASS FORMAT ERROR " + file);
             return null;
-        } catch (java.io.EOFException e) {
-            // If we get an EOF while processing a class file, then
-            // it has been truncated.  We let other I/O errors pass
+        } cbtch (jbvb.io.EOFException e) {
+            // If we get bn EOF while processing b clbss file, then
+            // it hbs been truncbted.  We let other I/O errors pbss
             // through.  Fix for 4088443.
-            error(0, "truncated.class", file.getPath());
+            error(0, "truncbted.clbss", file.getPbth());
             return null;
         }
 
         input.close();
         if (verbose()) {
             tm = System.currentTimeMillis() - tm;
-            output(Main.getText("benv.loaded_in", file.getPath(),
+            output(Mbin.getText("benv.lobded_in", file.getPbth(),
                                 Long.toString(tm)));
         }
 
-        if (tracing) dtExit("loadFile: CLASSFILE LOADED " + file);
+        if (trbcing) dtExit("lobdFile: CLASSFILE LOADED " + file);
 
         return c;
     }
 
     /**
-     * Default flags for loadFile.  Subclasses may override this.
+     * Defbult flbgs for lobdFile.  Subclbsses mby override this.
      */
-    int loadFileFlags() {
+    int lobdFileFlbgs() {
         return 0;
     }
 
     /**
-     * Load a binary class
+     * Lobd b binbry clbss
      */
-    boolean needsCompilation(Hashtable<ClassDeclaration, ClassDeclaration> check, ClassDeclaration c) {
-        switch (c.getStatus()) {
+    boolebn needsCompilbtion(Hbshtbble<ClbssDeclbrbtion, ClbssDeclbrbtion> check, ClbssDeclbrbtion c) {
+        switch (c.getStbtus()) {
 
-          case CS_UNDEFINED:
-            if (tracing) dtEnter("needsCompilation: UNDEFINED " + c.getName());
-            loadDefinition(c);
-            return needsCompilation(check, c);
+          cbse CS_UNDEFINED:
+            if (trbcing) dtEnter("needsCompilbtion: UNDEFINED " + c.getNbme());
+            lobdDefinition(c);
+            return needsCompilbtion(check, c);
 
-          case CS_UNDECIDED:
-            if (tracing) dtEnter("needsCompilation: UNDECIDED " + c.getName());
+          cbse CS_UNDECIDED:
+            if (trbcing) dtEnter("needsCompilbtion: UNDECIDED " + c.getNbme());
             if (check.get(c) == null) {
                 check.put(c, c);
 
-                BinaryClass bin = (BinaryClass)c.getClassDefinition();
-                for (Enumeration<ClassDeclaration> e = bin.getDependencies() ; e.hasMoreElements() ;) {
-                    ClassDeclaration dep = e.nextElement();
-                    if (needsCompilation(check, dep)) {
-                        // It must be source, dependencies need compilation
+                BinbryClbss bin = (BinbryClbss)c.getClbssDefinition();
+                for (Enumerbtion<ClbssDeclbrbtion> e = bin.getDependencies() ; e.hbsMoreElements() ;) {
+                    ClbssDeclbrbtion dep = e.nextElement();
+                    if (needsCompilbtion(check, dep)) {
+                        // It must be source, dependencies need compilbtion
                         c.setDefinition(bin, CS_SOURCE);
-                        if (tracing) dtExit("needsCompilation: YES (source) " + c.getName());
+                        if (trbcing) dtExit("needsCompilbtion: YES (source) " + c.getNbme());
                         return true;
                     }
                 }
             }
-            if (tracing) dtExit("needsCompilation: NO (undecided) " + c.getName());
-            return false;
+            if (trbcing) dtExit("needsCompilbtion: NO (undecided) " + c.getNbme());
+            return fblse;
 
-          case CS_BINARY:
-            if (tracing) {
-                dtEnter("needsCompilation: BINARY " + c.getName());
-                dtExit("needsCompilation: NO (binary) " + c.getName());
+          cbse CS_BINARY:
+            if (trbcing) {
+                dtEnter("needsCompilbtion: BINARY " + c.getNbme());
+                dtExit("needsCompilbtion: NO (binbry) " + c.getNbme());
             }
-            return false;
+            return fblse;
 
         }
 
-        if (tracing) dtExit("needsCompilation: YES " + c.getName());
+        if (trbcing) dtExit("needsCompilbtion: YES " + c.getNbme());
         return true;
     }
 
     /**
-     * Load the definition of a class
-     * or at least determine how to load it.
-     * The caller must repeat calls to this method
-     * until it the state converges to CS_BINARY, CS_PARSED, or the like..
-     * @see ClassDeclaration#getClassDefinition
+     * Lobd the definition of b clbss
+     * or bt lebst determine how to lobd it.
+     * The cbller must repebt cblls to this method
+     * until it the stbte converges to CS_BINARY, CS_PARSED, or the like..
+     * @see ClbssDeclbrbtion#getClbssDefinition
      */
-    public void loadDefinition(ClassDeclaration c) {
-        if (tracing) dtEnter("loadDefinition: ENTER " +
-                             c.getName() + ", status " + c.getStatus());
-        switch (c.getStatus()) {
-          case CS_UNDEFINED: {
-            if (tracing)
-                dtEvent("loadDefinition: STATUS IS UNDEFINED");
-            Identifier nm = c.getName();
-            Package pkg;
+    public void lobdDefinition(ClbssDeclbrbtion c) {
+        if (trbcing) dtEnter("lobdDefinition: ENTER " +
+                             c.getNbme() + ", stbtus " + c.getStbtus());
+        switch (c.getStbtus()) {
+          cbse CS_UNDEFINED: {
+            if (trbcing)
+                dtEvent("lobdDefinition: STATUS IS UNDEFINED");
+            Identifier nm = c.getNbme();
+            Pbckbge pkg;
             try {
-                pkg = getPackage(nm.getQualifier());
-            } catch (IOException e) {
-                // If we can't get at the package, then we'll just
-                // have to set the class to be not found.
+                pkg = getPbckbge(nm.getQublifier());
+            } cbtch (IOException e) {
+                // If we cbn't get bt the pbckbge, then we'll just
+                // hbve to set the clbss to be not found.
                 c.setDefinition(null, CS_NOTFOUND);
 
                 error(0, "io.exception", c);
-                if (tracing)
-                    dtExit("loadDefinition: IO EXCEPTION (package)");
+                if (trbcing)
+                    dtExit("lobdDefinition: IO EXCEPTION (pbckbge)");
                 return;
             }
-            ClassFile binfile = pkg.getBinaryFile(nm.getName());
+            ClbssFile binfile = pkg.getBinbryFile(nm.getNbme());
             if (binfile == null) {
-                // must be source, there is no binary
+                // must be source, there is no binbry
                 c.setDefinition(null, CS_SOURCE);
-                if (tracing)
-                    dtExit("loadDefinition: MUST BE SOURCE (no binary) " +
-                           c.getName());
+                if (trbcing)
+                    dtExit("lobdDefinition: MUST BE SOURCE (no binbry) " +
+                           c.getNbme());
                 return;
             }
 
-            ClassFile srcfile = pkg.getSourceFile(nm.getName());
+            ClbssFile srcfile = pkg.getSourceFile(nm.getNbme());
             if (srcfile == null) {
-                if (tracing)
-                    dtEvent("loadDefinition: NO SOURCE " + c.getName());
-                BinaryClass bc = null;
+                if (trbcing)
+                    dtEvent("lobdDefinition: NO SOURCE " + c.getNbme());
+                BinbryClbss bc = null;
                 try {
-                    bc = loadFile(binfile);
-                } catch (IOException e) {
-                    // If we can't access the binary, set the class to
+                    bc = lobdFile(binfile);
+                } cbtch (IOException e) {
+                    // If we cbn't bccess the binbry, set the clbss to
                     // be not found.  (bug id 4030497)
                     c.setDefinition(null, CS_NOTFOUND);
 
                     error(0, "io.exception", binfile);
-                    if (tracing)
-                        dtExit("loadDefinition: IO EXCEPTION (binary)");
+                    if (trbcing)
+                        dtExit("lobdDefinition: IO EXCEPTION (binbry)");
                     return;
                 }
-                if ((bc != null) && !bc.getName().equals(nm)) {
-                    error(0, "wrong.class", binfile.getPath(), c, bc);
+                if ((bc != null) && !bc.getNbme().equbls(nm)) {
+                    error(0, "wrong.clbss", binfile.getPbth(), c, bc);
                     bc = null;
-                    if (tracing)
-                        dtEvent("loadDefinition: WRONG CLASS (binary)");
+                    if (trbcing)
+                        dtEvent("lobdDefinition: WRONG CLASS (binbry)");
                 }
                 if (bc == null) {
-                    // no source nor binary found
+                    // no source nor binbry found
                     c.setDefinition(null, CS_NOTFOUND);
-                    if (tracing)
-                        dtExit("loadDefinition: NOT FOUND (source or binary)");
+                    if (trbcing)
+                        dtExit("lobdDefinition: NOT FOUND (source or binbry)");
                     return;
                 }
 
-                // Couldn't find the source, try the one mentioned in the binary
+                // Couldn't find the source, try the one mentioned in the binbry
                 if (bc.getSource() != null) {
-                    srcfile = new ClassFile(new File((String)bc.getSource()));
+                    srcfile = new ClbssFile(new File((String)bc.getSource()));
                     // Look for the source file
-                    srcfile = pkg.getSourceFile(srcfile.getName());
+                    srcfile = pkg.getSourceFile(srcfile.getNbme());
                     if ((srcfile != null) && srcfile.exists()) {
-                        if (tracing)
-                            dtEvent("loadDefinition: FILENAME IN BINARY " +
+                        if (trbcing)
+                            dtEvent("lobdDefinition: FILENAME IN BINARY " +
                                     srcfile);
-                        if (srcfile.lastModified() > binfile.lastModified()) {
-                            // must be source, it is newer than the binary
+                        if (srcfile.lbstModified() > binfile.lbstModified()) {
+                            // must be source, it is newer thbn the binbry
                             c.setDefinition(bc, CS_SOURCE);
-                            if (tracing)
-                                dtEvent("loadDefinition: SOURCE IS NEWER " +
+                            if (trbcing)
+                                dtEvent("lobdDefinition: SOURCE IS NEWER " +
                                         srcfile);
-                            bc.loadNested(this);
-                            if (tracing)
-                                dtExit("loadDefinition: MUST BE SOURCE " +
-                                       c.getName());
+                            bc.lobdNested(this);
+                            if (trbcing)
+                                dtExit("lobdDefinition: MUST BE SOURCE " +
+                                       c.getNbme());
                             return;
                         }
                         if (dependencies()) {
                             c.setDefinition(bc, CS_UNDECIDED);
-                            if (tracing)
-                                dtEvent("loadDefinition: UNDECIDED " +
-                                        c.getName());
+                            if (trbcing)
+                                dtEvent("lobdDefinition: UNDECIDED " +
+                                        c.getNbme());
                         } else {
                             c.setDefinition(bc, CS_BINARY);
-                            if (tracing)
-                                dtEvent("loadDefinition: MUST BE BINARY " +
-                                        c.getName());
+                            if (trbcing)
+                                dtEvent("lobdDefinition: MUST BE BINARY " +
+                                        c.getNbme());
                         }
-                        bc.loadNested(this);
-                        if (tracing)
-                            dtExit("loadDefinition: EXIT " +
-                                   c.getName() + ", status " + c.getStatus());
+                        bc.lobdNested(this);
+                        if (trbcing)
+                            dtExit("lobdDefinition: EXIT " +
+                                   c.getNbme() + ", stbtus " + c.getStbtus());
                         return;
                     }
                 }
 
-                // It must be binary, there is no source
+                // It must be binbry, there is no source
                 c.setDefinition(bc, CS_BINARY);
-                if (tracing)
-                    dtEvent("loadDefinition: MUST BE BINARY (no source) " +
-                                     c.getName());
-                bc.loadNested(this);
-                if (tracing)
-                    dtExit("loadDefinition: EXIT " +
-                           c.getName() + ", status " + c.getStatus());
+                if (trbcing)
+                    dtEvent("lobdDefinition: MUST BE BINARY (no source) " +
+                                     c.getNbme());
+                bc.lobdNested(this);
+                if (trbcing)
+                    dtExit("lobdDefinition: EXIT " +
+                           c.getNbme() + ", stbtus " + c.getStbtus());
                 return;
             }
-            BinaryClass bc = null;
+            BinbryClbss bc = null;
             try {
-                if (srcfile.lastModified() > binfile.lastModified()) {
-                    // must be source, it is newer than the binary
+                if (srcfile.lbstModified() > binfile.lbstModified()) {
+                    // must be source, it is newer thbn the binbry
                     c.setDefinition(null, CS_SOURCE);
-                    if (tracing)
-                        dtEvent("loadDefinition: MUST BE SOURCE (younger than binary) " +
-                                c.getName());
+                    if (trbcing)
+                        dtEvent("lobdDefinition: MUST BE SOURCE (younger thbn binbry) " +
+                                c.getNbme());
                     return;
                 }
-                bc = loadFile(binfile);
-            } catch (IOException e) {
+                bc = lobdFile(binfile);
+            } cbtch (IOException e) {
                 error(0, "io.exception", binfile);
-                if (tracing)
-                    dtEvent("loadDefinition: IO EXCEPTION (binary)");
+                if (trbcing)
+                    dtEvent("lobdDefinition: IO EXCEPTION (binbry)");
             }
-            if ((bc != null) && !bc.getName().equals(nm)) {
-                error(0, "wrong.class", binfile.getPath(), c, bc);
+            if ((bc != null) && !bc.getNbme().equbls(nm)) {
+                error(0, "wrong.clbss", binfile.getPbth(), c, bc);
                 bc = null;
-                if (tracing)
-                    dtEvent("loadDefinition: WRONG CLASS (binary)");
+                if (trbcing)
+                    dtEvent("lobdDefinition: WRONG CLASS (binbry)");
             }
             if (bc != null) {
-                Identifier name = bc.getName();
-                if (name.equals(c.getName())) {
+                Identifier nbme = bc.getNbme();
+                if (nbme.equbls(c.getNbme())) {
                     if (dependencies()) {
                         c.setDefinition(bc, CS_UNDECIDED);
-                        if (tracing)
-                            dtEvent("loadDefinition: UNDECIDED " + name);
+                        if (trbcing)
+                            dtEvent("lobdDefinition: UNDECIDED " + nbme);
                     } else {
                         c.setDefinition(bc, CS_BINARY);
-                        if (tracing)
-                            dtEvent("loadDefinition: MUST BE BINARY " + name);
+                        if (trbcing)
+                            dtEvent("lobdDefinition: MUST BE BINARY " + nbme);
                     }
                 } else {
                     c.setDefinition(null, CS_NOTFOUND);
-                    if (tracing)
-                        dtEvent("loadDefinition: NOT FOUND (source or binary)");
+                    if (trbcing)
+                        dtEvent("lobdDefinition: NOT FOUND (source or binbry)");
                     if (dependencies()) {
-                        getClassDeclaration(name).setDefinition(bc, CS_UNDECIDED);
-                        if (tracing)
-                            dtEvent("loadDefinition: UNDECIDED " + name);
+                        getClbssDeclbrbtion(nbme).setDefinition(bc, CS_UNDECIDED);
+                        if (trbcing)
+                            dtEvent("lobdDefinition: UNDECIDED " + nbme);
                     } else {
-                        getClassDeclaration(name).setDefinition(bc, CS_BINARY);
-                        if (tracing)
-                            dtEvent("loadDefinition: MUST BE BINARY " + name);
+                        getClbssDeclbrbtion(nbme).setDefinition(bc, CS_BINARY);
+                        if (trbcing)
+                            dtEvent("lobdDefinition: MUST BE BINARY " + nbme);
                     }
                 }
             } else {
                 c.setDefinition(null, CS_NOTFOUND);
-                if (tracing)
-                    dtEvent("loadDefinition: NOT FOUND (source or binary)");
+                if (trbcing)
+                    dtEvent("lobdDefinition: NOT FOUND (source or binbry)");
             }
-            if (bc != null && bc == c.getClassDefinition())
-                bc.loadNested(this);
-            if (tracing) dtExit("loadDefinition: EXIT " +
-                                c.getName() + ", status " + c.getStatus());
+            if (bc != null && bc == c.getClbssDefinition())
+                bc.lobdNested(this);
+            if (trbcing) dtExit("lobdDefinition: EXIT " +
+                                c.getNbme() + ", stbtus " + c.getStbtus());
             return;
           }
 
-          case CS_UNDECIDED: {
-            if (tracing) dtEvent("loadDefinition: STATUS IS UNDECIDED");
-            Hashtable<ClassDeclaration, ClassDeclaration> tab = new Hashtable<>();
-            if (!needsCompilation(tab, c)) {
-                // All undecided classes that this class depends on must be binary
-                for (Enumeration<ClassDeclaration> e = tab.keys() ; e.hasMoreElements() ; ) {
-                    ClassDeclaration dep = e.nextElement();
-                    if (dep.getStatus() == CS_UNDECIDED) {
-                        // must be binary, dependencies need compilation
-                        dep.setDefinition(dep.getClassDefinition(), CS_BINARY);
-                        if (tracing)
-                            dtEvent("loadDefinition: MUST BE BINARY " + dep);
+          cbse CS_UNDECIDED: {
+            if (trbcing) dtEvent("lobdDefinition: STATUS IS UNDECIDED");
+            Hbshtbble<ClbssDeclbrbtion, ClbssDeclbrbtion> tbb = new Hbshtbble<>();
+            if (!needsCompilbtion(tbb, c)) {
+                // All undecided clbsses thbt this clbss depends on must be binbry
+                for (Enumerbtion<ClbssDeclbrbtion> e = tbb.keys() ; e.hbsMoreElements() ; ) {
+                    ClbssDeclbrbtion dep = e.nextElement();
+                    if (dep.getStbtus() == CS_UNDECIDED) {
+                        // must be binbry, dependencies need compilbtion
+                        dep.setDefinition(dep.getClbssDefinition(), CS_BINARY);
+                        if (trbcing)
+                            dtEvent("lobdDefinition: MUST BE BINARY " + dep);
                     }
                 }
             }
-            if (tracing) dtExit("loadDefinition: EXIT " +
-                                c.getName() + ", status " + c.getStatus());
+            if (trbcing) dtExit("lobdDefinition: EXIT " +
+                                c.getNbme() + ", stbtus " + c.getStbtus());
             return;
           }
 
-          case CS_SOURCE: {
-            if (tracing) dtEvent("loadDefinition: STATUS IS SOURCE");
-            ClassFile srcfile = null;
-            Package pkg = null;
-            if (c.getClassDefinition() != null) {
-                // Use the source file name from the binary class file
+          cbse CS_SOURCE: {
+            if (trbcing) dtEvent("lobdDefinition: STATUS IS SOURCE");
+            ClbssFile srcfile = null;
+            Pbckbge pkg = null;
+            if (c.getClbssDefinition() != null) {
+                // Use the source file nbme from the binbry clbss file
                 try {
-                    pkg = getPackage(c.getName().getQualifier());
-                    srcfile = pkg.getSourceFile((String)c.getClassDefinition().getSource());
-                } catch (IOException e) {
+                    pkg = getPbckbge(c.getNbme().getQublifier());
+                    srcfile = pkg.getSourceFile((String)c.getClbssDefinition().getSource());
+                } cbtch (IOException e) {
                     error(0, "io.exception", c);
-                    if (tracing)
-                        dtEvent("loadDefinition: IO EXCEPTION (package)");
+                    if (trbcing)
+                        dtEvent("lobdDefinition: IO EXCEPTION (pbckbge)");
                 }
                 if (srcfile == null) {
-                    String fn = (String)c.getClassDefinition().getSource();
-                    srcfile = new ClassFile(new File(fn));
+                    String fn = (String)c.getClbssDefinition().getSource();
+                    srcfile = new ClbssFile(new File(fn));
                 }
             } else {
-                // Get a source file name from the package
-                Identifier nm = c.getName();
+                // Get b source file nbme from the pbckbge
+                Identifier nm = c.getNbme();
                 try {
-                    pkg = getPackage(nm.getQualifier());
-                    srcfile = pkg.getSourceFile(nm.getName());
-                } catch (IOException e)  {
+                    pkg = getPbckbge(nm.getQublifier());
+                    srcfile = pkg.getSourceFile(nm.getNbme());
+                } cbtch (IOException e)  {
                     error(0, "io.exception", c);
-                    if (tracing)
-                        dtEvent("loadDefinition: IO EXCEPTION (package)");
+                    if (trbcing)
+                        dtEvent("lobdDefinition: IO EXCEPTION (pbckbge)");
                 }
                 if (srcfile == null) {
                     // not found, there is no source
                     c.setDefinition(null, CS_NOTFOUND);
-                    if (tracing)
-                        dtExit("loadDefinition: SOURCE NOT FOUND " +
-                               c.getName() + ", status " + c.getStatus());
+                    if (trbcing)
+                        dtExit("lobdDefinition: SOURCE NOT FOUND " +
+                               c.getNbme() + ", stbtus " + c.getStbtus());
                     return;
                 }
             }
             try {
-                parseFile(srcfile);
-            } catch (FileNotFoundException e) {
+                pbrseFile(srcfile);
+            } cbtch (FileNotFoundException e) {
                 error(0, "io.exception", srcfile);
-                if (tracing) dtEvent("loadDefinition: IO EXCEPTION (source)");
+                if (trbcing) dtEvent("lobdDefinition: IO EXCEPTION (source)");
             }
-            if ((c.getClassDefinition() == null) || (c.getStatus() == CS_SOURCE)) {
-                // not found after parsing the file
-                error(0, "wrong.source", srcfile.getPath(), c, pkg);
+            if ((c.getClbssDefinition() == null) || (c.getStbtus() == CS_SOURCE)) {
+                // not found bfter pbrsing the file
+                error(0, "wrong.source", srcfile.getPbth(), c, pkg);
                 c.setDefinition(null, CS_NOTFOUND);
-                if (tracing)
-                    dtEvent("loadDefinition: WRONG CLASS (source) " +
-                            c.getName());
+                if (trbcing)
+                    dtEvent("lobdDefinition: WRONG CLASS (source) " +
+                            c.getNbme());
             }
-            if (tracing) dtExit("loadDefinition: EXIT " +
-                                c.getName() + ", status " + c.getStatus());
+            if (trbcing) dtExit("lobdDefinition: EXIT " +
+                                c.getNbme() + ", stbtus " + c.getStbtus());
             return;
           }
         }
-        if (tracing) dtExit("loadDefinition: EXIT " +
-                            c.getName() + ", status " + c.getStatus());
+        if (trbcing) dtExit("lobdDefinition: EXIT " +
+                            c.getNbme() + ", stbtus " + c.getStbtus());
     }
 
     /**
-     * Create a new class.
+     * Crebte b new clbss.
      */
-    public ClassDefinition makeClassDefinition(Environment toplevelEnv,
+    public ClbssDefinition mbkeClbssDefinition(Environment toplevelEnv,
                                                long where,
-                                               IdentifierToken name,
+                                               IdentifierToken nbme,
                                                String doc, int modifiers,
-                                               IdentifierToken superClass,
-                                               IdentifierToken interfaces[],
-                                               ClassDefinition outerClass) {
+                                               IdentifierToken superClbss,
+                                               IdentifierToken interfbces[],
+                                               ClbssDefinition outerClbss) {
 
-        Identifier nm = name.getName();
-        long nmpos = name.getWhere();
+        Identifier nm = nbme.getNbme();
+        long nmpos = nbme.getWhere();
 
         Identifier pkgNm;
-        String mangledName = null;
-        ClassDefinition localContextClass = null;
+        String mbngledNbme = null;
+        ClbssDefinition locblContextClbss = null;
 
-        // Provide name for a local class.  This used to be set after
-        // the class was created, but it is needed for checking within
-        // the class constructor.
-        // NOTE: It seems that we could always provide the simple name,
-        // and thereby avoid the test in 'ClassDefinition.getLocalName()'
-        // for the definedness of the local name.  There, if the local
-        // name is not set, a simple name is extracted from the result of
-        // 'getName()'.  That name can potentially change, however, as
-        // it is ultimately derived from 'ClassType.className', which is
-        // set by 'Type.changeClassName'.  Better leave this alone...
-        Identifier localName = null;
+        // Provide nbme for b locbl clbss.  This used to be set bfter
+        // the clbss wbs crebted, but it is needed for checking within
+        // the clbss constructor.
+        // NOTE: It seems thbt we could blwbys provide the simple nbme,
+        // bnd thereby bvoid the test in 'ClbssDefinition.getLocblNbme()'
+        // for the definedness of the locbl nbme.  There, if the locbl
+        // nbme is not set, b simple nbme is extrbcted from the result of
+        // 'getNbme()'.  Thbt nbme cbn potentiblly chbnge, however, bs
+        // it is ultimbtely derived from 'ClbssType.clbssNbme', which is
+        // set by 'Type.chbngeClbssNbme'.  Better lebve this blone...
+        Identifier locblNbme = null;
 
-        if (nm.isQualified() || nm.isInner()) {
+        if (nm.isQublified() || nm.isInner()) {
             pkgNm = nm;
         } else if ((modifiers & (M_LOCAL | M_ANONYMOUS)) != 0) {
-            // Inaccessible class.  Create a name of the form
-            // 'PackageMember.N$localName' or 'PackageMember.N'.
-            // Note that the '.' will be converted later to a '$'.
-            //   pkgNm = generateName(outerClass, nm);
-            localContextClass = outerClass.getTopClass();
-            // Always use the smallest number in generating the name that
-            // renders the complete name unique within the top-level class.
-            // This is required to make the names more predictable, as part
-            // of a serialization-related workaround, and satisfies an obscure
-            // requirement that the name of a local class be of the form
-            // 'PackageMember$1$localName' when this name is unique.
+            // Inbccessible clbss.  Crebte b nbme of the form
+            // 'PbckbgeMember.N$locblNbme' or 'PbckbgeMember.N'.
+            // Note thbt the '.' will be converted lbter to b '$'.
+            //   pkgNm = generbteNbme(outerClbss, nm);
+            locblContextClbss = outerClbss.getTopClbss();
+            // Alwbys use the smbllest number in generbting the nbme thbt
+            // renders the complete nbme unique within the top-level clbss.
+            // This is required to mbke the nbmes more predictbble, bs pbrt
+            // of b seriblizbtion-relbted workbround, bnd sbtisfies bn obscure
+            // requirement thbt the nbme of b locbl clbss be of the form
+            // 'PbckbgeMember$1$locblNbme' when this nbme is unique.
             for (int i = 1 ; ; i++) {
-                mangledName = i + (nm.equals(idNull) ? "" : SIG_INNERCLASS + nm);
-                if (localContextClass.getLocalClass(mangledName) == null) {
-                    break;
+                mbngledNbme = i + (nm.equbls(idNull) ? "" : SIG_INNERCLASS + nm);
+                if (locblContextClbss.getLocblClbss(mbngledNbme) == null) {
+                    brebk;
                 }
             }
-            Identifier outerNm = localContextClass.getName();
-            pkgNm = Identifier.lookupInner(outerNm, Identifier.lookup(mangledName));
-            //System.out.println("LOCAL CLASS: " + pkgNm + " IN " + localContextClass);
+            Identifier outerNm = locblContextClbss.getNbme();
+            pkgNm = Identifier.lookupInner(outerNm, Identifier.lookup(mbngledNbme));
+            //System.out.println("LOCAL CLASS: " + pkgNm + " IN " + locblContextClbss);
             if ((modifiers & M_ANONYMOUS) != 0) {
-                localName = idNull;
+                locblNbme = idNull;
             } else {
-                // Local class has a locally-scoped name which is independent of pkgNm.
-                localName = nm;
+                // Locbl clbss hbs b locblly-scoped nbme which is independent of pkgNm.
+                locblNbme = nm;
             }
-        } else if (outerClass != null) {
-            // Accessible inner class.  Qualify name with surrounding class name.
-            pkgNm = Identifier.lookupInner(outerClass.getName(), nm);
+        } else if (outerClbss != null) {
+            // Accessible inner clbss.  Qublify nbme with surrounding clbss nbme.
+            pkgNm = Identifier.lookupInner(outerClbss.getNbme(), nm);
         } else {
             pkgNm = nm;
         }
 
-        // Find the class
-        ClassDeclaration c = toplevelEnv.getClassDeclaration(pkgNm);
+        // Find the clbss
+        ClbssDeclbrbtion c = toplevelEnv.getClbssDeclbrbtion(pkgNm);
 
-        // Make sure this is the first definition
+        // Mbke sure this is the first definition
         if (c.isDefined()) {
-            toplevelEnv.error(nmpos, "class.multidef",
-                              c.getName(), c.getClassDefinition().getSource());
-            // Don't mess with the existing class declarations with same name
-            c = new ClassDeclaration (pkgNm);
+            toplevelEnv.error(nmpos, "clbss.multidef",
+                              c.getNbme(), c.getClbssDefinition().getSource());
+            // Don't mess with the existing clbss declbrbtions with sbme nbme
+            c = new ClbssDeclbrbtion (pkgNm);
         }
 
-        if (superClass == null && !pkgNm.equals(idJavaLangObject)) {
-            superClass = new IdentifierToken(idJavaLangObject);
+        if (superClbss == null && !pkgNm.equbls(idJbvbLbngObject)) {
+            superClbss = new IdentifierToken(idJbvbLbngObject);
         }
 
-        ClassDefinition sourceClass =
-            new SourceClass(toplevelEnv, where, c, doc,
-                            modifiers, superClass, interfaces,
-                            (SourceClass) outerClass, localName);
+        ClbssDefinition sourceClbss =
+            new SourceClbss(toplevelEnv, where, c, doc,
+                            modifiers, superClbss, interfbces,
+                            (SourceClbss) outerClbss, locblNbme);
 
-        if (outerClass != null) {
-            // It is a member of its enclosing class.
-            outerClass.addMember(toplevelEnv, new SourceMember(sourceClass));
-            // Record local (or anonymous) class in the class whose name will
-            // serve as the prefix of the local class name.  This is necessary
-            // so that the class may be retrieved from its name, which does not
-            // fully represent the class nesting structure.
-            // See 'ClassDefinition.getClassDefinition'.
-            // This is part of a fix for bugid 4054523 and 4030421.
+        if (outerClbss != null) {
+            // It is b member of its enclosing clbss.
+            outerClbss.bddMember(toplevelEnv, new SourceMember(sourceClbss));
+            // Record locbl (or bnonymous) clbss in the clbss whose nbme will
+            // serve bs the prefix of the locbl clbss nbme.  This is necessbry
+            // so thbt the clbss mby be retrieved from its nbme, which does not
+            // fully represent the clbss nesting structure.
+            // See 'ClbssDefinition.getClbssDefinition'.
+            // This is pbrt of b fix for bugid 4054523 bnd 4030421.
             if ((modifiers & (M_LOCAL | M_ANONYMOUS)) != 0) {
-                localContextClass.addLocalClass(sourceClass, mangledName);
+                locblContextClbss.bddLocblClbss(sourceClbss, mbngledNbme);
             }
         }
 
-        // The local name of an anonymous or local class used to be set here
-        // with a call to 'setLocalName'.  This has been moved to the constructor
-        // for 'SourceClass', which now takes a 'localName' argument.
+        // The locbl nbme of bn bnonymous or locbl clbss used to be set here
+        // with b cbll to 'setLocblNbme'.  This hbs been moved to the constructor
+        // for 'SourceClbss', which now tbkes b 'locblNbme' brgument.
 
-        return sourceClass;
+        return sourceClbss;
     }
 
     /*
-     * makeMemberDefinition method is left with rawtypes and with lint messages suppressed.
-     * The addition of Generics to com.sun.tools.* has uncovered an inconsistency
-     * in usage though tools still work correctly as long as this function is allowed to
-     * function as is.
+     * mbkeMemberDefinition method is left with rbwtypes bnd with lint messbges suppressed.
+     * The bddition of Generics to com.sun.tools.* hbs uncovered bn inconsistency
+     * in usbge though tools still work correctly bs long bs this function is bllowed to
+     * function bs is.
      */
 
     /**
-     * Create a new field.
+     * Crebte b new field.
      */
-    @SuppressWarnings({"rawtypes","unchecked"})
-    public MemberDefinition makeMemberDefinition(Environment origEnv, long where,
-                                               ClassDefinition clazz,
+    @SuppressWbrnings({"rbwtypes","unchecked"})
+    public MemberDefinition mbkeMemberDefinition(Environment origEnv, long where,
+                                               ClbssDefinition clbzz,
                                                String doc, int modifiers,
-                                               Type type, Identifier name,
-                                               IdentifierToken argNames[],
+                                               Type type, Identifier nbme,
+                                               IdentifierToken brgNbmes[],
                                                IdentifierToken expIds[],
-                                               Object value) {
-        if (tracing) dtEvent("makeMemberDefinition: " + name + " IN " + clazz);
+                                               Object vblue) {
+        if (trbcing) dtEvent("mbkeMemberDefinition: " + nbme + " IN " + clbzz);
         Vector v = null;
-        if (argNames != null) {
-            v = new Vector(argNames.length);
-            for (int i = 0 ; i < argNames.length ; i++) {
-                v.addElement(argNames[i]);
+        if (brgNbmes != null) {
+            v = new Vector(brgNbmes.length);
+            for (int i = 0 ; i < brgNbmes.length ; i++) {
+                v.bddElement(brgNbmes[i]);
             }
         }
-        SourceMember f = new SourceMember(where, clazz, doc, modifiers,
-                                        type, name, v, expIds, (Node)value);
-        clazz.addMember(origEnv, f);
+        SourceMember f = new SourceMember(where, clbzz, doc, modifiers,
+                                        type, nbme, v, expIds, (Node)vblue);
+        clbzz.bddMember(origEnv, f);
         return f;
     }
 
     /**
-     * Release resources in classpath.
+     * Relebse resources in clbsspbth.
      */
     public void shutdown() {
         try {
-            if (sourcePath != null) {
-                sourcePath.close();
+            if (sourcePbth != null) {
+                sourcePbth.close();
             }
-            if (binaryPath != null && binaryPath != sourcePath) {
-                binaryPath.close();
+            if (binbryPbth != null && binbryPbth != sourcePbth) {
+                binbryPbth.close();
             }
-        } catch (IOException ee) {
-            output(Main.getText("benv.failed_to_close_class_path",
+        } cbtch (IOException ee) {
+            output(Mbin.getText("benv.fbiled_to_close_clbss_pbth",
                                 ee.toString()));
         }
-        sourcePath = null;
-        binaryPath = null;
+        sourcePbth = null;
+        binbryPbth = null;
 
         super.shutdown();
     }
@@ -1072,127 +1072,127 @@ class BatchEnvironment extends Environment implements ErrorConsumer {
      * Error String
      */
     public
-    String errorString(String err, Object arg1, Object arg2, Object arg3) {
+    String errorString(String err, Object brg1, Object brg2, Object brg3) {
         String key = null;
 
-        if(err.startsWith("warn."))
-            key = "javac.err." + err.substring(5);
+        if(err.stbrtsWith("wbrn."))
+            key = "jbvbc.err." + err.substring(5);
         else
-            key = "javac.err." + err;
+            key = "jbvbc.err." + err;
 
-        return Main.getText(key,
-                            arg1 != null ? arg1.toString() : null,
-                            arg2 != null ? arg2.toString() : null,
-                            arg3 != null ? arg3.toString() : null);
+        return Mbin.getText(key,
+                            brg1 != null ? brg1.toString() : null,
+                            brg2 != null ? brg2.toString() : null,
+                            brg3 != null ? brg3.toString() : null);
     }
 
     /**
-     * The filename where the last errors have occurred
+     * The filenbme where the lbst errors hbve occurred
      */
-    String errorFileName;
+    String errorFileNbme;
 
     /**
-     * List of outstanding error messages
+     * List of outstbnding error messbges
      */
-    ErrorMessage errors;
+    ErrorMessbge errors;
 
     /**
-     * Insert an error message in the list of outstanding error messages.
-     * The list is sorted on input position and contains no duplicates.
-     * The return value indicates whether or not the message was
-     * actually inserted.
+     * Insert bn error messbge in the list of outstbnding error messbges.
+     * The list is sorted on input position bnd contbins no duplicbtes.
+     * The return vblue indicbtes whether or not the messbge wbs
+     * bctublly inserted.
      *
-     * The method flushErrors() used to check for duplicate error messages.
-     * It would only detect duplicates if they were contiguous.  Removing
-     * non-contiguous duplicate error messages is slightly less complicated
-     * at insertion time, so the functionality was moved here.  This also
-     * saves a miniscule number of allocations.
+     * The method flushErrors() used to check for duplicbte error messbges.
+     * It would only detect duplicbtes if they were contiguous.  Removing
+     * non-contiguous duplicbte error messbges is slightly less complicbted
+     * bt insertion time, so the functionblity wbs moved here.  This blso
+     * sbves b miniscule number of bllocbtions.
      */
     protected
-    boolean insertError(long where, String message) {
-        //output("ERR = " + message);
+    boolebn insertError(long where, String messbge) {
+        //output("ERR = " + messbge);
 
         if (errors == null
             ||  errors.where > where) {
-            // If the list is empty, or the error comes before any other
-            // errors, insert it at the beginning of the list.
-            ErrorMessage newMsg = new ErrorMessage(where, message);
+            // If the list is empty, or the error comes before bny other
+            // errors, insert it bt the beginning of the list.
+            ErrorMessbge newMsg = new ErrorMessbge(where, messbge);
             newMsg.next = errors;
             errors = newMsg;
 
         } else if (errors.where == where
-                   && errors.message.equals(message)) {
-            // The new message is an exact duplicate of the first message
+                   && errors.messbge.equbls(messbge)) {
+            // The new messbge is bn exbct duplicbte of the first messbge
             // in the list.  Don't insert it.
-            return false;
+            return fblse;
 
         } else {
-            // Okay, we know that the error doesn't come first.  Walk
+            // Okby, we know thbt the error doesn't come first.  Wblk
             // the list until we find the right position for insertion.
-            ErrorMessage current = errors;
-            ErrorMessage next;
+            ErrorMessbge current = errors;
+            ErrorMessbge next;
 
             while ((next = current.next) != null
                    && next.where < where) {
                 current = next;
             }
 
-            // Now walk over any errors with the same location, looking
-            // for duplicates.  If we find a duplicate, don't insert the
+            // Now wblk over bny errors with the sbme locbtion, looking
+            // for duplicbtes.  If we find b duplicbte, don't insert the
             // error.
             while ((next = current.next) != null
                    && next.where == where) {
-                if (next.message.equals(message)) {
-                    // We have found an exact duplicate.  Don't bother to
+                if (next.messbge.equbls(messbge)) {
+                    // We hbve found bn exbct duplicbte.  Don't bother to
                     // insert the error.
-                    return false;
+                    return fblse;
                 }
                 current = next;
             }
 
-            // Now insert after current.
-            ErrorMessage newMsg = new ErrorMessage(where, message);
+            // Now insert bfter current.
+            ErrorMessbge newMsg = new ErrorMessbge(where, messbge);
             newMsg.next = current.next;
             current.next = newMsg;
         }
 
-        // Indicate that the insertion occurred.
+        // Indicbte thbt the insertion occurred.
         return true;
     }
 
-    private int errorsPushed;
+    privbte int errorsPushed;
 
     /**
-     * Maximum number of errors to print.
+     * Mbximum number of errors to print.
      */
     public int errorLimit = 100;
 
-    private boolean hitErrorLimit;
+    privbte boolebn hitErrorLimit;
 
     /**
-     * Flush outstanding errors
+     * Flush outstbnding errors
      */
 
-        public void pushError(String errorFileName, int line, String message,
+        public void pushError(String errorFileNbme, int line, String messbge,
                                     String referenceText, String referenceTextPointer) {
-                int limit = errorLimit + nwarnings;
+                int limit = errorLimit + nwbrnings;
                 if (++errorsPushed >= limit && errorLimit >= 0) {
                     if (!hitErrorLimit) {
                         hitErrorLimit = true;
-                        output(errorString("too.many.errors",
+                        output(errorString("too.mbny.errors",
                                            errorLimit,null,null));
                     }
                     return;
                 }
-                if (errorFileName.endsWith(".java")) {
-                    output(errorFileName + ":" + line + ": " + message);
+                if (errorFileNbme.endsWith(".jbvb")) {
+                    output(errorFileNbme + ":" + line + ": " + messbge);
                     output(referenceText);
                     output(referenceTextPointer);
                 } else {
-                    // It wasn't really a source file (probably an error or
-                    // warning because of a malformed or badly versioned
-                    // class file.
-                    output(errorFileName + ": " + message);
+                    // It wbsn't reblly b source file (probbbly bn error or
+                    // wbrning becbuse of b mblformed or bbdly versioned
+                    // clbss file.
+                    output(errorFileNbme + ": " + messbge);
                 }
         }
 
@@ -1201,56 +1201,56 @@ class BatchEnvironment extends Environment implements ErrorConsumer {
             return;
         }
 
-        boolean inputAvail = false;
-        // Read the file
-        char data[] = null;
-        int dataLength = 0;
-        // A malformed file encoding could cause a CharConversionException.
-        // If something bad happens while trying to find the source file,
+        boolebn inputAvbil = fblse;
+        // Rebd the file
+        chbr dbtb[] = null;
+        int dbtbLength = 0;
+        // A mblformed file encoding could cbuse b ChbrConversionException.
+        // If something bbd hbppens while trying to find the source file,
         // don't bother trying to show lines.
         try {
-            FileInputStream in = new FileInputStream(errorFileName);
-            data = new char[in.available()];
-            InputStreamReader reader =
-                (getCharacterEncoding() != null ?
-                 new InputStreamReader(in, getCharacterEncoding()) :
-                 new InputStreamReader(in));
-            dataLength = reader.read(data);
-            reader.close();
-            inputAvail = true;
-        } catch(IOException e) {
-            // inputAvail will not be set
+            FileInputStrebm in = new FileInputStrebm(errorFileNbme);
+            dbtb = new chbr[in.bvbilbble()];
+            InputStrebmRebder rebder =
+                (getChbrbcterEncoding() != null ?
+                 new InputStrebmRebder(in, getChbrbcterEncoding()) :
+                 new InputStrebmRebder(in));
+            dbtbLength = rebder.rebd(dbtb);
+            rebder.close();
+            inputAvbil = true;
+        } cbtch(IOException e) {
+            // inputAvbil will not be set
         }
 
         // Report the errors
-        for (ErrorMessage msg = errors ; msg != null ; msg = msg.next) {
+        for (ErrorMessbge msg = errors ; msg != null ; msg = msg.next) {
             // There used to be code here which checked
-            // for duplicate error messages.  This functionality
-            // has been moved to the method insertError().  See
-            // the comments on that method for more information.
+            // for duplicbte error messbges.  This functionblity
+            // hbs been moved to the method insertError().  See
+            // the comments on thbt method for more informbtion.
 
             int ln = (int) (msg.where >>> WHEREOFFSETBITS);
             int off = (int) (msg.where & ((1L << WHEREOFFSETBITS) - 1));
-            if (off > dataLength)  off = dataLength;
+            if (off > dbtbLength)  off = dbtbLength;
 
             String referenceString = "";
-            String markerString = "";
-            if(inputAvail) {
+            String mbrkerString = "";
+            if(inputAvbil) {
                 int i, j;
-                for (i = off ; (i > 0) && (data[i - 1] != '\n') && (data[i - 1] != '\r') ; i--);
-                for (j = off ; (j < dataLength) && (data[j] != '\n') && (data[j] != '\r') ; j++);
-                referenceString = new String(data, i, j - i);
+                for (i = off ; (i > 0) && (dbtb[i - 1] != '\n') && (dbtb[i - 1] != '\r') ; i--);
+                for (j = off ; (j < dbtbLength) && (dbtb[j] != '\n') && (dbtb[j] != '\r') ; j++);
+                referenceString = new String(dbtb, i, j - i);
 
-                char strdata[] = new char[(off - i) + 1];
+                chbr strdbtb[] = new chbr[(off - i) + 1];
                 for (j = i ; j < off ; j++) {
-                    strdata[j-i] = (data[j] == '\t') ? '\t' : ' ';
+                    strdbtb[j-i] = (dbtb[j] == '\t') ? '\t' : ' ';
                 }
-                strdata[off-i] = '^';
-                markerString = new String(strdata);
+                strdbtb[off-i] = '^';
+                mbrkerString = new String(strdbtb);
             }
 
-            errorConsumer.pushError(errorFileName, ln, msg.message,
-                                        referenceString, markerString);
+            errorConsumer.pushError(errorFileNbme, ln, msg.messbge,
+                                        referenceString, mbrkerString);
         }
         errors = null;
     }
@@ -1261,91 +1261,91 @@ class BatchEnvironment extends Environment implements ErrorConsumer {
     public
     void reportError(Object src, long where, String err, String msg) {
         if (src == null) {
-            if (errorFileName != null) {
+            if (errorFileNbme != null) {
                 flushErrors();
-                errorFileName = null;
+                errorFileNbme = null;
             }
-            if (err.startsWith("warn.")) {
-                if (warnings()) {
-                    nwarnings++;
+            if (err.stbrtsWith("wbrn.")) {
+                if (wbrnings()) {
+                    nwbrnings++;
                     output(msg);
                 }
                 return;
             }
             output("error: " + msg);
             nerrors++;
-            flags |= F_ERRORSREPORTED;
+            flbgs |= F_ERRORSREPORTED;
 
-        } else if (src instanceof String) {
-            String fileName = (String)src;
+        } else if (src instbnceof String) {
+            String fileNbme = (String)src;
 
-            // Flush errors if we've moved on to a new file.
-            if (!fileName.equals(errorFileName)) {
+            // Flush errors if we've moved on to b new file.
+            if (!fileNbme.equbls(errorFileNbme)) {
                 flushErrors();
-                errorFileName = fileName;
+                errorFileNbme = fileNbme;
             }
 
-            // Classify `err' as a warning, deprecation warning, or
-            // error message.  Proceed accordingly.
-            if (err.startsWith("warn.")) {
-                if (err.indexOf("is.deprecated") >= 0) {
-                    // This is a deprecation warning.  Add `src' to the
-                    // list of files with deprecation warnings.
-                    if (!deprecationFiles.contains(src)) {
-                        deprecationFiles.addElement(src);
+            // Clbssify `err' bs b wbrning, deprecbtion wbrning, or
+            // error messbge.  Proceed bccordingly.
+            if (err.stbrtsWith("wbrn.")) {
+                if (err.indexOf("is.deprecbted") >= 0) {
+                    // This is b deprecbtion wbrning.  Add `src' to the
+                    // list of files with deprecbtion wbrnings.
+                    if (!deprecbtionFiles.contbins(src)) {
+                        deprecbtionFiles.bddElement(src);
                     }
 
-                    // If we are reporting deprecations, try to add it
+                    // If we bre reporting deprecbtions, try to bdd it
                     // to our list.  Otherwise, just increment the
-                    // deprecation count.
-                    if (deprecation()) {
+                    // deprecbtion count.
+                    if (deprecbtion()) {
                         if (insertError(where, msg)) {
-                            ndeprecations++;
+                            ndeprecbtions++;
                         }
                     } else {
-                        ndeprecations++;
+                        ndeprecbtions++;
                     }
                 } else {
-                    // This is a regular warning.  If we are reporting
-                    // warnings, try to add it to the list.  Otherwise, just
-                    // increment the warning count.
-                    if (warnings()) {
+                    // This is b regulbr wbrning.  If we bre reporting
+                    // wbrnings, try to bdd it to the list.  Otherwise, just
+                    // increment the wbrning count.
+                    if (wbrnings()) {
                         if (insertError(where, msg)) {
-                            nwarnings++;
+                            nwbrnings++;
                         }
                     } else {
-                        nwarnings++;
+                        nwbrnings++;
                     }
                 }
             } else {
-                // This is an error.  Try to add it to the list of errors.
-                // If it isn't a duplicate, increment our error count.
+                // This is bn error.  Try to bdd it to the list of errors.
+                // If it isn't b duplicbte, increment our error count.
                 if (insertError(where, msg)) {
                     nerrors++;
-                    flags |= F_ERRORSREPORTED;
+                    flbgs |= F_ERRORSREPORTED;
                 }
             }
-        } else if (src instanceof ClassFile) {
-            reportError(((ClassFile)src).getPath(), where, err, msg);
+        } else if (src instbnceof ClbssFile) {
+            reportError(((ClbssFile)src).getPbth(), where, err, msg);
 
-        } else if (src instanceof Identifier) {
+        } else if (src instbnceof Identifier) {
             reportError(src.toString(), where, err, msg);
 
-        } else if (src instanceof ClassDeclaration) {
+        } else if (src instbnceof ClbssDeclbrbtion) {
             try {
-                reportError(((ClassDeclaration)src).getClassDefinition(this), where, err, msg);
-            } catch (ClassNotFound e) {
-                reportError(((ClassDeclaration)src).getName(), where, err, msg);
+                reportError(((ClbssDeclbrbtion)src).getClbssDefinition(this), where, err, msg);
+            } cbtch (ClbssNotFound e) {
+                reportError(((ClbssDeclbrbtion)src).getNbme(), where, err, msg);
             }
-        } else if (src instanceof ClassDefinition) {
-            ClassDefinition c = (ClassDefinition)src;
-            if (!err.startsWith("warn.")) {
+        } else if (src instbnceof ClbssDefinition) {
+            ClbssDefinition c = (ClbssDefinition)src;
+            if (!err.stbrtsWith("wbrn.")) {
                 c.setError();
             }
             reportError(c.getSource(), where, err, msg);
 
-        } else if (src instanceof MemberDefinition) {
-            reportError(((MemberDefinition)src).getClassDeclaration(), where, err, msg);
+        } else if (src instbnceof MemberDefinition) {
+            reportError(((MemberDefinition)src).getClbssDeclbrbtion(), where, err, msg);
 
         } else {
             output(src + ":error=" + err + ":" + msg);
@@ -1353,28 +1353,28 @@ class BatchEnvironment extends Environment implements ErrorConsumer {
     }
 
     /**
-     * Issue an error
+     * Issue bn error
      */
-    public void error(Object source, long where, String err, Object arg1, Object arg2, Object arg3) {
-        if (errorsPushed >= errorLimit + nwarnings) {
-            // Don't bother to queue any more errors if they won't get printed.
+    public void error(Object source, long where, String err, Object brg1, Object brg2, Object brg3) {
+        if (errorsPushed >= errorLimit + nwbrnings) {
+            // Don't bother to queue bny more errors if they won't get printed.
             return;
         }
-        if (System.getProperty("javac.dump.stack") != null) {
-            output("javac.err."+err+": "+errorString(err, arg1, arg2, arg3));
-            new Exception("Stack trace").printStackTrace(new PrintStream(out));
+        if (System.getProperty("jbvbc.dump.stbck") != null) {
+            output("jbvbc.err."+err+": "+errorString(err, brg1, brg2, brg3));
+            new Exception("Stbck trbce").printStbckTrbce(new PrintStrebm(out));
         }
-        reportError(source, where, err, errorString(err, arg1, arg2, arg3));
+        reportError(source, where, err, errorString(err, brg1, brg2, brg3));
     }
 
     /**
-     * Output a string. This can either be an error message or something
+     * Output b string. This cbn either be bn error messbge or something
      * for debugging.
      */
     public void output(String msg) {
-        PrintStream out =
-            this.out instanceof PrintStream ? (PrintStream)this.out
-                                            : new PrintStream(this.out, true);
+        PrintStrebm out =
+            this.out instbnceof PrintStrebm ? (PrintStrebm)this.out
+                                            : new PrintStrebm(this.out, true);
         out.println(msg);
     }
 }

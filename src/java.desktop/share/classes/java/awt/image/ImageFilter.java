@@ -1,247 +1,247 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.util.Hashtable;
+import jbvb.util.Hbshtbble;
 
 /**
- * This class implements a filter for the set of interface methods that
- * are used to deliver data from an ImageProducer to an ImageConsumer.
- * It is meant to be used in conjunction with a FilteredImageSource
- * object to produce filtered versions of existing images.  It is a
- * base class that provides the calls needed to implement a "Null filter"
- * which has no effect on the data being passed through.  Filters should
- * subclass this class and override the methods which deal with the
- * data that needs to be filtered and modify it as necessary.
+ * This clbss implements b filter for the set of interfbce methods thbt
+ * bre used to deliver dbtb from bn ImbgeProducer to bn ImbgeConsumer.
+ * It is mebnt to be used in conjunction with b FilteredImbgeSource
+ * object to produce filtered versions of existing imbges.  It is b
+ * bbse clbss thbt provides the cblls needed to implement b "Null filter"
+ * which hbs no effect on the dbtb being pbssed through.  Filters should
+ * subclbss this clbss bnd override the methods which debl with the
+ * dbtb thbt needs to be filtered bnd modify it bs necessbry.
  *
- * @see FilteredImageSource
- * @see ImageConsumer
+ * @see FilteredImbgeSource
+ * @see ImbgeConsumer
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  */
-public class ImageFilter implements ImageConsumer, Cloneable {
+public clbss ImbgeFilter implements ImbgeConsumer, Clonebble {
     /**
-     * The consumer of the particular image data stream for which this
-     * instance of the ImageFilter is filtering data.  It is not
-     * initialized during the constructor, but rather during the
-     * getFilterInstance() method call when the FilteredImageSource
-     * is creating a unique instance of this object for a particular
-     * image data stream.
-     * @see #getFilterInstance
-     * @see ImageConsumer
+     * The consumer of the pbrticulbr imbge dbtb strebm for which this
+     * instbnce of the ImbgeFilter is filtering dbtb.  It is not
+     * initiblized during the constructor, but rbther during the
+     * getFilterInstbnce() method cbll when the FilteredImbgeSource
+     * is crebting b unique instbnce of this object for b pbrticulbr
+     * imbge dbtb strebm.
+     * @see #getFilterInstbnce
+     * @see ImbgeConsumer
      */
-    protected ImageConsumer consumer;
+    protected ImbgeConsumer consumer;
 
     /**
-     * Returns a unique instance of an ImageFilter object which will
-     * actually perform the filtering for the specified ImageConsumer.
-     * The default implementation just clones this object.
+     * Returns b unique instbnce of bn ImbgeFilter object which will
+     * bctublly perform the filtering for the specified ImbgeConsumer.
+     * The defbult implementbtion just clones this object.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being filtered.  Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @return an <code>ImageFilter</code> used to perform the
-     *         filtering for the specified <code>ImageConsumer</code>.
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being filtered.  Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @pbrbm ic the specified <code>ImbgeConsumer</code>
+     * @return bn <code>ImbgeFilter</code> used to perform the
+     *         filtering for the specified <code>ImbgeConsumer</code>.
      */
-    public ImageFilter getFilterInstance(ImageConsumer ic) {
-        ImageFilter instance = (ImageFilter) clone();
-        instance.consumer = ic;
-        return instance;
+    public ImbgeFilter getFilterInstbnce(ImbgeConsumer ic) {
+        ImbgeFilter instbnce = (ImbgeFilter) clone();
+        instbnce.consumer = ic;
+        return instbnce;
     }
 
     /**
-     * Filters the information provided in the setDimensions method
-     * of the ImageConsumer interface.
+     * Filters the informbtion provided in the setDimensions method
+     * of the ImbgeConsumer interfbce.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being filtered.  Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ImageConsumer#setDimensions
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being filtered.  Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @see ImbgeConsumer#setDimensions
      */
     public void setDimensions(int width, int height) {
         consumer.setDimensions(width, height);
     }
 
     /**
-     * Passes the properties from the source object along after adding a
-     * property indicating the stream of filters it has been run through.
+     * Pbsses the properties from the source object blong bfter bdding b
+     * property indicbting the strebm of filters it hbs been run through.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being filtered.  Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being filtered.  Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
      *
-     * @param props the properties from the source object
+     * @pbrbm props the properties from the source object
      * @exception NullPointerException if <code>props</code> is null
      */
-    public void setProperties(Hashtable<?,?> props) {
-        @SuppressWarnings("unchecked")
-        Hashtable<Object,Object> p = (Hashtable<Object,Object>)props.clone();
+    public void setProperties(Hbshtbble<?,?> props) {
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<Object,Object> p = (Hbshtbble<Object,Object>)props.clone();
         Object o = p.get("filters");
         if (o == null) {
             p.put("filters", toString());
-        } else if (o instanceof String) {
+        } else if (o instbnceof String) {
             p.put("filters", ((String) o)+toString());
         }
         consumer.setProperties(p);
     }
 
     /**
-     * Filter the information provided in the setColorModel method
-     * of the ImageConsumer interface.
+     * Filter the informbtion provided in the setColorModel method
+     * of the ImbgeConsumer interfbce.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being filtered.  Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ImageConsumer#setColorModel
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being filtered.  Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @see ImbgeConsumer#setColorModel
      */
     public void setColorModel(ColorModel model) {
         consumer.setColorModel(model);
     }
 
     /**
-     * Filters the information provided in the setHints method
-     * of the ImageConsumer interface.
+     * Filters the informbtion provided in the setHints method
+     * of the ImbgeConsumer interfbce.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being filtered.  Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ImageConsumer#setHints
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being filtered.  Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @see ImbgeConsumer#setHints
      */
     public void setHints(int hints) {
         consumer.setHints(hints);
     }
 
     /**
-     * Filters the information provided in the setPixels method of the
-     * ImageConsumer interface which takes an array of bytes.
+     * Filters the informbtion provided in the setPixels method of the
+     * ImbgeConsumer interfbce which tbkes bn brrby of bytes.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being filtered.  Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ImageConsumer#setPixels
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being filtered.  Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @see ImbgeConsumer#setPixels
      */
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, byte pixels[], int off,
-                          int scansize) {
-        consumer.setPixels(x, y, w, h, model, pixels, off, scansize);
+                          int scbnsize) {
+        consumer.setPixels(x, y, w, h, model, pixels, off, scbnsize);
     }
 
     /**
-     * Filters the information provided in the setPixels method of the
-     * ImageConsumer interface which takes an array of integers.
+     * Filters the informbtion provided in the setPixels method of the
+     * ImbgeConsumer interfbce which tbkes bn brrby of integers.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being filtered.  Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ImageConsumer#setPixels
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being filtered.  Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @see ImbgeConsumer#setPixels
      */
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, int pixels[], int off,
-                          int scansize) {
-        consumer.setPixels(x, y, w, h, model, pixels, off, scansize);
+                          int scbnsize) {
+        consumer.setPixels(x, y, w, h, model, pixels, off, scbnsize);
     }
 
     /**
-     * Filters the information provided in the imageComplete method of
-     * the ImageConsumer interface.
+     * Filters the informbtion provided in the imbgeComplete method of
+     * the ImbgeConsumer interfbce.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being filtered.  Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ImageConsumer#imageComplete
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being filtered.  Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @see ImbgeConsumer#imbgeComplete
      */
-    public void imageComplete(int status) {
-        consumer.imageComplete(status);
+    public void imbgeComplete(int stbtus) {
+        consumer.imbgeComplete(stbtus);
     }
 
     /**
-     * Responds to a request for a TopDownLeftRight (TDLR) ordered resend
-     * of the pixel data from an <code>ImageConsumer</code>.
-     * When an <code>ImageConsumer</code> being fed
-     * by an instance of this <code>ImageFilter</code>
-     * requests a resend of the data in TDLR order,
-     * the <code>FilteredImageSource</code>
-     * invokes this method of the <code>ImageFilter</code>.
+     * Responds to b request for b TopDownLeftRight (TDLR) ordered resend
+     * of the pixel dbtb from bn <code>ImbgeConsumer</code>.
+     * When bn <code>ImbgeConsumer</code> being fed
+     * by bn instbnce of this <code>ImbgeFilter</code>
+     * requests b resend of the dbtb in TDLR order,
+     * the <code>FilteredImbgeSource</code>
+     * invokes this method of the <code>ImbgeFilter</code>.
      *
      * <p>
      *
-     * An <code>ImageFilter</code> subclass might override this method or not,
-     * depending on if and how it can send data in TDLR order.
+     * An <code>ImbgeFilter</code> subclbss might override this method or not,
+     * depending on if bnd how it cbn send dbtb in TDLR order.
      * Three possibilities exist:
      *
      * <ul>
      * <li>
      * Do not override this method.
-     * This makes the subclass use the default implementation,
+     * This mbkes the subclbss use the defbult implementbtion,
      * which is to
-     * forward the request
-     * to the indicated <code>ImageProducer</code>
-     * using this filter as the requesting <code>ImageConsumer</code>.
-     * This behavior
-     * is appropriate if the filter can determine
-     * that it will forward the pixels
-     * in TDLR order if its upstream producer object
+     * forwbrd the request
+     * to the indicbted <code>ImbgeProducer</code>
+     * using this filter bs the requesting <code>ImbgeConsumer</code>.
+     * This behbvior
+     * is bppropribte if the filter cbn determine
+     * thbt it will forwbrd the pixels
+     * in TDLR order if its upstrebm producer object
      * sends them in TDLR order.
      *
      * <li>
-     * Override the method to simply send the data.
-     * This is appropriate if the filter can handle the request itself &#8212;
-     * for example,
-     * if the generated pixels have been saved in some sort of buffer.
+     * Override the method to simply send the dbtb.
+     * This is bppropribte if the filter cbn hbndle the request itself &#8212;
+     * for exbmple,
+     * if the generbted pixels hbve been sbved in some sort of buffer.
      *
      * <li>
      * Override the method to do nothing.
-     * This is appropriate
-     * if the filter cannot produce filtered data in TDLR order.
+     * This is bppropribte
+     * if the filter cbnnot produce filtered dbtb in TDLR order.
      * </ul>
      *
-     * @see ImageProducer#requestTopDownLeftRightResend
-     * @param ip the ImageProducer that is feeding this instance of
-     * the filter - also the ImageProducer that the request should be
-     * forwarded to if necessary
+     * @see ImbgeProducer#requestTopDownLeftRightResend
+     * @pbrbm ip the ImbgeProducer thbt is feeding this instbnce of
+     * the filter - blso the ImbgeProducer thbt the request should be
+     * forwbrded to if necessbry
      * @exception NullPointerException if <code>ip</code> is null
      */
-    public void resendTopDownLeftRight(ImageProducer ip) {
+    public void resendTopDownLeftRight(ImbgeProducer ip) {
         ip.requestTopDownLeftRightResend(this);
     }
 
@@ -251,9 +251,9 @@ public class ImageFilter implements ImageConsumer, Cloneable {
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError(e);
         }
     }
 }

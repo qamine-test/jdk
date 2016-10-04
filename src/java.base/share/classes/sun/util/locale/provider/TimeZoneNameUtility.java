@@ -1,230 +1,230 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.lang.ref.SoftReference;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.spi.TimeZoneNameProvider;
-import sun.util.calendar.ZoneInfo;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.util.LinkedList;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.spi.TimeZoneNbmeProvider;
+import sun.util.cblendbr.ZoneInfo;
 
 /**
- * Utility class that deals with the localized time zone names
+ * Utility clbss thbt debls with the locblized time zone nbmes
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
  */
-public final class TimeZoneNameUtility {
+public finbl clbss TimeZoneNbmeUtility {
 
     /**
-     * cache to hold time zone localized strings. Keyed by Locale
+     * cbche to hold time zone locblized strings. Keyed by Locble
      */
-    private static ConcurrentHashMap<Locale, SoftReference<String[][]>> cachedZoneData =
-        new ConcurrentHashMap<>();
+    privbte stbtic ConcurrentHbshMbp<Locble, SoftReference<String[][]>> cbchedZoneDbtb =
+        new ConcurrentHbshMbp<>();
 
     /**
-     * Cache for managing display names per timezone per locale
+     * Cbche for mbnbging displby nbmes per timezone per locble
      * The structure is:
-     *     Map(key=id, value=SoftReference(Map(key=locale, value=displaynames)))
+     *     Mbp(key=id, vblue=SoftReference(Mbp(key=locble, vblue=displbynbmes)))
      */
-    private static final Map<String, SoftReference<Map<Locale, String[]>>> cachedDisplayNames =
-        new ConcurrentHashMap<>();
+    privbte stbtic finbl Mbp<String, SoftReference<Mbp<Locble, String[]>>> cbchedDisplbyNbmes =
+        new ConcurrentHbshMbp<>();
 
     /**
-     * get time zone localized strings. Enumerate all keys.
+     * get time zone locblized strings. Enumerbte bll keys.
      */
-    public static String[][] getZoneStrings(Locale locale) {
+    public stbtic String[][] getZoneStrings(Locble locble) {
         String[][] zones;
-        SoftReference<String[][]> data = cachedZoneData.get(locale);
+        SoftReference<String[][]> dbtb = cbchedZoneDbtb.get(locble);
 
-        if (data == null || ((zones = data.get()) == null)) {
-            zones = loadZoneStrings(locale);
-            data = new SoftReference<>(zones);
-            cachedZoneData.put(locale, data);
+        if (dbtb == null || ((zones = dbtb.get()) == null)) {
+            zones = lobdZoneStrings(locble);
+            dbtb = new SoftReference<>(zones);
+            cbchedZoneDbtb.put(locble, dbtb);
         }
 
         return zones;
     }
 
-    private static String[][] loadZoneStrings(Locale locale) {
-        // If the provider is a TimeZoneNameProviderImpl, call its getZoneStrings
-        // in order to avoid per-ID retrieval.
-        LocaleProviderAdapter adapter = LocaleProviderAdapter.getAdapter(TimeZoneNameProvider.class, locale);
-        TimeZoneNameProvider provider = adapter.getTimeZoneNameProvider();
-        if (provider instanceof TimeZoneNameProviderImpl) {
-            return ((TimeZoneNameProviderImpl)provider).getZoneStrings(locale);
+    privbte stbtic String[][] lobdZoneStrings(Locble locble) {
+        // If the provider is b TimeZoneNbmeProviderImpl, cbll its getZoneStrings
+        // in order to bvoid per-ID retrievbl.
+        LocbleProviderAdbpter bdbpter = LocbleProviderAdbpter.getAdbpter(TimeZoneNbmeProvider.clbss, locble);
+        TimeZoneNbmeProvider provider = bdbpter.getTimeZoneNbmeProvider();
+        if (provider instbnceof TimeZoneNbmeProviderImpl) {
+            return ((TimeZoneNbmeProviderImpl)provider).getZoneStrings(locble);
         }
 
-        // Performs per-ID retrieval.
-        Set<String> zoneIDs = LocaleProviderAdapter.forJRE().getLocaleResources(locale).getZoneIDs();
+        // Performs per-ID retrievbl.
+        Set<String> zoneIDs = LocbleProviderAdbpter.forJRE().getLocbleResources(locble).getZoneIDs();
         List<String[]> zones = new LinkedList<>();
         for (String key : zoneIDs) {
-            String[] names = retrieveDisplayNamesImpl(key, locale);
-            if (names != null) {
-                zones.add(names);
+            String[] nbmes = retrieveDisplbyNbmesImpl(key, locble);
+            if (nbmes != null) {
+                zones.bdd(nbmes);
             }
         }
 
-        String[][] zonesArray = new String[zones.size()][];
-        return zones.toArray(zonesArray);
+        String[][] zonesArrby = new String[zones.size()][];
+        return zones.toArrby(zonesArrby);
     }
 
     /**
-     * Retrieve display names for a time zone ID.
+     * Retrieve displby nbmes for b time zone ID.
      */
-    public static String[] retrieveDisplayNames(String id, Locale locale) {
-        if (id == null || locale == null) {
+    public stbtic String[] retrieveDisplbyNbmes(String id, Locble locble) {
+        if (id == null || locble == null) {
             throw new NullPointerException();
         }
-        return retrieveDisplayNamesImpl(id, locale);
+        return retrieveDisplbyNbmesImpl(id, locble);
     }
 
     /**
-     * Retrieves a generic time zone display name for a time zone ID.
+     * Retrieves b generic time zone displby nbme for b time zone ID.
      *
-     * @param id     time zone ID
-     * @param style  TimeZone.LONG or TimeZone.SHORT
-     * @param locale desired Locale
-     * @return the requested generic time zone display name, or null if not found.
+     * @pbrbm id     time zone ID
+     * @pbrbm style  TimeZone.LONG or TimeZone.SHORT
+     * @pbrbm locble desired Locble
+     * @return the requested generic time zone displby nbme, or null if not found.
      */
-    public static String retrieveGenericDisplayName(String id, int style, Locale locale) {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(TimeZoneNameProvider.class);
-        return pool.getLocalizedObject(TimeZoneNameGetter.INSTANCE, locale, "generic", style, id);
+    public stbtic String retrieveGenericDisplbyNbme(String id, int style, Locble locble) {
+        LocbleServiceProviderPool pool =
+            LocbleServiceProviderPool.getPool(TimeZoneNbmeProvider.clbss);
+        return pool.getLocblizedObject(TimeZoneNbmeGetter.INSTANCE, locble, "generic", style, id);
     }
 
     /**
-     * Retrieves a standard or daylight-saving time name for the given time zone ID.
+     * Retrieves b stbndbrd or dbylight-sbving time nbme for the given time zone ID.
      *
-     * @param id       time zone ID
-     * @param daylight true for a daylight saving time name, or false for a standard time name
-     * @param style    TimeZone.LONG or TimeZone.SHORT
-     * @param locale   desired Locale
-     * @return the requested time zone name, or null if not found.
+     * @pbrbm id       time zone ID
+     * @pbrbm dbylight true for b dbylight sbving time nbme, or fblse for b stbndbrd time nbme
+     * @pbrbm style    TimeZone.LONG or TimeZone.SHORT
+     * @pbrbm locble   desired Locble
+     * @return the requested time zone nbme, or null if not found.
      */
-    public static String retrieveDisplayName(String id, boolean daylight, int style, Locale locale) {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(TimeZoneNameProvider.class);
-        return pool.getLocalizedObject(TimeZoneNameGetter.INSTANCE, locale, daylight ? "dst" : "std", style, id);
+    public stbtic String retrieveDisplbyNbme(String id, boolebn dbylight, int style, Locble locble) {
+        LocbleServiceProviderPool pool =
+            LocbleServiceProviderPool.getPool(TimeZoneNbmeProvider.clbss);
+        return pool.getLocblizedObject(TimeZoneNbmeGetter.INSTANCE, locble, dbylight ? "dst" : "std", style, id);
     }
 
-    private static String[] retrieveDisplayNamesImpl(String id, Locale locale) {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(TimeZoneNameProvider.class);
+    privbte stbtic String[] retrieveDisplbyNbmesImpl(String id, Locble locble) {
+        LocbleServiceProviderPool pool =
+            LocbleServiceProviderPool.getPool(TimeZoneNbmeProvider.clbss);
 
-        SoftReference<Map<Locale, String[]>> ref = cachedDisplayNames.get(id);
+        SoftReference<Mbp<Locble, String[]>> ref = cbchedDisplbyNbmes.get(id);
         if (ref != null) {
-            Map<Locale, String[]> perLocale = ref.get();
-            if (perLocale != null) {
-                String[] names = perLocale.get(locale);
-                if (names != null) {
-                    return names;
+            Mbp<Locble, String[]> perLocble = ref.get();
+            if (perLocble != null) {
+                String[] nbmes = perLocble.get(locble);
+                if (nbmes != null) {
+                    return nbmes;
                 }
-                names = pool.getLocalizedObject(TimeZoneNameArrayGetter.INSTANCE, locale, id);
-                if (names != null) {
-                    perLocale.put(locale, names);
+                nbmes = pool.getLocblizedObject(TimeZoneNbmeArrbyGetter.INSTANCE, locble, id);
+                if (nbmes != null) {
+                    perLocble.put(locble, nbmes);
                 }
-                return names;
+                return nbmes;
             }
         }
 
-        String[] names = pool.getLocalizedObject(TimeZoneNameArrayGetter.INSTANCE, locale, id);
-        if (names != null) {
-            Map<Locale, String[]> perLocale = new ConcurrentHashMap<>();
-            perLocale.put(locale, names);
-            ref = new SoftReference<>(perLocale);
-            cachedDisplayNames.put(id, ref);
+        String[] nbmes = pool.getLocblizedObject(TimeZoneNbmeArrbyGetter.INSTANCE, locble, id);
+        if (nbmes != null) {
+            Mbp<Locble, String[]> perLocble = new ConcurrentHbshMbp<>();
+            perLocble.put(locble, nbmes);
+            ref = new SoftReference<>(perLocble);
+            cbchedDisplbyNbmes.put(id, ref);
         }
-        return names;
+        return nbmes;
     }
 
     /**
-     * Obtains a localized time zone strings from a TimeZoneNameProvider
-     * implementation.
+     * Obtbins b locblized time zone strings from b TimeZoneNbmeProvider
+     * implementbtion.
      */
-    private static class TimeZoneNameArrayGetter
-        implements LocaleServiceProviderPool.LocalizedObjectGetter<TimeZoneNameProvider,
+    privbte stbtic clbss TimeZoneNbmeArrbyGetter
+        implements LocbleServiceProviderPool.LocblizedObjectGetter<TimeZoneNbmeProvider,
                                                                    String[]>{
-        private static final TimeZoneNameArrayGetter INSTANCE =
-            new TimeZoneNameArrayGetter();
+        privbte stbtic finbl TimeZoneNbmeArrbyGetter INSTANCE =
+            new TimeZoneNbmeArrbyGetter();
 
         @Override
-        public String[] getObject(TimeZoneNameProvider timeZoneNameProvider,
-                                  Locale locale,
+        public String[] getObject(TimeZoneNbmeProvider timeZoneNbmeProvider,
+                                  Locble locble,
                                   String requestID,
-                                  Object... params) {
-            assert params.length == 0;
+                                  Object... pbrbms) {
+            bssert pbrbms.length == 0;
 
-            // First, try to get names with the request ID
-            String[] names = buildZoneStrings(timeZoneNameProvider, locale, requestID);
+            // First, try to get nbmes with the request ID
+            String[] nbmes = buildZoneStrings(timeZoneNbmeProvider, locble, requestID);
 
-            if (names == null) {
-                Map<String, String> aliases = ZoneInfo.getAliasTable();
+            if (nbmes == null) {
+                Mbp<String, String> blibses = ZoneInfo.getAlibsTbble();
 
-                if (aliases != null) {
-                    // Check whether this id is an alias, if so,
-                    // look for the standard id.
-                    String canonicalID = aliases.get(requestID);
-                    if (canonicalID != null) {
-                        names = buildZoneStrings(timeZoneNameProvider, locale, canonicalID);
+                if (blibses != null) {
+                    // Check whether this id is bn blibs, if so,
+                    // look for the stbndbrd id.
+                    String cbnonicblID = blibses.get(requestID);
+                    if (cbnonicblID != null) {
+                        nbmes = buildZoneStrings(timeZoneNbmeProvider, locble, cbnonicblID);
                     }
-                    if (names == null) {
-                        // There may be a case that a standard id has become an
-                        // alias.  so, check the aliases backward.
-                        names = examineAliases(timeZoneNameProvider, locale,
-                                   canonicalID == null ? requestID : canonicalID, aliases);
+                    if (nbmes == null) {
+                        // There mby be b cbse thbt b stbndbrd id hbs become bn
+                        // blibs.  so, check the blibses bbckwbrd.
+                        nbmes = exbmineAlibses(timeZoneNbmeProvider, locble,
+                                   cbnonicblID == null ? requestID : cbnonicblID, blibses);
                     }
                 }
             }
 
-            if (names != null) {
-                names[0] = requestID;
+            if (nbmes != null) {
+                nbmes[0] = requestID;
             }
 
-            return names;
+            return nbmes;
         }
 
-        private static String[] examineAliases(TimeZoneNameProvider tznp, Locale locale,
+        privbte stbtic String[] exbmineAlibses(TimeZoneNbmeProvider tznp, Locble locble,
                                                String id,
-                                               Map<String, String> aliases) {
-            if (aliases.containsValue(id)) {
-                for (Map.Entry<String, String> entry : aliases.entrySet()) {
-                    if (entry.getValue().equals(id)) {
-                        String alias = entry.getKey();
-                        String[] names = buildZoneStrings(tznp, locale, alias);
-                        if (names != null) {
-                            return names;
+                                               Mbp<String, String> blibses) {
+            if (blibses.contbinsVblue(id)) {
+                for (Mbp.Entry<String, String> entry : blibses.entrySet()) {
+                    if (entry.getVblue().equbls(id)) {
+                        String blibs = entry.getKey();
+                        String[] nbmes = buildZoneStrings(tznp, locble, blibs);
+                        if (nbmes != null) {
+                            return nbmes;
                         }
-                        names = examineAliases(tznp, locale, alias, aliases);
-                        if (names != null) {
-                            return names;
+                        nbmes = exbmineAlibses(tznp, locble, blibs, blibses);
+                        if (nbmes != null) {
+                            return nbmes;
                         }
                     }
                 }
@@ -233,83 +233,83 @@ public final class TimeZoneNameUtility {
             return null;
         }
 
-        private static String[] buildZoneStrings(TimeZoneNameProvider tznp,
-                                                 Locale locale, String id) {
-            String[] names = new String[5];
+        privbte stbtic String[] buildZoneStrings(TimeZoneNbmeProvider tznp,
+                                                 Locble locble, String id) {
+            String[] nbmes = new String[5];
 
             for (int i = 1; i <= 4; i ++) {
-                names[i] = tznp.getDisplayName(id, i>=3, i%2, locale);
+                nbmes[i] = tznp.getDisplbyNbme(id, i>=3, i%2, locble);
 
-                if (names[i] == null) {
+                if (nbmes[i] == null) {
                     switch (i) {
-                    case 1:
-                        // this id seems not localized by this provider
+                    cbse 1:
+                        // this id seems not locblized by this provider
                         return null;
-                    case 2:
-                    case 4:
-                        // If the display name for SHORT is not supplied,
-                        // copy the LONG name.
-                        names[i] = names[i-1];
-                        break;
-                    case 3:
-                        // If the display name for DST is not supplied,
-                        // copy the "standard" name.
-                        names[3] = names[1];
-                        break;
+                    cbse 2:
+                    cbse 4:
+                        // If the displby nbme for SHORT is not supplied,
+                        // copy the LONG nbme.
+                        nbmes[i] = nbmes[i-1];
+                        brebk;
+                    cbse 3:
+                        // If the displby nbme for DST is not supplied,
+                        // copy the "stbndbrd" nbme.
+                        nbmes[3] = nbmes[1];
+                        brebk;
                 }
             }
             }
 
-            return names;
+            return nbmes;
         }
     }
 
-    private static class TimeZoneNameGetter
-        implements LocaleServiceProviderPool.LocalizedObjectGetter<TimeZoneNameProvider,
+    privbte stbtic clbss TimeZoneNbmeGetter
+        implements LocbleServiceProviderPool.LocblizedObjectGetter<TimeZoneNbmeProvider,
                                                                    String> {
-        private static final TimeZoneNameGetter INSTANCE =
-            new TimeZoneNameGetter();
+        privbte stbtic finbl TimeZoneNbmeGetter INSTANCE =
+            new TimeZoneNbmeGetter();
 
         @Override
-        public String getObject(TimeZoneNameProvider timeZoneNameProvider,
-                                Locale locale,
+        public String getObject(TimeZoneNbmeProvider timeZoneNbmeProvider,
+                                Locble locble,
                                 String requestID,
-                                Object... params) {
-            assert params.length == 2;
-            int style = (int) params[0];
-            String tzid = (String) params[1];
-            String value = getName(timeZoneNameProvider, locale, requestID, style, tzid);
-            if (value == null) {
-                Map<String, String> aliases = ZoneInfo.getAliasTable();
-                if (aliases != null) {
-                    String canonicalID = aliases.get(tzid);
-                    if (canonicalID != null) {
-                        value = getName(timeZoneNameProvider, locale, requestID, style, canonicalID);
+                                Object... pbrbms) {
+            bssert pbrbms.length == 2;
+            int style = (int) pbrbms[0];
+            String tzid = (String) pbrbms[1];
+            String vblue = getNbme(timeZoneNbmeProvider, locble, requestID, style, tzid);
+            if (vblue == null) {
+                Mbp<String, String> blibses = ZoneInfo.getAlibsTbble();
+                if (blibses != null) {
+                    String cbnonicblID = blibses.get(tzid);
+                    if (cbnonicblID != null) {
+                        vblue = getNbme(timeZoneNbmeProvider, locble, requestID, style, cbnonicblID);
                     }
-                    if (value == null) {
-                        value = examineAliases(timeZoneNameProvider, locale, requestID,
-                                     canonicalID != null ? canonicalID : tzid, style, aliases);
+                    if (vblue == null) {
+                        vblue = exbmineAlibses(timeZoneNbmeProvider, locble, requestID,
+                                     cbnonicblID != null ? cbnonicblID : tzid, style, blibses);
                     }
                 }
             }
 
-            return value;
+            return vblue;
         }
 
-        private static String examineAliases(TimeZoneNameProvider tznp, Locale locale,
+        privbte stbtic String exbmineAlibses(TimeZoneNbmeProvider tznp, Locble locble,
                                              String requestID, String tzid, int style,
-                                             Map<String, String> aliases) {
-            if (aliases.containsValue(tzid)) {
-                for (Map.Entry<String, String> entry : aliases.entrySet()) {
-                    if (entry.getValue().equals(tzid)) {
-                        String alias = entry.getKey();
-                        String name = getName(tznp, locale, requestID, style, alias);
-                        if (name != null) {
-                            return name;
+                                             Mbp<String, String> blibses) {
+            if (blibses.contbinsVblue(tzid)) {
+                for (Mbp.Entry<String, String> entry : blibses.entrySet()) {
+                    if (entry.getVblue().equbls(tzid)) {
+                        String blibs = entry.getKey();
+                        String nbme = getNbme(tznp, locble, requestID, style, blibs);
+                        if (nbme != null) {
+                            return nbme;
                         }
-                        name = examineAliases(tznp, locale, requestID, alias, style, aliases);
-                        if (name != null) {
-                            return name;
+                        nbme = exbmineAlibses(tznp, locble, requestID, blibs, style, blibses);
+                        if (nbme != null) {
+                            return nbme;
                         }
                     }
                 }
@@ -317,25 +317,25 @@ public final class TimeZoneNameUtility {
             return null;
         }
 
-        private static String getName(TimeZoneNameProvider timeZoneNameProvider,
-                                      Locale locale, String requestID, int style, String tzid) {
-            String value = null;
+        privbte stbtic String getNbme(TimeZoneNbmeProvider timeZoneNbmeProvider,
+                                      Locble locble, String requestID, int style, String tzid) {
+            String vblue = null;
             switch (requestID) {
-            case "std":
-                value = timeZoneNameProvider.getDisplayName(tzid, false, style, locale);
-                break;
-            case "dst":
-                value = timeZoneNameProvider.getDisplayName(tzid, true, style, locale);
-                break;
-            case "generic":
-                value = timeZoneNameProvider.getGenericDisplayName(tzid, style, locale);
-                break;
+            cbse "std":
+                vblue = timeZoneNbmeProvider.getDisplbyNbme(tzid, fblse, style, locble);
+                brebk;
+            cbse "dst":
+                vblue = timeZoneNbmeProvider.getDisplbyNbme(tzid, true, style, locble);
+                brebk;
+            cbse "generic":
+                vblue = timeZoneNbmeProvider.getGenericDisplbyNbme(tzid, style, locble);
+                brebk;
             }
-            return value;
+            return vblue;
         }
     }
 
-    // No instantiation
-    private TimeZoneNameUtility() {
+    // No instbntibtion
+    privbte TimeZoneNbmeUtility() {
     }
 }

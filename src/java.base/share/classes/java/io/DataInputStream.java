@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 1994, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * A data input stream lets an application read primitive Java data
- * types from an underlying input stream in a machine-independent
- * way. An application uses a data output stream to write data that
- * can later be read by a data input stream.
+ * A dbtb input strebm lets bn bpplicbtion rebd primitive Jbvb dbtb
+ * types from bn underlying input strebm in b mbchine-independent
+ * wby. An bpplicbtion uses b dbtb output strebm to write dbtb thbt
+ * cbn lbter be rebd by b dbtb input strebm.
  * <p>
- * DataInputStream is not necessarily safe for multithreaded access.
- * Thread safety is optional and is the responsibility of users of
- * methods in this class.
+ * DbtbInputStrebm is not necessbrily sbfe for multithrebded bccess.
+ * Threbd sbfety is optionbl bnd is the responsibility of users of
+ * methods in this clbss.
  *
- * @author  Arthur van Hoff
- * @see     java.io.DataOutputStream
+ * @buthor  Arthur vbn Hoff
+ * @see     jbvb.io.DbtbOutputStrebm
  * @since   1.0
  */
 public
-class DataInputStream extends FilterInputStream implements DataInput {
+clbss DbtbInputStrebm extends FilterInputStrebm implements DbtbInput {
 
     /**
-     * Creates a DataInputStream that uses the specified
-     * underlying InputStream.
+     * Crebtes b DbtbInputStrebm thbt uses the specified
+     * underlying InputStrebm.
      *
-     * @param  in   the specified input stream
+     * @pbrbm  in   the specified input strebm
      */
-    public DataInputStream(InputStream in) {
+    public DbtbInputStrebm(InputStrebm in) {
         super(in);
     }
 
     /**
-     * working arrays initialized on demand by readUTF
+     * working brrbys initiblized on dembnd by rebdUTF
      */
-    private byte bytearr[] = new byte[80];
-    private char chararr[] = new char[80];
+    privbte byte bytebrr[] = new byte[80];
+    privbte chbr chbrbrr[] = new chbr[80];
 
     /**
-     * Reads some number of bytes from the contained input stream and
-     * stores them into the buffer array <code>b</code>. The number of
-     * bytes actually read is returned as an integer. This method blocks
-     * until input data is available, end of file is detected, or an
+     * Rebds some number of bytes from the contbined input strebm bnd
+     * stores them into the buffer brrby <code>b</code>. The number of
+     * bytes bctublly rebd is returned bs bn integer. This method blocks
+     * until input dbtb is bvbilbble, end of file is detected, or bn
      * exception is thrown.
      *
-     * <p>If <code>b</code> is null, a <code>NullPointerException</code> is
-     * thrown. If the length of <code>b</code> is zero, then no bytes are
-     * read and <code>0</code> is returned; otherwise, there is an attempt
-     * to read at least one byte. If no byte is available because the
-     * stream is at end of file, the value <code>-1</code> is returned;
-     * otherwise, at least one byte is read and stored into <code>b</code>.
+     * <p>If <code>b</code> is null, b <code>NullPointerException</code> is
+     * thrown. If the length of <code>b</code> is zero, then no bytes bre
+     * rebd bnd <code>0</code> is returned; otherwise, there is bn bttempt
+     * to rebd bt lebst one byte. If no byte is bvbilbble becbuse the
+     * strebm is bt end of file, the vblue <code>-1</code> is returned;
+     * otherwise, bt lebst one byte is rebd bnd stored into <code>b</code>.
      *
-     * <p>The first byte read is stored into element <code>b[0]</code>, the
-     * next one into <code>b[1]</code>, and so on. The number of bytes read
-     * is, at most, equal to the length of <code>b</code>. Let <code>k</code>
-     * be the number of bytes actually read; these bytes will be stored in
-     * elements <code>b[0]</code> through <code>b[k-1]</code>, leaving
+     * <p>The first byte rebd is stored into element <code>b[0]</code>, the
+     * next one into <code>b[1]</code>, bnd so on. The number of bytes rebd
+     * is, bt most, equbl to the length of <code>b</code>. Let <code>k</code>
+     * be the number of bytes bctublly rebd; these bytes will be stored in
+     * elements <code>b[0]</code> through <code>b[k-1]</code>, lebving
      * elements <code>b[k]</code> through <code>b[b.length-1]</code>
-     * unaffected.
+     * unbffected.
      *
-     * <p>The <code>read(b)</code> method has the same effect as:
+     * <p>The <code>rebd(b)</code> method hbs the sbme effect bs:
      * <blockquote><pre>
-     * read(b, 0, b.length)
+     * rebd(b, 0, b.length)
      * </pre></blockquote>
      *
-     * @param      b   the buffer into which the data is read.
-     * @return     the total number of bytes read into the buffer, or
-     *             <code>-1</code> if there is no more data because the end
-     *             of the stream has been reached.
-     * @exception  IOException if the first byte cannot be read for any reason
-     * other than end of file, the stream has been closed and the underlying
-     * input stream does not support reading after close, or another I/O
+     * @pbrbm      b   the buffer into which the dbtb is rebd.
+     * @return     the totbl number of bytes rebd into the buffer, or
+     *             <code>-1</code> if there is no more dbtb becbuse the end
+     *             of the strebm hbs been rebched.
+     * @exception  IOException if the first byte cbnnot be rebd for bny rebson
+     * other thbn end of file, the strebm hbs been closed bnd the underlying
+     * input strebm does not support rebding bfter close, or bnother I/O
      * error occurs.
-     * @see        java.io.FilterInputStream#in
-     * @see        java.io.InputStream#read(byte[], int, int)
+     * @see        jbvb.io.FilterInputStrebm#in
+     * @see        jbvb.io.InputStrebm#rebd(byte[], int, int)
      */
-    public final int read(byte b[]) throws IOException {
-        return in.read(b, 0, b.length);
+    public finbl int rebd(byte b[]) throws IOException {
+        return in.rebd(b, 0, b.length);
     }
 
     /**
-     * Reads up to <code>len</code> bytes of data from the contained
-     * input stream into an array of bytes.  An attempt is made to read
-     * as many as <code>len</code> bytes, but a smaller number may be read,
-     * possibly zero. The number of bytes actually read is returned as an
+     * Rebds up to <code>len</code> bytes of dbtb from the contbined
+     * input strebm into bn brrby of bytes.  An bttempt is mbde to rebd
+     * bs mbny bs <code>len</code> bytes, but b smbller number mby be rebd,
+     * possibly zero. The number of bytes bctublly rebd is returned bs bn
      * integer.
      *
-     * <p> This method blocks until input data is available, end of file is
-     * detected, or an exception is thrown.
+     * <p> This method blocks until input dbtb is bvbilbble, end of file is
+     * detected, or bn exception is thrown.
      *
-     * <p> If <code>len</code> is zero, then no bytes are read and
-     * <code>0</code> is returned; otherwise, there is an attempt to read at
-     * least one byte. If no byte is available because the stream is at end of
-     * file, the value <code>-1</code> is returned; otherwise, at least one
-     * byte is read and stored into <code>b</code>.
+     * <p> If <code>len</code> is zero, then no bytes bre rebd bnd
+     * <code>0</code> is returned; otherwise, there is bn bttempt to rebd bt
+     * lebst one byte. If no byte is bvbilbble becbuse the strebm is bt end of
+     * file, the vblue <code>-1</code> is returned; otherwise, bt lebst one
+     * byte is rebd bnd stored into <code>b</code>.
      *
-     * <p> The first byte read is stored into element <code>b[off]</code>, the
-     * next one into <code>b[off+1]</code>, and so on. The number of bytes read
-     * is, at most, equal to <code>len</code>. Let <i>k</i> be the number of
-     * bytes actually read; these bytes will be stored in elements
+     * <p> The first byte rebd is stored into element <code>b[off]</code>, the
+     * next one into <code>b[off+1]</code>, bnd so on. The number of bytes rebd
+     * is, bt most, equbl to <code>len</code>. Let <i>k</i> be the number of
+     * bytes bctublly rebd; these bytes will be stored in elements
      * <code>b[off]</code> through <code>b[off+</code><i>k</i><code>-1]</code>,
-     * leaving elements <code>b[off+</code><i>k</i><code>]</code> through
-     * <code>b[off+len-1]</code> unaffected.
+     * lebving elements <code>b[off+</code><i>k</i><code>]</code> through
+     * <code>b[off+len-1]</code> unbffected.
      *
-     * <p> In every case, elements <code>b[0]</code> through
-     * <code>b[off]</code> and elements <code>b[off+len]</code> through
-     * <code>b[b.length-1]</code> are unaffected.
+     * <p> In every cbse, elements <code>b[0]</code> through
+     * <code>b[off]</code> bnd elements <code>b[off+len]</code> through
+     * <code>b[b.length-1]</code> bre unbffected.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param off the start offset in the destination array <code>b</code>
-     * @param      len   the maximum number of bytes read.
-     * @return     the total number of bytes read into the buffer, or
-     *             <code>-1</code> if there is no more data because the end
-     *             of the stream has been reached.
+     * @pbrbm      b     the buffer into which the dbtb is rebd.
+     * @pbrbm off the stbrt offset in the destinbtion brrby <code>b</code>
+     * @pbrbm      len   the mbximum number of bytes rebd.
+     * @return     the totbl number of bytes rebd into the buffer, or
+     *             <code>-1</code> if there is no more dbtb becbuse the end
+     *             of the strebm hbs been rebched.
      * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
+     * @exception  IndexOutOfBoundsException If <code>off</code> is negbtive,
+     * <code>len</code> is negbtive, or <code>len</code> is grebter thbn
      * <code>b.length - off</code>
-     * @exception  IOException if the first byte cannot be read for any reason
-     * other than end of file, the stream has been closed and the underlying
-     * input stream does not support reading after close, or another I/O
+     * @exception  IOException if the first byte cbnnot be rebd for bny rebson
+     * other thbn end of file, the strebm hbs been closed bnd the underlying
+     * input strebm does not support rebding bfter close, or bnother I/O
      * error occurs.
-     * @see        java.io.FilterInputStream#in
-     * @see        java.io.InputStream#read(byte[], int, int)
+     * @see        jbvb.io.FilterInputStrebm#in
+     * @see        jbvb.io.InputStrebm#rebd(byte[], int, int)
      */
-    public final int read(byte b[], int off, int len) throws IOException {
-        return in.read(b, off, len);
+    public finbl int rebd(byte b[], int off, int len) throws IOException {
+        return in.rebd(b, off, len);
     }
 
     /**
-     * See the general contract of the <code>readFully</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdFully</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @param      b   the buffer into which the data is read.
-     * @exception  EOFException  if this input stream reaches the end before
-     *             reading all the bytes.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @pbrbm      b   the buffer into which the dbtb is rebd.
+     * @exception  EOFException  if this input strebm rebches the end before
+     *             rebding bll the bytes.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public final void readFully(byte b[]) throws IOException {
-        readFully(b, 0, b.length);
+    public finbl void rebdFully(byte b[]) throws IOException {
+        rebdFully(b, 0, b.length);
     }
 
     /**
-     * See the general contract of the <code>readFully</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdFully</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param      off   the start offset of the data.
-     * @param      len   the number of bytes to read.
-     * @exception  EOFException  if this input stream reaches the end before
-     *               reading all the bytes.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @pbrbm      b     the buffer into which the dbtb is rebd.
+     * @pbrbm      off   the stbrt offset of the dbtb.
+     * @pbrbm      len   the number of bytes to rebd.
+     * @exception  EOFException  if this input strebm rebches the end before
+     *               rebding bll the bytes.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public final void readFully(byte b[], int off, int len) throws IOException {
+    public finbl void rebdFully(byte b[], int off, int len) throws IOException {
         if (len < 0)
             throw new IndexOutOfBoundsException();
         int n = 0;
         while (n < len) {
-            int count = in.read(b, off + n, len - n);
+            int count = in.rebd(b, off + n, len - n);
             if (count < 0)
                 throw new EOFException();
             n += count;
@@ -200,309 +200,309 @@ class DataInputStream extends FilterInputStream implements DataInput {
     }
 
     /**
-     * See the general contract of the <code>skipBytes</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>skipBytes</code>
+     * method of <code>DbtbInput</code>.
      * <p>
-     * Bytes for this operation are read from the contained
-     * input stream.
+     * Bytes for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @param      n   the number of bytes to be skipped.
-     * @return     the actual number of bytes skipped.
-     * @exception  IOException  if the contained input stream does not support
-     *             seek, or the stream has been closed and
-     *             the contained input stream does not support
-     *             reading after close, or another I/O error occurs.
+     * @pbrbm      n   the number of bytes to be skipped.
+     * @return     the bctubl number of bytes skipped.
+     * @exception  IOException  if the contbined input strebm does not support
+     *             seek, or the strebm hbs been closed bnd
+     *             the contbined input strebm does not support
+     *             rebding bfter close, or bnother I/O error occurs.
      */
-    public final int skipBytes(int n) throws IOException {
-        int total = 0;
+    public finbl int skipBytes(int n) throws IOException {
+        int totbl = 0;
         int cur = 0;
 
-        while ((total<n) && ((cur = (int) in.skip(n-total)) > 0)) {
-            total += cur;
+        while ((totbl<n) && ((cur = (int) in.skip(n-totbl)) > 0)) {
+            totbl += cur;
         }
 
-        return total;
+        return totbl;
     }
 
     /**
-     * See the general contract of the <code>readBoolean</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdBoolebn</code>
+     * method of <code>DbtbInput</code>.
      * <p>
-     * Bytes for this operation are read from the contained
-     * input stream.
+     * Bytes for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @return     the <code>boolean</code> value read.
-     * @exception  EOFException  if this input stream has reached the end.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @return     the <code>boolebn</code> vblue rebd.
+     * @exception  EOFException  if this input strebm hbs rebched the end.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public final boolean readBoolean() throws IOException {
-        int ch = in.read();
+    public finbl boolebn rebdBoolebn() throws IOException {
+        int ch = in.rebd();
         if (ch < 0)
             throw new EOFException();
         return (ch != 0);
     }
 
     /**
-     * See the general contract of the <code>readByte</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdByte</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @return     the next byte of this input stream as a signed 8-bit
+     * @return     the next byte of this input strebm bs b signed 8-bit
      *             <code>byte</code>.
-     * @exception  EOFException  if this input stream has reached the end.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @exception  EOFException  if this input strebm hbs rebched the end.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public final byte readByte() throws IOException {
-        int ch = in.read();
+    public finbl byte rebdByte() throws IOException {
+        int ch = in.rebd();
         if (ch < 0)
             throw new EOFException();
         return (byte)(ch);
     }
 
     /**
-     * See the general contract of the <code>readUnsignedByte</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdUnsignedByte</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @return     the next byte of this input stream, interpreted as an
+     * @return     the next byte of this input strebm, interpreted bs bn
      *             unsigned 8-bit number.
-     * @exception  EOFException  if this input stream has reached the end.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @see         java.io.FilterInputStream#in
+     * @exception  EOFException  if this input strebm hbs rebched the end.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @see         jbvb.io.FilterInputStrebm#in
      */
-    public final int readUnsignedByte() throws IOException {
-        int ch = in.read();
+    public finbl int rebdUnsignedByte() throws IOException {
+        int ch = in.rebd();
         if (ch < 0)
             throw new EOFException();
         return ch;
     }
 
     /**
-     * See the general contract of the <code>readShort</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdShort</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @return     the next two bytes of this input stream, interpreted as a
+     * @return     the next two bytes of this input strebm, interpreted bs b
      *             signed 16-bit number.
-     * @exception  EOFException  if this input stream reaches the end before
-     *               reading two bytes.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @exception  EOFException  if this input strebm rebches the end before
+     *               rebding two bytes.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public final short readShort() throws IOException {
-        int ch1 = in.read();
-        int ch2 = in.read();
+    public finbl short rebdShort() throws IOException {
+        int ch1 = in.rebd();
+        int ch2 = in.rebd();
         if ((ch1 | ch2) < 0)
             throw new EOFException();
         return (short)((ch1 << 8) + (ch2 << 0));
     }
 
     /**
-     * See the general contract of the <code>readUnsignedShort</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdUnsignedShort</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @return     the next two bytes of this input stream, interpreted as an
+     * @return     the next two bytes of this input strebm, interpreted bs bn
      *             unsigned 16-bit integer.
-     * @exception  EOFException  if this input stream reaches the end before
-     *             reading two bytes.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @exception  EOFException  if this input strebm rebches the end before
+     *             rebding two bytes.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public final int readUnsignedShort() throws IOException {
-        int ch1 = in.read();
-        int ch2 = in.read();
+    public finbl int rebdUnsignedShort() throws IOException {
+        int ch1 = in.rebd();
+        int ch2 = in.rebd();
         if ((ch1 | ch2) < 0)
             throw new EOFException();
         return (ch1 << 8) + (ch2 << 0);
     }
 
     /**
-     * See the general contract of the <code>readChar</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdChbr</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @return     the next two bytes of this input stream, interpreted as a
-     *             <code>char</code>.
-     * @exception  EOFException  if this input stream reaches the end before
-     *               reading two bytes.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @return     the next two bytes of this input strebm, interpreted bs b
+     *             <code>chbr</code>.
+     * @exception  EOFException  if this input strebm rebches the end before
+     *               rebding two bytes.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public final char readChar() throws IOException {
-        int ch1 = in.read();
-        int ch2 = in.read();
+    public finbl chbr rebdChbr() throws IOException {
+        int ch1 = in.rebd();
+        int ch2 = in.rebd();
         if ((ch1 | ch2) < 0)
             throw new EOFException();
-        return (char)((ch1 << 8) + (ch2 << 0));
+        return (chbr)((ch1 << 8) + (ch2 << 0));
     }
 
     /**
-     * See the general contract of the <code>readInt</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdInt</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @return     the next four bytes of this input stream, interpreted as an
+     * @return     the next four bytes of this input strebm, interpreted bs bn
      *             <code>int</code>.
-     * @exception  EOFException  if this input stream reaches the end before
-     *               reading four bytes.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @exception  EOFException  if this input strebm rebches the end before
+     *               rebding four bytes.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public final int readInt() throws IOException {
-        int ch1 = in.read();
-        int ch2 = in.read();
-        int ch3 = in.read();
-        int ch4 = in.read();
+    public finbl int rebdInt() throws IOException {
+        int ch1 = in.rebd();
+        int ch2 = in.rebd();
+        int ch3 = in.rebd();
+        int ch4 = in.rebd();
         if ((ch1 | ch2 | ch3 | ch4) < 0)
             throw new EOFException();
         return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
     }
 
-    private byte readBuffer[] = new byte[8];
+    privbte byte rebdBuffer[] = new byte[8];
 
     /**
-     * See the general contract of the <code>readLong</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdLong</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @return     the next eight bytes of this input stream, interpreted as a
+     * @return     the next eight bytes of this input strebm, interpreted bs b
      *             <code>long</code>.
-     * @exception  EOFException  if this input stream reaches the end before
-     *               reading eight bytes.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @exception  EOFException  if this input strebm rebches the end before
+     *               rebding eight bytes.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public final long readLong() throws IOException {
-        readFully(readBuffer, 0, 8);
-        return (((long)readBuffer[0] << 56) +
-                ((long)(readBuffer[1] & 255) << 48) +
-                ((long)(readBuffer[2] & 255) << 40) +
-                ((long)(readBuffer[3] & 255) << 32) +
-                ((long)(readBuffer[4] & 255) << 24) +
-                ((readBuffer[5] & 255) << 16) +
-                ((readBuffer[6] & 255) <<  8) +
-                ((readBuffer[7] & 255) <<  0));
+    public finbl long rebdLong() throws IOException {
+        rebdFully(rebdBuffer, 0, 8);
+        return (((long)rebdBuffer[0] << 56) +
+                ((long)(rebdBuffer[1] & 255) << 48) +
+                ((long)(rebdBuffer[2] & 255) << 40) +
+                ((long)(rebdBuffer[3] & 255) << 32) +
+                ((long)(rebdBuffer[4] & 255) << 24) +
+                ((rebdBuffer[5] & 255) << 16) +
+                ((rebdBuffer[6] & 255) <<  8) +
+                ((rebdBuffer[7] & 255) <<  0));
     }
 
     /**
-     * See the general contract of the <code>readFloat</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdFlobt</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @return     the next four bytes of this input stream, interpreted as a
-     *             <code>float</code>.
-     * @exception  EOFException  if this input stream reaches the end before
-     *               reading four bytes.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @see        java.io.DataInputStream#readInt()
-     * @see        java.lang.Float#intBitsToFloat(int)
+     * @return     the next four bytes of this input strebm, interpreted bs b
+     *             <code>flobt</code>.
+     * @exception  EOFException  if this input strebm rebches the end before
+     *               rebding four bytes.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @see        jbvb.io.DbtbInputStrebm#rebdInt()
+     * @see        jbvb.lbng.Flobt#intBitsToFlobt(int)
      */
-    public final float readFloat() throws IOException {
-        return Float.intBitsToFloat(readInt());
+    public finbl flobt rebdFlobt() throws IOException {
+        return Flobt.intBitsToFlobt(rebdInt());
     }
 
     /**
-     * See the general contract of the <code>readDouble</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdDouble</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @return     the next eight bytes of this input stream, interpreted as a
+     * @return     the next eight bytes of this input strebm, interpreted bs b
      *             <code>double</code>.
-     * @exception  EOFException  if this input stream reaches the end before
-     *               reading eight bytes.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @see        java.io.DataInputStream#readLong()
-     * @see        java.lang.Double#longBitsToDouble(long)
+     * @exception  EOFException  if this input strebm rebches the end before
+     *               rebding eight bytes.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @see        jbvb.io.DbtbInputStrebm#rebdLong()
+     * @see        jbvb.lbng.Double#longBitsToDouble(long)
      */
-    public final double readDouble() throws IOException {
-        return Double.longBitsToDouble(readLong());
+    public finbl double rebdDouble() throws IOException {
+        return Double.longBitsToDouble(rebdLong());
     }
 
-    private char lineBuffer[];
+    privbte chbr lineBuffer[];
 
     /**
-     * See the general contract of the <code>readLine</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdLine</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @deprecated This method does not properly convert bytes to characters.
-     * As of JDK&nbsp;1.1, the preferred way to read lines of text is via the
-     * <code>BufferedReader.readLine()</code> method.  Programs that use the
-     * <code>DataInputStream</code> class to read lines can be converted to use
-     * the <code>BufferedReader</code> class by replacing code of the form:
+     * @deprecbted This method does not properly convert bytes to chbrbcters.
+     * As of JDK&nbsp;1.1, the preferred wby to rebd lines of text is vib the
+     * <code>BufferedRebder.rebdLine()</code> method.  Progrbms thbt use the
+     * <code>DbtbInputStrebm</code> clbss to rebd lines cbn be converted to use
+     * the <code>BufferedRebder</code> clbss by replbcing code of the form:
      * <blockquote><pre>
-     *     DataInputStream d =&nbsp;new&nbsp;DataInputStream(in);
+     *     DbtbInputStrebm d =&nbsp;new&nbsp;DbtbInputStrebm(in);
      * </pre></blockquote>
      * with:
      * <blockquote><pre>
-     *     BufferedReader d
-     *          =&nbsp;new&nbsp;BufferedReader(new&nbsp;InputStreamReader(in));
+     *     BufferedRebder d
+     *          =&nbsp;new&nbsp;BufferedRebder(new&nbsp;InputStrebmRebder(in));
      * </pre></blockquote>
      *
-     * @return     the next line of text from this input stream.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.BufferedReader#readLine()
-     * @see        java.io.FilterInputStream#in
+     * @return     the next line of text from this input strebm.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.BufferedRebder#rebdLine()
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    @Deprecated
-    public final String readLine() throws IOException {
-        char buf[] = lineBuffer;
+    @Deprecbted
+    public finbl String rebdLine() throws IOException {
+        chbr buf[] = lineBuffer;
 
         if (buf == null) {
-            buf = lineBuffer = new char[128];
+            buf = lineBuffer = new chbr[128];
         }
 
         int room = buf.length;
@@ -510,154 +510,154 @@ class DataInputStream extends FilterInputStream implements DataInput {
         int c;
 
 loop:   while (true) {
-            switch (c = in.read()) {
-              case -1:
-              case '\n':
-                break loop;
+            switch (c = in.rebd()) {
+              cbse -1:
+              cbse '\n':
+                brebk loop;
 
-              case '\r':
-                int c2 = in.read();
+              cbse '\r':
+                int c2 = in.rebd();
                 if ((c2 != '\n') && (c2 != -1)) {
-                    if (!(in instanceof PushbackInputStream)) {
-                        this.in = new PushbackInputStream(in);
+                    if (!(in instbnceof PushbbckInputStrebm)) {
+                        this.in = new PushbbckInputStrebm(in);
                     }
-                    ((PushbackInputStream)in).unread(c2);
+                    ((PushbbckInputStrebm)in).unrebd(c2);
                 }
-                break loop;
+                brebk loop;
 
-              default:
+              defbult:
                 if (--room < 0) {
-                    buf = new char[offset + 128];
+                    buf = new chbr[offset + 128];
                     room = buf.length - offset - 1;
-                    System.arraycopy(lineBuffer, 0, buf, 0, offset);
+                    System.brrbycopy(lineBuffer, 0, buf, 0, offset);
                     lineBuffer = buf;
                 }
-                buf[offset++] = (char) c;
-                break;
+                buf[offset++] = (chbr) c;
+                brebk;
             }
         }
         if ((c == -1) && (offset == 0)) {
             return null;
         }
-        return String.copyValueOf(buf, 0, offset);
+        return String.copyVblueOf(buf, 0, offset);
     }
 
     /**
-     * See the general contract of the <code>readUTF</code>
-     * method of <code>DataInput</code>.
+     * See the generbl contrbct of the <code>rebdUTF</code>
+     * method of <code>DbtbInput</code>.
      * <p>
      * Bytes
-     * for this operation are read from the contained
-     * input stream.
+     * for this operbtion bre rebd from the contbined
+     * input strebm.
      *
-     * @return     a Unicode string.
-     * @exception  EOFException  if this input stream reaches the end before
-     *               reading all the bytes.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @exception  UTFDataFormatException if the bytes do not represent a valid
-     *             modified UTF-8 encoding of a string.
-     * @see        java.io.DataInputStream#readUTF(java.io.DataInput)
+     * @return     b Unicode string.
+     * @exception  EOFException  if this input strebm rebches the end before
+     *               rebding bll the bytes.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @exception  UTFDbtbFormbtException if the bytes do not represent b vblid
+     *             modified UTF-8 encoding of b string.
+     * @see        jbvb.io.DbtbInputStrebm#rebdUTF(jbvb.io.DbtbInput)
      */
-    public final String readUTF() throws IOException {
-        return readUTF(this);
+    public finbl String rebdUTF() throws IOException {
+        return rebdUTF(this);
     }
 
     /**
-     * Reads from the
-     * stream <code>in</code> a representation
-     * of a Unicode  character string encoded in
-     * <a href="DataInput.html#modified-utf-8">modified UTF-8</a> format;
-     * this string of characters is then returned as a <code>String</code>.
-     * The details of the modified UTF-8 representation
-     * are  exactly the same as for the <code>readUTF</code>
-     * method of <code>DataInput</code>.
+     * Rebds from the
+     * strebm <code>in</code> b representbtion
+     * of b Unicode  chbrbcter string encoded in
+     * <b href="DbtbInput.html#modified-utf-8">modified UTF-8</b> formbt;
+     * this string of chbrbcters is then returned bs b <code>String</code>.
+     * The detbils of the modified UTF-8 representbtion
+     * bre  exbctly the sbme bs for the <code>rebdUTF</code>
+     * method of <code>DbtbInput</code>.
      *
-     * @param      in   a data input stream.
-     * @return     a Unicode string.
-     * @exception  EOFException            if the input stream reaches the end
-     *               before all the bytes.
-     * @exception  IOException   the stream has been closed and the contained
-     *             input stream does not support reading after close, or
-     *             another I/O error occurs.
-     * @exception  UTFDataFormatException  if the bytes do not represent a
-     *               valid modified UTF-8 encoding of a Unicode string.
-     * @see        java.io.DataInputStream#readUnsignedShort()
+     * @pbrbm      in   b dbtb input strebm.
+     * @return     b Unicode string.
+     * @exception  EOFException            if the input strebm rebches the end
+     *               before bll the bytes.
+     * @exception  IOException   the strebm hbs been closed bnd the contbined
+     *             input strebm does not support rebding bfter close, or
+     *             bnother I/O error occurs.
+     * @exception  UTFDbtbFormbtException  if the bytes do not represent b
+     *               vblid modified UTF-8 encoding of b Unicode string.
+     * @see        jbvb.io.DbtbInputStrebm#rebdUnsignedShort()
      */
-    public final static String readUTF(DataInput in) throws IOException {
-        int utflen = in.readUnsignedShort();
-        byte[] bytearr = null;
-        char[] chararr = null;
-        if (in instanceof DataInputStream) {
-            DataInputStream dis = (DataInputStream)in;
-            if (dis.bytearr.length < utflen){
-                dis.bytearr = new byte[utflen*2];
-                dis.chararr = new char[utflen*2];
+    public finbl stbtic String rebdUTF(DbtbInput in) throws IOException {
+        int utflen = in.rebdUnsignedShort();
+        byte[] bytebrr = null;
+        chbr[] chbrbrr = null;
+        if (in instbnceof DbtbInputStrebm) {
+            DbtbInputStrebm dis = (DbtbInputStrebm)in;
+            if (dis.bytebrr.length < utflen){
+                dis.bytebrr = new byte[utflen*2];
+                dis.chbrbrr = new chbr[utflen*2];
             }
-            chararr = dis.chararr;
-            bytearr = dis.bytearr;
+            chbrbrr = dis.chbrbrr;
+            bytebrr = dis.bytebrr;
         } else {
-            bytearr = new byte[utflen];
-            chararr = new char[utflen];
+            bytebrr = new byte[utflen];
+            chbrbrr = new chbr[utflen];
         }
 
-        int c, char2, char3;
+        int c, chbr2, chbr3;
         int count = 0;
-        int chararr_count=0;
+        int chbrbrr_count=0;
 
-        in.readFully(bytearr, 0, utflen);
+        in.rebdFully(bytebrr, 0, utflen);
 
         while (count < utflen) {
-            c = (int) bytearr[count] & 0xff;
-            if (c > 127) break;
+            c = (int) bytebrr[count] & 0xff;
+            if (c > 127) brebk;
             count++;
-            chararr[chararr_count++]=(char)c;
+            chbrbrr[chbrbrr_count++]=(chbr)c;
         }
 
         while (count < utflen) {
-            c = (int) bytearr[count] & 0xff;
+            c = (int) bytebrr[count] & 0xff;
             switch (c >> 4) {
-                case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+                cbse 0: cbse 1: cbse 2: cbse 3: cbse 4: cbse 5: cbse 6: cbse 7:
                     /* 0xxxxxxx*/
                     count++;
-                    chararr[chararr_count++]=(char)c;
-                    break;
-                case 12: case 13:
+                    chbrbrr[chbrbrr_count++]=(chbr)c;
+                    brebk;
+                cbse 12: cbse 13:
                     /* 110x xxxx   10xx xxxx*/
                     count += 2;
                     if (count > utflen)
-                        throw new UTFDataFormatException(
-                            "malformed input: partial character at end");
-                    char2 = (int) bytearr[count-1];
-                    if ((char2 & 0xC0) != 0x80)
-                        throw new UTFDataFormatException(
-                            "malformed input around byte " + count);
-                    chararr[chararr_count++]=(char)(((c & 0x1F) << 6) |
-                                                    (char2 & 0x3F));
-                    break;
-                case 14:
+                        throw new UTFDbtbFormbtException(
+                            "mblformed input: pbrtibl chbrbcter bt end");
+                    chbr2 = (int) bytebrr[count-1];
+                    if ((chbr2 & 0xC0) != 0x80)
+                        throw new UTFDbtbFormbtException(
+                            "mblformed input bround byte " + count);
+                    chbrbrr[chbrbrr_count++]=(chbr)(((c & 0x1F) << 6) |
+                                                    (chbr2 & 0x3F));
+                    brebk;
+                cbse 14:
                     /* 1110 xxxx  10xx xxxx  10xx xxxx */
                     count += 3;
                     if (count > utflen)
-                        throw new UTFDataFormatException(
-                            "malformed input: partial character at end");
-                    char2 = (int) bytearr[count-2];
-                    char3 = (int) bytearr[count-1];
-                    if (((char2 & 0xC0) != 0x80) || ((char3 & 0xC0) != 0x80))
-                        throw new UTFDataFormatException(
-                            "malformed input around byte " + (count-1));
-                    chararr[chararr_count++]=(char)(((c     & 0x0F) << 12) |
-                                                    ((char2 & 0x3F) << 6)  |
-                                                    ((char3 & 0x3F) << 0));
-                    break;
-                default:
+                        throw new UTFDbtbFormbtException(
+                            "mblformed input: pbrtibl chbrbcter bt end");
+                    chbr2 = (int) bytebrr[count-2];
+                    chbr3 = (int) bytebrr[count-1];
+                    if (((chbr2 & 0xC0) != 0x80) || ((chbr3 & 0xC0) != 0x80))
+                        throw new UTFDbtbFormbtException(
+                            "mblformed input bround byte " + (count-1));
+                    chbrbrr[chbrbrr_count++]=(chbr)(((c     & 0x0F) << 12) |
+                                                    ((chbr2 & 0x3F) << 6)  |
+                                                    ((chbr3 & 0x3F) << 0));
+                    brebk;
+                defbult:
                     /* 10xx xxxx,  1111 xxxx */
-                    throw new UTFDataFormatException(
-                        "malformed input around byte " + count);
+                    throw new UTFDbtbFormbtException(
+                        "mblformed input bround byte " + count);
             }
         }
-        // The number of chars produced may be less than utflen
-        return new String(chararr, 0, chararr_count);
+        // The number of chbrs produced mby be less thbn utflen
+        return new String(chbrbrr, 0, chbrbrr_count);
     }
 }

@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.jules;
+pbckbge sun.jbvb2d.jules;
 
-import java.util.*;
+import jbvb.util.*;
 
-public class TileWorker implements Runnable {
-    final static int RASTERIZED_TILE_SYNC_GRANULARITY = 8;
-    final ArrayList<JulesTile> rasterizedTileConsumerCache =
-         new ArrayList<JulesTile>();
-    final LinkedList<JulesTile> rasterizedBuffers = new LinkedList<JulesTile>();
+public clbss TileWorker implements Runnbble {
+    finbl stbtic int RASTERIZED_TILE_SYNC_GRANULARITY = 8;
+    finbl ArrbyList<JulesTile> rbsterizedTileConsumerCbche =
+         new ArrbyList<JulesTile>();
+    finbl LinkedList<JulesTile> rbsterizedBuffers = new LinkedList<JulesTile>();
 
-    IdleTileCache tileCache;
-    JulesAATileGenerator tileGenerator;
-    int workerStartIndex;
-    volatile int consumerPos = 0;
+    IdleTileCbche tileCbche;
+    JulesAATileGenerbtor tileGenerbtor;
+    int workerStbrtIndex;
+    volbtile int consumerPos = 0;
 
-    /* Threading statistics */
-    int mainThreadCnt = 0;
+    /* Threbding stbtistics */
+    int mbinThrebdCnt = 0;
     int workerCnt = 0;
     int doubled = 0;
 
-    public TileWorker(JulesAATileGenerator tileGenerator, int workerStartIndex, IdleTileCache tileCache) {
-        this.tileGenerator = tileGenerator;
-        this.workerStartIndex = workerStartIndex;
-        this.tileCache = tileCache;
+    public TileWorker(JulesAATileGenerbtor tileGenerbtor, int workerStbrtIndex, IdleTileCbche tileCbche) {
+        this.tileGenerbtor = tileGenerbtor;
+        this.workerStbrtIndex = workerStbrtIndex;
+        this.tileCbche = tileCbche;
     }
 
     public void run() {
-        ArrayList<JulesTile> tiles = new ArrayList<JulesTile>(16);
+        ArrbyList<JulesTile> tiles = new ArrbyList<JulesTile>(16);
 
-        for (int i = workerStartIndex; i < tileGenerator.getTileCount(); i++) {
-            TileTrapContainer tile = tileGenerator.getTrapContainer(i);
+        for (int i = workerStbrtIndex; i < tileGenerbtor.getTileCount(); i++) {
+            TileTrbpContbiner tile = tileGenerbtor.getTrbpContbiner(i);
 
-            if (tile != null && tile.getTileAlpha() == 127) {
-                JulesTile rasterizedTile =
-                      tileGenerator.rasterizeTile(i,
-                           tileCache.getIdleTileWorker(
-                               tileGenerator.getTileCount() - i - 1));
-                tiles.add(rasterizedTile);
+            if (tile != null && tile.getTileAlphb() == 127) {
+                JulesTile rbsterizedTile =
+                      tileGenerbtor.rbsterizeTile(i,
+                           tileCbche.getIdleTileWorker(
+                               tileGenerbtor.getTileCount() - i - 1));
+                tiles.bdd(rbsterizedTile);
 
                 if (tiles.size() > RASTERIZED_TILE_SYNC_GRANULARITY) {
-                    addRasterizedTiles(tiles);
-                    tiles.clear();
+                    bddRbsterizedTiles(tiles);
+                    tiles.clebr();
                 }
             }
 
-            i = Math.max(i, consumerPos + RASTERIZED_TILE_SYNC_GRANULARITY / 2);
+            i = Mbth.mbx(i, consumerPos + RASTERIZED_TILE_SYNC_GRANULARITY / 2);
         }
-        addRasterizedTiles(tiles);
+        bddRbsterizedTiles(tiles);
 
-        tileCache.disposeRasterizerResources();
+        tileCbche.disposeRbsterizerResources();
     }
 
     /**
-     * Returns a rasterized tile for the specified tilePos,
-     * or null if it isn't available.
-     * Allowed caller: MaskBlit/Consumer-Thread
+     * Returns b rbsterized tile for the specified tilePos,
+     * or null if it isn't bvbilbble.
+     * Allowed cbller: MbskBlit/Consumer-Threbd
      */
-    public JulesTile getPreRasterizedTile(int tilePos) {
+    public JulesTile getPreRbsterizedTile(int tilePos) {
         JulesTile tile = null;
 
-        if (rasterizedTileConsumerCache.size() == 0 &&
-            tilePos >= workerStartIndex)
+        if (rbsterizedTileConsumerCbche.size() == 0 &&
+            tilePos >= workerStbrtIndex)
         {
-            synchronized (rasterizedBuffers) {
-                rasterizedTileConsumerCache.addAll(rasterizedBuffers);
-                rasterizedBuffers.clear();
+            synchronized (rbsterizedBuffers) {
+                rbsterizedTileConsumerCbche.bddAll(rbsterizedBuffers);
+                rbsterizedBuffers.clebr();
             }
         }
 
-        while (tile == null && rasterizedTileConsumerCache.size() > 0) {
-            JulesTile t = rasterizedTileConsumerCache.get(0);
+        while (tile == null && rbsterizedTileConsumerCbche.size() > 0) {
+            JulesTile t = rbsterizedTileConsumerCbche.get(0);
 
             if (t.getTilePos() > tilePos) {
-                break;
+                brebk;
             }
 
             if (t.getTilePos() < tilePos) {
-                tileCache.releaseTile(t);
+                tileCbche.relebseTile(t);
                 doubled++;
             }
 
             if (t.getTilePos() <= tilePos) {
-                rasterizedTileConsumerCache.remove(0);
+                rbsterizedTileConsumerCbche.remove(0);
             }
 
             if (t.getTilePos() == tilePos) {
@@ -114,10 +114,10 @@ public class TileWorker implements Runnable {
         }
 
         if (tile == null) {
-            mainThreadCnt++;
+            mbinThrebdCnt++;
 
-            // If there are no tiles left, tell the producer the current
-            // position. This avoids producing tiles twice.
+            // If there bre no tiles left, tell the producer the current
+            // position. This bvoids producing tiles twice.
             consumerPos = tilePos;
         } else {
             workerCnt++;
@@ -126,21 +126,21 @@ public class TileWorker implements Runnable {
         return tile;
     }
 
-    private void addRasterizedTiles(ArrayList<JulesTile> tiles) {
-        synchronized (rasterizedBuffers) {
-            rasterizedBuffers.addAll(tiles);
+    privbte void bddRbsterizedTiles(ArrbyList<JulesTile> tiles) {
+        synchronized (rbsterizedBuffers) {
+            rbsterizedBuffers.bddAll(tiles);
         }
     }
 
     /**
-     * Releases cached tiles.
-     * Allowed caller: MaskBlit/Consumer-Thread
+     * Relebses cbched tiles.
+     * Allowed cbller: MbskBlit/Consumer-Threbd
      */
     public void disposeConsumerResources() {
-        synchronized (rasterizedBuffers) {
-            tileCache.releaseTiles(rasterizedBuffers);
+        synchronized (rbsterizedBuffers) {
+            tileCbche.relebseTiles(rbsterizedBuffers);
         }
 
-        tileCache.releaseTiles(rasterizedTileConsumerCache);
+        tileCbche.relebseTiles(rbsterizedTileConsumerCbche);
     }
 }

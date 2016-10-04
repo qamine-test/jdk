@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 1995, 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 1997, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.applet;
+pbckbge jbvb.bpplet;
 
 /**
- * The <code>AudioClip</code> interface is a simple abstraction for
- * playing a sound clip. Multiple <code>AudioClip</code> items can be
- * playing at the same time, and the resulting sound is mixed
- * together to produce a composite.
+ * The <code>AudioClip</code> interfbce is b simple bbstrbction for
+ * plbying b sound clip. Multiple <code>AudioClip</code> items cbn be
+ * plbying bt the sbme time, bnd the resulting sound is mixed
+ * together to produce b composite.
  *
- * @author      Arthur van Hoff
+ * @buthor      Arthur vbn Hoff
  * @since       1.0
  */
-public interface AudioClip {
+public interfbce AudioClip {
     /**
-     * Starts playing this audio clip. Each time this method is called,
-     * the clip is restarted from the beginning.
+     * Stbrts plbying this budio clip. Ebch time this method is cblled,
+     * the clip is restbrted from the beginning.
      */
-    void play();
+    void plby();
 
     /**
-     * Starts playing this audio clip in a loop.
+     * Stbrts plbying this budio clip in b loop.
      */
     void loop();
 
     /**
-     * Stops playing this audio clip.
+     * Stops plbying this budio clip.
      */
     void stop();
 }

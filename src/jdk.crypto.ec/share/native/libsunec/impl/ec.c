@@ -1,38 +1,38 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the Elliptic Curve Cryptography library.
+ * The Originbl Code is the Elliptic Curve Cryptogrbphy librbry.
  *
- * The Initial Developer of the Original Code is
+ * The Initibl Developer of the Originbl Code is
  * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 2003
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Dr Vipul Gupta <vipul.gupta@sun.com> and
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Dr Vipul Guptb <vipul.guptb@sun.com> bnd
+ *   Douglbs Stebilb <douglbs@stebilb.cb>, Sun Microsystems Lbborbtories
  *
  *********************************************************************** */
 
@@ -66,75 +66,75 @@
 #endif
 
 /*
- * Returns true if pointP is the point at infinity, false otherwise
+ * Returns true if pointP is the point bt infinity, fblse otherwise
  */
 PRBool
-ec_point_at_infinity(SECItem *pointP)
+ec_point_bt_infinity(SECItem *pointP)
 {
     unsigned int i;
 
     for (i = 1; i < pointP->len; i++) {
-        if (pointP->data[i] != 0x00) return PR_FALSE;
+        if (pointP->dbtb[i] != 0x00) return PR_FALSE;
     }
 
     return PR_TRUE;
 }
 
 /*
- * Computes scalar point multiplication pointQ = k1 * G + k2 * pointP for
- * the curve whose parameters are encoded in params with base point G.
+ * Computes scblbr point multiplicbtion pointQ = k1 * G + k2 * pointP for
+ * the curve whose pbrbmeters bre encoded in pbrbms with bbse point G.
  */
-SECStatus
-ec_points_mul(const ECParams *params, const mp_int *k1, const mp_int *k2,
-             const SECItem *pointP, SECItem *pointQ, int kmflag)
+SECStbtus
+ec_points_mul(const ECPbrbms *pbrbms, const mp_int *k1, const mp_int *k2,
+             const SECItem *pointP, SECItem *pointQ, int kmflbg)
 {
     mp_int Px, Py, Qx, Qy;
-    mp_int Gx, Gy, order, irreducible, a, b;
-#if 0 /* currently don't support non-named curves */
-    unsigned int irr_arr[5];
+    mp_int Gx, Gy, order, irreducible, b, b;
+#if 0 /* currently don't support non-nbmed curves */
+    unsigned int irr_brr[5];
 #endif
     ECGroup *group = NULL;
-    SECStatus rv = SECFailure;
+    SECStbtus rv = SECFbilure;
     mp_err err = MP_OKAY;
     unsigned int len;
 
 #if EC_DEBUG
     int i;
-    char mpstr[256];
+    chbr mpstr[256];
 
-    printf("ec_points_mul: params [len=%d]:", params->DEREncoding.len);
-    for (i = 0; i < params->DEREncoding.len; i++)
-            printf("%02x:", params->DEREncoding.data[i]);
+    printf("ec_points_mul: pbrbms [len=%d]:", pbrbms->DEREncoding.len);
+    for (i = 0; i < pbrbms->DEREncoding.len; i++)
+            printf("%02x:", pbrbms->DEREncoding.dbtb[i]);
     printf("\n");
 
         if (k1 != NULL) {
                 mp_tohex(k1, mpstr);
-                printf("ec_points_mul: scalar k1: %s\n", mpstr);
-                mp_todecimal(k1, mpstr);
-                printf("ec_points_mul: scalar k1: %s (dec)\n", mpstr);
+                printf("ec_points_mul: scblbr k1: %s\n", mpstr);
+                mp_todecimbl(k1, mpstr);
+                printf("ec_points_mul: scblbr k1: %s (dec)\n", mpstr);
         }
 
         if (k2 != NULL) {
                 mp_tohex(k2, mpstr);
-                printf("ec_points_mul: scalar k2: %s\n", mpstr);
-                mp_todecimal(k2, mpstr);
-                printf("ec_points_mul: scalar k2: %s (dec)\n", mpstr);
+                printf("ec_points_mul: scblbr k2: %s\n", mpstr);
+                mp_todecimbl(k2, mpstr);
+                printf("ec_points_mul: scblbr k2: %s (dec)\n", mpstr);
         }
 
         if (pointP != NULL) {
                 printf("ec_points_mul: pointP [len=%d]:", pointP->len);
                 for (i = 0; i < pointP->len; i++)
-                        printf("%02x:", pointP->data[i]);
+                        printf("%02x:", pointP->dbtb[i]);
                 printf("\n");
         }
 #endif
 
         /* NOTE: We only support uncompressed points for now */
-        len = (params->fieldID.size + 7) >> 3;
+        len = (pbrbms->fieldID.size + 7) >> 3;
         if (pointP != NULL) {
-                if ((pointP->data[0] != EC_POINT_FORM_UNCOMPRESSED) ||
+                if ((pointP->dbtb[0] != EC_POINT_FORM_UNCOMPRESSED) ||
                         (pointP->len != (2 * len + 1))) {
-                        return SECFailure;
+                        return SECFbilure;
                 };
         }
 
@@ -146,56 +146,56 @@ ec_points_mul(const ECParams *params, const mp_int *k1, const mp_int *k2,
         MP_DIGITS(&Gy) = 0;
         MP_DIGITS(&order) = 0;
         MP_DIGITS(&irreducible) = 0;
-        MP_DIGITS(&a) = 0;
         MP_DIGITS(&b) = 0;
-        CHECK_MPI_OK( mp_init(&Px, kmflag) );
-        CHECK_MPI_OK( mp_init(&Py, kmflag) );
-        CHECK_MPI_OK( mp_init(&Qx, kmflag) );
-        CHECK_MPI_OK( mp_init(&Qy, kmflag) );
-        CHECK_MPI_OK( mp_init(&Gx, kmflag) );
-        CHECK_MPI_OK( mp_init(&Gy, kmflag) );
-        CHECK_MPI_OK( mp_init(&order, kmflag) );
-        CHECK_MPI_OK( mp_init(&irreducible, kmflag) );
-        CHECK_MPI_OK( mp_init(&a, kmflag) );
-        CHECK_MPI_OK( mp_init(&b, kmflag) );
+        MP_DIGITS(&b) = 0;
+        CHECK_MPI_OK( mp_init(&Px, kmflbg) );
+        CHECK_MPI_OK( mp_init(&Py, kmflbg) );
+        CHECK_MPI_OK( mp_init(&Qx, kmflbg) );
+        CHECK_MPI_OK( mp_init(&Qy, kmflbg) );
+        CHECK_MPI_OK( mp_init(&Gx, kmflbg) );
+        CHECK_MPI_OK( mp_init(&Gy, kmflbg) );
+        CHECK_MPI_OK( mp_init(&order, kmflbg) );
+        CHECK_MPI_OK( mp_init(&irreducible, kmflbg) );
+        CHECK_MPI_OK( mp_init(&b, kmflbg) );
+        CHECK_MPI_OK( mp_init(&b, kmflbg) );
 
         if ((k2 != NULL) && (pointP != NULL)) {
-                /* Initialize Px and Py */
-                CHECK_MPI_OK( mp_read_unsigned_octets(&Px, pointP->data + 1, (mp_size) len) );
-                CHECK_MPI_OK( mp_read_unsigned_octets(&Py, pointP->data + 1 + len, (mp_size) len) );
+                /* Initiblize Px bnd Py */
+                CHECK_MPI_OK( mp_rebd_unsigned_octets(&Px, pointP->dbtb + 1, (mp_size) len) );
+                CHECK_MPI_OK( mp_rebd_unsigned_octets(&Py, pointP->dbtb + 1 + len, (mp_size) len) );
         }
 
-        /* construct from named params, if possible */
-        if (params->name != ECCurve_noName) {
-                group = ECGroup_fromName(params->name, kmflag);
+        /* construct from nbmed pbrbms, if possible */
+        if (pbrbms->nbme != ECCurve_noNbme) {
+                group = ECGroup_fromNbme(pbrbms->nbme, kmflbg);
         }
 
-#if 0 /* currently don't support non-named curves */
+#if 0 /* currently don't support non-nbmed curves */
         if (group == NULL) {
-                /* Set up mp_ints containing the curve coefficients */
-                CHECK_MPI_OK( mp_read_unsigned_octets(&Gx, params->base.data + 1,
+                /* Set up mp_ints contbining the curve coefficients */
+                CHECK_MPI_OK( mp_rebd_unsigned_octets(&Gx, pbrbms->bbse.dbtb + 1,
                                                                                   (mp_size) len) );
-                CHECK_MPI_OK( mp_read_unsigned_octets(&Gy, params->base.data + 1 + len,
+                CHECK_MPI_OK( mp_rebd_unsigned_octets(&Gy, pbrbms->bbse.dbtb + 1 + len,
                                                                                   (mp_size) len) );
-                SECITEM_TO_MPINT( params->order, &order );
-                SECITEM_TO_MPINT( params->curve.a, &a );
-                SECITEM_TO_MPINT( params->curve.b, &b );
-                if (params->fieldID.type == ec_field_GFp) {
-                        SECITEM_TO_MPINT( params->fieldID.u.prime, &irreducible );
-                        group = ECGroup_consGFp(&irreducible, &a, &b, &Gx, &Gy, &order, params->cofactor);
+                SECITEM_TO_MPINT( pbrbms->order, &order );
+                SECITEM_TO_MPINT( pbrbms->curve.b, &b );
+                SECITEM_TO_MPINT( pbrbms->curve.b, &b );
+                if (pbrbms->fieldID.type == ec_field_GFp) {
+                        SECITEM_TO_MPINT( pbrbms->fieldID.u.prime, &irreducible );
+                        group = ECGroup_consGFp(&irreducible, &b, &b, &Gx, &Gy, &order, pbrbms->cofbctor);
                 } else {
-                        SECITEM_TO_MPINT( params->fieldID.u.poly, &irreducible );
-                        irr_arr[0] = params->fieldID.size;
-                        irr_arr[1] = params->fieldID.k1;
-                        irr_arr[2] = params->fieldID.k2;
-                        irr_arr[3] = params->fieldID.k3;
-                        irr_arr[4] = 0;
-                        group = ECGroup_consGF2m(&irreducible, irr_arr, &a, &b, &Gx, &Gy, &order, params->cofactor);
+                        SECITEM_TO_MPINT( pbrbms->fieldID.u.poly, &irreducible );
+                        irr_brr[0] = pbrbms->fieldID.size;
+                        irr_brr[1] = pbrbms->fieldID.k1;
+                        irr_brr[2] = pbrbms->fieldID.k2;
+                        irr_brr[3] = pbrbms->fieldID.k3;
+                        irr_brr[4] = 0;
+                        group = ECGroup_consGF2m(&irreducible, irr_brr, &b, &b, &Gx, &Gy, &order, pbrbms->cofbctor);
                 }
         }
 #endif
         if (group == NULL)
-                goto cleanup;
+                goto clebnup;
 
         if ((k2 != NULL) && (pointP != NULL)) {
                 CHECK_MPI_OK( ECPoints_mul(group, k1, k2, &Px, &Py, &Qx, &Qy) );
@@ -203,11 +203,11 @@ ec_points_mul(const ECParams *params, const mp_int *k1, const mp_int *k2,
                 CHECK_MPI_OK( ECPoints_mul(group, k1, NULL, NULL, NULL, &Qx, &Qy) );
     }
 
-    /* Construct the SECItem representation of point Q */
-    pointQ->data[0] = EC_POINT_FORM_UNCOMPRESSED;
-    CHECK_MPI_OK( mp_to_fixlen_octets(&Qx, pointQ->data + 1,
+    /* Construct the SECItem representbtion of point Q */
+    pointQ->dbtb[0] = EC_POINT_FORM_UNCOMPRESSED;
+    CHECK_MPI_OK( mp_to_fixlen_octets(&Qx, pointQ->dbtb + 1,
                                       (mp_size) len) );
-    CHECK_MPI_OK( mp_to_fixlen_octets(&Qy, pointQ->data + 1 + len,
+    CHECK_MPI_OK( mp_to_fixlen_octets(&Qy, pointQ->dbtb + 1 + len,
                                       (mp_size) len) );
 
     rv = SECSuccess;
@@ -215,211 +215,211 @@ ec_points_mul(const ECParams *params, const mp_int *k1, const mp_int *k2,
 #if EC_DEBUG
     printf("ec_points_mul: pointQ [len=%d]:", pointQ->len);
     for (i = 0; i < pointQ->len; i++)
-            printf("%02x:", pointQ->data[i]);
+            printf("%02x:", pointQ->dbtb[i]);
     printf("\n");
 #endif
 
-cleanup:
+clebnup:
     ECGroup_free(group);
-    mp_clear(&Px);
-    mp_clear(&Py);
-    mp_clear(&Qx);
-    mp_clear(&Qy);
-    mp_clear(&Gx);
-    mp_clear(&Gy);
-    mp_clear(&order);
-    mp_clear(&irreducible);
-    mp_clear(&a);
-    mp_clear(&b);
+    mp_clebr(&Px);
+    mp_clebr(&Py);
+    mp_clebr(&Qx);
+    mp_clebr(&Qy);
+    mp_clebr(&Gx);
+    mp_clebr(&Gy);
+    mp_clebr(&order);
+    mp_clebr(&irreducible);
+    mp_clebr(&b);
+    mp_clebr(&b);
     if (err) {
         MP_TO_SEC_ERROR(err);
-        rv = SECFailure;
+        rv = SECFbilure;
     }
 
     return rv;
 }
 
-/* Generates a new EC key pair. The private key is a supplied
- * value and the public key is the result of performing a scalar
- * point multiplication of that value with the curve's base point.
+/* Generbtes b new EC key pbir. The privbte key is b supplied
+ * vblue bnd the public key is the result of performing b scblbr
+ * point multiplicbtion of thbt vblue with the curve's bbse point.
  */
-SECStatus
-ec_NewKey(ECParams *ecParams, ECPrivateKey **privKey,
-    const unsigned char *privKeyBytes, int privKeyLen, int kmflag)
+SECStbtus
+ec_NewKey(ECPbrbms *ecPbrbms, ECPrivbteKey **privKey,
+    const unsigned chbr *privKeyBytes, int privKeyLen, int kmflbg)
 {
-    SECStatus rv = SECFailure;
-    PRArenaPool *arena;
-    ECPrivateKey *key;
+    SECStbtus rv = SECFbilure;
+    PRArenbPool *brenb;
+    ECPrivbteKey *key;
     mp_int k;
     mp_err err = MP_OKAY;
     int len;
 
 #if EC_DEBUG
-    printf("ec_NewKey called\n");
+    printf("ec_NewKey cblled\n");
 #endif
 
-    if (!ecParams || !privKey || !privKeyBytes || (privKeyLen < 0)) {
+    if (!ecPbrbms || !privKey || !privKeyBytes || (privKeyLen < 0)) {
         PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        return SECFailure;
+        return SECFbilure;
     }
 
-    /* Initialize an arena for the EC key. */
-    if (!(arena = PORT_NewArena(NSS_FREEBL_DEFAULT_CHUNKSIZE)))
-        return SECFailure;
+    /* Initiblize bn brenb for the EC key. */
+    if (!(brenb = PORT_NewArenb(NSS_FREEBL_DEFAULT_CHUNKSIZE)))
+        return SECFbilure;
 
-    key = (ECPrivateKey *)PORT_ArenaZAlloc(arena, sizeof(ECPrivateKey),
-        kmflag);
+    key = (ECPrivbteKey *)PORT_ArenbZAlloc(brenb, sizeof(ECPrivbteKey),
+        kmflbg);
     if (!key) {
-        PORT_FreeArena(arena, PR_TRUE);
-        return SECFailure;
+        PORT_FreeArenb(brenb, PR_TRUE);
+        return SECFbilure;
     }
 
-    /* Set the version number (SEC 1 section C.4 says it should be 1) */
-    SECITEM_AllocItem(arena, &key->version, 1, kmflag);
-    key->version.data[0] = 1;
+    /* Set the version number (SEC 1 section C.4 sbys it should be 1) */
+    SECITEM_AllocItem(brenb, &key->version, 1, kmflbg);
+    key->version.dbtb[0] = 1;
 
-    /* Copy all of the fields from the ECParams argument to the
-     * ECParams structure within the private key.
+    /* Copy bll of the fields from the ECPbrbms brgument to the
+     * ECPbrbms structure within the privbte key.
      */
-    key->ecParams.arena = arena;
-    key->ecParams.type = ecParams->type;
-    key->ecParams.fieldID.size = ecParams->fieldID.size;
-    key->ecParams.fieldID.type = ecParams->fieldID.type;
-    if (ecParams->fieldID.type == ec_field_GFp) {
-        CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.fieldID.u.prime,
-            &ecParams->fieldID.u.prime, kmflag));
+    key->ecPbrbms.brenb = brenb;
+    key->ecPbrbms.type = ecPbrbms->type;
+    key->ecPbrbms.fieldID.size = ecPbrbms->fieldID.size;
+    key->ecPbrbms.fieldID.type = ecPbrbms->fieldID.type;
+    if (ecPbrbms->fieldID.type == ec_field_GFp) {
+        CHECK_SEC_OK(SECITEM_CopyItem(brenb, &key->ecPbrbms.fieldID.u.prime,
+            &ecPbrbms->fieldID.u.prime, kmflbg));
     } else {
-        CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.fieldID.u.poly,
-            &ecParams->fieldID.u.poly, kmflag));
+        CHECK_SEC_OK(SECITEM_CopyItem(brenb, &key->ecPbrbms.fieldID.u.poly,
+            &ecPbrbms->fieldID.u.poly, kmflbg));
     }
-    key->ecParams.fieldID.k1 = ecParams->fieldID.k1;
-    key->ecParams.fieldID.k2 = ecParams->fieldID.k2;
-    key->ecParams.fieldID.k3 = ecParams->fieldID.k3;
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.curve.a,
-        &ecParams->curve.a, kmflag));
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.curve.b,
-        &ecParams->curve.b, kmflag));
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.curve.seed,
-        &ecParams->curve.seed, kmflag));
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.base,
-        &ecParams->base, kmflag));
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.order,
-        &ecParams->order, kmflag));
-    key->ecParams.cofactor = ecParams->cofactor;
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.DEREncoding,
-        &ecParams->DEREncoding, kmflag));
-    key->ecParams.name = ecParams->name;
-    CHECK_SEC_OK(SECITEM_CopyItem(arena, &key->ecParams.curveOID,
-        &ecParams->curveOID, kmflag));
+    key->ecPbrbms.fieldID.k1 = ecPbrbms->fieldID.k1;
+    key->ecPbrbms.fieldID.k2 = ecPbrbms->fieldID.k2;
+    key->ecPbrbms.fieldID.k3 = ecPbrbms->fieldID.k3;
+    CHECK_SEC_OK(SECITEM_CopyItem(brenb, &key->ecPbrbms.curve.b,
+        &ecPbrbms->curve.b, kmflbg));
+    CHECK_SEC_OK(SECITEM_CopyItem(brenb, &key->ecPbrbms.curve.b,
+        &ecPbrbms->curve.b, kmflbg));
+    CHECK_SEC_OK(SECITEM_CopyItem(brenb, &key->ecPbrbms.curve.seed,
+        &ecPbrbms->curve.seed, kmflbg));
+    CHECK_SEC_OK(SECITEM_CopyItem(brenb, &key->ecPbrbms.bbse,
+        &ecPbrbms->bbse, kmflbg));
+    CHECK_SEC_OK(SECITEM_CopyItem(brenb, &key->ecPbrbms.order,
+        &ecPbrbms->order, kmflbg));
+    key->ecPbrbms.cofbctor = ecPbrbms->cofbctor;
+    CHECK_SEC_OK(SECITEM_CopyItem(brenb, &key->ecPbrbms.DEREncoding,
+        &ecPbrbms->DEREncoding, kmflbg));
+    key->ecPbrbms.nbme = ecPbrbms->nbme;
+    CHECK_SEC_OK(SECITEM_CopyItem(brenb, &key->ecPbrbms.curveOID,
+        &ecPbrbms->curveOID, kmflbg));
 
-    len = (ecParams->fieldID.size + 7) >> 3;
-    SECITEM_AllocItem(arena, &key->publicValue, 2*len + 1, kmflag);
-    len = ecParams->order.len;
-    SECITEM_AllocItem(arena, &key->privateValue, len, kmflag);
+    len = (ecPbrbms->fieldID.size + 7) >> 3;
+    SECITEM_AllocItem(brenb, &key->publicVblue, 2*len + 1, kmflbg);
+    len = ecPbrbms->order.len;
+    SECITEM_AllocItem(brenb, &key->privbteVblue, len, kmflbg);
 
-    /* Copy private key */
+    /* Copy privbte key */
     if (privKeyLen >= len) {
-        memcpy(key->privateValue.data, privKeyBytes, len);
+        memcpy(key->privbteVblue.dbtb, privKeyBytes, len);
     } else {
-        memset(key->privateValue.data, 0, (len - privKeyLen));
-        memcpy(key->privateValue.data + (len - privKeyLen), privKeyBytes, privKeyLen);
+        memset(key->privbteVblue.dbtb, 0, (len - privKeyLen));
+        memcpy(key->privbteVblue.dbtb + (len - privKeyLen), privKeyBytes, privKeyLen);
     }
 
     /* Compute corresponding public key */
     MP_DIGITS(&k) = 0;
-    CHECK_MPI_OK( mp_init(&k, kmflag) );
-    CHECK_MPI_OK( mp_read_unsigned_octets(&k, key->privateValue.data,
+    CHECK_MPI_OK( mp_init(&k, kmflbg) );
+    CHECK_MPI_OK( mp_rebd_unsigned_octets(&k, key->privbteVblue.dbtb,
         (mp_size) len) );
 
-    rv = ec_points_mul(ecParams, &k, NULL, NULL, &(key->publicValue), kmflag);
-    if (rv != SECSuccess) goto cleanup;
+    rv = ec_points_mul(ecPbrbms, &k, NULL, NULL, &(key->publicVblue), kmflbg);
+    if (rv != SECSuccess) goto clebnup;
     *privKey = key;
 
-cleanup:
-    mp_clear(&k);
+clebnup:
+    mp_clebr(&k);
     if (rv) {
-        PORT_FreeArena(arena, PR_TRUE);
+        PORT_FreeArenb(brenb, PR_TRUE);
     }
 
 #if EC_DEBUG
     printf("ec_NewKey returning %s\n",
-        (rv == SECSuccess) ? "success" : "failure");
+        (rv == SECSuccess) ? "success" : "fbilure");
 #endif
 
     return rv;
 
 }
 
-/* Generates a new EC key pair. The private key is a supplied
- * random value (in seed) and the public key is the result of
- * performing a scalar point multiplication of that value with
- * the curve's base point.
+/* Generbtes b new EC key pbir. The privbte key is b supplied
+ * rbndom vblue (in seed) bnd the public key is the result of
+ * performing b scblbr point multiplicbtion of thbt vblue with
+ * the curve's bbse point.
  */
-SECStatus
-EC_NewKeyFromSeed(ECParams *ecParams, ECPrivateKey **privKey,
-    const unsigned char *seed, int seedlen, int kmflag)
+SECStbtus
+EC_NewKeyFromSeed(ECPbrbms *ecPbrbms, ECPrivbteKey **privKey,
+    const unsigned chbr *seed, int seedlen, int kmflbg)
 {
-    SECStatus rv = SECFailure;
-    rv = ec_NewKey(ecParams, privKey, seed, seedlen, kmflag);
+    SECStbtus rv = SECFbilure;
+    rv = ec_NewKey(ecPbrbms, privKey, seed, seedlen, kmflbg);
     return rv;
 }
 
-/* Generate a random private key using the algorithm A.4.1 of ANSI X9.62,
- * modified a la FIPS 186-2 Change Notice 1 to eliminate the bias in the
- * random number generator.
+/* Generbte b rbndom privbte key using the blgorithm A.4.1 of ANSI X9.62,
+ * modified b lb FIPS 186-2 Chbnge Notice 1 to eliminbte the bibs in the
+ * rbndom number generbtor.
  *
- * Parameters
- * - order: a buffer that holds the curve's group order
+ * Pbrbmeters
+ * - order: b buffer thbt holds the curve's group order
  * - len: the length in octets of the order buffer
- * - random: a buffer of 2 * len random bytes
- * - randomlen: the length in octets of the random buffer
+ * - rbndom: b buffer of 2 * len rbndom bytes
+ * - rbndomlen: the length in octets of the rbndom buffer
  *
- * Return Value
- * Returns a buffer of len octets that holds the private key. The caller
+ * Return Vblue
+ * Returns b buffer of len octets thbt holds the privbte key. The cbller
  * is responsible for freeing the buffer with PORT_ZFree.
  */
-static unsigned char *
-ec_GenerateRandomPrivateKey(const unsigned char *order, int len,
-    const unsigned char *random, int randomlen, int kmflag)
+stbtic unsigned chbr *
+ec_GenerbteRbndomPrivbteKey(const unsigned chbr *order, int len,
+    const unsigned chbr *rbndom, int rbndomlen, int kmflbg)
 {
-    SECStatus rv = SECSuccess;
+    SECStbtus rv = SECSuccess;
     mp_err err;
-    unsigned char *privKeyBytes = NULL;
-    mp_int privKeyVal, order_1, one;
+    unsigned chbr *privKeyBytes = NULL;
+    mp_int privKeyVbl, order_1, one;
 
-    MP_DIGITS(&privKeyVal) = 0;
+    MP_DIGITS(&privKeyVbl) = 0;
     MP_DIGITS(&order_1) = 0;
     MP_DIGITS(&one) = 0;
-    CHECK_MPI_OK( mp_init(&privKeyVal, kmflag) );
-    CHECK_MPI_OK( mp_init(&order_1, kmflag) );
-    CHECK_MPI_OK( mp_init(&one, kmflag) );
+    CHECK_MPI_OK( mp_init(&privKeyVbl, kmflbg) );
+    CHECK_MPI_OK( mp_init(&order_1, kmflbg) );
+    CHECK_MPI_OK( mp_init(&one, kmflbg) );
 
     /*
-     * Reduces the 2*len buffer of random bytes modulo the group order.
+     * Reduces the 2*len buffer of rbndom bytes modulo the group order.
      */
-    if ((privKeyBytes = PORT_Alloc(2*len, kmflag)) == NULL) goto cleanup;
-    if (randomlen != 2 * len) {
-        randomlen = 2 * len;
+    if ((privKeyBytes = PORT_Alloc(2*len, kmflbg)) == NULL) goto clebnup;
+    if (rbndomlen != 2 * len) {
+        rbndomlen = 2 * len;
     }
-    /* No need to generate - random bytes are now supplied */
-    /* CHECK_SEC_OK( RNG_GenerateGlobalRandomBytes(privKeyBytes, 2*len) );*/
-    memcpy(privKeyBytes, random, randomlen);
+    /* No need to generbte - rbndom bytes bre now supplied */
+    /* CHECK_SEC_OK( RNG_GenerbteGlobblRbndomBytes(privKeyBytes, 2*len) );*/
+    memcpy(privKeyBytes, rbndom, rbndomlen);
 
-    CHECK_MPI_OK( mp_read_unsigned_octets(&privKeyVal, privKeyBytes, 2*len) );
-    CHECK_MPI_OK( mp_read_unsigned_octets(&order_1, order, len) );
+    CHECK_MPI_OK( mp_rebd_unsigned_octets(&privKeyVbl, privKeyBytes, 2*len) );
+    CHECK_MPI_OK( mp_rebd_unsigned_octets(&order_1, order, len) );
     CHECK_MPI_OK( mp_set_int(&one, 1) );
     CHECK_MPI_OK( mp_sub(&order_1, &one, &order_1) );
-    CHECK_MPI_OK( mp_mod(&privKeyVal, &order_1, &privKeyVal) );
-    CHECK_MPI_OK( mp_add(&privKeyVal, &one, &privKeyVal) );
-    CHECK_MPI_OK( mp_to_fixlen_octets(&privKeyVal, privKeyBytes, len) );
+    CHECK_MPI_OK( mp_mod(&privKeyVbl, &order_1, &privKeyVbl) );
+    CHECK_MPI_OK( mp_bdd(&privKeyVbl, &one, &privKeyVbl) );
+    CHECK_MPI_OK( mp_to_fixlen_octets(&privKeyVbl, privKeyBytes, len) );
     memset(privKeyBytes+len, 0, len);
-cleanup:
-    mp_clear(&privKeyVal);
-    mp_clear(&order_1);
-    mp_clear(&one);
+clebnup:
+    mp_clebr(&privKeyVbl);
+    mp_clebr(&order_1);
+    mp_clebr(&one);
     if (err < MP_OKAY) {
         MP_TO_SEC_ERROR(err);
-        rv = SECFailure;
+        rv = SECFbilure;
     }
     if (rv != SECSuccess && privKeyBytes) {
 #ifdef _KERNEL
@@ -432,232 +432,232 @@ cleanup:
     return privKeyBytes;
 }
 
-/* Generates a new EC key pair. The private key is a random value and
- * the public key is the result of performing a scalar point multiplication
- * of that value with the curve's base point.
+/* Generbtes b new EC key pbir. The privbte key is b rbndom vblue bnd
+ * the public key is the result of performing b scblbr point multiplicbtion
+ * of thbt vblue with the curve's bbse point.
  */
-SECStatus
-EC_NewKey(ECParams *ecParams, ECPrivateKey **privKey,
-    const unsigned char* random, int randomlen, int kmflag)
+SECStbtus
+EC_NewKey(ECPbrbms *ecPbrbms, ECPrivbteKey **privKey,
+    const unsigned chbr* rbndom, int rbndomlen, int kmflbg)
 {
-    SECStatus rv = SECFailure;
+    SECStbtus rv = SECFbilure;
     int len;
-    unsigned char *privKeyBytes = NULL;
+    unsigned chbr *privKeyBytes = NULL;
 
-    if (!ecParams) {
+    if (!ecPbrbms) {
         PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        return SECFailure;
+        return SECFbilure;
     }
 
-    len = ecParams->order.len;
-    privKeyBytes = ec_GenerateRandomPrivateKey(ecParams->order.data, len,
-        random, randomlen, kmflag);
-    if (privKeyBytes == NULL) goto cleanup;
-    /* generate public key */
-    CHECK_SEC_OK( ec_NewKey(ecParams, privKey, privKeyBytes, len, kmflag) );
+    len = ecPbrbms->order.len;
+    privKeyBytes = ec_GenerbteRbndomPrivbteKey(ecPbrbms->order.dbtb, len,
+        rbndom, rbndomlen, kmflbg);
+    if (privKeyBytes == NULL) goto clebnup;
+    /* generbte public key */
+    CHECK_SEC_OK( ec_NewKey(ecPbrbms, privKey, privKeyBytes, len, kmflbg) );
 
-cleanup:
+clebnup:
     if (privKeyBytes) {
         PORT_ZFree(privKeyBytes, len * 2);
     }
 #if EC_DEBUG
     printf("EC_NewKey returning %s\n",
-        (rv == SECSuccess) ? "success" : "failure");
+        (rv == SECSuccess) ? "success" : "fbilure");
 #endif
 
     return rv;
 }
 
-/* Validates an EC public key as described in Section 5.2.2 of
- * X9.62. The ECDH primitive when used without the cofactor does
- * not address small subgroup attacks, which may occur when the
- * public key is not valid. These attacks can be prevented by
- * validating the public key before using ECDH.
+/* Vblidbtes bn EC public key bs described in Section 5.2.2 of
+ * X9.62. The ECDH primitive when used without the cofbctor does
+ * not bddress smbll subgroup bttbcks, which mby occur when the
+ * public key is not vblid. These bttbcks cbn be prevented by
+ * vblidbting the public key before using ECDH.
  */
-SECStatus
-EC_ValidatePublicKey(ECParams *ecParams, SECItem *publicValue, int kmflag)
+SECStbtus
+EC_VblidbtePublicKey(ECPbrbms *ecPbrbms, SECItem *publicVblue, int kmflbg)
 {
     mp_int Px, Py;
     ECGroup *group = NULL;
-    SECStatus rv = SECFailure;
+    SECStbtus rv = SECFbilure;
     mp_err err = MP_OKAY;
     unsigned int len;
 
-    if (!ecParams || !publicValue) {
+    if (!ecPbrbms || !publicVblue) {
         PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        return SECFailure;
+        return SECFbilure;
     }
 
     /* NOTE: We only support uncompressed points for now */
-    len = (ecParams->fieldID.size + 7) >> 3;
-    if (publicValue->data[0] != EC_POINT_FORM_UNCOMPRESSED) {
+    len = (ecPbrbms->fieldID.size + 7) >> 3;
+    if (publicVblue->dbtb[0] != EC_POINT_FORM_UNCOMPRESSED) {
         PORT_SetError(SEC_ERROR_UNSUPPORTED_EC_POINT_FORM);
-        return SECFailure;
-    } else if (publicValue->len != (2 * len + 1)) {
+        return SECFbilure;
+    } else if (publicVblue->len != (2 * len + 1)) {
         PORT_SetError(SEC_ERROR_BAD_KEY);
-        return SECFailure;
+        return SECFbilure;
     }
 
     MP_DIGITS(&Px) = 0;
     MP_DIGITS(&Py) = 0;
-    CHECK_MPI_OK( mp_init(&Px, kmflag) );
-    CHECK_MPI_OK( mp_init(&Py, kmflag) );
+    CHECK_MPI_OK( mp_init(&Px, kmflbg) );
+    CHECK_MPI_OK( mp_init(&Py, kmflbg) );
 
-    /* Initialize Px and Py */
-    CHECK_MPI_OK( mp_read_unsigned_octets(&Px, publicValue->data + 1, (mp_size) len) );
-    CHECK_MPI_OK( mp_read_unsigned_octets(&Py, publicValue->data + 1 + len, (mp_size) len) );
+    /* Initiblize Px bnd Py */
+    CHECK_MPI_OK( mp_rebd_unsigned_octets(&Px, publicVblue->dbtb + 1, (mp_size) len) );
+    CHECK_MPI_OK( mp_rebd_unsigned_octets(&Py, publicVblue->dbtb + 1 + len, (mp_size) len) );
 
-    /* construct from named params */
-    group = ECGroup_fromName(ecParams->name, kmflag);
+    /* construct from nbmed pbrbms */
+    group = ECGroup_fromNbme(ecPbrbms->nbme, kmflbg);
     if (group == NULL) {
         /*
-         * ECGroup_fromName fails if ecParams->name is not a valid
-         * ECCurveName value, or if we run out of memory, or perhaps
-         * for other reasons.  Unfortunately if ecParams->name is a
-         * valid ECCurveName value, we don't know what the right error
-         * code should be because ECGroup_fromName doesn't return an
-         * error code to the caller.  Set err to MP_UNDEF because
-         * that's what ECGroup_fromName uses internally.
+         * ECGroup_fromNbme fbils if ecPbrbms->nbme is not b vblid
+         * ECCurveNbme vblue, or if we run out of memory, or perhbps
+         * for other rebsons.  Unfortunbtely if ecPbrbms->nbme is b
+         * vblid ECCurveNbme vblue, we don't know whbt the right error
+         * code should be becbuse ECGroup_fromNbme doesn't return bn
+         * error code to the cbller.  Set err to MP_UNDEF becbuse
+         * thbt's whbt ECGroup_fromNbme uses internblly.
          */
-        if ((ecParams->name <= ECCurve_noName) ||
-            (ecParams->name >= ECCurve_pastLastCurve)) {
+        if ((ecPbrbms->nbme <= ECCurve_noNbme) ||
+            (ecPbrbms->nbme >= ECCurve_pbstLbstCurve)) {
             err = MP_BADARG;
         } else {
             err = MP_UNDEF;
         }
-        goto cleanup;
+        goto clebnup;
     }
 
-    /* validate public point */
-    if ((err = ECPoint_validate(group, &Px, &Py)) < MP_YES) {
+    /* vblidbte public point */
+    if ((err = ECPoint_vblidbte(group, &Px, &Py)) < MP_YES) {
         if (err == MP_NO) {
             PORT_SetError(SEC_ERROR_BAD_KEY);
-            rv = SECFailure;
-            err = MP_OKAY;  /* don't change the error code */
+            rv = SECFbilure;
+            err = MP_OKAY;  /* don't chbnge the error code */
         }
-        goto cleanup;
+        goto clebnup;
     }
 
     rv = SECSuccess;
 
-cleanup:
+clebnup:
     ECGroup_free(group);
-    mp_clear(&Px);
-    mp_clear(&Py);
+    mp_clebr(&Px);
+    mp_clebr(&Py);
     if (err) {
         MP_TO_SEC_ERROR(err);
-        rv = SECFailure;
+        rv = SECFbilure;
     }
     return rv;
 }
 
 /*
-** Performs an ECDH key derivation by computing the scalar point
-** multiplication of privateValue and publicValue (with or without the
-** cofactor) and returns the x-coordinate of the resulting elliptic
-** curve point in derived secret.  If successful, derivedSecret->data
-** is set to the address of the newly allocated buffer containing the
-** derived secret, and derivedSecret->len is the size of the secret
-** produced. It is the caller's responsibility to free the allocated
-** buffer containing the derived secret.
+** Performs bn ECDH key derivbtion by computing the scblbr point
+** multiplicbtion of privbteVblue bnd publicVblue (with or without the
+** cofbctor) bnd returns the x-coordinbte of the resulting elliptic
+** curve point in derived secret.  If successful, derivedSecret->dbtb
+** is set to the bddress of the newly bllocbted buffer contbining the
+** derived secret, bnd derivedSecret->len is the size of the secret
+** produced. It is the cbller's responsibility to free the bllocbted
+** buffer contbining the derived secret.
 */
-SECStatus
-ECDH_Derive(SECItem  *publicValue,
-            ECParams *ecParams,
-            SECItem  *privateValue,
-            PRBool    withCofactor,
+SECStbtus
+ECDH_Derive(SECItem  *publicVblue,
+            ECPbrbms *ecPbrbms,
+            SECItem  *privbteVblue,
+            PRBool    withCofbctor,
             SECItem  *derivedSecret,
-            int kmflag)
+            int kmflbg)
 {
-    SECStatus rv = SECFailure;
+    SECStbtus rv = SECFbilure;
     unsigned int len = 0;
     SECItem pointQ = {siBuffer, NULL, 0};
-    mp_int k; /* to hold the private value */
-    mp_int cofactor;
+    mp_int k; /* to hold the privbte vblue */
+    mp_int cofbctor;
     mp_err err = MP_OKAY;
 #if EC_DEBUG
     int i;
 #endif
 
-    if (!publicValue || !ecParams || !privateValue ||
+    if (!publicVblue || !ecPbrbms || !privbteVblue ||
         !derivedSecret) {
         PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        return SECFailure;
+        return SECFbilure;
     }
 
     memset(derivedSecret, 0, sizeof *derivedSecret);
-    len = (ecParams->fieldID.size + 7) >> 3;
+    len = (ecPbrbms->fieldID.size + 7) >> 3;
     pointQ.len = 2*len + 1;
-    if ((pointQ.data = PORT_Alloc(2*len + 1, kmflag)) == NULL) goto cleanup;
+    if ((pointQ.dbtb = PORT_Alloc(2*len + 1, kmflbg)) == NULL) goto clebnup;
 
     MP_DIGITS(&k) = 0;
-    CHECK_MPI_OK( mp_init(&k, kmflag) );
-    CHECK_MPI_OK( mp_read_unsigned_octets(&k, privateValue->data,
-                                          (mp_size) privateValue->len) );
+    CHECK_MPI_OK( mp_init(&k, kmflbg) );
+    CHECK_MPI_OK( mp_rebd_unsigned_octets(&k, privbteVblue->dbtb,
+                                          (mp_size) privbteVblue->len) );
 
-    if (withCofactor && (ecParams->cofactor != 1)) {
-            /* multiply k with the cofactor */
-            MP_DIGITS(&cofactor) = 0;
-            CHECK_MPI_OK( mp_init(&cofactor, kmflag) );
-            mp_set(&cofactor, ecParams->cofactor);
-            CHECK_MPI_OK( mp_mul(&k, &cofactor, &k) );
+    if (withCofbctor && (ecPbrbms->cofbctor != 1)) {
+            /* multiply k with the cofbctor */
+            MP_DIGITS(&cofbctor) = 0;
+            CHECK_MPI_OK( mp_init(&cofbctor, kmflbg) );
+            mp_set(&cofbctor, ecPbrbms->cofbctor);
+            CHECK_MPI_OK( mp_mul(&k, &cofbctor, &k) );
     }
 
-    /* Multiply our private key and peer's public point */
-    if ((ec_points_mul(ecParams, NULL, &k, publicValue, &pointQ, kmflag) != SECSuccess) ||
-        ec_point_at_infinity(&pointQ))
-        goto cleanup;
+    /* Multiply our privbte key bnd peer's public point */
+    if ((ec_points_mul(ecPbrbms, NULL, &k, publicVblue, &pointQ, kmflbg) != SECSuccess) ||
+        ec_point_bt_infinity(&pointQ))
+        goto clebnup;
 
-    /* Allocate memory for the derived secret and copy
-     * the x co-ordinate of pointQ into it.
+    /* Allocbte memory for the derived secret bnd copy
+     * the x co-ordinbte of pointQ into it.
      */
-    SECITEM_AllocItem(NULL, derivedSecret, len, kmflag);
-    memcpy(derivedSecret->data, pointQ.data + 1, len);
+    SECITEM_AllocItem(NULL, derivedSecret, len, kmflbg);
+    memcpy(derivedSecret->dbtb, pointQ.dbtb + 1, len);
 
     rv = SECSuccess;
 
 #if EC_DEBUG
     printf("derived_secret:\n");
     for (i = 0; i < derivedSecret->len; i++)
-        printf("%02x:", derivedSecret->data[i]);
+        printf("%02x:", derivedSecret->dbtb[i]);
     printf("\n");
 #endif
 
-cleanup:
-    mp_clear(&k);
+clebnup:
+    mp_clebr(&k);
 
-    if (pointQ.data) {
-        PORT_ZFree(pointQ.data, 2*len + 1);
+    if (pointQ.dbtb) {
+        PORT_ZFree(pointQ.dbtb, 2*len + 1);
     }
 
     return rv;
 }
 
-/* Computes the ECDSA signature (a concatenation of two values r and s)
- * on the digest using the given key and the random value kb (used in
+/* Computes the ECDSA signbture (b concbtenbtion of two vblues r bnd s)
+ * on the digest using the given key bnd the rbndom vblue kb (used in
  * computing s).
  */
-SECStatus
-ECDSA_SignDigestWithSeed(ECPrivateKey *key, SECItem *signature,
-    const SECItem *digest, const unsigned char *kb, const int kblen, int kmflag)
+SECStbtus
+ECDSA_SignDigestWithSeed(ECPrivbteKey *key, SECItem *signbture,
+    const SECItem *digest, const unsigned chbr *kb, const int kblen, int kmflbg)
 {
-    SECStatus rv = SECFailure;
+    SECStbtus rv = SECFbilure;
     mp_int x1;
-    mp_int d, k;     /* private key, random integer */
-    mp_int r, s;     /* tuple (r, s) is the signature */
+    mp_int d, k;     /* privbte key, rbndom integer */
+    mp_int r, s;     /* tuple (r, s) is the signbture */
     mp_int n;
     mp_err err = MP_OKAY;
-    ECParams *ecParams = NULL;
+    ECPbrbms *ecPbrbms = NULL;
     SECItem kGpoint = { siBuffer, NULL, 0};
     int flen = 0;    /* length in bytes of the field size */
-    unsigned olen;   /* length in bytes of the base point order */
+    unsigned olen;   /* length in bytes of the bbse point order */
 
 #if EC_DEBUG
-    char mpstr[256];
+    chbr mpstr[256];
 #endif
 
-    /* Initialize MPI integers. */
-    /* must happen before the first potential call to cleanup */
+    /* Initiblize MPI integers. */
+    /* must hbppen before the first potentibl cbll to clebnup */
     MP_DIGITS(&x1) = 0;
     MP_DIGITS(&d) = 0;
     MP_DIGITS(&k) = 0;
@@ -665,37 +665,37 @@ ECDSA_SignDigestWithSeed(ECPrivateKey *key, SECItem *signature,
     MP_DIGITS(&s) = 0;
     MP_DIGITS(&n) = 0;
 
-    /* Check args */
-    if (!key || !signature || !digest || !kb || (kblen < 0)) {
+    /* Check brgs */
+    if (!key || !signbture || !digest || !kb || (kblen < 0)) {
         PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        goto cleanup;
+        goto clebnup;
     }
 
-    ecParams = &(key->ecParams);
-    flen = (ecParams->fieldID.size + 7) >> 3;
-    olen = ecParams->order.len;
-    if (signature->data == NULL) {
-        /* a call to get the signature length only */
+    ecPbrbms = &(key->ecPbrbms);
+    flen = (ecPbrbms->fieldID.size + 7) >> 3;
+    olen = ecPbrbms->order.len;
+    if (signbture->dbtb == NULL) {
+        /* b cbll to get the signbture length only */
         goto finish;
     }
-    if (signature->len < 2*olen) {
+    if (signbture->len < 2*olen) {
         PORT_SetError(SEC_ERROR_OUTPUT_LEN);
-        rv = SECBufferTooSmall;
-        goto cleanup;
+        rv = SECBufferTooSmbll;
+        goto clebnup;
     }
 
 
-    CHECK_MPI_OK( mp_init(&x1, kmflag) );
-    CHECK_MPI_OK( mp_init(&d, kmflag) );
-    CHECK_MPI_OK( mp_init(&k, kmflag) );
-    CHECK_MPI_OK( mp_init(&r, kmflag) );
-    CHECK_MPI_OK( mp_init(&s, kmflag) );
-    CHECK_MPI_OK( mp_init(&n, kmflag) );
+    CHECK_MPI_OK( mp_init(&x1, kmflbg) );
+    CHECK_MPI_OK( mp_init(&d, kmflbg) );
+    CHECK_MPI_OK( mp_init(&k, kmflbg) );
+    CHECK_MPI_OK( mp_init(&r, kmflbg) );
+    CHECK_MPI_OK( mp_init(&s, kmflbg) );
+    CHECK_MPI_OK( mp_init(&n, kmflbg) );
 
-    SECITEM_TO_MPINT( ecParams->order, &n );
-    SECITEM_TO_MPINT( key->privateValue, &d );
-    CHECK_MPI_OK( mp_read_unsigned_octets(&k, kb, kblen) );
-    /* Make sure k is in the interval [1, n-1] */
+    SECITEM_TO_MPINT( ecPbrbms->order, &n );
+    SECITEM_TO_MPINT( key->privbteVblue, &d );
+    CHECK_MPI_OK( mp_rebd_unsigned_octets(&k, kb, kblen) );
+    /* Mbke sure k is in the intervbl [1, n-1] */
     if ((mp_cmp_z(&k) <= 0) || (mp_cmp(&k, &n) >= 0)) {
 #if EC_DEBUG
         printf("k is outside [1, n-1]\n");
@@ -705,7 +705,7 @@ ECDSA_SignDigestWithSeed(ECPrivateKey *key, SECItem *signature,
         printf("n : %s \n", mpstr);
 #endif
         PORT_SetError(SEC_ERROR_NEED_RANDOM);
-        goto cleanup;
+        goto clebnup;
     }
 
     /*
@@ -714,18 +714,18 @@ ECDSA_SignDigestWithSeed(ECPrivateKey *key, SECItem *signature,
     ** Compute kG
     */
     kGpoint.len = 2*flen + 1;
-    kGpoint.data = PORT_Alloc(2*flen + 1, kmflag);
-    if ((kGpoint.data == NULL) ||
-        (ec_points_mul(ecParams, &k, NULL, NULL, &kGpoint, kmflag)
+    kGpoint.dbtb = PORT_Alloc(2*flen + 1, kmflbg);
+    if ((kGpoint.dbtb == NULL) ||
+        (ec_points_mul(ecPbrbms, &k, NULL, NULL, &kGpoint, kmflbg)
             != SECSuccess))
-        goto cleanup;
+        goto clebnup;
 
     /*
     ** ANSI X9.62, Section 5.3.3, Step 1
     **
-    ** Extract the x co-ordinate of kG into x1
+    ** Extrbct the x co-ordinbte of kG into x1
     */
-    CHECK_MPI_OK( mp_read_unsigned_octets(&x1, kGpoint.data + 1,
+    CHECK_MPI_OK( mp_rebd_unsigned_octets(&x1, kGpoint.dbtb + 1,
                                           (mp_size) flen) );
 
     /*
@@ -742,7 +742,7 @@ ECDSA_SignDigestWithSeed(ECPrivateKey *key, SECItem *signature,
     */
     if (mp_cmp_z(&r) == 0) {
         PORT_SetError(SEC_ERROR_NEED_RANDOM);
-        goto cleanup;
+        goto clebnup;
     }
 
     /*
@@ -752,23 +752,23 @@ ECDSA_SignDigestWithSeed(ECPrivateKey *key, SECItem *signature,
     */
     SECITEM_TO_MPINT(*digest, &s);        /* s = HASH(M)     */
 
-    /* In the definition of EC signing, digests are truncated
+    /* In the definition of EC signing, digests bre truncbted
      * to the length of n in bits.
-     * (see SEC 1 "Elliptic Curve Digit Signature Algorithm" section 4.1.*/
-    if (digest->len*8 > (unsigned int)ecParams->fieldID.size) {
-        mpl_rsh(&s,&s,digest->len*8 - ecParams->fieldID.size);
+     * (see SEC 1 "Elliptic Curve Digit Signbture Algorithm" section 4.1.*/
+    if (digest->len*8 > (unsigned int)ecPbrbms->fieldID.size) {
+        mpl_rsh(&s,&s,digest->len*8 - ecPbrbms->fieldID.size);
     }
 
 #if EC_DEBUG
-    mp_todecimal(&n, mpstr);
+    mp_todecimbl(&n, mpstr);
     printf("n : %s (dec)\n", mpstr);
-    mp_todecimal(&d, mpstr);
+    mp_todecimbl(&d, mpstr);
     printf("d : %s (dec)\n", mpstr);
     mp_tohex(&x1, mpstr);
     printf("x1: %s\n", mpstr);
-    mp_todecimal(&s, mpstr);
-    printf("digest: %s (decimal)\n", mpstr);
-    mp_todecimal(&r, mpstr);
+    mp_todecimbl(&s, mpstr);
+    printf("digest: %s (decimbl)\n", mpstr);
+    mp_todecimbl(&r, mpstr);
     printf("r : %s (dec)\n", mpstr);
     mp_tohex(&r, mpstr);
     printf("r : %s\n", mpstr);
@@ -776,11 +776,11 @@ ECDSA_SignDigestWithSeed(ECPrivateKey *key, SECItem *signature,
 
     CHECK_MPI_OK( mp_invmod(&k, &n, &k) );      /* k = k**-1 mod n */
     CHECK_MPI_OK( mp_mulmod(&d, &r, &n, &d) );  /* d = d * r mod n */
-    CHECK_MPI_OK( mp_addmod(&s, &d, &n, &s) );  /* s = s + d mod n */
+    CHECK_MPI_OK( mp_bddmod(&s, &d, &n, &s) );  /* s = s + d mod n */
     CHECK_MPI_OK( mp_mulmod(&s, &k, &n, &s) );  /* s = s * k mod n */
 
 #if EC_DEBUG
-    mp_todecimal(&s, mpstr);
+    mp_todecimbl(&s, mpstr);
     printf("s : %s (dec)\n", mpstr);
     mp_tohex(&s, mpstr);
     printf("s : %s\n", mpstr);
@@ -793,110 +793,110 @@ ECDSA_SignDigestWithSeed(ECPrivateKey *key, SECItem *signature,
     */
     if (mp_cmp_z(&s) == 0) {
         PORT_SetError(SEC_ERROR_NEED_RANDOM);
-        goto cleanup;
+        goto clebnup;
     }
 
    /*
     **
-    ** Signature is tuple (r, s)
+    ** Signbture is tuple (r, s)
     */
-    CHECK_MPI_OK( mp_to_fixlen_octets(&r, signature->data, olen) );
-    CHECK_MPI_OK( mp_to_fixlen_octets(&s, signature->data + olen, olen) );
+    CHECK_MPI_OK( mp_to_fixlen_octets(&r, signbture->dbtb, olen) );
+    CHECK_MPI_OK( mp_to_fixlen_octets(&s, signbture->dbtb + olen, olen) );
 finish:
-    signature->len = 2*olen;
+    signbture->len = 2*olen;
 
     rv = SECSuccess;
     err = MP_OKAY;
-cleanup:
-    mp_clear(&x1);
-    mp_clear(&d);
-    mp_clear(&k);
-    mp_clear(&r);
-    mp_clear(&s);
-    mp_clear(&n);
+clebnup:
+    mp_clebr(&x1);
+    mp_clebr(&d);
+    mp_clebr(&k);
+    mp_clebr(&r);
+    mp_clebr(&s);
+    mp_clebr(&n);
 
-    if (kGpoint.data) {
-        PORT_ZFree(kGpoint.data, 2*flen + 1);
+    if (kGpoint.dbtb) {
+        PORT_ZFree(kGpoint.dbtb, 2*flen + 1);
     }
 
     if (err) {
         MP_TO_SEC_ERROR(err);
-        rv = SECFailure;
+        rv = SECFbilure;
     }
 
 #if EC_DEBUG
     printf("ECDSA signing with seed %s\n",
-        (rv == SECSuccess) ? "succeeded" : "failed");
+        (rv == SECSuccess) ? "succeeded" : "fbiled");
 #endif
 
    return rv;
 }
 
 /*
-** Computes the ECDSA signature on the digest using the given key
-** and a random seed.
+** Computes the ECDSA signbture on the digest using the given key
+** bnd b rbndom seed.
 */
-SECStatus
-ECDSA_SignDigest(ECPrivateKey *key, SECItem *signature, const SECItem *digest,
-    const unsigned char* random, int randomLen, int kmflag)
+SECStbtus
+ECDSA_SignDigest(ECPrivbteKey *key, SECItem *signbture, const SECItem *digest,
+    const unsigned chbr* rbndom, int rbndomLen, int kmflbg)
 {
-    SECStatus rv = SECFailure;
+    SECStbtus rv = SECFbilure;
     int len;
-    unsigned char *kBytes= NULL;
+    unsigned chbr *kBytes= NULL;
 
     if (!key) {
         PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        return SECFailure;
+        return SECFbilure;
     }
 
-    /* Generate random value k */
-    len = key->ecParams.order.len;
-    kBytes = ec_GenerateRandomPrivateKey(key->ecParams.order.data, len,
-        random, randomLen, kmflag);
-    if (kBytes == NULL) goto cleanup;
+    /* Generbte rbndom vblue k */
+    len = key->ecPbrbms.order.len;
+    kBytes = ec_GenerbteRbndomPrivbteKey(key->ecPbrbms.order.dbtb, len,
+        rbndom, rbndomLen, kmflbg);
+    if (kBytes == NULL) goto clebnup;
 
-    /* Generate ECDSA signature with the specified k value */
-    rv = ECDSA_SignDigestWithSeed(key, signature, digest, kBytes, len, kmflag);
+    /* Generbte ECDSA signbture with the specified k vblue */
+    rv = ECDSA_SignDigestWithSeed(key, signbture, digest, kBytes, len, kmflbg);
 
-cleanup:
+clebnup:
     if (kBytes) {
         PORT_ZFree(kBytes, len * 2);
     }
 
 #if EC_DEBUG
     printf("ECDSA signing %s\n",
-        (rv == SECSuccess) ? "succeeded" : "failed");
+        (rv == SECSuccess) ? "succeeded" : "fbiled");
 #endif
 
     return rv;
 }
 
 /*
-** Checks the signature on the given digest using the key provided.
+** Checks the signbture on the given digest using the key provided.
 */
-SECStatus
-ECDSA_VerifyDigest(ECPublicKey *key, const SECItem *signature,
-                 const SECItem *digest, int kmflag)
+SECStbtus
+ECDSA_VerifyDigest(ECPublicKey *key, const SECItem *signbture,
+                 const SECItem *digest, int kmflbg)
 {
-    SECStatus rv = SECFailure;
-    mp_int r_, s_;           /* tuple (r', s') is received signature) */
-    mp_int c, u1, u2, v;     /* intermediate values used in verification */
+    SECStbtus rv = SECFbilure;
+    mp_int r_, s_;           /* tuple (r', s') is received signbture) */
+    mp_int c, u1, u2, v;     /* intermedibte vblues used in verificbtion */
     mp_int x1;
     mp_int n;
     mp_err err = MP_OKAY;
-    ECParams *ecParams = NULL;
+    ECPbrbms *ecPbrbms = NULL;
     SECItem pointC = { siBuffer, NULL, 0 };
-    int slen;       /* length in bytes of a half signature (r or s) */
+    int slen;       /* length in bytes of b hblf signbture (r or s) */
     int flen;       /* length in bytes of the field size */
-    unsigned olen;  /* length in bytes of the base point order */
+    unsigned olen;  /* length in bytes of the bbse point order */
 
 #if EC_DEBUG
-    char mpstr[256];
-    printf("ECDSA verification called\n");
+    chbr mpstr[256];
+    printf("ECDSA verificbtion cblled\n");
 #endif
 
-    /* Initialize MPI integers. */
-    /* must happen before the first potential call to cleanup */
+    /* Initiblize MPI integers. */
+    /* must hbppen before the first potentibl cbll to clebnup */
     MP_DIGITS(&r_) = 0;
     MP_DIGITS(&s_) = 0;
     MP_DIGITS(&c) = 0;
@@ -906,51 +906,51 @@ ECDSA_VerifyDigest(ECPublicKey *key, const SECItem *signature,
     MP_DIGITS(&v)  = 0;
     MP_DIGITS(&n)  = 0;
 
-    /* Check args */
-    if (!key || !signature || !digest) {
+    /* Check brgs */
+    if (!key || !signbture || !digest) {
         PORT_SetError(SEC_ERROR_INVALID_ARGS);
-        goto cleanup;
+        goto clebnup;
     }
 
-    ecParams = &(key->ecParams);
-    flen = (ecParams->fieldID.size + 7) >> 3;
-    olen = ecParams->order.len;
-    if (signature->len == 0 || signature->len%2 != 0 ||
-        signature->len > 2*olen) {
+    ecPbrbms = &(key->ecPbrbms);
+    flen = (ecPbrbms->fieldID.size + 7) >> 3;
+    olen = ecPbrbms->order.len;
+    if (signbture->len == 0 || signbture->len%2 != 0 ||
+        signbture->len > 2*olen) {
         PORT_SetError(SEC_ERROR_INPUT_LEN);
-        goto cleanup;
+        goto clebnup;
     }
-    slen = signature->len/2;
+    slen = signbture->len/2;
 
-    SECITEM_AllocItem(NULL, &pointC, 2*flen + 1, kmflag);
-    if (pointC.data == NULL)
-        goto cleanup;
+    SECITEM_AllocItem(NULL, &pointC, 2*flen + 1, kmflbg);
+    if (pointC.dbtb == NULL)
+        goto clebnup;
 
-    CHECK_MPI_OK( mp_init(&r_, kmflag) );
-    CHECK_MPI_OK( mp_init(&s_, kmflag) );
-    CHECK_MPI_OK( mp_init(&c, kmflag)  );
-    CHECK_MPI_OK( mp_init(&u1, kmflag) );
-    CHECK_MPI_OK( mp_init(&u2, kmflag) );
-    CHECK_MPI_OK( mp_init(&x1, kmflag)  );
-    CHECK_MPI_OK( mp_init(&v, kmflag)  );
-    CHECK_MPI_OK( mp_init(&n, kmflag)  );
+    CHECK_MPI_OK( mp_init(&r_, kmflbg) );
+    CHECK_MPI_OK( mp_init(&s_, kmflbg) );
+    CHECK_MPI_OK( mp_init(&c, kmflbg)  );
+    CHECK_MPI_OK( mp_init(&u1, kmflbg) );
+    CHECK_MPI_OK( mp_init(&u2, kmflbg) );
+    CHECK_MPI_OK( mp_init(&x1, kmflbg)  );
+    CHECK_MPI_OK( mp_init(&v, kmflbg)  );
+    CHECK_MPI_OK( mp_init(&n, kmflbg)  );
 
     /*
-    ** Convert received signature (r', s') into MPI integers.
+    ** Convert received signbture (r', s') into MPI integers.
     */
-    CHECK_MPI_OK( mp_read_unsigned_octets(&r_, signature->data, slen) );
-    CHECK_MPI_OK( mp_read_unsigned_octets(&s_, signature->data + slen, slen) );
+    CHECK_MPI_OK( mp_rebd_unsigned_octets(&r_, signbture->dbtb, slen) );
+    CHECK_MPI_OK( mp_rebd_unsigned_octets(&s_, signbture->dbtb + slen, slen) );
 
     /*
-    ** ANSI X9.62, Section 5.4.2, Steps 1 and 2
+    ** ANSI X9.62, Section 5.4.2, Steps 1 bnd 2
     **
-    ** Verify that 0 < r' < n and 0 < s' < n
+    ** Verify thbt 0 < r' < n bnd 0 < s' < n
     */
-    SECITEM_TO_MPINT(ecParams->order, &n);
+    SECITEM_TO_MPINT(ecPbrbms->order, &n);
     if (mp_cmp_z(&r_) <= 0 || mp_cmp_z(&s_) <= 0 ||
         mp_cmp(&r_, &n) >= 0 || mp_cmp(&s_, &n) >= 0) {
         PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
-        goto cleanup; /* will return rv == SECFailure */
+        goto clebnup; /* will return rv == SECFbilure */
     }
 
     /*
@@ -967,22 +967,22 @@ ECDSA_VerifyDigest(ECPublicKey *key, const SECItem *signature,
     */
     SECITEM_TO_MPINT(*digest, &u1);                  /* u1 = HASH(M)     */
 
-    /* In the definition of EC signing, digests are truncated
+    /* In the definition of EC signing, digests bre truncbted
      * to the length of n in bits.
-     * (see SEC 1 "Elliptic Curve Digit Signature Algorithm" section 4.1.*/
+     * (see SEC 1 "Elliptic Curve Digit Signbture Algorithm" section 4.1.*/
     /* u1 = HASH(M')     */
-    if (digest->len*8 > (unsigned int)ecParams->fieldID.size) {
-        mpl_rsh(&u1,&u1,digest->len*8- ecParams->fieldID.size);
+    if (digest->len*8 > (unsigned int)ecPbrbms->fieldID.size) {
+        mpl_rsh(&u1,&u1,digest->len*8- ecPbrbms->fieldID.size);
     }
 
 #if EC_DEBUG
-    mp_todecimal(&r_, mpstr);
+    mp_todecimbl(&r_, mpstr);
     printf("r_: %s (dec)\n", mpstr);
-    mp_todecimal(&s_, mpstr);
+    mp_todecimbl(&s_, mpstr);
     printf("s_: %s (dec)\n", mpstr);
-    mp_todecimal(&c, mpstr);
+    mp_todecimbl(&c, mpstr);
     printf("c : %s (dec)\n", mpstr);
-    mp_todecimal(&u1, mpstr);
+    mp_todecimbl(&u1, mpstr);
     printf("digest: %s (dec)\n", mpstr);
 #endif
 
@@ -999,21 +999,21 @@ ECDSA_VerifyDigest(ECPublicKey *key, const SECItem *signature,
     ** ANSI X9.62, Section 5.4.3, Step 1
     **
     ** Compute u1*G + u2*Q
-    ** Here, A = u1.G     B = u2.Q    and   C = A + B
-    ** If the result, C, is the point at infinity, reject the signature
+    ** Here, A = u1.G     B = u2.Q    bnd   C = A + B
+    ** If the result, C, is the point bt infinity, reject the signbture
     */
-    if (ec_points_mul(ecParams, &u1, &u2, &key->publicValue, &pointC, kmflag)
+    if (ec_points_mul(ecPbrbms, &u1, &u2, &key->publicVblue, &pointC, kmflbg)
         != SECSuccess) {
-        rv = SECFailure;
-        goto cleanup;
+        rv = SECFbilure;
+        goto clebnup;
     }
-    if (ec_point_at_infinity(&pointC)) {
+    if (ec_point_bt_infinity(&pointC)) {
         PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
-        rv = SECFailure;
-        goto cleanup;
+        rv = SECFbilure;
+        goto clebnup;
     }
 
-    CHECK_MPI_OK( mp_read_unsigned_octets(&x1, pointC.data + 1, flen) );
+    CHECK_MPI_OK( mp_rebd_unsigned_octets(&x1, pointC.dbtb + 1, flen) );
 
     /*
     ** ANSI X9.62, Section 5.4.4, Step 2
@@ -1023,54 +1023,54 @@ ECDSA_VerifyDigest(ECPublicKey *key, const SECItem *signature,
     CHECK_MPI_OK( mp_mod(&x1, &n, &v) );
 
 #if EC_DEBUG
-    mp_todecimal(&r_, mpstr);
+    mp_todecimbl(&r_, mpstr);
     printf("r_: %s (dec)\n", mpstr);
-    mp_todecimal(&v, mpstr);
+    mp_todecimbl(&v, mpstr);
     printf("v : %s (dec)\n", mpstr);
 #endif
 
     /*
     ** ANSI X9.62, Section 5.4.4, Step 3
     **
-    ** Verification:  v == r'
+    ** Verificbtion:  v == r'
     */
     if (mp_cmp(&v, &r_)) {
         PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
-        rv = SECFailure; /* Signature failed to verify. */
+        rv = SECFbilure; /* Signbture fbiled to verify. */
     } else {
-        rv = SECSuccess; /* Signature verified. */
+        rv = SECSuccess; /* Signbture verified. */
     }
 
 #if EC_DEBUG
-    mp_todecimal(&u1, mpstr);
+    mp_todecimbl(&u1, mpstr);
     printf("u1: %s (dec)\n", mpstr);
-    mp_todecimal(&u2, mpstr);
+    mp_todecimbl(&u2, mpstr);
     printf("u2: %s (dec)\n", mpstr);
     mp_tohex(&x1, mpstr);
     printf("x1: %s\n", mpstr);
-    mp_todecimal(&v, mpstr);
+    mp_todecimbl(&v, mpstr);
     printf("v : %s (dec)\n", mpstr);
 #endif
 
-cleanup:
-    mp_clear(&r_);
-    mp_clear(&s_);
-    mp_clear(&c);
-    mp_clear(&u1);
-    mp_clear(&u2);
-    mp_clear(&x1);
-    mp_clear(&v);
-    mp_clear(&n);
+clebnup:
+    mp_clebr(&r_);
+    mp_clebr(&s_);
+    mp_clebr(&c);
+    mp_clebr(&u1);
+    mp_clebr(&u2);
+    mp_clebr(&x1);
+    mp_clebr(&v);
+    mp_clebr(&n);
 
-    if (pointC.data) SECITEM_FreeItem(&pointC, PR_FALSE);
+    if (pointC.dbtb) SECITEM_FreeItem(&pointC, PR_FALSE);
     if (err) {
         MP_TO_SEC_ERROR(err);
-        rv = SECFailure;
+        rv = SECFbilure;
     }
 
 #if EC_DEBUG
-    printf("ECDSA verification %s\n",
-        (rv == SECSuccess) ? "succeeded" : "failed");
+    printf("ECDSA verificbtion %s\n",
+        (rv == SECSuccess) ? "succeeded" : "fbiled");
 #endif
 
     return rv;

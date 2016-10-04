@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTION
- *      mlib_ImageAffine_u8_1ch_bl
- *      mlib_ImageAffine_u8_2ch_bl
- *      mlib_ImageAffine_u8_3ch_bl
- *      mlib_ImageAffine_u8_4ch_bl
- *        - image affine transformation with Bilinear filtering
+ *      mlib_ImbgeAffine_u8_1ch_bl
+ *      mlib_ImbgeAffine_u8_2ch_bl
+ *      mlib_ImbgeAffine_u8_3ch_bl
+ *      mlib_ImbgeAffine_u8_4ch_bl
+ *        - imbge bffine trbnsformbtion with Bilinebr filtering
  * SYNOPSIS
- *      mlib_status mlib_ImageAffine_u8_?ch_bl(mlib_s32 *leftEdges,
+ *      mlib_stbtus mlib_ImbgeAffine_u8_?ch_bl(mlib_s32 *leftEdges,
  *                                             mlib_s32 *rightEdges,
- *                                             mlib_s32 *xStarts,
- *                                             mlib_s32 *yStarts,
+ *                                             mlib_s32 *xStbrts,
+ *                                             mlib_s32 *yStbrts,
  *                                             mlib_s32 *sides,
- *                                             mlib_u8  *dstData,
+ *                                             mlib_u8  *dstDbtb,
  *                                             mlib_u8  **lineAddr,
  *                                             mlib_s32 dstYStride,
- *                                             mlib_s32 is_affine,
+ *                                             mlib_s32 is_bffine,
  *                                             mlib_s32 srcYStride)
  *
  * ARGUMENTS
- *      leftEdges  array[dstHeight] of xLeft coordinates
- *      RightEdges array[dstHeight] of xRight coordinates
- *      xStarts    array[dstHeight] of xStart * 65536 coordinates
- *      yStarts    array[dstHeight] of yStart * 65536 coordinates
- *      sides      output array[4]. sides[0] is yStart, sides[1] is yFinish,
+ *      leftEdges  brrby[dstHeight] of xLeft coordinbtes
+ *      RightEdges brrby[dstHeight] of xRight coordinbtes
+ *      xStbrts    brrby[dstHeight] of xStbrt * 65536 coordinbtes
+ *      yStbrts    brrby[dstHeight] of yStbrt * 65536 coordinbtes
+ *      sides      output brrby[4]. sides[0] is yStbrt, sides[1] is yFinish,
  *                 sides[2] is dx * 65536, sides[3] is dy * 65536
- *      dstData    pointer to the first pixel on (yStart - 1) line
- *      lineAddr   array[srcHeight] of pointers to the first pixel on
+ *      dstDbtb    pointer to the first pixel on (yStbrt - 1) line
+ *      lineAddr   brrby[srcHeight] of pointers to the first pixel on
  *                 the corresponding lines
- *      dstYStride stride of destination image
- *      is_affine  indicator (Affine - GridWarp)
- *      srcYStride stride of source image
+ *      dstYStride stride of destinbtion imbge
+ *      is_bffine  indicbtor (Affine - GridWbrp)
+ *      srcYStride stride of source imbge
  *
  * DESCRIPTION
- *      The functions step along the lines from xLeft to xRight and apply
- *      the bilinear filtering.
+ *      The functions step blong the lines from xLeft to xRight bnd bpply
+ *      the bilinebr filtering.
  *
  */
 
-#include "mlib_ImageAffine.h"
+#include "mlib_ImbgeAffine.h"
 
 /***************************************************************/
 #define DTYPE  mlib_u8
@@ -74,15 +74,15 @@
 #define I2F(x)   mlib_U82F32[x]
 #define ROUND(x) ((x) + 0.5f)
 
-#define FUN_NAME(CHAN) mlib_ImageAffine_u8_##CHAN##_bl
+#define FUN_NAME(CHAN) mlib_ImbgeAffine_u8_##CHAN##_bl
 
 /***************************************************************/
-#ifdef __sparc /* for SPARC, using floating-point multiplies is faster */
+#ifdef __spbrc /* for SPARC, using flobting-point multiplies is fbster */
 
 /***************************************************************/
 #define GET_POINTERS(ind)                                       \
-  fdx = (FTYPE)(X & MLIB_MASK) * scale;                         \
-  fdy = (FTYPE)(Y & MLIB_MASK) * scale;                         \
+  fdx = (FTYPE)(X & MLIB_MASK) * scble;                         \
+  fdy = (FTYPE)(Y & MLIB_MASK) * scble;                         \
   ySrc = MLIB_POINTER_SHIFT(Y);  Y += dY;                       \
   xSrc = X >> MLIB_SHIFT;  X += dX;                             \
   srcPixelPtr = MLIB_POINTER_GET(lineAddr, ySrc) + ind * xSrc;  \
@@ -90,38 +90,38 @@
 
 /***************************************************************/
 #define COUNT(ind)                                              \
-  pix0_##ind = a00_##ind + fdy * (a10_##ind - a00_##ind);       \
-  pix1_##ind = a01_##ind + fdy * (a11_##ind - a01_##ind);       \
+  pix0_##ind = b00_##ind + fdy * (b10_##ind - b00_##ind);       \
+  pix1_##ind = b01_##ind + fdy * (b11_##ind - b01_##ind);       \
   res##ind = ROUND(pix0_##ind + fdx * (pix1_##ind - pix0_##ind))
 
 /***************************************************************/
 #define LOAD(ind, ind1, ind2)                                   \
-  a00_##ind = I2F(srcPixelPtr[ind1]);                           \
-  a01_##ind = I2F(srcPixelPtr[ind2]);                           \
-  a10_##ind = I2F(srcPixelPtr2[ind1]);                          \
-  a11_##ind = I2F(srcPixelPtr2[ind2])
+  b00_##ind = I2F(srcPixelPtr[ind1]);                           \
+  b01_##ind = I2F(srcPixelPtr[ind2]);                           \
+  b10_##ind = I2F(srcPixelPtr2[ind1]);                          \
+  b11_##ind = I2F(srcPixelPtr2[ind2])
 
 /***************************************************************/
-mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(1ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_BL();
   DTYPE *dstLineEnd;
   DTYPE *srcPixelPtr2;
-  FTYPE scale = (FTYPE) 1.0 / MLIB_PREC;
+  FTYPE scble = (FTYPE) 1.0 / MLIB_PREC;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     FTYPE fdx, fdy;
-    TTYPE a00_0, a01_0, a10_0, a11_0;
+    TTYPE b00_0, b01_0, b10_0, b11_0;
     FTYPE pix0_0, pix1_0, res0;
 
     CLIP(1);
-    dstLineEnd = (DTYPE *) dstData + xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + xRight;
 
     GET_POINTERS(1);
     LOAD(0, 0, 1);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr < dstLineEnd; dstPixelPtr++) {
       COUNT(0);
@@ -138,29 +138,29 @@ mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(2ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_BL();
   DTYPE *dstLineEnd;
   DTYPE *srcPixelPtr2;
-  FTYPE scale = (FTYPE) 1.0 / MLIB_PREC;
+  FTYPE scble = (FTYPE) 1.0 / MLIB_PREC;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     FTYPE fdx, fdy;
-    TTYPE a00_0, a01_0, a10_0, a11_0;
-    TTYPE a00_1, a01_1, a10_1, a11_1;
+    TTYPE b00_0, b01_0, b10_0, b11_0;
+    TTYPE b00_1, b01_1, b10_1, b11_1;
     FTYPE pix0_0, pix1_0, res0;
     FTYPE pix0_1, pix1_1, res1;
 
     CLIP(2);
-    dstLineEnd = (DTYPE *) dstData + 2 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 2 * xRight;
 
     GET_POINTERS(2);
     LOAD(0, 0, 2);
     LOAD(1, 1, 3);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 2) {
       COUNT(0);
@@ -182,24 +182,24 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(3ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_BL();
   DTYPE *dstLineEnd;
   DTYPE *srcPixelPtr2;
-  FTYPE scale = (FTYPE) 1.0 / MLIB_PREC;
+  FTYPE scble = (FTYPE) 1.0 / MLIB_PREC;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     FTYPE fdx, fdy;
-    FTYPE a00_0, a01_0, a10_0, a11_0;
-    FTYPE a00_1, a01_1, a10_1, a11_1;
-    FTYPE a00_2, a01_2, a10_2, a11_2;
+    FTYPE b00_0, b01_0, b10_0, b11_0;
+    FTYPE b00_1, b01_1, b10_1, b11_1;
+    FTYPE b00_2, b01_2, b10_2, b11_2;
     FTYPE pix0_0, pix1_0, res0;
     FTYPE pix0_1, pix1_1, res1;
     FTYPE pix0_2, pix1_2, res2;
 
     CLIP(3);
-    dstLineEnd = (DTYPE *) dstData + 3 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 3 * xRight;
 
     GET_POINTERS(3);
     LOAD(0, 0, 3);
@@ -207,7 +207,7 @@ mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
     LOAD(2, 2, 5);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 3) {
       COUNT(0);
@@ -234,26 +234,26 @@ mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(4ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_BL();
   DTYPE *dstLineEnd;
   DTYPE *srcPixelPtr2;
-  FTYPE scale = (FTYPE) 1.0 / MLIB_PREC;
+  FTYPE scble = (FTYPE) 1.0 / MLIB_PREC;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     FTYPE fdx, fdy;
-    TTYPE a00_0, a01_0, a10_0, a11_0;
-    TTYPE a00_1, a01_1, a10_1, a11_1;
-    TTYPE a00_2, a01_2, a10_2, a11_2;
-    TTYPE a00_3, a01_3, a10_3, a11_3;
+    TTYPE b00_0, b01_0, b10_0, b11_0;
+    TTYPE b00_1, b01_1, b10_1, b11_1;
+    TTYPE b00_2, b01_2, b10_2, b11_2;
+    TTYPE b00_3, b01_3, b10_3, b11_3;
     FTYPE pix0_0, pix1_0, res0;
     FTYPE pix0_1, pix1_1, res1;
     FTYPE pix0_2, pix1_2, res2;
     FTYPE pix0_3, pix1_3, res3;
 
     CLIP(4);
-    dstLineEnd = (DTYPE *) dstData + 4 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 4 * xRight;
 
     GET_POINTERS(4);
     LOAD(0, 0, 4);
@@ -262,7 +262,7 @@ mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
     LOAD(3, 3, 7);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 4) {
       COUNT(0);
@@ -293,10 +293,10 @@ mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
   return MLIB_SUCCESS;
 }
 
-#else       /* for x86, using integer multiplies is faster */
+#else       /* for x86, using integer multiplies is fbster */
 
-/* for SHORT/USHORT decrease MLIB_SHIFT due to
- * overflow in multiplies like fdy * (a10 - a00)
+/* for SHORT/USHORT decrebse MLIB_SHIFT due to
+ * overflow in multiplies like fdy * (b10 - b00)
  */
 /*
 #undef  MLIB_SHIFT
@@ -318,19 +318,19 @@ mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
 
 /***************************************************************/
 #define COUNT(ind)                                                                       \
-  pix0_##ind = a00_##ind + ((fdy * (a10_##ind - a00_##ind) + MLIB_ROUND) >> MLIB_SHIFT); \
-  pix1_##ind = a01_##ind + ((fdy * (a11_##ind - a01_##ind) + MLIB_ROUND) >> MLIB_SHIFT); \
+  pix0_##ind = b00_##ind + ((fdy * (b10_##ind - b00_##ind) + MLIB_ROUND) >> MLIB_SHIFT); \
+  pix1_##ind = b01_##ind + ((fdy * (b11_##ind - b01_##ind) + MLIB_ROUND) >> MLIB_SHIFT); \
   res##ind = pix0_##ind + ((fdx * (pix1_##ind - pix0_##ind) + MLIB_ROUND) >> MLIB_SHIFT)
 
 /***************************************************************/
 #define LOAD(ind, ind1, ind2)                                   \
-  a00_##ind = srcPixelPtr[ind1];                                \
-  a01_##ind = srcPixelPtr[ind2];                                \
-  a10_##ind = srcPixelPtr2[ind1];                               \
-  a11_##ind = srcPixelPtr2[ind2]
+  b00_##ind = srcPixelPtr[ind1];                                \
+  b01_##ind = srcPixelPtr[ind2];                                \
+  b10_##ind = srcPixelPtr2[ind1];                               \
+  b11_##ind = srcPixelPtr2[ind2]
 
 /***************************************************************/
-mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(1ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_BL();
   DTYPE *dstLineEnd;
@@ -341,13 +341,13 @@ mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
   dY = (dY + 1) >> 1;
 #endif /* MLIB_SHIFT == 15 */
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_s32 fdx, fdy;
-    mlib_s32 a00_0, a01_0, a10_0, a11_0;
+    mlib_s32 b00_0, b01_0, b10_0, b11_0;
     mlib_s32 pix0_0, pix1_0, res0;
 
     CLIP(1);
-    dstLineEnd = (DTYPE *) dstData + xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + xRight;
 #if MLIB_SHIFT == 15
     X = X >> 1;
     Y = Y >> 1;
@@ -357,7 +357,7 @@ mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
     LOAD(0, 0, 1);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr < dstLineEnd; dstPixelPtr++) {
       COUNT(0);
@@ -374,7 +374,7 @@ mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(2ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_BL();
   DTYPE *dstLineEnd;
@@ -385,15 +385,15 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
   dY = (dY + 1) >> 1;
 #endif /* MLIB_SHIFT == 15 */
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_s32 fdx, fdy;
-    mlib_s32 a00_0, a01_0, a10_0, a11_0;
-    mlib_s32 a00_1, a01_1, a10_1, a11_1;
+    mlib_s32 b00_0, b01_0, b10_0, b11_0;
+    mlib_s32 b00_1, b01_1, b10_1, b11_1;
     mlib_s32 pix0_0, pix1_0, res0;
     mlib_s32 pix0_1, pix1_1, res1;
 
     CLIP(2);
-    dstLineEnd = (DTYPE *) dstData + 2 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 2 * xRight;
 #if MLIB_SHIFT == 15
     X = X >> 1;
     Y = Y >> 1;
@@ -404,7 +404,7 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
     LOAD(1, 1, 3);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 2) {
       COUNT(0);
@@ -426,7 +426,7 @@ mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(3ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_BL();
   DTYPE *dstLineEnd;
@@ -437,17 +437,17 @@ mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
   dY = (dY + 1) >> 1;
 #endif /* MLIB_SHIFT == 15 */
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_s32 fdx, fdy;
-    mlib_s32 a00_0, a01_0, a10_0, a11_0;
-    mlib_s32 a00_1, a01_1, a10_1, a11_1;
-    mlib_s32 a00_2, a01_2, a10_2, a11_2;
+    mlib_s32 b00_0, b01_0, b10_0, b11_0;
+    mlib_s32 b00_1, b01_1, b10_1, b11_1;
+    mlib_s32 b00_2, b01_2, b10_2, b11_2;
     mlib_s32 pix0_0, pix1_0, res0;
     mlib_s32 pix0_1, pix1_1, res1;
     mlib_s32 pix0_2, pix1_2, res2;
 
     CLIP(3);
-    dstLineEnd = (DTYPE *) dstData + 3 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 3 * xRight;
 #if MLIB_SHIFT == 15
     X = X >> 1;
     Y = Y >> 1;
@@ -459,7 +459,7 @@ mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
     LOAD(2, 2, 5);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 3) {
       COUNT(0);
@@ -486,7 +486,7 @@ mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(4ch)(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_BL();
   DTYPE *dstLineEnd;
@@ -497,19 +497,19 @@ mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
   dY = (dY + 1) >> 1;
 #endif /* MLIB_SHIFT == 15 */
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_s32 fdx, fdy;
-    mlib_s32 a00_0, a01_0, a10_0, a11_0;
-    mlib_s32 a00_1, a01_1, a10_1, a11_1;
-    mlib_s32 a00_2, a01_2, a10_2, a11_2;
-    mlib_s32 a00_3, a01_3, a10_3, a11_3;
+    mlib_s32 b00_0, b01_0, b10_0, b11_0;
+    mlib_s32 b00_1, b01_1, b10_1, b11_1;
+    mlib_s32 b00_2, b01_2, b10_2, b11_2;
+    mlib_s32 b00_3, b01_3, b10_3, b11_3;
     mlib_s32 pix0_0, pix1_0, res0;
     mlib_s32 pix0_1, pix1_1, res1;
     mlib_s32 pix0_2, pix1_2, res2;
     mlib_s32 pix0_3, pix1_3, res3;
 
     CLIP(4);
-    dstLineEnd = (DTYPE *) dstData + 4 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 4 * xRight;
 #if MLIB_SHIFT == 15
     X = X >> 1;
     Y = Y >> 1;
@@ -522,7 +522,7 @@ mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
     LOAD(3, 3, 7);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 4) {
       COUNT(0);
@@ -553,6 +553,6 @@ mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
   return MLIB_SUCCESS;
 }
 
-#endif /* __sparc ( for SPARC, using floating-point multiplies is faster ) */
+#endif /* __spbrc ( for SPARC, using flobting-point multiplies is fbster ) */
 
 /***************************************************************/

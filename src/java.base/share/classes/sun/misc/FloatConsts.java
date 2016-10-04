@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
 /**
- * This class contains additional constants documenting limits of the
- * <code>float</code> type.
+ * This clbss contbins bdditionbl constbnts documenting limits of the
+ * <code>flobt</code> type.
  *
- * @author Joseph D. Darcy
+ * @buthor Joseph D. Dbrcy
  */
 
-public class FloatConsts {
+public clbss FlobtConsts {
     /**
-     * Don't let anyone instantiate this class.
+     * Don't let bnyone instbntibte this clbss.
      */
-    private FloatConsts() {}
+    privbte FlobtConsts() {}
 
-    public static final float POSITIVE_INFINITY = java.lang.Float.POSITIVE_INFINITY;
-    public static final float NEGATIVE_INFINITY = java.lang.Float.NEGATIVE_INFINITY;
-    public static final float NaN = java.lang.Float.NaN;
-    public static final float MAX_VALUE = java.lang.Float.MAX_VALUE;
-    public static final float MIN_VALUE = java.lang.Float.MIN_VALUE;
-
-    /**
-     * A constant holding the smallest positive normal value of type
-     * <code>float</code>, 2<sup>-126</sup>.  It is equal to the value
-     * returned by <code>Float.intBitsToFloat(0x00800000)</code>.
-     */
-    public static final float   MIN_NORMAL      = 1.17549435E-38f;
+    public stbtic finbl flobt POSITIVE_INFINITY = jbvb.lbng.Flobt.POSITIVE_INFINITY;
+    public stbtic finbl flobt NEGATIVE_INFINITY = jbvb.lbng.Flobt.NEGATIVE_INFINITY;
+    public stbtic finbl flobt NbN = jbvb.lbng.Flobt.NbN;
+    public stbtic finbl flobt MAX_VALUE = jbvb.lbng.Flobt.MAX_VALUE;
+    public stbtic finbl flobt MIN_VALUE = jbvb.lbng.Flobt.MIN_VALUE;
 
     /**
-     * The number of logical bits in the significand of a
-     * <code>float</code> number, including the implicit bit.
+     * A constbnt holding the smbllest positive normbl vblue of type
+     * <code>flobt</code>, 2<sup>-126</sup>.  It is equbl to the vblue
+     * returned by <code>Flobt.intBitsToFlobt(0x00800000)</code>.
      */
-    public static final int SIGNIFICAND_WIDTH   = 24;
+    public stbtic finbl flobt   MIN_NORMAL      = 1.17549435E-38f;
 
     /**
-     * Maximum exponent a finite <code>float</code> number may have.
-     * It is equal to the value returned by
-     * <code>Math.ilogb(Float.MAX_VALUE)</code>.
+     * The number of logicbl bits in the significbnd of b
+     * <code>flobt</code> number, including the implicit bit.
      */
-    public static final int     MAX_EXPONENT    = 127;
+    public stbtic finbl int SIGNIFICAND_WIDTH   = 24;
 
     /**
-     * Minimum exponent a normalized <code>float</code> number may
-     * have.  It is equal to the value returned by
-     * <code>Math.ilogb(Float.MIN_NORMAL)</code>.
+     * Mbximum exponent b finite <code>flobt</code> number mby hbve.
+     * It is equbl to the vblue returned by
+     * <code>Mbth.ilogb(Flobt.MAX_VALUE)</code>.
      */
-    public static final int     MIN_EXPONENT    = -126;
+    public stbtic finbl int     MAX_EXPONENT    = 127;
 
     /**
-     * The exponent the smallest positive <code>float</code> subnormal
-     * value would have if it could be normalized.
+     * Minimum exponent b normblized <code>flobt</code> number mby
+     * hbve.  It is equbl to the vblue returned by
+     * <code>Mbth.ilogb(Flobt.MIN_NORMAL)</code>.
      */
-    public static final int     MIN_SUB_EXPONENT = MIN_EXPONENT -
+    public stbtic finbl int     MIN_EXPONENT    = -126;
+
+    /**
+     * The exponent the smbllest positive <code>flobt</code> subnormbl
+     * vblue would hbve if it could be normblized.
+     */
+    public stbtic finbl int     MIN_SUB_EXPONENT = MIN_EXPONENT -
                                                    (SIGNIFICAND_WIDTH - 1);
 
     /**
-     * Bias used in representing a <code>float</code> exponent.
+     * Bibs used in representing b <code>flobt</code> exponent.
      */
-    public static final int     EXP_BIAS        = 127;
+    public stbtic finbl int     EXP_BIAS        = 127;
 
     /**
-     * Bit mask to isolate the sign bit of a <code>float</code>.
+     * Bit mbsk to isolbte the sign bit of b <code>flobt</code>.
      */
-    public static final int     SIGN_BIT_MASK   = 0x80000000;
+    public stbtic finbl int     SIGN_BIT_MASK   = 0x80000000;
 
     /**
-     * Bit mask to isolate the exponent field of a
-     * <code>float</code>.
+     * Bit mbsk to isolbte the exponent field of b
+     * <code>flobt</code>.
      */
-    public static final int     EXP_BIT_MASK    = 0x7F800000;
+    public stbtic finbl int     EXP_BIT_MASK    = 0x7F800000;
 
     /**
-     * Bit mask to isolate the significand field of a
-     * <code>float</code>.
+     * Bit mbsk to isolbte the significbnd field of b
+     * <code>flobt</code>.
      */
-    public static final int     SIGNIF_BIT_MASK = 0x007FFFFF;
+    public stbtic finbl int     SIGNIF_BIT_MASK = 0x007FFFFF;
 
-    static {
-        // verify bit masks cover all bit positions and that the bit
-        // masks are non-overlapping
-        assert(((SIGN_BIT_MASK | EXP_BIT_MASK | SIGNIF_BIT_MASK) == ~0) &&
+    stbtic {
+        // verify bit mbsks cover bll bit positions bnd thbt the bit
+        // mbsks bre non-overlbpping
+        bssert(((SIGN_BIT_MASK | EXP_BIT_MASK | SIGNIF_BIT_MASK) == ~0) &&
                (((SIGN_BIT_MASK & EXP_BIT_MASK) == 0) &&
                 ((SIGN_BIT_MASK & SIGNIF_BIT_MASK) == 0) &&
                 ((EXP_BIT_MASK & SIGNIF_BIT_MASK) == 0)));

@@ -1,282 +1,282 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.remote.rmi;
+pbckbge jbvbx.mbnbgement.remote.rmi;
 
-import java.security.ProtectionDomain;
+import jbvb.security.ProtectionDombin;
 
 /**
-    <p>A class loader that only knows how to define a limited number
-    of classes, and load a limited number of other classes through
-    delegation to another loader.  It is used to get around a problem
-    with Serialization, in particular as used by RMI (including
-    RMI/IIOP).  The JMX Remote API defines exactly what class loader
-    must be used to deserialize arguments on the server, and return
-    values on the client.  We communicate this class loader to RMI by
-    setting it as the context class loader.  RMI uses the context
-    class loader to load classes as it deserializes, which is what we
-    want.  However, before consulting the context class loader, it
-    looks up the call stack for a class with a non-null class loader,
-    and uses that if it finds one.  So, in the standalone version of
-    javax.management.remote, if the class you're looking for is known
-    to the loader of jmxremote.jar (typically the system class loader)
-    then that loader will load it.  This contradicts the class-loading
-    semantics required.
+    <p>A clbss lobder thbt only knows how to define b limited number
+    of clbsses, bnd lobd b limited number of other clbsses through
+    delegbtion to bnother lobder.  It is used to get bround b problem
+    with Seriblizbtion, in pbrticulbr bs used by RMI (including
+    RMI/IIOP).  The JMX Remote API defines exbctly whbt clbss lobder
+    must be used to deseriblize brguments on the server, bnd return
+    vblues on the client.  We communicbte this clbss lobder to RMI by
+    setting it bs the context clbss lobder.  RMI uses the context
+    clbss lobder to lobd clbsses bs it deseriblizes, which is whbt we
+    wbnt.  However, before consulting the context clbss lobder, it
+    looks up the cbll stbck for b clbss with b non-null clbss lobder,
+    bnd uses thbt if it finds one.  So, in the stbndblone version of
+    jbvbx.mbnbgement.remote, if the clbss you're looking for is known
+    to the lobder of jmxremote.jbr (typicblly the system clbss lobder)
+    then thbt lobder will lobd it.  This contrbdicts the clbss-lobding
+    sembntics required.
 
-    <p>We get around the problem by ensuring that the search up the
-    call stack will find a non-null class loader that doesn't load any
-    classes of interest, namely this one.  So even though this loader
-    is indeed consulted during deserialization, it never finds the
-    class being deserialized.  RMI then proceeds to use the context
-    class loader, as we require.
+    <p>We get bround the problem by ensuring thbt the sebrch up the
+    cbll stbck will find b non-null clbss lobder thbt doesn't lobd bny
+    clbsses of interest, nbmely this one.  So even though this lobder
+    is indeed consulted during deseriblizbtion, it never finds the
+    clbss being deseriblized.  RMI then proceeds to use the context
+    clbss lobder, bs we require.
 
-    <p>This loader is constructed with the name and byte-code of one
-    or more classes that it defines, and a class-loader to which it
-    will delegate certain other classes required by that byte-code.
-    We construct the byte-code somewhat painstakingly, by compiling
-    the Java code directly, converting into a string, copying that
-    string into the class that needs this loader, and using the
-    stringToBytes method to convert it into the byte array.  We
-    compile with -g:none because there's not much point in having
-    line-number information and the like in these directly-encoded
-    classes.
+    <p>This lobder is constructed with the nbme bnd byte-code of one
+    or more clbsses thbt it defines, bnd b clbss-lobder to which it
+    will delegbte certbin other clbsses required by thbt byte-code.
+    We construct the byte-code somewhbt pbinstbkingly, by compiling
+    the Jbvb code directly, converting into b string, copying thbt
+    string into the clbss thbt needs this lobder, bnd using the
+    stringToBytes method to convert it into the byte brrby.  We
+    compile with -g:none becbuse there's not much point in hbving
+    line-number informbtion bnd the like in these directly-encoded
+    clbsses.
 
-    <p>The referencedClassNames should contain the names of all
-    classes that are referenced by the classes defined by this loader.
-    It is not necessary to include standard J2SE classes, however.
-    Here, a class is referenced if it is the superclass or a
-    superinterface of a defined class, or if it is the type of a
-    field, parameter, or return value.  A class is not referenced if
-    it only appears in the throws clause of a method or constructor.
-    Of course, referencedClassNames should not contain any classes
-    that the user might want to deserialize, because the whole point
-    of this loader is that it does not find such classes.
+    <p>The referencedClbssNbmes should contbin the nbmes of bll
+    clbsses thbt bre referenced by the clbsses defined by this lobder.
+    It is not necessbry to include stbndbrd J2SE clbsses, however.
+    Here, b clbss is referenced if it is the superclbss or b
+    superinterfbce of b defined clbss, or if it is the type of b
+    field, pbrbmeter, or return vblue.  A clbss is not referenced if
+    it only bppebrs in the throws clbuse of b method or constructor.
+    Of course, referencedClbssNbmes should not contbin bny clbsses
+    thbt the user might wbnt to deseriblize, becbuse the whole point
+    of this lobder is thbt it does not find such clbsses.
 */
 
-class NoCallStackClassLoader extends ClassLoader {
-    /** Simplified constructor when this loader only defines one class.  */
-    public NoCallStackClassLoader(String className,
+clbss NoCbllStbckClbssLobder extends ClbssLobder {
+    /** Simplified constructor when this lobder only defines one clbss.  */
+    public NoCbllStbckClbssLobder(String clbssNbme,
                                   byte[] byteCode,
-                                  String[] referencedClassNames,
-                                  ClassLoader referencedClassLoader,
-                                  ProtectionDomain protectionDomain) {
-        this(new String[] {className}, new byte[][] {byteCode},
-             referencedClassNames, referencedClassLoader, protectionDomain);
+                                  String[] referencedClbssNbmes,
+                                  ClbssLobder referencedClbssLobder,
+                                  ProtectionDombin protectionDombin) {
+        this(new String[] {clbssNbme}, new byte[][] {byteCode},
+             referencedClbssNbmes, referencedClbssLobder, protectionDombin);
     }
 
-    public NoCallStackClassLoader(String[] classNames,
+    public NoCbllStbckClbssLobder(String[] clbssNbmes,
                                   byte[][] byteCodes,
-                                  String[] referencedClassNames,
-                                  ClassLoader referencedClassLoader,
-                                  ProtectionDomain protectionDomain) {
+                                  String[] referencedClbssNbmes,
+                                  ClbssLobder referencedClbssLobder,
+                                  ProtectionDombin protectionDombin) {
         super(null);
 
-        /* Validation. */
-        if (classNames == null || classNames.length == 0
-            || byteCodes == null || classNames.length != byteCodes.length
-            || referencedClassNames == null || protectionDomain == null)
-            throw new IllegalArgumentException();
-        for (int i = 0; i < classNames.length; i++) {
-            if (classNames[i] == null || byteCodes[i] == null)
-                throw new IllegalArgumentException();
+        /* Vblidbtion. */
+        if (clbssNbmes == null || clbssNbmes.length == 0
+            || byteCodes == null || clbssNbmes.length != byteCodes.length
+            || referencedClbssNbmes == null || protectionDombin == null)
+            throw new IllegblArgumentException();
+        for (int i = 0; i < clbssNbmes.length; i++) {
+            if (clbssNbmes[i] == null || byteCodes[i] == null)
+                throw new IllegblArgumentException();
         }
-        for (int i = 0; i < referencedClassNames.length; i++) {
-            if (referencedClassNames[i] == null)
-                throw new IllegalArgumentException();
+        for (int i = 0; i < referencedClbssNbmes.length; i++) {
+            if (referencedClbssNbmes[i] == null)
+                throw new IllegblArgumentException();
         }
 
-        this.classNames = classNames;
+        this.clbssNbmes = clbssNbmes;
         this.byteCodes = byteCodes;
-        this.referencedClassNames = referencedClassNames;
-        this.referencedClassLoader = referencedClassLoader;
-        this.protectionDomain = protectionDomain;
+        this.referencedClbssNbmes = referencedClbssNbmes;
+        this.referencedClbssLobder = referencedClbssLobder;
+        this.protectionDombin = protectionDombin;
     }
 
-    /* This method is called at most once per name.  Define the name
-     * if it is one of the classes whose byte code we have, or
-     * delegate the load if it is one of the referenced classes.
+    /* This method is cblled bt most once per nbme.  Define the nbme
+     * if it is one of the clbsses whose byte code we hbve, or
+     * delegbte the lobd if it is one of the referenced clbsses.
      */
     @Override
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
-        // Note: classNames is guaranteed by the constructor to be non-null.
-        for (int i = 0; i < classNames.length; i++) {
-            if (name.equals(classNames[i])) {
-                return defineClass(classNames[i], byteCodes[i], 0,
-                                   byteCodes[i].length, protectionDomain);
+    protected Clbss<?> findClbss(String nbme) throws ClbssNotFoundException {
+        // Note: clbssNbmes is gubrbnteed by the constructor to be non-null.
+        for (int i = 0; i < clbssNbmes.length; i++) {
+            if (nbme.equbls(clbssNbmes[i])) {
+                return defineClbss(clbssNbmes[i], byteCodes[i], 0,
+                                   byteCodes[i].length, protectionDombin);
             }
         }
 
-        /* If the referencedClassLoader is null, it is the bootstrap
-         * class loader, and there's no point in delegating to it
-         * because it's already our parent class loader.
+        /* If the referencedClbssLobder is null, it is the bootstrbp
+         * clbss lobder, bnd there's no point in delegbting to it
+         * becbuse it's blrebdy our pbrent clbss lobder.
          */
-        if (referencedClassLoader != null) {
-            for (int i = 0; i < referencedClassNames.length; i++) {
-                if (name.equals(referencedClassNames[i]))
-                    return referencedClassLoader.loadClass(name);
+        if (referencedClbssLobder != null) {
+            for (int i = 0; i < referencedClbssNbmes.length; i++) {
+                if (nbme.equbls(referencedClbssNbmes[i]))
+                    return referencedClbssLobder.lobdClbss(nbme);
             }
         }
 
-        throw new ClassNotFoundException(name);
+        throw new ClbssNotFoundException(nbme);
     }
 
-    private final String[] classNames;
-    private final byte[][] byteCodes;
-    private final String[] referencedClassNames;
-    private final ClassLoader referencedClassLoader;
-    private final ProtectionDomain protectionDomain;
+    privbte finbl String[] clbssNbmes;
+    privbte finbl byte[][] byteCodes;
+    privbte finbl String[] referencedClbssNbmes;
+    privbte finbl ClbssLobder referencedClbssLobder;
+    privbte finbl ProtectionDombin protectionDombin;
 
     /**
-     * <p>Construct a <code>byte[]</code> using the characters of the
-     * given <code>String</code>.  Only the low-order byte of each
-     * character is used.  This method is useful to reduce the
-     * footprint of classes that include big byte arrays (e.g. the
-     * byte code of other classes), because a string takes up much
-     * less space in a class file than the byte code to initialize a
-     * <code>byte[]</code> with the same number of bytes.</p>
+     * <p>Construct b <code>byte[]</code> using the chbrbcters of the
+     * given <code>String</code>.  Only the low-order byte of ebch
+     * chbrbcter is used.  This method is useful to reduce the
+     * footprint of clbsses thbt include big byte brrbys (e.g. the
+     * byte code of other clbsses), becbuse b string tbkes up much
+     * less spbce in b clbss file thbn the byte code to initiblize b
+     * <code>byte[]</code> with the sbme number of bytes.</p>
      *
-     * <p>We use just one byte per character even though characters
-     * contain two bytes.  The resultant output length is much the
-     * same: using one byte per character is shorter because it has
-     * more characters in the optimal 1-127 range but longer because
-     * it has more zero bytes (which are frequent, and are encoded as
-     * two bytes in classfile UTF-8).  But one byte per character has
-     * two key advantages: (1) you can see the string constants, which
-     * is reassuring, (2) you don't need to know whether the class
+     * <p>We use just one byte per chbrbcter even though chbrbcters
+     * contbin two bytes.  The resultbnt output length is much the
+     * sbme: using one byte per chbrbcter is shorter becbuse it hbs
+     * more chbrbcters in the optimbl 1-127 rbnge but longer becbuse
+     * it hbs more zero bytes (which bre frequent, bnd bre encoded bs
+     * two bytes in clbssfile UTF-8).  But one byte per chbrbcter hbs
+     * two key bdvbntbges: (1) you cbn see the string constbnts, which
+     * is rebssuring, (2) you don't need to know whether the clbss
      * file length is odd.</p>
      *
-     * <p>This method differs from {@link String#getBytes()} in that
-     * it does not use any encoding.  So it is guaranteed that each
-     * byte of the result is numerically identical (mod 256) to the
-     * corresponding character of the input.
+     * <p>This method differs from {@link String#getBytes()} in thbt
+     * it does not use bny encoding.  So it is gubrbnteed thbt ebch
+     * byte of the result is numericblly identicbl (mod 256) to the
+     * corresponding chbrbcter of the input.
      */
-    public static byte[] stringToBytes(String s) {
-        final int slen = s.length();
+    public stbtic byte[] stringToBytes(String s) {
+        finbl int slen = s.length();
         byte[] bytes = new byte[slen];
         for (int i = 0; i < slen; i++)
-            bytes[i] = (byte) s.charAt(i);
+            bytes[i] = (byte) s.chbrAt(i);
         return bytes;
     }
 }
 
 /*
 
-You can use the following Emacs function to convert class files into
-strings to be used by the stringToBytes method above.  Select the
-whole (defun...) with the mouse and type M-x eval-region, or save it
-to a file and do M-x load-file.  Then visit the *.class file and do
-M-x class-string.
+You cbn use the following Embcs function to convert clbss files into
+strings to be used by the stringToBytes method bbove.  Select the
+whole (defun...) with the mouse bnd type M-x evbl-region, or sbve it
+to b file bnd do M-x lobd-file.  Then visit the *.clbss file bnd do
+M-x clbss-string.
 
-;; class-string.el
-;; visit the *.class file with emacs, then invoke this function
+;; clbss-string.el
+;; visit the *.clbss file with embcs, then invoke this function
 
-(defun class-string ()
-  "Construct a Java string whose bytes are the same as the current
-buffer.  The resultant string is put in a buffer called *string*,
-possibly with a numeric suffix like <2>.  From there it can be
-insert-buffer'd into a Java program."
-  (interactive)
+(defun clbss-string ()
+  "Construct b Jbvb string whose bytes bre the sbme bs the current
+buffer.  The resultbnt string is put in b buffer cblled *string*,
+possibly with b numeric suffix like <2>.  From there it cbn be
+insert-buffer'd into b Jbvb progrbm."
+  (interbctive)
   (let* ((s (buffer-string))
          (slen (length s))
          (i 0)
-         (buf (generate-new-buffer "*string*")))
+         (buf (generbte-new-buffer "*string*")))
     (set-buffer buf)
     (insert "\"")
     (while (< i slen)
       (if (> (current-column) 61)
           (insert "\"+\n\""))
-      (let ((c (aref s i)))
+      (let ((c (bref s i)))
         (insert (cond
-                 ((> c 126) (format "\\%o" c))
+                 ((> c 126) (formbt "\\%o" c))
                  ((= c ?\") "\\\"")
                  ((= c ?\\) "\\\\")
                  ((< c 33)
                   (let ((nextc (if (< (1+ i) slen)
-                                   (aref s (1+ i))
+                                   (bref s (1+ i))
                                  ?\0)))
                     (cond
-                     ((and (<= nextc ?7) (>= nextc ?0))
-                      (format "\\%03o" c))
+                     ((bnd (<= nextc ?7) (>= nextc ?0))
+                      (formbt "\\%03o" c))
                      (t
-                      (format "\\%o" c)))))
+                      (formbt "\\%o" c)))))
                  (t c))))
       (setq i (1+ i)))
     (insert "\"")
     (switch-to-buffer buf)))
 
-Alternatively, the following class reads a class file and outputs a string
-that can be used by the stringToBytes method above.
+Alternbtively, the following clbss rebds b clbss file bnd outputs b string
+thbt cbn be used by the stringToBytes method bbove.
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
 
-public class BytesToString {
+public clbss BytesToString {
 
-    public static void main(String[] args) throws IOException {
-        File f = new File(args[0]);
+    public stbtic void mbin(String[] brgs) throws IOException {
+        File f = new File(brgs[0]);
         int len = (int)f.length();
-        byte[] classBytes = new byte[len];
+        byte[] clbssBytes = new byte[len];
 
-        FileInputStream in = new FileInputStream(args[0]);
+        FileInputStrebm in = new FileInputStrebm(brgs[0]);
         try {
             int pos = 0;
             for (;;) {
-                int n = in.read(classBytes, pos, (len-pos));
+                int n = in.rebd(clbssBytes, pos, (len-pos));
                 if (n < 0)
-                    throw new RuntimeException("class file changed??");
+                    throw new RuntimeException("clbss file chbnged??");
                 pos += n;
                 if (pos >= n)
-                    break;
+                    brebk;
             }
-        } finally {
+        } finblly {
             in.close();
         }
 
         int pos = 0;
-        boolean lastWasOctal = false;
+        boolebn lbstWbsOctbl = fblse;
         for (int i=0; i<len; i++) {
-            int value = classBytes[i];
-            if (value < 0)
-                value += 256;
+            int vblue = clbssBytes[i];
+            if (vblue < 0)
+                vblue += 256;
             String s = null;
-            if (value == '\\')
+            if (vblue == '\\')
                 s = "\\\\";
-            else if (value == '\"')
+            else if (vblue == '\"')
                 s = "\\\"";
             else {
-                if ((value >= 32 && value < 127) && ((!lastWasOctal ||
-                    (value < '0' || value > '7')))) {
-                    s = Character.toString((char)value);
+                if ((vblue >= 32 && vblue < 127) && ((!lbstWbsOctbl ||
+                    (vblue < '0' || vblue > '7')))) {
+                    s = Chbrbcter.toString((chbr)vblue);
                 }
             }
             if (s == null) {
-                s = "\\" + Integer.toString(value, 8);
-                lastWasOctal = true;
+                s = "\\" + Integer.toString(vblue, 8);
+                lbstWbsOctbl = true;
             } else {
-                lastWasOctal = false;
+                lbstWbsOctbl = fblse;
             }
             if (pos > 61) {
                 System.out.print("\"");

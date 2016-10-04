@@ -1,291 +1,291 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.channels.*;
-import java.io.FileDescriptor;
-import java.util.Set;
+import jbvb.nio.file.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.io.FileDescriptor;
+import jbvb.util.Set;
 
-import sun.nio.ch.FileChannelImpl;
-import sun.nio.ch.ThreadPool;
-import sun.nio.ch.SimpleAsynchronousFileChannelImpl;
-import sun.misc.SharedSecrets;
-import sun.misc.JavaIOFileDescriptorAccess;
+import sun.nio.ch.FileChbnnelImpl;
+import sun.nio.ch.ThrebdPool;
+import sun.nio.ch.SimpleAsynchronousFileChbnnelImpl;
+import sun.misc.ShbredSecrets;
+import sun.misc.JbvbIOFileDescriptorAccess;
 
-import static sun.nio.fs.UnixNativeDispatcher.*;
-import static sun.nio.fs.UnixConstants.*;
+import stbtic sun.nio.fs.UnixNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.UnixConstbnts.*;
 
 /**
- * Factory for FileChannels and AsynchronousFileChannels
+ * Fbctory for FileChbnnels bnd AsynchronousFileChbnnels
  */
 
-class UnixChannelFactory {
-    private static final JavaIOFileDescriptorAccess fdAccess =
-        SharedSecrets.getJavaIOFileDescriptorAccess();
+clbss UnixChbnnelFbctory {
+    privbte stbtic finbl JbvbIOFileDescriptorAccess fdAccess =
+        ShbredSecrets.getJbvbIOFileDescriptorAccess();
 
-    protected UnixChannelFactory() {
+    protected UnixChbnnelFbctory() {
     }
 
     /**
-     * Represents the flags from a user-supplied set of open options.
+     * Represents the flbgs from b user-supplied set of open options.
      */
-    protected static class Flags {
-        boolean read;
-        boolean write;
-        boolean append;
-        boolean truncateExisting;
-        boolean noFollowLinks;
-        boolean create;
-        boolean createNew;
-        boolean deleteOnClose;
-        boolean sync;
-        boolean dsync;
+    protected stbtic clbss Flbgs {
+        boolebn rebd;
+        boolebn write;
+        boolebn bppend;
+        boolebn truncbteExisting;
+        boolebn noFollowLinks;
+        boolebn crebte;
+        boolebn crebteNew;
+        boolebn deleteOnClose;
+        boolebn sync;
+        boolebn dsync;
 
-        static Flags toFlags(Set<? extends OpenOption> options) {
-            Flags flags = new Flags();
+        stbtic Flbgs toFlbgs(Set<? extends OpenOption> options) {
+            Flbgs flbgs = new Flbgs();
             for (OpenOption option: options) {
-                if (option instanceof StandardOpenOption) {
-                    switch ((StandardOpenOption)option) {
-                        case READ : flags.read = true; break;
-                        case WRITE : flags.write = true; break;
-                        case APPEND : flags.append = true; break;
-                        case TRUNCATE_EXISTING : flags.truncateExisting = true; break;
-                        case CREATE : flags.create = true; break;
-                        case CREATE_NEW : flags.createNew = true; break;
-                        case DELETE_ON_CLOSE : flags.deleteOnClose = true; break;
-                        case SPARSE : /* ignore */ break;
-                        case SYNC : flags.sync = true; break;
-                        case DSYNC : flags.dsync = true; break;
-                        default: throw new UnsupportedOperationException();
+                if (option instbnceof StbndbrdOpenOption) {
+                    switch ((StbndbrdOpenOption)option) {
+                        cbse READ : flbgs.rebd = true; brebk;
+                        cbse WRITE : flbgs.write = true; brebk;
+                        cbse APPEND : flbgs.bppend = true; brebk;
+                        cbse TRUNCATE_EXISTING : flbgs.truncbteExisting = true; brebk;
+                        cbse CREATE : flbgs.crebte = true; brebk;
+                        cbse CREATE_NEW : flbgs.crebteNew = true; brebk;
+                        cbse DELETE_ON_CLOSE : flbgs.deleteOnClose = true; brebk;
+                        cbse SPARSE : /* ignore */ brebk;
+                        cbse SYNC : flbgs.sync = true; brebk;
+                        cbse DSYNC : flbgs.dsync = true; brebk;
+                        defbult: throw new UnsupportedOperbtionException();
                     }
                     continue;
                 }
                 if (option == LinkOption.NOFOLLOW_LINKS && O_NOFOLLOW != 0) {
-                    flags.noFollowLinks = true;
+                    flbgs.noFollowLinks = true;
                     continue;
                 }
                 if (option == null)
                     throw new NullPointerException();
-               throw new UnsupportedOperationException(option + " not supported");
+               throw new UnsupportedOperbtionException(option + " not supported");
             }
-            return flags;
+            return flbgs;
         }
     }
 
 
     /**
-     * Constructs a file channel from an existing (open) file descriptor
+     * Constructs b file chbnnel from bn existing (open) file descriptor
      */
-    static FileChannel newFileChannel(int fd, String path, boolean reading, boolean writing) {
+    stbtic FileChbnnel newFileChbnnel(int fd, String pbth, boolebn rebding, boolebn writing) {
         FileDescriptor fdObj = new FileDescriptor();
         fdAccess.set(fdObj, fd);
-        return FileChannelImpl.open(fdObj, path, reading, writing, null);
+        return FileChbnnelImpl.open(fdObj, pbth, rebding, writing, null);
     }
 
     /**
-     * Constructs a file channel by opening a file using a dfd/path pair
+     * Constructs b file chbnnel by opening b file using b dfd/pbth pbir
      */
-    static FileChannel newFileChannel(int dfd,
-                                      UnixPath path,
-                                      String pathForPermissionCheck,
+    stbtic FileChbnnel newFileChbnnel(int dfd,
+                                      UnixPbth pbth,
+                                      String pbthForPermissionCheck,
                                       Set<? extends OpenOption> options,
                                       int mode)
         throws UnixException
     {
-        Flags flags = Flags.toFlags(options);
+        Flbgs flbgs = Flbgs.toFlbgs(options);
 
-        // default is reading; append => writing
-        if (!flags.read && !flags.write) {
-            if (flags.append) {
-                flags.write = true;
+        // defbult is rebding; bppend => writing
+        if (!flbgs.rebd && !flbgs.write) {
+            if (flbgs.bppend) {
+                flbgs.write = true;
             } else {
-                flags.read = true;
+                flbgs.rebd = true;
             }
         }
 
-        // validation
-        if (flags.read && flags.append)
-            throw new IllegalArgumentException("READ + APPEND not allowed");
-        if (flags.append && flags.truncateExisting)
-            throw new IllegalArgumentException("APPEND + TRUNCATE_EXISTING not allowed");
+        // vblidbtion
+        if (flbgs.rebd && flbgs.bppend)
+            throw new IllegblArgumentException("READ + APPEND not bllowed");
+        if (flbgs.bppend && flbgs.truncbteExisting)
+            throw new IllegblArgumentException("APPEND + TRUNCATE_EXISTING not bllowed");
 
-        FileDescriptor fdObj = open(dfd, path, pathForPermissionCheck, flags, mode);
-        return FileChannelImpl.open(fdObj, path.toString(), flags.read, flags.write, flags.append, null);
+        FileDescriptor fdObj = open(dfd, pbth, pbthForPermissionCheck, flbgs, mode);
+        return FileChbnnelImpl.open(fdObj, pbth.toString(), flbgs.rebd, flbgs.write, flbgs.bppend, null);
     }
 
     /**
-     * Constructs a file channel by opening the given file.
+     * Constructs b file chbnnel by opening the given file.
      */
-    static FileChannel newFileChannel(UnixPath path,
+    stbtic FileChbnnel newFileChbnnel(UnixPbth pbth,
                                       Set<? extends OpenOption> options,
                                       int mode)
         throws UnixException
     {
-        return newFileChannel(-1, path, null, options, mode);
+        return newFileChbnnel(-1, pbth, null, options, mode);
     }
 
     /**
-     * Constructs an asynchronous file channel by opening the given file.
+     * Constructs bn bsynchronous file chbnnel by opening the given file.
      */
-    static AsynchronousFileChannel newAsynchronousFileChannel(UnixPath path,
+    stbtic AsynchronousFileChbnnel newAsynchronousFileChbnnel(UnixPbth pbth,
                                                               Set<? extends OpenOption> options,
                                                               int mode,
-                                                              ThreadPool pool)
+                                                              ThrebdPool pool)
         throws UnixException
     {
-        Flags flags = Flags.toFlags(options);
+        Flbgs flbgs = Flbgs.toFlbgs(options);
 
-        // default is reading
-        if (!flags.read && !flags.write) {
-            flags.read = true;
+        // defbult is rebding
+        if (!flbgs.rebd && !flbgs.write) {
+            flbgs.rebd = true;
         }
 
-        // validation
-        if (flags.append)
-            throw new UnsupportedOperationException("APPEND not allowed");
+        // vblidbtion
+        if (flbgs.bppend)
+            throw new UnsupportedOperbtionException("APPEND not bllowed");
 
-        // for now use simple implementation
-        FileDescriptor fdObj = open(-1, path, null, flags, mode);
-        return SimpleAsynchronousFileChannelImpl.open(fdObj, flags.read, flags.write, pool);
+        // for now use simple implementbtion
+        FileDescriptor fdObj = open(-1, pbth, null, flbgs, mode);
+        return SimpleAsynchronousFileChbnnelImpl.open(fdObj, flbgs.rebd, flbgs.write, pool);
     }
 
     /**
-     * Opens file based on parameters and options, returning a FileDescriptor
-     * encapsulating the handle to the open file.
+     * Opens file bbsed on pbrbmeters bnd options, returning b FileDescriptor
+     * encbpsulbting the hbndle to the open file.
      */
-    protected static FileDescriptor open(int dfd,
-                                         UnixPath path,
-                                         String pathForPermissionCheck,
-                                         Flags flags,
+    protected stbtic FileDescriptor open(int dfd,
+                                         UnixPbth pbth,
+                                         String pbthForPermissionCheck,
+                                         Flbgs flbgs,
                                          int mode)
         throws UnixException
     {
-        // map to oflags
-        int oflags;
-        if (flags.read && flags.write) {
-            oflags = O_RDWR;
+        // mbp to oflbgs
+        int oflbgs;
+        if (flbgs.rebd && flbgs.write) {
+            oflbgs = O_RDWR;
         } else {
-            oflags = (flags.write) ? O_WRONLY : O_RDONLY;
+            oflbgs = (flbgs.write) ? O_WRONLY : O_RDONLY;
         }
-        if (flags.write) {
-            if (flags.truncateExisting)
-                oflags |= O_TRUNC;
-            if (flags.append)
-                oflags |= O_APPEND;
+        if (flbgs.write) {
+            if (flbgs.truncbteExisting)
+                oflbgs |= O_TRUNC;
+            if (flbgs.bppend)
+                oflbgs |= O_APPEND;
 
-            // create flags
-            if (flags.createNew) {
-                byte[] pathForSysCall = path.asByteArray();
+            // crebte flbgs
+            if (flbgs.crebteNew) {
+                byte[] pbthForSysCbll = pbth.bsByteArrby();
 
-                // throw exception if file name is "." to avoid confusing error
-                if ((pathForSysCall[pathForSysCall.length-1] == '.') &&
-                    (pathForSysCall.length == 1 ||
-                    (pathForSysCall[pathForSysCall.length-2] == '/')))
+                // throw exception if file nbme is "." to bvoid confusing error
+                if ((pbthForSysCbll[pbthForSysCbll.length-1] == '.') &&
+                    (pbthForSysCbll.length == 1 ||
+                    (pbthForSysCbll[pbthForSysCbll.length-2] == '/')))
                 {
                     throw new UnixException(EEXIST);
                 }
-                oflags |= (O_CREAT | O_EXCL);
+                oflbgs |= (O_CREAT | O_EXCL);
             } else {
-                if (flags.create)
-                    oflags |= O_CREAT;
+                if (flbgs.crebte)
+                    oflbgs |= O_CREAT;
             }
         }
 
-        // follow links by default
-        boolean followLinks = true;
-        if (!flags.createNew && (flags.noFollowLinks || flags.deleteOnClose)) {
-            if (flags.deleteOnClose && O_NOFOLLOW == 0) {
+        // follow links by defbult
+        boolebn followLinks = true;
+        if (!flbgs.crebteNew && (flbgs.noFollowLinks || flbgs.deleteOnClose)) {
+            if (flbgs.deleteOnClose && O_NOFOLLOW == 0) {
                 try {
-                    if (UnixFileAttributes.get(path, false).isSymbolicLink())
-                        throw new UnixException("DELETE_ON_CLOSE specified and file is a symbolic link");
-                } catch (UnixException x) {
-                    if (!flags.create || x.errno() != ENOENT)
+                    if (UnixFileAttributes.get(pbth, fblse).isSymbolicLink())
+                        throw new UnixException("DELETE_ON_CLOSE specified bnd file is b symbolic link");
+                } cbtch (UnixException x) {
+                    if (!flbgs.crebte || x.errno() != ENOENT)
                         throw x;
                 }
             }
-            followLinks = false;
-            oflags |= O_NOFOLLOW;
+            followLinks = fblse;
+            oflbgs |= O_NOFOLLOW;
         }
 
-        if (flags.dsync)
-            oflags |= O_DSYNC;
-        if (flags.sync)
-            oflags |= O_SYNC;
+        if (flbgs.dsync)
+            oflbgs |= O_DSYNC;
+        if (flbgs.sync)
+            oflbgs |= O_SYNC;
 
         // permission check before we open the file
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            if (pathForPermissionCheck == null)
-                pathForPermissionCheck = path.getPathForPermissionCheck();
-            if (flags.read)
-                sm.checkRead(pathForPermissionCheck);
-            if (flags.write)
-                sm.checkWrite(pathForPermissionCheck);
-            if (flags.deleteOnClose)
-                sm.checkDelete(pathForPermissionCheck);
+            if (pbthForPermissionCheck == null)
+                pbthForPermissionCheck = pbth.getPbthForPermissionCheck();
+            if (flbgs.rebd)
+                sm.checkRebd(pbthForPermissionCheck);
+            if (flbgs.write)
+                sm.checkWrite(pbthForPermissionCheck);
+            if (flbgs.deleteOnClose)
+                sm.checkDelete(pbthForPermissionCheck);
         }
 
         int fd;
         try {
             if (dfd >= 0) {
-                fd = openat(dfd, path.asByteArray(), oflags, mode);
+                fd = openbt(dfd, pbth.bsByteArrby(), oflbgs, mode);
             } else {
-                fd = UnixNativeDispatcher.open(path, oflags, mode);
+                fd = UnixNbtiveDispbtcher.open(pbth, oflbgs, mode);
             }
-        } catch (UnixException x) {
-            // Linux error can be EISDIR or EEXIST when file exists
-            if (flags.createNew && (x.errno() == EISDIR)) {
+        } cbtch (UnixException x) {
+            // Linux error cbn be EISDIR or EEXIST when file exists
+            if (flbgs.crebteNew && (x.errno() == EISDIR)) {
                 x.setError(EEXIST);
             }
 
-            // handle ELOOP to avoid confusing message
+            // hbndle ELOOP to bvoid confusing messbge
             if (!followLinks && (x.errno() == ELOOP)) {
-                x = new UnixException(x.getMessage() + " (NOFOLLOW_LINKS specified)");
+                x = new UnixException(x.getMessbge() + " (NOFOLLOW_LINKS specified)");
             }
 
             throw x;
         }
 
-        // unlink file immediately if delete on close. The spec is clear that
-        // an implementation cannot guarantee to unlink the correct file when
-        // replaced by an attacker after it is opened.
-        if (flags.deleteOnClose) {
+        // unlink file immedibtely if delete on close. The spec is clebr thbt
+        // bn implementbtion cbnnot gubrbntee to unlink the correct file when
+        // replbced by bn bttbcker bfter it is opened.
+        if (flbgs.deleteOnClose) {
             try {
                 if (dfd >= 0) {
-                    unlinkat(dfd, path.asByteArray(), 0);
+                    unlinkbt(dfd, pbth.bsByteArrby(), 0);
                 } else {
-                    unlink(path);
+                    unlink(pbth);
                 }
-            } catch (UnixException ignore) {
+            } cbtch (UnixException ignore) {
                 // best-effort
             }
         }
 
-        // create java.io.FileDescriptor
+        // crebte jbvb.io.FileDescriptor
         FileDescriptor fdObj = new FileDescriptor();
         fdAccess.set(fdObj, fd);
         return fdObj;

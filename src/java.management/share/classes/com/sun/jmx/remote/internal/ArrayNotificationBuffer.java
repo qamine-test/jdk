@@ -1,410 +1,410 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.internal;
+pbckbge com.sun.jmx.remote.internbl;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Set;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerDelegate;
-import javax.management.MBeanServerNotification;
-import javax.management.Notification;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationFilter;
-import javax.management.NotificationFilterSupport;
-import javax.management.NotificationListener;
-import javax.management.ObjectName;
-import javax.management.QueryEval;
-import javax.management.QueryExp;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MBebnServerDelegbte;
+import jbvbx.mbnbgement.MBebnServerNotificbtion;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionBrobdcbster;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionFilterSupport;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.QueryEvbl;
+import jbvbx.mbnbgement.QueryExp;
 
-import javax.management.remote.NotificationResult;
-import javax.management.remote.TargetedNotification;
+import jbvbx.mbnbgement.remote.NotificbtionResult;
+import jbvbx.mbnbgement.remote.TbrgetedNotificbtion;
 
 import com.sun.jmx.remote.util.EnvHelp;
-import com.sun.jmx.remote.util.ClassLogger;
+import com.sun.jmx.remote.util.ClbssLogger;
 
-/** A circular buffer of notifications received from an MBean server. */
+/** A circulbr buffer of notificbtions received from bn MBebn server. */
 /*
-  There is one instance of ArrayNotificationBuffer for every
-  MBeanServer object that has an attached ConnectorServer.  Then, for
-  every ConnectorServer attached to a given MBeanServer, there is an
-  instance of the inner class ShareBuffer.  So for example with two
+  There is one instbnce of ArrbyNotificbtionBuffer for every
+  MBebnServer object thbt hbs bn bttbched ConnectorServer.  Then, for
+  every ConnectorServer bttbched to b given MBebnServer, there is bn
+  instbnce of the inner clbss ShbreBuffer.  So for exbmple with two
   ConnectorServers it looks like this:
 
-  ConnectorServer1 -> ShareBuffer1 -\
-                                     }-> ArrayNotificationBuffer
-  ConnectorServer2 -> ShareBuffer2 -/              |
+  ConnectorServer1 -> ShbreBuffer1 -\
+                                     }-> ArrbyNotificbtionBuffer
+  ConnectorServer2 -> ShbreBuffer2 -/              |
                                                    |
                                                    v
-                                              MBeanServer
+                                              MBebnServer
 
-  The ArrayNotificationBuffer has a circular buffer of
-  NamedNotification objects.  Each ConnectorServer defines a
-  notification buffer size, and this size is recorded by the
-  corresponding ShareBuffer.  The buffer size of the
-  ArrayNotificationBuffer is the maximum of all of its ShareBuffers.
-  When a ShareBuffer is added or removed, the ArrayNotificationBuffer
-  size is adjusted accordingly.
+  The ArrbyNotificbtionBuffer hbs b circulbr buffer of
+  NbmedNotificbtion objects.  Ebch ConnectorServer defines b
+  notificbtion buffer size, bnd this size is recorded by the
+  corresponding ShbreBuffer.  The buffer size of the
+  ArrbyNotificbtionBuffer is the mbximum of bll of its ShbreBuffers.
+  When b ShbreBuffer is bdded or removed, the ArrbyNotificbtionBuffer
+  size is bdjusted bccordingly.
 
-  An ArrayNotificationBuffer also has a BufferListener (which is a
-  NotificationListener) registered on every NotificationBroadcaster
-  MBean in the MBeanServer to which it is attached.  The cost of this
-  potentially large set of listeners is the principal motivation for
-  sharing the ArrayNotificationBuffer between ConnectorServers, and
-  also the reason that we are careful to discard the
-  ArrayNotificationBuffer (and its BufferListeners) when there are no
-  longer any ConnectorServers using it.
+  An ArrbyNotificbtionBuffer blso hbs b BufferListener (which is b
+  NotificbtionListener) registered on every NotificbtionBrobdcbster
+  MBebn in the MBebnServer to which it is bttbched.  The cost of this
+  potentiblly lbrge set of listeners is the principbl motivbtion for
+  shbring the ArrbyNotificbtionBuffer between ConnectorServers, bnd
+  blso the rebson thbt we bre cbreful to discbrd the
+  ArrbyNotificbtionBuffer (bnd its BufferListeners) when there bre no
+  longer bny ConnectorServers using it.
 
-  The synchronization of this class is inherently complex.  In an attempt
+  The synchronizbtion of this clbss is inherently complex.  In bn bttempt
   to limit the complexity, we use just two locks:
 
-  - globalLock controls access to the mapping between an MBeanServer
-    and its ArrayNotificationBuffer and to the set of ShareBuffers for
-    each ArrayNotificationBuffer.
+  - globblLock controls bccess to the mbpping between bn MBebnServer
+    bnd its ArrbyNotificbtionBuffer bnd to the set of ShbreBuffers for
+    ebch ArrbyNotificbtionBuffer.
 
-  - the instance lock of each ArrayNotificationBuffer controls access
-    to the array of notifications, including its size, and to the
-    dispose flag of the ArrayNotificationBuffer.  The wait/notify
-    mechanism is used to indicate changes to the array.
+  - the instbnce lock of ebch ArrbyNotificbtionBuffer controls bccess
+    to the brrby of notificbtions, including its size, bnd to the
+    dispose flbg of the ArrbyNotificbtionBuffer.  The wbit/notify
+    mechbnism is used to indicbte chbnges to the brrby.
 
-  If both locks are held at the same time, the globalLock must be
-  taken first.
+  If both locks bre held bt the sbme time, the globblLock must be
+  tbken first.
 
-  Since adding or removing a BufferListener to an MBean can involve
-  calling user code, we are careful not to hold any locks while it is
+  Since bdding or removing b BufferListener to bn MBebn cbn involve
+  cblling user code, we bre cbreful not to hold bny locks while it is
   done.
  */
-public class ArrayNotificationBuffer implements NotificationBuffer {
-    private boolean disposed = false;
+public clbss ArrbyNotificbtionBuffer implements NotificbtionBuffer {
+    privbte boolebn disposed = fblse;
 
     // FACTORY STUFF, INCLUDING SHARING
 
-    private static final Object globalLock = new Object();
-    private static final
-        HashMap<MBeanServer,ArrayNotificationBuffer> mbsToBuffer =
-        new HashMap<MBeanServer,ArrayNotificationBuffer>(1);
-    private final Collection<ShareBuffer> sharers = new HashSet<ShareBuffer>(1);
+    privbte stbtic finbl Object globblLock = new Object();
+    privbte stbtic finbl
+        HbshMbp<MBebnServer,ArrbyNotificbtionBuffer> mbsToBuffer =
+        new HbshMbp<MBebnServer,ArrbyNotificbtionBuffer>(1);
+    privbte finbl Collection<ShbreBuffer> shbrers = new HbshSet<ShbreBuffer>(1);
 
-    public static NotificationBuffer getNotificationBuffer(
-            MBeanServer mbs, Map<String, ?> env) {
+    public stbtic NotificbtionBuffer getNotificbtionBuffer(
+            MBebnServer mbs, Mbp<String, ?> env) {
 
         if (env == null)
-            env = Collections.emptyMap();
+            env = Collections.emptyMbp();
 
         //Find out queue size
         int queueSize = EnvHelp.getNotifBufferSize(env);
 
-        ArrayNotificationBuffer buf;
-        boolean create;
-        NotificationBuffer sharer;
-        synchronized (globalLock) {
+        ArrbyNotificbtionBuffer buf;
+        boolebn crebte;
+        NotificbtionBuffer shbrer;
+        synchronized (globblLock) {
             buf = mbsToBuffer.get(mbs);
-            create = (buf == null);
-            if (create) {
-                buf = new ArrayNotificationBuffer(mbs, queueSize);
+            crebte = (buf == null);
+            if (crebte) {
+                buf = new ArrbyNotificbtionBuffer(mbs, queueSize);
                 mbsToBuffer.put(mbs, buf);
             }
-            sharer = buf.new ShareBuffer(queueSize);
+            shbrer = buf.new ShbreBuffer(queueSize);
         }
-        /* We avoid holding any locks while calling createListeners.
-         * This prevents possible deadlocks involving user code, but
-         * does mean that a second ConnectorServer created and started
-         * in this window will return before all the listeners are ready,
-         * which could lead to surprising behaviour.  The alternative
+        /* We bvoid holding bny locks while cblling crebteListeners.
+         * This prevents possible debdlocks involving user code, but
+         * does mebn thbt b second ConnectorServer crebted bnd stbrted
+         * in this window will return before bll the listeners bre rebdy,
+         * which could lebd to surprising behbviour.  The blternbtive
          * would be to block the second ConnectorServer until the first
-         * one has finished adding all the listeners, but that would then
-         * be subject to deadlock.
+         * one hbs finished bdding bll the listeners, but thbt would then
+         * be subject to debdlock.
          */
-        if (create)
-            buf.createListeners();
-        return sharer;
+        if (crebte)
+            buf.crebteListeners();
+        return shbrer;
     }
 
-    /* Ensure that this buffer is no longer the one that will be returned by
-     * getNotificationBuffer.  This method is idempotent - calling it more
-     * than once has no effect beyond that of calling it once.
+    /* Ensure thbt this buffer is no longer the one thbt will be returned by
+     * getNotificbtionBuffer.  This method is idempotent - cblling it more
+     * thbn once hbs no effect beyond thbt of cblling it once.
      */
-    static void removeNotificationBuffer(MBeanServer mbs) {
-        synchronized (globalLock) {
+    stbtic void removeNotificbtionBuffer(MBebnServer mbs) {
+        synchronized (globblLock) {
             mbsToBuffer.remove(mbs);
         }
     }
 
-    void addSharer(ShareBuffer sharer) {
-        synchronized (globalLock) {
+    void bddShbrer(ShbreBuffer shbrer) {
+        synchronized (globblLock) {
             synchronized (this) {
-                if (sharer.getSize() > queueSize)
-                    resize(sharer.getSize());
+                if (shbrer.getSize() > queueSize)
+                    resize(shbrer.getSize());
             }
-            sharers.add(sharer);
+            shbrers.bdd(shbrer);
         }
     }
 
-    private void removeSharer(ShareBuffer sharer) {
-        boolean empty;
-        synchronized (globalLock) {
-            sharers.remove(sharer);
-            empty = sharers.isEmpty();
+    privbte void removeShbrer(ShbreBuffer shbrer) {
+        boolebn empty;
+        synchronized (globblLock) {
+            shbrers.remove(shbrer);
+            empty = shbrers.isEmpty();
             if (empty)
-                removeNotificationBuffer(mBeanServer);
+                removeNotificbtionBuffer(mBebnServer);
             else {
-                int max = 0;
-                for (ShareBuffer buf : sharers) {
+                int mbx = 0;
+                for (ShbreBuffer buf : shbrers) {
                     int bufsize = buf.getSize();
-                    if (bufsize > max)
-                        max = bufsize;
+                    if (bufsize > mbx)
+                        mbx = bufsize;
                 }
-                if (max < queueSize)
-                    resize(max);
+                if (mbx < queueSize)
+                    resize(mbx);
             }
         }
         if (empty) {
             synchronized (this) {
                 disposed = true;
-                // Notify potential waiting fetchNotification call
+                // Notify potentibl wbiting fetchNotificbtion cbll
                 notifyAll();
             }
             destroyListeners();
         }
     }
 
-    private synchronized void resize(int newSize) {
+    privbte synchronized void resize(int newSize) {
         if (newSize == queueSize)
             return;
         while (queue.size() > newSize)
-            dropNotification();
+            dropNotificbtion();
         queue.resize(newSize);
         queueSize = newSize;
     }
 
-    private class ShareBuffer implements NotificationBuffer {
-        ShareBuffer(int size) {
+    privbte clbss ShbreBuffer implements NotificbtionBuffer {
+        ShbreBuffer(int size) {
             this.size = size;
-            addSharer(this);
+            bddShbrer(this);
         }
 
-        public NotificationResult
-            fetchNotifications(NotificationBufferFilter filter,
-                               long startSequenceNumber,
+        public NotificbtionResult
+            fetchNotificbtions(NotificbtionBufferFilter filter,
+                               long stbrtSequenceNumber,
                                long timeout,
-                               int maxNotifications)
+                               int mbxNotificbtions)
                 throws InterruptedException {
-            NotificationBuffer buf = ArrayNotificationBuffer.this;
-            return buf.fetchNotifications(filter, startSequenceNumber,
-                                          timeout, maxNotifications);
+            NotificbtionBuffer buf = ArrbyNotificbtionBuffer.this;
+            return buf.fetchNotificbtions(filter, stbrtSequenceNumber,
+                                          timeout, mbxNotificbtions);
         }
 
         public void dispose() {
-            ArrayNotificationBuffer.this.removeSharer(this);
+            ArrbyNotificbtionBuffer.this.removeShbrer(this);
         }
 
         int getSize() {
             return size;
         }
 
-        private final int size;
+        privbte finbl int size;
     }
 
 
     // ARRAYNOTIFICATIONBUFFER IMPLEMENTATION
 
-    private ArrayNotificationBuffer(MBeanServer mbs, int queueSize) {
-        if (logger.traceOn())
-            logger.trace("Constructor", "queueSize=" + queueSize);
+    privbte ArrbyNotificbtionBuffer(MBebnServer mbs, int queueSize) {
+        if (logger.trbceOn())
+            logger.trbce("Constructor", "queueSize=" + queueSize);
 
         if (mbs == null || queueSize < 1)
-            throw new IllegalArgumentException("Bad args");
+            throw new IllegblArgumentException("Bbd brgs");
 
-        this.mBeanServer = mbs;
+        this.mBebnServer = mbs;
         this.queueSize = queueSize;
-        this.queue = new ArrayQueue<NamedNotification>(queueSize);
-        this.earliestSequenceNumber = System.currentTimeMillis();
-        this.nextSequenceNumber = this.earliestSequenceNumber;
+        this.queue = new ArrbyQueue<NbmedNotificbtion>(queueSize);
+        this.ebrliestSequenceNumber = System.currentTimeMillis();
+        this.nextSequenceNumber = this.ebrliestSequenceNumber;
 
-        logger.trace("Constructor", "ends");
+        logger.trbce("Constructor", "ends");
     }
 
-    private synchronized boolean isDisposed() {
+    privbte synchronized boolebn isDisposed() {
         return disposed;
     }
 
-    // We no longer support calling this method from outside.
-    // The JDK doesn't contain any such calls and users are not
-    // supposed to be accessing this class.
+    // We no longer support cblling this method from outside.
+    // The JDK doesn't contbin bny such cblls bnd users bre not
+    // supposed to be bccessing this clbss.
     public void dispose() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * <p>Fetch notifications that match the given listeners.</p>
+     * <p>Fetch notificbtions thbt mbtch the given listeners.</p>
      *
-     * <p>The operation only considers notifications with a sequence
-     * number at least <code>startSequenceNumber</code>.  It will take
-     * no longer than <code>timeout</code>, and will return no more
-     * than <code>maxNotifications</code> different notifications.</p>
+     * <p>The operbtion only considers notificbtions with b sequence
+     * number bt lebst <code>stbrtSequenceNumber</code>.  It will tbke
+     * no longer thbn <code>timeout</code>, bnd will return no more
+     * thbn <code>mbxNotificbtions</code> different notificbtions.</p>
      *
-     * <p>If there are no notifications matching the criteria, the
-     * operation will block until one arrives, subject to the
+     * <p>If there bre no notificbtions mbtching the criterib, the
+     * operbtion will block until one brrives, subject to the
      * timeout.</p>
      *
-     * @param filter an object that will add notifications to a
-     * {@code List<TargetedNotification>} if they match the current
+     * @pbrbm filter bn object thbt will bdd notificbtions to b
+     * {@code List<TbrgetedNotificbtion>} if they mbtch the current
      * listeners with their filters.
-     * @param startSequenceNumber the first sequence number to
+     * @pbrbm stbrtSequenceNumber the first sequence number to
      * consider.
-     * @param timeout the maximum time to wait.  May be 0 to indicate
-     * not to wait if there are no notifications.
-     * @param maxNotifications the maximum number of notifications to
-     * return.  May be 0 to indicate a wait for eligible notifications
-     * that will return a usable <code>nextSequenceNumber</code>.  The
-     * {@link TargetedNotification} array in the returned {@link
-     * NotificationResult} may contain more than this number of
-     * elements but will not contain more than this number of
-     * different notifications.
+     * @pbrbm timeout the mbximum time to wbit.  Mby be 0 to indicbte
+     * not to wbit if there bre no notificbtions.
+     * @pbrbm mbxNotificbtions the mbximum number of notificbtions to
+     * return.  Mby be 0 to indicbte b wbit for eligible notificbtions
+     * thbt will return b usbble <code>nextSequenceNumber</code>.  The
+     * {@link TbrgetedNotificbtion} brrby in the returned {@link
+     * NotificbtionResult} mby contbin more thbn this number of
+     * elements but will not contbin more thbn this number of
+     * different notificbtions.
      */
-    public NotificationResult
-        fetchNotifications(NotificationBufferFilter filter,
-                           long startSequenceNumber,
+    public NotificbtionResult
+        fetchNotificbtions(NotificbtionBufferFilter filter,
+                           long stbrtSequenceNumber,
                            long timeout,
-                           int maxNotifications)
+                           int mbxNotificbtions)
             throws InterruptedException {
 
-        logger.trace("fetchNotifications", "starts");
+        logger.trbce("fetchNotificbtions", "stbrts");
 
-        if (startSequenceNumber < 0 || isDisposed()) {
+        if (stbrtSequenceNumber < 0 || isDisposed()) {
             synchronized(this) {
-                return new NotificationResult(earliestSequenceNumber(),
+                return new NotificbtionResult(ebrliestSequenceNumber(),
                                               nextSequenceNumber(),
-                                              new TargetedNotification[0]);
+                                              new TbrgetedNotificbtion[0]);
             }
         }
 
-        // Check arg validity
+        // Check brg vblidity
         if (filter == null
-            || startSequenceNumber < 0 || timeout < 0
-            || maxNotifications < 0) {
-            logger.trace("fetchNotifications", "Bad args");
-            throw new IllegalArgumentException("Bad args to fetch");
+            || stbrtSequenceNumber < 0 || timeout < 0
+            || mbxNotificbtions < 0) {
+            logger.trbce("fetchNotificbtions", "Bbd brgs");
+            throw new IllegblArgumentException("Bbd brgs to fetch");
         }
 
         if (logger.debugOn()) {
-            logger.trace("fetchNotifications",
-                  "filter=" + filter + "; startSeq=" +
-                  startSequenceNumber + "; timeout=" + timeout +
-                  "; max=" + maxNotifications);
+            logger.trbce("fetchNotificbtions",
+                  "filter=" + filter + "; stbrtSeq=" +
+                  stbrtSequenceNumber + "; timeout=" + timeout +
+                  "; mbx=" + mbxNotificbtions);
         }
 
-        if (startSequenceNumber > nextSequenceNumber()) {
-            final String msg = "Start sequence number too big: " +
-                startSequenceNumber + " > " + nextSequenceNumber();
-            logger.trace("fetchNotifications", msg);
-            throw new IllegalArgumentException(msg);
+        if (stbrtSequenceNumber > nextSequenceNumber()) {
+            finbl String msg = "Stbrt sequence number too big: " +
+                stbrtSequenceNumber + " > " + nextSequenceNumber();
+            logger.trbce("fetchNotificbtions", msg);
+            throw new IllegblArgumentException(msg);
         }
 
-        /* Determine the end time corresponding to the timeout value.
-           Caller may legitimately supply Long.MAX_VALUE to indicate no
-           timeout.  In that case the addition will overflow and produce
-           a negative end time.  Set end time to Long.MAX_VALUE in that
-           case.  We assume System.currentTimeMillis() is positive.  */
+        /* Determine the end time corresponding to the timeout vblue.
+           Cbller mby legitimbtely supply Long.MAX_VALUE to indicbte no
+           timeout.  In thbt cbse the bddition will overflow bnd produce
+           b negbtive end time.  Set end time to Long.MAX_VALUE in thbt
+           cbse.  We bssume System.currentTimeMillis() is positive.  */
         long endTime = System.currentTimeMillis() + timeout;
         if (endTime < 0) // overflow
             endTime = Long.MAX_VALUE;
 
         if (logger.debugOn())
-            logger.debug("fetchNotifications", "endTime=" + endTime);
+            logger.debug("fetchNotificbtions", "endTime=" + endTime);
 
-        /* We set earliestSeq the first time through the loop.  If we
-           set it here, notifications could be dropped before we
-           started examining them, so earliestSeq might not correspond
-           to the earliest notification we examined.  */
-        long earliestSeq = -1;
-        long nextSeq = startSequenceNumber;
-        List<TargetedNotification> notifs =
-            new ArrayList<TargetedNotification>();
+        /* We set ebrliestSeq the first time through the loop.  If we
+           set it here, notificbtions could be dropped before we
+           stbrted exbmining them, so ebrliestSeq might not correspond
+           to the ebrliest notificbtion we exbmined.  */
+        long ebrliestSeq = -1;
+        long nextSeq = stbrtSequenceNumber;
+        List<TbrgetedNotificbtion> notifs =
+            new ArrbyList<TbrgetedNotificbtion>();
 
-        /* On exit from this loop, notifs, earliestSeq, and nextSeq must
-           all be correct values for the returned NotificationResult.  */
+        /* On exit from this loop, notifs, ebrliestSeq, bnd nextSeq must
+           bll be correct vblues for the returned NotificbtionResult.  */
         while (true) {
-            logger.debug("fetchNotifications", "main loop starts");
+            logger.debug("fetchNotificbtions", "mbin loop stbrts");
 
-            NamedNotification candidate;
+            NbmedNotificbtion cbndidbte;
 
-            /* Get the next available notification regardless of filters,
-               or wait for one to arrive if there is none.  */
+            /* Get the next bvbilbble notificbtion regbrdless of filters,
+               or wbit for one to brrive if there is none.  */
             synchronized (this) {
 
-                /* First time through.  The current earliestSequenceNumber
-                   is the first one we could have examined.  */
-                if (earliestSeq < 0) {
-                    earliestSeq = earliestSequenceNumber();
+                /* First time through.  The current ebrliestSequenceNumber
+                   is the first one we could hbve exbmined.  */
+                if (ebrliestSeq < 0) {
+                    ebrliestSeq = ebrliestSequenceNumber();
                     if (logger.debugOn()) {
-                        logger.debug("fetchNotifications",
-                              "earliestSeq=" + earliestSeq);
+                        logger.debug("fetchNotificbtions",
+                              "ebrliestSeq=" + ebrliestSeq);
                     }
-                    if (nextSeq < earliestSeq) {
-                        nextSeq = earliestSeq;
-                        logger.debug("fetchNotifications",
-                                     "nextSeq=earliestSeq");
+                    if (nextSeq < ebrliestSeq) {
+                        nextSeq = ebrliestSeq;
+                        logger.debug("fetchNotificbtions",
+                                     "nextSeq=ebrliestSeq");
                     }
                 } else
-                    earliestSeq = earliestSequenceNumber();
+                    ebrliestSeq = ebrliestSequenceNumber();
 
-                /* If many notifications have been dropped since the
-                   last time through, nextSeq could now be earlier
-                   than the current earliest.  If so, notifications
-                   may have been lost and we return now so the caller
-                   can see this next time it calls.  */
-                if (nextSeq < earliestSeq) {
-                    logger.trace("fetchNotifications",
-                          "nextSeq=" + nextSeq + " < " + "earliestSeq=" +
-                          earliestSeq + " so may have lost notifs");
-                    break;
+                /* If mbny notificbtions hbve been dropped since the
+                   lbst time through, nextSeq could now be ebrlier
+                   thbn the current ebrliest.  If so, notificbtions
+                   mby hbve been lost bnd we return now so the cbller
+                   cbn see this next time it cblls.  */
+                if (nextSeq < ebrliestSeq) {
+                    logger.trbce("fetchNotificbtions",
+                          "nextSeq=" + nextSeq + " < " + "ebrliestSeq=" +
+                          ebrliestSeq + " so mby hbve lost notifs");
+                    brebk;
                 }
 
                 if (nextSeq < nextSequenceNumber()) {
-                    candidate = notificationAt(nextSeq);
-                    // Skip security check if NotificationBufferFilter is not overloaded
-                    if (!(filter instanceof ServerNotifForwarder.NotifForwarderBufferFilter)) {
+                    cbndidbte = notificbtionAt(nextSeq);
+                    // Skip security check if NotificbtionBufferFilter is not overlobded
+                    if (!(filter instbnceof ServerNotifForwbrder.NotifForwbrderBufferFilter)) {
                         try {
-                            ServerNotifForwarder.checkMBeanPermission(this.mBeanServer,
-                                                      candidate.getObjectName(),"addNotificationListener");
-                        } catch (InstanceNotFoundException | SecurityException e) {
+                            ServerNotifForwbrder.checkMBebnPermission(this.mBebnServer,
+                                                      cbndidbte.getObjectNbme(),"bddNotificbtionListener");
+                        } cbtch (InstbnceNotFoundException | SecurityException e) {
                             if (logger.debugOn()) {
-                                logger.debug("fetchNotifications", "candidate: " + candidate + " skipped. exception " + e);
+                                logger.debug("fetchNotificbtions", "cbndidbte: " + cbndidbte + " skipped. exception " + e);
                             }
                             ++nextSeq;
                             continue;
@@ -412,441 +412,441 @@ public class ArrayNotificationBuffer implements NotificationBuffer {
                     }
 
                     if (logger.debugOn()) {
-                        logger.debug("fetchNotifications", "candidate: " +
-                                     candidate);
-                        logger.debug("fetchNotifications", "nextSeq now " +
+                        logger.debug("fetchNotificbtions", "cbndidbte: " +
+                                     cbndidbte);
+                        logger.debug("fetchNotificbtions", "nextSeq now " +
                                      nextSeq);
                     }
                 } else {
-                    /* nextSeq is the largest sequence number.  If we
-                       already got notifications, return them now.
-                       Otherwise wait for some to arrive, with
+                    /* nextSeq is the lbrgest sequence number.  If we
+                       blrebdy got notificbtions, return them now.
+                       Otherwise wbit for some to brrive, with
                        timeout.  */
                     if (notifs.size() > 0) {
-                        logger.debug("fetchNotifications",
-                              "no more notifs but have some so don't wait");
-                        break;
+                        logger.debug("fetchNotificbtions",
+                              "no more notifs but hbve some so don't wbit");
+                        brebk;
                     }
-                    long toWait = endTime - System.currentTimeMillis();
-                    if (toWait <= 0) {
-                        logger.debug("fetchNotifications", "timeout");
-                        break;
+                    long toWbit = endTime - System.currentTimeMillis();
+                    if (toWbit <= 0) {
+                        logger.debug("fetchNotificbtions", "timeout");
+                        brebk;
                     }
 
-                    /* dispose called */
+                    /* dispose cblled */
                     if (isDisposed()) {
                         if (logger.debugOn())
-                            logger.debug("fetchNotifications",
-                                         "dispose callled, no wait");
-                        return new NotificationResult(earliestSequenceNumber(),
+                            logger.debug("fetchNotificbtions",
+                                         "dispose cbllled, no wbit");
+                        return new NotificbtionResult(ebrliestSequenceNumber(),
                                                   nextSequenceNumber(),
-                                                  new TargetedNotification[0]);
+                                                  new TbrgetedNotificbtion[0]);
                     }
 
                     if (logger.debugOn())
-                        logger.debug("fetchNotifications",
-                                     "wait(" + toWait + ")");
-                    wait(toWait);
+                        logger.debug("fetchNotificbtions",
+                                     "wbit(" + toWbit + ")");
+                    wbit(toWbit);
 
                     continue;
                 }
             }
 
-            /* We have a candidate notification.  See if it matches
+            /* We hbve b cbndidbte notificbtion.  See if it mbtches
                our filters.  We do this outside the synchronized block
-               so we don't hold up everyone accessing the buffer
-               (including notification senders) while we evaluate
-               potentially slow filters.  */
-            ObjectName name = candidate.getObjectName();
-            Notification notif = candidate.getNotification();
-            List<TargetedNotification> matchedNotifs =
-                new ArrayList<TargetedNotification>();
-            logger.debug("fetchNotifications",
-                         "applying filter to candidate");
-            filter.apply(matchedNotifs, name, notif);
+               so we don't hold up everyone bccessing the buffer
+               (including notificbtion senders) while we evblubte
+               potentiblly slow filters.  */
+            ObjectNbme nbme = cbndidbte.getObjectNbme();
+            Notificbtion notif = cbndidbte.getNotificbtion();
+            List<TbrgetedNotificbtion> mbtchedNotifs =
+                new ArrbyList<TbrgetedNotificbtion>();
+            logger.debug("fetchNotificbtions",
+                         "bpplying filter to cbndidbte");
+            filter.bpply(mbtchedNotifs, nbme, notif);
 
-            if (matchedNotifs.size() > 0) {
-                /* We only check the max size now, so that our
-                   returned nextSeq is as large as possible.  This
-                   prevents the caller from thinking it missed
-                   interesting notifications when in fact we knew they
+            if (mbtchedNotifs.size() > 0) {
+                /* We only check the mbx size now, so thbt our
+                   returned nextSeq is bs lbrge bs possible.  This
+                   prevents the cbller from thinking it missed
+                   interesting notificbtions when in fbct we knew they
                    weren't.  */
-                if (maxNotifications <= 0) {
-                    logger.debug("fetchNotifications",
-                                 "reached maxNotifications");
-                    break;
+                if (mbxNotificbtions <= 0) {
+                    logger.debug("fetchNotificbtions",
+                                 "rebched mbxNotificbtions");
+                    brebk;
                 }
-                --maxNotifications;
+                --mbxNotificbtions;
                 if (logger.debugOn())
-                    logger.debug("fetchNotifications", "add: " +
-                                 matchedNotifs);
-                notifs.addAll(matchedNotifs);
+                    logger.debug("fetchNotificbtions", "bdd: " +
+                                 mbtchedNotifs);
+                notifs.bddAll(mbtchedNotifs);
             }
 
             ++nextSeq;
         } // end while
 
-        /* Construct and return the result.  */
+        /* Construct bnd return the result.  */
         int nnotifs = notifs.size();
-        TargetedNotification[] resultNotifs =
-            new TargetedNotification[nnotifs];
-        notifs.toArray(resultNotifs);
-        NotificationResult nr =
-            new NotificationResult(earliestSeq, nextSeq, resultNotifs);
+        TbrgetedNotificbtion[] resultNotifs =
+            new TbrgetedNotificbtion[nnotifs];
+        notifs.toArrby(resultNotifs);
+        NotificbtionResult nr =
+            new NotificbtionResult(ebrliestSeq, nextSeq, resultNotifs);
         if (logger.debugOn())
-            logger.debug("fetchNotifications", nr.toString());
-        logger.trace("fetchNotifications", "ends");
+            logger.debug("fetchNotificbtions", nr.toString());
+        logger.trbce("fetchNotificbtions", "ends");
 
         return nr;
     }
 
-    synchronized long earliestSequenceNumber() {
-        return earliestSequenceNumber;
+    synchronized long ebrliestSequenceNumber() {
+        return ebrliestSequenceNumber;
     }
 
     synchronized long nextSequenceNumber() {
         return nextSequenceNumber;
     }
 
-    synchronized void addNotification(NamedNotification notif) {
-        if (logger.traceOn())
-            logger.trace("addNotification", notif.toString());
+    synchronized void bddNotificbtion(NbmedNotificbtion notif) {
+        if (logger.trbceOn())
+            logger.trbce("bddNotificbtion", notif.toString());
 
         while (queue.size() >= queueSize) {
-            dropNotification();
+            dropNotificbtion();
             if (logger.debugOn()) {
-                logger.debug("addNotification",
-                      "dropped oldest notif, earliestSeq=" +
-                      earliestSequenceNumber);
+                logger.debug("bddNotificbtion",
+                      "dropped oldest notif, ebrliestSeq=" +
+                      ebrliestSequenceNumber);
             }
         }
-        queue.add(notif);
+        queue.bdd(notif);
         nextSequenceNumber++;
         if (logger.debugOn())
-            logger.debug("addNotification", "nextSeq=" + nextSequenceNumber);
+            logger.debug("bddNotificbtion", "nextSeq=" + nextSequenceNumber);
         notifyAll();
     }
 
-    private void dropNotification() {
+    privbte void dropNotificbtion() {
         queue.remove(0);
-        earliestSequenceNumber++;
+        ebrliestSequenceNumber++;
     }
 
-    synchronized NamedNotification notificationAt(long seqNo) {
-        long index = seqNo - earliestSequenceNumber;
+    synchronized NbmedNotificbtion notificbtionAt(long seqNo) {
+        long index = seqNo - ebrliestSequenceNumber;
         if (index < 0 || index > Integer.MAX_VALUE) {
-            final String msg = "Bad sequence number: " + seqNo + " (earliest "
-                + earliestSequenceNumber + ")";
-            logger.trace("notificationAt", msg);
-            throw new IllegalArgumentException(msg);
+            finbl String msg = "Bbd sequence number: " + seqNo + " (ebrliest "
+                + ebrliestSequenceNumber + ")";
+            logger.trbce("notificbtionAt", msg);
+            throw new IllegblArgumentException(msg);
         }
         return queue.get((int) index);
     }
 
-    private static class NamedNotification {
-        NamedNotification(ObjectName sender, Notification notif) {
+    privbte stbtic clbss NbmedNotificbtion {
+        NbmedNotificbtion(ObjectNbme sender, Notificbtion notif) {
             this.sender = sender;
-            this.notification = notif;
+            this.notificbtion = notif;
         }
 
-        ObjectName getObjectName() {
+        ObjectNbme getObjectNbme() {
             return sender;
         }
 
-        Notification getNotification() {
-            return notification;
+        Notificbtion getNotificbtion() {
+            return notificbtion;
         }
 
         public String toString() {
-            return "NamedNotification(" + sender + ", " + notification + ")";
+            return "NbmedNotificbtion(" + sender + ", " + notificbtion + ")";
         }
 
-        private final ObjectName sender;
-        private final Notification notification;
+        privbte finbl ObjectNbme sender;
+        privbte finbl Notificbtion notificbtion;
     }
 
     /*
-     * Add our listener to every NotificationBroadcaster MBean
-     * currently in the MBean server and to every
-     * NotificationBroadcaster later created.
+     * Add our listener to every NotificbtionBrobdcbster MBebn
+     * currently in the MBebn server bnd to every
+     * NotificbtionBrobdcbster lbter crebted.
      *
-     * It would be really nice if we could just do
-     * mbs.addNotificationListener(new ObjectName("*:*"), ...);
+     * It would be reblly nice if we could just do
+     * mbs.bddNotificbtionListener(new ObjectNbme("*:*"), ...);
      * Definitely something for the next version of JMX.
      *
-     * There is a nasty race condition that we must handle.  We
-     * first register for MBean-creation notifications so we can add
-     * listeners to new MBeans, then we query the existing MBeans to
-     * add listeners to them.  The problem is that a new MBean could
-     * arrive after we register for creations but before the query has
-     * completed.  Then we could see the MBean both in the query and
-     * in an MBean-creation notification, and we would end up
+     * There is b nbsty rbce condition thbt we must hbndle.  We
+     * first register for MBebn-crebtion notificbtions so we cbn bdd
+     * listeners to new MBebns, then we query the existing MBebns to
+     * bdd listeners to them.  The problem is thbt b new MBebn could
+     * brrive bfter we register for crebtions but before the query hbs
+     * completed.  Then we could see the MBebn both in the query bnd
+     * in bn MBebn-crebtion notificbtion, bnd we would end up
      * registering our listener twice.
      *
-     * To solve this problem, we arrange for new MBeans that arrive
-     * while the query is being done to be added to the Set createdDuringQuery
-     * and we do not add a listener immediately.  When the query is done,
-     * we atomically turn off the addition of new names to createdDuringQuery
-     * and add all the names that were there to the result of the query.
-     * Since we are dealing with Sets, the result is the same whether or not
-     * the newly-created MBean was included in the query result.
+     * To solve this problem, we brrbnge for new MBebns thbt brrive
+     * while the query is being done to be bdded to the Set crebtedDuringQuery
+     * bnd we do not bdd b listener immedibtely.  When the query is done,
+     * we btomicblly turn off the bddition of new nbmes to crebtedDuringQuery
+     * bnd bdd bll the nbmes thbt were there to the result of the query.
+     * Since we bre debling with Sets, the result is the sbme whether or not
+     * the newly-crebted MBebn wbs included in the query result.
      *
-     * It is important not to hold any locks during the operation of adding
-     * listeners to MBeans.  An MBean's addNotificationListener can be
-     * arbitrary user code, and this could deadlock with any locks we hold
-     * (see bug 6239400).  The corollary is that we must not do any operations
-     * in this method or the methods it calls that require locks.
+     * It is importbnt not to hold bny locks during the operbtion of bdding
+     * listeners to MBebns.  An MBebn's bddNotificbtionListener cbn be
+     * brbitrbry user code, bnd this could debdlock with bny locks we hold
+     * (see bug 6239400).  The corollbry is thbt we must not do bny operbtions
+     * in this method or the methods it cblls thbt require locks.
      */
-    private void createListeners() {
-        logger.debug("createListeners", "starts");
+    privbte void crebteListeners() {
+        logger.debug("crebteListeners", "stbrts");
 
         synchronized (this) {
-            createdDuringQuery = new HashSet<ObjectName>();
+            crebtedDuringQuery = new HbshSet<ObjectNbme>();
         }
 
         try {
-            addNotificationListener(MBeanServerDelegate.DELEGATE_NAME,
-                                    creationListener, creationFilter, null);
-            logger.debug("createListeners", "added creationListener");
-        } catch (Exception e) {
-            final String msg = "Can't add listener to MBean server delegate: ";
-            RuntimeException re = new IllegalArgumentException(msg + e);
-            EnvHelp.initCause(re, e);
-            logger.fine("createListeners", msg + e);
-            logger.debug("createListeners", e);
+            bddNotificbtionListener(MBebnServerDelegbte.DELEGATE_NAME,
+                                    crebtionListener, crebtionFilter, null);
+            logger.debug("crebteListeners", "bdded crebtionListener");
+        } cbtch (Exception e) {
+            finbl String msg = "Cbn't bdd listener to MBebn server delegbte: ";
+            RuntimeException re = new IllegblArgumentException(msg + e);
+            EnvHelp.initCbuse(re, e);
+            logger.fine("crebteListeners", msg + e);
+            logger.debug("crebteListeners", e);
             throw re;
         }
 
-        /* Spec doesn't say whether Set returned by QueryNames can be modified
+        /* Spec doesn't sby whether Set returned by QueryNbmes cbn be modified
            so we clone it. */
-        Set<ObjectName> names = queryNames(null, broadcasterQuery);
-        names = new HashSet<ObjectName>(names);
+        Set<ObjectNbme> nbmes = queryNbmes(null, brobdcbsterQuery);
+        nbmes = new HbshSet<ObjectNbme>(nbmes);
 
         synchronized (this) {
-            names.addAll(createdDuringQuery);
-            createdDuringQuery = null;
+            nbmes.bddAll(crebtedDuringQuery);
+            crebtedDuringQuery = null;
         }
 
-        for (ObjectName name : names)
-            addBufferListener(name);
-        logger.debug("createListeners", "ends");
+        for (ObjectNbme nbme : nbmes)
+            bddBufferListener(nbme);
+        logger.debug("crebteListeners", "ends");
     }
 
-    private void addBufferListener(ObjectName name) {
+    privbte void bddBufferListener(ObjectNbme nbme) {
         checkNoLocks();
         if (logger.debugOn())
-            logger.debug("addBufferListener", name.toString());
+            logger.debug("bddBufferListener", nbme.toString());
         try {
-            addNotificationListener(name, bufferListener, null, name);
-        } catch (Exception e) {
-            logger.trace("addBufferListener", e);
-            /* This can happen if the MBean was unregistered just
-               after the query.  Or user NotificationBroadcaster might
+            bddNotificbtionListener(nbme, bufferListener, null, nbme);
+        } cbtch (Exception e) {
+            logger.trbce("bddBufferListener", e);
+            /* This cbn hbppen if the MBebn wbs unregistered just
+               bfter the query.  Or user NotificbtionBrobdcbster might
                throw unexpected exception.  */
         }
     }
 
-    private void removeBufferListener(ObjectName name) {
+    privbte void removeBufferListener(ObjectNbme nbme) {
         checkNoLocks();
         if (logger.debugOn())
-            logger.debug("removeBufferListener", name.toString());
+            logger.debug("removeBufferListener", nbme.toString());
         try {
-            removeNotificationListener(name, bufferListener);
-        } catch (Exception e) {
-            logger.trace("removeBufferListener", e);
+            removeNotificbtionListener(nbme, bufferListener);
+        } cbtch (Exception e) {
+            logger.trbce("removeBufferListener", e);
         }
     }
 
-    private void addNotificationListener(final ObjectName name,
-                                         final NotificationListener listener,
-                                         final NotificationFilter filter,
-                                         final Object handback)
+    privbte void bddNotificbtionListener(finbl ObjectNbme nbme,
+                                         finbl NotificbtionListener listener,
+                                         finbl NotificbtionFilter filter,
+                                         finbl Object hbndbbck)
             throws Exception {
         try {
             AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
-                public Void run() throws InstanceNotFoundException {
-                    mBeanServer.addNotificationListener(name,
+                public Void run() throws InstbnceNotFoundException {
+                    mBebnServer.bddNotificbtionListener(nbme,
                                                         listener,
                                                         filter,
-                                                        handback);
+                                                        hbndbbck);
                     return null;
                 }
             });
-        } catch (Exception e) {
-            throw extractException(e);
+        } cbtch (Exception e) {
+            throw extrbctException(e);
         }
     }
 
-    private void removeNotificationListener(final ObjectName name,
-                                            final NotificationListener listener)
+    privbte void removeNotificbtionListener(finbl ObjectNbme nbme,
+                                            finbl NotificbtionListener listener)
             throws Exception {
         try {
             AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
                 public Void run() throws Exception {
-                    mBeanServer.removeNotificationListener(name, listener);
+                    mBebnServer.removeNotificbtionListener(nbme, listener);
                     return null;
                 }
             });
-        } catch (Exception e) {
-            throw extractException(e);
+        } cbtch (Exception e) {
+            throw extrbctException(e);
         }
     }
 
-    private Set<ObjectName> queryNames(final ObjectName name,
-                                       final QueryExp query) {
-        PrivilegedAction<Set<ObjectName>> act =
-            new PrivilegedAction<Set<ObjectName>>() {
-                public Set<ObjectName> run() {
-                    return mBeanServer.queryNames(name, query);
+    privbte Set<ObjectNbme> queryNbmes(finbl ObjectNbme nbme,
+                                       finbl QueryExp query) {
+        PrivilegedAction<Set<ObjectNbme>> bct =
+            new PrivilegedAction<Set<ObjectNbme>>() {
+                public Set<ObjectNbme> run() {
+                    return mBebnServer.queryNbmes(nbme, query);
                 }
             };
         try {
-            return AccessController.doPrivileged(act);
-        } catch (RuntimeException e) {
-            logger.fine("queryNames", "Failed to query names: " + e);
-            logger.debug("queryNames", e);
+            return AccessController.doPrivileged(bct);
+        } cbtch (RuntimeException e) {
+            logger.fine("queryNbmes", "Fbiled to query nbmes: " + e);
+            logger.debug("queryNbmes", e);
             throw e;
         }
     }
 
-    private static boolean isInstanceOf(final MBeanServer mbs,
-                                        final ObjectName name,
-                                        final String className) {
-        PrivilegedExceptionAction<Boolean> act =
-            new PrivilegedExceptionAction<Boolean>() {
-                public Boolean run() throws InstanceNotFoundException {
-                    return mbs.isInstanceOf(name, className);
+    privbte stbtic boolebn isInstbnceOf(finbl MBebnServer mbs,
+                                        finbl ObjectNbme nbme,
+                                        finbl String clbssNbme) {
+        PrivilegedExceptionAction<Boolebn> bct =
+            new PrivilegedExceptionAction<Boolebn>() {
+                public Boolebn run() throws InstbnceNotFoundException {
+                    return mbs.isInstbnceOf(nbme, clbssNbme);
                 }
             };
         try {
-            return AccessController.doPrivileged(act);
-        } catch (Exception e) {
-            logger.fine("isInstanceOf", "failed: " + e);
-            logger.debug("isInstanceOf", e);
-            return false;
+            return AccessController.doPrivileged(bct);
+        } cbtch (Exception e) {
+            logger.fine("isInstbnceOf", "fbiled: " + e);
+            logger.debug("isInstbnceOf", e);
+            return fblse;
         }
     }
 
     /* This method must not be synchronized.  See the comment on the
-     * createListeners method.
+     * crebteListeners method.
      *
-     * The notification could arrive after our buffer has been destroyed
-     * or even during its destruction.  So we always add our listener
-     * (without synchronization), then we check if the buffer has been
-     * destroyed and if so remove the listener we just added.
+     * The notificbtion could brrive bfter our buffer hbs been destroyed
+     * or even during its destruction.  So we blwbys bdd our listener
+     * (without synchronizbtion), then we check if the buffer hbs been
+     * destroyed bnd if so remove the listener we just bdded.
      */
-    private void createdNotification(MBeanServerNotification n) {
-        final String shouldEqual =
-            MBeanServerNotification.REGISTRATION_NOTIFICATION;
-        if (!n.getType().equals(shouldEqual)) {
-            logger.warning("createNotification", "bad type: " + n.getType());
+    privbte void crebtedNotificbtion(MBebnServerNotificbtion n) {
+        finbl String shouldEqubl =
+            MBebnServerNotificbtion.REGISTRATION_NOTIFICATION;
+        if (!n.getType().equbls(shouldEqubl)) {
+            logger.wbrning("crebteNotificbtion", "bbd type: " + n.getType());
             return;
         }
 
-        ObjectName name = n.getMBeanName();
+        ObjectNbme nbme = n.getMBebnNbme();
         if (logger.debugOn())
-            logger.debug("createdNotification", "for: " + name);
+            logger.debug("crebtedNotificbtion", "for: " + nbme);
 
         synchronized (this) {
-            if (createdDuringQuery != null) {
-                createdDuringQuery.add(name);
+            if (crebtedDuringQuery != null) {
+                crebtedDuringQuery.bdd(nbme);
                 return;
             }
         }
 
-        if (isInstanceOf(mBeanServer, name, broadcasterClass)) {
-            addBufferListener(name);
+        if (isInstbnceOf(mBebnServer, nbme, brobdcbsterClbss)) {
+            bddBufferListener(nbme);
             if (isDisposed())
-                removeBufferListener(name);
+                removeBufferListener(nbme);
         }
     }
 
-    private class BufferListener implements NotificationListener {
-        public void handleNotification(Notification notif, Object handback) {
+    privbte clbss BufferListener implements NotificbtionListener {
+        public void hbndleNotificbtion(Notificbtion notif, Object hbndbbck) {
             if (logger.debugOn()) {
-                logger.debug("BufferListener.handleNotification",
-                      "notif=" + notif + "; handback=" + handback);
+                logger.debug("BufferListener.hbndleNotificbtion",
+                      "notif=" + notif + "; hbndbbck=" + hbndbbck);
             }
-            ObjectName name = (ObjectName) handback;
-            addNotification(new NamedNotification(name, notif));
+            ObjectNbme nbme = (ObjectNbme) hbndbbck;
+            bddNotificbtion(new NbmedNotificbtion(nbme, notif));
         }
     }
 
-    private final NotificationListener bufferListener = new BufferListener();
+    privbte finbl NotificbtionListener bufferListener = new BufferListener();
 
-    private static class BroadcasterQuery
-            extends QueryEval implements QueryExp {
-        private static final long serialVersionUID = 7378487660587592048L;
+    privbte stbtic clbss BrobdcbsterQuery
+            extends QueryEvbl implements QueryExp {
+        privbte stbtic finbl long seriblVersionUID = 7378487660587592048L;
 
-        public boolean apply(final ObjectName name) {
-            final MBeanServer mbs = QueryEval.getMBeanServer();
-            return isInstanceOf(mbs, name, broadcasterClass);
+        public boolebn bpply(finbl ObjectNbme nbme) {
+            finbl MBebnServer mbs = QueryEvbl.getMBebnServer();
+            return isInstbnceOf(mbs, nbme, brobdcbsterClbss);
         }
     }
-    private static final QueryExp broadcasterQuery = new BroadcasterQuery();
+    privbte stbtic finbl QueryExp brobdcbsterQuery = new BrobdcbsterQuery();
 
-    private static final NotificationFilter creationFilter;
-    static {
-        NotificationFilterSupport nfs = new NotificationFilterSupport();
-        nfs.enableType(MBeanServerNotification.REGISTRATION_NOTIFICATION);
-        creationFilter = nfs;
+    privbte stbtic finbl NotificbtionFilter crebtionFilter;
+    stbtic {
+        NotificbtionFilterSupport nfs = new NotificbtionFilterSupport();
+        nfs.enbbleType(MBebnServerNotificbtion.REGISTRATION_NOTIFICATION);
+        crebtionFilter = nfs;
     }
 
-    private final NotificationListener creationListener =
-        new NotificationListener() {
-            public void handleNotification(Notification notif,
-                                           Object handback) {
-                logger.debug("creationListener", "handleNotification called");
-                createdNotification((MBeanServerNotification) notif);
+    privbte finbl NotificbtionListener crebtionListener =
+        new NotificbtionListener() {
+            public void hbndleNotificbtion(Notificbtion notif,
+                                           Object hbndbbck) {
+                logger.debug("crebtionListener", "hbndleNotificbtion cblled");
+                crebtedNotificbtion((MBebnServerNotificbtion) notif);
             }
         };
 
-    private void destroyListeners() {
+    privbte void destroyListeners() {
         checkNoLocks();
-        logger.debug("destroyListeners", "starts");
+        logger.debug("destroyListeners", "stbrts");
         try {
-            removeNotificationListener(MBeanServerDelegate.DELEGATE_NAME,
-                                       creationListener);
-        } catch (Exception e) {
-            logger.warning("remove listener from MBeanServer delegate", e);
+            removeNotificbtionListener(MBebnServerDelegbte.DELEGATE_NAME,
+                                       crebtionListener);
+        } cbtch (Exception e) {
+            logger.wbrning("remove listener from MBebnServer delegbte", e);
         }
-        Set<ObjectName> names = queryNames(null, broadcasterQuery);
-        for (final ObjectName name : names) {
+        Set<ObjectNbme> nbmes = queryNbmes(null, brobdcbsterQuery);
+        for (finbl ObjectNbme nbme : nbmes) {
             if (logger.debugOn())
                 logger.debug("destroyListeners",
-                             "remove listener from " + name);
-            removeBufferListener(name);
+                             "remove listener from " + nbme);
+            removeBufferListener(nbme);
         }
         logger.debug("destroyListeners", "ends");
     }
 
-    private void checkNoLocks() {
-        if (Thread.holdsLock(this) || Thread.holdsLock(globalLock))
-            logger.warning("checkNoLocks", "lock protocol violation");
+    privbte void checkNoLocks() {
+        if (Threbd.holdsLock(this) || Threbd.holdsLock(globblLock))
+            logger.wbrning("checkNoLocks", "lock protocol violbtion");
     }
 
     /**
-     * Iterate until we extract the real exception
-     * from a stack of PrivilegedActionExceptions.
+     * Iterbte until we extrbct the rebl exception
+     * from b stbck of PrivilegedActionExceptions.
      */
-    private static Exception extractException(Exception e) {
-        while (e instanceof PrivilegedActionException) {
+    privbte stbtic Exception extrbctException(Exception e) {
+        while (e instbnceof PrivilegedActionException) {
             e = ((PrivilegedActionException)e).getException();
         }
         return e;
     }
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc",
-                        "ArrayNotificationBuffer");
+    privbte stbtic finbl ClbssLogger logger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.misc",
+                        "ArrbyNotificbtionBuffer");
 
-    private final MBeanServer mBeanServer;
-    private final ArrayQueue<NamedNotification> queue;
-    private int queueSize;
-    private long earliestSequenceNumber;
-    private long nextSequenceNumber;
-    private Set<ObjectName> createdDuringQuery;
+    privbte finbl MBebnServer mBebnServer;
+    privbte finbl ArrbyQueue<NbmedNotificbtion> queue;
+    privbte int queueSize;
+    privbte long ebrliestSequenceNumber;
+    privbte long nextSequenceNumber;
+    privbte Set<ObjectNbme> crebtedDuringQuery;
 
-    static final String broadcasterClass =
-        NotificationBroadcaster.class.getName();
+    stbtic finbl String brobdcbsterClbss =
+        NotificbtionBrobdcbster.clbss.getNbme();
 }

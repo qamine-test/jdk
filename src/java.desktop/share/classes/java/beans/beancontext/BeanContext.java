@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans.beancontext;
+pbckbge jbvb.bebns.bebncontext;
 
-import java.beans.DesignMode;
-import java.beans.Visibility;
+import jbvb.bebns.DesignMode;
+import jbvb.bebns.Visibility;
 
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
 
-import java.net.URL;
+import jbvb.net.URL;
 
-import java.util.Collection;
-import java.util.Locale;
+import jbvb.util.Collection;
+import jbvb.util.Locble;
 
 /**
  * <p>
- * The BeanContext acts a logical hierarchical container for JavaBeans.
+ * The BebnContext bcts b logicbl hierbrchicbl contbiner for JbvbBebns.
  * </p>
  *
- * @author Laurence P. G. Cable
+ * @buthor Lburence P. G. Cbble
  * @since 1.2
  *
- * @see java.beans.Beans
- * @see java.beans.beancontext.BeanContextChild
- * @see java.beans.beancontext.BeanContextMembershipListener
- * @see java.beans.PropertyChangeEvent
- * @see java.beans.DesignMode
- * @see java.beans.Visibility
- * @see java.util.Collection
+ * @see jbvb.bebns.Bebns
+ * @see jbvb.bebns.bebncontext.BebnContextChild
+ * @see jbvb.bebns.bebncontext.BebnContextMembershipListener
+ * @see jbvb.bebns.PropertyChbngeEvent
+ * @see jbvb.bebns.DesignMode
+ * @see jbvb.bebns.Visibility
+ * @see jbvb.util.Collection
  */
 
-@SuppressWarnings("rawtypes")
-public interface BeanContext extends BeanContextChild, Collection, DesignMode, Visibility {
+@SuppressWbrnings("rbwtypes")
+public interfbce BebnContext extends BebnContextChild, Collection, DesignMode, Visibility {
 
     /**
-     * Instantiate the javaBean named as a
-     * child of this <code>BeanContext</code>.
-     * The implementation of the JavaBean is
-     * derived from the value of the beanName parameter,
-     * and is defined by the
-     * <code>java.beans.Beans.instantiate()</code> method.
+     * Instbntibte the jbvbBebn nbmed bs b
+     * child of this <code>BebnContext</code>.
+     * The implementbtion of the JbvbBebn is
+     * derived from the vblue of the bebnNbme pbrbmeter,
+     * bnd is defined by the
+     * <code>jbvb.bebns.Bebns.instbntibte()</code> method.
      *
-     * @return a javaBean named as a child of this
-     * <code>BeanContext</code>
-     * @param beanName The name of the JavaBean to instantiate
-     * as a child of this <code>BeanContext</code>
-     * @throws IOException if an IO problem occurs
-     * @throws ClassNotFoundException if the class identified
-     * by the beanName parameter is not found
+     * @return b jbvbBebn nbmed bs b child of this
+     * <code>BebnContext</code>
+     * @pbrbm bebnNbme The nbme of the JbvbBebn to instbntibte
+     * bs b child of this <code>BebnContext</code>
+     * @throws IOException if bn IO problem occurs
+     * @throws ClbssNotFoundException if the clbss identified
+     * by the bebnNbme pbrbmeter is not found
      */
-    Object instantiateChild(String beanName) throws IOException, ClassNotFoundException;
+    Object instbntibteChild(String bebnNbme) throws IOException, ClbssNotFoundException;
 
     /**
-     * Analagous to <code>java.lang.ClassLoader.getResourceAsStream()</code>,
-     * this method allows a <code>BeanContext</code> implementation
-     * to interpose behavior between the child <code>Component</code>
-     * and underlying <code>ClassLoader</code>.
+     * Anblbgous to <code>jbvb.lbng.ClbssLobder.getResourceAsStrebm()</code>,
+     * this method bllows b <code>BebnContext</code> implementbtion
+     * to interpose behbvior between the child <code>Component</code>
+     * bnd underlying <code>ClbssLobder</code>.
      *
-     * @param name the resource name
-     * @param bcc the specified child
-     * @return an <code>InputStream</code> for reading the resource,
+     * @pbrbm nbme the resource nbme
+     * @pbrbm bcc the specified child
+     * @return bn <code>InputStrebm</code> for rebding the resource,
      * or <code>null</code> if the resource could not
      * be found.
-     * @throws IllegalArgumentException if
-     * the resource is not valid
+     * @throws IllegblArgumentException if
+     * the resource is not vblid
      */
-    InputStream getResourceAsStream(String name, BeanContextChild bcc) throws IllegalArgumentException;
+    InputStrebm getResourceAsStrebm(String nbme, BebnContextChild bcc) throws IllegblArgumentException;
 
     /**
-     * Analagous to <code>java.lang.ClassLoader.getResource()</code>, this
-     * method allows a <code>BeanContext</code> implementation to interpose
-     * behavior between the child <code>Component</code>
-     * and underlying <code>ClassLoader</code>.
+     * Anblbgous to <code>jbvb.lbng.ClbssLobder.getResource()</code>, this
+     * method bllows b <code>BebnContext</code> implementbtion to interpose
+     * behbvior between the child <code>Component</code>
+     * bnd underlying <code>ClbssLobder</code>.
      *
-     * @param name the resource name
-     * @param bcc the specified child
-     * @return a <code>URL</code> for the named
+     * @pbrbm nbme the resource nbme
+     * @pbrbm bcc the specified child
+     * @return b <code>URL</code> for the nbmed
      * resource for the specified child
-     * @throws IllegalArgumentException
-     * if the resource is not valid
+     * @throws IllegblArgumentException
+     * if the resource is not vblid
      */
-    URL getResource(String name, BeanContextChild bcc) throws IllegalArgumentException;
+    URL getResource(String nbme, BebnContextChild bcc) throws IllegblArgumentException;
 
      /**
-      * Adds the specified <code>BeanContextMembershipListener</code>
-      * to receive <code>BeanContextMembershipEvents</code> from
-      * this <code>BeanContext</code> whenever it adds
-      * or removes a child <code>Component</code>(s).
+      * Adds the specified <code>BebnContextMembershipListener</code>
+      * to receive <code>BebnContextMembershipEvents</code> from
+      * this <code>BebnContext</code> whenever it bdds
+      * or removes b child <code>Component</code>(s).
       *
-      * @param bcml the BeanContextMembershipListener to be added
+      * @pbrbm bcml the BebnContextMembershipListener to be bdded
       */
-    void addBeanContextMembershipListener(BeanContextMembershipListener bcml);
+    void bddBebnContextMembershipListener(BebnContextMembershipListener bcml);
 
      /**
-      * Removes the specified <code>BeanContextMembershipListener</code>
-      * so that it no longer receives <code>BeanContextMembershipEvent</code>s
-      * when the child <code>Component</code>(s) are added or removed.
+      * Removes the specified <code>BebnContextMembershipListener</code>
+      * so thbt it no longer receives <code>BebnContextMembershipEvent</code>s
+      * when the child <code>Component</code>(s) bre bdded or removed.
       *
-      * @param bcml the <code>BeanContextMembershipListener</code>
+      * @pbrbm bcml the <code>BebnContextMembershipListener</code>
       * to be removed
       */
-    void removeBeanContextMembershipListener(BeanContextMembershipListener bcml);
+    void removeBebnContextMembershipListener(BebnContextMembershipListener bcml);
 
     /**
-     * This global lock is used by both <code>BeanContext</code>
-     * and <code>BeanContextServices</code> implementors
-     * to serialize changes in a <code>BeanContext</code>
-     * hierarchy and any service requests etc.
+     * This globbl lock is used by both <code>BebnContext</code>
+     * bnd <code>BebnContextServices</code> implementors
+     * to seriblize chbnges in b <code>BebnContext</code>
+     * hierbrchy bnd bny service requests etc.
      */
-    public static final Object globalHierarchyLock = new Object();
+    public stbtic finbl Object globblHierbrchyLock = new Object();
 }

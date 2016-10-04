@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 
 /**
- * This class has been obsoleted by the 1.4 focus APIs. While client code may
- * still use this class, developers are strongly encouraged to use
- * <code>java.awt.KeyboardFocusManager</code> and
- * <code>java.awt.DefaultKeyboardFocusManager</code> instead.
+ * This clbss hbs been obsoleted by the 1.4 focus APIs. While client code mby
+ * still use this clbss, developers bre strongly encourbged to use
+ * <code>jbvb.bwt.KeybobrdFocusMbnbger</code> bnd
+ * <code>jbvb.bwt.DefbultKeybobrdFocusMbnbger</code> instebd.
  * <p>
- * Please see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/misc/focus.html">
- * How to Use the Focus Subsystem</a>,
- * a section in <em>The Java Tutorial</em>, and the
- * <a href="../../java/awt/doc-files/FocusSpec.html">Focus Specification</a>
- * for more information.
+ * Plebse see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/misc/focus.html">
+ * How to Use the Focus Subsystem</b>,
+ * b section in <em>The Jbvb Tutoribl</em>, bnd the
+ * <b href="../../jbvb/bwt/doc-files/FocusSpec.html">Focus Specificbtion</b>
+ * for more informbtion.
  *
- * @see <a href="../../java/awt/doc-files/FocusSpec.html">Focus Specification</a>
+ * @see <b href="../../jbvb/bwt/doc-files/FocusSpec.html">Focus Specificbtion</b>
  *
- * @author Arnaud Weber
- * @author David Mendenhall
+ * @buthor Arnbud Weber
+ * @buthor Dbvid Mendenhbll
  * @since 1.2
  */
-public abstract class FocusManager extends DefaultKeyboardFocusManager {
+public bbstrbct clbss FocusMbnbger extends DefbultKeybobrdFocusMbnbger {
 
     /**
-     * This field is obsolete, and its use is discouraged since its
-     * specification is incompatible with the 1.4 focus APIs.
-     * The current FocusManager is no longer a property of the UI.
-     * Client code must query for the current FocusManager using
-     * <code>KeyboardFocusManager.getCurrentKeyboardFocusManager()</code>.
-     * See the Focus Specification for more information.
+     * This field is obsolete, bnd its use is discourbged since its
+     * specificbtion is incompbtible with the 1.4 focus APIs.
+     * The current FocusMbnbger is no longer b property of the UI.
+     * Client code must query for the current FocusMbnbger using
+     * <code>KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger()</code>.
+     * See the Focus Specificbtion for more informbtion.
      *
-     * @see java.awt.KeyboardFocusManager#getCurrentKeyboardFocusManager
-     * @see <a href="../../java/awt/doc-files/FocusSpec.html">Focus Specification</a>
+     * @see jbvb.bwt.KeybobrdFocusMbnbger#getCurrentKeybobrdFocusMbnbger
+     * @see <b href="../../jbvb/bwt/doc-files/FocusSpec.html">Focus Specificbtion</b>
      */
-    public static final String FOCUS_MANAGER_CLASS_PROPERTY =
-        "FocusManagerClassName";
+    public stbtic finbl String FOCUS_MANAGER_CLASS_PROPERTY =
+        "FocusMbnbgerClbssNbme";
 
-    private static boolean enabled = true;
+    privbte stbtic boolebn enbbled = true;
 
     /**
-     * Returns the current <code>KeyboardFocusManager</code> instance
-     * for the calling thread's context.
+     * Returns the current <code>KeybobrdFocusMbnbger</code> instbnce
+     * for the cblling threbd's context.
      *
-     * @return this thread's context's <code>KeyboardFocusManager</code>
-     * @see #setCurrentManager
+     * @return this threbd's context's <code>KeybobrdFocusMbnbger</code>
+     * @see #setCurrentMbnbger
      */
-    public static FocusManager getCurrentManager() {
-        KeyboardFocusManager manager =
-            KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        if (manager instanceof FocusManager) {
-            return (FocusManager)manager;
+    public stbtic FocusMbnbger getCurrentMbnbger() {
+        KeybobrdFocusMbnbger mbnbger =
+            KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger();
+        if (mbnbger instbnceof FocusMbnbger) {
+            return (FocusMbnbger)mbnbger;
         } else {
-            return new DelegatingDefaultFocusManager(manager);
+            return new DelegbtingDefbultFocusMbnbger(mbnbger);
         }
     }
 
     /**
-     * Sets the current <code>KeyboardFocusManager</code> instance
-     * for the calling thread's context. If <code>null</code> is
-     * specified, then the current <code>KeyboardFocusManager</code>
-     * is replaced with a new instance of
-     * <code>DefaultKeyboardFocusManager</code>.
+     * Sets the current <code>KeybobrdFocusMbnbger</code> instbnce
+     * for the cblling threbd's context. If <code>null</code> is
+     * specified, then the current <code>KeybobrdFocusMbnbger</code>
+     * is replbced with b new instbnce of
+     * <code>DefbultKeybobrdFocusMbnbger</code>.
      * <p>
-     * If a <code>SecurityManager</code> is installed,
-     * the calling thread must be granted the <code>AWTPermission</code>
-     * "replaceKeyboardFocusManager" in order to replace the
-     * the current <code>KeyboardFocusManager</code>.
-     * If this permission is not granted,
-     * this method will throw a <code>SecurityException</code>,
-     * and the current <code>KeyboardFocusManager</code> will be unchanged.
+     * If b <code>SecurityMbnbger</code> is instblled,
+     * the cblling threbd must be grbnted the <code>AWTPermission</code>
+     * "replbceKeybobrdFocusMbnbger" in order to replbce the
+     * the current <code>KeybobrdFocusMbnbger</code>.
+     * If this permission is not grbnted,
+     * this method will throw b <code>SecurityException</code>,
+     * bnd the current <code>KeybobrdFocusMbnbger</code> will be unchbnged.
      *
-     * @param aFocusManager the new <code>KeyboardFocusManager</code>
-     *     for this thread's context
-     * @see #getCurrentManager
-     * @see java.awt.DefaultKeyboardFocusManager
-     * @throws SecurityException if the calling thread does not have permission
-     *         to replace the current <code>KeyboardFocusManager</code>
+     * @pbrbm bFocusMbnbger the new <code>KeybobrdFocusMbnbger</code>
+     *     for this threbd's context
+     * @see #getCurrentMbnbger
+     * @see jbvb.bwt.DefbultKeybobrdFocusMbnbger
+     * @throws SecurityException if the cblling threbd does not hbve permission
+     *         to replbce the current <code>KeybobrdFocusMbnbger</code>
      */
-    public static void setCurrentManager(FocusManager aFocusManager)
+    public stbtic void setCurrentMbnbger(FocusMbnbger bFocusMbnbger)
         throws SecurityException
     {
-        // Note: This method is not backward-compatible with 1.3 and earlier
-        // releases. It now throws a SecurityException in an applet, whereas
-        // in previous releases, it did not. This issue was discussed at
-        // length, and ultimately approved by Hans.
-        KeyboardFocusManager toSet =
-            (aFocusManager instanceof DelegatingDefaultFocusManager)
-                ? ((DelegatingDefaultFocusManager)aFocusManager).getDelegate()
-                : aFocusManager;
-        KeyboardFocusManager.setCurrentKeyboardFocusManager(toSet);
+        // Note: This method is not bbckwbrd-compbtible with 1.3 bnd ebrlier
+        // relebses. It now throws b SecurityException in bn bpplet, wherebs
+        // in previous relebses, it did not. This issue wbs discussed bt
+        // length, bnd ultimbtely bpproved by Hbns.
+        KeybobrdFocusMbnbger toSet =
+            (bFocusMbnbger instbnceof DelegbtingDefbultFocusMbnbger)
+                ? ((DelegbtingDefbultFocusMbnbger)bFocusMbnbger).getDelegbte()
+                : bFocusMbnbger;
+        KeybobrdFocusMbnbger.setCurrentKeybobrdFocusMbnbger(toSet);
     }
 
     /**
-     * Changes the current <code>KeyboardFocusManager</code>'s default
-     * <code>FocusTraversalPolicy</code> to
-     * <code>DefaultFocusTraversalPolicy</code>.
+     * Chbnges the current <code>KeybobrdFocusMbnbger</code>'s defbult
+     * <code>FocusTrbversblPolicy</code> to
+     * <code>DefbultFocusTrbversblPolicy</code>.
      *
-     * @see java.awt.DefaultFocusTraversalPolicy
-     * @see java.awt.KeyboardFocusManager#setDefaultFocusTraversalPolicy
-     * @deprecated as of 1.4, replaced by
-     * <code>KeyboardFocusManager.setDefaultFocusTraversalPolicy(FocusTraversalPolicy)</code>
+     * @see jbvb.bwt.DefbultFocusTrbversblPolicy
+     * @see jbvb.bwt.KeybobrdFocusMbnbger#setDefbultFocusTrbversblPolicy
+     * @deprecbted bs of 1.4, replbced by
+     * <code>KeybobrdFocusMbnbger.setDefbultFocusTrbversblPolicy(FocusTrbversblPolicy)</code>
      */
-    @Deprecated
-    public static void disableSwingFocusManager() {
-        if (enabled) {
-            enabled = false;
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                setDefaultFocusTraversalPolicy(
-                    new DefaultFocusTraversalPolicy());
+    @Deprecbted
+    public stbtic void disbbleSwingFocusMbnbger() {
+        if (enbbled) {
+            enbbled = fblse;
+            KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
+                setDefbultFocusTrbversblPolicy(
+                    new DefbultFocusTrbversblPolicy());
         }
     }
 
     /**
-     * Returns whether the application has invoked
-     * <code>disableSwingFocusManager()</code>.
+     * Returns whether the bpplicbtion hbs invoked
+     * <code>disbbleSwingFocusMbnbger()</code>.
      *
-     * @return {@code true} if focus manager is enabled.
-     * @see #disableSwingFocusManager
-     * @deprecated As of 1.4, replaced by
-     *   <code>KeyboardFocusManager.getDefaultFocusTraversalPolicy()</code>
+     * @return {@code true} if focus mbnbger is enbbled.
+     * @see #disbbleSwingFocusMbnbger
+     * @deprecbted As of 1.4, replbced by
+     *   <code>KeybobrdFocusMbnbger.getDefbultFocusTrbversblPolicy()</code>
      */
-    @Deprecated
-    public static boolean isFocusManagerEnabled() {
-        return enabled;
+    @Deprecbted
+    public stbtic boolebn isFocusMbnbgerEnbbled() {
+        return enbbled;
     }
 }

@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
 import sun.security.krb5.*;
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * This class is a utility that contains much of the TGS-Exchange
- * protocol. It is used by ../Credentials.java for service ticket
- * acquisition in both the normal and the x-realm case.
+ * This clbss is b utility thbt contbins much of the TGS-Exchbnge
+ * protocol. It is used by ../Credentibls.jbvb for service ticket
+ * bcquisition in both the normbl bnd the x-reblm cbse.
  */
-public class CredentialsUtil {
+public clbss CredentiblsUtil {
 
-    private static boolean DEBUG = sun.security.krb5.internal.Krb5.DEBUG;
+    privbte stbtic boolebn DEBUG = sun.security.krb5.internbl.Krb5.DEBUG;
 
     /**
-     * Used by a middle server to acquire credentials on behalf of a
+     * Used by b middle server to bcquire credentibls on behblf of b
      * client to itself using the S4U2self extension.
-     * @param client the client to impersonate
-     * @param ccreds the TGT of the middle service
-     * @return the new creds (cname=client, sname=middle)
+     * @pbrbm client the client to impersonbte
+     * @pbrbm ccreds the TGT of the middle service
+     * @return the new creds (cnbme=client, snbme=middle)
      */
-    public static Credentials acquireS4U2selfCreds(PrincipalName client,
-            Credentials ccreds) throws KrbException, IOException {
-        String uRealm = client.getRealmString();
-        String localRealm = ccreds.getClient().getRealmString();
-        if (!uRealm.equals(localRealm)) {
-            // TODO: we do not support kerberos referral now
-            throw new KrbException("Cross realm impersonation not supported");
+    public stbtic Credentibls bcquireS4U2selfCreds(PrincipblNbme client,
+            Credentibls ccreds) throws KrbException, IOException {
+        String uReblm = client.getReblmString();
+        String locblReblm = ccreds.getClient().getReblmString();
+        if (!uReblm.equbls(locblReblm)) {
+            // TODO: we do not support kerberos referrbl now
+            throw new KrbException("Cross reblm impersonbtion not supported");
         }
         KrbTgsReq req = new KrbTgsReq(
                 ccreds,
                 ccreds.getClient(),
-                new PAData(Krb5.PA_FOR_USER,
+                new PADbtb(Krb5.PA_FOR_USER,
                     new PAForUserEnc(client,
-                        ccreds.getSessionKey()).asn1Encode()));
-        Credentials creds = req.sendAndGetCreds();
-        if (!creds.getClient().equals(client)) {
+                        ccreds.getSessionKey()).bsn1Encode()));
+        Credentibls creds = req.sendAndGetCreds();
+        if (!creds.getClient().equbls(client)) {
             throw new KrbException("S4U2self request not honored by KDC");
         }
         return creds;
     }
 
     /**
-     * Used by a middle server to acquire a service ticket to a backend
+     * Used by b middle server to bcquire b service ticket to b bbckend
      * server using the S4U2proxy extension.
-     * @param backend the name of the backend service
-     * @param second the client's service ticket to the middle server
-     * @param ccreds the TGT of the middle server
-     * @return the creds (cname=client, sname=backend)
+     * @pbrbm bbckend the nbme of the bbckend service
+     * @pbrbm second the client's service ticket to the middle server
+     * @pbrbm ccreds the TGT of the middle server
+     * @return the creds (cnbme=client, snbme=bbckend)
      */
-    public static Credentials acquireS4U2proxyCreds(
-                String backend, Ticket second,
-                PrincipalName client, Credentials ccreds)
+    public stbtic Credentibls bcquireS4U2proxyCreds(
+                String bbckend, Ticket second,
+                PrincipblNbme client, Credentibls ccreds)
             throws KrbException, IOException {
         KrbTgsReq req = new KrbTgsReq(
                 ccreds,
                 second,
-                new PrincipalName(backend));
-        Credentials creds = req.sendAndGetCreds();
-        if (!creds.getClient().equals(client)) {
+                new PrincipblNbme(bbckend));
+        Credentibls creds = req.sendAndGetCreds();
+        if (!creds.getClient().equbls(client)) {
             throw new KrbException("S4U2proxy request not honored by KDC");
         }
         return creds;
     }
 
     /**
-     * Acquires credentials for a specified service using initial
-     * credential. When the service has a different realm from the initial
-     * credential, we do cross-realm authentication - first, we use the
-     * current credential to get a cross-realm credential from the local KDC,
-     * then use that cross-realm credential to request service credential
+     * Acquires credentibls for b specified service using initibl
+     * credentibl. When the service hbs b different reblm from the initibl
+     * credentibl, we do cross-reblm buthenticbtion - first, we use the
+     * current credentibl to get b cross-reblm credentibl from the locbl KDC,
+     * then use thbt cross-reblm credentibl to request service credentibl
      * from the foreign KDC.
      *
-     * @param service the name of service principal
-     * @param ccreds client's initial credential
+     * @pbrbm service the nbme of service principbl
+     * @pbrbm ccreds client's initibl credentibl
      */
-    public static Credentials acquireServiceCreds(
-                String service, Credentials ccreds)
+    public stbtic Credentibls bcquireServiceCreds(
+                String service, Credentibls ccreds)
             throws KrbException, IOException {
-        PrincipalName sname = new PrincipalName(service);
-        String serviceRealm = sname.getRealmString();
-        String localRealm = ccreds.getClient().getRealmString();
+        PrincipblNbme snbme = new PrincipblNbme(service);
+        String serviceReblm = snbme.getReblmString();
+        String locblReblm = ccreds.getClient().getReblmString();
 
-        if (localRealm.equals(serviceRealm)) {
+        if (locblReblm.equbls(serviceReblm)) {
             if (DEBUG) {
                 System.out.println(
-                        ">>> Credentials acquireServiceCreds: same realm");
+                        ">>> Credentibls bcquireServiceCreds: sbme reblm");
             }
-            return serviceCreds(sname, ccreds);
+            return serviceCreds(snbme, ccreds);
         }
-        Credentials theCreds = null;
+        Credentibls theCreds = null;
 
-        boolean[] okAsDelegate = new boolean[1];
-        Credentials theTgt = getTGTforRealm(localRealm, serviceRealm,
-                ccreds, okAsDelegate);
+        boolebn[] okAsDelegbte = new boolebn[1];
+        Credentibls theTgt = getTGTforReblm(locblReblm, serviceReblm,
+                ccreds, okAsDelegbte);
         if (theTgt != null) {
             if (DEBUG) {
-                System.out.println(">>> Credentials acquireServiceCreds: "
+                System.out.println(">>> Credentibls bcquireServiceCreds: "
                         + "got right tgt");
-                System.out.println(">>> Credentials acquireServiceCreds: "
-                        + "obtaining service creds for " + sname);
+                System.out.println(">>> Credentibls bcquireServiceCreds: "
+                        + "obtbining service creds for " + snbme);
             }
 
             try {
-                theCreds = serviceCreds(sname, theTgt);
-            } catch (Exception exc) {
+                theCreds = serviceCreds(snbme, theTgt);
+            } cbtch (Exception exc) {
                 if (DEBUG) {
                     System.out.println(exc);
                 }
@@ -144,12 +144,12 @@ public class CredentialsUtil {
 
         if (theCreds != null) {
             if (DEBUG) {
-                System.out.println(">>> Credentials acquireServiceCreds: "
+                System.out.println(">>> Credentibls bcquireServiceCreds: "
                         + "returning creds:");
-                Credentials.printDebug(theCreds);
+                Credentibls.printDebug(theCreds);
             }
-            if (!okAsDelegate[0]) {
-                theCreds.resetDelegate();
+            if (!okAsDelegbte[0]) {
+                theCreds.resetDelegbte();
             }
             return theCreds;
         }
@@ -158,64 +158,64 @@ public class CredentialsUtil {
     }
 
     /**
-     * Gets a TGT to another realm
-     * @param localRealm this realm
-     * @param serviceRealm the other realm, cannot equals to localRealm
-     * @param ccreds TGT in this realm
-     * @param okAsDelegate an [out] argument to receive the okAsDelegate
-     * property. True only if all realms allow delegation.
-     * @return the TGT for the other realm, null if cannot find a path
+     * Gets b TGT to bnother reblm
+     * @pbrbm locblReblm this reblm
+     * @pbrbm serviceReblm the other reblm, cbnnot equbls to locblReblm
+     * @pbrbm ccreds TGT in this reblm
+     * @pbrbm okAsDelegbte bn [out] brgument to receive the okAsDelegbte
+     * property. True only if bll reblms bllow delegbtion.
+     * @return the TGT for the other reblm, null if cbnnot find b pbth
      * @throws KrbException if something goes wrong
      */
-    private static Credentials getTGTforRealm(String localRealm,
-            String serviceRealm, Credentials ccreds, boolean[] okAsDelegate)
+    privbte stbtic Credentibls getTGTforReblm(String locblReblm,
+            String serviceReblm, Credentibls ccreds, boolebn[] okAsDelegbte)
             throws KrbException {
 
-        // Get a list of realms to traverse
-        String[] realms = Realm.getRealmsList(localRealm, serviceRealm);
+        // Get b list of reblms to trbverse
+        String[] reblms = Reblm.getReblmsList(locblReblm, serviceReblm);
 
         int i = 0, k = 0;
-        Credentials cTgt = null, newTgt = null, theTgt = null;
-        PrincipalName tempService = null;
-        String newTgtRealm = null;
+        Credentibls cTgt = null, newTgt = null, theTgt = null;
+        PrincipblNbme tempService = null;
+        String newTgtReblm = null;
 
-        okAsDelegate[0] = true;
-        for (cTgt = ccreds, i = 0; i < realms.length;) {
-            tempService = PrincipalName.tgsService(serviceRealm, realms[i]);
+        okAsDelegbte[0] = true;
+        for (cTgt = ccreds, i = 0; i < reblms.length;) {
+            tempService = PrincipblNbme.tgsService(serviceReblm, reblms[i]);
 
             if (DEBUG) {
                 System.out.println(
-                        ">>> Credentials acquireServiceCreds: main loop: ["
+                        ">>> Credentibls bcquireServiceCreds: mbin loop: ["
                         + i +"] tempService=" + tempService);
             }
 
             try {
                 newTgt = serviceCreds(tempService, cTgt);
-            } catch (Exception exc) {
+            } cbtch (Exception exc) {
                 newTgt = null;
             }
 
             if (newTgt == null) {
                 if (DEBUG) {
-                    System.out.println(">>> Credentials acquireServiceCreds: "
-                            + "no tgt; searching thru capath");
+                    System.out.println(">>> Credentibls bcquireServiceCreds: "
+                            + "no tgt; sebrching thru cbpbth");
                 }
 
                 /*
-                 * No tgt found. Let's go thru the realms list one by one.
+                 * No tgt found. Let's go thru the reblms list one by one.
                  */
                 for (newTgt = null, k = i+1;
-                        newTgt == null && k < realms.length; k++) {
-                    tempService = PrincipalName.tgsService(realms[k], realms[i]);
+                        newTgt == null && k < reblms.length; k++) {
+                    tempService = PrincipblNbme.tgsService(reblms[k], reblms[i]);
                     if (DEBUG) {
                         System.out.println(
-                                ">>> Credentials acquireServiceCreds: "
+                                ">>> Credentibls bcquireServiceCreds: "
                                 + "inner loop: [" + k
                                 + "] tempService=" + tempService);
                     }
                     try {
                         newTgt = serviceCreds(tempService, cTgt);
-                    } catch (Exception exc) {
+                    } cbtch (Exception exc) {
                         newTgt = null;
                     }
                 }
@@ -223,81 +223,81 @@ public class CredentialsUtil {
 
             if (newTgt == null) {
                 if (DEBUG) {
-                    System.out.println(">>> Credentials acquireServiceCreds: "
-                            + "no tgt; cannot get creds");
+                    System.out.println(">>> Credentibls bcquireServiceCreds: "
+                            + "no tgt; cbnnot get creds");
                 }
-                break;
+                brebk;
             }
 
             /*
-             * We have a tgt. It may or may not be for the target.
-             * If it's for the target realm, we're done looking for a tgt.
+             * We hbve b tgt. It mby or mby not be for the tbrget.
+             * If it's for the tbrget reblm, we're done looking for b tgt.
              */
-            newTgtRealm = newTgt.getServer().getInstanceComponent();
-            if (okAsDelegate[0] && !newTgt.checkDelegate()) {
+            newTgtReblm = newTgt.getServer().getInstbnceComponent();
+            if (okAsDelegbte[0] && !newTgt.checkDelegbte()) {
                 if (DEBUG) {
-                    System.out.println(">>> Credentials acquireServiceCreds: " +
-                            "global OK-AS-DELEGATE turned off at " +
+                    System.out.println(">>> Credentibls bcquireServiceCreds: " +
+                            "globbl OK-AS-DELEGATE turned off bt " +
                             newTgt.getServer());
                 }
-                okAsDelegate[0] = false;
+                okAsDelegbte[0] = fblse;
             }
 
             if (DEBUG) {
-                System.out.println(">>> Credentials acquireServiceCreds: "
+                System.out.println(">>> Credentibls bcquireServiceCreds: "
                         + "got tgt");
             }
 
-            if (newTgtRealm.equals(serviceRealm)) {
+            if (newTgtReblm.equbls(serviceReblm)) {
                 /* We got the right tgt */
                 theTgt = newTgt;
-                break;
+                brebk;
             }
 
             /*
-             * The new tgt is not for the target realm.
-             * See if the realm of the new tgt is in the list of realms
-             * and continue looking from there.
+             * The new tgt is not for the tbrget reblm.
+             * See if the reblm of the new tgt is in the list of reblms
+             * bnd continue looking from there.
              */
-            for (k = i+1; k < realms.length; k++) {
-                if (newTgtRealm.equals(realms[k])) {
-                    break;
+            for (k = i+1; k < reblms.length; k++) {
+                if (newTgtReblm.equbls(reblms[k])) {
+                    brebk;
                 }
             }
 
-            if (k < realms.length) {
+            if (k < reblms.length) {
                 /*
-                 * (re)set the counter so we start looking
-                 * from the realm we just obtained a tgt for.
+                 * (re)set the counter so we stbrt looking
+                 * from the reblm we just obtbined b tgt for.
                  */
                 i = k;
                 cTgt = newTgt;
 
                 if (DEBUG) {
-                    System.out.println(">>> Credentials acquireServiceCreds: "
-                            + "continuing with main loop counter reset to " + i);
+                    System.out.println(">>> Credentibls bcquireServiceCreds: "
+                            + "continuing with mbin loop counter reset to " + i);
                 }
                 continue;
             }
             else {
                 /*
-                 * The new tgt's realm is not in the hierarchy of realms.
-                 * It's probably not safe to get a tgt from
-                 * a tgs that is outside the known list of realms.
+                 * The new tgt's reblm is not in the hierbrchy of reblms.
+                 * It's probbbly not sbfe to get b tgt from
+                 * b tgs thbt is outside the known list of reblms.
                  * Give up now.
                  */
-                break;
+                brebk;
             }
-        } // Ends outermost/main 'for' loop
+        } // Ends outermost/mbin 'for' loop
 
         return theTgt;
     }
 
    /*
-    * This method does the real job to request the service credential.
+    * This method does the rebl job to request the service credentibl.
     */
-    private static Credentials serviceCreds(
-            PrincipalName service, Credentials ccreds)
+    privbte stbtic Credentibls serviceCreds(
+            PrincipblNbme service, Credentibls ccreds)
             throws KrbException, IOException {
         return new KrbTgsReq(ccreds, service).sendAndGetCreds();
     }

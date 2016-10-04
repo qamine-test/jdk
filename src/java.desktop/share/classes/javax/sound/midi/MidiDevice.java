@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
-import java.util.List;
+import jbvb.util.List;
 
  /**
- * <code>MidiDevice</code> is the base interface for all MIDI devices.
- * Common devices include synthesizers, sequencers, MIDI input ports, and MIDI
+ * <code>MidiDevice</code> is the bbse interfbce for bll MIDI devices.
+ * Common devices include synthesizers, sequencers, MIDI input ports, bnd MIDI
  * output ports.
  *
- * <p>A <code>MidiDevice</code> can be a transmitter or a receiver of
- * MIDI events, or both. Therefore, it can provide {@link Transmitter}
- * or {@link Receiver} instances (or both). Typically, MIDI IN ports
- * provide transmitters, MIDI OUT ports and synthesizers provide
- * receivers. A Sequencer typically provides transmitters for playback
- * and receivers for recording.
+ * <p>A <code>MidiDevice</code> cbn be b trbnsmitter or b receiver of
+ * MIDI events, or both. Therefore, it cbn provide {@link Trbnsmitter}
+ * or {@link Receiver} instbnces (or both). Typicblly, MIDI IN ports
+ * provide trbnsmitters, MIDI OUT ports bnd synthesizers provide
+ * receivers. A Sequencer typicblly provides trbnsmitters for plbybbck
+ * bnd receivers for recording.
  *
- * <p>A <code>MidiDevice</code> can be opened and closed explicitly as
- * well as implicitly. Explicit opening is accomplished by calling
- * {@link #open}, explicit closing is done by calling {@link
- * #close} on the <code>MidiDevice</code> instance.
- * If an application opens a <code>MidiDevice</code>
- * explicitly, it has to close it explicitly to free system resources
- * and enable the application to exit cleanly. Implicit opening is
- * done by calling {@link javax.sound.midi.MidiSystem#getReceiver
- * MidiSystem.getReceiver} and {@link
- * javax.sound.midi.MidiSystem#getTransmitter
- * MidiSystem.getTransmitter}. The <code>MidiDevice</code> used by
- * <code>MidiSystem.getReceiver</code> and
- * <code>MidiSystem.getTransmitter</code> is implementation-dependant
- * unless the properties <code>javax.sound.midi.Receiver</code>
- * and <code>javax.sound.midi.Transmitter</code> are used (see the
- * description of properties to select default providers in
- * {@link javax.sound.midi.MidiSystem}). A <code>MidiDevice</code>
- * that was opened implicitly, is closed implicitly by closing the
- * <code>Receiver</code> or <code>Transmitter</code> that resulted in
- * opening it. If more than one implicitly opening
- * <code>Receiver</code> or <code>Transmitter</code> were obtained by
- * the application, the device is closed after the last
- * <code>Receiver</code> or <code>Transmitter</code> has been
- * closed. On the other hand, calling <code>getReceiver</code> or
- * <code>getTransmitter</code> on the device instance directly does
+ * <p>A <code>MidiDevice</code> cbn be opened bnd closed explicitly bs
+ * well bs implicitly. Explicit opening is bccomplished by cblling
+ * {@link #open}, explicit closing is done by cblling {@link
+ * #close} on the <code>MidiDevice</code> instbnce.
+ * If bn bpplicbtion opens b <code>MidiDevice</code>
+ * explicitly, it hbs to close it explicitly to free system resources
+ * bnd enbble the bpplicbtion to exit clebnly. Implicit opening is
+ * done by cblling {@link jbvbx.sound.midi.MidiSystem#getReceiver
+ * MidiSystem.getReceiver} bnd {@link
+ * jbvbx.sound.midi.MidiSystem#getTrbnsmitter
+ * MidiSystem.getTrbnsmitter}. The <code>MidiDevice</code> used by
+ * <code>MidiSystem.getReceiver</code> bnd
+ * <code>MidiSystem.getTrbnsmitter</code> is implementbtion-dependbnt
+ * unless the properties <code>jbvbx.sound.midi.Receiver</code>
+ * bnd <code>jbvbx.sound.midi.Trbnsmitter</code> bre used (see the
+ * description of properties to select defbult providers in
+ * {@link jbvbx.sound.midi.MidiSystem}). A <code>MidiDevice</code>
+ * thbt wbs opened implicitly, is closed implicitly by closing the
+ * <code>Receiver</code> or <code>Trbnsmitter</code> thbt resulted in
+ * opening it. If more thbn one implicitly opening
+ * <code>Receiver</code> or <code>Trbnsmitter</code> were obtbined by
+ * the bpplicbtion, the device is closed bfter the lbst
+ * <code>Receiver</code> or <code>Trbnsmitter</code> hbs been
+ * closed. On the other hbnd, cblling <code>getReceiver</code> or
+ * <code>getTrbnsmitter</code> on the device instbnce directly does
  * not open the device implicitly. Closing these
- * <code>Transmitter</code>s and <code>Receiver</code>s does not close
- * the device implicitly. To use a device with <code>Receiver</code>s
- * or <code>Transmitter</code>s obtained this way, the device has to
- * be opened and closed explicitly.
+ * <code>Trbnsmitter</code>s bnd <code>Receiver</code>s does not close
+ * the device implicitly. To use b device with <code>Receiver</code>s
+ * or <code>Trbnsmitter</code>s obtbined this wby, the device hbs to
+ * be opened bnd closed explicitly.
  *
- * <p>If implicit and explicit opening and closing are mixed on the
- * same <code>MidiDevice</code> instance, the following rules apply:
+ * <p>If implicit bnd explicit opening bnd closing bre mixed on the
+ * sbme <code>MidiDevice</code> instbnce, the following rules bpply:
  *
  * <ul>
- * <li>After an explicit open (either before or after implicit
+ * <li>After bn explicit open (either before or bfter implicit
  * opens), the device will not be closed by implicit closing. The only
- * way to close an explicitly opened device is an explicit close.</li>
+ * wby to close bn explicitly opened device is bn explicit close.</li>
  *
- * <li>An explicit close always closes the device, even if it also has
- * been opened implicitly. A subsequent implicit close has no further
+ * <li>An explicit close blwbys closes the device, even if it blso hbs
+ * been opened implicitly. A subsequent implicit close hbs no further
  * effect.</li>
  * </ul>
  *
- * To detect if a MidiDevice represents a hardware MIDI port, the
- * following programming technique can be used:
+ * To detect if b MidiDevice represents b hbrdwbre MIDI port, the
+ * following progrbmming technique cbn be used:
  *
  * <pre>{@code
  * MidiDevice device = ...;
- * if ( ! (device instanceof Sequencer) && ! (device instanceof Synthesizer)) {
- *   // we're now sure that device represents a MIDI port
+ * if ( ! (device instbnceof Sequencer) && ! (device instbnceof Synthesizer)) {
+ *   // we're now sure thbt device represents b MIDI port
  *   // ...
  * }
  * }</pre>
  *
  * <p>
- * A <code>MidiDevice</code> includes a <code>{@link MidiDevice.Info}</code> object
- * to provide manufacturer information and so on.
+ * A <code>MidiDevice</code> includes b <code>{@link MidiDevice.Info}</code> object
+ * to provide mbnufbcturer informbtion bnd so on.
  *
  * @see Synthesizer
  * @see Sequencer
  * @see Receiver
- * @see Transmitter
+ * @see Trbnsmitter
  *
- * @author Kara Kytle
- * @author Florian Bomers
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
  */
 
-public interface MidiDevice extends AutoCloseable {
+public interfbce MidiDevice extends AutoClosebble {
 
 
     /**
-     * Obtains information about the device, including its Java class and
-     * <code>Strings</code> containing its name, vendor, and description.
+     * Obtbins informbtion bbout the device, including its Jbvb clbss bnd
+     * <code>Strings</code> contbining its nbme, vendor, bnd description.
      *
      * @return device info
      */
@@ -120,36 +120,36 @@ public interface MidiDevice extends AutoCloseable {
 
 
     /**
-     * Opens the device, indicating that it should now acquire any
-     * system resources it requires and become operational.
+     * Opens the device, indicbting thbt it should now bcquire bny
+     * system resources it requires bnd become operbtionbl.
      *
-     * <p>An application opening a device explicitly with this call
-     * has to close the device by calling {@link #close}. This is
-     * necessary to release system resources and allow applications to
-     * exit cleanly.
+     * <p>An bpplicbtion opening b device explicitly with this cbll
+     * hbs to close the device by cblling {@link #close}. This is
+     * necessbry to relebse system resources bnd bllow bpplicbtions to
+     * exit clebnly.
      *
      * <p>
-     * Note that some devices, once closed, cannot be reopened.  Attempts
-     * to reopen such a device will always result in a MidiUnavailableException.
+     * Note thbt some devices, once closed, cbnnot be reopened.  Attempts
+     * to reopen such b device will blwbys result in b MidiUnbvbilbbleException.
      *
-     * @throws MidiUnavailableException thrown if the device cannot be
+     * @throws MidiUnbvbilbbleException thrown if the device cbnnot be
      * opened due to resource restrictions.
-     * @throws SecurityException thrown if the device cannot be
+     * @throws SecurityException thrown if the device cbnnot be
      * opened due to security restrictions.
      *
      * @see #close
      * @see #isOpen
      */
-    public void open() throws MidiUnavailableException;
+    public void open() throws MidiUnbvbilbbleException;
 
 
     /**
-     * Closes the device, indicating that the device should now release
-     * any system resources it is using.
+     * Closes the device, indicbting thbt the device should now relebse
+     * bny system resources it is using.
      *
-     * <p>All <code>Receiver</code> and <code>Transmitter</code> instances
-     * open from this device are closed. This includes instances retrieved
-     * via <code>MidiSystem</code>.
+     * <p>All <code>Receiver</code> bnd <code>Trbnsmitter</code> instbnces
+     * open from this device bre closed. This includes instbnces retrieved
+     * vib <code>MidiSystem</code>.
      *
      * @see #open
      * @see #isOpen
@@ -161,160 +161,160 @@ public interface MidiDevice extends AutoCloseable {
      * Reports whether the device is open.
      *
      * @return <code>true</code> if the device is open, otherwise
-     * <code>false</code>
+     * <code>fblse</code>
      * @see #open
      * @see #close
      */
-    public boolean isOpen();
+    public boolebn isOpen();
 
 
     /**
-     * Obtains the current time-stamp of the device, in microseconds.
-     * If a device supports time-stamps, it should start counting at
-     * 0 when the device is opened and continue incrementing its
-     * time-stamp in microseconds until the device is closed.
-     * If it does not support time-stamps, it should always return
+     * Obtbins the current time-stbmp of the device, in microseconds.
+     * If b device supports time-stbmps, it should stbrt counting bt
+     * 0 when the device is opened bnd continue incrementing its
+     * time-stbmp in microseconds until the device is closed.
+     * If it does not support time-stbmps, it should blwbys return
      * -1.
-     * @return the current time-stamp of the device in microseconds,
-     * or -1 if time-stamping is not supported by the device.
+     * @return the current time-stbmp of the device in microseconds,
+     * or -1 if time-stbmping is not supported by the device.
      */
     public long getMicrosecondPosition();
 
 
     /**
-     * Obtains the maximum number of MIDI IN connections available on this
-     * MIDI device for receiving MIDI data.
-     * @return maximum number of MIDI IN connections,
-     * or -1 if an unlimited number of connections is available.
+     * Obtbins the mbximum number of MIDI IN connections bvbilbble on this
+     * MIDI device for receiving MIDI dbtb.
+     * @return mbximum number of MIDI IN connections,
+     * or -1 if bn unlimited number of connections is bvbilbble.
      */
-    public int getMaxReceivers();
+    public int getMbxReceivers();
 
 
     /**
-     * Obtains the maximum number of MIDI OUT connections available on this
-     * MIDI device for transmitting MIDI data.
-     * @return maximum number of MIDI OUT connections,
-     * or -1 if an unlimited number of connections is available.
+     * Obtbins the mbximum number of MIDI OUT connections bvbilbble on this
+     * MIDI device for trbnsmitting MIDI dbtb.
+     * @return mbximum number of MIDI OUT connections,
+     * or -1 if bn unlimited number of connections is bvbilbble.
      */
-    public int getMaxTransmitters();
+    public int getMbxTrbnsmitters();
 
 
     /**
-     * Obtains a MIDI IN receiver through which the MIDI device may receive
-     * MIDI data.  The returned receiver must be closed when the application
-     * has finished using it.
+     * Obtbins b MIDI IN receiver through which the MIDI device mby receive
+     * MIDI dbtb.  The returned receiver must be closed when the bpplicbtion
+     * hbs finished using it.
      *
-     * <p>Usually the returned receiver implements
-     * the {@code MidiDeviceReceiver} interface.
+     * <p>Usublly the returned receiver implements
+     * the {@code MidiDeviceReceiver} interfbce.
      *
-     * <p>Obtaining a <code>Receiver</code> with this method does not
-     * open the device. To be able to use the device, it has to be
-     * opened explicitly by calling {@link #open}. Also, closing the
-     * <code>Receiver</code> does not close the device. It has to be
-     * closed explicitly by calling {@link #close}.
+     * <p>Obtbining b <code>Receiver</code> with this method does not
+     * open the device. To be bble to use the device, it hbs to be
+     * opened explicitly by cblling {@link #open}. Also, closing the
+     * <code>Receiver</code> does not close the device. It hbs to be
+     * closed explicitly by cblling {@link #close}.
      *
-     * @return a receiver for the device.
-     * @throws MidiUnavailableException thrown if a receiver is not available
+     * @return b receiver for the device.
+     * @throws MidiUnbvbilbbleException thrown if b receiver is not bvbilbble
      * due to resource restrictions
      * @see Receiver#close()
      */
-    public Receiver getReceiver() throws MidiUnavailableException;
+    public Receiver getReceiver() throws MidiUnbvbilbbleException;
 
 
     /**
-     * Returns all currently active, non-closed receivers
+     * Returns bll currently bctive, non-closed receivers
      * connected with this MidiDevice.
-     * A receiver can be removed
+     * A receiver cbn be removed
      * from the device by closing it.
      *
-     * <p>Usually the returned receivers implement
-     * the {@code MidiDeviceReceiver} interface.
+     * <p>Usublly the returned receivers implement
+     * the {@code MidiDeviceReceiver} interfbce.
      *
-     * @return an unmodifiable list of the open receivers
+     * @return bn unmodifibble list of the open receivers
      * @since 1.5
      */
     List<Receiver> getReceivers();
 
 
     /**
-     * Obtains a MIDI OUT connection from which the MIDI device will transmit
-     * MIDI data  The returned transmitter must be closed when the application
-     * has finished using it.
+     * Obtbins b MIDI OUT connection from which the MIDI device will trbnsmit
+     * MIDI dbtb  The returned trbnsmitter must be closed when the bpplicbtion
+     * hbs finished using it.
      *
-     * <p>Usually the returned transmitter implements
-     * the {@code MidiDeviceTransmitter} interface.
+     * <p>Usublly the returned trbnsmitter implements
+     * the {@code MidiDeviceTrbnsmitter} interfbce.
      *
-     * <p>Obtaining a <code>Transmitter</code> with this method does not
-     * open the device. To be able to use the device, it has to be
-     * opened explicitly by calling {@link #open}. Also, closing the
-     * <code>Transmitter</code> does not close the device. It has to be
-     * closed explicitly by calling {@link #close}.
+     * <p>Obtbining b <code>Trbnsmitter</code> with this method does not
+     * open the device. To be bble to use the device, it hbs to be
+     * opened explicitly by cblling {@link #open}. Also, closing the
+     * <code>Trbnsmitter</code> does not close the device. It hbs to be
+     * closed explicitly by cblling {@link #close}.
      *
-     * @return a MIDI OUT transmitter for the device.
-     * @throws MidiUnavailableException thrown if a transmitter is not available
+     * @return b MIDI OUT trbnsmitter for the device.
+     * @throws MidiUnbvbilbbleException thrown if b trbnsmitter is not bvbilbble
      * due to resource restrictions
-     * @see Transmitter#close()
+     * @see Trbnsmitter#close()
      */
-    public Transmitter getTransmitter() throws MidiUnavailableException;
+    public Trbnsmitter getTrbnsmitter() throws MidiUnbvbilbbleException;
 
 
     /**
-     * Returns all currently active, non-closed transmitters
+     * Returns bll currently bctive, non-closed trbnsmitters
      * connected with this MidiDevice.
-     * A transmitter can be removed
+     * A trbnsmitter cbn be removed
      * from the device by closing it.
      *
-     * <p>Usually the returned transmitters implement
-     * the {@code MidiDeviceTransmitter} interface.
+     * <p>Usublly the returned trbnsmitters implement
+     * the {@code MidiDeviceTrbnsmitter} interfbce.
      *
-     * @return an unmodifiable list of the open transmitters
+     * @return bn unmodifibble list of the open trbnsmitters
      * @since 1.5
      */
-    List<Transmitter> getTransmitters();
+    List<Trbnsmitter> getTrbnsmitters();
 
 
 
     /**
-     * A <code>MidiDevice.Info</code> object contains assorted
-     * data about a <code>{@link MidiDevice}</code>, including its
-     * name, the company who created it, and descriptive text.
+     * A <code>MidiDevice.Info</code> object contbins bssorted
+     * dbtb bbout b <code>{@link MidiDevice}</code>, including its
+     * nbme, the compbny who crebted it, bnd descriptive text.
      *
      * @see MidiDevice#getDeviceInfo
      */
-    public static class Info {
+    public stbtic clbss Info {
 
         /**
-         * The device's name.
+         * The device's nbme.
          */
-        private String name;
+        privbte String nbme;
 
         /**
-         * The name of the company who provides the device.
+         * The nbme of the compbny who provides the device.
          */
-        private String vendor;
+        privbte String vendor;
 
         /**
          * A description of the device.
          */
-        private String description;
+        privbte String description;
 
         /**
          * Device version.
          */
-        private String version;
+        privbte String version;
 
 
         /**
-         * Constructs a device info object.
+         * Constructs b device info object.
          *
-         * @param name the name of the device
-         * @param vendor the name of the company who provides the device
-         * @param description a description of the device
-         * @param version version information for the device
+         * @pbrbm nbme the nbme of the device
+         * @pbrbm vendor the nbme of the compbny who provides the device
+         * @pbrbm description b description of the device
+         * @pbrbm version version informbtion for the device
          */
-        protected Info(String name, String vendor, String description, String version) {
+        protected Info(String nbme, String vendor, String description, String version) {
 
-            this.name = name;
+            this.nbme = nbme;
             this.vendor = vendor;
             this.description = description;
             this.version = version;
@@ -322,72 +322,72 @@ public interface MidiDevice extends AutoCloseable {
 
 
         /**
-         * Reports whether two objects are equal.
-         * Returns <code>true</code> if the objects are identical.
-         * @param obj the reference object with which to compare this
+         * Reports whether two objects bre equbl.
+         * Returns <code>true</code> if the objects bre identicbl.
+         * @pbrbm obj the reference object with which to compbre this
          * object
-         * @return <code>true</code> if this object is the same as the
-         * <code>obj</code> argument; <code>false</code> otherwise
+         * @return <code>true</code> if this object is the sbme bs the
+         * <code>obj</code> brgument; <code>fblse</code> otherwise
          */
-        public final boolean equals(Object obj) {
-            return super.equals(obj);
+        public finbl boolebn equbls(Object obj) {
+            return super.equbls(obj);
         }
 
 
         /**
-         * Finalizes the hashcode method.
+         * Finblizes the hbshcode method.
          */
-        public final int hashCode() {
-            return super.hashCode();
+        public finbl int hbshCode() {
+            return super.hbshCode();
         }
 
 
         /**
-         * Obtains the name of the device.
+         * Obtbins the nbme of the device.
          *
-         * @return a string containing the device's name
+         * @return b string contbining the device's nbme
          */
-        public final String getName() {
-            return name;
+        public finbl String getNbme() {
+            return nbme;
         }
 
 
         /**
-         * Obtains the name of the company who supplies the device.
-         * @return device the vendor's name
+         * Obtbins the nbme of the compbny who supplies the device.
+         * @return device the vendor's nbme
          */
-        public final String getVendor() {
+        public finbl String getVendor() {
             return vendor;
         }
 
 
         /**
-         * Obtains the description of the device.
-         * @return a description of the device
+         * Obtbins the description of the device.
+         * @return b description of the device
          */
-        public final String getDescription() {
+        public finbl String getDescription() {
             return description;
         }
 
 
         /**
-         * Obtains the version of the device.
-         * @return textual version information for the device.
+         * Obtbins the version of the device.
+         * @return textubl version informbtion for the device.
          */
-        public final String getVersion() {
+        public finbl String getVersion() {
             return version;
         }
 
 
         /**
-         * Provides a string representation of the device information.
+         * Provides b string representbtion of the device informbtion.
 
-         * @return a description of the info object
+         * @return b description of the info object
          */
-        public final String toString() {
-            return name;
+        public finbl String toString() {
+            return nbme;
         }
-    } // class Info
+    } // clbss Info
 
 
 }

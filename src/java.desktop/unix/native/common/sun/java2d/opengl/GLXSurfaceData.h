@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef GLXSurfaceData_h_Included
-#define GLXSurfaceData_h_Included
+#ifndef GLXSurfbceDbtb_h_Included
+#define GLXSurfbceDbtb_h_Included
 
 #include "J2D_GL/glx.h"
-#include "awt_p.h"
-#include "OGLSurfaceData.h"
+#include "bwt_p.h"
+#include "OGLSurfbceDbtb.h"
 
 #ifdef HEADLESS
 #define GLXSDOps void
 #else /* HEADLESS */
 
 /**
- * The GLXSDOps structure contains the GLX-specific information for a given
- * OGLSurfaceData.  It is referenced by the native OGLSDOps structure.
+ * The GLXSDOps structure contbins the GLX-specific informbtion for b given
+ * OGLSurfbceDbtb.  It is referenced by the nbtive OGLSDOps structure.
  *
  *     Window window;
- * For onscreen windows, we maintain a reference to that window's associated
- * XWindow handle here.  Offscreen surfaces have no associated Window, so for
- * those surfaces, this value will simply be zero.
+ * For onscreen windows, we mbintbin b reference to thbt window's bssocibted
+ * XWindow hbndle here.  Offscreen surfbces hbve no bssocibted Window, so for
+ * those surfbces, this vblue will simply be zero.
  *
- *     Drawable xdrawable;
- * If a GLXDrawable has a corresponding X11 Drawable, it is stored here.  For
- * example, each GLXWindow has an associated Window and each GLXPixmap has an
- * associated Pixmap.  GLXPbuffers have no associated X11 Drawable (they are
- * pure OpenGL surfaces), so for pbuffers, this field is set to zero;
+ *     Drbwbble xdrbwbble;
+ * If b GLXDrbwbble hbs b corresponding X11 Drbwbble, it is stored here.  For
+ * exbmple, ebch GLXWindow hbs bn bssocibted Window bnd ebch GLXPixmbp hbs bn
+ * bssocibted Pixmbp.  GLXPbuffers hbve no bssocibted X11 Drbwbble (they bre
+ * pure OpenGL surfbces), so for pbuffers, this field is set to zero;
  *
- *     GLXDrawable drawable;
- * The native handle to the GLXDrawable at the core of this surface.  A
- * GLXDrawable can be a Window, GLXWindow, GLXPixmap, or GLXPbuffer.
+ *     GLXDrbwbble drbwbble;
+ * The nbtive hbndle to the GLXDrbwbble bt the core of this surfbce.  A
+ * GLXDrbwbble cbn be b Window, GLXWindow, GLXPixmbp, or GLXPbuffer.
  *
- *     AwtGraphicsConfigData *configData;
- * A pointer to the AwtGraphicsConfigData under which this surface was
- * created.
+ *     AwtGrbphicsConfigDbtb *configDbtb;
+ * A pointer to the AwtGrbphicsConfigDbtb under which this surfbce wbs
+ * crebted.
  */
 typedef struct _GLXSDOps {
     Window      window;
-    Drawable    xdrawable;
-    GLXDrawable drawable;
-    struct _AwtGraphicsConfigData *configData;
+    Drbwbble    xdrbwbble;
+    GLXDrbwbble drbwbble;
+    struct _AwtGrbphicsConfigDbtb *configDbtb;
 } GLXSDOps;
 
 #endif /* HEADLESS */
 
-#endif /* GLXSurfaceData_h_Included */
+#endif /* GLXSurfbceDbtb_h_Included */

@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.net.*;
-import javax.net.SocketFactory;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.*;
-import java.util.Locale;
+import jbvb.net.*;
+import jbvbx.net.SocketFbctory;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.security.*;
+import jbvb.util.Locble;
 
-import sun.security.action.GetPropertyAction;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * <code>SSLSocketFactory</code>s create <code>SSLSocket</code>s.
+ * <code>SSLSocketFbctory</code>s crebte <code>SSLSocket</code>s.
  *
  * @since 1.4
  * @see SSLSocket
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-public abstract class SSLSocketFactory extends SocketFactory
+public bbstrbct clbss SSLSocketFbctory extends SocketFbctory
 {
-    private static SSLSocketFactory theFactory;
+    privbte stbtic SSLSocketFbctory theFbctory;
 
-    private static boolean propertyChecked;
+    privbte stbtic boolebn propertyChecked;
 
-    static final boolean DEBUG;
+    stbtic finbl boolebn DEBUG;
 
-    static {
-        String s = java.security.AccessController.doPrivileged(
-            new GetPropertyAction("javax.net.debug", "")).toLowerCase(
-                                                            Locale.ENGLISH);
-        DEBUG = s.contains("all") || s.contains("ssl");
+    stbtic {
+        String s = jbvb.security.AccessController.doPrivileged(
+            new GetPropertyAction("jbvbx.net.debug", "")).toLowerCbse(
+                                                            Locble.ENGLISH);
+        DEBUG = s.contbins("bll") || s.contbins("ssl");
     }
 
-    private static void log(String msg) {
+    privbte stbtic void log(String msg) {
         if (DEBUG) {
             System.out.println(msg);
         }
     }
 
     /**
-     * Constructor is used only by subclasses.
+     * Constructor is used only by subclbsses.
      */
-    public SSLSocketFactory() {
+    public SSLSocketFbctory() {
     }
 
     /**
-     * Returns the default SSL socket factory.
+     * Returns the defbult SSL socket fbctory.
      *
-     * <p>The first time this method is called, the security property
-     * "ssl.SocketFactory.provider" is examined. If it is non-null, a class by
-     * that name is loaded and instantiated. If that is successful and the
-     * object is an instance of SSLSocketFactory, it is made the default SSL
-     * socket factory.
+     * <p>The first time this method is cblled, the security property
+     * "ssl.SocketFbctory.provider" is exbmined. If it is non-null, b clbss by
+     * thbt nbme is lobded bnd instbntibted. If thbt is successful bnd the
+     * object is bn instbnce of SSLSocketFbctory, it is mbde the defbult SSL
+     * socket fbctory.
      *
      * <p>Otherwise, this method returns
-     * <code>SSLContext.getDefault().getSocketFactory()</code>. If that
-     * call fails, an inoperative factory is returned.
+     * <code>SSLContext.getDefbult().getSocketFbctory()</code>. If thbt
+     * cbll fbils, bn inoperbtive fbctory is returned.
      *
-     * @return the default <code>SocketFactory</code>
-     * @see SSLContext#getDefault
+     * @return the defbult <code>SocketFbctory</code>
+     * @see SSLContext#getDefbult
      */
-    public static synchronized SocketFactory getDefault() {
-        if (theFactory != null) {
-            return theFactory;
+    public stbtic synchronized SocketFbctory getDefbult() {
+        if (theFbctory != null) {
+            return theFbctory;
         }
 
-        if (propertyChecked == false) {
+        if (propertyChecked == fblse) {
             propertyChecked = true;
-            String clsName = getSecurityProperty("ssl.SocketFactory.provider");
-            if (clsName != null) {
-                log("setting up default SSLSocketFactory");
+            String clsNbme = getSecurityProperty("ssl.SocketFbctory.provider");
+            if (clsNbme != null) {
+                log("setting up defbult SSLSocketFbctory");
                 try {
-                    Class<?> cls = null;
+                    Clbss<?> cls = null;
                     try {
-                        cls = Class.forName(clsName);
-                    } catch (ClassNotFoundException e) {
-                        ClassLoader cl = ClassLoader.getSystemClassLoader();
+                        cls = Clbss.forNbme(clsNbme);
+                    } cbtch (ClbssNotFoundException e) {
+                        ClbssLobder cl = ClbssLobder.getSystemClbssLobder();
                         if (cl != null) {
-                            cls = cl.loadClass(clsName);
+                            cls = cl.lobdClbss(clsNbme);
                         }
                     }
-                    log("class " + clsName + " is loaded");
-                    SSLSocketFactory fac = (SSLSocketFactory)cls.newInstance();
-                    log("instantiated an instance of class " + clsName);
-                    theFactory = fac;
-                    return fac;
-                } catch (Exception e) {
-                    log("SSLSocketFactory instantiation failed: " + e.toString());
-                    theFactory = new DefaultSSLSocketFactory(e);
-                    return theFactory;
+                    log("clbss " + clsNbme + " is lobded");
+                    SSLSocketFbctory fbc = (SSLSocketFbctory)cls.newInstbnce();
+                    log("instbntibted bn instbnce of clbss " + clsNbme);
+                    theFbctory = fbc;
+                    return fbc;
+                } cbtch (Exception e) {
+                    log("SSLSocketFbctory instbntibtion fbiled: " + e.toString());
+                    theFbctory = new DefbultSSLSocketFbctory(e);
+                    return theFbctory;
                 }
             }
         }
 
         try {
-            return SSLContext.getDefault().getSocketFactory();
-        } catch (NoSuchAlgorithmException e) {
-            return new DefaultSSLSocketFactory(e);
+            return SSLContext.getDefbult().getSocketFbctory();
+        } cbtch (NoSuchAlgorithmException e) {
+            return new DefbultSSLSocketFbctory(e);
         }
     }
 
-    static String getSecurityProperty(final String name) {
+    stbtic String getSecurityProperty(finbl String nbme) {
         return AccessController.doPrivileged(new PrivilegedAction<String>() {
             @Override
             public String run() {
-                String s = java.security.Security.getProperty(name);
+                String s = jbvb.security.Security.getProperty(nbme);
                 if (s != null) {
                     s = s.trim();
                     if (s.length() == 0) {
@@ -142,143 +142,143 @@ public abstract class SSLSocketFactory extends SocketFactory
     }
 
     /**
-     * Returns the list of cipher suites which are enabled by default.
-     * Unless a different list is enabled, handshaking on an SSL connection
-     * will use one of these cipher suites.  The minimum quality of service
-     * for these defaults requires confidentiality protection and server
-     * authentication (that is, no anonymous cipher suites).
+     * Returns the list of cipher suites which bre enbbled by defbult.
+     * Unless b different list is enbbled, hbndshbking on bn SSL connection
+     * will use one of these cipher suites.  The minimum qublity of service
+     * for these defbults requires confidentiblity protection bnd server
+     * buthenticbtion (thbt is, no bnonymous cipher suites).
      *
      * @see #getSupportedCipherSuites()
-     * @return array of the cipher suites enabled by default
+     * @return brrby of the cipher suites enbbled by defbult
      */
-    public abstract String [] getDefaultCipherSuites();
+    public bbstrbct String [] getDefbultCipherSuites();
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on an SSL connection.  Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not meet quality of service requirements for those defaults.  Such
-     * cipher suites are useful in specialized applications.
+     * Returns the nbmes of the cipher suites which could be enbbled for use
+     * on bn SSL connection.  Normblly, only b subset of these will bctublly
+     * be enbbled by defbult, since this list mby include cipher suites which
+     * do not meet qublity of service requirements for those defbults.  Such
+     * cipher suites bre useful in speciblized bpplicbtions.
      *
-     * @see #getDefaultCipherSuites()
-     * @return an array of cipher suite names
+     * @see #getDefbultCipherSuites()
+     * @return bn brrby of cipher suite nbmes
      */
-    public abstract String [] getSupportedCipherSuites();
+    public bbstrbct String [] getSupportedCipherSuites();
 
     /**
-     * Returns a socket layered over an existing socket connected to the named
-     * host, at the given port.  This constructor can be used when tunneling SSL
-     * through a proxy or when negotiating the use of SSL over an existing
-     * socket. The host and port refer to the logical peer destination.
-     * This socket is configured using the socket options established for
-     * this factory.
+     * Returns b socket lbyered over bn existing socket connected to the nbmed
+     * host, bt the given port.  This constructor cbn be used when tunneling SSL
+     * through b proxy or when negotibting the use of SSL over bn existing
+     * socket. The host bnd port refer to the logicbl peer destinbtion.
+     * This socket is configured using the socket options estbblished for
+     * this fbctory.
      *
-     * @param s the existing socket
-     * @param host the server host
-     * @param port the server port
-     * @param autoClose close the underlying socket when this socket is closed
-     * @return a socket connected to the specified host and port
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws NullPointerException if the parameter s is null
+     * @pbrbm s the existing socket
+     * @pbrbm host the server host
+     * @pbrbm port the server port
+     * @pbrbm butoClose close the underlying socket when this socket is closed
+     * @return b socket connected to the specified host bnd port
+     * @throws IOException if bn I/O error occurs when crebting the socket
+     * @throws NullPointerException if the pbrbmeter s is null
      */
-    public abstract Socket createSocket(Socket s, String host,
-            int port, boolean autoClose) throws IOException;
+    public bbstrbct Socket crebteSocket(Socket s, String host,
+            int port, boolebn butoClose) throws IOException;
 
     /**
-     * Creates a server mode {@link Socket} layered over an
-     * existing connected socket, and is able to read data which has
-     * already been consumed/removed from the {@link Socket}'s
-     * underlying {@link InputStream}.
+     * Crebtes b server mode {@link Socket} lbyered over bn
+     * existing connected socket, bnd is bble to rebd dbtb which hbs
+     * blrebdy been consumed/removed from the {@link Socket}'s
+     * underlying {@link InputStrebm}.
      * <p>
-     * This method can be used by a server application that needs to
-     * observe the inbound data but still create valid SSL/TLS
-     * connections: for example, inspection of Server Name Indication
+     * This method cbn be used by b server bpplicbtion thbt needs to
+     * observe the inbound dbtb but still crebte vblid SSL/TLS
+     * connections: for exbmple, inspection of Server Nbme Indicbtion
      * (SNI) extensions (See section 3 of <A
      * HREF="http://www.ietf.org/rfc/rfc6066.txt">TLS Extensions
-     * (RFC6066)</A>).  Data that has been already removed from the
-     * underlying {@link InputStream} should be loaded into the
-     * {@code consumed} stream before this method is called, perhaps
-     * using a {@link java.io.ByteArrayInputStream}.  When this
-     * {@link Socket} begins handshaking, it will read all of the data in
-     * {@code consumed} until it reaches {@code EOF}, then all further
-     * data is read from the underlying {@link InputStream} as
-     * usual.
+     * (RFC6066)</A>).  Dbtb thbt hbs been blrebdy removed from the
+     * underlying {@link InputStrebm} should be lobded into the
+     * {@code consumed} strebm before this method is cblled, perhbps
+     * using b {@link jbvb.io.ByteArrbyInputStrebm}.  When this
+     * {@link Socket} begins hbndshbking, it will rebd bll of the dbtb in
+     * {@code consumed} until it rebches {@code EOF}, then bll further
+     * dbtb is rebd from the underlying {@link InputStrebm} bs
+     * usubl.
      * <p>
      * The returned socket is configured using the socket options
-     * established for this factory, and is set to use server mode when
-     * handshaking (see {@link SSLSocket#setUseClientMode(boolean)}).
+     * estbblished for this fbctory, bnd is set to use server mode when
+     * hbndshbking (see {@link SSLSocket#setUseClientMode(boolebn)}).
      *
-     * @param  s
+     * @pbrbm  s
      *         the existing socket
-     * @param  consumed
-     *         the consumed inbound network data that has already been
+     * @pbrbm  consumed
+     *         the consumed inbound network dbtb thbt hbs blrebdy been
      *         removed from the existing {@link Socket}
-     *         {@link InputStream}.  This parameter may be
-     *         {@code null} if no data has been removed.
-     * @param  autoClose close the underlying socket when this socket is closed.
+     *         {@link InputStrebm}.  This pbrbmeter mby be
+     *         {@code null} if no dbtb hbs been removed.
+     * @pbrbm  butoClose close the underlying socket when this socket is closed.
      *
-     * @return the {@link Socket} compliant with the socket options
-     *         established for this factory
+     * @return the {@link Socket} complibnt with the socket options
+     *         estbblished for this fbctory
      *
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws UnsupportedOperationException if the underlying provider
-     *         does not implement the operation
+     * @throws IOException if bn I/O error occurs when crebting the socket
+     * @throws UnsupportedOperbtionException if the underlying provider
+     *         does not implement the operbtion
      * @throws NullPointerException if {@code s} is {@code null}
      *
      * @since 1.8
      */
-    public Socket createSocket(Socket s, InputStream consumed,
-            boolean autoClose) throws IOException {
-        throw new UnsupportedOperationException();
+    public Socket crebteSocket(Socket s, InputStrebm consumed,
+            boolebn butoClose) throws IOException {
+        throw new UnsupportedOperbtionException();
     }
 }
 
 
-// file private
-class DefaultSSLSocketFactory extends SSLSocketFactory
+// file privbte
+clbss DefbultSSLSocketFbctory extends SSLSocketFbctory
 {
-    private Exception reason;
+    privbte Exception rebson;
 
-    DefaultSSLSocketFactory(Exception reason) {
-        this.reason = reason;
+    DefbultSSLSocketFbctory(Exception rebson) {
+        this.rebson = rebson;
     }
 
-    private Socket throwException() throws SocketException {
+    privbte Socket throwException() throws SocketException {
         throw (SocketException)
-            new SocketException(reason.toString()).initCause(reason);
+            new SocketException(rebson.toString()).initCbuse(rebson);
     }
 
     @Override
-    public Socket createSocket()
+    public Socket crebteSocket()
     throws IOException
     {
         return throwException();
     }
 
     @Override
-    public Socket createSocket(String host, int port)
+    public Socket crebteSocket(String host, int port)
     throws IOException
     {
         return throwException();
     }
 
     @Override
-    public Socket createSocket(Socket s, String host,
-                                int port, boolean autoClose)
+    public Socket crebteSocket(Socket s, String host,
+                                int port, boolebn butoClose)
     throws IOException
     {
         return throwException();
     }
 
     @Override
-    public Socket createSocket(InetAddress address, int port)
+    public Socket crebteSocket(InetAddress bddress, int port)
     throws IOException
     {
         return throwException();
     }
 
     @Override
-    public Socket createSocket(String host, int port,
+    public Socket crebteSocket(String host, int port,
         InetAddress clientAddress, int clientPort)
     throws IOException
     {
@@ -286,7 +286,7 @@ class DefaultSSLSocketFactory extends SSLSocketFactory
     }
 
     @Override
-    public Socket createSocket(InetAddress address, int port,
+    public Socket crebteSocket(InetAddress bddress, int port,
         InetAddress clientAddress, int clientPort)
     throws IOException
     {
@@ -294,7 +294,7 @@ class DefaultSSLSocketFactory extends SSLSocketFactory
     }
 
     @Override
-    public String [] getDefaultCipherSuites() {
+    public String [] getDefbultCipherSuites() {
         return new String[0];
     }
 

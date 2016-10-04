@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.net.ftp.impl;
+pbckbge sun.net.ftp.impl;
 
-import java.net.*;
-import java.io.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
+import jbvb.net.*;
+import jbvb.io.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.text.DbteFormbt;
+import jbvb.text.PbrseException;
+import jbvb.text.SimpleDbteFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Bbse64;
+import jbvb.util.Cblendbr;
+import jbvb.util.Dbte;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.TimeZone;
+import jbvb.util.Vector;
+import jbvb.util.regex.Mbtcher;
+import jbvb.util.regex.Pbttern;
+import jbvbx.net.ssl.SSLSocket;
+import jbvbx.net.ssl.SSLSocketFbctory;
 import sun.net.ftp.*;
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
 
-public class FtpClient extends sun.net.ftp.FtpClient {
+public clbss FtpClient extends sun.net.ftp.FtpClient {
 
-    private static int defaultSoTimeout;
-    private static int defaultConnectTimeout;
-    private static final PlatformLogger logger =
-             PlatformLogger.getLogger("sun.net.ftp.FtpClient");
-    private Proxy proxy;
-    private Socket server;
-    private PrintStream out;
-    private InputStream in;
-    private int readTimeout = -1;
-    private int connectTimeout = -1;
+    privbte stbtic int defbultSoTimeout;
+    privbte stbtic int defbultConnectTimeout;
+    privbte stbtic finbl PlbtformLogger logger =
+             PlbtformLogger.getLogger("sun.net.ftp.FtpClient");
+    privbte Proxy proxy;
+    privbte Socket server;
+    privbte PrintStrebm out;
+    privbte InputStrebm in;
+    privbte int rebdTimeout = -1;
+    privbte int connectTimeout = -1;
 
-    /* Name of encoding to use for output */
-    private static String encoding = "ISO8859_1";
-    /** remember the ftp server name because we may need it */
-    private InetSocketAddress serverAddr;
-    private boolean replyPending = false;
-    private boolean loggedIn = false;
-    private boolean useCrypto = false;
-    private SSLSocketFactory sslFact;
-    private Socket oldSocket;
-    /** Array of strings (usually 1 entry) for the last reply from the server. */
-    private Vector<String> serverResponse = new Vector<String>(1);
-    /** The last reply code from the ftp daemon. */
-    private FtpReplyCode lastReplyCode = null;
-    /** Welcome message from the server, if any. */
-    private String welcomeMsg;
+    /* Nbme of encoding to use for output */
+    privbte stbtic String encoding = "ISO8859_1";
+    /** remember the ftp server nbme becbuse we mby need it */
+    privbte InetSocketAddress serverAddr;
+    privbte boolebn replyPending = fblse;
+    privbte boolebn loggedIn = fblse;
+    privbte boolebn useCrypto = fblse;
+    privbte SSLSocketFbctory sslFbct;
+    privbte Socket oldSocket;
+    /** Arrby of strings (usublly 1 entry) for the lbst reply from the server. */
+    privbte Vector<String> serverResponse = new Vector<String>(1);
+    /** The lbst reply code from the ftp dbemon. */
+    privbte FtpReplyCode lbstReplyCode = null;
+    /** Welcome messbge from the server, if bny. */
+    privbte String welcomeMsg;
     /**
-     * Only passive mode used in JDK. See Bug 8010784.
+     * Only pbssive mode used in JDK. See Bug 8010784.
      */
-    private final boolean passiveMode = true;
-    private TransferType type = TransferType.BINARY;
-    private long restartOffset = 0;
-    private long lastTransSize = -1; // -1 means 'unknown size'
-    private String lastFileName;
+    privbte finbl boolebn pbssiveMode = true;
+    privbte TrbnsferType type = TrbnsferType.BINARY;
+    privbte long restbrtOffset = 0;
+    privbte long lbstTrbnsSize = -1; // -1 mebns 'unknown size'
+    privbte String lbstFileNbme;
     /**
-     * Static members used by the parser
+     * Stbtic members used by the pbrser
      */
-    private static String[] patStrings = {
-        // drwxr-xr-x  1 user01        ftp   512 Jan 29 23:32 prog
-        "([\\-ld](?:[r\\-][w\\-][x\\-]){3})\\s*\\d+ (\\w+)\\s*(\\w+)\\s*(\\d+)\\s*([A-Z][a-z][a-z]\\s*\\d+)\\s*(\\d\\d:\\d\\d)\\s*(\\p{Print}*)",
-        // drwxr-xr-x  1 user01        ftp   512 Jan 29 1997 prog
-        "([\\-ld](?:[r\\-][w\\-][x\\-]){3})\\s*\\d+ (\\w+)\\s*(\\w+)\\s*(\\d+)\\s*([A-Z][a-z][a-z]\\s*\\d+)\\s*(\\d{4})\\s*(\\p{Print}*)",
-        // 04/28/2006  09:12a               3,563 genBuffer.sh
-        "(\\d{2}/\\d{2}/\\d{4})\\s*(\\d{2}:\\d{2}[ap])\\s*((?:[0-9,]+)|(?:<DIR>))\\s*(\\p{Graph}*)",
+    privbte stbtic String[] pbtStrings = {
+        // drwxr-xr-x  1 user01        ftp   512 Jbn 29 23:32 prog
+        "([\\-ld](?:[r\\-][w\\-][x\\-]){3})\\s*\\d+ (\\w+)\\s*(\\w+)\\s*(\\d+)\\s*([A-Z][b-z][b-z]\\s*\\d+)\\s*(\\d\\d:\\d\\d)\\s*(\\p{Print}*)",
+        // drwxr-xr-x  1 user01        ftp   512 Jbn 29 1997 prog
+        "([\\-ld](?:[r\\-][w\\-][x\\-]){3})\\s*\\d+ (\\w+)\\s*(\\w+)\\s*(\\d+)\\s*([A-Z][b-z][b-z]\\s*\\d+)\\s*(\\d{4})\\s*(\\p{Print}*)",
+        // 04/28/2006  09:12b               3,563 genBuffer.sh
+        "(\\d{2}/\\d{2}/\\d{4})\\s*(\\d{2}:\\d{2}[bp])\\s*((?:[0-9,]+)|(?:<DIR>))\\s*(\\p{Grbph}*)",
         // 01-29-97    11:32PM <DIR> prog
-        "(\\d{2}-\\d{2}-\\d{2})\\s*(\\d{2}:\\d{2}[AP]M)\\s*((?:[0-9,]+)|(?:<DIR>))\\s*(\\p{Graph}*)"
+        "(\\d{2}-\\d{2}-\\d{2})\\s*(\\d{2}:\\d{2}[AP]M)\\s*((?:[0-9,]+)|(?:<DIR>))\\s*(\\p{Grbph}*)"
     };
-    private static int[][] patternGroups = {
-        // 0 - file, 1 - size, 2 - date, 3 - time, 4 - year, 5 - permissions,
+    privbte stbtic int[][] pbtternGroups = {
+        // 0 - file, 1 - size, 2 - dbte, 3 - time, 4 - yebr, 5 - permissions,
         // 6 - user, 7 - group
         {7, 4, 5, 6, 0, 1, 2, 3},
         {7, 4, 5, 0, 6, 1, 2, 3},
         {4, 3, 1, 2, 0, 0, 0, 0},
         {4, 3, 1, 2, 0, 0, 0, 0}};
-    private static Pattern[] patterns;
-    private static Pattern linkp = Pattern.compile("(\\p{Print}+) \\-\\> (\\p{Print}+)$");
-    private DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, java.util.Locale.US);
+    privbte stbtic Pbttern[] pbtterns;
+    privbte stbtic Pbttern linkp = Pbttern.compile("(\\p{Print}+) \\-\\> (\\p{Print}+)$");
+    privbte DbteFormbt df = DbteFormbt.getDbteInstbnce(DbteFormbt.MEDIUM, jbvb.util.Locble.US);
 
-    static {
-        final int vals[] = {0, 0};
-        final String encs[] = {null};
+    stbtic {
+        finbl int vbls[] = {0, 0};
+        finbl String encs[] = {null};
 
         AccessController.doPrivileged(
                 new PrivilegedAction<Object>() {
 
                     public Object run() {
-                        vals[0] = Integer.getInteger("sun.net.client.defaultReadTimeout", 0).intValue();
-                        vals[1] = Integer.getInteger("sun.net.client.defaultConnectTimeout", 0).intValue();
+                        vbls[0] = Integer.getInteger("sun.net.client.defbultRebdTimeout", 0).intVblue();
+                        vbls[1] = Integer.getInteger("sun.net.client.defbultConnectTimeout", 0).intVblue();
                         encs[0] = System.getProperty("file.encoding", "ISO8859_1");
                         return null;
                     }
                 });
-        if (vals[0] == 0) {
-            defaultSoTimeout = -1;
+        if (vbls[0] == 0) {
+            defbultSoTimeout = -1;
         } else {
-            defaultSoTimeout = vals[0];
+            defbultSoTimeout = vbls[0];
         }
 
-        if (vals[1] == 0) {
-            defaultConnectTimeout = -1;
+        if (vbls[1] == 0) {
+            defbultConnectTimeout = -1;
         } else {
-            defaultConnectTimeout = vals[1];
+            defbultConnectTimeout = vbls[1];
         }
 
         encoding = encs[0];
@@ -138,39 +138,39 @@ public class FtpClient extends sun.net.ftp.FtpClient {
             if (!isASCIISuperset(encoding)) {
                 encoding = "ISO8859_1";
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             encoding = "ISO8859_1";
         }
 
-        patterns = new Pattern[patStrings.length];
-        for (int i = 0; i < patStrings.length; i++) {
-            patterns[i] = Pattern.compile(patStrings[i]);
+        pbtterns = new Pbttern[pbtStrings.length];
+        for (int i = 0; i < pbtStrings.length; i++) {
+            pbtterns[i] = Pbttern.compile(pbtStrings[i]);
         }
     }
 
     /**
-     * Test the named character encoding to verify that it converts ASCII
-     * characters correctly. We have to use an ASCII based encoding, or else
-     * the NetworkClients will not work correctly in EBCDIC based systems.
-     * However, we cannot just use ASCII or ISO8859_1 universally, because in
-     * Asian locales, non-ASCII characters may be embedded in otherwise
-     * ASCII based protocols (eg. HTTP). The specifications (RFC2616, 2398)
-     * are a little ambiguous in this matter. For instance, RFC2398 [part 2.1]
-     * says that the HTTP request URI should be escaped using a defined
-     * mechanism, but there is no way to specify in the escaped string what
-     * the original character set is. It is not correct to assume that
-     * UTF-8 is always used (as in URLs in HTML 4.0).  For this reason,
-     * until the specifications are updated to deal with this issue more
-     * comprehensively, and more importantly, HTTP servers are known to
-     * support these mechanisms, we will maintain the current behavior
-     * where it is possible to send non-ASCII characters in their original
-     * unescaped form.
+     * Test the nbmed chbrbcter encoding to verify thbt it converts ASCII
+     * chbrbcters correctly. We hbve to use bn ASCII bbsed encoding, or else
+     * the NetworkClients will not work correctly in EBCDIC bbsed systems.
+     * However, we cbnnot just use ASCII or ISO8859_1 universblly, becbuse in
+     * Asibn locbles, non-ASCII chbrbcters mby be embedded in otherwise
+     * ASCII bbsed protocols (eg. HTTP). The specificbtions (RFC2616, 2398)
+     * bre b little bmbiguous in this mbtter. For instbnce, RFC2398 [pbrt 2.1]
+     * sbys thbt the HTTP request URI should be escbped using b defined
+     * mechbnism, but there is no wby to specify in the escbped string whbt
+     * the originbl chbrbcter set is. It is not correct to bssume thbt
+     * UTF-8 is blwbys used (bs in URLs in HTML 4.0).  For this rebson,
+     * until the specificbtions bre updbted to debl with this issue more
+     * comprehensively, bnd more importbntly, HTTP servers bre known to
+     * support these mechbnisms, we will mbintbin the current behbvior
+     * where it is possible to send non-ASCII chbrbcters in their originbl
+     * unescbped form.
      */
-    private static boolean isASCIISuperset(String encoding) throws Exception {
+    privbte stbtic boolebn isASCIISuperset(String encoding) throws Exception {
         String chkS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-                "abcdefghijklmnopqrstuvwxyz-_.!~*'();/?:@&=+$,";
+                "bbcdefghijklmnopqrstuvwxyz-_.!~*'();/?:@&=+$,";
 
-        // Expected byte sequence for string above
+        // Expected byte sequence for string bbove
         byte[] chkB = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72,
             73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99,
             100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114,
@@ -178,131 +178,131 @@ public class FtpClient extends sun.net.ftp.FtpClient {
             47, 63, 58, 64, 38, 61, 43, 36, 44};
 
         byte[] b = chkS.getBytes(encoding);
-        return java.util.Arrays.equals(b, chkB);
+        return jbvb.util.Arrbys.equbls(b, chkB);
     }
 
-    private class DefaultParser implements FtpDirParser {
+    privbte clbss DefbultPbrser implements FtpDirPbrser {
 
         /**
-         * Possible patterns:
+         * Possible pbtterns:
          *
-         *  drwxr-xr-x  1 user01        ftp   512 Jan 29 23:32 prog
-         *  drwxr-xr-x  1 user01        ftp   512 Jan 29 1997 prog
-         *  drwxr-xr-x  1 1             1     512 Jan 29 23:32 prog
-         *  lrwxr-xr-x  1 user01        ftp   512 Jan 29 23:32 prog -> prog2000
-         *  drwxr-xr-x  1 username      ftp   512 Jan 29 23:32 prog
-         *  -rw-r--r--  1 jcc      staff     105009 Feb  3 15:05 test.1
+         *  drwxr-xr-x  1 user01        ftp   512 Jbn 29 23:32 prog
+         *  drwxr-xr-x  1 user01        ftp   512 Jbn 29 1997 prog
+         *  drwxr-xr-x  1 1             1     512 Jbn 29 23:32 prog
+         *  lrwxr-xr-x  1 user01        ftp   512 Jbn 29 23:32 prog -> prog2000
+         *  drwxr-xr-x  1 usernbme      ftp   512 Jbn 29 23:32 prog
+         *  -rw-r--r--  1 jcc      stbff     105009 Feb  3 15:05 test.1
          *
          *  01-29-97    11:32PM <DIR> prog
-         *  04/28/2006  09:12a               3,563 genBuffer.sh
+         *  04/28/2006  09:12b               3,563 genBuffer.sh
          *
-         *  drwxr-xr-x  folder   0       Jan 29 23:32 prog
+         *  drwxr-xr-x  folder   0       Jbn 29 23:32 prog
          *
          *  0 DIR 01-29-97 23:32 PROG
          */
-        private DefaultParser() {
+        privbte DefbultPbrser() {
         }
 
-        public FtpDirEntry parseLine(String line) {
-            String fdate = null;
+        public FtpDirEntry pbrseLine(String line) {
+            String fdbte = null;
             String fsize = null;
             String time = null;
-            String filename = null;
+            String filenbme = null;
             String permstring = null;
-            String username = null;
-            String groupname = null;
-            boolean dir = false;
-            Calendar now = Calendar.getInstance();
-            int year = now.get(Calendar.YEAR);
+            String usernbme = null;
+            String groupnbme = null;
+            boolebn dir = fblse;
+            Cblendbr now = Cblendbr.getInstbnce();
+            int yebr = now.get(Cblendbr.YEAR);
 
-            Matcher m = null;
-            for (int j = 0; j < patterns.length; j++) {
-                m = patterns[j].matcher(line);
+            Mbtcher m = null;
+            for (int j = 0; j < pbtterns.length; j++) {
+                m = pbtterns[j].mbtcher(line);
                 if (m.find()) {
-                    // 0 - file, 1 - size, 2 - date, 3 - time, 4 - year,
+                    // 0 - file, 1 - size, 2 - dbte, 3 - time, 4 - yebr,
                     // 5 - permissions, 6 - user, 7 - group
-                    filename = m.group(patternGroups[j][0]);
-                    fsize = m.group(patternGroups[j][1]);
-                    fdate = m.group(patternGroups[j][2]);
-                    if (patternGroups[j][4] > 0) {
-                        fdate += (", " + m.group(patternGroups[j][4]));
-                    } else if (patternGroups[j][3] > 0) {
-                        fdate += (", " + String.valueOf(year));
+                    filenbme = m.group(pbtternGroups[j][0]);
+                    fsize = m.group(pbtternGroups[j][1]);
+                    fdbte = m.group(pbtternGroups[j][2]);
+                    if (pbtternGroups[j][4] > 0) {
+                        fdbte += (", " + m.group(pbtternGroups[j][4]));
+                    } else if (pbtternGroups[j][3] > 0) {
+                        fdbte += (", " + String.vblueOf(yebr));
                     }
-                    if (patternGroups[j][3] > 0) {
-                        time = m.group(patternGroups[j][3]);
+                    if (pbtternGroups[j][3] > 0) {
+                        time = m.group(pbtternGroups[j][3]);
                     }
-                    if (patternGroups[j][5] > 0) {
-                        permstring = m.group(patternGroups[j][5]);
-                        dir = permstring.startsWith("d");
+                    if (pbtternGroups[j][5] > 0) {
+                        permstring = m.group(pbtternGroups[j][5]);
+                        dir = permstring.stbrtsWith("d");
                     }
-                    if (patternGroups[j][6] > 0) {
-                        username = m.group(patternGroups[j][6]);
+                    if (pbtternGroups[j][6] > 0) {
+                        usernbme = m.group(pbtternGroups[j][6]);
                     }
-                    if (patternGroups[j][7] > 0) {
-                        groupname = m.group(patternGroups[j][7]);
+                    if (pbtternGroups[j][7] > 0) {
+                        groupnbme = m.group(pbtternGroups[j][7]);
                     }
-                    // Old DOS format
-                    if ("<DIR>".equals(fsize)) {
+                    // Old DOS formbt
+                    if ("<DIR>".equbls(fsize)) {
                         dir = true;
                         fsize = null;
                     }
                 }
             }
 
-            if (filename != null) {
-                Date d;
+            if (filenbme != null) {
+                Dbte d;
                 try {
-                    d = df.parse(fdate);
-                } catch (Exception e) {
+                    d = df.pbrse(fdbte);
+                } cbtch (Exception e) {
                     d = null;
                 }
                 if (d != null && time != null) {
                     int c = time.indexOf(':');
                     now.setTime(d);
-                    now.set(Calendar.HOUR, Integer.parseInt(time.substring(0, c)));
-                    now.set(Calendar.MINUTE, Integer.parseInt(time.substring(c + 1)));
+                    now.set(Cblendbr.HOUR, Integer.pbrseInt(time.substring(0, c)));
+                    now.set(Cblendbr.MINUTE, Integer.pbrseInt(time.substring(c + 1)));
                     d = now.getTime();
                 }
-                // see if it's a symbolic link, i.e. the name if followed
-                // by a -> and a path
-                Matcher m2 = linkp.matcher(filename);
+                // see if it's b symbolic link, i.e. the nbme if followed
+                // by b -> bnd b pbth
+                Mbtcher m2 = linkp.mbtcher(filenbme);
                 if (m2.find()) {
-                    // Keep only the name then
-                    filename = m2.group(1);
+                    // Keep only the nbme then
+                    filenbme = m2.group(1);
                 }
-                boolean[][] perms = new boolean[3][3];
+                boolebn[][] perms = new boolebn[3][3];
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
-                        perms[i][j] = (permstring.charAt((i * 3) + j) != '-');
+                        perms[i][j] = (permstring.chbrAt((i * 3) + j) != '-');
                     }
                 }
-                FtpDirEntry file = new FtpDirEntry(filename);
-                file.setUser(username).setGroup(groupname);
-                file.setSize(Long.parseLong(fsize)).setLastModified(d);
+                FtpDirEntry file = new FtpDirEntry(filenbme);
+                file.setUser(usernbme).setGroup(groupnbme);
+                file.setSize(Long.pbrseLong(fsize)).setLbstModified(d);
                 file.setPermissions(perms);
-                file.setType(dir ? FtpDirEntry.Type.DIR : (line.charAt(0) == 'l' ? FtpDirEntry.Type.LINK : FtpDirEntry.Type.FILE));
+                file.setType(dir ? FtpDirEntry.Type.DIR : (line.chbrAt(0) == 'l' ? FtpDirEntry.Type.LINK : FtpDirEntry.Type.FILE));
                 return file;
             }
             return null;
         }
     }
 
-    private class MLSxParser implements FtpDirParser {
+    privbte clbss MLSxPbrser implements FtpDirPbrser {
 
-        private SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");
+        privbte SimpleDbteFormbt df = new SimpleDbteFormbt("yyyyMMddhhmmss");
 
-        public FtpDirEntry parseLine(String line) {
-            String name = null;
-            int i = line.lastIndexOf(';');
+        public FtpDirEntry pbrseLine(String line) {
+            String nbme = null;
+            int i = line.lbstIndexOf(';');
             if (i > 0) {
-                name = line.substring(i + 1).trim();
+                nbme = line.substring(i + 1).trim();
                 line = line.substring(0, i);
             } else {
-                name = line.trim();
+                nbme = line.trim();
                 line = "";
             }
-            FtpDirEntry file = new FtpDirEntry(name);
+            FtpDirEntry file = new FtpDirEntry(nbme);
             while (!line.isEmpty()) {
                 String s;
                 i = line.indexOf(';');
@@ -315,99 +315,99 @@ public class FtpClient extends sun.net.ftp.FtpClient {
                 }
                 i = s.indexOf('=');
                 if (i > 0) {
-                    String fact = s.substring(0, i);
-                    String value = s.substring(i + 1);
-                    file.addFact(fact, value);
+                    String fbct = s.substring(0, i);
+                    String vblue = s.substring(i + 1);
+                    file.bddFbct(fbct, vblue);
                 }
             }
-            String s = file.getFact("Size");
+            String s = file.getFbct("Size");
             if (s != null) {
-                file.setSize(Long.parseLong(s));
+                file.setSize(Long.pbrseLong(s));
             }
-            s = file.getFact("Modify");
+            s = file.getFbct("Modify");
             if (s != null) {
-                Date d = null;
+                Dbte d = null;
                 try {
-                    d = df.parse(s);
-                } catch (ParseException ex) {
+                    d = df.pbrse(s);
+                } cbtch (PbrseException ex) {
                 }
                 if (d != null) {
-                    file.setLastModified(d);
+                    file.setLbstModified(d);
                 }
             }
-            s = file.getFact("Create");
+            s = file.getFbct("Crebte");
             if (s != null) {
-                Date d = null;
+                Dbte d = null;
                 try {
-                    d = df.parse(s);
-                } catch (ParseException ex) {
+                    d = df.pbrse(s);
+                } cbtch (PbrseException ex) {
                 }
                 if (d != null) {
-                    file.setCreated(d);
+                    file.setCrebted(d);
                 }
             }
-            s = file.getFact("Type");
+            s = file.getFbct("Type");
             if (s != null) {
-                if (s.equalsIgnoreCase("file")) {
+                if (s.equblsIgnoreCbse("file")) {
                     file.setType(FtpDirEntry.Type.FILE);
                 }
-                if (s.equalsIgnoreCase("dir")) {
+                if (s.equblsIgnoreCbse("dir")) {
                     file.setType(FtpDirEntry.Type.DIR);
                 }
-                if (s.equalsIgnoreCase("cdir")) {
+                if (s.equblsIgnoreCbse("cdir")) {
                     file.setType(FtpDirEntry.Type.CDIR);
                 }
-                if (s.equalsIgnoreCase("pdir")) {
+                if (s.equblsIgnoreCbse("pdir")) {
                     file.setType(FtpDirEntry.Type.PDIR);
                 }
             }
             return file;
         }
     };
-    private FtpDirParser parser = new DefaultParser();
-    private FtpDirParser mlsxParser = new MLSxParser();
-    private static Pattern transPat = null;
+    privbte FtpDirPbrser pbrser = new DefbultPbrser();
+    privbte FtpDirPbrser mlsxPbrser = new MLSxPbrser();
+    privbte stbtic Pbttern trbnsPbt = null;
 
-    private void getTransferSize() {
-        lastTransSize = -1;
+    privbte void getTrbnsferSize() {
+        lbstTrbnsSize = -1;
         /**
-         * If it's a start of data transfer response, let's try to extract
-         * the size from the response string. Usually it looks like that:
+         * If it's b stbrt of dbtb trbnsfer response, let's try to extrbct
+         * the size from the response string. Usublly it looks like thbt:
          *
-         * 150 Opening BINARY mode data connection for foo (6701 bytes).
+         * 150 Opening BINARY mode dbtb connection for foo (6701 bytes).
          */
-        String response = getLastResponseString();
-        if (transPat == null) {
-            transPat = Pattern.compile("150 Opening .*\\((\\d+) bytes\\).");
+        String response = getLbstResponseString();
+        if (trbnsPbt == null) {
+            trbnsPbt = Pbttern.compile("150 Opening .*\\((\\d+) bytes\\).");
         }
-        Matcher m = transPat.matcher(response);
+        Mbtcher m = trbnsPbt.mbtcher(response);
         if (m.find()) {
             String s = m.group(1);
-            lastTransSize = Long.parseLong(s);
+            lbstTrbnsSize = Long.pbrseLong(s);
         }
     }
 
     /**
-     * extract the created file name from the response string:
-     * 226 Transfer complete (unique file name:toto.txt.1).
-     * Usually happens when a STOU (store unique) command had been issued.
+     * extrbct the crebted file nbme from the response string:
+     * 226 Trbnsfer complete (unique file nbme:toto.txt.1).
+     * Usublly hbppens when b STOU (store unique) commbnd hbd been issued.
      */
-    private void getTransferName() {
-        lastFileName = null;
-        String response = getLastResponseString();
-        int i = response.indexOf("unique file name:");
-        int e = response.lastIndexOf(')');
+    privbte void getTrbnsferNbme() {
+        lbstFileNbme = null;
+        String response = getLbstResponseString();
+        int i = response.indexOf("unique file nbme:");
+        int e = response.lbstIndexOf(')');
         if (i >= 0) {
-            i += 17; // Length of "unique file name:"
-            lastFileName = response.substring(i, e);
+            i += 17; // Length of "unique file nbme:"
+            lbstFileNbme = response.substring(i, e);
         }
     }
 
     /**
-     * Pulls the response from the server and returns the code as a
-     * number. Returns -1 on failure.
+     * Pulls the response from the server bnd returns the code bs b
+     * number. Returns -1 on fbilure.
      */
-    private int readServerResponse() throws IOException {
+    privbte int rebdServerResponse() throws IOException {
         StringBuilder replyBuf = new StringBuilder(32);
         int c;
         int continuingCode = -1;
@@ -416,20 +416,20 @@ public class FtpClient extends sun.net.ftp.FtpClient {
 
         serverResponse.setSize(0);
         while (true) {
-            while ((c = in.read()) != -1) {
+            while ((c = in.rebd()) != -1) {
                 if (c == '\r') {
-                    if ((c = in.read()) != '\n') {
-                        replyBuf.append('\r');
+                    if ((c = in.rebd()) != '\n') {
+                        replyBuf.bppend('\r');
                     }
                 }
-                replyBuf.append((char) c);
+                replyBuf.bppend((chbr) c);
                 if (c == '\n') {
-                    break;
+                    brebk;
                 }
             }
             response = replyBuf.toString();
             replyBuf.setLength(0);
-            if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
+            if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
                 logger.finest("Server [" + serverAddr + "] --> " + response);
             }
 
@@ -437,197 +437,197 @@ public class FtpClient extends sun.net.ftp.FtpClient {
                 code = -1;
             } else {
                 try {
-                    code = Integer.parseInt(response.substring(0, 3));
-                } catch (NumberFormatException e) {
+                    code = Integer.pbrseInt(response.substring(0, 3));
+                } cbtch (NumberFormbtException e) {
                     code = -1;
-                } catch (StringIndexOutOfBoundsException e) {
-                    /* this line doesn't contain a response code, so
+                } cbtch (StringIndexOutOfBoundsException e) {
+                    /* this line doesn't contbin b response code, so
                     we just completely ignore it */
                     continue;
                 }
             }
-            serverResponse.addElement(response);
+            serverResponse.bddElement(response);
             if (continuingCode != -1) {
-                /* we've seen a ###- sequence */
+                /* we've seen b ###- sequence */
                 if (code != continuingCode ||
-                        (response.length() >= 4 && response.charAt(3) == '-')) {
+                        (response.length() >= 4 && response.chbrAt(3) == '-')) {
                     continue;
                 } else {
                     /* seen the end of code sequence */
                     continuingCode = -1;
-                    break;
+                    brebk;
                 }
-            } else if (response.length() >= 4 && response.charAt(3) == '-') {
+            } else if (response.length() >= 4 && response.chbrAt(3) == '-') {
                 continuingCode = code;
                 continue;
             } else {
-                break;
+                brebk;
             }
         }
 
         return code;
     }
 
-    /** Sends command <i>cmd</i> to the server. */
-    private void sendServer(String cmd) {
+    /** Sends commbnd <i>cmd</i> to the server. */
+    privbte void sendServer(String cmd) {
         out.print(cmd);
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
+        if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
             logger.finest("Server [" + serverAddr + "] <-- " + cmd);
         }
     }
 
-    /** converts the server response into a string. */
-    private String getResponseString() {
+    /** converts the server response into b string. */
+    privbte String getResponseString() {
         return serverResponse.elementAt(0);
     }
 
-    /** Returns all server response strings. */
-    private Vector<String> getResponseStrings() {
+    /** Returns bll server response strings. */
+    privbte Vector<String> getResponseStrings() {
         return serverResponse;
     }
 
     /**
-     * Read the reply from the FTP server.
+     * Rebd the reply from the FTP server.
      *
-     * @return <code>true</code> if the command was successful
-     * @throws IOException if an error occurred
+     * @return <code>true</code> if the commbnd wbs successful
+     * @throws IOException if bn error occurred
      */
-    private boolean readReply() throws IOException {
-        lastReplyCode = FtpReplyCode.find(readServerResponse());
+    privbte boolebn rebdReply() throws IOException {
+        lbstReplyCode = FtpReplyCode.find(rebdServerResponse());
 
-        if (lastReplyCode.isPositivePreliminary()) {
+        if (lbstReplyCode.isPositivePreliminbry()) {
             replyPending = true;
             return true;
         }
-        if (lastReplyCode.isPositiveCompletion() || lastReplyCode.isPositiveIntermediate()) {
-            if (lastReplyCode == FtpReplyCode.CLOSING_DATA_CONNECTION) {
-                getTransferName();
+        if (lbstReplyCode.isPositiveCompletion() || lbstReplyCode.isPositiveIntermedibte()) {
+            if (lbstReplyCode == FtpReplyCode.CLOSING_DATA_CONNECTION) {
+                getTrbnsferNbme();
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Sends a command to the FTP server and returns the error code
-     * (which can be a "success") sent by the server.
+     * Sends b commbnd to the FTP server bnd returns the error code
+     * (which cbn be b "success") sent by the server.
      *
-     * @param cmd
-     * @return <code>true</code> if the command was successful
+     * @pbrbm cmd
+     * @return <code>true</code> if the commbnd wbs successful
      * @throws IOException
      */
-    private boolean issueCommand(String cmd) throws IOException {
+    privbte boolebn issueCommbnd(String cmd) throws IOException {
         if (!isConnected()) {
-            throw new IllegalStateException("Not connected");
+            throw new IllegblStbteException("Not connected");
         }
         if (replyPending) {
             try {
                 completePending();
-            } catch (sun.net.ftp.FtpProtocolException e) {
+            } cbtch (sun.net.ftp.FtpProtocolException e) {
                 // ignore...
             }
         }
         sendServer(cmd + "\r\n");
-        return readReply();
+        return rebdReply();
     }
 
     /**
-     * Send a command to the FTP server and check for success.
+     * Send b commbnd to the FTP server bnd check for success.
      *
-     * @param cmd String containing the command
+     * @pbrbm cmd String contbining the commbnd
      *
-     * @throws FtpProtocolException if an error occurred
+     * @throws FtpProtocolException if bn error occurred
      */
-    private void issueCommandCheck(String cmd) throws sun.net.ftp.FtpProtocolException, IOException {
-        if (!issueCommand(cmd)) {
-            throw new sun.net.ftp.FtpProtocolException(cmd + ":" + getResponseString(), getLastReplyCode());
+    privbte void issueCommbndCheck(String cmd) throws sun.net.ftp.FtpProtocolException, IOException {
+        if (!issueCommbnd(cmd)) {
+            throw new sun.net.ftp.FtpProtocolException(cmd + ":" + getResponseString(), getLbstReplyCode());
         }
     }
-    private static Pattern epsvPat = null;
-    private static Pattern pasvPat = null;
+    privbte stbtic Pbttern epsvPbt = null;
+    privbte stbtic Pbttern pbsvPbt = null;
 
     /**
-     * Opens a "PASSIVE" connection with the server and returns the connected
+     * Opens b "PASSIVE" connection with the server bnd returns the connected
      * <code>Socket</code>.
      *
      * @return the connected <code>Socket</code>
-     * @throws IOException if the connection was unsuccessful.
+     * @throws IOException if the connection wbs unsuccessful.
      */
-    private Socket openPassiveDataConnection(String cmd) throws sun.net.ftp.FtpProtocolException, IOException {
+    privbte Socket openPbssiveDbtbConnection(String cmd) throws sun.net.ftp.FtpProtocolException, IOException {
         String serverAnswer;
         int port;
         InetSocketAddress dest = null;
 
         /**
-         * Here is the idea:
+         * Here is the ideb:
          *
-         * - First we want to try the new (and IPv6 compatible) EPSV command
-         *   But since we want to be nice with NAT software, we'll issue the
-         *   EPSV ALL command first.
+         * - First we wbnt to try the new (bnd IPv6 compbtible) EPSV commbnd
+         *   But since we wbnt to be nice with NAT softwbre, we'll issue the
+         *   EPSV ALL commbnd first.
          *   EPSV is documented in RFC2428
-         * - If EPSV fails, then we fall back to the older, yet ok, PASV
-         * - If PASV fails as well, then we throw an exception and the calling
-         *   method will have to try the EPRT or PORT command
+         * - If EPSV fbils, then we fbll bbck to the older, yet ok, PASV
+         * - If PASV fbils bs well, then we throw bn exception bnd the cblling
+         *   method will hbve to try the EPRT or PORT commbnd
          */
-        if (issueCommand("EPSV ALL")) {
-            // We can safely use EPSV commands
-            issueCommandCheck("EPSV");
+        if (issueCommbnd("EPSV ALL")) {
+            // We cbn sbfely use EPSV commbnds
+            issueCommbndCheck("EPSV");
             serverAnswer = getResponseString();
 
-            // The response string from a EPSV command will contain the port number
-            // the format will be :
+            // The response string from b EPSV commbnd will contbin the port number
+            // the formbt will be :
             //  229 Entering Extended PASSIVE Mode (|||58210|)
             //
-            // So we'll use the regular expresions package to parse the output.
+            // So we'll use the regulbr expresions pbckbge to pbrse the output.
 
-            if (epsvPat == null) {
-                epsvPat = Pattern.compile("^229 .* \\(\\|\\|\\|(\\d+)\\|\\)");
+            if (epsvPbt == null) {
+                epsvPbt = Pbttern.compile("^229 .* \\(\\|\\|\\|(\\d+)\\|\\)");
             }
-            Matcher m = epsvPat.matcher(serverAnswer);
+            Mbtcher m = epsvPbt.mbtcher(serverAnswer);
             if (!m.find()) {
-                throw new sun.net.ftp.FtpProtocolException("EPSV failed : " + serverAnswer);
+                throw new sun.net.ftp.FtpProtocolException("EPSV fbiled : " + serverAnswer);
             }
-            // Yay! Let's extract the port number
+            // Yby! Let's extrbct the port number
             String s = m.group(1);
-            port = Integer.parseInt(s);
-            InetAddress add = server.getInetAddress();
-            if (add != null) {
-                dest = new InetSocketAddress(add, port);
+            port = Integer.pbrseInt(s);
+            InetAddress bdd = server.getInetAddress();
+            if (bdd != null) {
+                dest = new InetSocketAddress(bdd, port);
             } else {
-                // This means we used an Unresolved address to connect in
-                // the first place. Most likely because the proxy is doing
-                // the name resolution for us, so let's keep using unresolved
-                // address.
-                dest = InetSocketAddress.createUnresolved(serverAddr.getHostName(), port);
+                // This mebns we used bn Unresolved bddress to connect in
+                // the first plbce. Most likely becbuse the proxy is doing
+                // the nbme resolution for us, so let's keep using unresolved
+                // bddress.
+                dest = InetSocketAddress.crebteUnresolved(serverAddr.getHostNbme(), port);
             }
         } else {
-            // EPSV ALL failed, so Let's try the regular PASV cmd
-            issueCommandCheck("PASV");
+            // EPSV ALL fbiled, so Let's try the regulbr PASV cmd
+            issueCommbndCheck("PASV");
             serverAnswer = getResponseString();
 
-            // Let's parse the response String to get the IP & port to connect
-            // to. The String should be in the following format :
+            // Let's pbrse the response String to get the IP & port to connect
+            // to. The String should be in the following formbt :
             //
             // 227 Entering PASSIVE Mode (A1,A2,A3,A4,p1,p2)
             //
-            // Note that the two parenthesis are optional
+            // Note thbt the two pbrenthesis bre optionbl
             //
-            // The IP address is A1.A2.A3.A4 and the port is p1 * 256 + p2
+            // The IP bddress is A1.A2.A3.A4 bnd the port is p1 * 256 + p2
             //
-            // The regular expression is a bit more complex this time, because
-            // the parenthesis are optionals and we have to use 3 groups.
+            // The regulbr expression is b bit more complex this time, becbuse
+            // the pbrenthesis bre optionbls bnd we hbve to use 3 groups.
 
-            if (pasvPat == null) {
-                pasvPat = Pattern.compile("227 .* \\(?(\\d{1,3},\\d{1,3},\\d{1,3},\\d{1,3}),(\\d{1,3}),(\\d{1,3})\\)?");
+            if (pbsvPbt == null) {
+                pbsvPbt = Pbttern.compile("227 .* \\(?(\\d{1,3},\\d{1,3},\\d{1,3},\\d{1,3}),(\\d{1,3}),(\\d{1,3})\\)?");
             }
-            Matcher m = pasvPat.matcher(serverAnswer);
+            Mbtcher m = pbsvPbt.mbtcher(serverAnswer);
             if (!m.find()) {
-                throw new sun.net.ftp.FtpProtocolException("PASV failed : " + serverAnswer);
+                throw new sun.net.ftp.FtpProtocolException("PASV fbiled : " + serverAnswer);
             }
             // Get port number out of group 2 & 3
-            port = Integer.parseInt(m.group(3)) + (Integer.parseInt(m.group(2)) << 8);
-            // IP address is simple
-            String s = m.group(1).replace(',', '.');
+            port = Integer.pbrseInt(m.group(3)) + (Integer.pbrseInt(m.group(2)) << 8);
+            // IP bddress is simple
+            String s = m.group(1).replbce(',', '.');
             dest = new InetSocketAddress(s, port);
         }
         // Got everything, let's open the socket!
@@ -652,64 +652,64 @@ public class FtpClient extends sun.net.ftp.FtpClient {
                 new PrivilegedAction<InetAddress>() {
                     @Override
                     public InetAddress run() {
-                        return server.getLocalAddress();
+                        return server.getLocblAddress();
                     }
                 });
 
-        // Bind the socket to the same address as the control channel. This
-        // is needed in case of multi-homed systems.
+        // Bind the socket to the sbme bddress bs the control chbnnel. This
+        // is needed in cbse of multi-homed systems.
         s.bind(new InetSocketAddress(serverAddress, 0));
         if (connectTimeout >= 0) {
             s.connect(dest, connectTimeout);
         } else {
-            if (defaultConnectTimeout > 0) {
-                s.connect(dest, defaultConnectTimeout);
+            if (defbultConnectTimeout > 0) {
+                s.connect(dest, defbultConnectTimeout);
             } else {
                 s.connect(dest);
             }
         }
-        if (readTimeout >= 0) {
-            s.setSoTimeout(readTimeout);
-        } else if (defaultSoTimeout > 0) {
-            s.setSoTimeout(defaultSoTimeout);
+        if (rebdTimeout >= 0) {
+            s.setSoTimeout(rebdTimeout);
+        } else if (defbultSoTimeout > 0) {
+            s.setSoTimeout(defbultSoTimeout);
         }
         if (useCrypto) {
             try {
-                s = sslFact.createSocket(s, dest.getHostName(), dest.getPort(), true);
-            } catch (Exception e) {
-                throw new sun.net.ftp.FtpProtocolException("Can't open secure data channel: " + e);
+                s = sslFbct.crebteSocket(s, dest.getHostNbme(), dest.getPort(), true);
+            } cbtch (Exception e) {
+                throw new sun.net.ftp.FtpProtocolException("Cbn't open secure dbtb chbnnel: " + e);
             }
         }
-        if (!issueCommand(cmd)) {
+        if (!issueCommbnd(cmd)) {
             s.close();
-            if (getLastReplyCode() == FtpReplyCode.FILE_UNAVAILABLE) {
-                // Ensure backward compatibility
+            if (getLbstReplyCode() == FtpReplyCode.FILE_UNAVAILABLE) {
+                // Ensure bbckwbrd compbtibility
                 throw new FileNotFoundException(cmd);
             }
-            throw new sun.net.ftp.FtpProtocolException(cmd + ":" + getResponseString(), getLastReplyCode());
+            throw new sun.net.ftp.FtpProtocolException(cmd + ":" + getResponseString(), getLbstReplyCode());
         }
         return s;
     }
 
     /**
-     * Opens a data connection with the server according to the set mode
-     * (ACTIVE or PASSIVE) then send the command passed as an argument.
+     * Opens b dbtb connection with the server bccording to the set mode
+     * (ACTIVE or PASSIVE) then send the commbnd pbssed bs bn brgument.
      *
-     * @param cmd the <code>String</code> containing the command to execute
+     * @pbrbm cmd the <code>String</code> contbining the commbnd to execute
      * @return the connected <code>Socket</code>
-     * @throws IOException if the connection or command failed
+     * @throws IOException if the connection or commbnd fbiled
      */
-    private Socket openDataConnection(String cmd) throws sun.net.ftp.FtpProtocolException, IOException {
+    privbte Socket openDbtbConnection(String cmd) throws sun.net.ftp.FtpProtocolException, IOException {
         Socket clientSocket;
 
-        if (passiveMode) {
+        if (pbssiveMode) {
             try {
-                return openPassiveDataConnection(cmd);
-            } catch (sun.net.ftp.FtpProtocolException e) {
-                // If Passive mode failed, fall back on PORT
+                return openPbssiveDbtbConnection(cmd);
+            } cbtch (sun.net.ftp.FtpProtocolException e) {
+                // If Pbssive mode fbiled, fbll bbck on PORT
                 // Otherwise throw exception
-                String errmsg = e.getMessage();
-                if (!errmsg.startsWith("PASV") && !errmsg.startsWith("EPSV")) {
+                String errmsg = e.getMessbge();
+                if (!errmsg.stbrtsWith("PASV") && !errmsg.stbrtsWith("EPSV")) {
                     throw e;
                 }
             }
@@ -719,89 +719,89 @@ public class FtpClient extends sun.net.ftp.FtpClient {
         String portCmd;
 
         if (proxy != null && proxy.type() == Proxy.Type.SOCKS) {
-            // We're behind a firewall and the passive mode fail,
-            // since we can't accept a connection through SOCKS (yet)
-            // throw an exception
-            throw new sun.net.ftp.FtpProtocolException("Passive mode failed");
+            // We're behind b firewbll bnd the pbssive mode fbil,
+            // since we cbn't bccept b connection through SOCKS (yet)
+            // throw bn exception
+            throw new sun.net.ftp.FtpProtocolException("Pbssive mode fbiled");
         }
-        // Bind the ServerSocket to the same address as the control channel
+        // Bind the ServerSocket to the sbme bddress bs the control chbnnel
         // This is needed for multi-homed systems
-        portSocket = new ServerSocket(0, 1, server.getLocalAddress());
+        portSocket = new ServerSocket(0, 1, server.getLocblAddress());
         try {
             myAddress = portSocket.getInetAddress();
-            if (myAddress.isAnyLocalAddress()) {
-                myAddress = server.getLocalAddress();
+            if (myAddress.isAnyLocblAddress()) {
+                myAddress = server.getLocblAddress();
             }
-            // Let's try the new, IPv6 compatible EPRT command
+            // Let's try the new, IPv6 compbtible EPRT commbnd
             // See RFC2428 for specifics
-            // Some FTP servers (like the one on Solaris) are bugged, they
-            // will accept the EPRT command but then, the subsequent command
-            // (e.g. RETR) will fail, so we have to check BOTH results (the
-            // EPRT cmd then the actual command) to decide whether we should
-            // fall back on the older PORT command.
-            portCmd = "EPRT |" + ((myAddress instanceof Inet6Address) ? "2" : "1") + "|" +
-                    myAddress.getHostAddress() + "|" + portSocket.getLocalPort() + "|";
-            if (!issueCommand(portCmd) || !issueCommand(cmd)) {
-                // The EPRT command failed, let's fall back to good old PORT
+            // Some FTP servers (like the one on Solbris) bre bugged, they
+            // will bccept the EPRT commbnd but then, the subsequent commbnd
+            // (e.g. RETR) will fbil, so we hbve to check BOTH results (the
+            // EPRT cmd then the bctubl commbnd) to decide whether we should
+            // fbll bbck on the older PORT commbnd.
+            portCmd = "EPRT |" + ((myAddress instbnceof Inet6Address) ? "2" : "1") + "|" +
+                    myAddress.getHostAddress() + "|" + portSocket.getLocblPort() + "|";
+            if (!issueCommbnd(portCmd) || !issueCommbnd(cmd)) {
+                // The EPRT commbnd fbiled, let's fbll bbck to good old PORT
                 portCmd = "PORT ";
-                byte[] addr = myAddress.getAddress();
+                byte[] bddr = myAddress.getAddress();
 
-                /* append host addr */
-                for (int i = 0; i < addr.length; i++) {
-                    portCmd = portCmd + (addr[i] & 0xFF) + ",";
+                /* bppend host bddr */
+                for (int i = 0; i < bddr.length; i++) {
+                    portCmd = portCmd + (bddr[i] & 0xFF) + ",";
                 }
 
-                /* append port number */
-                portCmd = portCmd + ((portSocket.getLocalPort() >>> 8) & 0xff) + "," + (portSocket.getLocalPort() & 0xff);
-                issueCommandCheck(portCmd);
-                issueCommandCheck(cmd);
+                /* bppend port number */
+                portCmd = portCmd + ((portSocket.getLocblPort() >>> 8) & 0xff) + "," + (portSocket.getLocblPort() & 0xff);
+                issueCommbndCheck(portCmd);
+                issueCommbndCheck(cmd);
             }
-            // Either the EPRT or the PORT command was successful
-            // Let's create the client socket
+            // Either the EPRT or the PORT commbnd wbs successful
+            // Let's crebte the client socket
             if (connectTimeout >= 0) {
                 portSocket.setSoTimeout(connectTimeout);
             } else {
-                if (defaultConnectTimeout > 0) {
-                    portSocket.setSoTimeout(defaultConnectTimeout);
+                if (defbultConnectTimeout > 0) {
+                    portSocket.setSoTimeout(defbultConnectTimeout);
                 }
             }
-            clientSocket = portSocket.accept();
-            if (readTimeout >= 0) {
-                clientSocket.setSoTimeout(readTimeout);
+            clientSocket = portSocket.bccept();
+            if (rebdTimeout >= 0) {
+                clientSocket.setSoTimeout(rebdTimeout);
             } else {
-                if (defaultSoTimeout > 0) {
-                    clientSocket.setSoTimeout(defaultSoTimeout);
+                if (defbultSoTimeout > 0) {
+                    clientSocket.setSoTimeout(defbultSoTimeout);
                 }
             }
-        } finally {
+        } finblly {
             portSocket.close();
         }
         if (useCrypto) {
             try {
-                clientSocket = sslFact.createSocket(clientSocket, serverAddr.getHostName(), serverAddr.getPort(), true);
-            } catch (Exception ex) {
-                throw new IOException(ex.getLocalizedMessage());
+                clientSocket = sslFbct.crebteSocket(clientSocket, serverAddr.getHostNbme(), serverAddr.getPort(), true);
+            } cbtch (Exception ex) {
+                throw new IOException(ex.getLocblizedMessbge());
             }
         }
         return clientSocket;
     }
 
-    private InputStream createInputStream(InputStream in) {
-        if (type == TransferType.ASCII) {
-            return new sun.net.TelnetInputStream(in, false);
+    privbte InputStrebm crebteInputStrebm(InputStrebm in) {
+        if (type == TrbnsferType.ASCII) {
+            return new sun.net.TelnetInputStrebm(in, fblse);
         }
         return in;
     }
 
-    private OutputStream createOutputStream(OutputStream out) {
-        if (type == TransferType.ASCII) {
-            return new sun.net.TelnetOutputStream(out, false);
+    privbte OutputStrebm crebteOutputStrebm(OutputStrebm out) {
+        if (type == TrbnsferType.ASCII) {
+            return new sun.net.TelnetOutputStrebm(out, fblse);
         }
         return out;
     }
 
     /**
-     * Creates an instance of FtpClient. The client is not connected to any
+     * Crebtes bn instbnce of FtpClient. The client is not connected to bny
      * server yet.
      *
      */
@@ -809,44 +809,44 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Creates an instance of FtpClient. The client is not connected to any
+     * Crebtes bn instbnce of FtpClient. The client is not connected to bny
      * server yet.
      *
      */
-    public static sun.net.ftp.FtpClient create() {
+    public stbtic sun.net.ftp.FtpClient crebte() {
         return new FtpClient();
     }
 
     /**
-     * Set the transfer mode to <I>passive</I>. In that mode, data connections
-     * are established by having the client connect to the server.
-     * This is the recommended default mode as it will work best through
-     * firewalls and NATs.
+     * Set the trbnsfer mode to <I>pbssive</I>. In thbt mode, dbtb connections
+     * bre estbblished by hbving the client connect to the server.
+     * This is the recommended defbult mode bs it will work best through
+     * firewblls bnd NATs.
      *
      * @return This FtpClient
      * @see #setActiveMode()
      */
-    public sun.net.ftp.FtpClient enablePassiveMode(boolean passive) {
+    public sun.net.ftp.FtpClient enbblePbssiveMode(boolebn pbssive) {
 
-        // Only passive mode used in JDK. See Bug 8010784.
-        // passiveMode = passive;
+        // Only pbssive mode used in JDK. See Bug 8010784.
+        // pbssiveMode = pbssive;
         return this;
     }
 
     /**
-     * Gets the current transfer mode.
+     * Gets the current trbnsfer mode.
      *
-     * @return the current <code>FtpTransferMode</code>
+     * @return the current <code>FtpTrbnsferMode</code>
      */
-    public boolean isPassiveModeEnabled() {
-        return passiveMode;
+    public boolebn isPbssiveModeEnbbled() {
+        return pbssiveMode;
     }
 
     /**
-     * Sets the timeout value to use when connecting to the server,
+     * Sets the timeout vblue to use when connecting to the server,
      *
-     * @param timeout the timeout value, in milliseconds, to use for the connect
-     *        operation. A value of zero or less, means use the default timeout.
+     * @pbrbm timeout the timeout vblue, in milliseconds, to use for the connect
+     *        operbtion. A vblue of zero or less, mebns use the defbult timeout.
      *
      * @return This FtpClient
      */
@@ -856,9 +856,9 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Returns the current connection timeout value.
+     * Returns the current connection timeout vblue.
      *
-     * @return the value, in milliseconds, of the current connect timeout.
+     * @return the vblue, in milliseconds, of the current connect timeout.
      * @see #setConnectTimeout(int)
      */
     public int getConnectTimeout() {
@@ -866,25 +866,25 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Sets the timeout value to use when reading from the server,
+     * Sets the timeout vblue to use when rebding from the server,
      *
-     * @param timeout the timeout value, in milliseconds, to use for the read
-     *        operation. A value of zero or less, means use the default timeout.
+     * @pbrbm timeout the timeout vblue, in milliseconds, to use for the rebd
+     *        operbtion. A vblue of zero or less, mebns use the defbult timeout.
      * @return This FtpClient
      */
-    public sun.net.ftp.FtpClient setReadTimeout(int timeout) {
-        readTimeout = timeout;
+    public sun.net.ftp.FtpClient setRebdTimeout(int timeout) {
+        rebdTimeout = timeout;
         return this;
     }
 
     /**
-     * Returns the current read timeout value.
+     * Returns the current rebd timeout vblue.
      *
-     * @return the value, in milliseconds, of the current read timeout.
-     * @see #setReadTimeout(int)
+     * @return the vblue, in milliseconds, of the current rebd timeout.
+     * @see #setRebdTimeout(int)
      */
-    public int getReadTimeout() {
-        return readTimeout;
+    public int getRebdTimeout() {
+        return rebdTimeout;
     }
 
     public sun.net.ftp.FtpClient setProxy(Proxy p) {
@@ -904,26 +904,26 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Connects to the specified destination.
+     * Connects to the specified destinbtion.
      *
-     * @param dest the <code>InetSocketAddress</code> to connect to.
-     * @throws IOException if the connection fails.
+     * @pbrbm dest the <code>InetSocketAddress</code> to connect to.
+     * @throws IOException if the connection fbils.
      */
-    private void tryConnect(InetSocketAddress dest, int timeout) throws IOException {
+    privbte void tryConnect(InetSocketAddress dest, int timeout) throws IOException {
         if (isConnected()) {
             disconnect();
         }
         server = doConnect(dest, timeout);
         try {
-            out = new PrintStream(new BufferedOutputStream(server.getOutputStream()),
+            out = new PrintStrebm(new BufferedOutputStrebm(server.getOutputStrebm()),
                     true, encoding);
-        } catch (UnsupportedEncodingException e) {
-            throw new InternalError(encoding + "encoding not found", e);
+        } cbtch (UnsupportedEncodingException e) {
+            throw new InternblError(encoding + "encoding not found", e);
         }
-        in = new BufferedInputStream(server.getInputStream());
+        in = new BufferedInputStrebm(server.getInputStrebm());
     }
 
-    private Socket doConnect(InetSocketAddress dest, int timeout) throws IOException {
+    privbte Socket doConnect(InetSocketAddress dest, int timeout) throws IOException {
         Socket s;
         if (proxy != null) {
             if (proxy.type() == Proxy.Type.SOCKS) {
@@ -940,9 +940,9 @@ public class FtpClient extends sun.net.ftp.FtpClient {
         } else {
             s = new Socket();
         }
-        // Instance specific timeouts do have priority, that means
-        // connectTimeout & readTimeout (-1 means not set)
-        // Then global default timeouts
+        // Instbnce specific timeouts do hbve priority, thbt mebns
+        // connectTimeout & rebdTimeout (-1 mebns not set)
+        // Then globbl defbult timeouts
         // Then no timeout.
         if (timeout >= 0) {
             s.connect(dest, timeout);
@@ -950,42 +950,42 @@ public class FtpClient extends sun.net.ftp.FtpClient {
             if (connectTimeout >= 0) {
                 s.connect(dest, connectTimeout);
             } else {
-                if (defaultConnectTimeout > 0) {
-                    s.connect(dest, defaultConnectTimeout);
+                if (defbultConnectTimeout > 0) {
+                    s.connect(dest, defbultConnectTimeout);
                 } else {
                     s.connect(dest);
                 }
             }
         }
-        if (readTimeout >= 0) {
-            s.setSoTimeout(readTimeout);
-        } else if (defaultSoTimeout > 0) {
-            s.setSoTimeout(defaultSoTimeout);
+        if (rebdTimeout >= 0) {
+            s.setSoTimeout(rebdTimeout);
+        } else if (defbultSoTimeout > 0) {
+            s.setSoTimeout(defbultSoTimeout);
         }
         return s;
     }
 
-    private void disconnect() throws IOException {
+    privbte void disconnect() throws IOException {
         if (isConnected()) {
             server.close();
         }
         server = null;
         in = null;
         out = null;
-        lastTransSize = -1;
-        lastFileName = null;
-        restartOffset = 0;
+        lbstTrbnsSize = -1;
+        lbstFileNbme = null;
+        restbrtOffset = 0;
         welcomeMsg = null;
-        lastReplyCode = null;
+        lbstReplyCode = null;
         serverResponse.setSize(0);
     }
 
     /**
-     * Tests whether this client is connected or not to a server.
+     * Tests whether this client is connected or not to b server.
      *
      * @return <code>true</code> if the client is connected.
      */
-    public boolean isConnected() {
+    public boolebn isConnected() {
         return server != null;
     }
 
@@ -998,67 +998,67 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Connects the FtpClient to the specified destination.
+     * Connects the FtpClient to the specified destinbtion.
      *
-     * @param dest the address of the destination server
-     * @throws IOException if connection failed.
+     * @pbrbm dest the bddress of the destinbtion server
+     * @throws IOException if connection fbiled.
      */
     public sun.net.ftp.FtpClient connect(SocketAddress dest, int timeout) throws sun.net.ftp.FtpProtocolException, IOException {
-        if (!(dest instanceof InetSocketAddress)) {
-            throw new IllegalArgumentException("Wrong address type");
+        if (!(dest instbnceof InetSocketAddress)) {
+            throw new IllegblArgumentException("Wrong bddress type");
         }
         serverAddr = (InetSocketAddress) dest;
         tryConnect(serverAddr, timeout);
-        if (!readReply()) {
-            throw new sun.net.ftp.FtpProtocolException("Welcome message: " +
-                    getResponseString(), lastReplyCode);
+        if (!rebdReply()) {
+            throw new sun.net.ftp.FtpProtocolException("Welcome messbge: " +
+                    getResponseString(), lbstReplyCode);
         }
         welcomeMsg = getResponseString().substring(4);
         return this;
     }
 
-    private void tryLogin(String user, char[] password) throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("USER " + user);
+    privbte void tryLogin(String user, chbr[] pbssword) throws sun.net.ftp.FtpProtocolException, IOException {
+        issueCommbndCheck("USER " + user);
 
         /*
-         * Checks for "331 User name okay, need password." answer
+         * Checks for "331 User nbme okby, need pbssword." bnswer
          */
-        if (lastReplyCode == FtpReplyCode.NEED_PASSWORD) {
-            if ((password != null) && (password.length > 0)) {
-                issueCommandCheck("PASS " + String.valueOf(password));
+        if (lbstReplyCode == FtpReplyCode.NEED_PASSWORD) {
+            if ((pbssword != null) && (pbssword.length > 0)) {
+                issueCommbndCheck("PASS " + String.vblueOf(pbssword));
             }
         }
     }
 
     /**
-     * Attempts to log on the server with the specified user name and password.
+     * Attempts to log on the server with the specified user nbme bnd pbssword.
      *
-     * @param user The user name
-     * @param password The password for that user
-     * @return <code>true</code> if the login was successful.
-     * @throws IOException if an error occurred during the transmission
+     * @pbrbm user The user nbme
+     * @pbrbm pbssword The pbssword for thbt user
+     * @return <code>true</code> if the login wbs successful.
+     * @throws IOException if bn error occurred during the trbnsmission
      */
-    public sun.net.ftp.FtpClient login(String user, char[] password) throws sun.net.ftp.FtpProtocolException, IOException {
+    public sun.net.ftp.FtpClient login(String user, chbr[] pbssword) throws sun.net.ftp.FtpProtocolException, IOException {
         if (!isConnected()) {
             throw new sun.net.ftp.FtpProtocolException("Not connected yet", FtpReplyCode.BAD_SEQUENCE);
         }
         if (user == null || user.length() == 0) {
-            throw new IllegalArgumentException("User name can't be null or empty");
+            throw new IllegblArgumentException("User nbme cbn't be null or empty");
         }
-        tryLogin(user, password);
+        tryLogin(user, pbssword);
 
-        // keep the welcome message around so we can
-        // put it in the resulting HTML page.
+        // keep the welcome messbge bround so we cbn
+        // put it in the resulting HTML pbge.
         String l;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < serverResponse.size(); i++) {
             l = serverResponse.elementAt(i);
             if (l != null) {
-                if (l.length() >= 4 && l.startsWith("230")) {
+                if (l.length() >= 4 && l.stbrtsWith("230")) {
                     // get rid of the "230-" prefix
                     l = l.substring(4);
                 }
-                sb.append(l);
+                sb.bppend(l);
             }
         }
         welcomeMsg = sb.toString();
@@ -1067,43 +1067,43 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Attempts to log on the server with the specified user name, password and
-     * account name.
+     * Attempts to log on the server with the specified user nbme, pbssword bnd
+     * bccount nbme.
      *
-     * @param user The user name
-     * @param password The password for that user.
-     * @param account The account name for that user.
-     * @return <code>true</code> if the login was successful.
-     * @throws IOException if an error occurs during the transmission.
+     * @pbrbm user The user nbme
+     * @pbrbm pbssword The pbssword for thbt user.
+     * @pbrbm bccount The bccount nbme for thbt user.
+     * @return <code>true</code> if the login wbs successful.
+     * @throws IOException if bn error occurs during the trbnsmission.
      */
-    public sun.net.ftp.FtpClient login(String user, char[] password, String account) throws sun.net.ftp.FtpProtocolException, IOException {
+    public sun.net.ftp.FtpClient login(String user, chbr[] pbssword, String bccount) throws sun.net.ftp.FtpProtocolException, IOException {
 
         if (!isConnected()) {
             throw new sun.net.ftp.FtpProtocolException("Not connected yet", FtpReplyCode.BAD_SEQUENCE);
         }
         if (user == null || user.length() == 0) {
-            throw new IllegalArgumentException("User name can't be null or empty");
+            throw new IllegblArgumentException("User nbme cbn't be null or empty");
         }
-        tryLogin(user, password);
+        tryLogin(user, pbssword);
 
         /*
-         * Checks for "332 Need account for login." answer
+         * Checks for "332 Need bccount for login." bnswer
          */
-        if (lastReplyCode == FtpReplyCode.NEED_ACCOUNT) {
-            issueCommandCheck("ACCT " + account);
+        if (lbstReplyCode == FtpReplyCode.NEED_ACCOUNT) {
+            issueCommbndCheck("ACCT " + bccount);
         }
 
-        // keep the welcome message around so we can
-        // put it in the resulting HTML page.
+        // keep the welcome messbge bround so we cbn
+        // put it in the resulting HTML pbge.
         StringBuilder sb = new StringBuilder();
         if (serverResponse != null) {
             for (String l : serverResponse) {
                 if (l != null) {
-                    if (l.length() >= 4 && l.startsWith("230")) {
+                    if (l.length() >= 4 && l.stbrtsWith("230")) {
                         // get rid of the "230-" prefix
                         l = l.substring(4);
                     }
-                    sb.append(l);
+                    sb.bppend(l);
                 }
             }
         }
@@ -1113,14 +1113,14 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Logs out the current user. This is in effect terminates the current
-     * session and the connection to the server will be closed.
+     * Logs out the current user. This is in effect terminbtes the current
+     * session bnd the connection to the server will be closed.
      *
      */
     public void close() throws IOException {
         if (isConnected()) {
-            issueCommand("QUIT");
-            loggedIn = false;
+            issueCommbnd("QUIT");
+            loggedIn = fblse;
         }
         disconnect();
     }
@@ -1128,123 +1128,123 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     /**
      * Checks whether the client is logged in to the server or not.
      *
-     * @return <code>true</code> if the client has already completed a login.
+     * @return <code>true</code> if the client hbs blrebdy completed b login.
      */
-    public boolean isLoggedIn() {
+    public boolebn isLoggedIn() {
         return loggedIn;
     }
 
     /**
-     * Changes to a specific directory on a remote FTP server
+     * Chbnges to b specific directory on b remote FTP server
      *
-     * @param remoteDirectory path of the directory to CD to.
-     * @return <code>true</code> if the operation was successful.
+     * @pbrbm remoteDirectory pbth of the directory to CD to.
+     * @return <code>true</code> if the operbtion wbs successful.
      * @exception <code>FtpProtocolException</code>
      */
-    public sun.net.ftp.FtpClient changeDirectory(String remoteDirectory) throws sun.net.ftp.FtpProtocolException, IOException {
-        if (remoteDirectory == null || "".equals(remoteDirectory)) {
-            throw new IllegalArgumentException("directory can't be null or empty");
+    public sun.net.ftp.FtpClient chbngeDirectory(String remoteDirectory) throws sun.net.ftp.FtpProtocolException, IOException {
+        if (remoteDirectory == null || "".equbls(remoteDirectory)) {
+            throw new IllegblArgumentException("directory cbn't be null or empty");
         }
 
-        issueCommandCheck("CWD " + remoteDirectory);
+        issueCommbndCheck("CWD " + remoteDirectory);
         return this;
     }
 
     /**
-     * Changes to the parent directory, sending the CDUP command to the server.
+     * Chbnges to the pbrent directory, sending the CDUP commbnd to the server.
      *
-     * @return <code>true</code> if the command was successful.
+     * @return <code>true</code> if the commbnd wbs successful.
      * @throws IOException
      */
-    public sun.net.ftp.FtpClient changeToParentDirectory() throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("CDUP");
+    public sun.net.ftp.FtpClient chbngeToPbrentDirectory() throws sun.net.ftp.FtpProtocolException, IOException {
+        issueCommbndCheck("CDUP");
         return this;
     }
 
     /**
      * Returns the server current working directory, or <code>null</code> if
-     * the PWD command failed.
+     * the PWD commbnd fbiled.
      *
-     * @return a <code>String</code> containing the current working directory,
+     * @return b <code>String</code> contbining the current working directory,
      *         or <code>null</code>
      * @throws IOException
      */
     public String getWorkingDirectory() throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("PWD");
+        issueCommbndCheck("PWD");
         /*
-         * answer will be of the following format :
+         * bnswer will be of the following formbt :
          *
          * 257 "/" is current directory.
          */
-        String answ = getResponseString();
-        if (!answ.startsWith("257")) {
+        String bnsw = getResponseString();
+        if (!bnsw.stbrtsWith("257")) {
             return null;
         }
-        return answ.substring(5, answ.lastIndexOf('"'));
+        return bnsw.substring(5, bnsw.lbstIndexOf('"'));
     }
 
     /**
-     * Sets the restart offset to the specified value.  That value will be
-     * sent through a <code>REST</code> command to server before a file
-     * transfer and has the effect of resuming a file transfer from the
-     * specified point. After a transfer the restart offset is set back to
+     * Sets the restbrt offset to the specified vblue.  Thbt vblue will be
+     * sent through b <code>REST</code> commbnd to server before b file
+     * trbnsfer bnd hbs the effect of resuming b file trbnsfer from the
+     * specified point. After b trbnsfer the restbrt offset is set bbck to
      * zero.
      *
-     * @param offset the offset in the remote file at which to start the next
-     *        transfer. This must be a value greater than or equal to zero.
-     * @throws IllegalArgumentException if the offset is negative.
+     * @pbrbm offset the offset in the remote file bt which to stbrt the next
+     *        trbnsfer. This must be b vblue grebter thbn or equbl to zero.
+     * @throws IllegblArgumentException if the offset is negbtive.
      */
-    public sun.net.ftp.FtpClient setRestartOffset(long offset) {
+    public sun.net.ftp.FtpClient setRestbrtOffset(long offset) {
         if (offset < 0) {
-            throw new IllegalArgumentException("offset can't be negative");
+            throw new IllegblArgumentException("offset cbn't be negbtive");
         }
-        restartOffset = offset;
+        restbrtOffset = offset;
         return this;
     }
 
     /**
-     * Retrieves a file from the ftp server and writes it to the specified
-     * <code>OutputStream</code>.
-     * If the restart offset was set, then a <code>REST</code> command will be
-     * sent before the RETR in order to restart the tranfer from the specified
+     * Retrieves b file from the ftp server bnd writes it to the specified
+     * <code>OutputStrebm</code>.
+     * If the restbrt offset wbs set, then b <code>REST</code> commbnd will be
+     * sent before the RETR in order to restbrt the trbnfer from the specified
      * offset.
-     * The <code>OutputStream</code> is not closed by this method at the end
-     * of the transfer.
+     * The <code>OutputStrebm</code> is not closed by this method bt the end
+     * of the trbnsfer.
      *
-     * @param name a <code>String<code> containing the name of the file to
+     * @pbrbm nbme b <code>String<code> contbining the nbme of the file to
      *        retreive from the server.
-     * @param local the <code>OutputStream</code> the file should be written to.
-     * @throws IOException if the transfer fails.
+     * @pbrbm locbl the <code>OutputStrebm</code> the file should be written to.
+     * @throws IOException if the trbnsfer fbils.
      */
-    public sun.net.ftp.FtpClient getFile(String name, OutputStream local) throws sun.net.ftp.FtpProtocolException, IOException {
+    public sun.net.ftp.FtpClient getFile(String nbme, OutputStrebm locbl) throws sun.net.ftp.FtpProtocolException, IOException {
         int mtu = 1500;
-        if (restartOffset > 0) {
+        if (restbrtOffset > 0) {
             Socket s;
             try {
-                s = openDataConnection("REST " + restartOffset);
-            } finally {
-                restartOffset = 0;
+                s = openDbtbConnection("REST " + restbrtOffset);
+            } finblly {
+                restbrtOffset = 0;
             }
-            issueCommandCheck("RETR " + name);
-            getTransferSize();
-            InputStream remote = createInputStream(s.getInputStream());
+            issueCommbndCheck("RETR " + nbme);
+            getTrbnsferSize();
+            InputStrebm remote = crebteInputStrebm(s.getInputStrebm());
             byte[] buf = new byte[mtu * 10];
             int l;
-            while ((l = remote.read(buf)) >= 0) {
+            while ((l = remote.rebd(buf)) >= 0) {
                 if (l > 0) {
-                    local.write(buf, 0, l);
+                    locbl.write(buf, 0, l);
                 }
             }
             remote.close();
         } else {
-            Socket s = openDataConnection("RETR " + name);
-            getTransferSize();
-            InputStream remote = createInputStream(s.getInputStream());
+            Socket s = openDbtbConnection("RETR " + nbme);
+            getTrbnsferSize();
+            InputStrebm remote = crebteInputStrebm(s.getInputStrebm());
             byte[] buf = new byte[mtu * 10];
             int l;
-            while ((l = remote.read(buf)) >= 0) {
+            while ((l = remote.rebd(buf)) >= 0) {
                 if (l > 0) {
-                    local.write(buf, 0, l);
+                    locbl.write(buf, 0, l);
                 }
             }
             remote.close();
@@ -1253,104 +1253,104 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Retrieves a file from the ftp server, using the RETR command, and
-     * returns the InputStream from* the established data connection.
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is done reading from the returned stream.
+     * Retrieves b file from the ftp server, using the RETR commbnd, bnd
+     * returns the InputStrebm from* the estbblished dbtb connection.
+     * {@link #completePending()} <b>hbs</b> to be cblled once the bpplicbtion
+     * is done rebding from the returned strebm.
      *
-     * @param name the name of the remote file
-     * @return the {@link java.io.InputStream} from the data connection, or
-     *         <code>null</code> if the command was unsuccessful.
-     * @throws IOException if an error occurred during the transmission.
+     * @pbrbm nbme the nbme of the remote file
+     * @return the {@link jbvb.io.InputStrebm} from the dbtb connection, or
+     *         <code>null</code> if the commbnd wbs unsuccessful.
+     * @throws IOException if bn error occurred during the trbnsmission.
      */
-    public InputStream getFileStream(String name) throws sun.net.ftp.FtpProtocolException, IOException {
+    public InputStrebm getFileStrebm(String nbme) throws sun.net.ftp.FtpProtocolException, IOException {
         Socket s;
-        if (restartOffset > 0) {
+        if (restbrtOffset > 0) {
             try {
-                s = openDataConnection("REST " + restartOffset);
-            } finally {
-                restartOffset = 0;
+                s = openDbtbConnection("REST " + restbrtOffset);
+            } finblly {
+                restbrtOffset = 0;
             }
             if (s == null) {
                 return null;
             }
-            issueCommandCheck("RETR " + name);
-            getTransferSize();
-            return createInputStream(s.getInputStream());
+            issueCommbndCheck("RETR " + nbme);
+            getTrbnsferSize();
+            return crebteInputStrebm(s.getInputStrebm());
         }
 
-        s = openDataConnection("RETR " + name);
+        s = openDbtbConnection("RETR " + nbme);
         if (s == null) {
             return null;
         }
-        getTransferSize();
-        return createInputStream(s.getInputStream());
+        getTrbnsferSize();
+        return crebteInputStrebm(s.getInputStrebm());
     }
 
     /**
-     * Transfers a file from the client to the server (aka a <I>put</I>)
-     * by sending the STOR or STOU command, depending on the
-     * <code>unique</code> argument, and returns the <code>OutputStream</code>
-     * from the established data connection.
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is finished writing to the stream.
+     * Trbnsfers b file from the client to the server (bkb b <I>put</I>)
+     * by sending the STOR or STOU commbnd, depending on the
+     * <code>unique</code> brgument, bnd returns the <code>OutputStrebm</code>
+     * from the estbblished dbtb connection.
+     * {@link #completePending()} <b>hbs</b> to be cblled once the bpplicbtion
+     * is finished writing to the strebm.
      *
-     * A new file is created at the server site if the file specified does
-     * not already exist.
+     * A new file is crebted bt the server site if the file specified does
+     * not blrebdy exist.
      *
-     * If <code>unique</code> is set to <code>true</code>, the resultant file
-     * is to be created under a name unique to that directory, meaning
-     * it will not overwrite an existing file, instead the server will
-     * generate a new, unique, file name.
-     * The name of the remote file can be retrieved, after completion of the
-     * transfer, by calling {@link #getLastFileName()}.
+     * If <code>unique</code> is set to <code>true</code>, the resultbnt file
+     * is to be crebted under b nbme unique to thbt directory, mebning
+     * it will not overwrite bn existing file, instebd the server will
+     * generbte b new, unique, file nbme.
+     * The nbme of the remote file cbn be retrieved, bfter completion of the
+     * trbnsfer, by cblling {@link #getLbstFileNbme()}.
      *
-     * @param name the name of the remote file to write.
-     * @param unique <code>true</code> if the remote files should be unique,
-     *        in which case the STOU command will be used.
-     * @return the {@link java.io.OutputStream} from the data connection or
-     *         <code>null</code> if the command was unsuccessful.
-     * @throws IOException if an error occurred during the transmission.
+     * @pbrbm nbme the nbme of the remote file to write.
+     * @pbrbm unique <code>true</code> if the remote files should be unique,
+     *        in which cbse the STOU commbnd will be used.
+     * @return the {@link jbvb.io.OutputStrebm} from the dbtb connection or
+     *         <code>null</code> if the commbnd wbs unsuccessful.
+     * @throws IOException if bn error occurred during the trbnsmission.
      */
-    public OutputStream putFileStream(String name, boolean unique)
+    public OutputStrebm putFileStrebm(String nbme, boolebn unique)
         throws sun.net.ftp.FtpProtocolException, IOException
     {
         String cmd = unique ? "STOU " : "STOR ";
-        Socket s = openDataConnection(cmd + name);
+        Socket s = openDbtbConnection(cmd + nbme);
         if (s == null) {
             return null;
         }
-        boolean bm = (type == TransferType.BINARY);
-        return new sun.net.TelnetOutputStream(s.getOutputStream(), bm);
+        boolebn bm = (type == TrbnsferType.BINARY);
+        return new sun.net.TelnetOutputStrebm(s.getOutputStrebm(), bm);
     }
 
     /**
-     * Transfers a file from the client to the server (aka a <I>put</I>)
-     * by sending the STOR command. The content of the <code>InputStream</code>
-     * passed in argument is written into the remote file, overwriting any
-     * existing data.
+     * Trbnsfers b file from the client to the server (bkb b <I>put</I>)
+     * by sending the STOR commbnd. The content of the <code>InputStrebm</code>
+     * pbssed in brgument is written into the remote file, overwriting bny
+     * existing dbtb.
      *
-     * A new file is created at the server site if the file specified does
-     * not already exist.
+     * A new file is crebted bt the server site if the file specified does
+     * not blrebdy exist.
      *
-     * @param name the name of the remote file to write.
-     * @param local the <code>InputStream</code> that points to the data to
-     *        transfer.
-     * @param unique <code>true</code> if the remote file should be unique
-     *        (i.e. not already existing), <code>false</code> otherwise.
-     * @return <code>true</code> if the transfer was successful.
-     * @throws IOException if an error occurred during the transmission.
-     * @see #getLastFileName()
+     * @pbrbm nbme the nbme of the remote file to write.
+     * @pbrbm locbl the <code>InputStrebm</code> thbt points to the dbtb to
+     *        trbnsfer.
+     * @pbrbm unique <code>true</code> if the remote file should be unique
+     *        (i.e. not blrebdy existing), <code>fblse</code> otherwise.
+     * @return <code>true</code> if the trbnsfer wbs successful.
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @see #getLbstFileNbme()
      */
-    public sun.net.ftp.FtpClient putFile(String name, InputStream local, boolean unique) throws sun.net.ftp.FtpProtocolException, IOException {
+    public sun.net.ftp.FtpClient putFile(String nbme, InputStrebm locbl, boolebn unique) throws sun.net.ftp.FtpProtocolException, IOException {
         String cmd = unique ? "STOU " : "STOR ";
         int mtu = 1500;
-        if (type == TransferType.BINARY) {
-            Socket s = openDataConnection(cmd + name);
-            OutputStream remote = createOutputStream(s.getOutputStream());
+        if (type == TrbnsferType.BINARY) {
+            Socket s = openDbtbConnection(cmd + nbme);
+            OutputStrebm remote = crebteOutputStrebm(s.getOutputStrebm());
             byte[] buf = new byte[mtu * 10];
             int l;
-            while ((l = local.read(buf)) >= 0) {
+            while ((l = locbl.rebd(buf)) >= 0) {
                 if (l > 0) {
                     remote.write(buf, 0, l);
                 }
@@ -1361,24 +1361,24 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Sends the APPE command to the server in order to transfer a data stream
-     * passed in argument and append it to the content of the specified remote
+     * Sends the APPE commbnd to the server in order to trbnsfer b dbtb strebm
+     * pbssed in brgument bnd bppend it to the content of the specified remote
      * file.
      *
-     * @param name A <code>String</code> containing the name of the remote file
-     *        to append to.
-     * @param local The <code>InputStream</code> providing access to the data
-     *        to be appended.
-     * @return <code>true</code> if the transfer was successful.
-     * @throws IOException if an error occurred during the transmission.
+     * @pbrbm nbme A <code>String</code> contbining the nbme of the remote file
+     *        to bppend to.
+     * @pbrbm locbl The <code>InputStrebm</code> providing bccess to the dbtb
+     *        to be bppended.
+     * @return <code>true</code> if the trbnsfer wbs successful.
+     * @throws IOException if bn error occurred during the trbnsmission.
      */
-    public sun.net.ftp.FtpClient appendFile(String name, InputStream local) throws sun.net.ftp.FtpProtocolException, IOException {
+    public sun.net.ftp.FtpClient bppendFile(String nbme, InputStrebm locbl) throws sun.net.ftp.FtpProtocolException, IOException {
         int mtu = 1500;
-        Socket s = openDataConnection("APPE " + name);
-        OutputStream remote = createOutputStream(s.getOutputStream());
+        Socket s = openDbtbConnection("APPE " + nbme);
+        OutputStrebm remote = crebteOutputStrebm(s.getOutputStrebm());
         byte[] buf = new byte[mtu * 10];
         int l;
-        while ((l = local.read(buf)) >= 0) {
+        while ((l = locbl.rebd(buf)) >= 0) {
             if (l > 0) {
                 remote.write(buf, 0, l);
             }
@@ -1388,138 +1388,138 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Renames a file on the server.
+     * Renbmes b file on the server.
      *
-     * @param from the name of the file being renamed
-     * @param to the new name for the file
-     * @throws IOException if the command fails
+     * @pbrbm from the nbme of the file being renbmed
+     * @pbrbm to the new nbme for the file
+     * @throws IOException if the commbnd fbils
      */
-    public sun.net.ftp.FtpClient rename(String from, String to) throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("RNFR " + from);
-        issueCommandCheck("RNTO " + to);
+    public sun.net.ftp.FtpClient renbme(String from, String to) throws sun.net.ftp.FtpProtocolException, IOException {
+        issueCommbndCheck("RNFR " + from);
+        issueCommbndCheck("RNTO " + to);
         return this;
     }
 
     /**
-     * Deletes a file on the server.
+     * Deletes b file on the server.
      *
-     * @param name a <code>String</code> containing the name of the file
+     * @pbrbm nbme b <code>String</code> contbining the nbme of the file
      *        to delete.
-     * @return <code>true</code> if the command was successful
-     * @throws IOException if an error occurred during the exchange
+     * @return <code>true</code> if the commbnd wbs successful
+     * @throws IOException if bn error occurred during the exchbnge
      */
-    public sun.net.ftp.FtpClient deleteFile(String name) throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("DELE " + name);
+    public sun.net.ftp.FtpClient deleteFile(String nbme) throws sun.net.ftp.FtpProtocolException, IOException {
+        issueCommbndCheck("DELE " + nbme);
         return this;
     }
 
     /**
-     * Creates a new directory on the server.
+     * Crebtes b new directory on the server.
      *
-     * @param name a <code>String</code> containing the name of the directory
-     *        to create.
-     * @return <code>true</code> if the operation was successful.
-     * @throws IOException if an error occurred during the exchange
+     * @pbrbm nbme b <code>String</code> contbining the nbme of the directory
+     *        to crebte.
+     * @return <code>true</code> if the operbtion wbs successful.
+     * @throws IOException if bn error occurred during the exchbnge
      */
-    public sun.net.ftp.FtpClient makeDirectory(String name) throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("MKD " + name);
+    public sun.net.ftp.FtpClient mbkeDirectory(String nbme) throws sun.net.ftp.FtpProtocolException, IOException {
+        issueCommbndCheck("MKD " + nbme);
         return this;
     }
 
     /**
-     * Removes a directory on the server.
+     * Removes b directory on the server.
      *
-     * @param name a <code>String</code> containing the name of the directory
+     * @pbrbm nbme b <code>String</code> contbining the nbme of the directory
      *        to remove.
      *
-     * @return <code>true</code> if the operation was successful.
-     * @throws IOException if an error occurred during the exchange.
+     * @return <code>true</code> if the operbtion wbs successful.
+     * @throws IOException if bn error occurred during the exchbnge.
      */
-    public sun.net.ftp.FtpClient removeDirectory(String name) throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("RMD " + name);
+    public sun.net.ftp.FtpClient removeDirectory(String nbme) throws sun.net.ftp.FtpProtocolException, IOException {
+        issueCommbndCheck("RMD " + nbme);
         return this;
     }
 
     /**
-     * Sends a No-operation command. It's useful for testing the connection
-     * status or as a <I>keep alive</I> mechanism.
+     * Sends b No-operbtion commbnd. It's useful for testing the connection
+     * stbtus or bs b <I>keep blive</I> mechbnism.
      *
-     * @throws FtpProtocolException if the command fails
+     * @throws FtpProtocolException if the commbnd fbils
      */
     public sun.net.ftp.FtpClient noop() throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("NOOP");
+        issueCommbndCheck("NOOP");
         return this;
     }
 
     /**
-     * Sends the STAT command to the server.
-     * This can be used while a data connection is open to get a status
-     * on the current transfer, in that case the parameter should be
+     * Sends the STAT commbnd to the server.
+     * This cbn be used while b dbtb connection is open to get b stbtus
+     * on the current trbnsfer, in thbt cbse the pbrbmeter should be
      * <code>null</code>.
-     * If used between file transfers, it may have a pathname as argument
-     * in which case it will work as the LIST command except no data
-     * connection will be created.
+     * If used between file trbnsfers, it mby hbve b pbthnbme bs brgument
+     * in which cbse it will work bs the LIST commbnd except no dbtb
+     * connection will be crebted.
      *
-     * @param name an optional <code>String</code> containing the pathname
-     *        the STAT command should apply to.
+     * @pbrbm nbme bn optionbl <code>String</code> contbining the pbthnbme
+     *        the STAT commbnd should bpply to.
      * @return the response from the server or <code>null</code> if the
-     *         command failed.
-     * @throws IOException if an error occurred during the transmission.
+     *         commbnd fbiled.
+     * @throws IOException if bn error occurred during the trbnsmission.
      */
-    public String getStatus(String name) throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck((name == null ? "STAT" : "STAT " + name));
+    public String getStbtus(String nbme) throws sun.net.ftp.FtpProtocolException, IOException {
+        issueCommbndCheck((nbme == null ? "STAT" : "STAT " + nbme));
         /*
-         * A typical response will be:
-         *  213-status of t32.gif:
-         * -rw-r--r--   1 jcc      staff     247445 Feb 17  1998 t32.gif
-         * 213 End of Status
+         * A typicbl response will be:
+         *  213-stbtus of t32.gif:
+         * -rw-r--r--   1 jcc      stbff     247445 Feb 17  1998 t32.gif
+         * 213 End of Stbtus
          *
          * or
          *
-         * 211-jsn FTP server status:
+         * 211-jsn FTP server stbtus:
          *     Version wu-2.6.2+Sun
-         *     Connected to localhost (::1)
-         *     Logged in as jccollet
-         *     TYPE: ASCII, FORM: Nonprint; STRUcture: File; transfer MODE: Stream
-         *      No data connection
-         *     0 data bytes received in 0 files
-         *     0 data bytes transmitted in 0 files
-         *     0 data bytes total in 0 files
-         *     53 traffic bytes received in 0 transfers
-         *     485 traffic bytes transmitted in 0 transfers
-         *     587 traffic bytes total in 0 transfers
-         * 211 End of status
+         *     Connected to locblhost (::1)
+         *     Logged in bs jccollet
+         *     TYPE: ASCII, FORM: Nonprint; STRUcture: File; trbnsfer MODE: Strebm
+         *      No dbtb connection
+         *     0 dbtb bytes received in 0 files
+         *     0 dbtb bytes trbnsmitted in 0 files
+         *     0 dbtb bytes totbl in 0 files
+         *     53 trbffic bytes received in 0 trbnsfers
+         *     485 trbffic bytes trbnsmitted in 0 trbnsfers
+         *     587 trbffic bytes totbl in 0 trbnsfers
+         * 211 End of stbtus
          *
-         * So we need to remove the 1st and last line
+         * So we need to remove the 1st bnd lbst line
          */
         Vector<String> resp = getResponseStrings();
         StringBuilder sb = new StringBuilder();
         for (int i = 1; i < resp.size() - 1; i++) {
-            sb.append(resp.get(i));
+            sb.bppend(resp.get(i));
         }
         return sb.toString();
     }
 
     /**
-     * Sends the FEAT command to the server and returns the list of supported
-     * features in the form of strings.
+     * Sends the FEAT commbnd to the server bnd returns the list of supported
+     * febtures in the form of strings.
      *
-     * The features are the supported commands, like AUTH TLS, PROT or PASV.
-     * See the RFCs for a complete list.
+     * The febtures bre the supported commbnds, like AUTH TLS, PROT or PASV.
+     * See the RFCs for b complete list.
      *
-     * Note that not all FTP servers support that command, in which case
+     * Note thbt not bll FTP servers support thbt commbnd, in which cbse
      * the method will return <code>null</code>
      *
-     * @return a <code>List</code> of <code>Strings</code> describing the
-     *         supported additional features, or <code>null</code>
-     *         if the command is not supported.
-     * @throws IOException if an error occurs during the transmission.
+     * @return b <code>List</code> of <code>Strings</code> describing the
+     *         supported bdditionbl febtures, or <code>null</code>
+     *         if the commbnd is not supported.
+     * @throws IOException if bn error occurs during the trbnsmission.
      */
-    public List<String> getFeatures() throws sun.net.ftp.FtpProtocolException, IOException {
+    public List<String> getFebtures() throws sun.net.ftp.FtpProtocolException, IOException {
         /*
-         * The FEAT command, when implemented will return something like:
+         * The FEAT commbnd, when implemented will return something like:
          *
-         * 211-Features:
+         * 211-Febtures:
          *   AUTH TLS
          *   PBSZ
          *   PROT
@@ -1529,42 +1529,42 @@ public class FtpClient extends sun.net.ftp.FtpClient {
          *   REST STREAM
          *  211 END
          */
-        ArrayList<String> features = new ArrayList<String>();
-        issueCommandCheck("FEAT");
+        ArrbyList<String> febtures = new ArrbyList<String>();
+        issueCommbndCheck("FEAT");
         Vector<String> resp = getResponseStrings();
-        // Note that we start at index 1 to skip the 1st line (211-...)
-        // and we stop before the last line.
+        // Note thbt we stbrt bt index 1 to skip the 1st line (211-...)
+        // bnd we stop before the lbst line.
         for (int i = 1; i < resp.size() - 1; i++) {
             String s = resp.get(i);
-            // Get rid of leading space and trailing newline
-            features.add(s.substring(1, s.length() - 1));
+            // Get rid of lebding spbce bnd trbiling newline
+            febtures.bdd(s.substring(1, s.length() - 1));
         }
-        return features;
+        return febtures;
     }
 
     /**
-     * sends the ABOR command to the server.
-     * It tells the server to stop the previous command or transfer.
+     * sends the ABOR commbnd to the server.
+     * It tells the server to stop the previous commbnd or trbnsfer.
      *
-     * @return <code>true</code> if the command was successful.
-     * @throws IOException if an error occurred during the transmission.
+     * @return <code>true</code> if the commbnd wbs successful.
+     * @throws IOException if bn error occurred during the trbnsmission.
      */
-    public sun.net.ftp.FtpClient abort() throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("ABOR");
+    public sun.net.ftp.FtpClient bbort() throws sun.net.ftp.FtpProtocolException, IOException {
+        issueCommbndCheck("ABOR");
         // TODO: Must check the ReplyCode:
         /*
          * From the RFC:
-         * There are two cases for the server upon receipt of this
-         * command: (1) the FTP service command was already completed,
-         * or (2) the FTP service command is still in progress.
-         * In the first case, the server closes the data connection
-         * (if it is open) and responds with a 226 reply, indicating
-         * that the abort command was successfully processed.
-         * In the second case, the server aborts the FTP service in
-         * progress and closes the data connection, returning a 426
-         * reply to indicate that the service request terminated
-         * abnormally.  The server then sends a 226 reply,
-         * indicating that the abort command was successfully
+         * There bre two cbses for the server upon receipt of this
+         * commbnd: (1) the FTP service commbnd wbs blrebdy completed,
+         * or (2) the FTP service commbnd is still in progress.
+         * In the first cbse, the server closes the dbtb connection
+         * (if it is open) bnd responds with b 226 reply, indicbting
+         * thbt the bbort commbnd wbs successfully processed.
+         * In the second cbse, the server bborts the FTP service in
+         * progress bnd closes the dbtb connection, returning b 426
+         * reply to indicbte thbt the service request terminbted
+         * bbnormblly.  The server then sends b 226 reply,
+         * indicbting thbt the bbort commbnd wbs successfully
          * processed.
          */
 
@@ -1573,206 +1573,206 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Some methods do not wait until completion before returning, so this
-     * method can be called to wait until completion. This is typically the case
-     * with commands that trigger a transfer like {@link #getFileStream(String)}.
-     * So this method should be called before accessing information related to
-     * such a command.
-     * <p>This method will actually block reading on the command channel for a
-     * notification from the server that the command is finished. Such a
-     * notification often carries extra information concerning the completion
-     * of the pending action (e.g. number of bytes transfered).</p>
-     * <p>Note that this will return true immediately if no command or action
+     * Some methods do not wbit until completion before returning, so this
+     * method cbn be cblled to wbit until completion. This is typicblly the cbse
+     * with commbnds thbt trigger b trbnsfer like {@link #getFileStrebm(String)}.
+     * So this method should be cblled before bccessing informbtion relbted to
+     * such b commbnd.
+     * <p>This method will bctublly block rebding on the commbnd chbnnel for b
+     * notificbtion from the server thbt the commbnd is finished. Such b
+     * notificbtion often cbrries extrb informbtion concerning the completion
+     * of the pending bction (e.g. number of bytes trbnsfered).</p>
+     * <p>Note thbt this will return true immedibtely if no commbnd or bction
      * is pending</p>
-     * <p>It should be also noted that most methods issuing commands to the ftp
-     * server will call this method if a previous command is pending.
-     * <p>Example of use:
+     * <p>It should be blso noted thbt most methods issuing commbnds to the ftp
+     * server will cbll this method if b previous commbnd is pending.
+     * <p>Exbmple of use:
      * <pre>
-     * InputStream in = cl.getFileStream("file");
+     * InputStrebm in = cl.getFileStrebm("file");
      * ...
      * cl.completePending();
-     * long size = cl.getLastTransferSize();
+     * long size = cl.getLbstTrbnsferSize();
      * </pre>
-     * On the other hand, it's not necessary in a case like:
+     * On the other hbnd, it's not necessbry in b cbse like:
      * <pre>
-     * InputStream in = cl.getFileStream("file");
-     * // read content
+     * InputStrebm in = cl.getFileStrebm("file");
+     * // rebd content
      * ...
      * cl.logout();
      * </pre>
-     * <p>Since {@link #logout()} will call completePending() if necessary.</p>
-     * @return <code>true</code> if the completion was successful or if no
-     *         action was pending.
+     * <p>Since {@link #logout()} will cbll completePending() if necessbry.</p>
+     * @return <code>true</code> if the completion wbs successful or if no
+     *         bction wbs pending.
      * @throws IOException
      */
     public sun.net.ftp.FtpClient completePending() throws sun.net.ftp.FtpProtocolException, IOException {
         while (replyPending) {
-            replyPending = false;
-            if (!readReply()) {
-                throw new sun.net.ftp.FtpProtocolException(getLastResponseString(), lastReplyCode);
+            replyPending = fblse;
+            if (!rebdReply()) {
+                throw new sun.net.ftp.FtpProtocolException(getLbstResponseString(), lbstReplyCode);
             }
         }
         return this;
     }
 
     /**
-     * Reinitializes the USER parameters on the FTP server
+     * Reinitiblizes the USER pbrbmeters on the FTP server
      *
-     * @throws FtpProtocolException if the command fails
+     * @throws FtpProtocolException if the commbnd fbils
      */
     public sun.net.ftp.FtpClient reInit() throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("REIN");
-        loggedIn = false;
+        issueCommbndCheck("REIN");
+        loggedIn = fblse;
         if (useCrypto) {
-            if (server instanceof SSLSocket) {
-                javax.net.ssl.SSLSession session = ((SSLSocket) server).getSession();
-                session.invalidate();
-                // Restore previous socket and streams
+            if (server instbnceof SSLSocket) {
+                jbvbx.net.ssl.SSLSession session = ((SSLSocket) server).getSession();
+                session.invblidbte();
+                // Restore previous socket bnd strebms
                 server = oldSocket;
                 oldSocket = null;
                 try {
-                    out = new PrintStream(new BufferedOutputStream(server.getOutputStream()),
+                    out = new PrintStrebm(new BufferedOutputStrebm(server.getOutputStrebm()),
                             true, encoding);
-                } catch (UnsupportedEncodingException e) {
-                    throw new InternalError(encoding + "encoding not found", e);
+                } cbtch (UnsupportedEncodingException e) {
+                    throw new InternblError(encoding + "encoding not found", e);
                 }
-                in = new BufferedInputStream(server.getInputStream());
+                in = new BufferedInputStrebm(server.getInputStrebm());
             }
         }
-        useCrypto = false;
+        useCrypto = fblse;
         return this;
     }
 
     /**
-     * Changes the transfer type (binary, ascii, ebcdic) and issue the
-     * proper command (e.g. TYPE A) to the server.
+     * Chbnges the trbnsfer type (binbry, bscii, ebcdic) bnd issue the
+     * proper commbnd (e.g. TYPE A) to the server.
      *
-     * @param type the <code>FtpTransferType</code> to use.
+     * @pbrbm type the <code>FtpTrbnsferType</code> to use.
      * @return This FtpClient
-     * @throws IOException if an error occurs during transmission.
+     * @throws IOException if bn error occurs during trbnsmission.
      */
-    public sun.net.ftp.FtpClient setType(TransferType type) throws sun.net.ftp.FtpProtocolException, IOException {
+    public sun.net.ftp.FtpClient setType(TrbnsferType type) throws sun.net.ftp.FtpProtocolException, IOException {
         String cmd = "NOOP";
 
         this.type = type;
-        if (type == TransferType.ASCII) {
+        if (type == TrbnsferType.ASCII) {
             cmd = "TYPE A";
         }
-        if (type == TransferType.BINARY) {
+        if (type == TrbnsferType.BINARY) {
             cmd = "TYPE I";
         }
-        if (type == TransferType.EBCDIC) {
+        if (type == TrbnsferType.EBCDIC) {
             cmd = "TYPE E";
         }
-        issueCommandCheck(cmd);
+        issueCommbndCheck(cmd);
         return this;
     }
 
     /**
-     * Issues a LIST command to the server to get the current directory
-     * listing, and returns the InputStream from the data connection.
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is finished writing to the stream.
+     * Issues b LIST commbnd to the server to get the current directory
+     * listing, bnd returns the InputStrebm from the dbtb connection.
+     * {@link #completePending()} <b>hbs</b> to be cblled once the bpplicbtion
+     * is finished writing to the strebm.
      *
-     * @param path the pathname of the directory to list, or <code>null</code>
+     * @pbrbm pbth the pbthnbme of the directory to list, or <code>null</code>
      *        for the current working directory.
-     * @return the <code>InputStream</code> from the resulting data connection
-     * @throws IOException if an error occurs during the transmission.
-     * @see #changeDirectory(String)
+     * @return the <code>InputStrebm</code> from the resulting dbtb connection
+     * @throws IOException if bn error occurs during the trbnsmission.
+     * @see #chbngeDirectory(String)
      * @see #listFiles(String)
      */
-    public InputStream list(String path) throws sun.net.ftp.FtpProtocolException, IOException {
+    public InputStrebm list(String pbth) throws sun.net.ftp.FtpProtocolException, IOException {
         Socket s;
-        s = openDataConnection(path == null ? "LIST" : "LIST " + path);
+        s = openDbtbConnection(pbth == null ? "LIST" : "LIST " + pbth);
         if (s != null) {
-            return createInputStream(s.getInputStream());
+            return crebteInputStrebm(s.getInputStrebm());
         }
         return null;
     }
 
     /**
-     * Issues a NLST path command to server to get the specified directory
-     * content. It differs from {@link #list(String)} method by the fact that
-     * it will only list the file names which would make the parsing of the
-     * somewhat easier.
+     * Issues b NLST pbth commbnd to server to get the specified directory
+     * content. It differs from {@link #list(String)} method by the fbct thbt
+     * it will only list the file nbmes which would mbke the pbrsing of the
+     * somewhbt ebsier.
      *
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is finished writing to the stream.
+     * {@link #completePending()} <b>hbs</b> to be cblled once the bpplicbtion
+     * is finished writing to the strebm.
      *
-     * @param path a <code>String</code> containing the pathname of the
+     * @pbrbm pbth b <code>String</code> contbining the pbthnbme of the
      *        directory to list or <code>null</code> for the current working
      *        directory.
-     * @return the <code>InputStream</code> from the resulting data connection
-     * @throws IOException if an error occurs during the transmission.
+     * @return the <code>InputStrebm</code> from the resulting dbtb connection
+     * @throws IOException if bn error occurs during the trbnsmission.
      */
-    public InputStream nameList(String path) throws sun.net.ftp.FtpProtocolException, IOException {
+    public InputStrebm nbmeList(String pbth) throws sun.net.ftp.FtpProtocolException, IOException {
         Socket s;
-        s = openDataConnection("NLST " + path);
+        s = openDbtbConnection("NLST " + pbth);
         if (s != null) {
-            return createInputStream(s.getInputStream());
+            return crebteInputStrebm(s.getInputStrebm());
         }
         return null;
     }
 
     /**
-     * Issues the SIZE [path] command to the server to get the size of a
+     * Issues the SIZE [pbth] commbnd to the server to get the size of b
      * specific file on the server.
-     * Note that this command may not be supported by the server. In which
-     * case -1 will be returned.
+     * Note thbt this commbnd mby not be supported by the server. In which
+     * cbse -1 will be returned.
      *
-     * @param path a <code>String</code> containing the pathname of the
+     * @pbrbm pbth b <code>String</code> contbining the pbthnbme of the
      *        file.
-     * @return a <code>long</code> containing the size of the file or -1 if
-     *         the server returned an error, which can be checked with
-     *         {@link #getLastReplyCode()}.
-     * @throws IOException if an error occurs during the transmission.
+     * @return b <code>long</code> contbining the size of the file or -1 if
+     *         the server returned bn error, which cbn be checked with
+     *         {@link #getLbstReplyCode()}.
+     * @throws IOException if bn error occurs during the trbnsmission.
      */
-    public long getSize(String path) throws sun.net.ftp.FtpProtocolException, IOException {
-        if (path == null || path.length() == 0) {
-            throw new IllegalArgumentException("path can't be null or empty");
+    public long getSize(String pbth) throws sun.net.ftp.FtpProtocolException, IOException {
+        if (pbth == null || pbth.length() == 0) {
+            throw new IllegblArgumentException("pbth cbn't be null or empty");
         }
-        issueCommandCheck("SIZE " + path);
-        if (lastReplyCode == FtpReplyCode.FILE_STATUS) {
+        issueCommbndCheck("SIZE " + pbth);
+        if (lbstReplyCode == FtpReplyCode.FILE_STATUS) {
             String s = getResponseString();
             s = s.substring(4, s.length() - 1);
-            return Long.parseLong(s);
+            return Long.pbrseLong(s);
         }
         return -1;
     }
-    private static String[] MDTMformats = {
+    privbte stbtic String[] MDTMformbts = {
         "yyyyMMddHHmmss.SSS",
         "yyyyMMddHHmmss"
     };
-    private static SimpleDateFormat[] dateFormats = new SimpleDateFormat[MDTMformats.length];
+    privbte stbtic SimpleDbteFormbt[] dbteFormbts = new SimpleDbteFormbt[MDTMformbts.length];
 
-    static {
-        for (int i = 0; i < MDTMformats.length; i++) {
-            dateFormats[i] = new SimpleDateFormat(MDTMformats[i]);
-            dateFormats[i].setTimeZone(TimeZone.getTimeZone("GMT"));
+    stbtic {
+        for (int i = 0; i < MDTMformbts.length; i++) {
+            dbteFormbts[i] = new SimpleDbteFormbt(MDTMformbts[i]);
+            dbteFormbts[i].setTimeZone(TimeZone.getTimeZone("GMT"));
         }
     }
 
     /**
-     * Issues the MDTM [path] command to the server to get the modification
-     * time of a specific file on the server.
-     * Note that this command may not be supported by the server, in which
-     * case <code>null</code> will be returned.
+     * Issues the MDTM [pbth] commbnd to the server to get the modificbtion
+     * time of b specific file on the server.
+     * Note thbt this commbnd mby not be supported by the server, in which
+     * cbse <code>null</code> will be returned.
      *
-     * @param path a <code>String</code> containing the pathname of the file.
-     * @return a <code>Date</code> representing the last modification time
-     *         or <code>null</code> if the server returned an error, which
-     *         can be checked with {@link #getLastReplyCode()}.
-     * @throws IOException if an error occurs during the transmission.
+     * @pbrbm pbth b <code>String</code> contbining the pbthnbme of the file.
+     * @return b <code>Dbte</code> representing the lbst modificbtion time
+     *         or <code>null</code> if the server returned bn error, which
+     *         cbn be checked with {@link #getLbstReplyCode()}.
+     * @throws IOException if bn error occurs during the trbnsmission.
      */
-    public Date getLastModified(String path) throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("MDTM " + path);
-        if (lastReplyCode == FtpReplyCode.FILE_STATUS) {
+    public Dbte getLbstModified(String pbth) throws sun.net.ftp.FtpProtocolException, IOException {
+        issueCommbndCheck("MDTM " + pbth);
+        if (lbstReplyCode == FtpReplyCode.FILE_STATUS) {
             String s = getResponseString().substring(4);
-            Date d = null;
-            for (SimpleDateFormat dateFormat : dateFormats) {
+            Dbte d = null;
+            for (SimpleDbteFormbt dbteFormbt : dbteFormbts) {
                 try {
-                    d = dateFormat.parse(s);
-                } catch (ParseException ex) {
+                    d = dbteFormbt.pbrse(s);
+                } cbtch (PbrseException ex) {
                 }
                 if (d != null) {
                     return d;
@@ -1783,34 +1783,34 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Sets the parser used to handle the directory output to the specified
-     * one. By default the parser is set to one that can handle most FTP
-     * servers output (Unix base mostly). However it may be necessary for
-     * and application to provide its own parser due to some uncommon
-     * output format.
+     * Sets the pbrser used to hbndle the directory output to the specified
+     * one. By defbult the pbrser is set to one thbt cbn hbndle most FTP
+     * servers output (Unix bbse mostly). However it mby be necessbry for
+     * bnd bpplicbtion to provide its own pbrser due to some uncommon
+     * output formbt.
      *
-     * @param p The <code>FtpDirParser</code> to use.
+     * @pbrbm p The <code>FtpDirPbrser</code> to use.
      * @see #listFiles(String)
      */
-    public sun.net.ftp.FtpClient setDirParser(FtpDirParser p) {
-        parser = p;
+    public sun.net.ftp.FtpClient setDirPbrser(FtpDirPbrser p) {
+        pbrser = p;
         return this;
     }
 
-    private class FtpFileIterator implements Iterator<FtpDirEntry>, Closeable {
+    privbte clbss FtpFileIterbtor implements Iterbtor<FtpDirEntry>, Closebble {
 
-        private BufferedReader in = null;
-        private FtpDirEntry nextFile = null;
-        private FtpDirParser fparser = null;
-        private boolean eof = false;
+        privbte BufferedRebder in = null;
+        privbte FtpDirEntry nextFile = null;
+        privbte FtpDirPbrser fpbrser = null;
+        privbte boolebn eof = fblse;
 
-        public FtpFileIterator(FtpDirParser p, BufferedReader in) {
+        public FtpFileIterbtor(FtpDirPbrser p, BufferedRebder in) {
             this.in = in;
-            this.fparser = p;
-            readNext();
+            this.fpbrser = p;
+            rebdNext();
         }
 
-        private void readNext() {
+        privbte void rebdNext() {
             nextFile = null;
             if (eof) {
                 return;
@@ -1818,32 +1818,32 @@ public class FtpClient extends sun.net.ftp.FtpClient {
             String line = null;
             try {
                 do {
-                    line = in.readLine();
+                    line = in.rebdLine();
                     if (line != null) {
-                        nextFile = fparser.parseLine(line);
+                        nextFile = fpbrser.pbrseLine(line);
                         if (nextFile != null) {
                             return;
                         }
                     }
                 } while (line != null);
                 in.close();
-            } catch (IOException iOException) {
+            } cbtch (IOException iOException) {
             }
             eof = true;
         }
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return nextFile != null;
         }
 
         public FtpDirEntry next() {
             FtpDirEntry ret = nextFile;
-            readNext();
+            rebdNext();
             return ret;
         }
 
         public void remove() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperbtionException("Not supported yet.");
         }
 
         public void close() throws IOException {
@@ -1856,103 +1856,103 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Issues a MLSD command to the server to get the specified directory
-     * listing and applies the current parser to create an Iterator of
-     * {@link java.net.ftp.FtpDirEntry}. Note that the Iterator returned is also a
-     * {@link java.io.Closeable}.
-     * If the server doesn't support the MLSD command, the LIST command is used
-     * instead.
+     * Issues b MLSD commbnd to the server to get the specified directory
+     * listing bnd bpplies the current pbrser to crebte bn Iterbtor of
+     * {@link jbvb.net.ftp.FtpDirEntry}. Note thbt the Iterbtor returned is blso b
+     * {@link jbvb.io.Closebble}.
+     * If the server doesn't support the MLSD commbnd, the LIST commbnd is used
+     * instebd.
      *
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is finished iterating through the files.
+     * {@link #completePending()} <b>hbs</b> to be cblled once the bpplicbtion
+     * is finished iterbting through the files.
      *
-     * @param path the pathname of the directory to list or <code>null</code>
+     * @pbrbm pbth the pbthnbme of the directory to list or <code>null</code>
      *        for the current working directoty.
-     * @return a <code>Iterator</code> of files or <code>null</code> if the
-     *         command failed.
-     * @throws IOException if an error occurred during the transmission
-     * @see #setDirParser(FtpDirParser)
-     * @see #changeDirectory(String)
+     * @return b <code>Iterbtor</code> of files or <code>null</code> if the
+     *         commbnd fbiled.
+     * @throws IOException if bn error occurred during the trbnsmission
+     * @see #setDirPbrser(FtpDirPbrser)
+     * @see #chbngeDirectory(String)
      */
-    public Iterator<FtpDirEntry> listFiles(String path) throws sun.net.ftp.FtpProtocolException, IOException {
+    public Iterbtor<FtpDirEntry> listFiles(String pbth) throws sun.net.ftp.FtpProtocolException, IOException {
         Socket s = null;
-        BufferedReader sin = null;
+        BufferedRebder sin = null;
         try {
-            s = openDataConnection(path == null ? "MLSD" : "MLSD " + path);
-        } catch (sun.net.ftp.FtpProtocolException FtpException) {
-            // The server doesn't understand new MLSD command, ignore and fall
-            // back to LIST
+            s = openDbtbConnection(pbth == null ? "MLSD" : "MLSD " + pbth);
+        } cbtch (sun.net.ftp.FtpProtocolException FtpException) {
+            // The server doesn't understbnd new MLSD commbnd, ignore bnd fbll
+            // bbck to LIST
         }
 
         if (s != null) {
-            sin = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            return new FtpFileIterator(mlsxParser, sin);
+            sin = new BufferedRebder(new InputStrebmRebder(s.getInputStrebm()));
+            return new FtpFileIterbtor(mlsxPbrser, sin);
         } else {
-            s = openDataConnection(path == null ? "LIST" : "LIST " + path);
+            s = openDbtbConnection(pbth == null ? "LIST" : "LIST " + pbth);
             if (s != null) {
-                sin = new BufferedReader(new InputStreamReader(s.getInputStream()));
-                return new FtpFileIterator(parser, sin);
+                sin = new BufferedRebder(new InputStrebmRebder(s.getInputStrebm()));
+                return new FtpFileIterbtor(pbrser, sin);
             }
         }
         return null;
     }
 
-    private boolean sendSecurityData(byte[] buf) throws IOException {
-        String s = Base64.getMimeEncoder().encodeToString(buf);
-        return issueCommand("ADAT " + s);
+    privbte boolebn sendSecurityDbtb(byte[] buf) throws IOException {
+        String s = Bbse64.getMimeEncoder().encodeToString(buf);
+        return issueCommbnd("ADAT " + s);
     }
 
-    private byte[] getSecurityData() {
-        String s = getLastResponseString();
-        if (s.substring(4, 9).equalsIgnoreCase("ADAT=")) {
-            // Need to get rid of the leading '315 ADAT='
-            // and the trailing newline
-            return Base64.getMimeDecoder().decode(s.substring(9, s.length() - 1));
+    privbte byte[] getSecurityDbtb() {
+        String s = getLbstResponseString();
+        if (s.substring(4, 9).equblsIgnoreCbse("ADAT=")) {
+            // Need to get rid of the lebding '315 ADAT='
+            // bnd the trbiling newline
+            return Bbse64.getMimeDecoder().decode(s.substring(9, s.length() - 1));
         }
         return null;
     }
 
     /**
-     * Attempts to use Kerberos GSSAPI as an authentication mechanism with the
-     * ftp server. This will issue an <code>AUTH GSSAPI</code> command, and if
-     * it is accepted by the server, will followup with <code>ADAT</code>
-     * command to exchange the various tokens until authentification is
+     * Attempts to use Kerberos GSSAPI bs bn buthenticbtion mechbnism with the
+     * ftp server. This will issue bn <code>AUTH GSSAPI</code> commbnd, bnd if
+     * it is bccepted by the server, will followup with <code>ADAT</code>
+     * commbnd to exchbnge the vbrious tokens until buthentificbtion is
      * successful. This conforms to Appendix I of RFC 2228.
      *
-     * @return <code>true</code> if authentication was successful.
-     * @throws IOException if an error occurs during the transmission.
+     * @return <code>true</code> if buthenticbtion wbs successful.
+     * @throws IOException if bn error occurs during the trbnsmission.
      */
     public sun.net.ftp.FtpClient useKerberos() throws sun.net.ftp.FtpProtocolException, IOException {
         /*
-         * Comment out for the moment since it's not in use and would create
-         * needless cross-package links.
+         * Comment out for the moment since it's not in use bnd would crebte
+         * needless cross-pbckbge links.
          *
-        issueCommandCheck("AUTH GSSAPI");
-        if (lastReplyCode != FtpReplyCode.NEED_ADAT)
+        issueCommbndCheck("AUTH GSSAPI");
+        if (lbstReplyCode != FtpReplyCode.NEED_ADAT)
         throw new sun.net.ftp.FtpProtocolException("Unexpected reply from server");
         try {
-        GSSManager manager = GSSManager.getInstance();
-        GSSName name = manager.createName("SERVICE:ftp@"+
-        serverAddr.getHostName(), null);
-        GSSContext context = manager.createContext(name, null, null,
+        GSSMbnbger mbnbger = GSSMbnbger.getInstbnce();
+        GSSNbme nbme = mbnbger.crebteNbme("SERVICE:ftp@"+
+        serverAddr.getHostNbme(), null);
+        GSSContext context = mbnbger.crebteContext(nbme, null, null,
         GSSContext.DEFAULT_LIFETIME);
-        context.requestMutualAuth(true);
-        context.requestReplayDet(true);
+        context.requestMutublAuth(true);
+        context.requestReplbyDet(true);
         context.requestSequenceDet(true);
         context.requestCredDeleg(true);
         byte []inToken = new byte[0];
-        while (!context.isEstablished()) {
+        while (!context.isEstbblished()) {
         byte[] outToken
         = context.initSecContext(inToken, 0, inToken.length);
-        // send the output token if generated
+        // send the output token if generbted
         if (outToken != null) {
-        if (sendSecurityData(outToken)) {
-        inToken = getSecurityData();
+        if (sendSecurityDbtb(outToken)) {
+        inToken = getSecurityDbtb();
         }
         }
         }
         loggedIn = true;
-        } catch (GSSException e) {
+        } cbtch (GSSException e) {
 
         }
          */
@@ -1960,9 +1960,9 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Returns the Welcome string the server sent during initial connection.
+     * Returns the Welcome string the server sent during initibl connection.
      *
-     * @return a <code>String</code> containing the message the server
+     * @return b <code>String</code> contbining the messbge the server
      *         returned during connection or <code>null</code>.
      */
     public String getWelcomeMsg() {
@@ -1970,26 +1970,26 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Returns the last reply code sent by the server.
+     * Returns the lbst reply code sent by the server.
      *
-     * @return the lastReplyCode
+     * @return the lbstReplyCode
      */
-    public FtpReplyCode getLastReplyCode() {
-        return lastReplyCode;
+    public FtpReplyCode getLbstReplyCode() {
+        return lbstReplyCode;
     }
 
     /**
-     * Returns the last response string sent by the server.
+     * Returns the lbst response string sent by the server.
      *
-     * @return the message string, which can be quite long, last returned
+     * @return the messbge string, which cbn be quite long, lbst returned
      *         by the server.
      */
-    public String getLastResponseString() {
+    public String getLbstResponseString() {
         StringBuilder sb = new StringBuilder();
         if (serverResponse != null) {
             for (String l : serverResponse) {
                 if (l != null) {
-                    sb.append(l);
+                    sb.bppend(l);
                 }
             }
         }
@@ -1997,176 +1997,176 @@ public class FtpClient extends sun.net.ftp.FtpClient {
     }
 
     /**
-     * Returns, when available, the size of the latest started transfer.
-     * This is retreived by parsing the response string received as an initial
-     * response to a RETR or similar request.
+     * Returns, when bvbilbble, the size of the lbtest stbrted trbnsfer.
+     * This is retreived by pbrsing the response string received bs bn initibl
+     * response to b RETR or similbr request.
      *
-     * @return the size of the latest transfer or -1 if either there was no
-     *         transfer or the information was unavailable.
+     * @return the size of the lbtest trbnsfer or -1 if either there wbs no
+     *         trbnsfer or the informbtion wbs unbvbilbble.
      */
-    public long getLastTransferSize() {
-        return lastTransSize;
+    public long getLbstTrbnsferSize() {
+        return lbstTrbnsSize;
     }
 
     /**
-     * Returns, when available, the remote name of the last transfered file.
-     * This is mainly useful for "put" operation when the unique flag was
-     * set since it allows to recover the unique file name created on the
-     * server which may be different from the one submitted with the command.
+     * Returns, when bvbilbble, the remote nbme of the lbst trbnsfered file.
+     * This is mbinly useful for "put" operbtion when the unique flbg wbs
+     * set since it bllows to recover the unique file nbme crebted on the
+     * server which mby be different from the one submitted with the commbnd.
      *
-     * @return the name the latest transfered file remote name, or
-     *         <code>null</code> if that information is unavailable.
+     * @return the nbme the lbtest trbnsfered file remote nbme, or
+     *         <code>null</code> if thbt informbtion is unbvbilbble.
      */
-    public String getLastFileName() {
-        return lastFileName;
+    public String getLbstFileNbme() {
+        return lbstFileNbme;
     }
 
     /**
-     * Attempts to switch to a secure, encrypted connection. This is done by
-     * sending the "AUTH TLS" command.
-     * <p>See <a href="http://www.ietf.org/rfc/rfc4217.txt">RFC 4217</a></p>
-     * If successful this will establish a secure command channel with the
-     * server, it will also make it so that all other transfers (e.g. a RETR
-     * command) will be done over an encrypted channel as well unless a
-     * {@link #reInit()} command or a {@link #endSecureSession()} command is issued.
+     * Attempts to switch to b secure, encrypted connection. This is done by
+     * sending the "AUTH TLS" commbnd.
+     * <p>See <b href="http://www.ietf.org/rfc/rfc4217.txt">RFC 4217</b></p>
+     * If successful this will estbblish b secure commbnd chbnnel with the
+     * server, it will blso mbke it so thbt bll other trbnsfers (e.g. b RETR
+     * commbnd) will be done over bn encrypted chbnnel bs well unless b
+     * {@link #reInit()} commbnd or b {@link #endSecureSession()} commbnd is issued.
      *
-     * @return <code>true</code> if the operation was successful.
-     * @throws IOException if an error occurred during the transmission.
+     * @return <code>true</code> if the operbtion wbs successful.
+     * @throws IOException if bn error occurred during the trbnsmission.
      * @see #endSecureSession()
      */
-    public sun.net.ftp.FtpClient startSecureSession() throws sun.net.ftp.FtpProtocolException, IOException {
+    public sun.net.ftp.FtpClient stbrtSecureSession() throws sun.net.ftp.FtpProtocolException, IOException {
         if (!isConnected()) {
             throw new sun.net.ftp.FtpProtocolException("Not connected yet", FtpReplyCode.BAD_SEQUENCE);
         }
-        if (sslFact == null) {
+        if (sslFbct == null) {
             try {
-                sslFact = (SSLSocketFactory) SSLSocketFactory.getDefault();
-            } catch (Exception e) {
-                throw new IOException(e.getLocalizedMessage());
+                sslFbct = (SSLSocketFbctory) SSLSocketFbctory.getDefbult();
+            } cbtch (Exception e) {
+                throw new IOException(e.getLocblizedMessbge());
             }
         }
-        issueCommandCheck("AUTH TLS");
+        issueCommbndCheck("AUTH TLS");
         Socket s = null;
         try {
-            s = sslFact.createSocket(server, serverAddr.getHostName(), serverAddr.getPort(), true);
-        } catch (javax.net.ssl.SSLException ssle) {
+            s = sslFbct.crebteSocket(server, serverAddr.getHostNbme(), serverAddr.getPort(), true);
+        } cbtch (jbvbx.net.ssl.SSLException ssle) {
             try {
                 disconnect();
-            } catch (Exception e) {
+            } cbtch (Exception e) {
             }
             throw ssle;
         }
-        // Remember underlying socket so we can restore it later
+        // Remember underlying socket so we cbn restore it lbter
         oldSocket = server;
         server = s;
         try {
-            out = new PrintStream(new BufferedOutputStream(server.getOutputStream()),
+            out = new PrintStrebm(new BufferedOutputStrebm(server.getOutputStrebm()),
                     true, encoding);
-        } catch (UnsupportedEncodingException e) {
-            throw new InternalError(encoding + "encoding not found", e);
+        } cbtch (UnsupportedEncodingException e) {
+            throw new InternblError(encoding + "encoding not found", e);
         }
-        in = new BufferedInputStream(server.getInputStream());
+        in = new BufferedInputStrebm(server.getInputStrebm());
 
-        issueCommandCheck("PBSZ 0");
-        issueCommandCheck("PROT P");
+        issueCommbndCheck("PBSZ 0");
+        issueCommbndCheck("PROT P");
         useCrypto = true;
         return this;
     }
 
     /**
-     * Sends a <code>CCC</code> command followed by a <code>PROT C</code>
-     * command to the server terminating an encrypted session and reverting
-     * back to a non crypted transmission.
+     * Sends b <code>CCC</code> commbnd followed by b <code>PROT C</code>
+     * commbnd to the server terminbting bn encrypted session bnd reverting
+     * bbck to b non crypted trbnsmission.
      *
-     * @return <code>true</code> if the operation was successful.
-     * @throws IOException if an error occurred during transmission.
-     * @see #startSecureSession()
+     * @return <code>true</code> if the operbtion wbs successful.
+     * @throws IOException if bn error occurred during trbnsmission.
+     * @see #stbrtSecureSession()
      */
     public sun.net.ftp.FtpClient endSecureSession() throws sun.net.ftp.FtpProtocolException, IOException {
         if (!useCrypto) {
             return this;
         }
 
-        issueCommandCheck("CCC");
-        issueCommandCheck("PROT C");
-        useCrypto = false;
-        // Restore previous socket and streams
+        issueCommbndCheck("CCC");
+        issueCommbndCheck("PROT C");
+        useCrypto = fblse;
+        // Restore previous socket bnd strebms
         server = oldSocket;
         oldSocket = null;
         try {
-            out = new PrintStream(new BufferedOutputStream(server.getOutputStream()),
+            out = new PrintStrebm(new BufferedOutputStrebm(server.getOutputStrebm()),
                     true, encoding);
-        } catch (UnsupportedEncodingException e) {
-            throw new InternalError(encoding + "encoding not found", e);
+        } cbtch (UnsupportedEncodingException e) {
+            throw new InternblError(encoding + "encoding not found", e);
         }
-        in = new BufferedInputStream(server.getInputStream());
+        in = new BufferedInputStrebm(server.getInputStrebm());
 
         return this;
     }
 
     /**
-     * Sends the "Allocate" (ALLO) command to the server telling it to
-     * pre-allocate the specified number of bytes for the next transfer.
+     * Sends the "Allocbte" (ALLO) commbnd to the server telling it to
+     * pre-bllocbte the specified number of bytes for the next trbnsfer.
      *
-     * @param size The number of bytes to allocate.
-     * @return <code>true</code> if the operation was successful.
-     * @throws IOException if an error occurred during the transmission.
+     * @pbrbm size The number of bytes to bllocbte.
+     * @return <code>true</code> if the operbtion wbs successful.
+     * @throws IOException if bn error occurred during the trbnsmission.
      */
-    public sun.net.ftp.FtpClient allocate(long size) throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("ALLO " + size);
+    public sun.net.ftp.FtpClient bllocbte(long size) throws sun.net.ftp.FtpProtocolException, IOException {
+        issueCommbndCheck("ALLO " + size);
         return this;
     }
 
     /**
-     * Sends the "Structure Mount" (SMNT) command to the server. This let the
-     * user mount a different file system data structure without altering his
-     * login or accounting information.
+     * Sends the "Structure Mount" (SMNT) commbnd to the server. This let the
+     * user mount b different file system dbtb structure without bltering his
+     * login or bccounting informbtion.
      *
-     * @param struct a <code>String</code> containing the name of the
+     * @pbrbm struct b <code>String</code> contbining the nbme of the
      *        structure to mount.
-     * @return <code>true</code> if the operation was successful.
-     * @throws IOException if an error occurred during the transmission.
+     * @return <code>true</code> if the operbtion wbs successful.
+     * @throws IOException if bn error occurred during the trbnsmission.
      */
     public sun.net.ftp.FtpClient structureMount(String struct) throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("SMNT " + struct);
+        issueCommbndCheck("SMNT " + struct);
         return this;
     }
 
     /**
-     * Sends a SYST (System) command to the server and returns the String
-     * sent back by the server describing the operating system at the
+     * Sends b SYST (System) commbnd to the server bnd returns the String
+     * sent bbck by the server describing the operbting system bt the
      * server.
      *
-     * @return a <code>String</code> describing the OS, or <code>null</code>
-     *         if the operation was not successful.
-     * @throws IOException if an error occurred during the transmission.
+     * @return b <code>String</code> describing the OS, or <code>null</code>
+     *         if the operbtion wbs not successful.
+     * @throws IOException if bn error occurred during the trbnsmission.
      */
     public String getSystem() throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("SYST");
+        issueCommbndCheck("SYST");
         /*
          * 215 UNIX Type: L8 Version: SUNOS
          */
         String resp = getResponseString();
-        // Get rid of the leading code and blank
+        // Get rid of the lebding code bnd blbnk
         return resp.substring(4);
     }
 
     /**
-     * Sends the HELP command to the server, with an optional command, like
-     * SITE, and returns the text sent back by the server.
+     * Sends the HELP commbnd to the server, with bn optionbl commbnd, like
+     * SITE, bnd returns the text sent bbck by the server.
      *
-     * @param cmd the command for which the help is requested or
-     *        <code>null</code> for the general help
-     * @return a <code>String</code> containing the text sent back by the
-     *         server, or <code>null</code> if the command failed.
-     * @throws IOException if an error occurred during transmission
+     * @pbrbm cmd the commbnd for which the help is requested or
+     *        <code>null</code> for the generbl help
+     * @return b <code>String</code> contbining the text sent bbck by the
+     *         server, or <code>null</code> if the commbnd fbiled.
+     * @throws IOException if bn error occurred during trbnsmission
      */
     public String getHelp(String cmd) throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("HELP " + cmd);
+        issueCommbndCheck("HELP " + cmd);
         /**
          *
          * HELP
-         * 214-The following commands are implemented.
+         * 214-The following commbnds bre implemented.
          *   USER    EPRT    STRU    ALLO    DELE    SYST    RMD     MDTM    ADAT
          *   PASS    EPSV    MODE    REST    CWD     STAT    PWD     PROT
          *   QUIT    LPRT    RETR    RNFR    LIST    HELP    CDUP    PBSZ
@@ -2175,7 +2175,7 @@ public class FtpClient extends sun.net.ftp.FtpClient {
          * 214 Direct comments to ftp-bugs@jsn.
          *
          * HELP SITE
-         * 214-The following SITE commands are implemented.
+         * 214-The following SITE commbnds bre implemented.
          *   UMASK           HELP            GROUPS
          *   IDLE            ALIAS           CHECKMETHOD
          *   CHMOD           CDPATH          CHECKSUM
@@ -2186,26 +2186,26 @@ public class FtpClient extends sun.net.ftp.FtpClient {
             // Single line response
             return resp.get(0).substring(4);
         }
-        // on multiple lines answers, like the ones above, remove 1st and last
-        // line, concat the the others.
+        // on multiple lines bnswers, like the ones bbove, remove 1st bnd lbst
+        // line, concbt the the others.
         StringBuilder sb = new StringBuilder();
         for (int i = 1; i < resp.size() - 1; i++) {
-            sb.append(resp.get(i).substring(3));
+            sb.bppend(resp.get(i).substring(3));
         }
         return sb.toString();
     }
 
     /**
-     * Sends the SITE command to the server. This is used by the server
-     * to provide services specific to his system that are essential
-     * to file transfer.
+     * Sends the SITE commbnd to the server. This is used by the server
+     * to provide services specific to his system thbt bre essentibl
+     * to file trbnsfer.
      *
-     * @param cmd the command to be sent.
-     * @return <code>true</code> if the command was successful.
-     * @throws IOException if an error occurred during transmission
+     * @pbrbm cmd the commbnd to be sent.
+     * @return <code>true</code> if the commbnd wbs successful.
+     * @throws IOException if bn error occurred during trbnsmission
      */
     public sun.net.ftp.FtpClient siteCmd(String cmd) throws sun.net.ftp.FtpProtocolException, IOException {
-        issueCommandCheck("SITE " + cmd);
+        issueCommbndCheck("SITE " + cmd);
         return this;
     }
 }

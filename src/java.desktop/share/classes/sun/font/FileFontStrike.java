@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.concurrent.ConcurrentHashMap;
-import static sun.awt.SunHints.*;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.bwt.Font;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.geom.NoninvertibleTrbnsformException;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import stbtic sun.bwt.SunHints.*;
 
 
-public class FileFontStrike extends PhysicalStrike {
+public clbss FileFontStrike extends PhysicblStrike {
 
-    /* fffe and ffff are values we specially interpret as meaning
+    /* fffe bnd ffff bre vblues we speciblly interpret bs mebning
      * invisible glyphs.
      */
-    static final int INVISIBLE_GLYPHS = 0x0fffe;
+    stbtic finbl int INVISIBLE_GLYPHS = 0x0fffe;
 
-    private FileFont fileFont;
+    privbte FileFont fileFont;
 
-    /* REMIND: replace this scheme with one that installs a cache
-     * instance of the appropriate type. It will require changes in
-     * FontStrikeDisposer and NativeStrike etc.
+    /* REMIND: replbce this scheme with one thbt instblls b cbche
+     * instbnce of the bppropribte type. It will require chbnges in
+     * FontStrikeDisposer bnd NbtiveStrike etc.
      */
-    private static final int UNINITIALISED = 0;
-    private static final int INTARRAY      = 1;
-    private static final int LONGARRAY     = 2;
-    private static final int SEGINTARRAY   = 3;
-    private static final int SEGLONGARRAY  = 4;
+    privbte stbtic finbl int UNINITIALISED = 0;
+    privbte stbtic finbl int INTARRAY      = 1;
+    privbte stbtic finbl int LONGARRAY     = 2;
+    privbte stbtic finbl int SEGINTARRAY   = 3;
+    privbte stbtic finbl int SEGLONGARRAY  = 4;
 
-    private volatile int glyphCacheFormat = UNINITIALISED;
+    privbte volbtile int glyphCbcheFormbt = UNINITIALISED;
 
-    /* segmented arrays are blocks of 32 */
-    private static final int SEGSHIFT = 5;
-    private static final int SEGSIZE  = 1 << SEGSHIFT;
+    /* segmented brrbys bre blocks of 32 */
+    privbte stbtic finbl int SEGSHIFT = 5;
+    privbte stbtic finbl int SEGSIZE  = 1 << SEGSHIFT;
 
-    private boolean segmentedCache;
-    private int[][] segIntGlyphImages;
-    private long[][] segLongGlyphImages;
+    privbte boolebn segmentedCbche;
+    privbte int[][] segIntGlyphImbges;
+    privbte long[][] segLongGlyphImbges;
 
-    /* The "metrics" information requested by clients is usually nothing
-     * more than the horizontal advance of the character.
-     * In most cases this advance and other metrics information is stored
-     * in the glyph image cache.
-     * But in some cases we do not automatically retrieve the glyph
-     * image when the advance is requested. In those cases we want to
-     * cache the advances since this has been shown to be important for
-     * performance.
-     * The segmented cache is used in cases when the single array
-     * would be too large.
+    /* The "metrics" informbtion requested by clients is usublly nothing
+     * more thbn the horizontbl bdvbnce of the chbrbcter.
+     * In most cbses this bdvbnce bnd other metrics informbtion is stored
+     * in the glyph imbge cbche.
+     * But in some cbses we do not butombticblly retrieve the glyph
+     * imbge when the bdvbnce is requested. In those cbses we wbnt to
+     * cbche the bdvbnces since this hbs been shown to be importbnt for
+     * performbnce.
+     * The segmented cbche is used in cbses when the single brrby
+     * would be too lbrge.
      */
-    private float[] horizontalAdvances;
-    private float[][] segHorizontalAdvances;
+    privbte flobt[] horizontblAdvbnces;
+    privbte flobt[][] segHorizontblAdvbnces;
 
-    /* Outline bounds are used when printing and when drawing outlines
-     * to the screen. On balance the relative rarity of these cases
-     * and the fact that getting this requires generating a path at
-     * the scaler level means that its probably OK to store these
-     * in a Java-level hashmap as the trade-off between time and space.
-     * Later can revisit whether to cache these at all, or elsewhere.
-     * Should also profile whether subsequent to getting the bounds, the
-     * outline itself is also requested. The 1.4 implementation doesn't
-     * cache outlines so you could generate the path twice - once to get
-     * the bounds and again to return the outline to the client.
-     * If the two uses are coincident then also look into caching outlines.
-     * One simple optimisation is that we could store the last single
-     * outline retrieved. This assumes that bounds then outline will always
-     * be retrieved for a glyph rather than retrieving bounds for all glyphs
-     * then outlines for all glyphs.
+    /* Outline bounds bre used when printing bnd when drbwing outlines
+     * to the screen. On bblbnce the relbtive rbrity of these cbses
+     * bnd the fbct thbt getting this requires generbting b pbth bt
+     * the scbler level mebns thbt its probbbly OK to store these
+     * in b Jbvb-level hbshmbp bs the trbde-off between time bnd spbce.
+     * Lbter cbn revisit whether to cbche these bt bll, or elsewhere.
+     * Should blso profile whether subsequent to getting the bounds, the
+     * outline itself is blso requested. The 1.4 implementbtion doesn't
+     * cbche outlines so you could generbte the pbth twice - once to get
+     * the bounds bnd bgbin to return the outline to the client.
+     * If the two uses bre coincident then blso look into cbching outlines.
+     * One simple optimisbtion is thbt we could store the lbst single
+     * outline retrieved. This bssumes thbt bounds then outline will blwbys
+     * be retrieved for b glyph rbther thbn retrieving bounds for bll glyphs
+     * then outlines for bll glyphs.
      */
-    ConcurrentHashMap<Integer, Rectangle2D.Float> boundsMap;
-    SoftReference<ConcurrentHashMap<Integer, Point2D.Float>>
-        glyphMetricsMapRef;
+    ConcurrentHbshMbp<Integer, Rectbngle2D.Flobt> boundsMbp;
+    SoftReference<ConcurrentHbshMbp<Integer, Point2D.Flobt>>
+        glyphMetricsMbpRef;
 
-    AffineTransform invertDevTx;
+    AffineTrbnsform invertDevTx;
 
-    boolean useNatives;
-    NativeStrike[] nativeStrikes;
+    boolebn useNbtives;
+    NbtiveStrike[] nbtiveStrikes;
 
-    /* Used only for communication to native layer */
-    private int intPtSize;
+    /* Used only for communicbtion to nbtive lbyer */
+    privbte int intPtSize;
 
-    /* Perform global initialisation needed for Windows native rasterizer */
-    private static native boolean initNative();
-    private static boolean isXPorLater = false;
-    static {
+    /* Perform globbl initiblisbtion needed for Windows nbtive rbsterizer */
+    privbte stbtic nbtive boolebn initNbtive();
+    privbte stbtic boolebn isXPorLbter = fblse;
+    stbtic {
         if (FontUtilities.isWindows && !FontUtilities.useT2K &&
-            !GraphicsEnvironment.isHeadless()) {
-            isXPorLater = initNative();
+            !GrbphicsEnvironment.isHebdless()) {
+            isXPorLbter = initNbtive();
         }
     }
 
@@ -125,303 +125,303 @@ public class FileFontStrike extends PhysicalStrike {
         this.fileFont = fileFont;
 
         if (desc.style != fileFont.style) {
-          /* If using algorithmic styling, the base values are
-           * boldness = 1.0, italic = 0.0. The superclass constructor
-           * initialises these.
+          /* If using blgorithmic styling, the bbse vblues bre
+           * boldness = 1.0, itblic = 0.0. The superclbss constructor
+           * initiblises these.
            */
             if ((desc.style & Font.ITALIC) == Font.ITALIC &&
                 (fileFont.style & Font.ITALIC) == 0) {
-                algoStyle = true;
-                italic = 0.7f;
+                blgoStyle = true;
+                itblic = 0.7f;
             }
             if ((desc.style & Font.BOLD) == Font.BOLD &&
                 ((fileFont.style & Font.BOLD) == 0)) {
-                algoStyle = true;
+                blgoStyle = true;
                 boldness = 1.33f;
             }
         }
-        double[] matrix = new double[4];
-        AffineTransform at = desc.glyphTx;
-        at.getMatrix(matrix);
+        double[] mbtrix = new double[4];
+        AffineTrbnsform bt = desc.glyphTx;
+        bt.getMbtrix(mbtrix);
         if (!desc.devTx.isIdentity() &&
-            desc.devTx.getType() != AffineTransform.TYPE_TRANSLATION) {
+            desc.devTx.getType() != AffineTrbnsform.TYPE_TRANSLATION) {
             try {
-                invertDevTx = desc.devTx.createInverse();
-            } catch (NoninvertibleTransformException e) {
+                invertDevTx = desc.devTx.crebteInverse();
+            } cbtch (NoninvertibleTrbnsformException e) {
             }
         }
 
-        /* Amble fonts are better rendered unhinted although there's the
-         * inevitable fuzziness that accompanies this due to no longer
-         * snapping stems to the pixel grid. The exception is that in B&W
-         * mode they are worse without hinting. The down side to that is that
-         * B&W metrics will differ which normally isn't the case, although
-         * since AA mode is part of the measuring context that should be OK.
-         * We don't expect Amble to be installed in the Windows fonts folder.
-         * If we were to, then we'd also might want to disable using the
-         * native rasteriser path which is used for LCD mode for platform
-         * fonts. since we have no way to disable hinting by GDI.
-         * In the case of Amble, since its 'gasp' table says to disable
-         * hinting, I'd expect GDI to follow that, so likely it should
-         * all be consistent even if GDI used.
+        /* Amble fonts bre better rendered unhinted blthough there's the
+         * inevitbble fuzziness thbt bccompbnies this due to no longer
+         * snbpping stems to the pixel grid. The exception is thbt in B&W
+         * mode they bre worse without hinting. The down side to thbt is thbt
+         * B&W metrics will differ which normblly isn't the cbse, blthough
+         * since AA mode is pbrt of the mebsuring context thbt should be OK.
+         * We don't expect Amble to be instblled in the Windows fonts folder.
+         * If we were to, then we'd blso might wbnt to disbble using the
+         * nbtive rbsteriser pbth which is used for LCD mode for plbtform
+         * fonts. since we hbve no wby to disbble hinting by GDI.
+         * In the cbse of Amble, since its 'gbsp' tbble sbys to disbble
+         * hinting, I'd expect GDI to follow thbt, so likely it should
+         * bll be consistent even if GDI used.
          */
-        boolean disableHinting = desc.aaHint != INTVAL_TEXT_ANTIALIAS_OFF &&
-                                 fileFont.familyName.startsWith("Amble");
+        boolebn disbbleHinting = desc.bbHint != INTVAL_TEXT_ANTIALIAS_OFF &&
+                                 fileFont.fbmilyNbme.stbrtsWith("Amble");
 
-        /* If any of the values is NaN then substitute the null scaler context.
-         * This will return null images, zero advance, and empty outlines
-         * as no rendering need take place in this case.
-         * We pass in the null scaler as the singleton null context
+        /* If bny of the vblues is NbN then substitute the null scbler context.
+         * This will return null imbges, zero bdvbnce, bnd empty outlines
+         * bs no rendering need tbke plbce in this cbse.
+         * We pbss in the null scbler bs the singleton null context
          * requires it. However
          */
-        if (Double.isNaN(matrix[0]) || Double.isNaN(matrix[1]) ||
-            Double.isNaN(matrix[2]) || Double.isNaN(matrix[3]) ||
-            fileFont.getScaler() == null) {
-            pScalerContext = NullFontScaler.getNullScalerContext();
+        if (Double.isNbN(mbtrix[0]) || Double.isNbN(mbtrix[1]) ||
+            Double.isNbN(mbtrix[2]) || Double.isNbN(mbtrix[3]) ||
+            fileFont.getScbler() == null) {
+            pScblerContext = NullFontScbler.getNullScblerContext();
         } else {
-            pScalerContext = fileFont.getScaler().createScalerContext(matrix,
-                                    desc.aaHint, desc.fmHint,
-                                    boldness, italic, disableHinting);
+            pScblerContext = fileFont.getScbler().crebteScblerContext(mbtrix,
+                                    desc.bbHint, desc.fmHint,
+                                    boldness, itblic, disbbleHinting);
         }
 
-        mapper = fileFont.getMapper();
-        int numGlyphs = mapper.getNumGlyphs();
+        mbpper = fileFont.getMbpper();
+        int numGlyphs = mbpper.getNumGlyphs();
 
-        /* Always segment for fonts with > 256 glyphs, but also for smaller
-         * fonts with non-typical sizes and transforms.
-         * Segmenting for all non-typical pt sizes helps to minimize memory
-         * usage when very many distinct strikes are created.
-         * The size range of 0->5 and 37->INF for segmenting is arbitrary
-         * but the intention is that typical GUI integer point sizes (6->36)
-         * should not segment unless there's another reason to do so.
+        /* Alwbys segment for fonts with > 256 glyphs, but blso for smbller
+         * fonts with non-typicbl sizes bnd trbnsforms.
+         * Segmenting for bll non-typicbl pt sizes helps to minimize memory
+         * usbge when very mbny distinct strikes bre crebted.
+         * The size rbnge of 0->5 bnd 37->INF for segmenting is brbitrbry
+         * but the intention is thbt typicbl GUI integer point sizes (6->36)
+         * should not segment unless there's bnother rebson to do so.
          */
-        float ptSize = (float)matrix[3]; // interpreted only when meaningful.
+        flobt ptSize = (flobt)mbtrix[3]; // interpreted only when mebningful.
         int iSize = intPtSize = (int)ptSize;
-        boolean isSimpleTx = (at.getType() & complexTX) == 0;
-        segmentedCache =
+        boolebn isSimpleTx = (bt.getType() & complexTX) == 0;
+        segmentedCbche =
             (numGlyphs > SEGSIZE << 3) ||
             ((numGlyphs > SEGSIZE << 1) &&
              (!isSimpleTx || ptSize != iSize || iSize < 6 || iSize > 36));
 
-        /* This can only happen if we failed to allocate memory for context.
-         * NB: in such case we may still have some memory in java heap
-         *     but subsequent attempt to allocate null scaler context
-         *     may fail too (cause it is allocate in the native heap).
-         *     It is not clear how to make this more robust but on the
-         *     other hand getting NULL here seems to be extremely unlikely.
+        /* This cbn only hbppen if we fbiled to bllocbte memory for context.
+         * NB: in such cbse we mby still hbve some memory in jbvb hebp
+         *     but subsequent bttempt to bllocbte null scbler context
+         *     mby fbil too (cbuse it is bllocbte in the nbtive hebp).
+         *     It is not clebr how to mbke this more robust but on the
+         *     other hbnd getting NULL here seems to be extremely unlikely.
          */
-        if (pScalerContext == 0L) {
-            /* REMIND: when the code is updated to install cache objects
-             * rather than using a switch this will be more efficient.
+        if (pScblerContext == 0L) {
+            /* REMIND: when the code is updbted to instbll cbche objects
+             * rbther thbn using b switch this will be more efficient.
              */
             this.disposer = new FontStrikeDisposer(fileFont, desc);
-            initGlyphCache();
-            pScalerContext = NullFontScaler.getNullScalerContext();
-            SunFontManager.getInstance().deRegisterBadFont(fileFont);
+            initGlyphCbche();
+            pScblerContext = NullFontScbler.getNullScblerContext();
+            SunFontMbnbger.getInstbnce().deRegisterBbdFont(fileFont);
             return;
         }
-        /* First, see if native code should be used to create the glyph.
-         * GDI will return the integer metrics, not fractional metrics, which
-         * may be requested for this strike, so we would require here that :
+        /* First, see if nbtive code should be used to crebte the glyph.
+         * GDI will return the integer metrics, not frbctionbl metrics, which
+         * mby be requested for this strike, so we would require here thbt :
          * desc.fmHint != INTVAL_FRACTIONALMETRICS_ON
-         * except that the advance returned by GDI is always overwritten by
-         * the JDK rasteriser supplied one (see getGlyphImageFromWindows()).
+         * except thbt the bdvbnce returned by GDI is blwbys overwritten by
+         * the JDK rbsteriser supplied one (see getGlyphImbgeFromWindows()).
          */
-        if (FontUtilities.isWindows && isXPorLater &&
+        if (FontUtilities.isWindows && isXPorLbter &&
             !FontUtilities.useT2K &&
-            !GraphicsEnvironment.isHeadless() &&
-            !fileFont.useJavaRasterizer &&
-            (desc.aaHint == INTVAL_TEXT_ANTIALIAS_LCD_HRGB ||
-             desc.aaHint == INTVAL_TEXT_ANTIALIAS_LCD_HBGR) &&
-            (matrix[1] == 0.0 && matrix[2] == 0.0 &&
-             matrix[0] == matrix[3] &&
-             matrix[0] >= 3.0 && matrix[0] <= 100.0) &&
-            !((TrueTypeFont)fileFont).useEmbeddedBitmapsForSize(intPtSize)) {
-            useNatives = true;
+            !GrbphicsEnvironment.isHebdless() &&
+            !fileFont.useJbvbRbsterizer &&
+            (desc.bbHint == INTVAL_TEXT_ANTIALIAS_LCD_HRGB ||
+             desc.bbHint == INTVAL_TEXT_ANTIALIAS_LCD_HBGR) &&
+            (mbtrix[1] == 0.0 && mbtrix[2] == 0.0 &&
+             mbtrix[0] == mbtrix[3] &&
+             mbtrix[0] >= 3.0 && mbtrix[0] <= 100.0) &&
+            !((TrueTypeFont)fileFont).useEmbeddedBitmbpsForSize(intPtSize)) {
+            useNbtives = true;
         }
-        else if (fileFont.checkUseNatives() && desc.aaHint==0 && !algoStyle) {
-            /* Check its a simple scale of a pt size in the range
-             * where native bitmaps typically exist (6-36 pts) */
-            if (matrix[1] == 0.0 && matrix[2] == 0.0 &&
-                matrix[0] >= 6.0 && matrix[0] <= 36.0 &&
-                matrix[0] == matrix[3]) {
-                useNatives = true;
-                int numNatives = fileFont.nativeFonts.length;
-                nativeStrikes = new NativeStrike[numNatives];
-                /* Maybe initialise these strikes lazily?. But we
-                 * know we need at least one
+        else if (fileFont.checkUseNbtives() && desc.bbHint==0 && !blgoStyle) {
+            /* Check its b simple scble of b pt size in the rbnge
+             * where nbtive bitmbps typicblly exist (6-36 pts) */
+            if (mbtrix[1] == 0.0 && mbtrix[2] == 0.0 &&
+                mbtrix[0] >= 6.0 && mbtrix[0] <= 36.0 &&
+                mbtrix[0] == mbtrix[3]) {
+                useNbtives = true;
+                int numNbtives = fileFont.nbtiveFonts.length;
+                nbtiveStrikes = new NbtiveStrike[numNbtives];
+                /* Mbybe initiblise these strikes lbzily?. But we
+                 * know we need bt lebst one
                  */
-                for (int i=0; i<numNatives; i++) {
-                    nativeStrikes[i] =
-                        new NativeStrike(fileFont.nativeFonts[i], desc, false);
+                for (int i=0; i<numNbtives; i++) {
+                    nbtiveStrikes[i] =
+                        new NbtiveStrike(fileFont.nbtiveFonts[i], desc, fblse);
                 }
             }
         }
         if (FontUtilities.isLogging() && FontUtilities.isWindows) {
             FontUtilities.getLogger().info
-                ("Strike for " + fileFont + " at size = " + intPtSize +
-                 " use natives = " + useNatives +
-                 " useJavaRasteriser = " + fileFont.useJavaRasterizer +
-                 " AAHint = " + desc.aaHint +
-                 " Has Embedded bitmaps = " +
+                ("Strike for " + fileFont + " bt size = " + intPtSize +
+                 " use nbtives = " + useNbtives +
+                 " useJbvbRbsteriser = " + fileFont.useJbvbRbsterizer +
+                 " AAHint = " + desc.bbHint +
+                 " Hbs Embedded bitmbps = " +
                  ((TrueTypeFont)fileFont).
-                 useEmbeddedBitmapsForSize(intPtSize));
+                 useEmbeddedBitmbpsForSize(intPtSize));
         }
-        this.disposer = new FontStrikeDisposer(fileFont, desc, pScalerContext);
+        this.disposer = new FontStrikeDisposer(fileFont, desc, pScblerContext);
 
-        /* Always get the image and the advance together for smaller sizes
-         * that are likely to be important to rendering performance.
-         * The pixel size of 48.0 can be thought of as
-         * "maximumSizeForGetImageWithAdvance".
-         * This should be no greater than OutlineTextRender.THRESHOLD.
+        /* Alwbys get the imbge bnd the bdvbnce together for smbller sizes
+         * thbt bre likely to be importbnt to rendering performbnce.
+         * The pixel size of 48.0 cbn be thought of bs
+         * "mbximumSizeForGetImbgeWithAdvbnce".
+         * This should be no grebter thbn OutlineTextRender.THRESHOLD.
          */
-        double maxSz = 48.0;
-        getImageWithAdvance =
-            Math.abs(at.getScaleX()) <= maxSz &&
-            Math.abs(at.getScaleY()) <= maxSz &&
-            Math.abs(at.getShearX()) <= maxSz &&
-            Math.abs(at.getShearY()) <= maxSz;
+        double mbxSz = 48.0;
+        getImbgeWithAdvbnce =
+            Mbth.bbs(bt.getScbleX()) <= mbxSz &&
+            Mbth.bbs(bt.getScbleY()) <= mbxSz &&
+            Mbth.bbs(bt.getShebrX()) <= mbxSz &&
+            Mbth.bbs(bt.getShebrY()) <= mbxSz;
 
-        /* Some applications request advance frequently during layout.
-         * If we are not getting and caching the image with the advance,
-         * there is a potentially significant performance penalty if the
-         * advance is repeatedly requested before requesting the image.
-         * We should at least cache the horizontal advance.
+        /* Some bpplicbtions request bdvbnce frequently during lbyout.
+         * If we bre not getting bnd cbching the imbge with the bdvbnce,
+         * there is b potentiblly significbnt performbnce penblty if the
+         * bdvbnce is repebtedly requested before requesting the imbge.
+         * We should bt lebst cbche the horizontbl bdvbnce.
          * REMIND: could use info in the font, eg hmtx, to retrieve some
-         * advances. But still want to cache it here.
+         * bdvbnces. But still wbnt to cbche it here.
          */
 
-        if (!getImageWithAdvance) {
-            if (!segmentedCache) {
-                horizontalAdvances = new float[numGlyphs];
-                /* use max float as uninitialised advance */
+        if (!getImbgeWithAdvbnce) {
+            if (!segmentedCbche) {
+                horizontblAdvbnces = new flobt[numGlyphs];
+                /* use mbx flobt bs uninitiblised bdvbnce */
                 for (int i=0; i<numGlyphs; i++) {
-                    horizontalAdvances[i] = Float.MAX_VALUE;
+                    horizontblAdvbnces[i] = Flobt.MAX_VALUE;
                 }
             } else {
                 int numSegments = (numGlyphs + SEGSIZE-1)/SEGSIZE;
-                segHorizontalAdvances = new float[numSegments][];
+                segHorizontblAdvbnces = new flobt[numSegments][];
             }
         }
     }
 
-    /* A number of methods are delegated by the strike to the scaler
-     * context which is a shared resource on a physical font.
+    /* A number of methods bre delegbted by the strike to the scbler
+     * context which is b shbred resource on b physicbl font.
      */
 
     public int getNumGlyphs() {
         return fileFont.getNumGlyphs();
     }
 
-    long getGlyphImageFromNative(int glyphCode) {
+    long getGlyphImbgeFromNbtive(int glyphCode) {
         if (FontUtilities.isWindows) {
-            return getGlyphImageFromWindows(glyphCode);
+            return getGlyphImbgeFromWindows(glyphCode);
         } else {
-            return getGlyphImageFromX11(glyphCode);
+            return getGlyphImbgeFromX11(glyphCode);
         }
     }
 
-    /* There's no global state conflicts, so this method is not
+    /* There's no globbl stbte conflicts, so this method is not
      * presently synchronized.
      */
-    private native long _getGlyphImageFromWindows(String family,
+    privbte nbtive long _getGlyphImbgeFromWindows(String fbmily,
                                                   int style,
                                                   int size,
                                                   int glyphCode,
-                                                  boolean fracMetrics);
+                                                  boolebn frbcMetrics);
 
-    long getGlyphImageFromWindows(int glyphCode) {
-        String family = fileFont.getFamilyName(null);
+    long getGlyphImbgeFromWindows(int glyphCode) {
+        String fbmily = fileFont.getFbmilyNbme(null);
         int style = desc.style & Font.BOLD | desc.style & Font.ITALIC
             | fileFont.getStyle();
         int size = intPtSize;
-        long ptr = _getGlyphImageFromWindows
-            (family, style, size, glyphCode,
+        long ptr = _getGlyphImbgeFromWindows
+            (fbmily, style, size, glyphCode,
              desc.fmHint == INTVAL_FRACTIONALMETRICS_ON);
         if (ptr != 0) {
-            /* Get the advance from the JDK rasterizer. This is mostly
-             * necessary for the fractional metrics case, but there are
-             * also some very small number (<0.25%) of marginal cases where
-             * there is some rounding difference between windows and JDK.
-             * After these are resolved, we can restrict this extra
-             * work to the FM case.
+            /* Get the bdvbnce from the JDK rbsterizer. This is mostly
+             * necessbry for the frbctionbl metrics cbse, but there bre
+             * blso some very smbll number (<0.25%) of mbrginbl cbses where
+             * there is some rounding difference between windows bnd JDK.
+             * After these bre resolved, we cbn restrict this extrb
+             * work to the FM cbse.
              */
-            float advance = getGlyphAdvance(glyphCode, false);
-            StrikeCache.unsafe.putFloat(ptr + StrikeCache.xAdvanceOffset,
-                                        advance);
+            flobt bdvbnce = getGlyphAdvbnce(glyphCode, fblse);
+            StrikeCbche.unsbfe.putFlobt(ptr + StrikeCbche.xAdvbnceOffset,
+                                        bdvbnce);
             return ptr;
         } else {
-            return fileFont.getGlyphImage(pScalerContext, glyphCode);
+            return fileFont.getGlyphImbge(pScblerContext, glyphCode);
         }
     }
 
-    /* Try the native strikes first, then try the fileFont strike */
-    long getGlyphImageFromX11(int glyphCode) {
+    /* Try the nbtive strikes first, then try the fileFont strike */
+    long getGlyphImbgeFromX11(int glyphCode) {
         long glyphPtr;
-        char charCode = fileFont.glyphToCharMap[glyphCode];
-        for (int i=0;i<nativeStrikes.length;i++) {
-            CharToGlyphMapper mapper = fileFont.nativeFonts[i].getMapper();
-            int gc = mapper.charToGlyph(charCode)&0xffff;
-            if (gc != mapper.getMissingGlyphCode()) {
-                glyphPtr = nativeStrikes[i].getGlyphImagePtrNoCache(gc);
+        chbr chbrCode = fileFont.glyphToChbrMbp[glyphCode];
+        for (int i=0;i<nbtiveStrikes.length;i++) {
+            ChbrToGlyphMbpper mbpper = fileFont.nbtiveFonts[i].getMbpper();
+            int gc = mbpper.chbrToGlyph(chbrCode)&0xffff;
+            if (gc != mbpper.getMissingGlyphCode()) {
+                glyphPtr = nbtiveStrikes[i].getGlyphImbgePtrNoCbche(gc);
                 if (glyphPtr != 0L) {
                     return glyphPtr;
                 }
             }
         }
-        return fileFont.getGlyphImage(pScalerContext, glyphCode);
+        return fileFont.getGlyphImbge(pScblerContext, glyphCode);
     }
 
-    long getGlyphImagePtr(int glyphCode) {
+    long getGlyphImbgePtr(int glyphCode) {
         if (glyphCode >= INVISIBLE_GLYPHS) {
-            return StrikeCache.invisibleGlyphPtr;
+            return StrikeCbche.invisibleGlyphPtr;
         }
         long glyphPtr = 0L;
-        if ((glyphPtr = getCachedGlyphPtr(glyphCode)) != 0L) {
+        if ((glyphPtr = getCbchedGlyphPtr(glyphCode)) != 0L) {
             return glyphPtr;
         } else {
-            if (useNatives) {
-                glyphPtr = getGlyphImageFromNative(glyphCode);
+            if (useNbtives) {
+                glyphPtr = getGlyphImbgeFromNbtive(glyphCode);
                 if (glyphPtr == 0L && FontUtilities.isLogging()) {
                     FontUtilities.getLogger().info
                         ("Strike for " + fileFont +
-                         " at size = " + intPtSize +
-                         " couldn't get native glyph for code = " + glyphCode);
+                         " bt size = " + intPtSize +
+                         " couldn't get nbtive glyph for code = " + glyphCode);
                  }
             } if (glyphPtr == 0L) {
-                glyphPtr = fileFont.getGlyphImage(pScalerContext,
+                glyphPtr = fileFont.getGlyphImbge(pScblerContext,
                                                   glyphCode);
             }
-            return setCachedGlyphPtr(glyphCode, glyphPtr);
+            return setCbchedGlyphPtr(glyphCode, glyphPtr);
         }
     }
 
-    void getGlyphImagePtrs(int[] glyphCodes, long[] images, int  len) {
+    void getGlyphImbgePtrs(int[] glyphCodes, long[] imbges, int  len) {
 
         for (int i=0; i<len; i++) {
             int glyphCode = glyphCodes[i];
             if (glyphCode >= INVISIBLE_GLYPHS) {
-                images[i] = StrikeCache.invisibleGlyphPtr;
+                imbges[i] = StrikeCbche.invisibleGlyphPtr;
                 continue;
-            } else if ((images[i] = getCachedGlyphPtr(glyphCode)) != 0L) {
+            } else if ((imbges[i] = getCbchedGlyphPtr(glyphCode)) != 0L) {
                 continue;
             } else {
                 long glyphPtr = 0L;
-                if (useNatives) {
-                    glyphPtr = getGlyphImageFromNative(glyphCode);
+                if (useNbtives) {
+                    glyphPtr = getGlyphImbgeFromNbtive(glyphCode);
                 } if (glyphPtr == 0L) {
-                    glyphPtr = fileFont.getGlyphImage(pScalerContext,
+                    glyphPtr = fileFont.getGlyphImbge(pScblerContext,
                                                       glyphCode);
                 }
-                images[i] = setCachedGlyphPtr(glyphCode, glyphPtr);
+                imbges[i] = setCbchedGlyphPtr(glyphCode, glyphPtr);
             }
         }
     }
 
-    /* The following method is called from CompositeStrike as a special case.
+    /* The following method is cblled from CompositeStrike bs b specibl cbse.
      */
-    private static final int SLOTZEROMAX = 0xffffff;
-    int getSlot0GlyphImagePtrs(int[] glyphCodes, long[] images, int len) {
+    privbte stbtic finbl int SLOTZEROMAX = 0xffffff;
+    int getSlot0GlyphImbgePtrs(int[] glyphCodes, long[] imbges, int len) {
 
         int convertedCnt = 0;
 
@@ -433,302 +433,302 @@ public class FileFontStrike extends PhysicalStrike {
                 convertedCnt++;
             }
             if (glyphCode >= INVISIBLE_GLYPHS) {
-                images[i] = StrikeCache.invisibleGlyphPtr;
+                imbges[i] = StrikeCbche.invisibleGlyphPtr;
                 continue;
-            } else if ((images[i] = getCachedGlyphPtr(glyphCode)) != 0L) {
+            } else if ((imbges[i] = getCbchedGlyphPtr(glyphCode)) != 0L) {
                 continue;
             } else {
                 long glyphPtr = 0L;
-                if (useNatives) {
-                    glyphPtr = getGlyphImageFromNative(glyphCode);
+                if (useNbtives) {
+                    glyphPtr = getGlyphImbgeFromNbtive(glyphCode);
                 }
                 if (glyphPtr == 0L) {
-                    glyphPtr = fileFont.getGlyphImage(pScalerContext,
+                    glyphPtr = fileFont.getGlyphImbge(pScblerContext,
                                                       glyphCode);
                 }
-                images[i] = setCachedGlyphPtr(glyphCode, glyphPtr);
+                imbges[i] = setCbchedGlyphPtr(glyphCode, glyphPtr);
             }
         }
         return convertedCnt;
     }
 
-    /* Only look in the cache */
-    long getCachedGlyphPtr(int glyphCode) {
-        switch (glyphCacheFormat) {
-            case INTARRAY:
-                return intGlyphImages[glyphCode] & INTMASK;
-            case SEGINTARRAY:
+    /* Only look in the cbche */
+    long getCbchedGlyphPtr(int glyphCode) {
+        switch (glyphCbcheFormbt) {
+            cbse INTARRAY:
+                return intGlyphImbges[glyphCode] & INTMASK;
+            cbse SEGINTARRAY:
                 int segIndex = glyphCode >> SEGSHIFT;
-                if (segIntGlyphImages[segIndex] != null) {
+                if (segIntGlyphImbges[segIndex] != null) {
                     int subIndex = glyphCode % SEGSIZE;
-                    return segIntGlyphImages[segIndex][subIndex] & INTMASK;
+                    return segIntGlyphImbges[segIndex][subIndex] & INTMASK;
                 } else {
                     return 0L;
                 }
-            case LONGARRAY:
-                return longGlyphImages[glyphCode];
-            case SEGLONGARRAY:
+            cbse LONGARRAY:
+                return longGlyphImbges[glyphCode];
+            cbse SEGLONGARRAY:
                 segIndex = glyphCode >> SEGSHIFT;
-                if (segLongGlyphImages[segIndex] != null) {
+                if (segLongGlyphImbges[segIndex] != null) {
                     int subIndex = glyphCode % SEGSIZE;
-                    return segLongGlyphImages[segIndex][subIndex];
+                    return segLongGlyphImbges[segIndex][subIndex];
                 } else {
                     return 0L;
                 }
         }
-        /* If reach here cache is UNINITIALISED. */
+        /* If rebch here cbche is UNINITIALISED. */
         return 0L;
     }
 
-    private synchronized long setCachedGlyphPtr(int glyphCode, long glyphPtr) {
-        switch (glyphCacheFormat) {
-            case INTARRAY:
-                if (intGlyphImages[glyphCode] == 0) {
-                    intGlyphImages[glyphCode] = (int)glyphPtr;
+    privbte synchronized long setCbchedGlyphPtr(int glyphCode, long glyphPtr) {
+        switch (glyphCbcheFormbt) {
+            cbse INTARRAY:
+                if (intGlyphImbges[glyphCode] == 0) {
+                    intGlyphImbges[glyphCode] = (int)glyphPtr;
                     return glyphPtr;
                 } else {
-                    StrikeCache.freeIntPointer((int)glyphPtr);
-                    return intGlyphImages[glyphCode] & INTMASK;
+                    StrikeCbche.freeIntPointer((int)glyphPtr);
+                    return intGlyphImbges[glyphCode] & INTMASK;
                 }
 
-            case SEGINTARRAY:
+            cbse SEGINTARRAY:
                 int segIndex = glyphCode >> SEGSHIFT;
                 int subIndex = glyphCode % SEGSIZE;
-                if (segIntGlyphImages[segIndex] == null) {
-                    segIntGlyphImages[segIndex] = new int[SEGSIZE];
+                if (segIntGlyphImbges[segIndex] == null) {
+                    segIntGlyphImbges[segIndex] = new int[SEGSIZE];
                 }
-                if (segIntGlyphImages[segIndex][subIndex] == 0) {
-                    segIntGlyphImages[segIndex][subIndex] = (int)glyphPtr;
+                if (segIntGlyphImbges[segIndex][subIndex] == 0) {
+                    segIntGlyphImbges[segIndex][subIndex] = (int)glyphPtr;
                     return glyphPtr;
                 } else {
-                    StrikeCache.freeIntPointer((int)glyphPtr);
-                    return segIntGlyphImages[segIndex][subIndex] & INTMASK;
+                    StrikeCbche.freeIntPointer((int)glyphPtr);
+                    return segIntGlyphImbges[segIndex][subIndex] & INTMASK;
                 }
 
-            case LONGARRAY:
-                if (longGlyphImages[glyphCode] == 0L) {
-                    longGlyphImages[glyphCode] = glyphPtr;
+            cbse LONGARRAY:
+                if (longGlyphImbges[glyphCode] == 0L) {
+                    longGlyphImbges[glyphCode] = glyphPtr;
                     return glyphPtr;
                 } else {
-                    StrikeCache.freeLongPointer(glyphPtr);
-                    return longGlyphImages[glyphCode];
+                    StrikeCbche.freeLongPointer(glyphPtr);
+                    return longGlyphImbges[glyphCode];
                 }
 
-           case SEGLONGARRAY:
+           cbse SEGLONGARRAY:
                 segIndex = glyphCode >> SEGSHIFT;
                 subIndex = glyphCode % SEGSIZE;
-                if (segLongGlyphImages[segIndex] == null) {
-                    segLongGlyphImages[segIndex] = new long[SEGSIZE];
+                if (segLongGlyphImbges[segIndex] == null) {
+                    segLongGlyphImbges[segIndex] = new long[SEGSIZE];
                 }
-                if (segLongGlyphImages[segIndex][subIndex] == 0L) {
-                    segLongGlyphImages[segIndex][subIndex] = glyphPtr;
+                if (segLongGlyphImbges[segIndex][subIndex] == 0L) {
+                    segLongGlyphImbges[segIndex][subIndex] = glyphPtr;
                     return glyphPtr;
                 } else {
-                    StrikeCache.freeLongPointer(glyphPtr);
-                    return segLongGlyphImages[segIndex][subIndex];
+                    StrikeCbche.freeLongPointer(glyphPtr);
+                    return segLongGlyphImbges[segIndex][subIndex];
                 }
         }
 
-        /* Reach here only when the cache is not initialised which is only
-         * for the first glyph to be initialised in the strike.
-         * Initialise it and recurse. Note that we are already synchronized.
+        /* Rebch here only when the cbche is not initiblised which is only
+         * for the first glyph to be initiblised in the strike.
+         * Initiblise it bnd recurse. Note thbt we bre blrebdy synchronized.
          */
-        initGlyphCache();
-        return setCachedGlyphPtr(glyphCode, glyphPtr);
+        initGlyphCbche();
+        return setCbchedGlyphPtr(glyphCode, glyphPtr);
     }
 
-    /* Called only from synchronized code or constructor */
-    private synchronized void initGlyphCache() {
+    /* Cblled only from synchronized code or constructor */
+    privbte synchronized void initGlyphCbche() {
 
-        int numGlyphs = mapper.getNumGlyphs();
-        int tmpFormat = UNINITIALISED;
-        if (segmentedCache) {
+        int numGlyphs = mbpper.getNumGlyphs();
+        int tmpFormbt = UNINITIALISED;
+        if (segmentedCbche) {
             int numSegments = (numGlyphs + SEGSIZE-1)/SEGSIZE;
             if (longAddresses) {
-                tmpFormat = SEGLONGARRAY;
-                segLongGlyphImages = new long[numSegments][];
-                this.disposer.segLongGlyphImages = segLongGlyphImages;
+                tmpFormbt = SEGLONGARRAY;
+                segLongGlyphImbges = new long[numSegments][];
+                this.disposer.segLongGlyphImbges = segLongGlyphImbges;
              } else {
-                 tmpFormat = SEGINTARRAY;
-                 segIntGlyphImages = new int[numSegments][];
-                 this.disposer.segIntGlyphImages = segIntGlyphImages;
+                 tmpFormbt = SEGINTARRAY;
+                 segIntGlyphImbges = new int[numSegments][];
+                 this.disposer.segIntGlyphImbges = segIntGlyphImbges;
              }
         } else {
             if (longAddresses) {
-                tmpFormat = LONGARRAY;
-                longGlyphImages = new long[numGlyphs];
-                this.disposer.longGlyphImages = longGlyphImages;
+                tmpFormbt = LONGARRAY;
+                longGlyphImbges = new long[numGlyphs];
+                this.disposer.longGlyphImbges = longGlyphImbges;
             } else {
-                tmpFormat = INTARRAY;
-                intGlyphImages = new int[numGlyphs];
-                this.disposer.intGlyphImages = intGlyphImages;
+                tmpFormbt = INTARRAY;
+                intGlyphImbges = new int[numGlyphs];
+                this.disposer.intGlyphImbges = intGlyphImbges;
             }
         }
-        glyphCacheFormat = tmpFormat;
+        glyphCbcheFormbt = tmpFormbt;
     }
 
-    float getGlyphAdvance(int glyphCode) {
-        return getGlyphAdvance(glyphCode, true);
+    flobt getGlyphAdvbnce(int glyphCode) {
+        return getGlyphAdvbnce(glyphCode, true);
     }
 
-    /* Metrics info is always retrieved. If the GlyphInfo address is non-zero
-     * then metrics info there is valid and can just be copied.
-     * This is in user space coordinates unless getUserAdv == false.
-     * Device space advance should not be propagated out of this class.
+    /* Metrics info is blwbys retrieved. If the GlyphInfo bddress is non-zero
+     * then metrics info there is vblid bnd cbn just be copied.
+     * This is in user spbce coordinbtes unless getUserAdv == fblse.
+     * Device spbce bdvbnce should not be propbgbted out of this clbss.
      */
-    private float getGlyphAdvance(int glyphCode, boolean getUserAdv) {
-        float advance;
+    privbte flobt getGlyphAdvbnce(int glyphCode, boolebn getUserAdv) {
+        flobt bdvbnce;
 
         if (glyphCode >= INVISIBLE_GLYPHS) {
             return 0f;
         }
 
-        /* Notes on the (getUserAdv == false) case.
+        /* Notes on the (getUserAdv == fblse) cbse.
          *
-         * Setting getUserAdv == false is internal to this class.
-         * If there's no graphics transform we can let
-         * getGlyphAdvance take its course, and potentially caching in
-         * advances arrays, except for signalling that
-         * getUserAdv == false means there is no need to create an image.
-         * It is possible that code already calculated the user advance,
-         * and it is desirable to take advantage of that work.
-         * But, if there's a transform and we want device advance, we
-         * can't use any values cached in the advances arrays - unless
-         * first re-transform them into device space using 'desc.devTx'.
-         * invertDevTx is null if the graphics transform is identity,
-         * a translate, or non-invertible. The latter case should
-         * not ever occur in the getUserAdv == false path.
-         * In other words its either null, or the inversion of a
-         * simple uniform scale. If its null, we can populate and
-         * use the advance caches as normal.
+         * Setting getUserAdv == fblse is internbl to this clbss.
+         * If there's no grbphics trbnsform we cbn let
+         * getGlyphAdvbnce tbke its course, bnd potentiblly cbching in
+         * bdvbnces brrbys, except for signblling thbt
+         * getUserAdv == fblse mebns there is no need to crebte bn imbge.
+         * It is possible thbt code blrebdy cblculbted the user bdvbnce,
+         * bnd it is desirbble to tbke bdvbntbge of thbt work.
+         * But, if there's b trbnsform bnd we wbnt device bdvbnce, we
+         * cbn't use bny vblues cbched in the bdvbnces brrbys - unless
+         * first re-trbnsform them into device spbce using 'desc.devTx'.
+         * invertDevTx is null if the grbphics trbnsform is identity,
+         * b trbnslbte, or non-invertible. The lbtter cbse should
+         * not ever occur in the getUserAdv == fblse pbth.
+         * In other words its either null, or the inversion of b
+         * simple uniform scble. If its null, we cbn populbte bnd
+         * use the bdvbnce cbches bs normbl.
          *
-         * If we don't find a cached value, obtain the device advance and
-         * return it. This will get stashed on the image by the caller and any
-         * subsequent metrics calls will be able to use it as is the case
-         * whenever an image is what is initially requested.
+         * If we don't find b cbched vblue, obtbin the device bdvbnce bnd
+         * return it. This will get stbshed on the imbge by the cbller bnd bny
+         * subsequent metrics cblls will be bble to use it bs is the cbse
+         * whenever bn imbge is whbt is initiblly requested.
          *
-         * Don't query if there's a value cached on the image, since this
-         * getUserAdv==false code path is entered solely when none exists.
+         * Don't query if there's b vblue cbched on the imbge, since this
+         * getUserAdv==fblse code pbth is entered solely when none exists.
          */
-        if (horizontalAdvances != null) {
-            advance = horizontalAdvances[glyphCode];
-            if (advance != Float.MAX_VALUE) {
+        if (horizontblAdvbnces != null) {
+            bdvbnce = horizontblAdvbnces[glyphCode];
+            if (bdvbnce != Flobt.MAX_VALUE) {
                 if (!getUserAdv && invertDevTx != null) {
-                    Point2D.Float metrics = new Point2D.Float(advance, 0f);
-                    desc.devTx.deltaTransform(metrics, metrics);
+                    Point2D.Flobt metrics = new Point2D.Flobt(bdvbnce, 0f);
+                    desc.devTx.deltbTrbnsform(metrics, metrics);
                     return metrics.x;
                 } else {
-                    return advance;
+                    return bdvbnce;
                 }
             }
-        } else if (segmentedCache && segHorizontalAdvances != null) {
+        } else if (segmentedCbche && segHorizontblAdvbnces != null) {
             int segIndex = glyphCode >> SEGSHIFT;
-            float[] subArray = segHorizontalAdvances[segIndex];
-            if (subArray != null) {
-                advance = subArray[glyphCode % SEGSIZE];
-                if (advance != Float.MAX_VALUE) {
+            flobt[] subArrby = segHorizontblAdvbnces[segIndex];
+            if (subArrby != null) {
+                bdvbnce = subArrby[glyphCode % SEGSIZE];
+                if (bdvbnce != Flobt.MAX_VALUE) {
                     if (!getUserAdv && invertDevTx != null) {
-                        Point2D.Float metrics = new Point2D.Float(advance, 0f);
-                        desc.devTx.deltaTransform(metrics, metrics);
+                        Point2D.Flobt metrics = new Point2D.Flobt(bdvbnce, 0f);
+                        desc.devTx.deltbTrbnsform(metrics, metrics);
                         return metrics.x;
                     } else {
-                        return advance;
+                        return bdvbnce;
                     }
                 }
             }
         }
 
         if (!getUserAdv && invertDevTx != null) {
-            Point2D.Float metrics = new Point2D.Float();
-            fileFont.getGlyphMetrics(pScalerContext, glyphCode, metrics);
+            Point2D.Flobt metrics = new Point2D.Flobt();
+            fileFont.getGlyphMetrics(pScblerContext, glyphCode, metrics);
             return metrics.x;
         }
 
         if (invertDevTx != null || !getUserAdv) {
-            /* If there is a device transform need x & y advance to
-             * transform back into user space.
+            /* If there is b device trbnsform need x & y bdvbnce to
+             * trbnsform bbck into user spbce.
              */
-            advance = getGlyphMetrics(glyphCode, getUserAdv).x;
+            bdvbnce = getGlyphMetrics(glyphCode, getUserAdv).x;
         } else {
             long glyphPtr;
-            if (getImageWithAdvance) {
-                /* A heuristic optimisation says that for most cases its
-                 * worthwhile retrieving the image at the same time as the
-                 * advance. So here we get the image data even if its not
-                 * already cached.
+            if (getImbgeWithAdvbnce) {
+                /* A heuristic optimisbtion sbys thbt for most cbses its
+                 * worthwhile retrieving the imbge bt the sbme time bs the
+                 * bdvbnce. So here we get the imbge dbtb even if its not
+                 * blrebdy cbched.
                  */
-                glyphPtr = getGlyphImagePtr(glyphCode);
+                glyphPtr = getGlyphImbgePtr(glyphCode);
             } else {
-                glyphPtr = getCachedGlyphPtr(glyphCode);
+                glyphPtr = getCbchedGlyphPtr(glyphCode);
             }
             if (glyphPtr != 0L) {
-                advance = StrikeCache.unsafe.getFloat
-                    (glyphPtr + StrikeCache.xAdvanceOffset);
+                bdvbnce = StrikeCbche.unsbfe.getFlobt
+                    (glyphPtr + StrikeCbche.xAdvbnceOffset);
 
             } else {
-                advance = fileFont.getGlyphAdvance(pScalerContext, glyphCode);
+                bdvbnce = fileFont.getGlyphAdvbnce(pScblerContext, glyphCode);
             }
         }
 
-        if (horizontalAdvances != null) {
-            horizontalAdvances[glyphCode] = advance;
-        } else if (segmentedCache && segHorizontalAdvances != null) {
+        if (horizontblAdvbnces != null) {
+            horizontblAdvbnces[glyphCode] = bdvbnce;
+        } else if (segmentedCbche && segHorizontblAdvbnces != null) {
             int segIndex = glyphCode >> SEGSHIFT;
             int subIndex = glyphCode % SEGSIZE;
-            if (segHorizontalAdvances[segIndex] == null) {
-                segHorizontalAdvances[segIndex] = new float[SEGSIZE];
+            if (segHorizontblAdvbnces[segIndex] == null) {
+                segHorizontblAdvbnces[segIndex] = new flobt[SEGSIZE];
                 for (int i=0; i<SEGSIZE; i++) {
-                     segHorizontalAdvances[segIndex][i] = Float.MAX_VALUE;
+                     segHorizontblAdvbnces[segIndex][i] = Flobt.MAX_VALUE;
                 }
             }
-            segHorizontalAdvances[segIndex][subIndex] = advance;
+            segHorizontblAdvbnces[segIndex][subIndex] = bdvbnce;
         }
-        return advance;
+        return bdvbnce;
     }
 
-    float getCodePointAdvance(int cp) {
-        return getGlyphAdvance(mapper.charToGlyph(cp));
+    flobt getCodePointAdvbnce(int cp) {
+        return getGlyphAdvbnce(mbpper.chbrToGlyph(cp));
     }
 
     /**
-     * Result and pt are both in device space.
+     * Result bnd pt bre both in device spbce.
      */
-    void getGlyphImageBounds(int glyphCode, Point2D.Float pt,
-                             Rectangle result) {
+    void getGlyphImbgeBounds(int glyphCode, Point2D.Flobt pt,
+                             Rectbngle result) {
 
-        long ptr = getGlyphImagePtr(glyphCode);
-        float topLeftX, topLeftY;
+        long ptr = getGlyphImbgePtr(glyphCode);
+        flobt topLeftX, topLeftY;
 
         /* With our current design NULL ptr is not possible
-           but if we eventually allow scalers to return NULL pointers
-           this check might be actually useful. */
+           but if we eventublly bllow scblers to return NULL pointers
+           this check might be bctublly useful. */
         if (ptr == 0L) {
-            result.x = (int) Math.floor(pt.x);
-            result.y = (int) Math.floor(pt.y);
+            result.x = (int) Mbth.floor(pt.x);
+            result.y = (int) Mbth.floor(pt.y);
             result.width = result.height = 0;
             return;
         }
 
-        topLeftX = StrikeCache.unsafe.getFloat(ptr+StrikeCache.topLeftXOffset);
-        topLeftY = StrikeCache.unsafe.getFloat(ptr+StrikeCache.topLeftYOffset);
+        topLeftX = StrikeCbche.unsbfe.getFlobt(ptr+StrikeCbche.topLeftXOffset);
+        topLeftY = StrikeCbche.unsbfe.getFlobt(ptr+StrikeCbche.topLeftYOffset);
 
-        result.x = (int)Math.floor(pt.x + topLeftX);
-        result.y = (int)Math.floor(pt.y + topLeftY);
+        result.x = (int)Mbth.floor(pt.x + topLeftX);
+        result.y = (int)Mbth.floor(pt.y + topLeftY);
         result.width =
-            StrikeCache.unsafe.getShort(ptr+StrikeCache.widthOffset)  &0x0ffff;
+            StrikeCbche.unsbfe.getShort(ptr+StrikeCbche.widthOffset)  &0x0ffff;
         result.height =
-            StrikeCache.unsafe.getShort(ptr+StrikeCache.heightOffset) &0x0ffff;
+            StrikeCbche.unsbfe.getShort(ptr+StrikeCbche.heightOffset) &0x0ffff;
 
-        /* HRGB LCD text may have padding that is empty. This is almost always
+        /* HRGB LCD text mby hbve pbdding thbt is empty. This is blmost blwbys
          * going to be when topLeftX is -2 or less.
-         * Try to return a tighter bounding box in that case.
-         * If the first three bytes of every row are all zero, then
-         * add 1 to "x" and reduce "width" by 1.
+         * Try to return b tighter bounding box in thbt cbse.
+         * If the first three bytes of every row bre bll zero, then
+         * bdd 1 to "x" bnd reduce "width" by 1.
          */
-        if ((desc.aaHint == INTVAL_TEXT_ANTIALIAS_LCD_HRGB ||
-             desc.aaHint == INTVAL_TEXT_ANTIALIAS_LCD_HBGR)
+        if ((desc.bbHint == INTVAL_TEXT_ANTIALIAS_LCD_HRGB ||
+             desc.bbHint == INTVAL_TEXT_ANTIALIAS_LCD_HBGR)
             && topLeftX <= -2.0f) {
-            int minx = getGlyphImageMinX(ptr, result.x);
+            int minx = getGlyphImbgeMinX(ptr, result.x);
             if (minx > result.x) {
                 result.x += 1;
                 result.width -=1;
@@ -736,27 +736,27 @@ public class FileFontStrike extends PhysicalStrike {
         }
     }
 
-    private int getGlyphImageMinX(long ptr, int origMinX) {
+    privbte int getGlyphImbgeMinX(long ptr, int origMinX) {
 
-        int width = StrikeCache.unsafe.getChar(ptr+StrikeCache.widthOffset);
-        int height = StrikeCache.unsafe.getChar(ptr+StrikeCache.heightOffset);
+        int width = StrikeCbche.unsbfe.getChbr(ptr+StrikeCbche.widthOffset);
+        int height = StrikeCbche.unsbfe.getChbr(ptr+StrikeCbche.heightOffset);
         int rowBytes =
-            StrikeCache.unsafe.getChar(ptr+StrikeCache.rowBytesOffset);
+            StrikeCbche.unsbfe.getChbr(ptr+StrikeCbche.rowBytesOffset);
 
         if (rowBytes == width) {
             return origMinX;
         }
 
-        long pixelData =
-            StrikeCache.unsafe.getAddress(ptr + StrikeCache.pixelDataOffset);
+        long pixelDbtb =
+            StrikeCbche.unsbfe.getAddress(ptr + StrikeCbche.pixelDbtbOffset);
 
-        if (pixelData == 0L) {
+        if (pixelDbtb == 0L) {
             return origMinX;
         }
 
         for (int y=0;y<height;y++) {
             for (int x=0;x<3;x++) {
-                if (StrikeCache.unsafe.getByte(pixelData+y*rowBytes+x) != 0) {
+                if (StrikeCbche.unsbfe.getByte(pixelDbtb+y*rowBytes+x) != 0) {
                     return origMinX;
                 }
             }
@@ -765,182 +765,182 @@ public class FileFontStrike extends PhysicalStrike {
     }
 
     /* These 3 metrics methods below should be implemented to return
-     * values in user space.
+     * vblues in user spbce.
      */
     StrikeMetrics getFontMetrics() {
         if (strikeMetrics == null) {
             strikeMetrics =
-                fileFont.getFontMetrics(pScalerContext);
+                fileFont.getFontMetrics(pScblerContext);
             if (invertDevTx != null) {
-                strikeMetrics.convertToUserSpace(invertDevTx);
+                strikeMetrics.convertToUserSpbce(invertDevTx);
             }
         }
         return strikeMetrics;
     }
 
-    Point2D.Float getGlyphMetrics(int glyphCode) {
+    Point2D.Flobt getGlyphMetrics(int glyphCode) {
         return getGlyphMetrics(glyphCode, true);
     }
 
-    private Point2D.Float getGlyphMetrics(int glyphCode, boolean getImage) {
-        Point2D.Float metrics = new Point2D.Float();
+    privbte Point2D.Flobt getGlyphMetrics(int glyphCode, boolebn getImbge) {
+        Point2D.Flobt metrics = new Point2D.Flobt();
 
         // !!! or do we force sgv user glyphs?
         if (glyphCode >= INVISIBLE_GLYPHS) {
             return metrics;
         }
         long glyphPtr;
-        if (getImageWithAdvance && getImage) {
-            /* A heuristic optimisation says that for most cases its
-             * worthwhile retrieving the image at the same time as the
-             * metrics. So here we get the image data even if its not
-             * already cached.
+        if (getImbgeWithAdvbnce && getImbge) {
+            /* A heuristic optimisbtion sbys thbt for most cbses its
+             * worthwhile retrieving the imbge bt the sbme time bs the
+             * metrics. So here we get the imbge dbtb even if its not
+             * blrebdy cbched.
              */
-            glyphPtr = getGlyphImagePtr(glyphCode);
+            glyphPtr = getGlyphImbgePtr(glyphCode);
         } else {
-             glyphPtr = getCachedGlyphPtr(glyphCode);
+             glyphPtr = getCbchedGlyphPtr(glyphCode);
         }
         if (glyphPtr != 0L) {
-            metrics = new Point2D.Float();
-            metrics.x = StrikeCache.unsafe.getFloat
-                (glyphPtr + StrikeCache.xAdvanceOffset);
-            metrics.y = StrikeCache.unsafe.getFloat
-                (glyphPtr + StrikeCache.yAdvanceOffset);
-            /* advance is currently in device space, need to convert back
-             * into user space.
-             * This must not include the translation component. */
+            metrics = new Point2D.Flobt();
+            metrics.x = StrikeCbche.unsbfe.getFlobt
+                (glyphPtr + StrikeCbche.xAdvbnceOffset);
+            metrics.y = StrikeCbche.unsbfe.getFlobt
+                (glyphPtr + StrikeCbche.yAdvbnceOffset);
+            /* bdvbnce is currently in device spbce, need to convert bbck
+             * into user spbce.
+             * This must not include the trbnslbtion component. */
             if (invertDevTx != null) {
-                invertDevTx.deltaTransform(metrics, metrics);
+                invertDevTx.deltbTrbnsform(metrics, metrics);
             }
         } else {
-            /* We sometimes cache these metrics as they are expensive to
-             * generate for large glyphs.
-             * We never reach this path if we obtain images with advances.
-             * But if we do not obtain images with advances its possible that
-             * we first obtain this information, then the image, and never
-             * will access this value again.
+            /* We sometimes cbche these metrics bs they bre expensive to
+             * generbte for lbrge glyphs.
+             * We never rebch this pbth if we obtbin imbges with bdvbnces.
+             * But if we do not obtbin imbges with bdvbnces its possible thbt
+             * we first obtbin this informbtion, then the imbge, bnd never
+             * will bccess this vblue bgbin.
              */
-            Integer key = Integer.valueOf(glyphCode);
-            Point2D.Float value = null;
-            ConcurrentHashMap<Integer, Point2D.Float> glyphMetricsMap = null;
-            if (glyphMetricsMapRef != null) {
-                glyphMetricsMap = glyphMetricsMapRef.get();
+            Integer key = Integer.vblueOf(glyphCode);
+            Point2D.Flobt vblue = null;
+            ConcurrentHbshMbp<Integer, Point2D.Flobt> glyphMetricsMbp = null;
+            if (glyphMetricsMbpRef != null) {
+                glyphMetricsMbp = glyphMetricsMbpRef.get();
             }
-            if (glyphMetricsMap != null) {
-                value = glyphMetricsMap.get(key);
-                if (value != null) {
-                    metrics.x = value.x;
-                    metrics.y = value.y;
-                    /* already in user space */
+            if (glyphMetricsMbp != null) {
+                vblue = glyphMetricsMbp.get(key);
+                if (vblue != null) {
+                    metrics.x = vblue.x;
+                    metrics.y = vblue.y;
+                    /* blrebdy in user spbce */
                     return metrics;
                 }
             }
-            if (value == null) {
-                fileFont.getGlyphMetrics(pScalerContext, glyphCode, metrics);
-                /* advance is currently in device space, need to convert back
-                 * into user space.
+            if (vblue == null) {
+                fileFont.getGlyphMetrics(pScblerContext, glyphCode, metrics);
+                /* bdvbnce is currently in device spbce, need to convert bbck
+                 * into user spbce.
                  */
                 if (invertDevTx != null) {
-                    invertDevTx.deltaTransform(metrics, metrics);
+                    invertDevTx.deltbTrbnsform(metrics, metrics);
                 }
-                value = new Point2D.Float(metrics.x, metrics.y);
-                /* We aren't synchronizing here so it is possible to
-                 * overwrite the map with another one but this is harmless.
+                vblue = new Point2D.Flobt(metrics.x, metrics.y);
+                /* We bren't synchronizing here so it is possible to
+                 * overwrite the mbp with bnother one but this is hbrmless.
                  */
-                if (glyphMetricsMap == null) {
-                    glyphMetricsMap =
-                        new ConcurrentHashMap<Integer, Point2D.Float>();
-                    glyphMetricsMapRef =
-                        new SoftReference<ConcurrentHashMap<Integer,
-                        Point2D.Float>>(glyphMetricsMap);
+                if (glyphMetricsMbp == null) {
+                    glyphMetricsMbp =
+                        new ConcurrentHbshMbp<Integer, Point2D.Flobt>();
+                    glyphMetricsMbpRef =
+                        new SoftReference<ConcurrentHbshMbp<Integer,
+                        Point2D.Flobt>>(glyphMetricsMbp);
                 }
-                glyphMetricsMap.put(key, value);
+                glyphMetricsMbp.put(key, vblue);
             }
         }
         return metrics;
     }
 
-    Point2D.Float getCharMetrics(char ch) {
-        return getGlyphMetrics(mapper.charToGlyph(ch));
+    Point2D.Flobt getChbrMetrics(chbr ch) {
+        return getGlyphMetrics(mbpper.chbrToGlyph(ch));
     }
 
-    /* The caller of this can be trusted to return a copy of this
-     * return value rectangle to public API. In fact frequently it
-     * can't use use this return value directly anyway.
-     * This returns bounds in device space. Currently the only
-     * caller is SGV and it converts back to user space.
-     * We could change things so that this code does the conversion so
-     * that all coords coming out of the font system are converted back
-     * into user space even if they were measured in device space.
-     * The same applies to the other methods that return outlines (below)
-     * But it may make particular sense for this method that caches its
+    /* The cbller of this cbn be trusted to return b copy of this
+     * return vblue rectbngle to public API. In fbct frequently it
+     * cbn't use use this return vblue directly bnywby.
+     * This returns bounds in device spbce. Currently the only
+     * cbller is SGV bnd it converts bbck to user spbce.
+     * We could chbnge things so thbt this code does the conversion so
+     * thbt bll coords coming out of the font system bre converted bbck
+     * into user spbce even if they were mebsured in device spbce.
+     * The sbme bpplies to the other methods thbt return outlines (below)
+     * But it mby mbke pbrticulbr sense for this method thbt cbches its
      * results.
      * There'd be plenty of exceptions, to this too, eg getGlyphPoint needs
-     * device coords as its called from native layout and getGlyphImageBounds
+     * device coords bs its cblled from nbtive lbyout bnd getGlyphImbgeBounds
      * is used by GlyphVector.getGlyphPixelBounds which is specified to
-     * return device coordinates, the image pointers aren't really used
-     * up in Java code either.
+     * return device coordinbtes, the imbge pointers bren't reblly used
+     * up in Jbvb code either.
      */
-    Rectangle2D.Float getGlyphOutlineBounds(int glyphCode) {
+    Rectbngle2D.Flobt getGlyphOutlineBounds(int glyphCode) {
 
-        if (boundsMap == null) {
-            boundsMap = new ConcurrentHashMap<Integer, Rectangle2D.Float>();
+        if (boundsMbp == null) {
+            boundsMbp = new ConcurrentHbshMbp<Integer, Rectbngle2D.Flobt>();
         }
 
-        Integer key = Integer.valueOf(glyphCode);
-        Rectangle2D.Float bounds = boundsMap.get(key);
+        Integer key = Integer.vblueOf(glyphCode);
+        Rectbngle2D.Flobt bounds = boundsMbp.get(key);
 
         if (bounds == null) {
-            bounds = fileFont.getGlyphOutlineBounds(pScalerContext, glyphCode);
-            boundsMap.put(key, bounds);
+            bounds = fileFont.getGlyphOutlineBounds(pScblerContext, glyphCode);
+            boundsMbp.put(key, bounds);
         }
         return bounds;
     }
 
-    public Rectangle2D getOutlineBounds(int glyphCode) {
-        return fileFont.getGlyphOutlineBounds(pScalerContext, glyphCode);
+    public Rectbngle2D getOutlineBounds(int glyphCode) {
+        return fileFont.getGlyphOutlineBounds(pScblerContext, glyphCode);
     }
 
-    private
-        WeakReference<ConcurrentHashMap<Integer,GeneralPath>> outlineMapRef;
+    privbte
+        WebkReference<ConcurrentHbshMbp<Integer,GenerblPbth>> outlineMbpRef;
 
-    GeneralPath getGlyphOutline(int glyphCode, float x, float y) {
+    GenerblPbth getGlyphOutline(int glyphCode, flobt x, flobt y) {
 
-        GeneralPath gp = null;
-        ConcurrentHashMap<Integer, GeneralPath> outlineMap = null;
+        GenerblPbth gp = null;
+        ConcurrentHbshMbp<Integer, GenerblPbth> outlineMbp = null;
 
-        if (outlineMapRef != null) {
-            outlineMap = outlineMapRef.get();
-            if (outlineMap != null) {
-                gp = outlineMap.get(glyphCode);
+        if (outlineMbpRef != null) {
+            outlineMbp = outlineMbpRef.get();
+            if (outlineMbp != null) {
+                gp = outlineMbp.get(glyphCode);
             }
         }
 
         if (gp == null) {
-            gp = fileFont.getGlyphOutline(pScalerContext, glyphCode, 0, 0);
-            if (outlineMap == null) {
-                outlineMap = new ConcurrentHashMap<Integer, GeneralPath>();
-                outlineMapRef =
-                   new WeakReference
-                       <ConcurrentHashMap<Integer,GeneralPath>>(outlineMap);
+            gp = fileFont.getGlyphOutline(pScblerContext, glyphCode, 0, 0);
+            if (outlineMbp == null) {
+                outlineMbp = new ConcurrentHbshMbp<Integer, GenerblPbth>();
+                outlineMbpRef =
+                   new WebkReference
+                       <ConcurrentHbshMbp<Integer,GenerblPbth>>(outlineMbp);
             }
-            outlineMap.put(glyphCode, gp);
+            outlineMbp.put(glyphCode, gp);
         }
-        gp = (GeneralPath)gp.clone(); // mutable!
+        gp = (GenerblPbth)gp.clone(); // mutbble!
         if (x != 0f || y != 0f) {
-            gp.transform(AffineTransform.getTranslateInstance(x, y));
+            gp.trbnsform(AffineTrbnsform.getTrbnslbteInstbnce(x, y));
         }
         return gp;
     }
 
-    GeneralPath getGlyphVectorOutline(int[] glyphs, float x, float y) {
-        return fileFont.getGlyphVectorOutline(pScalerContext,
+    GenerblPbth getGlyphVectorOutline(int[] glyphs, flobt x, flobt y) {
+        return fileFont.getGlyphVectorOutline(pScblerContext,
                                               glyphs, glyphs.length, x, y);
     }
 
-    protected void adjustPoint(Point2D.Float pt) {
+    protected void bdjustPoint(Point2D.Flobt pt) {
         if (invertDevTx != null) {
-            invertDevTx.deltaTransform(pt, pt);
+            invertDevTx.deltbTrbnsform(pt, pt);
         }
     }
 }

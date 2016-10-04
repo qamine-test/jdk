@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
-import com.apple.eawt.AppEvent.ScreenSleepEvent;
+import com.bpple.ebwt.AppEvent.ScreenSleepEvent;
 
 /**
- * Implementors receive notification when the displays attached to the system have entered power save sleep.
+ * Implementors receive notificbtion when the displbys bttbched to the system hbve entered power sbve sleep.
  *
- * This notification is useful for discontinuing a costly animation, or indicating that the user is no longer present on a network service.
+ * This notificbtion is useful for discontinuing b costly bnimbtion, or indicbting thbt the user is no longer present on b network service.
  *
- * This message is not sent on Mac OS X versions prior to 10.6.
+ * This messbge is not sent on Mbc OS X versions prior to 10.6.
  *
- * @see Application#addAppEventListener(AppEventListener)
+ * @see Applicbtion#bddAppEventListener(AppEventListener)
  *
- * @since Java for Mac OS X 10.6 Update 3
- * @since Java for Mac OS X 10.5 Update 8
+ * @since Jbvb for Mbc OS X 10.6 Updbte 3
+ * @since Jbvb for Mbc OS X 10.5 Updbte 8
  */
-public interface ScreenSleepListener extends AppEventListener {
+public interfbce ScreenSleepListener extends AppEventListener {
     /**
-     * Called when the system displays have entered power save sleep.
-     * @param e the screen sleep event
+     * Cblled when the system displbys hbve entered power sbve sleep.
+     * @pbrbm e the screen sleep event
      */
-    public void screenAboutToSleep(final ScreenSleepEvent e);
+    public void screenAboutToSleep(finbl ScreenSleepEvent e);
 
     /**
-     * Called when the system displays have awoke from power save sleep.
-     * @param e the screen sleep event
+     * Cblled when the system displbys hbve bwoke from power sbve sleep.
+     * @pbrbm e the screen sleep event
      */
-    public void screenAwoke(final ScreenSleepEvent e);
+    public void screenAwoke(finbl ScreenSleepEvent e);
 }

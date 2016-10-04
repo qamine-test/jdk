@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #define ushort unsigned short
 #define uint   unsigned int
-#define uchar  unsigned char
+#define uchbr  unsigned chbr
 
-struct unpacker;
+struct unpbcker;
 
-struct jar {
+struct jbr {
   // JAR file writer
-  FILE*       jarfp;
-  int         default_modtime;
+  FILE*       jbrfp;
+  int         defbult_modtime;
 
   // Used by unix2dostime:
-  int         modtime_cache;
-  uLong       dostime_cache;
+  int         modtime_cbche;
+  uLong       dostime_cbche;
 
-  // Private members
-  fillbytes   central_directory;
-  uint        central_directory_count;
+  // Privbte members
+  fillbytes   centrbl_directory;
+  uint        centrbl_directory_count;
   uint        output_file_offset;
-  fillbytes   deflated;  // temporary buffer
+  fillbytes   deflbted;  // temporbry buffer
 
-  // pointer to outer unpacker, for error checks etc.
-  unpacker* u;
+  // pointer to outer unpbcker, for error checks etc.
+  unpbcker* u;
 
   // Public Methods
-  void openJarFile(const char* fname);
-  void addJarEntry(const char* fname,
-                   bool deflate_hint, int modtime,
-                   bytes& head, bytes& tail);
-  void addDirectoryToJarFile(const char* dir_name);
-  void closeJarFile(bool central);
+  void openJbrFile(const chbr* fnbme);
+  void bddJbrEntry(const chbr* fnbme,
+                   bool deflbte_hint, int modtime,
+                   bytes& hebd, bytes& tbil);
+  void bddDirectoryToJbrFile(const chbr* dir_nbme);
+  void closeJbrFile(bool centrbl);
 
-  void init(unpacker* u_);
+  void init(unpbcker* u_);
 
   void free() {
-    central_directory.free();
-    deflated.free();
+    centrbl_directory.free();
+    deflbted.free();
   }
 
   void reset() {
@@ -67,47 +67,47 @@ struct jar {
     init(u);
   }
 
-  // Private Methods
-  void write_data(void* ptr, int len);
-  void write_data(bytes& b) { write_data(b.ptr, (int)b.len); }
-  void add_to_jar_directory(const char* fname, bool store, int modtime,
+  // Privbte Methods
+  void write_dbtb(void* ptr, int len);
+  void write_dbtb(bytes& b) { write_dbtb(b.ptr, (int)b.len); }
+  void bdd_to_jbr_directory(const chbr* fnbme, bool store, int modtime,
                             int len, int clen, uLong crc);
-  void write_jar_header(const char* fname, bool store, int modtime,
+  void write_jbr_hebder(const chbr* fnbme, bool store, int modtime,
                         int len, int clen, unsigned int crc);
-  void write_jar_extra(int len, int clen, unsigned int crc);
-  void write_central_directory();
+  void write_jbr_extrb(int len, int clen, unsigned int crc);
+  void write_centrbl_directory();
   uLong dostime(int y, int n, int d, int h, int m, int s);
   uLong get_dostime(int modtime);
 
   // The definitions of these depend on the NO_ZLIB option:
-  bool deflate_bytes(bytes& head, bytes& tail);
-  static uint get_crc32(uint c, unsigned char *ptr, uint len);
+  bool deflbte_bytes(bytes& hebd, bytes& tbil);
+  stbtic uint get_crc32(uint c, unsigned chbr *ptr, uint len);
 
-  // error handling
-  void abort(const char* msg) { unpack_abort(msg, u); }
-  bool aborting()             { return unpack_aborting(u); }
+  // error hbndling
+  void bbort(const chbr* msg) { unpbck_bbort(msg, u); }
+  bool bborting()             { return unpbck_bborting(u); }
 };
 
 struct gunzip {
-  // optional gzip input stream control block
+  // optionbl gzip input strebm control block
 
-  // pointer to outer unpacker, for error checks etc.
-  unpacker* u;
+  // pointer to outer unpbcker, for error checks etc.
+  unpbcker* u;
 
-  void* read_input_fn;  // underlying byte stream
-  void* zstream;        // inflater state
-  char inbuf[1 << 14];   // input buffer
+  void* rebd_input_fn;  // underlying byte strebm
+  void* zstrebm;        // inflbter stbte
+  chbr inbuf[1 << 14];   // input buffer
 
-  void init(unpacker* u_);  // pushes new value on u->read_input_fn
+  void init(unpbcker* u_);  // pushes new vblue on u->rebd_input_fn
 
   void free();
 
-  void start(int magic);
+  void stbrt(int mbgic);
 
-  // private stuff
-  void read_fixed_field(char* buf, size_t buflen);
+  // privbte stuff
+  void rebd_fixed_field(chbr* buf, size_t buflen);
 
-  // error handling
-  void abort(const char* msg) { unpack_abort(msg, u); }
-  bool aborting()             { return unpack_aborting(u); }
+  // error hbndling
+  void bbort(const chbr* msg) { unpbck_bbort(msg, u); }
+  bool bborting()             { return unpbck_bborting(u); }
 };

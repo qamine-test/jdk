@@ -1,335 +1,335 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.lang.reflect.Array;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.BiFunction;
+import jbvb.util.function.Consumer;
 
 /**
- * This class implements the <tt>Map</tt> interface with a hash table, using
- * reference-equality in place of object-equality when comparing keys (and
- * values).  In other words, in an <tt>IdentityHashMap</tt>, two keys
- * <tt>k1</tt> and <tt>k2</tt> are considered equal if and only if
- * <tt>(k1==k2)</tt>.  (In normal <tt>Map</tt> implementations (like
- * <tt>HashMap</tt>) two keys <tt>k1</tt> and <tt>k2</tt> are considered equal
- * if and only if <tt>(k1==null ? k2==null : k1.equals(k2))</tt>.)
+ * This clbss implements the <tt>Mbp</tt> interfbce with b hbsh tbble, using
+ * reference-equblity in plbce of object-equblity when compbring keys (bnd
+ * vblues).  In other words, in bn <tt>IdentityHbshMbp</tt>, two keys
+ * <tt>k1</tt> bnd <tt>k2</tt> bre considered equbl if bnd only if
+ * <tt>(k1==k2)</tt>.  (In normbl <tt>Mbp</tt> implementbtions (like
+ * <tt>HbshMbp</tt>) two keys <tt>k1</tt> bnd <tt>k2</tt> bre considered equbl
+ * if bnd only if <tt>(k1==null ? k2==null : k1.equbls(k2))</tt>.)
  *
- * <p><b>This class is <i>not</i> a general-purpose <tt>Map</tt>
- * implementation!  While this class implements the <tt>Map</tt> interface, it
- * intentionally violates <tt>Map's</tt> general contract, which mandates the
- * use of the <tt>equals</tt> method when comparing objects.  This class is
- * designed for use only in the rare cases wherein reference-equality
- * semantics are required.</b>
+ * <p><b>This clbss is <i>not</i> b generbl-purpose <tt>Mbp</tt>
+ * implementbtion!  While this clbss implements the <tt>Mbp</tt> interfbce, it
+ * intentionblly violbtes <tt>Mbp's</tt> generbl contrbct, which mbndbtes the
+ * use of the <tt>equbls</tt> method when compbring objects.  This clbss is
+ * designed for use only in the rbre cbses wherein reference-equblity
+ * sembntics bre required.</b>
  *
- * <p>A typical use of this class is <i>topology-preserving object graph
- * transformations</i>, such as serialization or deep-copying.  To perform such
- * a transformation, a program must maintain a "node table" that keeps track
- * of all the object references that have already been processed.  The node
- * table must not equate distinct objects even if they happen to be equal.
- * Another typical use of this class is to maintain <i>proxy objects</i>.  For
- * example, a debugging facility might wish to maintain a proxy object for
- * each object in the program being debugged.
+ * <p>A typicbl use of this clbss is <i>topology-preserving object grbph
+ * trbnsformbtions</i>, such bs seriblizbtion or deep-copying.  To perform such
+ * b trbnsformbtion, b progrbm must mbintbin b "node tbble" thbt keeps trbck
+ * of bll the object references thbt hbve blrebdy been processed.  The node
+ * tbble must not equbte distinct objects even if they hbppen to be equbl.
+ * Another typicbl use of this clbss is to mbintbin <i>proxy objects</i>.  For
+ * exbmple, b debugging fbcility might wish to mbintbin b proxy object for
+ * ebch object in the progrbm being debugged.
  *
- * <p>This class provides all of the optional map operations, and permits
- * <tt>null</tt> values and the <tt>null</tt> key.  This class makes no
- * guarantees as to the order of the map; in particular, it does not guarantee
- * that the order will remain constant over time.
+ * <p>This clbss provides bll of the optionbl mbp operbtions, bnd permits
+ * <tt>null</tt> vblues bnd the <tt>null</tt> key.  This clbss mbkes no
+ * gubrbntees bs to the order of the mbp; in pbrticulbr, it does not gubrbntee
+ * thbt the order will rembin constbnt over time.
  *
- * <p>This class provides constant-time performance for the basic
- * operations (<tt>get</tt> and <tt>put</tt>), assuming the system
- * identity hash function ({@link System#identityHashCode(Object)})
- * disperses elements properly among the buckets.
+ * <p>This clbss provides constbnt-time performbnce for the bbsic
+ * operbtions (<tt>get</tt> bnd <tt>put</tt>), bssuming the system
+ * identity hbsh function ({@link System#identityHbshCode(Object)})
+ * disperses elements properly bmong the buckets.
  *
- * <p>This class has one tuning parameter (which affects performance but not
- * semantics): <i>expected maximum size</i>.  This parameter is the maximum
- * number of key-value mappings that the map is expected to hold.  Internally,
- * this parameter is used to determine the number of buckets initially
- * comprising the hash table.  The precise relationship between the expected
- * maximum size and the number of buckets is unspecified.
+ * <p>This clbss hbs one tuning pbrbmeter (which bffects performbnce but not
+ * sembntics): <i>expected mbximum size</i>.  This pbrbmeter is the mbximum
+ * number of key-vblue mbppings thbt the mbp is expected to hold.  Internblly,
+ * this pbrbmeter is used to determine the number of buckets initiblly
+ * comprising the hbsh tbble.  The precise relbtionship between the expected
+ * mbximum size bnd the number of buckets is unspecified.
  *
- * <p>If the size of the map (the number of key-value mappings) sufficiently
- * exceeds the expected maximum size, the number of buckets is increased.
- * Increasing the number of buckets ("rehashing") may be fairly expensive, so
- * it pays to create identity hash maps with a sufficiently large expected
- * maximum size.  On the other hand, iteration over collection views requires
- * time proportional to the number of buckets in the hash table, so it
- * pays not to set the expected maximum size too high if you are especially
- * concerned with iteration performance or memory usage.
+ * <p>If the size of the mbp (the number of key-vblue mbppings) sufficiently
+ * exceeds the expected mbximum size, the number of buckets is increbsed.
+ * Increbsing the number of buckets ("rehbshing") mby be fbirly expensive, so
+ * it pbys to crebte identity hbsh mbps with b sufficiently lbrge expected
+ * mbximum size.  On the other hbnd, iterbtion over collection views requires
+ * time proportionbl to the number of buckets in the hbsh tbble, so it
+ * pbys not to set the expected mbximum size too high if you bre especiblly
+ * concerned with iterbtion performbnce or memory usbge.
  *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * If multiple threads access an identity hash map concurrently, and at
- * least one of the threads modifies the map structurally, it <i>must</i>
- * be synchronized externally.  (A structural modification is any operation
- * that adds or deletes one or more mappings; merely changing the value
- * associated with a key that an instance already contains is not a
- * structural modification.)  This is typically accomplished by
- * synchronizing on some object that naturally encapsulates the map.
+ * <p><strong>Note thbt this implementbtion is not synchronized.</strong>
+ * If multiple threbds bccess bn identity hbsh mbp concurrently, bnd bt
+ * lebst one of the threbds modifies the mbp structurblly, it <i>must</i>
+ * be synchronized externblly.  (A structurbl modificbtion is bny operbtion
+ * thbt bdds or deletes one or more mbppings; merely chbnging the vblue
+ * bssocibted with b key thbt bn instbnce blrebdy contbins is not b
+ * structurbl modificbtion.)  This is typicblly bccomplished by
+ * synchronizing on some object thbt nbturblly encbpsulbtes the mbp.
  *
- * If no such object exists, the map should be "wrapped" using the
- * {@link Collections#synchronizedMap Collections.synchronizedMap}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access to the map:<pre>
- *   Map m = Collections.synchronizedMap(new IdentityHashMap(...));</pre>
+ * If no such object exists, the mbp should be "wrbpped" using the
+ * {@link Collections#synchronizedMbp Collections.synchronizedMbp}
+ * method.  This is best done bt crebtion time, to prevent bccidentbl
+ * unsynchronized bccess to the mbp:<pre>
+ *   Mbp m = Collections.synchronizedMbp(new IdentityHbshMbp(...));</pre>
  *
- * <p>The iterators returned by the <tt>iterator</tt> method of the
- * collections returned by all of this class's "collection view
- * methods" are <i>fail-fast</i>: if the map is structurally modified
- * at any time after the iterator is created, in any way except
- * through the iterator's own <tt>remove</tt> method, the iterator
- * will throw a {@link ConcurrentModificationException}.  Thus, in the
- * face of concurrent modification, the iterator fails quickly and
- * cleanly, rather than risking arbitrary, non-deterministic behavior
- * at an undetermined time in the future.
+ * <p>The iterbtors returned by the <tt>iterbtor</tt> method of the
+ * collections returned by bll of this clbss's "collection view
+ * methods" bre <i>fbil-fbst</i>: if the mbp is structurblly modified
+ * bt bny time bfter the iterbtor is crebted, in bny wby except
+ * through the iterbtor's own <tt>remove</tt> method, the iterbtor
+ * will throw b {@link ConcurrentModificbtionException}.  Thus, in the
+ * fbce of concurrent modificbtion, the iterbtor fbils quickly bnd
+ * clebnly, rbther thbn risking brbitrbry, non-deterministic behbvior
+ * bt bn undetermined time in the future.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw <tt>ConcurrentModificationException</tt> on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness: <i>fail-fast iterators should be used only
+ * <p>Note thbt the fbil-fbst behbvior of bn iterbtor cbnnot be gubrbnteed
+ * bs it is, generblly spebking, impossible to mbke bny hbrd gubrbntees in the
+ * presence of unsynchronized concurrent modificbtion.  Fbil-fbst iterbtors
+ * throw <tt>ConcurrentModificbtionException</tt> on b best-effort bbsis.
+ * Therefore, it would be wrong to write b progrbm thbt depended on this
+ * exception for its correctness: <i>fbil-fbst iterbtors should be used only
  * to detect bugs.</i>
  *
- * <p>Implementation note: This is a simple <i>linear-probe</i> hash table,
- * as described for example in texts by Sedgewick and Knuth.  The array
- * alternates holding keys and values.  (This has better locality for large
- * tables than does using separate arrays.)  For many JRE implementations
- * and operation mixes, this class will yield better performance than
- * {@link HashMap} (which uses <i>chaining</i> rather than linear-probing).
+ * <p>Implementbtion note: This is b simple <i>linebr-probe</i> hbsh tbble,
+ * bs described for exbmple in texts by Sedgewick bnd Knuth.  The brrby
+ * blternbtes holding keys bnd vblues.  (This hbs better locblity for lbrge
+ * tbbles thbn does using sepbrbte brrbys.)  For mbny JRE implementbtions
+ * bnd operbtion mixes, this clbss will yield better performbnce thbn
+ * {@link HbshMbp} (which uses <i>chbining</i> rbther thbn linebr-probing).
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @see     System#identityHashCode(Object)
- * @see     Object#hashCode()
+ * @see     System#identityHbshCode(Object)
+ * @see     Object#hbshCode()
  * @see     Collection
- * @see     Map
- * @see     HashMap
- * @see     TreeMap
- * @author  Doug Lea and Josh Bloch
+ * @see     Mbp
+ * @see     HbshMbp
+ * @see     TreeMbp
+ * @buthor  Doug Leb bnd Josh Bloch
  * @since   1.4
  */
 
-public class IdentityHashMap<K,V>
-    extends AbstractMap<K,V>
-    implements Map<K,V>, java.io.Serializable, Cloneable
+public clbss IdentityHbshMbp<K,V>
+    extends AbstrbctMbp<K,V>
+    implements Mbp<K,V>, jbvb.io.Seriblizbble, Clonebble
 {
     /**
-     * The initial capacity used by the no-args constructor.
-     * MUST be a power of two.  The value 32 corresponds to the
-     * (specified) expected maximum size of 21, given a load factor
+     * The initibl cbpbcity used by the no-brgs constructor.
+     * MUST be b power of two.  The vblue 32 corresponds to the
+     * (specified) expected mbximum size of 21, given b lobd fbctor
      * of 2/3.
      */
-    private static final int DEFAULT_CAPACITY = 32;
+    privbte stbtic finbl int DEFAULT_CAPACITY = 32;
 
     /**
-     * The minimum capacity, used if a lower value is implicitly specified
-     * by either of the constructors with arguments.  The value 4 corresponds
-     * to an expected maximum size of 2, given a load factor of 2/3.
-     * MUST be a power of two.
+     * The minimum cbpbcity, used if b lower vblue is implicitly specified
+     * by either of the constructors with brguments.  The vblue 4 corresponds
+     * to bn expected mbximum size of 2, given b lobd fbctor of 2/3.
+     * MUST be b power of two.
      */
-    private static final int MINIMUM_CAPACITY = 4;
+    privbte stbtic finbl int MINIMUM_CAPACITY = 4;
 
     /**
-     * The maximum capacity, used if a higher value is implicitly specified
-     * by either of the constructors with arguments.
-     * MUST be a power of two <= 1<<29.
+     * The mbximum cbpbcity, used if b higher vblue is implicitly specified
+     * by either of the constructors with brguments.
+     * MUST be b power of two <= 1<<29.
      *
-     * In fact, the map can hold no more than MAXIMUM_CAPACITY-1 items
-     * because it has to have at least one slot with the key == null
-     * in order to avoid infinite loops in get(), put(), remove()
+     * In fbct, the mbp cbn hold no more thbn MAXIMUM_CAPACITY-1 items
+     * becbuse it hbs to hbve bt lebst one slot with the key == null
+     * in order to bvoid infinite loops in get(), put(), remove()
      */
-    private static final int MAXIMUM_CAPACITY = 1 << 29;
+    privbte stbtic finbl int MAXIMUM_CAPACITY = 1 << 29;
 
     /**
-     * The table, resized as necessary. Length MUST always be a power of two.
+     * The tbble, resized bs necessbry. Length MUST blwbys be b power of two.
      */
-    transient Object[] table; // non-private to simplify nested class access
+    trbnsient Object[] tbble; // non-privbte to simplify nested clbss bccess
 
     /**
-     * The number of key-value mappings contained in this identity hash map.
+     * The number of key-vblue mbppings contbined in this identity hbsh mbp.
      *
-     * @serial
+     * @seribl
      */
     int size;
 
     /**
-     * The number of modifications, to support fast-fail iterators
+     * The number of modificbtions, to support fbst-fbil iterbtors
      */
-    transient int modCount;
+    trbnsient int modCount;
 
     /**
-     * Value representing null keys inside tables.
+     * Vblue representing null keys inside tbbles.
      */
-    static final Object NULL_KEY = new Object();
+    stbtic finbl Object NULL_KEY = new Object();
 
     /**
      * Use NULL_KEY for key if it is null.
      */
-    private static Object maskNull(Object key) {
+    privbte stbtic Object mbskNull(Object key) {
         return (key == null ? NULL_KEY : key);
     }
 
     /**
-     * Returns internal representation of null key back to caller as null.
+     * Returns internbl representbtion of null key bbck to cbller bs null.
      */
-    static final Object unmaskNull(Object key) {
+    stbtic finbl Object unmbskNull(Object key) {
         return (key == NULL_KEY ? null : key);
     }
 
     /**
-     * Constructs a new, empty identity hash map with a default expected
-     * maximum size (21).
+     * Constructs b new, empty identity hbsh mbp with b defbult expected
+     * mbximum size (21).
      */
-    public IdentityHashMap() {
+    public IdentityHbshMbp() {
         init(DEFAULT_CAPACITY);
     }
 
     /**
-     * Constructs a new, empty map with the specified expected maximum size.
-     * Putting more than the expected number of key-value mappings into
-     * the map may cause the internal data structure to grow, which may be
-     * somewhat time-consuming.
+     * Constructs b new, empty mbp with the specified expected mbximum size.
+     * Putting more thbn the expected number of key-vblue mbppings into
+     * the mbp mby cbuse the internbl dbtb structure to grow, which mby be
+     * somewhbt time-consuming.
      *
-     * @param expectedMaxSize the expected maximum size of the map
-     * @throws IllegalArgumentException if <tt>expectedMaxSize</tt> is negative
+     * @pbrbm expectedMbxSize the expected mbximum size of the mbp
+     * @throws IllegblArgumentException if <tt>expectedMbxSize</tt> is negbtive
      */
-    public IdentityHashMap(int expectedMaxSize) {
-        if (expectedMaxSize < 0)
-            throw new IllegalArgumentException("expectedMaxSize is negative: "
-                                               + expectedMaxSize);
-        init(capacity(expectedMaxSize));
+    public IdentityHbshMbp(int expectedMbxSize) {
+        if (expectedMbxSize < 0)
+            throw new IllegblArgumentException("expectedMbxSize is negbtive: "
+                                               + expectedMbxSize);
+        init(cbpbcity(expectedMbxSize));
     }
 
     /**
-     * Returns the appropriate capacity for the given expected maximum size.
-     * Returns the smallest power of two between MINIMUM_CAPACITY and
-     * MAXIMUM_CAPACITY, inclusive, that is greater than (3 *
-     * expectedMaxSize)/2, if such a number exists.  Otherwise returns
+     * Returns the bppropribte cbpbcity for the given expected mbximum size.
+     * Returns the smbllest power of two between MINIMUM_CAPACITY bnd
+     * MAXIMUM_CAPACITY, inclusive, thbt is grebter thbn (3 *
+     * expectedMbxSize)/2, if such b number exists.  Otherwise returns
      * MAXIMUM_CAPACITY.
      */
-    private static int capacity(int expectedMaxSize) {
-        // assert expectedMaxSize >= 0;
+    privbte stbtic int cbpbcity(int expectedMbxSize) {
+        // bssert expectedMbxSize >= 0;
         return
-            (expectedMaxSize > MAXIMUM_CAPACITY / 3) ? MAXIMUM_CAPACITY :
-            (expectedMaxSize <= 2 * MINIMUM_CAPACITY / 3) ? MINIMUM_CAPACITY :
-            Integer.highestOneBit(expectedMaxSize + (expectedMaxSize << 1));
+            (expectedMbxSize > MAXIMUM_CAPACITY / 3) ? MAXIMUM_CAPACITY :
+            (expectedMbxSize <= 2 * MINIMUM_CAPACITY / 3) ? MINIMUM_CAPACITY :
+            Integer.highestOneBit(expectedMbxSize + (expectedMbxSize << 1));
     }
 
     /**
-     * Initializes object to be an empty map with the specified initial
-     * capacity, which is assumed to be a power of two between
-     * MINIMUM_CAPACITY and MAXIMUM_CAPACITY inclusive.
+     * Initiblizes object to be bn empty mbp with the specified initibl
+     * cbpbcity, which is bssumed to be b power of two between
+     * MINIMUM_CAPACITY bnd MAXIMUM_CAPACITY inclusive.
      */
-    private void init(int initCapacity) {
-        // assert (initCapacity & -initCapacity) == initCapacity; // power of 2
-        // assert initCapacity >= MINIMUM_CAPACITY;
-        // assert initCapacity <= MAXIMUM_CAPACITY;
+    privbte void init(int initCbpbcity) {
+        // bssert (initCbpbcity & -initCbpbcity) == initCbpbcity; // power of 2
+        // bssert initCbpbcity >= MINIMUM_CAPACITY;
+        // bssert initCbpbcity <= MAXIMUM_CAPACITY;
 
-        table = new Object[2 * initCapacity];
+        tbble = new Object[2 * initCbpbcity];
     }
 
     /**
-     * Constructs a new identity hash map containing the keys-value mappings
-     * in the specified map.
+     * Constructs b new identity hbsh mbp contbining the keys-vblue mbppings
+     * in the specified mbp.
      *
-     * @param m the map whose mappings are to be placed into this map
-     * @throws NullPointerException if the specified map is null
+     * @pbrbm m the mbp whose mbppings bre to be plbced into this mbp
+     * @throws NullPointerException if the specified mbp is null
      */
-    public IdentityHashMap(Map<? extends K, ? extends V> m) {
-        // Allow for a bit of growth
+    public IdentityHbshMbp(Mbp<? extends K, ? extends V> m) {
+        // Allow for b bit of growth
         this((int) ((1 + m.size()) * 1.1));
         putAll(m);
     }
 
     /**
-     * Returns the number of key-value mappings in this identity hash map.
+     * Returns the number of key-vblue mbppings in this identity hbsh mbp.
      *
-     * @return the number of key-value mappings in this map
+     * @return the number of key-vblue mbppings in this mbp
      */
     public int size() {
         return size;
     }
 
     /**
-     * Returns <tt>true</tt> if this identity hash map contains no key-value
-     * mappings.
+     * Returns <tt>true</tt> if this identity hbsh mbp contbins no key-vblue
+     * mbppings.
      *
-     * @return <tt>true</tt> if this identity hash map contains no key-value
-     *         mappings
+     * @return <tt>true</tt> if this identity hbsh mbp contbins no key-vblue
+     *         mbppings
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return size == 0;
     }
 
     /**
      * Returns index for Object x.
      */
-    private static int hash(Object x, int length) {
-        int h = System.identityHashCode(x);
-        // Multiply by -127, and left-shift to use least bit as part of hash
+    privbte stbtic int hbsh(Object x, int length) {
+        int h = System.identityHbshCode(x);
+        // Multiply by -127, bnd left-shift to use lebst bit bs pbrt of hbsh
         return ((h << 1) - (h << 8)) & (length - 1);
     }
 
     /**
-     * Circularly traverses table of size len.
+     * Circulbrly trbverses tbble of size len.
      */
-    private static int nextKeyIndex(int i, int len) {
+    privbte stbtic int nextKeyIndex(int i, int len) {
         return (i + 2 < len ? i + 2 : 0);
     }
 
     /**
-     * Returns the value to which the specified key is mapped,
-     * or {@code null} if this map contains no mapping for the key.
+     * Returns the vblue to which the specified key is mbpped,
+     * or {@code null} if this mbp contbins no mbpping for the key.
      *
-     * <p>More formally, if this map contains a mapping from a key
-     * {@code k} to a value {@code v} such that {@code (key == k)},
+     * <p>More formblly, if this mbp contbins b mbpping from b key
+     * {@code k} to b vblue {@code v} such thbt {@code (key == k)},
      * then this method returns {@code v}; otherwise it returns
-     * {@code null}.  (There can be at most one such mapping.)
+     * {@code null}.  (There cbn be bt most one such mbpping.)
      *
-     * <p>A return value of {@code null} does not <i>necessarily</i>
-     * indicate that the map contains no mapping for the key; it's also
-     * possible that the map explicitly maps the key to {@code null}.
-     * The {@link #containsKey containsKey} operation may be used to
-     * distinguish these two cases.
+     * <p>A return vblue of {@code null} does not <i>necessbrily</i>
+     * indicbte thbt the mbp contbins no mbpping for the key; it's blso
+     * possible thbt the mbp explicitly mbps the key to {@code null}.
+     * The {@link #contbinsKey contbinsKey} operbtion mby be used to
+     * distinguish these two cbses.
      *
      * @see #put(Object, Object)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public V get(Object key) {
-        Object k = maskNull(key);
-        Object[] tab = table;
-        int len = tab.length;
-        int i = hash(k, len);
+        Object k = mbskNull(key);
+        Object[] tbb = tbble;
+        int len = tbb.length;
+        int i = hbsh(k, len);
         while (true) {
-            Object item = tab[i];
+            Object item = tbb[i];
             if (item == k)
-                return (V) tab[i + 1];
+                return (V) tbb[i + 1];
             if (item == null)
                 return null;
             i = nextKeyIndex(i, len);
@@ -337,201 +337,201 @@ public class IdentityHashMap<K,V>
     }
 
     /**
-     * Tests whether the specified object reference is a key in this identity
-     * hash map.
+     * Tests whether the specified object reference is b key in this identity
+     * hbsh mbp.
      *
-     * @param   key   possible key
-     * @return  <code>true</code> if the specified object reference is a key
-     *          in this map
-     * @see     #containsValue(Object)
+     * @pbrbm   key   possible key
+     * @return  <code>true</code> if the specified object reference is b key
+     *          in this mbp
+     * @see     #contbinsVblue(Object)
      */
-    public boolean containsKey(Object key) {
-        Object k = maskNull(key);
-        Object[] tab = table;
-        int len = tab.length;
-        int i = hash(k, len);
+    public boolebn contbinsKey(Object key) {
+        Object k = mbskNull(key);
+        Object[] tbb = tbble;
+        int len = tbb.length;
+        int i = hbsh(k, len);
         while (true) {
-            Object item = tab[i];
+            Object item = tbb[i];
             if (item == k)
                 return true;
             if (item == null)
-                return false;
+                return fblse;
             i = nextKeyIndex(i, len);
         }
     }
 
     /**
-     * Tests whether the specified object reference is a value in this identity
-     * hash map.
+     * Tests whether the specified object reference is b vblue in this identity
+     * hbsh mbp.
      *
-     * @param value value whose presence in this map is to be tested
-     * @return <tt>true</tt> if this map maps one or more keys to the
+     * @pbrbm vblue vblue whose presence in this mbp is to be tested
+     * @return <tt>true</tt> if this mbp mbps one or more keys to the
      *         specified object reference
-     * @see     #containsKey(Object)
+     * @see     #contbinsKey(Object)
      */
-    public boolean containsValue(Object value) {
-        Object[] tab = table;
-        for (int i = 1; i < tab.length; i += 2)
-            if (tab[i] == value && tab[i - 1] != null)
+    public boolebn contbinsVblue(Object vblue) {
+        Object[] tbb = tbble;
+        for (int i = 1; i < tbb.length; i += 2)
+            if (tbb[i] == vblue && tbb[i - 1] != null)
                 return true;
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Tests if the specified key-value mapping is in the map.
+     * Tests if the specified key-vblue mbpping is in the mbp.
      *
-     * @param   key   possible key
-     * @param   value possible value
-     * @return  <code>true</code> if and only if the specified key-value
-     *          mapping is in the map
+     * @pbrbm   key   possible key
+     * @pbrbm   vblue possible vblue
+     * @return  <code>true</code> if bnd only if the specified key-vblue
+     *          mbpping is in the mbp
      */
-    private boolean containsMapping(Object key, Object value) {
-        Object k = maskNull(key);
-        Object[] tab = table;
-        int len = tab.length;
-        int i = hash(k, len);
+    privbte boolebn contbinsMbpping(Object key, Object vblue) {
+        Object k = mbskNull(key);
+        Object[] tbb = tbble;
+        int len = tbb.length;
+        int i = hbsh(k, len);
         while (true) {
-            Object item = tab[i];
+            Object item = tbb[i];
             if (item == k)
-                return tab[i + 1] == value;
+                return tbb[i + 1] == vblue;
             if (item == null)
-                return false;
+                return fblse;
             i = nextKeyIndex(i, len);
         }
     }
 
     /**
-     * Associates the specified value with the specified key in this identity
-     * hash map.  If the map previously contained a mapping for the key, the
-     * old value is replaced.
+     * Associbtes the specified vblue with the specified key in this identity
+     * hbsh mbp.  If the mbp previously contbined b mbpping for the key, the
+     * old vblue is replbced.
      *
-     * @param key the key with which the specified value is to be associated
-     * @param value the value to be associated with the specified key
-     * @return the previous value associated with <tt>key</tt>, or
-     *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
-     *         (A <tt>null</tt> return can also indicate that the map
-     *         previously associated <tt>null</tt> with <tt>key</tt>.)
-     * @see     Object#equals(Object)
+     * @pbrbm key the key with which the specified vblue is to be bssocibted
+     * @pbrbm vblue the vblue to be bssocibted with the specified key
+     * @return the previous vblue bssocibted with <tt>key</tt>, or
+     *         <tt>null</tt> if there wbs no mbpping for <tt>key</tt>.
+     *         (A <tt>null</tt> return cbn blso indicbte thbt the mbp
+     *         previously bssocibted <tt>null</tt> with <tt>key</tt>.)
+     * @see     Object#equbls(Object)
      * @see     #get(Object)
-     * @see     #containsKey(Object)
+     * @see     #contbinsKey(Object)
      */
-    public V put(K key, V value) {
-        final Object k = maskNull(key);
+    public V put(K key, V vblue) {
+        finbl Object k = mbskNull(key);
 
         retryAfterResize: for (;;) {
-            final Object[] tab = table;
-            final int len = tab.length;
-            int i = hash(k, len);
+            finbl Object[] tbb = tbble;
+            finbl int len = tbb.length;
+            int i = hbsh(k, len);
 
-            for (Object item; (item = tab[i]) != null;
+            for (Object item; (item = tbb[i]) != null;
                  i = nextKeyIndex(i, len)) {
                 if (item == k) {
-                    @SuppressWarnings("unchecked")
-                        V oldValue = (V) tab[i + 1];
-                    tab[i + 1] = value;
-                    return oldValue;
+                    @SuppressWbrnings("unchecked")
+                        V oldVblue = (V) tbb[i + 1];
+                    tbb[i + 1] = vblue;
+                    return oldVblue;
                 }
             }
 
-            final int s = size + 1;
+            finbl int s = size + 1;
             // Use optimized form of 3 * s.
-            // Next capacity is len, 2 * current capacity.
+            // Next cbpbcity is len, 2 * current cbpbcity.
             if (s + (s << 1) > len && resize(len))
                 continue retryAfterResize;
 
             modCount++;
-            tab[i] = k;
-            tab[i + 1] = value;
+            tbb[i] = k;
+            tbb[i + 1] = vblue;
             size = s;
             return null;
         }
     }
 
     /**
-     * Resizes the table if necessary to hold given capacity.
+     * Resizes the tbble if necessbry to hold given cbpbcity.
      *
-     * @param newCapacity the new capacity, must be a power of two.
-     * @return whether a resize did in fact take place
+     * @pbrbm newCbpbcity the new cbpbcity, must be b power of two.
+     * @return whether b resize did in fbct tbke plbce
      */
-    private boolean resize(int newCapacity) {
-        // assert (newCapacity & -newCapacity) == newCapacity; // power of 2
-        int newLength = newCapacity * 2;
+    privbte boolebn resize(int newCbpbcity) {
+        // bssert (newCbpbcity & -newCbpbcity) == newCbpbcity; // power of 2
+        int newLength = newCbpbcity * 2;
 
-        Object[] oldTable = table;
-        int oldLength = oldTable.length;
-        if (oldLength == 2 * MAXIMUM_CAPACITY) { // can't expand any further
+        Object[] oldTbble = tbble;
+        int oldLength = oldTbble.length;
+        if (oldLength == 2 * MAXIMUM_CAPACITY) { // cbn't expbnd bny further
             if (size == MAXIMUM_CAPACITY - 1)
-                throw new IllegalStateException("Capacity exhausted.");
-            return false;
+                throw new IllegblStbteException("Cbpbcity exhbusted.");
+            return fblse;
         }
         if (oldLength >= newLength)
-            return false;
+            return fblse;
 
-        Object[] newTable = new Object[newLength];
+        Object[] newTbble = new Object[newLength];
 
         for (int j = 0; j < oldLength; j += 2) {
-            Object key = oldTable[j];
+            Object key = oldTbble[j];
             if (key != null) {
-                Object value = oldTable[j+1];
-                oldTable[j] = null;
-                oldTable[j+1] = null;
-                int i = hash(key, newLength);
-                while (newTable[i] != null)
+                Object vblue = oldTbble[j+1];
+                oldTbble[j] = null;
+                oldTbble[j+1] = null;
+                int i = hbsh(key, newLength);
+                while (newTbble[i] != null)
                     i = nextKeyIndex(i, newLength);
-                newTable[i] = key;
-                newTable[i + 1] = value;
+                newTbble[i] = key;
+                newTbble[i + 1] = vblue;
             }
         }
-        table = newTable;
+        tbble = newTbble;
         return true;
     }
 
     /**
-     * Copies all of the mappings from the specified map to this map.
-     * These mappings will replace any mappings that this map had for
-     * any of the keys currently in the specified map.
+     * Copies bll of the mbppings from the specified mbp to this mbp.
+     * These mbppings will replbce bny mbppings thbt this mbp hbd for
+     * bny of the keys currently in the specified mbp.
      *
-     * @param m mappings to be stored in this map
-     * @throws NullPointerException if the specified map is null
+     * @pbrbm m mbppings to be stored in this mbp
+     * @throws NullPointerException if the specified mbp is null
      */
-    public void putAll(Map<? extends K, ? extends V> m) {
+    public void putAll(Mbp<? extends K, ? extends V> m) {
         int n = m.size();
         if (n == 0)
             return;
         if (n > size)
-            resize(capacity(n)); // conservatively pre-expand
+            resize(cbpbcity(n)); // conservbtively pre-expbnd
 
         for (Entry<? extends K, ? extends V> e : m.entrySet())
-            put(e.getKey(), e.getValue());
+            put(e.getKey(), e.getVblue());
     }
 
     /**
-     * Removes the mapping for this key from this map if present.
+     * Removes the mbpping for this key from this mbp if present.
      *
-     * @param key key whose mapping is to be removed from the map
-     * @return the previous value associated with <tt>key</tt>, or
-     *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
-     *         (A <tt>null</tt> return can also indicate that the map
-     *         previously associated <tt>null</tt> with <tt>key</tt>.)
+     * @pbrbm key key whose mbpping is to be removed from the mbp
+     * @return the previous vblue bssocibted with <tt>key</tt>, or
+     *         <tt>null</tt> if there wbs no mbpping for <tt>key</tt>.
+     *         (A <tt>null</tt> return cbn blso indicbte thbt the mbp
+     *         previously bssocibted <tt>null</tt> with <tt>key</tt>.)
      */
     public V remove(Object key) {
-        Object k = maskNull(key);
-        Object[] tab = table;
-        int len = tab.length;
-        int i = hash(k, len);
+        Object k = mbskNull(key);
+        Object[] tbb = tbble;
+        int len = tbb.length;
+        int i = hbsh(k, len);
 
         while (true) {
-            Object item = tab[i];
+            Object item = tbb[i];
             if (item == k) {
                 modCount++;
                 size--;
-                @SuppressWarnings("unchecked")
-                    V oldValue = (V) tab[i + 1];
-                tab[i + 1] = null;
-                tab[i] = null;
+                @SuppressWbrnings("unchecked")
+                    V oldVblue = (V) tbb[i + 1];
+                tbb[i + 1] = null;
+                tbb[i] = null;
                 closeDeletion(i);
-                return oldValue;
+                return oldVblue;
             }
             if (item == null)
                 return null;
@@ -540,244 +540,244 @@ public class IdentityHashMap<K,V>
     }
 
     /**
-     * Removes the specified key-value mapping from the map if it is present.
+     * Removes the specified key-vblue mbpping from the mbp if it is present.
      *
-     * @param   key   possible key
-     * @param   value possible value
-     * @return  <code>true</code> if and only if the specified key-value
-     *          mapping was in the map
+     * @pbrbm   key   possible key
+     * @pbrbm   vblue possible vblue
+     * @return  <code>true</code> if bnd only if the specified key-vblue
+     *          mbpping wbs in the mbp
      */
-    private boolean removeMapping(Object key, Object value) {
-        Object k = maskNull(key);
-        Object[] tab = table;
-        int len = tab.length;
-        int i = hash(k, len);
+    privbte boolebn removeMbpping(Object key, Object vblue) {
+        Object k = mbskNull(key);
+        Object[] tbb = tbble;
+        int len = tbb.length;
+        int i = hbsh(k, len);
 
         while (true) {
-            Object item = tab[i];
+            Object item = tbb[i];
             if (item == k) {
-                if (tab[i + 1] != value)
-                    return false;
+                if (tbb[i + 1] != vblue)
+                    return fblse;
                 modCount++;
                 size--;
-                tab[i] = null;
-                tab[i + 1] = null;
+                tbb[i] = null;
+                tbb[i + 1] = null;
                 closeDeletion(i);
                 return true;
             }
             if (item == null)
-                return false;
+                return fblse;
             i = nextKeyIndex(i, len);
         }
     }
 
     /**
-     * Rehash all possibly-colliding entries following a
-     * deletion. This preserves the linear-probe
+     * Rehbsh bll possibly-colliding entries following b
+     * deletion. This preserves the linebr-probe
      * collision properties required by get, put, etc.
      *
-     * @param d the index of a newly empty deleted slot
+     * @pbrbm d the index of b newly empty deleted slot
      */
-    private void closeDeletion(int d) {
-        // Adapted from Knuth Section 6.4 Algorithm R
-        Object[] tab = table;
-        int len = tab.length;
+    privbte void closeDeletion(int d) {
+        // Adbpted from Knuth Section 6.4 Algorithm R
+        Object[] tbb = tbble;
+        int len = tbb.length;
 
-        // Look for items to swap into newly vacated slot
-        // starting at index immediately following deletion,
-        // and continuing until a null slot is seen, indicating
-        // the end of a run of possibly-colliding keys.
+        // Look for items to swbp into newly vbcbted slot
+        // stbrting bt index immedibtely following deletion,
+        // bnd continuing until b null slot is seen, indicbting
+        // the end of b run of possibly-colliding keys.
         Object item;
-        for (int i = nextKeyIndex(d, len); (item = tab[i]) != null;
+        for (int i = nextKeyIndex(d, len); (item = tbb[i]) != null;
              i = nextKeyIndex(i, len) ) {
-            // The following test triggers if the item at slot i (which
-            // hashes to be at slot r) should take the spot vacated by d.
-            // If so, we swap it in, and then continue with d now at the
-            // newly vacated i.  This process will terminate when we hit
-            // the null slot at the end of this run.
-            // The test is messy because we are using a circular table.
-            int r = hash(item, len);
+            // The following test triggers if the item bt slot i (which
+            // hbshes to be bt slot r) should tbke the spot vbcbted by d.
+            // If so, we swbp it in, bnd then continue with d now bt the
+            // newly vbcbted i.  This process will terminbte when we hit
+            // the null slot bt the end of this run.
+            // The test is messy becbuse we bre using b circulbr tbble.
+            int r = hbsh(item, len);
             if ((i < r && (r <= d || d <= i)) || (r <= d && d <= i)) {
-                tab[d] = item;
-                tab[d + 1] = tab[i + 1];
-                tab[i] = null;
-                tab[i + 1] = null;
+                tbb[d] = item;
+                tbb[d + 1] = tbb[i + 1];
+                tbb[i] = null;
+                tbb[i + 1] = null;
                 d = i;
             }
         }
     }
 
     /**
-     * Removes all of the mappings from this map.
-     * The map will be empty after this call returns.
+     * Removes bll of the mbppings from this mbp.
+     * The mbp will be empty bfter this cbll returns.
      */
-    public void clear() {
+    public void clebr() {
         modCount++;
-        Object[] tab = table;
-        for (int i = 0; i < tab.length; i++)
-            tab[i] = null;
+        Object[] tbb = tbble;
+        for (int i = 0; i < tbb.length; i++)
+            tbb[i] = null;
         size = 0;
     }
 
     /**
-     * Compares the specified object with this map for equality.  Returns
-     * <tt>true</tt> if the given object is also a map and the two maps
-     * represent identical object-reference mappings.  More formally, this
-     * map is equal to another map <tt>m</tt> if and only if
-     * <tt>this.entrySet().equals(m.entrySet())</tt>.
+     * Compbres the specified object with this mbp for equblity.  Returns
+     * <tt>true</tt> if the given object is blso b mbp bnd the two mbps
+     * represent identicbl object-reference mbppings.  More formblly, this
+     * mbp is equbl to bnother mbp <tt>m</tt> if bnd only if
+     * <tt>this.entrySet().equbls(m.entrySet())</tt>.
      *
-     * <p><b>Owing to the reference-equality-based semantics of this map it is
-     * possible that the symmetry and transitivity requirements of the
-     * <tt>Object.equals</tt> contract may be violated if this map is compared
-     * to a normal map.  However, the <tt>Object.equals</tt> contract is
-     * guaranteed to hold among <tt>IdentityHashMap</tt> instances.</b>
+     * <p><b>Owing to the reference-equblity-bbsed sembntics of this mbp it is
+     * possible thbt the symmetry bnd trbnsitivity requirements of the
+     * <tt>Object.equbls</tt> contrbct mby be violbted if this mbp is compbred
+     * to b normbl mbp.  However, the <tt>Object.equbls</tt> contrbct is
+     * gubrbnteed to hold bmong <tt>IdentityHbshMbp</tt> instbnces.</b>
      *
-     * @param  o object to be compared for equality with this map
-     * @return <tt>true</tt> if the specified object is equal to this map
-     * @see Object#equals(Object)
+     * @pbrbm  o object to be compbred for equblity with this mbp
+     * @return <tt>true</tt> if the specified object is equbl to this mbp
+     * @see Object#equbls(Object)
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this) {
             return true;
-        } else if (o instanceof IdentityHashMap) {
-            IdentityHashMap<?,?> m = (IdentityHashMap<?,?>) o;
+        } else if (o instbnceof IdentityHbshMbp) {
+            IdentityHbshMbp<?,?> m = (IdentityHbshMbp<?,?>) o;
             if (m.size() != size)
-                return false;
+                return fblse;
 
-            Object[] tab = m.table;
-            for (int i = 0; i < tab.length; i+=2) {
-                Object k = tab[i];
-                if (k != null && !containsMapping(k, tab[i + 1]))
-                    return false;
+            Object[] tbb = m.tbble;
+            for (int i = 0; i < tbb.length; i+=2) {
+                Object k = tbb[i];
+                if (k != null && !contbinsMbpping(k, tbb[i + 1]))
+                    return fblse;
             }
             return true;
-        } else if (o instanceof Map) {
-            Map<?,?> m = (Map<?,?>)o;
-            return entrySet().equals(m.entrySet());
+        } else if (o instbnceof Mbp) {
+            Mbp<?,?> m = (Mbp<?,?>)o;
+            return entrySet().equbls(m.entrySet());
         } else {
-            return false;  // o is not a Map
+            return fblse;  // o is not b Mbp
         }
     }
 
     /**
-     * Returns the hash code value for this map.  The hash code of a map is
-     * defined to be the sum of the hash codes of each entry in the map's
-     * <tt>entrySet()</tt> view.  This ensures that <tt>m1.equals(m2)</tt>
-     * implies that <tt>m1.hashCode()==m2.hashCode()</tt> for any two
-     * <tt>IdentityHashMap</tt> instances <tt>m1</tt> and <tt>m2</tt>, as
-     * required by the general contract of {@link Object#hashCode}.
+     * Returns the hbsh code vblue for this mbp.  The hbsh code of b mbp is
+     * defined to be the sum of the hbsh codes of ebch entry in the mbp's
+     * <tt>entrySet()</tt> view.  This ensures thbt <tt>m1.equbls(m2)</tt>
+     * implies thbt <tt>m1.hbshCode()==m2.hbshCode()</tt> for bny two
+     * <tt>IdentityHbshMbp</tt> instbnces <tt>m1</tt> bnd <tt>m2</tt>, bs
+     * required by the generbl contrbct of {@link Object#hbshCode}.
      *
-     * <p><b>Owing to the reference-equality-based semantics of the
-     * <tt>Map.Entry</tt> instances in the set returned by this map's
-     * <tt>entrySet</tt> method, it is possible that the contractual
-     * requirement of <tt>Object.hashCode</tt> mentioned in the previous
-     * paragraph will be violated if one of the two objects being compared is
-     * an <tt>IdentityHashMap</tt> instance and the other is a normal map.</b>
+     * <p><b>Owing to the reference-equblity-bbsed sembntics of the
+     * <tt>Mbp.Entry</tt> instbnces in the set returned by this mbp's
+     * <tt>entrySet</tt> method, it is possible thbt the contrbctubl
+     * requirement of <tt>Object.hbshCode</tt> mentioned in the previous
+     * pbrbgrbph will be violbted if one of the two objects being compbred is
+     * bn <tt>IdentityHbshMbp</tt> instbnce bnd the other is b normbl mbp.</b>
      *
-     * @return the hash code value for this map
-     * @see Object#equals(Object)
-     * @see #equals(Object)
+     * @return the hbsh code vblue for this mbp
+     * @see Object#equbls(Object)
+     * @see #equbls(Object)
      */
-    public int hashCode() {
+    public int hbshCode() {
         int result = 0;
-        Object[] tab = table;
-        for (int i = 0; i < tab.length; i +=2) {
-            Object key = tab[i];
+        Object[] tbb = tbble;
+        for (int i = 0; i < tbb.length; i +=2) {
+            Object key = tbb[i];
             if (key != null) {
-                Object k = unmaskNull(key);
-                result += System.identityHashCode(k) ^
-                          System.identityHashCode(tab[i + 1]);
+                Object k = unmbskNull(key);
+                result += System.identityHbshCode(k) ^
+                          System.identityHbshCode(tbb[i + 1]);
             }
         }
         return result;
     }
 
     /**
-     * Returns a shallow copy of this identity hash map: the keys and values
-     * themselves are not cloned.
+     * Returns b shbllow copy of this identity hbsh mbp: the keys bnd vblues
+     * themselves bre not cloned.
      *
-     * @return a shallow copy of this map
+     * @return b shbllow copy of this mbp
      */
     public Object clone() {
         try {
-            IdentityHashMap<?,?> m = (IdentityHashMap<?,?>) super.clone();
+            IdentityHbshMbp<?,?> m = (IdentityHbshMbp<?,?>) super.clone();
             m.entrySet = null;
-            m.table = table.clone();
+            m.tbble = tbble.clone();
             return m;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e);
         }
     }
 
-    private abstract class IdentityHashMapIterator<T> implements Iterator<T> {
-        int index = (size != 0 ? 0 : table.length); // current slot.
-        int expectedModCount = modCount; // to support fast-fail
-        int lastReturnedIndex = -1;      // to allow remove()
-        boolean indexValid; // To avoid unnecessary next computation
-        Object[] traversalTable = table; // reference to main table or copy
+    privbte bbstrbct clbss IdentityHbshMbpIterbtor<T> implements Iterbtor<T> {
+        int index = (size != 0 ? 0 : tbble.length); // current slot.
+        int expectedModCount = modCount; // to support fbst-fbil
+        int lbstReturnedIndex = -1;      // to bllow remove()
+        boolebn indexVblid; // To bvoid unnecessbry next computbtion
+        Object[] trbversblTbble = tbble; // reference to mbin tbble or copy
 
-        public boolean hasNext() {
-            Object[] tab = traversalTable;
-            for (int i = index; i < tab.length; i+=2) {
-                Object key = tab[i];
+        public boolebn hbsNext() {
+            Object[] tbb = trbversblTbble;
+            for (int i = index; i < tbb.length; i+=2) {
+                Object key = tbb[i];
                 if (key != null) {
                     index = i;
-                    return indexValid = true;
+                    return indexVblid = true;
                 }
             }
-            index = tab.length;
-            return false;
+            index = tbb.length;
+            return fblse;
         }
 
         protected int nextIndex() {
             if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
-            if (!indexValid && !hasNext())
+                throw new ConcurrentModificbtionException();
+            if (!indexVblid && !hbsNext())
                 throw new NoSuchElementException();
 
-            indexValid = false;
-            lastReturnedIndex = index;
+            indexVblid = fblse;
+            lbstReturnedIndex = index;
             index += 2;
-            return lastReturnedIndex;
+            return lbstReturnedIndex;
         }
 
         public void remove() {
-            if (lastReturnedIndex == -1)
-                throw new IllegalStateException();
+            if (lbstReturnedIndex == -1)
+                throw new IllegblStbteException();
             if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
 
             expectedModCount = ++modCount;
-            int deletedSlot = lastReturnedIndex;
-            lastReturnedIndex = -1;
-            // back up index to revisit new contents after deletion
+            int deletedSlot = lbstReturnedIndex;
+            lbstReturnedIndex = -1;
+            // bbck up index to revisit new contents bfter deletion
             index = deletedSlot;
-            indexValid = false;
+            indexVblid = fblse;
 
-            // Removal code proceeds as in closeDeletion except that
-            // it must catch the rare case where an element already
-            // seen is swapped into a vacant slot that will be later
-            // traversed by this iterator. We cannot allow future
-            // next() calls to return it again.  The likelihood of
-            // this occurring under 2/3 load factor is very slim, but
-            // when it does happen, we must make a copy of the rest of
-            // the table to use for the rest of the traversal. Since
-            // this can only happen when we are near the end of the table,
-            // even in these rare cases, this is not very expensive in
-            // time or space.
+            // Removbl code proceeds bs in closeDeletion except thbt
+            // it must cbtch the rbre cbse where bn element blrebdy
+            // seen is swbpped into b vbcbnt slot thbt will be lbter
+            // trbversed by this iterbtor. We cbnnot bllow future
+            // next() cblls to return it bgbin.  The likelihood of
+            // this occurring under 2/3 lobd fbctor is very slim, but
+            // when it does hbppen, we must mbke b copy of the rest of
+            // the tbble to use for the rest of the trbversbl. Since
+            // this cbn only hbppen when we bre nebr the end of the tbble,
+            // even in these rbre cbses, this is not very expensive in
+            // time or spbce.
 
-            Object[] tab = traversalTable;
-            int len = tab.length;
+            Object[] tbb = trbversblTbble;
+            int len = tbb.length;
 
             int d = deletedSlot;
-            Object key = tab[d];
-            tab[d] = null;        // vacate the slot
-            tab[d + 1] = null;
+            Object key = tbb[d];
+            tbb[d] = null;        // vbcbte the slot
+            tbb[d + 1] = null;
 
-            // If traversing a copy, remove in real table.
-            // We can skip gap-closure on copy.
-            if (tab != IdentityHashMap.this.table) {
-                IdentityHashMap.this.remove(key);
+            // If trbversing b copy, remove in rebl tbble.
+            // We cbn skip gbp-closure on copy.
+            if (tbb != IdentityHbshMbp.this.tbble) {
+                IdentityHbshMbp.this.remove(key);
                 expectedModCount = modCount;
                 return;
             }
@@ -785,132 +785,132 @@ public class IdentityHashMap<K,V>
             size--;
 
             Object item;
-            for (int i = nextKeyIndex(d, len); (item = tab[i]) != null;
+            for (int i = nextKeyIndex(d, len); (item = tbb[i]) != null;
                  i = nextKeyIndex(i, len)) {
-                int r = hash(item, len);
-                // See closeDeletion for explanation of this conditional
+                int r = hbsh(item, len);
+                // See closeDeletion for explbnbtion of this conditionbl
                 if ((i < r && (r <= d || d <= i)) ||
                     (r <= d && d <= i)) {
 
-                    // If we are about to swap an already-seen element
-                    // into a slot that may later be returned by next(),
-                    // then clone the rest of table for use in future
-                    // next() calls. It is OK that our copy will have
-                    // a gap in the "wrong" place, since it will never
-                    // be used for searching anyway.
+                    // If we bre bbout to swbp bn blrebdy-seen element
+                    // into b slot thbt mby lbter be returned by next(),
+                    // then clone the rest of tbble for use in future
+                    // next() cblls. It is OK thbt our copy will hbve
+                    // b gbp in the "wrong" plbce, since it will never
+                    // be used for sebrching bnywby.
 
                     if (i < deletedSlot && d >= deletedSlot &&
-                        traversalTable == IdentityHashMap.this.table) {
-                        int remaining = len - deletedSlot;
-                        Object[] newTable = new Object[remaining];
-                        System.arraycopy(tab, deletedSlot,
-                                         newTable, 0, remaining);
-                        traversalTable = newTable;
+                        trbversblTbble == IdentityHbshMbp.this.tbble) {
+                        int rembining = len - deletedSlot;
+                        Object[] newTbble = new Object[rembining];
+                        System.brrbycopy(tbb, deletedSlot,
+                                         newTbble, 0, rembining);
+                        trbversblTbble = newTbble;
                         index = 0;
                     }
 
-                    tab[d] = item;
-                    tab[d + 1] = tab[i + 1];
-                    tab[i] = null;
-                    tab[i + 1] = null;
+                    tbb[d] = item;
+                    tbb[d + 1] = tbb[i + 1];
+                    tbb[i] = null;
+                    tbb[i + 1] = null;
                     d = i;
                 }
             }
         }
     }
 
-    private class KeyIterator extends IdentityHashMapIterator<K> {
-        @SuppressWarnings("unchecked")
+    privbte clbss KeyIterbtor extends IdentityHbshMbpIterbtor<K> {
+        @SuppressWbrnings("unchecked")
         public K next() {
-            return (K) unmaskNull(traversalTable[nextIndex()]);
+            return (K) unmbskNull(trbversblTbble[nextIndex()]);
         }
     }
 
-    private class ValueIterator extends IdentityHashMapIterator<V> {
-        @SuppressWarnings("unchecked")
+    privbte clbss VblueIterbtor extends IdentityHbshMbpIterbtor<V> {
+        @SuppressWbrnings("unchecked")
         public V next() {
-            return (V) traversalTable[nextIndex() + 1];
+            return (V) trbversblTbble[nextIndex() + 1];
         }
     }
 
-    private class EntryIterator
-        extends IdentityHashMapIterator<Map.Entry<K,V>>
+    privbte clbss EntryIterbtor
+        extends IdentityHbshMbpIterbtor<Mbp.Entry<K,V>>
     {
-        private Entry lastReturnedEntry;
+        privbte Entry lbstReturnedEntry;
 
-        public Map.Entry<K,V> next() {
-            lastReturnedEntry = new Entry(nextIndex());
-            return lastReturnedEntry;
+        public Mbp.Entry<K,V> next() {
+            lbstReturnedEntry = new Entry(nextIndex());
+            return lbstReturnedEntry;
         }
 
         public void remove() {
-            lastReturnedIndex =
-                ((null == lastReturnedEntry) ? -1 : lastReturnedEntry.index);
+            lbstReturnedIndex =
+                ((null == lbstReturnedEntry) ? -1 : lbstReturnedEntry.index);
             super.remove();
-            lastReturnedEntry.index = lastReturnedIndex;
-            lastReturnedEntry = null;
+            lbstReturnedEntry.index = lbstReturnedIndex;
+            lbstReturnedEntry = null;
         }
 
-        private class Entry implements Map.Entry<K,V> {
-            private int index;
+        privbte clbss Entry implements Mbp.Entry<K,V> {
+            privbte int index;
 
-            private Entry(int index) {
+            privbte Entry(int index) {
                 this.index = index;
             }
 
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             public K getKey() {
                 checkIndexForEntryUse();
-                return (K) unmaskNull(traversalTable[index]);
+                return (K) unmbskNull(trbversblTbble[index]);
             }
 
-            @SuppressWarnings("unchecked")
-            public V getValue() {
+            @SuppressWbrnings("unchecked")
+            public V getVblue() {
                 checkIndexForEntryUse();
-                return (V) traversalTable[index+1];
+                return (V) trbversblTbble[index+1];
             }
 
-            @SuppressWarnings("unchecked")
-            public V setValue(V value) {
+            @SuppressWbrnings("unchecked")
+            public V setVblue(V vblue) {
                 checkIndexForEntryUse();
-                V oldValue = (V) traversalTable[index+1];
-                traversalTable[index+1] = value;
-                // if shadowing, force into main table
-                if (traversalTable != IdentityHashMap.this.table)
-                    put((K) traversalTable[index], value);
-                return oldValue;
+                V oldVblue = (V) trbversblTbble[index+1];
+                trbversblTbble[index+1] = vblue;
+                // if shbdowing, force into mbin tbble
+                if (trbversblTbble != IdentityHbshMbp.this.tbble)
+                    put((K) trbversblTbble[index], vblue);
+                return oldVblue;
             }
 
-            public boolean equals(Object o) {
+            public boolebn equbls(Object o) {
                 if (index < 0)
-                    return super.equals(o);
+                    return super.equbls(o);
 
-                if (!(o instanceof Map.Entry))
-                    return false;
-                Map.Entry<?,?> e = (Map.Entry<?,?>)o;
-                return (e.getKey() == unmaskNull(traversalTable[index]) &&
-                       e.getValue() == traversalTable[index+1]);
+                if (!(o instbnceof Mbp.Entry))
+                    return fblse;
+                Mbp.Entry<?,?> e = (Mbp.Entry<?,?>)o;
+                return (e.getKey() == unmbskNull(trbversblTbble[index]) &&
+                       e.getVblue() == trbversblTbble[index+1]);
             }
 
-            public int hashCode() {
-                if (lastReturnedIndex < 0)
-                    return super.hashCode();
+            public int hbshCode() {
+                if (lbstReturnedIndex < 0)
+                    return super.hbshCode();
 
-                return (System.identityHashCode(unmaskNull(traversalTable[index])) ^
-                       System.identityHashCode(traversalTable[index+1]));
+                return (System.identityHbshCode(unmbskNull(trbversblTbble[index])) ^
+                       System.identityHbshCode(trbversblTbble[index+1]));
             }
 
             public String toString() {
                 if (index < 0)
                     return super.toString();
 
-                return (unmaskNull(traversalTable[index]) + "="
-                        + traversalTable[index+1]);
+                return (unmbskNull(trbversblTbble[index]) + "="
+                        + trbversblTbble[index+1]);
             }
 
-            private void checkIndexForEntryUse() {
+            privbte void checkIndexForEntryUse() {
                 if (index < 0)
-                    throw new IllegalStateException("Entry was removed");
+                    throw new IllegblStbteException("Entry wbs removed");
             }
         }
     }
@@ -918,49 +918,49 @@ public class IdentityHashMap<K,V>
     // Views
 
     /**
-     * This field is initialized to contain an instance of the entry set
-     * view the first time this view is requested.  The view is stateless,
-     * so there's no reason to create more than one.
+     * This field is initiblized to contbin bn instbnce of the entry set
+     * view the first time this view is requested.  The view is stbteless,
+     * so there's no rebson to crebte more thbn one.
      */
-    private transient Set<Map.Entry<K,V>> entrySet;
+    privbte trbnsient Set<Mbp.Entry<K,V>> entrySet;
 
     /**
-     * Returns an identity-based set view of the keys contained in this map.
-     * The set is backed by the map, so changes to the map are reflected in
-     * the set, and vice-versa.  If the map is modified while an iteration
-     * over the set is in progress, the results of the iteration are
-     * undefined.  The set supports element removal, which removes the
-     * corresponding mapping from the map, via the <tt>Iterator.remove</tt>,
-     * <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retainAll</tt>, and
-     * <tt>clear</tt> methods.  It does not support the <tt>add</tt> or
-     * <tt>addAll</tt> methods.
+     * Returns bn identity-bbsed set view of the keys contbined in this mbp.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre reflected in
+     * the set, bnd vice-versb.  If the mbp is modified while bn iterbtion
+     * over the set is in progress, the results of the iterbtion bre
+     * undefined.  The set supports element removbl, which removes the
+     * corresponding mbpping from the mbp, vib the <tt>Iterbtor.remove</tt>,
+     * <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retbinAll</tt>, bnd
+     * <tt>clebr</tt> methods.  It does not support the <tt>bdd</tt> or
+     * <tt>bddAll</tt> methods.
      *
      * <p><b>While the object returned by this method implements the
-     * <tt>Set</tt> interface, it does <i>not</i> obey <tt>Set's</tt> general
-     * contract.  Like its backing map, the set returned by this method
-     * defines element equality as reference-equality rather than
-     * object-equality.  This affects the behavior of its <tt>contains</tt>,
-     * <tt>remove</tt>, <tt>containsAll</tt>, <tt>equals</tt>, and
-     * <tt>hashCode</tt> methods.</b>
+     * <tt>Set</tt> interfbce, it does <i>not</i> obey <tt>Set's</tt> generbl
+     * contrbct.  Like its bbcking mbp, the set returned by this method
+     * defines element equblity bs reference-equblity rbther thbn
+     * object-equblity.  This bffects the behbvior of its <tt>contbins</tt>,
+     * <tt>remove</tt>, <tt>contbinsAll</tt>, <tt>equbls</tt>, bnd
+     * <tt>hbshCode</tt> methods.</b>
      *
-     * <p><b>The <tt>equals</tt> method of the returned set returns <tt>true</tt>
-     * only if the specified object is a set containing exactly the same
-     * object references as the returned set.  The symmetry and transitivity
-     * requirements of the <tt>Object.equals</tt> contract may be violated if
-     * the set returned by this method is compared to a normal set.  However,
-     * the <tt>Object.equals</tt> contract is guaranteed to hold among sets
+     * <p><b>The <tt>equbls</tt> method of the returned set returns <tt>true</tt>
+     * only if the specified object is b set contbining exbctly the sbme
+     * object references bs the returned set.  The symmetry bnd trbnsitivity
+     * requirements of the <tt>Object.equbls</tt> contrbct mby be violbted if
+     * the set returned by this method is compbred to b normbl set.  However,
+     * the <tt>Object.equbls</tt> contrbct is gubrbnteed to hold bmong sets
      * returned by this method.</b>
      *
-     * <p>The <tt>hashCode</tt> method of the returned set returns the sum of
-     * the <i>identity hashcodes</i> of the elements in the set, rather than
-     * the sum of their hashcodes.  This is mandated by the change in the
-     * semantics of the <tt>equals</tt> method, in order to enforce the
-     * general contract of the <tt>Object.hashCode</tt> method among sets
+     * <p>The <tt>hbshCode</tt> method of the returned set returns the sum of
+     * the <i>identity hbshcodes</i> of the elements in the set, rbther thbn
+     * the sum of their hbshcodes.  This is mbndbted by the chbnge in the
+     * sembntics of the <tt>equbls</tt> method, in order to enforce the
+     * generbl contrbct of the <tt>Object.hbshCode</tt> method bmong sets
      * returned by this method.
      *
-     * @return an identity-based set view of the keys contained in this map
-     * @see Object#equals(Object)
-     * @see System#identityHashCode(Object)
+     * @return bn identity-bbsed set view of the keys contbined in this mbp
+     * @see Object#equbls(Object)
+     * @see System#identityHbshCode(Object)
      */
     public Set<K> keySet() {
         Set<K> ks = keySet;
@@ -970,247 +970,247 @@ public class IdentityHashMap<K,V>
             return keySet = new KeySet();
     }
 
-    private class KeySet extends AbstractSet<K> {
-        public Iterator<K> iterator() {
-            return new KeyIterator();
+    privbte clbss KeySet extends AbstrbctSet<K> {
+        public Iterbtor<K> iterbtor() {
+            return new KeyIterbtor();
         }
         public int size() {
             return size;
         }
-        public boolean contains(Object o) {
-            return containsKey(o);
+        public boolebn contbins(Object o) {
+            return contbinsKey(o);
         }
-        public boolean remove(Object o) {
+        public boolebn remove(Object o) {
             int oldSize = size;
-            IdentityHashMap.this.remove(o);
+            IdentityHbshMbp.this.remove(o);
             return size != oldSize;
         }
         /*
-         * Must revert from AbstractSet's impl to AbstractCollection's, as
-         * the former contains an optimization that results in incorrect
-         * behavior when c is a smaller "normal" (non-identity-based) Set.
+         * Must revert from AbstrbctSet's impl to AbstrbctCollection's, bs
+         * the former contbins bn optimizbtion thbt results in incorrect
+         * behbvior when c is b smbller "normbl" (non-identity-bbsed) Set.
          */
-        public boolean removeAll(Collection<?> c) {
+        public boolebn removeAll(Collection<?> c) {
             Objects.requireNonNull(c);
-            boolean modified = false;
-            for (Iterator<K> i = iterator(); i.hasNext(); ) {
-                if (c.contains(i.next())) {
+            boolebn modified = fblse;
+            for (Iterbtor<K> i = iterbtor(); i.hbsNext(); ) {
+                if (c.contbins(i.next())) {
                     i.remove();
                     modified = true;
                 }
             }
             return modified;
         }
-        public void clear() {
-            IdentityHashMap.this.clear();
+        public void clebr() {
+            IdentityHbshMbp.this.clebr();
         }
-        public int hashCode() {
+        public int hbshCode() {
             int result = 0;
             for (K key : this)
-                result += System.identityHashCode(key);
+                result += System.identityHbshCode(key);
             return result;
         }
-        public Object[] toArray() {
-            return toArray(new Object[0]);
+        public Object[] toArrby() {
+            return toArrby(new Object[0]);
         }
-        @SuppressWarnings("unchecked")
-        public <T> T[] toArray(T[] a) {
+        @SuppressWbrnings("unchecked")
+        public <T> T[] toArrby(T[] b) {
             int expectedModCount = modCount;
             int size = size();
-            if (a.length < size)
-                a = (T[]) Array.newInstance(a.getClass().getComponentType(), size);
-            Object[] tab = table;
+            if (b.length < size)
+                b = (T[]) Arrby.newInstbnce(b.getClbss().getComponentType(), size);
+            Object[] tbb = tbble;
             int ti = 0;
-            for (int si = 0; si < tab.length; si += 2) {
+            for (int si = 0; si < tbb.length; si += 2) {
                 Object key;
-                if ((key = tab[si]) != null) { // key present ?
-                    // more elements than expected -> concurrent modification from other thread
+                if ((key = tbb[si]) != null) { // key present ?
+                    // more elements thbn expected -> concurrent modificbtion from other threbd
                     if (ti >= size) {
-                        throw new ConcurrentModificationException();
+                        throw new ConcurrentModificbtionException();
                     }
-                    a[ti++] = (T) unmaskNull(key); // unmask key
+                    b[ti++] = (T) unmbskNull(key); // unmbsk key
                 }
             }
-            // fewer elements than expected or concurrent modification from other thread detected
+            // fewer elements thbn expected or concurrent modificbtion from other threbd detected
             if (ti < size || expectedModCount != modCount) {
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
             }
-            // final null marker as per spec
-            if (ti < a.length) {
-                a[ti] = null;
+            // finbl null mbrker bs per spec
+            if (ti < b.length) {
+                b[ti] = null;
             }
-            return a;
+            return b;
         }
 
-        public Spliterator<K> spliterator() {
-            return new KeySpliterator<>(IdentityHashMap.this, 0, -1, 0, 0);
+        public Spliterbtor<K> spliterbtor() {
+            return new KeySpliterbtor<>(IdentityHbshMbp.this, 0, -1, 0, 0);
         }
     }
 
     /**
-     * Returns a {@link Collection} view of the values contained in this map.
-     * The collection is backed by the map, so changes to the map are
-     * reflected in the collection, and vice-versa.  If the map is
-     * modified while an iteration over the collection is in progress,
-     * the results of the iteration are undefined.  The collection
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the <tt>Iterator.remove</tt>,
+     * Returns b {@link Collection} view of the vblues contbined in this mbp.
+     * The collection is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the collection, bnd vice-versb.  If the mbp is
+     * modified while bn iterbtion over the collection is in progress,
+     * the results of the iterbtion bre undefined.  The collection
+     * supports element removbl, which removes the corresponding
+     * mbpping from the mbp, vib the <tt>Iterbtor.remove</tt>,
      * <tt>Collection.remove</tt>, <tt>removeAll</tt>,
-     * <tt>retainAll</tt> and <tt>clear</tt> methods.  It does not
-     * support the <tt>add</tt> or <tt>addAll</tt> methods.
+     * <tt>retbinAll</tt> bnd <tt>clebr</tt> methods.  It does not
+     * support the <tt>bdd</tt> or <tt>bddAll</tt> methods.
      *
      * <p><b>While the object returned by this method implements the
-     * <tt>Collection</tt> interface, it does <i>not</i> obey
-     * <tt>Collection's</tt> general contract.  Like its backing map,
-     * the collection returned by this method defines element equality as
-     * reference-equality rather than object-equality.  This affects the
-     * behavior of its <tt>contains</tt>, <tt>remove</tt> and
-     * <tt>containsAll</tt> methods.</b>
+     * <tt>Collection</tt> interfbce, it does <i>not</i> obey
+     * <tt>Collection's</tt> generbl contrbct.  Like its bbcking mbp,
+     * the collection returned by this method defines element equblity bs
+     * reference-equblity rbther thbn object-equblity.  This bffects the
+     * behbvior of its <tt>contbins</tt>, <tt>remove</tt> bnd
+     * <tt>contbinsAll</tt> methods.</b>
      */
-    public Collection<V> values() {
-        Collection<V> vs = values;
+    public Collection<V> vblues() {
+        Collection<V> vs = vblues;
         if (vs != null)
             return vs;
         else
-            return values = new Values();
+            return vblues = new Vblues();
     }
 
-    private class Values extends AbstractCollection<V> {
-        public Iterator<V> iterator() {
-            return new ValueIterator();
+    privbte clbss Vblues extends AbstrbctCollection<V> {
+        public Iterbtor<V> iterbtor() {
+            return new VblueIterbtor();
         }
         public int size() {
             return size;
         }
-        public boolean contains(Object o) {
-            return containsValue(o);
+        public boolebn contbins(Object o) {
+            return contbinsVblue(o);
         }
-        public boolean remove(Object o) {
-            for (Iterator<V> i = iterator(); i.hasNext(); ) {
+        public boolebn remove(Object o) {
+            for (Iterbtor<V> i = iterbtor(); i.hbsNext(); ) {
                 if (i.next() == o) {
                     i.remove();
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
-        public void clear() {
-            IdentityHashMap.this.clear();
+        public void clebr() {
+            IdentityHbshMbp.this.clebr();
         }
-        public Object[] toArray() {
-            return toArray(new Object[0]);
+        public Object[] toArrby() {
+            return toArrby(new Object[0]);
         }
-        @SuppressWarnings("unchecked")
-        public <T> T[] toArray(T[] a) {
+        @SuppressWbrnings("unchecked")
+        public <T> T[] toArrby(T[] b) {
             int expectedModCount = modCount;
             int size = size();
-            if (a.length < size)
-                a = (T[]) Array.newInstance(a.getClass().getComponentType(), size);
-            Object[] tab = table;
+            if (b.length < size)
+                b = (T[]) Arrby.newInstbnce(b.getClbss().getComponentType(), size);
+            Object[] tbb = tbble;
             int ti = 0;
-            for (int si = 0; si < tab.length; si += 2) {
-                if (tab[si] != null) { // key present ?
-                    // more elements than expected -> concurrent modification from other thread
+            for (int si = 0; si < tbb.length; si += 2) {
+                if (tbb[si] != null) { // key present ?
+                    // more elements thbn expected -> concurrent modificbtion from other threbd
                     if (ti >= size) {
-                        throw new ConcurrentModificationException();
+                        throw new ConcurrentModificbtionException();
                     }
-                    a[ti++] = (T) tab[si+1]; // copy value
+                    b[ti++] = (T) tbb[si+1]; // copy vblue
                 }
             }
-            // fewer elements than expected or concurrent modification from other thread detected
+            // fewer elements thbn expected or concurrent modificbtion from other threbd detected
             if (ti < size || expectedModCount != modCount) {
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
             }
-            // final null marker as per spec
-            if (ti < a.length) {
-                a[ti] = null;
+            // finbl null mbrker bs per spec
+            if (ti < b.length) {
+                b[ti] = null;
             }
-            return a;
+            return b;
         }
 
-        public Spliterator<V> spliterator() {
-            return new ValueSpliterator<>(IdentityHashMap.this, 0, -1, 0, 0);
+        public Spliterbtor<V> spliterbtor() {
+            return new VblueSpliterbtor<>(IdentityHbshMbp.this, 0, -1, 0, 0);
         }
     }
 
     /**
-     * Returns a {@link Set} view of the mappings contained in this map.
-     * Each element in the returned set is a reference-equality-based
-     * <tt>Map.Entry</tt>.  The set is backed by the map, so changes
-     * to the map are reflected in the set, and vice-versa.  If the
-     * map is modified while an iteration over the set is in progress,
-     * the results of the iteration are undefined.  The set supports
-     * element removal, which removes the corresponding mapping from
-     * the map, via the <tt>Iterator.remove</tt>, <tt>Set.remove</tt>,
-     * <tt>removeAll</tt>, <tt>retainAll</tt> and <tt>clear</tt>
-     * methods.  It does not support the <tt>add</tt> or
-     * <tt>addAll</tt> methods.
+     * Returns b {@link Set} view of the mbppings contbined in this mbp.
+     * Ebch element in the returned set is b reference-equblity-bbsed
+     * <tt>Mbp.Entry</tt>.  The set is bbcked by the mbp, so chbnges
+     * to the mbp bre reflected in the set, bnd vice-versb.  If the
+     * mbp is modified while bn iterbtion over the set is in progress,
+     * the results of the iterbtion bre undefined.  The set supports
+     * element removbl, which removes the corresponding mbpping from
+     * the mbp, vib the <tt>Iterbtor.remove</tt>, <tt>Set.remove</tt>,
+     * <tt>removeAll</tt>, <tt>retbinAll</tt> bnd <tt>clebr</tt>
+     * methods.  It does not support the <tt>bdd</tt> or
+     * <tt>bddAll</tt> methods.
      *
-     * <p>Like the backing map, the <tt>Map.Entry</tt> objects in the set
-     * returned by this method define key and value equality as
-     * reference-equality rather than object-equality.  This affects the
-     * behavior of the <tt>equals</tt> and <tt>hashCode</tt> methods of these
-     * <tt>Map.Entry</tt> objects.  A reference-equality based <tt>Map.Entry
-     * e</tt> is equal to an object <tt>o</tt> if and only if <tt>o</tt> is a
-     * <tt>Map.Entry</tt> and <tt>e.getKey()==o.getKey() &amp;&amp;
-     * e.getValue()==o.getValue()</tt>.  To accommodate these equals
-     * semantics, the <tt>hashCode</tt> method returns
-     * <tt>System.identityHashCode(e.getKey()) ^
-     * System.identityHashCode(e.getValue())</tt>.
+     * <p>Like the bbcking mbp, the <tt>Mbp.Entry</tt> objects in the set
+     * returned by this method define key bnd vblue equblity bs
+     * reference-equblity rbther thbn object-equblity.  This bffects the
+     * behbvior of the <tt>equbls</tt> bnd <tt>hbshCode</tt> methods of these
+     * <tt>Mbp.Entry</tt> objects.  A reference-equblity bbsed <tt>Mbp.Entry
+     * e</tt> is equbl to bn object <tt>o</tt> if bnd only if <tt>o</tt> is b
+     * <tt>Mbp.Entry</tt> bnd <tt>e.getKey()==o.getKey() &bmp;&bmp;
+     * e.getVblue()==o.getVblue()</tt>.  To bccommodbte these equbls
+     * sembntics, the <tt>hbshCode</tt> method returns
+     * <tt>System.identityHbshCode(e.getKey()) ^
+     * System.identityHbshCode(e.getVblue())</tt>.
      *
-     * <p><b>Owing to the reference-equality-based semantics of the
-     * <tt>Map.Entry</tt> instances in the set returned by this method,
-     * it is possible that the symmetry and transitivity requirements of
-     * the {@link Object#equals(Object)} contract may be violated if any of
-     * the entries in the set is compared to a normal map entry, or if
-     * the set returned by this method is compared to a set of normal map
-     * entries (such as would be returned by a call to this method on a normal
-     * map).  However, the <tt>Object.equals</tt> contract is guaranteed to
-     * hold among identity-based map entries, and among sets of such entries.
+     * <p><b>Owing to the reference-equblity-bbsed sembntics of the
+     * <tt>Mbp.Entry</tt> instbnces in the set returned by this method,
+     * it is possible thbt the symmetry bnd trbnsitivity requirements of
+     * the {@link Object#equbls(Object)} contrbct mby be violbted if bny of
+     * the entries in the set is compbred to b normbl mbp entry, or if
+     * the set returned by this method is compbred to b set of normbl mbp
+     * entries (such bs would be returned by b cbll to this method on b normbl
+     * mbp).  However, the <tt>Object.equbls</tt> contrbct is gubrbnteed to
+     * hold bmong identity-bbsed mbp entries, bnd bmong sets of such entries.
      * </b>
      *
-     * @return a set view of the identity-mappings contained in this map
+     * @return b set view of the identity-mbppings contbined in this mbp
      */
-    public Set<Map.Entry<K,V>> entrySet() {
-        Set<Map.Entry<K,V>> es = entrySet;
+    public Set<Mbp.Entry<K,V>> entrySet() {
+        Set<Mbp.Entry<K,V>> es = entrySet;
         if (es != null)
             return es;
         else
             return entrySet = new EntrySet();
     }
 
-    private class EntrySet extends AbstractSet<Map.Entry<K,V>> {
-        public Iterator<Map.Entry<K,V>> iterator() {
-            return new EntryIterator();
+    privbte clbss EntrySet extends AbstrbctSet<Mbp.Entry<K,V>> {
+        public Iterbtor<Mbp.Entry<K,V>> iterbtor() {
+            return new EntryIterbtor();
         }
-        public boolean contains(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> entry = (Map.Entry<?,?>)o;
-            return containsMapping(entry.getKey(), entry.getValue());
+        public boolebn contbins(Object o) {
+            if (!(o instbnceof Mbp.Entry))
+                return fblse;
+            Mbp.Entry<?,?> entry = (Mbp.Entry<?,?>)o;
+            return contbinsMbpping(entry.getKey(), entry.getVblue());
         }
-        public boolean remove(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> entry = (Map.Entry<?,?>)o;
-            return removeMapping(entry.getKey(), entry.getValue());
+        public boolebn remove(Object o) {
+            if (!(o instbnceof Mbp.Entry))
+                return fblse;
+            Mbp.Entry<?,?> entry = (Mbp.Entry<?,?>)o;
+            return removeMbpping(entry.getKey(), entry.getVblue());
         }
         public int size() {
             return size;
         }
-        public void clear() {
-            IdentityHashMap.this.clear();
+        public void clebr() {
+            IdentityHbshMbp.this.clebr();
         }
         /*
-         * Must revert from AbstractSet's impl to AbstractCollection's, as
-         * the former contains an optimization that results in incorrect
-         * behavior when c is a smaller "normal" (non-identity-based) Set.
+         * Must revert from AbstrbctSet's impl to AbstrbctCollection's, bs
+         * the former contbins bn optimizbtion thbt results in incorrect
+         * behbvior when c is b smbller "normbl" (non-identity-bbsed) Set.
          */
-        public boolean removeAll(Collection<?> c) {
+        public boolebn removeAll(Collection<?> c) {
             Objects.requireNonNull(c);
-            boolean modified = false;
-            for (Iterator<Map.Entry<K,V>> i = iterator(); i.hasNext(); ) {
-                if (c.contains(i.next())) {
+            boolebn modified = fblse;
+            for (Iterbtor<Mbp.Entry<K,V>> i = iterbtor(); i.hbsNext(); ) {
+                if (c.contbins(i.next())) {
                     i.remove();
                     modified = true;
                 }
@@ -1218,377 +1218,377 @@ public class IdentityHashMap<K,V>
             return modified;
         }
 
-        public Object[] toArray() {
-            return toArray(new Object[0]);
+        public Object[] toArrby() {
+            return toArrby(new Object[0]);
         }
 
-        @SuppressWarnings("unchecked")
-        public <T> T[] toArray(T[] a) {
+        @SuppressWbrnings("unchecked")
+        public <T> T[] toArrby(T[] b) {
             int expectedModCount = modCount;
             int size = size();
-            if (a.length < size)
-                a = (T[]) Array.newInstance(a.getClass().getComponentType(), size);
-            Object[] tab = table;
+            if (b.length < size)
+                b = (T[]) Arrby.newInstbnce(b.getClbss().getComponentType(), size);
+            Object[] tbb = tbble;
             int ti = 0;
-            for (int si = 0; si < tab.length; si += 2) {
+            for (int si = 0; si < tbb.length; si += 2) {
                 Object key;
-                if ((key = tab[si]) != null) { // key present ?
-                    // more elements than expected -> concurrent modification from other thread
+                if ((key = tbb[si]) != null) { // key present ?
+                    // more elements thbn expected -> concurrent modificbtion from other threbd
                     if (ti >= size) {
-                        throw new ConcurrentModificationException();
+                        throw new ConcurrentModificbtionException();
                     }
-                    a[ti++] = (T) new AbstractMap.SimpleEntry<>(unmaskNull(key), tab[si + 1]);
+                    b[ti++] = (T) new AbstrbctMbp.SimpleEntry<>(unmbskNull(key), tbb[si + 1]);
                 }
             }
-            // fewer elements than expected or concurrent modification from other thread detected
+            // fewer elements thbn expected or concurrent modificbtion from other threbd detected
             if (ti < size || expectedModCount != modCount) {
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
             }
-            // final null marker as per spec
-            if (ti < a.length) {
-                a[ti] = null;
+            // finbl null mbrker bs per spec
+            if (ti < b.length) {
+                b[ti] = null;
             }
-            return a;
+            return b;
         }
 
-        public Spliterator<Map.Entry<K,V>> spliterator() {
-            return new EntrySpliterator<>(IdentityHashMap.this, 0, -1, 0, 0);
+        public Spliterbtor<Mbp.Entry<K,V>> spliterbtor() {
+            return new EntrySpliterbtor<>(IdentityHbshMbp.this, 0, -1, 0, 0);
         }
     }
 
 
-    private static final long serialVersionUID = 8188218128353913216L;
+    privbte stbtic finbl long seriblVersionUID = 8188218128353913216L;
 
     /**
-     * Saves the state of the <tt>IdentityHashMap</tt> instance to a stream
-     * (i.e., serializes it).
+     * Sbves the stbte of the <tt>IdentityHbshMbp</tt> instbnce to b strebm
+     * (i.e., seriblizes it).
      *
-     * @serialData The <i>size</i> of the HashMap (the number of key-value
-     *          mappings) (<tt>int</tt>), followed by the key (Object) and
-     *          value (Object) for each key-value mapping represented by the
-     *          IdentityHashMap.  The key-value mappings are emitted in no
-     *          particular order.
+     * @seriblDbtb The <i>size</i> of the HbshMbp (the number of key-vblue
+     *          mbppings) (<tt>int</tt>), followed by the key (Object) bnd
+     *          vblue (Object) for ebch key-vblue mbpping represented by the
+     *          IdentityHbshMbp.  The key-vblue mbppings bre emitted in no
+     *          pbrticulbr order.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException  {
-        // Write out and any hidden stuff
-        s.defaultWriteObject();
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException  {
+        // Write out bnd bny hidden stuff
+        s.defbultWriteObject();
 
-        // Write out size (number of Mappings)
+        // Write out size (number of Mbppings)
         s.writeInt(size);
 
-        // Write out keys and values (alternating)
-        Object[] tab = table;
-        for (int i = 0; i < tab.length; i += 2) {
-            Object key = tab[i];
+        // Write out keys bnd vblues (blternbting)
+        Object[] tbb = tbble;
+        for (int i = 0; i < tbb.length; i += 2) {
+            Object key = tbb[i];
             if (key != null) {
-                s.writeObject(unmaskNull(key));
-                s.writeObject(tab[i + 1]);
+                s.writeObject(unmbskNull(key));
+                s.writeObject(tbb[i + 1]);
             }
         }
     }
 
     /**
-     * Reconstitutes the <tt>IdentityHashMap</tt> instance from a stream (i.e.,
-     * deserializes it).
+     * Reconstitutes the <tt>IdentityHbshMbp</tt> instbnce from b strebm (i.e.,
+     * deseriblizes it).
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException  {
-        // Read in any hidden stuff
-        s.defaultReadObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException  {
+        // Rebd in bny hidden stuff
+        s.defbultRebdObject();
 
-        // Read in size (number of Mappings)
-        int size = s.readInt();
+        // Rebd in size (number of Mbppings)
+        int size = s.rebdInt();
         if (size < 0)
-            throw new java.io.StreamCorruptedException
-                ("Illegal mappings count: " + size);
-        init(capacity(size));
+            throw new jbvb.io.StrebmCorruptedException
+                ("Illegbl mbppings count: " + size);
+        init(cbpbcity(size));
 
-        // Read the keys and values, and put the mappings in the table
+        // Rebd the keys bnd vblues, bnd put the mbppings in the tbble
         for (int i=0; i<size; i++) {
-            @SuppressWarnings("unchecked")
-                K key = (K) s.readObject();
-            @SuppressWarnings("unchecked")
-                V value = (V) s.readObject();
-            putForCreate(key, value);
+            @SuppressWbrnings("unchecked")
+                K key = (K) s.rebdObject();
+            @SuppressWbrnings("unchecked")
+                V vblue = (V) s.rebdObject();
+            putForCrebte(key, vblue);
         }
     }
 
     /**
-     * The put method for readObject.  It does not resize the table,
-     * update modCount, etc.
+     * The put method for rebdObject.  It does not resize the tbble,
+     * updbte modCount, etc.
      */
-    private void putForCreate(K key, V value)
-        throws java.io.StreamCorruptedException
+    privbte void putForCrebte(K key, V vblue)
+        throws jbvb.io.StrebmCorruptedException
     {
-        Object k = maskNull(key);
-        Object[] tab = table;
-        int len = tab.length;
-        int i = hash(k, len);
+        Object k = mbskNull(key);
+        Object[] tbb = tbble;
+        int len = tbb.length;
+        int i = hbsh(k, len);
 
         Object item;
-        while ( (item = tab[i]) != null) {
+        while ( (item = tbb[i]) != null) {
             if (item == k)
-                throw new java.io.StreamCorruptedException();
+                throw new jbvb.io.StrebmCorruptedException();
             i = nextKeyIndex(i, len);
         }
-        tab[i] = k;
-        tab[i + 1] = value;
+        tbb[i] = k;
+        tbb[i + 1] = vblue;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    public void forEach(BiConsumer<? super K, ? super V> action) {
-        Objects.requireNonNull(action);
+    public void forEbch(BiConsumer<? super K, ? super V> bction) {
+        Objects.requireNonNull(bction);
         int expectedModCount = modCount;
 
-        Object[] t = table;
+        Object[] t = tbble;
         for (int index = 0; index < t.length; index += 2) {
             Object k = t[index];
             if (k != null) {
-                action.accept((K) unmaskNull(k), (V) t[index + 1]);
+                bction.bccept((K) unmbskNull(k), (V) t[index + 1]);
             }
 
             if (modCount != expectedModCount) {
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
             }
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+    public void replbceAll(BiFunction<? super K, ? super V, ? extends V> function) {
         Objects.requireNonNull(function);
         int expectedModCount = modCount;
 
-        Object[] t = table;
+        Object[] t = tbble;
         for (int index = 0; index < t.length; index += 2) {
             Object k = t[index];
             if (k != null) {
-                t[index + 1] = function.apply((K) unmaskNull(k), (V) t[index + 1]);
+                t[index + 1] = function.bpply((K) unmbskNull(k), (V) t[index + 1]);
             }
 
             if (modCount != expectedModCount) {
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
             }
         }
     }
 
     /**
-     * Similar form as array-based Spliterators, but skips blank elements,
-     * and guestimates size as decreasing by half per split.
+     * Similbr form bs brrby-bbsed Spliterbtors, but skips blbnk elements,
+     * bnd guestimbtes size bs decrebsing by hblf per split.
      */
-    static class IdentityHashMapSpliterator<K,V> {
-        final IdentityHashMap<K,V> map;
-        int index;             // current index, modified on advance/split
-        int fence;             // -1 until first use; then one past last index
-        int est;               // size estimate
-        int expectedModCount;  // initialized when fence set
+    stbtic clbss IdentityHbshMbpSpliterbtor<K,V> {
+        finbl IdentityHbshMbp<K,V> mbp;
+        int index;             // current index, modified on bdvbnce/split
+        int fence;             // -1 until first use; then one pbst lbst index
+        int est;               // size estimbte
+        int expectedModCount;  // initiblized when fence set
 
-        IdentityHashMapSpliterator(IdentityHashMap<K,V> map, int origin,
+        IdentityHbshMbpSpliterbtor(IdentityHbshMbp<K,V> mbp, int origin,
                                    int fence, int est, int expectedModCount) {
-            this.map = map;
+            this.mbp = mbp;
             this.index = origin;
             this.fence = fence;
             this.est = est;
             this.expectedModCount = expectedModCount;
         }
 
-        final int getFence() { // initialize fence and size on first use
+        finbl int getFence() { // initiblize fence bnd size on first use
             int hi;
             if ((hi = fence) < 0) {
-                est = map.size;
-                expectedModCount = map.modCount;
-                hi = fence = map.table.length;
+                est = mbp.size;
+                expectedModCount = mbp.modCount;
+                hi = fence = mbp.tbble.length;
             }
             return hi;
         }
 
-        public final long estimateSize() {
+        public finbl long estimbteSize() {
             getFence(); // force init
             return (long) est;
         }
     }
 
-    static final class KeySpliterator<K,V>
-        extends IdentityHashMapSpliterator<K,V>
-        implements Spliterator<K> {
-        KeySpliterator(IdentityHashMap<K,V> map, int origin, int fence, int est,
+    stbtic finbl clbss KeySpliterbtor<K,V>
+        extends IdentityHbshMbpSpliterbtor<K,V>
+        implements Spliterbtor<K> {
+        KeySpliterbtor(IdentityHbshMbp<K,V> mbp, int origin, int fence, int est,
                        int expectedModCount) {
-            super(map, origin, fence, est, expectedModCount);
+            super(mbp, origin, fence, est, expectedModCount);
         }
 
-        public KeySpliterator<K,V> trySplit() {
+        public KeySpliterbtor<K,V> trySplit() {
             int hi = getFence(), lo = index, mid = ((lo + hi) >>> 1) & ~1;
             return (lo >= mid) ? null :
-                new KeySpliterator<>(map, lo, index = mid, est >>>= 1,
+                new KeySpliterbtor<>(mbp, lo, index = mid, est >>>= 1,
                                      expectedModCount);
         }
 
-        @SuppressWarnings("unchecked")
-        public void forEachRemaining(Consumer<? super K> action) {
-            if (action == null)
+        @SuppressWbrnings("unchecked")
+        public void forEbchRembining(Consumer<? super K> bction) {
+            if (bction == null)
                 throw new NullPointerException();
             int i, hi, mc; Object key;
-            IdentityHashMap<K,V> m; Object[] a;
-            if ((m = map) != null && (a = m.table) != null &&
-                (i = index) >= 0 && (index = hi = getFence()) <= a.length) {
+            IdentityHbshMbp<K,V> m; Object[] b;
+            if ((m = mbp) != null && (b = m.tbble) != null &&
+                (i = index) >= 0 && (index = hi = getFence()) <= b.length) {
                 for (; i < hi; i += 2) {
-                    if ((key = a[i]) != null)
-                        action.accept((K)unmaskNull(key));
+                    if ((key = b[i]) != null)
+                        bction.bccept((K)unmbskNull(key));
                 }
                 if (m.modCount == expectedModCount)
                     return;
             }
-            throw new ConcurrentModificationException();
+            throw new ConcurrentModificbtionException();
         }
 
-        @SuppressWarnings("unchecked")
-        public boolean tryAdvance(Consumer<? super K> action) {
-            if (action == null)
+        @SuppressWbrnings("unchecked")
+        public boolebn tryAdvbnce(Consumer<? super K> bction) {
+            if (bction == null)
                 throw new NullPointerException();
-            Object[] a = map.table;
+            Object[] b = mbp.tbble;
             int hi = getFence();
             while (index < hi) {
-                Object key = a[index];
+                Object key = b[index];
                 index += 2;
                 if (key != null) {
-                    action.accept((K)unmaskNull(key));
-                    if (map.modCount != expectedModCount)
-                        throw new ConcurrentModificationException();
+                    bction.bccept((K)unmbskNull(key));
+                    if (mbp.modCount != expectedModCount)
+                        throw new ConcurrentModificbtionException();
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public int characteristics() {
-            return (fence < 0 || est == map.size ? SIZED : 0) | Spliterator.DISTINCT;
+        public int chbrbcteristics() {
+            return (fence < 0 || est == mbp.size ? SIZED : 0) | Spliterbtor.DISTINCT;
         }
     }
 
-    static final class ValueSpliterator<K,V>
-        extends IdentityHashMapSpliterator<K,V>
-        implements Spliterator<V> {
-        ValueSpliterator(IdentityHashMap<K,V> m, int origin, int fence, int est,
+    stbtic finbl clbss VblueSpliterbtor<K,V>
+        extends IdentityHbshMbpSpliterbtor<K,V>
+        implements Spliterbtor<V> {
+        VblueSpliterbtor(IdentityHbshMbp<K,V> m, int origin, int fence, int est,
                          int expectedModCount) {
             super(m, origin, fence, est, expectedModCount);
         }
 
-        public ValueSpliterator<K,V> trySplit() {
+        public VblueSpliterbtor<K,V> trySplit() {
             int hi = getFence(), lo = index, mid = ((lo + hi) >>> 1) & ~1;
             return (lo >= mid) ? null :
-                new ValueSpliterator<>(map, lo, index = mid, est >>>= 1,
+                new VblueSpliterbtor<>(mbp, lo, index = mid, est >>>= 1,
                                        expectedModCount);
         }
 
-        public void forEachRemaining(Consumer<? super V> action) {
-            if (action == null)
+        public void forEbchRembining(Consumer<? super V> bction) {
+            if (bction == null)
                 throw new NullPointerException();
             int i, hi, mc;
-            IdentityHashMap<K,V> m; Object[] a;
-            if ((m = map) != null && (a = m.table) != null &&
-                (i = index) >= 0 && (index = hi = getFence()) <= a.length) {
+            IdentityHbshMbp<K,V> m; Object[] b;
+            if ((m = mbp) != null && (b = m.tbble) != null &&
+                (i = index) >= 0 && (index = hi = getFence()) <= b.length) {
                 for (; i < hi; i += 2) {
-                    if (a[i] != null) {
-                        @SuppressWarnings("unchecked") V v = (V)a[i+1];
-                        action.accept(v);
+                    if (b[i] != null) {
+                        @SuppressWbrnings("unchecked") V v = (V)b[i+1];
+                        bction.bccept(v);
                     }
                 }
                 if (m.modCount == expectedModCount)
                     return;
             }
-            throw new ConcurrentModificationException();
+            throw new ConcurrentModificbtionException();
         }
 
-        public boolean tryAdvance(Consumer<? super V> action) {
-            if (action == null)
+        public boolebn tryAdvbnce(Consumer<? super V> bction) {
+            if (bction == null)
                 throw new NullPointerException();
-            Object[] a = map.table;
+            Object[] b = mbp.tbble;
             int hi = getFence();
             while (index < hi) {
-                Object key = a[index];
-                @SuppressWarnings("unchecked") V v = (V)a[index+1];
+                Object key = b[index];
+                @SuppressWbrnings("unchecked") V v = (V)b[index+1];
                 index += 2;
                 if (key != null) {
-                    action.accept(v);
-                    if (map.modCount != expectedModCount)
-                        throw new ConcurrentModificationException();
+                    bction.bccept(v);
+                    if (mbp.modCount != expectedModCount)
+                        throw new ConcurrentModificbtionException();
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public int characteristics() {
-            return (fence < 0 || est == map.size ? SIZED : 0);
+        public int chbrbcteristics() {
+            return (fence < 0 || est == mbp.size ? SIZED : 0);
         }
 
     }
 
-    static final class EntrySpliterator<K,V>
-        extends IdentityHashMapSpliterator<K,V>
-        implements Spliterator<Map.Entry<K,V>> {
-        EntrySpliterator(IdentityHashMap<K,V> m, int origin, int fence, int est,
+    stbtic finbl clbss EntrySpliterbtor<K,V>
+        extends IdentityHbshMbpSpliterbtor<K,V>
+        implements Spliterbtor<Mbp.Entry<K,V>> {
+        EntrySpliterbtor(IdentityHbshMbp<K,V> m, int origin, int fence, int est,
                          int expectedModCount) {
             super(m, origin, fence, est, expectedModCount);
         }
 
-        public EntrySpliterator<K,V> trySplit() {
+        public EntrySpliterbtor<K,V> trySplit() {
             int hi = getFence(), lo = index, mid = ((lo + hi) >>> 1) & ~1;
             return (lo >= mid) ? null :
-                new EntrySpliterator<>(map, lo, index = mid, est >>>= 1,
+                new EntrySpliterbtor<>(mbp, lo, index = mid, est >>>= 1,
                                        expectedModCount);
         }
 
-        public void forEachRemaining(Consumer<? super Map.Entry<K, V>> action) {
-            if (action == null)
+        public void forEbchRembining(Consumer<? super Mbp.Entry<K, V>> bction) {
+            if (bction == null)
                 throw new NullPointerException();
             int i, hi, mc;
-            IdentityHashMap<K,V> m; Object[] a;
-            if ((m = map) != null && (a = m.table) != null &&
-                (i = index) >= 0 && (index = hi = getFence()) <= a.length) {
+            IdentityHbshMbp<K,V> m; Object[] b;
+            if ((m = mbp) != null && (b = m.tbble) != null &&
+                (i = index) >= 0 && (index = hi = getFence()) <= b.length) {
                 for (; i < hi; i += 2) {
-                    Object key = a[i];
+                    Object key = b[i];
                     if (key != null) {
-                        @SuppressWarnings("unchecked") K k =
-                            (K)unmaskNull(key);
-                        @SuppressWarnings("unchecked") V v = (V)a[i+1];
-                        action.accept
-                            (new AbstractMap.SimpleImmutableEntry<>(k, v));
+                        @SuppressWbrnings("unchecked") K k =
+                            (K)unmbskNull(key);
+                        @SuppressWbrnings("unchecked") V v = (V)b[i+1];
+                        bction.bccept
+                            (new AbstrbctMbp.SimpleImmutbbleEntry<>(k, v));
 
                     }
                 }
                 if (m.modCount == expectedModCount)
                     return;
             }
-            throw new ConcurrentModificationException();
+            throw new ConcurrentModificbtionException();
         }
 
-        public boolean tryAdvance(Consumer<? super Map.Entry<K,V>> action) {
-            if (action == null)
+        public boolebn tryAdvbnce(Consumer<? super Mbp.Entry<K,V>> bction) {
+            if (bction == null)
                 throw new NullPointerException();
-            Object[] a = map.table;
+            Object[] b = mbp.tbble;
             int hi = getFence();
             while (index < hi) {
-                Object key = a[index];
-                @SuppressWarnings("unchecked") V v = (V)a[index+1];
+                Object key = b[index];
+                @SuppressWbrnings("unchecked") V v = (V)b[index+1];
                 index += 2;
                 if (key != null) {
-                    @SuppressWarnings("unchecked") K k =
-                        (K)unmaskNull(key);
-                    action.accept
-                        (new AbstractMap.SimpleImmutableEntry<>(k, v));
-                    if (map.modCount != expectedModCount)
-                        throw new ConcurrentModificationException();
+                    @SuppressWbrnings("unchecked") K k =
+                        (K)unmbskNull(key);
+                    bction.bccept
+                        (new AbstrbctMbp.SimpleImmutbbleEntry<>(k, v));
+                    if (mbp.modCount != expectedModCount)
+                        throw new ConcurrentModificbtionException();
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public int characteristics() {
-            return (fence < 0 || est == map.size ? SIZED : 0) | Spliterator.DISTINCT;
+        public int chbrbcteristics() {
+            return (fence < 0 || est == mbp.size ? SIZED : 0) | Spliterbtor.DISTINCT;
         }
     }
 

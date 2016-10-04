@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.function;
+pbckbge jbvb.util.function;
 
-import java.util.Objects;
+import jbvb.util.Objects;
 
 /**
- * Represents an operation that accepts a single input argument and returns no
- * result. Unlike most other functional interfaces, {@code Consumer} is expected
- * to operate via side-effects.
+ * Represents bn operbtion thbt bccepts b single input brgument bnd returns no
+ * result. Unlike most other functionbl interfbces, {@code Consumer} is expected
+ * to operbte vib side-effects.
  *
- * <p>This is a <a href="package-summary.html">functional interface</a>
- * whose functional method is {@link #accept(Object)}.
+ * <p>This is b <b href="pbckbge-summbry.html">functionbl interfbce</b>
+ * whose functionbl method is {@link #bccept(Object)}.
  *
- * @param <T> the type of the input to the operation
+ * @pbrbm <T> the type of the input to the operbtion
  *
  * @since 1.8
  */
-@FunctionalInterface
-public interface Consumer<T> {
+@FunctionblInterfbce
+public interfbce Consumer<T> {
 
     /**
-     * Performs this operation on the given argument.
+     * Performs this operbtion on the given brgument.
      *
-     * @param t the input argument
+     * @pbrbm t the input brgument
      */
-    void accept(T t);
+    void bccept(T t);
 
     /**
-     * Returns a composed {@code Consumer} that performs, in sequence, this
-     * operation followed by the {@code after} operation. If performing either
-     * operation throws an exception, it is relayed to the caller of the
-     * composed operation.  If performing this operation throws an exception,
-     * the {@code after} operation will not be performed.
+     * Returns b composed {@code Consumer} thbt performs, in sequence, this
+     * operbtion followed by the {@code bfter} operbtion. If performing either
+     * operbtion throws bn exception, it is relbyed to the cbller of the
+     * composed operbtion.  If performing this operbtion throws bn exception,
+     * the {@code bfter} operbtion will not be performed.
      *
-     * @param after the operation to perform after this operation
-     * @return a composed {@code Consumer} that performs in sequence this
-     * operation followed by the {@code after} operation
-     * @throws NullPointerException if {@code after} is null
+     * @pbrbm bfter the operbtion to perform bfter this operbtion
+     * @return b composed {@code Consumer} thbt performs in sequence this
+     * operbtion followed by the {@code bfter} operbtion
+     * @throws NullPointerException if {@code bfter} is null
      */
-    default Consumer<T> andThen(Consumer<? super T> after) {
-        Objects.requireNonNull(after);
-        return (T t) -> { accept(t); after.accept(t); };
+    defbult Consumer<T> bndThen(Consumer<? super T> bfter) {
+        Objects.requireNonNull(bfter);
+        return (T t) -> { bccept(t); bfter.bccept(t); };
     }
 }

@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.smartcardio;
+pbckbge sun.security.smbrtcbrdio;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-// Platform specific code and constants
-class PlatformPCSC {
+// Plbtform specific code bnd constbnts
+clbss PlbtformPCSC {
 
-    static final Throwable initException;
+    stbtic finbl Throwbble initException;
 
-    PlatformPCSC() {
+    PlbtformPCSC() {
         // empty
     }
 
-    static {
-        initException = loadLibrary();
+    stbtic {
+        initException = lobdLibrbry();
     }
 
-    private static Throwable loadLibrary() {
+    privbte stbtic Throwbble lobdLibrbry() {
         try {
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("j2pcsc");
+                    System.lobdLibrbry("j2pcsc");
                     return null;
                 }
             });
             return null;
-        } catch (Throwable e) {
+        } cbtch (Throwbble e) {
             return e;
         }
     }
 
-    // PCSC constants defined differently under Windows and MUSCLE
+    // PCSC constbnts defined differently under Windows bnd MUSCLE
     // Windows version
-    final static int SCARD_PROTOCOL_T0     =  0x0001;
-    final static int SCARD_PROTOCOL_T1     =  0x0002;
-    final static int SCARD_PROTOCOL_RAW    =  0x10000;
+    finbl stbtic int SCARD_PROTOCOL_T0     =  0x0001;
+    finbl stbtic int SCARD_PROTOCOL_T1     =  0x0002;
+    finbl stbtic int SCARD_PROTOCOL_RAW    =  0x10000;
 
-    final static int SCARD_UNKNOWN         =  0x0000;
-    final static int SCARD_ABSENT          =  0x0001;
-    final static int SCARD_PRESENT         =  0x0002;
-    final static int SCARD_SWALLOWED       =  0x0003;
-    final static int SCARD_POWERED         =  0x0004;
-    final static int SCARD_NEGOTIABLE      =  0x0005;
-    final static int SCARD_SPECIFIC        =  0x0006;
+    finbl stbtic int SCARD_UNKNOWN         =  0x0000;
+    finbl stbtic int SCARD_ABSENT          =  0x0001;
+    finbl stbtic int SCARD_PRESENT         =  0x0002;
+    finbl stbtic int SCARD_SWALLOWED       =  0x0003;
+    finbl stbtic int SCARD_POWERED         =  0x0004;
+    finbl stbtic int SCARD_NEGOTIABLE      =  0x0005;
+    finbl stbtic int SCARD_SPECIFIC        =  0x0006;
 
 }

@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
 
-import javax.swing.*;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIResource;
 
 /**
- * This class is used by the text components, AquaEditorPaneUI, AquaTextAreaUI, AquaTextFieldUI and AquaTextPaneUI to control painting of the
- * component's border.  NOTE: It is assumed that this handler is added to components that extend JComponent.
+ * This clbss is used by the text components, AqubEditorPbneUI, AqubTextArebUI, AqubTextFieldUI bnd AqubTextPbneUI to control pbinting of the
+ * component's border.  NOTE: It is bssumed thbt this hbndler is bdded to components thbt extend JComponent.
  */
-public class AquaFocusHandler implements FocusListener, PropertyChangeListener {
-    // Flag to help focusGained() determine whether the origin focus loss was due to a temporary focus loss or not.
-    private boolean wasTemporary = false;
+public clbss AqubFocusHbndler implements FocusListener, PropertyChbngeListener {
+    // Flbg to help focusGbined() determine whether the origin focus loss wbs due to b temporbry focus loss or not.
+    privbte boolebn wbsTemporbry = fblse;
 
-    // Flag to track when a border needs a repaint due to a window becoming activate/inactive.
-    private boolean repaintBorder = false;
+    // Flbg to trbck when b border needs b repbint due to b window becoming bctivbte/inbctive.
+    privbte boolebn repbintBorder = fblse;
 
-    protected static final String FRAME_ACTIVE_PROPERTY = "Frame.active";
+    protected stbtic finbl String FRAME_ACTIVE_PROPERTY = "Frbme.bctive";
 
-    public void focusGained(final FocusEvent ev) {
-        // If we gained focus and it wasn't due to a previous temporary focus loss
-        // or the frame became active again, then repaint the border on the component.
-        if (!wasTemporary || repaintBorder) {
-            AquaBorder.repaintBorder((JComponent)ev.getSource());
-            repaintBorder = false;
+    public void focusGbined(finbl FocusEvent ev) {
+        // If we gbined focus bnd it wbsn't due to b previous temporbry focus loss
+        // or the frbme becbme bctive bgbin, then repbint the border on the component.
+        if (!wbsTemporbry || repbintBorder) {
+            AqubBorder.repbintBorder((JComponent)ev.getSource());
+            repbintBorder = fblse;
         }
-        wasTemporary = false;
+        wbsTemporbry = fblse;
     }
 
-    public void focusLost(final FocusEvent ev) {
-        wasTemporary = ev.isTemporary();
+    public void focusLost(finbl FocusEvent ev) {
+        wbsTemporbry = ev.isTemporbry();
 
-        // If we lost focus due to a permanent focus loss then repaint the border on the component.
-        if (!wasTemporary) {
-            AquaBorder.repaintBorder((JComponent)ev.getSource());
+        // If we lost focus due to b permbnent focus loss then repbint the border on the component.
+        if (!wbsTemporbry) {
+            AqubBorder.repbintBorder((JComponent)ev.getSource());
         }
     }
 
-    public void propertyChange(final PropertyChangeEvent ev) {
-        if (!FRAME_ACTIVE_PROPERTY.equals(ev.getPropertyName())) return;
+    public void propertyChbnge(finbl PropertyChbngeEvent ev) {
+        if (!FRAME_ACTIVE_PROPERTY.equbls(ev.getPropertyNbme())) return;
 
-        if (Boolean.TRUE.equals(ev.getNewValue())) {
-            // The FRAME_ACTIVE_PROPERTY change event is sent before a component gains focus.
-            // We set a flag to help the focusGained() determine when they should be repainting
+        if (Boolebn.TRUE.equbls(ev.getNewVblue())) {
+            // The FRAME_ACTIVE_PROPERTY chbnge event is sent before b component gbins focus.
+            // We set b flbg to help the focusGbined() determine when they should be repbinting
             // the components focus.
-            repaintBorder = true;
-        } else if (wasTemporary) {
-            // The FRAME_ACTIVE_PROPERTY change event is sent after a component loses focus.
-            // We use the wasTemporary flag to determine if we need to repaint the border.
-            AquaBorder.repaintBorder((JComponent)ev.getSource());
+            repbintBorder = true;
+        } else if (wbsTemporbry) {
+            // The FRAME_ACTIVE_PROPERTY chbnge event is sent bfter b component loses focus.
+            // We use the wbsTemporbry flbg to determine if we need to repbint the border.
+            AqubBorder.repbintBorder((JComponent)ev.getSource());
         }
     }
 
-    protected static boolean isActive(final JComponent c) {
+    protected stbtic boolebn isActive(finbl JComponent c) {
         if (c == null) return true;
-        final Object activeObj = c.getClientProperty(AquaFocusHandler.FRAME_ACTIVE_PROPERTY);
-        if (Boolean.FALSE.equals(activeObj)) return false;
+        finbl Object bctiveObj = c.getClientProperty(AqubFocusHbndler.FRAME_ACTIVE_PROPERTY);
+        if (Boolebn.FALSE.equbls(bctiveObj)) return fblse;
         return true;
     }
 
-    static final PropertyChangeListener REPAINT_LISTENER = new PropertyChangeListener() {
-        public void propertyChange(final PropertyChangeEvent evt) {
-            final Object source = evt.getSource();
-            if (source instanceof JComponent) {
-                ((JComponent)source).repaint();
+    stbtic finbl PropertyChbngeListener REPAINT_LISTENER = new PropertyChbngeListener() {
+        public void propertyChbnge(finbl PropertyChbngeEvent evt) {
+            finbl Object source = evt.getSource();
+            if (source instbnceof JComponent) {
+                ((JComponent)source).repbint();
             }
         }
     };
 
-    protected static void install(final JComponent c) {
-        c.addPropertyChangeListener(FRAME_ACTIVE_PROPERTY, REPAINT_LISTENER);
+    protected stbtic void instbll(finbl JComponent c) {
+        c.bddPropertyChbngeListener(FRAME_ACTIVE_PROPERTY, REPAINT_LISTENER);
     }
 
-    protected static void uninstall(final JComponent c) {
-        c.removePropertyChangeListener(FRAME_ACTIVE_PROPERTY, REPAINT_LISTENER);
+    protected stbtic void uninstbll(finbl JComponent c) {
+        c.removePropertyChbngeListener(FRAME_ACTIVE_PROPERTY, REPAINT_LISTENER);
     }
 
-    static void swapSelectionColors(final String prefix, final JTree c, final Object value) {
-        // <rdar://problem/8166173> JTree: selection color does not dim when window becomes inactive
-        // TODO inject our colors into the DefaultTreeCellRenderer
+    stbtic void swbpSelectionColors(finbl String prefix, finbl JTree c, finbl Object vblue) {
+        // <rdbr://problem/8166173> JTree: selection color does not dim when window becomes inbctive
+        // TODO inject our colors into the DefbultTreeCellRenderer
     }
 
-    static void swapSelectionColors(final String prefix, final JTable c, final Object value) {
-        if (!isComponentValid(c)) return;
+    stbtic void swbpSelectionColors(finbl String prefix, finbl JTbble c, finbl Object vblue) {
+        if (!isComponentVblid(c)) return;
 
-        final Color bg = c.getSelectionBackground();
-        final Color fg = c.getSelectionForeground();
-        if (!(bg instanceof UIResource) || !(fg instanceof UIResource)) return;
+        finbl Color bg = c.getSelectionBbckground();
+        finbl Color fg = c.getSelectionForeground();
+        if (!(bg instbnceof UIResource) || !(fg instbnceof UIResource)) return;
 
-        if (Boolean.FALSE.equals(value)) {
-            setSelectionColors(c, "Table.selectionInactiveForeground", "Table.selectionInactiveBackground");
+        if (Boolebn.FALSE.equbls(vblue)) {
+            setSelectionColors(c, "Tbble.selectionInbctiveForeground", "Tbble.selectionInbctiveBbckground");
             return;
         }
 
-        if (Boolean.TRUE.equals(value)) {
-            setSelectionColors(c, "Table.selectionForeground", "Table.selectionBackground");
-            return;
-        }
-    }
-
-    static void setSelectionColors(final JTable c, final String fgName, final String bgName) {
-        c.setSelectionForeground(UIManager.getColor(fgName));
-        c.setSelectionBackground(UIManager.getColor(bgName));
-    }
-
-    static void swapSelectionColors(final String prefix, final JList<?> c, final Object value) {
-        if (!isComponentValid(c)) return;
-
-        final Color bg = c.getSelectionBackground();
-        final Color fg = c.getSelectionForeground();
-        if (!(bg instanceof UIResource) || !(fg instanceof UIResource)) return;
-
-        if (Boolean.FALSE.equals(value)) {
-            setSelectionColors(c, "List.selectionInactiveForeground", "List.selectionInactiveBackground");
-            return;
-        }
-
-        if (Boolean.TRUE.equals(value)) {
-            setSelectionColors(c, "List.selectionForeground", "List.selectionBackground");
+        if (Boolebn.TRUE.equbls(vblue)) {
+            setSelectionColors(c, "Tbble.selectionForeground", "Tbble.selectionBbckground");
             return;
         }
     }
 
-    static void setSelectionColors(final JList<?> c, final String fgName, final String bgName) {
-        c.setSelectionForeground(UIManager.getColor(fgName));
-        c.setSelectionBackground(UIManager.getColor(bgName));
+    stbtic void setSelectionColors(finbl JTbble c, finbl String fgNbme, finbl String bgNbme) {
+        c.setSelectionForeground(UIMbnbger.getColor(fgNbme));
+        c.setSelectionBbckground(UIMbnbger.getColor(bgNbme));
     }
 
-    static boolean isComponentValid(final JComponent c) {
-        if (c == null) return false;
-        final Window window = SwingUtilities.getWindowAncestor(c);
-        if (window == null) return false;
+    stbtic void swbpSelectionColors(finbl String prefix, finbl JList<?> c, finbl Object vblue) {
+        if (!isComponentVblid(c)) return;
+
+        finbl Color bg = c.getSelectionBbckground();
+        finbl Color fg = c.getSelectionForeground();
+        if (!(bg instbnceof UIResource) || !(fg instbnceof UIResource)) return;
+
+        if (Boolebn.FALSE.equbls(vblue)) {
+            setSelectionColors(c, "List.selectionInbctiveForeground", "List.selectionInbctiveBbckground");
+            return;
+        }
+
+        if (Boolebn.TRUE.equbls(vblue)) {
+            setSelectionColors(c, "List.selectionForeground", "List.selectionBbckground");
+            return;
+        }
+    }
+
+    stbtic void setSelectionColors(finbl JList<?> c, finbl String fgNbme, finbl String bgNbme) {
+        c.setSelectionForeground(UIMbnbger.getColor(fgNbme));
+        c.setSelectionBbckground(UIMbnbger.getColor(bgNbme));
+    }
+
+    stbtic boolebn isComponentVblid(finbl JComponent c) {
+        if (c == null) return fblse;
+        finbl Window window = SwingUtilities.getWindowAncestor(c);
+        if (window == null) return fblse;
         return true;
     }
 }

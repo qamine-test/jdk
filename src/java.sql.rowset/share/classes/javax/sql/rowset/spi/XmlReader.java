@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset.spi;
+pbckbge jbvbx.sql.rowset.spi;
 
-import java.sql.SQLException;
-import java.io.Reader;
+import jbvb.sql.SQLException;
+import jbvb.io.Rebder;
 
-import javax.sql.RowSetReader;
-import javax.sql.rowset.*;
+import jbvbx.sql.RowSetRebder;
+import jbvbx.sql.rowset.*;
 
 /**
- * A specialized interface that facilitates an extension of the
- * <code>SyncProvider</code> abstract class for XML orientated
- * synchronization providers.
+ * A speciblized interfbce thbt fbcilitbtes bn extension of the
+ * <code>SyncProvider</code> bbstrbct clbss for XML orientbted
+ * synchronizbtion providers.
  * <P>
- * <code>SyncProvider</code>  implementations that supply XML data reader
- * capabilities such as output XML stream capabilities can implement this
- * interface to provide standard <code>XmlReader</code> objects to
- * <code>WebRowSet</code> implementations.
+ * <code>SyncProvider</code>  implementbtions thbt supply XML dbtb rebder
+ * cbpbbilities such bs output XML strebm cbpbbilities cbn implement this
+ * interfbce to provide stbndbrd <code>XmlRebder</code> objects to
+ * <code>WebRowSet</code> implementbtions.
  * <p>
- * An <code>XmlReader</code> object is registered as the
- * XML reader for a <code>WebRowSet</code> by being assigned to the
- * rowset's <code>xmlReader</code> field. When the <code>WebRowSet</code>
- * object's <code>readXml</code> method is invoked, it in turn invokes
- * its XML reader's <code>readXML</code> method.
+ * An <code>XmlRebder</code> object is registered bs the
+ * XML rebder for b <code>WebRowSet</code> by being bssigned to the
+ * rowset's <code>xmlRebder</code> field. When the <code>WebRowSet</code>
+ * object's <code>rebdXml</code> method is invoked, it in turn invokes
+ * its XML rebder's <code>rebdXML</code> method.
  *
  * @since 1.5
  */
-public interface XmlReader extends RowSetReader {
+public interfbce XmlRebder extends RowSetRebder {
 
   /**
-   * Reads and parses the given <code>WebRowSet</code> object from the given
-   * input stream in XML format. The <code>xmlReader</code> field of the
-   * given <code>WebRowSet</code> object must contain this
-   * <code>XmlReader</code> object.
+   * Rebds bnd pbrses the given <code>WebRowSet</code> object from the given
+   * input strebm in XML formbt. The <code>xmlRebder</code> field of the
+   * given <code>WebRowSet</code> object must contbin this
+   * <code>XmlRebder</code> object.
    * <P>
-   * If a parsing error occurs, the exception that is thrown will
-   * include information about the location of the error in the
-   * original XML document.
+   * If b pbrsing error occurs, the exception thbt is thrown will
+   * include informbtion bbout the locbtion of the error in the
+   * originbl XML document.
    *
-   * @param caller the <code>WebRowSet</code> object to be parsed, whose
-   *        <code>xmlReader</code> field must contain a reference to
-   *        this <code>XmlReader</code> object
-   * @param reader the <code>java.io.Reader</code> object from which
-   *        <code>caller</code> will be read
-   * @throws SQLException if a database access error occurs or
-   *            this <code>XmlReader</code> object is not the reader
+   * @pbrbm cbller the <code>WebRowSet</code> object to be pbrsed, whose
+   *        <code>xmlRebder</code> field must contbin b reference to
+   *        this <code>XmlRebder</code> object
+   * @pbrbm rebder the <code>jbvb.io.Rebder</code> object from which
+   *        <code>cbller</code> will be rebd
+   * @throws SQLException if b dbtbbbse bccess error occurs or
+   *            this <code>XmlRebder</code> object is not the rebder
    *            for the given rowset
    */
-  public void readXML(WebRowSet caller, java.io.Reader reader)
+  public void rebdXML(WebRowSet cbller, jbvb.io.Rebder rebder)
     throws SQLException;
 
 }

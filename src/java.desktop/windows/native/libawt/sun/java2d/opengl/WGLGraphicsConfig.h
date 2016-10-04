@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2004, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef WGLGraphicsConfig_h_Included
-#define WGLGraphicsConfig_h_Included
+#ifndef WGLGrbphicsConfig_h_Included
+#define WGLGrbphicsConfig_h_Included
 
 #include "jni.h"
 #include "J2D_GL/gl.h"
-#include "OGLSurfaceData.h"
+#include "OGLSurfbceDbtb.h"
 #include "OGLContext.h"
 
 /**
- * The WGLGraphicsConfigInfo structure contains information specific to a
- * given WGLGraphicsConfig (pixel format).
+ * The WGLGrbphicsConfigInfo structure contbins informbtion specific to b
+ * given WGLGrbphicsConfig (pixel formbt).
  *
  *     jint screen, pixfmt;
- * The screen and PixelFormat for the associated WGLGraphicsConfig.
+ * The screen bnd PixelFormbt for the bssocibted WGLGrbphicsConfig.
  *
  *     OGLContext *context;
- * The context associated with this WGLGraphicsConfig.
+ * The context bssocibted with this WGLGrbphicsConfig.
  */
-typedef struct _WGLGraphicsConfigInfo {
+typedef struct _WGLGrbphicsConfigInfo {
     jint       screen;
     jint       pixfmt;
     OGLContext *context;
-} WGLGraphicsConfigInfo;
+} WGLGrbphicsConfigInfo;
 
 /**
- * The WGLCtxInfo structure contains the native WGLContext information
- * required by and is encapsulated by the platform-independent OGLContext
+ * The WGLCtxInfo structure contbins the nbtive WGLContext informbtion
+ * required by bnd is encbpsulbted by the plbtform-independent OGLContext
  * structure.
  *
  *     HGLRC context;
- * The core native WGL context.  Rendering commands have no effect until a
- * context is made current (active).
+ * The core nbtive WGL context.  Rendering commbnds hbve no effect until b
+ * context is mbde current (bctive).
  *
- *     HPBUFFERARB scratchSurface;
- *     HDC         scratchSurfaceDC;
- * The scratch surface (and its associated HDC), which are used to make a
- * context current when we do not otherwise have a reference to an OpenGL
- * surface for the purposes of making a context current.
+ *     HPBUFFERARB scrbtchSurfbce;
+ *     HDC         scrbtchSurfbceDC;
+ * The scrbtch surfbce (bnd its bssocibted HDC), which bre used to mbke b
+ * context current when we do not otherwise hbve b reference to bn OpenGL
+ * surfbce for the purposes of mbking b context current.
  */
 typedef struct _WGLCtxInfo {
     HGLRC       context;
-    HPBUFFERARB scratchSurface;
-    HDC         scratchSurfaceDC;
+    HPBUFFERARB scrbtchSurfbce;
+    HDC         scrbtchSurfbceDC;
 } WGLCtxInfo;
 
 /**
  * Utility methods
  */
-HWND WGLGC_CreateScratchWindow(jint screennum);
+HWND WGLGC_CrebteScrbtchWindow(jint screennum);
 
 /**
- * REMIND: ideally, this would be declared in AwtComponent.h, but including
- *         that C++ header file from C source files causes problems...
+ * REMIND: ideblly, this would be declbred in AwtComponent.h, but including
+ *         thbt C++ hebder file from C source files cbuses problems...
  */
-extern HWND AwtComponent_GetHWnd(JNIEnv *env, jlong pData);
+extern HWND AwtComponent_GetHWnd(JNIEnv *env, jlong pDbtb);
 
-#endif /* WGLGraphicsConfig_h_Included */
+#endif /* WGLGrbphicsConfig_h_Included */

@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.awt.im.spi;
+pbckbge jbvb.bwt.im.spi;
 
-import java.awt.AWTException;
-import java.awt.Image;
-import java.util.Locale;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.Imbge;
+import jbvb.util.Locble;
 
 /**
- * Defines methods that provide sufficient information about an input method
- * to enable selection and loading of that input method.
- * The input method itself is only loaded when it is actually used.
+ * Defines methods thbt provide sufficient informbtion bbout bn input method
+ * to enbble selection bnd lobding of thbt input method.
+ * The input method itself is only lobded when it is bctublly used.
  *
  * @since 1.3
  */
 
-public interface InputMethodDescriptor {
+public interfbce InputMethodDescriptor {
 
     /**
-     * Returns the locales supported by the corresponding input method.
-     * The locale may describe just the language, or may also include
-     * country and variant information if needed.
-     * The information is used to select input methods by locale
-     * ({@link java.awt.im.InputContext#selectInputMethod(Locale)}). It may also
-     * be used to sort input methods by locale in a user-visible
+     * Returns the locbles supported by the corresponding input method.
+     * The locble mby describe just the lbngubge, or mby blso include
+     * country bnd vbribnt informbtion if needed.
+     * The informbtion is used to select input methods by locble
+     * ({@link jbvb.bwt.im.InputContext#selectInputMethod(Locble)}). It mby blso
+     * be used to sort input methods by locble in b user-visible
      * list of input methods.
      * <p>
-     * Only the input method's primary locales should be returned.
-     * For example, if a Japanese input method also has a pass-through
-     * mode for Roman characters, typically still only Japanese would
-     * be returned. Thus, the list of locales returned is typically
-     * a subset of the locales for which the corresponding input method's
-     * implementation of {@link java.awt.im.spi.InputMethod#setLocale} returns true.
+     * Only the input method's primbry locbles should be returned.
+     * For exbmple, if b Jbpbnese input method blso hbs b pbss-through
+     * mode for Rombn chbrbcters, typicblly still only Jbpbnese would
+     * be returned. Thus, the list of locbles returned is typicblly
+     * b subset of the locbles for which the corresponding input method's
+     * implementbtion of {@link jbvb.bwt.im.spi.InputMethod#setLocble} returns true.
      * <p>
-     * If {@link #hasDynamicLocaleList} returns true, this method is
-     * called each time the information is needed. This
-     * gives input methods that depend on network resources the chance
-     * to add or remove locales as resources become available or
-     * unavailable.
+     * If {@link #hbsDynbmicLocbleList} returns true, this method is
+     * cblled ebch time the informbtion is needed. This
+     * gives input methods thbt depend on network resources the chbnce
+     * to bdd or remove locbles bs resources become bvbilbble or
+     * unbvbilbble.
      *
-     * @return the locales supported by the input method
-     * @exception AWTException if it can be determined that the input method
-     * is inoperable, for example, because of incomplete installation.
+     * @return the locbles supported by the input method
+     * @exception AWTException if it cbn be determined thbt the input method
+     * is inoperbble, for exbmple, becbuse of incomplete instbllbtion.
      */
-    Locale[] getAvailableLocales() throws AWTException;
+    Locble[] getAvbilbbleLocbles() throws AWTException;
 
     /**
-     * Returns whether the list of available locales can change
-     * at runtime. This may be the case, for example, for adapters
-     * that access real input methods over the network.
-     * @return whether the list of available locales can change at
+     * Returns whether the list of bvbilbble locbles cbn chbnge
+     * bt runtime. This mby be the cbse, for exbmple, for bdbpters
+     * thbt bccess rebl input methods over the network.
+     * @return whether the list of bvbilbble locbles cbn chbnge bt
      * runtime
      */
-    boolean hasDynamicLocaleList();
+    boolebn hbsDynbmicLocbleList();
 
     /**
-     * Returns the user-visible name of the corresponding
-     * input method for the given input locale in the language in which
-     * the name will be displayed.
+     * Returns the user-visible nbme of the corresponding
+     * input method for the given input locble in the lbngubge in which
+     * the nbme will be displbyed.
      * <p>
-     * The inputLocale parameter specifies the locale for which text
+     * The inputLocble pbrbmeter specifies the locble for which text
      * is input.
-     * This parameter can only take values obtained from this descriptor's
-     * {@link #getAvailableLocales} method or null. If it is null, an
-     * input locale independent name for the input method should be
+     * This pbrbmeter cbn only tbke vblues obtbined from this descriptor's
+     * {@link #getAvbilbbleLocbles} method or null. If it is null, bn
+     * input locble independent nbme for the input method should be
      * returned.
      * <p>
-     * If a name for the desired display language is not available, the
-     * method may fall back to some other language.
+     * If b nbme for the desired displby lbngubge is not bvbilbble, the
+     * method mby fbll bbck to some other lbngubge.
      *
-     * @param inputLocale the locale for which text input is supported, or null
-     * @param displayLanguage the language in which the name will be displayed
-     * @return the user-visible name of the corresponding input method
-     * for the given input locale in the language in which the name
-     * will be displayed
+     * @pbrbm inputLocble the locble for which text input is supported, or null
+     * @pbrbm displbyLbngubge the lbngubge in which the nbme will be displbyed
+     * @return the user-visible nbme of the corresponding input method
+     * for the given input locble in the lbngubge in which the nbme
+     * will be displbyed
      */
-    String getInputMethodDisplayName(Locale inputLocale, Locale displayLanguage);
+    String getInputMethodDisplbyNbme(Locble inputLocble, Locble displbyLbngubge);
 
     /**
-     * Returns an icon for the corresponding input method.
-     * The icon may be used by a user interface for selecting input methods.
+     * Returns bn icon for the corresponding input method.
+     * The icon mby be used by b user interfbce for selecting input methods.
      * <p>
-     * The inputLocale parameter specifies the locale for which text
+     * The inputLocble pbrbmeter specifies the locble for which text
      * is input.
-     * This parameter can only take values obtained from this descriptor's
-     * {@link #getAvailableLocales} method or null. If it is null, an
-     * input locale independent icon for the input method should be
+     * This pbrbmeter cbn only tbke vblues obtbined from this descriptor's
+     * {@link #getAvbilbbleLocbles} method or null. If it is null, bn
+     * input locble independent icon for the input method should be
      * returned.
      * <p>
      * The icon's size should be 16&times;16 pixels.
      *
-     * @param inputLocale the locale for which text input is supported, or null
-     * @return an icon for the corresponding input method, or null
+     * @pbrbm inputLocble the locble for which text input is supported, or null
+     * @return bn icon for the corresponding input method, or null
      */
-    Image getInputMethodIcon(Locale inputLocale);
+    Imbge getInputMethodIcon(Locble inputLocble);
 
     /**
-     * Creates a new instance of the corresponding input method.
+     * Crebtes b new instbnce of the corresponding input method.
      *
-     * @return a new instance of the corresponding input method
-     * @exception Exception any exception that may occur while creating the
-     * input method instance
+     * @return b new instbnce of the corresponding input method
+     * @exception Exception bny exception thbt mby occur while crebting the
+     * input method instbnce
      */
-    InputMethod createInputMethod() throws Exception;
+    InputMethod crebteInputMethod() throws Exception;
 }

@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.util.*;
-import java.nio.ByteBuffer;
+import jbvb.util.*;
+import jbvb.nio.ByteBuffer;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.*;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
-import javax.crypto.MacSpi;
+import jbvbx.crypto.MbcSpi;
 
 import sun.nio.ch.DirectBuffer;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 /**
- * MAC implementation class. This class currently supports HMAC using
- * MD5, SHA-1, SHA-224, SHA-256, SHA-384, and SHA-512 and the SSL3 MAC
- * using MD5 and SHA-1.
+ * MAC implementbtion clbss. This clbss currently supports HMAC using
+ * MD5, SHA-1, SHA-224, SHA-256, SHA-384, bnd SHA-512 bnd the SSL3 MAC
+ * using MD5 bnd SHA-1.
  *
- * Note that unlike other classes (e.g. Signature), this does not
- * composite various operations if the token only supports part of the
- * required functionality. The MAC implementations in SunJCE already
- * do exactly that by implementing an MAC on top of MessageDigests. We
- * could not do any better than they.
+ * Note thbt unlike other clbsses (e.g. Signbture), this does not
+ * composite vbrious operbtions if the token only supports pbrt of the
+ * required functionblity. The MAC implementbtions in SunJCE blrebdy
+ * do exbctly thbt by implementing bn MAC on top of MessbgeDigests. We
+ * could not do bny better thbn they.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class P11Mac extends MacSpi {
+finbl clbss P11Mbc extends MbcSpi {
 
-    /* unitialized, all fields except session have arbitrary values */
-    private final static int S_UNINIT   = 1;
+    /* unitiblized, bll fields except session hbve brbitrbry vblues */
+    privbte finbl stbtic int S_UNINIT   = 1;
 
-    /* session initialized, no data processed yet */
-    private final static int S_RESET    = 2;
+    /* session initiblized, no dbtb processed yet */
+    privbte finbl stbtic int S_RESET    = 2;
 
-    /* session initialized, data processed */
-    private final static int S_UPDATE   = 3;
+    /* session initiblized, dbtb processed */
+    privbte finbl stbtic int S_UPDATE   = 3;
 
-    /* transitional state after doFinal() before we go to S_UNINIT */
-    private final static int S_DOFINAL  = 4;
+    /* trbnsitionbl stbte bfter doFinbl() before we go to S_UNINIT */
+    privbte finbl stbtic int S_DOFINAL  = 4;
 
-    // token instance
-    private final Token token;
+    // token instbnce
+    privbte finbl Token token;
 
-    // algorithm name
-    private final String algorithm;
+    // blgorithm nbme
+    privbte finbl String blgorithm;
 
-    // mechanism id
-    private final long mechanism;
+    // mechbnism id
+    privbte finbl long mechbnism;
 
-    // mechanism object
-    private final CK_MECHANISM ckMechanism;
+    // mechbnism object
+    privbte finbl CK_MECHANISM ckMechbnism;
 
     // length of the MAC in bytes
-    private final int macLength;
+    privbte finbl int mbcLength;
 
-    // key instance used, if operation active
-    private P11Key p11Key;
+    // key instbnce used, if operbtion bctive
+    privbte P11Key p11Key;
 
-    // associated session, if any
-    private Session session;
+    // bssocibted session, if bny
+    privbte Session session;
 
-    // state, one of S_* above
-    private int state;
+    // stbte, one of S_* bbove
+    privbte int stbte;
 
-    // one byte buffer for the update(byte) method, initialized on demand
-    private byte[] oneByte;
+    // one byte buffer for the updbte(byte) method, initiblized on dembnd
+    privbte byte[] oneByte;
 
-    P11Mac(Token token, String algorithm, long mechanism)
+    P11Mbc(Token token, String blgorithm, long mechbnism)
             throws PKCS11Exception {
         super();
         this.token = token;
-        this.algorithm = algorithm;
-        this.mechanism = mechanism;
-        Long params = null;
-        switch ((int)mechanism) {
-        case (int)CKM_MD5_HMAC:
-            macLength = 16;
-            break;
-        case (int)CKM_SHA_1_HMAC:
-            macLength = 20;
-            break;
-        case (int)CKM_SHA224_HMAC:
-            macLength = 28;
-            break;
-        case (int)CKM_SHA256_HMAC:
-            macLength = 32;
-            break;
-        case (int)CKM_SHA384_HMAC:
-            macLength = 48;
-            break;
-        case (int)CKM_SHA512_HMAC:
-            macLength = 64;
-            break;
-        case (int)CKM_SSL3_MD5_MAC:
-            macLength = 16;
-            params = Long.valueOf(16);
-            break;
-        case (int)CKM_SSL3_SHA1_MAC:
-            macLength = 20;
-            params = Long.valueOf(20);
-            break;
-        default:
-            throw new ProviderException("Unknown mechanism: " + mechanism);
+        this.blgorithm = blgorithm;
+        this.mechbnism = mechbnism;
+        Long pbrbms = null;
+        switch ((int)mechbnism) {
+        cbse (int)CKM_MD5_HMAC:
+            mbcLength = 16;
+            brebk;
+        cbse (int)CKM_SHA_1_HMAC:
+            mbcLength = 20;
+            brebk;
+        cbse (int)CKM_SHA224_HMAC:
+            mbcLength = 28;
+            brebk;
+        cbse (int)CKM_SHA256_HMAC:
+            mbcLength = 32;
+            brebk;
+        cbse (int)CKM_SHA384_HMAC:
+            mbcLength = 48;
+            brebk;
+        cbse (int)CKM_SHA512_HMAC:
+            mbcLength = 64;
+            brebk;
+        cbse (int)CKM_SSL3_MD5_MAC:
+            mbcLength = 16;
+            pbrbms = Long.vblueOf(16);
+            brebk;
+        cbse (int)CKM_SSL3_SHA1_MAC:
+            mbcLength = 20;
+            pbrbms = Long.vblueOf(20);
+            brebk;
+        defbult:
+            throw new ProviderException("Unknown mechbnism: " + mechbnism);
         }
-        ckMechanism = new CK_MECHANISM(mechanism, params);
-        state = S_UNINIT;
-        initialize();
+        ckMechbnism = new CK_MECHANISM(mechbnism, pbrbms);
+        stbte = S_UNINIT;
+        initiblize();
     }
 
-    private void ensureInitialized() throws PKCS11Exception {
-        token.ensureValid();
-        if (state == S_UNINIT) {
-            initialize();
+    privbte void ensureInitiblized() throws PKCS11Exception {
+        token.ensureVblid();
+        if (stbte == S_UNINIT) {
+            initiblize();
         }
     }
 
-    private void cancelOperation() {
-        token.ensureValid();
-        if (state == S_UNINIT) {
+    privbte void cbncelOperbtion() {
+        token.ensureVblid();
+        if (stbte == S_UNINIT) {
             return;
         }
-        state = S_UNINIT;
-        if ((session == null) || (token.explicitCancel == false)) {
+        stbte = S_UNINIT;
+        if ((session == null) || (token.explicitCbncel == fblse)) {
             return;
         }
         try {
-            token.p11.C_SignFinal(session.id(), 0);
-        } catch (PKCS11Exception e) {
-            throw new ProviderException("Cancel failed", e);
+            token.p11.C_SignFinbl(session.id(), 0);
+        } cbtch (PKCS11Exception e) {
+            throw new ProviderException("Cbncel fbiled", e);
         }
     }
 
-    private void initialize() throws PKCS11Exception {
-        if (state == S_RESET) {
+    privbte void initiblize() throws PKCS11Exception {
+        if (stbte == S_RESET) {
             return;
         }
         if (session == null) {
@@ -167,103 +167,103 @@ final class P11Mac extends MacSpi {
         }
         if (p11Key != null) {
             token.p11.C_SignInit
-                (session.id(), ckMechanism, p11Key.keyID);
-            state = S_RESET;
+                (session.id(), ckMechbnism, p11Key.keyID);
+            stbte = S_RESET;
         } else {
-            state = S_UNINIT;
+            stbte = S_UNINIT;
         }
     }
 
     // see JCE spec
-    protected int engineGetMacLength() {
-        return macLength;
+    protected int engineGetMbcLength() {
+        return mbcLength;
     }
 
     // see JCE spec
     protected void engineReset() {
-        // the framework insists on calling reset() after doFinal(),
-        // but we prefer to take care of reinitialization ourselves
-        if (state == S_DOFINAL) {
-            state = S_UNINIT;
+        // the frbmework insists on cblling reset() bfter doFinbl(),
+        // but we prefer to tbke cbre of reinitiblizbtion ourselves
+        if (stbte == S_DOFINAL) {
+            stbte = S_UNINIT;
             return;
         }
-        cancelOperation();
+        cbncelOperbtion();
         try {
-            initialize();
-        } catch (PKCS11Exception e) {
-            throw new ProviderException("reset() failed, ", e);
+            initiblize();
+        } cbtch (PKCS11Exception e) {
+            throw new ProviderException("reset() fbiled, ", e);
         }
     }
 
     // see JCE spec
-    protected void engineInit(Key key, AlgorithmParameterSpec params)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException
-                ("Parameters not supported");
+    protected void engineInit(Key key, AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+        if (pbrbms != null) {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Pbrbmeters not supported");
         }
-        cancelOperation();
-        p11Key = P11SecretKeyFactory.convertKey(token, key, algorithm);
+        cbncelOperbtion();
+        p11Key = P11SecretKeyFbctory.convertKey(token, key, blgorithm);
         try {
-            initialize();
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("init() failed", e);
+            initiblize();
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeyException("init() fbiled", e);
         }
     }
 
     // see JCE spec
-    protected byte[] engineDoFinal() {
+    protected byte[] engineDoFinbl() {
         try {
-            ensureInitialized();
-            byte[] mac = token.p11.C_SignFinal(session.id(), 0);
-            state = S_DOFINAL;
-            return mac;
-        } catch (PKCS11Exception e) {
-            throw new ProviderException("doFinal() failed", e);
-        } finally {
-            session = token.releaseSession(session);
+            ensureInitiblized();
+            byte[] mbc = token.p11.C_SignFinbl(session.id(), 0);
+            stbte = S_DOFINAL;
+            return mbc;
+        } cbtch (PKCS11Exception e) {
+            throw new ProviderException("doFinbl() fbiled", e);
+        } finblly {
+            session = token.relebseSession(session);
         }
     }
 
     // see JCE spec
-    protected void engineUpdate(byte input) {
+    protected void engineUpdbte(byte input) {
         if (oneByte == null) {
            oneByte = new byte[1];
         }
         oneByte[0] = input;
-        engineUpdate(oneByte, 0, 1);
+        engineUpdbte(oneByte, 0, 1);
     }
 
     // see JCE spec
-    protected void engineUpdate(byte[] b, int ofs, int len) {
+    protected void engineUpdbte(byte[] b, int ofs, int len) {
         try {
-            ensureInitialized();
-            token.p11.C_SignUpdate(session.id(), 0, b, ofs, len);
-            state = S_UPDATE;
-        } catch (PKCS11Exception e) {
-            throw new ProviderException("update() failed", e);
+            ensureInitiblized();
+            token.p11.C_SignUpdbte(session.id(), 0, b, ofs, len);
+            stbte = S_UPDATE;
+        } cbtch (PKCS11Exception e) {
+            throw new ProviderException("updbte() fbiled", e);
         }
     }
 
     // see JCE spec
-    protected void engineUpdate(ByteBuffer byteBuffer) {
+    protected void engineUpdbte(ByteBuffer byteBuffer) {
         try {
-            ensureInitialized();
-            int len = byteBuffer.remaining();
+            ensureInitiblized();
+            int len = byteBuffer.rembining();
             if (len <= 0) {
                 return;
             }
-            if (byteBuffer instanceof DirectBuffer == false) {
-                super.engineUpdate(byteBuffer);
+            if (byteBuffer instbnceof DirectBuffer == fblse) {
+                super.engineUpdbte(byteBuffer);
                 return;
             }
-            long addr = ((DirectBuffer)byteBuffer).address();
+            long bddr = ((DirectBuffer)byteBuffer).bddress();
             int ofs = byteBuffer.position();
-            token.p11.C_SignUpdate(session.id(), addr + ofs, null, 0, len);
+            token.p11.C_SignUpdbte(session.id(), bddr + ofs, null, 0, len);
             byteBuffer.position(ofs + len);
-            state = S_UPDATE;
-        } catch (PKCS11Exception e) {
-            throw new ProviderException("update() failed", e);
+            stbte = S_UPDATE;
+        } cbtch (PKCS11Exception e) {
+            throw new ProviderException("updbte() fbiled", e);
         }
     }
 }

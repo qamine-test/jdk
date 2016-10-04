@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,16 +28,16 @@
 #include "jvm.h"
 #include "jvm_md.h"
 #include "jlong.h"
-#include <sys/mman.h>
-#include <sys/stat.h>
+#include <sys/mmbn.h>
+#include <sys/stbt.h>
 #include <fcntl.h>
-#include "sun_nio_ch_FileChannelImpl.h"
-#include "java_lang_Integer.h"
+#include "sun_nio_ch_FileChbnnelImpl.h"
+#include "jbvb_lbng_Integer.h"
 #include "nio.h"
 #include "nio_util.h"
 #include <dlfcn.h>
 
-#if defined(__linux__) || defined(__solaris__)
+#if defined(__linux__) || defined(__solbris__)
 #include <sys/sendfile.h>
 #elif defined(_AIX)
 #include <sys/socket.h>
@@ -47,88 +47,88 @@
 #include <sys/uio.h>
 
 #define lseek64 lseek
-#define mmap64 mmap
+#define mmbp64 mmbp
 #endif
 
-static jfieldID chan_fd;        /* jobject 'fd' in sun.io.FileChannelImpl */
+stbtic jfieldID chbn_fd;        /* jobject 'fd' in sun.io.FileChbnnelImpl */
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_initIDs(JNIEnv *env, jclass clazz)
+Jbvb_sun_nio_ch_FileChbnnelImpl_initIDs(JNIEnv *env, jclbss clbzz)
 {
-    jlong pageSize = sysconf(_SC_PAGESIZE);
-    chan_fd = (*env)->GetFieldID(env, clazz, "fd", "Ljava/io/FileDescriptor;");
-    return pageSize;
+    jlong pbgeSize = sysconf(_SC_PAGESIZE);
+    chbn_fd = (*env)->GetFieldID(env, clbzz, "fd", "Ljbvb/io/FileDescriptor;");
+    return pbgeSize;
 }
 
-static jlong
-handle(JNIEnv *env, jlong rv, char *msg)
+stbtic jlong
+hbndle(JNIEnv *env, jlong rv, chbr *msg)
 {
     if (rv >= 0)
         return rv;
     if (errno == EINTR)
         return IOS_INTERRUPTED;
-    JNU_ThrowIOExceptionWithLastError(env, msg);
+    JNU_ThrowIOExceptionWithLbstError(env, msg);
     return IOS_THROWN;
 }
 
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_map0(JNIEnv *env, jobject this,
+Jbvb_sun_nio_ch_FileChbnnelImpl_mbp0(JNIEnv *env, jobject this,
                                      jint prot, jlong off, jlong len)
 {
-    void *mapAddress = 0;
-    jobject fdo = (*env)->GetObjectField(env, this, chan_fd);
-    jint fd = fdval(env, fdo);
+    void *mbpAddress = 0;
+    jobject fdo = (*env)->GetObjectField(env, this, chbn_fd);
+    jint fd = fdvbl(env, fdo);
     int protections = 0;
-    int flags = 0;
+    int flbgs = 0;
 
-    if (prot == sun_nio_ch_FileChannelImpl_MAP_RO) {
+    if (prot == sun_nio_ch_FileChbnnelImpl_MAP_RO) {
         protections = PROT_READ;
-        flags = MAP_SHARED;
-    } else if (prot == sun_nio_ch_FileChannelImpl_MAP_RW) {
+        flbgs = MAP_SHARED;
+    } else if (prot == sun_nio_ch_FileChbnnelImpl_MAP_RW) {
         protections = PROT_WRITE | PROT_READ;
-        flags = MAP_SHARED;
-    } else if (prot == sun_nio_ch_FileChannelImpl_MAP_PV) {
+        flbgs = MAP_SHARED;
+    } else if (prot == sun_nio_ch_FileChbnnelImpl_MAP_PV) {
         protections =  PROT_WRITE | PROT_READ;
-        flags = MAP_PRIVATE;
+        flbgs = MAP_PRIVATE;
     }
 
-    mapAddress = mmap64(
-        0,                    /* Let OS decide location */
-        len,                  /* Number of bytes to map */
+    mbpAddress = mmbp64(
+        0,                    /* Let OS decide locbtion */
+        len,                  /* Number of bytes to mbp */
         protections,          /* File permissions */
-        flags,                /* Changes are shared */
-        fd,                   /* File descriptor of mapped file */
+        flbgs,                /* Chbnges bre shbred */
+        fd,                   /* File descriptor of mbpped file */
         off);                 /* Offset into file */
 
-    if (mapAddress == MAP_FAILED) {
+    if (mbpAddress == MAP_FAILED) {
         if (errno == ENOMEM) {
-            JNU_ThrowOutOfMemoryError(env, "Map failed");
+            JNU_ThrowOutOfMemoryError(env, "Mbp fbiled");
             return IOS_THROWN;
         }
-        return handle(env, -1, "Map failed");
+        return hbndle(env, -1, "Mbp fbiled");
     }
 
-    return ((jlong) (unsigned long) mapAddress);
+    return ((jlong) (unsigned long) mbpAddress);
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileChannelImpl_unmap0(JNIEnv *env, jobject this,
-                                       jlong address, jlong len)
+Jbvb_sun_nio_ch_FileChbnnelImpl_unmbp0(JNIEnv *env, jobject this,
+                                       jlong bddress, jlong len)
 {
-    void *a = (void *)jlong_to_ptr(address);
-    return handle(env,
-                  munmap(a, (size_t)len),
-                  "Unmap failed");
+    void *b = (void *)jlong_to_ptr(bddress);
+    return hbndle(env,
+                  munmbp(b, (size_t)len),
+                  "Unmbp fbiled");
 }
 
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_position0(JNIEnv *env, jobject this,
+Jbvb_sun_nio_ch_FileChbnnelImpl_position0(JNIEnv *env, jobject this,
                                           jobject fdo, jlong offset)
 {
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
     jlong result = 0;
 
     if (offset < 0) {
@@ -136,24 +136,24 @@ Java_sun_nio_ch_FileChannelImpl_position0(JNIEnv *env, jobject this,
     } else {
         result = lseek64(fd, offset, SEEK_SET);
     }
-    return handle(env, result, "Position failed");
+    return hbndle(env, result, "Position fbiled");
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileChannelImpl_close0(JNIEnv *env, jobject this, jobject fdo)
+Jbvb_sun_nio_ch_FileChbnnelImpl_close0(JNIEnv *env, jobject this, jobject fdo)
 {
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
     if (fd != -1) {
         jlong result = close(fd);
         if (result < 0) {
-            JNU_ThrowIOExceptionWithLastError(env, "Close failed");
+            JNU_ThrowIOExceptionWithLbstError(env, "Close fbiled");
         }
     }
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_transferTo0(JNIEnv *env, jobject this,
+Jbvb_sun_nio_ch_FileChbnnelImpl_trbnsferTo0(JNIEnv *env, jobject this,
                                             jint srcFD,
                                             jlong position, jlong count,
                                             jint dstFD)
@@ -169,24 +169,24 @@ Java_sun_nio_ch_FileChannelImpl_transferTo0(JNIEnv *env, jobject this,
         if (errno == EINTR) {
             return IOS_INTERRUPTED;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Transfer failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Trbnsfer fbiled");
         return IOS_THROWN;
     }
     return n;
-#elif defined (__solaris__)
+#elif defined (__solbris__)
     sendfilevec64_t sfv;
     size_t numBytes = 0;
     jlong result;
 
     sfv.sfv_fd = srcFD;
-    sfv.sfv_flag = 0;
+    sfv.sfv_flbg = 0;
     sfv.sfv_off = (off64_t)position;
     sfv.sfv_len = count;
 
     result = sendfilev64(dstFD, &sfv, 1, &numBytes);
 
-    /* Solaris sendfilev() will return -1 even if some bytes have been
-     * transferred, so we check numBytes first.
+    /* Solbris sendfilev() will return -1 even if some bytes hbve been
+     * trbnsferred, so we check numBytes first.
      */
     if (numBytes > 0)
         return numBytes;
@@ -199,7 +199,7 @@ Java_sun_nio_ch_FileChannelImpl_transferTo0(JNIEnv *env, jobject this,
             return IOS_UNSUPPORTED_CASE;
         if (errno == EINTR)
             return IOS_INTERRUPTED;
-        JNU_ThrowIOExceptionWithLastError(env, "Transfer failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Trbnsfer fbiled");
         return IOS_THROWN;
     }
     return result;
@@ -223,22 +223,22 @@ Java_sun_nio_ch_FileChannelImpl_transferTo0(JNIEnv *env, jobject this,
             return IOS_UNSUPPORTED_CASE;
         if (errno == EINTR)
             return IOS_INTERRUPTED;
-        JNU_ThrowIOExceptionWithLastError(env, "Transfer failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Trbnsfer fbiled");
         return IOS_THROWN;
     }
 
     return result;
 
 #elif defined(_AIX)
-    jlong max = (jlong)java_lang_Integer_MAX_VALUE;
-    struct sf_parms sf_iobuf;
+    jlong mbx = (jlong)jbvb_lbng_Integer_MAX_VALUE;
+    struct sf_pbrms sf_iobuf;
     jlong result;
 
-    if (position > max)
+    if (position > mbx)
         return IOS_UNSUPPORTED_CASE;
 
-    if (count > max)
-        count = max;
+    if (count > mbx)
+        count = mbx;
 
     memset(&sf_iobuf, 0, sizeof(sf_iobuf));
     sf_iobuf.file_descriptor = srcFD;
@@ -247,8 +247,8 @@ Java_sun_nio_ch_FileChannelImpl_transferTo0(JNIEnv *env, jobject this,
 
     result = send_file(&dstFD, &sf_iobuf, SF_SYNC_CACHE);
 
-    /* AIX send_file() will return 0 when this operation complete successfully,
-     * return 1 when partial bytes transfered and return -1 when an error has
+    /* AIX send_file() will return 0 when this operbtion complete successfully,
+     * return 1 when pbrtibl bytes trbnsfered bnd return -1 when bn error hbs
      * Occured.
      */
     if (result == -1) {
@@ -260,7 +260,7 @@ Java_sun_nio_ch_FileChannelImpl_transferTo0(JNIEnv *env, jobject this,
             return IOS_INTERRUPTED;
         if (errno == ENOTSOCK)
             return IOS_UNSUPPORTED;
-        JNU_ThrowIOExceptionWithLastError(env, "Transfer failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Trbnsfer fbiled");
         return IOS_THROWN;
     }
 

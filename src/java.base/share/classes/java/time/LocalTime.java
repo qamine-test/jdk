@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2007-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,433 +59,433 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbckbge jbvb.time;
 
-import static java.time.temporal.ChronoField.HOUR_OF_DAY;
-import static java.time.temporal.ChronoField.MICRO_OF_DAY;
-import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
-import static java.time.temporal.ChronoField.NANO_OF_DAY;
-import static java.time.temporal.ChronoField.NANO_OF_SECOND;
-import static java.time.temporal.ChronoField.SECOND_OF_DAY;
-import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
-import static java.time.temporal.ChronoUnit.NANOS;
+import stbtic jbvb.time.temporbl.ChronoField.HOUR_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.MICRO_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.MINUTE_OF_HOUR;
+import stbtic jbvb.time.temporbl.ChronoField.NANO_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.NANO_OF_SECOND;
+import stbtic jbvb.time.temporbl.ChronoField.SECOND_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.SECOND_OF_MINUTE;
+import stbtic jbvb.time.temporbl.ChronoUnit.NANOS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.formbt.DbteTimeFormbtter;
+import jbvb.time.formbt.DbteTimePbrseException;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.util.Objects;
 
 /**
- * A time without a time-zone in the ISO-8601 calendar system,
- * such as {@code 10:15:30}.
+ * A time without b time-zone in the ISO-8601 cblendbr system,
+ * such bs {@code 10:15:30}.
  * <p>
- * {@code LocalTime} is an immutable date-time object that represents a time,
- * often viewed as hour-minute-second.
- * Time is represented to nanosecond precision.
- * For example, the value "13:45.30.123456789" can be stored in a {@code LocalTime}.
+ * {@code LocblTime} is bn immutbble dbte-time object thbt represents b time,
+ * often viewed bs hour-minute-second.
+ * Time is represented to nbnosecond precision.
+ * For exbmple, the vblue "13:45.30.123456789" cbn be stored in b {@code LocblTime}.
  * <p>
- * This class does not store or represent a date or time-zone.
- * Instead, it is a description of the local time as seen on a wall clock.
- * It cannot represent an instant on the time-line without additional information
- * such as an offset or time-zone.
+ * This clbss does not store or represent b dbte or time-zone.
+ * Instebd, it is b description of the locbl time bs seen on b wbll clock.
+ * It cbnnot represent bn instbnt on the time-line without bdditionbl informbtion
+ * such bs bn offset or time-zone.
  * <p>
- * The ISO-8601 calendar system is the modern civil calendar system used today
- * in most of the world. This API assumes that all calendar systems use the same
- * representation, this class, for time-of-day.
+ * The ISO-8601 cblendbr system is the modern civil cblendbr system used todby
+ * in most of the world. This API bssumes thbt bll cblendbr systems use the sbme
+ * representbtion, this clbss, for time-of-dby.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code LocalTime} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * This is b <b href="{@docRoot}/jbvb/lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code LocblTime} mby hbve unpredictbble results bnd should be bvoided.
+ * The {@code equbls} method should be used for compbrisons.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class LocalTime
-        implements Temporal, TemporalAdjuster, Comparable<LocalTime>, Serializable {
+public finbl clbss LocblTime
+        implements Temporbl, TemporblAdjuster, Compbrbble<LocblTime>, Seriblizbble {
 
     /**
-     * The minimum supported {@code LocalTime}, '00:00'.
-     * This is the time of midnight at the start of the day.
+     * The minimum supported {@code LocblTime}, '00:00'.
+     * This is the time of midnight bt the stbrt of the dby.
      */
-    public static final LocalTime MIN;
+    public stbtic finbl LocblTime MIN;
     /**
-     * The maximum supported {@code LocalTime}, '23:59:59.999999999'.
-     * This is the time just before midnight at the end of the day.
+     * The mbximum supported {@code LocblTime}, '23:59:59.999999999'.
+     * This is the time just before midnight bt the end of the dby.
      */
-    public static final LocalTime MAX;
+    public stbtic finbl LocblTime MAX;
     /**
-     * The time of midnight at the start of the day, '00:00'.
+     * The time of midnight bt the stbrt of the dby, '00:00'.
      */
-    public static final LocalTime MIDNIGHT;
+    public stbtic finbl LocblTime MIDNIGHT;
     /**
-     * The time of noon in the middle of the day, '12:00'.
+     * The time of noon in the middle of the dby, '12:00'.
      */
-    public static final LocalTime NOON;
+    public stbtic finbl LocblTime NOON;
     /**
-     * Constants for the local time of each hour.
+     * Constbnts for the locbl time of ebch hour.
      */
-    private static final LocalTime[] HOURS = new LocalTime[24];
-    static {
+    privbte stbtic finbl LocblTime[] HOURS = new LocblTime[24];
+    stbtic {
         for (int i = 0; i < HOURS.length; i++) {
-            HOURS[i] = new LocalTime(i, 0, 0, 0);
+            HOURS[i] = new LocblTime(i, 0, 0, 0);
         }
         MIDNIGHT = HOURS[0];
         NOON = HOURS[12];
         MIN = HOURS[0];
-        MAX = new LocalTime(23, 59, 59, 999_999_999);
+        MAX = new LocblTime(23, 59, 59, 999_999_999);
     }
 
     /**
-     * Hours per day.
+     * Hours per dby.
      */
-    static final int HOURS_PER_DAY = 24;
+    stbtic finbl int HOURS_PER_DAY = 24;
     /**
      * Minutes per hour.
      */
-    static final int MINUTES_PER_HOUR = 60;
+    stbtic finbl int MINUTES_PER_HOUR = 60;
     /**
-     * Minutes per day.
+     * Minutes per dby.
      */
-    static final int MINUTES_PER_DAY = MINUTES_PER_HOUR * HOURS_PER_DAY;
+    stbtic finbl int MINUTES_PER_DAY = MINUTES_PER_HOUR * HOURS_PER_DAY;
     /**
      * Seconds per minute.
      */
-    static final int SECONDS_PER_MINUTE = 60;
+    stbtic finbl int SECONDS_PER_MINUTE = 60;
     /**
      * Seconds per hour.
      */
-    static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
+    stbtic finbl int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
     /**
-     * Seconds per day.
+     * Seconds per dby.
      */
-    static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * HOURS_PER_DAY;
+    stbtic finbl int SECONDS_PER_DAY = SECONDS_PER_HOUR * HOURS_PER_DAY;
     /**
-     * Milliseconds per day.
+     * Milliseconds per dby.
      */
-    static final long MILLIS_PER_DAY = SECONDS_PER_DAY * 1000L;
+    stbtic finbl long MILLIS_PER_DAY = SECONDS_PER_DAY * 1000L;
     /**
-     * Microseconds per day.
+     * Microseconds per dby.
      */
-    static final long MICROS_PER_DAY = SECONDS_PER_DAY * 1000_000L;
+    stbtic finbl long MICROS_PER_DAY = SECONDS_PER_DAY * 1000_000L;
     /**
-     * Nanos per second.
+     * Nbnos per second.
      */
-    static final long NANOS_PER_SECOND = 1000_000_000L;
+    stbtic finbl long NANOS_PER_SECOND = 1000_000_000L;
     /**
-     * Nanos per minute.
+     * Nbnos per minute.
      */
-    static final long NANOS_PER_MINUTE = NANOS_PER_SECOND * SECONDS_PER_MINUTE;
+    stbtic finbl long NANOS_PER_MINUTE = NANOS_PER_SECOND * SECONDS_PER_MINUTE;
     /**
-     * Nanos per hour.
+     * Nbnos per hour.
      */
-    static final long NANOS_PER_HOUR = NANOS_PER_MINUTE * MINUTES_PER_HOUR;
+    stbtic finbl long NANOS_PER_HOUR = NANOS_PER_MINUTE * MINUTES_PER_HOUR;
     /**
-     * Nanos per day.
+     * Nbnos per dby.
      */
-    static final long NANOS_PER_DAY = NANOS_PER_HOUR * HOURS_PER_DAY;
+    stbtic finbl long NANOS_PER_DAY = NANOS_PER_HOUR * HOURS_PER_DAY;
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = 6414437269572265201L;
+    privbte stbtic finbl long seriblVersionUID = 6414437269572265201L;
 
     /**
      * The hour.
      */
-    private final byte hour;
+    privbte finbl byte hour;
     /**
      * The minute.
      */
-    private final byte minute;
+    privbte finbl byte minute;
     /**
      * The second.
      */
-    private final byte second;
+    privbte finbl byte second;
     /**
-     * The nanosecond.
+     * The nbnosecond.
      */
-    private final int nano;
+    privbte finbl int nbno;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains the current time from the system clock in the default time-zone.
+     * Obtbins the current time from the system clock in the defbult time-zone.
      * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current time.
+     * This will query the {@link Clock#systemDefbultZone() system clock} in the defbult
+     * time-zone to obtbin the current time.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @return the current time using the system clock and default time-zone, not null
+     * @return the current time using the system clock bnd defbult time-zone, not null
      */
-    public static LocalTime now() {
-        return now(Clock.systemDefaultZone());
+    public stbtic LocblTime now() {
+        return now(Clock.systemDefbultZone());
     }
 
     /**
-     * Obtains the current time from the system clock in the specified time-zone.
+     * Obtbins the current time from the system clock in the specified time-zone.
      * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current time.
-     * Specifying the time-zone avoids dependence on the default time-zone.
+     * This will query the {@link Clock#system(ZoneId) system clock} to obtbin the current time.
+     * Specifying the time-zone bvoids dependence on the defbult time-zone.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @param zone  the zone ID to use, not null
+     * @pbrbm zone  the zone ID to use, not null
      * @return the current time using the system clock, not null
      */
-    public static LocalTime now(ZoneId zone) {
+    public stbtic LocblTime now(ZoneId zone) {
         return now(Clock.system(zone));
     }
 
     /**
-     * Obtains the current time from the specified clock.
+     * Obtbins the current time from the specified clock.
      * <p>
-     * This will query the specified clock to obtain the current time.
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@link Clock dependency injection}.
+     * This will query the specified clock to obtbin the current time.
+     * Using this method bllows the use of bn blternbte clock for testing.
+     * The blternbte clock mby be introduced using {@link Clock dependency injection}.
      *
-     * @param clock  the clock to use, not null
+     * @pbrbm clock  the clock to use, not null
      * @return the current time, not null
      */
-    public static LocalTime now(Clock clock) {
+    public stbtic LocblTime now(Clock clock) {
         Objects.requireNonNull(clock, "clock");
-        // inline OffsetTime factory to avoid creating object and InstantProvider checks
-        final Instant now = clock.instant();  // called once
+        // inline OffsetTime fbctory to bvoid crebting object bnd InstbntProvider checks
+        finbl Instbnt now = clock.instbnt();  // cblled once
         ZoneOffset offset = clock.getZone().getRules().getOffset(now);
-        long localSecond = now.getEpochSecond() + offset.getTotalSeconds();  // overflow caught later
-        int secsOfDay = (int) Math.floorMod(localSecond, SECONDS_PER_DAY);
-        return ofNanoOfDay(secsOfDay * NANOS_PER_SECOND + now.getNano());
+        long locblSecond = now.getEpochSecond() + offset.getTotblSeconds();  // overflow cbught lbter
+        int secsOfDby = (int) Mbth.floorMod(locblSecond, SECONDS_PER_DAY);
+        return ofNbnoOfDby(secsOfDby * NANOS_PER_SECOND + now.getNbno());
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code LocalTime} from an hour and minute.
+     * Obtbins bn instbnce of {@code LocblTime} from bn hour bnd minute.
      * <p>
-     * This returns a {@code LocalTime} with the specified hour and minute.
-     * The second and nanosecond fields will be set to zero.
+     * This returns b {@code LocblTime} with the specified hour bnd minute.
+     * The second bnd nbnosecond fields will be set to zero.
      *
-     * @param hour  the hour-of-day to represent, from 0 to 23
-     * @param minute  the minute-of-hour to represent, from 0 to 59
-     * @return the local time, not null
-     * @throws DateTimeException if the value of any field is out of range
+     * @pbrbm hour  the hour-of-dby to represent, from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, from 0 to 59
+     * @return the locbl time, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge
      */
-    public static LocalTime of(int hour, int minute) {
-        HOUR_OF_DAY.checkValidValue(hour);
+    public stbtic LocblTime of(int hour, int minute) {
+        HOUR_OF_DAY.checkVblidVblue(hour);
         if (minute == 0) {
-            return HOURS[hour];  // for performance
+            return HOURS[hour];  // for performbnce
         }
-        MINUTE_OF_HOUR.checkValidValue(minute);
-        return new LocalTime(hour, minute, 0, 0);
+        MINUTE_OF_HOUR.checkVblidVblue(minute);
+        return new LocblTime(hour, minute, 0, 0);
     }
 
     /**
-     * Obtains an instance of {@code LocalTime} from an hour, minute and second.
+     * Obtbins bn instbnce of {@code LocblTime} from bn hour, minute bnd second.
      * <p>
-     * This returns a {@code LocalTime} with the specified hour, minute and second.
-     * The nanosecond field will be set to zero.
+     * This returns b {@code LocblTime} with the specified hour, minute bnd second.
+     * The nbnosecond field will be set to zero.
      *
-     * @param hour  the hour-of-day to represent, from 0 to 23
-     * @param minute  the minute-of-hour to represent, from 0 to 59
-     * @param second  the second-of-minute to represent, from 0 to 59
-     * @return the local time, not null
-     * @throws DateTimeException if the value of any field is out of range
+     * @pbrbm hour  the hour-of-dby to represent, from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, from 0 to 59
+     * @pbrbm second  the second-of-minute to represent, from 0 to 59
+     * @return the locbl time, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge
      */
-    public static LocalTime of(int hour, int minute, int second) {
-        HOUR_OF_DAY.checkValidValue(hour);
+    public stbtic LocblTime of(int hour, int minute, int second) {
+        HOUR_OF_DAY.checkVblidVblue(hour);
         if ((minute | second) == 0) {
-            return HOURS[hour];  // for performance
+            return HOURS[hour];  // for performbnce
         }
-        MINUTE_OF_HOUR.checkValidValue(minute);
-        SECOND_OF_MINUTE.checkValidValue(second);
-        return new LocalTime(hour, minute, second, 0);
+        MINUTE_OF_HOUR.checkVblidVblue(minute);
+        SECOND_OF_MINUTE.checkVblidVblue(second);
+        return new LocblTime(hour, minute, second, 0);
     }
 
     /**
-     * Obtains an instance of {@code LocalTime} from an hour, minute, second and nanosecond.
+     * Obtbins bn instbnce of {@code LocblTime} from bn hour, minute, second bnd nbnosecond.
      * <p>
-     * This returns a {@code LocalTime} with the specified hour, minute, second and nanosecond.
+     * This returns b {@code LocblTime} with the specified hour, minute, second bnd nbnosecond.
      *
-     * @param hour  the hour-of-day to represent, from 0 to 23
-     * @param minute  the minute-of-hour to represent, from 0 to 59
-     * @param second  the second-of-minute to represent, from 0 to 59
-     * @param nanoOfSecond  the nano-of-second to represent, from 0 to 999,999,999
-     * @return the local time, not null
-     * @throws DateTimeException if the value of any field is out of range
+     * @pbrbm hour  the hour-of-dby to represent, from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, from 0 to 59
+     * @pbrbm second  the second-of-minute to represent, from 0 to 59
+     * @pbrbm nbnoOfSecond  the nbno-of-second to represent, from 0 to 999,999,999
+     * @return the locbl time, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge
      */
-    public static LocalTime of(int hour, int minute, int second, int nanoOfSecond) {
-        HOUR_OF_DAY.checkValidValue(hour);
-        MINUTE_OF_HOUR.checkValidValue(minute);
-        SECOND_OF_MINUTE.checkValidValue(second);
-        NANO_OF_SECOND.checkValidValue(nanoOfSecond);
-        return create(hour, minute, second, nanoOfSecond);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Obtains an instance of {@code LocalTime} from a second-of-day value.
-     * <p>
-     * This returns a {@code LocalTime} with the specified second-of-day.
-     * The nanosecond field will be set to zero.
-     *
-     * @param secondOfDay  the second-of-day, from {@code 0} to {@code 24 * 60 * 60 - 1}
-     * @return the local time, not null
-     * @throws DateTimeException if the second-of-day value is invalid
-     */
-    public static LocalTime ofSecondOfDay(long secondOfDay) {
-        SECOND_OF_DAY.checkValidValue(secondOfDay);
-        int hours = (int) (secondOfDay / SECONDS_PER_HOUR);
-        secondOfDay -= hours * SECONDS_PER_HOUR;
-        int minutes = (int) (secondOfDay / SECONDS_PER_MINUTE);
-        secondOfDay -= minutes * SECONDS_PER_MINUTE;
-        return create(hours, minutes, (int) secondOfDay, 0);
-    }
-
-    /**
-     * Obtains an instance of {@code LocalTime} from a nanos-of-day value.
-     * <p>
-     * This returns a {@code LocalTime} with the specified nanosecond-of-day.
-     *
-     * @param nanoOfDay  the nano of day, from {@code 0} to {@code 24 * 60 * 60 * 1,000,000,000 - 1}
-     * @return the local time, not null
-     * @throws DateTimeException if the nanos of day value is invalid
-     */
-    public static LocalTime ofNanoOfDay(long nanoOfDay) {
-        NANO_OF_DAY.checkValidValue(nanoOfDay);
-        int hours = (int) (nanoOfDay / NANOS_PER_HOUR);
-        nanoOfDay -= hours * NANOS_PER_HOUR;
-        int minutes = (int) (nanoOfDay / NANOS_PER_MINUTE);
-        nanoOfDay -= minutes * NANOS_PER_MINUTE;
-        int seconds = (int) (nanoOfDay / NANOS_PER_SECOND);
-        nanoOfDay -= seconds * NANOS_PER_SECOND;
-        return create(hours, minutes, seconds, (int) nanoOfDay);
+    public stbtic LocblTime of(int hour, int minute, int second, int nbnoOfSecond) {
+        HOUR_OF_DAY.checkVblidVblue(hour);
+        MINUTE_OF_HOUR.checkVblidVblue(minute);
+        SECOND_OF_MINUTE.checkVblidVblue(second);
+        NANO_OF_SECOND.checkVblidVblue(nbnoOfSecond);
+        return crebte(hour, minute, second, nbnoOfSecond);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code LocalTime} from a temporal object.
+     * Obtbins bn instbnce of {@code LocblTime} from b second-of-dby vblue.
      * <p>
-     * This obtains a local time based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code LocalTime}.
-     * <p>
-     * The conversion uses the {@link TemporalQueries#localTime()} query, which relies
-     * on extracting the {@link ChronoField#NANO_OF_DAY NANO_OF_DAY} field.
-     * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code LocalTime::from}.
+     * This returns b {@code LocblTime} with the specified second-of-dby.
+     * The nbnosecond field will be set to zero.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the local time, not null
-     * @throws DateTimeException if unable to convert to a {@code LocalTime}
+     * @pbrbm secondOfDby  the second-of-dby, from {@code 0} to {@code 24 * 60 * 60 - 1}
+     * @return the locbl time, not null
+     * @throws DbteTimeException if the second-of-dby vblue is invblid
      */
-    public static LocalTime from(TemporalAccessor temporal) {
-        Objects.requireNonNull(temporal, "temporal");
-        LocalTime time = temporal.query(TemporalQueries.localTime());
+    public stbtic LocblTime ofSecondOfDby(long secondOfDby) {
+        SECOND_OF_DAY.checkVblidVblue(secondOfDby);
+        int hours = (int) (secondOfDby / SECONDS_PER_HOUR);
+        secondOfDby -= hours * SECONDS_PER_HOUR;
+        int minutes = (int) (secondOfDby / SECONDS_PER_MINUTE);
+        secondOfDby -= minutes * SECONDS_PER_MINUTE;
+        return crebte(hours, minutes, (int) secondOfDby, 0);
+    }
+
+    /**
+     * Obtbins bn instbnce of {@code LocblTime} from b nbnos-of-dby vblue.
+     * <p>
+     * This returns b {@code LocblTime} with the specified nbnosecond-of-dby.
+     *
+     * @pbrbm nbnoOfDby  the nbno of dby, from {@code 0} to {@code 24 * 60 * 60 * 1,000,000,000 - 1}
+     * @return the locbl time, not null
+     * @throws DbteTimeException if the nbnos of dby vblue is invblid
+     */
+    public stbtic LocblTime ofNbnoOfDby(long nbnoOfDby) {
+        NANO_OF_DAY.checkVblidVblue(nbnoOfDby);
+        int hours = (int) (nbnoOfDby / NANOS_PER_HOUR);
+        nbnoOfDby -= hours * NANOS_PER_HOUR;
+        int minutes = (int) (nbnoOfDby / NANOS_PER_MINUTE);
+        nbnoOfDby -= minutes * NANOS_PER_MINUTE;
+        int seconds = (int) (nbnoOfDby / NANOS_PER_SECOND);
+        nbnoOfDby -= seconds * NANOS_PER_SECOND;
+        return crebte(hours, minutes, seconds, (int) nbnoOfDby);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbnce of {@code LocblTime} from b temporbl object.
+     * <p>
+     * This obtbins b locbl time bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code LocblTime}.
+     * <p>
+     * The conversion uses the {@link TemporblQueries#locblTime()} query, which relies
+     * on extrbcting the {@link ChronoField#NANO_OF_DAY NANO_OF_DAY} field.
+     * <p>
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code LocblTime::from}.
+     *
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the locbl time, not null
+     * @throws DbteTimeException if unbble to convert to b {@code LocblTime}
+     */
+    public stbtic LocblTime from(TemporblAccessor temporbl) {
+        Objects.requireNonNull(temporbl, "temporbl");
+        LocblTime time = temporbl.query(TemporblQueries.locblTime());
         if (time == null) {
-            throw new DateTimeException("Unable to obtain LocalTime from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName());
+            throw new DbteTimeException("Unbble to obtbin LocblTime from TemporblAccessor: " +
+                    temporbl + " of type " + temporbl.getClbss().getNbme());
         }
         return time;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code LocalTime} from a text string such as {@code 10:15}.
+     * Obtbins bn instbnce of {@code LocblTime} from b text string such bs {@code 10:15}.
      * <p>
-     * The string must represent a valid time and is parsed using
-     * {@link java.time.format.DateTimeFormatter#ISO_LOCAL_TIME}.
+     * The string must represent b vblid time bnd is pbrsed using
+     * {@link jbvb.time.formbt.DbteTimeFormbtter#ISO_LOCAL_TIME}.
      *
-     * @param text  the text to parse such as "10:15:30", not null
-     * @return the parsed local time, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm text  the text to pbrse such bs "10:15:30", not null
+     * @return the pbrsed locbl time, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed
      */
-    public static LocalTime parse(CharSequence text) {
-        return parse(text, DateTimeFormatter.ISO_LOCAL_TIME);
+    public stbtic LocblTime pbrse(ChbrSequence text) {
+        return pbrse(text, DbteTimeFormbtter.ISO_LOCAL_TIME);
     }
 
     /**
-     * Obtains an instance of {@code LocalTime} from a text string using a specific formatter.
+     * Obtbins bn instbnce of {@code LocblTime} from b text string using b specific formbtter.
      * <p>
-     * The text is parsed using the formatter, returning a time.
+     * The text is pbrsed using the formbtter, returning b time.
      *
-     * @param text  the text to parse, not null
-     * @param formatter  the formatter to use, not null
-     * @return the parsed local time, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm text  the text to pbrse, not null
+     * @pbrbm formbtter  the formbtter to use, not null
+     * @return the pbrsed locbl time, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed
      */
-    public static LocalTime parse(CharSequence text, DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, LocalTime::from);
+    public stbtic LocblTime pbrse(ChbrSequence text, DbteTimeFormbtter formbtter) {
+        Objects.requireNonNull(formbtter, "formbtter");
+        return formbtter.pbrse(text, LocblTime::from);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Creates a local time from the hour, minute, second and nanosecond fields.
+     * Crebtes b locbl time from the hour, minute, second bnd nbnosecond fields.
      * <p>
-     * This factory may return a cached value, but applications must not rely on this.
+     * This fbctory mby return b cbched vblue, but bpplicbtions must not rely on this.
      *
-     * @param hour  the hour-of-day to represent, validated from 0 to 23
-     * @param minute  the minute-of-hour to represent, validated from 0 to 59
-     * @param second  the second-of-minute to represent, validated from 0 to 59
-     * @param nanoOfSecond  the nano-of-second to represent, validated from 0 to 999,999,999
-     * @return the local time, not null
+     * @pbrbm hour  the hour-of-dby to represent, vblidbted from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, vblidbted from 0 to 59
+     * @pbrbm second  the second-of-minute to represent, vblidbted from 0 to 59
+     * @pbrbm nbnoOfSecond  the nbno-of-second to represent, vblidbted from 0 to 999,999,999
+     * @return the locbl time, not null
      */
-    private static LocalTime create(int hour, int minute, int second, int nanoOfSecond) {
-        if ((minute | second | nanoOfSecond) == 0) {
+    privbte stbtic LocblTime crebte(int hour, int minute, int second, int nbnoOfSecond) {
+        if ((minute | second | nbnoOfSecond) == 0) {
             return HOURS[hour];
         }
-        return new LocalTime(hour, minute, second, nanoOfSecond);
+        return new LocblTime(hour, minute, second, nbnoOfSecond);
     }
 
     /**
-     * Constructor, previously validated.
+     * Constructor, previously vblidbted.
      *
-     * @param hour  the hour-of-day to represent, validated from 0 to 23
-     * @param minute  the minute-of-hour to represent, validated from 0 to 59
-     * @param second  the second-of-minute to represent, validated from 0 to 59
-     * @param nanoOfSecond  the nano-of-second to represent, validated from 0 to 999,999,999
+     * @pbrbm hour  the hour-of-dby to represent, vblidbted from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, vblidbted from 0 to 59
+     * @pbrbm second  the second-of-minute to represent, vblidbted from 0 to 59
+     * @pbrbm nbnoOfSecond  the nbno-of-second to represent, vblidbted from 0 to 999,999,999
      */
-    private LocalTime(int hour, int minute, int second, int nanoOfSecond) {
+    privbte LocblTime(int hour, int minute, int second, int nbnoOfSecond) {
         this.hour = (byte) hour;
         this.minute = (byte) minute;
         this.second = (byte) second;
-        this.nano = nanoOfSecond;
+        this.nbno = nbnoOfSecond;
     }
 
     //-----------------------------------------------------------------------
     /**
      * Checks if the specified field is supported.
      * <p>
-     * This checks if this time can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range},
-     * {@link #get(TemporalField) get} and {@link #with(TemporalField, long)}
-     * methods will throw an exception.
+     * This checks if this time cbn be queried for the specified field.
+     * If fblse, then cblling the {@link #rbnge(TemporblField) rbnge},
+     * {@link #get(TemporblField) get} bnd {@link #with(TemporblField, long)}
+     * methods will throw bn exception.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The supported fields are:
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The supported fields bre:
      * <ul>
      * <li>{@code NANO_OF_SECOND}
      * <li>{@code NANO_OF_DAY}
@@ -503,20 +503,20 @@ public final class LocalTime
      * <li>{@code CLOCK_HOUR_OF_DAY}
      * <li>{@code AMPM_OF_DAY}
      * </ul>
-     * All other {@code ChronoField} instances will return false.
+     * All other {@code ChronoField} instbnces will return fblse.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.isSupportedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this time, false if not
+     * @pbrbm field  the field to check, null returns fblse
+     * @return true if the field is supported on this time, fblse if not
      */
     @Override
-    public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return field.isTimeBased();
+    public boolebn isSupported(TemporblField field) {
+        if (field instbnceof ChronoField) {
+            return field.isTimeBbsed();
         }
         return field != null && field.isSupportedBy(this);
     }
@@ -524,12 +524,12 @@ public final class LocalTime
     /**
      * Checks if the specified unit is supported.
      * <p>
-     * This checks if the specified unit can be added to, or subtracted from, this time.
-     * If false, then calling the {@link #plus(long, TemporalUnit)} and
-     * {@link #minus(long, TemporalUnit) minus} methods will throw an exception.
+     * This checks if the specified unit cbn be bdded to, or subtrbcted from, this time.
+     * If fblse, then cblling the {@link #plus(long, TemporblUnit)} bnd
+     * {@link #minus(long, TemporblUnit) minus} methods will throw bn exception.
      * <p>
-     * If the unit is a {@link ChronoUnit} then the query is implemented here.
-     * The supported units are:
+     * If the unit is b {@link ChronoUnit} then the query is implemented here.
+     * The supported units bre:
      * <ul>
      * <li>{@code NANOS}
      * <li>{@code MICROS}
@@ -539,151 +539,151 @@ public final class LocalTime
      * <li>{@code HOURS}
      * <li>{@code HALF_DAYS}
      * </ul>
-     * All other {@code ChronoUnit} instances will return false.
+     * All other {@code ChronoUnit} instbnces will return fblse.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.isSupportedBy(Temporal)}
-     * passing {@code this} as the argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.isSupportedBy(Temporbl)}
+     * pbssing {@code this} bs the brgument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param unit  the unit to check, null returns false
-     * @return true if the unit can be added/subtracted, false if not
+     * @pbrbm unit  the unit to check, null returns fblse
+     * @return true if the unit cbn be bdded/subtrbcted, fblse if not
      */
-    @Override  // override for Javadoc
-    public boolean isSupported(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return unit.isTimeBased();
+    @Override  // override for Jbvbdoc
+    public boolebn isSupported(TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
+            return unit.isTimeBbsed();
         }
         return unit != null && unit.isSupportedBy(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the range of valid values for the specified field.
+     * Gets the rbnge of vblid vblues for the specified field.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This time is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * The rbnge object expresses the minimum bnd mbximum vblid vblues for b field.
+     * This time is used to enhbnce the bccurbcy of the returned rbnge.
+     * If it is not possible to return the rbnge, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return
-     * appropriate range instances.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return
+     * bppropribte rbnge instbnces.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.rbngeRefinedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
+     * Whether the rbnge cbn be obtbined is determined by the field.
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to query the rbnge for, not null
+     * @return the rbnge of vblid vblues for the field, not null
+     * @throws DbteTimeException if the rbnge for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      */
-    @Override  // override for Javadoc
-    public ValueRange range(TemporalField field) {
-        return Temporal.super.range(field);
+    @Override  // override for Jbvbdoc
+    public VblueRbnge rbnge(TemporblField field) {
+        return Temporbl.super.rbnge(field);
     }
 
     /**
-     * Gets the value of the specified field from this time as an {@code int}.
+     * Gets the vblue of the specified field from this time bs bn {@code int}.
      * <p>
-     * This queries this time for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this time for the vblue of the specified field.
+     * The returned vblue will blwbys be within the vblid rbnge of vblues for the field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this time, except {@code NANO_OF_DAY} and {@code MICRO_OF_DAY}
-     * which are too large to fit in an {@code int} and throw a {@code UnsupportedTemporalTypeException}.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return vblid
+     * vblues bbsed on this time, except {@code NANO_OF_DAY} bnd {@code MICRO_OF_DAY}
+     * which bre too lbrge to fit in bn {@code int} bnd throw b {@code UnsupportedTemporblTypeException}.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined or
+     *         the vblue is outside the rbnge of vblid vblues for the field
+     * @throws UnsupportedTemporblTypeException if the field is not supported or
+     *         the rbnge of vblues exceeds bn {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    @Override  // override for Javadoc and performance
-    public int get(TemporalField field) {
-        if (field instanceof ChronoField) {
+    @Override  // override for Jbvbdoc bnd performbnce
+    public int get(TemporblField field) {
+        if (field instbnceof ChronoField) {
             return get0(field);
         }
-        return Temporal.super.get(field);
+        return Temporbl.super.get(field);
     }
 
     /**
-     * Gets the value of the specified field from this time as a {@code long}.
+     * Gets the vblue of the specified field from this time bs b {@code long}.
      * <p>
-     * This queries this time for the value of the specified field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this time for the vblue of the specified field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this time.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return vblid
+     * vblues bbsed on this time.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public long getLong(TemporblField field) {
+        if (field instbnceof ChronoField) {
             if (field == NANO_OF_DAY) {
-                return toNanoOfDay();
+                return toNbnoOfDby();
             }
             if (field == MICRO_OF_DAY) {
-                return toNanoOfDay() / 1000;
+                return toNbnoOfDby() / 1000;
             }
             return get0(field);
         }
         return field.getFrom(this);
     }
 
-    private int get0(TemporalField field) {
+    privbte int get0(TemporblField field) {
         switch ((ChronoField) field) {
-            case NANO_OF_SECOND: return nano;
-            case NANO_OF_DAY: throw new UnsupportedTemporalTypeException("Invalid field 'NanoOfDay' for get() method, use getLong() instead");
-            case MICRO_OF_SECOND: return nano / 1000;
-            case MICRO_OF_DAY: throw new UnsupportedTemporalTypeException("Invalid field 'MicroOfDay' for get() method, use getLong() instead");
-            case MILLI_OF_SECOND: return nano / 1000_000;
-            case MILLI_OF_DAY: return (int) (toNanoOfDay() / 1000_000);
-            case SECOND_OF_MINUTE: return second;
-            case SECOND_OF_DAY: return toSecondOfDay();
-            case MINUTE_OF_HOUR: return minute;
-            case MINUTE_OF_DAY: return hour * 60 + minute;
-            case HOUR_OF_AMPM: return hour % 12;
-            case CLOCK_HOUR_OF_AMPM: int ham = hour % 12; return (ham % 12 == 0 ? 12 : ham);
-            case HOUR_OF_DAY: return hour;
-            case CLOCK_HOUR_OF_DAY: return (hour == 0 ? 24 : hour);
-            case AMPM_OF_DAY: return hour / 12;
+            cbse NANO_OF_SECOND: return nbno;
+            cbse NANO_OF_DAY: throw new UnsupportedTemporblTypeException("Invblid field 'NbnoOfDby' for get() method, use getLong() instebd");
+            cbse MICRO_OF_SECOND: return nbno / 1000;
+            cbse MICRO_OF_DAY: throw new UnsupportedTemporblTypeException("Invblid field 'MicroOfDby' for get() method, use getLong() instebd");
+            cbse MILLI_OF_SECOND: return nbno / 1000_000;
+            cbse MILLI_OF_DAY: return (int) (toNbnoOfDby() / 1000_000);
+            cbse SECOND_OF_MINUTE: return second;
+            cbse SECOND_OF_DAY: return toSecondOfDby();
+            cbse MINUTE_OF_HOUR: return minute;
+            cbse MINUTE_OF_DAY: return hour * 60 + minute;
+            cbse HOUR_OF_AMPM: return hour % 12;
+            cbse CLOCK_HOUR_OF_AMPM: int hbm = hour % 12; return (hbm % 12 == 0 ? 12 : hbm);
+            cbse HOUR_OF_DAY: return hour;
+            cbse CLOCK_HOUR_OF_DAY: return (hour == 0 ? 24 : hour);
+            cbse AMPM_OF_DAY: return hour / 12;
         }
-        throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+        throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the hour-of-day field.
+     * Gets the hour-of-dby field.
      *
-     * @return the hour-of-day, from 0 to 23
+     * @return the hour-of-dby, from 0 to 23
      */
     public int getHour() {
         return hour;
@@ -708,387 +708,387 @@ public final class LocalTime
     }
 
     /**
-     * Gets the nano-of-second field.
+     * Gets the nbno-of-second field.
      *
-     * @return the nano-of-second, from 0 to 999,999,999
+     * @return the nbno-of-second, from 0 to 999,999,999
      */
-    public int getNano() {
-        return nano;
+    public int getNbno() {
+        return nbno;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns an adjusted copy of this time.
+     * Returns bn bdjusted copy of this time.
      * <p>
-     * This returns a {@code LocalTime}, based on this one, with the time adjusted.
-     * The adjustment takes place using the specified adjuster strategy object.
-     * Read the documentation of the adjuster to understand what adjustment will be made.
+     * This returns b {@code LocblTime}, bbsed on this one, with the time bdjusted.
+     * The bdjustment tbkes plbce using the specified bdjuster strbtegy object.
+     * Rebd the documentbtion of the bdjuster to understbnd whbt bdjustment will be mbde.
      * <p>
-     * A simple adjuster might simply set the one of the fields, such as the hour field.
-     * A more complex adjuster might set the time to the last hour of the day.
+     * A simple bdjuster might simply set the one of the fields, such bs the hour field.
+     * A more complex bdjuster might set the time to the lbst hour of the dby.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalAdjuster#adjustInto(Temporal)} method on the
-     * specified adjuster passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblAdjuster#bdjustInto(Temporbl)} method on the
+     * specified bdjuster pbssing {@code this} bs the brgument.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param adjuster the adjuster to use, not null
-     * @return a {@code LocalTime} based on {@code this} with the adjustment made, not null
-     * @throws DateTimeException if the adjustment cannot be made
+     * @pbrbm bdjuster the bdjuster to use, not null
+     * @return b {@code LocblTime} bbsed on {@code this} with the bdjustment mbde, not null
+     * @throws DbteTimeException if the bdjustment cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public LocalTime with(TemporalAdjuster adjuster) {
-        // optimizations
-        if (adjuster instanceof LocalTime) {
-            return (LocalTime) adjuster;
+    public LocblTime with(TemporblAdjuster bdjuster) {
+        // optimizbtions
+        if (bdjuster instbnceof LocblTime) {
+            return (LocblTime) bdjuster;
         }
-        return (LocalTime) adjuster.adjustInto(this);
+        return (LocblTime) bdjuster.bdjustInto(this);
     }
 
     /**
-     * Returns a copy of this time with the specified field set to a new value.
+     * Returns b copy of this time with the specified field set to b new vblue.
      * <p>
-     * This returns a {@code LocalTime}, based on this one, with the value
-     * for the specified field changed.
-     * This can be used to change any supported field, such as the hour, minute or second.
-     * If it is not possible to set the value, because the field is not supported or for
-     * some other reason, an exception is thrown.
+     * This returns b {@code LocblTime}, bbsed on this one, with the vblue
+     * for the specified field chbnged.
+     * This cbn be used to chbnge bny supported field, such bs the hour, minute or second.
+     * If it is not possible to set the vblue, becbuse the field is not supported or for
+     * some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the adjustment is implemented here.
-     * The supported fields behave as follows:
+     * If the field is b {@link ChronoField} then the bdjustment is implemented here.
+     * The supported fields behbve bs follows:
      * <ul>
      * <li>{@code NANO_OF_SECOND} -
-     *  Returns a {@code LocalTime} with the specified nano-of-second.
-     *  The hour, minute and second will be unchanged.
+     *  Returns b {@code LocblTime} with the specified nbno-of-second.
+     *  The hour, minute bnd second will be unchbnged.
      * <li>{@code NANO_OF_DAY} -
-     *  Returns a {@code LocalTime} with the specified nano-of-day.
-     *  This completely replaces the time and is equivalent to {@link #ofNanoOfDay(long)}.
+     *  Returns b {@code LocblTime} with the specified nbno-of-dby.
+     *  This completely replbces the time bnd is equivblent to {@link #ofNbnoOfDby(long)}.
      * <li>{@code MICRO_OF_SECOND} -
-     *  Returns a {@code LocalTime} with the nano-of-second replaced by the specified
+     *  Returns b {@code LocblTime} with the nbno-of-second replbced by the specified
      *  micro-of-second multiplied by 1,000.
-     *  The hour, minute and second will be unchanged.
+     *  The hour, minute bnd second will be unchbnged.
      * <li>{@code MICRO_OF_DAY} -
-     *  Returns a {@code LocalTime} with the specified micro-of-day.
-     *  This completely replaces the time and is equivalent to using {@link #ofNanoOfDay(long)}
-     *  with the micro-of-day multiplied by 1,000.
+     *  Returns b {@code LocblTime} with the specified micro-of-dby.
+     *  This completely replbces the time bnd is equivblent to using {@link #ofNbnoOfDby(long)}
+     *  with the micro-of-dby multiplied by 1,000.
      * <li>{@code MILLI_OF_SECOND} -
-     *  Returns a {@code LocalTime} with the nano-of-second replaced by the specified
+     *  Returns b {@code LocblTime} with the nbno-of-second replbced by the specified
      *  milli-of-second multiplied by 1,000,000.
-     *  The hour, minute and second will be unchanged.
+     *  The hour, minute bnd second will be unchbnged.
      * <li>{@code MILLI_OF_DAY} -
-     *  Returns a {@code LocalTime} with the specified milli-of-day.
-     *  This completely replaces the time and is equivalent to using {@link #ofNanoOfDay(long)}
-     *  with the milli-of-day multiplied by 1,000,000.
+     *  Returns b {@code LocblTime} with the specified milli-of-dby.
+     *  This completely replbces the time bnd is equivblent to using {@link #ofNbnoOfDby(long)}
+     *  with the milli-of-dby multiplied by 1,000,000.
      * <li>{@code SECOND_OF_MINUTE} -
-     *  Returns a {@code LocalTime} with the specified second-of-minute.
-     *  The hour, minute and nano-of-second will be unchanged.
+     *  Returns b {@code LocblTime} with the specified second-of-minute.
+     *  The hour, minute bnd nbno-of-second will be unchbnged.
      * <li>{@code SECOND_OF_DAY} -
-     *  Returns a {@code LocalTime} with the specified second-of-day.
-     *  The nano-of-second will be unchanged.
+     *  Returns b {@code LocblTime} with the specified second-of-dby.
+     *  The nbno-of-second will be unchbnged.
      * <li>{@code MINUTE_OF_HOUR} -
-     *  Returns a {@code LocalTime} with the specified minute-of-hour.
-     *  The hour, second-of-minute and nano-of-second will be unchanged.
+     *  Returns b {@code LocblTime} with the specified minute-of-hour.
+     *  The hour, second-of-minute bnd nbno-of-second will be unchbnged.
      * <li>{@code MINUTE_OF_DAY} -
-     *  Returns a {@code LocalTime} with the specified minute-of-day.
-     *  The second-of-minute and nano-of-second will be unchanged.
+     *  Returns b {@code LocblTime} with the specified minute-of-dby.
+     *  The second-of-minute bnd nbno-of-second will be unchbnged.
      * <li>{@code HOUR_OF_AMPM} -
-     *  Returns a {@code LocalTime} with the specified hour-of-am-pm.
-     *  The AM/PM, minute-of-hour, second-of-minute and nano-of-second will be unchanged.
+     *  Returns b {@code LocblTime} with the specified hour-of-bm-pm.
+     *  The AM/PM, minute-of-hour, second-of-minute bnd nbno-of-second will be unchbnged.
      * <li>{@code CLOCK_HOUR_OF_AMPM} -
-     *  Returns a {@code LocalTime} with the specified clock-hour-of-am-pm.
-     *  The AM/PM, minute-of-hour, second-of-minute and nano-of-second will be unchanged.
+     *  Returns b {@code LocblTime} with the specified clock-hour-of-bm-pm.
+     *  The AM/PM, minute-of-hour, second-of-minute bnd nbno-of-second will be unchbnged.
      * <li>{@code HOUR_OF_DAY} -
-     *  Returns a {@code LocalTime} with the specified hour-of-day.
-     *  The minute-of-hour, second-of-minute and nano-of-second will be unchanged.
+     *  Returns b {@code LocblTime} with the specified hour-of-dby.
+     *  The minute-of-hour, second-of-minute bnd nbno-of-second will be unchbnged.
      * <li>{@code CLOCK_HOUR_OF_DAY} -
-     *  Returns a {@code LocalTime} with the specified clock-hour-of-day.
-     *  The minute-of-hour, second-of-minute and nano-of-second will be unchanged.
+     *  Returns b {@code LocblTime} with the specified clock-hour-of-dby.
+     *  The minute-of-hour, second-of-minute bnd nbno-of-second will be unchbnged.
      * <li>{@code AMPM_OF_DAY} -
-     *  Returns a {@code LocalTime} with the specified AM/PM.
-     *  The hour-of-am-pm, minute-of-hour, second-of-minute and nano-of-second will be unchanged.
+     *  Returns b {@code LocblTime} with the specified AM/PM.
+     *  The hour-of-bm-pm, minute-of-hour, second-of-minute bnd nbno-of-second will be unchbnged.
      * </ul>
      * <p>
-     * In all cases, if the new value is outside the valid range of values for the field
-     * then a {@code DateTimeException} will be thrown.
+     * In bll cbses, if the new vblue is outside the vblid rbnge of vblues for the field
+     * then b {@code DbteTimeException} will be thrown.
      * <p>
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.adjustInto(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the field determines
-     * whether and how to adjust the instant.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.bdjustInto(Temporbl, long)}
+     * pbssing {@code this} bs the brgument. In this cbse, the field determines
+     * whether bnd how to bdjust the instbnt.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param field  the field to set in the result, not null
-     * @param newValue  the new value of the field in the result
-     * @return a {@code LocalTime} based on {@code this} with the specified field set, not null
-     * @throws DateTimeException if the field cannot be set
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to set in the result, not null
+     * @pbrbm newVblue  the new vblue of the field in the result
+     * @return b {@code LocblTime} bbsed on {@code this} with the specified field set, not null
+     * @throws DbteTimeException if the field cbnnot be set
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public LocalTime with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
+    public LocblTime with(TemporblField field, long newVblue) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            f.checkValidValue(newValue);
+            f.checkVblidVblue(newVblue);
             switch (f) {
-                case NANO_OF_SECOND: return withNano((int) newValue);
-                case NANO_OF_DAY: return LocalTime.ofNanoOfDay(newValue);
-                case MICRO_OF_SECOND: return withNano((int) newValue * 1000);
-                case MICRO_OF_DAY: return LocalTime.ofNanoOfDay(newValue * 1000);
-                case MILLI_OF_SECOND: return withNano((int) newValue * 1000_000);
-                case MILLI_OF_DAY: return LocalTime.ofNanoOfDay(newValue * 1000_000);
-                case SECOND_OF_MINUTE: return withSecond((int) newValue);
-                case SECOND_OF_DAY: return plusSeconds(newValue - toSecondOfDay());
-                case MINUTE_OF_HOUR: return withMinute((int) newValue);
-                case MINUTE_OF_DAY: return plusMinutes(newValue - (hour * 60 + minute));
-                case HOUR_OF_AMPM: return plusHours(newValue - (hour % 12));
-                case CLOCK_HOUR_OF_AMPM: return plusHours((newValue == 12 ? 0 : newValue) - (hour % 12));
-                case HOUR_OF_DAY: return withHour((int) newValue);
-                case CLOCK_HOUR_OF_DAY: return withHour((int) (newValue == 24 ? 0 : newValue));
-                case AMPM_OF_DAY: return plusHours((newValue - (hour / 12)) * 12);
+                cbse NANO_OF_SECOND: return withNbno((int) newVblue);
+                cbse NANO_OF_DAY: return LocblTime.ofNbnoOfDby(newVblue);
+                cbse MICRO_OF_SECOND: return withNbno((int) newVblue * 1000);
+                cbse MICRO_OF_DAY: return LocblTime.ofNbnoOfDby(newVblue * 1000);
+                cbse MILLI_OF_SECOND: return withNbno((int) newVblue * 1000_000);
+                cbse MILLI_OF_DAY: return LocblTime.ofNbnoOfDby(newVblue * 1000_000);
+                cbse SECOND_OF_MINUTE: return withSecond((int) newVblue);
+                cbse SECOND_OF_DAY: return plusSeconds(newVblue - toSecondOfDby());
+                cbse MINUTE_OF_HOUR: return withMinute((int) newVblue);
+                cbse MINUTE_OF_DAY: return plusMinutes(newVblue - (hour * 60 + minute));
+                cbse HOUR_OF_AMPM: return plusHours(newVblue - (hour % 12));
+                cbse CLOCK_HOUR_OF_AMPM: return plusHours((newVblue == 12 ? 0 : newVblue) - (hour % 12));
+                cbse HOUR_OF_DAY: return withHour((int) newVblue);
+                cbse CLOCK_HOUR_OF_DAY: return withHour((int) (newVblue == 24 ? 0 : newVblue));
+                cbse AMPM_OF_DAY: return plusHours((newVblue - (hour / 12)) * 12);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
-        return field.adjustInto(this, newValue);
+        return field.bdjustInto(this, newVblue);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code LocalTime} with the hour-of-day altered.
+     * Returns b copy of this {@code LocblTime} with the hour-of-dby bltered.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param hour  the hour-of-day to set in the result, from 0 to 23
-     * @return a {@code LocalTime} based on this time with the requested hour, not null
-     * @throws DateTimeException if the hour value is invalid
+     * @pbrbm hour  the hour-of-dby to set in the result, from 0 to 23
+     * @return b {@code LocblTime} bbsed on this time with the requested hour, not null
+     * @throws DbteTimeException if the hour vblue is invblid
      */
-    public LocalTime withHour(int hour) {
+    public LocblTime withHour(int hour) {
         if (this.hour == hour) {
             return this;
         }
-        HOUR_OF_DAY.checkValidValue(hour);
-        return create(hour, minute, second, nano);
+        HOUR_OF_DAY.checkVblidVblue(hour);
+        return crebte(hour, minute, second, nbno);
     }
 
     /**
-     * Returns a copy of this {@code LocalTime} with the minute-of-hour altered.
+     * Returns b copy of this {@code LocblTime} with the minute-of-hour bltered.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param minute  the minute-of-hour to set in the result, from 0 to 59
-     * @return a {@code LocalTime} based on this time with the requested minute, not null
-     * @throws DateTimeException if the minute value is invalid
+     * @pbrbm minute  the minute-of-hour to set in the result, from 0 to 59
+     * @return b {@code LocblTime} bbsed on this time with the requested minute, not null
+     * @throws DbteTimeException if the minute vblue is invblid
      */
-    public LocalTime withMinute(int minute) {
+    public LocblTime withMinute(int minute) {
         if (this.minute == minute) {
             return this;
         }
-        MINUTE_OF_HOUR.checkValidValue(minute);
-        return create(hour, minute, second, nano);
+        MINUTE_OF_HOUR.checkVblidVblue(minute);
+        return crebte(hour, minute, second, nbno);
     }
 
     /**
-     * Returns a copy of this {@code LocalTime} with the second-of-minute altered.
+     * Returns b copy of this {@code LocblTime} with the second-of-minute bltered.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param second  the second-of-minute to set in the result, from 0 to 59
-     * @return a {@code LocalTime} based on this time with the requested second, not null
-     * @throws DateTimeException if the second value is invalid
+     * @pbrbm second  the second-of-minute to set in the result, from 0 to 59
+     * @return b {@code LocblTime} bbsed on this time with the requested second, not null
+     * @throws DbteTimeException if the second vblue is invblid
      */
-    public LocalTime withSecond(int second) {
+    public LocblTime withSecond(int second) {
         if (this.second == second) {
             return this;
         }
-        SECOND_OF_MINUTE.checkValidValue(second);
-        return create(hour, minute, second, nano);
+        SECOND_OF_MINUTE.checkVblidVblue(second);
+        return crebte(hour, minute, second, nbno);
     }
 
     /**
-     * Returns a copy of this {@code LocalTime} with the nano-of-second altered.
+     * Returns b copy of this {@code LocblTime} with the nbno-of-second bltered.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanoOfSecond  the nano-of-second to set in the result, from 0 to 999,999,999
-     * @return a {@code LocalTime} based on this time with the requested nanosecond, not null
-     * @throws DateTimeException if the nanos value is invalid
+     * @pbrbm nbnoOfSecond  the nbno-of-second to set in the result, from 0 to 999,999,999
+     * @return b {@code LocblTime} bbsed on this time with the requested nbnosecond, not null
+     * @throws DbteTimeException if the nbnos vblue is invblid
      */
-    public LocalTime withNano(int nanoOfSecond) {
-        if (this.nano == nanoOfSecond) {
+    public LocblTime withNbno(int nbnoOfSecond) {
+        if (this.nbno == nbnoOfSecond) {
             return this;
         }
-        NANO_OF_SECOND.checkValidValue(nanoOfSecond);
-        return create(hour, minute, second, nanoOfSecond);
+        NANO_OF_SECOND.checkVblidVblue(nbnoOfSecond);
+        return crebte(hour, minute, second, nbnoOfSecond);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code LocalTime} with the time truncated.
+     * Returns b copy of this {@code LocblTime} with the time truncbted.
      * <p>
-     * Truncation returns a copy of the original time with fields
-     * smaller than the specified unit set to zero.
-     * For example, truncating with the {@link ChronoUnit#MINUTES minutes} unit
-     * will set the second-of-minute and nano-of-second field to zero.
+     * Truncbtion returns b copy of the originbl time with fields
+     * smbller thbn the specified unit set to zero.
+     * For exbmple, truncbting with the {@link ChronoUnit#MINUTES minutes} unit
+     * will set the second-of-minute bnd nbno-of-second field to zero.
      * <p>
-     * The unit must have a {@linkplain TemporalUnit#getDuration() duration}
-     * that divides into the length of a standard day without remainder.
-     * This includes all supplied time units on {@link ChronoUnit} and
-     * {@link ChronoUnit#DAYS DAYS}. Other units throw an exception.
+     * The unit must hbve b {@linkplbin TemporblUnit#getDurbtion() durbtion}
+     * thbt divides into the length of b stbndbrd dby without rembinder.
+     * This includes bll supplied time units on {@link ChronoUnit} bnd
+     * {@link ChronoUnit#DAYS DAYS}. Other units throw bn exception.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param unit  the unit to truncate to, not null
-     * @return a {@code LocalTime} based on this time with the time truncated, not null
-     * @throws DateTimeException if unable to truncate
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm unit  the unit to truncbte to, not null
+     * @return b {@code LocblTime} bbsed on this time with the time truncbted, not null
+     * @throws DbteTimeException if unbble to truncbte
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      */
-    public LocalTime truncatedTo(TemporalUnit unit) {
+    public LocblTime truncbtedTo(TemporblUnit unit) {
         if (unit == ChronoUnit.NANOS) {
             return this;
         }
-        Duration unitDur = unit.getDuration();
+        Durbtion unitDur = unit.getDurbtion();
         if (unitDur.getSeconds() > SECONDS_PER_DAY) {
-            throw new UnsupportedTemporalTypeException("Unit is too large to be used for truncation");
+            throw new UnsupportedTemporblTypeException("Unit is too lbrge to be used for truncbtion");
         }
-        long dur = unitDur.toNanos();
+        long dur = unitDur.toNbnos();
         if ((NANOS_PER_DAY % dur) != 0) {
-            throw new UnsupportedTemporalTypeException("Unit must divide into a standard day without remainder");
+            throw new UnsupportedTemporblTypeException("Unit must divide into b stbndbrd dby without rembinder");
         }
-        long nod = toNanoOfDay();
-        return ofNanoOfDay((nod / dur) * dur);
+        long nod = toNbnoOfDby();
+        return ofNbnoOfDby((nod / dur) * dur);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this time with the specified amount added.
+     * Returns b copy of this time with the specified bmount bdded.
      * <p>
-     * This returns a {@code LocalTime}, based on this one, with the specified amount added.
-     * The amount is typically {@link Duration} but may be any other type implementing
-     * the {@link TemporalAmount} interface.
+     * This returns b {@code LocblTime}, bbsed on this one, with the specified bmount bdded.
+     * The bmount is typicblly {@link Durbtion} but mby be bny other type implementing
+     * the {@link TemporblAmount} interfbce.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#addTo(Temporal)}. The amount implementation is free
-     * to implement the addition in any way it wishes, however it typically
-     * calls back to {@link #plus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully added.
+     * The cblculbtion is delegbted to the bmount object by cblling
+     * {@link TemporblAmount#bddTo(Temporbl)}. The bmount implementbtion is free
+     * to implement the bddition in bny wby it wishes, however it typicblly
+     * cblls bbck to {@link #plus(long, TemporblUnit)}. Consult the documentbtion
+     * of the bmount implementbtion to determine if it cbn be successfully bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount to add, not null
-     * @return a {@code LocalTime} based on this time with the addition made, not null
-     * @throws DateTimeException if the addition cannot be made
+     * @pbrbm bmountToAdd  the bmount to bdd, not null
+     * @return b {@code LocblTime} bbsed on this time with the bddition mbde, not null
+     * @throws DbteTimeException if the bddition cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public LocalTime plus(TemporalAmount amountToAdd) {
-        return (LocalTime) amountToAdd.addTo(this);
+    public LocblTime plus(TemporblAmount bmountToAdd) {
+        return (LocblTime) bmountToAdd.bddTo(this);
     }
 
     /**
-     * Returns a copy of this time with the specified amount added.
+     * Returns b copy of this time with the specified bmount bdded.
      * <p>
-     * This returns a {@code LocalTime}, based on this one, with the amount
-     * in terms of the unit added. If it is not possible to add the amount, because the
-     * unit is not supported or for some other reason, an exception is thrown.
+     * This returns b {@code LocblTime}, bbsed on this one, with the bmount
+     * in terms of the unit bdded. If it is not possible to bdd the bmount, becbuse the
+     * unit is not supported or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoUnit} then the addition is implemented here.
-     * The supported fields behave as follows:
+     * If the field is b {@link ChronoUnit} then the bddition is implemented here.
+     * The supported fields behbve bs follows:
      * <ul>
      * <li>{@code NANOS} -
-     *  Returns a {@code LocalTime} with the specified number of nanoseconds added.
-     *  This is equivalent to {@link #plusNanos(long)}.
+     *  Returns b {@code LocblTime} with the specified number of nbnoseconds bdded.
+     *  This is equivblent to {@link #plusNbnos(long)}.
      * <li>{@code MICROS} -
-     *  Returns a {@code LocalTime} with the specified number of microseconds added.
-     *  This is equivalent to {@link #plusNanos(long)} with the amount
+     *  Returns b {@code LocblTime} with the specified number of microseconds bdded.
+     *  This is equivblent to {@link #plusNbnos(long)} with the bmount
      *  multiplied by 1,000.
      * <li>{@code MILLIS} -
-     *  Returns a {@code LocalTime} with the specified number of milliseconds added.
-     *  This is equivalent to {@link #plusNanos(long)} with the amount
+     *  Returns b {@code LocblTime} with the specified number of milliseconds bdded.
+     *  This is equivblent to {@link #plusNbnos(long)} with the bmount
      *  multiplied by 1,000,000.
      * <li>{@code SECONDS} -
-     *  Returns a {@code LocalTime} with the specified number of seconds added.
-     *  This is equivalent to {@link #plusSeconds(long)}.
+     *  Returns b {@code LocblTime} with the specified number of seconds bdded.
+     *  This is equivblent to {@link #plusSeconds(long)}.
      * <li>{@code MINUTES} -
-     *  Returns a {@code LocalTime} with the specified number of minutes added.
-     *  This is equivalent to {@link #plusMinutes(long)}.
+     *  Returns b {@code LocblTime} with the specified number of minutes bdded.
+     *  This is equivblent to {@link #plusMinutes(long)}.
      * <li>{@code HOURS} -
-     *  Returns a {@code LocalTime} with the specified number of hours added.
-     *  This is equivalent to {@link #plusHours(long)}.
+     *  Returns b {@code LocblTime} with the specified number of hours bdded.
+     *  This is equivblent to {@link #plusHours(long)}.
      * <li>{@code HALF_DAYS} -
-     *  Returns a {@code LocalTime} with the specified number of half-days added.
-     *  This is equivalent to {@link #plusHours(long)} with the amount
+     *  Returns b {@code LocblTime} with the specified number of hblf-dbys bdded.
+     *  This is equivblent to {@link #plusHours(long)} with the bmount
      *  multiplied by 12.
      * </ul>
      * <p>
-     * All other {@code ChronoUnit} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * All other {@code ChronoUnit} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.addTo(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the unit determines
-     * whether and how to perform the addition.
+     * If the field is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.bddTo(Temporbl, long)}
+     * pbssing {@code this} bs the brgument. In this cbse, the unit determines
+     * whether bnd how to perform the bddition.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount of the unit to add to the result, may be negative
-     * @param unit  the unit of the amount to add, not null
-     * @return a {@code LocalTime} based on this time with the specified amount added, not null
-     * @throws DateTimeException if the addition cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToAdd  the bmount of the unit to bdd to the result, mby be negbtive
+     * @pbrbm unit  the unit of the bmount to bdd, not null
+     * @return b {@code LocblTime} bbsed on this time with the specified bmount bdded, not null
+     * @throws DbteTimeException if the bddition cbnnot be mbde
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public LocalTime plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
+    public LocblTime plus(long bmountToAdd, TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
             switch ((ChronoUnit) unit) {
-                case NANOS: return plusNanos(amountToAdd);
-                case MICROS: return plusNanos((amountToAdd % MICROS_PER_DAY) * 1000);
-                case MILLIS: return plusNanos((amountToAdd % MILLIS_PER_DAY) * 1000_000);
-                case SECONDS: return plusSeconds(amountToAdd);
-                case MINUTES: return plusMinutes(amountToAdd);
-                case HOURS: return plusHours(amountToAdd);
-                case HALF_DAYS: return plusHours((amountToAdd % 2) * 12);
+                cbse NANOS: return plusNbnos(bmountToAdd);
+                cbse MICROS: return plusNbnos((bmountToAdd % MICROS_PER_DAY) * 1000);
+                cbse MILLIS: return plusNbnos((bmountToAdd % MILLIS_PER_DAY) * 1000_000);
+                cbse SECONDS: return plusSeconds(bmountToAdd);
+                cbse MINUTES: return plusMinutes(bmountToAdd);
+                cbse HOURS: return plusHours(bmountToAdd);
+                cbse HALF_DAYS: return plusHours((bmountToAdd % 2) * 12);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            throw new UnsupportedTemporblTypeException("Unsupported unit: " + unit);
         }
-        return unit.addTo(this, amountToAdd);
+        return unit.bddTo(this, bmountToAdd);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code LocalTime} with the specified number of hours added.
+     * Returns b copy of this {@code LocblTime} with the specified number of hours bdded.
      * <p>
-     * This adds the specified number of hours to this time, returning a new time.
-     * The calculation wraps around midnight.
+     * This bdds the specified number of hours to this time, returning b new time.
+     * The cblculbtion wrbps bround midnight.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param hoursToAdd  the hours to add, may be negative
-     * @return a {@code LocalTime} based on this time with the hours added, not null
+     * @pbrbm hoursToAdd  the hours to bdd, mby be negbtive
+     * @return b {@code LocblTime} bbsed on this time with the hours bdded, not null
      */
-    public LocalTime plusHours(long hoursToAdd) {
+    public LocblTime plusHours(long hoursToAdd) {
         if (hoursToAdd == 0) {
             return this;
         }
         int newHour = ((int) (hoursToAdd % HOURS_PER_DAY) + hour + HOURS_PER_DAY) % HOURS_PER_DAY;
-        return create(newHour, minute, second, nano);
+        return crebte(newHour, minute, second, nbno);
     }
 
     /**
-     * Returns a copy of this {@code LocalTime} with the specified number of minutes added.
+     * Returns b copy of this {@code LocblTime} with the specified number of minutes bdded.
      * <p>
-     * This adds the specified number of minutes to this time, returning a new time.
-     * The calculation wraps around midnight.
+     * This bdds the specified number of minutes to this time, returning b new time.
+     * The cblculbtion wrbps bround midnight.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param minutesToAdd  the minutes to add, may be negative
-     * @return a {@code LocalTime} based on this time with the minutes added, not null
+     * @pbrbm minutesToAdd  the minutes to bdd, mby be negbtive
+     * @return b {@code LocblTime} bbsed on this time with the minutes bdded, not null
      */
-    public LocalTime plusMinutes(long minutesToAdd) {
+    public LocblTime plusMinutes(long minutesToAdd) {
         if (minutesToAdd == 0) {
             return this;
         }
@@ -1099,21 +1099,21 @@ public final class LocalTime
         }
         int newHour = newMofd / MINUTES_PER_HOUR;
         int newMinute = newMofd % MINUTES_PER_HOUR;
-        return create(newHour, newMinute, second, nano);
+        return crebte(newHour, newMinute, second, nbno);
     }
 
     /**
-     * Returns a copy of this {@code LocalTime} with the specified number of seconds added.
+     * Returns b copy of this {@code LocblTime} with the specified number of seconds bdded.
      * <p>
-     * This adds the specified number of seconds to this time, returning a new time.
-     * The calculation wraps around midnight.
+     * This bdds the specified number of seconds to this time, returning b new time.
+     * The cblculbtion wrbps bround midnight.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param secondstoAdd  the seconds to add, may be negative
-     * @return a {@code LocalTime} based on this time with the seconds added, not null
+     * @pbrbm secondstoAdd  the seconds to bdd, mby be negbtive
+     * @return b {@code LocblTime} bbsed on this time with the seconds bdded, not null
      */
-    public LocalTime plusSeconds(long secondstoAdd) {
+    public LocblTime plusSeconds(long secondstoAdd) {
         if (secondstoAdd == 0) {
             return this;
         }
@@ -1126,367 +1126,367 @@ public final class LocalTime
         int newHour = newSofd / SECONDS_PER_HOUR;
         int newMinute = (newSofd / SECONDS_PER_MINUTE) % MINUTES_PER_HOUR;
         int newSecond = newSofd % SECONDS_PER_MINUTE;
-        return create(newHour, newMinute, newSecond, nano);
+        return crebte(newHour, newMinute, newSecond, nbno);
     }
 
     /**
-     * Returns a copy of this {@code LocalTime} with the specified number of nanoseconds added.
+     * Returns b copy of this {@code LocblTime} with the specified number of nbnoseconds bdded.
      * <p>
-     * This adds the specified number of nanoseconds to this time, returning a new time.
-     * The calculation wraps around midnight.
+     * This bdds the specified number of nbnoseconds to this time, returning b new time.
+     * The cblculbtion wrbps bround midnight.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanosToAdd  the nanos to add, may be negative
-     * @return a {@code LocalTime} based on this time with the nanoseconds added, not null
+     * @pbrbm nbnosToAdd  the nbnos to bdd, mby be negbtive
+     * @return b {@code LocblTime} bbsed on this time with the nbnoseconds bdded, not null
      */
-    public LocalTime plusNanos(long nanosToAdd) {
-        if (nanosToAdd == 0) {
+    public LocblTime plusNbnos(long nbnosToAdd) {
+        if (nbnosToAdd == 0) {
             return this;
         }
-        long nofd = toNanoOfDay();
-        long newNofd = ((nanosToAdd % NANOS_PER_DAY) + nofd + NANOS_PER_DAY) % NANOS_PER_DAY;
+        long nofd = toNbnoOfDby();
+        long newNofd = ((nbnosToAdd % NANOS_PER_DAY) + nofd + NANOS_PER_DAY) % NANOS_PER_DAY;
         if (nofd == newNofd) {
             return this;
         }
         int newHour = (int) (newNofd / NANOS_PER_HOUR);
         int newMinute = (int) ((newNofd / NANOS_PER_MINUTE) % MINUTES_PER_HOUR);
         int newSecond = (int) ((newNofd / NANOS_PER_SECOND) % SECONDS_PER_MINUTE);
-        int newNano = (int) (newNofd % NANOS_PER_SECOND);
-        return create(newHour, newMinute, newSecond, newNano);
+        int newNbno = (int) (newNofd % NANOS_PER_SECOND);
+        return crebte(newHour, newMinute, newSecond, newNbno);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this time with the specified amount subtracted.
+     * Returns b copy of this time with the specified bmount subtrbcted.
      * <p>
-     * This returns a {@code LocalTime}, based on this one, with the specified amount subtracted.
-     * The amount is typically {@link Duration} but may be any other type implementing
-     * the {@link TemporalAmount} interface.
+     * This returns b {@code LocblTime}, bbsed on this one, with the specified bmount subtrbcted.
+     * The bmount is typicblly {@link Durbtion} but mby be bny other type implementing
+     * the {@link TemporblAmount} interfbce.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#subtractFrom(Temporal)}. The amount implementation is free
-     * to implement the subtraction in any way it wishes, however it typically
-     * calls back to {@link #minus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully subtracted.
+     * The cblculbtion is delegbted to the bmount object by cblling
+     * {@link TemporblAmount#subtrbctFrom(Temporbl)}. The bmount implementbtion is free
+     * to implement the subtrbction in bny wby it wishes, however it typicblly
+     * cblls bbck to {@link #minus(long, TemporblUnit)}. Consult the documentbtion
+     * of the bmount implementbtion to determine if it cbn be successfully subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount to subtract, not null
-     * @return a {@code LocalTime} based on this time with the subtraction made, not null
-     * @throws DateTimeException if the subtraction cannot be made
+     * @pbrbm bmountToSubtrbct  the bmount to subtrbct, not null
+     * @return b {@code LocblTime} bbsed on this time with the subtrbction mbde, not null
+     * @throws DbteTimeException if the subtrbction cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public LocalTime minus(TemporalAmount amountToSubtract) {
-        return (LocalTime) amountToSubtract.subtractFrom(this);
+    public LocblTime minus(TemporblAmount bmountToSubtrbct) {
+        return (LocblTime) bmountToSubtrbct.subtrbctFrom(this);
     }
 
     /**
-     * Returns a copy of this time with the specified amount subtracted.
+     * Returns b copy of this time with the specified bmount subtrbcted.
      * <p>
-     * This returns a {@code LocalTime}, based on this one, with the amount
-     * in terms of the unit subtracted. If it is not possible to subtract the amount,
-     * because the unit is not supported or for some other reason, an exception is thrown.
+     * This returns b {@code LocblTime}, bbsed on this one, with the bmount
+     * in terms of the unit subtrbcted. If it is not possible to subtrbct the bmount,
+     * becbuse the unit is not supported or for some other rebson, bn exception is thrown.
      * <p>
-     * This method is equivalent to {@link #plus(long, TemporalUnit)} with the amount negated.
-     * See that method for a full description of how addition, and thus subtraction, works.
+     * This method is equivblent to {@link #plus(long, TemporblUnit)} with the bmount negbted.
+     * See thbt method for b full description of how bddition, bnd thus subtrbction, works.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount of the unit to subtract from the result, may be negative
-     * @param unit  the unit of the amount to subtract, not null
-     * @return a {@code LocalTime} based on this time with the specified amount subtracted, not null
-     * @throws DateTimeException if the subtraction cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToSubtrbct  the bmount of the unit to subtrbct from the result, mby be negbtive
+     * @pbrbm unit  the unit of the bmount to subtrbct, not null
+     * @return b {@code LocblTime} bbsed on this time with the specified bmount subtrbcted, not null
+     * @throws DbteTimeException if the subtrbction cbnnot be mbde
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public LocalTime minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+    public LocblTime minus(long bmountToSubtrbct, TemporblUnit unit) {
+        return (bmountToSubtrbct == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-bmountToSubtrbct, unit));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code LocalTime} with the specified number of hours subtracted.
+     * Returns b copy of this {@code LocblTime} with the specified number of hours subtrbcted.
      * <p>
-     * This subtracts the specified number of hours from this time, returning a new time.
-     * The calculation wraps around midnight.
+     * This subtrbcts the specified number of hours from this time, returning b new time.
+     * The cblculbtion wrbps bround midnight.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param hoursToSubtract  the hours to subtract, may be negative
-     * @return a {@code LocalTime} based on this time with the hours subtracted, not null
+     * @pbrbm hoursToSubtrbct  the hours to subtrbct, mby be negbtive
+     * @return b {@code LocblTime} bbsed on this time with the hours subtrbcted, not null
      */
-    public LocalTime minusHours(long hoursToSubtract) {
-        return plusHours(-(hoursToSubtract % HOURS_PER_DAY));
+    public LocblTime minusHours(long hoursToSubtrbct) {
+        return plusHours(-(hoursToSubtrbct % HOURS_PER_DAY));
     }
 
     /**
-     * Returns a copy of this {@code LocalTime} with the specified number of minutes subtracted.
+     * Returns b copy of this {@code LocblTime} with the specified number of minutes subtrbcted.
      * <p>
-     * This subtracts the specified number of minutes from this time, returning a new time.
-     * The calculation wraps around midnight.
+     * This subtrbcts the specified number of minutes from this time, returning b new time.
+     * The cblculbtion wrbps bround midnight.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param minutesToSubtract  the minutes to subtract, may be negative
-     * @return a {@code LocalTime} based on this time with the minutes subtracted, not null
+     * @pbrbm minutesToSubtrbct  the minutes to subtrbct, mby be negbtive
+     * @return b {@code LocblTime} bbsed on this time with the minutes subtrbcted, not null
      */
-    public LocalTime minusMinutes(long minutesToSubtract) {
-        return plusMinutes(-(minutesToSubtract % MINUTES_PER_DAY));
+    public LocblTime minusMinutes(long minutesToSubtrbct) {
+        return plusMinutes(-(minutesToSubtrbct % MINUTES_PER_DAY));
     }
 
     /**
-     * Returns a copy of this {@code LocalTime} with the specified number of seconds subtracted.
+     * Returns b copy of this {@code LocblTime} with the specified number of seconds subtrbcted.
      * <p>
-     * This subtracts the specified number of seconds from this time, returning a new time.
-     * The calculation wraps around midnight.
+     * This subtrbcts the specified number of seconds from this time, returning b new time.
+     * The cblculbtion wrbps bround midnight.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param secondsToSubtract  the seconds to subtract, may be negative
-     * @return a {@code LocalTime} based on this time with the seconds subtracted, not null
+     * @pbrbm secondsToSubtrbct  the seconds to subtrbct, mby be negbtive
+     * @return b {@code LocblTime} bbsed on this time with the seconds subtrbcted, not null
      */
-    public LocalTime minusSeconds(long secondsToSubtract) {
-        return plusSeconds(-(secondsToSubtract % SECONDS_PER_DAY));
+    public LocblTime minusSeconds(long secondsToSubtrbct) {
+        return plusSeconds(-(secondsToSubtrbct % SECONDS_PER_DAY));
     }
 
     /**
-     * Returns a copy of this {@code LocalTime} with the specified number of nanoseconds subtracted.
+     * Returns b copy of this {@code LocblTime} with the specified number of nbnoseconds subtrbcted.
      * <p>
-     * This subtracts the specified number of nanoseconds from this time, returning a new time.
-     * The calculation wraps around midnight.
+     * This subtrbcts the specified number of nbnoseconds from this time, returning b new time.
+     * The cblculbtion wrbps bround midnight.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanosToSubtract  the nanos to subtract, may be negative
-     * @return a {@code LocalTime} based on this time with the nanoseconds subtracted, not null
+     * @pbrbm nbnosToSubtrbct  the nbnos to subtrbct, mby be negbtive
+     * @return b {@code LocblTime} bbsed on this time with the nbnoseconds subtrbcted, not null
      */
-    public LocalTime minusNanos(long nanosToSubtract) {
-        return plusNanos(-(nanosToSubtract % NANOS_PER_DAY));
+    public LocblTime minusNbnos(long nbnosToSubtrbct) {
+        return plusNbnos(-(nbnosToSubtrbct % NANOS_PER_DAY));
     }
 
     //-----------------------------------------------------------------------
     /**
      * Queries this time using the specified query.
      * <p>
-     * This queries this time using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * This queries this time using the specified query strbtegy object.
+     * The {@code TemporblQuery} object defines the logic to be used to
+     * obtbin the result. Rebd the documentbtion of the query to understbnd
+     * whbt the result of this method will be.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblQuery#queryFrom(TemporblAccessor)} method on the
+     * specified query pbssing {@code this} bs the brgument.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
+     * @pbrbm <R> the type of the result
+     * @pbrbm query  the query to invoke, not null
+     * @return the query result, null mby be returned (defined by the query)
+     * @throws DbteTimeException if unbble to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.chronology() || query == TemporalQueries.zoneId() ||
-                query == TemporalQueries.zone() || query == TemporalQueries.offset()) {
+    public <R> R query(TemporblQuery<R> query) {
+        if (query == TemporblQueries.chronology() || query == TemporblQueries.zoneId() ||
+                query == TemporblQueries.zone() || query == TemporblQueries.offset()) {
             return null;
-        } else if (query == TemporalQueries.localTime()) {
+        } else if (query == TemporblQueries.locblTime()) {
             return (R) this;
-        } else if (query == TemporalQueries.localDate()) {
+        } else if (query == TemporblQueries.locblDbte()) {
             return null;
-        } else if (query == TemporalQueries.precision()) {
+        } else if (query == TemporblQueries.precision()) {
             return (R) NANOS;
         }
-        // inline TemporalAccessor.super.query(query) as an optimization
-        // non-JDK classes are not permitted to make this optimization
+        // inline TemporblAccessor.super.query(query) bs bn optimizbtion
+        // non-JDK clbsses bre not permitted to mbke this optimizbtion
         return query.queryFrom(this);
     }
 
     /**
-     * Adjusts the specified temporal object to have the same time as this object.
+     * Adjusts the specified temporbl object to hbve the sbme time bs this object.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with the time changed to be the same as this.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with the time chbnged to be the sbme bs this.
      * <p>
-     * The adjustment is equivalent to using {@link Temporal#with(TemporalField, long)}
-     * passing {@link ChronoField#NANO_OF_DAY} as the field.
+     * The bdjustment is equivblent to using {@link Temporbl#with(TemporblField, long)}
+     * pbssing {@link ChronoField#NANO_OF_DAY} bs the field.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#with(TemporalAdjuster)}:
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#with(TemporblAdjuster)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisLocalTime.adjustInto(temporal);
-     *   temporal = temporal.with(thisLocalTime);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisLocblTime.bdjustInto(temporbl);
+     *   temporbl = temporbl.with(thisLocblTime);
      * </pre>
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the target object to be adjusted, not null
-     * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
+     * @pbrbm temporbl  the tbrget object to be bdjusted, not null
+     * @return the bdjusted object, not null
+     * @throws DbteTimeException if unbble to mbke the bdjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Temporal adjustInto(Temporal temporal) {
-        return temporal.with(NANO_OF_DAY, toNanoOfDay());
+    public Temporbl bdjustInto(Temporbl temporbl) {
+        return temporbl.with(NANO_OF_DAY, toNbnoOfDby());
     }
 
     /**
-     * Calculates the amount of time until another time in terms of the specified unit.
+     * Cblculbtes the bmount of time until bnother time in terms of the specified unit.
      * <p>
-     * This calculates the amount of time between two {@code LocalTime}
-     * objects in terms of a single {@code TemporalUnit}.
-     * The start and end points are {@code this} and the specified time.
-     * The result will be negative if the end is before the start.
-     * The {@code Temporal} passed to this method is converted to a
-     * {@code LocalTime} using {@link #from(TemporalAccessor)}.
-     * For example, the amount in hours between two times can be calculated
-     * using {@code startTime.until(endTime, HOURS)}.
+     * This cblculbtes the bmount of time between two {@code LocblTime}
+     * objects in terms of b single {@code TemporblUnit}.
+     * The stbrt bnd end points bre {@code this} bnd the specified time.
+     * The result will be negbtive if the end is before the stbrt.
+     * The {@code Temporbl} pbssed to this method is converted to b
+     * {@code LocblTime} using {@link #from(TemporblAccessor)}.
+     * For exbmple, the bmount in hours between two times cbn be cblculbted
+     * using {@code stbrtTime.until(endTime, HOURS)}.
      * <p>
-     * The calculation returns a whole number, representing the number of
+     * The cblculbtion returns b whole number, representing the number of
      * complete units between the two times.
-     * For example, the amount in hours between 11:30 and 13:29 will only
-     * be one hour as it is one minute short of two hours.
+     * For exbmple, the bmount in hours between 11:30 bnd 13:29 will only
+     * be one hour bs it is one minute short of two hours.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method.
-     * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
+     * The second is to use {@link TemporblUnit#between(Temporbl, Temporbl)}:
      * <pre>
-     *   // these two lines are equivalent
-     *   amount = start.until(end, MINUTES);
-     *   amount = MINUTES.between(start, end);
+     *   // these two lines bre equivblent
+     *   bmount = stbrt.until(end, MINUTES);
+     *   bmount = MINUTES.between(stbrt, end);
      * </pre>
-     * The choice should be made based on which makes the code more readable.
+     * The choice should be mbde bbsed on which mbkes the code more rebdbble.
      * <p>
-     * The calculation is implemented in this method for {@link ChronoUnit}.
+     * The cblculbtion is implemented in this method for {@link ChronoUnit}.
      * The units {@code NANOS}, {@code MICROS}, {@code MILLIS}, {@code SECONDS},
-     * {@code MINUTES}, {@code HOURS} and {@code HALF_DAYS} are supported.
-     * Other {@code ChronoUnit} values will throw an exception.
+     * {@code MINUTES}, {@code HOURS} bnd {@code HALF_DAYS} bre supported.
+     * Other {@code ChronoUnit} vblues will throw bn exception.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.between(Temporal, Temporal)}
-     * passing {@code this} as the first argument and the converted input temporal
-     * as the second argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.between(Temporbl, Temporbl)}
+     * pbssing {@code this} bs the first brgument bnd the converted input temporbl
+     * bs the second brgument.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param endExclusive  the end time, exclusive, which is converted to a {@code LocalTime}, not null
-     * @param unit  the unit to measure the amount in, not null
-     * @return the amount of time between this time and the end time
-     * @throws DateTimeException if the amount cannot be calculated, or the end
-     *  temporal cannot be converted to a {@code LocalTime}
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm endExclusive  the end time, exclusive, which is converted to b {@code LocblTime}, not null
+     * @pbrbm unit  the unit to mebsure the bmount in, not null
+     * @return the bmount of time between this time bnd the end time
+     * @throws DbteTimeException if the bmount cbnnot be cblculbted, or the end
+     *  temporbl cbnnot be converted to b {@code LocblTime}
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
-        LocalTime end = LocalTime.from(endExclusive);
-        if (unit instanceof ChronoUnit) {
-            long nanosUntil = end.toNanoOfDay() - toNanoOfDay();  // no overflow
+    public long until(Temporbl endExclusive, TemporblUnit unit) {
+        LocblTime end = LocblTime.from(endExclusive);
+        if (unit instbnceof ChronoUnit) {
+            long nbnosUntil = end.toNbnoOfDby() - toNbnoOfDby();  // no overflow
             switch ((ChronoUnit) unit) {
-                case NANOS: return nanosUntil;
-                case MICROS: return nanosUntil / 1000;
-                case MILLIS: return nanosUntil / 1000_000;
-                case SECONDS: return nanosUntil / NANOS_PER_SECOND;
-                case MINUTES: return nanosUntil / NANOS_PER_MINUTE;
-                case HOURS: return nanosUntil / NANOS_PER_HOUR;
-                case HALF_DAYS: return nanosUntil / (12 * NANOS_PER_HOUR);
+                cbse NANOS: return nbnosUntil;
+                cbse MICROS: return nbnosUntil / 1000;
+                cbse MILLIS: return nbnosUntil / 1000_000;
+                cbse SECONDS: return nbnosUntil / NANOS_PER_SECOND;
+                cbse MINUTES: return nbnosUntil / NANOS_PER_MINUTE;
+                cbse HOURS: return nbnosUntil / NANOS_PER_HOUR;
+                cbse HALF_DAYS: return nbnosUntil / (12 * NANOS_PER_HOUR);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            throw new UnsupportedTemporblTypeException("Unsupported unit: " + unit);
         }
         return unit.between(this, end);
     }
 
     /**
-     * Formats this time using the specified formatter.
+     * Formbts this time using the specified formbtter.
      * <p>
-     * This time will be passed to the formatter to produce a string.
+     * This time will be pbssed to the formbtter to produce b string.
      *
-     * @param formatter  the formatter to use, not null
-     * @return the formatted time string, not null
-     * @throws DateTimeException if an error occurs during printing
+     * @pbrbm formbtter  the formbtter to use, not null
+     * @return the formbtted time string, not null
+     * @throws DbteTimeException if bn error occurs during printing
      */
-    public String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+    public String formbt(DbteTimeFormbtter formbtter) {
+        Objects.requireNonNull(formbtter, "formbtter");
+        return formbtter.formbt(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Combines this time with a date to create a {@code LocalDateTime}.
+     * Combines this time with b dbte to crebte b {@code LocblDbteTime}.
      * <p>
-     * This returns a {@code LocalDateTime} formed from this time at the specified date.
-     * All possible combinations of date and time are valid.
+     * This returns b {@code LocblDbteTime} formed from this time bt the specified dbte.
+     * All possible combinbtions of dbte bnd time bre vblid.
      *
-     * @param date  the date to combine with, not null
-     * @return the local date-time formed from this time and the specified date, not null
+     * @pbrbm dbte  the dbte to combine with, not null
+     * @return the locbl dbte-time formed from this time bnd the specified dbte, not null
      */
-    public LocalDateTime atDate(LocalDate date) {
-        return LocalDateTime.of(date, this);
+    public LocblDbteTime btDbte(LocblDbte dbte) {
+        return LocblDbteTime.of(dbte, this);
     }
 
     /**
-     * Combines this time with an offset to create an {@code OffsetTime}.
+     * Combines this time with bn offset to crebte bn {@code OffsetTime}.
      * <p>
-     * This returns an {@code OffsetTime} formed from this time at the specified offset.
-     * All possible combinations of time and offset are valid.
+     * This returns bn {@code OffsetTime} formed from this time bt the specified offset.
+     * All possible combinbtions of time bnd offset bre vblid.
      *
-     * @param offset  the offset to combine with, not null
-     * @return the offset time formed from this time and the specified offset, not null
+     * @pbrbm offset  the offset to combine with, not null
+     * @return the offset time formed from this time bnd the specified offset, not null
      */
-    public OffsetTime atOffset(ZoneOffset offset) {
+    public OffsetTime btOffset(ZoneOffset offset) {
         return OffsetTime.of(this, offset);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Extracts the time as seconds of day,
+     * Extrbcts the time bs seconds of dby,
      * from {@code 0} to {@code 24 * 60 * 60 - 1}.
      *
-     * @return the second-of-day equivalent to this time
+     * @return the second-of-dby equivblent to this time
      */
-    public int toSecondOfDay() {
-        int total = hour * SECONDS_PER_HOUR;
-        total += minute * SECONDS_PER_MINUTE;
-        total += second;
-        return total;
+    public int toSecondOfDby() {
+        int totbl = hour * SECONDS_PER_HOUR;
+        totbl += minute * SECONDS_PER_MINUTE;
+        totbl += second;
+        return totbl;
     }
 
     /**
-     * Extracts the time as nanos of day,
+     * Extrbcts the time bs nbnos of dby,
      * from {@code 0} to {@code 24 * 60 * 60 * 1,000,000,000 - 1}.
      *
-     * @return the nano of day equivalent to this time
+     * @return the nbno of dby equivblent to this time
      */
-    public long toNanoOfDay() {
-        long total = hour * NANOS_PER_HOUR;
-        total += minute * NANOS_PER_MINUTE;
-        total += second * NANOS_PER_SECOND;
-        total += nano;
-        return total;
+    public long toNbnoOfDby() {
+        long totbl = hour * NANOS_PER_HOUR;
+        totbl += minute * NANOS_PER_MINUTE;
+        totbl += second * NANOS_PER_SECOND;
+        totbl += nbno;
+        return totbl;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this time to another time.
+     * Compbres this time to bnother time.
      * <p>
-     * The comparison is based on the time-line position of the local times within a day.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * The compbrison is bbsed on the time-line position of the locbl times within b dby.
+     * It is "consistent with equbls", bs defined by {@link Compbrbble}.
      *
-     * @param other  the other time to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm other  the other time to compbre to, not null
+     * @return the compbrbtor vblue, negbtive if less, positive if grebter
      */
     @Override
-    public int compareTo(LocalTime other) {
-        int cmp = Integer.compare(hour, other.hour);
+    public int compbreTo(LocblTime other) {
+        int cmp = Integer.compbre(hour, other.hour);
         if (cmp == 0) {
-            cmp = Integer.compare(minute, other.minute);
+            cmp = Integer.compbre(minute, other.minute);
             if (cmp == 0) {
-                cmp = Integer.compare(second, other.second);
+                cmp = Integer.compbre(second, other.second);
                 if (cmp == 0) {
-                    cmp = Integer.compare(nano, other.nano);
+                    cmp = Integer.compbre(nbno, other.nbno);
                 }
             }
         }
@@ -1494,71 +1494,71 @@ public final class LocalTime
     }
 
     /**
-     * Checks if this time is after the specified time.
+     * Checks if this time is bfter the specified time.
      * <p>
-     * The comparison is based on the time-line position of the time within a day.
+     * The compbrison is bbsed on the time-line position of the time within b dby.
      *
-     * @param other  the other time to compare to, not null
-     * @return true if this is after the specified time
+     * @pbrbm other  the other time to compbre to, not null
+     * @return true if this is bfter the specified time
      */
-    public boolean isAfter(LocalTime other) {
-        return compareTo(other) > 0;
+    public boolebn isAfter(LocblTime other) {
+        return compbreTo(other) > 0;
     }
 
     /**
      * Checks if this time is before the specified time.
      * <p>
-     * The comparison is based on the time-line position of the time within a day.
+     * The compbrison is bbsed on the time-line position of the time within b dby.
      *
-     * @param other  the other time to compare to, not null
+     * @pbrbm other  the other time to compbre to, not null
      * @return true if this point is before the specified time
      */
-    public boolean isBefore(LocalTime other) {
-        return compareTo(other) < 0;
+    public boolebn isBefore(LocblTime other) {
+        return compbreTo(other) < 0;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this time is equal to another time.
+     * Checks if this time is equbl to bnother time.
      * <p>
-     * The comparison is based on the time-line position of the time within a day.
+     * The compbrison is bbsed on the time-line position of the time within b dby.
      * <p>
-     * Only objects of type {@code LocalTime} are compared, other types return false.
-     * To compare the date of two {@code TemporalAccessor} instances, use
-     * {@link ChronoField#NANO_OF_DAY} as a comparator.
+     * Only objects of type {@code LocblTime} bre compbred, other types return fblse.
+     * To compbre the dbte of two {@code TemporblAccessor} instbnces, use
+     * {@link ChronoField#NANO_OF_DAY} bs b compbrbtor.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other time
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other time
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof LocalTime) {
-            LocalTime other = (LocalTime) obj;
+        if (obj instbnceof LocblTime) {
+            LocblTime other = (LocblTime) obj;
             return hour == other.hour && minute == other.minute &&
-                    second == other.second && nano == other.nano;
+                    second == other.second && nbno == other.nbno;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this time.
+     * A hbsh code for this time.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    public int hashCode() {
-        long nod = toNanoOfDay();
+    public int hbshCode() {
+        long nod = toNbnoOfDby();
         return (int) (nod ^ (nod >>> 32));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this time as a {@code String}, such as {@code 10:15}.
+     * Outputs this time bs b {@code String}, such bs {@code 10:15}.
      * <p>
-     * The output will be one of the following ISO-8601 formats:
+     * The output will be one of the following ISO-8601 formbts:
      * <ul>
      * <li>{@code HH:mm}</li>
      * <li>{@code HH:mm:ss}</li>
@@ -1566,30 +1566,30 @@ public final class LocalTime
      * <li>{@code HH:mm:ss.SSSSSS}</li>
      * <li>{@code HH:mm:ss.SSSSSSSSS}</li>
      * </ul>
-     * The format used will be the shortest that outputs the full value of
-     * the time where the omitted parts are implied to be zero.
+     * The formbt used will be the shortest thbt outputs the full vblue of
+     * the time where the omitted pbrts bre implied to be zero.
      *
-     * @return a string representation of this time, not null
+     * @return b string representbtion of this time, not null
      */
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder(18);
-        int hourValue = hour;
-        int minuteValue = minute;
-        int secondValue = second;
-        int nanoValue = nano;
-        buf.append(hourValue < 10 ? "0" : "").append(hourValue)
-            .append(minuteValue < 10 ? ":0" : ":").append(minuteValue);
-        if (secondValue > 0 || nanoValue > 0) {
-            buf.append(secondValue < 10 ? ":0" : ":").append(secondValue);
-            if (nanoValue > 0) {
-                buf.append('.');
-                if (nanoValue % 1000_000 == 0) {
-                    buf.append(Integer.toString((nanoValue / 1000_000) + 1000).substring(1));
-                } else if (nanoValue % 1000 == 0) {
-                    buf.append(Integer.toString((nanoValue / 1000) + 1000_000).substring(1));
+        int hourVblue = hour;
+        int minuteVblue = minute;
+        int secondVblue = second;
+        int nbnoVblue = nbno;
+        buf.bppend(hourVblue < 10 ? "0" : "").bppend(hourVblue)
+            .bppend(minuteVblue < 10 ? ":0" : ":").bppend(minuteVblue);
+        if (secondVblue > 0 || nbnoVblue > 0) {
+            buf.bppend(secondVblue < 10 ? ":0" : ":").bppend(secondVblue);
+            if (nbnoVblue > 0) {
+                buf.bppend('.');
+                if (nbnoVblue % 1000_000 == 0) {
+                    buf.bppend(Integer.toString((nbnoVblue / 1000_000) + 1000).substring(1));
+                } else if (nbnoVblue % 1000 == 0) {
+                    buf.bppend(Integer.toString((nbnoVblue / 1000) + 1000_000).substring(1));
                 } else {
-                    buf.append(Integer.toString((nanoValue) + 1000_000_000).substring(1));
+                    buf.bppend(Integer.toString((nbnoVblue) + 1000_000_000).substring(1));
                 }
             }
         }
@@ -1598,14 +1598,14 @@ public final class LocalTime
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
-     * A twos-complement value indicates the remaining values are not in the stream
-     * and should be set to zero.
+     * Writes the object using b
+     * <b href="../../seriblized-form.html#jbvb.time.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
+     * A twos-complement vblue indicbtes the rembining vblues bre not in the strebm
+     * bnd should be set to zero.
      * <pre>
-     *  out.writeByte(4);  // identifies a LocalTime
-     *  if (nano == 0) {
+     *  out.writeByte(4);  // identifies b LocblTime
+     *  if (nbno == 0) {
      *    if (second == 0) {
      *      if (minute == 0) {
      *        out.writeByte(~hour);
@@ -1622,28 +1622,28 @@ public final class LocalTime
      *    out.writeByte(hour);
      *    out.writeByte(minute);
      *    out.writeByte(second);
-     *    out.writeInt(nano);
+     *    out.writeInt(nbno);
      *  }
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.LOCAL_TIME_TYPE, this);
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        if (nano == 0) {
+    void writeExternbl(DbtbOutput out) throws IOException {
+        if (nbno == 0) {
             if (second == 0) {
                 if (minute == 0) {
                     out.writeByte(~hour);
@@ -1660,31 +1660,31 @@ public final class LocalTime
             out.writeByte(hour);
             out.writeByte(minute);
             out.writeByte(second);
-            out.writeInt(nano);
+            out.writeInt(nbno);
         }
     }
 
-    static LocalTime readExternal(DataInput in) throws IOException {
-        int hour = in.readByte();
+    stbtic LocblTime rebdExternbl(DbtbInput in) throws IOException {
+        int hour = in.rebdByte();
         int minute = 0;
         int second = 0;
-        int nano = 0;
+        int nbno = 0;
         if (hour < 0) {
             hour = ~hour;
         } else {
-            minute = in.readByte();
+            minute = in.rebdByte();
             if (minute < 0) {
                 minute = ~minute;
             } else {
-                second = in.readByte();
+                second = in.rebdByte();
                 if (second < 0) {
                     second = ~second;
                 } else {
-                    nano = in.readInt();
+                    nbno = in.rebdInt();
                 }
             }
         }
-        return LocalTime.of(hour, minute, second, nano);
+        return LocblTime.of(hour, minute, second, nbno);
     }
 
 }

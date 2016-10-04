@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
 import sun.swing.SwingUtilities2;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.UIManager;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyVetoException;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicInternblFrbmeTitlePbne;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyVetoException;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.*;
+import stbtic com.sun.jbvb.swing.plbf.windows.XPStyle.Skin;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class WindowsInternalFrameTitlePane extends BasicInternalFrameTitlePane {
-    private Color selectedTitleGradientColor;
-    private Color notSelectedTitleGradientColor;
-    private JPopupMenu systemPopupMenu;
-    private JLabel systemLabel;
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss WindowsInternblFrbmeTitlePbne extends BbsicInternblFrbmeTitlePbne {
+    privbte Color selectedTitleGrbdientColor;
+    privbte Color notSelectedTitleGrbdientColor;
+    privbte JPopupMenu systemPopupMenu;
+    privbte JLbbel systemLbbel;
 
-    private Font titleFont;
-    private int titlePaneHeight;
-    private int buttonWidth, buttonHeight;
-    private boolean hotTrackingOn;
+    privbte Font titleFont;
+    privbte int titlePbneHeight;
+    privbte int buttonWidth, buttonHeight;
+    privbte boolebn hotTrbckingOn;
 
-    public WindowsInternalFrameTitlePane(JInternalFrame f) {
+    public WindowsInternblFrbmeTitlePbne(JInternblFrbme f) {
         super(f);
     }
 
-    protected void addSubComponents() {
-        add(systemLabel);
-        add(iconButton);
-        add(maxButton);
-        add(closeButton);
+    protected void bddSubComponents() {
+        bdd(systemLbbel);
+        bdd(iconButton);
+        bdd(mbxButton);
+        bdd(closeButton);
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
+    protected void instbllDefbults() {
+        super.instbllDefbults();
 
-        titlePaneHeight = UIManager.getInt("InternalFrame.titlePaneHeight");
-        buttonWidth     = UIManager.getInt("InternalFrame.titleButtonWidth")  - 4;
-        buttonHeight    = UIManager.getInt("InternalFrame.titleButtonHeight") - 4;
+        titlePbneHeight = UIMbnbger.getInt("InternblFrbme.titlePbneHeight");
+        buttonWidth     = UIMbnbger.getInt("InternblFrbme.titleButtonWidth")  - 4;
+        buttonHeight    = UIMbnbger.getInt("InternblFrbme.titleButtonHeight") - 4;
 
-        Object obj      = UIManager.get("InternalFrame.titleButtonToolTipsOn");
-        hotTrackingOn = (obj instanceof Boolean) ? (Boolean)obj : true;
+        Object obj      = UIMbnbger.get("InternblFrbme.titleButtonToolTipsOn");
+        hotTrbckingOn = (obj instbnceof Boolebn) ? (Boolebn)obj : true;
 
 
         if (XPStyle.getXP() != null) {
-            // Fix for XP bug where sometimes these sizes aren't updated properly
-            // Assume for now that height is correct and derive width using the
-            // ratio from the uxtheme part
+            // Fix for XP bug where sometimes these sizes bren't updbted properly
+            // Assume for now thbt height is correct bnd derive width using the
+            // rbtio from the uxtheme pbrt
             buttonWidth = buttonHeight;
-            Dimension d = XPStyle.getPartSize(Part.WP_CLOSEBUTTON, State.NORMAL);
+            Dimension d = XPStyle.getPbrtSize(Pbrt.WP_CLOSEBUTTON, Stbte.NORMAL);
             if (d != null && d.width != 0 && d.height != 0) {
-                buttonWidth = (int) ((float) buttonWidth * d.width / d.height);
+                buttonWidth = (int) ((flobt) buttonWidth * d.width / d.height);
             }
         } else {
             buttonWidth += 2;
-            Color activeBorderColor =
-                    UIManager.getColor("InternalFrame.activeBorderColor");
-            setBorder(BorderFactory.createLineBorder(activeBorderColor, 1));
+            Color bctiveBorderColor =
+                    UIMbnbger.getColor("InternblFrbme.bctiveBorderColor");
+            setBorder(BorderFbctory.crebteLineBorder(bctiveBorderColor, 1));
         }
-        // JDK-8039383: initialize these colors because getXP() may return null when theme is changed
-        selectedTitleGradientColor =
-                UIManager.getColor("InternalFrame.activeTitleGradient");
-        notSelectedTitleGradientColor =
-                UIManager.getColor("InternalFrame.inactiveTitleGradient");
+        // JDK-8039383: initiblize these colors becbuse getXP() mby return null when theme is chbnged
+        selectedTitleGrbdientColor =
+                UIMbnbger.getColor("InternblFrbme.bctiveTitleGrbdient");
+        notSelectedTitleGrbdientColor =
+                UIMbnbger.getColor("InternblFrbme.inbctiveTitleGrbdient");
     }
 
-    protected void uninstallListeners() {
-        // Get around protected method in superclass
-        super.uninstallListeners();
+    protected void uninstbllListeners() {
+        // Get bround protected method in superclbss
+        super.uninstbllListeners();
     }
 
-    protected void createButtons() {
-        super.createButtons();
+    protected void crebteButtons() {
+        super.crebteButtons();
         if (XPStyle.getXP() != null) {
-            iconButton.setContentAreaFilled(false);
-            maxButton.setContentAreaFilled(false);
-            closeButton.setContentAreaFilled(false);
+            iconButton.setContentArebFilled(fblse);
+            mbxButton.setContentArebFilled(fblse);
+            closeButton.setContentArebFilled(fblse);
         }
     }
 
     protected void setButtonIcons() {
         super.setButtonIcons();
 
-        if (!hotTrackingOn) {
+        if (!hotTrbckingOn) {
             iconButton.setToolTipText(null);
-            maxButton.setToolTipText(null);
+            mbxButton.setToolTipText(null);
             closeButton.setToolTipText(null);
         }
     }
 
 
-    public void paintComponent(Graphics g)  {
+    public void pbintComponent(Grbphics g)  {
         XPStyle xp = XPStyle.getXP();
 
-        paintTitleBackground(g);
+        pbintTitleBbckground(g);
 
-        String title = frame.getTitle();
+        String title = frbme.getTitle();
         if (title != null) {
-            boolean isSelected = frame.isSelected();
+            boolebn isSelected = frbme.isSelected();
             Font oldFont = g.getFont();
             Font newFont = (titleFont != null) ? titleFont : getFont();
             g.setFont(newFont);
 
-            // Center text vertically.
-            FontMetrics fm = SwingUtilities2.getFontMetrics(frame, g, newFont);
-            int baseline = (getHeight() + fm.getAscent() - fm.getLeading() -
+            // Center text verticblly.
+            FontMetrics fm = SwingUtilities2.getFontMetrics(frbme, g, newFont);
+            int bbseline = (getHeight() + fm.getAscent() - fm.getLebding() -
                     fm.getDescent()) / 2;
 
-            Rectangle lastIconBounds = new Rectangle(0, 0, 0, 0);
-            if (frame.isIconifiable()) {
-                lastIconBounds = iconButton.getBounds();
-            } else if (frame.isMaximizable()) {
-                lastIconBounds = maxButton.getBounds();
-            } else if (frame.isClosable()) {
-                lastIconBounds = closeButton.getBounds();
+            Rectbngle lbstIconBounds = new Rectbngle(0, 0, 0, 0);
+            if (frbme.isIconifibble()) {
+                lbstIconBounds = iconButton.getBounds();
+            } else if (frbme.isMbximizbble()) {
+                lbstIconBounds = mbxButton.getBounds();
+            } else if (frbme.isClosbble()) {
+                lbstIconBounds = closeButton.getBounds();
             }
 
             int titleX;
             int titleW;
-            int gap = 2;
-            if (WindowsGraphicsUtils.isLeftToRight(frame)) {
-                if (lastIconBounds.x == 0) { // There are no icons
-                    lastIconBounds.x = frame.getWidth() - frame.getInsets().right;
+            int gbp = 2;
+            if (WindowsGrbphicsUtils.isLeftToRight(frbme)) {
+                if (lbstIconBounds.x == 0) { // There bre no icons
+                    lbstIconBounds.x = frbme.getWidth() - frbme.getInsets().right;
                 }
-                titleX = systemLabel.getX() + systemLabel.getWidth() + gap;
+                titleX = systemLbbel.getX() + systemLbbel.getWidth() + gbp;
                 if (xp != null) {
                     titleX += 2;
                 }
-                titleW = lastIconBounds.x - titleX - gap;
+                titleW = lbstIconBounds.x - titleX - gbp;
             } else {
-                if (lastIconBounds.x == 0) { // There are no icons
-                    lastIconBounds.x = frame.getInsets().left;
+                if (lbstIconBounds.x == 0) { // There bre no icons
+                    lbstIconBounds.x = frbme.getInsets().left;
                 }
-                titleW = SwingUtilities2.stringWidth(frame, fm, title);
-                int minTitleX = lastIconBounds.x + lastIconBounds.width + gap;
+                titleW = SwingUtilities2.stringWidth(frbme, fm, title);
+                int minTitleX = lbstIconBounds.x + lbstIconBounds.width + gbp;
                 if (xp != null) {
                     minTitleX += 2;
                 }
-                int availableWidth = systemLabel.getX() - gap - minTitleX;
-                if (availableWidth > titleW) {
-                    titleX = systemLabel.getX() - gap - titleW;
+                int bvbilbbleWidth = systemLbbel.getX() - gbp - minTitleX;
+                if (bvbilbbleWidth > titleW) {
+                    titleX = systemLbbel.getX() - gbp - titleW;
                 } else {
                     titleX = minTitleX;
-                    titleW = availableWidth;
+                    titleW = bvbilbbleWidth;
                 }
             }
-            title = getTitle(frame.getTitle(), fm, titleW);
+            title = getTitle(frbme.getTitle(), fm, titleW);
 
             if (xp != null) {
-                String shadowType = null;
+                String shbdowType = null;
                 if (isSelected) {
-                    shadowType = xp.getString(this, Part.WP_CAPTION,
-                                              State.ACTIVE, Prop.TEXTSHADOWTYPE);
+                    shbdowType = xp.getString(this, Pbrt.WP_CAPTION,
+                                              Stbte.ACTIVE, Prop.TEXTSHADOWTYPE);
                 }
-                if ("single".equalsIgnoreCase(shadowType)) {
-                    Point shadowOffset = xp.getPoint(this, Part.WP_WINDOW, State.ACTIVE,
+                if ("single".equblsIgnoreCbse(shbdowType)) {
+                    Point shbdowOffset = xp.getPoint(this, Pbrt.WP_WINDOW, Stbte.ACTIVE,
                                                      Prop.TEXTSHADOWOFFSET);
-                    Color shadowColor  = xp.getColor(this, Part.WP_WINDOW, State.ACTIVE,
+                    Color shbdowColor  = xp.getColor(this, Pbrt.WP_WINDOW, Stbte.ACTIVE,
                                                      Prop.TEXTSHADOWCOLOR, null);
-                    if (shadowOffset != null && shadowColor != null) {
-                        g.setColor(shadowColor);
-                        SwingUtilities2.drawString(frame, g, title,
-                                     titleX + shadowOffset.x,
-                                     baseline + shadowOffset.y);
+                    if (shbdowOffset != null && shbdowColor != null) {
+                        g.setColor(shbdowColor);
+                        SwingUtilities2.drbwString(frbme, g, title,
+                                     titleX + shbdowOffset.x,
+                                     bbseline + shbdowOffset.y);
                     }
                 }
             }
             g.setColor(isSelected ? selectedTextColor : notSelectedTextColor);
-            SwingUtilities2.drawString(frame, g, title, titleX, baseline);
+            SwingUtilities2.drbwString(frbme, g, title, titleX, bbseline);
             g.setFont(oldFont);
         }
     }
@@ -210,13 +210,13 @@ public class WindowsInternalFrameTitlePane extends BasicInternalFrameTitlePane {
 
     public Dimension getMinimumSize() {
         Dimension d = new Dimension(super.getMinimumSize());
-        d.height = titlePaneHeight + 2;
+        d.height = titlePbneHeight + 2;
 
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            // Note: Don't know how to calculate height on XP,
-            // the captionbarheight is 25 but native caption is 30 (maximized 26)
-            if (frame.isMaximum()) {
+            // Note: Don't know how to cblculbte height on XP,
+            // the cbptionbbrheight is 25 but nbtive cbption is 30 (mbximized 26)
+            if (frbme.isMbximum()) {
                 d.height -= 1;
             } else {
                 d.height += 3;
@@ -225,60 +225,60 @@ public class WindowsInternalFrameTitlePane extends BasicInternalFrameTitlePane {
         return d;
     }
 
-    protected void paintTitleBackground(Graphics g) {
+    protected void pbintTitleBbckground(Grbphics g) {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            Part part = frame.isIcon() ? Part.WP_MINCAPTION
-                                       : (frame.isMaximum() ? Part.WP_MAXCAPTION
-                                                            : Part.WP_CAPTION);
-            State state = frame.isSelected() ? State.ACTIVE : State.INACTIVE;
-            Skin skin = xp.getSkin(this, part);
-            skin.paintSkin(g, 0,  0, getWidth(), getHeight(), state);
+            Pbrt pbrt = frbme.isIcon() ? Pbrt.WP_MINCAPTION
+                                       : (frbme.isMbximum() ? Pbrt.WP_MAXCAPTION
+                                                            : Pbrt.WP_CAPTION);
+            Stbte stbte = frbme.isSelected() ? Stbte.ACTIVE : Stbte.INACTIVE;
+            Skin skin = xp.getSkin(this, pbrt);
+            skin.pbintSkin(g, 0,  0, getWidth(), getHeight(), stbte);
         } else {
-            Boolean gradientsOn = (Boolean)LookAndFeel.getDesktopPropertyValue(
-                "win.frame.captionGradientsOn", Boolean.valueOf(false));
-            if (gradientsOn.booleanValue() && g instanceof Graphics2D) {
-                Graphics2D g2 = (Graphics2D)g;
-                Paint savePaint = g2.getPaint();
+            Boolebn grbdientsOn = (Boolebn)LookAndFeel.getDesktopPropertyVblue(
+                "win.frbme.cbptionGrbdientsOn", Boolebn.vblueOf(fblse));
+            if (grbdientsOn.boolebnVblue() && g instbnceof Grbphics2D) {
+                Grbphics2D g2 = (Grbphics2D)g;
+                Pbint sbvePbint = g2.getPbint();
 
-                boolean isSelected = frame.isSelected();
+                boolebn isSelected = frbme.isSelected();
                 int w = getWidth();
 
                 if (isSelected) {
-                    GradientPaint titleGradient = new GradientPaint(0,0,
+                    GrbdientPbint titleGrbdient = new GrbdientPbint(0,0,
                             selectedTitleColor,
                             (int)(w*.75),0,
-                            selectedTitleGradientColor);
-                    g2.setPaint(titleGradient);
+                            selectedTitleGrbdientColor);
+                    g2.setPbint(titleGrbdient);
                 } else {
-                    GradientPaint titleGradient = new GradientPaint(0,0,
+                    GrbdientPbint titleGrbdient = new GrbdientPbint(0,0,
                             notSelectedTitleColor,
                             (int)(w*.75),0,
-                            notSelectedTitleGradientColor);
-                    g2.setPaint(titleGradient);
+                            notSelectedTitleGrbdientColor);
+                    g2.setPbint(titleGrbdient);
                 }
                 g2.fillRect(0, 0, getWidth(), getHeight());
-                g2.setPaint(savePaint);
+                g2.setPbint(sbvePbint);
             } else {
-                super.paintTitleBackground(g);
+                super.pbintTitleBbckground(g);
             }
         }
     }
 
-    protected void assembleSystemMenu() {
+    protected void bssembleSystemMenu() {
         systemPopupMenu = new JPopupMenu();
-        addSystemMenuItems(systemPopupMenu);
-        enableActions();
-        @SuppressWarnings("serial") // anonymous class
-        JLabel tmp = new JLabel(frame.getFrameIcon()) {
-            protected void paintComponent(Graphics g) {
+        bddSystemMenuItems(systemPopupMenu);
+        enbbleActions();
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        JLbbel tmp = new JLbbel(frbme.getFrbmeIcon()) {
+            protected void pbintComponent(Grbphics g) {
                 int x = 0;
                 int y = 0;
                 int w = getWidth();
                 int h = getHeight();
-                g = g.create();  // Create scratch graphics
-                if (isOpaque()) {
-                    g.setColor(getBackground());
+                g = g.crebte();  // Crebte scrbtch grbphics
+                if (isOpbque()) {
+                    g.setColor(getBbckground());
                     g.fillRect(0, 0, w, h);
                 }
                 Icon icon = getIcon();
@@ -288,31 +288,31 @@ public class WindowsInternalFrameTitlePane extends BasicInternalFrameTitlePane {
                     (iconWidth = icon.getIconWidth()) > 0 &&
                     (iconHeight = icon.getIconHeight()) > 0) {
 
-                    // Set drawing scale to make icon scale to our desired size
-                    double drawScale;
+                    // Set drbwing scble to mbke icon scble to our desired size
+                    double drbwScble;
                     if (iconWidth > iconHeight) {
-                        // Center icon vertically
+                        // Center icon verticblly
                         y = (h - w*iconHeight/iconWidth) / 2;
-                        drawScale = w / (double)iconWidth;
+                        drbwScble = w / (double)iconWidth;
                     } else {
-                        // Center icon horizontally
+                        // Center icon horizontblly
                         x = (w - h*iconWidth/iconHeight) / 2;
-                        drawScale = h / (double)iconHeight;
+                        drbwScble = h / (double)iconHeight;
                     }
-                    ((Graphics2D)g).translate(x, y);
-                    ((Graphics2D)g).scale(drawScale, drawScale);
-                    icon.paintIcon(this, g, 0, 0);
+                    ((Grbphics2D)g).trbnslbte(x, y);
+                    ((Grbphics2D)g).scble(drbwScble, drbwScble);
+                    icon.pbintIcon(this, g, 0, 0);
                 }
                 g.dispose();
             }
         };
-        systemLabel = tmp;
-        systemLabel.addMouseListener(new MouseAdapter() {
+        systemLbbel = tmp;
+        systemLbbel.bddMouseListener(new MouseAdbpter() {
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2 && frame.isClosable() &&
-                    !frame.isIcon()) {
-                    systemPopupMenu.setVisible(false);
-                    frame.doDefaultCloseAction();
+                if (e.getClickCount() == 2 && frbme.isClosbble() &&
+                    !frbme.isIcon()) {
+                    systemPopupMenu.setVisible(fblse);
+                    frbme.doDefbultCloseAction();
                 }
                 else {
                     super.mouseClicked(e);
@@ -320,53 +320,53 @@ public class WindowsInternalFrameTitlePane extends BasicInternalFrameTitlePane {
             }
             public void mousePressed(MouseEvent e) {
                 try {
-                    frame.setSelected(true);
-                } catch(PropertyVetoException pve) {
+                    frbme.setSelected(true);
+                } cbtch(PropertyVetoException pve) {
                 }
                 showSystemPopupMenu(e.getComponent());
             }
         });
     }
 
-    protected void addSystemMenuItems(JPopupMenu menu) {
-        JMenuItem mi = menu.add(restoreAction);
+    protected void bddSystemMenuItems(JPopupMenu menu) {
+        JMenuItem mi = menu.bdd(restoreAction);
         mi.setMnemonic(getButtonMnemonic("restore"));
-        mi = menu.add(moveAction);
+        mi = menu.bdd(moveAction);
         mi.setMnemonic(getButtonMnemonic("move"));
-        mi = menu.add(sizeAction);
+        mi = menu.bdd(sizeAction);
         mi.setMnemonic(getButtonMnemonic("size"));
-        mi = menu.add(iconifyAction);
+        mi = menu.bdd(iconifyAction);
         mi.setMnemonic(getButtonMnemonic("minimize"));
-        mi = menu.add(maximizeAction);
-        mi.setMnemonic(getButtonMnemonic("maximize"));
-        menu.add(new JSeparator());
-        mi = menu.add(closeAction);
+        mi = menu.bdd(mbximizeAction);
+        mi.setMnemonic(getButtonMnemonic("mbximize"));
+        menu.bdd(new JSepbrbtor());
+        mi = menu.bdd(closeAction);
         mi.setMnemonic(getButtonMnemonic("close"));
     }
 
-    private static int getButtonMnemonic(String button) {
+    privbte stbtic int getButtonMnemonic(String button) {
         try {
-            return Integer.parseInt(UIManager.getString(
-                    "InternalFrameTitlePane." + button + "Button.mnemonic"));
-        } catch (NumberFormatException e) {
+            return Integer.pbrseInt(UIMbnbger.getString(
+                    "InternblFrbmeTitlePbne." + button + "Button.mnemonic"));
+        } cbtch (NumberFormbtException e) {
             return -1;
         }
     }
 
     protected void showSystemMenu(){
-        showSystemPopupMenu(systemLabel);
+        showSystemPopupMenu(systemLbbel);
     }
 
-    private void showSystemPopupMenu(Component invoker){
+    privbte void showSystemPopupMenu(Component invoker){
         Dimension dim = new Dimension();
-        Border border = frame.getBorder();
+        Border border = frbme.getBorder();
         if (border != null) {
-            dim.width += border.getBorderInsets(frame).left +
-                border.getBorderInsets(frame).right;
-            dim.height += border.getBorderInsets(frame).bottom +
-                border.getBorderInsets(frame).top;
+            dim.width += border.getBorderInsets(frbme).left +
+                border.getBorderInsets(frbme).right;
+            dim.height += border.getBorderInsets(frbme).bottom +
+                border.getBorderInsets(frbme).top;
         }
-        if (!frame.isIcon()) {
+        if (!frbme.isIcon()) {
             systemPopupMenu.show(invoker,
                 getX() - dim.width,
                 getY() + getHeight() - dim.height);
@@ -378,36 +378,36 @@ public class WindowsInternalFrameTitlePane extends BasicInternalFrameTitlePane {
         }
     }
 
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return new WindowsPropertyChangeHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return new WindowsPropertyChbngeHbndler();
     }
 
-    protected LayoutManager createLayout() {
-        return new WindowsTitlePaneLayout();
+    protected LbyoutMbnbger crebteLbyout() {
+        return new WindowsTitlePbneLbyout();
     }
 
-    public class WindowsTitlePaneLayout extends BasicInternalFrameTitlePane.TitlePaneLayout {
-        private Insets captionMargin = null;
-        private Insets contentMargin = null;
-        private XPStyle xp = XPStyle.getXP();
+    public clbss WindowsTitlePbneLbyout extends BbsicInternblFrbmeTitlePbne.TitlePbneLbyout {
+        privbte Insets cbptionMbrgin = null;
+        privbte Insets contentMbrgin = null;
+        privbte XPStyle xp = XPStyle.getXP();
 
-        WindowsTitlePaneLayout() {
+        WindowsTitlePbneLbyout() {
             if (xp != null) {
-                Component c = WindowsInternalFrameTitlePane.this;
-                captionMargin = xp.getMargin(c, Part.WP_CAPTION, null, Prop.CAPTIONMARGINS);
-                contentMargin = xp.getMargin(c, Part.WP_CAPTION, null, Prop.CONTENTMARGINS);
+                Component c = WindowsInternblFrbmeTitlePbne.this;
+                cbptionMbrgin = xp.getMbrgin(c, Pbrt.WP_CAPTION, null, Prop.CAPTIONMARGINS);
+                contentMbrgin = xp.getMbrgin(c, Pbrt.WP_CAPTION, null, Prop.CONTENTMARGINS);
             }
-            if (captionMargin == null) {
-                captionMargin = new Insets(0, 2, 0, 2);
+            if (cbptionMbrgin == null) {
+                cbptionMbrgin = new Insets(0, 2, 0, 2);
             }
-            if (contentMargin == null) {
-                contentMargin = new Insets(0, 0, 0, 0);
+            if (contentMbrgin == null) {
+                contentMbrgin = new Insets(0, 0, 0, 0);
             }
         }
 
-        private int layoutButton(JComponent button, Part part,
-                                 int x, int y, int w, int h, int gap,
-                                 boolean leftToRight) {
+        privbte int lbyoutButton(JComponent button, Pbrt pbrt,
+                                 int x, int y, int w, int h, int gbp,
+                                 boolebn leftToRight) {
             if (!leftToRight) {
                 x -= w;
             }
@@ -420,99 +420,99 @@ public class WindowsInternalFrameTitlePane extends BasicInternalFrameTitlePane {
             return x;
         }
 
-        public void layoutContainer(Container c) {
-            boolean leftToRight = WindowsGraphicsUtils.isLeftToRight(frame);
+        public void lbyoutContbiner(Contbiner c) {
+            boolebn leftToRight = WindowsGrbphicsUtils.isLeftToRight(frbme);
             int x, y;
             int w = getWidth();
             int h = getHeight();
 
             // System button
-            // Note: this icon is square, but the buttons aren't always.
+            // Note: this icon is squbre, but the buttons bren't blwbys.
             int iconSize = (xp != null) ? (h-2)*6/10 : h-4;
             if (xp != null) {
-                x = (leftToRight) ? captionMargin.left + 2 : w - captionMargin.right - 2;
+                x = (leftToRight) ? cbptionMbrgin.left + 2 : w - cbptionMbrgin.right - 2;
             } else {
-                x = (leftToRight) ? captionMargin.left : w - captionMargin.right;
+                x = (leftToRight) ? cbptionMbrgin.left : w - cbptionMbrgin.right;
             }
             y = (h - iconSize) / 2;
-            layoutButton(systemLabel, Part.WP_SYSBUTTON,
+            lbyoutButton(systemLbbel, Pbrt.WP_SYSBUTTON,
                          x, y, iconSize, iconSize, 0,
                          leftToRight);
 
-            // Right hand buttons
+            // Right hbnd buttons
             if (xp != null) {
-                x = (leftToRight) ? w - captionMargin.right - 2 : captionMargin.left + 2;
-                y = 1;  // XP seems to ignore margins and offset here
-                if (frame.isMaximum()) {
+                x = (leftToRight) ? w - cbptionMbrgin.right - 2 : cbptionMbrgin.left + 2;
+                y = 1;  // XP seems to ignore mbrgins bnd offset here
+                if (frbme.isMbximum()) {
                     y += 1;
                 } else {
                     y += 5;
                 }
             } else {
-                x = (leftToRight) ? w - captionMargin.right : captionMargin.left;
+                x = (leftToRight) ? w - cbptionMbrgin.right : cbptionMbrgin.left;
                 y = (h - buttonHeight) / 2;
             }
 
-            if(frame.isClosable()) {
-                x = layoutButton(closeButton, Part.WP_CLOSEBUTTON,
+            if(frbme.isClosbble()) {
+                x = lbyoutButton(closeButton, Pbrt.WP_CLOSEBUTTON,
                                  x, y, buttonWidth, buttonHeight, 2,
                                  !leftToRight);
             }
 
-            if(frame.isMaximizable()) {
-                x = layoutButton(maxButton, Part.WP_MAXBUTTON,
+            if(frbme.isMbximizbble()) {
+                x = lbyoutButton(mbxButton, Pbrt.WP_MAXBUTTON,
                                  x, y, buttonWidth, buttonHeight, (xp != null) ? 2 : 0,
                                  !leftToRight);
             }
 
-            if(frame.isIconifiable()) {
-                layoutButton(iconButton, Part.WP_MINBUTTON,
+            if(frbme.isIconifibble()) {
+                lbyoutButton(iconButton, Pbrt.WP_MINBUTTON,
                              x, y, buttonWidth, buttonHeight, 0,
                              !leftToRight);
             }
         }
-    } // end WindowsTitlePaneLayout
+    } // end WindowsTitlePbneLbyout
 
-    public class WindowsPropertyChangeHandler extends PropertyChangeHandler {
-        public void propertyChange(PropertyChangeEvent evt) {
-            String prop = evt.getPropertyName();
+    public clbss WindowsPropertyChbngeHbndler extends PropertyChbngeHbndler {
+        public void propertyChbnge(PropertyChbngeEvent evt) {
+            String prop = evt.getPropertyNbme();
 
-            // Update the internal frame icon for the system menu.
-            if (JInternalFrame.FRAME_ICON_PROPERTY.equals(prop) &&
-                    systemLabel != null) {
-                systemLabel.setIcon(frame.getFrameIcon());
+            // Updbte the internbl frbme icon for the system menu.
+            if (JInternblFrbme.FRAME_ICON_PROPERTY.equbls(prop) &&
+                    systemLbbel != null) {
+                systemLbbel.setIcon(frbme.getFrbmeIcon());
             }
 
-            super.propertyChange(evt);
+            super.propertyChbnge(evt);
         }
     }
 
     /**
-     * A versatile Icon implementation which can take an array of Icon
-     * instances (typically <code>ImageIcon</code>s) and choose one that gives the best
-     * quality for a given Graphics2D scale factor when painting.
+     * A versbtile Icon implementbtion which cbn tbke bn brrby of Icon
+     * instbnces (typicblly <code>ImbgeIcon</code>s) bnd choose one thbt gives the best
+     * qublity for b given Grbphics2D scble fbctor when pbinting.
      * <p>
-     * The class is public so it can be instantiated by UIDefaults.ProxyLazyValue.
+     * The clbss is public so it cbn be instbntibted by UIDefbults.ProxyLbzyVblue.
      * <p>
-     * Note: We assume here that icons are square.
+     * Note: We bssume here thbt icons bre squbre.
      */
-    public static class ScalableIconUIResource implements Icon, UIResource {
-        // We can use an arbitrary size here because we scale to it in paintIcon()
-        private static final int SIZE = 16;
+    public stbtic clbss ScblbbleIconUIResource implements Icon, UIResource {
+        // We cbn use bn brbitrbry size here becbuse we scble to it in pbintIcon()
+        privbte stbtic finbl int SIZE = 16;
 
-        private Icon[] icons;
+        privbte Icon[] icons;
 
         /**
-         * @params objects an array of Icon or UIDefaults.LazyValue
+         * @pbrbms objects bn brrby of Icon or UIDefbults.LbzyVblue
          * <p>
-         * The constructor is public so it can be called by UIDefaults.ProxyLazyValue.
+         * The constructor is public so it cbn be cblled by UIDefbults.ProxyLbzyVblue.
          */
-        public ScalableIconUIResource(Object[] objects) {
+        public ScblbbleIconUIResource(Object[] objects) {
             this.icons = new Icon[objects.length];
 
             for (int i = 0; i < objects.length; i++) {
-                if (objects[i] instanceof UIDefaults.LazyValue) {
-                    icons[i] = (Icon)((UIDefaults.LazyValue)objects[i]).createValue(null);
+                if (objects[i] instbnceof UIDefbults.LbzyVblue) {
+                    icons[i] = (Icon)((UIDefbults.LbzyVblue)objects[i]).crebteVblue(null);
                 } else {
                     icons[i] = (Icon)objects[i];
                 }
@@ -530,7 +530,7 @@ public class WindowsInternalFrameTitlePane extends BasicInternalFrameTitlePane {
                     Icon icon = icons[i];
                     int iconSize;
                     if (icon != null && (iconSize = icon.getIconWidth()) > 0) {
-                        int diff = Math.abs(iconSize - size);
+                        int diff = Mbth.bbs(iconSize - size);
                         if (diff < minDiff) {
                             minDiff = diff;
                             bestIndex = i;
@@ -543,20 +543,20 @@ public class WindowsInternalFrameTitlePane extends BasicInternalFrameTitlePane {
             }
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            Graphics2D g2d = (Graphics2D)g.create();
-            // Calculate how big our drawing area is in pixels
-            // Assume we are square
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
+            Grbphics2D g2d = (Grbphics2D)g.crebte();
+            // Cblculbte how big our drbwing breb is in pixels
+            // Assume we bre squbre
             int size = getIconWidth();
-            double scale = g2d.getTransform().getScaleX();
-            Icon icon = getBestIcon((int)(size * scale));
+            double scble = g2d.getTrbnsform().getScbleX();
+            Icon icon = getBestIcon((int)(size * scble));
             int iconSize;
             if (icon != null && (iconSize = icon.getIconWidth()) > 0) {
-                // Set drawing scale to make icon act true to our reported size
-                double drawScale = size / (double)iconSize;
-                g2d.translate(x, y);
-                g2d.scale(drawScale, drawScale);
-                icon.paintIcon(c, g2d, 0, 0);
+                // Set drbwing scble to mbke icon bct true to our reported size
+                double drbwScble = size / (double)iconSize;
+                g2d.trbnslbte(x, y);
+                g2d.scble(drbwScble, drbwScble);
+                icon.pbintIcon(c, g2d, 0, 0);
             }
             g2d.dispose();
         }

@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.applet.AudioClip;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.bpplet.AudioClip;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.SourceDataLine;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import jbvbx.sound.sbmpled.AudioSystem;
+import jbvbx.sound.sbmpled.Clip;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.DbtbLine;
+import jbvbx.sound.sbmpled.SourceDbtbLine;
+import jbvbx.sound.sbmpled.LineEvent;
+import jbvbx.sound.sbmpled.LineListener;
+import jbvbx.sound.sbmpled.UnsupportedAudioFileException;
 
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiFileFormat;
-import javax.sound.midi.MetaMessage;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.Sequencer;
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.MetaEventListener;
+import jbvbx.sound.midi.MidiSystem;
+import jbvbx.sound.midi.MidiFileFormbt;
+import jbvbx.sound.midi.MetbMessbge;
+import jbvbx.sound.midi.Sequence;
+import jbvbx.sound.midi.Sequencer;
+import jbvbx.sound.midi.InvblidMidiDbtbException;
+import jbvbx.sound.midi.MidiUnbvbilbbleException;
+import jbvbx.sound.midi.MetbEventListener;
 
 /**
- * Java Sound audio clip;
+ * Jbvb Sound budio clip;
  *
- * @author Arthur van Hoff, Kara Kytle, Jan Borgersen
- * @author Florian Bomers
+ * @buthor Arthur vbn Hoff, Kbrb Kytle, Jbn Borgersen
+ * @buthor Floribn Bomers
  */
 
-public final class JavaSoundAudioClip implements AudioClip, MetaEventListener, LineListener {
+public finbl clbss JbvbSoundAudioClip implements AudioClip, MetbEventListener, LineListener {
 
-    private static final boolean DEBUG = false;
-    private static final int BUFFER_SIZE = 16384; // number of bytes written each time to the source data line
+    privbte stbtic finbl boolebn DEBUG = fblse;
+    privbte stbtic finbl int BUFFER_SIZE = 16384; // number of bytes written ebch time to the source dbtb line
 
-    private long lastPlayCall = 0;
-    private static final int MINIMUM_PLAY_DELAY = 30;
+    privbte long lbstPlbyCbll = 0;
+    privbte stbtic finbl int MINIMUM_PLAY_DELAY = 30;
 
-    private byte loadedAudio[] = null;
-    private int loadedAudioByteLength = 0;
-    private AudioFormat loadedAudioFormat = null;
+    privbte byte lobdedAudio[] = null;
+    privbte int lobdedAudioByteLength = 0;
+    privbte AudioFormbt lobdedAudioFormbt = null;
 
-    private AutoClosingClip clip = null;
-    private boolean clipLooping = false;
+    privbte AutoClosingClip clip = null;
+    privbte boolebn clipLooping = fblse;
 
-    private DataPusher datapusher = null;
+    privbte DbtbPusher dbtbpusher = null;
 
-    private Sequencer sequencer = null;
-    private Sequence sequence = null;
-    private boolean sequencerloop = false;
+    privbte Sequencer sequencer = null;
+    privbte Sequence sequence = null;
+    privbte boolebn sequencerloop = fblse;
 
     /**
-     * used for determining how many samples is the
-     * threshhold between playing as a Clip and streaming
+     * used for determining how mbny sbmples is the
+     * threshhold between plbying bs b Clip bnd strebming
      * from the file.
      *
-     * $$jb: 11.07.99: the engine has a limit of 1M
-     * samples to play as a Clip, so compare this number
-     * with the number of samples in the stream.
+     * $$jb: 11.07.99: the engine hbs b limit of 1M
+     * sbmples to plby bs b Clip, so compbre this number
+     * with the number of sbmples in the strebm.
      *
      */
-    private final static long CLIP_THRESHOLD = 1048576;
-    //private final static long CLIP_THRESHOLD = 1;
-    private final static int STREAM_BUFFER_SIZE = 1024;
+    privbte finbl stbtic long CLIP_THRESHOLD = 1048576;
+    //privbte finbl stbtic long CLIP_THRESHOLD = 1;
+    privbte finbl stbtic int STREAM_BUFFER_SIZE = 1024;
 
-    public JavaSoundAudioClip(InputStream in) throws IOException {
-        if (DEBUG || Printer.debug)Printer.debug("JavaSoundAudioClip.<init>");
+    public JbvbSoundAudioClip(InputStrebm in) throws IOException {
+        if (DEBUG || Printer.debug)Printer.debug("JbvbSoundAudioClip.<init>");
 
-        BufferedInputStream bis = new BufferedInputStream(in, STREAM_BUFFER_SIZE);
-        bis.mark(STREAM_BUFFER_SIZE);
-        boolean success = false;
+        BufferedInputStrebm bis = new BufferedInputStrebm(in, STREAM_BUFFER_SIZE);
+        bis.mbrk(STREAM_BUFFER_SIZE);
+        boolebn success = fblse;
         try {
-            AudioInputStream as = AudioSystem.getAudioInputStream(bis);
-            // load the stream data into memory
-            success = loadAudioData(as);
+            AudioInputStrebm bs = AudioSystem.getAudioInputStrebm(bis);
+            // lobd the strebm dbtb into memory
+            success = lobdAudioDbtb(bs);
 
             if (success) {
-                success = false;
-                if (loadedAudioByteLength < CLIP_THRESHOLD) {
-                    success = createClip();
+                success = fblse;
+                if (lobdedAudioByteLength < CLIP_THRESHOLD) {
+                    success = crebteClip();
                 }
                 if (!success) {
-                    success = createSourceDataLine();
+                    success = crebteSourceDbtbLine();
                 }
             }
-        } catch (UnsupportedAudioFileException e) {
-            // not an audio file
+        } cbtch (UnsupportedAudioFileException e) {
+            // not bn budio file
             try {
-                MidiFileFormat mff = MidiSystem.getMidiFileFormat(bis);
-                success = createSequencer(bis);
-            } catch (InvalidMidiDataException e1) {
-                success = false;
+                MidiFileFormbt mff = MidiSystem.getMidiFileFormbt(bis);
+                success = crebteSequencer(bis);
+            } cbtch (InvblidMidiDbtbException e1) {
+                success = fblse;
             }
         }
         if (!success) {
-            throw new IOException("Unable to create AudioClip from input stream");
+            throw new IOException("Unbble to crebte AudioClip from input strebm");
         }
     }
 
 
-    public synchronized void play() {
-        startImpl(false);
+    public synchronized void plby() {
+        stbrtImpl(fblse);
     }
 
 
     public synchronized void loop() {
-        startImpl(true);
+        stbrtImpl(true);
     }
 
-    private synchronized void startImpl(boolean loop) {
-        // hack for some applets that call the start method very rapidly...
+    privbte synchronized void stbrtImpl(boolebn loop) {
+        // hbck for some bpplets thbt cbll the stbrt method very rbpidly...
         long currentTime = System.currentTimeMillis();
-        long diff = currentTime - lastPlayCall;
+        long diff = currentTime - lbstPlbyCbll;
         if (diff < MINIMUM_PLAY_DELAY) {
-            if (DEBUG || Printer.debug) Printer.debug("JavaSoundAudioClip.startImpl(loop="+loop+"): abort - too rapdly");
+            if (DEBUG || Printer.debug) Printer.debug("JbvbSoundAudioClip.stbrtImpl(loop="+loop+"): bbort - too rbpdly");
             return;
         }
-        lastPlayCall = currentTime;
+        lbstPlbyCbll = currentTime;
 
-        if (DEBUG || Printer.debug) Printer.debug("JavaSoundAudioClip.startImpl(loop="+loop+")");
+        if (DEBUG || Printer.debug) Printer.debug("JbvbSoundAudioClip.stbrtImpl(loop="+loop+")");
         try {
             if (clip != null) {
                 if (!clip.isOpen()) {
-                    if (DEBUG || Printer.trace)Printer.trace("JavaSoundAudioClip: clip.open()");
-                    clip.open(loadedAudioFormat, loadedAudio, 0, loadedAudioByteLength);
+                    if (DEBUG || Printer.trbce)Printer.trbce("JbvbSoundAudioClip: clip.open()");
+                    clip.open(lobdedAudioFormbt, lobdedAudio, 0, lobdedAudioByteLength);
                 } else {
-                    if (DEBUG || Printer.trace)Printer.trace("JavaSoundAudioClip: clip.flush()");
+                    if (DEBUG || Printer.trbce)Printer.trbce("JbvbSoundAudioClip: clip.flush()");
                     clip.flush();
                     if (loop != clipLooping) {
-                        // need to stop in case the looped status changed
-                        if (DEBUG || Printer.trace)Printer.trace("JavaSoundAudioClip: clip.stop()");
+                        // need to stop in cbse the looped stbtus chbnged
+                        if (DEBUG || Printer.trbce)Printer.trbce("JbvbSoundAudioClip: clip.stop()");
                         clip.stop();
                     }
                 }
-                clip.setFramePosition(0);
+                clip.setFrbmePosition(0);
                 if (loop) {
-                    if (DEBUG || Printer.trace)Printer.trace("JavaSoundAudioClip: clip.loop()");
+                    if (DEBUG || Printer.trbce)Printer.trbce("JbvbSoundAudioClip: clip.loop()");
                     clip.loop(Clip.LOOP_CONTINUOUSLY);
                 } else {
-                    if (DEBUG || Printer.trace)Printer.trace("JavaSoundAudioClip: clip.start()");
-                    clip.start();
+                    if (DEBUG || Printer.trbce)Printer.trbce("JbvbSoundAudioClip: clip.stbrt()");
+                    clip.stbrt();
                 }
                 clipLooping = loop;
-                if (DEBUG || Printer.debug)Printer.debug("Clip should be playing/looping");
+                if (DEBUG || Printer.debug)Printer.debug("Clip should be plbying/looping");
 
-            } else if (datapusher != null ) {
-                datapusher.start(loop);
-                if (DEBUG || Printer.debug)Printer.debug("Stream should be playing/looping");
+            } else if (dbtbpusher != null ) {
+                dbtbpusher.stbrt(loop);
+                if (DEBUG || Printer.debug)Printer.debug("Strebm should be plbying/looping");
 
             } else if (sequencer != null) {
                 sequencerloop = loop;
@@ -186,79 +186,79 @@ public final class JavaSoundAudioClip implements AudioClip, MetaEventListener, L
                         sequencer.open();
                         sequencer.setSequence(sequence);
 
-                    } catch (InvalidMidiDataException e1) {
-                        if (DEBUG || Printer.err)e1.printStackTrace();
-                    } catch (MidiUnavailableException e2) {
-                        if (DEBUG || Printer.err)e2.printStackTrace();
+                    } cbtch (InvblidMidiDbtbException e1) {
+                        if (DEBUG || Printer.err)e1.printStbckTrbce();
+                    } cbtch (MidiUnbvbilbbleException e2) {
+                        if (DEBUG || Printer.err)e2.printStbckTrbce();
                     }
                 }
-                sequencer.addMetaEventListener(this);
+                sequencer.bddMetbEventListener(this);
                 try {
-                    sequencer.start();
-                } catch (Exception e) {
-                    if (DEBUG || Printer.err) e.printStackTrace();
+                    sequencer.stbrt();
+                } cbtch (Exception e) {
+                    if (DEBUG || Printer.err) e.printStbckTrbce();
                 }
-                if (DEBUG || Printer.debug)Printer.debug("Sequencer should be playing/looping");
+                if (DEBUG || Printer.debug)Printer.debug("Sequencer should be plbying/looping");
             }
-        } catch (Exception e) {
-            if (DEBUG || Printer.err)e.printStackTrace();
+        } cbtch (Exception e) {
+            if (DEBUG || Printer.err)e.printStbckTrbce();
         }
     }
 
     public synchronized void stop() {
 
-        if (DEBUG || Printer.debug)Printer.debug("JavaSoundAudioClip->stop()");
-        lastPlayCall = 0;
+        if (DEBUG || Printer.debug)Printer.debug("JbvbSoundAudioClip->stop()");
+        lbstPlbyCbll = 0;
 
         if (clip != null) {
             try {
-                if (DEBUG || Printer.trace)Printer.trace("JavaSoundAudioClip: clip.flush()");
+                if (DEBUG || Printer.trbce)Printer.trbce("JbvbSoundAudioClip: clip.flush()");
                 clip.flush();
-            } catch (Exception e1) {
-                if (Printer.err) e1.printStackTrace();
+            } cbtch (Exception e1) {
+                if (Printer.err) e1.printStbckTrbce();
             }
             try {
-                if (DEBUG || Printer.trace)Printer.trace("JavaSoundAudioClip: clip.stop()");
+                if (DEBUG || Printer.trbce)Printer.trbce("JbvbSoundAudioClip: clip.stop()");
                 clip.stop();
-            } catch (Exception e2) {
-                if (Printer.err) e2.printStackTrace();
+            } cbtch (Exception e2) {
+                if (Printer.err) e2.printStbckTrbce();
             }
             if (DEBUG || Printer.debug)Printer.debug("Clip should be stopped");
 
-        } else if (datapusher != null) {
-            datapusher.stop();
-            if (DEBUG || Printer.debug)Printer.debug("Stream should be stopped");
+        } else if (dbtbpusher != null) {
+            dbtbpusher.stop();
+            if (DEBUG || Printer.debug)Printer.debug("Strebm should be stopped");
 
         } else if (sequencer != null) {
             try {
-                sequencerloop = false;
-                sequencer.addMetaEventListener(this);
+                sequencerloop = fblse;
+                sequencer.bddMetbEventListener(this);
                 sequencer.stop();
-            } catch (Exception e3) {
-                if (Printer.err) e3.printStackTrace();
+            } cbtch (Exception e3) {
+                if (Printer.err) e3.printStbckTrbce();
             }
             try {
                 sequencer.close();
-            } catch (Exception e4) {
-                if (Printer.err) e4.printStackTrace();
+            } cbtch (Exception e4) {
+                if (Printer.err) e4.printStbckTrbce();
             }
             if (DEBUG || Printer.debug)Printer.debug("Sequencer should be stopped");
         }
     }
 
-    // Event handlers (for debugging)
+    // Event hbndlers (for debugging)
 
-    public synchronized void update(LineEvent event) {
+    public synchronized void updbte(LineEvent event) {
         if (DEBUG || Printer.debug) Printer.debug("line event received: "+event);
     }
 
-    // handle MIDI track end meta events for looping
+    // hbndle MIDI trbck end metb events for looping
 
-    public synchronized void meta( MetaMessage message ) {
+    public synchronized void metb( MetbMessbge messbge ) {
 
         if (DEBUG || Printer.debug)Printer.debug("META EVENT RECEIVED!!!!! ");
 
-        if( message.getType() == 47 ) {
+        if( messbge.getType() == 47 ) {
             if (sequencerloop){
                 //notifyAll();
                 sequencer.setMicrosecondPosition(0);
@@ -271,20 +271,20 @@ public final class JavaSoundAudioClip implements AudioClip, MetaEventListener, L
 
 
     public String toString() {
-        return getClass().toString();
+        return getClbss().toString();
     }
 
 
-    protected void finalize() {
+    protected void finblize() {
 
         if (clip != null) {
-            if (DEBUG || Printer.trace)Printer.trace("JavaSoundAudioClip.finalize: clip.close()");
+            if (DEBUG || Printer.trbce)Printer.trbce("JbvbSoundAudioClip.finblize: clip.close()");
             clip.close();
         }
 
-        //$$fb 2001-09-26: may improve situation related to bug #4302884
-        if (datapusher != null) {
-            datapusher.close();
+        //$$fb 2001-09-26: mby improve situbtion relbted to bug #4302884
+        if (dbtbpusher != null) {
+            dbtbpusher.close();
         }
 
         if (sequencer != null) {
@@ -294,190 +294,190 @@ public final class JavaSoundAudioClip implements AudioClip, MetaEventListener, L
 
     // FILE LOADING METHODS
 
-    private boolean loadAudioData(AudioInputStream as)  throws IOException, UnsupportedAudioFileException {
-        if (DEBUG || Printer.debug)Printer.debug("JavaSoundAudioClip->openAsClip()");
+    privbte boolebn lobdAudioDbtb(AudioInputStrebm bs)  throws IOException, UnsupportedAudioFileException {
+        if (DEBUG || Printer.debug)Printer.debug("JbvbSoundAudioClip->openAsClip()");
 
-        // first possibly convert this stream to PCM
-        as = Toolkit.getPCMConvertedAudioInputStream(as);
-        if (as == null) {
-            return false;
+        // first possibly convert this strebm to PCM
+        bs = Toolkit.getPCMConvertedAudioInputStrebm(bs);
+        if (bs == null) {
+            return fblse;
         }
 
-        loadedAudioFormat = as.getFormat();
-        long frameLen = as.getFrameLength();
-        int frameSize = loadedAudioFormat.getFrameSize();
+        lobdedAudioFormbt = bs.getFormbt();
+        long frbmeLen = bs.getFrbmeLength();
+        int frbmeSize = lobdedAudioFormbt.getFrbmeSize();
         long byteLen = AudioSystem.NOT_SPECIFIED;
-        if (frameLen != AudioSystem.NOT_SPECIFIED
-            && frameLen > 0
-            && frameSize != AudioSystem.NOT_SPECIFIED
-            && frameSize > 0) {
-            byteLen = frameLen * frameSize;
+        if (frbmeLen != AudioSystem.NOT_SPECIFIED
+            && frbmeLen > 0
+            && frbmeSize != AudioSystem.NOT_SPECIFIED
+            && frbmeSize > 0) {
+            byteLen = frbmeLen * frbmeSize;
         }
         if (byteLen != AudioSystem.NOT_SPECIFIED) {
-            // if the stream length is known, it can be efficiently loaded into memory
-            readStream(as, byteLen);
+            // if the strebm length is known, it cbn be efficiently lobded into memory
+            rebdStrebm(bs, byteLen);
         } else {
-            // otherwise we use a ByteArrayOutputStream to load it into memory
-            readStream(as);
+            // otherwise we use b ByteArrbyOutputStrebm to lobd it into memory
+            rebdStrebm(bs);
         }
 
-        // if everything went fine, we have now the audio data in
-        // loadedAudio, and the byte length in loadedAudioByteLength
+        // if everything went fine, we hbve now the budio dbtb in
+        // lobdedAudio, bnd the byte length in lobdedAudioByteLength
         return true;
     }
 
 
 
-    private void readStream(AudioInputStream as, long byteLen) throws IOException {
-        // arrays "only" max. 2GB
+    privbte void rebdStrebm(AudioInputStrebm bs, long byteLen) throws IOException {
+        // brrbys "only" mbx. 2GB
         int intLen;
         if (byteLen > 2147483647) {
             intLen = 2147483647;
         } else {
             intLen = (int) byteLen;
         }
-        loadedAudio = new byte[intLen];
-        loadedAudioByteLength = 0;
+        lobdedAudio = new byte[intLen];
+        lobdedAudioByteLength = 0;
 
-        // this loop may throw an IOException
+        // this loop mby throw bn IOException
         while (true) {
-            int bytesRead = as.read(loadedAudio, loadedAudioByteLength, intLen - loadedAudioByteLength);
-            if (bytesRead <= 0) {
-                as.close();
-                break;
+            int bytesRebd = bs.rebd(lobdedAudio, lobdedAudioByteLength, intLen - lobdedAudioByteLength);
+            if (bytesRebd <= 0) {
+                bs.close();
+                brebk;
             }
-            loadedAudioByteLength += bytesRead;
+            lobdedAudioByteLength += bytesRebd;
         }
     }
 
-    private void readStream(AudioInputStream as) throws IOException {
+    privbte void rebdStrebm(AudioInputStrebm bs) throws IOException {
 
-        DirectBAOS baos = new DirectBAOS();
+        DirectBAOS bbos = new DirectBAOS();
         byte buffer[] = new byte[16384];
-        int bytesRead = 0;
-        int totalBytesRead = 0;
+        int bytesRebd = 0;
+        int totblBytesRebd = 0;
 
-        // this loop may throw an IOException
+        // this loop mby throw bn IOException
         while( true ) {
-            bytesRead = as.read(buffer, 0, buffer.length);
-            if (bytesRead <= 0) {
-                as.close();
-                break;
+            bytesRebd = bs.rebd(buffer, 0, buffer.length);
+            if (bytesRebd <= 0) {
+                bs.close();
+                brebk;
             }
-            totalBytesRead += bytesRead;
-            baos.write(buffer, 0, bytesRead);
+            totblBytesRebd += bytesRebd;
+            bbos.write(buffer, 0, bytesRebd);
         }
-        loadedAudio = baos.getInternalBuffer();
-        loadedAudioByteLength = totalBytesRead;
+        lobdedAudio = bbos.getInternblBuffer();
+        lobdedAudioByteLength = totblBytesRebd;
     }
 
 
     // METHODS FOR CREATING THE DEVICE
 
-    private boolean createClip() {
+    privbte boolebn crebteClip() {
 
-        if (DEBUG || Printer.debug)Printer.debug("JavaSoundAudioClip.createClip()");
+        if (DEBUG || Printer.debug)Printer.debug("JbvbSoundAudioClip.crebteClip()");
 
         try {
-            DataLine.Info info = new DataLine.Info(Clip.class, loadedAudioFormat);
+            DbtbLine.Info info = new DbtbLine.Info(Clip.clbss, lobdedAudioFormbt);
             if (!(AudioSystem.isLineSupported(info)) ) {
-                if (DEBUG || Printer.err)Printer.err("Clip not supported: "+loadedAudioFormat);
-                // fail silently
-                return false;
+                if (DEBUG || Printer.err)Printer.err("Clip not supported: "+lobdedAudioFormbt);
+                // fbil silently
+                return fblse;
             }
             Object line = AudioSystem.getLine(info);
-            if (!(line instanceof AutoClosingClip)) {
-                if (DEBUG || Printer.err)Printer.err("Clip is not auto closing!"+clip);
-                // fail -> will try with SourceDataLine
-                return false;
+            if (!(line instbnceof AutoClosingClip)) {
+                if (DEBUG || Printer.err)Printer.err("Clip is not buto closing!"+clip);
+                // fbil -> will try with SourceDbtbLine
+                return fblse;
             }
             clip = (AutoClosingClip) line;
             clip.setAutoClosing(true);
-            if (DEBUG || Printer.debug) clip.addLineListener(this);
-        } catch (Exception e) {
-            if (DEBUG || Printer.err)e.printStackTrace();
-            // fail silently
-            return false;
+            if (DEBUG || Printer.debug) clip.bddLineListener(this);
+        } cbtch (Exception e) {
+            if (DEBUG || Printer.err)e.printStbckTrbce();
+            // fbil silently
+            return fblse;
         }
 
         if (clip==null) {
-            // fail silently
-            return false;
+            // fbil silently
+            return fblse;
         }
 
-        if (DEBUG || Printer.debug)Printer.debug("Loaded clip.");
+        if (DEBUG || Printer.debug)Printer.debug("Lobded clip.");
         return true;
     }
 
-    private boolean createSourceDataLine() {
-        if (DEBUG || Printer.debug)Printer.debug("JavaSoundAudioClip.createSourceDataLine()");
+    privbte boolebn crebteSourceDbtbLine() {
+        if (DEBUG || Printer.debug)Printer.debug("JbvbSoundAudioClip.crebteSourceDbtbLine()");
         try {
-            DataLine.Info info = new DataLine.Info(SourceDataLine.class, loadedAudioFormat);
+            DbtbLine.Info info = new DbtbLine.Info(SourceDbtbLine.clbss, lobdedAudioFormbt);
             if (!(AudioSystem.isLineSupported(info)) ) {
-                if (DEBUG || Printer.err)Printer.err("Line not supported: "+loadedAudioFormat);
-                // fail silently
-                return false;
+                if (DEBUG || Printer.err)Printer.err("Line not supported: "+lobdedAudioFormbt);
+                // fbil silently
+                return fblse;
             }
-            SourceDataLine source = (SourceDataLine) AudioSystem.getLine(info);
-            datapusher = new DataPusher(source, loadedAudioFormat, loadedAudio, loadedAudioByteLength);
-        } catch (Exception e) {
-            if (DEBUG || Printer.err)e.printStackTrace();
-            // fail silently
-            return false;
+            SourceDbtbLine source = (SourceDbtbLine) AudioSystem.getLine(info);
+            dbtbpusher = new DbtbPusher(source, lobdedAudioFormbt, lobdedAudio, lobdedAudioByteLength);
+        } cbtch (Exception e) {
+            if (DEBUG || Printer.err)e.printStbckTrbce();
+            // fbil silently
+            return fblse;
         }
 
-        if (datapusher==null) {
-            // fail silently
-            return false;
+        if (dbtbpusher==null) {
+            // fbil silently
+            return fblse;
         }
 
-        if (DEBUG || Printer.debug)Printer.debug("Created SourceDataLine.");
+        if (DEBUG || Printer.debug)Printer.debug("Crebted SourceDbtbLine.");
         return true;
     }
 
-    private boolean createSequencer(BufferedInputStream in) throws IOException {
+    privbte boolebn crebteSequencer(BufferedInputStrebm in) throws IOException {
 
-        if (DEBUG || Printer.debug)Printer.debug("JavaSoundAudioClip.createSequencer()");
+        if (DEBUG || Printer.debug)Printer.debug("JbvbSoundAudioClip.crebteSequencer()");
 
         // get the sequencer
         try {
             sequencer = MidiSystem.getSequencer( );
-        } catch(MidiUnavailableException me) {
-            if (DEBUG || Printer.err)me.printStackTrace();
-            return false;
+        } cbtch(MidiUnbvbilbbleException me) {
+            if (DEBUG || Printer.err)me.printStbckTrbce();
+            return fblse;
         }
         if (sequencer==null) {
-            return false;
+            return fblse;
         }
 
         try {
             sequence = MidiSystem.getSequence(in);
             if (sequence == null) {
-                return false;
+                return fblse;
             }
-        } catch (InvalidMidiDataException e) {
-            if (DEBUG || Printer.err)e.printStackTrace();
-            return false;
+        } cbtch (InvblidMidiDbtbException e) {
+            if (DEBUG || Printer.err)e.printStbckTrbce();
+            return fblse;
         }
 
-        if (DEBUG || Printer.debug)Printer.debug("Created Sequencer.");
+        if (DEBUG || Printer.debug)Printer.debug("Crebted Sequencer.");
         return true;
     }
 
 
     /*
-     * private inner class representing a ByteArrayOutputStream
-     * which allows retrieval of the internal array
+     * privbte inner clbss representing b ByteArrbyOutputStrebm
+     * which bllows retrievbl of the internbl brrby
      */
-    private static class DirectBAOS extends ByteArrayOutputStream {
+    privbte stbtic clbss DirectBAOS extends ByteArrbyOutputStrebm {
         DirectBAOS() {
             super();
         }
 
-        public byte[] getInternalBuffer() {
+        public byte[] getInternblBuffer() {
             return buf;
         }
 
-    } // class DirectBAOS
+    } // clbss DirectBAOS
 
 }

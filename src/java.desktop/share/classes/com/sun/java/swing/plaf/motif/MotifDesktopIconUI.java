@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
 import sun.swing.SwingUtilities2;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import java.beans.*;
-import java.util.EventListener;
-import java.io.Serializable;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvb.bebns.*;
+import jbvb.util.EventListener;
+import jbvb.io.Seriblizbble;
 
 
 /**
  * Motif rendition of the component.
  *
- * @author Thomas Ball
- * @author Rich Schiavi
+ * @buthor Thombs Bbll
+ * @buthor Rich Schibvi
  */
-public class MotifDesktopIconUI extends BasicDesktopIconUI
+public clbss MotifDesktopIconUI extends BbsicDesktopIconUI
 {
     protected DesktopIconActionListener desktopIconActionListener;
     protected DesktopIconMouseListener  desktopIconMouseListener;
 
-    protected Icon       defaultIcon;
+    protected Icon       defbultIcon;
     protected IconButton iconButton;
-    protected IconLabel  iconLabel;
+    protected IconLbbel  iconLbbel;
 
-    // This is only used for its system menu, but we need a reference to it so
-    // we can remove its listeners.
-    private MotifInternalFrameTitlePane sysMenuTitlePane;
+    // This is only used for its system menu, but we need b reference to it so
+    // we cbn remove its listeners.
+    privbte MotifInternblFrbmeTitlePbne sysMenuTitlePbne;
 
     JPopupMenu systemMenu;
     EventListener mml;
 
-    final static int LABEL_HEIGHT = 18;
-    final static int LABEL_DIVIDER = 4;    // padding between icon and label
+    finbl stbtic int LABEL_HEIGHT = 18;
+    finbl stbtic int LABEL_DIVIDER = 4;    // pbdding between icon bnd lbbel
 
-    final static Font defaultTitleFont =
+    finbl stbtic Font defbultTitleFont =
         new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 
-    public static ComponentUI createUI(JComponent c)    {
+    public stbtic ComponentUI crebteUI(JComponent c)    {
         return new MotifDesktopIconUI();
     }
 
     public MotifDesktopIconUI() {
     }
 
-    protected void installDefaults(){
-        super.installDefaults();
-        setDefaultIcon(UIManager.getIcon("DesktopIcon.icon"));
-        iconButton = createIconButton(defaultIcon);
-        // An underhanded way of creating a system popup menu.
-        sysMenuTitlePane =  new MotifInternalFrameTitlePane(frame);
-        systemMenu = sysMenuTitlePane.getSystemMenu();
+    protected void instbllDefbults(){
+        super.instbllDefbults();
+        setDefbultIcon(UIMbnbger.getIcon("DesktopIcon.icon"));
+        iconButton = crebteIconButton(defbultIcon);
+        // An underhbnded wby of crebting b system popup menu.
+        sysMenuTitlePbne =  new MotifInternblFrbmeTitlePbne(frbme);
+        systemMenu = sysMenuTitlePbne.getSystemMenu();
 
-        MotifBorders.FrameBorder border = new MotifBorders.FrameBorder(desktopIcon);
-        desktopIcon.setLayout(new BorderLayout());
+        MotifBorders.FrbmeBorder border = new MotifBorders.FrbmeBorder(desktopIcon);
+        desktopIcon.setLbyout(new BorderLbyout());
         iconButton.setBorder(border);
-        desktopIcon.add(iconButton, BorderLayout.CENTER);
-        iconLabel = createIconLabel(frame);
-        iconLabel.setBorder(border);
-        desktopIcon.add(iconLabel, BorderLayout.SOUTH);
+        desktopIcon.bdd(iconButton, BorderLbyout.CENTER);
+        iconLbbel = crebteIconLbbel(frbme);
+        iconLbbel.setBorder(border);
+        desktopIcon.bdd(iconLbbel, BorderLbyout.SOUTH);
         desktopIcon.setSize(desktopIcon.getPreferredSize());
-        desktopIcon.validate();
-        JLayeredPane.putLayer(desktopIcon, JLayeredPane.getLayer(frame));
+        desktopIcon.vblidbte();
+        JLbyeredPbne.putLbyer(desktopIcon, JLbyeredPbne.getLbyer(frbme));
     }
 
-    protected void installComponents(){
+    protected void instbllComponents(){
     }
 
-    protected void uninstallComponents(){
+    protected void uninstbllComponents(){
     }
 
-    protected void installListeners(){
-        super.installListeners();
-        desktopIconActionListener = createDesktopIconActionListener();
-        desktopIconMouseListener = createDesktopIconMouseListener();
-        iconButton.addActionListener(desktopIconActionListener);
-        iconButton.addMouseListener(desktopIconMouseListener);
-        iconLabel.addMouseListener(desktopIconMouseListener);
+    protected void instbllListeners(){
+        super.instbllListeners();
+        desktopIconActionListener = crebteDesktopIconActionListener();
+        desktopIconMouseListener = crebteDesktopIconMouseListener();
+        iconButton.bddActionListener(desktopIconActionListener);
+        iconButton.bddMouseListener(desktopIconMouseListener);
+        iconLbbel.bddMouseListener(desktopIconMouseListener);
     }
 
-    JInternalFrame.JDesktopIcon getDesktopIcon(){
+    JInternblFrbme.JDesktopIcon getDesktopIcon(){
       return desktopIcon;
     }
 
-    void setDesktopIcon(JInternalFrame.JDesktopIcon d){
+    void setDesktopIcon(JInternblFrbme.JDesktopIcon d){
       desktopIcon = d;
     }
 
-    JInternalFrame getFrame(){
-      return frame;
+    JInternblFrbme getFrbme(){
+      return frbme;
     }
 
-    void setFrame(JInternalFrame f){
-      frame = f ;
+    void setFrbme(JInternblFrbme f){
+      frbme = f ;
     }
 
     protected void showSystemMenu(){
@@ -128,51 +128,51 @@ public class MotifDesktopIconUI extends BasicDesktopIconUI
     }
 
     protected void hideSystemMenu(){
-      systemMenu.setVisible(false);
+      systemMenu.setVisible(fblse);
     }
 
-    protected IconLabel createIconLabel(JInternalFrame frame){
-        return new IconLabel(frame);
+    protected IconLbbel crebteIconLbbel(JInternblFrbme frbme){
+        return new IconLbbel(frbme);
     }
 
-    protected IconButton createIconButton(Icon i){
+    protected IconButton crebteIconButton(Icon i){
         return new IconButton(i);
     }
 
-    protected DesktopIconActionListener createDesktopIconActionListener(){
+    protected DesktopIconActionListener crebteDesktopIconActionListener(){
         return new DesktopIconActionListener();
     }
 
-    protected DesktopIconMouseListener createDesktopIconMouseListener(){
+    protected DesktopIconMouseListener crebteDesktopIconMouseListener(){
         return new DesktopIconMouseListener();
     }
 
-    protected void uninstallDefaults(){
-        super.uninstallDefaults();
-        desktopIcon.setLayout(null);
+    protected void uninstbllDefbults(){
+        super.uninstbllDefbults();
+        desktopIcon.setLbyout(null);
         desktopIcon.remove(iconButton);
-        desktopIcon.remove(iconLabel);
+        desktopIcon.remove(iconLbbel);
     }
 
-    protected void uninstallListeners(){
-        super.uninstallListeners();
+    protected void uninstbllListeners(){
+        super.uninstbllListeners();
         iconButton.removeActionListener(desktopIconActionListener);
         iconButton.removeMouseListener(desktopIconMouseListener);
-        sysMenuTitlePane.uninstallListeners();
+        sysMenuTitlePbne.uninstbllListeners();
     }
 
     public Dimension getMinimumSize(JComponent c) {
-        JInternalFrame iframe = desktopIcon.getInternalFrame();
+        JInternblFrbme ifrbme = desktopIcon.getInternblFrbme();
 
-        int w = defaultIcon.getIconWidth();
-        int h = defaultIcon.getIconHeight() + LABEL_HEIGHT + LABEL_DIVIDER;
+        int w = defbultIcon.getIconWidth();
+        int h = defbultIcon.getIconHeight() + LABEL_HEIGHT + LABEL_DIVIDER;
 
-        Border border = iframe.getBorder();
+        Border border = ifrbme.getBorder();
         if(border != null) {
-            w += border.getBorderInsets(iframe).left +
-                border.getBorderInsets(iframe).right;
-            h += border.getBorderInsets(iframe).bottom +
-                border.getBorderInsets(iframe).top;
+            w += border.getBorderInsets(ifrbme).left +
+                border.getBorderInsets(ifrbme).right;
+            h += border.getBorderInsets(ifrbme).bottom +
+                border.getBorderInsets(ifrbme).top;
         }
 
         return new Dimension(w, h);
@@ -182,185 +182,185 @@ public class MotifDesktopIconUI extends BasicDesktopIconUI
         return getMinimumSize(c);
     }
 
-    public Dimension getMaximumSize(JComponent c){
+    public Dimension getMbximumSize(JComponent c){
         return getMinimumSize(c);
     }
 
     /**
-      * Returns the default desktop icon.
+      * Returns the defbult desktop icon.
       */
-    public Icon getDefaultIcon() {
-        return defaultIcon;
+    public Icon getDefbultIcon() {
+        return defbultIcon;
     }
 
     /**
-      * Sets the icon used as the default desktop icon.
+      * Sets the icon used bs the defbult desktop icon.
       */
-    public void setDefaultIcon(Icon newIcon) {
-        defaultIcon = newIcon;
+    public void setDefbultIcon(Icon newIcon) {
+        defbultIcon = newIcon;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class IconLabel extends JPanel {
-        JInternalFrame frame;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss IconLbbel extends JPbnel {
+        JInternblFrbme frbme;
 
-        IconLabel(JInternalFrame f) {
+        IconLbbel(JInternblFrbme f) {
             super();
-            this.frame = f;
-            setFont(defaultTitleFont);
+            this.frbme = f;
+            setFont(defbultTitleFont);
 
-            // Forward mouse events to titlebar for moves.
-            addMouseMotionListener(new MouseMotionListener() {
-                public void mouseDragged(MouseEvent e) {
-                    forwardEventToParent(e);
+            // Forwbrd mouse events to titlebbr for moves.
+            bddMouseMotionListener(new MouseMotionListener() {
+                public void mouseDrbgged(MouseEvent e) {
+                    forwbrdEventToPbrent(e);
                 }
                 public void mouseMoved(MouseEvent e) {
-                    forwardEventToParent(e);
+                    forwbrdEventToPbrent(e);
                 }
             });
-            addMouseListener(new MouseListener() {
+            bddMouseListener(new MouseListener() {
                 public void mouseClicked(MouseEvent e) {
-                    forwardEventToParent(e);
+                    forwbrdEventToPbrent(e);
                 }
                 public void mousePressed(MouseEvent e) {
-                    forwardEventToParent(e);
+                    forwbrdEventToPbrent(e);
                 }
-                public void mouseReleased(MouseEvent e) {
-                    forwardEventToParent(e);
+                public void mouseRelebsed(MouseEvent e) {
+                    forwbrdEventToPbrent(e);
                 }
                 public void mouseEntered(MouseEvent e) {
-                    forwardEventToParent(e);
+                    forwbrdEventToPbrent(e);
                 }
                 public void mouseExited(MouseEvent e) {
-                    forwardEventToParent(e);
+                    forwbrdEventToPbrent(e);
                 }
             });
         }
 
-        void forwardEventToParent(MouseEvent e) {
-            getParent().dispatchEvent(new MouseEvent(
-                getParent(), e.getID(), e.getWhen(), e.getModifiers(),
+        void forwbrdEventToPbrent(MouseEvent e) {
+            getPbrent().dispbtchEvent(new MouseEvent(
+                getPbrent(), e.getID(), e.getWhen(), e.getModifiers(),
                 e.getX(), e.getY(), e.getXOnScreen(),
                 e.getYOnScreen(), e.getClickCount(),
                 e.isPopupTrigger(), MouseEvent.NOBUTTON));
         }
 
-        public boolean isFocusTraversable() {
-            return false;
+        public boolebn isFocusTrbversbble() {
+            return fblse;
         }
 
         public Dimension getMinimumSize() {
-            return new Dimension(defaultIcon.getIconWidth() + 1,
+            return new Dimension(defbultIcon.getIconWidth() + 1,
                                  LABEL_HEIGHT + LABEL_DIVIDER);
         }
 
         public Dimension getPreferredSize() {
-            String title = frame.getTitle();
-            FontMetrics fm = frame.getFontMetrics(defaultTitleFont);
+            String title = frbme.getTitle();
+            FontMetrics fm = frbme.getFontMetrics(defbultTitleFont);
             int w = 4;
             if (title != null) {
-                w += SwingUtilities2.stringWidth(frame, fm, title);
+                w += SwingUtilities2.stringWidth(frbme, fm, title);
             }
             return new Dimension(w, LABEL_HEIGHT + LABEL_DIVIDER);
         }
 
-        public void paint(Graphics g) {
-            super.paint(g);
+        public void pbint(Grbphics g) {
+            super.pbint(g);
 
-            // touch-up frame
-            int maxX = getWidth() - 1;
-            Color shadow =
-                UIManager.getColor("inactiveCaptionBorder").darker().darker();
-            g.setColor(shadow);
+            // touch-up frbme
+            int mbxX = getWidth() - 1;
+            Color shbdow =
+                UIMbnbger.getColor("inbctiveCbptionBorder").dbrker().dbrker();
+            g.setColor(shbdow);
             g.setClip(0, 0, getWidth(), getHeight());
-            g.drawLine(maxX - 1, 1, maxX - 1, 1);
-            g.drawLine(maxX, 0, maxX, 0);
+            g.drbwLine(mbxX - 1, 1, mbxX - 1, 1);
+            g.drbwLine(mbxX, 0, mbxX, 0);
 
-            // fill background
-            g.setColor(UIManager.getColor("inactiveCaption"));
-            g.fillRect(2, 1, maxX - 3, LABEL_HEIGHT + 1);
+            // fill bbckground
+            g.setColor(UIMbnbger.getColor("inbctiveCbption"));
+            g.fillRect(2, 1, mbxX - 3, LABEL_HEIGHT + 1);
 
-            // draw text -- clipping to truncate text like CDE/Motif
-            g.setClip(2, 1, maxX - 4, LABEL_HEIGHT);
-            int y = LABEL_HEIGHT - SwingUtilities2.getFontMetrics(frame, g).
+            // drbw text -- clipping to truncbte text like CDE/Motif
+            g.setClip(2, 1, mbxX - 4, LABEL_HEIGHT);
+            int y = LABEL_HEIGHT - SwingUtilities2.getFontMetrics(frbme, g).
                                                    getDescent();
-            g.setColor(UIManager.getColor("inactiveCaptionText"));
-            String title = frame.getTitle();
+            g.setColor(UIMbnbger.getColor("inbctiveCbptionText"));
+            String title = frbme.getTitle();
             if (title != null) {
-                SwingUtilities2.drawString(frame, g, title, 4, y);
+                SwingUtilities2.drbwString(frbme, g, title, 4, y);
             }
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class IconButton extends JButton {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss IconButton extends JButton {
         Icon icon;
 
         IconButton(Icon icon) {
             super(icon);
             this.icon = icon;
-            // Forward mouse events to titlebar for moves.
-            addMouseMotionListener(new MouseMotionListener() {
-                public void mouseDragged(MouseEvent e) {
-                    forwardEventToParent(e);
+            // Forwbrd mouse events to titlebbr for moves.
+            bddMouseMotionListener(new MouseMotionListener() {
+                public void mouseDrbgged(MouseEvent e) {
+                    forwbrdEventToPbrent(e);
                 }
                 public void mouseMoved(MouseEvent e) {
-                    forwardEventToParent(e);
+                    forwbrdEventToPbrent(e);
                 }
             });
-            addMouseListener(new MouseListener() {
+            bddMouseListener(new MouseListener() {
                 public void mouseClicked(MouseEvent e) {
-                    forwardEventToParent(e);
+                    forwbrdEventToPbrent(e);
                 }
                 public void mousePressed(MouseEvent e) {
-                    forwardEventToParent(e);
+                    forwbrdEventToPbrent(e);
                 }
-                public void mouseReleased(MouseEvent e) {
+                public void mouseRelebsed(MouseEvent e) {
                     if (!systemMenu.isShowing()) {
-                        forwardEventToParent(e);
+                        forwbrdEventToPbrent(e);
                     }
                 }
                 public void mouseEntered(MouseEvent e) {
-                    forwardEventToParent(e);
+                    forwbrdEventToPbrent(e);
                 }
                 public void mouseExited(MouseEvent e) {
-                    forwardEventToParent(e);
+                    forwbrdEventToPbrent(e);
                 }
             });
         }
 
-        void forwardEventToParent(MouseEvent e) {
-            getParent().dispatchEvent(new MouseEvent(
-                getParent(), e.getID(), e.getWhen(), e.getModifiers(),
+        void forwbrdEventToPbrent(MouseEvent e) {
+            getPbrent().dispbtchEvent(new MouseEvent(
+                getPbrent(), e.getID(), e.getWhen(), e.getModifiers(),
                 e.getX(), e.getY(), e.getXOnScreen(), e.getYOnScreen(),
                 e.getClickCount(), e.isPopupTrigger(), MouseEvent.NOBUTTON ));
         }
 
-        public boolean isFocusTraversable() {
-            return false;
+        public boolebn isFocusTrbversbble() {
+            return fblse;
         }
     }
 
 
-    protected class DesktopIconActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent e){
+    protected clbss DesktopIconActionListener implements ActionListener {
+        public void bctionPerformed(ActionEvent e){
             systemMenu.show(iconButton, 0, getDesktopIcon().getHeight());
         }
     }
 
-    protected class DesktopIconMouseListener extends MouseAdapter {
-        // if we drag or move we should deengage the popup
+    protected clbss DesktopIconMouseListener extends MouseAdbpter {
+        // if we drbg or move we should deengbge the popup
         public void mousePressed(MouseEvent e){
             if (e.getClickCount() > 1) {
                 try {
-                    getFrame().setIcon(false);
-                } catch (PropertyVetoException e2){ }
-                systemMenu.setVisible(false);
-                /* the mouse release will not get reported correctly,
-                   because the icon will no longer be in the hierarchy;
-                   maybe that should be fixed, but until it is, we need
-                   to do the required cleanup here. */
-                getFrame().getDesktopPane().getDesktopManager().endDraggingFrame((JComponent)e.getSource());
+                    getFrbme().setIcon(fblse);
+                } cbtch (PropertyVetoException e2){ }
+                systemMenu.setVisible(fblse);
+                /* the mouse relebse will not get reported correctly,
+                   becbuse the icon will no longer be in the hierbrchy;
+                   mbybe thbt should be fixed, but until it is, we need
+                   to do the required clebnup here. */
+                getFrbme().getDesktopPbne().getDesktopMbnbger().endDrbggingFrbme((JComponent)e.getSource());
             }
         }
     }

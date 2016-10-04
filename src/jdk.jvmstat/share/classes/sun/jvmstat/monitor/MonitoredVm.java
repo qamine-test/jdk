@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.monitor;
+pbckbge sun.jvmstbt.monitor;
 
-import java.util.List;
+import jbvb.util.List;
 
-import sun.jvmstat.monitor.event.VmListener;
+import sun.jvmstbt.monitor.event.VmListener;
 
 /**
- * Interface for interacting with a monitorable Java Virtual Machine.
- * The MonitoredVm interface provides methods for discovery of exported
- * instrumentation, for attaching event listeners, and for overall
- * maintenance of the connection to the target.
+ * Interfbce for interbcting with b monitorbble Jbvb Virtubl Mbchine.
+ * The MonitoredVm interfbce provides methods for discovery of exported
+ * instrumentbtion, for bttbching event listeners, bnd for overbll
+ * mbintenbnce of the connection to the tbrget.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public interface MonitoredVm {
+public interfbce MonitoredVm {
 
     /**
-     * Get the VmIdentifier associated with this MonitoredVm
+     * Get the VmIdentifier bssocibted with this MonitoredVm
      *
-     * @return VmIdentifier - the fully resolved Vm identifier associated
+     * @return VmIdentifier - the fully resolved Vm identifier bssocibted
      *                        with this MonitoredVm.
      */
     VmIdentifier getVmIdentifier();
 
     /**
-     * Find a named Instrumentation object.
+     * Find b nbmed Instrumentbtion object.
      *
-     * This method will look for the named instrumentation object in the
-     * instrumentation exported by this Java Virtual Machine. If an
-     * instrumentation object with the given name exists, a Monitor interface
-     * to that object will be return. Otherwise, the method returns
+     * This method will look for the nbmed instrumentbtion object in the
+     * instrumentbtion exported by this Jbvb Virtubl Mbchine. If bn
+     * instrumentbtion object with the given nbme exists, b Monitor interfbce
+     * to thbt object will be return. Otherwise, the method returns
      * <tt>null</tt>.
      *
-     * @param name the name of the Instrumentation object to find.
-     * @return Monitor - the {@link Monitor} object that can be used to
-     *                   monitor the the named instrumentation object, or
-     *                   <tt>null</tt> if the named object doesn't exist.
-     * @throws MonitorException Thrown if an error occurs while communicating
-     *                          with the target Java Virtual Machine.
+     * @pbrbm nbme the nbme of the Instrumentbtion object to find.
+     * @return Monitor - the {@link Monitor} object thbt cbn be used to
+     *                   monitor the the nbmed instrumentbtion object, or
+     *                   <tt>null</tt> if the nbmed object doesn't exist.
+     * @throws MonitorException Thrown if bn error occurs while communicbting
+     *                          with the tbrget Jbvb Virtubl Mbchine.
      */
-    Monitor findByName(String name) throws MonitorException;
+    Monitor findByNbme(String nbme) throws MonitorException;
 
     /**
-     * Find all Instrumentation objects with names matching the given pattern.
+     * Find bll Instrumentbtion objects with nbmes mbtching the given pbttern.
      *
-     * This method returns a {@link List} of Monitor objects such that
-     * the name of each object matches the given pattern.
+     * This method returns b {@link List} of Monitor objects such thbt
+     * the nbme of ebch object mbtches the given pbttern.
      *
-     * @param patternString a string containing a pattern as described in
-     *                      {@link java.util.regex.Pattern}.
-     * @return List<Monitor> - a List of {@link Monitor} objects that can be used to
-     *                monitor the instrumentation objects whose names match
-     *                the given pattern. If no instrumentation objects have`
-     *                names matching the given pattern, then an empty List
+     * @pbrbm pbtternString b string contbining b pbttern bs described in
+     *                      {@link jbvb.util.regex.Pbttern}.
+     * @return List<Monitor> - b List of {@link Monitor} objects thbt cbn be used to
+     *                monitor the instrumentbtion objects whose nbmes mbtch
+     *                the given pbttern. If no instrumentbtion objects hbve`
+     *                nbmes mbtching the given pbttern, then bn empty List
      *                is returned.
-     * @throws MonitorException Thrown if an error occurs while communicating
-     *                          with the target Java Virtual Machine.
-     * @see java.util.regex.Pattern
+     * @throws MonitorException Thrown if bn error occurs while communicbting
+     *                          with the tbrget Jbvb Virtubl Mbchine.
+     * @see jbvb.util.regex.Pbttern
      */
-    List<Monitor> findByPattern(String patternString) throws MonitorException;
+    List<Monitor> findByPbttern(String pbtternString) throws MonitorException;
 
     /**
-     * Detach from target Java Virtual Machine.
+     * Detbch from tbrget Jbvb Virtubl Mbchine.
      *
-     * After calling this method, updates of the instrumentation data values
-     * may be halted. All event notifications are halted. Further interactions
-     * with this object should be avoided.
+     * After cblling this method, updbtes of the instrumentbtion dbtb vblues
+     * mby be hblted. All event notificbtions bre hblted. Further interbctions
+     * with this object should be bvoided.
      */
-    void detach();
+    void detbch();
 
 
-    /* ---- Methods to support polled MonitoredVm Implementations ---- */
+    /* ---- Methods to support polled MonitoredVm Implementbtions ---- */
 
     /**
-     * Set the polling interval to <code>interval</code> milliseconds.
+     * Set the polling intervbl to <code>intervbl</code> milliseconds.
      *
-     * Polling based monitoring implementations need to refresh the
-     * instrumentation data on a periodic basis. This interface allows
-     * the interval to override the implementation specific default
-     * interval.
+     * Polling bbsed monitoring implementbtions need to refresh the
+     * instrumentbtion dbtb on b periodic bbsis. This interfbce bllows
+     * the intervbl to override the implementbtion specific defbult
+     * intervbl.
      *
-     * @param interval the polling interval in milliseconds
+     * @pbrbm intervbl the polling intervbl in milliseconds
      */
-    void setInterval(int interval);
+    void setIntervbl(int intervbl);
 
     /**
-     * Get the polling interval.
+     * Get the polling intervbl.
      *
-     * @return int - the current polling interval in milliseconds.
-     * @see #setInterval
+     * @return int - the current polling intervbl in milliseconds.
+     * @see #setIntervbl
      */
-    int getInterval();
+    int getIntervbl();
 
     /**
-     * Set the last exception encountered while polling this MonitoredVm.
+     * Set the lbst exception encountered while polling this MonitoredVm.
      *
-     * Polling implementations may choose to poll asynchronously. This
-     * method allows an asynchronous task to communicate any polling related
-     * exceptions with the application. When an a non-null exception is reported
-     * through this interface, the MonitoredVm instance is considered to
-     * be in the <em>errored</em> state.
+     * Polling implementbtions mby choose to poll bsynchronously. This
+     * method bllows bn bsynchronous tbsk to communicbte bny polling relbted
+     * exceptions with the bpplicbtion. When bn b non-null exception is reported
+     * through this interfbce, the MonitoredVm instbnce is considered to
+     * be in the <em>errored</em> stbte.
      *
-     * @param cause the exception to record.
+     * @pbrbm cbuse the exception to record.
      * @see #isErrored
      */
-    void setLastException(Exception cause);
+    void setLbstException(Exception cbuse);
 
     /**
-     * Get the last exception encountered while polling this MonitoredVm.
+     * Get the lbst exception encountered while polling this MonitoredVm.
      *
-     * Returns the last exception observed by the implementation dependent
-     * polling task or <tt>null</tt> if no such error has occurred.
+     * Returns the lbst exception observed by the implementbtion dependent
+     * polling tbsk or <tt>null</tt> if no such error hbs occurred.
      *
-     * @return Exception - the last exception that occurred during polling
+     * @return Exception - the lbst exception thbt occurred during polling
      *                     or <tt>null</tt> if no error condition exists.
      * @see #isErrored
-     * @see #setLastException
+     * @see #setLbstException
      */
-    Exception getLastException();
+    Exception getLbstException();
 
     /**
-     * Clear the last exception.
+     * Clebr the lbst exception.
      *
-     * Calling this method will clear the <em>errored</em> state of this
-     * MonitoredVm. However, there is no guarantee that clearing the
-     * the errored state return the asynchronous polling task to an
-     * operational state.
+     * Cblling this method will clebr the <em>errored</em> stbte of this
+     * MonitoredVm. However, there is no gubrbntee thbt clebring the
+     * the errored stbte return the bsynchronous polling tbsk to bn
+     * operbtionbl stbte.
      *
      */
-    void clearLastException();
+    void clebrLbstException();
 
     /**
-     * Test if this MonitoredVm is in the errored state.
-     * The errored state exists only if an error was reported with
-     * call to {@link #setLastException} and only if the parameter to
-     * that call was non-null and no subsequent calls are made to
-     * {@link #clearLastException}.
+     * Test if this MonitoredVm is in the errored stbte.
+     * The errored stbte exists only if bn error wbs reported with
+     * cbll to {@link #setLbstException} bnd only if the pbrbmeter to
+     * thbt cbll wbs non-null bnd no subsequent cblls bre mbde to
+     * {@link #clebrLbstException}.
      *
-     * @return boolean - true if the instance has a non-null error condition
-     *                   set, false otherwise.
+     * @return boolebn - true if the instbnce hbs b non-null error condition
+     *                   set, fblse otherwise.
      *
-     * @see #setLastException
-     * @see #getLastException
+     * @see #setLbstException
+     * @see #getLbstException
      */
-    boolean isErrored();
+    boolebn isErrored();
 
     /**
-     * Add a VmListener. The given listener is added to the list of
-     * VmListener objects to be notified of MonitoredVm related events.
+     * Add b VmListener. The given listener is bdded to the list of
+     * VmListener objects to be notified of MonitoredVm relbted events.
      *
-     * @param listener the VmListener to add.
-     * @throws MonitorException Thrown if any problems occur while attempting
-     *                          to add this listener.
+     * @pbrbm listener the VmListener to bdd.
+     * @throws MonitorException Thrown if bny problems occur while bttempting
+     *                          to bdd this listener.
      */
-    void addVmListener(VmListener listener) throws MonitorException;
+    void bddVmListener(VmListener listener) throws MonitorException;
 
     /**
-     * Remove a VmListener. The given listener is removed from the list of
-     * VmListener objects to be notified of MonitoredVm related events.
+     * Remove b VmListener. The given listener is removed from the list of
+     * VmListener objects to be notified of MonitoredVm relbted events.
      *
-     * @param listener the VmListener to be removed.
-     * @throws MonitorException Thrown if any problems occur while attempting
+     * @pbrbm listener the VmListener to be removed.
+     * @throws MonitorException Thrown if bny problems occur while bttempting
      *                            to remove this listener.
      */
     void removeVmListener(VmListener listener) throws MonitorException;

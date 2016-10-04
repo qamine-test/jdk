@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.tools.attach;
+pbckbge sun.tools.bttbch;
 
-import com.sun.tools.attach.AttachOperationFailedException;
-import com.sun.tools.attach.AgentLoadException;
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.spi.AttachProvider;
+import com.sun.tools.bttbch.AttbchOperbtionFbiledException;
+import com.sun.tools.bttbch.AgentLobdException;
+import com.sun.tools.bttbch.AttbchNotSupportedException;
+import com.sun.tools.bttbch.spi.AttbchProvider;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileNotFoundException;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.File;
+import jbvb.io.FileNotFoundException;
 
 /*
- * Solaris implementation of HotSpotVirtualMachine.
+ * Solbris implementbtion of HotSpotVirtublMbchine.
  */
-public class SolarisVirtualMachine extends HotSpotVirtualMachine {
-    // "/tmp" is used as a global well-known location for the files
-    // .java_pid<pid>. and .attach_pid<pid>. It is important that this
-    // location is the same for all processes, otherwise the tools
-    // will not be able to find all Hotspot processes.
-    // Any changes to this needs to be synchronized with HotSpot.
-    private static final String tmpdir = "/tmp";
+public clbss SolbrisVirtublMbchine extends HotSpotVirtublMbchine {
+    // "/tmp" is used bs b globbl well-known locbtion for the files
+    // .jbvb_pid<pid>. bnd .bttbch_pid<pid>. It is importbnt thbt this
+    // locbtion is the sbme for bll processes, otherwise the tools
+    // will not be bble to find bll Hotspot processes.
+    // Any chbnges to this needs to be synchronized with HotSpot.
+    privbte stbtic finbl String tmpdir = "/tmp";
 
     // door descriptor;
-    private int fd = -1;
+    privbte int fd = -1;
 
     /**
-     * Attaches to the target VM
+     * Attbches to the tbrget VM
      */
-    SolarisVirtualMachine(AttachProvider provider, String vmid)
-        throws AttachNotSupportedException, IOException
+    SolbrisVirtublMbchine(AttbchProvider provider, String vmid)
+        throws AttbchNotSupportedException, IOException
     {
         super(provider, vmid);
-        // This provider only understands process-ids (pids).
+        // This provider only understbnds process-ids (pids).
         int pid;
         try {
-            pid = Integer.parseInt(vmid);
-        } catch (NumberFormatException x) {
-            throw new AttachNotSupportedException("invalid process identifier");
+            pid = Integer.pbrseInt(vmid);
+        } cbtch (NumberFormbtException x) {
+            throw new AttbchNotSupportedException("invblid process identifier");
         }
 
-        // Opens the door file to the target VM. If the file is not
-        // found it might mean that the attach mechanism isn't started in the
-        // target VM so we attempt to start it and retry.
+        // Opens the door file to the tbrget VM. If the file is not
+        // found it might mebn thbt the bttbch mechbnism isn't stbrted in the
+        // tbrget VM so we bttempt to stbrt it bnd retry.
         try {
             fd = openDoor(pid);
-        } catch (FileNotFoundException fnf1) {
-            File f = createAttachFile(pid);
+        } cbtch (FileNotFoundException fnf1) {
+            File f = crebteAttbchFile(pid);
             try {
-                // kill -QUIT will tickle target VM to check for the
-                // attach file.
+                // kill -QUIT will tickle tbrget VM to check for the
+                // bttbch file.
                 sigquit(pid);
 
-                // give the target VM time to start the attach mechanism
+                // give the tbrget VM time to stbrt the bttbch mechbnism
                 int i = 0;
-                long delay = 200;
-                int retries = (int)(attachTimeout() / delay);
+                long delby = 200;
+                int retries = (int)(bttbchTimeout() / delby);
                 do {
                     try {
-                        Thread.sleep(delay);
-                    } catch (InterruptedException x) { }
+                        Threbd.sleep(delby);
+                    } cbtch (InterruptedException x) { }
                     try {
                         fd = openDoor(pid);
-                    } catch (FileNotFoundException fnf2) { }
+                    } cbtch (FileNotFoundException fnf2) { }
                     i++;
                 } while (i <= retries && fd == -1);
                 if (fd == -1) {
-                    throw new AttachNotSupportedException(
-                        "Unable to open door: target process not responding or " +
-                        "HotSpot VM not loaded");
+                    throw new AttbchNotSupportedException(
+                        "Unbble to open door: tbrget process not responding or " +
+                        "HotSpot VM not lobded");
                 }
-            } finally {
+            } finblly {
                 f.delete();
             }
         }
-        assert fd >= 0;
+        bssert fd >= 0;
     }
 
     /**
-     * Detach from the target VM
+     * Detbch from the tbrget VM
      */
-    public void detach() throws IOException {
+    public void detbch() throws IOException {
         synchronized (this) {
             if (fd != -1) {
                 close(fd);
@@ -113,69 +113,69 @@ public class SolarisVirtualMachine extends HotSpotVirtualMachine {
     }
 
     /**
-     * Execute the given command in the target VM.
+     * Execute the given commbnd in the tbrget VM.
      */
-    InputStream execute(String cmd, Object ... args) throws AgentLoadException, IOException {
-        assert args.length <= 3;                // includes null
+    InputStrebm execute(String cmd, Object ... brgs) throws AgentLobdException, IOException {
+        bssert brgs.length <= 3;                // includes null
 
-        // first check that we are still attached
+        // first check thbt we bre still bttbched
         int door;
         synchronized (this) {
             if (fd == -1) {
-                throw new IOException("Detached from target VM");
+                throw new IOException("Detbched from tbrget VM");
             }
             door = fd;
         }
 
-        // enqueue the command via a door call
-        int s = enqueue(door, cmd, args);
-        assert s >= 0;                          // valid file descriptor
+        // enqueue the commbnd vib b door cbll
+        int s = enqueue(door, cmd, brgs);
+        bssert s >= 0;                          // vblid file descriptor
 
-        // The door call returns a file descriptor (one end of a socket pair).
-        // Create an input stream around it.
-        SocketInputStream sis = new SocketInputStream(s);
+        // The door cbll returns b file descriptor (one end of b socket pbir).
+        // Crebte bn input strebm bround it.
+        SocketInputStrebm sis = new SocketInputStrebm(s);
 
-        // Read the command completion status
-        int completionStatus;
+        // Rebd the commbnd completion stbtus
+        int completionStbtus;
         try {
-            completionStatus = readInt(sis);
-        } catch (IOException ioe) {
+            completionStbtus = rebdInt(sis);
+        } cbtch (IOException ioe) {
             sis.close();
             throw ioe;
         }
 
-        // If non-0 it means an error but we need to special-case the
-        // "load" command to ensure that the right exception is thrown.
-        if (completionStatus != 0) {
-            // read from the stream and use that as the error message
-            String message = readErrorMessage(sis);
+        // If non-0 it mebns bn error but we need to specibl-cbse the
+        // "lobd" commbnd to ensure thbt the right exception is thrown.
+        if (completionStbtus != 0) {
+            // rebd from the strebm bnd use thbt bs the error messbge
+            String messbge = rebdErrorMessbge(sis);
             sis.close();
-            if (cmd.equals("load")) {
-                throw new AgentLoadException("Failed to load agent library");
+            if (cmd.equbls("lobd")) {
+                throw new AgentLobdException("Fbiled to lobd bgent librbry");
             } else {
-                if (message == null) {
-                    throw new AttachOperationFailedException("Command failed in target VM");
+                if (messbge == null) {
+                    throw new AttbchOperbtionFbiledException("Commbnd fbiled in tbrget VM");
                 } else {
-                    throw new AttachOperationFailedException(message);
+                    throw new AttbchOperbtionFbiledException(messbge);
                 }
             }
         }
 
-        // Return the input stream so that the command output can be read
+        // Return the input strebm so thbt the commbnd output cbn be rebd
         return sis;
     }
 
-    // InputStream over a socket
-    private class SocketInputStream extends InputStream {
+    // InputStrebm over b socket
+    privbte clbss SocketInputStrebm extends InputStrebm {
         int s;
 
-        public SocketInputStream(int s) {
+        public SocketInputStrebm(int s) {
             this.s = s;
         }
 
-        public synchronized int read() throws IOException {
+        public synchronized int rebd() throws IOException {
             byte b[] = new byte[1];
-            int n = this.read(b, 0, 1);
+            int n = this.rebd(b, 0, 1);
             if (n == 1) {
                 return b[0] & 0xff;
             } else {
@@ -183,71 +183,71 @@ public class SolarisVirtualMachine extends HotSpotVirtualMachine {
             }
         }
 
-        public synchronized int read(byte[] bs, int off, int len) throws IOException {
+        public synchronized int rebd(byte[] bs, int off, int len) throws IOException {
             if ((off < 0) || (off > bs.length) || (len < 0) ||
                 ((off + len) > bs.length) || ((off + len) < 0)) {
                 throw new IndexOutOfBoundsException();
             } else if (len == 0)
                 return 0;
 
-            return SolarisVirtualMachine.read(s, bs, off, len);
+            return SolbrisVirtublMbchine.rebd(s, bs, off, len);
         }
 
         public void close() throws IOException {
-            SolarisVirtualMachine.close(s);
+            SolbrisVirtublMbchine.close(s);
         }
     }
 
-    // The door is attached to .java_pid<pid> in the temporary directory.
-    private int openDoor(int pid) throws IOException {
-        String path = tmpdir + "/.java_pid" + pid;;
-        fd = open(path);
+    // The door is bttbched to .jbvb_pid<pid> in the temporbry directory.
+    privbte int openDoor(int pid) throws IOException {
+        String pbth = tmpdir + "/.jbvb_pid" + pid;;
+        fd = open(pbth);
 
-        // Check that the file owner/permission to avoid attaching to
+        // Check thbt the file owner/permission to bvoid bttbching to
         // bogus process
         try {
-            checkPermissions(path);
-        } catch (IOException ioe) {
+            checkPermissions(pbth);
+        } cbtch (IOException ioe) {
             close(fd);
             throw ioe;
         }
         return fd;
     }
 
-    // On Solaris/Linux a simple handshake is used to start the attach mechanism
-    // if not already started. The client creates a .attach_pid<pid> file in the
-    // target VM's working directory (or temporary directory), and the SIGQUIT
-    // handler checks for the file.
-    private File createAttachFile(int pid) throws IOException {
-        String fn = ".attach_pid" + pid;
-        String path = "/proc/" + pid + "/cwd/" + fn;
-        File f = new File(path);
+    // On Solbris/Linux b simple hbndshbke is used to stbrt the bttbch mechbnism
+    // if not blrebdy stbrted. The client crebtes b .bttbch_pid<pid> file in the
+    // tbrget VM's working directory (or temporbry directory), bnd the SIGQUIT
+    // hbndler checks for the file.
+    privbte File crebteAttbchFile(int pid) throws IOException {
+        String fn = ".bttbch_pid" + pid;
+        String pbth = "/proc/" + pid + "/cwd/" + fn;
+        File f = new File(pbth);
         try {
-            f.createNewFile();
-        } catch (IOException x) {
+            f.crebteNewFile();
+        } cbtch (IOException x) {
             f = new File(tmpdir, fn);
-            f.createNewFile();
+            f.crebteNewFile();
         }
         return f;
     }
 
-    //-- native methods
+    //-- nbtive methods
 
-    static native int open(String path) throws IOException;
+    stbtic nbtive int open(String pbth) throws IOException;
 
-    static native void close(int fd) throws IOException;
+    stbtic nbtive void close(int fd) throws IOException;
 
-    static native int read(int fd, byte buf[], int off, int buflen) throws IOException;
+    stbtic nbtive int rebd(int fd, byte buf[], int off, int buflen) throws IOException;
 
-    static native void checkPermissions(String path) throws IOException;
+    stbtic nbtive void checkPermissions(String pbth) throws IOException;
 
-    static native void sigquit(int pid) throws IOException;
+    stbtic nbtive void sigquit(int pid) throws IOException;
 
-    // enqueue a command (and arguments) to the given door
-    static native int enqueue(int fd, String cmd, Object ... args)
+    // enqueue b commbnd (bnd brguments) to the given door
+    stbtic nbtive int enqueue(int fd, String cmd, Object ... brgs)
         throws IOException;
 
-    static {
-        System.loadLibrary("attach");
+    stbtic {
+        System.lobdLibrbry("bttbch");
     }
 }

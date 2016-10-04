@@ -1,471 +1,471 @@
 /*
- * Copyright (c) 2001, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
-import com.sun.jmx.snmp.SnmpSecurityParameters;
-// java imports
+import com.sun.jmx.snmp.SnmpSecurityPbrbmeters;
+// jbvb imports
 //
-import java.util.Vector;
-import java.net.InetAddress;
+import jbvb.util.Vector;
+import jbvb.net.InetAddress;
 
 
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 /**
- * A partially decoded representation of an SNMP packet. It contains
- * the information contained in any SNMP message (SNMPv1, SNMPv2 or
+ * A pbrtiblly decoded representbtion of bn SNMP pbcket. It contbins
+ * the informbtion contbined in bny SNMP messbge (SNMPv1, SNMPv2 or
  * SNMPv3).
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  * @since 1.5
  */
-public abstract class SnmpMsg implements SnmpDefinitions {
+public bbstrbct clbss SnmpMsg implements SnmpDefinitions {
     /**
      * The protocol version.
-     * <P><CODE>decodeMessage</CODE> and <CODE>encodeMessage</CODE> do not
-     * perform any check on this value.
-     * <BR><CODE>decodeSnmpPdu</CODE> and <CODE>encodeSnmpPdu</CODE> only
-     * accept  the values 0 (for SNMPv1), 1 (for SNMPv2) and 3 (for SNMPv3).
+     * <P><CODE>decodeMessbge</CODE> bnd <CODE>encodeMessbge</CODE> do not
+     * perform bny check on this vblue.
+     * <BR><CODE>decodeSnmpPdu</CODE> bnd <CODE>encodeSnmpPdu</CODE> only
+     * bccept  the vblues 0 (for SNMPv1), 1 (for SNMPv2) bnd 3 (for SNMPv3).
      */
     public int version = 0;
 
     /**
      * Encoding of the PDU.
-     * <P>This is usually the BER encoding of the PDU's syntax
-     * defined in RFC1157 and RFC1902. However, this can be authenticated
-     * or encrypted data (but you need to implemented your own
-     * <CODE>SnmpPduFactory</CODE> class).
+     * <P>This is usublly the BER encoding of the PDU's syntbx
+     * defined in RFC1157 bnd RFC1902. However, this cbn be buthenticbted
+     * or encrypted dbtb (but you need to implemented your own
+     * <CODE>SnmpPduFbctory</CODE> clbss).
      */
-    public byte[] data = null;
+    public byte[] dbtb = null;
 
     /**
-     * Number of useful bytes in the <CODE>data</CODE> field.
+     * Number of useful bytes in the <CODE>dbtb</CODE> field.
      */
-    public int dataLength = 0;
+    public int dbtbLength = 0;
 
     /**
-     * Source or destination address.
-     * <BR>For an incoming message it's the source.
-     * For an outgoing message it's the destination.
+     * Source or destinbtion bddress.
+     * <BR>For bn incoming messbge it's the source.
+     * For bn outgoing messbge it's the destinbtion.
      */
-    public InetAddress address = null;
+    public InetAddress bddress = null;
 
     /**
-     * Source or destination port.
-     * <BR>For an incoming message it's the source.
-     * For an outgoing message it's the destination.
+     * Source or destinbtion port.
+     * <BR>For bn incoming messbge it's the source.
+     * For bn outgoing messbge it's the destinbtion.
      */
     public int port = 0;
     /**
-     * Security parameters. Contain informations according to Security Model (Usm, community string based, ...).
+     * Security pbrbmeters. Contbin informbtions bccording to Security Model (Usm, community string bbsed, ...).
      */
-    public SnmpSecurityParameters securityParameters = null;
+    public SnmpSecurityPbrbmeters securityPbrbmeters = null;
     /**
-     * Returns the encoded SNMP version present in the passed byte array.
-     * @param data The unmarshalled SNMP message.
+     * Returns the encoded SNMP version present in the pbssed byte brrby.
+     * @pbrbm dbtb The unmbrshblled SNMP messbge.
      * @return The SNMP version (0, 1 or 3).
      */
-    public static int getProtocolVersion(byte[] data)
-        throws SnmpStatusException {
+    public stbtic int getProtocolVersion(byte[] dbtb)
+        throws SnmpStbtusException {
         int version = 0;
         BerDecoder bdec = null;
         try {
-            bdec = new BerDecoder(data);
+            bdec = new BerDecoder(dbtb);
             bdec.openSequence();
             version = bdec.fetchInteger();
         }
-        catch(BerException x) {
-            throw new SnmpStatusException("Invalid encoding") ;
+        cbtch(BerException x) {
+            throw new SnmpStbtusException("Invblid encoding") ;
         }
         try {
             bdec.closeSequence();
         }
-        catch(BerException x) {
+        cbtch(BerException x) {
         }
         return version;
     }
 
     /**
-     * Returns the associated request ID.
-     * @param data The flat message.
+     * Returns the bssocibted request ID.
+     * @pbrbm dbtb The flbt messbge.
      * @return The request ID.
      */
-    public abstract int getRequestId(byte[] data) throws SnmpStatusException;
+    public bbstrbct int getRequestId(byte[] dbtb) throws SnmpStbtusException;
 
     /**
-     * Encodes this message and puts the result in the specified byte array.
-     * For internal use only.
+     * Encodes this messbge bnd puts the result in the specified byte brrby.
+     * For internbl use only.
      *
-     * @param outputBytes An array to receive the resulting encoding.
+     * @pbrbm outputBytes An brrby to receive the resulting encoding.
      *
-     * @exception ArrayIndexOutOfBoundsException If the result does not fit
-     *                                           into the specified array.
+     * @exception ArrbyIndexOutOfBoundsException If the result does not fit
+     *                                           into the specified brrby.
      */
-    public abstract int encodeMessage(byte[] outputBytes)
+    public bbstrbct int encodeMessbge(byte[] outputBytes)
         throws SnmpTooBigException;
 
      /**
-     * Decodes the specified bytes and initializes this message.
-     * For internal use only.
+     * Decodes the specified bytes bnd initiblizes this messbge.
+     * For internbl use only.
      *
-     * @param inputBytes The bytes to be decoded.
+     * @pbrbm inputBytes The bytes to be decoded.
      *
-     * @exception SnmpStatusException If the specified bytes are not a valid encoding.
+     * @exception SnmpStbtusException If the specified bytes bre not b vblid encoding.
      */
-    public abstract void decodeMessage(byte[] inputBytes, int byteCount)
-        throws SnmpStatusException;
+    public bbstrbct void decodeMessbge(byte[] inputBytes, int byteCount)
+        throws SnmpStbtusException;
 
      /**
-     * Initializes this message with the specified <CODE>pdu</CODE>.
+     * Initiblizes this messbge with the specified <CODE>pdu</CODE>.
      * <P>
-     * This method initializes the data field with an array of
-     * <CODE>maxDataLength</CODE> bytes. It encodes the <CODE>pdu</CODE>.
-     * The resulting encoding is stored in the data field
-     * and the length of the encoding is stored in <CODE>dataLength</CODE>.
+     * This method initiblizes the dbtb field with bn brrby of
+     * <CODE>mbxDbtbLength</CODE> bytes. It encodes the <CODE>pdu</CODE>.
+     * The resulting encoding is stored in the dbtb field
+     * bnd the length of the encoding is stored in <CODE>dbtbLength</CODE>.
      * <p>
-     * If the encoding length exceeds <CODE>maxDataLength</CODE>,
-     * the method throws an exception.
+     * If the encoding length exceeds <CODE>mbxDbtbLength</CODE>,
+     * the method throws bn exception.
      *
-     * @param pdu The PDU to be encoded.
-     * @param maxDataLength The maximum length permitted for the data field.
+     * @pbrbm pdu The PDU to be encoded.
+     * @pbrbm mbxDbtbLength The mbximum length permitted for the dbtb field.
      *
-     * @exception SnmpStatusException If the specified <CODE>pdu</CODE> is not valid.
+     * @exception SnmpStbtusException If the specified <CODE>pdu</CODE> is not vblid.
      * @exception SnmpTooBigException If the resulting encoding does not fit
-     * into <CODE>maxDataLength</CODE> bytes.
-     * @exception ArrayIndexOutOfBoundsException If the encoding exceeds <CODE>maxDataLength</CODE>.
+     * into <CODE>mbxDbtbLength</CODE> bytes.
+     * @exception ArrbyIndexOutOfBoundsException If the encoding exceeds <CODE>mbxDbtbLength</CODE>.
      */
-    public abstract void encodeSnmpPdu(SnmpPdu pdu, int maxDataLength)
-        throws SnmpStatusException, SnmpTooBigException;
+    public bbstrbct void encodeSnmpPdu(SnmpPdu pdu, int mbxDbtbLength)
+        throws SnmpStbtusException, SnmpTooBigException;
 
 
     /**
-     * Gets the PDU encoded in this message.
+     * Gets the PDU encoded in this messbge.
      * <P>
-     * This method decodes the data field and returns the resulting PDU.
+     * This method decodes the dbtb field bnd returns the resulting PDU.
      *
      * @return The resulting PDU.
-     * @exception SnmpStatusException If the encoding is not valid.
+     * @exception SnmpStbtusException If the encoding is not vblid.
      */
-    public abstract SnmpPdu decodeSnmpPdu()
-        throws SnmpStatusException;
+    public bbstrbct SnmpPdu decodeSnmpPdu()
+        throws SnmpStbtusException;
 
     /**
-     * Dumps the content of a byte buffer using hexadecimal form.
+     * Dumps the content of b byte buffer using hexbdecimbl form.
      *
-     * @param b The buffer to dump.
-     * @param offset The position of the first byte to be dumped.
-     * @param len The number of bytes to be dumped starting from offset.
+     * @pbrbm b The buffer to dump.
+     * @pbrbm offset The position of the first byte to be dumped.
+     * @pbrbm len The number of bytes to be dumped stbrting from offset.
      *
-     * @return The string containing the dump.
+     * @return The string contbining the dump.
      */
-    public static String dumpHexBuffer(byte [] b, int offset, int len) {
+    public stbtic String dumpHexBuffer(byte [] b, int offset, int len) {
         StringBuilder sb = new StringBuilder(len << 1) ;
         int k = 1 ;
         int flen = offset + len ;
 
         for (int i = offset; i < flen ; i++) {
             int j = b[i] & 0xFF ;
-            sb.append(Character.forDigit((j >>> 4), 16)) ;
-            sb.append(Character.forDigit((j & 0x0F), 16)) ;
+            sb.bppend(Chbrbcter.forDigit((j >>> 4), 16)) ;
+            sb.bppend(Chbrbcter.forDigit((j & 0x0F), 16)) ;
             k++ ;
             if (k%16 == 0) {
-                sb.append('\n') ;
+                sb.bppend('\n') ;
                 k = 1 ;
             } else
-                sb.append(' ') ;
+                sb.bppend(' ') ;
         }
         return sb.toString() ;
     }
 
     /**
-     * Dumps this message in a string.
+     * Dumps this messbge in b string.
      *
-     * @return The string containing the dump.
+     * @return The string contbining the dump.
      */
-    public String printMessage() {
+    public String printMessbge() {
         StringBuilder sb = new StringBuilder() ;
-        sb.append("Version: ") ;
-        sb.append(version) ;
-        sb.append("\n") ;
-        if (data == null) {
-            sb.append("Data: null") ;
+        sb.bppend("Version: ") ;
+        sb.bppend(version) ;
+        sb.bppend("\n") ;
+        if (dbtb == null) {
+            sb.bppend("Dbtb: null") ;
         }
         else {
-            sb.append("Data: {\n") ;
-            sb.append(dumpHexBuffer(data, 0, dataLength)) ;
-            sb.append("\n}\n") ;
+            sb.bppend("Dbtb: {\n") ;
+            sb.bppend(dumpHexBuffer(dbtb, 0, dbtbLength)) ;
+            sb.bppend("\n}\n") ;
         }
 
         return sb.toString() ;
     }
 
     /**
-     * For SNMP Runtime private use only.
+     * For SNMP Runtime privbte use only.
      */
-    public void encodeVarBindList(BerEncoder benc,
-                                  SnmpVarBind[] varBindList)
-        throws SnmpStatusException, SnmpTooBigException {
+    public void encodeVbrBindList(BerEncoder benc,
+                                  SnmpVbrBind[] vbrBindList)
+        throws SnmpStbtusException, SnmpTooBigException {
         //
-        // Remember: the encoder does backward encoding
+        // Remember: the encoder does bbckwbrd encoding
         //
-        int encodedVarBindCount = 0 ;
+        int encodedVbrBindCount = 0 ;
         try {
             benc.openSequence() ;
-            if (varBindList != null) {
-                for (int i = varBindList.length - 1 ; i >= 0 ; i--) {
-                    SnmpVarBind bind = varBindList[i] ;
+            if (vbrBindList != null) {
+                for (int i = vbrBindList.length - 1 ; i >= 0 ; i--) {
+                    SnmpVbrBind bind = vbrBindList[i] ;
                     if (bind != null) {
                         benc.openSequence() ;
-                        encodeVarBindValue(benc, bind.value) ;
-                        benc.putOid(bind.oid.longValue()) ;
+                        encodeVbrBindVblue(benc, bind.vblue) ;
+                        benc.putOid(bind.oid.longVblue()) ;
                         benc.closeSequence() ;
-                        encodedVarBindCount++ ;
+                        encodedVbrBindCount++ ;
                     }
                 }
             }
             benc.closeSequence() ;
         }
-        catch(ArrayIndexOutOfBoundsException x) {
-            throw new SnmpTooBigException(encodedVarBindCount) ;
+        cbtch(ArrbyIndexOutOfBoundsException x) {
+            throw new SnmpTooBigException(encodedVbrBindCount) ;
         }
     }
 
     /**
-     * For SNMP Runtime private use only.
+     * For SNMP Runtime privbte use only.
      */
-    void encodeVarBindValue(BerEncoder benc,
-                            SnmpValue v)throws SnmpStatusException {
+    void encodeVbrBindVblue(BerEncoder benc,
+                            SnmpVblue v)throws SnmpStbtusException {
         if (v == null) {
             benc.putNull() ;
         }
-        else if (v instanceof SnmpIpAddress) {
-            benc.putOctetString(((SnmpIpAddress)v).byteValue(), SnmpValue.IpAddressTag) ;
+        else if (v instbnceof SnmpIpAddress) {
+            benc.putOctetString(((SnmpIpAddress)v).byteVblue(), SnmpVblue.IpAddressTbg) ;
         }
-        else if (v instanceof SnmpCounter) {
-            benc.putInteger(((SnmpCounter)v).longValue(), SnmpValue.CounterTag) ;
+        else if (v instbnceof SnmpCounter) {
+            benc.putInteger(((SnmpCounter)v).longVblue(), SnmpVblue.CounterTbg) ;
         }
-        else if (v instanceof SnmpGauge) {
-            benc.putInteger(((SnmpGauge)v).longValue(), SnmpValue.GaugeTag) ;
+        else if (v instbnceof SnmpGbuge) {
+            benc.putInteger(((SnmpGbuge)v).longVblue(), SnmpVblue.GbugeTbg) ;
         }
-        else if (v instanceof SnmpTimeticks) {
-            benc.putInteger(((SnmpTimeticks)v).longValue(), SnmpValue.TimeticksTag) ;
+        else if (v instbnceof SnmpTimeticks) {
+            benc.putInteger(((SnmpTimeticks)v).longVblue(), SnmpVblue.TimeticksTbg) ;
         }
-        else if (v instanceof SnmpOpaque) {
-            benc.putOctetString(((SnmpOpaque)v).byteValue(), SnmpValue.OpaqueTag) ;
+        else if (v instbnceof SnmpOpbque) {
+            benc.putOctetString(((SnmpOpbque)v).byteVblue(), SnmpVblue.OpbqueTbg) ;
         }
-        else if (v instanceof SnmpInt) {
-            benc.putInteger(((SnmpInt)v).intValue()) ;
+        else if (v instbnceof SnmpInt) {
+            benc.putInteger(((SnmpInt)v).intVblue()) ;
         }
-        else if (v instanceof SnmpString) {
-            benc.putOctetString(((SnmpString)v).byteValue()) ;
+        else if (v instbnceof SnmpString) {
+            benc.putOctetString(((SnmpString)v).byteVblue()) ;
         }
-        else if (v instanceof SnmpOid) {
-            benc.putOid(((SnmpOid)v).longValue()) ;
+        else if (v instbnceof SnmpOid) {
+            benc.putOid(((SnmpOid)v).longVblue()) ;
         }
-        else if (v instanceof SnmpCounter64) {
+        else if (v instbnceof SnmpCounter64) {
             if (version == snmpVersionOne) {
-                throw new SnmpStatusException("Invalid value for SNMP v1 : " + v) ;
+                throw new SnmpStbtusException("Invblid vblue for SNMP v1 : " + v) ;
             }
-            benc.putInteger(((SnmpCounter64)v).longValue(), SnmpValue.Counter64Tag) ;
+            benc.putInteger(((SnmpCounter64)v).longVblue(), SnmpVblue.Counter64Tbg) ;
         }
-        else if (v instanceof SnmpNull) {
-            int tag = ((SnmpNull)v).getTag() ;
-            if ((version == snmpVersionOne) && (tag != SnmpValue.NullTag)) {
-                throw new SnmpStatusException("Invalid value for SNMP v1 : " + v) ;
+        else if (v instbnceof SnmpNull) {
+            int tbg = ((SnmpNull)v).getTbg() ;
+            if ((version == snmpVersionOne) && (tbg != SnmpVblue.NullTbg)) {
+                throw new SnmpStbtusException("Invblid vblue for SNMP v1 : " + v) ;
             }
             if ((version == snmpVersionTwo) &&
-                (tag != SnmpValue.NullTag) &&
-                (tag != SnmpVarBind.errNoSuchObjectTag) &&
-                (tag != SnmpVarBind.errNoSuchInstanceTag) &&
-                (tag != SnmpVarBind.errEndOfMibViewTag)) {
-                throw new SnmpStatusException("Invalid value " + v) ;
+                (tbg != SnmpVblue.NullTbg) &&
+                (tbg != SnmpVbrBind.errNoSuchObjectTbg) &&
+                (tbg != SnmpVbrBind.errNoSuchInstbnceTbg) &&
+                (tbg != SnmpVbrBind.errEndOfMibViewTbg)) {
+                throw new SnmpStbtusException("Invblid vblue " + v) ;
             }
-            benc.putNull(tag) ;
+            benc.putNull(tbg) ;
         }
         else {
-            throw new SnmpStatusException("Invalid value " + v) ;
+            throw new SnmpStbtusException("Invblid vblue " + v) ;
         }
 
     }
 
 
     /**
-     * For SNMP Runtime private use only.
+     * For SNMP Runtime privbte use only.
      */
-    public SnmpVarBind[] decodeVarBindList(BerDecoder bdec)
+    public SnmpVbrBind[] decodeVbrBindList(BerDecoder bdec)
         throws BerException {
             bdec.openSequence() ;
-            Vector<SnmpVarBind> tmp = new Vector<SnmpVarBind>() ;
-            while (bdec.cannotCloseSequence()) {
-                SnmpVarBind bind = new SnmpVarBind() ;
+            Vector<SnmpVbrBind> tmp = new Vector<SnmpVbrBind>() ;
+            while (bdec.cbnnotCloseSequence()) {
+                SnmpVbrBind bind = new SnmpVbrBind() ;
                 bdec.openSequence() ;
                 bind.oid = new SnmpOid(bdec.fetchOid()) ;
-                bind.setSnmpValue(decodeVarBindValue(bdec)) ;
+                bind.setSnmpVblue(decodeVbrBindVblue(bdec)) ;
                 bdec.closeSequence() ;
-                tmp.addElement(bind) ;
+                tmp.bddElement(bind) ;
             }
             bdec.closeSequence() ;
-            SnmpVarBind[] varBindList= new SnmpVarBind[tmp.size()] ;
-            tmp.copyInto(varBindList);
-            return varBindList ;
+            SnmpVbrBind[] vbrBindList= new SnmpVbrBind[tmp.size()] ;
+            tmp.copyInto(vbrBindList);
+            return vbrBindList ;
         }
 
 
     /**
-     * For SNMP Runtime private use only.
+     * For SNMP Runtime privbte use only.
      */
-    SnmpValue decodeVarBindValue(BerDecoder bdec)
+    SnmpVblue decodeVbrBindVblue(BerDecoder bdec)
         throws BerException {
-        SnmpValue result = null ;
-        int tag = bdec.getTag() ;
+        SnmpVblue result = null ;
+        int tbg = bdec.getTbg() ;
 
-        // bugId 4641696 : RuntimeExceptions must be transformed in
+        // bugId 4641696 : RuntimeExceptions must be trbnsformed in
         //                 BerException.
-        switch(tag) {
+        switch(tbg) {
 
             //
-            // Simple syntax
+            // Simple syntbx
             //
-        case BerDecoder.IntegerTag :
+        cbse BerDecoder.IntegerTbg :
             try {
                 result = new SnmpInt(bdec.fetchInteger()) ;
-            } catch(RuntimeException r) {
+            } cbtch(RuntimeException r) {
                 throw new BerException();
-                // BerException("Can't build SnmpInt from decoded value.");
+                // BerException("Cbn't build SnmpInt from decoded vblue.");
             }
-            break ;
-        case BerDecoder.OctetStringTag :
+            brebk ;
+        cbse BerDecoder.OctetStringTbg :
             try {
                 result = new SnmpString(bdec.fetchOctetString()) ;
-            } catch(RuntimeException r) {
+            } cbtch(RuntimeException r) {
                 throw new BerException();
-                // BerException("Can't build SnmpString from decoded value.");
+                // BerException("Cbn't build SnmpString from decoded vblue.");
             }
-            break ;
-        case BerDecoder.OidTag :
+            brebk ;
+        cbse BerDecoder.OidTbg :
             try {
                 result = new SnmpOid(bdec.fetchOid()) ;
-            } catch(RuntimeException r) {
+            } cbtch(RuntimeException r) {
                 throw new BerException();
-                // BerException("Can't build SnmpOid from decoded value.");
+                // BerException("Cbn't build SnmpOid from decoded vblue.");
             }
-            break ;
-        case BerDecoder.NullTag :
+            brebk ;
+        cbse BerDecoder.NullTbg :
             bdec.fetchNull() ;
             try {
                 result = new SnmpNull() ;
-            } catch(RuntimeException r) {
+            } cbtch(RuntimeException r) {
                 throw new BerException();
-                // BerException("Can't build SnmpNull from decoded value.");
+                // BerException("Cbn't build SnmpNull from decoded vblue.");
             }
-            break ;
+            brebk ;
 
             //
-            // Application syntax
+            // Applicbtion syntbx
             //
-        case SnmpValue.IpAddressTag :
+        cbse SnmpVblue.IpAddressTbg :
             try {
-                result = new SnmpIpAddress(bdec.fetchOctetString(tag)) ;
-            } catch (RuntimeException r) {
+                result = new SnmpIpAddress(bdec.fetchOctetString(tbg)) ;
+            } cbtch (RuntimeException r) {
                 throw new  BerException();
-              // BerException("Can't build SnmpIpAddress from decoded value.");
+              // BerException("Cbn't build SnmpIpAddress from decoded vblue.");
             }
-            break ;
-        case SnmpValue.CounterTag :
+            brebk ;
+        cbse SnmpVblue.CounterTbg :
             try {
-                result = new SnmpCounter(bdec.fetchIntegerAsLong(tag)) ;
-            } catch(RuntimeException r) {
+                result = new SnmpCounter(bdec.fetchIntegerAsLong(tbg)) ;
+            } cbtch(RuntimeException r) {
                 throw new BerException();
-                // BerException("Can't build SnmpCounter from decoded value.");
+                // BerException("Cbn't build SnmpCounter from decoded vblue.");
             }
-            break ;
-        case SnmpValue.GaugeTag :
+            brebk ;
+        cbse SnmpVblue.GbugeTbg :
             try {
-                result = new SnmpGauge(bdec.fetchIntegerAsLong(tag)) ;
-            } catch(RuntimeException r) {
+                result = new SnmpGbuge(bdec.fetchIntegerAsLong(tbg)) ;
+            } cbtch(RuntimeException r) {
                 throw new BerException();
-                // BerException("Can't build SnmpGauge from decoded value.");
+                // BerException("Cbn't build SnmpGbuge from decoded vblue.");
             }
-            break ;
-        case SnmpValue.TimeticksTag :
+            brebk ;
+        cbse SnmpVblue.TimeticksTbg :
             try {
-                result = new SnmpTimeticks(bdec.fetchIntegerAsLong(tag)) ;
-            } catch(RuntimeException r) {
+                result = new SnmpTimeticks(bdec.fetchIntegerAsLong(tbg)) ;
+            } cbtch(RuntimeException r) {
                 throw new BerException();
-             // BerException("Can't build SnmpTimeticks from decoded value.");
+             // BerException("Cbn't build SnmpTimeticks from decoded vblue.");
             }
-            break ;
-        case SnmpValue.OpaqueTag :
+            brebk ;
+        cbse SnmpVblue.OpbqueTbg :
             try {
-                result = new SnmpOpaque(bdec.fetchOctetString(tag)) ;
-            } catch(RuntimeException r) {
+                result = new SnmpOpbque(bdec.fetchOctetString(tbg)) ;
+            } cbtch(RuntimeException r) {
                 throw new BerException();
-                // BerException("Can't build SnmpOpaque from decoded value.");
+                // BerException("Cbn't build SnmpOpbque from decoded vblue.");
             }
-            break ;
+            brebk ;
 
             //
-            // V2 syntaxes
+            // V2 syntbxes
             //
-        case SnmpValue.Counter64Tag :
+        cbse SnmpVblue.Counter64Tbg :
             if (version == snmpVersionOne) {
                 throw new BerException(BerException.BAD_VERSION) ;
             }
             try {
-                result = new SnmpCounter64(bdec.fetchIntegerAsLong(tag)) ;
-            } catch(RuntimeException r) {
+                result = new SnmpCounter64(bdec.fetchIntegerAsLong(tbg)) ;
+            } cbtch(RuntimeException r) {
                 throw new BerException();
-             // BerException("Can't build SnmpCounter64 from decoded value.");
+             // BerException("Cbn't build SnmpCounter64 from decoded vblue.");
             }
-            break ;
+            brebk ;
 
-        case SnmpVarBind.errNoSuchObjectTag :
+        cbse SnmpVbrBind.errNoSuchObjectTbg :
             if (version == snmpVersionOne) {
                 throw new BerException(BerException.BAD_VERSION) ;
             }
-            bdec.fetchNull(tag) ;
-            result = SnmpVarBind.noSuchObject ;
-            break ;
+            bdec.fetchNull(tbg) ;
+            result = SnmpVbrBind.noSuchObject ;
+            brebk ;
 
-        case SnmpVarBind.errNoSuchInstanceTag :
+        cbse SnmpVbrBind.errNoSuchInstbnceTbg :
             if (version == snmpVersionOne) {
                 throw new BerException(BerException.BAD_VERSION) ;
             }
-            bdec.fetchNull(tag) ;
-            result = SnmpVarBind.noSuchInstance ;
-            break ;
+            bdec.fetchNull(tbg) ;
+            result = SnmpVbrBind.noSuchInstbnce ;
+            brebk ;
 
-        case SnmpVarBind.errEndOfMibViewTag :
+        cbse SnmpVbrBind.errEndOfMibViewTbg :
             if (version == snmpVersionOne) {
                 throw new BerException(BerException.BAD_VERSION) ;
             }
-            bdec.fetchNull(tag) ;
-            result = SnmpVarBind.endOfMibView ;
-            break ;
+            bdec.fetchNull(tbg) ;
+            result = SnmpVbrBind.endOfMibView ;
+            brebk ;
 
-        default:
+        defbult:
             throw new BerException() ;
 
         }

@@ -1,34 +1,34 @@
 /*
- * Copyright (c) 1996, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file defines some of the standard utility macros and definitions
- * used throughout the image conversion package header files.
+ * This file defines some of the stbndbrd utility mbcros bnd definitions
+ * used throughout the imbge conversion pbckbge hebder files.
  */
 
-#include "img_globals.h"
+#include "img_globbls.h"
 
 #define ALPHASHIFT      24
 #define REDSHIFT        16
@@ -36,28 +36,28 @@
 #define BLUESHIFT       0
 
 /*
- * The following mapping is used between coordinates when scaling an
- * image:
+ * The following mbpping is used between coordinbtes when scbling bn
+ * imbge:
  *
  *      srcXY = floor(((dstXY + .5) * srcWH) / dstWH)
  *            = floor((dstXY * srcWH + .5 * srcWH) / dstWH)
  *            = floor((2 * dstXY * srcWH + srcWH) / (2 * dstWH))
  *
- * Since the numerator can always be assumed to be non-negative for
- * all values of dstXY >= 0 and srcWH,dstWH >= 1, then the floor
- * function can be calculated using the standard C integer division
- * operator.
+ * Since the numerbtor cbn blwbys be bssumed to be non-negbtive for
+ * bll vblues of dstXY >= 0 bnd srcWH,dstWH >= 1, then the floor
+ * function cbn be cblculbted using the stbndbrd C integer division
+ * operbtor.
  *
- * To calculate back from a source range of pixels to the destination
- * range of pixels that they will affect, we need to find a srcXY
- * that satisfies the following inequality based upon the above mapping
+ * To cblculbte bbck from b source rbnge of pixels to the destinbtion
+ * rbnge of pixels thbt they will bffect, we need to find b srcXY
+ * thbt sbtisfies the following inequblity bbsed upon the bbove mbpping
  * function:
  *
  *      srcXY <= (2 * dstXY * srcWH + srcWH) / (2 * dstWH) < (srcXY+1)
  *      2 * srcXY * dstWH <= 2 * dstXY * srcWH + srcWH < 2 * (srcXY+1) * dstWH
  *
- * To calculate the lowest dstXY that satisfies these constraints, we use
- * the first half of the inequality:
+ * To cblculbte the lowest dstXY thbt sbtisfies these constrbints, we use
+ * the first hblf of the inequblity:
  *
  *      2 * dstXY * srcWH + srcWH >= 2 * srcXY * dstWH
  *      2 * dstXY * srcWH >= 2 * srcXY * dstWH - srcWH
@@ -66,11 +66,11 @@
  *      dstXY = floor((2 * srcXY * dstWH - srcWH + 2*srcWH - 1) / (2 * srcWH))
  *      dstXY = floor((2 * srcXY * dstWH + srcWH - 1) / (2 * srcWH))
  *
- * Since the numerator can be shown to be non-negative, we can calculate
- * this with the standard C integer division operator.
+ * Since the numerbtor cbn be shown to be non-negbtive, we cbn cblculbte
+ * this with the stbndbrd C integer division operbtor.
  *
- * To calculate the highest dstXY that satisfies these constraints, we use
- * the second half of the inequality:
+ * To cblculbte the highest dstXY thbt sbtisfies these constrbints, we use
+ * the second hblf of the inequblity:
  *
  *      2 * dstXY * srcWH + srcWH < 2 * (srcXY+1) * dstWH
  *      2 * dstXY * srcWH < 2 * (srcXY+1) * dstWH - srcWH
@@ -80,7 +80,7 @@
  *                    / (2 * srcWH)) - 1
  *      dstXY = floor((2 * (srcXY+1) * dstWH + srcWH - 1) / (2 * srcWH)) - 1
  *
- * Again, the numerator is always non-negative so we can use integer division.
+ * Agbin, the numerbtor is blwbys non-negbtive so we cbn use integer division.
  */
 
 #define SRC_XY(dstXY, srcWH, dstWH) \
@@ -93,12 +93,12 @@
     (((2 * ((srcXY) + 1) * (dstWH)) + (srcWH) - 1) / (2 * (srcWH)) - 1)
 
 /*
- * This union is a utility structure for manipulating pixel pointers
- * of variable depths.
+ * This union is b utility structure for mbnipulbting pixel pointers
+ * of vbribble depths.
  */
 typedef union {
     void *vp;
-    unsigned char *bp;
+    unsigned chbr *bp;
     unsigned short *sp;
     unsigned int *ip;
 } pixptr;
@@ -108,5 +108,5 @@ typedef union {
 #define ComponentBound(c)                                       \
     (((c) < 0) ? 0 : (((c) > 255) ? 255 : (c)))
 
-#define paddedwidth(number, boundary)                           \
-    (((number) + ((boundary) - 1)) & (~((boundary) - 1)))
+#define pbddedwidth(number, boundbry)                           \
+    (((number) + ((boundbry) - 1)) & (~((boundbry) - 1)))

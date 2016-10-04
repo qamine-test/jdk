@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.util.concurrent.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.action.GetPropertyAction;
-import sun.security.action.GetIntegerAction;
+import jbvb.util.concurrent.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.security.bction.GetPropertyAction;
+import sun.security.bction.GetIntegerAction;
 
 /**
- * Encapsulates a thread pool associated with a channel group.
+ * Encbpsulbtes b threbd pool bssocibted with b chbnnel group.
  */
 
-public class ThreadPool {
-    private static final String DEFAULT_THREAD_POOL_THREAD_FACTORY =
-        "java.nio.channels.DefaultThreadPool.threadFactory";
-    private static final String DEFAULT_THREAD_POOL_INITIAL_SIZE =
-        "java.nio.channels.DefaultThreadPool.initialSize";
+public clbss ThrebdPool {
+    privbte stbtic finbl String DEFAULT_THREAD_POOL_THREAD_FACTORY =
+        "jbvb.nio.chbnnels.DefbultThrebdPool.threbdFbctory";
+    privbte stbtic finbl String DEFAULT_THREAD_POOL_INITIAL_SIZE =
+        "jbvb.nio.chbnnels.DefbultThrebdPool.initiblSize";
 
-    private final ExecutorService executor;
+    privbte finbl ExecutorService executor;
 
-    // indicates if thread pool is fixed size
-    private final boolean isFixed;
+    // indicbtes if threbd pool is fixed size
+    privbte finbl boolebn isFixed;
 
-    // indicates the pool size (for a fixed thread pool configuratin this is
-    // the maximum pool size; for other thread pools it is the initial size)
-    private final int poolSize;
+    // indicbtes the pool size (for b fixed threbd pool configurbtin this is
+    // the mbximum pool size; for other threbd pools it is the initibl size)
+    privbte finbl int poolSize;
 
-    private ThreadPool(ExecutorService executor,
-                       boolean isFixed,
+    privbte ThrebdPool(ExecutorService executor,
+                       boolebn isFixed,
                        int poolSize)
     {
         this.executor = executor;
@@ -63,7 +63,7 @@ public class ThreadPool {
         return executor;
     }
 
-    boolean isFixedThreadPool() {
+    boolebn isFixedThrebdPool() {
         return isFixed;
     }
 
@@ -71,107 +71,107 @@ public class ThreadPool {
         return poolSize;
     }
 
-    static ThreadFactory defaultThreadFactory() {
-        if (System.getSecurityManager() == null) {
-            return (Runnable r) -> {
-                Thread t = new Thread(r);
-                t.setDaemon(true);
+    stbtic ThrebdFbctory defbultThrebdFbctory() {
+        if (System.getSecurityMbnbger() == null) {
+            return (Runnbble r) -> {
+                Threbd t = new Threbd(r);
+                t.setDbemon(true);
                 return t;
             };
         } else {
-            return (Runnable r) -> {
-                PrivilegedAction<Thread> action = () -> {
-                    Thread t = new sun.misc.InnocuousThread(r);
-                    t.setDaemon(true);
+            return (Runnbble r) -> {
+                PrivilegedAction<Threbd> bction = () -> {
+                    Threbd t = new sun.misc.InnocuousThrebd(r);
+                    t.setDbemon(true);
                     return t;
                };
-               return AccessController.doPrivileged(action);
+               return AccessController.doPrivileged(bction);
            };
         }
     }
 
-    private static class DefaultThreadPoolHolder {
-        final static ThreadPool defaultThreadPool = createDefault();
+    privbte stbtic clbss DefbultThrebdPoolHolder {
+        finbl stbtic ThrebdPool defbultThrebdPool = crebteDefbult();
     }
 
-    // return the default (system-wide) thread pool
-    static ThreadPool getDefault() {
-        return DefaultThreadPoolHolder.defaultThreadPool;
+    // return the defbult (system-wide) threbd pool
+    stbtic ThrebdPool getDefbult() {
+        return DefbultThrebdPoolHolder.defbultThrebdPool;
     }
 
-    // create thread using default settings (configured by system properties)
-    static ThreadPool createDefault() {
-        // default the number of fixed threads to the hardware core count
-        int initialSize = getDefaultThreadPoolInitialSize();
-        if (initialSize < 0)
-            initialSize = Runtime.getRuntime().availableProcessors();
-        // default to thread factory that creates daemon threads
-        ThreadFactory threadFactory = getDefaultThreadPoolThreadFactory();
-        if (threadFactory == null)
-            threadFactory = defaultThreadFactory();
-        // create thread pool
-        ExecutorService executor = Executors.newCachedThreadPool(threadFactory);
-        return new ThreadPool(executor, false, initialSize);
+    // crebte threbd using defbult settings (configured by system properties)
+    stbtic ThrebdPool crebteDefbult() {
+        // defbult the number of fixed threbds to the hbrdwbre core count
+        int initiblSize = getDefbultThrebdPoolInitiblSize();
+        if (initiblSize < 0)
+            initiblSize = Runtime.getRuntime().bvbilbbleProcessors();
+        // defbult to threbd fbctory thbt crebtes dbemon threbds
+        ThrebdFbctory threbdFbctory = getDefbultThrebdPoolThrebdFbctory();
+        if (threbdFbctory == null)
+            threbdFbctory = defbultThrebdFbctory();
+        // crebte threbd pool
+        ExecutorService executor = Executors.newCbchedThrebdPool(threbdFbctory);
+        return new ThrebdPool(executor, fblse, initiblSize);
     }
 
-    // create using given parameters
-    static ThreadPool create(int nThreads, ThreadFactory factory) {
-        if (nThreads <= 0)
-            throw new IllegalArgumentException("'nThreads' must be > 0");
-        ExecutorService executor = Executors.newFixedThreadPool(nThreads, factory);
-        return new ThreadPool(executor, true, nThreads);
+    // crebte using given pbrbmeters
+    stbtic ThrebdPool crebte(int nThrebds, ThrebdFbctory fbctory) {
+        if (nThrebds <= 0)
+            throw new IllegblArgumentException("'nThrebds' must be > 0");
+        ExecutorService executor = Executors.newFixedThrebdPool(nThrebds, fbctory);
+        return new ThrebdPool(executor, true, nThrebds);
     }
 
-    // wrap a user-supplied executor
-    public static ThreadPool wrap(ExecutorService executor, int initialSize) {
+    // wrbp b user-supplied executor
+    public stbtic ThrebdPool wrbp(ExecutorService executor, int initiblSize) {
         if (executor == null)
             throw new NullPointerException("'executor' is null");
-        // attempt to check if cached thread pool
-        if (executor instanceof ThreadPoolExecutor) {
-            int max = ((ThreadPoolExecutor)executor).getMaximumPoolSize();
-            if (max == Integer.MAX_VALUE) {
-                if (initialSize < 0) {
-                    initialSize = Runtime.getRuntime().availableProcessors();
+        // bttempt to check if cbched threbd pool
+        if (executor instbnceof ThrebdPoolExecutor) {
+            int mbx = ((ThrebdPoolExecutor)executor).getMbximumPoolSize();
+            if (mbx == Integer.MAX_VALUE) {
+                if (initiblSize < 0) {
+                    initiblSize = Runtime.getRuntime().bvbilbbleProcessors();
                 } else {
-                   // not a cached thread pool so ignore initial size
-                    initialSize = 0;
+                   // not b cbched threbd pool so ignore initibl size
+                    initiblSize = 0;
                 }
             }
         } else {
-            // some other type of thread pool
-            if (initialSize < 0)
-                initialSize = 0;
+            // some other type of threbd pool
+            if (initiblSize < 0)
+                initiblSize = 0;
         }
-        return new ThreadPool(executor, false, initialSize);
+        return new ThrebdPool(executor, fblse, initiblSize);
     }
 
-    private static int getDefaultThreadPoolInitialSize() {
-        String propValue = AccessController.doPrivileged(new
+    privbte stbtic int getDefbultThrebdPoolInitiblSize() {
+        String propVblue = AccessController.doPrivileged(new
             GetPropertyAction(DEFAULT_THREAD_POOL_INITIAL_SIZE));
-        if (propValue != null) {
+        if (propVblue != null) {
             try {
-                return Integer.parseInt(propValue);
-            } catch (NumberFormatException x) {
-                throw new Error("Value of property '" + DEFAULT_THREAD_POOL_INITIAL_SIZE +
-                    "' is invalid: " + x);
+                return Integer.pbrseInt(propVblue);
+            } cbtch (NumberFormbtException x) {
+                throw new Error("Vblue of property '" + DEFAULT_THREAD_POOL_INITIAL_SIZE +
+                    "' is invblid: " + x);
             }
         }
         return -1;
     }
 
-    private static ThreadFactory getDefaultThreadPoolThreadFactory() {
-        String propValue = AccessController.doPrivileged(new
+    privbte stbtic ThrebdFbctory getDefbultThrebdPoolThrebdFbctory() {
+        String propVblue = AccessController.doPrivileged(new
             GetPropertyAction(DEFAULT_THREAD_POOL_THREAD_FACTORY));
-        if (propValue != null) {
+        if (propVblue != null) {
             try {
-                Class<?> c = Class
-                    .forName(propValue, true, ClassLoader.getSystemClassLoader());
-                return ((ThreadFactory)c.newInstance());
-            } catch (ClassNotFoundException x) {
+                Clbss<?> c = Clbss
+                    .forNbme(propVblue, true, ClbssLobder.getSystemClbssLobder());
+                return ((ThrebdFbctory)c.newInstbnce());
+            } cbtch (ClbssNotFoundException x) {
                 throw new Error(x);
-            } catch (InstantiationException x) {
+            } cbtch (InstbntibtionException x) {
                 throw new Error(x);
-            } catch (IllegalAccessException x) {
+            } cbtch (IllegblAccessException x) {
                 throw new Error(x);
             }
         }

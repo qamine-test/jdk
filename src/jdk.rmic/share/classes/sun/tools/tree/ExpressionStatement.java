@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class ExpressionStatement extends Statement {
+clbss ExpressionStbtement extends Stbtement {
     Expression expr;
 
     /**
      * Constructor
      */
-    public ExpressionStatement(long where, Expression expr) {
+    public ExpressionStbtement(long where, Expression expr) {
         super(EXPRESSION, where);
         this.expr = expr;
     }
 
     /**
-     * Check statement
+     * Check stbtement
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        checkLabel(env, ctx);
-        return expr.check(env, ctx, reach(env, vset), exp);
+    Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        checkLbbel(env, ctx);
+        return expr.check(env, ctx, rebch(env, vset), exp);
     }
 
     /**
      * Inline
      */
-    public Statement inline(Environment env, Context ctx) {
+    public Stbtement inline(Environment env, Context ctx) {
         if (expr != null) {
             expr = expr.inline(env, ctx);
             return (expr == null) ? null : this;
@@ -67,16 +67,16 @@ class ExpressionStatement extends Statement {
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crebte b copy of the stbtement for method inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        ExpressionStatement s = (ExpressionStatement)clone();
+    public Stbtement copyInline(Context ctx, boolebn vblNeeded) {
+        ExpressionStbtement s = (ExpressionStbtement)clone();
         s.expr = expr.copyInline(ctx);
         return s;
     }
 
     /**
-     * The cost of inlining this statement
+     * The cost of inlining this stbtement
      */
     public int costInline(int thresh, Environment env, Context ctx) {
         return expr.costInline(thresh, env, ctx);
@@ -85,12 +85,12 @@ class ExpressionStatement extends Statement {
     /**
      * Code
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        expr.code(env, ctx, asm);
+    public void code(Environment env, Context ctx, Assembler bsm) {
+        expr.code(env, ctx, bsm);
     }
 
     /**
-     * Check if the first thing is a constructor invocation
+     * Check if the first thing is b constructor invocbtion
      */
     public Expression firstConstructor() {
         return expr.firstConstructor();
@@ -99,7 +99,7 @@ class ExpressionStatement extends Statement {
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
+    public void print(PrintStrebm out, int indent) {
         super.print(out, indent);
         if (expr != null) {
             expr.print(out);

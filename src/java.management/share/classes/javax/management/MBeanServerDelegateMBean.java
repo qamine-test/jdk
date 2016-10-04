@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
 /**
- * Defines the management interface  of an object of class MBeanServerDelegate.
+ * Defines the mbnbgement interfbce  of bn object of clbss MBebnServerDelegbte.
  *
  * @since 1.5
  */
-public interface MBeanServerDelegateMBean   {
+public interfbce MBebnServerDelegbteMBebn   {
 
     /**
-     * Returns the MBean server agent identity.
+     * Returns the MBebn server bgent identity.
      *
-     * @return the agent identity.
+     * @return the bgent identity.
      */
-    public String getMBeanServerId();
+    public String getMBebnServerId();
 
     /**
-     * Returns the full name of the JMX specification implemented
+     * Returns the full nbme of the JMX specificbtion implemented
      * by this product.
      *
-     * @return the specification name.
+     * @return the specificbtion nbme.
      */
-    public String getSpecificationName();
+    public String getSpecificbtionNbme();
 
     /**
-     * Returns the version of the JMX specification implemented
+     * Returns the version of the JMX specificbtion implemented
      * by this product.
      *
-     * @return the specification version.
+     * @return the specificbtion version.
      */
-    public String getSpecificationVersion();
+    public String getSpecificbtionVersion();
 
     /**
-     * Returns the vendor of the JMX specification implemented
+     * Returns the vendor of the JMX specificbtion implemented
      * by this product.
      *
-     * @return the specification vendor.
+     * @return the specificbtion vendor.
      */
-    public String getSpecificationVendor();
+    public String getSpecificbtionVendor();
 
     /**
-     * Returns the JMX implementation name (the name of this product).
+     * Returns the JMX implementbtion nbme (the nbme of this product).
      *
-     * @return the implementation name.
+     * @return the implementbtion nbme.
      */
-    public String getImplementationName();
+    public String getImplementbtionNbme();
 
     /**
-     * Returns the JMX implementation version (the version of this product).
+     * Returns the JMX implementbtion version (the version of this product).
      *
-     * @return the implementation version.
+     * @return the implementbtion version.
      */
-    public String getImplementationVersion();
+    public String getImplementbtionVersion();
 
     /**
-     * Returns the JMX implementation vendor (the vendor of this product).
+     * Returns the JMX implementbtion vendor (the vendor of this product).
      *
-     * @return the implementation vendor.
+     * @return the implementbtion vendor.
      */
-    public String getImplementationVendor();
+    public String getImplementbtionVendor();
 
 }

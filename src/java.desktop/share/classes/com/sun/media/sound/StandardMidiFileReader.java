@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.EOFException;
-import java.io.BufferedInputStream;
-import java.net.URL;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.EOFException;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.net.URL;
 
-import javax.sound.midi.MidiFileFormat;
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MetaMessage;
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.MidiMessage;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.SysexMessage;
-import javax.sound.midi.Track;
-import javax.sound.midi.spi.MidiFileReader;
+import jbvbx.sound.midi.MidiFileFormbt;
+import jbvbx.sound.midi.InvblidMidiDbtbException;
+import jbvbx.sound.midi.MetbMessbge;
+import jbvbx.sound.midi.MidiEvent;
+import jbvbx.sound.midi.MidiMessbge;
+import jbvbx.sound.midi.Sequence;
+import jbvbx.sound.midi.SysexMessbge;
+import jbvbx.sound.midi.Trbck;
+import jbvbx.sound.midi.spi.MidiFileRebder;
 
 
 
 /**
- * MIDI file reader.
+ * MIDI file rebder.
  *
- * @author Kara Kytle
- * @author Jan Borgersen
- * @author Florian Bomers
+ * @buthor Kbrb Kytle
+ * @buthor Jbn Borgersen
+ * @buthor Floribn Bomers
  */
 
-public final class StandardMidiFileReader extends MidiFileReader {
+public finbl clbss StbndbrdMidiFileRebder extends MidiFileRebder {
 
-    private static final int MThd_MAGIC = 0x4d546864;  // 'MThd'
+    privbte stbtic finbl int MThd_MAGIC = 0x4d546864;  // 'MThd'
 
-    private static final int bisBufferSize = 1024; // buffer size in buffered input streams
+    privbte stbtic finbl int bisBufferSize = 1024; // buffer size in buffered input strebms
 
-    public MidiFileFormat getMidiFileFormat(InputStream stream) throws InvalidMidiDataException, IOException {
-        return getMidiFileFormatFromStream(stream, MidiFileFormat.UNKNOWN_LENGTH, null);
+    public MidiFileFormbt getMidiFileFormbt(InputStrebm strebm) throws InvblidMidiDbtbException, IOException {
+        return getMidiFileFormbtFromStrebm(strebm, MidiFileFormbt.UNKNOWN_LENGTH, null);
     }
 
-    // $$fb 2002-04-17: part of fix for 4635286: MidiSystem.getMidiFileFormat() returns format having invalid length
-    private MidiFileFormat getMidiFileFormatFromStream(InputStream stream, int fileLength, SMFParser smfParser) throws InvalidMidiDataException, IOException {
-        int maxReadLength = 16;
-        int duration = MidiFileFormat.UNKNOWN_LENGTH;
-        DataInputStream dis;
+    // $$fb 2002-04-17: pbrt of fix for 4635286: MidiSystem.getMidiFileFormbt() returns formbt hbving invblid length
+    privbte MidiFileFormbt getMidiFileFormbtFromStrebm(InputStrebm strebm, int fileLength, SMFPbrser smfPbrser) throws InvblidMidiDbtbException, IOException {
+        int mbxRebdLength = 16;
+        int durbtion = MidiFileFormbt.UNKNOWN_LENGTH;
+        DbtbInputStrebm dis;
 
-        if (stream instanceof DataInputStream) {
-            dis = (DataInputStream) stream;
+        if (strebm instbnceof DbtbInputStrebm) {
+            dis = (DbtbInputStrebm) strebm;
         } else {
-            dis = new DataInputStream(stream);
+            dis = new DbtbInputStrebm(strebm);
         }
-        if (smfParser == null) {
-            dis.mark(maxReadLength);
+        if (smfPbrser == null) {
+            dis.mbrk(mbxRebdLength);
         } else {
-            smfParser.stream = dis;
+            smfPbrser.strebm = dis;
         }
 
         int type;
-        int numtracks;
-        float divisionType;
+        int numtrbcks;
+        flobt divisionType;
         int resolution;
 
         try {
-            int magic = dis.readInt();
-            if( !(magic == MThd_MAGIC) ) {
+            int mbgic = dis.rebdInt();
+            if( !(mbgic == MThd_MAGIC) ) {
                 // not MIDI
-                throw new InvalidMidiDataException("not a valid MIDI file");
+                throw new InvblidMidiDbtbException("not b vblid MIDI file");
             }
 
-            // read header length
-            int bytesRemaining = dis.readInt() - 6;
-            type = dis.readShort();
-            numtracks = dis.readShort();
-            int timing = dis.readShort();
+            // rebd hebder length
+            int bytesRembining = dis.rebdInt() - 6;
+            type = dis.rebdShort();
+            numtrbcks = dis.rebdShort();
+            int timing = dis.rebdShort();
 
             // decipher the timing code
             if (timing > 0) {
-                // tempo based timing.  value is ticks per beat.
+                // tempo bbsed timing.  vblue is ticks per bebt.
                 divisionType = Sequence.PPQ;
                 resolution = timing;
             } else {
-                // SMPTE based timing.  first decipher the frame code.
-                int frameCode = -1 * (timing >> 8);
-                switch(frameCode) {
-                case 24:
+                // SMPTE bbsed timing.  first decipher the frbme code.
+                int frbmeCode = -1 * (timing >> 8);
+                switch(frbmeCode) {
+                cbse 24:
                     divisionType = Sequence.SMPTE_24;
-                    break;
-                case 25:
+                    brebk;
+                cbse 25:
                     divisionType = Sequence.SMPTE_25;
-                    break;
-                case 29:
+                    brebk;
+                cbse 29:
                     divisionType = Sequence.SMPTE_30DROP;
-                    break;
-                case 30:
+                    brebk;
+                cbse 30:
                     divisionType = Sequence.SMPTE_30;
-                    break;
-                default:
-                    throw new InvalidMidiDataException("Unknown frame code: " + frameCode);
+                    brebk;
+                defbult:
+                    throw new InvblidMidiDbtbException("Unknown frbme code: " + frbmeCode);
                 }
-                // now determine the timing resolution in ticks per frame.
+                // now determine the timing resolution in ticks per frbme.
                 resolution = timing & 0xFF;
             }
-            if (smfParser != null) {
-                // remainder of this chunk
-                dis.skip(bytesRemaining);
-                smfParser.tracks = numtracks;
+            if (smfPbrser != null) {
+                // rembinder of this chunk
+                dis.skip(bytesRembining);
+                smfPbrser.trbcks = numtrbcks;
             }
-        } finally {
-            // if only reading the file format, reset the stream
-            if (smfParser == null) {
+        } finblly {
+            // if only rebding the file formbt, reset the strebm
+            if (smfPbrser == null) {
                 dis.reset();
             }
         }
-        MidiFileFormat format = new MidiFileFormat(type, divisionType, resolution, fileLength, duration);
-        return format;
+        MidiFileFormbt formbt = new MidiFileFormbt(type, divisionType, resolution, fileLength, durbtion);
+        return formbt;
     }
 
 
-    public MidiFileFormat getMidiFileFormat(URL url) throws InvalidMidiDataException, IOException {
-        InputStream urlStream = url.openStream(); // throws IOException
-        BufferedInputStream bis = new BufferedInputStream( urlStream, bisBufferSize );
-        MidiFileFormat fileFormat = null;
+    public MidiFileFormbt getMidiFileFormbt(URL url) throws InvblidMidiDbtbException, IOException {
+        InputStrebm urlStrebm = url.openStrebm(); // throws IOException
+        BufferedInputStrebm bis = new BufferedInputStrebm( urlStrebm, bisBufferSize );
+        MidiFileFormbt fileFormbt = null;
         try {
-            fileFormat = getMidiFileFormat( bis ); // throws InvalidMidiDataException
-        } finally {
+            fileFormbt = getMidiFileFormbt( bis ); // throws InvblidMidiDbtbException
+        } finblly {
             bis.close();
         }
-        return fileFormat;
+        return fileFormbt;
     }
 
 
-    public MidiFileFormat getMidiFileFormat(File file) throws InvalidMidiDataException, IOException {
-        FileInputStream fis = new FileInputStream(file); // throws IOException
-        BufferedInputStream bis = new BufferedInputStream(fis, bisBufferSize);
+    public MidiFileFormbt getMidiFileFormbt(File file) throws InvblidMidiDbtbException, IOException {
+        FileInputStrebm fis = new FileInputStrebm(file); // throws IOException
+        BufferedInputStrebm bis = new BufferedInputStrebm(fis, bisBufferSize);
 
-        // $$fb 2002-04-17: part of fix for 4635286: MidiSystem.getMidiFileFormat() returns format having invalid length
+        // $$fb 2002-04-17: pbrt of fix for 4635286: MidiSystem.getMidiFileFormbt() returns formbt hbving invblid length
         long length = file.length();
         if (length > Integer.MAX_VALUE) {
-            length = MidiFileFormat.UNKNOWN_LENGTH;
+            length = MidiFileFormbt.UNKNOWN_LENGTH;
         }
-        MidiFileFormat fileFormat = null;
+        MidiFileFormbt fileFormbt = null;
         try {
-            fileFormat = getMidiFileFormatFromStream(bis, (int) length, null);
-        } finally {
+            fileFormbt = getMidiFileFormbtFromStrebm(bis, (int) length, null);
+        } finblly {
             bis.close();
         }
-        return fileFormat;
+        return fileFormbt;
     }
 
 
-    public Sequence getSequence(InputStream stream) throws InvalidMidiDataException, IOException {
-        SMFParser smfParser = new SMFParser();
-        MidiFileFormat format = getMidiFileFormatFromStream(stream,
-                                                            MidiFileFormat.UNKNOWN_LENGTH,
-                                                            smfParser);
+    public Sequence getSequence(InputStrebm strebm) throws InvblidMidiDbtbException, IOException {
+        SMFPbrser smfPbrser = new SMFPbrser();
+        MidiFileFormbt formbt = getMidiFileFormbtFromStrebm(strebm,
+                                                            MidiFileFormbt.UNKNOWN_LENGTH,
+                                                            smfPbrser);
 
         // must be MIDI Type 0 or Type 1
-        if ((format.getType() != 0) && (format.getType() != 1)) {
-            throw new InvalidMidiDataException("Invalid or unsupported file type: "  + format.getType());
+        if ((formbt.getType() != 0) && (formbt.getType() != 1)) {
+            throw new InvblidMidiDbtbException("Invblid or unsupported file type: "  + formbt.getType());
         }
 
         // construct the sequence object
-        Sequence sequence = new Sequence(format.getDivisionType(), format.getResolution());
+        Sequence sequence = new Sequence(formbt.getDivisionType(), formbt.getResolution());
 
-        // for each track, go to the beginning and read the track events
-        for (int i = 0; i < smfParser.tracks; i++) {
-            if (smfParser.nextTrack()) {
-                smfParser.readTrack(sequence.createTrack());
+        // for ebch trbck, go to the beginning bnd rebd the trbck events
+        for (int i = 0; i < smfPbrser.trbcks; i++) {
+            if (smfPbrser.nextTrbck()) {
+                smfPbrser.rebdTrbck(sequence.crebteTrbck());
             } else {
-                break;
+                brebk;
             }
         }
         return sequence;
@@ -201,26 +201,26 @@ public final class StandardMidiFileReader extends MidiFileReader {
 
 
 
-    public Sequence getSequence(URL url) throws InvalidMidiDataException, IOException {
-        InputStream is = url.openStream();  // throws IOException
-        is = new BufferedInputStream(is, bisBufferSize);
+    public Sequence getSequence(URL url) throws InvblidMidiDbtbException, IOException {
+        InputStrebm is = url.openStrebm();  // throws IOException
+        is = new BufferedInputStrebm(is, bisBufferSize);
         Sequence seq = null;
         try {
             seq = getSequence(is);
-        } finally {
+        } finblly {
             is.close();
         }
         return seq;
     }
 
 
-    public Sequence getSequence(File file) throws InvalidMidiDataException, IOException {
-        InputStream is = new FileInputStream(file); // throws IOException
-        is = new BufferedInputStream(is, bisBufferSize);
+    public Sequence getSequence(File file) throws InvblidMidiDbtbException, IOException {
+        InputStrebm is = new FileInputStrebm(file); // throws IOException
+        is = new BufferedInputStrebm(is, bisBufferSize);
         Sequence seq = null;
         try {
             seq = getSequence(is);
-        } finally {
+        } finblly {
             is.close();
         }
         return seq;
@@ -230,187 +230,187 @@ public final class StandardMidiFileReader extends MidiFileReader {
 //=============================================================================================================
 
 /**
- * State variables during parsing of a MIDI file
+ * Stbte vbribbles during pbrsing of b MIDI file
  */
-final class SMFParser {
-    private static final int MTrk_MAGIC = 0x4d54726b;  // 'MTrk'
+finbl clbss SMFPbrser {
+    privbte stbtic finbl int MTrk_MAGIC = 0x4d54726b;  // 'MTrk'
 
-    // set to true to not allow corrupt MIDI files tombe loaded
-    private static final boolean STRICT_PARSER = false;
+    // set to true to not bllow corrupt MIDI files tombe lobded
+    privbte stbtic finbl boolebn STRICT_PARSER = fblse;
 
-    private static final boolean DEBUG = false;
+    privbte stbtic finbl boolebn DEBUG = fblse;
 
-    int tracks;                       // number of tracks
-    DataInputStream stream;   // the stream to read from
+    int trbcks;                       // number of trbcks
+    DbtbInputStrebm strebm;   // the strebm to rebd from
 
-    private int trackLength = 0;  // remaining length in track
-    private byte[] trackData = null;
-    private int pos = 0;
+    privbte int trbckLength = 0;  // rembining length in trbck
+    privbte byte[] trbckDbtb = null;
+    privbte int pos = 0;
 
-    SMFParser() {
+    SMFPbrser() {
     }
 
-    private int readUnsigned() throws IOException {
-        return trackData[pos++] & 0xFF;
+    privbte int rebdUnsigned() throws IOException {
+        return trbckDbtb[pos++] & 0xFF;
     }
 
-    private void read(byte[] data) throws IOException {
-        System.arraycopy(trackData, pos, data, 0, data.length);
-        pos += data.length;
+    privbte void rebd(byte[] dbtb) throws IOException {
+        System.brrbycopy(trbckDbtb, pos, dbtb, 0, dbtb.length);
+        pos += dbtb.length;
     }
 
-    private long readVarInt() throws IOException {
-        long value = 0; // the variable-lengh int value
+    privbte long rebdVbrInt() throws IOException {
+        long vblue = 0; // the vbribble-lengh int vblue
         int currentByte = 0;
         do {
-            currentByte = trackData[pos++] & 0xFF;
-            value = (value << 7) + (currentByte & 0x7F);
+            currentByte = trbckDbtb[pos++] & 0xFF;
+            vblue = (vblue << 7) + (currentByte & 0x7F);
         } while ((currentByte & 0x80) != 0);
-        return value;
+        return vblue;
     }
 
-    private int readIntFromStream() throws IOException {
+    privbte int rebdIntFromStrebm() throws IOException {
         try {
-            return stream.readInt();
-        } catch (EOFException eof) {
-            throw new EOFException("invalid MIDI file");
+            return strebm.rebdInt();
+        } cbtch (EOFException eof) {
+            throw new EOFException("invblid MIDI file");
         }
     }
 
-    boolean nextTrack() throws IOException, InvalidMidiDataException {
-        int magic;
-        trackLength = 0;
+    boolebn nextTrbck() throws IOException, InvblidMidiDbtbException {
+        int mbgic;
+        trbckLength = 0;
         do {
-            // $$fb 2003-08-20: fix for 4910986: MIDI file parser breaks up on http connection
-            if (stream.skipBytes(trackLength) != trackLength) {
+            // $$fb 2003-08-20: fix for 4910986: MIDI file pbrser brebks up on http connection
+            if (strebm.skipBytes(trbckLength) != trbckLength) {
                 if (!STRICT_PARSER) {
-                    return false;
+                    return fblse;
                 }
-                throw new EOFException("invalid MIDI file");
+                throw new EOFException("invblid MIDI file");
             }
-            magic = readIntFromStream();
-            trackLength = readIntFromStream();
-        } while (magic != MTrk_MAGIC);
+            mbgic = rebdIntFromStrebm();
+            trbckLength = rebdIntFromStrebm();
+        } while (mbgic != MTrk_MAGIC);
         if (!STRICT_PARSER) {
-            if (trackLength < 0) {
-                return false;
+            if (trbckLength < 0) {
+                return fblse;
             }
         }
-        // now read track in a byte array
-        trackData = new byte[trackLength];
+        // now rebd trbck in b byte brrby
+        trbckDbtb = new byte[trbckLength];
         try {
-            // $$fb 2003-08-20: fix for 4910986: MIDI file parser breaks up on http connection
-            stream.readFully(trackData);
-        } catch (EOFException eof) {
+            // $$fb 2003-08-20: fix for 4910986: MIDI file pbrser brebks up on http connection
+            strebm.rebdFully(trbckDbtb);
+        } cbtch (EOFException eof) {
             if (!STRICT_PARSER) {
-                return false;
+                return fblse;
             }
-            throw new EOFException("invalid MIDI file");
+            throw new EOFException("invblid MIDI file");
         }
         pos = 0;
         return true;
     }
 
-    private boolean trackFinished() {
-        return pos >= trackLength;
+    privbte boolebn trbckFinished() {
+        return pos >= trbckLength;
     }
 
-    void readTrack(Track track) throws IOException, InvalidMidiDataException {
+    void rebdTrbck(Trbck trbck) throws IOException, InvblidMidiDbtbException {
         try {
             // reset current tick to 0
             long tick = 0;
 
-            // reset current status byte to 0 (invalid value).
-            // this should cause us to throw an InvalidMidiDataException if we don't
-            // get a valid status byte from the beginning of the track.
-            int status = 0;
-            boolean endOfTrackFound = false;
+            // reset current stbtus byte to 0 (invblid vblue).
+            // this should cbuse us to throw bn InvblidMidiDbtbException if we don't
+            // get b vblid stbtus byte from the beginning of the trbck.
+            int stbtus = 0;
+            boolebn endOfTrbckFound = fblse;
 
-            while (!trackFinished() && !endOfTrackFound) {
-                MidiMessage message;
+            while (!trbckFinished() && !endOfTrbckFound) {
+                MidiMessbge messbge;
 
-                int data1 = -1;         // initialize to invalid value
-                int data2 = 0;
+                int dbtb1 = -1;         // initiblize to invblid vblue
+                int dbtb2 = 0;
 
-                // each event has a tick delay and then the event data.
+                // ebch event hbs b tick delby bnd then the event dbtb.
 
-                // first read the delay (a variable-length int) and update our tick value
-                tick += readVarInt();
+                // first rebd the delby (b vbribble-length int) bnd updbte our tick vblue
+                tick += rebdVbrInt();
 
-                // check for new status
-                int byteValue = readUnsigned();
+                // check for new stbtus
+                int byteVblue = rebdUnsigned();
 
-                if (byteValue >= 0x80) {
-                    status = byteValue;
+                if (byteVblue >= 0x80) {
+                    stbtus = byteVblue;
                 } else {
-                    data1 = byteValue;
+                    dbtb1 = byteVblue;
                 }
 
-                switch (status & 0xF0) {
-                case 0x80:
-                case 0x90:
-                case 0xA0:
-                case 0xB0:
-                case 0xE0:
-                    // two data bytes
-                    if (data1 == -1) {
-                        data1 = readUnsigned();
+                switch (stbtus & 0xF0) {
+                cbse 0x80:
+                cbse 0x90:
+                cbse 0xA0:
+                cbse 0xB0:
+                cbse 0xE0:
+                    // two dbtb bytes
+                    if (dbtb1 == -1) {
+                        dbtb1 = rebdUnsigned();
                     }
-                    data2 = readUnsigned();
-                    message = new FastShortMessage(status | (data1 << 8) | (data2 << 16));
-                    break;
-                case 0xC0:
-                case 0xD0:
-                    // one data byte
-                    if (data1 == -1) {
-                        data1 = readUnsigned();
+                    dbtb2 = rebdUnsigned();
+                    messbge = new FbstShortMessbge(stbtus | (dbtb1 << 8) | (dbtb2 << 16));
+                    brebk;
+                cbse 0xC0:
+                cbse 0xD0:
+                    // one dbtb byte
+                    if (dbtb1 == -1) {
+                        dbtb1 = rebdUnsigned();
                     }
-                    message = new FastShortMessage(status | (data1 << 8));
-                    break;
-                case 0xF0:
-                    // sys-ex or meta
-                    switch(status) {
-                    case 0xF0:
-                    case 0xF7:
+                    messbge = new FbstShortMessbge(stbtus | (dbtb1 << 8));
+                    brebk;
+                cbse 0xF0:
+                    // sys-ex or metb
+                    switch(stbtus) {
+                    cbse 0xF0:
+                    cbse 0xF7:
                         // sys ex
-                        int sysexLength = (int) readVarInt();
-                        byte[] sysexData = new byte[sysexLength];
-                        read(sysexData);
+                        int sysexLength = (int) rebdVbrInt();
+                        byte[] sysexDbtb = new byte[sysexLength];
+                        rebd(sysexDbtb);
 
-                        SysexMessage sysexMessage = new SysexMessage();
-                        sysexMessage.setMessage(status, sysexData, sysexLength);
-                        message = sysexMessage;
-                        break;
+                        SysexMessbge sysexMessbge = new SysexMessbge();
+                        sysexMessbge.setMessbge(stbtus, sysexDbtb, sysexLength);
+                        messbge = sysexMessbge;
+                        brebk;
 
-                    case 0xFF:
-                        // meta
-                        int metaType = readUnsigned();
-                        int metaLength = (int) readVarInt();
+                    cbse 0xFF:
+                        // metb
+                        int metbType = rebdUnsigned();
+                        int metbLength = (int) rebdVbrInt();
 
-                        byte[] metaData = new byte[metaLength];
-                        read(metaData);
+                        byte[] metbDbtb = new byte[metbLength];
+                        rebd(metbDbtb);
 
-                        MetaMessage metaMessage = new MetaMessage();
-                        metaMessage.setMessage(metaType, metaData, metaLength);
-                        message = metaMessage;
-                        if (metaType == 0x2F) {
-                            // end of track means it!
-                            endOfTrackFound = true;
+                        MetbMessbge metbMessbge = new MetbMessbge();
+                        metbMessbge.setMessbge(metbType, metbDbtb, metbLength);
+                        messbge = metbMessbge;
+                        if (metbType == 0x2F) {
+                            // end of trbck mebns it!
+                            endOfTrbckFound = true;
                         }
-                        break;
-                    default:
-                        throw new InvalidMidiDataException("Invalid status byte: " + status);
-                    } // switch sys-ex or meta
-                    break;
-                default:
-                    throw new InvalidMidiDataException("Invalid status byte: " + status);
+                        brebk;
+                    defbult:
+                        throw new InvblidMidiDbtbException("Invblid stbtus byte: " + stbtus);
+                    } // switch sys-ex or metb
+                    brebk;
+                defbult:
+                    throw new InvblidMidiDbtbException("Invblid stbtus byte: " + stbtus);
                 } // switch
-                track.add(new MidiEvent(message, tick));
+                trbck.bdd(new MidiEvent(messbge, tick));
             } // while
-        } catch (ArrayIndexOutOfBoundsException e) {
-            if (DEBUG) e.printStackTrace();
+        } cbtch (ArrbyIndexOutOfBoundsException e) {
+            if (DEBUG) e.printStbckTrbce();
             // fix for 4834374
-            throw new EOFException("invalid MIDI file");
+            throw new EOFException("invblid MIDI file");
         }
     }
 

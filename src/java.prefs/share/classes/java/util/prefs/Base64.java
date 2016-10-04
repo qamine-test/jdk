@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.prefs;
+pbckbge jbvb.util.prefs;
 
 /**
- * Static methods for translating Base64 encoded strings to byte arrays
- * and vice-versa.
+ * Stbtic methods for trbnslbting Bbse64 encoded strings to byte brrbys
+ * bnd vice-versb.
  *
- * @author  Josh Bloch
+ * @buthor  Josh Bloch
  * @see     Preferences
  * @since   1.4
  */
-class Base64 {
+clbss Bbse64 {
     /**
-     * Translates the specified byte array into a Base64 string as per
+     * Trbnslbtes the specified byte brrby into b Bbse64 string bs per
      * Preferences.put(byte[]).
      */
-    static String byteArrayToBase64(byte[] a) {
-        return byteArrayToBase64(a, false);
+    stbtic String byteArrbyToBbse64(byte[] b) {
+        return byteArrbyToBbse64(b, fblse);
     }
 
     /**
-     * Translates the specified byte array into an "alternate representation"
-     * Base64 string.  This non-standard variant uses an alphabet that does
-     * not contain the uppercase alphabetic characters, which makes it
-     * suitable for use in situations where case-folding occurs.
+     * Trbnslbtes the specified byte brrby into bn "blternbte representbtion"
+     * Bbse64 string.  This non-stbndbrd vbribnt uses bn blphbbet thbt does
+     * not contbin the uppercbse blphbbetic chbrbcters, which mbkes it
+     * suitbble for use in situbtions where cbse-folding occurs.
      */
-    static String byteArrayToAltBase64(byte[] a) {
-        return byteArrayToBase64(a, true);
+    stbtic String byteArrbyToAltBbse64(byte[] b) {
+        return byteArrbyToBbse64(b, true);
     }
 
-    private static String byteArrayToBase64(byte[] a, boolean alternate) {
-        int aLen = a.length;
-        int numFullGroups = aLen/3;
-        int numBytesInPartialGroup = aLen - 3*numFullGroups;
-        int resultLen = 4*((aLen + 2)/3);
+    privbte stbtic String byteArrbyToBbse64(byte[] b, boolebn blternbte) {
+        int bLen = b.length;
+        int numFullGroups = bLen/3;
+        int numBytesInPbrtiblGroup = bLen - 3*numFullGroups;
+        int resultLen = 4*((bLen + 2)/3);
         StringBuilder result = new StringBuilder(resultLen);
-        char[] intToAlpha = (alternate ? intToAltBase64 : intToBase64);
+        chbr[] intToAlphb = (blternbte ? intToAltBbse64 : intToBbse64);
 
-        // Translate all full groups from byte array elements to Base64
+        // Trbnslbte bll full groups from byte brrby elements to Bbse64
         int inCursor = 0;
         for (int i=0; i<numFullGroups; i++) {
-            int byte0 = a[inCursor++] & 0xff;
-            int byte1 = a[inCursor++] & 0xff;
-            int byte2 = a[inCursor++] & 0xff;
-            result.append(intToAlpha[byte0 >> 2]);
-            result.append(intToAlpha[(byte0 << 4)&0x3f | (byte1 >> 4)]);
-            result.append(intToAlpha[(byte1 << 2)&0x3f | (byte2 >> 6)]);
-            result.append(intToAlpha[byte2 & 0x3f]);
+            int byte0 = b[inCursor++] & 0xff;
+            int byte1 = b[inCursor++] & 0xff;
+            int byte2 = b[inCursor++] & 0xff;
+            result.bppend(intToAlphb[byte0 >> 2]);
+            result.bppend(intToAlphb[(byte0 << 4)&0x3f | (byte1 >> 4)]);
+            result.bppend(intToAlphb[(byte1 << 2)&0x3f | (byte2 >> 6)]);
+            result.bppend(intToAlphb[byte2 & 0x3f]);
         }
 
-        // Translate partial group if present
-        if (numBytesInPartialGroup != 0) {
-            int byte0 = a[inCursor++] & 0xff;
-            result.append(intToAlpha[byte0 >> 2]);
-            if (numBytesInPartialGroup == 1) {
-                result.append(intToAlpha[(byte0 << 4) & 0x3f]);
-                result.append("==");
+        // Trbnslbte pbrtibl group if present
+        if (numBytesInPbrtiblGroup != 0) {
+            int byte0 = b[inCursor++] & 0xff;
+            result.bppend(intToAlphb[byte0 >> 2]);
+            if (numBytesInPbrtiblGroup == 1) {
+                result.bppend(intToAlphb[(byte0 << 4) & 0x3f]);
+                result.bppend("==");
             } else {
-                // assert numBytesInPartialGroup == 2;
-                int byte1 = a[inCursor++] & 0xff;
-                result.append(intToAlpha[(byte0 << 4)&0x3f | (byte1 >> 4)]);
-                result.append(intToAlpha[(byte1 << 2)&0x3f]);
-                result.append('=');
+                // bssert numBytesInPbrtiblGroup == 2;
+                int byte1 = b[inCursor++] & 0xff;
+                result.bppend(intToAlphb[(byte0 << 4)&0x3f | (byte1 >> 4)]);
+                result.bppend(intToAlphb[(byte1 << 2)&0x3f]);
+                result.bppend('=');
             }
         }
-        // assert inCursor == a.length;
-        // assert result.length() == resultLen;
+        // bssert inCursor == b.length;
+        // bssert result.length() == resultLen;
         return result.toString();
     }
 
     /**
-     * This array is a lookup table that translates 6-bit positive integer
-     * index values into their "Base64 Alphabet" equivalents as specified
-     * in Table 1 of RFC 2045.
+     * This brrby is b lookup tbble thbt trbnslbtes 6-bit positive integer
+     * index vblues into their "Bbse64 Alphbbet" equivblents bs specified
+     * in Tbble 1 of RFC 2045.
      */
-    private static final char intToBase64[] = {
+    privbte stbtic finbl chbr intToBbse64[] = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
         'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'b', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
         'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
     };
 
     /**
-     * This array is a lookup table that translates 6-bit positive integer
-     * index values into their "Alternate Base64 Alphabet" equivalents.
-     * This is NOT the real Base64 Alphabet as per in Table 1 of RFC 2045.
-     * This alternate alphabet does not use the capital letters.  It is
-     * designed for use in environments where "case folding" occurs.
+     * This brrby is b lookup tbble thbt trbnslbtes 6-bit positive integer
+     * index vblues into their "Alternbte Bbse64 Alphbbet" equivblents.
+     * This is NOT the rebl Bbse64 Alphbbet bs per in Tbble 1 of RFC 2045.
+     * This blternbte blphbbet does not use the cbpitbl letters.  It is
+     * designed for use in environments where "cbse folding" occurs.
      */
-    private static final char intToAltBase64[] = {
+    privbte stbtic finbl chbr intToAltBbse64[] = {
         '!', '"', '#', '$', '%', '&', '\'', '(', ')', ',', '-', '.', ':',
         ';', '<', '>', '@', '[', ']', '^',  '`', '_', '{', '|', '}', '~',
-        'a', 'b', 'c', 'd', 'e', 'f', 'g',  'h', 'i', 'j', 'k', 'l', 'm',
+        'b', 'b', 'c', 'd', 'e', 'f', 'g',  'h', 'i', 'j', 'k', 'l', 'm',
         'n', 'o', 'p', 'q', 'r', 's', 't',  'u', 'v', 'w', 'x', 'y', 'z',
         '0', '1', '2', '3', '4', '5', '6',  '7', '8', '9', '+', '?'
     };
 
     /**
-     * Translates the specified Base64 string (as per Preferences.get(byte[]))
-     * into a byte array.
+     * Trbnslbtes the specified Bbse64 string (bs per Preferences.get(byte[]))
+     * into b byte brrby.
      *
-     * @throw IllegalArgumentException if <tt>s</tt> is not a valid Base64
+     * @throw IllegblArgumentException if <tt>s</tt> is not b vblid Bbse64
      *        string.
      */
-    static byte[] base64ToByteArray(String s) {
-        return base64ToByteArray(s, false);
+    stbtic byte[] bbse64ToByteArrby(String s) {
+        return bbse64ToByteArrby(s, fblse);
     }
 
     /**
-     * Translates the specified "alternate representation" Base64 string
-     * into a byte array.
+     * Trbnslbtes the specified "blternbte representbtion" Bbse64 string
+     * into b byte brrby.
      *
-     * @throw IllegalArgumentException or ArrayOutOfBoundsException
-     *        if <tt>s</tt> is not a valid alternate representation
-     *        Base64 string.
+     * @throw IllegblArgumentException or ArrbyOutOfBoundsException
+     *        if <tt>s</tt> is not b vblid blternbte representbtion
+     *        Bbse64 string.
      */
-    static byte[] altBase64ToByteArray(String s) {
-        return base64ToByteArray(s, true);
+    stbtic byte[] bltBbse64ToByteArrby(String s) {
+        return bbse64ToByteArrby(s, true);
     }
 
-    private static byte[] base64ToByteArray(String s, boolean alternate) {
-        byte[] alphaToInt = (alternate ?  altBase64ToInt : base64ToInt);
+    privbte stbtic byte[] bbse64ToByteArrby(String s, boolebn blternbte) {
+        byte[] blphbToInt = (blternbte ?  bltBbse64ToInt : bbse64ToInt);
         int sLen = s.length();
         int numGroups = sLen/4;
         if (4*numGroups != sLen)
-            throw new IllegalArgumentException(
-                "String length must be a multiple of four.");
-        int missingBytesInLastGroup = 0;
+            throw new IllegblArgumentException(
+                "String length must be b multiple of four.");
+        int missingBytesInLbstGroup = 0;
         int numFullGroups = numGroups;
         if (sLen != 0) {
-            if (s.charAt(sLen-1) == '=') {
-                missingBytesInLastGroup++;
+            if (s.chbrAt(sLen-1) == '=') {
+                missingBytesInLbstGroup++;
                 numFullGroups--;
             }
-            if (s.charAt(sLen-2) == '=')
-                missingBytesInLastGroup++;
+            if (s.chbrAt(sLen-2) == '=')
+                missingBytesInLbstGroup++;
         }
-        byte[] result = new byte[3*numGroups - missingBytesInLastGroup];
+        byte[] result = new byte[3*numGroups - missingBytesInLbstGroup];
 
-        // Translate all full groups from base64 to byte array elements
+        // Trbnslbte bll full groups from bbse64 to byte brrby elements
         int inCursor = 0, outCursor = 0;
         for (int i=0; i<numFullGroups; i++) {
-            int ch0 = base64toInt(s.charAt(inCursor++), alphaToInt);
-            int ch1 = base64toInt(s.charAt(inCursor++), alphaToInt);
-            int ch2 = base64toInt(s.charAt(inCursor++), alphaToInt);
-            int ch3 = base64toInt(s.charAt(inCursor++), alphaToInt);
+            int ch0 = bbse64toInt(s.chbrAt(inCursor++), blphbToInt);
+            int ch1 = bbse64toInt(s.chbrAt(inCursor++), blphbToInt);
+            int ch2 = bbse64toInt(s.chbrAt(inCursor++), blphbToInt);
+            int ch3 = bbse64toInt(s.chbrAt(inCursor++), blphbToInt);
             result[outCursor++] = (byte) ((ch0 << 2) | (ch1 >> 4));
             result[outCursor++] = (byte) ((ch1 << 4) | (ch2 >> 2));
             result[outCursor++] = (byte) ((ch2 << 6) | ch3);
         }
 
-        // Translate partial group, if present
-        if (missingBytesInLastGroup != 0) {
-            int ch0 = base64toInt(s.charAt(inCursor++), alphaToInt);
-            int ch1 = base64toInt(s.charAt(inCursor++), alphaToInt);
+        // Trbnslbte pbrtibl group, if present
+        if (missingBytesInLbstGroup != 0) {
+            int ch0 = bbse64toInt(s.chbrAt(inCursor++), blphbToInt);
+            int ch1 = bbse64toInt(s.chbrAt(inCursor++), blphbToInt);
             result[outCursor++] = (byte) ((ch0 << 2) | (ch1 >> 4));
 
-            if (missingBytesInLastGroup == 1) {
-                int ch2 = base64toInt(s.charAt(inCursor++), alphaToInt);
+            if (missingBytesInLbstGroup == 1) {
+                int ch2 = bbse64toInt(s.chbrAt(inCursor++), blphbToInt);
                 result[outCursor++] = (byte) ((ch1 << 4) | (ch2 >> 2));
             }
         }
-        // assert inCursor == s.length()-missingBytesInLastGroup;
-        // assert outCursor == result.length;
+        // bssert inCursor == s.length()-missingBytesInLbstGroup;
+        // bssert outCursor == result.length;
         return result;
     }
 
     /**
-     * Translates the specified character, which is assumed to be in the
-     * "Base 64 Alphabet" into its equivalent 6-bit positive integer.
+     * Trbnslbtes the specified chbrbcter, which is bssumed to be in the
+     * "Bbse 64 Alphbbet" into its equivblent 6-bit positive integer.
      *
-     * @throw IllegalArgumentException or ArrayOutOfBoundsException if
-     *        c is not in the Base64 Alphabet.
+     * @throw IllegblArgumentException or ArrbyOutOfBoundsException if
+     *        c is not in the Bbse64 Alphbbet.
      */
-    private static int base64toInt(char c, byte[] alphaToInt) {
-        int result = alphaToInt[c];
+    privbte stbtic int bbse64toInt(chbr c, byte[] blphbToInt) {
+        int result = blphbToInt[c];
         if (result < 0)
-            throw new IllegalArgumentException("Illegal character " + c);
+            throw new IllegblArgumentException("Illegbl chbrbcter " + c);
         return result;
     }
 
     /**
-     * This array is a lookup table that translates unicode characters
-     * drawn from the "Base64 Alphabet" (as specified in Table 1 of RFC 2045)
-     * into their 6-bit positive integer equivalents.  Characters that
-     * are not in the Base64 alphabet but fall within the bounds of the
-     * array are translated to -1.
+     * This brrby is b lookup tbble thbt trbnslbtes unicode chbrbcters
+     * drbwn from the "Bbse64 Alphbbet" (bs specified in Tbble 1 of RFC 2045)
+     * into their 6-bit positive integer equivblents.  Chbrbcters thbt
+     * bre not in the Bbse64 blphbbet but fbll within the bounds of the
+     * brrby bre trbnslbted to -1.
      */
-    private static final byte base64ToInt[] = {
+    privbte stbtic finbl byte bbse64ToInt[] = {
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54,
@@ -222,10 +222,10 @@ class Base64 {
     };
 
     /**
-     * This array is the analogue of base64ToInt, but for the nonstandard
-     * variant that avoids the use of uppercase alphabetic characters.
+     * This brrby is the bnblogue of bbse64ToInt, but for the nonstbndbrd
+     * vbribnt thbt bvoids the use of uppercbse blphbbetic chbrbcters.
      */
-    private static final byte altBase64ToInt[] = {
+    privbte stbtic finbl byte bltBbse64ToInt[] = {
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 1,
         2, 3, 4, 5, 6, 7, 8, -1, 62, 9, 10, 11, -1 , 52, 53, 54, 55, 56, 57,
@@ -236,25 +236,25 @@ class Base64 {
         51, 22, 23, 24, 25
     };
 
-    public static void main(String args[]) {
-        int numRuns  = Integer.parseInt(args[0]);
-        int numBytes = Integer.parseInt(args[1]);
-        java.util.Random rnd = new java.util.Random();
+    public stbtic void mbin(String brgs[]) {
+        int numRuns  = Integer.pbrseInt(brgs[0]);
+        int numBytes = Integer.pbrseInt(brgs[1]);
+        jbvb.util.Rbndom rnd = new jbvb.util.Rbndom();
         for (int i=0; i<numRuns; i++) {
             for (int j=0; j<numBytes; j++) {
-                byte[] arr = new byte[j];
+                byte[] brr = new byte[j];
                 for (int k=0; k<j; k++)
-                    arr[k] = (byte)rnd.nextInt();
+                    brr[k] = (byte)rnd.nextInt();
 
-                String s = byteArrayToBase64(arr);
-                byte [] b = base64ToByteArray(s);
-                if (!java.util.Arrays.equals(arr, b))
-                    System.out.println("Dismal failure!");
+                String s = byteArrbyToBbse64(brr);
+                byte [] b = bbse64ToByteArrby(s);
+                if (!jbvb.util.Arrbys.equbls(brr, b))
+                    System.out.println("Dismbl fbilure!");
 
-                s = byteArrayToAltBase64(arr);
-                b = altBase64ToByteArray(s);
-                if (!java.util.Arrays.equals(arr, b))
-                    System.out.println("Alternate dismal failure!");
+                s = byteArrbyToAltBbse64(brr);
+                b = bltBbse64ToByteArrby(s);
+                if (!jbvb.util.Arrbys.equbls(brr, b))
+                    System.out.println("Alternbte dismbl fbilure!");
             }
         }
     }

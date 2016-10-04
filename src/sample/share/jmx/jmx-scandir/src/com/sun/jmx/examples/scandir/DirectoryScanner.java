@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,477 +30,477 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import static com.sun.jmx.examples.scandir.ScanManager.getNextSeqNumber;
-import com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState;
-import static com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState.*;
-import static com.sun.jmx.examples.scandir.config.DirectoryScannerConfig.Action.*;
-import com.sun.jmx.examples.scandir.config.XmlConfigUtils;
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig;
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig.Action;
-import com.sun.jmx.examples.scandir.config.ResultRecord;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.management.AttributeChangeNotification;
-import javax.management.InstanceNotFoundException;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.Notification;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
+import stbtic com.sun.jmx.exbmples.scbndir.ScbnMbnbger.getNextSeqNumber;
+import com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn.ScbnStbte;
+import stbtic com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn.ScbnStbte.*;
+import stbtic com.sun.jmx.exbmples.scbndir.config.DirectoryScbnnerConfig.Action.*;
+import com.sun.jmx.exbmples.scbndir.config.XmlConfigUtils;
+import com.sun.jmx.exbmples.scbndir.config.DirectoryScbnnerConfig;
+import com.sun.jmx.exbmples.scbndir.config.DirectoryScbnnerConfig.Action;
+import com.sun.jmx.exbmples.scbndir.config.ResultRecord;
+import jbvb.io.File;
+import jbvb.io.FileFilter;
+import jbvb.io.IOException;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.EnumSet;
+import jbvb.util.HbshSet;
+import jbvb.util.LinkedList;
+import jbvb.util.Set;
+import jbvb.util.logging.Level;
+import jbvb.util.logging.Logger;
+import jbvbx.mbnbgement.AttributeChbngeNotificbtion;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionBrobdcbsterSupport;
+import jbvbx.mbnbgement.NotificbtionEmitter;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionListener;
 
 /**
- * A <code>DirectoryScanner</code> is an MBean that
- * scans a file system starting at a given root directory,
- * and then looks for files that match a given criteria.
+ * A <code>DirectoryScbnner</code> is bn MBebn thbt
+ * scbns b file system stbrting bt b given root directory,
+ * bnd then looks for files thbt mbtch b given criterib.
  * <p>
- * When such a file is found, the <code>DirectoryScanner</code> takes
- * the action for which it was configured: emit a notification,
- * <i>and or</i> log a {@link
- * com.sun.jmx.examples.scandir.config.ResultRecord} for this file,
- * <i>and or</i> delete that file.
+ * When such b file is found, the <code>DirectoryScbnner</code> tbkes
+ * the bction for which it wbs configured: emit b notificbtion,
+ * <i>bnd or</i> log b {@link
+ * com.sun.jmx.exbmples.scbndir.config.ResultRecord} for this file,
+ * <i>bnd or</i> delete thbt file.
  * </p>
  * <p>
- * The code that would actually delete the file is commented out - so that
- * nothing valuable is lost if this example is run by mistake on the wrong
+ * The code thbt would bctublly delete the file is commented out - so thbt
+ * nothing vblubble is lost if this exbmple is run by mistbke on the wrong
  * set of directories.<br>
- * Logged results are logged by sending them to the {@link ResultLogManager}.
+ * Logged results bre logged by sending them to the {@link ResultLogMbnbger}.
  * </p>
  * <p>
- * <code>DirectoryScannerMXBeans</code> are created, initialized, and
- * registered by the {@link ScanManagerMXBean}.
- * The {@link ScanManagerMXBean} will also schedule and run them in
- * background by calling their {@link #scan} method.
+ * <code>DirectoryScbnnerMXBebns</code> bre crebted, initiblized, bnd
+ * registered by the {@link ScbnMbnbgerMXBebn}.
+ * The {@link ScbnMbnbgerMXBebn} will blso schedule bnd run them in
+ * bbckground by cblling their {@link #scbn} method.
  * </p>
- * <p>Client code is not expected to create or register directly any such
- * MBean. Instead, clients are expected to modify the configuration, using
- * the {@link ScanDirConfigMXBean}, and then apply it, using the {@link
- * ScanManagerMXBean}. Instances of <code>DirectoryScannerMXBeans</code>
- * will then be created and registered (or unregistered and garbage collected)
- * as a side effect of applying that configuration.
+ * <p>Client code is not expected to crebte or register directly bny such
+ * MBebn. Instebd, clients bre expected to modify the configurbtion, using
+ * the {@link ScbnDirConfigMXBebn}, bnd then bpply it, using the {@link
+ * ScbnMbnbgerMXBebn}. Instbnces of <code>DirectoryScbnnerMXBebns</code>
+ * will then be crebted bnd registered (or unregistered bnd gbrbbge collected)
+ * bs b side effect of bpplying thbt configurbtion.
  * </p>
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-public class DirectoryScanner implements
-        DirectoryScannerMXBean, NotificationEmitter {
+public clbss DirectoryScbnner implements
+        DirectoryScbnnerMXBebn, NotificbtionEmitter {
 
     /**
-     * The type for <i>com.sun.jmx.examples.scandir.filematch</i> notifications.
-     * Notifications of this type will be emitted whenever a file that
-     * matches this {@code DirectoryScanner} criteria is found, but only if
-     * this {@code DirectoryScanner} was configured to {@link
-     * Action#NOTIFY notify} for matching files.
+     * The type for <i>com.sun.jmx.exbmples.scbndir.filembtch</i> notificbtions.
+     * Notificbtions of this type will be emitted whenever b file thbt
+     * mbtches this {@code DirectoryScbnner} criterib is found, but only if
+     * this {@code DirectoryScbnner} wbs configured to {@link
+     * Action#NOTIFY notify} for mbtching files.
      **/
-    public static final String FILE_MATCHES_NOTIFICATION =
-            "com.sun.jmx.examples.scandir.filematch";
+    public stbtic finbl String FILE_MATCHES_NOTIFICATION =
+            "com.sun.jmx.exbmples.scbndir.filembtch";
 
     /**
-     * A logger for this class.
+     * A logger for this clbss.
      **/
-    private static final Logger LOG =
-            Logger.getLogger(DirectoryScanner.class.getName());
+    privbte stbtic finbl Logger LOG =
+            Logger.getLogger(DirectoryScbnner.clbss.getNbme());
 
-    // Attribute : State
+    // Attribute : Stbte
     //
-    private volatile ScanState state = STOPPED;
+    privbte volbtile ScbnStbte stbte = STOPPED;
 
-    // The DirectoryScanner delegates the implementation of
-    // the NotificationEmitter interface to a wrapped instance
-    // of NotificationBroadcasterSupport.
+    // The DirectoryScbnner delegbtes the implementbtion of
+    // the NotificbtionEmitter interfbce to b wrbpped instbnce
+    // of NotificbtionBrobdcbsterSupport.
     //
-    private final NotificationBroadcasterSupport broadcaster;
+    privbte finbl NotificbtionBrobdcbsterSupport brobdcbster;
 
-    // The root directory at which this DirectoryScanner will start
-    // scanning. Constructed from config.getRootDirectory().
+    // The root directory bt which this DirectoryScbnner will stbrt
+    // scbnning. Constructed from config.getRootDirectory().
     //
-    private final File rootFile;
+    privbte finbl File rootFile;
 
-    // This DirectoryScanner config - this is a constant which is
-    // provided at construction time by the {@link ScanManager}.
+    // This DirectoryScbnner config - this is b constbnt which is
+    // provided bt construction time by the {@link ScbnMbnbger}.
     //
-    private final DirectoryScannerConfig config;
+    privbte finbl DirectoryScbnnerConfig config;
 
-    // The set of actions for which this DirectoryScanner is configured.
+    // The set of bctions for which this DirectoryScbnner is configured.
     // Constructed from config.getActions()
     //
-    final Set<Action> actions;
+    finbl Set<Action> bctions;
 
-    // The ResultLogManager that this DirectoryScanner will use to log
-    // info. This is a hard reference to another MBean, provided
-    // at construction time by the ScanManager.
-    // The ScanManager makes sure that the life cycle of these two MBeans
+    // The ResultLogMbnbger thbt this DirectoryScbnner will use to log
+    // info. This is b hbrd reference to bnother MBebn, provided
+    // bt construction time by the ScbnMbnbger.
+    // The ScbnMbnbger mbkes sure thbt the life cycle of these two MBebns
     // is consistent.
     //
-    final ResultLogManager logManager;
+    finbl ResultLogMbnbger logMbnbger;
 
     /**
-     * Constructs a new {@code DirectoryScanner}.
+     * Constructs b new {@code DirectoryScbnner}.
      * <p>This constructor is
-     * package protected, and this MBean cannot be created by a remote
-     * client, because it needs a reference to the {@link ResultLogManager},
-     * which cannot be provided from remote.
+     * pbckbge protected, bnd this MBebn cbnnot be crebted by b remote
+     * client, becbuse it needs b reference to the {@link ResultLogMbnbger},
+     * which cbnnot be provided from remote.
      * </p>
-     * <p>This is a conscious design choice: {@code DirectoryScanner} MBeans
-     * are expected to be completely managed (created, registered, unregistered)
-     * by the {@link ScanManager} which does provide this reference.
+     * <p>This is b conscious design choice: {@code DirectoryScbnner} MBebns
+     * bre expected to be completely mbnbged (crebted, registered, unregistered)
+     * by the {@link ScbnMbnbger} which does provide this reference.
      * </p>
      *
-     * @param config This {@code DirectoryScanner} configuration.
-     * @param logManager The info log manager with which to log the info
+     * @pbrbm config This {@code DirectoryScbnner} configurbtion.
+     * @pbrbm logMbnbger The info log mbnbger with which to log the info
      *        records.
-     * @throws IllegalArgumentException if one of the parameter is null, or if
-     *         the provided {@code config} doesn't have its {@code name} set,
-     *         or if the {@link DirectoryScannerConfig#getRootDirectory
-     *         root directory} provided in the {@code config} is not acceptable
-     *         (not provided or not found or not readable, etc...).
+     * @throws IllegblArgumentException if one of the pbrbmeter is null, or if
+     *         the provided {@code config} doesn't hbve its {@code nbme} set,
+     *         or if the {@link DirectoryScbnnerConfig#getRootDirectory
+     *         root directory} provided in the {@code config} is not bcceptbble
+     *         (not provided or not found or not rebdbble, etc...).
      **/
-    public DirectoryScanner(DirectoryScannerConfig config,
-                            ResultLogManager logManager)
-        throws IllegalArgumentException {
-        if (logManager == null)
-            throw new IllegalArgumentException("log=null");
+    public DirectoryScbnner(DirectoryScbnnerConfig config,
+                            ResultLogMbnbger logMbnbger)
+        throws IllegblArgumentException {
+        if (logMbnbger == null)
+            throw new IllegblArgumentException("log=null");
         if (config == null)
-            throw new IllegalArgumentException("config=null");
-        if (config.getName() == null)
-            throw new IllegalArgumentException("config.name=null");
+            throw new IllegblArgumentException("config=null");
+        if (config.getNbme() == null)
+            throw new IllegblArgumentException("config.nbme=null");
 
-         broadcaster = new NotificationBroadcasterSupport();
+         brobdcbster = new NotificbtionBrobdcbsterSupport();
 
-         // Clone the config: ensure data encapsulation.
+         // Clone the config: ensure dbtb encbpsulbtion.
          //
          this.config = XmlConfigUtils.xmlClone(config);
 
-         // Checks that the provided root directory is valid.
-         // Throws IllegalArgumentException if it isn't.
+         // Checks thbt the provided root directory is vblid.
+         // Throws IllegblArgumentException if it isn't.
          //
-         rootFile = validateRoot(config.getRootDirectory());
+         rootFile = vblidbteRoot(config.getRootDirectory());
 
-         // Initialize the Set<Action> for which this DirectoryScanner
+         // Initiblize the Set<Action> for which this DirectoryScbnner
          // is configured.
          //
          if (config.getActions() == null)
-             actions = Collections.emptySet();
+             bctions = Collections.emptySet();
          else
-             actions = EnumSet.copyOf(Arrays.asList(config.getActions()));
-         this.logManager = logManager;
+             bctions = EnumSet.copyOf(Arrbys.bsList(config.getActions()));
+         this.logMbnbger = logMbnbger;
     }
 
-    // see DirectoryScannerMXBean
+    // see DirectoryScbnnerMXBebn
     public void stop() {
-        // switch state to stop and send AttributeValueChangeNotification
-        setStateAndNotify(STOPPED);
+        // switch stbte to stop bnd send AttributeVblueChbngeNotificbtion
+        setStbteAndNotify(STOPPED);
     }
 
-    // see DirectoryScannerMXBean
+    // see DirectoryScbnnerMXBebn
     public String getRootDirectory() {
-        return rootFile.getAbsolutePath();
+        return rootFile.getAbsolutePbth();
     }
 
 
-    // see DirectoryScannerMXBean
-    public ScanState getState() {
-        return state;
+    // see DirectoryScbnnerMXBebn
+    public ScbnStbte getStbte() {
+        return stbte;
     }
 
-    // see DirectoryScannerMXBean
-    public DirectoryScannerConfig getConfiguration() {
+    // see DirectoryScbnnerMXBebn
+    public DirectoryScbnnerConfig getConfigurbtion() {
         return config;
     }
 
-    // see DirectoryScannerMXBean
-    public String getCurrentScanInfo() {
-        final ScanTask currentOrLastTask = currentTask;
-        if (currentOrLastTask == null) return "Never Run";
-        return currentOrLastTask.getScanInfo();
+    // see DirectoryScbnnerMXBebn
+    public String getCurrentScbnInfo() {
+        finbl ScbnTbsk currentOrLbstTbsk = currentTbsk;
+        if (currentOrLbstTbsk == null) return "Never Run";
+        return currentOrLbstTbsk.getScbnInfo();
     }
 
-    // This variable points to the current (or latest) scan.
+    // This vbribble points to the current (or lbtest) scbn.
     //
-    private volatile ScanTask currentTask = null;
+    privbte volbtile ScbnTbsk currentTbsk = null;
 
-    // see DirectoryScannerMXBean
-    public void scan() {
-        final ScanTask task;
+    // see DirectoryScbnnerMXBebn
+    public void scbn() {
+        finbl ScbnTbsk tbsk;
 
         synchronized (this) {
-            final LinkedList<File> list;
-            switch (state) {
-                case RUNNING:
-                case SCHEDULED:
-                    throw new IllegalStateException(state.toString());
-                case STOPPED:
-                case COMPLETED:
-                    // only accept to scan if state is STOPPED or COMPLETED.
+            finbl LinkedList<File> list;
+            switch (stbte) {
+                cbse RUNNING:
+                cbse SCHEDULED:
+                    throw new IllegblStbteException(stbte.toString());
+                cbse STOPPED:
+                cbse COMPLETED:
+                    // only bccept to scbn if stbte is STOPPED or COMPLETED.
                     list = new LinkedList<File>();
-                    list.add(rootFile);
-                    break;
-                default:
-                    throw new IllegalStateException(String.valueOf(state));
+                    list.bdd(rootFile);
+                    brebk;
+                defbult:
+                    throw new IllegblStbteException(String.vblueOf(stbte));
             }
 
-            // Create a new ScanTask object for our root directory file.
+            // Crebte b new ScbnTbsk object for our root directory file.
             //
-            currentTask = task = new ScanTask(list,this);
+            currentTbsk = tbsk = new ScbnTbsk(list,this);
 
-            // transient state... will be switched to RUNNING when
-            // task.execute() is called. This code could in fact be modified
-            // to use java.util.concurent.Future and, to push the task to
-            // an executor. We would then need to wait for the task to
+            // trbnsient stbte... will be switched to RUNNING when
+            // tbsk.execute() is cblled. This code could in fbct be modified
+            // to use jbvb.util.concurent.Future bnd, to push the tbsk to
+            // bn executor. We would then need to wbit for the tbsk to
             // complete before returning.  However, this wouldn't buy us
-            // anything - since this method should wait for the task to
-            // finish anyway: so why would we do it?
-            // As it stands, we simply call task.execute() in the current
-            // thread - brave and fearless readers may want to attempt the
-            // modification ;-)
+            // bnything - since this method should wbit for the tbsk to
+            // finish bnywby: so why would we do it?
+            // As it stbnds, we simply cbll tbsk.execute() in the current
+            // threbd - brbve bnd febrless rebders mby wbnt to bttempt the
+            // modificbtion ;-)
             //
-            setStateAndNotify(SCHEDULED);
+            setStbteAndNotify(SCHEDULED);
         }
-        task.execute();
+        tbsk.execute();
     }
 
-    // This method is invoked to carry out the configured actions on a
-    // matching file.
-    // Do not call this method from within synchronized() { } as this
-    // method may send notifications!
+    // This method is invoked to cbrry out the configured bctions on b
+    // mbtching file.
+    // Do not cbll this method from within synchronized() { } bs this
+    // method mby send notificbtions!
     //
-    void actOn(File file) {
+    void bctOn(File file) {
 
-        // Which action were actually taken
+        // Which bction were bctublly tbken
         //
-        final Set<Action> taken = new HashSet<Action>();
-        boolean logresult = false;
+        finbl Set<Action> tbken = new HbshSet<Action>();
+        boolebn logresult = fblse;
 
-        // Check out which actions are configured and carry them out.
+        // Check out which bctions bre configured bnd cbrry them out.
         //
-        for (Action action : actions) {
-            switch (action) {
-                case DELETE:
+        for (Action bction : bctions) {
+            switch (bction) {
+                cbse DELETE:
                     if (deleteFile(file)) {
-                        // Delete succeeded: add DELETE to the set of
-                        // actions carried out.
-                        taken.add(DELETE);
+                        // Delete succeeded: bdd DELETE to the set of
+                        // bctions cbrried out.
+                        tbken.bdd(DELETE);
                     }
-                    break;
-                case NOTIFY:
-                    if (notifyMatch(file)) {
-                        // Notify succeeded: add NOTIFY to the set of
-                        // actions carried out.
-                        taken.add(NOTIFY);
+                    brebk;
+                cbse NOTIFY:
+                    if (notifyMbtch(file)) {
+                        // Notify succeeded: bdd NOTIFY to the set of
+                        // bctions cbrried out.
+                        tbken.bdd(NOTIFY);
                     }
-                    break;
-                case LOGRESULT:
-                    // LOGRESULT was configured - log actions carried out.
-                    // => we must execute this action as the last action.
+                    brebk;
+                cbse LOGRESULT:
+                    // LOGRESULT wbs configured - log bctions cbrried out.
+                    // => we must execute this bction bs the lbst bction.
                     //    simply set logresult=true for now. We will do
-                    //    the logging later
+                    //    the logging lbter
                     logresult = true;
-                    break;
-                default:
-                    LOG.fine("Failed to execute action: " +action +
-                            " - action not supported");
-                    break;
+                    brebk;
+                defbult:
+                    LOG.fine("Fbiled to execute bction: " +bction +
+                            " - bction not supported");
+                    brebk;
             }
         }
 
         // Now is time for logging:
         if (logresult) {
-            taken.add(LOGRESULT);
-            if (!logResult(file,taken.toArray(new Action[taken.size()])))
-                taken.remove(LOGRESULT); // just for the last trace below...
+            tbken.bdd(LOGRESULT);
+            if (!logResult(file,tbken.toArrby(new Action[tbken.size()])))
+                tbken.remove(LOGRESULT); // just for the lbst trbce below...
         }
 
-        LOG.finest("File processed: "+taken+" - "+file.getAbsolutePath());
+        LOG.finest("File processed: "+tbken+" - "+file.getAbsolutePbth());
     }
 
-    // Deletes a matching file.
-    private boolean deleteFile(File file) {
+    // Deletes b mbtching file.
+    privbte boolebn deleteFile(File file) {
         try {
-            // file.delete() is commented so that we don't do anything
-            // bad if the example is mistakenly run on the wrong set of
+            // file.delete() is commented so thbt we don't do bnything
+            // bbd if the exbmple is mistbkenly run on the wrong set of
             // directories.
             //
             /* file.delete(); */
-            System.out.println("DELETE not implemented for safety reasons.");
+            System.out.println("DELETE not implemented for sbfety rebsons.");
             return true;
-        } catch (Exception x) {
-            LOG.fine("Failed to delete: "+file.getAbsolutePath());
+        } cbtch (Exception x) {
+            LOG.fine("Fbiled to delete: "+file.getAbsolutePbth());
         }
-        return false;
+        return fblse;
     }
 
-    // Notifies of a matching file.
-    private boolean notifyMatch(File file) {
+    // Notifies of b mbtching file.
+    privbte boolebn notifyMbtch(File file) {
         try {
-            final Notification n =
-                    new Notification(FILE_MATCHES_NOTIFICATION,this,
+            finbl Notificbtion n =
+                    new Notificbtion(FILE_MATCHES_NOTIFICATION,this,
                     getNextSeqNumber(),
-                    file.getAbsolutePath());
+                    file.getAbsolutePbth());
 
-            // This method *is not* called from any synchronized block, so
-            // we can happily call broadcaster.sendNotification() here.
-            // Note that verifying whether a method is called from within
-            // a synchronized block demends a thoroughful code reading,
-            // examining each of the 'parent' methods in turn.
+            // This method *is not* cblled from bny synchronized block, so
+            // we cbn hbppily cbll brobdcbster.sendNotificbtion() here.
+            // Note thbt verifying whether b method is cblled from within
+            // b synchronized block demends b thoroughful code rebding,
+            // exbmining ebch of the 'pbrent' methods in turn.
             //
-            broadcaster.sendNotification(n);
+            brobdcbster.sendNotificbtion(n);
             return true;
-        } catch (Exception x) {
-            LOG.fine("Failed to notify: "+file.getAbsolutePath());
+        } cbtch (Exception x) {
+            LOG.fine("Fbiled to notify: "+file.getAbsolutePbth());
         }
-        return false;
+        return fblse;
     }
 
-    // Logs a result with the ResultLogManager
-    private boolean logResult(File file,Action[] actions) {
+    // Logs b result with the ResultLogMbnbger
+    privbte boolebn logResult(File file,Action[] bctions) {
         try {
-            logManager.log(new ResultRecord(config, actions,file));
+            logMbnbger.log(new ResultRecord(config, bctions,file));
             return true;
-        } catch (Exception x) {
-            LOG.fine("Failed to log: "+file.getAbsolutePath());
+        } cbtch (Exception x) {
+            LOG.fine("Fbiled to log: "+file.getAbsolutePbth());
         }
-        return false;
+        return fblse;
     }
 
 
-    // Contextual object used to store info about current
-    // (or last) scan.
+    // Contextubl object used to store info bbout current
+    // (or lbst) scbn.
     //
-    private static class ScanTask {
+    privbte stbtic clbss ScbnTbsk {
 
-        // List of Files that remain to scan.
-        // When files are discovered they are added to the list.
-        // When they are being handled, they are removed from the list.
-        // When the list is empty, the scanning is finished.
+        // List of Files thbt rembin to scbn.
+        // When files bre discovered they bre bdded to the list.
+        // When they bre being hbndled, they bre removed from the list.
+        // When the list is empty, the scbnning is finished.
         //
-        private final LinkedList<File>   list;
-        private final DirectoryScanner scan;
+        privbte finbl LinkedList<File>   list;
+        privbte finbl DirectoryScbnner scbn;
 
-        // Some statistics...
+        // Some stbtistics...
         //
-        private volatile long scanned=0;
-        private volatile long matching=0;
+        privbte volbtile long scbnned=0;
+        privbte volbtile long mbtching=0;
 
-        private volatile String info="Not started";
+        privbte volbtile String info="Not stbrted";
 
-        ScanTask(LinkedList<File> list, DirectoryScanner scan) {
-            this.list = list; this.scan = scan;
+        ScbnTbsk(LinkedList<File> list, DirectoryScbnner scbn) {
+            this.list = list; this.scbn = scbn;
         }
 
         public void execute() {
-            scan(list);
+            scbn(list);
         }
 
-        private void scan(LinkedList<File> list) {
-             scan.scan(this,list);
+        privbte void scbn(LinkedList<File> list) {
+             scbn.scbn(this,list);
         }
 
-        public String getScanInfo() {
-            return info+" - ["+scanned+" scanned, "+matching+" matching]";
+        public String getScbnInfo() {
+            return info+" - ["+scbnned+" scbnned, "+mbtching+" mbtching]";
         }
     }
 
-    // The actual scan logic. Switches state to RUNNING,
-    // and scan the list of given dirs.
-    // The list is a live object which is updated by this method.
-    // This would allow us to implement methods like "pause" and "resume",
-    // since all the info needed to resume would be in the list.
+    // The bctubl scbn logic. Switches stbte to RUNNING,
+    // bnd scbn the list of given dirs.
+    // The list is b live object which is updbted by this method.
+    // This would bllow us to implement methods like "pbuse" bnd "resume",
+    // since bll the info needed to resume would be in the list.
     //
-    private void scan(ScanTask task, LinkedList<File> list) {
-        setStateAndNotify(RUNNING);
-        task.info = "In Progress";
+    privbte void scbn(ScbnTbsk tbsk, LinkedList<File> list) {
+        setStbteAndNotify(RUNNING);
+        tbsk.info = "In Progress";
         try {
 
-            // The FileFilter will tell us which files match and which don't.
+            // The FileFilter will tell us which files mbtch bnd which don't.
             //
-            final FileFilter filter = config.buildFileFilter();
+            finbl FileFilter filter = config.buildFileFilter();
 
-            // We have two condition to end the loop: either the list is
-            // empty, meaning there's nothing more to scan, or the state of
-            // the DirectoryScanner was asynchronously switched to STOPPED by
-            // another thread, e.g. because someone called "stop" on the
-            // ScanManagerMXBean
+            // We hbve two condition to end the loop: either the list is
+            // empty, mebning there's nothing more to scbn, or the stbte of
+            // the DirectoryScbnner wbs bsynchronously switched to STOPPED by
+            // bnother threbd, e.g. becbuse someone cblled "stop" on the
+            // ScbnMbnbgerMXBebn
             //
-            while (!list.isEmpty() && state == RUNNING) {
+            while (!list.isEmpty() && stbte == RUNNING) {
 
-                // Get and remove the first element in the list.
+                // Get bnd remove the first element in the list.
                 //
-                final File current = list.poll();
+                finbl File current = list.poll();
 
-                // Increment number of file scanned.
-                task.scanned++;
+                // Increment number of file scbnned.
+                tbsk.scbnned++;
 
-                // If 'current' is a file, it's already been matched by our
-                // file filter (see below): act on it.
-                // Note that for the first iteration of this loop, there will
+                // If 'current' is b file, it's blrebdy been mbtched by our
+                // file filter (see below): bct on it.
+                // Note thbt for the first iterbtion of this loop, there will
                 // be one single file in the list: the root directory for this
-                // scanner.
+                // scbnner.
                 //
                 if (current.isFile()) {
-                    task.matching++;
-                    actOn(current);
+                    tbsk.mbtching++;
+                    bctOn(current);
                 }
 
-                // If 'current' is a directory, then
-                // find files and directories that match the file filter
+                // If 'current' is b directory, then
+                // find files bnd directories thbt mbtch the file filter
                 // in this directory
                 //
                 if (current.isDirectory()) {
 
-                    // Gets matching files and directories
-                    final File[] content = current.listFiles(filter);
+                    // Gets mbtching files bnd directories
+                    finbl File[] content = current.listFiles(filter);
                     if (content == null) continue;
 
-                    // Adds all matching file to the list.
-                    list.addAll(0,Arrays.asList(content));
+                    // Adds bll mbtching file to the list.
+                    list.bddAll(0,Arrbys.bsList(content));
                 }
             }
 
-            // The loop terminated. If the list is empty, then we have
-            // completed our task. If not, then somebody must have called
-            // stop() on this directory scanner.
+            // The loop terminbted. If the list is empty, then we hbve
+            // completed our tbsk. If not, then somebody must hbve cblled
+            // stop() on this directory scbnner.
             //
             if (list.isEmpty()) {
-                task.info = "Successfully Completed";
-                setStateAndNotify(COMPLETED);
+                tbsk.info = "Successfully Completed";
+                setStbteAndNotify(COMPLETED);
             }
-        } catch (Exception x) {
-            // We got an exception: stop the scan
+        } cbtch (Exception x) {
+            // We got bn exception: stop the scbn
             //
-            task.info = "Failed: "+x;
-            if (LOG.isLoggable(Level.FINEST))
-                LOG.log(Level.FINEST,"scan task failed: "+x,x);
-            else if (LOG.isLoggable(Level.FINE))
-                LOG.log(Level.FINE,"scan task failed: "+x);
-            setStateAndNotify(STOPPED);
-        } catch (Error e) {
-            // We got an Error:
-            // Should not happen unless we ran out of memory or
-            // whatever - don't even try to notify, but
-            // stop the scan anyway!
+            tbsk.info = "Fbiled: "+x;
+            if (LOG.isLoggbble(Level.FINEST))
+                LOG.log(Level.FINEST,"scbn tbsk fbiled: "+x,x);
+            else if (LOG.isLoggbble(Level.FINE))
+                LOG.log(Level.FINE,"scbn tbsk fbiled: "+x);
+            setStbteAndNotify(STOPPED);
+        } cbtch (Error e) {
+            // We got bn Error:
+            // Should not hbppen unless we rbn out of memory or
+            // whbtever - don't even try to notify, but
+            // stop the scbn bnywby!
             //
-            state=STOPPED;
-            task.info = "Error: "+e;
+            stbte=STOPPED;
+            tbsk.info = "Error: "+e;
 
             // rethrow error.
             //
@@ -509,82 +509,82 @@ public class DirectoryScanner implements
     }
 
     /**
-     * MBeanNotification support - delegates to broadcaster.
+     * MBebnNotificbtion support - delegbtes to brobdcbster.
      */
-    public void addNotificationListener(NotificationListener listener,
-            NotificationFilter filter, Object handback)
-            throws IllegalArgumentException {
-        broadcaster.addNotificationListener(listener, filter, handback);
+    public void bddNotificbtionListener(NotificbtionListener listener,
+            NotificbtionFilter filter, Object hbndbbck)
+            throws IllegblArgumentException {
+        brobdcbster.bddNotificbtionListener(listener, filter, hbndbbck);
     }
 
-    // Switch this object state to the desired value an send
-    // a notification. Don't call this method from within a
+    // Switch this object stbte to the desired vblue bn send
+    // b notificbtion. Don't cbll this method from within b
     // synchronized block!
     //
-    private final void setStateAndNotify(ScanState desired) {
-        final ScanState old = state;
+    privbte finbl void setStbteAndNotify(ScbnStbte desired) {
+        finbl ScbnStbte old = stbte;
         if (old == desired) return;
-        state = desired;
-        final AttributeChangeNotification n =
-                new AttributeChangeNotification(this,
+        stbte = desired;
+        finbl AttributeChbngeNotificbtion n =
+                new AttributeChbngeNotificbtion(this,
                 getNextSeqNumber(),System.currentTimeMillis(),
-                "state change","State",ScanState.class.getName(),
-                String.valueOf(old),String.valueOf(desired));
-        broadcaster.sendNotification(n);
+                "stbte chbnge","Stbte",ScbnStbte.clbss.getNbme(),
+                String.vblueOf(old),String.vblueOf(desired));
+        brobdcbster.sendNotificbtion(n);
     }
 
 
     /**
-     * The {@link DirectoryScannerMXBean} may send two types of
-     * notifications: filematch, and state attribute changed.
+     * The {@link DirectoryScbnnerMXBebn} mby send two types of
+     * notificbtions: filembtch, bnd stbte bttribute chbnged.
      **/
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        return new MBeanNotificationInfo[] {
-            new MBeanNotificationInfo(
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
+        return new MBebnNotificbtionInfo[] {
+            new MBebnNotificbtionInfo(
                     new String[] {FILE_MATCHES_NOTIFICATION},
-                    Notification.class.getName(),
-                    "Emitted when a file that matches the scan criteria is found"
+                    Notificbtion.clbss.getNbme(),
+                    "Emitted when b file thbt mbtches the scbn criterib is found"
                     ),
-            new MBeanNotificationInfo(
-                    new String[] {AttributeChangeNotification.ATTRIBUTE_CHANGE},
-                    AttributeChangeNotification.class.getName(),
-                    "Emitted when the State attribute changes"
+            new MBebnNotificbtionInfo(
+                    new String[] {AttributeChbngeNotificbtion.ATTRIBUTE_CHANGE},
+                    AttributeChbngeNotificbtion.clbss.getNbme(),
+                    "Emitted when the Stbte bttribute chbnges"
                     )
         };
     }
 
     /**
-     * MBeanNotification support - delegates to broadcaster.
+     * MBebnNotificbtion support - delegbtes to brobdcbster.
      */
-    public void removeNotificationListener(NotificationListener listener)
+    public void removeNotificbtionListener(NotificbtionListener listener)
         throws ListenerNotFoundException {
-        broadcaster.removeNotificationListener(listener);
+        brobdcbster.removeNotificbtionListener(listener);
     }
 
     /**
-     * MBeanNotification support - delegates to broadcaster.
+     * MBebnNotificbtion support - delegbtes to brobdcbster.
      */
-    public void removeNotificationListener(NotificationListener listener,
-            NotificationFilter filter, Object handback)
+    public void removeNotificbtionListener(NotificbtionListener listener,
+            NotificbtionFilter filter, Object hbndbbck)
             throws ListenerNotFoundException {
-        broadcaster.removeNotificationListener(listener, filter, handback);
+        brobdcbster.removeNotificbtionListener(listener, filter, hbndbbck);
     }
 
-    // Validates the given root directory, returns a File object for
-    // that directory.
-    // Throws IllegalArgumentException if the given root is not
-    // acceptable.
+    // Vblidbtes the given root directory, returns b File object for
+    // thbt directory.
+    // Throws IllegblArgumentException if the given root is not
+    // bcceptbble.
     //
-    private static File validateRoot(String root) {
+    privbte stbtic File vblidbteRoot(String root) {
         if (root == null)
-            throw new IllegalArgumentException("no root specified");
+            throw new IllegblArgumentException("no root specified");
         if (root.length() == 0)
-            throw new IllegalArgumentException("specified root \"\" is invalid");
-        final File f = new File(root);
-        if (!f.canRead())
-            throw new IllegalArgumentException("can't read "+root);
+            throw new IllegblArgumentException("specified root \"\" is invblid");
+        finbl File f = new File(root);
+        if (!f.cbnRebd())
+            throw new IllegblArgumentException("cbn't rebd "+root);
         if (!f.isDirectory())
-            throw new IllegalArgumentException("no such directory: "+root);
+            throw new IllegblArgumentException("no such directory: "+root);
         return f;
     }
 

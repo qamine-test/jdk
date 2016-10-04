@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * Utility class for HTML form decoding. This class contains static methods
- * for decoding a String from the <CODE>application/x-www-form-urlencoded</CODE>
- * MIME format.
+ * Utility clbss for HTML form decoding. This clbss contbins stbtic methods
+ * for decoding b String from the <CODE>bpplicbtion/x-www-form-urlencoded</CODE>
+ * MIME formbt.
  * <p>
- * The conversion process is the reverse of that used by the URLEncoder class. It is assumed
- * that all characters in the encoded string are one of the following:
- * &quot;{@code a}&quot; through &quot;{@code z}&quot;,
+ * The conversion process is the reverse of thbt used by the URLEncoder clbss. It is bssumed
+ * thbt bll chbrbcters in the encoded string bre one of the following:
+ * &quot;{@code b}&quot; through &quot;{@code z}&quot;,
  * &quot;{@code A}&quot; through &quot;{@code Z}&quot;,
- * &quot;{@code 0}&quot; through &quot;{@code 9}&quot;, and
+ * &quot;{@code 0}&quot; through &quot;{@code 9}&quot;, bnd
  * &quot;{@code -}&quot;, &quot;{@code _}&quot;,
- * &quot;{@code .}&quot;, and &quot;{@code *}&quot;. The
- * character &quot;{@code %}&quot; is allowed but is interpreted
- * as the start of a special escaped sequence.
+ * &quot;{@code .}&quot;, bnd &quot;{@code *}&quot;. The
+ * chbrbcter &quot;{@code %}&quot; is bllowed but is interpreted
+ * bs the stbrt of b specibl escbped sequence.
  * <p>
- * The following rules are applied in the conversion:
+ * The following rules bre bpplied in the conversion:
  *
  * <ul>
- * <li>The alphanumeric characters &quot;{@code a}&quot; through
+ * <li>The blphbnumeric chbrbcters &quot;{@code b}&quot; through
  *     &quot;{@code z}&quot;, &quot;{@code A}&quot; through
- *     &quot;{@code Z}&quot; and &quot;{@code 0}&quot;
- *     through &quot;{@code 9}&quot; remain the same.
- * <li>The special characters &quot;{@code .}&quot;,
- *     &quot;{@code -}&quot;, &quot;{@code *}&quot;, and
- *     &quot;{@code _}&quot; remain the same.
- * <li>The plus sign &quot;{@code +}&quot; is converted into a
- *     space character &quot; &nbsp; &quot; .
+ *     &quot;{@code Z}&quot; bnd &quot;{@code 0}&quot;
+ *     through &quot;{@code 9}&quot; rembin the sbme.
+ * <li>The specibl chbrbcters &quot;{@code .}&quot;,
+ *     &quot;{@code -}&quot;, &quot;{@code *}&quot;, bnd
+ *     &quot;{@code _}&quot; rembin the sbme.
+ * <li>The plus sign &quot;{@code +}&quot; is converted into b
+ *     spbce chbrbcter &quot; &nbsp; &quot; .
  * <li>A sequence of the form "<i>{@code %xy}</i>" will be
- *     treated as representing a byte where <i>xy</i> is the two-digit
- *     hexadecimal representation of the 8 bits. Then, all substrings
- *     that contain one or more of these byte sequences consecutively
- *     will be replaced by the character(s) whose encoding would result
+ *     trebted bs representing b byte where <i>xy</i> is the two-digit
+ *     hexbdecimbl representbtion of the 8 bits. Then, bll substrings
+ *     thbt contbin one or more of these byte sequences consecutively
+ *     will be replbced by the chbrbcter(s) whose encoding would result
  *     in those consecutive bytes.
- *     The encoding scheme used to decode these characters may be specified,
- *     or if unspecified, the default encoding of the platform will be used.
+ *     The encoding scheme used to decode these chbrbcters mby be specified,
+ *     or if unspecified, the defbult encoding of the plbtform will be used.
  * </ul>
  * <p>
- * There are two possible ways in which this decoder could deal with
- * illegal strings.  It could either leave illegal characters alone or
- * it could throw an {@link java.lang.IllegalArgumentException}.
- * Which approach the decoder takes is left to the
- * implementation.
+ * There bre two possible wbys in which this decoder could debl with
+ * illegbl strings.  It could either lebve illegbl chbrbcters blone or
+ * it could throw bn {@link jbvb.lbng.IllegblArgumentException}.
+ * Which bpprobch the decoder tbkes is left to the
+ * implementbtion.
  *
- * @author  Mark Chamness
- * @author  Michael McCloskey
+ * @buthor  Mbrk Chbmness
+ * @buthor  Michbel McCloskey
  * @since   1.2
  */
 
-public class URLDecoder {
+public clbss URLDecoder {
 
-    // The platform default encoding
-    static String dfltEncName = URLEncoder.dfltEncName;
+    // The plbtform defbult encoding
+    stbtic String dfltEncNbme = URLEncoder.dfltEncNbme;
 
     /**
-     * Decodes a {@code x-www-form-urlencoded} string.
-     * The platform's default encoding is used to determine what characters
-     * are represented by any consecutive sequences of the form
+     * Decodes b {@code x-www-form-urlencoded} string.
+     * The plbtform's defbult encoding is used to determine whbt chbrbcters
+     * bre represented by bny consecutive sequences of the form
      * "<i>{@code %xy}</i>".
-     * @param s the {@code String} to decode
-     * @deprecated The resulting string may vary depending on the platform's
-     *          default encoding. Instead, use the decode(String,String) method
+     * @pbrbm s the {@code String} to decode
+     * @deprecbted The resulting string mby vbry depending on the plbtform's
+     *          defbult encoding. Instebd, use the decode(String,String) method
      *          to specify the encoding.
      * @return the newly decoded {@code String}
      */
-    @Deprecated
-    public static String decode(String s) {
+    @Deprecbted
+    public stbtic String decode(String s) {
 
         String str = null;
 
         try {
-            str = decode(s, dfltEncName);
-        } catch (UnsupportedEncodingException e) {
-            // The system should always have the platform default
+            str = decode(s, dfltEncNbme);
+        } cbtch (UnsupportedEncodingException e) {
+            // The system should blwbys hbve the plbtform defbult
         }
 
         return str;
     }
 
     /**
-     * Decodes a {@code application/x-www-form-urlencoded} string using a specific
+     * Decodes b {@code bpplicbtion/x-www-form-urlencoded} string using b specific
      * encoding scheme.
      * The supplied encoding is used to determine
-     * what characters are represented by any consecutive sequences of the
+     * whbt chbrbcters bre represented by bny consecutive sequences of the
      * form "<i>{@code %xy}</i>".
      * <p>
-     * <em><strong>Note:</strong> The <a href=
-     * "http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars">
-     * World Wide Web Consortium Recommendation</a> states that
-     * UTF-8 should be used. Not doing so may introduce
-     * incompatibilities.</em>
+     * <em><strong>Note:</strong> The <b href=
+     * "http://www.w3.org/TR/html40/bppendix/notes.html#non-bscii-chbrs">
+     * World Wide Web Consortium Recommendbtion</b> stbtes thbt
+     * UTF-8 should be used. Not doing so mby introduce
+     * incompbtibilities.</em>
      *
-     * @param s the {@code String} to decode
-     * @param enc   The name of a supported
-     *    <a href="../lang/package-summary.html#charenc">character
-     *    encoding</a>.
+     * @pbrbm s the {@code String} to decode
+     * @pbrbm enc   The nbme of b supported
+     *    <b href="../lbng/pbckbge-summbry.html#chbrenc">chbrbcter
+     *    encoding</b>.
      * @return the newly decoded {@code String}
      * @exception  UnsupportedEncodingException
-     *             If character encoding needs to be consulted, but
-     *             named character encoding is not supported
-     * @see URLEncoder#encode(java.lang.String, java.lang.String)
+     *             If chbrbcter encoding needs to be consulted, but
+     *             nbmed chbrbcter encoding is not supported
+     * @see URLEncoder#encode(jbvb.lbng.String, jbvb.lbng.String)
      * @since 1.4
      */
-    public static String decode(String s, String enc)
+    public stbtic String decode(String s, String enc)
         throws UnsupportedEncodingException{
 
-        boolean needToChange = false;
-        int numChars = s.length();
-        StringBuilder sb = new StringBuilder(numChars > 500 ? numChars / 2 : numChars);
+        boolebn needToChbnge = fblse;
+        int numChbrs = s.length();
+        StringBuilder sb = new StringBuilder(numChbrs > 500 ? numChbrs / 2 : numChbrs);
         int i = 0;
 
         if (enc.length() == 0) {
-            throw new UnsupportedEncodingException ("URLDecoder: empty string enc parameter");
+            throw new UnsupportedEncodingException ("URLDecoder: empty string enc pbrbmeter");
         }
 
-        char c;
+        chbr c;
         byte[] bytes = null;
-        while (i < numChars) {
-            c = s.charAt(i);
+        while (i < numChbrs) {
+            c = s.chbrAt(i);
             switch (c) {
-            case '+':
-                sb.append(' ');
+            cbse '+':
+                sb.bppend(' ');
                 i++;
-                needToChange = true;
-                break;
-            case '%':
+                needToChbnge = true;
+                brebk;
+            cbse '%':
                 /*
-                 * Starting with this instance of %, process all
-                 * consecutive substrings of the form %xy. Each
-                 * substring %xy will yield a byte. Convert all
-                 * consecutive  bytes obtained this way to whatever
-                 * character(s) they represent in the provided
+                 * Stbrting with this instbnce of %, process bll
+                 * consecutive substrings of the form %xy. Ebch
+                 * substring %xy will yield b byte. Convert bll
+                 * consecutive  bytes obtbined this wby to whbtever
+                 * chbrbcter(s) they represent in the provided
                  * encoding.
                  */
 
                 try {
 
-                    // (numChars-i)/3 is an upper bound for the number
-                    // of remaining bytes
+                    // (numChbrs-i)/3 is bn upper bound for the number
+                    // of rembining bytes
                     if (bytes == null)
-                        bytes = new byte[(numChars-i)/3];
+                        bytes = new byte[(numChbrs-i)/3];
                     int pos = 0;
 
-                    while ( ((i+2) < numChars) &&
+                    while ( ((i+2) < numChbrs) &&
                             (c=='%')) {
-                        int v = Integer.parseInt(s.substring(i+1,i+3),16);
+                        int v = Integer.pbrseInt(s.substring(i+1,i+3),16);
                         if (v < 0)
-                            throw new IllegalArgumentException("URLDecoder: Illegal hex characters in escape (%) pattern - negative value");
+                            throw new IllegblArgumentException("URLDecoder: Illegbl hex chbrbcters in escbpe (%) pbttern - negbtive vblue");
                         bytes[pos++] = (byte) v;
                         i+= 3;
-                        if (i < numChars)
-                            c = s.charAt(i);
+                        if (i < numChbrs)
+                            c = s.chbrAt(i);
                     }
 
-                    // A trailing, incomplete byte encoding such as
-                    // "%x" will cause an exception to be thrown
+                    // A trbiling, incomplete byte encoding such bs
+                    // "%x" will cbuse bn exception to be thrown
 
-                    if ((i < numChars) && (c=='%'))
-                        throw new IllegalArgumentException(
-                         "URLDecoder: Incomplete trailing escape (%) pattern");
+                    if ((i < numChbrs) && (c=='%'))
+                        throw new IllegblArgumentException(
+                         "URLDecoder: Incomplete trbiling escbpe (%) pbttern");
 
-                    sb.append(new String(bytes, 0, pos, enc));
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException(
-                    "URLDecoder: Illegal hex characters in escape (%) pattern - "
-                    + e.getMessage());
+                    sb.bppend(new String(bytes, 0, pos, enc));
+                } cbtch (NumberFormbtException e) {
+                    throw new IllegblArgumentException(
+                    "URLDecoder: Illegbl hex chbrbcters in escbpe (%) pbttern - "
+                    + e.getMessbge());
                 }
-                needToChange = true;
-                break;
-            default:
-                sb.append(c);
+                needToChbnge = true;
+                brebk;
+            defbult:
+                sb.bppend(c);
                 i++;
-                break;
+                brebk;
             }
         }
 
-        return (needToChange? sb.toString() : s);
+        return (needToChbnge? sb.toString() : s);
     }
 }

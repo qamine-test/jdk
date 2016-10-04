@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp.daemon;
+pbckbge com.sun.jmx.snmp.dbemon;
 
-// java imports
+// jbvb imports
 //
-import java.util.logging.Level;
-import java.util.Vector;
+import jbvb.util.logging.Level;
+import jbvb.util.Vector;
 
 // jmx imports
 //
 import com.sun.jmx.snmp.SnmpEngine;
 import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpValue;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpVarBindList;
+import com.sun.jmx.snmp.SnmpVblue;
+import com.sun.jmx.snmp.SnmpVbrBind;
+import com.sun.jmx.snmp.SnmpVbrBindList;
 import com.sun.jmx.snmp.SnmpOid;
 import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 // SNMP Runtime import
 //
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
-import com.sun.jmx.snmp.agent.SnmpMibAgent;
-import com.sun.jmx.snmp.agent.SnmpMibRequest;
-import com.sun.jmx.snmp.daemon.SnmpAdaptorServer;
-import com.sun.jmx.snmp.internal.SnmpIncomingRequest;
+import stbtic com.sun.jmx.defbults.JmxProperties.SNMP_ADAPTOR_LOGGER;
+import com.sun.jmx.snmp.bgent.SnmpMibAgent;
+import com.sun.jmx.snmp.bgent.SnmpMibRequest;
+import com.sun.jmx.snmp.dbemon.SnmpAdbptorServer;
+import com.sun.jmx.snmp.internbl.SnmpIncomingRequest;
 
 /* NPCTE fix for bugId 4492741, esc 0 */
-import com.sun.jmx.snmp.ThreadContext;
+import com.sun.jmx.snmp.ThrebdContext;
 /* end of NPCTE fix for bugId 4492741 */
 
-class SnmpSubNextRequestHandler extends SnmpSubRequestHandler {
-    private SnmpAdaptorServer server = null;
+clbss SnmpSubNextRequestHbndler extends SnmpSubRequestHbndler {
+    privbte SnmpAdbptorServer server = null;
     /**
-     * The constructor initialize the subrequest with the whole varbind
-     * list contained in the original request.
+     * The constructor initiblize the subrequest with the whole vbrbind
+     * list contbined in the originbl request.
      */
-    protected SnmpSubNextRequestHandler(SnmpAdaptorServer server,
-                                        SnmpMibAgent agent,
+    protected SnmpSubNextRequestHbndler(SnmpAdbptorServer server,
+                                        SnmpMibAgent bgent,
                                         SnmpPdu req) {
-        super(agent,req);
+        super(bgent,req);
         init(req, server);
     }
 
-    protected SnmpSubNextRequestHandler(SnmpEngine engine,
-                                        SnmpAdaptorServer server,
+    protected SnmpSubNextRequestHbndler(SnmpEngine engine,
+                                        SnmpAdbptorServer server,
                                         SnmpIncomingRequest incRequest,
-                                        SnmpMibAgent agent,
+                                        SnmpMibAgent bgent,
                                         SnmpPdu req) {
-        super(engine, incRequest, agent, req);
+        super(engine, incRequest, bgent, req);
         init(req, server);
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubNextRequestHandler.class.getName(),
-                "SnmpSubNextRequestHandler", "Constructor : " + this);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubNextRequestHbndler.clbss.getNbme(),
+                "SnmpSubNextRequestHbndler", "Constructor : " + this);
         }
     }
 
-    private void init(SnmpPdu req, SnmpAdaptorServer server) {
+    privbte void init(SnmpPdu req, SnmpAdbptorServer server) {
         this.server = server;
 
-        // The translation table is easy in this case ...
+        // The trbnslbtion tbble is ebsy in this cbse ...
         //
-        final int max= translation.length;
-        final SnmpVarBind[] list= req.varBindList;
-        final NonSyncVector<SnmpVarBind> nonSyncVarBind =
-                ((NonSyncVector<SnmpVarBind>)varBind);
-        for(int i=0; i < max; i++) {
-            translation[i]= i;
-            // we need to allocate a new SnmpVarBind. Otherwise the first
+        finbl int mbx= trbnslbtion.length;
+        finbl SnmpVbrBind[] list= req.vbrBindList;
+        finbl NonSyncVector<SnmpVbrBind> nonSyncVbrBind =
+                ((NonSyncVector<SnmpVbrBind>)vbrBind);
+        for(int i=0; i < mbx; i++) {
+            trbnslbtion[i]= i;
+            // we need to bllocbte b new SnmpVbrBind. Otherwise the first
             // sub request will modify the list...
             //
-            final SnmpVarBind newVarBind =
-                new SnmpVarBind(list[i].oid, list[i].value);
-            nonSyncVarBind.addNonSyncElement(newVarBind);
+            finbl SnmpVbrBind newVbrBind =
+                new SnmpVbrBind(list[i].oid, list[i].vblue);
+            nonSyncVbrBind.bddNonSyncElement(newVbrBind);
         }
     }
 
@@ -102,103 +102,103 @@ class SnmpSubNextRequestHandler extends SnmpSubRequestHandler {
 
         try {
             /* NPCTE fix for bugId 4492741, esc 0, 16-August-2001 */
-            final ThreadContext oldContext =
-                ThreadContext.push("SnmpUserData",data);
+            finbl ThrebdContext oldContext =
+                ThrebdContext.push("SnmpUserDbtb",dbtb);
             try {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                        "run", "[" + Thread.currentThread() +
-                          "]:getNext operation on " + agent.getMibName());
+                if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHbndler.clbss.getNbme(),
+                        "run", "[" + Threbd.currentThrebd() +
+                          "]:getNext operbtion on " + bgent.getMibNbme());
                 }
 
-                // Always call with V2. So the merge of the responses will
-                // be easier.
+                // Alwbys cbll with V2. So the merge of the responses will
+                // be ebsier.
                 //
-                agent.getNext(createMibRequest(varBind, snmpVersionTwo, data));
-            } finally {
-                ThreadContext.restore(oldContext);
+                bgent.getNext(crebteMibRequest(vbrBind, snmpVersionTwo, dbtb));
+            } finblly {
+                ThrebdContext.restore(oldContext);
             }
             /* end of NPCTE fix for bugId 4492741 */
 
 
-        } catch(SnmpStatusException x) {
-            errorStatus = x.getStatus() ;
+        } cbtch(SnmpStbtusException x) {
+            errorStbtus = x.getStbtus() ;
             errorIndex=  x.getErrorIndex();
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                    "run", "[" + Thread.currentThread() +
-                      "]:an Snmp error occurred during the operation", x);
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHbndler.clbss.getNbme(),
+                    "run", "[" + Threbd.currentThrebd() +
+                      "]:bn Snmp error occurred during the operbtion", x);
             }
         }
-        catch(Exception x) {
-            errorStatus = SnmpDefinitions.snmpRspGenErr ;
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                    "run", "[" + Thread.currentThread() +
-                      "]:a generic error occurred during the operation", x);
+        cbtch(Exception x) {
+            errorStbtus = SnmpDefinitions.snmpRspGenErr ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHbndler.clbss.getNbme(),
+                    "run", "[" + Threbd.currentThrebd() +
+                      "]:b generic error occurred during the operbtion", x);
             }
         }
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                "run", "[" + Thread.currentThread() +  "]:operation completed");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHbndler.clbss.getNbme(),
+                "run", "[" + Threbd.currentThrebd() +  "]:operbtion completed");
         }
     }
 
     /**
-     * The method updates the varbind list of the subrequest.
+     * The method updbtes the vbrbind list of the subrequest.
      */
-    protected  void updateRequest(SnmpVarBind var, int pos) {
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                "updateRequest", "Copy :" + var);
+    protected  void updbteRequest(SnmpVbrBind vbr, int pos) {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHbndler.clbss.getNbme(),
+                "updbteRequest", "Copy :" + vbr);
         }
-        int size= varBind.size();
-        translation[size]= pos;
-        final SnmpVarBind newVarBind =
-            new SnmpVarBind(var.oid, var.value);
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                "updateRequest", "Copied :" + newVarBind);
+        int size= vbrBind.size();
+        trbnslbtion[size]= pos;
+        finbl SnmpVbrBind newVbrBind =
+            new SnmpVbrBind(vbr.oid, vbr.vblue);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHbndler.clbss.getNbme(),
+                "updbteRequest", "Copied :" + newVbrBind);
         }
 
-        varBind.addElement(newVarBind);
+        vbrBind.bddElement(newVbrBind);
     }
     /**
-     * The method updates a given var bind list with the result of a
-     * previsouly invoked operation.
-     * Prior to calling the method, one must make sure that the operation was
-     * successful. As such the method getErrorIndex or getErrorStatus should be
-     * called.
+     * The method updbtes b given vbr bind list with the result of b
+     * previsouly invoked operbtion.
+     * Prior to cblling the method, one must mbke sure thbt the operbtion wbs
+     * successful. As such the method getErrorIndex or getErrorStbtus should be
+     * cblled.
      */
-    protected void updateResult(SnmpVarBind[] result) {
+    protected void updbteResult(SnmpVbrBind[] result) {
 
-        final int max=varBind.size();
-        for(int i= 0; i< max ; i++) {
-            // May be we should control the position ...
+        finbl int mbx=vbrBind.size();
+        for(int i= 0; i< mbx ; i++) {
+            // Mby be we should control the position ...
             //
-            final int index= translation[i];
-            final SnmpVarBind elmt=
-                (SnmpVarBind)((NonSyncVector)varBind).elementAtNonSync(i);
+            finbl int index= trbnslbtion[i];
+            finbl SnmpVbrBind elmt=
+                (SnmpVbrBind)((NonSyncVector)vbrBind).elementAtNonSync(i);
 
-            final SnmpVarBind vb= result[index];
+            finbl SnmpVbrBind vb= result[index];
             if (vb == null) {
                 result[index]= elmt;
                 /* NPCTE fix for bugid 4381195 esc 0. <J.C.> < 17-Oct-2000> */
-                // if ((elmt != null) &&  (elmt.value == null) &&
+                // if ((elmt != null) &&  (elmt.vblue == null) &&
                 //    (version == snmpVersionTwo))
-                //    elmt.value = SnmpVarBind.endOfMibView;
+                //    elmt.vblue = SnmpVbrBind.endOfMibView;
                 /* end of NPCTE fix for bugid 4381195 */
                 continue;
             }
 
-            final SnmpValue val= vb.value;
-            if ((val == null)|| (val == SnmpVarBind.endOfMibView)){
+            finbl SnmpVblue vbl= vb.vblue;
+            if ((vbl == null)|| (vbl == SnmpVbrBind.endOfMibView)){
                 /* NPCTE fix for bugid 4381195 esc 0. <J.C.> < 17-Oct-2000> */
                 if ((elmt != null) &&
-                    (elmt.value != SnmpVarBind.endOfMibView))
+                    (elmt.vblue != SnmpVbrBind.endOfMibView))
                     result[index]= elmt;
-                // else if ((val == null) && (version == snmpVersionTwo))
-                //    vb.value = SnmpVarBind.endOfMibView;
+                // else if ((vbl == null) && (version == snmpVersionTwo))
+                //    vb.vblue = SnmpVbrBind.endOfMibView;
                 continue;
                 /* end of NPCTE fix for bugid 4381195 */
             }
@@ -207,63 +207,63 @@ class SnmpSubNextRequestHandler extends SnmpSubRequestHandler {
             if (elmt == null) continue;
             /* end of NPCTE fix for bugid 4381195 */
 
-            if (elmt.value == SnmpVarBind.endOfMibView) continue;
+            if (elmt.vblue == SnmpVbrBind.endOfMibView) continue;
 
 
-            // Now we need to take the smallest oid ...
+            // Now we need to tbke the smbllest oid ...
             //
-            int comp = elmt.oid.compareTo(vb.oid);
+            int comp = elmt.oid.compbreTo(vb.oid);
             if (comp < 0) {
-              // Take the smallest (lexicographically)
+              // Tbke the smbllest (lexicogrbphicblly)
                 //
                 result[index]= elmt;
             }
             else {
                 if(comp == 0) {
-                    // Must compare agent used for reply
-                    // Take the deeper within the reply
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "updateResult"," oid overlapping. Oid : " +
-                              elmt.oid + "value :" + elmt.value);
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "updateResult","Already present varBind : " +
+                    // Must compbre bgent used for reply
+                    // Tbke the deeper within the reply
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHbndler.clbss.getNbme(),
+                            "updbteResult"," oid overlbpping. Oid : " +
+                              elmt.oid + "vblue :" + elmt.vblue);
+                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHbndler.clbss.getNbme(),
+                            "updbteResult","Alrebdy present vbrBind : " +
                               vb);
                     }
 
                     SnmpOid oid = vb.oid;
                     SnmpMibAgent deeperAgent = server.getAgentMib(oid);
 
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "updateResult","Deeper agent : " + deeperAgent);
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHbndler.clbss.getNbme(),
+                            "updbteResult","Deeper bgent : " + deeperAgent);
                     }
-                    if(deeperAgent == agent) {
-                        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                                "updateResult","The current agent is the deeper one. Update the value with the current one");
+                    if(deeperAgent == bgent) {
+                        if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINER)) {
+                            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHbndler.clbss.getNbme(),
+                                "updbteResult","The current bgent is the deeper one. Updbte the vblue with the current one");
                         }
-                        result[index].value = elmt.value;
+                        result[index].vblue = elmt.vblue;
                     }
 
                     /*
                       Vector v = new Vector();
-                      SnmpMibRequest getReq = createMibRequest(v,
+                      SnmpMibRequest getReq = crebteMibRequest(v,
                       version,
                       null);
-                      SnmpVarBind realValue = new SnmpVarBind(oid);
-                      getReq.addVarBind(realValue);
+                      SnmpVbrBind reblVblue = new SnmpVbrBind(oid);
+                      getReq.bddVbrBind(reblVblue);
                       try {
                       deeperAgent.get(getReq);
-                      } catch(SnmpStatusException e) {
-                      e.printStackTrace();
+                      } cbtch(SnmpStbtusException e) {
+                      e.printStbckTrbce();
                       }
 
                       if(isDebugOn())
-                      trace("updateResult", "Biggest priority value is : " +
-                      realValue.value);
+                      trbce("updbteResult", "Biggest priority vblue is : " +
+                      reblVblue.vblue);
 
-                      result[index].value = realValue.value;
+                      result[index].vblue = reblVblue.vblue;
                     */
                 }
             }

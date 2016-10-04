@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.*;
-import java.text.BreakIterator;
-import javax.swing.event.*;
-import java.util.BitSet;
-import java.util.Locale;
+import jbvb.bwt.*;
+import jbvb.text.BrebkIterbtor;
+import jbvbx.swing.event.*;
+import jbvb.util.BitSet;
+import jbvb.util.Locble;
 
-import javax.swing.UIManager;
+import jbvbx.swing.UIMbnbger;
 import sun.swing.SwingUtilities2;
-import static sun.swing.SwingUtilities2.IMPLIED_CR;
+import stbtic sun.swing.SwingUtilities2.IMPLIED_CR;
 
 /**
- * A GlyphView is a styled chunk of text that represents a view
- * mapped over an element in the text model. This view is generally
- * responsible for displaying text glyphs using character level
- * attributes in some way.
- * An implementation of the GlyphPainter class is used to do the
- * actual rendering and model/view translations.  This separates
- * rendering from layout and management of the association with
+ * A GlyphView is b styled chunk of text thbt represents b view
+ * mbpped over bn element in the text model. This view is generblly
+ * responsible for displbying text glyphs using chbrbcter level
+ * bttributes in some wby.
+ * An implementbtion of the GlyphPbinter clbss is used to do the
+ * bctubl rendering bnd model/view trbnslbtions.  This sepbrbtes
+ * rendering from lbyout bnd mbnbgement of the bssocibtion with
  * the model.
  * <p>
- * The view supports breaking for the purpose of formatting.
- * The fragments produced by breaking share the view that has
- * primary responsibility for the element (i.e. they are nested
- * classes and carry only a small amount of state of their own)
- * so they can share its resources.
+ * The view supports brebking for the purpose of formbtting.
+ * The frbgments produced by brebking shbre the view thbt hbs
+ * primbry responsibility for the element (i.e. they bre nested
+ * clbsses bnd cbrry only b smbll bmount of stbte of their own)
+ * so they cbn shbre its resources.
  * <p>
  * Since this view
- * represents text that may have tabs embedded in it, it implements the
- * <code>TabableView</code> interface.  Tabs will only be
- * expanded if this view is embedded in a container that does
- * tab expansion.  ParagraphView is an example of a container
- * that does tab expansion.
+ * represents text thbt mby hbve tbbs embedded in it, it implements the
+ * <code>TbbbbleView</code> interfbce.  Tbbs will only be
+ * expbnded if this view is embedded in b contbiner thbt does
+ * tbb expbnsion.  PbrbgrbphView is bn exbmple of b contbiner
+ * thbt does tbb expbnsion.
  *
  * @since 1.3
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public class GlyphView extends View implements TabableView, Cloneable {
+public clbss GlyphView extends View implements TbbbbleView, Clonebble {
 
     /**
-     * Constructs a new view wrapped on an element.
+     * Constructs b new view wrbpped on bn element.
      *
-     * @param elem the element
+     * @pbrbm elem the element
      */
     public GlyphView(Element elem) {
         super(elem);
         offset = 0;
         length = 0;
-        Element parent = elem.getParentElement();
-        AttributeSet attr = elem.getAttributes();
+        Element pbrent = elem.getPbrentElement();
+        AttributeSet bttr = elem.getAttributes();
 
-        //         if there was an implied CR
-        impliedCR = (attr != null && attr.getAttribute(IMPLIED_CR) != null &&
-        //         if this is non-empty paragraph
-                   parent != null && parent.getElementCount() > 1);
-        skipWidth = elem.getName().equals("br");
+        //         if there wbs bn implied CR
+        impliedCR = (bttr != null && bttr.getAttribute(IMPLIED_CR) != null &&
+        //         if this is non-empty pbrbgrbph
+                   pbrent != null && pbrent.getElementCount() > 1);
+        skipWidth = elem.getNbme().equbls("br");
     }
 
     /**
-     * Creates a shallow copy.  This is used by the
-     * createFragment and breakView methods.
+     * Crebtes b shbllow copy.  This is used by the
+     * crebteFrbgment bnd brebkView methods.
      *
      * @return the copy
      */
-    protected final Object clone() {
+    protected finbl Object clone() {
         Object o;
         try {
             o = super.clone();
-        } catch (CloneNotSupportedException cnse) {
+        } cbtch (CloneNotSupportedException cnse) {
             o = null;
         }
         return o;
     }
 
     /**
-     * Fetch the currently installed glyph painter.
-     * If a painter has not yet been installed, and
-     * a default was not yet needed, null is returned.
+     * Fetch the currently instblled glyph pbinter.
+     * If b pbinter hbs not yet been instblled, bnd
+     * b defbult wbs not yet needed, null is returned.
      */
-    public GlyphPainter getGlyphPainter() {
-        return painter;
+    public GlyphPbinter getGlyphPbinter() {
+        return pbinter;
     }
 
     /**
-     * Sets the painter to use for rendering glyphs.
+     * Sets the pbinter to use for rendering glyphs.
      */
-    public void setGlyphPainter(GlyphPainter p) {
-        painter = p;
+    public void setGlyphPbinter(GlyphPbinter p) {
+        pbinter = p;
     }
 
     /**
-     * Fetch a reference to the text that occupies
-     * the given range.  This is normally used by
-     * the GlyphPainter to determine what characters
+     * Fetch b reference to the text thbt occupies
+     * the given rbnge.  This is normblly used by
+     * the GlyphPbinter to determine whbt chbrbcters
      * it should render glyphs for.
      *
-     * @param p0  the starting document offset &gt;= 0
-     * @param p1  the ending document offset &gt;= p0
-     * @return    the <code>Segment</code> containing the text
+     * @pbrbm p0  the stbrting document offset &gt;= 0
+     * @pbrbm p1  the ending document offset &gt;= p0
+     * @return    the <code>Segment</code> contbining the text
      */
      public Segment getText(int p0, int p1) {
-         // When done with the returned Segment it should be released by
+         // When done with the returned Segment it should be relebsed by
          // invoking:
-         //    SegmentCache.releaseSharedSegment(segment);
-         Segment text = SegmentCache.getSharedSegment();
+         //    SegmentCbche.relebseShbredSegment(segment);
+         Segment text = SegmentCbche.getShbredSegment();
          try {
              Document doc = getDocument();
              doc.getText(p0, p1 - p0, text);
-         } catch (BadLocationException bl) {
-             throw new StateInvariantError("GlyphView: Stale view: " + bl);
+         } cbtch (BbdLocbtionException bl) {
+             throw new StbteInvbribntError("GlyphView: Stble view: " + bl);
          }
          return text;
      }
 
     /**
-     * Fetch the background color to use to render the
-     * glyphs.  If there is no background color, null should
-     * be returned.  This is implemented to call
-     * <code>StyledDocument.getBackground</code> if the associated
-     * document is a styled document, otherwise it returns null.
+     * Fetch the bbckground color to use to render the
+     * glyphs.  If there is no bbckground color, null should
+     * be returned.  This is implemented to cbll
+     * <code>StyledDocument.getBbckground</code> if the bssocibted
+     * document is b styled document, otherwise it returns null.
      */
-    public Color getBackground() {
+    public Color getBbckground() {
         Document doc = getDocument();
-        if (doc instanceof StyledDocument) {
-            AttributeSet attr = getAttributes();
-            if (attr.isDefined(StyleConstants.Background)) {
-                return ((StyledDocument)doc).getBackground(attr);
+        if (doc instbnceof StyledDocument) {
+            AttributeSet bttr = getAttributes();
+            if (bttr.isDefined(StyleConstbnts.Bbckground)) {
+                return ((StyledDocument)doc).getBbckground(bttr);
             }
         }
         return null;
@@ -159,20 +159,20 @@ public class GlyphView extends View implements TabableView, Cloneable {
     /**
      * Fetch the foreground color to use to render the
      * glyphs.  If there is no foreground color, null should
-     * be returned.  This is implemented to call
-     * <code>StyledDocument.getBackground</code> if the associated
-     * document is a StyledDocument.  If the associated document
-     * is not a StyledDocument, the associated components foreground
-     * color is used.  If there is no associated component, null
+     * be returned.  This is implemented to cbll
+     * <code>StyledDocument.getBbckground</code> if the bssocibted
+     * document is b StyledDocument.  If the bssocibted document
+     * is not b StyledDocument, the bssocibted components foreground
+     * color is used.  If there is no bssocibted component, null
      * is returned.
      */
     public Color getForeground() {
         Document doc = getDocument();
-        if (doc instanceof StyledDocument) {
-            AttributeSet attr = getAttributes();
-            return ((StyledDocument)doc).getForeground(attr);
+        if (doc instbnceof StyledDocument) {
+            AttributeSet bttr = getAttributes();
+            return ((StyledDocument)doc).getForeground(bttr);
         }
-        Component c = getContainer();
+        Component c = getContbiner();
         if (c != null) {
             return c.getForeground();
         }
@@ -180,21 +180,21 @@ public class GlyphView extends View implements TabableView, Cloneable {
     }
 
     /**
-     * Fetch the font that the glyphs should be based
-     * upon.  This is implemented to call
-     * <code>StyledDocument.getFont</code> if the associated
-     * document is a StyledDocument.  If the associated document
-     * is not a StyledDocument, the associated components font
-     * is used.  If there is no associated component, null
+     * Fetch the font thbt the glyphs should be bbsed
+     * upon.  This is implemented to cbll
+     * <code>StyledDocument.getFont</code> if the bssocibted
+     * document is b StyledDocument.  If the bssocibted document
+     * is not b StyledDocument, the bssocibted components font
+     * is used.  If there is no bssocibted component, null
      * is returned.
      */
     public Font getFont() {
         Document doc = getDocument();
-        if (doc instanceof StyledDocument) {
-            AttributeSet attr = getAttributes();
-            return ((StyledDocument)doc).getFont(attr);
+        if (doc instbnceof StyledDocument) {
+            AttributeSet bttr = getAttributes();
+            return ((StyledDocument)doc).getFont(bttr);
         }
-        Component c = getContainer();
+        Component c = getContbiner();
         if (c != null) {
             return c.getFont();
         }
@@ -203,161 +203,161 @@ public class GlyphView extends View implements TabableView, Cloneable {
 
     /**
      * Determine if the glyphs should be underlined.  If true,
-     * an underline should be drawn through the baseline.
+     * bn underline should be drbwn through the bbseline.
      */
-    public boolean isUnderline() {
-        AttributeSet attr = getAttributes();
-        return StyleConstants.isUnderline(attr);
+    public boolebn isUnderline() {
+        AttributeSet bttr = getAttributes();
+        return StyleConstbnts.isUnderline(bttr);
     }
 
     /**
-     * Determine if the glyphs should have a strikethrough
-     * line.  If true, a line should be drawn through the center
+     * Determine if the glyphs should hbve b strikethrough
+     * line.  If true, b line should be drbwn through the center
      * of the glyphs.
      */
-    public boolean isStrikeThrough() {
-        AttributeSet attr = getAttributes();
-        return StyleConstants.isStrikeThrough(attr);
+    public boolebn isStrikeThrough() {
+        AttributeSet bttr = getAttributes();
+        return StyleConstbnts.isStrikeThrough(bttr);
     }
 
     /**
-     * Determine if the glyphs should be rendered as superscript.
+     * Determine if the glyphs should be rendered bs superscript.
      */
-    public boolean isSubscript() {
-        AttributeSet attr = getAttributes();
-        return StyleConstants.isSubscript(attr);
+    public boolebn isSubscript() {
+        AttributeSet bttr = getAttributes();
+        return StyleConstbnts.isSubscript(bttr);
     }
 
     /**
-     * Determine if the glyphs should be rendered as subscript.
+     * Determine if the glyphs should be rendered bs subscript.
      */
-    public boolean isSuperscript() {
-        AttributeSet attr = getAttributes();
-        return StyleConstants.isSuperscript(attr);
+    public boolebn isSuperscript() {
+        AttributeSet bttr = getAttributes();
+        return StyleConstbnts.isSuperscript(bttr);
     }
 
     /**
-     * Fetch the TabExpander to use if tabs are present in this view.
+     * Fetch the TbbExpbnder to use if tbbs bre present in this view.
      */
-    public TabExpander getTabExpander() {
-        return expander;
+    public TbbExpbnder getTbbExpbnder() {
+        return expbnder;
     }
 
     /**
-     * Check to see that a glyph painter exists.  If a painter
-     * doesn't exist, a default glyph painter will be installed.
+     * Check to see thbt b glyph pbinter exists.  If b pbinter
+     * doesn't exist, b defbult glyph pbinter will be instblled.
      */
-    protected void checkPainter() {
-        if (painter == null) {
-            if (defaultPainter == null) {
-                // the classname should probably come from a property file.
-                String classname = "javax.swing.text.GlyphPainter1";
+    protected void checkPbinter() {
+        if (pbinter == null) {
+            if (defbultPbinter == null) {
+                // the clbssnbme should probbbly come from b property file.
+                String clbssnbme = "jbvbx.swing.text.GlyphPbinter1";
                 try {
-                    Class<?> c;
-                    ClassLoader loader = getClass().getClassLoader();
-                    if (loader != null) {
-                        c = loader.loadClass(classname);
+                    Clbss<?> c;
+                    ClbssLobder lobder = getClbss().getClbssLobder();
+                    if (lobder != null) {
+                        c = lobder.lobdClbss(clbssnbme);
                     } else {
-                        c = Class.forName(classname);
+                        c = Clbss.forNbme(clbssnbme);
                     }
-                    Object o = c.newInstance();
-                    if (o instanceof GlyphPainter) {
-                        defaultPainter = (GlyphPainter) o;
+                    Object o = c.newInstbnce();
+                    if (o instbnceof GlyphPbinter) {
+                        defbultPbinter = (GlyphPbinter) o;
                     }
-                } catch (Throwable e) {
-                    throw new StateInvariantError("GlyphView: Can't load glyph painter: "
-                                                  + classname);
+                } cbtch (Throwbble e) {
+                    throw new StbteInvbribntError("GlyphView: Cbn't lobd glyph pbinter: "
+                                                  + clbssnbme);
                 }
             }
-            setGlyphPainter(defaultPainter.getPainter(this, getStartOffset(),
+            setGlyphPbinter(defbultPbinter.getPbinter(this, getStbrtOffset(),
                                                       getEndOffset()));
         }
     }
 
-    // --- TabableView methods --------------------------------------
+    // --- TbbbbleView methods --------------------------------------
 
     /**
-     * Determines the desired span when using the given
-     * tab expansion implementation.
+     * Determines the desired spbn when using the given
+     * tbb expbnsion implementbtion.
      *
-     * @param x the position the view would be located
-     *  at for the purpose of tab expansion &gt;= 0.
-     * @param e how to expand the tabs when encountered.
-     * @return the desired span &gt;= 0
-     * @see TabableView#getTabbedSpan
+     * @pbrbm x the position the view would be locbted
+     *  bt for the purpose of tbb expbnsion &gt;= 0.
+     * @pbrbm e how to expbnd the tbbs when encountered.
+     * @return the desired spbn &gt;= 0
+     * @see TbbbbleView#getTbbbedSpbn
      */
-    public float getTabbedSpan(float x, TabExpander e) {
-        checkPainter();
+    public flobt getTbbbedSpbn(flobt x, TbbExpbnder e) {
+        checkPbinter();
 
-        TabExpander old = expander;
-        expander = e;
+        TbbExpbnder old = expbnder;
+        expbnder = e;
 
-        if (expander != old) {
-            // setting expander can change horizontal span of the view,
-            // so we have to call preferenceChanged()
-            preferenceChanged(null, true, false);
+        if (expbnder != old) {
+            // setting expbnder cbn chbnge horizontbl spbn of the view,
+            // so we hbve to cbll preferenceChbnged()
+            preferenceChbnged(null, true, fblse);
         }
 
         this.x = (int) x;
-        int p0 = getStartOffset();
+        int p0 = getStbrtOffset();
         int p1 = getEndOffset();
-        float width = painter.getSpan(this, p0, p1, expander, x);
+        flobt width = pbinter.getSpbn(this, p0, p1, expbnder, x);
         return width;
     }
 
     /**
-     * Determines the span along the same axis as tab
-     * expansion for a portion of the view.  This is
-     * intended for use by the TabExpander for cases
-     * where the tab expansion involves aligning the
-     * portion of text that doesn't have whitespace
-     * relative to the tab stop.  There is therefore
-     * an assumption that the range given does not
-     * contain tabs.
+     * Determines the spbn blong the sbme bxis bs tbb
+     * expbnsion for b portion of the view.  This is
+     * intended for use by the TbbExpbnder for cbses
+     * where the tbb expbnsion involves bligning the
+     * portion of text thbt doesn't hbve whitespbce
+     * relbtive to the tbb stop.  There is therefore
+     * bn bssumption thbt the rbnge given does not
+     * contbin tbbs.
      * <p>
-     * This method can be called while servicing the
-     * getTabbedSpan or getPreferredSize.  It has to
-     * arrange for its own text buffer to make the
-     * measurements.
+     * This method cbn be cblled while servicing the
+     * getTbbbedSpbn or getPreferredSize.  It hbs to
+     * brrbnge for its own text buffer to mbke the
+     * mebsurements.
      *
-     * @param p0 the starting document offset &gt;= 0
-     * @param p1 the ending document offset &gt;= p0
-     * @return the span &gt;= 0
+     * @pbrbm p0 the stbrting document offset &gt;= 0
+     * @pbrbm p1 the ending document offset &gt;= p0
+     * @return the spbn &gt;= 0
      */
-    public float getPartialSpan(int p0, int p1) {
-        checkPainter();
-        float width = painter.getSpan(this, p0, p1, expander, x);
+    public flobt getPbrtiblSpbn(int p0, int p1) {
+        checkPbinter();
+        flobt width = pbinter.getSpbn(this, p0, p1, expbnder, x);
         return width;
     }
 
     // --- View methods ---------------------------------------------
 
     /**
-     * Fetches the portion of the model that this view is responsible for.
+     * Fetches the portion of the model thbt this view is responsible for.
      *
-     * @return the starting offset into the model
-     * @see View#getStartOffset
+     * @return the stbrting offset into the model
+     * @see View#getStbrtOffset
      */
-    public int getStartOffset() {
+    public int getStbrtOffset() {
         Element e = getElement();
-        return (length > 0) ? e.getStartOffset() + offset : e.getStartOffset();
+        return (length > 0) ? e.getStbrtOffset() + offset : e.getStbrtOffset();
     }
 
     /**
-     * Fetches the portion of the model that this view is responsible for.
+     * Fetches the portion of the model thbt this view is responsible for.
      *
      * @return the ending offset into the model
      * @see View#getEndOffset
      */
     public int getEndOffset() {
         Element e = getElement();
-        return (length > 0) ? e.getStartOffset() + offset + length : e.getEndOffset();
+        return (length > 0) ? e.getStbrtOffset() + offset + length : e.getEndOffset();
     }
 
     /**
-     * Lazily initializes the selections field
+     * Lbzily initiblizes the selections field
      */
-    private void initSelections(int p0, int p1) {
+    privbte void initSelections(int p0, int p1) {
         int viewPosCount = p1 - p0 + 1;
         if (selections == null || viewPosCount > selections.length) {
             selections = new byte[viewPosCount];
@@ -367,401 +367,401 @@ public class GlyphView extends View implements TabableView, Cloneable {
     }
 
     /**
-     * Renders a portion of a text style run.
+     * Renders b portion of b text style run.
      *
-     * @param g the rendering surface to use
-     * @param a the allocated region to render into
+     * @pbrbm g the rendering surfbce to use
+     * @pbrbm b the bllocbted region to render into
      */
-    public void paint(Graphics g, Shape a) {
-        checkPainter();
+    public void pbint(Grbphics g, Shbpe b) {
+        checkPbinter();
 
-        boolean paintedText = false;
-        Component c = getContainer();
-        int p0 = getStartOffset();
+        boolebn pbintedText = fblse;
+        Component c = getContbiner();
+        int p0 = getStbrtOffset();
         int p1 = getEndOffset();
-        Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a : a.getBounds();
-        Color bg = getBackground();
+        Rectbngle blloc = (b instbnceof Rectbngle) ? (Rectbngle)b : b.getBounds();
+        Color bg = getBbckground();
         Color fg = getForeground();
 
-        if (c != null && ! c.isEnabled()) {
-            fg = (c instanceof JTextComponent ?
-                ((JTextComponent)c).getDisabledTextColor() :
-                UIManager.getColor("textInactiveText"));
+        if (c != null && ! c.isEnbbled()) {
+            fg = (c instbnceof JTextComponent ?
+                ((JTextComponent)c).getDisbbledTextColor() :
+                UIMbnbger.getColor("textInbctiveText"));
         }
         if (bg != null) {
             g.setColor(bg);
-            g.fillRect(alloc.x, alloc.y, alloc.width, alloc.height);
+            g.fillRect(blloc.x, blloc.y, blloc.width, blloc.height);
         }
-        if (c instanceof JTextComponent) {
+        if (c instbnceof JTextComponent) {
             JTextComponent tc = (JTextComponent) c;
             Highlighter h = tc.getHighlighter();
-            if (h instanceof LayeredHighlighter) {
-                ((LayeredHighlighter)h).paintLayeredHighlights
-                    (g, p0, p1, a, tc, this);
+            if (h instbnceof LbyeredHighlighter) {
+                ((LbyeredHighlighter)h).pbintLbyeredHighlights
+                    (g, p0, p1, b, tc, this);
             }
         }
 
         if (Utilities.isComposedTextElement(getElement())) {
-            Utilities.paintComposedText(g, a.getBounds(), this);
-            paintedText = true;
-        } else if(c instanceof JTextComponent) {
+            Utilities.pbintComposedText(g, b.getBounds(), this);
+            pbintedText = true;
+        } else if(c instbnceof JTextComponent) {
             JTextComponent tc = (JTextComponent) c;
             Color selFG = tc.getSelectedTextColor();
 
-            if (// there's a highlighter (bug 4532590), and
+            if (// there's b highlighter (bug 4532590), bnd
                 (tc.getHighlighter() != null) &&
-                // selected text color is different from regular foreground
-                (selFG != null) && !selFG.equals(fg)) {
+                // selected text color is different from regulbr foreground
+                (selFG != null) && !selFG.equbls(fg)) {
 
                 Highlighter.Highlight[] h = tc.getHighlighter().getHighlights();
                 if(h.length != 0) {
-                    boolean initialized = false;
+                    boolebn initiblized = fblse;
                     int viewSelectionCount = 0;
                     for (int i = 0; i < h.length; i++) {
                         Highlighter.Highlight highlight = h[i];
-                        int hStart = highlight.getStartOffset();
+                        int hStbrt = highlight.getStbrtOffset();
                         int hEnd = highlight.getEndOffset();
-                        if (hStart > p1 || hEnd < p0) {
+                        if (hStbrt > p1 || hEnd < p0) {
                             // the selection is out of this view
                             continue;
                         }
                         if (!SwingUtilities2.useSelectedTextColor(highlight, tc)) {
                             continue;
                         }
-                        if (hStart <= p0 && hEnd >= p1){
+                        if (hStbrt <= p0 && hEnd >= p1){
                             // the whole view is selected
-                            paintTextUsingColor(g, a, selFG, p0, p1);
-                            paintedText = true;
-                            break;
+                            pbintTextUsingColor(g, b, selFG, p0, p1);
+                            pbintedText = true;
+                            brebk;
                         }
-                        // the array is lazily created only when the view
-                        // is partially selected
-                        if (!initialized) {
+                        // the brrby is lbzily crebted only when the view
+                        // is pbrtiblly selected
+                        if (!initiblized) {
                             initSelections(p0, p1);
-                            initialized = true;
+                            initiblized = true;
                         }
-                        hStart = Math.max(p0, hStart);
-                        hEnd = Math.min(p1, hEnd);
-                        paintTextUsingColor(g, a, selFG, hStart, hEnd);
-                        // the array represents view positions [0, p1-p0+1]
-                        // later will iterate this array and sum its
-                        // elements. Positions with sum == 0 are not selected.
-                        selections[hStart-p0]++;
+                        hStbrt = Mbth.mbx(p0, hStbrt);
+                        hEnd = Mbth.min(p1, hEnd);
+                        pbintTextUsingColor(g, b, selFG, hStbrt, hEnd);
+                        // the brrby represents view positions [0, p1-p0+1]
+                        // lbter will iterbte this brrby bnd sum its
+                        // elements. Positions with sum == 0 bre not selected.
+                        selections[hStbrt-p0]++;
                         selections[hEnd-p0]--;
 
                         viewSelectionCount++;
                     }
 
-                    if (!paintedText && viewSelectionCount > 0) {
-                        // the view is partially selected
+                    if (!pbintedText && viewSelectionCount > 0) {
+                        // the view is pbrtiblly selected
                         int curPos = -1;
-                        int startPos = 0;
+                        int stbrtPos = 0;
                         int viewLen = p1 - p0;
                         while (curPos++ < viewLen) {
-                            // searching for the next selection start
+                            // sebrching for the next selection stbrt
                             while(curPos < viewLen &&
                                     selections[curPos] == 0) curPos++;
-                            if (startPos != curPos) {
-                                // paint unselected text
-                                paintTextUsingColor(g, a, fg,
-                                        p0 + startPos, p0 + curPos);
+                            if (stbrtPos != curPos) {
+                                // pbint unselected text
+                                pbintTextUsingColor(g, b, fg,
+                                        p0 + stbrtPos, p0 + curPos);
                             }
                             int checkSum = 0;
-                            // searching for next start position of unselected text
+                            // sebrching for next stbrt position of unselected text
                             while (curPos < viewLen &&
                                     (checkSum += selections[curPos]) != 0) curPos++;
-                            startPos = curPos;
+                            stbrtPos = curPos;
                         }
-                        paintedText = true;
+                        pbintedText = true;
                     }
                 }
             }
         }
-        if(!paintedText)
-            paintTextUsingColor(g, a, fg, p0, p1);
+        if(!pbintedText)
+            pbintTextUsingColor(g, b, fg, p0, p1);
     }
 
     /**
-     * Paints the specified region of text in the specified color.
+     * Pbints the specified region of text in the specified color.
      */
-    final void paintTextUsingColor(Graphics g, Shape a, Color c, int p0, int p1) {
+    finbl void pbintTextUsingColor(Grbphics g, Shbpe b, Color c, int p0, int p1) {
         // render the glyphs
         g.setColor(c);
-        painter.paint(this, g, a, p0, p1);
+        pbinter.pbint(this, g, b, p0, p1);
 
         // render underline or strikethrough if set.
-        boolean underline = isUnderline();
-        boolean strike = isStrikeThrough();
+        boolebn underline = isUnderline();
+        boolebn strike = isStrikeThrough();
         if (underline || strike) {
-            // calculate x coordinates
-            Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a : a.getBounds();
-            View parent = getParent();
-            if ((parent != null) && (parent.getEndOffset() == p1)) {
-                // strip whitespace on end
+            // cblculbte x coordinbtes
+            Rectbngle blloc = (b instbnceof Rectbngle) ? (Rectbngle)b : b.getBounds();
+            View pbrent = getPbrent();
+            if ((pbrent != null) && (pbrent.getEndOffset() == p1)) {
+                // strip whitespbce on end
                 Segment s = getText(p0, p1);
-                while (Character.isWhitespace(s.last())) {
+                while (Chbrbcter.isWhitespbce(s.lbst())) {
                     p1 -= 1;
                     s.count -= 1;
                 }
-                SegmentCache.releaseSharedSegment(s);
+                SegmentCbche.relebseShbredSegment(s);
             }
-            int x0 = alloc.x;
-            int p = getStartOffset();
+            int x0 = blloc.x;
+            int p = getStbrtOffset();
             if (p != p0) {
-                x0 += (int) painter.getSpan(this, p, p0, getTabExpander(), x0);
+                x0 += (int) pbinter.getSpbn(this, p, p0, getTbbExpbnder(), x0);
             }
-            int x1 = x0 + (int) painter.getSpan(this, p0, p1, getTabExpander(), x0);
+            int x1 = x0 + (int) pbinter.getSpbn(this, p0, p1, getTbbExpbnder(), x0);
 
-            // calculate y coordinate
-            int y = alloc.y + (int)(painter.getHeight(this) - painter.getDescent(this));
+            // cblculbte y coordinbte
+            int y = blloc.y + (int)(pbinter.getHeight(this) - pbinter.getDescent(this));
             if (underline) {
                 int yTmp = y + 1;
-                g.drawLine(x0, yTmp, x1, yTmp);
+                g.drbwLine(x0, yTmp, x1, yTmp);
             }
             if (strike) {
-                // move y coordinate above baseline
-                int yTmp = y - (int) (painter.getAscent(this) * 0.3f);
-                g.drawLine(x0, yTmp, x1, yTmp);
+                // move y coordinbte bbove bbseline
+                int yTmp = y - (int) (pbinter.getAscent(this) * 0.3f);
+                g.drbwLine(x0, yTmp, x1, yTmp);
             }
 
         }
     }
 
     /**
-     * Determines the minimum span for this view along an axis.
+     * Determines the minimum spbn for this view blong bn bxis.
      *
-     * <p>This implementation returns the longest non-breakable area within
-     * the view as a minimum span for {@code View.X_AXIS}.</p>
+     * <p>This implementbtion returns the longest non-brebkbble breb within
+     * the view bs b minimum spbn for {@code View.X_AXIS}.</p>
      *
-     * @param axis  may be either {@code View.X_AXIS} or {@code View.Y_AXIS}
-     * @return      the minimum span the view can be rendered into
-     * @throws IllegalArgumentException if the {@code axis} parameter is invalid
-     * @see         javax.swing.text.View#getMinimumSpan
+     * @pbrbm bxis  mby be either {@code View.X_AXIS} or {@code View.Y_AXIS}
+     * @return      the minimum spbn the view cbn be rendered into
+     * @throws IllegblArgumentException if the {@code bxis} pbrbmeter is invblid
+     * @see         jbvbx.swing.text.View#getMinimumSpbn
      */
     @Override
-    public float getMinimumSpan(int axis) {
-        switch (axis) {
-            case View.X_AXIS:
-                if (minimumSpan < 0) {
-                    minimumSpan = 0;
-                    int p0 = getStartOffset();
+    public flobt getMinimumSpbn(int bxis) {
+        switch (bxis) {
+            cbse View.X_AXIS:
+                if (minimumSpbn < 0) {
+                    minimumSpbn = 0;
+                    int p0 = getStbrtOffset();
                     int p1 = getEndOffset();
                     while (p1 > p0) {
-                        int breakSpot = getBreakSpot(p0, p1);
-                        if (breakSpot == BreakIterator.DONE) {
-                            // the rest of the view is non-breakable
-                            breakSpot = p0;
+                        int brebkSpot = getBrebkSpot(p0, p1);
+                        if (brebkSpot == BrebkIterbtor.DONE) {
+                            // the rest of the view is non-brebkbble
+                            brebkSpot = p0;
                         }
-                        minimumSpan = Math.max(minimumSpan,
-                                getPartialSpan(breakSpot, p1));
-                        // Note: getBreakSpot returns the *last* breakspot
-                        p1 = breakSpot - 1;
+                        minimumSpbn = Mbth.mbx(minimumSpbn,
+                                getPbrtiblSpbn(brebkSpot, p1));
+                        // Note: getBrebkSpot returns the *lbst* brebkspot
+                        p1 = brebkSpot - 1;
                     }
                 }
-                return minimumSpan;
-            case View.Y_AXIS:
-                return super.getMinimumSpan(axis);
-            default:
-                throw new IllegalArgumentException("Invalid axis: " + axis);
+                return minimumSpbn;
+            cbse View.Y_AXIS:
+                return super.getMinimumSpbn(bxis);
+            defbult:
+                throw new IllegblArgumentException("Invblid bxis: " + bxis);
         }
     }
 
     /**
-     * Determines the preferred span for this view along an
-     * axis.
+     * Determines the preferred spbn for this view blong bn
+     * bxis.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return   the span the view would like to be rendered into &gt;= 0.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @return   the spbn the view would like to be rendered into &gt;= 0.
+     *           Typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee.
+     *           The pbrent mby choose to resize or brebk the view.
      */
-    public float getPreferredSpan(int axis) {
+    public flobt getPreferredSpbn(int bxis) {
         if (impliedCR) {
             return 0;
         }
-        checkPainter();
-        int p0 = getStartOffset();
+        checkPbinter();
+        int p0 = getStbrtOffset();
         int p1 = getEndOffset();
-        switch (axis) {
-        case View.X_AXIS:
+        switch (bxis) {
+        cbse View.X_AXIS:
             if (skipWidth) {
                 return 0;
             }
-            return painter.getSpan(this, p0, p1, expander, this.x);
-        case View.Y_AXIS:
-            float h = painter.getHeight(this);
+            return pbinter.getSpbn(this, p0, p1, expbnder, this.x);
+        cbse View.Y_AXIS:
+            flobt h = pbinter.getHeight(this);
             if (isSuperscript()) {
                 h += h/3;
             }
             return h;
-        default:
-            throw new IllegalArgumentException("Invalid axis: " + axis);
+        defbult:
+            throw new IllegblArgumentException("Invblid bxis: " + bxis);
         }
     }
 
     /**
-     * Determines the desired alignment for this view along an
-     * axis.  For the label, the alignment is along the font
-     * baseline for the y axis, and the superclasses alignment
-     * along the x axis.
+     * Determines the desired blignment for this view blong bn
+     * bxis.  For the lbbel, the blignment is blong the font
+     * bbseline for the y bxis, bnd the superclbsses blignment
+     * blong the x bxis.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return the desired alignment.  This should be a value
-     *   between 0.0 and 1.0 inclusive, where 0 indicates alignment at the
-     *   origin and 1.0 indicates alignment to the full span
-     *   away from the origin.  An alignment of 0.5 would be the
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @return the desired blignment.  This should be b vblue
+     *   between 0.0 bnd 1.0 inclusive, where 0 indicbtes blignment bt the
+     *   origin bnd 1.0 indicbtes blignment to the full spbn
+     *   bwby from the origin.  An blignment of 0.5 would be the
      *   center of the view.
      */
-    public float getAlignment(int axis) {
-        checkPainter();
-        if (axis == View.Y_AXIS) {
-            boolean sup = isSuperscript();
-            boolean sub = isSubscript();
-            float h = painter.getHeight(this);
-            float d = painter.getDescent(this);
-            float a = painter.getAscent(this);
-            float align;
+    public flobt getAlignment(int bxis) {
+        checkPbinter();
+        if (bxis == View.Y_AXIS) {
+            boolebn sup = isSuperscript();
+            boolebn sub = isSubscript();
+            flobt h = pbinter.getHeight(this);
+            flobt d = pbinter.getDescent(this);
+            flobt b = pbinter.getAscent(this);
+            flobt blign;
             if (sup) {
-                align = 1.0f;
+                blign = 1.0f;
             } else if (sub) {
-                align = (h > 0) ? (h - (d + (a / 2))) / h : 0;
+                blign = (h > 0) ? (h - (d + (b / 2))) / h : 0;
             } else {
-                align = (h > 0) ? (h - d) / h : 0;
+                blign = (h > 0) ? (h - d) / h : 0;
             }
-            return align;
+            return blign;
         }
-        return super.getAlignment(axis);
+        return super.getAlignment(bxis);
     }
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it.
+     * Provides b mbpping from the document model coordinbte spbce
+     * to the coordinbte spbce of the view mbpped to it.
      *
-     * @param pos the position to convert &gt;= 0
-     * @param a   the allocated region to render into
-     * @param b   either <code>Position.Bias.Forward</code>
-     *                or <code>Position.Bias.Backward</code>
+     * @pbrbm pos the position to convert &gt;= 0
+     * @pbrbm b   the bllocbted region to render into
+     * @pbrbm b   either <code>Position.Bibs.Forwbrd</code>
+     *                or <code>Position.Bibs.Bbckwbrd</code>
      * @return the bounding box of the given position
-     * @exception BadLocationException  if the given position does not represent a
-     *   valid location in the associated document
+     * @exception BbdLocbtionException  if the given position does not represent b
+     *   vblid locbtion in the bssocibted document
      * @see View#modelToView
      */
-    public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-        checkPainter();
-        return painter.modelToView(this, pos, b, a);
+    public Shbpe modelToView(int pos, Shbpe b, Position.Bibs b) throws BbdLocbtionException {
+        checkPbinter();
+        return pbinter.modelToView(this, pos, b, b);
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Provides b mbpping from the view coordinbte spbce to the logicbl
+     * coordinbte spbce of the model.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param a the allocated region to render into
-     * @param biasReturn either <code>Position.Bias.Forward</code>
-     *  or <code>Position.Bias.Backward</code> is returned as the
-     *  zero-th element of this array
-     * @return the location within the model that best represents the
+     * @pbrbm x the X coordinbte &gt;= 0
+     * @pbrbm y the Y coordinbte &gt;= 0
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm bibsReturn either <code>Position.Bibs.Forwbrd</code>
+     *  or <code>Position.Bibs.Bbckwbrd</code> is returned bs the
+     *  zero-th element of this brrby
+     * @return the locbtion within the model thbt best represents the
      *  given point of view &gt;= 0
      * @see View#viewToModel
      */
-    public int viewToModel(float x, float y, Shape a, Position.Bias[] biasReturn) {
-        checkPainter();
-        return painter.viewToModel(this, x, y, a, biasReturn);
+    public int viewToModel(flobt x, flobt y, Shbpe b, Position.Bibs[] bibsReturn) {
+        checkPbinter();
+        return pbinter.viewToModel(this, x, y, b, bibsReturn);
     }
 
     /**
-     * Determines how attractive a break opportunity in
-     * this view is.  This can be used for determining which
-     * view is the most attractive to call <code>breakView</code>
-     * on in the process of formatting.  The
-     * higher the weight, the more attractive the break.  A
-     * value equal to or lower than <code>View.BadBreakWeight</code>
-     * should not be considered for a break.  A value greater
-     * than or equal to <code>View.ForcedBreakWeight</code> should
+     * Determines how bttrbctive b brebk opportunity in
+     * this view is.  This cbn be used for determining which
+     * view is the most bttrbctive to cbll <code>brebkView</code>
+     * on in the process of formbtting.  The
+     * higher the weight, the more bttrbctive the brebk.  A
+     * vblue equbl to or lower thbn <code>View.BbdBrebkWeight</code>
+     * should not be considered for b brebk.  A vblue grebter
+     * thbn or equbl to <code>View.ForcedBrebkWeight</code> should
      * be broken.
      * <p>
-     * This is implemented to forward to the superclass for
-     * the Y_AXIS.  Along the X_AXIS the following values
-     * may be returned.
+     * This is implemented to forwbrd to the superclbss for
+     * the Y_AXIS.  Along the X_AXIS the following vblues
+     * mby be returned.
      * <dl>
-     * <dt><b>View.ExcellentBreakWeight</b>
-     * <dd>if there is whitespace proceeding the desired break
-     *   location.
-     * <dt><b>View.BadBreakWeight</b>
-     * <dd>if the desired break location results in a break
-     *   location of the starting offset.
-     * <dt><b>View.GoodBreakWeight</b>
+     * <dt><b>View.ExcellentBrebkWeight</b>
+     * <dd>if there is whitespbce proceeding the desired brebk
+     *   locbtion.
+     * <dt><b>View.BbdBrebkWeight</b>
+     * <dd>if the desired brebk locbtion results in b brebk
+     *   locbtion of the stbrting offset.
+     * <dt><b>View.GoodBrebkWeight</b>
      * <dd>if the other conditions don't occur.
      * </dl>
-     * This will normally result in the behavior of breaking
-     * on a whitespace location if one can be found, otherwise
-     * breaking between characters.
+     * This will normblly result in the behbvior of brebking
+     * on b whitespbce locbtion if one cbn be found, otherwise
+     * brebking between chbrbcters.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @param pos the potential location of the start of the
-     *   broken view &gt;= 0.  This may be useful for calculating tab
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @pbrbm pos the potentibl locbtion of the stbrt of the
+     *   broken view &gt;= 0.  This mby be useful for cblculbting tbb
      *   positions.
-     * @param len specifies the relative length from <em>pos</em>
-     *   where a potential break is desired &gt;= 0.
-     * @return the weight, which should be a value between
-     *   View.ForcedBreakWeight and View.BadBreakWeight.
-     * @see LabelView
-     * @see ParagraphView
-     * @see View#BadBreakWeight
-     * @see View#GoodBreakWeight
-     * @see View#ExcellentBreakWeight
-     * @see View#ForcedBreakWeight
+     * @pbrbm len specifies the relbtive length from <em>pos</em>
+     *   where b potentibl brebk is desired &gt;= 0.
+     * @return the weight, which should be b vblue between
+     *   View.ForcedBrebkWeight bnd View.BbdBrebkWeight.
+     * @see LbbelView
+     * @see PbrbgrbphView
+     * @see View#BbdBrebkWeight
+     * @see View#GoodBrebkWeight
+     * @see View#ExcellentBrebkWeight
+     * @see View#ForcedBrebkWeight
      */
-    public int getBreakWeight(int axis, float pos, float len) {
-        if (axis == View.X_AXIS) {
-            checkPainter();
-            int p0 = getStartOffset();
-            int p1 = painter.getBoundedPosition(this, p0, pos, len);
-            return p1 == p0 ? View.BadBreakWeight :
-                   getBreakSpot(p0, p1) != BreakIterator.DONE ?
-                            View.ExcellentBreakWeight : View.GoodBreakWeight;
+    public int getBrebkWeight(int bxis, flobt pos, flobt len) {
+        if (bxis == View.X_AXIS) {
+            checkPbinter();
+            int p0 = getStbrtOffset();
+            int p1 = pbinter.getBoundedPosition(this, p0, pos, len);
+            return p1 == p0 ? View.BbdBrebkWeight :
+                   getBrebkSpot(p0, p1) != BrebkIterbtor.DONE ?
+                            View.ExcellentBrebkWeight : View.GoodBrebkWeight;
         }
-        return super.getBreakWeight(axis, pos, len);
+        return super.getBrebkWeight(bxis, pos, len);
     }
 
     /**
-     * Breaks this view on the given axis at the given length.
-     * This is implemented to attempt to break on a whitespace
-     * location, and returns a fragment with the whitespace at
-     * the end.  If a whitespace location can't be found, the
-     * nearest character is used.
+     * Brebks this view on the given bxis bt the given length.
+     * This is implemented to bttempt to brebk on b whitespbce
+     * locbtion, bnd returns b frbgment with the whitespbce bt
+     * the end.  If b whitespbce locbtion cbn't be found, the
+     * nebrest chbrbcter is used.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @param p0 the location in the model where the
-     *  fragment should start it's representation &gt;= 0.
-     * @param pos the position along the axis that the
-     *  broken view would occupy &gt;= 0.  This may be useful for
-     *  things like tab calculations.
-     * @param len specifies the distance along the axis
-     *  where a potential break is desired &gt;= 0.
-     * @return the fragment of the view that represents the
-     *  given span, if the view can be broken.  If the view
-     *  doesn't support breaking behavior, the view itself is
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @pbrbm p0 the locbtion in the model where the
+     *  frbgment should stbrt it's representbtion &gt;= 0.
+     * @pbrbm pos the position blong the bxis thbt the
+     *  broken view would occupy &gt;= 0.  This mby be useful for
+     *  things like tbb cblculbtions.
+     * @pbrbm len specifies the distbnce blong the bxis
+     *  where b potentibl brebk is desired &gt;= 0.
+     * @return the frbgment of the view thbt represents the
+     *  given spbn, if the view cbn be broken.  If the view
+     *  doesn't support brebking behbvior, the view itself is
      *  returned.
-     * @see View#breakView
+     * @see View#brebkView
      */
-    public View breakView(int axis, int p0, float pos, float len) {
-        if (axis == View.X_AXIS) {
-            checkPainter();
-            int p1 = painter.getBoundedPosition(this, p0, pos, len);
-            int breakSpot = getBreakSpot(p0, p1);
+    public View brebkView(int bxis, int p0, flobt pos, flobt len) {
+        if (bxis == View.X_AXIS) {
+            checkPbinter();
+            int p1 = pbinter.getBoundedPosition(this, p0, pos, len);
+            int brebkSpot = getBrebkSpot(p0, p1);
 
-            if (breakSpot != -1) {
-                p1 = breakSpot;
+            if (brebkSpot != -1) {
+                p1 = brebkSpot;
             }
-            // else, no break in the region, return a fragment of the
+            // else, no brebk in the region, return b frbgment of the
             // bounded region.
-            if (p0 == getStartOffset() && p1 == getEndOffset()) {
+            if (p0 == getStbrtOffset() && p1 == getEndOffset()) {
                 return this;
             }
-            GlyphView v = (GlyphView) createFragment(p0, p1);
+            GlyphView v = (GlyphView) crebteFrbgment(p0, p1);
             v.x = (int) pos;
             return v;
         }
@@ -769,571 +769,571 @@ public class GlyphView extends View implements TabableView, Cloneable {
     }
 
     /**
-     * Returns a location to break at in the passed in region, or
-     * BreakIterator.DONE if there isn't a good location to break at
+     * Returns b locbtion to brebk bt in the pbssed in region, or
+     * BrebkIterbtor.DONE if there isn't b good locbtion to brebk bt
      * in the specified region.
      */
-    private int getBreakSpot(int p0, int p1) {
-        if (breakSpots == null) {
-            // Re-calculate breakpoints for the whole view
-            int start = getStartOffset();
+    privbte int getBrebkSpot(int p0, int p1) {
+        if (brebkSpots == null) {
+            // Re-cblculbte brebkpoints for the whole view
+            int stbrt = getStbrtOffset();
             int end = getEndOffset();
-            int[] bs = new int[end + 1 - start];
+            int[] bs = new int[end + 1 - stbrt];
             int ix = 0;
 
-            // Breaker should work on the parent element because there may be
-            // a valid breakpoint at the end edge of the view (space, etc.)
-            Element parent = getElement().getParentElement();
-            int pstart = (parent == null ? start : parent.getStartOffset());
-            int pend = (parent == null ? end : parent.getEndOffset());
+            // Brebker should work on the pbrent element becbuse there mby be
+            // b vblid brebkpoint bt the end edge of the view (spbce, etc.)
+            Element pbrent = getElement().getPbrentElement();
+            int pstbrt = (pbrent == null ? stbrt : pbrent.getStbrtOffset());
+            int pend = (pbrent == null ? end : pbrent.getEndOffset());
 
-            Segment s = getText(pstart, pend);
+            Segment s = getText(pstbrt, pend);
             s.first();
-            BreakIterator breaker = getBreaker();
-            breaker.setText(s);
+            BrebkIterbtor brebker = getBrebker();
+            brebker.setText(s);
 
-            // Backward search should start from end+1 unless there's NO end+1
-            int startFrom = end + (pend > end ? 1 : 0);
+            // Bbckwbrd sebrch should stbrt from end+1 unless there's NO end+1
+            int stbrtFrom = end + (pend > end ? 1 : 0);
             for (;;) {
-                startFrom = breaker.preceding(s.offset + (startFrom - pstart))
-                          + (pstart - s.offset);
-                if (startFrom > start) {
-                    // The break spot is within the view
-                    bs[ix++] = startFrom;
+                stbrtFrom = brebker.preceding(s.offset + (stbrtFrom - pstbrt))
+                          + (pstbrt - s.offset);
+                if (stbrtFrom > stbrt) {
+                    // The brebk spot is within the view
+                    bs[ix++] = stbrtFrom;
                 } else {
-                    break;
+                    brebk;
                 }
             }
 
-            SegmentCache.releaseSharedSegment(s);
-            breakSpots = new int[ix];
-            System.arraycopy(bs, 0, breakSpots, 0, ix);
+            SegmentCbche.relebseShbredSegment(s);
+            brebkSpots = new int[ix];
+            System.brrbycopy(bs, 0, brebkSpots, 0, ix);
         }
 
-        int breakSpot = BreakIterator.DONE;
-        for (int i = 0; i < breakSpots.length; i++) {
-            int bsp = breakSpots[i];
+        int brebkSpot = BrebkIterbtor.DONE;
+        for (int i = 0; i < brebkSpots.length; i++) {
+            int bsp = brebkSpots[i];
             if (bsp <= p1) {
                 if (bsp > p0) {
-                    breakSpot = bsp;
+                    brebkSpot = bsp;
                 }
-                break;
+                brebk;
             }
         }
-        return breakSpot;
+        return brebkSpot;
     }
 
     /**
-     * Return break iterator appropriate for the current document.
+     * Return brebk iterbtor bppropribte for the current document.
      *
-     * For non-i18n documents a fast whitespace-based break iterator is used.
+     * For non-i18n documents b fbst whitespbce-bbsed brebk iterbtor is used.
      */
-    private BreakIterator getBreaker() {
+    privbte BrebkIterbtor getBrebker() {
         Document doc = getDocument();
-        if ((doc != null) && Boolean.TRUE.equals(
-                    doc.getProperty(AbstractDocument.MultiByteProperty))) {
-            Container c = getContainer();
-            Locale locale = (c == null ? Locale.getDefault() : c.getLocale());
-            return BreakIterator.getLineInstance(locale);
+        if ((doc != null) && Boolebn.TRUE.equbls(
+                    doc.getProperty(AbstrbctDocument.MultiByteProperty))) {
+            Contbiner c = getContbiner();
+            Locble locble = (c == null ? Locble.getDefbult() : c.getLocble());
+            return BrebkIterbtor.getLineInstbnce(locble);
         } else {
-            return new WhitespaceBasedBreakIterator();
+            return new WhitespbceBbsedBrebkIterbtor();
         }
     }
 
     /**
-     * Creates a view that represents a portion of the element.
-     * This is potentially useful during formatting operations
-     * for taking measurements of fragments of the view.  If
-     * the view doesn't support fragmenting (the default), it
+     * Crebtes b view thbt represents b portion of the element.
+     * This is potentiblly useful during formbtting operbtions
+     * for tbking mebsurements of frbgments of the view.  If
+     * the view doesn't support frbgmenting (the defbult), it
      * should return itself.
      * <p>
-     * This view does support fragmenting.  It is implemented
-     * to return a nested class that shares state in this view
-     * representing only a portion of the view.
+     * This view does support frbgmenting.  It is implemented
+     * to return b nested clbss thbt shbres stbte in this view
+     * representing only b portion of the view.
      *
-     * @param p0 the starting offset &gt;= 0.  This should be a value
-     *   greater or equal to the element starting offset and
-     *   less than the element ending offset.
-     * @param p1 the ending offset &gt; p0.  This should be a value
-     *   less than or equal to the elements end offset and
-     *   greater than the elements starting offset.
-     * @return the view fragment, or itself if the view doesn't
-     *   support breaking into fragments
-     * @see LabelView
+     * @pbrbm p0 the stbrting offset &gt;= 0.  This should be b vblue
+     *   grebter or equbl to the element stbrting offset bnd
+     *   less thbn the element ending offset.
+     * @pbrbm p1 the ending offset &gt; p0.  This should be b vblue
+     *   less thbn or equbl to the elements end offset bnd
+     *   grebter thbn the elements stbrting offset.
+     * @return the view frbgment, or itself if the view doesn't
+     *   support brebking into frbgments
+     * @see LbbelView
      */
-    public View createFragment(int p0, int p1) {
-        checkPainter();
+    public View crebteFrbgment(int p0, int p1) {
+        checkPbinter();
         Element elem = getElement();
         GlyphView v = (GlyphView) clone();
-        v.offset = p0 - elem.getStartOffset();
+        v.offset = p0 - elem.getStbrtOffset();
         v.length = p1 - p0;
-        v.painter = painter.getPainter(v, p0, p1);
-        v.justificationInfo = null;
+        v.pbinter = pbinter.getPbinter(v, p0, p1);
+        v.justificbtionInfo = null;
         return v;
     }
 
     /**
-     * Provides a way to determine the next visually represented model
-     * location that one might place a caret.  Some views may not be
-     * visible, they might not be in the same order found in the model, or
-     * they just might not allow access to some of the locations in the
+     * Provides b wby to determine the next visublly represented model
+     * locbtion thbt one might plbce b cbret.  Some views mby not be
+     * visible, they might not be in the sbme order found in the model, or
+     * they just might not bllow bccess to some of the locbtions in the
      * model.
-     * This method enables specifying a position to convert
-     * within the range of &gt;=0.  If the value is -1, a position
-     * will be calculated automatically.  If the value &lt; -1,
-     * the {@code BadLocationException} will be thrown.
+     * This method enbbles specifying b position to convert
+     * within the rbnge of &gt;=0.  If the vblue is -1, b position
+     * will be cblculbted butombticblly.  If the vblue &lt; -1,
+     * the {@code BbdLocbtionException} will be thrown.
      *
-     * @param pos the position to convert
-     * @param a the allocated region to render into
-     * @param direction the direction from the current position that can
-     *  be thought of as the arrow keys typically found on a keyboard.
-     *  This may be SwingConstants.WEST, SwingConstants.EAST,
-     *  SwingConstants.NORTH, or SwingConstants.SOUTH.
-     * @return the location within the model that best represents the next
-     *  location visual position.
-     * @exception BadLocationException the given position is not a valid
+     * @pbrbm pos the position to convert
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm direction the direction from the current position thbt cbn
+     *  be thought of bs the brrow keys typicblly found on b keybobrd.
+     *  This mby be SwingConstbnts.WEST, SwingConstbnts.EAST,
+     *  SwingConstbnts.NORTH, or SwingConstbnts.SOUTH.
+     * @return the locbtion within the model thbt best represents the next
+     *  locbtion visubl position.
+     * @exception BbdLocbtionException the given position is not b vblid
      *                                 position within the document
-     * @exception IllegalArgumentException for an invalid direction
+     * @exception IllegblArgumentException for bn invblid direction
      */
-    public int getNextVisualPositionFrom(int pos, Position.Bias b, Shape a,
+    public int getNextVisublPositionFrom(int pos, Position.Bibs b, Shbpe b,
                                          int direction,
-                                         Position.Bias[] biasRet)
-        throws BadLocationException {
+                                         Position.Bibs[] bibsRet)
+        throws BbdLocbtionException {
 
         if (pos < -1) {
-            throw new BadLocationException("invalid position", pos);
+            throw new BbdLocbtionException("invblid position", pos);
         }
-        return painter.getNextVisualPositionFrom(this, pos, b, a, direction, biasRet);
+        return pbinter.getNextVisublPositionFrom(this, pos, b, b, direction, bibsRet);
     }
 
     /**
-     * Gives notification that something was inserted into
-     * the document in a location that this view is responsible for.
-     * This is implemented to call preferenceChanged along the
-     * axis the glyphs are rendered.
+     * Gives notificbtion thbt something wbs inserted into
+     * the document in b locbtion thbt this view is responsible for.
+     * This is implemented to cbll preferenceChbnged blong the
+     * bxis the glyphs bre rendered.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#insertUpdate
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#insertUpdbte
      */
-    public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        justificationInfo = null;
-        breakSpots = null;
-        minimumSpan = -1;
+    public void insertUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
+        justificbtionInfo = null;
+        brebkSpots = null;
+        minimumSpbn = -1;
         syncCR();
-        preferenceChanged(null, true, false);
+        preferenceChbnged(null, true, fblse);
     }
 
     /**
-     * Gives notification that something was removed from the document
-     * in a location that this view is responsible for.
-     * This is implemented to call preferenceChanged along the
-     * axis the glyphs are rendered.
+     * Gives notificbtion thbt something wbs removed from the document
+     * in b locbtion thbt this view is responsible for.
+     * This is implemented to cbll preferenceChbnged blong the
+     * bxis the glyphs bre rendered.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#removeUpdate
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#removeUpdbte
      */
-    public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        justificationInfo = null;
-        breakSpots = null;
-        minimumSpan = -1;
+    public void removeUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
+        justificbtionInfo = null;
+        brebkSpots = null;
+        minimumSpbn = -1;
         syncCR();
-        preferenceChanged(null, true, false);
+        preferenceChbnged(null, true, fblse);
     }
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.
-     * This is implemented to call preferenceChanged along both the
-     * horizontal and vertical axis.
+     * Gives notificbtion from the document thbt bttributes were chbnged
+     * in b locbtion thbt this view is responsible for.
+     * This is implemented to cbll preferenceChbnged blong both the
+     * horizontbl bnd verticbl bxis.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#changedUpdate
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#chbngedUpdbte
      */
-    public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        minimumSpan = -1;
+    public void chbngedUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
+        minimumSpbn = -1;
         syncCR();
-        preferenceChanged(null, true, true);
+        preferenceChbnged(null, true, true);
     }
 
-    // checks if the paragraph is empty and updates impliedCR flag
-    // accordingly
-    private void syncCR() {
+    // checks if the pbrbgrbph is empty bnd updbtes impliedCR flbg
+    // bccordingly
+    privbte void syncCR() {
         if (impliedCR) {
-            Element parent = getElement().getParentElement();
-            impliedCR = (parent != null && parent.getElementCount() > 1);
+            Element pbrent = getElement().getPbrentElement();
+            impliedCR = (pbrent != null && pbrent.getElementCount() > 1);
         }
     }
 
     /**
-     * Class to hold data needed to justify this GlyphView in a PargraphView.Row
+     * Clbss to hold dbtb needed to justify this GlyphView in b PbrgrbphView.Row
      */
-    static class JustificationInfo {
-        //justifiable content start
-        final int start;
-        //justifiable content end
-        final int end;
-        final int leadingSpaces;
-        final int contentSpaces;
-        final int trailingSpaces;
-        final boolean hasTab;
-        final BitSet spaceMap;
-        JustificationInfo(int start, int end,
-                          int leadingSpaces,
-                          int contentSpaces,
-                          int trailingSpaces,
-                          boolean hasTab,
-                          BitSet spaceMap) {
-            this.start = start;
+    stbtic clbss JustificbtionInfo {
+        //justifibble content stbrt
+        finbl int stbrt;
+        //justifibble content end
+        finbl int end;
+        finbl int lebdingSpbces;
+        finbl int contentSpbces;
+        finbl int trbilingSpbces;
+        finbl boolebn hbsTbb;
+        finbl BitSet spbceMbp;
+        JustificbtionInfo(int stbrt, int end,
+                          int lebdingSpbces,
+                          int contentSpbces,
+                          int trbilingSpbces,
+                          boolebn hbsTbb,
+                          BitSet spbceMbp) {
+            this.stbrt = stbrt;
             this.end = end;
-            this.leadingSpaces = leadingSpaces;
-            this.contentSpaces = contentSpaces;
-            this.trailingSpaces = trailingSpaces;
-            this.hasTab = hasTab;
-            this.spaceMap = spaceMap;
+            this.lebdingSpbces = lebdingSpbces;
+            this.contentSpbces = contentSpbces;
+            this.trbilingSpbces = trbilingSpbces;
+            this.hbsTbb = hbsTbb;
+            this.spbceMbp = spbceMbp;
         }
     }
 
 
 
-    JustificationInfo getJustificationInfo(int rowStartOffset) {
-        if (justificationInfo != null) {
-            return justificationInfo;
+    JustificbtionInfo getJustificbtionInfo(int rowStbrtOffset) {
+        if (justificbtionInfo != null) {
+            return justificbtionInfo;
         }
-        //states for the parsing
-        final int TRAILING = 0;
-        final int CONTENT  = 1;
-        final int SPACES   = 2;
-        int startOffset = getStartOffset();
+        //stbtes for the pbrsing
+        finbl int TRAILING = 0;
+        finbl int CONTENT  = 1;
+        finbl int SPACES   = 2;
+        int stbrtOffset = getStbrtOffset();
         int endOffset = getEndOffset();
-        Segment segment = getText(startOffset, endOffset);
+        Segment segment = getText(stbrtOffset, endOffset);
         int txtOffset = segment.offset;
         int txtEnd = segment.offset + segment.count - 1;
-        int startContentPosition = txtEnd + 1;
+        int stbrtContentPosition = txtEnd + 1;
         int endContentPosition = txtOffset - 1;
-        int lastTabPosition = txtOffset - 1;
-        int trailingSpaces = 0;
-        int contentSpaces = 0;
-        int leadingSpaces = 0;
-        boolean hasTab = false;
-        BitSet spaceMap = new BitSet(endOffset - startOffset + 1);
+        int lbstTbbPosition = txtOffset - 1;
+        int trbilingSpbces = 0;
+        int contentSpbces = 0;
+        int lebdingSpbces = 0;
+        boolebn hbsTbb = fblse;
+        BitSet spbceMbp = new BitSet(endOffset - stbrtOffset + 1);
 
-        //we parse conent to the right of the rightmost TAB only.
-        //we are looking for the trailing and leading spaces.
-        //position after the leading spaces (startContentPosition)
-        //position before the trailing spaces (endContentPosition)
-        for (int i = txtEnd, state = TRAILING; i >= txtOffset; i--) {
-            if (' ' == segment.array[i]) {
-                spaceMap.set(i - txtOffset);
-                if (state == TRAILING) {
-                    trailingSpaces++;
-                } else if (state == CONTENT) {
-                    state = SPACES;
-                    leadingSpaces = 1;
-                } else if (state == SPACES) {
-                    leadingSpaces++;
+        //we pbrse conent to the right of the rightmost TAB only.
+        //we bre looking for the trbiling bnd lebding spbces.
+        //position bfter the lebding spbces (stbrtContentPosition)
+        //position before the trbiling spbces (endContentPosition)
+        for (int i = txtEnd, stbte = TRAILING; i >= txtOffset; i--) {
+            if (' ' == segment.brrby[i]) {
+                spbceMbp.set(i - txtOffset);
+                if (stbte == TRAILING) {
+                    trbilingSpbces++;
+                } else if (stbte == CONTENT) {
+                    stbte = SPACES;
+                    lebdingSpbces = 1;
+                } else if (stbte == SPACES) {
+                    lebdingSpbces++;
                 }
-            } else if ('\t' == segment.array[i]) {
-                hasTab = true;
-                break;
+            } else if ('\t' == segment.brrby[i]) {
+                hbsTbb = true;
+                brebk;
             } else {
-                if (state == TRAILING) {
-                    if ('\n' != segment.array[i]
-                          && '\r' != segment.array[i]) {
-                        state = CONTENT;
+                if (stbte == TRAILING) {
+                    if ('\n' != segment.brrby[i]
+                          && '\r' != segment.brrby[i]) {
+                        stbte = CONTENT;
                         endContentPosition = i;
                     }
-                } else if (state == CONTENT) {
+                } else if (stbte == CONTENT) {
                     //do nothing
-                } else if (state == SPACES) {
-                    contentSpaces += leadingSpaces;
-                    leadingSpaces = 0;
+                } else if (stbte == SPACES) {
+                    contentSpbces += lebdingSpbces;
+                    lebdingSpbces = 0;
                 }
-                startContentPosition = i;
+                stbrtContentPosition = i;
             }
         }
 
-        SegmentCache.releaseSharedSegment(segment);
+        SegmentCbche.relebseShbredSegment(segment);
 
-        int startJustifiableContent = -1;
-        if (startContentPosition < txtEnd) {
-            startJustifiableContent =
-                startContentPosition - txtOffset;
+        int stbrtJustifibbleContent = -1;
+        if (stbrtContentPosition < txtEnd) {
+            stbrtJustifibbleContent =
+                stbrtContentPosition - txtOffset;
         }
-        int endJustifiableContent = -1;
+        int endJustifibbleContent = -1;
         if (endContentPosition > txtOffset) {
-            endJustifiableContent =
+            endJustifibbleContent =
                 endContentPosition - txtOffset;
         }
-        justificationInfo =
-            new JustificationInfo(startJustifiableContent,
-                                  endJustifiableContent,
-                                  leadingSpaces,
-                                  contentSpaces,
-                                  trailingSpaces,
-                                  hasTab,
-                                  spaceMap);
-        return justificationInfo;
+        justificbtionInfo =
+            new JustificbtionInfo(stbrtJustifibbleContent,
+                                  endJustifibbleContent,
+                                  lebdingSpbces,
+                                  contentSpbces,
+                                  trbilingSpbces,
+                                  hbsTbb,
+                                  spbceMbp);
+        return justificbtionInfo;
     }
 
-    // --- variables ------------------------------------------------
+    // --- vbribbles ------------------------------------------------
 
     /**
-    * Used by paint() to store highlighted view positions
+    * Used by pbint() to store highlighted view positions
     */
-    private byte[] selections = null;
+    privbte byte[] selections = null;
 
     int offset;
     int length;
-    // if it is an implied newline character
-    boolean impliedCR;
-    boolean skipWidth;
+    // if it is bn implied newline chbrbcter
+    boolebn impliedCR;
+    boolebn skipWidth;
 
     /**
-     * how to expand tabs
+     * how to expbnd tbbs
      */
-    TabExpander expander;
+    TbbExpbnder expbnder;
 
-    /** Cached minimum x-span value  */
-    private float minimumSpan = -1;
+    /** Cbched minimum x-spbn vblue  */
+    privbte flobt minimumSpbn = -1;
 
-    /** Cached breakpoints within the view  */
-    private int[] breakSpots = null;
+    /** Cbched brebkpoints within the view  */
+    privbte int[] brebkSpots = null;
 
     /**
-     * location for determining tab expansion against.
+     * locbtion for determining tbb expbnsion bgbinst.
      */
     int x;
 
     /**
-     * Glyph rendering functionality.
+     * Glyph rendering functionblity.
      */
-    GlyphPainter painter;
+    GlyphPbinter pbinter;
 
     /**
-     * The prototype painter used by default.
+     * The prototype pbinter used by defbult.
      */
-    static GlyphPainter defaultPainter;
+    stbtic GlyphPbinter defbultPbinter;
 
-    private JustificationInfo justificationInfo = null;
+    privbte JustificbtionInfo justificbtionInfo = null;
 
     /**
-     * A class to perform rendering of the glyphs.
-     * This can be implemented to be stateless, or
-     * to hold some information as a cache to
-     * facilitate faster rendering and model/view
-     * translation.  At a minimum, the GlyphPainter
-     * allows a View implementation to perform its
-     * duties independant of a particular version
-     * of JVM and selection of capabilities (i.e.
-     * shaping for i18n, etc).
+     * A clbss to perform rendering of the glyphs.
+     * This cbn be implemented to be stbteless, or
+     * to hold some informbtion bs b cbche to
+     * fbcilitbte fbster rendering bnd model/view
+     * trbnslbtion.  At b minimum, the GlyphPbinter
+     * bllows b View implementbtion to perform its
+     * duties independbnt of b pbrticulbr version
+     * of JVM bnd selection of cbpbbilities (i.e.
+     * shbping for i18n, etc).
      *
      * @since 1.3
      */
-    public static abstract class GlyphPainter {
+    public stbtic bbstrbct clbss GlyphPbinter {
 
         /**
-         * Determine the span the glyphs given a start location
-         * (for tab expansion).
+         * Determine the spbn the glyphs given b stbrt locbtion
+         * (for tbb expbnsion).
          */
-        public abstract float getSpan(GlyphView v, int p0, int p1, TabExpander e, float x);
+        public bbstrbct flobt getSpbn(GlyphView v, int p0, int p1, TbbExpbnder e, flobt x);
 
-        public abstract float getHeight(GlyphView v);
+        public bbstrbct flobt getHeight(GlyphView v);
 
-        public abstract float getAscent(GlyphView v);
+        public bbstrbct flobt getAscent(GlyphView v);
 
-        public abstract float getDescent(GlyphView v);
+        public bbstrbct flobt getDescent(GlyphView v);
 
         /**
-         * Paint the glyphs representing the given range.
+         * Pbint the glyphs representing the given rbnge.
          */
-        public abstract void paint(GlyphView v, Graphics g, Shape a, int p0, int p1);
+        public bbstrbct void pbint(GlyphView v, Grbphics g, Shbpe b, int p0, int p1);
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.
-         * This is shared by the broken views.
+         * Provides b mbpping from the document model coordinbte spbce
+         * to the coordinbte spbce of the view mbpped to it.
+         * This is shbred by the broken views.
          *
-         * @param v     the <code>GlyphView</code> containing the
-         *              destination coordinate space
-         * @param pos   the position to convert
-         * @param bias  either <code>Position.Bias.Forward</code>
-         *                  or <code>Position.Bias.Backward</code>
-         * @param a     Bounds of the View
+         * @pbrbm v     the <code>GlyphView</code> contbining the
+         *              destinbtion coordinbte spbce
+         * @pbrbm pos   the position to convert
+         * @pbrbm bibs  either <code>Position.Bibs.Forwbrd</code>
+         *                  or <code>Position.Bibs.Bbckwbrd</code>
+         * @pbrbm b     Bounds of the View
          * @return      the bounding box of the given position
-         * @exception BadLocationException  if the given position does not represent a
-         *   valid location in the associated document
+         * @exception BbdLocbtionException  if the given position does not represent b
+         *   vblid locbtion in the bssocibted document
          * @see View#modelToView
          */
-        public abstract Shape modelToView(GlyphView v,
-                                          int pos, Position.Bias bias,
-                                          Shape a) throws BadLocationException;
+        public bbstrbct Shbpe modelToView(GlyphView v,
+                                          int pos, Position.Bibs bibs,
+                                          Shbpe b) throws BbdLocbtionException;
 
         /**
-         * Provides a mapping from the view coordinate space to the logical
-         * coordinate space of the model.
+         * Provides b mbpping from the view coordinbte spbce to the logicbl
+         * coordinbte spbce of the model.
          *
-         * @param v          the <code>GlyphView</code> to provide a mapping for
-         * @param x          the X coordinate
-         * @param y          the Y coordinate
-         * @param a          the allocated region to render into
-         * @param biasReturn either <code>Position.Bias.Forward</code>
-         *                   or <code>Position.Bias.Backward</code>
-         *                   is returned as the zero-th element of this array
-         * @return the location within the model that best represents the
+         * @pbrbm v          the <code>GlyphView</code> to provide b mbpping for
+         * @pbrbm x          the X coordinbte
+         * @pbrbm y          the Y coordinbte
+         * @pbrbm b          the bllocbted region to render into
+         * @pbrbm bibsReturn either <code>Position.Bibs.Forwbrd</code>
+         *                   or <code>Position.Bibs.Bbckwbrd</code>
+         *                   is returned bs the zero-th element of this brrby
+         * @return the locbtion within the model thbt best represents the
          *         given point of view
          * @see View#viewToModel
          */
-        public abstract int viewToModel(GlyphView v,
-                                        float x, float y, Shape a,
-                                        Position.Bias[] biasReturn);
+        public bbstrbct int viewToModel(GlyphView v,
+                                        flobt x, flobt y, Shbpe b,
+                                        Position.Bibs[] bibsReturn);
 
         /**
-         * Determines the model location that represents the
-         * maximum advance that fits within the given span.
-         * This could be used to break the given view.  The result
-         * should be a location just shy of the given advance.  This
+         * Determines the model locbtion thbt represents the
+         * mbximum bdvbnce thbt fits within the given spbn.
+         * This could be used to brebk the given view.  The result
+         * should be b locbtion just shy of the given bdvbnce.  This
          * differs from viewToModel which returns the closest
-         * position which might be proud of the maximum advance.
+         * position which might be proud of the mbximum bdvbnce.
          *
-         * @param v the view to find the model location to break at.
-         * @param p0 the location in the model where the
-         *  fragment should start it's representation &gt;= 0.
-         * @param x  the graphic location along the axis that the
-         *  broken view would occupy &gt;= 0.  This may be useful for
-         *  things like tab calculations.
-         * @param len specifies the distance into the view
-         *  where a potential break is desired &gt;= 0.
-         * @return the maximum model location possible for a break.
-         * @see View#breakView
+         * @pbrbm v the view to find the model locbtion to brebk bt.
+         * @pbrbm p0 the locbtion in the model where the
+         *  frbgment should stbrt it's representbtion &gt;= 0.
+         * @pbrbm x  the grbphic locbtion blong the bxis thbt the
+         *  broken view would occupy &gt;= 0.  This mby be useful for
+         *  things like tbb cblculbtions.
+         * @pbrbm len specifies the distbnce into the view
+         *  where b potentibl brebk is desired &gt;= 0.
+         * @return the mbximum model locbtion possible for b brebk.
+         * @see View#brebkView
          */
-        public abstract int getBoundedPosition(GlyphView v, int p0, float x, float len);
+        public bbstrbct int getBoundedPosition(GlyphView v, int p0, flobt x, flobt len);
 
         /**
-         * Create a painter to use for the given GlyphView.  If
-         * the painter carries state it can create another painter
-         * to represent a new GlyphView that is being created.  If
-         * the painter doesn't hold any significant state, it can
-         * return itself.  The default behavior is to return itself.
-         * @param v  the <code>GlyphView</code> to provide a painter for
-         * @param p0 the starting document offset &gt;= 0
-         * @param p1 the ending document offset &gt;= p0
+         * Crebte b pbinter to use for the given GlyphView.  If
+         * the pbinter cbrries stbte it cbn crebte bnother pbinter
+         * to represent b new GlyphView thbt is being crebted.  If
+         * the pbinter doesn't hold bny significbnt stbte, it cbn
+         * return itself.  The defbult behbvior is to return itself.
+         * @pbrbm v  the <code>GlyphView</code> to provide b pbinter for
+         * @pbrbm p0 the stbrting document offset &gt;= 0
+         * @pbrbm p1 the ending document offset &gt;= p0
          */
-        public GlyphPainter getPainter(GlyphView v, int p0, int p1) {
+        public GlyphPbinter getPbinter(GlyphView v, int p0, int p1) {
             return this;
         }
 
         /**
-         * Provides a way to determine the next visually represented model
-         * location that one might place a caret.  Some views may not be
-         * visible, they might not be in the same order found in the model, or
-         * they just might not allow access to some of the locations in the
+         * Provides b wby to determine the next visublly represented model
+         * locbtion thbt one might plbce b cbret.  Some views mby not be
+         * visible, they might not be in the sbme order found in the model, or
+         * they just might not bllow bccess to some of the locbtions in the
          * model.
          *
-         * @param v the view to use
-         * @param pos the position to convert &gt;= 0
-         * @param b   either <code>Position.Bias.Forward</code>
-         *                or <code>Position.Bias.Backward</code>
-         * @param a the allocated region to render into
-         * @param direction the direction from the current position that can
-         *  be thought of as the arrow keys typically found on a keyboard.
-         *  This may be SwingConstants.WEST, SwingConstants.EAST,
-         *  SwingConstants.NORTH, or SwingConstants.SOUTH.
-         * @param biasRet  either <code>Position.Bias.Forward</code>
-         *                 or <code>Position.Bias.Backward</code>
-         *                 is returned as the zero-th element of this array
-         * @return the location within the model that best represents the next
-         *  location visual position.
-         * @exception BadLocationException for a bad location within a document model
-         * @exception IllegalArgumentException for an invalid direction
+         * @pbrbm v the view to use
+         * @pbrbm pos the position to convert &gt;= 0
+         * @pbrbm b   either <code>Position.Bibs.Forwbrd</code>
+         *                or <code>Position.Bibs.Bbckwbrd</code>
+         * @pbrbm b the bllocbted region to render into
+         * @pbrbm direction the direction from the current position thbt cbn
+         *  be thought of bs the brrow keys typicblly found on b keybobrd.
+         *  This mby be SwingConstbnts.WEST, SwingConstbnts.EAST,
+         *  SwingConstbnts.NORTH, or SwingConstbnts.SOUTH.
+         * @pbrbm bibsRet  either <code>Position.Bibs.Forwbrd</code>
+         *                 or <code>Position.Bibs.Bbckwbrd</code>
+         *                 is returned bs the zero-th element of this brrby
+         * @return the locbtion within the model thbt best represents the next
+         *  locbtion visubl position.
+         * @exception BbdLocbtionException for b bbd locbtion within b document model
+         * @exception IllegblArgumentException for bn invblid direction
          */
-        public int getNextVisualPositionFrom(GlyphView v, int pos, Position.Bias b, Shape a,
+        public int getNextVisublPositionFrom(GlyphView v, int pos, Position.Bibs b, Shbpe b,
                                              int direction,
-                                             Position.Bias[] biasRet)
-            throws BadLocationException {
+                                             Position.Bibs[] bibsRet)
+            throws BbdLocbtionException {
 
-            int startOffset = v.getStartOffset();
+            int stbrtOffset = v.getStbrtOffset();
             int endOffset = v.getEndOffset();
             Segment text;
 
             switch (direction) {
-            case View.NORTH:
-            case View.SOUTH:
+            cbse View.NORTH:
+            cbse View.SOUTH:
                 if (pos != -1) {
-                    // Presumably pos is between startOffset and endOffset,
-                    // since GlyphView is only one line, we won't contain
+                    // Presumbbly pos is between stbrtOffset bnd endOffset,
+                    // since GlyphView is only one line, we won't contbin
                     // the position to the nort/south, therefore return -1.
                     return -1;
                 }
-                Container container = v.getContainer();
+                Contbiner contbiner = v.getContbiner();
 
-                if (container instanceof JTextComponent) {
-                    Caret c = ((JTextComponent)container).getCaret();
-                    Point magicPoint;
-                    magicPoint = (c != null) ? c.getMagicCaretPosition() :null;
+                if (contbiner instbnceof JTextComponent) {
+                    Cbret c = ((JTextComponent)contbiner).getCbret();
+                    Point mbgicPoint;
+                    mbgicPoint = (c != null) ? c.getMbgicCbretPosition() :null;
 
-                    if (magicPoint == null) {
-                        biasRet[0] = Position.Bias.Forward;
-                        return startOffset;
+                    if (mbgicPoint == null) {
+                        bibsRet[0] = Position.Bibs.Forwbrd;
+                        return stbrtOffset;
                     }
-                    int value = v.viewToModel(magicPoint.x, 0f, a, biasRet);
-                    return value;
+                    int vblue = v.viewToModel(mbgicPoint.x, 0f, b, bibsRet);
+                    return vblue;
                 }
-                break;
-            case View.EAST:
-                if(startOffset == v.getDocument().getLength()) {
+                brebk;
+            cbse View.EAST:
+                if(stbrtOffset == v.getDocument().getLength()) {
                     if(pos == -1) {
-                        biasRet[0] = Position.Bias.Forward;
-                        return startOffset;
+                        bibsRet[0] = Position.Bibs.Forwbrd;
+                        return stbrtOffset;
                     }
-                    // End case for bidi text where newline is at beginning
+                    // End cbse for bidi text where newline is bt beginning
                     // of line.
                     return -1;
                 }
                 if(pos == -1) {
-                    biasRet[0] = Position.Bias.Forward;
-                    return startOffset;
+                    bibsRet[0] = Position.Bibs.Forwbrd;
+                    return stbrtOffset;
                 }
                 if(pos == endOffset) {
                     return -1;
                 }
                 if(++pos == endOffset) {
-                    // Assumed not used in bidi text, GlyphPainter2 will
-                    // override as necessary, therefore return -1.
+                    // Assumed not used in bidi text, GlyphPbinter2 will
+                    // override bs necessbry, therefore return -1.
                     return -1;
                 }
                 else {
-                    biasRet[0] = Position.Bias.Forward;
+                    bibsRet[0] = Position.Bibs.Forwbrd;
                 }
                 return pos;
-            case View.WEST:
-                if(startOffset == v.getDocument().getLength()) {
+            cbse View.WEST:
+                if(stbrtOffset == v.getDocument().getLength()) {
                     if(pos == -1) {
-                        biasRet[0] = Position.Bias.Forward;
-                        return startOffset;
+                        bibsRet[0] = Position.Bibs.Forwbrd;
+                        return stbrtOffset;
                     }
-                    // End case for bidi text where newline is at beginning
+                    // End cbse for bidi text where newline is bt beginning
                     // of line.
                     return -1;
                 }
                 if(pos == -1) {
-                    // Assumed not used in bidi text, GlyphPainter2 will
-                    // override as necessary, therefore return -1.
-                    biasRet[0] = Position.Bias.Forward;
+                    // Assumed not used in bidi text, GlyphPbinter2 will
+                    // override bs necessbry, therefore return -1.
+                    bibsRet[0] = Position.Bibs.Forwbrd;
                     return endOffset - 1;
                 }
-                if(pos == startOffset) {
+                if(pos == stbrtOffset) {
                     return -1;
                 }
-                biasRet[0] = Position.Bias.Forward;
+                bibsRet[0] = Position.Bibs.Forwbrd;
                 return (pos - 1);
-            default:
-                throw new IllegalArgumentException("Bad direction: " + direction);
+            defbult:
+                throw new IllegblArgumentException("Bbd direction: " + direction);
             }
             return pos;
 

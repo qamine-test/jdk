@@ -1,235 +1,235 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.interfbces.*;
+import jbvb.security.spec.*;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtic sun.security.pkcs11.TemplbteMbnbger.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
-import sun.security.rsa.RSAKeyFactory;
+import sun.security.rsb.RSAKeyFbctory;
 
 /**
- * RSA KeyFactory implementation.
+ * RSA KeyFbctory implementbtion.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class P11RSAKeyFactory extends P11KeyFactory {
+finbl clbss P11RSAKeyFbctory extends P11KeyFbctory {
 
-    P11RSAKeyFactory(Token token, String algorithm) {
-        super(token, algorithm);
+    P11RSAKeyFbctory(Token token, String blgorithm) {
+        super(token, blgorithm);
     }
 
-    PublicKey implTranslatePublicKey(PublicKey key) throws InvalidKeyException {
+    PublicKey implTrbnslbtePublicKey(PublicKey key) throws InvblidKeyException {
         try {
-            if (key instanceof RSAPublicKey) {
-                RSAPublicKey rsaKey = (RSAPublicKey)key;
-                return generatePublic(
-                    rsaKey.getModulus(),
-                    rsaKey.getPublicExponent()
+            if (key instbnceof RSAPublicKey) {
+                RSAPublicKey rsbKey = (RSAPublicKey)key;
+                return generbtePublic(
+                    rsbKey.getModulus(),
+                    rsbKey.getPublicExponent()
                 );
-            } else if ("X.509".equals(key.getFormat())) {
-                // let SunRsaSign provider parse for us, then recurse
+            } else if ("X.509".equbls(key.getFormbt())) {
+                // let SunRsbSign provider pbrse for us, then recurse
                 byte[] encoded = key.getEncoded();
-                key = new sun.security.rsa.RSAPublicKeyImpl(encoded);
-                return implTranslatePublicKey(key);
+                key = new sun.security.rsb.RSAPublicKeyImpl(encoded);
+                return implTrbnslbtePublicKey(key);
             } else {
-                throw new InvalidKeyException("PublicKey must be instance "
-                        + "of RSAPublicKey or have X.509 encoding");
+                throw new InvblidKeyException("PublicKey must be instbnce "
+                        + "of RSAPublicKey or hbve X.509 encoding");
             }
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not create RSA public key", e);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeyException("Could not crebte RSA public key", e);
         }
     }
 
-    PrivateKey implTranslatePrivateKey(PrivateKey key)
-            throws InvalidKeyException {
+    PrivbteKey implTrbnslbtePrivbteKey(PrivbteKey key)
+            throws InvblidKeyException {
         try {
-            if (key instanceof RSAPrivateCrtKey) {
-                RSAPrivateCrtKey rsaKey = (RSAPrivateCrtKey)key;
-                return generatePrivate(
-                    rsaKey.getModulus(),
-                    rsaKey.getPublicExponent(),
-                    rsaKey.getPrivateExponent(),
-                    rsaKey.getPrimeP(),
-                    rsaKey.getPrimeQ(),
-                    rsaKey.getPrimeExponentP(),
-                    rsaKey.getPrimeExponentQ(),
-                    rsaKey.getCrtCoefficient()
+            if (key instbnceof RSAPrivbteCrtKey) {
+                RSAPrivbteCrtKey rsbKey = (RSAPrivbteCrtKey)key;
+                return generbtePrivbte(
+                    rsbKey.getModulus(),
+                    rsbKey.getPublicExponent(),
+                    rsbKey.getPrivbteExponent(),
+                    rsbKey.getPrimeP(),
+                    rsbKey.getPrimeQ(),
+                    rsbKey.getPrimeExponentP(),
+                    rsbKey.getPrimeExponentQ(),
+                    rsbKey.getCrtCoefficient()
                 );
-            } else if (key instanceof RSAPrivateKey) {
-                RSAPrivateKey rsaKey = (RSAPrivateKey)key;
-                return generatePrivate(
-                    rsaKey.getModulus(),
-                    rsaKey.getPrivateExponent()
+            } else if (key instbnceof RSAPrivbteKey) {
+                RSAPrivbteKey rsbKey = (RSAPrivbteKey)key;
+                return generbtePrivbte(
+                    rsbKey.getModulus(),
+                    rsbKey.getPrivbteExponent()
                 );
-            } else if ("PKCS#8".equals(key.getFormat())) {
-                // let SunRsaSign provider parse for us, then recurse
+            } else if ("PKCS#8".equbls(key.getFormbt())) {
+                // let SunRsbSign provider pbrse for us, then recurse
                 byte[] encoded = key.getEncoded();
-                key = sun.security.rsa.RSAPrivateCrtKeyImpl.newKey(encoded);
-                return implTranslatePrivateKey(key);
+                key = sun.security.rsb.RSAPrivbteCrtKeyImpl.newKey(encoded);
+                return implTrbnslbtePrivbteKey(key);
             } else {
-                throw new InvalidKeyException("Private key must be instance "
-                        + "of RSAPrivate(Crt)Key or have PKCS#8 encoding");
+                throw new InvblidKeyException("Privbte key must be instbnce "
+                        + "of RSAPrivbte(Crt)Key or hbve PKCS#8 encoding");
             }
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not create RSA private key", e);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeyException("Could not crebte RSA privbte key", e);
         }
     }
 
     // see JCA spec
-    protected PublicKey engineGeneratePublic(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
-        if (keySpec instanceof X509EncodedKeySpec) {
+    protected PublicKey engineGenerbtePublic(KeySpec keySpec)
+            throws InvblidKeySpecException {
+        token.ensureVblid();
+        if (keySpec instbnceof X509EncodedKeySpec) {
             try {
                 byte[] encoded = ((X509EncodedKeySpec)keySpec).getEncoded();
-                PublicKey key = new sun.security.rsa.RSAPublicKeyImpl(encoded);
-                return implTranslatePublicKey(key);
-            } catch (InvalidKeyException e) {
-                throw new InvalidKeySpecException
-                        ("Could not create RSA public key", e);
+                PublicKey key = new sun.security.rsb.RSAPublicKeyImpl(encoded);
+                return implTrbnslbtePublicKey(key);
+            } cbtch (InvblidKeyException e) {
+                throw new InvblidKeySpecException
+                        ("Could not crebte RSA public key", e);
             }
         }
-        if (keySpec instanceof RSAPublicKeySpec == false) {
-            throw new InvalidKeySpecException("Only RSAPublicKeySpec and "
+        if (keySpec instbnceof RSAPublicKeySpec == fblse) {
+            throw new InvblidKeySpecException("Only RSAPublicKeySpec bnd "
                 + "X509EncodedKeySpec supported for RSA public keys");
         }
         try {
             RSAPublicKeySpec rs = (RSAPublicKeySpec)keySpec;
-            return generatePublic(
+            return generbtePublic(
                 rs.getModulus(),
                 rs.getPublicExponent()
             );
-        } catch (PKCS11Exception | InvalidKeyException e) {
-            throw new InvalidKeySpecException
-                ("Could not create RSA public key", e);
+        } cbtch (PKCS11Exception | InvblidKeyException e) {
+            throw new InvblidKeySpecException
+                ("Could not crebte RSA public key", e);
         }
     }
 
     // see JCA spec
-    protected PrivateKey engineGeneratePrivate(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
-        if (keySpec instanceof PKCS8EncodedKeySpec) {
+    protected PrivbteKey engineGenerbtePrivbte(KeySpec keySpec)
+            throws InvblidKeySpecException {
+        token.ensureVblid();
+        if (keySpec instbnceof PKCS8EncodedKeySpec) {
             try {
                 byte[] encoded = ((PKCS8EncodedKeySpec)keySpec).getEncoded();
-                PrivateKey key =
-                        sun.security.rsa.RSAPrivateCrtKeyImpl.newKey(encoded);
-                return implTranslatePrivateKey(key);
-            } catch (GeneralSecurityException e) {
-                throw new InvalidKeySpecException
-                        ("Could not create RSA private key", e);
+                PrivbteKey key =
+                        sun.security.rsb.RSAPrivbteCrtKeyImpl.newKey(encoded);
+                return implTrbnslbtePrivbteKey(key);
+            } cbtch (GenerblSecurityException e) {
+                throw new InvblidKeySpecException
+                        ("Could not crebte RSA privbte key", e);
             }
         }
         try {
-            if (keySpec instanceof RSAPrivateCrtKeySpec) {
-                RSAPrivateCrtKeySpec rs = (RSAPrivateCrtKeySpec)keySpec;
-                return generatePrivate(
+            if (keySpec instbnceof RSAPrivbteCrtKeySpec) {
+                RSAPrivbteCrtKeySpec rs = (RSAPrivbteCrtKeySpec)keySpec;
+                return generbtePrivbte(
                     rs.getModulus(),
                     rs.getPublicExponent(),
-                    rs.getPrivateExponent(),
+                    rs.getPrivbteExponent(),
                     rs.getPrimeP(),
                     rs.getPrimeQ(),
                     rs.getPrimeExponentP(),
                     rs.getPrimeExponentQ(),
                     rs.getCrtCoefficient()
                 );
-            } else if (keySpec instanceof RSAPrivateKeySpec) {
-                RSAPrivateKeySpec rs = (RSAPrivateKeySpec)keySpec;
-                return generatePrivate(
+            } else if (keySpec instbnceof RSAPrivbteKeySpec) {
+                RSAPrivbteKeySpec rs = (RSAPrivbteKeySpec)keySpec;
+                return generbtePrivbte(
                     rs.getModulus(),
-                    rs.getPrivateExponent()
+                    rs.getPrivbteExponent()
                 );
             } else {
-                throw new InvalidKeySpecException("Only RSAPrivate(Crt)KeySpec "
-                    + "and PKCS8EncodedKeySpec supported for RSA private keys");
+                throw new InvblidKeySpecException("Only RSAPrivbte(Crt)KeySpec "
+                    + "bnd PKCS8EncodedKeySpec supported for RSA privbte keys");
             }
-        } catch (PKCS11Exception | InvalidKeyException e) {
-            throw new InvalidKeySpecException
-                ("Could not create RSA private key", e);
+        } cbtch (PKCS11Exception | InvblidKeyException e) {
+            throw new InvblidKeySpecException
+                ("Could not crebte RSA privbte key", e);
         }
     }
 
-    private PublicKey generatePublic(BigInteger n, BigInteger e)
-            throws PKCS11Exception, InvalidKeyException {
-        RSAKeyFactory.checkKeyLengths(n.bitLength(), e, -1, 64 * 1024);
-        CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+    privbte PublicKey generbtePublic(BigInteger n, BigInteger e)
+            throws PKCS11Exception, InvblidKeyException {
+        RSAKeyFbctory.checkKeyLengths(n.bitLength(), e, -1, 64 * 1024);
+        CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
             new CK_ATTRIBUTE(CKA_CLASS, CKO_PUBLIC_KEY),
             new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_RSA),
             new CK_ATTRIBUTE(CKA_MODULUS, n),
             new CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT, e),
         };
-        attributes = token.getAttributes
-                (O_IMPORT, CKO_PUBLIC_KEY, CKK_RSA, attributes);
+        bttributes = token.getAttributes
+                (O_IMPORT, CKO_PUBLIC_KEY, CKK_RSA, bttributes);
         Session session = null;
         try {
             session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
+            long keyID = token.p11.C_CrebteObject(session.id(), bttributes);
             return P11Key.publicKey
-                (session, keyID, "RSA", n.bitLength(), attributes);
-        } finally {
-            token.releaseSession(session);
+                (session, keyID, "RSA", n.bitLength(), bttributes);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 
-    private PrivateKey generatePrivate(BigInteger n, BigInteger d)
-            throws PKCS11Exception, InvalidKeyException {
-        RSAKeyFactory.checkKeyLengths(n.bitLength(), null, -1, 64 * 1024);
-        CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+    privbte PrivbteKey generbtePrivbte(BigInteger n, BigInteger d)
+            throws PKCS11Exception, InvblidKeyException {
+        RSAKeyFbctory.checkKeyLengths(n.bitLength(), null, -1, 64 * 1024);
+        CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
             new CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
             new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_RSA),
             new CK_ATTRIBUTE(CKA_MODULUS, n),
             new CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT, d),
         };
-        attributes = token.getAttributes
-                (O_IMPORT, CKO_PRIVATE_KEY, CKK_RSA, attributes);
+        bttributes = token.getAttributes
+                (O_IMPORT, CKO_PRIVATE_KEY, CKK_RSA, bttributes);
         Session session = null;
         try {
             session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
-            return P11Key.privateKey
-                (session,  keyID, "RSA", n.bitLength(), attributes);
-        } finally {
-            token.releaseSession(session);
+            long keyID = token.p11.C_CrebteObject(session.id(), bttributes);
+            return P11Key.privbteKey
+                (session,  keyID, "RSA", n.bitLength(), bttributes);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 
-    private PrivateKey generatePrivate(BigInteger n, BigInteger e,
+    privbte PrivbteKey generbtePrivbte(BigInteger n, BigInteger e,
             BigInteger d, BigInteger p, BigInteger q, BigInteger pe,
             BigInteger qe, BigInteger coeff) throws PKCS11Exception,
-            InvalidKeyException {
-        RSAKeyFactory.checkKeyLengths(n.bitLength(), e, -1, 64 * 1024);
-        CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+            InvblidKeyException {
+        RSAKeyFbctory.checkKeyLengths(n.bitLength(), e, -1, 64 * 1024);
+        CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
             new CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
             new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_RSA),
             new CK_ATTRIBUTE(CKA_MODULUS, n),
@@ -241,44 +241,44 @@ final class P11RSAKeyFactory extends P11KeyFactory {
             new CK_ATTRIBUTE(CKA_EXPONENT_2, qe),
             new CK_ATTRIBUTE(CKA_COEFFICIENT, coeff),
         };
-        attributes = token.getAttributes
-                (O_IMPORT, CKO_PRIVATE_KEY, CKK_RSA, attributes);
+        bttributes = token.getAttributes
+                (O_IMPORT, CKO_PRIVATE_KEY, CKK_RSA, bttributes);
         Session session = null;
         try {
             session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
-            return P11Key.privateKey
-                (session, keyID, "RSA", n.bitLength(), attributes);
-        } finally {
-            token.releaseSession(session);
+            long keyID = token.p11.C_CrebteObject(session.id(), bttributes);
+            return P11Key.privbteKey
+                (session, keyID, "RSA", n.bitLength(), bttributes);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 
-    <T extends KeySpec> T implGetPublicKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException {
-        if (RSAPublicKeySpec.class.isAssignableFrom(keySpec)) {
+    <T extends KeySpec> T implGetPublicKeySpec(P11Key key, Clbss<T> keySpec,
+            Session[] session) throws PKCS11Exception, InvblidKeySpecException {
+        if (RSAPublicKeySpec.clbss.isAssignbbleFrom(keySpec)) {
             session[0] = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+            CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_MODULUS),
                 new CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
             };
-            token.p11.C_GetAttributeValue(session[0].id(), key.keyID, attributes);
+            token.p11.C_GetAttributeVblue(session[0].id(), key.keyID, bttributes);
             KeySpec spec = new RSAPublicKeySpec(
-                attributes[0].getBigInteger(),
-                attributes[1].getBigInteger()
+                bttributes[0].getBigInteger(),
+                bttributes[1].getBigInteger()
             );
-            return keySpec.cast(spec);
-        } else { // X.509 handled in superclass
-            throw new InvalidKeySpecException("Only RSAPublicKeySpec and "
+            return keySpec.cbst(spec);
+        } else { // X.509 hbndled in superclbss
+            throw new InvblidKeySpecException("Only RSAPublicKeySpec bnd "
                 + "X509EncodedKeySpec supported for RSA public keys");
         }
     }
 
-    <T extends KeySpec> T implGetPrivateKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException {
-        if (RSAPrivateCrtKeySpec.class.isAssignableFrom(keySpec)) {
+    <T extends KeySpec> T implGetPrivbteKeySpec(P11Key key, Clbss<T> keySpec,
+            Session[] session) throws PKCS11Exception, InvblidKeySpecException {
+        if (RSAPrivbteCrtKeySpec.clbss.isAssignbbleFrom(keySpec)) {
             session[0] = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+            CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_MODULUS),
                 new CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
                 new CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT),
@@ -288,38 +288,38 @@ final class P11RSAKeyFactory extends P11KeyFactory {
                 new CK_ATTRIBUTE(CKA_EXPONENT_2),
                 new CK_ATTRIBUTE(CKA_COEFFICIENT),
             };
-            token.p11.C_GetAttributeValue(session[0].id(), key.keyID, attributes);
-            KeySpec spec = new RSAPrivateCrtKeySpec(
-                attributes[0].getBigInteger(),
-                attributes[1].getBigInteger(),
-                attributes[2].getBigInteger(),
-                attributes[3].getBigInteger(),
-                attributes[4].getBigInteger(),
-                attributes[5].getBigInteger(),
-                attributes[6].getBigInteger(),
-                attributes[7].getBigInteger()
+            token.p11.C_GetAttributeVblue(session[0].id(), key.keyID, bttributes);
+            KeySpec spec = new RSAPrivbteCrtKeySpec(
+                bttributes[0].getBigInteger(),
+                bttributes[1].getBigInteger(),
+                bttributes[2].getBigInteger(),
+                bttributes[3].getBigInteger(),
+                bttributes[4].getBigInteger(),
+                bttributes[5].getBigInteger(),
+                bttributes[6].getBigInteger(),
+                bttributes[7].getBigInteger()
             );
-            return keySpec.cast(spec);
-        } else if (RSAPrivateKeySpec.class.isAssignableFrom(keySpec)) {
+            return keySpec.cbst(spec);
+        } else if (RSAPrivbteKeySpec.clbss.isAssignbbleFrom(keySpec)) {
             session[0] = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+            CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_MODULUS),
                 new CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT),
             };
-            token.p11.C_GetAttributeValue(session[0].id(), key.keyID, attributes);
-            KeySpec spec = new RSAPrivateKeySpec(
-                attributes[0].getBigInteger(),
-                attributes[1].getBigInteger()
+            token.p11.C_GetAttributeVblue(session[0].id(), key.keyID, bttributes);
+            KeySpec spec = new RSAPrivbteKeySpec(
+                bttributes[0].getBigInteger(),
+                bttributes[1].getBigInteger()
             );
-            return keySpec.cast(spec);
-        } else { // PKCS#8 handled in superclass
-            throw new InvalidKeySpecException("Only RSAPrivate(Crt)KeySpec "
-                + "and PKCS8EncodedKeySpec supported for RSA private keys");
+            return keySpec.cbst(spec);
+        } else { // PKCS#8 hbndled in superclbss
+            throw new InvblidKeySpecException("Only RSAPrivbte(Crt)KeySpec "
+                + "bnd PKCS8EncodedKeySpec supported for RSA privbte keys");
         }
     }
 
-    KeyFactory implGetSoftwareFactory() throws GeneralSecurityException {
-        return KeyFactory.getInstance("RSA", P11Util.getSunRsaSignProvider());
+    KeyFbctory implGetSoftwbreFbctory() throws GenerblSecurityException {
+        return KeyFbctory.getInstbnce("RSA", P11Util.getSunRsbSignProvider());
     }
 
 }

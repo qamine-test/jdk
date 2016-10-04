@@ -3,117 +3,117 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="ss"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="ss"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ss" draft="provisional">Siswati</language>
-		</languages>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
-	</characters>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="ss" drbft="provisionbl">Siswbti</lbngubge>
+		</lbngubges>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart draft="unconfirmed">‘</quotationStart>
-		<quotationEnd draft="unconfirmed">’</quotationEnd>
-		<alternateQuotationStart draft="unconfirmed">“</alternateQuotationStart>
-		<alternateQuotationEnd draft="unconfirmed">”</alternateQuotationEnd>
+		<quotbtionStbrt drbft="unconfirmed">‘</quotbtionStbrt>
+		<quotbtionEnd drbft="unconfirmed">’</quotbtionEnd>
+		<blternbteQuotbtionStbrt drbft="unconfirmed">“</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd drbft="unconfirmed">”</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="unconfirmed">Bhi</month>
-							<month type="2" draft="unconfirmed">Van</month>
-							<month type="3" draft="unconfirmed">Vol</month>
-							<month type="4" draft="unconfirmed">Mab</month>
-							<month type="5" draft="unconfirmed">Nkh</month>
-							<month type="6" draft="unconfirmed">Nhl</month>
-							<month type="7" draft="unconfirmed">Kho</month>
-							<month type="8" draft="unconfirmed">Ngc</month>
-							<month type="9" draft="unconfirmed">Nyo</month>
-							<month type="10" draft="unconfirmed">Mph</month>
-							<month type="11" draft="unconfirmed">Lwe</month>
-							<month type="12" draft="unconfirmed">Ngo</month>
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
+							<month type="1" drbft="unconfirmed">Bhi</month>
+							<month type="2" drbft="unconfirmed">Vbn</month>
+							<month type="3" drbft="unconfirmed">Vol</month>
+							<month type="4" drbft="unconfirmed">Mbb</month>
+							<month type="5" drbft="unconfirmed">Nkh</month>
+							<month type="6" drbft="unconfirmed">Nhl</month>
+							<month type="7" drbft="unconfirmed">Kho</month>
+							<month type="8" drbft="unconfirmed">Ngc</month>
+							<month type="9" drbft="unconfirmed">Nyo</month>
+							<month type="10" drbft="unconfirmed">Mph</month>
+							<month type="11" drbft="unconfirmed">Lwe</month>
+							<month type="12" drbft="unconfirmed">Ngo</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1" draft="unconfirmed">Bhimbidvwane</month>
-							<month type="2" draft="unconfirmed">iNdlovana</month>
-							<month type="3" draft="unconfirmed">iNdlovu-lenkhulu</month>
-							<month type="4" draft="unconfirmed">Mabasa</month>
-							<month type="5" draft="unconfirmed">iNkhwekhweti</month>
-							<month type="6" draft="unconfirmed">iNhlaba</month>
-							<month type="7" draft="unconfirmed">Kholwane</month>
-							<month type="8" draft="unconfirmed">iNgci</month>
-							<month type="9" draft="unconfirmed">iNyoni</month>
-							<month type="10" draft="unconfirmed">iMphala</month>
-							<month type="11" draft="unconfirmed">Lweti</month>
-							<month type="12" draft="unconfirmed">iNgongoni</month>
+							<month type="1" drbft="unconfirmed">Bhimbidvwbne</month>
+							<month type="2" drbft="unconfirmed">iNdlovbnb</month>
+							<month type="3" drbft="unconfirmed">iNdlovu-lenkhulu</month>
+							<month type="4" drbft="unconfirmed">Mbbbsb</month>
+							<month type="5" drbft="unconfirmed">iNkhwekhweti</month>
+							<month type="6" drbft="unconfirmed">iNhlbbb</month>
+							<month type="7" drbft="unconfirmed">Kholwbne</month>
+							<month type="8" drbft="unconfirmed">iNgci</month>
+							<month type="9" drbft="unconfirmed">iNyoni</month>
+							<month type="10" drbft="unconfirmed">iMphblb</month>
+							<month type="11" drbft="unconfirmed">Lweti</month>
+							<month type="12" drbft="unconfirmed">iNgongoni</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">Son</day>
-							<day type="mon" draft="unconfirmed">Mso</day>
-							<day type="tue" draft="unconfirmed">Bil</day>
-							<day type="wed" draft="unconfirmed">Tsa</day>
-							<day type="thu" draft="unconfirmed">Ne</day>
-							<day type="fri" draft="unconfirmed">Hla</day>
-							<day type="sat" draft="unconfirmed">Mgc</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">Lisontfo</day>
-							<day type="mon" draft="unconfirmed">uMsombuluko</day>
-							<day type="tue" draft="unconfirmed">Lesibili</day>
-							<day type="wed" draft="unconfirmed">Lesitsatfu</day>
-							<day type="thu" draft="unconfirmed">Lesine</day>
-							<day type="fri" draft="unconfirmed">Lesihlanu</day>
-							<day type="sat" draft="unconfirmed">uMgcibelo</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-			</calendar>
-		</calendars>
-	</dates>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun" drbft="unconfirmed">Son</dby>
+							<dby type="mon" drbft="unconfirmed">Mso</dby>
+							<dby type="tue" drbft="unconfirmed">Bil</dby>
+							<dby type="wed" drbft="unconfirmed">Tsb</dby>
+							<dby type="thu" drbft="unconfirmed">Ne</dby>
+							<dby type="fri" drbft="unconfirmed">Hlb</dby>
+							<dby type="sbt" drbft="unconfirmed">Mgc</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun" drbft="unconfirmed">Lisontfo</dby>
+							<dby type="mon" drbft="unconfirmed">uMsombuluko</dby>
+							<dby type="tue" drbft="unconfirmed">Lesibili</dby>
+							<dby type="wed" drbft="unconfirmed">Lesitsbtfu</dby>
+							<dby type="thu" drbft="unconfirmed">Lesine</dby>
+							<dby type="fri" drbft="unconfirmed">Lesihlbnu</dby>
+							<dby type="sbt" drbft="unconfirmed">uMgcibelo</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>,</decimbl>
 			<group> </group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<scientificFormats numberSystem="latn">
-			<scientificFormatLength>
-				<scientificFormat>
-					<pattern>#E0</pattern>
-				</scientificFormat>
-			</scientificFormatLength>
-		</scientificFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength>
+				<decimblFormbt>
+					<pbttern>#,##0.###</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<scientificFormbts numberSystem="lbtn">
+			<scientificFormbtLength>
+				<scientificFormbt>
+					<pbttern>#E0</pbttern>
+				</scientificFormbt>
+			</scientificFormbtLength>
+		</scientificFormbts>
+		<percentFormbts numberSystem="lbtn">
+			<percentFormbtLength>
+				<percentFormbt>
+					<pbttern>#,##0%</pbttern>
+				</percentFormbt>
+			</percentFormbtLength>
+		</percentFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤#,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="SZL">
 				<symbol>E</symbol>

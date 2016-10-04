@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TimeZone;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
-import java.util.jar.JarOutputStream;
-import java.util.jar.Pack200;
-import java.util.zip.CRC32;
-import java.util.zip.CheckedOutputStream;
-import java.util.zip.ZipEntry;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.HbshSet;
+import jbvb.util.Set;
+import jbvb.util.SortedMbp;
+import jbvb.util.TimeZone;
+import jbvb.util.jbr.JbrEntry;
+import jbvb.util.jbr.JbrInputStrebm;
+import jbvb.util.jbr.JbrOutputStrebm;
+import jbvb.util.jbr.Pbck200;
+import jbvb.util.zip.CRC32;
+import jbvb.util.zip.CheckedOutputStrebm;
+import jbvb.util.zip.ZipEntry;
 
 /*
- * Implementation of the Pack provider.
+ * Implementbtion of the Pbck provider.
  * </pre></blockquote>
- * @author John Rose
- * @author Kumar Srinivasan
+ * @buthor John Rose
+ * @buthor Kumbr Srinivbsbn
  */
 
 
-public class UnpackerImpl extends TLGlobals implements Pack200.Unpacker {
+public clbss UnpbckerImpl extends TLGlobbls implements Pbck200.Unpbcker {
 
-    public UnpackerImpl() {}
+    public UnpbckerImpl() {}
 
 
 
     /**
-     * Get the set of options for the pack and unpack engines.
-     * @return A sorted association of option key strings to option values.
+     * Get the set of options for the pbck bnd unpbck engines.
+     * @return A sorted bssocibtion of option key strings to option vblues.
      */
-    public SortedMap<String, String> properties() {
+    public SortedMbp<String, String> properties() {
         return props;
     }
 
-    // Back-pointer to NativeUnpacker, when active.
+    // Bbck-pointer to NbtiveUnpbcker, when bctive.
     Object _nunp;
 
 
@@ -76,178 +76,178 @@ public class UnpackerImpl extends TLGlobals implements Pack200.Unpacker {
 
     //Driver routines
 
-    // The unpack worker...
+    // The unpbck worker...
     /**
-     * Takes a packed-stream InputStream, and writes to a JarOutputStream. Internally
-     * the entire buffer must be read, it may be more efficient to read the packed-stream
-     * to a file and pass the File object, in the alternate method described below.
+     * Tbkes b pbcked-strebm InputStrebm, bnd writes to b JbrOutputStrebm. Internblly
+     * the entire buffer must be rebd, it mby be more efficient to rebd the pbcked-strebm
+     * to b file bnd pbss the File object, in the blternbte method described below.
      * <p>
-     * Closes its input but not its output.  (The output can accumulate more elements.)
-     * @param in an InputStream.
-     * @param out a JarOutputStream.
-     * @exception IOException if an error is encountered.
+     * Closes its input but not its output.  (The output cbn bccumulbte more elements.)
+     * @pbrbm in bn InputStrebm.
+     * @pbrbm out b JbrOutputStrebm.
+     * @exception IOException if bn error is encountered.
      */
-    public synchronized void unpack(InputStream in, JarOutputStream out) throws IOException {
+    public synchronized void unpbck(InputStrebm in, JbrOutputStrebm out) throws IOException {
         if (in == null) {
             throw new NullPointerException("null input");
         }
         if (out == null) {
             throw new NullPointerException("null output");
         }
-        assert(Utils.currentInstance.get() == null);
-        TimeZone tz = (props.getBoolean(Utils.PACK_DEFAULT_TIMEZONE))
+        bssert(Utils.currentInstbnce.get() == null);
+        TimeZone tz = (props.getBoolebn(Utils.PACK_DEFAULT_TIMEZONE))
                       ? null
-                      : TimeZone.getDefault();
+                      : TimeZone.getDefbult();
 
         try {
-            Utils.currentInstance.set(this);
-            if (tz != null) TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-            final int verbose = props.getInteger(Utils.DEBUG_VERBOSE);
-            BufferedInputStream in0 = new BufferedInputStream(in);
-            if (Utils.isJarMagic(Utils.readMagic(in0))) {
+            Utils.currentInstbnce.set(this);
+            if (tz != null) TimeZone.setDefbult(TimeZone.getTimeZone("UTC"));
+            finbl int verbose = props.getInteger(Utils.DEBUG_VERBOSE);
+            BufferedInputStrebm in0 = new BufferedInputStrebm(in);
+            if (Utils.isJbrMbgic(Utils.rebdMbgic(in0))) {
                 if (verbose > 0)
-                    Utils.log.info("Copying unpacked JAR file...");
-                Utils.copyJarFile(new JarInputStream(in0), out);
-            } else if (props.getBoolean(Utils.DEBUG_DISABLE_NATIVE)) {
-                (new DoUnpack()).run(in0, out);
+                    Utils.log.info("Copying unpbcked JAR file...");
+                Utils.copyJbrFile(new JbrInputStrebm(in0), out);
+            } else if (props.getBoolebn(Utils.DEBUG_DISABLE_NATIVE)) {
+                (new DoUnpbck()).run(in0, out);
                 in0.close();
-                Utils.markJarFile(out);
+                Utils.mbrkJbrFile(out);
             } else {
                 try {
-                    (new NativeUnpack(this)).run(in0, out);
-                } catch (UnsatisfiedLinkError | NoClassDefFoundError ex) {
-                    // failover to java implementation
-                    (new DoUnpack()).run(in0, out);
+                    (new NbtiveUnpbck(this)).run(in0, out);
+                } cbtch (UnsbtisfiedLinkError | NoClbssDefFoundError ex) {
+                    // fbilover to jbvb implementbtion
+                    (new DoUnpbck()).run(in0, out);
                 }
                 in0.close();
-                Utils.markJarFile(out);
+                Utils.mbrkJbrFile(out);
             }
-        } finally {
+        } finblly {
             _nunp = null;
-            Utils.currentInstance.set(null);
-            if (tz != null) TimeZone.setDefault(tz);
+            Utils.currentInstbnce.set(null);
+            if (tz != null) TimeZone.setDefbult(tz);
         }
     }
 
     /**
-     * Takes an input File containing the pack file, and generates a JarOutputStream.
+     * Tbkes bn input File contbining the pbck file, bnd generbtes b JbrOutputStrebm.
      * <p>
-     * Does not close its output.  (The output can accumulate more elements.)
-     * @param in a File.
-     * @param out a JarOutputStream.
-     * @exception IOException if an error is encountered.
+     * Does not close its output.  (The output cbn bccumulbte more elements.)
+     * @pbrbm in b File.
+     * @pbrbm out b JbrOutputStrebm.
+     * @exception IOException if bn error is encountered.
      */
-    public synchronized void unpack(File in, JarOutputStream out) throws IOException {
+    public synchronized void unpbck(File in, JbrOutputStrebm out) throws IOException {
         if (in == null) {
             throw new NullPointerException("null input");
         }
         if (out == null) {
             throw new NullPointerException("null output");
         }
-        // Use the stream-based implementation.
-        // %%% Reconsider if native unpacker learns to memory-map the file.
-        try (FileInputStream instr = new FileInputStream(in)) {
-            unpack(instr, out);
+        // Use the strebm-bbsed implementbtion.
+        // %%% Reconsider if nbtive unpbcker lebrns to memory-mbp the file.
+        try (FileInputStrebm instr = new FileInputStrebm(in)) {
+            unpbck(instr, out);
         }
-        if (props.getBoolean(Utils.UNPACK_REMOVE_PACKFILE)) {
+        if (props.getBoolebn(Utils.UNPACK_REMOVE_PACKFILE)) {
             in.delete();
         }
     }
 
-    private class DoUnpack {
-        final int verbose = props.getInteger(Utils.DEBUG_VERBOSE);
+    privbte clbss DoUnpbck {
+        finbl int verbose = props.getInteger(Utils.DEBUG_VERBOSE);
 
         {
-            props.setInteger(Pack200.Unpacker.PROGRESS, 0);
+            props.setInteger(Pbck200.Unpbcker.PROGRESS, 0);
         }
 
-        // Here's where the bits are read from disk:
-        final Package pkg = new Package();
+        // Here's where the bits bre rebd from disk:
+        finbl Pbckbge pkg = new Pbckbge();
 
-        final boolean keepModtime
-            = Pack200.Packer.KEEP.equals(
-              props.getProperty(Utils.UNPACK_MODIFICATION_TIME, Pack200.Packer.KEEP));
-        final boolean keepDeflateHint
-            = Pack200.Packer.KEEP.equals(
-              props.getProperty(Pack200.Unpacker.DEFLATE_HINT, Pack200.Packer.KEEP));
-        final int modtime;
-        final boolean deflateHint;
+        finbl boolebn keepModtime
+            = Pbck200.Pbcker.KEEP.equbls(
+              props.getProperty(Utils.UNPACK_MODIFICATION_TIME, Pbck200.Pbcker.KEEP));
+        finbl boolebn keepDeflbteHint
+            = Pbck200.Pbcker.KEEP.equbls(
+              props.getProperty(Pbck200.Unpbcker.DEFLATE_HINT, Pbck200.Pbcker.KEEP));
+        finbl int modtime;
+        finbl boolebn deflbteHint;
         {
             if (!keepModtime) {
                 modtime = props.getTime(Utils.UNPACK_MODIFICATION_TIME);
             } else {
-                modtime = pkg.default_modtime;
+                modtime = pkg.defbult_modtime;
             }
 
-            deflateHint = (keepDeflateHint) ? false :
-                props.getBoolean(java.util.jar.Pack200.Unpacker.DEFLATE_HINT);
+            deflbteHint = (keepDeflbteHint) ? fblse :
+                props.getBoolebn(jbvb.util.jbr.Pbck200.Unpbcker.DEFLATE_HINT);
         }
 
-        // Checksum apparatus.
-        final CRC32 crc = new CRC32();
-        final ByteArrayOutputStream bufOut = new ByteArrayOutputStream();
-        final OutputStream crcOut = new CheckedOutputStream(bufOut, crc);
+        // Checksum bppbrbtus.
+        finbl CRC32 crc = new CRC32();
+        finbl ByteArrbyOutputStrebm bufOut = new ByteArrbyOutputStrebm();
+        finbl OutputStrebm crcOut = new CheckedOutputStrebm(bufOut, crc);
 
-        public void run(BufferedInputStream in, JarOutputStream out) throws IOException {
+        public void run(BufferedInputStrebm in, JbrOutputStrebm out) throws IOException {
             if (verbose > 0) {
                 props.list(System.out);
             }
             for (int seg = 1; ; seg++) {
-                unpackSegment(in, out);
+                unpbckSegment(in, out);
 
-                // Try to get another segment.
-                if (!Utils.isPackMagic(Utils.readMagic(in)))  break;
+                // Try to get bnother segment.
+                if (!Utils.isPbckMbgic(Utils.rebdMbgic(in)))  brebk;
                 if (verbose > 0)
                     Utils.log.info("Finished segment #"+seg);
             }
         }
 
-        private void unpackSegment(InputStream in, JarOutputStream out) throws IOException {
-            props.setProperty(java.util.jar.Pack200.Unpacker.PROGRESS,"0");
-            // Process the output directory or jar output.
-            new PackageReader(pkg, in).read();
+        privbte void unpbckSegment(InputStrebm in, JbrOutputStrebm out) throws IOException {
+            props.setProperty(jbvb.util.jbr.Pbck200.Unpbcker.PROGRESS,"0");
+            // Process the output directory or jbr output.
+            new PbckbgeRebder(pkg, in).rebd();
 
-            if (props.getBoolean("unpack.strip.debug"))    pkg.stripAttributeKind("Debug");
-            if (props.getBoolean("unpack.strip.compile"))  pkg.stripAttributeKind("Compile");
-            props.setProperty(java.util.jar.Pack200.Unpacker.PROGRESS,"50");
-            pkg.ensureAllClassFiles();
+            if (props.getBoolebn("unpbck.strip.debug"))    pkg.stripAttributeKind("Debug");
+            if (props.getBoolebn("unpbck.strip.compile"))  pkg.stripAttributeKind("Compile");
+            props.setProperty(jbvb.util.jbr.Pbck200.Unpbcker.PROGRESS,"50");
+            pkg.ensureAllClbssFiles();
             // Now write out the files.
-            Set<Package.Class> classesToWrite = new HashSet<>(pkg.getClasses());
-            for (Package.File file : pkg.getFiles()) {
-                String name = file.nameString;
-                JarEntry je = new JarEntry(Utils.getJarEntryName(name));
-                boolean deflate;
+            Set<Pbckbge.Clbss> clbssesToWrite = new HbshSet<>(pkg.getClbsses());
+            for (Pbckbge.File file : pkg.getFiles()) {
+                String nbme = file.nbmeString;
+                JbrEntry je = new JbrEntry(Utils.getJbrEntryNbme(nbme));
+                boolebn deflbte;
 
-                deflate = (keepDeflateHint)
-                          ? (((file.options & Constants.FO_DEFLATE_HINT) != 0) ||
-                            ((pkg.default_options & Constants.AO_DEFLATE_HINT) != 0))
-                          : deflateHint;
+                deflbte = (keepDeflbteHint)
+                          ? (((file.options & Constbnts.FO_DEFLATE_HINT) != 0) ||
+                            ((pkg.defbult_options & Constbnts.AO_DEFLATE_HINT) != 0))
+                          : deflbteHint;
 
-                boolean needCRC = !deflate;  // STORE mode requires CRC
+                boolebn needCRC = !deflbte;  // STORE mode requires CRC
 
                 if (needCRC)  crc.reset();
                 bufOut.reset();
-                if (file.isClassStub()) {
-                    Package.Class cls = file.getStubClass();
-                    assert(cls != null);
-                    new ClassWriter(cls, needCRC ? crcOut : bufOut).write();
-                    classesToWrite.remove(cls);  // for an error check
+                if (file.isClbssStub()) {
+                    Pbckbge.Clbss cls = file.getStubClbss();
+                    bssert(cls != null);
+                    new ClbssWriter(cls, needCRC ? crcOut : bufOut).write();
+                    clbssesToWrite.remove(cls);  // for bn error check
                 } else {
-                    // collect data & maybe CRC
+                    // collect dbtb & mbybe CRC
                     file.writeTo(needCRC ? crcOut : bufOut);
                 }
-                je.setMethod(deflate ? JarEntry.DEFLATED : JarEntry.STORED);
+                je.setMethod(deflbte ? JbrEntry.DEFLATED : JbrEntry.STORED);
                 if (needCRC) {
                     if (verbose > 0)
-                        Utils.log.info("stored size="+bufOut.size()+" and crc="+crc.getValue());
+                        Utils.log.info("stored size="+bufOut.size()+" bnd crc="+crc.getVblue());
 
-                    je.setMethod(JarEntry.STORED);
+                    je.setMethod(JbrEntry.STORED);
                     je.setSize(bufOut.size());
-                    je.setCrc(crc.getValue());
+                    je.setCrc(crc.getVblue());
                 }
                 if (keepModtime) {
                     je.setTime(file.modtime);
-                    // Convert back to milliseconds
+                    // Convert bbck to milliseconds
                     je.setTime((long)file.modtime * 1000);
                 } else {
                     je.setTime((long)modtime * 1000);
@@ -258,9 +258,9 @@ public class UnpackerImpl extends TLGlobals implements Pack200.Unpacker {
                 if (verbose > 0)
                     Utils.log.info("Writing "+Utils.zeString((ZipEntry)je));
             }
-            assert(classesToWrite.isEmpty());
-            props.setProperty(java.util.jar.Pack200.Unpacker.PROGRESS,"100");
-            pkg.reset();  // reset for the next segment, if any
+            bssert(clbssesToWrite.isEmpty());
+            props.setProperty(jbvb.util.jbr.Pbck200.Unpbcker.PROGRESS,"100");
+            pkg.reset();  // reset for the next segment, if bny
         }
     }
 }

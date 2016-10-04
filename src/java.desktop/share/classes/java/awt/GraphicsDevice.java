@@ -1,318 +1,318 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.image.ColorModel;
+import jbvb.bwt.imbge.ColorModel;
 
-import sun.awt.AWTAccessor;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import sun.bwt.AWTAccessor;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
 
 /**
- * The <code>GraphicsDevice</code> class describes the graphics devices
- * that might be available in a particular graphics environment.  These
- * include screen and printer devices. Note that there can be many screens
- * and many printers in an instance of {@link GraphicsEnvironment}. Each
- * graphics device has one or more {@link GraphicsConfiguration} objects
- * associated with it.  These objects specify the different configurations
- * in which the <code>GraphicsDevice</code> can be used.
+ * The <code>GrbphicsDevice</code> clbss describes the grbphics devices
+ * thbt might be bvbilbble in b pbrticulbr grbphics environment.  These
+ * include screen bnd printer devices. Note thbt there cbn be mbny screens
+ * bnd mbny printers in bn instbnce of {@link GrbphicsEnvironment}. Ebch
+ * grbphics device hbs one or more {@link GrbphicsConfigurbtion} objects
+ * bssocibted with it.  These objects specify the different configurbtions
+ * in which the <code>GrbphicsDevice</code> cbn be used.
  * <p>
- * In a multi-screen environment, the <code>GraphicsConfiguration</code>
- * objects can be used to render components on multiple screens.  The
- * following code sample demonstrates how to create a <code>JFrame</code>
- * object for each <code>GraphicsConfiguration</code> on each screen
- * device in the <code>GraphicsEnvironment</code>:
+ * In b multi-screen environment, the <code>GrbphicsConfigurbtion</code>
+ * objects cbn be used to render components on multiple screens.  The
+ * following code sbmple demonstrbtes how to crebte b <code>JFrbme</code>
+ * object for ebch <code>GrbphicsConfigurbtion</code> on ebch screen
+ * device in the <code>GrbphicsEnvironment</code>:
  * <pre>{@code
- *   GraphicsEnvironment ge = GraphicsEnvironment.
- *   getLocalGraphicsEnvironment();
- *   GraphicsDevice[] gs = ge.getScreenDevices();
+ *   GrbphicsEnvironment ge = GrbphicsEnvironment.
+ *   getLocblGrbphicsEnvironment();
+ *   GrbphicsDevice[] gs = ge.getScreenDevices();
  *   for (int j = 0; j < gs.length; j++) {
- *      GraphicsDevice gd = gs[j];
- *      GraphicsConfiguration[] gc =
- *      gd.getConfigurations();
+ *      GrbphicsDevice gd = gs[j];
+ *      GrbphicsConfigurbtion[] gc =
+ *      gd.getConfigurbtions();
  *      for (int i=0; i < gc.length; i++) {
- *         JFrame f = new
- *         JFrame(gs[j].getDefaultConfiguration());
- *         Canvas c = new Canvas(gc[i]);
- *         Rectangle gcBounds = gc[i].getBounds();
+ *         JFrbme f = new
+ *         JFrbme(gs[j].getDefbultConfigurbtion());
+ *         Cbnvbs c = new Cbnvbs(gc[i]);
+ *         Rectbngle gcBounds = gc[i].getBounds();
  *         int xoffs = gcBounds.x;
  *         int yoffs = gcBounds.y;
- *         f.getContentPane().add(c);
- *         f.setLocation((i*50)+xoffs, (i*60)+yoffs);
+ *         f.getContentPbne().bdd(c);
+ *         f.setLocbtion((i*50)+xoffs, (i*60)+yoffs);
  *         f.show();
  *      }
  *   }
  * }</pre>
  * <p>
- * For more information on full-screen exclusive mode API, see the
- * <a href="http://docs.oracle.com/javase/tutorial/extra/fullscreen/index.html">
- * Full-Screen Exclusive Mode API Tutorial</a>.
+ * For more informbtion on full-screen exclusive mode API, see the
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/extrb/fullscreen/index.html">
+ * Full-Screen Exclusive Mode API Tutoribl</b>.
  *
- * @see GraphicsEnvironment
- * @see GraphicsConfiguration
+ * @see GrbphicsEnvironment
+ * @see GrbphicsConfigurbtion
  */
-public abstract class GraphicsDevice {
+public bbstrbct clbss GrbphicsDevice {
 
-    private Window fullScreenWindow;
-    private AppContext fullScreenAppContext; // tracks which AppContext
-                                             // created the FS window
-    // this lock is used for making synchronous changes to the AppContext's
+    privbte Window fullScreenWindow;
+    privbte AppContext fullScreenAppContext; // trbcks which AppContext
+                                             // crebted the FS window
+    // this lock is used for mbking synchronous chbnges to the AppContext's
     // current full screen window
-    private final Object fsAppContextLock = new Object();
+    privbte finbl Object fsAppContextLock = new Object();
 
-    private Rectangle windowedModeBounds;
+    privbte Rectbngle windowedModeBounds;
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
-     * Instances must be obtained from a suitable factory or query method.
-     * @see GraphicsEnvironment#getScreenDevices
-     * @see GraphicsEnvironment#getDefaultScreenDevice
-     * @see GraphicsConfiguration#getDevice
+     * This is bn bbstrbct clbss thbt cbnnot be instbntibted directly.
+     * Instbnces must be obtbined from b suitbble fbctory or query method.
+     * @see GrbphicsEnvironment#getScreenDevices
+     * @see GrbphicsEnvironment#getDefbultScreenDevice
+     * @see GrbphicsConfigurbtion#getDevice
      */
-    protected GraphicsDevice() {
+    protected GrbphicsDevice() {
     }
 
     /**
-     * Device is a raster screen.
+     * Device is b rbster screen.
      */
-    public final static int TYPE_RASTER_SCREEN          = 0;
+    public finbl stbtic int TYPE_RASTER_SCREEN          = 0;
 
     /**
-     * Device is a printer.
+     * Device is b printer.
      */
-    public final static int TYPE_PRINTER                = 1;
+    public finbl stbtic int TYPE_PRINTER                = 1;
 
     /**
-     * Device is an image buffer.  This buffer can reside in device
-     * or system memory but it is not physically viewable by the user.
+     * Device is bn imbge buffer.  This buffer cbn reside in device
+     * or system memory but it is not physicblly viewbble by the user.
      */
-    public final static int TYPE_IMAGE_BUFFER           = 2;
+    public finbl stbtic int TYPE_IMAGE_BUFFER           = 2;
 
     /**
-     * Kinds of translucency supported by the underlying system.
+     * Kinds of trbnslucency supported by the underlying system.
      *
-     * @see #isWindowTranslucencySupported
+     * @see #isWindowTrbnslucencySupported
      *
      * @since 1.7
      */
-    public static enum WindowTranslucency {
+    public stbtic enum WindowTrbnslucency {
         /**
-         * Represents support in the underlying system for windows each pixel
-         * of which is guaranteed to be either completely opaque, with
-         * an alpha value of 1.0, or completely transparent, with an alpha
-         * value of 0.0.
+         * Represents support in the underlying system for windows ebch pixel
+         * of which is gubrbnteed to be either completely opbque, with
+         * bn blphb vblue of 1.0, or completely trbnspbrent, with bn blphb
+         * vblue of 0.0.
          */
         PERPIXEL_TRANSPARENT,
         /**
-         * Represents support in the underlying system for windows all of
-         * the pixels of which have the same alpha value between or including
-         * 0.0 and 1.0.
+         * Represents support in the underlying system for windows bll of
+         * the pixels of which hbve the sbme blphb vblue between or including
+         * 0.0 bnd 1.0.
          */
         TRANSLUCENT,
         /**
-         * Represents support in the underlying system for windows that
-         * contain or might contain pixels with arbitrary alpha values
-         * between and including 0.0 and 1.0.
+         * Represents support in the underlying system for windows thbt
+         * contbin or might contbin pixels with brbitrbry blphb vblues
+         * between bnd including 0.0 bnd 1.0.
          */
         PERPIXEL_TRANSLUCENT;
     }
 
     /**
-     * Returns the type of this <code>GraphicsDevice</code>.
-     * @return the type of this <code>GraphicsDevice</code>, which can
+     * Returns the type of this <code>GrbphicsDevice</code>.
+     * @return the type of this <code>GrbphicsDevice</code>, which cbn
      * either be TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
      * @see #TYPE_RASTER_SCREEN
      * @see #TYPE_PRINTER
      * @see #TYPE_IMAGE_BUFFER
      */
-    public abstract int getType();
+    public bbstrbct int getType();
 
     /**
-     * Returns the identification string associated with this
-     * <code>GraphicsDevice</code>.
+     * Returns the identificbtion string bssocibted with this
+     * <code>GrbphicsDevice</code>.
      * <p>
-     * A particular program might use more than one
-     * <code>GraphicsDevice</code> in a <code>GraphicsEnvironment</code>.
-     * This method returns a <code>String</code> identifying a
-     * particular <code>GraphicsDevice</code> in the local
-     * <code>GraphicsEnvironment</code>.  Although there is
-     * no public method to set this <code>String</code>, a programmer can
+     * A pbrticulbr progrbm might use more thbn one
+     * <code>GrbphicsDevice</code> in b <code>GrbphicsEnvironment</code>.
+     * This method returns b <code>String</code> identifying b
+     * pbrticulbr <code>GrbphicsDevice</code> in the locbl
+     * <code>GrbphicsEnvironment</code>.  Although there is
+     * no public method to set this <code>String</code>, b progrbmmer cbn
      * use the <code>String</code> for debugging purposes.  Vendors of
-     * the Java&trade; Runtime Environment can
-     * format the return value of the <code>String</code>.  To determine
-     * how to interpret the value of the <code>String</code>, contact the
-     * vendor of your Java Runtime.  To find out who the vendor is, from
-     * your program, call the
+     * the Jbvb&trbde; Runtime Environment cbn
+     * formbt the return vblue of the <code>String</code>.  To determine
+     * how to interpret the vblue of the <code>String</code>, contbct the
+     * vendor of your Jbvb Runtime.  To find out who the vendor is, from
+     * your progrbm, cbll the
      * {@link System#getProperty(String) getProperty} method of the
-     * System class with "java.vendor".
-     * @return a <code>String</code> that is the identification
-     * of this <code>GraphicsDevice</code>.
+     * System clbss with "jbvb.vendor".
+     * @return b <code>String</code> thbt is the identificbtion
+     * of this <code>GrbphicsDevice</code>.
      */
-    public abstract String getIDstring();
+    public bbstrbct String getIDstring();
 
     /**
-     * Returns all of the <code>GraphicsConfiguration</code>
-     * objects associated with this <code>GraphicsDevice</code>.
-     * @return an array of <code>GraphicsConfiguration</code>
-     * objects that are associated with this
-     * <code>GraphicsDevice</code>.
+     * Returns bll of the <code>GrbphicsConfigurbtion</code>
+     * objects bssocibted with this <code>GrbphicsDevice</code>.
+     * @return bn brrby of <code>GrbphicsConfigurbtion</code>
+     * objects thbt bre bssocibted with this
+     * <code>GrbphicsDevice</code>.
      */
-    public abstract GraphicsConfiguration[] getConfigurations();
+    public bbstrbct GrbphicsConfigurbtion[] getConfigurbtions();
 
     /**
-     * Returns the default <code>GraphicsConfiguration</code>
-     * associated with this <code>GraphicsDevice</code>.
-     * @return the default <code>GraphicsConfiguration</code>
-     * of this <code>GraphicsDevice</code>.
+     * Returns the defbult <code>GrbphicsConfigurbtion</code>
+     * bssocibted with this <code>GrbphicsDevice</code>.
+     * @return the defbult <code>GrbphicsConfigurbtion</code>
+     * of this <code>GrbphicsDevice</code>.
      */
-    public abstract GraphicsConfiguration getDefaultConfiguration();
+    public bbstrbct GrbphicsConfigurbtion getDefbultConfigurbtion();
 
     /**
-     * Returns the "best" configuration possible that passes the
-     * criteria defined in the {@link GraphicsConfigTemplate}.
-     * @param gct the <code>GraphicsConfigTemplate</code> object
-     * used to obtain a valid <code>GraphicsConfiguration</code>
-     * @return a <code>GraphicsConfiguration</code> that passes
-     * the criteria defined in the specified
-     * <code>GraphicsConfigTemplate</code>.
-     * @see GraphicsConfigTemplate
+     * Returns the "best" configurbtion possible thbt pbsses the
+     * criterib defined in the {@link GrbphicsConfigTemplbte}.
+     * @pbrbm gct the <code>GrbphicsConfigTemplbte</code> object
+     * used to obtbin b vblid <code>GrbphicsConfigurbtion</code>
+     * @return b <code>GrbphicsConfigurbtion</code> thbt pbsses
+     * the criterib defined in the specified
+     * <code>GrbphicsConfigTemplbte</code>.
+     * @see GrbphicsConfigTemplbte
      */
-    public GraphicsConfiguration
-           getBestConfiguration(GraphicsConfigTemplate gct) {
-        GraphicsConfiguration[] configs = getConfigurations();
-        return gct.getBestConfiguration(configs);
+    public GrbphicsConfigurbtion
+           getBestConfigurbtion(GrbphicsConfigTemplbte gct) {
+        GrbphicsConfigurbtion[] configs = getConfigurbtions();
+        return gct.getBestConfigurbtion(configs);
     }
 
     /**
-     * Returns <code>true</code> if this <code>GraphicsDevice</code>
+     * Returns <code>true</code> if this <code>GrbphicsDevice</code>
      * supports full-screen exclusive mode.
-     * If a SecurityManager is installed, its
-     * <code>checkPermission</code> method will be called
+     * If b SecurityMbnbger is instblled, its
+     * <code>checkPermission</code> method will be cblled
      * with <code>AWTPermission("fullScreenExclusive")</code>.
      * <code>isFullScreenSupported</code> returns true only if
-     * that permission is granted.
-     * @return whether full-screen exclusive mode is available for
-     * this graphics device
-     * @see java.awt.AWTPermission
+     * thbt permission is grbnted.
+     * @return whether full-screen exclusive mode is bvbilbble for
+     * this grbphics device
+     * @see jbvb.bwt.AWTPermission
      * @since 1.4
      */
-    public boolean isFullScreenSupported() {
-        return false;
+    public boolebn isFullScreenSupported() {
+        return fblse;
     }
 
     /**
      * Enter full-screen mode, or return to windowed mode.  The entered
-     * full-screen mode may be either exclusive or simulated.  Exclusive
-     * mode is only available if <code>isFullScreenSupported</code>
+     * full-screen mode mby be either exclusive or simulbted.  Exclusive
+     * mode is only bvbilbble if <code>isFullScreenSupported</code>
      * returns <code>true</code>.
      * <p>
      * Exclusive mode implies:
      * <ul>
-     * <li>Windows cannot overlap the full-screen window.  All other application
-     * windows will always appear beneath the full-screen window in the Z-order.
-     * <li>There can be only one full-screen window on a device at any time,
-     * so calling this method while there is an existing full-screen Window
-     * will cause the existing full-screen window to
+     * <li>Windows cbnnot overlbp the full-screen window.  All other bpplicbtion
+     * windows will blwbys bppebr benebth the full-screen window in the Z-order.
+     * <li>There cbn be only one full-screen window on b device bt bny time,
+     * so cblling this method while there is bn existing full-screen Window
+     * will cbuse the existing full-screen window to
      * return to windowed mode.
-     * <li>Input method windows are disabled.  It is advisable to call
-     * <code>Component.enableInputMethods(false)</code> to make a component
-     * a non-client of the input method framework.
+     * <li>Input method windows bre disbbled.  It is bdvisbble to cbll
+     * <code>Component.enbbleInputMethods(fblse)</code> to mbke b component
+     * b non-client of the input method frbmework.
      * </ul>
      * <p>
-     * The simulated full-screen mode places and resizes the window to the maximum
-     * possible visible area of the screen. However, the native windowing system
-     * may modify the requested geometry-related data, so that the {@code Window} object
-     * is placed and sized in a way that corresponds closely to the desktop settings.
+     * The simulbted full-screen mode plbces bnd resizes the window to the mbximum
+     * possible visible breb of the screen. However, the nbtive windowing system
+     * mby modify the requested geometry-relbted dbtb, so thbt the {@code Window} object
+     * is plbced bnd sized in b wby thbt corresponds closely to the desktop settings.
      * <p>
-     * When entering full-screen mode, if the window to be used as a
-     * full-screen window is not visible, this method will make it visible.
-     * It will remain visible when returning to windowed mode.
+     * When entering full-screen mode, if the window to be used bs b
+     * full-screen window is not visible, this method will mbke it visible.
+     * It will rembin visible when returning to windowed mode.
      * <p>
-     * When entering full-screen mode, all the translucency effects are reset for
-     * the window. Its shape is set to {@code null}, the opacity value is set to
-     * 1.0f, and the background color alpha is set to 255 (completely opaque).
-     * These values are not restored when returning to windowed mode.
+     * When entering full-screen mode, bll the trbnslucency effects bre reset for
+     * the window. Its shbpe is set to {@code null}, the opbcity vblue is set to
+     * 1.0f, bnd the bbckground color blphb is set to 255 (completely opbque).
+     * These vblues bre not restored when returning to windowed mode.
      * <p>
-     * It is unspecified and platform-dependent how decorated windows operate
-     * in full-screen mode. For this reason, it is recommended to turn off
-     * the decorations in a {@code Frame} or {@code Dialog} object by using the
-     * {@code setUndecorated} method.
+     * It is unspecified bnd plbtform-dependent how decorbted windows operbte
+     * in full-screen mode. For this rebson, it is recommended to turn off
+     * the decorbtions in b {@code Frbme} or {@code Diblog} object by using the
+     * {@code setUndecorbted} method.
      * <p>
-     * When returning to windowed mode from an exclusive full-screen window,
-     * any display changes made by calling {@code setDisplayMode} are
-     * automatically restored to their original state.
+     * When returning to windowed mode from bn exclusive full-screen window,
+     * bny displby chbnges mbde by cblling {@code setDisplbyMode} bre
+     * butombticblly restored to their originbl stbte.
      *
-     * @param w a window to use as the full-screen window; {@code null}
-     * if returning to windowed mode.  Some platforms expect the
-     * fullscreen window to be a top-level component (i.e., a {@code Frame});
-     * therefore it is preferable to use a {@code Frame} here rather than a
+     * @pbrbm w b window to use bs the full-screen window; {@code null}
+     * if returning to windowed mode.  Some plbtforms expect the
+     * fullscreen window to be b top-level component (i.e., b {@code Frbme});
+     * therefore it is preferbble to use b {@code Frbme} here rbther thbn b
      * {@code Window}.
      *
      * @see #isFullScreenSupported
      * @see #getFullScreenWindow
-     * @see #setDisplayMode
-     * @see Component#enableInputMethods
+     * @see #setDisplbyMode
+     * @see Component#enbbleInputMethods
      * @see Component#setVisible
-     * @see Frame#setUndecorated
-     * @see Dialog#setUndecorated
+     * @see Frbme#setUndecorbted
+     * @see Diblog#setUndecorbted
      *
      * @since 1.4
      */
     public void setFullScreenWindow(Window w) {
         if (w != null) {
-            if (w.getShape() != null) {
-                w.setShape(null);
+            if (w.getShbpe() != null) {
+                w.setShbpe(null);
             }
-            if (w.getOpacity() < 1.0f) {
-                w.setOpacity(1.0f);
+            if (w.getOpbcity() < 1.0f) {
+                w.setOpbcity(1.0f);
             }
-            if (!w.isOpaque()) {
-                Color bgColor = w.getBackground();
+            if (!w.isOpbque()) {
+                Color bgColor = w.getBbckground();
                 bgColor = new Color(bgColor.getRed(), bgColor.getGreen(),
                                     bgColor.getBlue(), 255);
-                w.setBackground(bgColor);
+                w.setBbckground(bgColor);
             }
-            // Check if this window is in fullscreen mode on another device.
-            final GraphicsConfiguration gc = w.getGraphicsConfiguration();
+            // Check if this window is in fullscreen mode on bnother device.
+            finbl GrbphicsConfigurbtion gc = w.getGrbphicsConfigurbtion();
             if (gc != null && gc.getDevice() != this
                     && gc.getDevice().getFullScreenWindow() == w) {
                 gc.getDevice().setFullScreenWindow(null);
             }
         }
         if (fullScreenWindow != null && windowedModeBounds != null) {
-            // if the window went into fs mode before it was realized it may
-            // have (0,0) dimensions
+            // if the window went into fs mode before it wbs reblized it mby
+            // hbve (0,0) dimensions
             if (windowedModeBounds.width  == 0) windowedModeBounds.width  = 1;
             if (windowedModeBounds.height == 0) windowedModeBounds.height = 1;
             fullScreenWindow.setBounds(windowedModeBounds);
         }
         // Set the full screen window
         synchronized (fsAppContextLock) {
-            // Associate fullscreen window with current AppContext
+            // Associbte fullscreen window with current AppContext
             if (w == null) {
                 fullScreenAppContext = null;
             } else {
@@ -322,16 +322,16 @@ public abstract class GraphicsDevice {
         }
         if (fullScreenWindow != null) {
             windowedModeBounds = fullScreenWindow.getBounds();
-            // Note that we use the graphics configuration of the device,
-            // not the window's, because we're setting the fs window for
+            // Note thbt we use the grbphics configurbtion of the device,
+            // not the window's, becbuse we're setting the fs window for
             // this device.
-            final GraphicsConfiguration gc = getDefaultConfiguration();
-            final Rectangle screenBounds = gc.getBounds();
-            if (SunToolkit.isDispatchThreadForAppContext(fullScreenWindow)) {
-                // Update graphics configuration here directly and do not wait
-                // asynchronous notification from the peer. Note that
-                // setBounds() will reset a GC, if it was set incorrectly.
-                fullScreenWindow.setGraphicsConfiguration(gc);
+            finbl GrbphicsConfigurbtion gc = getDefbultConfigurbtion();
+            finbl Rectbngle screenBounds = gc.getBounds();
+            if (SunToolkit.isDispbtchThrebdForAppContext(fullScreenWindow)) {
+                // Updbte grbphics configurbtion here directly bnd do not wbit
+                // bsynchronous notificbtion from the peer. Note thbt
+                // setBounds() will reset b GC, if it wbs set incorrectly.
+                fullScreenWindow.setGrbphicsConfigurbtion(gc);
             }
             fullScreenWindow.setBounds(screenBounds.x, screenBounds.y,
                                        screenBounds.width, screenBounds.height);
@@ -352,8 +352,8 @@ public abstract class GraphicsDevice {
     public Window getFullScreenWindow() {
         Window returnWindow = null;
         synchronized (fsAppContextLock) {
-            // Only return a handle to the current fs window if we are in the
-            // same AppContext that set the fs window
+            // Only return b hbndle to the current fs window if we bre in the
+            // sbme AppContext thbt set the fs window
             if (fullScreenAppContext == AppContext.getAppContext()) {
                 returnWindow = fullScreenWindow;
             }
@@ -362,229 +362,229 @@ public abstract class GraphicsDevice {
     }
 
     /**
-     * Returns <code>true</code> if this <code>GraphicsDevice</code>
-     * supports low-level display changes.
-     * On some platforms low-level display changes may only be allowed in
+     * Returns <code>true</code> if this <code>GrbphicsDevice</code>
+     * supports low-level displby chbnges.
+     * On some plbtforms low-level displby chbnges mby only be bllowed in
      * full-screen exclusive mode (i.e., if {@link #isFullScreenSupported()}
-     * returns {@code true} and the application has already entered
+     * returns {@code true} bnd the bpplicbtion hbs blrebdy entered
      * full-screen mode using {@link #setFullScreenWindow}).
-     * @return whether low-level display changes are supported for this
-     * graphics device.
+     * @return whether low-level displby chbnges bre supported for this
+     * grbphics device.
      * @see #isFullScreenSupported
-     * @see #setDisplayMode
+     * @see #setDisplbyMode
      * @see #setFullScreenWindow
      * @since 1.4
      */
-    public boolean isDisplayChangeSupported() {
-        return false;
+    public boolebn isDisplbyChbngeSupported() {
+        return fblse;
     }
 
     /**
-     * Sets the display mode of this graphics device. This is only allowed
-     * if {@link #isDisplayChangeSupported()} returns {@code true} and may
+     * Sets the displby mode of this grbphics device. This is only bllowed
+     * if {@link #isDisplbyChbngeSupported()} returns {@code true} bnd mby
      * require first entering full-screen exclusive mode using
-     * {@link #setFullScreenWindow} providing that full-screen exclusive mode is
+     * {@link #setFullScreenWindow} providing thbt full-screen exclusive mode is
      * supported (i.e., {@link #isFullScreenSupported()} returns
      * {@code true}).
      * <p>
      *
-     * The display mode must be one of the display modes returned by
-     * {@link #getDisplayModes()}, with one exception: passing a display mode
-     * with {@link DisplayMode#REFRESH_RATE_UNKNOWN} refresh rate will result in
-     * selecting a display mode from the list of available display modes with
-     * matching width, height and bit depth.
-     * However, passing a display mode with {@link DisplayMode#BIT_DEPTH_MULTI}
-     * for bit depth is only allowed if such mode exists in the list returned by
-     * {@link #getDisplayModes()}.
+     * The displby mode must be one of the displby modes returned by
+     * {@link #getDisplbyModes()}, with one exception: pbssing b displby mode
+     * with {@link DisplbyMode#REFRESH_RATE_UNKNOWN} refresh rbte will result in
+     * selecting b displby mode from the list of bvbilbble displby modes with
+     * mbtching width, height bnd bit depth.
+     * However, pbssing b displby mode with {@link DisplbyMode#BIT_DEPTH_MULTI}
+     * for bit depth is only bllowed if such mode exists in the list returned by
+     * {@link #getDisplbyModes()}.
      * <p>
-     * Example code:
+     * Exbmple code:
      * <pre><code>
-     * Frame frame;
-     * DisplayMode newDisplayMode;
-     * GraphicsDevice gd;
-     * // create a Frame, select desired DisplayMode from the list of modes
-     * // returned by gd.getDisplayModes() ...
+     * Frbme frbme;
+     * DisplbyMode newDisplbyMode;
+     * GrbphicsDevice gd;
+     * // crebte b Frbme, select desired DisplbyMode from the list of modes
+     * // returned by gd.getDisplbyModes() ...
      *
      * if (gd.isFullScreenSupported()) {
-     *     gd.setFullScreenWindow(frame);
+     *     gd.setFullScreenWindow(frbme);
      * } else {
      *    // proceed in non-full-screen mode
-     *    frame.setSize(...);
-     *    frame.setLocation(...);
-     *    frame.setVisible(true);
+     *    frbme.setSize(...);
+     *    frbme.setLocbtion(...);
+     *    frbme.setVisible(true);
      * }
      *
-     * if (gd.isDisplayChangeSupported()) {
-     *     gd.setDisplayMode(newDisplayMode);
+     * if (gd.isDisplbyChbngeSupported()) {
+     *     gd.setDisplbyMode(newDisplbyMode);
      * }
      * </code></pre>
      *
-     * @param dm The new display mode of this graphics device.
-     * @exception IllegalArgumentException if the <code>DisplayMode</code>
-     * supplied is <code>null</code>, or is not available in the array returned
-     * by <code>getDisplayModes</code>
-     * @exception UnsupportedOperationException if
-     * <code>isDisplayChangeSupported</code> returns <code>false</code>
-     * @see #getDisplayMode
-     * @see #getDisplayModes
-     * @see #isDisplayChangeSupported
+     * @pbrbm dm The new displby mode of this grbphics device.
+     * @exception IllegblArgumentException if the <code>DisplbyMode</code>
+     * supplied is <code>null</code>, or is not bvbilbble in the brrby returned
+     * by <code>getDisplbyModes</code>
+     * @exception UnsupportedOperbtionException if
+     * <code>isDisplbyChbngeSupported</code> returns <code>fblse</code>
+     * @see #getDisplbyMode
+     * @see #getDisplbyModes
+     * @see #isDisplbyChbngeSupported
      * @since 1.4
      */
-    public void setDisplayMode(DisplayMode dm) {
-        throw new UnsupportedOperationException("Cannot change display mode");
+    public void setDisplbyMode(DisplbyMode dm) {
+        throw new UnsupportedOperbtionException("Cbnnot chbnge displby mode");
     }
 
     /**
-     * Returns the current display mode of this
-     * <code>GraphicsDevice</code>.
-     * The returned display mode is allowed to have a refresh rate
-     * {@link DisplayMode#REFRESH_RATE_UNKNOWN} if it is indeterminate.
-     * Likewise, the returned display mode is allowed to have a bit depth
-     * {@link DisplayMode#BIT_DEPTH_MULTI} if it is indeterminate or if multiple
-     * bit depths are supported.
-     * @return the current display mode of this graphics device.
-     * @see #setDisplayMode(DisplayMode)
+     * Returns the current displby mode of this
+     * <code>GrbphicsDevice</code>.
+     * The returned displby mode is bllowed to hbve b refresh rbte
+     * {@link DisplbyMode#REFRESH_RATE_UNKNOWN} if it is indeterminbte.
+     * Likewise, the returned displby mode is bllowed to hbve b bit depth
+     * {@link DisplbyMode#BIT_DEPTH_MULTI} if it is indeterminbte or if multiple
+     * bit depths bre supported.
+     * @return the current displby mode of this grbphics device.
+     * @see #setDisplbyMode(DisplbyMode)
      * @since 1.4
      */
-    public DisplayMode getDisplayMode() {
-        GraphicsConfiguration gc = getDefaultConfiguration();
-        Rectangle r = gc.getBounds();
+    public DisplbyMode getDisplbyMode() {
+        GrbphicsConfigurbtion gc = getDefbultConfigurbtion();
+        Rectbngle r = gc.getBounds();
         ColorModel cm = gc.getColorModel();
-        return new DisplayMode(r.width, r.height, cm.getPixelSize(), 0);
+        return new DisplbyMode(r.width, r.height, cm.getPixelSize(), 0);
     }
 
     /**
-     * Returns all display modes available for this
-     * <code>GraphicsDevice</code>.
-     * The returned display modes are allowed to have a refresh rate
-     * {@link DisplayMode#REFRESH_RATE_UNKNOWN} if it is indeterminate.
-     * Likewise, the returned display modes are allowed to have a bit depth
-     * {@link DisplayMode#BIT_DEPTH_MULTI} if it is indeterminate or if multiple
-     * bit depths are supported.
-     * @return all of the display modes available for this graphics device.
+     * Returns bll displby modes bvbilbble for this
+     * <code>GrbphicsDevice</code>.
+     * The returned displby modes bre bllowed to hbve b refresh rbte
+     * {@link DisplbyMode#REFRESH_RATE_UNKNOWN} if it is indeterminbte.
+     * Likewise, the returned displby modes bre bllowed to hbve b bit depth
+     * {@link DisplbyMode#BIT_DEPTH_MULTI} if it is indeterminbte or if multiple
+     * bit depths bre supported.
+     * @return bll of the displby modes bvbilbble for this grbphics device.
      * @since 1.4
      */
-    public DisplayMode[] getDisplayModes() {
-        return new DisplayMode[] { getDisplayMode() };
+    public DisplbyMode[] getDisplbyModes() {
+        return new DisplbyMode[] { getDisplbyMode() };
     }
 
     /**
-     * This method returns the number of bytes available in
-     * accelerated memory on this device.
-     * Some images are created or cached
-     * in accelerated memory on a first-come,
-     * first-served basis.  On some operating systems,
-     * this memory is a finite resource.  Calling this method
-     * and scheduling the creation and flushing of images carefully may
-     * enable applications to make the most efficient use of
-     * that finite resource.
+     * This method returns the number of bytes bvbilbble in
+     * bccelerbted memory on this device.
+     * Some imbges bre crebted or cbched
+     * in bccelerbted memory on b first-come,
+     * first-served bbsis.  On some operbting systems,
+     * this memory is b finite resource.  Cblling this method
+     * bnd scheduling the crebtion bnd flushing of imbges cbrefully mby
+     * enbble bpplicbtions to mbke the most efficient use of
+     * thbt finite resource.
      * <br>
-     * Note that the number returned is a snapshot of how much
-     * memory is available; some images may still have problems
-     * being allocated into that memory.  For example, depending
-     * on operating system, driver, memory configuration, and
-     * thread situations, the full extent of the size reported
-     * may not be available for a given image.  There are further
-     * inquiry methods on the {@link ImageCapabilities} object
-     * associated with a VolatileImage that can be used to determine
-     * whether a particular VolatileImage has been created in accelerated
+     * Note thbt the number returned is b snbpshot of how much
+     * memory is bvbilbble; some imbges mby still hbve problems
+     * being bllocbted into thbt memory.  For exbmple, depending
+     * on operbting system, driver, memory configurbtion, bnd
+     * threbd situbtions, the full extent of the size reported
+     * mby not be bvbilbble for b given imbge.  There bre further
+     * inquiry methods on the {@link ImbgeCbpbbilities} object
+     * bssocibted with b VolbtileImbge thbt cbn be used to determine
+     * whether b pbrticulbr VolbtileImbge hbs been crebted in bccelerbted
      * memory.
-     * @return number of bytes available in accelerated memory.
-     * A negative return value indicates that the amount of accelerated memory
-     * on this GraphicsDevice is indeterminate.
-     * @see java.awt.image.VolatileImage#flush
-     * @see ImageCapabilities#isAccelerated
+     * @return number of bytes bvbilbble in bccelerbted memory.
+     * A negbtive return vblue indicbtes thbt the bmount of bccelerbted memory
+     * on this GrbphicsDevice is indeterminbte.
+     * @see jbvb.bwt.imbge.VolbtileImbge#flush
+     * @see ImbgeCbpbbilities#isAccelerbted
      * @since 1.4
      */
-    public int getAvailableAcceleratedMemory() {
+    public int getAvbilbbleAccelerbtedMemory() {
         return -1;
     }
 
     /**
-     * Returns whether the given level of translucency is supported by
-     * this graphics device.
+     * Returns whether the given level of trbnslucency is supported by
+     * this grbphics device.
      *
-     * @param translucencyKind a kind of translucency support
-     * @return whether the given translucency kind is supported
+     * @pbrbm trbnslucencyKind b kind of trbnslucency support
+     * @return whether the given trbnslucency kind is supported
      *
      * @since 1.7
      */
-    public boolean isWindowTranslucencySupported(WindowTranslucency translucencyKind) {
-        switch (translucencyKind) {
-            case PERPIXEL_TRANSPARENT:
-                return isWindowShapingSupported();
-            case TRANSLUCENT:
-                return isWindowOpacitySupported();
-            case PERPIXEL_TRANSLUCENT:
-                return isWindowPerpixelTranslucencySupported();
+    public boolebn isWindowTrbnslucencySupported(WindowTrbnslucency trbnslucencyKind) {
+        switch (trbnslucencyKind) {
+            cbse PERPIXEL_TRANSPARENT:
+                return isWindowShbpingSupported();
+            cbse TRANSLUCENT:
+                return isWindowOpbcitySupported();
+            cbse PERPIXEL_TRANSLUCENT:
+                return isWindowPerpixelTrbnslucencySupported();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns whether the windowing system supports changing the shape
+     * Returns whether the windowing system supports chbnging the shbpe
      * of top-level windows.
-     * Note that this method may sometimes return true, but the native
-     * windowing system may still not support the concept of
-     * shaping (due to the bugs in the windowing system).
+     * Note thbt this method mby sometimes return true, but the nbtive
+     * windowing system mby still not support the concept of
+     * shbping (due to the bugs in the windowing system).
      */
-    static boolean isWindowShapingSupported() {
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+    stbtic boolebn isWindowShbpingSupported() {
+        Toolkit curToolkit = Toolkit.getDefbultToolkit();
+        if (!(curToolkit instbnceof SunToolkit)) {
+            return fblse;
         }
-        return ((SunToolkit)curToolkit).isWindowShapingSupported();
+        return ((SunToolkit)curToolkit).isWindowShbpingSupported();
     }
 
     /**
-     * Returns whether the windowing system supports changing the opacity
-     * value of top-level windows.
-     * Note that this method may sometimes return true, but the native
-     * windowing system may still not support the concept of
-     * translucency (due to the bugs in the windowing system).
+     * Returns whether the windowing system supports chbnging the opbcity
+     * vblue of top-level windows.
+     * Note thbt this method mby sometimes return true, but the nbtive
+     * windowing system mby still not support the concept of
+     * trbnslucency (due to the bugs in the windowing system).
      */
-    static boolean isWindowOpacitySupported() {
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+    stbtic boolebn isWindowOpbcitySupported() {
+        Toolkit curToolkit = Toolkit.getDefbultToolkit();
+        if (!(curToolkit instbnceof SunToolkit)) {
+            return fblse;
         }
-        return ((SunToolkit)curToolkit).isWindowOpacitySupported();
+        return ((SunToolkit)curToolkit).isWindowOpbcitySupported();
     }
 
-    boolean isWindowPerpixelTranslucencySupported() {
+    boolebn isWindowPerpixelTrbnslucencySupported() {
         /*
-         * Per-pixel alpha is supported if all the conditions are TRUE:
-         *    1. The toolkit is a sort of SunToolkit
-         *    2. The toolkit supports translucency in general
-         *        (isWindowTranslucencySupported())
-         *    3. There's at least one translucency-capable
-         *        GraphicsConfiguration
+         * Per-pixel blphb is supported if bll the conditions bre TRUE:
+         *    1. The toolkit is b sort of SunToolkit
+         *    2. The toolkit supports trbnslucency in generbl
+         *        (isWindowTrbnslucencySupported())
+         *    3. There's bt lebst one trbnslucency-cbpbble
+         *        GrbphicsConfigurbtion
          */
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+        Toolkit curToolkit = Toolkit.getDefbultToolkit();
+        if (!(curToolkit instbnceof SunToolkit)) {
+            return fblse;
         }
-        if (!((SunToolkit)curToolkit).isWindowTranslucencySupported()) {
-            return false;
+        if (!((SunToolkit)curToolkit).isWindowTrbnslucencySupported()) {
+            return fblse;
         }
 
-        // TODO: cache translucency capable GC
-        return getTranslucencyCapableGC() != null;
+        // TODO: cbche trbnslucency cbpbble GC
+        return getTrbnslucencyCbpbbleGC() != null;
     }
 
-    GraphicsConfiguration getTranslucencyCapableGC() {
-        // If the default GC supports translucency return true.
-        // It is important to optimize the verification this way,
-        // see CR 6661196 for more details.
-        GraphicsConfiguration defaultGC = getDefaultConfiguration();
-        if (defaultGC.isTranslucencyCapable()) {
-            return defaultGC;
+    GrbphicsConfigurbtion getTrbnslucencyCbpbbleGC() {
+        // If the defbult GC supports trbnslucency return true.
+        // It is importbnt to optimize the verificbtion this wby,
+        // see CR 6661196 for more detbils.
+        GrbphicsConfigurbtion defbultGC = getDefbultConfigurbtion();
+        if (defbultGC.isTrbnslucencyCbpbble()) {
+            return defbultGC;
         }
 
-        // ... otherwise iterate through all the GCs.
-        GraphicsConfiguration[] configs = getConfigurations();
+        // ... otherwise iterbte through bll the GCs.
+        GrbphicsConfigurbtion[] configs = getConfigurbtions();
         for (int j = 0; j < configs.length; j++) {
-            if (configs[j].isTranslucencyCapable()) {
+            if (configs[j].isTrbnslucencyCbpbble()) {
                 return configs[j];
             }
         }

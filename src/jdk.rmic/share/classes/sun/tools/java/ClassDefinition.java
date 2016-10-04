@@ -1,647 +1,647 @@
 /*
- * Copyright (c) 1994, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
-import java.util.*;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import jbvb.util.*;
+import jbvb.io.OutputStrebm;
+import jbvb.io.PrintStrebm;
 import sun.tools.tree.Context;
 import sun.tools.tree.Vset;
 import sun.tools.tree.Expression;
-import sun.tools.tree.LocalMember;
+import sun.tools.tree.LocblMember;
 import sun.tools.tree.UplevelReference;
 
 /**
- * This class is a Java class definition
+ * This clbss is b Jbvb clbss definition
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class ClassDefinition implements Constants {
+clbss ClbssDefinition implements Constbnts {
 
     protected Object source;
     protected long where;
     protected int modifiers;
-    protected Identifier localName; // for local classes
-    protected ClassDeclaration declaration;
-    protected IdentifierToken superClassId;
-    protected IdentifierToken interfaceIds[];
-    protected ClassDeclaration superClass;
-    protected ClassDeclaration interfaces[];
-    protected ClassDefinition outerClass;
+    protected Identifier locblNbme; // for locbl clbsses
+    protected ClbssDeclbrbtion declbrbtion;
+    protected IdentifierToken superClbssId;
+    protected IdentifierToken interfbceIds[];
+    protected ClbssDeclbrbtion superClbss;
+    protected ClbssDeclbrbtion interfbces[];
+    protected ClbssDefinition outerClbss;
     protected MemberDefinition outerMember;
-    protected MemberDefinition innerClassMember;        // field for me in outerClass
+    protected MemberDefinition innerClbssMember;        // field for me in outerClbss
     protected MemberDefinition firstMember;
-    protected MemberDefinition lastMember;
-    protected boolean resolved;
-    protected String documentation;
-    protected boolean error;
-    protected boolean nestError;
+    protected MemberDefinition lbstMember;
+    protected boolebn resolved;
+    protected String documentbtion;
+    protected boolebn error;
+    protected boolebn nestError;
     protected UplevelReference references;
-    protected boolean referencesFrozen;
-    private Hashtable<Identifier, MemberDefinition> fieldHash = new Hashtable<>(31);
-    private int abstr;
+    protected boolebn referencesFrozen;
+    privbte Hbshtbble<Identifier, MemberDefinition> fieldHbsh = new Hbshtbble<>(31);
+    privbte int bbstr;
 
-    // Table of local and anonymous classes whose internal names are constructed
-    // using the current class as a prefix.  This is part of a fix for
-    // bugid 4054523 and 4030421.  See also 'Environment.getClassDefinition'
-    // and 'BatchEnvironment.makeClassDefinition'.  Allocated on demand.
-    private Hashtable<String, ClassDefinition> localClasses = null;
-    private final int LOCAL_CLASSES_SIZE = 31;
+    // Tbble of locbl bnd bnonymous clbsses whose internbl nbmes bre constructed
+    // using the current clbss bs b prefix.  This is pbrt of b fix for
+    // bugid 4054523 bnd 4030421.  See blso 'Environment.getClbssDefinition'
+    // bnd 'BbtchEnvironment.mbkeClbssDefinition'.  Allocbted on dembnd.
+    privbte Hbshtbble<String, ClbssDefinition> locblClbsses = null;
+    privbte finbl int LOCAL_CLASSES_SIZE = 31;
 
-    // The immediately surrounding context in which the class appears.
-    // Set at the beginning of checking, upon entry to 'SourceClass.checkInternal'.
-    // Null for classes that are not local or inside a local class.
-    // At present, this field exists only for the benefit of 'resolveName' as part
+    // The immedibtely surrounding context in which the clbss bppebrs.
+    // Set bt the beginning of checking, upon entry to 'SourceClbss.checkInternbl'.
+    // Null for clbsses thbt bre not locbl or inside b locbl clbss.
+    // At present, this field exists only for the benefit of 'resolveNbme' bs pbrt
     // of the fix for 4095716.
-    protected Context classContext;
+    protected Context clbssContext;
 
-    // The saved class context is now also used in 'SourceClass.getAccessMember'.
-    // Provide read-only access via this method.  Part of fix for 4098093.
-    public Context getClassContext() {
-        return classContext;
+    // The sbved clbss context is now blso used in 'SourceClbss.getAccessMember'.
+    // Provide rebd-only bccess vib this method.  Pbrt of fix for 4098093.
+    public Context getClbssContext() {
+        return clbssContext;
     }
 
 
     /**
      * Constructor
      */
-    protected ClassDefinition(Object source, long where, ClassDeclaration declaration,
-                              int modifiers, IdentifierToken superClass, IdentifierToken interfaces[]) {
+    protected ClbssDefinition(Object source, long where, ClbssDeclbrbtion declbrbtion,
+                              int modifiers, IdentifierToken superClbss, IdentifierToken interfbces[]) {
         this.source = source;
         this.where = where;
-        this.declaration = declaration;
+        this.declbrbtion = declbrbtion;
         this.modifiers = modifiers;
-        this.superClassId = superClass;
-        this.interfaceIds = interfaces;
+        this.superClbssId = superClbss;
+        this.interfbceIds = interfbces;
     }
 
     /**
-     * Get the source of the class
+     * Get the source of the clbss
      */
-    public final Object getSource() {
+    public finbl Object getSource() {
         return source;
     }
 
     /**
-     * Check if there were any errors in this class.
+     * Check if there were bny errors in this clbss.
      */
-    public final boolean getError() {
+    public finbl boolebn getError() {
         return error;
     }
 
     /**
-     * Mark this class to be erroneous.
+     * Mbrk this clbss to be erroneous.
      */
-    public final void setError() {
+    public finbl void setError() {
         this.error = true;
         setNestError();
     }
 
     /**
-     * Check if there were any errors in our class nest.
+     * Check if there were bny errors in our clbss nest.
      */
-    public final boolean getNestError() {
-        // Check to see if our error value is set, or if any of our
-        // outer classes' error values are set.  This will work in
-        // conjunction with setError(), which sets the error value
-        // of its outer class, to yield true is any of our nest
-        // siblings has an error.  This addresses bug 4111488: either
-        // code should be generated for all classes in a nest, or
+    public finbl boolebn getNestError() {
+        // Check to see if our error vblue is set, or if bny of our
+        // outer clbsses' error vblues bre set.  This will work in
+        // conjunction with setError(), which sets the error vblue
+        // of its outer clbss, to yield true is bny of our nest
+        // siblings hbs bn error.  This bddresses bug 4111488: either
+        // code should be generbted for bll clbsses in b nest, or
         // none of them.
-        return nestError || ((outerClass != null) ? outerClass.getNestError() : false);
+        return nestError || ((outerClbss != null) ? outerClbss.getNestError() : fblse);
     }
 
     /**
-     * Mark this class, and all siblings in its class nest, to be
+     * Mbrk this clbss, bnd bll siblings in its clbss nest, to be
      * erroneous.
      */
-    public final void setNestError() {
+    public finbl void setNestError() {
         this.nestError = true;
-        if (outerClass != null) {
-            // If we have an outer class, set it to be erroneous as well.
+        if (outerClbss != null) {
+            // If we hbve bn outer clbss, set it to be erroneous bs well.
             // This will work in conjunction with getError(), which checks
-            // the error value of its outer class, to set the whole class
-            // nest to be erroneous.  This address bug 4111488: either
-            // code should be generated for all classes in a nest, or
+            // the error vblue of its outer clbss, to set the whole clbss
+            // nest to be erroneous.  This bddress bug 4111488: either
+            // code should be generbted for bll clbsses in b nest, or
             // none of them.
-            outerClass.setNestError();
+            outerClbss.setNestError();
         }
     }
 
     /**
      * Get the position in the input
      */
-    public final long getWhere() {
+    public finbl long getWhere() {
         return where;
     }
 
     /**
-     * Get the class declaration
+     * Get the clbss declbrbtion
      */
-    public final ClassDeclaration getClassDeclaration() {
-        return declaration;
+    public finbl ClbssDeclbrbtion getClbssDeclbrbtion() {
+        return declbrbtion;
     }
 
     /**
-     * Get the class' modifiers
+     * Get the clbss' modifiers
      */
-    public final int getModifiers() {
+    public finbl int getModifiers() {
         return modifiers;
     }
-    public final void subModifiers(int mod) {
+    public finbl void subModifiers(int mod) {
         modifiers &= ~mod;
     }
-    public final void addModifiers(int mod) {
+    public finbl void bddModifiers(int mod) {
         modifiers |= mod;
     }
 
     // *** DEBUG ***
-    protected boolean supersCheckStarted = !(this instanceof sun.tools.javac.SourceClass);
+    protected boolebn supersCheckStbrted = !(this instbnceof sun.tools.jbvbc.SourceClbss);
 
     /**
-     * Get the class' super class
+     * Get the clbss' super clbss
      */
-    public final ClassDeclaration getSuperClass() {
+    public finbl ClbssDeclbrbtion getSuperClbss() {
         /*---
-        if (superClass == null && superClassId != null)
-            throw new CompilerError("getSuperClass "+superClassId);
-        // There are obscure cases where null is the right answer,
-        // in order to enable some error reporting later on.
-        // For example:  class T extends T.N { class N { } }
+        if (superClbss == null && superClbssId != null)
+            throw new CompilerError("getSuperClbss "+superClbssId);
+        // There bre obscure cbses where null is the right bnswer,
+        // in order to enbble some error reporting lbter on.
+        // For exbmple:  clbss T extends T.N { clbss N { } }
         ---*/
 
         // *** DEBUG ***
-        // This method should not be called if the superclass has not been resolved.
-        if (!supersCheckStarted) throw new CompilerError("unresolved super");
+        // This method should not be cblled if the superclbss hbs not been resolved.
+        if (!supersCheckStbrted) throw new CompilerError("unresolved super");
 
-        return superClass;
+        return superClbss;
     }
 
     /**
-     * Get the super class, and resolve names now if necessary.
+     * Get the super clbss, bnd resolve nbmes now if necessbry.
      *
-     * It is only possible to resolve names at this point if we are
-     * a source class.  The provision of this method at this level
-     * in the class hierarchy is dubious, but see 'getInnerClass' below.
-     * All other calls to 'getSuperClass(env)' appear in 'SourceClass'.
-     * NOTE: An older definition of this method has been moved to
-     * 'SourceClass', where it overrides this one.
+     * It is only possible to resolve nbmes bt this point if we bre
+     * b source clbss.  The provision of this method bt this level
+     * in the clbss hierbrchy is dubious, but see 'getInnerClbss' below.
+     * All other cblls to 'getSuperClbss(env)' bppebr in 'SourceClbss'.
+     * NOTE: An older definition of this method hbs been moved to
+     * 'SourceClbss', where it overrides this one.
      *
      * @see #resolveTypeStructure
      */
 
-    public ClassDeclaration getSuperClass(Environment env) {
-        return getSuperClass();
+    public ClbssDeclbrbtion getSuperClbss(Environment env) {
+        return getSuperClbss();
     }
 
     /**
-     * Get the class' interfaces
+     * Get the clbss' interfbces
      */
-    public final ClassDeclaration getInterfaces()[] {
-        if (interfaces == null)  throw new CompilerError("getInterfaces");
-        return interfaces;
+    public finbl ClbssDeclbrbtion getInterfbces()[] {
+        if (interfbces == null)  throw new CompilerError("getInterfbces");
+        return interfbces;
     }
 
     /**
-     * Get the class' enclosing class (or null if not inner)
+     * Get the clbss' enclosing clbss (or null if not inner)
      */
-    public final ClassDefinition getOuterClass() {
-        return outerClass;
+    public finbl ClbssDefinition getOuterClbss() {
+        return outerClbss;
     }
 
     /**
-     * Set the class' enclosing class.  Must be done at most once.
+     * Set the clbss' enclosing clbss.  Must be done bt most once.
      */
-    protected final void setOuterClass(ClassDefinition outerClass) {
-        if (this.outerClass != null)  throw new CompilerError("setOuterClass");
-        this.outerClass = outerClass;
+    protected finbl void setOuterClbss(ClbssDefinition outerClbss) {
+        if (this.outerClbss != null)  throw new CompilerError("setOuterClbss");
+        this.outerClbss = outerClbss;
     }
 
     /**
-     * Set the class' enclosing current instance pointer.
-     * Must be done at most once.
+     * Set the clbss' enclosing current instbnce pointer.
+     * Must be done bt most once.
      */
-    protected final void setOuterMember(MemberDefinition outerMember) {
+    protected finbl void setOuterMember(MemberDefinition outerMember) {
 
-        if (isStatic() || !isInnerClass())  throw new CompilerError("setOuterField");
+        if (isStbtic() || !isInnerClbss())  throw new CompilerError("setOuterField");
         if (this.outerMember != null)  throw new CompilerError("setOuterField");
         this.outerMember = outerMember;
     }
 
     /**
-     * Tell if the class is inner.
-     * This predicate also returns true for top-level nested types.
-     * To test for a true inner class as seen by the programmer,
+     * Tell if the clbss is inner.
+     * This predicbte blso returns true for top-level nested types.
+     * To test for b true inner clbss bs seen by the progrbmmer,
      * use <tt>!isTopLevel()</tt>.
      */
-    public final boolean isInnerClass() {
-        return outerClass != null;
+    public finbl boolebn isInnerClbss() {
+        return outerClbss != null;
     }
 
     /**
-     * Tell if the class is a member of another class.
-     * This is false for package members and for block-local classes.
+     * Tell if the clbss is b member of bnother clbss.
+     * This is fblse for pbckbge members bnd for block-locbl clbsses.
      */
-    public final boolean isMember() {
-        return outerClass != null && !isLocal();
+    public finbl boolebn isMember() {
+        return outerClbss != null && !isLocbl();
     }
 
     /**
-     * Tell if the class is "top-level", which is either a package member,
-     * or a static member of another top-level class.
+     * Tell if the clbss is "top-level", which is either b pbckbge member,
+     * or b stbtic member of bnother top-level clbss.
      */
-    public final boolean isTopLevel() {
-        return outerClass == null || isStatic() || isInterface();
+    public finbl boolebn isTopLevel() {
+        return outerClbss == null || isStbtic() || isInterfbce();
     }
 
     /**
-     * Tell if the class is local or inside a local class,
-     * which means it cannot be mentioned outside of its file.
+     * Tell if the clbss is locbl or inside b locbl clbss,
+     * which mebns it cbnnot be mentioned outside of its file.
      */
 
-    // The comment above is true only because M_LOCAL is set
-    // whenever M_ANONYMOUS is.  I think it is risky to assume that
-    // isAnonymous(x) => isLocal(x).
+    // The comment bbove is true only becbuse M_LOCAL is set
+    // whenever M_ANONYMOUS is.  I think it is risky to bssume thbt
+    // isAnonymous(x) => isLocbl(x).
 
-    public final boolean isInsideLocal() {
-        return isLocal() ||
-            (outerClass != null && outerClass.isInsideLocal());
+    public finbl boolebn isInsideLocbl() {
+        return isLocbl() ||
+            (outerClbss != null && outerClbss.isInsideLocbl());
     }
 
     /**
-     * Tell if the class is local or or anonymous class, or inside
-     * such a class, which means it cannot be mentioned outside of
+     * Tell if the clbss is locbl or or bnonymous clbss, or inside
+     * such b clbss, which mebns it cbnnot be mentioned outside of
      * its file.
      */
-    public final boolean isInsideLocalOrAnonymous() {
-        return isLocal() || isAnonymous () ||
-            (outerClass != null && outerClass.isInsideLocalOrAnonymous());
+    public finbl boolebn isInsideLocblOrAnonymous() {
+        return isLocbl() || isAnonymous () ||
+            (outerClbss != null && outerClbss.isInsideLocblOrAnonymous());
     }
 
     /**
-     * Return a simple identifier for this class (idNull if anonymous).
+     * Return b simple identifier for this clbss (idNull if bnonymous).
      */
-    public Identifier getLocalName() {
-        if (localName != null) {
-            return localName;
+    public Identifier getLocblNbme() {
+        if (locblNbme != null) {
+            return locblNbme;
         }
-        // This is also the name of the innerClassMember, if any:
-        return getName().getFlatName().getName();
+        // This is blso the nbme of the innerClbssMember, if bny:
+        return getNbme().getFlbtNbme().getNbme();
     }
 
     /**
-     * Set the local name of a class.  Must be a local class.
+     * Set the locbl nbme of b clbss.  Must be b locbl clbss.
      */
-    public void setLocalName(Identifier name) {
-        if (isLocal()) {
-            localName = name;
+    public void setLocblNbme(Identifier nbme) {
+        if (isLocbl()) {
+            locblNbme = nbme;
         }
     }
 
     /**
-     * If inner, get the field for this class in the enclosing class
+     * If inner, get the field for this clbss in the enclosing clbss
      */
-    public final MemberDefinition getInnerClassMember() {
-        if (outerClass == null)
+    public finbl MemberDefinition getInnerClbssMember() {
+        if (outerClbss == null)
             return null;
-        if (innerClassMember == null) {
-            // We must find the field in the outer class.
-            Identifier nm = getName().getFlatName().getName();
-            for (MemberDefinition field = outerClass.getFirstMatch(nm);
-                 field != null; field = field.getNextMatch()) {
-                if (field.isInnerClass()) {
-                    innerClassMember = field;
-                    break;
+        if (innerClbssMember == null) {
+            // We must find the field in the outer clbss.
+            Identifier nm = getNbme().getFlbtNbme().getNbme();
+            for (MemberDefinition field = outerClbss.getFirstMbtch(nm);
+                 field != null; field = field.getNextMbtch()) {
+                if (field.isInnerClbss()) {
+                    innerClbssMember = field;
+                    brebk;
                 }
             }
-            if (innerClassMember == null)
-                throw new CompilerError("getInnerClassField");
+            if (innerClbssMember == null)
+                throw new CompilerError("getInnerClbssField");
         }
-        return innerClassMember;
+        return innerClbssMember;
     }
 
     /**
-     * If inner, return an innermost uplevel self pointer, if any exists.
+     * If inner, return bn innermost uplevel self pointer, if bny exists.
      * Otherwise, return null.
      */
-    public final MemberDefinition findOuterMember() {
+    public finbl MemberDefinition findOuterMember() {
         return outerMember;
     }
 
     /**
-     * See if this is a (nested) static class.
+     * See if this is b (nested) stbtic clbss.
      */
-    public final boolean isStatic() {
+    public finbl boolebn isStbtic() {
         return (modifiers & ACC_STATIC) != 0;
     }
 
     /**
-     * Get the class' top-level enclosing class
+     * Get the clbss' top-level enclosing clbss
      */
-    public final ClassDefinition getTopClass() {
-        ClassDefinition p, q;
-        for (p = this; (q = p.outerClass) != null; p = q)
+    public finbl ClbssDefinition getTopClbss() {
+        ClbssDefinition p, q;
+        for (p = this; (q = p.outerClbss) != null; p = q)
             ;
         return p;
     }
 
     /**
-     * Get the class' first field or first match
+     * Get the clbss' first field or first mbtch
      */
-    public final MemberDefinition getFirstMember() {
+    public finbl MemberDefinition getFirstMember() {
         return firstMember;
     }
-    public final MemberDefinition getFirstMatch(Identifier name) {
-        return fieldHash.get(name);
+    public finbl MemberDefinition getFirstMbtch(Identifier nbme) {
+        return fieldHbsh.get(nbme);
     }
 
     /**
-     * Get the class' name
+     * Get the clbss' nbme
      */
-    public final Identifier getName() {
-        return declaration.getName();
+    public finbl Identifier getNbme() {
+        return declbrbtion.getNbme();
     }
 
     /**
-     * Get the class' type
+     * Get the clbss' type
      */
-    public final Type getType() {
-        return declaration.getType();
+    public finbl Type getType() {
+        return declbrbtion.getType();
     }
 
     /**
-     * Get the class' documentation
+     * Get the clbss' documentbtion
      */
-    public String getDocumentation() {
-        return documentation;
+    public String getDocumentbtion() {
+        return documentbtion;
     }
 
     /**
-     * Return true if the given documentation string contains a deprecation
-     * paragraph.  This is true if the string contains the tag @deprecated
-     * is the first word in a line.
+     * Return true if the given documentbtion string contbins b deprecbtion
+     * pbrbgrbph.  This is true if the string contbins the tbg @deprecbted
+     * is the first word in b line.
      */
-    public static boolean containsDeprecated(String documentation) {
-        if (documentation == null) {
-            return false;
+    public stbtic boolebn contbinsDeprecbted(String documentbtion) {
+        if (documentbtion == null) {
+            return fblse;
         }
-    doScan:
-        for (int scan = 0;
-             (scan = documentation.indexOf(paraDeprecated, scan)) >= 0;
-             scan += paraDeprecated.length()) {
-            // make sure there is only whitespace between this word
-            // and the beginning of the line
-            for (int beg = scan-1; beg >= 0; beg--) {
-                char ch = documentation.charAt(beg);
+    doScbn:
+        for (int scbn = 0;
+             (scbn = documentbtion.indexOf(pbrbDeprecbted, scbn)) >= 0;
+             scbn += pbrbDeprecbted.length()) {
+            // mbke sure there is only whitespbce between this word
+            // bnd the beginning of the line
+            for (int beg = scbn-1; beg >= 0; beg--) {
+                chbr ch = documentbtion.chbrAt(beg);
                 if (ch == '\n' || ch == '\r') {
-                    break;      // OK
+                    brebk;      // OK
                 }
-                if (!Character.isSpace(ch)) {
-                    continue doScan;
+                if (!Chbrbcter.isSpbce(ch)) {
+                    continue doScbn;
                 }
             }
-            // make sure the char after the word is space or end of line
-            int end = scan+paraDeprecated.length();
-            if (end < documentation.length()) {
-                char ch = documentation.charAt(end);
-                if (!(ch == '\n' || ch == '\r') && !Character.isSpace(ch)) {
-                    continue doScan;
+            // mbke sure the chbr bfter the word is spbce or end of line
+            int end = scbn+pbrbDeprecbted.length();
+            if (end < documentbtion.length()) {
+                chbr ch = documentbtion.chbrAt(end);
+                if (!(ch == '\n' || ch == '\r') && !Chbrbcter.isSpbce(ch)) {
+                    continue doScbn;
                 }
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    public final boolean inSamePackage(ClassDeclaration c) {
-        // find out if the class stored in c is defined in the same
-        // package as the current class.
-        return inSamePackage(c.getName().getQualifier());
+    public finbl boolebn inSbmePbckbge(ClbssDeclbrbtion c) {
+        // find out if the clbss stored in c is defined in the sbme
+        // pbckbge bs the current clbss.
+        return inSbmePbckbge(c.getNbme().getQublifier());
     }
 
-    public final boolean inSamePackage(ClassDefinition c) {
-        // find out if the class stored in c is defined in the same
-        // package as the current class.
-        return inSamePackage(c.getName().getQualifier());
+    public finbl boolebn inSbmePbckbge(ClbssDefinition c) {
+        // find out if the clbss stored in c is defined in the sbme
+        // pbckbge bs the current clbss.
+        return inSbmePbckbge(c.getNbme().getQublifier());
     }
 
-    public final boolean inSamePackage(Identifier packageName) {
-        return (getName().getQualifier().equals(packageName));
+    public finbl boolebn inSbmePbckbge(Identifier pbckbgeNbme) {
+        return (getNbme().getQublifier().equbls(pbckbgeNbme));
     }
 
     /**
      * Checks
      */
-    public final boolean isInterface() {
+    public finbl boolebn isInterfbce() {
         return (getModifiers() & M_INTERFACE) != 0;
     }
-    public final boolean isClass() {
+    public finbl boolebn isClbss() {
         return (getModifiers() & M_INTERFACE) == 0;
     }
-    public final boolean isPublic() {
+    public finbl boolebn isPublic() {
         return (getModifiers() & M_PUBLIC) != 0;
     }
-    public final boolean isPrivate() {
+    public finbl boolebn isPrivbte() {
         return (getModifiers() & M_PRIVATE) != 0;
     }
-    public final boolean isProtected() {
+    public finbl boolebn isProtected() {
         return (getModifiers() & M_PROTECTED) != 0;
     }
-    public final boolean isPackagePrivate() {
+    public finbl boolebn isPbckbgePrivbte() {
         return (modifiers & (M_PUBLIC | M_PRIVATE | M_PROTECTED)) == 0;
     }
-    public final boolean isFinal() {
+    public finbl boolebn isFinbl() {
         return (getModifiers() & M_FINAL) != 0;
     }
-    public final boolean isAbstract() {
+    public finbl boolebn isAbstrbct() {
         return (getModifiers() & M_ABSTRACT) != 0;
     }
-    public final boolean isSynthetic() {
+    public finbl boolebn isSynthetic() {
         return (getModifiers() & M_SYNTHETIC) != 0;
     }
-    public final boolean isDeprecated() {
+    public finbl boolebn isDeprecbted() {
         return (getModifiers() & M_DEPRECATED) != 0;
     }
-    public final boolean isAnonymous() {
+    public finbl boolebn isAnonymous() {
         return (getModifiers() & M_ANONYMOUS) != 0;
     }
-    public final boolean isLocal() {
+    public finbl boolebn isLocbl() {
         return (getModifiers() & M_LOCAL) != 0;
     }
-    public final boolean hasConstructor() {
-        return getFirstMatch(idInit) != null;
+    public finbl boolebn hbsConstructor() {
+        return getFirstMbtch(idInit) != null;
     }
 
 
     /**
-     * Check to see if a class must be abstract.  This method replaces
-     * isAbstract(env)
+     * Check to see if b clbss must be bbstrbct.  This method replbces
+     * isAbstrbct(env)
      */
-    public final boolean mustBeAbstract(Environment env) {
-        // If it is declared abstract, return true.
+    public finbl boolebn mustBeAbstrbct(Environment env) {
+        // If it is declbred bbstrbct, return true.
         // (Fix for 4110534.)
-        if (isAbstract()) {
+        if (isAbstrbct()) {
             return true;
         }
 
-        // Check to see if the class should have been declared to be
-        // abstract.
+        // Check to see if the clbss should hbve been declbred to be
+        // bbstrbct.
 
-        // We make sure that the inherited method collection has been
+        // We mbke sure thbt the inherited method collection hbs been
         // performed.
         collectInheritedMethods(env);
 
-        // We check for any abstract methods inherited or declared
-        // by this class.
-        Iterator<MemberDefinition> methods = getMethods();
-        while (methods.hasNext()) {
+        // We check for bny bbstrbct methods inherited or declbred
+        // by this clbss.
+        Iterbtor<MemberDefinition> methods = getMethods();
+        while (methods.hbsNext()) {
             MemberDefinition method = methods.next();
 
-            if (method.isAbstract()) {
+            if (method.isAbstrbct()) {
                 return true;
             }
         }
 
-        // We check for hidden "permanently abstract" methods in
-        // our superclasses.
-        return getPermanentlyAbstractMethods().hasNext();
+        // We check for hidden "permbnently bbstrbct" methods in
+        // our superclbsses.
+        return getPermbnentlyAbstrbctMethods().hbsNext();
     }
 
     /**
-     * Check if this is a super class of another class
+     * Check if this is b super clbss of bnother clbss
      */
-    public boolean superClassOf(Environment env, ClassDeclaration otherClass)
-                                                                throws ClassNotFound {
-        while (otherClass != null) {
-            if (getClassDeclaration().equals(otherClass)) {
+    public boolebn superClbssOf(Environment env, ClbssDeclbrbtion otherClbss)
+                                                                throws ClbssNotFound {
+        while (otherClbss != null) {
+            if (getClbssDeclbrbtion().equbls(otherClbss)) {
                 return true;
             }
-            otherClass = otherClass.getClassDefinition(env).getSuperClass();
+            otherClbss = otherClbss.getClbssDefinition(env).getSuperClbss();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Check if this is an enclosing class of another class
+     * Check if this is bn enclosing clbss of bnother clbss
      */
-    public boolean enclosingClassOf(ClassDefinition otherClass) {
-        while ((otherClass = otherClass.getOuterClass()) != null) {
-            if (this == otherClass) {
+    public boolebn enclosingClbssOf(ClbssDefinition otherClbss) {
+        while ((otherClbss = otherClbss.getOuterClbss()) != null) {
+            if (this == otherClbss) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Check if this is a sub class of another class
+     * Check if this is b sub clbss of bnother clbss
      */
-    public boolean subClassOf(Environment env, ClassDeclaration otherClass) throws ClassNotFound {
-        ClassDeclaration c = getClassDeclaration();
+    public boolebn subClbssOf(Environment env, ClbssDeclbrbtion otherClbss) throws ClbssNotFound {
+        ClbssDeclbrbtion c = getClbssDeclbrbtion();
         while (c != null) {
-            if (c.equals(otherClass)) {
+            if (c.equbls(otherClbss)) {
                 return true;
             }
-            c = c.getClassDefinition(env).getSuperClass();
+            c = c.getClbssDefinition(env).getSuperClbss();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Check if this class is implemented by another class
+     * Check if this clbss is implemented by bnother clbss
      */
-    public boolean implementedBy(Environment env, ClassDeclaration c) throws ClassNotFound {
-        for (; c != null ; c = c.getClassDefinition(env).getSuperClass()) {
-            if (getClassDeclaration().equals(c)) {
+    public boolebn implementedBy(Environment env, ClbssDeclbrbtion c) throws ClbssNotFound {
+        for (; c != null ; c = c.getClbssDefinition(env).getSuperClbss()) {
+            if (getClbssDeclbrbtion().equbls(c)) {
                 return true;
             }
-            ClassDeclaration intf[] = c.getClassDefinition(env).getInterfaces();
+            ClbssDeclbrbtion intf[] = c.getClbssDefinition(env).getInterfbces();
             for (int i = 0 ; i < intf.length ; i++) {
                 if (implementedBy(env, intf[i])) {
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Check to see if a class which implements interface `this' could
-     * possibly implement the interface `intDef'.  Note that the only
-     * way that this can fail is if `this' and `intDef' have methods
-     * which are of the same signature and different return types.  This
-     * method is used by Environment.explicitCast() to determine if a
-     * cast between two interfaces is legal.
+     * Check to see if b clbss which implements interfbce `this' could
+     * possibly implement the interfbce `intDef'.  Note thbt the only
+     * wby thbt this cbn fbil is if `this' bnd `intDef' hbve methods
+     * which bre of the sbme signbture bnd different return types.  This
+     * method is used by Environment.explicitCbst() to determine if b
+     * cbst between two interfbces is legbl.
      *
-     * This method should only be called on a class after it has been
-     * basicCheck()'ed.
+     * This method should only be cblled on b clbss bfter it hbs been
+     * bbsicCheck()'ed.
      */
-    public boolean couldImplement(ClassDefinition intDef) {
-        // Check to see if we could have done the necessary checks.
-        if (!doInheritanceChecks) {
+    public boolebn couldImplement(ClbssDefinition intDef) {
+        // Check to see if we could hbve done the necessbry checks.
+        if (!doInheritbnceChecks) {
             throw new CompilerError("couldImplement: no checks");
         }
 
-        // This method should only be called for interfaces.
-        if (!isInterface() || !intDef.isInterface()) {
-            throw new CompilerError("couldImplement: not interface");
+        // This method should only be cblled for interfbces.
+        if (!isInterfbce() || !intDef.isInterfbce()) {
+            throw new CompilerError("couldImplement: not interfbce");
         }
 
-        // Make sure we are not called before we have collected our
-        // inheritance information.
-        if (allMethods == null) {
-            throw new CompilerError("couldImplement: called early");
+        // Mbke sure we bre not cblled before we hbve collected our
+        // inheritbnce informbtion.
+        if (bllMethods == null) {
+            throw new CompilerError("couldImplement: cblled ebrly");
         }
 
-        // Get the other classes' methods.  getMethods() in
-        // general can return methods which are not visible to the
-        // current package.  We need to make sure that these do not
-        // prevent this class from being implemented.
-        Iterator<MemberDefinition> otherMethods = intDef.getMethods();
+        // Get the other clbsses' methods.  getMethods() in
+        // generbl cbn return methods which bre not visible to the
+        // current pbckbge.  We need to mbke sure thbt these do not
+        // prevent this clbss from being implemented.
+        Iterbtor<MemberDefinition> otherMethods = intDef.getMethods();
 
-        while (otherMethods.hasNext()) {
+        while (otherMethods.hbsNext()) {
             // Get one of the methods from intDef...
             MemberDefinition method = otherMethods.next();
 
-            Identifier name = method.getName();
+            Identifier nbme = method.getNbme();
             Type type = method.getType();
 
-            // See if we implement a method of the same signature...
-            MemberDefinition myMethod = allMethods.lookupSig(name, type);
+            // See if we implement b method of the sbme signbture...
+            MemberDefinition myMethod = bllMethods.lookupSig(nbme, type);
 
-            //System.out.println("Comparing\n\t" + myMethod +
-            //                   "\nand\n\t" + method);
+            //System.out.println("Compbring\n\t" + myMethod +
+            //                   "\nbnd\n\t" + method);
 
             if (myMethod != null) {
-                // We do.  Make sure the methods have the same return type.
-                if (!myMethod.sameReturnType(method)) {
-                    return false;
+                // We do.  Mbke sure the methods hbve the sbme return type.
+                if (!myMethod.sbmeReturnType(method)) {
+                    return fblse;
                 }
             }
         }
@@ -650,247 +650,247 @@ class ClassDefinition implements Constants {
     }
 
     /**
-     * Check if another class can be accessed from the 'extends' or 'implements'
-     * clause of this class.
+     * Check if bnother clbss cbn be bccessed from the 'extends' or 'implements'
+     * clbuse of this clbss.
      */
-    public boolean extendsCanAccess(Environment env, ClassDeclaration c) throws ClassNotFound {
+    public boolebn extendsCbnAccess(Environment env, ClbssDeclbrbtion c) throws ClbssNotFound {
 
-        // Names in the 'extends' or 'implements' clause of an inner class
-        // are checked as if they appeared in the body of the surrounding class.
-        if (outerClass != null) {
-            return outerClass.canAccess(env, c);
+        // Nbmes in the 'extends' or 'implements' clbuse of bn inner clbss
+        // bre checked bs if they bppebred in the body of the surrounding clbss.
+        if (outerClbss != null) {
+            return outerClbss.cbnAccess(env, c);
         }
 
-        // We are a package member.
+        // We bre b pbckbge member.
 
-        ClassDefinition cdef = c.getClassDefinition(env);
+        ClbssDefinition cdef = c.getClbssDefinition(env);
 
-        if (cdef.isLocal()) {
-            // No locals should be in scope in the 'extends' or
-            // 'implements' clause of a package member.
-            throw new CompilerError("top local");
+        if (cdef.isLocbl()) {
+            // No locbls should be in scope in the 'extends' or
+            // 'implements' clbuse of b pbckbge member.
+            throw new CompilerError("top locbl");
         }
 
-        if (cdef.isInnerClass()) {
-            MemberDefinition f = cdef.getInnerClassMember();
+        if (cdef.isInnerClbss()) {
+            MemberDefinition f = cdef.getInnerClbssMember();
 
-            // Access to public member is always allowed.
+            // Access to public member is blwbys bllowed.
             if (f.isPublic()) {
                 return true;
             }
 
-            // Private access is ok only from the same class nest.  This can
-            // happen only if the class represented by 'this' encloses the inner
-            // class represented by 'f'.
-            if (f.isPrivate()) {
-                return getClassDeclaration().equals(f.getTopClass().getClassDeclaration());
+            // Privbte bccess is ok only from the sbme clbss nest.  This cbn
+            // hbppen only if the clbss represented by 'this' encloses the inner
+            // clbss represented by 'f'.
+            if (f.isPrivbte()) {
+                return getClbssDeclbrbtion().equbls(f.getTopClbss().getClbssDeclbrbtion());
             }
 
-            // Protected or default access -- allow access if in same package.
-            return getName().getQualifier().equals(f.getClassDeclaration().getName().getQualifier());
+            // Protected or defbult bccess -- bllow bccess if in sbme pbckbge.
+            return getNbme().getQublifier().equbls(f.getClbssDeclbrbtion().getNbme().getQublifier());
         }
 
-        // Access to public member is always allowed.
+        // Access to public member is blwbys bllowed.
         if (cdef.isPublic()) {
             return true;
         }
 
-        // Default access -- allow access if in same package.
-        return getName().getQualifier().equals(c.getName().getQualifier());
+        // Defbult bccess -- bllow bccess if in sbme pbckbge.
+        return getNbme().getQublifier().equbls(c.getNbme().getQublifier());
     }
 
     /**
-     * Check if another class can be accessed from within the body of this class.
+     * Check if bnother clbss cbn be bccessed from within the body of this clbss.
      */
-    public boolean canAccess(Environment env, ClassDeclaration c) throws ClassNotFound {
-        ClassDefinition cdef = c.getClassDefinition(env);
+    public boolebn cbnAccess(Environment env, ClbssDeclbrbtion c) throws ClbssNotFound {
+        ClbssDefinition cdef = c.getClbssDefinition(env);
 
-        if (cdef.isLocal()) {
-            // if it's in scope, it's accessible
+        if (cdef.isLocbl()) {
+            // if it's in scope, it's bccessible
             return true;
         }
 
-        if (cdef.isInnerClass()) {
-            return canAccess(env, cdef.getInnerClassMember());
+        if (cdef.isInnerClbss()) {
+            return cbnAccess(env, cdef.getInnerClbssMember());
         }
 
-        // Public access is always ok
+        // Public bccess is blwbys ok
         if (cdef.isPublic()) {
             return true;
         }
 
-        // It must be in the same package
-        return getName().getQualifier().equals(c.getName().getQualifier());
+        // It must be in the sbme pbckbge
+        return getNbme().getQublifier().equbls(c.getNbme().getQublifier());
     }
 
     /**
-     * Check if a field can be accessed from a class
+     * Check if b field cbn be bccessed from b clbss
      */
 
-    public boolean canAccess(Environment env, MemberDefinition f)
-                throws ClassNotFound {
+    public boolebn cbnAccess(Environment env, MemberDefinition f)
+                throws ClbssNotFound {
 
-        // Public access is always ok
+        // Public bccess is blwbys ok
         if (f.isPublic()) {
             return true;
         }
-        // Protected access is ok from a subclass
-        if (f.isProtected() && subClassOf(env, f.getClassDeclaration())) {
+        // Protected bccess is ok from b subclbss
+        if (f.isProtected() && subClbssOf(env, f.getClbssDeclbrbtion())) {
             return true;
         }
-        // Private access is ok only from the same class nest
-        if (f.isPrivate()) {
-            return getTopClass().getClassDeclaration()
-                .equals(f.getTopClass().getClassDeclaration());
+        // Privbte bccess is ok only from the sbme clbss nest
+        if (f.isPrivbte()) {
+            return getTopClbss().getClbssDeclbrbtion()
+                .equbls(f.getTopClbss().getClbssDeclbrbtion());
         }
-        // It must be in the same package
-        return getName().getQualifier().equals(f.getClassDeclaration().getName().getQualifier());
+        // It must be in the sbme pbckbge
+        return getNbme().getQublifier().equbls(f.getClbssDeclbrbtion().getNbme().getQublifier());
     }
 
     /**
-     * Check if a class is entitled to inline access to a class from
-     * another class.
+     * Check if b clbss is entitled to inline bccess to b clbss from
+     * bnother clbss.
      */
-    public boolean permitInlinedAccess(Environment env, ClassDeclaration c)
-                       throws ClassNotFound {
+    public boolebn permitInlinedAccess(Environment env, ClbssDeclbrbtion c)
+                       throws ClbssNotFound {
 
-        return (env.opt() && c.equals(declaration)) ||
-               (env.opt_interclass() && canAccess(env, c));
+        return (env.opt() && c.equbls(declbrbtion)) ||
+               (env.opt_interclbss() && cbnAccess(env, c));
     }
 
     /**
-     * Check if a class is entitled to inline access to a method from
-     * another class.
+     * Check if b clbss is entitled to inline bccess to b method from
+     * bnother clbss.
      */
-    public boolean permitInlinedAccess(Environment env, MemberDefinition f)
-                       throws ClassNotFound {
+    public boolebn permitInlinedAccess(Environment env, MemberDefinition f)
+                       throws ClbssNotFound {
         return (env.opt()
-                    && (f.clazz.getClassDeclaration().equals(declaration))) ||
-               (env.opt_interclass() && canAccess(env, f));
+                    && (f.clbzz.getClbssDeclbrbtion().equbls(declbrbtion))) ||
+               (env.opt_interclbss() && cbnAccess(env, f));
     }
 
     /**
-     * We know the the field is marked protected (and not public) and that
-     * the field is visible (as per canAccess).  Can we access the field as
-     * <accessor>.<field>, where <accessor> has the type <accessorType>?
+     * We know the the field is mbrked protected (bnd not public) bnd thbt
+     * the field is visible (bs per cbnAccess).  Cbn we bccess the field bs
+     * <bccessor>.<field>, where <bccessor> hbs the type <bccessorType>?
      *
-     * Protected fields can only be accessed when the accessorType is a
-     * subclass of the current class
+     * Protected fields cbn only be bccessed when the bccessorType is b
+     * subclbss of the current clbss
      */
-    public boolean protectedAccess(Environment env, MemberDefinition f,
-                                   Type accessorType)
-        throws ClassNotFound
+    public boolebn protectedAccess(Environment env, MemberDefinition f,
+                                   Type bccessorType)
+        throws ClbssNotFound
     {
 
         return
-               // static protected fields are accessible
-               f.isStatic()
-            || // allow array.clone()
-               (accessorType.isType(TC_ARRAY) && (f.getName() == idClone)
+               // stbtic protected fields bre bccessible
+               f.isStbtic()
+            || // bllow brrby.clone()
+               (bccessorType.isType(TC_ARRAY) && (f.getNbme() == idClone)
                  && (f.getType().getArgumentTypes().length == 0))
-            || // <accessorType> is a subtype of the current class
-               (accessorType.isType(TC_CLASS)
-                 && env.getClassDefinition(accessorType.getClassName())
-                         .subClassOf(env, getClassDeclaration()))
-            || // we are accessing the field from a friendly class (same package)
-               (getName().getQualifier()
-                   .equals(f.getClassDeclaration().getName().getQualifier()));
+            || // <bccessorType> is b subtype of the current clbss
+               (bccessorType.isType(TC_CLASS)
+                 && env.getClbssDefinition(bccessorType.getClbssNbme())
+                         .subClbssOf(env, getClbssDeclbrbtion()))
+            || // we bre bccessing the field from b friendly clbss (sbme pbckbge)
+               (getNbme().getQublifier()
+                   .equbls(f.getClbssDeclbrbtion().getNbme().getQublifier()));
     }
 
 
     /**
-     * Find or create an access method for a private member,
+     * Find or crebte bn bccess method for b privbte member,
      * or return null if this is not possible.
      */
     public MemberDefinition getAccessMember(Environment env, Context ctx,
-                                          MemberDefinition field, boolean isSuper) {
-        throw new CompilerError("binary getAccessMember");
+                                          MemberDefinition field, boolebn isSuper) {
+        throw new CompilerError("binbry getAccessMember");
     }
 
     /**
-     * Find or create an update method for a private member,
+     * Find or crebte bn updbte method for b privbte member,
      * or return null if this is not possible.
      */
-    public MemberDefinition getUpdateMember(Environment env, Context ctx,
-                                            MemberDefinition field, boolean isSuper) {
-        throw new CompilerError("binary getUpdateMember");
+    public MemberDefinition getUpdbteMember(Environment env, Context ctx,
+                                            MemberDefinition field, boolebn isSuper) {
+        throw new CompilerError("binbry getUpdbteMember");
     }
 
     /**
-     * Get a field from this class.  Report ambiguous fields.
-     * If no accessible field is found, this method may return an
-     * inaccessible field to allow a useful error message.
+     * Get b field from this clbss.  Report bmbiguous fields.
+     * If no bccessible field is found, this method mby return bn
+     * inbccessible field to bllow b useful error messbge.
      *
-     * getVariable now takes the source class `source' as an argument.
-     * This allows getVariable to check whether a field is inaccessible
-     * before it signals that a field is ambiguous.  The compiler used to
-     * signal an ambiguity even when one of the fields involved was not
-     * accessible.  (bug 4053724)
+     * getVbribble now tbkes the source clbss `source' bs bn brgument.
+     * This bllows getVbribble to check whether b field is inbccessible
+     * before it signbls thbt b field is bmbiguous.  The compiler used to
+     * signbl bn bmbiguity even when one of the fields involved wbs not
+     * bccessible.  (bug 4053724)
      */
-    public MemberDefinition getVariable(Environment env,
+    public MemberDefinition getVbribble(Environment env,
                                         Identifier nm,
-                                        ClassDefinition source)
-        throws AmbiguousMember, ClassNotFound {
+                                        ClbssDefinition source)
+        throws AmbiguousMember, ClbssNotFound {
 
-        return getVariable0(env, nm, source, true, true);
+        return getVbribble0(env, nm, source, true, true);
     }
 
     /*
-     * private fields are never inherited.  package-private fields are
-     * not inherited across package boundaries.  To capture this, we
-     * take two booleans as parameters: showPrivate indicates whether
-     * we have passed a class boundary, and showPackage indicates whether
-     * we have crossed a package boundary.
+     * privbte fields bre never inherited.  pbckbge-privbte fields bre
+     * not inherited bcross pbckbge boundbries.  To cbpture this, we
+     * tbke two boolebns bs pbrbmeters: showPrivbte indicbtes whether
+     * we hbve pbssed b clbss boundbry, bnd showPbckbge indicbtes whether
+     * we hbve crossed b pbckbge boundbry.
      */
-    private MemberDefinition getVariable0(Environment env,
+    privbte MemberDefinition getVbribble0(Environment env,
                                           Identifier nm,
-                                          ClassDefinition source,
-                                          boolean showPrivate,
-                                          boolean showPackage)
-        throws AmbiguousMember, ClassNotFound {
+                                          ClbssDefinition source,
+                                          boolebn showPrivbte,
+                                          boolebn showPbckbge)
+        throws AmbiguousMember, ClbssNotFound {
 
-        // Check to see if this field is defined in the current class
-        for (MemberDefinition member = getFirstMatch(nm);
+        // Check to see if this field is defined in the current clbss
+        for (MemberDefinition member = getFirstMbtch(nm);
              member != null;
-             member = member.getNextMatch()) {
-            if (member.isVariable()) {
-                if ((showPrivate || !member.isPrivate()) &&
-                    (showPackage || !member.isPackagePrivate())) {
-                    // It is defined in this class.
+             member = member.getNextMbtch()) {
+            if (member.isVbribble()) {
+                if ((showPrivbte || !member.isPrivbte()) &&
+                    (showPbckbge || !member.isPbckbgePrivbte())) {
+                    // It is defined in this clbss.
                     return member;
                 } else {
                     // Even though this definition is not inherited,
-                    // it hides all definitions in supertypes.
+                    // it hides bll definitions in supertypes.
                     return null;
                 }
             }
         }
 
-        // Find the field in our superclass.
-        ClassDeclaration sup = getSuperClass();
+        // Find the field in our superclbss.
+        ClbssDeclbrbtion sup = getSuperClbss();
         MemberDefinition field = null;
         if (sup != null) {
             field =
-                sup.getClassDefinition(env)
-                  .getVariable0(env, nm, source,
-                                false,
-                                showPackage && inSamePackage(sup));
+                sup.getClbssDefinition(env)
+                  .getVbribble0(env, nm, source,
+                                fblse,
+                                showPbckbge && inSbmePbckbge(sup));
         }
 
-        // Find the field in our superinterfaces.
-        for (int i = 0 ; i < interfaces.length ; i++) {
-            // Try to look up the field in an interface.  Since interfaces
-            // only have public fields, the values of the two boolean
-            // arguments are not important.
+        // Find the field in our superinterfbces.
+        for (int i = 0 ; i < interfbces.length ; i++) {
+            // Try to look up the field in bn interfbce.  Since interfbces
+            // only hbve public fields, the vblues of the two boolebn
+            // brguments bre not importbnt.
             MemberDefinition field2 =
-                interfaces[i].getClassDefinition(env)
-                  .getVariable0(env, nm, source, true, true);
+                interfbces[i].getClbssDefinition(env)
+                  .getVbribble0(env, nm, source, true, true);
 
             if (field2 != null) {
-                // If we have two different, accessible fields, then
-                // we've found an ambiguity.
+                // If we hbve two different, bccessible fields, then
+                // we've found bn bmbiguity.
                 if (field != null &&
-                    source.canAccess(env, field) &&
+                    source.cbnAccess(env, field) &&
                     field2 != field) {
 
                     throw new AmbiguousMember(field2, field);
@@ -902,480 +902,480 @@ class ClassDefinition implements Constants {
     }
 
     /**
-     * Tells whether to report a deprecation error for this class.
+     * Tells whether to report b deprecbtion error for this clbss.
      */
-    public boolean reportDeprecated(Environment env) {
-        return (isDeprecated()
-                || (outerClass != null && outerClass.reportDeprecated(env)));
+    public boolebn reportDeprecbted(Environment env) {
+        return (isDeprecbted()
+                || (outerClbss != null && outerClbss.reportDeprecbted(env)));
     }
 
     /**
-     * Note that this class is being used somehow by <tt>ref</tt>.
-     * Report deprecation errors, etc.
+     * Note thbt this clbss is being used somehow by <tt>ref</tt>.
+     * Report deprecbtion errors, etc.
      */
-    public void noteUsedBy(ClassDefinition ref, long where, Environment env) {
-        // (Have this deal with canAccess() checks, too?)
-        if (reportDeprecated(env)) {
-            env.error(where, "warn.class.is.deprecated", this);
+    public void noteUsedBy(ClbssDefinition ref, long where, Environment env) {
+        // (Hbve this debl with cbnAccess() checks, too?)
+        if (reportDeprecbted(env)) {
+            env.error(where, "wbrn.clbss.is.deprecbted", this);
         }
     }
 
    /**
-     * Get an inner class.
+     * Get bn inner clbss.
      * Look in supers but not outers.
-     * (This is used directly to resolve expressions like "site.K", and
-     * inside a loop to resolve lone names like "K" or the "K" in "K.L".)
+     * (This is used directly to resolve expressions like "site.K", bnd
+     * inside b loop to resolve lone nbmes like "K" or the "K" in "K.L".)
      *
-     * Called from 'Context' and 'FieldExpression' as well as this class.
+     * Cblled from 'Context' bnd 'FieldExpression' bs well bs this clbss.
      *
      * @see FieldExpression.checkCommon
-     * @see resolveName
+     * @see resolveNbme
      */
-    public MemberDefinition getInnerClass(Environment env, Identifier nm)
-                                                        throws ClassNotFound {
-        // Note:  AmbiguousClass will not be thrown unless and until
-        // inner classes can be defined inside interfaces.
+    public MemberDefinition getInnerClbss(Environment env, Identifier nm)
+                                                        throws ClbssNotFound {
+        // Note:  AmbiguousClbss will not be thrown unless bnd until
+        // inner clbsses cbn be defined inside interfbces.
 
-        // Check if it is defined in the current class
-        for (MemberDefinition field = getFirstMatch(nm);
-                field != null ; field = field.getNextMatch()) {
-            if (field.isInnerClass()) {
-                if (field.getInnerClass().isLocal()) {
-                    continue;   // ignore this name; it is internally generated
+        // Check if it is defined in the current clbss
+        for (MemberDefinition field = getFirstMbtch(nm);
+                field != null ; field = field.getNextMbtch()) {
+            if (field.isInnerClbss()) {
+                if (field.getInnerClbss().isLocbl()) {
+                    continue;   // ignore this nbme; it is internblly generbted
                 }
                 return field;
             }
         }
 
-        // Get it from the super class
-        // It is likely that 'getSuperClass()' could be made to work here
-        // but we would have to assure somehow that 'resolveTypeStructure'
-        // has been called on the current class nest.  Since we can get
-        // here from 'resolveName', which is called from 'resolveSupers',
-        // it is possible that the first attempt to resolve the superclass
-        // will originate here, instead of in the call to 'getSuperClass'
-        // in 'checkSupers'.  See 'resolveTypeStructure', in which a call
-        // to 'resolveSupers' precedes the call to 'checkSupers'.  Why is
-        // name resolution done twice, first in 'resolveName'?
-        // NOTE: 'SourceMember.resolveTypeStructure' may initiate type
-        // structure resolution for an inner class.  Normally, this
-        // occurs during the resolution of the outer class, but fields
-        // added after the resolution of their containing class will
-        // be resolved late -- see 'addMember(env,field)' below.
-        // This should only happen for synthetic members, which should
-        // never be an inner class.
-        ClassDeclaration sup = getSuperClass(env);
+        // Get it from the super clbss
+        // It is likely thbt 'getSuperClbss()' could be mbde to work here
+        // but we would hbve to bssure somehow thbt 'resolveTypeStructure'
+        // hbs been cblled on the current clbss nest.  Since we cbn get
+        // here from 'resolveNbme', which is cblled from 'resolveSupers',
+        // it is possible thbt the first bttempt to resolve the superclbss
+        // will originbte here, instebd of in the cbll to 'getSuperClbss'
+        // in 'checkSupers'.  See 'resolveTypeStructure', in which b cbll
+        // to 'resolveSupers' precedes the cbll to 'checkSupers'.  Why is
+        // nbme resolution done twice, first in 'resolveNbme'?
+        // NOTE: 'SourceMember.resolveTypeStructure' mby initibte type
+        // structure resolution for bn inner clbss.  Normblly, this
+        // occurs during the resolution of the outer clbss, but fields
+        // bdded bfter the resolution of their contbining clbss will
+        // be resolved lbte -- see 'bddMember(env,field)' below.
+        // This should only hbppen for synthetic members, which should
+        // never be bn inner clbss.
+        ClbssDeclbrbtion sup = getSuperClbss(env);
         if (sup != null)
-            return sup.getClassDefinition(env).getInnerClass(env, nm);
+            return sup.getClbssDefinition(env).getInnerClbss(env, nm);
 
         return null;
     }
 
     /**
-     * Lookup a method.  This code implements the method lookup
-     * mechanism specified in JLS 15.11.2.
+     * Lookup b method.  This code implements the method lookup
+     * mechbnism specified in JLS 15.11.2.
      *
-     * This mechanism cannot be used to lookup synthetic methods.
+     * This mechbnism cbnnot be used to lookup synthetic methods.
      */
-    private MemberDefinition matchMethod(Environment env,
-                                         ClassDefinition accessor,
-                                         Identifier methodName,
-                                         Type[] argumentTypes,
-                                         boolean isAnonConstCall,
-                                         Identifier accessPackage)
-        throws AmbiguousMember, ClassNotFound {
+    privbte MemberDefinition mbtchMethod(Environment env,
+                                         ClbssDefinition bccessor,
+                                         Identifier methodNbme,
+                                         Type[] brgumentTypes,
+                                         boolebn isAnonConstCbll,
+                                         Identifier bccessPbckbge)
+        throws AmbiguousMember, ClbssNotFound {
 
-        if (allMethods == null || !allMethods.isFrozen()) {
-            // This may be too restrictive.
-            throw new CompilerError("matchMethod called early");
+        if (bllMethods == null || !bllMethods.isFrozen()) {
+            // This mby be too restrictive.
+            throw new CompilerError("mbtchMethod cblled ebrly");
             // collectInheritedMethods(env);
         }
 
-        // A tentative maximally specific method.
-        MemberDefinition tentative = null;
+        // A tentbtive mbximblly specific method.
+        MemberDefinition tentbtive = null;
 
-        // A list of other methods which may be maximally specific too.
-        List<MemberDefinition> candidateList = null;
+        // A list of other methods which mby be mbximblly specific too.
+        List<MemberDefinition> cbndidbteList = null;
 
-        // Get all the methods inherited by this class which
-        // have the name `methodName'.
-        Iterator<MemberDefinition> methods = allMethods.lookupName(methodName);
+        // Get bll the methods inherited by this clbss which
+        // hbve the nbme `methodNbme'.
+        Iterbtor<MemberDefinition> methods = bllMethods.lookupNbme(methodNbme);
 
-        while (methods.hasNext()) {
+        while (methods.hbsNext()) {
             MemberDefinition method = methods.next();
 
-            // See if this method is applicable.
-            if (!env.isApplicable(method, argumentTypes)) {
+            // See if this method is bpplicbble.
+            if (!env.isApplicbble(method, brgumentTypes)) {
                 continue;
             }
 
-            // See if this method is accessible.
-            if (accessor != null) {
-                if (!accessor.canAccess(env, method)) {
+            // See if this method is bccessible.
+            if (bccessor != null) {
+                if (!bccessor.cbnAccess(env, method)) {
                     continue;
                 }
-            } else if (isAnonConstCall) {
-                if (method.isPrivate() ||
-                    (method.isPackagePrivate() &&
-                     accessPackage != null &&
-                     !inSamePackage(accessPackage))) {
-                    // For anonymous constructor accesses, we
-                    // haven't yet built an accessing class.
-                    // We disallow anonymous classes from seeing
-                    // private/package-private inaccessible
-                    // constructors in their superclass.
+            } else if (isAnonConstCbll) {
+                if (method.isPrivbte() ||
+                    (method.isPbckbgePrivbte() &&
+                     bccessPbckbge != null &&
+                     !inSbmePbckbge(bccessPbckbge))) {
+                    // For bnonymous constructor bccesses, we
+                    // hbven't yet built bn bccessing clbss.
+                    // We disbllow bnonymous clbsses from seeing
+                    // privbte/pbckbge-privbte inbccessible
+                    // constructors in their superclbss.
                     continue;
                 }
             } else {
-                // If accessor is null, we assume that the access
-                // is allowed.  Query: is this option used?
+                // If bccessor is null, we bssume thbt the bccess
+                // is bllowed.  Query: is this option used?
             }
 
-            if (tentative == null) {
-                // `method' becomes our tentative maximally specific match.
-                tentative = method;
+            if (tentbtive == null) {
+                // `method' becomes our tentbtive mbximblly specific mbtch.
+                tentbtive = method;
             } else {
-                if (env.isMoreSpecific(method, tentative)) {
-                    // We have found a method which is a strictly better
-                    // match than `tentative'.  Replace it.
-                    tentative = method;
+                if (env.isMoreSpecific(method, tentbtive)) {
+                    // We hbve found b method which is b strictly better
+                    // mbtch thbn `tentbtive'.  Replbce it.
+                    tentbtive = method;
                 } else {
-                    // If this method could possibly be another
-                    // maximally specific method, add it to our
-                    // list of other candidates.
-                    if (!env.isMoreSpecific(tentative,method)) {
-                        if (candidateList == null) {
-                            candidateList = new ArrayList<>();
+                    // If this method could possibly be bnother
+                    // mbximblly specific method, bdd it to our
+                    // list of other cbndidbtes.
+                    if (!env.isMoreSpecific(tentbtive,method)) {
+                        if (cbndidbteList == null) {
+                            cbndidbteList = new ArrbyList<>();
                         }
-                        candidateList.add(method);
+                        cbndidbteList.bdd(method);
                     }
                 }
             }
         }
 
-        if (tentative != null && candidateList != null) {
-            // Find out if our `tentative' match is a uniquely
-            // maximally specific.
-            Iterator<MemberDefinition> candidates = candidateList.iterator();
-            while (candidates.hasNext()) {
-                MemberDefinition method = candidates.next();
-                if (!env.isMoreSpecific(tentative, method)) {
-                    throw new AmbiguousMember(tentative, method);
+        if (tentbtive != null && cbndidbteList != null) {
+            // Find out if our `tentbtive' mbtch is b uniquely
+            // mbximblly specific.
+            Iterbtor<MemberDefinition> cbndidbtes = cbndidbteList.iterbtor();
+            while (cbndidbtes.hbsNext()) {
+                MemberDefinition method = cbndidbtes.next();
+                if (!env.isMoreSpecific(tentbtive, method)) {
+                    throw new AmbiguousMember(tentbtive, method);
                 }
             }
         }
 
-        return tentative;
+        return tentbtive;
     }
 
     /**
-     * Lookup a method.  This code implements the method lookup
-     * mechanism specified in JLS 15.11.2.
+     * Lookup b method.  This code implements the method lookup
+     * mechbnism specified in JLS 15.11.2.
      *
-     * This mechanism cannot be used to lookup synthetic methods.
+     * This mechbnism cbnnot be used to lookup synthetic methods.
      */
-    public MemberDefinition matchMethod(Environment env,
-                                        ClassDefinition accessor,
-                                        Identifier methodName,
-                                        Type[] argumentTypes)
-        throws AmbiguousMember, ClassNotFound {
+    public MemberDefinition mbtchMethod(Environment env,
+                                        ClbssDefinition bccessor,
+                                        Identifier methodNbme,
+                                        Type[] brgumentTypes)
+        throws AmbiguousMember, ClbssNotFound {
 
-        return matchMethod(env, accessor, methodName,
-                           argumentTypes, false, null);
+        return mbtchMethod(env, bccessor, methodNbme,
+                           brgumentTypes, fblse, null);
     }
 
     /**
-     * Lookup a method.  This code implements the method lookup
-     * mechanism specified in JLS 15.11.2.
+     * Lookup b method.  This code implements the method lookup
+     * mechbnism specified in JLS 15.11.2.
      *
-     * This mechanism cannot be used to lookup synthetic methods.
+     * This mechbnism cbnnot be used to lookup synthetic methods.
      */
-    public MemberDefinition matchMethod(Environment env,
-                                        ClassDefinition accessor,
-                                        Identifier methodName)
-        throws AmbiguousMember, ClassNotFound {
+    public MemberDefinition mbtchMethod(Environment env,
+                                        ClbssDefinition bccessor,
+                                        Identifier methodNbme)
+        throws AmbiguousMember, ClbssNotFound {
 
-        return matchMethod(env, accessor, methodName,
-                           Type.noArgs, false, null);
+        return mbtchMethod(env, bccessor, methodNbme,
+                           Type.noArgs, fblse, null);
     }
 
     /**
-     * A version of matchMethod to be used only for constructors
-     * when we cannot pass in a sourceClass argument.  We just assert
-     * our package name.
+     * A version of mbtchMethod to be used only for constructors
+     * when we cbnnot pbss in b sourceClbss brgument.  We just bssert
+     * our pbckbge nbme.
      *
-     * This is used only for anonymous classes, where we have to look up
-     * a (potentially) protected constructor with no valid sourceClass
-     * parameter available.
+     * This is used only for bnonymous clbsses, where we hbve to look up
+     * b (potentiblly) protected constructor with no vblid sourceClbss
+     * pbrbmeter bvbilbble.
      */
-    public MemberDefinition matchAnonConstructor(Environment env,
-                                                 Identifier accessPackage,
-                                                 Type argumentTypes[])
-        throws AmbiguousMember, ClassNotFound {
+    public MemberDefinition mbtchAnonConstructor(Environment env,
+                                                 Identifier bccessPbckbge,
+                                                 Type brgumentTypes[])
+        throws AmbiguousMember, ClbssNotFound {
 
-        return matchMethod(env, null, idInit, argumentTypes,
-                           true, accessPackage);
+        return mbtchMethod(env, null, idInit, brgumentTypes,
+                           true, bccessPbckbge);
     }
 
     /**
-     * Find a method, ie: exact match in this class or any of the super
-     * classes.
+     * Find b method, ie: exbct mbtch in this clbss or bny of the super
+     * clbsses.
      *
-     * Only called by javadoc.  For now I am holding off rewriting this
-     * code to rely on collectInheritedMethods(), as that code has
-     * not gotten along with javadoc in the past.
+     * Only cblled by jbvbdoc.  For now I bm holding off rewriting this
+     * code to rely on collectInheritedMethods(), bs thbt code hbs
+     * not gotten blong with jbvbdoc in the pbst.
      */
     public MemberDefinition findMethod(Environment env, Identifier nm, Type t)
-    throws ClassNotFound {
-        // look in the current class
+    throws ClbssNotFound {
+        // look in the current clbss
         MemberDefinition f;
-        for (f = getFirstMatch(nm) ; f != null ; f = f.getNextMatch()) {
-            // Note that non-method types return false for equalArguments().
-            if (f.getType().equalArguments(t)) {
+        for (f = getFirstMbtch(nm) ; f != null ; f = f.getNextMbtch()) {
+            // Note thbt non-method types return fblse for equblArguments().
+            if (f.getType().equblArguments(t)) {
                 return f;
             }
         }
 
-        // constructors are not inherited
-        if (nm.equals(idInit)) {
+        // constructors bre not inherited
+        if (nm.equbls(idInit)) {
             return null;
         }
 
-        // look in the super class
-        ClassDeclaration sup = getSuperClass();
+        // look in the super clbss
+        ClbssDeclbrbtion sup = getSuperClbss();
         if (sup == null)
             return null;
 
-        return sup.getClassDefinition(env).findMethod(env, nm, t);
+        return sup.getClbssDefinition(env).findMethod(env, nm, t);
     }
 
-    // We create a stub for this.  Source classes do more work.
-    protected void basicCheck(Environment env) throws ClassNotFound {
-        // Do the outer class first.
-        if (outerClass != null)
-            outerClass.basicCheck(env);
+    // We crebte b stub for this.  Source clbsses do more work.
+    protected void bbsicCheck(Environment env) throws ClbssNotFound {
+        // Do the outer clbss first.
+        if (outerClbss != null)
+            outerClbss.bbsicCheck(env);
     }
 
     /**
-     * Check this class.
+     * Check this clbss.
      */
-    public void check(Environment env) throws ClassNotFound {
+    public void check(Environment env) throws ClbssNotFound {
     }
 
-    public Vset checkLocalClass(Environment env, Context ctx,
-                                Vset vset, ClassDefinition sup,
-                                Expression args[], Type argTypes[]
-                                ) throws ClassNotFound {
-        throw new CompilerError("checkLocalClass");
+    public Vset checkLocblClbss(Environment env, Context ctx,
+                                Vset vset, ClbssDefinition sup,
+                                Expression brgs[], Type brgTypes[]
+                                ) throws ClbssNotFound {
+        throw new CompilerError("checkLocblClbss");
     }
 
     //---------------------------------------------------------------
-    // The non-synthetic methods defined in this class or in any
-    // of its parents (class or interface).  This member is used
-    // to cache work done in collectInheritedMethods for use by
-    // getMethods() and matchMethod().  It should be accessed by
+    // The non-synthetic methods defined in this clbss or in bny
+    // of its pbrents (clbss or interfbce).  This member is used
+    // to cbche work done in collectInheritedMethods for use by
+    // getMethods() bnd mbtchMethod().  It should be bccessed by
     // no other method without forethought.
-    MethodSet allMethods = null;
+    MethodSet bllMethods = null;
 
-    // One of our superclasses may contain an abstract method which
-    // we are unable to ever implement.  This happens when there is
-    // a package-private abstract method in our parent and we are in
-    // a different package than our parent.  In these cases, we
-    // keep a list of the "permanently abstract" or "unimplementable"
-    // methods so that we can correctly detect that this class is
-    // indeed abstract and so that we can give somewhat comprehensible
-    // error messages.
-    private List<MemberDefinition> permanentlyAbstractMethods = new ArrayList<>();
+    // One of our superclbsses mby contbin bn bbstrbct method which
+    // we bre unbble to ever implement.  This hbppens when there is
+    // b pbckbge-privbte bbstrbct method in our pbrent bnd we bre in
+    // b different pbckbge thbn our pbrent.  In these cbses, we
+    // keep b list of the "permbnently bbstrbct" or "unimplementbble"
+    // methods so thbt we cbn correctly detect thbt this clbss is
+    // indeed bbstrbct bnd so thbt we cbn give somewhbt comprehensible
+    // error messbges.
+    privbte List<MemberDefinition> permbnentlyAbstrbctMethods = new ArrbyList<>();
 
     /**
-     * This method returns an Iterator of all abstract methods
-     * in our superclasses which we are unable to implement.
+     * This method returns bn Iterbtor of bll bbstrbct methods
+     * in our superclbsses which we bre unbble to implement.
      */
-    protected Iterator<MemberDefinition> getPermanentlyAbstractMethods() {
-        // This method can only be called after collectInheritedMethods.
-        if (allMethods == null) {
-            throw new CompilerError("isPermanentlyAbstract() called early");
+    protected Iterbtor<MemberDefinition> getPermbnentlyAbstrbctMethods() {
+        // This method cbn only be cblled bfter collectInheritedMethods.
+        if (bllMethods == null) {
+            throw new CompilerError("isPermbnentlyAbstrbct() cblled ebrly");
         }
 
-        return permanentlyAbstractMethods.iterator();
+        return permbnentlyAbstrbctMethods.iterbtor();
     }
 
     /**
-     * A flag used by turnOffInheritanceChecks() to indicate if
-     * inheritance checks are on or off.
+     * A flbg used by turnOffInheritbnceChecks() to indicbte if
+     * inheritbnce checks bre on or off.
      */
-    protected static boolean doInheritanceChecks = true;
+    protected stbtic boolebn doInheritbnceChecks = true;
 
     /**
-     * This is a workaround to allow javadoc to turn off certain
-     * inheritance/override checks which interfere with javadoc
-     * badly.  In the future it might be good to eliminate the
-     * shared sources of javadoc and javac to avoid the need for this
-     * sort of workaround.
+     * This is b workbround to bllow jbvbdoc to turn off certbin
+     * inheritbnce/override checks which interfere with jbvbdoc
+     * bbdly.  In the future it might be good to eliminbte the
+     * shbred sources of jbvbdoc bnd jbvbc to bvoid the need for this
+     * sort of workbround.
      */
-    public static void turnOffInheritanceChecks() {
-        doInheritanceChecks = false;
+    public stbtic void turnOffInheritbnceChecks() {
+        doInheritbnceChecks = fblse;
     }
 
     /**
-     * Add all of the methods declared in or above `parent' to
-     * `allMethods', the set of methods in the current class.
-     * `myMethods' is the set of all methods declared in this
-     * class, and `mirandaMethods' is a repository for Miranda methods.
-     * If mirandaMethods is null, no mirandaMethods will be
-     * generated.
+     * Add bll of the methods declbred in or bbove `pbrent' to
+     * `bllMethods', the set of methods in the current clbss.
+     * `myMethods' is the set of bll methods declbred in this
+     * clbss, bnd `mirbndbMethods' is b repository for Mirbndb methods.
+     * If mirbndbMethods is null, no mirbndbMethods will be
+     * generbted.
      *
-     * For a definition of Miranda methods, see the comment above the
-     * method addMirandaMethods() which occurs later in this file.
+     * For b definition of Mirbndb methods, see the comment bbove the
+     * method bddMirbndbMethods() which occurs lbter in this file.
      */
-    private void collectOneClass(Environment env,
-                                 ClassDeclaration parent,
+    privbte void collectOneClbss(Environment env,
+                                 ClbssDeclbrbtion pbrent,
                                  MethodSet myMethods,
-                                 MethodSet allMethods,
-                                 MethodSet mirandaMethods) {
+                                 MethodSet bllMethods,
+                                 MethodSet mirbndbMethods) {
 
-        // System.out.println("Inheriting methods from " + parent);
+        // System.out.println("Inheriting methods from " + pbrent);
 
         try {
-            ClassDefinition pClass = parent.getClassDefinition(env);
-            Iterator<MemberDefinition> methods = pClass.getMethods(env);
-            while (methods.hasNext()) {
+            ClbssDefinition pClbss = pbrent.getClbssDefinition(env);
+            Iterbtor<MemberDefinition> methods = pClbss.getMethods(env);
+            while (methods.hbsNext()) {
                 MemberDefinition method =
                     methods.next();
 
-                // Private methods are not inherited.
+                // Privbte methods bre not inherited.
                 //
-                // Constructors are not inherited.
+                // Constructors bre not inherited.
                 //
-                // Any non-abstract methods in an interface come
-                // from java.lang.Object.  This means that they
-                // should have already been added to allMethods
-                // when we walked our superclass lineage.
-                if (method.isPrivate() ||
+                // Any non-bbstrbct methods in bn interfbce come
+                // from jbvb.lbng.Object.  This mebns thbt they
+                // should hbve blrebdy been bdded to bllMethods
+                // when we wblked our superclbss linebge.
+                if (method.isPrivbte() ||
                     method.isConstructor() ||
-                    (pClass.isInterface() && !method.isAbstract())) {
+                    (pClbss.isInterfbce() && !method.isAbstrbct())) {
 
                     continue;
                 }
 
-                // Get the components of the methods' signature.
-                Identifier name = method.getName();
+                // Get the components of the methods' signbture.
+                Identifier nbme = method.getNbme();
                 Type type = method.getType();
 
-                // Check for a method of the same signature which
-                // was locally declared.
+                // Check for b method of the sbme signbture which
+                // wbs locblly declbred.
                 MemberDefinition override =
-                    myMethods.lookupSig(name, type);
+                    myMethods.lookupSig(nbme, type);
 
-                // Is this method inaccessible due to package-private
+                // Is this method inbccessible due to pbckbge-privbte
                 // visibility?
-                if (method.isPackagePrivate() &&
-                    !inSamePackage(method.getClassDeclaration())) {
+                if (method.isPbckbgePrivbte() &&
+                    !inSbmePbckbge(method.getClbssDeclbrbtion())) {
 
-                    if (override != null && this instanceof
-                        sun.tools.javac.SourceClass) {
-                        // We give a warning when a class shadows an
-                        // inaccessible package-private method from
-                        // its superclass.  This warning is meant
+                    if (override != null && this instbnceof
+                        sun.tools.jbvbc.SourceClbss) {
+                        // We give b wbrning when b clbss shbdows bn
+                        // inbccessible pbckbge-privbte method from
+                        // its superclbss.  This wbrning is mebnt
                         // to prevent people from relying on overriding
-                        // when it does not happen.  This warning should
-                        // probably be removed to be consistent with the
-                        // general "no warnings" policy of this
+                        // when it does not hbppen.  This wbrning should
+                        // probbbly be removed to be consistent with the
+                        // generbl "no wbrnings" policy of this
                         // compiler.
                         //
-                        // The `instanceof' above is a hack so that only
-                        // SourceClass generates this warning, not a
-                        // BinaryClass, for example.
+                        // The `instbnceof' bbove is b hbck so thbt only
+                        // SourceClbss generbtes this wbrning, not b
+                        // BinbryClbss, for exbmple.
                         env.error(method.getWhere(),
-                                  "warn.no.override.access",
+                                  "wbrn.no.override.bccess",
                                   override,
-                                  override.getClassDeclaration(),
-                                  method.getClassDeclaration());
+                                  override.getClbssDeclbrbtion(),
+                                  method.getClbssDeclbrbtion());
                     }
 
-                    // If our superclass has a package-private abstract
-                    // method that we have no access to, then we add
-                    // this method to our list of permanently abstract
-                    // methods.  The idea is, since we cannot override
-                    // the method, we can never make this class
-                    // non-abstract.
-                    if (method.isAbstract()) {
-                        permanentlyAbstractMethods.add(method);
+                    // If our superclbss hbs b pbckbge-privbte bbstrbct
+                    // method thbt we hbve no bccess to, then we bdd
+                    // this method to our list of permbnently bbstrbct
+                    // methods.  The ideb is, since we cbnnot override
+                    // the method, we cbn never mbke this clbss
+                    // non-bbstrbct.
+                    if (method.isAbstrbct()) {
+                        permbnentlyAbstrbctMethods.bdd(method);
                     }
 
-                    // `method' is inaccessible.  We do not inherit it.
+                    // `method' is inbccessible.  We do not inherit it.
                     continue;
                 }
 
                 if (override != null) {
-                    // `method' and `override' have the same signature.
-                    // We are required to check that `override' is a
-                    // legal override of `method'
+                    // `method' bnd `override' hbve the sbme signbture.
+                    // We bre required to check thbt `override' is b
+                    // legbl override of `method'
 
                     //System.out.println ("About to check override of " +
                     //              method);
 
                     override.checkOverride(env, method);
                 } else {
-                    // In the absence of a definition in the class
+                    // In the bbsence of b definition in the clbss
                     // itself, we check to see if this definition
-                    // can be successfully merged with any other
+                    // cbn be successfully merged with bny other
                     // inherited definitions.
 
-                    // Have we added a member of the same signature
-                    // to `allMethods' already?
+                    // Hbve we bdded b member of the sbme signbture
+                    // to `bllMethods' blrebdy?
                     MemberDefinition formerMethod =
-                        allMethods.lookupSig(name, type);
+                        bllMethods.lookupSig(nbme, type);
 
                     // If the previous definition is nonexistent or
-                    // ignorable, replace it.
+                    // ignorbble, replbce it.
                     if (formerMethod == null) {
                         //System.out.println("Added " + method + " to " +
                         //             this);
 
-                        if (mirandaMethods != null &&
-                            pClass.isInterface() && !isInterface()) {
-                            // Whenever a class inherits a method
-                            // from an interface, that method is
-                            // one of our "miranda" methods.  Early
-                            // VMs require that these methods be
-                            // added as true members to the class
-                            // to enable method lookup to work in the
+                        if (mirbndbMethods != null &&
+                            pClbss.isInterfbce() && !isInterfbce()) {
+                            // Whenever b clbss inherits b method
+                            // from bn interfbce, thbt method is
+                            // one of our "mirbndb" methods.  Ebrly
+                            // VMs require thbt these methods be
+                            // bdded bs true members to the clbss
+                            // to enbble method lookup to work in the
                             // VM.
                             method =
-                                new sun.tools.javac.SourceMember(method,this,
+                                new sun.tools.jbvbc.SourceMember(method,this,
                                                                  env);
-                            mirandaMethods.add(method);
+                            mirbndbMethods.bdd(method);
 
                             //System.out.println("Added " + method +
-                            // " to " + this + " as a Miranda");
+                            // " to " + this + " bs b Mirbndb");
                         }
 
                         // There is no previous inherited definition.
-                        // Add `method' to `allMethods'.
-                        allMethods.add(method);
-                    } else if (isInterface() &&
-                               !formerMethod.isAbstract() &&
-                               method.isAbstract()) {
-                        // If we are in an interface and we have inherited
-                        // both an abstract method and a non-abstract method
-                        // then we know that the non-abstract method is
-                        // a placeholder from Object put in for type checking
-                        // and the abstract method was already checked to
-                        // be proper by our superinterface.
-                        allMethods.replace(method);
+                        // Add `method' to `bllMethods'.
+                        bllMethods.bdd(method);
+                    } else if (isInterfbce() &&
+                               !formerMethod.isAbstrbct() &&
+                               method.isAbstrbct()) {
+                        // If we bre in bn interfbce bnd we hbve inherited
+                        // both bn bbstrbct method bnd b non-bbstrbct method
+                        // then we know thbt the non-bbstrbct method is
+                        // b plbceholder from Object put in for type checking
+                        // bnd the bbstrbct method wbs blrebdy checked to
+                        // be proper by our superinterfbce.
+                        bllMethods.replbce(method);
 
                     } else {
-                        // Okay, `formerMethod' and `method' both have the
-                        // same signature.  See if they are compatible.
+                        // Okby, `formerMethod' bnd `method' both hbve the
+                        // sbme signbture.  See if they bre compbtible.
 
                         //System.out.println ("About to check meet of " +
                         //              method);
 
                         if (!formerMethod.checkMeet(env,
                                            method,
-                                           this.getClassDeclaration())) {
-                                // The methods are incompatible.  Skip to
+                                           this.getClbssDeclbrbtion())) {
+                                // The methods bre incompbtible.  Skip to
                                 // next method.
                             continue;
                         }
@@ -1384,595 +1384,595 @@ class ClassDefinition implements Constants {
                                 // Do nothing.  The current definition
                                 // is specific enough.
 
-                                //System.out.println("trivial meet of " +
+                                //System.out.println("trivibl meet of " +
                                 //                 method);
                             continue;
                         }
 
                         if (method.couldOverride(env, formerMethod)) {
-                                // `method' is more specific than
-                                // `formerMethod'.  replace `formerMethod'.
+                                // `method' is more specific thbn
+                                // `formerMethod'.  replbce `formerMethod'.
 
                                 //System.out.println("new def of " + method);
-                            if (mirandaMethods != null &&
-                                pClass.isInterface() && !isInterface()) {
-                                // Whenever a class inherits a method
-                                // from an interface, that method is
-                                // one of our "miranda" methods.  Early
-                                // VMs require that these methods be
-                                // added as true members to the class
-                                // to enable method lookup to work in the
+                            if (mirbndbMethods != null &&
+                                pClbss.isInterfbce() && !isInterfbce()) {
+                                // Whenever b clbss inherits b method
+                                // from bn interfbce, thbt method is
+                                // one of our "mirbndb" methods.  Ebrly
+                                // VMs require thbt these methods be
+                                // bdded bs true members to the clbss
+                                // to enbble method lookup to work in the
                                 // VM.
                                 method =
-                                    new sun.tools.javac.SourceMember(method,
+                                    new sun.tools.jbvbc.SourceMember(method,
                                                                      this,env);
 
-                                mirandaMethods.replace(method);
+                                mirbndbMethods.replbce(method);
 
                                 //System.out.println("Added " + method +
-                                // " to " + this + " as a Miranda");
+                                // " to " + this + " bs b Mirbndb");
                             }
 
-                            allMethods.replace(method);
+                            bllMethods.replbce(method);
 
                             continue;
                         }
 
-                        // Neither method is more specific than the other.
-                        // Oh well.  We need to construct a nontrivial
+                        // Neither method is more specific thbn the other.
+                        // Oh well.  We need to construct b nontrivibl
                         // meet of the two methods.
                         //
                         // This is not yet implemented, so we give
-                        // a message with a helpful workaround.
+                        // b messbge with b helpful workbround.
                         env.error(this.where,
-                                  "nontrivial.meet", method,
-                                  formerMethod.getClassDefinition(),
-                                  method.getClassDeclaration()
+                                  "nontrivibl.meet", method,
+                                  formerMethod.getClbssDefinition(),
+                                  method.getClbssDeclbrbtion()
                                   );
                     }
                 }
             }
-        } catch (ClassNotFound ee) {
-            env.error(getWhere(), "class.not.found", ee.name, this);
+        } cbtch (ClbssNotFound ee) {
+            env.error(getWhere(), "clbss.not.found", ee.nbme, this);
         }
     }
 
     /**
-     * <p>Collect all methods defined in this class or inherited from
-     * any of our superclasses or interfaces.  Look for any
-     * incompatible definitions.
+     * <p>Collect bll methods defined in this clbss or inherited from
+     * bny of our superclbsses or interfbces.  Look for bny
+     * incompbtible definitions.
      *
-     * <p>This function is also responsible for collecting the
-     * <em>Miranda</em> methods for a class.  For a definition of
-     * Miranda methods, see the comment in addMirandaMethods()
+     * <p>This function is blso responsible for collecting the
+     * <em>Mirbndb</em> methods for b clbss.  For b definition of
+     * Mirbndb methods, see the comment in bddMirbndbMethods()
      * below.
      */
     protected void collectInheritedMethods(Environment env) {
-        // The methods defined in this class.
+        // The methods defined in this clbss.
         MethodSet myMethods;
-        MethodSet mirandaMethods;
+        MethodSet mirbndbMethods;
 
-        //System.out.println("Called collectInheritedMethods() for " +
+        //System.out.println("Cblled collectInheritedMethods() for " +
         //                 this);
 
-        if (allMethods != null) {
-            if (allMethods.isFrozen()) {
-                // We have already done the collection.  No need to
-                // do it again.
+        if (bllMethods != null) {
+            if (bllMethods.isFrozen()) {
+                // We hbve blrebdy done the collection.  No need to
+                // do it bgbin.
                 return;
             } else {
-                // We have run into a circular need to collect our methods.
-                // This should not happen at this stage.
+                // We hbve run into b circulbr need to collect our methods.
+                // This should not hbppen bt this stbge.
                 throw new CompilerError("collectInheritedMethods()");
             }
         }
 
         myMethods = new MethodSet();
-        allMethods = new MethodSet();
+        bllMethods = new MethodSet();
 
-        // For testing, do not generate miranda methods.
+        // For testing, do not generbte mirbndb methods.
         if (env.version12()) {
-            mirandaMethods = null;
+            mirbndbMethods = null;
         } else {
-            mirandaMethods = new MethodSet();
+            mirbndbMethods = new MethodSet();
         }
 
-        // Any methods defined in the current class get added
-        // to both the myMethods and the allMethods MethodSets.
+        // Any methods defined in the current clbss get bdded
+        // to both the myMethods bnd the bllMethods MethodSets.
 
         for (MemberDefinition member = getFirstMember();
              member != null;
              member = member.nextMember) {
 
-            // We only collect methods.  Initializers are not relevant.
+            // We only collect methods.  Initiblizers bre not relevbnt.
             if (member.isMethod() &&
-                !member.isInitializer()) {
+                !member.isInitiblizer()) {
 
-                //System.out.println("Declared in " + this + ", " + member);
+                //System.out.println("Declbred in " + this + ", " + member);
 
                 ////////////////////////////////////////////////////////////
-                // PCJ 2003-07-30 modified the following code because with
-                // the covariant return type feature of the 1.5 compiler,
-                // there might be multiple methods with the same signature
-                // but different return types, and MethodSet doesn't
-                // support that.  We use a new utility method that attempts
-                // to ensure that the appropriate method winds up in the
+                // PCJ 2003-07-30 modified the following code becbuse with
+                // the covbribnt return type febture of the 1.5 compiler,
+                // there might be multiple methods with the sbme signbture
+                // but different return types, bnd MethodSet doesn't
+                // support thbt.  We use b new utility method thbt bttempts
+                // to ensure thbt the bppropribte method winds up in the
                 // MethodSet.  See 4892308.
                 ////////////////////////////////////////////////////////////
-                // myMethods.add(member);
-                // allMethods.add(member);
+                // myMethods.bdd(member);
+                // bllMethods.bdd(member);
                 ////////////////////////////////////////////////////////////
                 methodSetAdd(env, myMethods, member);
-                methodSetAdd(env, allMethods, member);
+                methodSetAdd(env, bllMethods, member);
                 ////////////////////////////////////////////////////////////
             }
         }
 
-        // We're ready to start adding inherited methods.  First add
-        // the methods from our superclass.
+        // We're rebdy to stbrt bdding inherited methods.  First bdd
+        // the methods from our superclbss.
 
-        //System.out.println("About to start superclasses for " + this);
+        //System.out.println("About to stbrt superclbsses for " + this);
 
-        ClassDeclaration scDecl = getSuperClass(env);
+        ClbssDeclbrbtion scDecl = getSuperClbss(env);
         if (scDecl != null) {
-            collectOneClass(env, scDecl,
-                            myMethods, allMethods, mirandaMethods);
+            collectOneClbss(env, scDecl,
+                            myMethods, bllMethods, mirbndbMethods);
 
-            // Make sure that we add all unimplementable methods from our
-            // superclass to our list of unimplementable methods.
-            ClassDefinition sc = scDecl.getClassDefinition();
-            Iterator<MemberDefinition> supIter = sc.getPermanentlyAbstractMethods();
-            while (supIter.hasNext()) {
-                permanentlyAbstractMethods.add(supIter.next());
+            // Mbke sure thbt we bdd bll unimplementbble methods from our
+            // superclbss to our list of unimplementbble methods.
+            ClbssDefinition sc = scDecl.getClbssDefinition();
+            Iterbtor<MemberDefinition> supIter = sc.getPermbnentlyAbstrbctMethods();
+            while (supIter.hbsNext()) {
+                permbnentlyAbstrbctMethods.bdd(supIter.next());
             }
         }
 
-        // Now we inherit all of the methods from our interfaces.
+        // Now we inherit bll of the methods from our interfbces.
 
-        //System.out.println("About to start interfaces for " + this);
+        //System.out.println("About to stbrt interfbces for " + this);
 
-        for (int i = 0; i < interfaces.length; i++) {
-            collectOneClass(env, interfaces[i],
-                            myMethods, allMethods, mirandaMethods);
+        for (int i = 0; i < interfbces.length; i++) {
+            collectOneClbss(env, interfbces[i],
+                            myMethods, bllMethods, mirbndbMethods);
         }
-        allMethods.freeze();
+        bllMethods.freeze();
 
-        // Now we have collected all of our methods from our superclasses
-        // and interfaces into our `allMethods' member.  Good.  As a last
-        // task, we add our collected miranda methods to this class.
+        // Now we hbve collected bll of our methods from our superclbsses
+        // bnd interfbces into our `bllMethods' member.  Good.  As b lbst
+        // tbsk, we bdd our collected mirbndb methods to this clbss.
         //
-        // If we do not add the mirandas to the class explicitly, there
-        // will be no code generated for them.
-        if (mirandaMethods != null && mirandaMethods.size() > 0) {
-            addMirandaMethods(env, mirandaMethods.iterator());
+        // If we do not bdd the mirbndbs to the clbss explicitly, there
+        // will be no code generbted for them.
+        if (mirbndbMethods != null && mirbndbMethods.size() > 0) {
+            bddMirbndbMethods(env, mirbndbMethods.iterbtor());
         }
     }
 
     ////////////////////////////////////////////////////////////
-    // PCJ 2003-07-30 added this utility method to insulate
-    // MethodSet additions from the covariant return type
-    // feature of the 1.5 compiler.  When there are multiple
-    // methods with the same signature and different return
-    // types to be added, we try to ensure that the one with
+    // PCJ 2003-07-30 bdded this utility method to insulbte
+    // MethodSet bdditions from the covbribnt return type
+    // febture of the 1.5 compiler.  When there bre multiple
+    // methods with the sbme signbture bnd different return
+    // types to be bdded, we try to ensure thbt the one with
     // the most specific return type winds up in the MethodSet.
-    // This logic was not put into MethodSet itself because it
-    // requires access to an Environment for type relationship
-    // checking.  No error checking is performed here, but that
-    // should be OK because this code is only still used by
+    // This logic wbs not put into MethodSet itself becbuse it
+    // requires bccess to bn Environment for type relbtionship
+    // checking.  No error checking is performed here, but thbt
+    // should be OK becbuse this code is only still used by
     // rmic.  See 4892308.
     ////////////////////////////////////////////////////////////
-    private static void methodSetAdd(Environment env,
+    privbte stbtic void methodSetAdd(Environment env,
                                      MethodSet methodSet,
                                      MemberDefinition newMethod)
     {
-        MemberDefinition oldMethod = methodSet.lookupSig(newMethod.getName(),
+        MemberDefinition oldMethod = methodSet.lookupSig(newMethod.getNbme(),
                                                          newMethod.getType());
         if (oldMethod != null) {
             Type oldReturnType = oldMethod.getType().getReturnType();
             Type newReturnType = newMethod.getType().getReturnType();
             try {
                 if (env.isMoreSpecific(newReturnType, oldReturnType)) {
-                    methodSet.replace(newMethod);
+                    methodSet.replbce(newMethod);
                 }
-            } catch (ClassNotFound ignore) {
+            } cbtch (ClbssNotFound ignore) {
             }
         } else {
-            methodSet.add(newMethod);
+            methodSet.bdd(newMethod);
         }
     }
     ////////////////////////////////////////////////////////////
 
     /**
-     * Get an Iterator of all methods which could be accessed in an
-     * instance of this class.
+     * Get bn Iterbtor of bll methods which could be bccessed in bn
+     * instbnce of this clbss.
      */
-    public Iterator<MemberDefinition> getMethods(Environment env) {
-        if (allMethods == null) {
+    public Iterbtor<MemberDefinition> getMethods(Environment env) {
+        if (bllMethods == null) {
             collectInheritedMethods(env);
         }
         return getMethods();
     }
 
     /**
-     * Get an Iterator of all methods which could be accessed in an
-     * instance of this class.  Throw a compiler error if we haven't
-     * generated this information yet.
+     * Get bn Iterbtor of bll methods which could be bccessed in bn
+     * instbnce of this clbss.  Throw b compiler error if we hbven't
+     * generbted this informbtion yet.
      */
-    public Iterator<MemberDefinition> getMethods() {
-        if (allMethods == null) {
-            throw new CompilerError("getMethods: too early");
+    public Iterbtor<MemberDefinition> getMethods() {
+        if (bllMethods == null) {
+            throw new CompilerError("getMethods: too ebrly");
         }
-        return allMethods.iterator();
+        return bllMethods.iterbtor();
     }
 
-    // In early VM's there was a bug -- the VM didn't walk the interfaces
-    // of a class looking for a method, they only walked the superclass
-    // chain.  This meant that abstract methods defined only in interfaces
-    // were not being found.  To fix this bug, a counter-bug was introduced
-    // in the compiler -- the so-called Miranda methods.  If a class
-    // does not provide a definition for an abstract method in one of
-    // its interfaces then the compiler inserts one in the class artificially.
-    // That way the VM didn't have to bother looking at the interfaces.
+    // In ebrly VM's there wbs b bug -- the VM didn't wblk the interfbces
+    // of b clbss looking for b method, they only wblked the superclbss
+    // chbin.  This mebnt thbt bbstrbct methods defined only in interfbces
+    // were not being found.  To fix this bug, b counter-bug wbs introduced
+    // in the compiler -- the so-cblled Mirbndb methods.  If b clbss
+    // does not provide b definition for bn bbstrbct method in one of
+    // its interfbces then the compiler inserts one in the clbss brtificiblly.
+    // Thbt wby the VM didn't hbve to bother looking bt the interfbces.
     //
-    // This is a problem.  Miranda methods are not part of the specification.
-    // But they continue to be inserted so that old VM's can run new code.
-    // Someday, when the old VM's are gone, perhaps classes can be compiled
-    // without Miranda methods.  Towards this end, the compiler has a
-    // flag, -nomiranda, which can turn off the creation of these methods.
-    // Eventually that behavior should become the default.
+    // This is b problem.  Mirbndb methods bre not pbrt of the specificbtion.
+    // But they continue to be inserted so thbt old VM's cbn run new code.
+    // Somedby, when the old VM's bre gone, perhbps clbsses cbn be compiled
+    // without Mirbndb methods.  Towbrds this end, the compiler hbs b
+    // flbg, -nomirbndb, which cbn turn off the crebtion of these methods.
+    // Eventublly thbt behbvior should become the defbult.
     //
-    // Why are they called Miranda methods?  Well the sentence "If the
-    // class is not able to provide a method, then one will be provided
-    // by the compiler" is very similar to the sentence "If you cannot
-    // afford an attorney, one will be provided by the court," -- one
-    // of the so-called "Miranda" rights in the United States.
+    // Why bre they cblled Mirbndb methods?  Well the sentence "If the
+    // clbss is not bble to provide b method, then one will be provided
+    // by the compiler" is very similbr to the sentence "If you cbnnot
+    // bfford bn bttorney, one will be provided by the court," -- one
+    // of the so-cblled "Mirbndb" rights in the United Stbtes.
 
     /**
-     * Add a list of methods to this class as miranda methods.  This
-     * gets overridden with a meaningful implementation in SourceClass.
-     * BinaryClass should not need to do anything -- it should already
-     * have its miranda methods and, if it doesn't, then that doesn't
-     * affect our compilation.
+     * Add b list of methods to this clbss bs mirbndb methods.  This
+     * gets overridden with b mebningful implementbtion in SourceClbss.
+     * BinbryClbss should not need to do bnything -- it should blrebdy
+     * hbve its mirbndb methods bnd, if it doesn't, then thbt doesn't
+     * bffect our compilbtion.
      */
-    protected void addMirandaMethods(Environment env,
-                                     Iterator<MemberDefinition> mirandas) {
+    protected void bddMirbndbMethods(Environment env,
+                                     Iterbtor<MemberDefinition> mirbndbs) {
         // do nothing.
     }
 
     //---------------------------------------------------------------
 
-    public void inlineLocalClass(Environment env) {
+    public void inlineLocblClbss(Environment env) {
     }
 
     /**
-     * We create a stub for this.  Source classes do more work.
-     * Some calls from 'SourceClass.checkSupers' execute this method.
-     * @see sun.tools.javac.SourceClass#resolveTypeStructure
+     * We crebte b stub for this.  Source clbsses do more work.
+     * Some cblls from 'SourceClbss.checkSupers' execute this method.
+     * @see sun.tools.jbvbc.SourceClbss#resolveTypeStructure
      */
 
     public void resolveTypeStructure(Environment env) {
     }
 
     /**
-     * Look up an inner class name, from somewhere inside this class.
-     * Since supers and outers are in scope, search them too.
+     * Look up bn inner clbss nbme, from somewhere inside this clbss.
+     * Since supers bnd outers bre in scope, sebrch them too.
      * <p>
-     * If no inner class is found, env.resolveName() is then called,
-     * to interpret the ambient package and import directives.
+     * If no inner clbss is found, env.resolveNbme() is then cblled,
+     * to interpret the bmbient pbckbge bnd import directives.
      * <p>
-     * This routine operates on a "best-efforts" basis.  If
-     * at some point a class is not found, the partially-resolved
-     * identifier is returned.  Eventually, someone else has to
-     * try to get the ClassDefinition and diagnose the ClassNotFound.
+     * This routine operbtes on b "best-efforts" bbsis.  If
+     * bt some point b clbss is not found, the pbrtiblly-resolved
+     * identifier is returned.  Eventublly, someone else hbs to
+     * try to get the ClbssDefinition bnd dibgnose the ClbssNotFound.
      * <p>
-     * resolveName() looks at surrounding scopes, and hence
-     * pulling in both inherited and uplevel types.  By contrast,
-     * resolveInnerClass() is intended only for interpreting
-     * explicitly qualified names, and so look only at inherited
-     * types.  Also, resolveName() looks for package prefixes,
-     * which appear similar to "very uplevel" outer classes.
+     * resolveNbme() looks bt surrounding scopes, bnd hence
+     * pulling in both inherited bnd uplevel types.  By contrbst,
+     * resolveInnerClbss() is intended only for interpreting
+     * explicitly qublified nbmes, bnd so look only bt inherited
+     * types.  Also, resolveNbme() looks for pbckbge prefixes,
+     * which bppebr similbr to "very uplevel" outer clbsses.
      * <p>
-     * A similar (but more complex) name-lookup process happens
-     * when field and identifier expressions denoting qualified names
-     * are type-checked.  The added complexity comes from the fact
-     * that variables may occur in such names, and take precedence
-     * over class and package names.
+     * A similbr (but more complex) nbme-lookup process hbppens
+     * when field bnd identifier expressions denoting qublified nbmes
+     * bre type-checked.  The bdded complexity comes from the fbct
+     * thbt vbribbles mby occur in such nbmes, bnd tbke precedence
+     * over clbss bnd pbckbge nbmes.
      * <p>
-     * In the expression type-checker, resolveInnerClass() is paralleled
-     * by code in FieldExpression.checkAmbigName(), which also calls
-     * ClassDefinition.getInnerClass() to interpret names of the form
-     * "OuterClass.Inner" (and also outerObject.Inner).  The checking
-     * of an identifier expression that fails to be a variable is referred
-     * directly to resolveName().
+     * In the expression type-checker, resolveInnerClbss() is pbrblleled
+     * by code in FieldExpression.checkAmbigNbme(), which blso cblls
+     * ClbssDefinition.getInnerClbss() to interpret nbmes of the form
+     * "OuterClbss.Inner" (bnd blso outerObject.Inner).  The checking
+     * of bn identifier expression thbt fbils to be b vbribble is referred
+     * directly to resolveNbme().
      */
-    public Identifier resolveName(Environment env, Identifier name) {
-        if (tracing) env.dtEvent("ClassDefinition.resolveName: " + name);
-        // This logic is pretty much exactly parallel to that of
-        // Environment.resolveName().
-        if (name.isQualified()) {
+    public Identifier resolveNbme(Environment env, Identifier nbme) {
+        if (trbcing) env.dtEvent("ClbssDefinition.resolveNbme: " + nbme);
+        // This logic is pretty much exbctly pbrbllel to thbt of
+        // Environment.resolveNbme().
+        if (nbme.isQublified()) {
             // Try to resolve the first identifier component,
-            // because inner class names take precedence over
-            // package prefixes.  (Cf. Environment.resolveName.)
-            Identifier rhead = resolveName(env, name.getHead());
+            // becbuse inner clbss nbmes tbke precedence over
+            // pbckbge prefixes.  (Cf. Environment.resolveNbme.)
+            Identifier rhebd = resolveNbme(env, nbme.getHebd());
 
-            if (rhead.hasAmbigPrefix()) {
-                // The first identifier component refers to an
-                // ambiguous class.  Limp on.  We throw away the
-                // rest of the classname as it is irrelevant.
-                // (part of solution for 4059855).
-                return rhead;
+            if (rhebd.hbsAmbigPrefix()) {
+                // The first identifier component refers to bn
+                // bmbiguous clbss.  Limp on.  We throw bwby the
+                // rest of the clbssnbme bs it is irrelevbnt.
+                // (pbrt of solution for 4059855).
+                return rhebd;
             }
 
-            if (!env.classExists(rhead)) {
-                return env.resolvePackageQualifiedName(name);
+            if (!env.clbssExists(rhebd)) {
+                return env.resolvePbckbgeQublifiedNbme(nbme);
             }
             try {
-                return env.getClassDefinition(rhead).
-                    resolveInnerClass(env, name.getTail());
-            } catch (ClassNotFound ee) {
-                // return partially-resolved name someone else can fail on
-                return Identifier.lookupInner(rhead, name.getTail());
+                return env.getClbssDefinition(rhebd).
+                    resolveInnerClbss(env, nbme.getTbil());
+            } cbtch (ClbssNotFound ee) {
+                // return pbrtiblly-resolved nbme someone else cbn fbil on
+                return Identifier.lookupInner(rhebd, nbme.getTbil());
             }
         }
 
-        // This method used to fail to look for local classes, thus a
-        // reference to a local class within, e.g., the type of a member
-        // declaration, would fail to resolve if the immediately enclosing
-        // context was an inner class.  The code added below is ugly, but
-        // it works, and is lifted from existing code in 'Context.resolveName'
-        // and 'Context.getClassCommon'. See the comments there about the design.
+        // This method used to fbil to look for locbl clbsses, thus b
+        // reference to b locbl clbss within, e.g., the type of b member
+        // declbrbtion, would fbil to resolve if the immedibtely enclosing
+        // context wbs bn inner clbss.  The code bdded below is ugly, but
+        // it works, bnd is lifted from existing code in 'Context.resolveNbme'
+        // bnd 'Context.getClbssCommon'. See the comments there bbout the design.
         // Fixes 4095716.
 
         int ls = -2;
-        LocalMember lf = null;
-        if (classContext != null) {
-            lf = classContext.getLocalClass(name);
+        LocblMember lf = null;
+        if (clbssContext != null) {
+            lf = clbssContext.getLocblClbss(nbme);
             if (lf != null) {
                 ls = lf.getScopeNumber();
             }
         }
 
-        // Look for an unqualified name in enclosing scopes.
-        for (ClassDefinition c = this; c != null; c = c.outerClass) {
+        // Look for bn unqublified nbme in enclosing scopes.
+        for (ClbssDefinition c = this; c != null; c = c.outerClbss) {
             try {
-                MemberDefinition f = c.getInnerClass(env, name);
+                MemberDefinition f = c.getInnerClbss(env, nbme);
                 if (f != null &&
-                    (lf == null || classContext.getScopeNumber(c) > ls)) {
-                    // An uplevel member was found, and was nested more deeply than
-                    // any enclosing local of the same name.
-                    return f.getInnerClass().getName();
+                    (lf == null || clbssContext.getScopeNumber(c) > ls)) {
+                    // An uplevel member wbs found, bnd wbs nested more deeply thbn
+                    // bny enclosing locbl of the sbme nbme.
+                    return f.getInnerClbss().getNbme();
                 }
-            } catch (ClassNotFound ee) {
-                // a missing superclass, or something catastrophic
+            } cbtch (ClbssNotFound ee) {
+                // b missing superclbss, or something cbtbstrophic
             }
         }
 
-        // No uplevel member found, so use the enclosing local if one was found.
+        // No uplevel member found, so use the enclosing locbl if one wbs found.
         if (lf != null) {
-           return lf.getInnerClass().getName();
+           return lf.getInnerClbss().getNbme();
         }
 
         // look in imports, etc.
-        return env.resolveName(name);
+        return env.resolveNbme(nbme);
     }
 
     /**
-     * Interpret a qualified class name, which may have further subcomponents..
-     * Follow inheritance links, as in:
-     *  class C { class N { } }  class D extends C { }  ... new D.N() ...
-     * Ignore outer scopes and packages.
-     * @see resolveName
+     * Interpret b qublified clbss nbme, which mby hbve further subcomponents..
+     * Follow inheritbnce links, bs in:
+     *  clbss C { clbss N { } }  clbss D extends C { }  ... new D.N() ...
+     * Ignore outer scopes bnd pbckbges.
+     * @see resolveNbme
      */
-    public Identifier resolveInnerClass(Environment env, Identifier nm) {
+    public Identifier resolveInnerClbss(Environment env, Identifier nm) {
         if (nm.isInner())  throw new CompilerError("inner");
-        if (nm.isQualified()) {
-            Identifier rhead = resolveInnerClass(env, nm.getHead());
+        if (nm.isQublified()) {
+            Identifier rhebd = resolveInnerClbss(env, nm.getHebd());
             try {
-                return env.getClassDefinition(rhead).
-                    resolveInnerClass(env, nm.getTail());
-            } catch (ClassNotFound ee) {
-                // return partially-resolved name someone else can fail on
-                return Identifier.lookupInner(rhead, nm.getTail());
+                return env.getClbssDefinition(rhebd).
+                    resolveInnerClbss(env, nm.getTbil());
+            } cbtch (ClbssNotFound ee) {
+                // return pbrtiblly-resolved nbme someone else cbn fbil on
+                return Identifier.lookupInner(rhebd, nm.getTbil());
             }
         } else {
             try {
-                MemberDefinition f = getInnerClass(env, nm);
+                MemberDefinition f = getInnerClbss(env, nm);
                 if (f != null) {
-                    return f.getInnerClass().getName();
+                    return f.getInnerClbss().getNbme();
                 }
-            } catch (ClassNotFound ee) {
-                // a missing superclass, or something catastrophic
+            } cbtch (ClbssNotFound ee) {
+                // b missing superclbss, or something cbtbstrophic
             }
-            // Fake a good name for a diagnostic.
-            return Identifier.lookupInner(this.getName(), nm);
+            // Fbke b good nbme for b dibgnostic.
+            return Identifier.lookupInner(this.getNbme(), nm);
         }
     }
 
     /**
-     * While resolving import directives, the question has arisen:
-     * does a given inner class exist?  If the top-level class exists,
-     * we ask it about an inner class via this method.
-     * This method looks only at the literal name of the class,
-     * and does not attempt to follow inheritance links.
-     * This is necessary, since at the time imports are being
-     * processed, inheritance links have not been resolved yet.
-     * (Thus, an import directive must always spell a class
-     * name exactly.)
+     * While resolving import directives, the question hbs brisen:
+     * does b given inner clbss exist?  If the top-level clbss exists,
+     * we bsk it bbout bn inner clbss vib this method.
+     * This method looks only bt the literbl nbme of the clbss,
+     * bnd does not bttempt to follow inheritbnce links.
+     * This is necessbry, since bt the time imports bre being
+     * processed, inheritbnce links hbve not been resolved yet.
+     * (Thus, bn import directive must blwbys spell b clbss
+     * nbme exbctly.)
      */
-    public boolean innerClassExists(Identifier nm) {
-        for (MemberDefinition field = getFirstMatch(nm.getHead()) ; field != null ; field = field.getNextMatch()) {
-            if (field.isInnerClass()) {
-                if (field.getInnerClass().isLocal()) {
-                    continue;   // ignore this name; it is internally generated
+    public boolebn innerClbssExists(Identifier nm) {
+        for (MemberDefinition field = getFirstMbtch(nm.getHebd()) ; field != null ; field = field.getNextMbtch()) {
+            if (field.isInnerClbss()) {
+                if (field.getInnerClbss().isLocbl()) {
+                    continue;   // ignore this nbme; it is internblly generbted
                 }
-                return !nm.isQualified() ||
-                    field.getInnerClass().innerClassExists(nm.getTail());
+                return !nm.isQublified() ||
+                    field.getInnerClbss().innerClbssExists(nm.getTbil());
             }
         }
-        return false;
+        return fblse;
     }
 
    /**
-     * Find any method with a given name.
+     * Find bny method with b given nbme.
      */
-    public MemberDefinition findAnyMethod(Environment env, Identifier nm) throws ClassNotFound {
+    public MemberDefinition findAnyMethod(Environment env, Identifier nm) throws ClbssNotFound {
         MemberDefinition f;
-        for (f = getFirstMatch(nm) ; f != null ; f = f.getNextMatch()) {
+        for (f = getFirstMbtch(nm) ; f != null ; f = f.getNextMbtch()) {
             if (f.isMethod()) {
                 return f;
             }
         }
 
-        // look in the super class
-        ClassDeclaration sup = getSuperClass();
+        // look in the super clbss
+        ClbssDeclbrbtion sup = getSuperClbss();
         if (sup == null)
             return null;
-        return sup.getClassDefinition(env).findAnyMethod(env, nm);
+        return sup.getClbssDefinition(env).findAnyMethod(env, nm);
     }
 
     /**
-      * Given the fact that this class has no method "nm" matching "argTypes",
-      * find out if the mismatch can be blamed on a particular actual argument
-      * which disagrees with all of the overloadings.
-      * If so, return the code (i<<2)+(castOK<<1)+ambig, where
-      * "i" is the number of the offending argument, and
-      * "castOK" is 1 if a cast could fix the problem.
-      * The target type for the argument is returned in margTypeResult[0].
-      * If not all methods agree on this type, "ambig" is 1.
-      * If there is more than one method, the choice of target type is
-      * arbitrary.<p>
-      * Return -1 if every argument is acceptable to at least one method.
-      * Return -2 if there are no methods of the required arity.
-      * The value "start" gives the index of the first argument to begin
+      * Given the fbct thbt this clbss hbs no method "nm" mbtching "brgTypes",
+      * find out if the mismbtch cbn be blbmed on b pbrticulbr bctubl brgument
+      * which disbgrees with bll of the overlobdings.
+      * If so, return the code (i<<2)+(cbstOK<<1)+bmbig, where
+      * "i" is the number of the offending brgument, bnd
+      * "cbstOK" is 1 if b cbst could fix the problem.
+      * The tbrget type for the brgument is returned in mbrgTypeResult[0].
+      * If not bll methods bgree on this type, "bmbig" is 1.
+      * If there is more thbn one method, the choice of tbrget type is
+      * brbitrbry.<p>
+      * Return -1 if every brgument is bcceptbble to bt lebst one method.
+      * Return -2 if there bre no methods of the required brity.
+      * The vblue "stbrt" gives the index of the first brgument to begin
       * checking.
       */
-    public int diagnoseMismatch(Environment env, Identifier nm, Type argTypes[],
-                                int start, Type margTypeResult[]) throws ClassNotFound {
-        int haveMatch[] = new int[argTypes.length];
-        Type margType[] = new Type[argTypes.length];
-        if (!diagnoseMismatch(env, nm, argTypes, start, haveMatch, margType))
+    public int dibgnoseMismbtch(Environment env, Identifier nm, Type brgTypes[],
+                                int stbrt, Type mbrgTypeResult[]) throws ClbssNotFound {
+        int hbveMbtch[] = new int[brgTypes.length];
+        Type mbrgType[] = new Type[brgTypes.length];
+        if (!dibgnoseMismbtch(env, nm, brgTypes, stbrt, hbveMbtch, mbrgType))
             return -2;
-        for (int i = start; i < argTypes.length; i++) {
-            if (haveMatch[i] < 4) {
-                margTypeResult[0] = margType[i];
-                return (i<<2) | haveMatch[i];
+        for (int i = stbrt; i < brgTypes.length; i++) {
+            if (hbveMbtch[i] < 4) {
+                mbrgTypeResult[0] = mbrgType[i];
+                return (i<<2) | hbveMbtch[i];
             }
         }
         return -1;
     }
 
-    private boolean diagnoseMismatch(Environment env, Identifier nm, Type argTypes[], int start,
-                                     int haveMatch[], Type margType[]) throws ClassNotFound {
-        // look in the current class
-        boolean haveOne = false;
+    privbte boolebn dibgnoseMismbtch(Environment env, Identifier nm, Type brgTypes[], int stbrt,
+                                     int hbveMbtch[], Type mbrgType[]) throws ClbssNotFound {
+        // look in the current clbss
+        boolebn hbveOne = fblse;
         MemberDefinition f;
-        for (f = getFirstMatch(nm) ; f != null ; f = f.getNextMatch()) {
+        for (f = getFirstMbtch(nm) ; f != null ; f = f.getNextMbtch()) {
             if (!f.isMethod()) {
                 continue;
             }
             Type fArgTypes[] = f.getType().getArgumentTypes();
-            if (fArgTypes.length == argTypes.length) {
-                haveOne = true;
-                for (int i = start; i < argTypes.length; i++) {
-                    Type at = argTypes[i];
+            if (fArgTypes.length == brgTypes.length) {
+                hbveOne = true;
+                for (int i = stbrt; i < brgTypes.length; i++) {
+                    Type bt = brgTypes[i];
                     Type ft = fArgTypes[i];
-                    if (env.implicitCast(at, ft)) {
-                        haveMatch[i] = 4;
+                    if (env.implicitCbst(bt, ft)) {
+                        hbveMbtch[i] = 4;
                         continue;
-                    } else if (haveMatch[i] <= 2 && env.explicitCast(at, ft)) {
-                        if (haveMatch[i] < 2)  margType[i] = null;
-                        haveMatch[i] = 2;
-                    } else if (haveMatch[i] > 0) {
+                    } else if (hbveMbtch[i] <= 2 && env.explicitCbst(bt, ft)) {
+                        if (hbveMbtch[i] < 2)  mbrgType[i] = null;
+                        hbveMbtch[i] = 2;
+                    } else if (hbveMbtch[i] > 0) {
                         continue;
                     }
-                    if (margType[i] == null)
-                        margType[i] = ft;
-                    else if (margType[i] != ft)
-                        haveMatch[i] |= 1;
+                    if (mbrgType[i] == null)
+                        mbrgType[i] = ft;
+                    else if (mbrgType[i] != ft)
+                        hbveMbtch[i] |= 1;
                 }
             }
         }
 
-        // constructors are not inherited
-        if (nm.equals(idInit)) {
-            return haveOne;
+        // constructors bre not inherited
+        if (nm.equbls(idInit)) {
+            return hbveOne;
         }
 
-        // look in the super class
-        ClassDeclaration sup = getSuperClass();
+        // look in the super clbss
+        ClbssDeclbrbtion sup = getSuperClbss();
         if (sup != null) {
-            if (sup.getClassDefinition(env).diagnoseMismatch(env, nm, argTypes, start,
-                                                             haveMatch, margType))
-                haveOne = true;
+            if (sup.getClbssDefinition(env).dibgnoseMismbtch(env, nm, brgTypes, stbrt,
+                                                             hbveMbtch, mbrgType))
+                hbveOne = true;
         }
-        return haveOne;
+        return hbveOne;
     }
 
     /**
-     * Add a field (no checks)
+     * Add b field (no checks)
      */
-    public void addMember(MemberDefinition field) {
+    public void bddMember(MemberDefinition field) {
         //System.out.println("ADD = " + field);
         if (firstMember == null) {
-            firstMember = lastMember = field;
-        } else if (field.isSynthetic() && field.isFinal()
-                                       && field.isVariable()) {
-            // insert this at the front, because of initialization order
+            firstMember = lbstMember = field;
+        } else if (field.isSynthetic() && field.isFinbl()
+                                       && field.isVbribble()) {
+            // insert this bt the front, becbuse of initiblizbtion order
             field.nextMember = firstMember;
             firstMember = field;
-            field.nextMatch = fieldHash.get(field.name);
+            field.nextMbtch = fieldHbsh.get(field.nbme);
         } else {
-            lastMember.nextMember = field;
-            lastMember = field;
-            field.nextMatch = fieldHash.get(field.name);
+            lbstMember.nextMember = field;
+            lbstMember = field;
+            field.nextMbtch = fieldHbsh.get(field.nbme);
         }
-        fieldHash.put(field.name, field);
+        fieldHbsh.put(field.nbme, field);
     }
 
     /**
-     * Add a field (subclasses make checks)
+     * Add b field (subclbsses mbke checks)
      */
-    public void addMember(Environment env, MemberDefinition field) {
-        addMember(field);
+    public void bddMember(Environment env, MemberDefinition field) {
+        bddMember(field);
         if (resolved) {
-            // a late addition
+            // b lbte bddition
             field.resolveTypeStructure(env);
         }
     }
 
     /**
-     * Find or create an uplevel reference for the given target.
+     * Find or crebte bn uplevel reference for the given tbrget.
      */
-    public UplevelReference getReference(LocalMember target) {
+    public UplevelReference getReference(LocblMember tbrget) {
         for (UplevelReference r = references; r != null; r = r.getNext()) {
-            if (r.getTarget() == target) {
+            if (r.getTbrget() == tbrget) {
                 return r;
             }
         }
-        return addReference(target);
+        return bddReference(tbrget);
     }
 
-    protected UplevelReference addReference(LocalMember target) {
-        if (target.getClassDefinition() == this) {
-            throw new CompilerError("addReference "+target);
+    protected UplevelReference bddReference(LocblMember tbrget) {
+        if (tbrget.getClbssDefinition() == this) {
+            throw new CompilerError("bddReference "+tbrget);
         }
         referencesMustNotBeFrozen();
-        UplevelReference r = new UplevelReference(this, target);
+        UplevelReference r = new UplevelReference(this, tbrget);
         references = r.insertInto(references);
         return r;
     }
 
     /**
-     * Return the list of all uplevel references.
+     * Return the list of bll uplevel references.
      */
     public UplevelReference getReferences() {
         return references;
     }
 
     /**
-     * Return the same value as getReferences.
-     * Also, mark the set of references frozen.
-     * After that, it is an error to add new references.
+     * Return the sbme vblue bs getReferences.
+     * Also, mbrk the set of references frozen.
+     * After thbt, it is bn error to bdd new references.
      */
     public UplevelReference getReferencesFrozen() {
         referencesFrozen = true;
@@ -1980,73 +1980,73 @@ class ClassDefinition implements Constants {
     }
 
     /**
-     * assertion check
+     * bssertion check
      */
-    public final void referencesMustNotBeFrozen() {
+    public finbl void referencesMustNotBeFrozen() {
         if (referencesFrozen) {
             throw new CompilerError("referencesMustNotBeFrozen "+this);
         }
     }
 
     /**
-     * Get helper method for class literal lookup.
+     * Get helper method for clbss literbl lookup.
      */
-    public MemberDefinition getClassLiteralLookup(long fwhere) {
-        throw new CompilerError("binary class");
+    public MemberDefinition getClbssLiterblLookup(long fwhere) {
+        throw new CompilerError("binbry clbss");
     }
 
     /**
-     * Add a dependency
+     * Add b dependency
      */
-    public void addDependency(ClassDeclaration c) {
-        throw new CompilerError("addDependency");
+    public void bddDependency(ClbssDeclbrbtion c) {
+        throw new CompilerError("bddDependency");
     }
 
     /**
-     * Maintain a hash table of local and anonymous classes
-     * whose internal names are prefixed by the current class.
-     * The key is the simple internal name, less the prefix.
+     * Mbintbin b hbsh tbble of locbl bnd bnonymous clbsses
+     * whose internbl nbmes bre prefixed by the current clbss.
+     * The key is the simple internbl nbme, less the prefix.
      */
 
-    public ClassDefinition getLocalClass(String name) {
-        if (localClasses == null) {
+    public ClbssDefinition getLocblClbss(String nbme) {
+        if (locblClbsses == null) {
             return null;
         } else {
-            return localClasses.get(name);
+            return locblClbsses.get(nbme);
         }
     }
 
-    public void addLocalClass(ClassDefinition c, String name) {
-        if (localClasses == null) {
-            localClasses = new Hashtable<>(LOCAL_CLASSES_SIZE);
+    public void bddLocblClbss(ClbssDefinition c, String nbme) {
+        if (locblClbsses == null) {
+            locblClbsses = new Hbshtbble<>(LOCAL_CLASSES_SIZE);
         }
-        localClasses.put(name, c);
+        locblClbsses.put(nbme, c);
     }
 
 
     /**
      * Print for debugging
      */
-    public void print(PrintStream out) {
+    public void print(PrintStrebm out) {
         if (isPublic()) {
             out.print("public ");
         }
-        if (isInterface()) {
-            out.print("interface ");
+        if (isInterfbce()) {
+            out.print("interfbce ");
         } else {
-            out.print("class ");
+            out.print("clbss ");
         }
-        out.print(getName() + " ");
-        if (getSuperClass() != null) {
-            out.print("extends " + getSuperClass().getName() + " ");
+        out.print(getNbme() + " ");
+        if (getSuperClbss() != null) {
+            out.print("extends " + getSuperClbss().getNbme() + " ");
         }
-        if (interfaces.length > 0) {
+        if (interfbces.length > 0) {
             out.print("implements ");
-            for (int i = 0 ; i < interfaces.length ; i++) {
+            for (int i = 0 ; i < interfbces.length ; i++) {
                 if (i > 0) {
                     out.print(", ");
                 }
-                out.print(interfaces[i].getName());
+                out.print(interfbces[i].getNbme());
                 out.print(" ");
             }
         }
@@ -2064,21 +2064,21 @@ class ClassDefinition implements Constants {
      * Convert to String
      */
     public String toString() {
-        return getClassDeclaration().toString();
+        return getClbssDeclbrbtion().toString();
     }
 
     /**
-     * After the class has been written to disk, try to free up
-     * some storage.
+     * After the clbss hbs been written to disk, try to free up
+     * some storbge.
      */
-    public void cleanup(Environment env) {
+    public void clebnup(Environment env) {
         if (env.dump()) {
-            env.output("[cleanup " + getName() + "]");
+            env.output("[clebnup " + getNbme() + "]");
         }
         for (MemberDefinition f = getFirstMember() ; f != null ; f = f.getNextMember()) {
-            f.cleanup(env);
+            f.clebnup(env);
         }
-        // keep "references" around, for the sake of local subclasses
-        documentation = null;
+        // keep "references" bround, for the sbke of locbl subclbsses
+        documentbtion = null;
     }
 }

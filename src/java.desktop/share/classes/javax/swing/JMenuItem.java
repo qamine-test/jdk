@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.EventListener;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
+import jbvb.util.EventListener;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.*;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.event.*;
-import javax.accessibility.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.event.*;
+import jbvbx.bccessibility.*;
 
 /**
- * An implementation of an item in a menu. A menu item is essentially a button
- * sitting in a list. When the user selects the "button", the action
- * associated with the menu item is performed. A <code>JMenuItem</code>
- * contained in a <code>JPopupMenu</code> performs exactly that function.
+ * An implementbtion of bn item in b menu. A menu item is essentiblly b button
+ * sitting in b list. When the user selects the "button", the bction
+ * bssocibted with the menu item is performed. A <code>JMenuItem</code>
+ * contbined in b <code>JPopupMenu</code> performs exbctly thbt function.
  * <p>
- * Menu items can be configured, and to some degree controlled, by
- * <code><a href="Action.html">Action</a></code>s.  Using an
- * <code>Action</code> with a menu item has many benefits beyond directly
- * configuring a menu item.  Refer to <a href="Action.html#buttonActions">
- * Swing Components Supporting <code>Action</code></a> for more
- * details, and you can find more information in <a
- * href="http://docs.oracle.com/javase/tutorial/uiswing/misc/action.html">How
- * to Use Actions</a>, a section in <em>The Java Tutorial</em>.
+ * Menu items cbn be configured, bnd to some degree controlled, by
+ * <code><b href="Action.html">Action</b></code>s.  Using bn
+ * <code>Action</code> with b menu item hbs mbny benefits beyond directly
+ * configuring b menu item.  Refer to <b href="Action.html#buttonActions">
+ * Swing Components Supporting <code>Action</code></b> for more
+ * detbils, bnd you cbn find more informbtion in <b
+ * href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/misc/bction.html">How
+ * to Use Actions</b>, b section in <em>The Jbvb Tutoribl</em>.
  * <p>
- * For further documentation and for examples, see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/menu.html">How to Use Menus</a>
- * in <em>The Java Tutorial.</em>
+ * For further documentbtion bnd for exbmples, see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/menu.html">How to Use Menus</b>
+ * in <em>The Jbvb Tutoribl.</em>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: An item which can be selected in a menu.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: An item which cbn be selected in b menu.
  *
- * @author Georges Saab
- * @author David Karlton
+ * @buthor Georges Sbbb
+ * @buthor Dbvid Kbrlton
  * @see JPopupMenu
  * @see JMenu
  * @see JCheckBoxMenuItem
- * @see JRadioButtonMenuItem
+ * @see JRbdioButtonMenuItem
  * @since 1.2
  */
-@SuppressWarnings("serial")
-public class JMenuItem extends AbstractButton implements Accessible,MenuElement  {
+@SuppressWbrnings("seribl")
+public clbss JMenuItem extends AbstrbctButton implements Accessible,MenuElement  {
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "MenuItemUI";
+    privbte stbtic finbl String uiClbssID = "MenuItemUI";
 
-    /* diagnostic aids -- should be false for production builds. */
-    private static final boolean TRACE =   false; // trace creates and disposes
-    private static final boolean VERBOSE = false; // show reuse hits/misses
-    private static final boolean DEBUG =   false;  // show bad params, misc.
+    /* dibgnostic bids -- should be fblse for production builds. */
+    privbte stbtic finbl boolebn TRACE =   fblse; // trbce crebtes bnd disposes
+    privbte stbtic finbl boolebn VERBOSE = fblse; // show reuse hits/misses
+    privbte stbtic finbl boolebn DEBUG =   fblse;  // show bbd pbrbms, misc.
 
-    private boolean isMouseDragged = false;
+    privbte boolebn isMouseDrbgged = fblse;
 
     /**
-     * Creates a <code>JMenuItem</code> with no set text or icon.
+     * Crebtes b <code>JMenuItem</code> with no set text or icon.
      */
     public JMenuItem() {
         this(null, (Icon)null);
     }
 
     /**
-     * Creates a <code>JMenuItem</code> with the specified icon.
+     * Crebtes b <code>JMenuItem</code> with the specified icon.
      *
-     * @param icon the icon of the <code>JMenuItem</code>
+     * @pbrbm icon the icon of the <code>JMenuItem</code>
      */
     public JMenuItem(Icon icon) {
         this(null, icon);
     }
 
     /**
-     * Creates a <code>JMenuItem</code> with the specified text.
+     * Crebtes b <code>JMenuItem</code> with the specified text.
      *
-     * @param text the text of the <code>JMenuItem</code>
+     * @pbrbm text the text of the <code>JMenuItem</code>
      */
     public JMenuItem(String text) {
         this(text, (Icon)null);
     }
 
     /**
-     * Creates a menu item whose properties are taken from the
+     * Crebtes b menu item whose properties bre tbken from the
      * specified <code>Action</code>.
      *
-     * @param a the action of the <code>JMenuItem</code>
+     * @pbrbm b the bction of the <code>JMenuItem</code>
      * @since 1.3
      */
-    public JMenuItem(Action a) {
+    public JMenuItem(Action b) {
         this();
-        setAction(a);
+        setAction(b);
     }
 
     /**
-     * Creates a <code>JMenuItem</code> with the specified text and icon.
+     * Crebtes b <code>JMenuItem</code> with the specified text bnd icon.
      *
-     * @param text the text of the <code>JMenuItem</code>
-     * @param icon the icon of the <code>JMenuItem</code>
+     * @pbrbm text the text of the <code>JMenuItem</code>
+     * @pbrbm icon the icon of the <code>JMenuItem</code>
      */
     public JMenuItem(String text, Icon icon) {
-        setModel(new DefaultButtonModel());
+        setModel(new DefbultButtonModel());
         init(text, icon);
-        initFocusability();
+        initFocusbbility();
     }
 
     /**
-     * Creates a <code>JMenuItem</code> with the specified text and
-     * keyboard mnemonic.
+     * Crebtes b <code>JMenuItem</code> with the specified text bnd
+     * keybobrd mnemonic.
      *
-     * @param text the text of the <code>JMenuItem</code>
-     * @param mnemonic the keyboard mnemonic for the <code>JMenuItem</code>
+     * @pbrbm text the text of the <code>JMenuItem</code>
+     * @pbrbm mnemonic the keybobrd mnemonic for the <code>JMenuItem</code>
      */
     public JMenuItem(String text, int mnemonic) {
-        setModel(new DefaultButtonModel());
+        setModel(new DefbultButtonModel());
         init(text, null);
         setMnemonic(mnemonic);
-        initFocusability();
+        initFocusbbility();
     }
 
     /**
@@ -172,28 +172,28 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      */
     public void setModel(ButtonModel newModel) {
         super.setModel(newModel);
-        if(newModel instanceof DefaultButtonModel) {
-            ((DefaultButtonModel)newModel).setMenuItem(true);
+        if(newModel instbnceof DefbultButtonModel) {
+            ((DefbultButtonModel)newModel).setMenuItem(true);
         }
     }
 
     /**
-     * Inititalizes the focusability of the the <code>JMenuItem</code>.
-     * <code>JMenuItem</code>'s are focusable, but subclasses may
-     * want to be, this provides them the opportunity to override this
-     * and invoke something else, or nothing at all. Refer to
-     * {@link javax.swing.JMenu#initFocusability} for the motivation of
+     * Inititblizes the focusbbility of the the <code>JMenuItem</code>.
+     * <code>JMenuItem</code>'s bre focusbble, but subclbsses mby
+     * wbnt to be, this provides them the opportunity to override this
+     * bnd invoke something else, or nothing bt bll. Refer to
+     * {@link jbvbx.swing.JMenu#initFocusbbility} for the motivbtion of
      * this.
      */
-    void initFocusability() {
-        setFocusable(false);
+    void initFocusbbility() {
+        setFocusbble(fblse);
     }
 
     /**
-     * Initializes the menu item with the specified text and icon.
+     * Initiblizes the menu item with the specified text bnd icon.
      *
-     * @param text the text of the <code>JMenuItem</code>
-     * @param icon the icon of the <code>JMenuItem</code>
+     * @pbrbm text the text of the <code>JMenuItem</code>
+     * @pbrbm icon the icon of the <code>JMenuItem</code>
      */
     protected void init(String text, Icon icon) {
         if(text != null) {
@@ -205,168 +205,168 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
         }
 
         // Listen for Focus events
-        addFocusListener(new MenuItemFocusListener());
-        setUIProperty("borderPainted", Boolean.FALSE);
-        setFocusPainted(false);
-        setHorizontalTextPosition(JButton.TRAILING);
-        setHorizontalAlignment(JButton.LEADING);
-        updateUI();
+        bddFocusListener(new MenuItemFocusListener());
+        setUIProperty("borderPbinted", Boolebn.FALSE);
+        setFocusPbinted(fblse);
+        setHorizontblTextPosition(JButton.TRAILING);
+        setHorizontblAlignment(JButton.LEADING);
+        updbteUI();
     }
 
-    private static class MenuItemFocusListener implements FocusListener,
-        Serializable {
-        public void focusGained(FocusEvent event) {}
+    privbte stbtic clbss MenuItemFocusListener implements FocusListener,
+        Seriblizbble {
+        public void focusGbined(FocusEvent event) {}
         public void focusLost(FocusEvent event) {
-            // When focus is lost, repaint if
-            // the focus information is painted
+            // When focus is lost, repbint if
+            // the focus informbtion is pbinted
             JMenuItem mi = (JMenuItem)event.getSource();
-            if(mi.isFocusPainted()) {
-                mi.repaint();
+            if(mi.isFocusPbinted()) {
+                mi.repbint();
             }
         }
     }
 
 
     /**
-     * Sets the look and feel object that renders this component.
+     * Sets the look bnd feel object thbt renders this component.
      *
-     * @param ui  the <code>JMenuItemUI</code> L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui  the <code>JMenuItemUI</code> L&bmp;F object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
     public void setUI(MenuItemUI ui) {
         super.setUI(ui);
     }
 
     /**
-     * Resets the UI property with a value from the current look and feel.
+     * Resets the UI property with b vblue from the current look bnd feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((MenuItemUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((MenuItemUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Returns the suffix used to construct the name of the L&amp;F class used to
+     * Returns the suffix used to construct the nbme of the L&bmp;F clbss used to
      * render this component.
      *
      * @return the string "MenuItemUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
-     * Identifies the menu item as "armed". If the mouse button is
-     * released while it is over this item, the menu's action event
-     * will fire. If the mouse button is released elsewhere, the
-     * event will not fire and the menu item will be disarmed.
+     * Identifies the menu item bs "brmed". If the mouse button is
+     * relebsed while it is over this item, the menu's bction event
+     * will fire. If the mouse button is relebsed elsewhere, the
+     * event will not fire bnd the menu item will be disbrmed.
      *
-     * @param b true to arm the menu item so it can be selected
-     * @beaninfo
-     *    description: Mouse release will fire an action event
+     * @pbrbm b true to brm the menu item so it cbn be selected
+     * @bebninfo
+     *    description: Mouse relebse will fire bn bction event
      *         hidden: true
      */
-    public void setArmed(boolean b) {
+    public void setArmed(boolebn b) {
         ButtonModel model = getModel();
 
-        boolean oldValue = model.isArmed();
+        boolebn oldVblue = model.isArmed();
         if(model.isArmed() != b) {
             model.setArmed(b);
         }
     }
 
     /**
-     * Returns whether the menu item is "armed".
+     * Returns whether the menu item is "brmed".
      *
-     * @return true if the menu item is armed, and it can be selected
+     * @return true if the menu item is brmed, bnd it cbn be selected
      * @see #setArmed
      */
-    public boolean isArmed() {
+    public boolebn isArmed() {
         ButtonModel model = getModel();
         return model.isArmed();
     }
 
     /**
-     * Enables or disables the menu item.
+     * Enbbles or disbbles the menu item.
      *
-     * @param b  true to enable the item
-     * @beaninfo
-     *    description: Does the component react to user interaction
+     * @pbrbm b  true to enbble the item
+     * @bebninfo
+     *    description: Does the component rebct to user interbction
      *          bound: true
      *      preferred: true
      */
-    public void setEnabled(boolean b) {
-        // Make sure we aren't armed!
-        if (!b && !UIManager.getBoolean("MenuItem.disabledAreNavigable")) {
-            setArmed(false);
+    public void setEnbbled(boolebn b) {
+        // Mbke sure we bren't brmed!
+        if (!b && !UIMbnbger.getBoolebn("MenuItem.disbbledAreNbvigbble")) {
+            setArmed(fblse);
         }
-        super.setEnabled(b);
+        super.setEnbbled(b);
     }
 
 
     /**
      * Returns true since <code>Menu</code>s, by definition,
-     * should always be on top of all other windows.  If the menu is
-     * in an internal frame false is returned due to the rollover effect
-     * for windows laf where the menu is not always on top.
+     * should blwbys be on top of bll other windows.  If the menu is
+     * in bn internbl frbme fblse is returned due to the rollover effect
+     * for windows lbf where the menu is not blwbys on top.
      */
-    // package private
-    boolean alwaysOnTop() {
+    // pbckbge privbte
+    boolebn blwbysOnTop() {
         // Fix for bug #4482165
-        if (SwingUtilities.getAncestorOfClass(JInternalFrame.class, this) !=
+        if (SwingUtilities.getAncestorOfClbss(JInternblFrbme.clbss, this) !=
                 null) {
-            return false;
+            return fblse;
         }
         return true;
     }
 
 
-    /* The keystroke which acts as the menu item's accelerator
+    /* The keystroke which bcts bs the menu item's bccelerbtor
      */
-    private KeyStroke accelerator;
+    privbte KeyStroke bccelerbtor;
 
     /**
-     * Sets the key combination which invokes the menu item's
-     * action listeners without navigating the menu hierarchy. It is the
-     * UI's responsibility to install the correct action.  Note that
-     * when the keyboard accelerator is typed, it will work whether or
-     * not the menu is currently displayed.
+     * Sets the key combinbtion which invokes the menu item's
+     * bction listeners without nbvigbting the menu hierbrchy. It is the
+     * UI's responsibility to instbll the correct bction.  Note thbt
+     * when the keybobrd bccelerbtor is typed, it will work whether or
+     * not the menu is currently displbyed.
      *
-     * @param keyStroke the <code>KeyStroke</code> which will
-     *          serve as an accelerator
-     * @beaninfo
-     *     description: The keystroke combination which will invoke the
-     *                  JMenuItem's actionlisteners without navigating the
-     *                  menu hierarchy
+     * @pbrbm keyStroke the <code>KeyStroke</code> which will
+     *          serve bs bn bccelerbtor
+     * @bebninfo
+     *     description: The keystroke combinbtion which will invoke the
+     *                  JMenuItem's bctionlisteners without nbvigbting the
+     *                  menu hierbrchy
      *           bound: true
      *       preferred: true
      */
-    public void setAccelerator(KeyStroke keyStroke) {
-        KeyStroke oldAccelerator = accelerator;
-        this.accelerator = keyStroke;
-        repaint();
-        revalidate();
-        firePropertyChange("accelerator", oldAccelerator, accelerator);
+    public void setAccelerbtor(KeyStroke keyStroke) {
+        KeyStroke oldAccelerbtor = bccelerbtor;
+        this.bccelerbtor = keyStroke;
+        repbint();
+        revblidbte();
+        firePropertyChbnge("bccelerbtor", oldAccelerbtor, bccelerbtor);
     }
 
     /**
-     * Returns the <code>KeyStroke</code> which serves as an accelerator
+     * Returns the <code>KeyStroke</code> which serves bs bn bccelerbtor
      * for the menu item.
-     * @return a <code>KeyStroke</code> object identifying the
-     *          accelerator key
+     * @return b <code>KeyStroke</code> object identifying the
+     *          bccelerbtor key
      */
-    public KeyStroke getAccelerator() {
-        return this.accelerator;
+    public KeyStroke getAccelerbtor() {
+        return this.bccelerbtor;
     }
 
     /**
@@ -374,90 +374,90 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      *
      * @since 1.3
      */
-    protected void configurePropertiesFromAction(Action a) {
-        super.configurePropertiesFromAction(a);
-        configureAcceleratorFromAction(a);
+    protected void configurePropertiesFromAction(Action b) {
+        super.configurePropertiesFromAction(b);
+        configureAccelerbtorFromAction(b);
     }
 
-    void setIconFromAction(Action a) {
+    void setIconFromAction(Action b) {
         Icon icon = null;
-        if (a != null) {
-            icon = (Icon)a.getValue(Action.SMALL_ICON);
+        if (b != null) {
+            icon = (Icon)b.getVblue(Action.SMALL_ICON);
         }
         setIcon(icon);
     }
 
-    void largeIconChanged(Action a) {
+    void lbrgeIconChbnged(Action b) {
     }
 
-    void smallIconChanged(Action a) {
-        setIconFromAction(a);
+    void smbllIconChbnged(Action b) {
+        setIconFromAction(b);
     }
 
-    void configureAcceleratorFromAction(Action a) {
-        KeyStroke ks = (a==null) ? null :
-            (KeyStroke)a.getValue(Action.ACCELERATOR_KEY);
-        setAccelerator(ks);
+    void configureAccelerbtorFromAction(Action b) {
+        KeyStroke ks = (b==null) ? null :
+            (KeyStroke)b.getVblue(Action.ACCELERATOR_KEY);
+        setAccelerbtor(ks);
     }
 
     /**
      * {@inheritDoc}
      * @since 1.6
      */
-    protected void actionPropertyChanged(Action action, String propertyName) {
-        if (propertyName == Action.ACCELERATOR_KEY) {
-            configureAcceleratorFromAction(action);
+    protected void bctionPropertyChbnged(Action bction, String propertyNbme) {
+        if (propertyNbme == Action.ACCELERATOR_KEY) {
+            configureAccelerbtorFromAction(bction);
         }
         else {
-            super.actionPropertyChanged(action, propertyName);
+            super.bctionPropertyChbnged(bction, propertyNbme);
         }
     }
 
     /**
-     * Processes a mouse event forwarded from the
-     * <code>MenuSelectionManager</code> and changes the menu
-     * selection, if necessary, by using the
-     * <code>MenuSelectionManager</code>'s API.
+     * Processes b mouse event forwbrded from the
+     * <code>MenuSelectionMbnbger</code> bnd chbnges the menu
+     * selection, if necessbry, by using the
+     * <code>MenuSelectionMbnbger</code>'s API.
      * <p>
-     * Note: you do not have to forward the event to sub-components.
-     * This is done automatically by the <code>MenuSelectionManager</code>.
+     * Note: you do not hbve to forwbrd the event to sub-components.
+     * This is done butombticblly by the <code>MenuSelectionMbnbger</code>.
      *
-     * @param e   a <code>MouseEvent</code>
-     * @param path  the <code>MenuElement</code> path array
-     * @param manager   the <code>MenuSelectionManager</code>
+     * @pbrbm e   b <code>MouseEvent</code>
+     * @pbrbm pbth  the <code>MenuElement</code> pbth brrby
+     * @pbrbm mbnbger   the <code>MenuSelectionMbnbger</code>
      */
-    public void processMouseEvent(MouseEvent e,MenuElement path[],MenuSelectionManager manager) {
-        processMenuDragMouseEvent(
-                 new MenuDragMouseEvent(e.getComponent(), e.getID(),
+    public void processMouseEvent(MouseEvent e,MenuElement pbth[],MenuSelectionMbnbger mbnbger) {
+        processMenuDrbgMouseEvent(
+                 new MenuDrbgMouseEvent(e.getComponent(), e.getID(),
                                         e.getWhen(),
                                         e.getModifiers(), e.getX(), e.getY(),
                                         e.getXOnScreen(), e.getYOnScreen(),
                                         e.getClickCount(), e.isPopupTrigger(),
-                                        path, manager));
+                                        pbth, mbnbger));
     }
 
 
     /**
-     * Processes a key event forwarded from the
-     * <code>MenuSelectionManager</code> and changes the menu selection,
-     * if necessary, by using <code>MenuSelectionManager</code>'s API.
+     * Processes b key event forwbrded from the
+     * <code>MenuSelectionMbnbger</code> bnd chbnges the menu selection,
+     * if necessbry, by using <code>MenuSelectionMbnbger</code>'s API.
      * <p>
-     * Note: you do not have to forward the event to sub-components.
-     * This is done automatically by the <code>MenuSelectionManager</code>.
+     * Note: you do not hbve to forwbrd the event to sub-components.
+     * This is done butombticblly by the <code>MenuSelectionMbnbger</code>.
      *
-     * @param e  a <code>KeyEvent</code>
-     * @param path the <code>MenuElement</code> path array
-     * @param manager   the <code>MenuSelectionManager</code>
+     * @pbrbm e  b <code>KeyEvent</code>
+     * @pbrbm pbth the <code>MenuElement</code> pbth brrby
+     * @pbrbm mbnbger   the <code>MenuSelectionMbnbger</code>
      */
-    public void processKeyEvent(KeyEvent e,MenuElement path[],MenuSelectionManager manager) {
+    public void processKeyEvent(KeyEvent e,MenuElement pbth[],MenuSelectionMbnbger mbnbger) {
         if (DEBUG) {
             System.out.println("in JMenuItem.processKeyEvent/3 for " + getText() +
                                    "  " + KeyStroke.getKeyStrokeForEvent(e));
         }
         MenuKeyEvent mke = new MenuKeyEvent(e.getComponent(), e.getID(),
                                              e.getWhen(), e.getModifiers(),
-                                             e.getKeyCode(), e.getKeyChar(),
-                                             path, manager);
+                                             e.getKeyCode(), e.getKeyChbr(),
+                                             pbth, mbnbger);
         processMenuKeyEvent(mke);
 
         if (mke.isConsumed())  {
@@ -468,29 +468,29 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
 
 
     /**
-     * Handles mouse drag in a menu.
+     * Hbndles mouse drbg in b menu.
      *
-     * @param e  a <code>MenuDragMouseEvent</code> object
+     * @pbrbm e  b <code>MenuDrbgMouseEvent</code> object
      */
-    public void processMenuDragMouseEvent(MenuDragMouseEvent e) {
+    public void processMenuDrbgMouseEvent(MenuDrbgMouseEvent e) {
         switch (e.getID()) {
-        case MouseEvent.MOUSE_ENTERED:
-            isMouseDragged = false; fireMenuDragMouseEntered(e); break;
-        case MouseEvent.MOUSE_EXITED:
-            isMouseDragged = false; fireMenuDragMouseExited(e); break;
-        case MouseEvent.MOUSE_DRAGGED:
-            isMouseDragged = true; fireMenuDragMouseDragged(e); break;
-        case MouseEvent.MOUSE_RELEASED:
-            if(isMouseDragged) fireMenuDragMouseReleased(e); break;
-        default:
-            break;
+        cbse MouseEvent.MOUSE_ENTERED:
+            isMouseDrbgged = fblse; fireMenuDrbgMouseEntered(e); brebk;
+        cbse MouseEvent.MOUSE_EXITED:
+            isMouseDrbgged = fblse; fireMenuDrbgMouseExited(e); brebk;
+        cbse MouseEvent.MOUSE_DRAGGED:
+            isMouseDrbgged = true; fireMenuDrbgMouseDrbgged(e); brebk;
+        cbse MouseEvent.MOUSE_RELEASED:
+            if(isMouseDrbgged) fireMenuDrbgMouseRelebsed(e); brebk;
+        defbult:
+            brebk;
         }
     }
 
     /**
-     * Handles a keystroke in a menu.
+     * Hbndles b keystroke in b menu.
      *
-     * @param e  a <code>MenuKeyEvent</code> object
+     * @pbrbm e  b <code>MenuKeyEvent</code> object
      */
     public void processMenuKeyEvent(MenuKeyEvent e) {
         if (DEBUG) {
@@ -498,102 +498,102 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
                                    "  " + KeyStroke.getKeyStrokeForEvent(e));
         }
         switch (e.getID()) {
-        case KeyEvent.KEY_PRESSED:
-            fireMenuKeyPressed(e); break;
-        case KeyEvent.KEY_RELEASED:
-            fireMenuKeyReleased(e); break;
-        case KeyEvent.KEY_TYPED:
-            fireMenuKeyTyped(e); break;
-        default:
-            break;
+        cbse KeyEvent.KEY_PRESSED:
+            fireMenuKeyPressed(e); brebk;
+        cbse KeyEvent.KEY_RELEASED:
+            fireMenuKeyRelebsed(e); brebk;
+        cbse KeyEvent.KEY_TYPED:
+            fireMenuKeyTyped(e); brebk;
+        defbult:
+            brebk;
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.
      *
-     * @param event a <code>MenuMouseDragEvent</code>
+     * @pbrbm event b <code>MenuMouseDrbgEvent</code>
      * @see EventListenerList
      */
-    protected void fireMenuDragMouseEntered(MenuDragMouseEvent event) {
-        // Guaranteed to return a non-null array
+    protected void fireMenuDrbgMouseEntered(MenuDrbgMouseEvent event) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuDragMouseListener.class) {
-                // Lazily create the event:
-                ((MenuDragMouseListener)listeners[i+1]).menuDragMouseEntered(event);
+            if (listeners[i]==MenuDrbgMouseListener.clbss) {
+                // Lbzily crebte the event:
+                ((MenuDrbgMouseListener)listeners[i+1]).menuDrbgMouseEntered(event);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.
      *
-     * @param event a <code>MenuDragMouseEvent</code>
+     * @pbrbm event b <code>MenuDrbgMouseEvent</code>
      * @see EventListenerList
      */
-    protected void fireMenuDragMouseExited(MenuDragMouseEvent event) {
-        // Guaranteed to return a non-null array
+    protected void fireMenuDrbgMouseExited(MenuDrbgMouseEvent event) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuDragMouseListener.class) {
-                // Lazily create the event:
-                ((MenuDragMouseListener)listeners[i+1]).menuDragMouseExited(event);
+            if (listeners[i]==MenuDrbgMouseListener.clbss) {
+                // Lbzily crebte the event:
+                ((MenuDrbgMouseListener)listeners[i+1]).menuDrbgMouseExited(event);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.
      *
-     * @param event a <code>MenuDragMouseEvent</code>
+     * @pbrbm event b <code>MenuDrbgMouseEvent</code>
      * @see EventListenerList
      */
-    protected void fireMenuDragMouseDragged(MenuDragMouseEvent event) {
-        // Guaranteed to return a non-null array
+    protected void fireMenuDrbgMouseDrbgged(MenuDrbgMouseEvent event) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuDragMouseListener.class) {
-                // Lazily create the event:
-                ((MenuDragMouseListener)listeners[i+1]).menuDragMouseDragged(event);
+            if (listeners[i]==MenuDrbgMouseListener.clbss) {
+                // Lbzily crebte the event:
+                ((MenuDrbgMouseListener)listeners[i+1]).menuDrbgMouseDrbgged(event);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.
      *
-     * @param event a <code>MenuDragMouseEvent</code>
+     * @pbrbm event b <code>MenuDrbgMouseEvent</code>
      * @see EventListenerList
      */
-    protected void fireMenuDragMouseReleased(MenuDragMouseEvent event) {
-        // Guaranteed to return a non-null array
+    protected void fireMenuDrbgMouseRelebsed(MenuDrbgMouseEvent event) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuDragMouseListener.class) {
-                // Lazily create the event:
-                ((MenuDragMouseListener)listeners[i+1]).menuDragMouseReleased(event);
+            if (listeners[i]==MenuDrbgMouseListener.clbss) {
+                // Lbzily crebte the event:
+                ((MenuDrbgMouseListener)listeners[i+1]).menuDrbgMouseRelebsed(event);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.
      *
-     * @param event a <code>MenuKeyEvent</code>
+     * @pbrbm event b <code>MenuKeyEvent</code>
      * @see EventListenerList
      */
     protected void fireMenuKeyPressed(MenuKeyEvent event) {
@@ -601,47 +601,47 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
             System.out.println("in JMenuItem.fireMenuKeyPressed for " + getText()+
                                    "  " + KeyStroke.getKeyStrokeForEvent(event));
         }
-        // Guaranteed to return a non-null array
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuKeyListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==MenuKeyListener.clbss) {
+                // Lbzily crebte the event:
                 ((MenuKeyListener)listeners[i+1]).menuKeyPressed(event);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.
      *
-     * @param event a <code>MenuKeyEvent</code>
+     * @pbrbm event b <code>MenuKeyEvent</code>
      * @see EventListenerList
      */
-    protected void fireMenuKeyReleased(MenuKeyEvent event) {
+    protected void fireMenuKeyRelebsed(MenuKeyEvent event) {
         if (DEBUG) {
-            System.out.println("in JMenuItem.fireMenuKeyReleased for " + getText()+
+            System.out.println("in JMenuItem.fireMenuKeyRelebsed for " + getText()+
                                    "  " + KeyStroke.getKeyStrokeForEvent(event));
         }
-        // Guaranteed to return a non-null array
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuKeyListener.class) {
-                // Lazily create the event:
-                ((MenuKeyListener)listeners[i+1]).menuKeyReleased(event);
+            if (listeners[i]==MenuKeyListener.clbss) {
+                // Lbzily crebte the event:
+                ((MenuKeyListener)listeners[i+1]).menuKeyRelebsed(event);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.
      *
-     * @param event a <code>MenuKeyEvent</code>
+     * @pbrbm event b <code>MenuKeyEvent</code>
      * @see EventListenerList
      */
     protected void fireMenuKeyTyped(MenuKeyEvent event) {
@@ -649,149 +649,149 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
             System.out.println("in JMenuItem.fireMenuKeyTyped for " + getText()+
                                    "  " + KeyStroke.getKeyStrokeForEvent(event));
         }
-        // Guaranteed to return a non-null array
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MenuKeyListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==MenuKeyListener.clbss) {
+                // Lbzily crebte the event:
                 ((MenuKeyListener)listeners[i+1]).menuKeyTyped(event);
             }
         }
     }
 
     /**
-     * Called by the <code>MenuSelectionManager</code> when the
+     * Cblled by the <code>MenuSelectionMbnbger</code> when the
      * <code>MenuElement</code> is selected or unselected.
      *
-     * @param isIncluded  true if this menu item is on the part of the menu
-     *                    path that changed, false if this menu is part of the
-     *                    a menu path that changed, but this particular part of
-     *                    that path is still the same
-     * @see MenuSelectionManager#setSelectedPath(MenuElement[])
+     * @pbrbm isIncluded  true if this menu item is on the pbrt of the menu
+     *                    pbth thbt chbnged, fblse if this menu is pbrt of the
+     *                    b menu pbth thbt chbnged, but this pbrticulbr pbrt of
+     *                    thbt pbth is still the sbme
+     * @see MenuSelectionMbnbger#setSelectedPbth(MenuElement[])
      */
-    public void menuSelectionChanged(boolean isIncluded) {
+    public void menuSelectionChbnged(boolebn isIncluded) {
         setArmed(isIncluded);
     }
 
     /**
-     * This method returns an array containing the sub-menu
+     * This method returns bn brrby contbining the sub-menu
      * components for this menu component.
      *
-     * @return an array of <code>MenuElement</code>s
+     * @return bn brrby of <code>MenuElement</code>s
      */
     public MenuElement[] getSubElements() {
         return new MenuElement[0];
     }
 
     /**
-     * Returns the <code>java.awt.Component</code> used to paint
+     * Returns the <code>jbvb.bwt.Component</code> used to pbint
      * this object. The returned component will be used to convert
-     * events and detect if an event is inside a menu component.
+     * events bnd detect if bn event is inside b menu component.
      *
-     * @return the <code>Component</code> that paints this menu item
+     * @return the <code>Component</code> thbt pbints this menu item
      */
     public Component getComponent() {
         return this;
     }
 
     /**
-     * Adds a <code>MenuDragMouseListener</code> to the menu item.
+     * Adds b <code>MenuDrbgMouseListener</code> to the menu item.
      *
-     * @param l the <code>MenuDragMouseListener</code> to be added
+     * @pbrbm l the <code>MenuDrbgMouseListener</code> to be bdded
      */
-    public void addMenuDragMouseListener(MenuDragMouseListener l) {
-        listenerList.add(MenuDragMouseListener.class, l);
+    public void bddMenuDrbgMouseListener(MenuDrbgMouseListener l) {
+        listenerList.bdd(MenuDrbgMouseListener.clbss, l);
     }
 
     /**
-     * Removes a <code>MenuDragMouseListener</code> from the menu item.
+     * Removes b <code>MenuDrbgMouseListener</code> from the menu item.
      *
-     * @param l the <code>MenuDragMouseListener</code> to be removed
+     * @pbrbm l the <code>MenuDrbgMouseListener</code> to be removed
      */
-    public void removeMenuDragMouseListener(MenuDragMouseListener l) {
-        listenerList.remove(MenuDragMouseListener.class, l);
+    public void removeMenuDrbgMouseListener(MenuDrbgMouseListener l) {
+        listenerList.remove(MenuDrbgMouseListener.clbss, l);
     }
 
     /**
-     * Returns an array of all the <code>MenuDragMouseListener</code>s added
-     * to this JMenuItem with addMenuDragMouseListener().
+     * Returns bn brrby of bll the <code>MenuDrbgMouseListener</code>s bdded
+     * to this JMenuItem with bddMenuDrbgMouseListener().
      *
-     * @return all of the <code>MenuDragMouseListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>MenuDrbgMouseListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public MenuDragMouseListener[] getMenuDragMouseListeners() {
-        return listenerList.getListeners(MenuDragMouseListener.class);
+    public MenuDrbgMouseListener[] getMenuDrbgMouseListeners() {
+        return listenerList.getListeners(MenuDrbgMouseListener.clbss);
     }
 
     /**
-     * Adds a <code>MenuKeyListener</code> to the menu item.
+     * Adds b <code>MenuKeyListener</code> to the menu item.
      *
-     * @param l the <code>MenuKeyListener</code> to be added
+     * @pbrbm l the <code>MenuKeyListener</code> to be bdded
      */
-    public void addMenuKeyListener(MenuKeyListener l) {
-        listenerList.add(MenuKeyListener.class, l);
+    public void bddMenuKeyListener(MenuKeyListener l) {
+        listenerList.bdd(MenuKeyListener.clbss, l);
     }
 
     /**
-     * Removes a <code>MenuKeyListener</code> from the menu item.
+     * Removes b <code>MenuKeyListener</code> from the menu item.
      *
-     * @param l the <code>MenuKeyListener</code> to be removed
+     * @pbrbm l the <code>MenuKeyListener</code> to be removed
      */
     public void removeMenuKeyListener(MenuKeyListener l) {
-        listenerList.remove(MenuKeyListener.class, l);
+        listenerList.remove(MenuKeyListener.clbss, l);
     }
 
     /**
-     * Returns an array of all the <code>MenuKeyListener</code>s added
-     * to this JMenuItem with addMenuKeyListener().
+     * Returns bn brrby of bll the <code>MenuKeyListener</code>s bdded
+     * to this JMenuItem with bddMenuKeyListener().
      *
-     * @return all of the <code>MenuKeyListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>MenuKeyListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
     public MenuKeyListener[] getMenuKeyListeners() {
-        return listenerList.getListeners(MenuKeyListener.class);
+        return listenerList.getListeners(MenuKeyListener.clbss);
     }
 
     /**
-     * See JComponent.readObject() for information about serialization
+     * See JComponent.rebdObject() for informbtion bbout seriblizbtion
      * in Swing.
      */
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException
     {
-        s.defaultReadObject();
-        if (getUIClassID().equals(uiClassID)) {
-            updateUI();
+        s.defbultRebdObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
+            updbteUI();
         }
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JMenuItem</code>.
+     * Returns b string representbtion of this <code>JMenuItem</code>.
      * This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * bnd the content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JMenuItem</code>
+     * @return  b string representbtion of this <code>JMenuItem</code>
      */
-    protected String paramString() {
-        return super.paramString();
+    protected String pbrbmString() {
+        return super.pbrbmString();
     }
 
 /////////////////
@@ -799,152 +799,152 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
 ////////////////
 
     /**
-     * Returns the <code>AccessibleContext</code> associated with this
+     * Returns the <code>AccessibleContext</code> bssocibted with this
      * <code>JMenuItem</code>. For <code>JMenuItem</code>s,
-     * the <code>AccessibleContext</code> takes the form of an
+     * the <code>AccessibleContext</code> tbkes the form of bn
      * <code>AccessibleJMenuItem</code>.
-     * A new AccessibleJMenuItme instance is created if necessary.
+     * A new AccessibleJMenuItme instbnce is crebted if necessbry.
      *
-     * @return an <code>AccessibleJMenuItem</code> that serves as the
+     * @return bn <code>AccessibleJMenuItem</code> thbt serves bs the
      *         <code>AccessibleContext</code> of this <code>JMenuItem</code>
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJMenuItem();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJMenuItem();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
 
     /**
-     * This class implements accessibility support for the
-     * <code>JMenuItem</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to menu item user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JMenuItem</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to menu item user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJMenuItem extends AccessibleAbstractButton implements ChangeListener {
+    @SuppressWbrnings("seribl")
+    protected clbss AccessibleJMenuItem extends AccessibleAbstrbctButton implements ChbngeListener {
 
-        private boolean isArmed = false;
-        private boolean hasFocus = false;
-        private boolean isPressed = false;
-        private boolean isSelected = false;
+        privbte boolebn isArmed = fblse;
+        privbte boolebn hbsFocus = fblse;
+        privbte boolebn isPressed = fblse;
+        privbte boolebn isSelected = fblse;
 
         AccessibleJMenuItem() {
             super();
-            JMenuItem.this.addChangeListener(this);
+            JMenuItem.this.bddChbngeListener(this);
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          */
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.MENU_ITEM;
         }
 
-        private void fireAccessibilityFocusedEvent(JMenuItem toCheck) {
-            MenuElement [] path =
-                MenuSelectionManager.defaultManager().getSelectedPath();
-            if (path.length > 0) {
-                Object menuItem = path[path.length - 1];
+        privbte void fireAccessibilityFocusedEvent(JMenuItem toCheck) {
+            MenuElement [] pbth =
+                MenuSelectionMbnbger.defbultMbnbger().getSelectedPbth();
+            if (pbth.length > 0) {
+                Object menuItem = pbth[pbth.length - 1];
                 if (toCheck == menuItem) {
-                    firePropertyChange(
+                    firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        null, AccessibleState.FOCUSED);
+                        null, AccessibleStbte.FOCUSED);
                 }
             }
         }
 
         /**
-         * Supports the change listener interface and fires property changes.
+         * Supports the chbnge listener interfbce bnd fires property chbnges.
          */
-        public void stateChanged(ChangeEvent e) {
-            firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                               Boolean.valueOf(false), Boolean.valueOf(true));
+        public void stbteChbnged(ChbngeEvent e) {
+            firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                               Boolebn.vblueOf(fblse), Boolebn.vblueOf(true));
             if (JMenuItem.this.getModel().isArmed()) {
                 if (!isArmed) {
                     isArmed = true;
-                    firePropertyChange(
+                    firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        null, AccessibleState.ARMED);
-                    // Fix for 4848220 moved here to avoid major memory leak
-                    // Here we will fire the event in case of JMenuItem
-                    // See bug 4910323 for details [zav]
+                        null, AccessibleStbte.ARMED);
+                    // Fix for 4848220 moved here to bvoid mbjor memory lebk
+                    // Here we will fire the event in cbse of JMenuItem
+                    // See bug 4910323 for detbils [zbv]
                     fireAccessibilityFocusedEvent(JMenuItem.this);
                 }
             } else {
                 if (isArmed) {
-                    isArmed = false;
-                    firePropertyChange(
+                    isArmed = fblse;
+                    firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        AccessibleState.ARMED, null);
+                        AccessibleStbte.ARMED, null);
                 }
             }
             if (JMenuItem.this.isFocusOwner()) {
-                if (!hasFocus) {
-                    hasFocus = true;
-                    firePropertyChange(
+                if (!hbsFocus) {
+                    hbsFocus = true;
+                    firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        null, AccessibleState.FOCUSED);
+                        null, AccessibleStbte.FOCUSED);
                 }
             } else {
-                if (hasFocus) {
-                    hasFocus = false;
-                    firePropertyChange(
+                if (hbsFocus) {
+                    hbsFocus = fblse;
+                    firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        AccessibleState.FOCUSED, null);
+                        AccessibleStbte.FOCUSED, null);
                 }
             }
             if (JMenuItem.this.getModel().isPressed()) {
                 if (!isPressed) {
                     isPressed = true;
-                    firePropertyChange(
+                    firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        null, AccessibleState.PRESSED);
+                        null, AccessibleStbte.PRESSED);
                 }
             } else {
                 if (isPressed) {
-                    isPressed = false;
-                    firePropertyChange(
+                    isPressed = fblse;
+                    firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        AccessibleState.PRESSED, null);
+                        AccessibleStbte.PRESSED, null);
                 }
             }
             if (JMenuItem.this.getModel().isSelected()) {
                 if (!isSelected) {
                     isSelected = true;
-                    firePropertyChange(
+                    firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        null, AccessibleState.CHECKED);
+                        null, AccessibleStbte.CHECKED);
 
-                    // Fix for 4848220 moved here to avoid major memory leak
-                    // Here we will fire the event in case of JMenu
-                    // See bug 4910323 for details [zav]
+                    // Fix for 4848220 moved here to bvoid mbjor memory lebk
+                    // Here we will fire the event in cbse of JMenu
+                    // See bug 4910323 for detbils [zbv]
                     fireAccessibilityFocusedEvent(JMenuItem.this);
                 }
             } else {
                 if (isSelected) {
-                    isSelected = false;
-                    firePropertyChange(
+                    isSelected = fblse;
+                    firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        AccessibleState.CHECKED, null);
+                        AccessibleStbte.CHECKED, null);
                 }
             }
 
         }
-    } // inner class AccessibleJMenuItem
+    } // inner clbss AccessibleJMenuItem
 
 
 }

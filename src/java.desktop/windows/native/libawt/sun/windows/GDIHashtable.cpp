@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "GDIHashtable.h"
-#include "awt_GDIObject.h"
+#include "GDIHbshtbble.h"
+#include "bwt_GDIObject.h"
 
-GDIHashtable::BatchDestructionManager GDIHashtable::manager;
+GDIHbshtbble::BbtchDestructionMbnbger GDIHbshtbble::mbnbger;
 
 /*
- * The order of monitor entrance is BatchDestructionManager->List->Hashtable.
- * GDIHashtable::put() and GDIHashtable::release() are designed to be called
- * only when we are synchronized on the BatchDestructionManager lock.
+ * The order of monitor entrbnce is BbtchDestructionMbnbger->List->Hbshtbble.
+ * GDIHbshtbble::put() bnd GDIHbshtbble::relebse() bre designed to be cblled
+ * only when we bre synchronized on the BbtchDestructionMbnbger lock.
  */
 
-void* GDIHashtable::put(void* key, void* value) {
-    manager.decrementCounter();
-    return Hashtable::put(key, value);
+void* GDIHbshtbble::put(void* key, void* vblue) {
+    mbnbger.decrementCounter();
+    return Hbshtbble::put(key, vblue);
 }
 
-void GDIHashtable::release(void* key) {
-    if (!manager.isBatchingEnabled()) {
-        void* value = remove(key);
-        DASSERT(value != NULL);
-        m_deleteProc(value);
+void GDIHbshtbble::relebse(void* key) {
+    if (!mbnbger.isBbtchingEnbbled()) {
+        void* vblue = remove(key);
+        DASSERT(vblue != NULL);
+        m_deleteProc(vblue);
     }
 }
 
-void GDIHashtable::flush() {
+void GDIHbshtbble::flush() {
 
-    CriticalSection::Lock l(lock);
+    CriticblSection::Lock l(lock);
 
-    for (int i = capacity; i-- > 0;) {
-        HashtableEntry* prev = NULL;
-        for (HashtableEntry* e = table[i] ; e != NULL ; ) {
-            AwtGDIObject* pGDIObject = (AwtGDIObject*)e->value;
+    for (int i = cbpbcity; i-- > 0;) {
+        HbshtbbleEntry* prev = NULL;
+        for (HbshtbbleEntry* e = tbble[i] ; e != NULL ; ) {
+            AwtGDIObject* pGDIObject = (AwtGDIObject*)e->vblue;
             if (pGDIObject->GetRefCount() <= 0) {
                 if (prev != NULL) {
                     prev->next = e->next;
                 } else {
-                    table[i] = e->next;
+                    tbble[i] = e->next;
                 }
                 count--;
-                HashtableEntry* next = e->next;
+                HbshtbbleEntry* next = e->next;
                 if (m_deleteProc) {
-                    (*m_deleteProc)(e->value);
+                    (*m_deleteProc)(e->vblue);
                 }
                 delete e;
                 e = next;
@@ -76,36 +76,36 @@ void GDIHashtable::flush() {
     }
 }
 
-void GDIHashtable::List::flushAll() {
+void GDIHbshtbble::List::flushAll() {
 
-    CriticalSection::Lock l(m_listLock);
+    CriticblSection::Lock l(m_listLock);
 
-    for (ListEntry* e = m_pHead; e != NULL; e = e->next) {
-        e->table->flush();
+    for (ListEntry* e = m_pHebd; e != NULL; e = e->next) {
+        e->tbble->flush();
     }
 }
 
-void GDIHashtable::List::add(GDIHashtable* table) {
+void GDIHbshtbble::List::bdd(GDIHbshtbble* tbble) {
 
-    CriticalSection::Lock l(m_listLock);
+    CriticblSection::Lock l(m_listLock);
 
     ListEntry* e = new ListEntry;
-    e->table = table;
-    e->next = m_pHead;
-    m_pHead = e;
+    e->tbble = tbble;
+    e->next = m_pHebd;
+    m_pHebd = e;
 }
 
-void GDIHashtable::List::remove(GDIHashtable* table) {
+void GDIHbshtbble::List::remove(GDIHbshtbble* tbble) {
 
-    CriticalSection::Lock l(m_listLock);
+    CriticblSection::Lock l(m_listLock);
 
     ListEntry* prev = NULL;
-    for (ListEntry* e = m_pHead; e != NULL; prev = e, e = e->next) {
-        if (e->table == table) {
+    for (ListEntry* e = m_pHebd; e != NULL; prev = e, e = e->next) {
+        if (e->tbble == tbble) {
             if (prev != NULL) {
                 prev->next = e->next;
             } else {
-                m_pHead = e->next;
+                m_pHebd = e->next;
             }
             delete e;
             return;
@@ -113,12 +113,12 @@ void GDIHashtable::List::remove(GDIHashtable* table) {
     }
 }
 
-void GDIHashtable::List::clear() {
+void GDIHbshtbble::List::clebr() {
 
-    CriticalSection::Lock l(m_listLock);
+    CriticblSection::Lock l(m_listLock);
 
-    ListEntry* e = m_pHead;
-    m_pHead = NULL;
+    ListEntry* e = m_pHebd;
+    m_pHebd = NULL;
     while (e != NULL) {
         ListEntry* next = e->next;
         delete e;
@@ -126,13 +126,13 @@ void GDIHashtable::List::clear() {
     }
 }
 
-GDIHashtable::BatchDestructionManager::BatchDestructionManager(UINT nFirstThreshold,
+GDIHbshtbble::BbtchDestructionMbnbger::BbtchDestructionMbnbger(UINT nFirstThreshold,
                                                                UINT nSecondThreshold,
                                                                UINT nDestroyPeriod) :
   m_nFirstThreshold(nFirstThreshold),
   m_nSecondThreshold(nSecondThreshold),
   m_nDestroyPeriod(nDestroyPeriod),
   m_nCounter(0),
-  m_bBatchingEnabled(TRUE)
+  m_bBbtchingEnbbled(TRUE)
 {
 }

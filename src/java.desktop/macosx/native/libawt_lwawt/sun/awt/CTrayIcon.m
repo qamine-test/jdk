@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #import <AppKit/AppKit.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 #import "jni_util.h"
 
-#import "CTrayIcon.h"
-#import "ThreadUtilities.h"
+#import "CTrbyIcon.h"
+#import "ThrebdUtilities.h"
 #include "GeomUtilities.h"
 #import "LWCToolkit.h"
 
-#define kImageInset 4.0
+#define kImbgeInset 4.0
 
 /**
- * If the image of the specified size won't fit into the status bar,
- * then scale it down proprtionally. Otherwise, leave it as is.
+ * If the imbge of the specified size won't fit into the stbtus bbr,
+ * then scble it down proprtionblly. Otherwise, lebve it bs is.
  */
-static NSSize ScaledImageSizeForStatusBar(NSSize imageSize) {
-    NSRect imageRect = NSMakeRect(0.0, 0.0, imageSize.width, imageSize.height);
+stbtic NSSize ScbledImbgeSizeForStbtusBbr(NSSize imbgeSize) {
+    NSRect imbgeRect = NSMbkeRect(0.0, 0.0, imbgeSize.width, imbgeSize.height);
 
-    // There is a black line at the bottom of the status bar
-    // that we don't want to cover with image pixels.
-    CGFloat desiredHeight = [[NSStatusBar systemStatusBar] thickness] - 1.0;
-    CGFloat scaleFactor = MIN(1.0, desiredHeight/imageSize.height);
+    // There is b blbck line bt the bottom of the stbtus bbr
+    // thbt we don't wbnt to cover with imbge pixels.
+    CGFlobt desiredHeight = [[NSStbtusBbr systemStbtusBbr] thickness] - 1.0;
+    CGFlobt scbleFbctor = MIN(1.0, desiredHeight/imbgeSize.height);
 
-    imageRect.size.width *= scaleFactor;
-    imageRect.size.height *= scaleFactor;
-    imageRect = NSIntegralRect(imageRect);
+    imbgeRect.size.width *= scbleFbctor;
+    imbgeRect.size.height *= scbleFbctor;
+    imbgeRect = NSIntegrblRect(imbgeRect);
 
-    return imageRect.size;
+    return imbgeRect.size;
 }
 
-@implementation AWTTrayIcon
+@implementbtion AWTTrbyIcon
 
 - (id) initWithPeer:(jobject)thePeer {
     if (!(self = [super init])) return nil;
 
     peer = thePeer;
 
-    theItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-    [theItem retain];
+    theItem = [[NSStbtusBbr systemStbtusBbr] stbtusItemWithLength:NSVbribbleStbtusItemLength];
+    [theItem retbin];
 
-    view = [[AWTTrayIconView alloc] initWithTrayIcon:self];
+    view = [[AWTTrbyIconView blloc] initWithTrbyIcon:self];
     [theItem setView:view];
 
     return self;
 }
 
--(void) dealloc {
-    JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
-    JNFDeleteGlobalRef(env, peer);
+-(void) deblloc {
+    JNIEnv *env = [ThrebdUtilities getJNIEnvUncbched];
+    JNFDeleteGlobblRef(env, peer);
 
-    [[NSStatusBar systemStatusBar] removeStatusItem: theItem];
+    [[NSStbtusBbr systemStbtusBbr] removeStbtusItem: theItem];
 
-    // Its a bad idea to force the item to release our view by setting
-    // the item's view to nil: it can lead to a crash in some scenarios.
-    // The item will release the view later on, so just set the view's image
-    // and tray icon to nil since we are done with it.
-    [view setImage: nil];
-    [view setTrayIcon: nil];
-    [view release];
+    // Its b bbd ideb to force the item to relebse our view by setting
+    // the item's view to nil: it cbn lebd to b crbsh in some scenbrios.
+    // The item will relebse the view lbter on, so just set the view's imbge
+    // bnd trby icon to nil since we bre done with it.
+    [view setImbge: nil];
+    [view setTrbyIcon: nil];
+    [view relebse];
 
-    [theItem release];
+    [theItem relebse];
 
-    [super dealloc];
+    [super deblloc];
 }
 
 - (void) setTooltip:(NSString *) tooltip{
     [view setToolTip:tooltip];
 }
 
--(NSStatusItem *) theItem{
+-(NSStbtusItem *) theItem{
     return theItem;
 }
 
@@ -100,101 +100,101 @@ static NSSize ScaledImageSizeForStatusBar(NSSize imageSize) {
     return peer;
 }
 
-- (void) setImage:(NSImage *) imagePtr sizing:(BOOL)autosize{
-    NSSize imageSize = [imagePtr size];
-    NSSize scaledSize = ScaledImageSizeForStatusBar(imageSize);
-    if (imageSize.width != scaledSize.width ||
-        imageSize.height != scaledSize.height) {
-        [imagePtr setSize: scaledSize];
+- (void) setImbge:(NSImbge *) imbgePtr sizing:(BOOL)butosize{
+    NSSize imbgeSize = [imbgePtr size];
+    NSSize scbledSize = ScbledImbgeSizeForStbtusBbr(imbgeSize);
+    if (imbgeSize.width != scbledSize.width ||
+        imbgeSize.height != scbledSize.height) {
+        [imbgePtr setSize: scbledSize];
     }
 
-    CGFloat itemLength = scaledSize.width + 2.0*kImageInset;
+    CGFlobt itemLength = scbledSize.width + 2.0*kImbgeInset;
     [theItem setLength:itemLength];
 
-    [view setImage:imagePtr];
+    [view setImbge:imbgePtr];
 }
 
-- (NSPoint) getLocationOnScreen {
-    return [[view window] convertBaseToScreen: NSZeroPoint];
+- (NSPoint) getLocbtionOnScreen {
+    return [[view window] convertBbseToScreen: NSZeroPoint];
 }
 
--(void) deliverJavaMouseEvent: (NSEvent *) event {
+-(void) deliverJbvbMouseEvent: (NSEvent *) event {
     [AWTToolkit eventCountPlusPlus];
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
 
-    NSPoint eventLocation = [event locationInWindow];
-    NSPoint localPoint = [view convertPoint: eventLocation fromView: nil];
-    localPoint.y = [view bounds].size.height - localPoint.y;
+    NSPoint eventLocbtion = [event locbtionInWindow];
+    NSPoint locblPoint = [view convertPoint: eventLocbtion fromView: nil];
+    locblPoint.y = [view bounds].size.height - locblPoint.y;
 
-    NSPoint absP = [NSEvent mouseLocation];
+    NSPoint bbsP = [NSEvent mouseLocbtion];
     NSEventType type = [event type];
 
-    NSRect screenRect = [[NSScreen mainScreen] frame];
-    absP.y = screenRect.size.height - absP.y;
+    NSRect screenRect = [[NSScreen mbinScreen] frbme];
+    bbsP.y = screenRect.size.height - bbsP.y;
     jint clickCount;
 
     clickCount = [event clickCount];
 
-    static JNF_CLASS_CACHE(jc_NSEvent, "sun/lwawt/macosx/NSEvent");
-    static JNF_CTOR_CACHE(jctor_NSEvent, jc_NSEvent, "(IIIIIIIIDD)V");
+    stbtic JNF_CLASS_CACHE(jc_NSEvent, "sun/lwbwt/mbcosx/NSEvent");
+    stbtic JNF_CTOR_CACHE(jctor_NSEvent, jc_NSEvent, "(IIIIIIIIDD)V");
     jobject jEvent = JNFNewObject(env, jctor_NSEvent,
                                   [event type],
-                                  [event modifierFlags],
+                                  [event modifierFlbgs],
                                   clickCount,
                                   [event buttonNumber],
-                                  (jint)localPoint.x, (jint)localPoint.y,
-                                  (jint)absP.x, (jint)absP.y,
-                                  [event deltaY],
-                                  [event deltaX]);
+                                  (jint)locblPoint.x, (jint)locblPoint.y,
+                                  (jint)bbsP.x, (jint)bbsP.y,
+                                  [event deltbY],
+                                  [event deltbX]);
     CHECK_NULL(jEvent);
 
-    static JNF_CLASS_CACHE(jc_TrayIcon, "sun/lwawt/macosx/CTrayIcon");
-    static JNF_MEMBER_CACHE(jm_handleMouseEvent, jc_TrayIcon, "handleMouseEvent", "(Lsun/lwawt/macosx/NSEvent;)V");
-    JNFCallVoidMethod(env, peer, jm_handleMouseEvent, jEvent);
-    (*env)->DeleteLocalRef(env, jEvent);
+    stbtic JNF_CLASS_CACHE(jc_TrbyIcon, "sun/lwbwt/mbcosx/CTrbyIcon");
+    stbtic JNF_MEMBER_CACHE(jm_hbndleMouseEvent, jc_TrbyIcon, "hbndleMouseEvent", "(Lsun/lwbwt/mbcosx/NSEvent;)V");
+    JNFCbllVoidMethod(env, peer, jm_hbndleMouseEvent, jEvent);
+    (*env)->DeleteLocblRef(env, jEvent);
 }
 
-@end //AWTTrayIcon
+@end //AWTTrbyIcon
 //================================================
 
-@implementation AWTTrayIconView
+@implementbtion AWTTrbyIconView
 
--(id)initWithTrayIcon:(AWTTrayIcon *)theTrayIcon {
-    self = [super initWithFrame:NSMakeRect(0, 0, 1, 1)];
+-(id)initWithTrbyIcon:(AWTTrbyIcon *)theTrbyIcon {
+    self = [super initWithFrbme:NSMbkeRect(0, 0, 1, 1)];
 
-    [self setTrayIcon: theTrayIcon];
+    [self setTrbyIcon: theTrbyIcon];
     isHighlighted = NO;
-    image = nil;
+    imbge = nil;
 
     return self;
 }
 
--(void) dealloc {
-    [image release];
-    [super dealloc];
+-(void) deblloc {
+    [imbge relebse];
+    [super deblloc];
 }
 
-- (void)setHighlighted:(BOOL)aFlag
+- (void)setHighlighted:(BOOL)bFlbg
 {
-    if (isHighlighted != aFlag) {
-        isHighlighted = aFlag;
-        [self setNeedsDisplay:YES];
+    if (isHighlighted != bFlbg) {
+        isHighlighted = bFlbg;
+        [self setNeedsDisplby:YES];
     }
 }
 
-- (void)setImage:(NSImage*)anImage {
-    [anImage retain];
-    [image release];
-    image = anImage;
+- (void)setImbge:(NSImbge*)bnImbge {
+    [bnImbge retbin];
+    [imbge relebse];
+    imbge = bnImbge;
 
-    if (image != nil) {
-        [self setNeedsDisplay:YES];
+    if (imbge != nil) {
+        [self setNeedsDisplby:YES];
     }
 }
 
--(void)setTrayIcon:(AWTTrayIcon*)theTrayIcon {
-    trayIcon = theTrayIcon;
+-(void)setTrbyIcon:(AWTTrbyIcon*)theTrbyIcon {
+    trbyIcon = theTrbyIcon;
 }
 
 - (void)menuWillOpen:(NSMenu *)menu
@@ -204,138 +204,138 @@ static NSSize ScaledImageSizeForStatusBar(NSSize imageSize) {
 
 - (void)menuDidClose:(NSMenu *)menu
 {
-    [menu setDelegate:nil];
+    [menu setDelegbte:nil];
     [self setHighlighted:NO];
 }
 
-- (void)drawRect:(NSRect)dirtyRect
+- (void)drbwRect:(NSRect)dirtyRect
 {
-    if (image == nil) {
+    if (imbge == nil) {
         return;
     }
 
     NSRect bounds = [self bounds];
-    NSSize imageSize = [image size];
+    NSSize imbgeSize = [imbge size];
 
-    NSRect drawRect = {{ (bounds.size.width - imageSize.width) / 2.0,
-        (bounds.size.height - imageSize.height) / 2.0 }, imageSize};
+    NSRect drbwRect = {{ (bounds.size.width - imbgeSize.width) / 2.0,
+        (bounds.size.height - imbgeSize.height) / 2.0 }, imbgeSize};
 
-    // don't cover bottom pixels of the status bar with the image
-    if (drawRect.origin.y < 1.0) {
-        drawRect.origin.y = 1.0;
+    // don't cover bottom pixels of the stbtus bbr with the imbge
+    if (drbwRect.origin.y < 1.0) {
+        drbwRect.origin.y = 1.0;
     }
-    drawRect = NSIntegralRect(drawRect);
+    drbwRect = NSIntegrblRect(drbwRect);
 
-    [trayIcon.theItem drawStatusBarBackgroundInRect:bounds
+    [trbyIcon.theItem drbwStbtusBbrBbckgroundInRect:bounds
                                 withHighlight:isHighlighted];
-    [image drawInRect:drawRect
+    [imbge drbwInRect:drbwRect
              fromRect:NSZeroRect
-            operation:NSCompositeSourceOver
-             fraction:1.0
+            operbtion:NSCompositeSourceOver
+             frbction:1.0
      ];
 }
 
 - (void)mouseDown:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+    [trbyIcon deliverJbvbMouseEvent: event];
 
     // don't show the menu on ctrl+click: it triggers ACTION event, like right click
-    if (([event modifierFlags] & NSControlKeyMask) == 0) {
-        //find CTrayIcon.getPopupMenuModel method and call it to get popup menu ptr.
-        JNIEnv *env = [ThreadUtilities getJNIEnv];
-        static JNF_CLASS_CACHE(jc_CTrayIcon, "sun/lwawt/macosx/CTrayIcon");
-        static JNF_MEMBER_CACHE(jm_getPopupMenuModel, jc_CTrayIcon, "getPopupMenuModel", "()J");
-        jlong res = JNFCallLongMethod(env, trayIcon.peer, jm_getPopupMenuModel);
+    if (([event modifierFlbgs] & NSControlKeyMbsk) == 0) {
+        //find CTrbyIcon.getPopupMenuModel method bnd cbll it to get popup menu ptr.
+        JNIEnv *env = [ThrebdUtilities getJNIEnv];
+        stbtic JNF_CLASS_CACHE(jc_CTrbyIcon, "sun/lwbwt/mbcosx/CTrbyIcon");
+        stbtic JNF_MEMBER_CACHE(jm_getPopupMenuModel, jc_CTrbyIcon, "getPopupMenuModel", "()J");
+        jlong res = JNFCbllLongMethod(env, trbyIcon.peer, jm_getPopupMenuModel);
 
         if (res != 0) {
             CPopupMenu *cmenu = jlong_to_ptr(res);
             NSMenu* menu = [cmenu menu];
-            [menu setDelegate:self];
-            [trayIcon.theItem popUpStatusItemMenu:menu];
-            [self setNeedsDisplay:YES];
+            [menu setDelegbte:self];
+            [trbyIcon.theItem popUpStbtusItemMenu:menu];
+            [self setNeedsDisplby:YES];
         }
     }
 }
 
 - (void) mouseUp:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+    [trbyIcon deliverJbvbMouseEvent: event];
 }
 
-- (void) mouseDragged:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+- (void) mouseDrbgged:(NSEvent *)event {
+    [trbyIcon deliverJbvbMouseEvent: event];
 }
 
 - (void) rightMouseDown:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+    [trbyIcon deliverJbvbMouseEvent: event];
 }
 
 - (void) rightMouseUp:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+    [trbyIcon deliverJbvbMouseEvent: event];
 }
 
-- (void) rightMouseDragged:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+- (void) rightMouseDrbgged:(NSEvent *)event {
+    [trbyIcon deliverJbvbMouseEvent: event];
 }
 
 - (void) otherMouseDown:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+    [trbyIcon deliverJbvbMouseEvent: event];
 }
 
 - (void) otherMouseUp:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+    [trbyIcon deliverJbvbMouseEvent: event];
 }
 
-- (void) otherMouseDragged:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+- (void) otherMouseDrbgged:(NSEvent *)event {
+    [trbyIcon deliverJbvbMouseEvent: event];
 }
 
 
-@end //AWTTrayIconView
+@end //AWTTrbyIconView
 //================================================
 
 /*
- * Class:     sun_lwawt_macosx_CTrayIcon
- * Method:    nativeCreate
- * Signature: ()J
+ * Clbss:     sun_lwbwt_mbcosx_CTrbyIcon
+ * Method:    nbtiveCrebte
+ * Signbture: ()J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CTrayIcon_nativeCreate
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbcosx_CTrbyIcon_nbtiveCrebte
 (JNIEnv *env, jobject peer) {
-    __block AWTTrayIcon *trayIcon = nil;
+    __block AWTTrbyIcon *trbyIcon = nil;
 
 JNF_COCOA_ENTER(env);
 
-    jobject thePeer = JNFNewGlobalRef(env, peer);
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        trayIcon = [[AWTTrayIcon alloc] initWithPeer:thePeer];
+    jobject thePeer = JNFNewGlobblRef(env, peer);
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+        trbyIcon = [[AWTTrbyIcon blloc] initWithPeer:thePeer];
     }];
 
 JNF_COCOA_EXIT(env);
 
-    return ptr_to_jlong(trayIcon);
+    return ptr_to_jlong(trbyIcon);
 }
 
 
 /*
- * Class: java_awt_TrayIcon
+ * Clbss: jbvb_bwt_TrbyIcon
  * Method: initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_java_awt_TrayIcon_initIDs
-(JNIEnv *env, jclass cls) {
+JNIEXPORT void JNICALL Jbvb_jbvb_bwt_TrbyIcon_initIDs
+(JNIEnv *env, jclbss cls) {
     //Do nothing.
 }
 
 /*
- * Class:     sun_lwawt_macosx_CTrayIcon
- * Method:    nativeSetToolTip
- * Signature: (JLjava/lang/String;)V
+ * Clbss:     sun_lwbwt_mbcosx_CTrbyIcon
+ * Method:    nbtiveSetToolTip
+ * Signbture: (JLjbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CTrayIcon_nativeSetToolTip
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CTrbyIcon_nbtiveSetToolTip
 (JNIEnv *env, jobject self, jlong model, jstring jtooltip) {
 JNF_COCOA_ENTER(env);
 
-    AWTTrayIcon *icon = jlong_to_ptr(model);
-    NSString *tooltip = JNFJavaToNSString(env, jtooltip);
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
+    AWTTrbyIcon *icon = jlong_to_ptr(model);
+    NSString *tooltip = JNFJbvbToNSString(env, jtooltip);
+    [ThrebdUtilities performOnMbinThrebdWbiting:NO block:^(){
         [icon setTooltip:tooltip];
     }];
 
@@ -343,37 +343,37 @@ JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CTrayIcon
- * Method:    setNativeImage
- * Signature: (JJZ)V
+ * Clbss:     sun_lwbwt_mbcosx_CTrbyIcon
+ * Method:    setNbtiveImbge
+ * Signbture: (JJZ)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CTrayIcon_setNativeImage
-(JNIEnv *env, jobject self, jlong model, jlong imagePtr, jboolean autosize) {
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CTrbyIcon_setNbtiveImbge
+(JNIEnv *env, jobject self, jlong model, jlong imbgePtr, jboolebn butosize) {
 JNF_COCOA_ENTER(env);
 
-    AWTTrayIcon *icon = jlong_to_ptr(model);
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        [icon setImage:jlong_to_ptr(imagePtr) sizing:autosize];
+    AWTTrbyIcon *icon = jlong_to_ptr(model);
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+        [icon setImbge:jlong_to_ptr(imbgePtr) sizing:butosize];
     }];
 
 JNF_COCOA_EXIT(env);
 }
 
 JNIEXPORT jobject JNICALL
-Java_sun_lwawt_macosx_CTrayIcon_nativeGetIconLocation
+Jbvb_sun_lwbwt_mbcosx_CTrbyIcon_nbtiveGetIconLocbtion
 (JNIEnv *env, jobject self, jlong model) {
     jobject jpt = NULL;
 
 JNF_COCOA_ENTER(env);
 
     __block NSPoint pt = NSZeroPoint;
-    AWTTrayIcon *icon = jlong_to_ptr(model);
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        NSPoint loc = [icon getLocationOnScreen];
+    AWTTrbyIcon *icon = jlong_to_ptr(model);
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+        NSPoint loc = [icon getLocbtionOnScreen];
         pt = ConvertNSScreenPoint(env, loc);
     }];
 
-    jpt = NSToJavaPoint(env, pt);
+    jpt = NSToJbvbPoint(env, pt);
 
 JNF_COCOA_EXIT(env);
 

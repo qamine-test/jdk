@@ -1,112 +1,112 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * This class provides skeletal implementations of some {@link Queue}
- * operations. The implementations in this class are appropriate when
- * the base implementation does <em>not</em> allow <tt>null</tt>
- * elements.  Methods {@link #add add}, {@link #remove remove}, and
- * {@link #element element} are based on {@link #offer offer}, {@link
- * #poll poll}, and {@link #peek peek}, respectively, but throw
- * exceptions instead of indicating failure via <tt>false</tt> or
+ * This clbss provides skeletbl implementbtions of some {@link Queue}
+ * operbtions. The implementbtions in this clbss bre bppropribte when
+ * the bbse implementbtion does <em>not</em> bllow <tt>null</tt>
+ * elements.  Methods {@link #bdd bdd}, {@link #remove remove}, bnd
+ * {@link #element element} bre bbsed on {@link #offer offer}, {@link
+ * #poll poll}, bnd {@link #peek peek}, respectively, but throw
+ * exceptions instebd of indicbting fbilure vib <tt>fblse</tt> or
  * <tt>null</tt> returns.
  *
- * <p>A <tt>Queue</tt> implementation that extends this class must
- * minimally define a method {@link Queue#offer} which does not permit
- * insertion of <tt>null</tt> elements, along with methods {@link
- * Queue#peek}, {@link Queue#poll}, {@link Collection#size}, and
- * {@link Collection#iterator}.  Typically, additional methods will be
- * overridden as well.  If these requirements cannot be met, consider
- * instead subclassing {@link AbstractCollection}.
+ * <p>A <tt>Queue</tt> implementbtion thbt extends this clbss must
+ * minimblly define b method {@link Queue#offer} which does not permit
+ * insertion of <tt>null</tt> elements, blong with methods {@link
+ * Queue#peek}, {@link Queue#poll}, {@link Collection#size}, bnd
+ * {@link Collection#iterbtor}.  Typicblly, bdditionbl methods will be
+ * overridden bs well.  If these requirements cbnnot be met, consider
+ * instebd subclbssing {@link AbstrbctCollection}.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
  * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @buthor Doug Leb
+ * @pbrbm <E> the type of elements held in this collection
  */
-public abstract class AbstractQueue<E>
-    extends AbstractCollection<E>
+public bbstrbct clbss AbstrbctQueue<E>
+    extends AbstrbctCollection<E>
     implements Queue<E> {
 
     /**
-     * Constructor for use by subclasses.
+     * Constructor for use by subclbsses.
      */
-    protected AbstractQueue() {
+    protected AbstrbctQueue() {
     }
 
     /**
      * Inserts the specified element into this queue if it is possible to do so
-     * immediately without violating capacity restrictions, returning
-     * <tt>true</tt> upon success and throwing an <tt>IllegalStateException</tt>
-     * if no space is currently available.
+     * immedibtely without violbting cbpbcity restrictions, returning
+     * <tt>true</tt> upon success bnd throwing bn <tt>IllegblStbteException</tt>
+     * if no spbce is currently bvbilbble.
      *
-     * <p>This implementation returns <tt>true</tt> if <tt>offer</tt> succeeds,
-     * else throws an <tt>IllegalStateException</tt>.
+     * <p>This implementbtion returns <tt>true</tt> if <tt>offer</tt> succeeds,
+     * else throws bn <tt>IllegblStbteException</tt>.
      *
-     * @param e the element to add
-     * @return <tt>true</tt> (as specified by {@link Collection#add})
-     * @throws IllegalStateException if the element cannot be added at this
-     *         time due to capacity restrictions
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
-     * @throws NullPointerException if the specified element is null and
+     * @pbrbm e the element to bdd
+     * @return <tt>true</tt> (bs specified by {@link Collection#bdd})
+     * @throws IllegblStbteException if the element cbnnot be bdded bt this
+     *         time due to cbpbcity restrictions
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this queue
+     * @throws NullPointerException if the specified element is null bnd
      *         this queue does not permit null elements
-     * @throws IllegalArgumentException if some property of this element
-     *         prevents it from being added to this queue
+     * @throws IllegblArgumentException if some property of this element
+     *         prevents it from being bdded to this queue
      */
-    public boolean add(E e) {
+    public boolebn bdd(E e) {
         if (offer(e))
             return true;
         else
-            throw new IllegalStateException("Queue full");
+            throw new IllegblStbteException("Queue full");
     }
 
     /**
-     * Retrieves and removes the head of this queue.  This method differs
-     * from {@link #poll poll} only in that it throws an exception if this
+     * Retrieves bnd removes the hebd of this queue.  This method differs
+     * from {@link #poll poll} only in thbt it throws bn exception if this
      * queue is empty.
      *
-     * <p>This implementation returns the result of <tt>poll</tt>
+     * <p>This implementbtion returns the result of <tt>poll</tt>
      * unless the queue is empty.
      *
-     * @return the head of this queue
+     * @return the hebd of this queue
      * @throws NoSuchElementException if this queue is empty
      */
     public E remove() {
@@ -118,14 +118,14 @@ public abstract class AbstractQueue<E>
     }
 
     /**
-     * Retrieves, but does not remove, the head of this queue.  This method
-     * differs from {@link #peek peek} only in that it throws an exception if
+     * Retrieves, but does not remove, the hebd of this queue.  This method
+     * differs from {@link #peek peek} only in thbt it throws bn exception if
      * this queue is empty.
      *
-     * <p>This implementation returns the result of <tt>peek</tt>
+     * <p>This implementbtion returns the result of <tt>peek</tt>
      * unless the queue is empty.
      *
-     * @return the head of this queue
+     * @return the hebd of this queue
      * @throws NoSuchElementException if this queue is empty
      */
     public E element() {
@@ -137,54 +137,54 @@ public abstract class AbstractQueue<E>
     }
 
     /**
-     * Removes all of the elements from this queue.
-     * The queue will be empty after this call returns.
+     * Removes bll of the elements from this queue.
+     * The queue will be empty bfter this cbll returns.
      *
-     * <p>This implementation repeatedly invokes {@link #poll poll} until it
+     * <p>This implementbtion repebtedly invokes {@link #poll poll} until it
      * returns <tt>null</tt>.
      */
-    public void clear() {
+    public void clebr() {
         while (poll() != null)
             ;
     }
 
     /**
-     * Adds all of the elements in the specified collection to this
-     * queue.  Attempts to addAll of a queue to itself result in
-     * <tt>IllegalArgumentException</tt>. Further, the behavior of
-     * this operation is undefined if the specified collection is
-     * modified while the operation is in progress.
+     * Adds bll of the elements in the specified collection to this
+     * queue.  Attempts to bddAll of b queue to itself result in
+     * <tt>IllegblArgumentException</tt>. Further, the behbvior of
+     * this operbtion is undefined if the specified collection is
+     * modified while the operbtion is in progress.
      *
-     * <p>This implementation iterates over the specified collection,
-     * and adds each element returned by the iterator to this
+     * <p>This implementbtion iterbtes over the specified collection,
+     * bnd bdds ebch element returned by the iterbtor to this
      * queue, in turn.  A runtime exception encountered while
-     * trying to add an element (including, in particular, a
-     * <tt>null</tt> element) may result in only some of the elements
-     * having been successfully added when the associated exception is
+     * trying to bdd bn element (including, in pbrticulbr, b
+     * <tt>null</tt> element) mby result in only some of the elements
+     * hbving been successfully bdded when the bssocibted exception is
      * thrown.
      *
-     * @param c collection containing elements to be added to this queue
-     * @return <tt>true</tt> if this queue changed as a result of the call
-     * @throws ClassCastException if the class of an element of the specified
-     *         collection prevents it from being added to this queue
-     * @throws NullPointerException if the specified collection contains a
-     *         null element and this queue does not permit null elements,
+     * @pbrbm c collection contbining elements to be bdded to this queue
+     * @return <tt>true</tt> if this queue chbnged bs b result of the cbll
+     * @throws ClbssCbstException if the clbss of bn element of the specified
+     *         collection prevents it from being bdded to this queue
+     * @throws NullPointerException if the specified collection contbins b
+     *         null element bnd this queue does not permit null elements,
      *         or if the specified collection is null
-     * @throws IllegalArgumentException if some property of an element of the
-     *         specified collection prevents it from being added to this
+     * @throws IllegblArgumentException if some property of bn element of the
+     *         specified collection prevents it from being bdded to this
      *         queue, or if the specified collection is this queue
-     * @throws IllegalStateException if not all the elements can be added at
+     * @throws IllegblStbteException if not bll the elements cbn be bdded bt
      *         this time due to insertion restrictions
-     * @see #add(Object)
+     * @see #bdd(Object)
      */
-    public boolean addAll(Collection<? extends E> c) {
+    public boolebn bddAll(Collection<? extends E> c) {
         if (c == null)
             throw new NullPointerException();
         if (c == this)
-            throw new IllegalArgumentException();
-        boolean modified = false;
+            throw new IllegblArgumentException();
+        boolebn modified = fblse;
         for (E e : c)
-            if (add(e))
+            if (bdd(e))
                 modified = true;
         return modified;
     }

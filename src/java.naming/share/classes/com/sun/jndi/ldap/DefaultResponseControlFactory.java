@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.io.IOException;
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.ldap.*;
+import jbvb.io.IOException;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.ldbp.*;
 
 /**
- * This class represents a factory for creating LDAPv3 response controls.
- * The following response controls are supported:
+ * This clbss represents b fbctory for crebting LDAPv3 response controls.
+ * The following response controls bre supported:
  * <ul>
  * <li>
- * Paged results, as defined in
- * <a href="http://www.ietf.org/rfc/rfc2696.txt">RFC 2696</a>.
+ * Pbged results, bs defined in
+ * <b href="http://www.ietf.org/rfc/rfc2696.txt">RFC 2696</b>.
  * <li>
- * Server-side sorting, as defined in
- * <a href="http://www.ietf.org/rfc/rfc2891.txt">RFC 2891</a>.
+ * Server-side sorting, bs defined in
+ * <b href="http://www.ietf.org/rfc/rfc2891.txt">RFC 2891</b>.
  * <li>
- * Entry change response control, as defined in
- * <a href="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-psearch-02.txt">draft-ietf-ldapext-psearch-02.txt</a>.
+ * Entry chbnge response control, bs defined in
+ * <b href="http://www.ietf.org/internet-drbfts/drbft-ietf-ldbpext-psebrch-02.txt">drbft-ietf-ldbpext-psebrch-02.txt</b>.
  * </ul>
  *
- * @see javax.naming.ldap.SortResponseControl
- * @see javax.naming.ldap.PagedResultsResponseControl
- * @see PersistentSearchControl
- * @see EntryChangeResponseControl
- * @author Vincent Ryan
+ * @see jbvbx.nbming.ldbp.SortResponseControl
+ * @see jbvbx.nbming.ldbp.PbgedResultsResponseControl
+ * @see PersistentSebrchControl
+ * @see EntryChbngeResponseControl
+ * @buthor Vincent Rybn
  */
-public class DefaultResponseControlFactory extends ControlFactory {
+public clbss DefbultResponseControlFbctory extends ControlFbctory {
 
     /**
-     * Constructs a new instance of the response control factory.
+     * Constructs b new instbnce of the response control fbctory.
      */
-    public DefaultResponseControlFactory() {
+    public DefbultResponseControlFbctory() {
     }
 
     /**
-     * Creates an instance of a response control class from a more
-     * generic control class (BasicControl).
+     * Crebtes bn instbnce of b response control clbss from b more
+     * generic control clbss (BbsicControl).
      *
-     * @param ctl A non-null control.
-     * @return    The LDAP control created or null if it cannot be created.
-     *            Null indicates that another factory should be attempted.
-     * @exception NamingException if this control factory encountered an
-     *            error condition while attempting to create the LDAP control,
-     *            and no other control factories are to be tried.
+     * @pbrbm ctl A non-null control.
+     * @return    The LDAP control crebted or null if it cbnnot be crebted.
+     *            Null indicbtes thbt bnother fbctory should be bttempted.
+     * @exception NbmingException if this control fbctory encountered bn
+     *            error condition while bttempting to crebte the LDAP control,
+     *            bnd no other control fbctories bre to be tried.
      */
-    public Control getControlInstance(Control ctl)
-        throws NamingException {
+    public Control getControlInstbnce(Control ctl)
+        throws NbmingException {
 
         String id = ctl.getID();
 //System.out.println(id);
 
         try {
-            if (id.equals(SortResponseControl.OID)) {
-                return new SortResponseControl(id, ctl.isCritical(),
-                    ctl.getEncodedValue());
+            if (id.equbls(SortResponseControl.OID)) {
+                return new SortResponseControl(id, ctl.isCriticbl(),
+                    ctl.getEncodedVblue());
 
-            } else if (id.equals(PagedResultsResponseControl.OID)) {
-                return new PagedResultsResponseControl(id, ctl.isCritical(),
-                    ctl.getEncodedValue());
+            } else if (id.equbls(PbgedResultsResponseControl.OID)) {
+                return new PbgedResultsResponseControl(id, ctl.isCriticbl(),
+                    ctl.getEncodedVblue());
 
-            } else if (id.equals(EntryChangeResponseControl.OID)) {
-                return new EntryChangeResponseControl(id, ctl.isCritical(),
-                    ctl.getEncodedValue());
+            } else if (id.equbls(EntryChbngeResponseControl.OID)) {
+                return new EntryChbngeResponseControl(id, ctl.isCriticbl(),
+                    ctl.getEncodedVblue());
 
             }
-        } catch (IOException e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException ne = new NbmingException();
+            ne.setRootCbuse(e);
             throw ne;
         }
         return null;

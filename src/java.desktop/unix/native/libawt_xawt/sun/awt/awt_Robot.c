@@ -1,34 +1,34 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifdef HEADLESS
-    #error This file should not be included in headless library
+    #error This file should not be included in hebdless librbry
 #endif
 
-#include "awt_p.h"
-#include "awt_GraphicsEnv.h"
+#include "bwt_p.h"
+#include "bwt_GrbphicsEnv.h"
 #define XK_MISCELLANY
 #include <X11/keysymdef.h>
 #include <X11/Intrinsic.h>
@@ -39,9 +39,9 @@
 #include <X11/extensions/XInput.h>
 #include <X11/extensions/XI.h>
 #include <jni.h>
-#include <sizecalc.h>
+#include <sizecblc.h>
 #include "robot_common.h"
-#include "canvas.h"
+#include "cbnvbs.h"
 #include "wsutils.h"
 #include "list.h"
 #include "multiVis.h"
@@ -49,151 +49,151 @@
 #include <sys/socket.h>
 #endif
 
-extern struct X11GraphicsConfigIDs x11GraphicsConfigIDs;
+extern struct X11GrbphicsConfigIDs x11GrbphicsConfigIDs;
 
-static jint * masks;
-static jint num_buttons;
+stbtic jint * mbsks;
+stbtic jint num_buttons;
 
-static int32_t isXTestAvailable() {
-    int32_t major_opcode, first_event, first_error;
-    int32_t  event_basep, error_basep, majorp, minorp;
-    int32_t isXTestAvailable;
+stbtic int32_t isXTestAvbilbble() {
+    int32_t mbjor_opcode, first_event, first_error;
+    int32_t  event_bbsep, error_bbsep, mbjorp, minorp;
+    int32_t isXTestAvbilbble;
 
-    /* check if XTest is available */
-    isXTestAvailable = XQueryExtension(awt_display, XTestExtensionName, &major_opcode, &first_event, &first_error);
-    DTRACE_PRINTLN3("RobotPeer: XQueryExtension(XTEST) returns major_opcode = %d, first_event = %d, first_error = %d",
-                    major_opcode, first_event, first_error);
-    if (isXTestAvailable) {
+    /* check if XTest is bvbilbble */
+    isXTestAvbilbble = XQueryExtension(bwt_displby, XTestExtensionNbme, &mbjor_opcode, &first_event, &first_error);
+    DTRACE_PRINTLN3("RobotPeer: XQueryExtension(XTEST) returns mbjor_opcode = %d, first_event = %d, first_error = %d",
+                    mbjor_opcode, first_event, first_error);
+    if (isXTestAvbilbble) {
         /* check if XTest version is OK */
-        XTestQueryExtension(awt_display, &event_basep, &error_basep, &majorp, &minorp);
-        DTRACE_PRINTLN4("RobotPeer: XTestQueryExtension returns event_basep = %d, error_basep = %d, majorp = %d, minorp = %d",
-                        event_basep, error_basep, majorp, minorp);
-        if (majorp < 2 || (majorp == 2 && minorp < 2)) {
-            /* bad version*/
-            DTRACE_PRINTLN2("XRobotPeer: XTEST version is %d.%d \n", majorp, minorp);
-            if (majorp == 2 && minorp == 1) {
-                DTRACE_PRINTLN("XRobotPeer: XTEST is 2.1 - no grab is available\n");
+        XTestQueryExtension(bwt_displby, &event_bbsep, &error_bbsep, &mbjorp, &minorp);
+        DTRACE_PRINTLN4("RobotPeer: XTestQueryExtension returns event_bbsep = %d, error_bbsep = %d, mbjorp = %d, minorp = %d",
+                        event_bbsep, error_bbsep, mbjorp, minorp);
+        if (mbjorp < 2 || (mbjorp == 2 && minorp < 2)) {
+            /* bbd version*/
+            DTRACE_PRINTLN2("XRobotPeer: XTEST version is %d.%d \n", mbjorp, minorp);
+            if (mbjorp == 2 && minorp == 1) {
+                DTRACE_PRINTLN("XRobotPeer: XTEST is 2.1 - no grbb is bvbilbble\n");
             } else {
-                isXTestAvailable = False;
+                isXTestAvbilbble = Fblse;
             }
         } else {
-            /* allow XTest calls even if someone else has the grab; e.g. during
-             * a window resize operation. Works only with XTEST2.2*/
-            XTestGrabControl(awt_display, True);
+            /* bllow XTest cblls even if someone else hbs the grbb; e.g. during
+             * b window resize operbtion. Works only with XTEST2.2*/
+            XTestGrbbControl(bwt_displby, True);
         }
     } else {
-        DTRACE_PRINTLN("RobotPeer: XTEST extension is unavailable");
+        DTRACE_PRINTLN("RobotPeer: XTEST extension is unbvbilbble");
     }
 
-    return isXTestAvailable;
+    return isXTestAvbilbble;
 }
 
 
-static XImage *getWindowImage(Display * display, Window window,
+stbtic XImbge *getWindowImbge(Displby * displby, Window window,
                               int32_t x, int32_t y,
                               int32_t w, int32_t h) {
-    XImage         *image;
-    int32_t        transparentOverlays;
-    int32_t        numVisuals;
-    XVisualInfo    *pVisuals;
-    int32_t        numOverlayVisuals;
-    OverlayInfo    *pOverlayVisuals;
-    int32_t        numImageVisuals;
-    XVisualInfo    **pImageVisuals;
-    list_ptr       vis_regions;    /* list of regions to read from */
-    list_ptr       vis_image_regions ;
-    int32_t        allImage = 0 ;
-    int32_t        format = ZPixmap;
+    XImbge         *imbge;
+    int32_t        trbnspbrentOverlbys;
+    int32_t        numVisubls;
+    XVisublInfo    *pVisubls;
+    int32_t        numOverlbyVisubls;
+    OverlbyInfo    *pOverlbyVisubls;
+    int32_t        numImbgeVisubls;
+    XVisublInfo    **pImbgeVisubls;
+    list_ptr       vis_regions;    /* list of regions to rebd from */
+    list_ptr       vis_imbge_regions ;
+    int32_t        bllImbge = 0 ;
+    int32_t        formbt = ZPixmbp;
 
-    /* prevent user from moving stuff around during the capture */
-    XGrabServer(display);
+    /* prevent user from moving stuff bround during the cbpture */
+    XGrbbServer(displby);
 
     /*
-     * The following two functions live in multiVis.c-- they are pretty
-     * much verbatim taken from the source to the xwd utility from the
-     * X11 source. This version of the xwd source was somewhat better written
-     * for reuse compared to Sun's version.
+     * The following two functions live in multiVis.c-- they bre pretty
+     * much verbbtim tbken from the source to the xwd utility from the
+     * X11 source. This version of the xwd source wbs somewhbt better written
+     * for reuse compbred to Sun's version.
      *
-     *        ftp.x.org/pub/R6.3/xc/programs/xwd
+     *        ftp.x.org/pub/R6.3/xc/progrbms/xwd
      *
-     * We use these functions since they do the very tough job of capturing
-     * the screen correctly when it contains multiple visuals. They take into
-     * account the depth/colormap of each visual and produce a capture as a
-     * 24-bit RGB image so we don't have to fool around with colormaps etc.
+     * We use these functions since they do the very tough job of cbpturing
+     * the screen correctly when it contbins multiple visubls. They tbke into
+     * bccount the depth/colormbp of ebch visubl bnd produce b cbpture bs b
+     * 24-bit RGB imbge so we don't hbve to fool bround with colormbps etc.
      */
 
-    GetMultiVisualRegions(
-        display,
+    GetMultiVisublRegions(
+        displby,
         window,
         x, y, w, h,
-        &transparentOverlays,
-        &numVisuals,
-        &pVisuals,
-        &numOverlayVisuals,
-        &pOverlayVisuals,
-        &numImageVisuals,
-        &pImageVisuals,
+        &trbnspbrentOverlbys,
+        &numVisubls,
+        &pVisubls,
+        &numOverlbyVisubls,
+        &pOverlbyVisubls,
+        &numImbgeVisubls,
+        &pImbgeVisubls,
         &vis_regions,
-        &vis_image_regions,
-        &allImage );
+        &vis_imbge_regions,
+        &bllImbge );
 
-    image = ReadAreaToImage(
-        display,
+    imbge = RebdArebToImbge(
+        displby,
         window,
         x, y, w, h,
-        numVisuals,
-        pVisuals,
-        numOverlayVisuals,
-        pOverlayVisuals,
-        numImageVisuals,
-        pImageVisuals,
+        numVisubls,
+        pVisubls,
+        numOverlbyVisubls,
+        pOverlbyVisubls,
+        numImbgeVisubls,
+        pImbgeVisubls,
         vis_regions,
-        vis_image_regions,
-        format,
-        allImage );
+        vis_imbge_regions,
+        formbt,
+        bllImbge );
 
-    /* allow user to do stuff again */
-    XUngrabServer(display);
+    /* bllow user to do stuff bgbin */
+    XUngrbbServer(displby);
 
-    /* make sure the grab/ungrab is flushed */
-    XSync(display, False);
+    /* mbke sure the grbb/ungrbb is flushed */
+    XSync(displby, Fblse);
 
-    return image;
+    return imbge;
 }
 
 /*********************************************************************************************/
 
-// this should be called from XRobotPeer constructor
+// this should be cblled from XRobotPeer constructor
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XRobotPeer_setup (JNIEnv * env, jclass cls, jint numberOfButtons, jintArray buttonDownMasks)
+Jbvb_sun_bwt_X11_XRobotPeer_setup (JNIEnv * env, jclbss cls, jint numberOfButtons, jintArrby buttonDownMbsks)
 {
-    int32_t xtestAvailable;
+    int32_t xtestAvbilbble;
     jint *tmp;
     int i;
 
     DTRACE_PRINTLN("RobotPeer: setup()");
 
     num_buttons = numberOfButtons;
-    tmp = (*env)->GetIntArrayElements(env, buttonDownMasks, JNI_FALSE);
+    tmp = (*env)->GetIntArrbyElements(env, buttonDownMbsks, JNI_FALSE);
     CHECK_NULL(tmp);
 
-    masks = (jint *)SAFE_SIZE_ARRAY_ALLOC(malloc, sizeof(jint), num_buttons);
-    if (masks == (jint *) NULL) {
-        (*env)->ExceptionClear(env);
-        (*env)->ReleaseIntArrayElements(env, buttonDownMasks, tmp, 0);
+    mbsks = (jint *)SAFE_SIZE_ARRAY_ALLOC(mblloc, sizeof(jint), num_buttons);
+    if (mbsks == (jint *) NULL) {
+        (*env)->ExceptionClebr(env);
+        (*env)->RelebseIntArrbyElements(env, buttonDownMbsks, tmp, 0);
         JNU_ThrowOutOfMemoryError((JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2), NULL);
         return;
     }
     for (i = 0; i < num_buttons; i++) {
-        masks[i] = tmp[i];
+        mbsks[i] = tmp[i];
     }
-    (*env)->ReleaseIntArrayElements(env, buttonDownMasks, tmp, 0);
+    (*env)->RelebseIntArrbyElements(env, buttonDownMbsks, tmp, 0);
 
     AWT_LOCK();
-    xtestAvailable = isXTestAvailable();
-    DTRACE_PRINTLN1("RobotPeer: XTest available = %d", xtestAvailable);
-    if (!xtestAvailable) {
-        JNU_ThrowByName(env, "java/awt/AWTException", "java.awt.Robot requires your X server support the XTEST extension version 2.2");
+    xtestAvbilbble = isXTestAvbilbble();
+    DTRACE_PRINTLN1("RobotPeer: XTest bvbilbble = %d", xtestAvbilbble);
+    if (!xtestAvbilbble) {
+        JNU_ThrowByNbme(env, "jbvb/bwt/AWTException", "jbvb.bwt.Robot requires your X server support the XTEST extension version 2.2");
     }
 
     AWT_UNLOCK();
@@ -201,200 +201,200 @@ Java_sun_awt_X11_XRobotPeer_setup (JNIEnv * env, jclass cls, jint numberOfButton
 
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XRobotPeer_getRGBPixelsImpl( JNIEnv *env,
-                             jclass cls,
+Jbvb_sun_bwt_X11_XRobotPeer_getRGBPixelsImpl( JNIEnv *env,
+                             jclbss cls,
                              jobject xgc,
                              jint x,
                              jint y,
                              jint width,
                              jint height,
-                             jintArray pixelArray) {
+                             jintArrby pixelArrby) {
 
-    XImage *image;
-    jint *ary;               /* Array of jints for sending pixel values back
-                              * to parent process.
+    XImbge *imbge;
+    jint *bry;               /* Arrby of jints for sending pixel vblues bbck
+                              * to pbrent process.
                               */
     Window rootWindow;
-    AwtGraphicsConfigDataPtr adata;
+    AwtGrbphicsConfigDbtbPtr bdbtb;
 
-    DTRACE_PRINTLN6("RobotPeer: getRGBPixelsImpl(%lx, %d, %d, %d, %d, %x)", xgc, x, y, width, height, pixelArray);
+    DTRACE_PRINTLN6("RobotPeer: getRGBPixelsImpl(%lx, %d, %d, %d, %d, %x)", xgc, x, y, width, height, pixelArrby);
 
     AWT_LOCK();
 
-    /* avoid a lot of work for empty rectangles */
+    /* bvoid b lot of work for empty rectbngles */
     if ((width * height) == 0) {
         AWT_UNLOCK();
         return;
     }
-    DASSERT(width * height > 0); /* only allow positive size */
+    DASSERT(width * height > 0); /* only bllow positive size */
 
-    adata = (AwtGraphicsConfigDataPtr) JNU_GetLongFieldAsPtr(env, xgc, x11GraphicsConfigIDs.aData);
-    DASSERT(adata != NULL);
+    bdbtb = (AwtGrbphicsConfigDbtbPtr) JNU_GetLongFieldAsPtr(env, xgc, x11GrbphicsConfigIDs.bDbtb);
+    DASSERT(bdbtb != NULL);
 
-    rootWindow = XRootWindow(awt_display, adata->awt_visInfo.screen);
-    image = getWindowImage(awt_display, rootWindow, x, y, width, height);
+    rootWindow = XRootWindow(bwt_displby, bdbtb->bwt_visInfo.screen);
+    imbge = getWindowImbge(bwt_displby, rootWindow, x, y, width, height);
 
-    /* Array to use to crunch around the pixel values */
+    /* Arrby to use to crunch bround the pixel vblues */
     if (!IS_SAFE_SIZE_MUL(width, height) ||
-        !(ary = (jint *) SAFE_SIZE_ARRAY_ALLOC(malloc, width * height, sizeof (jint))))
+        !(bry = (jint *) SAFE_SIZE_ARRAY_ALLOC(mblloc, width * height, sizeof (jint))))
     {
         JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
-        XDestroyImage(image);
+        XDestroyImbge(imbge);
         AWT_UNLOCK();
         return;
     }
-    /* convert to Java ARGB pixels */
+    /* convert to Jbvb ARGB pixels */
     for (y = 0; y < height; y++) {
         for (x = 0; x < width; x++) {
-            jint pixel = (jint) XGetPixel(image, x, y); /* Note ignore upper
+            jint pixel = (jint) XGetPixel(imbge, x, y); /* Note ignore upper
                                                          * 32-bits on 64-bit
                                                          * OSes.
                                                          */
 
-            pixel |= 0xff000000; /* alpha - full opacity */
+            pixel |= 0xff000000; /* blphb - full opbcity */
 
-            ary[(y * width) + x] = pixel;
+            bry[(y * width) + x] = pixel;
         }
     }
-    (*env)->SetIntArrayRegion(env, pixelArray, 0, height * width, ary);
-    free(ary);
+    (*env)->SetIntArrbyRegion(env, pixelArrby, 0, height * width, bry);
+    free(bry);
 
-    XDestroyImage(image);
+    XDestroyImbge(imbge);
 
     AWT_UNLOCK();
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XRobotPeer_keyPressImpl (JNIEnv *env,
-                         jclass cls,
+Jbvb_sun_bwt_X11_XRobotPeer_keyPressImpl (JNIEnv *env,
+                         jclbss cls,
                          jint keycode) {
 
     AWT_LOCK();
 
     DTRACE_PRINTLN1("RobotPeer: keyPressImpl(%i)", keycode);
 
-    XTestFakeKeyEvent(awt_display,
-                      XKeysymToKeycode(awt_display, awt_getX11KeySym(keycode)),
+    XTestFbkeKeyEvent(bwt_displby,
+                      XKeysymToKeycode(bwt_displby, bwt_getX11KeySym(keycode)),
                       True,
                       CurrentTime);
 
-    XSync(awt_display, False);
+    XSync(bwt_displby, Fblse);
 
     AWT_UNLOCK();
 
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XRobotPeer_keyReleaseImpl (JNIEnv *env,
-                           jclass cls,
+Jbvb_sun_bwt_X11_XRobotPeer_keyRelebseImpl (JNIEnv *env,
+                           jclbss cls,
                            jint keycode) {
     AWT_LOCK();
 
-    DTRACE_PRINTLN1("RobotPeer: keyReleaseImpl(%i)", keycode);
+    DTRACE_PRINTLN1("RobotPeer: keyRelebseImpl(%i)", keycode);
 
-    XTestFakeKeyEvent(awt_display,
-                      XKeysymToKeycode(awt_display, awt_getX11KeySym(keycode)),
-                      False,
+    XTestFbkeKeyEvent(bwt_displby,
+                      XKeysymToKeycode(bwt_displby, bwt_getX11KeySym(keycode)),
+                      Fblse,
                       CurrentTime);
 
-    XSync(awt_display, False);
+    XSync(bwt_displby, Fblse);
 
     AWT_UNLOCK();
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XRobotPeer_mouseMoveImpl (JNIEnv *env,
-                          jclass cls,
+Jbvb_sun_bwt_X11_XRobotPeer_mouseMoveImpl (JNIEnv *env,
+                          jclbss cls,
                           jobject xgc,
                           jint root_x,
                           jint root_y) {
 
-    AwtGraphicsConfigDataPtr adata;
+    AwtGrbphicsConfigDbtbPtr bdbtb;
 
     AWT_LOCK();
 
     DTRACE_PRINTLN3("RobotPeer: mouseMoveImpl(%lx, %i, %i)", xgc, root_x, root_y);
 
-    adata = (AwtGraphicsConfigDataPtr) JNU_GetLongFieldAsPtr(env, xgc, x11GraphicsConfigIDs.aData);
-    DASSERT(adata != NULL);
+    bdbtb = (AwtGrbphicsConfigDbtbPtr) JNU_GetLongFieldAsPtr(env, xgc, x11GrbphicsConfigIDs.bDbtb);
+    DASSERT(bdbtb != NULL);
 
-    XWarpPointer(awt_display, None, XRootWindow(awt_display, adata->awt_visInfo.screen), 0, 0, 0, 0, root_x, root_y);
-    XSync(awt_display, False);
+    XWbrpPointer(bwt_displby, None, XRootWindow(bwt_displby, bdbtb->bwt_visInfo.screen), 0, 0, 0, 0, root_x, root_y);
+    XSync(bwt_displby, Fblse);
 
     AWT_UNLOCK();
 }
 
 /*
-  * Function joining the code of mousePressImpl and mouseReleaseImpl
+  * Function joining the code of mousePressImpl bnd mouseRelebseImpl
   */
 void mouseAction(JNIEnv *env,
-                 jclass cls,
-                 jint buttonMask,
+                 jclbss cls,
+                 jint buttonMbsk,
                  Bool isMousePress)
 {
     AWT_LOCK();
 
-    DTRACE_PRINTLN1("RobotPeer: mouseAction(%i)", buttonMask);
+    DTRACE_PRINTLN1("RobotPeer: mouseAction(%i)", buttonMbsk);
     DTRACE_PRINTLN1("RobotPeer: mouseAction, press = %d", isMousePress);
 
-    if (buttonMask & java_awt_event_InputEvent_BUTTON1_MASK ||
-        buttonMask & java_awt_event_InputEvent_BUTTON1_DOWN_MASK )
+    if (buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON1_MASK ||
+        buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON1_DOWN_MASK )
     {
-        XTestFakeButtonEvent(awt_display, 1, isMousePress, CurrentTime);
+        XTestFbkeButtonEvent(bwt_displby, 1, isMousePress, CurrentTime);
     }
-    if ((buttonMask & java_awt_event_InputEvent_BUTTON2_MASK ||
-         buttonMask & java_awt_event_InputEvent_BUTTON2_DOWN_MASK) &&
+    if ((buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON2_MASK ||
+         buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON2_DOWN_MASK) &&
         (num_buttons >= 2)) {
-        XTestFakeButtonEvent(awt_display, 2, isMousePress, CurrentTime);
+        XTestFbkeButtonEvent(bwt_displby, 2, isMousePress, CurrentTime);
     }
-    if ((buttonMask & java_awt_event_InputEvent_BUTTON3_MASK ||
-         buttonMask & java_awt_event_InputEvent_BUTTON3_DOWN_MASK) &&
+    if ((buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON3_MASK ||
+         buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON3_DOWN_MASK) &&
         (num_buttons >= 3)) {
-        XTestFakeButtonEvent(awt_display, 3, isMousePress, CurrentTime);
+        XTestFbkeButtonEvent(bwt_displby, 3, isMousePress, CurrentTime);
     }
 
     if (num_buttons > 3){
         int32_t i;
         int32_t button = 0;
         for (i = 3; i<num_buttons; i++){
-            if ((buttonMask & masks[i])) {
-                // arrays starts from zero index => +1
-                // users wants to affect 4 or 5 button but they are assigned
-                // to the wheel so => we have to shift it to the right by 2.
+            if ((buttonMbsk & mbsks[i])) {
+                // brrbys stbrts from zero index => +1
+                // users wbnts to bffect 4 or 5 button but they bre bssigned
+                // to the wheel so => we hbve to shift it to the right by 2.
                 button = i + 3;
-                XTestFakeButtonEvent(awt_display, button, isMousePress, CurrentTime);
+                XTestFbkeButtonEvent(bwt_displby, button, isMousePress, CurrentTime);
             }
         }
     }
 
-    XSync(awt_display, False);
+    XSync(bwt_displby, Fblse);
     AWT_UNLOCK();
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XRobotPeer_mousePressImpl (JNIEnv *env,
-                           jclass cls,
-                           jint buttonMask) {
-    mouseAction(env, cls, buttonMask, True);
+Jbvb_sun_bwt_X11_XRobotPeer_mousePressImpl (JNIEnv *env,
+                           jclbss cls,
+                           jint buttonMbsk) {
+    mouseAction(env, cls, buttonMbsk, True);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XRobotPeer_mouseReleaseImpl (JNIEnv *env,
-                             jclass cls,
-                             jint buttonMask) {
-    mouseAction(env, cls, buttonMask, False);
+Jbvb_sun_bwt_X11_XRobotPeer_mouseRelebseImpl (JNIEnv *env,
+                             jclbss cls,
+                             jint buttonMbsk) {
+    mouseAction(env, cls, buttonMbsk, Fblse);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XRobotPeer_mouseWheelImpl (JNIEnv *env,
-                           jclass cls,
+Jbvb_sun_bwt_X11_XRobotPeer_mouseWheelImpl (JNIEnv *env,
+                           jclbss cls,
                            jint wheelAmt) {
-/* Mouse wheel is implemented as a button press of button 4 and 5, so it */
-/* probably could have been hacked into robot_mouseButtonEvent, but it's */
-/* cleaner to give it its own command type, in case the implementation   */
-/* needs to be changed later.  -bchristi, 6/20/01                        */
+/* Mouse wheel is implemented bs b button press of button 4 bnd 5, so it */
+/* probbbly could hbve been hbcked into robot_mouseButtonEvent, but it's */
+/* clebner to give it its own commbnd type, in cbse the implementbtion   */
+/* needs to be chbnged lbter.  -bchristi, 6/20/01                        */
 
-    int32_t repeat = abs(wheelAmt);
+    int32_t repebt = bbs(wheelAmt);
     int32_t button = wheelAmt < 0 ? 4 : 5;  /* wheel up:   button 4 */
                                                  /* wheel down: button 5 */
     int32_t loopIdx;
@@ -403,12 +403,12 @@ Java_sun_awt_X11_XRobotPeer_mouseWheelImpl (JNIEnv *env,
 
     DTRACE_PRINTLN1("RobotPeer: mouseWheelImpl(%i)", wheelAmt);
 
-    for (loopIdx = 0; loopIdx < repeat; loopIdx++) { /* do nothing for   */
+    for (loopIdx = 0; loopIdx < repebt; loopIdx++) { /* do nothing for   */
                                                      /* wheelAmt == 0    */
-        XTestFakeButtonEvent(awt_display, button, True, CurrentTime);
-        XTestFakeButtonEvent(awt_display, button, False, CurrentTime);
+        XTestFbkeButtonEvent(bwt_displby, button, True, CurrentTime);
+        XTestFbkeButtonEvent(bwt_displby, button, Fblse, CurrentTime);
     }
-    XSync(awt_display, False);
+    XSync(bwt_displby, Fblse);
 
     AWT_UNLOCK();
 }

@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #define _JNI_IMPLEMENTATION_
 
-#include "awt.h"
-#include <signal.h>
+#include "bwt.h"
+#include <signbl.h>
 #include <windowsx.h>
 #include <process.h>
 
-#include "awt_DrawingSurface.h"
-#include "awt_AWTEvent.h"
-#include "awt_Component.h"
-#include "awt_Canvas.h"
-#include "awt_Clipboard.h"
-#include "awt_Frame.h"
-#include "awt_Dialog.h"
-#include "awt_Font.h"
-#include "awt_Cursor.h"
-#include "awt_InputEvent.h"
-#include "awt_KeyEvent.h"
-#include "awt_List.h"
-#include "awt_Palette.h"
-#include "awt_PopupMenu.h"
-#include "awt_Toolkit.h"
-#include "awt_DesktopProperties.h"
-#include "awt_FileDialog.h"
+#include "bwt_DrbwingSurfbce.h"
+#include "bwt_AWTEvent.h"
+#include "bwt_Component.h"
+#include "bwt_Cbnvbs.h"
+#include "bwt_Clipbobrd.h"
+#include "bwt_Frbme.h"
+#include "bwt_Diblog.h"
+#include "bwt_Font.h"
+#include "bwt_Cursor.h"
+#include "bwt_InputEvent.h"
+#include "bwt_KeyEvent.h"
+#include "bwt_List.h"
+#include "bwt_Pblette.h"
+#include "bwt_PopupMenu.h"
+#include "bwt_Toolkit.h"
+#include "bwt_DesktopProperties.h"
+#include "bwt_FileDiblog.h"
 #include "CmdIDList.h"
-#include "awt_new.h"
-#include "debug_trace.h"
+#include "bwt_new.h"
+#include "debug_trbce.h"
 #include "debug_mem.h"
 
 #include "ComCtl32Util.h"
 #include "DllUtil.h"
 
-#include "D3DPipelineManager.h"
+#include "D3DPipelineMbnbger.h"
 
-#include <awt_DnDDT.h>
-#include <awt_DnDDS.h>
+#include <bwt_DnDDT.h>
+#include <bwt_DnDDS.h>
 
-#include <java_awt_Toolkit.h>
-#include <java_awt_event_InputMethodEvent.h>
+#include <jbvb_bwt_Toolkit.h>
+#include <jbvb_bwt_event_InputMethodEvent.h>
 
 extern void initScreens(JNIEnv *env);
-extern "C" void awt_dnd_initialize();
-extern "C" void awt_dnd_uninitialize();
-extern "C" void awt_clipboard_uninitialize(JNIEnv *env);
-extern "C" BOOL g_bUserHasChangedInputLang;
+extern "C" void bwt_dnd_initiblize();
+extern "C" void bwt_dnd_uninitiblize();
+extern "C" void bwt_clipbobrd_uninitiblize(JNIEnv *env);
+extern "C" BOOL g_bUserHbsChbngedInputLbng;
 
-extern CriticalSection windowMoveLock;
+extern CriticblSection windowMoveLock;
 extern BOOL windowMoveLockHeld;
 
-// Needed by JAWT: see awt_DrawingSurface.cpp.
-extern jclass jawtVImgClass;
-extern jclass jawtVSMgrClass;
-extern jclass jawtComponentClass;
-extern jfieldID jawtPDataID;
-extern jfieldID jawtSDataID;
-extern jfieldID jawtSMgrID;
+// Needed by JAWT: see bwt_DrbwingSurfbce.cpp.
+extern jclbss jbwtVImgClbss;
+extern jclbss jbwtVSMgrClbss;
+extern jclbss jbwtComponentClbss;
+extern jfieldID jbwtPDbtbID;
+extern jfieldID jbwtSDbtbID;
+extern jfieldID jbwtSMgrID;
 
-extern void DWMResetCompositionEnabled();
+extern void DWMResetCompositionEnbbled();
 
 /************************************************************************
  * Utilities
  */
 
-/* Initialize the Java VM instance variable when the library is
-   first loaded */
-JavaVM *jvm = NULL;
+/* Initiblize the Jbvb VM instbnce vbribble when the librbry is
+   first lobded */
+JbvbVM *jvm = NULL;
 
 JNIEXPORT jint JNICALL
-JNI_OnLoad(JavaVM *vm, void *reserved)
+JNI_OnLobd(JbvbVM *vm, void *reserved)
 {
     TRY;
 
@@ -101,64 +101,64 @@ JNI_OnLoad(JavaVM *vm, void *reserved)
     CATCH_BAD_ALLOC_RET(0);
 }
 
-extern "C" JNIEXPORT jboolean JNICALL AWTIsHeadless() {
-    static JNIEnv *env = NULL;
-    static jboolean isHeadless;
-    jmethodID headlessFn;
-    jclass graphicsEnvClass;
+extern "C" JNIEXPORT jboolebn JNICALL AWTIsHebdless() {
+    stbtic JNIEnv *env = NULL;
+    stbtic jboolebn isHebdless;
+    jmethodID hebdlessFn;
+    jclbss grbphicsEnvClbss;
 
     if (env == NULL) {
         env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        graphicsEnvClass = env->FindClass(
-            "java/awt/GraphicsEnvironment");
-        if (graphicsEnvClass == NULL) {
+        grbphicsEnvClbss = env->FindClbss(
+            "jbvb/bwt/GrbphicsEnvironment");
+        if (grbphicsEnvClbss == NULL) {
             return JNI_TRUE;
         }
-        headlessFn = env->GetStaticMethodID(
-            graphicsEnvClass, "isHeadless", "()Z");
-        if (headlessFn == NULL) {
+        hebdlessFn = env->GetStbticMethodID(
+            grbphicsEnvClbss, "isHebdless", "()Z");
+        if (hebdlessFn == NULL) {
             return JNI_TRUE;
         }
-        isHeadless = env->CallStaticBooleanMethod(graphicsEnvClass,
-            headlessFn);
+        isHebdless = env->CbllStbticBoolebnMethod(grbphicsEnvClbss,
+            hebdlessFn);
     }
-    return isHeadless;
+    return isHebdless;
 }
 
 #define IDT_AWT_MOUSECHECK 0x101
 
-static LPCTSTR szAwtToolkitClassName = TEXT("SunAwtToolkit");
+stbtic LPCTSTR szAwtToolkitClbssNbme = TEXT("SunAwtToolkit");
 
-static const int MOUSE_BUTTONS_WINDOWS_SUPPORTED = 5; //three standard buttons + XBUTTON1 + XBUTTON2.
+stbtic const int MOUSE_BUTTONS_WINDOWS_SUPPORTED = 5; //three stbndbrd buttons + XBUTTON1 + XBUTTON2.
 
-UINT AwtToolkit::GetMouseKeyState()
+UINT AwtToolkit::GetMouseKeyStbte()
 {
-    static BOOL mbSwapped = ::GetSystemMetrics(SM_SWAPBUTTON);
-    UINT mouseKeyState = 0;
+    stbtic BOOL mbSwbpped = ::GetSystemMetrics(SM_SWAPBUTTON);
+    UINT mouseKeyStbte = 0;
 
-    if (HIBYTE(::GetKeyState(VK_CONTROL)))
-        mouseKeyState |= MK_CONTROL;
-    if (HIBYTE(::GetKeyState(VK_SHIFT)))
-        mouseKeyState |= MK_SHIFT;
-    if (HIBYTE(::GetKeyState(VK_LBUTTON)))
-        mouseKeyState |= (mbSwapped ? MK_RBUTTON : MK_LBUTTON);
-    if (HIBYTE(::GetKeyState(VK_RBUTTON)))
-        mouseKeyState |= (mbSwapped ? MK_LBUTTON : MK_RBUTTON);
-    if (HIBYTE(::GetKeyState(VK_MBUTTON)))
-        mouseKeyState |= MK_MBUTTON;
-    return mouseKeyState;
+    if (HIBYTE(::GetKeyStbte(VK_CONTROL)))
+        mouseKeyStbte |= MK_CONTROL;
+    if (HIBYTE(::GetKeyStbte(VK_SHIFT)))
+        mouseKeyStbte |= MK_SHIFT;
+    if (HIBYTE(::GetKeyStbte(VK_LBUTTON)))
+        mouseKeyStbte |= (mbSwbpped ? MK_RBUTTON : MK_LBUTTON);
+    if (HIBYTE(::GetKeyStbte(VK_RBUTTON)))
+        mouseKeyStbte |= (mbSwbpped ? MK_LBUTTON : MK_RBUTTON);
+    if (HIBYTE(::GetKeyStbte(VK_MBUTTON)))
+        mouseKeyStbte |= MK_MBUTTON;
+    return mouseKeyStbte;
 }
 
 //
-// Normal ::GetKeyboardState call only works if current thread has
-// a message pump, so provide a way for other threads to get
-// the keyboard state
+// Normbl ::GetKeybobrdStbte cbll only works if current threbd hbs
+// b messbge pump, so provide b wby for other threbds to get
+// the keybobrd stbte
 //
-void AwtToolkit::GetKeyboardState(PBYTE keyboardState)
+void AwtToolkit::GetKeybobrdStbte(PBYTE keybobrdStbte)
 {
-    CriticalSection::Lock       l(AwtToolkit::GetInstance().m_lockKB);
-    DASSERT(!IsBadWritePtr(keyboardState, KB_STATE_SIZE));
-    memcpy(keyboardState, AwtToolkit::GetInstance().m_lastKeyboardState,
+    CriticblSection::Lock       l(AwtToolkit::GetInstbnce().m_lockKB);
+    DASSERT(!IsBbdWritePtr(keybobrdStbte, KB_STATE_SIZE));
+    memcpy(keybobrdStbte, AwtToolkit::GetInstbnce().m_lbstKeybobrdStbte,
            KB_STATE_SIZE);
 }
 
@@ -166,68 +166,68 @@ void AwtToolkit::SetBusy(BOOL busy) {
 
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    static jclass awtAutoShutdownClass = NULL;
-    static jmethodID notifyBusyMethodID = NULL;
-    static jmethodID notifyFreeMethodID = NULL;
+    stbtic jclbss bwtAutoShutdownClbss = NULL;
+    stbtic jmethodID notifyBusyMethodID = NULL;
+    stbtic jmethodID notifyFreeMethodID = NULL;
 
-    if (awtAutoShutdownClass == NULL) {
-        jclass awtAutoShutdownClassLocal = env->FindClass("sun/awt/AWTAutoShutdown");
-        DASSERT(awtAutoShutdownClassLocal != NULL);
-        if (!awtAutoShutdownClassLocal) throw std::bad_alloc();
+    if (bwtAutoShutdownClbss == NULL) {
+        jclbss bwtAutoShutdownClbssLocbl = env->FindClbss("sun/bwt/AWTAutoShutdown");
+        DASSERT(bwtAutoShutdownClbssLocbl != NULL);
+        if (!bwtAutoShutdownClbssLocbl) throw std::bbd_blloc();
 
-        awtAutoShutdownClass = (jclass)env->NewGlobalRef(awtAutoShutdownClassLocal);
-        env->DeleteLocalRef(awtAutoShutdownClassLocal);
-        if (!awtAutoShutdownClass) throw std::bad_alloc();
+        bwtAutoShutdownClbss = (jclbss)env->NewGlobblRef(bwtAutoShutdownClbssLocbl);
+        env->DeleteLocblRef(bwtAutoShutdownClbssLocbl);
+        if (!bwtAutoShutdownClbss) throw std::bbd_blloc();
 
-        notifyBusyMethodID = env->GetStaticMethodID(awtAutoShutdownClass,
-                                                    "notifyToolkitThreadBusy", "()V");
+        notifyBusyMethodID = env->GetStbticMethodID(bwtAutoShutdownClbss,
+                                                    "notifyToolkitThrebdBusy", "()V");
         DASSERT(notifyBusyMethodID != NULL);
-        if (!notifyBusyMethodID) throw std::bad_alloc();
+        if (!notifyBusyMethodID) throw std::bbd_blloc();
 
-        notifyFreeMethodID = env->GetStaticMethodID(awtAutoShutdownClass,
-                                                    "notifyToolkitThreadFree", "()V");
+        notifyFreeMethodID = env->GetStbticMethodID(bwtAutoShutdownClbss,
+                                                    "notifyToolkitThrebdFree", "()V");
         DASSERT(notifyFreeMethodID != NULL);
-        if (!notifyFreeMethodID) throw std::bad_alloc();
-    } /* awtAutoShutdownClass == NULL*/
+        if (!notifyFreeMethodID) throw std::bbd_blloc();
+    } /* bwtAutoShutdownClbss == NULL*/
 
     if (busy) {
-        env->CallStaticVoidMethod(awtAutoShutdownClass,
+        env->CbllStbticVoidMethod(bwtAutoShutdownClbss,
                                   notifyBusyMethodID);
     } else {
-        env->CallStaticVoidMethod(awtAutoShutdownClass,
+        env->CbllStbticVoidMethod(bwtAutoShutdownClbss,
                                   notifyFreeMethodID);
     }
 
-    if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
+    if (!JNU_IsNull(env, sbfe_ExceptionOccurred(env))) {
         env->ExceptionDescribe();
-        env->ExceptionClear();
+        env->ExceptionClebr();
     }
 }
 
-BOOL AwtToolkit::activateKeyboardLayout(HKL hkl) {
-    // This call should succeed in case of one of the following:
+BOOL AwtToolkit::bctivbteKeybobrdLbyout(HKL hkl) {
+    // This cbll should succeed in cbse of one of the following:
     // 1. Win 9x
-    // 2. NT with that HKL already loaded
-    HKL prev = ::ActivateKeyboardLayout(hkl, 0);
+    // 2. NT with thbt HKL blrebdy lobded
+    HKL prev = ::ActivbteKeybobrdLbyout(hkl, 0);
 
-    // If the above call fails, try loading the layout in case of NT
+    // If the bbove cbll fbils, try lobding the lbyout in cbse of NT
     if (!prev) {
-        // create input locale string, e.g., "00000409", from hkl.
-        TCHAR inputLocale[9];
+        // crebte input locble string, e.g., "00000409", from hkl.
+        TCHAR inputLocble[9];
         TCHAR buf[9];
-        _tcscpy_s(inputLocale, 9, TEXT("00000000"));
+        _tcscpy_s(inputLocble, 9, TEXT("00000000"));
 
-    // 64-bit: ::LoadKeyboardLayout() is such a weird API - a string of
-    // the hex value you want?!  Here we're converting our HKL value to
-    // a string.  Hopefully there is no 64-bit trouble.
-        _i64tot(reinterpret_cast<INT_PTR>(hkl), buf, 16);
+    // 64-bit: ::LobdKeybobrdLbyout() is such b weird API - b string of
+    // the hex vblue you wbnt?!  Here we're converting our HKL vblue to
+    // b string.  Hopefully there is no 64-bit trouble.
+        _i64tot(reinterpret_cbst<INT_PTR>(hkl), buf, 16);
         size_t len = _tcslen(buf);
-        memcpy(&inputLocale[8-len], buf, len);
+        memcpy(&inputLocble[8-len], buf, len);
 
-        // load and activate the keyboard layout
-        hkl = ::LoadKeyboardLayout(inputLocale, 0);
+        // lobd bnd bctivbte the keybobrd lbyout
+        hkl = ::LobdKeybobrdLbyout(inputLocble, 0);
         if (hkl != 0) {
-            prev = ::ActivateKeyboardLayout(hkl, 0);
+            prev = ::ActivbteKeybobrdLbyout(hkl, 0);
         }
     }
 
@@ -238,24 +238,24 @@ BOOL AwtToolkit::activateKeyboardLayout(HKL hkl) {
  * Exported functions
  */
 
-extern "C" BOOL APIENTRY DllMain(HANDLE hInstance, DWORD ul_reason_for_call,
+extern "C" BOOL APIENTRY DllMbin(HANDLE hInstbnce, DWORD ul_rebson_for_cbll,
                                  LPVOID)
 {
-    // Don't use the TRY and CATCH_BAD_ALLOC_RET macros if we're detaching
-    // the library. Doing so causes awt.dll to call back into the VM during
-    // shutdown. This crashes the HotSpot VM.
-    switch (ul_reason_for_call) {
-    case DLL_PROCESS_ATTACH:
+    // Don't use the TRY bnd CATCH_BAD_ALLOC_RET mbcros if we're detbching
+    // the librbry. Doing so cbuses bwt.dll to cbll bbck into the VM during
+    // shutdown. This crbshes the HotSpot VM.
+    switch (ul_rebson_for_cbll) {
+    cbse DLL_PROCESS_ATTACH:
         TRY;
-        AwtToolkit::GetInstance().SetModuleHandle((HMODULE)hInstance);
+        AwtToolkit::GetInstbnce().SetModuleHbndle((HMODULE)hInstbnce);
         CATCH_BAD_ALLOC_RET(FALSE);
-        break;
-    case DLL_PROCESS_DETACH:
+        brebk;
+    cbse DLL_PROCESS_DETACH:
 #ifdef DEBUG
-        DTrace_DisableMutex();
-        DMem_DisableMutex();
+        DTrbce_DisbbleMutex();
+        DMem_DisbbleMutex();
 #endif DEBUG
-        break;
+        brebk;
     }
     return TRUE;
 }
@@ -264,13 +264,13 @@ extern "C" BOOL APIENTRY DllMain(HANDLE hInstance, DWORD ul_reason_for_call,
  * AwtToolkit fields
  */
 
-AwtToolkit AwtToolkit::theInstance;
+AwtToolkit AwtToolkit::theInstbnce;
 
-/* ids for WToolkit fields accessed from native code */
-jmethodID AwtToolkit::windowsSettingChangeMID;
-jmethodID AwtToolkit::displayChangeMID;
+/* ids for WToolkit fields bccessed from nbtive code */
+jmethodID AwtToolkit::windowsSettingChbngeMID;
+jmethodID AwtToolkit::displbyChbngeMID;
 /* ids for Toolkit methods */
-jmethodID AwtToolkit::getDefaultToolkitMID;
+jmethodID AwtToolkit::getDefbultToolkitMID;
 jmethodID AwtToolkit::getFontMetricsMID;
 jmethodID AwtToolkit::insetsMID;
 
@@ -279,229 +279,229 @@ jmethodID AwtToolkit::insetsMID;
  */
 
 AwtToolkit::AwtToolkit() {
-    m_localPump = FALSE;
-    m_mainThreadId = 0;
+    m_locblPump = FALSE;
+    m_mbinThrebdId = 0;
     m_toolkitHWnd = NULL;
     m_inputMethodHWnd = NULL;
     m_verbose = FALSE;
     m_isActive = TRUE;
     m_isDisposed = FALSE;
 
-    m_vmSignalled = FALSE;
+    m_vmSignblled = FALSE;
 
-    m_isDynamicLayoutSet = FALSE;
-    m_areExtraMouseButtonsEnabled = TRUE;
+    m_isDynbmicLbyoutSet = FALSE;
+    m_breExtrbMouseButtonsEnbbled = TRUE;
 
     m_verifyComponents = FALSE;
-    m_breakOnError = FALSE;
+    m_brebkOnError = FALSE;
 
-    m_breakMessageLoop = FALSE;
-    m_messageLoopResult = 0;
+    m_brebkMessbgeLoop = FALSE;
+    m_messbgeLoopResult = 0;
 
-    m_lastMouseOver = NULL;
+    m_lbstMouseOver = NULL;
     m_mouseDown = FALSE;
 
-    m_hGetMessageHook = 0;
+    m_hGetMessbgeHook = 0;
     m_hMouseLLHook = 0;
-    m_lastWindowUnderMouse = NULL;
+    m_lbstWindowUnderMouse = NULL;
     m_timer = 0;
 
     m_cmdIDs = new AwtCmdIDList();
-    m_pModalDialog = NULL;
+    m_pModblDiblog = NULL;
     m_peer = NULL;
-    m_dllHandle = NULL;
+    m_dllHbndle = NULL;
 
-    m_displayChanged = FALSE;
+    m_displbyChbnged = FALSE;
     m_embedderProcessID = 0;
 
-    // XXX: keyboard mapping should really be moved out of AwtComponent
-    AwtComponent::InitDynamicKeyMapTable();
+    // XXX: keybobrd mbpping should reblly be moved out of AwtComponent
+    AwtComponent::InitDynbmicKeyMbpTbble();
 
-    // initialize kb state array
-    ::GetKeyboardState(m_lastKeyboardState);
+    // initiblize kb stbte brrby
+    ::GetKeybobrdStbte(m_lbstKeybobrdStbte);
 
-    m_waitEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+    m_wbitEvent = ::CrebteEvent(NULL, FALSE, FALSE, NULL);
     eventNumber = 0;
 }
 
 AwtToolkit::~AwtToolkit() {
 /*
- *  The code has been moved to AwtToolkit::Dispose() method.
+ *  The code hbs been moved to AwtToolkit::Dispose() method.
  */
 }
 
-HWND AwtToolkit::CreateToolkitWnd(LPCTSTR name)
+HWND AwtToolkit::CrebteToolkitWnd(LPCTSTR nbme)
 {
-    HWND hwnd = CreateWindow(
-        szAwtToolkitClassName,
-        (LPCTSTR)name,                    /* window name */
+    HWND hwnd = CrebteWindow(
+        szAwtToolkitClbssNbme,
+        (LPCTSTR)nbme,                    /* window nbme */
         WS_DISABLED,                      /* window style */
         -1, -1,                           /* position of window */
-        0, 0,                             /* width and height */
-        NULL, NULL,                       /* hWndParent and hWndMenu */
-        GetModuleHandle(),
-        NULL);                            /* lpParam */
+        0, 0,                             /* width bnd height */
+        NULL, NULL,                       /* hWndPbrent bnd hWndMenu */
+        GetModuleHbndle(),
+        NULL);                            /* lpPbrbm */
     DASSERT(hwnd != NULL);
     return hwnd;
 }
 
 
-struct ToolkitThreadProc_Data {
+struct ToolkitThrebdProc_Dbtb {
     bool result;
     HANDLE hCompleted;
 
-    jobject thread;
-    jobject threadGroup;
+    jobject threbd;
+    jobject threbdGroup;
 };
 
-void ToolkitThreadProc(void *param)
+void ToolkitThrebdProc(void *pbrbm)
 {
-    ToolkitThreadProc_Data *data = (ToolkitThreadProc_Data *)param;
+    ToolkitThrebdProc_Dbtb *dbtb = (ToolkitThrebdProc_Dbtb *)pbrbm;
 
-    bool bNotified = false;
+    bool bNotified = fblse;
 
     JNIEnv *env;
-    JavaVMAttachArgs attachArgs;
-    attachArgs.version  = JNI_VERSION_1_2;
-    attachArgs.name     = "AWT-Windows";
-    attachArgs.group    = data->threadGroup;
+    JbvbVMAttbchArgs bttbchArgs;
+    bttbchArgs.version  = JNI_VERSION_1_2;
+    bttbchArgs.nbme     = "AWT-Windows";
+    bttbchArgs.group    = dbtb->threbdGroup;
 
-    jint res = jvm->AttachCurrentThreadAsDaemon((void **)&env, &attachArgs);
+    jint res = jvm->AttbchCurrentThrebdAsDbemon((void **)&env, &bttbchArgs);
     if (res < 0) {
         return;
     }
 
-    jobject thread = env->NewGlobalRef(data->thread);
-    if (thread != NULL) {
-        jclass cls = env->GetObjectClass(thread);
+    jobject threbd = env->NewGlobblRef(dbtb->threbd);
+    if (threbd != NULL) {
+        jclbss cls = env->GetObjectClbss(threbd);
         if (cls != NULL) {
             jmethodID runId = env->GetMethodID(cls, "run", "()V");
             if (runId != NULL) {
-                data->result = true;
-                ::SetEvent(data->hCompleted);
+                dbtb->result = true;
+                ::SetEvent(dbtb->hCompleted);
                 bNotified = true;
 
-                env->CallVoidMethod(thread, runId);
+                env->CbllVoidMethod(threbd, runId);
 
                 if (env->ExceptionCheck()) {
                     env->ExceptionDescribe();
-                    env->ExceptionClear();
-                    // TODO: handle
+                    env->ExceptionClebr();
+                    // TODO: hbndle
                 }
             }
-            env->DeleteLocalRef(cls);
+            env->DeleteLocblRef(cls);
         }
-        env->DeleteGlobalRef(thread);
+        env->DeleteGlobblRef(threbd);
     }
     if (!bNotified) {
-        ::SetEvent(data->hCompleted);
+        ::SetEvent(dbtb->hCompleted);
     }
 
-    jvm->DetachCurrentThread();
+    jvm->DetbchCurrentThrebd();
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
- * Method:    startToolkitThread
- * Signature: (Ljava/lang/Runnable;Ljava/lang/ThreadGroup)Z
+ * Clbss:     sun_bwt_windows_WToolkit
+ * Method:    stbrtToolkitThrebd
+ * Signbture: (Ljbvb/lbng/Runnbble;Ljbvb/lbng/ThrebdGroup)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_WToolkit_startToolkitThread(JNIEnv *env, jclass cls, jobject thread, jobject threadGroup)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_windows_WToolkit_stbrtToolkitThrebd(JNIEnv *env, jclbss cls, jobject threbd, jobject threbdGroup)
 {
-    AwtToolkit& tk = AwtToolkit::GetInstance();
+    AwtToolkit& tk = AwtToolkit::GetInstbnce();
 
-    ToolkitThreadProc_Data data;
-    data.result = false;
-    data.thread = env->NewGlobalRef(thread);
-    data.threadGroup = env->NewGlobalRef(threadGroup);
-    if (data.thread == NULL || data.threadGroup == NULL) {
+    ToolkitThrebdProc_Dbtb dbtb;
+    dbtb.result = fblse;
+    dbtb.threbd = env->NewGlobblRef(threbd);
+    dbtb.threbdGroup = env->NewGlobblRef(threbdGroup);
+    if (dbtb.threbd == NULL || dbtb.threbdGroup == NULL) {
         return JNI_FALSE;
     }
-    data.hCompleted = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+    dbtb.hCompleted = ::CrebteEvent(NULL, FALSE, FALSE, NULL);
 
-    bool result = tk.GetPreloadThread()
-                    .InvokeAndTerminate(ToolkitThreadProc, &data);
+    bool result = tk.GetPrelobdThrebd()
+                    .InvokeAndTerminbte(ToolkitThrebdProc, &dbtb);
 
     if (result) {
-        ::WaitForSingleObject(data.hCompleted, INFINITE);
-        result = data.result;
+        ::WbitForSingleObject(dbtb.hCompleted, INFINITE);
+        result = dbtb.result;
     } else {
-        // no awt preloading
-        // return back to the usual toolkit way
+        // no bwt prelobding
+        // return bbck to the usubl toolkit wby
     }
-    ::CloseHandle(data.hCompleted);
+    ::CloseHbndle(dbtb.hCompleted);
 
-    env->DeleteGlobalRef(data.thread);
-    env->DeleteGlobalRef(data.threadGroup);
+    env->DeleteGlobblRef(dbtb.threbd);
+    env->DeleteGlobblRef(dbtb.threbdGroup);
 
     return result ? JNI_TRUE : JNI_FALSE;
 }
 
-BOOL AwtToolkit::Initialize(BOOL localPump) {
-    AwtToolkit& tk = AwtToolkit::GetInstance();
+BOOL AwtToolkit::Initiblize(BOOL locblPump) {
+    AwtToolkit& tk = AwtToolkit::GetInstbnce();
 
-    if (!tk.m_isActive || tk.m_mainThreadId != 0) {
-        /* Already initialized. */
+    if (!tk.m_isActive || tk.m_mbinThrebdId != 0) {
+        /* Alrebdy initiblized. */
         return FALSE;
     }
 
-    // This call is moved here from AwtToolkit constructor. Having it
-    // there led to the bug 6480630: there could be a situation when
-    // ComCtl32Util was constructed but not disposed
-    ComCtl32Util::GetInstance().InitLibraries();
+    // This cbll is moved here from AwtToolkit constructor. Hbving it
+    // there led to the bug 6480630: there could be b situbtion when
+    // ComCtl32Util wbs constructed but not disposed
+    ComCtl32Util::GetInstbnce().InitLibrbries();
 
-    if (!localPump) {
-        // if preload thread was run, terminate it
-        preloadThread.Terminate(true);
+    if (!locblPump) {
+        // if prelobd threbd wbs run, terminbte it
+        prelobdThrebd.Terminbte(true);
     }
 
     /* Register this toolkit's helper window */
-    VERIFY(tk.RegisterClass() != NULL);
+    VERIFY(tk.RegisterClbss() != NULL);
 
-    // Set up operator new/malloc out of memory handler.
-    NewHandler::init();
+    // Set up operbtor new/mblloc out of memory hbndler.
+    NewHbndler::init();
 
         //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        // Bugs 4032109, 4047966, and 4071991 to fix AWT
-        //      crash in 16 color display mode.  16 color mode is supported.  Less
-        //      than 16 color is not.
+        // Bugs 4032109, 4047966, bnd 4071991 to fix AWT
+        //      crbsh in 16 color displby mode.  16 color mode is supported.  Less
+        //      thbn 16 color is not.
         // creighto@eng.sun.com 1997-10-07
         //
-        // Check for at least 16 colors
+        // Check for bt lebst 16 colors
     HDC hDC = ::GetDC(NULL);
-        if ((::GetDeviceCaps(hDC, BITSPIXEL) * ::GetDeviceCaps(hDC, PLANES)) < 4) {
-                ::MessageBox(NULL,
-                             TEXT("Sorry, but this release of Java requires at least 16 colors"),
-                             TEXT("AWT Initialization Error"),
+        if ((::GetDeviceCbps(hDC, BITSPIXEL) * ::GetDeviceCbps(hDC, PLANES)) < 4) {
+                ::MessbgeBox(NULL,
+                             TEXT("Sorry, but this relebse of Jbvb requires bt lebst 16 colors"),
+                             TEXT("AWT Initiblizbtion Error"),
                              MB_ICONHAND | MB_APPLMODAL);
                 ::DeleteDC(hDC);
                 JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-                JNU_ThrowByName(env, "java/lang/InternalError",
+                JNU_ThrowByNbme(env, "jbvb/lbng/InternblError",
                                 "unsupported screen depth");
                 return FALSE;
         }
-    ::ReleaseDC(NULL, hDC);
+    ::RelebseDC(NULL, hDC);
         ///////////////////////////////////////////////////////////////////////////
 
-    tk.m_localPump = localPump;
-    tk.m_mainThreadId = ::GetCurrentThreadId();
+    tk.m_locblPump = locblPump;
+    tk.m_mbinThrebdId = ::GetCurrentThrebdId();
 
     /*
-     * Create the one-and-only toolkit window.  This window isn't
-     * displayed, but is used to route messages to this thread.
+     * Crebte the one-bnd-only toolkit window.  This window isn't
+     * displbyed, but is used to route messbges to this threbd.
      */
-    tk.m_toolkitHWnd = tk.CreateToolkitWnd(TEXT("theAwtToolkitWindow"));
+    tk.m_toolkitHWnd = tk.CrebteToolkitWnd(TEXT("theAwtToolkitWindow"));
     DASSERT(tk.m_toolkitHWnd != NULL);
 
     /*
-     * Setup a GetMessage filter to watch all messages coming out of our
+     * Setup b GetMessbge filter to wbtch bll messbges coming out of our
      * queue from PreProcessMsg().
      */
-    tk.m_hGetMessageHook = ::SetWindowsHookEx(WH_GETMESSAGE,
-                                              (HOOKPROC)GetMessageFilter,
-                                              0, tk.m_mainThreadId);
+    tk.m_hGetMessbgeHook = ::SetWindowsHookEx(WH_GETMESSAGE,
+                                              (HOOKPROC)GetMessbgeFilter,
+                                              0, tk.m_mbinThrebdId);
 
-    awt_dnd_initialize();
+    bwt_dnd_initiblize();
 
     return TRUE;
 }
@@ -509,148 +509,148 @@ BOOL AwtToolkit::Initialize(BOOL localPump) {
 BOOL AwtToolkit::Dispose() {
     DTRACE_PRINTLN("In AwtToolkit::Dispose()");
 
-    AwtToolkit& tk = AwtToolkit::GetInstance();
+    AwtToolkit& tk = AwtToolkit::GetInstbnce();
 
-    if (!tk.m_isActive || tk.m_mainThreadId != ::GetCurrentThreadId()) {
+    if (!tk.m_isActive || tk.m_mbinThrebdId != ::GetCurrentThrebdId()) {
         return FALSE;
     }
 
     tk.m_isActive = FALSE;
 
-    // dispose Direct3D-related resources. This should be done
-    // before AwtObjectList::Cleanup() as the d3d will attempt to
-    // shutdown when the last of its windows is disposed of
-    D3DInitializer::GetInstance().Clean();
+    // dispose Direct3D-relbted resources. This should be done
+    // before AwtObjectList::Clebnup() bs the d3d will bttempt to
+    // shutdown when the lbst of its windows is disposed of
+    D3DInitiblizer::GetInstbnce().Clebn();
 
-    AwtObjectList::Cleanup();
+    AwtObjectList::Clebnup();
 
-    awt_dnd_uninitialize();
-    awt_clipboard_uninitialize((JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2));
+    bwt_dnd_uninitiblize();
+    bwt_clipbobrd_uninitiblize((JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2));
 
     if (tk.m_inputMethodHWnd != NULL) {
-        ::SendMessage(tk.m_inputMethodHWnd, WM_IME_CONTROL, IMC_OPENSTATUSWINDOW, 0);
+        ::SendMessbge(tk.m_inputMethodHWnd, WM_IME_CONTROL, IMC_OPENSTATUSWINDOW, 0);
     }
     tk.m_inputMethodHWnd = NULL;
 
-    // wait for any messages to be processed, in particular,
-    // all WM_AWT_DELETEOBJECT messages that delete components; no
-    // new messages will appear as all the windows except toolkit
-    // window are unsubclassed and destroyed
+    // wbit for bny messbges to be processed, in pbrticulbr,
+    // bll WM_AWT_DELETEOBJECT messbges thbt delete components; no
+    // new messbges will bppebr bs bll the windows except toolkit
+    // window bre unsubclbssed bnd destroyed
     MSG msg;
-    while (::GetMessage(&msg, NULL, 0, 0)) {
-        ::TranslateMessage(&msg);
-        ::DispatchMessage(&msg);
+    while (::GetMessbge(&msg, NULL, 0, 0)) {
+        ::TrbnslbteMessbge(&msg);
+        ::DispbtchMessbge(&msg);
     }
 
-    AwtFont::Cleanup();
+    AwtFont::Clebnup();
 
     HWND toolkitHWndToDestroy = tk.m_toolkitHWnd;
     tk.m_toolkitHWnd = 0;
     VERIFY(::DestroyWindow(toolkitHWndToDestroy) != NULL);
 
-    tk.UnregisterClass();
+    tk.UnregisterClbss();
 
-    ::UnhookWindowsHookEx(tk.m_hGetMessageHook);
-    UninstallMouseLowLevelHook();
+    ::UnhookWindowsHookEx(tk.m_hGetMessbgeHook);
+    UninstbllMouseLowLevelHook();
 
-    tk.m_mainThreadId = 0;
+    tk.m_mbinThrebdId = 0;
 
     delete tk.m_cmdIDs;
 
-    ::CloseHandle(m_waitEvent);
+    ::CloseHbndle(m_wbitEvent);
 
     tk.m_isDisposed = TRUE;
 
     return TRUE;
 }
 
-void AwtToolkit::SetDynamicLayout(BOOL dynamic) {
-    m_isDynamicLayoutSet = dynamic;
+void AwtToolkit::SetDynbmicLbyout(BOOL dynbmic) {
+    m_isDynbmicLbyoutSet = dynbmic;
 }
 
-BOOL AwtToolkit::IsDynamicLayoutSet() {
-    return m_isDynamicLayoutSet;
+BOOL AwtToolkit::IsDynbmicLbyoutSet() {
+    return m_isDynbmicLbyoutSet;
 }
 
-BOOL AwtToolkit::IsDynamicLayoutSupported() {
+BOOL AwtToolkit::IsDynbmicLbyoutSupported() {
     // SPI_GETDRAGFULLWINDOWS is only supported on Win95 if
-    // Windows Plus! is installed.  Otherwise, box frame resize.
-    BOOL fullWindowDragEnabled = FALSE;
+    // Windows Plus! is instblled.  Otherwise, box frbme resize.
+    BOOL fullWindowDrbgEnbbled = FALSE;
     int result = 0;
-    result = ::SystemParametersInfo(SPI_GETDRAGFULLWINDOWS, 0,
-                                  &fullWindowDragEnabled, 0);
+    result = ::SystemPbrbmetersInfo(SPI_GETDRAGFULLWINDOWS, 0,
+                                  &fullWindowDrbgEnbbled, 0);
 
-    return (fullWindowDragEnabled && (result != 0));
+    return (fullWindowDrbgEnbbled && (result != 0));
 }
 
-BOOL AwtToolkit::IsDynamicLayoutActive() {
-    return (IsDynamicLayoutSet() && IsDynamicLayoutSupported());
+BOOL AwtToolkit::IsDynbmicLbyoutActive() {
+    return (IsDynbmicLbyoutSet() && IsDynbmicLbyoutSupported());
 }
 
-ATOM AwtToolkit::RegisterClass() {
+ATOM AwtToolkit::RegisterClbss() {
     WNDCLASS  wc;
 
     wc.style         = 0;
     wc.lpfnWndProc   = (WNDPROC)WndProc;
-    wc.cbClsExtra    = 0;
-    wc.cbWndExtra    = 0;
-    wc.hInstance     = AwtToolkit::GetInstance().GetModuleHandle(),
-    wc.hIcon         = AwtToolkit::GetInstance().GetAwtIcon();
+    wc.cbClsExtrb    = 0;
+    wc.cbWndExtrb    = 0;
+    wc.hInstbnce     = AwtToolkit::GetInstbnce().GetModuleHbndle(),
+    wc.hIcon         = AwtToolkit::GetInstbnce().GetAwtIcon();
     wc.hCursor       = NULL;
-    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
-    wc.lpszMenuName  = NULL;
-    wc.lpszClassName = szAwtToolkitClassName;
+    wc.hbrBbckground = (HBRUSH)(COLOR_WINDOW+1);
+    wc.lpszMenuNbme  = NULL;
+    wc.lpszClbssNbme = szAwtToolkitClbssNbme;
 
-    ATOM ret = ::RegisterClass(&wc);
+    ATOM ret = ::RegisterClbss(&wc);
     DASSERT(ret != NULL);
     return ret;
 }
 
-void AwtToolkit::UnregisterClass() {
-    VERIFY(::UnregisterClass(szAwtToolkitClassName, AwtToolkit::GetInstance().GetModuleHandle()));
+void AwtToolkit::UnregisterClbss() {
+    VERIFY(::UnregisterClbss(szAwtToolkitClbssNbme, AwtToolkit::GetInstbnce().GetModuleHbndle()));
 }
 
 /*
- * Structure holding the information to create a component. This packet is
+ * Structure holding the informbtion to crebte b component. This pbcket is
  * sent to the toolkit window.
  */
-struct ComponentCreatePacket {
+struct ComponentCrebtePbcket {
     void* hComponent;
-    void* hParent;
-    void (*factory)(void*, void*);
+    void* hPbrent;
+    void (*fbctory)(void*, void*);
 };
 
 /*
- * Create an AwtXxxx component using a given factory function
- * Implemented by sending a message to the toolkit window to invoke the
- * factory function from that thread
+ * Crebte bn AwtXxxx component using b given fbctory function
+ * Implemented by sending b messbge to the toolkit window to invoke the
+ * fbctory function from thbt threbd
  */
-void AwtToolkit::CreateComponent(void* component, void* parent,
-                                 ComponentFactory compFactory, BOOL isParentALocalReference)
+void AwtToolkit::CrebteComponent(void* component, void* pbrent,
+                                 ComponentFbctory compFbctory, BOOL isPbrentALocblReference)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    /* Since Local references are not valid in another Thread, we need to
-       create a global reference before we send this to the Toolkit thread.
-       In some cases this method is called with parent being a native
-       malloced struct so we cannot and do not need to create a Global
-       Reference from it. This is indicated by isParentALocalReference */
+    /* Since Locbl references bre not vblid in bnother Threbd, we need to
+       crebte b globbl reference before we send this to the Toolkit threbd.
+       In some cbses this method is cblled with pbrent being b nbtive
+       mblloced struct so we cbnnot bnd do not need to crebte b Globbl
+       Reference from it. This is indicbted by isPbrentALocblReference */
 
-    jobject gcomponent = env->NewGlobalRef((jobject)component);
-    jobject gparent;
-    if (isParentALocalReference) gparent = env->NewGlobalRef((jobject)parent);
-    ComponentCreatePacket ccp = { gcomponent,
-                                  isParentALocalReference == TRUE ?  gparent : parent,
-                                   compFactory };
-    AwtToolkit::GetInstance().SendMessage(WM_AWT_COMPONENT_CREATE, 0,
+    jobject gcomponent = env->NewGlobblRef((jobject)component);
+    jobject gpbrent;
+    if (isPbrentALocblReference) gpbrent = env->NewGlobblRef((jobject)pbrent);
+    ComponentCrebtePbcket ccp = { gcomponent,
+                                  isPbrentALocblReference == TRUE ?  gpbrent : pbrent,
+                                   compFbctory };
+    AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_COMPONENT_CREATE, 0,
                                           (LPARAM)&ccp);
-    env->DeleteGlobalRef(gcomponent);
-    if (isParentALocalReference) env->DeleteGlobalRef(gparent);
+    env->DeleteGlobblRef(gcomponent);
+    if (isPbrentALocblReference) env->DeleteGlobblRef(gpbrent);
 }
 
 /*
- * Destroy an HWND that was created in the toolkit thread. Can be used on
- * Components and the toolkit window itself.
+ * Destroy bn HWND thbt wbs crebted in the toolkit threbd. Cbn be used on
+ * Components bnd the toolkit window itself.
  */
 void AwtToolkit::DestroyComponentHWND(HWND hwnd)
 {
@@ -658,143 +658,143 @@ void AwtToolkit::DestroyComponentHWND(HWND hwnd)
         return;
     }
 
-    AwtToolkit& tk = AwtToolkit::GetInstance();
-    if ((tk.m_lastMouseOver != NULL) &&
-        (tk.m_lastMouseOver->GetHWnd() == hwnd))
+    AwtToolkit& tk = AwtToolkit::GetInstbnce();
+    if ((tk.m_lbstMouseOver != NULL) &&
+        (tk.m_lbstMouseOver->GetHWnd() == hwnd))
     {
-        tk.m_lastMouseOver = NULL;
+        tk.m_lbstMouseOver = NULL;
     }
 
     ::SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)NULL);
-    tk.SendMessage(WM_AWT_DESTROY_WINDOW, (WPARAM)hwnd, 0);
+    tk.SendMessbge(WM_AWT_DESTROY_WINDOW, (WPARAM)hwnd, 0);
 }
 
 #ifndef SPY_MESSAGES
-#define SpyWinMessage(hwin,msg,str)
+#define SpyWinMessbge(hwin,msg,str)
 #else
-void SpyWinMessage(HWND hwnd, UINT message, LPCTSTR szComment);
+void SpyWinMessbge(HWND hwnd, UINT messbge, LPCTSTR szComment);
 #endif
 
 /*
- * An AwtToolkit window is just a means of routing toolkit messages to here.
+ * An AwtToolkit window is just b mebns of routing toolkit messbges to here.
  */
-LRESULT CALLBACK AwtToolkit::WndProc(HWND hWnd, UINT message,
-                                     WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK AwtToolkit::WndProc(HWND hWnd, UINT messbge,
+                                     WPARAM wPbrbm, LPARAM lPbrbm)
 {
     TRY;
 
     JNIEnv *env = GetEnv();
-    JNILocalFrame lframe(env, 10);
+    JNILocblFrbme lfrbme(env, 10);
 
-    SpyWinMessage(hWnd, message, TEXT("AwtToolkit"));
+    SpyWinMessbge(hWnd, messbge, TEXT("AwtToolkit"));
 
-    AwtToolkit::GetInstance().eventNumber++;
+    AwtToolkit::GetInstbnce().eventNumber++;
     /*
-     * Awt widget creation messages are routed here so that all
-     * widgets are created on the main thread.  Java allows widgets
-     * to live beyond their creating thread -- by creating them on
-     * the main thread, a widget can always be properly disposed.
+     * Awt widget crebtion messbges bre routed here so thbt bll
+     * widgets bre crebted on the mbin threbd.  Jbvb bllows widgets
+     * to live beyond their crebting threbd -- by crebting them on
+     * the mbin threbd, b widget cbn blwbys be properly disposed.
      */
-    switch (message) {
-      case WM_AWT_EXECUTE_SYNC: {
-          jobject peerObject = (jobject)wParam;
+    switch (messbge) {
+      cbse WM_AWT_EXECUTE_SYNC: {
+          jobject peerObject = (jobject)wPbrbm;
           AwtObject* object = (AwtObject *)JNI_GET_PDATA(peerObject);
-          DASSERT( !IsBadReadPtr(object, sizeof(AwtObject)));
-          AwtObject::ExecuteArgs *args = (AwtObject::ExecuteArgs *)lParam;
-          DASSERT(!IsBadReadPtr(args, sizeof(AwtObject::ExecuteArgs)));
+          DASSERT( !IsBbdRebdPtr(object, sizeof(AwtObject)));
+          AwtObject::ExecuteArgs *brgs = (AwtObject::ExecuteArgs *)lPbrbm;
+          DASSERT(!IsBbdRebdPtr(brgs, sizeof(AwtObject::ExecuteArgs)));
           LRESULT result = 0;
           if (object != NULL)
           {
-              result = object->WinThreadExecProc(args);
+              result = object->WinThrebdExecProc(brgs);
           }
-          env->DeleteGlobalRef(peerObject);
+          env->DeleteGlobblRef(peerObject);
           return result;
       }
-      case WM_AWT_COMPONENT_CREATE: {
-          ComponentCreatePacket* ccp = (ComponentCreatePacket*)lParam;
-          DASSERT(ccp->factory != NULL);
+      cbse WM_AWT_COMPONENT_CREATE: {
+          ComponentCrebtePbcket* ccp = (ComponentCrebtePbcket*)lPbrbm;
+          DASSERT(ccp->fbctory != NULL);
           DASSERT(ccp->hComponent != NULL);
-          (*ccp->factory)(ccp->hComponent, ccp->hParent);
+          (*ccp->fbctory)(ccp->hComponent, ccp->hPbrent);
           return 0;
       }
-      case WM_AWT_DESTROY_WINDOW: {
-          /* Destroy widgets from this same thread that created them */
-          VERIFY(::DestroyWindow((HWND)wParam) != NULL);
+      cbse WM_AWT_DESTROY_WINDOW: {
+          /* Destroy widgets from this sbme threbd thbt crebted them */
+          VERIFY(::DestroyWindow((HWND)wPbrbm) != NULL);
           return 0;
       }
-      case WM_AWT_DISPOSE: {
-          if(wParam != NULL) {
-              jobject self = (jobject)wParam;
+      cbse WM_AWT_DISPOSE: {
+          if(wPbrbm != NULL) {
+              jobject self = (jobject)wPbrbm;
               AwtObject *o = (AwtObject *) JNI_GET_PDATA(self);
-              env->DeleteGlobalRef(self);
+              env->DeleteGlobblRef(self);
               if(o != NULL && theAwtObjectList.Remove(o)) {
                   o->Dispose();
               }
           }
           return 0;
       }
-      case WM_AWT_DISPOSEPDATA: {
+      cbse WM_AWT_DISPOSEPDATA: {
           /*
-           * NOTE: synchronization routine (like in WM_AWT_DISPOSE) was omitted because
-           * this handler is called ONLY while disposing Cursor and Font objects where
-           * synchronization takes place.
+           * NOTE: synchronizbtion routine (like in WM_AWT_DISPOSE) wbs omitted becbuse
+           * this hbndler is cblled ONLY while disposing Cursor bnd Font objects where
+           * synchronizbtion tbkes plbce.
            */
-          AwtObject *o = (AwtObject *) wParam;
+          AwtObject *o = (AwtObject *) wPbrbm;
           if(o != NULL && theAwtObjectList.Remove(o)) {
               o->Dispose();
           }
           return 0;
       }
-      case WM_AWT_DELETEOBJECT: {
-          AwtObject *p = (AwtObject *) wParam;
-          if (p->CanBeDeleted()) {
-              // all the messages for this component are processed, so
-              // it can be deleted
+      cbse WM_AWT_DELETEOBJECT: {
+          AwtObject *p = (AwtObject *) wPbrbm;
+          if (p->CbnBeDeleted()) {
+              // bll the messbges for this component bre processed, so
+              // it cbn be deleted
               delete p;
           } else {
-              // postpone deletion, waiting for all the messages for this
+              // postpone deletion, wbiting for bll the messbges for this
               // component to be processed
-              AwtToolkit::GetInstance().PostMessage(WM_AWT_DELETEOBJECT, wParam, (LPARAM)0);
+              AwtToolkit::GetInstbnce().PostMessbge(WM_AWT_DELETEOBJECT, wPbrbm, (LPARAM)0);
           }
           return 0;
       }
-      case WM_AWT_OBJECTLISTCLEANUP: {
-          AwtObjectList::Cleanup();
+      cbse WM_AWT_OBJECTLISTCLEANUP: {
+          AwtObjectList::Clebnup();
           return 0;
       }
-      case WM_SYSCOLORCHANGE: {
+      cbse WM_SYSCOLORCHANGE: {
 
-          jclass systemColorClass = env->FindClass("java/awt/SystemColor");
-          DASSERT(systemColorClass);
-          if (!systemColorClass) throw std::bad_alloc();
+          jclbss systemColorClbss = env->FindClbss("jbvb/bwt/SystemColor");
+          DASSERT(systemColorClbss);
+          if (!systemColorClbss) throw std::bbd_blloc();
 
-          jmethodID mid = env->GetStaticMethodID(systemColorClass, "updateSystemColors", "()V");
+          jmethodID mid = env->GetStbticMethodID(systemColorClbss, "updbteSystemColors", "()V");
           DASSERT(mid);
-          if (!mid) throw std::bad_alloc();
+          if (!mid) throw std::bbd_blloc();
 
-          env->CallStaticVoidMethod(systemColorClass, mid);
+          env->CbllStbticVoidMethod(systemColorClbss, mid);
 
           /* FALL THROUGH - NO BREAK */
       }
 
-      case WM_SETTINGCHANGE: {
-          AwtWin32GraphicsDevice::ResetAllMonitorInfo();
+      cbse WM_SETTINGCHANGE: {
+          AwtWin32GrbphicsDevice::ResetAllMonitorInfo();
           /* FALL THROUGH - NO BREAK */
       }
 // Remove this define when we move to newer (XP) version of SDK.
 #define WM_THEMECHANGED                 0x031A
-      case WM_THEMECHANGED: {
-          /* Upcall to WToolkit when user changes configuration.
+      cbse WM_THEMECHANGED: {
+          /* Upcbll to WToolkit when user chbnges configurbtion.
            *
-           * NOTE: there is a bug in Windows 98 and some older versions of
+           * NOTE: there is b bug in Windows 98 bnd some older versions of
            * Windows NT (it seems to be fixed in NT4 SP5) where no
-           * WM_SETTINGCHANGE is sent when any of the properties under
-           * Control Panel -> Display are changed.  You must _always_ query
-           * the system for these - you can't rely on cached values.
+           * WM_SETTINGCHANGE is sent when bny of the properties under
+           * Control Pbnel -> Displby bre chbnged.  You must _blwbys_ query
+           * the system for these - you cbn't rely on cbched vblues.
            */
-          jobject peer = AwtToolkit::GetInstance().m_peer;
+          jobject peer = AwtToolkit::GetInstbnce().m_peer;
           if (peer != NULL) {
-              env->CallVoidMethod(peer, AwtToolkit::windowsSettingChangeMID);
+              env->CbllVoidMethod(peer, AwtToolkit::windowsSettingChbngeMID);
           }
           return 0;
       }
@@ -804,318 +804,318 @@ LRESULT CALLBACK AwtToolkit::WndProc(HWND hWnd, UINT message,
 #define WM_DWMCOLORIZATIONCOLORCHANGED  0x0320
 #define WM_DWMWINDOWMAXIMIZEDCHANGED    0x0321
 #endif // WM_DWMCOMPOSITIONCHANGED
-      case WM_DWMCOMPOSITIONCHANGED: {
-          DWMResetCompositionEnabled();
+      cbse WM_DWMCOMPOSITIONCHANGED: {
+          DWMResetCompositionEnbbled();
           return 0;
       }
 
-      case WM_TIMER: {
-          // 6479820. Should check if a window is in manual resizing process: skip
-          // sending any MouseExit/Enter events while inside resize-loop.
-          // Note that window being in manual moving process could still
-          // produce redundant enter/exit mouse events. In future, they can be
-          // made skipped in a similar way.
+      cbse WM_TIMER: {
+          // 6479820. Should check if b window is in mbnubl resizing process: skip
+          // sending bny MouseExit/Enter events while inside resize-loop.
+          // Note thbt window being in mbnubl moving process could still
+          // produce redundbnt enter/exit mouse events. In future, they cbn be
+          // mbde skipped in b similbr wby.
            if (AwtWindow::IsResizing()) {
                return 0;
            }
-          // Create an artifical MouseExit message if the mouse left to
-          // a non-java window (bad mouse!)
+          // Crebte bn brtificbl MouseExit messbge if the mouse left to
+          // b non-jbvb window (bbd mouse!)
           POINT pt;
-          AwtToolkit& tk = AwtToolkit::GetInstance();
+          AwtToolkit& tk = AwtToolkit::GetInstbnce();
           if (::GetCursorPos(&pt)) {
               HWND hWndOver = ::WindowFromPoint(pt);
-              AwtComponent * last_M;
-              if ( AwtComponent::GetComponent(hWndOver) == NULL && tk.m_lastMouseOver != NULL ) {
-                  last_M = tk.m_lastMouseOver;
-                  // translate point from screen to target window
-                  MapWindowPoints(HWND_DESKTOP, last_M->GetHWnd(), &pt, 1);
-                  last_M->SendMessage(WM_AWT_MOUSEEXIT,
-                                      GetMouseKeyState(),
+              AwtComponent * lbst_M;
+              if ( AwtComponent::GetComponent(hWndOver) == NULL && tk.m_lbstMouseOver != NULL ) {
+                  lbst_M = tk.m_lbstMouseOver;
+                  // trbnslbte point from screen to tbrget window
+                  MbpWindowPoints(HWND_DESKTOP, lbst_M->GetHWnd(), &pt, 1);
+                  lbst_M->SendMessbge(WM_AWT_MOUSEEXIT,
+                                      GetMouseKeyStbte(),
                                       POINTTOPOINTS(pt));
-                  tk.m_lastMouseOver = 0;
+                  tk.m_lbstMouseOver = 0;
               }
           }
-          if (tk.m_lastMouseOver == NULL && tk.m_timer != 0) {
+          if (tk.m_lbstMouseOver == NULL && tk.m_timer != 0) {
               VERIFY(::KillTimer(tk.m_toolkitHWnd, tk.m_timer));
               tk.m_timer = 0;
           }
           return 0;
       }
-      case WM_DESTROYCLIPBOARD: {
-          if (!AwtClipboard::IsGettingOwnership())
-              AwtClipboard::LostOwnership((JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2));
+      cbse WM_DESTROYCLIPBOARD: {
+          if (!AwtClipbobrd::IsGettingOwnership())
+              AwtClipbobrd::LostOwnership((JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2));
           return 0;
       }
-      case WM_CHANGECBCHAIN: {
-          AwtClipboard::WmChangeCbChain(wParam, lParam);
+      cbse WM_CHANGECBCHAIN: {
+          AwtClipbobrd::WmChbngeCbChbin(wPbrbm, lPbrbm);
           return 0;
       }
-      case WM_DRAWCLIPBOARD: {
-          AwtClipboard::WmDrawClipboard((JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2), wParam, lParam);
+      cbse WM_DRAWCLIPBOARD: {
+          AwtClipbobrd::WmDrbwClipbobrd((JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2), wPbrbm, lPbrbm);
           return 0;
       }
-      case WM_AWT_LIST_SETMULTISELECT: {
-          jobject peerObject = (jobject)wParam;
+      cbse WM_AWT_LIST_SETMULTISELECT: {
+          jobject peerObject = (jobject)wPbrbm;
           AwtList* list = (AwtList *)JNI_GET_PDATA(peerObject);
-          DASSERT( !IsBadReadPtr(list, sizeof(AwtObject)));
-          list->SetMultiSelect(static_cast<BOOL>(lParam));
+          DASSERT( !IsBbdRebdPtr(list, sizeof(AwtObject)));
+          list->SetMultiSelect(stbtic_cbst<BOOL>(lPbrbm));
           return 0;
       }
 
-      // Special awt message to call Imm APIs.
-      // ImmXXXX() API must be used in the main thread.
-      // In other thread these APIs does not work correctly even if
+      // Specibl bwt messbge to cbll Imm APIs.
+      // ImmXXXX() API must be used in the mbin threbd.
+      // In other threbd these APIs does not work correctly even if
       // it returs with no error. (This restriction is not documented)
-      // So we must use thse messages to call these APIs in main thread.
-      case WM_AWT_CREATECONTEXT: {
-        return reinterpret_cast<LRESULT>(
-            reinterpret_cast<void*>(ImmCreateContext()));
+      // So we must use thse messbges to cbll these APIs in mbin threbd.
+      cbse WM_AWT_CREATECONTEXT: {
+        return reinterpret_cbst<LRESULT>(
+            reinterpret_cbst<void*>(ImmCrebteContext()));
       }
-      case WM_AWT_DESTROYCONTEXT: {
-          ImmDestroyContext((HIMC)wParam);
+      cbse WM_AWT_DESTROYCONTEXT: {
+          ImmDestroyContext((HIMC)wPbrbm);
           return 0;
       }
-      case WM_AWT_ASSOCIATECONTEXT: {
-          EnableNativeIMEStruct *data = (EnableNativeIMEStruct*)wParam;
+      cbse WM_AWT_ASSOCIATECONTEXT: {
+          EnbbleNbtiveIMEStruct *dbtb = (EnbbleNbtiveIMEStruct*)wPbrbm;
 
-          jobject peer = data->peer;
-          jobject self = data->self;
-          jint context = data->context;
-          jboolean useNativeCompWindow = data->useNativeCompWindow;
+          jobject peer = dbtb->peer;
+          jobject self = dbtb->self;
+          jint context = dbtb->context;
+          jboolebn useNbtiveCompWindow = dbtb->useNbtiveCompWindow;
 
           AwtComponent* comp = (AwtComponent*)JNI_GET_PDATA(peer);
           if (comp != NULL)
           {
-              comp->SetInputMethod(self, useNativeCompWindow);
-              comp->ImmAssociateContext((HIMC)context);
+              comp->SetInputMethod(self, useNbtiveCompWindow);
+              comp->ImmAssocibteContext((HIMC)context);
           }
 
           if (peer != NULL) {
-              env->DeleteGlobalRef(peer);
+              env->DeleteGlobblRef(peer);
           }
           if (self != NULL) {
-              env->DeleteGlobalRef(self);
+              env->DeleteGlobblRef(self);
           }
 
-          delete data;
+          delete dbtb;
           return 0;
       }
-      case WM_AWT_GET_DEFAULT_IME_HANDLER: {
+      cbse WM_AWT_GET_DEFAULT_IME_HANDLER: {
           LRESULT ret = (LRESULT)FALSE;
-          jobject peer = (jobject)wParam;
+          jobject peer = (jobject)wPbrbm;
 
           AwtComponent* comp = (AwtComponent*)JNI_GET_PDATA(peer);
           if (comp != NULL) {
-              HWND defaultIMEHandler = ImmGetDefaultIMEWnd(comp->GetHWnd());
-              if (defaultIMEHandler != NULL) {
-                  AwtToolkit::GetInstance().SetInputMethodWindow(defaultIMEHandler);
+              HWND defbultIMEHbndler = ImmGetDefbultIMEWnd(comp->GetHWnd());
+              if (defbultIMEHbndler != NULL) {
+                  AwtToolkit::GetInstbnce().SetInputMethodWindow(defbultIMEHbndler);
                   ret = (LRESULT)TRUE;
               }
           }
 
           if (peer != NULL) {
-              env->DeleteGlobalRef(peer);
+              env->DeleteGlobblRef(peer);
           }
           return ret;
       }
-      case WM_AWT_HANDLE_NATIVE_IME_EVENT: {
-          jobject peer = (jobject)wParam;
+      cbse WM_AWT_HANDLE_NATIVE_IME_EVENT: {
+          jobject peer = (jobject)wPbrbm;
           AwtComponent* comp = (AwtComponent*)JNI_GET_PDATA(peer);
-          MSG* msg = (MSG*)lParam;
+          MSG* msg = (MSG*)lPbrbm;
 
-          long modifiers = comp->GetJavaModifiers();
-          if ((comp != NULL) && (msg->message==WM_CHAR || msg->message==WM_SYSCHAR)) {
-              WCHAR unicodeChar = (WCHAR)msg->wParam;
-              comp->SendKeyEvent(java_awt_event_KeyEvent_KEY_TYPED,
+          long modifiers = comp->GetJbvbModifiers();
+          if ((comp != NULL) && (msg->messbge==WM_CHAR || msg->messbge==WM_SYSCHAR)) {
+              WCHAR unicodeChbr = (WCHAR)msg->wPbrbm;
+              comp->SendKeyEvent(jbvb_bwt_event_KeyEvent_KEY_TYPED,
                                  0, //to be fixed nowMillis(),
-                                 java_awt_event_KeyEvent_CHAR_UNDEFINED,
-                                 unicodeChar,
+                                 jbvb_bwt_event_KeyEvent_CHAR_UNDEFINED,
+                                 unicodeChbr,
                                  modifiers,
-                                 java_awt_event_KeyEvent_KEY_LOCATION_UNKNOWN, (jlong)0,
+                                 jbvb_bwt_event_KeyEvent_KEY_LOCATION_UNKNOWN, (jlong)0,
                                  msg);
           } else if (comp != NULL) {
               MSG* pCopiedMsg = new MSG;
               *pCopiedMsg = *msg;
-              comp->SendMessage(WM_AWT_HANDLE_EVENT, (WPARAM) FALSE,
+              comp->SendMessbge(WM_AWT_HANDLE_EVENT, (WPARAM) FALSE,
                                 (LPARAM) pCopiedMsg);
           }
 
           if (peer != NULL) {
-              env->DeleteGlobalRef(peer);
+              env->DeleteGlobblRef(peer);
           }
           return 0;
       }
-      case WM_AWT_ENDCOMPOSITION: {
-          /*right now we just cancel the composition string
-          may need to commit it in the furture
-          Changed to commit it according to the flag 10/29/98*/
-          ImmNotifyIME((HIMC)wParam, NI_COMPOSITIONSTR,
-                       (lParam ? CPS_COMPLETE : CPS_CANCEL), 0);
+      cbse WM_AWT_ENDCOMPOSITION: {
+          /*right now we just cbncel the composition string
+          mby need to commit it in the furture
+          Chbnged to commit it bccording to the flbg 10/29/98*/
+          ImmNotifyIME((HIMC)wPbrbm, NI_COMPOSITIONSTR,
+                       (lPbrbm ? CPS_COMPLETE : CPS_CANCEL), 0);
           return 0;
       }
-      case WM_AWT_SETCONVERSIONSTATUS: {
+      cbse WM_AWT_SETCONVERSIONSTATUS: {
           DWORD cmode;
           DWORD smode;
-          ImmGetConversionStatus((HIMC)wParam, (LPDWORD)&cmode, (LPDWORD)&smode);
-          ImmSetConversionStatus((HIMC)wParam, (DWORD)LOWORD(lParam), smode);
+          ImmGetConversionStbtus((HIMC)wPbrbm, (LPDWORD)&cmode, (LPDWORD)&smode);
+          ImmSetConversionStbtus((HIMC)wPbrbm, (DWORD)LOWORD(lPbrbm), smode);
           return 0;
       }
-      case WM_AWT_GETCONVERSIONSTATUS: {
+      cbse WM_AWT_GETCONVERSIONSTATUS: {
           DWORD cmode;
           DWORD smode;
-          ImmGetConversionStatus((HIMC)wParam, (LPDWORD)&cmode, (LPDWORD)&smode);
+          ImmGetConversionStbtus((HIMC)wPbrbm, (LPDWORD)&cmode, (LPDWORD)&smode);
           return cmode;
       }
-      case WM_AWT_ACTIVATEKEYBOARDLAYOUT: {
-          if (wParam && g_bUserHasChangedInputLang) {
-              // Input language has been changed since the last WInputMethod.getNativeLocale()
-              // call.  So let's honor the user's selection.
-              // Note: we need to check this flag inside the toolkit thread to synchronize access
-              // to the flag.
+      cbse WM_AWT_ACTIVATEKEYBOARDLAYOUT: {
+          if (wPbrbm && g_bUserHbsChbngedInputLbng) {
+              // Input lbngubge hbs been chbnged since the lbst WInputMethod.getNbtiveLocble()
+              // cbll.  So let's honor the user's selection.
+              // Note: we need to check this flbg inside the toolkit threbd to synchronize bccess
+              // to the flbg.
               return FALSE;
           }
 
-          if (lParam == (LPARAM)::GetKeyboardLayout(0)) {
-              // already active
+          if (lPbrbm == (LPARAM)::GetKeybobrdLbyout(0)) {
+              // blrebdy bctive
               return FALSE;
           }
 
-          // Since ActivateKeyboardLayout does not post WM_INPUTLANGCHANGEREQUEST,
-          // we explicitly need to do the same thing here.
-          static BYTE keyboardState[AwtToolkit::KB_STATE_SIZE];
-          AwtToolkit::GetKeyboardState(keyboardState);
+          // Since ActivbteKeybobrdLbyout does not post WM_INPUTLANGCHANGEREQUEST,
+          // we explicitly need to do the sbme thing here.
+          stbtic BYTE keybobrdStbte[AwtToolkit::KB_STATE_SIZE];
+          AwtToolkit::GetKeybobrdStbte(keybobrdStbte);
           WORD ignored;
-          ::ToAscii(VK_SPACE, ::MapVirtualKey(VK_SPACE, 0),
-                    keyboardState, &ignored, 0);
+          ::ToAscii(VK_SPACE, ::MbpVirtublKey(VK_SPACE, 0),
+                    keybobrdStbte, &ignored, 0);
 
-          return (LRESULT)activateKeyboardLayout((HKL)lParam);
+          return (LRESULT)bctivbteKeybobrdLbyout((HKL)lPbrbm);
       }
-      case WM_AWT_OPENCANDIDATEWINDOW: {
-          jobject peerObject = (jobject)wParam;
+      cbse WM_AWT_OPENCANDIDATEWINDOW: {
+          jobject peerObject = (jobject)wPbrbm;
           AwtComponent* p = (AwtComponent*)JNI_GET_PDATA(peerObject);
-          DASSERT( !IsBadReadPtr(p, sizeof(AwtObject)));
-          // fix for 4805862: use GET_X_LPARAM and GET_Y_LPARAM macros
-          // instead of LOWORD and HIWORD
-          p->OpenCandidateWindow(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-          env->DeleteGlobalRef(peerObject);
+          DASSERT( !IsBbdRebdPtr(p, sizeof(AwtObject)));
+          // fix for 4805862: use GET_X_LPARAM bnd GET_Y_LPARAM mbcros
+          // instebd of LOWORD bnd HIWORD
+          p->OpenCbndidbteWindow(GET_X_LPARAM(lPbrbm), GET_Y_LPARAM(lPbrbm));
+          env->DeleteGlobblRef(peerObject);
           return 0;
       }
 
       /*
-       * send this message via ::SendMessage() and the MPT will acquire the
-       * HANDLE synchronized with the sender's thread. The HANDLE must be
-       * signalled or deadlock may occur between the MPT and the caller.
+       * send this messbge vib ::SendMessbge() bnd the MPT will bcquire the
+       * HANDLE synchronized with the sender's threbd. The HANDLE must be
+       * signblled or debdlock mby occur between the MPT bnd the cbller.
        */
 
-      case WM_AWT_WAIT_FOR_SINGLE_OBJECT: {
-        return ::WaitForSingleObject((HANDLE)lParam, INFINITE);
+      cbse WM_AWT_WAIT_FOR_SINGLE_OBJECT: {
+        return ::WbitForSingleObject((HANDLE)lPbrbm, INFINITE);
       }
-      case WM_AWT_INVOKE_METHOD: {
-        return (LRESULT)(*(void*(*)(void*))wParam)((void *)lParam);
+      cbse WM_AWT_INVOKE_METHOD: {
+        return (LRESULT)(*(void*(*)(void*))wPbrbm)((void *)lPbrbm);
       }
-      case WM_AWT_INVOKE_VOID_METHOD: {
-        return (LRESULT)(*(void*(*)(void))wParam)();
+      cbse WM_AWT_INVOKE_VOID_METHOD: {
+        return (LRESULT)(*(void*(*)(void))wPbrbm)();
       }
 
-      case WM_AWT_SETOPENSTATUS: {
-          ImmSetOpenStatus((HIMC)wParam, (BOOL)lParam);
+      cbse WM_AWT_SETOPENSTATUS: {
+          ImmSetOpenStbtus((HIMC)wPbrbm, (BOOL)lPbrbm);
           return 0;
       }
-      case WM_AWT_GETOPENSTATUS: {
-          return (DWORD)ImmGetOpenStatus((HIMC)wParam);
+      cbse WM_AWT_GETOPENSTATUS: {
+          return (DWORD)ImmGetOpenStbtus((HIMC)wPbrbm);
       }
-      case WM_DISPLAYCHANGE: {
-          // Reinitialize screens
+      cbse WM_DISPLAYCHANGE: {
+          // Reinitiblize screens
           initScreens(env);
 
-          // Notify Java side - call WToolkit.displayChanged()
-          jclass clazz = env->FindClass("sun/awt/windows/WToolkit");
-          DASSERT(clazz != NULL);
-          if (!clazz) throw std::bad_alloc();
-          env->CallStaticVoidMethod(clazz, AwtToolkit::displayChangeMID);
+          // Notify Jbvb side - cbll WToolkit.displbyChbnged()
+          jclbss clbzz = env->FindClbss("sun/bwt/windows/WToolkit");
+          DASSERT(clbzz != NULL);
+          if (!clbzz) throw std::bbd_blloc();
+          env->CbllStbticVoidMethod(clbzz, AwtToolkit::displbyChbngeMID);
 
-          GetInstance().m_displayChanged = TRUE;
+          GetInstbnce().m_displbyChbnged = TRUE;
 
-          ::PostMessage(HWND_BROADCAST, WM_PALETTEISCHANGING, NULL, NULL);
-          break;
+          ::PostMessbge(HWND_BROADCAST, WM_PALETTEISCHANGING, NULL, NULL);
+          brebk;
       }
-      case WM_AWT_SETCURSOR: {
-          ::SetCursor((HCURSOR)wParam);
+      cbse WM_AWT_SETCURSOR: {
+          ::SetCursor((HCURSOR)wPbrbm);
           return TRUE;
       }
-      /* Session management */
-      case WM_QUERYENDSESSION: {
-          /* Shut down cleanly */
-          if (JVM_RaiseSignal(SIGTERM)) {
-              AwtToolkit::GetInstance().m_vmSignalled = TRUE;
+      /* Session mbnbgement */
+      cbse WM_QUERYENDSESSION: {
+          /* Shut down clebnly */
+          if (JVM_RbiseSignbl(SIGTERM)) {
+              AwtToolkit::GetInstbnce().m_vmSignblled = TRUE;
           }
           return TRUE;
       }
-      case WM_ENDSESSION: {
-          // Keep pumping messages until the shutdown sequence halts the VM,
-          // or we exit the MessageLoop because of a WM_QUIT message
-          AwtToolkit& tk = AwtToolkit::GetInstance();
+      cbse WM_ENDSESSION: {
+          // Keep pumping messbges until the shutdown sequence hblts the VM,
+          // or we exit the MessbgeLoop becbuse of b WM_QUIT messbge
+          AwtToolkit& tk = AwtToolkit::GetInstbnce();
 
-          // if WM_QUERYENDSESSION hasn't successfully raised SIGTERM
-          // we ignore the ENDSESSION message
-          if (!tk.m_vmSignalled) {
+          // if WM_QUERYENDSESSION hbsn't successfully rbised SIGTERM
+          // we ignore the ENDSESSION messbge
+          if (!tk.m_vmSignblled) {
               return 0;
           }
-          tk.MessageLoop(AwtToolkit::PrimaryIdleFunc,
-                         AwtToolkit::CommonPeekMessageFunc);
+          tk.MessbgeLoop(AwtToolkit::PrimbryIdleFunc,
+                         AwtToolkit::CommonPeekMessbgeFunc);
 
-          // Dispose here instead of in eventLoop so that we don't have
-          // to return from the WM_ENDSESSION handler.
+          // Dispose here instebd of in eventLoop so thbt we don't hbve
+          // to return from the WM_ENDSESSION hbndler.
           tk.Dispose();
 
-          // Never return. The VM will halt the process.
-          hang_if_shutdown();
+          // Never return. The VM will hblt the process.
+          hbng_if_shutdown();
 
           // Should never get here.
           DASSERT(FALSE);
-          break;
+          brebk;
       }
-      case WM_SYNC_WAIT:
-          SetEvent(AwtToolkit::GetInstance().m_waitEvent);
-          break;
+      cbse WM_SYNC_WAIT:
+          SetEvent(AwtToolkit::GetInstbnce().m_wbitEvent);
+          brebk;
     }
 
-    return DefWindowProc(hWnd, message, wParam, lParam);
+    return DefWindowProc(hWnd, messbge, wPbrbm, lPbrbm);
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
-LRESULT CALLBACK AwtToolkit::GetMessageFilter(int code,
-                                              WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK AwtToolkit::GetMessbgeFilter(int code,
+                                              WPARAM wPbrbm, LPARAM lPbrbm)
 {
     TRY;
 
-    if (code >= 0 && wParam == PM_REMOVE && lParam != 0) {
-       if (AwtToolkit::GetInstance().PreProcessMsg(*(MSG*)lParam) !=
-               mrPassAlong) {
-           /* PreProcessMsg() wants us to eat it */
-           ((MSG*)lParam)->message = WM_NULL;
+    if (code >= 0 && wPbrbm == PM_REMOVE && lPbrbm != 0) {
+       if (AwtToolkit::GetInstbnce().PreProcessMsg(*(MSG*)lPbrbm) !=
+               mrPbssAlong) {
+           /* PreProcessMsg() wbnts us to ebt it */
+           ((MSG*)lPbrbm)->messbge = WM_NULL;
        }
     }
-    return ::CallNextHookEx(AwtToolkit::GetInstance().m_hGetMessageHook, code,
-                            wParam, lParam);
+    return ::CbllNextHookEx(AwtToolkit::GetInstbnce().m_hGetMessbgeHook, code,
+                            wPbrbm, lPbrbm);
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
-void AwtToolkit::InstallMouseLowLevelHook()
+void AwtToolkit::InstbllMouseLowLevelHook()
 {
     // We need the low-level hook since we need to process mouse move
-    // messages outside of our windows.
+    // messbges outside of our windows.
     m_hMouseLLHook = ::SetWindowsHookEx(WH_MOUSE_LL,
             (HOOKPROC)MouseLowLevelHook,
-            GetModuleHandle(), NULL);
+            GetModuleHbndle(), NULL);
 
-    // Reset the old value
-    m_lastWindowUnderMouse = NULL;
+    // Reset the old vblue
+    m_lbstWindowUnderMouse = NULL;
 }
 
-void AwtToolkit::UninstallMouseLowLevelHook()
+void AwtToolkit::UninstbllMouseLowLevelHook()
 {
     if (m_hMouseLLHook != 0) {
         ::UnhookWindowsHookEx(m_hMouseLLHook);
@@ -1124,60 +1124,60 @@ void AwtToolkit::UninstallMouseLowLevelHook()
 }
 
 LRESULT CALLBACK AwtToolkit::MouseLowLevelHook(int code,
-        WPARAM wParam, LPARAM lParam)
+        WPARAM wPbrbm, LPARAM lPbrbm)
 {
     TRY;
 
-    if (code >= 0 && wParam == WM_MOUSEMOVE) {
-        POINT pt = ((MSLLHOOKSTRUCT*)lParam)->pt;
+    if (code >= 0 && wPbrbm == WM_MOUSEMOVE) {
+        POINT pt = ((MSLLHOOKSTRUCT*)lPbrbm)->pt;
 
-        // We can't use GA_ROOTOWNER since in this case we'll go up to
-        // the root Java toplevel, not the actual owned toplevel.
+        // We cbn't use GA_ROOTOWNER since in this cbse we'll go up to
+        // the root Jbvb toplevel, not the bctubl owned toplevel.
         HWND hwnd = ::GetAncestor(::WindowFromPoint(pt), GA_ROOT);
 
-        AwtToolkit& tk = AwtToolkit::GetInstance();
+        AwtToolkit& tk = AwtToolkit::GetInstbnce();
 
-        if (tk.m_lastWindowUnderMouse != hwnd) {
+        if (tk.m_lbstWindowUnderMouse != hwnd) {
             AwtWindow *fw = NULL, *tw = NULL;
 
-            if (tk.m_lastWindowUnderMouse) {
+            if (tk.m_lbstWindowUnderMouse) {
                 fw = (AwtWindow*)
-                    AwtComponent::GetComponent(tk.m_lastWindowUnderMouse);
+                    AwtComponent::GetComponent(tk.m_lbstWindowUnderMouse);
             }
             if (hwnd) {
                 tw = (AwtWindow*)AwtComponent::GetComponent(hwnd);
             }
 
-            tk.m_lastWindowUnderMouse = hwnd;
+            tk.m_lbstWindowUnderMouse = hwnd;
 
             if (fw) {
-                fw->UpdateSecurityWarningVisibility();
+                fw->UpdbteSecurityWbrningVisibility();
             }
-            // ... however, because we use GA_ROOT, we may find the warningIcon
-            // which is not a Java windows.
-            if (AwtWindow::IsWarningWindow(hwnd)) {
-                hwnd = ::GetParent(hwnd);
+            // ... however, becbuse we use GA_ROOT, we mby find the wbrningIcon
+            // which is not b Jbvb windows.
+            if (AwtWindow::IsWbrningWindow(hwnd)) {
+                hwnd = ::GetPbrent(hwnd);
                 if (hwnd) {
                     tw = (AwtWindow*)AwtComponent::GetComponent(hwnd);
                 }
-                tk.m_lastWindowUnderMouse = hwnd;
+                tk.m_lbstWindowUnderMouse = hwnd;
             }
             if (tw) {
-                tw->UpdateSecurityWarningVisibility();
+                tw->UpdbteSecurityWbrningVisibility();
             }
 
 
         }
     }
 
-    return ::CallNextHookEx(AwtToolkit::GetInstance().m_hMouseLLHook, code,
-            wParam, lParam);
+    return ::CbllNextHookEx(AwtToolkit::GetInstbnce().m_hMouseLLHook, code,
+            wPbrbm, lPbrbm);
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * The main message loop
+ * The mbin messbge loop
  */
 
 const int AwtToolkit::EXIT_ENCLOSING_LOOP      = 0;
@@ -1185,159 +1185,159 @@ const int AwtToolkit::EXIT_ALL_ENCLOSING_LOOPS = -1;
 
 
 /**
- * Called upon event idle to ensure that we have released any
- * CriticalSections that we took during window event processing.
+ * Cblled upon event idle to ensure thbt we hbve relebsed bny
+ * CriticblSections thbt we took during window event processing.
  *
- * Note that this gets used more often than you would think; some
- * window moves actually happen over more than one event burst.  So,
- * for example, we might get a WINDOWPOSCHANGING event, then we
- * idle and release the lock here, then eventually we get the
+ * Note thbt this gets used more often thbn you would think; some
+ * window moves bctublly hbppen over more thbn one event burst.  So,
+ * for exbmple, we might get b WINDOWPOSCHANGING event, then we
+ * idle bnd relebse the lock here, then eventublly we get the
  * WINDOWPOSCHANGED event.
  *
- * This method may be called from WToolkit.embeddedEventLoopIdleProcessing
- * if there is a separate event loop that must do the same CriticalSection
+ * This method mby be cblled from WToolkit.embeddedEventLoopIdleProcessing
+ * if there is b sepbrbte event loop thbt must do the sbme CriticblSection
  * check.
  *
- * See bug #4526587 for more information.
+ * See bug #4526587 for more informbtion.
  */
-void VerifyWindowMoveLockReleased()
+void VerifyWindowMoveLockRelebsed()
 {
     if (windowMoveLockHeld) {
         windowMoveLockHeld = FALSE;
-        windowMoveLock.Leave();
+        windowMoveLock.Lebve();
     }
 }
 
 UINT
-AwtToolkit::MessageLoop(IDLEPROC lpIdleFunc,
-                        PEEKMESSAGEPROC lpPeekMessageFunc)
+AwtToolkit::MessbgeLoop(IDLEPROC lpIdleFunc,
+                        PEEKMESSAGEPROC lpPeekMessbgeFunc)
 {
-    DTRACE_PRINTLN("AWT event loop started");
+    DTRACE_PRINTLN("AWT event loop stbrted");
 
     DASSERT(lpIdleFunc != NULL);
-    DASSERT(lpPeekMessageFunc != NULL);
+    DASSERT(lpPeekMessbgeFunc != NULL);
 
-    m_messageLoopResult = 0;
-    while (!m_breakMessageLoop) {
+    m_messbgeLoopResult = 0;
+    while (!m_brebkMessbgeLoop) {
 
         (*lpIdleFunc)();
 
-        PumpWaitingMessages(lpPeekMessageFunc); /* pumps waiting messages */
+        PumpWbitingMessbges(lpPeekMessbgeFunc); /* pumps wbiting messbges */
 
-        // Catch problems with windowMoveLock critical section.  In case we
-        // misunderstood the way windows processes window move/resize
-        // events, we don't want to hold onto the windowMoveLock CS forever.
-        // If we've finished processing events for now, release the lock
+        // Cbtch problems with windowMoveLock criticbl section.  In cbse we
+        // misunderstood the wby windows processes window move/resize
+        // events, we don't wbnt to hold onto the windowMoveLock CS forever.
+        // If we've finished processing events for now, relebse the lock
         // if held.
-        VerifyWindowMoveLockReleased();
+        VerifyWindowMoveLockRelebsed();
     }
-    if (m_messageLoopResult == EXIT_ALL_ENCLOSING_LOOPS)
-        ::PostQuitMessage(EXIT_ALL_ENCLOSING_LOOPS);
-    m_breakMessageLoop = FALSE;
+    if (m_messbgeLoopResult == EXIT_ALL_ENCLOSING_LOOPS)
+        ::PostQuitMessbge(EXIT_ALL_ENCLOSING_LOOPS);
+    m_brebkMessbgeLoop = FALSE;
 
     DTRACE_PRINTLN("AWT event loop ended");
 
-    return m_messageLoopResult;
+    return m_messbgeLoopResult;
 }
 
 /*
- * Exit the enclosing message loop(s).
+ * Exit the enclosing messbge loop(s).
  *
- * The message will be ignored if Windows is currently is in an internal
- * message loop (such as a scroll bar drag). So we first send IDCANCEL and
- * WM_CANCELMODE messages to every Window on the thread.
+ * The messbge will be ignored if Windows is currently is in bn internbl
+ * messbge loop (such bs b scroll bbr drbg). So we first send IDCANCEL bnd
+ * WM_CANCELMODE messbges to every Window on the threbd.
  */
-static BOOL CALLBACK CancelAllThreadWindows(HWND hWnd, LPARAM)
+stbtic BOOL CALLBACK CbncelAllThrebdWindows(HWND hWnd, LPARAM)
 {
     TRY;
 
-    ::SendMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), (LPARAM)hWnd);
-    ::SendMessage(hWnd, WM_CANCELMODE, 0, 0);
+    ::SendMessbge(hWnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), (LPARAM)hWnd);
+    ::SendMessbge(hWnd, WM_CANCELMODE, 0, 0);
 
     return TRUE;
 
     CATCH_BAD_ALLOC_RET(FALSE);
 }
 
-static void DoQuitMessageLoop(void* param) {
-    int status = *static_cast<int*>(param);
+stbtic void DoQuitMessbgeLoop(void* pbrbm) {
+    int stbtus = *stbtic_cbst<int*>(pbrbm);
 
-    AwtToolkit::GetInstance().QuitMessageLoop(status);
+    AwtToolkit::GetInstbnce().QuitMessbgeLoop(stbtus);
 }
 
-void AwtToolkit::QuitMessageLoop(int status) {
+void AwtToolkit::QuitMessbgeLoop(int stbtus) {
     /*
      * Fix for 4623377.
-     * Reinvoke QuitMessageLoop on the toolkit thread, so that
-     * m_breakMessageLoop is accessed on a single thread.
+     * Reinvoke QuitMessbgeLoop on the toolkit threbd, so thbt
+     * m_brebkMessbgeLoop is bccessed on b single threbd.
      */
-    if (!AwtToolkit::IsMainThread()) {
-        InvokeFunction(DoQuitMessageLoop, &status);
+    if (!AwtToolkit::IsMbinThrebd()) {
+        InvokeFunction(DoQuitMessbgeLoop, &stbtus);
         return;
     }
 
     /*
-     * Fix for BugTraq ID 4445747.
-     * EnumThreadWindows() is very slow during dnd on Win9X/ME.
-     * This call is unnecessary during dnd, since we postpone processing of all
-     * messages that can enter internal message loop until dnd is over.
+     * Fix for BugTrbq ID 4445747.
+     * EnumThrebdWindows() is very slow during dnd on Win9X/ME.
+     * This cbll is unnecessbry during dnd, since we postpone processing of bll
+     * messbges thbt cbn enter internbl messbge loop until dnd is over.
      */
-      if (status == EXIT_ALL_ENCLOSING_LOOPS) {
-          ::EnumThreadWindows(MainThread(), (WNDENUMPROC)CancelAllThreadWindows,
+      if (stbtus == EXIT_ALL_ENCLOSING_LOOPS) {
+          ::EnumThrebdWindows(MbinThrebd(), (WNDENUMPROC)CbncelAllThrebdWindows,
                               0);
       }
 
     /*
      * Fix for 4623377.
-     * Modal loop may not exit immediatelly after WM_CANCELMODE, so it still can
-     * eat WM_QUIT message and the nested message loop will never exit.
-     * The fix is to use AwtToolkit instance variables instead of WM_QUIT to
-     * guarantee that we exit from the nested message loop when any possible
-     * modal loop quits. In this case CancelAllThreadWindows is needed only to
-     * ensure that the nested message loop exits quickly and doesn't wait until
-     * a possible modal loop completes.
+     * Modbl loop mby not exit immedibtelly bfter WM_CANCELMODE, so it still cbn
+     * ebt WM_QUIT messbge bnd the nested messbge loop will never exit.
+     * The fix is to use AwtToolkit instbnce vbribbles instebd of WM_QUIT to
+     * gubrbntee thbt we exit from the nested messbge loop when bny possible
+     * modbl loop quits. In this cbse CbncelAllThrebdWindows is needed only to
+     * ensure thbt the nested messbge loop exits quickly bnd doesn't wbit until
+     * b possible modbl loop completes.
      */
-    m_breakMessageLoop = TRUE;
-    m_messageLoopResult = status;
+    m_brebkMessbgeLoop = TRUE;
+    m_messbgeLoopResult = stbtus;
 
     /*
      * Fix for 4683602.
-     * Post an empty message, to wake up the toolkit thread
-     * if it is currently in WaitMessage(),
+     * Post bn empty messbge, to wbke up the toolkit threbd
+     * if it is currently in WbitMessbge(),
      */
-    PostMessage(WM_NULL);
+    PostMessbge(WM_NULL);
 }
 
 /*
- * Called by the message loop to pump the message queue when there are
- * messages waiting. Can also be called anywhere to pump messages.
+ * Cblled by the messbge loop to pump the messbge queue when there bre
+ * messbges wbiting. Cbn blso be cblled bnywhere to pump messbges.
  */
-BOOL AwtToolkit::PumpWaitingMessages(PEEKMESSAGEPROC lpPeekMessageFunc)
+BOOL AwtToolkit::PumpWbitingMessbges(PEEKMESSAGEPROC lpPeekMessbgeFunc)
 {
     MSG  msg;
     BOOL foundOne = FALSE;
 
-    DASSERT(lpPeekMessageFunc != NULL);
+    DASSERT(lpPeekMessbgeFunc != NULL);
 
-    while (!m_breakMessageLoop && (*lpPeekMessageFunc)(msg)) {
+    while (!m_brebkMessbgeLoop && (*lpPeekMessbgeFunc)(msg)) {
         foundOne = TRUE;
         ProcessMsg(msg);
     }
     return foundOne;
 }
 
-void AwtToolkit::PumpToDestroy(class AwtComponent* p)
+void AwtToolkit::PumpToDestroy(clbss AwtComponent* p)
 {
     MSG  msg;
 
-    DASSERT(AwtToolkit::PrimaryIdleFunc != NULL);
-    DASSERT(AwtToolkit::CommonPeekMessageFunc != NULL);
+    DASSERT(AwtToolkit::PrimbryIdleFunc != NULL);
+    DASSERT(AwtToolkit::CommonPeekMessbgeFunc != NULL);
 
-    while (p->IsDestroyPaused() && !m_breakMessageLoop) {
+    while (p->IsDestroyPbused() && !m_brebkMessbgeLoop) {
 
-        PrimaryIdleFunc();
+        PrimbryIdleFunc();
 
-        while (p->IsDestroyPaused() && !m_breakMessageLoop && CommonPeekMessageFunc(msg)) {
+        while (p->IsDestroyPbused() && !m_brebkMessbgeLoop && CommonPeekMessbgeFunc(msg)) {
             ProcessMsg(msg);
         }
     }
@@ -1345,62 +1345,62 @@ void AwtToolkit::PumpToDestroy(class AwtComponent* p)
 
 void AwtToolkit::ProcessMsg(MSG& msg)
 {
-    if (msg.message == WM_QUIT) {
-        m_breakMessageLoop = TRUE;
-        m_messageLoopResult = static_cast<UINT>(msg.wParam);
-        if (m_messageLoopResult == EXIT_ALL_ENCLOSING_LOOPS)
-            ::PostQuitMessage(static_cast<int>(msg.wParam));  // make sure all loops exit
+    if (msg.messbge == WM_QUIT) {
+        m_brebkMessbgeLoop = TRUE;
+        m_messbgeLoopResult = stbtic_cbst<UINT>(msg.wPbrbm);
+        if (m_messbgeLoopResult == EXIT_ALL_ENCLOSING_LOOPS)
+            ::PostQuitMessbge(stbtic_cbst<int>(msg.wPbrbm));  // mbke sure bll loops exit
     }
-    else if (msg.message != WM_NULL) {
+    else if (msg.messbge != WM_NULL) {
         /*
-        * The AWT in standalone mode (that is, dynamically loaded from the
-        * Java VM) doesn't have any translation tables to worry about, so
-        * TranslateAccelerator isn't called.
+        * The AWT in stbndblone mode (thbt is, dynbmicblly lobded from the
+        * Jbvb VM) doesn't hbve bny trbnslbtion tbbles to worry bbout, so
+        * TrbnslbteAccelerbtor isn't cblled.
         */
 
-        ::TranslateMessage(&msg);
-        ::DispatchMessage(&msg);
+        ::TrbnslbteMessbge(&msg);
+        ::DispbtchMessbge(&msg);
     }
 }
 
 VOID CALLBACK
-AwtToolkit::PrimaryIdleFunc() {
+AwtToolkit::PrimbryIdleFunc() {
     AwtToolkit::SetBusy(FALSE);
-    ::WaitMessage();               /* allow system to go idle */
+    ::WbitMessbge();               /* bllow system to go idle */
     AwtToolkit::SetBusy(TRUE);
 }
 
 VOID CALLBACK
-AwtToolkit::SecondaryIdleFunc() {
-    ::WaitMessage();               /* allow system to go idle */
+AwtToolkit::SecondbryIdleFunc() {
+    ::WbitMessbge();               /* bllow system to go idle */
 }
 
 BOOL
-AwtToolkit::CommonPeekMessageFunc(MSG& msg) {
-    return ::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+AwtToolkit::CommonPeekMessbgeFunc(MSG& msg) {
+    return ::PeekMessbge(&msg, NULL, 0, 0, PM_REMOVE);
 }
 
 /*
- * Perform pre-processing on a message before it is translated &
- * dispatched.  Returns true to eat the message
+ * Perform pre-processing on b messbge before it is trbnslbted &
+ * dispbtched.  Returns true to ebt the messbge
  */
 BOOL AwtToolkit::PreProcessMsg(MSG& msg)
 {
     /*
-     * Offer preprocessing first to the target component, then call out to
-     * specific mouse and key preprocessor methods
+     * Offer preprocessing first to the tbrget component, then cbll out to
+     * specific mouse bnd key preprocessor methods
      */
     AwtComponent* p = AwtComponent::GetComponent(msg.hwnd);
     if (p && p->PreProcessMsg(msg) == mrConsume)
         return TRUE;
 
-    if ((msg.message >= WM_MOUSEFIRST && msg.message <= WM_MOUSELAST) ||
-        (msg.message >= WM_NCMOUSEMOVE && msg.message <= WM_NCMBUTTONDBLCLK)) {
+    if ((msg.messbge >= WM_MOUSEFIRST && msg.messbge <= WM_MOUSELAST) ||
+        (msg.messbge >= WM_NCMOUSEMOVE && msg.messbge <= WM_NCMBUTTONDBLCLK)) {
         if (PreProcessMouseMsg(p, msg)) {
             return TRUE;
         }
     }
-    else if (msg.message >= WM_KEYFIRST && msg.message <= WM_KEYLAST) {
+    else if (msg.messbge >= WM_KEYFIRST && msg.messbge <= WM_KEYLAST) {
         if (PreProcessKeyMsg(p, msg))
             return TRUE;
     }
@@ -1409,47 +1409,47 @@ BOOL AwtToolkit::PreProcessMsg(MSG& msg)
 
 BOOL AwtToolkit::PreProcessMouseMsg(AwtComponent* p, MSG& msg)
 {
-    WPARAM mouseWParam;
-    LPARAM mouseLParam;
+    WPARAM mouseWPbrbm;
+    LPARAM mouseLPbrbm;
 
     /*
-     * Fix for BugTraq ID 4395290.
-     * Do not synthesize mouse enter/exit events during drag-and-drop,
-     * since it messes up LightweightDispatcher.
+     * Fix for BugTrbq ID 4395290.
+     * Do not synthesize mouse enter/exit events during drbg-bnd-drop,
+     * since it messes up LightweightDispbtcher.
      */
-    if (AwtDropTarget::IsLocalDnD()) {
+    if (AwtDropTbrget::IsLocblDnD()) {
         return FALSE;
     }
 
-    if (msg.message >= WM_MOUSEFIRST && msg.message <= WM_MOUSELAST) {
-        mouseWParam = msg.wParam;
-        mouseLParam = msg.lParam;
+    if (msg.messbge >= WM_MOUSEFIRST && msg.messbge <= WM_MOUSELAST) {
+        mouseWPbrbm = msg.wPbrbm;
+        mouseLPbrbm = msg.lPbrbm;
     } else {
-        mouseWParam = GetMouseKeyState();
+        mouseWPbrbm = GetMouseKeyStbte();
     }
 
     /*
-     * Get the window under the mouse, as it will be different if its
-     * captured.
+     * Get the window under the mouse, bs it will be different if its
+     * cbptured.
      */
-    DWORD dwCurPos = ::GetMessagePos();
+    DWORD dwCurPos = ::GetMessbgePos();
     DWORD dwScreenPos = dwCurPos;
     POINT curPos;
     // fix for 4805862
-    // According to MSDN: do not use LOWORD and HIWORD macros to extract x and
-    // y coordinates because these macros return incorrect results on systems
-    // with multiple monitors (signed values are treated as unsigned)
+    // According to MSDN: do not use LOWORD bnd HIWORD mbcros to extrbct x bnd
+    // y coordinbtes becbuse these mbcros return incorrect results on systems
+    // with multiple monitors (signed vblues bre trebted bs unsigned)
     curPos.x = GET_X_LPARAM(dwCurPos);
     curPos.y = GET_Y_LPARAM(dwCurPos);
     HWND hWndFromPoint = ::WindowFromPoint(curPos);
-    // hWndFromPoint == 0 if mouse is over a scrollbar
+    // hWndFromPoint == 0 if mouse is over b scrollbbr
     AwtComponent* mouseComp =
         AwtComponent::GetComponent(hWndFromPoint);
-    // Need extra copies for non-client area issues
+    // Need extrb copies for non-client breb issues
     HWND hWndForWheel = hWndFromPoint;
 
-    // If the point under the mouse isn't in the client area,
-    // ignore it to maintain compatibility with Solaris (#4095172)
+    // If the point under the mouse isn't in the client breb,
+    // ignore it to mbintbin compbtibility with Solbris (#4095172)
     RECT windowRect;
     ::GetClientRect(hWndFromPoint, &windowRect);
     POINT topLeft;
@@ -1469,121 +1469,121 @@ BOOL AwtToolkit::PreProcessMouseMsg(AwtComponent* p, MSG& msg)
     }
 
     /*
-     * Look for mouse transitions between windows & create
-     * MouseExit & MouseEnter messages
+     * Look for mouse trbnsitions between windows & crebte
+     * MouseExit & MouseEnter messbges
      */
-    // 6479820. Should check if a window is in manual resizing process: skip
-    // sending any MouseExit/Enter events while inside resize-loop.
-    // Note that window being in manual moving process could still
-    // produce redundant enter/exit mouse events. In future, they can be
-    // made skipped in a similar way.
-    if (mouseComp != m_lastMouseOver && !AwtWindow::IsResizing()) {
+    // 6479820. Should check if b window is in mbnubl resizing process: skip
+    // sending bny MouseExit/Enter events while inside resize-loop.
+    // Note thbt window being in mbnubl moving process could still
+    // produce redundbnt enter/exit mouse events. In future, they cbn be
+    // mbde skipped in b similbr wby.
+    if (mouseComp != m_lbstMouseOver && !AwtWindow::IsResizing()) {
         /*
-         * Send the messages right to the windows so that they are in
+         * Send the messbges right to the windows so thbt they bre in
          * the right sequence.
          */
-        if (m_lastMouseOver) {
+        if (m_lbstMouseOver) {
             dwCurPos = dwScreenPos;
             curPos.x = LOWORD(dwCurPos);
             curPos.y = HIWORD(dwCurPos);
-            ::MapWindowPoints(HWND_DESKTOP, m_lastMouseOver->GetHWnd(),
+            ::MbpWindowPoints(HWND_DESKTOP, m_lbstMouseOver->GetHWnd(),
                               &curPos, 1);
-            mouseLParam = MAKELPARAM((WORD)curPos.x, (WORD)curPos.y);
-            m_lastMouseOver->SendMessage(WM_AWT_MOUSEEXIT, mouseWParam,
-                                         mouseLParam);
+            mouseLPbrbm = MAKELPARAM((WORD)curPos.x, (WORD)curPos.y);
+            m_lbstMouseOver->SendMessbge(WM_AWT_MOUSEEXIT, mouseWPbrbm,
+                                         mouseLPbrbm);
         }
         if (mouseComp) {
                 dwCurPos = dwScreenPos;
                 curPos.x = LOWORD(dwCurPos);
                 curPos.y = HIWORD(dwCurPos);
-                ::MapWindowPoints(HWND_DESKTOP, mouseComp->GetHWnd(),
+                ::MbpWindowPoints(HWND_DESKTOP, mouseComp->GetHWnd(),
                                   &curPos, 1);
-                mouseLParam = MAKELPARAM((WORD)curPos.x, (WORD)curPos.y);
-            mouseComp->SendMessage(WM_AWT_MOUSEENTER, mouseWParam,
-                                   mouseLParam);
+                mouseLPbrbm = MAKELPARAM((WORD)curPos.x, (WORD)curPos.y);
+            mouseComp->SendMessbge(WM_AWT_MOUSEENTER, mouseWPbrbm,
+                                   mouseLPbrbm);
         }
-        m_lastMouseOver = mouseComp;
+        m_lbstMouseOver = mouseComp;
     }
 
     /*
-     * For MouseWheelEvents, hwnd must be changed to be the Component under
+     * For MouseWheelEvents, hwnd must be chbnged to be the Component under
      * the mouse, not the Component with the input focus.
      */
 
-    if (msg.message == WM_MOUSEWHEEL) {
-            //i.e. mouse is over client area for this window
+    if (msg.messbge == WM_MOUSEWHEEL) {
+            //i.e. mouse is over client breb for this window
             DWORD hWndForWheelProcess;
-            DWORD hWndForWheelThread = ::GetWindowThreadProcessId(hWndForWheel, &hWndForWheelProcess);
+            DWORD hWndForWheelThrebd = ::GetWindowThrebdProcessId(hWndForWheel, &hWndForWheelProcess);
             if (::GetCurrentProcessId() == hWndForWheelProcess) {
-                if (AwtToolkit::MainThread() == hWndForWheelThread) {
+                if (AwtToolkit::MbinThrebd() == hWndForWheelThrebd) {
                     msg.hwnd = hWndForWheel;
                 } else {
-                    // Interop mode, redispatch the event to another toolkit.
-                    ::SendMessage(hWndForWheel, msg.message, mouseWParam, mouseLParam);
+                    // Interop mode, redispbtch the event to bnother toolkit.
+                    ::SendMessbge(hWndForWheel, msg.messbge, mouseWPbrbm, mouseLPbrbm);
                     return TRUE;
                 }
             }
     }
 
     /*
-     * Make sure we get at least one last chance to check for transitions
+     * Mbke sure we get bt lebst one lbst chbnce to check for trbnsitions
      * before we sleep
      */
-    if (m_lastMouseOver && !m_timer) {
+    if (m_lbstMouseOver && !m_timer) {
         m_timer = ::SetTimer(m_toolkitHWnd, IDT_AWT_MOUSECHECK, 200, 0);
     }
-    return FALSE;  /* Now go ahead and process current message as usual */
+    return FALSE;  /* Now go bhebd bnd process current messbge bs usubl */
 }
 
 BOOL AwtToolkit::PreProcessKeyMsg(AwtComponent* p, MSG& msg)
 {
-    // get keyboard state for use in AwtToolkit::GetKeyboardState
-    CriticalSection::Lock       l(m_lockKB);
-    ::GetKeyboardState(m_lastKeyboardState);
+    // get keybobrd stbte for use in AwtToolkit::GetKeybobrdStbte
+    CriticblSection::Lock       l(m_lockKB);
+    ::GetKeybobrdStbte(m_lbstKeybobrdStbte);
     return FALSE;
 }
 
-void *AwtToolkit::SyncCall(void *(*ftn)(void *), void *param) {
+void *AwtToolkit::SyncCbll(void *(*ftn)(void *), void *pbrbm) {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (!IsMainThread()) {
-        CriticalSection::Lock l(GetSyncCS());
-        return (*ftn)(param);
+    if (!IsMbinThrebd()) {
+        CriticblSection::Lock l(GetSyncCS());
+        return (*ftn)(pbrbm);
     } else {
-        return (*ftn)(param);
+        return (*ftn)(pbrbm);
     }
 }
 
-void AwtToolkit::SyncCall(void (*ftn)(void *), void *param) {
+void AwtToolkit::SyncCbll(void (*ftn)(void *), void *pbrbm) {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (!IsMainThread()) {
-        CriticalSection::Lock l(GetSyncCS());
-        (*ftn)(param);
+    if (!IsMbinThrebd()) {
+        CriticblSection::Lock l(GetSyncCS());
+        (*ftn)(pbrbm);
     } else {
-        (*ftn)(param);
+        (*ftn)(pbrbm);
     }
 }
 
-void *AwtToolkit::SyncCall(void *(*ftn)(void)) {
+void *AwtToolkit::SyncCbll(void *(*ftn)(void)) {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (!IsMainThread()) {
-        CriticalSection::Lock l(GetSyncCS());
+    if (!IsMbinThrebd()) {
+        CriticblSection::Lock l(GetSyncCS());
         return (*ftn)();
     } else {
         return (*ftn)();
     }
 }
 
-void AwtToolkit::SyncCall(void (*ftn)(void)) {
+void AwtToolkit::SyncCbll(void (*ftn)(void)) {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (!IsMainThread()) {
-        CriticalSection::Lock l(GetSyncCS());
+    if (!IsMbinThrebd()) {
+        CriticblSection::Lock l(GetSyncCS());
         (*ftn)();
     } else {
         (*ftn)();
     }
 }
 
-UINT AwtToolkit::CreateCmdID(AwtObject* object)
+UINT AwtToolkit::CrebteCmdID(AwtObject* object)
 {
     return m_cmdIDs->Add(object);
 }
@@ -1600,127 +1600,127 @@ AwtObject* AwtToolkit::LookupCmdID(UINT id)
 
 HICON AwtToolkit::GetAwtIcon()
 {
-    return ::LoadIcon(GetModuleHandle(), TEXT("AWT_ICON"));
+    return ::LobdIcon(GetModuleHbndle(), TEXT("AWT_ICON"));
 }
 
 HICON AwtToolkit::GetAwtIconSm()
 {
-    static HICON defaultIconSm = NULL;
-    static int prevSmx = 0;
-    static int prevSmy = 0;
+    stbtic HICON defbultIconSm = NULL;
+    stbtic int prevSmx = 0;
+    stbtic int prevSmy = 0;
 
     int smx = GetSystemMetrics(SM_CXSMICON);
     int smy = GetSystemMetrics(SM_CYSMICON);
 
-    // Fixed 6364216: LoadImage() may leak memory
-    if (defaultIconSm == NULL || smx != prevSmx || smy != prevSmy) {
-        defaultIconSm = (HICON)LoadImage(GetModuleHandle(), TEXT("AWT_ICON"), IMAGE_ICON, smx, smy, 0);
+    // Fixed 6364216: LobdImbge() mby lebk memory
+    if (defbultIconSm == NULL || smx != prevSmx || smy != prevSmy) {
+        defbultIconSm = (HICON)LobdImbge(GetModuleHbndle(), TEXT("AWT_ICON"), IMAGE_ICON, smx, smy, 0);
         prevSmx = smx;
         prevSmy = smy;
     }
-    return defaultIconSm;
+    return defbultIconSm;
 }
 
-// The icon at index 0 must be gray. See AwtWindow::GetSecurityWarningIcon()
-HICON AwtToolkit::GetSecurityWarningIcon(UINT index, UINT w, UINT h)
+// The icon bt index 0 must be grby. See AwtWindow::GetSecurityWbrningIcon()
+HICON AwtToolkit::GetSecurityWbrningIcon(UINT index, UINT w, UINT h)
 {
-    //Note: should not exceed 10 because of the current implementation.
-    static const int securityWarningIconCounter = 3;
+    //Note: should not exceed 10 becbuse of the current implementbtion.
+    stbtic const int securityWbrningIconCounter = 3;
 
-    static HICON securityWarningIcon[securityWarningIconCounter]      = {NULL, NULL, NULL};;
-    static UINT securityWarningIconWidth[securityWarningIconCounter]  = {0, 0, 0};
-    static UINT securityWarningIconHeight[securityWarningIconCounter] = {0, 0, 0};
+    stbtic HICON securityWbrningIcon[securityWbrningIconCounter]      = {NULL, NULL, NULL};;
+    stbtic UINT securityWbrningIconWidth[securityWbrningIconCounter]  = {0, 0, 0};
+    stbtic UINT securityWbrningIconHeight[securityWbrningIconCounter] = {0, 0, 0};
 
-    index = AwtToolkit::CalculateWave(index, securityWarningIconCounter);
+    index = AwtToolkit::CblculbteWbve(index, securityWbrningIconCounter);
 
-    if (securityWarningIcon[index] == NULL ||
-            w != securityWarningIconWidth[index] ||
-            h != securityWarningIconHeight[index])
+    if (securityWbrningIcon[index] == NULL ||
+            w != securityWbrningIconWidth[index] ||
+            h != securityWbrningIconHeight[index])
     {
-        if (securityWarningIcon[index] != NULL)
+        if (securityWbrningIcon[index] != NULL)
         {
-            ::DestroyIcon(securityWarningIcon[index]);
+            ::DestroyIcon(securityWbrningIcon[index]);
         }
 
-        static const wchar_t securityWarningIconName[] = L"SECURITY_WARNING_";
-        wchar_t iconResourceName[sizeof(securityWarningIconName) + 2];
-        ::ZeroMemory(iconResourceName, sizeof(iconResourceName));
-        wcscpy(iconResourceName, securityWarningIconName);
+        stbtic const wchbr_t securityWbrningIconNbme[] = L"SECURITY_WARNING_";
+        wchbr_t iconResourceNbme[sizeof(securityWbrningIconNbme) + 2];
+        ::ZeroMemory(iconResourceNbme, sizeof(iconResourceNbme));
+        wcscpy(iconResourceNbme, securityWbrningIconNbme);
 
-        wchar_t strIndex[2];
+        wchbr_t strIndex[2];
         ::ZeroMemory(strIndex, sizeof(strIndex));
         strIndex[0] = L'0' + index;
 
-        wcscat(iconResourceName, strIndex);
+        wcscbt(iconResourceNbme, strIndex);
 
-        securityWarningIcon[index] = (HICON)::LoadImage(GetModuleHandle(),
-                iconResourceName,
+        securityWbrningIcon[index] = (HICON)::LobdImbge(GetModuleHbndle(),
+                iconResourceNbme,
                 IMAGE_ICON, w, h, LR_DEFAULTCOLOR);
-        securityWarningIconWidth[index] = w;
-        securityWarningIconHeight[index] = h;
+        securityWbrningIconWidth[index] = w;
+        securityWbrningIconHeight[index] = h;
     }
 
-    return securityWarningIcon[index];
+    return securityWbrningIcon[index];
 }
 
-void AwtToolkit::SetHeapCheck(long flag) {
-    if (flag) {
-        printf("heap checking not supported with this build\n");
+void AwtToolkit::SetHebpCheck(long flbg) {
+    if (flbg) {
+        printf("hebp checking not supported with this build\n");
     }
 }
 
-void throw_if_shutdown(void) throw (awt_toolkit_shutdown)
+void throw_if_shutdown(void) throw (bwt_toolkit_shutdown)
 {
-    AwtToolkit::GetInstance().VerifyActive();
+    AwtToolkit::GetInstbnce().VerifyActive();
 }
-void hang_if_shutdown(void)
+void hbng_if_shutdown(void)
 {
     try {
-        AwtToolkit::GetInstance().VerifyActive();
-    } catch (awt_toolkit_shutdown&) {
-        // Never return. The VM will halt the process.
-        ::WaitForSingleObject(::CreateEvent(NULL, TRUE, FALSE, NULL),
+        AwtToolkit::GetInstbnce().VerifyActive();
+    } cbtch (bwt_toolkit_shutdown&) {
+        // Never return. The VM will hblt the process.
+        ::WbitForSingleObject(::CrebteEvent(NULL, TRUE, FALSE, NULL),
                               INFINITE);
         // Should never get here.
         DASSERT(FALSE);
     }
 }
 
-// for now we support only one embedder, but should be ready for future
+// for now we support only one embedder, but should be rebdy for future
 void AwtToolkit::RegisterEmbedderProcessId(HWND embedder)
 {
     if (m_embedderProcessID) {
-        // we already set embedder process and do not expect
-        // two different processes to embed the same AwtToolkit
+        // we blrebdy set embedder process bnd do not expect
+        // two different processes to embed the sbme AwtToolkit
         return;
     }
 
     embedder = ::GetAncestor(embedder, GA_ROOT);
-    ::GetWindowThreadProcessId(embedder, &m_embedderProcessID);
+    ::GetWindowThrebdProcessId(embedder, &m_embedderProcessID);
 }
 
 JNIEnv* AwtToolkit::m_env;
-DWORD AwtToolkit::m_threadId;
+DWORD AwtToolkit::m_threbdId;
 
 void AwtToolkit::SetEnv(JNIEnv *env) {
-    if (m_env != NULL) { // If already cashed (by means of embeddedInit() call).
+    if (m_env != NULL) { // If blrebdy cbshed (by mebns of embeddedInit() cbll).
         return;
     }
-    m_threadId = GetCurrentThreadId();
+    m_threbdId = GetCurrentThrebdId();
     m_env = env;
 }
 
 JNIEnv* AwtToolkit::GetEnv() {
-    return (m_env == NULL || m_threadId != GetCurrentThreadId()) ?
+    return (m_env == NULL || m_threbdId != GetCurrentThrebdId()) ?
         (JNIEnv*)JNU_GetEnv(jvm, JNI_VERSION_1_2) : m_env;
 }
 
 BOOL AwtToolkit::GetScreenInsets(int screenNum, RECT * rect)
 {
-    /* if primary display */
+    /* if primbry displby */
     if (screenNum == 0) {
         RECT rRW;
-        if (::SystemParametersInfo(SPI_GETWORKAREA,0,(void *) &rRW,0) == TRUE) {
+        if (::SystemPbrbmetersInfo(SPI_GETWORKAREA,0,(void *) &rRW,0) == TRUE) {
             rect->top = rRW.top;
             rect->left = rRW.left;
             rect->bottom = ::GetSystemMetrics(SM_CYSCREEN) - rRW.bottom;
@@ -1728,10 +1728,10 @@ BOOL AwtToolkit::GetScreenInsets(int screenNum, RECT * rect)
             return TRUE;
         }
     }
-    /* if additional display */
+    /* if bdditionbl displby */
     else {
         MONITORINFO *miInfo;
-        miInfo = AwtWin32GraphicsDevice::GetMonitorInfo(screenNum);
+        miInfo = AwtWin32GrbphicsDevice::GetMonitorInfo(screenNum);
         if (miInfo) {
             rect->top = miInfo->rcWork.top    - miInfo->rcMonitor.top;
             rect->left = miInfo->rcWork.left   - miInfo->rcMonitor.left;
@@ -1753,260 +1753,260 @@ void AwtToolkit::GetWindowRect(HWND hWnd, LPRECT lpRect)
         {
             return;
         }
-    } catch (const DllUtil::Exception &) {}
+    } cbtch (const DllUtil::Exception &) {}
 
     ::GetWindowRect(hWnd, lpRect);
 }
 
 
 /************************************************************************
- * AWT preloading support
+ * AWT prelobding support
  */
-bool AwtToolkit::PreloadAction::EnsureInited()
+bool AwtToolkit::PrelobdAction::EnsureInited()
 {
-    DWORD _initThreadId = GetInitThreadID();
-    if (_initThreadId != 0) {
-        // already inited
-        // ensure the action is inited on correct thread
-        PreloadThread &preloadThread
-            = AwtToolkit::GetInstance().GetPreloadThread();
-        if (_initThreadId == preloadThread.GetThreadId()) {
-            if (!preloadThread.IsWrongThread()) {
+    DWORD _initThrebdId = GetInitThrebdID();
+    if (_initThrebdId != 0) {
+        // blrebdy inited
+        // ensure the bction is inited on correct threbd
+        PrelobdThrebd &prelobdThrebd
+            = AwtToolkit::GetInstbnce().GetPrelobdThrebd();
+        if (_initThrebdId == prelobdThrebd.GetThrebdId()) {
+            if (!prelobdThrebd.IsWrongThrebd()) {
                 return true;
             }
-            // inited on preloadThread (wrongThread), not cleaned yet
-            // have to wait cleanup completion
-            preloadThread.Wait4Finish();
+            // inited on prelobdThrebd (wrongThrebd), not clebned yet
+            // hbve to wbit clebnup completion
+            prelobdThrebd.Wbit4Finish();
         } else {
-            // inited on other thread (Toolkit thread?)
-            // consider as correctly inited
+            // inited on other threbd (Toolkit threbd?)
+            // consider bs correctly inited
             return true;
         }
     }
 
-    // init on Toolkit thread
-    AwtToolkit::GetInstance().InvokeFunction(InitWrapper, this);
+    // init on Toolkit threbd
+    AwtToolkit::GetInstbnce().InvokeFunction(InitWrbpper, this);
 
     return true;
 }
 
-DWORD AwtToolkit::PreloadAction::GetInitThreadID()
+DWORD AwtToolkit::PrelobdAction::GetInitThrebdID()
 {
-    CriticalSection::Lock lock(initLock);
-    return initThreadId;
+    CriticblSection::Lock lock(initLock);
+    return initThrebdId;
 }
 
-bool AwtToolkit::PreloadAction::Clean()
+bool AwtToolkit::PrelobdAction::Clebn()
 {
-    DWORD _initThreadId = GetInitThreadID();
-    if (_initThreadId == ::GetCurrentThreadId()) {
-        // inited on this thread
-        Clean(false);
+    DWORD _initThrebdId = GetInitThrebdID();
+    if (_initThrebdId == ::GetCurrentThrebdId()) {
+        // inited on this threbd
+        Clebn(fblse);
         return true;
     }
-    return false;
+    return fblse;
 }
 
-/*static*/
-void AwtToolkit::PreloadAction::InitWrapper(void *param)
+/*stbtic*/
+void AwtToolkit::PrelobdAction::InitWrbpper(void *pbrbm)
 {
-    PreloadAction *pThis = (PreloadAction *)param;
+    PrelobdAction *pThis = (PrelobdAction *)pbrbm;
     pThis->Init();
 }
 
-void AwtToolkit::PreloadAction::Init()
+void AwtToolkit::PrelobdAction::Init()
 {
-    CriticalSection::Lock lock(initLock);
-    if (initThreadId == 0) {
-        initThreadId = ::GetCurrentThreadId();
+    CriticblSection::Lock lock(initLock);
+    if (initThrebdId == 0) {
+        initThrebdId = ::GetCurrentThrebdId();
         InitImpl();
     }
 }
 
-void AwtToolkit::PreloadAction::Clean(bool reInit) {
-    CriticalSection::Lock lock(initLock);
-    if (initThreadId != 0) {
-        //ASSERT(initThreadId == ::GetCurrentThreadId());
-        CleanImpl(reInit);
-        initThreadId = 0;
+void AwtToolkit::PrelobdAction::Clebn(bool reInit) {
+    CriticblSection::Lock lock(initLock);
+    if (initThrebdId != 0) {
+        //ASSERT(initThrebdId == ::GetCurrentThrebdId());
+        ClebnImpl(reInit);
+        initThrebdId = 0;
     }
 }
 
-// PreloadThread implementation
-AwtToolkit::PreloadThread::PreloadThread()
-    : status(None), wrongThread(false), threadId(0),
-    pActionChain(NULL), pLastProcessedAction(NULL),
-    execFunc(NULL), execParam(NULL)
+// PrelobdThrebd implementbtion
+AwtToolkit::PrelobdThrebd::PrelobdThrebd()
+    : stbtus(None), wrongThrebd(fblse), threbdId(0),
+    pActionChbin(NULL), pLbstProcessedAction(NULL),
+    execFunc(NULL), execPbrbm(NULL)
 {
-    hFinished = ::CreateEvent(NULL, TRUE, FALSE, NULL);
-    hAwake = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+    hFinished = ::CrebteEvent(NULL, TRUE, FALSE, NULL);
+    hAwbke = ::CrebteEvent(NULL, FALSE, FALSE, NULL);
 }
 
-AwtToolkit::PreloadThread::~PreloadThread()
+AwtToolkit::PrelobdThrebd::~PrelobdThrebd()
 {
-    //Terminate(false);
-    ::CloseHandle(hFinished);
-    ::CloseHandle(hAwake);
+    //Terminbte(fblse);
+    ::CloseHbndle(hFinished);
+    ::CloseHbndle(hAwbke);
 }
 
-bool AwtToolkit::PreloadThread::AddAction(AwtToolkit::PreloadAction *pAction)
+bool AwtToolkit::PrelobdThrebd::AddAction(AwtToolkit::PrelobdAction *pAction)
 {
-    CriticalSection::Lock lock(threadLock);
+    CriticblSection::Lock lock(threbdLock);
 
-    if (status > Preloading) {
-        // too late - the thread already terminated or run as toolkit thread
-        return false;
+    if (stbtus > Prelobding) {
+        // too lbte - the threbd blrebdy terminbted or run bs toolkit threbd
+        return fblse;
     }
 
-    if (pActionChain == NULL) {
-        // 1st action
-        pActionChain = pAction;
+    if (pActionChbin == NULL) {
+        // 1st bction
+        pActionChbin = pAction;
     } else {
-        // add the action to the chain
-        PreloadAction *pChain = pActionChain;
+        // bdd the bction to the chbin
+        PrelobdAction *pChbin = pActionChbin;
         while (true) {
-            PreloadAction *pNext = pChain->GetNext();
+            PrelobdAction *pNext = pChbin->GetNext();
             if (pNext == NULL) {
-                break;
+                brebk;
             }
-            pChain = pNext;
+            pChbin = pNext;
         }
-        pChain->SetNext(pAction);
+        pChbin->SetNext(pAction);
     }
 
-    if (status > None) {
-        // the thread is already running (status == Preloading)
-        AwakeThread();
+    if (stbtus > None) {
+        // the threbd is blrebdy running (stbtus == Prelobding)
+        AwbkeThrebd();
         return true;
     }
 
-    // need to start thread
-    ::ResetEvent(hAwake);
+    // need to stbrt threbd
+    ::ResetEvent(hAwbke);
     ::ResetEvent(hFinished);
 
-    HANDLE hThread = (HANDLE)_beginthreadex(NULL, 0x100000, StaticThreadProc,
-                                            this, 0, &threadId);
+    HANDLE hThrebd = (HANDLE)_beginthrebdex(NULL, 0x100000, StbticThrebdProc,
+                                            this, 0, &threbdId);
 
-    if (hThread == 0) {
-        threadId = 0;
-        return false;
+    if (hThrebd == 0) {
+        threbdId = 0;
+        return fblse;
     }
 
-    status = Preloading;
+    stbtus = Prelobding;
 
-    ::CloseHandle(hThread);
+    ::CloseHbndle(hThrebd);
 
     return true;
 }
 
-bool AwtToolkit::PreloadThread::Terminate(bool wrongThread)
+bool AwtToolkit::PrelobdThrebd::Terminbte(bool wrongThrebd)
 {
-    CriticalSection::Lock lock(threadLock);
+    CriticblSection::Lock lock(threbdLock);
 
-    if (status != Preloading) {
-        return false;
+    if (stbtus != Prelobding) {
+        return fblse;
     }
 
     execFunc = NULL;
-    execParam = NULL;
-    this->wrongThread = wrongThread;
-    status = Cleaning;
-    AwakeThread();
+    execPbrbm = NULL;
+    this->wrongThrebd = wrongThrebd;
+    stbtus = Clebning;
+    AwbkeThrebd();
 
     return true;
 }
 
-bool AwtToolkit::PreloadThread::InvokeAndTerminate(void(_cdecl *fn)(void *), void *param)
+bool AwtToolkit::PrelobdThrebd::InvokeAndTerminbte(void(_cdecl *fn)(void *), void *pbrbm)
 {
-    CriticalSection::Lock lock(threadLock);
+    CriticblSection::Lock lock(threbdLock);
 
-    if (status != Preloading) {
-        return false;
+    if (stbtus != Prelobding) {
+        return fblse;
     }
 
     execFunc = fn;
-    execParam = param;
-    status = fn == NULL ? Cleaning : RunningToolkit;
-    AwakeThread();
+    execPbrbm = pbrbm;
+    stbtus = fn == NULL ? Clebning : RunningToolkit;
+    AwbkeThrebd();
 
     return true;
 }
 
-bool AwtToolkit::PreloadThread::OnPreloadThread()
+bool AwtToolkit::PrelobdThrebd::OnPrelobdThrebd()
 {
-    return GetThreadId() == ::GetCurrentThreadId();
+    return GetThrebdId() == ::GetCurrentThrebdId();
 }
 
-/*static*/
-unsigned WINAPI AwtToolkit::PreloadThread::StaticThreadProc(void *param)
+/*stbtic*/
+unsigned WINAPI AwtToolkit::PrelobdThrebd::StbticThrebdProc(void *pbrbm)
 {
-    AwtToolkit::PreloadThread *pThis = (AwtToolkit::PreloadThread *)param;
-    return pThis->ThreadProc();
+    AwtToolkit::PrelobdThrebd *pThis = (AwtToolkit::PrelobdThrebd *)pbrbm;
+    return pThis->ThrebdProc();
 }
 
-unsigned AwtToolkit::PreloadThread::ThreadProc()
+unsigned AwtToolkit::PrelobdThrebd::ThrebdProc()
 {
     void(_cdecl *_execFunc)(void *) = NULL;
-    void *_execParam = NULL;
-    bool _wrongThread = false;
+    void *_execPbrbm = NULL;
+    bool _wrongThrebd = fblse;
 
-    // initialization
+    // initiblizbtion
     while (true) {
-        PreloadAction *pAction;
+        PrelobdAction *pAction;
         {
-            CriticalSection::Lock lock(threadLock);
-            if (status != Preloading) {
-                // get invoke parameters
+            CriticblSection::Lock lock(threbdLock);
+            if (stbtus != Prelobding) {
+                // get invoke pbrbmeters
                 _execFunc = execFunc;
-                _execParam = execParam;
-                _wrongThread = wrongThread;
-                break;
+                _execPbrbm = execPbrbm;
+                _wrongThrebd = wrongThrebd;
+                brebk;
             }
             pAction = GetNextAction();
         }
         if (pAction != NULL) {
             pAction->Init();
         } else {
-            ::WaitForSingleObject(hAwake, INFINITE);
+            ::WbitForSingleObject(hAwbke, INFINITE);
         }
     }
 
-    // call a function from InvokeAndTerminate
+    // cbll b function from InvokeAndTerminbte
     if (_execFunc != NULL) {
-        _execFunc(_execParam);
+        _execFunc(_execPbrbm);
     } else {
-        // time to terminate..
+        // time to terminbte..
     }
 
-    // cleanup
+    // clebnup
     {
-        CriticalSection::Lock lock(threadLock);
-        pLastProcessedAction = NULL; // goto 1st action in the chain
-        status = Cleaning;
+        CriticblSection::Lock lock(threbdLock);
+        pLbstProcessedAction = NULL; // goto 1st bction in the chbin
+        stbtus = Clebning;
     }
-    for (PreloadAction *pAction = GetNextAction(); pAction != NULL;
+    for (PrelobdAction *pAction = GetNextAction(); pAction != NULL;
             pAction = GetNextAction()) {
-        pAction->Clean(_wrongThread);
+        pAction->Clebn(_wrongThrebd);
     }
 
-    // don't clear threadId! it is used by PreloadAction::EnsureInited
+    // don't clebr threbdId! it is used by PrelobdAction::EnsureInited
 
     {
-        CriticalSection::Lock lock(threadLock);
-        status = Finished;
+        CriticblSection::Lock lock(threbdLock);
+        stbtus = Finished;
     }
     ::SetEvent(hFinished);
     return 0;
 }
 
-AwtToolkit::PreloadAction* AwtToolkit::PreloadThread::GetNextAction()
+AwtToolkit::PrelobdAction* AwtToolkit::PrelobdThrebd::GetNextAction()
 {
-    CriticalSection::Lock lock(threadLock);
-    PreloadAction *pAction = (pLastProcessedAction == NULL)
-                                    ? pActionChain
-                                    : pLastProcessedAction->GetNext();
+    CriticblSection::Lock lock(threbdLock);
+    PrelobdAction *pAction = (pLbstProcessedAction == NULL)
+                                    ? pActionChbin
+                                    : pLbstProcessedAction->GetNext();
     if (pAction != NULL) {
-        pLastProcessedAction = pAction;
+        pLbstProcessedAction = pAction;
     }
 
     return pAction;
@@ -2015,47 +2015,47 @@ AwtToolkit::PreloadAction* AwtToolkit::PreloadThread::GetNextAction()
 
 extern "C" {
 
-/* Terminates preload thread (if it's still alive
- * - it may occur if the application doesn't use AWT).
- * The function is called from launcher after completion main java thread.
+/* Terminbtes prelobd threbd (if it's still blive
+ * - it mby occur if the bpplicbtion doesn't use AWT).
+ * The function is cblled from lbuncher bfter completion mbin jbvb threbd.
  */
-__declspec(dllexport) void preloadStop()
+__declspec(dllexport) void prelobdStop()
 {
-    AwtToolkit::GetInstance().GetPreloadThread().Terminate(false);
+    AwtToolkit::GetInstbnce().GetPrelobdThrebd().Terminbte(fblse);
 }
 
 }
 
 
 /************************************************************************
- * Toolkit native methods
+ * Toolkit nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     java_awt_Toolkit
+ * Clbss:     jbvb_bwt_Toolkit
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_Toolkit_initIDs(JNIEnv *env, jclass cls) {
+Jbvb_jbvb_bwt_Toolkit_initIDs(JNIEnv *env, jclbss cls) {
     TRY;
 
-    AwtToolkit::getDefaultToolkitMID =
-        env->GetStaticMethodID(cls,"getDefaultToolkit","()Ljava/awt/Toolkit;");
-    DASSERT(AwtToolkit::getDefaultToolkitMID != NULL);
-    CHECK_NULL(AwtToolkit::getDefaultToolkitMID);
+    AwtToolkit::getDefbultToolkitMID =
+        env->GetStbticMethodID(cls,"getDefbultToolkit","()Ljbvb/bwt/Toolkit;");
+    DASSERT(AwtToolkit::getDefbultToolkitMID != NULL);
+    CHECK_NULL(AwtToolkit::getDefbultToolkitMID);
 
     AwtToolkit::getFontMetricsMID =
-        env->GetMethodID(cls, "getFontMetrics", "(Ljava/awt/Font;)Ljava/awt/FontMetrics;");
+        env->GetMethodID(cls, "getFontMetrics", "(Ljbvb/bwt/Font;)Ljbvb/bwt/FontMetrics;");
     DASSERT(AwtToolkit::getFontMetricsMID != NULL);
     CHECK_NULL(AwtToolkit::getFontMetricsMID);
 
-    jclass insetsClass = env->FindClass("java/awt/Insets");
-    DASSERT(insetsClass != NULL);
-    CHECK_NULL(insetsClass);
-    AwtToolkit::insetsMID = env->GetMethodID(insetsClass, "<init>", "(IIII)V");
+    jclbss insetsClbss = env->FindClbss("jbvb/bwt/Insets");
+    DASSERT(insetsClbss != NULL);
+    CHECK_NULL(insetsClbss);
+    AwtToolkit::insetsMID = env->GetMethodID(insetsClbss, "<init>", "(IIII)V");
     DASSERT(AwtToolkit::insetsMID != NULL);
     CHECK_NULL(AwtToolkit::insetsMID);
 
@@ -2066,198 +2066,198 @@ Java_java_awt_Toolkit_initIDs(JNIEnv *env, jclass cls) {
 } /* extern "C" */
 
 /************************************************************************
- * WToolkit native methods
+ * WToolkit nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     sun_awt_windows_WToolkit
+ * Clbss:     sun_bwt_windows_WToolkit
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WToolkit_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtToolkit::windowsSettingChangeMID =
-        env->GetMethodID(cls, "windowsSettingChange", "()V");
-    DASSERT(AwtToolkit::windowsSettingChangeMID != 0);
-    CHECK_NULL(AwtToolkit::windowsSettingChangeMID);
+    AwtToolkit::windowsSettingChbngeMID =
+        env->GetMethodID(cls, "windowsSettingChbnge", "()V");
+    DASSERT(AwtToolkit::windowsSettingChbngeMID != 0);
+    CHECK_NULL(AwtToolkit::windowsSettingChbngeMID);
 
-    AwtToolkit::displayChangeMID =
-    env->GetStaticMethodID(cls, "displayChanged", "()V");
-    DASSERT(AwtToolkit::displayChangeMID != 0);
-    CHECK_NULL(AwtToolkit::displayChangeMID);
+    AwtToolkit::displbyChbngeMID =
+    env->GetStbticMethodID(cls, "displbyChbnged", "()V");
+    DASSERT(AwtToolkit::displbyChbngeMID != 0);
+    CHECK_NULL(AwtToolkit::displbyChbngeMID);
 
-    // Set various global IDs needed by JAWT code.  Note: these
-    // variables cannot be set by JAWT code directly due to
-    // different permissions that that code may be run under
-    // (bug 4796548).  It would be nice to initialize these
-    // variables lazily, but given the minimal number of calls
-    // for this, it seems simpler to just do it at startup with
-    // negligible penalty.
-    jclass sDataClassLocal = env->FindClass("sun/java2d/SurfaceData");
-    DASSERT(sDataClassLocal != 0);
-    CHECK_NULL(sDataClassLocal);
+    // Set vbrious globbl IDs needed by JAWT code.  Note: these
+    // vbribbles cbnnot be set by JAWT code directly due to
+    // different permissions thbt thbt code mby be run under
+    // (bug 4796548).  It would be nice to initiblize these
+    // vbribbles lbzily, but given the minimbl number of cblls
+    // for this, it seems simpler to just do it bt stbrtup with
+    // negligible penblty.
+    jclbss sDbtbClbssLocbl = env->FindClbss("sun/jbvb2d/SurfbceDbtb");
+    DASSERT(sDbtbClbssLocbl != 0);
+    CHECK_NULL(sDbtbClbssLocbl);
 
-    jclass vImgClassLocal = env->FindClass("sun/awt/image/SunVolatileImage");
-    DASSERT(vImgClassLocal != 0);
-    CHECK_NULL(vImgClassLocal);
+    jclbss vImgClbssLocbl = env->FindClbss("sun/bwt/imbge/SunVolbtileImbge");
+    DASSERT(vImgClbssLocbl != 0);
+    CHECK_NULL(vImgClbssLocbl);
 
-    jclass vSMgrClassLocal =
-        env->FindClass("sun/awt/image/VolatileSurfaceManager");
-    DASSERT(vSMgrClassLocal != 0);
-    CHECK_NULL(vSMgrClassLocal);
+    jclbss vSMgrClbssLocbl =
+        env->FindClbss("sun/bwt/imbge/VolbtileSurfbceMbnbger");
+    DASSERT(vSMgrClbssLocbl != 0);
+    CHECK_NULL(vSMgrClbssLocbl);
 
-    jclass componentClassLocal = env->FindClass("java/awt/Component");
-    DASSERT(componentClassLocal != 0);
-    CHECK_NULL(componentClassLocal);
+    jclbss componentClbssLocbl = env->FindClbss("jbvb/bwt/Component");
+    DASSERT(componentClbssLocbl != 0);
+    CHECK_NULL(componentClbssLocbl);
 
-    jawtSMgrID = env->GetFieldID(vImgClassLocal, "volSurfaceManager",
-                                 "Lsun/awt/image/VolatileSurfaceManager;");
-    DASSERT(jawtSMgrID != 0);
-    CHECK_NULL(jawtSMgrID);
+    jbwtSMgrID = env->GetFieldID(vImgClbssLocbl, "volSurfbceMbnbger",
+                                 "Lsun/bwt/imbge/VolbtileSurfbceMbnbger;");
+    DASSERT(jbwtSMgrID != 0);
+    CHECK_NULL(jbwtSMgrID);
 
-    jawtSDataID = env->GetFieldID(vSMgrClassLocal, "sdCurrent",
-                                  "Lsun/java2d/SurfaceData;");
-    DASSERT(jawtSDataID != 0);
-    CHECK_NULL(jawtSDataID);
+    jbwtSDbtbID = env->GetFieldID(vSMgrClbssLocbl, "sdCurrent",
+                                  "Lsun/jbvb2d/SurfbceDbtb;");
+    DASSERT(jbwtSDbtbID != 0);
+    CHECK_NULL(jbwtSDbtbID);
 
-    jawtPDataID = env->GetFieldID(sDataClassLocal, "pData", "J");
-    DASSERT(jawtPDataID != 0);
-    CHECK_NULL(jawtPDataID);
-    // Save these classes in global references for later use
-    jawtVImgClass = (jclass)env->NewGlobalRef(vImgClassLocal);
-    CHECK_NULL(jawtVImgClass);
-    jawtComponentClass = (jclass)env->NewGlobalRef(componentClassLocal);
+    jbwtPDbtbID = env->GetFieldID(sDbtbClbssLocbl, "pDbtb", "J");
+    DASSERT(jbwtPDbtbID != 0);
+    CHECK_NULL(jbwtPDbtbID);
+    // Sbve these clbsses in globbl references for lbter use
+    jbwtVImgClbss = (jclbss)env->NewGlobblRef(vImgClbssLocbl);
+    CHECK_NULL(jbwtVImgClbss);
+    jbwtComponentClbss = (jclbss)env->NewGlobblRef(componentClbssLocbl);
 
     CATCH_BAD_ALLOC;
 }
 
 
 /*
- * Class:     sun_awt_windows_Toolkit
- * Method:    disableCustomPalette
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_Toolkit
+ * Method:    disbbleCustomPblette
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_disableCustomPalette(JNIEnv *env, jclass cls) {
-    AwtPalette::DisableCustomPalette();
+Jbvb_sun_bwt_windows_WToolkit_disbbleCustomPblette(JNIEnv *env, jclbss cls) {
+    AwtPblette::DisbbleCustomPblette();
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
+ * Clbss:     sun_bwt_windows_WToolkit
  * Method:    embeddedInit
- * Signature: ()Z
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_WToolkit_embeddedInit(JNIEnv *env, jclass cls)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_windows_WToolkit_embeddedInit(JNIEnv *env, jclbss cls)
 {
     TRY;
 
     AwtToolkit::SetEnv(env);
 
-    return AwtToolkit::GetInstance().Initialize(FALSE);
+    return AwtToolkit::GetInstbnce().Initiblize(FALSE);
 
     CATCH_BAD_ALLOC_RET(JNI_FALSE);
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
+ * Clbss:     sun_bwt_windows_WToolkit
  * Method:    embeddedDispose
- * Signature: ()Z
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_WToolkit_embeddedDispose(JNIEnv *env, jclass cls)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_windows_WToolkit_embeddedDispose(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    BOOL retval = AwtToolkit::GetInstance().Dispose();
-    AwtToolkit::GetInstance().SetPeer(env, NULL);
-    return retval;
+    BOOL retvbl = AwtToolkit::GetInstbnce().Dispose();
+    AwtToolkit::GetInstbnce().SetPeer(env, NULL);
+    return retvbl;
 
     CATCH_BAD_ALLOC_RET(JNI_FALSE);
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
+ * Clbss:     sun_bwt_windows_WToolkit
  * Method:    embeddedEventLoopIdleProcessing
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_embeddedEventLoopIdleProcessing(JNIEnv *env,
+Jbvb_sun_bwt_windows_WToolkit_embeddedEventLoopIdleProcessing(JNIEnv *env,
     jobject self)
 {
-    VerifyWindowMoveLockReleased();
+    VerifyWindowMoveLockRelebsed();
 }
 
 
 /*
- * Class:     sun_awt_windows_WToolkit
+ * Clbss:     sun_bwt_windows_WToolkit
  * Method:    init
- * Signature: ()Z
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_WToolkit_init(JNIEnv *env, jobject self)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_windows_WToolkit_init(JNIEnv *env, jobject self)
 {
     TRY;
 
     AwtToolkit::SetEnv(env);
 
-    AwtToolkit::GetInstance().SetPeer(env, self);
+    AwtToolkit::GetInstbnce().SetPeer(env, self);
 
-    // This call will fail if the Toolkit was already initialized.
-    // In that case, we don't want to start another message pump.
-    return AwtToolkit::GetInstance().Initialize(TRUE);
+    // This cbll will fbil if the Toolkit wbs blrebdy initiblized.
+    // In thbt cbse, we don't wbnt to stbrt bnother messbge pump.
+    return AwtToolkit::GetInstbnce().Initiblize(TRUE);
 
     CATCH_BAD_ALLOC_RET(FALSE);
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
+ * Clbss:     sun_bwt_windows_WToolkit
  * Method:    eventLoop
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_eventLoop(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WToolkit_eventLoop(JNIEnv *env, jobject self)
 {
     TRY;
 
-    DASSERT(AwtToolkit::GetInstance().localPump());
+    DASSERT(AwtToolkit::GetInstbnce().locblPump());
 
     AwtToolkit::SetBusy(TRUE);
 
-    AwtToolkit::GetInstance().MessageLoop(AwtToolkit::PrimaryIdleFunc,
-                                          AwtToolkit::CommonPeekMessageFunc);
+    AwtToolkit::GetInstbnce().MessbgeLoop(AwtToolkit::PrimbryIdleFunc,
+                                          AwtToolkit::CommonPeekMessbgeFunc);
 
-    AwtToolkit::GetInstance().Dispose();
+    AwtToolkit::GetInstbnce().Dispose();
 
     AwtToolkit::SetBusy(FALSE);
 
     /*
      * IMPORTANT NOTES:
-     *   The AwtToolkit has been destructed by now.
-     * DO NOT CALL any method of AwtToolkit!!!
+     *   The AwtToolkit hbs been destructed by now.
+     * DO NOT CALL bny method of AwtToolkit!!!
      */
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
+ * Clbss:     sun_bwt_windows_WToolkit
  * Method:    shutdown
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_shutdown(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WToolkit_shutdown(JNIEnv *env, jobject self)
 {
     TRY;
 
-    AwtToolkit& tk = AwtToolkit::GetInstance();
+    AwtToolkit& tk = AwtToolkit::GetInstbnce();
 
-    tk.QuitMessageLoop(AwtToolkit::EXIT_ALL_ENCLOSING_LOOPS);
+    tk.QuitMessbgeLoop(AwtToolkit::EXIT_ALL_ENCLOSING_LOOPS);
 
     while (!tk.IsDisposed()) {
         Sleep(100);
@@ -2267,77 +2267,77 @@ Java_sun_awt_windows_WToolkit_shutdown(JNIEnv *env, jobject self)
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
- * Method:    startSecondaryEventLoop
- * Signature: ()V;
+ * Clbss:     sun_bwt_windows_WToolkit
+ * Method:    stbrtSecondbryEventLoop
+ * Signbture: ()V;
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_startSecondaryEventLoop(
+Jbvb_sun_bwt_windows_WToolkit_stbrtSecondbryEventLoop(
     JNIEnv *env,
-    jclass)
+    jclbss)
 {
     TRY;
 
-    DASSERT(AwtToolkit::MainThread() == ::GetCurrentThreadId());
+    DASSERT(AwtToolkit::MbinThrebd() == ::GetCurrentThrebdId());
 
-    AwtToolkit::GetInstance().MessageLoop(AwtToolkit::SecondaryIdleFunc,
-                                          AwtToolkit::CommonPeekMessageFunc);
+    AwtToolkit::GetInstbnce().MessbgeLoop(AwtToolkit::SecondbryIdleFunc,
+                                          AwtToolkit::CommonPeekMessbgeFunc);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
- * Method:    quitSecondaryEventLoop
- * Signature: ()V;
+ * Clbss:     sun_bwt_windows_WToolkit
+ * Method:    quitSecondbryEventLoop
+ * Signbture: ()V;
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_quitSecondaryEventLoop(
+Jbvb_sun_bwt_windows_WToolkit_quitSecondbryEventLoop(
     JNIEnv *env,
-    jclass)
+    jclbss)
 {
     TRY;
 
-    AwtToolkit::GetInstance().QuitMessageLoop(AwtToolkit::EXIT_ENCLOSING_LOOP);
+    AwtToolkit::GetInstbnce().QuitMessbgeLoop(AwtToolkit::EXIT_ENCLOSING_LOOP);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
- * Method:    makeColorModel
- * Signature: ()Ljava/awt/image/ColorModel;
+ * Clbss:     sun_bwt_windows_WToolkit
+ * Method:    mbkeColorModel
+ * Signbture: ()Ljbvb/bwt/imbge/ColorModel;
  */
 JNIEXPORT jobject JNICALL
-Java_sun_awt_windows_WToolkit_makeColorModel(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WToolkit_mbkeColorModel(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    return AwtWin32GraphicsDevice::GetColorModel(env, JNI_FALSE,
-        AwtWin32GraphicsDevice::GetDefaultDeviceIndex());
+    return AwtWin32GrbphicsDevice::GetColorModel(env, JNI_FALSE,
+        AwtWin32GrbphicsDevice::GetDefbultDeviceIndex());
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
- * Method:    getMaximumCursorColors
- * Signature: ()I
+ * Clbss:     sun_bwt_windows_WToolkit
+ * Method:    getMbximumCursorColors
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WToolkit_getMaximumCursorColors(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WToolkit_getMbximumCursorColors(JNIEnv *env, jobject self)
 {
     TRY;
 
-    HDC hIC = ::CreateIC(TEXT("DISPLAY"), NULL, NULL, NULL);
+    HDC hIC = ::CrebteIC(TEXT("DISPLAY"), NULL, NULL, NULL);
 
     int nColor = 256;
-    switch (::GetDeviceCaps(hIC, BITSPIXEL) * ::GetDeviceCaps(hIC, PLANES)) {
-        case 1:         nColor = 2;             break;
-        case 4:         nColor = 16;            break;
-        case 8:         nColor = 256;           break;
-        case 16:        nColor = 65536;         break;
-        case 24:        nColor = 16777216;      break;
+    switch (::GetDeviceCbps(hIC, BITSPIXEL) * ::GetDeviceCbps(hIC, PLANES)) {
+        cbse 1:         nColor = 2;             brebk;
+        cbse 4:         nColor = 16;            brebk;
+        cbse 8:         nColor = 256;           brebk;
+        cbse 16:        nColor = 65536;         brebk;
+        cbse 24:        nColor = 16777216;      brebk;
     }
     ::DeleteDC(hIC);
     return nColor;
@@ -2346,12 +2346,12 @@ Java_sun_awt_windows_WToolkit_getMaximumCursorColors(JNIEnv *env, jobject self)
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
+ * Clbss:     sun_bwt_windows_WToolkit
  * Method:    getScreenWidth
- * Signature: ()I
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WToolkit_getScreenWidth(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WToolkit_getScreenWidth(JNIEnv *env, jobject self)
 {
     TRY;
 
@@ -2361,12 +2361,12 @@ Java_sun_awt_windows_WToolkit_getScreenWidth(JNIEnv *env, jobject self)
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
+ * Clbss:     sun_bwt_windows_WToolkit
  * Method:    getScreenHeight
- * Signature: ()I
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WToolkit_getScreenHeight(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WToolkit_getScreenHeight(JNIEnv *env, jobject self)
 {
     TRY;
 
@@ -2376,12 +2376,12 @@ Java_sun_awt_windows_WToolkit_getScreenHeight(JNIEnv *env, jobject self)
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
+ * Clbss:     sun_bwt_windows_WToolkit
  * Method:    getSreenInsets
- * Signature: (I)Ljava/awt/Insets;
+ * Signbture: (I)Ljbvb/bwt/Insets;
  */
 JNIEXPORT jobject JNICALL
-Java_sun_awt_windows_WToolkit_getScreenInsets(JNIEnv *env,
+Jbvb_sun_bwt_windows_WToolkit_getScreenInsets(JNIEnv *env,
                                               jobject self,
                                               jint screen)
 {
@@ -2391,11 +2391,11 @@ Java_sun_awt_windows_WToolkit_getScreenInsets(JNIEnv *env,
     TRY;
 
     if (AwtToolkit::GetScreenInsets(screen, &rect)) {
-        jclass insetsClass = env->FindClass("java/awt/Insets");
-        DASSERT(insetsClass != NULL);
-        CHECK_NULL_RETURN(insetsClass, NULL);
+        jclbss insetsClbss = env->FindClbss("jbvb/bwt/Insets");
+        DASSERT(insetsClbss != NULL);
+        CHECK_NULL_RETURN(insetsClbss, NULL);
 
-        insets = env->NewObject(insetsClass,
+        insets = env->NewObject(insetsClbss,
                 AwtToolkit::insetsMID,
                 rect.top,
                 rect.left,
@@ -2403,7 +2403,7 @@ Java_sun_awt_windows_WToolkit_getScreenInsets(JNIEnv *env,
                 rect.right);
     }
 
-    if (safe_ExceptionOccurred(env)) {
+    if (sbfe_ExceptionOccurred(env)) {
         return 0;
     }
     return insets;
@@ -2413,85 +2413,85 @@ Java_sun_awt_windows_WToolkit_getScreenInsets(JNIEnv *env,
 
 
 /*
- * Class:     sun_awt_windows_WToolkit
- * Method:    nativeSync
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WToolkit
+ * Method:    nbtiveSync
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_nativeSync(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WToolkit_nbtiveSync(JNIEnv *env, jobject self)
 {
     TRY;
 
-    // Synchronize both GDI and DDraw
+    // Synchronize both GDI bnd DDrbw
     VERIFY(::GdiFlush());
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
+ * Clbss:     sun_bwt_windows_WToolkit
  * Method:    beep
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_beep(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WToolkit_beep(JNIEnv *env, jobject self)
 {
     TRY;
 
-    VERIFY(::MessageBeep(MB_OK));
+    VERIFY(::MessbgeBeep(MB_OK));
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
- * Method:    getLockingKeyStateNative
- * Signature: (I)Z
+ * Clbss:     sun_bwt_windows_WToolkit
+ * Method:    getLockingKeyStbteNbtive
+ * Signbture: (I)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_WToolkit_getLockingKeyStateNative(JNIEnv *env, jobject self, jint javaKey)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_windows_WToolkit_getLockingKeyStbteNbtive(JNIEnv *env, jobject self, jint jbvbKey)
 {
     TRY;
 
     UINT windowsKey, modifiers;
-    AwtComponent::JavaKeyToWindowsKey(javaKey, &windowsKey, &modifiers);
+    AwtComponent::JbvbKeyToWindowsKey(jbvbKey, &windowsKey, &modifiers);
 
     if (windowsKey == 0) {
-        JNU_ThrowByName(env, "java/lang/UnsupportedOperationException", "Keyboard doesn't have requested key");
+        JNU_ThrowByNbme(env, "jbvb/lbng/UnsupportedOperbtionException", "Keybobrd doesn't hbve requested key");
         return JNI_FALSE;
     }
 
-    // low order bit in keyboardState indicates whether the key is toggled
-    BYTE keyboardState[AwtToolkit::KB_STATE_SIZE];
-    AwtToolkit::GetKeyboardState(keyboardState);
-    return keyboardState[windowsKey] & 0x01;
+    // low order bit in keybobrdStbte indicbtes whether the key is toggled
+    BYTE keybobrdStbte[AwtToolkit::KB_STATE_SIZE];
+    AwtToolkit::GetKeybobrdStbte(keybobrdStbte);
+    return keybobrdStbte[windowsKey] & 0x01;
 
     CATCH_BAD_ALLOC_RET(JNI_FALSE);
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
- * Method:    setLockingKeyStateNative
- * Signature: (IZ)V
+ * Clbss:     sun_bwt_windows_WToolkit
+ * Method:    setLockingKeyStbteNbtive
+ * Signbture: (IZ)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_setLockingKeyStateNative(JNIEnv *env, jobject self, jint javaKey, jboolean state)
+Jbvb_sun_bwt_windows_WToolkit_setLockingKeyStbteNbtive(JNIEnv *env, jobject self, jint jbvbKey, jboolebn stbte)
 {
     TRY;
 
     UINT windowsKey, modifiers;
-    AwtComponent::JavaKeyToWindowsKey(javaKey, &windowsKey, &modifiers);
+    AwtComponent::JbvbKeyToWindowsKey(jbvbKey, &windowsKey, &modifiers);
 
     if (windowsKey == 0) {
-        JNU_ThrowByName(env, "java/lang/UnsupportedOperationException", "Keyboard doesn't have requested key");
+        JNU_ThrowByNbme(env, "jbvb/lbng/UnsupportedOperbtionException", "Keybobrd doesn't hbve requested key");
         return;
     }
 
-    // if the key isn't in the desired state yet, simulate key events to get there
-    // low order bit in keyboardState indicates whether the key is toggled
-    BYTE keyboardState[AwtToolkit::KB_STATE_SIZE];
-    AwtToolkit::GetKeyboardState(keyboardState);
-    if ((keyboardState[windowsKey] & 0x01) != state) {
+    // if the key isn't in the desired stbte yet, simulbte key events to get there
+    // low order bit in keybobrdStbte indicbtes whether the key is toggled
+    BYTE keybobrdStbte[AwtToolkit::KB_STATE_SIZE];
+    AwtToolkit::GetKeybobrdStbte(keybobrdStbte);
+    if ((keybobrdStbte[windowsKey] & 0x01) != stbte) {
         ::keybd_event(windowsKey, 0, 0, 0);
         ::keybd_event(windowsKey, 0, KEYEVENTF_KEYUP, 0);
     }
@@ -2500,17 +2500,17 @@ Java_sun_awt_windows_WToolkit_setLockingKeyStateNative(JNIEnv *env, jobject self
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
- * Method:    loadSystemColors
- * Signature: ([I)V
+ * Clbss:     sun_bwt_windows_WToolkit
+ * Method:    lobdSystemColors
+ * Signbture: ([I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_loadSystemColors(JNIEnv *env, jobject self,
-                                               jintArray colors)
+Jbvb_sun_bwt_windows_WToolkit_lobdSystemColors(JNIEnv *env, jobject self,
+                                               jintArrby colors)
 {
     TRY;
 
-    static int indexMap[] = {
+    stbtic int indexMbp[] = {
         COLOR_DESKTOP, /* DESKTOP */
         COLOR_ACTIVECAPTION, /* ACTIVE_CAPTION */
         COLOR_CAPTIONTEXT, /* ACTIVE_CAPTION_TEXT */
@@ -2539,31 +2539,31 @@ Java_sun_awt_windows_WToolkit_loadSystemColors(JNIEnv *env, jobject self,
         COLOR_INFOTEXT, /* INFO_TEXT */
     };
 
-    jint colorLen = env->GetArrayLength(colors);
+    jint colorLen = env->GetArrbyLength(colors);
     jint* colorsPtr = NULL;
     try {
-        colorsPtr = (jint *)env->GetPrimitiveArrayCritical(colors, 0);
-        for (int i = 0; i < (sizeof indexMap)/(sizeof *indexMap) && i < colorLen; i++) {
-            colorsPtr[i] = DesktopColor2RGB(indexMap[i]);
+        colorsPtr = (jint *)env->GetPrimitiveArrbyCriticbl(colors, 0);
+        for (int i = 0; i < (sizeof indexMbp)/(sizeof *indexMbp) && i < colorLen; i++) {
+            colorsPtr[i] = DesktopColor2RGB(indexMbp[i]);
         }
-    } catch (...) {
+    } cbtch (...) {
         if (colorsPtr != NULL) {
-            env->ReleasePrimitiveArrayCritical(colors, colorsPtr, 0);
+            env->RelebsePrimitiveArrbyCriticbl(colors, colorsPtr, 0);
         }
         throw;
     }
 
-    env->ReleasePrimitiveArrayCritical(colors, colorsPtr, 0);
+    env->RelebsePrimitiveArrbyCriticbl(colors, colorsPtr, 0);
 
     CATCH_BAD_ALLOC;
 }
 
 extern "C" JNIEXPORT jobject JNICALL DSGetComponent
-    (JNIEnv* env, void* platformInfo)
+    (JNIEnv* env, void* plbtformInfo)
 {
     TRY;
 
-    HWND hWnd = (HWND)platformInfo;
+    HWND hWnd = (HWND)plbtformInfo;
     if (!::IsWindow(hWnd))
         return NULL;
 
@@ -2571,65 +2571,65 @@ extern "C" JNIEXPORT jobject JNICALL DSGetComponent
     if (comp == NULL)
         return NULL;
 
-    return comp->GetTarget(env);
+    return comp->GetTbrget(env);
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_postDispose(JNIEnv *env, jclass clazz)
+Jbvb_sun_bwt_windows_WToolkit_postDispose(JNIEnv *env, jclbss clbzz)
 {
 #ifdef DEBUG
     TRY_NO_VERIFY;
 
-    // If this method was called, that means runFinalizersOnExit is turned
-    // on and the VM is exiting cleanly. We should signal the debug memory
-    // manager to generate a leaks report.
-    AwtDebugSupport::GenerateLeaksReport();
+    // If this method wbs cblled, thbt mebns runFinblizersOnExit is turned
+    // on bnd the VM is exiting clebnly. We should signbl the debug memory
+    // mbnbger to generbte b lebks report.
+    AwtDebugSupport::GenerbteLebksReport();
 
     CATCH_BAD_ALLOC;
 #endif
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
- * Method:    setDynamicLayoutNative
- * Signature: (Z)V
+ * Clbss:     sun_bwt_windows_WToolkit
+ * Method:    setDynbmicLbyoutNbtive
+ * Signbture: (Z)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkit_setDynamicLayoutNative(JNIEnv *env,
-  jobject self, jboolean dynamic)
+Jbvb_sun_bwt_windows_WToolkit_setDynbmicLbyoutNbtive(JNIEnv *env,
+  jobject self, jboolebn dynbmic)
 {
     TRY;
 
-    AwtToolkit::GetInstance().SetDynamicLayout(dynamic);
+    AwtToolkit::GetInstbnce().SetDynbmicLbyout(dynbmic);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
- * Method:    isDynamicLayoutSupportedNative
- * Signature: ()Z
+ * Clbss:     sun_bwt_windows_WToolkit
+ * Method:    isDynbmicLbyoutSupportedNbtive
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_WToolkit_isDynamicLayoutSupportedNative(JNIEnv *env,
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_windows_WToolkit_isDynbmicLbyoutSupportedNbtive(JNIEnv *env,
   jobject self)
 {
     TRY;
 
-    return (jboolean) AwtToolkit::GetInstance().IsDynamicLayoutSupported();
+    return (jboolebn) AwtToolkit::GetInstbnce().IsDynbmicLbyoutSupported();
 
     CATCH_BAD_ALLOC_RET(FALSE);
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
+ * Clbss:     sun_bwt_windows_WToolkit
  * Method:    printWindowsVersion
- * Signature: ()Ljava/lang/String;
+ * Signbture: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_sun_awt_windows_WToolkit_getWindowsVersion(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WToolkit_getWindowsVersion(JNIEnv *env, jclbss cls)
 {
     TRY;
 
@@ -2642,7 +2642,7 @@ Java_sun_awt_windows_WToolkit_getWindowsVersion(JNIEnv *env, jclass cls)
     if (IS_WIN2000) {
         if (IS_WINXP) {
             if (IS_WINVISTA) {
-                swprintf(szVer + l, 128, L" (Windows Vista)");
+                swprintf(szVer + l, 128, L" (Windows Vistb)");
             } else {
                 swprintf(szVer + l, 128, L" (Windows XP)");
             }
@@ -2653,76 +2653,76 @@ Java_sun_awt_windows_WToolkit_getWindowsVersion(JNIEnv *env, jclass cls)
         swprintf(szVer + l, 128, L" (Unknown)");
     }
 
-    return JNU_NewStringPlatform(env, szVer);
+    return JNU_NewStringPlbtform(env, szVer);
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_WToolkit_syncNativeQueue(JNIEnv *env, jobject self, jlong timeout)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_windows_WToolkit_syncNbtiveQueue(JNIEnv *env, jobject self, jlong timeout)
 {
-    AwtToolkit & tk = AwtToolkit::GetInstance();
+    AwtToolkit & tk = AwtToolkit::GetInstbnce();
     DWORD eventNumber = tk.eventNumber;
-    tk.PostMessage(WM_SYNC_WAIT, 0, 0);
-    ::WaitForSingleObject(tk.m_waitEvent, INFINITE);
+    tk.PostMessbge(WM_SYNC_WAIT, 0, 0);
+    ::WbitForSingleObject(tk.m_wbitEvent, INFINITE);
     DWORD newEventNumber = tk.eventNumber;
     return (newEventNumber - eventNumber) > 2;
 }
 
 } /* extern "C" */
 
-/* Convert a Windows desktop color index into an RGB value. */
+/* Convert b Windows desktop color index into bn RGB vblue. */
 COLORREF DesktopColor2RGB(int colorIndex) {
     DWORD sysColor = ::GetSysColor(colorIndex);
-    return ((GetRValue(sysColor)<<16) | (GetGValue(sysColor)<<8) |
-            (GetBValue(sysColor)) | 0xff000000);
+    return ((GetRVblue(sysColor)<<16) | (GetGVblue(sysColor)<<8) |
+            (GetBVblue(sysColor)) | 0xff000000);
 }
 
 
 /*
- * Class:     sun_awt_SunToolkit
- * Method:    closeSplashScreen
- * Signature: ()V
+ * Clbss:     sun_bwt_SunToolkit
+ * Method:    closeSplbshScreen
+ * Signbture: ()V
  */
 extern "C" JNIEXPORT void JNICALL
-Java_sun_awt_SunToolkit_closeSplashScreen(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_SunToolkit_closeSplbshScreen(JNIEnv *env, jclbss cls)
 {
-    typedef void (*SplashClose_t)();
-    HMODULE hSplashDll = GetModuleHandle(_T("splashscreen.dll"));
-    if (!hSplashDll) {
-        return; // dll not loaded
+    typedef void (*SplbshClose_t)();
+    HMODULE hSplbshDll = GetModuleHbndle(_T("splbshscreen.dll"));
+    if (!hSplbshDll) {
+        return; // dll not lobded
     }
-    SplashClose_t splashClose = (SplashClose_t)GetProcAddress(hSplashDll,
-        "SplashClose");
-    if (splashClose) {
-        splashClose();
+    SplbshClose_t splbshClose = (SplbshClose_t)GetProcAddress(hSplbshDll,
+        "SplbshClose");
+    if (splbshClose) {
+        splbshClose();
     }
 }
 
 /*
- * accessible from awt_Component
+ * bccessible from bwt_Component
  */
-BOOL AwtToolkit::areExtraMouseButtonsEnabled() {
-    return m_areExtraMouseButtonsEnabled;
+BOOL AwtToolkit::breExtrbMouseButtonsEnbbled() {
+    return m_breExtrbMouseButtonsEnbbled;
 }
 
 /*
- * Class:     sun_awt_windows_WToolkit
- * Method:    setExtraMouseButtonsEnabledNative
- * Signature: (Z)V
+ * Clbss:     sun_bwt_windows_WToolkit
+ * Method:    setExtrbMouseButtonsEnbbledNbtive
+ * Signbture: (Z)V
  */
-extern "C" JNIEXPORT void JNICALL Java_sun_awt_windows_WToolkit_setExtraMouseButtonsEnabledNative
-(JNIEnv *env, jclass self, jboolean enable){
+extern "C" JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WToolkit_setExtrbMouseButtonsEnbbledNbtive
+(JNIEnv *env, jclbss self, jboolebn enbble){
     TRY;
-    AwtToolkit::GetInstance().setExtraMouseButtonsEnabled(enable);
+    AwtToolkit::GetInstbnce().setExtrbMouseButtonsEnbbled(enbble);
     CATCH_BAD_ALLOC;
 }
 
-void AwtToolkit::setExtraMouseButtonsEnabled(BOOL enable) {
-    m_areExtraMouseButtonsEnabled = enable;
+void AwtToolkit::setExtrbMouseButtonsEnbbled(BOOL enbble) {
+    m_breExtrbMouseButtonsEnbbled = enbble;
 }
 
-JNIEXPORT jint JNICALL Java_sun_awt_windows_WToolkit_getNumberOfButtonsImpl
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_WToolkit_getNumberOfButtonsImpl
 (JNIEnv *, jobject self) {
     return AwtToolkit::GetNumberOfButtons();
 }

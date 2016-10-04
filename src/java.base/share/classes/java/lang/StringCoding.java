@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.ref.SoftReference;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.CoderResult;
-import java.nio.charset.CodingErrorAction;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException;
-import java.util.Arrays;
-import sun.misc.MessageUtils;
-import sun.nio.cs.HistoricallyNamedCharset;
-import sun.nio.cs.ArrayDecoder;
-import sun.nio.cs.ArrayEncoder;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.ChbrbcterCodingException;
+import jbvb.nio.chbrset.CoderResult;
+import jbvb.nio.chbrset.CodingErrorAction;
+import jbvb.nio.chbrset.IllegblChbrsetNbmeException;
+import jbvb.nio.chbrset.UnsupportedChbrsetException;
+import jbvb.util.Arrbys;
+import sun.misc.MessbgeUtils;
+import sun.nio.cs.HistoricbllyNbmedChbrset;
+import sun.nio.cs.ArrbyDecoder;
+import sun.nio.cs.ArrbyEncoder;
 
 /**
- * Utility class for string encoding and decoding.
+ * Utility clbss for string encoding bnd decoding.
  */
 
-class StringCoding {
+clbss StringCoding {
 
-    private StringCoding() { }
+    privbte StringCoding() { }
 
-    /** The cached coders for each thread */
-    private final static ThreadLocal<SoftReference<StringDecoder>> decoder =
-        new ThreadLocal<>();
-    private final static ThreadLocal<SoftReference<StringEncoder>> encoder =
-        new ThreadLocal<>();
+    /** The cbched coders for ebch threbd */
+    privbte finbl stbtic ThrebdLocbl<SoftReference<StringDecoder>> decoder =
+        new ThrebdLocbl<>();
+    privbte finbl stbtic ThrebdLocbl<SoftReference<StringEncoder>> encoder =
+        new ThrebdLocbl<>();
 
-    private static boolean warnUnsupportedCharset = true;
+    privbte stbtic boolebn wbrnUnsupportedChbrset = true;
 
-    private static <T> T deref(ThreadLocal<SoftReference<T>> tl) {
+    privbte stbtic <T> T deref(ThrebdLocbl<SoftReference<T>> tl) {
         SoftReference<T> sr = tl.get();
         if (sr == null)
             return null;
         return sr.get();
     }
 
-    private static <T> void set(ThreadLocal<SoftReference<T>> tl, T ob) {
+    privbte stbtic <T> void set(ThrebdLocbl<SoftReference<T>> tl, T ob) {
         tl.set(new SoftReference<>(ob));
     }
 
-    // Trim the given byte array to the given length
+    // Trim the given byte brrby to the given length
     //
-    private static byte[] safeTrim(byte[] ba, int len, Charset cs, boolean isTrusted) {
-        if (len == ba.length && (isTrusted || System.getSecurityManager() == null))
-            return ba;
+    privbte stbtic byte[] sbfeTrim(byte[] bb, int len, Chbrset cs, boolebn isTrusted) {
+        if (len == bb.length && (isTrusted || System.getSecurityMbnbger() == null))
+            return bb;
         else
-            return Arrays.copyOf(ba, len);
+            return Arrbys.copyOf(bb, len);
     }
 
-    // Trim the given char array to the given length
+    // Trim the given chbr brrby to the given length
     //
-    private static char[] safeTrim(char[] ca, int len,
-                                   Charset cs, boolean isTrusted) {
-        if (len == ca.length && (isTrusted || System.getSecurityManager() == null))
-            return ca;
+    privbte stbtic chbr[] sbfeTrim(chbr[] cb, int len,
+                                   Chbrset cs, boolebn isTrusted) {
+        if (len == cb.length && (isTrusted || System.getSecurityMbnbger() == null))
+            return cb;
         else
-            return Arrays.copyOf(ca, len);
+            return Arrbys.copyOf(cb, len);
     }
 
-    private static int scale(int len, float expansionFactor) {
-        // We need to perform double, not float, arithmetic; otherwise
-        // we lose low order bits when len is larger than 2**24.
-        return (int)(len * (double)expansionFactor);
+    privbte stbtic int scble(int len, flobt expbnsionFbctor) {
+        // We need to perform double, not flobt, brithmetic; otherwise
+        // we lose low order bits when len is lbrger thbn 2**24.
+        return (int)(len * (double)expbnsionFbctor);
     }
 
-    private static Charset lookupCharset(String csn) {
-        if (Charset.isSupported(csn)) {
+    privbte stbtic Chbrset lookupChbrset(String csn) {
+        if (Chbrset.isSupported(csn)) {
             try {
-                return Charset.forName(csn);
-            } catch (UnsupportedCharsetException x) {
+                return Chbrset.forNbme(csn);
+            } cbtch (UnsupportedChbrsetException x) {
                 throw new Error(x);
             }
         }
         return null;
     }
 
-    private static void warnUnsupportedCharset(String csn) {
-        if (warnUnsupportedCharset) {
-            // Use sun.misc.MessageUtils rather than the Logging API or
-            // System.err since this method may be called during VM
-            // initialization before either is available.
-            MessageUtils.err("WARNING: Default charset " + csn +
-                             " not supported, using ISO-8859-1 instead");
-            warnUnsupportedCharset = false;
+    privbte stbtic void wbrnUnsupportedChbrset(String csn) {
+        if (wbrnUnsupportedChbrset) {
+            // Use sun.misc.MessbgeUtils rbther thbn the Logging API or
+            // System.err since this method mby be cblled during VM
+            // initiblizbtion before either is bvbilbble.
+            MessbgeUtils.err("WARNING: Defbult chbrset " + csn +
+                             " not supported, using ISO-8859-1 instebd");
+            wbrnUnsupportedChbrset = fblse;
         }
     }
 
 
     // -- Decoding --
-    private static class StringDecoder {
-        private final String requestedCharsetName;
-        private final Charset cs;
-        private final CharsetDecoder cd;
-        private final boolean isTrusted;
+    privbte stbtic clbss StringDecoder {
+        privbte finbl String requestedChbrsetNbme;
+        privbte finbl Chbrset cs;
+        privbte finbl ChbrsetDecoder cd;
+        privbte finbl boolebn isTrusted;
 
-        private StringDecoder(Charset cs, String rcn) {
-            this.requestedCharsetName = rcn;
+        privbte StringDecoder(Chbrset cs, String rcn) {
+            this.requestedChbrsetNbme = rcn;
             this.cs = cs;
             this.cd = cs.newDecoder()
-                .onMalformedInput(CodingErrorAction.REPLACE)
-                .onUnmappableCharacter(CodingErrorAction.REPLACE);
-            this.isTrusted = (cs.getClass().getClassLoader0() == null);
+                .onMblformedInput(CodingErrorAction.REPLACE)
+                .onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE);
+            this.isTrusted = (cs.getClbss().getClbssLobder0() == null);
         }
 
-        String charsetName() {
-            if (cs instanceof HistoricallyNamedCharset)
-                return ((HistoricallyNamedCharset)cs).historicalName();
-            return cs.name();
+        String chbrsetNbme() {
+            if (cs instbnceof HistoricbllyNbmedChbrset)
+                return ((HistoricbllyNbmedChbrset)cs).historicblNbme();
+            return cs.nbme();
         }
 
-        final String requestedCharsetName() {
-            return requestedCharsetName;
+        finbl String requestedChbrsetNbme() {
+            return requestedChbrsetNbme;
         }
 
-        char[] decode(byte[] ba, int off, int len) {
-            int en = scale(len, cd.maxCharsPerByte());
-            char[] ca = new char[en];
+        chbr[] decode(byte[] bb, int off, int len) {
+            int en = scble(len, cd.mbxChbrsPerByte());
+            chbr[] cb = new chbr[en];
             if (len == 0)
-                return ca;
-            if (cd instanceof ArrayDecoder) {
-                int clen = ((ArrayDecoder)cd).decode(ba, off, len, ca);
-                return safeTrim(ca, clen, cs, isTrusted);
+                return cb;
+            if (cd instbnceof ArrbyDecoder) {
+                int clen = ((ArrbyDecoder)cd).decode(bb, off, len, cb);
+                return sbfeTrim(cb, clen, cs, isTrusted);
             } else {
                 cd.reset();
-                ByteBuffer bb = ByteBuffer.wrap(ba, off, len);
-                CharBuffer cb = CharBuffer.wrap(ca);
+                ByteBuffer bb = ByteBuffer.wrbp(bb, off, len);
+                ChbrBuffer cb = ChbrBuffer.wrbp(cb);
                 try {
                     CoderResult cr = cd.decode(bb, cb, true);
                     if (!cr.isUnderflow())
@@ -163,74 +163,74 @@ class StringCoding {
                     cr = cd.flush(cb);
                     if (!cr.isUnderflow())
                         cr.throwException();
-                } catch (CharacterCodingException x) {
-                    // Substitution is always enabled,
-                    // so this shouldn't happen
+                } cbtch (ChbrbcterCodingException x) {
+                    // Substitution is blwbys enbbled,
+                    // so this shouldn't hbppen
                     throw new Error(x);
                 }
-                return safeTrim(ca, cb.position(), cs, isTrusted);
+                return sbfeTrim(cb, cb.position(), cs, isTrusted);
             }
         }
     }
 
-    static char[] decode(String charsetName, byte[] ba, int off, int len)
+    stbtic chbr[] decode(String chbrsetNbme, byte[] bb, int off, int len)
         throws UnsupportedEncodingException
     {
         StringDecoder sd = deref(decoder);
-        String csn = (charsetName == null) ? "ISO-8859-1" : charsetName;
-        if ((sd == null) || !(csn.equals(sd.requestedCharsetName())
-                              || csn.equals(sd.charsetName()))) {
+        String csn = (chbrsetNbme == null) ? "ISO-8859-1" : chbrsetNbme;
+        if ((sd == null) || !(csn.equbls(sd.requestedChbrsetNbme())
+                              || csn.equbls(sd.chbrsetNbme()))) {
             sd = null;
             try {
-                Charset cs = lookupCharset(csn);
+                Chbrset cs = lookupChbrset(csn);
                 if (cs != null)
                     sd = new StringDecoder(cs, csn);
-            } catch (IllegalCharsetNameException x) {}
+            } cbtch (IllegblChbrsetNbmeException x) {}
             if (sd == null)
                 throw new UnsupportedEncodingException(csn);
             set(decoder, sd);
         }
-        return sd.decode(ba, off, len);
+        return sd.decode(bb, off, len);
     }
 
-    static char[] decode(Charset cs, byte[] ba, int off, int len) {
-        // (1)We never cache the "external" cs, the only benefit of creating
-        // an additional StringDe/Encoder object to wrap it is to share the
-        // de/encode() method. These SD/E objects are short-lifed, the young-gen
-        // gc should be able to take care of them well. But the best approash
-        // is still not to generate them if not really necessary.
-        // (2)The defensive copy of the input byte/char[] has a big performance
-        // impact, as well as the outgoing result byte/char[]. Need to do the
-        // optimization check of (sm==null && classLoader0==null) for both.
-        // (3)getClass().getClassLoader0() is expensive
-        // (4)There might be a timing gap in isTrusted setting. getClassLoader0()
-        // is only chcked (and then isTrusted gets set) when (SM==null). It is
-        // possible that the SM==null for now but then SM is NOT null later
-        // when safeTrim() is invoked...the "safe" way to do is to redundant
-        // check (... && (isTrusted || SM == null || getClassLoader0())) in trim
-        // but it then can be argued that the SM is null when the opertaion
-        // is started...
-        CharsetDecoder cd = cs.newDecoder();
-        int en = scale(len, cd.maxCharsPerByte());
-        char[] ca = new char[en];
+    stbtic chbr[] decode(Chbrset cs, byte[] bb, int off, int len) {
+        // (1)We never cbche the "externbl" cs, the only benefit of crebting
+        // bn bdditionbl StringDe/Encoder object to wrbp it is to shbre the
+        // de/encode() method. These SD/E objects bre short-lifed, the young-gen
+        // gc should be bble to tbke cbre of them well. But the best bpprobsh
+        // is still not to generbte them if not reblly necessbry.
+        // (2)The defensive copy of the input byte/chbr[] hbs b big performbnce
+        // impbct, bs well bs the outgoing result byte/chbr[]. Need to do the
+        // optimizbtion check of (sm==null && clbssLobder0==null) for both.
+        // (3)getClbss().getClbssLobder0() is expensive
+        // (4)There might be b timing gbp in isTrusted setting. getClbssLobder0()
+        // is only chcked (bnd then isTrusted gets set) when (SM==null). It is
+        // possible thbt the SM==null for now but then SM is NOT null lbter
+        // when sbfeTrim() is invoked...the "sbfe" wby to do is to redundbnt
+        // check (... && (isTrusted || SM == null || getClbssLobder0())) in trim
+        // but it then cbn be brgued thbt the SM is null when the opertbion
+        // is stbrted...
+        ChbrsetDecoder cd = cs.newDecoder();
+        int en = scble(len, cd.mbxChbrsPerByte());
+        chbr[] cb = new chbr[en];
         if (len == 0)
-            return ca;
-        boolean isTrusted = false;
-        if (System.getSecurityManager() != null) {
-            if (!(isTrusted = (cs.getClass().getClassLoader0() == null))) {
-                ba =  Arrays.copyOfRange(ba, off, off + len);
+            return cb;
+        boolebn isTrusted = fblse;
+        if (System.getSecurityMbnbger() != null) {
+            if (!(isTrusted = (cs.getClbss().getClbssLobder0() == null))) {
+                bb =  Arrbys.copyOfRbnge(bb, off, off + len);
                 off = 0;
             }
         }
-        cd.onMalformedInput(CodingErrorAction.REPLACE)
-          .onUnmappableCharacter(CodingErrorAction.REPLACE)
+        cd.onMblformedInput(CodingErrorAction.REPLACE)
+          .onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE)
           .reset();
-        if (cd instanceof ArrayDecoder) {
-            int clen = ((ArrayDecoder)cd).decode(ba, off, len, ca);
-            return safeTrim(ca, clen, cs, isTrusted);
+        if (cd instbnceof ArrbyDecoder) {
+            int clen = ((ArrbyDecoder)cd).decode(bb, off, len, cb);
+            return sbfeTrim(cb, clen, cs, isTrusted);
         } else {
-            ByteBuffer bb = ByteBuffer.wrap(ba, off, len);
-            CharBuffer cb = CharBuffer.wrap(ca);
+            ByteBuffer bb = ByteBuffer.wrbp(bb, off, len);
+            ChbrBuffer cb = ChbrBuffer.wrbp(cb);
             try {
                 CoderResult cr = cd.decode(bb, cb, true);
                 if (!cr.isUnderflow())
@@ -238,75 +238,75 @@ class StringCoding {
                 cr = cd.flush(cb);
                 if (!cr.isUnderflow())
                     cr.throwException();
-            } catch (CharacterCodingException x) {
-                // Substitution is always enabled,
-                // so this shouldn't happen
+            } cbtch (ChbrbcterCodingException x) {
+                // Substitution is blwbys enbbled,
+                // so this shouldn't hbppen
                 throw new Error(x);
             }
-            return safeTrim(ca, cb.position(), cs, isTrusted);
+            return sbfeTrim(cb, cb.position(), cs, isTrusted);
         }
     }
 
-    static char[] decode(byte[] ba, int off, int len) {
-        String csn = Charset.defaultCharset().name();
+    stbtic chbr[] decode(byte[] bb, int off, int len) {
+        String csn = Chbrset.defbultChbrset().nbme();
         try {
-            // use charset name decode() variant which provides caching.
-            return decode(csn, ba, off, len);
-        } catch (UnsupportedEncodingException x) {
-            warnUnsupportedCharset(csn);
+            // use chbrset nbme decode() vbribnt which provides cbching.
+            return decode(csn, bb, off, len);
+        } cbtch (UnsupportedEncodingException x) {
+            wbrnUnsupportedChbrset(csn);
         }
         try {
-            return decode("ISO-8859-1", ba, off, len);
-        } catch (UnsupportedEncodingException x) {
-            // If this code is hit during VM initialization, MessageUtils is
-            // the only way we will be able to get any kind of error message.
-            MessageUtils.err("ISO-8859-1 charset not available: "
+            return decode("ISO-8859-1", bb, off, len);
+        } cbtch (UnsupportedEncodingException x) {
+            // If this code is hit during VM initiblizbtion, MessbgeUtils is
+            // the only wby we will be bble to get bny kind of error messbge.
+            MessbgeUtils.err("ISO-8859-1 chbrset not bvbilbble: "
                              + x.toString());
-            // If we can not find ISO-8859-1 (a required encoding) then things
-            // are seriously wrong with the installation.
+            // If we cbn not find ISO-8859-1 (b required encoding) then things
+            // bre seriously wrong with the instbllbtion.
             System.exit(1);
             return null;
         }
     }
 
     // -- Encoding --
-    private static class StringEncoder {
-        private Charset cs;
-        private CharsetEncoder ce;
-        private final String requestedCharsetName;
-        private final boolean isTrusted;
+    privbte stbtic clbss StringEncoder {
+        privbte Chbrset cs;
+        privbte ChbrsetEncoder ce;
+        privbte finbl String requestedChbrsetNbme;
+        privbte finbl boolebn isTrusted;
 
-        private StringEncoder(Charset cs, String rcn) {
-            this.requestedCharsetName = rcn;
+        privbte StringEncoder(Chbrset cs, String rcn) {
+            this.requestedChbrsetNbme = rcn;
             this.cs = cs;
             this.ce = cs.newEncoder()
-                .onMalformedInput(CodingErrorAction.REPLACE)
-                .onUnmappableCharacter(CodingErrorAction.REPLACE);
-            this.isTrusted = (cs.getClass().getClassLoader0() == null);
+                .onMblformedInput(CodingErrorAction.REPLACE)
+                .onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE);
+            this.isTrusted = (cs.getClbss().getClbssLobder0() == null);
         }
 
-        String charsetName() {
-            if (cs instanceof HistoricallyNamedCharset)
-                return ((HistoricallyNamedCharset)cs).historicalName();
-            return cs.name();
+        String chbrsetNbme() {
+            if (cs instbnceof HistoricbllyNbmedChbrset)
+                return ((HistoricbllyNbmedChbrset)cs).historicblNbme();
+            return cs.nbme();
         }
 
-        final String requestedCharsetName() {
-            return requestedCharsetName;
+        finbl String requestedChbrsetNbme() {
+            return requestedChbrsetNbme;
         }
 
-        byte[] encode(char[] ca, int off, int len) {
-            int en = scale(len, ce.maxBytesPerChar());
-            byte[] ba = new byte[en];
+        byte[] encode(chbr[] cb, int off, int len) {
+            int en = scble(len, ce.mbxBytesPerChbr());
+            byte[] bb = new byte[en];
             if (len == 0)
-                return ba;
-            if (ce instanceof ArrayEncoder) {
-                int blen = ((ArrayEncoder)ce).encode(ca, off, len, ba);
-                return safeTrim(ba, blen, cs, isTrusted);
+                return bb;
+            if (ce instbnceof ArrbyEncoder) {
+                int blen = ((ArrbyEncoder)ce).encode(cb, off, len, bb);
+                return sbfeTrim(bb, blen, cs, isTrusted);
             } else {
                 ce.reset();
-                ByteBuffer bb = ByteBuffer.wrap(ba);
-                CharBuffer cb = CharBuffer.wrap(ca, off, len);
+                ByteBuffer bb = ByteBuffer.wrbp(bb);
+                ChbrBuffer cb = ChbrBuffer.wrbp(cb, off, len);
                 try {
                     CoderResult cr = ce.encode(cb, bb, true);
                     if (!cr.isUnderflow())
@@ -314,58 +314,58 @@ class StringCoding {
                     cr = ce.flush(bb);
                     if (!cr.isUnderflow())
                         cr.throwException();
-                } catch (CharacterCodingException x) {
-                    // Substitution is always enabled,
-                    // so this shouldn't happen
+                } cbtch (ChbrbcterCodingException x) {
+                    // Substitution is blwbys enbbled,
+                    // so this shouldn't hbppen
                     throw new Error(x);
                 }
-                return safeTrim(ba, bb.position(), cs, isTrusted);
+                return sbfeTrim(bb, bb.position(), cs, isTrusted);
             }
         }
     }
 
-    static byte[] encode(String charsetName, char[] ca, int off, int len)
+    stbtic byte[] encode(String chbrsetNbme, chbr[] cb, int off, int len)
         throws UnsupportedEncodingException
     {
         StringEncoder se = deref(encoder);
-        String csn = (charsetName == null) ? "ISO-8859-1" : charsetName;
-        if ((se == null) || !(csn.equals(se.requestedCharsetName())
-                              || csn.equals(se.charsetName()))) {
+        String csn = (chbrsetNbme == null) ? "ISO-8859-1" : chbrsetNbme;
+        if ((se == null) || !(csn.equbls(se.requestedChbrsetNbme())
+                              || csn.equbls(se.chbrsetNbme()))) {
             se = null;
             try {
-                Charset cs = lookupCharset(csn);
+                Chbrset cs = lookupChbrset(csn);
                 if (cs != null)
                     se = new StringEncoder(cs, csn);
-            } catch (IllegalCharsetNameException x) {}
+            } cbtch (IllegblChbrsetNbmeException x) {}
             if (se == null)
                 throw new UnsupportedEncodingException (csn);
             set(encoder, se);
         }
-        return se.encode(ca, off, len);
+        return se.encode(cb, off, len);
     }
 
-    static byte[] encode(Charset cs, char[] ca, int off, int len) {
-        CharsetEncoder ce = cs.newEncoder();
-        int en = scale(len, ce.maxBytesPerChar());
-        byte[] ba = new byte[en];
+    stbtic byte[] encode(Chbrset cs, chbr[] cb, int off, int len) {
+        ChbrsetEncoder ce = cs.newEncoder();
+        int en = scble(len, ce.mbxBytesPerChbr());
+        byte[] bb = new byte[en];
         if (len == 0)
-            return ba;
-        boolean isTrusted = false;
-        if (System.getSecurityManager() != null) {
-            if (!(isTrusted = (cs.getClass().getClassLoader0() == null))) {
-                ca =  Arrays.copyOfRange(ca, off, off + len);
+            return bb;
+        boolebn isTrusted = fblse;
+        if (System.getSecurityMbnbger() != null) {
+            if (!(isTrusted = (cs.getClbss().getClbssLobder0() == null))) {
+                cb =  Arrbys.copyOfRbnge(cb, off, off + len);
                 off = 0;
             }
         }
-        ce.onMalformedInput(CodingErrorAction.REPLACE)
-          .onUnmappableCharacter(CodingErrorAction.REPLACE)
+        ce.onMblformedInput(CodingErrorAction.REPLACE)
+          .onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE)
           .reset();
-        if (ce instanceof ArrayEncoder) {
-            int blen = ((ArrayEncoder)ce).encode(ca, off, len, ba);
-            return safeTrim(ba, blen, cs, isTrusted);
+        if (ce instbnceof ArrbyEncoder) {
+            int blen = ((ArrbyEncoder)ce).encode(cb, off, len, bb);
+            return sbfeTrim(bb, blen, cs, isTrusted);
         } else {
-            ByteBuffer bb = ByteBuffer.wrap(ba);
-            CharBuffer cb = CharBuffer.wrap(ca, off, len);
+            ByteBuffer bb = ByteBuffer.wrbp(bb);
+            ChbrBuffer cb = ChbrBuffer.wrbp(cb, off, len);
             try {
                 CoderResult cr = ce.encode(cb, bb, true);
                 if (!cr.isUnderflow())
@@ -373,30 +373,30 @@ class StringCoding {
                 cr = ce.flush(bb);
                 if (!cr.isUnderflow())
                     cr.throwException();
-            } catch (CharacterCodingException x) {
+            } cbtch (ChbrbcterCodingException x) {
                 throw new Error(x);
             }
-            return safeTrim(ba, bb.position(), cs, isTrusted);
+            return sbfeTrim(bb, bb.position(), cs, isTrusted);
         }
     }
 
-    static byte[] encode(char[] ca, int off, int len) {
-        String csn = Charset.defaultCharset().name();
+    stbtic byte[] encode(chbr[] cb, int off, int len) {
+        String csn = Chbrset.defbultChbrset().nbme();
         try {
-            // use charset name encode() variant which provides caching.
-            return encode(csn, ca, off, len);
-        } catch (UnsupportedEncodingException x) {
-            warnUnsupportedCharset(csn);
+            // use chbrset nbme encode() vbribnt which provides cbching.
+            return encode(csn, cb, off, len);
+        } cbtch (UnsupportedEncodingException x) {
+            wbrnUnsupportedChbrset(csn);
         }
         try {
-            return encode("ISO-8859-1", ca, off, len);
-        } catch (UnsupportedEncodingException x) {
-            // If this code is hit during VM initialization, MessageUtils is
-            // the only way we will be able to get any kind of error message.
-            MessageUtils.err("ISO-8859-1 charset not available: "
+            return encode("ISO-8859-1", cb, off, len);
+        } cbtch (UnsupportedEncodingException x) {
+            // If this code is hit during VM initiblizbtion, MessbgeUtils is
+            // the only wby we will be bble to get bny kind of error messbge.
+            MessbgeUtils.err("ISO-8859-1 chbrset not bvbilbble: "
                              + x.toString());
-            // If we can not find ISO-8859-1 (a required encoding) then things
-            // are seriously wrong with the installation.
+            // If we cbn not find ISO-8859-1 (b required encoding) then things
+            // bre seriously wrong with the instbllbtion.
             System.exit(1);
             return null;
         }

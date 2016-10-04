@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.util.EventListenerProxy;
+import jbvb.util.EventListenerProxy;
 
 /**
- * A class which extends the {@code EventListenerProxy}
- * specifically for adding a {@code VetoableChangeListener}
- * with a "constrained" property.
- * Instances of this class can be added
- * as {@code VetoableChangeListener}s to a bean
- * which supports firing vetoable change events.
+ * A clbss which extends the {@code EventListenerProxy}
+ * specificblly for bdding b {@code VetobbleChbngeListener}
+ * with b "constrbined" property.
+ * Instbnces of this clbss cbn be bdded
+ * bs {@code VetobbleChbngeListener}s to b bebn
+ * which supports firing vetobble chbnge events.
  * <p>
- * If the object has a {@code getVetoableChangeListeners} method
- * then the array returned could be a mixture of {@code VetoableChangeListener}
- * and {@code VetoableChangeListenerProxy} objects.
+ * If the object hbs b {@code getVetobbleChbngeListeners} method
+ * then the brrby returned could be b mixture of {@code VetobbleChbngeListener}
+ * bnd {@code VetobbleChbngeListenerProxy} objects.
  *
- * @see java.util.EventListenerProxy
- * @see VetoableChangeSupport#getVetoableChangeListeners
+ * @see jbvb.util.EventListenerProxy
+ * @see VetobbleChbngeSupport#getVetobbleChbngeListeners
  * @since 1.4
  */
-public class VetoableChangeListenerProxy
-        extends EventListenerProxy<VetoableChangeListener>
-        implements VetoableChangeListener {
+public clbss VetobbleChbngeListenerProxy
+        extends EventListenerProxy<VetobbleChbngeListener>
+        implements VetobbleChbngeListener {
 
-    private final String propertyName;
+    privbte finbl String propertyNbme;
 
     /**
-     * Constructor which binds the {@code VetoableChangeListener}
-     * to a specific property.
+     * Constructor which binds the {@code VetobbleChbngeListener}
+     * to b specific property.
      *
-     * @param propertyName  the name of the property to listen on
-     * @param listener      the listener object
+     * @pbrbm propertyNbme  the nbme of the property to listen on
+     * @pbrbm listener      the listener object
      */
-    public VetoableChangeListenerProxy(String propertyName, VetoableChangeListener listener) {
+    public VetobbleChbngeListenerProxy(String propertyNbme, VetobbleChbngeListener listener) {
         super(listener);
-        this.propertyName = propertyName;
+        this.propertyNbme = propertyNbme;
     }
 
     /**
-    * Forwards the property change event to the listener delegate.
+    * Forwbrds the property chbnge event to the listener delegbte.
     *
-    * @param event  the property change event
+    * @pbrbm event  the property chbnge event
     *
     * @exception PropertyVetoException if the recipient wishes the property
-    *                                  change to be rolled back
+    *                                  chbnge to be rolled bbck
     */
-    public void vetoableChange(PropertyChangeEvent event) throws PropertyVetoException{
-        getListener().vetoableChange(event);
+    public void vetobbleChbnge(PropertyChbngeEvent event) throws PropertyVetoException{
+        getListener().vetobbleChbnge(event);
     }
 
     /**
-     * Returns the name of the named property associated with the listener.
+     * Returns the nbme of the nbmed property bssocibted with the listener.
      *
-     * @return the name of the named property associated with the listener
+     * @return the nbme of the nbmed property bssocibted with the listener
      */
-    public String getPropertyName() {
-        return this.propertyName;
+    public String getPropertyNbme() {
+        return this.propertyNbme;
     }
 }

@@ -1,321 +1,321 @@
 /*
- * Copyright (c) 2002, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import java.util.logging.Level;
+import jbvb.util.logging.Level;
 
-import javax.management.Attribute;
-import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.DynamicMBean;
-import javax.management.InvalidAttributeValueException;
-import javax.management.JMRuntimeException;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerDelegate;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgement.Attribute;
+import jbvbx.mbnbgement.AttributeList;
+import jbvbx.mbnbgement.AttributeNotFoundException;
+import jbvbx.mbnbgement.DynbmicMBebn;
+import jbvbx.mbnbgement.InvblidAttributeVblueException;
+import jbvbx.mbnbgement.JMRuntimeException;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MBebnServerDelegbte;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.ReflectionException;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
 
-import static com.sun.jmx.defaults.JmxProperties.MBEANSERVER_LOGGER;
+import stbtic com.sun.jmx.defbults.JmxProperties.MBEANSERVER_LOGGER;
 
 /**
- * This class is the MBean implementation of the MBeanServerDelegate.
+ * This clbss is the MBebn implementbtion of the MBebnServerDelegbte.
  *
  * @since 1.5
  */
-final class MBeanServerDelegateImpl
-    extends MBeanServerDelegate
-    implements DynamicMBean, MBeanRegistration {
+finbl clbss MBebnServerDelegbteImpl
+    extends MBebnServerDelegbte
+    implements DynbmicMBebn, MBebnRegistrbtion {
 
-    final private static String[] attributeNames = new String[] {
-        "MBeanServerId",
-        "SpecificationName",
-        "SpecificationVersion",
-        "SpecificationVendor",
-        "ImplementationName",
-        "ImplementationVersion",
-        "ImplementationVendor"
+    finbl privbte stbtic String[] bttributeNbmes = new String[] {
+        "MBebnServerId",
+        "SpecificbtionNbme",
+        "SpecificbtionVersion",
+        "SpecificbtionVendor",
+        "ImplementbtionNbme",
+        "ImplementbtionVersion",
+        "ImplementbtionVendor"
     };
 
-    private static final MBeanAttributeInfo[] attributeInfos =
-        new MBeanAttributeInfo[] {
-            new MBeanAttributeInfo("MBeanServerId","java.lang.String",
-                                   "The MBean server agent identification",
-                                   true,false,false),
-            new MBeanAttributeInfo("SpecificationName","java.lang.String",
-                                   "The full name of the JMX specification "+
+    privbte stbtic finbl MBebnAttributeInfo[] bttributeInfos =
+        new MBebnAttributeInfo[] {
+            new MBebnAttributeInfo("MBebnServerId","jbvb.lbng.String",
+                                   "The MBebn server bgent identificbtion",
+                                   true,fblse,fblse),
+            new MBebnAttributeInfo("SpecificbtionNbme","jbvb.lbng.String",
+                                   "The full nbme of the JMX specificbtion "+
                                    "implemented by this product.",
-                                   true,false,false),
-            new MBeanAttributeInfo("SpecificationVersion","java.lang.String",
-                                   "The version of the JMX specification "+
+                                   true,fblse,fblse),
+            new MBebnAttributeInfo("SpecificbtionVersion","jbvb.lbng.String",
+                                   "The version of the JMX specificbtion "+
                                    "implemented by this product.",
-                                   true,false,false),
-            new MBeanAttributeInfo("SpecificationVendor","java.lang.String",
-                                   "The vendor of the JMX specification "+
+                                   true,fblse,fblse),
+            new MBebnAttributeInfo("SpecificbtionVendor","jbvb.lbng.String",
+                                   "The vendor of the JMX specificbtion "+
                                    "implemented by this product.",
-                                   true,false,false),
-            new MBeanAttributeInfo("ImplementationName","java.lang.String",
-                                   "The JMX implementation name "+
-                                   "(the name of this product)",
-                                   true,false,false),
-            new MBeanAttributeInfo("ImplementationVersion","java.lang.String",
-                                   "The JMX implementation version "+
+                                   true,fblse,fblse),
+            new MBebnAttributeInfo("ImplementbtionNbme","jbvb.lbng.String",
+                                   "The JMX implementbtion nbme "+
+                                   "(the nbme of this product)",
+                                   true,fblse,fblse),
+            new MBebnAttributeInfo("ImplementbtionVersion","jbvb.lbng.String",
+                                   "The JMX implementbtion version "+
                                    "(the version of this product).",
-                                   true,false,false),
-            new MBeanAttributeInfo("ImplementationVendor","java.lang.String",
-                                   "the JMX implementation vendor "+
+                                   true,fblse,fblse),
+            new MBebnAttributeInfo("ImplementbtionVendor","jbvb.lbng.String",
+                                   "the JMX implementbtion vendor "+
                                    "(the vendor of this product).",
-                                   true,false,false)
+                                   true,fblse,fblse)
                 };
 
-    private final MBeanInfo delegateInfo;
+    privbte finbl MBebnInfo delegbteInfo;
 
-    public MBeanServerDelegateImpl () {
+    public MBebnServerDelegbteImpl () {
         super();
-        delegateInfo =
-            new MBeanInfo("javax.management.MBeanServerDelegate",
-                          "Represents  the MBean server from the management "+
+        delegbteInfo =
+            new MBebnInfo("jbvbx.mbnbgement.MBebnServerDelegbte",
+                          "Represents  the MBebn server from the mbnbgement "+
                           "point of view.",
-                          MBeanServerDelegateImpl.attributeInfos, null,
-                          null,getNotificationInfo());
+                          MBebnServerDelegbteImpl.bttributeInfos, null,
+                          null,getNotificbtionInfo());
     }
 
-    final public ObjectName preRegister (MBeanServer server, ObjectName name)
-        throws java.lang.Exception {
-        if (name == null) return DELEGATE_NAME;
-        else return name;
+    finbl public ObjectNbme preRegister (MBebnServer server, ObjectNbme nbme)
+        throws jbvb.lbng.Exception {
+        if (nbme == null) return DELEGATE_NAME;
+        else return nbme;
     }
 
-    final public void postRegister (Boolean registrationDone) {
+    finbl public void postRegister (Boolebn registrbtionDone) {
     }
 
-    final public void preDeregister()
-        throws java.lang.Exception {
-        throw new IllegalArgumentException(
-                 "The MBeanServerDelegate MBean cannot be unregistered");
+    finbl public void preDeregister()
+        throws jbvb.lbng.Exception {
+        throw new IllegblArgumentException(
+                 "The MBebnServerDelegbte MBebn cbnnot be unregistered");
     }
 
-    final public void postDeregister() {
+    finbl public void postDeregister() {
     }
 
     /**
-     * Obtains the value of a specific attribute of the MBeanServerDelegate.
+     * Obtbins the vblue of b specific bttribute of the MBebnServerDelegbte.
      *
-     * @param attribute The name of the attribute to be retrieved
+     * @pbrbm bttribute The nbme of the bttribute to be retrieved
      *
-     * @return  The value of the attribute retrieved.
+     * @return  The vblue of the bttribute retrieved.
      *
      * @exception AttributeNotFoundException
-     * @exception MBeanException
-     *            Wraps a <CODE>java.lang.Exception</CODE> thrown by the
-     *            MBean's getter.
+     * @exception MBebnException
+     *            Wrbps b <CODE>jbvb.lbng.Exception</CODE> thrown by the
+     *            MBebn's getter.
      */
-    public Object getAttribute(String attribute)
+    public Object getAttribute(String bttribute)
         throws AttributeNotFoundException,
-               MBeanException, ReflectionException {
+               MBebnException, ReflectionException {
         try {
-            // attribute must not be null
+            // bttribute must not be null
             //
-            if (attribute == null)
+            if (bttribute == null)
                 throw new AttributeNotFoundException("null");
 
-            // Extract the requested attribute from file
+            // Extrbct the requested bttribute from file
             //
-            if (attribute.equals("MBeanServerId"))
-                return getMBeanServerId();
-            else if (attribute.equals("SpecificationName"))
-                return getSpecificationName();
-            else if (attribute.equals("SpecificationVersion"))
-                return getSpecificationVersion();
-            else if (attribute.equals("SpecificationVendor"))
-                return getSpecificationVendor();
-            else if (attribute.equals("ImplementationName"))
-                return getImplementationName();
-            else if (attribute.equals("ImplementationVersion"))
-                return getImplementationVersion();
-            else if (attribute.equals("ImplementationVendor"))
-                return getImplementationVendor();
+            if (bttribute.equbls("MBebnServerId"))
+                return getMBebnServerId();
+            else if (bttribute.equbls("SpecificbtionNbme"))
+                return getSpecificbtionNbme();
+            else if (bttribute.equbls("SpecificbtionVersion"))
+                return getSpecificbtionVersion();
+            else if (bttribute.equbls("SpecificbtionVendor"))
+                return getSpecificbtionVendor();
+            else if (bttribute.equbls("ImplementbtionNbme"))
+                return getImplementbtionNbme();
+            else if (bttribute.equbls("ImplementbtionVersion"))
+                return getImplementbtionVersion();
+            else if (bttribute.equbls("ImplementbtionVendor"))
+                return getImplementbtionVendor();
 
-            // Unknown attribute
+            // Unknown bttribute
             //
             else
                 throw new AttributeNotFoundException("null");
 
-        } catch (AttributeNotFoundException x) {
+        } cbtch (AttributeNotFoundException x) {
             throw x;
-        } catch (JMRuntimeException j) {
+        } cbtch (JMRuntimeException j) {
             throw j;
-        } catch (SecurityException s) {
+        } cbtch (SecurityException s) {
             throw s;
-        } catch (Exception x) {
-            throw new MBeanException(x,"Failed to get " + attribute);
+        } cbtch (Exception x) {
+            throw new MBebnException(x,"Fbiled to get " + bttribute);
         }
     }
 
     /**
-     * This method always fail since all MBeanServerDelegateMBean attributes
-     * are read-only.
+     * This method blwbys fbil since bll MBebnServerDelegbteMBebn bttributes
+     * bre rebd-only.
      *
-     * @param attribute The identification of the attribute to
-     * be set and  the value it is to be set to.
+     * @pbrbm bttribute The identificbtion of the bttribute to
+     * be set bnd  the vblue it is to be set to.
      *
      * @exception AttributeNotFoundException
      */
-    public void setAttribute(Attribute attribute)
-        throws AttributeNotFoundException, InvalidAttributeValueException,
-               MBeanException, ReflectionException {
+    public void setAttribute(Attribute bttribute)
+        throws AttributeNotFoundException, InvblidAttributeVblueException,
+               MBebnException, ReflectionException {
 
-        // Now we will always fail:
-        // Either because the attribute is null or because it is not
-        // accessible (or does not exist).
+        // Now we will blwbys fbil:
+        // Either becbuse the bttribute is null or becbuse it is not
+        // bccessible (or does not exist).
         //
-        final String attname = (attribute==null?null:attribute.getName());
-        if (attname == null) {
-            final RuntimeException r =
-                new IllegalArgumentException("Attribute name cannot be null");
-            throw new RuntimeOperationsException(r,
-                "Exception occurred trying to invoke the setter on the MBean");
+        finbl String bttnbme = (bttribute==null?null:bttribute.getNbme());
+        if (bttnbme == null) {
+            finbl RuntimeException r =
+                new IllegblArgumentException("Attribute nbme cbnnot be null");
+            throw new RuntimeOperbtionsException(r,
+                "Exception occurred trying to invoke the setter on the MBebn");
         }
 
-        // This is a hack: we call getAttribute in order to generate an
-        // AttributeNotFoundException if the attribute does not exist.
+        // This is b hbck: we cbll getAttribute in order to generbte bn
+        // AttributeNotFoundException if the bttribute does not exist.
         //
-        Object val = getAttribute(attname);
+        Object vbl = getAttribute(bttnbme);
 
-        // If we reach this point, we know that the requested attribute
-        // exists. However, since all attributes are read-only, we throw
-        // an AttributeNotFoundException.
+        // If we rebch this point, we know thbt the requested bttribute
+        // exists. However, since bll bttributes bre rebd-only, we throw
+        // bn AttributeNotFoundException.
         //
-        throw new AttributeNotFoundException(attname + " not accessible");
+        throw new AttributeNotFoundException(bttnbme + " not bccessible");
     }
 
     /**
-     * Makes it possible to get the values of several attributes of
-     * the MBeanServerDelegate.
+     * Mbkes it possible to get the vblues of severbl bttributes of
+     * the MBebnServerDelegbte.
      *
-     * @param attributes A list of the attributes to be retrieved.
+     * @pbrbm bttributes A list of the bttributes to be retrieved.
      *
-     * @return  The list of attributes retrieved.
+     * @return  The list of bttributes retrieved.
      *
      */
-    public AttributeList getAttributes(String[] attributes) {
-        // If attributes is null, the get all attributes.
+    public AttributeList getAttributes(String[] bttributes) {
+        // If bttributes is null, the get bll bttributes.
         //
-        final String[] attn = (attributes==null?attributeNames:attributes);
+        finbl String[] bttn = (bttributes==null?bttributeNbmes:bttributes);
 
-        // Prepare the result list.
+        // Prepbre the result list.
         //
-        final int len = attn.length;
-        final AttributeList list = new AttributeList(len);
+        finbl int len = bttn.length;
+        finbl AttributeList list = new AttributeList(len);
 
-        // Get each requested attribute.
+        // Get ebch requested bttribute.
         //
         for (int i=0;i<len;i++) {
             try {
-                final Attribute a =
-                    new Attribute(attn[i],getAttribute(attn[i]));
-                list.add(a);
-            } catch (Exception x) {
-                // Skip the attribute that couldn't be obtained.
+                finbl Attribute b =
+                    new Attribute(bttn[i],getAttribute(bttn[i]));
+                list.bdd(b);
+            } cbtch (Exception x) {
+                // Skip the bttribute thbt couldn't be obtbined.
                 //
-                if (MBEANSERVER_LOGGER.isLoggable(Level.FINEST)) {
+                if (MBEANSERVER_LOGGER.isLoggbble(Level.FINEST)) {
                     MBEANSERVER_LOGGER.logp(Level.FINEST,
-                            MBeanServerDelegateImpl.class.getName(),
+                            MBebnServerDelegbteImpl.clbss.getNbme(),
                             "getAttributes",
-                            "Attribute " + attn[i] + " not found");
+                            "Attribute " + bttn[i] + " not found");
                 }
             }
         }
 
-        // Finally return the result.
+        // Finblly return the result.
         //
         return list;
     }
 
     /**
-     * This method always return an empty list since all
-     * MBeanServerDelegateMBean attributes are read-only.
+     * This method blwbys return bn empty list since bll
+     * MBebnServerDelegbteMBebn bttributes bre rebd-only.
      *
-     * @param attributes A list of attributes: The identification of the
-     * attributes to be set and  the values they are to be set to.
+     * @pbrbm bttributes A list of bttributes: The identificbtion of the
+     * bttributes to be set bnd  the vblues they bre to be set to.
      *
-     * @return  The list of attributes that were set, with their new values.
-     *          In fact, this method always return an empty list since all
-     *          MBeanServerDelegateMBean attributes are read-only.
+     * @return  The list of bttributes thbt were set, with their new vblues.
+     *          In fbct, this method blwbys return bn empty list since bll
+     *          MBebnServerDelegbteMBebn bttributes bre rebd-only.
      */
-    public AttributeList setAttributes(AttributeList attributes) {
+    public AttributeList setAttributes(AttributeList bttributes) {
         return new AttributeList(0);
     }
 
     /**
-     * Always fails since the MBeanServerDelegate MBean has no operation.
+     * Alwbys fbils since the MBebnServerDelegbte MBebn hbs no operbtion.
      *
-     * @param actionName The name of the action to be invoked.
-     * @param params An array containing the parameters to be set when the
-     *        action is invoked.
-     * @param signature An array containing the signature of the action.
+     * @pbrbm bctionNbme The nbme of the bction to be invoked.
+     * @pbrbm pbrbms An brrby contbining the pbrbmeters to be set when the
+     *        bction is invoked.
+     * @pbrbm signbture An brrby contbining the signbture of the bction.
      *
-     * @return  The object returned by the action, which represents
-     *          the result of invoking the action on the MBean specified.
+     * @return  The object returned by the bction, which represents
+     *          the result of invoking the bction on the MBebn specified.
      *
-     * @exception MBeanException  Wraps a <CODE>java.lang.Exception</CODE>
-     *         thrown by the MBean's invoked method.
-     * @exception ReflectionException  Wraps a
-     *      <CODE>java.lang.Exception</CODE> thrown while trying to invoke
+     * @exception MBebnException  Wrbps b <CODE>jbvb.lbng.Exception</CODE>
+     *         thrown by the MBebn's invoked method.
+     * @exception ReflectionException  Wrbps b
+     *      <CODE>jbvb.lbng.Exception</CODE> thrown while trying to invoke
      *      the method.
      */
-    public Object invoke(String actionName, Object params[],
-                         String signature[])
-        throws MBeanException, ReflectionException {
-        // Check that operation name is not null.
+    public Object invoke(String bctionNbme, Object pbrbms[],
+                         String signbture[])
+        throws MBebnException, ReflectionException {
+        // Check thbt operbtion nbme is not null.
         //
-        if (actionName == null) {
-            final RuntimeException r =
-              new IllegalArgumentException("Operation name  cannot be null");
-            throw new RuntimeOperationsException(r,
-            "Exception occurred trying to invoke the operation on the MBean");
+        if (bctionNbme == null) {
+            finbl RuntimeException r =
+              new IllegblArgumentException("Operbtion nbme  cbnnot be null");
+            throw new RuntimeOperbtionsException(r,
+            "Exception occurred trying to invoke the operbtion on the MBebn");
         }
 
         throw new ReflectionException(
-                          new NoSuchMethodException(actionName),
-                          "The operation with name " + actionName +
+                          new NoSuchMethodException(bctionNbme),
+                          "The operbtion with nbme " + bctionNbme +
                           " could not be found");
     }
 
     /**
-     * Provides the MBeanInfo describing the MBeanServerDelegate.
+     * Provides the MBebnInfo describing the MBebnServerDelegbte.
      *
-     * @return  The MBeanInfo describing the MBeanServerDelegate.
+     * @return  The MBebnInfo describing the MBebnServerDelegbte.
      *
      */
-    public MBeanInfo getMBeanInfo() {
-        return delegateInfo;
+    public MBebnInfo getMBebnInfo() {
+        return delegbteInfo;
     }
 
 }

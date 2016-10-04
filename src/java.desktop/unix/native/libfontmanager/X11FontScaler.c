@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Important note : All AWTxxx functions are defined in font.h.
- * These were added to remove the dependency of this file on X11.
- * These functions are used to perform X11 operations and should
- * be "stubbed out" in environments that do not support X11.
- * The implementation of these functions has been moved from this file
- * into X11FontScaler_md.c, which is compiled into another library.
+ * Importbnt note : All AWTxxx functions bre defined in font.h.
+ * These were bdded to remove the dependency of this file on X11.
+ * These functions bre used to perform X11 operbtions bnd should
+ * be "stubbed out" in environments thbt do not support X11.
+ * The implementbtion of these functions hbs been moved from this file
+ * into X11FontScbler_md.c, which is compiled into bnother librbry.
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <sys/utsname.h>
+#include <sys/utsnbme.h>
 
 #include <jni.h>
 #include <jni_util.h>
 
-#include "sun_font_NativeFont.h"
-#include "sun_font_NativeStrike.h"
-#include "sun_font_NativeStrikeDisposer.h"
+#include "sun_font_NbtiveFont.h"
+#include "sun_font_NbtiveStrike.h"
+#include "sun_font_NbtiveStrikeDisposer.h"
 #include "sunfontids.h"
-#include "fontscalerdefs.h"
-#include "X11FontScaler.h"
+#include "fontscblerdefs.h"
+#include "X11FontScbler.h"
 
 JNIEXPORT void JNICALL
-    Java_sun_font_NativeStrikeDisposer_freeNativeScalerContext
-    (JNIEnv *env, jobject disposer, jlong pScalerContext) {
+    Jbvb_sun_font_NbtiveStrikeDisposer_freeNbtiveScblerContext
+    (JNIEnv *env, jobject disposer, jlong pScblerContext) {
 
-    NativeScalerContext *context = (NativeScalerContext*)pScalerContext;
+    NbtiveScblerContext *context = (NbtiveScblerContext*)pScblerContext;
 
     if (context != NULL) {
         if (context->xFont != NULL) {
@@ -61,103 +61,103 @@ JNIEXPORT void JNICALL
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_font_NativeStrike_createNullScalerContext
+Jbvb_sun_font_NbtiveStrike_crebteNullScblerContext
     (JNIEnv *env, jobject strike) {
 
-   NativeScalerContext *context =
-       (NativeScalerContext*)malloc(sizeof(NativeScalerContext));
+   NbtiveScblerContext *context =
+       (NbtiveScblerContext*)mblloc(sizeof(NbtiveScblerContext));
    context->xFont = NULL;
    context->minGlyph = 0;
-   context->maxGlyph = 0;
+   context->mbxGlyph = 0;
    context->numGlyphs = 0;
-   context->defaultGlyph = 0;
+   context->defbultGlyph = 0;
    context->ptSize = NO_POINTSIZE;
    return (jlong)(uintptr_t)context;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_font_NativeStrike_createScalerContext
-    (JNIEnv *env, jobject strike, jbyteArray xlfdBytes,
-     jint ptSize, jdouble scale) {
+Jbvb_sun_font_NbtiveStrike_crebteScblerContext
+    (JNIEnv *env, jobject strike, jbyteArrby xlfdBytes,
+     jint ptSize, jdouble scble) {
 
-    NativeScalerContext *context;
-    int len = (*env)->GetArrayLength(env, xlfdBytes);
+    NbtiveScblerContext *context;
+    int len = (*env)->GetArrbyLength(env, xlfdBytes);
 
-    char* xlfd = (char*)malloc(len+1);
+    chbr* xlfd = (chbr*)mblloc(len+1);
 
     if (xlfd == NULL) {
         return (jlong)(uintptr_t)0L;
     }
 
-    (*env)->GetByteArrayRegion(env, xlfdBytes, 0, len, (jbyte*)xlfd);
+    (*env)->GetByteArrbyRegion(env, xlfdBytes, 0, len, (jbyte*)xlfd);
     xlfd[len] = '\0';
-    context = (NativeScalerContext*)malloc(sizeof(NativeScalerContext));
+    context = (NbtiveScblerContext*)mblloc(sizeof(NbtiveScblerContext));
 
-    AWTLoadFont (xlfd, &(context->xFont));
+    AWTLobdFont (xlfd, &(context->xFont));
     free(xlfd);
 
-    if (context->xFont == NULL) {   /* NULL means couldn't find the font */
+    if (context->xFont == NULL) {   /* NULL mebns couldn't find the font */
         free(context);
         context = NULL;
     } else {
-        /* numGlyphs is an estimate : X11 doesn't provide a quick way to
-         * discover which glyphs are valid: just the range that contains all
-         * the valid glyphs, and this range may have holes.
+        /* numGlyphs is bn estimbte : X11 doesn't provide b quick wby to
+         * discover which glyphs bre vblid: just the rbnge thbt contbins bll
+         * the vblid glyphs, bnd this rbnge mby hbve holes.
          */
         context->minGlyph = (AWTFontMinByte1(context->xFont) << 8) +
-            AWTFontMinCharOrByte2(context->xFont);
-        context->maxGlyph = (AWTFontMaxByte1(context->xFont) << 8) +
-            AWTFontMaxCharOrByte2(context->xFont);
-        context->numGlyphs = context->maxGlyph - context->minGlyph + 1;
-        context->defaultGlyph = AWTFontDefaultChar(context->xFont);
-        /* Sometimes the default_char field of the XFontStruct isn't
-         * initialized to anything, so it can be a large number. So,
-         * check to see if its less than the largest possible value
-         * and if so, then use it. Otherwise, just use the minGlyph.
+            AWTFontMinChbrOrByte2(context->xFont);
+        context->mbxGlyph = (AWTFontMbxByte1(context->xFont) << 8) +
+            AWTFontMbxChbrOrByte2(context->xFont);
+        context->numGlyphs = context->mbxGlyph - context->minGlyph + 1;
+        context->defbultGlyph = AWTFontDefbultChbr(context->xFont);
+        /* Sometimes the defbult_chbr field of the XFontStruct isn't
+         * initiblized to bnything, so it cbn be b lbrge number. So,
+         * check to see if its less thbn the lbrgest possible vblue
+         * bnd if so, then use it. Otherwise, just use the minGlyph.
          */
-        if (context->defaultGlyph < context->minGlyph ||
-            context->defaultGlyph > context->maxGlyph) {
-            context->defaultGlyph = context->minGlyph;
+        if (context->defbultGlyph < context->minGlyph ||
+            context->defbultGlyph > context->mbxGlyph) {
+            context->defbultGlyph = context->minGlyph;
         }
         context->ptSize = ptSize;
-        context->scale = scale;
+        context->scble = scble;
     }
 
     /*
-     * REMIND: freeing of native resources? XID, XFontStruct etc??
+     * REMIND: freeing of nbtive resources? XID, XFontStruct etc??
      */
     return (jlong)(uintptr_t)context;
 }
 
 
 /* JNIEXPORT jint JNICALL */
-/* Java_sun_font_NativeFont_getItalicAngle */
+/* Jbvb_sun_font_NbtiveFont_getItblicAngle */
 /*     (JNIEnv *env, jobject font) { */
 
-/*     UInt32 angle; */
-/*     AWTGetFontItalicAngle(xFont, &angle); */
-/*X11 reports italic angle as 1/64ths of a degree, relative to 3 o'clock
- * with anti-clockwise being the +ve rotation direction.
+/*     UInt32 bngle; */
+/*     AWTGetFontItblicAngle(xFont, &bngle); */
+/*X11 reports itblic bngle bs 1/64ths of b degree, relbtive to 3 o'clock
+ * with bnti-clockwise being the +ve rotbtion direction.
  * We return
-XGetFontProperty(xFont,XA_ITALIC_ANGLE, &angle);
+XGetFontProperty(xFont,XA_ITALIC_ANGLE, &bngle);
 */
 
-/*     return (jint)angle; */
+/*     return (jint)bngle; */
 /* } */
 
-JNIEXPORT jboolean JNICALL
-Java_sun_font_NativeFont_fontExists
-    (JNIEnv *env, jclass fontClass, jbyteArray xlfdBytes) {
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_font_NbtiveFont_fontExists
+    (JNIEnv *env, jclbss fontClbss, jbyteArrby xlfdBytes) {
 
     int count = 0;
-    int len = (*env)->GetArrayLength(env, xlfdBytes);
-    char* xlfd = (char*)malloc(len+1);
+    int len = (*env)->GetArrbyLength(env, xlfdBytes);
+    chbr* xlfd = (chbr*)mblloc(len+1);
 
     if (xlfd == NULL) {
         return JNI_FALSE;
     }
 
-    (*env)->GetByteArrayRegion(env, xlfdBytes, 0, len, (jbyte*)xlfd);
+    (*env)->GetByteArrbyRegion(env, xlfdBytes, 0, len, (jbyte*)xlfd);
     xlfd[len] = '\0';
 
     count = AWTCountFonts(xlfd);
@@ -169,19 +169,19 @@ Java_sun_font_NativeFont_fontExists
     }
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_font_NativeFont_haveBitmapFonts
-    (JNIEnv *env, jclass fontClass, jbyteArray xlfdBytes) {
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_font_NbtiveFont_hbveBitmbpFonts
+    (JNIEnv *env, jclbss fontClbss, jbyteArrby xlfdBytes) {
 
     int count = 0;
-    int len = (*env)->GetArrayLength(env, xlfdBytes);
-    char* xlfd = (char*)malloc(len+1);
+    int len = (*env)->GetArrbyLength(env, xlfdBytes);
+    chbr* xlfd = (chbr*)mblloc(len+1);
 
     if (xlfd == NULL) {
         return JNI_FALSE;
     }
 
-    (*env)->GetByteArrayRegion(env, xlfdBytes, 0, len, (jbyte*)xlfd);
+    (*env)->GetByteArrbyRegion(env, xlfdBytes, 0, len, (jbyte*)xlfd);
     xlfd[len] = '\0';
 
     count = AWTCountFonts(xlfd);
@@ -193,17 +193,17 @@ Java_sun_font_NativeFont_haveBitmapFonts
     }
 }
 
-// CountGlyphs doubles as way of getting a native font reference
-// and telling if its valid. So far as I can tell GenerateImage etc
-// just return if this "initialisation method" hasn't been called.
-// So clients of this class need to call CountGlyphs() right after
-// construction to be safe.
+// CountGlyphs doubles bs wby of getting b nbtive font reference
+// bnd telling if its vblid. So fbr bs I cbn tell GenerbteImbge etc
+// just return if this "initiblisbtion method" hbsn't been cblled.
+// So clients of this clbss need to cbll CountGlyphs() right bfter
+// construction to be sbfe.
 JNIEXPORT jint JNICALL
-Java_sun_font_NativeFont_countGlyphs
-    (JNIEnv *env, jobject font, jbyteArray xlfdBytes, jint ptSize) {
+Jbvb_sun_font_NbtiveFont_countGlyphs
+    (JNIEnv *env, jobject font, jbyteArrby xlfdBytes, jint ptSize) {
 
-    NativeScalerContext *context = (NativeScalerContext*)
-        Java_sun_font_NativeStrike_createScalerContext
+    NbtiveScblerContext *context = (NbtiveScblerContext*)
+        Jbvb_sun_font_NbtiveStrike_crebteScblerContext
         (env, NULL, xlfdBytes, ptSize, 1);
 
     if (context == NULL) {
@@ -217,132 +217,132 @@ Java_sun_font_NativeFont_countGlyphs
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_font_NativeStrike_getMaxGlyph
-    (JNIEnv *env, jobject strike, jlong pScalerContext) {
+Jbvb_sun_font_NbtiveStrike_getMbxGlyph
+    (JNIEnv *env, jobject strike, jlong pScblerContext) {
 
-    NativeScalerContext *context = (NativeScalerContext*)pScalerContext;
+    NbtiveScblerContext *context = (NbtiveScblerContext*)pScblerContext;
     if (context == NULL) {
         return (jint)0;
     } else {
-        return (jint)context->maxGlyph+1;
+        return (jint)context->mbxGlyph+1;
     }
 }
 
-JNIEXPORT jfloat JNICALL
-Java_sun_font_NativeFont_getGlyphAdvance
-   (JNIEnv *env, jobject font2D, jlong pScalerContext, jint glyphCode) {
+JNIEXPORT jflobt JNICALL
+Jbvb_sun_font_NbtiveFont_getGlyphAdvbnce
+   (JNIEnv *env, jobject font2D, jlong pScblerContext, jint glyphCode) {
 
-    NativeScalerContext *context = (NativeScalerContext*)pScalerContext;
+    NbtiveScblerContext *context = (NbtiveScblerContext*)pScblerContext;
     AWTFont xFont = (AWTFont)context->xFont;
-    AWTChar xcs;
-    jfloat advance = 0.0f;
+    AWTChbr xcs;
+    jflobt bdvbnce = 0.0f;
 
     if (xFont == NULL || context->ptSize == NO_POINTSIZE) {
-        return advance;
+        return bdvbnce;
     }
 
-    if (glyphCode < context->minGlyph || glyphCode > context->maxGlyph) {
-        glyphCode = context->defaultGlyph;
+    if (glyphCode < context->minGlyph || glyphCode > context->mbxGlyph) {
+        glyphCode = context->defbultGlyph;
     }
 
-    /* If number of glyphs is 256 or less, the metrics are
-     * stored correctly in the XFontStruct for each
-     * character. If the # characters is more (double byte
-     * case), then these metrics seem flaky and there's no
-     * way to determine if they have been set or not.
+    /* If number of glyphs is 256 or less, the metrics bre
+     * stored correctly in the XFontStruct for ebch
+     * chbrbcter. If the # chbrbcters is more (double byte
+     * cbse), then these metrics seem flbky bnd there's no
+     * wby to determine if they hbve been set or not.
      */
-    if ((context->maxGlyph <= 256) && (AWTFontPerChar(xFont, 0) != NULL)) {
-        xcs = AWTFontPerChar(xFont, glyphCode - context->minGlyph);
-        advance = AWTCharAdvance(xcs);
+    if ((context->mbxGlyph <= 256) && (AWTFontPerChbr(xFont, 0) != NULL)) {
+        xcs = AWTFontPerChbr(xFont, glyphCode - context->minGlyph);
+        bdvbnce = AWTChbrAdvbnce(xcs);
     } else {
-        int direction, ascent, descent;
-        AWTChar2b xChar;
+        int direction, bscent, descent;
+        AWTChbr2b xChbr;
 
-        xChar.byte1 = (unsigned char) (glyphCode >> 8);
-        xChar.byte2 = (unsigned char) glyphCode;
-        AWTFontTextExtents16(xFont, &xChar, &xcs);
-        advance = AWTCharAdvance(xcs);
-        AWTFreeChar(xcs);
+        xChbr.byte1 = (unsigned chbr) (glyphCode >> 8);
+        xChbr.byte2 = (unsigned chbr) glyphCode;
+        AWTFontTextExtents16(xFont, &xChbr, &xcs);
+        bdvbnce = AWTChbrAdvbnce(xcs);
+        AWTFreeChbr(xcs);
     }
-    return (jfloat)(advance/context->scale);
+    return (jflobt)(bdvbnce/context->scble);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_font_NativeFont_getGlyphImageNoDefault
-    (JNIEnv *env, jobject font2D, jlong pScalerContext, jint glyphCode) {
+Jbvb_sun_font_NbtiveFont_getGlyphImbgeNoDefbult
+    (JNIEnv *env, jobject font2D, jlong pScblerContext, jint glyphCode) {
 
-    NativeScalerContext *context = (NativeScalerContext*)pScalerContext;
+    NbtiveScblerContext *context = (NbtiveScblerContext*)pScblerContext;
     AWTFont xFont = context->xFont;
-    AWTChar2b xChar;
+    AWTChbr2b xChbr;
 
     if (xFont == NULL || context->ptSize == NO_POINTSIZE) {
         return (jlong)0;
     }
 
-    if (glyphCode < context->minGlyph || glyphCode > context->maxGlyph) {
+    if (glyphCode < context->minGlyph || glyphCode > context->mbxGlyph) {
         return (jlong)0;
     }
 
-    xChar.byte1 = (unsigned char)(glyphCode >> 8);
-    xChar.byte2 = (unsigned char)glyphCode;
-    return AWTFontGenerateImage(xFont, &xChar);
+    xChbr.byte1 = (unsigned chbr)(glyphCode >> 8);
+    xChbr.byte2 = (unsigned chbr)glyphCode;
+    return AWTFontGenerbteImbge(xFont, &xChbr);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_font_NativeFont_getGlyphImage
-    (JNIEnv *env, jobject font2D, jlong pScalerContext, jint glyphCode) {
+Jbvb_sun_font_NbtiveFont_getGlyphImbge
+    (JNIEnv *env, jobject font2D, jlong pScblerContext, jint glyphCode) {
 
-    NativeScalerContext *context = (NativeScalerContext*)pScalerContext;
+    NbtiveScblerContext *context = (NbtiveScblerContext*)pScblerContext;
     AWTFont xFont = context->xFont;
-    AWTChar2b xChar;
+    AWTChbr2b xChbr;
 
     if (xFont == NULL || context->ptSize == NO_POINTSIZE) {
         return (jlong)0;
     }
 
-    if (glyphCode < context->minGlyph || glyphCode > context->maxGlyph) {
-        glyphCode = context->defaultGlyph;
+    if (glyphCode < context->minGlyph || glyphCode > context->mbxGlyph) {
+        glyphCode = context->defbultGlyph;
     }
 
-    xChar.byte1 = (unsigned char)(glyphCode >> 8);
-    xChar.byte2 = (unsigned char)glyphCode;
-    return AWTFontGenerateImage(xFont, &xChar);
+    xChbr.byte1 = (unsigned chbr)(glyphCode >> 8);
+    xChbr.byte2 = (unsigned chbr)glyphCode;
+    return AWTFontGenerbteImbge(xFont, &xChbr);
 }
 
 JNIEXPORT jobject JNICALL
-  Java_sun_font_NativeFont_getFontMetrics
-    (JNIEnv *env, jobject font2D, jlong pScalerContext) {
+  Jbvb_sun_font_NbtiveFont_getFontMetrics
+    (JNIEnv *env, jobject font2D, jlong pScblerContext) {
 
-    NativeScalerContext *context = (NativeScalerContext*)pScalerContext;
+    NbtiveScblerContext *context = (NbtiveScblerContext*)pScblerContext;
     AWTFont xFont = (AWTFont)context->xFont;
-    jfloat j0=0, j1=1, ay=j0, dy=j0, mx=j0;
+    jflobt j0=0, j1=1, by=j0, dy=j0, mx=j0;
     jobject metrics;
 
     if (xFont == NULL) {
         return NULL;
     }
 
-    /* the commented out lines are the old 1.4.x behaviour which used max
-     * bounds instead of the font's designed ascent/descent */
-/*   ay =  (jfloat)-AWTCharAscent(AWTFontMaxBounds(xFont)); */
-/*   dy =  (jfloat)AWTCharDescent(AWTFontMaxBounds(xFont)); */
+    /* the commented out lines bre the old 1.4.x behbviour which used mbx
+     * bounds instebd of the font's designed bscent/descent */
+/*   by =  (jflobt)-AWTChbrAscent(AWTFontMbxBounds(xFont)); */
+/*   dy =  (jflobt)AWTChbrDescent(AWTFontMbxBounds(xFont)); */
 
-    ay = (jfloat)-AWTFontAscent(xFont);
-    dy = (jfloat)AWTFontDescent(xFont);
-    mx = (jfloat)AWTCharAdvance(AWTFontMaxBounds(xFont));
+    by = (jflobt)-AWTFontAscent(xFont);
+    dy = (jflobt)AWTFontDescent(xFont);
+    mx = (jflobt)AWTChbrAdvbnce(AWTFontMbxBounds(xFont));
 
-    /* ascent : no need to set ascentX - it will be zero
+    /* bscent : no need to set bscentX - it will be zero
      * descent : no need to set descentX - it will be zero
-     * baseline :  old releases "made up" a number and also seemed to
-     * make it up for "X" and set "Y" to 0.
-     * leadingX : no need to set leadingX - it will be zero.
-     * leadingY : made-up number, but being compatible with what 1.4.x did
-     * advance : no need to set yMaxLinearAdvanceWidth - it will be zero.
+     * bbseline :  old relebses "mbde up" b number bnd blso seemed to
+     * mbke it up for "X" bnd set "Y" to 0.
+     * lebdingX : no need to set lebdingX - it will be zero.
+     * lebdingY : mbde-up number, but being compbtible with whbt 1.4.x did
+     * bdvbnce : no need to set yMbxLinebrAdvbnceWidth - it will be zero.
      */
-    metrics = (*env)->NewObject(env, sunFontIDs.strikeMetricsClass,
+    metrics = (*env)->NewObject(env, sunFontIDs.strikeMetricsClbss,
                                 sunFontIDs.strikeMetricsCtr,
-                                j0, ay, j0, dy, j1, j0, j0, j1, mx, j0);
-/*      printf("X11 asc=%f dsc=%f adv=%f scale=%f\n", */
-/*          ay, dy, mx, (float)context->scale); */
+                                j0, by, j0, dy, j1, j0, j0, j1, mx, j0);
+/*      printf("X11 bsc=%f dsc=%f bdv=%f scble=%f\n", */
+/*          by, dy, mx, (flobt)context->scble); */
     return metrics;
 }

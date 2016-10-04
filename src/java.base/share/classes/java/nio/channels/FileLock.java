@@ -1,330 +1,330 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * A token representing a lock on a region of a file.
+ * A token representing b lock on b region of b file.
  *
- * <p> A file-lock object is created each time a lock is acquired on a file via
- * one of the {@link FileChannel#lock(long,long,boolean) lock} or {@link
- * FileChannel#tryLock(long,long,boolean) tryLock} methods of the
- * {@link FileChannel} class, or the {@link
- * AsynchronousFileChannel#lock(long,long,boolean,Object,CompletionHandler) lock}
- * or {@link AsynchronousFileChannel#tryLock(long,long,boolean) tryLock}
- * methods of the {@link AsynchronousFileChannel} class.
+ * <p> A file-lock object is crebted ebch time b lock is bcquired on b file vib
+ * one of the {@link FileChbnnel#lock(long,long,boolebn) lock} or {@link
+ * FileChbnnel#tryLock(long,long,boolebn) tryLock} methods of the
+ * {@link FileChbnnel} clbss, or the {@link
+ * AsynchronousFileChbnnel#lock(long,long,boolebn,Object,CompletionHbndler) lock}
+ * or {@link AsynchronousFileChbnnel#tryLock(long,long,boolebn) tryLock}
+ * methods of the {@link AsynchronousFileChbnnel} clbss.
  *
- * <p> A file-lock object is initially valid.  It remains valid until the lock
- * is released by invoking the {@link #release release} method, by closing the
- * channel that was used to acquire it, or by the termination of the Java
- * virtual machine, whichever comes first.  The validity of a lock may be
- * tested by invoking its {@link #isValid isValid} method.
+ * <p> A file-lock object is initiblly vblid.  It rembins vblid until the lock
+ * is relebsed by invoking the {@link #relebse relebse} method, by closing the
+ * chbnnel thbt wbs used to bcquire it, or by the terminbtion of the Jbvb
+ * virtubl mbchine, whichever comes first.  The vblidity of b lock mby be
+ * tested by invoking its {@link #isVblid isVblid} method.
  *
- * <p> A file lock is either <i>exclusive</i> or <i>shared</i>.  A shared lock
- * prevents other concurrently-running programs from acquiring an overlapping
- * exclusive lock, but does allow them to acquire overlapping shared locks.  An
- * exclusive lock prevents other programs from acquiring an overlapping lock of
- * either type.  Once it is released, a lock has no further effect on the locks
- * that may be acquired by other programs.
+ * <p> A file lock is either <i>exclusive</i> or <i>shbred</i>.  A shbred lock
+ * prevents other concurrently-running progrbms from bcquiring bn overlbpping
+ * exclusive lock, but does bllow them to bcquire overlbpping shbred locks.  An
+ * exclusive lock prevents other progrbms from bcquiring bn overlbpping lock of
+ * either type.  Once it is relebsed, b lock hbs no further effect on the locks
+ * thbt mby be bcquired by other progrbms.
  *
- * <p> Whether a lock is exclusive or shared may be determined by invoking its
- * {@link #isShared isShared} method.  Some platforms do not support shared
- * locks, in which case a request for a shared lock is automatically converted
- * into a request for an exclusive lock.
+ * <p> Whether b lock is exclusive or shbred mby be determined by invoking its
+ * {@link #isShbred isShbred} method.  Some plbtforms do not support shbred
+ * locks, in which cbse b request for b shbred lock is butombticblly converted
+ * into b request for bn exclusive lock.
  *
- * <p> The locks held on a particular file by a single Java virtual machine do
- * not overlap.  The {@link #overlaps overlaps} method may be used to test
- * whether a candidate lock range overlaps an existing lock.
+ * <p> The locks held on b pbrticulbr file by b single Jbvb virtubl mbchine do
+ * not overlbp.  The {@link #overlbps overlbps} method mby be used to test
+ * whether b cbndidbte lock rbnge overlbps bn existing lock.
  *
- * <p> A file-lock object records the file channel upon whose file the lock is
- * held, the type and validity of the lock, and the position and size of the
- * locked region.  Only the validity of a lock is subject to change over time;
- * all other aspects of a lock's state are immutable.
+ * <p> A file-lock object records the file chbnnel upon whose file the lock is
+ * held, the type bnd vblidity of the lock, bnd the position bnd size of the
+ * locked region.  Only the vblidity of b lock is subject to chbnge over time;
+ * bll other bspects of b lock's stbte bre immutbble.
  *
- * <p> File locks are held on behalf of the entire Java virtual machine.
- * They are not suitable for controlling access to a file by multiple
- * threads within the same virtual machine.
+ * <p> File locks bre held on behblf of the entire Jbvb virtubl mbchine.
+ * They bre not suitbble for controlling bccess to b file by multiple
+ * threbds within the sbme virtubl mbchine.
  *
- * <p> File-lock objects are safe for use by multiple concurrent threads.
+ * <p> File-lock objects bre sbfe for use by multiple concurrent threbds.
  *
  *
- * <a name="pdep"></a><h2> Platform dependencies </h2>
+ * <b nbme="pdep"></b><h2> Plbtform dependencies </h2>
  *
- * <p> This file-locking API is intended to map directly to the native locking
- * facility of the underlying operating system.  Thus the locks held on a file
- * should be visible to all programs that have access to the file, regardless
- * of the language in which those programs are written.
+ * <p> This file-locking API is intended to mbp directly to the nbtive locking
+ * fbcility of the underlying operbting system.  Thus the locks held on b file
+ * should be visible to bll progrbms thbt hbve bccess to the file, regbrdless
+ * of the lbngubge in which those progrbms bre written.
  *
- * <p> Whether or not a lock actually prevents another program from accessing
- * the content of the locked region is system-dependent and therefore
- * unspecified.  The native file-locking facilities of some systems are merely
- * <i>advisory</i>, meaning that programs must cooperatively observe a known
- * locking protocol in order to guarantee data integrity.  On other systems
- * native file locks are <i>mandatory</i>, meaning that if one program locks a
- * region of a file then other programs are actually prevented from accessing
- * that region in a way that would violate the lock.  On yet other systems,
- * whether native file locks are advisory or mandatory is configurable on a
- * per-file basis.  To ensure consistent and correct behavior across platforms,
- * it is strongly recommended that the locks provided by this API be used as if
- * they were advisory locks.
+ * <p> Whether or not b lock bctublly prevents bnother progrbm from bccessing
+ * the content of the locked region is system-dependent bnd therefore
+ * unspecified.  The nbtive file-locking fbcilities of some systems bre merely
+ * <i>bdvisory</i>, mebning thbt progrbms must cooperbtively observe b known
+ * locking protocol in order to gubrbntee dbtb integrity.  On other systems
+ * nbtive file locks bre <i>mbndbtory</i>, mebning thbt if one progrbm locks b
+ * region of b file then other progrbms bre bctublly prevented from bccessing
+ * thbt region in b wby thbt would violbte the lock.  On yet other systems,
+ * whether nbtive file locks bre bdvisory or mbndbtory is configurbble on b
+ * per-file bbsis.  To ensure consistent bnd correct behbvior bcross plbtforms,
+ * it is strongly recommended thbt the locks provided by this API be used bs if
+ * they were bdvisory locks.
  *
- * <p> On some systems, acquiring a mandatory lock on a region of a file
- * prevents that region from being {@link java.nio.channels.FileChannel#map
- * <i>mapped into memory</i>}, and vice versa.  Programs that combine
- * locking and mapping should be prepared for this combination to fail.
+ * <p> On some systems, bcquiring b mbndbtory lock on b region of b file
+ * prevents thbt region from being {@link jbvb.nio.chbnnels.FileChbnnel#mbp
+ * <i>mbpped into memory</i>}, bnd vice versb.  Progrbms thbt combine
+ * locking bnd mbpping should be prepbred for this combinbtion to fbil.
  *
- * <p> On some systems, closing a channel releases all locks held by the Java
- * virtual machine on the underlying file regardless of whether the locks were
- * acquired via that channel or via another channel open on the same file.  It
- * is strongly recommended that, within a program, a unique channel be used to
- * acquire all locks on any given file.
+ * <p> On some systems, closing b chbnnel relebses bll locks held by the Jbvb
+ * virtubl mbchine on the underlying file regbrdless of whether the locks were
+ * bcquired vib thbt chbnnel or vib bnother chbnnel open on the sbme file.  It
+ * is strongly recommended thbt, within b progrbm, b unique chbnnel be used to
+ * bcquire bll locks on bny given file.
  *
  * <p> Some network filesystems permit file locking to be used with
- * memory-mapped files only when the locked regions are page-aligned and a
- * whole multiple of the underlying hardware's page size.  Some network
- * filesystems do not implement file locks on regions that extend past a
- * certain position, often 2<sup>30</sup> or 2<sup>31</sup>.  In general, great
- * care should be taken when locking files that reside on network filesystems.
+ * memory-mbpped files only when the locked regions bre pbge-bligned bnd b
+ * whole multiple of the underlying hbrdwbre's pbge size.  Some network
+ * filesystems do not implement file locks on regions thbt extend pbst b
+ * certbin position, often 2<sup>30</sup> or 2<sup>31</sup>.  In generbl, grebt
+ * cbre should be tbken when locking files thbt reside on network filesystems.
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public abstract class FileLock implements AutoCloseable {
+public bbstrbct clbss FileLock implements AutoClosebble {
 
-    private final Channel channel;
-    private final long position;
-    private final long size;
-    private final boolean shared;
+    privbte finbl Chbnnel chbnnel;
+    privbte finbl long position;
+    privbte finbl long size;
+    privbte finbl boolebn shbred;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
-     * @param  channel
-     *         The file channel upon whose file this lock is held
+     * @pbrbm  chbnnel
+     *         The file chbnnel upon whose file this lock is held
      *
-     * @param  position
-     *         The position within the file at which the locked region starts;
-     *         must be non-negative
+     * @pbrbm  position
+     *         The position within the file bt which the locked region stbrts;
+     *         must be non-negbtive
      *
-     * @param  size
-     *         The size of the locked region; must be non-negative, and the sum
-     *         <tt>position</tt>&nbsp;+&nbsp;<tt>size</tt> must be non-negative
+     * @pbrbm  size
+     *         The size of the locked region; must be non-negbtive, bnd the sum
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>size</tt> must be non-negbtive
      *
-     * @param  shared
-     *         <tt>true</tt> if this lock is shared,
-     *         <tt>false</tt> if it is exclusive
+     * @pbrbm  shbred
+     *         <tt>true</tt> if this lock is shbred,
+     *         <tt>fblse</tt> if it is exclusive
      *
-     * @throws IllegalArgumentException
-     *         If the preconditions on the parameters do not hold
+     * @throws IllegblArgumentException
+     *         If the preconditions on the pbrbmeters do not hold
      */
-    protected FileLock(FileChannel channel,
-                       long position, long size, boolean shared)
+    protected FileLock(FileChbnnel chbnnel,
+                       long position, long size, boolebn shbred)
     {
         if (position < 0)
-            throw new IllegalArgumentException("Negative position");
+            throw new IllegblArgumentException("Negbtive position");
         if (size < 0)
-            throw new IllegalArgumentException("Negative size");
+            throw new IllegblArgumentException("Negbtive size");
         if (position + size < 0)
-            throw new IllegalArgumentException("Negative position + size");
-        this.channel = channel;
+            throw new IllegblArgumentException("Negbtive position + size");
+        this.chbnnel = chbnnel;
         this.position = position;
         this.size = size;
-        this.shared = shared;
+        this.shbred = shbred;
     }
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
-     * @param  channel
-     *         The channel upon whose file this lock is held
+     * @pbrbm  chbnnel
+     *         The chbnnel upon whose file this lock is held
      *
-     * @param  position
-     *         The position within the file at which the locked region starts;
-     *         must be non-negative
+     * @pbrbm  position
+     *         The position within the file bt which the locked region stbrts;
+     *         must be non-negbtive
      *
-     * @param  size
-     *         The size of the locked region; must be non-negative, and the sum
-     *         <tt>position</tt>&nbsp;+&nbsp;<tt>size</tt> must be non-negative
+     * @pbrbm  size
+     *         The size of the locked region; must be non-negbtive, bnd the sum
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>size</tt> must be non-negbtive
      *
-     * @param  shared
-     *         <tt>true</tt> if this lock is shared,
-     *         <tt>false</tt> if it is exclusive
+     * @pbrbm  shbred
+     *         <tt>true</tt> if this lock is shbred,
+     *         <tt>fblse</tt> if it is exclusive
      *
-     * @throws IllegalArgumentException
-     *         If the preconditions on the parameters do not hold
+     * @throws IllegblArgumentException
+     *         If the preconditions on the pbrbmeters do not hold
      *
      * @since 1.7
      */
-    protected FileLock(AsynchronousFileChannel channel,
-                       long position, long size, boolean shared)
+    protected FileLock(AsynchronousFileChbnnel chbnnel,
+                       long position, long size, boolebn shbred)
     {
         if (position < 0)
-            throw new IllegalArgumentException("Negative position");
+            throw new IllegblArgumentException("Negbtive position");
         if (size < 0)
-            throw new IllegalArgumentException("Negative size");
+            throw new IllegblArgumentException("Negbtive size");
         if (position + size < 0)
-            throw new IllegalArgumentException("Negative position + size");
-        this.channel = channel;
+            throw new IllegblArgumentException("Negbtive position + size");
+        this.chbnnel = chbnnel;
         this.position = position;
         this.size = size;
-        this.shared = shared;
+        this.shbred = shbred;
     }
 
     /**
-     * Returns the file channel upon whose file this lock was acquired.
+     * Returns the file chbnnel upon whose file this lock wbs bcquired.
      *
-     * <p> This method has been superseded by the {@link #acquiredBy acquiredBy}
+     * <p> This method hbs been superseded by the {@link #bcquiredBy bcquiredBy}
      * method.
      *
-     * @return  The file channel, or {@code null} if the file lock was not
-     *          acquired by a file channel.
+     * @return  The file chbnnel, or {@code null} if the file lock wbs not
+     *          bcquired by b file chbnnel.
      */
-    public final FileChannel channel() {
-        return (channel instanceof FileChannel) ? (FileChannel)channel : null;
+    public finbl FileChbnnel chbnnel() {
+        return (chbnnel instbnceof FileChbnnel) ? (FileChbnnel)chbnnel : null;
     }
 
     /**
-     * Returns the channel upon whose file this lock was acquired.
+     * Returns the chbnnel upon whose file this lock wbs bcquired.
      *
-     * @return  The channel upon whose file this lock was acquired.
+     * @return  The chbnnel upon whose file this lock wbs bcquired.
      *
      * @since 1.7
      */
-    public Channel acquiredBy() {
-        return channel;
+    public Chbnnel bcquiredBy() {
+        return chbnnel;
     }
 
     /**
      * Returns the position within the file of the first byte of the locked
      * region.
      *
-     * <p> A locked region need not be contained within, or even overlap, the
-     * actual underlying file, so the value returned by this method may exceed
+     * <p> A locked region need not be contbined within, or even overlbp, the
+     * bctubl underlying file, so the vblue returned by this method mby exceed
      * the file's current size.  </p>
      *
      * @return  The position
      */
-    public final long position() {
+    public finbl long position() {
         return position;
     }
 
     /**
      * Returns the size of the locked region in bytes.
      *
-     * <p> A locked region need not be contained within, or even overlap, the
-     * actual underlying file, so the value returned by this method may exceed
+     * <p> A locked region need not be contbined within, or even overlbp, the
+     * bctubl underlying file, so the vblue returned by this method mby exceed
      * the file's current size.  </p>
      *
      * @return  The size of the locked region
      */
-    public final long size() {
+    public finbl long size() {
         return size;
     }
 
     /**
-     * Tells whether this lock is shared.
+     * Tells whether this lock is shbred.
      *
-     * @return <tt>true</tt> if lock is shared,
-     *         <tt>false</tt> if it is exclusive
+     * @return <tt>true</tt> if lock is shbred,
+     *         <tt>fblse</tt> if it is exclusive
      */
-    public final boolean isShared() {
-        return shared;
+    public finbl boolebn isShbred() {
+        return shbred;
     }
 
     /**
-     * Tells whether or not this lock overlaps the given lock range.
+     * Tells whether or not this lock overlbps the given lock rbnge.
      *
-     * @param   position
-     *          The starting position of the lock range
-     * @param   size
-     *          The size of the lock range
+     * @pbrbm   position
+     *          The stbrting position of the lock rbnge
+     * @pbrbm   size
+     *          The size of the lock rbnge
      *
-     * @return  <tt>true</tt> if, and only if, this lock and the given lock
-     *          range overlap by at least one byte
+     * @return  <tt>true</tt> if, bnd only if, this lock bnd the given lock
+     *          rbnge overlbp by bt lebst one byte
      */
-    public final boolean overlaps(long position, long size) {
+    public finbl boolebn overlbps(long position, long size) {
         if (position + size <= this.position)
-            return false;               // That is below this
+            return fblse;               // Thbt is below this
         if (this.position + this.size <= position)
-            return false;               // This is below that
+            return fblse;               // This is below thbt
         return true;
     }
 
     /**
-     * Tells whether or not this lock is valid.
+     * Tells whether or not this lock is vblid.
      *
-     * <p> A lock object remains valid until it is released or the associated
-     * file channel is closed, whichever comes first.  </p>
+     * <p> A lock object rembins vblid until it is relebsed or the bssocibted
+     * file chbnnel is closed, whichever comes first.  </p>
      *
-     * @return  <tt>true</tt> if, and only if, this lock is valid
+     * @return  <tt>true</tt> if, bnd only if, this lock is vblid
      */
-    public abstract boolean isValid();
+    public bbstrbct boolebn isVblid();
 
     /**
-     * Releases this lock.
+     * Relebses this lock.
      *
-     * <p> If this lock object is valid then invoking this method releases the
-     * lock and renders the object invalid.  If this lock object is invalid
-     * then invoking this method has no effect.  </p>
+     * <p> If this lock object is vblid then invoking this method relebses the
+     * lock bnd renders the object invblid.  If this lock object is invblid
+     * then invoking this method hbs no effect.  </p>
      *
-     * @throws  ClosedChannelException
-     *          If the channel that was used to acquire this lock
+     * @throws  ClosedChbnnelException
+     *          If the chbnnel thbt wbs used to bcquire this lock
      *          is no longer open
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract void release() throws IOException;
+    public bbstrbct void relebse() throws IOException;
 
     /**
-     * This method invokes the {@link #release} method. It was added
-     * to the class so that it could be used in conjunction with the
-     * automatic resource management block construct.
+     * This method invokes the {@link #relebse} method. It wbs bdded
+     * to the clbss so thbt it could be used in conjunction with the
+     * butombtic resource mbnbgement block construct.
      *
      * @since 1.7
      */
-    public final void close() throws IOException {
-        release();
+    public finbl void close() throws IOException {
+        relebse();
     }
 
     /**
-     * Returns a string describing the range, type, and validity of this lock.
+     * Returns b string describing the rbnge, type, bnd vblidity of this lock.
      *
      * @return  A descriptive string
      */
-    public final String toString() {
-        return (this.getClass().getName()
+    public finbl String toString() {
+        return (this.getClbss().getNbme()
                 + "[" + position
                 + ":" + size
-                + " " + (shared ? "shared" : "exclusive")
-                + " " + (isValid() ? "valid" : "invalid")
+                + " " + (shbred ? "shbred" : "exclusive")
+                + " " + (isVblid() ? "vblid" : "invblid")
                 + "]");
     }
 

@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.internal.util.xml;
+pbckbge jdk.internbl.util.xml;
 
-import java.io.*;
-import java.util.InvalidPropertiesFormatException;
-import java.util.Map.Entry;
-import java.util.Properties;
-import jdk.internal.org.xml.sax.Attributes;
-import jdk.internal.org.xml.sax.InputSource;
-import jdk.internal.org.xml.sax.SAXException;
-import jdk.internal.org.xml.sax.SAXParseException;
-import jdk.internal.org.xml.sax.helpers.DefaultHandler;
-import jdk.internal.util.xml.impl.SAXParserImpl;
-import jdk.internal.util.xml.impl.XMLStreamWriterImpl;
+import jbvb.io.*;
+import jbvb.util.InvblidPropertiesFormbtException;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Properties;
+import jdk.internbl.org.xml.sbx.Attributes;
+import jdk.internbl.org.xml.sbx.InputSource;
+import jdk.internbl.org.xml.sbx.SAXException;
+import jdk.internbl.org.xml.sbx.SAXPbrseException;
+import jdk.internbl.org.xml.sbx.helpers.DefbultHbndler;
+import jdk.internbl.util.xml.impl.SAXPbrserImpl;
+import jdk.internbl.util.xml.impl.XMLStrebmWriterImpl;
 
 /**
- * A class used to aid in Properties load and save in XML. This class is
- * re-implemented using a subset of SAX
+ * A clbss used to bid in Properties lobd bnd sbve in XML. This clbss is
+ * re-implemented using b subset of SAX
  *
- * @author Joe Wang
+ * @buthor Joe Wbng
  * @since 1.8
  */
-public class PropertiesDefaultHandler extends DefaultHandler {
+public clbss PropertiesDefbultHbndler extends DefbultHbndler {
 
     // Elements specified in the properties.dtd
-    private static final String ELEMENT_ROOT = "properties";
-    private static final String ELEMENT_COMMENT = "comment";
-    private static final String ELEMENT_ENTRY = "entry";
-    private static final String ATTR_KEY = "key";
+    privbte stbtic finbl String ELEMENT_ROOT = "properties";
+    privbte stbtic finbl String ELEMENT_COMMENT = "comment";
+    privbte stbtic finbl String ELEMENT_ENTRY = "entry";
+    privbte stbtic finbl String ATTR_KEY = "key";
     // The required DTD URI for exported properties
-    private static final String PROPS_DTD_DECL =
-            "<!DOCTYPE properties SYSTEM \"http://java.sun.com/dtd/properties.dtd\">";
-    private static final String PROPS_DTD_URI =
-            "http://java.sun.com/dtd/properties.dtd";
-    private static final String PROPS_DTD =
+    privbte stbtic finbl String PROPS_DTD_DECL =
+            "<!DOCTYPE properties SYSTEM \"http://jbvb.sun.com/dtd/properties.dtd\">";
+    privbte stbtic finbl String PROPS_DTD_URI =
+            "http://jbvb.sun.com/dtd/properties.dtd";
+    privbte stbtic finbl String PROPS_DTD =
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
             + "<!-- DTD for properties -->"
             + "<!ELEMENT properties ( comment?, entry* ) >"
@@ -67,55 +67,55 @@ public class PropertiesDefaultHandler extends DefaultHandler {
             + "<!ATTLIST entry "
             + " key CDATA #REQUIRED>";
     /**
-     * Version number for the format of exported properties files.
+     * Version number for the formbt of exported properties files.
      */
-    private static final String EXTERNAL_XML_VERSION = "1.0";
-    private Properties properties;
+    privbte stbtic finbl String EXTERNAL_XML_VERSION = "1.0";
+    privbte Properties properties;
 
-    public void load(Properties props, InputStream in)
-        throws IOException, InvalidPropertiesFormatException, UnsupportedEncodingException
+    public void lobd(Properties props, InputStrebm in)
+        throws IOException, InvblidPropertiesFormbtException, UnsupportedEncodingException
     {
         this.properties = props;
 
         try {
-            SAXParser parser = new SAXParserImpl();
-            parser.parse(in, this);
-        } catch (SAXException saxe) {
-            throw new InvalidPropertiesFormatException(saxe);
+            SAXPbrser pbrser = new SAXPbrserImpl();
+            pbrser.pbrse(in, this);
+        } cbtch (SAXException sbxe) {
+            throw new InvblidPropertiesFormbtException(sbxe);
         }
 
         /**
          * String xmlVersion = propertiesElement.getAttribute("version"); if
-         * (xmlVersion.compareTo(EXTERNAL_XML_VERSION) > 0) throw new
-         * InvalidPropertiesFormatException( "Exported Properties file format
-         * version " + xmlVersion + " is not supported. This java installation
-         * can read" + " versions " + EXTERNAL_XML_VERSION + " or older. You" +
-         * " may need to install a newer version of JDK.");
+         * (xmlVersion.compbreTo(EXTERNAL_XML_VERSION) > 0) throw new
+         * InvblidPropertiesFormbtException( "Exported Properties file formbt
+         * version " + xmlVersion + " is not supported. This jbvb instbllbtion
+         * cbn rebd" + " versions " + EXTERNAL_XML_VERSION + " or older. You" +
+         * " mby need to instbll b newer version of JDK.");
          */
     }
 
-    public void store(Properties props, OutputStream os, String comment, String encoding)
+    public void store(Properties props, OutputStrebm os, String comment, String encoding)
         throws IOException
     {
         try {
-            XMLStreamWriter writer = new XMLStreamWriterImpl(os, encoding);
-            writer.writeStartDocument();
+            XMLStrebmWriter writer = new XMLStrebmWriterImpl(os, encoding);
+            writer.writeStbrtDocument();
             writer.writeDTD(PROPS_DTD_DECL);
-            writer.writeStartElement(ELEMENT_ROOT);
+            writer.writeStbrtElement(ELEMENT_ROOT);
             if (comment != null && comment.length() > 0) {
-                writer.writeStartElement(ELEMENT_COMMENT);
-                writer.writeCharacters(comment);
+                writer.writeStbrtElement(ELEMENT_COMMENT);
+                writer.writeChbrbcters(comment);
                 writer.writeEndElement();
             }
 
             synchronized(props) {
                 for (Entry<Object, Object> e : props.entrySet()) {
-                    final Object k = e.getKey();
-                    final Object v = e.getValue();
-                    if (k instanceof String && v instanceof String) {
-                        writer.writeStartElement(ELEMENT_ENTRY);
+                    finbl Object k = e.getKey();
+                    finbl Object v = e.getVblue();
+                    if (k instbnceof String && v instbnceof String) {
+                        writer.writeStbrtElement(ELEMENT_ENTRY);
                         writer.writeAttribute(ATTR_KEY, (String)k);
-                        writer.writeCharacters((String)v);
+                        writer.writeChbrbcters((String)v);
                         writer.writeEndElement();
                     }
                 }
@@ -124,31 +124,31 @@ public class PropertiesDefaultHandler extends DefaultHandler {
             writer.writeEndElement();
             writer.writeEndDocument();
             writer.flush();
-        } catch (XMLStreamException e) {
-            if (e.getCause() instanceof UnsupportedEncodingException) {
-                throw (UnsupportedEncodingException) e.getCause();
+        } cbtch (XMLStrebmException e) {
+            if (e.getCbuse() instbnceof UnsupportedEncodingException) {
+                throw (UnsupportedEncodingException) e.getCbuse();
             }
             throw new IOException(e);
         }
 
     }
     ////////////////////////////////////////////////////////////////////
-    // Validate while parsing
+    // Vblidbte while pbrsing
     ////////////////////////////////////////////////////////////////////
-    final static String ALLOWED_ELEMENTS = "properties, comment, entry";
-    final static String ALLOWED_COMMENT = "comment";
+    finbl stbtic String ALLOWED_ELEMENTS = "properties, comment, entry";
+    finbl stbtic String ALLOWED_COMMENT = "comment";
     ////////////////////////////////////////////////////////////////////
-    // Handler methods
+    // Hbndler methods
     ////////////////////////////////////////////////////////////////////
     StringBuffer buf = new StringBuffer();
-    boolean sawComment = false;
-    boolean validEntry = false;
+    boolebn sbwComment = fblse;
+    boolebn vblidEntry = fblse;
     int rootElem = 0;
     String key;
     String rootElm;
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes)
+    public void stbrtElement(String uri, String locblNbme, String qNbme, Attributes bttributes)
         throws SAXException
     {
         if (rootElem < 2) {
@@ -156,83 +156,83 @@ public class PropertiesDefaultHandler extends DefaultHandler {
         }
 
         if (rootElm == null) {
-            fatalError(new SAXParseException("An XML properties document must contain"
-                    + " the DOCTYPE declaration as defined by java.util.Properties.", null));
+            fbtblError(new SAXPbrseException("An XML properties document must contbin"
+                    + " the DOCTYPE declbrbtion bs defined by jbvb.util.Properties.", null));
         }
 
-        if (rootElem == 1 && !rootElm.equals(qName)) {
-            fatalError(new SAXParseException("Document root element \"" + qName
-                    + "\", must match DOCTYPE root \"" + rootElm + "\"", null));
+        if (rootElem == 1 && !rootElm.equbls(qNbme)) {
+            fbtblError(new SAXPbrseException("Document root element \"" + qNbme
+                    + "\", must mbtch DOCTYPE root \"" + rootElm + "\"", null));
         }
-        if (!ALLOWED_ELEMENTS.contains(qName)) {
-            fatalError(new SAXParseException("Element type \"" + qName + "\" must be declared.", null));
+        if (!ALLOWED_ELEMENTS.contbins(qNbme)) {
+            fbtblError(new SAXPbrseException("Element type \"" + qNbme + "\" must be declbred.", null));
         }
-        if (qName.equals(ELEMENT_ENTRY)) {
-            validEntry = true;
-            key = attributes.getValue(ATTR_KEY);
+        if (qNbme.equbls(ELEMENT_ENTRY)) {
+            vblidEntry = true;
+            key = bttributes.getVblue(ATTR_KEY);
             if (key == null) {
-                fatalError(new SAXParseException("Attribute \"key\" is required and must be specified for element type \"entry\"", null));
+                fbtblError(new SAXPbrseException("Attribute \"key\" is required bnd must be specified for element type \"entry\"", null));
             }
-        } else if (qName.equals(ALLOWED_COMMENT)) {
-            if (sawComment) {
-                fatalError(new SAXParseException("Only one comment element may be allowed. "
-                        + "The content of element type \"properties\" must match \"(comment?,entry*)\"", null));
+        } else if (qNbme.equbls(ALLOWED_COMMENT)) {
+            if (sbwComment) {
+                fbtblError(new SAXPbrseException("Only one comment element mby be bllowed. "
+                        + "The content of element type \"properties\" must mbtch \"(comment?,entry*)\"", null));
             }
-            sawComment = true;
+            sbwComment = true;
         }
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
-        if (validEntry) {
-            buf.append(ch, start, length);
+    public void chbrbcters(chbr[] ch, int stbrt, int length) throws SAXException {
+        if (vblidEntry) {
+            buf.bppend(ch, stbrt, length);
         }
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
-        if (!ALLOWED_ELEMENTS.contains(qName)) {
-            fatalError(new SAXParseException("Element: " + qName + " is invalid, must match  \"(comment?,entry*)\".", null));
+    public void endElement(String uri, String locblNbme, String qNbme) throws SAXException {
+        if (!ALLOWED_ELEMENTS.contbins(qNbme)) {
+            fbtblError(new SAXPbrseException("Element: " + qNbme + " is invblid, must mbtch  \"(comment?,entry*)\".", null));
         }
 
-        if (validEntry) {
+        if (vblidEntry) {
             properties.setProperty(key, buf.toString());
             buf.delete(0, buf.length());
-            validEntry = false;
+            vblidEntry = fblse;
         }
     }
 
     @Override
-    public void notationDecl(String name, String publicId, String systemId) throws SAXException {
-        rootElm = name;
+    public void notbtionDecl(String nbme, String publicId, String systemId) throws SAXException {
+        rootElm = nbme;
     }
 
     @Override
     public InputSource resolveEntity(String pubid, String sysid)
             throws SAXException, IOException {
         {
-            if (sysid.equals(PROPS_DTD_URI)) {
+            if (sysid.equbls(PROPS_DTD_URI)) {
                 InputSource is;
-                is = new InputSource(new StringReader(PROPS_DTD));
+                is = new InputSource(new StringRebder(PROPS_DTD));
                 is.setSystemId(PROPS_DTD_URI);
                 return is;
             }
-            throw new SAXException("Invalid system identifier: " + sysid);
+            throw new SAXException("Invblid system identifier: " + sysid);
         }
     }
 
     @Override
-    public void error(SAXParseException x) throws SAXException {
+    public void error(SAXPbrseException x) throws SAXException {
         throw x;
     }
 
     @Override
-    public void fatalError(SAXParseException x) throws SAXException {
+    public void fbtblError(SAXPbrseException x) throws SAXException {
         throw x;
     }
 
     @Override
-    public void warning(SAXParseException x) throws SAXException {
+    public void wbrning(SAXPbrseException x) throws SAXException {
         throw x;
     }
 }

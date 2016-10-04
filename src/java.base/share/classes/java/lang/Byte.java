@@ -1,249 +1,249 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
  *
- * The {@code Byte} class wraps a value of primitive type {@code byte}
- * in an object.  An object of type {@code Byte} contains a single
+ * The {@code Byte} clbss wrbps b vblue of primitive type {@code byte}
+ * in bn object.  An object of type {@code Byte} contbins b single
  * field whose type is {@code byte}.
  *
- * <p>In addition, this class provides several methods for converting
- * a {@code byte} to a {@code String} and a {@code String} to a {@code
- * byte}, as well as other constants and methods useful when dealing
- * with a {@code byte}.
+ * <p>In bddition, this clbss provides severbl methods for converting
+ * b {@code byte} to b {@code String} bnd b {@code String} to b {@code
+ * byte}, bs well bs other constbnts bnd methods useful when debling
+ * with b {@code byte}.
  *
- * @author  Nakul Saraiya
- * @author  Joseph D. Darcy
- * @see     java.lang.Number
+ * @buthor  Nbkul Sbrbiyb
+ * @buthor  Joseph D. Dbrcy
+ * @see     jbvb.lbng.Number
  * @since   1.1
  */
-public final class Byte extends Number implements Comparable<Byte> {
+public finbl clbss Byte extends Number implements Compbrbble<Byte> {
 
     /**
-     * A constant holding the minimum value a {@code byte} can
-     * have, -2<sup>7</sup>.
+     * A constbnt holding the minimum vblue b {@code byte} cbn
+     * hbve, -2<sup>7</sup>.
      */
-    public static final byte   MIN_VALUE = -128;
+    public stbtic finbl byte   MIN_VALUE = -128;
 
     /**
-     * A constant holding the maximum value a {@code byte} can
-     * have, 2<sup>7</sup>-1.
+     * A constbnt holding the mbximum vblue b {@code byte} cbn
+     * hbve, 2<sup>7</sup>-1.
      */
-    public static final byte   MAX_VALUE = 127;
+    public stbtic finbl byte   MAX_VALUE = 127;
 
     /**
-     * The {@code Class} instance representing the primitive type
+     * The {@code Clbss} instbnce representing the primitive type
      * {@code byte}.
      */
-    @SuppressWarnings("unchecked")
-    public static final Class<Byte>     TYPE = (Class<Byte>) Class.getPrimitiveClass("byte");
+    @SuppressWbrnings("unchecked")
+    public stbtic finbl Clbss<Byte>     TYPE = (Clbss<Byte>) Clbss.getPrimitiveClbss("byte");
 
     /**
-     * Returns a new {@code String} object representing the
-     * specified {@code byte}. The radix is assumed to be 10.
+     * Returns b new {@code String} object representing the
+     * specified {@code byte}. The rbdix is bssumed to be 10.
      *
-     * @param b the {@code byte} to be converted
-     * @return the string representation of the specified {@code byte}
-     * @see java.lang.Integer#toString(int)
+     * @pbrbm b the {@code byte} to be converted
+     * @return the string representbtion of the specified {@code byte}
+     * @see jbvb.lbng.Integer#toString(int)
      */
-    public static String toString(byte b) {
+    public stbtic String toString(byte b) {
         return Integer.toString((int)b, 10);
     }
 
-    private static class ByteCache {
-        private ByteCache(){}
+    privbte stbtic clbss ByteCbche {
+        privbte ByteCbche(){}
 
-        static final Byte cache[] = new Byte[-(-128) + 127 + 1];
+        stbtic finbl Byte cbche[] = new Byte[-(-128) + 127 + 1];
 
-        static {
-            for(int i = 0; i < cache.length; i++)
-                cache[i] = new Byte((byte)(i - 128));
+        stbtic {
+            for(int i = 0; i < cbche.length; i++)
+                cbche[i] = new Byte((byte)(i - 128));
         }
     }
 
     /**
-     * Returns a {@code Byte} instance representing the specified
-     * {@code byte} value.
-     * If a new {@code Byte} instance is not required, this method
-     * should generally be used in preference to the constructor
-     * {@link #Byte(byte)}, as this method is likely to yield
-     * significantly better space and time performance since
-     * all byte values are cached.
+     * Returns b {@code Byte} instbnce representing the specified
+     * {@code byte} vblue.
+     * If b new {@code Byte} instbnce is not required, this method
+     * should generblly be used in preference to the constructor
+     * {@link #Byte(byte)}, bs this method is likely to yield
+     * significbntly better spbce bnd time performbnce since
+     * bll byte vblues bre cbched.
      *
-     * @param  b a byte value.
-     * @return a {@code Byte} instance representing {@code b}.
+     * @pbrbm  b b byte vblue.
+     * @return b {@code Byte} instbnce representing {@code b}.
      * @since  1.5
      */
-    public static Byte valueOf(byte b) {
-        final int offset = 128;
-        return ByteCache.cache[(int)b + offset];
+    public stbtic Byte vblueOf(byte b) {
+        finbl int offset = 128;
+        return ByteCbche.cbche[(int)b + offset];
     }
 
     /**
-     * Parses the string argument as a signed {@code byte} in the
-     * radix specified by the second argument. The characters in the
-     * string must all be digits, of the specified radix (as
-     * determined by whether {@link java.lang.Character#digit(char,
-     * int)} returns a nonnegative value) except that the first
-     * character may be an ASCII minus sign {@code '-'}
-     * ({@code '\u005Cu002D'}) to indicate a negative value or an
+     * Pbrses the string brgument bs b signed {@code byte} in the
+     * rbdix specified by the second brgument. The chbrbcters in the
+     * string must bll be digits, of the specified rbdix (bs
+     * determined by whether {@link jbvb.lbng.Chbrbcter#digit(chbr,
+     * int)} returns b nonnegbtive vblue) except thbt the first
+     * chbrbcter mby be bn ASCII minus sign {@code '-'}
+     * ({@code '\u005Cu002D'}) to indicbte b negbtive vblue or bn
      * ASCII plus sign {@code '+'} ({@code '\u005Cu002B'}) to
-     * indicate a positive value.  The resulting {@code byte} value is
+     * indicbte b positive vblue.  The resulting {@code byte} vblue is
      * returned.
      *
-     * <p>An exception of type {@code NumberFormatException} is
-     * thrown if any of the following situations occurs:
+     * <p>An exception of type {@code NumberFormbtException} is
+     * thrown if bny of the following situbtions occurs:
      * <ul>
-     * <li> The first argument is {@code null} or is a string of
+     * <li> The first brgument is {@code null} or is b string of
      * length zero.
      *
-     * <li> The radix is either smaller than {@link
-     * java.lang.Character#MIN_RADIX} or larger than {@link
-     * java.lang.Character#MAX_RADIX}.
+     * <li> The rbdix is either smbller thbn {@link
+     * jbvb.lbng.Chbrbcter#MIN_RADIX} or lbrger thbn {@link
+     * jbvb.lbng.Chbrbcter#MAX_RADIX}.
      *
-     * <li> Any character of the string is not a digit of the
-     * specified radix, except that the first character may be a minus
+     * <li> Any chbrbcter of the string is not b digit of the
+     * specified rbdix, except thbt the first chbrbcter mby be b minus
      * sign {@code '-'} ({@code '\u005Cu002D'}) or plus sign
-     * {@code '+'} ({@code '\u005Cu002B'}) provided that the
-     * string is longer than length 1.
+     * {@code '+'} ({@code '\u005Cu002B'}) provided thbt the
+     * string is longer thbn length 1.
      *
-     * <li> The value represented by the string is not a value of type
+     * <li> The vblue represented by the string is not b vblue of type
      * {@code byte}.
      * </ul>
      *
-     * @param s         the {@code String} containing the
+     * @pbrbm s         the {@code String} contbining the
      *                  {@code byte}
-     *                  representation to be parsed
-     * @param radix     the radix to be used while parsing {@code s}
-     * @return          the {@code byte} value represented by the string
-     *                   argument in the specified radix
-     * @throws          NumberFormatException If the string does
-     *                  not contain a parsable {@code byte}.
+     *                  representbtion to be pbrsed
+     * @pbrbm rbdix     the rbdix to be used while pbrsing {@code s}
+     * @return          the {@code byte} vblue represented by the string
+     *                   brgument in the specified rbdix
+     * @throws          NumberFormbtException If the string does
+     *                  not contbin b pbrsbble {@code byte}.
      */
-    public static byte parseByte(String s, int radix)
-        throws NumberFormatException {
-        int i = Integer.parseInt(s, radix);
+    public stbtic byte pbrseByte(String s, int rbdix)
+        throws NumberFormbtException {
+        int i = Integer.pbrseInt(s, rbdix);
         if (i < MIN_VALUE || i > MAX_VALUE)
-            throw new NumberFormatException(
-                "Value out of range. Value:\"" + s + "\" Radix:" + radix);
+            throw new NumberFormbtException(
+                "Vblue out of rbnge. Vblue:\"" + s + "\" Rbdix:" + rbdix);
         return (byte)i;
     }
 
     /**
-     * Parses the string argument as a signed decimal {@code
-     * byte}. The characters in the string must all be decimal digits,
-     * except that the first character may be an ASCII minus sign
-     * {@code '-'} ({@code '\u005Cu002D'}) to indicate a negative
-     * value or an ASCII plus sign {@code '+'}
-     * ({@code '\u005Cu002B'}) to indicate a positive value. The
-     * resulting {@code byte} value is returned, exactly as if the
-     * argument and the radix 10 were given as arguments to the {@link
-     * #parseByte(java.lang.String, int)} method.
+     * Pbrses the string brgument bs b signed decimbl {@code
+     * byte}. The chbrbcters in the string must bll be decimbl digits,
+     * except thbt the first chbrbcter mby be bn ASCII minus sign
+     * {@code '-'} ({@code '\u005Cu002D'}) to indicbte b negbtive
+     * vblue or bn ASCII plus sign {@code '+'}
+     * ({@code '\u005Cu002B'}) to indicbte b positive vblue. The
+     * resulting {@code byte} vblue is returned, exbctly bs if the
+     * brgument bnd the rbdix 10 were given bs brguments to the {@link
+     * #pbrseByte(jbvb.lbng.String, int)} method.
      *
-     * @param s         a {@code String} containing the
-     *                  {@code byte} representation to be parsed
-     * @return          the {@code byte} value represented by the
-     *                  argument in decimal
-     * @throws          NumberFormatException if the string does not
-     *                  contain a parsable {@code byte}.
+     * @pbrbm s         b {@code String} contbining the
+     *                  {@code byte} representbtion to be pbrsed
+     * @return          the {@code byte} vblue represented by the
+     *                  brgument in decimbl
+     * @throws          NumberFormbtException if the string does not
+     *                  contbin b pbrsbble {@code byte}.
      */
-    public static byte parseByte(String s) throws NumberFormatException {
-        return parseByte(s, 10);
+    public stbtic byte pbrseByte(String s) throws NumberFormbtException {
+        return pbrseByte(s, 10);
     }
 
     /**
-     * Returns a {@code Byte} object holding the value
-     * extracted from the specified {@code String} when parsed
-     * with the radix given by the second argument. The first argument
-     * is interpreted as representing a signed {@code byte} in
-     * the radix specified by the second argument, exactly as if the
-     * argument were given to the {@link #parseByte(java.lang.String,
-     * int)} method. The result is a {@code Byte} object that
-     * represents the {@code byte} value specified by the string.
+     * Returns b {@code Byte} object holding the vblue
+     * extrbcted from the specified {@code String} when pbrsed
+     * with the rbdix given by the second brgument. The first brgument
+     * is interpreted bs representing b signed {@code byte} in
+     * the rbdix specified by the second brgument, exbctly bs if the
+     * brgument were given to the {@link #pbrseByte(jbvb.lbng.String,
+     * int)} method. The result is b {@code Byte} object thbt
+     * represents the {@code byte} vblue specified by the string.
      *
-     * <p> In other words, this method returns a {@code Byte} object
-     * equal to the value of:
+     * <p> In other words, this method returns b {@code Byte} object
+     * equbl to the vblue of:
      *
      * <blockquote>
-     * {@code new Byte(Byte.parseByte(s, radix))}
+     * {@code new Byte(Byte.pbrseByte(s, rbdix))}
      * </blockquote>
      *
-     * @param s         the string to be parsed
-     * @param radix     the radix to be used in interpreting {@code s}
-     * @return          a {@code Byte} object holding the value
-     *                  represented by the string argument in the
-     *                  specified radix.
-     * @throws          NumberFormatException If the {@code String} does
-     *                  not contain a parsable {@code byte}.
+     * @pbrbm s         the string to be pbrsed
+     * @pbrbm rbdix     the rbdix to be used in interpreting {@code s}
+     * @return          b {@code Byte} object holding the vblue
+     *                  represented by the string brgument in the
+     *                  specified rbdix.
+     * @throws          NumberFormbtException If the {@code String} does
+     *                  not contbin b pbrsbble {@code byte}.
      */
-    public static Byte valueOf(String s, int radix)
-        throws NumberFormatException {
-        return valueOf(parseByte(s, radix));
+    public stbtic Byte vblueOf(String s, int rbdix)
+        throws NumberFormbtException {
+        return vblueOf(pbrseByte(s, rbdix));
     }
 
     /**
-     * Returns a {@code Byte} object holding the value
-     * given by the specified {@code String}. The argument is
-     * interpreted as representing a signed decimal {@code byte},
-     * exactly as if the argument were given to the {@link
-     * #parseByte(java.lang.String)} method. The result is a
-     * {@code Byte} object that represents the {@code byte}
-     * value specified by the string.
+     * Returns b {@code Byte} object holding the vblue
+     * given by the specified {@code String}. The brgument is
+     * interpreted bs representing b signed decimbl {@code byte},
+     * exbctly bs if the brgument were given to the {@link
+     * #pbrseByte(jbvb.lbng.String)} method. The result is b
+     * {@code Byte} object thbt represents the {@code byte}
+     * vblue specified by the string.
      *
-     * <p> In other words, this method returns a {@code Byte} object
-     * equal to the value of:
+     * <p> In other words, this method returns b {@code Byte} object
+     * equbl to the vblue of:
      *
      * <blockquote>
-     * {@code new Byte(Byte.parseByte(s))}
+     * {@code new Byte(Byte.pbrseByte(s))}
      * </blockquote>
      *
-     * @param s         the string to be parsed
-     * @return          a {@code Byte} object holding the value
-     *                  represented by the string argument
-     * @throws          NumberFormatException If the {@code String} does
-     *                  not contain a parsable {@code byte}.
+     * @pbrbm s         the string to be pbrsed
+     * @return          b {@code Byte} object holding the vblue
+     *                  represented by the string brgument
+     * @throws          NumberFormbtException If the {@code String} does
+     *                  not contbin b pbrsbble {@code byte}.
      */
-    public static Byte valueOf(String s) throws NumberFormatException {
-        return valueOf(s, 10);
+    public stbtic Byte vblueOf(String s) throws NumberFormbtException {
+        return vblueOf(s, 10);
     }
 
     /**
-     * Decodes a {@code String} into a {@code Byte}.
-     * Accepts decimal, hexadecimal, and octal numbers given by
-     * the following grammar:
+     * Decodes b {@code String} into b {@code Byte}.
+     * Accepts decimbl, hexbdecimbl, bnd octbl numbers given by
+     * the following grbmmbr:
      *
      * <blockquote>
      * <dl>
-     * <dt><i>DecodableString:</i>
-     * <dd><i>Sign<sub>opt</sub> DecimalNumeral</i>
+     * <dt><i>DecodbbleString:</i>
+     * <dd><i>Sign<sub>opt</sub> DecimblNumerbl</i>
      * <dd><i>Sign<sub>opt</sub></i> {@code 0x} <i>HexDigits</i>
      * <dd><i>Sign<sub>opt</sub></i> {@code 0X} <i>HexDigits</i>
      * <dd><i>Sign<sub>opt</sub></i> {@code #} <i>HexDigits</i>
-     * <dd><i>Sign<sub>opt</sub></i> {@code 0} <i>OctalDigits</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@code 0} <i>OctblDigits</i>
      *
      * <dt><i>Sign:</i>
      * <dd>{@code -}
@@ -251,270 +251,270 @@ public final class Byte extends Number implements Comparable<Byte> {
      * </dl>
      * </blockquote>
      *
-     * <i>DecimalNumeral</i>, <i>HexDigits</i>, and <i>OctalDigits</i>
-     * are as defined in section 3.10.1 of
-     * <cite>The Java&trade; Language Specification</cite>,
-     * except that underscores are not accepted between digits.
+     * <i>DecimblNumerbl</i>, <i>HexDigits</i>, bnd <i>OctblDigits</i>
+     * bre bs defined in section 3.10.1 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>,
+     * except thbt underscores bre not bccepted between digits.
      *
-     * <p>The sequence of characters following an optional
-     * sign and/or radix specifier ("{@code 0x}", "{@code 0X}",
-     * "{@code #}", or leading zero) is parsed as by the {@code
-     * Byte.parseByte} method with the indicated radix (10, 16, or 8).
-     * This sequence of characters must represent a positive value or
-     * a {@link NumberFormatException} will be thrown.  The result is
-     * negated if first character of the specified {@code String} is
-     * the minus sign.  No whitespace characters are permitted in the
+     * <p>The sequence of chbrbcters following bn optionbl
+     * sign bnd/or rbdix specifier ("{@code 0x}", "{@code 0X}",
+     * "{@code #}", or lebding zero) is pbrsed bs by the {@code
+     * Byte.pbrseByte} method with the indicbted rbdix (10, 16, or 8).
+     * This sequence of chbrbcters must represent b positive vblue or
+     * b {@link NumberFormbtException} will be thrown.  The result is
+     * negbted if first chbrbcter of the specified {@code String} is
+     * the minus sign.  No whitespbce chbrbcters bre permitted in the
      * {@code String}.
      *
-     * @param     nm the {@code String} to decode.
-     * @return   a {@code Byte} object holding the {@code byte}
-     *          value represented by {@code nm}
-     * @throws  NumberFormatException  if the {@code String} does not
-     *            contain a parsable {@code byte}.
-     * @see java.lang.Byte#parseByte(java.lang.String, int)
+     * @pbrbm     nm the {@code String} to decode.
+     * @return   b {@code Byte} object holding the {@code byte}
+     *          vblue represented by {@code nm}
+     * @throws  NumberFormbtException  if the {@code String} does not
+     *            contbin b pbrsbble {@code byte}.
+     * @see jbvb.lbng.Byte#pbrseByte(jbvb.lbng.String, int)
      */
-    public static Byte decode(String nm) throws NumberFormatException {
+    public stbtic Byte decode(String nm) throws NumberFormbtException {
         int i = Integer.decode(nm);
         if (i < MIN_VALUE || i > MAX_VALUE)
-            throw new NumberFormatException(
-                    "Value " + i + " out of range from input " + nm);
-        return valueOf((byte)i);
+            throw new NumberFormbtException(
+                    "Vblue " + i + " out of rbnge from input " + nm);
+        return vblueOf((byte)i);
     }
 
     /**
-     * The value of the {@code Byte}.
+     * The vblue of the {@code Byte}.
      *
-     * @serial
+     * @seribl
      */
-    private final byte value;
+    privbte finbl byte vblue;
 
     /**
-     * Constructs a newly allocated {@code Byte} object that
-     * represents the specified {@code byte} value.
+     * Constructs b newly bllocbted {@code Byte} object thbt
+     * represents the specified {@code byte} vblue.
      *
-     * @param value     the value to be represented by the
+     * @pbrbm vblue     the vblue to be represented by the
      *                  {@code Byte}.
      */
-    public Byte(byte value) {
-        this.value = value;
+    public Byte(byte vblue) {
+        this.vblue = vblue;
     }
 
     /**
-     * Constructs a newly allocated {@code Byte} object that
-     * represents the {@code byte} value indicated by the
-     * {@code String} parameter. The string is converted to a
-     * {@code byte} value in exactly the manner used by the
-     * {@code parseByte} method for radix 10.
+     * Constructs b newly bllocbted {@code Byte} object thbt
+     * represents the {@code byte} vblue indicbted by the
+     * {@code String} pbrbmeter. The string is converted to b
+     * {@code byte} vblue in exbctly the mbnner used by the
+     * {@code pbrseByte} method for rbdix 10.
      *
-     * @param s         the {@code String} to be converted to a
+     * @pbrbm s         the {@code String} to be converted to b
      *                  {@code Byte}
-     * @throws           NumberFormatException If the {@code String}
-     *                  does not contain a parsable {@code byte}.
-     * @see        java.lang.Byte#parseByte(java.lang.String, int)
+     * @throws           NumberFormbtException If the {@code String}
+     *                  does not contbin b pbrsbble {@code byte}.
+     * @see        jbvb.lbng.Byte#pbrseByte(jbvb.lbng.String, int)
      */
-    public Byte(String s) throws NumberFormatException {
-        this.value = parseByte(s, 10);
+    public Byte(String s) throws NumberFormbtException {
+        this.vblue = pbrseByte(s, 10);
     }
 
     /**
-     * Returns the value of this {@code Byte} as a
+     * Returns the vblue of this {@code Byte} bs b
      * {@code byte}.
      */
-    public byte byteValue() {
-        return value;
+    public byte byteVblue() {
+        return vblue;
     }
 
     /**
-     * Returns the value of this {@code Byte} as a {@code short} after
-     * a widening primitive conversion.
+     * Returns the vblue of this {@code Byte} bs b {@code short} bfter
+     * b widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
-    public short shortValue() {
-        return (short)value;
+    public short shortVblue() {
+        return (short)vblue;
     }
 
     /**
-     * Returns the value of this {@code Byte} as an {@code int} after
-     * a widening primitive conversion.
+     * Returns the vblue of this {@code Byte} bs bn {@code int} bfter
+     * b widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
-    public int intValue() {
-        return (int)value;
+    public int intVblue() {
+        return (int)vblue;
     }
 
     /**
-     * Returns the value of this {@code Byte} as a {@code long} after
-     * a widening primitive conversion.
+     * Returns the vblue of this {@code Byte} bs b {@code long} bfter
+     * b widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
-    public long longValue() {
-        return (long)value;
+    public long longVblue() {
+        return (long)vblue;
     }
 
     /**
-     * Returns the value of this {@code Byte} as a {@code float} after
-     * a widening primitive conversion.
+     * Returns the vblue of this {@code Byte} bs b {@code flobt} bfter
+     * b widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
-    public float floatValue() {
-        return (float)value;
+    public flobt flobtVblue() {
+        return (flobt)vblue;
     }
 
     /**
-     * Returns the value of this {@code Byte} as a {@code double}
-     * after a widening primitive conversion.
+     * Returns the vblue of this {@code Byte} bs b {@code double}
+     * bfter b widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
-    public double doubleValue() {
-        return (double)value;
+    public double doubleVblue() {
+        return (double)vblue;
     }
 
     /**
-     * Returns a {@code String} object representing this
-     * {@code Byte}'s value.  The value is converted to signed
-     * decimal representation and returned as a string, exactly as if
-     * the {@code byte} value were given as an argument to the
-     * {@link java.lang.Byte#toString(byte)} method.
+     * Returns b {@code String} object representing this
+     * {@code Byte}'s vblue.  The vblue is converted to signed
+     * decimbl representbtion bnd returned bs b string, exbctly bs if
+     * the {@code byte} vblue were given bs bn brgument to the
+     * {@link jbvb.lbng.Byte#toString(byte)} method.
      *
-     * @return  a string representation of the value of this object in
-     *          base&nbsp;10.
+     * @return  b string representbtion of the vblue of this object in
+     *          bbse&nbsp;10.
      */
     public String toString() {
-        return Integer.toString((int)value);
+        return Integer.toString((int)vblue);
     }
 
     /**
-     * Returns a hash code for this {@code Byte}; equal to the result
-     * of invoking {@code intValue()}.
+     * Returns b hbsh code for this {@code Byte}; equbl to the result
+     * of invoking {@code intVblue()}.
      *
-     * @return a hash code value for this {@code Byte}
+     * @return b hbsh code vblue for this {@code Byte}
      */
     @Override
-    public int hashCode() {
-        return Byte.hashCode(value);
+    public int hbshCode() {
+        return Byte.hbshCode(vblue);
     }
 
     /**
-     * Returns a hash code for a {@code byte} value; compatible with
-     * {@code Byte.hashCode()}.
+     * Returns b hbsh code for b {@code byte} vblue; compbtible with
+     * {@code Byte.hbshCode()}.
      *
-     * @param value the value to hash
-     * @return a hash code value for a {@code byte} value.
+     * @pbrbm vblue the vblue to hbsh
+     * @return b hbsh code vblue for b {@code byte} vblue.
      * @since 1.8
      */
-    public static int hashCode(byte value) {
-        return (int)value;
+    public stbtic int hbshCode(byte vblue) {
+        return (int)vblue;
     }
 
     /**
-     * Compares this object to the specified object.  The result is
-     * {@code true} if and only if the argument is not
-     * {@code null} and is a {@code Byte} object that
-     * contains the same {@code byte} value as this object.
+     * Compbres this object to the specified object.  The result is
+     * {@code true} if bnd only if the brgument is not
+     * {@code null} bnd is b {@code Byte} object thbt
+     * contbins the sbme {@code byte} vblue bs this object.
      *
-     * @param obj       the object to compare with
-     * @return          {@code true} if the objects are the same;
-     *                  {@code false} otherwise.
+     * @pbrbm obj       the object to compbre with
+     * @return          {@code true} if the objects bre the sbme;
+     *                  {@code fblse} otherwise.
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Byte) {
-            return value == ((Byte)obj).byteValue();
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof Byte) {
+            return vblue == ((Byte)obj).byteVblue();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Compares two {@code Byte} objects numerically.
+     * Compbres two {@code Byte} objects numericblly.
      *
-     * @param   anotherByte   the {@code Byte} to be compared.
-     * @return  the value {@code 0} if this {@code Byte} is
-     *          equal to the argument {@code Byte}; a value less than
-     *          {@code 0} if this {@code Byte} is numerically less
-     *          than the argument {@code Byte}; and a value greater than
-     *           {@code 0} if this {@code Byte} is numerically
-     *           greater than the argument {@code Byte} (signed
-     *           comparison).
+     * @pbrbm   bnotherByte   the {@code Byte} to be compbred.
+     * @return  the vblue {@code 0} if this {@code Byte} is
+     *          equbl to the brgument {@code Byte}; b vblue less thbn
+     *          {@code 0} if this {@code Byte} is numericblly less
+     *          thbn the brgument {@code Byte}; bnd b vblue grebter thbn
+     *           {@code 0} if this {@code Byte} is numericblly
+     *           grebter thbn the brgument {@code Byte} (signed
+     *           compbrison).
      * @since   1.2
      */
-    public int compareTo(Byte anotherByte) {
-        return compare(this.value, anotherByte.value);
+    public int compbreTo(Byte bnotherByte) {
+        return compbre(this.vblue, bnotherByte.vblue);
     }
 
     /**
-     * Compares two {@code byte} values numerically.
-     * The value returned is identical to what would be returned by:
+     * Compbres two {@code byte} vblues numericblly.
+     * The vblue returned is identicbl to whbt would be returned by:
      * <pre>
-     *    Byte.valueOf(x).compareTo(Byte.valueOf(y))
+     *    Byte.vblueOf(x).compbreTo(Byte.vblueOf(y))
      * </pre>
      *
-     * @param  x the first {@code byte} to compare
-     * @param  y the second {@code byte} to compare
-     * @return the value {@code 0} if {@code x == y};
-     *         a value less than {@code 0} if {@code x < y}; and
-     *         a value greater than {@code 0} if {@code x > y}
+     * @pbrbm  x the first {@code byte} to compbre
+     * @pbrbm  y the second {@code byte} to compbre
+     * @return the vblue {@code 0} if {@code x == y};
+     *         b vblue less thbn {@code 0} if {@code x < y}; bnd
+     *         b vblue grebter thbn {@code 0} if {@code x > y}
      * @since 1.7
      */
-    public static int compare(byte x, byte y) {
+    public stbtic int compbre(byte x, byte y) {
         return x - y;
     }
 
     /**
-     * Converts the argument to an {@code int} by an unsigned
-     * conversion.  In an unsigned conversion to an {@code int}, the
-     * high-order 24 bits of the {@code int} are zero and the
-     * low-order 8 bits are equal to the bits of the {@code byte} argument.
+     * Converts the brgument to bn {@code int} by bn unsigned
+     * conversion.  In bn unsigned conversion to bn {@code int}, the
+     * high-order 24 bits of the {@code int} bre zero bnd the
+     * low-order 8 bits bre equbl to the bits of the {@code byte} brgument.
      *
-     * Consequently, zero and positive {@code byte} values are mapped
-     * to a numerically equal {@code int} value and negative {@code
-     * byte} values are mapped to an {@code int} value equal to the
+     * Consequently, zero bnd positive {@code byte} vblues bre mbpped
+     * to b numericblly equbl {@code int} vblue bnd negbtive {@code
+     * byte} vblues bre mbpped to bn {@code int} vblue equbl to the
      * input plus 2<sup>8</sup>.
      *
-     * @param  x the value to convert to an unsigned {@code int}
-     * @return the argument converted to {@code int} by an unsigned
+     * @pbrbm  x the vblue to convert to bn unsigned {@code int}
+     * @return the brgument converted to {@code int} by bn unsigned
      *         conversion
      * @since 1.8
      */
-    public static int toUnsignedInt(byte x) {
+    public stbtic int toUnsignedInt(byte x) {
         return ((int) x) & 0xff;
     }
 
     /**
-     * Converts the argument to a {@code long} by an unsigned
-     * conversion.  In an unsigned conversion to a {@code long}, the
-     * high-order 56 bits of the {@code long} are zero and the
-     * low-order 8 bits are equal to the bits of the {@code byte} argument.
+     * Converts the brgument to b {@code long} by bn unsigned
+     * conversion.  In bn unsigned conversion to b {@code long}, the
+     * high-order 56 bits of the {@code long} bre zero bnd the
+     * low-order 8 bits bre equbl to the bits of the {@code byte} brgument.
      *
-     * Consequently, zero and positive {@code byte} values are mapped
-     * to a numerically equal {@code long} value and negative {@code
-     * byte} values are mapped to a {@code long} value equal to the
+     * Consequently, zero bnd positive {@code byte} vblues bre mbpped
+     * to b numericblly equbl {@code long} vblue bnd negbtive {@code
+     * byte} vblues bre mbpped to b {@code long} vblue equbl to the
      * input plus 2<sup>8</sup>.
      *
-     * @param  x the value to convert to an unsigned {@code long}
-     * @return the argument converted to {@code long} by an unsigned
+     * @pbrbm  x the vblue to convert to bn unsigned {@code long}
+     * @return the brgument converted to {@code long} by bn unsigned
      *         conversion
      * @since 1.8
      */
-    public static long toUnsignedLong(byte x) {
+    public stbtic long toUnsignedLong(byte x) {
         return ((long) x) & 0xffL;
     }
 
 
     /**
-     * The number of bits used to represent a {@code byte} value in two's
-     * complement binary form.
+     * The number of bits used to represent b {@code byte} vblue in two's
+     * complement binbry form.
      *
      * @since 1.5
      */
-    public static final int SIZE = 8;
+    public stbtic finbl int SIZE = 8;
 
     /**
-     * The number of bytes used to represent a {@code byte} value in two's
-     * complement binary form.
+     * The number of bytes used to represent b {@code byte} vblue in two's
+     * complement binbry form.
      *
      * @since 1.8
      */
-    public static final int BYTES = SIZE / Byte.SIZE;
+    public stbtic finbl int BYTES = SIZE / Byte.SIZE;
 
-    /** use serialVersionUID from JDK 1.1. for interoperability */
-    private static final long serialVersionUID = -7183698231559129828L;
+    /** use seriblVersionUID from JDK 1.1. for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = -7183698231559129828L;
 }

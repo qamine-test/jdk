@@ -1,444 +1,444 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "awt_parseImage.h"
-#include "imageInitIDs.h"
-#include "java_awt_Transparency.h"
-#include "java_awt_image_BufferedImage.h"
-#include "sun_awt_image_IntegerComponentRaster.h"
-#include "sun_awt_image_ImagingLib.h"
-#include "java_awt_color_ColorSpace.h"
-#include "awt_Mlib.h"
-#include "safe_alloc.h"
-#include "safe_math.h"
+#include "bwt_pbrseImbge.h"
+#include "imbgeInitIDs.h"
+#include "jbvb_bwt_Trbnspbrency.h"
+#include "jbvb_bwt_imbge_BufferedImbge.h"
+#include "sun_bwt_imbge_IntegerComponentRbster.h"
+#include "sun_bwt_imbge_ImbgingLib.h"
+#include "jbvb_bwt_color_ColorSpbce.h"
+#include "bwt_Mlib.h"
+#include "sbfe_blloc.h"
+#include "sbfe_mbth.h"
 
-static int setHints(JNIEnv *env, BufImageS_t *imageP);
+stbtic int setHints(JNIEnv *env, BufImbgeS_t *imbgeP);
 
 
 
-/* Parse the buffered image.  All of the raster information is returned in the
- * imagePP structure.
+/* Pbrse the buffered imbge.  All of the rbster informbtion is returned in the
+ * imbgePP structure.
  *
- * The handleCustom parameter specifies whether or not the caller
- * can use custom channels.  If it is false and a custom channel
- * is encountered, the returned value will be 0 and all structures
- * will be deallocated.
+ * The hbndleCustom pbrbmeter specifies whether or not the cbller
+ * cbn use custom chbnnels.  If it is fblse bnd b custom chbnnel
+ * is encountered, the returned vblue will be 0 bnd bll structures
+ * will be debllocbted.
  *
- * Return value:
+ * Return vblue:
  *    -1:     Exception
- *     0:     Can't do it.
+ *     0:     Cbn't do it.
  *     1:     Success
  */
-int awt_parseImage(JNIEnv *env, jobject jimage, BufImageS_t **imagePP,
-                   int handleCustom) {
-    BufImageS_t *imageP;
-    int status;
-    jobject jraster;
+int bwt_pbrseImbge(JNIEnv *env, jobject jimbge, BufImbgeS_t **imbgePP,
+                   int hbndleCustom) {
+    BufImbgeS_t *imbgeP;
+    int stbtus;
+    jobject jrbster;
     jobject jcmodel;
 
-    /* Make sure the image exists */
-    if (JNU_IsNull(env, jimage)) {
-        JNU_ThrowNullPointerException(env, "null BufferedImage object");
+    /* Mbke sure the imbge exists */
+    if (JNU_IsNull(env, jimbge)) {
+        JNU_ThrowNullPointerException(env, "null BufferedImbge object");
         return -1;
     }
 
-    if ((imageP = (BufImageS_t *) calloc(1, sizeof(BufImageS_t))) == NULL) {
+    if ((imbgeP = (BufImbgeS_t *) cblloc(1, sizeof(BufImbgeS_t))) == NULL) {
         JNU_ThrowOutOfMemoryError(env, "Out of memory");
         return -1;
     }
-    imageP->jimage = jimage;
+    imbgeP->jimbge = jimbge;
 
-    /* Retrieve the raster */
-    if ((jraster = (*env)->GetObjectField(env, jimage,
-                                          g_BImgRasterID)) == NULL) {
-        free((void *) imageP);
-        JNU_ThrowNullPointerException(env, "null Raster object");
+    /* Retrieve the rbster */
+    if ((jrbster = (*env)->GetObjectField(env, jimbge,
+                                          g_BImgRbsterID)) == NULL) {
+        free((void *) imbgeP);
+        JNU_ThrowNullPointerException(env, "null Rbster object");
         return 0;
     }
 
-    /* Retrieve the image type */
-    imageP->imageType = (*env)->GetIntField(env, jimage, g_BImgTypeID);
+    /* Retrieve the imbge type */
+    imbgeP->imbgeType = (*env)->GetIntField(env, jimbge, g_BImgTypeID);
 
-    /* Parse the raster */
-    if ((status = awt_parseRaster(env, jraster, &imageP->raster)) <= 0) {
-        free((void *)imageP);
-        return status;
+    /* Pbrse the rbster */
+    if ((stbtus = bwt_pbrseRbster(env, jrbster, &imbgeP->rbster)) <= 0) {
+        free((void *)imbgeP);
+        return stbtus;
     }
 
     /* Retrieve the color model */
-    if ((jcmodel = (*env)->GetObjectField(env, jimage, g_BImgCMID)) == NULL) {
-        free((void *) imageP);
-        JNU_ThrowNullPointerException(env, "null Raster object");
+    if ((jcmodel = (*env)->GetObjectField(env, jimbge, g_BImgCMID)) == NULL) {
+        free((void *) imbgeP);
+        JNU_ThrowNullPointerException(env, "null Rbster object");
         return 0;
     }
 
-    /* Parse the color model */
-    if ((status = awt_parseColorModel(env, jcmodel, imageP->imageType,
-                                      &imageP->cmodel)) <= 0) {
-        awt_freeParsedRaster(&imageP->raster, FALSE);
-        free((void *)imageP);
+    /* Pbrse the color model */
+    if ((stbtus = bwt_pbrseColorModel(env, jcmodel, imbgeP->imbgeType,
+                                      &imbgeP->cmodel)) <= 0) {
+        bwt_freePbrsedRbster(&imbgeP->rbster, FALSE);
+        free((void *)imbgeP);
         return 0;
     }
 
     /* Set hints  */
-    if ((status = setHints(env, imageP)) <= 0) {
-        awt_freeParsedImage(imageP, TRUE);
+    if ((stbtus = setHints(env, imbgeP)) <= 0) {
+        bwt_freePbrsedImbge(imbgeP, TRUE);
         return 0;
     }
 
-    *imagePP = imageP;
+    *imbgePP = imbgeP;
 
-    return status;
+    return stbtus;
 }
 
-/* Verifies whether the channel offsets are sane and correspond to the type of
- * the raster.
+/* Verifies whether the chbnnel offsets bre sbne bnd correspond to the type of
+ * the rbster.
  *
- * Return value:
- *     0: Failure: channel offsets are invalid
+ * Return vblue:
+ *     0: Fbilure: chbnnel offsets bre invblid
  *     1: Success
  */
-static int checkChannelOffsets(RasterS_t *rasterP, int dataArrayLength) {
-    int i, lastPixelOffset, lastScanOffset;
-    switch (rasterP->rasterType) {
-    case COMPONENT_RASTER_TYPE:
-        if (!SAFE_TO_MULT(rasterP->height, rasterP->scanlineStride)) {
+stbtic int checkChbnnelOffsets(RbsterS_t *rbsterP, int dbtbArrbyLength) {
+    int i, lbstPixelOffset, lbstScbnOffset;
+    switch (rbsterP->rbsterType) {
+    cbse COMPONENT_RASTER_TYPE:
+        if (!SAFE_TO_MULT(rbsterP->height, rbsterP->scbnlineStride)) {
             return 0;
         }
-        if (!SAFE_TO_MULT(rasterP->width, rasterP->pixelStride)) {
-            return 0;
-        }
-
-        lastScanOffset = (rasterP->height - 1) * rasterP->scanlineStride;
-        lastPixelOffset = (rasterP->width - 1) * rasterP->pixelStride;
-
-
-        if (!SAFE_TO_ADD(lastPixelOffset, lastScanOffset)) {
+        if (!SAFE_TO_MULT(rbsterP->width, rbsterP->pixelStride)) {
             return 0;
         }
 
-        lastPixelOffset += lastScanOffset;
+        lbstScbnOffset = (rbsterP->height - 1) * rbsterP->scbnlineStride;
+        lbstPixelOffset = (rbsterP->width - 1) * rbsterP->pixelStride;
 
-        for (i = 0; i < rasterP->numDataElements; i++) {
-            int off = rasterP->chanOffsets[i];
-            int size = lastPixelOffset + off;
 
-            if (off < 0 || !SAFE_TO_ADD(lastPixelOffset, off)) {
+        if (!SAFE_TO_ADD(lbstPixelOffset, lbstScbnOffset)) {
+            return 0;
+        }
+
+        lbstPixelOffset += lbstScbnOffset;
+
+        for (i = 0; i < rbsterP->numDbtbElements; i++) {
+            int off = rbsterP->chbnOffsets[i];
+            int size = lbstPixelOffset + off;
+
+            if (off < 0 || !SAFE_TO_ADD(lbstPixelOffset, off)) {
                 return 0;
             }
 
-            if (size < lastPixelOffset || size >= dataArrayLength) {
-                // an overflow, or insufficient buffer capacity
+            if (size < lbstPixelOffset || size >= dbtbArrbyLength) {
+                // bn overflow, or insufficient buffer cbpbcity
                 return 0;
             }
         }
         return 1;
-    case BANDED_RASTER_TYPE:
-        // NB:caller does not support the banded rasters yet,
-        // so this branch of the code must be re-defined in
-        // order to provide valid criteria for the data offsets
-        // verification, when/if banded rasters will be supported.
-        // At the moment, we prohibit banded rasters as well.
+    cbse BANDED_RASTER_TYPE:
+        // NB:cbller does not support the bbnded rbsters yet,
+        // so this brbnch of the code must be re-defined in
+        // order to provide vblid criterib for the dbtb offsets
+        // verificbtion, when/if bbnded rbsters will be supported.
+        // At the moment, we prohibit bbnded rbsters bs well.
         return 0;
-    default:
-        // PACKED_RASTER_TYPE: does not support channel offsets
-        // UNKNOWN_RASTER_TYPE: should not be used, likely indicates an error
+    defbult:
+        // PACKED_RASTER_TYPE: does not support chbnnel offsets
+        // UNKNOWN_RASTER_TYPE: should not be used, likely indicbtes bn error
         return 0;
     }
 }
 
-/* Parse the raster.  All of the raster information is returned in the
- * rasterP structure.
+/* Pbrse the rbster.  All of the rbster informbtion is returned in the
+ * rbsterP structure.
  *
- * Return value:
+ * Return vblue:
  *    -1:     Exception
- *     0:     Can't do it (Custom channel)
+ *     0:     Cbn't do it (Custom chbnnel)
  *     1:     Success
  */
-int awt_parseRaster(JNIEnv *env, jobject jraster, RasterS_t *rasterP) {
+int bwt_pbrseRbster(JNIEnv *env, jobject jrbster, RbsterS_t *rbsterP) {
     jobject joffs = NULL;
-    /* int status;*/
-    jclass singlePixelPackedSampleModelClass = NULL;
-    jclass integerComponentRasterClass = NULL;
-    jclass byteComponentRasterClass = NULL;
-    jclass shortComponentRasterClass = NULL;
-    jclass bytePackedRasterClass = NULL;
+    /* int stbtus;*/
+    jclbss singlePixelPbckedSbmpleModelClbss = NULL;
+    jclbss integerComponentRbsterClbss = NULL;
+    jclbss byteComponentRbsterClbss = NULL;
+    jclbss shortComponentRbsterClbss = NULL;
+    jclbss bytePbckedRbsterClbss = NULL;
 
-    if (JNU_IsNull(env, jraster)) {
-        JNU_ThrowNullPointerException(env, "null Raster object");
+    if (JNU_IsNull(env, jrbster)) {
+        JNU_ThrowNullPointerException(env, "null Rbster object");
         return -1;
     }
 
-    rasterP->jraster = jraster;
-    rasterP->width   = (*env)->GetIntField(env, jraster, g_RasterWidthID);
-    rasterP->height  = (*env)->GetIntField(env, jraster, g_RasterHeightID);
-    rasterP->numDataElements = (*env)->GetIntField(env, jraster,
-                                                   g_RasterNumDataElementsID);
-    rasterP->numBands = (*env)->GetIntField(env, jraster,
-                                            g_RasterNumBandsID);
+    rbsterP->jrbster = jrbster;
+    rbsterP->width   = (*env)->GetIntField(env, jrbster, g_RbsterWidthID);
+    rbsterP->height  = (*env)->GetIntField(env, jrbster, g_RbsterHeightID);
+    rbsterP->numDbtbElements = (*env)->GetIntField(env, jrbster,
+                                                   g_RbsterNumDbtbElementsID);
+    rbsterP->numBbnds = (*env)->GetIntField(env, jrbster,
+                                            g_RbsterNumBbndsID);
 
-    rasterP->baseOriginX = (*env)->GetIntField(env, jraster,
-                                               g_RasterBaseOriginXID);
-    rasterP->baseOriginY = (*env)->GetIntField(env, jraster,
-                                               g_RasterBaseOriginYID);
-    rasterP->minX = (*env)->GetIntField(env, jraster, g_RasterMinXID);
-    rasterP->minY = (*env)->GetIntField(env, jraster, g_RasterMinYID);
+    rbsterP->bbseOriginX = (*env)->GetIntField(env, jrbster,
+                                               g_RbsterBbseOriginXID);
+    rbsterP->bbseOriginY = (*env)->GetIntField(env, jrbster,
+                                               g_RbsterBbseOriginYID);
+    rbsterP->minX = (*env)->GetIntField(env, jrbster, g_RbsterMinXID);
+    rbsterP->minY = (*env)->GetIntField(env, jrbster, g_RbsterMinYID);
 
-    rasterP->jsampleModel = (*env)->GetObjectField(env, jraster,
-                                                   g_RasterSampleModelID);
+    rbsterP->jsbmpleModel = (*env)->GetObjectField(env, jrbster,
+                                                   g_RbsterSbmpleModelID);
 
-    if (JNU_IsNull(env, rasterP->jsampleModel)) {
-        JNU_ThrowNullPointerException(env, "null Raster object");
+    if (JNU_IsNull(env, rbsterP->jsbmpleModel)) {
+        JNU_ThrowNullPointerException(env, "null Rbster object");
         return -1;
     }
 
-    // make sure that the raster type is initialized
-    rasterP->rasterType = UNKNOWN_RASTER_TYPE;
+    // mbke sure thbt the rbster type is initiblized
+    rbsterP->rbsterType = UNKNOWN_RASTER_TYPE;
 
-    if (rasterP->numBands <= 0 ||
-        rasterP->numBands > MAX_NUMBANDS)
+    if (rbsterP->numBbnds <= 0 ||
+        rbsterP->numBbnds > MAX_NUMBANDS)
     {
         /*
-         * we can't handle such kind of rasters due to limitations
-         * of SPPSampleModelS_t structure and expand/set methods.
+         * we cbn't hbndle such kind of rbsters due to limitbtions
+         * of SPPSbmpleModelS_t structure bnd expbnd/set methods.
          */
         return 0;
     }
 
-    rasterP->sppsm.isUsed = 0;
+    rbsterP->sppsm.isUsed = 0;
 
-    singlePixelPackedSampleModelClass = (*env)->FindClass(env,
-                            "java/awt/image/SinglePixelPackedSampleModel");
-    CHECK_NULL_RETURN(singlePixelPackedSampleModelClass, -1);
-    if ((*env)->IsInstanceOf(env, rasterP->jsampleModel,
-                             singlePixelPackedSampleModelClass)) {
-        jobject jmask, joffs, jnbits;
+    singlePixelPbckedSbmpleModelClbss = (*env)->FindClbss(env,
+                            "jbvb/bwt/imbge/SinglePixelPbckedSbmpleModel");
+    CHECK_NULL_RETURN(singlePixelPbckedSbmpleModelClbss, -1);
+    if ((*env)->IsInstbnceOf(env, rbsterP->jsbmpleModel,
+                             singlePixelPbckedSbmpleModelClbss)) {
+        jobject jmbsk, joffs, jnbits;
 
-        rasterP->sppsm.isUsed = 1;
+        rbsterP->sppsm.isUsed = 1;
 
-        rasterP->sppsm.maxBitSize = (*env)->GetIntField(env,
-                                                        rasterP->jsampleModel,
-                                                        g_SPPSMmaxBitID);
-        jmask = (*env)->GetObjectField(env, rasterP->jsampleModel,
-                                       g_SPPSMmaskArrID);
-        joffs = (*env)->GetObjectField(env, rasterP->jsampleModel,
-                                       g_SPPSMmaskOffID);
-        jnbits = (*env)->GetObjectField(env, rasterP->jsampleModel,
+        rbsterP->sppsm.mbxBitSize = (*env)->GetIntField(env,
+                                                        rbsterP->jsbmpleModel,
+                                                        g_SPPSMmbxBitID);
+        jmbsk = (*env)->GetObjectField(env, rbsterP->jsbmpleModel,
+                                       g_SPPSMmbskArrID);
+        joffs = (*env)->GetObjectField(env, rbsterP->jsbmpleModel,
+                                       g_SPPSMmbskOffID);
+        jnbits = (*env)->GetObjectField(env, rbsterP->jsbmpleModel,
                                         g_SPPSMnBitsID);
-        if (jmask == NULL || joffs == NULL || jnbits == NULL ||
-            rasterP->sppsm.maxBitSize < 0)
+        if (jmbsk == NULL || joffs == NULL || jnbits == NULL ||
+            rbsterP->sppsm.mbxBitSize < 0)
         {
-            JNU_ThrowInternalError(env, "Can't grab SPPSM fields");
+            JNU_ThrowInternblError(env, "Cbn't grbb SPPSM fields");
             return -1;
         }
-        (*env)->GetIntArrayRegion(env, jmask, 0,
-                                  rasterP->numBands, rasterP->sppsm.maskArray);
-        (*env)->GetIntArrayRegion(env, joffs, 0,
-                                  rasterP->numBands, rasterP->sppsm.offsets);
-        (*env)->GetIntArrayRegion(env, jnbits, 0,
-                                  rasterP->numBands, rasterP->sppsm.nBits);
+        (*env)->GetIntArrbyRegion(env, jmbsk, 0,
+                                  rbsterP->numBbnds, rbsterP->sppsm.mbskArrby);
+        (*env)->GetIntArrbyRegion(env, joffs, 0,
+                                  rbsterP->numBbnds, rbsterP->sppsm.offsets);
+        (*env)->GetIntArrbyRegion(env, jnbits, 0,
+                                  rbsterP->numBbnds, rbsterP->sppsm.nBits);
 
     }
-    rasterP->baseRasterWidth = (*env)->GetIntField(env, rasterP->jsampleModel,
+    rbsterP->bbseRbsterWidth = (*env)->GetIntField(env, rbsterP->jsbmpleModel,
                                                    g_SMWidthID);
-    rasterP->baseRasterHeight = (*env)->GetIntField(env,
-                                                    rasterP->jsampleModel,
+    rbsterP->bbseRbsterHeight = (*env)->GetIntField(env,
+                                                    rbsterP->jsbmpleModel,
                                                     g_SMHeightID);
 
-    integerComponentRasterClass = (*env)->FindClass(env, "sun/awt/image/IntegerComponentRaster");
-    CHECK_NULL_RETURN(integerComponentRasterClass, -1);
-    byteComponentRasterClass = (*env)->FindClass(env, "sun/awt/image/ByteComponentRaster");
-    CHECK_NULL_RETURN(byteComponentRasterClass, -1);
-    shortComponentRasterClass = (*env)->FindClass(env,"sun/awt/image/ShortComponentRaster");
-    CHECK_NULL_RETURN(shortComponentRasterClass, -1);
-    bytePackedRasterClass = (*env)->FindClass(env, "sun/awt/image/BytePackedRaster");
-    CHECK_NULL_RETURN(bytePackedRasterClass, -1);
-    if ((*env)->IsInstanceOf(env, jraster, integerComponentRasterClass)){
-        rasterP->jdata = (*env)->GetObjectField(env, jraster, g_ICRdataID);
-        rasterP->dataType = INT_DATA_TYPE;
-        rasterP->dataSize = 4;
-        rasterP->dataIsShared = TRUE;
-        rasterP->rasterType = COMPONENT_RASTER_TYPE;
-        rasterP->type = (*env)->GetIntField(env, jraster, g_ICRtypeID);
-        rasterP->scanlineStride = (*env)->GetIntField(env, jraster, g_ICRscanstrID);
-        rasterP->pixelStride = (*env)->GetIntField(env, jraster, g_ICRpixstrID);
-        joffs = (*env)->GetObjectField(env, jraster, g_ICRdataOffsetsID);
+    integerComponentRbsterClbss = (*env)->FindClbss(env, "sun/bwt/imbge/IntegerComponentRbster");
+    CHECK_NULL_RETURN(integerComponentRbsterClbss, -1);
+    byteComponentRbsterClbss = (*env)->FindClbss(env, "sun/bwt/imbge/ByteComponentRbster");
+    CHECK_NULL_RETURN(byteComponentRbsterClbss, -1);
+    shortComponentRbsterClbss = (*env)->FindClbss(env,"sun/bwt/imbge/ShortComponentRbster");
+    CHECK_NULL_RETURN(shortComponentRbsterClbss, -1);
+    bytePbckedRbsterClbss = (*env)->FindClbss(env, "sun/bwt/imbge/BytePbckedRbster");
+    CHECK_NULL_RETURN(bytePbckedRbsterClbss, -1);
+    if ((*env)->IsInstbnceOf(env, jrbster, integerComponentRbsterClbss)){
+        rbsterP->jdbtb = (*env)->GetObjectField(env, jrbster, g_ICRdbtbID);
+        rbsterP->dbtbType = INT_DATA_TYPE;
+        rbsterP->dbtbSize = 4;
+        rbsterP->dbtbIsShbred = TRUE;
+        rbsterP->rbsterType = COMPONENT_RASTER_TYPE;
+        rbsterP->type = (*env)->GetIntField(env, jrbster, g_ICRtypeID);
+        rbsterP->scbnlineStride = (*env)->GetIntField(env, jrbster, g_ICRscbnstrID);
+        rbsterP->pixelStride = (*env)->GetIntField(env, jrbster, g_ICRpixstrID);
+        joffs = (*env)->GetObjectField(env, jrbster, g_ICRdbtbOffsetsID);
     }
-    else if ((*env)->IsInstanceOf(env, jraster, byteComponentRasterClass)){
-        rasterP->jdata = (*env)->GetObjectField(env, jraster, g_BCRdataID);
-        rasterP->dataType = BYTE_DATA_TYPE;
-        rasterP->dataSize = 1;
-        rasterP->dataIsShared = TRUE;
-        rasterP->rasterType = COMPONENT_RASTER_TYPE;
-        rasterP->type = (*env)->GetIntField(env, jraster, g_BCRtypeID);
-        rasterP->scanlineStride = (*env)->GetIntField(env, jraster, g_BCRscanstrID);
-        rasterP->pixelStride = (*env)->GetIntField(env, jraster, g_BCRpixstrID);
-        joffs = (*env)->GetObjectField(env, jraster, g_BCRdataOffsetsID);
+    else if ((*env)->IsInstbnceOf(env, jrbster, byteComponentRbsterClbss)){
+        rbsterP->jdbtb = (*env)->GetObjectField(env, jrbster, g_BCRdbtbID);
+        rbsterP->dbtbType = BYTE_DATA_TYPE;
+        rbsterP->dbtbSize = 1;
+        rbsterP->dbtbIsShbred = TRUE;
+        rbsterP->rbsterType = COMPONENT_RASTER_TYPE;
+        rbsterP->type = (*env)->GetIntField(env, jrbster, g_BCRtypeID);
+        rbsterP->scbnlineStride = (*env)->GetIntField(env, jrbster, g_BCRscbnstrID);
+        rbsterP->pixelStride = (*env)->GetIntField(env, jrbster, g_BCRpixstrID);
+        joffs = (*env)->GetObjectField(env, jrbster, g_BCRdbtbOffsetsID);
     }
-    else if ((*env)->IsInstanceOf(env, jraster, shortComponentRasterClass)){
-        rasterP->jdata = (*env)->GetObjectField(env, jraster, g_SCRdataID);
-        rasterP->dataType = SHORT_DATA_TYPE;
-        rasterP->dataSize = 2;
-        rasterP->dataIsShared = TRUE;
-        rasterP->rasterType = COMPONENT_RASTER_TYPE;
-        rasterP->type = (*env)->GetIntField(env, jraster, g_SCRtypeID);
-        rasterP->scanlineStride = (*env)->GetIntField(env, jraster, g_SCRscanstrID);
-        rasterP->pixelStride = (*env)->GetIntField(env, jraster, g_SCRpixstrID);
-        joffs = (*env)->GetObjectField(env, jraster, g_SCRdataOffsetsID);
+    else if ((*env)->IsInstbnceOf(env, jrbster, shortComponentRbsterClbss)){
+        rbsterP->jdbtb = (*env)->GetObjectField(env, jrbster, g_SCRdbtbID);
+        rbsterP->dbtbType = SHORT_DATA_TYPE;
+        rbsterP->dbtbSize = 2;
+        rbsterP->dbtbIsShbred = TRUE;
+        rbsterP->rbsterType = COMPONENT_RASTER_TYPE;
+        rbsterP->type = (*env)->GetIntField(env, jrbster, g_SCRtypeID);
+        rbsterP->scbnlineStride = (*env)->GetIntField(env, jrbster, g_SCRscbnstrID);
+        rbsterP->pixelStride = (*env)->GetIntField(env, jrbster, g_SCRpixstrID);
+        joffs = (*env)->GetObjectField(env, jrbster, g_SCRdbtbOffsetsID);
     }
-    else if ((*env)->IsInstanceOf(env, jraster, bytePackedRasterClass)){
-        rasterP->rasterType = PACKED_RASTER_TYPE;
-        rasterP->dataType = BYTE_DATA_TYPE;
-        rasterP->dataSize = 1;
-        rasterP->scanlineStride = (*env)->GetIntField(env, jraster, g_BPRscanstrID);
-        rasterP->pixelStride = (*env)->GetIntField(env, jraster, g_BPRpixstrID);
-        rasterP->jdata = (*env)->GetObjectField(env, jraster, g_BPRdataID);
-        rasterP->type = (*env)->GetIntField(env, jraster, g_BPRtypeID);
-        rasterP->chanOffsets = NULL;
-        if (SAFE_TO_ALLOC_2(rasterP->numDataElements, sizeof(jint))) {
-            rasterP->chanOffsets =
-                (jint *)malloc(rasterP->numDataElements * sizeof(jint));
+    else if ((*env)->IsInstbnceOf(env, jrbster, bytePbckedRbsterClbss)){
+        rbsterP->rbsterType = PACKED_RASTER_TYPE;
+        rbsterP->dbtbType = BYTE_DATA_TYPE;
+        rbsterP->dbtbSize = 1;
+        rbsterP->scbnlineStride = (*env)->GetIntField(env, jrbster, g_BPRscbnstrID);
+        rbsterP->pixelStride = (*env)->GetIntField(env, jrbster, g_BPRpixstrID);
+        rbsterP->jdbtb = (*env)->GetObjectField(env, jrbster, g_BPRdbtbID);
+        rbsterP->type = (*env)->GetIntField(env, jrbster, g_BPRtypeID);
+        rbsterP->chbnOffsets = NULL;
+        if (SAFE_TO_ALLOC_2(rbsterP->numDbtbElements, sizeof(jint))) {
+            rbsterP->chbnOffsets =
+                (jint *)mblloc(rbsterP->numDbtbElements * sizeof(jint));
         }
-        if (rasterP->chanOffsets == NULL) {
+        if (rbsterP->chbnOffsets == NULL) {
             /* Out of memory */
             JNU_ThrowOutOfMemoryError(env, "Out of memory");
             return -1;
         }
-        rasterP->chanOffsets[0] = (*env)->GetIntField(env, jraster, g_BPRdataBitOffsetID);
-        rasterP->dataType = BYTE_DATA_TYPE;
+        rbsterP->chbnOffsets[0] = (*env)->GetIntField(env, jrbster, g_BPRdbtbBitOffsetID);
+        rbsterP->dbtbType = BYTE_DATA_TYPE;
     }
     else {
-        rasterP->type = sun_awt_image_IntegerComponentRaster_TYPE_CUSTOM;
-        rasterP->dataType = UNKNOWN_DATA_TYPE;
-        rasterP->rasterType = UNKNOWN_RASTER_TYPE;
-        rasterP->chanOffsets = NULL;
-        /* Custom raster */
+        rbsterP->type = sun_bwt_imbge_IntegerComponentRbster_TYPE_CUSTOM;
+        rbsterP->dbtbType = UNKNOWN_DATA_TYPE;
+        rbsterP->rbsterType = UNKNOWN_RASTER_TYPE;
+        rbsterP->chbnOffsets = NULL;
+        /* Custom rbster */
         return 0;
     }
 
-    // do basic validation of the raster structure
-    if (rasterP->width <= 0 || rasterP->height <= 0 ||
-        rasterP->pixelStride <= 0 || rasterP->scanlineStride <= 0)
+    // do bbsic vblidbtion of the rbster structure
+    if (rbsterP->width <= 0 || rbsterP->height <= 0 ||
+        rbsterP->pixelStride <= 0 || rbsterP->scbnlineStride <= 0)
     {
-        // invalid raster
+        // invblid rbster
         return -1;
     }
 
-    // channel (data) offsets
-    switch (rasterP->rasterType) {
-    case COMPONENT_RASTER_TYPE:
-    case BANDED_RASTER_TYPE: // note that this routine does not support banded rasters at the moment
-        // get channel (data) offsets
-        rasterP->chanOffsets = NULL;
-        if (SAFE_TO_ALLOC_2(rasterP->numDataElements, sizeof(jint))) {
-            rasterP->chanOffsets =
-                (jint *)malloc(rasterP->numDataElements * sizeof(jint));
+    // chbnnel (dbtb) offsets
+    switch (rbsterP->rbsterType) {
+    cbse COMPONENT_RASTER_TYPE:
+    cbse BANDED_RASTER_TYPE: // note thbt this routine does not support bbnded rbsters bt the moment
+        // get chbnnel (dbtb) offsets
+        rbsterP->chbnOffsets = NULL;
+        if (SAFE_TO_ALLOC_2(rbsterP->numDbtbElements, sizeof(jint))) {
+            rbsterP->chbnOffsets =
+                (jint *)mblloc(rbsterP->numDbtbElements * sizeof(jint));
         }
-        if (rasterP->chanOffsets == NULL) {
+        if (rbsterP->chbnOffsets == NULL) {
             /* Out of memory */
             JNU_ThrowOutOfMemoryError(env, "Out of memory");
             return -1;
         }
-        (*env)->GetIntArrayRegion(env, joffs, 0, rasterP->numDataElements,
-                                  rasterP->chanOffsets);
-        if (rasterP->jdata == NULL) {
-            // unable to verify the raster
+        (*env)->GetIntArrbyRegion(env, joffs, 0, rbsterP->numDbtbElements,
+                                  rbsterP->chbnOffsets);
+        if (rbsterP->jdbtb == NULL) {
+            // unbble to verify the rbster
             return -1;
         }
-        // verify whether channel offsets look sane
-        if (!checkChannelOffsets(rasterP, (*env)->GetArrayLength(env, rasterP->jdata))) {
+        // verify whether chbnnel offsets look sbne
+        if (!checkChbnnelOffsets(rbsterP, (*env)->GetArrbyLength(env, rbsterP->jdbtb))) {
             return -1;
         }
-        break;
-    default:
-        ; // PACKED_RASTER_TYPE does not use the channel offsets.
+        brebk;
+    defbult:
+        ; // PACKED_RASTER_TYPE does not use the chbnnel offsets.
     }
 
-    /* additional check for sppsm fields validity: make sure that
-     * size of raster samples doesn't exceed the data type capacity.
+    /* bdditionbl check for sppsm fields vblidity: mbke sure thbt
+     * size of rbster sbmples doesn't exceed the dbtb type cbpbcity.
      */
-    if (rasterP->dataType > UNKNOWN_DATA_TYPE && /* data type has been recognized */
-        rasterP->sppsm.maxBitSize > 0 && /* raster has SPP sample model */
-        rasterP->sppsm.maxBitSize > (rasterP->dataSize * 8))
+    if (rbsterP->dbtbType > UNKNOWN_DATA_TYPE && /* dbtb type hbs been recognized */
+        rbsterP->sppsm.mbxBitSize > 0 && /* rbster hbs SPP sbmple model */
+        rbsterP->sppsm.mbxBitSize > (rbsterP->dbtbSize * 8))
     {
-        JNU_ThrowInternalError(env, "Raster samples are too big");
+        JNU_ThrowInternblError(env, "Rbster sbmples bre too big");
         return -1;
     }
 
 #if 0
     fprintf(stderr,"---------------------\n");
-    fprintf(stderr,"Width  : %d\n",rasterP->width);
-    fprintf(stderr,"Height : %d\n",rasterP->height);
-    fprintf(stderr,"X      : %d\n",rasterP->x);
-    fprintf(stderr,"Y      : %d\n",rasterP->y);
-    fprintf(stderr,"numC   : %d\n",rasterP->numDataElements);
-    fprintf(stderr,"SS     : %d\n",rasterP->scanlineStride);
-    fprintf(stderr,"PS     : %d\n",rasterP->pixelStride);
-    fprintf(stderr,"CO     : %d\n",rasterP->chanOffsets);
-    fprintf(stderr,"shared?: %d\n",rasterP->dataIsShared);
-    fprintf(stderr,"RasterT: %d\n",rasterP->rasterType);
-    fprintf(stderr,"DataT  : %d\n",rasterP->dataType);
+    fprintf(stderr,"Width  : %d\n",rbsterP->width);
+    fprintf(stderr,"Height : %d\n",rbsterP->height);
+    fprintf(stderr,"X      : %d\n",rbsterP->x);
+    fprintf(stderr,"Y      : %d\n",rbsterP->y);
+    fprintf(stderr,"numC   : %d\n",rbsterP->numDbtbElements);
+    fprintf(stderr,"SS     : %d\n",rbsterP->scbnlineStride);
+    fprintf(stderr,"PS     : %d\n",rbsterP->pixelStride);
+    fprintf(stderr,"CO     : %d\n",rbsterP->chbnOffsets);
+    fprintf(stderr,"shbred?: %d\n",rbsterP->dbtbIsShbred);
+    fprintf(stderr,"RbsterT: %d\n",rbsterP->rbsterType);
+    fprintf(stderr,"DbtbT  : %d\n",rbsterP->dbtbType);
     fprintf(stderr,"---------------------\n");
 #endif
 
     return 1;
 }
 
-static int getColorModelType(JNIEnv *env, jobject jcmodel) {
-    jclass colorModelClass;
+stbtic int getColorModelType(JNIEnv *env, jobject jcmodel) {
+    jclbss colorModelClbss;
 
-    colorModelClass = (*env)->FindClass(env,
-                                        "java/awt/image/IndexColorModel");
-    CHECK_NULL_RETURN(colorModelClass, UNKNOWN_CM_TYPE);
+    colorModelClbss = (*env)->FindClbss(env,
+                                        "jbvb/bwt/imbge/IndexColorModel");
+    CHECK_NULL_RETURN(colorModelClbss, UNKNOWN_CM_TYPE);
 
-    if ((*env)->IsInstanceOf(env, jcmodel, colorModelClass))
+    if ((*env)->IsInstbnceOf(env, jcmodel, colorModelClbss))
     {
         return INDEX_CM_TYPE;
     }
 
-    colorModelClass = (*env)->FindClass(env,
-                                        "java/awt/image/PackedColorModel");
-    CHECK_NULL_RETURN(colorModelClass, UNKNOWN_CM_TYPE);
-    if ((*env)->IsInstanceOf(env, jcmodel, colorModelClass))
+    colorModelClbss = (*env)->FindClbss(env,
+                                        "jbvb/bwt/imbge/PbckedColorModel");
+    CHECK_NULL_RETURN(colorModelClbss, UNKNOWN_CM_TYPE);
+    if ((*env)->IsInstbnceOf(env, jcmodel, colorModelClbss))
     {
-        colorModelClass = (*env)->FindClass(env,
-                                            "java/awt/image/DirectColorModel");
-        CHECK_NULL_RETURN(colorModelClass, UNKNOWN_CM_TYPE);
-        if  ((*env)->IsInstanceOf(env, jcmodel, colorModelClass)) {
+        colorModelClbss = (*env)->FindClbss(env,
+                                            "jbvb/bwt/imbge/DirectColorModel");
+        CHECK_NULL_RETURN(colorModelClbss, UNKNOWN_CM_TYPE);
+        if  ((*env)->IsInstbnceOf(env, jcmodel, colorModelClbss)) {
             return DIRECT_CM_TYPE;
         }
         else {
             return PACKED_CM_TYPE;
         }
     }
-    colorModelClass = (*env)->FindClass(env,
-                                        "java/awt/image/ComponentColorModel");
-    CHECK_NULL_RETURN(colorModelClass, UNKNOWN_CM_TYPE);
-    if ((*env)->IsInstanceOf(env, jcmodel, colorModelClass))
+    colorModelClbss = (*env)->FindClbss(env,
+                                        "jbvb/bwt/imbge/ComponentColorModel");
+    CHECK_NULL_RETURN(colorModelClbss, UNKNOWN_CM_TYPE);
+    if ((*env)->IsInstbnceOf(env, jcmodel, colorModelClbss))
     {
         return COMPONENT_CM_TYPE;
     }
@@ -446,14 +446,14 @@ static int getColorModelType(JNIEnv *env, jobject jcmodel) {
     return UNKNOWN_CM_TYPE;
 }
 
-int awt_parseColorModel (JNIEnv *env, jobject jcmodel, int imageType,
+int bwt_pbrseColorModel (JNIEnv *env, jobject jcmodel, int imbgeType,
                          ColorModelS_t *cmP) {
     /*jmethodID jID;   */
     jobject jnBits;
     jsize   nBitsLength;
 
     int i;
-    static jobject s_jdefCM = NULL;
+    stbtic jobject s_jdefCM = NULL;
 
     if (JNU_IsNull(env, jcmodel)) {
         JNU_ThrowNullPointerException(env, "null ColorModel object");
@@ -462,16 +462,16 @@ int awt_parseColorModel (JNIEnv *env, jobject jcmodel, int imageType,
 
     cmP->jcmodel = jcmodel;
 
-    cmP->jcspace = (*env)->GetObjectField(env, jcmodel, g_CMcspaceID);
+    cmP->jcspbce = (*env)->GetObjectField(env, jcmodel, g_CMcspbceID);
 
     cmP->numComponents = (*env)->GetIntField(env, jcmodel,
                                              g_CMnumComponentsID);
-    cmP->supportsAlpha = (*env)->GetBooleanField(env, jcmodel,
-                                                 g_CMsuppAlphaID);
-    cmP->isAlphaPre = (*env)->GetBooleanField(env,jcmodel,
-                                              g_CMisAlphaPreID);
-    cmP->transparency = (*env)->GetIntField(env, jcmodel,
-                                            g_CMtransparencyID);
+    cmP->supportsAlphb = (*env)->GetBoolebnField(env, jcmodel,
+                                                 g_CMsuppAlphbID);
+    cmP->isAlphbPre = (*env)->GetBoolebnField(env,jcmodel,
+                                              g_CMisAlphbPreID);
+    cmP->trbnspbrency = (*env)->GetIntField(env, jcmodel,
+                                            g_CMtrbnspbrencyID);
 
     jnBits = (*env)->GetObjectField(env, jcmodel, g_CMnBitsID);
     if (jnBits == NULL) {
@@ -479,74 +479,74 @@ int awt_parseColorModel (JNIEnv *env, jobject jcmodel, int imageType,
         return -1;
     }
 
-    nBitsLength = (*env)->GetArrayLength(env, jnBits);
+    nBitsLength = (*env)->GetArrbyLength(env, jnBits);
     if (nBitsLength != cmP->numComponents) {
-        // invalid number of components?
+        // invblid number of components?
         return -1;
     }
 
     cmP->nBits = NULL;
     if (SAFE_TO_ALLOC_2(cmP->numComponents, sizeof(jint))) {
-        cmP->nBits = (jint *)malloc(cmP->numComponents * sizeof(jint));
+        cmP->nBits = (jint *)mblloc(cmP->numComponents * sizeof(jint));
     }
 
     if (cmP->nBits == NULL){
         JNU_ThrowOutOfMemoryError(env, "Out of memory");
         return -1;
     }
-    (*env)->GetIntArrayRegion(env, jnBits, 0, cmP->numComponents,
+    (*env)->GetIntArrbyRegion(env, jnBits, 0, cmP->numComponents,
                               cmP->nBits);
-    cmP->maxNbits = 0;
+    cmP->mbxNbits = 0;
     for (i=0; i < cmP->numComponents; i++) {
-        if (cmP->maxNbits < cmP->nBits[i]) {
-            cmP->maxNbits = cmP->nBits[i];
+        if (cmP->mbxNbits < cmP->nBits[i]) {
+            cmP->mbxNbits = cmP->nBits[i];
         }
     }
 
-    cmP->is_sRGB = (*env)->GetBooleanField(env, cmP->jcmodel, g_CMis_sRGBID);
+    cmP->is_sRGB = (*env)->GetBoolebnField(env, cmP->jcmodel, g_CMis_sRGBID);
 
     cmP->csType = (*env)->GetIntField(env, cmP->jcmodel, g_CMcsTypeID);
 
     cmP->cmType = getColorModelType(env, jcmodel);
     JNU_CHECK_EXCEPTION_RETURN(env, -1);
 
-    cmP->isDefaultCM = FALSE;
-    cmP->isDefaultCompatCM = FALSE;
+    cmP->isDefbultCM = FALSE;
+    cmP->isDefbultCompbtCM = FALSE;
 
-    /* look for standard cases */
-    if (imageType == java_awt_image_BufferedImage_TYPE_INT_ARGB) {
-        cmP->isDefaultCM = TRUE;
-        cmP->isDefaultCompatCM = TRUE;
-    } else if (imageType == java_awt_image_BufferedImage_TYPE_INT_ARGB_PRE ||
-               imageType == java_awt_image_BufferedImage_TYPE_INT_RGB ||
-               imageType == java_awt_image_BufferedImage_TYPE_INT_BGR ||
-               imageType == java_awt_image_BufferedImage_TYPE_4BYTE_ABGR ||
-               imageType == java_awt_image_BufferedImage_TYPE_4BYTE_ABGR_PRE)
+    /* look for stbndbrd cbses */
+    if (imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB) {
+        cmP->isDefbultCM = TRUE;
+        cmP->isDefbultCompbtCM = TRUE;
+    } else if (imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB_PRE ||
+               imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_INT_RGB ||
+               imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_INT_BGR ||
+               imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_4BYTE_ABGR ||
+               imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_4BYTE_ABGR_PRE)
     {
-        cmP->isDefaultCompatCM = TRUE;
+        cmP->isDefbultCompbtCM = TRUE;
     }
     else {
-        /* Figure out if this is the default CM */
+        /* Figure out if this is the defbult CM */
         if (s_jdefCM == NULL) {
             jobject defCM;
-            jclass jcm = (*env)->FindClass(env, "java/awt/image/ColorModel");
+            jclbss jcm = (*env)->FindClbss(env, "jbvb/bwt/imbge/ColorModel");
             CHECK_NULL_RETURN(jcm, -1);
-            defCM = (*env)->CallStaticObjectMethod(env, jcm,
-                                                   g_CMgetRGBdefaultMID, NULL);
-            s_jdefCM = (*env)->NewGlobalRef(env, defCM);
+            defCM = (*env)->CbllStbticObjectMethod(env, jcm,
+                                                   g_CMgetRGBdefbultMID, NULL);
+            s_jdefCM = (*env)->NewGlobblRef(env, defCM);
             if (defCM == NULL || s_jdefCM == NULL) {
-                (*env)->ExceptionClear(env);
-                JNU_ThrowNullPointerException(env, "Unable to find default CM");
+                (*env)->ExceptionClebr(env);
+                JNU_ThrowNullPointerException(env, "Unbble to find defbult CM");
                 return -1;
             }
         }
-        cmP->isDefaultCM = ((*env)->IsSameObject(env, s_jdefCM, jcmodel));
-        cmP->isDefaultCompatCM = cmP->isDefaultCM;
+        cmP->isDefbultCM = ((*env)->IsSbmeObject(env, s_jdefCM, jcmodel));
+        cmP->isDefbultCompbtCM = cmP->isDefbultCM;
     }
 
-    /* check whether image attributes correspond to default cm */
-    if (cmP->isDefaultCompatCM) {
-        if (cmP->csType != java_awt_color_ColorSpace_TYPE_RGB ||
+    /* check whether imbge bttributes correspond to defbult cm */
+    if (cmP->isDefbultCompbtCM) {
+        if (cmP->csType != jbvb_bwt_color_ColorSpbce_TYPE_RGB ||
             !cmP->is_sRGB)
         {
             return -1;
@@ -559,32 +559,32 @@ int awt_parseColorModel (JNIEnv *env, jobject jcmodel, int imageType,
         }
     }
 
-    /* Get index color model attributes */
-    if (imageType == java_awt_image_BufferedImage_TYPE_BYTE_INDEXED ||
+    /* Get index color model bttributes */
+    if (imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_BYTE_INDEXED ||
         cmP->cmType == INDEX_CM_TYPE)
     {
-        cmP->transIdx = (*env)->GetIntField(env, jcmodel, g_ICMtransIdxID);
-        cmP->mapSize = (*env)->GetIntField(env, jcmodel, g_ICMmapSizeID);
+        cmP->trbnsIdx = (*env)->GetIntField(env, jcmodel, g_ICMtrbnsIdxID);
+        cmP->mbpSize = (*env)->GetIntField(env, jcmodel, g_ICMmbpSizeID);
         cmP->jrgb    = (*env)->GetObjectField(env, jcmodel, g_ICMrgbID);
-        if (cmP->transIdx == -1) {
-            /* Need to find the transparent index */
-            int *rgb = (int *) (*env)->GetPrimitiveArrayCritical(env,
+        if (cmP->trbnsIdx == -1) {
+            /* Need to find the trbnspbrent index */
+            int *rgb = (int *) (*env)->GetPrimitiveArrbyCriticbl(env,
                                                                  cmP->jrgb,
                                                                  NULL);
             if (rgb == NULL) {
                 return -1;
             }
-            for (i=0; i < cmP->mapSize; i++) {
+            for (i=0; i < cmP->mbpSize; i++) {
                 if ((rgb[i]&0xff000000) == 0) {
-                    cmP->transIdx = i;
-                    break;
+                    cmP->trbnsIdx = i;
+                    brebk;
                 }
             }
-            (*env)->ReleasePrimitiveArrayCritical(env, cmP->jrgb, rgb,
+            (*env)->RelebsePrimitiveArrbyCriticbl(env, cmP->jrgb, rgb,
                                                   JNI_ABORT);
-            if (cmP->transIdx == -1) {
-                /* Now what? No transparent pixel... */
-                cmP->transIdx = 0;
+            if (cmP->trbnsIdx == -1) {
+                /* Now whbt? No trbnspbrent pixel... */
+                cmP->trbnsIdx = 0;
             }
         }
     }
@@ -592,38 +592,38 @@ int awt_parseColorModel (JNIEnv *env, jobject jcmodel, int imageType,
     return 1;
 }
 
-void awt_freeParsedRaster(RasterS_t *rasterP, int freeRasterP) {
-    if (rasterP->chanOffsets) {
-        free((void *) rasterP->chanOffsets);
+void bwt_freePbrsedRbster(RbsterS_t *rbsterP, int freeRbsterP) {
+    if (rbsterP->chbnOffsets) {
+        free((void *) rbsterP->chbnOffsets);
     }
 
-    if (freeRasterP) {
-        free((void *) rasterP);
-    }
-}
-
-void awt_freeParsedImage(BufImageS_t *imageP, int freeImageP) {
-    if (imageP->hints.colorOrder) {
-        free ((void *) imageP->hints.colorOrder);
-    }
-
-    if (imageP->cmodel.nBits) {
-        free ((void *) imageP->cmodel.nBits);
-    }
-
-    /* Free the raster */
-    awt_freeParsedRaster(&imageP->raster, FALSE);
-
-    if (freeImageP) {
-        free((void *) imageP);
+    if (freeRbsterP) {
+        free((void *) rbsterP);
     }
 }
 
-static void
-awt_getBIColorOrder(int type, int *colorOrder) {
+void bwt_freePbrsedImbge(BufImbgeS_t *imbgeP, int freeImbgeP) {
+    if (imbgeP->hints.colorOrder) {
+        free ((void *) imbgeP->hints.colorOrder);
+    }
+
+    if (imbgeP->cmodel.nBits) {
+        free ((void *) imbgeP->cmodel.nBits);
+    }
+
+    /* Free the rbster */
+    bwt_freePbrsedRbster(&imbgeP->rbster, FALSE);
+
+    if (freeImbgeP) {
+        free((void *) imbgeP);
+    }
+}
+
+stbtic void
+bwt_getBIColorOrder(int type, int *colorOrder) {
     switch(type) {
-        case java_awt_image_BufferedImage_TYPE_INT_ARGB:
-        case java_awt_image_BufferedImage_TYPE_INT_ARGB_PRE:
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB:
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB_PRE:
 #ifdef _LITTLE_ENDIAN
             colorOrder[0] = 2;
             colorOrder[1] = 1;
@@ -635,8 +635,8 @@ awt_getBIColorOrder(int type, int *colorOrder) {
             colorOrder[2] = 3;
             colorOrder[3] = 0;
 #endif
-            break;
-        case java_awt_image_BufferedImage_TYPE_INT_BGR:
+            brebk;
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_INT_BGR:
 #ifdef _LITTLE_ENDIAN
             colorOrder[0] = 0;
             colorOrder[1] = 1;
@@ -646,8 +646,8 @@ awt_getBIColorOrder(int type, int *colorOrder) {
             colorOrder[1] = 2;
             colorOrder[2] = 1;
 #endif
-            break;
-        case java_awt_image_BufferedImage_TYPE_INT_RGB:
+            brebk;
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_INT_RGB:
 #ifdef _LITTLE_ENDIAN
             colorOrder[0] = 2;
             colorOrder[1] = 1;
@@ -657,174 +657,174 @@ awt_getBIColorOrder(int type, int *colorOrder) {
             colorOrder[1] = 2;
             colorOrder[2] = 3;
 #endif
-            break;
-        case java_awt_image_BufferedImage_TYPE_4BYTE_ABGR:
-        case java_awt_image_BufferedImage_TYPE_4BYTE_ABGR_PRE:
+            brebk;
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_4BYTE_ABGR:
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_4BYTE_ABGR_PRE:
             colorOrder[0] = 3;
             colorOrder[1] = 2;
             colorOrder[2] = 1;
             colorOrder[3] = 0;
-            break;
-        case java_awt_image_BufferedImage_TYPE_3BYTE_BGR:
+            brebk;
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_3BYTE_BGR:
             colorOrder[0] = 2;
             colorOrder[1] = 1;
             colorOrder[2] = 0;
-            break;
-        case java_awt_image_BufferedImage_TYPE_USHORT_565_RGB:
-        case java_awt_image_BufferedImage_TYPE_USHORT_555_RGB:
+            brebk;
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_USHORT_565_RGB:
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_USHORT_555_RGB:
             colorOrder[0] = 0;
             colorOrder[1] = 1;
             colorOrder[2] = 2;
-            break;
-        case java_awt_image_BufferedImage_TYPE_BYTE_GRAY:
-        case java_awt_image_BufferedImage_TYPE_USHORT_GRAY:
-        case java_awt_image_BufferedImage_TYPE_BYTE_BINARY:
-        case java_awt_image_BufferedImage_TYPE_BYTE_INDEXED:
+            brebk;
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_BYTE_GRAY:
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_USHORT_GRAY:
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_BYTE_BINARY:
+        cbse jbvb_bwt_imbge_BufferedImbge_TYPE_BYTE_INDEXED:
             colorOrder[0] = 0;
-            break;
+            brebk;
     }
 }
 
-static int
-setHints(JNIEnv *env, BufImageS_t *imageP) {
-    HintS_t *hintP = &imageP->hints;
-    RasterS_t *rasterP = &imageP->raster;
-    ColorModelS_t *cmodelP = &imageP->cmodel;
-    int imageType = imageP->imageType;
+stbtic int
+setHints(JNIEnv *env, BufImbgeS_t *imbgeP) {
+    HintS_t *hintP = &imbgeP->hints;
+    RbsterS_t *rbsterP = &imbgeP->rbster;
+    ColorModelS_t *cmodelP = &imbgeP->cmodel;
+    int imbgeType = imbgeP->imbgeType;
 
-    // check whether raster and color model are compatible
-    if (cmodelP->numComponents != rasterP->numBands) {
+    // check whether rbster bnd color model bre compbtible
+    if (cmodelP->numComponents != rbsterP->numBbnds) {
         if (cmodelP->cmType != INDEX_CM_TYPE) {
             return -1;
         }
     }
 
-    hintP->numChans = imageP->cmodel.numComponents;
+    hintP->numChbns = imbgeP->cmodel.numComponents;
     hintP->colorOrder = NULL;
-    if (SAFE_TO_ALLOC_2(hintP->numChans, sizeof(int))) {
-        hintP->colorOrder = (int *)malloc(hintP->numChans * sizeof(int));
+    if (SAFE_TO_ALLOC_2(hintP->numChbns, sizeof(int))) {
+        hintP->colorOrder = (int *)mblloc(hintP->numChbns * sizeof(int));
     }
     if (hintP->colorOrder == NULL) {
         JNU_ThrowOutOfMemoryError(env, "Out of memory");
         return -1;
     }
-    if (imageType != java_awt_image_BufferedImage_TYPE_CUSTOM) {
-        awt_getBIColorOrder(imageType, hintP->colorOrder);
+    if (imbgeType != jbvb_bwt_imbge_BufferedImbge_TYPE_CUSTOM) {
+        bwt_getBIColorOrder(imbgeType, hintP->colorOrder);
     }
-    if (imageType == java_awt_image_BufferedImage_TYPE_INT_ARGB ||
-        imageType == java_awt_image_BufferedImage_TYPE_INT_ARGB_PRE ||
-        imageType == java_awt_image_BufferedImage_TYPE_INT_RGB)
+    if (imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB ||
+        imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB_PRE ||
+        imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_INT_RGB)
     {
-        hintP->channelOffset = rasterP->chanOffsets[0];
-        /* These hints are #bytes  */
-        hintP->dataOffset    = hintP->channelOffset*rasterP->dataSize;
-        hintP->sStride = rasterP->scanlineStride*rasterP->dataSize;
-        hintP->pStride = rasterP->pixelStride*rasterP->dataSize;
-        hintP->packing = BYTE_INTERLEAVED;
-    } else if (imageType ==java_awt_image_BufferedImage_TYPE_4BYTE_ABGR ||
-               imageType==java_awt_image_BufferedImage_TYPE_4BYTE_ABGR_PRE||
-               imageType == java_awt_image_BufferedImage_TYPE_3BYTE_BGR ||
-               imageType == java_awt_image_BufferedImage_TYPE_INT_BGR)
+        hintP->chbnnelOffset = rbsterP->chbnOffsets[0];
+        /* These hints bre #bytes  */
+        hintP->dbtbOffset    = hintP->chbnnelOffset*rbsterP->dbtbSize;
+        hintP->sStride = rbsterP->scbnlineStride*rbsterP->dbtbSize;
+        hintP->pStride = rbsterP->pixelStride*rbsterP->dbtbSize;
+        hintP->pbcking = BYTE_INTERLEAVED;
+    } else if (imbgeType ==jbvb_bwt_imbge_BufferedImbge_TYPE_4BYTE_ABGR ||
+               imbgeType==jbvb_bwt_imbge_BufferedImbge_TYPE_4BYTE_ABGR_PRE||
+               imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_3BYTE_BGR ||
+               imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_INT_BGR)
     {
-        if (imageType == java_awt_image_BufferedImage_TYPE_INT_BGR) {
-            hintP->channelOffset = rasterP->chanOffsets[0];
+        if (imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_INT_BGR) {
+            hintP->chbnnelOffset = rbsterP->chbnOffsets[0];
         }
         else {
-            hintP->channelOffset = rasterP->chanOffsets[hintP->numChans-1];
+            hintP->chbnnelOffset = rbsterP->chbnOffsets[hintP->numChbns-1];
         }
-        hintP->dataOffset    = hintP->channelOffset*rasterP->dataSize;
-        hintP->sStride = rasterP->scanlineStride*rasterP->dataSize;
-        hintP->pStride = rasterP->pixelStride*rasterP->dataSize;
-        hintP->packing = BYTE_INTERLEAVED;
-    } else if (imageType==java_awt_image_BufferedImage_TYPE_USHORT_565_RGB ||
-               imageType==java_awt_image_BufferedImage_TYPE_USHORT_555_RGB) {
-        hintP->needToExpand  = TRUE;
-        hintP->expandToNbits = 8;
-        hintP->packing = PACKED_SHORT_INTER;
+        hintP->dbtbOffset    = hintP->chbnnelOffset*rbsterP->dbtbSize;
+        hintP->sStride = rbsterP->scbnlineStride*rbsterP->dbtbSize;
+        hintP->pStride = rbsterP->pixelStride*rbsterP->dbtbSize;
+        hintP->pbcking = BYTE_INTERLEAVED;
+    } else if (imbgeType==jbvb_bwt_imbge_BufferedImbge_TYPE_USHORT_565_RGB ||
+               imbgeType==jbvb_bwt_imbge_BufferedImbge_TYPE_USHORT_555_RGB) {
+        hintP->needToExpbnd  = TRUE;
+        hintP->expbndToNbits = 8;
+        hintP->pbcking = PACKED_SHORT_INTER;
     } else if (cmodelP->cmType == INDEX_CM_TYPE) {
         int i;
-        hintP->numChans = 1;
-        hintP->channelOffset = rasterP->chanOffsets[0];
-        hintP->dataOffset    = hintP->channelOffset*rasterP->dataSize;
-        hintP->sStride = rasterP->scanlineStride*rasterP->dataSize;
-        hintP->pStride = rasterP->pixelStride*rasterP->dataSize;
-        switch(rasterP->dataType ) {
-        case BYTE_DATA_TYPE:
-            if (rasterP->rasterType == PACKED_RASTER_TYPE) {
-                hintP->needToExpand = TRUE;
-                hintP->expandToNbits = 8;
-                hintP->packing = BYTE_PACKED_BAND;
+        hintP->numChbns = 1;
+        hintP->chbnnelOffset = rbsterP->chbnOffsets[0];
+        hintP->dbtbOffset    = hintP->chbnnelOffset*rbsterP->dbtbSize;
+        hintP->sStride = rbsterP->scbnlineStride*rbsterP->dbtbSize;
+        hintP->pStride = rbsterP->pixelStride*rbsterP->dbtbSize;
+        switch(rbsterP->dbtbType ) {
+        cbse BYTE_DATA_TYPE:
+            if (rbsterP->rbsterType == PACKED_RASTER_TYPE) {
+                hintP->needToExpbnd = TRUE;
+                hintP->expbndToNbits = 8;
+                hintP->pbcking = BYTE_PACKED_BAND;
             }
             else {
-                hintP->packing = BYTE_SINGLE_BAND;
+                hintP->pbcking = BYTE_SINGLE_BAND;
             }
-            break;
-        case SHORT_DATA_TYPE:
-            hintP->packing = SHORT_SINGLE_BAND;
-            break;
-        case INT_DATA_TYPE:
-        default:
-            hintP->packing = UNKNOWN_PACKING;
-            break;
+            brebk;
+        cbse SHORT_DATA_TYPE:
+            hintP->pbcking = SHORT_SINGLE_BAND;
+            brebk;
+        cbse INT_DATA_TYPE:
+        defbult:
+            hintP->pbcking = UNKNOWN_PACKING;
+            brebk;
         }
-        for (i=0; i < hintP->numChans; i++) {
+        for (i=0; i < hintP->numChbns; i++) {
             hintP->colorOrder[i] = i;
         }
     }
     else if (cmodelP->cmType == COMPONENT_CM_TYPE) {
-        /* Figure out if it is interleaved */
+        /* Figure out if it is interlebved */
         int bits=1;
         int i;
-        int low = rasterP->chanOffsets[0];
+        int low = rbsterP->chbnOffsets[0];
         int diff;
-        int banded = 0;
-        for (i=1; i < hintP->numChans; i++) {
-            if (rasterP->chanOffsets[i] < low) {
-                low = rasterP->chanOffsets[i];
+        int bbnded = 0;
+        for (i=1; i < hintP->numChbns; i++) {
+            if (rbsterP->chbnOffsets[i] < low) {
+                low = rbsterP->chbnOffsets[i];
             }
         }
-        for (i=1; i < hintP->numChans; i++) {
-            diff = rasterP->chanOffsets[i]-low;
-            if (diff < hintP->numChans) {
+        for (i=1; i < hintP->numChbns; i++) {
+            diff = rbsterP->chbnOffsets[i]-low;
+            if (diff < hintP->numChbns) {
                 if (bits & (1<<diff)) {
-                    /* Overlapping samples */
+                    /* Overlbpping sbmples */
                     /* Could just copy */
                     return -1;
                 }
                 bits |= (1<<diff);
             }
-            else if (diff >= rasterP->width) {
-                banded = 1;
+            else if (diff >= rbsterP->width) {
+                bbnded = 1;
             }
-            /* Ignore the case if bands are overlapping */
+            /* Ignore the cbse if bbnds bre overlbpping */
         }
-        hintP->channelOffset = low;
-        hintP->dataOffset    = low*rasterP->dataSize;
-        hintP->sStride       = rasterP->scanlineStride*rasterP->dataSize;
-        hintP->pStride       = rasterP->pixelStride*rasterP->dataSize;
-        switch(rasterP->dataType) {
-        case BYTE_DATA_TYPE:
-            hintP->packing = BYTE_COMPONENTS;
-            break;
-        case SHORT_DATA_TYPE:
-            hintP->packing = SHORT_COMPONENTS;
-            break;
-        default:
-            /* Don't handle any other case */
+        hintP->chbnnelOffset = low;
+        hintP->dbtbOffset    = low*rbsterP->dbtbSize;
+        hintP->sStride       = rbsterP->scbnlineStride*rbsterP->dbtbSize;
+        hintP->pStride       = rbsterP->pixelStride*rbsterP->dbtbSize;
+        switch(rbsterP->dbtbType) {
+        cbse BYTE_DATA_TYPE:
+            hintP->pbcking = BYTE_COMPONENTS;
+            brebk;
+        cbse SHORT_DATA_TYPE:
+            hintP->pbcking = SHORT_COMPONENTS;
+            brebk;
+        defbult:
+            /* Don't hbndle bny other cbse */
             return -1;
         }
-        if (bits == ((1<<hintP->numChans)-1)) {
-            hintP->packing |= INTERLEAVED;
-            for (i=0; i < hintP->numChans; i++) {
-                hintP->colorOrder[rasterP->chanOffsets[i]-low] = i;
+        if (bits == ((1<<hintP->numChbns)-1)) {
+            hintP->pbcking |= INTERLEAVED;
+            for (i=0; i < hintP->numChbns; i++) {
+                hintP->colorOrder[rbsterP->chbnOffsets[i]-low] = i;
             }
         }
-        else if (banded == 1) {
-            int bandSize = rasterP->width*rasterP->height;
-            hintP->packing |= BANDED;
-            for (i=0; i < hintP->numChans; i++) {
-                /* REMIND: Not necessarily correct */
-                hintP->colorOrder[(rasterP->chanOffsets[i]-low)%bandSize] = i;
+        else if (bbnded == 1) {
+            int bbndSize = rbsterP->width*rbsterP->height;
+            hintP->pbcking |= BANDED;
+            for (i=0; i < hintP->numChbns; i++) {
+                /* REMIND: Not necessbrily correct */
+                hintP->colorOrder[(rbsterP->chbnOffsets[i]-low)%bbndSize] = i;
             }
         }
         else {
@@ -834,64 +834,64 @@ setHints(JNIEnv *env, BufImageS_t *imageP) {
     else if (cmodelP->cmType == DIRECT_CM_TYPE || cmodelP->cmType == PACKED_CM_TYPE) {
         int i;
 
-        /* do some sanity check first: make sure that
-         * - sample model is SinglePixelPackedSampleModel
-         * - number of bands in the raster corresponds to the number
+        /* do some sbnity check first: mbke sure thbt
+         * - sbmple model is SinglePixelPbckedSbmpleModel
+         * - number of bbnds in the rbster corresponds to the number
          *   of color components in the color model
          */
-        if (!rasterP->sppsm.isUsed ||
-            rasterP->numBands != cmodelP->numComponents)
+        if (!rbsterP->sppsm.isUsed ||
+            rbsterP->numBbnds != cmodelP->numComponents)
         {
-            /* given raster is not compatible with the color model,
-             * so the operation has to be aborted.
+            /* given rbster is not compbtible with the color model,
+             * so the operbtion hbs to be bborted.
              */
             return -1;
         }
 
-        if (cmodelP->maxNbits > 8) {
-            hintP->needToExpand = TRUE;
-            hintP->expandToNbits = cmodelP->maxNbits;
+        if (cmodelP->mbxNbits > 8) {
+            hintP->needToExpbnd = TRUE;
+            hintP->expbndToNbits = cmodelP->mbxNbits;
         }
-        else if (rasterP->sppsm.offsets != NULL) {
-            for (i=0; i < rasterP->numBands; i++) {
-                if (!(rasterP->sppsm.offsets[i] % 8)) {
-                    hintP->needToExpand  = TRUE;
-                    hintP->expandToNbits = 8;
-                    break;
+        else if (rbsterP->sppsm.offsets != NULL) {
+            for (i=0; i < rbsterP->numBbnds; i++) {
+                if (!(rbsterP->sppsm.offsets[i] % 8)) {
+                    hintP->needToExpbnd  = TRUE;
+                    hintP->expbndToNbits = 8;
+                    brebk;
                 }
                 else {
-                    hintP->colorOrder[i] = rasterP->sppsm.offsets[i]>>3;
+                    hintP->colorOrder[i] = rbsterP->sppsm.offsets[i]>>3;
                 }
             }
         }
 
-        hintP->channelOffset = rasterP->chanOffsets[0];
-        hintP->dataOffset    = hintP->channelOffset*rasterP->dataSize;
-        hintP->sStride = rasterP->scanlineStride*rasterP->dataSize;
-        hintP->pStride = rasterP->pixelStride*rasterP->dataSize;
-        if (hintP->needToExpand) {
-            switch(rasterP->dataType) {
-            case BYTE_DATA_TYPE:
-                hintP->packing = PACKED_BYTE_INTER;
-                break;
-            case SHORT_DATA_TYPE:
-                hintP->packing = PACKED_SHORT_INTER;
-                break;
-            case INT_DATA_TYPE:
-                hintP->packing = PACKED_INT_INTER;
-                break;
-            default:
-                /* Don't know what it is */
+        hintP->chbnnelOffset = rbsterP->chbnOffsets[0];
+        hintP->dbtbOffset    = hintP->chbnnelOffset*rbsterP->dbtbSize;
+        hintP->sStride = rbsterP->scbnlineStride*rbsterP->dbtbSize;
+        hintP->pStride = rbsterP->pixelStride*rbsterP->dbtbSize;
+        if (hintP->needToExpbnd) {
+            switch(rbsterP->dbtbType) {
+            cbse BYTE_DATA_TYPE:
+                hintP->pbcking = PACKED_BYTE_INTER;
+                brebk;
+            cbse SHORT_DATA_TYPE:
+                hintP->pbcking = PACKED_SHORT_INTER;
+                brebk;
+            cbse INT_DATA_TYPE:
+                hintP->pbcking = PACKED_INT_INTER;
+                brebk;
+            defbult:
+                /* Don't know whbt it is */
                 return -1;
             }
         }
         else {
-            hintP->packing = BYTE_INTERLEAVED;
+            hintP->pbcking = BYTE_INTERLEAVED;
 
         }
     }
     else {
-        /* REMIND: Need to handle more cases */
+        /* REMIND: Need to hbndle more cbses */
         return -1;
     }
 
@@ -902,202 +902,202 @@ setHints(JNIEnv *env, BufImageS_t *imageP) {
 
 typedef union {
     void *pv;
-    unsigned char *pb;
+    unsigned chbr *pb;
     unsigned short *ps;
-} PixelData_t;
+} PixelDbtb_t;
 
 
-int awt_getPixels(JNIEnv *env, RasterS_t *rasterP, void *bufferP) {
-    const int w = rasterP->width;
-    const int h = rasterP->height;
-    const int numBands = rasterP->numBands;
+int bwt_getPixels(JNIEnv *env, RbsterS_t *rbsterP, void *bufferP) {
+    const int w = rbsterP->width;
+    const int h = rbsterP->height;
+    const int numBbnds = rbsterP->numBbnds;
     int y;
     int i;
-    int maxLines;
+    int mbxLines;
     jobject jsm;
     int off = 0;
-    jarray jdata = NULL;
-    jobject jdatabuffer;
-    int *dataP;
-    int maxSamples;
-    PixelData_t p;
+    jbrrby jdbtb = NULL;
+    jobject jdbtbbuffer;
+    int *dbtbP;
+    int mbxSbmples;
+    PixelDbtb_t p;
 
     if (bufferP == NULL) {
         return -1;
     }
 
-    if (rasterP->dataType != BYTE_DATA_TYPE &&
-        rasterP->dataType != SHORT_DATA_TYPE)
+    if (rbsterP->dbtbType != BYTE_DATA_TYPE &&
+        rbsterP->dbtbType != SHORT_DATA_TYPE)
     {
         return -1;
     }
 
     p.pv = bufferP;
 
-    if (!SAFE_TO_MULT(w, numBands)) {
+    if (!SAFE_TO_MULT(w, numBbnds)) {
         return -1;
     }
-    maxSamples = w * numBands;
+    mbxSbmples = w * numBbnds;
 
-    maxLines = maxSamples > MAX_TO_GRAB ? 1 : (MAX_TO_GRAB / maxSamples);
-    if (maxLines > h) {
-        maxLines = h;
+    mbxLines = mbxSbmples > MAX_TO_GRAB ? 1 : (MAX_TO_GRAB / mbxSbmples);
+    if (mbxLines > h) {
+        mbxLines = h;
     }
 
-    if (!SAFE_TO_MULT(maxSamples, maxLines)) {
+    if (!SAFE_TO_MULT(mbxSbmples, mbxLines)) {
         return -1;
     }
 
-    maxSamples *= maxLines;
+    mbxSbmples *= mbxLines;
 
-    jsm = (*env)->GetObjectField(env, rasterP->jraster, g_RasterSampleModelID);
-    jdatabuffer = (*env)->GetObjectField(env, rasterP->jraster,
-                                         g_RasterDataBufferID);
+    jsm = (*env)->GetObjectField(env, rbsterP->jrbster, g_RbsterSbmpleModelID);
+    jdbtbbuffer = (*env)->GetObjectField(env, rbsterP->jrbster,
+                                         g_RbsterDbtbBufferID);
 
-    jdata = (*env)->NewIntArray(env, maxSamples);
-    if (JNU_IsNull(env, jdata)) {
-        (*env)->ExceptionClear(env);
+    jdbtb = (*env)->NewIntArrby(env, mbxSbmples);
+    if (JNU_IsNull(env, jdbtb)) {
+        (*env)->ExceptionClebr(env);
         JNU_ThrowOutOfMemoryError(env, "Out of Memory");
         return -1;
     }
 
-    for (y = 0; y < h; y += maxLines) {
-        if (y + maxLines > h) {
-            maxLines = h - y;
-            maxSamples = w * numBands * maxLines;
+    for (y = 0; y < h; y += mbxLines) {
+        if (y + mbxLines > h) {
+            mbxLines = h - y;
+            mbxSbmples = w * numBbnds * mbxLines;
         }
 
-        (*env)->CallObjectMethod(env, jsm, g_SMGetPixelsMID,
+        (*env)->CbllObjectMethod(env, jsm, g_SMGetPixelsMID,
                                  0, y, w,
-                                 maxLines, jdata, jdatabuffer);
+                                 mbxLines, jdbtb, jdbtbbuffer);
 
         if ((*env)->ExceptionOccurred(env)) {
-            (*env)->DeleteLocalRef(env, jdata);
+            (*env)->DeleteLocblRef(env, jdbtb);
             return -1;
         }
 
-        dataP = (int *) (*env)->GetPrimitiveArrayCritical(env, jdata,
+        dbtbP = (int *) (*env)->GetPrimitiveArrbyCriticbl(env, jdbtb,
                                                           NULL);
-        if (dataP == NULL) {
-            (*env)->DeleteLocalRef(env, jdata);
+        if (dbtbP == NULL) {
+            (*env)->DeleteLocblRef(env, jdbtb);
             return -1;
         }
 
-        switch (rasterP->dataType) {
-        case BYTE_DATA_TYPE:
-            for (i = 0; i < maxSamples; i ++) {
-                p.pb[off++] = (unsigned char) dataP[i];
+        switch (rbsterP->dbtbType) {
+        cbse BYTE_DATA_TYPE:
+            for (i = 0; i < mbxSbmples; i ++) {
+                p.pb[off++] = (unsigned chbr) dbtbP[i];
             }
-            break;
-        case SHORT_DATA_TYPE:
-            for (i = 0; i < maxSamples; i ++) {
-                p.ps[off++] = (unsigned short) dataP[i];
+            brebk;
+        cbse SHORT_DATA_TYPE:
+            for (i = 0; i < mbxSbmples; i ++) {
+                p.ps[off++] = (unsigned short) dbtbP[i];
             }
-            break;
+            brebk;
         }
 
-        (*env)->ReleasePrimitiveArrayCritical(env, jdata, dataP,
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jdbtb, dbtbP,
                                               JNI_ABORT);
     }
-    (*env)->DeleteLocalRef(env, jdata);
+    (*env)->DeleteLocblRef(env, jdbtb);
 
     return 1;
 }
 
-int awt_setPixels(JNIEnv *env, RasterS_t *rasterP, void *bufferP) {
-    const int w = rasterP->width;
-    const int h = rasterP->height;
-    const int numBands = rasterP->numBands;
+int bwt_setPixels(JNIEnv *env, RbsterS_t *rbsterP, void *bufferP) {
+    const int w = rbsterP->width;
+    const int h = rbsterP->height;
+    const int numBbnds = rbsterP->numBbnds;
 
     int y;
     int i;
-    int maxLines;
+    int mbxLines;
     jobject jsm;
     int off = 0;
-    jarray jdata = NULL;
-    jobject jdatabuffer;
-    int *dataP;
-    int maxSamples;
-    PixelData_t p;
+    jbrrby jdbtb = NULL;
+    jobject jdbtbbuffer;
+    int *dbtbP;
+    int mbxSbmples;
+    PixelDbtb_t p;
 
     if (bufferP == NULL) {
         return -1;
     }
 
-    if (rasterP->dataType != BYTE_DATA_TYPE &&
-        rasterP->dataType != SHORT_DATA_TYPE)
+    if (rbsterP->dbtbType != BYTE_DATA_TYPE &&
+        rbsterP->dbtbType != SHORT_DATA_TYPE)
     {
         return -1;
     }
 
     p.pv = bufferP;
 
-    if (!SAFE_TO_MULT(w, numBands)) {
+    if (!SAFE_TO_MULT(w, numBbnds)) {
         return -1;
     }
-    maxSamples = w * numBands;
+    mbxSbmples = w * numBbnds;
 
-    maxLines = maxSamples > MAX_TO_GRAB ? 1 : (MAX_TO_GRAB / maxSamples);
-    if (maxLines > h) {
-        maxLines = h;
+    mbxLines = mbxSbmples > MAX_TO_GRAB ? 1 : (MAX_TO_GRAB / mbxSbmples);
+    if (mbxLines > h) {
+        mbxLines = h;
     }
 
-    if (!SAFE_TO_MULT(maxSamples, maxLines)) {
+    if (!SAFE_TO_MULT(mbxSbmples, mbxLines)) {
         return -1;
     }
 
-    maxSamples *= maxLines;
+    mbxSbmples *= mbxLines;
 
-    jsm = (*env)->GetObjectField(env, rasterP->jraster, g_RasterSampleModelID);
-    jdatabuffer = (*env)->GetObjectField(env, rasterP->jraster,
-                                         g_RasterDataBufferID);
+    jsm = (*env)->GetObjectField(env, rbsterP->jrbster, g_RbsterSbmpleModelID);
+    jdbtbbuffer = (*env)->GetObjectField(env, rbsterP->jrbster,
+                                         g_RbsterDbtbBufferID);
 
-    jdata = (*env)->NewIntArray(env, maxSamples);
-    if (JNU_IsNull(env, jdata)) {
-        (*env)->ExceptionClear(env);
+    jdbtb = (*env)->NewIntArrby(env, mbxSbmples);
+    if (JNU_IsNull(env, jdbtb)) {
+        (*env)->ExceptionClebr(env);
         JNU_ThrowOutOfMemoryError(env, "Out of Memory");
         return -1;
     }
 
-    for (y = 0; y < h; y += maxLines) {
-        if (y + maxLines > h) {
-            maxLines = h - y;
-            maxSamples = w * numBands * maxLines;
+    for (y = 0; y < h; y += mbxLines) {
+        if (y + mbxLines > h) {
+            mbxLines = h - y;
+            mbxSbmples = w * numBbnds * mbxLines;
         }
-        dataP = (int *) (*env)->GetPrimitiveArrayCritical(env, jdata,
+        dbtbP = (int *) (*env)->GetPrimitiveArrbyCriticbl(env, jdbtb,
                                                           NULL);
-        if (dataP == NULL) {
-            (*env)->DeleteLocalRef(env, jdata);
+        if (dbtbP == NULL) {
+            (*env)->DeleteLocblRef(env, jdbtb);
             return -1;
         }
 
-        switch (rasterP->dataType) {
-        case BYTE_DATA_TYPE:
-            for (i = 0; i < maxSamples; i ++) {
-                dataP[i] = p.pb[off++];
+        switch (rbsterP->dbtbType) {
+        cbse BYTE_DATA_TYPE:
+            for (i = 0; i < mbxSbmples; i ++) {
+                dbtbP[i] = p.pb[off++];
             }
-            break;
-        case SHORT_DATA_TYPE:
-            for (i = 0; i < maxSamples; i ++) {
-                dataP[i] = p.ps[off++];
+            brebk;
+        cbse SHORT_DATA_TYPE:
+            for (i = 0; i < mbxSbmples; i ++) {
+                dbtbP[i] = p.ps[off++];
             }
-            break;
+            brebk;
         }
 
-        (*env)->ReleasePrimitiveArrayCritical(env, jdata, dataP,
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jdbtb, dbtbP,
                                               JNI_ABORT);
 
-        (*env)->CallVoidMethod(env, jsm, g_SMSetPixelsMID,
+        (*env)->CbllVoidMethod(env, jsm, g_SMSetPixelsMID,
                                0, y, w,
-                               maxLines, jdata, jdatabuffer);
+                               mbxLines, jdbtb, jdbtbbuffer);
 
         if ((*env)->ExceptionOccurred(env)) {
-            (*env)->DeleteLocalRef(env, jdata);
+            (*env)->DeleteLocblRef(env, jdbtb);
             return -1;
         }
     }
 
-    (*env)->DeleteLocalRef(env, jdata);
+    (*env)->DeleteLocblRef(env, jdbtb);
 
     return 1;
 }

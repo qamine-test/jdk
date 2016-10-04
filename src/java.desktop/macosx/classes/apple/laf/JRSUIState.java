@@ -1,264 +1,264 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package apple.laf;
+pbckbge bpple.lbf;
 
-import apple.laf.JRSUIConstants.*;
+import bpple.lbf.JRSUIConstbnts.*;
 
-@SuppressWarnings("unchecked")
-public class JRSUIState {
-//    static HashSet<JRSUIState> states = new HashSet<JRSUIState>();
+@SuppressWbrnings("unchecked")
+public clbss JRSUIStbte {
+//    stbtic HbshSet<JRSUIStbte> stbtes = new HbshSet<JRSUIStbte>();
 
-    final long encodedState;
-    long derivedEncodedState;
+    finbl long encodedStbte;
+    long derivedEncodedStbte;
 
-    static JRSUIState prototype = new JRSUIState(0);
-    public static JRSUIState getInstance() {
+    stbtic JRSUIStbte prototype = new JRSUIStbte(0);
+    public stbtic JRSUIStbte getInstbnce() {
         return prototype.derive();
     }
 
-    JRSUIState(final Widget widget) {
-        this(widget.apply(0));
+    JRSUIStbte(finbl Widget widget) {
+        this(widget.bpply(0));
     }
 
-    JRSUIState(final long encodedState) {
-        this.encodedState = derivedEncodedState = encodedState;
+    JRSUIStbte(finbl long encodedStbte) {
+        this.encodedStbte = derivedEncodedStbte = encodedStbte;
     }
 
-    boolean isDerivationSame() {
-        return encodedState == derivedEncodedState;
+    boolebn isDerivbtionSbme() {
+        return encodedStbte == derivedEncodedStbte;
     }
 
-    public <T extends JRSUIState> T derive() {
-        if (isDerivationSame()) return (T)this;
-        final T derivation = (T)createDerivation();
+    public <T extends JRSUIStbte> T derive() {
+        if (isDerivbtionSbme()) return (T)this;
+        finbl T derivbtion = (T)crebteDerivbtion();
 
-//        if (!states.add(derivation)) {
-//            System.out.println("dupe: " + states.size());
+//        if (!stbtes.bdd(derivbtion)) {
+//            System.out.println("dupe: " + stbtes.size());
 //        }
 
-        return derivation;
+        return derivbtion;
     }
 
-    public <T extends JRSUIState> T createDerivation() {
-        return (T)new JRSUIState(derivedEncodedState);
+    public <T extends JRSUIStbte> T crebteDerivbtion() {
+        return (T)new JRSUIStbte(derivedEncodedStbte);
     }
 
     public void reset() {
-        derivedEncodedState = encodedState;
+        derivedEncodedStbte = encodedStbte;
     }
 
-    public void set(final Property property) {
-        derivedEncodedState = property.apply(derivedEncodedState);
+    public void set(finbl Property property) {
+        derivedEncodedStbte = property.bpply(derivedEncodedStbte);
     }
 
-    public void apply(final JRSUIControl control) {
-        control.setEncodedState(encodedState);
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (!(obj instanceof JRSUIState)) return false;
-        return encodedState == ((JRSUIState)obj).encodedState && getClass().equals(obj.getClass());
-    }
-
-    public boolean is(Property property) {
-        return (byte)((derivedEncodedState & property.encoding.mask) >> property.encoding.shift) == property.ordinal;
+    public void bpply(finbl JRSUIControl control) {
+        control.setEncodedStbte(encodedStbte);
     }
 
     @Override
-    public int hashCode() {
-        return (int)(encodedState ^ (encodedState >>> 32)) ^ getClass().hashCode();
+    public boolebn equbls(finbl Object obj) {
+        if (!(obj instbnceof JRSUIStbte)) return fblse;
+        return encodedStbte == ((JRSUIStbte)obj).encodedStbte && getClbss().equbls(obj.getClbss());
     }
 
-    public static class AnimationFrameState extends JRSUIState {
-        final int animationFrame;
-        int derivedAnimationFrame;
+    public boolebn is(Property property) {
+        return (byte)((derivedEncodedStbte & property.encoding.mbsk) >> property.encoding.shift) == property.ordinbl;
+    }
 
-        AnimationFrameState(final long encodedState, final int animationFrame) {
-            super(encodedState);
-            this.animationFrame = derivedAnimationFrame = animationFrame;
+    @Override
+    public int hbshCode() {
+        return (int)(encodedStbte ^ (encodedStbte >>> 32)) ^ getClbss().hbshCode();
+    }
+
+    public stbtic clbss AnimbtionFrbmeStbte extends JRSUIStbte {
+        finbl int bnimbtionFrbme;
+        int derivedAnimbtionFrbme;
+
+        AnimbtionFrbmeStbte(finbl long encodedStbte, finbl int bnimbtionFrbme) {
+            super(encodedStbte);
+            this.bnimbtionFrbme = derivedAnimbtionFrbme = bnimbtionFrbme;
         }
 
         @Override
-        boolean isDerivationSame() {
-            return super.isDerivationSame() && (animationFrame == derivedAnimationFrame);
+        boolebn isDerivbtionSbme() {
+            return super.isDerivbtionSbme() && (bnimbtionFrbme == derivedAnimbtionFrbme);
         }
 
         @Override
-        public <T extends JRSUIState> T createDerivation() {
-            return (T)new AnimationFrameState(derivedEncodedState, derivedAnimationFrame);
+        public <T extends JRSUIStbte> T crebteDerivbtion() {
+            return (T)new AnimbtionFrbmeStbte(derivedEncodedStbte, derivedAnimbtionFrbme);
         }
 
         @Override
         public void reset() {
             super.reset();
-            derivedAnimationFrame = animationFrame;
+            derivedAnimbtionFrbme = bnimbtionFrbme;
         }
 
-        public void setAnimationFrame(final int frame) {
-            this.derivedAnimationFrame = frame;
-        }
-
-        @Override
-        public void apply(final JRSUIControl control) {
-            super.apply(control);
-            control.set(Key.ANIMATION_FRAME, animationFrame);
+        public void setAnimbtionFrbme(finbl int frbme) {
+            this.derivedAnimbtionFrbme = frbme;
         }
 
         @Override
-        public boolean equals(final Object obj) {
-            if (!(obj instanceof AnimationFrameState)) return false;
-            return animationFrame == ((AnimationFrameState)obj).animationFrame && super.equals(obj);
+        public void bpply(finbl JRSUIControl control) {
+            super.bpply(control);
+            control.set(Key.ANIMATION_FRAME, bnimbtionFrbme);
         }
 
         @Override
-        public int hashCode() {
-            return super.hashCode() ^ animationFrame;
+        public boolebn equbls(finbl Object obj) {
+            if (!(obj instbnceof AnimbtionFrbmeStbte)) return fblse;
+            return bnimbtionFrbme == ((AnimbtionFrbmeStbte)obj).bnimbtionFrbme && super.equbls(obj);
+        }
+
+        @Override
+        public int hbshCode() {
+            return super.hbshCode() ^ bnimbtionFrbme;
         }
     }
 
-    public static class ValueState extends JRSUIState {
-        final double value;
-        double derivedValue;
+    public stbtic clbss VblueStbte extends JRSUIStbte {
+        finbl double vblue;
+        double derivedVblue;
 
-        ValueState(final long encodedState, final double value) {
-            super(encodedState);
-            this.value = derivedValue = value;
+        VblueStbte(finbl long encodedStbte, finbl double vblue) {
+            super(encodedStbte);
+            this.vblue = derivedVblue = vblue;
         }
 
         @Override
-        boolean isDerivationSame() {
-            return super.isDerivationSame() && (value == derivedValue);
+        boolebn isDerivbtionSbme() {
+            return super.isDerivbtionSbme() && (vblue == derivedVblue);
         }
 
         @Override
-        public <T extends JRSUIState> T createDerivation() {
-            return (T)new ValueState(derivedEncodedState, derivedValue);
+        public <T extends JRSUIStbte> T crebteDerivbtion() {
+            return (T)new VblueStbte(derivedEncodedStbte, derivedVblue);
         }
 
         @Override
         public void reset() {
             super.reset();
-            derivedValue = value;
+            derivedVblue = vblue;
         }
 
-        public void setValue(final double value) {
-            derivedValue = value;
-        }
-
-        @Override
-        public void apply(final JRSUIControl control) {
-            super.apply(control);
-            control.set(Key.VALUE, value);
+        public void setVblue(finbl double vblue) {
+            derivedVblue = vblue;
         }
 
         @Override
-        public boolean equals(final Object obj) {
-            if (!(obj instanceof ValueState)) return false;
-            return value == ((ValueState)obj).value && super.equals(obj);
+        public void bpply(finbl JRSUIControl control) {
+            super.bpply(control);
+            control.set(Key.VALUE, vblue);
         }
 
         @Override
-        public int hashCode() {
-            final long bits = Double.doubleToRawLongBits(value);
-            return super.hashCode() ^ (int)bits ^ (int)(bits >>> 32);
+        public boolebn equbls(finbl Object obj) {
+            if (!(obj instbnceof VblueStbte)) return fblse;
+            return vblue == ((VblueStbte)obj).vblue && super.equbls(obj);
+        }
+
+        @Override
+        public int hbshCode() {
+            finbl long bits = Double.doubleToRbwLongBits(vblue);
+            return super.hbshCode() ^ (int)bits ^ (int)(bits >>> 32);
         }
     }
 
-    public static class TitleBarHeightState extends ValueState {
-        TitleBarHeightState(final long encodedState, final double value) {
-            super(encodedState, value);
+    public stbtic clbss TitleBbrHeightStbte extends VblueStbte {
+        TitleBbrHeightStbte(finbl long encodedStbte, finbl double vblue) {
+            super(encodedStbte, vblue);
         }
 
         @Override
-        public <T extends JRSUIState> T createDerivation() {
-            return (T)new TitleBarHeightState(derivedEncodedState, derivedValue);
+        public <T extends JRSUIStbte> T crebteDerivbtion() {
+            return (T)new TitleBbrHeightStbte(derivedEncodedStbte, derivedVblue);
         }
 
         @Override
-        public void apply(final JRSUIControl control) {
-            super.apply(control);
-            control.set(Key.WINDOW_TITLE_BAR_HEIGHT, value);
+        public void bpply(finbl JRSUIControl control) {
+            super.bpply(control);
+            control.set(Key.WINDOW_TITLE_BAR_HEIGHT, vblue);
         }
     }
 
-    public static class ScrollBarState extends ValueState {
-        final double thumbProportion;
+    public stbtic clbss ScrollBbrStbte extends VblueStbte {
+        finbl double thumbProportion;
         double derivedThumbProportion;
-        final double thumbStart;
-        double derivedThumbStart;
+        finbl double thumbStbrt;
+        double derivedThumbStbrt;
 
-        ScrollBarState(final long encodedState, final double value, final double thumbProportion, final double thumbStart) {
-            super(encodedState, value);
+        ScrollBbrStbte(finbl long encodedStbte, finbl double vblue, finbl double thumbProportion, finbl double thumbStbrt) {
+            super(encodedStbte, vblue);
             this.thumbProportion = derivedThumbProportion = thumbProportion;
-            this.thumbStart = derivedThumbStart = thumbStart;
+            this.thumbStbrt = derivedThumbStbrt = thumbStbrt;
         }
 
         @Override
-        boolean isDerivationSame() {
-            return super.isDerivationSame() && (thumbProportion == derivedThumbProportion) && (thumbStart == derivedThumbStart);
+        boolebn isDerivbtionSbme() {
+            return super.isDerivbtionSbme() && (thumbProportion == derivedThumbProportion) && (thumbStbrt == derivedThumbStbrt);
         }
 
         @Override
-        public <T extends JRSUIState> T createDerivation() {
-            return (T)new ScrollBarState(derivedEncodedState, derivedValue, derivedThumbProportion, derivedThumbStart);
+        public <T extends JRSUIStbte> T crebteDerivbtion() {
+            return (T)new ScrollBbrStbte(derivedEncodedStbte, derivedVblue, derivedThumbProportion, derivedThumbStbrt);
         }
 
         @Override
         public void reset() {
             super.reset();
             derivedThumbProportion = thumbProportion;
-            derivedThumbStart = thumbStart;
+            derivedThumbStbrt = thumbStbrt;
         }
 
-        public void setThumbPercent(final double thumbPercent) {
+        public void setThumbPercent(finbl double thumbPercent) {
             derivedThumbProportion = thumbPercent;
         }
 
-        public void setThumbStart(final double thumbStart) {
-            derivedThumbStart = thumbStart;
+        public void setThumbStbrt(finbl double thumbStbrt) {
+            derivedThumbStbrt = thumbStbrt;
         }
 
         @Override
-        public void apply(final JRSUIControl control) {
-            super.apply(control);
+        public void bpply(finbl JRSUIControl control) {
+            super.bpply(control);
             control.set(Key.THUMB_PROPORTION, thumbProportion);
-            control.set(Key.THUMB_START, thumbStart);
+            control.set(Key.THUMB_START, thumbStbrt);
         }
 
         @Override
-        public boolean equals(final Object obj) {
-            if (!(obj instanceof ScrollBarState)) return false;
-            return (thumbProportion == ((ScrollBarState)obj).thumbProportion) && (thumbStart == ((ScrollBarState)obj).thumbStart) && super.equals(obj);
+        public boolebn equbls(finbl Object obj) {
+            if (!(obj instbnceof ScrollBbrStbte)) return fblse;
+            return (thumbProportion == ((ScrollBbrStbte)obj).thumbProportion) && (thumbStbrt == ((ScrollBbrStbte)obj).thumbStbrt) && super.equbls(obj);
         }
 
         @Override
-        public int hashCode() {
-            final long bits = Double.doubleToRawLongBits(thumbProportion) ^ Double.doubleToRawLongBits(thumbStart);
-            return super.hashCode() ^ (int)bits ^ (int)(bits >>> 32);
+        public int hbshCode() {
+            finbl long bits = Double.doubleToRbwLongBits(thumbProportion) ^ Double.doubleToRbwLongBits(thumbStbrt);
+            return super.hbshCode() ^ (int)bits ^ (int)(bits >>> 32);
         }
     }
 }

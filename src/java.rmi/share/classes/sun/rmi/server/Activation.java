@@ -1,258 +1,258 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.server;
+pbckbge sun.rmi.server;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.Serializable;
-import java.lang.Process;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.SocketException;
-import java.nio.file.Files;
-import java.nio.channels.Channel;
-import java.nio.channels.ServerSocketChannel;
-import java.rmi.AccessException;
-import java.rmi.AlreadyBoundException;
-import java.rmi.ConnectException;
-import java.rmi.ConnectIOException;
-import java.rmi.MarshalledObject;
-import java.rmi.NoSuchObjectException;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.activation.ActivationDesc;
-import java.rmi.activation.ActivationException;
-import java.rmi.activation.ActivationGroupDesc;
-import java.rmi.activation.ActivationGroup;
-import java.rmi.activation.ActivationGroupID;
-import java.rmi.activation.ActivationID;
-import java.rmi.activation.ActivationInstantiator;
-import java.rmi.activation.ActivationMonitor;
-import java.rmi.activation.ActivationSystem;
-import java.rmi.activation.Activator;
-import java.rmi.activation.UnknownGroupException;
-import java.rmi.activation.UnknownObjectException;
-import java.rmi.registry.Registry;
-import java.rmi.server.ObjID;
-import java.rmi.server.RMIClassLoader;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.RemoteObject;
-import java.rmi.server.RemoteServer;
-import java.rmi.server.UnicastRemoteObject;
-import java.security.AccessControlException;
-import java.security.AccessController;
-import java.security.AllPermission;
-import java.security.CodeSource;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.security.Permissions;
-import java.security.Policy;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.cert.Certificate;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import sun.rmi.log.LogHandler;
-import sun.rmi.log.ReliableLog;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.PrintStrebm;
+import jbvb.io.PrintWriter;
+import jbvb.io.Seriblizbble;
+import jbvb.lbng.Process;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
+import jbvb.net.InetAddress;
+import jbvb.net.ServerSocket;
+import jbvb.net.Socket;
+import jbvb.net.SocketAddress;
+import jbvb.net.SocketException;
+import jbvb.nio.file.Files;
+import jbvb.nio.chbnnels.Chbnnel;
+import jbvb.nio.chbnnels.ServerSocketChbnnel;
+import jbvb.rmi.AccessException;
+import jbvb.rmi.AlrebdyBoundException;
+import jbvb.rmi.ConnectException;
+import jbvb.rmi.ConnectIOException;
+import jbvb.rmi.MbrshblledObject;
+import jbvb.rmi.NoSuchObjectException;
+import jbvb.rmi.NotBoundException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.bctivbtion.ActivbtionDesc;
+import jbvb.rmi.bctivbtion.ActivbtionException;
+import jbvb.rmi.bctivbtion.ActivbtionGroupDesc;
+import jbvb.rmi.bctivbtion.ActivbtionGroup;
+import jbvb.rmi.bctivbtion.ActivbtionGroupID;
+import jbvb.rmi.bctivbtion.ActivbtionID;
+import jbvb.rmi.bctivbtion.ActivbtionInstbntibtor;
+import jbvb.rmi.bctivbtion.ActivbtionMonitor;
+import jbvb.rmi.bctivbtion.ActivbtionSystem;
+import jbvb.rmi.bctivbtion.Activbtor;
+import jbvb.rmi.bctivbtion.UnknownGroupException;
+import jbvb.rmi.bctivbtion.UnknownObjectException;
+import jbvb.rmi.registry.Registry;
+import jbvb.rmi.server.ObjID;
+import jbvb.rmi.server.RMIClbssLobder;
+import jbvb.rmi.server.RMIClientSocketFbctory;
+import jbvb.rmi.server.RMIServerSocketFbctory;
+import jbvb.rmi.server.RemoteObject;
+import jbvb.rmi.server.RemoteServer;
+import jbvb.rmi.server.UnicbstRemoteObject;
+import jbvb.security.AccessControlException;
+import jbvb.security.AccessController;
+import jbvb.security.AllPermission;
+import jbvb.security.CodeSource;
+import jbvb.security.Permission;
+import jbvb.security.PermissionCollection;
+import jbvb.security.Permissions;
+import jbvb.security.Policy;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.cert.Certificbte;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbte;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.MissingResourceException;
+import jbvb.util.Properties;
+import jbvb.util.ResourceBundle;
+import jbvb.util.Set;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import sun.rmi.log.LogHbndler;
+import sun.rmi.log.RelibbleLog;
 import sun.rmi.registry.RegistryImpl;
-import sun.rmi.runtime.NewThreadAction;
-import sun.rmi.server.UnicastServerRef;
-import sun.rmi.transport.LiveRef;
+import sun.rmi.runtime.NewThrebdAction;
+import sun.rmi.server.UnicbstServerRef;
+import sun.rmi.trbnsport.LiveRef;
 import sun.security.provider.PolicyFile;
 import com.sun.rmi.rmid.ExecPermission;
 import com.sun.rmi.rmid.ExecOptionPermission;
 
 /**
- * The Activator facilitates remote object activation. A "faulting"
- * remote reference calls the activator's <code>activate</code> method
- * to obtain a "live" reference to a activatable remote object. Upon
- * receiving a request for activation, the activator looks up the
- * activation descriptor for the activation identifier, id, determines
- * the group in which the object should be activated and invokes the
- * activate method on the object's activation group (described by the
- * remote interface <code>ActivationInstantiator</code>). The
- * activator initiates the execution of activation groups as
- * necessary. For example, if an activation group for a specific group
- * identifier is not already executing, the activator will spawn a
- * child process for the activation group. <p>
+ * The Activbtor fbcilitbtes remote object bctivbtion. A "fbulting"
+ * remote reference cblls the bctivbtor's <code>bctivbte</code> method
+ * to obtbin b "live" reference to b bctivbtbble remote object. Upon
+ * receiving b request for bctivbtion, the bctivbtor looks up the
+ * bctivbtion descriptor for the bctivbtion identifier, id, determines
+ * the group in which the object should be bctivbted bnd invokes the
+ * bctivbte method on the object's bctivbtion group (described by the
+ * remote interfbce <code>ActivbtionInstbntibtor</code>). The
+ * bctivbtor initibtes the execution of bctivbtion groups bs
+ * necessbry. For exbmple, if bn bctivbtion group for b specific group
+ * identifier is not blrebdy executing, the bctivbtor will spbwn b
+ * child process for the bctivbtion group. <p>
  *
- * The activator is responsible for monitoring and detecting when
- * activation groups fail so that it can remove stale remote references
- * from its internal tables. <p>
+ * The bctivbtor is responsible for monitoring bnd detecting when
+ * bctivbtion groups fbil so thbt it cbn remove stble remote references
+ * from its internbl tbbles. <p>
  *
- * @author      Ann Wollrath
+ * @buthor      Ann Wollrbth
  * @since       1.2
  */
-public class Activation implements Serializable {
+public clbss Activbtion implements Seriblizbble {
 
-    /** indicate compatibility with JDK 1.2 version of class */
-    private static final long serialVersionUID = 2921265612698155191L;
-    private static final byte MAJOR_VERSION = 1;
-    private static final byte MINOR_VERSION = 0;
+    /** indicbte compbtibility with JDK 1.2 version of clbss */
+    privbte stbtic finbl long seriblVersionUID = 2921265612698155191L;
+    privbte stbtic finbl byte MAJOR_VERSION = 1;
+    privbte stbtic finbl byte MINOR_VERSION = 0;
 
     /** exec policy object */
-    private static Object execPolicy;
-    private static Method execPolicyMethod;
-    private static boolean debugExec;
+    privbte stbtic Object execPolicy;
+    privbte stbtic Method execPolicyMethod;
+    privbte stbtic boolebn debugExec;
 
-    /** maps activation id to its respective group id */
-    private Map<ActivationID,ActivationGroupID> idTable =
-        new ConcurrentHashMap<>();
-    /** maps group id to its GroupEntry groups */
-    private Map<ActivationGroupID,GroupEntry> groupTable =
-        new ConcurrentHashMap<>();
+    /** mbps bctivbtion id to its respective group id */
+    privbte Mbp<ActivbtionID,ActivbtionGroupID> idTbble =
+        new ConcurrentHbshMbp<>();
+    /** mbps group id to its GroupEntry groups */
+    privbte Mbp<ActivbtionGroupID,GroupEntry> groupTbble =
+        new ConcurrentHbshMbp<>();
 
-    private byte majorVersion = MAJOR_VERSION;
-    private byte minorVersion = MINOR_VERSION;
+    privbte byte mbjorVersion = MAJOR_VERSION;
+    privbte byte minorVersion = MINOR_VERSION;
 
-    /** number of simultaneous group exec's */
-    private transient int groupSemaphore;
+    /** number of simultbneous group exec's */
+    privbte trbnsient int groupSembphore;
     /** counter for numbering groups */
-    private transient int groupCounter;
-    /** reliable log to hold descriptor table */
-    private transient ReliableLog log;
-    /** number of updates since last snapshot */
-    private transient int numUpdates;
+    privbte trbnsient int groupCounter;
+    /** relibble log to hold descriptor tbble */
+    privbte trbnsient RelibbleLog log;
+    /** number of updbtes since lbst snbpshot */
+    privbte trbnsient int numUpdbtes;
 
-    /** the java command */
-    // accessed by GroupEntry
-    private transient String[] command;
-    /** timeout on wait for child process to be created or destroyed */
-    private static final long groupTimeout =
-        getInt("sun.rmi.activation.groupTimeout", 60000);
-    /** take snapshot after this many updates */
-    private static final int snapshotInterval =
-        getInt("sun.rmi.activation.snapshotInterval", 200);
-    /** timeout on wait for child process to be created */
-    private static final long execTimeout =
-        getInt("sun.rmi.activation.execTimeout", 30000);
+    /** the jbvb commbnd */
+    // bccessed by GroupEntry
+    privbte trbnsient String[] commbnd;
+    /** timeout on wbit for child process to be crebted or destroyed */
+    privbte stbtic finbl long groupTimeout =
+        getInt("sun.rmi.bctivbtion.groupTimeout", 60000);
+    /** tbke snbpshot bfter this mbny updbtes */
+    privbte stbtic finbl int snbpshotIntervbl =
+        getInt("sun.rmi.bctivbtion.snbpshotIntervbl", 200);
+    /** timeout on wbit for child process to be crebted */
+    privbte stbtic finbl long execTimeout =
+        getInt("sun.rmi.bctivbtion.execTimeout", 30000);
 
-    private static final Object initLock = new Object();
-    private static boolean initDone = false;
+    privbte stbtic finbl Object initLock = new Object();
+    privbte stbtic boolebn initDone = fblse;
 
-    // this should be a *private* method since it is privileged
-    private static int getInt(String name, int def) {
+    // this should be b *privbte* method since it is privileged
+    privbte stbtic int getInt(String nbme, int def) {
         return AccessController.doPrivileged(
-                (PrivilegedAction<Integer>) () -> Integer.getInteger(name, def));
+                (PrivilegedAction<Integer>) () -> Integer.getInteger(nbme, def));
     }
 
-    private transient Activator activator;
-    private transient Activator activatorStub;
-    private transient ActivationSystem system;
-    private transient ActivationSystem systemStub;
-    private transient ActivationMonitor monitor;
-    private transient Registry registry;
-    private transient volatile boolean shuttingDown = false;
-    private transient volatile Object startupLock;
-    private transient Thread shutdownHook;
+    privbte trbnsient Activbtor bctivbtor;
+    privbte trbnsient Activbtor bctivbtorStub;
+    privbte trbnsient ActivbtionSystem system;
+    privbte trbnsient ActivbtionSystem systemStub;
+    privbte trbnsient ActivbtionMonitor monitor;
+    privbte trbnsient Registry registry;
+    privbte trbnsient volbtile boolebn shuttingDown = fblse;
+    privbte trbnsient volbtile Object stbrtupLock;
+    privbte trbnsient Threbd shutdownHook;
 
-    private static ResourceBundle resources = null;
-
-    /**
-     * Create an uninitialized instance of Activation that can be
-     * populated with log data.  This is only called when the initial
-     * snapshot is taken during the first incarnation of rmid.
-     */
-    private Activation() {}
+    privbte stbtic ResourceBundle resources = null;
 
     /**
-     * Recover activation state from the reliable log and initialize
-     * activation services.
+     * Crebte bn uninitiblized instbnce of Activbtion thbt cbn be
+     * populbted with log dbtb.  This is only cblled when the initibl
+     * snbpshot is tbken during the first incbrnbtion of rmid.
      */
-    private static void startActivation(int port,
-                                        RMIServerSocketFactory ssf,
-                                        String logName,
+    privbte Activbtion() {}
+
+    /**
+     * Recover bctivbtion stbte from the relibble log bnd initiblize
+     * bctivbtion services.
+     */
+    privbte stbtic void stbrtActivbtion(int port,
+                                        RMIServerSocketFbctory ssf,
+                                        String logNbme,
                                         String[] childArgs)
         throws Exception
     {
-        ReliableLog log = new ReliableLog(logName, new ActLogHandler());
-        Activation state = (Activation) log.recover();
-        state.init(port, ssf, log, childArgs);
+        RelibbleLog log = new RelibbleLog(logNbme, new ActLogHbndler());
+        Activbtion stbte = (Activbtion) log.recover();
+        stbte.init(port, ssf, log, childArgs);
     }
 
     /**
-     * Initialize the Activation instantiation; start activation
+     * Initiblize the Activbtion instbntibtion; stbrt bctivbtion
      * services.
      */
-    private void init(int port,
-                      RMIServerSocketFactory ssf,
-                      ReliableLog log,
+    privbte void init(int port,
+                      RMIServerSocketFbctory ssf,
+                      RelibbleLog log,
                       String[] childArgs)
         throws Exception
     {
-        // initialize
+        // initiblize
         this.log = log;
-        numUpdates = 0;
+        numUpdbtes = 0;
         shutdownHook =  new ShutdownHook();
-        groupSemaphore = getInt("sun.rmi.activation.groupThrottle", 3);
+        groupSembphore = getInt("sun.rmi.bctivbtion.groupThrottle", 3);
         groupCounter = 0;
-        Runtime.getRuntime().addShutdownHook(shutdownHook);
+        Runtime.getRuntime().bddShutdownHook(shutdownHook);
 
-        // Use array size of 0, since the value from calling size()
-        // may be out of date by the time toArray() is called.
-        ActivationGroupID[] gids =
-            groupTable.keySet().toArray(new ActivationGroupID[0]);
+        // Use brrby size of 0, since the vblue from cblling size()
+        // mby be out of dbte by the time toArrby() is cblled.
+        ActivbtionGroupID[] gids =
+            groupTbble.keySet().toArrby(new ActivbtionGroupID[0]);
 
-        synchronized (startupLock = new Object()) {
-            // all the remote methods briefly synchronize on startupLock
-            // (via checkShutdown) to make sure they don't happen in the
-            // middle of this block.  This block must not cause any such
-            // incoming remote calls to happen, or deadlock would result!
-            activator = new ActivatorImpl(port, ssf);
-            activatorStub = (Activator) RemoteObject.toStub(activator);
-            system = new ActivationSystemImpl(port, ssf);
-            systemStub = (ActivationSystem) RemoteObject.toStub(system);
-            monitor = new ActivationMonitorImpl(port, ssf);
-            initCommand(childArgs);
+        synchronized (stbrtupLock = new Object()) {
+            // bll the remote methods briefly synchronize on stbrtupLock
+            // (vib checkShutdown) to mbke sure they don't hbppen in the
+            // middle of this block.  This block must not cbuse bny such
+            // incoming remote cblls to hbppen, or debdlock would result!
+            bctivbtor = new ActivbtorImpl(port, ssf);
+            bctivbtorStub = (Activbtor) RemoteObject.toStub(bctivbtor);
+            system = new ActivbtionSystemImpl(port, ssf);
+            systemStub = (ActivbtionSystem) RemoteObject.toStub(system);
+            monitor = new ActivbtionMonitorImpl(port, ssf);
+            initCommbnd(childArgs);
             registry = new SystemRegistryImpl(port, null, ssf, systemStub);
 
             if (ssf != null) {
@@ -262,51 +262,51 @@ public class Activation implements Serializable {
                 }
             }
         }
-        startupLock = null;
+        stbrtupLock = null;
 
-        // restart services
+        // restbrt services
         for (int i = gids.length; --i >= 0; ) {
             try {
-                getGroupEntry(gids[i]).restartServices();
-            } catch (UnknownGroupException e) {
+                getGroupEntry(gids[i]).restbrtServices();
+            } cbtch (UnknownGroupException e) {
                 System.err.println(
-                    getTextResource("rmid.restart.group.warning"));
-                e.printStackTrace();
+                    getTextResource("rmid.restbrt.group.wbrning"));
+                e.printStbckTrbce();
             }
         }
     }
 
     /**
-     * Previous versions used HashMap instead of ConcurrentHashMap.
-     * Replace any HashMaps found during deserialization with
-     * ConcurrentHashMaps.
+     * Previous versions used HbshMbp instebd of ConcurrentHbshMbp.
+     * Replbce bny HbshMbps found during deseriblizbtion with
+     * ConcurrentHbshMbps.
      */
-    private void readObject(ObjectInputStream ois)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm ois)
+        throws IOException, ClbssNotFoundException
     {
-        ois.defaultReadObject();
-        if (! (groupTable instanceof ConcurrentHashMap)) {
-            groupTable = new ConcurrentHashMap<>(groupTable);
+        ois.defbultRebdObject();
+        if (! (groupTbble instbnceof ConcurrentHbshMbp)) {
+            groupTbble = new ConcurrentHbshMbp<>(groupTbble);
         }
-        if (! (idTable instanceof ConcurrentHashMap)) {
-            idTable = new ConcurrentHashMap<>(idTable);
+        if (! (idTbble instbnceof ConcurrentHbshMbp)) {
+            idTbble = new ConcurrentHbshMbp<>(idTbble);
         }
     }
 
-    private static class SystemRegistryImpl extends RegistryImpl {
+    privbte stbtic clbss SystemRegistryImpl extends RegistryImpl {
 
-        private static final String NAME = ActivationSystem.class.getName();
-        private static final long serialVersionUID = 4877330021609408794L;
-        private ActivationSystem systemStub = null;
+        privbte stbtic finbl String NAME = ActivbtionSystem.clbss.getNbme();
+        privbte stbtic finbl long seriblVersionUID = 4877330021609408794L;
+        privbte ActivbtionSystem systemStub = null;
 
         SystemRegistryImpl(int port,
-                           RMIClientSocketFactory csf,
-                           RMIServerSocketFactory ssf,
-                           ActivationSystem systemStub)
+                           RMIClientSocketFbctory csf,
+                           RMIServerSocketFbctory ssf,
+                           ActivbtionSystem systemStub)
             throws RemoteException
         {
             super(port, csf, ssf);
-            assert systemStub != null;
+            bssert systemStub != null;
             synchronized (this) {
                 this.systemStub = systemStub;
                 notifyAll();
@@ -314,46 +314,46 @@ public class Activation implements Serializable {
         }
 
         /**
-         * Waits for systemStub to be initialized and returns its
-         * initialized value. Any remote call that uses systemStub must
-         * call this method to get it instead of using direct field
-         * access. This is necessary because the super() call in the
-         * constructor exports this object before systemStub is initialized
-         * (see JDK-8023541), allowing remote calls to come in during this
-         * time. We can't use checkShutdown() like other nested classes
-         * because this is a static class.
+         * Wbits for systemStub to be initiblized bnd returns its
+         * initiblized vblue. Any remote cbll thbt uses systemStub must
+         * cbll this method to get it instebd of using direct field
+         * bccess. This is necessbry becbuse the super() cbll in the
+         * constructor exports this object before systemStub is initiblized
+         * (see JDK-8023541), bllowing remote cblls to come in during this
+         * time. We cbn't use checkShutdown() like other nested clbsses
+         * becbuse this is b stbtic clbss.
          */
-        private synchronized ActivationSystem getSystemStub() {
-            boolean interrupted = false;
+        privbte synchronized ActivbtionSystem getSystemStub() {
+            boolebn interrupted = fblse;
 
             while (systemStub == null) {
                 try {
-                    wait();
-                } catch (InterruptedException ie) {
+                    wbit();
+                } cbtch (InterruptedException ie) {
                     interrupted = true;
                 }
             }
 
             if (interrupted) {
-                Thread.currentThread().interrupt();
+                Threbd.currentThrebd().interrupt();
             }
 
             return systemStub;
         }
 
         /**
-         * Returns the activation system stub if the specified name
-         * matches the activation system's class name, otherwise
+         * Returns the bctivbtion system stub if the specified nbme
+         * mbtches the bctivbtion system's clbss nbme, otherwise
          * returns the result of invoking super.lookup with the specified
-         * name.
+         * nbme.
          */
-        public Remote lookup(String name)
+        public Remote lookup(String nbme)
             throws RemoteException, NotBoundException
         {
-            if (name.equals(NAME)) {
+            if (nbme.equbls(NAME)) {
                 return getSystemStub();
             } else {
-                return super.lookup(name);
+                return super.lookup(nbme);
             }
         }
 
@@ -362,284 +362,284 @@ public class Activation implements Serializable {
             int length = list1.length;
             String[] list2 = new String[length + 1];
             if (length > 0) {
-                System.arraycopy(list1, 0, list2, 0, length);
+                System.brrbycopy(list1, 0, list2, 0, length);
             }
             list2[length] = NAME;
             return list2;
         }
 
-        public void bind(String name, Remote obj)
-            throws RemoteException, AlreadyBoundException, AccessException
+        public void bind(String nbme, Remote obj)
+            throws RemoteException, AlrebdyBoundException, AccessException
         {
-            if (name.equals(NAME)) {
+            if (nbme.equbls(NAME)) {
                 throw new AccessException(
-                    "binding ActivationSystem is disallowed");
+                    "binding ActivbtionSystem is disbllowed");
             } else {
-                super.bind(name, obj);
+                super.bind(nbme, obj);
             }
         }
 
-        public void unbind(String name)
+        public void unbind(String nbme)
             throws RemoteException, NotBoundException, AccessException
         {
-            if (name.equals(NAME)) {
+            if (nbme.equbls(NAME)) {
                 throw new AccessException(
-                    "unbinding ActivationSystem is disallowed");
+                    "unbinding ActivbtionSystem is disbllowed");
             } else {
-                super.unbind(name);
+                super.unbind(nbme);
             }
         }
 
 
-        public void rebind(String name, Remote obj)
+        public void rebind(String nbme, Remote obj)
             throws RemoteException, AccessException
         {
-            if (name.equals(NAME)) {
+            if (nbme.equbls(NAME)) {
                 throw new AccessException(
-                    "binding ActivationSystem is disallowed");
+                    "binding ActivbtionSystem is disbllowed");
             } else {
-                super.rebind(name, obj);
+                super.rebind(nbme, obj);
             }
         }
     }
 
 
-    class ActivatorImpl extends RemoteServer implements Activator {
-        // Because ActivatorImpl has a fixed ObjID, it can be
-        // called by clients holding stale remote references.  Each of
-        // its remote methods, then, must check startupLock (calling
-        // checkShutdown() is easiest).
+    clbss ActivbtorImpl extends RemoteServer implements Activbtor {
+        // Becbuse ActivbtorImpl hbs b fixed ObjID, it cbn be
+        // cblled by clients holding stble remote references.  Ebch of
+        // its remote methods, then, must check stbrtupLock (cblling
+        // checkShutdown() is ebsiest).
 
-        private static final long serialVersionUID = -3654244726254566136L;
+        privbte stbtic finbl long seriblVersionUID = -3654244726254566136L;
 
         /**
-         * Construct a new Activator on a specified port.
+         * Construct b new Activbtor on b specified port.
          */
-        ActivatorImpl(int port, RMIServerSocketFactory ssf)
+        ActivbtorImpl(int port, RMIServerSocketFbctory ssf)
             throws RemoteException
         {
-            /* Server ref must be created and assigned before remote object
-             * 'this' can be exported.
+            /* Server ref must be crebted bnd bssigned before remote object
+             * 'this' cbn be exported.
              */
             LiveRef lref =
                 new LiveRef(new ObjID(ObjID.ACTIVATOR_ID), port, null, ssf);
-            UnicastServerRef uref = new UnicastServerRef(lref);
+            UnicbstServerRef uref = new UnicbstServerRef(lref);
             ref = uref;
-            uref.exportObject(this, null, false);
+            uref.exportObject(this, null, fblse);
         }
 
-        public MarshalledObject<? extends Remote> activate(ActivationID id,
-                                                           boolean force)
-            throws ActivationException, UnknownObjectException, RemoteException
+        public MbrshblledObject<? extends Remote> bctivbte(ActivbtionID id,
+                                                           boolebn force)
+            throws ActivbtionException, UnknownObjectException, RemoteException
         {
             checkShutdown();
-            return getGroupEntry(id).activate(id, force);
+            return getGroupEntry(id).bctivbte(id, force);
         }
     }
 
-    class ActivationMonitorImpl extends UnicastRemoteObject
-        implements ActivationMonitor
+    clbss ActivbtionMonitorImpl extends UnicbstRemoteObject
+        implements ActivbtionMonitor
     {
-        private static final long serialVersionUID = -6214940464757948867L;
+        privbte stbtic finbl long seriblVersionUID = -6214940464757948867L;
 
-        ActivationMonitorImpl(int port, RMIServerSocketFactory ssf)
+        ActivbtionMonitorImpl(int port, RMIServerSocketFbctory ssf)
             throws RemoteException
         {
             super(port, null, ssf);
         }
 
-        public void inactiveObject(ActivationID id)
+        public void inbctiveObject(ActivbtionID id)
             throws UnknownObjectException, RemoteException
         {
             try {
                 checkShutdown();
-            } catch (ActivationException e) {
+            } cbtch (ActivbtionException e) {
                 return;
             }
-            RegistryImpl.checkAccess("Activator.inactiveObject");
-            getGroupEntry(id).inactiveObject(id);
+            RegistryImpl.checkAccess("Activbtor.inbctiveObject");
+            getGroupEntry(id).inbctiveObject(id);
         }
 
-        public void activeObject(ActivationID id,
-                                 MarshalledObject<? extends Remote> mobj)
+        public void bctiveObject(ActivbtionID id,
+                                 MbrshblledObject<? extends Remote> mobj)
             throws UnknownObjectException, RemoteException
         {
             try {
                 checkShutdown();
-            } catch (ActivationException e) {
+            } cbtch (ActivbtionException e) {
                 return;
             }
-            RegistryImpl.checkAccess("ActivationSystem.activeObject");
-            getGroupEntry(id).activeObject(id, mobj);
+            RegistryImpl.checkAccess("ActivbtionSystem.bctiveObject");
+            getGroupEntry(id).bctiveObject(id, mobj);
         }
 
-        public void inactiveGroup(ActivationGroupID id,
-                                  long incarnation)
+        public void inbctiveGroup(ActivbtionGroupID id,
+                                  long incbrnbtion)
             throws UnknownGroupException, RemoteException
         {
             try {
                 checkShutdown();
-            } catch (ActivationException e) {
+            } cbtch (ActivbtionException e) {
                 return;
             }
-            RegistryImpl.checkAccess("ActivationMonitor.inactiveGroup");
-            getGroupEntry(id).inactiveGroup(incarnation, false);
+            RegistryImpl.checkAccess("ActivbtionMonitor.inbctiveGroup");
+            getGroupEntry(id).inbctiveGroup(incbrnbtion, fblse);
         }
     }
 
 
-    class ActivationSystemImpl
+    clbss ActivbtionSystemImpl
         extends RemoteServer
-        implements ActivationSystem
+        implements ActivbtionSystem
     {
-        private static final long serialVersionUID = 9100152600327688967L;
+        privbte stbtic finbl long seriblVersionUID = 9100152600327688967L;
 
-        // Because ActivationSystemImpl has a fixed ObjID, it can be
-        // called by clients holding stale remote references.  Each of
-        // its remote methods, then, must check startupLock (calling
-        // checkShutdown() is easiest).
-        ActivationSystemImpl(int port, RMIServerSocketFactory ssf)
+        // Becbuse ActivbtionSystemImpl hbs b fixed ObjID, it cbn be
+        // cblled by clients holding stble remote references.  Ebch of
+        // its remote methods, then, must check stbrtupLock (cblling
+        // checkShutdown() is ebsiest).
+        ActivbtionSystemImpl(int port, RMIServerSocketFbctory ssf)
             throws RemoteException
         {
-            /* Server ref must be created and assigned before remote object
-             * 'this' can be exported.
+            /* Server ref must be crebted bnd bssigned before remote object
+             * 'this' cbn be exported.
              */
             LiveRef lref = new LiveRef(new ObjID(4), port, null, ssf);
-            UnicastServerRef uref = new UnicastServerRef(lref);
+            UnicbstServerRef uref = new UnicbstServerRef(lref);
             ref = uref;
             uref.exportObject(this, null);
         }
 
-        public ActivationID registerObject(ActivationDesc desc)
-            throws ActivationException, UnknownGroupException, RemoteException
+        public ActivbtionID registerObject(ActivbtionDesc desc)
+            throws ActivbtionException, UnknownGroupException, RemoteException
         {
             checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.registerObject");
+            RegistryImpl.checkAccess("ActivbtionSystem.registerObject");
 
-            ActivationGroupID groupID = desc.getGroupID();
-            ActivationID id = new ActivationID(activatorStub);
+            ActivbtionGroupID groupID = desc.getGroupID();
+            ActivbtionID id = new ActivbtionID(bctivbtorStub);
             getGroupEntry(groupID).registerObject(id, desc, true);
             return id;
         }
 
-        public void unregisterObject(ActivationID id)
-            throws ActivationException, UnknownObjectException, RemoteException
+        public void unregisterObject(ActivbtionID id)
+            throws ActivbtionException, UnknownObjectException, RemoteException
         {
             checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.unregisterObject");
+            RegistryImpl.checkAccess("ActivbtionSystem.unregisterObject");
             getGroupEntry(id).unregisterObject(id, true);
         }
 
-        public ActivationGroupID registerGroup(ActivationGroupDesc desc)
-            throws ActivationException, RemoteException
+        public ActivbtionGroupID registerGroup(ActivbtionGroupDesc desc)
+            throws ActivbtionException, RemoteException
         {
             checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.registerGroup");
+            RegistryImpl.checkAccess("ActivbtionSystem.registerGroup");
             checkArgs(desc, null);
 
-            ActivationGroupID id = new ActivationGroupID(systemStub);
+            ActivbtionGroupID id = new ActivbtionGroupID(systemStub);
             GroupEntry entry = new GroupEntry(id, desc);
-            // table insertion must take place before log update
-            groupTable.put(id, entry);
-            addLogRecord(new LogRegisterGroup(id, desc));
+            // tbble insertion must tbke plbce before log updbte
+            groupTbble.put(id, entry);
+            bddLogRecord(new LogRegisterGroup(id, desc));
             return id;
         }
 
-        public ActivationMonitor activeGroup(ActivationGroupID id,
-                                             ActivationInstantiator group,
-                                             long incarnation)
-            throws ActivationException, UnknownGroupException, RemoteException
+        public ActivbtionMonitor bctiveGroup(ActivbtionGroupID id,
+                                             ActivbtionInstbntibtor group,
+                                             long incbrnbtion)
+            throws ActivbtionException, UnknownGroupException, RemoteException
         {
             checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.activeGroup");
+            RegistryImpl.checkAccess("ActivbtionSystem.bctiveGroup");
 
-            getGroupEntry(id).activeGroup(group, incarnation);
+            getGroupEntry(id).bctiveGroup(group, incbrnbtion);
             return monitor;
         }
 
-        public void unregisterGroup(ActivationGroupID id)
-            throws ActivationException, UnknownGroupException, RemoteException
+        public void unregisterGroup(ActivbtionGroupID id)
+            throws ActivbtionException, UnknownGroupException, RemoteException
         {
             checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.unregisterGroup");
+            RegistryImpl.checkAccess("ActivbtionSystem.unregisterGroup");
 
-            // remove entry before unregister so state is updated before
+            // remove entry before unregister so stbte is updbted before
             // logged
             removeGroupEntry(id).unregisterGroup(true);
         }
 
-        public ActivationDesc setActivationDesc(ActivationID id,
-                                                ActivationDesc desc)
-            throws ActivationException, UnknownObjectException, RemoteException
+        public ActivbtionDesc setActivbtionDesc(ActivbtionID id,
+                                                ActivbtionDesc desc)
+            throws ActivbtionException, UnknownObjectException, RemoteException
         {
             checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.setActivationDesc");
+            RegistryImpl.checkAccess("ActivbtionSystem.setActivbtionDesc");
 
-            if (!getGroupID(id).equals(desc.getGroupID())) {
-                throw new ActivationException(
-                    "ActivationDesc contains wrong group");
+            if (!getGroupID(id).equbls(desc.getGroupID())) {
+                throw new ActivbtionException(
+                    "ActivbtionDesc contbins wrong group");
             }
-            return getGroupEntry(id).setActivationDesc(id, desc, true);
+            return getGroupEntry(id).setActivbtionDesc(id, desc, true);
         }
 
-        public ActivationGroupDesc setActivationGroupDesc(ActivationGroupID id,
-                                                          ActivationGroupDesc desc)
-            throws ActivationException, UnknownGroupException, RemoteException
+        public ActivbtionGroupDesc setActivbtionGroupDesc(ActivbtionGroupID id,
+                                                          ActivbtionGroupDesc desc)
+            throws ActivbtionException, UnknownGroupException, RemoteException
         {
             checkShutdown();
             RegistryImpl.checkAccess(
-                "ActivationSystem.setActivationGroupDesc");
+                "ActivbtionSystem.setActivbtionGroupDesc");
 
             checkArgs(desc, null);
-            return getGroupEntry(id).setActivationGroupDesc(id, desc, true);
+            return getGroupEntry(id).setActivbtionGroupDesc(id, desc, true);
         }
 
-        public ActivationDesc getActivationDesc(ActivationID id)
-            throws ActivationException, UnknownObjectException, RemoteException
+        public ActivbtionDesc getActivbtionDesc(ActivbtionID id)
+            throws ActivbtionException, UnknownObjectException, RemoteException
         {
             checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.getActivationDesc");
+            RegistryImpl.checkAccess("ActivbtionSystem.getActivbtionDesc");
 
-            return getGroupEntry(id).getActivationDesc(id);
+            return getGroupEntry(id).getActivbtionDesc(id);
         }
 
-        public ActivationGroupDesc getActivationGroupDesc(ActivationGroupID id)
-            throws ActivationException, UnknownGroupException, RemoteException
+        public ActivbtionGroupDesc getActivbtionGroupDesc(ActivbtionGroupID id)
+            throws ActivbtionException, UnknownGroupException, RemoteException
         {
             checkShutdown();
             RegistryImpl.checkAccess
-                ("ActivationSystem.getActivationGroupDesc");
+                ("ActivbtionSystem.getActivbtionGroupDesc");
 
             return getGroupEntry(id).desc;
         }
 
         /**
-         * Shutdown the activation system. Destroys all groups spawned by
-         * the activation daemon and exits the activation daemon.
+         * Shutdown the bctivbtion system. Destroys bll groups spbwned by
+         * the bctivbtion dbemon bnd exits the bctivbtion dbemon.
          */
         public void shutdown() throws AccessException {
-            RegistryImpl.checkAccess("ActivationSystem.shutdown");
+            RegistryImpl.checkAccess("ActivbtionSystem.shutdown");
 
-            Object lock = startupLock;
+            Object lock = stbrtupLock;
             if (lock != null) {
                 synchronized (lock) {
                     // nothing
                 }
             }
 
-            synchronized (Activation.this) {
+            synchronized (Activbtion.this) {
                 if (!shuttingDown) {
                     shuttingDown = true;
-                    (new Shutdown()).start();
+                    (new Shutdown()).stbrt();
                 }
             }
         }
     }
 
-    private void checkShutdown() throws ActivationException {
-        // if the startup critical section is running, wait until it
-        // completes/fails before continuing with the remote call.
-        Object lock = startupLock;
+    privbte void checkShutdown() throws ActivbtionException {
+        // if the stbrtup criticbl section is running, wbit until it
+        // completes/fbils before continuing with the remote cbll.
+        Object lock = stbrtupLock;
         if (lock != null) {
             synchronized (lock) {
                 // nothing
@@ -647,29 +647,29 @@ public class Activation implements Serializable {
         }
 
         if (shuttingDown == true) {
-            throw new ActivationException(
-                "activation system shutting down");
+            throw new ActivbtionException(
+                "bctivbtion system shutting down");
         }
     }
 
-    private static void unexport(Remote obj) {
+    privbte stbtic void unexport(Remote obj) {
         for (;;) {
             try {
-                if (UnicastRemoteObject.unexportObject(obj, false) == true) {
-                    break;
+                if (UnicbstRemoteObject.unexportObject(obj, fblse) == true) {
+                    brebk;
                 } else {
-                    Thread.sleep(100);
+                    Threbd.sleep(100);
                 }
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 continue;
             }
         }
     }
 
     /**
-     * Thread to shutdown rmid.
+     * Threbd to shutdown rmid.
      */
-    private class Shutdown extends Thread {
+    privbte clbss Shutdown extends Threbd {
         Shutdown() {
             super("rmid Shutdown");
         }
@@ -677,77 +677,77 @@ public class Activation implements Serializable {
         public void run() {
             try {
                 /*
-                 * Unexport activation system services
+                 * Unexport bctivbtion system services
                  */
-                unexport(activator);
+                unexport(bctivbtor);
                 unexport(system);
 
-                // destroy all child processes (groups)
-                for (GroupEntry groupEntry : groupTable.values()) {
+                // destroy bll child processes (groups)
+                for (GroupEntry groupEntry : groupTbble.vblues()) {
                     groupEntry.shutdown();
                 }
 
                 Runtime.getRuntime().removeShutdownHook(shutdownHook);
 
                 /*
-                 * Unexport monitor safely since all processes are destroyed.
+                 * Unexport monitor sbfely since bll processes bre destroyed.
                  */
                 unexport(monitor);
 
                 /*
-                 * Close log file, fix for 4243264: rmid shutdown thread
-                 * interferes with remote calls in progress.  Make sure
+                 * Close log file, fix for 4243264: rmid shutdown threbd
+                 * interferes with remote cblls in progress.  Mbke sure
                  * the log file is only closed when it is impossible for
-                 * its closure to interfere with any pending remote calls.
-                 * We close the log when all objects in the rmid VM are
+                 * its closure to interfere with bny pending remote cblls.
+                 * We close the log when bll objects in the rmid VM bre
                  * unexported.
                  */
                 try {
                     synchronized (log) {
                         log.close();
                     }
-                } catch (IOException e) {
+                } cbtch (IOException e) {
                 }
 
-            } finally {
+            } finblly {
                 /*
                  * Now exit... A System.exit should only be done if
-                 * the RMI activation system daemon was started up
-                 * by the main method below (in which should always
-                 * be the case since the Activation constructor is private).
+                 * the RMI bctivbtion system dbemon wbs stbrted up
+                 * by the mbin method below (in which should blwbys
+                 * be the cbse since the Activbtion constructor is privbte).
                  */
-                System.err.println(getTextResource("rmid.daemon.shutdown"));
+                System.err.println(getTextResource("rmid.dbemon.shutdown"));
                 System.exit(0);
             }
         }
     }
 
-    /** Thread to destroy children in the event of abnormal termination. */
-    private class ShutdownHook extends Thread {
+    /** Threbd to destroy children in the event of bbnormbl terminbtion. */
+    privbte clbss ShutdownHook extends Threbd {
         ShutdownHook() {
             super("rmid ShutdownHook");
         }
 
         public void run() {
-            synchronized (Activation.this) {
+            synchronized (Activbtion.this) {
                 shuttingDown = true;
             }
 
-            // destroy all child processes (groups) quickly
-            for (GroupEntry groupEntry : groupTable.values()) {
-                groupEntry.shutdownFast();
+            // destroy bll child processes (groups) quickly
+            for (GroupEntry groupEntry : groupTbble.vblues()) {
+                groupEntry.shutdownFbst();
             }
         }
     }
 
     /**
-     * Returns the groupID for a given id of an object in the group.
+     * Returns the groupID for b given id of bn object in the group.
      * Throws UnknownObjectException if the object is not registered.
      */
-    private ActivationGroupID getGroupID(ActivationID id)
+    privbte ActivbtionGroupID getGroupID(ActivbtionID id)
         throws UnknownObjectException
     {
-        ActivationGroupID groupID = idTable.get(id);
+        ActivbtionGroupID groupID = idTbble.get(id);
         if (groupID != null) {
             return groupID;
         }
@@ -755,18 +755,18 @@ public class Activation implements Serializable {
     }
 
     /**
-     * Returns the group entry for the group id, optionally removing it.
+     * Returns the group entry for the group id, optionblly removing it.
      * Throws UnknownGroupException if the group is not registered.
      */
-    private GroupEntry getGroupEntry(ActivationGroupID id, boolean rm)
+    privbte GroupEntry getGroupEntry(ActivbtionGroupID id, boolebn rm)
         throws UnknownGroupException
     {
-        if (id.getClass() == ActivationGroupID.class) {
+        if (id.getClbss() == ActivbtionGroupID.clbss) {
             GroupEntry entry;
             if (rm) {
-                entry = groupTable.remove(id);
+                entry = groupTbble.remove(id);
             } else {
-                entry = groupTable.get(id);
+                entry = groupTbble.get(id);
             }
             if (entry != null && !entry.removed) {
                 return entry;
@@ -779,17 +779,17 @@ public class Activation implements Serializable {
      * Returns the group entry for the group id. Throws
      * UnknownGroupException if the group is not registered.
      */
-    private GroupEntry getGroupEntry(ActivationGroupID id)
+    privbte GroupEntry getGroupEntry(ActivbtionGroupID id)
         throws UnknownGroupException
     {
-        return getGroupEntry(id, false);
+        return getGroupEntry(id, fblse);
     }
 
     /**
-     * Removes and returns the group entry for the group id. Throws
+     * Removes bnd returns the group entry for the group id. Throws
      * UnknownGroupException if the group is not registered.
      */
-    private GroupEntry removeGroupEntry(ActivationGroupID id)
+    privbte GroupEntry removeGroupEntry(ActivbtionGroupID id)
         throws UnknownGroupException
     {
         return getGroupEntry(id, true);
@@ -800,11 +800,11 @@ public class Activation implements Serializable {
      * UnknownObjectException if the object is not registered or the
      * object's group is not registered.
      */
-    private GroupEntry getGroupEntry(ActivationID id)
+    privbte GroupEntry getGroupEntry(ActivbtionID id)
         throws UnknownObjectException
     {
-        ActivationGroupID gid = getGroupID(id);
-        GroupEntry entry = groupTable.get(gid);
+        ActivbtionGroupID gid = getGroupID(id);
+        GroupEntry entry = groupTbble.get(gid);
         if (entry != null && !entry.removed) {
             return entry;
         }
@@ -812,109 +812,109 @@ public class Activation implements Serializable {
     }
 
     /**
-     * Container for group information: group's descriptor, group's
-     * instantiator, flag to indicate pending group creation, and
-     * table of the objects that are activated in the group.
+     * Contbiner for group informbtion: group's descriptor, group's
+     * instbntibtor, flbg to indicbte pending group crebtion, bnd
+     * tbble of the objects thbt bre bctivbted in the group.
      *
      * WARNING: GroupEntry objects should not be written into log file
-     * updates.  GroupEntrys are inner classes of Activation and they
-     * can not be serialized independent of this class.  If the
-     * complete Activation system is written out as a log update, the
-     * point of having updates is nullified.
+     * updbtes.  GroupEntrys bre inner clbsses of Activbtion bnd they
+     * cbn not be seriblized independent of this clbss.  If the
+     * complete Activbtion system is written out bs b log updbte, the
+     * point of hbving updbtes is nullified.
      */
-    private class GroupEntry implements Serializable {
+    privbte clbss GroupEntry implements Seriblizbble {
 
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = 7222464070032993304L;
-        private static final int MAX_TRIES = 2;
-        private static final int NORMAL = 0;
-        private static final int CREATING = 1;
-        private static final int TERMINATE = 2;
-        private static final int TERMINATING = 3;
+        /** indicbte compbtibility with JDK 1.2 version of clbss */
+        privbte stbtic finbl long seriblVersionUID = 7222464070032993304L;
+        privbte stbtic finbl int MAX_TRIES = 2;
+        privbte stbtic finbl int NORMAL = 0;
+        privbte stbtic finbl int CREATING = 1;
+        privbte stbtic finbl int TERMINATE = 2;
+        privbte stbtic finbl int TERMINATING = 3;
 
-        ActivationGroupDesc desc = null;
-        ActivationGroupID groupID = null;
-        long incarnation = 0;
-        Map<ActivationID,ObjectEntry> objects = new HashMap<>();
-        Set<ActivationID> restartSet = new HashSet<>();
+        ActivbtionGroupDesc desc = null;
+        ActivbtionGroupID groupID = null;
+        long incbrnbtion = 0;
+        Mbp<ActivbtionID,ObjectEntry> objects = new HbshMbp<>();
+        Set<ActivbtionID> restbrtSet = new HbshSet<>();
 
-        transient ActivationInstantiator group = null;
-        transient int status = NORMAL;
-        transient long waitTime = 0;
-        transient String groupName = null;
-        transient Process child = null;
-        transient boolean removed = false;
-        transient Watchdog watchdog = null;
+        trbnsient ActivbtionInstbntibtor group = null;
+        trbnsient int stbtus = NORMAL;
+        trbnsient long wbitTime = 0;
+        trbnsient String groupNbme = null;
+        trbnsient Process child = null;
+        trbnsient boolebn removed = fblse;
+        trbnsient Wbtchdog wbtchdog = null;
 
-        GroupEntry(ActivationGroupID groupID, ActivationGroupDesc desc) {
+        GroupEntry(ActivbtionGroupID groupID, ActivbtionGroupDesc desc) {
             this.groupID = groupID;
             this.desc = desc;
         }
 
-        void restartServices() {
-            Iterator<ActivationID> iter = null;
+        void restbrtServices() {
+            Iterbtor<ActivbtionID> iter = null;
 
             synchronized (this) {
-                if (restartSet.isEmpty()) {
+                if (restbrtSet.isEmpty()) {
                     return;
                 }
 
                 /*
-                 * Clone the restartSet so the set does not have to be locked
-                 * during iteration. Locking the restartSet could cause
-                 * deadlock if an object we are restarting caused another
-                 * object in this group to be activated.
+                 * Clone the restbrtSet so the set does not hbve to be locked
+                 * during iterbtion. Locking the restbrtSet could cbuse
+                 * debdlock if bn object we bre restbrting cbused bnother
+                 * object in this group to be bctivbted.
                  */
-                iter = (new HashSet<ActivationID>(restartSet)).iterator();
+                iter = (new HbshSet<ActivbtionID>(restbrtSet)).iterbtor();
             }
 
-            while (iter.hasNext()) {
-                ActivationID id = iter.next();
+            while (iter.hbsNext()) {
+                ActivbtionID id = iter.next();
                 try {
-                    activate(id, true);
-                } catch (Exception e) {
+                    bctivbte(id, true);
+                } cbtch (Exception e) {
                     if (shuttingDown) {
                         return;
                     }
                     System.err.println(
-                        getTextResource("rmid.restart.service.warning"));
-                    e.printStackTrace();
+                        getTextResource("rmid.restbrt.service.wbrning"));
+                    e.printStbckTrbce();
                 }
             }
         }
 
-        synchronized void activeGroup(ActivationInstantiator inst,
-                                      long instIncarnation)
-            throws ActivationException, UnknownGroupException
+        synchronized void bctiveGroup(ActivbtionInstbntibtor inst,
+                                      long instIncbrnbtion)
+            throws ActivbtionException, UnknownGroupException
         {
-            if (incarnation != instIncarnation) {
-                throw new ActivationException("invalid incarnation");
+            if (incbrnbtion != instIncbrnbtion) {
+                throw new ActivbtionException("invblid incbrnbtion");
             }
 
             if (group != null) {
-                if (group.equals(inst)) {
+                if (group.equbls(inst)) {
                     return;
                 } else {
-                    throw new ActivationException("group already active");
+                    throw new ActivbtionException("group blrebdy bctive");
                 }
             }
 
-            if (child != null && status != CREATING) {
-                throw new ActivationException("group not being created");
+            if (child != null && stbtus != CREATING) {
+                throw new ActivbtionException("group not being crebted");
             }
 
             group = inst;
-            status = NORMAL;
+            stbtus = NORMAL;
             notifyAll();
         }
 
-        private void checkRemoved() throws UnknownGroupException {
+        privbte void checkRemoved() throws UnknownGroupException {
             if (removed) {
                 throw new UnknownGroupException("group removed");
             }
         }
 
-        private ObjectEntry getObjectEntry(ActivationID id)
+        privbte ObjectEntry getObjectEntry(ActivbtionID id)
             throws UnknownObjectException
         {
             if (removed) {
@@ -927,205 +927,205 @@ public class Activation implements Serializable {
             return objEntry;
         }
 
-        synchronized void registerObject(ActivationID id,
-                                         ActivationDesc desc,
-                                         boolean addRecord)
-            throws UnknownGroupException, ActivationException
+        synchronized void registerObject(ActivbtionID id,
+                                         ActivbtionDesc desc,
+                                         boolebn bddRecord)
+            throws UnknownGroupException, ActivbtionException
         {
             checkRemoved();
             objects.put(id, new ObjectEntry(desc));
-            if (desc.getRestartMode() == true) {
-                restartSet.add(id);
+            if (desc.getRestbrtMode() == true) {
+                restbrtSet.bdd(id);
             }
 
-            // table insertion must take place before log update
-            idTable.put(id, groupID);
+            // tbble insertion must tbke plbce before log updbte
+            idTbble.put(id, groupID);
 
-            if (addRecord) {
-                addLogRecord(new LogRegisterObject(id, desc));
+            if (bddRecord) {
+                bddLogRecord(new LogRegisterObject(id, desc));
             }
         }
 
-        synchronized void unregisterObject(ActivationID id, boolean addRecord)
-            throws UnknownGroupException, ActivationException
+        synchronized void unregisterObject(ActivbtionID id, boolebn bddRecord)
+            throws UnknownGroupException, ActivbtionException
         {
             ObjectEntry objEntry = getObjectEntry(id);
             objEntry.removed = true;
             objects.remove(id);
-            if (objEntry.desc.getRestartMode() == true) {
-                restartSet.remove(id);
+            if (objEntry.desc.getRestbrtMode() == true) {
+                restbrtSet.remove(id);
             }
 
-            // table removal must take place before log update
-            idTable.remove(id);
-            if (addRecord) {
-                addLogRecord(new LogUnregisterObject(id));
+            // tbble removbl must tbke plbce before log updbte
+            idTbble.remove(id);
+            if (bddRecord) {
+                bddLogRecord(new LogUnregisterObject(id));
             }
         }
 
-        synchronized void unregisterGroup(boolean addRecord)
-           throws UnknownGroupException, ActivationException
+        synchronized void unregisterGroup(boolebn bddRecord)
+           throws UnknownGroupException, ActivbtionException
         {
             checkRemoved();
             removed = true;
-            for (Map.Entry<ActivationID,ObjectEntry> entry :
+            for (Mbp.Entry<ActivbtionID,ObjectEntry> entry :
                      objects.entrySet())
             {
-                ActivationID id = entry.getKey();
-                idTable.remove(id);
-                ObjectEntry objEntry = entry.getValue();
+                ActivbtionID id = entry.getKey();
+                idTbble.remove(id);
+                ObjectEntry objEntry = entry.getVblue();
                 objEntry.removed = true;
             }
-            objects.clear();
-            restartSet.clear();
+            objects.clebr();
+            restbrtSet.clebr();
             reset();
             childGone();
 
-            // removal should be recorded before log update
-            if (addRecord) {
-                addLogRecord(new LogUnregisterGroup(groupID));
+            // removbl should be recorded before log updbte
+            if (bddRecord) {
+                bddLogRecord(new LogUnregisterGroup(groupID));
             }
         }
 
-        synchronized ActivationDesc setActivationDesc(ActivationID id,
-                                                      ActivationDesc desc,
-                                                      boolean addRecord)
+        synchronized ActivbtionDesc setActivbtionDesc(ActivbtionID id,
+                                                      ActivbtionDesc desc,
+                                                      boolebn bddRecord)
             throws UnknownObjectException, UnknownGroupException,
-                   ActivationException
+                   ActivbtionException
         {
             ObjectEntry objEntry = getObjectEntry(id);
-            ActivationDesc oldDesc = objEntry.desc;
+            ActivbtionDesc oldDesc = objEntry.desc;
             objEntry.desc = desc;
-            if (desc.getRestartMode() == true) {
-                restartSet.add(id);
+            if (desc.getRestbrtMode() == true) {
+                restbrtSet.bdd(id);
             } else {
-                restartSet.remove(id);
+                restbrtSet.remove(id);
             }
-            // restart information should be recorded before log update
-            if (addRecord) {
-                addLogRecord(new LogUpdateDesc(id, desc));
+            // restbrt informbtion should be recorded before log updbte
+            if (bddRecord) {
+                bddLogRecord(new LogUpdbteDesc(id, desc));
             }
 
             return oldDesc;
         }
 
-        synchronized ActivationDesc getActivationDesc(ActivationID id)
+        synchronized ActivbtionDesc getActivbtionDesc(ActivbtionID id)
             throws UnknownObjectException, UnknownGroupException
         {
             return getObjectEntry(id).desc;
         }
 
-        synchronized ActivationGroupDesc setActivationGroupDesc(
-                ActivationGroupID id,
-                ActivationGroupDesc desc,
-                boolean addRecord)
-            throws UnknownGroupException, ActivationException
+        synchronized ActivbtionGroupDesc setActivbtionGroupDesc(
+                ActivbtionGroupID id,
+                ActivbtionGroupDesc desc,
+                boolebn bddRecord)
+            throws UnknownGroupException, ActivbtionException
         {
             checkRemoved();
-            ActivationGroupDesc oldDesc = this.desc;
+            ActivbtionGroupDesc oldDesc = this.desc;
             this.desc = desc;
-            // state update should occur before log update
-            if (addRecord) {
-                addLogRecord(new LogUpdateGroupDesc(id, desc));
+            // stbte updbte should occur before log updbte
+            if (bddRecord) {
+                bddLogRecord(new LogUpdbteGroupDesc(id, desc));
             }
             return oldDesc;
         }
 
-        synchronized void inactiveGroup(long incarnation, boolean failure)
+        synchronized void inbctiveGroup(long incbrnbtion, boolebn fbilure)
             throws UnknownGroupException
         {
             checkRemoved();
-            if (this.incarnation != incarnation) {
-                throw new UnknownGroupException("invalid incarnation");
+            if (this.incbrnbtion != incbrnbtion) {
+                throw new UnknownGroupException("invblid incbrnbtion");
             }
 
             reset();
-            if (failure) {
-                terminate();
-            } else if (child != null && status == NORMAL) {
-                status = TERMINATE;
-                watchdog.noRestart();
+            if (fbilure) {
+                terminbte();
+            } else if (child != null && stbtus == NORMAL) {
+                stbtus = TERMINATE;
+                wbtchdog.noRestbrt();
             }
         }
 
-        synchronized void activeObject(ActivationID id,
-                                       MarshalledObject<? extends Remote> mobj)
+        synchronized void bctiveObject(ActivbtionID id,
+                                       MbrshblledObject<? extends Remote> mobj)
                 throws UnknownObjectException
         {
             getObjectEntry(id).stub = mobj;
         }
 
-        synchronized void inactiveObject(ActivationID id)
+        synchronized void inbctiveObject(ActivbtionID id)
             throws UnknownObjectException
         {
             getObjectEntry(id).reset();
         }
 
-        private synchronized void reset() {
+        privbte synchronized void reset() {
             group = null;
-            for (ObjectEntry objectEntry : objects.values()) {
+            for (ObjectEntry objectEntry : objects.vblues()) {
                 objectEntry.reset();
             }
         }
 
-        private void childGone() {
+        privbte void childGone() {
             if (child != null) {
                 child = null;
-                watchdog.dispose();
-                watchdog = null;
-                status = NORMAL;
+                wbtchdog.dispose();
+                wbtchdog = null;
+                stbtus = NORMAL;
                 notifyAll();
             }
         }
 
-        private void terminate() {
-            if (child != null && status != TERMINATING) {
+        privbte void terminbte() {
+            if (child != null && stbtus != TERMINATING) {
                 child.destroy();
-                status = TERMINATING;
-                waitTime = System.currentTimeMillis() + groupTimeout;
+                stbtus = TERMINATING;
+                wbitTime = System.currentTimeMillis() + groupTimeout;
                 notifyAll();
             }
         }
 
        /*
-        * Fallthrough from TERMINATE to TERMINATING
-        * is intentional
+        * Fbllthrough from TERMINATE to TERMINATING
+        * is intentionbl
         */
-        @SuppressWarnings("fallthrough")
-        private void await() {
+        @SuppressWbrnings("fbllthrough")
+        privbte void bwbit() {
             while (true) {
-                switch (status) {
-                case NORMAL:
+                switch (stbtus) {
+                cbse NORMAL:
                     return;
-                case TERMINATE:
-                    terminate();
-                case TERMINATING:
+                cbse TERMINATE:
+                    terminbte();
+                cbse TERMINATING:
                     try {
-                        child.exitValue();
-                    } catch (IllegalThreadStateException e) {
+                        child.exitVblue();
+                    } cbtch (IllegblThrebdStbteException e) {
                         long now = System.currentTimeMillis();
-                        if (waitTime > now) {
+                        if (wbitTime > now) {
                             try {
-                                wait(waitTime - now);
-                            } catch (InterruptedException ee) {
+                                wbit(wbitTime - now);
+                            } cbtch (InterruptedException ee) {
                             }
                             continue;
                         }
-                        // REMIND: print message that group did not terminate?
+                        // REMIND: print messbge thbt group did not terminbte?
                     }
                     childGone();
                     return;
-                case CREATING:
+                cbse CREATING:
                     try {
-                        wait();
-                    } catch (InterruptedException e) {
+                        wbit();
+                    } cbtch (InterruptedException e) {
                     }
                 }
             }
         }
 
-        // no synchronization to avoid delay wrt getInstantiator
-        void shutdownFast() {
+        // no synchronizbtion to bvoid delby wrt getInstbntibtor
+        void shutdownFbst() {
             Process p = child;
             if (p != null) {
                 p.destroy();
@@ -1134,188 +1134,188 @@ public class Activation implements Serializable {
 
         synchronized void shutdown() {
             reset();
-            terminate();
-            await();
+            terminbte();
+            bwbit();
         }
 
-        MarshalledObject<? extends Remote> activate(ActivationID id,
-                                                    boolean force)
-            throws ActivationException
+        MbrshblledObject<? extends Remote> bctivbte(ActivbtionID id,
+                                                    boolebn force)
+            throws ActivbtionException
         {
-            Exception detail = null;
+            Exception detbil = null;
 
             /*
-             * Attempt to activate object and reattempt (several times)
-             * if activation fails due to communication problems.
+             * Attempt to bctivbte object bnd rebttempt (severbl times)
+             * if bctivbtion fbils due to communicbtion problems.
              */
             for (int tries = MAX_TRIES; tries > 0; tries--) {
-                ActivationInstantiator inst;
-                long currentIncarnation;
+                ActivbtionInstbntibtor inst;
+                long currentIncbrnbtion;
 
-                // look up object to activate
+                // look up object to bctivbte
                 ObjectEntry objEntry;
                 synchronized (this) {
                     objEntry = getObjectEntry(id);
-                    // if not forcing activation, return cached stub
+                    // if not forcing bctivbtion, return cbched stub
                     if (!force && objEntry.stub != null) {
                         return objEntry.stub;
                     }
-                    inst = getInstantiator(groupID);
-                    currentIncarnation = incarnation;
+                    inst = getInstbntibtor(groupID);
+                    currentIncbrnbtion = incbrnbtion;
                 }
 
-                boolean groupInactive = false;
-                boolean failure = false;
-                // activate object
+                boolebn groupInbctive = fblse;
+                boolebn fbilure = fblse;
+                // bctivbte object
                 try {
-                    return objEntry.activate(id, force, inst);
-                } catch (NoSuchObjectException e) {
-                    groupInactive = true;
-                    detail = e;
-                } catch (ConnectException e) {
-                    groupInactive = true;
-                    failure = true;
-                    detail = e;
-                } catch (ConnectIOException e) {
-                    groupInactive = true;
-                    failure = true;
-                    detail = e;
-                } catch (InactiveGroupException e) {
-                    groupInactive = true;
-                    detail = e;
-                } catch (RemoteException e) {
-                    // REMIND: wait some here before continuing?
-                    if (detail == null) {
-                        detail = e;
+                    return objEntry.bctivbte(id, force, inst);
+                } cbtch (NoSuchObjectException e) {
+                    groupInbctive = true;
+                    detbil = e;
+                } cbtch (ConnectException e) {
+                    groupInbctive = true;
+                    fbilure = true;
+                    detbil = e;
+                } cbtch (ConnectIOException e) {
+                    groupInbctive = true;
+                    fbilure = true;
+                    detbil = e;
+                } cbtch (InbctiveGroupException e) {
+                    groupInbctive = true;
+                    detbil = e;
+                } cbtch (RemoteException e) {
+                    // REMIND: wbit some here before continuing?
+                    if (detbil == null) {
+                        detbil = e;
                     }
                 }
 
-                if (groupInactive) {
-                    // group has failed or is inactive; mark inactive
+                if (groupInbctive) {
+                    // group hbs fbiled or is inbctive; mbrk inbctive
                     try {
                         System.err.println(
-                            MessageFormat.format(
-                                getTextResource("rmid.group.inactive"),
-                                detail.toString()));
-                        detail.printStackTrace();
+                            MessbgeFormbt.formbt(
+                                getTextResource("rmid.group.inbctive"),
+                                detbil.toString()));
+                        detbil.printStbckTrbce();
                         getGroupEntry(groupID).
-                            inactiveGroup(currentIncarnation, failure);
-                    } catch (UnknownGroupException e) {
-                        // not a problem
+                            inbctiveGroup(currentIncbrnbtion, fbilure);
+                    } cbtch (UnknownGroupException e) {
+                        // not b problem
                     }
                 }
             }
 
             /**
-             * signal that group activation failed, nested exception
-             * specifies what exception occurred when the group did not
-             * activate
+             * signbl thbt group bctivbtion fbiled, nested exception
+             * specifies whbt exception occurred when the group did not
+             * bctivbte
              */
-            throw new ActivationException("object activation failed after " +
-                                          MAX_TRIES + " tries", detail);
+            throw new ActivbtionException("object bctivbtion fbiled bfter " +
+                                          MAX_TRIES + " tries", detbil);
         }
 
         /**
-         * Returns the instantiator for the group specified by id and
-         * entry. If the group is currently inactive, exec some
-         * bootstrap code to create the group.
+         * Returns the instbntibtor for the group specified by id bnd
+         * entry. If the group is currently inbctive, exec some
+         * bootstrbp code to crebte the group.
          */
-        private ActivationInstantiator getInstantiator(ActivationGroupID id)
-            throws ActivationException
+        privbte ActivbtionInstbntibtor getInstbntibtor(ActivbtionGroupID id)
+            throws ActivbtionException
         {
-            assert Thread.holdsLock(this);
+            bssert Threbd.holdsLock(this);
 
-            await();
+            bwbit();
             if (group != null) {
                 return group;
             }
             checkRemoved();
-            boolean acquired = false;
+            boolebn bcquired = fblse;
 
             try {
-                groupName = Pstartgroup();
-                acquired = true;
-                String[] argv = activationArgs(desc);
-                checkArgs(desc, argv);
+                groupNbme = Pstbrtgroup();
+                bcquired = true;
+                String[] brgv = bctivbtionArgs(desc);
+                checkArgs(desc, brgv);
 
                 if (debugExec) {
-                    StringBuilder sb = new StringBuilder(argv[0]);
+                    StringBuilder sb = new StringBuilder(brgv[0]);
                     int j;
-                    for (j = 1; j < argv.length; j++) {
-                        sb.append(' ');
-                        sb.append(argv[j]);
+                    for (j = 1; j < brgv.length; j++) {
+                        sb.bppend(' ');
+                        sb.bppend(brgv[j]);
                     }
                     System.err.println(
-                        MessageFormat.format(
-                            getTextResource("rmid.exec.command"),
+                        MessbgeFormbt.formbt(
+                            getTextResource("rmid.exec.commbnd"),
                             sb.toString()));
                 }
 
                 try {
-                    child = Runtime.getRuntime().exec(argv);
-                    status = CREATING;
-                    ++incarnation;
-                    watchdog = new Watchdog();
-                    watchdog.start();
-                    addLogRecord(new LogGroupIncarnation(id, incarnation));
+                    child = Runtime.getRuntime().exec(brgv);
+                    stbtus = CREATING;
+                    ++incbrnbtion;
+                    wbtchdog = new Wbtchdog();
+                    wbtchdog.stbrt();
+                    bddLogRecord(new LogGroupIncbrnbtion(id, incbrnbtion));
 
-                    // handle child I/O streams before writing to child
-                    PipeWriter.plugTogetherPair
-                        (child.getInputStream(), System.out,
-                         child.getErrorStream(), System.err);
-                    try (MarshalOutputStream out =
-                            new MarshalOutputStream(child.getOutputStream())) {
+                    // hbndle child I/O strebms before writing to child
+                    PipeWriter.plugTogetherPbir
+                        (child.getInputStrebm(), System.out,
+                         child.getErrorStrebm(), System.err);
+                    try (MbrshblOutputStrebm out =
+                            new MbrshblOutputStrebm(child.getOutputStrebm())) {
                         out.writeObject(id);
                         out.writeObject(desc);
-                        out.writeLong(incarnation);
+                        out.writeLong(incbrnbtion);
                         out.flush();
                     }
 
 
-                } catch (IOException e) {
-                    terminate();
-                    throw new ActivationException(
-                        "unable to create activation group", e);
+                } cbtch (IOException e) {
+                    terminbte();
+                    throw new ActivbtionException(
+                        "unbble to crebte bctivbtion group", e);
                 }
 
                 try {
                     long now = System.currentTimeMillis();
                     long stop = now + execTimeout;
                     do {
-                        wait(stop - now);
+                        wbit(stop - now);
                         if (group != null) {
                             return group;
                         }
                         now = System.currentTimeMillis();
-                    } while (status == CREATING && now < stop);
-                } catch (InterruptedException e) {
+                    } while (stbtus == CREATING && now < stop);
+                } cbtch (InterruptedException e) {
                 }
 
-                terminate();
-                throw new ActivationException(
+                terminbte();
+                throw new ActivbtionException(
                         (removed ?
-                         "activation group unregistered" :
-                         "timeout creating child process"));
-            } finally {
-                if (acquired) {
-                    Vstartgroup();
+                         "bctivbtion group unregistered" :
+                         "timeout crebting child process"));
+            } finblly {
+                if (bcquired) {
+                    Vstbrtgroup();
                 }
             }
         }
 
         /**
-         * Waits for process termination and then restarts services.
+         * Wbits for process terminbtion bnd then restbrts services.
          */
-        private class Watchdog extends Thread {
-            private final Process groupProcess = child;
-            private final long groupIncarnation = incarnation;
-            private boolean canInterrupt = true;
-            private boolean shouldQuit = false;
-            private boolean shouldRestart = true;
+        privbte clbss Wbtchdog extends Threbd {
+            privbte finbl Process groupProcess = child;
+            privbte finbl long groupIncbrnbtion = incbrnbtion;
+            privbte boolebn cbnInterrupt = true;
+            privbte boolebn shouldQuit = fblse;
+            privbte boolebn shouldRestbrt = true;
 
-            Watchdog() {
-                super("WatchDog-"  + groupName + "-" + incarnation);
-                setDaemon(true);
+            Wbtchdog() {
+                super("WbtchDog-"  + groupNbme + "-" + incbrnbtion);
+                setDbemon(true);
             }
 
             public void run() {
@@ -1325,167 +1325,167 @@ public class Activation implements Serializable {
                 }
 
                 /*
-                 * Wait for the group to crash or exit.
+                 * Wbit for the group to crbsh or exit.
                  */
                 try {
-                    groupProcess.waitFor();
-                } catch (InterruptedException exit) {
+                    groupProcess.wbitFor();
+                } cbtch (InterruptedException exit) {
                     return;
                 }
 
-                boolean restart = false;
+                boolebn restbrt = fblse;
                 synchronized (GroupEntry.this) {
                     if (shouldQuit) {
                         return;
                     }
-                    canInterrupt = false;
-                    interrupted(); // clear interrupt bit
+                    cbnInterrupt = fblse;
+                    interrupted(); // clebr interrupt bit
                     /*
-                     * Since the group crashed, we should
-                     * reset the entry before activating objects
+                     * Since the group crbshed, we should
+                     * reset the entry before bctivbting objects
                      */
-                    if (groupIncarnation == incarnation) {
-                        restart = shouldRestart && !shuttingDown;
+                    if (groupIncbrnbtion == incbrnbtion) {
+                        restbrt = shouldRestbrt && !shuttingDown;
                         reset();
                         childGone();
                     }
                 }
 
                 /*
-                 * Activate those objects that require restarting
-                 * after a crash.
+                 * Activbte those objects thbt require restbrting
+                 * bfter b crbsh.
                  */
-                if (restart) {
-                    restartServices();
+                if (restbrt) {
+                    restbrtServices();
                 }
             }
 
             /**
-             * Marks this thread as one that is no longer needed.
-             * If the thread is in a state in which it can be interrupted,
-             * then the thread is interrupted.
+             * Mbrks this threbd bs one thbt is no longer needed.
+             * If the threbd is in b stbte in which it cbn be interrupted,
+             * then the threbd is interrupted.
              */
             void dispose() {
                 shouldQuit = true;
-                if (canInterrupt) {
+                if (cbnInterrupt) {
                     interrupt();
                 }
             }
 
             /**
-             * Marks this thread as no longer needing to restart objects.
+             * Mbrks this threbd bs no longer needing to restbrt objects.
              */
-            void noRestart() {
-                shouldRestart = false;
+            void noRestbrt() {
+                shouldRestbrt = fblse;
             }
         }
     }
 
-    private String[] activationArgs(ActivationGroupDesc desc) {
-        ActivationGroupDesc.CommandEnvironment cmdenv;
-        cmdenv = desc.getCommandEnvironment();
+    privbte String[] bctivbtionArgs(ActivbtionGroupDesc desc) {
+        ActivbtionGroupDesc.CommbndEnvironment cmdenv;
+        cmdenv = desc.getCommbndEnvironment();
 
-        // argv is the literal command to exec
-        List<String> argv = new ArrayList<>();
+        // brgv is the literbl commbnd to exec
+        List<String> brgv = new ArrbyList<>();
 
-        // Command name/path
-        argv.add((cmdenv != null && cmdenv.getCommandPath() != null)
-                    ? cmdenv.getCommandPath()
-                    : command[0]);
+        // Commbnd nbme/pbth
+        brgv.bdd((cmdenv != null && cmdenv.getCommbndPbth() != null)
+                    ? cmdenv.getCommbndPbth()
+                    : commbnd[0]);
 
-        // Group-specific command options
-        if (cmdenv != null && cmdenv.getCommandOptions() != null) {
-            argv.addAll(Arrays.asList(cmdenv.getCommandOptions()));
+        // Group-specific commbnd options
+        if (cmdenv != null && cmdenv.getCommbndOptions() != null) {
+            brgv.bddAll(Arrbys.bsList(cmdenv.getCommbndOptions()));
         }
 
-        // Properties become -D parameters
+        // Properties become -D pbrbmeters
         Properties props = desc.getPropertyOverrides();
         if (props != null) {
-            for (Enumeration<?> p = props.propertyNames();
-                 p.hasMoreElements();)
+            for (Enumerbtion<?> p = props.propertyNbmes();
+                 p.hbsMoreElements();)
             {
-                String name = (String) p.nextElement();
+                String nbme = (String) p.nextElement();
                 /* Note on quoting: it would be wrong
-                 * here, since argv will be passed to
-                 * Runtime.exec, which should not parse
-                 * arguments or split on whitespace.
+                 * here, since brgv will be pbssed to
+                 * Runtime.exec, which should not pbrse
+                 * brguments or split on whitespbce.
                  */
-                argv.add("-D" + name + "=" + props.getProperty(name));
+                brgv.bdd("-D" + nbme + "=" + props.getProperty(nbme));
             }
         }
 
-        /* Finally, rmid-global command options (e.g. -C options)
-         * and the classname
+        /* Finblly, rmid-globbl commbnd options (e.g. -C options)
+         * bnd the clbssnbme
          */
-        for (int i = 1; i < command.length; i++) {
-            argv.add(command[i]);
+        for (int i = 1; i < commbnd.length; i++) {
+            brgv.bdd(commbnd[i]);
         }
 
-        String[] realArgv = new String[argv.size()];
-        System.arraycopy(argv.toArray(), 0, realArgv, 0, realArgv.length);
+        String[] reblArgv = new String[brgv.size()];
+        System.brrbycopy(brgv.toArrby(), 0, reblArgv, 0, reblArgv.length);
 
-        return realArgv;
+        return reblArgv;
     }
 
-    private void checkArgs(ActivationGroupDesc desc, String[] cmd)
-        throws SecurityException, ActivationException
+    privbte void checkArgs(ActivbtionGroupDesc desc, String[] cmd)
+        throws SecurityException, ActivbtionException
     {
         /*
-         * Check exec command using execPolicy object
+         * Check exec commbnd using execPolicy object
          */
         if (execPolicyMethod != null) {
             if (cmd == null) {
-                cmd = activationArgs(desc);
+                cmd = bctivbtionArgs(desc);
             }
             try {
                 execPolicyMethod.invoke(execPolicy, desc, cmd);
-            } catch (InvocationTargetException e) {
-                Throwable targetException = e.getTargetException();
-                if (targetException instanceof SecurityException) {
-                    throw (SecurityException) targetException;
+            } cbtch (InvocbtionTbrgetException e) {
+                Throwbble tbrgetException = e.getTbrgetException();
+                if (tbrgetException instbnceof SecurityException) {
+                    throw (SecurityException) tbrgetException;
                 } else {
-                    throw new ActivationException(
-                        execPolicyMethod.getName() + ": unexpected exception",
+                    throw new ActivbtionException(
+                        execPolicyMethod.getNbme() + ": unexpected exception",
                         e);
                 }
-            } catch (Exception e) {
-                throw new ActivationException(
-                    execPolicyMethod.getName() + ": unexpected exception", e);
+            } cbtch (Exception e) {
+                throw new ActivbtionException(
+                    execPolicyMethod.getNbme() + ": unexpected exception", e);
             }
         }
     }
 
-    private static class ObjectEntry implements Serializable {
+    privbte stbtic clbss ObjectEntry implements Seriblizbble {
 
-        private static final long serialVersionUID = -5500114225321357856L;
+        privbte stbtic finbl long seriblVersionUID = -5500114225321357856L;
 
         /** descriptor for object */
-        ActivationDesc desc;
-        /** the stub (if active) */
-        volatile transient MarshalledObject<? extends Remote> stub = null;
-        volatile transient boolean removed = false;
+        ActivbtionDesc desc;
+        /** the stub (if bctive) */
+        volbtile trbnsient MbrshblledObject<? extends Remote> stub = null;
+        volbtile trbnsient boolebn removed = fblse;
 
-        ObjectEntry(ActivationDesc desc) {
+        ObjectEntry(ActivbtionDesc desc) {
             this.desc = desc;
         }
 
-        synchronized MarshalledObject<? extends Remote>
-            activate(ActivationID id,
-                     boolean force,
-                     ActivationInstantiator inst)
-            throws RemoteException, ActivationException
+        synchronized MbrshblledObject<? extends Remote>
+            bctivbte(ActivbtionID id,
+                     boolebn force,
+                     ActivbtionInstbntibtor inst)
+            throws RemoteException, ActivbtionException
         {
-            MarshalledObject<? extends Remote> nstub = stub;
+            MbrshblledObject<? extends Remote> nstub = stub;
             if (removed) {
                 throw new UnknownObjectException("object removed");
             } else if (!force && nstub != null) {
                 return nstub;
             }
 
-            nstub = inst.newInstance(id, desc);
+            nstub = inst.newInstbnce(id, desc);
             stub = nstub;
             /*
-             * stub could be set to null by a group reset, so return
+             * stub could be set to null by b group reset, so return
              * the newstub here to prevent returning null.
              */
             return nstub;
@@ -1497,310 +1497,310 @@ public class Activation implements Serializable {
     }
 
     /**
-     * Add a record to the activation log. If the number of updates
-     * passes a predetermined threshold, record a snapshot.
+     * Add b record to the bctivbtion log. If the number of updbtes
+     * pbsses b predetermined threshold, record b snbpshot.
      */
-    private void addLogRecord(LogRecord rec) throws ActivationException {
+    privbte void bddLogRecord(LogRecord rec) throws ActivbtionException {
         synchronized (log) {
             checkShutdown();
             try {
-                log.update(rec, true);
-            } catch (Exception e) {
-                numUpdates = snapshotInterval;
-                System.err.println(getTextResource("rmid.log.update.warning"));
-                e.printStackTrace();
+                log.updbte(rec, true);
+            } cbtch (Exception e) {
+                numUpdbtes = snbpshotIntervbl;
+                System.err.println(getTextResource("rmid.log.updbte.wbrning"));
+                e.printStbckTrbce();
             }
-            if (++numUpdates < snapshotInterval) {
+            if (++numUpdbtes < snbpshotIntervbl) {
                 return;
             }
             try {
-                log.snapshot(this);
-                numUpdates = 0;
-            } catch (Exception e) {
+                log.snbpshot(this);
+                numUpdbtes = 0;
+            } cbtch (Exception e) {
                 System.err.println(
-                    getTextResource("rmid.log.snapshot.warning"));
-                e.printStackTrace();
+                    getTextResource("rmid.log.snbpshot.wbrning"));
+                e.printStbckTrbce();
                 try {
-                    // shutdown activation system because snapshot failed
+                    // shutdown bctivbtion system becbuse snbpshot fbiled
                     system.shutdown();
-                } catch (RemoteException ignore) {
-                    // can't happen
+                } cbtch (RemoteException ignore) {
+                    // cbn't hbppen
                 }
-                // warn the client of the original update problem
-                throw new ActivationException("log snapshot failed", e);
+                // wbrn the client of the originbl updbte problem
+                throw new ActivbtionException("log snbpshot fbiled", e);
             }
         }
     }
 
     /**
-     * Handler for the log that knows how to take the initial snapshot
-     * and apply an update (a LogRecord) to the current state.
+     * Hbndler for the log thbt knows how to tbke the initibl snbpshot
+     * bnd bpply bn updbte (b LogRecord) to the current stbte.
      */
-    private static class ActLogHandler extends LogHandler {
+    privbte stbtic clbss ActLogHbndler extends LogHbndler {
 
-        ActLogHandler() {
+        ActLogHbndler() {
         }
 
-        public Object initialSnapshot()
+        public Object initiblSnbpshot()
         {
             /**
-             * Return an empty Activation object.  Log will update
-             * this object with recovered state.
+             * Return bn empty Activbtion object.  Log will updbte
+             * this object with recovered stbte.
              */
-            return new Activation();
+            return new Activbtion();
         }
 
-        public Object applyUpdate(Object update, Object state)
+        public Object bpplyUpdbte(Object updbte, Object stbte)
             throws Exception
         {
-            return ((LogRecord) update).apply(state);
+            return ((LogRecord) updbte).bpply(stbte);
         }
 
     }
 
     /**
-     * Abstract class for all log records. The subclass contains
-     * specific update information and implements the apply method
-     * that applys the update information contained in the record
-     * to the current state.
+     * Abstrbct clbss for bll log records. The subclbss contbins
+     * specific updbte informbtion bnd implements the bpply method
+     * thbt bpplys the updbte informbtion contbined in the record
+     * to the current stbte.
      */
-    private static abstract class LogRecord implements Serializable {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = 8395140512322687529L;
-        abstract Object apply(Object state) throws Exception;
+    privbte stbtic bbstrbct clbss LogRecord implements Seriblizbble {
+        /** indicbte compbtibility with JDK 1.2 version of clbss */
+        privbte stbtic finbl long seriblVersionUID = 8395140512322687529L;
+        bbstrbct Object bpply(Object stbte) throws Exception;
     }
 
     /**
-     * Log record for registering an object.
+     * Log record for registering bn object.
      */
-    private static class LogRegisterObject extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = -6280336276146085143L;
-        private ActivationID id;
-        private ActivationDesc desc;
+    privbte stbtic clbss LogRegisterObject extends LogRecord {
+        /** indicbte compbtibility with JDK 1.2 version of clbss */
+        privbte stbtic finbl long seriblVersionUID = -6280336276146085143L;
+        privbte ActivbtionID id;
+        privbte ActivbtionDesc desc;
 
-        LogRegisterObject(ActivationID id, ActivationDesc desc) {
+        LogRegisterObject(ActivbtionID id, ActivbtionDesc desc) {
             this.id = id;
             this.desc = desc;
         }
 
-        Object apply(Object state) {
+        Object bpply(Object stbte) {
             try {
-                ((Activation) state).getGroupEntry(desc.getGroupID()).
-                    registerObject(id, desc, false);
-            } catch (Exception ignore) {
+                ((Activbtion) stbte).getGroupEntry(desc.getGroupID()).
+                    registerObject(id, desc, fblse);
+            } cbtch (Exception ignore) {
                 System.err.println(
-                    MessageFormat.format(
-                        getTextResource("rmid.log.recover.warning"),
+                    MessbgeFormbt.formbt(
+                        getTextResource("rmid.log.recover.wbrning"),
                         "LogRegisterObject"));
-                ignore.printStackTrace();
+                ignore.printStbckTrbce();
             }
-            return state;
+            return stbte;
         }
     }
 
     /**
-     * Log record for unregistering an object.
+     * Log record for unregistering bn object.
      */
-    private static class LogUnregisterObject extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = 6269824097396935501L;
-        private ActivationID id;
+    privbte stbtic clbss LogUnregisterObject extends LogRecord {
+        /** indicbte compbtibility with JDK 1.2 version of clbss */
+        privbte stbtic finbl long seriblVersionUID = 6269824097396935501L;
+        privbte ActivbtionID id;
 
-        LogUnregisterObject(ActivationID id) {
+        LogUnregisterObject(ActivbtionID id) {
             this.id = id;
         }
 
-        Object apply(Object state) {
+        Object bpply(Object stbte) {
             try {
-                ((Activation) state).getGroupEntry(id).
-                    unregisterObject(id, false);
-            } catch (Exception ignore) {
+                ((Activbtion) stbte).getGroupEntry(id).
+                    unregisterObject(id, fblse);
+            } cbtch (Exception ignore) {
                 System.err.println(
-                    MessageFormat.format(
-                        getTextResource("rmid.log.recover.warning"),
+                    MessbgeFormbt.formbt(
+                        getTextResource("rmid.log.recover.wbrning"),
                         "LogUnregisterObject"));
-                ignore.printStackTrace();
+                ignore.printStbckTrbce();
             }
-            return state;
+            return stbte;
         }
     }
 
     /**
-     * Log record for registering a group.
+     * Log record for registering b group.
      */
-    private static class LogRegisterGroup extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = -1966827458515403625L;
-        private ActivationGroupID id;
-        private ActivationGroupDesc desc;
+    privbte stbtic clbss LogRegisterGroup extends LogRecord {
+        /** indicbte compbtibility with JDK 1.2 version of clbss */
+        privbte stbtic finbl long seriblVersionUID = -1966827458515403625L;
+        privbte ActivbtionGroupID id;
+        privbte ActivbtionGroupDesc desc;
 
-        LogRegisterGroup(ActivationGroupID id, ActivationGroupDesc desc) {
+        LogRegisterGroup(ActivbtionGroupID id, ActivbtionGroupDesc desc) {
             this.id = id;
             this.desc = desc;
         }
 
-        Object apply(Object state) {
-            // modify state directly; cant ask a nonexistent GroupEntry
+        Object bpply(Object stbte) {
+            // modify stbte directly; cbnt bsk b nonexistent GroupEntry
             // to register itself.
-            ((Activation) state).groupTable.put(id, ((Activation) state).new
+            ((Activbtion) stbte).groupTbble.put(id, ((Activbtion) stbte).new
                                                 GroupEntry(id, desc));
-            return state;
+            return stbte;
         }
     }
 
     /**
-     * Log record for udpating an activation desc
+     * Log record for udpbting bn bctivbtion desc
      */
-    private static class LogUpdateDesc extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = 545511539051179885L;
+    privbte stbtic clbss LogUpdbteDesc extends LogRecord {
+        /** indicbte compbtibility with JDK 1.2 version of clbss */
+        privbte stbtic finbl long seriblVersionUID = 545511539051179885L;
 
-        private ActivationID id;
-        private ActivationDesc desc;
+        privbte ActivbtionID id;
+        privbte ActivbtionDesc desc;
 
-        LogUpdateDesc(ActivationID id, ActivationDesc desc) {
+        LogUpdbteDesc(ActivbtionID id, ActivbtionDesc desc) {
             this.id = id;
             this.desc = desc;
         }
 
-        Object apply(Object state) {
+        Object bpply(Object stbte) {
             try {
-                ((Activation) state).getGroupEntry(id).
-                    setActivationDesc(id, desc, false);
-            } catch (Exception ignore) {
+                ((Activbtion) stbte).getGroupEntry(id).
+                    setActivbtionDesc(id, desc, fblse);
+            } cbtch (Exception ignore) {
                 System.err.println(
-                    MessageFormat.format(
-                        getTextResource("rmid.log.recover.warning"),
-                        "LogUpdateDesc"));
-                ignore.printStackTrace();
+                    MessbgeFormbt.formbt(
+                        getTextResource("rmid.log.recover.wbrning"),
+                        "LogUpdbteDesc"));
+                ignore.printStbckTrbce();
             }
-            return state;
+            return stbte;
         }
     }
 
     /**
-     * Log record for unregistering a group.
+     * Log record for unregistering b group.
      */
-    private static class LogUpdateGroupDesc extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = -1271300989218424337L;
-        private ActivationGroupID id;
-        private ActivationGroupDesc desc;
+    privbte stbtic clbss LogUpdbteGroupDesc extends LogRecord {
+        /** indicbte compbtibility with JDK 1.2 version of clbss */
+        privbte stbtic finbl long seriblVersionUID = -1271300989218424337L;
+        privbte ActivbtionGroupID id;
+        privbte ActivbtionGroupDesc desc;
 
-        LogUpdateGroupDesc(ActivationGroupID id, ActivationGroupDesc desc) {
+        LogUpdbteGroupDesc(ActivbtionGroupID id, ActivbtionGroupDesc desc) {
             this.id = id;
             this.desc = desc;
         }
 
-        Object apply(Object state) {
+        Object bpply(Object stbte) {
             try {
-                ((Activation) state).getGroupEntry(id).
-                    setActivationGroupDesc(id, desc, false);
-            } catch (Exception ignore) {
+                ((Activbtion) stbte).getGroupEntry(id).
+                    setActivbtionGroupDesc(id, desc, fblse);
+            } cbtch (Exception ignore) {
                 System.err.println(
-                    MessageFormat.format(
-                        getTextResource("rmid.log.recover.warning"),
-                        "LogUpdateGroupDesc"));
-                ignore.printStackTrace();
+                    MessbgeFormbt.formbt(
+                        getTextResource("rmid.log.recover.wbrning"),
+                        "LogUpdbteGroupDesc"));
+                ignore.printStbckTrbce();
             }
-            return state;
+            return stbte;
         }
     }
 
     /**
-     * Log record for unregistering a group.
+     * Log record for unregistering b group.
      */
-    private static class LogUnregisterGroup extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = -3356306586522147344L;
-        private ActivationGroupID id;
+    privbte stbtic clbss LogUnregisterGroup extends LogRecord {
+        /** indicbte compbtibility with JDK 1.2 version of clbss */
+        privbte stbtic finbl long seriblVersionUID = -3356306586522147344L;
+        privbte ActivbtionGroupID id;
 
-        LogUnregisterGroup(ActivationGroupID id) {
+        LogUnregisterGroup(ActivbtionGroupID id) {
             this.id = id;
         }
 
-        Object apply(Object state) {
-            GroupEntry entry = ((Activation) state).groupTable.remove(id);
+        Object bpply(Object stbte) {
+            GroupEntry entry = ((Activbtion) stbte).groupTbble.remove(id);
             try {
-                entry.unregisterGroup(false);
-            } catch (Exception ignore) {
+                entry.unregisterGroup(fblse);
+            } cbtch (Exception ignore) {
                 System.err.println(
-                    MessageFormat.format(
-                        getTextResource("rmid.log.recover.warning"),
+                    MessbgeFormbt.formbt(
+                        getTextResource("rmid.log.recover.wbrning"),
                         "LogUnregisterGroup"));
-                ignore.printStackTrace();
+                ignore.printStbckTrbce();
             }
-            return state;
+            return stbte;
         }
     }
 
     /**
-     * Log record for an active group incarnation
+     * Log record for bn bctive group incbrnbtion
      */
-    private static class LogGroupIncarnation extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = 4146872747377631897L;
-        private ActivationGroupID id;
-        private long inc;
+    privbte stbtic clbss LogGroupIncbrnbtion extends LogRecord {
+        /** indicbte compbtibility with JDK 1.2 version of clbss */
+        privbte stbtic finbl long seriblVersionUID = 4146872747377631897L;
+        privbte ActivbtionGroupID id;
+        privbte long inc;
 
-        LogGroupIncarnation(ActivationGroupID id, long inc) {
+        LogGroupIncbrnbtion(ActivbtionGroupID id, long inc) {
             this.id = id;
             this.inc = inc;
         }
 
-        Object apply(Object state) {
+        Object bpply(Object stbte) {
             try {
-                GroupEntry entry = ((Activation) state).getGroupEntry(id);
-                entry.incarnation = inc;
-            } catch (Exception ignore) {
+                GroupEntry entry = ((Activbtion) stbte).getGroupEntry(id);
+                entry.incbrnbtion = inc;
+            } cbtch (Exception ignore) {
                 System.err.println(
-                    MessageFormat.format(
-                        getTextResource("rmid.log.recover.warning"),
-                        "LogGroupIncarnation"));
-                ignore.printStackTrace();
+                    MessbgeFormbt.formbt(
+                        getTextResource("rmid.log.recover.wbrning"),
+                        "LogGroupIncbrnbtion"));
+                ignore.printStbckTrbce();
             }
-            return state;
+            return stbte;
         }
     }
 
     /**
-     * Initialize command to exec a default group.
+     * Initiblize commbnd to exec b defbult group.
      */
-    private void initCommand(String[] childArgs) {
-        command = new String[childArgs.length + 2];
+    privbte void initCommbnd(String[] childArgs) {
+        commbnd = new String[childArgs.length + 2];
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
                 try {
-                    command[0] = System.getProperty("java.home") +
-                        File.separator + "bin" + File.separator + "java";
-                } catch (Exception e) {
+                    commbnd[0] = System.getProperty("jbvb.home") +
+                        File.sepbrbtor + "bin" + File.sepbrbtor + "jbvb";
+                } cbtch (Exception e) {
                     System.err.println(
-                        getTextResource("rmid.unfound.java.home.property"));
-                    command[0] = "java";
+                        getTextResource("rmid.unfound.jbvb.home.property"));
+                    commbnd[0] = "jbvb";
                 }
                 return null;
             }
         });
-        System.arraycopy(childArgs, 0, command, 1, childArgs.length);
-        command[command.length-1] = "sun.rmi.server.ActivationGroupInit";
+        System.brrbycopy(childArgs, 0, commbnd, 1, childArgs.length);
+        commbnd[commbnd.length-1] = "sun.rmi.server.ActivbtionGroupInit";
     }
 
-    private static void bomb(String error) {
+    privbte stbtic void bomb(String error) {
         System.err.println("rmid: " + error); // $NON-NLS$
-        System.err.println(MessageFormat.format(getTextResource("rmid.usage"),
+        System.err.println(MessbgeFormbt.formbt(getTextResource("rmid.usbge"),
                     "rmid"));
         System.exit(1);
     }
 
     /**
-     * The default policy for checking a command before it is executed
-     * makes sure the appropriate com.sun.rmi.rmid.ExecPermission and
-     * set of com.sun.rmi.rmid.ExecOptionPermissions have been granted.
+     * The defbult policy for checking b commbnd before it is executed
+     * mbkes sure the bppropribte com.sun.rmi.rmid.ExecPermission bnd
+     * set of com.sun.rmi.rmid.ExecOptionPermissions hbve been grbnted.
      */
-    public static class DefaultExecPolicy {
+    public stbtic clbss DefbultExecPolicy {
 
-        public void checkExecCommand(ActivationGroupDesc desc, String[] cmd)
+        public void checkExecCommbnd(ActivbtionGroupDesc desc, String[] cmd)
             throws SecurityException
         {
             PermissionCollection perms = getExecPermissions();
@@ -1810,18 +1810,18 @@ public class Activation implements Serializable {
              */
             Properties props = desc.getPropertyOverrides();
             if (props != null) {
-                Enumeration<?> p = props.propertyNames();
-                while (p.hasMoreElements()) {
-                    String name = (String) p.nextElement();
-                    String value = props.getProperty(name);
-                    String option = "-D" + name + "=" + value;
+                Enumerbtion<?> p = props.propertyNbmes();
+                while (p.hbsMoreElements()) {
+                    String nbme = (String) p.nextElement();
+                    String vblue = props.getProperty(nbme);
+                    String option = "-D" + nbme + "=" + vblue;
                     try {
                         checkPermission(perms,
                             new ExecOptionPermission(option));
-                    } catch (AccessControlException e) {
-                        if (value.equals("")) {
+                    } cbtch (AccessControlException e) {
+                        if (vblue.equbls("")) {
                             checkPermission(perms,
-                                new ExecOptionPermission("-D" + name));
+                                new ExecOptionPermission("-D" + nbme));
                         } else {
                             throw e;
                         }
@@ -1830,33 +1830,33 @@ public class Activation implements Serializable {
             }
 
             /*
-             * Check group class name (allow nothing but the default),
-             * code location (must be null), and data (must be null).
+             * Check group clbss nbme (bllow nothing but the defbult),
+             * code locbtion (must be null), bnd dbtb (must be null).
              */
-            String groupClassName = desc.getClassName();
-            if ((groupClassName != null &&
-                 !groupClassName.equals(
-                    ActivationGroupImpl.class.getName())) ||
-                (desc.getLocation() != null) ||
-                (desc.getData() != null))
+            String groupClbssNbme = desc.getClbssNbme();
+            if ((groupClbssNbme != null &&
+                 !groupClbssNbme.equbls(
+                    ActivbtionGroupImpl.clbss.getNbme())) ||
+                (desc.getLocbtion() != null) ||
+                (desc.getDbtb() != null))
             {
                 throw new AccessControlException(
-                    "access denied (custom group implementation not allowed)");
+                    "bccess denied (custom group implementbtion not bllowed)");
             }
 
             /*
-             * If group descriptor has a command environment, check
-             * command and options.
+             * If group descriptor hbs b commbnd environment, check
+             * commbnd bnd options.
              */
-            ActivationGroupDesc.CommandEnvironment cmdenv;
-            cmdenv = desc.getCommandEnvironment();
+            ActivbtionGroupDesc.CommbndEnvironment cmdenv;
+            cmdenv = desc.getCommbndEnvironment();
             if (cmdenv != null) {
-                String path = cmdenv.getCommandPath();
-                if (path != null) {
-                    checkPermission(perms, new ExecPermission(path));
+                String pbth = cmdenv.getCommbndPbth();
+                if (pbth != null) {
+                    checkPermission(perms, new ExecPermission(pbth));
                 }
 
-                String[] options = cmdenv.getCommandOptions();
+                String[] options = cmdenv.getCommbndOptions();
                 if (options != null) {
                     for (String option : options) {
                         checkPermission(perms,
@@ -1867,48 +1867,48 @@ public class Activation implements Serializable {
         }
 
         /**
-         * Prints warning message if installed Policy is the default Policy
-         * implementation and globally granted permissions do not include
-         * AllPermission or any ExecPermissions/ExecOptionPermissions.
+         * Prints wbrning messbge if instblled Policy is the defbult Policy
+         * implementbtion bnd globblly grbnted permissions do not include
+         * AllPermission or bny ExecPermissions/ExecOptionPermissions.
          */
-        static void checkConfiguration() {
+        stbtic void checkConfigurbtion() {
             Policy policy =
                 AccessController.doPrivileged(new PrivilegedAction<Policy>() {
                     public Policy run() {
                         return Policy.getPolicy();
                     }
                 });
-            if (!(policy instanceof PolicyFile)) {
+            if (!(policy instbnceof PolicyFile)) {
                 return;
             }
             PermissionCollection perms = getExecPermissions();
-            for (Enumeration<Permission> e = perms.elements();
-                 e.hasMoreElements();)
+            for (Enumerbtion<Permission> e = perms.elements();
+                 e.hbsMoreElements();)
             {
                 Permission p = e.nextElement();
-                if (p instanceof AllPermission ||
-                    p instanceof ExecPermission ||
-                    p instanceof ExecOptionPermission)
+                if (p instbnceof AllPermission ||
+                    p instbnceof ExecPermission ||
+                    p instbnceof ExecOptionPermission)
                 {
                     return;
                 }
             }
-            System.err.println(getTextResource("rmid.exec.perms.inadequate"));
+            System.err.println(getTextResource("rmid.exec.perms.inbdequbte"));
         }
 
-        private static PermissionCollection getExecPermissions() {
+        privbte stbtic PermissionCollection getExecPermissions() {
             /*
-             * The approach used here is taken from the similar method
-             * getLoaderAccessControlContext() in the class
-             * sun.rmi.server.LoaderHandler.
+             * The bpprobch used here is tbken from the similbr method
+             * getLobderAccessControlContext() in the clbss
+             * sun.rmi.server.LobderHbndler.
              */
 
-            // obtain permissions granted to all code in current policy
+            // obtbin permissions grbnted to bll code in current policy
             PermissionCollection perms = AccessController.doPrivileged(
                 new PrivilegedAction<PermissionCollection>() {
                     public PermissionCollection run() {
                         CodeSource codesource =
-                            new CodeSource(null, (Certificate[]) null);
+                            new CodeSource(null, (Certificbte[]) null);
                         Policy p = Policy.getPolicy();
                         if (p != null) {
                             return p.getPermissions(codesource);
@@ -1921,329 +1921,329 @@ public class Activation implements Serializable {
             return perms;
         }
 
-        private static void checkPermission(PermissionCollection perms,
+        privbte stbtic void checkPermission(PermissionCollection perms,
                                             Permission p)
             throws AccessControlException
         {
             if (!perms.implies(p)) {
                 throw new AccessControlException(
-                   "access denied " + p.toString());
+                   "bccess denied " + p.toString());
             }
         }
     }
 
     /**
-     * Main program to start the activation system. <br>
-     * The usage is as follows: rmid [-port num] [-log dir].
+     * Mbin progrbm to stbrt the bctivbtion system. <br>
+     * The usbge is bs follows: rmid [-port num] [-log dir].
      */
-    public static void main(String[] args) {
-        boolean stop = false;
+    public stbtic void mbin(String[] brgs) {
+        boolebn stop = fblse;
 
-        // Create and install the security manager if one is not installed
-        // already.
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new SecurityManager());
+        // Crebte bnd instbll the security mbnbger if one is not instblled
+        // blrebdy.
+        if (System.getSecurityMbnbger() == null) {
+            System.setSecurityMbnbger(new SecurityMbnbger());
         }
 
         try {
-            int port = ActivationSystem.SYSTEM_PORT;
-            RMIServerSocketFactory ssf = null;
+            int port = ActivbtionSystem.SYSTEM_PORT;
+            RMIServerSocketFbctory ssf = null;
 
             /*
-             * If rmid has an inherited channel (meaning that it was
-             * launched from inetd), set the server socket factory to
+             * If rmid hbs bn inherited chbnnel (mebning thbt it wbs
+             * lbunched from inetd), set the server socket fbctory to
              * return the inherited server socket.
              **/
-            Channel inheritedChannel = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Channel>() {
-                    public Channel run() throws IOException {
-                        return System.inheritedChannel();
+            Chbnnel inheritedChbnnel = AccessController.doPrivileged(
+                new PrivilegedExceptionAction<Chbnnel>() {
+                    public Chbnnel run() throws IOException {
+                        return System.inheritedChbnnel();
                     }
                 });
 
-            if (inheritedChannel != null &&
-                inheritedChannel instanceof ServerSocketChannel)
+            if (inheritedChbnnel != null &&
+                inheritedChbnnel instbnceof ServerSocketChbnnel)
             {
                 /*
-                 * Redirect System.err output to a file.
+                 * Redirect System.err output to b file.
                  */
                 AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Void>() {
                         public Void run() throws IOException {
                             File file =
-                                Files.createTempFile("rmid-err", null).toFile();
-                            PrintStream errStream =
-                                new PrintStream(new FileOutputStream(file));
-                            System.setErr(errStream);
+                                Files.crebteTempFile("rmid-err", null).toFile();
+                            PrintStrebm errStrebm =
+                                new PrintStrebm(new FileOutputStrebm(file));
+                            System.setErr(errStrebm);
                             return null;
                         }
                     });
 
                 ServerSocket serverSocket =
-                    ((ServerSocketChannel) inheritedChannel).socket();
-                port = serverSocket.getLocalPort();
-                ssf = new ActivationServerSocketFactory(serverSocket);
+                    ((ServerSocketChbnnel) inheritedChbnnel).socket();
+                port = serverSocket.getLocblPort();
+                ssf = new ActivbtionServerSocketFbctory(serverSocket);
 
-                System.err.println(new Date());
+                System.err.println(new Dbte());
                 System.err.println(getTextResource(
-                                       "rmid.inherited.channel.info") +
-                                       ": " + inheritedChannel);
+                                       "rmid.inherited.chbnnel.info") +
+                                       ": " + inheritedChbnnel);
             }
 
             String log = null;
-            List<String> childArgs = new ArrayList<>();
+            List<String> childArgs = new ArrbyList<>();
 
             /*
-             * Parse arguments
+             * Pbrse brguments
              */
-            for (int i = 0; i < args.length; i++) {
-                if (args[i].equals("-port")) {
+            for (int i = 0; i < brgs.length; i++) {
+                if (brgs[i].equbls("-port")) {
                     if (ssf != null) {
-                        bomb(getTextResource("rmid.syntax.port.badarg"));
+                        bomb(getTextResource("rmid.syntbx.port.bbdbrg"));
                     }
-                    if ((i + 1) < args.length) {
+                    if ((i + 1) < brgs.length) {
                         try {
-                            port = Integer.parseInt(args[++i]);
-                        } catch (NumberFormatException nfe) {
-                            bomb(getTextResource("rmid.syntax.port.badnumber"));
+                            port = Integer.pbrseInt(brgs[++i]);
+                        } cbtch (NumberFormbtException nfe) {
+                            bomb(getTextResource("rmid.syntbx.port.bbdnumber"));
                         }
                     } else {
-                        bomb(getTextResource("rmid.syntax.port.missing"));
+                        bomb(getTextResource("rmid.syntbx.port.missing"));
                     }
 
-                } else if (args[i].equals("-log")) {
-                    if ((i + 1) < args.length) {
-                        log = args[++i];
+                } else if (brgs[i].equbls("-log")) {
+                    if ((i + 1) < brgs.length) {
+                        log = brgs[++i];
                     } else {
-                        bomb(getTextResource("rmid.syntax.log.missing"));
+                        bomb(getTextResource("rmid.syntbx.log.missing"));
                     }
 
-                } else if (args[i].equals("-stop")) {
+                } else if (brgs[i].equbls("-stop")) {
                     stop = true;
 
-                } else if (args[i].startsWith("-C")) {
-                    childArgs.add(args[i].substring(2));
+                } else if (brgs[i].stbrtsWith("-C")) {
+                    childArgs.bdd(brgs[i].substring(2));
 
                 } else {
-                    bomb(MessageFormat.format(
-                        getTextResource("rmid.syntax.illegal.option"),
-                        args[i]));
+                    bomb(MessbgeFormbt.formbt(
+                        getTextResource("rmid.syntbx.illegbl.option"),
+                        brgs[i]));
                 }
             }
 
             if (log == null) {
                 if (ssf != null) {
-                    bomb(getTextResource("rmid.syntax.log.required"));
+                    bomb(getTextResource("rmid.syntbx.log.required"));
                 } else {
                     log = "log";
                 }
             }
 
             debugExec = AccessController.doPrivileged(
-                (PrivilegedAction<Boolean>) () -> Boolean.getBoolean("sun.rmi.server.activation.debugExec"));
+                (PrivilegedAction<Boolebn>) () -> Boolebn.getBoolebn("sun.rmi.server.bctivbtion.debugExec"));
 
             /**
-             * Determine class name for activation exec policy (if any).
+             * Determine clbss nbme for bctivbtion exec policy (if bny).
              */
-            String execPolicyClassName = AccessController.doPrivileged(
-                (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.activation.execPolicy"));
-            if (execPolicyClassName == null) {
+            String execPolicyClbssNbme = AccessController.doPrivileged(
+                (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.bctivbtion.execPolicy"));
+            if (execPolicyClbssNbme == null) {
                 if (!stop) {
-                    DefaultExecPolicy.checkConfiguration();
+                    DefbultExecPolicy.checkConfigurbtion();
                 }
-                execPolicyClassName = "default";
+                execPolicyClbssNbme = "defbult";
             }
 
             /**
-             * Initialize method for activation exec policy.
+             * Initiblize method for bctivbtion exec policy.
              */
-            if (!execPolicyClassName.equals("none")) {
-                if (execPolicyClassName.equals("") ||
-                    execPolicyClassName.equals("default"))
+            if (!execPolicyClbssNbme.equbls("none")) {
+                if (execPolicyClbssNbme.equbls("") ||
+                    execPolicyClbssNbme.equbls("defbult"))
                 {
-                    execPolicyClassName = DefaultExecPolicy.class.getName();
+                    execPolicyClbssNbme = DefbultExecPolicy.clbss.getNbme();
                 }
 
                 try {
-                    Class<?> execPolicyClass = getRMIClass(execPolicyClassName);
-                    execPolicy = execPolicyClass.newInstance();
+                    Clbss<?> execPolicyClbss = getRMIClbss(execPolicyClbssNbme);
+                    execPolicy = execPolicyClbss.newInstbnce();
                     execPolicyMethod =
-                        execPolicyClass.getMethod("checkExecCommand",
-                                                  ActivationGroupDesc.class,
-                                                  String[].class);
-                } catch (Exception e) {
+                        execPolicyClbss.getMethod("checkExecCommbnd",
+                                                  ActivbtionGroupDesc.clbss,
+                                                  String[].clbss);
+                } cbtch (Exception e) {
                     if (debugExec) {
                         System.err.println(
                             getTextResource("rmid.exec.policy.exception"));
-                        e.printStackTrace();
+                        e.printStbckTrbce();
                     }
-                    bomb(getTextResource("rmid.exec.policy.invalid"));
+                    bomb(getTextResource("rmid.exec.policy.invblid"));
                 }
             }
 
             if (stop == true) {
-                final int finalPort = port;
+                finbl int finblPort = port;
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
                     public Void run() {
-                        System.setProperty("java.rmi.activation.port",
-                                           Integer.toString(finalPort));
+                        System.setProperty("jbvb.rmi.bctivbtion.port",
+                                           Integer.toString(finblPort));
                         return null;
                     }
                 });
-                ActivationSystem system = ActivationGroup.getSystem();
+                ActivbtionSystem system = ActivbtionGroup.getSystem();
                 system.shutdown();
                 System.exit(0);
             }
 
             /*
-             * Fix for 4173960: Create and initialize activation using
-             * a static method, startActivation, which will build the
-             * Activation state in two ways: if when rmid is run, no
-             * log file is found, the ActLogHandler.recover(...)
-             * method will create a new Activation instance.
-             * Alternatively, if a logfile is available, a serialized
-             * instance of activation will be read from the log's
-             * snapshot file.  Log updates will be applied to this
-             * Activation object until rmid's state has been fully
-             * recovered.  In either case, only one instance of
-             * Activation is created.
+             * Fix for 4173960: Crebte bnd initiblize bctivbtion using
+             * b stbtic method, stbrtActivbtion, which will build the
+             * Activbtion stbte in two wbys: if when rmid is run, no
+             * log file is found, the ActLogHbndler.recover(...)
+             * method will crebte b new Activbtion instbnce.
+             * Alternbtively, if b logfile is bvbilbble, b seriblized
+             * instbnce of bctivbtion will be rebd from the log's
+             * snbpshot file.  Log updbtes will be bpplied to this
+             * Activbtion object until rmid's stbte hbs been fully
+             * recovered.  In either cbse, only one instbnce of
+             * Activbtion is crebted.
              */
-            startActivation(port, ssf, log,
-                            childArgs.toArray(new String[childArgs.size()]));
+            stbrtActivbtion(port, ssf, log,
+                            childArgs.toArrby(new String[childArgs.size()]));
 
-            // prevent activator from exiting
+            // prevent bctivbtor from exiting
             while (true) {
                 try {
-                    Thread.sleep(Long.MAX_VALUE);
-                } catch (InterruptedException e) {
+                    Threbd.sleep(Long.MAX_VALUE);
+                } cbtch (InterruptedException e) {
                 }
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             System.err.println(
-                MessageFormat.format(
+                MessbgeFormbt.formbt(
                     getTextResource("rmid.unexpected.exception"), e));
-            e.printStackTrace();
+            e.printStbckTrbce();
         }
         System.exit(1);
     }
 
     /**
-     * Retrieves text resources from the locale-specific properties file.
+     * Retrieves text resources from the locble-specific properties file.
      */
-    private static String getTextResource(String key) {
-        if (Activation.resources == null) {
+    privbte stbtic String getTextResource(String key) {
+        if (Activbtion.resources == null) {
             try {
-                Activation.resources = ResourceBundle.getBundle(
+                Activbtion.resources = ResourceBundle.getBundle(
                     "sun.rmi.server.resources.rmid");
-            } catch (MissingResourceException mre) {
+            } cbtch (MissingResourceException mre) {
             }
-            if (Activation.resources == null) {
-                // throwing an Error is a bit extreme, methinks
+            if (Activbtion.resources == null) {
+                // throwing bn Error is b bit extreme, methinks
                 return ("[missing resource file: " + key + "]");
             }
         }
 
-        String val = null;
+        String vbl = null;
         try {
-            val = Activation.resources.getString (key);
-        } catch (MissingResourceException mre) {
+            vbl = Activbtion.resources.getString (key);
+        } cbtch (MissingResourceException mre) {
         }
 
-        if (val == null) {
+        if (vbl == null) {
             return ("[missing resource: " + key + "]");
         } else {
-            return val;
+            return vbl;
         }
     }
 
-    @SuppressWarnings("deprecation")
-    private static Class<?> getRMIClass(String execPolicyClassName) throws Exception  {
-        return RMIClassLoader.loadClass(execPolicyClassName);
+    @SuppressWbrnings("deprecbtion")
+    privbte stbtic Clbss<?> getRMIClbss(String execPolicyClbssNbme) throws Exception  {
+        return RMIClbssLobder.lobdClbss(execPolicyClbssNbme);
     }
     /*
-     * Dijkstra semaphore operations to limit the number of subprocesses
-     * rmid attempts to make at once.
+     * Dijkstrb sembphore operbtions to limit the number of subprocesses
+     * rmid bttempts to mbke bt once.
      */
     /**
-     * Acquire the group semaphore and return a group name.  Each
-     * Pstartgroup must be followed by a Vstartgroup.  The calling thread
-     * will wait until there are fewer than <code>N</code> other threads
-     * holding the group semaphore.  The calling thread will then acquire
-     * the semaphore and return.
+     * Acquire the group sembphore bnd return b group nbme.  Ebch
+     * Pstbrtgroup must be followed by b Vstbrtgroup.  The cblling threbd
+     * will wbit until there bre fewer thbn <code>N</code> other threbds
+     * holding the group sembphore.  The cblling threbd will then bcquire
+     * the sembphore bnd return.
      */
-    private synchronized String Pstartgroup() throws ActivationException {
+    privbte synchronized String Pstbrtgroup() throws ActivbtionException {
         while (true) {
             checkShutdown();
-            // Wait until positive, then decrement.
-            if (groupSemaphore > 0) {
-                groupSemaphore--;
+            // Wbit until positive, then decrement.
+            if (groupSembphore > 0) {
+                groupSembphore--;
                 return "Group-" + groupCounter++;
             }
 
             try {
-                wait();
-            } catch (InterruptedException e) {
+                wbit();
+            } cbtch (InterruptedException e) {
             }
         }
     }
 
     /**
-     * Release the group semaphore.  Every P operation must be
-     * followed by a V operation.  This may cause another thread to
-     * wake up and return from its P operation.
+     * Relebse the group sembphore.  Every P operbtion must be
+     * followed by b V operbtion.  This mby cbuse bnother threbd to
+     * wbke up bnd return from its P operbtion.
      */
-    private synchronized void Vstartgroup() {
-        // Increment and notify a waiter (not necessarily FIFO).
-        groupSemaphore++;
+    privbte synchronized void Vstbrtgroup() {
+        // Increment bnd notify b wbiter (not necessbrily FIFO).
+        groupSembphore++;
         notifyAll();
     }
 
     /**
-     * A server socket factory to use when rmid is launched via 'inetd'
-     * with 'wait' status.  This socket factory's 'createServerSocket'
-     * method returns the server socket specified during construction that
-     * is specialized to delay accepting requests until the
-     * 'initDone' flag is 'true'.  The server socket supplied to
-     * the constructor should be the server socket obtained from the
-     * ServerSocketChannel returned from the 'System.inheritedChannel'
+     * A server socket fbctory to use when rmid is lbunched vib 'inetd'
+     * with 'wbit' stbtus.  This socket fbctory's 'crebteServerSocket'
+     * method returns the server socket specified during construction thbt
+     * is speciblized to delby bccepting requests until the
+     * 'initDone' flbg is 'true'.  The server socket supplied to
+     * the constructor should be the server socket obtbined from the
+     * ServerSocketChbnnel returned from the 'System.inheritedChbnnel'
      * method.
      **/
-    private static class ActivationServerSocketFactory
-        implements RMIServerSocketFactory
+    privbte stbtic clbss ActivbtionServerSocketFbctory
+        implements RMIServerSocketFbctory
     {
-        private final ServerSocket serverSocket;
+        privbte finbl ServerSocket serverSocket;
 
         /**
-         * Constructs an 'ActivationServerSocketFactory' with the specified
+         * Constructs bn 'ActivbtionServerSocketFbctory' with the specified
          * 'serverSocket'.
          **/
-        ActivationServerSocketFactory(ServerSocket serverSocket) {
+        ActivbtionServerSocketFbctory(ServerSocket serverSocket) {
             this.serverSocket = serverSocket;
         }
 
         /**
-         * Returns the server socket specified during construction wrapped
-         * in a 'DelayedAcceptServerSocket'.
+         * Returns the server socket specified during construction wrbpped
+         * in b 'DelbyedAcceptServerSocket'.
          **/
-        public ServerSocket createServerSocket(int port)
+        public ServerSocket crebteServerSocket(int port)
             throws IOException
         {
-            return new DelayedAcceptServerSocket(serverSocket);
+            return new DelbyedAcceptServerSocket(serverSocket);
         }
 
     }
 
     /**
-     * A server socket that delegates all public methods to the underlying
-     * server socket specified at construction.  The accept method is
-     * overridden to delay calling accept on the underlying server socket
-     * until the 'initDone' flag is 'true'.
+     * A server socket thbt delegbtes bll public methods to the underlying
+     * server socket specified bt construction.  The bccept method is
+     * overridden to delby cblling bccept on the underlying server socket
+     * until the 'initDone' flbg is 'true'.
      **/
-    private static class DelayedAcceptServerSocket extends ServerSocket {
+    privbte stbtic clbss DelbyedAcceptServerSocket extends ServerSocket {
 
-        private final ServerSocket serverSocket;
+        privbte finbl ServerSocket serverSocket;
 
-        DelayedAcceptServerSocket(ServerSocket serverSocket)
+        DelbyedAcceptServerSocket(ServerSocket serverSocket)
             throws IOException
         {
             this.serverSocket = serverSocket;
@@ -2253,10 +2253,10 @@ public class Activation implements Serializable {
             serverSocket.bind(endpoint);
         }
 
-        public void bind(SocketAddress endpoint, int backlog)
+        public void bind(SocketAddress endpoint, int bbcklog)
                 throws IOException
         {
-            serverSocket.bind(endpoint, backlog);
+            serverSocket.bind(endpoint, bbcklog);
         }
 
         public InetAddress getInetAddress() {
@@ -2269,50 +2269,50 @@ public class Activation implements Serializable {
                 });
         }
 
-        public int getLocalPort() {
-            return serverSocket.getLocalPort();
+        public int getLocblPort() {
+            return serverSocket.getLocblPort();
         }
 
-        public SocketAddress getLocalSocketAddress() {
+        public SocketAddress getLocblSocketAddress() {
             return AccessController.doPrivileged(
                 new PrivilegedAction<SocketAddress>() {
                     @Override
                     public SocketAddress run() {
-                        return serverSocket.getLocalSocketAddress();
+                        return serverSocket.getLocblSocketAddress();
                     }
                 });
         }
 
         /**
-         * Delays calling accept on the underlying server socket until the
+         * Delbys cblling bccept on the underlying server socket until the
          * remote service is bound in the registry.
          **/
-        public Socket accept() throws IOException {
+        public Socket bccept() throws IOException {
             synchronized (initLock) {
                 try {
                     while (!initDone) {
-                        initLock.wait();
+                        initLock.wbit();
                     }
-                } catch (InterruptedException ignore) {
+                } cbtch (InterruptedException ignore) {
                     throw new AssertionError(ignore);
                 }
             }
-            return serverSocket.accept();
+            return serverSocket.bccept();
         }
 
         public void close() throws IOException {
             serverSocket.close();
         }
 
-        public ServerSocketChannel getChannel() {
-            return serverSocket.getChannel();
+        public ServerSocketChbnnel getChbnnel() {
+            return serverSocket.getChbnnel();
         }
 
-        public boolean isBound() {
+        public boolebn isBound() {
             return serverSocket.isBound();
         }
 
-        public boolean isClosed() {
+        public boolebn isClosed() {
             return serverSocket.isClosed();
         }
 
@@ -2326,11 +2326,11 @@ public class Activation implements Serializable {
             return serverSocket.getSoTimeout();
         }
 
-        public void setReuseAddress(boolean on) throws SocketException {
+        public void setReuseAddress(boolebn on) throws SocketException {
             serverSocket.setReuseAddress(on);
         }
 
-        public boolean getReuseAddress() throws SocketException {
+        public boolebn getReuseAddress() throws SocketException {
             return serverSocket.getReuseAddress();
         }
 
@@ -2353,107 +2353,107 @@ public class Activation implements Serializable {
 }
 
 /**
- * PipeWriter plugs together two pairs of input and output streams by
- * providing readers for input streams and writing through to
- * appropriate output streams.  Both output streams are annotated on a
- * per-line basis.
+ * PipeWriter plugs together two pbirs of input bnd output strebms by
+ * providing rebders for input strebms bnd writing through to
+ * bppropribte output strebms.  Both output strebms bre bnnotbted on b
+ * per-line bbsis.
  *
- * @author Laird Dornin, much code borrowed from Peter Jones, Ken
- *         Arnold and Ann Wollrath.
+ * @buthor Lbird Dornin, much code borrowed from Peter Jones, Ken
+ *         Arnold bnd Ann Wollrbth.
  */
-class PipeWriter implements Runnable {
+clbss PipeWriter implements Runnbble {
 
-    /** stream used for buffering lines */
-    private ByteArrayOutputStream bufOut;
+    /** strebm used for buffering lines */
+    privbte ByteArrbyOutputStrebm bufOut;
 
-    /** count since last separator */
-    private int cLast;
+    /** count since lbst sepbrbtor */
+    privbte int cLbst;
 
-    /** current chunk of input being compared to lineSeparator.*/
-    private byte[] currSep;
+    /** current chunk of input being compbred to lineSepbrbtor.*/
+    privbte byte[] currSep;
 
-    private PrintWriter out;
-    private InputStream in;
+    privbte PrintWriter out;
+    privbte InputStrebm in;
 
-    private String pipeString;
-    private String execString;
+    privbte String pipeString;
+    privbte String execString;
 
-    private static String lineSeparator;
-    private static int lineSeparatorLength;
+    privbte stbtic String lineSepbrbtor;
+    privbte stbtic int lineSepbrbtorLength;
 
-    private static int numExecs = 0;
+    privbte stbtic int numExecs = 0;
 
-    static {
-        lineSeparator = AccessController.doPrivileged(
-           (PrivilegedAction<String>) () -> System.getProperty("line.separator"));
-        lineSeparatorLength = lineSeparator.length();
+    stbtic {
+        lineSepbrbtor = AccessController.doPrivileged(
+           (PrivilegedAction<String>) () -> System.getProperty("line.sepbrbtor"));
+        lineSepbrbtorLength = lineSepbrbtor.length();
     }
 
     /**
-     * Create a new PipeWriter object. All methods of PipeWriter,
-     * except plugTogetherPair, are only accesible to PipeWriter
-     * itself.  Synchronization is unnecessary on functions that will
-     * only be used internally in PipeWriter.
+     * Crebte b new PipeWriter object. All methods of PipeWriter,
+     * except plugTogetherPbir, bre only bccesible to PipeWriter
+     * itself.  Synchronizbtion is unnecessbry on functions thbt will
+     * only be used internblly in PipeWriter.
      *
-     * @param in input stream from which pipe input flows
-     * @param out output stream to which log messages will be sent
-     * @param dest String which tags output stream as 'out' or 'err'
-     * @param nExecs number of execed processes, Activation groups.
+     * @pbrbm in input strebm from which pipe input flows
+     * @pbrbm out output strebm to which log messbges will be sent
+     * @pbrbm dest String which tbgs output strebm bs 'out' or 'err'
+     * @pbrbm nExecs number of execed processes, Activbtion groups.
      */
-    private PipeWriter
-        (InputStream in, OutputStream out, String tag, int nExecs) {
+    privbte PipeWriter
+        (InputStrebm in, OutputStrebm out, String tbg, int nExecs) {
 
         this.in = in;
         this.out = new PrintWriter(out);
 
-        bufOut = new ByteArrayOutputStream();
-        currSep = new byte[lineSeparatorLength];
+        bufOut = new ByteArrbyOutputStrebm();
+        currSep = new byte[lineSepbrbtorLength];
 
-        /* set unique pipe/pair annotations */
+        /* set unique pipe/pbir bnnotbtions */
         execString = ":ExecGroup-" +
-            Integer.toString(nExecs) + ':' + tag + ':';
+            Integer.toString(nExecs) + ':' + tbg + ':';
     }
 
     /**
-     * Create a thread to listen and read from input stream, in.  buffer
-     * the data that is read until a marker which equals lineSeparator
-     * is read.  Once such a string has been discovered; write out an
-     * annotation string followed by the buffered data and a line
-     * separator.
+     * Crebte b threbd to listen bnd rebd from input strebm, in.  buffer
+     * the dbtb thbt is rebd until b mbrker which equbls lineSepbrbtor
+     * is rebd.  Once such b string hbs been discovered; write out bn
+     * bnnotbtion string followed by the buffered dbtb bnd b line
+     * sepbrbtor.
      */
     public void run() {
         byte[] buf = new byte[256];
         int count;
 
         try {
-            /* read bytes till there are no more. */
-            while ((count = in.read(buf)) != -1) {
+            /* rebd bytes till there bre no more. */
+            while ((count = in.rebd(buf)) != -1) {
                 write(buf, 0, count);
             }
 
-            /*  flush internal buffer... may not have ended on a line
-             *  separator, we also need a last annotation if
-             *  something was left.
+            /*  flush internbl buffer... mby not hbve ended on b line
+             *  sepbrbtor, we blso need b lbst bnnotbtion if
+             *  something wbs left.
              */
-            String lastInBuffer = bufOut.toString();
+            String lbstInBuffer = bufOut.toString();
             bufOut.reset();
-            if (lastInBuffer.length() > 0) {
-                out.println (createAnnotation() + lastInBuffer);
-                out.flush();                    // add a line separator
-                                                // to make output nicer
+            if (lbstInBuffer.length() > 0) {
+                out.println (crebteAnnotbtion() + lbstInBuffer);
+                out.flush();                    // bdd b line sepbrbtor
+                                                // to mbke output nicer
             }
 
-        } catch (IOException e) {
+        } cbtch (IOException e) {
         }
     }
 
     /**
-     * Write a subarray of bytes.  Pass each through write byte method.
+     * Write b subbrrby of bytes.  Pbss ebch through write byte method.
      */
-    private void write(byte b[], int off, int len) throws IOException {
+    privbte void write(byte b[], int off, int len) throws IOException {
 
         if (len < 0) {
-            throw new ArrayIndexOutOfBoundsException(len);
+            throw new ArrbyIndexOutOfBoundsException(len);
         }
         for (int i = 0; i < len; ++ i) {
             write(b[off + i]);
@@ -2461,13 +2461,13 @@ class PipeWriter implements Runnable {
     }
 
     /**
-     * Write a byte of data to the stream.  If we have not matched a
-     * line separator string, then the byte is appended to the internal
-     * buffer.  If we have matched a line separator, then the currently
-     * buffered line is sent to the output writer with a prepended
-     * annotation string.
+     * Write b byte of dbtb to the strebm.  If we hbve not mbtched b
+     * line sepbrbtor string, then the byte is bppended to the internbl
+     * buffer.  If we hbve mbtched b line sepbrbtor, then the currently
+     * buffered line is sent to the output writer with b prepended
+     * bnnotbtion string.
      */
-    private void write(byte b) throws IOException {
+    privbte void write(byte b) throws IOException {
         int i = 0;
 
         /* shift current to the left */
@@ -2477,75 +2477,75 @@ class PipeWriter implements Runnable {
         currSep[i-1] = b;
         bufOut.write(b);
 
-        /* enough characters for a separator? */
-        if ( (cLast >= (lineSeparatorLength - 1)) &&
-             (lineSeparator.equals(new String(currSep))) ) {
+        /* enough chbrbcters for b sepbrbtor? */
+        if ( (cLbst >= (lineSepbrbtorLength - 1)) &&
+             (lineSepbrbtor.equbls(new String(currSep))) ) {
 
-            cLast = 0;
+            cLbst = 0;
 
-            /* write prefix through to underlying byte stream */
-            out.print(createAnnotation() + bufOut.toString());
+            /* write prefix through to underlying byte strebm */
+            out.print(crebteAnnotbtion() + bufOut.toString());
             out.flush();
             bufOut.reset();
 
             if (out.checkError()) {
                 throw new IOException
                     ("PipeWriter: IO Exception when"+
-                     " writing to output stream.");
+                     " writing to output strebm.");
             }
 
         } else {
-            cLast++;
+            cLbst++;
         }
     }
 
     /**
-     * Create an annotation string to be printed out after
-     * a new line and end of stream.
+     * Crebte bn bnnotbtion string to be printed out bfter
+     * b new line bnd end of strebm.
      */
-    private String createAnnotation() {
+    privbte String crebteAnnotbtion() {
 
-        /* construct prefix for log messages:
-         * date/time stamp...
+        /* construct prefix for log messbges:
+         * dbte/time stbmp...
          */
-        return ((new Date()).toString()  +
-                 /* ... print pair # ... */
+        return ((new Dbte()).toString()  +
+                 /* ... print pbir # ... */
                  (execString));
     }
 
     /**
-     * Allow plugging together two pipes at a time, to associate
-     * output from an execed process.  This is the only publicly
-     * accessible method of this object; this helps ensure that
-     * synchronization will not be an issue in the annotation
+     * Allow plugging together two pipes bt b time, to bssocibte
+     * output from bn execed process.  This is the only publicly
+     * bccessible method of this object; this helps ensure thbt
+     * synchronizbtion will not be bn issue in the bnnotbtion
      * process.
      *
-     * @param in input stream from which pipe input comes
-     * @param out output stream to which log messages will be sent
-     * @param in1 input stream from which pipe input comes
-     * @param out1 output stream to which log messages will be sent
+     * @pbrbm in input strebm from which pipe input comes
+     * @pbrbm out output strebm to which log messbges will be sent
+     * @pbrbm in1 input strebm from which pipe input comes
+     * @pbrbm out1 output strebm to which log messbges will be sent
      */
-    static void plugTogetherPair(InputStream in,
-                                 OutputStream out,
-                                 InputStream in1,
-                                 OutputStream out1) {
-        Thread inThread = null;
-        Thread outThread = null;
+    stbtic void plugTogetherPbir(InputStrebm in,
+                                 OutputStrebm out,
+                                 InputStrebm in1,
+                                 OutputStrebm out1) {
+        Threbd inThrebd = null;
+        Threbd outThrebd = null;
 
         int nExecs = getNumExec();
 
-        /* start RMI threads to read output from child process */
-        inThread = AccessController.doPrivileged(
-            new NewThreadAction(new PipeWriter(in, out, "out", nExecs),
+        /* stbrt RMI threbds to rebd output from child process */
+        inThrebd = AccessController.doPrivileged(
+            new NewThrebdAction(new PipeWriter(in, out, "out", nExecs),
                                 "out", true));
-        outThread = AccessController.doPrivileged(
-            new NewThreadAction(new PipeWriter(in1, out1, "err", nExecs),
+        outThrebd = AccessController.doPrivileged(
+            new NewThrebdAction(new PipeWriter(in1, out1, "err", nExecs),
                                 "err", true));
-        inThread.start();
-        outThread.start();
+        inThrebd.stbrt();
+        outThrebd.stbrt();
     }
 
-    private static synchronized int getNumExec() {
+    privbte stbtic synchronized int getNumExec() {
         return numExecs++;
     }
 }

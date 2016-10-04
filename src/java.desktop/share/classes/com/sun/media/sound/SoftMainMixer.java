@@ -1,418 +1,418 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.Map.Entry;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.Set;
+import jbvb.util.TreeMbp;
+import jbvb.util.Mbp.Entry;
 
-import javax.sound.midi.MidiMessage;
-import javax.sound.midi.Patch;
-import javax.sound.midi.ShortMessage;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
+import jbvbx.sound.midi.MidiMessbge;
+import jbvbx.sound.midi.Pbtch;
+import jbvbx.sound.midi.ShortMessbge;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.AudioSystem;
 
 /**
- * Software synthesizer main audio mixer.
+ * Softwbre synthesizer mbin budio mixer.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftMainMixer {
+public finbl clbss SoftMbinMixer {
 
-    // A private class thats contains a ModelChannelMixer and it's private buffers.
-    // This becomes necessary when we want to have separate delay buffers for each channel mixer.
-    private class SoftChannelMixerContainer
+    // A privbte clbss thbts contbins b ModelChbnnelMixer bnd it's privbte buffers.
+    // This becomes necessbry when we wbnt to hbve sepbrbte delby buffers for ebch chbnnel mixer.
+    privbte clbss SoftChbnnelMixerContbiner
     {
-        ModelChannelMixer mixer;
+        ModelChbnnelMixer mixer;
         SoftAudioBuffer[] buffers;
     }
 
-    public final static int CHANNEL_LEFT = 0;
-    public final static int CHANNEL_RIGHT = 1;
-    public final static int CHANNEL_MONO = 2;
-    public final static int CHANNEL_DELAY_LEFT = 3;
-    public final static int CHANNEL_DELAY_RIGHT = 4;
-    public final static int CHANNEL_DELAY_MONO = 5;
-    public final static int CHANNEL_EFFECT1 = 6;
-    public final static int CHANNEL_EFFECT2 = 7;
-    public final static int CHANNEL_DELAY_EFFECT1 = 8;
-    public final static int CHANNEL_DELAY_EFFECT2 = 9;
-    public final static int CHANNEL_LEFT_DRY = 10;
-    public final static int CHANNEL_RIGHT_DRY = 11;
-    public final static int CHANNEL_SCRATCH1 = 12;
-    public final static int CHANNEL_SCRATCH2 = 13;
-    boolean active_sensing_on = false;
-    private long msec_last_activity = -1;
-    private boolean pusher_silent = false;
-    private int pusher_silent_count = 0;
-    private long sample_pos = 0;
-    boolean readfully = true;
-    private final Object control_mutex;
-    private SoftSynthesizer synth;
-    private float samplerate = 44100;
-    private int nrofchannels = 2;
-    private SoftVoice[] voicestatus = null;
-    private SoftAudioBuffer[] buffers;
-    private SoftReverb reverb;
-    private SoftAudioProcessor chorus;
-    private SoftAudioProcessor agc;
-    private long msec_buffer_len = 0;
-    private int buffer_len = 0;
-    TreeMap<Long, Object> midimessages = new TreeMap<Long, Object>();
-    private int delay_midievent = 0;
-    private int max_delay_midievent = 0;
-    double last_volume_left = 1.0;
-    double last_volume_right = 1.0;
-    private double[] co_master_balance = new double[1];
-    private double[] co_master_volume = new double[1];
-    private double[] co_master_coarse_tuning = new double[1];
-    private double[] co_master_fine_tuning = new double[1];
-    private AudioInputStream ais;
-    private Set<SoftChannelMixerContainer> registeredMixers = null;
-    private Set<ModelChannelMixer> stoppedMixers = null;
-    private SoftChannelMixerContainer[] cur_registeredMixers = null;
-    SoftControl co_master = new SoftControl() {
+    public finbl stbtic int CHANNEL_LEFT = 0;
+    public finbl stbtic int CHANNEL_RIGHT = 1;
+    public finbl stbtic int CHANNEL_MONO = 2;
+    public finbl stbtic int CHANNEL_DELAY_LEFT = 3;
+    public finbl stbtic int CHANNEL_DELAY_RIGHT = 4;
+    public finbl stbtic int CHANNEL_DELAY_MONO = 5;
+    public finbl stbtic int CHANNEL_EFFECT1 = 6;
+    public finbl stbtic int CHANNEL_EFFECT2 = 7;
+    public finbl stbtic int CHANNEL_DELAY_EFFECT1 = 8;
+    public finbl stbtic int CHANNEL_DELAY_EFFECT2 = 9;
+    public finbl stbtic int CHANNEL_LEFT_DRY = 10;
+    public finbl stbtic int CHANNEL_RIGHT_DRY = 11;
+    public finbl stbtic int CHANNEL_SCRATCH1 = 12;
+    public finbl stbtic int CHANNEL_SCRATCH2 = 13;
+    boolebn bctive_sensing_on = fblse;
+    privbte long msec_lbst_bctivity = -1;
+    privbte boolebn pusher_silent = fblse;
+    privbte int pusher_silent_count = 0;
+    privbte long sbmple_pos = 0;
+    boolebn rebdfully = true;
+    privbte finbl Object control_mutex;
+    privbte SoftSynthesizer synth;
+    privbte flobt sbmplerbte = 44100;
+    privbte int nrofchbnnels = 2;
+    privbte SoftVoice[] voicestbtus = null;
+    privbte SoftAudioBuffer[] buffers;
+    privbte SoftReverb reverb;
+    privbte SoftAudioProcessor chorus;
+    privbte SoftAudioProcessor bgc;
+    privbte long msec_buffer_len = 0;
+    privbte int buffer_len = 0;
+    TreeMbp<Long, Object> midimessbges = new TreeMbp<Long, Object>();
+    privbte int delby_midievent = 0;
+    privbte int mbx_delby_midievent = 0;
+    double lbst_volume_left = 1.0;
+    double lbst_volume_right = 1.0;
+    privbte double[] co_mbster_bblbnce = new double[1];
+    privbte double[] co_mbster_volume = new double[1];
+    privbte double[] co_mbster_cobrse_tuning = new double[1];
+    privbte double[] co_mbster_fine_tuning = new double[1];
+    privbte AudioInputStrebm bis;
+    privbte Set<SoftChbnnelMixerContbiner> registeredMixers = null;
+    privbte Set<ModelChbnnelMixer> stoppedMixers = null;
+    privbte SoftChbnnelMixerContbiner[] cur_registeredMixers = null;
+    SoftControl co_mbster = new SoftControl() {
 
-        double[] balance = co_master_balance;
-        double[] volume = co_master_volume;
-        double[] coarse_tuning = co_master_coarse_tuning;
-        double[] fine_tuning = co_master_fine_tuning;
+        double[] bblbnce = co_mbster_bblbnce;
+        double[] volume = co_mbster_volume;
+        double[] cobrse_tuning = co_mbster_cobrse_tuning;
+        double[] fine_tuning = co_mbster_fine_tuning;
 
-        public double[] get(int instance, String name) {
-            if (name == null)
+        public double[] get(int instbnce, String nbme) {
+            if (nbme == null)
                 return null;
-            if (name.equals("balance"))
-                return balance;
-            if (name.equals("volume"))
+            if (nbme.equbls("bblbnce"))
+                return bblbnce;
+            if (nbme.equbls("volume"))
                 return volume;
-            if (name.equals("coarse_tuning"))
-                return coarse_tuning;
-            if (name.equals("fine_tuning"))
+            if (nbme.equbls("cobrse_tuning"))
+                return cobrse_tuning;
+            if (nbme.equbls("fine_tuning"))
                 return fine_tuning;
             return null;
         }
     };
 
-    private void processSystemExclusiveMessage(byte[] data) {
+    privbte void processSystemExclusiveMessbge(byte[] dbtb) {
         synchronized (synth.control_mutex) {
-            activity();
+            bctivity();
 
-            // Universal Non-Real-Time SysEx
-            if ((data[1] & 0xFF) == 0x7E) {
-                int deviceID = data[2] & 0xFF;
+            // Universbl Non-Rebl-Time SysEx
+            if ((dbtb[1] & 0xFF) == 0x7E) {
+                int deviceID = dbtb[2] & 0xFF;
                 if (deviceID == 0x7F || deviceID == synth.getDeviceID()) {
-                    int subid1 = data[3] & 0xFF;
+                    int subid1 = dbtb[3] & 0xFF;
                     int subid2;
                     switch (subid1) {
-                    case 0x08:  // MIDI Tuning Standard
-                        subid2 = data[4] & 0xFF;
+                    cbse 0x08:  // MIDI Tuning Stbndbrd
+                        subid2 = dbtb[4] & 0xFF;
                         switch (subid2) {
-                        case 0x01:  // BULK TUNING DUMP
+                        cbse 0x01:  // BULK TUNING DUMP
                         {
-                            // http://www.midi.org/about-midi/tuning.shtml
-                            SoftTuning tuning = synth.getTuning(new Patch(0,
-                                    data[5] & 0xFF));
-                            tuning.load(data);
-                            break;
+                            // http://www.midi.org/bbout-midi/tuning.shtml
+                            SoftTuning tuning = synth.getTuning(new Pbtch(0,
+                                    dbtb[5] & 0xFF));
+                            tuning.lobd(dbtb);
+                            brebk;
                         }
-                        case 0x04:  // KEY-BASED TUNING DUMP
-                        case 0x05:  // SCALE/OCTAVE TUNING DUMP, 1 byte format
-                        case 0x06:  // SCALE/OCTAVE TUNING DUMP, 2 byte format
-                        case 0x07:  // SINGLE NOTE TUNING CHANGE (NON REAL-TIME)
+                        cbse 0x04:  // KEY-BASED TUNING DUMP
+                        cbse 0x05:  // SCALE/OCTAVE TUNING DUMP, 1 byte formbt
+                        cbse 0x06:  // SCALE/OCTAVE TUNING DUMP, 2 byte formbt
+                        cbse 0x07:  // SINGLE NOTE TUNING CHANGE (NON REAL-TIME)
                                     // (BANK)
                         {
-                            // http://www.midi.org/about-midi/tuning_extens.shtml
-                            SoftTuning tuning = synth.getTuning(new Patch(
-                                    data[5] & 0xFF, data[6] & 0xFF));
-                            tuning.load(data);
-                            break;
+                            // http://www.midi.org/bbout-midi/tuning_extens.shtml
+                            SoftTuning tuning = synth.getTuning(new Pbtch(
+                                    dbtb[5] & 0xFF, dbtb[6] & 0xFF));
+                            tuning.lobd(dbtb);
+                            brebk;
                         }
-                        case 0x08:  // scale/octave tuning 1-byte form (Non
-                                    // Real-Time)
-                        case 0x09:  // scale/octave tuning 2-byte form (Non
-                                    // Real-Time)
+                        cbse 0x08:  // scble/octbve tuning 1-byte form (Non
+                                    // Rebl-Time)
+                        cbse 0x09:  // scble/octbve tuning 2-byte form (Non
+                                    // Rebl-Time)
                         {
-                            // http://www.midi.org/about-midi/tuning-scale.shtml
-                            SoftTuning tuning = new SoftTuning(data);
-                            int channelmask = (data[5] & 0xFF) * 16384
-                                    + (data[6] & 0xFF) * 128 + (data[7] & 0xFF);
-                            SoftChannel[] channels = synth.channels;
-                            for (int i = 0; i < channels.length; i++)
-                                if ((channelmask & (1 << i)) != 0)
-                                    channels[i].tuning = tuning;
-                            break;
+                            // http://www.midi.org/bbout-midi/tuning-scble.shtml
+                            SoftTuning tuning = new SoftTuning(dbtb);
+                            int chbnnelmbsk = (dbtb[5] & 0xFF) * 16384
+                                    + (dbtb[6] & 0xFF) * 128 + (dbtb[7] & 0xFF);
+                            SoftChbnnel[] chbnnels = synth.chbnnels;
+                            for (int i = 0; i < chbnnels.length; i++)
+                                if ((chbnnelmbsk & (1 << i)) != 0)
+                                    chbnnels[i].tuning = tuning;
+                            brebk;
                         }
-                        default:
-                            break;
+                        defbult:
+                            brebk;
                         }
-                        break;
-                    case 0x09:  // General Midi Message
-                        subid2 = data[4] & 0xFF;
+                        brebk;
+                    cbse 0x09:  // Generbl Midi Messbge
+                        subid2 = dbtb[4] & 0xFF;
                         switch (subid2) {
-                        case 0x01:  // General Midi 1 On
-                            synth.setGeneralMidiMode(1);
+                        cbse 0x01:  // Generbl Midi 1 On
+                            synth.setGenerblMidiMode(1);
                             reset();
-                            break;
-                        case 0x02:  // General Midi Off
-                            synth.setGeneralMidiMode(0);
+                            brebk;
+                        cbse 0x02:  // Generbl Midi Off
+                            synth.setGenerblMidiMode(0);
                             reset();
-                            break;
-                        case 0x03:  // General MidI Level 2 On
-                            synth.setGeneralMidiMode(2);
+                            brebk;
+                        cbse 0x03:  // Generbl MidI Level 2 On
+                            synth.setGenerblMidiMode(2);
                             reset();
-                            break;
-                        default:
-                            break;
+                            brebk;
+                        defbult:
+                            brebk;
                         }
-                        break;
-                    case 0x0A: // DLS Message
-                        subid2 = data[4] & 0xFF;
+                        brebk;
+                    cbse 0x0A: // DLS Messbge
+                        subid2 = dbtb[4] & 0xFF;
                         switch (subid2) {
-                        case 0x01:  // DLS On
-                            if (synth.getGeneralMidiMode() == 0)
-                                synth.setGeneralMidiMode(1);
-                            synth.voice_allocation_mode = 1;
+                        cbse 0x01:  // DLS On
+                            if (synth.getGenerblMidiMode() == 0)
+                                synth.setGenerblMidiMode(1);
+                            synth.voice_bllocbtion_mode = 1;
                             reset();
-                            break;
-                        case 0x02:  // DLS Off
-                            synth.setGeneralMidiMode(0);
-                            synth.voice_allocation_mode = 0;
+                            brebk;
+                        cbse 0x02:  // DLS Off
+                            synth.setGenerblMidiMode(0);
+                            synth.voice_bllocbtion_mode = 0;
                             reset();
-                            break;
-                        case 0x03:  // DLS Static Voice Allocation Off
-                            synth.voice_allocation_mode = 0;
-                            break;
-                        case 0x04:  // DLS Static Voice Allocation On
-                            synth.voice_allocation_mode = 1;
-                            break;
-                        default:
-                            break;
+                            brebk;
+                        cbse 0x03:  // DLS Stbtic Voice Allocbtion Off
+                            synth.voice_bllocbtion_mode = 0;
+                            brebk;
+                        cbse 0x04:  // DLS Stbtic Voice Allocbtion On
+                            synth.voice_bllocbtion_mode = 1;
+                            brebk;
+                        defbult:
+                            brebk;
                         }
-                        break;
+                        brebk;
 
-                    default:
-                        break;
+                    defbult:
+                        brebk;
                     }
                 }
             }
 
-            // Universal Real-Time SysEx
-            if ((data[1] & 0xFF) == 0x7F) {
-                int deviceID = data[2] & 0xFF;
+            // Universbl Rebl-Time SysEx
+            if ((dbtb[1] & 0xFF) == 0x7F) {
+                int deviceID = dbtb[2] & 0xFF;
                 if (deviceID == 0x7F || deviceID == synth.getDeviceID()) {
-                    int subid1 = data[3] & 0xFF;
+                    int subid1 = dbtb[3] & 0xFF;
                     int subid2;
                     switch (subid1) {
-                    case 0x04: // Device Control
+                    cbse 0x04: // Device Control
 
-                        subid2 = data[4] & 0xFF;
+                        subid2 = dbtb[4] & 0xFF;
                         switch (subid2) {
-                        case 0x01: // Master Volume
-                        case 0x02: // Master Balane
-                        case 0x03: // Master fine tuning
-                        case 0x04: // Master coarse tuning
-                            int val = (data[5] & 0x7F)
-                                    + ((data[6] & 0x7F) * 128);
+                        cbse 0x01: // Mbster Volume
+                        cbse 0x02: // Mbster Bblbne
+                        cbse 0x03: // Mbster fine tuning
+                        cbse 0x04: // Mbster cobrse tuning
+                            int vbl = (dbtb[5] & 0x7F)
+                                    + ((dbtb[6] & 0x7F) * 128);
                             if (subid2 == 0x01)
-                                setVolume(val);
+                                setVolume(vbl);
                             else if (subid2 == 0x02)
-                                setBalance(val);
+                                setBblbnce(vbl);
                             else if (subid2 == 0x03)
-                                setFineTuning(val);
+                                setFineTuning(vbl);
                             else if (subid2 == 0x04)
-                                setCoarseTuning(val);
-                            break;
-                        case 0x05: // Global Parameter Control
+                                setCobrseTuning(vbl);
+                            brebk;
+                        cbse 0x05: // Globbl Pbrbmeter Control
                             int ix = 5;
-                            int slotPathLen = (data[ix++] & 0xFF);
-                            int paramWidth = (data[ix++] & 0xFF);
-                            int valueWidth = (data[ix++] & 0xFF);
-                            int[] slotPath = new int[slotPathLen];
-                            for (int i = 0; i < slotPathLen; i++) {
-                                int msb = (data[ix++] & 0xFF);
-                                int lsb = (data[ix++] & 0xFF);
-                                slotPath[i] = msb * 128 + lsb;
+                            int slotPbthLen = (dbtb[ix++] & 0xFF);
+                            int pbrbmWidth = (dbtb[ix++] & 0xFF);
+                            int vblueWidth = (dbtb[ix++] & 0xFF);
+                            int[] slotPbth = new int[slotPbthLen];
+                            for (int i = 0; i < slotPbthLen; i++) {
+                                int msb = (dbtb[ix++] & 0xFF);
+                                int lsb = (dbtb[ix++] & 0xFF);
+                                slotPbth[i] = msb * 128 + lsb;
                             }
-                            int paramCount = (data.length - 1 - ix)
-                                    / (paramWidth + valueWidth);
-                            long[] params = new long[paramCount];
-                            long[] values = new long[paramCount];
-                            for (int i = 0; i < paramCount; i++) {
-                                values[i] = 0;
-                                for (int j = 0; j < paramWidth; j++)
-                                    params[i] = params[i] * 128
-                                            + (data[ix++] & 0xFF);
-                                for (int j = 0; j < valueWidth; j++)
-                                    values[i] = values[i] * 128
-                                            + (data[ix++] & 0xFF);
+                            int pbrbmCount = (dbtb.length - 1 - ix)
+                                    / (pbrbmWidth + vblueWidth);
+                            long[] pbrbms = new long[pbrbmCount];
+                            long[] vblues = new long[pbrbmCount];
+                            for (int i = 0; i < pbrbmCount; i++) {
+                                vblues[i] = 0;
+                                for (int j = 0; j < pbrbmWidth; j++)
+                                    pbrbms[i] = pbrbms[i] * 128
+                                            + (dbtb[ix++] & 0xFF);
+                                for (int j = 0; j < vblueWidth; j++)
+                                    vblues[i] = vblues[i] * 128
+                                            + (dbtb[ix++] & 0xFF);
 
                             }
-                            globalParameterControlChange(slotPath, params, values);
-                            break;
-                        default:
-                            break;
+                            globblPbrbmeterControlChbnge(slotPbth, pbrbms, vblues);
+                            brebk;
+                        defbult:
+                            brebk;
                         }
-                        break;
+                        brebk;
 
-                    case 0x08:  // MIDI Tuning Standard
-                        subid2 = data[4] & 0xFF;
+                    cbse 0x08:  // MIDI Tuning Stbndbrd
+                        subid2 = dbtb[4] & 0xFF;
                         switch (subid2) {
-                        case 0x02:  // SINGLE NOTE TUNING CHANGE (REAL-TIME)
+                        cbse 0x02:  // SINGLE NOTE TUNING CHANGE (REAL-TIME)
                         {
-                            // http://www.midi.org/about-midi/tuning.shtml
-                            SoftTuning tuning = synth.getTuning(new Patch(0,
-                                    data[5] & 0xFF));
-                            tuning.load(data);
+                            // http://www.midi.org/bbout-midi/tuning.shtml
+                            SoftTuning tuning = synth.getTuning(new Pbtch(0,
+                                    dbtb[5] & 0xFF));
+                            tuning.lobd(dbtb);
                             SoftVoice[] voices = synth.getVoices();
                             for (int i = 0; i < voices.length; i++)
-                                if (voices[i].active)
+                                if (voices[i].bctive)
                                     if (voices[i].tuning == tuning)
-                                        voices[i].updateTuning(tuning);
-                            break;
+                                        voices[i].updbteTuning(tuning);
+                            brebk;
                         }
-                        case 0x07:  // SINGLE NOTE TUNING CHANGE (REAL-TIME)
+                        cbse 0x07:  // SINGLE NOTE TUNING CHANGE (REAL-TIME)
                                     // (BANK)
                         {
-                            // http://www.midi.org/about-midi/tuning_extens.shtml
-                            SoftTuning tuning = synth.getTuning(new Patch(
-                                    data[5] & 0xFF, data[6] & 0xFF));
-                            tuning.load(data);
+                            // http://www.midi.org/bbout-midi/tuning_extens.shtml
+                            SoftTuning tuning = synth.getTuning(new Pbtch(
+                                    dbtb[5] & 0xFF, dbtb[6] & 0xFF));
+                            tuning.lobd(dbtb);
                             SoftVoice[] voices = synth.getVoices();
                             for (int i = 0; i < voices.length; i++)
-                                if (voices[i].active)
+                                if (voices[i].bctive)
                                     if (voices[i].tuning == tuning)
-                                        voices[i].updateTuning(tuning);
-                            break;
+                                        voices[i].updbteTuning(tuning);
+                            brebk;
                         }
-                        case 0x08:  // scale/octave tuning 1-byte form
-                                    //(Real-Time)
-                        case 0x09:  // scale/octave tuning 2-byte form
-                                    // (Real-Time)
+                        cbse 0x08:  // scble/octbve tuning 1-byte form
+                                    //(Rebl-Time)
+                        cbse 0x09:  // scble/octbve tuning 2-byte form
+                                    // (Rebl-Time)
                         {
-                            // http://www.midi.org/about-midi/tuning-scale.shtml
-                            SoftTuning tuning = new SoftTuning(data);
-                            int channelmask = (data[5] & 0xFF) * 16384
-                                    + (data[6] & 0xFF) * 128 + (data[7] & 0xFF);
-                            SoftChannel[] channels = synth.channels;
-                            for (int i = 0; i < channels.length; i++)
-                                if ((channelmask & (1 << i)) != 0)
-                                    channels[i].tuning = tuning;
+                            // http://www.midi.org/bbout-midi/tuning-scble.shtml
+                            SoftTuning tuning = new SoftTuning(dbtb);
+                            int chbnnelmbsk = (dbtb[5] & 0xFF) * 16384
+                                    + (dbtb[6] & 0xFF) * 128 + (dbtb[7] & 0xFF);
+                            SoftChbnnel[] chbnnels = synth.chbnnels;
+                            for (int i = 0; i < chbnnels.length; i++)
+                                if ((chbnnelmbsk & (1 << i)) != 0)
+                                    chbnnels[i].tuning = tuning;
                             SoftVoice[] voices = synth.getVoices();
                             for (int i = 0; i < voices.length; i++)
-                                if (voices[i].active)
-                                    if ((channelmask & (1 << (voices[i].channel))) != 0)
-                                        voices[i].updateTuning(tuning);
-                            break;
+                                if (voices[i].bctive)
+                                    if ((chbnnelmbsk & (1 << (voices[i].chbnnel))) != 0)
+                                        voices[i].updbteTuning(tuning);
+                            brebk;
                         }
-                        default:
-                            break;
+                        defbult:
+                            brebk;
                         }
-                        break;
-                    case 0x09:  // Control Destination Settings
-                        subid2 = data[4] & 0xFF;
+                        brebk;
+                    cbse 0x09:  // Control Destinbtion Settings
+                        subid2 = dbtb[4] & 0xFF;
                         switch (subid2) {
-                        case 0x01: // Channel Pressure
+                        cbse 0x01: // Chbnnel Pressure
                         {
-                            int[] destinations = new int[(data.length - 7) / 2];
-                            int[] ranges = new int[(data.length - 7) / 2];
+                            int[] destinbtions = new int[(dbtb.length - 7) / 2];
+                            int[] rbnges = new int[(dbtb.length - 7) / 2];
                             int ix = 0;
-                            for (int j = 6; j < data.length - 1; j += 2) {
-                                destinations[ix] = data[j] & 0xFF;
-                                ranges[ix] = data[j + 1] & 0xFF;
+                            for (int j = 6; j < dbtb.length - 1; j += 2) {
+                                destinbtions[ix] = dbtb[j] & 0xFF;
+                                rbnges[ix] = dbtb[j + 1] & 0xFF;
                                 ix++;
                             }
-                            int channel = data[5] & 0xFF;
-                            SoftChannel softchannel = synth.channels[channel];
-                            softchannel.mapChannelPressureToDestination(
-                                    destinations, ranges);
-                            break;
+                            int chbnnel = dbtb[5] & 0xFF;
+                            SoftChbnnel softchbnnel = synth.chbnnels[chbnnel];
+                            softchbnnel.mbpChbnnelPressureToDestinbtion(
+                                    destinbtions, rbnges);
+                            brebk;
                         }
-                        case 0x02: // Poly Pressure
+                        cbse 0x02: // Poly Pressure
                         {
-                            int[] destinations = new int[(data.length - 7) / 2];
-                            int[] ranges = new int[(data.length - 7) / 2];
+                            int[] destinbtions = new int[(dbtb.length - 7) / 2];
+                            int[] rbnges = new int[(dbtb.length - 7) / 2];
                             int ix = 0;
-                            for (int j = 6; j < data.length - 1; j += 2) {
-                                destinations[ix] = data[j] & 0xFF;
-                                ranges[ix] = data[j + 1] & 0xFF;
+                            for (int j = 6; j < dbtb.length - 1; j += 2) {
+                                destinbtions[ix] = dbtb[j] & 0xFF;
+                                rbnges[ix] = dbtb[j + 1] & 0xFF;
                                 ix++;
                             }
-                            int channel = data[5] & 0xFF;
-                            SoftChannel softchannel = synth.channels[channel];
-                            softchannel.mapPolyPressureToDestination(
-                                    destinations, ranges);
-                            break;
+                            int chbnnel = dbtb[5] & 0xFF;
+                            SoftChbnnel softchbnnel = synth.chbnnels[chbnnel];
+                            softchbnnel.mbpPolyPressureToDestinbtion(
+                                    destinbtions, rbnges);
+                            brebk;
                         }
-                        case 0x03: // Control Change
+                        cbse 0x03: // Control Chbnge
                         {
-                            int[] destinations = new int[(data.length - 7) / 2];
-                            int[] ranges = new int[(data.length - 7) / 2];
+                            int[] destinbtions = new int[(dbtb.length - 7) / 2];
+                            int[] rbnges = new int[(dbtb.length - 7) / 2];
                             int ix = 0;
-                            for (int j = 7; j < data.length - 1; j += 2) {
-                                destinations[ix] = data[j] & 0xFF;
-                                ranges[ix] = data[j + 1] & 0xFF;
+                            for (int j = 7; j < dbtb.length - 1; j += 2) {
+                                destinbtions[ix] = dbtb[j] & 0xFF;
+                                rbnges[ix] = dbtb[j + 1] & 0xFF;
                                 ix++;
                             }
-                            int channel = data[5] & 0xFF;
-                            SoftChannel softchannel = synth.channels[channel];
-                            int control = data[6] & 0xFF;
-                            softchannel.mapControlToDestination(control,
-                                    destinations, ranges);
-                            break;
+                            int chbnnel = dbtb[5] & 0xFF;
+                            SoftChbnnel softchbnnel = synth.chbnnels[chbnnel];
+                            int control = dbtb[6] & 0xFF;
+                            softchbnnel.mbpControlToDestinbtion(control,
+                                    destinbtions, rbnges);
+                            brebk;
                         }
-                        default:
-                            break;
+                        defbult:
+                            brebk;
                         }
-                        break;
+                        brebk;
 
-                    case 0x0A:  // Key Based Instrument Control
+                    cbse 0x0A:  // Key Bbsed Instrument Control
                     {
-                        subid2 = data[4] & 0xFF;
+                        subid2 = dbtb[4] & 0xFF;
                         switch (subid2) {
-                        case 0x01: // Basic Message
-                            int channel = data[5] & 0xFF;
-                            int keynumber = data[6] & 0xFF;
-                            SoftChannel softchannel = synth.channels[channel];
-                            for (int j = 7; j < data.length - 1; j += 2) {
-                                int controlnumber = data[j] & 0xFF;
-                                int controlvalue = data[j + 1] & 0xFF;
-                                softchannel.controlChangePerNote(keynumber,
-                                        controlnumber, controlvalue);
+                        cbse 0x01: // Bbsic Messbge
+                            int chbnnel = dbtb[5] & 0xFF;
+                            int keynumber = dbtb[6] & 0xFF;
+                            SoftChbnnel softchbnnel = synth.chbnnels[chbnnel];
+                            for (int j = 7; j < dbtb.length - 1; j += 2) {
+                                int controlnumber = dbtb[j] & 0xFF;
+                                int controlvblue = dbtb[j + 1] & 0xFF;
+                                softchbnnel.controlChbngePerNote(keynumber,
+                                        controlnumber, controlvblue);
                             }
-                            break;
-                        default:
-                            break;
+                            brebk;
+                        defbult:
+                            brebk;
                         }
-                        break;
+                        brebk;
                     }
-                    default:
-                        break;
+                    defbult:
+                        brebk;
                     }
                 }
             }
@@ -420,30 +420,30 @@ public final class SoftMainMixer {
         }
     }
 
-    private void processMessages(long timeStamp) {
-        Iterator<Entry<Long, Object>> iter = midimessages.entrySet().iterator();
-        while (iter.hasNext()) {
+    privbte void processMessbges(long timeStbmp) {
+        Iterbtor<Entry<Long, Object>> iter = midimessbges.entrySet().iterbtor();
+        while (iter.hbsNext()) {
             Entry<Long, Object> entry = iter.next();
-            if (entry.getKey() >= (timeStamp + msec_buffer_len))
+            if (entry.getKey() >= (timeStbmp + msec_buffer_len))
                 return;
-            long msec_delay = entry.getKey() - timeStamp;
-            delay_midievent = (int)(msec_delay * (samplerate / 1000000.0) + 0.5);
-            if(delay_midievent > max_delay_midievent)
-                delay_midievent = max_delay_midievent;
-            if(delay_midievent < 0)
-                delay_midievent = 0;
-            processMessage(entry.getValue());
+            long msec_delby = entry.getKey() - timeStbmp;
+            delby_midievent = (int)(msec_delby * (sbmplerbte / 1000000.0) + 0.5);
+            if(delby_midievent > mbx_delby_midievent)
+                delby_midievent = mbx_delby_midievent;
+            if(delby_midievent < 0)
+                delby_midievent = 0;
+            processMessbge(entry.getVblue());
             iter.remove();
         }
-        delay_midievent = 0;
+        delby_midievent = 0;
     }
 
     void processAudioBuffers() {
 
-        if(synth.weakstream != null && synth.weakstream.silent_samples != 0)
+        if(synth.webkstrebm != null && synth.webkstrebm.silent_sbmples != 0)
         {
-            sample_pos += synth.weakstream.silent_samples;
-            synth.weakstream.silent_samples = 0;
+            sbmple_pos += synth.webkstrebm.silent_sbmples;
+            synth.webkstrebm.silent_sbmples = 0;
         }
 
         for (int i = 0; i < buffers.length; i++) {
@@ -452,110 +452,110 @@ public final class SoftMainMixer {
                     i != CHANNEL_DELAY_MONO &&
                     i != CHANNEL_DELAY_EFFECT1 &&
                     i != CHANNEL_DELAY_EFFECT2)
-                buffers[i].clear();
+                buffers[i].clebr();
         }
 
         if(!buffers[CHANNEL_DELAY_LEFT].isSilent())
         {
-            buffers[CHANNEL_LEFT].swap(buffers[CHANNEL_DELAY_LEFT]);
+            buffers[CHANNEL_LEFT].swbp(buffers[CHANNEL_DELAY_LEFT]);
         }
         if(!buffers[CHANNEL_DELAY_RIGHT].isSilent())
         {
-            buffers[CHANNEL_RIGHT].swap(buffers[CHANNEL_DELAY_RIGHT]);
+            buffers[CHANNEL_RIGHT].swbp(buffers[CHANNEL_DELAY_RIGHT]);
         }
         if(!buffers[CHANNEL_DELAY_MONO].isSilent())
         {
-            buffers[CHANNEL_MONO].swap(buffers[CHANNEL_DELAY_MONO]);
+            buffers[CHANNEL_MONO].swbp(buffers[CHANNEL_DELAY_MONO]);
         }
         if(!buffers[CHANNEL_DELAY_EFFECT1].isSilent())
         {
-            buffers[CHANNEL_EFFECT1].swap(buffers[CHANNEL_DELAY_EFFECT1]);
+            buffers[CHANNEL_EFFECT1].swbp(buffers[CHANNEL_DELAY_EFFECT1]);
         }
         if(!buffers[CHANNEL_DELAY_EFFECT2].isSilent())
         {
-            buffers[CHANNEL_EFFECT2].swap(buffers[CHANNEL_DELAY_EFFECT2]);
+            buffers[CHANNEL_EFFECT2].swbp(buffers[CHANNEL_DELAY_EFFECT2]);
         }
 
         double volume_left;
         double volume_right;
 
-        SoftChannelMixerContainer[] act_registeredMixers;
+        SoftChbnnelMixerContbiner[] bct_registeredMixers;
 
         // perform control logic
         synchronized (control_mutex) {
 
-            long msec_pos = (long)(sample_pos * (1000000.0 / samplerate));
+            long msec_pos = (long)(sbmple_pos * (1000000.0 / sbmplerbte));
 
-            processMessages(msec_pos);
+            processMessbges(msec_pos);
 
-            if (active_sensing_on) {
+            if (bctive_sensing_on) {
                 // Active Sensing
-                // if no message occurs for max 1000 ms
-                // then do AllSoundOff on all channels
-                if ((msec_pos - msec_last_activity) > 1000000) {
-                    active_sensing_on = false;
-                    for (SoftChannel c : synth.channels)
-                        c.allSoundOff();
+                // if no messbge occurs for mbx 1000 ms
+                // then do AllSoundOff on bll chbnnels
+                if ((msec_pos - msec_lbst_bctivity) > 1000000) {
+                    bctive_sensing_on = fblse;
+                    for (SoftChbnnel c : synth.chbnnels)
+                        c.bllSoundOff();
                 }
 
             }
 
-            for (int i = 0; i < voicestatus.length; i++)
-                if (voicestatus[i].active)
-                    voicestatus[i].processControlLogic();
-            sample_pos += buffer_len;
+            for (int i = 0; i < voicestbtus.length; i++)
+                if (voicestbtus[i].bctive)
+                    voicestbtus[i].processControlLogic();
+            sbmple_pos += buffer_len;
 
-            double volume = co_master_volume[0];
+            double volume = co_mbster_volume[0];
             volume_left = volume;
             volume_right = volume;
 
-            double balance = co_master_balance[0];
-            if (balance > 0.5)
-                volume_left *= (1 - balance) * 2;
+            double bblbnce = co_mbster_bblbnce[0];
+            if (bblbnce > 0.5)
+                volume_left *= (1 - bblbnce) * 2;
             else
-                volume_right *= balance * 2;
+                volume_right *= bblbnce * 2;
 
             chorus.processControlLogic();
             reverb.processControlLogic();
-            agc.processControlLogic();
+            bgc.processControlLogic();
 
             if (cur_registeredMixers == null) {
                 if (registeredMixers != null) {
                     cur_registeredMixers =
-                            new SoftChannelMixerContainer[registeredMixers.size()];
-                    registeredMixers.toArray(cur_registeredMixers);
+                            new SoftChbnnelMixerContbiner[registeredMixers.size()];
+                    registeredMixers.toArrby(cur_registeredMixers);
                 }
             }
 
-            act_registeredMixers = cur_registeredMixers;
-            if (act_registeredMixers != null)
-                if (act_registeredMixers.length == 0)
-                    act_registeredMixers = null;
+            bct_registeredMixers = cur_registeredMixers;
+            if (bct_registeredMixers != null)
+                if (bct_registeredMixers.length == 0)
+                    bct_registeredMixers = null;
 
         }
 
-        if (act_registeredMixers != null) {
+        if (bct_registeredMixers != null) {
 
-            // Make backup of left,right,mono channels
-            SoftAudioBuffer leftbak = buffers[CHANNEL_LEFT];
-            SoftAudioBuffer rightbak = buffers[CHANNEL_RIGHT];
-            SoftAudioBuffer monobak = buffers[CHANNEL_MONO];
-            SoftAudioBuffer delayleftbak = buffers[CHANNEL_DELAY_LEFT];
-            SoftAudioBuffer delayrightbak = buffers[CHANNEL_DELAY_RIGHT];
-            SoftAudioBuffer delaymonobak = buffers[CHANNEL_DELAY_MONO];
+            // Mbke bbckup of left,right,mono chbnnels
+            SoftAudioBuffer leftbbk = buffers[CHANNEL_LEFT];
+            SoftAudioBuffer rightbbk = buffers[CHANNEL_RIGHT];
+            SoftAudioBuffer monobbk = buffers[CHANNEL_MONO];
+            SoftAudioBuffer delbyleftbbk = buffers[CHANNEL_DELAY_LEFT];
+            SoftAudioBuffer delbyrightbbk = buffers[CHANNEL_DELAY_RIGHT];
+            SoftAudioBuffer delbymonobbk = buffers[CHANNEL_DELAY_MONO];
 
             int bufferlen = buffers[CHANNEL_LEFT].getSize();
 
-            float[][] cbuffer = new float[nrofchannels][];
-            float[][] obuffer = new float[nrofchannels][];
-            obuffer[0] = leftbak.array();
-            if (nrofchannels != 1)
-                obuffer[1] = rightbak.array();
+            flobt[][] cbuffer = new flobt[nrofchbnnels][];
+            flobt[][] obuffer = new flobt[nrofchbnnels][];
+            obuffer[0] = leftbbk.brrby();
+            if (nrofchbnnels != 1)
+                obuffer[1] = rightbbk.brrby();
 
-            for (SoftChannelMixerContainer cmixer : act_registeredMixers) {
+            for (SoftChbnnelMixerContbiner cmixer : bct_registeredMixers) {
 
-                // Reroute default left,right output
-                // to channelmixer left,right input/output
+                // Reroute defbult left,right output
+                // to chbnnelmixer left,right input/output
                 buffers[CHANNEL_LEFT] =  cmixer.buffers[CHANNEL_LEFT];
                 buffers[CHANNEL_RIGHT] = cmixer.buffers[CHANNEL_RIGHT];
                 buffers[CHANNEL_MONO] = cmixer.buffers[CHANNEL_MONO];
@@ -563,43 +563,43 @@ public final class SoftMainMixer {
                 buffers[CHANNEL_DELAY_RIGHT] = cmixer.buffers[CHANNEL_DELAY_RIGHT];
                 buffers[CHANNEL_DELAY_MONO] = cmixer.buffers[CHANNEL_DELAY_MONO];
 
-                buffers[CHANNEL_LEFT].clear();
-                buffers[CHANNEL_RIGHT].clear();
-                buffers[CHANNEL_MONO].clear();
+                buffers[CHANNEL_LEFT].clebr();
+                buffers[CHANNEL_RIGHT].clebr();
+                buffers[CHANNEL_MONO].clebr();
 
                 if(!buffers[CHANNEL_DELAY_LEFT].isSilent())
                 {
-                    buffers[CHANNEL_LEFT].swap(buffers[CHANNEL_DELAY_LEFT]);
+                    buffers[CHANNEL_LEFT].swbp(buffers[CHANNEL_DELAY_LEFT]);
                 }
                 if(!buffers[CHANNEL_DELAY_RIGHT].isSilent())
                 {
-                    buffers[CHANNEL_RIGHT].swap(buffers[CHANNEL_DELAY_RIGHT]);
+                    buffers[CHANNEL_RIGHT].swbp(buffers[CHANNEL_DELAY_RIGHT]);
                 }
                 if(!buffers[CHANNEL_DELAY_MONO].isSilent())
                 {
-                    buffers[CHANNEL_MONO].swap(buffers[CHANNEL_DELAY_MONO]);
+                    buffers[CHANNEL_MONO].swbp(buffers[CHANNEL_DELAY_MONO]);
                 }
 
-                cbuffer[0] = buffers[CHANNEL_LEFT].array();
-                if (nrofchannels != 1)
-                    cbuffer[1] = buffers[CHANNEL_RIGHT].array();
+                cbuffer[0] = buffers[CHANNEL_LEFT].brrby();
+                if (nrofchbnnels != 1)
+                    cbuffer[1] = buffers[CHANNEL_RIGHT].brrby();
 
-                boolean hasactivevoices = false;
-                for (int i = 0; i < voicestatus.length; i++)
-                    if (voicestatus[i].active)
-                        if (voicestatus[i].channelmixer == cmixer.mixer) {
-                            voicestatus[i].processAudioLogic(buffers);
-                            hasactivevoices = true;
+                boolebn hbsbctivevoices = fblse;
+                for (int i = 0; i < voicestbtus.length; i++)
+                    if (voicestbtus[i].bctive)
+                        if (voicestbtus[i].chbnnelmixer == cmixer.mixer) {
+                            voicestbtus[i].processAudioLogic(buffers);
+                            hbsbctivevoices = true;
                         }
 
                 if(!buffers[CHANNEL_MONO].isSilent())
                 {
-                    float[] mono = buffers[CHANNEL_MONO].array();
-                    float[] left = buffers[CHANNEL_LEFT].array();
-                    if (nrofchannels != 1) {
-                        float[] right = buffers[CHANNEL_RIGHT].array();
+                    flobt[] mono = buffers[CHANNEL_MONO].brrby();
+                    flobt[] left = buffers[CHANNEL_LEFT].brrby();
+                    if (nrofchbnnels != 1) {
+                        flobt[] right = buffers[CHANNEL_RIGHT].brrby();
                         for (int i = 0; i < bufferlen; i++) {
-                            float v = mono[i];
+                            flobt v = mono[i];
                             left[i] += v;
                             right[i] += v;
                         }
@@ -620,16 +620,16 @@ public final class SoftMainMixer {
                 }
 
                 for (int i = 0; i < cbuffer.length; i++) {
-                    float[] cbuff = cbuffer[i];
-                    float[] obuff = obuffer[i];
+                    flobt[] cbuff = cbuffer[i];
+                    flobt[] obuff = obuffer[i];
                     for (int j = 0; j < bufferlen; j++)
                         obuff[j] += cbuff[j];
                 }
 
-                if (!hasactivevoices) {
+                if (!hbsbctivevoices) {
                     synchronized (control_mutex) {
                         if (stoppedMixers != null) {
-                            if (stoppedMixers.contains(cmixer)) {
+                            if (stoppedMixers.contbins(cmixer)) {
                                 stoppedMixers.remove(cmixer);
                                 cmixer.mixer.stop();
                             }
@@ -639,29 +639,29 @@ public final class SoftMainMixer {
 
             }
 
-            buffers[CHANNEL_LEFT] = leftbak;
-            buffers[CHANNEL_RIGHT] = rightbak;
-            buffers[CHANNEL_MONO] = monobak;
-            buffers[CHANNEL_DELAY_LEFT] = delayleftbak;
-            buffers[CHANNEL_DELAY_RIGHT] = delayrightbak;
-            buffers[CHANNEL_DELAY_MONO] = delaymonobak;
+            buffers[CHANNEL_LEFT] = leftbbk;
+            buffers[CHANNEL_RIGHT] = rightbbk;
+            buffers[CHANNEL_MONO] = monobbk;
+            buffers[CHANNEL_DELAY_LEFT] = delbyleftbbk;
+            buffers[CHANNEL_DELAY_RIGHT] = delbyrightbbk;
+            buffers[CHANNEL_DELAY_MONO] = delbymonobbk;
 
         }
 
-        for (int i = 0; i < voicestatus.length; i++)
-            if (voicestatus[i].active)
-                if (voicestatus[i].channelmixer == null)
-                    voicestatus[i].processAudioLogic(buffers);
+        for (int i = 0; i < voicestbtus.length; i++)
+            if (voicestbtus[i].bctive)
+                if (voicestbtus[i].chbnnelmixer == null)
+                    voicestbtus[i].processAudioLogic(buffers);
 
         if(!buffers[CHANNEL_MONO].isSilent())
         {
-            float[] mono = buffers[CHANNEL_MONO].array();
-            float[] left = buffers[CHANNEL_LEFT].array();
+            flobt[] mono = buffers[CHANNEL_MONO].brrby();
+            flobt[] left = buffers[CHANNEL_LEFT].brrby();
             int bufferlen = buffers[CHANNEL_LEFT].getSize();
-            if (nrofchannels != 1) {
-                float[] right = buffers[CHANNEL_RIGHT].array();
+            if (nrofchbnnels != 1) {
+                flobt[] right = buffers[CHANNEL_RIGHT].brrby();
                 for (int i = 0; i < bufferlen; i++) {
-                    float v = mono[i];
+                    flobt v = mono[i];
                     left[i] += v;
                     right[i] += v;
                 }
@@ -681,47 +681,47 @@ public final class SoftMainMixer {
         if (synth.reverb_on)
             reverb.processAudio();
 
-        if (nrofchannels == 1)
+        if (nrofchbnnels == 1)
             volume_left = (volume_left + volume_right) / 2;
 
-        // Set Volume / Balance
-        if (last_volume_left != volume_left || last_volume_right != volume_right) {
-            float[] left = buffers[CHANNEL_LEFT].array();
-            float[] right = buffers[CHANNEL_RIGHT].array();
+        // Set Volume / Bblbnce
+        if (lbst_volume_left != volume_left || lbst_volume_right != volume_right) {
+            flobt[] left = buffers[CHANNEL_LEFT].brrby();
+            flobt[] right = buffers[CHANNEL_RIGHT].brrby();
             int bufferlen = buffers[CHANNEL_LEFT].getSize();
 
-            float amp;
-            float amp_delta;
-            amp = (float)(last_volume_left * last_volume_left);
-            amp_delta = (float)((volume_left * volume_left - amp) / bufferlen);
+            flobt bmp;
+            flobt bmp_deltb;
+            bmp = (flobt)(lbst_volume_left * lbst_volume_left);
+            bmp_deltb = (flobt)((volume_left * volume_left - bmp) / bufferlen);
             for (int i = 0; i < bufferlen; i++) {
-                amp += amp_delta;
-                left[i] *= amp;
+                bmp += bmp_deltb;
+                left[i] *= bmp;
             }
-            if (nrofchannels != 1) {
-                amp = (float)(last_volume_right * last_volume_right);
-                amp_delta = (float)((volume_right*volume_right - amp) / bufferlen);
+            if (nrofchbnnels != 1) {
+                bmp = (flobt)(lbst_volume_right * lbst_volume_right);
+                bmp_deltb = (flobt)((volume_right*volume_right - bmp) / bufferlen);
                 for (int i = 0; i < bufferlen; i++) {
-                    amp += amp_delta;
+                    bmp += bmp_deltb;
                     right[i] *= volume_right;
                 }
             }
-            last_volume_left = volume_left;
-            last_volume_right = volume_right;
+            lbst_volume_left = volume_left;
+            lbst_volume_right = volume_right;
 
         } else {
             if (volume_left != 1.0 || volume_right != 1.0) {
-                float[] left = buffers[CHANNEL_LEFT].array();
-                float[] right = buffers[CHANNEL_RIGHT].array();
+                flobt[] left = buffers[CHANNEL_LEFT].brrby();
+                flobt[] right = buffers[CHANNEL_RIGHT].brrby();
                 int bufferlen = buffers[CHANNEL_LEFT].getSize();
-                float amp;
-                amp = (float) (volume_left * volume_left);
+                flobt bmp;
+                bmp = (flobt) (volume_left * volume_left);
                 for (int i = 0; i < bufferlen; i++)
-                    left[i] *= amp;
-                if (nrofchannels != 1) {
-                    amp = (float)(volume_right * volume_right);
+                    left[i] *= bmp;
+                if (nrofchbnnels != 1) {
+                    bmp = (flobt)(volume_right * volume_right);
                     for (int i = 0; i < bufferlen; i++)
-                        right[i] *= amp;
+                        right[i] *= bmp;
                 }
 
             }
@@ -731,12 +731,12 @@ public final class SoftMainMixer {
             && buffers[CHANNEL_RIGHT].isSilent())
         {
 
-            int midimessages_size;
+            int midimessbges_size;
             synchronized (control_mutex) {
-                midimessages_size = midimessages.size();
+                midimessbges_size = midimessbges.size();
             }
 
-            if(midimessages_size == 0)
+            if(midimessbges_size == 0)
             {
                 pusher_silent_count++;
                 if(pusher_silent_count > 5)
@@ -744,8 +744,8 @@ public final class SoftMainMixer {
                     pusher_silent_count = 0;
                     synchronized (control_mutex) {
                         pusher_silent = true;
-                        if(synth.weakstream != null)
-                            synth.weakstream.setInputStream(null);
+                        if(synth.webkstrebm != null)
+                            synth.webkstrebm.setInputStrebm(null);
                     }
                 }
             }
@@ -753,274 +753,274 @@ public final class SoftMainMixer {
         else
             pusher_silent_count = 0;
 
-        if (synth.agc_on)
-            agc.processAudio();
+        if (synth.bgc_on)
+            bgc.processAudio();
 
     }
 
-    // Must only we called within control_mutex synchronization
-    public void activity()
+    // Must only we cblled within control_mutex synchronizbtion
+    public void bctivity()
     {
-        long silent_samples = 0;
+        long silent_sbmples = 0;
         if(pusher_silent)
         {
-            pusher_silent = false;
-            if(synth.weakstream != null)
+            pusher_silent = fblse;
+            if(synth.webkstrebm != null)
             {
-                synth.weakstream.setInputStream(ais);
-                silent_samples = synth.weakstream.silent_samples;
+                synth.webkstrebm.setInputStrebm(bis);
+                silent_sbmples = synth.webkstrebm.silent_sbmples;
             }
         }
-        msec_last_activity = (long)((sample_pos + silent_samples)
-                * (1000000.0 / samplerate));
+        msec_lbst_bctivity = (long)((sbmple_pos + silent_sbmples)
+                * (1000000.0 / sbmplerbte));
     }
 
-    public void stopMixer(ModelChannelMixer mixer) {
+    public void stopMixer(ModelChbnnelMixer mixer) {
         if (stoppedMixers == null)
-            stoppedMixers = new HashSet<ModelChannelMixer>();
-        stoppedMixers.add(mixer);
+            stoppedMixers = new HbshSet<ModelChbnnelMixer>();
+        stoppedMixers.bdd(mixer);
     }
 
-    public void registerMixer(ModelChannelMixer mixer) {
+    public void registerMixer(ModelChbnnelMixer mixer) {
         if (registeredMixers == null)
-            registeredMixers = new HashSet<SoftChannelMixerContainer>();
-        SoftChannelMixerContainer mixercontainer = new SoftChannelMixerContainer();
-        mixercontainer.buffers = new SoftAudioBuffer[6];
-        for (int i = 0; i < mixercontainer.buffers.length; i++) {
-            mixercontainer.buffers[i] =
-                new SoftAudioBuffer(buffer_len, synth.getFormat());
+            registeredMixers = new HbshSet<SoftChbnnelMixerContbiner>();
+        SoftChbnnelMixerContbiner mixercontbiner = new SoftChbnnelMixerContbiner();
+        mixercontbiner.buffers = new SoftAudioBuffer[6];
+        for (int i = 0; i < mixercontbiner.buffers.length; i++) {
+            mixercontbiner.buffers[i] =
+                new SoftAudioBuffer(buffer_len, synth.getFormbt());
         }
-        mixercontainer.mixer = mixer;
-        registeredMixers.add(mixercontainer);
+        mixercontbiner.mixer = mixer;
+        registeredMixers.bdd(mixercontbiner);
         cur_registeredMixers = null;
     }
 
-    public SoftMainMixer(SoftSynthesizer synth) {
+    public SoftMbinMixer(SoftSynthesizer synth) {
         this.synth = synth;
 
-        sample_pos = 0;
+        sbmple_pos = 0;
 
-        co_master_balance[0] = 0.5;
-        co_master_volume[0] = 1;
-        co_master_coarse_tuning[0] = 0.5;
-        co_master_fine_tuning[0] = 0.5;
+        co_mbster_bblbnce[0] = 0.5;
+        co_mbster_volume[0] = 1;
+        co_mbster_cobrse_tuning[0] = 0.5;
+        co_mbster_fine_tuning[0] = 0.5;
 
-        msec_buffer_len = (long) (1000000.0 / synth.getControlRate());
-        samplerate = synth.getFormat().getSampleRate();
-        nrofchannels = synth.getFormat().getChannels();
+        msec_buffer_len = (long) (1000000.0 / synth.getControlRbte());
+        sbmplerbte = synth.getFormbt().getSbmpleRbte();
+        nrofchbnnels = synth.getFormbt().getChbnnels();
 
-        int buffersize = (int) (synth.getFormat().getSampleRate()
-                                / synth.getControlRate());
+        int buffersize = (int) (synth.getFormbt().getSbmpleRbte()
+                                / synth.getControlRbte());
 
         buffer_len = buffersize;
 
-        max_delay_midievent = buffersize;
+        mbx_delby_midievent = buffersize;
 
         control_mutex = synth.control_mutex;
         buffers = new SoftAudioBuffer[14];
         for (int i = 0; i < buffers.length; i++) {
-            buffers[i] = new SoftAudioBuffer(buffersize, synth.getFormat());
+            buffers[i] = new SoftAudioBuffer(buffersize, synth.getFormbt());
         }
-        voicestatus = synth.getVoices();
+        voicestbtus = synth.getVoices();
 
         reverb = new SoftReverb();
         chorus = new SoftChorus();
-        agc = new SoftLimiter();
+        bgc = new SoftLimiter();
 
-        float samplerate = synth.getFormat().getSampleRate();
-        float controlrate = synth.getControlRate();
-        reverb.init(samplerate, controlrate);
-        chorus.init(samplerate, controlrate);
-        agc.init(samplerate, controlrate);
+        flobt sbmplerbte = synth.getFormbt().getSbmpleRbte();
+        flobt controlrbte = synth.getControlRbte();
+        reverb.init(sbmplerbte, controlrbte);
+        chorus.init(sbmplerbte, controlrbte);
+        bgc.init(sbmplerbte, controlrbte);
 
         reverb.setLightMode(synth.reverb_light);
 
         reverb.setMixMode(true);
         chorus.setMixMode(true);
-        agc.setMixMode(false);
+        bgc.setMixMode(fblse);
 
         chorus.setInput(0, buffers[CHANNEL_EFFECT2]);
         chorus.setOutput(0, buffers[CHANNEL_LEFT]);
-        if (nrofchannels != 1)
+        if (nrofchbnnels != 1)
             chorus.setOutput(1, buffers[CHANNEL_RIGHT]);
         chorus.setOutput(2, buffers[CHANNEL_EFFECT1]);
 
         reverb.setInput(0, buffers[CHANNEL_EFFECT1]);
         reverb.setOutput(0, buffers[CHANNEL_LEFT]);
-        if (nrofchannels != 1)
+        if (nrofchbnnels != 1)
             reverb.setOutput(1, buffers[CHANNEL_RIGHT]);
 
-        agc.setInput(0, buffers[CHANNEL_LEFT]);
-        if (nrofchannels != 1)
-            agc.setInput(1, buffers[CHANNEL_RIGHT]);
-        agc.setOutput(0, buffers[CHANNEL_LEFT]);
-        if (nrofchannels != 1)
-            agc.setOutput(1, buffers[CHANNEL_RIGHT]);
+        bgc.setInput(0, buffers[CHANNEL_LEFT]);
+        if (nrofchbnnels != 1)
+            bgc.setInput(1, buffers[CHANNEL_RIGHT]);
+        bgc.setOutput(0, buffers[CHANNEL_LEFT]);
+        if (nrofchbnnels != 1)
+            bgc.setOutput(1, buffers[CHANNEL_RIGHT]);
 
-        InputStream in = new InputStream() {
+        InputStrebm in = new InputStrebm() {
 
-            private final SoftAudioBuffer[] buffers = SoftMainMixer.this.buffers;
-            private final int nrofchannels
-                    = SoftMainMixer.this.synth.getFormat().getChannels();
-            private final int buffersize = buffers[0].getSize();
-            private final byte[] bbuffer = new byte[buffersize
-                    * (SoftMainMixer.this.synth.getFormat()
-                        .getSampleSizeInBits() / 8)
-                    * nrofchannels];
-            private int bbuffer_pos = 0;
-            private final byte[] single = new byte[1];
+            privbte finbl SoftAudioBuffer[] buffers = SoftMbinMixer.this.buffers;
+            privbte finbl int nrofchbnnels
+                    = SoftMbinMixer.this.synth.getFormbt().getChbnnels();
+            privbte finbl int buffersize = buffers[0].getSize();
+            privbte finbl byte[] bbuffer = new byte[buffersize
+                    * (SoftMbinMixer.this.synth.getFormbt()
+                        .getSbmpleSizeInBits() / 8)
+                    * nrofchbnnels];
+            privbte int bbuffer_pos = 0;
+            privbte finbl byte[] single = new byte[1];
 
             public void fillBuffer() {
                 /*
-                boolean pusher_silent2;
+                boolebn pusher_silent2;
                 synchronized (control_mutex) {
                     pusher_silent2 = pusher_silent;
                 }
                 if(!pusher_silent2)*/
                 processAudioBuffers();
-                for (int i = 0; i < nrofchannels; i++)
+                for (int i = 0; i < nrofchbnnels; i++)
                     buffers[i].get(bbuffer, i);
                 bbuffer_pos = 0;
             }
 
-            public int read(byte[] b, int off, int len) {
+            public int rebd(byte[] b, int off, int len) {
                 int bbuffer_len = bbuffer.length;
                 int offlen = off + len;
                 int orgoff = off;
                 byte[] bbuffer = this.bbuffer;
                 while (off < offlen) {
-                    if (available() == 0)
+                    if (bvbilbble() == 0)
                         fillBuffer();
                     else {
                         int bbuffer_pos = this.bbuffer_pos;
                         while (off < offlen && bbuffer_pos < bbuffer_len)
                             b[off++] = bbuffer[bbuffer_pos++];
                         this.bbuffer_pos = bbuffer_pos;
-                        if (!readfully)
+                        if (!rebdfully)
                             return off - orgoff;
                     }
                 }
                 return len;
             }
 
-            public int read() throws IOException {
-                int ret = read(single);
+            public int rebd() throws IOException {
+                int ret = rebd(single);
                 if (ret == -1)
                     return -1;
                 return single[0] & 0xFF;
             }
 
-            public int available() {
+            public int bvbilbble() {
                 return bbuffer.length - bbuffer_pos;
             }
 
             public void close() {
-                SoftMainMixer.this.synth.close();
+                SoftMbinMixer.this.synth.close();
             }
         };
 
-        ais = new AudioInputStream(in, synth.getFormat(), AudioSystem.NOT_SPECIFIED);
+        bis = new AudioInputStrebm(in, synth.getFormbt(), AudioSystem.NOT_SPECIFIED);
 
     }
 
-    public AudioInputStream getInputStream() {
-        return ais;
+    public AudioInputStrebm getInputStrebm() {
+        return bis;
     }
 
     public void reset() {
 
-        SoftChannel[] channels = synth.channels;
-        for (int i = 0; i < channels.length; i++) {
-            channels[i].allSoundOff();
-            channels[i].resetAllControllers(true);
+        SoftChbnnel[] chbnnels = synth.chbnnels;
+        for (int i = 0; i < chbnnels.length; i++) {
+            chbnnels[i].bllSoundOff();
+            chbnnels[i].resetAllControllers(true);
 
-            if (synth.getGeneralMidiMode() == 2) {
+            if (synth.getGenerblMidiMode() == 2) {
                 if (i == 9)
-                    channels[i].programChange(0, 0x78 * 128);
+                    chbnnels[i].progrbmChbnge(0, 0x78 * 128);
                 else
-                    channels[i].programChange(0, 0x79 * 128);
+                    chbnnels[i].progrbmChbnge(0, 0x79 * 128);
             } else
-                channels[i].programChange(0, 0);
+                chbnnels[i].progrbmChbnge(0, 0);
         }
         setVolume(0x7F * 128 + 0x7F);
-        setBalance(0x40 * 128 + 0x00);
-        setCoarseTuning(0x40 * 128 + 0x00);
+        setBblbnce(0x40 * 128 + 0x00);
+        setCobrseTuning(0x40 * 128 + 0x00);
         setFineTuning(0x40 * 128 + 0x00);
         // Reset Reverb
-        globalParameterControlChange(
+        globblPbrbmeterControlChbnge(
                 new int[]{0x01 * 128 + 0x01}, new long[]{0}, new long[]{4});
         // Reset Chorus
-        globalParameterControlChange(
+        globblPbrbmeterControlChbnge(
                 new int[]{0x01 * 128 + 0x02}, new long[]{0}, new long[]{2});
     }
 
-    public void setVolume(int value) {
+    public void setVolume(int vblue) {
         synchronized (control_mutex) {
-            co_master_volume[0] = value / 16384.0;
+            co_mbster_volume[0] = vblue / 16384.0;
         }
     }
 
-    public void setBalance(int value) {
+    public void setBblbnce(int vblue) {
         synchronized (control_mutex) {
-            co_master_balance[0] = value / 16384.0;
+            co_mbster_bblbnce[0] = vblue / 16384.0;
         }
     }
 
-    public void setFineTuning(int value) {
+    public void setFineTuning(int vblue) {
         synchronized (control_mutex) {
-            co_master_fine_tuning[0] = value / 16384.0;
+            co_mbster_fine_tuning[0] = vblue / 16384.0;
         }
     }
 
-    public void setCoarseTuning(int value) {
+    public void setCobrseTuning(int vblue) {
         synchronized (control_mutex) {
-            co_master_coarse_tuning[0] = value / 16384.0;
+            co_mbster_cobrse_tuning[0] = vblue / 16384.0;
         }
     }
 
     public int getVolume() {
         synchronized (control_mutex) {
-            return (int) (co_master_volume[0] * 16384.0);
+            return (int) (co_mbster_volume[0] * 16384.0);
         }
     }
 
-    public int getBalance() {
+    public int getBblbnce() {
         synchronized (control_mutex) {
-            return (int) (co_master_balance[0] * 16384.0);
+            return (int) (co_mbster_bblbnce[0] * 16384.0);
         }
     }
 
     public int getFineTuning() {
         synchronized (control_mutex) {
-            return (int) (co_master_fine_tuning[0] * 16384.0);
+            return (int) (co_mbster_fine_tuning[0] * 16384.0);
         }
     }
 
-    public int getCoarseTuning() {
+    public int getCobrseTuning() {
         synchronized (control_mutex) {
-            return (int) (co_master_coarse_tuning[0] * 16384.0);
+            return (int) (co_mbster_cobrse_tuning[0] * 16384.0);
         }
     }
 
-    public void globalParameterControlChange(int[] slothpath, long[] params,
-            long[] paramsvalue) {
-        if (slothpath.length == 0)
+    public void globblPbrbmeterControlChbnge(int[] slothpbth, long[] pbrbms,
+            long[] pbrbmsvblue) {
+        if (slothpbth.length == 0)
             return;
 
         synchronized (control_mutex) {
 
-            // slothpath: 01xx are reserved only for GM2
+            // slothpbth: 01xx bre reserved only for GM2
 
-            if (slothpath[0] == 0x01 * 128 + 0x01) {
-                for (int i = 0; i < paramsvalue.length; i++) {
-                    reverb.globalParameterControlChange(slothpath, params[i],
-                            paramsvalue[i]);
+            if (slothpbth[0] == 0x01 * 128 + 0x01) {
+                for (int i = 0; i < pbrbmsvblue.length; i++) {
+                    reverb.globblPbrbmeterControlChbnge(slothpbth, pbrbms[i],
+                            pbrbmsvblue[i]);
                 }
             }
-            if (slothpath[0] == 0x01 * 128 + 0x02) {
-                for (int i = 0; i < paramsvalue.length; i++) {
-                    chorus.globalParameterControlChange(slothpath, params[i],
-                            paramsvalue[i]);
+            if (slothpbth[0] == 0x01 * 128 + 0x02) {
+                for (int i = 0; i < pbrbmsvblue.length; i++) {
+                    chorus.globblPbrbmeterControlChbnge(slothpbth, pbrbms[i],
+                            pbrbmsvblue[i]);
                 }
 
             }
@@ -1028,102 +1028,102 @@ public final class SoftMainMixer {
         }
     }
 
-    public void processMessage(Object object) {
-        if (object instanceof byte[])
-            processMessage((byte[]) object);
-        if (object instanceof MidiMessage)
-            processMessage((MidiMessage)object);
+    public void processMessbge(Object object) {
+        if (object instbnceof byte[])
+            processMessbge((byte[]) object);
+        if (object instbnceof MidiMessbge)
+            processMessbge((MidiMessbge)object);
     }
 
-    public void processMessage(MidiMessage message) {
-        if (message instanceof ShortMessage) {
-            ShortMessage sms = (ShortMessage)message;
-            processMessage(sms.getChannel(), sms.getCommand(),
-                    sms.getData1(), sms.getData2());
+    public void processMessbge(MidiMessbge messbge) {
+        if (messbge instbnceof ShortMessbge) {
+            ShortMessbge sms = (ShortMessbge)messbge;
+            processMessbge(sms.getChbnnel(), sms.getCommbnd(),
+                    sms.getDbtb1(), sms.getDbtb2());
             return;
         }
-        processMessage(message.getMessage());
+        processMessbge(messbge.getMessbge());
     }
 
-    public void processMessage(byte[] data) {
-        int status = 0;
-        if (data.length > 0)
-            status = data[0] & 0xFF;
+    public void processMessbge(byte[] dbtb) {
+        int stbtus = 0;
+        if (dbtb.length > 0)
+            stbtus = dbtb[0] & 0xFF;
 
-        if (status == 0xF0) {
-            processSystemExclusiveMessage(data);
+        if (stbtus == 0xF0) {
+            processSystemExclusiveMessbge(dbtb);
             return;
         }
 
-        int cmd = (status & 0xF0);
-        int ch = (status & 0x0F);
+        int cmd = (stbtus & 0xF0);
+        int ch = (stbtus & 0x0F);
 
-        int data1;
-        int data2;
-        if (data.length > 1)
-            data1 = data[1] & 0xFF;
+        int dbtb1;
+        int dbtb2;
+        if (dbtb.length > 1)
+            dbtb1 = dbtb[1] & 0xFF;
         else
-            data1 = 0;
-        if (data.length > 2)
-            data2 = data[2] & 0xFF;
+            dbtb1 = 0;
+        if (dbtb.length > 2)
+            dbtb2 = dbtb[2] & 0xFF;
         else
-            data2 = 0;
+            dbtb2 = 0;
 
-        processMessage(ch, cmd, data1, data2);
+        processMessbge(ch, cmd, dbtb1, dbtb2);
 
     }
 
-    public void processMessage(int ch, int cmd, int data1, int data2) {
+    public void processMessbge(int ch, int cmd, int dbtb1, int dbtb2) {
         synchronized (synth.control_mutex) {
-            activity();
+            bctivity();
         }
 
         if (cmd == 0xF0) {
-            int status = cmd | ch;
-            switch (status) {
-            case ShortMessage.ACTIVE_SENSING:
+            int stbtus = cmd | ch;
+            switch (stbtus) {
+            cbse ShortMessbge.ACTIVE_SENSING:
                 synchronized (synth.control_mutex) {
-                    active_sensing_on = true;
+                    bctive_sensing_on = true;
                 }
-                break;
-            default:
-                break;
+                brebk;
+            defbult:
+                brebk;
             }
             return;
         }
 
-        SoftChannel[] channels = synth.channels;
-        if (ch >= channels.length)
+        SoftChbnnel[] chbnnels = synth.chbnnels;
+        if (ch >= chbnnels.length)
             return;
-        SoftChannel softchannel = channels[ch];
+        SoftChbnnel softchbnnel = chbnnels[ch];
 
         switch (cmd) {
-        case ShortMessage.NOTE_ON:
-            if(delay_midievent != 0)
-                softchannel.noteOn(data1, data2, delay_midievent);
+        cbse ShortMessbge.NOTE_ON:
+            if(delby_midievent != 0)
+                softchbnnel.noteOn(dbtb1, dbtb2, delby_midievent);
             else
-                softchannel.noteOn(data1, data2);
-            break;
-        case ShortMessage.NOTE_OFF:
-            softchannel.noteOff(data1, data2);
-            break;
-        case ShortMessage.POLY_PRESSURE:
-            softchannel.setPolyPressure(data1, data2);
-            break;
-        case ShortMessage.CONTROL_CHANGE:
-            softchannel.controlChange(data1, data2);
-            break;
-        case ShortMessage.PROGRAM_CHANGE:
-            softchannel.programChange(data1);
-            break;
-        case ShortMessage.CHANNEL_PRESSURE:
-            softchannel.setChannelPressure(data1);
-            break;
-        case ShortMessage.PITCH_BEND:
-            softchannel.setPitchBend(data1 + data2 * 128);
-            break;
-        default:
-            break;
+                softchbnnel.noteOn(dbtb1, dbtb2);
+            brebk;
+        cbse ShortMessbge.NOTE_OFF:
+            softchbnnel.noteOff(dbtb1, dbtb2);
+            brebk;
+        cbse ShortMessbge.POLY_PRESSURE:
+            softchbnnel.setPolyPressure(dbtb1, dbtb2);
+            brebk;
+        cbse ShortMessbge.CONTROL_CHANGE:
+            softchbnnel.controlChbnge(dbtb1, dbtb2);
+            brebk;
+        cbse ShortMessbge.PROGRAM_CHANGE:
+            softchbnnel.progrbmChbnge(dbtb1);
+            brebk;
+        cbse ShortMessbge.CHANNEL_PRESSURE:
+            softchbnnel.setChbnnelPressure(dbtb1);
+            brebk;
+        cbse ShortMessbge.PITCH_BEND:
+            softchbnnel.setPitchBend(dbtb1 + dbtb2 * 128);
+            brebk;
+        defbult:
+            brebk;
         }
 
     }
@@ -1131,13 +1131,13 @@ public final class SoftMainMixer {
     public long getMicrosecondPosition() {
         if(pusher_silent)
         {
-            if(synth.weakstream != null)
+            if(synth.webkstrebm != null)
             {
-                return (long)((sample_pos  + synth.weakstream.silent_samples)
-                        * (1000000.0 / samplerate));
+                return (long)((sbmple_pos  + synth.webkstrebm.silent_sbmples)
+                        * (1000000.0 / sbmplerbte));
             }
         }
-        return (long)(sample_pos * (1000000.0 / samplerate));
+        return (long)(sbmple_pos * (1000000.0 / sbmplerbte));
     }
 
     public void close() {

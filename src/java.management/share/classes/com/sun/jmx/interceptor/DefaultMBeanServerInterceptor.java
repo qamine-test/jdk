@@ -1,1212 +1,1212 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.interceptor;
+pbckbge com.sun.jmx.interceptor;
 
 
 // JMX RI
-import static com.sun.jmx.defaults.JmxProperties.MBEANSERVER_LOGGER;
-import com.sun.jmx.mbeanserver.DynamicMBean2;
-import com.sun.jmx.mbeanserver.Introspector;
-import com.sun.jmx.mbeanserver.MBeanInstantiator;
-import com.sun.jmx.mbeanserver.ModifiableClassLoaderRepository;
-import com.sun.jmx.mbeanserver.NamedObject;
-import com.sun.jmx.mbeanserver.Repository;
-import com.sun.jmx.mbeanserver.Repository.RegistrationContext;
-import com.sun.jmx.mbeanserver.Util;
+import stbtic com.sun.jmx.defbults.JmxProperties.MBEANSERVER_LOGGER;
+import com.sun.jmx.mbebnserver.DynbmicMBebn2;
+import com.sun.jmx.mbebnserver.Introspector;
+import com.sun.jmx.mbebnserver.MBebnInstbntibtor;
+import com.sun.jmx.mbebnserver.ModifibbleClbssLobderRepository;
+import com.sun.jmx.mbebnserver.NbmedObject;
+import com.sun.jmx.mbebnserver.Repository;
+import com.sun.jmx.mbebnserver.Repository.RegistrbtionContext;
+import com.sun.jmx.mbebnserver.Util;
 import com.sun.jmx.remote.util.EnvHelp;
 
-import java.io.ObjectInputStream;
-import java.lang.ref.WeakReference;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.PrivilegedAction;
-import java.security.ProtectionDomain;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.WeakHashMap;
-import java.util.logging.Level;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.Permission;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.ProtectionDombin;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Set;
+import jbvb.util.WebkHbshMbp;
+import jbvb.util.logging.Level;
 
 // JMX import
-import javax.management.Attribute;
-import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.DynamicMBean;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.IntrospectionException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.JMRuntimeException;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanPermission;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanRegistrationException;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerDelegate;
-import javax.management.MBeanServerNotification;
-import javax.management.MBeanTrustPermission;
-import javax.management.NotCompliantMBeanException;
-import javax.management.Notification;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
-import javax.management.OperationsException;
-import javax.management.QueryEval;
-import javax.management.QueryExp;
-import javax.management.ReflectionException;
-import javax.management.RuntimeErrorException;
-import javax.management.RuntimeMBeanException;
-import javax.management.RuntimeOperationsException;
-import javax.management.loading.ClassLoaderRepository;
+import jbvbx.mbnbgement.Attribute;
+import jbvbx.mbnbgement.AttributeList;
+import jbvbx.mbnbgement.AttributeNotFoundException;
+import jbvbx.mbnbgement.DynbmicMBebn;
+import jbvbx.mbnbgement.InstbnceAlrebdyExistsException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.IntrospectionException;
+import jbvbx.mbnbgement.InvblidAttributeVblueException;
+import jbvbx.mbnbgement.JMRuntimeException;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnPermission;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.MBebnRegistrbtionException;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MBebnServerDelegbte;
+import jbvbx.mbnbgement.MBebnServerNotificbtion;
+import jbvbx.mbnbgement.MBebnTrustPermission;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionBrobdcbster;
+import jbvbx.mbnbgement.NotificbtionEmitter;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.ObjectInstbnce;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.OperbtionsException;
+import jbvbx.mbnbgement.QueryEvbl;
+import jbvbx.mbnbgement.QueryExp;
+import jbvbx.mbnbgement.ReflectionException;
+import jbvbx.mbnbgement.RuntimeErrorException;
+import jbvbx.mbnbgement.RuntimeMBebnException;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
+import jbvbx.mbnbgement.lobding.ClbssLobderRepository;
 
 /**
- * This is the default class for MBean manipulation on the agent side. It
- * contains the methods necessary for the creation, registration, and
- * deletion of MBeans as well as the access methods for registered MBeans.
- * This is the core component of the JMX infrastructure.
+ * This is the defbult clbss for MBebn mbnipulbtion on the bgent side. It
+ * contbins the methods necessbry for the crebtion, registrbtion, bnd
+ * deletion of MBebns bs well bs the bccess methods for registered MBebns.
+ * This is the core component of the JMX infrbstructure.
  * <P>
- * Every MBean which is added to the MBean server becomes manageable: its attributes and operations
- * become remotely accessible through the connectors/adaptors connected to that MBean server.
- * A Java object cannot be registered in the MBean server unless it is a JMX compliant MBean.
+ * Every MBebn which is bdded to the MBebn server becomes mbnbgebble: its bttributes bnd operbtions
+ * become remotely bccessible through the connectors/bdbptors connected to thbt MBebn server.
+ * A Jbvb object cbnnot be registered in the MBebn server unless it is b JMX complibnt MBebn.
  * <P>
- * When an MBean is registered or unregistered in the MBean server an
- * {@link javax.management.MBeanServerNotification MBeanServerNotification}
- * Notification is emitted. To register an object as listener to MBeanServerNotifications
- * you should call the MBean server method {@link #addNotificationListener addNotificationListener} with <CODE>ObjectName</CODE>
- * the <CODE>ObjectName</CODE> of the {@link javax.management.MBeanServerDelegate MBeanServerDelegate}.
- * This <CODE>ObjectName</CODE> is:
+ * When bn MBebn is registered or unregistered in the MBebn server bn
+ * {@link jbvbx.mbnbgement.MBebnServerNotificbtion MBebnServerNotificbtion}
+ * Notificbtion is emitted. To register bn object bs listener to MBebnServerNotificbtions
+ * you should cbll the MBebn server method {@link #bddNotificbtionListener bddNotificbtionListener} with <CODE>ObjectNbme</CODE>
+ * the <CODE>ObjectNbme</CODE> of the {@link jbvbx.mbnbgement.MBebnServerDelegbte MBebnServerDelegbte}.
+ * This <CODE>ObjectNbme</CODE> is:
  * <BR>
- * <CODE>JMImplementation:type=MBeanServerDelegate</CODE>.
+ * <CODE>JMImplementbtion:type=MBebnServerDelegbte</CODE>.
  *
  * @since 1.5
  */
-public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
+public clbss DefbultMBebnServerInterceptor implements MBebnServerInterceptor {
 
-    /** The MBeanInstantiator object used by the
-     *  DefaultMBeanServerInterceptor */
-    private final transient MBeanInstantiator instantiator;
+    /** The MBebnInstbntibtor object used by the
+     *  DefbultMBebnServerInterceptor */
+    privbte finbl trbnsient MBebnInstbntibtor instbntibtor;
 
-    /** The MBean server object that is associated to the
-     *  DefaultMBeanServerInterceptor */
-    private transient MBeanServer server = null;
+    /** The MBebn server object thbt is bssocibted to the
+     *  DefbultMBebnServerInterceptor */
+    privbte trbnsient MBebnServer server = null;
 
-    /** The MBean server delegate object that is associated to the
-     *  DefaultMBeanServerInterceptor */
-    private final transient MBeanServerDelegate delegate;
+    /** The MBebn server delegbte object thbt is bssocibted to the
+     *  DefbultMBebnServerInterceptor */
+    privbte finbl trbnsient MBebnServerDelegbte delegbte;
 
-    /** The Repository object used by the DefaultMBeanServerInterceptor */
-    private final transient Repository repository;
+    /** The Repository object used by the DefbultMBebnServerInterceptor */
+    privbte finbl trbnsient Repository repository;
 
-    /** Wrappers for client listeners.  */
-    /* See the comment before addNotificationListener below.  */
-    private final transient
-        WeakHashMap<ListenerWrapper, WeakReference<ListenerWrapper>>
-            listenerWrappers =
-                new WeakHashMap<ListenerWrapper,
-                                WeakReference<ListenerWrapper>>();
+    /** Wrbppers for client listeners.  */
+    /* See the comment before bddNotificbtionListener below.  */
+    privbte finbl trbnsient
+        WebkHbshMbp<ListenerWrbpper, WebkReference<ListenerWrbpper>>
+            listenerWrbppers =
+                new WebkHbshMbp<ListenerWrbpper,
+                                WebkReference<ListenerWrbpper>>();
 
-    /** The default domain of the object names */
-    private final String domain;
+    /** The defbult dombin of the object nbmes */
+    privbte finbl String dombin;
 
-    /** The sequence number identifying the notifications sent */
-    // Now sequence number is handled by MBeanServerDelegate.
-    // private int sequenceNumber=0;
+    /** The sequence number identifying the notificbtions sent */
+    // Now sequence number is hbndled by MBebnServerDelegbte.
+    // privbte int sequenceNumber=0;
 
     /**
-     * Creates a DefaultMBeanServerInterceptor with the specified
-     * repository instance.
-     * <p>Do not forget to call <code>initialize(outer,delegate)</code>
+     * Crebtes b DefbultMBebnServerInterceptor with the specified
+     * repository instbnce.
+     * <p>Do not forget to cbll <code>initiblize(outer,delegbte)</code>
      * before using this object.
-     * @param outer A pointer to the MBeanServer object that must be
-     *        passed to the MBeans when invoking their
-     *        {@link javax.management.MBeanRegistration} interface.
-     * @param delegate A pointer to the MBeanServerDelegate associated
-     *        with the new MBeanServer. The new MBeanServer must register
-     *        this MBean in its MBean repository.
-     * @param instantiator The MBeanInstantiator that will be used to
-     *        instantiate MBeans and take care of class loading issues.
-     * @param repository The repository to use for this MBeanServer.
+     * @pbrbm outer A pointer to the MBebnServer object thbt must be
+     *        pbssed to the MBebns when invoking their
+     *        {@link jbvbx.mbnbgement.MBebnRegistrbtion} interfbce.
+     * @pbrbm delegbte A pointer to the MBebnServerDelegbte bssocibted
+     *        with the new MBebnServer. The new MBebnServer must register
+     *        this MBebn in its MBebn repository.
+     * @pbrbm instbntibtor The MBebnInstbntibtor thbt will be used to
+     *        instbntibte MBebns bnd tbke cbre of clbss lobding issues.
+     * @pbrbm repository The repository to use for this MBebnServer.
      */
-    public DefaultMBeanServerInterceptor(MBeanServer         outer,
-                                         MBeanServerDelegate delegate,
-                                         MBeanInstantiator   instantiator,
+    public DefbultMBebnServerInterceptor(MBebnServer         outer,
+                                         MBebnServerDelegbte delegbte,
+                                         MBebnInstbntibtor   instbntibtor,
                                          Repository          repository) {
         if (outer == null) throw new
-            IllegalArgumentException("outer MBeanServer cannot be null");
-        if (delegate == null) throw new
-            IllegalArgumentException("MBeanServerDelegate cannot be null");
-        if (instantiator == null) throw new
-            IllegalArgumentException("MBeanInstantiator cannot be null");
+            IllegblArgumentException("outer MBebnServer cbnnot be null");
+        if (delegbte == null) throw new
+            IllegblArgumentException("MBebnServerDelegbte cbnnot be null");
+        if (instbntibtor == null) throw new
+            IllegblArgumentException("MBebnInstbntibtor cbnnot be null");
         if (repository == null) throw new
-            IllegalArgumentException("Repository cannot be null");
+            IllegblArgumentException("Repository cbnnot be null");
 
         this.server   = outer;
-        this.delegate = delegate;
-        this.instantiator = instantiator;
+        this.delegbte = delegbte;
+        this.instbntibtor = instbntibtor;
         this.repository   = repository;
-        this.domain       = repository.getDefaultDomain();
+        this.dombin       = repository.getDefbultDombin();
     }
 
-    public ObjectInstance createMBean(String className, ObjectName name)
-        throws ReflectionException, InstanceAlreadyExistsException,
-               MBeanRegistrationException, MBeanException,
-               NotCompliantMBeanException {
+    public ObjectInstbnce crebteMBebn(String clbssNbme, ObjectNbme nbme)
+        throws ReflectionException, InstbnceAlrebdyExistsException,
+               MBebnRegistrbtionException, MBebnException,
+               NotComplibntMBebnException {
 
-        return createMBean(className, name, (Object[]) null, (String[]) null);
+        return crebteMBebn(clbssNbme, nbme, (Object[]) null, (String[]) null);
 
     }
 
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      ObjectName loaderName)
-        throws ReflectionException, InstanceAlreadyExistsException,
-               MBeanRegistrationException, MBeanException,
-               NotCompliantMBeanException, InstanceNotFoundException {
+    public ObjectInstbnce crebteMBebn(String clbssNbme, ObjectNbme nbme,
+                                      ObjectNbme lobderNbme)
+        throws ReflectionException, InstbnceAlrebdyExistsException,
+               MBebnRegistrbtionException, MBebnException,
+               NotComplibntMBebnException, InstbnceNotFoundException {
 
-        return createMBean(className, name, loaderName, (Object[]) null,
+        return crebteMBebn(clbssNbme, nbme, lobderNbme, (Object[]) null,
                            (String[]) null);
     }
 
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      Object[] params, String[] signature)
-        throws ReflectionException, InstanceAlreadyExistsException,
-               MBeanRegistrationException, MBeanException,
-               NotCompliantMBeanException  {
+    public ObjectInstbnce crebteMBebn(String clbssNbme, ObjectNbme nbme,
+                                      Object[] pbrbms, String[] signbture)
+        throws ReflectionException, InstbnceAlrebdyExistsException,
+               MBebnRegistrbtionException, MBebnException,
+               NotComplibntMBebnException  {
 
         try {
-            return createMBean(className, name, null, true,
-                               params, signature);
-        } catch (InstanceNotFoundException e) {
-            /* Can only happen if loaderName doesn't exist, but we just
-               passed null, so we shouldn't get this exception.  */
-            throw EnvHelp.initCause(
-                new IllegalArgumentException("Unexpected exception: " + e), e);
+            return crebteMBebn(clbssNbme, nbme, null, true,
+                               pbrbms, signbture);
+        } cbtch (InstbnceNotFoundException e) {
+            /* Cbn only hbppen if lobderNbme doesn't exist, but we just
+               pbssed null, so we shouldn't get this exception.  */
+            throw EnvHelp.initCbuse(
+                new IllegblArgumentException("Unexpected exception: " + e), e);
         }
     }
 
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      ObjectName loaderName,
-                                      Object[] params, String[] signature)
-        throws ReflectionException, InstanceAlreadyExistsException,
-               MBeanRegistrationException, MBeanException,
-               NotCompliantMBeanException, InstanceNotFoundException  {
+    public ObjectInstbnce crebteMBebn(String clbssNbme, ObjectNbme nbme,
+                                      ObjectNbme lobderNbme,
+                                      Object[] pbrbms, String[] signbture)
+        throws ReflectionException, InstbnceAlrebdyExistsException,
+               MBebnRegistrbtionException, MBebnException,
+               NotComplibntMBebnException, InstbnceNotFoundException  {
 
-        return createMBean(className, name, loaderName, false,
-                           params, signature);
+        return crebteMBebn(clbssNbme, nbme, lobderNbme, fblse,
+                           pbrbms, signbture);
     }
 
-    private ObjectInstance createMBean(String className, ObjectName name,
-                                       ObjectName loaderName,
-                                       boolean withDefaultLoaderRepository,
-                                       Object[] params, String[] signature)
-        throws ReflectionException, InstanceAlreadyExistsException,
-               MBeanRegistrationException, MBeanException,
-               NotCompliantMBeanException, InstanceNotFoundException {
+    privbte ObjectInstbnce crebteMBebn(String clbssNbme, ObjectNbme nbme,
+                                       ObjectNbme lobderNbme,
+                                       boolebn withDefbultLobderRepository,
+                                       Object[] pbrbms, String[] signbture)
+        throws ReflectionException, InstbnceAlrebdyExistsException,
+               MBebnRegistrbtionException, MBebnException,
+               NotComplibntMBebnException, InstbnceNotFoundException {
 
-        Class<?> theClass;
+        Clbss<?> theClbss;
 
-        if (className == null) {
-            final RuntimeException wrapped =
-                new IllegalArgumentException("The class name cannot be null");
-            throw new RuntimeOperationsException(wrapped,
-                      "Exception occurred during MBean creation");
+        if (clbssNbme == null) {
+            finbl RuntimeException wrbpped =
+                new IllegblArgumentException("The clbss nbme cbnnot be null");
+            throw new RuntimeOperbtionsException(wrbpped,
+                      "Exception occurred during MBebn crebtion");
         }
 
-        if (name != null) {
-            if (name.isPattern()) {
-                final RuntimeException wrapped =
-                    new IllegalArgumentException("Invalid name->" +
-                                                 name.toString());
-                final String msg = "Exception occurred during MBean creation";
-                throw new RuntimeOperationsException(wrapped, msg);
+        if (nbme != null) {
+            if (nbme.isPbttern()) {
+                finbl RuntimeException wrbpped =
+                    new IllegblArgumentException("Invblid nbme->" +
+                                                 nbme.toString());
+                finbl String msg = "Exception occurred during MBebn crebtion";
+                throw new RuntimeOperbtionsException(wrbpped, msg);
             }
 
-            name = nonDefaultDomain(name);
+            nbme = nonDefbultDombin(nbme);
         }
 
-        checkMBeanPermission(className, null, null, "instantiate");
-        checkMBeanPermission(className, null, name, "registerMBean");
+        checkMBebnPermission(clbssNbme, null, null, "instbntibte");
+        checkMBebnPermission(clbssNbme, null, nbme, "registerMBebn");
 
-        /* Load the appropriate class. */
-        if (withDefaultLoaderRepository) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        /* Lobd the bppropribte clbss. */
+        if (withDefbultLobderRepository) {
+            if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
                 MBEANSERVER_LOGGER.logp(Level.FINER,
-                        DefaultMBeanServerInterceptor.class.getName(),
-                        "createMBean",
-                        "ClassName = " + className + ", ObjectName = " + name);
+                        DefbultMBebnServerInterceptor.clbss.getNbme(),
+                        "crebteMBebn",
+                        "ClbssNbme = " + clbssNbme + ", ObjectNbme = " + nbme);
             }
-            theClass =
-                instantiator.findClassWithDefaultLoaderRepository(className);
-        } else if (loaderName == null) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+            theClbss =
+                instbntibtor.findClbssWithDefbultLobderRepository(clbssNbme);
+        } else if (lobderNbme == null) {
+            if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
                 MBEANSERVER_LOGGER.logp(Level.FINER,
-                        DefaultMBeanServerInterceptor.class.getName(),
-                        "createMBean", "ClassName = " + className +
-                        ", ObjectName = " + name + ", Loader name = null");
+                        DefbultMBebnServerInterceptor.clbss.getNbme(),
+                        "crebteMBebn", "ClbssNbme = " + clbssNbme +
+                        ", ObjectNbme = " + nbme + ", Lobder nbme = null");
             }
 
-            theClass = instantiator.findClass(className,
-                                  server.getClass().getClassLoader());
+            theClbss = instbntibtor.findClbss(clbssNbme,
+                                  server.getClbss().getClbssLobder());
         } else {
-            loaderName = nonDefaultDomain(loaderName);
+            lobderNbme = nonDefbultDombin(lobderNbme);
 
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+            if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
                 MBEANSERVER_LOGGER.logp(Level.FINER,
-                        DefaultMBeanServerInterceptor.class.getName(),
-                        "createMBean", "ClassName = " + className +
-                        ", ObjectName = " + name +
-                        ", Loader name = " + loaderName);
+                        DefbultMBebnServerInterceptor.clbss.getNbme(),
+                        "crebteMBebn", "ClbssNbme = " + clbssNbme +
+                        ", ObjectNbme = " + nbme +
+                        ", Lobder nbme = " + lobderNbme);
             }
 
-            theClass = instantiator.findClass(className, loaderName);
+            theClbss = instbntibtor.findClbss(clbssNbme, lobderNbme);
         }
 
-        checkMBeanTrustPermission(theClass);
+        checkMBebnTrustPermission(theClbss);
 
-        // Check that the MBean can be instantiated by the MBeanServer.
-        Introspector.testCreation(theClass);
+        // Check thbt the MBebn cbn be instbntibted by the MBebnServer.
+        Introspector.testCrebtion(theClbss);
 
-        // Check the JMX MBean compliance of the class
-        Introspector.checkCompliance(theClass);
+        // Check the JMX MBebn complibnce of the clbss
+        Introspector.checkComplibnce(theClbss);
 
-        Object moi= instantiator.instantiate(theClass, params,  signature,
-                                             server.getClass().getClassLoader());
+        Object moi= instbntibtor.instbntibte(theClbss, pbrbms,  signbture,
+                                             server.getClbss().getClbssLobder());
 
-        final String infoClassName = getNewMBeanClassName(moi);
+        finbl String infoClbssNbme = getNewMBebnClbssNbme(moi);
 
-        return registerObject(infoClassName, moi, name);
+        return registerObject(infoClbssNbme, moi, nbme);
     }
 
-    public ObjectInstance registerMBean(Object object, ObjectName name)
-        throws InstanceAlreadyExistsException, MBeanRegistrationException,
-        NotCompliantMBeanException  {
+    public ObjectInstbnce registerMBebn(Object object, ObjectNbme nbme)
+        throws InstbnceAlrebdyExistsException, MBebnRegistrbtionException,
+        NotComplibntMBebnException  {
 
         // ------------------------------
         // ------------------------------
-        Class<?> theClass = object.getClass();
+        Clbss<?> theClbss = object.getClbss();
 
-        Introspector.checkCompliance(theClass);
+        Introspector.checkComplibnce(theClbss);
 
-        final String infoClassName = getNewMBeanClassName(object);
+        finbl String infoClbssNbme = getNewMBebnClbssNbme(object);
 
-        checkMBeanPermission(infoClassName, null, name, "registerMBean");
-        checkMBeanTrustPermission(theClass);
+        checkMBebnPermission(infoClbssNbme, null, nbme, "registerMBebn");
+        checkMBebnTrustPermission(theClbss);
 
-        return registerObject(infoClassName, object, name);
+        return registerObject(infoClbssNbme, object, nbme);
     }
 
-    private static String getNewMBeanClassName(Object mbeanToRegister)
-            throws NotCompliantMBeanException {
-        if (mbeanToRegister instanceof DynamicMBean) {
-            DynamicMBean mbean = (DynamicMBean) mbeanToRegister;
-            final String name;
+    privbte stbtic String getNewMBebnClbssNbme(Object mbebnToRegister)
+            throws NotComplibntMBebnException {
+        if (mbebnToRegister instbnceof DynbmicMBebn) {
+            DynbmicMBebn mbebn = (DynbmicMBebn) mbebnToRegister;
+            finbl String nbme;
             try {
-                name = mbean.getMBeanInfo().getClassName();
-            } catch (Exception e) {
-                // Includes case where getMBeanInfo() returns null
-                NotCompliantMBeanException ncmbe =
-                    new NotCompliantMBeanException("Bad getMBeanInfo()");
-                ncmbe.initCause(e);
+                nbme = mbebn.getMBebnInfo().getClbssNbme();
+            } cbtch (Exception e) {
+                // Includes cbse where getMBebnInfo() returns null
+                NotComplibntMBebnException ncmbe =
+                    new NotComplibntMBebnException("Bbd getMBebnInfo()");
+                ncmbe.initCbuse(e);
                 throw ncmbe;
             }
-            if (name == null) {
-                final String msg = "MBeanInfo has null class name";
-                throw new NotCompliantMBeanException(msg);
+            if (nbme == null) {
+                finbl String msg = "MBebnInfo hbs null clbss nbme";
+                throw new NotComplibntMBebnException(msg);
             }
-            return name;
+            return nbme;
         } else
-            return mbeanToRegister.getClass().getName();
+            return mbebnToRegister.getClbss().getNbme();
     }
 
-    private final Set<ObjectName> beingUnregistered =
-        new HashSet<ObjectName>();
+    privbte finbl Set<ObjectNbme> beingUnregistered =
+        new HbshSet<ObjectNbme>();
 
-    public void unregisterMBean(ObjectName name)
-            throws InstanceNotFoundException, MBeanRegistrationException  {
+    public void unregisterMBebn(ObjectNbme nbme)
+            throws InstbnceNotFoundException, MBebnRegistrbtionException  {
 
-        if (name == null) {
-            final RuntimeException wrapped =
-                new IllegalArgumentException("Object name cannot be null");
-            throw new RuntimeOperationsException(wrapped,
-                      "Exception occurred trying to unregister the MBean");
+        if (nbme == null) {
+            finbl RuntimeException wrbpped =
+                new IllegblArgumentException("Object nbme cbnnot be null");
+            throw new RuntimeOperbtionsException(wrbpped,
+                      "Exception occurred trying to unregister the MBebn");
         }
 
-        name = nonDefaultDomain(name);
+        nbme = nonDefbultDombin(nbme);
 
-        /* The semantics of preDeregister are tricky.  If it throws an
-           exception, then the unregisterMBean fails.  This allows an
-           MBean to refuse to be unregistered.  If it returns
-           successfully, then the unregisterMBean can proceed.  In
-           this case the preDeregister may have cleaned up some state,
-           and will not expect to be called a second time.  So if two
-           threads try to unregister the same MBean at the same time
-           then one of them must wait for the other one to either (a)
-           call preDeregister and get an exception or (b) call
-           preDeregister successfully and unregister the MBean.
-           Suppose thread T1 is unregistering an MBean and thread T2
-           is trying to unregister the same MBean, so waiting for T1.
-           Then a deadlock is possible if the preDeregister for T1
-           ends up needing a lock held by T2.  Given the semantics
-           just described, there does not seem to be any way to avoid
-           this.  This will not happen to code where it is clear for
-           any given MBean what thread may unregister that MBean.
+        /* The sembntics of preDeregister bre tricky.  If it throws bn
+           exception, then the unregisterMBebn fbils.  This bllows bn
+           MBebn to refuse to be unregistered.  If it returns
+           successfully, then the unregisterMBebn cbn proceed.  In
+           this cbse the preDeregister mby hbve clebned up some stbte,
+           bnd will not expect to be cblled b second time.  So if two
+           threbds try to unregister the sbme MBebn bt the sbme time
+           then one of them must wbit for the other one to either (b)
+           cbll preDeregister bnd get bn exception or (b) cbll
+           preDeregister successfully bnd unregister the MBebn.
+           Suppose threbd T1 is unregistering bn MBebn bnd threbd T2
+           is trying to unregister the sbme MBebn, so wbiting for T1.
+           Then b debdlock is possible if the preDeregister for T1
+           ends up needing b lock held by T2.  Given the sembntics
+           just described, there does not seem to be bny wby to bvoid
+           this.  This will not hbppen to code where it is clebr for
+           bny given MBebn whbt threbd mby unregister thbt MBebn.
 
-           On the other hand we clearly do not want a thread that is
-           unregistering MBean A to have to wait for another thread
-           that is unregistering another MBean B (see bug 6318664).  A
-           deadlock in this situation could reasonably be considered
-           gratuitous.  So holding a global lock across the
-           preDeregister call would be bad.
+           On the other hbnd we clebrly do not wbnt b threbd thbt is
+           unregistering MBebn A to hbve to wbit for bnother threbd
+           thbt is unregistering bnother MBebn B (see bug 6318664).  A
+           debdlock in this situbtion could rebsonbbly be considered
+           grbtuitous.  So holding b globbl lock bcross the
+           preDeregister cbll would be bbd.
 
-           So we have a set of ObjectNames that some thread is
-           currently unregistering.  When a thread wants to unregister
-           a name, it must first check if the name is in the set, and
-           if so it must wait.  When a thread successfully unregisters
-           a name it removes the name from the set and notifies any
-           waiting threads that the set has changed.
+           So we hbve b set of ObjectNbmes thbt some threbd is
+           currently unregistering.  When b threbd wbnts to unregister
+           b nbme, it must first check if the nbme is in the set, bnd
+           if so it must wbit.  When b threbd successfully unregisters
+           b nbme it removes the nbme from the set bnd notifies bny
+           wbiting threbds thbt the set hbs chbnged.
 
-           This implies that we must be very careful to ensure that
-           the name is removed from the set and waiters notified, no
-           matter what code path is taken.  */
+           This implies thbt we must be very cbreful to ensure thbt
+           the nbme is removed from the set bnd wbiters notified, no
+           mbtter whbt code pbth is tbken.  */
 
         synchronized (beingUnregistered) {
-            while (beingUnregistered.contains(name)) {
+            while (beingUnregistered.contbins(nbme)) {
                 try {
-                    beingUnregistered.wait();
-                } catch (InterruptedException e) {
-                    throw new MBeanRegistrationException(e, e.toString());
-                    // pretend the exception came from preDeregister;
-                    // in another execution sequence it could have
+                    beingUnregistered.wbit();
+                } cbtch (InterruptedException e) {
+                    throw new MBebnRegistrbtionException(e, e.toString());
+                    // pretend the exception cbme from preDeregister;
+                    // in bnother execution sequence it could hbve
                 }
             }
-            beingUnregistered.add(name);
+            beingUnregistered.bdd(nbme);
         }
 
         try {
-            exclusiveUnregisterMBean(name);
-        } finally {
+            exclusiveUnregisterMBebn(nbme);
+        } finblly {
             synchronized (beingUnregistered) {
-                beingUnregistered.remove(name);
+                beingUnregistered.remove(nbme);
                 beingUnregistered.notifyAll();
             }
         }
     }
 
-    private void exclusiveUnregisterMBean(ObjectName name)
-            throws InstanceNotFoundException, MBeanRegistrationException {
+    privbte void exclusiveUnregisterMBebn(ObjectNbme nbme)
+            throws InstbnceNotFoundException, MBebnRegistrbtionException {
 
-        DynamicMBean instance = getMBean(name);
-        // may throw InstanceNotFoundException
+        DynbmicMBebn instbnce = getMBebn(nbme);
+        // mby throw InstbnceNotFoundException
 
-        checkMBeanPermission(instance, null, name, "unregisterMBean");
+        checkMBebnPermission(instbnce, null, nbme, "unregisterMBebn");
 
-        if (instance instanceof MBeanRegistration)
-            preDeregisterInvoke((MBeanRegistration) instance);
+        if (instbnce instbnceof MBebnRegistrbtion)
+            preDeregisterInvoke((MBebnRegistrbtion) instbnce);
 
-        final Object resource = getResource(instance);
+        finbl Object resource = getResource(instbnce);
 
-        // Unregisters the MBean from the repository.
-        // Returns the resource context that was used.
-        // The returned context does nothing for regular MBeans.
-        // For ClassLoader MBeans and JMXNamespace (and JMXDomain)
-        // MBeans - the context makes it possible to unregister these
-        // objects from the appropriate framework artifacts, such as
-        // the CLR or the dispatcher, from within the repository lock.
-        // In case of success, we also need to call context.done() at the
+        // Unregisters the MBebn from the repository.
+        // Returns the resource context thbt wbs used.
+        // The returned context does nothing for regulbr MBebns.
+        // For ClbssLobder MBebns bnd JMXNbmespbce (bnd JMXDombin)
+        // MBebns - the context mbkes it possible to unregister these
+        // objects from the bppropribte frbmework brtifbcts, such bs
+        // the CLR or the dispbtcher, from within the repository lock.
+        // In cbse of success, we blso need to cbll context.done() bt the
         // end of this method.
         //
-        final ResourceContext context =
-                unregisterFromRepository(resource, instance, name);
+        finbl ResourceContext context =
+                unregisterFromRepository(resource, instbnce, nbme);
 
         try {
-            if (instance instanceof MBeanRegistration)
-                postDeregisterInvoke(name,(MBeanRegistration) instance);
-        } finally {
+            if (instbnce instbnceof MBebnRegistrbtion)
+                postDeregisterInvoke(nbme,(MBebnRegistrbtion) instbnce);
+        } finblly {
             context.done();
         }
     }
 
-    public ObjectInstance getObjectInstance(ObjectName name)
-            throws InstanceNotFoundException {
+    public ObjectInstbnce getObjectInstbnce(ObjectNbme nbme)
+            throws InstbnceNotFoundException {
 
-        name = nonDefaultDomain(name);
-        DynamicMBean instance = getMBean(name);
+        nbme = nonDefbultDombin(nbme);
+        DynbmicMBebn instbnce = getMBebn(nbme);
 
-        checkMBeanPermission(instance, null, name, "getObjectInstance");
+        checkMBebnPermission(instbnce, null, nbme, "getObjectInstbnce");
 
-        final String className = getClassName(instance);
+        finbl String clbssNbme = getClbssNbme(instbnce);
 
-        return new ObjectInstance(name, className);
+        return new ObjectInstbnce(nbme, clbssNbme);
     }
 
-    public Set<ObjectInstance> queryMBeans(ObjectName name, QueryExp query) {
-        SecurityManager sm = System.getSecurityManager();
+    public Set<ObjectInstbnce> queryMBebns(ObjectNbme nbme, QueryExp query) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            // Check if the caller has the right to invoke 'queryMBeans'
+            // Check if the cbller hbs the right to invoke 'queryMBebns'
             //
-            checkMBeanPermission((String) null, null, null, "queryMBeans");
+            checkMBebnPermission((String) null, null, null, "queryMBebns");
 
             // Perform query without "query".
             //
-            Set<ObjectInstance> list = queryMBeansImpl(name, null);
+            Set<ObjectInstbnce> list = queryMBebnsImpl(nbme, null);
 
-            // Check if the caller has the right to invoke 'queryMBeans'
-            // on each specific classname/objectname in the list.
+            // Check if the cbller hbs the right to invoke 'queryMBebns'
+            // on ebch specific clbssnbme/objectnbme in the list.
             //
-            Set<ObjectInstance> allowedList =
-                new HashSet<ObjectInstance>(list.size());
-            for (ObjectInstance oi : list) {
+            Set<ObjectInstbnce> bllowedList =
+                new HbshSet<ObjectInstbnce>(list.size());
+            for (ObjectInstbnce oi : list) {
                 try {
-                    checkMBeanPermission(oi.getClassName(), null,
-                                         oi.getObjectName(), "queryMBeans");
-                    allowedList.add(oi);
-                } catch (SecurityException e) {
-                    // OK: Do not add this ObjectInstance to the list
+                    checkMBebnPermission(oi.getClbssNbme(), null,
+                                         oi.getObjectNbme(), "queryMBebns");
+                    bllowedList.bdd(oi);
+                } cbtch (SecurityException e) {
+                    // OK: Do not bdd this ObjectInstbnce to the list
                 }
             }
 
-            // Apply query to allowed MBeans only.
+            // Apply query to bllowed MBebns only.
             //
-            return filterListOfObjectInstances(allowedList, query);
+            return filterListOfObjectInstbnces(bllowedList, query);
         } else {
             // Perform query.
             //
-            return queryMBeansImpl(name, query);
+            return queryMBebnsImpl(nbme, query);
         }
     }
 
-    private Set<ObjectInstance> queryMBeansImpl(ObjectName name,
+    privbte Set<ObjectInstbnce> queryMBebnsImpl(ObjectNbme nbme,
                                                 QueryExp query) {
-        // Query the MBeans on the repository
+        // Query the MBebns on the repository
         //
-        Set<NamedObject> list = repository.query(name, query);
+        Set<NbmedObject> list = repository.query(nbme, query);
 
-        return (objectInstancesFromFilteredNamedObjects(list, query));
+        return (objectInstbncesFromFilteredNbmedObjects(list, query));
     }
 
-    public Set<ObjectName> queryNames(ObjectName name, QueryExp query) {
-        Set<ObjectName> queryList;
-        SecurityManager sm = System.getSecurityManager();
+    public Set<ObjectNbme> queryNbmes(ObjectNbme nbme, QueryExp query) {
+        Set<ObjectNbme> queryList;
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            // Check if the caller has the right to invoke 'queryNames'
+            // Check if the cbller hbs the right to invoke 'queryNbmes'
             //
-            checkMBeanPermission((String) null, null, null, "queryNames");
+            checkMBebnPermission((String) null, null, null, "queryNbmes");
 
             // Perform query without "query".
             //
-            Set<ObjectInstance> list = queryMBeansImpl(name, null);
+            Set<ObjectInstbnce> list = queryMBebnsImpl(nbme, null);
 
-            // Check if the caller has the right to invoke 'queryNames'
-            // on each specific classname/objectname in the list.
+            // Check if the cbller hbs the right to invoke 'queryNbmes'
+            // on ebch specific clbssnbme/objectnbme in the list.
             //
-            Set<ObjectInstance> allowedList =
-                new HashSet<ObjectInstance>(list.size());
-            for (ObjectInstance oi : list) {
+            Set<ObjectInstbnce> bllowedList =
+                new HbshSet<ObjectInstbnce>(list.size());
+            for (ObjectInstbnce oi : list) {
                 try {
-                    checkMBeanPermission(oi.getClassName(), null,
-                                         oi.getObjectName(), "queryNames");
-                    allowedList.add(oi);
-                } catch (SecurityException e) {
-                    // OK: Do not add this ObjectInstance to the list
+                    checkMBebnPermission(oi.getClbssNbme(), null,
+                                         oi.getObjectNbme(), "queryNbmes");
+                    bllowedList.bdd(oi);
+                } cbtch (SecurityException e) {
+                    // OK: Do not bdd this ObjectInstbnce to the list
                 }
             }
 
-            // Apply query to allowed MBeans only.
+            // Apply query to bllowed MBebns only.
             //
-            Set<ObjectInstance> queryObjectInstanceList =
-                filterListOfObjectInstances(allowedList, query);
-            queryList = new HashSet<ObjectName>(queryObjectInstanceList.size());
-            for (ObjectInstance oi : queryObjectInstanceList) {
-                queryList.add(oi.getObjectName());
+            Set<ObjectInstbnce> queryObjectInstbnceList =
+                filterListOfObjectInstbnces(bllowedList, query);
+            queryList = new HbshSet<ObjectNbme>(queryObjectInstbnceList.size());
+            for (ObjectInstbnce oi : queryObjectInstbnceList) {
+                queryList.bdd(oi.getObjectNbme());
             }
         } else {
             // Perform query.
             //
-            queryList = queryNamesImpl(name, query);
+            queryList = queryNbmesImpl(nbme, query);
         }
         return queryList;
     }
 
-    private Set<ObjectName> queryNamesImpl(ObjectName name, QueryExp query) {
-        // Query the MBeans on the repository
+    privbte Set<ObjectNbme> queryNbmesImpl(ObjectNbme nbme, QueryExp query) {
+        // Query the MBebns on the repository
         //
-        Set<NamedObject> list = repository.query(name, query);
+        Set<NbmedObject> list = repository.query(nbme, query);
 
-        return (objectNamesFromFilteredNamedObjects(list, query));
+        return (objectNbmesFromFilteredNbmedObjects(list, query));
     }
 
-    public boolean isRegistered(ObjectName name) {
-        if (name == null) {
-            throw new RuntimeOperationsException(
-                     new IllegalArgumentException("Object name cannot be null"),
-                     "Object name cannot be null");
+    public boolebn isRegistered(ObjectNbme nbme) {
+        if (nbme == null) {
+            throw new RuntimeOperbtionsException(
+                     new IllegblArgumentException("Object nbme cbnnot be null"),
+                     "Object nbme cbnnot be null");
         }
 
-        name = nonDefaultDomain(name);
+        nbme = nonDefbultDombin(nbme);
 
         /* No Permission check */
-        // isRegistered is always unchecked as per JMX spec.
+        // isRegistered is blwbys unchecked bs per JMX spec.
 
-        return (repository.contains(name));
+        return (repository.contbins(nbme));
     }
 
-    public String[] getDomains()  {
-        SecurityManager sm = System.getSecurityManager();
+    public String[] getDombins()  {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            // Check if the caller has the right to invoke 'getDomains'
+            // Check if the cbller hbs the right to invoke 'getDombins'
             //
-            checkMBeanPermission((String) null, null, null, "getDomains");
+            checkMBebnPermission((String) null, null, null, "getDombins");
 
-            // Return domains
+            // Return dombins
             //
-            String[] domains = repository.getDomains();
+            String[] dombins = repository.getDombins();
 
-            // Check if the caller has the right to invoke 'getDomains'
-            // on each specific domain in the list.
+            // Check if the cbller hbs the right to invoke 'getDombins'
+            // on ebch specific dombin in the list.
             //
-            List<String> result = new ArrayList<String>(domains.length);
-            for (int i = 0; i < domains.length; i++) {
+            List<String> result = new ArrbyList<String>(dombins.length);
+            for (int i = 0; i < dombins.length; i++) {
                 try {
-                    ObjectName dom = Util.newObjectName(domains[i] + ":x=x");
-                    checkMBeanPermission((String) null, null, dom, "getDomains");
-                    result.add(domains[i]);
-                } catch (SecurityException e) {
-                    // OK: Do not add this domain to the list
+                    ObjectNbme dom = Util.newObjectNbme(dombins[i] + ":x=x");
+                    checkMBebnPermission((String) null, null, dom, "getDombins");
+                    result.bdd(dombins[i]);
+                } cbtch (SecurityException e) {
+                    // OK: Do not bdd this dombin to the list
                 }
             }
 
-            // Make an array from result.
+            // Mbke bn brrby from result.
             //
-            return result.toArray(new String[result.size()]);
+            return result.toArrby(new String[result.size()]);
         } else {
-            return repository.getDomains();
+            return repository.getDombins();
         }
     }
 
-    public Integer getMBeanCount() {
+    public Integer getMBebnCount() {
         return (repository.getCount());
     }
 
-    public Object getAttribute(ObjectName name, String attribute)
-        throws MBeanException, AttributeNotFoundException,
-               InstanceNotFoundException, ReflectionException {
+    public Object getAttribute(ObjectNbme nbme, String bttribute)
+        throws MBebnException, AttributeNotFoundException,
+               InstbnceNotFoundException, ReflectionException {
 
-        if (name == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Object name cannot be null"),
-                "Exception occurred trying to invoke the getter on the MBean");
+        if (nbme == null) {
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("Object nbme cbnnot be null"),
+                "Exception occurred trying to invoke the getter on the MBebn");
         }
-        if (attribute == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Attribute cannot be null"),
-                "Exception occurred trying to invoke the getter on the MBean");
+        if (bttribute == null) {
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("Attribute cbnnot be null"),
+                "Exception occurred trying to invoke the getter on the MBebn");
         }
 
-        name = nonDefaultDomain(name);
+        nbme = nonDefbultDombin(nbme);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
+                    DefbultMBebnServerInterceptor.clbss.getNbme(),
                     "getAttribute",
-                    "Attribute = " + attribute + ", ObjectName = " + name);
+                    "Attribute = " + bttribute + ", ObjectNbme = " + nbme);
         }
 
-        final DynamicMBean instance = getMBean(name);
-        checkMBeanPermission(instance, attribute, name, "getAttribute");
+        finbl DynbmicMBebn instbnce = getMBebn(nbme);
+        checkMBebnPermission(instbnce, bttribute, nbme, "getAttribute");
 
         try {
-            return instance.getAttribute(attribute);
-        } catch (AttributeNotFoundException e) {
+            return instbnce.getAttribute(bttribute);
+        } cbtch (AttributeNotFoundException e) {
             throw e;
-        } catch (Throwable t) {
-            rethrowMaybeMBeanException(t);
-            throw new AssertionError(); // not reached
+        } cbtch (Throwbble t) {
+            rethrowMbybeMBebnException(t);
+            throw new AssertionError(); // not rebched
         }
     }
 
-    public AttributeList getAttributes(ObjectName name, String[] attributes)
-        throws InstanceNotFoundException, ReflectionException  {
+    public AttributeList getAttributes(ObjectNbme nbme, String[] bttributes)
+        throws InstbnceNotFoundException, ReflectionException  {
 
-        if (name == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("ObjectName name cannot be null"),
-                "Exception occurred trying to invoke the getter on the MBean");
+        if (nbme == null) {
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("ObjectNbme nbme cbnnot be null"),
+                "Exception occurred trying to invoke the getter on the MBebn");
         }
 
-        if (attributes == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Attributes cannot be null"),
-                "Exception occurred trying to invoke the getter on the MBean");
+        if (bttributes == null) {
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("Attributes cbnnot be null"),
+                "Exception occurred trying to invoke the getter on the MBebn");
         }
 
-        name = nonDefaultDomain(name);
+        nbme = nonDefbultDombin(nbme);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "getAttributes", "ObjectName = " + name);
+                    DefbultMBebnServerInterceptor.clbss.getNbme(),
+                    "getAttributes", "ObjectNbme = " + nbme);
         }
 
-        final DynamicMBean instance = getMBean(name);
-        final String[] allowedAttributes;
-        final SecurityManager sm = System.getSecurityManager();
+        finbl DynbmicMBebn instbnce = getMBebn(nbme);
+        finbl String[] bllowedAttributes;
+        finbl SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null)
-            allowedAttributes = attributes;
+            bllowedAttributes = bttributes;
         else {
-            final String classname = getClassName(instance);
+            finbl String clbssnbme = getClbssNbme(instbnce);
 
-            // Check if the caller has the right to invoke 'getAttribute'
+            // Check if the cbller hbs the right to invoke 'getAttribute'
             //
-            checkMBeanPermission(classname, null, name, "getAttribute");
+            checkMBebnPermission(clbssnbme, null, nbme, "getAttribute");
 
-            // Check if the caller has the right to invoke 'getAttribute'
-            // on each specific attribute
+            // Check if the cbller hbs the right to invoke 'getAttribute'
+            // on ebch specific bttribute
             //
-            List<String> allowedList =
-                new ArrayList<String>(attributes.length);
-            for (String attr : attributes) {
+            List<String> bllowedList =
+                new ArrbyList<String>(bttributes.length);
+            for (String bttr : bttributes) {
                 try {
-                    checkMBeanPermission(classname, attr, name, "getAttribute");
-                    allowedList.add(attr);
-                } catch (SecurityException e) {
-                    // OK: Do not add this attribute to the list
+                    checkMBebnPermission(clbssnbme, bttr, nbme, "getAttribute");
+                    bllowedList.bdd(bttr);
+                } cbtch (SecurityException e) {
+                    // OK: Do not bdd this bttribute to the list
                 }
             }
-            allowedAttributes =
-                    allowedList.toArray(new String[allowedList.size()]);
+            bllowedAttributes =
+                    bllowedList.toArrby(new String[bllowedList.size()]);
         }
 
         try {
-            return instance.getAttributes(allowedAttributes);
-        } catch (Throwable t) {
+            return instbnce.getAttributes(bllowedAttributes);
+        } cbtch (Throwbble t) {
             rethrow(t);
             throw new AssertionError();
         }
     }
 
-    public void setAttribute(ObjectName name, Attribute attribute)
-        throws InstanceNotFoundException, AttributeNotFoundException,
-               InvalidAttributeValueException, MBeanException,
+    public void setAttribute(ObjectNbme nbme, Attribute bttribute)
+        throws InstbnceNotFoundException, AttributeNotFoundException,
+               InvblidAttributeVblueException, MBebnException,
                ReflectionException  {
 
-        if (name == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("ObjectName name cannot be null"),
-                "Exception occurred trying to invoke the setter on the MBean");
+        if (nbme == null) {
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("ObjectNbme nbme cbnnot be null"),
+                "Exception occurred trying to invoke the setter on the MBebn");
         }
 
-        if (attribute == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Attribute cannot be null"),
-                "Exception occurred trying to invoke the setter on the MBean");
+        if (bttribute == null) {
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("Attribute cbnnot be null"),
+                "Exception occurred trying to invoke the setter on the MBebn");
         }
 
-        name = nonDefaultDomain(name);
+        nbme = nonDefbultDombin(nbme);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "setAttribute", "ObjectName = " + name +
-                    ", Attribute = " + attribute.getName());
+                    DefbultMBebnServerInterceptor.clbss.getNbme(),
+                    "setAttribute", "ObjectNbme = " + nbme +
+                    ", Attribute = " + bttribute.getNbme());
         }
 
-        DynamicMBean instance = getMBean(name);
-        checkMBeanPermission(instance, attribute.getName(), name, "setAttribute");
+        DynbmicMBebn instbnce = getMBebn(nbme);
+        checkMBebnPermission(instbnce, bttribute.getNbme(), nbme, "setAttribute");
 
         try {
-            instance.setAttribute(attribute);
-        } catch (AttributeNotFoundException e) {
+            instbnce.setAttribute(bttribute);
+        } cbtch (AttributeNotFoundException e) {
             throw e;
-        } catch (InvalidAttributeValueException e) {
+        } cbtch (InvblidAttributeVblueException e) {
             throw e;
-        } catch (Throwable t) {
-            rethrowMaybeMBeanException(t);
+        } cbtch (Throwbble t) {
+            rethrowMbybeMBebnException(t);
             throw new AssertionError();
         }
     }
 
-    public AttributeList setAttributes(ObjectName name,
-                                       AttributeList attributes)
-            throws InstanceNotFoundException, ReflectionException  {
+    public AttributeList setAttributes(ObjectNbme nbme,
+                                       AttributeList bttributes)
+            throws InstbnceNotFoundException, ReflectionException  {
 
-        if (name == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("ObjectName name cannot be null"),
-                "Exception occurred trying to invoke the setter on the MBean");
+        if (nbme == null) {
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("ObjectNbme nbme cbnnot be null"),
+                "Exception occurred trying to invoke the setter on the MBebn");
         }
 
-        if (attributes == null) {
-            throw new RuntimeOperationsException(new
-            IllegalArgumentException("AttributeList  cannot be null"),
-            "Exception occurred trying to invoke the setter on the MBean");
+        if (bttributes == null) {
+            throw new RuntimeOperbtionsException(new
+            IllegblArgumentException("AttributeList  cbnnot be null"),
+            "Exception occurred trying to invoke the setter on the MBebn");
         }
 
-        name = nonDefaultDomain(name);
+        nbme = nonDefbultDombin(nbme);
 
-        final DynamicMBean instance = getMBean(name);
-        final AttributeList allowedAttributes;
-        final SecurityManager sm = System.getSecurityManager();
+        finbl DynbmicMBebn instbnce = getMBebn(nbme);
+        finbl AttributeList bllowedAttributes;
+        finbl SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null)
-            allowedAttributes = attributes;
+            bllowedAttributes = bttributes;
         else {
-            String classname = getClassName(instance);
+            String clbssnbme = getClbssNbme(instbnce);
 
-            // Check if the caller has the right to invoke 'setAttribute'
+            // Check if the cbller hbs the right to invoke 'setAttribute'
             //
-            checkMBeanPermission(classname, null, name, "setAttribute");
+            checkMBebnPermission(clbssnbme, null, nbme, "setAttribute");
 
-            // Check if the caller has the right to invoke 'setAttribute'
-            // on each specific attribute
+            // Check if the cbller hbs the right to invoke 'setAttribute'
+            // on ebch specific bttribute
             //
-            allowedAttributes = new AttributeList(attributes.size());
-            for (Attribute attribute : attributes.asList()) {
+            bllowedAttributes = new AttributeList(bttributes.size());
+            for (Attribute bttribute : bttributes.bsList()) {
                 try {
-                    checkMBeanPermission(classname, attribute.getName(),
-                                         name, "setAttribute");
-                    allowedAttributes.add(attribute);
-                } catch (SecurityException e) {
-                    // OK: Do not add this attribute to the list
+                    checkMBebnPermission(clbssnbme, bttribute.getNbme(),
+                                         nbme, "setAttribute");
+                    bllowedAttributes.bdd(bttribute);
+                } cbtch (SecurityException e) {
+                    // OK: Do not bdd this bttribute to the list
                 }
             }
         }
         try {
-            return instance.setAttributes(allowedAttributes);
-        } catch (Throwable t) {
+            return instbnce.setAttributes(bllowedAttributes);
+        } cbtch (Throwbble t) {
             rethrow(t);
             throw new AssertionError();
         }
     }
 
-    public Object invoke(ObjectName name, String operationName,
-                         Object params[], String signature[])
-            throws InstanceNotFoundException, MBeanException,
+    public Object invoke(ObjectNbme nbme, String operbtionNbme,
+                         Object pbrbms[], String signbture[])
+            throws InstbnceNotFoundException, MBebnException,
                    ReflectionException {
 
-        name = nonDefaultDomain(name);
+        nbme = nonDefbultDombin(nbme);
 
-        DynamicMBean instance = getMBean(name);
-        checkMBeanPermission(instance, operationName, name, "invoke");
+        DynbmicMBebn instbnce = getMBebn(nbme);
+        checkMBebnPermission(instbnce, operbtionNbme, nbme, "invoke");
         try {
-            return instance.invoke(operationName, params, signature);
-        } catch (Throwable t) {
-            rethrowMaybeMBeanException(t);
+            return instbnce.invoke(operbtionNbme, pbrbms, signbture);
+        } cbtch (Throwbble t) {
+            rethrowMbybeMBebnException(t);
             throw new AssertionError();
         }
     }
 
-    /* Centralize some of the tedious exception wrapping demanded by the JMX
+    /* Centrblize some of the tedious exception wrbpping dembnded by the JMX
        spec. */
-    private static void rethrow(Throwable t)
+    privbte stbtic void rethrow(Throwbble t)
             throws ReflectionException {
         try {
             throw t;
-        } catch (ReflectionException e) {
+        } cbtch (ReflectionException e) {
             throw e;
-        } catch (RuntimeOperationsException e) {
+        } cbtch (RuntimeOperbtionsException e) {
             throw e;
-        } catch (RuntimeErrorException e) {
+        } cbtch (RuntimeErrorException e) {
             throw e;
-        } catch (RuntimeException e) {
-            throw new RuntimeMBeanException(e, e.toString());
-        } catch (Error e) {
+        } cbtch (RuntimeException e) {
+            throw new RuntimeMBebnException(e, e.toString());
+        } cbtch (Error e) {
             throw new RuntimeErrorException(e, e.toString());
-        } catch (Throwable t2) {
-            // should not happen
+        } cbtch (Throwbble t2) {
+            // should not hbppen
             throw new RuntimeException("Unexpected exception", t2);
         }
     }
 
-    private static void rethrowMaybeMBeanException(Throwable t)
-            throws ReflectionException, MBeanException {
-        if (t instanceof MBeanException)
-            throw (MBeanException) t;
+    privbte stbtic void rethrowMbybeMBebnException(Throwbble t)
+            throws ReflectionException, MBebnException {
+        if (t instbnceof MBebnException)
+            throw (MBebnException) t;
         rethrow(t);
     }
 
     /**
      * Register <code>object</code> in the repository, with the
-     * given <code>name</code>.
-     * This method is called by the various createMBean() flavours
-     * and by registerMBean() after all MBean compliance tests
-     * have been performed.
+     * given <code>nbme</code>.
+     * This method is cblled by the vbrious crebteMBebn() flbvours
+     * bnd by registerMBebn() bfter bll MBebn complibnce tests
+     * hbve been performed.
      * <p>
-     * This method does not performed any kind of test compliance,
-     * and the caller should make sure that the given <code>object</code>
-     * is MBean compliant.
+     * This method does not performed bny kind of test complibnce,
+     * bnd the cbller should mbke sure thbt the given <code>object</code>
+     * is MBebn complibnt.
      * <p>
-     * This methods performed all the basic steps needed for object
-     * registration:
+     * This methods performed bll the bbsic steps needed for object
+     * registrbtion:
      * <ul>
-     * <li>If the <code>object</code> implements the MBeanRegistration
-     *     interface, it invokes preRegister() on the object.</li>
-     * <li>Then the object is added to the repository with the given
-     *     <code>name</code>.</li>
-     * <li>Finally, if the <code>object</code> implements the
-     *     MBeanRegistration interface, it invokes postRegister()
+     * <li>If the <code>object</code> implements the MBebnRegistrbtion
+     *     interfbce, it invokes preRegister() on the object.</li>
+     * <li>Then the object is bdded to the repository with the given
+     *     <code>nbme</code>.</li>
+     * <li>Finblly, if the <code>object</code> implements the
+     *     MBebnRegistrbtion interfbce, it invokes postRegister()
      *     on the object.</li>
      * </ul>
-     * @param object A reference to a MBean compliant object.
-     * @param name   The ObjectName of the <code>object</code> MBean.
-     * @return the actual ObjectName with which the object was registered.
-     * @exception InstanceAlreadyExistsException if an object is already
-     *            registered with that name.
-     * @exception MBeanRegistrationException if an exception occurs during
-     *            registration.
+     * @pbrbm object A reference to b MBebn complibnt object.
+     * @pbrbm nbme   The ObjectNbme of the <code>object</code> MBebn.
+     * @return the bctubl ObjectNbme with which the object wbs registered.
+     * @exception InstbnceAlrebdyExistsException if bn object is blrebdy
+     *            registered with thbt nbme.
+     * @exception MBebnRegistrbtionException if bn exception occurs during
+     *            registrbtion.
      **/
-    private ObjectInstance registerObject(String classname,
-                                          Object object, ObjectName name)
-        throws InstanceAlreadyExistsException,
-               MBeanRegistrationException,
-               NotCompliantMBeanException {
+    privbte ObjectInstbnce registerObject(String clbssnbme,
+                                          Object object, ObjectNbme nbme)
+        throws InstbnceAlrebdyExistsException,
+               MBebnRegistrbtionException,
+               NotComplibntMBebnException {
 
         if (object == null) {
-            final RuntimeException wrapped =
-                new IllegalArgumentException("Cannot add null object");
-            throw new RuntimeOperationsException(wrapped,
-                        "Exception occurred trying to register the MBean");
+            finbl RuntimeException wrbpped =
+                new IllegblArgumentException("Cbnnot bdd null object");
+            throw new RuntimeOperbtionsException(wrbpped,
+                        "Exception occurred trying to register the MBebn");
         }
 
-        DynamicMBean mbean = Introspector.makeDynamicMBean(object);
+        DynbmicMBebn mbebn = Introspector.mbkeDynbmicMBebn(object);
 
-        return registerDynamicMBean(classname, mbean, name);
+        return registerDynbmicMBebn(clbssnbme, mbebn, nbme);
     }
 
-    private ObjectInstance registerDynamicMBean(String classname,
-                                                DynamicMBean mbean,
-                                                ObjectName name)
-        throws InstanceAlreadyExistsException,
-               MBeanRegistrationException,
-               NotCompliantMBeanException {
+    privbte ObjectInstbnce registerDynbmicMBebn(String clbssnbme,
+                                                DynbmicMBebn mbebn,
+                                                ObjectNbme nbme)
+        throws InstbnceAlrebdyExistsException,
+               MBebnRegistrbtionException,
+               NotComplibntMBebnException {
 
 
-        name = nonDefaultDomain(name);
+        nbme = nonDefbultDombin(nbme);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "registerMBean", "ObjectName = " + name);
+                    DefbultMBebnServerInterceptor.clbss.getNbme(),
+                    "registerMBebn", "ObjectNbme = " + nbme);
         }
 
-        ObjectName logicalName = preRegister(mbean, server, name);
+        ObjectNbme logicblNbme = preRegister(mbebn, server, nbme);
 
         // preRegister returned successfully, so from this point on we
-        // must call postRegister(false) if there is any problem.
-        boolean registered = false;
-        boolean registerFailed = false;
+        // must cbll postRegister(fblse) if there is bny problem.
+        boolebn registered = fblse;
+        boolebn registerFbiled = fblse;
         ResourceContext context = null;
 
         try {
-            if (mbean instanceof DynamicMBean2) {
+            if (mbebn instbnceof DynbmicMBebn2) {
                 try {
-                    ((DynamicMBean2) mbean).preRegister2(server, logicalName);
-                    registerFailed = true;  // until we succeed
-                } catch (Exception e) {
-                    if (e instanceof RuntimeException)
+                    ((DynbmicMBebn2) mbebn).preRegister2(server, logicblNbme);
+                    registerFbiled = true;  // until we succeed
+                } cbtch (Exception e) {
+                    if (e instbnceof RuntimeException)
                         throw (RuntimeException) e;
-                    if (e instanceof InstanceAlreadyExistsException)
-                        throw (InstanceAlreadyExistsException) e;
+                    if (e instbnceof InstbnceAlrebdyExistsException)
+                        throw (InstbnceAlrebdyExistsException) e;
                     throw new RuntimeException(e);
                 }
             }
 
-            if (logicalName != name && logicalName != null) {
-                logicalName =
-                        ObjectName.getInstance(nonDefaultDomain(logicalName));
+            if (logicblNbme != nbme && logicblNbme != null) {
+                logicblNbme =
+                        ObjectNbme.getInstbnce(nonDefbultDombin(logicblNbme));
             }
 
-            checkMBeanPermission(classname, null, logicalName, "registerMBean");
+            checkMBebnPermission(clbssnbme, null, logicblNbme, "registerMBebn");
 
-            if (logicalName == null) {
-                final RuntimeException wrapped =
-                    new IllegalArgumentException("No object name specified");
-                throw new RuntimeOperationsException(wrapped,
-                            "Exception occurred trying to register the MBean");
+            if (logicblNbme == null) {
+                finbl RuntimeException wrbpped =
+                    new IllegblArgumentException("No object nbme specified");
+                throw new RuntimeOperbtionsException(wrbpped,
+                            "Exception occurred trying to register the MBebn");
             }
 
-            final Object resource = getResource(mbean);
+            finbl Object resource = getResource(mbebn);
 
-            // Register the MBean with the repository.
-            // Returns the resource context that was used.
-            // The returned context does nothing for regular MBeans.
-            // For ClassLoader MBeans the context makes it possible to register these
-            // objects with the appropriate framework artifacts, such as
+            // Register the MBebn with the repository.
+            // Returns the resource context thbt wbs used.
+            // The returned context does nothing for regulbr MBebns.
+            // For ClbssLobder MBebns the context mbkes it possible to register these
+            // objects with the bppropribte frbmework brtifbcts, such bs
             // the CLR, from within the repository lock.
-            // In case of success, we also need to call context.done() at the
+            // In cbse of success, we blso need to cbll context.done() bt the
             // end of this method.
             //
-            context = registerWithRepository(resource, mbean, logicalName);
+            context = registerWithRepository(resource, mbebn, logicblNbme);
 
 
-            registerFailed = false;
+            registerFbiled = fblse;
             registered = true;
 
-        } finally {
+        } finblly {
             try {
-                postRegister(logicalName, mbean, registered, registerFailed);
-            } finally {
+                postRegister(logicblNbme, mbebn, registered, registerFbiled);
+            } finblly {
                 if (registered && context!=null) context.done();
             }
         }
-        return new ObjectInstance(logicalName, classname);
+        return new ObjectInstbnce(logicblNbme, clbssnbme);
     }
 
-    private static void throwMBeanRegistrationException(Throwable t, String where)
-    throws MBeanRegistrationException {
-        if (t instanceof RuntimeException) {
-            throw new RuntimeMBeanException((RuntimeException)t,
+    privbte stbtic void throwMBebnRegistrbtionException(Throwbble t, String where)
+    throws MBebnRegistrbtionException {
+        if (t instbnceof RuntimeException) {
+            throw new RuntimeMBebnException((RuntimeException)t,
                     "RuntimeException thrown " + where);
-        } else if (t instanceof Error) {
+        } else if (t instbnceof Error) {
             throw new RuntimeErrorException((Error)t,
                     "Error thrown " + where);
-        } else if (t instanceof MBeanRegistrationException) {
-            throw (MBeanRegistrationException)t;
-        } else if (t instanceof Exception) {
-            throw new MBeanRegistrationException((Exception)t,
+        } else if (t instbnceof MBebnRegistrbtionException) {
+            throw (MBebnRegistrbtionException)t;
+        } else if (t instbnceof Exception) {
+            throw new MBebnRegistrbtionException((Exception)t,
                     "Exception thrown " + where);
         } else // neither Error nor Exception??
             throw new RuntimeException(t);
     }
 
-    private static ObjectName preRegister(
-            DynamicMBean mbean, MBeanServer mbs, ObjectName name)
-            throws InstanceAlreadyExistsException, MBeanRegistrationException {
+    privbte stbtic ObjectNbme preRegister(
+            DynbmicMBebn mbebn, MBebnServer mbs, ObjectNbme nbme)
+            throws InstbnceAlrebdyExistsException, MBebnRegistrbtionException {
 
-        ObjectName newName = null;
+        ObjectNbme newNbme = null;
 
         try {
-            if (mbean instanceof MBeanRegistration)
-                newName = ((MBeanRegistration) mbean).preRegister(mbs, name);
-        } catch (Throwable t) {
-            throwMBeanRegistrationException(t, "in preRegister method");
+            if (mbebn instbnceof MBebnRegistrbtion)
+                newNbme = ((MBebnRegistrbtion) mbebn).preRegister(mbs, nbme);
+        } cbtch (Throwbble t) {
+            throwMBebnRegistrbtionException(t, "in preRegister method");
         }
 
-        if (newName != null) return newName;
-        else return name;
+        if (newNbme != null) return newNbme;
+        else return nbme;
     }
 
-    private static void postRegister(
-            ObjectName logicalName, DynamicMBean mbean,
-            boolean registrationDone, boolean registerFailed) {
+    privbte stbtic void postRegister(
+            ObjectNbme logicblNbme, DynbmicMBebn mbebn,
+            boolebn registrbtionDone, boolebn registerFbiled) {
 
-        if (registerFailed && mbean instanceof DynamicMBean2)
-            ((DynamicMBean2) mbean).registerFailed();
+        if (registerFbiled && mbebn instbnceof DynbmicMBebn2)
+            ((DynbmicMBebn2) mbebn).registerFbiled();
         try {
-            if (mbean instanceof MBeanRegistration)
-                ((MBeanRegistration) mbean).postRegister(registrationDone);
-        } catch (RuntimeException e) {
-            MBEANSERVER_LOGGER.fine("While registering MBean ["+logicalName+
+            if (mbebn instbnceof MBebnRegistrbtion)
+                ((MBebnRegistrbtion) mbebn).postRegister(registrbtionDone);
+        } cbtch (RuntimeException e) {
+            MBEANSERVER_LOGGER.fine("While registering MBebn ["+logicblNbme+
                     "]: " + "Exception thrown by postRegister: " +
-                    "rethrowing <"+e+">, but keeping the MBean registered");
-            throw new RuntimeMBeanException(e,
+                    "rethrowing <"+e+">, but keeping the MBebn registered");
+            throw new RuntimeMBebnException(e,
                       "RuntimeException thrown in postRegister method: "+
-                      "rethrowing <"+e+">, but keeping the MBean registered");
-        } catch (Error er) {
-            MBEANSERVER_LOGGER.fine("While registering MBean ["+logicalName+
+                      "rethrowing <"+e+">, but keeping the MBebn registered");
+        } cbtch (Error er) {
+            MBEANSERVER_LOGGER.fine("While registering MBebn ["+logicblNbme+
                     "]: " + "Error thrown by postRegister: " +
-                    "rethrowing <"+er+">, but keeping the MBean registered");
+                    "rethrowing <"+er+">, but keeping the MBebn registered");
             throw new RuntimeErrorException(er,
                       "Error thrown in postRegister method: "+
-                      "rethrowing <"+er+">, but keeping the MBean registered");
+                      "rethrowing <"+er+">, but keeping the MBebn registered");
         }
     }
 
-    private static void preDeregisterInvoke(MBeanRegistration moi)
-            throws MBeanRegistrationException {
+    privbte stbtic void preDeregisterInvoke(MBebnRegistrbtion moi)
+            throws MBebnRegistrbtionException {
         try {
             moi.preDeregister();
-        } catch (Throwable t) {
-            throwMBeanRegistrationException(t, "in preDeregister method");
+        } cbtch (Throwbble t) {
+            throwMBebnRegistrbtionException(t, "in preDeregister method");
         }
     }
 
-    private static void postDeregisterInvoke(ObjectName mbean,
-            MBeanRegistration moi) {
+    privbte stbtic void postDeregisterInvoke(ObjectNbme mbebn,
+            MBebnRegistrbtion moi) {
         try {
             moi.postDeregister();
-        } catch (RuntimeException e) {
-            MBEANSERVER_LOGGER.fine("While unregistering MBean ["+mbean+
+        } cbtch (RuntimeException e) {
+            MBEANSERVER_LOGGER.fine("While unregistering MBebn ["+mbebn+
                     "]: " + "Exception thrown by postDeregister: " +
-                    "rethrowing <"+e+">, although the MBean is succesfully " +
+                    "rethrowing <"+e+">, blthough the MBebn is succesfully " +
                     "unregistered");
-            throw new RuntimeMBeanException(e,
+            throw new RuntimeMBebnException(e,
                       "RuntimeException thrown in postDeregister method: "+
                       "rethrowing <"+e+
-                      ">, although the MBean is sucessfully unregistered");
-        } catch (Error er) {
-            MBEANSERVER_LOGGER.fine("While unregistering MBean ["+mbean+
+                      ">, blthough the MBebn is sucessfully unregistered");
+        } cbtch (Error er) {
+            MBEANSERVER_LOGGER.fine("While unregistering MBebn ["+mbebn+
                     "]: " + "Error thrown by postDeregister: " +
-                    "rethrowing <"+er+">, although the MBean is succesfully " +
+                    "rethrowing <"+er+">, blthough the MBebn is succesfully " +
                     "unregistered");
             throw new RuntimeErrorException(er,
                       "Error thrown in postDeregister method: "+
                       "rethrowing <"+er+
-                      ">, although the MBean is sucessfully unregistered");
+                      ">, blthough the MBebn is sucessfully unregistered");
         }
     }
 
     /**
-     * Gets a specific MBean controlled by the DefaultMBeanServerInterceptor.
-     * The name must have a non-default domain.
+     * Gets b specific MBebn controlled by the DefbultMBebnServerInterceptor.
+     * The nbme must hbve b non-defbult dombin.
      */
-    private DynamicMBean getMBean(ObjectName name)
-        throws InstanceNotFoundException {
+    privbte DynbmicMBebn getMBebn(ObjectNbme nbme)
+        throws InstbnceNotFoundException {
 
-        if (name == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Object name cannot be null"),
-                               "Exception occurred trying to get an MBean");
+        if (nbme == null) {
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("Object nbme cbnnot be null"),
+                               "Exception occurred trying to get bn MBebn");
         }
-        DynamicMBean obj = repository.retrieve(name);
+        DynbmicMBebn obj = repository.retrieve(nbme);
         if (obj == null) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+            if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
                 MBEANSERVER_LOGGER.logp(Level.FINER,
-                        DefaultMBeanServerInterceptor.class.getName(),
-                        "getMBean", name + " : Found no object");
+                        DefbultMBebnServerInterceptor.clbss.getNbme(),
+                        "getMBebn", nbme + " : Found no object");
             }
-            throw new InstanceNotFoundException(name.toString());
+            throw new InstbnceNotFoundException(nbme.toString());
         }
         return obj;
     }
 
-    private static Object getResource(DynamicMBean mbean) {
-        if (mbean instanceof DynamicMBean2)
-            return ((DynamicMBean2) mbean).getResource();
+    privbte stbtic Object getResource(DynbmicMBebn mbebn) {
+        if (mbebn instbnceof DynbmicMBebn2)
+            return ((DynbmicMBebn2) mbebn).getResource();
         else
-            return mbean;
+            return mbebn;
     }
 
-    private ObjectName nonDefaultDomain(ObjectName name) {
-        if (name == null || name.getDomain().length() > 0)
-            return name;
+    privbte ObjectNbme nonDefbultDombin(ObjectNbme nbme) {
+        if (nbme == null || nbme.getDombin().length() > 0)
+            return nbme;
 
-        /* The ObjectName looks like ":a=b", and that's what its
-           toString() will return in this implementation.  So
-           we can just stick the default domain in front of it
-           to get a non-default-domain name.  We depend on the
-           fact that toString() works like that and that it
-           leaves wildcards in place (so we can detect an error
+        /* The ObjectNbme looks like ":b=b", bnd thbt's whbt its
+           toString() will return in this implementbtion.  So
+           we cbn just stick the defbult dombin in front of it
+           to get b non-defbult-dombin nbme.  We depend on the
+           fbct thbt toString() works like thbt bnd thbt it
+           lebves wildcbrds in plbce (so we cbn detect bn error
            if one is supplied where it shouldn't be).  */
-        final String completeName = domain + name;
+        finbl String completeNbme = dombin + nbme;
 
-        return Util.newObjectName(completeName);
+        return Util.newObjectNbme(completeNbme);
     }
 
-    public String getDefaultDomain()  {
-        return domain;
+    public String getDefbultDombin()  {
+        return dombin;
     }
 
     /*
-     * Notification handling.
+     * Notificbtion hbndling.
      *
-     * This is not trivial, because the MBeanServer translates the
-     * source of a received notification from a reference to an MBean
-     * into the ObjectName of that MBean.  While that does make
-     * notification sending easier for MBean writers, it comes at a
-     * considerable cost.  We need to replace the source of a
-     * notification, which is basically wrong if there are also
-     * listeners registered directly with the MBean (without going
-     * through the MBean server).  We also need to wrap the listener
-     * supplied by the client of the MBeanServer with a listener that
-     * performs the substitution before forwarding.  This is why we
-     * strongly discourage people from putting MBean references in the
-     * source of their notifications.  Instead they should arrange to
-     * put the ObjectName there themselves.
+     * This is not trivibl, becbuse the MBebnServer trbnslbtes the
+     * source of b received notificbtion from b reference to bn MBebn
+     * into the ObjectNbme of thbt MBebn.  While thbt does mbke
+     * notificbtion sending ebsier for MBebn writers, it comes bt b
+     * considerbble cost.  We need to replbce the source of b
+     * notificbtion, which is bbsicblly wrong if there bre blso
+     * listeners registered directly with the MBebn (without going
+     * through the MBebn server).  We blso need to wrbp the listener
+     * supplied by the client of the MBebnServer with b listener thbt
+     * performs the substitution before forwbrding.  This is why we
+     * strongly discourbge people from putting MBebn references in the
+     * source of their notificbtions.  Instebd they should brrbnge to
+     * put the ObjectNbme there themselves.
      *
-     * However, existing code relies on the substitution, so we are
+     * However, existing code relies on the substitution, so we bre
      * stuck with it.
      *
-     * Here's how we handle it.  When you add a listener, we make a
-     * ListenerWrapper around it.  We look that up in the
-     * listenerWrappers map, and if there was already a wrapper for
-     * that listener with the given ObjectName, we reuse it.  This map
-     * is a WeakHashMap, so a listener that is no longer registered
-     * with any MBean can be garbage collected.
+     * Here's how we hbndle it.  When you bdd b listener, we mbke b
+     * ListenerWrbpper bround it.  We look thbt up in the
+     * listenerWrbppers mbp, bnd if there wbs blrebdy b wrbpper for
+     * thbt listener with the given ObjectNbme, we reuse it.  This mbp
+     * is b WebkHbshMbp, so b listener thbt is no longer registered
+     * with bny MBebn cbn be gbrbbge collected.
      *
-     * We cannot use simpler solutions such as always creating a new
-     * wrapper or always registering the same listener with the MBean
-     * and using the handback to find the client's original listener.
-     * The reason is that we need to support the removeListener
-     * variant that removes all (listener,filter,handback) triples on
-     * a broadcaster that have a given listener.  And we do not have
-     * any way to inspect a broadcaster's internal list of triples.
-     * So the same client listener must always map to the same
-     * listener registered with the broadcaster.
+     * We cbnnot use simpler solutions such bs blwbys crebting b new
+     * wrbpper or blwbys registering the sbme listener with the MBebn
+     * bnd using the hbndbbck to find the client's originbl listener.
+     * The rebson is thbt we need to support the removeListener
+     * vbribnt thbt removes bll (listener,filter,hbndbbck) triples on
+     * b brobdcbster thbt hbve b given listener.  And we do not hbve
+     * bny wby to inspect b brobdcbster's internbl list of triples.
+     * So the sbme client listener must blwbys mbp to the sbme
+     * listener registered with the brobdcbster.
      *
-     * Another possible solution would be to map from ObjectName to
-     * list of listener wrappers (or IdentityHashMap of listener
-     * wrappers), making this list the first time a listener is added
-     * on a given MBean, and removing it when the MBean is removed.
-     * This is probably more costly in memory, but could be useful if
-     * some day we don't want to rely on weak references.
+     * Another possible solution would be to mbp from ObjectNbme to
+     * list of listener wrbppers (or IdentityHbshMbp of listener
+     * wrbppers), mbking this list the first time b listener is bdded
+     * on b given MBebn, bnd removing it when the MBebn is removed.
+     * This is probbbly more costly in memory, but could be useful if
+     * some dby we don't wbnt to rely on webk references.
      */
-    public void addNotificationListener(ObjectName name,
-                                        NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-            throws InstanceNotFoundException {
+    public void bddNotificbtionListener(ObjectNbme nbme,
+                                        NotificbtionListener listener,
+                                        NotificbtionFilter filter,
+                                        Object hbndbbck)
+            throws InstbnceNotFoundException {
 
         // ------------------------------
         // ------------------------------
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "addNotificationListener", "ObjectName = " + name);
+                    DefbultMBebnServerInterceptor.clbss.getNbme(),
+                    "bddNotificbtionListener", "ObjectNbme = " + nbme);
         }
 
-        DynamicMBean instance = getMBean(name);
-        checkMBeanPermission(instance, null, name, "addNotificationListener");
+        DynbmicMBebn instbnce = getMBebn(nbme);
+        checkMBebnPermission(instbnce, null, nbme, "bddNotificbtionListener");
 
-        NotificationBroadcaster broadcaster =
-                getNotificationBroadcaster(name, instance,
-                                           NotificationBroadcaster.class);
+        NotificbtionBrobdcbster brobdcbster =
+                getNotificbtionBrobdcbster(nbme, instbnce,
+                                           NotificbtionBrobdcbster.clbss);
 
         // ------------------
         // Check listener
         // ------------------
         if (listener == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Null listener"),"Null listener");
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException("Null listener"),"Null listener");
         }
 
-        NotificationListener listenerWrapper =
-            getListenerWrapper(listener, name, instance, true);
-        broadcaster.addNotificationListener(listenerWrapper, filter, handback);
+        NotificbtionListener listenerWrbpper =
+            getListenerWrbpper(listener, nbme, instbnce, true);
+        brobdcbster.bddNotificbtionListener(listenerWrbpper, filter, hbndbbck);
     }
 
-    public void addNotificationListener(ObjectName name,
-                                        ObjectName listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-            throws InstanceNotFoundException {
+    public void bddNotificbtionListener(ObjectNbme nbme,
+                                        ObjectNbme listener,
+                                        NotificbtionFilter filter,
+                                        Object hbndbbck)
+            throws InstbnceNotFoundException {
 
         // ------------------------------
         // ------------------------------
@@ -1214,432 +1214,432 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
         // ----------------
         // Get listener object
         // ----------------
-        DynamicMBean instance = getMBean(listener);
-        Object resource = getResource(instance);
-        if (!(resource instanceof NotificationListener)) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException(listener.getCanonicalName()),
-                "The MBean " + listener.getCanonicalName() +
-                " does not implement the NotificationListener interface") ;
+        DynbmicMBebn instbnce = getMBebn(listener);
+        Object resource = getResource(instbnce);
+        if (!(resource instbnceof NotificbtionListener)) {
+            throw new RuntimeOperbtionsException(new
+                IllegblArgumentException(listener.getCbnonicblNbme()),
+                "The MBebn " + listener.getCbnonicblNbme() +
+                " does not implement the NotificbtionListener interfbce") ;
         }
 
         // ----------------
-        // Add a listener on an MBean
+        // Add b listener on bn MBebn
         // ----------------
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "addNotificationListener",
-                    "ObjectName = " + name + ", Listener = " + listener);
+                    DefbultMBebnServerInterceptor.clbss.getNbme(),
+                    "bddNotificbtionListener",
+                    "ObjectNbme = " + nbme + ", Listener = " + listener);
         }
-        server.addNotificationListener(name,(NotificationListener) resource,
-                                       filter, handback) ;
+        server.bddNotificbtionListener(nbme,(NotificbtionListener) resource,
+                                       filter, hbndbbck) ;
     }
 
-    public void removeNotificationListener(ObjectName name,
-                                           NotificationListener listener)
-            throws InstanceNotFoundException, ListenerNotFoundException {
-        removeNotificationListener(name, listener, null, null, true);
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           NotificbtionListener listener)
+            throws InstbnceNotFoundException, ListenerNotFoundException {
+        removeNotificbtionListener(nbme, listener, null, null, true);
     }
 
-    public void removeNotificationListener(ObjectName name,
-                                           NotificationListener listener,
-                                           NotificationFilter filter,
-                                           Object handback)
-            throws InstanceNotFoundException, ListenerNotFoundException {
-        removeNotificationListener(name, listener, filter, handback, false);
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           NotificbtionListener listener,
+                                           NotificbtionFilter filter,
+                                           Object hbndbbck)
+            throws InstbnceNotFoundException, ListenerNotFoundException {
+        removeNotificbtionListener(nbme, listener, filter, hbndbbck, fblse);
     }
 
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener)
-            throws InstanceNotFoundException, ListenerNotFoundException {
-        NotificationListener instance = getListener(listener);
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           ObjectNbme listener)
+            throws InstbnceNotFoundException, ListenerNotFoundException {
+        NotificbtionListener instbnce = getListener(listener);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "removeNotificationListener",
-                    "ObjectName = " + name + ", Listener = " + listener);
+                    DefbultMBebnServerInterceptor.clbss.getNbme(),
+                    "removeNotificbtionListener",
+                    "ObjectNbme = " + nbme + ", Listener = " + listener);
         }
-        server.removeNotificationListener(name, instance);
+        server.removeNotificbtionListener(nbme, instbnce);
     }
 
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener,
-                                           NotificationFilter filter,
-                                           Object handback)
-            throws InstanceNotFoundException, ListenerNotFoundException {
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           ObjectNbme listener,
+                                           NotificbtionFilter filter,
+                                           Object hbndbbck)
+            throws InstbnceNotFoundException, ListenerNotFoundException {
 
-        NotificationListener instance = getListener(listener);
+        NotificbtionListener instbnce = getListener(listener);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "removeNotificationListener",
-                    "ObjectName = " + name + ", Listener = " + listener);
+                    DefbultMBebnServerInterceptor.clbss.getNbme(),
+                    "removeNotificbtionListener",
+                    "ObjectNbme = " + nbme + ", Listener = " + listener);
         }
-        server.removeNotificationListener(name, instance, filter, handback);
+        server.removeNotificbtionListener(nbme, instbnce, filter, hbndbbck);
     }
 
-    private NotificationListener getListener(ObjectName listener)
+    privbte NotificbtionListener getListener(ObjectNbme listener)
         throws ListenerNotFoundException {
         // ----------------
         // Get listener object
         // ----------------
-        DynamicMBean instance;
+        DynbmicMBebn instbnce;
         try {
-            instance = getMBean(listener);
-        } catch (InstanceNotFoundException e) {
-            throw EnvHelp.initCause(
-                          new ListenerNotFoundException(e.getMessage()), e);
+            instbnce = getMBebn(listener);
+        } cbtch (InstbnceNotFoundException e) {
+            throw EnvHelp.initCbuse(
+                          new ListenerNotFoundException(e.getMessbge()), e);
         }
 
-        Object resource = getResource(instance);
-        if (!(resource instanceof NotificationListener)) {
-            final RuntimeException exc =
-                new IllegalArgumentException(listener.getCanonicalName());
-            final String msg =
-                "MBean " + listener.getCanonicalName() + " does not " +
-                "implement " + NotificationListener.class.getName();
-            throw new RuntimeOperationsException(exc, msg);
+        Object resource = getResource(instbnce);
+        if (!(resource instbnceof NotificbtionListener)) {
+            finbl RuntimeException exc =
+                new IllegblArgumentException(listener.getCbnonicblNbme());
+            finbl String msg =
+                "MBebn " + listener.getCbnonicblNbme() + " does not " +
+                "implement " + NotificbtionListener.clbss.getNbme();
+            throw new RuntimeOperbtionsException(exc, msg);
         }
-        return (NotificationListener) resource;
+        return (NotificbtionListener) resource;
     }
 
-    private void removeNotificationListener(ObjectName name,
-                                            NotificationListener listener,
-                                            NotificationFilter filter,
-                                            Object handback,
-                                            boolean removeAll)
-            throws InstanceNotFoundException, ListenerNotFoundException {
+    privbte void removeNotificbtionListener(ObjectNbme nbme,
+                                            NotificbtionListener listener,
+                                            NotificbtionFilter filter,
+                                            Object hbndbbck,
+                                            boolebn removeAll)
+            throws InstbnceNotFoundException, ListenerNotFoundException {
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "removeNotificationListener", "ObjectName = " + name);
+                    DefbultMBebnServerInterceptor.clbss.getNbme(),
+                    "removeNotificbtionListener", "ObjectNbme = " + nbme);
         }
 
-        DynamicMBean instance = getMBean(name);
-        checkMBeanPermission(instance, null, name, "removeNotificationListener");
+        DynbmicMBebn instbnce = getMBebn(nbme);
+        checkMBebnPermission(instbnce, null, nbme, "removeNotificbtionListener");
 
-        /* We could simplify the code by assigning broadcaster after
-           assigning listenerWrapper, but that would change the error
-           behavior when both the broadcaster and the listener are
+        /* We could simplify the code by bssigning brobdcbster bfter
+           bssigning listenerWrbpper, but thbt would chbnge the error
+           behbvior when both the brobdcbster bnd the listener bre
            erroneous.  */
 
-        Class<? extends NotificationBroadcaster> reqClass =
-            removeAll ? NotificationBroadcaster.class : NotificationEmitter.class;
-        NotificationBroadcaster broadcaster =
-            getNotificationBroadcaster(name, instance, reqClass);
+        Clbss<? extends NotificbtionBrobdcbster> reqClbss =
+            removeAll ? NotificbtionBrobdcbster.clbss : NotificbtionEmitter.clbss;
+        NotificbtionBrobdcbster brobdcbster =
+            getNotificbtionBrobdcbster(nbme, instbnce, reqClbss);
 
-        NotificationListener listenerWrapper =
-            getListenerWrapper(listener, name, instance, false);
+        NotificbtionListener listenerWrbpper =
+            getListenerWrbpper(listener, nbme, instbnce, fblse);
 
-        if (listenerWrapper == null)
+        if (listenerWrbpper == null)
             throw new ListenerNotFoundException("Unknown listener");
 
         if (removeAll)
-            broadcaster.removeNotificationListener(listenerWrapper);
+            brobdcbster.removeNotificbtionListener(listenerWrbpper);
         else {
-            NotificationEmitter emitter = (NotificationEmitter) broadcaster;
-            emitter.removeNotificationListener(listenerWrapper,
+            NotificbtionEmitter emitter = (NotificbtionEmitter) brobdcbster;
+            emitter.removeNotificbtionListener(listenerWrbpper,
                                                filter,
-                                               handback);
+                                               hbndbbck);
         }
     }
 
-    private static <T extends NotificationBroadcaster>
-            T getNotificationBroadcaster(ObjectName name, Object instance,
-                                         Class<T> reqClass) {
-        if (reqClass.isInstance(instance))
-            return reqClass.cast(instance);
-        if (instance instanceof DynamicMBean2)
-            instance = ((DynamicMBean2) instance).getResource();
-        if (reqClass.isInstance(instance))
-            return reqClass.cast(instance);
-        final RuntimeException exc =
-            new IllegalArgumentException(name.getCanonicalName());
-        final String msg =
-            "MBean " + name.getCanonicalName() + " does not " +
-            "implement " + reqClass.getName();
-        throw new RuntimeOperationsException(exc, msg);
+    privbte stbtic <T extends NotificbtionBrobdcbster>
+            T getNotificbtionBrobdcbster(ObjectNbme nbme, Object instbnce,
+                                         Clbss<T> reqClbss) {
+        if (reqClbss.isInstbnce(instbnce))
+            return reqClbss.cbst(instbnce);
+        if (instbnce instbnceof DynbmicMBebn2)
+            instbnce = ((DynbmicMBebn2) instbnce).getResource();
+        if (reqClbss.isInstbnce(instbnce))
+            return reqClbss.cbst(instbnce);
+        finbl RuntimeException exc =
+            new IllegblArgumentException(nbme.getCbnonicblNbme());
+        finbl String msg =
+            "MBebn " + nbme.getCbnonicblNbme() + " does not " +
+            "implement " + reqClbss.getNbme();
+        throw new RuntimeOperbtionsException(exc, msg);
     }
 
-    public MBeanInfo getMBeanInfo(ObjectName name)
-        throws InstanceNotFoundException, IntrospectionException,
+    public MBebnInfo getMBebnInfo(ObjectNbme nbme)
+        throws InstbnceNotFoundException, IntrospectionException,
                ReflectionException {
 
         // ------------------------------
         // ------------------------------
 
-        DynamicMBean moi = getMBean(name);
-        final MBeanInfo mbi;
+        DynbmicMBebn moi = getMBebn(nbme);
+        finbl MBebnInfo mbi;
         try {
-            mbi = moi.getMBeanInfo();
-        } catch (RuntimeMBeanException e) {
+            mbi = moi.getMBebnInfo();
+        } cbtch (RuntimeMBebnException e) {
             throw e;
-        } catch (RuntimeErrorException e) {
+        } cbtch (RuntimeErrorException e) {
             throw e;
-        } catch (RuntimeException e) {
-            throw new RuntimeMBeanException(e,
-                    "getMBeanInfo threw RuntimeException");
-        } catch (Error e) {
-            throw new RuntimeErrorException(e, "getMBeanInfo threw Error");
+        } cbtch (RuntimeException e) {
+            throw new RuntimeMBebnException(e,
+                    "getMBebnInfo threw RuntimeException");
+        } cbtch (Error e) {
+            throw new RuntimeErrorException(e, "getMBebnInfo threw Error");
         }
         if (mbi == null)
-            throw new JMRuntimeException("MBean " + name +
-                                         "has no MBeanInfo");
+            throw new JMRuntimeException("MBebn " + nbme +
+                                         "hbs no MBebnInfo");
 
-        checkMBeanPermission(mbi.getClassName(), null, name, "getMBeanInfo");
+        checkMBebnPermission(mbi.getClbssNbme(), null, nbme, "getMBebnInfo");
 
         return mbi;
     }
 
-    public boolean isInstanceOf(ObjectName name, String className)
-        throws InstanceNotFoundException {
+    public boolebn isInstbnceOf(ObjectNbme nbme, String clbssNbme)
+        throws InstbnceNotFoundException {
 
-        final DynamicMBean instance = getMBean(name);
-        checkMBeanPermission(instance, null, name, "isInstanceOf");
+        finbl DynbmicMBebn instbnce = getMBebn(nbme);
+        checkMBebnPermission(instbnce, null, nbme, "isInstbnceOf");
 
         try {
-            Object resource = getResource(instance);
+            Object resource = getResource(instbnce);
 
-            final String resourceClassName =
-                    (resource instanceof DynamicMBean) ?
-                        getClassName((DynamicMBean) resource) :
-                        resource.getClass().getName();
+            finbl String resourceClbssNbme =
+                    (resource instbnceof DynbmicMBebn) ?
+                        getClbssNbme((DynbmicMBebn) resource) :
+                        resource.getClbss().getNbme();
 
-            if (resourceClassName.equals(className))
+            if (resourceClbssNbme.equbls(clbssNbme))
                 return true;
-            final ClassLoader cl = resource.getClass().getClassLoader();
+            finbl ClbssLobder cl = resource.getClbss().getClbssLobder();
 
-            final Class<?> classNameClass = Class.forName(className, false, cl);
-            if (classNameClass.isInstance(resource))
+            finbl Clbss<?> clbssNbmeClbss = Clbss.forNbme(clbssNbme, fblse, cl);
+            if (clbssNbmeClbss.isInstbnce(resource))
                 return true;
 
-            final Class<?> resourceClass = Class.forName(resourceClassName, false, cl);
-            return classNameClass.isAssignableFrom(resourceClass);
-        } catch (Exception x) {
-            /* Could be SecurityException or ClassNotFoundException */
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINEST)) {
+            finbl Clbss<?> resourceClbss = Clbss.forNbme(resourceClbssNbme, fblse, cl);
+            return clbssNbmeClbss.isAssignbbleFrom(resourceClbss);
+        } cbtch (Exception x) {
+            /* Could be SecurityException or ClbssNotFoundException */
+            if (MBEANSERVER_LOGGER.isLoggbble(Level.FINEST)) {
                 MBEANSERVER_LOGGER.logp(Level.FINEST,
-                        DefaultMBeanServerInterceptor.class.getName(),
-                        "isInstanceOf", "Exception calling isInstanceOf", x);
+                        DefbultMBebnServerInterceptor.clbss.getNbme(),
+                        "isInstbnceOf", "Exception cblling isInstbnceOf", x);
             }
-            return false;
+            return fblse;
         }
 
     }
 
     /**
-     * <p>Return the {@link java.lang.ClassLoader} that was used for
-     * loading the class of the named MBean.
-     * @param mbeanName The ObjectName of the MBean.
-     * @return The ClassLoader used for that MBean.
-     * @exception InstanceNotFoundException if the named MBean is not found.
+     * <p>Return the {@link jbvb.lbng.ClbssLobder} thbt wbs used for
+     * lobding the clbss of the nbmed MBebn.
+     * @pbrbm mbebnNbme The ObjectNbme of the MBebn.
+     * @return The ClbssLobder used for thbt MBebn.
+     * @exception InstbnceNotFoundException if the nbmed MBebn is not found.
      */
-    public ClassLoader getClassLoaderFor(ObjectName mbeanName)
-        throws InstanceNotFoundException {
+    public ClbssLobder getClbssLobderFor(ObjectNbme mbebnNbme)
+        throws InstbnceNotFoundException {
 
-        DynamicMBean instance = getMBean(mbeanName);
-        checkMBeanPermission(instance, null, mbeanName, "getClassLoaderFor");
-        return getResource(instance).getClass().getClassLoader();
+        DynbmicMBebn instbnce = getMBebn(mbebnNbme);
+        checkMBebnPermission(instbnce, null, mbebnNbme, "getClbssLobderFor");
+        return getResource(instbnce).getClbss().getClbssLobder();
     }
 
     /**
-     * <p>Return the named {@link java.lang.ClassLoader}.
-     * @param loaderName The ObjectName of the ClassLoader.
-     * @return The named ClassLoader.
-     * @exception InstanceNotFoundException if the named ClassLoader
+     * <p>Return the nbmed {@link jbvb.lbng.ClbssLobder}.
+     * @pbrbm lobderNbme The ObjectNbme of the ClbssLobder.
+     * @return The nbmed ClbssLobder.
+     * @exception InstbnceNotFoundException if the nbmed ClbssLobder
      * is not found.
      */
-    public ClassLoader getClassLoader(ObjectName loaderName)
-            throws InstanceNotFoundException {
+    public ClbssLobder getClbssLobder(ObjectNbme lobderNbme)
+            throws InstbnceNotFoundException {
 
-        if (loaderName == null) {
-            checkMBeanPermission((String) null, null, null, "getClassLoader");
-            return server.getClass().getClassLoader();
+        if (lobderNbme == null) {
+            checkMBebnPermission((String) null, null, null, "getClbssLobder");
+            return server.getClbss().getClbssLobder();
         }
 
-        DynamicMBean instance = getMBean(loaderName);
-        checkMBeanPermission(instance, null, loaderName, "getClassLoader");
+        DynbmicMBebn instbnce = getMBebn(lobderNbme);
+        checkMBebnPermission(instbnce, null, lobderNbme, "getClbssLobder");
 
-        Object resource = getResource(instance);
+        Object resource = getResource(instbnce);
 
-        /* Check if the given MBean is a ClassLoader */
-        if (!(resource instanceof ClassLoader))
-            throw new InstanceNotFoundException(loaderName.toString() +
-                                                " is not a classloader");
+        /* Check if the given MBebn is b ClbssLobder */
+        if (!(resource instbnceof ClbssLobder))
+            throw new InstbnceNotFoundException(lobderNbme.toString() +
+                                                " is not b clbsslobder");
 
-        return (ClassLoader) resource;
+        return (ClbssLobder) resource;
     }
 
     /**
-     * Sends an MBeanServerNotifications with the specified type for the
-     * MBean with the specified ObjectName
+     * Sends bn MBebnServerNotificbtions with the specified type for the
+     * MBebn with the specified ObjectNbme
      */
-    private void sendNotification(String NotifType, ObjectName name) {
+    privbte void sendNotificbtion(String NotifType, ObjectNbme nbme) {
 
         // ------------------------------
         // ------------------------------
 
         // ---------------------
-        // Create notification
+        // Crebte notificbtion
         // ---------------------
-        MBeanServerNotification notif = new MBeanServerNotification(
-            NotifType,MBeanServerDelegate.DELEGATE_NAME,0,name);
+        MBebnServerNotificbtion notif = new MBebnServerNotificbtion(
+            NotifType,MBebnServerDelegbte.DELEGATE_NAME,0,nbme);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "sendNotification", NotifType + " " + name);
+                    DefbultMBebnServerInterceptor.clbss.getNbme(),
+                    "sendNotificbtion", NotifType + " " + nbme);
         }
 
-        delegate.sendNotification(notif);
+        delegbte.sendNotificbtion(notif);
     }
 
     /**
-     * Applies the specified queries to the set of NamedObjects.
+     * Applies the specified queries to the set of NbmedObjects.
      */
-    private Set<ObjectName>
-        objectNamesFromFilteredNamedObjects(Set<NamedObject> list,
+    privbte Set<ObjectNbme>
+        objectNbmesFromFilteredNbmedObjects(Set<NbmedObject> list,
                                             QueryExp query) {
-        Set<ObjectName> result = new HashSet<ObjectName>();
+        Set<ObjectNbme> result = new HbshSet<ObjectNbme>();
         // No query ...
         if (query == null) {
-            for (NamedObject no : list) {
-                result.add(no.getName());
+            for (NbmedObject no : list) {
+                result.bdd(no.getNbme());
             }
         } else {
             // Access the filter
-            final MBeanServer oldServer = QueryEval.getMBeanServer();
-            query.setMBeanServer(server);
+            finbl MBebnServer oldServer = QueryEvbl.getMBebnServer();
+            query.setMBebnServer(server);
             try {
-                for (NamedObject no : list) {
-                    boolean res;
+                for (NbmedObject no : list) {
+                    boolebn res;
                     try {
-                        res = query.apply(no.getName());
-                    } catch (Exception e) {
-                        res = false;
+                        res = query.bpply(no.getNbme());
+                    } cbtch (Exception e) {
+                        res = fblse;
                     }
                     if (res) {
-                        result.add(no.getName());
+                        result.bdd(no.getNbme());
                     }
                 }
-            } finally {
+            } finblly {
                 /*
-                 * query.setMBeanServer is probably
-                 * QueryEval.setMBeanServer so put back the old
-                 * value.  Since that method uses a ThreadLocal
-                 * variable, this code is only needed for the
-                 * unusual case where the user creates a custom
-                 * QueryExp that calls a nested query on another
-                 * MBeanServer.
+                 * query.setMBebnServer is probbbly
+                 * QueryEvbl.setMBebnServer so put bbck the old
+                 * vblue.  Since thbt method uses b ThrebdLocbl
+                 * vbribble, this code is only needed for the
+                 * unusubl cbse where the user crebtes b custom
+                 * QueryExp thbt cblls b nested query on bnother
+                 * MBebnServer.
                  */
-                query.setMBeanServer(oldServer);
+                query.setMBebnServer(oldServer);
             }
         }
         return result;
     }
 
     /**
-     * Applies the specified queries to the set of NamedObjects.
+     * Applies the specified queries to the set of NbmedObjects.
      */
-    private Set<ObjectInstance>
-        objectInstancesFromFilteredNamedObjects(Set<NamedObject> list,
+    privbte Set<ObjectInstbnce>
+        objectInstbncesFromFilteredNbmedObjects(Set<NbmedObject> list,
                                                 QueryExp query) {
-        Set<ObjectInstance> result = new HashSet<ObjectInstance>();
+        Set<ObjectInstbnce> result = new HbshSet<ObjectInstbnce>();
         // No query ...
         if (query == null) {
-            for (NamedObject no : list) {
-                final DynamicMBean obj = no.getObject();
-                final String className = safeGetClassName(obj);
-                result.add(new ObjectInstance(no.getName(), className));
+            for (NbmedObject no : list) {
+                finbl DynbmicMBebn obj = no.getObject();
+                finbl String clbssNbme = sbfeGetClbssNbme(obj);
+                result.bdd(new ObjectInstbnce(no.getNbme(), clbssNbme));
             }
         } else {
             // Access the filter
-            MBeanServer oldServer = QueryEval.getMBeanServer();
-            query.setMBeanServer(server);
+            MBebnServer oldServer = QueryEvbl.getMBebnServer();
+            query.setMBebnServer(server);
             try {
-                for (NamedObject no : list) {
-                    final DynamicMBean obj = no.getObject();
-                    boolean res;
+                for (NbmedObject no : list) {
+                    finbl DynbmicMBebn obj = no.getObject();
+                    boolebn res;
                     try {
-                        res = query.apply(no.getName());
-                    } catch (Exception e) {
-                        res = false;
+                        res = query.bpply(no.getNbme());
+                    } cbtch (Exception e) {
+                        res = fblse;
                     }
                     if (res) {
-                        String className = safeGetClassName(obj);
-                        result.add(new ObjectInstance(no.getName(), className));
+                        String clbssNbme = sbfeGetClbssNbme(obj);
+                        result.bdd(new ObjectInstbnce(no.getNbme(), clbssNbme));
                     }
                 }
-            } finally {
+            } finblly {
                 /*
-                 * query.setMBeanServer is probably
-                 * QueryEval.setMBeanServer so put back the old
-                 * value.  Since that method uses a ThreadLocal
-                 * variable, this code is only needed for the
-                 * unusual case where the user creates a custom
-                 * QueryExp that calls a nested query on another
-                 * MBeanServer.
+                 * query.setMBebnServer is probbbly
+                 * QueryEvbl.setMBebnServer so put bbck the old
+                 * vblue.  Since thbt method uses b ThrebdLocbl
+                 * vbribble, this code is only needed for the
+                 * unusubl cbse where the user crebtes b custom
+                 * QueryExp thbt cblls b nested query on bnother
+                 * MBebnServer.
                  */
-                query.setMBeanServer(oldServer);
+                query.setMBebnServer(oldServer);
             }
         }
         return result;
     }
 
-    private static String safeGetClassName(DynamicMBean mbean) {
+    privbte stbtic String sbfeGetClbssNbme(DynbmicMBebn mbebn) {
         try {
-            return getClassName(mbean);
-        } catch (Exception e) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINEST)) {
+            return getClbssNbme(mbebn);
+        } cbtch (Exception e) {
+            if (MBEANSERVER_LOGGER.isLoggbble(Level.FINEST)) {
                 MBEANSERVER_LOGGER.logp(Level.FINEST,
-                        DefaultMBeanServerInterceptor.class.getName(),
-                        "safeGetClassName",
-                        "Exception getting MBean class name", e);
+                        DefbultMBebnServerInterceptor.clbss.getNbme(),
+                        "sbfeGetClbssNbme",
+                        "Exception getting MBebn clbss nbme", e);
             }
             return null;
         }
     }
 
     /**
-     * Applies the specified queries to the set of ObjectInstances.
+     * Applies the specified queries to the set of ObjectInstbnces.
      */
-    private Set<ObjectInstance>
-            filterListOfObjectInstances(Set<ObjectInstance> list,
+    privbte Set<ObjectInstbnce>
+            filterListOfObjectInstbnces(Set<ObjectInstbnce> list,
                                         QueryExp query) {
         // Null query.
         //
         if (query == null) {
             return list;
         } else {
-            Set<ObjectInstance> result = new HashSet<ObjectInstance>();
+            Set<ObjectInstbnce> result = new HbshSet<ObjectInstbnce>();
             // Access the filter.
             //
-            for (ObjectInstance oi : list) {
-                boolean res = false;
-                MBeanServer oldServer = QueryEval.getMBeanServer();
-                query.setMBeanServer(server);
+            for (ObjectInstbnce oi : list) {
+                boolebn res = fblse;
+                MBebnServer oldServer = QueryEvbl.getMBebnServer();
+                query.setMBebnServer(server);
                 try {
-                    res = query.apply(oi.getObjectName());
-                } catch (Exception e) {
-                    res = false;
-                } finally {
+                    res = query.bpply(oi.getObjectNbme());
+                } cbtch (Exception e) {
+                    res = fblse;
+                } finblly {
                     /*
-                     * query.setMBeanServer is probably
-                     * QueryEval.setMBeanServer so put back the old
-                     * value.  Since that method uses a ThreadLocal
-                     * variable, this code is only needed for the
-                     * unusual case where the user creates a custom
-                     * QueryExp that calls a nested query on another
-                     * MBeanServer.
+                     * query.setMBebnServer is probbbly
+                     * QueryEvbl.setMBebnServer so put bbck the old
+                     * vblue.  Since thbt method uses b ThrebdLocbl
+                     * vbribble, this code is only needed for the
+                     * unusubl cbse where the user crebtes b custom
+                     * QueryExp thbt cblls b nested query on bnother
+                     * MBebnServer.
                      */
-                    query.setMBeanServer(oldServer);
+                    query.setMBebnServer(oldServer);
                 }
                 if (res) {
-                    result.add(oi);
+                    result.bdd(oi);
                 }
             }
             return result;
@@ -1647,226 +1647,226 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
     }
 
     /*
-     * Get the existing wrapper for this listener, name, and mbean, if
-     * there is one.  Otherwise, if "create" is true, create and
+     * Get the existing wrbpper for this listener, nbme, bnd mbebn, if
+     * there is one.  Otherwise, if "crebte" is true, crebte bnd
      * return one.  Otherwise, return null.
      *
-     * We use a WeakHashMap so that if the only reference to a user
-     * listener is in listenerWrappers, it can be garbage collected.
-     * This requires a certain amount of care, because only the key in
-     * a WeakHashMap is weak; the value is strong.  We need to recover
-     * the existing wrapper object (not just an object that is equal
-     * to it), so we would like listenerWrappers to map any
-     * ListenerWrapper to the canonical ListenerWrapper for that
-     * (listener,name,mbean) set.  But we do not want this canonical
-     * wrapper to be referenced strongly.  Therefore we put it inside
-     * a WeakReference and that is the value in the WeakHashMap.
+     * We use b WebkHbshMbp so thbt if the only reference to b user
+     * listener is in listenerWrbppers, it cbn be gbrbbge collected.
+     * This requires b certbin bmount of cbre, becbuse only the key in
+     * b WebkHbshMbp is webk; the vblue is strong.  We need to recover
+     * the existing wrbpper object (not just bn object thbt is equbl
+     * to it), so we would like listenerWrbppers to mbp bny
+     * ListenerWrbpper to the cbnonicbl ListenerWrbpper for thbt
+     * (listener,nbme,mbebn) set.  But we do not wbnt this cbnonicbl
+     * wrbpper to be referenced strongly.  Therefore we put it inside
+     * b WebkReference bnd thbt is the vblue in the WebkHbshMbp.
      */
-    private NotificationListener getListenerWrapper(NotificationListener l,
-                                                    ObjectName name,
-                                                    DynamicMBean mbean,
-                                                    boolean create) {
-        Object resource = getResource(mbean);
-        ListenerWrapper wrapper = new ListenerWrapper(l, name, resource);
-        synchronized (listenerWrappers) {
-            WeakReference<ListenerWrapper> ref = listenerWrappers.get(wrapper);
+    privbte NotificbtionListener getListenerWrbpper(NotificbtionListener l,
+                                                    ObjectNbme nbme,
+                                                    DynbmicMBebn mbebn,
+                                                    boolebn crebte) {
+        Object resource = getResource(mbebn);
+        ListenerWrbpper wrbpper = new ListenerWrbpper(l, nbme, resource);
+        synchronized (listenerWrbppers) {
+            WebkReference<ListenerWrbpper> ref = listenerWrbppers.get(wrbpper);
             if (ref != null) {
-                NotificationListener existing = ref.get();
+                NotificbtionListener existing = ref.get();
                 if (existing != null)
                     return existing;
             }
-            if (create) {
-                ref = new WeakReference<ListenerWrapper>(wrapper);
-                listenerWrappers.put(wrapper, ref);
-                return wrapper;
+            if (crebte) {
+                ref = new WebkReference<ListenerWrbpper>(wrbpper);
+                listenerWrbppers.put(wrbpper, ref);
+                return wrbpper;
             } else
                 return null;
         }
     }
 
-    public Object instantiate(String className) throws ReflectionException,
-                                                       MBeanException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Object instbntibte(String clbssNbme) throws ReflectionException,
+                                                       MBebnException {
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
-    public Object instantiate(String className, ObjectName loaderName) throws ReflectionException,
-                                                                              MBeanException,
-                                                                              InstanceNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Object instbntibte(String clbssNbme, ObjectNbme lobderNbme) throws ReflectionException,
+                                                                              MBebnException,
+                                                                              InstbnceNotFoundException {
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
-    public Object instantiate(String className, Object[] params,
-            String[] signature) throws ReflectionException, MBeanException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Object instbntibte(String clbssNbme, Object[] pbrbms,
+            String[] signbture) throws ReflectionException, MBebnException {
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
-    public Object instantiate(String className, ObjectName loaderName,
-            Object[] params, String[] signature) throws ReflectionException,
-                                                        MBeanException,
-                                                        InstanceNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Object instbntibte(String clbssNbme, ObjectNbme lobderNbme,
+            Object[] pbrbms, String[] signbture) throws ReflectionException,
+                                                        MBebnException,
+                                                        InstbnceNotFoundException {
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
-    public ObjectInputStream deserialize(ObjectName name, byte[] data) throws InstanceNotFoundException,
-                                                                              OperationsException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public ObjectInputStrebm deseriblize(ObjectNbme nbme, byte[] dbtb) throws InstbnceNotFoundException,
+                                                                              OperbtionsException {
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
-    public ObjectInputStream deserialize(String className, byte[] data) throws OperationsException,
+    public ObjectInputStrebm deseriblize(String clbssNbme, byte[] dbtb) throws OperbtionsException,
                                                                                ReflectionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
-    public ObjectInputStream deserialize(String className, ObjectName loaderName,
-            byte[] data) throws InstanceNotFoundException, OperationsException,
+    public ObjectInputStrebm deseriblize(String clbssNbme, ObjectNbme lobderNbme,
+            byte[] dbtb) throws InstbnceNotFoundException, OperbtionsException,
                                 ReflectionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
-    public ClassLoaderRepository getClassLoaderRepository() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public ClbssLobderRepository getClbssLobderRepository() {
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
-    private static class ListenerWrapper implements NotificationListener {
-        ListenerWrapper(NotificationListener l, ObjectName name,
-                        Object mbean) {
+    privbte stbtic clbss ListenerWrbpper implements NotificbtionListener {
+        ListenerWrbpper(NotificbtionListener l, ObjectNbme nbme,
+                        Object mbebn) {
             this.listener = l;
-            this.name = name;
-            this.mbean = mbean;
+            this.nbme = nbme;
+            this.mbebn = mbebn;
         }
 
-        public void handleNotification(Notification notification,
-                                       Object handback) {
-            if (notification != null) {
-                if (notification.getSource() == mbean)
-                    notification.setSource(name);
+        public void hbndleNotificbtion(Notificbtion notificbtion,
+                                       Object hbndbbck) {
+            if (notificbtion != null) {
+                if (notificbtion.getSource() == mbebn)
+                    notificbtion.setSource(nbme);
             }
 
             /*
-             * Listeners are not supposed to throw exceptions.  If
-             * this one does, we could remove it from the MBean.  It
-             * might indicate that a connector has stopped working,
-             * for instance, and there is no point in sending future
-             * notifications over that connection.  However, this
-             * seems rather drastic, so instead we propagate the
-             * exception and let the broadcaster handle it.
+             * Listeners bre not supposed to throw exceptions.  If
+             * this one does, we could remove it from the MBebn.  It
+             * might indicbte thbt b connector hbs stopped working,
+             * for instbnce, bnd there is no point in sending future
+             * notificbtions over thbt connection.  However, this
+             * seems rbther drbstic, so instebd we propbgbte the
+             * exception bnd let the brobdcbster hbndle it.
              */
-            listener.handleNotification(notification, handback);
+            listener.hbndleNotificbtion(notificbtion, hbndbbck);
         }
 
         @Override
-        public boolean equals(Object o) {
-            if (!(o instanceof ListenerWrapper))
-                return false;
-            ListenerWrapper w = (ListenerWrapper) o;
-            return (w.listener == listener && w.mbean == mbean
-                    && w.name.equals(name));
+        public boolebn equbls(Object o) {
+            if (!(o instbnceof ListenerWrbpper))
+                return fblse;
+            ListenerWrbpper w = (ListenerWrbpper) o;
+            return (w.listener == listener && w.mbebn == mbebn
+                    && w.nbme.equbls(nbme));
             /*
-             * We compare all three, in case the same MBean object
-             * gets unregistered and then reregistered under a
-             * different name, or the same name gets assigned to two
-             * different MBean objects at different times.  We do the
-             * comparisons in this order to avoid the slow
-             * ObjectName.equals when possible.
+             * We compbre bll three, in cbse the sbme MBebn object
+             * gets unregistered bnd then reregistered under b
+             * different nbme, or the sbme nbme gets bssigned to two
+             * different MBebn objects bt different times.  We do the
+             * compbrisons in this order to bvoid the slow
+             * ObjectNbme.equbls when possible.
              */
         }
 
         @Override
-        public int hashCode() {
-            return (System.identityHashCode(listener) ^
-                    System.identityHashCode(mbean));
+        public int hbshCode() {
+            return (System.identityHbshCode(listener) ^
+                    System.identityHbshCode(mbebn));
             /*
-             * We do not include name.hashCode() in the hash because
-             * computing it is slow and usually we will not have two
-             * instances of ListenerWrapper with the same mbean but
-             * different ObjectNames.  That can happen if the MBean is
-             * unregistered from one name and reregistered with
-             * another, and there is no garbage collection between; or
-             * if the same object is registered under two names (which
-             * is not recommended because MBeanRegistration will
-             * break).  But even in these unusual cases the hash code
-             * does not have to be unique.
+             * We do not include nbme.hbshCode() in the hbsh becbuse
+             * computing it is slow bnd usublly we will not hbve two
+             * instbnces of ListenerWrbpper with the sbme mbebn but
+             * different ObjectNbmes.  Thbt cbn hbppen if the MBebn is
+             * unregistered from one nbme bnd reregistered with
+             * bnother, bnd there is no gbrbbge collection between; or
+             * if the sbme object is registered under two nbmes (which
+             * is not recommended becbuse MBebnRegistrbtion will
+             * brebk).  But even in these unusubl cbses the hbsh code
+             * does not hbve to be unique.
              */
         }
 
-        private NotificationListener listener;
-        private ObjectName name;
-        private Object mbean;
+        privbte NotificbtionListener listener;
+        privbte ObjectNbme nbme;
+        privbte Object mbebn;
     }
 
     // SECURITY CHECKS
     //----------------
 
-    private static String getClassName(DynamicMBean mbean) {
-        if (mbean instanceof DynamicMBean2)
-            return ((DynamicMBean2) mbean).getClassName();
+    privbte stbtic String getClbssNbme(DynbmicMBebn mbebn) {
+        if (mbebn instbnceof DynbmicMBebn2)
+            return ((DynbmicMBebn2) mbebn).getClbssNbme();
         else
-            return mbean.getMBeanInfo().getClassName();
+            return mbebn.getMBebnInfo().getClbssNbme();
     }
 
-    private static void checkMBeanPermission(DynamicMBean mbean,
+    privbte stbtic void checkMBebnPermission(DynbmicMBebn mbebn,
                                              String member,
-                                             ObjectName objectName,
-                                             String actions) {
-        SecurityManager sm = System.getSecurityManager();
+                                             ObjectNbme objectNbme,
+                                             String bctions) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            checkMBeanPermission(safeGetClassName(mbean),
+            checkMBebnPermission(sbfeGetClbssNbme(mbebn),
                                  member,
-                                 objectName,
-                                 actions);
+                                 objectNbme,
+                                 bctions);
         }
     }
 
-    private static void checkMBeanPermission(String classname,
+    privbte stbtic void checkMBebnPermission(String clbssnbme,
                                              String member,
-                                             ObjectName objectName,
-                                             String actions) {
-        SecurityManager sm = System.getSecurityManager();
+                                             ObjectNbme objectNbme,
+                                             String bctions) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            Permission perm = new MBeanPermission(classname,
+            Permission perm = new MBebnPermission(clbssnbme,
                                                   member,
-                                                  objectName,
-                                                  actions);
+                                                  objectNbme,
+                                                  bctions);
             sm.checkPermission(perm);
         }
     }
 
-    private static void checkMBeanTrustPermission(final Class<?> theClass)
+    privbte stbtic void checkMBebnTrustPermission(finbl Clbss<?> theClbss)
         throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            Permission perm = new MBeanTrustPermission("register");
-            PrivilegedAction<ProtectionDomain> act =
-                new PrivilegedAction<ProtectionDomain>() {
-                    public ProtectionDomain run() {
-                        return theClass.getProtectionDomain();
+            Permission perm = new MBebnTrustPermission("register");
+            PrivilegedAction<ProtectionDombin> bct =
+                new PrivilegedAction<ProtectionDombin>() {
+                    public ProtectionDombin run() {
+                        return theClbss.getProtectionDombin();
                     }
                 };
-            ProtectionDomain pd = AccessController.doPrivileged(act);
-            AccessControlContext acc =
-                new AccessControlContext(new ProtectionDomain[] { pd });
-            sm.checkPermission(perm, acc);
+            ProtectionDombin pd = AccessController.doPrivileged(bct);
+            AccessControlContext bcc =
+                new AccessControlContext(new ProtectionDombin[] { pd });
+            sm.checkPermission(perm, bcc);
         }
     }
 
     // ------------------------------------------------------------------
     //
-    // Dealing with registration of special MBeans in the repository.
+    // Debling with registrbtion of specibl MBebns in the repository.
     //
     // ------------------------------------------------------------------
 
     /**
-     * A RegistrationContext that makes it possible to perform additional
-     * post registration actions (or post unregistration actions) outside
-     * of the repository lock, once postRegister (or postDeregister) has
-     * been called.
-     * The method {@code done()} will be called in registerMBean or
-     * unregisterMBean, at the end.
+     * A RegistrbtionContext thbt mbkes it possible to perform bdditionbl
+     * post registrbtion bctions (or post unregistrbtion bctions) outside
+     * of the repository lock, once postRegister (or postDeregister) hbs
+     * been cblled.
+     * The method {@code done()} will be cblled in registerMBebn or
+     * unregisterMBebn, bt the end.
      */
-    private static interface ResourceContext extends RegistrationContext {
+    privbte stbtic interfbce ResourceContext extends RegistrbtionContext {
         public void done();
         /** An empty ResourceContext which does nothing **/
-        public static final ResourceContext NONE = new ResourceContext() {
+        public stbtic finbl ResourceContext NONE = new ResourceContext() {
             public void done() {}
             public void registering() {}
             public void unregistered() {}
@@ -1874,164 +1874,164 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
     }
 
     /**
-     * Adds a MBean in the repository,
-     * sends MBeanServerNotification.REGISTRATION_NOTIFICATION,
-     * returns ResourceContext for special resources such as ClassLoaders
-     * or JMXNamespaces. For regular MBean this method returns
+     * Adds b MBebn in the repository,
+     * sends MBebnServerNotificbtion.REGISTRATION_NOTIFICATION,
+     * returns ResourceContext for specibl resources such bs ClbssLobders
+     * or JMXNbmespbces. For regulbr MBebn this method returns
      * ResourceContext.NONE.
-     * @return a ResourceContext for special resources such as ClassLoaders
-     *         or JMXNamespaces.
+     * @return b ResourceContext for specibl resources such bs ClbssLobders
+     *         or JMXNbmespbces.
      */
-    private ResourceContext registerWithRepository(
-            final Object resource,
-            final DynamicMBean object,
-            final ObjectName logicalName)
-            throws InstanceAlreadyExistsException,
-            MBeanRegistrationException {
+    privbte ResourceContext registerWithRepository(
+            finbl Object resource,
+            finbl DynbmicMBebn object,
+            finbl ObjectNbme logicblNbme)
+            throws InstbnceAlrebdyExistsException,
+            MBebnRegistrbtionException {
 
-        // Creates a registration context, if needed.
+        // Crebtes b registrbtion context, if needed.
         //
-        final ResourceContext context =
-                makeResourceContextFor(resource, logicalName);
+        finbl ResourceContext context =
+                mbkeResourceContextFor(resource, logicblNbme);
 
 
-        repository.addMBean(object, logicalName, context);
-        // May throw InstanceAlreadyExistsException
+        repository.bddMBebn(object, logicblNbme, context);
+        // Mby throw InstbnceAlrebdyExistsException
 
         // ---------------------
-        // Send create event
+        // Send crebte event
         // ---------------------
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "addObject", "Send create notification of object " +
-                    logicalName.getCanonicalName());
+                    DefbultMBebnServerInterceptor.clbss.getNbme(),
+                    "bddObject", "Send crebte notificbtion of object " +
+                    logicblNbme.getCbnonicblNbme());
         }
 
-        sendNotification(
-                MBeanServerNotification.REGISTRATION_NOTIFICATION,
-                logicalName);
+        sendNotificbtion(
+                MBebnServerNotificbtion.REGISTRATION_NOTIFICATION,
+                logicblNbme);
 
         return context;
     }
 
     /**
-     * Removes a MBean in the repository,
-     * sends MBeanServerNotification.UNREGISTRATION_NOTIFICATION,
-     * returns ResourceContext for special resources such as ClassLoaders
-     * or JMXNamespaces, or null. For regular MBean this method returns
+     * Removes b MBebn in the repository,
+     * sends MBebnServerNotificbtion.UNREGISTRATION_NOTIFICATION,
+     * returns ResourceContext for specibl resources such bs ClbssLobders
+     * or JMXNbmespbces, or null. For regulbr MBebn this method returns
      * ResourceContext.NONE.
      *
-     * @return a ResourceContext for special resources such as ClassLoaders
-     *         or JMXNamespaces.
+     * @return b ResourceContext for specibl resources such bs ClbssLobders
+     *         or JMXNbmespbces.
      */
-    private ResourceContext unregisterFromRepository(
-            final Object resource,
-            final DynamicMBean object,
-            final ObjectName logicalName)
-            throws InstanceNotFoundException {
+    privbte ResourceContext unregisterFromRepository(
+            finbl Object resource,
+            finbl DynbmicMBebn object,
+            finbl ObjectNbme logicblNbme)
+            throws InstbnceNotFoundException {
 
-        // Creates a registration context, if needed.
+        // Crebtes b registrbtion context, if needed.
         //
-        final ResourceContext context =
-                makeResourceContextFor(resource, logicalName);
+        finbl ResourceContext context =
+                mbkeResourceContextFor(resource, logicblNbme);
 
 
-        repository.remove(logicalName, context);
+        repository.remove(logicblNbme, context);
 
         // ---------------------
         // Send deletion event
         // ---------------------
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
             MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "unregisterMBean", "Send delete notification of object " +
-                    logicalName.getCanonicalName());
+                    DefbultMBebnServerInterceptor.clbss.getNbme(),
+                    "unregisterMBebn", "Send delete notificbtion of object " +
+                    logicblNbme.getCbnonicblNbme());
         }
 
-        sendNotification(MBeanServerNotification.UNREGISTRATION_NOTIFICATION,
-                logicalName);
+        sendNotificbtion(MBebnServerNotificbtion.UNREGISTRATION_NOTIFICATION,
+                logicblNbme);
         return context;
     }
 
 
     /**
-     * Registers a ClassLoader with the CLR.
-     * This method is called by the ResourceContext from within the
+     * Registers b ClbssLobder with the CLR.
+     * This method is cblled by the ResourceContext from within the
      * repository lock.
-     * @param loader       The ClassLoader.
-     * @param logicalName  The ClassLoader MBean ObjectName.
+     * @pbrbm lobder       The ClbssLobder.
+     * @pbrbm logicblNbme  The ClbssLobder MBebn ObjectNbme.
      */
-    private void addClassLoader(ClassLoader loader,
-            final ObjectName logicalName) {
+    privbte void bddClbssLobder(ClbssLobder lobder,
+            finbl ObjectNbme logicblNbme) {
         /**
-         * Called when the newly registered MBean is a ClassLoader
-         * If so, tell the ClassLoaderRepository (CLR) about it.  We do
-         * this even if the loader is a PrivateClassLoader.  In that
-         * case, the CLR remembers the loader for use when it is
-         * explicitly named (e.g. as the loader in createMBean) but
-         * does not add it to the list that is consulted by
-         * ClassLoaderRepository.loadClass.
+         * Cblled when the newly registered MBebn is b ClbssLobder
+         * If so, tell the ClbssLobderRepository (CLR) bbout it.  We do
+         * this even if the lobder is b PrivbteClbssLobder.  In thbt
+         * cbse, the CLR remembers the lobder for use when it is
+         * explicitly nbmed (e.g. bs the lobder in crebteMBebn) but
+         * does not bdd it to the list thbt is consulted by
+         * ClbssLobderRepository.lobdClbss.
          */
-        final ModifiableClassLoaderRepository clr = getInstantiatorCLR();
+        finbl ModifibbleClbssLobderRepository clr = getInstbntibtorCLR();
         if (clr == null) {
-            final RuntimeException wrapped =
-                    new IllegalArgumentException(
-                    "Dynamic addition of class loaders" +
+            finbl RuntimeException wrbpped =
+                    new IllegblArgumentException(
+                    "Dynbmic bddition of clbss lobders" +
                     " is not supported");
-            throw new RuntimeOperationsException(wrapped,
+            throw new RuntimeOperbtionsException(wrbpped,
                     "Exception occurred trying to register" +
-                    " the MBean as a class loader");
+                    " the MBebn bs b clbss lobder");
         }
-        clr.addClassLoader(logicalName, loader);
+        clr.bddClbssLobder(logicblNbme, lobder);
     }
 
     /**
-     * Unregisters a ClassLoader from the CLR.
-     * This method is called by the ResourceContext from within the
+     * Unregisters b ClbssLobder from the CLR.
+     * This method is cblled by the ResourceContext from within the
      * repository lock.
-     * @param loader       The ClassLoader.
-     * @param logicalName  The ClassLoader MBean ObjectName.
+     * @pbrbm lobder       The ClbssLobder.
+     * @pbrbm logicblNbme  The ClbssLobder MBebn ObjectNbme.
      */
-    private void removeClassLoader(ClassLoader loader,
-            final ObjectName logicalName) {
+    privbte void removeClbssLobder(ClbssLobder lobder,
+            finbl ObjectNbme logicblNbme) {
         /**
-         * Removes the  MBean from the default loader repository.
+         * Removes the  MBebn from the defbult lobder repository.
          */
-        if (loader != server.getClass().getClassLoader()) {
-            final ModifiableClassLoaderRepository clr = getInstantiatorCLR();
+        if (lobder != server.getClbss().getClbssLobder()) {
+            finbl ModifibbleClbssLobderRepository clr = getInstbntibtorCLR();
             if (clr != null) {
-                clr.removeClassLoader(logicalName);
+                clr.removeClbssLobder(logicblNbme);
             }
         }
     }
 
 
     /**
-     * Creates a ResourceContext for a ClassLoader MBean.
-     * The resource context makes it possible to add the ClassLoader to
-     * (ResourceContext.registering) or resp. remove the ClassLoader from
+     * Crebtes b ResourceContext for b ClbssLobder MBebn.
+     * The resource context mbkes it possible to bdd the ClbssLobder to
+     * (ResourceContext.registering) or resp. remove the ClbssLobder from
      * (ResourceContext.unregistered) the CLR
-     * when the associated MBean is added to or resp. removed from the
+     * when the bssocibted MBebn is bdded to or resp. removed from the
      * repository.
      *
-     * @param loader       The ClassLoader MBean being registered or
+     * @pbrbm lobder       The ClbssLobder MBebn being registered or
      *                     unregistered.
-     * @param logicalName  The name of the ClassLoader MBean.
-     * @return a ResourceContext that takes in charge the addition or removal
-     *         of the loader to or from the CLR.
+     * @pbrbm logicblNbme  The nbme of the ClbssLobder MBebn.
+     * @return b ResourceContext thbt tbkes in chbrge the bddition or removbl
+     *         of the lobder to or from the CLR.
      */
-    private ResourceContext createClassLoaderContext(
-            final ClassLoader loader,
-            final ObjectName logicalName) {
+    privbte ResourceContext crebteClbssLobderContext(
+            finbl ClbssLobder lobder,
+            finbl ObjectNbme logicblNbme) {
         return new ResourceContext() {
 
             public void registering() {
-                addClassLoader(loader, logicalName);
+                bddClbssLobder(lobder, logicblNbme);
             }
 
             public void unregistered() {
-                removeClassLoader(loader, logicalName);
+                removeClbssLobder(lobder, logicblNbme);
             }
 
             public void done() {
@@ -2040,29 +2040,29 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
     }
 
     /**
-     * Creates a ResourceContext for the given resource.
-     * If the resource does not need a ResourceContext, returns
+     * Crebtes b ResourceContext for the given resource.
+     * If the resource does not need b ResourceContext, returns
      * ResourceContext.NONE.
-     * At this time, only ClassLoaders need a ResourceContext.
+     * At this time, only ClbssLobders need b ResourceContext.
      *
-     * @param resource     The resource being registered or unregistered.
-     * @param logicalName  The name of the associated MBean.
+     * @pbrbm resource     The resource being registered or unregistered.
+     * @pbrbm logicblNbme  The nbme of the bssocibted MBebn.
      * @return
      */
-    private ResourceContext makeResourceContextFor(Object resource,
-            ObjectName logicalName) {
-        if (resource instanceof ClassLoader) {
-            return createClassLoaderContext((ClassLoader) resource,
-                    logicalName);
+    privbte ResourceContext mbkeResourceContextFor(Object resource,
+            ObjectNbme logicblNbme) {
+        if (resource instbnceof ClbssLobder) {
+            return crebteClbssLobderContext((ClbssLobder) resource,
+                    logicblNbme);
         }
         return ResourceContext.NONE;
     }
 
-    private ModifiableClassLoaderRepository getInstantiatorCLR() {
-        return AccessController.doPrivileged(new PrivilegedAction<ModifiableClassLoaderRepository>() {
+    privbte ModifibbleClbssLobderRepository getInstbntibtorCLR() {
+        return AccessController.doPrivileged(new PrivilegedAction<ModifibbleClbssLobderRepository>() {
             @Override
-            public ModifiableClassLoaderRepository run() {
-                return instantiator != null ? instantiator.getClassLoaderRepository() : null;
+            public ModifibbleClbssLobderRepository run() {
+                return instbntibtor != null ? instbntibtor.getClbssLobderRepository() : null;
             }
         });
     }

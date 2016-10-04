@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
-import java.awt.geom.AffineTransform;
-import sun.java2d.SunGraphics2D;
+import jbvb.bwt.Color;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.BufferedImbgeOp;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.geom.AffineTrbnsform;
+import sun.jbvb2d.SunGrbphics2D;
 
 /**
- * This interface defines the set of calls that pipeline objects
- * can use to pass on responsibility for performing various
- * image copy commands.
- * There are 3 types of image copies handled by this class:
- *    - copyImage: These methods simply copy the pixels
+ * This interfbce defines the set of cblls thbt pipeline objects
+ * cbn use to pbss on responsibility for performing vbrious
+ * imbge copy commbnds.
+ * There bre 3 types of imbge copies hbndled by this clbss:
+ *    - copyImbge: These methods simply copy the pixels
  *      from the src to dest, either from (0, 0) (implicit)
- *      or from a given (sx, sy) location.
- *    - scaleImage: These methods copy from src to dest while
- *      scaling the source image.  The src and dest rectangles
- *      are used to specify the scale.
- *    - copyImageBg: These methods behave the same as the
- *      copyImage methods except they substitute the given
- *      background color for any transparent pixels.
- *    - scaleImageBg: These methods behave the same as the
- *      scaleImage methods except they substitute the given
- *      background color for any transparent pixels.
- *    - transformImage....
+ *      or from b given (sx, sy) locbtion.
+ *    - scbleImbge: These methods copy from src to dest while
+ *      scbling the source imbge.  The src bnd dest rectbngles
+ *      bre used to specify the scble.
+ *    - copyImbgeBg: These methods behbve the sbme bs the
+ *      copyImbge methods except they substitute the given
+ *      bbckground color for bny trbnspbrent pixels.
+ *    - scbleImbgeBg: These methods behbve the sbme bs the
+ *      scbleImbge methods except they substitute the given
+ *      bbckground color for bny trbnspbrent pixels.
+ *    - trbnsformImbge....
  */
-public interface DrawImagePipe {
+public interfbce DrbwImbgePipe {
 
-    public boolean copyImage(SunGraphics2D sg, Image img,
+    public boolebn copyImbge(SunGrbphics2D sg, Imbge img,
                              int x, int y,
                              Color bgColor,
-                             ImageObserver observer);
+                             ImbgeObserver observer);
 
-    public boolean copyImage(SunGraphics2D sg, Image img,
+    public boolebn copyImbge(SunGrbphics2D sg, Imbge img,
                              int dx, int dy, int sx, int sy, int w, int h,
                              Color bgColor,
-                             ImageObserver observer);
+                             ImbgeObserver observer);
 
-    public boolean scaleImage(SunGraphics2D sg, Image img, int x, int y,
+    public boolebn scbleImbge(SunGrbphics2D sg, Imbge img, int x, int y,
                               int width, int height,
                               Color bgColor,
-                              ImageObserver observer);
+                              ImbgeObserver observer);
 
-    public boolean scaleImage(SunGraphics2D sg, Image img,
+    public boolebn scbleImbge(SunGrbphics2D sg, Imbge img,
                               int dx1, int dy1, int dx2, int dy2,
                               int sx1, int sy1, int sx2, int sy2,
                               Color bgColor,
-                              ImageObserver observer);
+                              ImbgeObserver observer);
 
-    public boolean transformImage(SunGraphics2D sg, Image img,
-                                  AffineTransform atfm,
-                                  ImageObserver observer);
+    public boolebn trbnsformImbge(SunGrbphics2D sg, Imbge img,
+                                  AffineTrbnsform btfm,
+                                  ImbgeObserver observer);
 
-    public void transformImage(SunGraphics2D sg, BufferedImage img,
-                               BufferedImageOp op, int x, int y);
+    public void trbnsformImbge(SunGrbphics2D sg, BufferedImbge img,
+                               BufferedImbgeOp op, int x, int y);
 
 
 }

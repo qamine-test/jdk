@@ -1,313 +1,313 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package org.ietf.jgss;
+pbckbge org.ietf.jgss;
 
 /**
- * This exception is thrown whenever a GSS-API error occurs, including
- * any mechanism specific error.  It may contain both the major and the
- * minor GSS-API status codes.  Major error codes are those defined at the
- * GSS-API level in this class. Minor error codes are mechanism specific
- * error codes that can provide additional information. The underlying
- * mechanism implementation is responsible for setting appropriate minor
- * status codes when throwing this exception.  Aside from delivering the
- * numeric error codes to the caller, this class performs the mapping from
- * their numeric values to textual representations. <p>
+ * This exception is thrown whenever b GSS-API error occurs, including
+ * bny mechbnism specific error.  It mby contbin both the mbjor bnd the
+ * minor GSS-API stbtus codes.  Mbjor error codes bre those defined bt the
+ * GSS-API level in this clbss. Minor error codes bre mechbnism specific
+ * error codes thbt cbn provide bdditionbl informbtion. The underlying
+ * mechbnism implementbtion is responsible for setting bppropribte minor
+ * stbtus codes when throwing this exception.  Aside from delivering the
+ * numeric error codes to the cbller, this clbss performs the mbpping from
+ * their numeric vblues to textubl representbtions. <p>
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  * @since 1.4
  */
-public class GSSException extends Exception {
+public clbss GSSException extends Exception {
 
-    private static final long serialVersionUID = -2706218945227726672L;
+    privbte stbtic finbl long seriblVersionUID = -2706218945227726672L;
 
     /**
-     * Channel bindings mismatch.
+     * Chbnnel bindings mismbtch.
      */
-    public static final int BAD_BINDINGS = 1; //start with 1
+    public stbtic finbl int BAD_BINDINGS = 1; //stbrt with 1
 
     /**
-     * Unsupported mechanism requested.
+     * Unsupported mechbnism requested.
      */
-    public static final int BAD_MECH = 2;
+    public stbtic finbl int BAD_MECH = 2;
 
     /**
-     * Invalid name provided.
+     * Invblid nbme provided.
      */
-    public static final int BAD_NAME = 3;
+    public stbtic finbl int BAD_NAME = 3;
 
     /**
-     * Name of unsupported type provided.
+     * Nbme of unsupported type provided.
      */
-    public static final int BAD_NAMETYPE = 4;
+    public stbtic finbl int BAD_NAMETYPE = 4;
 
     /**
-     * Invalid status code.
+     * Invblid stbtus code.
      */
     /*
-     * This is meant to be thrown by display_status which displays
-     * major/minor status when an incorrect status type is passed in to it!
+     * This is mebnt to be thrown by displby_stbtus which displbys
+     * mbjor/minor stbtus when bn incorrect stbtus type is pbssed in to it!
      */
-    public static final int BAD_STATUS = 5;
+    public stbtic finbl int BAD_STATUS = 5;
 
     /**
-     * Token had invalid integrity check.
+     * Token hbd invblid integrity check.
      */
-    public static final int BAD_MIC = 6;
+    public stbtic finbl int BAD_MIC = 6;
 
     /**
      * Security context expired.
      */
-    public static final int CONTEXT_EXPIRED = 7;
+    public stbtic finbl int CONTEXT_EXPIRED = 7;
 
     /**
-     * Expired credentials.
+     * Expired credentibls.
      */
-    public static final int CREDENTIALS_EXPIRED  = 8;
+    public stbtic finbl int CREDENTIALS_EXPIRED  = 8;
 
     /**
-     * Defective credentials.
+     * Defective credentibls.
      *
      */
-    public static final int DEFECTIVE_CREDENTIAL = 9;
+    public stbtic finbl int DEFECTIVE_CREDENTIAL = 9;
 
     /**
      * Defective token.
      *
      */
-    public static final int DEFECTIVE_TOKEN = 10;
+    public stbtic finbl int DEFECTIVE_TOKEN = 10;
 
     /**
-     * General failure, unspecified at GSS-API level.
+     * Generbl fbilure, unspecified bt GSS-API level.
      */
-    public static final int FAILURE = 11;
+    public stbtic finbl int FAILURE = 11;
 
     /**
-     * Invalid security context.
+     * Invblid security context.
      */
-    public static final int NO_CONTEXT = 12;
+    public stbtic finbl int NO_CONTEXT = 12;
 
     /**
-     * Invalid credentials.
+     * Invblid credentibls.
      */
-    public static final int NO_CRED = 13;
+    public stbtic finbl int NO_CRED = 13;
 
     /**
-     * Unsupported QOP value.
+     * Unsupported QOP vblue.
      */
-    public static final int BAD_QOP = 14;
+    public stbtic finbl int BAD_QOP = 14;
 
     /**
-     * Operation unauthorized.
+     * Operbtion unbuthorized.
      */
-    public static final int UNAUTHORIZED = 15;
+    public stbtic finbl int UNAUTHORIZED = 15;
 
     /**
-     * Operation unavailable.
+     * Operbtion unbvbilbble.
      */
-    public static final int UNAVAILABLE = 16;
+    public stbtic finbl int UNAVAILABLE = 16;
 
     /**
-     * Duplicate credential element requested.
+     * Duplicbte credentibl element requested.
      */
-    public static final int DUPLICATE_ELEMENT = 17;
+    public stbtic finbl int DUPLICATE_ELEMENT = 17;
 
     /**
-     * Name contains multi-mechanism elements.
+     * Nbme contbins multi-mechbnism elements.
      */
-    public static final int NAME_NOT_MN = 18;
+    public stbtic finbl int NAME_NOT_MN = 18;
 
     /**
-     * The token was a duplicate of an earlier token.
-     * This is a fatal error code that may occur during
-     * context establishment.  It is not used to indicate
-     * supplementary status values. The MessageProp object is
-     * used for that purpose.
+     * The token wbs b duplicbte of bn ebrlier token.
+     * This is b fbtbl error code thbt mby occur during
+     * context estbblishment.  It is not used to indicbte
+     * supplementbry stbtus vblues. The MessbgeProp object is
+     * used for thbt purpose.
      */
-    public static final int DUPLICATE_TOKEN = 19;
+    public stbtic finbl int DUPLICATE_TOKEN = 19;
 
     /**
-     * The token's validity period has expired.  This is a
-     * fatal error code that may occur during context establishment.
-     * It is not used to indicate supplementary status values.
-     * The MessageProp object is used for that purpose.
+     * The token's vblidity period hbs expired.  This is b
+     * fbtbl error code thbt mby occur during context estbblishment.
+     * It is not used to indicbte supplementbry stbtus vblues.
+     * The MessbgeProp object is used for thbt purpose.
      */
-    public static final int OLD_TOKEN = 20;
-
-
-    /**
-     * A later token has already been processed.  This is a
-     * fatal error code that may occur during context establishment.
-     * It is not used to indicate supplementary status values.
-     * The MessageProp object is used for that purpose.
-     */
-    public static final int UNSEQ_TOKEN = 21;
+    public stbtic finbl int OLD_TOKEN = 20;
 
 
     /**
-     * An expected per-message token was not received.  This is a
-     * fatal error code that may occur during context establishment.
-     * It is not used to indicate supplementary status values.
-     * The MessageProp object is used for that purpose.
+     * A lbter token hbs blrebdy been processed.  This is b
+     * fbtbl error code thbt mby occur during context estbblishment.
+     * It is not used to indicbte supplementbry stbtus vblues.
+     * The MessbgeProp object is used for thbt purpose.
      */
-    public static final int GAP_TOKEN = 22;
+    public stbtic finbl int UNSEQ_TOKEN = 21;
 
 
-    private static String[] messages = {
-        "Channel binding mismatch", // BAD_BINDINGS
-        "Unsupported mechanism requested", // BAD_MECH
-        "Invalid name provided", // BAD_NAME
-        "Name of unsupported type provided", //BAD_NAMETYPE
-        "Invalid input status selector", // BAD_STATUS
-        "Token had invalid integrity check", // BAD_SIG
+    /**
+     * An expected per-messbge token wbs not received.  This is b
+     * fbtbl error code thbt mby occur during context estbblishment.
+     * It is not used to indicbte supplementbry stbtus vblues.
+     * The MessbgeProp object is used for thbt purpose.
+     */
+    public stbtic finbl int GAP_TOKEN = 22;
+
+
+    privbte stbtic String[] messbges = {
+        "Chbnnel binding mismbtch", // BAD_BINDINGS
+        "Unsupported mechbnism requested", // BAD_MECH
+        "Invblid nbme provided", // BAD_NAME
+        "Nbme of unsupported type provided", //BAD_NAMETYPE
+        "Invblid input stbtus selector", // BAD_STATUS
+        "Token hbd invblid integrity check", // BAD_SIG
         "Specified security context expired", // CONTEXT_EXPIRED
-        "Expired credentials detected", // CREDENTIALS_EXPIRED
-        "Defective credential detected", // DEFECTIVE_CREDENTIAL
+        "Expired credentibls detected", // CREDENTIALS_EXPIRED
+        "Defective credentibl detected", // DEFECTIVE_CREDENTIAL
         "Defective token detected", // DEFECTIVE_TOKEN
-        "Failure unspecified at GSS-API level", // FAILURE
-        "Security context init/accept not yet called or context deleted",
+        "Fbilure unspecified bt GSS-API level", // FAILURE
+        "Security context init/bccept not yet cblled or context deleted",
                                                 // NO_CONTEXT
-        "No valid credentials provided", // NO_CRED
-        "Unsupported QOP value", // BAD_QOP
-        "Operation unauthorized", // UNAUTHORIZED
-        "Operation unavailable", // UNAVAILABLE
-        "Duplicate credential element requested", //DUPLICATE_ELEMENT
-        "Name contains multi-mechanism elements", // NAME_NOT_MN
-        "The token was a duplicate of an earlier token", //DUPLICATE_TOKEN
-        "The token's validity period has expired", //OLD_TOKEN
-        "A later token has already been processed", //UNSEQ_TOKEN
-        "An expected per-message token was not received", //GAP_TOKEN
+        "No vblid credentibls provided", // NO_CRED
+        "Unsupported QOP vblue", // BAD_QOP
+        "Operbtion unbuthorized", // UNAUTHORIZED
+        "Operbtion unbvbilbble", // UNAVAILABLE
+        "Duplicbte credentibl element requested", //DUPLICATE_ELEMENT
+        "Nbme contbins multi-mechbnism elements", // NAME_NOT_MN
+        "The token wbs b duplicbte of bn ebrlier token", //DUPLICATE_TOKEN
+        "The token's vblidity period hbs expired", //OLD_TOKEN
+        "A lbter token hbs blrebdy been processed", //UNSEQ_TOKEN
+        "An expected per-messbge token wbs not received", //GAP_TOKEN
     };
 
    /**
-    * The major code for this exception
+    * The mbjor code for this exception
     *
-    * @serial
+    * @seribl
     */
-    private int major;
+    privbte int mbjor;
 
    /**
     * The minor code for this exception
     *
-    * @serial
+    * @seribl
     */
-    private int minor = 0;
+    privbte int minor = 0;
 
    /**
     * The text string for minor code
     *
-    * @serial
+    * @seribl
     */
-    private String minorMessage = null;
+    privbte String minorMessbge = null;
 
    /**
-    * Alternate text string for major code
+    * Alternbte text string for mbjor code
     *
-    * @serial
+    * @seribl
     */
 
-    private String majorString = null;
+    privbte String mbjorString = null;
 
     /**
-     *  Creates a GSSException object with a specified major code.
+     *  Crebtes b GSSException object with b specified mbjor code.
      *
-     * @param majorCode the The GSS error code for the problem causing this
+     * @pbrbm mbjorCode the The GSS error code for the problem cbusing this
      * exception to be thrown.
      */
-    public GSSException (int majorCode) {
+    public GSSException (int mbjorCode) {
 
-        if (validateMajor(majorCode))
-            major = majorCode;
+        if (vblidbteMbjor(mbjorCode))
+            mbjor = mbjorCode;
         else
-            major = FAILURE;
+            mbjor = FAILURE;
     }
 
     /**
-     * Construct a GSSException object with a specified major code and a
-     * specific major string for it.
+     * Construct b GSSException object with b specified mbjor code bnd b
+     * specific mbjor string for it.
      *
-     * @param majorCode the fatal error code causing this exception.
-     * @param majorString an expicit message to be included in this exception
+     * @pbrbm mbjorCode the fbtbl error code cbusing this exception.
+     * @pbrbm mbjorString bn expicit messbge to be included in this exception
      */
-    GSSException (int majorCode, String majorString) {
+    GSSException (int mbjorCode, String mbjorString) {
 
-        if (validateMajor(majorCode))
-            major = majorCode;
+        if (vblidbteMbjor(mbjorCode))
+            mbjor = mbjorCode;
         else
-            major = FAILURE;
-        this.majorString = majorString;
+            mbjor = FAILURE;
+        this.mbjorString = mbjorString;
     }
 
 
     /**
-     * Creates a GSSException object with the specified major code, minor
-     * code, and minor code textual explanation.  This constructor is to be
-     * used when the exception is originating from the underlying mechanism
-     * level. It allows the setting of both the GSS code and the mechanism
+     * Crebtes b GSSException object with the specified mbjor code, minor
+     * code, bnd minor code textubl explbnbtion.  This constructor is to be
+     * used when the exception is originbting from the underlying mechbnism
+     * level. It bllows the setting of both the GSS code bnd the mechbnism
      * code.
      *
-     * @param majorCode the GSS error code for the problem causing this
+     * @pbrbm mbjorCode the GSS error code for the problem cbusing this
      * exception to be thrown.
-     * @param minorCode the mechanism level error code for the problem
-     * causing this exception to be thrown.
-     * @param minorString the textual explanation of the mechanism error
+     * @pbrbm minorCode the mechbnism level error code for the problem
+     * cbusing this exception to be thrown.
+     * @pbrbm minorString the textubl explbnbtion of the mechbnism error
      * code.
      */
-    public GSSException (int majorCode, int minorCode, String minorString) {
+    public GSSException (int mbjorCode, int minorCode, String minorString) {
 
-        if (validateMajor(majorCode))
-            major = majorCode;
+        if (vblidbteMbjor(mbjorCode))
+            mbjor = mbjorCode;
         else
-            major = FAILURE;
+            mbjor = FAILURE;
 
         minor = minorCode;
-        minorMessage = minorString;
+        minorMessbge = minorString;
     }
 
     /**
-     * Returns the GSS-API level major error code for the problem causing
-     * this exception to be thrown. Major error codes are
-     * defined at the mechanism independent GSS-API level in this
-     * class. Mechanism specific error codes that might provide more
-     * information are set as the minor error code.
+     * Returns the GSS-API level mbjor error code for the problem cbusing
+     * this exception to be thrown. Mbjor error codes bre
+     * defined bt the mechbnism independent GSS-API level in this
+     * clbss. Mechbnism specific error codes thbt might provide more
+     * informbtion bre set bs the minor error code.
      *
-     * @return int the GSS-API level major error code causing this exception
-     * @see #getMajorString
+     * @return int the GSS-API level mbjor error code cbusing this exception
+     * @see #getMbjorString
      * @see #getMinor
      * @see #getMinorString
      */
-    public int getMajor() {
-        return major;
+    public int getMbjor() {
+        return mbjor;
     }
 
     /**
-     * Returns the mechanism level error code for the problem causing this
+     * Returns the mechbnism level error code for the problem cbusing this
      * exception to be thrown. The minor code is set by the underlying
-     * mechanism.
+     * mechbnism.
      *
-     * @return int the mechanism error code; 0 indicates that it has not
+     * @return int the mechbnism error code; 0 indicbtes thbt it hbs not
      * been set.
      * @see #getMinorString
      * @see #setMinor
@@ -317,87 +317,87 @@ public class GSSException extends Exception {
     }
 
     /**
-     * Returns a string explaining the GSS-API level major error code in
+     * Returns b string explbining the GSS-API level mbjor error code in
      * this exception.
      *
-     * @return String explanation string for the major error code
-     * @see #getMajor
+     * @return String explbnbtion string for the mbjor error code
+     * @see #getMbjor
      * @see #toString
      */
-    public String getMajorString() {
+    public String getMbjorString() {
 
-        if (majorString != null)
-            return majorString;
+        if (mbjorString != null)
+            return mbjorString;
         else
-            return messages[major - 1];
+            return messbges[mbjor - 1];
     }
 
 
     /**
-     * Returns a string explaining the mechanism specific error code.
-     * If the minor status code is 0, then no mechanism level error details
-     * will be available.
+     * Returns b string explbining the mechbnism specific error code.
+     * If the minor stbtus code is 0, then no mechbnism level error detbils
+     * will be bvbilbble.
      *
-     * @return String a textual explanation of mechanism error code
+     * @return String b textubl explbnbtion of mechbnism error code
      * @see #getMinor
-     * @see #getMajorString
+     * @see #getMbjorString
      * @see #toString
      */
     public String getMinorString() {
 
-        return minorMessage;
+        return minorMessbge;
     }
 
 
     /**
-     * Used by the exception thrower to set the mechanism
-     * level minor error code and its string explanation.  This is used by
-     * mechanism providers to indicate error details.
+     * Used by the exception thrower to set the mechbnism
+     * level minor error code bnd its string explbnbtion.  This is used by
+     * mechbnism providers to indicbte error detbils.
      *
-     * @param minorCode the mechanism specific error code
-     * @param message textual explanation of the mechanism error code
+     * @pbrbm minorCode the mechbnism specific error code
+     * @pbrbm messbge textubl explbnbtion of the mechbnism error code
      * @see #getMinor
      */
-    public void setMinor(int minorCode, String message) {
+    public void setMinor(int minorCode, String messbge) {
 
         minor = minorCode;
-        minorMessage = message;
+        minorMessbge = messbge;
     }
 
 
     /**
-     * Returns a textual representation of both the major and the minor
-     * status codes.
+     * Returns b textubl representbtion of both the mbjor bnd the minor
+     * stbtus codes.
      *
-     * @return a String with the error descriptions
+     * @return b String with the error descriptions
      */
     public String toString() {
-        return ("GSSException: " + getMessage());
+        return ("GSSException: " + getMessbge());
     }
 
     /**
-     * Returns a textual representation of both the major and the minor
-     * status codes.
+     * Returns b textubl representbtion of both the mbjor bnd the minor
+     * stbtus codes.
      *
-     * @return a String with the error descriptions
+     * @return b String with the error descriptions
      */
-    public String getMessage() {
+    public String getMessbge() {
         if (minor == 0)
-            return (getMajorString());
+            return (getMbjorString());
 
-        return (getMajorString()
-                + " (Mechanism level: " + getMinorString() + ")");
+        return (getMbjorString()
+                + " (Mechbnism level: " + getMinorString() + ")");
     }
 
 
     /*
-     * Validates the major code in the proper range.
+     * Vblidbtes the mbjor code in the proper rbnge.
      */
-    private boolean validateMajor(int major) {
+    privbte boolebn vblidbteMbjor(int mbjor) {
 
-        if (major > 0 && major <= messages.length)
+        if (mbjor > 0 && mbjor <= messbges.length)
             return (true);
 
-        return (false);
+        return (fblse);
     }
 }

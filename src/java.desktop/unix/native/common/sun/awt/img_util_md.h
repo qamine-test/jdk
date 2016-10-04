@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,83 +27,83 @@
 
 #if !defined(HEADLESS) && !defined(MACOSX)
 typedef struct {
-    ImgConvertData cvdata;      /* The data needed by ImgConvertFcn's */
-    struct Hsun_awt_image_ImageRepresentation *hJavaObject;     /* backptr */
-    XID pixmap;                 /* The X11 pixmap containing the image */
-    XID mask;                   /* The X11 pixmap with the transparency mask */
-    int bgcolor;                /* The current bg color installed in pixmap */
+    ImgConvertDbtb cvdbtb;      /* The dbtb needed by ImgConvertFcn's */
+    struct Hsun_bwt_imbge_ImbgeRepresentbtion *hJbvbObject;     /* bbckptr */
+    XID pixmbp;                 /* The X11 pixmbp contbining the imbge */
+    XID mbsk;                   /* The X11 pixmbp with the trbnspbrency mbsk */
+    int bgcolor;                /* The current bg color instblled in pixmbp */
 
-    int depth;                  /* The depth of the destination image */
-    int dstW;                   /* The width of the destination pixmap */
-    int dstH;                   /* The height of the destination pixmap */
+    int depth;                  /* The depth of the destinbtion imbge */
+    int dstW;                   /* The width of the destinbtion pixmbp */
+    int dstH;                   /* The height of the destinbtion pixmbp */
 
-    XImage *xim;                /* The Ximage structure for the temp buffer */
-    XImage *maskim;             /* The Ximage structure for the mask */
+    XImbge *xim;                /* The Ximbge structure for the temp buffer */
+    XImbge *mbskim;             /* The Ximbge structure for the mbsk */
 
     int hints;                  /* The delivery hints from the producer */
 
-    Region curpixels;           /* The region of randomly converted pixels */
+    Region curpixels;           /* The region of rbndomly converted pixels */
     struct {
-        int num;                /* The last fully delivered scanline */
-        char *seen;             /* The lines which have been delivered */
+        int num;                /* The lbst fully delivered scbnline */
+        chbr *seen;             /* The lines which hbve been delivered */
     } curlines;                 /* For hints=COMPLETESCANLINES */
-} IRData;
+} IRDbtb;
 
-typedef unsigned int MaskBits;
+typedef unsigned int MbskBits;
 
-extern int image_Done(IRData *ird, int x1, int y1, int x2, int y2);
+extern int imbge_Done(IRDbtb *ird, int x1, int y1, int x2, int y2);
 
-extern void *image_InitMask(IRData *ird, int x1, int y1, int x2, int y2);
+extern void *imbge_InitMbsk(IRDbtb *ird, int x1, int y1, int x2, int y2);
 
-#define BufComplete(cvdata, dstX1, dstY1, dstX2, dstY2)         \
-    image_Done((IRData *) cvdata, dstX1, dstY1, dstX2, dstY2)
+#define BufComplete(cvdbtb, dstX1, dstY1, dstX2, dstY2)         \
+    imbge_Done((IRDbtb *) cvdbtb, dstX1, dstY1, dstX2, dstY2)
 
 #define SendRow(ird, dstY, dstX1, dstX2)
 
-#define ImgInitMask(cvdata, x1, y1, x2, y2)                     \
-    image_InitMask((IRData *)cvdata, x1, y1, x2, y2)
+#define ImgInitMbsk(cvdbtb, x1, y1, x2, y2)                     \
+    imbge_InitMbsk((IRDbtb *)cvdbtb, x1, y1, x2, y2)
 
-#define ScanBytes(cvdata)       (((IRData *)cvdata)->xim->bytes_per_line)
+#define ScbnBytes(cvdbtb)       (((IRDbtb *)cvdbtb)->xim->bytes_per_line)
 
-#define MaskScan(cvdata)                                        \
-        ((((IRData *)cvdata)->maskim->bytes_per_line) >> 2)
+#define MbskScbn(cvdbtb)                                        \
+        ((((IRDbtb *)cvdbtb)->mbskim->bytes_per_line) >> 2)
 
 #endif /* !HEADLESS && !MACOSX */
 
-#define MaskOffset(x)           ((x) >> 5)
+#define MbskOffset(x)           ((x) >> 5)
 
-#define MaskInit(x)             (1U << (31 - ((x) & 31)))
+#define MbskInit(x)             (1U << (31 - ((x) & 31)))
 
-#define SetOpaqueBit(mask, bit)         ((mask) |= (bit))
-#define SetTransparentBit(mask, bit)    ((mask) &= ~(bit))
+#define SetOpbqueBit(mbsk, bit)         ((mbsk) |= (bit))
+#define SetTrbnspbrentBit(mbsk, bit)    ((mbsk) &= ~(bit))
 
-#define UCHAR_ARG(uc)    ((unsigned char)(uc))
-#define ColorCubeFSMap(r, g, b) \
-    cData->img_clr_tbl [    ((UCHAR_ARG(r)>>3)<<10) |                   \
+#define UCHAR_ARG(uc)    ((unsigned chbr)(uc))
+#define ColorCubeFSMbp(r, g, b) \
+    cDbtb->img_clr_tbl [    ((UCHAR_ARG(r)>>3)<<10) |                   \
                     ((UCHAR_ARG(g)>>3)<<5) | (UCHAR_ARG(b)>>3)]
 
-#define ColorCubeOrdMapSgn(r, g, b) \
-    ((dstLockInfo.inv_cmap)[    ((UCHAR_ARG(r)>>3)<<10) |                   \
+#define ColorCubeOrdMbpSgn(r, g, b) \
+    ((dstLockInfo.inv_cmbp)[    ((UCHAR_ARG(r)>>3)<<10) |                   \
                     ((UCHAR_ARG(g)>>3)<<5) | (UCHAR_ARG(b)>>3)])
 
 #define GetPixelRGB(pixel, red, green, blue)                    \
     do {                                                        \
-        ColorEntry *cp = &awt_Colors[pixel];                    \
+        ColorEntry *cp = &bwt_Colors[pixel];                    \
         red = cp->r;                                            \
         green = cp->g;                                          \
         blue = cp->b;                                           \
     } while (0)
 
-#define CUBEMAP(r,g,b) ColorCubeOrdMapSgn(r, g, b)
-#define cubemapArray 1
+#define CUBEMAP(r,g,b) ColorCubeOrdMbpSgn(r, g, b)
+#define cubembpArrby 1
 
-extern uns_ordered_dither_array img_oda_alpha;
+extern uns_ordered_dither_brrby img_odb_blphb;
 
-extern void freeICMColorData(ColorData *pData);
+extern void freeICMColorDbtb(ColorDbtb *pDbtb);
 
-extern void initInverseGrayLut(int* prgb, int rgbsize, ColorData* cData);
-extern unsigned char* initCubemap(int* cmap, int cmap_len, int cube_dim);
-extern void initDitherTables(ColorData* cData);
+extern void initInverseGrbyLut(int* prgb, int rgbsize, ColorDbtb* cDbtb);
+extern unsigned chbr* initCubembp(int* cmbp, int cmbp_len, int cube_dim);
+extern void initDitherTbbles(ColorDbtb* cDbtb);
 
 #define SET_CUBEMAPARRAY \
-    lockInfo->inv_cmap = (const char*)lockInfo->colorData->img_clr_tbl
+    lockInfo->inv_cmbp = (const chbr*)lockInfo->colorDbtb->img_clr_tbl

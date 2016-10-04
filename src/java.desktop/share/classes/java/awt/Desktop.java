@@ -1,381 +1,381 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URI;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.awt.AWTPermission;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.peer.DesktopPeer;
-import sun.awt.SunToolkit;
-import sun.awt.HeadlessToolkit;
-import java.io.FilePermission;
-import sun.security.util.SecurityConstants;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.net.URISyntbxException;
+import jbvb.net.URI;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.bwt.AWTPermission;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.HebdlessException;
+import jbvb.bwt.peer.DesktopPeer;
+import sun.bwt.SunToolkit;
+import sun.bwt.HebdlessToolkit;
+import jbvb.io.FilePermission;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * The {@code Desktop} class allows a Java application to launch
- * associated applications registered on the native desktop to handle
- * a {@link java.net.URI} or a file.
+ * The {@code Desktop} clbss bllows b Jbvb bpplicbtion to lbunch
+ * bssocibted bpplicbtions registered on the nbtive desktop to hbndle
+ * b {@link jbvb.net.URI} or b file.
  *
- * <p> Supported operations include:
+ * <p> Supported operbtions include:
  * <ul>
- *   <li>launching the user-default browser to show a specified
+ *   <li>lbunching the user-defbult browser to show b specified
  *       URI;</li>
- *   <li>launching the user-default mail client with an optional
- *       {@code mailto} URI;</li>
- *   <li>launching a registered application to open, edit or print a
+ *   <li>lbunching the user-defbult mbil client with bn optionbl
+ *       {@code mbilto} URI;</li>
+ *   <li>lbunching b registered bpplicbtion to open, edit or print b
  *       specified file.</li>
  * </ul>
  *
- * <p> This class provides methods corresponding to these
- * operations. The methods look for the associated application
- * registered on the current platform, and launch it to handle a URI
- * or file. If there is no associated application or the associated
- * application fails to be launched, an exception is thrown.
+ * <p> This clbss provides methods corresponding to these
+ * operbtions. The methods look for the bssocibted bpplicbtion
+ * registered on the current plbtform, bnd lbunch it to hbndle b URI
+ * or file. If there is no bssocibted bpplicbtion or the bssocibted
+ * bpplicbtion fbils to be lbunched, bn exception is thrown.
  *
- * <p> An application is registered to a URI or file type; for
- * example, the {@code "sxi"} file extension is typically registered
- * to StarOffice.  The mechanism of registering, accessing, and
- * launching the associated application is platform-dependent.
+ * <p> An bpplicbtion is registered to b URI or file type; for
+ * exbmple, the {@code "sxi"} file extension is typicblly registered
+ * to StbrOffice.  The mechbnism of registering, bccessing, bnd
+ * lbunching the bssocibted bpplicbtion is plbtform-dependent.
  *
- * <p> Each operation is an action type represented by the {@link
- * Desktop.Action} class.
+ * <p> Ebch operbtion is bn bction type represented by the {@link
+ * Desktop.Action} clbss.
  *
- * <p> Note: when some action is invoked and the associated
- * application is executed, it will be executed on the same system as
- * the one on which the Java application was launched.
+ * <p> Note: when some bction is invoked bnd the bssocibted
+ * bpplicbtion is executed, it will be executed on the sbme system bs
+ * the one on which the Jbvb bpplicbtion wbs lbunched.
  *
  * @since 1.6
- * @author Armin Chen
- * @author George Zhang
+ * @buthor Armin Chen
+ * @buthor George Zhbng
  */
-public class Desktop {
+public clbss Desktop {
 
     /**
-     * Represents an action type.  Each platform supports a different
-     * set of actions.  You may use the {@link Desktop#isSupported}
-     * method to determine if the given action is supported by the
-     * current platform.
-     * @see java.awt.Desktop#isSupported(java.awt.Desktop.Action)
+     * Represents bn bction type.  Ebch plbtform supports b different
+     * set of bctions.  You mby use the {@link Desktop#isSupported}
+     * method to determine if the given bction is supported by the
+     * current plbtform.
+     * @see jbvb.bwt.Desktop#isSupported(jbvb.bwt.Desktop.Action)
      * @since 1.6
      */
-    public static enum Action {
+    public stbtic enum Action {
         /**
-         * Represents an "open" action.
-         * @see Desktop#open(java.io.File)
+         * Represents bn "open" bction.
+         * @see Desktop#open(jbvb.io.File)
          */
         OPEN,
         /**
-         * Represents an "edit" action.
-         * @see Desktop#edit(java.io.File)
+         * Represents bn "edit" bction.
+         * @see Desktop#edit(jbvb.io.File)
          */
         EDIT,
         /**
-         * Represents a "print" action.
-         * @see Desktop#print(java.io.File)
+         * Represents b "print" bction.
+         * @see Desktop#print(jbvb.io.File)
          */
         PRINT,
         /**
-         * Represents a "mail" action.
-         * @see Desktop#mail()
-         * @see Desktop#mail(java.net.URI)
+         * Represents b "mbil" bction.
+         * @see Desktop#mbil()
+         * @see Desktop#mbil(jbvb.net.URI)
          */
         MAIL,
         /**
-         * Represents a "browse" action.
-         * @see Desktop#browse(java.net.URI)
+         * Represents b "browse" bction.
+         * @see Desktop#browse(jbvb.net.URI)
          */
         BROWSE
     };
 
-    private DesktopPeer peer;
+    privbte DesktopPeer peer;
 
     /**
-     * Suppresses default constructor for noninstantiability.
+     * Suppresses defbult constructor for noninstbntibbility.
      */
-    private Desktop() {
-        peer = Toolkit.getDefaultToolkit().createDesktopPeer(this);
+    privbte Desktop() {
+        peer = Toolkit.getDefbultToolkit().crebteDesktopPeer(this);
     }
 
     /**
-     * Returns the <code>Desktop</code> instance of the current
-     * browser context.  On some platforms the Desktop API may not be
+     * Returns the <code>Desktop</code> instbnce of the current
+     * browser context.  On some plbtforms the Desktop API mby not be
      * supported; use the {@link #isDesktopSupported} method to
      * determine if the current desktop is supported.
-     * @return the Desktop instance of the current browser context
-     * @throws HeadlessException if {@link
-     * GraphicsEnvironment#isHeadless()} returns {@code true}
-     * @throws UnsupportedOperationException if this class is not
-     * supported on the current platform
+     * @return the Desktop instbnce of the current browser context
+     * @throws HebdlessException if {@link
+     * GrbphicsEnvironment#isHebdless()} returns {@code true}
+     * @throws UnsupportedOperbtionException if this clbss is not
+     * supported on the current plbtform
      * @see #isDesktopSupported()
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static synchronized Desktop getDesktop(){
-        if (GraphicsEnvironment.isHeadless()) throw new HeadlessException();
+    public stbtic synchronized Desktop getDesktop(){
+        if (GrbphicsEnvironment.isHebdless()) throw new HebdlessException();
         if (!Desktop.isDesktopSupported()) {
-            throw new UnsupportedOperationException("Desktop API is not " +
-                                                    "supported on the current platform");
+            throw new UnsupportedOperbtionException("Desktop API is not " +
+                                                    "supported on the current plbtform");
         }
 
-        sun.awt.AppContext context = sun.awt.AppContext.getAppContext();
-        Desktop desktop = (Desktop)context.get(Desktop.class);
+        sun.bwt.AppContext context = sun.bwt.AppContext.getAppContext();
+        Desktop desktop = (Desktop)context.get(Desktop.clbss);
 
         if (desktop == null) {
             desktop = new Desktop();
-            context.put(Desktop.class, desktop);
+            context.put(Desktop.clbss, desktop);
         }
 
         return desktop;
     }
 
     /**
-     * Tests whether this class is supported on the current platform.
-     * If it's supported, use {@link #getDesktop()} to retrieve an
-     * instance.
+     * Tests whether this clbss is supported on the current plbtform.
+     * If it's supported, use {@link #getDesktop()} to retrieve bn
+     * instbnce.
      *
-     * @return <code>true</code> if this class is supported on the
-     *         current platform; <code>false</code> otherwise
+     * @return <code>true</code> if this clbss is supported on the
+     *         current plbtform; <code>fblse</code> otherwise
      * @see #getDesktop()
      */
-    public static boolean isDesktopSupported(){
-        Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
-        if (defaultToolkit instanceof SunToolkit) {
-            return ((SunToolkit)defaultToolkit).isDesktopSupported();
+    public stbtic boolebn isDesktopSupported(){
+        Toolkit defbultToolkit = Toolkit.getDefbultToolkit();
+        if (defbultToolkit instbnceof SunToolkit) {
+            return ((SunToolkit)defbultToolkit).isDesktopSupported();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Tests whether an action is supported on the current platform.
+     * Tests whether bn bction is supported on the current plbtform.
      *
-     * <p>Even when the platform supports an action, a file or URI may
-     * not have a registered application for the action.  For example,
-     * most of the platforms support the {@link Desktop.Action#OPEN}
-     * action.  But for a specific file, there may not be an
-     * application registered to open it.  In this case, {@link
-     * #isSupported} may return {@code true}, but the corresponding
-     * action method will throw an {@link IOException}.
+     * <p>Even when the plbtform supports bn bction, b file or URI mby
+     * not hbve b registered bpplicbtion for the bction.  For exbmple,
+     * most of the plbtforms support the {@link Desktop.Action#OPEN}
+     * bction.  But for b specific file, there mby not be bn
+     * bpplicbtion registered to open it.  In this cbse, {@link
+     * #isSupported} mby return {@code true}, but the corresponding
+     * bction method will throw bn {@link IOException}.
      *
-     * @param action the specified {@link Action}
-     * @return <code>true</code> if the specified action is supported on
-     *         the current platform; <code>false</code> otherwise
+     * @pbrbm bction the specified {@link Action}
+     * @return <code>true</code> if the specified bction is supported on
+     *         the current plbtform; <code>fblse</code> otherwise
      * @see Desktop.Action
      */
-    public boolean isSupported(Action action) {
-        return peer.isSupported(action);
+    public boolebn isSupported(Action bction) {
+        return peer.isSupported(bction);
     }
 
     /**
-     * Checks if the file is a valid file and readable.
+     * Checks if the file is b vblid file bnd rebdbble.
      *
-     * @throws SecurityException If a security manager exists and its
-     *         {@link SecurityManager#checkRead(java.lang.String)} method
-     *         denies read access to the file
+     * @throws SecurityException If b security mbnbger exists bnd its
+     *         {@link SecurityMbnbger#checkRebd(jbvb.lbng.String)} method
+     *         denies rebd bccess to the file
      * @throws NullPointerException if file is null
-     * @throws IllegalArgumentException if file doesn't exist
+     * @throws IllegblArgumentException if file doesn't exist
      */
-    private static void checkFileValidation(File file){
+    privbte stbtic void checkFileVblidbtion(File file){
         if (file == null) throw new NullPointerException("File must not be null");
 
         if (!file.exists()) {
-            throw new IllegalArgumentException("The file: "
-                                               + file.getPath() + " doesn't exist.");
+            throw new IllegblArgumentException("The file: "
+                                               + file.getPbth() + " doesn't exist.");
         }
 
-        file.canRead();
+        file.cbnRebd();
     }
 
     /**
-     * Checks if the action type is supported.
+     * Checks if the bction type is supported.
      *
-     * @param actionType the action type in question
-     * @throws UnsupportedOperationException if the specified action type is not
-     *         supported on the current platform
+     * @pbrbm bctionType the bction type in question
+     * @throws UnsupportedOperbtionException if the specified bction type is not
+     *         supported on the current plbtform
      */
-    private void checkActionSupport(Action actionType){
-        if (!isSupported(actionType)) {
-            throw new UnsupportedOperationException("The " + actionType.name()
-                                                    + " action is not supported on the current platform!");
+    privbte void checkActionSupport(Action bctionType){
+        if (!isSupported(bctionType)) {
+            throw new UnsupportedOperbtionException("The " + bctionType.nbme()
+                                                    + " bction is not supported on the current plbtform!");
         }
     }
 
 
     /**
-     *  Calls to the security manager's <code>checkPermission</code> method with
-     *  an <code>AWTPermission("showWindowWithoutWarningBanner")</code>
+     *  Cblls to the security mbnbger's <code>checkPermission</code> method with
+     *  bn <code>AWTPermission("showWindowWithoutWbrningBbnner")</code>
      *  permission.
      */
-    private void checkAWTPermission(){
-        SecurityManager sm = System.getSecurityManager();
+    privbte void checkAWTPermission(){
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new AWTPermission(
-                                   "showWindowWithoutWarningBanner"));
+                                   "showWindowWithoutWbrningBbnner"));
         }
     }
 
     /**
-     * Launches the associated application to open the file.
+     * Lbunches the bssocibted bpplicbtion to open the file.
      *
-     * <p> If the specified file is a directory, the file manager of
-     * the current platform is launched to open it.
+     * <p> If the specified file is b directory, the file mbnbger of
+     * the current plbtform is lbunched to open it.
      *
-     * @param file the file to be opened with the associated application
+     * @pbrbm file the file to be opened with the bssocibted bpplicbtion
      * @throws NullPointerException if {@code file} is {@code null}
-     * @throws IllegalArgumentException if the specified file doesn't
+     * @throws IllegblArgumentException if the specified file doesn't
      * exist
-     * @throws UnsupportedOperationException if the current platform
-     * does not support the {@link Desktop.Action#OPEN} action
-     * @throws IOException if the specified file has no associated
-     * application or the associated application fails to be launched
-     * @throws SecurityException if a security manager exists and its
-     * {@link java.lang.SecurityManager#checkRead(java.lang.String)}
-     * method denies read access to the file, or it denies the
-     * <code>AWTPermission("showWindowWithoutWarningBanner")</code>
-     * permission, or the calling thread is not allowed to create a
+     * @throws UnsupportedOperbtionException if the current plbtform
+     * does not support the {@link Desktop.Action#OPEN} bction
+     * @throws IOException if the specified file hbs no bssocibted
+     * bpplicbtion or the bssocibted bpplicbtion fbils to be lbunched
+     * @throws SecurityException if b security mbnbger exists bnd its
+     * {@link jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)}
+     * method denies rebd bccess to the file, or it denies the
+     * <code>AWTPermission("showWindowWithoutWbrningBbnner")</code>
+     * permission, or the cblling threbd is not bllowed to crebte b
      * subprocess
-     * @see java.awt.AWTPermission
+     * @see jbvb.bwt.AWTPermission
      */
     public void open(File file) throws IOException {
         checkAWTPermission();
         checkExec();
         checkActionSupport(Action.OPEN);
-        checkFileValidation(file);
+        checkFileVblidbtion(file);
 
         peer.open(file);
     }
 
     /**
-     * Launches the associated editor application and opens a file for
+     * Lbunches the bssocibted editor bpplicbtion bnd opens b file for
      * editing.
      *
-     * @param file the file to be opened for editing
+     * @pbrbm file the file to be opened for editing
      * @throws NullPointerException if the specified file is {@code null}
-     * @throws IllegalArgumentException if the specified file doesn't
+     * @throws IllegblArgumentException if the specified file doesn't
      * exist
-     * @throws UnsupportedOperationException if the current platform
-     * does not support the {@link Desktop.Action#EDIT} action
-     * @throws IOException if the specified file has no associated
-     * editor, or the associated application fails to be launched
-     * @throws SecurityException if a security manager exists and its
-     * {@link java.lang.SecurityManager#checkRead(java.lang.String)}
-     * method denies read access to the file, or {@link
-     * java.lang.SecurityManager#checkWrite(java.lang.String)} method
-     * denies write access to the file, or it denies the
-     * <code>AWTPermission("showWindowWithoutWarningBanner")</code>
-     * permission, or the calling thread is not allowed to create a
+     * @throws UnsupportedOperbtionException if the current plbtform
+     * does not support the {@link Desktop.Action#EDIT} bction
+     * @throws IOException if the specified file hbs no bssocibted
+     * editor, or the bssocibted bpplicbtion fbils to be lbunched
+     * @throws SecurityException if b security mbnbger exists bnd its
+     * {@link jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)}
+     * method denies rebd bccess to the file, or {@link
+     * jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)} method
+     * denies write bccess to the file, or it denies the
+     * <code>AWTPermission("showWindowWithoutWbrningBbnner")</code>
+     * permission, or the cblling threbd is not bllowed to crebte b
      * subprocess
-     * @see java.awt.AWTPermission
+     * @see jbvb.bwt.AWTPermission
      */
     public void edit(File file) throws IOException {
         checkAWTPermission();
         checkExec();
         checkActionSupport(Action.EDIT);
-        file.canWrite();
-        checkFileValidation(file);
+        file.cbnWrite();
+        checkFileVblidbtion(file);
 
         peer.edit(file);
     }
 
     /**
-     * Prints a file with the native desktop printing facility, using
-     * the associated application's print command.
+     * Prints b file with the nbtive desktop printing fbcility, using
+     * the bssocibted bpplicbtion's print commbnd.
      *
-     * @param file the file to be printed
+     * @pbrbm file the file to be printed
      * @throws NullPointerException if the specified file is {@code
      * null}
-     * @throws IllegalArgumentException if the specified file doesn't
+     * @throws IllegblArgumentException if the specified file doesn't
      * exist
-     * @throws UnsupportedOperationException if the current platform
-     *         does not support the {@link Desktop.Action#PRINT} action
-     * @throws IOException if the specified file has no associated
-     * application that can be used to print it
-     * @throws SecurityException if a security manager exists and its
-     * {@link java.lang.SecurityManager#checkRead(java.lang.String)}
-     * method denies read access to the file, or its {@link
-     * java.lang.SecurityManager#checkPrintJobAccess()} method denies
-     * the permission to print the file, or the calling thread is not
-     * allowed to create a subprocess
+     * @throws UnsupportedOperbtionException if the current plbtform
+     *         does not support the {@link Desktop.Action#PRINT} bction
+     * @throws IOException if the specified file hbs no bssocibted
+     * bpplicbtion thbt cbn be used to print it
+     * @throws SecurityException if b security mbnbger exists bnd its
+     * {@link jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)}
+     * method denies rebd bccess to the file, or its {@link
+     * jbvb.lbng.SecurityMbnbger#checkPrintJobAccess()} method denies
+     * the permission to print the file, or the cblling threbd is not
+     * bllowed to crebte b subprocess
      */
     public void print(File file) throws IOException {
         checkExec();
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPrintJobAccess();
         }
         checkActionSupport(Action.PRINT);
-        checkFileValidation(file);
+        checkFileVblidbtion(file);
 
         peer.print(file);
     }
 
     /**
-     * Launches the default browser to display a {@code URI}.
-     * If the default browser is not able to handle the specified
-     * {@code URI}, the application registered for handling
-     * {@code URIs} of the specified type is invoked. The application
-     * is determined from the protocol and path of the {@code URI}, as
-     * defined by the {@code URI} class.
+     * Lbunches the defbult browser to displby b {@code URI}.
+     * If the defbult browser is not bble to hbndle the specified
+     * {@code URI}, the bpplicbtion registered for hbndling
+     * {@code URIs} of the specified type is invoked. The bpplicbtion
+     * is determined from the protocol bnd pbth of the {@code URI}, bs
+     * defined by the {@code URI} clbss.
      * <p>
-     * If the calling thread does not have the necessary permissions,
-     * and this is invoked from within an applet,
-     * {@code AppletContext.showDocument()} is used. Similarly, if the calling
-     * does not have the necessary permissions, and this is invoked from within
-     * a Java Web Started application, {@code BasicService.showDocument()}
+     * If the cblling threbd does not hbve the necessbry permissions,
+     * bnd this is invoked from within bn bpplet,
+     * {@code AppletContext.showDocument()} is used. Similbrly, if the cblling
+     * does not hbve the necessbry permissions, bnd this is invoked from within
+     * b Jbvb Web Stbrted bpplicbtion, {@code BbsicService.showDocument()}
      * is used.
      *
-     * @param uri the URI to be displayed in the user default browser
+     * @pbrbm uri the URI to be displbyed in the user defbult browser
      * @throws NullPointerException if {@code uri} is {@code null}
-     * @throws UnsupportedOperationException if the current platform
-     * does not support the {@link Desktop.Action#BROWSE} action
-     * @throws IOException if the user default browser is not found,
-     * or it fails to be launched, or the default handler application
-     * failed to be launched
-     * @throws SecurityException if a security manager exists and it
+     * @throws UnsupportedOperbtionException if the current plbtform
+     * does not support the {@link Desktop.Action#BROWSE} bction
+     * @throws IOException if the user defbult browser is not found,
+     * or it fbils to be lbunched, or the defbult hbndler bpplicbtion
+     * fbiled to be lbunched
+     * @throws SecurityException if b security mbnbger exists bnd it
      * denies the
-     * <code>AWTPermission("showWindowWithoutWarningBanner")</code>
-     * permission, or the calling thread is not allowed to create a
-     * subprocess; and not invoked from within an applet or Java Web Started
-     * application
-     * @throws IllegalArgumentException if the necessary permissions
-     * are not available and the URI can not be converted to a {@code URL}
-     * @see java.net.URI
-     * @see java.awt.AWTPermission
-     * @see java.applet.AppletContext
+     * <code>AWTPermission("showWindowWithoutWbrningBbnner")</code>
+     * permission, or the cblling threbd is not bllowed to crebte b
+     * subprocess; bnd not invoked from within bn bpplet or Jbvb Web Stbrted
+     * bpplicbtion
+     * @throws IllegblArgumentException if the necessbry permissions
+     * bre not bvbilbble bnd the URI cbn not be converted to b {@code URL}
+     * @see jbvb.net.URI
+     * @see jbvb.bwt.AWTPermission
+     * @see jbvb.bpplet.AppletContext
      */
     public void browse(URI uri) throws IOException {
         SecurityException securityException = null;
         try {
             checkAWTPermission();
             checkExec();
-        } catch (SecurityException e) {
+        } cbtch (SecurityException e) {
             securityException = e;
         }
         checkActionSupport(Action.BROWSE);
@@ -387,98 +387,98 @@ public class Desktop {
             return;
         }
 
-        // Calling thread doesn't have necessary priviledges.
-        // Delegate to DesktopBrowse so that it can work in
-        // applet/webstart.
+        // Cblling threbd doesn't hbve necessbry priviledges.
+        // Delegbte to DesktopBrowse so thbt it cbn work in
+        // bpplet/webstbrt.
         URL url = null;
         try {
             url = uri.toURL();
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("Unable to convert URI to URL", e);
+        } cbtch (MblformedURLException e) {
+            throw new IllegblArgumentException("Unbble to convert URI to URL", e);
         }
-        sun.awt.DesktopBrowse db = sun.awt.DesktopBrowse.getInstance();
+        sun.bwt.DesktopBrowse db = sun.bwt.DesktopBrowse.getInstbnce();
         if (db == null) {
-            // Not in webstart/applet, throw the exception.
+            // Not in webstbrt/bpplet, throw the exception.
             throw securityException;
         }
         db.browse(url);
     }
 
     /**
-     * Launches the mail composing window of the user default mail
+     * Lbunches the mbil composing window of the user defbult mbil
      * client.
      *
-     * @throws UnsupportedOperationException if the current platform
-     * does not support the {@link Desktop.Action#MAIL} action
-     * @throws IOException if the user default mail client is not
-     * found, or it fails to be launched
-     * @throws SecurityException if a security manager exists and it
+     * @throws UnsupportedOperbtionException if the current plbtform
+     * does not support the {@link Desktop.Action#MAIL} bction
+     * @throws IOException if the user defbult mbil client is not
+     * found, or it fbils to be lbunched
+     * @throws SecurityException if b security mbnbger exists bnd it
      * denies the
-     * <code>AWTPermission("showWindowWithoutWarningBanner")</code>
-     * permission, or the calling thread is not allowed to create a
+     * <code>AWTPermission("showWindowWithoutWbrningBbnner")</code>
+     * permission, or the cblling threbd is not bllowed to crebte b
      * subprocess
-     * @see java.awt.AWTPermission
+     * @see jbvb.bwt.AWTPermission
      */
-    public void mail() throws IOException {
+    public void mbil() throws IOException {
         checkAWTPermission();
         checkExec();
         checkActionSupport(Action.MAIL);
-        URI mailtoURI = null;
+        URI mbiltoURI = null;
         try{
-            mailtoURI = new URI("mailto:?");
-            peer.mail(mailtoURI);
-        } catch (URISyntaxException e){
-            // won't reach here.
+            mbiltoURI = new URI("mbilto:?");
+            peer.mbil(mbiltoURI);
+        } cbtch (URISyntbxException e){
+            // won't rebch here.
         }
     }
 
     /**
-     * Launches the mail composing window of the user default mail
-     * client, filling the message fields specified by a {@code
-     * mailto:} URI.
+     * Lbunches the mbil composing window of the user defbult mbil
+     * client, filling the messbge fields specified by b {@code
+     * mbilto:} URI.
      *
-     * <p> A <code>mailto:</code> URI can specify message fields
+     * <p> A <code>mbilto:</code> URI cbn specify messbge fields
      * including <i>"to"</i>, <i>"cc"</i>, <i>"subject"</i>,
-     * <i>"body"</i>, etc.  See <a
-     * href="http://www.ietf.org/rfc/rfc2368.txt">The mailto URL
-     * scheme (RFC 2368)</a> for the {@code mailto:} URI specification
-     * details.
+     * <i>"body"</i>, etc.  See <b
+     * href="http://www.ietf.org/rfc/rfc2368.txt">The mbilto URL
+     * scheme (RFC 2368)</b> for the {@code mbilto:} URI specificbtion
+     * detbils.
      *
-     * @param mailtoURI the specified {@code mailto:} URI
+     * @pbrbm mbiltoURI the specified {@code mbilto:} URI
      * @throws NullPointerException if the specified URI is {@code
      * null}
-     * @throws IllegalArgumentException if the URI scheme is not
-     *         <code>"mailto"</code>
-     * @throws UnsupportedOperationException if the current platform
-     * does not support the {@link Desktop.Action#MAIL} action
-     * @throws IOException if the user default mail client is not
-     * found or fails to be launched
-     * @throws SecurityException if a security manager exists and it
+     * @throws IllegblArgumentException if the URI scheme is not
+     *         <code>"mbilto"</code>
+     * @throws UnsupportedOperbtionException if the current plbtform
+     * does not support the {@link Desktop.Action#MAIL} bction
+     * @throws IOException if the user defbult mbil client is not
+     * found or fbils to be lbunched
+     * @throws SecurityException if b security mbnbger exists bnd it
      * denies the
-     * <code>AWTPermission("showWindowWithoutWarningBanner")</code>
-     * permission, or the calling thread is not allowed to create a
+     * <code>AWTPermission("showWindowWithoutWbrningBbnner")</code>
+     * permission, or the cblling threbd is not bllowed to crebte b
      * subprocess
-     * @see java.net.URI
-     * @see java.awt.AWTPermission
+     * @see jbvb.net.URI
+     * @see jbvb.bwt.AWTPermission
      */
-    public  void mail(URI mailtoURI) throws IOException {
+    public  void mbil(URI mbiltoURI) throws IOException {
         checkAWTPermission();
         checkExec();
         checkActionSupport(Action.MAIL);
-        if (mailtoURI == null) throw new NullPointerException();
+        if (mbiltoURI == null) throw new NullPointerException();
 
-        if (!"mailto".equalsIgnoreCase(mailtoURI.getScheme())) {
-            throw new IllegalArgumentException("URI scheme is not \"mailto\"");
+        if (!"mbilto".equblsIgnoreCbse(mbiltoURI.getScheme())) {
+            throw new IllegblArgumentException("URI scheme is not \"mbilto\"");
         }
 
-        peer.mail(mailtoURI);
+        peer.mbil(mbiltoURI);
     }
 
-    private void checkExec() throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+    privbte void checkExec() throws SecurityException {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new FilePermission("<<ALL FILES>>",
-                                                  SecurityConstants.FILE_EXECUTE_ACTION));
+                                                  SecurityConstbnts.FILE_EXECUTE_ACTION));
         }
     }
 }

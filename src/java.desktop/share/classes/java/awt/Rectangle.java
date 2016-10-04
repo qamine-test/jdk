@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.geom.Rectangle2D;
-import java.beans.Transient;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bebns.Trbnsient;
 
 /**
- * A <code>Rectangle</code> specifies an area in a coordinate space that is
- * enclosed by the <code>Rectangle</code> object's upper-left point
+ * A <code>Rectbngle</code> specifies bn breb in b coordinbte spbce thbt is
+ * enclosed by the <code>Rectbngle</code> object's upper-left point
  * {@code (x,y)}
- * in the coordinate space, its width, and its height.
+ * in the coordinbte spbce, its width, bnd its height.
  * <p>
- * A <code>Rectangle</code> object's <code>width</code> and
- * <code>height</code> are <code>public</code> fields. The constructors
- * that create a <code>Rectangle</code>, and the methods that can modify
- * one, do not prevent setting a negative value for width or height.
+ * A <code>Rectbngle</code> object's <code>width</code> bnd
+ * <code>height</code> bre <code>public</code> fields. The constructors
+ * thbt crebte b <code>Rectbngle</code>, bnd the methods thbt cbn modify
+ * one, do not prevent setting b negbtive vblue for width or height.
  * <p>
- * <a name="Empty">
- * A {@code Rectangle} whose width or height is exactly zero has location
- * along those axes with zero dimension, but is otherwise considered empty.</a>
- * The {@link #isEmpty} method will return true for such a {@code Rectangle}.
- * Methods which test if an empty {@code Rectangle} contains or intersects
- * a point or rectangle will always return false if either dimension is zero.
- * Methods which combine such a {@code Rectangle} with a point or rectangle
- * will include the location of the {@code Rectangle} on that axis in the
- * result as if the {@link #add(Point)} method were being called.
+ * <b nbme="Empty">
+ * A {@code Rectbngle} whose width or height is exbctly zero hbs locbtion
+ * blong those bxes with zero dimension, but is otherwise considered empty.</b>
+ * The {@link #isEmpty} method will return true for such b {@code Rectbngle}.
+ * Methods which test if bn empty {@code Rectbngle} contbins or intersects
+ * b point or rectbngle will blwbys return fblse if either dimension is zero.
+ * Methods which combine such b {@code Rectbngle} with b point or rectbngle
+ * will include the locbtion of the {@code Rectbngle} on thbt bxis in the
+ * result bs if the {@link #bdd(Point)} method were being cblled.
  * <p>
- * <a name="NonExistant">
- * A {@code Rectangle} whose width or height is negative has neither
- * location nor dimension along those axes with negative dimensions.
- * Such a {@code Rectangle} is treated as non-existant along those axes.
- * Such a {@code Rectangle} is also empty with respect to containment
- * calculations and methods which test if it contains or intersects a
- * point or rectangle will always return false.
- * Methods which combine such a {@code Rectangle} with a point or rectangle
- * will ignore the {@code Rectangle} entirely in generating the result.
- * If two {@code Rectangle} objects are combined and each has a negative
- * dimension, the result will have at least one negative dimension.
- * </a>
+ * <b nbme="NonExistbnt">
+ * A {@code Rectbngle} whose width or height is negbtive hbs neither
+ * locbtion nor dimension blong those bxes with negbtive dimensions.
+ * Such b {@code Rectbngle} is trebted bs non-existbnt blong those bxes.
+ * Such b {@code Rectbngle} is blso empty with respect to contbinment
+ * cblculbtions bnd methods which test if it contbins or intersects b
+ * point or rectbngle will blwbys return fblse.
+ * Methods which combine such b {@code Rectbngle} with b point or rectbngle
+ * will ignore the {@code Rectbngle} entirely in generbting the result.
+ * If two {@code Rectbngle} objects bre combined bnd ebch hbs b negbtive
+ * dimension, the result will hbve bt lebst one negbtive dimension.
+ * </b>
  * <p>
- * Methods which affect only the location of a {@code Rectangle} will
- * operate on its location regardless of whether or not it has a negative
- * or zero dimension along either axis.
+ * Methods which bffect only the locbtion of b {@code Rectbngle} will
+ * operbte on its locbtion regbrdless of whether or not it hbs b negbtive
+ * or zero dimension blong either bxis.
  * <p>
- * Note that a {@code Rectangle} constructed with the default no-argument
- * constructor will have dimensions of {@code 0x0} and therefore be empty.
- * That {@code Rectangle} will still have a location of {@code (0,0)} and
- * will contribute that location to the union and add operations.
- * Code attempting to accumulate the bounds of a set of points should
- * therefore initially construct the {@code Rectangle} with a specifically
- * negative width and height or it should use the first point in the set
- * to construct the {@code Rectangle}.
- * For example:
+ * Note thbt b {@code Rectbngle} constructed with the defbult no-brgument
+ * constructor will hbve dimensions of {@code 0x0} bnd therefore be empty.
+ * Thbt {@code Rectbngle} will still hbve b locbtion of {@code (0,0)} bnd
+ * will contribute thbt locbtion to the union bnd bdd operbtions.
+ * Code bttempting to bccumulbte the bounds of b set of points should
+ * therefore initiblly construct the {@code Rectbngle} with b specificblly
+ * negbtive width bnd height or it should use the first point in the set
+ * to construct the {@code Rectbngle}.
+ * For exbmple:
  * <pre>{@code
- *     Rectangle bounds = new Rectangle(0, 0, -1, -1);
+ *     Rectbngle bounds = new Rectbngle(0, 0, -1, -1);
  *     for (int i = 0; i < points.length; i++) {
- *         bounds.add(points[i]);
+ *         bounds.bdd(points[i]);
  *     }
  * }</pre>
- * or if we know that the points array contains at least one point:
+ * or if we know thbt the points brrby contbins bt lebst one point:
  * <pre>{@code
- *     Rectangle bounds = new Rectangle(points[0]);
+ *     Rectbngle bounds = new Rectbngle(points[0]);
  *     for (int i = 1; i < points.length; i++) {
- *         bounds.add(points[i]);
+ *         bounds.bdd(points[i]);
  *     }
  * }</pre>
  * <p>
- * This class uses 32-bit integers to store its location and dimensions.
- * Frequently operations may produce a result that exceeds the range of
- * a 32-bit integer.
- * The methods will calculate their results in a way that avoids any
- * 32-bit overflow for intermediate results and then choose the best
- * representation to store the final results back into the 32-bit fields
- * which hold the location and dimensions.
- * The location of the result will be stored into the {@link #x} and
- * {@link #y} fields by clipping the true result to the nearest 32-bit value.
- * The values stored into the {@link #width} and {@link #height} dimension
- * fields will be chosen as the 32-bit values that encompass the largest
- * part of the true result as possible.
- * Generally this means that the dimension will be clipped independently
- * to the range of 32-bit integers except that if the location had to be
- * moved to store it into its pair of 32-bit fields then the dimensions
- * will be adjusted relative to the "best representation" of the location.
- * If the true result had a negative dimension and was therefore
- * non-existant along one or both axes, the stored dimensions will be
- * negative numbers in those axes.
- * If the true result had a location that could be represented within
- * the range of 32-bit integers, but zero dimension along one or both
- * axes, then the stored dimensions will be zero in those axes.
+ * This clbss uses 32-bit integers to store its locbtion bnd dimensions.
+ * Frequently operbtions mby produce b result thbt exceeds the rbnge of
+ * b 32-bit integer.
+ * The methods will cblculbte their results in b wby thbt bvoids bny
+ * 32-bit overflow for intermedibte results bnd then choose the best
+ * representbtion to store the finbl results bbck into the 32-bit fields
+ * which hold the locbtion bnd dimensions.
+ * The locbtion of the result will be stored into the {@link #x} bnd
+ * {@link #y} fields by clipping the true result to the nebrest 32-bit vblue.
+ * The vblues stored into the {@link #width} bnd {@link #height} dimension
+ * fields will be chosen bs the 32-bit vblues thbt encompbss the lbrgest
+ * pbrt of the true result bs possible.
+ * Generblly this mebns thbt the dimension will be clipped independently
+ * to the rbnge of 32-bit integers except thbt if the locbtion hbd to be
+ * moved to store it into its pbir of 32-bit fields then the dimensions
+ * will be bdjusted relbtive to the "best representbtion" of the locbtion.
+ * If the true result hbd b negbtive dimension bnd wbs therefore
+ * non-existbnt blong one or both bxes, the stored dimensions will be
+ * negbtive numbers in those bxes.
+ * If the true result hbd b locbtion thbt could be represented within
+ * the rbnge of 32-bit integers, but zero dimension blong one or both
+ * bxes, then the stored dimensions will be zero in those bxes.
  *
- * @author      Sami Shaio
+ * @buthor      Sbmi Shbio
  * @since 1.0
  */
-public class Rectangle extends Rectangle2D
-    implements Shape, java.io.Serializable
+public clbss Rectbngle extends Rectbngle2D
+    implements Shbpe, jbvb.io.Seriblizbble
 {
 
     /**
-     * The X coordinate of the upper-left corner of the <code>Rectangle</code>.
+     * The X coordinbte of the upper-left corner of the <code>Rectbngle</code>.
      *
-     * @serial
-     * @see #setLocation(int, int)
-     * @see #getLocation()
+     * @seribl
+     * @see #setLocbtion(int, int)
+     * @see #getLocbtion()
      * @since 1.0
      */
     public int x;
 
     /**
-     * The Y coordinate of the upper-left corner of the <code>Rectangle</code>.
+     * The Y coordinbte of the upper-left corner of the <code>Rectbngle</code>.
      *
-     * @serial
-     * @see #setLocation(int, int)
-     * @see #getLocation()
+     * @seribl
+     * @see #setLocbtion(int, int)
+     * @see #getLocbtion()
      * @since 1.0
      */
     public int y;
 
     /**
-     * The width of the <code>Rectangle</code>.
-     * @serial
+     * The width of the <code>Rectbngle</code>.
+     * @seribl
      * @see #setSize(int, int)
      * @see #getSize()
      * @since 1.0
@@ -149,9 +149,9 @@ public class Rectangle extends Rectangle2D
     public int width;
 
     /**
-     * The height of the <code>Rectangle</code>.
+     * The height of the <code>Rectbngle</code>.
      *
-     * @serial
+     * @seribl
      * @see #setSize(int, int)
      * @see #getSize()
      * @since 1.0
@@ -159,55 +159,55 @@ public class Rectangle extends Rectangle2D
     public int height;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = -4345857070255674764L;
+     privbte stbtic finbl long seriblVersionUID = -4345857070255674764L;
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner
-     * is at (0,&nbsp;0) in the coordinate space, and whose width and
-     * height are both zero.
+     * Constructs b new <code>Rectbngle</code> whose upper-left corner
+     * is bt (0,&nbsp;0) in the coordinbte spbce, bnd whose width bnd
+     * height bre both zero.
      */
-    public Rectangle() {
+    public Rectbngle() {
         this(0, 0, 0, 0);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code>, initialized to match
-     * the values of the specified <code>Rectangle</code>.
-     * @param r  the <code>Rectangle</code> from which to copy initial values
-     *           to a newly constructed <code>Rectangle</code>
+     * Constructs b new <code>Rectbngle</code>, initiblized to mbtch
+     * the vblues of the specified <code>Rectbngle</code>.
+     * @pbrbm r  the <code>Rectbngle</code> from which to copy initibl vblues
+     *           to b newly constructed <code>Rectbngle</code>
      * @since 1.1
      */
-    public Rectangle(Rectangle r) {
+    public Rectbngle(Rectbngle r) {
         this(r.x, r.y, r.width, r.height);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner is
-     * specified as
-     * {@code (x,y)} and whose width and height
-     * are specified by the arguments of the same name.
-     * @param     x the specified X coordinate
-     * @param     y the specified Y coordinate
-     * @param     width    the width of the <code>Rectangle</code>
-     * @param     height   the height of the <code>Rectangle</code>
+     * Constructs b new <code>Rectbngle</code> whose upper-left corner is
+     * specified bs
+     * {@code (x,y)} bnd whose width bnd height
+     * bre specified by the brguments of the sbme nbme.
+     * @pbrbm     x the specified X coordinbte
+     * @pbrbm     y the specified Y coordinbte
+     * @pbrbm     width    the width of the <code>Rectbngle</code>
+     * @pbrbm     height   the height of the <code>Rectbngle</code>
      * @since 1.0
      */
-    public Rectangle(int x, int y, int width, int height) {
+    public Rectbngle(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -215,224 +215,224 @@ public class Rectangle extends Rectangle2D
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner
-     * is at (0,&nbsp;0) in the coordinate space, and whose width and
-     * height are specified by the arguments of the same name.
-     * @param width the width of the <code>Rectangle</code>
-     * @param height the height of the <code>Rectangle</code>
+     * Constructs b new <code>Rectbngle</code> whose upper-left corner
+     * is bt (0,&nbsp;0) in the coordinbte spbce, bnd whose width bnd
+     * height bre specified by the brguments of the sbme nbme.
+     * @pbrbm width the width of the <code>Rectbngle</code>
+     * @pbrbm height the height of the <code>Rectbngle</code>
      */
-    public Rectangle(int width, int height) {
+    public Rectbngle(int width, int height) {
         this(0, 0, width, height);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner is
-     * specified by the {@link Point} argument, and
-     * whose width and height are specified by the
-     * {@link Dimension} argument.
-     * @param p a <code>Point</code> that is the upper-left corner of
-     * the <code>Rectangle</code>
-     * @param d a <code>Dimension</code>, representing the
-     * width and height of the <code>Rectangle</code>
+     * Constructs b new <code>Rectbngle</code> whose upper-left corner is
+     * specified by the {@link Point} brgument, bnd
+     * whose width bnd height bre specified by the
+     * {@link Dimension} brgument.
+     * @pbrbm p b <code>Point</code> thbt is the upper-left corner of
+     * the <code>Rectbngle</code>
+     * @pbrbm d b <code>Dimension</code>, representing the
+     * width bnd height of the <code>Rectbngle</code>
      */
-    public Rectangle(Point p, Dimension d) {
+    public Rectbngle(Point p, Dimension d) {
         this(p.x, p.y, d.width, d.height);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner is the
-     * specified <code>Point</code>, and whose width and height are both zero.
-     * @param p a <code>Point</code> that is the top left corner
-     * of the <code>Rectangle</code>
+     * Constructs b new <code>Rectbngle</code> whose upper-left corner is the
+     * specified <code>Point</code>, bnd whose width bnd height bre both zero.
+     * @pbrbm p b <code>Point</code> thbt is the top left corner
+     * of the <code>Rectbngle</code>
      */
-    public Rectangle(Point p) {
+    public Rectbngle(Point p) {
         this(p.x, p.y, 0, 0);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose top left corner is
-     * (0,&nbsp;0) and whose width and height are specified
-     * by the <code>Dimension</code> argument.
-     * @param d a <code>Dimension</code>, specifying width and height
+     * Constructs b new <code>Rectbngle</code> whose top left corner is
+     * (0,&nbsp;0) bnd whose width bnd height bre specified
+     * by the <code>Dimension</code> brgument.
+     * @pbrbm d b <code>Dimension</code>, specifying width bnd height
      */
-    public Rectangle(Dimension d) {
+    public Rectbngle(Dimension d) {
         this(0, 0, d.width, d.height);
     }
 
     /**
-     * Returns the X coordinate of the bounding <code>Rectangle</code> in
+     * Returns the X coordinbte of the bounding <code>Rectbngle</code> in
      * <code>double</code> precision.
-     * @return the X coordinate of the bounding <code>Rectangle</code>.
+     * @return the X coordinbte of the bounding <code>Rectbngle</code>.
      */
     public double getX() {
         return x;
     }
 
     /**
-     * Returns the Y coordinate of the bounding <code>Rectangle</code> in
+     * Returns the Y coordinbte of the bounding <code>Rectbngle</code> in
      * <code>double</code> precision.
-     * @return the Y coordinate of the bounding <code>Rectangle</code>.
+     * @return the Y coordinbte of the bounding <code>Rectbngle</code>.
      */
     public double getY() {
         return y;
     }
 
     /**
-     * Returns the width of the bounding <code>Rectangle</code> in
+     * Returns the width of the bounding <code>Rectbngle</code> in
      * <code>double</code> precision.
-     * @return the width of the bounding <code>Rectangle</code>.
+     * @return the width of the bounding <code>Rectbngle</code>.
      */
     public double getWidth() {
         return width;
     }
 
     /**
-     * Returns the height of the bounding <code>Rectangle</code> in
+     * Returns the height of the bounding <code>Rectbngle</code> in
      * <code>double</code> precision.
-     * @return the height of the bounding <code>Rectangle</code>.
+     * @return the height of the bounding <code>Rectbngle</code>.
      */
     public double getHeight() {
         return height;
     }
 
     /**
-     * Gets the bounding <code>Rectangle</code> of this <code>Rectangle</code>.
+     * Gets the bounding <code>Rectbngle</code> of this <code>Rectbngle</code>.
      * <p>
-     * This method is included for completeness, to parallel the
+     * This method is included for completeness, to pbrbllel the
      * <code>getBounds</code> method of
      * {@link Component}.
-     * @return    a new <code>Rectangle</code>, equal to the
-     * bounding <code>Rectangle</code> for this <code>Rectangle</code>.
-     * @see       java.awt.Component#getBounds
-     * @see       #setBounds(Rectangle)
+     * @return    b new <code>Rectbngle</code>, equbl to the
+     * bounding <code>Rectbngle</code> for this <code>Rectbngle</code>.
+     * @see       jbvb.bwt.Component#getBounds
+     * @see       #setBounds(Rectbngle)
      * @see       #setBounds(int, int, int, int)
      * @since     1.1
      */
-    @Transient
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+    @Trbnsient
+    public Rectbngle getBounds() {
+        return new Rectbngle(x, y, width, height);
     }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public Rectangle2D getBounds2D() {
-        return new Rectangle(x, y, width, height);
+    public Rectbngle2D getBounds2D() {
+        return new Rectbngle(x, y, width, height);
     }
 
     /**
-     * Sets the bounding <code>Rectangle</code> of this <code>Rectangle</code>
-     * to match the specified <code>Rectangle</code>.
+     * Sets the bounding <code>Rectbngle</code> of this <code>Rectbngle</code>
+     * to mbtch the specified <code>Rectbngle</code>.
      * <p>
-     * This method is included for completeness, to parallel the
+     * This method is included for completeness, to pbrbllel the
      * <code>setBounds</code> method of <code>Component</code>.
-     * @param r the specified <code>Rectangle</code>
+     * @pbrbm r the specified <code>Rectbngle</code>
      * @see       #getBounds
-     * @see       java.awt.Component#setBounds(java.awt.Rectangle)
+     * @see       jbvb.bwt.Component#setBounds(jbvb.bwt.Rectbngle)
      * @since     1.1
      */
-    public void setBounds(Rectangle r) {
+    public void setBounds(Rectbngle r) {
         setBounds(r.x, r.y, r.width, r.height);
     }
 
     /**
-     * Sets the bounding <code>Rectangle</code> of this
-     * <code>Rectangle</code> to the specified
+     * Sets the bounding <code>Rectbngle</code> of this
+     * <code>Rectbngle</code> to the specified
      * <code>x</code>, <code>y</code>, <code>width</code>,
-     * and <code>height</code>.
+     * bnd <code>height</code>.
      * <p>
-     * This method is included for completeness, to parallel the
+     * This method is included for completeness, to pbrbllel the
      * <code>setBounds</code> method of <code>Component</code>.
-     * @param x the new X coordinate for the upper-left
-     *                    corner of this <code>Rectangle</code>
-     * @param y the new Y coordinate for the upper-left
-     *                    corner of this <code>Rectangle</code>
-     * @param width the new width for this <code>Rectangle</code>
-     * @param height the new height for this <code>Rectangle</code>
+     * @pbrbm x the new X coordinbte for the upper-left
+     *                    corner of this <code>Rectbngle</code>
+     * @pbrbm y the new Y coordinbte for the upper-left
+     *                    corner of this <code>Rectbngle</code>
+     * @pbrbm width the new width for this <code>Rectbngle</code>
+     * @pbrbm height the new height for this <code>Rectbngle</code>
      * @see       #getBounds
-     * @see       java.awt.Component#setBounds(int, int, int, int)
+     * @see       jbvb.bwt.Component#setBounds(int, int, int, int)
      * @since     1.1
      */
     public void setBounds(int x, int y, int width, int height) {
-        reshape(x, y, width, height);
+        reshbpe(x, y, width, height);
     }
 
     /**
-     * Sets the bounds of this {@code Rectangle} to the integer bounds
-     * which encompass the specified {@code x}, {@code y}, {@code width},
-     * and {@code height}.
-     * If the parameters specify a {@code Rectangle} that exceeds the
-     * maximum range of integers, the result will be the best
-     * representation of the specified {@code Rectangle} intersected
-     * with the maximum integer bounds.
-     * @param x the X coordinate of the upper-left corner of
-     *                  the specified rectangle
-     * @param y the Y coordinate of the upper-left corner of
-     *                  the specified rectangle
-     * @param width the width of the specified rectangle
-     * @param height the new height of the specified rectangle
+     * Sets the bounds of this {@code Rectbngle} to the integer bounds
+     * which encompbss the specified {@code x}, {@code y}, {@code width},
+     * bnd {@code height}.
+     * If the pbrbmeters specify b {@code Rectbngle} thbt exceeds the
+     * mbximum rbnge of integers, the result will be the best
+     * representbtion of the specified {@code Rectbngle} intersected
+     * with the mbximum integer bounds.
+     * @pbrbm x the X coordinbte of the upper-left corner of
+     *                  the specified rectbngle
+     * @pbrbm y the Y coordinbte of the upper-left corner of
+     *                  the specified rectbngle
+     * @pbrbm width the width of the specified rectbngle
+     * @pbrbm height the new height of the specified rectbngle
      */
     public void setRect(double x, double y, double width, double height) {
         int newx, newy, neww, newh;
 
         if (x > 2.0 * Integer.MAX_VALUE) {
-            // Too far in positive X direction to represent...
-            // We cannot even reach the left side of the specified
-            // rectangle even with both x & width set to MAX_VALUE.
-            // The intersection with the "maximal integer rectangle"
-            // is non-existant so we should use a width < 0.
-            // REMIND: Should we try to determine a more "meaningful"
-            // adjusted value for neww than just "-1"?
+            // Too fbr in positive X direction to represent...
+            // We cbnnot even rebch the left side of the specified
+            // rectbngle even with both x & width set to MAX_VALUE.
+            // The intersection with the "mbximbl integer rectbngle"
+            // is non-existbnt so we should use b width < 0.
+            // REMIND: Should we try to determine b more "mebningful"
+            // bdjusted vblue for neww thbn just "-1"?
             newx = Integer.MAX_VALUE;
             neww = -1;
         } else {
-            newx = clip(x, false);
+            newx = clip(x, fblse);
             if (width >= 0) width += x-newx;
             neww = clip(width, width >= 0);
         }
 
         if (y > 2.0 * Integer.MAX_VALUE) {
-            // Too far in positive Y direction to represent...
+            // Too fbr in positive Y direction to represent...
             newy = Integer.MAX_VALUE;
             newh = -1;
         } else {
-            newy = clip(y, false);
+            newy = clip(y, fblse);
             if (height >= 0) height += y-newy;
             newh = clip(height, height >= 0);
         }
 
-        reshape(newx, newy, neww, newh);
+        reshbpe(newx, newy, neww, newh);
     }
-    // Return best integer representation for v, clipped to integer
-    // range and floor-ed or ceiling-ed, depending on the boolean.
-    private static int clip(double v, boolean doceil) {
+    // Return best integer representbtion for v, clipped to integer
+    // rbnge bnd floor-ed or ceiling-ed, depending on the boolebn.
+    privbte stbtic int clip(double v, boolebn doceil) {
         if (v <= Integer.MIN_VALUE) {
             return Integer.MIN_VALUE;
         }
         if (v >= Integer.MAX_VALUE) {
             return Integer.MAX_VALUE;
         }
-        return (int) (doceil ? Math.ceil(v) : Math.floor(v));
+        return (int) (doceil ? Mbth.ceil(v) : Mbth.floor(v));
     }
 
     /**
-     * Sets the bounding <code>Rectangle</code> of this
-     * <code>Rectangle</code> to the specified
+     * Sets the bounding <code>Rectbngle</code> of this
+     * <code>Rectbngle</code> to the specified
      * <code>x</code>, <code>y</code>, <code>width</code>,
-     * and <code>height</code>.
+     * bnd <code>height</code>.
      *
-     * @param x the new X coordinate for the upper-left
-     *                    corner of this <code>Rectangle</code>
-     * @param y the new Y coordinate for the upper-left
-     *                    corner of this <code>Rectangle</code>
-     * @param width the new width for this <code>Rectangle</code>
-     * @param height the new height for this <code>Rectangle</code>
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setBounds(int, int, int, int)</code>.
+     * @pbrbm x the new X coordinbte for the upper-left
+     *                    corner of this <code>Rectbngle</code>
+     * @pbrbm y the new Y coordinbte for the upper-left
+     *                    corner of this <code>Rectbngle</code>
+     * @pbrbm width the new width for this <code>Rectbngle</code>
+     * @pbrbm height the new height for this <code>Rectbngle</code>
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>setBounds(int, int, int, int)</code>.
      */
-    @Deprecated
-    public void reshape(int x, int y, int width, int height) {
+    @Deprecbted
+    public void reshbpe(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -440,110 +440,110 @@ public class Rectangle extends Rectangle2D
     }
 
     /**
-     * Returns the location of this <code>Rectangle</code>.
+     * Returns the locbtion of this <code>Rectbngle</code>.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>getLocation</code> method of <code>Component</code>.
-     * @return the <code>Point</code> that is the upper-left corner of
-     *                  this <code>Rectangle</code>.
-     * @see       java.awt.Component#getLocation
-     * @see       #setLocation(Point)
-     * @see       #setLocation(int, int)
+     * This method is included for completeness, to pbrbllel the
+     * <code>getLocbtion</code> method of <code>Component</code>.
+     * @return the <code>Point</code> thbt is the upper-left corner of
+     *                  this <code>Rectbngle</code>.
+     * @see       jbvb.bwt.Component#getLocbtion
+     * @see       #setLocbtion(Point)
+     * @see       #setLocbtion(int, int)
      * @since     1.1
      */
-    public Point getLocation() {
+    public Point getLocbtion() {
         return new Point(x, y);
     }
 
     /**
-     * Moves this <code>Rectangle</code> to the specified location.
+     * Moves this <code>Rectbngle</code> to the specified locbtion.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>setLocation</code> method of <code>Component</code>.
-     * @param p the <code>Point</code> specifying the new location
-     *                for this <code>Rectangle</code>
-     * @see       java.awt.Component#setLocation(java.awt.Point)
-     * @see       #getLocation
+     * This method is included for completeness, to pbrbllel the
+     * <code>setLocbtion</code> method of <code>Component</code>.
+     * @pbrbm p the <code>Point</code> specifying the new locbtion
+     *                for this <code>Rectbngle</code>
+     * @see       jbvb.bwt.Component#setLocbtion(jbvb.bwt.Point)
+     * @see       #getLocbtion
      * @since     1.1
      */
-    public void setLocation(Point p) {
-        setLocation(p.x, p.y);
+    public void setLocbtion(Point p) {
+        setLocbtion(p.x, p.y);
     }
 
     /**
-     * Moves this <code>Rectangle</code> to the specified location.
+     * Moves this <code>Rectbngle</code> to the specified locbtion.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>setLocation</code> method of <code>Component</code>.
-     * @param x the X coordinate of the new location
-     * @param y the Y coordinate of the new location
-     * @see       #getLocation
-     * @see       java.awt.Component#setLocation(int, int)
+     * This method is included for completeness, to pbrbllel the
+     * <code>setLocbtion</code> method of <code>Component</code>.
+     * @pbrbm x the X coordinbte of the new locbtion
+     * @pbrbm y the Y coordinbte of the new locbtion
+     * @see       #getLocbtion
+     * @see       jbvb.bwt.Component#setLocbtion(int, int)
      * @since     1.1
      */
-    public void setLocation(int x, int y) {
+    public void setLocbtion(int x, int y) {
         move(x, y);
     }
 
     /**
-     * Moves this <code>Rectangle</code> to the specified location.
+     * Moves this <code>Rectbngle</code> to the specified locbtion.
      *
-     * @param x the X coordinate of the new location
-     * @param y the Y coordinate of the new location
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setLocation(int, int)</code>.
+     * @pbrbm x the X coordinbte of the new locbtion
+     * @pbrbm y the Y coordinbte of the new locbtion
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>setLocbtion(int, int)</code>.
      */
-    @Deprecated
+    @Deprecbted
     public void move(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
     /**
-     * Translates this <code>Rectangle</code> the indicated distance,
-     * to the right along the X coordinate axis, and
-     * downward along the Y coordinate axis.
-     * @param dx the distance to move this <code>Rectangle</code>
-     *                 along the X axis
-     * @param dy the distance to move this <code>Rectangle</code>
-     *                 along the Y axis
-     * @see       java.awt.Rectangle#setLocation(int, int)
-     * @see       java.awt.Rectangle#setLocation(java.awt.Point)
+     * Trbnslbtes this <code>Rectbngle</code> the indicbted distbnce,
+     * to the right blong the X coordinbte bxis, bnd
+     * downwbrd blong the Y coordinbte bxis.
+     * @pbrbm dx the distbnce to move this <code>Rectbngle</code>
+     *                 blong the X bxis
+     * @pbrbm dy the distbnce to move this <code>Rectbngle</code>
+     *                 blong the Y bxis
+     * @see       jbvb.bwt.Rectbngle#setLocbtion(int, int)
+     * @see       jbvb.bwt.Rectbngle#setLocbtion(jbvb.bwt.Point)
      */
-    public void translate(int dx, int dy) {
+    public void trbnslbte(int dx, int dy) {
         int oldv = this.x;
         int newv = oldv + dx;
         if (dx < 0) {
-            // moving leftward
+            // moving leftwbrd
             if (newv > oldv) {
-                // negative overflow
-                // Only adjust width if it was valid (>= 0).
+                // negbtive overflow
+                // Only bdjust width if it wbs vblid (>= 0).
                 if (width >= 0) {
-                    // The right edge is now conceptually at
-                    // newv+width, but we may move newv to prevent
-                    // overflow.  But we want the right edge to
-                    // remain at its new location in spite of the
-                    // clipping.  Think of the following adjustment
-                    // conceptually the same as:
+                    // The right edge is now conceptublly bt
+                    // newv+width, but we mby move newv to prevent
+                    // overflow.  But we wbnt the right edge to
+                    // rembin bt its new locbtion in spite of the
+                    // clipping.  Think of the following bdjustment
+                    // conceptublly the sbme bs:
                     // width += newv; newv = MIN_VALUE; width -= newv;
                     width += newv - Integer.MIN_VALUE;
-                    // width may go negative if the right edge went past
-                    // MIN_VALUE, but it cannot overflow since it cannot
-                    // have moved more than MIN_VALUE and any non-negative
+                    // width mby go negbtive if the right edge went pbst
+                    // MIN_VALUE, but it cbnnot overflow since it cbnnot
+                    // hbve moved more thbn MIN_VALUE bnd bny non-negbtive
                     // number + MIN_VALUE does not overflow.
                 }
                 newv = Integer.MIN_VALUE;
             }
         } else {
-            // moving rightward (or staying still)
+            // moving rightwbrd (or stbying still)
             if (newv < oldv) {
                 // positive overflow
                 if (width >= 0) {
-                    // Conceptually the same as:
+                    // Conceptublly the sbme bs:
                     // width += newv; newv = MAX_VALUE; width -= newv;
                     width += newv - Integer.MAX_VALUE;
-                    // With large widths and large displacements
-                    // we may overflow so we need to check it.
+                    // With lbrge widths bnd lbrge displbcements
+                    // we mby overflow so we need to check it.
                     if (width < 0) width = Integer.MAX_VALUE;
                 }
                 newv = Integer.MAX_VALUE;
@@ -554,17 +554,17 @@ public class Rectangle extends Rectangle2D
         oldv = this.y;
         newv = oldv + dy;
         if (dy < 0) {
-            // moving upward
+            // moving upwbrd
             if (newv > oldv) {
-                // negative overflow
+                // negbtive overflow
                 if (height >= 0) {
                     height += newv - Integer.MIN_VALUE;
-                    // See above comment about no overflow in this case
+                    // See bbove comment bbout no overflow in this cbse
                 }
                 newv = Integer.MIN_VALUE;
             }
         } else {
-            // moving downward (or staying still)
+            // moving downwbrd (or stbying still)
             if (newv < oldv) {
                 // positive overflow
                 if (height >= 0) {
@@ -578,14 +578,14 @@ public class Rectangle extends Rectangle2D
     }
 
     /**
-     * Gets the size of this <code>Rectangle</code>, represented by
+     * Gets the size of this <code>Rectbngle</code>, represented by
      * the returned <code>Dimension</code>.
      * <p>
-     * This method is included for completeness, to parallel the
+     * This method is included for completeness, to pbrbllel the
      * <code>getSize</code> method of <code>Component</code>.
-     * @return a <code>Dimension</code>, representing the size of
-     *            this <code>Rectangle</code>.
-     * @see       java.awt.Component#getSize
+     * @return b <code>Dimension</code>, representing the size of
+     *            this <code>Rectbngle</code>.
+     * @see       jbvb.bwt.Component#getSize
      * @see       #setSize(Dimension)
      * @see       #setSize(int, int)
      * @since     1.1
@@ -595,13 +595,13 @@ public class Rectangle extends Rectangle2D
     }
 
     /**
-     * Sets the size of this <code>Rectangle</code> to match the
+     * Sets the size of this <code>Rectbngle</code> to mbtch the
      * specified <code>Dimension</code>.
      * <p>
-     * This method is included for completeness, to parallel the
+     * This method is included for completeness, to pbrbllel the
      * <code>setSize</code> method of <code>Component</code>.
-     * @param d the new size for the <code>Dimension</code> object
-     * @see       java.awt.Component#setSize(java.awt.Dimension)
+     * @pbrbm d the new size for the <code>Dimension</code> object
+     * @see       jbvb.bwt.Component#setSize(jbvb.bwt.Dimension)
      * @see       #getSize
      * @since     1.1
      */
@@ -610,14 +610,14 @@ public class Rectangle extends Rectangle2D
     }
 
     /**
-     * Sets the size of this <code>Rectangle</code> to the specified
-     * width and height.
+     * Sets the size of this <code>Rectbngle</code> to the specified
+     * width bnd height.
      * <p>
-     * This method is included for completeness, to parallel the
+     * This method is included for completeness, to pbrbllel the
      * <code>setSize</code> method of <code>Component</code>.
-     * @param width the new width for this <code>Rectangle</code>
-     * @param height the new height for this <code>Rectangle</code>
-     * @see       java.awt.Component#setSize(int, int)
+     * @pbrbm width the new width for this <code>Rectbngle</code>
+     * @pbrbm height the new height for this <code>Rectbngle</code>
+     * @see       jbvb.bwt.Component#setSize(int, int)
      * @see       #getSize
      * @since     1.1
      */
@@ -626,141 +626,141 @@ public class Rectangle extends Rectangle2D
     }
 
     /**
-     * Sets the size of this <code>Rectangle</code> to the specified
-     * width and height.
+     * Sets the size of this <code>Rectbngle</code> to the specified
+     * width bnd height.
      *
-     * @param width the new width for this <code>Rectangle</code>
-     * @param height the new height for this <code>Rectangle</code>
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setSize(int, int)</code>.
+     * @pbrbm width the new width for this <code>Rectbngle</code>
+     * @pbrbm height the new height for this <code>Rectbngle</code>
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>setSize(int, int)</code>.
      */
-    @Deprecated
+    @Deprecbted
     public void resize(int width, int height) {
         this.width = width;
         this.height = height;
     }
 
     /**
-     * Checks whether or not this <code>Rectangle</code> contains the
+     * Checks whether or not this <code>Rectbngle</code> contbins the
      * specified <code>Point</code>.
-     * @param p the <code>Point</code> to test
+     * @pbrbm p the <code>Point</code> to test
      * @return    <code>true</code> if the specified <code>Point</code>
-     *            is inside this <code>Rectangle</code>;
-     *            <code>false</code> otherwise.
+     *            is inside this <code>Rectbngle</code>;
+     *            <code>fblse</code> otherwise.
      * @since     1.1
      */
-    public boolean contains(Point p) {
-        return contains(p.x, p.y);
+    public boolebn contbins(Point p) {
+        return contbins(p.x, p.y);
     }
 
     /**
-     * Checks whether or not this <code>Rectangle</code> contains the
-     * point at the specified location {@code (x,y)}.
+     * Checks whether or not this <code>Rectbngle</code> contbins the
+     * point bt the specified locbtion {@code (x,y)}.
      *
-     * @param  x the specified X coordinate
-     * @param  y the specified Y coordinate
+     * @pbrbm  x the specified X coordinbte
+     * @pbrbm  y the specified Y coordinbte
      * @return    <code>true</code> if the point
      *            {@code (x,y)} is inside this
-     *            <code>Rectangle</code>;
-     *            <code>false</code> otherwise.
+     *            <code>Rectbngle</code>;
+     *            <code>fblse</code> otherwise.
      * @since     1.1
      */
-    public boolean contains(int x, int y) {
+    public boolebn contbins(int x, int y) {
         return inside(x, y);
     }
 
     /**
-     * Checks whether or not this <code>Rectangle</code> entirely contains
-     * the specified <code>Rectangle</code>.
+     * Checks whether or not this <code>Rectbngle</code> entirely contbins
+     * the specified <code>Rectbngle</code>.
      *
-     * @param     r   the specified <code>Rectangle</code>
-     * @return    <code>true</code> if the <code>Rectangle</code>
-     *            is contained entirely inside this <code>Rectangle</code>;
-     *            <code>false</code> otherwise
+     * @pbrbm     r   the specified <code>Rectbngle</code>
+     * @return    <code>true</code> if the <code>Rectbngle</code>
+     *            is contbined entirely inside this <code>Rectbngle</code>;
+     *            <code>fblse</code> otherwise
      * @since     1.2
      */
-    public boolean contains(Rectangle r) {
-        return contains(r.x, r.y, r.width, r.height);
+    public boolebn contbins(Rectbngle r) {
+        return contbins(r.x, r.y, r.width, r.height);
     }
 
     /**
-     * Checks whether this <code>Rectangle</code> entirely contains
-     * the <code>Rectangle</code>
-     * at the specified location {@code (X,Y)} with the
+     * Checks whether this <code>Rectbngle</code> entirely contbins
+     * the <code>Rectbngle</code>
+     * bt the specified locbtion {@code (X,Y)} with the
      * specified dimensions {@code (W,H)}.
-     * @param     X the specified X coordinate
-     * @param     Y the specified Y coordinate
-     * @param     W   the width of the <code>Rectangle</code>
-     * @param     H   the height of the <code>Rectangle</code>
-     * @return    <code>true</code> if the <code>Rectangle</code> specified by
+     * @pbrbm     X the specified X coordinbte
+     * @pbrbm     Y the specified Y coordinbte
+     * @pbrbm     W   the width of the <code>Rectbngle</code>
+     * @pbrbm     H   the height of the <code>Rectbngle</code>
+     * @return    <code>true</code> if the <code>Rectbngle</code> specified by
      *            {@code (X, Y, W, H)}
-     *            is entirely enclosed inside this <code>Rectangle</code>;
-     *            <code>false</code> otherwise.
+     *            is entirely enclosed inside this <code>Rectbngle</code>;
+     *            <code>fblse</code> otherwise.
      * @since     1.1
      */
-    public boolean contains(int X, int Y, int W, int H) {
+    public boolebn contbins(int X, int Y, int W, int H) {
         int w = this.width;
         int h = this.height;
         if ((w | h | W | H) < 0) {
-            // At least one of the dimensions is negative...
-            return false;
+            // At lebst one of the dimensions is negbtive...
+            return fblse;
         }
-        // Note: if any dimension is zero, tests below must return false...
+        // Note: if bny dimension is zero, tests below must return fblse...
         int x = this.x;
         int y = this.y;
         if (X < x || Y < y) {
-            return false;
+            return fblse;
         }
         w += x;
         W += X;
         if (W <= X) {
-            // X+W overflowed or W was zero, return false if...
-            // either original w or W was zero or
+            // X+W overflowed or W wbs zero, return fblse if...
+            // either originbl w or W wbs zero or
             // x+w did not overflow or
-            // the overflowed x+w is smaller than the overflowed X+W
-            if (w >= x || W > w) return false;
+            // the overflowed x+w is smbller thbn the overflowed X+W
+            if (w >= x || W > w) return fblse;
         } else {
-            // X+W did not overflow and W was not zero, return false if...
-            // original w was zero or
-            // x+w did not overflow and x+w is smaller than X+W
-            if (w >= x && W > w) return false;
+            // X+W did not overflow bnd W wbs not zero, return fblse if...
+            // originbl w wbs zero or
+            // x+w did not overflow bnd x+w is smbller thbn X+W
+            if (w >= x && W > w) return fblse;
         }
         h += y;
         H += Y;
         if (H <= Y) {
-            if (h >= y || H > h) return false;
+            if (h >= y || H > h) return fblse;
         } else {
-            if (h >= y && H > h) return false;
+            if (h >= y && H > h) return fblse;
         }
         return true;
     }
 
     /**
-     * Checks whether or not this <code>Rectangle</code> contains the
-     * point at the specified location {@code (X,Y)}.
+     * Checks whether or not this <code>Rectbngle</code> contbins the
+     * point bt the specified locbtion {@code (X,Y)}.
      *
-     * @param  X the specified X coordinate
-     * @param  Y the specified Y coordinate
+     * @pbrbm  X the specified X coordinbte
+     * @pbrbm  Y the specified Y coordinbte
      * @return    <code>true</code> if the point
      *            {@code (X,Y)} is inside this
-     *            <code>Rectangle</code>;
-     *            <code>false</code> otherwise.
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>contains(int, int)</code>.
+     *            <code>Rectbngle</code>;
+     *            <code>fblse</code> otherwise.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>contbins(int, int)</code>.
      */
-    @Deprecated
-    public boolean inside(int X, int Y) {
+    @Deprecbted
+    public boolebn inside(int X, int Y) {
         int w = this.width;
         int h = this.height;
         if ((w | h) < 0) {
-            // At least one of the dimensions is negative...
-            return false;
+            // At lebst one of the dimensions is negbtive...
+            return fblse;
         }
-        // Note: if either dimension is zero, tests below must return false...
+        // Note: if either dimension is zero, tests below must return fblse...
         int x = this.x;
         int y = this.y;
         if (X < x || Y < y) {
-            return false;
+            return fblse;
         }
         w += x;
         h += y;
@@ -770,22 +770,22 @@ public class Rectangle extends Rectangle2D
     }
 
     /**
-     * Determines whether or not this <code>Rectangle</code> and the specified
-     * <code>Rectangle</code> intersect. Two rectangles intersect if
+     * Determines whether or not this <code>Rectbngle</code> bnd the specified
+     * <code>Rectbngle</code> intersect. Two rectbngles intersect if
      * their intersection is nonempty.
      *
-     * @param r the specified <code>Rectangle</code>
-     * @return    <code>true</code> if the specified <code>Rectangle</code>
-     *            and this <code>Rectangle</code> intersect;
-     *            <code>false</code> otherwise.
+     * @pbrbm r the specified <code>Rectbngle</code>
+     * @return    <code>true</code> if the specified <code>Rectbngle</code>
+     *            bnd this <code>Rectbngle</code> intersect;
+     *            <code>fblse</code> otherwise.
      */
-    public boolean intersects(Rectangle r) {
+    public boolebn intersects(Rectbngle r) {
         int tw = this.width;
         int th = this.height;
         int rw = r.width;
         int rh = r.height;
         if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
-            return false;
+            return fblse;
         }
         int tx = this.x;
         int ty = this.y;
@@ -803,19 +803,19 @@ public class Rectangle extends Rectangle2D
     }
 
     /**
-     * Computes the intersection of this <code>Rectangle</code> with the
-     * specified <code>Rectangle</code>. Returns a new <code>Rectangle</code>
-     * that represents the intersection of the two rectangles.
-     * If the two rectangles do not intersect, the result will be
-     * an empty rectangle.
+     * Computes the intersection of this <code>Rectbngle</code> with the
+     * specified <code>Rectbngle</code>. Returns b new <code>Rectbngle</code>
+     * thbt represents the intersection of the two rectbngles.
+     * If the two rectbngles do not intersect, the result will be
+     * bn empty rectbngle.
      *
-     * @param     r   the specified <code>Rectangle</code>
-     * @return    the largest <code>Rectangle</code> contained in both the
-     *            specified <code>Rectangle</code> and in
-     *            this <code>Rectangle</code>; or if the rectangles
-     *            do not intersect, an empty rectangle.
+     * @pbrbm     r   the specified <code>Rectbngle</code>
+     * @return    the lbrgest <code>Rectbngle</code> contbined in both the
+     *            specified <code>Rectbngle</code> bnd in
+     *            this <code>Rectbngle</code>; or if the rectbngles
+     *            do not intersect, bn empty rectbngle.
      */
-    public Rectangle intersection(Rectangle r) {
+    public Rectbngle intersection(Rectbngle r) {
         int tx1 = this.x;
         int ty1 = this.y;
         int rx1 = r.x;
@@ -831,52 +831,52 @@ public class Rectangle extends Rectangle2D
         tx2 -= tx1;
         ty2 -= ty1;
         // tx2,ty2 will never overflow (they will never be
-        // larger than the smallest of the two source w,h)
+        // lbrger thbn the smbllest of the two source w,h)
         // they might underflow, though...
         if (tx2 < Integer.MIN_VALUE) tx2 = Integer.MIN_VALUE;
         if (ty2 < Integer.MIN_VALUE) ty2 = Integer.MIN_VALUE;
-        return new Rectangle(tx1, ty1, (int) tx2, (int) ty2);
+        return new Rectbngle(tx1, ty1, (int) tx2, (int) ty2);
     }
 
     /**
-     * Computes the union of this <code>Rectangle</code> with the
-     * specified <code>Rectangle</code>. Returns a new
-     * <code>Rectangle</code> that
-     * represents the union of the two rectangles.
+     * Computes the union of this <code>Rectbngle</code> with the
+     * specified <code>Rectbngle</code>. Returns b new
+     * <code>Rectbngle</code> thbt
+     * represents the union of the two rectbngles.
      * <p>
-     * If either {@code Rectangle} has any dimension less than zero
-     * the rules for <a href=#NonExistant>non-existant</a> rectangles
-     * apply.
-     * If only one has a dimension less than zero, then the result
-     * will be a copy of the other {@code Rectangle}.
-     * If both have dimension less than zero, then the result will
-     * have at least one dimension less than zero.
+     * If either {@code Rectbngle} hbs bny dimension less thbn zero
+     * the rules for <b href=#NonExistbnt>non-existbnt</b> rectbngles
+     * bpply.
+     * If only one hbs b dimension less thbn zero, then the result
+     * will be b copy of the other {@code Rectbngle}.
+     * If both hbve dimension less thbn zero, then the result will
+     * hbve bt lebst one dimension less thbn zero.
      * <p>
-     * If the resulting {@code Rectangle} would have a dimension
-     * too large to be expressed as an {@code int}, the result
-     * will have a dimension of {@code Integer.MAX_VALUE} along
-     * that dimension.
-     * @param r the specified <code>Rectangle</code>
-     * @return    the smallest <code>Rectangle</code> containing both
-     *            the specified <code>Rectangle</code> and this
-     *            <code>Rectangle</code>.
+     * If the resulting {@code Rectbngle} would hbve b dimension
+     * too lbrge to be expressed bs bn {@code int}, the result
+     * will hbve b dimension of {@code Integer.MAX_VALUE} blong
+     * thbt dimension.
+     * @pbrbm r the specified <code>Rectbngle</code>
+     * @return    the smbllest <code>Rectbngle</code> contbining both
+     *            the specified <code>Rectbngle</code> bnd this
+     *            <code>Rectbngle</code>.
      */
-    public Rectangle union(Rectangle r) {
+    public Rectbngle union(Rectbngle r) {
         long tx2 = this.width;
         long ty2 = this.height;
         if ((tx2 | ty2) < 0) {
-            // This rectangle has negative dimensions...
-            // If r has non-negative dimensions then it is the answer.
-            // If r is non-existant (has a negative dimension), then both
-            // are non-existant and we can return any non-existant rectangle
-            // as an answer.  Thus, returning r meets that criterion.
-            // Either way, r is our answer.
-            return new Rectangle(r);
+            // This rectbngle hbs negbtive dimensions...
+            // If r hbs non-negbtive dimensions then it is the bnswer.
+            // If r is non-existbnt (hbs b negbtive dimension), then both
+            // bre non-existbnt bnd we cbn return bny non-existbnt rectbngle
+            // bs bn bnswer.  Thus, returning r meets thbt criterion.
+            // Either wby, r is our bnswer.
+            return new Rectbngle(r);
         }
         long rx2 = r.width;
         long ry2 = r.height;
         if ((rx2 | ry2) < 0) {
-            return new Rectangle(this);
+            return new Rectbngle(this);
         }
         int tx1 = this.x;
         int ty1 = this.y;
@@ -892,42 +892,42 @@ public class Rectangle extends Rectangle2D
         if (ty2 < ry2) ty2 = ry2;
         tx2 -= tx1;
         ty2 -= ty1;
-        // tx2,ty2 will never underflow since both original rectangles
-        // were already proven to be non-empty
+        // tx2,ty2 will never underflow since both originbl rectbngles
+        // were blrebdy proven to be non-empty
         // they might overflow, though...
         if (tx2 > Integer.MAX_VALUE) tx2 = Integer.MAX_VALUE;
         if (ty2 > Integer.MAX_VALUE) ty2 = Integer.MAX_VALUE;
-        return new Rectangle(tx1, ty1, (int) tx2, (int) ty2);
+        return new Rectbngle(tx1, ty1, (int) tx2, (int) ty2);
     }
 
     /**
-     * Adds a point, specified by the integer arguments {@code newx,newy}
-     * to the bounds of this {@code Rectangle}.
+     * Adds b point, specified by the integer brguments {@code newx,newy}
+     * to the bounds of this {@code Rectbngle}.
      * <p>
-     * If this {@code Rectangle} has any dimension less than zero,
-     * the rules for <a href=#NonExistant>non-existant</a>
-     * rectangles apply.
-     * In that case, the new bounds of this {@code Rectangle} will
-     * have a location equal to the specified coordinates and
-     * width and height equal to zero.
+     * If this {@code Rectbngle} hbs bny dimension less thbn zero,
+     * the rules for <b href=#NonExistbnt>non-existbnt</b>
+     * rectbngles bpply.
+     * In thbt cbse, the new bounds of this {@code Rectbngle} will
+     * hbve b locbtion equbl to the specified coordinbtes bnd
+     * width bnd height equbl to zero.
      * <p>
-     * After adding a point, a call to <code>contains</code> with the
-     * added point as an argument does not necessarily return
-     * <code>true</code>. The <code>contains</code> method does not
+     * After bdding b point, b cbll to <code>contbins</code> with the
+     * bdded point bs bn brgument does not necessbrily return
+     * <code>true</code>. The <code>contbins</code> method does not
      * return <code>true</code> for points on the right or bottom
-     * edges of a <code>Rectangle</code>. Therefore, if the added point
-     * falls on the right or bottom edge of the enlarged
-     * <code>Rectangle</code>, <code>contains</code> returns
-     * <code>false</code> for that point.
-     * If the specified point must be contained within the new
-     * {@code Rectangle}, a 1x1 rectangle should be added instead:
+     * edges of b <code>Rectbngle</code>. Therefore, if the bdded point
+     * fblls on the right or bottom edge of the enlbrged
+     * <code>Rectbngle</code>, <code>contbins</code> returns
+     * <code>fblse</code> for thbt point.
+     * If the specified point must be contbined within the new
+     * {@code Rectbngle}, b 1x1 rectbngle should be bdded instebd:
      * <pre>
-     *     r.add(newx, newy, 1, 1);
+     *     r.bdd(newx, newy, 1, 1);
      * </pre>
-     * @param newx the X coordinate of the new point
-     * @param newy the Y coordinate of the new point
+     * @pbrbm newx the X coordinbte of the new point
+     * @pbrbm newy the Y coordinbte of the new point
      */
-    public void add(int newx, int newy) {
+    public void bdd(int newx, int newy) {
         if ((width | height) < 0) {
             this.x = newx;
             this.y = newy;
@@ -948,68 +948,68 @@ public class Rectangle extends Rectangle2D
         y2 -= y1;
         if (x2 > Integer.MAX_VALUE) x2 = Integer.MAX_VALUE;
         if (y2 > Integer.MAX_VALUE) y2 = Integer.MAX_VALUE;
-        reshape(x1, y1, (int) x2, (int) y2);
+        reshbpe(x1, y1, (int) x2, (int) y2);
     }
 
     /**
      * Adds the specified {@code Point} to the bounds of this
-     * {@code Rectangle}.
+     * {@code Rectbngle}.
      * <p>
-     * If this {@code Rectangle} has any dimension less than zero,
-     * the rules for <a href=#NonExistant>non-existant</a>
-     * rectangles apply.
-     * In that case, the new bounds of this {@code Rectangle} will
-     * have a location equal to the coordinates of the specified
-     * {@code Point} and width and height equal to zero.
+     * If this {@code Rectbngle} hbs bny dimension less thbn zero,
+     * the rules for <b href=#NonExistbnt>non-existbnt</b>
+     * rectbngles bpply.
+     * In thbt cbse, the new bounds of this {@code Rectbngle} will
+     * hbve b locbtion equbl to the coordinbtes of the specified
+     * {@code Point} bnd width bnd height equbl to zero.
      * <p>
-     * After adding a <code>Point</code>, a call to <code>contains</code>
-     * with the added <code>Point</code> as an argument does not
-     * necessarily return <code>true</code>. The <code>contains</code>
+     * After bdding b <code>Point</code>, b cbll to <code>contbins</code>
+     * with the bdded <code>Point</code> bs bn brgument does not
+     * necessbrily return <code>true</code>. The <code>contbins</code>
      * method does not return <code>true</code> for points on the right
-     * or bottom edges of a <code>Rectangle</code>. Therefore if the added
-     * <code>Point</code> falls on the right or bottom edge of the
-     * enlarged <code>Rectangle</code>, <code>contains</code> returns
-     * <code>false</code> for that <code>Point</code>.
-     * If the specified point must be contained within the new
-     * {@code Rectangle}, a 1x1 rectangle should be added instead:
+     * or bottom edges of b <code>Rectbngle</code>. Therefore if the bdded
+     * <code>Point</code> fblls on the right or bottom edge of the
+     * enlbrged <code>Rectbngle</code>, <code>contbins</code> returns
+     * <code>fblse</code> for thbt <code>Point</code>.
+     * If the specified point must be contbined within the new
+     * {@code Rectbngle}, b 1x1 rectbngle should be bdded instebd:
      * <pre>
-     *     r.add(pt.x, pt.y, 1, 1);
+     *     r.bdd(pt.x, pt.y, 1, 1);
      * </pre>
-     * @param pt the new <code>Point</code> to add to this
-     *           <code>Rectangle</code>
+     * @pbrbm pt the new <code>Point</code> to bdd to this
+     *           <code>Rectbngle</code>
      */
-    public void add(Point pt) {
-        add(pt.x, pt.y);
+    public void bdd(Point pt) {
+        bdd(pt.x, pt.y);
     }
 
     /**
-     * Adds a <code>Rectangle</code> to this <code>Rectangle</code>.
-     * The resulting <code>Rectangle</code> is the union of the two
-     * rectangles.
+     * Adds b <code>Rectbngle</code> to this <code>Rectbngle</code>.
+     * The resulting <code>Rectbngle</code> is the union of the two
+     * rectbngles.
      * <p>
-     * If either {@code Rectangle} has any dimension less than 0, the
-     * result will have the dimensions of the other {@code Rectangle}.
-     * If both {@code Rectangle}s have at least one dimension less
-     * than 0, the result will have at least one dimension less than 0.
+     * If either {@code Rectbngle} hbs bny dimension less thbn 0, the
+     * result will hbve the dimensions of the other {@code Rectbngle}.
+     * If both {@code Rectbngle}s hbve bt lebst one dimension less
+     * thbn 0, the result will hbve bt lebst one dimension less thbn 0.
      * <p>
-     * If either {@code Rectangle} has one or both dimensions equal
-     * to 0, the result along those axes with 0 dimensions will be
-     * equivalent to the results obtained by adding the corresponding
-     * origin coordinate to the result rectangle along that axis,
-     * similar to the operation of the {@link #add(Point)} method,
-     * but contribute no further dimension beyond that.
+     * If either {@code Rectbngle} hbs one or both dimensions equbl
+     * to 0, the result blong those bxes with 0 dimensions will be
+     * equivblent to the results obtbined by bdding the corresponding
+     * origin coordinbte to the result rectbngle blong thbt bxis,
+     * similbr to the operbtion of the {@link #bdd(Point)} method,
+     * but contribute no further dimension beyond thbt.
      * <p>
-     * If the resulting {@code Rectangle} would have a dimension
-     * too large to be expressed as an {@code int}, the result
-     * will have a dimension of {@code Integer.MAX_VALUE} along
-     * that dimension.
-     * @param  r the specified <code>Rectangle</code>
+     * If the resulting {@code Rectbngle} would hbve b dimension
+     * too lbrge to be expressed bs bn {@code int}, the result
+     * will hbve b dimension of {@code Integer.MAX_VALUE} blong
+     * thbt dimension.
+     * @pbrbm  r the specified <code>Rectbngle</code>
      */
-    public void add(Rectangle r) {
+    public void bdd(Rectbngle r) {
         long tx2 = this.width;
         long ty2 = this.height;
         if ((tx2 | ty2) < 0) {
-            reshape(r.x, r.y, r.width, r.height);
+            reshbpe(r.x, r.y, r.width, r.height);
         }
         long rx2 = r.width;
         long ry2 = r.height;
@@ -1030,36 +1030,36 @@ public class Rectangle extends Rectangle2D
         if (ty2 < ry2) ty2 = ry2;
         tx2 -= tx1;
         ty2 -= ty1;
-        // tx2,ty2 will never underflow since both original
-        // rectangles were non-empty
+        // tx2,ty2 will never underflow since both originbl
+        // rectbngles were non-empty
         // they might overflow, though...
         if (tx2 > Integer.MAX_VALUE) tx2 = Integer.MAX_VALUE;
         if (ty2 > Integer.MAX_VALUE) ty2 = Integer.MAX_VALUE;
-        reshape(tx1, ty1, (int) tx2, (int) ty2);
+        reshbpe(tx1, ty1, (int) tx2, (int) ty2);
     }
 
     /**
-     * Resizes the <code>Rectangle</code> both horizontally and vertically.
+     * Resizes the <code>Rectbngle</code> both horizontblly bnd verticblly.
      * <p>
-     * This method modifies the <code>Rectangle</code> so that it is
-     * <code>h</code> units larger on both the left and right side,
-     * and <code>v</code> units larger at both the top and bottom.
+     * This method modifies the <code>Rectbngle</code> so thbt it is
+     * <code>h</code> units lbrger on both the left bnd right side,
+     * bnd <code>v</code> units lbrger bt both the top bnd bottom.
      * <p>
-     * The new <code>Rectangle</code> has {@code (x - h, y - v)}
-     * as its upper-left corner,
+     * The new <code>Rectbngle</code> hbs {@code (x - h, y - v)}
+     * bs its upper-left corner,
      * width of {@code (width + 2h)},
-     * and a height of {@code (height + 2v)}.
+     * bnd b height of {@code (height + 2v)}.
      * <p>
-     * If negative values are supplied for <code>h</code> and
-     * <code>v</code>, the size of the <code>Rectangle</code>
-     * decreases accordingly.
+     * If negbtive vblues bre supplied for <code>h</code> bnd
+     * <code>v</code>, the size of the <code>Rectbngle</code>
+     * decrebses bccordingly.
      * The {@code grow} method will check for integer overflow
-     * and underflow, but does not check whether the resulting
-     * values of {@code width} and {@code height} grow
-     * from negative to non-negative or shrink from non-negative
-     * to negative.
-     * @param h the horizontal expansion
-     * @param v the vertical expansion
+     * bnd underflow, but does not check whether the resulting
+     * vblues of {@code width} bnd {@code height} grow
+     * from negbtive to non-negbtive or shrink from non-negbtive
+     * to negbtive.
+     * @pbrbm h the horizontbl expbnsion
+     * @pbrbm v the verticbl expbnsion
      */
     public void grow(int h, int v) {
         long x0 = this.x;
@@ -1075,30 +1075,30 @@ public class Rectangle extends Rectangle2D
         y1 += v;
 
         if (x1 < x0) {
-            // Non-existant in X direction
-            // Final width must remain negative so subtract x0 before
-            // it is clipped so that we avoid the risk that the clipping
-            // of x0 will reverse the ordering of x0 and x1.
+            // Non-existbnt in X direction
+            // Finbl width must rembin negbtive so subtrbct x0 before
+            // it is clipped so thbt we bvoid the risk thbt the clipping
+            // of x0 will reverse the ordering of x0 bnd x1.
             x1 -= x0;
             if (x1 < Integer.MIN_VALUE) x1 = Integer.MIN_VALUE;
             if (x0 < Integer.MIN_VALUE) x0 = Integer.MIN_VALUE;
             else if (x0 > Integer.MAX_VALUE) x0 = Integer.MAX_VALUE;
         } else { // (x1 >= x0)
-            // Clip x0 before we subtract it from x1 in case the clipping
-            // affects the representable area of the rectangle.
+            // Clip x0 before we subtrbct it from x1 in cbse the clipping
+            // bffects the representbble breb of the rectbngle.
             if (x0 < Integer.MIN_VALUE) x0 = Integer.MIN_VALUE;
             else if (x0 > Integer.MAX_VALUE) x0 = Integer.MAX_VALUE;
             x1 -= x0;
-            // The only way x1 can be negative now is if we clipped
-            // x0 against MIN and x1 is less than MIN - in which case
-            // we want to leave the width negative since the result
-            // did not intersect the representable area.
+            // The only wby x1 cbn be negbtive now is if we clipped
+            // x0 bgbinst MIN bnd x1 is less thbn MIN - in which cbse
+            // we wbnt to lebve the width negbtive since the result
+            // did not intersect the representbble breb.
             if (x1 < Integer.MIN_VALUE) x1 = Integer.MIN_VALUE;
             else if (x1 > Integer.MAX_VALUE) x1 = Integer.MAX_VALUE;
         }
 
         if (y1 < y0) {
-            // Non-existant in Y direction
+            // Non-existbnt in Y direction
             y1 -= y0;
             if (y1 < Integer.MIN_VALUE) y1 = Integer.MIN_VALUE;
             if (y0 < Integer.MIN_VALUE) y0 = Integer.MIN_VALUE;
@@ -1111,14 +1111,14 @@ public class Rectangle extends Rectangle2D
             else if (y1 > Integer.MAX_VALUE) y1 = Integer.MAX_VALUE;
         }
 
-        reshape((int) x0, (int) y0, (int) x1, (int) y1);
+        reshbpe((int) x0, (int) y0, (int) x1, (int) y1);
     }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return (width <= 0) || (height <= 0);
     }
 
@@ -1128,13 +1128,13 @@ public class Rectangle extends Rectangle2D
      */
     public int outcode(double x, double y) {
         /*
-         * Note on casts to double below.  If the arithmetic of
-         * x+w or y+h is done in int, then we may get integer
-         * overflow. By converting to double before the addition
-         * we force the addition to be carried out in double to
-         * avoid overflow in the comparison.
+         * Note on cbsts to double below.  If the brithmetic of
+         * x+w or y+h is done in int, then we mby get integer
+         * overflow. By converting to double before the bddition
+         * we force the bddition to be cbrried out in double to
+         * bvoid overflow in the compbrison.
          *
-         * See bug 4320890 for problems that this can cause.
+         * See bug 4320890 for problems thbt this cbn cbuse.
          */
         int out = 0;
         if (this.width <= 0) {
@@ -1158,12 +1158,12 @@ public class Rectangle extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
-    public Rectangle2D createIntersection(Rectangle2D r) {
-        if (r instanceof Rectangle) {
-            return intersection((Rectangle) r);
+    public Rectbngle2D crebteIntersection(Rectbngle2D r) {
+        if (r instbnceof Rectbngle) {
+            return intersection((Rectbngle) r);
         }
-        Rectangle2D dest = new Rectangle2D.Double();
-        Rectangle2D.intersect(this, r, dest);
+        Rectbngle2D dest = new Rectbngle2D.Double();
+        Rectbngle2D.intersect(this, r, dest);
         return dest;
     }
 
@@ -1171,45 +1171,45 @@ public class Rectangle extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
-    public Rectangle2D createUnion(Rectangle2D r) {
-        if (r instanceof Rectangle) {
-            return union((Rectangle) r);
+    public Rectbngle2D crebteUnion(Rectbngle2D r) {
+        if (r instbnceof Rectbngle) {
+            return union((Rectbngle) r);
         }
-        Rectangle2D dest = new Rectangle2D.Double();
-        Rectangle2D.union(this, r, dest);
+        Rectbngle2D dest = new Rectbngle2D.Double();
+        Rectbngle2D.union(this, r, dest);
         return dest;
     }
 
     /**
-     * Checks whether two rectangles are equal.
+     * Checks whether two rectbngles bre equbl.
      * <p>
-     * The result is <code>true</code> if and only if the argument is not
-     * <code>null</code> and is a <code>Rectangle</code> object that has the
-     * same upper-left corner, width, and height as
-     * this <code>Rectangle</code>.
-     * @param obj the <code>Object</code> to compare with
-     *                this <code>Rectangle</code>
-     * @return    <code>true</code> if the objects are equal;
-     *            <code>false</code> otherwise.
+     * The result is <code>true</code> if bnd only if the brgument is not
+     * <code>null</code> bnd is b <code>Rectbngle</code> object thbt hbs the
+     * sbme upper-left corner, width, bnd height bs
+     * this <code>Rectbngle</code>.
+     * @pbrbm obj the <code>Object</code> to compbre with
+     *                this <code>Rectbngle</code>
+     * @return    <code>true</code> if the objects bre equbl;
+     *            <code>fblse</code> otherwise.
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Rectangle) {
-            Rectangle r = (Rectangle)obj;
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof Rectbngle) {
+            Rectbngle r = (Rectbngle)obj;
             return ((x == r.x) &&
                     (y == r.y) &&
                     (width == r.width) &&
                     (height == r.height));
         }
-        return super.equals(obj);
+        return super.equbls(obj);
     }
 
     /**
-     * Returns a <code>String</code> representing this
-     * <code>Rectangle</code> and its values.
-     * @return a <code>String</code> representing this
-     *               <code>Rectangle</code> object's coordinate and size values.
+     * Returns b <code>String</code> representing this
+     * <code>Rectbngle</code> bnd its vblues.
+     * @return b <code>String</code> representing this
+     *               <code>Rectbngle</code> object's coordinbte bnd size vblues.
      */
     public String toString() {
-        return getClass().getName() + "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
+        return getClbss().getNbme() + "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
     }
 }

@@ -1,757 +1,757 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.util.WeakHashMap;
-import java.lang.ref.WeakReference;
-import java.util.concurrent.atomic.AtomicInteger;
+import jbvb.util.WebkHbshMbp;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.concurrent.btomic.AtomicInteger;
 
-import static java.lang.ClassValue.ClassValueMap.probeHomeLocation;
-import static java.lang.ClassValue.ClassValueMap.probeBackupLocations;
+import stbtic jbvb.lbng.ClbssVblue.ClbssVblueMbp.probeHomeLocbtion;
+import stbtic jbvb.lbng.ClbssVblue.ClbssVblueMbp.probeBbckupLocbtions;
 
 /**
- * Lazily associate a computed value with (potentially) every type.
- * For example, if a dynamic language needs to construct a message dispatch
- * table for each class encountered at a message send call site,
- * it can use a {@code ClassValue} to cache information needed to
- * perform the message send quickly, for each class encountered.
- * @author John Rose, JSR 292 EG
+ * Lbzily bssocibte b computed vblue with (potentiblly) every type.
+ * For exbmple, if b dynbmic lbngubge needs to construct b messbge dispbtch
+ * tbble for ebch clbss encountered bt b messbge send cbll site,
+ * it cbn use b {@code ClbssVblue} to cbche informbtion needed to
+ * perform the messbge send quickly, for ebch clbss encountered.
+ * @buthor John Rose, JSR 292 EG
  * @since 1.7
  */
-public abstract class ClassValue<T> {
+public bbstrbct clbss ClbssVblue<T> {
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
+     * Sole constructor.  (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
-    protected ClassValue() {
+    protected ClbssVblue() {
     }
 
     /**
-     * Computes the given class's derived value for this {@code ClassValue}.
+     * Computes the given clbss's derived vblue for this {@code ClbssVblue}.
      * <p>
-     * This method will be invoked within the first thread that accesses
-     * the value with the {@link #get get} method.
+     * This method will be invoked within the first threbd thbt bccesses
+     * the vblue with the {@link #get get} method.
      * <p>
-     * Normally, this method is invoked at most once per class,
-     * but it may be invoked again if there has been a call to
+     * Normblly, this method is invoked bt most once per clbss,
+     * but it mby be invoked bgbin if there hbs been b cbll to
      * {@link #remove remove}.
      * <p>
-     * If this method throws an exception, the corresponding call to {@code get}
-     * will terminate abnormally with that exception, and no class value will be recorded.
+     * If this method throws bn exception, the corresponding cbll to {@code get}
+     * will terminbte bbnormblly with thbt exception, bnd no clbss vblue will be recorded.
      *
-     * @param type the type whose class value must be computed
-     * @return the newly computed value associated with this {@code ClassValue}, for the given class or interface
+     * @pbrbm type the type whose clbss vblue must be computed
+     * @return the newly computed vblue bssocibted with this {@code ClbssVblue}, for the given clbss or interfbce
      * @see #get
      * @see #remove
      */
-    protected abstract T computeValue(Class<?> type);
+    protected bbstrbct T computeVblue(Clbss<?> type);
 
     /**
-     * Returns the value for the given class.
-     * If no value has yet been computed, it is obtained by
-     * an invocation of the {@link #computeValue computeValue} method.
+     * Returns the vblue for the given clbss.
+     * If no vblue hbs yet been computed, it is obtbined by
+     * bn invocbtion of the {@link #computeVblue computeVblue} method.
      * <p>
-     * The actual installation of the value on the class
-     * is performed atomically.
-     * At that point, if several racing threads have
-     * computed values, one is chosen, and returned to
-     * all the racing threads.
+     * The bctubl instbllbtion of the vblue on the clbss
+     * is performed btomicblly.
+     * At thbt point, if severbl rbcing threbds hbve
+     * computed vblues, one is chosen, bnd returned to
+     * bll the rbcing threbds.
      * <p>
-     * The {@code type} parameter is typically a class, but it may be any type,
-     * such as an interface, a primitive type (like {@code int.class}), or {@code void.class}.
+     * The {@code type} pbrbmeter is typicblly b clbss, but it mby be bny type,
+     * such bs bn interfbce, b primitive type (like {@code int.clbss}), or {@code void.clbss}.
      * <p>
-     * In the absence of {@code remove} calls, a class value has a simple
-     * state diagram:  uninitialized and initialized.
-     * When {@code remove} calls are made,
-     * the rules for value observation are more complex.
-     * See the documentation for {@link #remove remove} for more information.
+     * In the bbsence of {@code remove} cblls, b clbss vblue hbs b simple
+     * stbte dibgrbm:  uninitiblized bnd initiblized.
+     * When {@code remove} cblls bre mbde,
+     * the rules for vblue observbtion bre more complex.
+     * See the documentbtion for {@link #remove remove} for more informbtion.
      *
-     * @param type the type whose class value must be computed or retrieved
-     * @return the current value associated with this {@code ClassValue}, for the given class or interface
-     * @throws NullPointerException if the argument is null
+     * @pbrbm type the type whose clbss vblue must be computed or retrieved
+     * @return the current vblue bssocibted with this {@code ClbssVblue}, for the given clbss or interfbce
+     * @throws NullPointerException if the brgument is null
      * @see #remove
-     * @see #computeValue
+     * @see #computeVblue
      */
-    public T get(Class<?> type) {
-        // non-racing this.hashCodeForCache : final int
-        Entry<?>[] cache;
-        Entry<T> e = probeHomeLocation(cache = getCacheCarefully(type), this);
-        // racing e : current value <=> stale value from current cache or from stale cache
-        // invariant:  e is null or an Entry with readable Entry.version and Entry.value
-        if (match(e))
-            // invariant:  No false positive matches.  False negatives are OK if rare.
-            // The key fact that makes this work: if this.version == e.version,
-            // then this thread has a right to observe (final) e.value.
-            return e.value();
-        // The fast path can fail for any of these reasons:
-        // 1. no entry has been computed yet
-        // 2. hash code collision (before or after reduction mod cache.length)
-        // 3. an entry has been removed (either on this type or another)
-        // 4. the GC has somehow managed to delete e.version and clear the reference
-        return getFromBackup(cache, type);
+    public T get(Clbss<?> type) {
+        // non-rbcing this.hbshCodeForCbche : finbl int
+        Entry<?>[] cbche;
+        Entry<T> e = probeHomeLocbtion(cbche = getCbcheCbrefully(type), this);
+        // rbcing e : current vblue <=> stble vblue from current cbche or from stble cbche
+        // invbribnt:  e is null or bn Entry with rebdbble Entry.version bnd Entry.vblue
+        if (mbtch(e))
+            // invbribnt:  No fblse positive mbtches.  Fblse negbtives bre OK if rbre.
+            // The key fbct thbt mbkes this work: if this.version == e.version,
+            // then this threbd hbs b right to observe (finbl) e.vblue.
+            return e.vblue();
+        // The fbst pbth cbn fbil for bny of these rebsons:
+        // 1. no entry hbs been computed yet
+        // 2. hbsh code collision (before or bfter reduction mod cbche.length)
+        // 3. bn entry hbs been removed (either on this type or bnother)
+        // 4. the GC hbs somehow mbnbged to delete e.version bnd clebr the reference
+        return getFromBbckup(cbche, type);
     }
 
     /**
-     * Removes the associated value for the given class.
-     * If this value is subsequently {@linkplain #get read} for the same class,
-     * its value will be reinitialized by invoking its {@link #computeValue computeValue} method.
-     * This may result in an additional invocation of the
-     * {@code computeValue} method for the given class.
+     * Removes the bssocibted vblue for the given clbss.
+     * If this vblue is subsequently {@linkplbin #get rebd} for the sbme clbss,
+     * its vblue will be reinitiblized by invoking its {@link #computeVblue computeVblue} method.
+     * This mby result in bn bdditionbl invocbtion of the
+     * {@code computeVblue} method for the given clbss.
      * <p>
-     * In order to explain the interaction between {@code get} and {@code remove} calls,
-     * we must model the state transitions of a class value to take into account
-     * the alternation between uninitialized and initialized states.
-     * To do this, number these states sequentially from zero, and note that
-     * uninitialized (or removed) states are numbered with even numbers,
-     * while initialized (or re-initialized) states have odd numbers.
+     * In order to explbin the interbction between {@code get} bnd {@code remove} cblls,
+     * we must model the stbte trbnsitions of b clbss vblue to tbke into bccount
+     * the blternbtion between uninitiblized bnd initiblized stbtes.
+     * To do this, number these stbtes sequentiblly from zero, bnd note thbt
+     * uninitiblized (or removed) stbtes bre numbered with even numbers,
+     * while initiblized (or re-initiblized) stbtes hbve odd numbers.
      * <p>
-     * When a thread {@code T} removes a class value in state {@code 2N},
-     * nothing happens, since the class value is already uninitialized.
-     * Otherwise, the state is advanced atomically to {@code 2N+1}.
+     * When b threbd {@code T} removes b clbss vblue in stbte {@code 2N},
+     * nothing hbppens, since the clbss vblue is blrebdy uninitiblized.
+     * Otherwise, the stbte is bdvbnced btomicblly to {@code 2N+1}.
      * <p>
-     * When a thread {@code T} queries a class value in state {@code 2N},
-     * the thread first attempts to initialize the class value to state {@code 2N+1}
-     * by invoking {@code computeValue} and installing the resulting value.
+     * When b threbd {@code T} queries b clbss vblue in stbte {@code 2N},
+     * the threbd first bttempts to initiblize the clbss vblue to stbte {@code 2N+1}
+     * by invoking {@code computeVblue} bnd instblling the resulting vblue.
      * <p>
-     * When {@code T} attempts to install the newly computed value,
-     * if the state is still at {@code 2N}, the class value will be initialized
-     * with the computed value, advancing it to state {@code 2N+1}.
+     * When {@code T} bttempts to instbll the newly computed vblue,
+     * if the stbte is still bt {@code 2N}, the clbss vblue will be initiblized
+     * with the computed vblue, bdvbncing it to stbte {@code 2N+1}.
      * <p>
-     * Otherwise, whether the new state is even or odd,
-     * {@code T} will discard the newly computed value
-     * and retry the {@code get} operation.
+     * Otherwise, whether the new stbte is even or odd,
+     * {@code T} will discbrd the newly computed vblue
+     * bnd retry the {@code get} operbtion.
      * <p>
-     * Discarding and retrying is an important proviso,
-     * since otherwise {@code T} could potentially install
-     * a disastrously stale value.  For example:
+     * Discbrding bnd retrying is bn importbnt proviso,
+     * since otherwise {@code T} could potentiblly instbll
+     * b disbstrously stble vblue.  For exbmple:
      * <ul>
-     * <li>{@code T} calls {@code CV.get(C)} and sees state {@code 2N}
-     * <li>{@code T} quickly computes a time-dependent value {@code V0} and gets ready to install it
-     * <li>{@code T} is hit by an unlucky paging or scheduling event, and goes to sleep for a long time
-     * <li>...meanwhile, {@code T2} also calls {@code CV.get(C)} and sees state {@code 2N}
-     * <li>{@code T2} quickly computes a similar time-dependent value {@code V1} and installs it on {@code CV.get(C)}
-     * <li>{@code T2} (or a third thread) then calls {@code CV.remove(C)}, undoing {@code T2}'s work
-     * <li> the previous actions of {@code T2} are repeated several times
-     * <li> also, the relevant computed values change over time: {@code V1}, {@code V2}, ...
-     * <li>...meanwhile, {@code T} wakes up and attempts to install {@code V0}; <em>this must fail</em>
+     * <li>{@code T} cblls {@code CV.get(C)} bnd sees stbte {@code 2N}
+     * <li>{@code T} quickly computes b time-dependent vblue {@code V0} bnd gets rebdy to instbll it
+     * <li>{@code T} is hit by bn unlucky pbging or scheduling event, bnd goes to sleep for b long time
+     * <li>...mebnwhile, {@code T2} blso cblls {@code CV.get(C)} bnd sees stbte {@code 2N}
+     * <li>{@code T2} quickly computes b similbr time-dependent vblue {@code V1} bnd instblls it on {@code CV.get(C)}
+     * <li>{@code T2} (or b third threbd) then cblls {@code CV.remove(C)}, undoing {@code T2}'s work
+     * <li> the previous bctions of {@code T2} bre repebted severbl times
+     * <li> blso, the relevbnt computed vblues chbnge over time: {@code V1}, {@code V2}, ...
+     * <li>...mebnwhile, {@code T} wbkes up bnd bttempts to instbll {@code V0}; <em>this must fbil</em>
      * </ul>
-     * We can assume in the above scenario that {@code CV.computeValue} uses locks to properly
-     * observe the time-dependent states as it computes {@code V1}, etc.
-     * This does not remove the threat of a stale value, since there is a window of time
-     * between the return of {@code computeValue} in {@code T} and the installation
-     * of the the new value.  No user synchronization is possible during this time.
+     * We cbn bssume in the bbove scenbrio thbt {@code CV.computeVblue} uses locks to properly
+     * observe the time-dependent stbtes bs it computes {@code V1}, etc.
+     * This does not remove the threbt of b stble vblue, since there is b window of time
+     * between the return of {@code computeVblue} in {@code T} bnd the instbllbtion
+     * of the the new vblue.  No user synchronizbtion is possible during this time.
      *
-     * @param type the type whose class value must be removed
-     * @throws NullPointerException if the argument is null
+     * @pbrbm type the type whose clbss vblue must be removed
+     * @throws NullPointerException if the brgument is null
      */
-    public void remove(Class<?> type) {
-        ClassValueMap map = getMap(type);
-        map.removeEntry(this);
+    public void remove(Clbss<?> type) {
+        ClbssVblueMbp mbp = getMbp(type);
+        mbp.removeEntry(this);
     }
 
-    // Possible functionality for JSR 292 MR 1
-    /*public*/ void put(Class<?> type, T value) {
-        ClassValueMap map = getMap(type);
-        map.changeEntry(this, value);
+    // Possible functionblity for JSR 292 MR 1
+    /*public*/ void put(Clbss<?> type, T vblue) {
+        ClbssVblueMbp mbp = getMbp(type);
+        mbp.chbngeEntry(this, vblue);
     }
 
     /// --------
-    /// Implementation...
+    /// Implementbtion...
     /// --------
 
-    /** Return the cache, if it exists, else a dummy empty cache. */
-    private static Entry<?>[] getCacheCarefully(Class<?> type) {
-        // racing type.classValueMap{.cacheArray} : null => new Entry[X] <=> new Entry[Y]
-        ClassValueMap map = type.classValueMap;
-        if (map == null)  return EMPTY_CACHE;
-        Entry<?>[] cache = map.getCache();
-        return cache;
-        // invariant:  returned value is safe to dereference and check for an Entry
+    /** Return the cbche, if it exists, else b dummy empty cbche. */
+    privbte stbtic Entry<?>[] getCbcheCbrefully(Clbss<?> type) {
+        // rbcing type.clbssVblueMbp{.cbcheArrby} : null => new Entry[X] <=> new Entry[Y]
+        ClbssVblueMbp mbp = type.clbssVblueMbp;
+        if (mbp == null)  return EMPTY_CACHE;
+        Entry<?>[] cbche = mbp.getCbche();
+        return cbche;
+        // invbribnt:  returned vblue is sbfe to dereference bnd check for bn Entry
     }
 
-    /** Initial, one-element, empty cache used by all Class instances.  Must never be filled. */
-    private static final Entry<?>[] EMPTY_CACHE = { null };
+    /** Initibl, one-element, empty cbche used by bll Clbss instbnces.  Must never be filled. */
+    privbte stbtic finbl Entry<?>[] EMPTY_CACHE = { null };
 
     /**
-     * Slow tail of ClassValue.get to retry at nearby locations in the cache,
-     * or take a slow lock and check the hash table.
-     * Called only if the first probe was empty or a collision.
-     * This is a separate method, so compilers can process it independently.
+     * Slow tbil of ClbssVblue.get to retry bt nebrby locbtions in the cbche,
+     * or tbke b slow lock bnd check the hbsh tbble.
+     * Cblled only if the first probe wbs empty or b collision.
+     * This is b sepbrbte method, so compilers cbn process it independently.
      */
-    private T getFromBackup(Entry<?>[] cache, Class<?> type) {
-        Entry<T> e = probeBackupLocations(cache, this);
+    privbte T getFromBbckup(Entry<?>[] cbche, Clbss<?> type) {
+        Entry<T> e = probeBbckupLocbtions(cbche, this);
         if (e != null)
-            return e.value();
-        return getFromHashMap(type);
+            return e.vblue();
+        return getFromHbshMbp(type);
     }
 
-    // Hack to suppress warnings on the (T) cast, which is a no-op.
-    @SuppressWarnings("unchecked")
-    Entry<T> castEntry(Entry<?> e) { return (Entry<T>) e; }
+    // Hbck to suppress wbrnings on the (T) cbst, which is b no-op.
+    @SuppressWbrnings("unchecked")
+    Entry<T> cbstEntry(Entry<?> e) { return (Entry<T>) e; }
 
-    /** Called when the fast path of get fails, and cache reprobe also fails.
+    /** Cblled when the fbst pbth of get fbils, bnd cbche reprobe blso fbils.
      */
-    private T getFromHashMap(Class<?> type) {
-        // The fail-safe recovery is to fall back to the underlying classValueMap.
-        ClassValueMap map = getMap(type);
+    privbte T getFromHbshMbp(Clbss<?> type) {
+        // The fbil-sbfe recovery is to fbll bbck to the underlying clbssVblueMbp.
+        ClbssVblueMbp mbp = getMbp(type);
         for (;;) {
-            Entry<T> e = map.startEntry(this);
+            Entry<T> e = mbp.stbrtEntry(this);
             if (!e.isPromise())
-                return e.value();
+                return e.vblue();
             try {
-                // Try to make a real entry for the promised version.
-                e = makeEntry(e.version(), computeValue(type));
-            } finally {
-                // Whether computeValue throws or returns normally,
+                // Try to mbke b rebl entry for the promised version.
+                e = mbkeEntry(e.version(), computeVblue(type));
+            } finblly {
+                // Whether computeVblue throws or returns normblly,
                 // be sure to remove the empty entry.
-                e = map.finishEntry(this, e);
+                e = mbp.finishEntry(this, e);
             }
             if (e != null)
-                return e.value();
-            // else try again, in case a racing thread called remove (so e == null)
+                return e.vblue();
+            // else try bgbin, in cbse b rbcing threbd cblled remove (so e == null)
         }
     }
 
-    /** Check that e is non-null, matches this ClassValue, and is live. */
-    boolean match(Entry<?> e) {
-        // racing e.version : null (blank) => unique Version token => null (GC-ed version)
-        // non-racing this.version : v1 => v2 => ... (updates are read faithfully from volatile)
+    /** Check thbt e is non-null, mbtches this ClbssVblue, bnd is live. */
+    boolebn mbtch(Entry<?> e) {
+        // rbcing e.version : null (blbnk) => unique Version token => null (GC-ed version)
+        // non-rbcing this.version : v1 => v2 => ... (updbtes bre rebd fbithfully from volbtile)
         return (e != null && e.get() == this.version);
-        // invariant:  No false positives on version match.  Null is OK for false negative.
-        // invariant:  If version matches, then e.value is readable (final set in Entry.<init>)
+        // invbribnt:  No fblse positives on version mbtch.  Null is OK for fblse negbtive.
+        // invbribnt:  If version mbtches, then e.vblue is rebdbble (finbl set in Entry.<init>)
     }
 
-    /** Internal hash code for accessing Class.classValueMap.cacheArray. */
-    final int hashCodeForCache = nextHashCode.getAndAdd(HASH_INCREMENT) & HASH_MASK;
+    /** Internbl hbsh code for bccessing Clbss.clbssVblueMbp.cbcheArrby. */
+    finbl int hbshCodeForCbche = nextHbshCode.getAndAdd(HASH_INCREMENT) & HASH_MASK;
 
-    /** Value stream for hashCodeForCache.  See similar structure in ThreadLocal. */
-    private static final AtomicInteger nextHashCode = new AtomicInteger();
+    /** Vblue strebm for hbshCodeForCbche.  See similbr structure in ThrebdLocbl. */
+    privbte stbtic finbl AtomicInteger nextHbshCode = new AtomicInteger();
 
-    /** Good for power-of-two tables.  See similar structure in ThreadLocal. */
-    private static final int HASH_INCREMENT = 0x61c88647;
+    /** Good for power-of-two tbbles.  See similbr structure in ThrebdLocbl. */
+    privbte stbtic finbl int HASH_INCREMENT = 0x61c88647;
 
-    /** Mask a hash code to be positive but not too large, to prevent wraparound. */
-    static final int HASH_MASK = (-1 >>> 2);
+    /** Mbsk b hbsh code to be positive but not too lbrge, to prevent wrbpbround. */
+    stbtic finbl int HASH_MASK = (-1 >>> 2);
 
     /**
-     * Private key for retrieval of this object from ClassValueMap.
+     * Privbte key for retrievbl of this object from ClbssVblueMbp.
      */
-    static class Identity {
+    stbtic clbss Identity {
     }
     /**
-     * This ClassValue's identity, expressed as an opaque object.
-     * The main object {@code ClassValue.this} is incorrect since
-     * subclasses may override {@code ClassValue.equals}, which
-     * could confuse keys in the ClassValueMap.
+     * This ClbssVblue's identity, expressed bs bn opbque object.
+     * The mbin object {@code ClbssVblue.this} is incorrect since
+     * subclbsses mby override {@code ClbssVblue.equbls}, which
+     * could confuse keys in the ClbssVblueMbp.
      */
-    final Identity identity = new Identity();
+    finbl Identity identity = new Identity();
 
     /**
-     * Current version for retrieving this class value from the cache.
-     * Any number of computeValue calls can be cached in association with one version.
-     * But the version changes when a remove (on any type) is executed.
-     * A version change invalidates all cache entries for the affected ClassValue,
-     * by marking them as stale.  Stale cache entries do not force another call
-     * to computeValue, but they do require a synchronized visit to a backing map.
+     * Current version for retrieving this clbss vblue from the cbche.
+     * Any number of computeVblue cblls cbn be cbched in bssocibtion with one version.
+     * But the version chbnges when b remove (on bny type) is executed.
+     * A version chbnge invblidbtes bll cbche entries for the bffected ClbssVblue,
+     * by mbrking them bs stble.  Stble cbche entries do not force bnother cbll
+     * to computeVblue, but they do require b synchronized visit to b bbcking mbp.
      * <p>
-     * All user-visible state changes on the ClassValue take place under
-     * a lock inside the synchronized methods of ClassValueMap.
-     * Readers (of ClassValue.get) are notified of such state changes
-     * when this.version is bumped to a new token.
-     * This variable must be volatile so that an unsynchronized reader
-     * will receive the notification without delay.
+     * All user-visible stbte chbnges on the ClbssVblue tbke plbce under
+     * b lock inside the synchronized methods of ClbssVblueMbp.
+     * Rebders (of ClbssVblue.get) bre notified of such stbte chbnges
+     * when this.version is bumped to b new token.
+     * This vbribble must be volbtile so thbt bn unsynchronized rebder
+     * will receive the notificbtion without delby.
      * <p>
-     * If version were not volatile, one thread T1 could persistently hold onto
-     * a stale value this.value == V1, while while another thread T2 advances
-     * (under a lock) to this.value == V2.  This will typically be harmless,
-     * but if T1 and T2 interact causally via some other channel, such that
-     * T1's further actions are constrained (in the JMM) to happen after
-     * the V2 event, then T1's observation of V1 will be an error.
+     * If version were not volbtile, one threbd T1 could persistently hold onto
+     * b stble vblue this.vblue == V1, while while bnother threbd T2 bdvbnces
+     * (under b lock) to this.vblue == V2.  This will typicblly be hbrmless,
+     * but if T1 bnd T2 interbct cbusblly vib some other chbnnel, such thbt
+     * T1's further bctions bre constrbined (in the JMM) to hbppen bfter
+     * the V2 event, then T1's observbtion of V1 will be bn error.
      * <p>
-     * The practical effect of making this.version be volatile is that it cannot
-     * be hoisted out of a loop (by an optimizing JIT) or otherwise cached.
-     * Some machines may also require a barrier instruction to execute
+     * The prbcticbl effect of mbking this.version be volbtile is thbt it cbnnot
+     * be hoisted out of b loop (by bn optimizing JIT) or otherwise cbched.
+     * Some mbchines mby blso require b bbrrier instruction to execute
      * before this.version.
      */
-    private volatile Version<T> version = new Version<>(this);
+    privbte volbtile Version<T> version = new Version<>(this);
     Version<T> version() { return version; }
     void bumpVersion() { version = new Version<>(this); }
-    static class Version<T> {
-        private final ClassValue<T> classValue;
-        private final Entry<T> promise = new Entry<>(this);
-        Version(ClassValue<T> classValue) { this.classValue = classValue; }
-        ClassValue<T> classValue() { return classValue; }
+    stbtic clbss Version<T> {
+        privbte finbl ClbssVblue<T> clbssVblue;
+        privbte finbl Entry<T> promise = new Entry<>(this);
+        Version(ClbssVblue<T> clbssVblue) { this.clbssVblue = clbssVblue; }
+        ClbssVblue<T> clbssVblue() { return clbssVblue; }
         Entry<T> promise() { return promise; }
-        boolean isLive() { return classValue.version() == this; }
+        boolebn isLive() { return clbssVblue.version() == this; }
     }
 
-    /** One binding of a value to a class via a ClassValue.
-     *  States are:<ul>
-     *  <li> promise if value == Entry.this
-     *  <li> else dead if version == null
-     *  <li> else stale if version != classValue.version
+    /** One binding of b vblue to b clbss vib b ClbssVblue.
+     *  Stbtes bre:<ul>
+     *  <li> promise if vblue == Entry.this
+     *  <li> else debd if version == null
+     *  <li> else stble if version != clbssVblue.version
      *  <li> else live </ul>
-     *  Promises are never put into the cache; they only live in the
-     *  backing map while a computeValue call is in flight.
-     *  Once an entry goes stale, it can be reset at any time
-     *  into the dead state.
+     *  Promises bre never put into the cbche; they only live in the
+     *  bbcking mbp while b computeVblue cbll is in flight.
+     *  Once bn entry goes stble, it cbn be reset bt bny time
+     *  into the debd stbte.
      */
-    static class Entry<T> extends WeakReference<Version<T>> {
-        final Object value;  // usually of type T, but sometimes (Entry)this
-        Entry(Version<T> version, T value) {
+    stbtic clbss Entry<T> extends WebkReference<Version<T>> {
+        finbl Object vblue;  // usublly of type T, but sometimes (Entry)this
+        Entry(Version<T> version, T vblue) {
             super(version);
-            this.value = value;  // for a regular entry, value is of type T
+            this.vblue = vblue;  // for b regulbr entry, vblue is of type T
         }
-        private void assertNotPromise() { assert(!isPromise()); }
-        /** For creating a promise. */
+        privbte void bssertNotPromise() { bssert(!isPromise()); }
+        /** For crebting b promise. */
         Entry(Version<T> version) {
             super(version);
-            this.value = this;  // for a promise, value is not of type T, but Entry!
+            this.vblue = this;  // for b promise, vblue is not of type T, but Entry!
         }
-        /** Fetch the value.  This entry must not be a promise. */
-        @SuppressWarnings("unchecked")  // if !isPromise, type is T
-        T value() { assertNotPromise(); return (T) value; }
-        boolean isPromise() { return value == this; }
+        /** Fetch the vblue.  This entry must not be b promise. */
+        @SuppressWbrnings("unchecked")  // if !isPromise, type is T
+        T vblue() { bssertNotPromise(); return (T) vblue; }
+        boolebn isPromise() { return vblue == this; }
         Version<T> version() { return get(); }
-        ClassValue<T> classValueOrNull() {
+        ClbssVblue<T> clbssVblueOrNull() {
             Version<T> v = version();
-            return (v == null) ? null : v.classValue();
+            return (v == null) ? null : v.clbssVblue();
         }
-        boolean isLive() {
+        boolebn isLive() {
             Version<T> v = version();
-            if (v == null)  return false;
+            if (v == null)  return fblse;
             if (v.isLive())  return true;
-            clear();
-            return false;
+            clebr();
+            return fblse;
         }
         Entry<T> refreshVersion(Version<T> v2) {
-            assertNotPromise();
-            @SuppressWarnings("unchecked")  // if !isPromise, type is T
-            Entry<T> e2 = new Entry<>(v2, (T) value);
-            clear();
-            // value = null -- caller must drop
+            bssertNotPromise();
+            @SuppressWbrnings("unchecked")  // if !isPromise, type is T
+            Entry<T> e2 = new Entry<>(v2, (T) vblue);
+            clebr();
+            // vblue = null -- cbller must drop
             return e2;
         }
-        static final Entry<?> DEAD_ENTRY = new Entry<>(null, null);
+        stbtic finbl Entry<?> DEAD_ENTRY = new Entry<>(null, null);
     }
 
-    /** Return the backing map associated with this type. */
-    private static ClassValueMap getMap(Class<?> type) {
-        // racing type.classValueMap : null (blank) => unique ClassValueMap
-        // if a null is observed, a map is created (lazily, synchronously, uniquely)
-        // all further access to that map is synchronized
-        ClassValueMap map = type.classValueMap;
-        if (map != null)  return map;
-        return initializeMap(type);
+    /** Return the bbcking mbp bssocibted with this type. */
+    privbte stbtic ClbssVblueMbp getMbp(Clbss<?> type) {
+        // rbcing type.clbssVblueMbp : null (blbnk) => unique ClbssVblueMbp
+        // if b null is observed, b mbp is crebted (lbzily, synchronously, uniquely)
+        // bll further bccess to thbt mbp is synchronized
+        ClbssVblueMbp mbp = type.clbssVblueMbp;
+        if (mbp != null)  return mbp;
+        return initiblizeMbp(type);
     }
 
-    private static final Object CRITICAL_SECTION = new Object();
-    private static ClassValueMap initializeMap(Class<?> type) {
-        ClassValueMap map;
-        synchronized (CRITICAL_SECTION) {  // private object to avoid deadlocks
-            // happens about once per type
-            if ((map = type.classValueMap) == null)
-                type.classValueMap = map = new ClassValueMap();
+    privbte stbtic finbl Object CRITICAL_SECTION = new Object();
+    privbte stbtic ClbssVblueMbp initiblizeMbp(Clbss<?> type) {
+        ClbssVblueMbp mbp;
+        synchronized (CRITICAL_SECTION) {  // privbte object to bvoid debdlocks
+            // hbppens bbout once per type
+            if ((mbp = type.clbssVblueMbp) == null)
+                type.clbssVblueMbp = mbp = new ClbssVblueMbp();
         }
-        return map;
+        return mbp;
     }
 
-    static <T> Entry<T> makeEntry(Version<T> explicitVersion, T value) {
-        // Note that explicitVersion might be different from this.version.
-        return new Entry<>(explicitVersion, value);
+    stbtic <T> Entry<T> mbkeEntry(Version<T> explicitVersion, T vblue) {
+        // Note thbt explicitVersion might be different from this.version.
+        return new Entry<>(explicitVersion, vblue);
 
-        // As soon as the Entry is put into the cache, the value will be
-        // reachable via a data race (as defined by the Java Memory Model).
-        // This race is benign, assuming the value object itself can be
-        // read safely by multiple threads.  This is up to the user.
+        // As soon bs the Entry is put into the cbche, the vblue will be
+        // rebchbble vib b dbtb rbce (bs defined by the Jbvb Memory Model).
+        // This rbce is benign, bssuming the vblue object itself cbn be
+        // rebd sbfely by multiple threbds.  This is up to the user.
         //
-        // The entry and version fields themselves can be safely read via
-        // a race because they are either final or have controlled states.
+        // The entry bnd version fields themselves cbn be sbfely rebd vib
+        // b rbce becbuse they bre either finbl or hbve controlled stbtes.
         // If the pointer from the entry to the version is still null,
-        // or if the version goes immediately dead and is nulled out,
-        // the reader will take the slow path and retry under a lock.
+        // or if the version goes immedibtely debd bnd is nulled out,
+        // the rebder will tbke the slow pbth bnd retry under b lock.
     }
 
-    // The following class could also be top level and non-public:
+    // The following clbss could blso be top level bnd non-public:
 
-    /** A backing map for all ClassValues.
-     *  Gives a fully serialized "true state" for each pair (ClassValue cv, Class type).
-     *  Also manages an unserialized fast-path cache.
+    /** A bbcking mbp for bll ClbssVblues.
+     *  Gives b fully seriblized "true stbte" for ebch pbir (ClbssVblue cv, Clbss type).
+     *  Also mbnbges bn unseriblized fbst-pbth cbche.
      */
-    static class ClassValueMap extends WeakHashMap<ClassValue.Identity, Entry<?>> {
-        private Entry<?>[] cacheArray;
-        private int cacheLoad, cacheLoadLimit;
+    stbtic clbss ClbssVblueMbp extends WebkHbshMbp<ClbssVblue.Identity, Entry<?>> {
+        privbte Entry<?>[] cbcheArrby;
+        privbte int cbcheLobd, cbcheLobdLimit;
 
-        /** Number of entries initially allocated to each type when first used with any ClassValue.
-         *  It would be pointless to make this much smaller than the Class and ClassValueMap objects themselves.
-         *  Must be a power of 2.
+        /** Number of entries initiblly bllocbted to ebch type when first used with bny ClbssVblue.
+         *  It would be pointless to mbke this much smbller thbn the Clbss bnd ClbssVblueMbp objects themselves.
+         *  Must be b power of 2.
          */
-        private static final int INITIAL_ENTRIES = 32;
+        privbte stbtic finbl int INITIAL_ENTRIES = 32;
 
-        /** Build a backing map for ClassValues.
-         *  Also, create an empty cache array and install it on the class.
+        /** Build b bbcking mbp for ClbssVblues.
+         *  Also, crebte bn empty cbche brrby bnd instbll it on the clbss.
          */
-        ClassValueMap() {
-            sizeCache(INITIAL_ENTRIES);
+        ClbssVblueMbp() {
+            sizeCbche(INITIAL_ENTRIES);
         }
 
-        Entry<?>[] getCache() { return cacheArray; }
+        Entry<?>[] getCbche() { return cbcheArrby; }
 
-        /** Initiate a query.  Store a promise (placeholder) if there is no value yet. */
+        /** Initibte b query.  Store b promise (plbceholder) if there is no vblue yet. */
         synchronized
-        <T> Entry<T> startEntry(ClassValue<T> classValue) {
-            @SuppressWarnings("unchecked")  // one map has entries for all value types <T>
-            Entry<T> e = (Entry<T>) get(classValue.identity);
-            Version<T> v = classValue.version();
+        <T> Entry<T> stbrtEntry(ClbssVblue<T> clbssVblue) {
+            @SuppressWbrnings("unchecked")  // one mbp hbs entries for bll vblue types <T>
+            Entry<T> e = (Entry<T>) get(clbssVblue.identity);
+            Version<T> v = clbssVblue.version();
             if (e == null) {
                 e = v.promise();
-                // The presence of a promise means that a value is pending for v.
-                // Eventually, finishEntry will overwrite the promise.
-                put(classValue.identity, e);
-                // Note that the promise is never entered into the cache!
+                // The presence of b promise mebns thbt b vblue is pending for v.
+                // Eventublly, finishEntry will overwrite the promise.
+                put(clbssVblue.identity, e);
+                // Note thbt the promise is never entered into the cbche!
                 return e;
             } else if (e.isPromise()) {
-                // Somebody else has asked the same question.
-                // Let the races begin!
+                // Somebody else hbs bsked the sbme question.
+                // Let the rbces begin!
                 if (e.version() != v) {
                     e = v.promise();
-                    put(classValue.identity, e);
+                    put(clbssVblue.identity, e);
                 }
                 return e;
             } else {
-                // there is already a completed entry here; report it
+                // there is blrebdy b completed entry here; report it
                 if (e.version() != v) {
-                    // There is a stale but valid entry here; make it fresh again.
-                    // Once an entry is in the hash table, we don't care what its version is.
+                    // There is b stble but vblid entry here; mbke it fresh bgbin.
+                    // Once bn entry is in the hbsh tbble, we don't cbre whbt its version is.
                     e = e.refreshVersion(v);
-                    put(classValue.identity, e);
+                    put(clbssVblue.identity, e);
                 }
-                // Add to the cache, to enable the fast path, next time.
-                checkCacheLoad();
-                addToCache(classValue, e);
+                // Add to the cbche, to enbble the fbst pbth, next time.
+                checkCbcheLobd();
+                bddToCbche(clbssVblue, e);
                 return e;
             }
         }
 
-        /** Finish a query.  Overwrite a matching placeholder.  Drop stale incoming values. */
+        /** Finish b query.  Overwrite b mbtching plbceholder.  Drop stble incoming vblues. */
         synchronized
-        <T> Entry<T> finishEntry(ClassValue<T> classValue, Entry<T> e) {
-            @SuppressWarnings("unchecked")  // one map has entries for all value types <T>
-            Entry<T> e0 = (Entry<T>) get(classValue.identity);
+        <T> Entry<T> finishEntry(ClbssVblue<T> clbssVblue, Entry<T> e) {
+            @SuppressWbrnings("unchecked")  // one mbp hbs entries for bll vblue types <T>
+            Entry<T> e0 = (Entry<T>) get(clbssVblue.identity);
             if (e == e0) {
-                // We can get here during exception processing, unwinding from computeValue.
-                assert(e.isPromise());
-                remove(classValue.identity);
+                // We cbn get here during exception processing, unwinding from computeVblue.
+                bssert(e.isPromise());
+                remove(clbssVblue.identity);
                 return null;
             } else if (e0 != null && e0.isPromise() && e0.version() == e.version()) {
-                // If e0 matches the intended entry, there has not been a remove call
-                // between the previous startEntry and now.  So now overwrite e0.
-                Version<T> v = classValue.version();
+                // If e0 mbtches the intended entry, there hbs not been b remove cbll
+                // between the previous stbrtEntry bnd now.  So now overwrite e0.
+                Version<T> v = clbssVblue.version();
                 if (e.version() != v)
                     e = e.refreshVersion(v);
-                put(classValue.identity, e);
-                // Add to the cache, to enable the fast path, next time.
-                checkCacheLoad();
-                addToCache(classValue, e);
+                put(clbssVblue.identity, e);
+                // Add to the cbche, to enbble the fbst pbth, next time.
+                checkCbcheLobd();
+                bddToCbche(clbssVblue, e);
                 return e;
             } else {
-                // Some sort of mismatch; caller must try again.
+                // Some sort of mismbtch; cbller must try bgbin.
                 return null;
             }
         }
 
-        /** Remove an entry. */
+        /** Remove bn entry. */
         synchronized
-        void removeEntry(ClassValue<?> classValue) {
-            Entry<?> e = remove(classValue.identity);
+        void removeEntry(ClbssVblue<?> clbssVblue) {
+            Entry<?> e = remove(clbssVblue.identity);
             if (e == null) {
-                // Uninitialized, and no pending calls to computeValue.  No change.
+                // Uninitiblized, bnd no pending cblls to computeVblue.  No chbnge.
             } else if (e.isPromise()) {
-                // State is uninitialized, with a pending call to finishEntry.
-                // Since remove is a no-op in such a state, keep the promise
-                // by putting it back into the map.
-                put(classValue.identity, e);
+                // Stbte is uninitiblized, with b pending cbll to finishEntry.
+                // Since remove is b no-op in such b stbte, keep the promise
+                // by putting it bbck into the mbp.
+                put(clbssVblue.identity, e);
             } else {
-                // In an initialized state.  Bump forward, and de-initialize.
-                classValue.bumpVersion();
-                // Make all cache elements for this guy go stale.
-                removeStaleEntries(classValue);
+                // In bn initiblized stbte.  Bump forwbrd, bnd de-initiblize.
+                clbssVblue.bumpVersion();
+                // Mbke bll cbche elements for this guy go stble.
+                removeStbleEntries(clbssVblue);
             }
         }
 
-        /** Change the value for an entry. */
+        /** Chbnge the vblue for bn entry. */
         synchronized
-        <T> void changeEntry(ClassValue<T> classValue, T value) {
-            @SuppressWarnings("unchecked")  // one map has entries for all value types <T>
-            Entry<T> e0 = (Entry<T>) get(classValue.identity);
-            Version<T> version = classValue.version();
+        <T> void chbngeEntry(ClbssVblue<T> clbssVblue, T vblue) {
+            @SuppressWbrnings("unchecked")  // one mbp hbs entries for bll vblue types <T>
+            Entry<T> e0 = (Entry<T>) get(clbssVblue.identity);
+            Version<T> version = clbssVblue.version();
             if (e0 != null) {
-                if (e0.version() == version && e0.value() == value)
-                    // no value change => no version change needed
+                if (e0.version() == version && e0.vblue() == vblue)
+                    // no vblue chbnge => no version chbnge needed
                     return;
-                classValue.bumpVersion();
-                removeStaleEntries(classValue);
+                clbssVblue.bumpVersion();
+                removeStbleEntries(clbssVblue);
             }
-            Entry<T> e = makeEntry(version, value);
-            put(classValue.identity, e);
-            // Add to the cache, to enable the fast path, next time.
-            checkCacheLoad();
-            addToCache(classValue, e);
+            Entry<T> e = mbkeEntry(version, vblue);
+            put(clbssVblue.identity, e);
+            // Add to the cbche, to enbble the fbst pbth, next time.
+            checkCbcheLobd();
+            bddToCbche(clbssVblue, e);
         }
 
         /// --------
-        /// Cache management.
+        /// Cbche mbnbgement.
         /// --------
 
-        // Statics do not need synchronization.
+        // Stbtics do not need synchronizbtion.
 
-        /** Load the cache entry at the given (hashed) location. */
-        static Entry<?> loadFromCache(Entry<?>[] cache, int i) {
-            // non-racing cache.length : constant
-            // racing cache[i & (mask)] : null <=> Entry
-            return cache[i & (cache.length-1)];
-            // invariant:  returned value is null or well-constructed (ready to match)
+        /** Lobd the cbche entry bt the given (hbshed) locbtion. */
+        stbtic Entry<?> lobdFromCbche(Entry<?>[] cbche, int i) {
+            // non-rbcing cbche.length : constbnt
+            // rbcing cbche[i & (mbsk)] : null <=> Entry
+            return cbche[i & (cbche.length-1)];
+            // invbribnt:  returned vblue is null or well-constructed (rebdy to mbtch)
         }
 
-        /** Look in the cache, at the home location for the given ClassValue. */
-        static <T> Entry<T> probeHomeLocation(Entry<?>[] cache, ClassValue<T> classValue) {
-            return classValue.castEntry(loadFromCache(cache, classValue.hashCodeForCache));
+        /** Look in the cbche, bt the home locbtion for the given ClbssVblue. */
+        stbtic <T> Entry<T> probeHomeLocbtion(Entry<?>[] cbche, ClbssVblue<T> clbssVblue) {
+            return clbssVblue.cbstEntry(lobdFromCbche(cbche, clbssVblue.hbshCodeForCbche));
         }
 
-        /** Given that first probe was a collision, retry at nearby locations. */
-        static <T> Entry<T> probeBackupLocations(Entry<?>[] cache, ClassValue<T> classValue) {
+        /** Given thbt first probe wbs b collision, retry bt nebrby locbtions. */
+        stbtic <T> Entry<T> probeBbckupLocbtions(Entry<?>[] cbche, ClbssVblue<T> clbssVblue) {
             if (PROBE_LIMIT <= 0)  return null;
-            // Probe the cache carefully, in a range of slots.
-            int mask = (cache.length-1);
-            int home = (classValue.hashCodeForCache & mask);
-            Entry<?> e2 = cache[home];  // victim, if we find the real guy
+            // Probe the cbche cbrefully, in b rbnge of slots.
+            int mbsk = (cbche.length-1);
+            int home = (clbssVblue.hbshCodeForCbche & mbsk);
+            Entry<?> e2 = cbche[home];  // victim, if we find the rebl guy
             if (e2 == null) {
-                return null;   // if nobody is at home, no need to search nearby
+                return null;   // if nobody is bt home, no need to sebrch nebrby
             }
-            // assume !classValue.match(e2), but do not assert, because of races
+            // bssume !clbssVblue.mbtch(e2), but do not bssert, becbuse of rbces
             int pos2 = -1;
             for (int i = home + 1; i < home + PROBE_LIMIT; i++) {
-                Entry<?> e = cache[i & mask];
+                Entry<?> e = cbche[i & mbsk];
                 if (e == null) {
-                    break;   // only search within non-null runs
+                    brebk;   // only sebrch within non-null runs
                 }
-                if (classValue.match(e)) {
-                    // relocate colliding entry e2 (from cache[home]) to first empty slot
-                    cache[home] = e;
+                if (clbssVblue.mbtch(e)) {
+                    // relocbte colliding entry e2 (from cbche[home]) to first empty slot
+                    cbche[home] = e;
                     if (pos2 >= 0) {
-                        cache[i & mask] = Entry.DEAD_ENTRY;
+                        cbche[i & mbsk] = Entry.DEAD_ENTRY;
                     } else {
                         pos2 = i;
                     }
-                    cache[pos2 & mask] = ((entryDislocation(cache, pos2, e2) < PROBE_LIMIT)
+                    cbche[pos2 & mbsk] = ((entryDislocbtion(cbche, pos2, e2) < PROBE_LIMIT)
                                           ? e2                  // put e2 here if it fits
                                           : Entry.DEAD_ENTRY);
-                    return classValue.castEntry(e);
+                    return clbssVblue.cbstEntry(e);
                 }
-                // Remember first empty slot, if any:
+                // Remember first empty slot, if bny:
                 if (!e.isLive() && pos2 < 0)  pos2 = i;
             }
             return null;
         }
 
-        /** How far out of place is e? */
-        private static int entryDislocation(Entry<?>[] cache, int pos, Entry<?> e) {
-            ClassValue<?> cv = e.classValueOrNull();
+        /** How fbr out of plbce is e? */
+        privbte stbtic int entryDislocbtion(Entry<?>[] cbche, int pos, Entry<?> e) {
+            ClbssVblue<?> cv = e.clbssVblueOrNull();
             if (cv == null)  return 0;  // entry is not live!
-            int mask = (cache.length-1);
-            return (pos - cv.hashCodeForCache) & mask;
+            int mbsk = (cbche.length-1);
+            return (pos - cv.hbshCodeForCbche) & mbsk;
         }
 
         /// --------
-        /// Below this line all functions are private, and assume synchronized access.
+        /// Below this line bll functions bre privbte, bnd bssume synchronized bccess.
         /// --------
 
-        private void sizeCache(int length) {
-            assert((length & (length-1)) == 0);  // must be power of 2
-            cacheLoad = 0;
-            cacheLoadLimit = (int) ((double) length * CACHE_LOAD_LIMIT / 100);
-            cacheArray = new Entry<?>[length];
+        privbte void sizeCbche(int length) {
+            bssert((length & (length-1)) == 0);  // must be power of 2
+            cbcheLobd = 0;
+            cbcheLobdLimit = (int) ((double) length * CACHE_LOAD_LIMIT / 100);
+            cbcheArrby = new Entry<?>[length];
         }
 
-        /** Make sure the cache load stays below its limit, if possible. */
-        private void checkCacheLoad() {
-            if (cacheLoad >= cacheLoadLimit) {
-                reduceCacheLoad();
+        /** Mbke sure the cbche lobd stbys below its limit, if possible. */
+        privbte void checkCbcheLobd() {
+            if (cbcheLobd >= cbcheLobdLimit) {
+                reduceCbcheLobd();
             }
         }
-        private void reduceCacheLoad() {
-            removeStaleEntries();
-            if (cacheLoad < cacheLoadLimit)
+        privbte void reduceCbcheLobd() {
+            removeStbleEntries();
+            if (cbcheLobd < cbcheLobdLimit)
                 return;  // win
-            Entry<?>[] oldCache = getCache();
-            if (oldCache.length > HASH_MASK)
+            Entry<?>[] oldCbche = getCbche();
+            if (oldCbche.length > HASH_MASK)
                 return;  // lose
-            sizeCache(oldCache.length * 2);
-            for (Entry<?> e : oldCache) {
+            sizeCbche(oldCbche.length * 2);
+            for (Entry<?> e : oldCbche) {
                 if (e != null && e.isLive()) {
-                    addToCache(e);
+                    bddToCbche(e);
                 }
             }
         }
 
-        /** Remove stale entries in the given range.
-         *  Should be executed under a Map lock.
+        /** Remove stble entries in the given rbnge.
+         *  Should be executed under b Mbp lock.
          */
-        private void removeStaleEntries(Entry<?>[] cache, int begin, int count) {
+        privbte void removeStbleEntries(Entry<?>[] cbche, int begin, int count) {
             if (PROBE_LIMIT <= 0)  return;
-            int mask = (cache.length-1);
+            int mbsk = (cbche.length-1);
             int removed = 0;
             for (int i = begin; i < begin + count; i++) {
-                Entry<?> e = cache[i & mask];
+                Entry<?> e = cbche[i & mbsk];
                 if (e == null || e.isLive())
-                    continue;  // skip null and live entries
-                Entry<?> replacement = null;
+                    continue;  // skip null bnd live entries
+                Entry<?> replbcement = null;
                 if (PROBE_LIMIT > 1) {
-                    // avoid breaking up a non-null run
-                    replacement = findReplacement(cache, i);
+                    // bvoid brebking up b non-null run
+                    replbcement = findReplbcement(cbche, i);
                 }
-                cache[i & mask] = replacement;
-                if (replacement == null)  removed += 1;
+                cbche[i & mbsk] = replbcement;
+                if (replbcement == null)  removed += 1;
             }
-            cacheLoad = Math.max(0, cacheLoad - removed);
+            cbcheLobd = Mbth.mbx(0, cbcheLobd - removed);
         }
 
-        /** Clearing a cache slot risks disconnecting following entries
-         *  from the head of a non-null run, which would allow them
-         *  to be found via reprobes.  Find an entry after cache[begin]
+        /** Clebring b cbche slot risks disconnecting following entries
+         *  from the hebd of b non-null run, which would bllow them
+         *  to be found vib reprobes.  Find bn entry bfter cbche[begin]
          *  to plug into the hole, or return null if none is needed.
          */
-        private Entry<?> findReplacement(Entry<?>[] cache, int home1) {
-            Entry<?> replacement = null;
-            int haveReplacement = -1, replacementPos = 0;
-            int mask = (cache.length-1);
+        privbte Entry<?> findReplbcement(Entry<?>[] cbche, int home1) {
+            Entry<?> replbcement = null;
+            int hbveReplbcement = -1, replbcementPos = 0;
+            int mbsk = (cbche.length-1);
             for (int i2 = home1 + 1; i2 < home1 + PROBE_LIMIT; i2++) {
-                Entry<?> e2 = cache[i2 & mask];
-                if (e2 == null)  break;  // End of non-null run.
-                if (!e2.isLive())  continue;  // Doomed anyway.
-                int dis2 = entryDislocation(cache, i2, e2);
-                if (dis2 == 0)  continue;  // e2 already optimally placed
+                Entry<?> e2 = cbche[i2 & mbsk];
+                if (e2 == null)  brebk;  // End of non-null run.
+                if (!e2.isLive())  continue;  // Doomed bnywby.
+                int dis2 = entryDislocbtion(cbche, i2, e2);
+                if (dis2 == 0)  continue;  // e2 blrebdy optimblly plbced
                 int home2 = i2 - dis2;
                 if (home2 <= home1) {
-                    // e2 can replace entry at cache[home1]
+                    // e2 cbn replbce entry bt cbche[home1]
                     if (home2 == home1) {
-                        // Put e2 exactly where he belongs.
-                        haveReplacement = 1;
-                        replacementPos = i2;
-                        replacement = e2;
-                    } else if (haveReplacement <= 0) {
-                        haveReplacement = 0;
-                        replacementPos = i2;
-                        replacement = e2;
+                        // Put e2 exbctly where he belongs.
+                        hbveReplbcement = 1;
+                        replbcementPos = i2;
+                        replbcement = e2;
+                    } else if (hbveReplbcement <= 0) {
+                        hbveReplbcement = 0;
+                        replbcementPos = i2;
+                        replbcement = e2;
                     }
-                    // And keep going, so we can favor larger dislocations.
+                    // And keep going, so we cbn fbvor lbrger dislocbtions.
                 }
             }
-            if (haveReplacement >= 0) {
-                if (cache[(replacementPos+1) & mask] != null) {
-                    // Be conservative, to avoid breaking up a non-null run.
-                    cache[replacementPos & mask] = (Entry<?>) Entry.DEAD_ENTRY;
+            if (hbveReplbcement >= 0) {
+                if (cbche[(replbcementPos+1) & mbsk] != null) {
+                    // Be conservbtive, to bvoid brebking up b non-null run.
+                    cbche[replbcementPos & mbsk] = (Entry<?>) Entry.DEAD_ENTRY;
                 } else {
-                    cache[replacementPos & mask] = null;
-                    cacheLoad -= 1;
+                    cbche[replbcementPos & mbsk] = null;
+                    cbcheLobd -= 1;
                 }
             }
-            return replacement;
+            return replbcement;
         }
 
-        /** Remove stale entries in the range near classValue. */
-        private void removeStaleEntries(ClassValue<?> classValue) {
-            removeStaleEntries(getCache(), classValue.hashCodeForCache, PROBE_LIMIT);
+        /** Remove stble entries in the rbnge nebr clbssVblue. */
+        privbte void removeStbleEntries(ClbssVblue<?> clbssVblue) {
+            removeStbleEntries(getCbche(), clbssVblue.hbshCodeForCbche, PROBE_LIMIT);
         }
 
-        /** Remove all stale entries, everywhere. */
-        private void removeStaleEntries() {
-            Entry<?>[] cache = getCache();
-            removeStaleEntries(cache, 0, cache.length + PROBE_LIMIT - 1);
+        /** Remove bll stble entries, everywhere. */
+        privbte void removeStbleEntries() {
+            Entry<?>[] cbche = getCbche();
+            removeStbleEntries(cbche, 0, cbche.length + PROBE_LIMIT - 1);
         }
 
-        /** Add the given entry to the cache, in its home location, unless it is out of date. */
-        private <T> void addToCache(Entry<T> e) {
-            ClassValue<T> classValue = e.classValueOrNull();
-            if (classValue != null)
-                addToCache(classValue, e);
+        /** Add the given entry to the cbche, in its home locbtion, unless it is out of dbte. */
+        privbte <T> void bddToCbche(Entry<T> e) {
+            ClbssVblue<T> clbssVblue = e.clbssVblueOrNull();
+            if (clbssVblue != null)
+                bddToCbche(clbssVblue, e);
         }
 
-        /** Add the given entry to the cache, in its home location. */
-        private <T> void addToCache(ClassValue<T> classValue, Entry<T> e) {
-            if (PROBE_LIMIT <= 0)  return;  // do not fill cache
-            // Add e to the cache.
-            Entry<?>[] cache = getCache();
-            int mask = (cache.length-1);
-            int home = classValue.hashCodeForCache & mask;
-            Entry<?> e2 = placeInCache(cache, home, e, false);
+        /** Add the given entry to the cbche, in its home locbtion. */
+        privbte <T> void bddToCbche(ClbssVblue<T> clbssVblue, Entry<T> e) {
+            if (PROBE_LIMIT <= 0)  return;  // do not fill cbche
+            // Add e to the cbche.
+            Entry<?>[] cbche = getCbche();
+            int mbsk = (cbche.length-1);
+            int home = clbssVblue.hbshCodeForCbche & mbsk;
+            Entry<?> e2 = plbceInCbche(cbche, home, e, fblse);
             if (e2 == null)  return;  // done
             if (PROBE_LIMIT > 1) {
-                // try to move e2 somewhere else in his probe range
-                int dis2 = entryDislocation(cache, home, e2);
+                // try to move e2 somewhere else in his probe rbnge
+                int dis2 = entryDislocbtion(cbche, home, e2);
                 int home2 = home - dis2;
                 for (int i2 = home2; i2 < home2 + PROBE_LIMIT; i2++) {
-                    if (placeInCache(cache, i2 & mask, e2, true) == null) {
+                    if (plbceInCbche(cbche, i2 & mbsk, e2, true) == null) {
                         return;
                     }
                 }
             }
-            // Note:  At this point, e2 is just dropped from the cache.
+            // Note:  At this point, e2 is just dropped from the cbche.
         }
 
-        /** Store the given entry.  Update cacheLoad, and return any live victim.
-         *  'Gently' means return self rather than dislocating a live victim.
+        /** Store the given entry.  Updbte cbcheLobd, bnd return bny live victim.
+         *  'Gently' mebns return self rbther thbn dislocbting b live victim.
          */
-        private Entry<?> placeInCache(Entry<?>[] cache, int pos, Entry<?> e, boolean gently) {
-            Entry<?> e2 = overwrittenEntry(cache[pos]);
+        privbte Entry<?> plbceInCbche(Entry<?>[] cbche, int pos, Entry<?> e, boolebn gently) {
+            Entry<?> e2 = overwrittenEntry(cbche[pos]);
             if (gently && e2 != null) {
-                // do not overwrite a live entry
+                // do not overwrite b live entry
                 return e;
             } else {
-                cache[pos] = e;
+                cbche[pos] = e;
                 return e2;
             }
         }
 
-        /** Note an entry that is about to be overwritten.
-         *  If it is not live, quietly replace it by null.
-         *  If it is an actual null, increment cacheLoad,
-         *  because the caller is going to store something
-         *  in its place.
+        /** Note bn entry thbt is bbout to be overwritten.
+         *  If it is not live, quietly replbce it by null.
+         *  If it is bn bctubl null, increment cbcheLobd,
+         *  becbuse the cbller is going to store something
+         *  in its plbce.
          */
-        private <T> Entry<T> overwrittenEntry(Entry<T> e2) {
-            if (e2 == null)  cacheLoad += 1;
+        privbte <T> Entry<T> overwrittenEntry(Entry<T> e2) {
+            if (e2 == null)  cbcheLobd += 1;
             else if (e2.isLive())  return e2;
             return null;
         }
 
-        /** Percent loading of cache before resize. */
-        private static final int CACHE_LOAD_LIMIT = 67;  // 0..100
-        /** Maximum number of probes to attempt. */
-        private static final int PROBE_LIMIT      =  6;       // 1..
-        // N.B.  Set PROBE_LIMIT=0 to disable all fast paths.
+        /** Percent lobding of cbche before resize. */
+        privbte stbtic finbl int CACHE_LOAD_LIMIT = 67;  // 0..100
+        /** Mbximum number of probes to bttempt. */
+        privbte stbtic finbl int PROBE_LIMIT      =  6;       // 1..
+        // N.B.  Set PROBE_LIMIT=0 to disbble bll fbst pbths.
     }
 }

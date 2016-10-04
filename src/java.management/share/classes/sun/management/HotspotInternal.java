@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * Implementation class of HotspotInternalMBean interface.
+ * Implementbtion clbss of HotspotInternblMBebn interfbce.
  *
- * <p> This is designed for internal customer use to create
- * this MBean dynamically from an agent which will then register
- * all internal MBeans to the platform MBeanServer.
+ * <p> This is designed for internbl customer use to crebte
+ * this MBebn dynbmicblly from bn bgent which will then register
+ * bll internbl MBebns to the plbtform MBebnServer.
  */
-public class HotspotInternal
-    implements HotspotInternalMBean, MBeanRegistration {
+public clbss HotspotInternbl
+    implements HotspotInternblMBebn, MBebnRegistrbtion {
 
-    private final static String HOTSPOT_INTERNAL_MBEAN_NAME =
-        "sun.management:type=HotspotInternal";
-    private static ObjectName objName = Util.newObjectName(HOTSPOT_INTERNAL_MBEAN_NAME);
-    private MBeanServer server = null;
+    privbte finbl stbtic String HOTSPOT_INTERNAL_MBEAN_NAME =
+        "sun.mbnbgement:type=HotspotInternbl";
+    privbte stbtic ObjectNbme objNbme = Util.newObjectNbme(HOTSPOT_INTERNAL_MBEAN_NAME);
+    privbte MBebnServer server = null;
 
     /**
-     * Default constructor that registers all hotspot internal MBeans
-     * to the MBeanServer that creates this MBean.
+     * Defbult constructor thbt registers bll hotspot internbl MBebns
+     * to the MBebnServer thbt crebtes this MBebn.
      */
-    public HotspotInternal() {
+    public HotspotInternbl() {
     }
 
-    public ObjectName preRegister(MBeanServer server,
-                                  ObjectName name) throws java.lang.Exception {
-        // register all internal MBeans when this MBean is instantiated
-        // and to be registered in a MBeanServer.
-        ManagementFactoryHelper.registerInternalMBeans(server);
+    public ObjectNbme preRegister(MBebnServer server,
+                                  ObjectNbme nbme) throws jbvb.lbng.Exception {
+        // register bll internbl MBebns when this MBebn is instbntibted
+        // bnd to be registered in b MBebnServer.
+        MbnbgementFbctoryHelper.registerInternblMBebns(server);
         this.server = server;
-        return objName;
+        return objNbme;
     }
 
-    public void postRegister(Boolean registrationDone) {};
+    public void postRegister(Boolebn registrbtionDone) {};
 
-    public void preDeregister() throws java.lang.Exception {
-        // unregister all internal MBeans when this MBean is unregistered.
-        ManagementFactoryHelper.unregisterInternalMBeans(server);
+    public void preDeregister() throws jbvb.lbng.Exception {
+        // unregister bll internbl MBebns when this MBebn is unregistered.
+        MbnbgementFbctoryHelper.unregisterInternblMBebns(server);
     }
 
     public void postDeregister() {};

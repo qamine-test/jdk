@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
+import jbvb.nio.ByteBuffer;
 
-import java.security.*;
-import java.security.interfaces.*;
+import jbvb.security.*;
+import jbvb.security.interfbces.*;
 import sun.nio.ch.DirectBuffer;
 
 import sun.security.util.*;
 import sun.security.x509.AlgorithmId;
 
-import sun.security.rsa.RSASignature;
-import sun.security.rsa.RSAPadding;
+import sun.security.rsb.RSASignbture;
+import sun.security.rsb.RSAPbdding;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 import sun.security.util.KeyUtil;
 
 /**
- * Signature implementation class. This class currently supports the
- * following algorithms:
+ * Signbture implementbtion clbss. This clbss currently supports the
+ * following blgorithms:
  *
  * . DSA
- *   . NONEwithDSA (RawDSA)
+ *   . NONEwithDSA (RbwDSA)
  *   . SHA1withDSA
  * . RSA:
  *   . MD2withRSA
@@ -66,203 +66,203 @@ import sun.security.util.KeyUtil;
  *   . SHA384withECDSA
  *   . SHA512withECDSA
  *
- * Note that the underlying PKCS#11 token may support complete signature
- * algorithm (e.g. CKM_DSA_SHA1, CKM_MD5_RSA_PKCS), or it may just
- * implement the signature algorithm without hashing (e.g. CKM_DSA, CKM_PKCS),
- * or it may only implement the raw public key operation (CKM_RSA_X_509).
- * This class uses what is available and adds whatever extra processing
+ * Note thbt the underlying PKCS#11 token mby support complete signbture
+ * blgorithm (e.g. CKM_DSA_SHA1, CKM_MD5_RSA_PKCS), or it mby just
+ * implement the signbture blgorithm without hbshing (e.g. CKM_DSA, CKM_PKCS),
+ * or it mby only implement the rbw public key operbtion (CKM_RSA_X_509).
+ * This clbss uses whbt is bvbilbble bnd bdds whbtever extrb processing
  * is needed.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class P11Signature extends SignatureSpi {
+finbl clbss P11Signbture extends SignbtureSpi {
 
-    // token instance
-    private final Token token;
+    // token instbnce
+    privbte finbl Token token;
 
-    // algorithm name
-    private final String algorithm;
+    // blgorithm nbme
+    privbte finbl String blgorithm;
 
-    // name of the key algorithm, currently either RSA or DSA
-    private final String keyAlgorithm;
+    // nbme of the key blgorithm, currently either RSA or DSA
+    privbte finbl String keyAlgorithm;
 
-    // mechanism id
-    private final long mechanism;
+    // mechbnism id
+    privbte finbl long mechbnism;
 
-    // digest algorithm OID, if we encode RSA signature ourselves
-    private final ObjectIdentifier digestOID;
+    // digest blgorithm OID, if we encode RSA signbture ourselves
+    privbte finbl ObjectIdentifier digestOID;
 
     // type, one of T_* below
-    private final int type;
+    privbte finbl int type;
 
-    // key instance used, if init*() was called
-    private P11Key p11Key;
+    // key instbnce used, if init*() wbs cblled
+    privbte P11Key p11Key;
 
-    // message digest, if we do the digesting ourselves
-    private final MessageDigest md;
+    // messbge digest, if we do the digesting ourselves
+    privbte finbl MessbgeDigest md;
 
-    // associated session, if any
-    private Session session;
+    // bssocibted session, if bny
+    privbte Session session;
 
     // mode, one of M_* below
-    private int mode;
+    privbte int mode;
 
-    // flag indicating whether an operation is initialized
-    private boolean initialized;
+    // flbg indicbting whether bn operbtion is initiblized
+    privbte boolebn initiblized;
 
-    // buffer, for update(byte) or DSA
-    private final byte[] buffer;
+    // buffer, for updbte(byte) or DSA
+    privbte finbl byte[] buffer;
 
-    // total number of bytes processed in current operation
-    private int bytesProcessed;
+    // totbl number of bytes processed in current operbtion
+    privbte int bytesProcessed;
 
-    // constant for signing mode
-    private final static int M_SIGN   = 1;
-    // constant for verification mode
-    private final static int M_VERIFY = 2;
+    // constbnt for signing mode
+    privbte finbl stbtic int M_SIGN   = 1;
+    // constbnt for verificbtion mode
+    privbte finbl stbtic int M_VERIFY = 2;
 
-    // constant for type digesting, we do the hashing ourselves
-    private final static int T_DIGEST = 1;
-    // constant for type update, token does everything
-    private final static int T_UPDATE = 2;
-    // constant for type raw, used with RawDSA and NONEwithECDSA only
-    private final static int T_RAW    = 3;
+    // constbnt for type digesting, we do the hbshing ourselves
+    privbte finbl stbtic int T_DIGEST = 1;
+    // constbnt for type updbte, token does everything
+    privbte finbl stbtic int T_UPDATE = 2;
+    // constbnt for type rbw, used with RbwDSA bnd NONEwithECDSA only
+    privbte finbl stbtic int T_RAW    = 3;
 
-    // XXX PKCS#11 v2.20 says "should not be longer than 1024 bits",
-    // but this is a little arbitrary
-    private final static int RAW_ECDSA_MAX = 128;
+    // XXX PKCS#11 v2.20 sbys "should not be longer thbn 1024 bits",
+    // but this is b little brbitrbry
+    privbte finbl stbtic int RAW_ECDSA_MAX = 128;
 
-    P11Signature(Token token, String algorithm, long mechanism)
+    P11Signbture(Token token, String blgorithm, long mechbnism)
             throws NoSuchAlgorithmException, PKCS11Exception {
         super();
         this.token = token;
-        this.algorithm = algorithm;
-        this.mechanism = mechanism;
+        this.blgorithm = blgorithm;
+        this.mechbnism = mechbnism;
         byte[] buffer = null;
         ObjectIdentifier digestOID = null;
-        MessageDigest md = null;
-        switch ((int)mechanism) {
-        case (int)CKM_MD2_RSA_PKCS:
-        case (int)CKM_MD5_RSA_PKCS:
-        case (int)CKM_SHA1_RSA_PKCS:
-        case (int)CKM_SHA224_RSA_PKCS:
-        case (int)CKM_SHA256_RSA_PKCS:
-        case (int)CKM_SHA384_RSA_PKCS:
-        case (int)CKM_SHA512_RSA_PKCS:
+        MessbgeDigest md = null;
+        switch ((int)mechbnism) {
+        cbse (int)CKM_MD2_RSA_PKCS:
+        cbse (int)CKM_MD5_RSA_PKCS:
+        cbse (int)CKM_SHA1_RSA_PKCS:
+        cbse (int)CKM_SHA224_RSA_PKCS:
+        cbse (int)CKM_SHA256_RSA_PKCS:
+        cbse (int)CKM_SHA384_RSA_PKCS:
+        cbse (int)CKM_SHA512_RSA_PKCS:
             keyAlgorithm = "RSA";
             type = T_UPDATE;
             buffer = new byte[1];
-            break;
-        case (int)CKM_DSA_SHA1:
+            brebk;
+        cbse (int)CKM_DSA_SHA1:
             keyAlgorithm = "DSA";
             type = T_UPDATE;
             buffer = new byte[1];
-            break;
-        case (int)CKM_ECDSA_SHA1:
+            brebk;
+        cbse (int)CKM_ECDSA_SHA1:
             keyAlgorithm = "EC";
             type = T_UPDATE;
             buffer = new byte[1];
-            break;
-        case (int)CKM_DSA:
+            brebk;
+        cbse (int)CKM_DSA:
             keyAlgorithm = "DSA";
-            if (algorithm.equals("DSA")) {
+            if (blgorithm.equbls("DSA")) {
                 type = T_DIGEST;
-                md = MessageDigest.getInstance("SHA-1");
-            } else if (algorithm.equals("RawDSA")) {
+                md = MessbgeDigest.getInstbnce("SHA-1");
+            } else if (blgorithm.equbls("RbwDSA")) {
                 type = T_RAW;
                 buffer = new byte[20];
             } else {
-                throw new ProviderException(algorithm);
+                throw new ProviderException(blgorithm);
             }
-            break;
-        case (int)CKM_ECDSA:
+            brebk;
+        cbse (int)CKM_ECDSA:
             keyAlgorithm = "EC";
-            if (algorithm.equals("NONEwithECDSA")) {
+            if (blgorithm.equbls("NONEwithECDSA")) {
                 type = T_RAW;
                 buffer = new byte[RAW_ECDSA_MAX];
             } else {
                 String digestAlg;
-                if (algorithm.equals("SHA1withECDSA")) {
+                if (blgorithm.equbls("SHA1withECDSA")) {
                     digestAlg = "SHA-1";
-                } else if (algorithm.equals("SHA224withECDSA")) {
+                } else if (blgorithm.equbls("SHA224withECDSA")) {
                     digestAlg = "SHA-224";
-                } else if (algorithm.equals("SHA256withECDSA")) {
+                } else if (blgorithm.equbls("SHA256withECDSA")) {
                     digestAlg = "SHA-256";
-                } else if (algorithm.equals("SHA384withECDSA")) {
+                } else if (blgorithm.equbls("SHA384withECDSA")) {
                     digestAlg = "SHA-384";
-                } else if (algorithm.equals("SHA512withECDSA")) {
+                } else if (blgorithm.equbls("SHA512withECDSA")) {
                     digestAlg = "SHA-512";
                 } else {
-                    throw new ProviderException(algorithm);
+                    throw new ProviderException(blgorithm);
                 }
                 type = T_DIGEST;
-                md = MessageDigest.getInstance(digestAlg);
+                md = MessbgeDigest.getInstbnce(digestAlg);
             }
-            break;
-        case (int)CKM_RSA_PKCS:
-        case (int)CKM_RSA_X_509:
+            brebk;
+        cbse (int)CKM_RSA_PKCS:
+        cbse (int)CKM_RSA_X_509:
             keyAlgorithm = "RSA";
             type = T_DIGEST;
-            if (algorithm.equals("MD5withRSA")) {
-                md = MessageDigest.getInstance("MD5");
+            if (blgorithm.equbls("MD5withRSA")) {
+                md = MessbgeDigest.getInstbnce("MD5");
                 digestOID = AlgorithmId.MD5_oid;
-            } else if (algorithm.equals("SHA1withRSA")) {
-                md = MessageDigest.getInstance("SHA-1");
+            } else if (blgorithm.equbls("SHA1withRSA")) {
+                md = MessbgeDigest.getInstbnce("SHA-1");
                 digestOID = AlgorithmId.SHA_oid;
-            } else if (algorithm.equals("MD2withRSA")) {
-                md = MessageDigest.getInstance("MD2");
+            } else if (blgorithm.equbls("MD2withRSA")) {
+                md = MessbgeDigest.getInstbnce("MD2");
                 digestOID = AlgorithmId.MD2_oid;
-            } else if (algorithm.equals("SHA224withRSA")) {
-                md = MessageDigest.getInstance("SHA-224");
+            } else if (blgorithm.equbls("SHA224withRSA")) {
+                md = MessbgeDigest.getInstbnce("SHA-224");
                 digestOID = AlgorithmId.SHA224_oid;
-            } else if (algorithm.equals("SHA256withRSA")) {
-                md = MessageDigest.getInstance("SHA-256");
+            } else if (blgorithm.equbls("SHA256withRSA")) {
+                md = MessbgeDigest.getInstbnce("SHA-256");
                 digestOID = AlgorithmId.SHA256_oid;
-            } else if (algorithm.equals("SHA384withRSA")) {
-                md = MessageDigest.getInstance("SHA-384");
+            } else if (blgorithm.equbls("SHA384withRSA")) {
+                md = MessbgeDigest.getInstbnce("SHA-384");
                 digestOID = AlgorithmId.SHA384_oid;
-            } else if (algorithm.equals("SHA512withRSA")) {
-                md = MessageDigest.getInstance("SHA-512");
+            } else if (blgorithm.equbls("SHA512withRSA")) {
+                md = MessbgeDigest.getInstbnce("SHA-512");
                 digestOID = AlgorithmId.SHA512_oid;
             } else {
-                throw new ProviderException("Unknown signature: " + algorithm);
+                throw new ProviderException("Unknown signbture: " + blgorithm);
             }
-            break;
-        default:
-            throw new ProviderException("Unknown mechanism: " + mechanism);
+            brebk;
+        defbult:
+            throw new ProviderException("Unknown mechbnism: " + mechbnism);
         }
         this.buffer = buffer;
         this.digestOID = digestOID;
         this.md = md;
     }
 
-    private void ensureInitialized() {
-        token.ensureValid();
-        if (initialized == false) {
-            initialize();
+    privbte void ensureInitiblized() {
+        token.ensureVblid();
+        if (initiblized == fblse) {
+            initiblize();
         }
     }
 
-    private void cancelOperation() {
-        token.ensureValid();
-        if (initialized == false) {
+    privbte void cbncelOperbtion() {
+        token.ensureVblid();
+        if (initiblized == fblse) {
             return;
         }
-        initialized = false;
-        if ((session == null) || (token.explicitCancel == false)) {
+        initiblized = fblse;
+        if ((session == null) || (token.explicitCbncel == fblse)) {
             return;
         }
-        if (session.hasObjects() == false) {
+        if (session.hbsObjects() == fblse) {
             session = token.killSession(session);
             return;
         }
-        // "cancel" operation by finishing it
-        // XXX make sure all this always works correctly
+        // "cbncel" operbtion by finishing it
+        // XXX mbke sure bll this blwbys works correctly
         if (mode == M_SIGN) {
             try {
                 if (type == T_UPDATE) {
-                    token.p11.C_SignFinal(session.id(), 0);
+                    token.p11.C_SignFinbl(session.id(), 0);
                 } else {
                     byte[] digest;
                     if (type == T_DIGEST) {
@@ -272,19 +272,19 @@ final class P11Signature extends SignatureSpi {
                     }
                     token.p11.C_Sign(session.id(), digest);
                 }
-            } catch (PKCS11Exception e) {
-                throw new ProviderException("cancel failed", e);
+            } cbtch (PKCS11Exception e) {
+                throw new ProviderException("cbncel fbiled", e);
             }
         } else { // M_VERIFY
             try {
-                byte[] signature;
-                if (keyAlgorithm.equals("DSA")) {
-                    signature = new byte[40];
+                byte[] signbture;
+                if (keyAlgorithm.equbls("DSA")) {
+                    signbture = new byte[40];
                 } else {
-                    signature = new byte[(p11Key.length() + 7) >> 3];
+                    signbture = new byte[(p11Key.length() + 7) >> 3];
                 }
                 if (type == T_UPDATE) {
-                    token.p11.C_VerifyFinal(session.id(), signature);
+                    token.p11.C_VerifyFinbl(session.id(), signbture);
                 } else {
                     byte[] digest;
                     if (type == T_DIGEST) {
@@ -292,31 +292,31 @@ final class P11Signature extends SignatureSpi {
                     } else { // T_RAW
                         digest = buffer;
                     }
-                    token.p11.C_Verify(session.id(), digest, signature);
+                    token.p11.C_Verify(session.id(), digest, signbture);
                 }
-            } catch (PKCS11Exception e) {
-                // will fail since the signature is incorrect
+            } cbtch (PKCS11Exception e) {
+                // will fbil since the signbture is incorrect
                 // XXX check error code
             }
         }
     }
 
-    // assumes current state is initialized == false
-    private void initialize() {
+    // bssumes current stbte is initiblized == fblse
+    privbte void initiblize() {
         try {
             if (session == null) {
                 session = token.getOpSession();
             }
             if (mode == M_SIGN) {
                 token.p11.C_SignInit(session.id(),
-                        new CK_MECHANISM(mechanism), p11Key.keyID);
+                        new CK_MECHANISM(mechbnism), p11Key.keyID);
             } else {
                 token.p11.C_VerifyInit(session.id(),
-                        new CK_MECHANISM(mechanism), p11Key.keyID);
+                        new CK_MECHANISM(mechbnism), p11Key.keyID);
             }
-            initialized = true;
-        } catch (PKCS11Exception e) {
-            throw new ProviderException("Initialization failed", e);
+            initiblized = true;
+        } cbtch (PKCS11Exception e) {
+            throw new ProviderException("Initiblizbtion fbiled", e);
         }
         if (bytesProcessed != 0) {
             bytesProcessed = 0;
@@ -326,453 +326,453 @@ final class P11Signature extends SignatureSpi {
         }
     }
 
-    private void checkKeySize(String keyAlgo, Key key)
-        throws InvalidKeyException {
+    privbte void checkKeySize(String keyAlgo, Key key)
+        throws InvblidKeyException {
         CK_MECHANISM_INFO mechInfo = null;
         try {
-            mechInfo = token.getMechanismInfo(mechanism);
-        } catch (PKCS11Exception e) {
-            // should not happen, ignore for now.
+            mechInfo = token.getMechbnismInfo(mechbnism);
+        } cbtch (PKCS11Exception e) {
+            // should not hbppen, ignore for now.
         }
         if (mechInfo == null) {
-            // skip the check if no native info available
+            // skip the check if no nbtive info bvbilbble
             return;
         }
         int minKeySize = (int) mechInfo.ulMinKeySize;
-        int maxKeySize = (int) mechInfo.ulMaxKeySize;
+        int mbxKeySize = (int) mechInfo.ulMbxKeySize;
         // need to override the MAX keysize for SHA1withDSA
-        if (md != null && mechanism == CKM_DSA && maxKeySize > 1024) {
-               maxKeySize = 1024;
+        if (md != null && mechbnism == CKM_DSA && mbxKeySize > 1024) {
+               mbxKeySize = 1024;
         }
         int keySize = 0;
-        if (key instanceof P11Key) {
+        if (key instbnceof P11Key) {
             keySize = ((P11Key) key).length();
         } else {
-            if (keyAlgo.equals("RSA")) {
+            if (keyAlgo.equbls("RSA")) {
                 keySize = ((RSAKey) key).getModulus().bitLength();
-            } else if (keyAlgo.equals("DSA")) {
-                keySize = ((DSAKey) key).getParams().getP().bitLength();
-            } else if (keyAlgo.equals("EC")) {
-                keySize = ((ECKey) key).getParams().getCurve().getField().getFieldSize();
+            } else if (keyAlgo.equbls("DSA")) {
+                keySize = ((DSAKey) key).getPbrbms().getP().bitLength();
+            } else if (keyAlgo.equbls("EC")) {
+                keySize = ((ECKey) key).getPbrbms().getCurve().getField().getFieldSize();
             } else {
-                throw new ProviderException("Error: unsupported algo " + keyAlgo);
+                throw new ProviderException("Error: unsupported blgo " + keyAlgo);
             }
         }
         if ((minKeySize != -1) && (keySize < minKeySize)) {
-            throw new InvalidKeyException(keyAlgo +
-                " key must be at least " + minKeySize + " bits");
+            throw new InvblidKeyException(keyAlgo +
+                " key must be bt lebst " + minKeySize + " bits");
         }
-        if ((maxKeySize != -1) && (keySize > maxKeySize)) {
-            throw new InvalidKeyException(keyAlgo +
-                " key must be at most " + maxKeySize + " bits");
+        if ((mbxKeySize != -1) && (keySize > mbxKeySize)) {
+            throw new InvblidKeyException(keyAlgo +
+                " key must be bt most " + mbxKeySize + " bits");
         }
-        if (keyAlgo.equals("RSA")) {
+        if (keyAlgo.equbls("RSA")) {
             checkRSAKeyLength(keySize);
         }
     }
 
-    private void checkRSAKeyLength(int len) throws InvalidKeyException {
-        RSAPadding padding;
+    privbte void checkRSAKeyLength(int len) throws InvblidKeyException {
+        RSAPbdding pbdding;
         try {
-            padding = RSAPadding.getInstance
-                (RSAPadding.PAD_BLOCKTYPE_1, (len + 7) >> 3);
-        } catch (InvalidAlgorithmParameterException iape) {
-            throw new InvalidKeyException(iape.getMessage());
+            pbdding = RSAPbdding.getInstbnce
+                (RSAPbdding.PAD_BLOCKTYPE_1, (len + 7) >> 3);
+        } cbtch (InvblidAlgorithmPbrbmeterException ibpe) {
+            throw new InvblidKeyException(ibpe.getMessbge());
         }
-        int maxDataSize = padding.getMaxDataSize();
+        int mbxDbtbSize = pbdding.getMbxDbtbSize();
         int encodedLength;
-        if (algorithm.equals("MD5withRSA") ||
-            algorithm.equals("MD2withRSA")) {
+        if (blgorithm.equbls("MD5withRSA") ||
+            blgorithm.equbls("MD2withRSA")) {
             encodedLength = 34;
-        } else if (algorithm.equals("SHA1withRSA")) {
+        } else if (blgorithm.equbls("SHA1withRSA")) {
             encodedLength = 35;
-        } else if (algorithm.equals("SHA224withRSA")) {
+        } else if (blgorithm.equbls("SHA224withRSA")) {
             encodedLength = 47;
-        } else if (algorithm.equals("SHA256withRSA")) {
+        } else if (blgorithm.equbls("SHA256withRSA")) {
             encodedLength = 51;
-        } else if (algorithm.equals("SHA384withRSA")) {
+        } else if (blgorithm.equbls("SHA384withRSA")) {
             encodedLength = 67;
-        } else if (algorithm.equals("SHA512withRSA")) {
+        } else if (blgorithm.equbls("SHA512withRSA")) {
             encodedLength = 83;
         } else {
-            throw new ProviderException("Unknown signature algo: " + algorithm);
+            throw new ProviderException("Unknown signbture blgo: " + blgorithm);
         }
-        if (encodedLength > maxDataSize) {
-            throw new InvalidKeyException
-                ("Key is too short for this signature algorithm");
+        if (encodedLength > mbxDbtbSize) {
+            throw new InvblidKeyException
+                ("Key is too short for this signbture blgorithm");
         }
     }
 
     // see JCA spec
     protected void engineInitVerify(PublicKey publicKey)
-            throws InvalidKeyException {
+            throws InvblidKeyException {
         if (publicKey == null) {
-            throw new InvalidKeyException("Key must not be null");
+            throw new InvblidKeyException("Key must not be null");
         }
-        // Need to check key length whenever a new key is set
+        // Need to check key length whenever b new key is set
         if (publicKey != p11Key) {
             checkKeySize(keyAlgorithm, publicKey);
         }
-        cancelOperation();
+        cbncelOperbtion();
         mode = M_VERIFY;
-        p11Key = P11KeyFactory.convertKey(token, publicKey, keyAlgorithm);
-        initialize();
+        p11Key = P11KeyFbctory.convertKey(token, publicKey, keyAlgorithm);
+        initiblize();
     }
 
     // see JCA spec
-    protected void engineInitSign(PrivateKey privateKey)
-            throws InvalidKeyException {
-        if (privateKey == null) {
-            throw new InvalidKeyException("Key must not be null");
+    protected void engineInitSign(PrivbteKey privbteKey)
+            throws InvblidKeyException {
+        if (privbteKey == null) {
+            throw new InvblidKeyException("Key must not be null");
         }
-        // Need to check RSA key length whenever a new key is set
-        if (privateKey != p11Key) {
-            checkKeySize(keyAlgorithm, privateKey);
+        // Need to check RSA key length whenever b new key is set
+        if (privbteKey != p11Key) {
+            checkKeySize(keyAlgorithm, privbteKey);
         }
-        cancelOperation();
+        cbncelOperbtion();
         mode = M_SIGN;
-        p11Key = P11KeyFactory.convertKey(token, privateKey, keyAlgorithm);
-        initialize();
+        p11Key = P11KeyFbctory.convertKey(token, privbteKey, keyAlgorithm);
+        initiblize();
     }
 
     // see JCA spec
-    protected void engineUpdate(byte b) throws SignatureException {
-        ensureInitialized();
+    protected void engineUpdbte(byte b) throws SignbtureException {
+        ensureInitiblized();
         switch (type) {
-        case T_UPDATE:
+        cbse T_UPDATE:
             buffer[0] = b;
-            engineUpdate(buffer, 0, 1);
-            break;
-        case T_DIGEST:
-            md.update(b);
+            engineUpdbte(buffer, 0, 1);
+            brebk;
+        cbse T_DIGEST:
+            md.updbte(b);
             bytesProcessed++;
-            break;
-        case T_RAW:
+            brebk;
+        cbse T_RAW:
             if (bytesProcessed >= buffer.length) {
                 bytesProcessed = buffer.length + 1;
                 return;
             }
             buffer[bytesProcessed++] = b;
-            break;
-        default:
-            throw new ProviderException("Internal error");
+            brebk;
+        defbult:
+            throw new ProviderException("Internbl error");
         }
     }
 
     // see JCA spec
-    protected void engineUpdate(byte[] b, int ofs, int len)
-            throws SignatureException {
-        ensureInitialized();
+    protected void engineUpdbte(byte[] b, int ofs, int len)
+            throws SignbtureException {
+        ensureInitiblized();
         if (len == 0) {
             return;
         }
         switch (type) {
-        case T_UPDATE:
+        cbse T_UPDATE:
             try {
                 if (mode == M_SIGN) {
-                    token.p11.C_SignUpdate(session.id(), 0, b, ofs, len);
+                    token.p11.C_SignUpdbte(session.id(), 0, b, ofs, len);
                 } else {
-                    token.p11.C_VerifyUpdate(session.id(), 0, b, ofs, len);
+                    token.p11.C_VerifyUpdbte(session.id(), 0, b, ofs, len);
                 }
                 bytesProcessed += len;
-            } catch (PKCS11Exception e) {
+            } cbtch (PKCS11Exception e) {
                 throw new ProviderException(e);
             }
-            break;
-        case T_DIGEST:
-            md.update(b, ofs, len);
+            brebk;
+        cbse T_DIGEST:
+            md.updbte(b, ofs, len);
             bytesProcessed += len;
-            break;
-        case T_RAW:
+            brebk;
+        cbse T_RAW:
             if (bytesProcessed + len > buffer.length) {
                 bytesProcessed = buffer.length + 1;
                 return;
             }
-            System.arraycopy(b, ofs, buffer, bytesProcessed, len);
+            System.brrbycopy(b, ofs, buffer, bytesProcessed, len);
             bytesProcessed += len;
-            break;
-        default:
-            throw new ProviderException("Internal error");
+            brebk;
+        defbult:
+            throw new ProviderException("Internbl error");
         }
     }
 
     // see JCA spec
-    protected void engineUpdate(ByteBuffer byteBuffer) {
-        ensureInitialized();
-        int len = byteBuffer.remaining();
+    protected void engineUpdbte(ByteBuffer byteBuffer) {
+        ensureInitiblized();
+        int len = byteBuffer.rembining();
         if (len <= 0) {
             return;
         }
         switch (type) {
-        case T_UPDATE:
-            if (byteBuffer instanceof DirectBuffer == false) {
-                // cannot do better than default impl
-                super.engineUpdate(byteBuffer);
+        cbse T_UPDATE:
+            if (byteBuffer instbnceof DirectBuffer == fblse) {
+                // cbnnot do better thbn defbult impl
+                super.engineUpdbte(byteBuffer);
                 return;
             }
-            long addr = ((DirectBuffer)byteBuffer).address();
+            long bddr = ((DirectBuffer)byteBuffer).bddress();
             int ofs = byteBuffer.position();
             try {
                 if (mode == M_SIGN) {
-                    token.p11.C_SignUpdate
-                        (session.id(), addr + ofs, null, 0, len);
+                    token.p11.C_SignUpdbte
+                        (session.id(), bddr + ofs, null, 0, len);
                 } else {
-                    token.p11.C_VerifyUpdate
-                        (session.id(), addr + ofs, null, 0, len);
+                    token.p11.C_VerifyUpdbte
+                        (session.id(), bddr + ofs, null, 0, len);
                 }
                 bytesProcessed += len;
                 byteBuffer.position(ofs + len);
-            } catch (PKCS11Exception e) {
-                throw new ProviderException("Update failed", e);
+            } cbtch (PKCS11Exception e) {
+                throw new ProviderException("Updbte fbiled", e);
             }
-            break;
-        case T_DIGEST:
-            md.update(byteBuffer);
+            brebk;
+        cbse T_DIGEST:
+            md.updbte(byteBuffer);
             bytesProcessed += len;
-            break;
-        case T_RAW:
+            brebk;
+        cbse T_RAW:
             if (bytesProcessed + len > buffer.length) {
                 bytesProcessed = buffer.length + 1;
                 return;
             }
             byteBuffer.get(buffer, bytesProcessed, len);
             bytesProcessed += len;
-            break;
-        default:
-            throw new ProviderException("Internal error");
+            brebk;
+        defbult:
+            throw new ProviderException("Internbl error");
         }
     }
 
     // see JCA spec
-    protected byte[] engineSign() throws SignatureException {
-        ensureInitialized();
+    protected byte[] engineSign() throws SignbtureException {
+        ensureInitiblized();
         try {
-            byte[] signature;
+            byte[] signbture;
             if (type == T_UPDATE) {
-                int len = keyAlgorithm.equals("DSA") ? 40 : 0;
-                signature = token.p11.C_SignFinal(session.id(), len);
+                int len = keyAlgorithm.equbls("DSA") ? 40 : 0;
+                signbture = token.p11.C_SignFinbl(session.id(), len);
             } else {
                 byte[] digest;
                 if (type == T_DIGEST) {
                     digest = md.digest();
                 } else { // T_RAW
-                    if (mechanism == CKM_DSA) {
+                    if (mechbnism == CKM_DSA) {
                         if (bytesProcessed != buffer.length) {
-                            throw new SignatureException
-                            ("Data for RawDSA must be exactly 20 bytes long");
+                            throw new SignbtureException
+                            ("Dbtb for RbwDSA must be exbctly 20 bytes long");
                         }
                         digest = buffer;
                     } else { // CKM_ECDSA
                         if (bytesProcessed > buffer.length) {
-                            throw new SignatureException("Data for NONEwithECDSA"
-                            + " must be at most " + RAW_ECDSA_MAX + " bytes long");
+                            throw new SignbtureException("Dbtb for NONEwithECDSA"
+                            + " must be bt most " + RAW_ECDSA_MAX + " bytes long");
                         }
                         digest = new byte[bytesProcessed];
-                        System.arraycopy(buffer, 0, digest, 0, bytesProcessed);
+                        System.brrbycopy(buffer, 0, digest, 0, bytesProcessed);
                     }
                 }
-                if (keyAlgorithm.equals("RSA") == false) {
-                    // DSA and ECDSA
-                    signature = token.p11.C_Sign(session.id(), digest);
+                if (keyAlgorithm.equbls("RSA") == fblse) {
+                    // DSA bnd ECDSA
+                    signbture = token.p11.C_Sign(session.id(), digest);
                 } else { // RSA
-                    byte[] data = encodeSignature(digest);
-                    if (mechanism == CKM_RSA_X_509) {
-                        data = pkcs1Pad(data);
+                    byte[] dbtb = encodeSignbture(digest);
+                    if (mechbnism == CKM_RSA_X_509) {
+                        dbtb = pkcs1Pbd(dbtb);
                     }
-                    signature = token.p11.C_Sign(session.id(), data);
+                    signbture = token.p11.C_Sign(session.id(), dbtb);
                 }
             }
-            if (keyAlgorithm.equals("RSA") == false) {
-                return dsaToASN1(signature);
+            if (keyAlgorithm.equbls("RSA") == fblse) {
+                return dsbToASN1(signbture);
             } else {
-                return signature;
+                return signbture;
             }
-        } catch (PKCS11Exception e) {
+        } cbtch (PKCS11Exception e) {
             throw new ProviderException(e);
-        } finally {
-            initialized = false;
-            session = token.releaseSession(session);
+        } finblly {
+            initiblized = fblse;
+            session = token.relebseSession(session);
         }
     }
 
     // see JCA spec
-    protected boolean engineVerify(byte[] signature) throws SignatureException {
-        ensureInitialized();
+    protected boolebn engineVerify(byte[] signbture) throws SignbtureException {
+        ensureInitiblized();
         try {
-            if (keyAlgorithm.equals("DSA")) {
-                signature = asn1ToDSA(signature);
-            } else if (keyAlgorithm.equals("EC")) {
-                signature = asn1ToECDSA(signature);
+            if (keyAlgorithm.equbls("DSA")) {
+                signbture = bsn1ToDSA(signbture);
+            } else if (keyAlgorithm.equbls("EC")) {
+                signbture = bsn1ToECDSA(signbture);
             }
             if (type == T_UPDATE) {
-                token.p11.C_VerifyFinal(session.id(), signature);
+                token.p11.C_VerifyFinbl(session.id(), signbture);
             } else {
                 byte[] digest;
                 if (type == T_DIGEST) {
                     digest = md.digest();
                 } else { // T_RAW
-                    if (mechanism == CKM_DSA) {
+                    if (mechbnism == CKM_DSA) {
                         if (bytesProcessed != buffer.length) {
-                            throw new SignatureException
-                            ("Data for RawDSA must be exactly 20 bytes long");
+                            throw new SignbtureException
+                            ("Dbtb for RbwDSA must be exbctly 20 bytes long");
                         }
                         digest = buffer;
                     } else {
                         if (bytesProcessed > buffer.length) {
-                            throw new SignatureException("Data for NONEwithECDSA"
-                            + " must be at most " + RAW_ECDSA_MAX + " bytes long");
+                            throw new SignbtureException("Dbtb for NONEwithECDSA"
+                            + " must be bt most " + RAW_ECDSA_MAX + " bytes long");
                         }
                         digest = new byte[bytesProcessed];
-                        System.arraycopy(buffer, 0, digest, 0, bytesProcessed);
+                        System.brrbycopy(buffer, 0, digest, 0, bytesProcessed);
                     }
                 }
-                if (keyAlgorithm.equals("RSA") == false) {
-                    // DSA and ECDSA
-                    token.p11.C_Verify(session.id(), digest, signature);
+                if (keyAlgorithm.equbls("RSA") == fblse) {
+                    // DSA bnd ECDSA
+                    token.p11.C_Verify(session.id(), digest, signbture);
                 } else { // RSA
-                    byte[] data = encodeSignature(digest);
-                    if (mechanism == CKM_RSA_X_509) {
-                        data = pkcs1Pad(data);
+                    byte[] dbtb = encodeSignbture(digest);
+                    if (mechbnism == CKM_RSA_X_509) {
+                        dbtb = pkcs1Pbd(dbtb);
                     }
-                    token.p11.C_Verify(session.id(), data, signature);
+                    token.p11.C_Verify(session.id(), dbtb, signbture);
                 }
             }
             return true;
-        } catch (PKCS11Exception e) {
+        } cbtch (PKCS11Exception e) {
             long errorCode = e.getErrorCode();
             if (errorCode == CKR_SIGNATURE_INVALID) {
-                return false;
+                return fblse;
             }
             if (errorCode == CKR_SIGNATURE_LEN_RANGE) {
-                // return false rather than throwing an exception
-                return false;
+                // return fblse rbther thbn throwing bn exception
+                return fblse;
             }
             // ECF bug?
             if (errorCode == CKR_DATA_LEN_RANGE) {
-                return false;
+                return fblse;
             }
             throw new ProviderException(e);
-        } finally {
-            // XXX we should not release the session if we abort above
-            // before calling C_Verify
-            initialized = false;
-            session = token.releaseSession(session);
+        } finblly {
+            // XXX we should not relebse the session if we bbort bbove
+            // before cblling C_Verify
+            initiblized = fblse;
+            session = token.relebseSession(session);
         }
     }
 
-    private byte[] pkcs1Pad(byte[] data) {
+    privbte byte[] pkcs1Pbd(byte[] dbtb) {
         try {
             int len = (p11Key.length() + 7) >> 3;
-            RSAPadding padding = RSAPadding.getInstance
-                                        (RSAPadding.PAD_BLOCKTYPE_1, len);
-            byte[] padded = padding.pad(data);
-            return padded;
-        } catch (GeneralSecurityException e) {
+            RSAPbdding pbdding = RSAPbdding.getInstbnce
+                                        (RSAPbdding.PAD_BLOCKTYPE_1, len);
+            byte[] pbdded = pbdding.pbd(dbtb);
+            return pbdded;
+        } cbtch (GenerblSecurityException e) {
             throw new ProviderException(e);
         }
     }
 
-    private byte[] encodeSignature(byte[] digest) throws SignatureException {
+    privbte byte[] encodeSignbture(byte[] digest) throws SignbtureException {
         try {
-            return RSASignature.encodeSignature(digestOID, digest);
-        } catch (IOException e) {
-            throw new SignatureException("Invalid encoding", e);
+            return RSASignbture.encodeSignbture(digestOID, digest);
+        } cbtch (IOException e) {
+            throw new SignbtureException("Invblid encoding", e);
         }
     }
 
-//    private static byte[] decodeSignature(byte[] signature) throws IOException {
-//      return RSASignature.decodeSignature(digestOID, signature);
+//    privbte stbtic byte[] decodeSignbture(byte[] signbture) throws IOException {
+//      return RSASignbture.decodeSignbture(digestOID, signbture);
 //    }
 
-    // For DSA and ECDSA signatures, PKCS#11 represents them as a simple
-    // byte array that contains the concatenation of r and s.
-    // For DSA, r and s are always exactly 20 bytes long.
-    // For ECDSA, r and s are of variable length, but we know that each
-    // occupies half of the array.
-    private static byte[] dsaToASN1(byte[] signature) {
-        int n = signature.length >> 1;
-        BigInteger r = new BigInteger(1, P11Util.subarray(signature, 0, n));
-        BigInteger s = new BigInteger(1, P11Util.subarray(signature, n, n));
+    // For DSA bnd ECDSA signbtures, PKCS#11 represents them bs b simple
+    // byte brrby thbt contbins the concbtenbtion of r bnd s.
+    // For DSA, r bnd s bre blwbys exbctly 20 bytes long.
+    // For ECDSA, r bnd s bre of vbribble length, but we know thbt ebch
+    // occupies hblf of the brrby.
+    privbte stbtic byte[] dsbToASN1(byte[] signbture) {
+        int n = signbture.length >> 1;
+        BigInteger r = new BigInteger(1, P11Util.subbrrby(signbture, 0, n));
+        BigInteger s = new BigInteger(1, P11Util.subbrrby(signbture, n, n));
         try {
-            DerOutputStream outseq = new DerOutputStream(100);
+            DerOutputStrebm outseq = new DerOutputStrebm(100);
             outseq.putInteger(r);
             outseq.putInteger(s);
-            DerValue result = new DerValue(DerValue.tag_Sequence,
-                                           outseq.toByteArray());
-            return result.toByteArray();
-        } catch (java.io.IOException e) {
-            throw new RuntimeException("Internal error", e);
+            DerVblue result = new DerVblue(DerVblue.tbg_Sequence,
+                                           outseq.toByteArrby());
+            return result.toByteArrby();
+        } cbtch (jbvb.io.IOException e) {
+            throw new RuntimeException("Internbl error", e);
         }
     }
 
-    private static byte[] asn1ToDSA(byte[] signature) throws SignatureException {
+    privbte stbtic byte[] bsn1ToDSA(byte[] signbture) throws SignbtureException {
         try {
-            DerInputStream in = new DerInputStream(signature);
-            DerValue[] values = in.getSequence(2);
-            BigInteger r = values[0].getPositiveBigInteger();
-            BigInteger s = values[1].getPositiveBigInteger();
-            byte[] br = toByteArray(r, 20);
-            byte[] bs = toByteArray(s, 20);
+            DerInputStrebm in = new DerInputStrebm(signbture);
+            DerVblue[] vblues = in.getSequence(2);
+            BigInteger r = vblues[0].getPositiveBigInteger();
+            BigInteger s = vblues[1].getPositiveBigInteger();
+            byte[] br = toByteArrby(r, 20);
+            byte[] bs = toByteArrby(s, 20);
             if ((br == null) || (bs == null)) {
-                throw new SignatureException("Out of range value for R or S");
+                throw new SignbtureException("Out of rbnge vblue for R or S");
             }
-            return P11Util.concat(br, bs);
-        } catch (SignatureException e) {
+            return P11Util.concbt(br, bs);
+        } cbtch (SignbtureException e) {
             throw e;
-        } catch (Exception e) {
-            throw new SignatureException("invalid encoding for signature", e);
+        } cbtch (Exception e) {
+            throw new SignbtureException("invblid encoding for signbture", e);
         }
     }
 
-    private byte[] asn1ToECDSA(byte[] signature) throws SignatureException {
+    privbte byte[] bsn1ToECDSA(byte[] signbture) throws SignbtureException {
         try {
-            DerInputStream in = new DerInputStream(signature);
-            DerValue[] values = in.getSequence(2);
-            BigInteger r = values[0].getPositiveBigInteger();
-            BigInteger s = values[1].getPositiveBigInteger();
-            // trim leading zeroes
-            byte[] br = KeyUtil.trimZeroes(r.toByteArray());
-            byte[] bs = KeyUtil.trimZeroes(s.toByteArray());
-            int k = Math.max(br.length, bs.length);
-            // r and s each occupy half the array
+            DerInputStrebm in = new DerInputStrebm(signbture);
+            DerVblue[] vblues = in.getSequence(2);
+            BigInteger r = vblues[0].getPositiveBigInteger();
+            BigInteger s = vblues[1].getPositiveBigInteger();
+            // trim lebding zeroes
+            byte[] br = KeyUtil.trimZeroes(r.toByteArrby());
+            byte[] bs = KeyUtil.trimZeroes(s.toByteArrby());
+            int k = Mbth.mbx(br.length, bs.length);
+            // r bnd s ebch occupy hblf the brrby
             byte[] res = new byte[k << 1];
-            System.arraycopy(br, 0, res, k - br.length, br.length);
-            System.arraycopy(bs, 0, res, res.length - bs.length, bs.length);
+            System.brrbycopy(br, 0, res, k - br.length, br.length);
+            System.brrbycopy(bs, 0, res, res.length - bs.length, bs.length);
             return res;
-        } catch (Exception e) {
-            throw new SignatureException("invalid encoding for signature", e);
+        } cbtch (Exception e) {
+            throw new SignbtureException("invblid encoding for signbture", e);
         }
     }
 
-    private static byte[] toByteArray(BigInteger bi, int len) {
-        byte[] b = bi.toByteArray();
+    privbte stbtic byte[] toByteArrby(BigInteger bi, int len) {
+        byte[] b = bi.toByteArrby();
         int n = b.length;
         if (n == len) {
             return b;
         }
         if ((n == len + 1) && (b[0] == 0)) {
             byte[] t = new byte[len];
-            System.arraycopy(b, 1, t, 0, len);
+            System.brrbycopy(b, 1, t, 0, len);
             return t;
         }
         if (n > len) {
             return null;
         }
-        // must be smaller
+        // must be smbller
         byte[] t = new byte[len];
-        System.arraycopy(b, 0, t, (len - n), n);
+        System.brrbycopy(b, 0, t, (len - n), n);
         return t;
     }
 
     // see JCA spec
-    protected void engineSetParameter(String param, Object value)
-            throws InvalidParameterException {
-        throw new UnsupportedOperationException("setParameter() not supported");
+    protected void engineSetPbrbmeter(String pbrbm, Object vblue)
+            throws InvblidPbrbmeterException {
+        throw new UnsupportedOperbtionException("setPbrbmeter() not supported");
     }
 
     // see JCA spec
-    protected Object engineGetParameter(String param)
-            throws InvalidParameterException {
-        throw new UnsupportedOperationException("getParameter() not supported");
+    protected Object engineGetPbrbmeter(String pbrbm)
+            throws InvblidPbrbmeterException {
+        throw new UnsupportedOperbtionException("getPbrbmeter() not supported");
     }
 }

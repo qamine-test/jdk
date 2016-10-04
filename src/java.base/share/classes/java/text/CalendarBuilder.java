@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.util.Calendar;
-import static java.util.GregorianCalendar.*;
+import jbvb.util.Cblendbr;
+import stbtic jbvb.util.GregoribnCblendbr.*;
 
 /**
- * {@code CalendarBuilder} keeps field-value pairs for setting
- * the calendar fields of the given {@code Calendar}. It has the
- * {@link Calendar#FIELD_COUNT FIELD_COUNT}-th field for the week year
+ * {@code CblendbrBuilder} keeps field-vblue pbirs for setting
+ * the cblendbr fields of the given {@code Cblendbr}. It hbs the
+ * {@link Cblendbr#FIELD_COUNT FIELD_COUNT}-th field for the week yebr
  * support. Also {@code ISO_DAY_OF_WEEK} is used to specify
- * {@code DAY_OF_WEEK} in the ISO day of week numbering.
+ * {@code DAY_OF_WEEK} in the ISO dby of week numbering.
  *
- * <p>{@code CalendarBuilder} retains the semantic of the pseudo
- * timestamp for fields. {@code CalendarBuilder} uses a single
- * int array combining fields[] and stamp[] of {@code Calendar}.
+ * <p>{@code CblendbrBuilder} retbins the sembntic of the pseudo
+ * timestbmp for fields. {@code CblendbrBuilder} uses b single
+ * int brrby combining fields[] bnd stbmp[] of {@code Cblendbr}.
  *
- * @author Masayoshi Okutsu
+ * @buthor Mbsbyoshi Okutsu
  */
-class CalendarBuilder {
+clbss CblendbrBuilder {
     /*
-     * Pseudo time stamp constants used in java.util.Calendar
+     * Pseudo time stbmp constbnts used in jbvb.util.Cblendbr
      */
-    private static final int UNSET = 0;
-    private static final int COMPUTED = 1;
-    private static final int MINIMUM_USER_STAMP = 2;
+    privbte stbtic finbl int UNSET = 0;
+    privbte stbtic finbl int COMPUTED = 1;
+    privbte stbtic finbl int MINIMUM_USER_STAMP = 2;
 
-    private static final int MAX_FIELD = FIELD_COUNT + 1;
+    privbte stbtic finbl int MAX_FIELD = FIELD_COUNT + 1;
 
-    public static final int WEEK_YEAR = FIELD_COUNT;
-    public static final int ISO_DAY_OF_WEEK = 1000; // pseudo field index
+    public stbtic finbl int WEEK_YEAR = FIELD_COUNT;
+    public stbtic finbl int ISO_DAY_OF_WEEK = 1000; // pseudo field index
 
-    // stamp[] (lower half) and field[] (upper half) combined
-    private final int[] field;
-    private int nextStamp;
-    private int maxFieldIndex;
+    // stbmp[] (lower hblf) bnd field[] (upper hblf) combined
+    privbte finbl int[] field;
+    privbte int nextStbmp;
+    privbte int mbxFieldIndex;
 
-    CalendarBuilder() {
+    CblendbrBuilder() {
         field = new int[MAX_FIELD * 2];
-        nextStamp = MINIMUM_USER_STAMP;
-        maxFieldIndex = -1;
+        nextStbmp = MINIMUM_USER_STAMP;
+        mbxFieldIndex = -1;
     }
 
-    CalendarBuilder set(int index, int value) {
+    CblendbrBuilder set(int index, int vblue) {
         if (index == ISO_DAY_OF_WEEK) {
             index = DAY_OF_WEEK;
-            value = toCalendarDayOfWeek(value);
+            vblue = toCblendbrDbyOfWeek(vblue);
         }
-        field[index] = nextStamp++;
-        field[MAX_FIELD + index] = value;
-        if (index > maxFieldIndex && index < FIELD_COUNT) {
-            maxFieldIndex = index;
+        field[index] = nextStbmp++;
+        field[MAX_FIELD + index] = vblue;
+        if (index > mbxFieldIndex && index < FIELD_COUNT) {
+            mbxFieldIndex = index;
         }
         return this;
     }
 
-    CalendarBuilder addYear(int value) {
-        field[MAX_FIELD + YEAR] += value;
-        field[MAX_FIELD + WEEK_YEAR] += value;
+    CblendbrBuilder bddYebr(int vblue) {
+        field[MAX_FIELD + YEAR] += vblue;
+        field[MAX_FIELD + WEEK_YEAR] += vblue;
         return this;
     }
 
-    boolean isSet(int index) {
+    boolebn isSet(int index) {
         if (index == ISO_DAY_OF_WEEK) {
             index = DAY_OF_WEEK;
         }
         return field[index] > UNSET;
     }
 
-    CalendarBuilder clear(int index) {
+    CblendbrBuilder clebr(int index) {
         if (index == ISO_DAY_OF_WEEK) {
             index = DAY_OF_WEEK;
         }
@@ -100,80 +100,80 @@ class CalendarBuilder {
         return this;
     }
 
-    Calendar establish(Calendar cal) {
-        boolean weekDate = isSet(WEEK_YEAR)
+    Cblendbr estbblish(Cblendbr cbl) {
+        boolebn weekDbte = isSet(WEEK_YEAR)
                             && field[WEEK_YEAR] > field[YEAR];
-        if (weekDate && !cal.isWeekDateSupported()) {
-            // Use YEAR instead
+        if (weekDbte && !cbl.isWeekDbteSupported()) {
+            // Use YEAR instebd
             if (!isSet(YEAR)) {
                 set(YEAR, field[MAX_FIELD + WEEK_YEAR]);
             }
-            weekDate = false;
+            weekDbte = fblse;
         }
 
-        cal.clear();
-        // Set the fields from the min stamp to the max stamp so that
-        // the field resolution works in the Calendar.
-        for (int stamp = MINIMUM_USER_STAMP; stamp < nextStamp; stamp++) {
-            for (int index = 0; index <= maxFieldIndex; index++) {
-                if (field[index] == stamp) {
-                    cal.set(index, field[MAX_FIELD + index]);
-                    break;
+        cbl.clebr();
+        // Set the fields from the min stbmp to the mbx stbmp so thbt
+        // the field resolution works in the Cblendbr.
+        for (int stbmp = MINIMUM_USER_STAMP; stbmp < nextStbmp; stbmp++) {
+            for (int index = 0; index <= mbxFieldIndex; index++) {
+                if (field[index] == stbmp) {
+                    cbl.set(index, field[MAX_FIELD + index]);
+                    brebk;
                 }
             }
         }
 
-        if (weekDate) {
-            int weekOfYear = isSet(WEEK_OF_YEAR) ? field[MAX_FIELD + WEEK_OF_YEAR] : 1;
-            int dayOfWeek = isSet(DAY_OF_WEEK) ?
-                                field[MAX_FIELD + DAY_OF_WEEK] : cal.getFirstDayOfWeek();
-            if (!isValidDayOfWeek(dayOfWeek) && cal.isLenient()) {
-                if (dayOfWeek >= 8) {
-                    dayOfWeek--;
-                    weekOfYear += dayOfWeek / 7;
-                    dayOfWeek = (dayOfWeek % 7) + 1;
+        if (weekDbte) {
+            int weekOfYebr = isSet(WEEK_OF_YEAR) ? field[MAX_FIELD + WEEK_OF_YEAR] : 1;
+            int dbyOfWeek = isSet(DAY_OF_WEEK) ?
+                                field[MAX_FIELD + DAY_OF_WEEK] : cbl.getFirstDbyOfWeek();
+            if (!isVblidDbyOfWeek(dbyOfWeek) && cbl.isLenient()) {
+                if (dbyOfWeek >= 8) {
+                    dbyOfWeek--;
+                    weekOfYebr += dbyOfWeek / 7;
+                    dbyOfWeek = (dbyOfWeek % 7) + 1;
                 } else {
-                    while (dayOfWeek <= 0) {
-                        dayOfWeek += 7;
-                        weekOfYear--;
+                    while (dbyOfWeek <= 0) {
+                        dbyOfWeek += 7;
+                        weekOfYebr--;
                     }
                 }
-                dayOfWeek = toCalendarDayOfWeek(dayOfWeek);
+                dbyOfWeek = toCblendbrDbyOfWeek(dbyOfWeek);
             }
-            cal.setWeekDate(field[MAX_FIELD + WEEK_YEAR], weekOfYear, dayOfWeek);
+            cbl.setWeekDbte(field[MAX_FIELD + WEEK_YEAR], weekOfYebr, dbyOfWeek);
         }
-        return cal;
+        return cbl;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("CalendarBuilder:[");
+        sb.bppend("CblendbrBuilder:[");
         for (int i = 0; i < field.length; i++) {
             if (isSet(i)) {
-                sb.append(i).append('=').append(field[MAX_FIELD + i]).append(',');
+                sb.bppend(i).bppend('=').bppend(field[MAX_FIELD + i]).bppend(',');
             }
         }
-        int lastIndex = sb.length() - 1;
-        if (sb.charAt(lastIndex) == ',') {
-            sb.setLength(lastIndex);
+        int lbstIndex = sb.length() - 1;
+        if (sb.chbrAt(lbstIndex) == ',') {
+            sb.setLength(lbstIndex);
         }
-        sb.append(']');
+        sb.bppend(']');
         return sb.toString();
     }
 
-    static int toISODayOfWeek(int calendarDayOfWeek) {
-        return calendarDayOfWeek == SUNDAY ? 7 : calendarDayOfWeek - 1;
+    stbtic int toISODbyOfWeek(int cblendbrDbyOfWeek) {
+        return cblendbrDbyOfWeek == SUNDAY ? 7 : cblendbrDbyOfWeek - 1;
     }
 
-    static int toCalendarDayOfWeek(int isoDayOfWeek) {
-        if (!isValidDayOfWeek(isoDayOfWeek)) {
-            // adjust later for lenient mode
-            return isoDayOfWeek;
+    stbtic int toCblendbrDbyOfWeek(int isoDbyOfWeek) {
+        if (!isVblidDbyOfWeek(isoDbyOfWeek)) {
+            // bdjust lbter for lenient mode
+            return isoDbyOfWeek;
         }
-        return isoDayOfWeek == 7 ? SUNDAY : isoDayOfWeek + 1;
+        return isoDbyOfWeek == 7 ? SUNDAY : isoDbyOfWeek + 1;
     }
 
-    static boolean isValidDayOfWeek(int dayOfWeek) {
-        return dayOfWeek > 0 && dayOfWeek <= 7;
+    stbtic boolebn isVblidDbyOfWeek(int dbyOfWeek) {
+        return dbyOfWeek > 0 && dbyOfWeek <= 7;
     }
 }

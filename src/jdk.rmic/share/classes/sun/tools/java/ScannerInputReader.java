@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 1995, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.FilterReader;
-import java.io.UnsupportedEncodingException;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.BufferedRebder;
+import jbvb.io.FilterRebder;
+import jbvb.io.UnsupportedEncodingException;
 
 /**
- * An input stream for java programs. The stream treats either "\n", "\r"
- * or "\r\n" as the end of a line, it always returns \n. It also parses
- * UNICODE characters expressed as \uffff. However, if it sees "\\", the
- * second slash cannot begin a unicode sequence. It keeps track of the current
- * position in the input stream.
+ * An input strebm for jbvb progrbms. The strebm trebts either "\n", "\r"
+ * or "\r\n" bs the end of b line, it blwbys returns \n. It blso pbrses
+ * UNICODE chbrbcters expressed bs \uffff. However, if it sees "\\", the
+ * second slbsh cbnnot begin b unicode sequence. It keeps trbck of the current
+ * position in the input strebm.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author      Arthur van Hoff
+ * @buthor      Arthur vbn Hoff
  */
 
 public
-class ScannerInputReader extends FilterReader implements Constants {
-    // A note.  This class does not really properly subclass FilterReader.
-    // Since this class only overrides the single character read method,
-    // and not the multi-character read method, any use of the latter
-    // will not work properly.  Any attempt to use this code outside of
-    // the compiler should take that into account.
+clbss ScbnnerInputRebder extends FilterRebder implements Constbnts {
+    // A note.  This clbss does not reblly properly subclbss FilterRebder.
+    // Since this clbss only overrides the single chbrbcter rebd method,
+    // bnd not the multi-chbrbcter rebd method, bny use of the lbtter
+    // will not work properly.  Any bttempt to use this code outside of
+    // the compiler should tbke thbt into bccount.
     //
-    // For efficiency, it might be worth moving this code to Scanner and
-    // getting rid of this class.
+    // For efficiency, it might be worth moving this code to Scbnner bnd
+    // getting rid of this clbss.
 
     Environment env;
     long pos;
 
-    private long chpos;
-    private int pushBack = -1;
+    privbte long chpos;
+    privbte int pushBbck = -1;
 
-    public ScannerInputReader(Environment env, InputStream in)
+    public ScbnnerInputRebder(Environment env, InputStrebm in)
         throws UnsupportedEncodingException
     {
-        // ScannerInputStream has been modified to no longer use
-        // BufferedReader.  It now does its own buffering for
-        // performance.
-        super(env.getCharacterEncoding() != null ?
-              new InputStreamReader(in, env.getCharacterEncoding()) :
-              new InputStreamReader(in));
+        // ScbnnerInputStrebm hbs been modified to no longer use
+        // BufferedRebder.  It now does its own buffering for
+        // performbnce.
+        super(env.getChbrbcterEncoding() != null ?
+              new InputStrebmRebder(in, env.getChbrbcterEncoding()) :
+              new InputStrebmRebder(in));
 
-        // Start out the buffer empty.
+        // Stbrt out the buffer empty.
         currentIndex = 0;
-        numChars = 0;
+        numChbrs = 0;
 
         this.env = env;
-        chpos = Scanner.LINEINC;
+        chpos = Scbnner.LINEINC;
     }
 
     //------------------------------------------------------------
     // Buffering code.
 
     // The size of our buffer.
-    private static final int BUFFERLEN = 10 * 1024;
+    privbte stbtic finbl int BUFFERLEN = 10 * 1024;
 
-    // A character buffer.
-    private final char[] buffer = new char[BUFFERLEN];
+    // A chbrbcter buffer.
+    privbte finbl chbr[] buffer = new chbr[BUFFERLEN];
 
-    // The index of the next character to be "read" from the buffer.
-    private int currentIndex;
+    // The index of the next chbrbcter to be "rebd" from the buffer.
+    privbte int currentIndex;
 
-    // The number of characters in the buffer.  -1 if EOF is reached.
-    private int numChars;
+    // The number of chbrbcters in the buffer.  -1 if EOF is rebched.
+    privbte int numChbrs;
 
     /**
-     * Get the next character from our buffer.
-     * Note: this method has been inlined by hand in the `read' method
-     * below.  Any changes made to this method should be equally applied
-     * to that code.
+     * Get the next chbrbcter from our buffer.
+     * Note: this method hbs been inlined by hbnd in the `rebd' method
+     * below.  Any chbnges mbde to this method should be equblly bpplied
+     * to thbt code.
      */
-    private int getNextChar() throws IOException {
-        // Check to see if we have either run out of characters in our
-        // buffer or gotten to EOF on a previous call.
-        if (currentIndex >= numChars) {
-            numChars = in.read(buffer);
-            if (numChars == -1) {
-                // We have reached EOF.
+    privbte int getNextChbr() throws IOException {
+        // Check to see if we hbve either run out of chbrbcters in our
+        // buffer or gotten to EOF on b previous cbll.
+        if (currentIndex >= numChbrs) {
+            numChbrs = in.rebd(buffer);
+            if (numChbrs == -1) {
+                // We hbve rebched EOF.
                 return -1;
             }
 
-            // No EOF.  currentIndex points to first char in buffer.
+            // No EOF.  currentIndex points to first chbr in buffer.
             currentIndex = 0;
         }
 
@@ -121,121 +121,121 @@ class ScannerInputReader extends FilterReader implements Constants {
 
     //------------------------------------------------------------
 
-    public int read(char[] buffer, int off, int len) {
+    public int rebd(chbr[] buffer, int off, int len) {
         throw new CompilerError(
-                   "ScannerInputReader is not a fully implemented reader.");
+                   "ScbnnerInputRebder is not b fully implemented rebder.");
     }
 
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         pos = chpos;
-        chpos += Scanner.OFFSETINC;
+        chpos += Scbnner.OFFSETINC;
 
-        int c = pushBack;
+        int c = pushBbck;
         if (c == -1) {
-        getchar: try {
-                // Here the call...
-                //     c = getNextChar();
-                // has been inlined by hand for performance.
+        getchbr: try {
+                // Here the cbll...
+                //     c = getNextChbr();
+                // hbs been inlined by hbnd for performbnce.
 
-                if (currentIndex >= numChars) {
-                    numChars = in.read(buffer);
-                    if (numChars == -1) {
-                        // We have reached EOF.
+                if (currentIndex >= numChbrs) {
+                    numChbrs = in.rebd(buffer);
+                    if (numChbrs == -1) {
+                        // We hbve rebched EOF.
                         c = -1;
-                        break getchar;
+                        brebk getchbr;
                     }
 
-                    // No EOF.  currentIndex points to first char in buffer.
+                    // No EOF.  currentIndex points to first chbr in buffer.
                     currentIndex = 0;
                 }
                 c = buffer[currentIndex++];
 
-            } catch (java.io.CharConversionException e) {
-                env.error(pos, "invalid.encoding.char");
-                // this is fatal error
+            } cbtch (jbvb.io.ChbrConversionException e) {
+                env.error(pos, "invblid.encoding.chbr");
+                // this is fbtbl error
                 return -1;
             }
         } else {
-            pushBack = -1;
+            pushBbck = -1;
         }
 
-        // parse special characters
+        // pbrse specibl chbrbcters
         switch (c) {
-          case -2:
-            // -2 is a special code indicating a pushback of a backslash that
-            // definitely isn't the start of a unicode sequence.
+          cbse -2:
+            // -2 is b specibl code indicbting b pushbbck of b bbckslbsh thbt
+            // definitely isn't the stbrt of b unicode sequence.
             return '\\';
 
-          case '\\':
-            if ((c = getNextChar()) != 'u') {
-                pushBack = (c == '\\' ? -2 : c);
+          cbse '\\':
+            if ((c = getNextChbr()) != 'u') {
+                pushBbck = (c == '\\' ? -2 : c);
                 return '\\';
             }
-            // we have a unicode sequence
-            chpos += Scanner.OFFSETINC;
-            while ((c = getNextChar()) == 'u') {
-                chpos += Scanner.OFFSETINC;
+            // we hbve b unicode sequence
+            chpos += Scbnner.OFFSETINC;
+            while ((c = getNextChbr()) == 'u') {
+                chpos += Scbnner.OFFSETINC;
             }
 
-            // unicode escape sequence
+            // unicode escbpe sequence
             int d = 0;
-            for (int i = 0 ; i < 4 ; i++, chpos += Scanner.OFFSETINC, c = getNextChar()) {
+            for (int i = 0 ; i < 4 ; i++, chpos += Scbnner.OFFSETINC, c = getNextChbr()) {
                 switch (c) {
-                  case '0': case '1': case '2': case '3': case '4':
-                  case '5': case '6': case '7': case '8': case '9':
+                  cbse '0': cbse '1': cbse '2': cbse '3': cbse '4':
+                  cbse '5': cbse '6': cbse '7': cbse '8': cbse '9':
                     d = (d << 4) + c - '0';
-                    break;
+                    brebk;
 
-                  case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-                    d = (d << 4) + 10 + c - 'a';
-                    break;
+                  cbse 'b': cbse 'b': cbse 'c': cbse 'd': cbse 'e': cbse 'f':
+                    d = (d << 4) + 10 + c - 'b';
+                    brebk;
 
-                  case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
+                  cbse 'A': cbse 'B': cbse 'C': cbse 'D': cbse 'E': cbse 'F':
                     d = (d << 4) + 10 + c - 'A';
-                    break;
+                    brebk;
 
-                  default:
-                    env.error(pos, "invalid.escape.char");
-                    pushBack = c;
+                  defbult:
+                    env.error(pos, "invblid.escbpe.chbr");
+                    pushBbck = c;
                     return d;
                 }
             }
-            pushBack = c;
+            pushBbck = c;
 
-            // To read the following line, switch \ and /...
-            // Handle /u000a, /u000A, /u000d, /u000D properly as
-            // line terminators as per JLS 3.4, even though they are encoded
+            // To rebd the following line, switch \ bnd /...
+            // Hbndle /u000b, /u000A, /u000d, /u000D properly bs
+            // line terminbtors bs per JLS 3.4, even though they bre encoded
             // (this properly respects the order given in JLS 3.2).
             switch (d) {
-                case '\n':
-                   chpos += Scanner.LINEINC;
+                cbse '\n':
+                   chpos += Scbnner.LINEINC;
                     return '\n';
-                case '\r':
-                    if ((c = getNextChar()) != '\n') {
-                        pushBack = c;
+                cbse '\r':
+                    if ((c = getNextChbr()) != '\n') {
+                        pushBbck = c;
                     } else {
-                        chpos += Scanner.OFFSETINC;
+                        chpos += Scbnner.OFFSETINC;
                     }
-                    chpos += Scanner.LINEINC;
+                    chpos += Scbnner.LINEINC;
                     return '\n';
-                default:
+                defbult:
                     return d;
             }
 
-          case '\n':
-            chpos += Scanner.LINEINC;
+          cbse '\n':
+            chpos += Scbnner.LINEINC;
             return '\n';
 
-          case '\r':
-            if ((c = getNextChar()) != '\n') {
-                pushBack = c;
+          cbse '\r':
+            if ((c = getNextChbr()) != '\n') {
+                pushBbck = c;
             } else {
-                chpos += Scanner.OFFSETINC;
+                chpos += Scbnner.OFFSETINC;
             }
-            chpos += Scanner.LINEINC;
+            chpos += Scbnner.LINEINC;
             return '\n';
 
-          default:
+          defbult:
             return c;
         }
     }

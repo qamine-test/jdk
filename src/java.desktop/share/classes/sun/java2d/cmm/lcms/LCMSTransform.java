@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /**********************************************************************
  **********************************************************************
  **********************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997                      ***
- *** As  an unpublished  work pursuant to Title 17 of the United    ***
- *** States Code.  All rights reserved.                             ***
+ *** COPYRIGHT (c) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublished  work pursubnt to Title 17 of the United    ***
+ *** Stbtes Code.  All rights reserved.                             ***
  **********************************************************************
  **********************************************************************
  **********************************************************************/
 
-package sun.java2d.cmm.lcms;
+pbckbge sun.jbvb2d.cmm.lcms;
 
-import java.awt.color.ICC_Profile;
-import java.awt.color.ProfileDataException;
-import java.awt.color.CMMException;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.ColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.SampleModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.SinglePixelPackedSampleModel;
-import java.awt.image.ComponentSampleModel;
-import sun.java2d.cmm.*;
-import sun.java2d.cmm.lcms.*;
-import static sun.java2d.cmm.lcms.LCMSImageLayout.ImageLayoutException;
+import jbvb.bwt.color.ICC_Profile;
+import jbvb.bwt.color.ProfileDbtbException;
+import jbvb.bwt.color.CMMException;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.ComponentColorModel;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.SinglePixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.ComponentSbmpleModel;
+import sun.jbvb2d.cmm.*;
+import sun.jbvb2d.cmm.lcms.*;
+import stbtic sun.jbvb2d.cmm.lcms.LCMSImbgeLbyout.ImbgeLbyoutException;
 
 
-public class LCMSTransform implements ColorTransform {
+public clbss LCMSTrbnsform implements ColorTrbnsform {
     long ID;
-    private int inFormatter = 0;
-    private boolean isInIntPacked = false;
-    private int outFormatter = 0;
-    private boolean isOutIntPacked = false;
+    privbte int inFormbtter = 0;
+    privbte boolebn isInIntPbcked = fblse;
+    privbte int outFormbtter = 0;
+    privbte boolebn isOutIntPbcked = fblse;
 
     ICC_Profile[] profiles;
     LCMSProfile[] lcmsProfiles;
     int renderType;
-    int transformType;
+    int trbnsformType;
 
-    private int numInComponents = -1;
-    private int numOutComponents = -1;
+    privbte int numInComponents = -1;
+    privbte int numOutComponents = -1;
 
-    private Object disposerReferent = new Object();
+    privbte Object disposerReferent = new Object();
 
-    /* the class initializer */
-    static {
-        if (ProfileDeferralMgr.deferring) {
-            ProfileDeferralMgr.activateProfiles();
+    /* the clbss initiblizer */
+    stbtic {
+        if (ProfileDeferrblMgr.deferring) {
+            ProfileDeferrblMgr.bctivbteProfiles();
         }
     }
 
-    public LCMSTransform(ICC_Profile profile, int renderType,
-                         int transformType)
+    public LCMSTrbnsform(ICC_Profile profile, int renderType,
+                         int trbnsformType)
     {
-        /* Actually, it is not a complete transform but just part of it */
+        /* Actublly, it is not b complete trbnsform but just pbrt of it */
         profiles = new ICC_Profile[1];
         profiles[0] = profile;
         lcmsProfiles = new LCMSProfile[1];
         lcmsProfiles[0] = LCMS.getProfileID(profile);
-        this.renderType = (renderType == ColorTransform.Any)?
-                              ICC_Profile.icPerceptual : renderType;
-        this.transformType = transformType;
+        this.renderType = (renderType == ColorTrbnsform.Any)?
+                              ICC_Profile.icPerceptubl : renderType;
+        this.trbnsformType = trbnsformType;
 
-        /* Note that ICC_Profile.getNumComponents() is quite expensive
-         * (it may results in a reading of the profile header).
-         * So, here we cache the number of components of input and
-         * output profiles for further usage.
+        /* Note thbt ICC_Profile.getNumComponents() is quite expensive
+         * (it mby results in b rebding of the profile hebder).
+         * So, here we cbche the number of components of input bnd
+         * output profiles for further usbge.
          */
         numInComponents = profiles[0].getNumComponents();
         numOutComponents = profiles[profiles.length - 1].getNumComponents();
     }
 
-    public LCMSTransform (ColorTransform[] transforms) {
+    public LCMSTrbnsform (ColorTrbnsform[] trbnsforms) {
         int size = 0;
-        for (int i=0; i < transforms.length; i++) {
-            size+=((LCMSTransform)transforms[i]).profiles.length;
+        for (int i=0; i < trbnsforms.length; i++) {
+            size+=((LCMSTrbnsform)trbnsforms[i]).profiles.length;
         }
         profiles = new ICC_Profile[size];
         lcmsProfiles = new LCMSProfile[size];
         int j = 0;
-        for (int i=0; i < transforms.length; i++) {
-            LCMSTransform curTrans = (LCMSTransform)transforms[i];
-            System.arraycopy(curTrans.profiles, 0, profiles, j,
-                             curTrans.profiles.length);
-            System.arraycopy(curTrans.lcmsProfiles, 0, lcmsProfiles, j,
-                             curTrans.lcmsProfiles.length);
-            j += curTrans.profiles.length;
+        for (int i=0; i < trbnsforms.length; i++) {
+            LCMSTrbnsform curTrbns = (LCMSTrbnsform)trbnsforms[i];
+            System.brrbycopy(curTrbns.profiles, 0, profiles, j,
+                             curTrbns.profiles.length);
+            System.brrbycopy(curTrbns.lcmsProfiles, 0, lcmsProfiles, j,
+                             curTrbns.lcmsProfiles.length);
+            j += curTrbns.profiles.length;
         }
-        renderType = ((LCMSTransform)transforms[0]).renderType;
+        renderType = ((LCMSTrbnsform)trbnsforms[0]).renderType;
 
-        /* Note that ICC_Profile.getNumComponents() is quite expensive
-         * (it may results in a reading of the profile header).
-         * So, here we cache the number of components of input and
-         * output profiles for further usage.
+        /* Note thbt ICC_Profile.getNumComponents() is quite expensive
+         * (it mby results in b rebding of the profile hebder).
+         * So, here we cbche the number of components of input bnd
+         * output profiles for further usbge.
          */
         numInComponents = profiles[0].getNumComponents();
         numOutComponents = profiles[profiles.length - 1].getNumComponents();
@@ -134,53 +134,53 @@ public class LCMSTransform implements ColorTransform {
         return numOutComponents;
     }
 
-    private synchronized void doTransform(LCMSImageLayout in,
-                                          LCMSImageLayout out) {
-        // update native transfrom if needed
+    privbte synchronized void doTrbnsform(LCMSImbgeLbyout in,
+                                          LCMSImbgeLbyout out) {
+        // updbte nbtive trbnsfrom if needed
         if (ID == 0L ||
-            inFormatter != in.pixelType || isInIntPacked != in.isIntPacked ||
-            outFormatter != out.pixelType || isOutIntPacked != out.isIntPacked)
+            inFormbtter != in.pixelType || isInIntPbcked != in.isIntPbcked ||
+            outFormbtter != out.pixelType || isOutIntPbcked != out.isIntPbcked)
         {
 
             if (ID != 0L) {
-                // Disposer will destroy forgotten transform
+                // Disposer will destroy forgotten trbnsform
                 disposerReferent = new Object();
             }
-            inFormatter = in.pixelType;
-            isInIntPacked = in.isIntPacked;
+            inFormbtter = in.pixelType;
+            isInIntPbcked = in.isIntPbcked;
 
-            outFormatter = out.pixelType;
-            isOutIntPacked = out.isIntPacked;
+            outFormbtter = out.pixelType;
+            isOutIntPbcked = out.isIntPbcked;
 
-            ID = LCMS.createTransform(lcmsProfiles, renderType,
-                                            inFormatter, isInIntPacked,
-                                            outFormatter, isOutIntPacked,
+            ID = LCMS.crebteTrbnsform(lcmsProfiles, renderType,
+                                            inFormbtter, isInIntPbcked,
+                                            outFormbtter, isOutIntPbcked,
                                             disposerReferent);
         }
 
         LCMS.colorConvert(this, in, out);
     }
 
-    public void colorConvert(BufferedImage src, BufferedImage dst) {
-        LCMSImageLayout srcIL, dstIL;
+    public void colorConvert(BufferedImbge src, BufferedImbge dst) {
+        LCMSImbgeLbyout srcIL, dstIL;
         try {
-            if (!dst.getColorModel().hasAlpha()) {
-                dstIL = LCMSImageLayout.createImageLayout(dst);
+            if (!dst.getColorModel().hbsAlphb()) {
+                dstIL = LCMSImbgeLbyout.crebteImbgeLbyout(dst);
 
                 if (dstIL != null) {
-                    srcIL = LCMSImageLayout.createImageLayout(src);
+                    srcIL = LCMSImbgeLbyout.crebteImbgeLbyout(src);
                     if (srcIL != null) {
-                        doTransform(srcIL, dstIL);
+                        doTrbnsform(srcIL, dstIL);
                         return;
                     }
                 }
             }
-        }  catch (ImageLayoutException e) {
-            throw new CMMException("Unable to convert images");
+        }  cbtch (ImbgeLbyoutException e) {
+            throw new CMMException("Unbble to convert imbges");
         }
 
-        Raster srcRas = src.getRaster();
-        WritableRaster dstRas = dst.getRaster();
+        Rbster srcRbs = src.getRbster();
+        WritbbleRbster dstRbs = dst.getRbster();
         ColorModel srcCM = src.getColorModel();
         ColorModel dstCM = dst.getColorModel();
         int w = src.getWidth();
@@ -188,426 +188,426 @@ public class LCMSTransform implements ColorTransform {
         int srcNumComp = srcCM.getNumColorComponents();
         int dstNumComp = dstCM.getNumColorComponents();
         int precision = 8;
-        float maxNum = 255.0f;
+        flobt mbxNum = 255.0f;
         for (int i = 0; i < srcNumComp; i++) {
             if (srcCM.getComponentSize(i) > 8) {
                  precision = 16;
-                 maxNum = 65535.0f;
+                 mbxNum = 65535.0f;
              }
         }
         for (int i = 0; i < dstNumComp; i++) {
             if (dstCM.getComponentSize(i) > 8) {
                  precision = 16;
-                 maxNum = 65535.0f;
+                 mbxNum = 65535.0f;
              }
         }
-        float[] srcMinVal = new float[srcNumComp];
-        float[] srcInvDiffMinMax = new float[srcNumComp];
-        ColorSpace cs = srcCM.getColorSpace();
+        flobt[] srcMinVbl = new flobt[srcNumComp];
+        flobt[] srcInvDiffMinMbx = new flobt[srcNumComp];
+        ColorSpbce cs = srcCM.getColorSpbce();
         for (int i = 0; i < srcNumComp; i++) {
-            srcMinVal[i] = cs.getMinValue(i);
-            srcInvDiffMinMax[i] = maxNum / (cs.getMaxValue(i) - srcMinVal[i]);
+            srcMinVbl[i] = cs.getMinVblue(i);
+            srcInvDiffMinMbx[i] = mbxNum / (cs.getMbxVblue(i) - srcMinVbl[i]);
         }
-        cs = dstCM.getColorSpace();
-        float[] dstMinVal = new float[dstNumComp];
-        float[] dstDiffMinMax = new float[dstNumComp];
+        cs = dstCM.getColorSpbce();
+        flobt[] dstMinVbl = new flobt[dstNumComp];
+        flobt[] dstDiffMinMbx = new flobt[dstNumComp];
         for (int i = 0; i < dstNumComp; i++) {
-            dstMinVal[i] = cs.getMinValue(i);
-            dstDiffMinMax[i] = (cs.getMaxValue(i) - dstMinVal[i]) / maxNum;
+            dstMinVbl[i] = cs.getMinVblue(i);
+            dstDiffMinMbx[i] = (cs.getMbxVblue(i) - dstMinVbl[i]) / mbxNum;
         }
-        boolean dstHasAlpha = dstCM.hasAlpha();
-        boolean needSrcAlpha = srcCM.hasAlpha() && dstHasAlpha;
-        float[] dstColor;
-        if (dstHasAlpha) {
-            dstColor = new float[dstNumComp + 1];
+        boolebn dstHbsAlphb = dstCM.hbsAlphb();
+        boolebn needSrcAlphb = srcCM.hbsAlphb() && dstHbsAlphb;
+        flobt[] dstColor;
+        if (dstHbsAlphb) {
+            dstColor = new flobt[dstNumComp + 1];
         } else {
-            dstColor = new float[dstNumComp];
+            dstColor = new flobt[dstNumComp];
         }
         if (precision == 8) {
             byte[] srcLine = new byte[w * srcNumComp];
             byte[] dstLine = new byte[w * dstNumComp];
             Object pixel;
-            float[] color;
-            float[] alpha = null;
-            if (needSrcAlpha) {
-                alpha = new float[w];
+            flobt[] color;
+            flobt[] blphb = null;
+            if (needSrcAlphb) {
+                blphb = new flobt[w];
             }
             int idx;
             // TODO check for src npixels = dst npixels
             try {
-                srcIL = new LCMSImageLayout(
+                srcIL = new LCMSImbgeLbyout(
                         srcLine, srcLine.length/getNumInComponents(),
-                        LCMSImageLayout.CHANNELS_SH(getNumInComponents()) |
-                        LCMSImageLayout.BYTES_SH(1), getNumInComponents());
-                dstIL = new LCMSImageLayout(
+                        LCMSImbgeLbyout.CHANNELS_SH(getNumInComponents()) |
+                        LCMSImbgeLbyout.BYTES_SH(1), getNumInComponents());
+                dstIL = new LCMSImbgeLbyout(
                         dstLine, dstLine.length/getNumOutComponents(),
-                        LCMSImageLayout.CHANNELS_SH(getNumOutComponents()) |
-                        LCMSImageLayout.BYTES_SH(1), getNumOutComponents());
-            } catch (ImageLayoutException e) {
-                throw new CMMException("Unable to convert images");
+                        LCMSImbgeLbyout.CHANNELS_SH(getNumOutComponents()) |
+                        LCMSImbgeLbyout.BYTES_SH(1), getNumOutComponents());
+            } cbtch (ImbgeLbyoutException e) {
+                throw new CMMException("Unbble to convert imbges");
             }
-            // process each scanline
+            // process ebch scbnline
             for (int y = 0; y < h; y++) {
-                // convert src scanline
+                // convert src scbnline
                 pixel = null;
                 color = null;
                 idx = 0;
                 for (int x = 0; x < w; x++) {
-                    pixel = srcRas.getDataElements(x, y, pixel);
-                    color = srcCM.getNormalizedComponents(pixel, color, 0);
+                    pixel = srcRbs.getDbtbElements(x, y, pixel);
+                    color = srcCM.getNormblizedComponents(pixel, color, 0);
                     for (int i = 0; i < srcNumComp; i++) {
                         srcLine[idx++] = (byte)
-                            ((color[i] - srcMinVal[i]) * srcInvDiffMinMax[i] +
+                            ((color[i] - srcMinVbl[i]) * srcInvDiffMinMbx[i] +
                              0.5f);
                     }
-                    if (needSrcAlpha) {
-                        alpha[x] = color[srcNumComp];
+                    if (needSrcAlphb) {
+                        blphb[x] = color[srcNumComp];
                     }
                 }
                 // color convert srcLine to dstLine
-                doTransform(srcIL, dstIL);
+                doTrbnsform(srcIL, dstIL);
 
-                // convert dst scanline
+                // convert dst scbnline
                 pixel = null;
                 idx = 0;
                 for (int x = 0; x < w; x++) {
                     for (int i = 0; i < dstNumComp; i++) {
-                        dstColor[i] = ((float) (dstLine[idx++] & 0xff)) *
-                                      dstDiffMinMax[i] + dstMinVal[i];
+                        dstColor[i] = ((flobt) (dstLine[idx++] & 0xff)) *
+                                      dstDiffMinMbx[i] + dstMinVbl[i];
                     }
-                    if (needSrcAlpha) {
-                        dstColor[dstNumComp] = alpha[x];
-                    } else if (dstHasAlpha) {
+                    if (needSrcAlphb) {
+                        dstColor[dstNumComp] = blphb[x];
+                    } else if (dstHbsAlphb) {
                         dstColor[dstNumComp] = 1.0f;
                     }
-                    pixel = dstCM.getDataElements(dstColor, 0, pixel);
-                    dstRas.setDataElements(x, y, pixel);
+                    pixel = dstCM.getDbtbElements(dstColor, 0, pixel);
+                    dstRbs.setDbtbElements(x, y, pixel);
                 }
             }
         } else {
             short[] srcLine = new short[w * srcNumComp];
             short[] dstLine = new short[w * dstNumComp];
             Object pixel;
-            float[] color;
-            float[] alpha = null;
-            if (needSrcAlpha) {
-                alpha = new float[w];
+            flobt[] color;
+            flobt[] blphb = null;
+            if (needSrcAlphb) {
+                blphb = new flobt[w];
             }
             int idx;
             try {
-                srcIL = new LCMSImageLayout(
+                srcIL = new LCMSImbgeLbyout(
                     srcLine, srcLine.length/getNumInComponents(),
-                    LCMSImageLayout.CHANNELS_SH(getNumInComponents()) |
-                    LCMSImageLayout.BYTES_SH(2), getNumInComponents()*2);
+                    LCMSImbgeLbyout.CHANNELS_SH(getNumInComponents()) |
+                    LCMSImbgeLbyout.BYTES_SH(2), getNumInComponents()*2);
 
-                dstIL = new LCMSImageLayout(
+                dstIL = new LCMSImbgeLbyout(
                     dstLine, dstLine.length/getNumOutComponents(),
-                    LCMSImageLayout.CHANNELS_SH(getNumOutComponents()) |
-                    LCMSImageLayout.BYTES_SH(2), getNumOutComponents()*2);
-            } catch (ImageLayoutException e) {
-                throw new CMMException("Unable to convert images");
+                    LCMSImbgeLbyout.CHANNELS_SH(getNumOutComponents()) |
+                    LCMSImbgeLbyout.BYTES_SH(2), getNumOutComponents()*2);
+            } cbtch (ImbgeLbyoutException e) {
+                throw new CMMException("Unbble to convert imbges");
             }
-            // process each scanline
+            // process ebch scbnline
             for (int y = 0; y < h; y++) {
-                // convert src scanline
+                // convert src scbnline
                 pixel = null;
                 color = null;
                 idx = 0;
                 for (int x = 0; x < w; x++) {
-                    pixel = srcRas.getDataElements(x, y, pixel);
-                    color = srcCM.getNormalizedComponents(pixel, color, 0);
+                    pixel = srcRbs.getDbtbElements(x, y, pixel);
+                    color = srcCM.getNormblizedComponents(pixel, color, 0);
                     for (int i = 0; i < srcNumComp; i++) {
                         srcLine[idx++] = (short)
-                            ((color[i] - srcMinVal[i]) * srcInvDiffMinMax[i] +
+                            ((color[i] - srcMinVbl[i]) * srcInvDiffMinMbx[i] +
                              0.5f);
                     }
-                    if (needSrcAlpha) {
-                        alpha[x] = color[srcNumComp];
+                    if (needSrcAlphb) {
+                        blphb[x] = color[srcNumComp];
                     }
                 }
                 // color convert srcLine to dstLine
-                doTransform(srcIL, dstIL);
+                doTrbnsform(srcIL, dstIL);
 
-                // convert dst scanline
+                // convert dst scbnline
                 pixel = null;
                 idx = 0;
                 for (int x = 0; x < w; x++) {
                     for (int i = 0; i < dstNumComp; i++) {
-                        dstColor[i] = ((float) (dstLine[idx++] & 0xffff)) *
-                                      dstDiffMinMax[i] + dstMinVal[i];
+                        dstColor[i] = ((flobt) (dstLine[idx++] & 0xffff)) *
+                                      dstDiffMinMbx[i] + dstMinVbl[i];
                     }
-                    if (needSrcAlpha) {
-                        dstColor[dstNumComp] = alpha[x];
-                    } else if (dstHasAlpha) {
+                    if (needSrcAlphb) {
+                        dstColor[dstNumComp] = blphb[x];
+                    } else if (dstHbsAlphb) {
                         dstColor[dstNumComp] = 1.0f;
                     }
-                    pixel = dstCM.getDataElements(dstColor, 0, pixel);
-                    dstRas.setDataElements(x, y, pixel);
+                    pixel = dstCM.getDbtbElements(dstColor, 0, pixel);
+                    dstRbs.setDbtbElements(x, y, pixel);
                 }
             }
         }
     }
 
-    public void colorConvert(Raster src, WritableRaster dst,
-                             float[] srcMinVal, float[]srcMaxVal,
-                             float[] dstMinVal, float[]dstMaxVal) {
-        LCMSImageLayout srcIL, dstIL;
+    public void colorConvert(Rbster src, WritbbleRbster dst,
+                             flobt[] srcMinVbl, flobt[]srcMbxVbl,
+                             flobt[] dstMinVbl, flobt[]dstMbxVbl) {
+        LCMSImbgeLbyout srcIL, dstIL;
 
-        // Can't pass src and dst directly to CMM, so process per scanline
-        SampleModel srcSM = src.getSampleModel();
-        SampleModel dstSM = dst.getSampleModel();
-        int srcTransferType = src.getTransferType();
-        int dstTransferType = dst.getTransferType();
-        boolean srcIsFloat, dstIsFloat;
-        if ((srcTransferType == DataBuffer.TYPE_FLOAT) ||
-            (srcTransferType == DataBuffer.TYPE_DOUBLE)) {
-            srcIsFloat = true;
+        // Cbn't pbss src bnd dst directly to CMM, so process per scbnline
+        SbmpleModel srcSM = src.getSbmpleModel();
+        SbmpleModel dstSM = dst.getSbmpleModel();
+        int srcTrbnsferType = src.getTrbnsferType();
+        int dstTrbnsferType = dst.getTrbnsferType();
+        boolebn srcIsFlobt, dstIsFlobt;
+        if ((srcTrbnsferType == DbtbBuffer.TYPE_FLOAT) ||
+            (srcTrbnsferType == DbtbBuffer.TYPE_DOUBLE)) {
+            srcIsFlobt = true;
         } else {
-            srcIsFloat = false;
+            srcIsFlobt = fblse;
         }
-        if ((dstTransferType == DataBuffer.TYPE_FLOAT) ||
-            (dstTransferType == DataBuffer.TYPE_DOUBLE)) {
-            dstIsFloat = true;
+        if ((dstTrbnsferType == DbtbBuffer.TYPE_FLOAT) ||
+            (dstTrbnsferType == DbtbBuffer.TYPE_DOUBLE)) {
+            dstIsFlobt = true;
         } else {
-            dstIsFloat = false;
+            dstIsFlobt = fblse;
         }
         int w = src.getWidth();
         int h = src.getHeight();
-        int srcNumBands = src.getNumBands();
-        int dstNumBands = dst.getNumBands();
-        float[] srcScaleFactor = new float[srcNumBands];
-        float[] dstScaleFactor = new float[dstNumBands];
-        float[] srcUseMinVal = new float[srcNumBands];
-        float[] dstUseMinVal = new float[dstNumBands];
-        for (int i = 0; i < srcNumBands; i++) {
-            if (srcIsFloat) {
-                srcScaleFactor[i] =  65535.0f / (srcMaxVal[i] - srcMinVal[i]);
-                srcUseMinVal[i] = srcMinVal[i];
+        int srcNumBbnds = src.getNumBbnds();
+        int dstNumBbnds = dst.getNumBbnds();
+        flobt[] srcScbleFbctor = new flobt[srcNumBbnds];
+        flobt[] dstScbleFbctor = new flobt[dstNumBbnds];
+        flobt[] srcUseMinVbl = new flobt[srcNumBbnds];
+        flobt[] dstUseMinVbl = new flobt[dstNumBbnds];
+        for (int i = 0; i < srcNumBbnds; i++) {
+            if (srcIsFlobt) {
+                srcScbleFbctor[i] =  65535.0f / (srcMbxVbl[i] - srcMinVbl[i]);
+                srcUseMinVbl[i] = srcMinVbl[i];
             } else {
-                if (srcTransferType == DataBuffer.TYPE_SHORT) {
-                    srcScaleFactor[i] = 65535.0f / 32767.0f;
+                if (srcTrbnsferType == DbtbBuffer.TYPE_SHORT) {
+                    srcScbleFbctor[i] = 65535.0f / 32767.0f;
                 } else {
-                    srcScaleFactor[i] = 65535.0f /
-                        ((float) ((1 << srcSM.getSampleSize(i)) - 1));
+                    srcScbleFbctor[i] = 65535.0f /
+                        ((flobt) ((1 << srcSM.getSbmpleSize(i)) - 1));
                 }
-                srcUseMinVal[i] = 0.0f;
+                srcUseMinVbl[i] = 0.0f;
             }
         }
-        for (int i = 0; i < dstNumBands; i++) {
-            if (dstIsFloat) {
-                dstScaleFactor[i] = (dstMaxVal[i] - dstMinVal[i]) / 65535.0f;
-                dstUseMinVal[i] = dstMinVal[i];
+        for (int i = 0; i < dstNumBbnds; i++) {
+            if (dstIsFlobt) {
+                dstScbleFbctor[i] = (dstMbxVbl[i] - dstMinVbl[i]) / 65535.0f;
+                dstUseMinVbl[i] = dstMinVbl[i];
             } else {
-                if (dstTransferType == DataBuffer.TYPE_SHORT) {
-                    dstScaleFactor[i] = 32767.0f / 65535.0f;
+                if (dstTrbnsferType == DbtbBuffer.TYPE_SHORT) {
+                    dstScbleFbctor[i] = 32767.0f / 65535.0f;
                 } else {
-                    dstScaleFactor[i] =
-                        ((float) ((1 << dstSM.getSampleSize(i)) - 1)) /
+                    dstScbleFbctor[i] =
+                        ((flobt) ((1 << dstSM.getSbmpleSize(i)) - 1)) /
                         65535.0f;
                 }
-                dstUseMinVal[i] = 0.0f;
+                dstUseMinVbl[i] = 0.0f;
             }
         }
         int ys = src.getMinY();
         int yd = dst.getMinY();
         int xs, xd;
-        float sample;
-        short[] srcLine = new short[w * srcNumBands];
-        short[] dstLine = new short[w * dstNumBands];
+        flobt sbmple;
+        short[] srcLine = new short[w * srcNumBbnds];
+        short[] dstLine = new short[w * dstNumBbnds];
         int idx;
         try {
-            srcIL = new LCMSImageLayout(
+            srcIL = new LCMSImbgeLbyout(
                     srcLine, srcLine.length/getNumInComponents(),
-                    LCMSImageLayout.CHANNELS_SH(getNumInComponents()) |
-                    LCMSImageLayout.BYTES_SH(2), getNumInComponents()*2);
+                    LCMSImbgeLbyout.CHANNELS_SH(getNumInComponents()) |
+                    LCMSImbgeLbyout.BYTES_SH(2), getNumInComponents()*2);
 
-            dstIL = new LCMSImageLayout(
+            dstIL = new LCMSImbgeLbyout(
                     dstLine, dstLine.length/getNumOutComponents(),
-                    LCMSImageLayout.CHANNELS_SH(getNumOutComponents()) |
-                    LCMSImageLayout.BYTES_SH(2), getNumOutComponents()*2);
-        } catch (ImageLayoutException e) {
-            throw new CMMException("Unable to convert rasters");
+                    LCMSImbgeLbyout.CHANNELS_SH(getNumOutComponents()) |
+                    LCMSImbgeLbyout.BYTES_SH(2), getNumOutComponents()*2);
+        } cbtch (ImbgeLbyoutException e) {
+            throw new CMMException("Unbble to convert rbsters");
         }
-        // process each scanline
+        // process ebch scbnline
         for (int y = 0; y < h; y++, ys++, yd++) {
-            // get src scanline
+            // get src scbnline
             xs = src.getMinX();
             idx = 0;
             for (int x = 0; x < w; x++, xs++) {
-                for (int i = 0; i < srcNumBands; i++) {
-                    sample = src.getSampleFloat(xs, ys, i);
+                for (int i = 0; i < srcNumBbnds; i++) {
+                    sbmple = src.getSbmpleFlobt(xs, ys, i);
                     srcLine[idx++] = (short)
-                        ((sample - srcUseMinVal[i]) * srcScaleFactor[i] + 0.5f);
+                        ((sbmple - srcUseMinVbl[i]) * srcScbleFbctor[i] + 0.5f);
                 }
             }
 
             // color convert srcLine to dstLine
-            doTransform(srcIL, dstIL);
+            doTrbnsform(srcIL, dstIL);
 
-            // store dst scanline
+            // store dst scbnline
             xd = dst.getMinX();
             idx = 0;
             for (int x = 0; x < w; x++, xd++) {
-                for (int i = 0; i < dstNumBands; i++) {
-                    sample = ((dstLine[idx++] & 0xffff) * dstScaleFactor[i]) +
-                             dstUseMinVal[i];
-                    dst.setSample(xd, yd, i, sample);
+                for (int i = 0; i < dstNumBbnds; i++) {
+                    sbmple = ((dstLine[idx++] & 0xffff) * dstScbleFbctor[i]) +
+                             dstUseMinVbl[i];
+                    dst.setSbmple(xd, yd, i, sbmple);
                 }
             }
         }
     }
 
-    public void colorConvert(Raster src, WritableRaster dst) {
+    public void colorConvert(Rbster src, WritbbleRbster dst) {
 
-        LCMSImageLayout srcIL, dstIL;
-        dstIL = LCMSImageLayout.createImageLayout(dst);
+        LCMSImbgeLbyout srcIL, dstIL;
+        dstIL = LCMSImbgeLbyout.crebteImbgeLbyout(dst);
         if (dstIL != null) {
-            srcIL = LCMSImageLayout.createImageLayout(src);
+            srcIL = LCMSImbgeLbyout.crebteImbgeLbyout(src);
             if (srcIL != null) {
-                doTransform(srcIL, dstIL);
+                doTrbnsform(srcIL, dstIL);
                 return;
             }
         }
-        // Can't pass src and dst directly to CMM, so process per scanline
-        SampleModel srcSM = src.getSampleModel();
-        SampleModel dstSM = dst.getSampleModel();
-        int srcTransferType = src.getTransferType();
-        int dstTransferType = dst.getTransferType();
+        // Cbn't pbss src bnd dst directly to CMM, so process per scbnline
+        SbmpleModel srcSM = src.getSbmpleModel();
+        SbmpleModel dstSM = dst.getSbmpleModel();
+        int srcTrbnsferType = src.getTrbnsferType();
+        int dstTrbnsferType = dst.getTrbnsferType();
         int w = src.getWidth();
         int h = src.getHeight();
-        int srcNumBands = src.getNumBands();
-        int dstNumBands = dst.getNumBands();
+        int srcNumBbnds = src.getNumBbnds();
+        int dstNumBbnds = dst.getNumBbnds();
         int precision = 8;
-        float maxNum = 255.0f;
-        for (int i = 0; i < srcNumBands; i++) {
-            if (srcSM.getSampleSize(i) > 8) {
+        flobt mbxNum = 255.0f;
+        for (int i = 0; i < srcNumBbnds; i++) {
+            if (srcSM.getSbmpleSize(i) > 8) {
                  precision = 16;
-                 maxNum = 65535.0f;
+                 mbxNum = 65535.0f;
              }
         }
-        for (int i = 0; i < dstNumBands; i++) {
-            if (dstSM.getSampleSize(i) > 8) {
+        for (int i = 0; i < dstNumBbnds; i++) {
+            if (dstSM.getSbmpleSize(i) > 8) {
                  precision = 16;
-                 maxNum = 65535.0f;
+                 mbxNum = 65535.0f;
              }
         }
-        float[] srcScaleFactor = new float[srcNumBands];
-        float[] dstScaleFactor = new float[dstNumBands];
-        for (int i = 0; i < srcNumBands; i++) {
-            if (srcTransferType == DataBuffer.TYPE_SHORT) {
-                srcScaleFactor[i] = maxNum / 32767.0f;
+        flobt[] srcScbleFbctor = new flobt[srcNumBbnds];
+        flobt[] dstScbleFbctor = new flobt[dstNumBbnds];
+        for (int i = 0; i < srcNumBbnds; i++) {
+            if (srcTrbnsferType == DbtbBuffer.TYPE_SHORT) {
+                srcScbleFbctor[i] = mbxNum / 32767.0f;
             } else {
-                srcScaleFactor[i] = maxNum /
-                    ((float) ((1 << srcSM.getSampleSize(i)) - 1));
+                srcScbleFbctor[i] = mbxNum /
+                    ((flobt) ((1 << srcSM.getSbmpleSize(i)) - 1));
             }
         }
-        for (int i = 0; i < dstNumBands; i++) {
-            if (dstTransferType == DataBuffer.TYPE_SHORT) {
-                dstScaleFactor[i] = 32767.0f / maxNum;
+        for (int i = 0; i < dstNumBbnds; i++) {
+            if (dstTrbnsferType == DbtbBuffer.TYPE_SHORT) {
+                dstScbleFbctor[i] = 32767.0f / mbxNum;
             } else {
-                dstScaleFactor[i] =
-                    ((float) ((1 << dstSM.getSampleSize(i)) - 1)) / maxNum;
+                dstScbleFbctor[i] =
+                    ((flobt) ((1 << dstSM.getSbmpleSize(i)) - 1)) / mbxNum;
             }
         }
         int ys = src.getMinY();
         int yd = dst.getMinY();
         int xs, xd;
-        int sample;
+        int sbmple;
         if (precision == 8) {
-            byte[] srcLine = new byte[w * srcNumBands];
-            byte[] dstLine = new byte[w * dstNumBands];
+            byte[] srcLine = new byte[w * srcNumBbnds];
+            byte[] dstLine = new byte[w * dstNumBbnds];
             int idx;
             // TODO check for src npixels = dst npixels
             try {
-                srcIL = new LCMSImageLayout(
+                srcIL = new LCMSImbgeLbyout(
                         srcLine, srcLine.length/getNumInComponents(),
-                        LCMSImageLayout.CHANNELS_SH(getNumInComponents()) |
-                        LCMSImageLayout.BYTES_SH(1), getNumInComponents());
-                dstIL = new LCMSImageLayout(
+                        LCMSImbgeLbyout.CHANNELS_SH(getNumInComponents()) |
+                        LCMSImbgeLbyout.BYTES_SH(1), getNumInComponents());
+                dstIL = new LCMSImbgeLbyout(
                         dstLine, dstLine.length/getNumOutComponents(),
-                        LCMSImageLayout.CHANNELS_SH(getNumOutComponents()) |
-                        LCMSImageLayout.BYTES_SH(1), getNumOutComponents());
-            } catch (ImageLayoutException e) {
-                throw new CMMException("Unable to convert rasters");
+                        LCMSImbgeLbyout.CHANNELS_SH(getNumOutComponents()) |
+                        LCMSImbgeLbyout.BYTES_SH(1), getNumOutComponents());
+            } cbtch (ImbgeLbyoutException e) {
+                throw new CMMException("Unbble to convert rbsters");
             }
-            // process each scanline
+            // process ebch scbnline
             for (int y = 0; y < h; y++, ys++, yd++) {
-                // get src scanline
+                // get src scbnline
                 xs = src.getMinX();
                 idx = 0;
                 for (int x = 0; x < w; x++, xs++) {
-                    for (int i = 0; i < srcNumBands; i++) {
-                        sample = src.getSample(xs, ys, i);
+                    for (int i = 0; i < srcNumBbnds; i++) {
+                        sbmple = src.getSbmple(xs, ys, i);
                         srcLine[idx++] = (byte)
-                            ((sample * srcScaleFactor[i]) + 0.5f);
+                            ((sbmple * srcScbleFbctor[i]) + 0.5f);
                     }
                 }
 
                 // color convert srcLine to dstLine
-                doTransform(srcIL, dstIL);
+                doTrbnsform(srcIL, dstIL);
 
-                // store dst scanline
+                // store dst scbnline
                 xd = dst.getMinX();
                 idx = 0;
                 for (int x = 0; x < w; x++, xd++) {
-                    for (int i = 0; i < dstNumBands; i++) {
-                        sample = (int) (((dstLine[idx++] & 0xff) *
-                                         dstScaleFactor[i]) + 0.5f);
-                        dst.setSample(xd, yd, i, sample);
+                    for (int i = 0; i < dstNumBbnds; i++) {
+                        sbmple = (int) (((dstLine[idx++] & 0xff) *
+                                         dstScbleFbctor[i]) + 0.5f);
+                        dst.setSbmple(xd, yd, i, sbmple);
                     }
                 }
             }
         } else {
-            short[] srcLine = new short[w * srcNumBands];
-            short[] dstLine = new short[w * dstNumBands];
+            short[] srcLine = new short[w * srcNumBbnds];
+            short[] dstLine = new short[w * dstNumBbnds];
             int idx;
 
             try {
-                srcIL = new LCMSImageLayout(
+                srcIL = new LCMSImbgeLbyout(
                         srcLine, srcLine.length/getNumInComponents(),
-                        LCMSImageLayout.CHANNELS_SH(getNumInComponents()) |
-                        LCMSImageLayout.BYTES_SH(2), getNumInComponents()*2);
+                        LCMSImbgeLbyout.CHANNELS_SH(getNumInComponents()) |
+                        LCMSImbgeLbyout.BYTES_SH(2), getNumInComponents()*2);
 
-                dstIL = new LCMSImageLayout(
+                dstIL = new LCMSImbgeLbyout(
                         dstLine, dstLine.length/getNumOutComponents(),
-                        LCMSImageLayout.CHANNELS_SH(getNumOutComponents()) |
-                        LCMSImageLayout.BYTES_SH(2), getNumOutComponents()*2);
-            } catch (ImageLayoutException e) {
-                throw new CMMException("Unable to convert rasters");
+                        LCMSImbgeLbyout.CHANNELS_SH(getNumOutComponents()) |
+                        LCMSImbgeLbyout.BYTES_SH(2), getNumOutComponents()*2);
+            } cbtch (ImbgeLbyoutException e) {
+                throw new CMMException("Unbble to convert rbsters");
             }
-            // process each scanline
+            // process ebch scbnline
             for (int y = 0; y < h; y++, ys++, yd++) {
-                // get src scanline
+                // get src scbnline
                 xs = src.getMinX();
                 idx = 0;
                 for (int x = 0; x < w; x++, xs++) {
-                    for (int i = 0; i < srcNumBands; i++) {
-                        sample = src.getSample(xs, ys, i);
+                    for (int i = 0; i < srcNumBbnds; i++) {
+                        sbmple = src.getSbmple(xs, ys, i);
                         srcLine[idx++] = (short)
-                            ((sample * srcScaleFactor[i]) + 0.5f);
+                            ((sbmple * srcScbleFbctor[i]) + 0.5f);
                     }
                 }
 
                 // color convert srcLine to dstLine
-                doTransform(srcIL, dstIL);
+                doTrbnsform(srcIL, dstIL);
 
-                // store dst scanline
+                // store dst scbnline
                 xd = dst.getMinX();
                 idx = 0;
                 for (int x = 0; x < w; x++, xd++) {
-                    for (int i = 0; i < dstNumBands; i++) {
-                        sample = (int) (((dstLine[idx++] & 0xffff) *
-                                         dstScaleFactor[i]) + 0.5f);
-                        dst.setSample(xd, yd, i, sample);
+                    for (int i = 0; i < dstNumBbnds; i++) {
+                        sbmple = (int) (((dstLine[idx++] & 0xffff) *
+                                         dstScbleFbctor[i]) + 0.5f);
+                        dst.setSbmple(xd, yd, i, sbmple);
                     }
                 }
             }
         }
     }
 
-    /* convert an array of colors in short format */
-    /* each color is a contiguous set of array elements */
-    /* the number of colors is (size of the array) / (number of input/output
+    /* convert bn brrby of colors in short formbt */
+    /* ebch color is b contiguous set of brrby elements */
+    /* the number of colors is (size of the brrby) / (number of input/output
        components */
     public short[] colorConvert(short[] src, short[] dst) {
 
@@ -616,21 +616,21 @@ public class LCMSTransform implements ColorTransform {
         }
 
         try {
-            LCMSImageLayout srcIL = new LCMSImageLayout(
+            LCMSImbgeLbyout srcIL = new LCMSImbgeLbyout(
                     src, src.length/getNumInComponents(),
-                    LCMSImageLayout.CHANNELS_SH(getNumInComponents()) |
-                    LCMSImageLayout.BYTES_SH(2), getNumInComponents()*2);
+                    LCMSImbgeLbyout.CHANNELS_SH(getNumInComponents()) |
+                    LCMSImbgeLbyout.BYTES_SH(2), getNumInComponents()*2);
 
-            LCMSImageLayout dstIL = new LCMSImageLayout(
+            LCMSImbgeLbyout dstIL = new LCMSImbgeLbyout(
                     dst, dst.length/getNumOutComponents(),
-                    LCMSImageLayout.CHANNELS_SH(getNumOutComponents()) |
-                    LCMSImageLayout.BYTES_SH(2), getNumOutComponents()*2);
+                    LCMSImbgeLbyout.CHANNELS_SH(getNumOutComponents()) |
+                    LCMSImbgeLbyout.BYTES_SH(2), getNumOutComponents()*2);
 
-            doTransform(srcIL, dstIL);
+            doTrbnsform(srcIL, dstIL);
 
             return dst;
-        } catch (ImageLayoutException e) {
-            throw new CMMException("Unable to convert data");
+        } cbtch (ImbgeLbyoutException e) {
+            throw new CMMException("Unbble to convert dbtb");
         }
     }
 
@@ -640,21 +640,21 @@ public class LCMSTransform implements ColorTransform {
         }
 
         try {
-            LCMSImageLayout srcIL = new LCMSImageLayout(
+            LCMSImbgeLbyout srcIL = new LCMSImbgeLbyout(
                     src, src.length/getNumInComponents(),
-                    LCMSImageLayout.CHANNELS_SH(getNumInComponents()) |
-                    LCMSImageLayout.BYTES_SH(1), getNumInComponents());
+                    LCMSImbgeLbyout.CHANNELS_SH(getNumInComponents()) |
+                    LCMSImbgeLbyout.BYTES_SH(1), getNumInComponents());
 
-            LCMSImageLayout dstIL = new LCMSImageLayout(
+            LCMSImbgeLbyout dstIL = new LCMSImbgeLbyout(
                     dst, dst.length/getNumOutComponents(),
-                    LCMSImageLayout.CHANNELS_SH(getNumOutComponents()) |
-                    LCMSImageLayout.BYTES_SH(1), getNumOutComponents());
+                    LCMSImbgeLbyout.CHANNELS_SH(getNumOutComponents()) |
+                    LCMSImbgeLbyout.BYTES_SH(1), getNumOutComponents());
 
-            doTransform(srcIL, dstIL);
+            doTrbnsform(srcIL, dstIL);
 
             return dst;
-        } catch (ImageLayoutException e) {
-            throw new CMMException("Unable to convert data");
+        } cbtch (ImbgeLbyoutException e) {
+            throw new CMMException("Unbble to convert dbtb");
         }
     }
 }

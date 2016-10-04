@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.im;
+pbckbge sun.bwt.im;
 
-import java.awt.AWTException;
-import java.awt.CheckboxMenuItem;
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.EventQueue;
-import java.awt.Frame;
-import java.awt.PopupMenu;
-import java.awt.Menu;
-import java.awt.MenuItem;
-import java.awt.Toolkit;
-import sun.awt.AppContext;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InvocationEvent;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.ServiceLoader;
-import java.util.Vector;
-import java.util.Set;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
-import sun.awt.InputMethodSupport;
-import sun.awt.SunToolkit;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.CheckboxMenuItem;
+import jbvb.bwt.Component;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.EventQueue;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.PopupMenu;
+import jbvb.bwt.Menu;
+import jbvb.bwt.MenuItem;
+import jbvb.bwt.Toolkit;
+import sun.bwt.AppContext;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.event.InvocbtionEvent;
+import jbvb.bwt.im.spi.InputMethodDescriptor;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
+import jbvb.util.ServiceLobder;
+import jbvb.util.Vector;
+import jbvb.util.Set;
+import jbvb.util.prefs.BbckingStoreException;
+import jbvb.util.prefs.Preferences;
+import sun.bwt.InputMethodSupport;
+import sun.bwt.SunToolkit;
 
 /**
- * <code>ExecutableInputMethodManager</code> is the implementation of the
- * <code>InputMethodManager</code> class. It is runnable as a separate
- * thread in the AWT environment.&nbsp;
- * <code>InputMethodManager.getInstance()</code> creates an instance of
- * <code>ExecutableInputMethodManager</code> and executes it as a deamon
- * thread.
+ * <code>ExecutbbleInputMethodMbnbger</code> is the implementbtion of the
+ * <code>InputMethodMbnbger</code> clbss. It is runnbble bs b sepbrbte
+ * threbd in the AWT environment.&nbsp;
+ * <code>InputMethodMbnbger.getInstbnce()</code> crebtes bn instbnce of
+ * <code>ExecutbbleInputMethodMbnbger</code> bnd executes it bs b debmon
+ * threbd.
  *
- * @see InputMethodManager
+ * @see InputMethodMbnbger
  */
-class ExecutableInputMethodManager extends InputMethodManager
-                                   implements Runnable
+clbss ExecutbbleInputMethodMbnbger extends InputMethodMbnbger
+                                   implements Runnbble
 {
-    // the input context that's informed about selections from the user interface
-    private InputContext currentInputContext;
+    // the input context thbt's informed bbout selections from the user interfbce
+    privbte InputContext currentInputContext;
 
     // Menu item string for the trigger menu.
-    private String triggerMenuString;
+    privbte String triggerMenuString;
 
-    // popup menu for selecting an input method
-    private InputMethodPopupMenu selectionMenu;
-    private static String selectInputMethodMenuTitle;
+    // popup menu for selecting bn input method
+    privbte InputMethodPopupMenu selectionMenu;
+    privbte stbtic String selectInputMethodMenuTitle;
 
-    // locator and name of host adapter
-    private InputMethodLocator hostAdapterLocator;
+    // locbtor bnd nbme of host bdbpter
+    privbte InputMethodLocbtor hostAdbpterLocbtor;
 
-    // locators for Java input methods
-    private int javaInputMethodCount;         // number of Java input methods found
-    private Vector<InputMethodLocator> javaInputMethodLocatorList;
+    // locbtors for Jbvb input methods
+    privbte int jbvbInputMethodCount;         // number of Jbvb input methods found
+    privbte Vector<InputMethodLocbtor> jbvbInputMethodLocbtorList;
 
-    // component that is requesting input method switch
-    // must be Frame or Dialog
-    private Component requestComponent;
+    // component thbt is requesting input method switch
+    // must be Frbme or Diblog
+    privbte Component requestComponent;
 
-    // input context that is requesting input method switch
-    private InputContext requestInputContext;
+    // input context thbt is requesting input method switch
+    privbte InputContext requestInputContext;
 
     // IM preference stuff
-    private static final String preferredIMNode = "/sun/awt/im/preferredInputMethod";
-    private static final String descriptorKey = "descriptor";
-    private Hashtable<String, InputMethodLocator> preferredLocatorCache = new Hashtable<>();
-    private Preferences userRoot;
+    privbte stbtic finbl String preferredIMNode = "/sun/bwt/im/preferredInputMethod";
+    privbte stbtic finbl String descriptorKey = "descriptor";
+    privbte Hbshtbble<String, InputMethodLocbtor> preferredLocbtorCbche = new Hbshtbble<>();
+    privbte Preferences userRoot;
 
-    ExecutableInputMethodManager() {
+    ExecutbbleInputMethodMbnbger() {
 
-        // set up host adapter locator
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        // set up host bdbpter locbtor
+        Toolkit toolkit = Toolkit.getDefbultToolkit();
         try {
-            if (toolkit instanceof InputMethodSupport) {
-                InputMethodDescriptor hostAdapterDescriptor =
+            if (toolkit instbnceof InputMethodSupport) {
+                InputMethodDescriptor hostAdbpterDescriptor =
                     ((InputMethodSupport)toolkit)
-                    .getInputMethodAdapterDescriptor();
-                if (hostAdapterDescriptor != null) {
-                    hostAdapterLocator = new InputMethodLocator(hostAdapterDescriptor, null, null);
+                    .getInputMethodAdbpterDescriptor();
+                if (hostAdbpterDescriptor != null) {
+                    hostAdbpterLocbtor = new InputMethodLocbtor(hostAdbpterDescriptor, null, null);
                 }
             }
-        } catch (AWTException e) {
-            // if we can't get a descriptor, we'll just have to do without native input methods
+        } cbtch (AWTException e) {
+            // if we cbn't get b descriptor, we'll just hbve to do without nbtive input methods
         }
 
-        javaInputMethodLocatorList = new Vector<InputMethodLocator>();
-        initializeInputMethodLocatorList();
+        jbvbInputMethodLocbtorList = new Vector<InputMethodLocbtor>();
+        initiblizeInputMethodLocbtorList();
     }
 
-    synchronized void initialize() {
+    synchronized void initiblize() {
         selectInputMethodMenuTitle = Toolkit.getProperty("AWT.InputMethodSelectionMenu", "Select Input Method");
 
         triggerMenuString = selectInputMethodMenuTitle;
     }
 
     public void run() {
-        // If there are no multiple input methods to choose from, wait forever
-        while (!hasMultipleInputMethods()) {
+        // If there bre no multiple input methods to choose from, wbit forever
+        while (!hbsMultipleInputMethods()) {
             try {
                 synchronized (this) {
-                    wait();
+                    wbit();
                 }
-            } catch (InterruptedException e) {
+            } cbtch (InterruptedException e) {
             }
         }
 
-        // Loop for processing input method change requests
+        // Loop for processing input method chbnge requests
         while (true) {
-            waitForChangeRequest();
-            initializeInputMethodLocatorList();
+            wbitForChbngeRequest();
+            initiblizeInputMethodLocbtorList();
             try {
                 if (requestComponent != null) {
                     showInputMethodMenuOnRequesterEDT(requestComponent);
                 } else {
-                    // show the popup menu within the event thread
-                    EventQueue.invokeAndWait(new Runnable() {
+                    // show the popup menu within the event threbd
+                    EventQueue.invokeAndWbit(new Runnbble() {
                         public void run() {
                             showInputMethodMenu();
                         }
                     });
                 }
-            } catch (InterruptedException ie) {
-            } catch (InvocationTargetException ite) {
-                // should we do anything under these exceptions?
+            } cbtch (InterruptedException ie) {
+            } cbtch (InvocbtionTbrgetException ite) {
+                // should we do bnything under these exceptions?
             }
         }
     }
 
     // Shows Input Method Menu on the EDT of requester component
-    // to avoid side effects. See 6544309.
-    private void showInputMethodMenuOnRequesterEDT(Component requester)
-        throws InterruptedException, InvocationTargetException {
+    // to bvoid side effects. See 6544309.
+    privbte void showInputMethodMenuOnRequesterEDT(Component requester)
+        throws InterruptedException, InvocbtionTbrgetException {
 
         if (requester == null){
             return;
         }
 
-        class AWTInvocationLock {}
-        Object lock = new AWTInvocationLock();
+        clbss AWTInvocbtionLock {}
+        Object lock = new AWTInvocbtionLock();
 
-        InvocationEvent event =
-                new InvocationEvent(requester,
-                                    new Runnable() {
+        InvocbtionEvent event =
+                new InvocbtionEvent(requester,
+                                    new Runnbble() {
                                         public void run() {
                                             showInputMethodMenu();
                                         }
@@ -181,30 +181,30 @@ class ExecutableInputMethodManager extends InputMethodManager
                                     lock,
                                     true);
 
-        AppContext requesterAppContext = SunToolkit.targetToAppContext(requester);
+        AppContext requesterAppContext = SunToolkit.tbrgetToAppContext(requester);
         synchronized (lock) {
             SunToolkit.postEvent(requesterAppContext, event);
-            while (!event.isDispatched()) {
-                lock.wait();
+            while (!event.isDispbtched()) {
+                lock.wbit();
             }
         }
 
-        Throwable eventThrowable = event.getThrowable();
-        if (eventThrowable != null) {
-            throw new InvocationTargetException(eventThrowable);
+        Throwbble eventThrowbble = event.getThrowbble();
+        if (eventThrowbble != null) {
+            throw new InvocbtionTbrgetException(eventThrowbble);
         }
     }
 
     void setInputContext(InputContext inputContext) {
         if (currentInputContext != null && inputContext != null) {
             // don't throw this exception until 4237852 is fixed
-            // throw new IllegalStateException("Can't have two active InputContext at the same time");
+            // throw new IllegblStbteException("Cbn't hbve two bctive InputContext bt the sbme time");
         }
         currentInputContext = inputContext;
     }
 
-    public synchronized void notifyChangeRequest(Component comp) {
-        if (!(comp instanceof Frame || comp instanceof Dialog))
+    public synchronized void notifyChbngeRequest(Component comp) {
+        if (!(comp instbnceof Frbme || comp instbnceof Diblog))
             return;
 
         // if busy with the current request, ignore this request.
@@ -215,16 +215,16 @@ class ExecutableInputMethodManager extends InputMethodManager
         notify();
     }
 
-    public synchronized void notifyChangeRequestByHotKey(Component comp) {
-        while (!(comp instanceof Frame || comp instanceof Dialog)) {
+    public synchronized void notifyChbngeRequestByHotKey(Component comp) {
+        while (!(comp instbnceof Frbme || comp instbnceof Diblog)) {
             if (comp == null) {
-                // no Frame or Dialog found in containment hierarchy.
+                // no Frbme or Diblog found in contbinment hierbrchy.
                 return;
             }
-            comp = comp.getParent();
+            comp = comp.getPbrent();
         }
 
-        notifyChangeRequest(comp);
+        notifyChbngeRequest(comp);
     }
 
     public String getTriggerMenuString() {
@@ -232,367 +232,367 @@ class ExecutableInputMethodManager extends InputMethodManager
     }
 
     /*
-     * Returns true if the environment indicates there are multiple input methods
+     * Returns true if the environment indicbtes there bre multiple input methods
      */
-    boolean hasMultipleInputMethods() {
-        return ((hostAdapterLocator != null) && (javaInputMethodCount > 0)
-                || (javaInputMethodCount > 1));
+    boolebn hbsMultipleInputMethods() {
+        return ((hostAdbpterLocbtor != null) && (jbvbInputMethodCount > 0)
+                || (jbvbInputMethodCount > 1));
     }
 
-    private synchronized void waitForChangeRequest() {
+    privbte synchronized void wbitForChbngeRequest() {
         try {
             while (requestComponent == null) {
-                wait();
+                wbit();
             }
-        } catch (InterruptedException e) {
+        } cbtch (InterruptedException e) {
         }
     }
 
     /*
-     * initializes the input method locator list for all
-     * installed input method descriptors.
+     * initiblizes the input method locbtor list for bll
+     * instblled input method descriptors.
      */
-    private void initializeInputMethodLocatorList() {
-        synchronized (javaInputMethodLocatorList) {
-            javaInputMethodLocatorList.clear();
+    privbte void initiblizeInputMethodLocbtorList() {
+        synchronized (jbvbInputMethodLocbtorList) {
+            jbvbInputMethodLocbtorList.clebr();
             try {
                 AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
                     public Object run() {
                         for (InputMethodDescriptor descriptor :
-                            ServiceLoader.loadInstalled(InputMethodDescriptor.class)) {
-                            ClassLoader cl = descriptor.getClass().getClassLoader();
-                            javaInputMethodLocatorList.add(new InputMethodLocator(descriptor, cl, null));
+                            ServiceLobder.lobdInstblled(InputMethodDescriptor.clbss)) {
+                            ClbssLobder cl = descriptor.getClbss().getClbssLobder();
+                            jbvbInputMethodLocbtorList.bdd(new InputMethodLocbtor(descriptor, cl, null));
                         }
                         return null;
                     }
                 });
-            }  catch (PrivilegedActionException e) {
-                e.printStackTrace();
+            }  cbtch (PrivilegedActionException e) {
+                e.printStbckTrbce();
             }
-            javaInputMethodCount = javaInputMethodLocatorList.size();
+            jbvbInputMethodCount = jbvbInputMethodLocbtorList.size();
         }
 
-        if (hasMultipleInputMethods()) {
-            // initialize preferences
+        if (hbsMultipleInputMethods()) {
+            // initiblize preferences
             if (userRoot == null) {
                 userRoot = getUserRoot();
             }
         } else {
-            // indicate to clients not to offer the menu
+            // indicbte to clients not to offer the menu
             triggerMenuString = null;
         }
     }
 
-    private void showInputMethodMenu() {
+    privbte void showInputMethodMenu() {
 
-        if (!hasMultipleInputMethods()) {
+        if (!hbsMultipleInputMethods()) {
             requestComponent = null;
             return;
         }
 
-        // initialize pop-up menu
-        selectionMenu = InputMethodPopupMenu.getInstance(requestComponent, selectInputMethodMenuTitle);
+        // initiblize pop-up menu
+        selectionMenu = InputMethodPopupMenu.getInstbnce(requestComponent, selectInputMethodMenuTitle);
 
-        // we have to rebuild the menu each time because
-        // some input methods (such as IIIMP) may change
-        // their list of supported locales dynamically
+        // we hbve to rebuild the menu ebch time becbuse
+        // some input methods (such bs IIIMP) mby chbnge
+        // their list of supported locbles dynbmicblly
         selectionMenu.removeAll();
 
-        // get information about the currently selected input method
-        // ??? if there's no current input context, what's the point
+        // get informbtion bbout the currently selected input method
+        // ??? if there's no current input context, whbt's the point
         // of showing the menu?
         String currentSelection = getCurrentSelection();
 
-        // Add menu item for host adapter
-        if (hostAdapterLocator != null) {
-            selectionMenu.addOneInputMethodToMenu(hostAdapterLocator, currentSelection);
-            selectionMenu.addSeparator();
+        // Add menu item for host bdbpter
+        if (hostAdbpterLocbtor != null) {
+            selectionMenu.bddOneInputMethodToMenu(hostAdbpterLocbtor, currentSelection);
+            selectionMenu.bddSepbrbtor();
         }
 
         // Add menu items for other input methods
-        for (int i = 0; i < javaInputMethodLocatorList.size(); i++) {
-            InputMethodLocator locator = javaInputMethodLocatorList.get(i);
-            selectionMenu.addOneInputMethodToMenu(locator, currentSelection);
+        for (int i = 0; i < jbvbInputMethodLocbtorList.size(); i++) {
+            InputMethodLocbtor locbtor = jbvbInputMethodLocbtorList.get(i);
+            selectionMenu.bddOneInputMethodToMenu(locbtor, currentSelection);
         }
 
         synchronized (this) {
-            selectionMenu.addToComponent(requestComponent);
+            selectionMenu.bddToComponent(requestComponent);
             requestInputContext = currentInputContext;
             selectionMenu.show(requestComponent, 60, 80); // TODO: get proper x, y...
             requestComponent = null;
         }
     }
 
-    private String getCurrentSelection() {
+    privbte String getCurrentSelection() {
         InputContext inputContext = currentInputContext;
         if (inputContext != null) {
-            InputMethodLocator locator = inputContext.getInputMethodLocator();
-            if (locator != null) {
-                return locator.getActionCommandString();
+            InputMethodLocbtor locbtor = inputContext.getInputMethodLocbtor();
+            if (locbtor != null) {
+                return locbtor.getActionCommbndString();
             }
         }
         return null;
     }
 
-    synchronized void changeInputMethod(String choice) {
-        InputMethodLocator locator = null;
+    synchronized void chbngeInputMethod(String choice) {
+        InputMethodLocbtor locbtor = null;
 
-        String inputMethodName = choice;
-        String localeString = null;
+        String inputMethodNbme = choice;
+        String locbleString = null;
         int index = choice.indexOf('\n');
         if (index != -1) {
-            localeString = choice.substring(index + 1);
-            inputMethodName = choice.substring(0, index);
+            locbleString = choice.substring(index + 1);
+            inputMethodNbme = choice.substring(0, index);
         }
-        if (hostAdapterLocator.getActionCommandString().equals(inputMethodName)) {
-            locator = hostAdapterLocator;
+        if (hostAdbpterLocbtor.getActionCommbndString().equbls(inputMethodNbme)) {
+            locbtor = hostAdbpterLocbtor;
         } else {
-            for (int i = 0; i < javaInputMethodLocatorList.size(); i++) {
-                InputMethodLocator candidate = javaInputMethodLocatorList.get(i);
-                String name = candidate.getActionCommandString();
-                if (name.equals(inputMethodName)) {
-                    locator = candidate;
-                    break;
+            for (int i = 0; i < jbvbInputMethodLocbtorList.size(); i++) {
+                InputMethodLocbtor cbndidbte = jbvbInputMethodLocbtorList.get(i);
+                String nbme = cbndidbte.getActionCommbndString();
+                if (nbme.equbls(inputMethodNbme)) {
+                    locbtor = cbndidbte;
+                    brebk;
                 }
             }
         }
 
-        if (locator != null && localeString != null) {
-            String language = "", country = "", variant = "";
-            int postIndex = localeString.indexOf('_');
+        if (locbtor != null && locbleString != null) {
+            String lbngubge = "", country = "", vbribnt = "";
+            int postIndex = locbleString.indexOf('_');
             if (postIndex == -1) {
-                language = localeString;
+                lbngubge = locbleString;
             } else {
-                language = localeString.substring(0, postIndex);
+                lbngubge = locbleString.substring(0, postIndex);
                 int preIndex = postIndex + 1;
-                postIndex = localeString.indexOf('_', preIndex);
+                postIndex = locbleString.indexOf('_', preIndex);
                 if (postIndex == -1) {
-                    country = localeString.substring(preIndex);
+                    country = locbleString.substring(preIndex);
                 } else {
-                    country = localeString.substring(preIndex, postIndex);
-                    variant = localeString.substring(postIndex + 1);
+                    country = locbleString.substring(preIndex, postIndex);
+                    vbribnt = locbleString.substring(postIndex + 1);
                 }
             }
-            Locale locale = new Locale(language, country, variant);
-            locator = locator.deriveLocator(locale);
+            Locble locble = new Locble(lbngubge, country, vbribnt);
+            locbtor = locbtor.deriveLocbtor(locble);
         }
 
-        if (locator == null)
+        if (locbtor == null)
             return;
 
-        // tell the input context about the change
+        // tell the input context bbout the chbnge
         if (requestInputContext != null) {
-            requestInputContext.changeInputMethod(locator);
+            requestInputContext.chbngeInputMethod(locbtor);
             requestInputContext = null;
 
             // remember the selection
-            putPreferredInputMethod(locator);
+            putPreferredInputMethod(locbtor);
         }
     }
 
-    InputMethodLocator findInputMethod(Locale locale) {
+    InputMethodLocbtor findInputMethod(Locble locble) {
         // look for preferred input method first
-        InputMethodLocator locator = getPreferredInputMethod(locale);
-        if (locator != null) {
-            return locator;
+        InputMethodLocbtor locbtor = getPreferredInputMethod(locble);
+        if (locbtor != null) {
+            return locbtor;
         }
 
-        if (hostAdapterLocator != null && hostAdapterLocator.isLocaleAvailable(locale)) {
-            return hostAdapterLocator.deriveLocator(locale);
+        if (hostAdbpterLocbtor != null && hostAdbpterLocbtor.isLocbleAvbilbble(locble)) {
+            return hostAdbpterLocbtor.deriveLocbtor(locble);
         }
 
-        // Update the locator list
-        initializeInputMethodLocatorList();
+        // Updbte the locbtor list
+        initiblizeInputMethodLocbtorList();
 
-        for (int i = 0; i < javaInputMethodLocatorList.size(); i++) {
-            InputMethodLocator candidate = javaInputMethodLocatorList.get(i);
-            if (candidate.isLocaleAvailable(locale)) {
-                return candidate.deriveLocator(locale);
+        for (int i = 0; i < jbvbInputMethodLocbtorList.size(); i++) {
+            InputMethodLocbtor cbndidbte = jbvbInputMethodLocbtorList.get(i);
+            if (cbndidbte.isLocbleAvbilbble(locble)) {
+                return cbndidbte.deriveLocbtor(locble);
             }
         }
         return null;
     }
 
-    Locale getDefaultKeyboardLocale() {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        if (toolkit instanceof InputMethodSupport) {
-            return ((InputMethodSupport)toolkit).getDefaultKeyboardLocale();
+    Locble getDefbultKeybobrdLocble() {
+        Toolkit toolkit = Toolkit.getDefbultToolkit();
+        if (toolkit instbnceof InputMethodSupport) {
+            return ((InputMethodSupport)toolkit).getDefbultKeybobrdLocble();
         } else {
-            return Locale.getDefault();
+            return Locble.getDefbult();
         }
     }
 
     /**
-     * Returns a InputMethodLocator object that the
-     * user prefers for the given locale.
+     * Returns b InputMethodLocbtor object thbt the
+     * user prefers for the given locble.
      *
-     * @param locale Locale for which the user prefers the input method.
+     * @pbrbm locble Locble for which the user prefers the input method.
      */
-    private synchronized InputMethodLocator getPreferredInputMethod(Locale locale) {
-        InputMethodLocator preferredLocator = null;
+    privbte synchronized InputMethodLocbtor getPreferredInputMethod(Locble locble) {
+        InputMethodLocbtor preferredLocbtor = null;
 
-        if (!hasMultipleInputMethods()) {
-            // No need to look for a preferred Java input method
+        if (!hbsMultipleInputMethods()) {
+            // No need to look for b preferred Jbvb input method
             return null;
         }
 
-        // look for the cached preference first.
-        preferredLocator = preferredLocatorCache.get(locale.toString().intern());
-        if (preferredLocator != null) {
-            return preferredLocator;
+        // look for the cbched preference first.
+        preferredLocbtor = preferredLocbtorCbche.get(locble.toString().intern());
+        if (preferredLocbtor != null) {
+            return preferredLocbtor;
         }
 
         // look for the preference in the user preference tree
-        String nodePath = findPreferredInputMethodNode(locale);
-        String descriptorName = readPreferredInputMethod(nodePath);
-        Locale advertised;
+        String nodePbth = findPreferredInputMethodNode(locble);
+        String descriptorNbme = rebdPreferredInputMethod(nodePbth);
+        Locble bdvertised;
 
-        // get the locator object
-        if (descriptorName != null) {
-            // check for the host adapter first
-            if (hostAdapterLocator != null &&
-                hostAdapterLocator.getDescriptor().getClass().getName().equals(descriptorName)) {
-                advertised = getAdvertisedLocale(hostAdapterLocator, locale);
-                if (advertised != null) {
-                    preferredLocator = hostAdapterLocator.deriveLocator(advertised);
-                    preferredLocatorCache.put(locale.toString().intern(), preferredLocator);
+        // get the locbtor object
+        if (descriptorNbme != null) {
+            // check for the host bdbpter first
+            if (hostAdbpterLocbtor != null &&
+                hostAdbpterLocbtor.getDescriptor().getClbss().getNbme().equbls(descriptorNbme)) {
+                bdvertised = getAdvertisedLocble(hostAdbpterLocbtor, locble);
+                if (bdvertised != null) {
+                    preferredLocbtor = hostAdbpterLocbtor.deriveLocbtor(bdvertised);
+                    preferredLocbtorCbche.put(locble.toString().intern(), preferredLocbtor);
                 }
-                return preferredLocator;
+                return preferredLocbtor;
             }
-            // look for Java input methods
-            for (int i = 0; i < javaInputMethodLocatorList.size(); i++) {
-                InputMethodLocator locator = javaInputMethodLocatorList.get(i);
-                InputMethodDescriptor descriptor = locator.getDescriptor();
-                if (descriptor.getClass().getName().equals(descriptorName)) {
-                    advertised = getAdvertisedLocale(locator, locale);
-                    if (advertised != null) {
-                        preferredLocator = locator.deriveLocator(advertised);
-                        preferredLocatorCache.put(locale.toString().intern(), preferredLocator);
+            // look for Jbvb input methods
+            for (int i = 0; i < jbvbInputMethodLocbtorList.size(); i++) {
+                InputMethodLocbtor locbtor = jbvbInputMethodLocbtorList.get(i);
+                InputMethodDescriptor descriptor = locbtor.getDescriptor();
+                if (descriptor.getClbss().getNbme().equbls(descriptorNbme)) {
+                    bdvertised = getAdvertisedLocble(locbtor, locble);
+                    if (bdvertised != null) {
+                        preferredLocbtor = locbtor.deriveLocbtor(bdvertised);
+                        preferredLocbtorCbche.put(locble.toString().intern(), preferredLocbtor);
                     }
-                    return preferredLocator;
+                    return preferredLocbtor;
                 }
             }
 
-            // maybe preferred input method information is bogus.
-            writePreferredInputMethod(nodePath, null);
+            // mbybe preferred input method informbtion is bogus.
+            writePreferredInputMethod(nodePbth, null);
         }
 
         return null;
     }
 
-    private String findPreferredInputMethodNode(Locale locale) {
+    privbte String findPreferredInputMethodNode(Locble locble) {
         if (userRoot == null) {
             return null;
         }
 
-        // create locale node relative path
-        String nodePath = preferredIMNode + "/" + createLocalePath(locale);
+        // crebte locble node relbtive pbth
+        String nodePbth = preferredIMNode + "/" + crebteLocblePbth(locble);
 
         // look for the descriptor
-        while (!nodePath.equals(preferredIMNode)) {
+        while (!nodePbth.equbls(preferredIMNode)) {
             try {
-                if (userRoot.nodeExists(nodePath)) {
-                    if (readPreferredInputMethod(nodePath) != null) {
-                        return nodePath;
+                if (userRoot.nodeExists(nodePbth)) {
+                    if (rebdPreferredInputMethod(nodePbth) != null) {
+                        return nodePbth;
                     }
                 }
-            } catch (BackingStoreException bse) {
+            } cbtch (BbckingStoreException bse) {
             }
 
-            // search at parent's node
-            nodePath = nodePath.substring(0, nodePath.lastIndexOf('/'));
+            // sebrch bt pbrent's node
+            nodePbth = nodePbth.substring(0, nodePbth.lbstIndexOf('/'));
         }
 
         return null;
     }
 
-    private String readPreferredInputMethod(String nodePath) {
-        if ((userRoot == null) || (nodePath == null)) {
+    privbte String rebdPreferredInputMethod(String nodePbth) {
+        if ((userRoot == null) || (nodePbth == null)) {
             return null;
         }
 
-        return userRoot.node(nodePath).get(descriptorKey, null);
+        return userRoot.node(nodePbth).get(descriptorKey, null);
     }
 
     /**
-     * Writes the preferred input method descriptor class name into
-     * the user's Preferences tree in accordance with the given locale.
+     * Writes the preferred input method descriptor clbss nbme into
+     * the user's Preferences tree in bccordbnce with the given locble.
      *
-     * @param inputMethodLocator input method locator to remember.
+     * @pbrbm inputMethodLocbtor input method locbtor to remember.
      */
-    private synchronized void putPreferredInputMethod(InputMethodLocator locator) {
-        InputMethodDescriptor descriptor = locator.getDescriptor();
-        Locale preferredLocale = locator.getLocale();
+    privbte synchronized void putPreferredInputMethod(InputMethodLocbtor locbtor) {
+        InputMethodDescriptor descriptor = locbtor.getDescriptor();
+        Locble preferredLocble = locbtor.getLocble();
 
-        if (preferredLocale == null) {
-            // check available locales of the input method
+        if (preferredLocble == null) {
+            // check bvbilbble locbles of the input method
             try {
-                Locale[] availableLocales = descriptor.getAvailableLocales();
-                if (availableLocales.length == 1) {
-                    preferredLocale = availableLocales[0];
+                Locble[] bvbilbbleLocbles = descriptor.getAvbilbbleLocbles();
+                if (bvbilbbleLocbles.length == 1) {
+                    preferredLocble = bvbilbbleLocbles[0];
                 } else {
-                    // there is no way to know which locale is the preferred one, so do nothing.
+                    // there is no wby to know which locble is the preferred one, so do nothing.
                     return;
                 }
-            } catch (AWTException ae) {
+            } cbtch (AWTException be) {
                 // do nothing here, either.
                 return;
             }
         }
 
-        // for regions that have only one language, we need to regard
-        // "xx_YY" as "xx" when putting the preference into tree
-        if (preferredLocale.equals(Locale.JAPAN)) {
-            preferredLocale = Locale.JAPANESE;
+        // for regions thbt hbve only one lbngubge, we need to regbrd
+        // "xx_YY" bs "xx" when putting the preference into tree
+        if (preferredLocble.equbls(Locble.JAPAN)) {
+            preferredLocble = Locble.JAPANESE;
         }
-        if (preferredLocale.equals(Locale.KOREA)) {
-            preferredLocale = Locale.KOREAN;
+        if (preferredLocble.equbls(Locble.KOREA)) {
+            preferredLocble = Locble.KOREAN;
         }
-        if (preferredLocale.equals(new Locale("th", "TH"))) {
-            preferredLocale = new Locale("th");
+        if (preferredLocble.equbls(new Locble("th", "TH"))) {
+            preferredLocble = new Locble("th");
         }
 
-        // obtain node
-        String path = preferredIMNode + "/" + createLocalePath(preferredLocale);
+        // obtbin node
+        String pbth = preferredIMNode + "/" + crebteLocblePbth(preferredLocble);
 
         // write in the preference tree
-        writePreferredInputMethod(path, descriptor.getClass().getName());
-        preferredLocatorCache.put(preferredLocale.toString().intern(),
-            locator.deriveLocator(preferredLocale));
+        writePreferredInputMethod(pbth, descriptor.getClbss().getNbme());
+        preferredLocbtorCbche.put(preferredLocble.toString().intern(),
+            locbtor.deriveLocbtor(preferredLocble));
 
         return;
     }
 
-    private String createLocalePath(Locale locale) {
-        String language = locale.getLanguage();
-        String country = locale.getCountry();
-        String variant = locale.getVariant();
-        String localePath = null;
-        if (!variant.equals("")) {
-            localePath = "_" + language + "/_" + country + "/_" + variant;
-        } else if (!country.equals("")) {
-            localePath = "_" + language + "/_" + country;
+    privbte String crebteLocblePbth(Locble locble) {
+        String lbngubge = locble.getLbngubge();
+        String country = locble.getCountry();
+        String vbribnt = locble.getVbribnt();
+        String locblePbth = null;
+        if (!vbribnt.equbls("")) {
+            locblePbth = "_" + lbngubge + "/_" + country + "/_" + vbribnt;
+        } else if (!country.equbls("")) {
+            locblePbth = "_" + lbngubge + "/_" + country;
         } else {
-            localePath = "_" + language;
+            locblePbth = "_" + lbngubge;
         }
 
-        return localePath;
+        return locblePbth;
     }
 
-    private void writePreferredInputMethod(String path, String descriptorName) {
+    privbte void writePreferredInputMethod(String pbth, String descriptorNbme) {
         if (userRoot != null) {
-            Preferences node = userRoot.node(path);
+            Preferences node = userRoot.node(pbth);
 
             // record it
-            if (descriptorName != null) {
-                node.put(descriptorKey, descriptorName);
+            if (descriptorNbme != null) {
+                node.put(descriptorKey, descriptorNbme);
             } else {
                 node.remove(descriptorKey);
             }
         }
     }
 
-    private Preferences getUserRoot() {
+    privbte Preferences getUserRoot() {
         return AccessController.doPrivileged(new PrivilegedAction<Preferences>() {
             public Preferences run() {
                 return Preferences.userRoot();
@@ -600,33 +600,33 @@ class ExecutableInputMethodManager extends InputMethodManager
         });
     }
 
-    private Locale getAdvertisedLocale(InputMethodLocator locator, Locale locale) {
-        Locale advertised = null;
+    privbte Locble getAdvertisedLocble(InputMethodLocbtor locbtor, Locble locble) {
+        Locble bdvertised = null;
 
-        if (locator.isLocaleAvailable(locale)) {
-            advertised = locale;
-        } else if (locale.getLanguage().equals("ja")) {
-            // for Japanese, Korean, and Thai, check whether the input method supports
-            // language or language_COUNTRY.
-            if (locator.isLocaleAvailable(Locale.JAPAN)) {
-                advertised = Locale.JAPAN;
-            } else if (locator.isLocaleAvailable(Locale.JAPANESE)) {
-                advertised = Locale.JAPANESE;
+        if (locbtor.isLocbleAvbilbble(locble)) {
+            bdvertised = locble;
+        } else if (locble.getLbngubge().equbls("jb")) {
+            // for Jbpbnese, Korebn, bnd Thbi, check whether the input method supports
+            // lbngubge or lbngubge_COUNTRY.
+            if (locbtor.isLocbleAvbilbble(Locble.JAPAN)) {
+                bdvertised = Locble.JAPAN;
+            } else if (locbtor.isLocbleAvbilbble(Locble.JAPANESE)) {
+                bdvertised = Locble.JAPANESE;
             }
-        } else if (locale.getLanguage().equals("ko")) {
-            if (locator.isLocaleAvailable(Locale.KOREA)) {
-                advertised = Locale.KOREA;
-            } else if (locator.isLocaleAvailable(Locale.KOREAN)) {
-                advertised = Locale.KOREAN;
+        } else if (locble.getLbngubge().equbls("ko")) {
+            if (locbtor.isLocbleAvbilbble(Locble.KOREA)) {
+                bdvertised = Locble.KOREA;
+            } else if (locbtor.isLocbleAvbilbble(Locble.KOREAN)) {
+                bdvertised = Locble.KOREAN;
             }
-        } else if (locale.getLanguage().equals("th")) {
-            if (locator.isLocaleAvailable(new Locale("th", "TH"))) {
-                advertised = new Locale("th", "TH");
-            } else if (locator.isLocaleAvailable(new Locale("th"))) {
-                advertised = new Locale("th");
+        } else if (locble.getLbngubge().equbls("th")) {
+            if (locbtor.isLocbleAvbilbble(new Locble("th", "TH"))) {
+                bdvertised = new Locble("th", "TH");
+            } else if (locbtor.isLocbleAvbilbble(new Locble("th"))) {
+                bdvertised = new Locble("th");
             }
         }
 
-        return advertised;
+        return bdvertised;
     }
 }

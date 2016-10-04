@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5;
+pbckbge sun.security.krb5;
 
-import java.security.PrivilegedAction;
-import java.security.Security;
-import java.util.Locale;
-import sun.security.krb5.internal.Krb5;
-import sun.security.krb5.internal.NetClient;
-import java.io.IOException;
-import java.net.SocketTimeoutException;
-import java.util.StringTokenizer;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Iterator;
-import sun.security.krb5.internal.KRBError;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.Security;
+import jbvb.util.Locble;
+import sun.security.krb5.internbl.Krb5;
+import sun.security.krb5.internbl.NetClient;
+import jbvb.io.IOException;
+import jbvb.net.SocketTimeoutException;
+import jbvb.util.StringTokenizer;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import sun.security.krb5.internbl.KRBError;
 
 /**
- * KDC-REQ/KDC-REP communication. No more base class for KrbAsReq and
- * KrbTgsReq. This class is now communication only.
+ * KDC-REQ/KDC-REP communicbtion. No more bbse clbss for KrbAsReq bnd
+ * KrbTgsReq. This clbss is now communicbtion only.
  */
-public final class KdcComm {
+public finbl clbss KdcComm {
 
-    // The following settings can be configured in [libdefaults]
-    // section of krb5.conf, which are global for all realms. Each of
-    // them can also be defined in a realm, which overrides value here.
-
-    /**
-     * max retry time for a single KDC, default Krb5.KDC_RETRY_LIMIT (3)
-     */
-    private static int defaultKdcRetryLimit;
-    /**
-     * timeout requesting a ticket from KDC, in millisec, default 30 sec
-     */
-    private static int defaultKdcTimeout;
-    /**
-     * max UDP packet size, default unlimited (-1)
-     */
-    private static int defaultUdpPrefLimit;
-
-    private static final boolean DEBUG = Krb5.DEBUG;
-
-    private static final String BAD_POLICY_KEY = "krb5.kdc.bad.policy";
+    // The following settings cbn be configured in [libdefbults]
+    // section of krb5.conf, which bre globbl for bll reblms. Ebch of
+    // them cbn blso be defined in b reblm, which overrides vblue here.
 
     /**
-     * What to do when a KDC is unavailable, specified in the
-     * java.security file with key krb5.kdc.bad.policy.
-     * Possible values can be TRY_LAST or TRY_LESS. Reloaded when refreshed.
+     * mbx retry time for b single KDC, defbult Krb5.KDC_RETRY_LIMIT (3)
      */
-    private enum BpType {
+    privbte stbtic int defbultKdcRetryLimit;
+    /**
+     * timeout requesting b ticket from KDC, in millisec, defbult 30 sec
+     */
+    privbte stbtic int defbultKdcTimeout;
+    /**
+     * mbx UDP pbcket size, defbult unlimited (-1)
+     */
+    privbte stbtic int defbultUdpPrefLimit;
+
+    privbte stbtic finbl boolebn DEBUG = Krb5.DEBUG;
+
+    privbte stbtic finbl String BAD_POLICY_KEY = "krb5.kdc.bbd.policy";
+
+    /**
+     * Whbt to do when b KDC is unbvbilbble, specified in the
+     * jbvb.security file with key krb5.kdc.bbd.policy.
+     * Possible vblues cbn be TRY_LAST or TRY_LESS. Relobded when refreshed.
+     */
+    privbte enum BpType {
         NONE, TRY_LAST, TRY_LESS
     }
-    private static int tryLessMaxRetries = 1;
-    private static int tryLessTimeout = 5000;
+    privbte stbtic int tryLessMbxRetries = 1;
+    privbte stbtic int tryLessTimeout = 5000;
 
-    private static BpType badPolicy;
+    privbte stbtic BpType bbdPolicy;
 
-    static {
-        initStatic();
+    stbtic {
+        initStbtic();
     }
 
     /**
-     * Read global settings
+     * Rebd globbl settings
      */
-    public static void initStatic() {
-        String value = AccessController.doPrivileged(
+    public stbtic void initStbtic() {
+        String vblue = AccessController.doPrivileged(
         new PrivilegedAction<String>() {
             public String run() {
                 return Security.getProperty(BAD_POLICY_KEY);
             }
         });
-        if (value != null) {
-            value = value.toLowerCase(Locale.ENGLISH);
-            String[] ss = value.split(":");
-            if ("tryless".equals(ss[0])) {
+        if (vblue != null) {
+            vblue = vblue.toLowerCbse(Locble.ENGLISH);
+            String[] ss = vblue.split(":");
+            if ("tryless".equbls(ss[0])) {
                 if (ss.length > 1) {
-                    String[] params = ss[1].split(",");
+                    String[] pbrbms = ss[1].split(",");
                     try {
-                        int tmp0 = Integer.parseInt(params[0]);
-                        if (params.length > 1) {
-                            tryLessTimeout = Integer.parseInt(params[1]);
+                        int tmp0 = Integer.pbrseInt(pbrbms[0]);
+                        if (pbrbms.length > 1) {
+                            tryLessTimeout = Integer.pbrseInt(pbrbms[1]);
                         }
-                        // Assign here in case of exception at params[1]
-                        tryLessMaxRetries = tmp0;
-                    } catch (NumberFormatException nfe) {
-                        // Ignored. Please note that tryLess is recognized and
-                        // used, parameters using default values
+                        // Assign here in cbse of exception bt pbrbms[1]
+                        tryLessMbxRetries = tmp0;
+                    } cbtch (NumberFormbtException nfe) {
+                        // Ignored. Plebse note thbt tryLess is recognized bnd
+                        // used, pbrbmeters using defbult vblues
                         if (DEBUG) {
-                            System.out.println("Invalid " + BAD_POLICY_KEY +
-                                    " parameter for tryLess: " +
-                                    value + ", use default");
+                            System.out.println("Invblid " + BAD_POLICY_KEY +
+                                    " pbrbmeter for tryLess: " +
+                                    vblue + ", use defbult");
                         }
                     }
                 }
-                badPolicy = BpType.TRY_LESS;
-            } else if ("trylast".equals(ss[0])) {
-                badPolicy = BpType.TRY_LAST;
+                bbdPolicy = BpType.TRY_LESS;
+            } else if ("trylbst".equbls(ss[0])) {
+                bbdPolicy = BpType.TRY_LAST;
             } else {
-                badPolicy = BpType.NONE;
+                bbdPolicy = BpType.NONE;
             }
         } else {
-            badPolicy = BpType.NONE;
+            bbdPolicy = BpType.NONE;
         }
 
 
         int timeout = -1;
-        int max_retries = -1;
+        int mbx_retries = -1;
         int udp_pref_limit = -1;
 
         try {
-            Config cfg = Config.getInstance();
-            String temp = cfg.get("libdefaults", "kdc_timeout");
-            timeout = parseTimeString(temp);
+            Config cfg = Config.getInstbnce();
+            String temp = cfg.get("libdefbults", "kdc_timeout");
+            timeout = pbrseTimeString(temp);
 
-            temp = cfg.get("libdefaults", "max_retries");
-            max_retries = parsePositiveIntString(temp);
-            temp = cfg.get("libdefaults", "udp_preference_limit");
-            udp_pref_limit = parsePositiveIntString(temp);
-        } catch (Exception exc) {
-           // ignore any exceptions; use default values
+            temp = cfg.get("libdefbults", "mbx_retries");
+            mbx_retries = pbrsePositiveIntString(temp);
+            temp = cfg.get("libdefbults", "udp_preference_limit");
+            udp_pref_limit = pbrsePositiveIntString(temp);
+        } cbtch (Exception exc) {
+           // ignore bny exceptions; use defbult vblues
            if (DEBUG) {
-                System.out.println ("Exception in getting KDC communication " +
-                                    "settings, using default value " +
-                                    exc.getMessage());
+                System.out.println ("Exception in getting KDC communicbtion " +
+                                    "settings, using defbult vblue " +
+                                    exc.getMessbge());
            }
         }
-        defaultKdcTimeout = timeout > 0 ? timeout : 30*1000; // 30 seconds
-        defaultKdcRetryLimit =
-                max_retries > 0 ? max_retries : Krb5.KDC_RETRY_LIMIT;
+        defbultKdcTimeout = timeout > 0 ? timeout : 30*1000; // 30 seconds
+        defbultKdcRetryLimit =
+                mbx_retries > 0 ? mbx_retries : Krb5.KDC_RETRY_LIMIT;
 
         if (udp_pref_limit < 0) {
-            defaultUdpPrefLimit = Krb5.KDC_DEFAULT_UDP_PREF_LIMIT;
+            defbultUdpPrefLimit = Krb5.KDC_DEFAULT_UDP_PREF_LIMIT;
         } else if (udp_pref_limit > Krb5.KDC_HARD_UDP_LIMIT) {
-            defaultUdpPrefLimit = Krb5.KDC_HARD_UDP_LIMIT;
+            defbultUdpPrefLimit = Krb5.KDC_HARD_UDP_LIMIT;
         } else {
-            defaultUdpPrefLimit = udp_pref_limit;
+            defbultUdpPrefLimit = udp_pref_limit;
         }
 
         KdcAccessibility.reset();
     }
 
     /**
-     * The instance fields
+     * The instbnce fields
      */
-    private String realm;
+    privbte String reblm;
 
-    public KdcComm(String realm) throws KrbException {
-        if (realm == null) {
-           realm = Config.getInstance().getDefaultRealm();
-            if (realm == null) {
+    public KdcComm(String reblm) throws KrbException {
+        if (reblm == null) {
+           reblm = Config.getInstbnce().getDefbultReblm();
+            if (reblm == null) {
                 throw new KrbException(Krb5.KRB_ERR_GENERIC,
-                                       "Cannot find default realm");
+                                       "Cbnnot find defbult reblm");
             }
         }
-        this.realm = realm;
+        this.reblm = reblm;
     }
 
     public byte[] send(byte[] obuf)
         throws IOException, KrbException {
-        int udpPrefLimit = getRealmSpecificValue(
-                realm, "udp_preference_limit", defaultUdpPrefLimit);
+        int udpPrefLimit = getReblmSpecificVblue(
+                reblm, "udp_preference_limit", defbultUdpPrefLimit);
 
-        boolean useTCP = (udpPrefLimit > 0 &&
+        boolebn useTCP = (udpPrefLimit > 0 &&
              (obuf != null && obuf.length > udpPrefLimit));
 
         return send(obuf, useTCP);
     }
 
-    private byte[] send(byte[] obuf, boolean useTCP)
+    privbte byte[] send(byte[] obuf, boolebn useTCP)
         throws IOException, KrbException {
 
         if (obuf == null)
             return null;
-        Config cfg = Config.getInstance();
+        Config cfg = Config.getInstbnce();
 
-        if (realm == null) {
-            realm = cfg.getDefaultRealm();
-            if (realm == null) {
+        if (reblm == null) {
+            reblm = cfg.getDefbultReblm();
+            if (reblm == null) {
                 throw new KrbException(Krb5.KRB_ERR_GENERIC,
-                                       "Cannot find default realm");
+                                       "Cbnnot find defbult reblm");
             }
         }
 
-        String kdcList = cfg.getKDCList(realm);
+        String kdcList = cfg.getKDCList(reblm);
         if (kdcList == null) {
-            throw new KrbException("Cannot get kdc for realm " + realm);
+            throw new KrbException("Cbnnot get kdc for reblm " + reblm);
         }
-        // tempKdc may include the port number also
-        Iterator<String> tempKdc = KdcAccessibility.list(kdcList).iterator();
-        if (!tempKdc.hasNext()) {
-            throw new KrbException("Cannot get kdc for realm " + realm);
+        // tempKdc mby include the port number blso
+        Iterbtor<String> tempKdc = KdcAccessibility.list(kdcList).iterbtor();
+        if (!tempKdc.hbsNext()) {
+            throw new KrbException("Cbnnot get kdc for reblm " + reblm);
         }
         byte[] ibuf = null;
         try {
             ibuf = sendIfPossible(obuf, tempKdc.next(), useTCP);
-        } catch(Exception first) {
-            boolean ok = false;
-            while(tempKdc.hasNext()) {
+        } cbtch(Exception first) {
+            boolebn ok = fblse;
+            while(tempKdc.hbsNext()) {
                 try {
                     ibuf = sendIfPossible(obuf, tempKdc.next(), useTCP);
                     ok = true;
-                    break;
-                } catch(Exception ignore) {}
+                    brebk;
+                } cbtch(Exception ignore) {}
             }
             if (!ok) throw first;
         }
         if (ibuf == null) {
-            throw new IOException("Cannot get a KDC reply");
+            throw new IOException("Cbnnot get b KDC reply");
         }
         return ibuf;
     }
 
     // send the AS Request to the specified KDC
-    // failover to using TCP if useTCP is not set and response is too big
-    private byte[] sendIfPossible(byte[] obuf, String tempKdc, boolean useTCP)
+    // fbilover to using TCP if useTCP is not set bnd response is too big
+    privbte byte[] sendIfPossible(byte[] obuf, String tempKdc, boolebn useTCP)
         throws IOException, KrbException {
 
         try {
@@ -254,43 +254,43 @@ public final class KdcComm {
             KRBError ke = null;
             try {
                 ke = new KRBError(ibuf);
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 // OK
             }
             if (ke != null && ke.getErrorCode() ==
                     Krb5.KRB_ERR_RESPONSE_TOO_BIG) {
                 ibuf = send(obuf, tempKdc, true);
             }
-            KdcAccessibility.removeBad(tempKdc);
+            KdcAccessibility.removeBbd(tempKdc);
             return ibuf;
-        } catch(Exception e) {
+        } cbtch(Exception e) {
             if (DEBUG) {
                 System.out.println(">>> KrbKdcReq send: error trying " +
                         tempKdc);
-                e.printStackTrace(System.out);
+                e.printStbckTrbce(System.out);
             }
-            KdcAccessibility.addBad(tempKdc);
+            KdcAccessibility.bddBbd(tempKdc);
             throw e;
         }
     }
 
     // send the AS Request to the specified KDC
 
-    private byte[] send(byte[] obuf, String tempKdc, boolean useTCP)
+    privbte byte[] send(byte[] obuf, String tempKdc, boolebn useTCP)
         throws IOException, KrbException {
 
         if (obuf == null)
             return null;
 
         int port = Krb5.KDC_INET_DEFAULT_PORT;
-        int retries = getRealmSpecificValue(
-                realm, "max_retries", defaultKdcRetryLimit);
-        int timeout = getRealmSpecificValue(
-                realm, "kdc_timeout", defaultKdcTimeout);
-        if (badPolicy == BpType.TRY_LESS &&
-                KdcAccessibility.isBad(tempKdc)) {
-            if (retries > tryLessMaxRetries) {
-                retries = tryLessMaxRetries; // less retries
+        int retries = getReblmSpecificVblue(
+                reblm, "mbx_retries", defbultKdcRetryLimit);
+        int timeout = getReblmSpecificVblue(
+                reblm, "kdc_timeout", defbultKdcTimeout);
+        if (bbdPolicy == BpType.TRY_LESS &&
+                KdcAccessibility.isBbd(tempKdc)) {
+            if (retries > tryLessMbxRetries) {
+                retries = tryLessMbxRetries; // less retries
             }
             if (timeout > tryLessTimeout) {
                 timeout = tryLessTimeout; // less time
@@ -300,34 +300,34 @@ public final class KdcComm {
         String kdc = null;
         String portStr = null;
 
-        if (tempKdc.charAt(0) == '[') {     // Explicit IPv6 in []
+        if (tempKdc.chbrAt(0) == '[') {     // Explicit IPv6 in []
             int pos = tempKdc.indexOf(']', 1);
             if (pos == -1) {
-                throw new IOException("Illegal KDC: " + tempKdc);
+                throw new IOException("Illegbl KDC: " + tempKdc);
             }
             kdc = tempKdc.substring(1, pos);
             if (pos != tempKdc.length() - 1) {  // with port number
-                if (tempKdc.charAt(pos+1) != ':') {
-                    throw new IOException("Illegal KDC: " + tempKdc);
+                if (tempKdc.chbrAt(pos+1) != ':') {
+                    throw new IOException("Illegbl KDC: " + tempKdc);
                 }
                 portStr = tempKdc.substring(pos+2);
             }
         } else {
             int colon = tempKdc.indexOf(':');
-            if (colon == -1) {      // Hostname or IPv4 host only
+            if (colon == -1) {      // Hostnbme or IPv4 host only
                 kdc = tempKdc;
             } else {
                 int nextColon = tempKdc.indexOf(':', colon+1);
                 if (nextColon > 0) {    // >=2 ":", IPv6 with no port
                     kdc = tempKdc;
-                } else {                // 1 ":", hostname or IPv4 with port
+                } else {                // 1 ":", hostnbme or IPv4 with port
                     kdc = tempKdc.substring(0, colon);
                     portStr = tempKdc.substring(colon+1);
                 }
             }
         }
         if (portStr != null) {
-            int tempPort = parsePositiveIntString(portStr);
+            int tempPort = pbrsePositiveIntString(portStr);
             if (tempPort > 0)
                 port = tempPort;
         }
@@ -342,36 +342,36 @@ public final class KdcComm {
                                + ", #bytes=" + obuf.length);
         }
 
-        KdcCommunication kdcCommunication =
-            new KdcCommunication(kdc, port, useTCP, timeout, retries, obuf);
+        KdcCommunicbtion kdcCommunicbtion =
+            new KdcCommunicbtion(kdc, port, useTCP, timeout, retries, obuf);
         try {
-            byte[] ibuf = AccessController.doPrivileged(kdcCommunication);
+            byte[] ibuf = AccessController.doPrivileged(kdcCommunicbtion);
             if (DEBUG) {
-                System.out.println(">>> KrbKdcReq send: #bytes read="
+                System.out.println(">>> KrbKdcReq send: #bytes rebd="
                         + (ibuf != null ? ibuf.length : 0));
             }
             return ibuf;
-        } catch (PrivilegedActionException e) {
-            Exception wrappedException = e.getException();
-            if (wrappedException instanceof IOException) {
-                throw (IOException) wrappedException;
+        } cbtch (PrivilegedActionException e) {
+            Exception wrbppedException = e.getException();
+            if (wrbppedException instbnceof IOException) {
+                throw (IOException) wrbppedException;
             } else {
-                throw (KrbException) wrappedException;
+                throw (KrbException) wrbppedException;
             }
         }
     }
 
-    private static class KdcCommunication
+    privbte stbtic clbss KdcCommunicbtion
         implements PrivilegedExceptionAction<byte[]> {
 
-        private String kdc;
-        private int port;
-        private boolean useTCP;
-        private int timeout;
-        private int retries;
-        private byte[] obuf;
+        privbte String kdc;
+        privbte int port;
+        privbte boolebn useTCP;
+        privbte int timeout;
+        privbte int retries;
+        privbte byte[] obuf;
 
-        public KdcCommunication(String kdc, int port, boolean useTCP,
+        public KdcCommunicbtion(String kdc, int port, boolebn useTCP,
                                 int timeout, int retries, byte[] obuf) {
             this.kdc = kdc;
             this.port = port;
@@ -381,8 +381,8 @@ public final class KdcComm {
             this.obuf = obuf;
         }
 
-        // The caller only casts IOException and KrbException so don't
-        // add any new ones!
+        // The cbller only cbsts IOException bnd KrbException so don't
+        // bdd bny new ones!
 
         public byte[] run() throws IOException, KrbException {
 
@@ -390,10 +390,10 @@ public final class KdcComm {
 
             for (int i=1; i <= retries; i++) {
                 String proto = useTCP?"TCP":"UDP";
-                try (NetClient kdcClient = NetClient.getInstance(
+                try (NetClient kdcClient = NetClient.getInstbnce(
                         proto, kdc, port, timeout)) {
                     if (DEBUG) {
-                        System.out.println(">>> KDCCommunication: kdc=" + kdc
+                        System.out.println(">>> KDCCommunicbtion: kdc=" + kdc
                             + " " + proto + ":"
                             +  port +  ", timeout="
                             + timeout
@@ -402,18 +402,18 @@ public final class KdcComm {
                     }
                     try {
                         /*
-                        * Send the data to the kdc.
+                        * Send the dbtb to the kdc.
                         */
                         kdcClient.send(obuf);
                         /*
-                        * And get a response.
+                        * And get b response.
                         */
                         ibuf = kdcClient.receive();
-                        break;
-                    } catch (SocketTimeoutException se) {
+                        brebk;
+                    } cbtch (SocketTimeoutException se) {
                         if (DEBUG) {
                             System.out.println ("SocketTimeOutException with " +
-                                                "attempt: " + i);
+                                                "bttempt: " + i);
                         }
                         if (i == retries) {
                             ibuf = null;
@@ -427,52 +427,52 @@ public final class KdcComm {
     }
 
     /**
-     * Parses a time value string. If it ends with "s", parses as seconds.
-     * Otherwise, parses as milliseconds.
-     * @param s the time string
-     * @return the integer value in milliseconds, or -1 if input is null or
-     * has an invalid format
+     * Pbrses b time vblue string. If it ends with "s", pbrses bs seconds.
+     * Otherwise, pbrses bs milliseconds.
+     * @pbrbm s the time string
+     * @return the integer vblue in milliseconds, or -1 if input is null or
+     * hbs bn invblid formbt
      */
-    private static int parseTimeString(String s) {
+    privbte stbtic int pbrseTimeString(String s) {
         if (s == null) {
             return -1;
         }
         if (s.endsWith("s")) {
-            int seconds = parsePositiveIntString(s.substring(0, s.length()-1));
+            int seconds = pbrsePositiveIntString(s.substring(0, s.length()-1));
             return (seconds < 0) ? -1 : (seconds*1000);
         } else {
-            return parsePositiveIntString(s);
+            return pbrsePositiveIntString(s);
         }
     }
 
     /**
-     * Returns krb5.conf setting of {@code key} for a specific realm,
-     * which can be:
-     * 1. defined in the sub-stanza for the given realm inside [realms], or
-     * 2. defined in [libdefaults], or
-     * 3. defValue
-     * @param realm the given realm in which the setting is requested. Returns
-     * the global setting if null
-     * @param key the key for the setting
-     * @param defValue default value
-     * @return a value for the key
+     * Returns krb5.conf setting of {@code key} for b specific reblm,
+     * which cbn be:
+     * 1. defined in the sub-stbnzb for the given reblm inside [reblms], or
+     * 2. defined in [libdefbults], or
+     * 3. defVblue
+     * @pbrbm reblm the given reblm in which the setting is requested. Returns
+     * the globbl setting if null
+     * @pbrbm key the key for the setting
+     * @pbrbm defVblue defbult vblue
+     * @return b vblue for the key
      */
-    private int getRealmSpecificValue(String realm, String key, int defValue) {
-        int v = defValue;
+    privbte int getReblmSpecificVblue(String reblm, String key, int defVblue) {
+        int v = defVblue;
 
-        if (realm == null) return v;
+        if (reblm == null) return v;
 
         int temp = -1;
         try {
-            String value =
-               Config.getInstance().get("realms", realm, key);
-            if (key.equals("kdc_timeout")) {
-                temp = parseTimeString(value);
+            String vblue =
+               Config.getInstbnce().get("reblms", reblm, key);
+            if (key.equbls("kdc_timeout")) {
+                temp = pbrseTimeString(vblue);
             } else {
-                temp = parsePositiveIntString(value);
+                temp = pbrsePositiveIntString(vblue);
             }
-        } catch (Exception exc) {
-            // Ignored, defValue will be picked up
+        } cbtch (Exception exc) {
+            // Ignored, defVblue will be picked up
         }
 
         if (temp > 0) v = temp;
@@ -480,15 +480,15 @@ public final class KdcComm {
         return v;
     }
 
-    private static int parsePositiveIntString(String intString) {
+    privbte stbtic int pbrsePositiveIntString(String intString) {
         if (intString == null)
             return -1;
 
         int ret = -1;
 
         try {
-            ret = Integer.parseInt(intString);
-        } catch (Exception exc) {
+            ret = Integer.pbrseInt(intString);
+        } cbtch (Exception exc) {
             return -1;
         }
 
@@ -499,61 +499,61 @@ public final class KdcComm {
     }
 
     /**
-     * Maintains a KDC accessible list. Unavailable KDCs are put into a
-     * blacklist, when a KDC in the blacklist is available, it's removed
-     * from there. No insertion order in the blacklist.
+     * Mbintbins b KDC bccessible list. Unbvbilbble KDCs bre put into b
+     * blbcklist, when b KDC in the blbcklist is bvbilbble, it's removed
+     * from there. No insertion order in the blbcklist.
      *
-     * There are two methods to deal with KDCs in the blacklist. 1. Only try
-     * them when there's no KDC not on the blacklist. 2. Still try them, but
-     * with lesser number of retries and smaller timeout value.
+     * There bre two methods to debl with KDCs in the blbcklist. 1. Only try
+     * them when there's no KDC not on the blbcklist. 2. Still try them, but
+     * with lesser number of retries bnd smbller timeout vblue.
      */
-    static class KdcAccessibility {
-        // Known bad KDCs
-        private static Set<String> bads = new HashSet<>();
+    stbtic clbss KdcAccessibility {
+        // Known bbd KDCs
+        privbte stbtic Set<String> bbds = new HbshSet<>();
 
-        private static synchronized void addBad(String kdc) {
+        privbte stbtic synchronized void bddBbd(String kdc) {
             if (DEBUG) {
-                System.out.println(">>> KdcAccessibility: add " + kdc);
+                System.out.println(">>> KdcAccessibility: bdd " + kdc);
             }
-            bads.add(kdc);
+            bbds.bdd(kdc);
         }
 
-        private static synchronized void removeBad(String kdc) {
+        privbte stbtic synchronized void removeBbd(String kdc) {
             if (DEBUG) {
                 System.out.println(">>> KdcAccessibility: remove " + kdc);
             }
-            bads.remove(kdc);
+            bbds.remove(kdc);
         }
 
-        private static synchronized boolean isBad(String kdc) {
-            return bads.contains(kdc);
+        privbte stbtic synchronized boolebn isBbd(String kdc) {
+            return bbds.contbins(kdc);
         }
 
-        private static synchronized void reset() {
+        privbte stbtic synchronized void reset() {
             if (DEBUG) {
                 System.out.println(">>> KdcAccessibility: reset");
             }
-            bads.clear();
+            bbds.clebr();
         }
 
-        // Returns a preferred KDC list by putting the bad ones at the end
-        private static synchronized List<String> list(String kdcList) {
+        // Returns b preferred KDC list by putting the bbd ones bt the end
+        privbte stbtic synchronized List<String> list(String kdcList) {
             StringTokenizer st = new StringTokenizer(kdcList);
-            List<String> list = new ArrayList<>();
-            if (badPolicy == BpType.TRY_LAST) {
-                List<String> badkdcs = new ArrayList<>();
-                while (st.hasMoreTokens()) {
+            List<String> list = new ArrbyList<>();
+            if (bbdPolicy == BpType.TRY_LAST) {
+                List<String> bbdkdcs = new ArrbyList<>();
+                while (st.hbsMoreTokens()) {
                     String t = st.nextToken();
-                    if (bads.contains(t)) badkdcs.add(t);
-                    else list.add(t);
+                    if (bbds.contbins(t)) bbdkdcs.bdd(t);
+                    else list.bdd(t);
                 }
-                // Bad KDCs are put at last
-                list.addAll(badkdcs);
+                // Bbd KDCs bre put bt lbst
+                list.bddAll(bbdkdcs);
             } else {
-                // All KDCs are returned in their original order,
-                // This include TRY_LESS and NONE
-                while (st.hasMoreTokens()) {
-                    list.add(st.nextToken());
+                // All KDCs bre returned in their originbl order,
+                // This include TRY_LESS bnd NONE
+                while (st.hbsMoreTokens()) {
+                    list.bdd(st.nextToken());
                 }
             }
             return list;

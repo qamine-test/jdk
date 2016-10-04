@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
 
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JSplitPane}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JSplitPbne}.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  * @since 1.7
  */
-public class SynthSplitPaneUI extends BasicSplitPaneUI
-                              implements PropertyChangeListener, SynthUI {
+public clbss SynthSplitPbneUI extends BbsicSplitPbneUI
+                              implements PropertyChbngeListener, SynthUI {
     /**
-     * Keys to use for forward focus traversal when the JComponent is
-     * managing focus.
+     * Keys to use for forwbrd focus trbversbl when the JComponent is
+     * mbnbging focus.
      */
-    private static Set<KeyStroke> managingFocusForwardTraversalKeys;
+    privbte stbtic Set<KeyStroke> mbnbgingFocusForwbrdTrbversblKeys;
 
     /**
-     * Keys to use for backward focus traversal when the JComponent is
-     * managing focus.
+     * Keys to use for bbckwbrd focus trbversbl when the JComponent is
+     * mbnbging focus.
      */
-    private static Set<KeyStroke> managingFocusBackwardTraversalKeys;
+    privbte stbtic Set<KeyStroke> mbnbgingFocusBbckwbrdTrbversblKeys;
 
     /**
-     * Style for the JSplitPane.
+     * Style for the JSplitPbne.
      */
-    private SynthStyle style;
+    privbte SynthStyle style;
     /**
      * Style for the divider.
      */
-    private SynthStyle dividerStyle;
+    privbte SynthStyle dividerStyle;
 
 
     /**
-     * Creates a new SynthSplitPaneUI instance
+     * Crebtes b new SynthSplitPbneUI instbnce
      *
-     * @param x component to create UI object for
+     * @pbrbm x component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new SynthSplitPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent x) {
+        return new SynthSplitPbneUI();
     }
 
     /**
-     * Installs the UI defaults.
+     * Instblls the UI defbults.
      */
     @Override
-    protected void installDefaults() {
-        updateStyle(splitPane);
+    protected void instbllDefbults() {
+        updbteStyle(splitPbne);
 
-        setOrientation(splitPane.getOrientation());
-        setContinuousLayout(splitPane.isContinuousLayout());
+        setOrientbtion(splitPbne.getOrientbtion());
+        setContinuousLbyout(splitPbne.isContinuousLbyout());
 
-        resetLayoutManager();
+        resetLbyoutMbnbger();
 
-        /* Install the nonContinuousLayoutDivider here to avoid having to
-        add/remove everything later. */
-        if(nonContinuousLayoutDivider == null) {
-            setNonContinuousLayoutDivider(
-                                createDefaultNonContinuousLayoutDivider(),
+        /* Instbll the nonContinuousLbyoutDivider here to bvoid hbving to
+        bdd/remove everything lbter. */
+        if(nonContinuousLbyoutDivider == null) {
+            setNonContinuousLbyoutDivider(
+                                crebteDefbultNonContinuousLbyoutDivider(),
                                 true);
         } else {
-            setNonContinuousLayoutDivider(nonContinuousLayoutDivider, true);
+            setNonContinuousLbyoutDivider(nonContinuousLbyoutDivider, true);
         }
 
-        // focus forward traversal key
-        if (managingFocusForwardTraversalKeys==null) {
-            managingFocusForwardTraversalKeys = new HashSet<KeyStroke>();
-            managingFocusForwardTraversalKeys.add(
+        // focus forwbrd trbversbl key
+        if (mbnbgingFocusForwbrdTrbversblKeys==null) {
+            mbnbgingFocusForwbrdTrbversblKeys = new HbshSet<KeyStroke>();
+            mbnbgingFocusForwbrdTrbversblKeys.bdd(
                 KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
         }
-        splitPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-                                        managingFocusForwardTraversalKeys);
-        // focus backward traversal key
-        if (managingFocusBackwardTraversalKeys==null) {
-            managingFocusBackwardTraversalKeys = new HashSet<KeyStroke>();
-            managingFocusBackwardTraversalKeys.add(
+        splitPbne.setFocusTrbversblKeys(KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS,
+                                        mbnbgingFocusForwbrdTrbversblKeys);
+        // focus bbckwbrd trbversbl key
+        if (mbnbgingFocusBbckwbrdTrbversblKeys==null) {
+            mbnbgingFocusBbckwbrdTrbversblKeys = new HbshSet<KeyStroke>();
+            mbnbgingFocusBbckwbrdTrbversblKeys.bdd(
                 KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.SHIFT_MASK));
         }
-        splitPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-                                        managingFocusBackwardTraversalKeys);
+        splitPbne.setFocusTrbversblKeys(KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS,
+                                        mbnbgingFocusBbckwbrdTrbversblKeys);
     }
 
-    private void updateStyle(JSplitPane splitPane) {
-        SynthContext context = getContext(splitPane, Region.SPLIT_PANE_DIVIDER,
+    privbte void updbteStyle(JSplitPbne splitPbne) {
+        SynthContext context = getContext(splitPbne, Region.SPLIT_PANE_DIVIDER,
                                           ENABLED);
         SynthStyle oldDividerStyle = dividerStyle;
-        dividerStyle = SynthLookAndFeel.updateStyle(context, this);
+        dividerStyle = SynthLookAndFeel.updbteStyle(context, this);
         context.dispose();
 
-        context = getContext(splitPane, ENABLED);
+        context = getContext(splitPbne, ENABLED);
         SynthStyle oldStyle = style;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
 
         if (style != oldStyle) {
-            Object value = style.get(context, "SplitPane.size");
-            if (value == null) {
-                value = Integer.valueOf(6);
+            Object vblue = style.get(context, "SplitPbne.size");
+            if (vblue == null) {
+                vblue = Integer.vblueOf(6);
             }
-            LookAndFeel.installProperty(splitPane, "dividerSize", value);
+            LookAndFeel.instbllProperty(splitPbne, "dividerSize", vblue);
 
-            value = style.get(context, "SplitPane.oneTouchExpandable");
-            if (value != null) {
-                LookAndFeel.installProperty(splitPane, "oneTouchExpandable", value);
+            vblue = style.get(context, "SplitPbne.oneTouchExpbndbble");
+            if (vblue != null) {
+                LookAndFeel.instbllProperty(splitPbne, "oneTouchExpbndbble", vblue);
             }
 
             if (divider != null) {
-                splitPane.remove(divider);
-                divider.setDividerSize(splitPane.getDividerSize());
+                splitPbne.remove(divider);
+                divider.setDividerSize(splitPbne.getDividerSize());
             }
             if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                uninstbllKeybobrdActions();
+                instbllKeybobrdActions();
             }
         }
         if (style != oldStyle || dividerStyle != oldDividerStyle) {
-            // Only way to force BasicSplitPaneDivider to reread the
-            // necessary properties.
+            // Only wby to force BbsicSplitPbneDivider to rerebd the
+            // necessbry properties.
             if (divider != null) {
-                splitPane.remove(divider);
+                splitPbne.remove(divider);
             }
-            divider = createDefaultDivider();
-            divider.setBasicSplitPaneUI(this);
-            splitPane.add(divider, JSplitPane.DIVIDER);
+            divider = crebteDefbultDivider();
+            divider.setBbsicSplitPbneUI(this);
+            splitPbne.bdd(divider, JSplitPbne.DIVIDER);
         }
         context.dispose();
     }
 
     /**
-     * Installs the event listeners for the UI.
+     * Instblls the event listeners for the UI.
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        splitPane.addPropertyChangeListener(this);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        splitPbne.bddPropertyChbngeListener(this);
     }
 
     /**
-     * Uninstalls the UI defaults.
+     * Uninstblls the UI defbults.
      */
     @Override
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(splitPane, ENABLED);
+    protected void uninstbllDefbults() {
+        SynthContext context = getContext(splitPbne, ENABLED);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
 
-        context = getContext(splitPane, Region.SPLIT_PANE_DIVIDER, ENABLED);
-        dividerStyle.uninstallDefaults(context);
+        context = getContext(splitPbne, Region.SPLIT_PANE_DIVIDER, ENABLED);
+        dividerStyle.uninstbllDefbults(context);
         context.dispose();
         dividerStyle = null;
 
-        super.uninstallDefaults();
+        super.uninstbllDefbults();
     }
 
 
     /**
-     * Uninstalls the event listeners from the UI.
+     * Uninstblls the event listeners from the UI.
      */
     @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        splitPane.removePropertyChangeListener(this);
+    protected void uninstbllListeners() {
+        super.uninstbllListeners();
+        splitPbne.removePropertyChbngeListener(this);
     }
 
     /**
@@ -205,51 +205,51 @@ public class SynthSplitPaneUI extends BasicSplitPaneUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+        return getContext(c, SynthLookAndFeel.getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
     SynthContext getContext(JComponent c, Region region) {
-        return getContext(c, region, getComponentState(c, region));
+        return getContext(c, region, getComponentStbte(c, region));
     }
 
-    private SynthContext getContext(JComponent c, Region region, int state) {
+    privbte SynthContext getContext(JComponent c, Region region, int stbte) {
         if (region == Region.SPLIT_PANE_DIVIDER) {
-            return SynthContext.getContext(c, region, dividerStyle, state);
+            return SynthContext.getContext(c, region, dividerStyle, stbte);
         }
-        return SynthContext.getContext(c, region, style, state);
+        return SynthContext.getContext(c, region, style, stbte);
     }
 
-    private int getComponentState(JComponent c, Region subregion) {
-        int state = SynthLookAndFeel.getComponentState(c);
+    privbte int getComponentStbte(JComponent c, Region subregion) {
+        int stbte = SynthLookAndFeel.getComponentStbte(c);
 
         if (divider.isMouseOver()) {
-            state |= MOUSE_OVER;
+            stbte |= MOUSE_OVER;
         }
-        return state;
+        return stbte;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((JSplitPane)e.getSource());
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(e)) {
+            updbteStyle((JSplitPbne)e.getSource());
         }
     }
 
     /**
-     * Creates the default divider.
+     * Crebtes the defbult divider.
      */
     @Override
-    public BasicSplitPaneDivider createDefaultDivider() {
-        SynthSplitPaneDivider divider = new SynthSplitPaneDivider(this);
+    public BbsicSplitPbneDivider crebteDefbultDivider() {
+        SynthSplitPbneDivider divider = new SynthSplitPbneDivider(this);
 
-        divider.setDividerSize(splitPane.getDividerSize());
+        divider.setDividerSize(splitPbne.getDividerSize());
         return divider;
     }
 
@@ -257,85 +257,85 @@ public class SynthSplitPaneUI extends BasicSplitPaneUI
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("serial") // anonymous class
-    protected Component createDefaultNonContinuousLayoutDivider() {
-        return new Canvas() {
-            public void paint(Graphics g) {
-                paintDragDivider(g, 0, 0, getWidth(), getHeight());
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    protected Component crebteDefbultNonContinuousLbyoutDivider() {
+        return new Cbnvbs() {
+            public void pbint(Grbphics g) {
+                pbintDrbgDivider(g, 0, 0, getWidth(), getHeight());
             }
         };
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintSplitPaneBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintSplitPbneBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component. This implementation does nothing.
+     * Pbints the specified component. This implementbtion does nothing.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        // This is done to update package private variables in
-        // BasicSplitPaneUI
-        super.paint(g, splitPane);
+    protected void pbint(SynthContext context, Grbphics g) {
+        // This is done to updbte pbckbge privbte vbribbles in
+        // BbsicSplitPbneUI
+        super.pbint(g, splitPbne);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintSplitPaneBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintSplitPbneBorder(context, g, x, y, w, h);
     }
 
-    private void paintDragDivider(Graphics g, int x, int y, int w, int h) {
-        SynthContext context = getContext(splitPane,Region.SPLIT_PANE_DIVIDER);
-        context.setComponentState(((context.getComponentState() | MOUSE_OVER) ^
+    privbte void pbintDrbgDivider(Grbphics g, int x, int y, int w, int h) {
+        SynthContext context = getContext(splitPbne,Region.SPLIT_PANE_DIVIDER);
+        context.setComponentStbte(((context.getComponentStbte() | MOUSE_OVER) ^
                                    MOUSE_OVER) | PRESSED);
-        Shape oldClip = g.getClip();
+        Shbpe oldClip = g.getClip();
         g.clipRect(x, y, w, h);
-        context.getPainter().paintSplitPaneDragDivider(context, g, x, y, w, h,
-                                           splitPane.getOrientation());
+        context.getPbinter().pbintSplitPbneDrbgDivider(context, g, x, y, w, h,
+                                           splitPbne.getOrientbtion());
         g.setClip(oldClip);
         context.dispose();
     }
@@ -344,15 +344,15 @@ public class SynthSplitPaneUI extends BasicSplitPaneUI
      * {@inheritDoc}
      */
     @Override
-    public void finishedPaintingChildren(JSplitPane jc, Graphics g) {
-        if(jc == splitPane && getLastDragLocation() != -1 &&
-                              !isContinuousLayout() && !draggingHW) {
-            if(jc.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
-                paintDragDivider(g, getLastDragLocation(), 0, dividerSize - 1,
-                                 splitPane.getHeight() - 1);
+    public void finishedPbintingChildren(JSplitPbne jc, Grbphics g) {
+        if(jc == splitPbne && getLbstDrbgLocbtion() != -1 &&
+                              !isContinuousLbyout() && !drbggingHW) {
+            if(jc.getOrientbtion() == JSplitPbne.HORIZONTAL_SPLIT) {
+                pbintDrbgDivider(g, getLbstDrbgLocbtion(), 0, dividerSize - 1,
+                                 splitPbne.getHeight() - 1);
             } else {
-                paintDragDivider(g, 0, getLastDragLocation(),
-                                 splitPane.getWidth() - 1, dividerSize - 1);
+                pbintDrbgDivider(g, 0, getLbstDrbgLocbtion(),
+                                 splitPbne.getWidth() - 1, dividerSize - 1);
             }
         }
     }

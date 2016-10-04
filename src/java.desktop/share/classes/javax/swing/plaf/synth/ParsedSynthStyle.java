@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.Graphics;
-import java.util.LinkedList;
+import jbvb.bwt.Grbphics;
+import jbvb.util.LinkedList;
 
-import sun.swing.plaf.synth.DefaultSynthStyle;
+import sun.swing.plbf.synth.DefbultSynthStyle;
 
 /**
- * ParsedSynthStyle are the SynthStyle's that SynthParser creates.
+ * PbrsedSynthStyle bre the SynthStyle's thbt SynthPbrser crebtes.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-class ParsedSynthStyle extends DefaultSynthStyle {
-    private static SynthPainter DELEGATING_PAINTER_INSTANCE = new
-                        DelegatingPainter();
-    private PainterInfo[] _painters;
+clbss PbrsedSynthStyle extends DefbultSynthStyle {
+    privbte stbtic SynthPbinter DELEGATING_PAINTER_INSTANCE = new
+                        DelegbtingPbinter();
+    privbte PbinterInfo[] _pbinters;
 
-    private static PainterInfo[] mergePainterInfo(PainterInfo[] old,
-                                                  PainterInfo[] newPI) {
+    privbte stbtic PbinterInfo[] mergePbinterInfo(PbinterInfo[] old,
+                                                  PbinterInfo[] newPI) {
         if (old == null) {
             return newPI;
         }
@@ -50,17 +50,17 @@ class ParsedSynthStyle extends DefaultSynthStyle {
         int oldLength = old.length;
         int newLength = newPI.length;
         int dups = 0;
-        PainterInfo[] merged = new PainterInfo[oldLength + newLength];
-        System.arraycopy(old, 0, merged, 0, oldLength);
+        PbinterInfo[] merged = new PbinterInfo[oldLength + newLength];
+        System.brrbycopy(old, 0, merged, 0, oldLength);
         for (int newCounter = 0; newCounter < newLength; newCounter++) {
-            boolean found = false;
+            boolebn found = fblse;
             for (int oldCounter = 0; oldCounter < oldLength - dups;
                      oldCounter++) {
-                if (newPI[newCounter].equalsPainter(old[oldCounter])) {
+                if (newPI[newCounter].equblsPbinter(old[oldCounter])) {
                     merged[oldCounter] = newPI[newCounter];
                     dups++;
                     found = true;
-                    break;
+                    brebk;
                 }
             }
             if (!found) {
@@ -68,2108 +68,2108 @@ class ParsedSynthStyle extends DefaultSynthStyle {
             }
         }
         if (dups > 0) {
-            PainterInfo[] tmp = merged;
-            merged = new PainterInfo[merged.length - dups];
-            System.arraycopy(tmp, 0, merged, 0, merged.length);
+            PbinterInfo[] tmp = merged;
+            merged = new PbinterInfo[merged.length - dups];
+            System.brrbycopy(tmp, 0, merged, 0, merged.length);
         }
         return merged;
     }
 
 
-    public ParsedSynthStyle() {
+    public PbrsedSynthStyle() {
     }
 
-    public ParsedSynthStyle(DefaultSynthStyle style) {
+    public PbrsedSynthStyle(DefbultSynthStyle style) {
         super(style);
-        if (style instanceof ParsedSynthStyle) {
-            ParsedSynthStyle pStyle = (ParsedSynthStyle)style;
+        if (style instbnceof PbrsedSynthStyle) {
+            PbrsedSynthStyle pStyle = (PbrsedSynthStyle)style;
 
-            if (pStyle._painters != null) {
-                _painters = pStyle._painters;
+            if (pStyle._pbinters != null) {
+                _pbinters = pStyle._pbinters;
             }
         }
     }
 
-    public SynthPainter getPainter(SynthContext ss) {
+    public SynthPbinter getPbinter(SynthContext ss) {
         return DELEGATING_PAINTER_INSTANCE;
     }
 
-    public void setPainters(PainterInfo[] info) {
-        _painters = info;
+    public void setPbinters(PbinterInfo[] info) {
+        _pbinters = info;
     }
 
-    public DefaultSynthStyle addTo(DefaultSynthStyle style) {
-        if (!(style instanceof ParsedSynthStyle)) {
-            style = new ParsedSynthStyle(style);
+    public DefbultSynthStyle bddTo(DefbultSynthStyle style) {
+        if (!(style instbnceof PbrsedSynthStyle)) {
+            style = new PbrsedSynthStyle(style);
         }
-        ParsedSynthStyle pStyle = (ParsedSynthStyle)super.addTo(style);
-        pStyle._painters = mergePainterInfo(pStyle._painters, _painters);
+        PbrsedSynthStyle pStyle = (PbrsedSynthStyle)super.bddTo(style);
+        pStyle._pbinters = mergePbinterInfo(pStyle._pbinters, _pbinters);
         return pStyle;
     }
 
-    private SynthPainter getBestPainter(SynthContext context, String method,
+    privbte SynthPbinter getBestPbinter(SynthContext context, String method,
                                         int direction) {
-        // Check the state info first
-        StateInfo info = (StateInfo)getStateInfo(context.getComponentState());
-        SynthPainter painter;
+        // Check the stbte info first
+        StbteInfo info = (StbteInfo)getStbteInfo(context.getComponentStbte());
+        SynthPbinter pbinter;
         if (info != null) {
-            if ((painter = getBestPainter(info.getPainters(), method,
+            if ((pbinter = getBestPbinter(info.getPbinters(), method,
                                           direction)) != null) {
-                return painter;
+                return pbinter;
             }
         }
-        if ((painter = getBestPainter(_painters, method, direction)) != null) {
-            return painter;
+        if ((pbinter = getBestPbinter(_pbinters, method, direction)) != null) {
+            return pbinter;
         }
-        return SynthPainter.NULL_PAINTER;
+        return SynthPbinter.NULL_PAINTER;
     }
 
-    private SynthPainter getBestPainter(PainterInfo[] info, String method,
+    privbte SynthPbinter getBestPbinter(PbinterInfo[] info, String method,
                                         int direction) {
         if (info != null) {
-            // Painter specified with no method
-            SynthPainter nullPainter = null;
-            // Painter specified for this method
-            SynthPainter methodPainter = null;
+            // Pbinter specified with no method
+            SynthPbinter nullPbinter = null;
+            // Pbinter specified for this method
+            SynthPbinter methodPbinter = null;
 
             for (int counter = info.length - 1; counter >= 0; counter--) {
-                PainterInfo pi = info[counter];
+                PbinterInfo pi = info[counter];
 
                 if (pi.getMethod() == method) {
                     if (pi.getDirection() == direction) {
-                        return pi.getPainter();
+                        return pi.getPbinter();
                     }
-                    else if (methodPainter == null &&pi.getDirection() == -1) {
-                        methodPainter = pi.getPainter();
+                    else if (methodPbinter == null &&pi.getDirection() == -1) {
+                        methodPbinter = pi.getPbinter();
                     }
                 }
-                else if (nullPainter == null && pi.getMethod() == null) {
-                    nullPainter = pi.getPainter();
+                else if (nullPbinter == null && pi.getMethod() == null) {
+                    nullPbinter = pi.getPbinter();
                 }
             }
-            if (methodPainter != null) {
-                return methodPainter;
+            if (methodPbinter != null) {
+                return methodPbinter;
             }
-            return nullPainter;
+            return nullPbinter;
         }
         return null;
     }
 
     public String toString() {
         StringBuilder text = new StringBuilder(super.toString());
-        if (_painters != null) {
-            text.append(",painters=[");
-            for (int i = 0; i < +_painters.length; i++) {
-                text.append(_painters[i].toString());
+        if (_pbinters != null) {
+            text.bppend(",pbinters=[");
+            for (int i = 0; i < +_pbinters.length; i++) {
+                text.bppend(_pbinters[i].toString());
             }
-            text.append("]");
+            text.bppend("]");
         }
         return text.toString();
     }
 
 
-    static class StateInfo extends DefaultSynthStyle.StateInfo {
-        private PainterInfo[] _painterInfo;
+    stbtic clbss StbteInfo extends DefbultSynthStyle.StbteInfo {
+        privbte PbinterInfo[] _pbinterInfo;
 
-        public StateInfo() {
+        public StbteInfo() {
         }
 
-        public StateInfo(DefaultSynthStyle.StateInfo info) {
+        public StbteInfo(DefbultSynthStyle.StbteInfo info) {
             super(info);
-            if (info instanceof StateInfo) {
-                _painterInfo = ((StateInfo)info)._painterInfo;
+            if (info instbnceof StbteInfo) {
+                _pbinterInfo = ((StbteInfo)info)._pbinterInfo;
             }
         }
 
-        public void setPainters(PainterInfo[] painterInfo) {
-            _painterInfo = painterInfo;
+        public void setPbinters(PbinterInfo[] pbinterInfo) {
+            _pbinterInfo = pbinterInfo;
         }
 
-        public PainterInfo[] getPainters() {
-            return _painterInfo;
+        public PbinterInfo[] getPbinters() {
+            return _pbinterInfo;
         }
 
         public Object clone() {
-            return new StateInfo(this);
+            return new StbteInfo(this);
         }
 
-        public DefaultSynthStyle.StateInfo addTo(
-                           DefaultSynthStyle.StateInfo info) {
-            if (!(info instanceof StateInfo)) {
-                info = new StateInfo(info);
+        public DefbultSynthStyle.StbteInfo bddTo(
+                           DefbultSynthStyle.StbteInfo info) {
+            if (!(info instbnceof StbteInfo)) {
+                info = new StbteInfo(info);
             }
             else {
-                info = super.addTo(info);
-                StateInfo si = (StateInfo)info;
-                si._painterInfo = mergePainterInfo(si._painterInfo,
-                                                   _painterInfo);
+                info = super.bddTo(info);
+                StbteInfo si = (StbteInfo)info;
+                si._pbinterInfo = mergePbinterInfo(si._pbinterInfo,
+                                                   _pbinterInfo);
             }
             return info;
         }
 
         public String toString() {
             StringBuilder text = new StringBuilder(super.toString());
-            text.append(",painters=[");
-            if (_painterInfo != null) {
-                for (int i = 0; i < +_painterInfo.length; i++) {
-                    text.append("    ").append(_painterInfo[i].toString());
+            text.bppend(",pbinters=[");
+            if (_pbinterInfo != null) {
+                for (int i = 0; i < +_pbinterInfo.length; i++) {
+                    text.bppend("    ").bppend(_pbinterInfo[i].toString());
                 }
             }
-            text.append("]");
+            text.bppend("]");
             return text.toString();
         }
     }
 
 
-    static class PainterInfo {
-        private String _method;
-        private SynthPainter _painter;
-        private int _direction;
+    stbtic clbss PbinterInfo {
+        privbte String _method;
+        privbte SynthPbinter _pbinter;
+        privbte int _direction;
 
-        PainterInfo(String method, SynthPainter painter, int direction) {
+        PbinterInfo(String method, SynthPbinter pbinter, int direction) {
             if (method != null) {
                 _method = method.intern();
             }
-            _painter = painter;
+            _pbinter = pbinter;
             _direction = direction;
         }
 
-        void addPainter(SynthPainter painter) {
-            if (!(_painter instanceof AggregatePainter)) {
-                _painter = new AggregatePainter(_painter);
+        void bddPbinter(SynthPbinter pbinter) {
+            if (!(_pbinter instbnceof AggregbtePbinter)) {
+                _pbinter = new AggregbtePbinter(_pbinter);
             }
 
-            ((AggregatePainter) _painter).addPainter(painter);
+            ((AggregbtePbinter) _pbinter).bddPbinter(pbinter);
         }
 
         String getMethod() {
             return _method;
         }
 
-        SynthPainter getPainter() {
-            return _painter;
+        SynthPbinter getPbinter() {
+            return _pbinter;
         }
 
         int getDirection() {
             return _direction;
         }
 
-        boolean equalsPainter(PainterInfo info) {
+        boolebn equblsPbinter(PbinterInfo info) {
             return (_method == info._method && _direction == info._direction);
         }
 
         public String toString() {
-            return "PainterInfo {method=" + _method + ",direction=" +
-                _direction + ",painter=" + _painter +"}";
+            return "PbinterInfo {method=" + _method + ",direction=" +
+                _direction + ",pbinter=" + _pbinter +"}";
         }
     }
 
-    private static class AggregatePainter extends SynthPainter {
-        private java.util.List<SynthPainter> painters;
+    privbte stbtic clbss AggregbtePbinter extends SynthPbinter {
+        privbte jbvb.util.List<SynthPbinter> pbinters;
 
-        AggregatePainter(SynthPainter painter) {
-            painters = new LinkedList<SynthPainter>();
-            painters.add(painter);
+        AggregbtePbinter(SynthPbinter pbinter) {
+            pbinters = new LinkedList<SynthPbinter>();
+            pbinters.bdd(pbinter);
         }
 
-        void addPainter(SynthPainter painter) {
-            if (painter != null) {
-                painters.add(painter);
+        void bddPbinter(SynthPbinter pbinter) {
+            if (pbinter != null) {
+                pbinters.bdd(pbinter);
             }
         }
 
-        public void paintArrowButtonBackground(SynthContext context, Graphics g,
+        public void pbintArrowButtonBbckground(SynthContext context, Grbphics g,
                                                int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintArrowButtonBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintArrowButtonBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintArrowButtonBorder(SynthContext context, Graphics g,
+        public void pbintArrowButtonBorder(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintArrowButtonBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintArrowButtonBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintArrowButtonForeground(SynthContext context, Graphics g,
+        public void pbintArrowButtonForeground(SynthContext context, Grbphics g,
                                                int x, int y, int w, int h,
                                                int direction) {
-            for (SynthPainter painter: painters) {
-                painter.paintArrowButtonForeground(context, g,
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintArrowButtonForeground(context, g,
                                                    x, y, w, h, direction);
             }
         }
 
-        public void paintButtonBackground(SynthContext context, Graphics g,
+        public void pbintButtonBbckground(SynthContext context, Grbphics g,
                                           int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintButtonBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintButtonBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintButtonBorder(SynthContext context, Graphics g,
+        public void pbintButtonBorder(SynthContext context, Grbphics g,
                                       int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintButtonBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintButtonBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintCheckBoxMenuItemBackground(SynthContext context,
-                                                    Graphics g, int x, int y,
+        public void pbintCheckBoxMenuItemBbckground(SynthContext context,
+                                                    Grbphics g, int x, int y,
                                                     int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintCheckBoxMenuItemBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintCheckBoxMenuItemBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintCheckBoxMenuItemBorder(SynthContext context,
-                                                Graphics g, int x, int y,
+        public void pbintCheckBoxMenuItemBorder(SynthContext context,
+                                                Grbphics g, int x, int y,
                                                 int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintCheckBoxMenuItemBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintCheckBoxMenuItemBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintCheckBoxBackground(SynthContext context, Graphics g,
+        public void pbintCheckBoxBbckground(SynthContext context, Grbphics g,
                                             int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintCheckBoxBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintCheckBoxBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintCheckBoxBorder(SynthContext context, Graphics g,
+        public void pbintCheckBoxBorder(SynthContext context, Grbphics g,
                                         int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintCheckBoxBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintCheckBoxBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintColorChooserBackground(SynthContext context,
-                                                Graphics g, int x, int y,
+        public void pbintColorChooserBbckground(SynthContext context,
+                                                Grbphics g, int x, int y,
                                                 int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintColorChooserBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintColorChooserBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintColorChooserBorder(SynthContext context, Graphics g,
+        public void pbintColorChooserBorder(SynthContext context, Grbphics g,
                                             int x, int y,
                                             int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintColorChooserBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintColorChooserBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintComboBoxBackground(SynthContext context, Graphics g,
+        public void pbintComboBoxBbckground(SynthContext context, Grbphics g,
                                             int x, int y,
                                             int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintComboBoxBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintComboBoxBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintComboBoxBorder(SynthContext context, Graphics g,
+        public void pbintComboBoxBorder(SynthContext context, Grbphics g,
                                         int x, int y,
                                         int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintComboBoxBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintComboBoxBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintDesktopIconBackground(SynthContext context, Graphics g,
+        public void pbintDesktopIconBbckground(SynthContext context, Grbphics g,
                                                int x, int y,
                                                int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintDesktopIconBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintDesktopIconBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintDesktopIconBorder(SynthContext context, Graphics g,
+        public void pbintDesktopIconBorder(SynthContext context, Grbphics g,
                                            int x, int y,
                                            int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintDesktopIconBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintDesktopIconBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintDesktopPaneBackground(SynthContext context, Graphics g,
+        public void pbintDesktopPbneBbckground(SynthContext context, Grbphics g,
                                                int x, int y,
                                                int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintDesktopPaneBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintDesktopPbneBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintDesktopPaneBorder(SynthContext context, Graphics g,
+        public void pbintDesktopPbneBorder(SynthContext context, Grbphics g,
                                            int x, int y,
                                            int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintDesktopPaneBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintDesktopPbneBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintEditorPaneBackground(SynthContext context, Graphics g,
+        public void pbintEditorPbneBbckground(SynthContext context, Grbphics g,
                                               int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintEditorPaneBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintEditorPbneBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintEditorPaneBorder(SynthContext context, Graphics g,
+        public void pbintEditorPbneBorder(SynthContext context, Grbphics g,
                                           int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintEditorPaneBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintEditorPbneBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintFileChooserBackground(SynthContext context, Graphics g,
+        public void pbintFileChooserBbckground(SynthContext context, Grbphics g,
                                                int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintFileChooserBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintFileChooserBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintFileChooserBorder(SynthContext context, Graphics g,
+        public void pbintFileChooserBorder(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintFileChooserBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintFileChooserBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintFormattedTextFieldBackground(SynthContext context,
-                                                      Graphics g, int x, int y,
+        public void pbintFormbttedTextFieldBbckground(SynthContext context,
+                                                      Grbphics g, int x, int y,
                                                       int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintFormattedTextFieldBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintFormbttedTextFieldBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintFormattedTextFieldBorder(SynthContext context,
-                                                  Graphics g, int x, int y,
+        public void pbintFormbttedTextFieldBorder(SynthContext context,
+                                                  Grbphics g, int x, int y,
                                                   int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintFormattedTextFieldBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintFormbttedTextFieldBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintInternalFrameTitlePaneBackground(SynthContext context,
-                                                          Graphics g,
+        public void pbintInternblFrbmeTitlePbneBbckground(SynthContext context,
+                                                          Grbphics g,
                                                           int x, int y,
                                                           int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintInternalFrameTitlePaneBackground(context, g,
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintInternblFrbmeTitlePbneBbckground(context, g,
                                                               x, y, w, h);
             }
         }
 
-        public void paintInternalFrameTitlePaneBorder(SynthContext context,
-                                                      Graphics g,
+        public void pbintInternblFrbmeTitlePbneBorder(SynthContext context,
+                                                      Grbphics g,
                                                       int x, int y,
                                                       int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintInternalFrameTitlePaneBorder(context, g,
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintInternblFrbmeTitlePbneBorder(context, g,
                                                           x, y, w, h);
             }
         }
 
-        public void paintInternalFrameBackground(SynthContext context,
-                                                 Graphics g, int x, int y,
+        public void pbintInternblFrbmeBbckground(SynthContext context,
+                                                 Grbphics g, int x, int y,
                                                  int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintInternalFrameBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintInternblFrbmeBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintInternalFrameBorder(SynthContext context, Graphics g,
+        public void pbintInternblFrbmeBorder(SynthContext context, Grbphics g,
                                              int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintInternalFrameBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintInternblFrbmeBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintLabelBackground(SynthContext context, Graphics g,
+        public void pbintLbbelBbckground(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintLabelBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintLbbelBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintLabelBorder(SynthContext context, Graphics g,
+        public void pbintLbbelBorder(SynthContext context, Grbphics g,
                                      int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintLabelBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintLbbelBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintListBackground(SynthContext context, Graphics g,
+        public void pbintListBbckground(SynthContext context, Grbphics g,
                                         int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintListBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintListBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintListBorder(SynthContext context, Graphics g,
+        public void pbintListBorder(SynthContext context, Grbphics g,
                                     int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintListBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintListBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintMenuBarBackground(SynthContext context, Graphics g,
+        public void pbintMenuBbrBbckground(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintMenuBarBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintMenuBbrBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintMenuBarBorder(SynthContext context, Graphics g,
+        public void pbintMenuBbrBorder(SynthContext context, Grbphics g,
                                        int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintMenuBarBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintMenuBbrBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintMenuItemBackground(SynthContext context, Graphics g,
+        public void pbintMenuItemBbckground(SynthContext context, Grbphics g,
                                             int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintMenuItemBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintMenuItemBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintMenuItemBorder(SynthContext context, Graphics g,
+        public void pbintMenuItemBorder(SynthContext context, Grbphics g,
                                         int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintMenuItemBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintMenuItemBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintMenuBackground(SynthContext context, Graphics g,
+        public void pbintMenuBbckground(SynthContext context, Grbphics g,
                                         int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintMenuBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintMenuBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintMenuBorder(SynthContext context, Graphics g,
+        public void pbintMenuBorder(SynthContext context, Grbphics g,
                                     int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintMenuBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintMenuBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintOptionPaneBackground(SynthContext context, Graphics g,
+        public void pbintOptionPbneBbckground(SynthContext context, Grbphics g,
                                               int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintOptionPaneBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintOptionPbneBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintOptionPaneBorder(SynthContext context, Graphics g,
+        public void pbintOptionPbneBorder(SynthContext context, Grbphics g,
                                           int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintOptionPaneBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintOptionPbneBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintPanelBackground(SynthContext context, Graphics g,
+        public void pbintPbnelBbckground(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintPanelBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintPbnelBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintPanelBorder(SynthContext context, Graphics g,
+        public void pbintPbnelBorder(SynthContext context, Grbphics g,
                                      int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintPanelBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintPbnelBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintPasswordFieldBackground(SynthContext context,
-                                                 Graphics g,
+        public void pbintPbsswordFieldBbckground(SynthContext context,
+                                                 Grbphics g,
                                                  int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintPasswordFieldBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintPbsswordFieldBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintPasswordFieldBorder(SynthContext context, Graphics g,
+        public void pbintPbsswordFieldBorder(SynthContext context, Grbphics g,
                                              int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintPasswordFieldBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintPbsswordFieldBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintPopupMenuBackground(SynthContext context, Graphics g,
+        public void pbintPopupMenuBbckground(SynthContext context, Grbphics g,
                                              int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintPopupMenuBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintPopupMenuBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintPopupMenuBorder(SynthContext context, Graphics g,
+        public void pbintPopupMenuBorder(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintPopupMenuBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintPopupMenuBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintProgressBarBackground(SynthContext context, Graphics g,
+        public void pbintProgressBbrBbckground(SynthContext context, Grbphics g,
                                                int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintProgressBarBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintProgressBbrBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintProgressBarBackground(SynthContext context, Graphics g,
+        public void pbintProgressBbrBbckground(SynthContext context, Grbphics g,
                                                int x, int y, int w, int h,
-                                               int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintProgressBarBackground(context, g, x, y, w, h,
-                                                   orientation);
+                                               int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintProgressBbrBbckground(context, g, x, y, w, h,
+                                                   orientbtion);
             }
         }
 
-        public void paintProgressBarBorder(SynthContext context, Graphics g,
+        public void pbintProgressBbrBorder(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintProgressBarBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintProgressBbrBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintProgressBarBorder(SynthContext context, Graphics g,
+        public void pbintProgressBbrBorder(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h,
-                                           int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintProgressBarBorder(context, g, x, y, w, h,
-                                               orientation);
+                                           int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintProgressBbrBorder(context, g, x, y, w, h,
+                                               orientbtion);
             }
         }
 
-        public void paintProgressBarForeground(SynthContext context, Graphics g,
+        public void pbintProgressBbrForeground(SynthContext context, Grbphics g,
                                                int x, int y, int w, int h,
-                                               int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintProgressBarForeground(context, g,
-                                                   x, y, w, h, orientation);
+                                               int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintProgressBbrForeground(context, g,
+                                                   x, y, w, h, orientbtion);
             }
         }
 
-        public void paintRadioButtonMenuItemBackground(SynthContext context,
-                                                       Graphics g,
+        public void pbintRbdioButtonMenuItemBbckground(SynthContext context,
+                                                       Grbphics g,
                                                        int x, int y,
                                                        int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintRadioButtonMenuItemBackground(context, g,
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintRbdioButtonMenuItemBbckground(context, g,
                                                            x, y, w, h);
             }
         }
 
-        public void paintRadioButtonMenuItemBorder(SynthContext context,
-                                                   Graphics g, int x, int y,
+        public void pbintRbdioButtonMenuItemBorder(SynthContext context,
+                                                   Grbphics g, int x, int y,
                                                    int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintRadioButtonMenuItemBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintRbdioButtonMenuItemBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintRadioButtonBackground(SynthContext context, Graphics g,
+        public void pbintRbdioButtonBbckground(SynthContext context, Grbphics g,
                                                int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintRadioButtonBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintRbdioButtonBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintRadioButtonBorder(SynthContext context, Graphics g,
+        public void pbintRbdioButtonBorder(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintRadioButtonBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintRbdioButtonBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintRootPaneBackground(SynthContext context, Graphics g,
+        public void pbintRootPbneBbckground(SynthContext context, Grbphics g,
                                             int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintRootPaneBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintRootPbneBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintRootPaneBorder(SynthContext context, Graphics g,
+        public void pbintRootPbneBorder(SynthContext context, Grbphics g,
                                         int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintRootPaneBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintRootPbneBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintScrollBarBackground(SynthContext context, Graphics g,
+        public void pbintScrollBbrBbckground(SynthContext context, Grbphics g,
                                              int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintScrollBarBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintScrollBbrBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintScrollBarBackground(SynthContext context, Graphics g,
+        public void pbintScrollBbrBbckground(SynthContext context, Grbphics g,
                                              int x, int y,
-                                             int w, int h, int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintScrollBarBackground(context, g, x, y, w, h,
-                                                 orientation);
+                                             int w, int h, int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintScrollBbrBbckground(context, g, x, y, w, h,
+                                                 orientbtion);
             }
         }
 
-        public void paintScrollBarBorder(SynthContext context, Graphics g,
+        public void pbintScrollBbrBorder(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintScrollBarBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintScrollBbrBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintScrollBarBorder(SynthContext context, Graphics g,
+        public void pbintScrollBbrBorder(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h,
-                                         int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintScrollBarBorder(context, g, x, y, w, h,
-                                             orientation);
+                                         int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintScrollBbrBorder(context, g, x, y, w, h,
+                                             orientbtion);
             }
         }
 
-        public void paintScrollBarThumbBackground(SynthContext context,
-                                                  Graphics g, int x, int y,
-                                                  int w, int h, int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintScrollBarThumbBackground(context, g, x, y, w, h,
-                                                      orientation);
+        public void pbintScrollBbrThumbBbckground(SynthContext context,
+                                                  Grbphics g, int x, int y,
+                                                  int w, int h, int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintScrollBbrThumbBbckground(context, g, x, y, w, h,
+                                                      orientbtion);
             }
         }
 
-        public void paintScrollBarThumbBorder(SynthContext context, Graphics g,
+        public void pbintScrollBbrThumbBorder(SynthContext context, Grbphics g,
                                               int x, int y, int w, int h,
-                                              int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintScrollBarThumbBorder(context, g, x, y, w, h,
-                                                  orientation);
+                                              int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintScrollBbrThumbBorder(context, g, x, y, w, h,
+                                                  orientbtion);
             }
         }
 
-        public void paintScrollBarTrackBackground(SynthContext context,
-                                                  Graphics g, int x, int y,
+        public void pbintScrollBbrTrbckBbckground(SynthContext context,
+                                                  Grbphics g, int x, int y,
                                                   int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintScrollBarTrackBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintScrollBbrTrbckBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintScrollBarTrackBackground(SynthContext context,
-                                                  Graphics g, int x, int y,
+        public void pbintScrollBbrTrbckBbckground(SynthContext context,
+                                                  Grbphics g, int x, int y,
                                                   int w, int h,
-                                                  int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintScrollBarTrackBackground(context, g, x, y, w, h,
-                                                      orientation);
+                                                  int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintScrollBbrTrbckBbckground(context, g, x, y, w, h,
+                                                      orientbtion);
             }
         }
 
-        public void paintScrollBarTrackBorder(SynthContext context, Graphics g,
+        public void pbintScrollBbrTrbckBorder(SynthContext context, Grbphics g,
                                               int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintScrollBarTrackBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintScrollBbrTrbckBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintScrollBarTrackBorder(SynthContext context, Graphics g,
+        public void pbintScrollBbrTrbckBorder(SynthContext context, Grbphics g,
                                               int x, int y, int w, int h,
-                                              int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintScrollBarTrackBorder(context, g, x, y, w, h,
-                                                  orientation);
+                                              int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintScrollBbrTrbckBorder(context, g, x, y, w, h,
+                                                  orientbtion);
             }
         }
 
-        public void paintScrollPaneBackground(SynthContext context, Graphics g,
+        public void pbintScrollPbneBbckground(SynthContext context, Grbphics g,
                                               int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintScrollPaneBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintScrollPbneBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintScrollPaneBorder(SynthContext context, Graphics g,
+        public void pbintScrollPbneBorder(SynthContext context, Grbphics g,
                                           int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintScrollPaneBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintScrollPbneBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintSeparatorBackground(SynthContext context, Graphics g,
+        public void pbintSepbrbtorBbckground(SynthContext context, Grbphics g,
                                              int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintSeparatorBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSepbrbtorBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintSeparatorBackground(SynthContext context, Graphics g,
+        public void pbintSepbrbtorBbckground(SynthContext context, Grbphics g,
                                              int x, int y, int w, int h,
-                                             int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintSeparatorBackground(context, g, x, y, w, h, orientation);
+                                             int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSepbrbtorBbckground(context, g, x, y, w, h, orientbtion);
             }
         }
 
-        public void paintSeparatorBorder(SynthContext context, Graphics g,
+        public void pbintSepbrbtorBorder(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintSeparatorBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSepbrbtorBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintSeparatorBorder(SynthContext context, Graphics g,
-                                         int x, int y, int w, int h, int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintSeparatorBorder(context, g, x, y, w, h, orientation);
+        public void pbintSepbrbtorBorder(SynthContext context, Grbphics g,
+                                         int x, int y, int w, int h, int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSepbrbtorBorder(context, g, x, y, w, h, orientbtion);
             }
         }
 
-        public void paintSeparatorForeground(SynthContext context, Graphics g,
+        public void pbintSepbrbtorForeground(SynthContext context, Grbphics g,
                                              int x, int y, int w, int h,
-                                             int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintSeparatorForeground(context, g,
-                                                 x, y, w, h, orientation);
+                                             int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSepbrbtorForeground(context, g,
+                                                 x, y, w, h, orientbtion);
             }
         }
 
-        public void paintSliderBackground(SynthContext context, Graphics g,
+        public void pbintSliderBbckground(SynthContext context, Grbphics g,
                                           int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintSliderBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSliderBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintSliderBackground(SynthContext context, Graphics g,
+        public void pbintSliderBbckground(SynthContext context, Grbphics g,
                                           int x, int y, int w, int h,
-                                          int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintSliderBackground(context, g, x, y, w, h, orientation);
+                                          int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSliderBbckground(context, g, x, y, w, h, orientbtion);
             }
         }
 
-        public void paintSliderBorder(SynthContext context, Graphics g,
+        public void pbintSliderBorder(SynthContext context, Grbphics g,
                                       int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintSliderBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSliderBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintSliderBorder(SynthContext context, Graphics g,
+        public void pbintSliderBorder(SynthContext context, Grbphics g,
                                       int x, int y, int w, int h,
-                                      int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintSliderBorder(context, g, x, y, w, h, orientation);
+                                      int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSliderBorder(context, g, x, y, w, h, orientbtion);
             }
         }
 
-        public void paintSliderThumbBackground(SynthContext context, Graphics g,
+        public void pbintSliderThumbBbckground(SynthContext context, Grbphics g,
                                                int x, int y, int w, int h,
-                                               int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintSliderThumbBackground(context, g,
-                                                   x, y, w, h, orientation);
+                                               int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSliderThumbBbckground(context, g,
+                                                   x, y, w, h, orientbtion);
             }
         }
 
-        public void paintSliderThumbBorder(SynthContext context, Graphics g,
+        public void pbintSliderThumbBorder(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h,
-                                           int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintSliderThumbBorder(context, g,
-                                               x, y, w, h, orientation);
+                                           int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSliderThumbBorder(context, g,
+                                               x, y, w, h, orientbtion);
             }
         }
 
-        public void paintSliderTrackBackground(SynthContext context, Graphics g,
+        public void pbintSliderTrbckBbckground(SynthContext context, Grbphics g,
                                                int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintSliderTrackBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSliderTrbckBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintSliderTrackBackground(SynthContext context, Graphics g,
+        public void pbintSliderTrbckBbckground(SynthContext context, Grbphics g,
                                                int x, int y, int w, int h,
-                                               int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintSliderTrackBackground(context, g, x, y, w, h,
-                                                   orientation);
+                                               int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSliderTrbckBbckground(context, g, x, y, w, h,
+                                                   orientbtion);
             }
         }
 
-        public void paintSliderTrackBorder(SynthContext context, Graphics g,
+        public void pbintSliderTrbckBorder(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintSliderTrackBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSliderTrbckBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintSliderTrackBorder(SynthContext context, Graphics g,
+        public void pbintSliderTrbckBorder(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h,
-                                           int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintSliderTrackBorder(context, g, x, y, w, h,
-                                               orientation);
+                                           int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSliderTrbckBorder(context, g, x, y, w, h,
+                                               orientbtion);
             }
         }
 
-        public void paintSpinnerBackground(SynthContext context, Graphics g,
+        public void pbintSpinnerBbckground(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintSpinnerBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSpinnerBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintSpinnerBorder(SynthContext context, Graphics g,
+        public void pbintSpinnerBorder(SynthContext context, Grbphics g,
                                        int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintSpinnerBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSpinnerBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintSplitPaneDividerBackground(SynthContext context,
-                                                    Graphics g, int x, int y,
+        public void pbintSplitPbneDividerBbckground(SynthContext context,
+                                                    Grbphics g, int x, int y,
                                                     int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintSplitPaneDividerBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSplitPbneDividerBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintSplitPaneDividerBackground(SynthContext context,
-                                                    Graphics g, int x, int y,
+        public void pbintSplitPbneDividerBbckground(SynthContext context,
+                                                    Grbphics g, int x, int y,
                                                     int w, int h,
-                                                    int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintSplitPaneDividerBackground(context, g, x, y, w, h,
-                                                        orientation);
+                                                    int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSplitPbneDividerBbckground(context, g, x, y, w, h,
+                                                        orientbtion);
             }
         }
 
-        public void paintSplitPaneDividerForeground(SynthContext context,
-                                                    Graphics g, int x, int y,
+        public void pbintSplitPbneDividerForeground(SynthContext context,
+                                                    Grbphics g, int x, int y,
                                                     int w, int h,
-                                                    int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintSplitPaneDividerForeground(context, g,
+                                                    int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSplitPbneDividerForeground(context, g,
                                                         x, y, w, h,
-                                                        orientation);
+                                                        orientbtion);
             }
         }
 
-        public void paintSplitPaneDragDivider(SynthContext context, Graphics g,
+        public void pbintSplitPbneDrbgDivider(SynthContext context, Grbphics g,
                                               int x, int y,
-                                              int w, int h, int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintSplitPaneDragDivider(context, g,
-                                                  x, y, w, h, orientation);
+                                              int w, int h, int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSplitPbneDrbgDivider(context, g,
+                                                  x, y, w, h, orientbtion);
             }
         }
 
-        public void paintSplitPaneBackground(SynthContext context, Graphics g,
+        public void pbintSplitPbneBbckground(SynthContext context, Grbphics g,
                                              int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintSplitPaneBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSplitPbneBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintSplitPaneBorder(SynthContext context, Graphics g,
+        public void pbintSplitPbneBorder(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintSplitPaneBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintSplitPbneBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintTabbedPaneBackground(SynthContext context, Graphics g,
+        public void pbintTbbbedPbneBbckground(SynthContext context, Grbphics g,
                                               int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTabbedPaneBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbbedPbneBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintTabbedPaneBorder(SynthContext context, Graphics g,
+        public void pbintTbbbedPbneBorder(SynthContext context, Grbphics g,
                                           int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTabbedPaneBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbbedPbneBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintTabbedPaneTabAreaBackground(SynthContext context,
-                                                     Graphics g, int x, int y,
+        public void pbintTbbbedPbneTbbArebBbckground(SynthContext context,
+                                                     Grbphics g, int x, int y,
                                                      int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTabbedPaneTabAreaBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbbedPbneTbbArebBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintTabbedPaneTabAreaBackground(SynthContext context,
-                                                     Graphics g, int x, int y,
+        public void pbintTbbbedPbneTbbArebBbckground(SynthContext context,
+                                                     Grbphics g, int x, int y,
                                                      int w, int h,
-                                                     int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintTabbedPaneTabAreaBackground(context, g, x, y, w, h,
-                                                         orientation);
+                                                     int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbbedPbneTbbArebBbckground(context, g, x, y, w, h,
+                                                         orientbtion);
             }
         }
 
-        public void paintTabbedPaneTabAreaBorder(SynthContext context,
-                                                 Graphics g, int x, int y,
+        public void pbintTbbbedPbneTbbArebBorder(SynthContext context,
+                                                 Grbphics g, int x, int y,
                                                  int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTabbedPaneTabAreaBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbbedPbneTbbArebBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintTabbedPaneTabAreaBorder(SynthContext context,
-                                                 Graphics g, int x, int y,
-                                                 int w, int h, int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintTabbedPaneTabAreaBorder(context, g, x, y, w, h,
-                                                     orientation);
+        public void pbintTbbbedPbneTbbArebBorder(SynthContext context,
+                                                 Grbphics g, int x, int y,
+                                                 int w, int h, int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbbedPbneTbbArebBorder(context, g, x, y, w, h,
+                                                     orientbtion);
             }
         }
 
-        public void paintTabbedPaneTabBackground(SynthContext context,
-                                                 Graphics g, int x, int y,
-                                                 int w, int h, int tabIndex) {
-            for (SynthPainter painter: painters) {
-                painter.paintTabbedPaneTabBackground(context, g,
-                                                     x, y, w, h, tabIndex);
+        public void pbintTbbbedPbneTbbBbckground(SynthContext context,
+                                                 Grbphics g, int x, int y,
+                                                 int w, int h, int tbbIndex) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbbedPbneTbbBbckground(context, g,
+                                                     x, y, w, h, tbbIndex);
             }
         }
 
-        public void paintTabbedPaneTabBackground(SynthContext context,
-                                                 Graphics g, int x, int y,
-                                                 int w, int h, int tabIndex,
-                                                 int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintTabbedPaneTabBackground(context, g,
-                                                     x, y, w, h, tabIndex,
-                                                     orientation);
+        public void pbintTbbbedPbneTbbBbckground(SynthContext context,
+                                                 Grbphics g, int x, int y,
+                                                 int w, int h, int tbbIndex,
+                                                 int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbbedPbneTbbBbckground(context, g,
+                                                     x, y, w, h, tbbIndex,
+                                                     orientbtion);
             }
         }
 
-        public void paintTabbedPaneTabBorder(SynthContext context, Graphics g,
+        public void pbintTbbbedPbneTbbBorder(SynthContext context, Grbphics g,
                                              int x, int y, int w, int h,
-                                             int tabIndex) {
-            for (SynthPainter painter: painters) {
-                painter.paintTabbedPaneTabBorder(context, g,
-                                                 x, y, w, h, tabIndex);
+                                             int tbbIndex) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbbedPbneTbbBorder(context, g,
+                                                 x, y, w, h, tbbIndex);
             }
         }
 
-        public void paintTabbedPaneTabBorder(SynthContext context, Graphics g,
+        public void pbintTbbbedPbneTbbBorder(SynthContext context, Grbphics g,
                                              int x, int y, int w, int h,
-                                             int tabIndex, int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintTabbedPaneTabBorder(context, g,
-                                                 x, y, w, h, tabIndex,
-                                                 orientation);
+                                             int tbbIndex, int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbbedPbneTbbBorder(context, g,
+                                                 x, y, w, h, tbbIndex,
+                                                 orientbtion);
             }
         }
 
-        public void paintTabbedPaneContentBackground(SynthContext context,
-                                                     Graphics g, int x, int y,
+        public void pbintTbbbedPbneContentBbckground(SynthContext context,
+                                                     Grbphics g, int x, int y,
                                                      int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTabbedPaneContentBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbbedPbneContentBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintTabbedPaneContentBorder(SynthContext context,
-                                                 Graphics g, int x, int y,
+        public void pbintTbbbedPbneContentBorder(SynthContext context,
+                                                 Grbphics g, int x, int y,
                                                  int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTabbedPaneContentBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbbedPbneContentBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintTableHeaderBackground(SynthContext context, Graphics g,
+        public void pbintTbbleHebderBbckground(SynthContext context, Grbphics g,
                                                int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTableHeaderBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbleHebderBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintTableHeaderBorder(SynthContext context, Graphics g,
+        public void pbintTbbleHebderBorder(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTableHeaderBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbleHebderBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintTableBackground(SynthContext context, Graphics g,
+        public void pbintTbbleBbckground(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTableBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbleBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintTableBorder(SynthContext context, Graphics g,
+        public void pbintTbbleBorder(SynthContext context, Grbphics g,
                                      int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTableBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTbbleBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintTextAreaBackground(SynthContext context, Graphics g,
+        public void pbintTextArebBbckground(SynthContext context, Grbphics g,
                                             int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTextAreaBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTextArebBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintTextAreaBorder(SynthContext context, Graphics g,
+        public void pbintTextArebBorder(SynthContext context, Grbphics g,
                                         int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTextAreaBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTextArebBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintTextPaneBackground(SynthContext context, Graphics g,
+        public void pbintTextPbneBbckground(SynthContext context, Grbphics g,
                                             int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTextPaneBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTextPbneBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintTextPaneBorder(SynthContext context, Graphics g,
+        public void pbintTextPbneBorder(SynthContext context, Grbphics g,
                                         int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTextPaneBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTextPbneBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintTextFieldBackground(SynthContext context, Graphics g,
+        public void pbintTextFieldBbckground(SynthContext context, Grbphics g,
                                              int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTextFieldBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTextFieldBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintTextFieldBorder(SynthContext context, Graphics g,
+        public void pbintTextFieldBorder(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTextFieldBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTextFieldBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintToggleButtonBackground(SynthContext context,
-                                                Graphics g, int x, int y,
+        public void pbintToggleButtonBbckground(SynthContext context,
+                                                Grbphics g, int x, int y,
                                                 int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintToggleButtonBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToggleButtonBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintToggleButtonBorder(SynthContext context,
-                                            Graphics g, int x, int y,
+        public void pbintToggleButtonBorder(SynthContext context,
+                                            Grbphics g, int x, int y,
                                             int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintToggleButtonBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToggleButtonBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintToolBarBackground(SynthContext context, Graphics g,
+        public void pbintToolBbrBbckground(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolBarBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolBbrBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintToolBarBackground(SynthContext context, Graphics g,
+        public void pbintToolBbrBbckground(SynthContext context, Grbphics g,
                                            int x, int y, int w, int h,
-                                           int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolBarBackground(context, g, x, y, w, h,
-                                               orientation);
+                                           int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolBbrBbckground(context, g, x, y, w, h,
+                                               orientbtion);
             }
         }
 
-        public void paintToolBarBorder(SynthContext context, Graphics g,
+        public void pbintToolBbrBorder(SynthContext context, Grbphics g,
                                        int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolBarBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolBbrBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintToolBarBorder(SynthContext context, Graphics g,
+        public void pbintToolBbrBorder(SynthContext context, Grbphics g,
                                        int x, int y, int w, int h,
-                                       int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolBarBorder(context, g, x, y, w, h, orientation);
+                                       int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolBbrBorder(context, g, x, y, w, h, orientbtion);
             }
         }
 
-        public void paintToolBarContentBackground(SynthContext context,
-                                                  Graphics g, int x, int y,
+        public void pbintToolBbrContentBbckground(SynthContext context,
+                                                  Grbphics g, int x, int y,
                                                   int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolBarContentBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolBbrContentBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintToolBarContentBackground(SynthContext context,
-                                                  Graphics g, int x, int y,
+        public void pbintToolBbrContentBbckground(SynthContext context,
+                                                  Grbphics g, int x, int y,
                                                   int w, int h,
-                                                  int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolBarContentBackground(context, g, x, y, w, h,
-                                                      orientation);
+                                                  int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolBbrContentBbckground(context, g, x, y, w, h,
+                                                      orientbtion);
             }
         }
 
-        public void paintToolBarContentBorder(SynthContext context, Graphics g,
+        public void pbintToolBbrContentBorder(SynthContext context, Grbphics g,
                                               int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolBarContentBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolBbrContentBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintToolBarContentBorder(SynthContext context, Graphics g,
+        public void pbintToolBbrContentBorder(SynthContext context, Grbphics g,
                                               int x, int y, int w, int h,
-                                              int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolBarContentBorder(context, g, x, y, w, h,
-                                                  orientation);
+                                              int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolBbrContentBorder(context, g, x, y, w, h,
+                                                  orientbtion);
             }
         }
 
-        public void paintToolBarDragWindowBackground(SynthContext context,
-                                                     Graphics g, int x, int y,
+        public void pbintToolBbrDrbgWindowBbckground(SynthContext context,
+                                                     Grbphics g, int x, int y,
                                                      int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolBarDragWindowBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolBbrDrbgWindowBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintToolBarDragWindowBackground(SynthContext context,
-                                                     Graphics g, int x, int y,
+        public void pbintToolBbrDrbgWindowBbckground(SynthContext context,
+                                                     Grbphics g, int x, int y,
                                                      int w, int h,
-                                                     int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolBarDragWindowBackground(context, g, x, y, w, h,
-                                                         orientation);
+                                                     int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolBbrDrbgWindowBbckground(context, g, x, y, w, h,
+                                                         orientbtion);
             }
         }
 
-        public void paintToolBarDragWindowBorder(SynthContext context,
-                                                 Graphics g, int x, int y,
+        public void pbintToolBbrDrbgWindowBorder(SynthContext context,
+                                                 Grbphics g, int x, int y,
                                                  int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolBarDragWindowBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolBbrDrbgWindowBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintToolBarDragWindowBorder(SynthContext context,
-                                                 Graphics g, int x, int y,
+        public void pbintToolBbrDrbgWindowBorder(SynthContext context,
+                                                 Grbphics g, int x, int y,
                                                  int w, int h,
-                                                 int orientation) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolBarDragWindowBorder(context, g, x, y, w, h,
-                                                     orientation);
+                                                 int orientbtion) {
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolBbrDrbgWindowBorder(context, g, x, y, w, h,
+                                                     orientbtion);
             }
         }
 
-        public void paintToolTipBackground(SynthContext context,
-                                           Graphics g, int x, int y,
+        public void pbintToolTipBbckground(SynthContext context,
+                                           Grbphics g, int x, int y,
                                            int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolTipBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolTipBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintToolTipBorder(SynthContext context, Graphics g,
+        public void pbintToolTipBorder(SynthContext context, Grbphics g,
                                        int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintToolTipBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintToolTipBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintTreeBackground(SynthContext context, Graphics g,
+        public void pbintTreeBbckground(SynthContext context, Grbphics g,
                                         int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTreeBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTreeBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintTreeBorder(SynthContext context, Graphics g,
+        public void pbintTreeBorder(SynthContext context, Grbphics g,
                                     int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTreeBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTreeBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintTreeCellBackground(SynthContext context, Graphics g,
+        public void pbintTreeCellBbckground(SynthContext context, Grbphics g,
                                             int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTreeCellBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTreeCellBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintTreeCellBorder(SynthContext context, Graphics g,
+        public void pbintTreeCellBorder(SynthContext context, Grbphics g,
                                         int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTreeCellBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTreeCellBorder(context, g, x, y, w, h);
             }
         }
 
-        public void paintTreeCellFocus(SynthContext context, Graphics g,
+        public void pbintTreeCellFocus(SynthContext context, Grbphics g,
                                        int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintTreeCellFocus(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintTreeCellFocus(context, g, x, y, w, h);
             }
         }
 
-        public void paintViewportBackground(SynthContext context, Graphics g,
+        public void pbintViewportBbckground(SynthContext context, Grbphics g,
                                             int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintViewportBackground(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintViewportBbckground(context, g, x, y, w, h);
             }
         }
 
-        public void paintViewportBorder(SynthContext context, Graphics g,
+        public void pbintViewportBorder(SynthContext context, Grbphics g,
                                         int x, int y, int w, int h) {
-            for (SynthPainter painter: painters) {
-                painter.paintViewportBorder(context, g, x, y, w, h);
+            for (SynthPbinter pbinter: pbinters) {
+                pbinter.pbintViewportBorder(context, g, x, y, w, h);
             }
         }
     }
 
-    private static class DelegatingPainter extends SynthPainter {
-        private static SynthPainter getPainter(SynthContext context,
+    privbte stbtic clbss DelegbtingPbinter extends SynthPbinter {
+        privbte stbtic SynthPbinter getPbinter(SynthContext context,
                                                String method, int direction) {
-            return ((ParsedSynthStyle)context.getStyle()).getBestPainter(
+            return ((PbrsedSynthStyle)context.getStyle()).getBestPbinter(
                                context, method, direction);
         }
 
-        public void paintArrowButtonBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "arrowbuttonbackground", -1).
-                paintArrowButtonBackground(context, g, x, y, w, h);
+        public void pbintArrowButtonBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "brrowbuttonbbckground", -1).
+                pbintArrowButtonBbckground(context, g, x, y, w, h);
         }
 
-        public void paintArrowButtonBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "arrowbuttonborder", -1).
-                paintArrowButtonBorder(context, g, x, y, w, h);
+        public void pbintArrowButtonBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "brrowbuttonborder", -1).
+                pbintArrowButtonBorder(context, g, x, y, w, h);
         }
 
-        public void paintArrowButtonForeground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "arrowbuttonforeground", direction).
-                paintArrowButtonForeground(context, g, x, y, w, h, direction);
+        public void pbintArrowButtonForeground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "brrowbuttonforeground", direction).
+                pbintArrowButtonForeground(context, g, x, y, w, h, direction);
         }
 
-        public void paintButtonBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "buttonbackground", -1).
-                paintButtonBackground(context, g, x, y, w, h);
+        public void pbintButtonBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "buttonbbckground", -1).
+                pbintButtonBbckground(context, g, x, y, w, h);
         }
 
-        public void paintButtonBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "buttonborder", -1).
-                paintButtonBorder(context, g, x, y, w, h);
+        public void pbintButtonBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "buttonborder", -1).
+                pbintButtonBorder(context, g, x, y, w, h);
         }
 
-        public void paintCheckBoxMenuItemBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "checkboxmenuitembackground", -1).
-                paintCheckBoxMenuItemBackground(context, g, x, y, w, h);
+        public void pbintCheckBoxMenuItemBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "checkboxmenuitembbckground", -1).
+                pbintCheckBoxMenuItemBbckground(context, g, x, y, w, h);
         }
 
-        public void paintCheckBoxMenuItemBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "checkboxmenuitemborder", -1).
-                paintCheckBoxMenuItemBorder(context, g, x, y, w, h);
+        public void pbintCheckBoxMenuItemBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "checkboxmenuitemborder", -1).
+                pbintCheckBoxMenuItemBorder(context, g, x, y, w, h);
         }
 
-        public void paintCheckBoxBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "checkboxbackground", -1).
-                paintCheckBoxBackground(context, g, x, y, w, h);
+        public void pbintCheckBoxBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "checkboxbbckground", -1).
+                pbintCheckBoxBbckground(context, g, x, y, w, h);
         }
 
-        public void paintCheckBoxBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "checkboxborder", -1).
-                paintCheckBoxBorder(context, g, x, y, w, h);
+        public void pbintCheckBoxBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "checkboxborder", -1).
+                pbintCheckBoxBorder(context, g, x, y, w, h);
         }
 
-        public void paintColorChooserBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "colorchooserbackground", -1).
-                paintColorChooserBackground(context, g, x, y, w, h);
+        public void pbintColorChooserBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "colorchooserbbckground", -1).
+                pbintColorChooserBbckground(context, g, x, y, w, h);
         }
 
-        public void paintColorChooserBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "colorchooserborder", -1).
-                paintColorChooserBorder(context, g, x, y, w, h);
+        public void pbintColorChooserBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "colorchooserborder", -1).
+                pbintColorChooserBorder(context, g, x, y, w, h);
         }
 
-        public void paintComboBoxBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "comboboxbackground", -1).
-                paintComboBoxBackground(context, g, x, y, w, h);
+        public void pbintComboBoxBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "comboboxbbckground", -1).
+                pbintComboBoxBbckground(context, g, x, y, w, h);
         }
 
-        public void paintComboBoxBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "comboboxborder", -1).
-                paintComboBoxBorder(context, g, x, y, w, h);
+        public void pbintComboBoxBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "comboboxborder", -1).
+                pbintComboBoxBorder(context, g, x, y, w, h);
         }
 
-        public void paintDesktopIconBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "desktopiconbackground", -1).
-                paintDesktopIconBackground(context, g, x, y, w, h);
+        public void pbintDesktopIconBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "desktopiconbbckground", -1).
+                pbintDesktopIconBbckground(context, g, x, y, w, h);
         }
 
-        public void paintDesktopIconBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "desktopiconborder", -1).
-                paintDesktopIconBorder(context, g, x, y, w, h);
+        public void pbintDesktopIconBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "desktopiconborder", -1).
+                pbintDesktopIconBorder(context, g, x, y, w, h);
         }
 
-        public void paintDesktopPaneBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "desktoppanebackground", -1).
-                paintDesktopPaneBackground(context, g, x, y, w, h);
+        public void pbintDesktopPbneBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "desktoppbnebbckground", -1).
+                pbintDesktopPbneBbckground(context, g, x, y, w, h);
         }
 
-        public void paintDesktopPaneBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "desktoppaneborder", -1).
-                paintDesktopPaneBorder(context, g, x, y, w, h);
+        public void pbintDesktopPbneBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "desktoppbneborder", -1).
+                pbintDesktopPbneBorder(context, g, x, y, w, h);
         }
 
-        public void paintEditorPaneBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "editorpanebackground", -1).
-                paintEditorPaneBackground(context, g, x, y, w, h);
+        public void pbintEditorPbneBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "editorpbnebbckground", -1).
+                pbintEditorPbneBbckground(context, g, x, y, w, h);
         }
 
-        public void paintEditorPaneBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "editorpaneborder", -1).
-                paintEditorPaneBorder(context, g, x, y, w, h);
+        public void pbintEditorPbneBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "editorpbneborder", -1).
+                pbintEditorPbneBorder(context, g, x, y, w, h);
         }
 
-        public void paintFileChooserBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "filechooserbackground", -1).
-                paintFileChooserBackground(context, g, x, y, w, h);
+        public void pbintFileChooserBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "filechooserbbckground", -1).
+                pbintFileChooserBbckground(context, g, x, y, w, h);
         }
 
-        public void paintFileChooserBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "filechooserborder", -1).
-                paintFileChooserBorder(context, g, x, y, w, h);
+        public void pbintFileChooserBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "filechooserborder", -1).
+                pbintFileChooserBorder(context, g, x, y, w, h);
         }
 
-        public void paintFormattedTextFieldBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "formattedtextfieldbackground", -1).
-                paintFormattedTextFieldBackground(context, g, x, y, w, h);
+        public void pbintFormbttedTextFieldBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "formbttedtextfieldbbckground", -1).
+                pbintFormbttedTextFieldBbckground(context, g, x, y, w, h);
         }
 
-        public void paintFormattedTextFieldBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "formattedtextfieldborder", -1).
-                paintFormattedTextFieldBorder(context, g, x, y, w, h);
+        public void pbintFormbttedTextFieldBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "formbttedtextfieldborder", -1).
+                pbintFormbttedTextFieldBorder(context, g, x, y, w, h);
         }
 
-        public void paintInternalFrameTitlePaneBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "internalframetitlepanebackground", -1).
-                paintInternalFrameTitlePaneBackground(context, g, x, y, w, h);
+        public void pbintInternblFrbmeTitlePbneBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "internblfrbmetitlepbnebbckground", -1).
+                pbintInternblFrbmeTitlePbneBbckground(context, g, x, y, w, h);
         }
 
-        public void paintInternalFrameTitlePaneBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "internalframetitlepaneborder", -1).
-                paintInternalFrameTitlePaneBorder(context, g, x, y, w, h);
+        public void pbintInternblFrbmeTitlePbneBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "internblfrbmetitlepbneborder", -1).
+                pbintInternblFrbmeTitlePbneBorder(context, g, x, y, w, h);
         }
 
-        public void paintInternalFrameBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "internalframebackground", -1).
-                paintInternalFrameBackground(context, g, x, y, w, h);
+        public void pbintInternblFrbmeBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "internblfrbmebbckground", -1).
+                pbintInternblFrbmeBbckground(context, g, x, y, w, h);
         }
 
-        public void paintInternalFrameBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "internalframeborder", -1).
-                paintInternalFrameBorder(context, g, x, y, w, h);
+        public void pbintInternblFrbmeBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "internblfrbmeborder", -1).
+                pbintInternblFrbmeBorder(context, g, x, y, w, h);
         }
 
-        public void paintLabelBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "labelbackground", -1).
-                paintLabelBackground(context, g, x, y, w, h);
+        public void pbintLbbelBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "lbbelbbckground", -1).
+                pbintLbbelBbckground(context, g, x, y, w, h);
         }
 
-        public void paintLabelBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "labelborder", -1).
-                paintLabelBorder(context, g, x, y, w, h);
+        public void pbintLbbelBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "lbbelborder", -1).
+                pbintLbbelBorder(context, g, x, y, w, h);
         }
 
-        public void paintListBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "listbackground", -1).
-                paintListBackground(context, g, x, y, w, h);
+        public void pbintListBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "listbbckground", -1).
+                pbintListBbckground(context, g, x, y, w, h);
         }
 
-        public void paintListBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "listborder", -1).
-                paintListBorder(context, g, x, y, w, h);
+        public void pbintListBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "listborder", -1).
+                pbintListBorder(context, g, x, y, w, h);
         }
 
-        public void paintMenuBarBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "menubarbackground", -1).
-                paintMenuBarBackground(context, g, x, y, w, h);
+        public void pbintMenuBbrBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "menubbrbbckground", -1).
+                pbintMenuBbrBbckground(context, g, x, y, w, h);
         }
 
-        public void paintMenuBarBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "menubarborder", -1).
-                paintMenuBarBorder(context, g, x, y, w, h);
+        public void pbintMenuBbrBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "menubbrborder", -1).
+                pbintMenuBbrBorder(context, g, x, y, w, h);
         }
 
-        public void paintMenuItemBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "menuitembackground", -1).
-                paintMenuItemBackground(context, g, x, y, w, h);
+        public void pbintMenuItemBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "menuitembbckground", -1).
+                pbintMenuItemBbckground(context, g, x, y, w, h);
         }
 
-        public void paintMenuItemBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "menuitemborder", -1).
-                paintMenuItemBorder(context, g, x, y, w, h);
+        public void pbintMenuItemBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "menuitemborder", -1).
+                pbintMenuItemBorder(context, g, x, y, w, h);
         }
 
-        public void paintMenuBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "menubackground", -1).
-                paintMenuBackground(context, g, x, y, w, h);
+        public void pbintMenuBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "menubbckground", -1).
+                pbintMenuBbckground(context, g, x, y, w, h);
         }
 
-        public void paintMenuBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "menuborder", -1).
-                paintMenuBorder(context, g, x, y, w, h);
+        public void pbintMenuBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "menuborder", -1).
+                pbintMenuBorder(context, g, x, y, w, h);
         }
 
-        public void paintOptionPaneBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "optionpanebackground", -1).
-                paintOptionPaneBackground(context, g, x, y, w, h);
+        public void pbintOptionPbneBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "optionpbnebbckground", -1).
+                pbintOptionPbneBbckground(context, g, x, y, w, h);
         }
 
-        public void paintOptionPaneBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "optionpaneborder", -1).
-                paintOptionPaneBorder(context, g, x, y, w, h);
+        public void pbintOptionPbneBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "optionpbneborder", -1).
+                pbintOptionPbneBorder(context, g, x, y, w, h);
         }
 
-        public void paintPanelBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "panelbackground", -1).
-                paintPanelBackground(context, g, x, y, w, h);
+        public void pbintPbnelBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "pbnelbbckground", -1).
+                pbintPbnelBbckground(context, g, x, y, w, h);
         }
 
-        public void paintPanelBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "panelborder", -1).
-                paintPanelBorder(context, g, x, y, w, h);
+        public void pbintPbnelBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "pbnelborder", -1).
+                pbintPbnelBorder(context, g, x, y, w, h);
         }
 
-        public void paintPasswordFieldBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "passwordfieldbackground", -1).
-                paintPasswordFieldBackground(context, g, x, y, w, h);
+        public void pbintPbsswordFieldBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "pbsswordfieldbbckground", -1).
+                pbintPbsswordFieldBbckground(context, g, x, y, w, h);
         }
 
-        public void paintPasswordFieldBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "passwordfieldborder", -1).
-                paintPasswordFieldBorder(context, g, x, y, w, h);
+        public void pbintPbsswordFieldBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "pbsswordfieldborder", -1).
+                pbintPbsswordFieldBorder(context, g, x, y, w, h);
         }
 
-        public void paintPopupMenuBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "popupmenubackground", -1).
-                paintPopupMenuBackground(context, g, x, y, w, h);
+        public void pbintPopupMenuBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "popupmenubbckground", -1).
+                pbintPopupMenuBbckground(context, g, x, y, w, h);
         }
 
-        public void paintPopupMenuBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "popupmenuborder", -1).
-                paintPopupMenuBorder(context, g, x, y, w, h);
+        public void pbintPopupMenuBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "popupmenuborder", -1).
+                pbintPopupMenuBorder(context, g, x, y, w, h);
         }
 
-        public void paintProgressBarBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "progressbarbackground", -1).
-                paintProgressBarBackground(context, g, x, y, w, h);
+        public void pbintProgressBbrBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "progressbbrbbckground", -1).
+                pbintProgressBbrBbckground(context, g, x, y, w, h);
         }
 
-        public void paintProgressBarBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "progressbarbackground", direction).
-                paintProgressBarBackground(context, g, x, y, w, h, direction);
+        public void pbintProgressBbrBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "progressbbrbbckground", direction).
+                pbintProgressBbrBbckground(context, g, x, y, w, h, direction);
         }
 
-        public void paintProgressBarBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "progressbarborder", -1).
-                paintProgressBarBorder(context, g, x, y, w, h);
+        public void pbintProgressBbrBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "progressbbrborder", -1).
+                pbintProgressBbrBorder(context, g, x, y, w, h);
         }
 
-        public void paintProgressBarBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "progressbarborder", direction).
-                paintProgressBarBorder(context, g, x, y, w, h, direction);
+        public void pbintProgressBbrBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "progressbbrborder", direction).
+                pbintProgressBbrBorder(context, g, x, y, w, h, direction);
         }
 
-        public void paintProgressBarForeground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "progressbarforeground", direction).
-                paintProgressBarForeground(context, g, x, y, w, h, direction);
+        public void pbintProgressBbrForeground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "progressbbrforeground", direction).
+                pbintProgressBbrForeground(context, g, x, y, w, h, direction);
         }
 
-        public void paintRadioButtonMenuItemBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "radiobuttonmenuitembackground", -1).
-                paintRadioButtonMenuItemBackground(context, g, x, y, w, h);
+        public void pbintRbdioButtonMenuItemBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "rbdiobuttonmenuitembbckground", -1).
+                pbintRbdioButtonMenuItemBbckground(context, g, x, y, w, h);
         }
 
-        public void paintRadioButtonMenuItemBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "radiobuttonmenuitemborder", -1).
-                paintRadioButtonMenuItemBorder(context, g, x, y, w, h);
+        public void pbintRbdioButtonMenuItemBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "rbdiobuttonmenuitemborder", -1).
+                pbintRbdioButtonMenuItemBorder(context, g, x, y, w, h);
         }
 
-        public void paintRadioButtonBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "radiobuttonbackground", -1).
-                paintRadioButtonBackground(context, g, x, y, w, h);
+        public void pbintRbdioButtonBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "rbdiobuttonbbckground", -1).
+                pbintRbdioButtonBbckground(context, g, x, y, w, h);
         }
 
-        public void paintRadioButtonBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "radiobuttonborder", -1).
-                paintRadioButtonBorder(context, g, x, y, w, h);
+        public void pbintRbdioButtonBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "rbdiobuttonborder", -1).
+                pbintRbdioButtonBorder(context, g, x, y, w, h);
         }
 
-        public void paintRootPaneBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "rootpanebackground", -1).
-                paintRootPaneBackground(context, g, x, y, w, h);
+        public void pbintRootPbneBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "rootpbnebbckground", -1).
+                pbintRootPbneBbckground(context, g, x, y, w, h);
         }
 
-        public void paintRootPaneBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "rootpaneborder", -1).
-                paintRootPaneBorder(context, g, x, y, w, h);
+        public void pbintRootPbneBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "rootpbneborder", -1).
+                pbintRootPbneBorder(context, g, x, y, w, h);
         }
 
-        public void paintScrollBarBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "scrollbarbackground", -1).
-               paintScrollBarBackground(context, g, x, y, w, h);
+        public void pbintScrollBbrBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "scrollbbrbbckground", -1).
+               pbintScrollBbrBbckground(context, g, x, y, w, h);
         }
 
-        public void paintScrollBarBackground(SynthContext context,
-                      Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "scrollbarbackground", direction).
-                paintScrollBarBackground(context, g, x, y, w, h, direction);
+        public void pbintScrollBbrBbckground(SynthContext context,
+                      Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "scrollbbrbbckground", direction).
+                pbintScrollBbrBbckground(context, g, x, y, w, h, direction);
         }
 
 
-        public void paintScrollBarBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "scrollbarborder", -1).
-                paintScrollBarBorder(context, g, x, y, w, h);
+        public void pbintScrollBbrBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "scrollbbrborder", -1).
+                pbintScrollBbrBorder(context, g, x, y, w, h);
         }
 
-        public void paintScrollBarBorder(SynthContext context,
-                                         Graphics g, int x, int y, int w, int h,
-                                         int orientation) {
-            getPainter(context, "scrollbarborder", orientation).
-                paintScrollBarBorder(context, g, x, y, w, h, orientation);
+        public void pbintScrollBbrBorder(SynthContext context,
+                                         Grbphics g, int x, int y, int w, int h,
+                                         int orientbtion) {
+            getPbinter(context, "scrollbbrborder", orientbtion).
+                pbintScrollBbrBorder(context, g, x, y, w, h, orientbtion);
         }
 
-        public void paintScrollBarThumbBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "scrollbarthumbbackground", direction).
-                paintScrollBarThumbBackground(context, g, x, y, w, h, direction);
+        public void pbintScrollBbrThumbBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "scrollbbrthumbbbckground", direction).
+                pbintScrollBbrThumbBbckground(context, g, x, y, w, h, direction);
         }
 
-        public void paintScrollBarThumbBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "scrollbarthumbborder", direction).
-                paintScrollBarThumbBorder(context, g, x, y, w, h, direction);
+        public void pbintScrollBbrThumbBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "scrollbbrthumbborder", direction).
+                pbintScrollBbrThumbBorder(context, g, x, y, w, h, direction);
         }
 
-        public void paintScrollBarTrackBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "scrollbartrackbackground", -1).
-                paintScrollBarTrackBackground(context, g, x, y, w, h);
+        public void pbintScrollBbrTrbckBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "scrollbbrtrbckbbckground", -1).
+                pbintScrollBbrTrbckBbckground(context, g, x, y, w, h);
         }
 
-        public void paintScrollBarTrackBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-             getPainter(context, "scrollbartrackbackground", direction).
-                 paintScrollBarTrackBackground(context, g, x, y, w, h, direction);
+        public void pbintScrollBbrTrbckBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+             getPbinter(context, "scrollbbrtrbckbbckground", direction).
+                 pbintScrollBbrTrbckBbckground(context, g, x, y, w, h, direction);
          }
 
-        public void paintScrollBarTrackBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "scrollbartrackborder", -1).
-                paintScrollBarTrackBorder(context, g, x, y, w, h);
+        public void pbintScrollBbrTrbckBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "scrollbbrtrbckborder", -1).
+                pbintScrollBbrTrbckBorder(context, g, x, y, w, h);
         }
 
-        public void paintScrollBarTrackBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int orientation) {
-            getPainter(context, "scrollbartrackborder", orientation).
-                paintScrollBarTrackBorder(context, g, x, y, w, h, orientation);
+        public void pbintScrollBbrTrbckBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int orientbtion) {
+            getPbinter(context, "scrollbbrtrbckborder", orientbtion).
+                pbintScrollBbrTrbckBorder(context, g, x, y, w, h, orientbtion);
         }
 
-        public void paintScrollPaneBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "scrollpanebackground", -1).
-                paintScrollPaneBackground(context, g, x, y, w, h);
+        public void pbintScrollPbneBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "scrollpbnebbckground", -1).
+                pbintScrollPbneBbckground(context, g, x, y, w, h);
         }
 
-        public void paintScrollPaneBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "scrollpaneborder", -1).
-                paintScrollPaneBorder(context, g, x, y, w, h);
+        public void pbintScrollPbneBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "scrollpbneborder", -1).
+                pbintScrollPbneBorder(context, g, x, y, w, h);
         }
 
-        public void paintSeparatorBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "separatorbackground", -1).
-                paintSeparatorBackground(context, g, x, y, w, h);
+        public void pbintSepbrbtorBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "sepbrbtorbbckground", -1).
+                pbintSepbrbtorBbckground(context, g, x, y, w, h);
         }
 
-        public void paintSeparatorBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int orientation) {
-            getPainter(context, "separatorbackground", orientation).
-                paintSeparatorBackground(context, g, x, y, w, h, orientation);
+        public void pbintSepbrbtorBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int orientbtion) {
+            getPbinter(context, "sepbrbtorbbckground", orientbtion).
+                pbintSepbrbtorBbckground(context, g, x, y, w, h, orientbtion);
         }
 
-        public void paintSeparatorBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "separatorborder", -1).
-                paintSeparatorBorder(context, g, x, y, w, h);
+        public void pbintSepbrbtorBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "sepbrbtorborder", -1).
+                pbintSepbrbtorBorder(context, g, x, y, w, h);
         }
 
-        public void paintSeparatorBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int orientation) {
-            getPainter(context, "separatorborder", orientation).
-                paintSeparatorBorder(context, g, x, y, w, h, orientation);
+        public void pbintSepbrbtorBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int orientbtion) {
+            getPbinter(context, "sepbrbtorborder", orientbtion).
+                pbintSepbrbtorBorder(context, g, x, y, w, h, orientbtion);
         }
 
-        public void paintSeparatorForeground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "separatorforeground", direction).
-                paintSeparatorForeground(context, g, x, y, w, h, direction);
+        public void pbintSepbrbtorForeground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "sepbrbtorforeground", direction).
+                pbintSepbrbtorForeground(context, g, x, y, w, h, direction);
         }
 
-        public void paintSliderBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "sliderbackground", -1).
-                paintSliderBackground(context, g, x, y, w, h);
+        public void pbintSliderBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "sliderbbckground", -1).
+                pbintSliderBbckground(context, g, x, y, w, h);
         }
 
-        public void paintSliderBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "sliderbackground", direction).
-            paintSliderBackground(context, g, x, y, w, h, direction);
+        public void pbintSliderBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "sliderbbckground", direction).
+            pbintSliderBbckground(context, g, x, y, w, h, direction);
         }
 
-        public void paintSliderBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "sliderborder", -1).
-                paintSliderBorder(context, g, x, y, w, h);
+        public void pbintSliderBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "sliderborder", -1).
+                pbintSliderBorder(context, g, x, y, w, h);
         }
 
-        public void paintSliderBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "sliderborder", direction).
-                paintSliderBorder(context, g, x, y, w, h, direction);
+        public void pbintSliderBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "sliderborder", direction).
+                pbintSliderBorder(context, g, x, y, w, h, direction);
         }
 
-        public void paintSliderThumbBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "sliderthumbbackground", direction).
-                paintSliderThumbBackground(context, g, x, y, w, h, direction);
+        public void pbintSliderThumbBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "sliderthumbbbckground", direction).
+                pbintSliderThumbBbckground(context, g, x, y, w, h, direction);
         }
 
-        public void paintSliderThumbBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "sliderthumbborder", direction).
-                paintSliderThumbBorder(context, g, x, y, w, h, direction);
+        public void pbintSliderThumbBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "sliderthumbborder", direction).
+                pbintSliderThumbBorder(context, g, x, y, w, h, direction);
         }
 
-        public void paintSliderTrackBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "slidertrackbackground", -1).
-                paintSliderTrackBackground(context, g, x, y, w, h);
+        public void pbintSliderTrbckBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "slidertrbckbbckground", -1).
+                pbintSliderTrbckBbckground(context, g, x, y, w, h);
         }
 
-        public void paintSliderTrackBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "slidertrackbackground", direction).
-                paintSliderTrackBackground(context, g, x, y, w, h, direction);
+        public void pbintSliderTrbckBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "slidertrbckbbckground", direction).
+                pbintSliderTrbckBbckground(context, g, x, y, w, h, direction);
         }
 
-        public void paintSliderTrackBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "slidertrackborder", -1).
-                paintSliderTrackBorder(context, g, x, y, w, h);
+        public void pbintSliderTrbckBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "slidertrbckborder", -1).
+                pbintSliderTrbckBorder(context, g, x, y, w, h);
         }
 
-        public void paintSliderTrackBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "slidertrackborder", direction).
-            paintSliderTrackBorder(context, g, x, y, w, h, direction);
+        public void pbintSliderTrbckBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "slidertrbckborder", direction).
+            pbintSliderTrbckBorder(context, g, x, y, w, h, direction);
         }
 
-        public void paintSpinnerBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "spinnerbackground", -1).
-                paintSpinnerBackground(context, g, x, y, w, h);
+        public void pbintSpinnerBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "spinnerbbckground", -1).
+                pbintSpinnerBbckground(context, g, x, y, w, h);
         }
 
-        public void paintSpinnerBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "spinnerborder", -1).
-                paintSpinnerBorder(context, g, x, y, w, h);
+        public void pbintSpinnerBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "spinnerborder", -1).
+                pbintSpinnerBorder(context, g, x, y, w, h);
         }
 
-        public void paintSplitPaneDividerBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "splitpanedividerbackground", -1).
-                paintSplitPaneDividerBackground(context, g, x, y, w, h);
+        public void pbintSplitPbneDividerBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "splitpbnedividerbbckground", -1).
+                pbintSplitPbneDividerBbckground(context, g, x, y, w, h);
         }
 
-        public void paintSplitPaneDividerBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int orientation) {
-            getPainter(context, "splitpanedividerbackground", orientation).
-            paintSplitPaneDividerBackground(context, g, x, y, w, h, orientation);
+        public void pbintSplitPbneDividerBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int orientbtion) {
+            getPbinter(context, "splitpbnedividerbbckground", orientbtion).
+            pbintSplitPbneDividerBbckground(context, g, x, y, w, h, orientbtion);
         }
 
-        public void paintSplitPaneDividerForeground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "splitpanedividerforeground", direction).
-                paintSplitPaneDividerForeground(context, g,
+        public void pbintSplitPbneDividerForeground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "splitpbnedividerforeground", direction).
+                pbintSplitPbneDividerForeground(context, g,
                                                 x, y, w, h, direction);
         }
 
-        public void paintSplitPaneDragDivider(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "splitpanedragdivider", direction).
-                paintSplitPaneDragDivider(context, g, x, y, w, h, direction);
+        public void pbintSplitPbneDrbgDivider(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "splitpbnedrbgdivider", direction).
+                pbintSplitPbneDrbgDivider(context, g, x, y, w, h, direction);
         }
 
-        public void paintSplitPaneBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "splitpanebackground", -1).
-                paintSplitPaneBackground(context, g, x, y, w, h);
+        public void pbintSplitPbneBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "splitpbnebbckground", -1).
+                pbintSplitPbneBbckground(context, g, x, y, w, h);
         }
 
-        public void paintSplitPaneBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "splitpaneborder", -1).
-                paintSplitPaneBorder(context, g, x, y, w, h);
+        public void pbintSplitPbneBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "splitpbneborder", -1).
+                pbintSplitPbneBorder(context, g, x, y, w, h);
         }
 
-        public void paintTabbedPaneBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "tabbedpanebackground", -1).
-                paintTabbedPaneBackground(context, g, x, y, w, h);
+        public void pbintTbbbedPbneBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "tbbbedpbnebbckground", -1).
+                pbintTbbbedPbneBbckground(context, g, x, y, w, h);
         }
 
-        public void paintTabbedPaneBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "tabbedpaneborder", -1).
-                paintTabbedPaneBorder(context, g, x, y, w, h);
+        public void pbintTbbbedPbneBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "tbbbedpbneborder", -1).
+                pbintTbbbedPbneBorder(context, g, x, y, w, h);
         }
 
-        public void paintTabbedPaneTabAreaBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "tabbedpanetabareabackground", -1).
-                paintTabbedPaneTabAreaBackground(context, g, x, y, w, h);
+        public void pbintTbbbedPbneTbbArebBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "tbbbedpbnetbbbrebbbckground", -1).
+                pbintTbbbedPbneTbbArebBbckground(context, g, x, y, w, h);
         }
 
-        public void paintTabbedPaneTabAreaBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int orientation) {
-            getPainter(context, "tabbedpanetabareabackground", orientation).
-                paintTabbedPaneTabAreaBackground(context, g, x, y, w, h,
-                                                 orientation);
+        public void pbintTbbbedPbneTbbArebBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int orientbtion) {
+            getPbinter(context, "tbbbedpbnetbbbrebbbckground", orientbtion).
+                pbintTbbbedPbneTbbArebBbckground(context, g, x, y, w, h,
+                                                 orientbtion);
         }
 
-        public void paintTabbedPaneTabAreaBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "tabbedpanetabareaborder", -1).
-                paintTabbedPaneTabAreaBorder(context, g, x, y, w, h);
+        public void pbintTbbbedPbneTbbArebBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "tbbbedpbnetbbbrebborder", -1).
+                pbintTbbbedPbneTbbArebBorder(context, g, x, y, w, h);
         }
 
-        public void paintTabbedPaneTabAreaBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int orientation) {
-            getPainter(context, "tabbedpanetabareaborder", orientation).
-                paintTabbedPaneTabAreaBorder(context, g, x, y, w, h,
-                                             orientation);
+        public void pbintTbbbedPbneTbbArebBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int orientbtion) {
+            getPbinter(context, "tbbbedpbnetbbbrebborder", orientbtion).
+                pbintTbbbedPbneTbbArebBorder(context, g, x, y, w, h,
+                                             orientbtion);
         }
 
-        public void paintTabbedPaneTabBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "tabbedpanetabbackground", -1).
-                paintTabbedPaneTabBackground(context, g, x, y, w, h, direction);
+        public void pbintTbbbedPbneTbbBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "tbbbedpbnetbbbbckground", -1).
+                pbintTbbbedPbneTbbBbckground(context, g, x, y, w, h, direction);
         }
 
-        public void paintTabbedPaneTabBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int tabIndex,
+        public void pbintTbbbedPbneTbbBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int tbbIndex,
                      int direction) {
-            getPainter(context, "tabbedpanetabbackground", direction).
-                paintTabbedPaneTabBackground(context, g, x, y, w, h, tabIndex,
+            getPbinter(context, "tbbbedpbnetbbbbckground", direction).
+                pbintTbbbedPbneTbbBbckground(context, g, x, y, w, h, tbbIndex,
                                              direction);
         }
 
-        public void paintTabbedPaneTabBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int direction) {
-            getPainter(context, "tabbedpanetabborder", -1).
-                paintTabbedPaneTabBorder(context, g, x, y, w, h, direction);
+        public void pbintTbbbedPbneTbbBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int direction) {
+            getPbinter(context, "tbbbedpbnetbbborder", -1).
+                pbintTbbbedPbneTbbBorder(context, g, x, y, w, h, direction);
         }
 
-        public void paintTabbedPaneTabBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int tabIndex,
+        public void pbintTbbbedPbneTbbBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int tbbIndex,
                      int direction) {
-            getPainter(context, "tabbedpanetabborder", direction).
-                paintTabbedPaneTabBorder(context, g, x, y, w, h, tabIndex,
+            getPbinter(context, "tbbbedpbnetbbborder", direction).
+                pbintTbbbedPbneTbbBorder(context, g, x, y, w, h, tbbIndex,
                                          direction);
         }
 
-        public void paintTabbedPaneContentBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "tabbedpanecontentbackground", -1).
-                paintTabbedPaneContentBackground(context, g, x, y, w, h);
+        public void pbintTbbbedPbneContentBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "tbbbedpbnecontentbbckground", -1).
+                pbintTbbbedPbneContentBbckground(context, g, x, y, w, h);
         }
 
-        public void paintTabbedPaneContentBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "tabbedpanecontentborder", -1).
-                paintTabbedPaneContentBorder(context, g, x, y, w, h);
+        public void pbintTbbbedPbneContentBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "tbbbedpbnecontentborder", -1).
+                pbintTbbbedPbneContentBorder(context, g, x, y, w, h);
         }
 
-        public void paintTableHeaderBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "tableheaderbackground", -1).
-                paintTableHeaderBackground(context, g, x, y, w, h);
+        public void pbintTbbleHebderBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "tbblehebderbbckground", -1).
+                pbintTbbleHebderBbckground(context, g, x, y, w, h);
         }
 
-        public void paintTableHeaderBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "tableheaderborder", -1).
-                paintTableHeaderBorder(context, g, x, y, w, h);
+        public void pbintTbbleHebderBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "tbblehebderborder", -1).
+                pbintTbbleHebderBorder(context, g, x, y, w, h);
         }
 
-        public void paintTableBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "tablebackground", -1).
-                paintTableBackground(context, g, x, y, w, h);
+        public void pbintTbbleBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "tbblebbckground", -1).
+                pbintTbbleBbckground(context, g, x, y, w, h);
         }
 
-        public void paintTableBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "tableborder", -1).
-                paintTableBorder(context, g, x, y, w, h);
+        public void pbintTbbleBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "tbbleborder", -1).
+                pbintTbbleBorder(context, g, x, y, w, h);
         }
 
-        public void paintTextAreaBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "textareabackground", -1).
-                paintTextAreaBackground(context, g, x, y, w, h);
+        public void pbintTextArebBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "textbrebbbckground", -1).
+                pbintTextArebBbckground(context, g, x, y, w, h);
         }
 
-        public void paintTextAreaBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "textareaborder", -1).
-                paintTextAreaBorder(context, g, x, y, w, h);
+        public void pbintTextArebBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "textbrebborder", -1).
+                pbintTextArebBorder(context, g, x, y, w, h);
         }
 
-        public void paintTextPaneBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "textpanebackground", -1).
-                paintTextPaneBackground(context, g, x, y, w, h);
+        public void pbintTextPbneBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "textpbnebbckground", -1).
+                pbintTextPbneBbckground(context, g, x, y, w, h);
         }
 
-        public void paintTextPaneBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "textpaneborder", -1).
-                paintTextPaneBorder(context, g, x, y, w, h);
+        public void pbintTextPbneBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "textpbneborder", -1).
+                pbintTextPbneBorder(context, g, x, y, w, h);
         }
 
-        public void paintTextFieldBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "textfieldbackground", -1).
-                paintTextFieldBackground(context, g, x, y, w, h);
+        public void pbintTextFieldBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "textfieldbbckground", -1).
+                pbintTextFieldBbckground(context, g, x, y, w, h);
         }
 
-        public void paintTextFieldBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "textfieldborder", -1).
-                paintTextFieldBorder(context, g, x, y, w, h);
+        public void pbintTextFieldBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "textfieldborder", -1).
+                pbintTextFieldBorder(context, g, x, y, w, h);
         }
 
-        public void paintToggleButtonBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "togglebuttonbackground", -1).
-                paintToggleButtonBackground(context, g, x, y, w, h);
+        public void pbintToggleButtonBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "togglebuttonbbckground", -1).
+                pbintToggleButtonBbckground(context, g, x, y, w, h);
         }
 
-        public void paintToggleButtonBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "togglebuttonborder", -1).
-                paintToggleButtonBorder(context, g, x, y, w, h);
+        public void pbintToggleButtonBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "togglebuttonborder", -1).
+                pbintToggleButtonBorder(context, g, x, y, w, h);
         }
 
-        public void paintToolBarBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "toolbarbackground", -1).
-                paintToolBarBackground(context, g, x, y, w, h);
+        public void pbintToolBbrBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "toolbbrbbckground", -1).
+                pbintToolBbrBbckground(context, g, x, y, w, h);
         }
 
-        public void paintToolBarBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int orientation) {
-            getPainter(context, "toolbarbackground", orientation).
-                paintToolBarBackground(context, g, x, y, w, h, orientation);
+        public void pbintToolBbrBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int orientbtion) {
+            getPbinter(context, "toolbbrbbckground", orientbtion).
+                pbintToolBbrBbckground(context, g, x, y, w, h, orientbtion);
         }
 
-        public void paintToolBarBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "toolbarborder", -1).
-                paintToolBarBorder(context, g, x, y, w, h);
+        public void pbintToolBbrBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "toolbbrborder", -1).
+                pbintToolBbrBorder(context, g, x, y, w, h);
         }
 
-        public void paintToolBarBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int orientation) {
-            getPainter(context, "toolbarborder", orientation).
-                paintToolBarBorder(context, g, x, y, w, h, orientation);
+        public void pbintToolBbrBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int orientbtion) {
+            getPbinter(context, "toolbbrborder", orientbtion).
+                pbintToolBbrBorder(context, g, x, y, w, h, orientbtion);
         }
 
-        public void paintToolBarContentBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "toolbarcontentbackground", -1).
-                paintToolBarContentBackground(context, g, x, y, w, h);
+        public void pbintToolBbrContentBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "toolbbrcontentbbckground", -1).
+                pbintToolBbrContentBbckground(context, g, x, y, w, h);
         }
 
-        public void paintToolBarContentBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int orientation) {
-            getPainter(context, "toolbarcontentbackground", orientation).
-                paintToolBarContentBackground(context, g, x, y, w, h, orientation);
+        public void pbintToolBbrContentBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int orientbtion) {
+            getPbinter(context, "toolbbrcontentbbckground", orientbtion).
+                pbintToolBbrContentBbckground(context, g, x, y, w, h, orientbtion);
         }
 
-        public void paintToolBarContentBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "toolbarcontentborder", -1).
-                paintToolBarContentBorder(context, g, x, y, w, h);
+        public void pbintToolBbrContentBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "toolbbrcontentborder", -1).
+                pbintToolBbrContentBorder(context, g, x, y, w, h);
         }
 
-        public void paintToolBarContentBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int orientation) {
-            getPainter(context, "toolbarcontentborder", orientation).
-                paintToolBarContentBorder(context, g, x, y, w, h, orientation);
+        public void pbintToolBbrContentBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int orientbtion) {
+            getPbinter(context, "toolbbrcontentborder", orientbtion).
+                pbintToolBbrContentBorder(context, g, x, y, w, h, orientbtion);
         }
 
-        public void paintToolBarDragWindowBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "toolbardragwindowbackground", -1).
-                paintToolBarDragWindowBackground(context, g, x, y, w, h);
+        public void pbintToolBbrDrbgWindowBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "toolbbrdrbgwindowbbckground", -1).
+                pbintToolBbrDrbgWindowBbckground(context, g, x, y, w, h);
         }
 
-        public void paintToolBarDragWindowBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int orientation) {
-            getPainter(context, "toolbardragwindowbackground", orientation).
-                paintToolBarDragWindowBackground(context, g, x, y, w, h, orientation);
+        public void pbintToolBbrDrbgWindowBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int orientbtion) {
+            getPbinter(context, "toolbbrdrbgwindowbbckground", orientbtion).
+                pbintToolBbrDrbgWindowBbckground(context, g, x, y, w, h, orientbtion);
         }
 
-        public void paintToolBarDragWindowBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "toolbardragwindowborder", -1).
-                paintToolBarDragWindowBorder(context, g, x, y, w, h);
+        public void pbintToolBbrDrbgWindowBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "toolbbrdrbgwindowborder", -1).
+                pbintToolBbrDrbgWindowBorder(context, g, x, y, w, h);
         }
 
-        public void paintToolBarDragWindowBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h, int orientation) {
-            getPainter(context, "toolbardragwindowborder", orientation).
-                paintToolBarDragWindowBorder(context, g, x, y, w, h, orientation);
+        public void pbintToolBbrDrbgWindowBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h, int orientbtion) {
+            getPbinter(context, "toolbbrdrbgwindowborder", orientbtion).
+                pbintToolBbrDrbgWindowBorder(context, g, x, y, w, h, orientbtion);
         }
 
-        public void paintToolTipBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "tooltipbackground", -1).
-                paintToolTipBackground(context, g, x, y, w, h);
+        public void pbintToolTipBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "tooltipbbckground", -1).
+                pbintToolTipBbckground(context, g, x, y, w, h);
         }
 
-        public void paintToolTipBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "tooltipborder", -1).
-                paintToolTipBorder(context, g, x, y, w, h);
+        public void pbintToolTipBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "tooltipborder", -1).
+                pbintToolTipBorder(context, g, x, y, w, h);
         }
 
-        public void paintTreeBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "treebackground", -1).
-                paintTreeBackground(context, g, x, y, w, h);
+        public void pbintTreeBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "treebbckground", -1).
+                pbintTreeBbckground(context, g, x, y, w, h);
         }
 
-        public void paintTreeBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "treeborder", -1).
-                paintTreeBorder(context, g, x, y, w, h);
+        public void pbintTreeBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "treeborder", -1).
+                pbintTreeBorder(context, g, x, y, w, h);
         }
 
-        public void paintTreeCellBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "treecellbackground", -1).
-                paintTreeCellBackground(context, g, x, y, w, h);
+        public void pbintTreeCellBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "treecellbbckground", -1).
+                pbintTreeCellBbckground(context, g, x, y, w, h);
         }
 
-        public void paintTreeCellBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "treecellborder", -1).
-                paintTreeCellBorder(context, g, x, y, w, h);
+        public void pbintTreeCellBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "treecellborder", -1).
+                pbintTreeCellBorder(context, g, x, y, w, h);
         }
 
-        public void paintTreeCellFocus(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "treecellfocus", -1).
-                paintTreeCellFocus(context, g, x, y, w, h);
+        public void pbintTreeCellFocus(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "treecellfocus", -1).
+                pbintTreeCellFocus(context, g, x, y, w, h);
         }
 
-        public void paintViewportBackground(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "viewportbackground", -1).
-                paintViewportBackground(context, g, x, y, w, h);
+        public void pbintViewportBbckground(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "viewportbbckground", -1).
+                pbintViewportBbckground(context, g, x, y, w, h);
         }
 
-        public void paintViewportBorder(SynthContext context,
-                     Graphics g, int x, int y, int w, int h) {
-            getPainter(context, "viewportborder", -1).
-                paintViewportBorder(context, g, x, y, w, h);
+        public void pbintViewportBorder(SynthContext context,
+                     Grbphics g, int x, int y, int w, int h) {
+            getPbinter(context, "viewportborder", -1).
+                pbintViewportBorder(context, g, x, y, w, h);
         }
     }
 }

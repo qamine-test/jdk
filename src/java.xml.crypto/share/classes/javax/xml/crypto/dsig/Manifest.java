@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: Manifest.java,v 1.7 2005/05/10 16:03:46 mullan Exp $
+ * $Id: Mbnifest.jbvb,v 1.7 2005/05/10 16:03:46 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbckbge jbvbx.xml.crypto.dsig;
 
-import javax.xml.crypto.XMLStructure;
-import java.util.List;
+import jbvbx.xml.crypto.XMLStructure;
+import jbvb.util.List;
 
 /**
- * A representation of the XML <code>Manifest</code> element as defined in
- * the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * The XML Schema Definition is defined as:
+ * A representbtion of the XML <code>Mbnifest</code> element bs defined in
+ * the <b href="http://www.w3.org/TR/xmldsig-core/">
+ * W3C Recommendbtion for XML-Signbture Syntbx bnd Processing</b>.
+ * The XML Schemb Definition is defined bs:
  * <pre>{@code
- * <element name="Manifest" type="ds:ManifestType"/>
- *   <complexType name="ManifestType">
+ * <element nbme="Mbnifest" type="ds:MbnifestType"/>
+ *   <complexType nbme="MbnifestType">
  *     <sequence>
- *       <element ref="ds:Reference" maxOccurs="unbounded"/>
+ *       <element ref="ds:Reference" mbxOccurs="unbounded"/>
  *     </sequence>
- *     <attribute name="Id" type="ID" use="optional"/>
+ *     <bttribute nbme="Id" type="ID" use="optionbl"/>
  *   </complexType>
  * }</pre>
  *
- * A <code>Manifest</code> instance may be created by invoking
- * one of the {@link XMLSignatureFactory#newManifest newManifest}
- * methods of the {@link XMLSignatureFactory} class; for example:
+ * A <code>Mbnifest</code> instbnce mby be crebted by invoking
+ * one of the {@link XMLSignbtureFbctory#newMbnifest newMbnifest}
+ * methods of the {@link XMLSignbtureFbctory} clbss; for exbmple:
  *
  * <pre>
- *   XMLSignatureFactory factory = XMLSignatureFactory.getInstance("DOM");
- *   List references = Collections.singletonList(factory.newReference
+ *   XMLSignbtureFbctory fbctory = XMLSignbtureFbctory.getInstbnce("DOM");
+ *   List references = Collections.singletonList(fbctory.newReference
  *       ("#reference-1", DigestMethod.SHA1));
- *   Manifest manifest = factory.newManifest(references, "manifest-1");
+ *   Mbnifest mbnifest = fbctory.newMbnifest(references, "mbnifest-1");
  * </pre>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see XMLSignatureFactory#newManifest(List)
- * @see XMLSignatureFactory#newManifest(List, String)
+ * @see XMLSignbtureFbctory#newMbnifest(List)
+ * @see XMLSignbtureFbctory#newMbnifest(List, String)
  */
-public interface Manifest extends XMLStructure {
+public interfbce Mbnifest extends XMLStructure {
 
     /**
-     * URI that identifies the <code>Manifest</code> element (this can be
-     * specified as the value of the <code>type</code> parameter of the
-     * {@link Reference} class to identify the referent's type).
+     * URI thbt identifies the <code>Mbnifest</code> element (this cbn be
+     * specified bs the vblue of the <code>type</code> pbrbmeter of the
+     * {@link Reference} clbss to identify the referent's type).
      */
-    final static String TYPE = "http://www.w3.org/2000/09/xmldsig#Manifest";
+    finbl stbtic String TYPE = "http://www.w3.org/2000/09/xmldsig#Mbnifest";
 
     /**
-     * Returns the Id of this <code>Manifest</code>.
+     * Returns the Id of this <code>Mbnifest</code>.
      *
-     * @return the Id  of this <code>Manifest</code> (or <code>null</code>
+     * @return the Id  of this <code>Mbnifest</code> (or <code>null</code>
      *    if not specified)
      */
     String getId();
 
     /**
-     * Returns an {@link java.util.Collections#unmodifiableList unmodifiable
-     * list} of one or more {@link Reference}s that are contained in this
-     * <code>Manifest</code>.
+     * Returns bn {@link jbvb.util.Collections#unmodifibbleList unmodifibble
+     * list} of one or more {@link Reference}s thbt bre contbined in this
+     * <code>Mbnifest</code>.
      *
-     * @return an unmodifiable list of one or more <code>Reference</code>s
+     * @return bn unmodifibble list of one or more <code>Reference</code>s
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWbrnings("rbwtypes")
     List getReferences();
 }

@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file.attribute;
+pbckbge jbvb.nio.file.bttribute;
 
-import static java.nio.file.attribute.PosixFilePermission.*;
-import java.util.*;
+import stbtic jbvb.nio.file.bttribute.PosixFilePermission.*;
+import jbvb.util.*;
 
 /**
- * This class consists exclusively of static methods that operate on sets of
+ * This clbss consists exclusively of stbtic methods thbt operbte on sets of
  * {@link PosixFilePermission} objects.
  *
  * @since 1.7
  */
 
-public final class PosixFilePermissions {
-    private PosixFilePermissions() { }
+public finbl clbss PosixFilePermissions {
+    privbte PosixFilePermissions() { }
 
-    // Write string representation of permission bits to {@code sb}.
-    private static void writeBits(StringBuilder sb, boolean r, boolean w, boolean x) {
+    // Write string representbtion of permission bits to {@code sb}.
+    privbte stbtic void writeBits(StringBuilder sb, boolebn r, boolebn w, boolebn x) {
         if (r) {
-            sb.append('r');
+            sb.bppend('r');
         } else {
-            sb.append('-');
+            sb.bppend('-');
         }
         if (w) {
-            sb.append('w');
+            sb.bppend('w');
         } else {
-            sb.append('-');
+            sb.bppend('-');
         }
         if (x) {
-            sb.append('x');
+            sb.bppend('x');
         } else {
-            sb.append('-');
+            sb.bppend('-');
         }
     }
 
     /**
-     * Returns the {@code String} representation of a set of permissions. It
-     * is guaranteed that the returned {@code String} can be parsed by the
+     * Returns the {@code String} representbtion of b set of permissions. It
+     * is gubrbnteed thbt the returned {@code String} cbn be pbrsed by the
      * {@link #fromString} method.
      *
-     * <p> If the set contains {@code null} or elements that are not of type
-     * {@code PosixFilePermission} then these elements are ignored.
+     * <p> If the set contbins {@code null} or elements thbt bre not of type
+     * {@code PosixFilePermission} then these elements bre ignored.
      *
-     * @param   perms
+     * @pbrbm   perms
      *          the set of permissions
      *
-     * @return  the string representation of the permission set
+     * @return  the string representbtion of the permission set
      */
-    public static String toString(Set<PosixFilePermission> perms) {
+    public stbtic String toString(Set<PosixFilePermission> perms) {
         StringBuilder sb = new StringBuilder(9);
-        writeBits(sb, perms.contains(OWNER_READ), perms.contains(OWNER_WRITE),
-          perms.contains(OWNER_EXECUTE));
-        writeBits(sb, perms.contains(GROUP_READ), perms.contains(GROUP_WRITE),
-          perms.contains(GROUP_EXECUTE));
-        writeBits(sb, perms.contains(OTHERS_READ), perms.contains(OTHERS_WRITE),
-          perms.contains(OTHERS_EXECUTE));
+        writeBits(sb, perms.contbins(OWNER_READ), perms.contbins(OWNER_WRITE),
+          perms.contbins(OWNER_EXECUTE));
+        writeBits(sb, perms.contbins(GROUP_READ), perms.contbins(GROUP_WRITE),
+          perms.contbins(GROUP_EXECUTE));
+        writeBits(sb, perms.contbins(OTHERS_READ), perms.contbins(OTHERS_WRITE),
+          perms.contbins(OTHERS_EXECUTE));
         return sb.toString();
     }
 
-    private static boolean isSet(char c, char setValue) {
-        if (c == setValue)
+    privbte stbtic boolebn isSet(chbr c, chbr setVblue) {
+        if (c == setVblue)
             return true;
         if (c == '-')
-            return false;
-        throw new IllegalArgumentException("Invalid mode");
+            return fblse;
+        throw new IllegblArgumentException("Invblid mode");
     }
-    private static boolean isR(char c) { return isSet(c, 'r'); }
-    private static boolean isW(char c) { return isSet(c, 'w'); }
-    private static boolean isX(char c) { return isSet(c, 'x'); }
+    privbte stbtic boolebn isR(chbr c) { return isSet(c, 'r'); }
+    privbte stbtic boolebn isW(chbr c) { return isSet(c, 'w'); }
+    privbte stbtic boolebn isX(chbr c) { return isSet(c, 'x'); }
 
     /**
-     * Returns the set of permissions corresponding to a given {@code String}
-     * representation.
+     * Returns the set of permissions corresponding to b given {@code String}
+     * representbtion.
      *
-     * <p> The {@code perms} parameter is a {@code String} representing the
-     * permissions. It has 9 characters that are interpreted as three sets of
+     * <p> The {@code perms} pbrbmeter is b {@code String} representing the
+     * permissions. It hbs 9 chbrbcters thbt bre interpreted bs three sets of
      * three. The first set refers to the owner's permissions; the next to the
-     * group permissions and the last to others. Within each set, the first
-     * character is {@code 'r'} to indicate permission to read, the second
-     * character is {@code 'w'} to indicate permission to write, and the third
-     * character is {@code 'x'} for execute permission. Where a permission is
-     * not set then the corresponding character is set to {@code '-'}.
+     * group permissions bnd the lbst to others. Within ebch set, the first
+     * chbrbcter is {@code 'r'} to indicbte permission to rebd, the second
+     * chbrbcter is {@code 'w'} to indicbte permission to write, bnd the third
+     * chbrbcter is {@code 'x'} for execute permission. Where b permission is
+     * not set then the corresponding chbrbcter is set to {@code '-'}.
      *
-     * <p> <b>Usage Example:</b>
-     * Suppose we require the set of permissions that indicate the owner has read,
-     * write, and execute permissions, the group has read and execute permissions
-     * and others have none.
+     * <p> <b>Usbge Exbmple:</b>
+     * Suppose we require the set of permissions thbt indicbte the owner hbs rebd,
+     * write, bnd execute permissions, the group hbs rebd bnd execute permissions
+     * bnd others hbve none.
      * <pre>
      *   Set&lt;PosixFilePermission&gt; perms = PosixFilePermissions.fromString("rwxr-x---");
      * </pre>
      *
-     * @param   perms
-     *          string representing a set of permissions
+     * @pbrbm   perms
+     *          string representing b set of permissions
      *
      * @return  the resulting set of permissions
      *
-     * @throws  IllegalArgumentException
-     *          if the string cannot be converted to a set of permissions
+     * @throws  IllegblArgumentException
+     *          if the string cbnnot be converted to b set of permissions
      *
      * @see #toString(Set)
      */
-    public static Set<PosixFilePermission> fromString(String perms) {
+    public stbtic Set<PosixFilePermission> fromString(String perms) {
         if (perms.length() != 9)
-            throw new IllegalArgumentException("Invalid mode");
-        Set<PosixFilePermission> result = EnumSet.noneOf(PosixFilePermission.class);
-        if (isR(perms.charAt(0))) result.add(OWNER_READ);
-        if (isW(perms.charAt(1))) result.add(OWNER_WRITE);
-        if (isX(perms.charAt(2))) result.add(OWNER_EXECUTE);
-        if (isR(perms.charAt(3))) result.add(GROUP_READ);
-        if (isW(perms.charAt(4))) result.add(GROUP_WRITE);
-        if (isX(perms.charAt(5))) result.add(GROUP_EXECUTE);
-        if (isR(perms.charAt(6))) result.add(OTHERS_READ);
-        if (isW(perms.charAt(7))) result.add(OTHERS_WRITE);
-        if (isX(perms.charAt(8))) result.add(OTHERS_EXECUTE);
+            throw new IllegblArgumentException("Invblid mode");
+        Set<PosixFilePermission> result = EnumSet.noneOf(PosixFilePermission.clbss);
+        if (isR(perms.chbrAt(0))) result.bdd(OWNER_READ);
+        if (isW(perms.chbrAt(1))) result.bdd(OWNER_WRITE);
+        if (isX(perms.chbrAt(2))) result.bdd(OWNER_EXECUTE);
+        if (isR(perms.chbrAt(3))) result.bdd(GROUP_READ);
+        if (isW(perms.chbrAt(4))) result.bdd(GROUP_WRITE);
+        if (isX(perms.chbrAt(5))) result.bdd(GROUP_EXECUTE);
+        if (isR(perms.chbrAt(6))) result.bdd(OTHERS_READ);
+        if (isW(perms.chbrAt(7))) result.bdd(OTHERS_WRITE);
+        if (isX(perms.chbrAt(8))) result.bdd(OTHERS_EXECUTE);
         return result;
     }
 
     /**
-     * Creates a {@link FileAttribute}, encapsulating a copy of the given file
-     * permissions, suitable for passing to the {@link java.nio.file.Files#createFile
-     * createFile} or {@link java.nio.file.Files#createDirectory createDirectory}
+     * Crebtes b {@link FileAttribute}, encbpsulbting b copy of the given file
+     * permissions, suitbble for pbssing to the {@link jbvb.nio.file.Files#crebteFile
+     * crebteFile} or {@link jbvb.nio.file.Files#crebteDirectory crebteDirectory}
      * methods.
      *
-     * @param   perms
+     * @pbrbm   perms
      *          the set of permissions
      *
-     * @return  an attribute encapsulating the given file permissions with
-     *          {@link FileAttribute#name name} {@code "posix:permissions"}
+     * @return  bn bttribute encbpsulbting the given file permissions with
+     *          {@link FileAttribute#nbme nbme} {@code "posix:permissions"}
      *
-     * @throws  ClassCastException
-     *          if the set contains elements that are not of type {@code
+     * @throws  ClbssCbstException
+     *          if the set contbins elements thbt bre not of type {@code
      *          PosixFilePermission}
      */
-    public static FileAttribute<Set<PosixFilePermission>>
-        asFileAttribute(Set<PosixFilePermission> perms)
+    public stbtic FileAttribute<Set<PosixFilePermission>>
+        bsFileAttribute(Set<PosixFilePermission> perms)
     {
-        // copy set and check for nulls (CCE will be thrown if an element is not
-        // a PosixFilePermission)
-        perms = new HashSet<PosixFilePermission>(perms);
+        // copy set bnd check for nulls (CCE will be thrown if bn element is not
+        // b PosixFilePermission)
+        perms = new HbshSet<PosixFilePermission>(perms);
         for (PosixFilePermission p: perms) {
             if (p == null)
                 throw new NullPointerException();
         }
-        final Set<PosixFilePermission> value = perms;
+        finbl Set<PosixFilePermission> vblue = perms;
         return new FileAttribute<Set<PosixFilePermission>>() {
             @Override
-            public String name() {
+            public String nbme() {
                 return "posix:permissions";
             }
             @Override
-            public Set<PosixFilePermission> value() {
-                return Collections.unmodifiableSet(value);
+            public Set<PosixFilePermission> vblue() {
+                return Collections.unmodifibbleSet(vblue);
             }
         };
     }

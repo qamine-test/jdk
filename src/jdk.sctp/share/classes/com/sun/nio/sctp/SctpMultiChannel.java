@@ -1,744 +1,744 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.nio.sctp;
+pbckbge com.sun.nio.sctp;
 
-import java.net.SocketAddress;
-import java.net.InetAddress;
-import java.io.IOException;
-import java.util.Set;
-import java.nio.ByteBuffer;
-import java.nio.channels.spi.AbstractSelectableChannel;
-import java.nio.channels.spi.SelectorProvider;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.NotYetBoundException;
-import java.nio.channels.SelectionKey;
+import jbvb.net.SocketAddress;
+import jbvb.net.InetAddress;
+import jbvb.io.IOException;
+import jbvb.util.Set;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbnnels.spi.AbstrbctSelectbbleChbnnel;
+import jbvb.nio.chbnnels.spi.SelectorProvider;
+import jbvb.nio.chbnnels.ClosedChbnnelException;
+import jbvb.nio.chbnnels.NotYetBoundException;
+import jbvb.nio.chbnnels.SelectionKey;
 
 /**
- * A selectable channel for message-oriented SCTP sockets.
+ * A selectbble chbnnel for messbge-oriented SCTP sockets.
  *
- * <P> An SCTP multi channel supports many associations on a single socket.
- * An {@code SctpMultiChannel} is created by invoking the
- * {@link #open open} method of this class. A newly-created channel is open but
- * not yet bound. An attempt to invoke the {@link #receive receive} method of an
- * unbound channel will cause the {@link NotYetBoundException}
- * to be thrown. An attempt to invoke the {@link #send send} method of an
- * unbound channel will cause it to first invoke the {@link #bind bind} method.
- * The address(es) that the channel's socket is bound to can be retrieved by
- * calling {@link #getAllLocalAddresses getAllLocalAddresses}.
+ * <P> An SCTP multi chbnnel supports mbny bssocibtions on b single socket.
+ * An {@code SctpMultiChbnnel} is crebted by invoking the
+ * {@link #open open} method of this clbss. A newly-crebted chbnnel is open but
+ * not yet bound. An bttempt to invoke the {@link #receive receive} method of bn
+ * unbound chbnnel will cbuse the {@link NotYetBoundException}
+ * to be thrown. An bttempt to invoke the {@link #send send} method of bn
+ * unbound chbnnel will cbuse it to first invoke the {@link #bind bind} method.
+ * The bddress(es) thbt the chbnnel's socket is bound to cbn be retrieved by
+ * cblling {@link #getAllLocblAddresses getAllLocblAddresses}.
  *
- * <P> Messages may be sent and received without explicitly setting up an
- * association with the remote peer. The channel will implicitly setup
- * a new association whenever it sends or receives a message from a remote
- * peer if there is not already an association with that peer. Upon successful
- * association setup, an {@link AssociationChangeNotification
- * association changed} notification will be put to the SCTP stack with its
- * {@code event} parameter set to {@link
- * AssociationChangeNotification.AssocChangeEvent#COMM_UP
- * COMM_UP}. This notification can be received by invoking {@link #receive
+ * <P> Messbges mby be sent bnd received without explicitly setting up bn
+ * bssocibtion with the remote peer. The chbnnel will implicitly setup
+ * b new bssocibtion whenever it sends or receives b messbge from b remote
+ * peer if there is not blrebdy bn bssocibtion with thbt peer. Upon successful
+ * bssocibtion setup, bn {@link AssocibtionChbngeNotificbtion
+ * bssocibtion chbnged} notificbtion will be put to the SCTP stbck with its
+ * {@code event} pbrbmeter set to {@link
+ * AssocibtionChbngeNotificbtion.AssocChbngeEvent#COMM_UP
+ * COMM_UP}. This notificbtion cbn be received by invoking {@link #receive
  * receive}.
  *
- * <P> Socket options are configured using the
- * {@link #setOption(SctpSocketOption,Object,Association) setOption} method. An
- * {@code SctpMultiChannel} supports the following options:
+ * <P> Socket options bre configured using the
+ * {@link #setOption(SctpSocketOption,Object,Associbtion) setOption} method. An
+ * {@code SctpMultiChbnnel} supports the following options:
  * <blockquote>
- * <table border summary="Socket options">
+ * <tbble border summbry="Socket options">
  *   <tr>
- *     <th>Option Name</th>
+ *     <th>Option Nbme</th>
  *     <th>Description</th>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_DISABLE_FRAGMENTS
+ *     <td> {@link SctpStbndbrdSocketOptions#SCTP_DISABLE_FRAGMENTS
  *                                          SCTP_DISABLE_FRAGMENTS} </td>
- *     <td> Enables or disables message fragmentation </td>
+ *     <td> Enbbles or disbbles messbge frbgmentbtion </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_EXPLICIT_COMPLETE
+ *     <td> {@link SctpStbndbrdSocketOptions#SCTP_EXPLICIT_COMPLETE
  *                                          SCTP_EXPLICIT_COMPLETE} </td>
- *     <td> Enables or disables explicit message completion </td>
+ *     <td> Enbbles or disbbles explicit messbge completion </td>
  *   </tr>
  *    <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_FRAGMENT_INTERLEAVE
+ *     <td> {@link SctpStbndbrdSocketOptions#SCTP_FRAGMENT_INTERLEAVE
  *                                          SCTP_FRAGMENT_INTERLEAVE} </td>
- *     <td> Controls how the presentation of messages occur for the message
+ *     <td> Controls how the presentbtion of messbges occur for the messbge
  *          receiver </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_INIT_MAXSTREAMS
+ *     <td> {@link SctpStbndbrdSocketOptions#SCTP_INIT_MAXSTREAMS
  *                                          SCTP_INIT_MAXSTREAMS} </td>
- *     <td> The maximum number of streams requested by the local endpoint during
- *          association initialization </td>
+ *     <td> The mbximum number of strebms requested by the locbl endpoint during
+ *          bssocibtion initiblizbtion </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_NODELAY SCTP_NODELAY} </td>
- *     <td> Enables or disable a Nagle-like algorithm </td>
+ *     <td> {@link SctpStbndbrdSocketOptions#SCTP_NODELAY SCTP_NODELAY} </td>
+ *     <td> Enbbles or disbble b Nbgle-like blgorithm </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_PRIMARY_ADDR
+ *     <td> {@link SctpStbndbrdSocketOptions#SCTP_PRIMARY_ADDR
  *                                          SCTP_PRIMARY_ADDR} </td>
- *     <td> Requests that the local SCTP stack use the given peer address as the
- *          association primary </td>
+ *     <td> Requests thbt the locbl SCTP stbck use the given peer bddress bs the
+ *          bssocibtion primbry </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_SET_PEER_PRIMARY_ADDR
+ *     <td> {@link SctpStbndbrdSocketOptions#SCTP_SET_PEER_PRIMARY_ADDR
  *                                          SCTP_SET_PEER_PRIMARY_ADDR} </td>
- *     <td> Requests that the peer mark the enclosed address as the association
- *          primary </td>
+ *     <td> Requests thbt the peer mbrk the enclosed bddress bs the bssocibtion
+ *          primbry </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SO_SNDBUF
+ *     <td> {@link SctpStbndbrdSocketOptions#SO_SNDBUF
  *                                          SO_SNDBUF} </td>
  *     <td> The size of the socket send buffer </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SO_RCVBUF
+ *     <td> {@link SctpStbndbrdSocketOptions#SO_RCVBUF
  *                                          SO_RCVBUF} </td>
  *     <td> The size of the socket receive buffer </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SO_LINGER
+ *     <td> {@link SctpStbndbrdSocketOptions#SO_LINGER
  *                                          SO_LINGER} </td>
- *     <td> Linger on close if data is present (when configured in blocking mode
+ *     <td> Linger on close if dbtb is present (when configured in blocking mode
  *          only) </td>
  *   </tr>
- * </table>
+ * </tbble>
  * </blockquote>
- * Additional (implementation specific) options may also be supported. The list
- * of options supported is obtained by invoking the {@link #supportedOptions()
+ * Additionbl (implementbtion specific) options mby blso be supported. The list
+ * of options supported is obtbined by invoking the {@link #supportedOptions()
  * supportedOptions} method.
  *
- * <p> SCTP multi channels are safe for use by multiple concurrent threads.
- * They support concurrent sending and receiving, though at most one thread may be
- * sending and at most one thread may be receiving at any given time.
+ * <p> SCTP multi chbnnels bre sbfe for use by multiple concurrent threbds.
+ * They support concurrent sending bnd receiving, though bt most one threbd mby be
+ * sending bnd bt most one threbd mby be receiving bt bny given time.
  *
  * @since 1.7
  */
 @jdk.Exported
-public abstract class SctpMultiChannel
-    extends AbstractSelectableChannel
+public bbstrbct clbss SctpMultiChbnnel
+    extends AbstrbctSelectbbleChbnnel
 {
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
-     * @param  provider
-     *         The selector provider for this channel
+     * @pbrbm  provider
+     *         The selector provider for this chbnnel
      */
-    protected SctpMultiChannel(SelectorProvider provider) {
+    protected SctpMultiChbnnel(SelectorProvider provider) {
         super(provider);
     }
 
     /**
-     * Opens an SCTP multi channel.
+     * Opens bn SCTP multi chbnnel.
      *
-     * <P> The new channel is unbound.
+     * <P> The new chbnnel is unbound.
      *
-     * @return  A new SCTP multi channel
+     * @return  A new SCTP multi chbnnel
      *
-     * @throws UnsupportedOperationException
+     * @throws UnsupportedOperbtionException
      *         If the SCTP protocol is not supported
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public static SctpMultiChannel open() throws
+    public stbtic SctpMultiChbnnel open() throws
         IOException {
-        return new sun.nio.ch.sctp.SctpMultiChannelImpl((SelectorProvider)null);
+        return new sun.nio.ch.sctp.SctpMultiChbnnelImpl((SelectorProvider)null);
     }
 
     /**
-     * Returns the open associations on this channel's socket.
+     * Returns the open bssocibtions on this chbnnel's socket.
      *
-     * <P> Only associations whose {@link AssociationChangeNotification.AssocChangeEvent#COMM_UP
-     * COMM_UP} association change event has been received are included
-     * in the returned set of associations. Associations for which a
-     * {@link AssociationChangeNotification.AssocChangeEvent#COMM_LOST COMM_LOST} or {@link
-     * AssociationChangeNotification.AssocChangeEvent#SHUTDOWN SHUTDOWN} association change
-     * event have been receive are removed from the set of associations.
+     * <P> Only bssocibtions whose {@link AssocibtionChbngeNotificbtion.AssocChbngeEvent#COMM_UP
+     * COMM_UP} bssocibtion chbnge event hbs been received bre included
+     * in the returned set of bssocibtions. Associbtions for which b
+     * {@link AssocibtionChbngeNotificbtion.AssocChbngeEvent#COMM_LOST COMM_LOST} or {@link
+     * AssocibtionChbngeNotificbtion.AssocChbngeEvent#SHUTDOWN SHUTDOWN} bssocibtion chbnge
+     * event hbve been receive bre removed from the set of bssocibtions.
      *
-     * <P> The returned set of associations is a snapshot of the open
-     * associations at the time that this method is invoked.
+     * <P> The returned set of bssocibtions is b snbpshot of the open
+     * bssocibtions bt the time thbt this method is invoked.
      *
-     * @return  A {@code Set} containing the open associations, or an empty
-     *          {@code Set} if there are none.
+     * @return  A {@code Set} contbining the open bssocibtions, or bn empty
+     *          {@code Set} if there bre none.
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract Set<Association> associations()
+    public bbstrbct Set<Associbtion> bssocibtions()
         throws IOException;
 
     /**
-     * Binds the channel's socket to a local address and configures the socket
+     * Binds the chbnnel's socket to b locbl bddress bnd configures the socket
      * to listen for connections.
      *
-     * <P> This method is used to establish a relationship between the socket
-     * and the local address. Once a relationship is established then
-     * the socket remains bound until the channel is closed. This relationship
-     * may not necesssarily be with the address {@code local} as it may be removed
-     * by {@link #unbindAddress unbindAddress}, but there will always be at least one local
-     * address bound to the channel's socket once an invocation of this method
+     * <P> This method is used to estbblish b relbtionship between the socket
+     * bnd the locbl bddress. Once b relbtionship is estbblished then
+     * the socket rembins bound until the chbnnel is closed. This relbtionship
+     * mby not necesssbrily be with the bddress {@code locbl} bs it mby be removed
+     * by {@link #unbindAddress unbindAddress}, but there will blwbys be bt lebst one locbl
+     * bddress bound to the chbnnel's socket once bn invocbtion of this method
      * successfully completes.
      *
-     * <P> Once the channel's socket has been successfully bound to a specific
-     * address, that is not automatically assigned, more addresses
-     * may be bound to it using {@link #bindAddress bindAddress}, or removed
+     * <P> Once the chbnnel's socket hbs been successfully bound to b specific
+     * bddress, thbt is not butombticblly bssigned, more bddresses
+     * mby be bound to it using {@link #bindAddress bindAddress}, or removed
      * using {@link #unbindAddress unbindAddress}.
      *
-     * <P> The backlog parameter is the maximum number of pending connections on
-     * the socket. Its exact semantics are implementation specific. An implementation
-     * may impose an implementation specific maximum length or may choose to ignore
-     * the parameter. If the backlog parameter has the value {@code 0}, or a negative
-     * value, then an implementation specific default is used.
+     * <P> The bbcklog pbrbmeter is the mbximum number of pending connections on
+     * the socket. Its exbct sembntics bre implementbtion specific. An implementbtion
+     * mby impose bn implementbtion specific mbximum length or mby choose to ignore
+     * the pbrbmeter. If the bbcklog pbrbmeter hbs the vblue {@code 0}, or b negbtive
+     * vblue, then bn implementbtion specific defbult is used.
      *
-     * @param  local
-     *         The local address to bind the socket, or {@code null} to
-     *         bind the socket to an automatically assigned socket address
+     * @pbrbm  locbl
+     *         The locbl bddress to bind the socket, or {@code null} to
+     *         bind the socket to bn butombticblly bssigned socket bddress
      *
-     * @param  backlog
-     *         The maximum number number of pending connections
+     * @pbrbm  bbcklog
+     *         The mbximum number number of pending connections
      *
-     * @return  This channel
+     * @return  This chbnnel
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
-     * @throws  java.nio.channels.AlreadyBoundException
-     *          If this channel is already bound
+     * @throws  jbvb.nio.chbnnels.AlrebdyBoundException
+     *          If this chbnnel is blrebdy bound
      *
-     * @throws  java.nio.channels.UnsupportedAddressTypeException
-     *          If the type of the given address is not supported
+     * @throws  jbvb.nio.chbnnels.UnsupportedAddressTypeException
+     *          If the type of the given bddress is not supported
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and its {@link
-     *          java.lang.SecurityManager#checkListen(int) checkListen} method
-     *          denies the operation
+     *          If b security mbnbger hbs been instblled bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkListen(int) checkListen} method
+     *          denies the operbtion
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract SctpMultiChannel bind(SocketAddress local,
-                                          int backlog)
+    public bbstrbct SctpMultiChbnnel bind(SocketAddress locbl,
+                                          int bbcklog)
         throws IOException;
 
     /**
-     * Binds the channel's socket to a local address and configures the socket
+     * Binds the chbnnel's socket to b locbl bddress bnd configures the socket
      * to listen for connections.
      *
-     * <P> This method works as if invoking it were equivalent to evaluating the
+     * <P> This method works bs if invoking it were equivblent to evblubting the
      * expression:
      * <blockquote><pre>
-     * bind(local, 0);
+     * bind(locbl, 0);
      * </pre></blockquote>
      *
-     * @param  local
-     *         The local address to bind the socket, or {@code null} to
-     *         bind the socket to an automatically assigned socket address
+     * @pbrbm  locbl
+     *         The locbl bddress to bind the socket, or {@code null} to
+     *         bind the socket to bn butombticblly bssigned socket bddress
      *
-     * @return  This channel
+     * @return  This chbnnel
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
-     * @throws  java.nio.channels.AlreadyBoundException
-     *          If this channel is already bound
+     * @throws  jbvb.nio.chbnnels.AlrebdyBoundException
+     *          If this chbnnel is blrebdy bound
      *
-     * @throws  java.nio.channels.UnsupportedAddressTypeException
-     *          If the type of the given address is not supported
+     * @throws  jbvb.nio.chbnnels.UnsupportedAddressTypeException
+     *          If the type of the given bddress is not supported
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and its {@link
-     *          java.lang.SecurityManager#checkListen(int) checkListen} method
-     *          denies the operation
+     *          If b security mbnbger hbs been instblled bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkListen(int) checkListen} method
+     *          denies the operbtion
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public final SctpMultiChannel bind(SocketAddress local)
+    public finbl SctpMultiChbnnel bind(SocketAddress locbl)
         throws IOException {
-        return bind(local, 0);
+        return bind(locbl, 0);
     }
 
     /**
-     * Adds the given address to the bound addresses for the channel's
+     * Adds the given bddress to the bound bddresses for the chbnnel's
      * socket.
      *
-     * <P> The given address must not be the {@link
-     * java.net.InetAddress#isAnyLocalAddress wildcard} address.
-     * The channel must be first bound using {@link #bind bind} before
+     * <P> The given bddress must not be the {@link
+     * jbvb.net.InetAddress#isAnyLocblAddress wildcbrd} bddress.
+     * The chbnnel must be first bound using {@link #bind bind} before
      * invoking this method, otherwise {@link NotYetBoundException} is thrown.
-     * The {@link #bind bind} method takes a {@code SocketAddress} as its
-     * argument which typically contains a port number as well as an address.
-     * Addresses subquently bound using this method are simply addresses as the
-     * SCTP port number remains the same for the lifetime of the channel.
+     * The {@link #bind bind} method tbkes b {@code SocketAddress} bs its
+     * brgument which typicblly contbins b port number bs well bs bn bddress.
+     * Addresses subquently bound using this method bre simply bddresses bs the
+     * SCTP port number rembins the sbme for the lifetime of the chbnnel.
      *
-     * <P> New associations setup after this method successfully completes
-     * will be associated with the given address. Adding addresses to existing
-     * associations is optional functionality. If the endpoint supports
-     * dynamic address reconfiguration then it may send the appropriate message
-     * to the peer to change the peers address lists.
+     * <P> New bssocibtions setup bfter this method successfully completes
+     * will be bssocibted with the given bddress. Adding bddresses to existing
+     * bssocibtions is optionbl functionblity. If the endpoint supports
+     * dynbmic bddress reconfigurbtion then it mby send the bppropribte messbge
+     * to the peer to chbnge the peers bddress lists.
      *
-     * @param  address
-     *         The address to add to the bound addresses for the socket
+     * @pbrbm  bddress
+     *         The bddress to bdd to the bound bddresses for the socket
      *
-     * @return  This channel
+     * @return  This chbnnel
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  NotYetBoundException
-     *          If this channel is not yet bound
+     *          If this chbnnel is not yet bound
      *
-     * @throws  java.nio.channels.AlreadyBoundException
-     *          If this channel is already bound to the given address
+     * @throws  jbvb.nio.chbnnels.AlrebdyBoundException
+     *          If this chbnnel is blrebdy bound to the given bddress
      *
-     * @throws  IllegalArgumentException
-     *          If address is {@code null} or the {@link
-     *          java.net.InetAddress#isAnyLocalAddress wildcard} address
+     * @throws  IllegblArgumentException
+     *          If bddress is {@code null} or the {@link
+     *          jbvb.net.InetAddress#isAnyLocblAddress wildcbrd} bddress
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract SctpMultiChannel bindAddress(InetAddress address)
+    public bbstrbct SctpMultiChbnnel bindAddress(InetAddress bddress)
          throws IOException;
 
     /**
-     * Removes the given address from the bound addresses for the channel's
+     * Removes the given bddress from the bound bddresses for the chbnnel's
      * socket.
      *
-     * <P> The given address must not be the {@link
-     * java.net.InetAddress#isAnyLocalAddress wildcard} address.
-     * The channel must be first bound using {@link #bind bind} before
+     * <P> The given bddress must not be the {@link
+     * jbvb.net.InetAddress#isAnyLocblAddress wildcbrd} bddress.
+     * The chbnnel must be first bound using {@link #bind bind} before
      * invoking this method, otherwise {@link NotYetBoundException} is thrown.
      *
-     * <P> If this method is invoked on a channel that does
-     * not have {@code address} as one of its bound addresses, or that has only
-     * one local address bound to it, then this method throws
-     * {@link IllegalUnbindException}.
+     * <P> If this method is invoked on b chbnnel thbt does
+     * not hbve {@code bddress} bs one of its bound bddresses, or thbt hbs only
+     * one locbl bddress bound to it, then this method throws
+     * {@link IllegblUnbindException}.
      *
-     * <P> The initial address that the channel's socket is bound to using
-     * {@link #bind bind} may be removed from the bound addresses for the
-     * channel's socket.
+     * <P> The initibl bddress thbt the chbnnel's socket is bound to using
+     * {@link #bind bind} mby be removed from the bound bddresses for the
+     * chbnnel's socket.
      *
-     * <P> New associations setup after this method successfully completes
-     * will not be associated with the given address. Removing addresses from
-     * existing associations is optional functionality. If the endpoint supports
-     * dynamic address reconfiguration then it may send the appropriate message
-     * to the peer to change the peers address lists.
+     * <P> New bssocibtions setup bfter this method successfully completes
+     * will not be bssocibted with the given bddress. Removing bddresses from
+     * existing bssocibtions is optionbl functionblity. If the endpoint supports
+     * dynbmic bddress reconfigurbtion then it mby send the bppropribte messbge
+     * to the peer to chbnge the peers bddress lists.
      *
-     * @param  address
-     *         The address to remove from the bound addresses for the socket
+     * @pbrbm  bddress
+     *         The bddress to remove from the bound bddresses for the socket
      *
-     * @return  This channel
+     * @return  This chbnnel
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  NotYetBoundException
-     *          If this channel is not yet bound
+     *          If this chbnnel is not yet bound
      *
-     * @throws  IllegalUnbindException
-     *          {@code address} is not bound to the channel's socket, or the
-     *          channel has only one address  bound to it
+     * @throws  IllegblUnbindException
+     *          {@code bddress} is not bound to the chbnnel's socket, or the
+     *          chbnnel hbs only one bddress  bound to it
      *
-     * @throws  IllegalArgumentException
-     *          If address is {@code null} or the {@link
-     *          java.net.InetAddress#isAnyLocalAddress wildcard} address
+     * @throws  IllegblArgumentException
+     *          If bddress is {@code null} or the {@link
+     *          jbvb.net.InetAddress#isAnyLocblAddress wildcbrd} bddress
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract SctpMultiChannel unbindAddress(InetAddress address)
+    public bbstrbct SctpMultiChbnnel unbindAddress(InetAddress bddress)
          throws IOException;
 
     /**
-     * Returns all of the socket addresses to which this channel's socket is
+     * Returns bll of the socket bddresses to which this chbnnel's socket is
      * bound.
      *
-     * @return  All the socket addresses that this channel's socket is
-     *          bound to, or an empty {@code Set} if the channel's socket is not
+     * @return  All the socket bddresses thbt this chbnnel's socket is
+     *          bound to, or bn empty {@code Set} if the chbnnel's socket is not
      *          bound
      *
-     * @throws  ClosedChannelException
-     *          If the channel is closed
+     * @throws  ClosedChbnnelException
+     *          If the chbnnel is closed
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract Set<SocketAddress> getAllLocalAddresses()
+    public bbstrbct Set<SocketAddress> getAllLocblAddresses()
         throws IOException;
 
     /**
-     * Returns all of the remote addresses to which the given association on
-     * this channel's socket is connected.
+     * Returns bll of the remote bddresses to which the given bssocibtion on
+     * this chbnnel's socket is connected.
      *
-     * @param  association
-     *         The association
+     * @pbrbm  bssocibtion
+     *         The bssocibtion
      *
-     * @return  All of the remote addresses for the given association, or
-     *          an empty {@code Set} if the association has been shutdown
+     * @return  All of the remote bddresses for the given bssocibtion, or
+     *          bn empty {@code Set} if the bssocibtion hbs been shutdown
      *
-     * @throws  ClosedChannelException
-     *          If the channel is closed
+     * @throws  ClosedChbnnelException
+     *          If the chbnnel is closed
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract Set<SocketAddress> getRemoteAddresses(Association association)
+    public bbstrbct Set<SocketAddress> getRemoteAddresses(Associbtion bssocibtion)
         throws IOException;
 
     /**
-     * Shutdown an association without closing the channel.
+     * Shutdown bn bssocibtion without closing the chbnnel.
      *
-     * @param  association
-     *         The association to shutdown
+     * @pbrbm  bssocibtion
+     *         The bssocibtion to shutdown
      *
-     * @return  This channel
+     * @return  This chbnnel
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract SctpMultiChannel shutdown(Association association)
+    public bbstrbct SctpMultiChbnnel shutdown(Associbtion bssocibtion)
             throws IOException;
 
     /**
-     * Returns the value of a socket option.
+     * Returns the vblue of b socket option.
      *
-     * <P> Note that some options are retrieved on the channel's socket,
-     * therefore the {@code association} parameter is not applicable and will be
-     * ignored if given. However, if the option is association specific then the
-     * association must be given.
+     * <P> Note thbt some options bre retrieved on the chbnnel's socket,
+     * therefore the {@code bssocibtion} pbrbmeter is not bpplicbble bnd will be
+     * ignored if given. However, if the option is bssocibtion specific then the
+     * bssocibtion must be given.
      *
-     * @param  <T>
-     *         The type of the socket option value
+     * @pbrbm  <T>
+     *         The type of the socket option vblue
      *
-     * @param  name
+     * @pbrbm  nbme
      *         The socket option
      *
-     * @param  association
-     *         The association whose option should be retrieved, or {@code null}
-     *         if this option should be retrieved at the channel's socket level.
+     * @pbrbm  bssocibtion
+     *         The bssocibtion whose option should be retrieved, or {@code null}
+     *         if this option should be retrieved bt the chbnnel's socket level.
      *
-     * @return  The value of the socket option. A value of {@code null} may be
-     *          a valid value for some socket options.
+     * @return  The vblue of the socket option. A vblue of {@code null} mby be
+     *          b vblid vblue for some socket options.
      *
-     * @throws  UnsupportedOperationException
-     *          If the socket option is not supported by this channel
+     * @throws  UnsupportedOperbtionException
+     *          If the socket option is not supported by this chbnnel
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
-     * @see SctpStandardSocketOptions
+     * @see SctpStbndbrdSocketOptions
      */
-    public abstract <T> T getOption(SctpSocketOption<T> name,
-                                    Association association)
+    public bbstrbct <T> T getOption(SctpSocketOption<T> nbme,
+                                    Associbtion bssocibtion)
         throws IOException;
 
     /**
-     * Sets the value of a socket option.
+     * Sets the vblue of b socket option.
      *
-     * <P> Note that some options are retrieved on the channel's socket,
-     * therefore the {@code association} parameter is not applicable and will be
-     * ignored if given. However, if the option is association specific then the
-     * association must be given.
+     * <P> Note thbt some options bre retrieved on the chbnnel's socket,
+     * therefore the {@code bssocibtion} pbrbmeter is not bpplicbble bnd will be
+     * ignored if given. However, if the option is bssocibtion specific then the
+     * bssocibtion must be given.
      *
-     * @param   <T>
-     *          The type of the socket option value
+     * @pbrbm   <T>
+     *          The type of the socket option vblue
      *
-     * @param   name
+     * @pbrbm   nbme
      *          The socket option
      *
-     * @param  association
-     *         The association whose option should be set, or {@code null}
-     *         if this option should be set at the channel's socket level.
+     * @pbrbm  bssocibtion
+     *         The bssocibtion whose option should be set, or {@code null}
+     *         if this option should be set bt the chbnnel's socket level.
      *
-     * @param   value
-     *          The value of the socket option. A value of {@code null} may be
-     *          a valid value for some socket options.
+     * @pbrbm   vblue
+     *          The vblue of the socket option. A vblue of {@code null} mby be
+     *          b vblid vblue for some socket options.
      *
-     * @return  This channel
+     * @return  This chbnnel
      *
-     * @throws  UnsupportedOperationException
-     *          If the socket option is not supported by this channel
+     * @throws  UnsupportedOperbtionException
+     *          If the socket option is not supported by this chbnnel
      *
-     * @throws  IllegalArgumentException
-     *          If the value is not a valid value for this socket option
+     * @throws  IllegblArgumentException
+     *          If the vblue is not b vblid vblue for this socket option
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      *
-     * @see SctpStandardSocketOptions
+     * @see SctpStbndbrdSocketOptions
      */
-    public abstract <T> SctpMultiChannel setOption(SctpSocketOption<T> name,
-                                                   T value,
-                                                   Association association)
+    public bbstrbct <T> SctpMultiChbnnel setOption(SctpSocketOption<T> nbme,
+                                                   T vblue,
+                                                   Associbtion bssocibtion)
          throws IOException;
 
      /**
-     * Returns a set of the socket options supported by this channel.
+     * Returns b set of the socket options supported by this chbnnel.
      *
-     * <P> This method will continue to return the set of options even after the
-     * channel has been closed.
+     * <P> This method will continue to return the set of options even bfter the
+     * chbnnel hbs been closed.
      *
-     * @return  A set of the socket options supported by this channel
+     * @return  A set of the socket options supported by this chbnnel
      */
-    public abstract Set<SctpSocketOption<?>> supportedOptions();
+    public bbstrbct Set<SctpSocketOption<?>> supportedOptions();
 
     /**
-     * Returns an operation set identifying this channel's supported operations.
+     * Returns bn operbtion set identifying this chbnnel's supported operbtions.
      *
-     * <P> SCTP multi channels support reading, and writing, so this
+     * <P> SCTP multi chbnnels support rebding, bnd writing, so this
      * method returns
      * {@code (}{@link SelectionKey#OP_READ} {@code |}&nbsp;{@link
      * SelectionKey#OP_WRITE}{@code )}.  </p>
      *
-     * @return  The valid-operation set
+     * @return  The vblid-operbtion set
      */
     @Override
-    public final int validOps() {
+    public finbl int vblidOps() {
         return (SelectionKey.OP_READ |
                 SelectionKey.OP_WRITE );
     }
 
     /**
-     * Receives a message and/or handles a notification via this channel.
+     * Receives b messbge bnd/or hbndles b notificbtion vib this chbnnel.
      *
-     * <P> If a message or notification is immediately available, or if this
-     * channel is in blocking mode and one eventually becomes available, then
-     * the message or notification is returned or handled, respectively. If this
-     * channel is in non-blocking mode and a message or notification is not
-     * immediately available then this method immediately returns {@code null}.
+     * <P> If b messbge or notificbtion is immedibtely bvbilbble, or if this
+     * chbnnel is in blocking mode bnd one eventublly becomes bvbilbble, then
+     * the messbge or notificbtion is returned or hbndled, respectively. If this
+     * chbnnel is in non-blocking mode bnd b messbge or notificbtion is not
+     * immedibtely bvbilbble then this method immedibtely returns {@code null}.
      *
-     * <P> If this method receives a message it is copied into the given byte
-     * buffer and an {@link MessageInfo} is returned.
-     * The message is transferred into the given byte buffer starting at its
-     * current position and the buffers position is incremented by the number of
-     * bytes read. If there are fewer bytes remaining in the buffer than are
-     * required to hold the message, or the underlying input buffer does not
-     * contain the complete message, then an invocation of {@link
-     * MessageInfo#isComplete isComplete} on the returned {@code
-     * MessageInfo} will return {@code false}, and more invocations of this
-     * method will be necessary to completely consume the messgae. Only
-     * one message at a time will be partially delivered in any stream. The
-     * socket option {@link SctpStandardSocketOptions#SCTP_FRAGMENT_INTERLEAVE
-     * SCTP_FRAGMENT_INTERLEAVE} controls various aspects of what interlacing of
-     * messages occurs.
+     * <P> If this method receives b messbge it is copied into the given byte
+     * buffer bnd bn {@link MessbgeInfo} is returned.
+     * The messbge is trbnsferred into the given byte buffer stbrting bt its
+     * current position bnd the buffers position is incremented by the number of
+     * bytes rebd. If there bre fewer bytes rembining in the buffer thbn bre
+     * required to hold the messbge, or the underlying input buffer does not
+     * contbin the complete messbge, then bn invocbtion of {@link
+     * MessbgeInfo#isComplete isComplete} on the returned {@code
+     * MessbgeInfo} will return {@code fblse}, bnd more invocbtions of this
+     * method will be necessbry to completely consume the messgbe. Only
+     * one messbge bt b time will be pbrtiblly delivered in bny strebm. The
+     * socket option {@link SctpStbndbrdSocketOptions#SCTP_FRAGMENT_INTERLEAVE
+     * SCTP_FRAGMENT_INTERLEAVE} controls vbrious bspects of whbt interlbcing of
+     * messbges occurs.
      *
-     * <P> If this method receives a notification then the appropriate method of
-     * the given handler, if there is one, is invoked. If the handler returns {@link
-     * HandlerResult#CONTINUE CONTINUE} then this method will try to receive another
-     * message/notification, otherwise, if {@link HandlerResult#RETURN RETURN} is returned
-     * this method will return {@code null}. If an uncaught exception is thrown by the
-     * handler it will be propagated up the stack through this method.
+     * <P> If this method receives b notificbtion then the bppropribte method of
+     * the given hbndler, if there is one, is invoked. If the hbndler returns {@link
+     * HbndlerResult#CONTINUE CONTINUE} then this method will try to receive bnother
+     * messbge/notificbtion, otherwise, if {@link HbndlerResult#RETURN RETURN} is returned
+     * this method will return {@code null}. If bn uncbught exception is thrown by the
+     * hbndler it will be propbgbted up the stbck through this method.
      *
-     * <P> If a security manager has been installed then for each new association
-     * setup this method verifies that the associations source address and port
-     * number are permitted by the security manager's {@link
-     * java.lang.SecurityManager#checkAccept(String,int) checkAccept} method.
+     * <P> If b security mbnbger hbs been instblled then for ebch new bssocibtion
+     * setup this method verifies thbt the bssocibtions source bddress bnd port
+     * number bre permitted by the security mbnbger's {@link
+     * jbvb.lbng.SecurityMbnbger#checkAccept(String,int) checkAccept} method.
      *
-     * <P> This method may be invoked at any time. If another thread has
-     * already initiated a receive operation upon this channel, then an
-     * invocation of this method will block until the first operation is
-     * complete. The given handler is invoked without holding any locks used
-     * to enforce the above synchronization policy, that way handlers
-     * will not stall other threads from receiving. A handler should not invoke
-     * the {@code receive} method of this channel, if it does an
-     * {@link IllegalReceiveException} will be thrown.
+     * <P> This method mby be invoked bt bny time. If bnother threbd hbs
+     * blrebdy initibted b receive operbtion upon this chbnnel, then bn
+     * invocbtion of this method will block until the first operbtion is
+     * complete. The given hbndler is invoked without holding bny locks used
+     * to enforce the bbove synchronizbtion policy, thbt wby hbndlers
+     * will not stbll other threbds from receiving. A hbndler should not invoke
+     * the {@code receive} method of this chbnnel, if it does bn
+     * {@link IllegblReceiveException} will be thrown.
      *
-     * @param  <T>
-     *         The type of the attachment
+     * @pbrbm  <T>
+     *         The type of the bttbchment
      *
-     * @param  buffer
-     *         The buffer into which bytes are to be transferred
+     * @pbrbm  buffer
+     *         The buffer into which bytes bre to be trbnsferred
      *
-     * @param  attachment
-     *         The object to attach to the receive operation; can be
+     * @pbrbm  bttbchment
+     *         The object to bttbch to the receive operbtion; cbn be
      *         {@code null}
      *
-     * @param  handler
-     *         A handler to handle notifications from the SCTP stack, or
-     *         {@code null} to ignore any notifications.
+     * @pbrbm  hbndler
+     *         A hbndler to hbndle notificbtions from the SCTP stbck, or
+     *         {@code null} to ignore bny notificbtions.
      *
-     * @return  The {@code MessageInfo}, {@code null} if this channel is in
-     *          non-blocking mode and no messages are immediately available or
-     *          the notification handler returns {@code RETURN} after handling
-     *          a notification
+     * @return  The {@code MessbgeInfo}, {@code null} if this chbnnel is in
+     *          non-blocking mode bnd no messbges bre immedibtely bvbilbble or
+     *          the notificbtion hbndler returns {@code RETURN} bfter hbndling
+     *          b notificbtion
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @throws  jbvb.nio.chbnnels.ClosedChbnnelException
+     *          If this chbnnel is closed
      *
-     * @throws  java.nio.channels.AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the read operation is in progress
+     * @throws  jbvb.nio.chbnnels.AsynchronousCloseException
+     *          If bnother threbd closes this chbnnel
+     *          while the rebd operbtion is in progress
      *
-     * @throws  java.nio.channels.ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the read operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     * @throws  jbvb.nio.chbnnels.ClosedByInterruptException
+     *          If bnother threbd interrupts the current threbd
+     *          while the rebd operbtion is in progress, thereby
+     *          closing the chbnnel bnd setting the current threbd's
+     *          interrupt stbtus
      *
      * @throws  NotYetBoundException
-     *          If this channel is not yet bound
+     *          If this chbnnel is not yet bound
      *
-     * @throws  IllegalReceiveException
-     *          If the given handler invokes the {@code receive} method of this
-     *          channel
+     * @throws  IllegblReceiveException
+     *          If the given hbndler invokes the {@code receive} method of this
+     *          chbnnel
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it does not permit
-     *          new associations to be accepted from the message's sender
+     *          If b security mbnbger hbs been instblled bnd it does not permit
+     *          new bssocibtions to be bccepted from the messbge's sender
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract <T> MessageInfo receive(ByteBuffer buffer,
-                                            T attachment,
-                                            NotificationHandler<T> handler)
+    public bbstrbct <T> MessbgeInfo receive(ByteBuffer buffer,
+                                            T bttbchment,
+                                            NotificbtionHbndler<T> hbndler)
         throws IOException;
 
     /**
-     * Sends a message via this channel.
+     * Sends b messbge vib this chbnnel.
      *
-     * <P> If this channel is unbound then this method will invoke {@link
-     * #bind(SocketAddress, int) bind(null, 0)} before sending any data.
+     * <P> If this chbnnel is unbound then this method will invoke {@link
+     * #bind(SocketAddress, int) bind(null, 0)} before sending bny dbtb.
      *
-     * <P> If there is no association existing between this channel's socket
-     * and the intended receiver, identified by the address in the given messageInfo, then one
-     * will be automatically setup to the intended receiver. This is considered
-     * to be Implicit Association Setup. Upon successful association setup, an
-     * {@link AssociationChangeNotification association changed}
-     * notification will be put to the SCTP stack with its {@code event} parameter set
-     * to {@link AssociationChangeNotification.AssocChangeEvent#COMM_UP COMM_UP}
-     * . This notification can be received by invoking {@link #receive
+     * <P> If there is no bssocibtion existing between this chbnnel's socket
+     * bnd the intended receiver, identified by the bddress in the given messbgeInfo, then one
+     * will be butombticblly setup to the intended receiver. This is considered
+     * to be Implicit Associbtion Setup. Upon successful bssocibtion setup, bn
+     * {@link AssocibtionChbngeNotificbtion bssocibtion chbnged}
+     * notificbtion will be put to the SCTP stbck with its {@code event} pbrbmeter set
+     * to {@link AssocibtionChbngeNotificbtion.AssocChbngeEvent#COMM_UP COMM_UP}
+     * . This notificbtion cbn be received by invoking {@link #receive
      * receive}.
      *
-     * <P> If this channel is in blocking mode, there is sufficient room in the
-     * underlying output buffer, then the remaining bytes in the given byte
-     * buffer are transmitted as a single message. Sending a message
-     * is atomic unless explicit message completion {@link
-     * SctpStandardSocketOptions#SCTP_EXPLICIT_COMPLETE SCTP_EXPLICIT_COMPLETE}
-     * socket option is enabled on this channel's socket.
+     * <P> If this chbnnel is in blocking mode, there is sufficient room in the
+     * underlying output buffer, then the rembining bytes in the given byte
+     * buffer bre trbnsmitted bs b single messbge. Sending b messbge
+     * is btomic unless explicit messbge completion {@link
+     * SctpStbndbrdSocketOptions#SCTP_EXPLICIT_COMPLETE SCTP_EXPLICIT_COMPLETE}
+     * socket option is enbbled on this chbnnel's socket.
      *
-     * <P> If this channel is in non-blocking mode, there is sufficient room
-     * in the underlying output buffer, and an implicit association setup is
-     * required, then the remaining bytes in the given byte buffer are
-     * transmitted as a single message, subject to {@link
-     * SctpStandardSocketOptions#SCTP_EXPLICIT_COMPLETE SCTP_EXPLICIT_COMPLETE}.
-     * If for any reason the message cannot
-     * be delivered an {@link AssociationChangeNotification association
-     * changed} notification is put on the SCTP stack with its {@code event} parameter set
-     * to {@link AssociationChangeNotification.AssocChangeEvent#CANT_START CANT_START}.
+     * <P> If this chbnnel is in non-blocking mode, there is sufficient room
+     * in the underlying output buffer, bnd bn implicit bssocibtion setup is
+     * required, then the rembining bytes in the given byte buffer bre
+     * trbnsmitted bs b single messbge, subject to {@link
+     * SctpStbndbrdSocketOptions#SCTP_EXPLICIT_COMPLETE SCTP_EXPLICIT_COMPLETE}.
+     * If for bny rebson the messbge cbnnot
+     * be delivered bn {@link AssocibtionChbngeNotificbtion bssocibtion
+     * chbnged} notificbtion is put on the SCTP stbck with its {@code event} pbrbmeter set
+     * to {@link AssocibtionChbngeNotificbtion.AssocChbngeEvent#CANT_START CANT_START}.
      *
-     * <P> The message is transferred from the byte buffer as if by a regular
-     * {@link java.nio.channels.WritableByteChannel#write(java.nio.ByteBuffer)
-     * write} operation.
+     * <P> The messbge is trbnsferred from the byte buffer bs if by b regulbr
+     * {@link jbvb.nio.chbnnels.WritbbleByteChbnnel#write(jbvb.nio.ByteBuffer)
+     * write} operbtion.
      *
-     * <P> If a security manager has been installed then for each new association
-     * setup this method verifies that the given remote peers address and port
-     * number are permitted by the security manager's {@link
-     * java.lang.SecurityManager#checkConnect(String,int) checkConnect} method.
+     * <P> If b security mbnbger hbs been instblled then for ebch new bssocibtion
+     * setup this method verifies thbt the given remote peers bddress bnd port
+     * number bre permitted by the security mbnbger's {@link
+     * jbvb.lbng.SecurityMbnbger#checkConnect(String,int) checkConnect} method.
      *
-     * <P> This method may be invoked at any time. If another thread has already
-     * initiated a send operation upon this channel, then an invocation of
-     * this method will block until the first operation is complete.
+     * <P> This method mby be invoked bt bny time. If bnother threbd hbs blrebdy
+     * initibted b send operbtion upon this chbnnel, then bn invocbtion of
+     * this method will block until the first operbtion is complete.
      *
-     * @param  buffer
-     *         The buffer containing the message to be sent
+     * @pbrbm  buffer
+     *         The buffer contbining the messbge to be sent
      *
-     * @param  messageInfo
-     *         Ancillary data about the message to be sent
+     * @pbrbm  messbgeInfo
+     *         Ancillbry dbtb bbout the messbge to be sent
      *
      * @return  The number of bytes sent, which will be either the number of
-     *          bytes that were remaining in the messages buffer when this method
-     *          was invoked or, if this channel is non-blocking, may be zero if
-     *          there was insufficient room for the message in the underlying
+     *          bytes thbt were rembining in the messbges buffer when this method
+     *          wbs invoked or, if this chbnnel is non-blocking, mby be zero if
+     *          there wbs insufficient room for the messbge in the underlying
      *          output buffer
      *
-     * @throws  InvalidStreamException
-     *          If {@code streamNumber} is negative, or if an association already
-     *          exists and {@code streamNumber} is greater than the maximum number
-     *          of outgoing streams
+     * @throws  InvblidStrebmException
+     *          If {@code strebmNumber} is negbtive, or if bn bssocibtion blrebdy
+     *          exists bnd {@code strebmNumber} is grebter thbn the mbximum number
+     *          of outgoing strebms
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @throws  jbvb.nio.chbnnels.ClosedChbnnelException
+     *          If this chbnnel is closed
      *
-     * @throws  java.nio.channels.AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the read operation is in progress
+     * @throws  jbvb.nio.chbnnels.AsynchronousCloseException
+     *          If bnother threbd closes this chbnnel
+     *          while the rebd operbtion is in progress
      *
-     * @throws  java.nio.channels.ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the read operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     * @throws  jbvb.nio.chbnnels.ClosedByInterruptException
+     *          If bnother threbd interrupts the current threbd
+     *          while the rebd operbtion is in progress, thereby
+     *          closing the chbnnel bnd setting the current threbd's
+     *          interrupt stbtus
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it does not permit
-     *          new associations to be setup with the the messages's address
+     *          If b security mbnbger hbs been instblled bnd it does not permit
+     *          new bssocibtions to be setup with the the messbges's bddress
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract int send(ByteBuffer buffer, MessageInfo messageInfo)
+    public bbstrbct int send(ByteBuffer buffer, MessbgeInfo messbgeInfo)
         throws IOException;
 
     /**
-     * Branches off an association.
+     * Brbnches off bn bssocibtion.
      *
-     * <P> An application can invoke this method to branch off an association
-     * into a separate channel. The new bound and connected {@link SctpChannel}
-     * will be created for the association. The branched off association will no
-     * longer be part of this channel.
+     * <P> An bpplicbtion cbn invoke this method to brbnch off bn bssocibtion
+     * into b sepbrbte chbnnel. The new bound bnd connected {@link SctpChbnnel}
+     * will be crebted for the bssocibtion. The brbnched off bssocibtion will no
+     * longer be pbrt of this chbnnel.
      *
-     * <P> This is particularly useful when, for instance, the application
-     * wishes to have a number of sporadic message senders/receivers remain
-     * under the original SCTP multi channel but branch off those
-     * associations carrying high volume data traffic into their own
-     * separate SCTP channels.
+     * <P> This is pbrticulbrly useful when, for instbnce, the bpplicbtion
+     * wishes to hbve b number of sporbdic messbge senders/receivers rembin
+     * under the originbl SCTP multi chbnnel but brbnch off those
+     * bssocibtions cbrrying high volume dbtb trbffic into their own
+     * sepbrbte SCTP chbnnels.
      *
-     * @param  association
-     *         The association to branch off
+     * @pbrbm  bssocibtion
+     *         The bssocibtion to brbnch off
      *
-     * @return  The {@code SctpChannel}
+     * @return  The {@code SctpChbnnel}
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @throws  jbvb.nio.chbnnels.ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public abstract SctpChannel branch(Association association)
+    public bbstrbct SctpChbnnel brbnch(Associbtion bssocibtion)
         throws IOException;
 }

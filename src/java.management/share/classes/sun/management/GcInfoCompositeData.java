@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.lang.management.MemoryUsage;
-import java.lang.reflect.Method;
-import java.lang.reflect.Field;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Collections;
-import java.io.InvalidObjectException;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.TabularData;
-import javax.management.openmbean.SimpleType;
-import javax.management.openmbean.OpenType;
-import javax.management.openmbean.OpenDataException;
-import com.sun.management.GcInfo;
-import com.sun.management.GarbageCollectionNotificationInfo;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Field;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Collections;
+import jbvb.io.InvblidObjectException;
+import jbvbx.mbnbgement.openmbebn.CompositeType;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbSupport;
+import jbvbx.mbnbgement.openmbebn.TbbulbrDbtb;
+import jbvbx.mbnbgement.openmbebn.SimpleType;
+import jbvbx.mbnbgement.openmbebn.OpenType;
+import jbvbx.mbnbgement.openmbebn.OpenDbtbException;
+import com.sun.mbnbgement.GcInfo;
+import com.sun.mbnbgement.GbrbbgeCollectionNotificbtionInfo;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * A CompositeData for GcInfo for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositeDbtb for GcInfo for the locbl mbnbgement support.
+ * This clbss bvoids the performbnce penblty pbid to the
+ * construction of b CompositeDbtb use in the locbl cbse.
  */
-public class GcInfoCompositeData extends LazyCompositeData {
-    private final GcInfo info;
-    private final GcInfoBuilder builder;
-    private final Object[] gcExtItemValues;
+public clbss GcInfoCompositeDbtb extends LbzyCompositeDbtb {
+    privbte finbl GcInfo info;
+    privbte finbl GcInfoBuilder builder;
+    privbte finbl Object[] gcExtItemVblues;
 
-    public GcInfoCompositeData(GcInfo info,
+    public GcInfoCompositeDbtb(GcInfo info,
                         GcInfoBuilder builder,
-                        Object[] gcExtItemValues) {
+                        Object[] gcExtItemVblues) {
         this.info = info;
         this.builder = builder;
-        this.gcExtItemValues = gcExtItemValues;
+        this.gcExtItemVblues = gcExtItemVblues;
     }
 
     public GcInfo getGcInfo() {
         return info;
     }
 
-    public static CompositeData toCompositeData(final GcInfo info) {
-        final GcInfoBuilder builder = AccessController.doPrivileged (new PrivilegedAction<GcInfoBuilder>() {
+    public stbtic CompositeDbtb toCompositeDbtb(finbl GcInfo info) {
+        finbl GcInfoBuilder builder = AccessController.doPrivileged (new PrivilegedAction<GcInfoBuilder>() {
                         public GcInfoBuilder run() {
                             try {
-                                Class<?> cl = Class.forName("com.sun.management.GcInfo");
-                                Field f = cl.getDeclaredField("builder");
+                                Clbss<?> cl = Clbss.forNbme("com.sun.mbnbgement.GcInfo");
+                                Field f = cl.getDeclbredField("builder");
                                 f.setAccessible(true);
                                 return (GcInfoBuilder)f.get(info);
-                            } catch(ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
+                            } cbtch(ClbssNotFoundException | NoSuchFieldException | IllegblAccessException e) {
                                 return null;
                             }
                         }
                     });
-        final Object[] extAttr = AccessController.doPrivileged (new PrivilegedAction<Object[]>() {
+        finbl Object[] extAttr = AccessController.doPrivileged (new PrivilegedAction<Object[]>() {
                         public Object[] run() {
                             try {
-                                Class<?> cl = Class.forName("com.sun.management.GcInfo");
-                                Field f = cl.getDeclaredField("extAttributes");
+                                Clbss<?> cl = Clbss.forNbme("com.sun.mbnbgement.GcInfo");
+                                Field f = cl.getDeclbredField("extAttributes");
                                 f.setAccessible(true);
                                 return (Object[])f.get(info);
-                            } catch(ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
+                            } cbtch(ClbssNotFoundException | NoSuchFieldException | IllegblAccessException e) {
                                 return null;
                             }
                         }
                     });
-        GcInfoCompositeData gcicd =
-            new GcInfoCompositeData(info,builder,extAttr);
-        return gcicd.getCompositeData();
+        GcInfoCompositeDbtb gcicd =
+            new GcInfoCompositeDbtb(info,builder,extAttr);
+        return gcicd.getCompositeDbtb();
     }
 
-    protected CompositeData getCompositeData() {
+    protected CompositeDbtb getCompositeDbtb() {
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // baseGcInfoItemNames!
-        final Object[] baseGcInfoItemValues;
+        // bbseGcInfoItemNbmes!
+        finbl Object[] bbseGcInfoItemVblues;
 
         try {
-            baseGcInfoItemValues = new Object[] {
+            bbseGcInfoItemVblues = new Object[] {
                 info.getId(),
-                info.getStartTime(),
+                info.getStbrtTime(),
                 info.getEndTime(),
-                info.getDuration(),
-                memoryUsageMapType.toOpenTypeData(info.getMemoryUsageBeforeGc()),
-                memoryUsageMapType.toOpenTypeData(info.getMemoryUsageAfterGc()),
+                info.getDurbtion(),
+                memoryUsbgeMbpType.toOpenTypeDbtb(info.getMemoryUsbgeBeforeGc()),
+                memoryUsbgeMbpType.toOpenTypeDbtb(info.getMemoryUsbgeAfterGc()),
             };
-        } catch (OpenDataException e) {
-            // Should never reach here
+        } cbtch (OpenDbtbException e) {
+            // Should never rebch here
             throw new AssertionError(e);
         }
 
-        // Get the item values for the extension attributes
-        final int gcExtItemCount = builder.getGcExtItemCount();
+        // Get the item vblues for the extension bttributes
+        finbl int gcExtItemCount = builder.getGcExtItemCount();
         if (gcExtItemCount == 0 &&
-            gcExtItemValues != null && gcExtItemValues.length != 0) {
-            throw new AssertionError("Unexpected Gc Extension Item Values");
+            gcExtItemVblues != null && gcExtItemVblues.length != 0) {
+            throw new AssertionError("Unexpected Gc Extension Item Vblues");
         }
 
-        if (gcExtItemCount > 0 && (gcExtItemValues == null ||
-             gcExtItemCount != gcExtItemValues.length)) {
-            throw new AssertionError("Unmatched Gc Extension Item Values");
+        if (gcExtItemCount > 0 && (gcExtItemVblues == null ||
+             gcExtItemCount != gcExtItemVblues.length)) {
+            throw new AssertionError("Unmbtched Gc Extension Item Vblues");
         }
 
-        Object[] values = new Object[baseGcInfoItemValues.length +
+        Object[] vblues = new Object[bbseGcInfoItemVblues.length +
                                      gcExtItemCount];
-        System.arraycopy(baseGcInfoItemValues, 0, values, 0,
-                         baseGcInfoItemValues.length);
+        System.brrbycopy(bbseGcInfoItemVblues, 0, vblues, 0,
+                         bbseGcInfoItemVblues.length);
 
         if (gcExtItemCount > 0) {
-            System.arraycopy(gcExtItemValues, 0, values,
-                             baseGcInfoItemValues.length, gcExtItemCount);
+            System.brrbycopy(gcExtItemVblues, 0, vblues,
+                             bbseGcInfoItemVblues.length, gcExtItemCount);
         }
 
         try {
-            return new CompositeDataSupport(builder.getGcInfoCompositeType(),
-                                            builder.getItemNames(),
-                                            values);
-        } catch (OpenDataException e) {
-            // Should never reach here
+            return new CompositeDbtbSupport(builder.getGcInfoCompositeType(),
+                                            builder.getItemNbmes(),
+                                            vblues);
+        } cbtch (OpenDbtbException e) {
+            // Should never rebch here
             throw new AssertionError(e);
         }
     }
 
-    private static final String ID                     = "id";
-    private static final String START_TIME             = "startTime";
-    private static final String END_TIME               = "endTime";
-    private static final String DURATION               = "duration";
-    private static final String MEMORY_USAGE_BEFORE_GC = "memoryUsageBeforeGc";
-    private static final String MEMORY_USAGE_AFTER_GC  = "memoryUsageAfterGc";
+    privbte stbtic finbl String ID                     = "id";
+    privbte stbtic finbl String START_TIME             = "stbrtTime";
+    privbte stbtic finbl String END_TIME               = "endTime";
+    privbte stbtic finbl String DURATION               = "durbtion";
+    privbte stbtic finbl String MEMORY_USAGE_BEFORE_GC = "memoryUsbgeBeforeGc";
+    privbte stbtic finbl String MEMORY_USAGE_AFTER_GC  = "memoryUsbgeAfterGc";
 
-    private static final String[] baseGcInfoItemNames = {
+    privbte stbtic finbl String[] bbseGcInfoItemNbmes = {
         ID,
         START_TIME,
         END_TIME,
@@ -166,111 +166,111 @@ public class GcInfoCompositeData extends LazyCompositeData {
     };
 
 
-    private static MappedMXBeanType memoryUsageMapType;
-    static {
+    privbte stbtic MbppedMXBebnType memoryUsbgeMbpType;
+    stbtic {
         try {
-            Method m = GcInfo.class.getMethod("getMemoryUsageBeforeGc");
-            memoryUsageMapType =
-                MappedMXBeanType.getMappedType(m.getGenericReturnType());
-        } catch (NoSuchMethodException | OpenDataException e) {
-            // Should never reach here
+            Method m = GcInfo.clbss.getMethod("getMemoryUsbgeBeforeGc");
+            memoryUsbgeMbpType =
+                MbppedMXBebnType.getMbppedType(m.getGenericReturnType());
+        } cbtch (NoSuchMethodException | OpenDbtbException e) {
+            // Should never rebch here
             throw new AssertionError(e);
         }
     }
 
-    static String[] getBaseGcInfoItemNames() {
-        return baseGcInfoItemNames;
+    stbtic String[] getBbseGcInfoItemNbmes() {
+        return bbseGcInfoItemNbmes;
     }
 
-    private static OpenType<?>[] baseGcInfoItemTypes = null;
-    static synchronized OpenType<?>[] getBaseGcInfoItemTypes() {
-        if (baseGcInfoItemTypes == null) {
-            OpenType<?> memoryUsageOpenType = memoryUsageMapType.getOpenType();
-            baseGcInfoItemTypes = new OpenType<?>[] {
+    privbte stbtic OpenType<?>[] bbseGcInfoItemTypes = null;
+    stbtic synchronized OpenType<?>[] getBbseGcInfoItemTypes() {
+        if (bbseGcInfoItemTypes == null) {
+            OpenType<?> memoryUsbgeOpenType = memoryUsbgeMbpType.getOpenType();
+            bbseGcInfoItemTypes = new OpenType<?>[] {
                 SimpleType.LONG,
                 SimpleType.LONG,
                 SimpleType.LONG,
                 SimpleType.LONG,
 
-                memoryUsageOpenType,
-                memoryUsageOpenType,
+                memoryUsbgeOpenType,
+                memoryUsbgeOpenType,
             };
         }
-        return baseGcInfoItemTypes;
+        return bbseGcInfoItemTypes;
     }
 
-    public static long getId(CompositeData cd) {
+    public stbtic long getId(CompositeDbtb cd) {
         return getLong(cd, ID);
     }
-    public static long getStartTime(CompositeData cd) {
+    public stbtic long getStbrtTime(CompositeDbtb cd) {
         return getLong(cd, START_TIME);
     }
-    public static long getEndTime(CompositeData cd) {
+    public stbtic long getEndTime(CompositeDbtb cd) {
         return getLong(cd, END_TIME);
     }
 
-    public static Map<String, MemoryUsage>
-            getMemoryUsageBeforeGc(CompositeData cd) {
+    public stbtic Mbp<String, MemoryUsbge>
+            getMemoryUsbgeBeforeGc(CompositeDbtb cd) {
         try {
-            TabularData td = (TabularData) cd.get(MEMORY_USAGE_BEFORE_GC);
-            return cast(memoryUsageMapType.toJavaTypeData(td));
-        } catch (InvalidObjectException | OpenDataException e) {
-            // Should never reach here
+            TbbulbrDbtb td = (TbbulbrDbtb) cd.get(MEMORY_USAGE_BEFORE_GC);
+            return cbst(memoryUsbgeMbpType.toJbvbTypeDbtb(td));
+        } cbtch (InvblidObjectException | OpenDbtbException e) {
+            // Should never rebch here
             throw new AssertionError(e);
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static Map<String, MemoryUsage> cast(Object x) {
-        return (Map<String, MemoryUsage>) x;
+    @SuppressWbrnings("unchecked")
+    public stbtic Mbp<String, MemoryUsbge> cbst(Object x) {
+        return (Mbp<String, MemoryUsbge>) x;
     }
-    public static Map<String, MemoryUsage>
-            getMemoryUsageAfterGc(CompositeData cd) {
+    public stbtic Mbp<String, MemoryUsbge>
+            getMemoryUsbgeAfterGc(CompositeDbtb cd) {
         try {
-            TabularData td = (TabularData) cd.get(MEMORY_USAGE_AFTER_GC);
-            //return (Map<String,MemoryUsage>)
-            return cast(memoryUsageMapType.toJavaTypeData(td));
-        } catch (InvalidObjectException | OpenDataException e) {
-            // Should never reach here
+            TbbulbrDbtb td = (TbbulbrDbtb) cd.get(MEMORY_USAGE_AFTER_GC);
+            //return (Mbp<String,MemoryUsbge>)
+            return cbst(memoryUsbgeMbpType.toJbvbTypeDbtb(td));
+        } cbtch (InvblidObjectException | OpenDbtbException e) {
+            // Should never rebch here
             throw new AssertionError(e);
         }
     }
 
     /**
-     * Returns true if the input CompositeData has the expected
-     * CompositeType (i.e. contain all attributes with expected
-     * names and types).  Otherwise, return false.
+     * Returns true if the input CompositeDbtb hbs the expected
+     * CompositeType (i.e. contbin bll bttributes with expected
+     * nbmes bnd types).  Otherwise, return fblse.
      */
-    public static void validateCompositeData(CompositeData cd) {
+    public stbtic void vblidbteCompositeDbtb(CompositeDbtb cd) {
         if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+            throw new NullPointerException("Null CompositeDbtb");
         }
 
-        if (!isTypeMatched(getBaseGcInfoCompositeType(),
+        if (!isTypeMbtched(getBbseGcInfoCompositeType(),
                            cd.getCompositeType())) {
-           throw new IllegalArgumentException(
+           throw new IllegblArgumentException(
                 "Unexpected composite type for GcInfo");
         }
     }
 
-    // This is only used for validation.
-    private static CompositeType baseGcInfoCompositeType = null;
-    static synchronized CompositeType getBaseGcInfoCompositeType() {
-        if (baseGcInfoCompositeType == null) {
+    // This is only used for vblidbtion.
+    privbte stbtic CompositeType bbseGcInfoCompositeType = null;
+    stbtic synchronized CompositeType getBbseGcInfoCompositeType() {
+        if (bbseGcInfoCompositeType == null) {
             try {
-                baseGcInfoCompositeType =
-                    new CompositeType("sun.management.BaseGcInfoCompositeType",
-                                      "CompositeType for Base GcInfo",
-                                      getBaseGcInfoItemNames(),
-                                      getBaseGcInfoItemNames(),
-                                      getBaseGcInfoItemTypes());
-            } catch (OpenDataException e) {
-                // shouldn't reach here
+                bbseGcInfoCompositeType =
+                    new CompositeType("sun.mbnbgement.BbseGcInfoCompositeType",
+                                      "CompositeType for Bbse GcInfo",
+                                      getBbseGcInfoItemNbmes(),
+                                      getBbseGcInfoItemNbmes(),
+                                      getBbseGcInfoItemTypes());
+            } cbtch (OpenDbtbException e) {
+                // shouldn't rebch here
                 throw Util.newException(e);
             }
         }
-        return baseGcInfoCompositeType;
+        return bbseGcInfoCompositeType;
     }
 
-    private static final long serialVersionUID = -5716428894085882742L;
+    privbte stbtic finbl long seriblVersionUID = -5716428894085882742L;
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -38,14 +38,14 @@
 
 #ifdef _ALLBSD_SOURCE
 #include <unistd.h>
-#include <sys/param.h>
+#include <sys/pbrbm.h>
 #endif
 
 #include "jvm.h"
 #include "jni_util.h"
 #include "net_util.h"
 
-#include "java_net_Inet4AddressImpl.h"
+#include "jbvb_net_Inet4AddressImpl.h"
 
 #if defined(__GLIBC__) || (defined(__FreeBSD__) && (__FreeBSD_version >= 601104))
 #define HAS_GLIBC_GETHOSTBY_R   1
@@ -53,76 +53,76 @@
 
 
 #if defined(_ALLBSD_SOURCE) && !defined(HAS_GLIBC_GETHOSTBY_R)
-extern jobjectArray lookupIfLocalhost(JNIEnv *env, const char *hostname, jboolean includeV6);
+extern jobjectArrby lookupIfLocblhost(JNIEnv *env, const chbr *hostnbme, jboolebn includeV6);
 
-/* Use getaddrinfo(3), which is thread safe */
+/* Use getbddrinfo(3), which is threbd sbfe */
 /************************************************************************
  * Inet4AddressImpl
  */
 
 /*
- * Class:     java_net_Inet4AddressImpl
- * Method:    getLocalHostName
- * Signature: ()Ljava/lang/String;
+ * Clbss:     jbvb_net_Inet4AddressImpl
+ * Method:    getLocblHostNbme
+ * Signbture: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_net_Inet4AddressImpl_getLocalHostName(JNIEnv *env, jobject this) {
-    char hostname[NI_MAXHOST+1];
+Jbvb_jbvb_net_Inet4AddressImpl_getLocblHostNbme(JNIEnv *env, jobject this) {
+    chbr hostnbme[NI_MAXHOST+1];
 
-    hostname[0] = '\0';
-    if (gethostname(hostname, NI_MAXHOST)) {
-        /* Something went wrong, maybe networking is not setup? */
-        strcpy(hostname, "localhost");
+    hostnbme[0] = '\0';
+    if (gethostnbme(hostnbme, NI_MAXHOST)) {
+        /* Something went wrong, mbybe networking is not setup? */
+        strcpy(hostnbme, "locblhost");
     } else {
-         struct addrinfo  hints, *res;
+         struct bddrinfo  hints, *res;
          int error;
 
          memset(&hints, 0, sizeof(hints));
-         hints.ai_flags = AI_CANONNAME;
-         hints.ai_family = AF_UNSPEC;
+         hints.bi_flbgs = AI_CANONNAME;
+         hints.bi_fbmily = AF_UNSPEC;
 
-         error = getaddrinfo(hostname, NULL, &hints, &res);
+         error = getbddrinfo(hostnbme, NULL, &hints, &res);
 
          if (error == 0) {
-             /* host is known to name service */
-             error = getnameinfo(res->ai_addr,
-                                 res->ai_addrlen,
-                                 hostname,
+             /* host is known to nbme service */
+             error = getnbmeinfo(res->bi_bddr,
+                                 res->bi_bddrlen,
+                                 hostnbme,
                                  NI_MAXHOST,
                                  NULL,
                                  0,
                                  NI_NAMEREQD);
 
-             /* if getnameinfo fails hostname is still the value
-                from gethostname */
+             /* if getnbmeinfo fbils hostnbme is still the vblue
+                from gethostnbme */
 
-             freeaddrinfo(res);
+             freebddrinfo(res);
         }
     }
-    return (*env)->NewStringUTF(env, hostname);
+    return (*env)->NewStringUTF(env, hostnbme);
 }
 
 /*
- * Find an internet address for a given hostname.  Note that this
- * code only works for addresses of type INET. The translation
- * of %d.%d.%d.%d to an address (int) occurs in java now, so the
- * String "host" shouldn't *ever* be a %d.%d.%d.%d string
+ * Find bn internet bddress for b given hostnbme.  Note thbt this
+ * code only works for bddresses of type INET. The trbnslbtion
+ * of %d.%d.%d.%d to bn bddress (int) occurs in jbvb now, so the
+ * String "host" shouldn't *ever* be b %d.%d.%d.%d string
  *
- * Class:     java_net_Inet4AddressImpl
+ * Clbss:     jbvb_net_Inet4AddressImpl
  * Method:    lookupAllHostAddr
- * Signature: (Ljava/lang/String;)[[B
+ * Signbture: (Ljbvb/lbng/String;)[[B
  */
 
-JNIEXPORT jobjectArray JNICALL
-Java_java_net_Inet4AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_jbvb_net_Inet4AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
                                                 jstring host) {
-    const char *hostname;
-    jobject name;
-    jobjectArray ret = 0;
+    const chbr *hostnbme;
+    jobject nbme;
+    jobjectArrby ret = 0;
     int retLen = 0;
 
     int error=0;
-    struct addrinfo hints, *res, *resNew = NULL;
+    struct bddrinfo hints, *res, *resNew = NULL;
 
     initInetAddressIDs(env);
     JNU_CHECK_EXCEPTION_RETURN(env, NULL);
@@ -131,172 +131,172 @@ Java_java_net_Inet4AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
         JNU_ThrowNullPointerException(env, "host is null");
         return 0;
     }
-    hostname = JNU_GetStringPlatformChars(env, host, JNI_FALSE);
-    CHECK_NULL_RETURN(hostname, NULL);
+    hostnbme = JNU_GetStringPlbtformChbrs(env, host, JNI_FALSE);
+    CHECK_NULL_RETURN(hostnbme, NULL);
 
     memset(&hints, 0, sizeof(hints));
-    hints.ai_flags = AI_CANONNAME;
-    hints.ai_family = AF_INET;
+    hints.bi_flbgs = AI_CANONNAME;
+    hints.bi_fbmily = AF_INET;
 
     /*
-     * Workaround for Solaris bug 4160367 - if a hostname contains a
-     * white space then 0.0.0.0 is returned
+     * Workbround for Solbris bug 4160367 - if b hostnbme contbins b
+     * white spbce then 0.0.0.0 is returned
      */
-    if (isspace((unsigned char)hostname[0])) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "UnknownHostException",
-                        (char *)hostname);
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
+    if (isspbce((unsigned chbr)hostnbme[0])) {
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "UnknownHostException",
+                        (chbr *)hostnbme);
+        JNU_RelebseStringPlbtformChbrs(env, host, hostnbme);
         return NULL;
     }
 
 #ifdef MACOSX
-    /* If we're looking up the local machine, bypass DNS lookups and get
-     * address from getifaddrs.
+    /* If we're looking up the locbl mbchine, bypbss DNS lookups bnd get
+     * bddress from getifbddrs.
      */
-    ret = lookupIfLocalhost(env, hostname, JNI_FALSE);
+    ret = lookupIfLocblhost(env, hostnbme, JNI_FALSE);
     if (ret != NULL || (*env)->ExceptionCheck(env)) {
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
+        JNU_RelebseStringPlbtformChbrs(env, host, hostnbme);
         return ret;
     }
 #endif
 
-    error = getaddrinfo(hostname, NULL, &hints, &res);
+    error = getbddrinfo(hostnbme, NULL, &hints, &res);
 
     if (error) {
         /* report error */
-        NET_ThrowUnknownHostExceptionWithGaiError(env, hostname, error);
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
+        NET_ThrowUnknownHostExceptionWithGbiError(env, hostnbme, error);
+        JNU_RelebseStringPlbtformChbrs(env, host, hostnbme);
         return NULL;
     } else {
         int i = 0;
-        struct addrinfo *itr, *last = NULL, *iterator = res;
-        while (iterator != NULL) {
+        struct bddrinfo *itr, *lbst = NULL, *iterbtor = res;
+        while (iterbtor != NULL) {
             int skip = 0;
             itr = resNew;
 
             while (itr != NULL) {
-                struct sockaddr_in *addr1, *addr2;
+                struct sockbddr_in *bddr1, *bddr2;
 
-                addr1 = (struct sockaddr_in *)iterator->ai_addr;
-                addr2 = (struct sockaddr_in *)itr->ai_addr;
-                if (addr1->sin_addr.s_addr ==
-                    addr2->sin_addr.s_addr) {
+                bddr1 = (struct sockbddr_in *)iterbtor->bi_bddr;
+                bddr2 = (struct sockbddr_in *)itr->bi_bddr;
+                if (bddr1->sin_bddr.s_bddr ==
+                    bddr2->sin_bddr.s_bddr) {
                     skip = 1;
-                    break;
+                    brebk;
                 }
 
-                itr = itr->ai_next;
+                itr = itr->bi_next;
             }
 
             if (!skip) {
-                struct addrinfo *next
-                    = (struct addrinfo*) malloc(sizeof(struct addrinfo));
+                struct bddrinfo *next
+                    = (struct bddrinfo*) mblloc(sizeof(struct bddrinfo));
                 if (!next) {
-                    JNU_ThrowOutOfMemoryError(env, "Native heap allocation failed");
+                    JNU_ThrowOutOfMemoryError(env, "Nbtive hebp bllocbtion fbiled");
                     ret = NULL;
-                    goto cleanupAndReturn;
+                    goto clebnupAndReturn;
                 }
-                memcpy(next, iterator, sizeof(struct addrinfo));
-                next->ai_next = NULL;
+                memcpy(next, iterbtor, sizeof(struct bddrinfo));
+                next->bi_next = NULL;
                 if (resNew == NULL) {
                     resNew = next;
                 } else {
-                    last->ai_next = next;
+                    lbst->bi_next = next;
                 }
-                last = next;
+                lbst = next;
                 i++;
             }
-            iterator = iterator->ai_next;
+            iterbtor = iterbtor->bi_next;
         }
 
         retLen = i;
-        iterator = resNew;
+        iterbtor = resNew;
         i = 0;
 
-        name = (*env)->NewStringUTF(env, hostname);
-        if (IS_NULL(name)) {
-          goto cleanupAndReturn;
+        nbme = (*env)->NewStringUTF(env, hostnbme);
+        if (IS_NULL(nbme)) {
+          goto clebnupAndReturn;
         }
 
-        ret = (*env)->NewObjectArray(env, retLen, ia_class, NULL);
+        ret = (*env)->NewObjectArrby(env, retLen, ib_clbss, NULL);
         if (IS_NULL(ret)) {
-            /* we may have memory to free at the end of this */
-            goto cleanupAndReturn;
+            /* we mby hbve memory to free bt the end of this */
+            goto clebnupAndReturn;
         }
 
-        while (iterator != NULL) {
-            /* We need 4 bytes to store ipv4 address; */
+        while (iterbtor != NULL) {
+            /* We need 4 bytes to store ipv4 bddress; */
             int len = 4;
 
-            jobject iaObj = (*env)->NewObject(env, ia4_class, ia4_ctrID);
-            if (IS_NULL(iaObj)) {
-                /* we may have memory to free at the end of this */
+            jobject ibObj = (*env)->NewObject(env, ib4_clbss, ib4_ctrID);
+            if (IS_NULL(ibObj)) {
+                /* we mby hbve memory to free bt the end of this */
                 ret = NULL;
-                goto cleanupAndReturn;
+                goto clebnupAndReturn;
             }
-            setInetAddress_addr(env, iaObj, ntohl(((struct sockaddr_in*)(iterator->ai_addr))->sin_addr.s_addr));
-            setInetAddress_hostName(env, iaObj, name);
-            (*env)->SetObjectArrayElement(env, ret, retLen - i -1, iaObj);
+            setInetAddress_bddr(env, ibObj, ntohl(((struct sockbddr_in*)(iterbtor->bi_bddr))->sin_bddr.s_bddr));
+            setInetAddress_hostNbme(env, ibObj, nbme);
+            (*env)->SetObjectArrbyElement(env, ret, retLen - i -1, ibObj);
             i++;
-            iterator = iterator->ai_next;
+            iterbtor = iterbtor->bi_next;
         }
     }
 
-cleanupAndReturn:
+clebnupAndReturn:
     {
-        struct addrinfo *iterator, *tmp;
-        iterator = resNew;
-        while (iterator != NULL) {
-            tmp = iterator;
-            iterator = iterator->ai_next;
+        struct bddrinfo *iterbtor, *tmp;
+        iterbtor = resNew;
+        while (iterbtor != NULL) {
+            tmp = iterbtor;
+            iterbtor = iterbtor->bi_next;
             free(tmp);
         }
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
+        JNU_RelebseStringPlbtformChbrs(env, host, hostnbme);
     }
 
-    freeaddrinfo(res);
+    freebddrinfo(res);
 
     return ret;
 
 }
 
 /*
- * Class:     java_net_Inet4AddressImpl
+ * Clbss:     jbvb_net_Inet4AddressImpl
  * Method:    getHostByAddr
- * Signature: (I)Ljava/lang/String;
+ * Signbture: (I)Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_net_Inet4AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
-                                            jbyteArray addrArray) {
+Jbvb_jbvb_net_Inet4AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
+                                            jbyteArrby bddrArrby) {
     jstring ret = NULL;
 
-    char host[NI_MAXHOST+1];
+    chbr host[NI_MAXHOST+1];
     jfieldID fid;
     int error = 0;
-    jint family;
-    struct sockaddr *him ;
+    jint fbmily;
+    struct sockbddr *him ;
     int len = 0;
-    jbyte caddr[4];
-    jint addr;
+    jbyte cbddr[4];
+    jint bddr;
 
-    struct sockaddr_in him4;
-    struct sockaddr *sa;
+    struct sockbddr_in him4;
+    struct sockbddr *sb;
 
     /*
-         * For IPv4 addresses construct a sockaddr_in structure.
+         * For IPv4 bddresses construct b sockbddr_in structure.
          */
-    (*env)->GetByteArrayRegion(env, addrArray, 0, 4, caddr);
-    addr = ((caddr[0]<<24) & 0xff000000);
-    addr |= ((caddr[1] <<16) & 0xff0000);
-    addr |= ((caddr[2] <<8) & 0xff00);
-    addr |= (caddr[3] & 0xff);
-    memset((char *) &him4, 0, sizeof(him4));
-    him4.sin_addr.s_addr = (uint32_t) htonl(addr);
-    him4.sin_family = AF_INET;
-    sa = (struct sockaddr *) &him4;
+    (*env)->GetByteArrbyRegion(env, bddrArrby, 0, 4, cbddr);
+    bddr = ((cbddr[0]<<24) & 0xff000000);
+    bddr |= ((cbddr[1] <<16) & 0xff0000);
+    bddr |= ((cbddr[2] <<8) & 0xff00);
+    bddr |= (cbddr[3] & 0xff);
+    memset((chbr *) &him4, 0, sizeof(him4));
+    him4.sin_bddr.s_bddr = (uint32_t) htonl(bddr);
+    him4.sin_fbmily = AF_INET;
+    sb = (struct sockbddr *) &him4;
     len = sizeof(him4);
 
-    error = getnameinfo(sa, len, host, NI_MAXHOST, NULL, 0,
+    error = getnbmeinfo(sb, len, host, NI_MAXHOST, NULL, 0,
                                NI_NAMEREQD);
 
     if (!error) {
@@ -304,7 +304,7 @@ Java_java_net_Inet4AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
     }
 
     if (ret == NULL) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "UnknownHostException", NULL);
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "UnknownHostException", NULL);
     }
 
     return ret;
@@ -313,7 +313,7 @@ Java_java_net_Inet4AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
 
 #else /* defined(_ALLBSD_SOURCE) && !defined(HAS_GLIBC_GETHOSTBY_R) */
 
-/* the initial size of our hostent buffers */
+/* the initibl size of our hostent buffers */
 #ifndef NI_MAXHOST
 #define NI_MAXHOST 1025
 #endif
@@ -323,66 +323,66 @@ Java_java_net_Inet4AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
  */
 
 /*
- * Class:     java_net_Inet4AddressImpl
- * Method:    getLocalHostName
- * Signature: ()Ljava/lang/String;
+ * Clbss:     jbvb_net_Inet4AddressImpl
+ * Method:    getLocblHostNbme
+ * Signbture: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_net_Inet4AddressImpl_getLocalHostName(JNIEnv *env, jobject this) {
-    char hostname[NI_MAXHOST+1];
+Jbvb_jbvb_net_Inet4AddressImpl_getLocblHostNbme(JNIEnv *env, jobject this) {
+    chbr hostnbme[NI_MAXHOST+1];
 
-    hostname[0] = '\0';
-    if (gethostname(hostname, NI_MAXHOST)) {
-        /* Something went wrong, maybe networking is not setup? */
-        strcpy(hostname, "localhost");
+    hostnbme[0] = '\0';
+    if (gethostnbme(hostnbme, NI_MAXHOST)) {
+        /* Something went wrong, mbybe networking is not setup? */
+        strcpy(hostnbme, "locblhost");
     } else {
-        struct addrinfo hints, *res;
+        struct bddrinfo hints, *res;
         int error;
 
-        hostname[NI_MAXHOST] = '\0';
+        hostnbme[NI_MAXHOST] = '\0';
         memset(&hints, 0, sizeof(hints));
-        hints.ai_flags = AI_CANONNAME;
-        hints.ai_family = AF_INET;
+        hints.bi_flbgs = AI_CANONNAME;
+        hints.bi_fbmily = AF_INET;
 
-        error = getaddrinfo(hostname, NULL, &hints, &res);
+        error = getbddrinfo(hostnbme, NULL, &hints, &res);
 
-        if (error == 0) {/* host is known to name service */
-            getnameinfo(res->ai_addr,
-                        res->ai_addrlen,
-                        hostname,
+        if (error == 0) {/* host is known to nbme service */
+            getnbmeinfo(res->bi_bddr,
+                        res->bi_bddrlen,
+                        hostnbme,
                         NI_MAXHOST,
                         NULL,
                         0,
                         NI_NAMEREQD);
 
-            /* if getnameinfo fails hostname is still the value
-               from gethostname */
+            /* if getnbmeinfo fbils hostnbme is still the vblue
+               from gethostnbme */
 
-            freeaddrinfo(res);
+            freebddrinfo(res);
         }
     }
-    return (*env)->NewStringUTF(env, hostname);
+    return (*env)->NewStringUTF(env, hostnbme);
 }
 
 /*
- * Find an internet address for a given hostname.  Note that this
- * code only works for addresses of type INET. The translation
- * of %d.%d.%d.%d to an address (int) occurs in java now, so the
- * String "host" shouldn't *ever* be a %d.%d.%d.%d string
+ * Find bn internet bddress for b given hostnbme.  Note thbt this
+ * code only works for bddresses of type INET. The trbnslbtion
+ * of %d.%d.%d.%d to bn bddress (int) occurs in jbvb now, so the
+ * String "host" shouldn't *ever* be b %d.%d.%d.%d string
  *
- * Class:     java_net_Inet4AddressImpl
+ * Clbss:     jbvb_net_Inet4AddressImpl
  * Method:    lookupAllHostAddr
- * Signature: (Ljava/lang/String;)[[B
+ * Signbture: (Ljbvb/lbng/String;)[[B
  */
 
-JNIEXPORT jobjectArray JNICALL
-Java_java_net_Inet4AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_jbvb_net_Inet4AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
                                                 jstring host) {
-    const char *hostname;
-    jobjectArray ret = 0;
+    const chbr *hostnbme;
+    jobjectArrby ret = 0;
     int retLen = 0;
     int error = 0;
-    struct addrinfo hints, *res, *resNew = NULL;
+    struct bddrinfo hints, *res, *resNew = NULL;
 
     initInetAddressIDs(env);
     JNU_CHECK_EXCEPTION_RETURN(env, NULL);
@@ -391,147 +391,147 @@ Java_java_net_Inet4AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
         JNU_ThrowNullPointerException(env, "host is null");
         return 0;
     }
-    hostname = JNU_GetStringPlatformChars(env, host, JNI_FALSE);
-    CHECK_NULL_RETURN(hostname, NULL);
+    hostnbme = JNU_GetStringPlbtformChbrs(env, host, JNI_FALSE);
+    CHECK_NULL_RETURN(hostnbme, NULL);
 
-    /* Try once, with our static buffer. */
+    /* Try once, with our stbtic buffer. */
     memset(&hints, 0, sizeof(hints));
-    hints.ai_flags = AI_CANONNAME;
-    hints.ai_family = AF_INET;
+    hints.bi_flbgs = AI_CANONNAME;
+    hints.bi_fbmily = AF_INET;
 
-#ifdef __solaris__
+#ifdef __solbris__
     /*
-     * Workaround for Solaris bug 4160367 - if a hostname contains a
-     * white space then 0.0.0.0 is returned
+     * Workbround for Solbris bug 4160367 - if b hostnbme contbins b
+     * white spbce then 0.0.0.0 is returned
      */
-    if (isspace((unsigned char)hostname[0])) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "UnknownHostException",
-                        (char *)hostname);
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
+    if (isspbce((unsigned chbr)hostnbme[0])) {
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "UnknownHostException",
+                        (chbr *)hostnbme);
+        JNU_RelebseStringPlbtformChbrs(env, host, hostnbme);
         return NULL;
     }
 #endif
 
-    error = getaddrinfo(hostname, NULL, &hints, &res);
+    error = getbddrinfo(hostnbme, NULL, &hints, &res);
 
     if (error) {
         /* report error */
-        NET_ThrowUnknownHostExceptionWithGaiError(env, hostname, error);
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
+        NET_ThrowUnknownHostExceptionWithGbiError(env, hostnbme, error);
+        JNU_RelebseStringPlbtformChbrs(env, host, hostnbme);
         return NULL;
     } else {
         int i = 0;
-        struct addrinfo *itr, *last = NULL, *iterator = res;
+        struct bddrinfo *itr, *lbst = NULL, *iterbtor = res;
 
-        while (iterator != NULL) {
-            // remove the duplicate one
+        while (iterbtor != NULL) {
+            // remove the duplicbte one
             int skip = 0;
             itr = resNew;
             while (itr != NULL) {
-                struct sockaddr_in *addr1, *addr2;
-                addr1 = (struct sockaddr_in *)iterator->ai_addr;
-                addr2 = (struct sockaddr_in *)itr->ai_addr;
-                if (addr1->sin_addr.s_addr ==
-                    addr2->sin_addr.s_addr) {
+                struct sockbddr_in *bddr1, *bddr2;
+                bddr1 = (struct sockbddr_in *)iterbtor->bi_bddr;
+                bddr2 = (struct sockbddr_in *)itr->bi_bddr;
+                if (bddr1->sin_bddr.s_bddr ==
+                    bddr2->sin_bddr.s_bddr) {
                     skip = 1;
-                    break;
+                    brebk;
                 }
-                itr = itr->ai_next;
+                itr = itr->bi_next;
             }
 
             if (!skip) {
-                struct addrinfo *next
-                    = (struct addrinfo*) malloc(sizeof(struct addrinfo));
+                struct bddrinfo *next
+                    = (struct bddrinfo*) mblloc(sizeof(struct bddrinfo));
                 if (!next) {
-                    JNU_ThrowOutOfMemoryError(env, "Native heap allocation failed");
+                    JNU_ThrowOutOfMemoryError(env, "Nbtive hebp bllocbtion fbiled");
                     ret = NULL;
-                    goto cleanupAndReturn;
+                    goto clebnupAndReturn;
                 }
-                memcpy(next, iterator, sizeof(struct addrinfo));
-                next->ai_next = NULL;
+                memcpy(next, iterbtor, sizeof(struct bddrinfo));
+                next->bi_next = NULL;
                 if (resNew == NULL) {
                     resNew = next;
                 } else {
-                    last->ai_next = next;
+                    lbst->bi_next = next;
                 }
-                last = next;
+                lbst = next;
                 i++;
             }
-            iterator = iterator->ai_next;
+            iterbtor = iterbtor->bi_next;
         }
 
         retLen = i;
-        iterator = resNew;
+        iterbtor = resNew;
 
-        ret = (*env)->NewObjectArray(env, retLen, ia_class, NULL);
+        ret = (*env)->NewObjectArrby(env, retLen, ib_clbss, NULL);
 
         if (IS_NULL(ret)) {
-            /* we may have memory to free at the end of this */
-            goto cleanupAndReturn;
+            /* we mby hbve memory to free bt the end of this */
+            goto clebnupAndReturn;
         }
 
         i = 0;
-        while (iterator != NULL) {
-            jobject iaObj = (*env)->NewObject(env, ia4_class, ia4_ctrID);
-            if (IS_NULL(iaObj)) {
+        while (iterbtor != NULL) {
+            jobject ibObj = (*env)->NewObject(env, ib4_clbss, ib4_ctrID);
+            if (IS_NULL(ibObj)) {
                 ret = NULL;
-                goto cleanupAndReturn;
+                goto clebnupAndReturn;
             }
-            setInetAddress_addr(env, iaObj, ntohl(((struct sockaddr_in*)iterator->ai_addr)->sin_addr.s_addr));
-            setInetAddress_hostName(env, iaObj, host);
-            (*env)->SetObjectArrayElement(env, ret, i++, iaObj);
-            iterator = iterator->ai_next;
+            setInetAddress_bddr(env, ibObj, ntohl(((struct sockbddr_in*)iterbtor->bi_bddr)->sin_bddr.s_bddr));
+            setInetAddress_hostNbme(env, ibObj, host);
+            (*env)->SetObjectArrbyElement(env, ret, i++, ibObj);
+            iterbtor = iterbtor->bi_next;
         }
     }
 
- cleanupAndReturn:
+ clebnupAndReturn:
     {
-        struct addrinfo *iterator, *tmp;
-        iterator = resNew;
-        while (iterator != NULL) {
-            tmp = iterator;
-            iterator = iterator->ai_next;
+        struct bddrinfo *iterbtor, *tmp;
+        iterbtor = resNew;
+        while (iterbtor != NULL) {
+            tmp = iterbtor;
+            iterbtor = iterbtor->bi_next;
             free(tmp);
         }
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
+        JNU_RelebseStringPlbtformChbrs(env, host, hostnbme);
     }
 
-    freeaddrinfo(res);
+    freebddrinfo(res);
 
     return ret;
 }
 
 /*
- * Class:     java_net_Inet4AddressImpl
+ * Clbss:     jbvb_net_Inet4AddressImpl
  * Method:    getHostByAddr
- * Signature: (I)Ljava/lang/String;
+ * Signbture: (I)Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_net_Inet4AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
-                                            jbyteArray addrArray) {
+Jbvb_jbvb_net_Inet4AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
+                                            jbyteArrby bddrArrby) {
     jstring ret = NULL;
 
-    char host[NI_MAXHOST+1];
+    chbr host[NI_MAXHOST+1];
     int error = 0;
     int len = 0;
-    jbyte caddr[4];
+    jbyte cbddr[4];
 
-    struct sockaddr_in him4;
-    struct sockaddr *sa;
+    struct sockbddr_in him4;
+    struct sockbddr *sb;
 
-    jint addr;
-    (*env)->GetByteArrayRegion(env, addrArray, 0, 4, caddr);
-    addr = ((caddr[0]<<24) & 0xff000000);
-    addr |= ((caddr[1] <<16) & 0xff0000);
-    addr |= ((caddr[2] <<8) & 0xff00);
-    addr |= (caddr[3] & 0xff);
+    jint bddr;
+    (*env)->GetByteArrbyRegion(env, bddrArrby, 0, 4, cbddr);
+    bddr = ((cbddr[0]<<24) & 0xff000000);
+    bddr |= ((cbddr[1] <<16) & 0xff0000);
+    bddr |= ((cbddr[2] <<8) & 0xff00);
+    bddr |= (cbddr[3] & 0xff);
     memset((void *) &him4, 0, sizeof(him4));
-    him4.sin_addr.s_addr = (uint32_t) htonl(addr);
-    him4.sin_family = AF_INET;
-    sa = (struct sockaddr *) &him4;
+    him4.sin_bddr.s_bddr = (uint32_t) htonl(bddr);
+    him4.sin_fbmily = AF_INET;
+    sb = (struct sockbddr *) &him4;
     len = sizeof(him4);
 
-    error = getnameinfo(sa, len, host, NI_MAXHOST, NULL, 0,
+    error = getnbmeinfo(sb, len, host, NI_MAXHOST, NULL, 0,
                         NI_NAMEREQD);
 
     if (!error) {
@@ -539,7 +539,7 @@ Java_java_net_Inet4AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
     }
 
     if (ret == NULL) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "UnknownHostException", NULL);
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "UnknownHostException", NULL);
     }
 
     return ret;
@@ -548,61 +548,61 @@ Java_java_net_Inet4AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
 #endif /* _ALLBSD_SOURCE */
 
 #define SET_NONBLOCKING(fd) {           \
-        int flags = fcntl(fd, F_GETFL); \
-        flags |= O_NONBLOCK;            \
-        fcntl(fd, F_SETFL, flags);      \
+        int flbgs = fcntl(fd, F_GETFL); \
+        flbgs |= O_NONBLOCK;            \
+        fcntl(fd, F_SETFL, flbgs);      \
 }
 
 /**
- * ping implementation.
- * Send a ICMP_ECHO_REQUEST packet every second until either the timeout
- * expires or a answer is received.
- * Returns true is an ECHO_REPLY is received, otherwise, false.
+ * ping implementbtion.
+ * Send b ICMP_ECHO_REQUEST pbcket every second until either the timeout
+ * expires or b bnswer is received.
+ * Returns true is bn ECHO_REPLY is received, otherwise, fblse.
  */
-static jboolean
-ping4(JNIEnv *env, jint fd, struct sockaddr_in* him, jint timeout,
-      struct sockaddr_in* netif, jint ttl) {
+stbtic jboolebn
+ping4(JNIEnv *env, jint fd, struct sockbddr_in* him, jint timeout,
+      struct sockbddr_in* netif, jint ttl) {
     jint size;
     jint n, hlen1, icmplen;
     socklen_t len;
-    char sendbuf[1500];
-    char recvbuf[1500];
+    chbr sendbuf[1500];
+    chbr recvbuf[1500];
     struct icmp *icmp;
     struct ip *ip;
-    struct sockaddr_in sa_recv;
-    jchar pid;
+    struct sockbddr_in sb_recv;
+    jchbr pid;
     jint tmout2, seq = 1;
-    struct timeval tv;
+    struct timevbl tv;
     size_t plen;
 
-    /* icmp_id is a 16 bit data type, therefore down cast the pid */
-    pid = (jchar)getpid();
+    /* icmp_id is b 16 bit dbtb type, therefore down cbst the pid */
+    pid = (jchbr)getpid();
     size = 60*1024;
     setsockopt(fd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
     /*
-     * sets the ttl (max number of hops)
+     * sets the ttl (mbx number of hops)
      */
     if (ttl > 0) {
       setsockopt(fd, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl));
     }
     /*
-     * a specific interface was specified, so let's bind the socket
-     * to that interface to ensure the requests are sent only through it.
+     * b specific interfbce wbs specified, so let's bind the socket
+     * to thbt interfbce to ensure the requests bre sent only through it.
      */
     if (netif != NULL) {
-      if (bind(fd, (struct sockaddr*)netif, sizeof(struct sockaddr_in)) < 0) {
-        NET_ThrowNew(env, errno, "Can't bind socket");
+      if (bind(fd, (struct sockbddr*)netif, sizeof(struct sockbddr_in)) < 0) {
+        NET_ThrowNew(env, errno, "Cbn't bind socket");
         close(fd);
         return JNI_FALSE;
       }
     }
     /*
-     * Make the socket non blocking so we can use select
+     * Mbke the socket non blocking so we cbn use select
      */
     SET_NONBLOCKING(fd);
     do {
       /*
-       * create the ICMP request
+       * crebte the ICMP request
        */
       icmp = (struct icmp *) sendbuf;
       icmp->icmp_type = ICMP_ECHO;
@@ -610,53 +610,53 @@ ping4(JNIEnv *env, jint fd, struct sockaddr_in* him, jint timeout,
       icmp->icmp_id = htons(pid);
       icmp->icmp_seq = htons(seq);
       seq++;
-      gettimeofday(&tv, NULL);
-      memcpy(icmp->icmp_data, &tv, sizeof(tv));
+      gettimeofdby(&tv, NULL);
+      memcpy(icmp->icmp_dbtb, &tv, sizeof(tv));
       plen = ICMP_ADVLENMIN + sizeof(tv);
       icmp->icmp_cksum = 0;
       icmp->icmp_cksum = in_cksum((u_short *)icmp, plen);
       /*
        * send it
        */
-      n = sendto(fd, sendbuf, plen, 0, (struct sockaddr *)him,
-                 sizeof(struct sockaddr));
+      n = sendto(fd, sendbuf, plen, 0, (struct sockbddr *)him,
+                 sizeof(struct sockbddr));
       if (n < 0 && errno != EINPROGRESS ) {
 #ifdef __linux__
         if (errno != EINVAL && errno != EHOSTUNREACH)
           /*
-           * On some Linux versions, when a socket is bound to the loopback
-           * interface, sendto will fail and errno will be set to
-           * EINVAL or EHOSTUNREACH. When that happens, don't throw an
-           * exception, just return false.
+           * On some Linux versions, when b socket is bound to the loopbbck
+           * interfbce, sendto will fbil bnd errno will be set to
+           * EINVAL or EHOSTUNREACH. When thbt hbppens, don't throw bn
+           * exception, just return fblse.
            */
 #endif /*__linux__ */
-          NET_ThrowNew(env, errno, "Can't send ICMP packet");
+          NET_ThrowNew(env, errno, "Cbn't send ICMP pbcket");
         close(fd);
         return JNI_FALSE;
       }
 
       tmout2 = timeout > 1000 ? 1000 : timeout;
       do {
-        tmout2 = NET_Wait(env, fd, NET_WAIT_READ, tmout2);
+        tmout2 = NET_Wbit(env, fd, NET_WAIT_READ, tmout2);
         if (tmout2 >= 0) {
-          len = sizeof(sa_recv);
-          n = recvfrom(fd, recvbuf, sizeof(recvbuf), 0, (struct sockaddr *)&sa_recv, &len);
+          len = sizeof(sb_recv);
+          n = recvfrom(fd, recvbuf, sizeof(recvbuf), 0, (struct sockbddr *)&sb_recv, &len);
           ip = (struct ip*) recvbuf;
           hlen1 = (ip->ip_hl) << 2;
           icmp = (struct icmp *) (recvbuf + hlen1);
           icmplen = n - hlen1;
           /*
-           * We did receive something, but is it what we were expecting?
-           * I.E.: A ICMP_ECHOREPLY packet with the proper PID.
+           * We did receive something, but is it whbt we were expecting?
+           * I.E.: A ICMP_ECHOREPLY pbcket with the proper PID.
            */
           if (icmplen >= 8 && icmp->icmp_type == ICMP_ECHOREPLY
                && (ntohs(icmp->icmp_id) == pid)) {
-            if ((him->sin_addr.s_addr == sa_recv.sin_addr.s_addr)) {
+            if ((him->sin_bddr.s_bddr == sb_recv.sin_bddr.s_bddr)) {
               close(fd);
               return JNI_TRUE;
             }
 
-            if (him->sin_addr.s_addr == 0) {
+            if (him->sin_bddr.s_bddr == 0) {
               close(fd);
               return JNI_TRUE;
             }
@@ -671,82 +671,82 @@ ping4(JNIEnv *env, jint fd, struct sockaddr_in* him, jint timeout,
 }
 
 /*
- * Class:     java_net_Inet4AddressImpl
- * Method:    isReachable0
- * Signature: ([bI[bI)Z
+ * Clbss:     jbvb_net_Inet4AddressImpl
+ * Method:    isRebchbble0
+ * Signbture: ([bI[bI)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_java_net_Inet4AddressImpl_isReachable0(JNIEnv *env, jobject this,
-                                           jbyteArray addrArray,
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_net_Inet4AddressImpl_isRebchbble0(JNIEnv *env, jobject this,
+                                           jbyteArrby bddrArrby,
                                            jint timeout,
-                                           jbyteArray ifArray,
+                                           jbyteArrby ifArrby,
                                            jint ttl) {
-    jint addr;
-    jbyte caddr[4];
+    jint bddr;
+    jbyte cbddr[4];
     jint fd;
-    struct sockaddr_in him;
-    struct sockaddr_in* netif = NULL;
-    struct sockaddr_in inf;
+    struct sockbddr_in him;
+    struct sockbddr_in* netif = NULL;
+    struct sockbddr_in inf;
     int len = 0;
     int connect_rv = -1;
     int sz;
 
-    memset((char *) caddr, 0, sizeof(caddr));
-    memset((char *) &him, 0, sizeof(him));
-    memset((char *) &inf, 0, sizeof(inf));
-    sz = (*env)->GetArrayLength(env, addrArray);
+    memset((chbr *) cbddr, 0, sizeof(cbddr));
+    memset((chbr *) &him, 0, sizeof(him));
+    memset((chbr *) &inf, 0, sizeof(inf));
+    sz = (*env)->GetArrbyLength(env, bddrArrby);
     if (sz != 4) {
       return JNI_FALSE;
     }
-    (*env)->GetByteArrayRegion(env, addrArray, 0, 4, caddr);
-    addr = ((caddr[0]<<24) & 0xff000000);
-    addr |= ((caddr[1] <<16) & 0xff0000);
-    addr |= ((caddr[2] <<8) & 0xff00);
-    addr |= (caddr[3] & 0xff);
-    addr = htonl(addr);
-    him.sin_addr.s_addr = addr;
-    him.sin_family = AF_INET;
+    (*env)->GetByteArrbyRegion(env, bddrArrby, 0, 4, cbddr);
+    bddr = ((cbddr[0]<<24) & 0xff000000);
+    bddr |= ((cbddr[1] <<16) & 0xff0000);
+    bddr |= ((cbddr[2] <<8) & 0xff00);
+    bddr |= (cbddr[3] & 0xff);
+    bddr = htonl(bddr);
+    him.sin_bddr.s_bddr = bddr;
+    him.sin_fbmily = AF_INET;
     len = sizeof(him);
     /*
-     * If a network interface was specified, let's create the address
+     * If b network interfbce wbs specified, let's crebte the bddress
      * for it.
      */
-    if (!(IS_NULL(ifArray))) {
-      memset((char *) caddr, 0, sizeof(caddr));
-      (*env)->GetByteArrayRegion(env, ifArray, 0, 4, caddr);
-      addr = ((caddr[0]<<24) & 0xff000000);
-      addr |= ((caddr[1] <<16) & 0xff0000);
-      addr |= ((caddr[2] <<8) & 0xff00);
-      addr |= (caddr[3] & 0xff);
-      addr = htonl(addr);
-      inf.sin_addr.s_addr = addr;
-      inf.sin_family = AF_INET;
+    if (!(IS_NULL(ifArrby))) {
+      memset((chbr *) cbddr, 0, sizeof(cbddr));
+      (*env)->GetByteArrbyRegion(env, ifArrby, 0, 4, cbddr);
+      bddr = ((cbddr[0]<<24) & 0xff000000);
+      bddr |= ((cbddr[1] <<16) & 0xff0000);
+      bddr |= ((cbddr[2] <<8) & 0xff00);
+      bddr |= (cbddr[3] & 0xff);
+      bddr = htonl(bddr);
+      inf.sin_bddr.s_bddr = bddr;
+      inf.sin_fbmily = AF_INET;
       inf.sin_port = 0;
       netif = &inf;
     }
 
     /*
-     * Let's try to create a RAW socket to send ICMP packets
-     * This usually requires "root" privileges, so it's likely to fail.
+     * Let's try to crebte b RAW socket to send ICMP pbckets
+     * This usublly requires "root" privileges, so it's likely to fbil.
      */
     fd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
     if (fd != -1) {
       /*
-       * It didn't fail, so we can use ICMP_ECHO requests.
+       * It didn't fbil, so we cbn use ICMP_ECHO requests.
        */
       return ping4(env, fd, &him, timeout, netif, ttl);
     }
 
     /*
-     * Can't create a raw socket, so let's try a TCP socket
+     * Cbn't crebte b rbw socket, so let's try b TCP socket
      */
     fd = socket(AF_INET, SOCK_STREAM, 0);
     if (fd == -1) {
-        /* note: if you run out of fds, you may not be able to load
-         * the exception class, and get a NoClassDefFoundError
-         * instead.
+        /* note: if you run out of fds, you mby not be bble to lobd
+         * the exception clbss, bnd get b NoClbssDefFoundError
+         * instebd.
          */
-        NET_ThrowNew(env, errno, "Can't create socket");
+        NET_ThrowNew(env, errno, "Cbn't crebte socket");
         return JNI_FALSE;
     }
     if (ttl > 0) {
@@ -754,27 +754,27 @@ Java_java_net_Inet4AddressImpl_isReachable0(JNIEnv *env, jobject this,
     }
 
     /*
-     * A network interface was specified, so let's bind to it.
+     * A network interfbce wbs specified, so let's bind to it.
      */
     if (netif != NULL) {
-      if (bind(fd, (struct sockaddr*)netif, sizeof(struct sockaddr_in)) < 0) {
-        NET_ThrowNew(env, errno, "Can't bind socket");
+      if (bind(fd, (struct sockbddr*)netif, sizeof(struct sockbddr_in)) < 0) {
+        NET_ThrowNew(env, errno, "Cbn't bind socket");
         close(fd);
         return JNI_FALSE;
       }
     }
 
     /*
-     * Make the socket non blocking so we can use select/poll.
+     * Mbke the socket non blocking so we cbn use select/poll.
      */
     SET_NONBLOCKING(fd);
 
     him.sin_port = htons(7);    /* Echo */
-    connect_rv = NET_Connect(fd, (struct sockaddr *)&him, len);
+    connect_rv = NET_Connect(fd, (struct sockbddr *)&him, len);
 
     /**
-     * connection established or refused immediately, either way it means
-     * we were able to reach the host!
+     * connection estbblished or refused immedibtely, either wby it mebns
+     * we were bble to rebch the host!
      */
     if (connect_rv == 0 || errno == ECONNREFUSED) {
         close(fd);
@@ -783,17 +783,17 @@ Java_java_net_Inet4AddressImpl_isReachable0(JNIEnv *env, jobject this,
         socklen_t optlen = (socklen_t)sizeof(connect_rv);
 
         switch (errno) {
-        case ENETUNREACH: /* Network Unreachable */
-        case EAFNOSUPPORT: /* Address Family not supported */
-        case EADDRNOTAVAIL: /* address is not available on  the  remote machine */
+        cbse ENETUNREACH: /* Network Unrebchbble */
+        cbse EAFNOSUPPORT: /* Address Fbmily not supported */
+        cbse EADDRNOTAVAIL: /* bddress is not bvbilbble on  the  remote mbchine */
 #ifdef __linux__
-        case EINVAL:
-        case EHOSTUNREACH:
+        cbse EINVAL:
+        cbse EHOSTUNREACH:
           /*
-           * On some Linux versions, when a socket is bound to the loopback
-           * interface, connect will fail and errno will be set to EINVAL
-           * or EHOSTUNREACH.  When that happens, don't throw an exception,
-           * just return false.
+           * On some Linux versions, when b socket is bound to the loopbbck
+           * interfbce, connect will fbil bnd errno will be set to EINVAL
+           * or EHOSTUNREACH.  When thbt hbppens, don't throw bn exception,
+           * just return fblse.
            */
 #endif /* __linux__ */
           close(fd);
@@ -801,15 +801,15 @@ Java_java_net_Inet4AddressImpl_isReachable0(JNIEnv *env, jobject this,
         }
 
         if (errno != EINPROGRESS) {
-          NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "ConnectException",
-                                       "connect failed");
+          NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "ConnectException",
+                                       "connect fbiled");
           close(fd);
           return JNI_FALSE;
         }
 
-        timeout = NET_Wait(env, fd, NET_WAIT_CONNECT, timeout);
+        timeout = NET_Wbit(env, fd, NET_WAIT_CONNECT, timeout);
         if (timeout >= 0) {
-          /* has connection been established? */
+          /* hbs connection been estbblished? */
           if (getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&connect_rv,
                          &optlen) <0) {
             connect_rv = errno;

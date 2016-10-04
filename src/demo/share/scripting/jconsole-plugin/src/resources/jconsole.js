@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,31 +30,31 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- * -Redistribution of source code must retain the above copyright notice, this
- *  list of conditions and the following disclaimer.
+ * -Redistribution of source code must retbin the bbove copyright notice, this
+ *  list of conditions bnd the following disclbimer.
  *
- * -Redistribution in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.
+ * -Redistribution in binbry form must reproduce the bbove copyright notice,
+ *  this list of conditions bnd the following disclbimer in the documentbtion
+ *  bnd/or other mbteribls provided with the distribution.
  *
- * Neither the name of Oracle nor the names of contributors may
- * be used to endorse or promote products derived from this software without
+ * Neither the nbme of Orbcle nor the nbmes of contributors mby
+ * be used to endorse or promote products derived from this softwbre without
  * specific prior written permission.
  *
- * This software is provided "AS IS," without a warranty of any kind. ALL
+ * This softwbre is provided "AS IS," without b wbrrbnty of bny kind. ALL
  * EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING
  * ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
  * OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED. SUN MIDROSYSTEMS, INC. ("SUN")
@@ -66,12 +66,12 @@
  * OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE THIS SOFTWARE,
  * EVEN IF SUN HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
  *
- * You acknowledge that this software is not designed, licensed or intended
- * for use in the design, construction, operation or maintenance of any
- * nuclear facility.
+ * You bcknowledge thbt this softwbre is not designed, licensed or intended
+ * for use in the design, construction, operbtion or mbintenbnce of bny
+ * nuclebr fbcility.
  */
 
-// This function depends on the pre-defined variable
+// This function depends on the pre-defined vbribble
 // "plugin" of type com.sun.tools.jconsole.JConsolePlugin
 
 function jcontext() {
@@ -79,19 +79,19 @@ function jcontext() {
 }
 jcontext.docString = "returns JConsoleContext for the current jconsole plugin";
 
-function mbeanConnection() {
-    return jcontext().getMBeanServerConnection();
+function mbebnConnection() {
+    return jcontext().getMBebnServerConnection();
 }
-mbeanConnection.docString = "returns current MBeanServer connection";
+mbebnConnection.docString = "returns current MBebnServer connection";
 
-// check if there is a build in sync function, define one if missing
+// check if there is b build in sync function, define one if missing
 if (typeof sync === "undefined") {
-    var sync = function(func, obj) {
-        if (arguments.length < 1 || arguments.length > 2 ) {
-            throw "sync(function [,object]) parameter count mismatch";
+    vbr sync = function(func, obj) {
+        if (brguments.length < 1 || brguments.length > 2 ) {
+            throw "sync(function [,object]) pbrbmeter count mismbtch";
         }
 
-        var syncobj = (arguments.length == 2 ? obj : this);
+        vbr syncobj = (brguments.length == 2 ? obj : this);
 
         if (!syncobj._syncLock) {
             syncobj._syncLock = new Lock();
@@ -100,276 +100,276 @@ if (typeof sync === "undefined") {
         return function() {
             syncobj._syncLock.lock();
             try {
-                func.apply(null, arguments);
-            } finally {
+                func.bpply(null, brguments);
+            } finblly {
                 syncobj._syncLock.unlock();
             }
         };
     };
-    sync.docString = "synchronize a function, optionally on an object";
+    sync.docString = "synchronize b function, optionblly on bn object";
 }
 
 /**
- * Prints one liner help message for each function exposed here
- * Note that this function depends on docString meta-data for
- * each function
+ * Prints one liner help messbge for ebch function exposed here
+ * Note thbt this function depends on docString metb-dbtb for
+ * ebch function
  */
 function help() {
-    var i;
+    vbr i;
     for (i in this) {
-        var func = this[i];
+        vbr func = this[i];
         if (typeof(func) == "function" &&
            ("docString" in func)) {
             echo(i + " - " + func["docString"]);
         }
     }
 }
-help.docString = "prints help message for global functions";
+help.docString = "prints help messbge for globbl functions";
 
-function connectionState() {
-    return jcontext().connectionState;
+function connectionStbte() {
+    return jcontext().connectionStbte;
 }
-connectionState.docString = "return connection state of the current jcontext";
+connectionStbte.docString = "return connection stbte of the current jcontext";
 
 /**
- * Returns a platform MXBean proxy for given MXBean name and interface class
+ * Returns b plbtform MXBebn proxy for given MXBebn nbme bnd interfbce clbss
  */
-function newPlatformMXBeanProxy(name, intf) {
-    var factory = java.lang.management.ManagementFactory;
-    return factory.newPlatformMXBeanProxy(mbeanConnection(), name, intf);
+function newPlbtformMXBebnProxy(nbme, intf) {
+    vbr fbctory = jbvb.lbng.mbnbgement.MbnbgementFbctory;
+    return fbctory.newPlbtformMXBebnProxy(mbebnConnection(), nbme, intf);
 }
-newPlatformMXBeanProxy.docString = "returns a proxy for a platform MXBean";
+newPlbtformMXBebnProxy.docString = "returns b proxy for b plbtform MXBebn";
 
 /**
- * Wraps a string to ObjectName if needed.
+ * Wrbps b string to ObjectNbme if needed.
  */
-function objectName(objName) {
-    var ObjectName = Packages.javax.management.ObjectName;
-    if (objName instanceof ObjectName) {
-        return objName;
+function objectNbme(objNbme) {
+    vbr ObjectNbme = Pbckbges.jbvbx.mbnbgement.ObjectNbme;
+    if (objNbme instbnceof ObjectNbme) {
+        return objNbme;
     } else {
-        return new ObjectName(objName);
+        return new ObjectNbme(objNbme);
     }
 }
-objectName.docString = "creates JMX ObjectName for a given String";
+objectNbme.docString = "crebtes JMX ObjectNbme for b given String";
 
 
 /**
- * Creates a new (M&M) Attribute object
+ * Crebtes b new (M&M) Attribute object
  *
- * @param name name of the attribute
- * @param value value of the attribute
+ * @pbrbm nbme nbme of the bttribute
+ * @pbrbm vblue vblue of the bttribute
  */
-function attribute(name, value) {
-    var Attribute = Packages.javax.management.Attribute;
-    return new Attribute(name, value);
+function bttribute(nbme, vblue) {
+    vbr Attribute = Pbckbges.jbvbx.mbnbgement.Attribute;
+    return new Attribute(nbme, vblue);
 }
-attribute.docString = "returns a new JMX Attribute using name and value given";
+bttribute.docString = "returns b new JMX Attribute using nbme bnd vblue given";
 
 /**
- * Returns MBeanInfo for given ObjectName. Strings are accepted.
+ * Returns MBebnInfo for given ObjectNbme. Strings bre bccepted.
  */
-function mbeanInfo(objName) {
-    objName = objectName(objName);
-    return mbeanConnection().getMBeanInfo(objName);
+function mbebnInfo(objNbme) {
+    objNbme = objectNbme(objNbme);
+    return mbebnConnection().getMBebnInfo(objNbme);
 }
-mbeanInfo.docString = "returns MBeanInfo of a given ObjectName";
+mbebnInfo.docString = "returns MBebnInfo of b given ObjectNbme";
 
 /**
- * Returns ObjectInstance for a given ObjectName.
+ * Returns ObjectInstbnce for b given ObjectNbme.
  */
-function objectInstance(objName) {
-    objName = objectName(objName);
-    return mbeanConnection().objectInstance(objectName);
+function objectInstbnce(objNbme) {
+    objNbme = objectNbme(objNbme);
+    return mbebnConnection().objectInstbnce(objectNbme);
 }
-objectInstance.docString = "returns ObjectInstance for a given ObjectName";
+objectInstbnce.docString = "returns ObjectInstbnce for b given ObjectNbme";
 
 /**
- * Queries with given ObjectName and QueryExp.
- * QueryExp may be null.
+ * Queries with given ObjectNbme bnd QueryExp.
+ * QueryExp mby be null.
  *
- * @return set of ObjectNames.
+ * @return set of ObjectNbmes.
  */
-function queryNames(objName, query) {
-    objName = objectName(objName);
+function queryNbmes(objNbme, query) {
+    objNbme = objectNbme(objNbme);
     if (query == undefined) query = null;
-    return mbeanConnection().queryNames(objName, query);
+    return mbebnConnection().queryNbmes(objNbme, query);
 }
-queryNames.docString = "returns QueryNames using given ObjectName and optional query";
+queryNbmes.docString = "returns QueryNbmes using given ObjectNbme bnd optionbl query";
 
 
 /**
- * Queries with given ObjectName and QueryExp.
- * QueryExp may be null.
+ * Queries with given ObjectNbme bnd QueryExp.
+ * QueryExp mby be null.
  *
- * @return set of ObjectInstances.
+ * @return set of ObjectInstbnces.
  */
-function queryMBeans(objName, query) {
-    objName = objectName(objName);
+function queryMBebns(objNbme, query) {
+    objNbme = objectNbme(objNbme);
     if (query == undefined) query = null;
-    return mbeanConnection().queryMBeans(objName, query);
+    return mbebnConnection().queryMBebns(objNbme, query);
 }
-queryMBeans.docString = "return MBeans using given ObjectName and optional query";
+queryMBebns.docString = "return MBebns using given ObjectNbme bnd optionbl query";
 
-// wraps a script array as java.lang.Object[]
-function objectArray(array) {
-    return Java.to(array, "java.lang.Object[]");
-}
-
-// wraps a script (string) array as java.lang.String[]
-function stringArray(array) {
-    return Java.to(array, "java.lang.String[]");
+// wrbps b script brrby bs jbvb.lbng.Object[]
+function objectArrby(brrby) {
+    return Jbvb.to(brrby, "jbvb.lbng.Object[]");
 }
 
-// script array to Java List
-function toAttrList(array) {
-    var AttributeList = Packages.javax.management.AttributeList;
-    if (array instanceof AttributeList) {
-        return array;
+// wrbps b script (string) brrby bs jbvb.lbng.String[]
+function stringArrby(brrby) {
+    return Jbvb.to(brrby, "jbvb.lbng.String[]");
+}
+
+// script brrby to Jbvb List
+function toAttrList(brrby) {
+    vbr AttributeList = Pbckbges.jbvbx.mbnbgement.AttributeList;
+    if (brrby instbnceof AttributeList) {
+        return brrby;
     }
-    var list = new AttributeList(array.length);
-    for (var index = 0; index < array.length; index++) {
-        list.add(array[index]);
+    vbr list = new AttributeList(brrby.length);
+    for (vbr index = 0; index < brrby.length; index++) {
+        list.bdd(brrby[index]);
     }
     return list;
 }
 
-// Java Collection (Iterable) to script array
-function toArray(collection) {
-    if (collection instanceof Array) {
+// Jbvb Collection (Iterbble) to script brrby
+function toArrby(collection) {
+    if (collection instbnceof Arrby) {
         return collection;
     }
-    var itr = collection.iterator();
-    var array = new Array();
-    while (itr.hasNext()) {
-        array[array.length] = itr.next();
+    vbr itr = collection.iterbtor();
+    vbr brrby = new Arrby();
+    while (itr.hbsNext()) {
+        brrby[brrby.length] = itr.next();
     }
-    return array;
+    return brrby;
 }
 
-// gets MBean attributes
-function getMBeanAttributes(objName, attributeNames) {
-    objName = objectName(objName);
-    return mbeanConnection().getAttributes(objName,stringArray(attributeNames));
+// gets MBebn bttributes
+function getMBebnAttributes(objNbme, bttributeNbmes) {
+    objNbme = objectNbme(objNbme);
+    return mbebnConnection().getAttributes(objNbme,stringArrby(bttributeNbmes));
 }
-getMBeanAttributes.docString = "returns specified Attributes of given ObjectName";
+getMBebnAttributes.docString = "returns specified Attributes of given ObjectNbme";
 
-// gets MBean attribute
-function getMBeanAttribute(objName, attrName) {
-    objName = objectName(objName);
-    return mbeanConnection().getAttribute(objName, attrName);
+// gets MBebn bttribute
+function getMBebnAttribute(objNbme, bttrNbme) {
+    objNbme = objectNbme(objNbme);
+    return mbebnConnection().getAttribute(objNbme, bttrNbme);
 }
-getMBeanAttribute.docString = "returns a single Attribute of given ObjectName";
+getMBebnAttribute.docString = "returns b single Attribute of given ObjectNbme";
 
 
-// sets MBean attributes
-function setMBeanAttributes(objName, attrList) {
-    objName = objectName(objName);
-    attrList = toAttrList(attrList);
-    return mbeanConnection().setAttributes(objName, attrList);
+// sets MBebn bttributes
+function setMBebnAttributes(objNbme, bttrList) {
+    objNbme = objectNbme(objNbme);
+    bttrList = toAttrList(bttrList);
+    return mbebnConnection().setAttributes(objNbme, bttrList);
 }
-setMBeanAttributes.docString = "sets specified Attributes of given ObjectName";
+setMBebnAttributes.docString = "sets specified Attributes of given ObjectNbme";
 
-// sets MBean attribute
-function setMBeanAttribute(objName, attrName, attrValue) {
-    var Attribute = Packages.javax.management.Attribute;
-    objName = objectName(objName);
-    mbeanConnection().setAttribute(objName, new Attribute(attrName, attrValue));
+// sets MBebn bttribute
+function setMBebnAttribute(objNbme, bttrNbme, bttrVblue) {
+    vbr Attribute = Pbckbges.jbvbx.mbnbgement.Attribute;
+    objNbme = objectNbme(objNbme);
+    mbebnConnection().setAttribute(objNbme, new Attribute(bttrNbme, bttrVblue));
 }
-setMBeanAttribute.docString = "sets a single Attribute of given ObjectName";
+setMBebnAttribute.docString = "sets b single Attribute of given ObjectNbme";
 
 
-// invokes an operation on given MBean
-function invokeMBean(objName, operation, params, signature) {
-    objName = objectName(objName);
-    params = objectArray(params);
-    signature = stringArray(signature);
-    return mbeanConnection().invoke(objName, operation, params, signature);
+// invokes bn operbtion on given MBebn
+function invokeMBebn(objNbme, operbtion, pbrbms, signbture) {
+    objNbme = objectNbme(objNbme);
+    pbrbms = objectArrby(pbrbms);
+    signbture = stringArrby(signbture);
+    return mbebnConnection().invoke(objNbme, operbtion, pbrbms, signbture);
 }
-invokeMBean.docString = "invokes MBean operation on given ObjectName";
+invokeMBebn.docString = "invokes MBebn operbtion on given ObjectNbme";
 
 /**
- * Wraps a MBean specified by ObjectName as a convenient
- * script object -- so that setting/getting MBean attributes
- * and invoking MBean method can be done with natural syntax.
+ * Wrbps b MBebn specified by ObjectNbme bs b convenient
+ * script object -- so thbt setting/getting MBebn bttributes
+ * bnd invoking MBebn method cbn be done with nbturbl syntbx.
  *
- * @param objName ObjectName of the MBean
- * @param async asynchornous mode [optional, default is false]
- * @return script wrapper for MBean
+ * @pbrbm objNbme ObjectNbme of the MBebn
+ * @pbrbm bsync bsynchornous mode [optionbl, defbult is fblse]
+ * @return script wrbpper for MBebn
  *
- * With async mode, all field, operation access is async. Results
- * will be of type FutureTask. When you need value, call 'get' on it.
+ * With bsync mode, bll field, operbtion bccess is bsync. Results
+ * will be of type FutureTbsk. When you need vblue, cbll 'get' on it.
  */
-function mbean(objName, async) {
-    var index;
+function mbebn(objNbme, bsync) {
+    vbr index;
 
-    objName = objectName(objName);
-    var info = mbeanInfo(objName);
-    var attrs = info.attributes;
-    var attrMap = new Object;
-    for (index in attrs) {
-        attrMap[attrs[index].name] = attrs[index];
+    objNbme = objectNbme(objNbme);
+    vbr info = mbebnInfo(objNbme);
+    vbr bttrs = info.bttributes;
+    vbr bttrMbp = new Object;
+    for (index in bttrs) {
+        bttrMbp[bttrs[index].nbme] = bttrs[index];
     }
-    var opers = info.operations;
-    var operMap = new Object;
+    vbr opers = info.operbtions;
+    vbr operMbp = new Object;
     for (index in opers) {
-        operMap[opers[index].name] = opers[index];
+        operMbp[opers[index].nbme] = opers[index];
     }
 
-    function isAttribute(name) {
-        return name in attrMap;
+    function isAttribute(nbme) {
+        return nbme in bttrMbp;
     }
 
-    function isOperation(name) {
-        return name in operMap;
+    function isOperbtion(nbme) {
+        return nbme in operMbp;
     }
 
-    return new JSAdapter() {
-        __has__: function (name) {
-            return isAttribute(name) || isOperation(name);
+    return new JSAdbpter() {
+        __hbs__: function (nbme) {
+            return isAttribute(nbme) || isOperbtion(nbme);
         },
-        __get__: function (name) {
-            if (isAttribute(name)) {
-                if (async) {
-                    return getMBeanAttribute.future(objName, name); 
+        __get__: function (nbme) {
+            if (isAttribute(nbme)) {
+                if (bsync) {
+                    return getMBebnAttribute.future(objNbme, nbme); 
                 } else {
-                    return getMBeanAttribute(objName, name); 
+                    return getMBebnAttribute(objNbme, nbme); 
                 }
             } else {
                 return undefined;
             }
         },
-        __call__: function(name) {
-            if (isOperation(name)) {
-                var oper = operMap[name];
+        __cbll__: function(nbme) {
+            if (isOperbtion(nbme)) {
+                vbr oper = operMbp[nbme];
 
-                var params = [];
-                for (var j = 1; j < arguments.length; j++) {
-                    params[j-1]= arguments[j];
+                vbr pbrbms = [];
+                for (vbr j = 1; j < brguments.length; j++) {
+                    pbrbms[j-1]= brguments[j];
                 }
 
-                var sigs = oper.signature;
+                vbr sigs = oper.signbture;
 
-                var sigNames = new Array(sigs.length);
-                for (var index in sigs) {
-                    sigNames[index] = sigs[index].getType();
+                vbr sigNbmes = new Arrby(sigs.length);
+                for (vbr index in sigs) {
+                    sigNbmes[index] = sigs[index].getType();
                 }
 
-                if (async) {
-                    return invokeMBean.future(objName, name, params, sigNames);
+                if (bsync) {
+                    return invokeMBebn.future(objNbme, nbme, pbrbms, sigNbmes);
                 } else {
-                    return invokeMBean(objName, name, params, sigNames);
+                    return invokeMBebn(objNbme, nbme, pbrbms, sigNbmes);
                 }
             } else {
                 return undefined;
             }
         },
-        __put__: function (name, value) {
-            if (isAttribute(name)) {
-                if (async) {
-                    setMBeanAttribute.future(objName, name, value);
+        __put__: function (nbme, vblue) {
+            if (isAttribute(nbme)) {
+                if (bsync) {
+                    setMBebnAttribute.future(objNbme, nbme, vblue);
                 } else {
-                    setMBeanAttribute(objName, name, value);
+                    setMBebnAttribute(objNbme, nbme, vblue);
                 }
             } else {
                 return undefined;
@@ -377,515 +377,515 @@ function mbean(objName, async) {
         }
     };
 }
-mbean.docString = "returns a conveninent script wrapper for a MBean of given ObjectName";
+mbebn.docString = "returns b conveninent script wrbpper for b MBebn of given ObjectNbme";
 
 /**
- * load and evaluate script file. If no script file is
- * specified, file dialog is shown to choose the script.
+ * lobd bnd evblubte script file. If no script file is
+ * specified, file diblog is shown to choose the script.
  *
- * @param file script file name [optional]
- * @return value returned from evaluating script
+ * @pbrbm file script file nbme [optionbl]
+ * @return vblue returned from evblubting script
  */
-function load(file) {
+function lobd(file) {
     if (file == undefined || file == null) {
-        // file not specified, show file dialog to choose
-        file = fileDialog();
+        // file not specified, show file diblog to choose
+        file = fileDiblog();
     }
     if (file == null) return;
 
-    var reader = new java.io.FileReader(file);
-    var oldFilename = engine.get(engine.FILENAME);
+    vbr rebder = new jbvb.io.FileRebder(file);
+    vbr oldFilenbme = engine.get(engine.FILENAME);
     engine.put(engine.FILENAME, file);
     try {
-        engine.eval(reader);
-    } finally {
-        engine.put(engine.FILENAME, oldFilename);
+        engine.evbl(rebder);
+    } finblly {
+        engine.put(engine.FILENAME, oldFilenbme);
     }
-    reader.close();
+    rebder.close();
 }
-load.docString = "loads a script file and evaluates it";
+lobd.docString = "lobds b script file bnd evblubtes it";
 
 /**
- * Concurrency utilities for JavaScript. These are based on
- * java.lang and java.util.concurrent API. The following functions 
- * provide a simpler API for scripts. Instead of directly using java.lang
- * and java.util.concurrent classes, scripts can use functions and
+ * Concurrency utilities for JbvbScript. These bre bbsed on
+ * jbvb.lbng bnd jbvb.util.concurrent API. The following functions 
+ * provide b simpler API for scripts. Instebd of directly using jbvb.lbng
+ * bnd jbvb.util.concurrent clbsses, scripts cbn use functions bnd
  * objects exported from here. 
  */
 
 /**
- * Wrapper for java.lang.Object.wait
+ * Wrbpper for jbvb.lbng.Object.wbit
  *
- * can be called only within a sync method
+ * cbn be cblled only within b sync method
  */
-function wait(object) {
-    var objClazz = java.lang.Class.forName('java.lang.Object');
-    var waitMethod = objClazz.getMethod('wait', null);
-    waitMethod.invoke(object, null);
+function wbit(object) {
+    vbr objClbzz = jbvb.lbng.Clbss.forNbme('jbvb.lbng.Object');
+    vbr wbitMethod = objClbzz.getMethod('wbit', null);
+    wbitMethod.invoke(object, null);
 }
-wait.docString = "convenient wrapper for java.lang.Object.wait method";
+wbit.docString = "convenient wrbpper for jbvb.lbng.Object.wbit method";
 
 
 /**
- * Wrapper for java.lang.Object.notify
+ * Wrbpper for jbvb.lbng.Object.notify
  *
- * can be called only within a sync method
+ * cbn be cblled only within b sync method
  */
 function notify(object) {
-    var objClazz = java.lang.Class.forName('java.lang.Object');
-    var notifyMethod = objClazz.getMethod('notify', null);
+    vbr objClbzz = jbvb.lbng.Clbss.forNbme('jbvb.lbng.Object');
+    vbr notifyMethod = objClbzz.getMethod('notify', null);
     notifyMethod.invoke(object, null);
 }
-notify.docString = "convenient wrapper for java.lang.Object.notify method";
+notify.docString = "convenient wrbpper for jbvb.lbng.Object.notify method";
 
 
 /**
- * Wrapper for java.lang.Object.notifyAll
+ * Wrbpper for jbvb.lbng.Object.notifyAll
  *
- * can be called only within a sync method
+ * cbn be cblled only within b sync method
  */
 function notifyAll(object)  {
-    var objClazz = java.lang.Class.forName('java.lang.Object');
-    var notifyAllMethod = objClazz.getMethod('notifyAll', null);
+    vbr objClbzz = jbvb.lbng.Clbss.forNbme('jbvb.lbng.Object');
+    vbr notifyAllMethod = objClbzz.getMethod('notifyAll', null);
     notifyAllMethod.invoke(object, null);
 }
-notifyAll.docString = "convenient wrapper for java.lang.Object.notifyAll method";
+notifyAll.docString = "convenient wrbpper for jbvb.lbng.Object.notifyAll method";
 
 
 /**
- * Creates a java.lang.Runnable from a given script
+ * Crebtes b jbvb.lbng.Runnbble from b given script
  * function.
  */
-Function.prototype.runnable = function() {
-    var args = arguments;
-    var func = this;
-    return new java.lang.Runnable() {
+Function.prototype.runnbble = function() {
+    vbr brgs = brguments;
+    vbr func = this;
+    return new jbvb.lbng.Runnbble() {
         run: function() {
-            func.apply(null, args);
+            func.bpply(null, brgs);
         }
     }
 }
 
 /**
- * Executes the function on a new Java Thread.
+ * Executes the function on b new Jbvb Threbd.
  */
-Function.prototype.thread = function() {
-    var t = new java.lang.Thread(this.runnable.apply(this, arguments));
-    t.start();
+Function.prototype.threbd = function() {
+    vbr t = new jbvb.lbng.Threbd(this.runnbble.bpply(this, brguments));
+    t.stbrt();
     return t;
 }
 
 /**
- * Executes the function on a new Java daemon Thread.
+ * Executes the function on b new Jbvb dbemon Threbd.
  */
-Function.prototype.daemon = function() {
-    var t = new java.lang.Thread(this.runnable.apply(this, arguments));
-    t.setDaemon(true);
-    t.start();
+Function.prototype.dbemon = function() {
+    vbr t = new jbvb.lbng.Threbd(this.runnbble.bpply(this, brguments));
+    t.setDbemon(true);
+    t.stbrt();
     return t;
 }
 
 /**
- * Creates a java.util.concurrent.Callable from a given script
+ * Crebtes b jbvb.util.concurrent.Cbllbble from b given script
  * function.
  */
-Function.prototype.callable = function() {
-    var args = arguments;
-    var func = this;
-    return new java.util.concurrent.Callable() {
-          call: function() { return func.apply(null, args); }
+Function.prototype.cbllbble = function() {
+    vbr brgs = brguments;
+    vbr func = this;
+    return new jbvb.util.concurrent.Cbllbble() {
+          cbll: function() { return func.bpply(null, brgs); }
     }
 }
 
 /**
- * Registers the script function so that it will be called exit.
+ * Registers the script function so thbt it will be cblled exit.
  */
-Function.prototype.atexit = function () {
-    var args = arguments;
-    java.lang.Runtime.getRuntime().addShutdownHook(
-         new java.lang.Thread(this.runnable.apply(this, args)));
+Function.prototype.btexit = function () {
+    vbr brgs = brguments;
+    jbvb.lbng.Runtime.getRuntime().bddShutdownHook(
+         new jbvb.lbng.Threbd(this.runnbble.bpply(this, brgs)));
 }
 
 /**
- * Executes the function asynchronously.  
+ * Executes the function bsynchronously.  
  *
- * @return a java.util.concurrent.FutureTask
+ * @return b jbvb.util.concurrent.FutureTbsk
  */
 Function.prototype.future = (function() {
-    // default executor for future
-    var juc = java.util.concurrent;
-    var theExecutor = juc.Executors.newSingleThreadExecutor();
-    // clean-up the default executor at exit
-    (function() { theExecutor.shutdown(); }).atexit();
+    // defbult executor for future
+    vbr juc = jbvb.util.concurrent;
+    vbr theExecutor = juc.Executors.newSingleThrebdExecutor();
+    // clebn-up the defbult executor bt exit
+    (function() { theExecutor.shutdown(); }).btexit();
     return function() {
-        return theExecutor.submit(this.callable.apply(this, arguments));
+        return theExecutor.submit(this.cbllbble.bpply(this, brguments));
     }
 })();
 
-// shortcut for j.u.c lock classes
-var Lock = java.util.concurrent.locks.ReentrantLock;
-var RWLock = java.util.concurrent.locks.ReentrantReadWriteLock;
+// shortcut for j.u.c lock clbsses
+vbr Lock = jbvb.util.concurrent.locks.ReentrbntLock;
+vbr RWLock = jbvb.util.concurrent.locks.ReentrbntRebdWriteLock;
 
 /**
- * Executes a function after acquiring given lock. On return,
- * (normal or exceptional), lock is released.
+ * Executes b function bfter bcquiring given lock. On return,
+ * (normbl or exceptionbl), lock is relebsed.
  *
- * @param lock lock that is locked and unlocked
+ * @pbrbm lock lock thbt is locked bnd unlocked
  */
 Function.prototype.sync = function (lock) {
-    if (arguments.length == 0) {
+    if (brguments.length == 0) {
         throw "lock is missing";
     }
-    var res = new Array(arguments.length - 1);
-    for (var i = 0; i < res.length; i++) {
-        res[i] = arguments[i + 1];
+    vbr res = new Arrby(brguments.length - 1);
+    for (vbr i = 0; i < res.length; i++) {
+        res[i] = brguments[i + 1];
     }
     lock.lock();
     try {
-        this.apply(null, res);
-    } finally {
+        this.bpply(null, res);
+    } finblly {
         lock.unlock();
     }
 };
 
 /**
- * Causes current thread to sleep for specified
+ * Cbuses current threbd to sleep for specified
  * number of milliseconds
  *
- * @param interval in milliseconds
+ * @pbrbm intervbl in milliseconds
  */
-function sleep(interval) {
-    java.lang.Thread.sleep(interval);
+function sleep(intervbl) {
+    jbvb.lbng.Threbd.sleep(intervbl);
 }
-sleep.docString = "wrapper for java.lang.Thread.sleep method";
+sleep.docString = "wrbpper for jbvb.lbng.Threbd.sleep method";
 
 /**
- * Schedules a task to be executed once in N milliseconds specified.
+ * Schedules b tbsk to be executed once in N milliseconds specified.
  *
- * @param callback function or expression to evaluate
- * @param interval in milliseconds to sleep
- * @return timeout ID (which is nothing but Thread instance)
+ * @pbrbm cbllbbck function or expression to evblubte
+ * @pbrbm intervbl in milliseconds to sleep
+ * @return timeout ID (which is nothing but Threbd instbnce)
  */
-function setTimeout(callback, interval) {
-    if (! (callback instanceof Function)) {
-        callback = new Function(callback);
+function setTimeout(cbllbbck, intervbl) {
+    if (! (cbllbbck instbnceof Function)) {
+        cbllbbck = new Function(cbllbbck);
     }
 
-    // start a new thread that sleeps given time
-    // and calls callback in an infinite loop
+    // stbrt b new threbd thbt sleeps given time
+    // bnd cblls cbllbbck in bn infinite loop
     return (function() {
          try {
-             sleep(interval);
-         } catch (x) { }
-         callback();
-    }).daemon();
+             sleep(intervbl);
+         } cbtch (x) { }
+         cbllbbck();
+    }).dbemon();
 }
-setTimeout.docString = "calls given callback once after specified interval";
+setTimeout.docString = "cblls given cbllbbck once bfter specified intervbl";
 
 /**
- * Cancels a timeout set earlier.
- * @param tid timeout ID returned from setTimeout
+ * Cbncels b timeout set ebrlier.
+ * @pbrbm tid timeout ID returned from setTimeout
  */
-function clearTimeout(tid) {
-    // we just interrupt the timer thread
+function clebrTimeout(tid) {
+    // we just interrupt the timer threbd
     tid.interrupt();
 }
-clearTimeout.docString = "interrupt a setTimeout timer";
+clebrTimeout.docString = "interrupt b setTimeout timer";
 
 /**
- * Schedules a task to be executed once in
+ * Schedules b tbsk to be executed once in
  * every N milliseconds specified.
  *
- * @param callback function or expression to evaluate
- * @param interval in milliseconds to sleep
- * @return timeout ID (which is nothing but Thread instance)
+ * @pbrbm cbllbbck function or expression to evblubte
+ * @pbrbm intervbl in milliseconds to sleep
+ * @return timeout ID (which is nothing but Threbd instbnce)
  */
-function setInterval(callback, interval) {
-    if (! (callback instanceof Function)) {
-        callback = new Function(callback);
+function setIntervbl(cbllbbck, intervbl) {
+    if (! (cbllbbck instbnceof Function)) {
+        cbllbbck = new Function(cbllbbck);
     }
 
-    // start a new thread that sleeps given time
-    // and calls callback in an infinite loop
+    // stbrt b new threbd thbt sleeps given time
+    // bnd cblls cbllbbck in bn infinite loop
     return (function() {
          while (true) {
              try {
-                 sleep(interval);
-             } catch (x) {
-                 break;
+                 sleep(intervbl);
+             } cbtch (x) {
+                 brebk;
              }
-             callback();
+             cbllbbck();
          }
-    }).daemon();
+    }).dbemon();
 }
-setInterval.docString = "calls given callback every specified interval";
+setIntervbl.docString = "cblls given cbllbbck every specified intervbl";
 
 /**
- * Cancels a timeout set earlier.
- * @param tid timeout ID returned from setTimeout
+ * Cbncels b timeout set ebrlier.
+ * @pbrbm tid timeout ID returned from setTimeout
  */
-function clearInterval(tid) {
-    // we just interrupt the timer thread
+function clebrIntervbl(tid) {
+    // we just interrupt the timer threbd
     tid.interrupt();
 }
-clearInterval.docString = "interrupt a setInterval timer";
+clebrIntervbl.docString = "interrupt b setIntervbl timer";
 
 /**
- * Simple access to thread local storage. 
+ * Simple bccess to threbd locbl storbge. 
  *
- * Script sample:
+ * Script sbmple:
  *
- *  __thread.x = 44;
+ *  __threbd.x = 44;
  *  function f() { 
- *      __thread.x = 'hello'; 
- *      print(__thread.x); 
+ *      __threbd.x = 'hello'; 
+ *      print(__threbd.x); 
  *  }
- *  f.thread();       // prints 'hello'
- * print(__thread.x); // prints 44 in main thread
+ *  f.threbd();       // prints 'hello'
+ * print(__threbd.x); // prints 44 in mbin threbd
  */
-var __thread = (function () {
-    var map = new Object();
-    return new JSAdapter() {
-        __has__: function(name) {
-            return map[name] != undefined;
+vbr __threbd = (function () {
+    vbr mbp = new Object();
+    return new JSAdbpter() {
+        __hbs__: function(nbme) {
+            return mbp[nbme] != undefined;
         },
-        __get__: function(name) {
-            if (map[name] != undefined) {
-                return map[name].get();
+        __get__: function(nbme) {
+            if (mbp[nbme] != undefined) {
+                return mbp[nbme].get();
             } else {
                 return undefined;
             }
         },
-        __put__: sync(function(name, value) {
-            if (map[name] == undefined) {
-                var tmp = new java.lang.ThreadLocal();
-                tmp.set(value);
-                map[name] = tmp;
+        __put__: sync(function(nbme, vblue) {
+            if (mbp[nbme] == undefined) {
+                vbr tmp = new jbvb.lbng.ThrebdLocbl();
+                tmp.set(vblue);
+                mbp[nbme] = tmp;
             } else {
-                map[name].set(value);
+                mbp[nbme].set(vblue);
             }
         }),
-        __delete__: function(name) {
-            if (map[name] != undefined) {
-                map[name].set(null);
+        __delete__: function(nbme) {
+            if (mbp[nbme] != undefined) {
+                mbp[nbme].set(null);
             }            
         }
     }
 })();
 
-// user interface utilities
+// user interfbce utilities
 
 /** 
- * Swing invokeLater - invokes given function in AWT event thread
+ * Swing invokeLbter - invokes given function in AWT event threbd
  */
-Function.prototype.invokeLater = function() {
-    var SwingUtilities = Packages.javax.swing.SwingUtilities;
-    SwingUtilities.invokeLater(this.runnable.apply(this, arguments));
+Function.prototype.invokeLbter = function() {
+    vbr SwingUtilities = Pbckbges.jbvbx.swing.SwingUtilities;
+    SwingUtilities.invokeLbter(this.runnbble.bpply(this, brguments));
 }
 
 /** 
- * Swing invokeAndWait - invokes given function in AWT event thread
- * and waits for it's completion
+ * Swing invokeAndWbit - invokes given function in AWT event threbd
+ * bnd wbits for it's completion
  */
-Function.prototype.invokeAndWait = function() {
-    var SwingUtilities = Packages.javax.swing.SwingUtilities;
-    SwingUtilities.invokeAndWait(this.runnable.apply(this, arguments));
+Function.prototype.invokeAndWbit = function() {
+    vbr SwingUtilities = Pbckbges.jbvbx.swing.SwingUtilities;
+    SwingUtilities.invokeAndWbit(this.runnbble.bpply(this, brguments));
 }
 
 /**
- * Am I running in AWT event dispatcher thread?
+ * Am I running in AWT event dispbtcher threbd?
  */
-function isEventThread() {
-    var SwingUtilities = Packages.javax.swing.SwingUtilities;
-    return SwingUtilities.isEventDispatchThread();
+function isEventThrebd() {
+    vbr SwingUtilities = Pbckbges.jbvbx.swing.SwingUtilities;
+    return SwingUtilities.isEventDispbtchThrebd();
 }
-isEventThread.docString = "returns whether the current thread is GUI thread";
+isEventThrebd.docString = "returns whether the current threbd is GUI threbd";
 
 /**
- * Opens a file dialog box 
+ * Opens b file diblog box 
  *
- * @param curDir current directory [optional]
- * @return absolute path if file selected or else null
+ * @pbrbm curDir current directory [optionbl]
+ * @return bbsolute pbth if file selected or else null
  */
-function fileDialog(curDir) {
-    var result;
-    function _fileDialog() {
+function fileDiblog(curDir) {
+    vbr result;
+    function _fileDiblog() {
         if (curDir == undefined) curDir = undefined;
-        var JFileChooser = Packages.javax.swing.JFileChooser;
-        var dialog = new JFileChooser(curDir);
-        var res = dialog.showOpenDialog(null);
+        vbr JFileChooser = Pbckbges.jbvbx.swing.JFileChooser;
+        vbr diblog = new JFileChooser(curDir);
+        vbr res = diblog.showOpenDiblog(null);
         if (res == JFileChooser.APPROVE_OPTION) {
-            result = dialog.getSelectedFile().getAbsolutePath();
+            result = diblog.getSelectedFile().getAbsolutePbth();
         } else {
            result = null;
         }
     }
 
-    if (isEventThread()) {
-        _fileDialog();
+    if (isEventThrebd()) {
+        _fileDiblog();
     } else {
-        _fileDialog.invokeAndWait();
+        _fileDiblog.invokeAndWbit();
     }
     return result;
 }
-fileDialog.docString = "show a FileOpen dialog box";
+fileDiblog.docString = "show b FileOpen diblog box";
 
 /**
- * Shows a message box
+ * Shows b messbge box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
- * @param msgType type of message box [constants in JOptionPane]
+ * @pbrbm msg messbge to be shown
+ * @pbrbm title title of messbge box [optionbl]
+ * @pbrbm msgType type of messbge box [constbnts in JOptionPbne]
  */
 function msgBox(msg, title, msgType) {
    
     function _msgBox() { 
-        var JOptionPane = Packages.javax.swing.JOptionPane;
+        vbr JOptionPbne = Pbckbges.jbvbx.swing.JOptionPbne;
         if (msg === undefined) msg = "undefined";
         if (msg === null) msg = "null";
         if (title == undefined) title = msg;
-        if (msgType == undefined) msgType = JOptionPane.INFORMATION_MESSAGE;
-        JOptionPane.showMessageDialog(window, msg, title, msgType);
+        if (msgType == undefined) msgType = JOptionPbne.INFORMATION_MESSAGE;
+        JOptionPbne.showMessbgeDiblog(window, msg, title, msgType);
     }
-    if (isEventThread()) {
+    if (isEventThrebd()) {
         _msgBox();
     } else {
-        _msgBox.invokeAndWait();
+        _msgBox.invokeAndWbit();
     }
 }
-msgBox.docString = "shows MessageBox to the user";
+msgBox.docString = "shows MessbgeBox to the user";
  
 /**
- * Shows an information alert box
+ * Shows bn informbtion blert box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
+ * @pbrbm msg messbge to be shown
+ * @pbrbm title title of messbge box [optionbl]
  */   
-function alert(msg, title) {
-    var JOptionPane = Packages.javax.swing.JOptionPane;
-    msgBox(msg, title, JOptionPane.INFORMATION_MESSAGE);
+function blert(msg, title) {
+    vbr JOptionPbne = Pbckbges.jbvbx.swing.JOptionPbne;
+    msgBox(msg, title, JOptionPbne.INFORMATION_MESSAGE);
 }
-alert.docString = "shows an alert message box to the user";
+blert.docString = "shows bn blert messbge box to the user";
 
 /**
- * Shows an error alert box
+ * Shows bn error blert box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
+ * @pbrbm msg messbge to be shown
+ * @pbrbm title title of messbge box [optionbl]
  */
 function error(msg, title) {
-    var JOptionPane = Packages.javax.swing.JOptionPane;
-    msgBox(msg, title, JOptionPane.ERROR_MESSAGE);
+    vbr JOptionPbne = Pbckbges.jbvbx.swing.JOptionPbne;
+    msgBox(msg, title, JOptionPbne.ERROR_MESSAGE);
 }
-error.docString = "shows an error message box to the user";
+error.docString = "shows bn error messbge box to the user";
 
 
 /**
- * Shows a warning alert box
+ * Shows b wbrning blert box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
+ * @pbrbm msg messbge to be shown
+ * @pbrbm title title of messbge box [optionbl]
  */
-function warn(msg, title) {
-    var JOptionPane = Packages.javax.swing.JOptionPane;
-    msgBox(msg, title, JOptionPane.WARNING_MESSAGE);
+function wbrn(msg, title) {
+    vbr JOptionPbne = Pbckbges.jbvbx.swing.JOptionPbne;
+    msgBox(msg, title, JOptionPbne.WARNING_MESSAGE);
 }
-warn.docString = "shows a warning message box to the user";
+wbrn.docString = "shows b wbrning messbge box to the user";
 
 
 /**
- * Shows a prompt dialog box
+ * Shows b prompt diblog box
  *
- * @param question question to be asked
- * @param answer default answer suggested [optional]
- * @return answer given by user
+ * @pbrbm question question to be bsked
+ * @pbrbm bnswer defbult bnswer suggested [optionbl]
+ * @return bnswer given by user
  */
-function prompt(question, answer) {
-    var result;
+function prompt(question, bnswer) {
+    vbr result;
     function _prompt() {
-        var JOptionPane = Packages.javax.swing.JOptionPane;
-        if (answer == undefined) answer = "";
-        result = JOptionPane.showInputDialog(window, question, answer);
+        vbr JOptionPbne = Pbckbges.jbvbx.swing.JOptionPbne;
+        if (bnswer == undefined) bnswer = "";
+        result = JOptionPbne.showInputDiblog(window, question, bnswer);
     }
-    if (isEventThread()) {
+    if (isEventThrebd()) {
         _prompt();
     } else {
-        _prompt.invokeAndWait();
+        _prompt.invokeAndWbit();
     }
     return result;
 }
-prompt.docString = "shows a prompt box to the user and returns the answer";
+prompt.docString = "shows b prompt box to the user bnd returns the bnswer";
 
 /**
- * Shows a confirmation dialog box
+ * Shows b confirmbtion diblog box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
- * @return boolean (yes->true, no->false)
+ * @pbrbm msg messbge to be shown
+ * @pbrbm title title of messbge box [optionbl]
+ * @return boolebn (yes->true, no->fblse)
  */
 function confirm(msg, title) {
-    var result;
-    var JOptionPane = Packages.javax.swing.JOptionPane;
+    vbr result;
+    vbr JOptionPbne = Pbckbges.jbvbx.swing.JOptionPbne;
     function _confirm() {
         if (title == undefined) title = msg;
-        var optionType = JOptionPane.YES_NO_OPTION;
-        result = JOptionPane.showConfirmDialog(null, msg, title, optionType);
+        vbr optionType = JOptionPbne.YES_NO_OPTION;
+        result = JOptionPbne.showConfirmDiblog(null, msg, title, optionType);
     }
-    if (isEventThread()) {
+    if (isEventThrebd()) {
         _confirm();
     } else {
-        _confirm.invokeAndWait();
+        _confirm.invokeAndWbit();
     }     
-    return result == JOptionPane.YES_OPTION;
+    return result == JOptionPbne.YES_OPTION;
 }
-confirm.docString = "shows a confirmation message box to the user";
+confirm.docString = "shows b confirmbtion messbge box to the user";
 
 /**
- * Echoes zero or more arguments supplied to screen.
- * This is print equivalent for GUI.
+ * Echoes zero or more brguments supplied to screen.
+ * This is print equivblent for GUI.
  *
- * @param zero or more items to echo.
+ * @pbrbm zero or more items to echo.
  */
 function echo() {
-    var args = arguments;
+    vbr brgs = brguments;
     (function() {
-        var len = args.length;
-        for (var i = 0; i < len; i++) {
-            window.print(args[i]);
+        vbr len = brgs.length;
+        for (vbr i = 0; i < len; i++) {
+            window.print(brgs[i]);
             window.print(" ");
         }
         window.print("\n");
-    }).invokeLater();
+    }).invokeLbter();
 }
-echo.docString = "echoes arguments to interactive console screen";
+echo.docString = "echoes brguments to interbctive console screen";
 
 
 /**
- * Clear the screen
+ * Clebr the screen
  */
-function clear() {
-    (function() { window.clear(false); }).invokeLater();
+function clebr() {
+    (function() { window.clebr(fblse); }).invokeLbter();
 }
-clear.docString = "clears interactive console screen";
+clebr.docString = "clebrs interbctive console screen";
 
 
-// synonym for clear
-var cls = clear;
+// synonym for clebr
+vbr cls = clebr;
 
 
 /**
- * Exit the process after confirmation from user 
+ * Exit the process bfter confirmbtion from user 
  * 
- * @param exitCode return code to OS [optional]
+ * @pbrbm exitCode return code to OS [optionbl]
  */
 function exit(exitCode) {
     if (exitCode == undefined) exitCode = 0;
-    if (confirm("Do you really want to exit?")) {
-        java.lang.System.exit(exitCode);
+    if (confirm("Do you reblly wbnt to exit?")) {
+        jbvb.lbng.System.exit(exitCode);
     } 
 }
 exit.docString = "exits jconsole";
 
 // synonym to exit
-var quit = exit;
+vbr quit = exit;
 

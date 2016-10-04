@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi.connect;
+pbckbge com.sun.jdi.connect;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
 
 /**
- * Thrown to indicate an invalid argument or
- * inconsistent passed to a {@link Connector}.
+ * Thrown to indicbte bn invblid brgument or
+ * inconsistent pbssed to b {@link Connector}.
  *
- * @author Gordon Hirsch
+ * @buthor Gordon Hirsch
  * @since  1.3
  */
 @jdk.Exported
-public class IllegalConnectorArgumentsException extends Exception {
+public clbss IllegblConnectorArgumentsException extends Exception {
 
-    private static final long serialVersionUID = -3042212603611350941L;
-    List<String> names;
+    privbte stbtic finbl long seriblVersionUID = -3042212603611350941L;
+    List<String> nbmes;
 
     /**
-     * Construct an <code>IllegalConnectorArgumentsException</code>
-     * with the specified detail message and the name of the argument
-     * which is invalid or inconsistent.
-     * @param s the detailed message.
-     * @param name the name of the invalid or inconsistent argument.
+     * Construct bn <code>IllegblConnectorArgumentsException</code>
+     * with the specified detbil messbge bnd the nbme of the brgument
+     * which is invblid or inconsistent.
+     * @pbrbm s the detbiled messbge.
+     * @pbrbm nbme the nbme of the invblid or inconsistent brgument.
      */
-    public IllegalConnectorArgumentsException(String s,
-                                              String name) {
+    public IllegblConnectorArgumentsException(String s,
+                                              String nbme) {
         super(s);
-        names = new ArrayList<String>(1);
-        names.add(name);
+        nbmes = new ArrbyList<String>(1);
+        nbmes.bdd(nbme);
     }
 
     /**
-     * Construct an <code>IllegalConnectorArgumentsException</code>
-     * with the specified detail message and a <code>List</code> of
-     * names of arguments which are invalid or inconsistent.
-     * @param s the detailed message.
-     * @param names a <code>List</code> containing the names of the
-     * invalid or inconsistent argument.
+     * Construct bn <code>IllegblConnectorArgumentsException</code>
+     * with the specified detbil messbge bnd b <code>List</code> of
+     * nbmes of brguments which bre invblid or inconsistent.
+     * @pbrbm s the detbiled messbge.
+     * @pbrbm nbmes b <code>List</code> contbining the nbmes of the
+     * invblid or inconsistent brgument.
      */
-    public IllegalConnectorArgumentsException(String s, List<String> names) {
+    public IllegblConnectorArgumentsException(String s, List<String> nbmes) {
         super(s);
 
-        this.names = new ArrayList<String>(names);
+        this.nbmes = new ArrbyList<String>(nbmes);
     }
 
     /**
-     * Return a <code>List</code> containing the names of the
-     * invalid or inconsistent arguments.
-     * @return a <code>List</code> of argument names.
+     * Return b <code>List</code> contbining the nbmes of the
+     * invblid or inconsistent brguments.
+     * @return b <code>List</code> of brgument nbmes.
      */
-    public List<String> argumentNames() {
-        return Collections.unmodifiableList(names);
+    public List<String> brgumentNbmes() {
+        return Collections.unmodifibbleList(nbmes);
     }
 }

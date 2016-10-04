@@ -1,283 +1,283 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
 
-import java.io.Serializable;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.IOException;
 
 /**
- * A <code>CardLayout</code> object is a layout manager for a
- * container. It treats each component in the container as a card.
- * Only one card is visible at a time, and the container acts as
- * a stack of cards. The first component added to a
- * <code>CardLayout</code> object is the visible component when the
- * container is first displayed.
+ * A <code>CbrdLbyout</code> object is b lbyout mbnbger for b
+ * contbiner. It trebts ebch component in the contbiner bs b cbrd.
+ * Only one cbrd is visible bt b time, bnd the contbiner bcts bs
+ * b stbck of cbrds. The first component bdded to b
+ * <code>CbrdLbyout</code> object is the visible component when the
+ * contbiner is first displbyed.
  * <p>
- * The ordering of cards is determined by the container's own internal
- * ordering of its component objects. <code>CardLayout</code>
- * defines a set of methods that allow an application to flip
- * through these cards sequentially, or to show a specified card.
- * The {@link CardLayout#addLayoutComponent}
- * method can be used to associate a string identifier with a given card
- * for fast random access.
+ * The ordering of cbrds is determined by the contbiner's own internbl
+ * ordering of its component objects. <code>CbrdLbyout</code>
+ * defines b set of methods thbt bllow bn bpplicbtion to flip
+ * through these cbrds sequentiblly, or to show b specified cbrd.
+ * The {@link CbrdLbyout#bddLbyoutComponent}
+ * method cbn be used to bssocibte b string identifier with b given cbrd
+ * for fbst rbndom bccess.
  *
- * @author      Arthur van Hoff
- * @see         java.awt.Container
+ * @buthor      Arthur vbn Hoff
+ * @see         jbvb.bwt.Contbiner
  * @since       1.0
  */
 
-public class CardLayout implements LayoutManager2,
-                                   Serializable {
+public clbss CbrdLbyout implements LbyoutMbnbger2,
+                                   Seriblizbble {
 
-    private static final long serialVersionUID = -4328196481005934313L;
-
-    /*
-     * This creates a Vector to store associated
-     * pairs of components and their names.
-     * @see java.util.Vector
-     */
-    Vector<Card> vector = new Vector<>();
+    privbte stbtic finbl long seriblVersionUID = -4328196481005934313L;
 
     /*
-     * A pair of Component and String that represents its name.
+     * This crebtes b Vector to store bssocibted
+     * pbirs of components bnd their nbmes.
+     * @see jbvb.util.Vector
      */
-    class Card implements Serializable {
-        static final long serialVersionUID = 6640330810709497518L;
-        public String name;
+    Vector<Cbrd> vector = new Vector<>();
+
+    /*
+     * A pbir of Component bnd String thbt represents its nbme.
+     */
+    clbss Cbrd implements Seriblizbble {
+        stbtic finbl long seriblVersionUID = 6640330810709497518L;
+        public String nbme;
         public Component comp;
-        public Card(String cardName, Component cardComponent) {
-            name = cardName;
-            comp = cardComponent;
+        public Cbrd(String cbrdNbme, Component cbrdComponent) {
+            nbme = cbrdNbme;
+            comp = cbrdComponent;
         }
     }
 
     /*
-     * Index of Component currently displayed by CardLayout.
+     * Index of Component currently displbyed by CbrdLbyout.
      */
-    int currentCard = 0;
+    int currentCbrd = 0;
 
 
     /*
-    * A cards horizontal Layout gap (inset). It specifies
-    * the space between the left and right edges of a
-    * container and the current component.
-    * This should be a non negative Integer.
-    * @see getHgap()
-    * @see setHgap()
+    * A cbrds horizontbl Lbyout gbp (inset). It specifies
+    * the spbce between the left bnd right edges of b
+    * contbiner bnd the current component.
+    * This should be b non negbtive Integer.
+    * @see getHgbp()
+    * @see setHgbp()
     */
-    int hgap;
+    int hgbp;
 
     /*
-    * A cards vertical Layout gap (inset). It specifies
-    * the space between the top and bottom edges of a
-    * container and the current component.
-    * This should be a non negative Integer.
-    * @see getVgap()
-    * @see setVgap()
+    * A cbrds verticbl Lbyout gbp (inset). It specifies
+    * the spbce between the top bnd bottom edges of b
+    * contbiner bnd the current component.
+    * This should be b non negbtive Integer.
+    * @see getVgbp()
+    * @see setVgbp()
     */
-    int vgap;
+    int vgbp;
 
     /**
-     * @serialField tab         Hashtable
-     *      deprectated, for forward compatibility only
-     * @serialField hgap        int
-     * @serialField vgap        int
-     * @serialField vector      Vector
-     * @serialField currentCard int
+     * @seriblField tbb         Hbshtbble
+     *      deprectbted, for forwbrd compbtibility only
+     * @seriblField hgbp        int
+     * @seriblField vgbp        int
+     * @seriblField vector      Vector
+     * @seriblField currentCbrd int
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("tab", Hashtable.class),
-        new ObjectStreamField("hgap", Integer.TYPE),
-        new ObjectStreamField("vgap", Integer.TYPE),
-        new ObjectStreamField("vector", Vector.class),
-        new ObjectStreamField("currentCard", Integer.TYPE)
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("tbb", Hbshtbble.clbss),
+        new ObjectStrebmField("hgbp", Integer.TYPE),
+        new ObjectStrebmField("vgbp", Integer.TYPE),
+        new ObjectStrebmField("vector", Vector.clbss),
+        new ObjectStrebmField("currentCbrd", Integer.TYPE)
     };
 
     /**
-     * Creates a new card layout with gaps of size zero.
+     * Crebtes b new cbrd lbyout with gbps of size zero.
      */
-    public CardLayout() {
+    public CbrdLbyout() {
         this(0, 0);
     }
 
     /**
-     * Creates a new card layout with the specified horizontal and
-     * vertical gaps. The horizontal gaps are placed at the left and
-     * right edges. The vertical gaps are placed at the top and bottom
+     * Crebtes b new cbrd lbyout with the specified horizontbl bnd
+     * verticbl gbps. The horizontbl gbps bre plbced bt the left bnd
+     * right edges. The verticbl gbps bre plbced bt the top bnd bottom
      * edges.
-     * @param     hgap   the horizontal gap.
-     * @param     vgap   the vertical gap.
+     * @pbrbm     hgbp   the horizontbl gbp.
+     * @pbrbm     vgbp   the verticbl gbp.
      */
-    public CardLayout(int hgap, int vgap) {
-        this.hgap = hgap;
-        this.vgap = vgap;
+    public CbrdLbyout(int hgbp, int vgbp) {
+        this.hgbp = hgbp;
+        this.vgbp = vgbp;
     }
 
     /**
-     * Gets the horizontal gap between components.
-     * @return    the horizontal gap between components.
-     * @see       java.awt.CardLayout#setHgap(int)
-     * @see       java.awt.CardLayout#getVgap()
+     * Gets the horizontbl gbp between components.
+     * @return    the horizontbl gbp between components.
+     * @see       jbvb.bwt.CbrdLbyout#setHgbp(int)
+     * @see       jbvb.bwt.CbrdLbyout#getVgbp()
      * @since     1.1
      */
-    public int getHgap() {
-        return hgap;
+    public int getHgbp() {
+        return hgbp;
     }
 
     /**
-     * Sets the horizontal gap between components.
-     * @param hgap the horizontal gap between components.
-     * @see       java.awt.CardLayout#getHgap()
-     * @see       java.awt.CardLayout#setVgap(int)
+     * Sets the horizontbl gbp between components.
+     * @pbrbm hgbp the horizontbl gbp between components.
+     * @see       jbvb.bwt.CbrdLbyout#getHgbp()
+     * @see       jbvb.bwt.CbrdLbyout#setVgbp(int)
      * @since     1.1
      */
-    public void setHgap(int hgap) {
-        this.hgap = hgap;
+    public void setHgbp(int hgbp) {
+        this.hgbp = hgbp;
     }
 
     /**
-     * Gets the vertical gap between components.
-     * @return the vertical gap between components.
-     * @see       java.awt.CardLayout#setVgap(int)
-     * @see       java.awt.CardLayout#getHgap()
+     * Gets the verticbl gbp between components.
+     * @return the verticbl gbp between components.
+     * @see       jbvb.bwt.CbrdLbyout#setVgbp(int)
+     * @see       jbvb.bwt.CbrdLbyout#getHgbp()
      */
-    public int getVgap() {
-        return vgap;
+    public int getVgbp() {
+        return vgbp;
     }
 
     /**
-     * Sets the vertical gap between components.
-     * @param     vgap the vertical gap between components.
-     * @see       java.awt.CardLayout#getVgap()
-     * @see       java.awt.CardLayout#setHgap(int)
+     * Sets the verticbl gbp between components.
+     * @pbrbm     vgbp the verticbl gbp between components.
+     * @see       jbvb.bwt.CbrdLbyout#getVgbp()
+     * @see       jbvb.bwt.CbrdLbyout#setHgbp(int)
      * @since     1.1
      */
-    public void setVgap(int vgap) {
-        this.vgap = vgap;
+    public void setVgbp(int vgbp) {
+        this.vgbp = vgbp;
     }
 
     /**
-     * Adds the specified component to this card layout's internal
-     * table of names. The object specified by <code>constraints</code>
-     * must be a string. The card layout stores this string as a key-value
-     * pair that can be used for random access to a particular card.
-     * By calling the <code>show</code> method, an application can
-     * display the component with the specified name.
-     * @param     comp          the component to be added.
-     * @param     constraints   a tag that identifies a particular
-     *                                        card in the layout.
-     * @see       java.awt.CardLayout#show(java.awt.Container, java.lang.String)
-     * @exception  IllegalArgumentException  if the constraint is not a string.
+     * Adds the specified component to this cbrd lbyout's internbl
+     * tbble of nbmes. The object specified by <code>constrbints</code>
+     * must be b string. The cbrd lbyout stores this string bs b key-vblue
+     * pbir thbt cbn be used for rbndom bccess to b pbrticulbr cbrd.
+     * By cblling the <code>show</code> method, bn bpplicbtion cbn
+     * displby the component with the specified nbme.
+     * @pbrbm     comp          the component to be bdded.
+     * @pbrbm     constrbints   b tbg thbt identifies b pbrticulbr
+     *                                        cbrd in the lbyout.
+     * @see       jbvb.bwt.CbrdLbyout#show(jbvb.bwt.Contbiner, jbvb.lbng.String)
+     * @exception  IllegblArgumentException  if the constrbint is not b string.
      */
-    public void addLayoutComponent(Component comp, Object constraints) {
+    public void bddLbyoutComponent(Component comp, Object constrbints) {
       synchronized (comp.getTreeLock()) {
-          if (constraints == null){
-              constraints = "";
+          if (constrbints == null){
+              constrbints = "";
           }
-        if (constraints instanceof String) {
-            addLayoutComponent((String)constraints, comp);
+        if (constrbints instbnceof String) {
+            bddLbyoutComponent((String)constrbints, comp);
         } else {
-            throw new IllegalArgumentException("cannot add to layout: constraint must be a string");
+            throw new IllegblArgumentException("cbnnot bdd to lbyout: constrbint must be b string");
         }
       }
     }
 
     /**
-     * @deprecated   replaced by
-     *      <code>addLayoutComponent(Component, Object)</code>.
+     * @deprecbted   replbced by
+     *      <code>bddLbyoutComponent(Component, Object)</code>.
      */
-    @Deprecated
-    public void addLayoutComponent(String name, Component comp) {
+    @Deprecbted
+    public void bddLbyoutComponent(String nbme, Component comp) {
         synchronized (comp.getTreeLock()) {
             if (!vector.isEmpty()) {
-                comp.setVisible(false);
+                comp.setVisible(fblse);
             }
             for (int i=0; i < vector.size(); i++) {
-                if ((vector.get(i)).name.equals(name)) {
+                if ((vector.get(i)).nbme.equbls(nbme)) {
                     (vector.get(i)).comp = comp;
                     return;
                 }
             }
-            vector.add(new Card(name, comp));
+            vector.bdd(new Cbrd(nbme, comp));
         }
     }
 
     /**
-     * Removes the specified component from the layout.
-     * If the card was visible on top, the next card underneath it is shown.
-     * @param   comp   the component to be removed.
-     * @see     java.awt.Container#remove(java.awt.Component)
-     * @see     java.awt.Container#removeAll()
+     * Removes the specified component from the lbyout.
+     * If the cbrd wbs visible on top, the next cbrd undernebth it is shown.
+     * @pbrbm   comp   the component to be removed.
+     * @see     jbvb.bwt.Contbiner#remove(jbvb.bwt.Component)
+     * @see     jbvb.bwt.Contbiner#removeAll()
      */
-    public void removeLayoutComponent(Component comp) {
+    public void removeLbyoutComponent(Component comp) {
         synchronized (comp.getTreeLock()) {
             for (int i = 0; i < vector.size(); i++) {
                 if ((vector.get(i)).comp == comp) {
                     // if we remove current component we should show next one
-                    if (comp.isVisible() && (comp.getParent() != null)) {
-                        next(comp.getParent());
+                    if (comp.isVisible() && (comp.getPbrent() != null)) {
+                        next(comp.getPbrent());
                     }
 
                     vector.remove(i);
 
-                    // correct currentCard if this is necessary
-                    if (currentCard > i) {
-                        currentCard--;
+                    // correct currentCbrd if this is necessbry
+                    if (currentCbrd > i) {
+                        currentCbrd--;
                     }
-                    break;
+                    brebk;
                 }
             }
         }
     }
 
     /**
-     * Determines the preferred size of the container argument using
-     * this card layout.
-     * @param   parent the parent container in which to do the layout
-     * @return  the preferred dimensions to lay out the subcomponents
-     *                of the specified container
-     * @see     java.awt.Container#getPreferredSize
-     * @see     java.awt.CardLayout#minimumLayoutSize
+     * Determines the preferred size of the contbiner brgument using
+     * this cbrd lbyout.
+     * @pbrbm   pbrent the pbrent contbiner in which to do the lbyout
+     * @return  the preferred dimensions to lby out the subcomponents
+     *                of the specified contbiner
+     * @see     jbvb.bwt.Contbiner#getPreferredSize
+     * @see     jbvb.bwt.CbrdLbyout#minimumLbyoutSize
      */
-    public Dimension preferredLayoutSize(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            Insets insets = parent.getInsets();
-            int ncomponents = parent.getComponentCount();
+    public Dimension preferredLbyoutSize(Contbiner pbrent) {
+        synchronized (pbrent.getTreeLock()) {
+            Insets insets = pbrent.getInsets();
+            int ncomponents = pbrent.getComponentCount();
             int w = 0;
             int h = 0;
 
             for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
+                Component comp = pbrent.getComponent(i);
                 Dimension d = comp.getPreferredSize();
                 if (d.width > w) {
                     w = d.width;
@@ -286,28 +286,28 @@ public class CardLayout implements LayoutManager2,
                     h = d.height;
                 }
             }
-            return new Dimension(insets.left + insets.right + w + hgap*2,
-                                 insets.top + insets.bottom + h + vgap*2);
+            return new Dimension(insets.left + insets.right + w + hgbp*2,
+                                 insets.top + insets.bottom + h + vgbp*2);
         }
     }
 
     /**
-     * Calculates the minimum size for the specified panel.
-     * @param     parent the parent container in which to do the layout
-     * @return    the minimum dimensions required to lay out the
-     *                subcomponents of the specified container
-     * @see       java.awt.Container#doLayout
-     * @see       java.awt.CardLayout#preferredLayoutSize
+     * Cblculbtes the minimum size for the specified pbnel.
+     * @pbrbm     pbrent the pbrent contbiner in which to do the lbyout
+     * @return    the minimum dimensions required to lby out the
+     *                subcomponents of the specified contbiner
+     * @see       jbvb.bwt.Contbiner#doLbyout
+     * @see       jbvb.bwt.CbrdLbyout#preferredLbyoutSize
      */
-    public Dimension minimumLayoutSize(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            Insets insets = parent.getInsets();
-            int ncomponents = parent.getComponentCount();
+    public Dimension minimumLbyoutSize(Contbiner pbrent) {
+        synchronized (pbrent.getTreeLock()) {
+            Insets insets = pbrent.getInsets();
+            int ncomponents = pbrent.getComponentCount();
             int w = 0;
             int h = 0;
 
             for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
+                Component comp = pbrent.getComponent(i);
                 Dimension d = comp.getMinimumSize();
                 if (d.width > w) {
                     w = d.width;
@@ -316,298 +316,298 @@ public class CardLayout implements LayoutManager2,
                     h = d.height;
                 }
             }
-            return new Dimension(insets.left + insets.right + w + hgap*2,
-                                 insets.top + insets.bottom + h + vgap*2);
+            return new Dimension(insets.left + insets.right + w + hgbp*2,
+                                 insets.top + insets.bottom + h + vgbp*2);
         }
     }
 
     /**
-     * Returns the maximum dimensions for this layout given the components
-     * in the specified target container.
-     * @param target the component which needs to be laid out
-     * @see Container
-     * @see #minimumLayoutSize
-     * @see #preferredLayoutSize
+     * Returns the mbximum dimensions for this lbyout given the components
+     * in the specified tbrget contbiner.
+     * @pbrbm tbrget the component which needs to be lbid out
+     * @see Contbiner
+     * @see #minimumLbyoutSize
+     * @see #preferredLbyoutSize
      */
-    public Dimension maximumLayoutSize(Container target) {
+    public Dimension mbximumLbyoutSize(Contbiner tbrget) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
     /**
-     * Returns the alignment along the x axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Returns the blignment blong the x bxis.  This specifies how
+     * the component would like to be bligned relbtive to other
+     * components.  The vblue should be b number between 0 bnd 1
+     * where 0 represents blignment blong the origin, 1 is bligned
+     * the furthest bwby from the origin, 0.5 is centered, etc.
      */
-    public float getLayoutAlignmentX(Container parent) {
+    public flobt getLbyoutAlignmentX(Contbiner pbrent) {
         return 0.5f;
     }
 
     /**
-     * Returns the alignment along the y axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Returns the blignment blong the y bxis.  This specifies how
+     * the component would like to be bligned relbtive to other
+     * components.  The vblue should be b number between 0 bnd 1
+     * where 0 represents blignment blong the origin, 1 is bligned
+     * the furthest bwby from the origin, 0.5 is centered, etc.
      */
-    public float getLayoutAlignmentY(Container parent) {
+    public flobt getLbyoutAlignmentY(Contbiner pbrent) {
         return 0.5f;
     }
 
     /**
-     * Invalidates the layout, indicating that if the layout manager
-     * has cached information it should be discarded.
+     * Invblidbtes the lbyout, indicbting thbt if the lbyout mbnbger
+     * hbs cbched informbtion it should be discbrded.
      */
-    public void invalidateLayout(Container target) {
+    public void invblidbteLbyout(Contbiner tbrget) {
     }
 
     /**
-     * Lays out the specified container using this card layout.
+     * Lbys out the specified contbiner using this cbrd lbyout.
      * <p>
-     * Each component in the <code>parent</code> container is reshaped
-     * to be the size of the container, minus space for surrounding
-     * insets, horizontal gaps, and vertical gaps.
+     * Ebch component in the <code>pbrent</code> contbiner is reshbped
+     * to be the size of the contbiner, minus spbce for surrounding
+     * insets, horizontbl gbps, bnd verticbl gbps.
      *
-     * @param     parent the parent container in which to do the layout
-     * @see       java.awt.Container#doLayout
+     * @pbrbm     pbrent the pbrent contbiner in which to do the lbyout
+     * @see       jbvb.bwt.Contbiner#doLbyout
      */
-    public void layoutContainer(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            Insets insets = parent.getInsets();
-            int ncomponents = parent.getComponentCount();
+    public void lbyoutContbiner(Contbiner pbrent) {
+        synchronized (pbrent.getTreeLock()) {
+            Insets insets = pbrent.getInsets();
+            int ncomponents = pbrent.getComponentCount();
             Component comp = null;
-            boolean currentFound = false;
+            boolebn currentFound = fblse;
 
             for (int i = 0 ; i < ncomponents ; i++) {
-                comp = parent.getComponent(i);
-                comp.setBounds(hgap + insets.left, vgap + insets.top,
-                               parent.width - (hgap*2 + insets.left + insets.right),
-                               parent.height - (vgap*2 + insets.top + insets.bottom));
+                comp = pbrent.getComponent(i);
+                comp.setBounds(hgbp + insets.left, vgbp + insets.top,
+                               pbrent.width - (hgbp*2 + insets.left + insets.right),
+                               pbrent.height - (vgbp*2 + insets.top + insets.bottom));
                 if (comp.isVisible()) {
                     currentFound = true;
                 }
             }
 
             if (!currentFound && ncomponents > 0) {
-                parent.getComponent(0).setVisible(true);
+                pbrent.getComponent(0).setVisible(true);
             }
         }
     }
 
     /**
-     * Make sure that the Container really has a CardLayout installed.
-     * Otherwise havoc can ensue!
+     * Mbke sure thbt the Contbiner reblly hbs b CbrdLbyout instblled.
+     * Otherwise hbvoc cbn ensue!
      */
-    void checkLayout(Container parent) {
-        if (parent.getLayout() != this) {
-            throw new IllegalArgumentException("wrong parent for CardLayout");
+    void checkLbyout(Contbiner pbrent) {
+        if (pbrent.getLbyout() != this) {
+            throw new IllegblArgumentException("wrong pbrent for CbrdLbyout");
         }
     }
 
     /**
-     * Flips to the first card of the container.
-     * @param     parent   the parent container in which to do the layout
-     * @see       java.awt.CardLayout#last
+     * Flips to the first cbrd of the contbiner.
+     * @pbrbm     pbrent   the pbrent contbiner in which to do the lbyout
+     * @see       jbvb.bwt.CbrdLbyout#lbst
      */
-    public void first(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            checkLayout(parent);
-            int ncomponents = parent.getComponentCount();
+    public void first(Contbiner pbrent) {
+        synchronized (pbrent.getTreeLock()) {
+            checkLbyout(pbrent);
+            int ncomponents = pbrent.getComponentCount();
             for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
+                Component comp = pbrent.getComponent(i);
                 if (comp.isVisible()) {
-                    comp.setVisible(false);
-                    break;
+                    comp.setVisible(fblse);
+                    brebk;
                 }
             }
             if (ncomponents > 0) {
-                currentCard = 0;
-                parent.getComponent(0).setVisible(true);
-                parent.validate();
+                currentCbrd = 0;
+                pbrent.getComponent(0).setVisible(true);
+                pbrent.vblidbte();
             }
         }
     }
 
     /**
-     * Flips to the next card of the specified container. If the
-     * currently visible card is the last one, this method flips to the
-     * first card in the layout.
-     * @param     parent   the parent container in which to do the layout
-     * @see       java.awt.CardLayout#previous
+     * Flips to the next cbrd of the specified contbiner. If the
+     * currently visible cbrd is the lbst one, this method flips to the
+     * first cbrd in the lbyout.
+     * @pbrbm     pbrent   the pbrent contbiner in which to do the lbyout
+     * @see       jbvb.bwt.CbrdLbyout#previous
      */
-    public void next(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            checkLayout(parent);
-            int ncomponents = parent.getComponentCount();
+    public void next(Contbiner pbrent) {
+        synchronized (pbrent.getTreeLock()) {
+            checkLbyout(pbrent);
+            int ncomponents = pbrent.getComponentCount();
             for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
+                Component comp = pbrent.getComponent(i);
                 if (comp.isVisible()) {
-                    comp.setVisible(false);
-                    currentCard = (i + 1) % ncomponents;
-                    comp = parent.getComponent(currentCard);
+                    comp.setVisible(fblse);
+                    currentCbrd = (i + 1) % ncomponents;
+                    comp = pbrent.getComponent(currentCbrd);
                     comp.setVisible(true);
-                    parent.validate();
+                    pbrent.vblidbte();
                     return;
                 }
             }
-            showDefaultComponent(parent);
+            showDefbultComponent(pbrent);
         }
     }
 
     /**
-     * Flips to the previous card of the specified container. If the
-     * currently visible card is the first one, this method flips to the
-     * last card in the layout.
-     * @param     parent   the parent container in which to do the layout
-     * @see       java.awt.CardLayout#next
+     * Flips to the previous cbrd of the specified contbiner. If the
+     * currently visible cbrd is the first one, this method flips to the
+     * lbst cbrd in the lbyout.
+     * @pbrbm     pbrent   the pbrent contbiner in which to do the lbyout
+     * @see       jbvb.bwt.CbrdLbyout#next
      */
-    public void previous(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            checkLayout(parent);
-            int ncomponents = parent.getComponentCount();
+    public void previous(Contbiner pbrent) {
+        synchronized (pbrent.getTreeLock()) {
+            checkLbyout(pbrent);
+            int ncomponents = pbrent.getComponentCount();
             for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
+                Component comp = pbrent.getComponent(i);
                 if (comp.isVisible()) {
-                    comp.setVisible(false);
-                    currentCard = ((i > 0) ? i-1 : ncomponents-1);
-                    comp = parent.getComponent(currentCard);
+                    comp.setVisible(fblse);
+                    currentCbrd = ((i > 0) ? i-1 : ncomponents-1);
+                    comp = pbrent.getComponent(currentCbrd);
                     comp.setVisible(true);
-                    parent.validate();
+                    pbrent.vblidbte();
                     return;
                 }
             }
-            showDefaultComponent(parent);
+            showDefbultComponent(pbrent);
         }
     }
 
-    void showDefaultComponent(Container parent) {
-        if (parent.getComponentCount() > 0) {
-            currentCard = 0;
-            parent.getComponent(0).setVisible(true);
-            parent.validate();
+    void showDefbultComponent(Contbiner pbrent) {
+        if (pbrent.getComponentCount() > 0) {
+            currentCbrd = 0;
+            pbrent.getComponent(0).setVisible(true);
+            pbrent.vblidbte();
         }
     }
 
     /**
-     * Flips to the last card of the container.
-     * @param     parent   the parent container in which to do the layout
-     * @see       java.awt.CardLayout#first
+     * Flips to the lbst cbrd of the contbiner.
+     * @pbrbm     pbrent   the pbrent contbiner in which to do the lbyout
+     * @see       jbvb.bwt.CbrdLbyout#first
      */
-    public void last(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            checkLayout(parent);
-            int ncomponents = parent.getComponentCount();
+    public void lbst(Contbiner pbrent) {
+        synchronized (pbrent.getTreeLock()) {
+            checkLbyout(pbrent);
+            int ncomponents = pbrent.getComponentCount();
             for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
+                Component comp = pbrent.getComponent(i);
                 if (comp.isVisible()) {
-                    comp.setVisible(false);
-                    break;
+                    comp.setVisible(fblse);
+                    brebk;
                 }
             }
             if (ncomponents > 0) {
-                currentCard = ncomponents - 1;
-                parent.getComponent(currentCard).setVisible(true);
-                parent.validate();
+                currentCbrd = ncomponents - 1;
+                pbrent.getComponent(currentCbrd).setVisible(true);
+                pbrent.vblidbte();
             }
         }
     }
 
     /**
-     * Flips to the component that was added to this layout with the
-     * specified <code>name</code>, using <code>addLayoutComponent</code>.
-     * If no such component exists, then nothing happens.
-     * @param     parent   the parent container in which to do the layout
-     * @param     name     the component name
-     * @see       java.awt.CardLayout#addLayoutComponent(java.awt.Component, java.lang.Object)
+     * Flips to the component thbt wbs bdded to this lbyout with the
+     * specified <code>nbme</code>, using <code>bddLbyoutComponent</code>.
+     * If no such component exists, then nothing hbppens.
+     * @pbrbm     pbrent   the pbrent contbiner in which to do the lbyout
+     * @pbrbm     nbme     the component nbme
+     * @see       jbvb.bwt.CbrdLbyout#bddLbyoutComponent(jbvb.bwt.Component, jbvb.lbng.Object)
      */
-    public void show(Container parent, String name) {
-        synchronized (parent.getTreeLock()) {
-            checkLayout(parent);
+    public void show(Contbiner pbrent, String nbme) {
+        synchronized (pbrent.getTreeLock()) {
+            checkLbyout(pbrent);
             Component next = null;
             int ncomponents = vector.size();
             for (int i = 0; i < ncomponents; i++) {
-                Card card = vector.get(i);
-                if (card.name.equals(name)) {
-                    next = card.comp;
-                    currentCard = i;
-                    break;
+                Cbrd cbrd = vector.get(i);
+                if (cbrd.nbme.equbls(nbme)) {
+                    next = cbrd.comp;
+                    currentCbrd = i;
+                    brebk;
                 }
             }
             if ((next != null) && !next.isVisible()) {
-                ncomponents = parent.getComponentCount();
+                ncomponents = pbrent.getComponentCount();
                 for (int i = 0; i < ncomponents; i++) {
-                    Component comp = parent.getComponent(i);
+                    Component comp = pbrent.getComponent(i);
                     if (comp.isVisible()) {
-                        comp.setVisible(false);
-                        break;
+                        comp.setVisible(fblse);
+                        brebk;
                     }
                 }
                 next.setVisible(true);
-                parent.validate();
+                pbrent.vblidbte();
             }
         }
     }
 
     /**
-     * Returns a string representation of the state of this card layout.
-     * @return    a string representation of this card layout.
+     * Returns b string representbtion of the stbte of this cbrd lbyout.
+     * @return    b string representbtion of this cbrd lbyout.
      */
     public String toString() {
-        return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap + "]";
+        return getClbss().getNbme() + "[hgbp=" + hgbp + ",vgbp=" + vgbp + "]";
     }
 
     /**
-     * Reads serializable fields from stream.
+     * Rebds seriblizbble fields from strebm.
      */
-    @SuppressWarnings("unchecked")
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException
+    @SuppressWbrnings("unchecked")
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException
     {
-        ObjectInputStream.GetField f = s.readFields();
+        ObjectInputStrebm.GetField f = s.rebdFields();
 
-        hgap = f.get("hgap", 0);
-        vgap = f.get("vgap", 0);
+        hgbp = f.get("hgbp", 0);
+        vgbp = f.get("vgbp", 0);
 
-        if (f.defaulted("vector")) {
-            //  pre-1.4 stream
-            Hashtable<String, Component> tab = (Hashtable)f.get("tab", null);
+        if (f.defbulted("vector")) {
+            //  pre-1.4 strebm
+            Hbshtbble<String, Component> tbb = (Hbshtbble)f.get("tbb", null);
             vector = new Vector<>();
-            if (tab != null && !tab.isEmpty()) {
-                for (Enumeration<String> e = tab.keys() ; e.hasMoreElements() ; ) {
+            if (tbb != null && !tbb.isEmpty()) {
+                for (Enumerbtion<String> e = tbb.keys() ; e.hbsMoreElements() ; ) {
                     String key = e.nextElement();
-                    Component comp = tab.get(key);
-                    vector.add(new Card(key, comp));
+                    Component comp = tbb.get(key);
+                    vector.bdd(new Cbrd(key, comp));
                     if (comp.isVisible()) {
-                        currentCard = vector.size() - 1;
+                        currentCbrd = vector.size() - 1;
                     }
                 }
             }
         } else {
             vector = (Vector)f.get("vector", null);
-            currentCard = f.get("currentCard", 0);
+            currentCbrd = f.get("currentCbrd", 0);
         }
     }
 
     /**
-     * Writes serializable fields to stream.
+     * Writes seriblizbble fields to strebm.
      */
-    private void writeObject(ObjectOutputStream s)
+    privbte void writeObject(ObjectOutputStrebm s)
         throws IOException
     {
-        Hashtable<String, Component> tab = new Hashtable<>();
+        Hbshtbble<String, Component> tbb = new Hbshtbble<>();
         int ncomponents = vector.size();
         for (int i = 0; i < ncomponents; i++) {
-            Card card = vector.get(i);
-            tab.put(card.name, card.comp);
+            Cbrd cbrd = vector.get(i);
+            tbb.put(cbrd.nbme, cbrd.comp);
         }
 
-        ObjectOutputStream.PutField f = s.putFields();
-        f.put("hgap", hgap);
-        f.put("vgap", vgap);
+        ObjectOutputStrebm.PutField f = s.putFields();
+        f.put("hgbp", hgbp);
+        f.put("vgbp", vgbp);
         f.put("vector", vector);
-        f.put("currentCard", currentCard);
-        f.put("tab", tab);
+        f.put("currentCbrd", currentCbrd);
+        f.put("tbb", tbb);
         s.writeFields();
     }
 }

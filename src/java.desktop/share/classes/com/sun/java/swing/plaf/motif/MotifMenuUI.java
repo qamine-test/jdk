@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.bbsic.*;
 
 
-import javax.swing.plaf.basic.BasicMenuUI;
+import jbvbx.swing.plbf.bbsic.BbsicMenuUI;
 
 /**
- * A Motif L&F implementation of MenuUI.
+ * A Motif L&F implementbtion of MenuUI.
  * <p>
  *
- * @author Georges Saab
- * @author Rich Schiavi
+ * @buthor Georges Sbbb
+ * @buthor Rich Schibvi
  */
-public class MotifMenuUI extends BasicMenuUI
+public clbss MotifMenuUI extends BbsicMenuUI
 {
 
-    public static ComponentUI createUI( JComponent x ) {
+    public stbtic ComponentUI crebteUI( JComponent x ) {
         return new MotifMenuUI();
     }
 
-// These should not be necessary because BasicMenuUI does this,
-// and this class overrides createChangeListener.
-//    protected void installListeners() {
-//      super.installListeners();
-//        changeListener = createChangeListener(menuItem);
-//        menuItem.addChangeListener(changeListener);
+// These should not be necessbry becbuse BbsicMenuUI does this,
+// bnd this clbss overrides crebteChbngeListener.
+//    protected void instbllListeners() {
+//      super.instbllListeners();
+//        chbngeListener = crebteChbngeListener(menuItem);
+//        menuItem.bddChbngeListener(chbngeListener);
 //    }
 //
-//    protected void uninstallListeners() {
-//      super.uninstallListeners();
-//      menuItem.removeChangeListener(changeListener);
+//    protected void uninstbllListeners() {
+//      super.uninstbllListeners();
+//      menuItem.removeChbngeListener(chbngeListener);
 //    }
 
-    protected ChangeListener createChangeListener(JComponent c) {
-        return new MotifChangeHandler((JMenu)c, this);
+    protected ChbngeListener crebteChbngeListener(JComponent c) {
+        return new MotifChbngeHbndler((JMenu)c, this);
     }
 
-    private boolean popupIsOpen(JMenu m,MenuElement me[]) {
+    privbte boolebn popupIsOpen(JMenu m,MenuElement me[]) {
         int i;
         JPopupMenu pm = m.getPopupMenu();
 
@@ -74,76 +74,76 @@ public class MotifMenuUI extends BasicMenuUI
             if(me[i].getComponent() == pm)
                 return true;
         }
-        return false;
+        return fblse;
     }
 
-    protected MouseInputListener createMouseInputListener(JComponent c) {
-        return new MouseInputHandler();
+    protected MouseInputListener crebteMouseInputListener(JComponent c) {
+        return new MouseInputHbndler();
     }
 
-    public class MotifChangeHandler extends ChangeHandler {
-        public MotifChangeHandler(JMenu m, MotifMenuUI ui) {
+    public clbss MotifChbngeHbndler extends ChbngeHbndler {
+        public MotifChbngeHbndler(JMenu m, MotifMenuUI ui) {
             super(m, ui);
         }
 
 
-        public void stateChanged(ChangeEvent e) {
+        public void stbteChbnged(ChbngeEvent e) {
             JMenuItem c = (JMenuItem)e.getSource();
             if (c.isArmed() || c.isSelected()) {
-                c.setBorderPainted(true);
-                // c.repaint();
+                c.setBorderPbinted(true);
+                // c.repbint();
             } else {
-                c.setBorderPainted(false);
+                c.setBorderPbinted(fblse);
             }
 
-            super.stateChanged(e);
+            super.stbteChbnged(e);
         }
     }
 
-    protected class MouseInputHandler implements MouseInputListener {
+    protected clbss MouseInputHbndler implements MouseInputListener {
         public void mouseClicked(MouseEvent e) {}
         public void mousePressed(MouseEvent e) {
-            MenuSelectionManager manager = MenuSelectionManager.defaultManager();
+            MenuSelectionMbnbger mbnbger = MenuSelectionMbnbger.defbultMbnbger();
             JMenu menu = (JMenu)e.getComponent();
-            if(menu.isEnabled()) {
+            if(menu.isEnbbled()) {
                 if(menu.isTopLevelMenu()) {
                     if(menu.isSelected()) {
-                        manager.clearSelectedPath();
+                        mbnbger.clebrSelectedPbth();
                     } else {
-                        Container cnt = menu.getParent();
-                        if(cnt != null && cnt instanceof JMenuBar) {
+                        Contbiner cnt = menu.getPbrent();
+                        if(cnt != null && cnt instbnceof JMenuBbr) {
                             MenuElement me[] = new MenuElement[2];
                             me[0]=(MenuElement)cnt;
                             me[1]=menu;
-                            manager.setSelectedPath(me);
+                            mbnbger.setSelectedPbth(me);
                         }
                     }
                 }
 
-                MenuElement path[] = getPath();
-                if (path.length > 0) {
-                    MenuElement newPath[] = new MenuElement[path.length+1];
-                    System.arraycopy(path,0,newPath,0,path.length);
-                    newPath[path.length] = menu.getPopupMenu();
-                    manager.setSelectedPath(newPath);
+                MenuElement pbth[] = getPbth();
+                if (pbth.length > 0) {
+                    MenuElement newPbth[] = new MenuElement[pbth.length+1];
+                    System.brrbycopy(pbth,0,newPbth,0,pbth.length);
+                    newPbth[pbth.length] = menu.getPopupMenu();
+                    mbnbger.setSelectedPbth(newPbth);
                 }
             }
         }
 
-        public void mouseReleased(MouseEvent e) {
-            MenuSelectionManager manager =
-                MenuSelectionManager.defaultManager();
+        public void mouseRelebsed(MouseEvent e) {
+            MenuSelectionMbnbger mbnbger =
+                MenuSelectionMbnbger.defbultMbnbger();
             JMenuItem menuItem = (JMenuItem)e.getComponent();
             Point p = e.getPoint();
             if(!(p.x >= 0 && p.x < menuItem.getWidth() &&
                  p.y >= 0 && p.y < menuItem.getHeight())) {
-                manager.processMouseEvent(e);
+                mbnbger.processMouseEvent(e);
             }
         }
         public void mouseEntered(MouseEvent e) {}
         public void mouseExited(MouseEvent e) {}
-        public void mouseDragged(MouseEvent e) {
-            MenuSelectionManager.defaultManager().processMouseEvent(e);
+        public void mouseDrbgged(MouseEvent e) {
+            MenuSelectionMbnbger.defbultMbnbger().processMouseEvent(e);
         }
         public void mouseMoved(MouseEvent e) { }
     }

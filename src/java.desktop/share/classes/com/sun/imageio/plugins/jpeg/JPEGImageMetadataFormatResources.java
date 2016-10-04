@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbckbge com.sun.imbgeio.plugins.jpeg;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListResourceBundle;
 
-public class JPEGImageMetadataFormatResources
-       extends JPEGMetadataFormatResources {
+public clbss JPEGImbgeMetbdbtbFormbtResources
+       extends JPEGMetbdbtbFormbtResources {
 
-    static final Object[][] imageContents = {
-        // Node name, followed by description
-        { "JPEGvariety", "A node grouping all marker segments specific to the variety of stream being read/written (e.g. JFIF) - may be empty" },
-        { "markerSequence", "A node grouping all non-jfif marker segments" },
-        { "app0jfif", "A JFIF APP0 marker segment" },
-        { "app14Adobe", "An Adobe APP14 marker segment" },
-        { "sof", "A Start Of Frame marker segment" },
-        { "sos", "A Start Of Scan marker segment" },
-        { "app0JFXX", "A JFIF extension marker segment" },
-        { "app2ICC", "An ICC profile APP2 marker segment" },
+    stbtic finbl Object[][] imbgeContents = {
+        // Node nbme, followed by description
+        { "JPEGvbriety", "A node grouping bll mbrker segments specific to the vbriety of strebm being rebd/written (e.g. JFIF) - mby be empty" },
+        { "mbrkerSequence", "A node grouping bll non-jfif mbrker segments" },
+        { "bpp0jfif", "A JFIF APP0 mbrker segment" },
+        { "bpp14Adobe", "An Adobe APP14 mbrker segment" },
+        { "sof", "A Stbrt Of Frbme mbrker segment" },
+        { "sos", "A Stbrt Of Scbn mbrker segment" },
+        { "bpp0JFXX", "A JFIF extension mbrker segment" },
+        { "bpp2ICC", "An ICC profile APP2 mbrker segment" },
         { "JFIFthumbJPEG",
-          "A JFIF thumbnail in JPEG format (no JFIF segments permitted)" },
-        { "JFIFthumbPalette", "A JFIF thumbnail as an RGB indexed image" },
-        { "JFIFthumbRGB", "A JFIF thumbnail as an RGB image" },
-        { "componentSpec", "A component specification for a frame" },
-        { "scanComponentSpec", "A component specification for a scan" },
+          "A JFIF thumbnbil in JPEG formbt (no JFIF segments permitted)" },
+        { "JFIFthumbPblette", "A JFIF thumbnbil bs bn RGB indexed imbge" },
+        { "JFIFthumbRGB", "A JFIF thumbnbil bs bn RGB imbge" },
+        { "componentSpec", "A component specificbtion for b frbme" },
+        { "scbnComponentSpec", "A component specificbtion for b scbn" },
 
-        // Node name + "/" + AttributeName, followed by description
-        { "app0JFIF/majorVersion",
-          "The major JFIF version number" },
-        { "app0JFIF/minorVersion",
+        // Node nbme + "/" + AttributeNbme, followed by description
+        { "bpp0JFIF/mbjorVersion",
+          "The mbjor JFIF version number" },
+        { "bpp0JFIF/minorVersion",
           "The minor JFIF version number" },
-        { "app0JFIF/resUnits",
-          "The resolution units for Xdensity and Ydensity "
-          + "(0 = no units, just aspect ratio; 1 = dots/inch; 2 = dots/cm)" },
-        { "app0JFIF/Xdensity",
-          "The horizontal density or aspect ratio numerator" },
-        { "app0JFIF/Ydensity",
-          "The vertical density or aspect ratio denominator" },
-        { "app0JFIF/thumbWidth",
-          "The width of the thumbnail, or 0 if there isn't one" },
-        { "app0JFIF/thumbHeight",
-          "The height of the thumbnail, or 0 if there isn't one" },
-        { "app0JFXX/extensionCode",
-          "The JFXX extension code identifying thumbnail type: "
+        { "bpp0JFIF/resUnits",
+          "The resolution units for Xdensity bnd Ydensity "
+          + "(0 = no units, just bspect rbtio; 1 = dots/inch; 2 = dots/cm)" },
+        { "bpp0JFIF/Xdensity",
+          "The horizontbl density or bspect rbtio numerbtor" },
+        { "bpp0JFIF/Ydensity",
+          "The verticbl density or bspect rbtio denominbtor" },
+        { "bpp0JFIF/thumbWidth",
+          "The width of the thumbnbil, or 0 if there isn't one" },
+        { "bpp0JFIF/thumbHeight",
+          "The height of the thumbnbil, or 0 if there isn't one" },
+        { "bpp0JFXX/extensionCode",
+          "The JFXX extension code identifying thumbnbil type: "
           + "(16 = JPEG, 17 = indexed, 19 = RGB" },
-        { "JFIFthumbPalette/thumbWidth",
-          "The width of the thumbnail" },
-        { "JFIFthumbPalette/thumbHeight",
-          "The height of the thumbnail" },
+        { "JFIFthumbPblette/thumbWidth",
+          "The width of the thumbnbil" },
+        { "JFIFthumbPblette/thumbHeight",
+          "The height of the thumbnbil" },
         { "JFIFthumbRGB/thumbWidth",
-          "The width of the thumbnail" },
+          "The width of the thumbnbil" },
         { "JFIFthumbRGB/thumbHeight",
-          "The height of the thumbnail" },
-        { "app14Adobe/version",
-          "The version of Adobe APP14 marker segment" },
-        { "app14Adobe/flags0",
-          "The flags0 variable of an APP14 marker segment" },
-        { "app14Adobe/flags1",
-          "The flags1 variable of an APP14 marker segment" },
-        { "app14Adobe/transform",
-          "The color transform applied to the image "
+          "The height of the thumbnbil" },
+        { "bpp14Adobe/version",
+          "The version of Adobe APP14 mbrker segment" },
+        { "bpp14Adobe/flbgs0",
+          "The flbgs0 vbribble of bn APP14 mbrker segment" },
+        { "bpp14Adobe/flbgs1",
+          "The flbgs1 vbribble of bn APP14 mbrker segment" },
+        { "bpp14Adobe/trbnsform",
+          "The color trbnsform bpplied to the imbge "
           + "(0 = Unknown, 1 = YCbCr, 2 = YCCK)" },
         { "sof/process",
-          "The JPEG process (0 = Baseline sequential, "
-          + "1 = Extended sequential, 2 = Progressive)" },
-        { "sof/samplePrecision",
-          "The number of bits per sample" },
+          "The JPEG process (0 = Bbseline sequentibl, "
+          + "1 = Extended sequentibl, 2 = Progressive)" },
+        { "sof/sbmplePrecision",
+          "The number of bits per sbmple" },
         { "sof/numLines",
-          "The number of lines in the image" },
-        { "sof/samplesPerLine",
-          "The number of samples per line" },
-        { "sof/numFrameComponents",
-          "The number of components in the image" },
+          "The number of lines in the imbge" },
+        { "sof/sbmplesPerLine",
+          "The number of sbmples per line" },
+        { "sof/numFrbmeComponents",
+          "The number of components in the imbge" },
         { "componentSpec/componentId",
           "The id for this component" },
-        { "componentSpec/HsamplingFactor",
-          "The horizontal sampling factor for this component" },
-        { "componentSpec/VsamplingFactor",
-          "The vertical sampling factor for this component" },
-        { "componentSpec/QtableSelector",
-          "The quantization table to use for this component" },
-        { "sos/numScanComponents",
-          "The number of components in the scan" },
-        { "sos/startSpectralSelection",
-          "The first spectral band included in this scan" },
-        { "sos/endSpectralSelection",
-          "The last spectral band included in this scan" },
-        { "sos/approxHigh",
-          "The highest bit position included in this scan" },
-        { "sos/approxLow",
-          "The lowest bit position included in this scan" },
-        { "scanComponentSpec/componentSelector",
+        { "componentSpec/HsbmplingFbctor",
+          "The horizontbl sbmpling fbctor for this component" },
+        { "componentSpec/VsbmplingFbctor",
+          "The verticbl sbmpling fbctor for this component" },
+        { "componentSpec/QtbbleSelector",
+          "The qubntizbtion tbble to use for this component" },
+        { "sos/numScbnComponents",
+          "The number of components in the scbn" },
+        { "sos/stbrtSpectrblSelection",
+          "The first spectrbl bbnd included in this scbn" },
+        { "sos/endSpectrblSelection",
+          "The lbst spectrbl bbnd included in this scbn" },
+        { "sos/bpproxHigh",
+          "The highest bit position included in this scbn" },
+        { "sos/bpproxLow",
+          "The lowest bit position included in this scbn" },
+        { "scbnComponentSpec/componentSelector",
           "The id of this component" },
-        { "scanComponentSpec/dcHuffTable",
-          "The huffman table to use for encoding DC coefficients" },
-        { "scanComponentSpec/acHuffTable",
-          "The huffman table to use for encoding AC coefficients" }
+        { "scbnComponentSpec/dcHuffTbble",
+          "The huffmbn tbble to use for encoding DC coefficients" },
+        { "scbnComponentSpec/bcHuffTbble",
+          "The huffmbn tbble to use for encoding AC coefficients" }
     };
 
-    public JPEGImageMetadataFormatResources() {}
+    public JPEGImbgeMetbdbtbFormbtResources() {}
 
     protected Object[][] getContents() {
-        // return a copy of the combined commonContents and imageContents;
-        // in theory we want a deep clone of the combined arrays,
-        // but since it only contains (immutable) Strings, this shallow
+        // return b copy of the combined commonContents bnd imbgeContents;
+        // in theory we wbnt b deep clone of the combined brrbys,
+        // but since it only contbins (immutbble) Strings, this shbllow
         // copy is sufficient
         Object[][] combinedContents =
-            new Object[commonContents.length + imageContents.length][2];
+            new Object[commonContents.length + imbgeContents.length][2];
         int combined = 0;
         for (int i = 0; i < commonContents.length; i++, combined++) {
             combinedContents[combined][0] = commonContents[i][0];
             combinedContents[combined][1] = commonContents[i][1];
         }
-        for (int i = 0; i < imageContents.length; i++, combined++) {
-            combinedContents[combined][0] = imageContents[i][0];
-            combinedContents[combined][1] = imageContents[i][1];
+        for (int i = 0; i < imbgeContents.length; i++, combined++) {
+            combinedContents[combined][0] = imbgeContents[i][0];
+            combinedContents[combined][1] = imbgeContents[i][1];
         }
         return combinedContents;
     }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,421 +30,421 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* This file contains all class, method and allocation event support functions,
- *   both JVMTI and BCI events.
- *   (See hprof_monitor.c for the monitor event handlers).
+/* This file contbins bll clbss, method bnd bllocbtion event support functions,
+ *   both JVMTI bnd BCI events.
+ *   (See hprof_monitor.c for the monitor event hbndlers).
  */
 
 #include "hprof.h"
 
-/* Private internal functions. */
+/* Privbte internbl functions. */
 
-/* Return a TraceIndex for the given thread. */
-static TraceIndex
-get_current(TlsIndex tls_index, JNIEnv *env, jboolean skip_init)
+/* Return b TrbceIndex for the given threbd. */
+stbtic TrbceIndex
+get_current(TlsIndex tls_index, JNIEnv *env, jboolebn skip_init)
 {
-    TraceIndex trace_index;
+    TrbceIndex trbce_index;
 
-    trace_index  = tls_get_trace(tls_index, env, gdata->max_trace_depth, skip_init);
-    return trace_index;
+    trbce_index  = tls_get_trbce(tls_index, env, gdbtb->mbx_trbce_depth, skip_init);
+    return trbce_index;
 }
 
-/* Return a ClassIndex for the given jclass, loader supplied or looked up. */
-static ClassIndex
-find_cnum(JNIEnv *env, jclass klass, jobject loader)
+/* Return b ClbssIndex for the given jclbss, lobder supplied or looked up. */
+stbtic ClbssIndex
+find_cnum(JNIEnv *env, jclbss klbss, jobject lobder)
 {
-    LoaderIndex loader_index;
-    ClassIndex  cnum;
-    char *      signature;
+    LobderIndex lobder_index;
+    ClbssIndex  cnum;
+    chbr *      signbture;
 
-    HPROF_ASSERT(klass!=NULL);
+    HPROF_ASSERT(klbss!=NULL);
 
-    /* Get the loader index */
-    loader_index = loader_find_or_create(env, loader);
+    /* Get the lobder index */
+    lobder_index = lobder_find_or_crebte(env, lobder);
 
-    /* Get the signature for this class */
-    getClassSignature(klass, &signature, NULL);
+    /* Get the signbture for this clbss */
+    getClbssSignbture(klbss, &signbture, NULL);
 
-    /* Find the ClassIndex for this class */
-    cnum   = class_find_or_create(signature, loader_index);
+    /* Find the ClbssIndex for this clbss */
+    cnum   = clbss_find_or_crebte(signbture, lobder_index);
 
-    /* Free the signature space */
-    jvmtiDeallocate(signature);
+    /* Free the signbture spbce */
+    jvmtiDebllocbte(signbture);
 
-    /* Make sure we save a global reference to this class in the table */
+    /* Mbke sure we sbve b globbl reference to this clbss in the tbble */
     HPROF_ASSERT(cnum!=0);
-    (void)class_new_classref(env, cnum, klass);
+    (void)clbss_new_clbssref(env, cnum, klbss);
     return cnum;
 }
 
-/* Get the ClassIndex for the superClass of this jclass. */
-static ClassIndex
-get_super(JNIEnv *env, jclass klass)
+/* Get the ClbssIndex for the superClbss of this jclbss. */
+stbtic ClbssIndex
+get_super(JNIEnv *env, jclbss klbss)
 {
-    ClassIndex super_cnum;
+    ClbssIndex super_cnum;
 
     super_cnum  = 0;
     WITH_LOCAL_REFS(env, 1) {
-        jclass  super_klass;
+        jclbss  super_klbss;
 
-        super_klass = getSuperclass(env, klass);
-        if ( super_klass != NULL ) {
-            super_cnum = find_cnum(env, super_klass,
-                                getClassLoader(super_klass));
+        super_klbss = getSuperclbss(env, klbss);
+        if ( super_klbss != NULL ) {
+            super_cnum = find_cnum(env, super_klbss,
+                                getClbssLobder(super_klbss));
         }
     } END_WITH_LOCAL_REFS;
     return super_cnum;
 }
 
-/* Record an allocation. Could be jobject, jclass, jarray or primitive type. */
-static void
-any_allocation(JNIEnv *env, SerialNumber thread_serial_num,
-               TraceIndex trace_index, jobject object)
+/* Record bn bllocbtion. Could be jobject, jclbss, jbrrby or primitive type. */
+stbtic void
+bny_bllocbtion(JNIEnv *env, SeriblNumber threbd_seribl_num,
+               TrbceIndex trbce_index, jobject object)
 {
     SiteIndex    site_index;
-    ClassIndex   cnum;
+    ClbssIndex   cnum;
     jint         size;
-    jclass       klass;
+    jclbss       klbss;
 
-    /*    NOTE: Normally the getObjectClass() and getClassLoader()
-     *          would require a
+    /*    NOTE: Normblly the getObjectClbss() bnd getClbssLobder()
+     *          would require b
      *               WITH_LOCAL_REFS(env, 1) {
      *               } END_WITH_LOCAL_REFS;
-     *          but for performance reasons we skip it here.
+     *          but for performbnce rebsons we skip it here.
      */
 
-    /* Get and tag the klass */
-    klass = getObjectClass(env, object);
-    cnum = find_cnum(env, klass, getClassLoader(klass));
-    site_index = site_find_or_create(cnum, trace_index);
-    tag_class(env, klass, cnum, thread_serial_num, site_index);
+    /* Get bnd tbg the klbss */
+    klbss = getObjectClbss(env, object);
+    cnum = find_cnum(env, klbss, getClbssLobder(klbss));
+    site_index = site_find_or_crebte(cnum, trbce_index);
+    tbg_clbss(env, klbss, cnum, threbd_seribl_num, site_index);
 
-    /* Tag the object */
+    /* Tbg the object */
     size  = (jint)getObjectSize(object);
-    tag_new_object(object, OBJECT_NORMAL, thread_serial_num, size, site_index);
+    tbg_new_object(object, OBJECT_NORMAL, threbd_seribl_num, size, site_index);
 }
 
-/* Handle a java.lang.Object.<init> object allocation. */
+/* Hbndle b jbvb.lbng.Object.<init> object bllocbtion. */
 void
-event_object_init(JNIEnv *env, jthread thread, jobject object)
+event_object_init(JNIEnv *env, jthrebd threbd, jobject object)
 {
-    /* Called via BCI Tracker class */
+    /* Cblled vib BCI Trbcker clbss */
 
-    /* Be very careful what is called here, watch out for recursion. */
+    /* Be very cbreful whbt is cblled here, wbtch out for recursion. */
 
-    jint        *pstatus;
-    TraceIndex   trace_index;
-    SerialNumber thread_serial_num;
+    jint        *pstbtus;
+    TrbceIndex   trbce_index;
+    SeriblNumber threbd_seribl_num;
 
     HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(thread!=NULL);
+    HPROF_ASSERT(threbd!=NULL);
     HPROF_ASSERT(object!=NULL);
 
-    /* Prevent recursion into any BCI function for this thread (pstatus). */
-    if ( tls_get_tracker_status(env, thread, JNI_TRUE,
-             &pstatus, NULL, &thread_serial_num, &trace_index) == 0 ) {
-        (*pstatus) = 1;
-        any_allocation(env, thread_serial_num, trace_index, object);
-        (*pstatus) = 0;
+    /* Prevent recursion into bny BCI function for this threbd (pstbtus). */
+    if ( tls_get_trbcker_stbtus(env, threbd, JNI_TRUE,
+             &pstbtus, NULL, &threbd_seribl_num, &trbce_index) == 0 ) {
+        (*pstbtus) = 1;
+        bny_bllocbtion(env, threbd_seribl_num, trbce_index, object);
+        (*pstbtus) = 0;
     }
 }
 
-/* Handle any newarray opcode allocation. */
+/* Hbndle bny newbrrby opcode bllocbtion. */
 void
-event_newarray(JNIEnv *env, jthread thread, jobject object)
+event_newbrrby(JNIEnv *env, jthrebd threbd, jobject object)
 {
-    /* Called via BCI Tracker class */
+    /* Cblled vib BCI Trbcker clbss */
 
-    /* Be very careful what is called here, watch out for recursion. */
+    /* Be very cbreful whbt is cblled here, wbtch out for recursion. */
 
-    jint        *pstatus;
-    TraceIndex   trace_index;
-    SerialNumber thread_serial_num;
+    jint        *pstbtus;
+    TrbceIndex   trbce_index;
+    SeriblNumber threbd_seribl_num;
 
     HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(thread!=NULL);
+    HPROF_ASSERT(threbd!=NULL);
     HPROF_ASSERT(object!=NULL);
 
-    /* Prevent recursion into any BCI function for this thread (pstatus). */
-    if ( tls_get_tracker_status(env, thread, JNI_FALSE,
-             &pstatus, NULL, &thread_serial_num, &trace_index) == 0 ) {
-        (*pstatus) = 1;
-        any_allocation(env, thread_serial_num, trace_index, object);
-        (*pstatus) = 0;
+    /* Prevent recursion into bny BCI function for this threbd (pstbtus). */
+    if ( tls_get_trbcker_stbtus(env, threbd, JNI_FALSE,
+             &pstbtus, NULL, &threbd_seribl_num, &trbce_index) == 0 ) {
+        (*pstbtus) = 1;
+        bny_bllocbtion(env, threbd_seribl_num, trbce_index, object);
+        (*pstbtus) = 0;
     }
 }
 
-/* Handle tracking of a method call. */
+/* Hbndle trbcking of b method cbll. */
 void
-event_call(JNIEnv *env, jthread thread, ClassIndex cnum, MethodIndex mnum)
+event_cbll(JNIEnv *env, jthrebd threbd, ClbssIndex cnum, MethodIndex mnum)
 {
-    /* Called via BCI Tracker class */
+    /* Cblled vib BCI Trbcker clbss */
 
-    /* Be very careful what is called here, watch out for recursion. */
+    /* Be very cbreful whbt is cblled here, wbtch out for recursion. */
 
     TlsIndex tls_index;
-    jint     *pstatus;
+    jint     *pstbtus;
 
     HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(thread!=NULL);
-    if (cnum == 0 || cnum == gdata->tracker_cnum) {
-        jclass newExcCls = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
-        (*env)->ThrowNew(env, newExcCls, "Illegal cnum.");
+    HPROF_ASSERT(threbd!=NULL);
+    if (cnum == 0 || cnum == gdbtb->trbcker_cnum) {
+        jclbss newExcCls = (*env)->FindClbss(env, "jbvb/lbng/IllegblArgumentException");
+        (*env)->ThrowNew(env, newExcCls, "Illegbl cnum.");
 
         return;
     }
 
-    /* Prevent recursion into any BCI function for this thread (pstatus). */
-    if ( tls_get_tracker_status(env, thread, JNI_FALSE,
-             &pstatus, &tls_index, NULL, NULL) == 0 ) {
+    /* Prevent recursion into bny BCI function for this threbd (pstbtus). */
+    if ( tls_get_trbcker_stbtus(env, threbd, JNI_FALSE,
+             &pstbtus, &tls_index, NULL, NULL) == 0 ) {
         jmethodID     method;
 
-        (*pstatus) = 1;
-        method      = class_get_methodID(env, cnum, mnum);
+        (*pstbtus) = 1;
+        method      = clbss_get_methodID(env, cnum, mnum);
         if (method != NULL) {
             tls_push_method(tls_index, method);
         }
 
-        (*pstatus) = 0;
+        (*pstbtus) = 0;
     }
 }
 
-/* Handle tracking of an exception catch */
+/* Hbndle trbcking of bn exception cbtch */
 void
-event_exception_catch(JNIEnv *env, jthread thread, jmethodID method,
-        jlocation location, jobject exception)
+event_exception_cbtch(JNIEnv *env, jthrebd threbd, jmethodID method,
+        jlocbtion locbtion, jobject exception)
 {
-    /* Called via JVMTI_EVENT_EXCEPTION_CATCH callback */
+    /* Cblled vib JVMTI_EVENT_EXCEPTION_CATCH cbllbbck */
 
-    /* Be very careful what is called here, watch out for recursion. */
+    /* Be very cbreful whbt is cblled here, wbtch out for recursion. */
 
     TlsIndex tls_index;
-    jint     *pstatus;
+    jint     *pstbtus;
 
     HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(thread!=NULL);
+    HPROF_ASSERT(threbd!=NULL);
     HPROF_ASSERT(method!=NULL);
 
-    /* Prevent recursion into any BCI function for this thread (pstatus). */
-    if ( tls_get_tracker_status(env, thread, JNI_FALSE,
-             &pstatus, &tls_index, NULL, NULL) == 0 ) {
-        (*pstatus) = 1;
-         tls_pop_exception_catch(tls_index, thread, method);
-        (*pstatus) = 0;
+    /* Prevent recursion into bny BCI function for this threbd (pstbtus). */
+    if ( tls_get_trbcker_stbtus(env, threbd, JNI_FALSE,
+             &pstbtus, &tls_index, NULL, NULL) == 0 ) {
+        (*pstbtus) = 1;
+         tls_pop_exception_cbtch(tls_index, threbd, method);
+        (*pstbtus) = 0;
     }
 }
 
-/* Handle tracking of a method return pop one (maybe more) methods. */
+/* Hbndle trbcking of b method return pop one (mbybe more) methods. */
 void
-event_return(JNIEnv *env, jthread thread, ClassIndex cnum, MethodIndex mnum)
+event_return(JNIEnv *env, jthrebd threbd, ClbssIndex cnum, MethodIndex mnum)
 {
-    /* Called via BCI Tracker class */
+    /* Cblled vib BCI Trbcker clbss */
 
-    /* Be very careful what is called here, watch out for recursion. */
+    /* Be very cbreful whbt is cblled here, wbtch out for recursion. */
 
     TlsIndex tls_index;
-    jint     *pstatus;
+    jint     *pstbtus;
 
     HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(thread!=NULL);
+    HPROF_ASSERT(threbd!=NULL);
 
-    if (cnum == 0 || cnum == gdata->tracker_cnum) {
-        jclass newExcCls = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
-        (*env)->ThrowNew(env, newExcCls, "Illegal cnum.");
+    if (cnum == 0 || cnum == gdbtb->trbcker_cnum) {
+        jclbss newExcCls = (*env)->FindClbss(env, "jbvb/lbng/IllegblArgumentException");
+        (*env)->ThrowNew(env, newExcCls, "Illegbl cnum.");
 
         return;
     }
 
-    /* Prevent recursion into any BCI function for this thread (pstatus). */
-    if ( tls_get_tracker_status(env, thread, JNI_FALSE,
-             &pstatus, &tls_index, NULL, NULL) == 0 ) {
+    /* Prevent recursion into bny BCI function for this threbd (pstbtus). */
+    if ( tls_get_trbcker_stbtus(env, threbd, JNI_FALSE,
+             &pstbtus, &tls_index, NULL, NULL) == 0 ) {
         jmethodID     method;
 
-        (*pstatus) = 1;
-        method      = class_get_methodID(env, cnum, mnum);
+        (*pstbtus) = 1;
+        method      = clbss_get_methodID(env, cnum, mnum);
         if (method != NULL) {
-            tls_pop_method(tls_index, thread, method);
+            tls_pop_method(tls_index, threbd, method);
         }
 
-        (*pstatus) = 0;
+        (*pstbtus) = 0;
     }
 }
 
-/* Handle a class prepare (should have been already loaded) */
+/* Hbndle b clbss prepbre (should hbve been blrebdy lobded) */
 void
-event_class_prepare(JNIEnv *env, jthread thread, jclass klass, jobject loader)
+event_clbss_prepbre(JNIEnv *env, jthrebd threbd, jclbss klbss, jobject lobder)
 {
-    /* Called via JVMTI_EVENT_CLASS_PREPARE event */
+    /* Cblled vib JVMTI_EVENT_CLASS_PREPARE event */
 
-    ClassIndex    cnum;
+    ClbssIndex    cnum;
 
     HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(thread!=NULL);
-    HPROF_ASSERT(klass!=NULL);
+    HPROF_ASSERT(threbd!=NULL);
+    HPROF_ASSERT(klbss!=NULL);
 
-    /* Find the ClassIndex for this class */
-    cnum   = find_cnum(env, klass, loader);
-    class_add_status(cnum, CLASS_PREPARED);
+    /* Find the ClbssIndex for this clbss */
+    cnum   = find_cnum(env, klbss, lobder);
+    clbss_bdd_stbtus(cnum, CLASS_PREPARED);
 
 }
 
-/* Handle a class load (could have been already loaded) */
+/* Hbndle b clbss lobd (could hbve been blrebdy lobded) */
 void
-event_class_load(JNIEnv *env, jthread thread, jclass klass, jobject loader)
+event_clbss_lobd(JNIEnv *env, jthrebd threbd, jclbss klbss, jobject lobder)
 {
-    /* Called via JVMTI_EVENT_CLASS_LOAD event or reset_class_load_status() */
+    /* Cblled vib JVMTI_EVENT_CLASS_LOAD event or reset_clbss_lobd_stbtus() */
 
-    ClassIndex   cnum;
+    ClbssIndex   cnum;
 
     HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(klass!=NULL);
+    HPROF_ASSERT(klbss!=NULL);
 
-    /* Find the ClassIndex for this class */
-    cnum   = find_cnum(env, klass, loader);
+    /* Find the ClbssIndex for this clbss */
+    cnum   = find_cnum(env, klbss, lobder);
 
-    /* Always mark it as being in the load list */
-    class_add_status(cnum, CLASS_IN_LOAD_LIST);
+    /* Alwbys mbrk it bs being in the lobd list */
+    clbss_bdd_stbtus(cnum, CLASS_IN_LOAD_LIST);
 
-    /* If we are seeing this as a new loaded class, extra work */
-    if ( ! ( class_get_status(cnum) & CLASS_LOADED ) ) {
-        TraceIndex   trace_index;
+    /* If we bre seeing this bs b new lobded clbss, extrb work */
+    if ( ! ( clbss_get_stbtus(cnum) & CLASS_LOADED ) ) {
+        TrbceIndex   trbce_index;
         SiteIndex    site_index;
-        ClassIndex   super;
-        SerialNumber class_serial_num;
-        SerialNumber trace_serial_num;
-        SerialNumber thread_serial_num;
-        ObjectIndex  class_object_index;
-        char        *signature;
+        ClbssIndex   super;
+        SeriblNumber clbss_seribl_num;
+        SeriblNumber trbce_seribl_num;
+        SeriblNumber threbd_seribl_num;
+        ObjectIndex  clbss_object_index;
+        chbr        *signbture;
 
-        /* Get the TlsIndex and a TraceIndex for this location */
-        if ( thread == NULL ) {
-            /* This should be very rare, but if this class load was simulated
-             *    from hprof_init.c due to a reset of the class load status,
-             *    and it originated from a pre-VM_INIT event, the jthread
-             *    would be NULL, or it was a jclass created that didn't get
-             *    reported to us, like an array class or a primitive class?
+        /* Get the TlsIndex bnd b TrbceIndex for this locbtion */
+        if ( threbd == NULL ) {
+            /* This should be very rbre, but if this clbss lobd wbs simulbted
+             *    from hprof_init.c due to b reset of the clbss lobd stbtus,
+             *    bnd it originbted from b pre-VM_INIT event, the jthrebd
+             *    would be NULL, or it wbs b jclbss crebted thbt didn't get
+             *    reported to us, like bn brrby clbss or b primitive clbss?
              */
-            trace_index       = gdata->system_trace_index;
-            thread_serial_num = gdata->unknown_thread_serial_num;
+            trbce_index       = gdbtb->system_trbce_index;
+            threbd_seribl_num = gdbtb->unknown_threbd_seribl_num;
         } else {
             TlsIndex     tls_index;
 
-            tls_index    = tls_find_or_create(env, thread);
-            trace_index  = get_current(tls_index, env, JNI_FALSE);
-            thread_serial_num = tls_get_thread_serial_number(tls_index);
+            tls_index    = tls_find_or_crebte(env, threbd);
+            trbce_index  = get_current(tls_index, env, JNI_FALSE);
+            threbd_seribl_num = tls_get_threbd_seribl_number(tls_index);
         }
 
-        /* Get the SiteIndex for this location and a java.lang.Class object */
-        /*    Note that the target cnum, not the cnum for java.lang.Class. */
-        site_index = site_find_or_create(cnum, trace_index);
+        /* Get the SiteIndex for this locbtion bnd b jbvb.lbng.Clbss object */
+        /*    Note thbt the tbrget cnum, not the cnum for jbvb.lbng.Clbss. */
+        site_index = site_find_or_crebte(cnum, trbce_index);
 
-        /* Tag this java.lang.Class object */
-        tag_class(env, klass, cnum, thread_serial_num, site_index);
+        /* Tbg this jbvb.lbng.Clbss object */
+        tbg_clbss(env, klbss, cnum, threbd_seribl_num, site_index);
 
-        class_add_status(cnum, CLASS_LOADED);
+        clbss_bdd_stbtus(cnum, CLASS_LOADED);
 
-        class_serial_num   = class_get_serial_number(cnum);
-        class_object_index = class_get_object_index(cnum);
-        trace_serial_num   = trace_get_serial_number(trace_index);
-        signature          = string_get(class_get_signature(cnum));
+        clbss_seribl_num   = clbss_get_seribl_number(cnum);
+        clbss_object_index = clbss_get_object_index(cnum);
+        trbce_seribl_num   = trbce_get_seribl_number(trbce_index);
+        signbture          = string_get(clbss_get_signbture(cnum));
 
-        rawMonitorEnter(gdata->data_access_lock); {
-            io_write_class_load(class_serial_num, class_object_index,
-                        trace_serial_num, signature);
-        } rawMonitorExit(gdata->data_access_lock);
+        rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+            io_write_clbss_lobd(clbss_seribl_num, clbss_object_index,
+                        trbce_seribl_num, signbture);
+        } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 
-        super  = get_super(env, klass);
-        class_set_super(cnum, super);
+        super  = get_super(env, klbss);
+        clbss_set_super(cnum, super);
     }
 
 }
 
-/* Handle a thread start event */
+/* Hbndle b threbd stbrt event */
 void
-event_thread_start(JNIEnv *env, jthread thread)
+event_threbd_stbrt(JNIEnv *env, jthrebd threbd)
 {
-    /* Called via JVMTI_EVENT_THREAD_START event */
+    /* Cblled vib JVMTI_EVENT_THREAD_START event */
 
     TlsIndex    tls_index;
     ObjectIndex object_index;
-    TraceIndex  trace_index;
-    jlong       tag;
-    SerialNumber thread_serial_num;
+    TrbceIndex  trbce_index;
+    jlong       tbg;
+    SeriblNumber threbd_seribl_num;
 
     HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(thread!=NULL);
+    HPROF_ASSERT(threbd!=NULL);
 
-    tls_index = tls_find_or_create(env, thread);
-    thread_serial_num = tls_get_thread_serial_number(tls_index);
-    trace_index = get_current(tls_index, env, JNI_FALSE);
+    tls_index = tls_find_or_crebte(env, threbd);
+    threbd_seribl_num = tls_get_threbd_seribl_number(tls_index);
+    trbce_index = get_current(tls_index, env, JNI_FALSE);
 
-    tag = getTag(thread);
-    if ( tag == (jlong)0 ) {
+    tbg = getTbg(threbd);
+    if ( tbg == (jlong)0 ) {
         SiteIndex site_index;
         jint      size;
 
-        size = (jint)getObjectSize(thread);
-        site_index = site_find_or_create(gdata->thread_cnum, trace_index);
-        /*  We create a new object with this thread's serial number */
+        size = (jint)getObjectSize(threbd);
+        site_index = site_find_or_crebte(gdbtb->threbd_cnum, trbce_index);
+        /*  We crebte b new object with this threbd's seribl number */
         object_index = object_new(site_index, size, OBJECT_NORMAL,
-                                              thread_serial_num);
+                                              threbd_seribl_num);
     } else {
-        object_index = tag_extract(tag);
-        /* Normally the Thread object is created and tagged before we get
-         *   here, but the thread_serial_number on this object isn't what
-         *   we want. So we update it to the serial number of this thread.
+        object_index = tbg_extrbct(tbg);
+        /* Normblly the Threbd object is crebted bnd tbgged before we get
+         *   here, but the threbd_seribl_number on this object isn't whbt
+         *   we wbnt. So we updbte it to the seribl number of this threbd.
          */
-        object_set_thread_serial_number(object_index, thread_serial_num);
+        object_set_threbd_seribl_number(object_index, threbd_seribl_num);
     }
-    tls_set_thread_object_index(tls_index, object_index);
+    tls_set_threbd_object_index(tls_index, object_index);
 
     WITH_LOCAL_REFS(env, 1) {
-        jvmtiThreadInfo      threadInfo;
-        jvmtiThreadGroupInfo threadGroupInfo;
-        jvmtiThreadGroupInfo parentGroupInfo;
+        jvmtiThrebdInfo      threbdInfo;
+        jvmtiThrebdGroupInfo threbdGroupInfo;
+        jvmtiThrebdGroupInfo pbrentGroupInfo;
 
-        getThreadInfo(thread, &threadInfo);
-        getThreadGroupInfo(threadInfo.thread_group, &threadGroupInfo);
-        if ( threadGroupInfo.parent != NULL ) {
-            getThreadGroupInfo(threadGroupInfo.parent, &parentGroupInfo);
+        getThrebdInfo(threbd, &threbdInfo);
+        getThrebdGroupInfo(threbdInfo.threbd_group, &threbdGroupInfo);
+        if ( threbdGroupInfo.pbrent != NULL ) {
+            getThrebdGroupInfo(threbdGroupInfo.pbrent, &pbrentGroupInfo);
         } else {
-            (void)memset(&parentGroupInfo, 0, sizeof(parentGroupInfo));
+            (void)memset(&pbrentGroupInfo, 0, sizeof(pbrentGroupInfo));
         }
 
-        rawMonitorEnter(gdata->data_access_lock); {
-            io_write_thread_start(thread_serial_num,
-                object_index, trace_get_serial_number(trace_index),
-                threadInfo.name, threadGroupInfo.name, parentGroupInfo.name);
-        } rawMonitorExit(gdata->data_access_lock);
+        rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+            io_write_threbd_stbrt(threbd_seribl_num,
+                object_index, trbce_get_seribl_number(trbce_index),
+                threbdInfo.nbme, threbdGroupInfo.nbme, pbrentGroupInfo.nbme);
+        } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 
-        jvmtiDeallocate(threadInfo.name);
-        jvmtiDeallocate(threadGroupInfo.name);
-        jvmtiDeallocate(parentGroupInfo.name);
+        jvmtiDebllocbte(threbdInfo.nbme);
+        jvmtiDebllocbte(threbdGroupInfo.nbme);
+        jvmtiDebllocbte(pbrentGroupInfo.nbme);
 
     } END_WITH_LOCAL_REFS;
 }
 
 void
-event_thread_end(JNIEnv *env, jthread thread)
+event_threbd_end(JNIEnv *env, jthrebd threbd)
 {
-    /* Called via JVMTI_EVENT_THREAD_END event */
+    /* Cblled vib JVMTI_EVENT_THREAD_END event */
     TlsIndex     tls_index;
 
     HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(thread!=NULL);
+    HPROF_ASSERT(threbd!=NULL);
 
-    tls_index = tls_find_or_create(env, thread);
-    rawMonitorEnter(gdata->data_access_lock); {
-        io_write_thread_end(tls_get_thread_serial_number(tls_index));
-    } rawMonitorExit(gdata->data_access_lock);
-    tls_thread_ended(env, tls_index);
-    setThreadLocalStorage(thread, (void*)NULL);
+    tls_index = tls_find_or_crebte(env, threbd);
+    rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+        io_write_threbd_end(tls_get_threbd_seribl_number(tls_index));
+    } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
+    tls_threbd_ended(env, tls_index);
+    setThrebdLocblStorbge(threbd, (void*)NULL);
 }

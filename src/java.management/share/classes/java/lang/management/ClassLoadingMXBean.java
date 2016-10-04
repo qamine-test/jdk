@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
 /**
- * The management interface for the class loading system of
- * the Java virtual machine.
+ * The mbnbgement interfbce for the clbss lobding system of
+ * the Jbvb virtubl mbchine.
  *
- * <p> A Java virtual machine has a single instance of the implementation
- * class of this interface.  This instance implementing this interface is
- * an <a href="ManagementFactory.html#MXBean">MXBean</a>
- * that can be obtained by calling
- * the {@link ManagementFactory#getClassLoadingMXBean} method or
- * from the {@link ManagementFactory#getPlatformMBeanServer
- * platform <tt>MBeanServer</tt>}.
+ * <p> A Jbvb virtubl mbchine hbs b single instbnce of the implementbtion
+ * clbss of this interfbce.  This instbnce implementing this interfbce is
+ * bn <b href="MbnbgementFbctory.html#MXBebn">MXBebn</b>
+ * thbt cbn be obtbined by cblling
+ * the {@link MbnbgementFbctory#getClbssLobdingMXBebn} method or
+ * from the {@link MbnbgementFbctory#getPlbtformMBebnServer
+ * plbtform <tt>MBebnServer</tt>}.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the MXBean for
- * the class loading system within an <tt>MBeanServer</tt> is:
+ * <p>The <tt>ObjectNbme</tt> for uniquely identifying the MXBebn for
+ * the clbss lobding system within bn <tt>MBebnServer</tt> is:
  * <blockquote>
- * {@link ManagementFactory#CLASS_LOADING_MXBEAN_NAME
- *        <tt>java.lang:type=ClassLoading</tt>}
+ * {@link MbnbgementFbctory#CLASS_LOADING_MXBEAN_NAME
+ *        <tt>jbvb.lbng:type=ClbssLobding</tt>}
  * </blockquote>
  *
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It cbn be obtbined by cblling the
+ * {@link PlbtformMbnbgedObject#getObjectNbme} method.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
- * @see <a href="../../../javax/management/package-summary.html">
- *      JMX Specification.</a>
- * @see <a href="package-summary.html#examples">
- *      Ways to Access MXBeans</a>
+ * @see MbnbgementFbctory#getPlbtformMXBebns(Clbss)
+ * @see <b href="../../../jbvbx/mbnbgement/pbckbge-summbry.html">
+ *      JMX Specificbtion.</b>
+ * @see <b href="pbckbge-summbry.html#exbmples">
+ *      Wbys to Access MXBebns</b>
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  * @since   1.5
  */
-public interface ClassLoadingMXBean extends PlatformManagedObject {
+public interfbce ClbssLobdingMXBebn extends PlbtformMbnbgedObject {
 
     /**
-     * Returns the total number of classes that have been loaded since
-     * the Java virtual machine has started execution.
+     * Returns the totbl number of clbsses thbt hbve been lobded since
+     * the Jbvb virtubl mbchine hbs stbrted execution.
      *
-     * @return the total number of classes loaded.
+     * @return the totbl number of clbsses lobded.
      *
      */
-    public long getTotalLoadedClassCount();
+    public long getTotblLobdedClbssCount();
 
     /**
-     * Returns the number of classes that are currently loaded in the
-     * Java virtual machine.
+     * Returns the number of clbsses thbt bre currently lobded in the
+     * Jbvb virtubl mbchine.
      *
-     * @return the number of currently loaded classes.
+     * @return the number of currently lobded clbsses.
      */
-    public int getLoadedClassCount();
+    public int getLobdedClbssCount();
 
     /**
-     * Returns the total number of classes unloaded since the Java virtual machine
-     * has started execution.
+     * Returns the totbl number of clbsses unlobded since the Jbvb virtubl mbchine
+     * hbs stbrted execution.
      *
-     * @return the total number of unloaded classes.
+     * @return the totbl number of unlobded clbsses.
      */
-    public long getUnloadedClassCount();
+    public long getUnlobdedClbssCount();
 
     /**
-     * Tests if the verbose output for the class loading system is enabled.
+     * Tests if the verbose output for the clbss lobding system is enbbled.
      *
-     * @return <tt>true</tt> if the verbose output for the class loading
-     * system is enabled; <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if the verbose output for the clbss lobding
+     * system is enbbled; <tt>fblse</tt> otherwise.
      */
-    public boolean isVerbose();
+    public boolebn isVerbose();
 
     /**
-     * Enables or disables the verbose output for the class loading
-     * system.  The verbose output information and the output stream
-     * to which the verbose information is emitted are implementation
-     * dependent.  Typically, a Java virtual machine implementation
-     * prints a message each time a class file is loaded.
+     * Enbbles or disbbles the verbose output for the clbss lobding
+     * system.  The verbose output informbtion bnd the output strebm
+     * to which the verbose informbtion is emitted bre implementbtion
+     * dependent.  Typicblly, b Jbvb virtubl mbchine implementbtion
+     * prints b messbge ebch time b clbss file is lobded.
      *
-     * <p>This method can be called by multiple threads concurrently.
-     * Each invocation of this method enables or disables the verbose
-     * output globally.
+     * <p>This method cbn be cblled by multiple threbds concurrently.
+     * Ebch invocbtion of this method enbbles or disbbles the verbose
+     * output globblly.
      *
-     * @param value <tt>true</tt> to enable the verbose output;
-     *              <tt>false</tt> to disable.
+     * @pbrbm vblue <tt>true</tt> to enbble the verbose output;
+     *              <tt>fblse</tt> to disbble.
      *
-     * @exception  java.lang.SecurityException if a security manager
-     *             exists and the caller does not have
-     *             ManagementPermission("control").
+     * @exception  jbvb.lbng.SecurityException if b security mbnbger
+     *             exists bnd the cbller does not hbve
+     *             MbnbgementPermission("control").
      */
-    public void setVerbose(boolean value);
+    public void setVerbose(boolebn vblue);
 
 }

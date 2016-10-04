@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
-import java.util.Vector;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.util.Vector;
+import jbvb.util.Locble;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
 
 /**
- * Class AccessibleStateSet determines a component's state set.  The state set
- * of a component is a set of AccessibleState objects and descriptions. E.G., The
- * current overall state of the object, such as whether it is enabled,
- * has focus, etc.
+ * Clbss AccessibleStbteSet determines b component's stbte set.  The stbte set
+ * of b component is b set of AccessibleStbte objects bnd descriptions. E.G., The
+ * current overbll stbte of the object, such bs whether it is enbbled,
+ * hbs focus, etc.
  *
- * @see AccessibleState
+ * @see AccessibleStbte
  *
- * @author      Willie Walker
+ * @buthor      Willie Wblker
  */
-public class AccessibleStateSet {
+public clbss AccessibleStbteSet {
 
     /**
-     * Each entry in the Vector represents an AccessibleState.
-     * @see #add
-     * @see #addAll
+     * Ebch entry in the Vector represents bn AccessibleStbte.
+     * @see #bdd
+     * @see #bddAll
      * @see #remove
-     * @see #contains
-     * @see #toArray
-     * @see #clear
+     * @see #contbins
+     * @see #toArrby
+     * @see #clebr
      */
-    protected Vector<AccessibleState> states = null;
+    protected Vector<AccessibleStbte> stbtes = null;
 
     /**
-     * Creates a new empty state set.
+     * Crebtes b new empty stbte set.
      */
-    public AccessibleStateSet() {
-        states = null;
+    public AccessibleStbteSet() {
+        stbtes = null;
     }
 
     /**
-     * Creates a new state with the initial set of states contained in
-     * the array of states passed in.  Duplicate entries are ignored.
+     * Crebtes b new stbte with the initibl set of stbtes contbined in
+     * the brrby of stbtes pbssed in.  Duplicbte entries bre ignored.
      *
-     * @param states an array of AccessibleState describing the state set.
+     * @pbrbm stbtes bn brrby of AccessibleStbte describing the stbte set.
      */
-    public AccessibleStateSet(AccessibleState[] states) {
-        if (states.length != 0) {
-            this.states = new Vector<>(states.length);
-            for (int i = 0; i < states.length; i++) {
-                if (!this.states.contains(states[i])) {
-                    this.states.addElement(states[i]);
+    public AccessibleStbteSet(AccessibleStbte[] stbtes) {
+        if (stbtes.length != 0) {
+            this.stbtes = new Vector<>(stbtes.length);
+            for (int i = 0; i < stbtes.length; i++) {
+                if (!this.stbtes.contbins(stbtes[i])) {
+                    this.stbtes.bddElement(stbtes[i]);
                 }
             }
         }
     }
 
     /**
-     * Adds a new state to the current state set if it is not already
-     * present.  If the state is already in the state set, the state
-     * set is unchanged and the return value is false.  Otherwise,
-     * the state is added to the state set and the return value is
+     * Adds b new stbte to the current stbte set if it is not blrebdy
+     * present.  If the stbte is blrebdy in the stbte set, the stbte
+     * set is unchbnged bnd the return vblue is fblse.  Otherwise,
+     * the stbte is bdded to the stbte set bnd the return vblue is
      * true.
-     * @param state the state to add to the state set
-     * @return true if state is added to the state set; false if the state set
-     * is unchanged
+     * @pbrbm stbte the stbte to bdd to the stbte set
+     * @return true if stbte is bdded to the stbte set; fblse if the stbte set
+     * is unchbnged
      */
-    public boolean add(AccessibleState state) {
-        // [[[ PENDING:  WDW - the implementation of this does not need
-        // to always use a vector of states.  It could be improved by
-        // caching the states as a bit set.]]]
-        if (states == null) {
-            states = new Vector<>();
+    public boolebn bdd(AccessibleStbte stbte) {
+        // [[[ PENDING:  WDW - the implementbtion of this does not need
+        // to blwbys use b vector of stbtes.  It could be improved by
+        // cbching the stbtes bs b bit set.]]]
+        if (stbtes == null) {
+            stbtes = new Vector<>();
         }
 
-        if (!states.contains(state)) {
-            states.addElement(state);
+        if (!stbtes.contbins(stbte)) {
+            stbtes.bddElement(stbte);
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Adds all of the states to the existing state set.  Duplicate entries
-     * are ignored.
-     * @param states  AccessibleState array describing the state set.
+     * Adds bll of the stbtes to the existing stbte set.  Duplicbte entries
+     * bre ignored.
+     * @pbrbm stbtes  AccessibleStbte brrby describing the stbte set.
      */
-    public void addAll(AccessibleState[] states) {
-        if (states.length != 0) {
-            if (this.states == null) {
-                this.states = new Vector<>(states.length);
+    public void bddAll(AccessibleStbte[] stbtes) {
+        if (stbtes.length != 0) {
+            if (this.stbtes == null) {
+                this.stbtes = new Vector<>(stbtes.length);
             }
-            for (int i = 0; i < states.length; i++) {
-                if (!this.states.contains(states[i])) {
-                    this.states.addElement(states[i]);
+            for (int i = 0; i < stbtes.length; i++) {
+                if (!this.stbtes.contbins(stbtes[i])) {
+                    this.stbtes.bddElement(stbtes[i]);
                 }
             }
         }
     }
 
     /**
-     * Removes a state from the current state set.  If the state is not
-     * in the set, the state set will be unchanged and the return value
-     * will be false.  If the state is in the state set, it will be removed
-     * from the set and the return value will be true.
+     * Removes b stbte from the current stbte set.  If the stbte is not
+     * in the set, the stbte set will be unchbnged bnd the return vblue
+     * will be fblse.  If the stbte is in the stbte set, it will be removed
+     * from the set bnd the return vblue will be true.
      *
-     * @param state the state to remove from the state set
-     * @return true if the state is in the state set; false if the state set
-     * will be unchanged
+     * @pbrbm stbte the stbte to remove from the stbte set
+     * @return true if the stbte is in the stbte set; fblse if the stbte set
+     * will be unchbnged
      */
-    public boolean remove(AccessibleState state) {
-        if (states == null) {
-            return false;
+    public boolebn remove(AccessibleStbte stbte) {
+        if (stbtes == null) {
+            return fblse;
         } else {
-            return states.removeElement(state);
+            return stbtes.removeElement(stbte);
         }
     }
 
     /**
-     * Removes all the states from the current state set.
+     * Removes bll the stbtes from the current stbte set.
      */
-    public void clear() {
-        if (states != null) {
-            states.removeAllElements();
+    public void clebr() {
+        if (stbtes != null) {
+            stbtes.removeAllElements();
         }
     }
 
     /**
-     * Checks if the current state is in the state set.
-     * @param state the state
-     * @return true if the state is in the state set; otherwise false
+     * Checks if the current stbte is in the stbte set.
+     * @pbrbm stbte the stbte
+     * @return true if the stbte is in the stbte set; otherwise fblse
      */
-    public boolean contains(AccessibleState state) {
-        if (states == null) {
-            return false;
+    public boolebn contbins(AccessibleStbte stbte) {
+        if (stbtes == null) {
+            return fblse;
         } else {
-            return states.contains(state);
+            return stbtes.contbins(stbte);
         }
     }
 
     /**
-     * Returns the current state set as an array of AccessibleState
-     * @return AccessibleState array containing the current state.
+     * Returns the current stbte set bs bn brrby of AccessibleStbte
+     * @return AccessibleStbte brrby contbining the current stbte.
      */
-    public AccessibleState[] toArray() {
-        if (states == null) {
-            return new AccessibleState[0];
+    public AccessibleStbte[] toArrby() {
+        if (stbtes == null) {
+            return new AccessibleStbte[0];
         } else {
-            AccessibleState[] stateArray = new AccessibleState[states.size()];
-            for (int i = 0; i < stateArray.length; i++) {
-                stateArray[i] = states.elementAt(i);
+            AccessibleStbte[] stbteArrby = new AccessibleStbte[stbtes.size()];
+            for (int i = 0; i < stbteArrby.length; i++) {
+                stbteArrby[i] = stbtes.elementAt(i);
             }
-            return stateArray;
+            return stbteArrby;
         }
     }
 
     /**
-     * Creates a localized String representing all the states in the set
-     * using the default locale.
+     * Crebtes b locblized String representing bll the stbtes in the set
+     * using the defbult locble.
      *
-     * @return comma separated localized String
-     * @see AccessibleBundle#toDisplayString
+     * @return commb sepbrbted locblized String
+     * @see AccessibleBundle#toDisplbyString
      */
     public String toString() {
         String ret = null;
-        if ((states != null) && (states.size() > 0)) {
-            ret = states.elementAt(0).toDisplayString();
-            for (int i = 1; i < states.size(); i++) {
+        if ((stbtes != null) && (stbtes.size() > 0)) {
+            ret = stbtes.elementAt(0).toDisplbyString();
+            for (int i = 1; i < stbtes.size(); i++) {
                 ret = ret + ","
-                        + states.elementAt(i).toDisplayString();
+                        + stbtes.elementAt(i).toDisplbyString();
             }
         }
         return ret;

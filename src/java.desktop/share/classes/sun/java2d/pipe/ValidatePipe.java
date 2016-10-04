@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
-import sun.java2d.SunGraphics2D;
-import java.awt.font.GlyphVector;
+import jbvb.bwt.Color;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.BufferedImbgeOp;
+import jbvb.bwt.imbge.ImbgeObserver;
+import sun.jbvb2d.SunGrbphics2D;
+import jbvb.bwt.font.GlyphVector;
 
 /**
- * This class is used to force a revalidation of the pipelines of
- * the indicated SunGraphics2D object before a draw command.
- * After calling SunGraphics2D.validatePipe() to force the pipeline
- * to be revalidated, this object redispatches the draw command to
- * the new valid pipe object.
+ * This clbss is used to force b revblidbtion of the pipelines of
+ * the indicbted SunGrbphics2D object before b drbw commbnd.
+ * After cblling SunGrbphics2D.vblidbtePipe() to force the pipeline
+ * to be revblidbted, this object redispbtches the drbw commbnd to
+ * the new vblid pipe object.
  */
-public class ValidatePipe
-    implements PixelDrawPipe, PixelFillPipe, ShapeDrawPipe, TextPipe,
-    DrawImagePipe
+public clbss VblidbtePipe
+    implements PixelDrbwPipe, PixelFillPipe, ShbpeDrbwPipe, TextPipe,
+    DrbwImbgePipe
 {
     /*
-     * Different subclasses may override this to do various
-     * other forms of validation and return a return code
-     * indicating whether or not the validation was successful.
+     * Different subclbsses mby override this to do vbrious
+     * other forms of vblidbtion bnd return b return code
+     * indicbting whether or not the vblidbtion wbs successful.
      */
-    public boolean validate(SunGraphics2D sg) {
-        sg.validatePipe();
+    public boolebn vblidbte(SunGrbphics2D sg) {
+        sg.vblidbtePipe();
         return true;
     }
 
-    public void drawLine(SunGraphics2D sg,
+    public void drbwLine(SunGrbphics2D sg,
                          int x1, int y1, int x2, int y2) {
-        if (validate(sg)) {
-            sg.drawpipe.drawLine(sg, x1, y1, x2, y2);
+        if (vblidbte(sg)) {
+            sg.drbwpipe.drbwLine(sg, x1, y1, x2, y2);
         }
     }
 
-    public void drawRect(SunGraphics2D sg,
+    public void drbwRect(SunGrbphics2D sg,
                          int x, int y, int width, int height) {
-        if (validate(sg)) {
-            sg.drawpipe.drawRect(sg, x, y, width, height);
+        if (vblidbte(sg)) {
+            sg.drbwpipe.drbwRect(sg, x, y, width, height);
         }
     }
 
-    public void fillRect(SunGraphics2D sg,
+    public void fillRect(SunGrbphics2D sg,
                          int x, int y, int width, int height) {
-        if (validate(sg)) {
+        if (vblidbte(sg)) {
             sg.fillpipe.fillRect(sg, x, y, width, height);
         }
     }
 
-    public void drawRoundRect(SunGraphics2D sg,
+    public void drbwRoundRect(SunGrbphics2D sg,
                               int x, int y, int width, int height,
-                              int arcWidth, int arcHeight) {
-        if (validate(sg)) {
-            sg.drawpipe.drawRoundRect(sg, x, y, width, height,
-                                      arcWidth, arcHeight);
+                              int brcWidth, int brcHeight) {
+        if (vblidbte(sg)) {
+            sg.drbwpipe.drbwRoundRect(sg, x, y, width, height,
+                                      brcWidth, brcHeight);
         }
     }
 
-    public void fillRoundRect(SunGraphics2D sg,
+    public void fillRoundRect(SunGrbphics2D sg,
                               int x, int y, int width, int height,
-                              int arcWidth, int arcHeight) {
-        if (validate(sg)) {
+                              int brcWidth, int brcHeight) {
+        if (vblidbte(sg)) {
             sg.fillpipe.fillRoundRect(sg, x, y, width, height,
-                                      arcWidth, arcHeight);
+                                      brcWidth, brcHeight);
         }
     }
 
-    public void drawOval(SunGraphics2D sg,
+    public void drbwOvbl(SunGrbphics2D sg,
                          int x, int y, int width, int height) {
-        if (validate(sg)) {
-            sg.drawpipe.drawOval(sg, x, y, width, height);
+        if (vblidbte(sg)) {
+            sg.drbwpipe.drbwOvbl(sg, x, y, width, height);
         }
     }
 
-    public void fillOval(SunGraphics2D sg,
+    public void fillOvbl(SunGrbphics2D sg,
                          int x, int y, int width, int height) {
-        if (validate(sg)) {
-            sg.fillpipe.fillOval(sg, x, y, width, height);
+        if (vblidbte(sg)) {
+            sg.fillpipe.fillOvbl(sg, x, y, width, height);
         }
     }
 
-    public void drawArc(SunGraphics2D sg,
+    public void drbwArc(SunGrbphics2D sg,
                         int x, int y, int width, int height,
-                        int startAngle, int arcAngle) {
-        if (validate(sg)) {
-            sg.drawpipe.drawArc(sg, x, y, width, height, startAngle, arcAngle);
+                        int stbrtAngle, int brcAngle) {
+        if (vblidbte(sg)) {
+            sg.drbwpipe.drbwArc(sg, x, y, width, height, stbrtAngle, brcAngle);
         }
     }
 
-    public void fillArc(SunGraphics2D sg,
+    public void fillArc(SunGrbphics2D sg,
                         int x, int y, int width, int height,
-                        int startAngle, int arcAngle) {
-        if (validate(sg)) {
-            sg.fillpipe.fillArc(sg, x, y, width, height, startAngle, arcAngle);
+                        int stbrtAngle, int brcAngle) {
+        if (vblidbte(sg)) {
+            sg.fillpipe.fillArc(sg, x, y, width, height, stbrtAngle, brcAngle);
         }
     }
 
-    public void drawPolyline(SunGraphics2D sg,
+    public void drbwPolyline(SunGrbphics2D sg,
                              int xPoints[], int yPoints[],
                              int nPoints) {
-        if (validate(sg)) {
-            sg.drawpipe.drawPolyline(sg, xPoints, yPoints, nPoints);
+        if (vblidbte(sg)) {
+            sg.drbwpipe.drbwPolyline(sg, xPoints, yPoints, nPoints);
         }
     }
 
-    public void drawPolygon(SunGraphics2D sg,
+    public void drbwPolygon(SunGrbphics2D sg,
                             int xPoints[], int yPoints[],
                             int nPoints) {
-        if (validate(sg)) {
-            sg.drawpipe.drawPolygon(sg, xPoints, yPoints, nPoints);
+        if (vblidbte(sg)) {
+            sg.drbwpipe.drbwPolygon(sg, xPoints, yPoints, nPoints);
         }
     }
 
-    public void fillPolygon(SunGraphics2D sg,
+    public void fillPolygon(SunGrbphics2D sg,
                             int xPoints[], int yPoints[],
                             int nPoints) {
-        if (validate(sg)) {
+        if (vblidbte(sg)) {
             sg.fillpipe.fillPolygon(sg, xPoints, yPoints, nPoints);
         }
     }
 
-    public void draw(SunGraphics2D sg, Shape s) {
-        if (validate(sg)) {
-            sg.shapepipe.draw(sg, s);
+    public void drbw(SunGrbphics2D sg, Shbpe s) {
+        if (vblidbte(sg)) {
+            sg.shbpepipe.drbw(sg, s);
         }
     }
 
-    public void fill(SunGraphics2D sg, Shape s) {
-        if (validate(sg)) {
-            sg.shapepipe.fill(sg, s);
+    public void fill(SunGrbphics2D sg, Shbpe s) {
+        if (vblidbte(sg)) {
+            sg.shbpepipe.fill(sg, s);
         }
     }
-    public void drawString(SunGraphics2D sg, String s, double x, double y) {
-        if (validate(sg)) {
-            sg.textpipe.drawString(sg, s, x, y);
+    public void drbwString(SunGrbphics2D sg, String s, double x, double y) {
+        if (vblidbte(sg)) {
+            sg.textpipe.drbwString(sg, s, x, y);
         }
     }
-    public void drawGlyphVector(SunGraphics2D sg, GlyphVector g,
-                                float x, float y) {
-        if (validate(sg)) {
-            sg.textpipe.drawGlyphVector(sg, g, x, y);
+    public void drbwGlyphVector(SunGrbphics2D sg, GlyphVector g,
+                                flobt x, flobt y) {
+        if (vblidbte(sg)) {
+            sg.textpipe.drbwGlyphVector(sg, g, x, y);
         }
     }
-    public void drawChars(SunGraphics2D sg,
-                                char data[], int offset, int length,
+    public void drbwChbrs(SunGrbphics2D sg,
+                                chbr dbtb[], int offset, int length,
                                 int x, int y) {
-        if (validate(sg)) {
-            sg.textpipe.drawChars(sg, data, offset, length, x, y);
+        if (vblidbte(sg)) {
+            sg.textpipe.drbwChbrs(sg, dbtb, offset, length, x, y);
         }
     }
-    public boolean copyImage(SunGraphics2D sg, Image img,
+    public boolebn copyImbge(SunGrbphics2D sg, Imbge img,
                              int x, int y,
                              Color bgColor,
-                             ImageObserver observer) {
-        if (validate(sg)) {
-            return sg.imagepipe.copyImage(sg, img, x, y, bgColor, observer);
+                             ImbgeObserver observer) {
+        if (vblidbte(sg)) {
+            return sg.imbgepipe.copyImbge(sg, img, x, y, bgColor, observer);
         } else {
-            return false;
+            return fblse;
         }
     }
-    public boolean copyImage(SunGraphics2D sg, Image img,
+    public boolebn copyImbge(SunGrbphics2D sg, Imbge img,
                              int dx, int dy, int sx, int sy, int w, int h,
                              Color bgColor,
-                             ImageObserver observer) {
-        if (validate(sg)) {
-            return sg.imagepipe.copyImage(sg, img, dx, dy, sx, sy, w, h,
+                             ImbgeObserver observer) {
+        if (vblidbte(sg)) {
+            return sg.imbgepipe.copyImbge(sg, img, dx, dy, sx, sy, w, h,
                                           bgColor, observer);
         } else {
-            return false;
+            return fblse;
         }
     }
-    public boolean scaleImage(SunGraphics2D sg, Image img, int x, int y,
+    public boolebn scbleImbge(SunGrbphics2D sg, Imbge img, int x, int y,
                               int w, int h,
                               Color bgColor,
-                              ImageObserver observer) {
-        if (validate(sg)) {
-            return sg.imagepipe.scaleImage(sg, img, x, y, w, h, bgColor,
+                              ImbgeObserver observer) {
+        if (vblidbte(sg)) {
+            return sg.imbgepipe.scbleImbge(sg, img, x, y, w, h, bgColor,
                                            observer);
         } else {
-            return false;
+            return fblse;
         }
     }
-    public boolean scaleImage(SunGraphics2D sg, Image img,
+    public boolebn scbleImbge(SunGrbphics2D sg, Imbge img,
                               int dx1, int dy1, int dx2, int dy2,
                               int sx1, int sy1, int sx2, int sy2,
                               Color bgColor,
-                              ImageObserver observer) {
-        if (validate(sg)) {
-            return sg.imagepipe.scaleImage(sg, img, dx1, dy1, dx2, dy2,
+                              ImbgeObserver observer) {
+        if (vblidbte(sg)) {
+            return sg.imbgepipe.scbleImbge(sg, img, dx1, dy1, dx2, dy2,
                                            sx1, sy1, sx2, sy2, bgColor,
                                            observer);
         } else {
-            return false;
+            return fblse;
         }
     }
-    public boolean transformImage(SunGraphics2D sg, Image img,
-                                  AffineTransform atfm,
-                                  ImageObserver observer) {
-        if (validate(sg)) {
-            return sg.imagepipe.transformImage(sg, img, atfm, observer);
+    public boolebn trbnsformImbge(SunGrbphics2D sg, Imbge img,
+                                  AffineTrbnsform btfm,
+                                  ImbgeObserver observer) {
+        if (vblidbte(sg)) {
+            return sg.imbgepipe.trbnsformImbge(sg, img, btfm, observer);
         } else {
-            return false;
+            return fblse;
         }
     }
-    public void transformImage(SunGraphics2D sg, BufferedImage img,
-                               BufferedImageOp op, int x, int y) {
-        if (validate(sg)) {
-            sg.imagepipe.transformImage(sg, img, op, x, y);
+    public void trbnsformImbge(SunGrbphics2D sg, BufferedImbge img,
+                               BufferedImbgeOp op, int x, int y) {
+        if (vblidbte(sg)) {
+            sg.imbgepipe.trbnsformImbge(sg, img, op, x, y);
         }
     }
 }

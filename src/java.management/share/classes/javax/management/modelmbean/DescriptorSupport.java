@@ -1,451 +1,451 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * @author    IBM Corp.
+ * @buthor    IBM Corp.
  *
  * Copyright IBM Corp. 1999-2000.  All rights reserved.
  */
 
-package javax.management.modelmbean;
+pbckbge jbvbx.mbnbgement.modelmbebn;
 
-import static com.sun.jmx.defaults.JmxProperties.MODELMBEAN_LOGGER;
-import static com.sun.jmx.mbeanserver.Util.cast;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import com.sun.jmx.mbeanserver.Util;
+import stbtic com.sun.jmx.defbults.JmxProperties.MODELMBEAN_LOGGER;
+import stbtic com.sun.jmx.mbebnserver.Util.cbst;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
+import com.sun.jmx.mbebnserver.Util;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
 
-import java.lang.reflect.Constructor;
+import jbvb.lbng.reflect.Constructor;
 
-import java.security.AccessController;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
-import java.util.logging.Level;
+import jbvb.security.AccessController;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.SortedMbp;
+import jbvb.util.StringTokenizer;
+import jbvb.util.TreeMbp;
+import jbvb.util.logging.Level;
 
-import javax.management.Descriptor;
-import javax.management.ImmutableDescriptor;
-import javax.management.MBeanException;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.ImmutbbleDescriptor;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
 
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * This class represents the metadata set for a ModelMBean element.  A
- * descriptor is part of the ModelMBeanInfo,
- * ModelMBeanNotificationInfo, ModelMBeanAttributeInfo,
- * ModelMBeanConstructorInfo, and ModelMBeanParameterInfo.
+ * This clbss represents the metbdbtb set for b ModelMBebn element.  A
+ * descriptor is pbrt of the ModelMBebnInfo,
+ * ModelMBebnNotificbtionInfo, ModelMBebnAttributeInfo,
+ * ModelMBebnConstructorInfo, bnd ModelMBebnPbrbmeterInfo.
  * <P>
- * A descriptor consists of a collection of fields.  Each field is in
- * fieldname=fieldvalue format.  Field names are not case sensitive,
- * case will be preserved on field values.
+ * A descriptor consists of b collection of fields.  Ebch field is in
+ * fieldnbme=fieldvblue formbt.  Field nbmes bre not cbse sensitive,
+ * cbse will be preserved on field vblues.
  * <P>
- * All field names and values are not predefined. New fields can be
- * defined and added by any program.  Some fields have been predefined
- * for consistency of implementation and support by the
- * ModelMBeanInfo, ModelMBeanAttributeInfo, ModelMBeanConstructorInfo,
- * ModelMBeanNotificationInfo, ModelMBeanOperationInfo and ModelMBean
- * classes.
+ * All field nbmes bnd vblues bre not predefined. New fields cbn be
+ * defined bnd bdded by bny progrbm.  Some fields hbve been predefined
+ * for consistency of implementbtion bnd support by the
+ * ModelMBebnInfo, ModelMBebnAttributeInfo, ModelMBebnConstructorInfo,
+ * ModelMBebnNotificbtionInfo, ModelMBebnOperbtionInfo bnd ModelMBebn
+ * clbsses.
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-6292969195866300415L</code>.
+ * <p>The <b>seriblVersionUID</b> of this clbss is <code>-6292969195866300415L</code>.
  *
  * @since 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class DescriptorSupport
-         implements javax.management.Descriptor
+@SuppressWbrnings("seribl")  // seriblVersionUID not constbnt
+public clbss DescriptorSupport
+         implements jbvbx.mbnbgement.Descriptor
 {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form depends
+    // on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 8071560848919417985L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = 8071560848919417985L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -6292969195866300415L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = -6292969195866300415L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-      new ObjectStreamField("descriptor", HashMap.class),
-      new ObjectStreamField("currClass", String.class)
+      new ObjectStrebmField("descriptor", HbshMbp.clbss),
+      new ObjectStrebmField("currClbss", String.clbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-      new ObjectStreamField("descriptor", HashMap.class)
+      new ObjectStrebmField("descriptor", HbshMbp.clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
     /**
-     * @serialField descriptor HashMap The collection of fields representing this descriptor
+     * @seriblField descriptor HbshMbp The collection of fields representing this descriptor
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static final String serialForm;
-    static {
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte stbtic finbl String seriblForm;
+    stbtic {
         String form = null;
-        boolean compat = false;
+        boolebn compbt = fblse;
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            form = AccessController.doPrivileged(act);
-            compat = "1.0".equals(form);  // form may be null
-        } catch (Exception e) {
-            // OK: No compat with 1.0
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            form = AccessController.doPrivileged(bct);
+            compbt = "1.0".equbls(form);  // form mby be null
+        } cbtch (Exception e) {
+            // OK: No compbt with 1.0
         }
-        serialForm = form;
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        seriblForm = form;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
-    /* Spec says that field names are case-insensitive, but that case
-       is preserved.  This means that we need to be able to map from a
-       name that may differ in case to the actual name that is used in
-       the HashMap.  Thus, descriptorMap is a TreeMap with a Comparator
-       that ignores case.
+    /* Spec sbys thbt field nbmes bre cbse-insensitive, but thbt cbse
+       is preserved.  This mebns thbt we need to be bble to mbp from b
+       nbme thbt mby differ in cbse to the bctubl nbme thbt is used in
+       the HbshMbp.  Thus, descriptorMbp is b TreeMbp with b Compbrbtor
+       thbt ignores cbse.
 
-       Previous versions of this class had a field called "descriptor"
-       of type HashMap where the keys were directly Strings.  This is
-       hard to reconcile with the required semantics, so we fabricate
-       that field virtually during serialization and deserialization
-       but keep the real information in descriptorMap.
+       Previous versions of this clbss hbd b field cblled "descriptor"
+       of type HbshMbp where the keys were directly Strings.  This is
+       hbrd to reconcile with the required sembntics, so we fbbricbte
+       thbt field virtublly during seriblizbtion bnd deseriblizbtion
+       but keep the rebl informbtion in descriptorMbp.
     */
-    private transient SortedMap<String, Object> descriptorMap;
+    privbte trbnsient SortedMbp<String, Object> descriptorMbp;
 
-    private static final String currClass = "DescriptorSupport";
+    privbte stbtic finbl String currClbss = "DescriptorSupport";
 
 
     /**
-     * Descriptor default constructor.
-     * Default initial descriptor size is 20.  It will grow as needed.<br>
-     * Note that the created empty descriptor is not a valid descriptor
-     * (the method {@link #isValid isValid} returns <CODE>false</CODE>)
+     * Descriptor defbult constructor.
+     * Defbult initibl descriptor size is 20.  It will grow bs needed.<br>
+     * Note thbt the crebted empty descriptor is not b vblid descriptor
+     * (the method {@link #isVblid isVblid} returns <CODE>fblse</CODE>)
      */
     public DescriptorSupport() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "DescriptorSupport()" , "Constructor");
         }
         init(null);
     }
 
     /**
-     * Descriptor constructor.  Takes as parameter the initial
-     * capacity of the Map that stores the descriptor fields.
-     * Capacity will grow as needed.<br> Note that the created empty
-     * descriptor is not a valid descriptor (the method {@link
-     * #isValid isValid} returns <CODE>false</CODE>).
+     * Descriptor constructor.  Tbkes bs pbrbmeter the initibl
+     * cbpbcity of the Mbp thbt stores the descriptor fields.
+     * Cbpbcity will grow bs needed.<br> Note thbt the crebted empty
+     * descriptor is not b vblid descriptor (the method {@link
+     * #isVblid isVblid} returns <CODE>fblse</CODE>).
      *
-     * @param initNumFields The initial capacity of the Map that
+     * @pbrbm initNumFields The initibl cbpbcity of the Mbp thbt
      * stores the descriptor fields.
      *
-     * @exception RuntimeOperationsException for illegal value for
+     * @exception RuntimeOperbtionsException for illegbl vblue for
      * initNumFields (&lt;= 0)
-     * @exception MBeanException Wraps a distributed communication Exception.
+     * @exception MBebnException Wrbps b distributed communicbtion Exception.
      */
     public DescriptorSupport(int initNumFields)
-            throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+            throws MBebnException, RuntimeOperbtionsException {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "Descriptor(initNumFields = " + initNumFields + ")",
                     "Constructor");
         }
         if (initNumFields <= 0) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                 MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
+                        DescriptorSupport.clbss.getNbme(),
                         "Descriptor(initNumFields)",
-                        "Illegal arguments: initNumFields <= 0");
+                        "Illegbl brguments: initNumFields <= 0");
             }
-            final String msg =
-                "Descriptor field limit invalid: " + initNumFields;
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg =
+                "Descriptor field limit invblid: " + initNumFields;
+            finbl RuntimeException ibe = new IllegblArgumentException(msg);
+            throw new RuntimeOperbtionsException(ibe, msg);
         }
         init(null);
     }
 
     /**
-     * Descriptor constructor taking a Descriptor as parameter.
-     * Creates a new descriptor initialized to the values of the
-     * descriptor passed in parameter.
+     * Descriptor constructor tbking b Descriptor bs pbrbmeter.
+     * Crebtes b new descriptor initiblized to the vblues of the
+     * descriptor pbssed in pbrbmeter.
      *
-     * @param inDescr the descriptor to be used to initialize the
-     * constructed descriptor. If it is null or contains no descriptor
-     * fields, an empty Descriptor will be created.
+     * @pbrbm inDescr the descriptor to be used to initiblize the
+     * constructed descriptor. If it is null or contbins no descriptor
+     * fields, bn empty Descriptor will be crebted.
      */
     public DescriptorSupport(DescriptorSupport inDescr) {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "Descriptor(Descriptor)", "Constructor");
         }
         if (inDescr == null)
             init(null);
         else
-            init(inDescr.descriptorMap);
+            init(inDescr.descriptorMbp);
     }
 
 
     /**
-     * <p>Descriptor constructor taking an XML String.</p>
+     * <p>Descriptor constructor tbking bn XML String.</p>
      *
-     * <p>The format of the XML string is not defined, but an
-     * implementation must ensure that the string returned by
-     * {@link #toXMLString() toXMLString()} on an existing
-     * descriptor can be used to instantiate an equivalent
+     * <p>The formbt of the XML string is not defined, but bn
+     * implementbtion must ensure thbt the string returned by
+     * {@link #toXMLString() toXMLString()} on bn existing
+     * descriptor cbn be used to instbntibte bn equivblent
      * descriptor using this constructor.</p>
      *
-     * <p>In this implementation, all field values will be created
-     * as Strings.  If the field values are not Strings, the
-     * programmer will have to reset or convert these fields
+     * <p>In this implementbtion, bll field vblues will be crebted
+     * bs Strings.  If the field vblues bre not Strings, the
+     * progrbmmer will hbve to reset or convert these fields
      * correctly.</p>
      *
-     * @param inStr An XML-formatted string used to populate this
-     * Descriptor.  The format is not defined, but any
-     * implementation must ensure that the string returned by
-     * method {@link #toXMLString toXMLString} on an existing
-     * descriptor can be used to instantiate an equivalent
-     * descriptor when instantiated using this constructor.
+     * @pbrbm inStr An XML-formbtted string used to populbte this
+     * Descriptor.  The formbt is not defined, but bny
+     * implementbtion must ensure thbt the string returned by
+     * method {@link #toXMLString toXMLString} on bn existing
+     * descriptor cbn be used to instbntibte bn equivblent
+     * descriptor when instbntibted using this constructor.
      *
-     * @exception RuntimeOperationsException If the String inStr
-     * passed in parameter is null
-     * @exception XMLParseException XML parsing problem while parsing
+     * @exception RuntimeOperbtionsException If the String inStr
+     * pbssed in pbrbmeter is null
+     * @exception XMLPbrseException XML pbrsing problem while pbrsing
      * the input String
-     * @exception MBeanException Wraps a distributed communication Exception.
+     * @exception MBebnException Wrbps b distributed communicbtion Exception.
      */
-    /* At some stage we should rewrite this code to be cleverer.  Using
-       a StringTokenizer as we do means, first, that we accept a lot of
-       bogus strings without noticing they are bogus, and second, that we
-       split the string being parsed at characters like > even if they
-       occur in the middle of a field value. */
+    /* At some stbge we should rewrite this code to be cleverer.  Using
+       b StringTokenizer bs we do mebns, first, thbt we bccept b lot of
+       bogus strings without noticing they bre bogus, bnd second, thbt we
+       split the string being pbrsed bt chbrbcters like > even if they
+       occur in the middle of b field vblue. */
     public DescriptorSupport(String inStr)
-            throws MBeanException, RuntimeOperationsException,
-                   XMLParseException {
-        /* parse an XML-formatted string and populate internal
+            throws MBebnException, RuntimeOperbtionsException,
+                   XMLPbrseException {
+        /* pbrse bn XML-formbtted string bnd populbte internbl
          * structure with it */
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "Descriptor(String = '" + inStr + "')", "Constructor");
         }
         if (inStr == null) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                 MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "Descriptor(String = null)", "Illegal arguments");
+                        DescriptorSupport.clbss.getNbme(),
+                        "Descriptor(String = null)", "Illegbl brguments");
             }
-            final String msg = "String in parameter is null";
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg = "String in pbrbmeter is null";
+            finbl RuntimeException ibe = new IllegblArgumentException(msg);
+            throw new RuntimeOperbtionsException(ibe, msg);
         }
 
-        final String lowerInStr = inStr.toLowerCase();
-        if (!lowerInStr.startsWith("<descriptor>")
+        finbl String lowerInStr = inStr.toLowerCbse();
+        if (!lowerInStr.stbrtsWith("<descriptor>")
             || !lowerInStr.endsWith("</descriptor>")) {
-            throw new XMLParseException("No <descriptor>, </descriptor> pair");
+            throw new XMLPbrseException("No <descriptor>, </descriptor> pbir");
         }
 
-        // parse xmlstring into structures
+        // pbrse xmlstring into structures
         init(null);
-        // create dummy descriptor: should have same size
-        // as number of fields in xmlstring
-        // loop through structures and put them in descriptor
+        // crebte dummy descriptor: should hbve sbme size
+        // bs number of fields in xmlstring
+        // loop through structures bnd put them in descriptor
 
         StringTokenizer st = new StringTokenizer(inStr, "<> \t\n\r\f");
 
-        boolean inFld = false;
-        boolean inDesc = false;
-        String fieldName = null;
-        String fieldValue = null;
+        boolebn inFld = fblse;
+        boolebn inDesc = fblse;
+        String fieldNbme = null;
+        String fieldVblue = null;
 
 
-        while (st.hasMoreTokens()) {  // loop through tokens
+        while (st.hbsMoreTokens()) {  // loop through tokens
             String tok = st.nextToken();
 
-            if (tok.equalsIgnoreCase("FIELD")) {
+            if (tok.equblsIgnoreCbse("FIELD")) {
                 inFld = true;
-            } else if (tok.equalsIgnoreCase("/FIELD")) {
-                if ((fieldName != null) && (fieldValue != null)) {
-                    fieldName =
-                        fieldName.substring(fieldName.indexOf('"') + 1,
-                                            fieldName.lastIndexOf('"'));
-                    final Object fieldValueObject =
-                        parseQuotedFieldValue(fieldValue);
-                    setField(fieldName, fieldValueObject);
+            } else if (tok.equblsIgnoreCbse("/FIELD")) {
+                if ((fieldNbme != null) && (fieldVblue != null)) {
+                    fieldNbme =
+                        fieldNbme.substring(fieldNbme.indexOf('"') + 1,
+                                            fieldNbme.lbstIndexOf('"'));
+                    finbl Object fieldVblueObject =
+                        pbrseQuotedFieldVblue(fieldVblue);
+                    setField(fieldNbme, fieldVblueObject);
                 }
-                fieldName = null;
-                fieldValue = null;
-                inFld = false;
-            } else if (tok.equalsIgnoreCase("DESCRIPTOR")) {
+                fieldNbme = null;
+                fieldVblue = null;
+                inFld = fblse;
+            } else if (tok.equblsIgnoreCbse("DESCRIPTOR")) {
                 inDesc = true;
-            } else if (tok.equalsIgnoreCase("/DESCRIPTOR")) {
-                inDesc = false;
-                fieldName = null;
-                fieldValue = null;
-                inFld = false;
+            } else if (tok.equblsIgnoreCbse("/DESCRIPTOR")) {
+                inDesc = fblse;
+                fieldNbme = null;
+                fieldVblue = null;
+                inFld = fblse;
             } else if (inFld && inDesc) {
-                // want kw=value, eg, name="myname" value="myvalue"
-                int eq_separator = tok.indexOf('=');
-                if (eq_separator > 0) {
-                    String kwPart = tok.substring(0,eq_separator);
-                    String valPart = tok.substring(eq_separator+1);
-                    if (kwPart.equalsIgnoreCase("NAME"))
-                        fieldName = valPart;
-                    else if (kwPart.equalsIgnoreCase("VALUE"))
-                        fieldValue = valPart;
-                    else {  // xml parse exception
-                        final String msg =
-                            "Expected `name' or `value', got `" + tok + "'";
-                        throw new XMLParseException(msg);
+                // wbnt kw=vblue, eg, nbme="mynbme" vblue="myvblue"
+                int eq_sepbrbtor = tok.indexOf('=');
+                if (eq_sepbrbtor > 0) {
+                    String kwPbrt = tok.substring(0,eq_sepbrbtor);
+                    String vblPbrt = tok.substring(eq_sepbrbtor+1);
+                    if (kwPbrt.equblsIgnoreCbse("NAME"))
+                        fieldNbme = vblPbrt;
+                    else if (kwPbrt.equblsIgnoreCbse("VALUE"))
+                        fieldVblue = vblPbrt;
+                    else {  // xml pbrse exception
+                        finbl String msg =
+                            "Expected `nbme' or `vblue', got `" + tok + "'";
+                        throw new XMLPbrseException(msg);
                     }
-                } else { // xml parse exception
-                    final String msg =
-                        "Expected `keyword=value', got `" + tok + "'";
-                    throw new XMLParseException(msg);
+                } else { // xml pbrse exception
+                    finbl String msg =
+                        "Expected `keyword=vblue', got `" + tok + "'";
+                    throw new XMLPbrseException(msg);
                 }
             }
         }  // while tokens
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "Descriptor(XMLString)", "Exit");
         }
     }
 
     /**
-     * Constructor taking field names and field values.  Neither array
-     * can be null.
+     * Constructor tbking field nbmes bnd field vblues.  Neither brrby
+     * cbn be null.
      *
-     * @param fieldNames String array of field names.  No elements of
-     * this array can be null.
-     * @param fieldValues Object array of the corresponding field
-     * values.  Elements of the array can be null. The
-     * <code>fieldValue</code> must be valid for the
-     * <code>fieldName</code> (as defined in method {@link #isValid
-     * isValid})
+     * @pbrbm fieldNbmes String brrby of field nbmes.  No elements of
+     * this brrby cbn be null.
+     * @pbrbm fieldVblues Object brrby of the corresponding field
+     * vblues.  Elements of the brrby cbn be null. The
+     * <code>fieldVblue</code> must be vblid for the
+     * <code>fieldNbme</code> (bs defined in method {@link #isVblid
+     * isVblid})
      *
-     * <p>Note: array sizes of parameters should match. If both arrays
-     * are empty, then an empty descriptor is created.</p>
+     * <p>Note: brrby sizes of pbrbmeters should mbtch. If both brrbys
+     * bre empty, then bn empty descriptor is crebted.</p>
      *
-     * @exception RuntimeOperationsException for illegal value for
-     * field Names or field Values.  The array lengths must be equal.
-     * If the descriptor construction fails for any reason, this
+     * @exception RuntimeOperbtionsException for illegbl vblue for
+     * field Nbmes or field Vblues.  The brrby lengths must be equbl.
+     * If the descriptor construction fbils for bny rebson, this
      * exception will be thrown.
      *
      */
-    public DescriptorSupport(String[] fieldNames, Object[] fieldValues)
-            throws RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+    public DescriptorSupport(String[] fieldNbmes, Object[] fieldVblues)
+            throws RuntimeOperbtionsException {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "Descriptor(fieldNames,fieldObjects)", "Constructor");
+                    DescriptorSupport.clbss.getNbme(),
+                    "Descriptor(fieldNbmes,fieldObjects)", "Constructor");
         }
 
-        if ((fieldNames == null) || (fieldValues == null) ||
-            (fieldNames.length != fieldValues.length)) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if ((fieldNbmes == null) || (fieldVblues == null) ||
+            (fieldNbmes.length != fieldVblues.length)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                 MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "Descriptor(fieldNames,fieldObjects)",
-                        "Illegal arguments");
+                        DescriptorSupport.clbss.getNbme(),
+                        "Descriptor(fieldNbmes,fieldObjects)",
+                        "Illegbl brguments");
             }
 
-            final String msg =
-                "Null or invalid fieldNames or fieldValues";
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg =
+                "Null or invblid fieldNbmes or fieldVblues";
+            finbl RuntimeException ibe = new IllegblArgumentException(msg);
+            throw new RuntimeOperbtionsException(ibe, msg);
         }
 
-        /* populate internal structure with fields */
+        /* populbte internbl structure with fields */
         init(null);
-        for (int i=0; i < fieldNames.length; i++) {
-            // setField will throw an exception if a fieldName is be null.
-            // the fieldName and fieldValue will be validated in setField.
-            setField(fieldNames[i], fieldValues[i]);
+        for (int i=0; i < fieldNbmes.length; i++) {
+            // setField will throw bn exception if b fieldNbme is be null.
+            // the fieldNbme bnd fieldVblue will be vblidbted in setField.
+            setField(fieldNbmes[i], fieldVblues[i]);
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "Descriptor(fieldNames,fieldObjects)", "Exit");
+                    DescriptorSupport.clbss.getNbme(),
+                    "Descriptor(fieldNbmes,fieldObjects)", "Exit");
         }
     }
 
     /**
-     * Constructor taking fields in the <i>fieldName=fieldValue</i>
-     * format.
+     * Constructor tbking fields in the <i>fieldNbme=fieldVblue</i>
+     * formbt.
      *
-     * @param fields String array with each element containing a
-     * field name and value.  If this array is null or empty, then the
-     * default constructor will be executed. Null strings or empty
+     * @pbrbm fields String brrby with ebch element contbining b
+     * field nbme bnd vblue.  If this brrby is null or empty, then the
+     * defbult constructor will be executed. Null strings or empty
      * strings will be ignored.
      *
-     * <p>All field values should be Strings.  If the field values are
-     * not Strings, the programmer will have to reset or convert these
+     * <p>All field vblues should be Strings.  If the field vblues bre
+     * not Strings, the progrbmmer will hbve to reset or convert these
      * fields correctly.
      *
-     * <p>Note: Each string should be of the form
-     * <i>fieldName=fieldValue</i>.  The field name
-     * ends at the first {@code =} character; for example if the String
-     * is {@code a=b=c} then the field name is {@code a} and its value
+     * <p>Note: Ebch string should be of the form
+     * <i>fieldNbme=fieldVblue</i>.  The field nbme
+     * ends bt the first {@code =} chbrbcter; for exbmple if the String
+     * is {@code b=b=c} then the field nbme is {@code b} bnd its vblue
      * is {@code b=c}.
      *
-     * @exception RuntimeOperationsException for illegal value for
-     * field Names or field Values.  The field must contain an
-     * "=". "=fieldValue", "fieldName", and "fieldValue" are illegal.
-     * FieldName cannot be null.  "fieldName=" will cause the value to
-     * be null.  If the descriptor construction fails for any reason,
+     * @exception RuntimeOperbtionsException for illegbl vblue for
+     * field Nbmes or field Vblues.  The field must contbin bn
+     * "=". "=fieldVblue", "fieldNbme", bnd "fieldVblue" bre illegbl.
+     * FieldNbme cbnnot be null.  "fieldNbme=" will cbuse the vblue to
+     * be null.  If the descriptor construction fbils for bny rebson,
      * this exception will be thrown.
      *
      */
     public DescriptorSupport(String... fields)
     {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "Descriptor(String... fields)", "Constructor");
         }
         init(null);
@@ -455,840 +455,840 @@ public class DescriptorSupport
         init(null);
 
         for (int i=0; i < fields.length; i++) {
-            if ((fields[i] == null) || (fields[i].equals(""))) {
+            if ((fields[i] == null) || (fields[i].equbls(""))) {
                 continue;
             }
-            int eq_separator = fields[i].indexOf('=');
-            if (eq_separator < 0) {
-                // illegal if no = or is first character
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+            int eq_sepbrbtor = fields[i].indexOf('=');
+            if (eq_sepbrbtor < 0) {
+                // illegbl if no = or is first chbrbcter
+                if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                     MODELMBEAN_LOGGER.logp(Level.FINEST,
-                            DescriptorSupport.class.getName(),
+                            DescriptorSupport.clbss.getNbme(),
                             "Descriptor(String... fields)",
-                            "Illegal arguments: field does not have " +
-                            "'=' as a name and value separator");
+                            "Illegbl brguments: field does not hbve " +
+                            "'=' bs b nbme bnd vblue sepbrbtor");
                 }
-                final String msg = "Field in invalid format: no equals sign";
-                final RuntimeException iae = new IllegalArgumentException(msg);
-                throw new RuntimeOperationsException(iae, msg);
+                finbl String msg = "Field in invblid formbt: no equbls sign";
+                finbl RuntimeException ibe = new IllegblArgumentException(msg);
+                throw new RuntimeOperbtionsException(ibe, msg);
             }
 
-            String fieldName = fields[i].substring(0,eq_separator);
-            String fieldValue = null;
-            if (eq_separator < fields[i].length()) {
-                // = is not in last character
-                fieldValue = fields[i].substring(eq_separator+1);
+            String fieldNbme = fields[i].substring(0,eq_sepbrbtor);
+            String fieldVblue = null;
+            if (eq_sepbrbtor < fields[i].length()) {
+                // = is not in lbst chbrbcter
+                fieldVblue = fields[i].substring(eq_sepbrbtor+1);
             }
 
-            if (fieldName.equals("")) {
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+            if (fieldNbme.equbls("")) {
+                if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                     MODELMBEAN_LOGGER.logp(Level.FINEST,
-                            DescriptorSupport.class.getName(),
+                            DescriptorSupport.clbss.getNbme(),
                             "Descriptor(String... fields)",
-                            "Illegal arguments: fieldName is empty");
+                            "Illegbl brguments: fieldNbme is empty");
                 }
 
-                final String msg = "Field in invalid format: no fieldName";
-                final RuntimeException iae = new IllegalArgumentException(msg);
-                throw new RuntimeOperationsException(iae, msg);
+                finbl String msg = "Field in invblid formbt: no fieldNbme";
+                finbl RuntimeException ibe = new IllegblArgumentException(msg);
+                throw new RuntimeOperbtionsException(ibe, msg);
             }
 
-            setField(fieldName,fieldValue);
+            setField(fieldNbme,fieldVblue);
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "Descriptor(String... fields)", "Exit");
         }
     }
 
-    private void init(Map<String, ?> initMap) {
-        descriptorMap =
-                new TreeMap<String, Object>(String.CASE_INSENSITIVE_ORDER);
-        if (initMap != null)
-            descriptorMap.putAll(initMap);
+    privbte void init(Mbp<String, ?> initMbp) {
+        descriptorMbp =
+                new TreeMbp<String, Object>(String.CASE_INSENSITIVE_ORDER);
+        if (initMbp != null)
+            descriptorMbp.putAll(initMbp);
     }
 
-    // Implementation of the Descriptor interface
+    // Implementbtion of the Descriptor interfbce
 
 
-    public synchronized Object getFieldValue(String fieldName)
-            throws RuntimeOperationsException {
+    public synchronized Object getFieldVblue(String fieldNbme)
+            throws RuntimeOperbtionsException {
 
-        if ((fieldName == null) || (fieldName.equals(""))) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if ((fieldNbme == null) || (fieldNbme.equbls(""))) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                 MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "getFieldValue(String fieldName)",
-                        "Illegal arguments: null field name");
+                        DescriptorSupport.clbss.getNbme(),
+                        "getFieldVblue(String fieldNbme)",
+                        "Illegbl brguments: null field nbme");
             }
-            final String msg = "Fieldname requested is null";
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg = "Fieldnbme requested is null";
+            finbl RuntimeException ibe = new IllegblArgumentException(msg);
+            throw new RuntimeOperbtionsException(ibe, msg);
         }
-        Object retValue = descriptorMap.get(fieldName);
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        Object retVblue = descriptorMbp.get(fieldNbme);
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldValue(String fieldName = " + fieldName + ")",
-                    "Returns '" + retValue + "'");
+                    DescriptorSupport.clbss.getNbme(),
+                    "getFieldVblue(String fieldNbme = " + fieldNbme + ")",
+                    "Returns '" + retVblue + "'");
         }
-        return(retValue);
+        return(retVblue);
     }
 
-    public synchronized void setField(String fieldName, Object fieldValue)
-            throws RuntimeOperationsException {
+    public synchronized void setField(String fieldNbme, Object fieldVblue)
+            throws RuntimeOperbtionsException {
 
-        // field name cannot be null or empty
-        if ((fieldName == null) || (fieldName.equals(""))) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        // field nbme cbnnot be null or empty
+        if ((fieldNbme == null) || (fieldNbme.equbls(""))) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                 MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "setField(fieldName,fieldValue)",
-                        "Illegal arguments: null or empty field name");
+                        DescriptorSupport.clbss.getNbme(),
+                        "setField(fieldNbme,fieldVblue)",
+                        "Illegbl brguments: null or empty field nbme");
             }
 
-            final String msg = "Field name to be set is null or empty";
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg = "Field nbme to be set is null or empty";
+            finbl RuntimeException ibe = new IllegblArgumentException(msg);
+            throw new RuntimeOperbtionsException(ibe, msg);
         }
 
-        if (!validateField(fieldName, fieldValue)) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (!vblidbteField(fieldNbme, fieldVblue)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                 MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "setField(fieldName,fieldValue)",
-                        "Illegal arguments");
+                        DescriptorSupport.clbss.getNbme(),
+                        "setField(fieldNbme,fieldVblue)",
+                        "Illegbl brguments");
             }
 
-            final String msg =
-                "Field value invalid: " + fieldName + "=" + fieldValue;
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg =
+                "Field vblue invblid: " + fieldNbme + "=" + fieldVblue;
+            finbl RuntimeException ibe = new IllegblArgumentException(msg);
+            throw new RuntimeOperbtionsException(ibe, msg);
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "setField(fieldName,fieldValue)", "Entry: setting '"
-                    + fieldName + "' to '" + fieldValue + "'");
+                    DescriptorSupport.clbss.getNbme(),
+                    "setField(fieldNbme,fieldVblue)", "Entry: setting '"
+                    + fieldNbme + "' to '" + fieldVblue + "'");
         }
 
-        // Since we do not remove any existing entry with this name,
-        // the field will preserve whatever case it had, ignoring
-        // any difference there might be in fieldName.
-        descriptorMap.put(fieldName, fieldValue);
+        // Since we do not remove bny existing entry with this nbme,
+        // the field will preserve whbtever cbse it hbd, ignoring
+        // bny difference there might be in fieldNbme.
+        descriptorMbp.put(fieldNbme, fieldVblue);
     }
 
     public synchronized String[] getFields() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "getFields()", "Entry");
         }
-        int numberOfEntries = descriptorMap.size();
+        int numberOfEntries = descriptorMbp.size();
 
         String[] responseFields = new String[numberOfEntries];
-        Set<Map.Entry<String, Object>> returnedSet = descriptorMap.entrySet();
+        Set<Mbp.Entry<String, Object>> returnedSet = descriptorMbp.entrySet();
 
         int i = 0;
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "getFields()", "Returning " + numberOfEntries + " fields");
         }
-        for (Iterator<Map.Entry<String, Object>> iter = returnedSet.iterator();
-             iter.hasNext(); i++) {
-            Map.Entry<String, Object> currElement = iter.next();
+        for (Iterbtor<Mbp.Entry<String, Object>> iter = returnedSet.iterbtor();
+             iter.hbsNext(); i++) {
+            Mbp.Entry<String, Object> currElement = iter.next();
 
             if (currElement == null) {
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+                if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                     MODELMBEAN_LOGGER.logp(Level.FINEST,
-                            DescriptorSupport.class.getName(),
+                            DescriptorSupport.clbss.getNbme(),
                             "getFields()", "Element is null");
                 }
             } else {
-                Object currValue = currElement.getValue();
-                if (currValue == null) {
+                Object currVblue = currElement.getVblue();
+                if (currVblue == null) {
                     responseFields[i] = currElement.getKey() + "=";
                 } else {
-                    if (currValue instanceof java.lang.String) {
+                    if (currVblue instbnceof jbvb.lbng.String) {
                         responseFields[i] =
-                            currElement.getKey() + "=" + currValue.toString();
+                            currElement.getKey() + "=" + currVblue.toString();
                     } else {
                         responseFields[i] =
                             currElement.getKey() + "=(" +
-                            currValue.toString() + ")";
+                            currVblue.toString() + ")";
                     }
                 }
             }
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "getFields()", "Exit");
         }
 
         return responseFields;
     }
 
-    public synchronized String[] getFieldNames() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+    public synchronized String[] getFieldNbmes() {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldNames()", "Entry");
+                    DescriptorSupport.clbss.getNbme(),
+                    "getFieldNbmes()", "Entry");
         }
-        int numberOfEntries = descriptorMap.size();
+        int numberOfEntries = descriptorMbp.size();
 
         String[] responseFields = new String[numberOfEntries];
-        Set<Map.Entry<String, Object>> returnedSet = descriptorMap.entrySet();
+        Set<Mbp.Entry<String, Object>> returnedSet = descriptorMbp.entrySet();
 
         int i = 0;
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldNames()",
+                    DescriptorSupport.clbss.getNbme(),
+                    "getFieldNbmes()",
                     "Returning " + numberOfEntries + " fields");
         }
 
-        for (Iterator<Map.Entry<String, Object>> iter = returnedSet.iterator();
-             iter.hasNext(); i++) {
-            Map.Entry<String, Object> currElement = iter.next();
+        for (Iterbtor<Mbp.Entry<String, Object>> iter = returnedSet.iterbtor();
+             iter.hbsNext(); i++) {
+            Mbp.Entry<String, Object> currElement = iter.next();
 
             if (( currElement == null ) || (currElement.getKey() == null)) {
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+                if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                     MODELMBEAN_LOGGER.logp(Level.FINEST,
-                            DescriptorSupport.class.getName(),
-                            "getFieldNames()", "Field is null");
+                            DescriptorSupport.clbss.getNbme(),
+                            "getFieldNbmes()", "Field is null");
                 }
             } else {
                 responseFields[i] = currElement.getKey().toString();
             }
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldNames()", "Exit");
+                    DescriptorSupport.clbss.getNbme(),
+                    "getFieldNbmes()", "Exit");
         }
 
         return responseFields;
     }
 
 
-    public synchronized Object[] getFieldValues(String... fieldNames) {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+    public synchronized Object[] getFieldVblues(String... fieldNbmes) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldValues(String... fieldNames)", "Entry");
+                    DescriptorSupport.clbss.getNbme(),
+                    "getFieldVblues(String... fieldNbmes)", "Entry");
         }
-        // if fieldNames == null return all values
-        // if fieldNames is String[0] return no values
+        // if fieldNbmes == null return bll vblues
+        // if fieldNbmes is String[0] return no vblues
 
-        final int numberOfEntries =
-            (fieldNames == null) ? descriptorMap.size() : fieldNames.length;
-        final Object[] responseFields = new Object[numberOfEntries];
+        finbl int numberOfEntries =
+            (fieldNbmes == null) ? descriptorMbp.size() : fieldNbmes.length;
+        finbl Object[] responseFields = new Object[numberOfEntries];
 
         int i = 0;
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldValues(String... fieldNames)",
+                    DescriptorSupport.clbss.getNbme(),
+                    "getFieldVblues(String... fieldNbmes)",
                     "Returning " + numberOfEntries + " fields");
         }
 
-        if (fieldNames == null) {
-            for (Object value : descriptorMap.values())
-                responseFields[i++] = value;
+        if (fieldNbmes == null) {
+            for (Object vblue : descriptorMbp.vblues())
+                responseFields[i++] = vblue;
         } else {
-            for (i=0; i < fieldNames.length; i++) {
-                if ((fieldNames[i] == null) || (fieldNames[i].equals(""))) {
+            for (i=0; i < fieldNbmes.length; i++) {
+                if ((fieldNbmes[i] == null) || (fieldNbmes[i].equbls(""))) {
                     responseFields[i] = null;
                 } else {
-                    responseFields[i] = getFieldValue(fieldNames[i]);
+                    responseFields[i] = getFieldVblue(fieldNbmes[i]);
                 }
             }
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "getFieldValues(String... fieldNames)", "Exit");
+                    DescriptorSupport.clbss.getNbme(),
+                    "getFieldVblues(String... fieldNbmes)", "Exit");
         }
 
         return responseFields;
     }
 
-    public synchronized void setFields(String[] fieldNames,
-                                       Object[] fieldValues)
-            throws RuntimeOperationsException {
+    public synchronized void setFields(String[] fieldNbmes,
+                                       Object[] fieldVblues)
+            throws RuntimeOperbtionsException {
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "setFields(fieldNames,fieldValues)", "Entry");
+                    DescriptorSupport.clbss.getNbme(),
+                    "setFields(fieldNbmes,fieldVblues)", "Entry");
         }
 
-        if ((fieldNames == null) || (fieldValues == null) ||
-            (fieldNames.length != fieldValues.length)) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if ((fieldNbmes == null) || (fieldVblues == null) ||
+            (fieldNbmes.length != fieldVblues.length)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                 MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "setFields(fieldNames,fieldValues)",
-                        "Illegal arguments");
+                        DescriptorSupport.clbss.getNbme(),
+                        "setFields(fieldNbmes,fieldVblues)",
+                        "Illegbl brguments");
             }
 
-            final String msg = "fieldNames and fieldValues are null or invalid";
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae, msg);
+            finbl String msg = "fieldNbmes bnd fieldVblues bre null or invblid";
+            finbl RuntimeException ibe = new IllegblArgumentException(msg);
+            throw new RuntimeOperbtionsException(ibe, msg);
         }
 
-        for (int i=0; i < fieldNames.length; i++) {
-            if (( fieldNames[i] == null) || (fieldNames[i].equals(""))) {
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        for (int i=0; i < fieldNbmes.length; i++) {
+            if (( fieldNbmes[i] == null) || (fieldNbmes[i].equbls(""))) {
+                if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                     MODELMBEAN_LOGGER.logp(Level.FINEST,
-                            DescriptorSupport.class.getName(),
-                            "setFields(fieldNames,fieldValues)",
-                            "Null field name encountered at element " + i);
+                            DescriptorSupport.clbss.getNbme(),
+                            "setFields(fieldNbmes,fieldVblues)",
+                            "Null field nbme encountered bt element " + i);
                 }
-                final String msg = "fieldNames is null or invalid";
-                final RuntimeException iae = new IllegalArgumentException(msg);
-                throw new RuntimeOperationsException(iae, msg);
+                finbl String msg = "fieldNbmes is null or invblid";
+                finbl RuntimeException ibe = new IllegblArgumentException(msg);
+                throw new RuntimeOperbtionsException(ibe, msg);
             }
-            setField(fieldNames[i], fieldValues[i]);
+            setField(fieldNbmes[i], fieldVblues[i]);
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "setFields(fieldNames,fieldValues)", "Exit");
+                    DescriptorSupport.clbss.getNbme(),
+                    "setFields(fieldNbmes,fieldVblues)", "Exit");
         }
     }
 
     /**
-     * Returns a new Descriptor which is a duplicate of the Descriptor.
+     * Returns b new Descriptor which is b duplicbte of the Descriptor.
      *
-     * @exception RuntimeOperationsException for illegal value for
-     * field Names or field Values.  If the descriptor construction
-     * fails for any reason, this exception will be thrown.
+     * @exception RuntimeOperbtionsException for illegbl vblue for
+     * field Nbmes or field Vblues.  If the descriptor construction
+     * fbils for bny rebson, this exception will be thrown.
      */
 
     @Override
-    public synchronized Object clone() throws RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+    public synchronized Object clone() throws RuntimeOperbtionsException {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "clone()", "Entry");
         }
         return(new DescriptorSupport(this));
     }
 
-    public synchronized void removeField(String fieldName) {
-        if ((fieldName == null) || (fieldName.equals(""))) {
+    public synchronized void removeField(String fieldNbme) {
+        if ((fieldNbme == null) || (fieldNbme.equbls(""))) {
             return;
         }
 
-        descriptorMap.remove(fieldName);
+        descriptorMbp.remove(fieldNbme);
     }
 
     /**
-     * Compares this descriptor to the given object.  The objects are equal if
-     * the given object is also a Descriptor, and if the two Descriptors have
-     * the same field names (possibly differing in case) and the same
-     * associated values.  The respective values for a field in the two
-     * Descriptors are equal if the following conditions hold:
+     * Compbres this descriptor to the given object.  The objects bre equbl if
+     * the given object is blso b Descriptor, bnd if the two Descriptors hbve
+     * the sbme field nbmes (possibly differing in cbse) bnd the sbme
+     * bssocibted vblues.  The respective vblues for b field in the two
+     * Descriptors bre equbl if the following conditions hold:
      *
      * <ul>
-     * <li>If one value is null then the other must be too.</li>
-     * <li>If one value is a primitive array then the other must be a primitive
-     * array of the same type with the same elements.</li>
-     * <li>If one value is an object array then the other must be too and
-     * {@link java.util.Arrays#deepEquals(Object[],Object[]) Arrays.deepEquals}
+     * <li>If one vblue is null then the other must be too.</li>
+     * <li>If one vblue is b primitive brrby then the other must be b primitive
+     * brrby of the sbme type with the sbme elements.</li>
+     * <li>If one vblue is bn object brrby then the other must be too bnd
+     * {@link jbvb.util.Arrbys#deepEqubls(Object[],Object[]) Arrbys.deepEqubls}
      * must return true.</li>
-     * <li>Otherwise {@link Object#equals(Object)} must return true.</li>
+     * <li>Otherwise {@link Object#equbls(Object)} must return true.</li>
      * </ul>
      *
-     * @param o the object to compare with.
+     * @pbrbm o the object to compbre with.
      *
-     * @return {@code true} if the objects are the same; {@code false}
+     * @return {@code true} if the objects bre the sbme; {@code fblse}
      * otherwise.
      *
      */
-    // Note: this Javadoc is copied from javax.management.Descriptor
+    // Note: this Jbvbdoc is copied from jbvbx.mbnbgement.Descriptor
     //       due to 6369229.
     @Override
-    public synchronized boolean equals(Object o) {
+    public synchronized boolebn equbls(Object o) {
         if (o == this)
             return true;
-        if (! (o instanceof Descriptor))
-            return false;
-        if (o instanceof ImmutableDescriptor)
-            return o.equals(this);
-        return new ImmutableDescriptor(descriptorMap).equals(o);
+        if (! (o instbnceof Descriptor))
+            return fblse;
+        if (o instbnceof ImmutbbleDescriptor)
+            return o.equbls(this);
+        return new ImmutbbleDescriptor(descriptorMbp).equbls(o);
     }
 
     /**
-     * <p>Returns the hash code value for this descriptor.  The hash
-     * code is computed as the sum of the hash codes for each field in
-     * the descriptor.  The hash code of a field with name {@code n}
-     * and value {@code v} is {@code n.toLowerCase().hashCode() ^ h}.
-     * Here {@code h} is the hash code of {@code v}, computed as
+     * <p>Returns the hbsh code vblue for this descriptor.  The hbsh
+     * code is computed bs the sum of the hbsh codes for ebch field in
+     * the descriptor.  The hbsh code of b field with nbme {@code n}
+     * bnd vblue {@code v} is {@code n.toLowerCbse().hbshCode() ^ h}.
+     * Here {@code h} is the hbsh code of {@code v}, computed bs
      * follows:</p>
      *
      * <ul>
      * <li>If {@code v} is null then {@code h} is 0.</li>
-     * <li>If {@code v} is a primitive array then {@code h} is computed using
-     * the appropriate overloading of {@code java.util.Arrays.hashCode}.</li>
-     * <li>If {@code v} is an object array then {@code h} is computed using
-     * {@link java.util.Arrays#deepHashCode(Object[]) Arrays.deepHashCode}.</li>
-     * <li>Otherwise {@code h} is {@code v.hashCode()}.</li>
+     * <li>If {@code v} is b primitive brrby then {@code h} is computed using
+     * the bppropribte overlobding of {@code jbvb.util.Arrbys.hbshCode}.</li>
+     * <li>If {@code v} is bn object brrby then {@code h} is computed using
+     * {@link jbvb.util.Arrbys#deepHbshCode(Object[]) Arrbys.deepHbshCode}.</li>
+     * <li>Otherwise {@code h} is {@code v.hbshCode()}.</li>
      * </ul>
      *
-     * @return A hash code value for this object.
+     * @return A hbsh code vblue for this object.
      *
      */
-    // Note: this Javadoc is copied from javax.management.Descriptor
+    // Note: this Jbvbdoc is copied from jbvbx.mbnbgement.Descriptor
     //       due to 6369229.
     @Override
-    public synchronized int hashCode() {
-        final int size = descriptorMap.size();
-        // descriptorMap is sorted with a comparator that ignores cases.
+    public synchronized int hbshCode() {
+        finbl int size = descriptorMbp.size();
+        // descriptorMbp is sorted with b compbrbtor thbt ignores cbses.
         //
-        return Util.hashCode(
-                descriptorMap.keySet().toArray(new String[size]),
-                descriptorMap.values().toArray(new Object[size]));
+        return Util.hbshCode(
+                descriptorMbp.keySet().toArrby(new String[size]),
+                descriptorMbp.vblues().toArrby(new Object[size]));
     }
 
     /**
-     * Returns true if all of the fields have legal values given their
-     * names.
+     * Returns true if bll of the fields hbve legbl vblues given their
+     * nbmes.
      * <P>
-     * This implementation does not support  interoperating with a directory
-     * or lookup service. Thus, conforming to the specification, no checking is
+     * This implementbtion does not support  interoperbting with b directory
+     * or lookup service. Thus, conforming to the specificbtion, no checking is
      * done on the <i>"export"</i> field.
      * <P>
-     * Otherwise this implementation returns false if:
+     * Otherwise this implementbtion returns fblse if:
      * <UL>
-     * <LI> name and descriptorType fieldNames are not defined, or
+     * <LI> nbme bnd descriptorType fieldNbmes bre not defined, or
      * null, or empty, or not String
-     * <LI> class, role, getMethod, setMethod fieldNames, if defined,
-     * are null or not String
-     * <LI> persistPeriod, currencyTimeLimit, lastUpdatedTimeStamp,
-     * lastReturnedTimeStamp if defined, are null, or not a Numeric
-     * String or not a Numeric Value {@literal >= -1}
-     * <LI> log fieldName, if defined, is null, or not a Boolean or
-     * not a String with value "t", "f", "true", "false". These String
-     * values must not be case sensitive.
-     * <LI> visibility fieldName, if defined, is null, or not a
-     * Numeric String or a not Numeric Value {@literal >= 1 and <= 4}
-     * <LI> severity fieldName, if defined, is null, or not a Numeric
-     * String or not a Numeric Value {@literal >= 0 and <= 6}<br>
-     * <LI> persistPolicy fieldName, if defined, is null, or not one of
+     * <LI> clbss, role, getMethod, setMethod fieldNbmes, if defined,
+     * bre null or not String
+     * <LI> persistPeriod, currencyTimeLimit, lbstUpdbtedTimeStbmp,
+     * lbstReturnedTimeStbmp if defined, bre null, or not b Numeric
+     * String or not b Numeric Vblue {@literbl >= -1}
+     * <LI> log fieldNbme, if defined, is null, or not b Boolebn or
+     * not b String with vblue "t", "f", "true", "fblse". These String
+     * vblues must not be cbse sensitive.
+     * <LI> visibility fieldNbme, if defined, is null, or not b
+     * Numeric String or b not Numeric Vblue {@literbl >= 1 bnd <= 4}
+     * <LI> severity fieldNbme, if defined, is null, or not b Numeric
+     * String or not b Numeric Vblue {@literbl >= 0 bnd <= 6}<br>
+     * <LI> persistPolicy fieldNbme, if defined, is null, or not one of
      * the following strings:<br>
-     *   "OnUpdate", "OnTimer", "NoMoreOftenThan", "OnUnregister", "Always",
-     *   "Never". These String values must not be case sensitive.<br>
+     *   "OnUpdbte", "OnTimer", "NoMoreOftenThbn", "OnUnregister", "Alwbys",
+     *   "Never". These String vblues must not be cbse sensitive.<br>
      * </UL>
      *
-     * @exception RuntimeOperationsException If the validity checking
-     * fails for any reason, this exception will be thrown.
+     * @exception RuntimeOperbtionsException If the vblidity checking
+     * fbils for bny rebson, this exception will be thrown.
      */
 
-    public synchronized boolean isValid() throws RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+    public synchronized boolebn isVblid() throws RuntimeOperbtionsException {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "isValid()", "Entry");
+                    DescriptorSupport.clbss.getNbme(),
+                    "isVblid()", "Entry");
         }
-        // verify that the descriptor is valid, by iterating over each field...
+        // verify thbt the descriptor is vblid, by iterbting over ebch field...
 
-        Set<Map.Entry<String, Object>> returnedSet = descriptorMap.entrySet();
+        Set<Mbp.Entry<String, Object>> returnedSet = descriptorMbp.entrySet();
 
-        if (returnedSet == null) {   // null descriptor, not valid
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (returnedSet == null) {   // null descriptor, not vblid
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                 MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
-                        "isValid()", "Returns false (null set)");
+                        DescriptorSupport.clbss.getNbme(),
+                        "isVblid()", "Returns fblse (null set)");
             }
-            return false;
+            return fblse;
         }
-        // must have a name and descriptor type field
-        String thisName = (String)(this.getFieldValue("name"));
-        String thisDescType = (String)(getFieldValue("descriptorType"));
+        // must hbve b nbme bnd descriptor type field
+        String thisNbme = (String)(this.getFieldVblue("nbme"));
+        String thisDescType = (String)(getFieldVblue("descriptorType"));
 
-        if ((thisName == null) || (thisDescType == null) ||
-            (thisName.equals("")) || (thisDescType.equals(""))) {
-            return false;
+        if ((thisNbme == null) || (thisDescType == null) ||
+            (thisNbme.equbls("")) || (thisDescType.equbls(""))) {
+            return fblse;
         }
 
-        // According to the descriptor type we validate the fields contained
+        // According to the descriptor type we vblidbte the fields contbined
 
-        for (Map.Entry<String, Object> currElement : returnedSet) {
+        for (Mbp.Entry<String, Object> currElement : returnedSet) {
             if (currElement != null) {
-                if (currElement.getValue() != null) {
-                    // validate the field valued...
-                    if (validateField((currElement.getKey()).toString(),
-                                      (currElement.getValue()).toString())) {
+                if (currElement.getVblue() != null) {
+                    // vblidbte the field vblued...
+                    if (vblidbteField((currElement.getKey()).toString(),
+                                      (currElement.getVblue()).toString())) {
                         continue;
                     } else {
-                        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+                        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                                    DescriptorSupport.class.getName(),
-                                    "isValid()",
+                                    DescriptorSupport.clbss.getNbme(),
+                                    "isVblid()",
                                     "Field " + currElement.getKey() + "=" +
-                                    currElement.getValue() + " is not valid");
+                                    currElement.getVblue() + " is not vblid");
                         }
-                        return false;
+                        return fblse;
                     }
                 }
             }
         }
 
-        // fell through, all fields OK
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        // fell through, bll fields OK
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
-                    "isValid()", "Returns true");
+                    DescriptorSupport.clbss.getNbme(),
+                    "isVblid()", "Returns true");
         }
         return true;
     }
 
 
-    // worker routine for isValid()
-    // name is not null
+    // worker routine for isVblid()
+    // nbme is not null
     // descriptorType is not null
-    // getMethod and setMethod are not null
+    // getMethod bnd setMethod bre not null
     // persistPeriod is numeric
     // currencyTimeLimit is numeric
-    // lastUpdatedTimeStamp is numeric
+    // lbstUpdbtedTimeStbmp is numeric
     // visibility is 1-4
     // severity is 0-6
     // log is T or F
     // role is not null
-    // class is not null
-    // lastReturnedTimeStamp is numeric
+    // clbss is not null
+    // lbstReturnedTimeStbmp is numeric
 
 
-    private boolean validateField(String fldName, Object fldValue) {
-        if ((fldName == null) || (fldName.equals("")))
-            return false;
-        String SfldValue = "";
-        boolean isAString = false;
-        if ((fldValue != null) && (fldValue instanceof java.lang.String)) {
-            SfldValue = (String) fldValue;
+    privbte boolebn vblidbteField(String fldNbme, Object fldVblue) {
+        if ((fldNbme == null) || (fldNbme.equbls("")))
+            return fblse;
+        String SfldVblue = "";
+        boolebn isAString = fblse;
+        if ((fldVblue != null) && (fldVblue instbnceof jbvb.lbng.String)) {
+            SfldVblue = (String) fldVblue;
             isAString = true;
         }
 
-        boolean nameOrDescriptorType =
-            (fldName.equalsIgnoreCase("Name") ||
-             fldName.equalsIgnoreCase("DescriptorType"));
-        if (nameOrDescriptorType ||
-            fldName.equalsIgnoreCase("SetMethod") ||
-            fldName.equalsIgnoreCase("GetMethod") ||
-            fldName.equalsIgnoreCase("Role") ||
-            fldName.equalsIgnoreCase("Class")) {
-            if (fldValue == null || !isAString)
-                return false;
-            if (nameOrDescriptorType && SfldValue.equals(""))
-                return false;
+        boolebn nbmeOrDescriptorType =
+            (fldNbme.equblsIgnoreCbse("Nbme") ||
+             fldNbme.equblsIgnoreCbse("DescriptorType"));
+        if (nbmeOrDescriptorType ||
+            fldNbme.equblsIgnoreCbse("SetMethod") ||
+            fldNbme.equblsIgnoreCbse("GetMethod") ||
+            fldNbme.equblsIgnoreCbse("Role") ||
+            fldNbme.equblsIgnoreCbse("Clbss")) {
+            if (fldVblue == null || !isAString)
+                return fblse;
+            if (nbmeOrDescriptorType && SfldVblue.equbls(""))
+                return fblse;
             return true;
-        } else if (fldName.equalsIgnoreCase("visibility")) {
+        } else if (fldNbme.equblsIgnoreCbse("visibility")) {
             long v;
-            if ((fldValue != null) && (isAString)) {
-                v = toNumeric(SfldValue);
-            } else if (fldValue instanceof java.lang.Integer) {
-                v = ((Integer)fldValue).intValue();
-            } else return false;
+            if ((fldVblue != null) && (isAString)) {
+                v = toNumeric(SfldVblue);
+            } else if (fldVblue instbnceof jbvb.lbng.Integer) {
+                v = ((Integer)fldVblue).intVblue();
+            } else return fblse;
 
             if (v >= 1 &&  v <= 4)
                 return true;
             else
-                return false;
-        } else if (fldName.equalsIgnoreCase("severity")) {
+                return fblse;
+        } else if (fldNbme.equblsIgnoreCbse("severity")) {
 
             long v;
-            if ((fldValue != null) && (isAString)) {
-                v = toNumeric(SfldValue);
-            } else if (fldValue instanceof java.lang.Integer) {
-                v = ((Integer)fldValue).intValue();
-            } else return false;
+            if ((fldVblue != null) && (isAString)) {
+                v = toNumeric(SfldVblue);
+            } else if (fldVblue instbnceof jbvb.lbng.Integer) {
+                v = ((Integer)fldVblue).intVblue();
+            } else return fblse;
 
             return (v >= 0 && v <= 6);
-        } else if (fldName.equalsIgnoreCase("PersistPolicy")) {
-            return (((fldValue != null) && (isAString)) &&
-                    ( SfldValue.equalsIgnoreCase("OnUpdate") ||
-                      SfldValue.equalsIgnoreCase("OnTimer") ||
-                      SfldValue.equalsIgnoreCase("NoMoreOftenThan") ||
-                      SfldValue.equalsIgnoreCase("Always") ||
-                      SfldValue.equalsIgnoreCase("Never") ||
-                      SfldValue.equalsIgnoreCase("OnUnregister")));
-        } else if (fldName.equalsIgnoreCase("PersistPeriod") ||
-                   fldName.equalsIgnoreCase("CurrencyTimeLimit") ||
-                   fldName.equalsIgnoreCase("LastUpdatedTimeStamp") ||
-                   fldName.equalsIgnoreCase("LastReturnedTimeStamp")) {
+        } else if (fldNbme.equblsIgnoreCbse("PersistPolicy")) {
+            return (((fldVblue != null) && (isAString)) &&
+                    ( SfldVblue.equblsIgnoreCbse("OnUpdbte") ||
+                      SfldVblue.equblsIgnoreCbse("OnTimer") ||
+                      SfldVblue.equblsIgnoreCbse("NoMoreOftenThbn") ||
+                      SfldVblue.equblsIgnoreCbse("Alwbys") ||
+                      SfldVblue.equblsIgnoreCbse("Never") ||
+                      SfldVblue.equblsIgnoreCbse("OnUnregister")));
+        } else if (fldNbme.equblsIgnoreCbse("PersistPeriod") ||
+                   fldNbme.equblsIgnoreCbse("CurrencyTimeLimit") ||
+                   fldNbme.equblsIgnoreCbse("LbstUpdbtedTimeStbmp") ||
+                   fldNbme.equblsIgnoreCbse("LbstReturnedTimeStbmp")) {
 
             long v;
-            if ((fldValue != null) && (isAString)) {
-                v = toNumeric(SfldValue);
-            } else if (fldValue instanceof java.lang.Number) {
-                v = ((Number)fldValue).longValue();
-            } else return false;
+            if ((fldVblue != null) && (isAString)) {
+                v = toNumeric(SfldVblue);
+            } else if (fldVblue instbnceof jbvb.lbng.Number) {
+                v = ((Number)fldVblue).longVblue();
+            } else return fblse;
 
             return (v >= -1);
-        } else if (fldName.equalsIgnoreCase("log")) {
-            return ((fldValue instanceof java.lang.Boolean) ||
+        } else if (fldNbme.equblsIgnoreCbse("log")) {
+            return ((fldVblue instbnceof jbvb.lbng.Boolebn) ||
                     (isAString &&
-                     (SfldValue.equalsIgnoreCase("T") ||
-                      SfldValue.equalsIgnoreCase("true") ||
-                      SfldValue.equalsIgnoreCase("F") ||
-                      SfldValue.equalsIgnoreCase("false") )));
+                     (SfldVblue.equblsIgnoreCbse("T") ||
+                      SfldVblue.equblsIgnoreCbse("true") ||
+                      SfldVblue.equblsIgnoreCbse("F") ||
+                      SfldVblue.equblsIgnoreCbse("fblse") )));
         }
 
-        // default to true, it is a field we aren't validating (user etc.)
+        // defbult to true, it is b field we bren't vblidbting (user etc.)
         return true;
     }
 
 
 
     /**
-     * <p>Returns an XML String representing the descriptor.</p>
+     * <p>Returns bn XML String representing the descriptor.</p>
      *
-     * <p>The format is not defined, but an implementation must
-     * ensure that the string returned by this method can be
-     * used to build an equivalent descriptor when instantiated
+     * <p>The formbt is not defined, but bn implementbtion must
+     * ensure thbt the string returned by this method cbn be
+     * used to build bn equivblent descriptor when instbntibted
      * using the constructor {@link #DescriptorSupport(String)
      * DescriptorSupport(String inStr)}.</p>
      *
-     * <p>Fields which are not String objects will have toString()
-     * called on them to create the value. The value will be
-     * enclosed in parentheses.  It is not guaranteed that you can
-     * reconstruct these objects unless they have been
-     * specifically set up to support toString() in a meaningful
-     * format and have a matching constructor that accepts a
-     * String in the same format.</p>
+     * <p>Fields which bre not String objects will hbve toString()
+     * cblled on them to crebte the vblue. The vblue will be
+     * enclosed in pbrentheses.  It is not gubrbnteed thbt you cbn
+     * reconstruct these objects unless they hbve been
+     * specificblly set up to support toString() in b mebningful
+     * formbt bnd hbve b mbtching constructor thbt bccepts b
+     * String in the sbme formbt.</p>
      *
      * <p>If the descriptor is empty the following String is
      * returned: &lt;Descriptor&gt;&lt;/Descriptor&gt;</p>
      *
      * @return the XML string.
      *
-     * @exception RuntimeOperationsException for illegal value for
-     * field Names or field Values.  If the XML formatted string
-     * construction fails for any reason, this exception will be
+     * @exception RuntimeOperbtionsException for illegbl vblue for
+     * field Nbmes or field Vblues.  If the XML formbtted string
+     * construction fbils for bny rebson, this exception will be
      * thrown.
      */
     public synchronized String toXMLString() {
-        final StringBuilder buf = new StringBuilder("<Descriptor>");
-        Set<Map.Entry<String, Object>> returnedSet = descriptorMap.entrySet();
-        for (Map.Entry<String, Object> currElement : returnedSet) {
-            final String name = currElement.getKey();
-            Object value = currElement.getValue();
-            String valueString = null;
-            /* Set valueString to non-null if and only if this is a string that
-               cannot be confused with the encoding of an object.  If it
-               could be so confused (surrounded by parentheses) then we
-               call makeFieldValue as for any non-String object and end
-               up with an encoding like "(java.lang.String/(thing))".  */
-            if (value instanceof String) {
-                final String svalue = (String) value;
-                if (!svalue.startsWith("(") || !svalue.endsWith(")"))
-                    valueString = quote(svalue);
+        finbl StringBuilder buf = new StringBuilder("<Descriptor>");
+        Set<Mbp.Entry<String, Object>> returnedSet = descriptorMbp.entrySet();
+        for (Mbp.Entry<String, Object> currElement : returnedSet) {
+            finbl String nbme = currElement.getKey();
+            Object vblue = currElement.getVblue();
+            String vblueString = null;
+            /* Set vblueString to non-null if bnd only if this is b string thbt
+               cbnnot be confused with the encoding of bn object.  If it
+               could be so confused (surrounded by pbrentheses) then we
+               cbll mbkeFieldVblue bs for bny non-String object bnd end
+               up with bn encoding like "(jbvb.lbng.String/(thing))".  */
+            if (vblue instbnceof String) {
+                finbl String svblue = (String) vblue;
+                if (!svblue.stbrtsWith("(") || !svblue.endsWith(")"))
+                    vblueString = quote(svblue);
             }
-            if (valueString == null)
-                valueString = makeFieldValue(value);
-            buf.append("<field name=\"").append(name).append("\" value=\"")
-                .append(valueString).append("\"></field>");
+            if (vblueString == null)
+                vblueString = mbkeFieldVblue(vblue);
+            buf.bppend("<field nbme=\"").bppend(nbme).bppend("\" vblue=\"")
+                .bppend(vblueString).bppend("\"></field>");
         }
-        buf.append("</Descriptor>");
+        buf.bppend("</Descriptor>");
         return buf.toString();
     }
 
-    private static final String[] entities = {
+    privbte stbtic finbl String[] entities = {
         " &#32;",
         "\"&quot;",
         "<&lt;",
         ">&gt;",
-        "&&amp;",
+        "&&bmp;",
         "\r&#13;",
         "\t&#9;",
         "\n&#10;",
         "\f&#12;",
     };
-    private static final Map<String,Character> entityToCharMap =
-        new HashMap<String,Character>();
-    private static final String[] charToEntityMap;
+    privbte stbtic finbl Mbp<String,Chbrbcter> entityToChbrMbp =
+        new HbshMbp<String,Chbrbcter>();
+    privbte stbtic finbl String[] chbrToEntityMbp;
 
-    static {
-        char maxChar = 0;
+    stbtic {
+        chbr mbxChbr = 0;
         for (int i = 0; i < entities.length; i++) {
-            final char c = entities[i].charAt(0);
-            if (c > maxChar)
-                maxChar = c;
+            finbl chbr c = entities[i].chbrAt(0);
+            if (c > mbxChbr)
+                mbxChbr = c;
         }
-        charToEntityMap = new String[maxChar + 1];
+        chbrToEntityMbp = new String[mbxChbr + 1];
         for (int i = 0; i < entities.length; i++) {
-            final char c = entities[i].charAt(0);
-            final String entity = entities[i].substring(1);
-            charToEntityMap[c] = entity;
-            entityToCharMap.put(entity, c);
+            finbl chbr c = entities[i].chbrAt(0);
+            finbl String entity = entities[i].substring(1);
+            chbrToEntityMbp[c] = entity;
+            entityToChbrMbp.put(entity, c);
         }
     }
 
-    private static boolean isMagic(char c) {
-        return (c < charToEntityMap.length && charToEntityMap[c] != null);
+    privbte stbtic boolebn isMbgic(chbr c) {
+        return (c < chbrToEntityMbp.length && chbrToEntityMbp[c] != null);
     }
 
     /*
-     * Quote the string so that it will be acceptable to the (String)
-     * constructor.  Since the parsing code in that constructor is fairly
-     * stupid, we're obliged to quote apparently innocuous characters like
-     * space, <, and >.  In a future version, we should rewrite the parser
-     * and only quote " plus either \ or & (depending on the quote syntax).
+     * Quote the string so thbt it will be bcceptbble to the (String)
+     * constructor.  Since the pbrsing code in thbt constructor is fbirly
+     * stupid, we're obliged to quote bppbrently innocuous chbrbcters like
+     * spbce, <, bnd >.  In b future version, we should rewrite the pbrser
+     * bnd only quote " plus either \ or & (depending on the quote syntbx).
      */
-    private static String quote(String s) {
-        boolean found = false;
+    privbte stbtic String quote(String s) {
+        boolebn found = fblse;
         for (int i = 0; i < s.length(); i++) {
-            if (isMagic(s.charAt(i))) {
+            if (isMbgic(s.chbrAt(i))) {
                 found = true;
-                break;
+                brebk;
             }
         }
         if (!found)
             return s;
-        final StringBuilder buf = new StringBuilder();
+        finbl StringBuilder buf = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (isMagic(c))
-                buf.append(charToEntityMap[c]);
+            chbr c = s.chbrAt(i);
+            if (isMbgic(c))
+                buf.bppend(chbrToEntityMbp[c]);
             else
-                buf.append(c);
+                buf.bppend(c);
         }
         return buf.toString();
     }
 
-    private static String unquote(String s) throws XMLParseException {
-        if (!s.startsWith("\"") || !s.endsWith("\""))
-            throw new XMLParseException("Value must be quoted: <" + s + ">");
-        final StringBuilder buf = new StringBuilder();
-        final int len = s.length() - 1;
+    privbte stbtic String unquote(String s) throws XMLPbrseException {
+        if (!s.stbrtsWith("\"") || !s.endsWith("\""))
+            throw new XMLPbrseException("Vblue must be quoted: <" + s + ">");
+        finbl StringBuilder buf = new StringBuilder();
+        finbl int len = s.length() - 1;
         for (int i = 1; i < len; i++) {
-            final char c = s.charAt(i);
-            final int semi;
-            final Character quoted;
+            finbl chbr c = s.chbrAt(i);
+            finbl int semi;
+            finbl Chbrbcter quoted;
             if (c == '&'
                 && (semi = s.indexOf(';', i + 1)) >= 0
-                && ((quoted = entityToCharMap.get(s.substring(i, semi+1)))
+                && ((quoted = entityToChbrMbp.get(s.substring(i, semi+1)))
                     != null)) {
-                buf.append(quoted);
+                buf.bppend(quoted);
                 i = semi;
             } else
-                buf.append(c);
+                buf.bppend(c);
         }
         return buf.toString();
     }
 
     /**
-     * Make the string that will go inside "..." for a value that is not
-     * a plain String.
-     * @throws RuntimeOperationsException if the value cannot be encoded.
+     * Mbke the string thbt will go inside "..." for b vblue thbt is not
+     * b plbin String.
+     * @throws RuntimeOperbtionsException if the vblue cbnnot be encoded.
      */
-    private static String makeFieldValue(Object value) {
-        if (value == null)
+    privbte stbtic String mbkeFieldVblue(Object vblue) {
+        if (vblue == null)
             return "(null)";
 
-        Class<?> valueClass = value.getClass();
+        Clbss<?> vblueClbss = vblue.getClbss();
         try {
-            valueClass.getConstructor(String.class);
-        } catch (NoSuchMethodException e) {
-            final String msg =
-                "Class " + valueClass + " does not have a public " +
-                "constructor with a single string arg";
-            final RuntimeException iae = new IllegalArgumentException(msg);
-            throw new RuntimeOperationsException(iae,
-                                                 "Cannot make XML descriptor");
-        } catch (SecurityException e) {
+            vblueClbss.getConstructor(String.clbss);
+        } cbtch (NoSuchMethodException e) {
+            finbl String msg =
+                "Clbss " + vblueClbss + " does not hbve b public " +
+                "constructor with b single string brg";
+            finbl RuntimeException ibe = new IllegblArgumentException(msg);
+            throw new RuntimeOperbtionsException(ibe,
+                                                 "Cbnnot mbke XML descriptor");
+        } cbtch (SecurityException e) {
             // OK: we'll pretend the constructor is there
-            // too bad if it's not: we'll find out when we try to
+            // too bbd if it's not: we'll find out when we try to
             // reconstruct the DescriptorSupport
         }
 
-        final String quotedValueString = quote(value.toString());
+        finbl String quotedVblueString = quote(vblue.toString());
 
-        return "(" + valueClass.getName() + "/" + quotedValueString + ")";
+        return "(" + vblueClbss.getNbme() + "/" + quotedVblueString + ")";
     }
 
     /*
-     * Parse a field value from the XML produced by toXMLString().
-     * Given a descriptor XML containing <field name="nnn" value="vvv">,
-     * the argument to this method will be "vvv" (a string including the
-     * containing quote characters).  If vvv begins and ends with parentheses,
-     * then it may contain:
-     * - the characters "null", in which case the result is null;
-     * - a value of the form "some.class.name/xxx", in which case the
-     * result is equivalent to `new some.class.name("xxx")';
-     * - some other string, in which case the result is that string,
-     * without the parentheses.
+     * Pbrse b field vblue from the XML produced by toXMLString().
+     * Given b descriptor XML contbining <field nbme="nnn" vblue="vvv">,
+     * the brgument to this method will be "vvv" (b string including the
+     * contbining quote chbrbcters).  If vvv begins bnd ends with pbrentheses,
+     * then it mby contbin:
+     * - the chbrbcters "null", in which cbse the result is null;
+     * - b vblue of the form "some.clbss.nbme/xxx", in which cbse the
+     * result is equivblent to `new some.clbss.nbme("xxx")';
+     * - some other string, in which cbse the result is thbt string,
+     * without the pbrentheses.
      */
-    private static Object parseQuotedFieldValue(String s)
-            throws XMLParseException {
+    privbte stbtic Object pbrseQuotedFieldVblue(String s)
+            throws XMLPbrseException {
         s = unquote(s);
-        if (s.equalsIgnoreCase("(null)"))
+        if (s.equblsIgnoreCbse("(null)"))
             return null;
-        if (!s.startsWith("(") || !s.endsWith(")"))
+        if (!s.stbrtsWith("(") || !s.endsWith(")"))
             return s;
-        final int slash = s.indexOf('/');
-        if (slash < 0) {
-            // compatibility: old code didn't include class name
+        finbl int slbsh = s.indexOf('/');
+        if (slbsh < 0) {
+            // compbtibility: old code didn't include clbss nbme
             return s.substring(1, s.length() - 1);
         }
-        final String className = s.substring(1, slash);
+        finbl String clbssNbme = s.substring(1, slbsh);
 
-        final Constructor<?> constr;
+        finbl Constructor<?> constr;
         try {
-            ReflectUtil.checkPackageAccess(className);
-            final ClassLoader contextClassLoader =
-                Thread.currentThread().getContextClassLoader();
-            final Class<?> c =
-                Class.forName(className, false, contextClassLoader);
-            constr = c.getConstructor(new Class<?>[] {String.class});
-        } catch (Exception e) {
-            throw new XMLParseException(e,
-                                        "Cannot parse value: <" + s + ">");
+            ReflectUtil.checkPbckbgeAccess(clbssNbme);
+            finbl ClbssLobder contextClbssLobder =
+                Threbd.currentThrebd().getContextClbssLobder();
+            finbl Clbss<?> c =
+                Clbss.forNbme(clbssNbme, fblse, contextClbssLobder);
+            constr = c.getConstructor(new Clbss<?>[] {String.clbss});
+        } cbtch (Exception e) {
+            throw new XMLPbrseException(e,
+                                        "Cbnnot pbrse vblue: <" + s + ">");
         }
-        final String arg = s.substring(slash + 1, s.length() - 1);
+        finbl String brg = s.substring(slbsh + 1, s.length() - 1);
         try {
-            return constr.newInstance(new Object[] {arg});
-        } catch (Exception e) {
-            final String msg =
-                "Cannot construct instance of " + className +
-                " with arg: <" + s + ">";
-            throw new XMLParseException(e, msg);
+            return constr.newInstbnce(new Object[] {brg});
+        } cbtch (Exception e) {
+            finbl String msg =
+                "Cbnnot construct instbnce of " + clbssNbme +
+                " with brg: <" + s + ">";
+            throw new XMLPbrseException(e, msg);
         }
     }
 
     /**
-     * Returns a human readable string representing the
-     * descriptor.  The string will be in the format of
-     * "fieldName=fieldValue,fieldName2=fieldValue2,..."<br>
+     * Returns b humbn rebdbble string representing the
+     * descriptor.  The string will be in the formbt of
+     * "fieldNbme=fieldVblue,fieldNbme2=fieldVblue2,..."<br>
      *
-     * If there are no fields in the descriptor, then an empty String
+     * If there bre no fields in the descriptor, then bn empty String
      * is returned.<br>
      *
-     * If a fieldValue is an object then the toString() method is
-     * called on it and its returned value is used as the value for
-     * the field enclosed in parenthesis.
+     * If b fieldVblue is bn object then the toString() method is
+     * cblled on it bnd its returned vblue is used bs the vblue for
+     * the field enclosed in pbrenthesis.
      *
-     * @exception RuntimeOperationsException for illegal value for
-     * field Names or field Values.  If the descriptor string fails
-     * for any reason, this exception will be thrown.
+     * @exception RuntimeOperbtionsException for illegbl vblue for
+     * field Nbmes or field Vblues.  If the descriptor string fbils
+     * for bny rebson, this exception will be thrown.
      */
     @Override
     public synchronized String toString() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "toString()", "Entry");
         }
 
@@ -1296,31 +1296,31 @@ public class DescriptorSupport
         String[] fields = getFields();
 
         if ((fields == null) || (fields.length == 0)) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
                 MODELMBEAN_LOGGER.logp(Level.FINEST,
-                        DescriptorSupport.class.getName(),
+                        DescriptorSupport.clbss.getNbme(),
                         "toString()", "Empty Descriptor");
             }
             return respStr;
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "toString()", "Printing " + fields.length + " fields");
         }
 
         for (int i=0; i < fields.length; i++) {
             if (i == (fields.length - 1)) {
-                respStr = respStr.concat(fields[i]);
+                respStr = respStr.concbt(fields[i]);
             } else {
-                respStr = respStr.concat(fields[i] + ", ");
+                respStr = respStr.concbt(fields[i] + ", ");
             }
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
-                    DescriptorSupport.class.getName(),
+                    DescriptorSupport.clbss.getNbme(),
                     "toString()", "Exit returning " + respStr);
         }
 
@@ -1329,70 +1329,70 @@ public class DescriptorSupport
 
     // utility to convert to int, returns -2 if bogus.
 
-    private long toNumeric(String inStr) {
+    privbte long toNumeric(String inStr) {
         try {
-            return java.lang.Long.parseLong(inStr);
-        } catch (Exception e) {
+            return jbvb.lbng.Long.pbrseLong(inStr);
+        } cbtch (Exception e) {
             return -2;
         }
     }
 
 
     /**
-     * Deserializes a {@link DescriptorSupport} from an {@link
-     * ObjectInputStream}.
+     * Deseriblizes b {@link DescriptorSupport} from bn {@link
+     * ObjectInputStrebm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-        ObjectInputStream.GetField fields = in.readFields();
-        Map<String, Object> descriptor = cast(fields.get("descriptor", null));
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+        ObjectInputStrebm.GetField fields = in.rebdFields();
+        Mbp<String, Object> descriptor = cbst(fields.get("descriptor", null));
         init(null);
         if (descriptor != null) {
-            descriptorMap.putAll(descriptor);
+            descriptorMbp.putAll(descriptor);
         }
     }
 
 
     /**
-     * Serializes a {@link DescriptorSupport} to an {@link ObjectOutputStream}.
+     * Seriblizes b {@link DescriptorSupport} to bn {@link ObjectOutputStrebm}.
      */
-    /* If you set jmx.serial.form to "1.2.0" or "1.2.1", then we are
-       bug-compatible with those versions.  Specifically, field names
-       are forced to lower-case before being written.  This
-       contradicts the spec, which, though it does not mention
-       serialization explicitly, does say that the case of field names
-       is preserved.  But in 1.2.0 and 1.2.1, this requirement was not
-       met.  Instead, field names in the descriptor map were forced to
-       lower case.  Those versions expect this to have happened to a
-       descriptor they deserialize and e.g. getFieldValue will not
-       find a field whose name is spelt with a different case.
+    /* If you set jmx.seribl.form to "1.2.0" or "1.2.1", then we bre
+       bug-compbtible with those versions.  Specificblly, field nbmes
+       bre forced to lower-cbse before being written.  This
+       contrbdicts the spec, which, though it does not mention
+       seriblizbtion explicitly, does sby thbt the cbse of field nbmes
+       is preserved.  But in 1.2.0 bnd 1.2.1, this requirement wbs not
+       met.  Instebd, field nbmes in the descriptor mbp were forced to
+       lower cbse.  Those versions expect this to hbve hbppened to b
+       descriptor they deseriblize bnd e.g. getFieldVblue will not
+       find b field whose nbme is spelt with b different cbse.
     */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        ObjectOutputStream.PutField fields = out.putFields();
-        boolean compat = "1.0".equals(serialForm);
-        if (compat)
-            fields.put("currClass", currClass);
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        ObjectOutputStrebm.PutField fields = out.putFields();
+        boolebn compbt = "1.0".equbls(seriblForm);
+        if (compbt)
+            fields.put("currClbss", currClbss);
 
-        /* Purge the field "targetObject" from the DescriptorSupport before
-         * serializing since the referenced object is typically not
-         * serializable.  We do this here rather than purging the "descriptor"
-         * variable below because that HashMap doesn't do case-insensitivity.
+        /* Purge the field "tbrgetObject" from the DescriptorSupport before
+         * seriblizing since the referenced object is typicblly not
+         * seriblizbble.  We do this here rbther thbn purging the "descriptor"
+         * vbribble below becbuse thbt HbshMbp doesn't do cbse-insensitivity.
          * See CR 6332962.
          */
-        SortedMap<String, Object> startMap = descriptorMap;
-        if (startMap.containsKey("targetObject")) {
-            startMap = new TreeMap<String, Object>(descriptorMap);
-            startMap.remove("targetObject");
+        SortedMbp<String, Object> stbrtMbp = descriptorMbp;
+        if (stbrtMbp.contbinsKey("tbrgetObject")) {
+            stbrtMbp = new TreeMbp<String, Object>(descriptorMbp);
+            stbrtMbp.remove("tbrgetObject");
         }
 
-        final HashMap<String, Object> descriptor;
-        if (compat || "1.2.0".equals(serialForm) ||
-                "1.2.1".equals(serialForm)) {
-            descriptor = new HashMap<String, Object>();
-            for (Map.Entry<String, Object> entry : startMap.entrySet())
-                descriptor.put(entry.getKey().toLowerCase(), entry.getValue());
+        finbl HbshMbp<String, Object> descriptor;
+        if (compbt || "1.2.0".equbls(seriblForm) ||
+                "1.2.1".equbls(seriblForm)) {
+            descriptor = new HbshMbp<String, Object>();
+            for (Mbp.Entry<String, Object> entry : stbrtMbp.entrySet())
+                descriptor.put(entry.getKey().toLowerCbse(), entry.getVblue());
         } else
-            descriptor = new HashMap<String, Object>(startMap);
+            descriptor = new HbshMbp<String, Object>(stbrtMbp);
 
         fields.put("descriptor", descriptor);
         out.writeFields();

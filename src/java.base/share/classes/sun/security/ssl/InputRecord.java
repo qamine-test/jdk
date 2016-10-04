@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.*;
-import java.nio.*;
+import jbvb.io.*;
+import jbvb.nio.*;
 
-import javax.crypto.BadPaddingException;
+import jbvbx.crypto.BbdPbddingException;
 
-import javax.net.ssl.*;
+import jbvbx.net.ssl.*;
 
 import sun.misc.HexDumpEncoder;
 
 
 /**
- * SSL 3.0 records, as pulled off a TCP stream.  Input records are
- * basically buffers tied to a particular input stream ... a layer
- * above this must map these records into the model of a continuous
- * stream of data.
+ * SSL 3.0 records, bs pulled off b TCP strebm.  Input records bre
+ * bbsicblly buffers tied to b pbrticulbr input strebm ... b lbyer
+ * bbove this must mbp these records into the model of b continuous
+ * strebm of dbtb.
  *
- * Since this returns SSL 3.0 records, it's the layer that needs to
- * map SSL 2.0 style handshake records into SSL 3.0 ones for those
- * "old" clients that interop with both V2 and V3 servers.  Not as
- * pretty as might be desired.
+ * Since this returns SSL 3.0 records, it's the lbyer thbt needs to
+ * mbp SSL 2.0 style hbndshbke records into SSL 3.0 ones for those
+ * "old" clients thbt interop with both V2 bnd V3 servers.  Not bs
+ * pretty bs might be desired.
  *
- * NOTE:  During handshaking, each message must be hashed to support
- * verification that the handshake process wasn't compromised.
+ * NOTE:  During hbndshbking, ebch messbge must be hbshed to support
+ * verificbtion thbt the hbndshbke process wbsn't compromised.
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-class InputRecord extends ByteArrayInputStream implements Record {
+clbss InputRecord extends ByteArrbyInputStrebm implements Record {
 
-    private HandshakeHash       handshakeHash;
-    private int                 lastHashed;
-    boolean                     formatVerified = true;  // SSLv2 ruled out?
-    private boolean             isClosed;
-    private boolean             appDataValid;
+    privbte HbndshbkeHbsh       hbndshbkeHbsh;
+    privbte int                 lbstHbshed;
+    boolebn                     formbtVerified = true;  // SSLv2 ruled out?
+    privbte boolebn             isClosed;
+    privbte boolebn             bppDbtbVblid;
 
-    // The ClientHello version to accept. If set to ProtocolVersion.SSL20Hello
-    // and the first message we read is a ClientHello in V2 format, we convert
-    // it to V3. Otherwise we throw an exception when encountering a V2 hello.
-    private ProtocolVersion     helloVersion;
+    // The ClientHello version to bccept. If set to ProtocolVersion.SSL20Hello
+    // bnd the first messbge we rebd is b ClientHello in V2 formbt, we convert
+    // it to V3. Otherwise we throw bn exception when encountering b V2 hello.
+    privbte ProtocolVersion     helloVersion;
 
-    /* Class and subclass dynamic debugging support */
-    static final Debug debug = Debug.getInstance("ssl");
+    /* Clbss bnd subclbss dynbmic debugging support */
+    stbtic finbl Debug debug = Debug.getInstbnce("ssl");
 
     /* The existing record length */
-    private int exlen;
+    privbte int exlen;
 
-    /* V2 handshake message */
-    private byte v2Buf[];
+    /* V2 hbndshbke messbge */
+    privbte byte v2Buf[];
 
     /*
-     * Construct the record to hold the maximum sized input record.
-     * Data will be filled in separately.
+     * Construct the record to hold the mbximum sized input record.
+     * Dbtb will be filled in sepbrbtely.
      *
      * The structure of the byte buffer looks like:
      *
      *     |--------+---------+---------------------------------|
-     *     | header |   IV    | content, MAC/TAG, padding, etc. |
-     *     | headerPlusIVSize |
+     *     | hebder |   IV    | content, MAC/TAG, pbdding, etc. |
+     *     | hebderPlusIVSize |
      *
-     * header: the header of an SSL records
-     * IV:     the optional IV/nonce field, it is only required for block
-     *         (TLS 1.1 or later) and AEAD cipher suites.
+     * hebder: the hebder of bn SSL records
+     * IV:     the optionbl IV/nonce field, it is only required for block
+     *         (TLS 1.1 or lbter) bnd AEAD cipher suites.
      *
      */
     InputRecord() {
-        super(new byte[maxRecordSize]);
+        super(new byte[mbxRecordSize]);
         setHelloVersion(ProtocolVersion.DEFAULT_HELLO);
-        pos = headerSize;
-        count = headerSize;
-        lastHashed = count;
+        pos = hebderSize;
+        count = hebderSize;
+        lbstHbshed = count;
         exlen = 0;
         v2Buf = null;
     }
@@ -108,19 +108,19 @@ class InputRecord extends ByteArrayInputStream implements Record {
     }
 
     /*
-     * Enable format checks if initial handshaking hasn't completed
+     * Enbble formbt checks if initibl hbndshbking hbsn't completed
      */
-    void enableFormatChecks() {
-        formatVerified = false;
+    void enbbleFormbtChecks() {
+        formbtVerified = fblse;
     }
 
-    // return whether the data in this record is valid, decrypted data
-    boolean isAppDataValid() {
-        return appDataValid;
+    // return whether the dbtb in this record is vblid, decrypted dbtb
+    boolebn isAppDbtbVblid() {
+        return bppDbtbVblid;
     }
 
-    void setAppDataValid(boolean value) {
-        appDataValid = value;
+    void setAppDbtbVblid(boolebn vblue) {
+        bppDbtbVblid = vblue;
     }
 
     /*
@@ -131,167 +131,167 @@ class InputRecord extends ByteArrayInputStream implements Record {
     }
 
     /*
-     * For handshaking, we need to be able to hash every byte above the
-     * record marking layer.  This is where we're guaranteed to see those
-     * bytes, so this is where we can hash them ... especially in the
-     * case of hashing the initial V2 message!
+     * For hbndshbking, we need to be bble to hbsh every byte bbove the
+     * record mbrking lbyer.  This is where we're gubrbnteed to see those
+     * bytes, so this is where we cbn hbsh them ... especiblly in the
+     * cbse of hbshing the initibl V2 messbge!
      */
-    void setHandshakeHash(HandshakeHash handshakeHash) {
-        this.handshakeHash = handshakeHash;
+    void setHbndshbkeHbsh(HbndshbkeHbsh hbndshbkeHbsh) {
+        this.hbndshbkeHbsh = hbndshbkeHbsh;
     }
 
-    HandshakeHash getHandshakeHash() {
-        return handshakeHash;
+    HbndshbkeHbsh getHbndshbkeHbsh() {
+        return hbndshbkeHbsh;
     }
 
-    void decrypt(Authenticator authenticator,
-            CipherBox box) throws BadPaddingException {
-        BadPaddingException reservedBPE = null;
-        int tagLen =
-            (authenticator instanceof MAC) ? ((MAC)authenticator).MAClen() : 0;
-        int cipheredLength = count - headerSize;
+    void decrypt(Authenticbtor buthenticbtor,
+            CipherBox box) throws BbdPbddingException {
+        BbdPbddingException reservedBPE = null;
+        int tbgLen =
+            (buthenticbtor instbnceof MAC) ? ((MAC)buthenticbtor).MAClen() : 0;
+        int cipheredLength = count - hebderSize;
 
         if (!box.isNullCipher()) {
             try {
-                // apply explicit nonce for AEAD/CBC cipher suites if needed
-                int nonceSize = box.applyExplicitNonce(authenticator,
-                        contentType(), buf, headerSize, cipheredLength);
-                pos = headerSize + nonceSize;
-                lastHashed = pos;   // don't digest the explicit nonce
+                // bpply explicit nonce for AEAD/CBC cipher suites if needed
+                int nonceSize = box.bpplyExplicitNonce(buthenticbtor,
+                        contentType(), buf, hebderSize, cipheredLength);
+                pos = hebderSize + nonceSize;
+                lbstHbshed = pos;   // don't digest the explicit nonce
 
                 // decrypt the content
-                int offset = headerSize;
+                int offset = hebderSize;
                 if (box.isAEADMode()) {
                     // DON'T encrypt the nonce_explicit for AEAD mode
                     offset += nonceSize;
-                }   // The explicit IV for CBC mode can be decrypted.
+                }   // The explicit IV for CBC mode cbn be decrypted.
 
-                // Note that the CipherBox.decrypt() does not change
-                // the capacity of the buffer.
+                // Note thbt the CipherBox.decrypt() does not chbnge
+                // the cbpbcity of the buffer.
                 count = offset +
-                    box.decrypt(buf, offset, count - offset, tagLen);
+                    box.decrypt(buf, offset, count - offset, tbgLen);
 
-                // Note that we don't remove the nonce from the buffer.
-            } catch (BadPaddingException bpe) {
-                // RFC 2246 states that decryption_failed should be used
-                // for this purpose. However, that allows certain attacks,
-                // so we just send bad record MAC. We also need to make
-                // sure to always check the MAC to avoid a timing attack
-                // for the same issue. See paper by Vaudenay et al and the
-                // update in RFC 4346/5246.
+                // Note thbt we don't remove the nonce from the buffer.
+            } cbtch (BbdPbddingException bpe) {
+                // RFC 2246 stbtes thbt decryption_fbiled should be used
+                // for this purpose. However, thbt bllows certbin bttbcks,
+                // so we just send bbd record MAC. We blso need to mbke
+                // sure to blwbys check the MAC to bvoid b timing bttbck
+                // for the sbme issue. See pbper by Vbudenby et bl bnd the
+                // updbte in RFC 4346/5246.
                 //
-                // Failover to message authentication code checking.
+                // Fbilover to messbge buthenticbtion code checking.
                 reservedBPE = bpe;
             }
         }
 
-        // Requires message authentication code for null, stream and block
+        // Requires messbge buthenticbtion code for null, strebm bnd block
         // cipher suites.
-        if (authenticator instanceof MAC && tagLen != 0) {
-            MAC signer = (MAC)authenticator;
-            int macOffset = count - tagLen;
-            int contentLen = macOffset - pos;
+        if (buthenticbtor instbnceof MAC && tbgLen != 0) {
+            MAC signer = (MAC)buthenticbtor;
+            int mbcOffset = count - tbgLen;
+            int contentLen = mbcOffset - pos;
 
-            // Note that although it is not necessary, we run the same MAC
-            // computation and comparison on the payload for both stream
-            // cipher and CBC block cipher.
+            // Note thbt blthough it is not necessbry, we run the sbme MAC
+            // computbtion bnd compbrison on the pbylobd for both strebm
+            // cipher bnd CBC block cipher.
             if (contentLen < 0) {
-                // negative data length, something is wrong
+                // negbtive dbtb length, something is wrong
                 if (reservedBPE == null) {
-                    reservedBPE = new BadPaddingException("bad record");
+                    reservedBPE = new BbdPbddingException("bbd record");
                 }
 
                 // set offset of the dummy MAC
-                macOffset = headerSize + cipheredLength - tagLen;
-                contentLen = macOffset - headerSize;
+                mbcOffset = hebderSize + cipheredLength - tbgLen;
+                contentLen = mbcOffset - hebderSize;
             }
 
-            count -= tagLen;  // Set the count before any MAC checking
-                              // exception occurs, so that the following
-                              // process can read the actual decrypted
-                              // content (minus the MAC) in the fragment
-                              // if necessary.
+            count -= tbgLen;  // Set the count before bny MAC checking
+                              // exception occurs, so thbt the following
+                              // process cbn rebd the bctubl decrypted
+                              // content (minus the MAC) in the frbgment
+                              // if necessbry.
 
-            // Run MAC computation and comparison on the payload.
-            if (checkMacTags(contentType(),
-                    buf, pos, contentLen, signer, false)) {
+            // Run MAC computbtion bnd compbrison on the pbylobd.
+            if (checkMbcTbgs(contentType(),
+                    buf, pos, contentLen, signer, fblse)) {
                 if (reservedBPE == null) {
-                    reservedBPE = new BadPaddingException("bad record MAC");
+                    reservedBPE = new BbdPbddingException("bbd record MAC");
                 }
             }
 
-            // Run MAC computation and comparison on the remainder.
+            // Run MAC computbtion bnd compbrison on the rembinder.
             //
-            // It is only necessary for CBC block cipher.  It is used to get a
-            // constant time of MAC computation and comparison on each record.
+            // It is only necessbry for CBC block cipher.  It is used to get b
+            // constbnt time of MAC computbtion bnd compbrison on ebch record.
             if (box.isCBCMode()) {
-                int remainingLen = calculateRemainingLen(
+                int rembiningLen = cblculbteRembiningLen(
                                         signer, cipheredLength, contentLen);
 
-                // NOTE: remainingLen may be bigger (less than 1 block of the
-                // hash algorithm of the MAC) than the cipheredLength. However,
-                // We won't need to worry about it because we always use a
-                // maximum buffer for every record.  We need a change here if
-                // we use small buffer size in the future.
-                if (remainingLen > buf.length) {
-                    // unlikely to happen, just a placehold
+                // NOTE: rembiningLen mby be bigger (less thbn 1 block of the
+                // hbsh blgorithm of the MAC) thbn the cipheredLength. However,
+                // We won't need to worry bbout it becbuse we blwbys use b
+                // mbximum buffer for every record.  We need b chbnge here if
+                // we use smbll buffer size in the future.
+                if (rembiningLen > buf.length) {
+                    // unlikely to hbppen, just b plbcehold
                     throw new RuntimeException(
-                        "Internal buffer capacity error");
+                        "Internbl buffer cbpbcity error");
                 }
 
-                // Won't need to worry about the result on the remainder. And
-                // then we won't need to worry about what's actual data to
-                // check MAC tag on.  We start the check from the header of the
-                // buffer so that we don't need to construct a new byte buffer.
-                checkMacTags(contentType(), buf, 0, remainingLen, signer, true);
+                // Won't need to worry bbout the result on the rembinder. And
+                // then we won't need to worry bbout whbt's bctubl dbtb to
+                // check MAC tbg on.  We stbrt the check from the hebder of the
+                // buffer so thbt we don't need to construct b new byte buffer.
+                checkMbcTbgs(contentType(), buf, 0, rembiningLen, signer, true);
             }
         }
 
-        // Is it a failover?
+        // Is it b fbilover?
         if (reservedBPE != null) {
             throw reservedBPE;
         }
     }
 
     /*
-     * Run MAC computation and comparison
+     * Run MAC computbtion bnd compbrison
      *
-     * Please DON'T change the content of the byte buffer parameter!
+     * Plebse DON'T chbnge the content of the byte buffer pbrbmeter!
      */
-    static boolean checkMacTags(byte contentType, byte[] buffer,
-            int offset, int contentLen, MAC signer, boolean isSimulated) {
+    stbtic boolebn checkMbcTbgs(byte contentType, byte[] buffer,
+            int offset, int contentLen, MAC signer, boolebn isSimulbted) {
 
-        int tagLen = signer.MAClen();
-        byte[] hash = signer.compute(
-                contentType, buffer, offset, contentLen, isSimulated);
-        if (hash == null || tagLen != hash.length) {
-            // Something is wrong with MAC implementation.
-            throw new RuntimeException("Internal MAC error");
+        int tbgLen = signer.MAClen();
+        byte[] hbsh = signer.compute(
+                contentType, buffer, offset, contentLen, isSimulbted);
+        if (hbsh == null || tbgLen != hbsh.length) {
+            // Something is wrong with MAC implementbtion.
+            throw new RuntimeException("Internbl MAC error");
         }
 
-        int[] results = compareMacTags(buffer, offset + contentLen, hash);
+        int[] results = compbreMbcTbgs(buffer, offset + contentLen, hbsh);
         return (results[0] != 0);
     }
 
     /*
-     * A constant-time comparison of the MAC tags.
+     * A constbnt-time compbrison of the MAC tbgs.
      *
-     * Please DON'T change the content of the byte buffer parameter!
+     * Plebse DON'T chbnge the content of the byte buffer pbrbmeter!
      */
-    private static int[] compareMacTags(
-            byte[] buffer, int offset, byte[] tag) {
+    privbte stbtic int[] compbreMbcTbgs(
+            byte[] buffer, int offset, byte[] tbg) {
 
-        // An array of hits is used to prevent Hotspot optimization for
-        // the purpose of a constant-time check.
-        int[] results = {0, 0};    // {missed #, matched #}
+        // An brrby of hits is used to prevent Hotspot optimizbtion for
+        // the purpose of b constbnt-time check.
+        int[] results = {0, 0};    // {missed #, mbtched #}
 
-        // The caller ensures there are enough bytes available in the buffer.
+        // The cbller ensures there bre enough bytes bvbilbble in the buffer.
         // So we won't need to check the length of the buffer.
-        for (int i = 0; i < tag.length; i++) {
-            if (buffer[offset + i] != tag[i]) {
-                results[0]++;       // mismatched bytes
+        for (int i = 0; i < tbg.length; i++) {
+            if (buffer[offset + i] != tbg[i]) {
+                results[0]++;       // mismbtched bytes
             } else {
-                results[1]++;       // matched bytes
+                results[1]++;       // mbtched bytes
             }
         }
 
@@ -299,255 +299,255 @@ class InputRecord extends ByteArrayInputStream implements Record {
     }
 
     /*
-     * Calculate the length of a dummy buffer to run MAC computation
-     * and comparison on the remainder.
+     * Cblculbte the length of b dummy buffer to run MAC computbtion
+     * bnd compbrison on the rembinder.
      *
-     * The caller MUST ensure that the fullLen is not less than usedLen.
+     * The cbller MUST ensure thbt the fullLen is not less thbn usedLen.
      */
-    static int calculateRemainingLen(
+    stbtic int cblculbteRembiningLen(
             MAC signer, int fullLen, int usedLen) {
 
-        int blockLen = signer.hashBlockLen();
-        int minimalPaddingLen = signer.minimalPaddingLen();
+        int blockLen = signer.hbshBlockLen();
+        int minimblPbddingLen = signer.minimblPbddingLen();
 
-        // (blockLen - minimalPaddingLen) is the maximum message size of
-        // the last block of hash function operation. See FIPS 180-4, or
-        // MD5 specification.
-        fullLen += 13 - (blockLen - minimalPaddingLen);
-        usedLen += 13 - (blockLen - minimalPaddingLen);
+        // (blockLen - minimblPbddingLen) is the mbximum messbge size of
+        // the lbst block of hbsh function operbtion. See FIPS 180-4, or
+        // MD5 specificbtion.
+        fullLen += 13 - (blockLen - minimblPbddingLen);
+        usedLen += 13 - (blockLen - minimblPbddingLen);
 
-        // Note: fullLen is always not less than usedLen, and blockLen
-        // is always bigger than minimalPaddingLen, so we don't worry
-        // about negative values. 0x01 is added to the result to ensure
-        // that the return value is positive.  The extra one byte does
-        // not impact the overall MAC compression function evaluations.
-        return 0x01 + (int)(Math.ceil(fullLen/(1.0d * blockLen)) -
-                Math.ceil(usedLen/(1.0d * blockLen))) * signer.hashBlockLen();
+        // Note: fullLen is blwbys not less thbn usedLen, bnd blockLen
+        // is blwbys bigger thbn minimblPbddingLen, so we don't worry
+        // bbout negbtive vblues. 0x01 is bdded to the result to ensure
+        // thbt the return vblue is positive.  The extrb one byte does
+        // not impbct the overbll MAC compression function evblubtions.
+        return 0x01 + (int)(Mbth.ceil(fullLen/(1.0d * blockLen)) -
+                Mbth.ceil(usedLen/(1.0d * blockLen))) * signer.hbshBlockLen();
     }
 
     /*
-     * Well ... hello_request messages are _never_ hashed since we can't
-     * know when they'd appear in the sequence.
+     * Well ... hello_request messbges bre _never_ hbshed since we cbn't
+     * know when they'd bppebr in the sequence.
      */
     void ignore(int bytes) {
         if (bytes > 0) {
             pos += bytes;
-            lastHashed = pos;
+            lbstHbshed = pos;
         }
     }
 
     /*
-     * We hash the (plaintext) we've processed, but only on demand.
+     * We hbsh the (plbintext) we've processed, but only on dembnd.
      *
-     * There is one place where we want to access the hash in the middle
-     * of a record:  client cert message gets hashed, and part of the
-     * same record is the client cert verify message which uses that hash.
-     * So we track how much we've read and hashed.
+     * There is one plbce where we wbnt to bccess the hbsh in the middle
+     * of b record:  client cert messbge gets hbshed, bnd pbrt of the
+     * sbme record is the client cert verify messbge which uses thbt hbsh.
+     * So we trbck how much we've rebd bnd hbshed.
      */
-    void doHashes() {
-        int len = pos - lastHashed;
+    void doHbshes() {
+        int len = pos - lbstHbshed;
 
         if (len > 0) {
-            hashInternal(buf, lastHashed, len);
-            lastHashed = pos;
+            hbshInternbl(buf, lbstHbshed, len);
+            lbstHbshed = pos;
         }
     }
 
     /*
-     * Need a helper function so we can hash the V2 hello correctly
+     * Need b helper function so we cbn hbsh the V2 hello correctly
      */
-    private void hashInternal(byte databuf [], int offset, int len) {
-        if (debug != null && Debug.isOn("data")) {
+    privbte void hbshInternbl(byte dbtbbuf [], int offset, int len) {
+        if (debug != null && Debug.isOn("dbtb")) {
             try {
                 HexDumpEncoder hd = new HexDumpEncoder();
 
-                System.out.println("[read] MD5 and SHA1 hashes:  len = "
+                System.out.println("[rebd] MD5 bnd SHA1 hbshes:  len = "
                     + len);
-                hd.encodeBuffer(new ByteArrayInputStream(databuf, offset, len),
+                hd.encodeBuffer(new ByteArrbyInputStrebm(dbtbbuf, offset, len),
                     System.out);
-            } catch (IOException e) { }
+            } cbtch (IOException e) { }
         }
-        handshakeHash.update(databuf, offset, len);
+        hbndshbkeHbsh.updbte(dbtbbuf, offset, len);
     }
 
 
     /*
-     * Handshake messages may cross record boundaries.  We "queue"
+     * Hbndshbke messbges mby cross record boundbries.  We "queue"
      * these in big buffers if we need to cope with this problem.
-     * This is not anticipated to be a common case; if this turns
-     * out to be wrong, this can readily be sped up.
+     * This is not bnticipbted to be b common cbse; if this turns
+     * out to be wrong, this cbn rebdily be sped up.
      */
-    void queueHandshake(InputRecord r) throws IOException {
+    void queueHbndshbke(InputRecord r) throws IOException {
         int len;
 
         /*
-         * Hash any data that's read but unhashed.
+         * Hbsh bny dbtb thbt's rebd but unhbshed.
          */
-        doHashes();
+        doHbshes();
 
         /*
-         * Move any unread data to the front of the buffer,
-         * flagging it all as unhashed.
+         * Move bny unrebd dbtb to the front of the buffer,
+         * flbgging it bll bs unhbshed.
          */
-        if (pos > headerSize) {
+        if (pos > hebderSize) {
             len = count - pos;
             if (len != 0) {
-                System.arraycopy(buf, pos, buf, headerSize, len);
+                System.brrbycopy(buf, pos, buf, hebderSize, len);
             }
-            pos = headerSize;
-            lastHashed = pos;
-            count = headerSize + len;
+            pos = hebderSize;
+            lbstHbshed = pos;
+            count = hebderSize + len;
         }
 
         /*
          * Grow "buf" if needed
          */
-        len = r.available() + count;
+        len = r.bvbilbble() + count;
         if (buf.length < len) {
             byte        newbuf [];
 
             newbuf = new byte [len];
-            System.arraycopy(buf, 0, newbuf, 0, count);
+            System.brrbycopy(buf, 0, newbuf, 0, count);
             buf = newbuf;
         }
 
         /*
          * Append the new buffer to this one.
          */
-        System.arraycopy(r.buf, r.pos, buf, count, len - count);
+        System.brrbycopy(r.buf, r.pos, buf, count, len - count);
         count = len;
 
         /*
-         * Adjust lastHashed; important for now with clients which
-         * send SSL V2 client hellos.  This will go away eventually,
-         * by buffer code cleanup.
+         * Adjust lbstHbshed; importbnt for now with clients which
+         * send SSL V2 client hellos.  This will go bwby eventublly,
+         * by buffer code clebnup.
          */
-        len = r.lastHashed - r.pos;
-        if (pos == headerSize) {
-            lastHashed += len;
+        len = r.lbstHbshed - r.pos;
+        if (pos == hebderSize) {
+            lbstHbshed += len;
         } else {
-            throw new SSLProtocolException("?? confused buffer hashing ??");
+            throw new SSLProtocolException("?? confused buffer hbshing ??");
         }
-        // we've read the record, advance the pointers
+        // we've rebd the record, bdvbnce the pointers
         r.pos = r.count;
     }
 
 
     /**
-     * Prevent any more data from being read into this record,
-     * and flag the record as holding no data.
+     * Prevent bny more dbtb from being rebd into this record,
+     * bnd flbg the record bs holding no dbtb.
      */
     @Override
     public void close() {
-        appDataValid = false;
+        bppDbtbVblid = fblse;
         isClosed = true;
-        mark = 0;
+        mbrk = 0;
         pos = 0;
         count = 0;
     }
 
 
     /*
-     * We may need to send this SSL v2 "No Cipher" message back, if we
-     * are faced with an SSLv2 "hello" that's not saying "I talk v3".
-     * It's the only one documented in the V2 spec as a fatal error.
+     * We mby need to send this SSL v2 "No Cipher" messbge bbck, if we
+     * bre fbced with bn SSLv2 "hello" thbt's not sbying "I tblk v3".
+     * It's the only one documented in the V2 spec bs b fbtbl error.
      */
-    private static final byte[] v2NoCipher = {
-        (byte)0x80, (byte)0x03, // unpadded 3 byte record
-        (byte)0x00,             // ... error message
+    privbte stbtic finbl byte[] v2NoCipher = {
+        (byte)0x80, (byte)0x03, // unpbdded 3 byte record
+        (byte)0x00,             // ... error messbge
         (byte)0x00, (byte)0x01  // ... NO_CIPHER error
     };
 
-    private int readFully(InputStream s, byte b[], int off, int len)
+    privbte int rebdFully(InputStrebm s, byte b[], int off, int len)
             throws IOException {
         int n = 0;
         while (n < len) {
-            int readLen = s.read(b, off + n, len - n);
-            if (readLen < 0) {
-                return readLen;
+            int rebdLen = s.rebd(b, off + n, len - n);
+            if (rebdLen < 0) {
+                return rebdLen;
             }
 
-            if (debug != null && Debug.isOn("packet")) {
+            if (debug != null && Debug.isOn("pbcket")) {
                 try {
                     HexDumpEncoder hd = new HexDumpEncoder();
-                    ByteBuffer bb = ByteBuffer.wrap(b, off + n, readLen);
+                    ByteBuffer bb = ByteBuffer.wrbp(b, off + n, rebdLen);
 
-                    System.out.println("[Raw read]: length = " +
-                        bb.remaining());
+                    System.out.println("[Rbw rebd]: length = " +
+                        bb.rembining());
                     hd.encodeBuffer(bb, System.out);
-                } catch (IOException e) { }
+                } cbtch (IOException e) { }
             }
 
-            n += readLen;
-            exlen += readLen;
+            n += rebdLen;
+            exlen += rebdLen;
         }
 
         return n;
     }
 
     /*
-     * Read the SSL V3 record ... first time around, check to see if it
-     * really IS a V3 record.  Handle SSL V2 clients which can talk V3.0,
-     * as well as real V3 record format; otherwise report an error.
+     * Rebd the SSL V3 record ... first time bround, check to see if it
+     * reblly IS b V3 record.  Hbndle SSL V2 clients which cbn tblk V3.0,
+     * bs well bs rebl V3 record formbt; otherwise report bn error.
      */
-    void read(InputStream s, OutputStream o) throws IOException {
+    void rebd(InputStrebm s, OutputStrebm o) throws IOException {
         if (isClosed) {
             return;
         }
 
         /*
-         * For SSL it really _is_ an error if the other end went away
-         * so ungracefully as to not shut down cleanly.
+         * For SSL it reblly _is_ bn error if the other end went bwby
+         * so ungrbcefully bs to not shut down clebnly.
          */
-        if(exlen < headerSize) {
-            int really = readFully(s, buf, exlen, headerSize - exlen);
-            if (really < 0) {
+        if(exlen < hebderSize) {
+            int reblly = rebdFully(s, buf, exlen, hebderSize - exlen);
+            if (reblly < 0) {
                 throw new EOFException("SSL peer shut down incorrectly");
             }
 
-            pos = headerSize;
-            count = headerSize;
-            lastHashed = pos;
+            pos = hebderSize;
+            count = hebderSize;
+            lbstHbshed = pos;
         }
 
         /*
-         * The first record might use some other record marking convention,
-         * typically SSL v2 header.  (PCT could also be detected here.)
-         * This case is currently common -- Navigator 3.0 usually works
-         * this way, as do IE 3.0 and other products.
+         * The first record might use some other record mbrking convention,
+         * typicblly SSL v2 hebder.  (PCT could blso be detected here.)
+         * This cbse is currently common -- Nbvigbtor 3.0 usublly works
+         * this wby, bs do IE 3.0 bnd other products.
          */
-        if (!formatVerified) {
-            formatVerified = true;
+        if (!formbtVerified) {
+            formbtVerified = true;
             /*
-             * The first record must either be a handshake record or an
-             * alert message. If it's not, it is either invalid or an
-             * SSLv2 message.
+             * The first record must either be b hbndshbke record or bn
+             * blert messbge. If it's not, it is either invblid or bn
+             * SSLv2 messbge.
              */
-            if (buf[0] != ct_handshake && buf[0] != ct_alert) {
-                handleUnknownRecord(s, o);
+            if (buf[0] != ct_hbndshbke && buf[0] != ct_blert) {
+                hbndleUnknownRecord(s, o);
             } else {
-                readV3Record(s, o);
+                rebdV3Record(s, o);
             }
-        } else { // formatVerified == true
-            readV3Record(s, o);
+        } else { // formbtVerified == true
+            rebdV3Record(s, o);
         }
     }
 
     /**
      * Return true if the specified record protocol version is out of the
-     * range of the possible supported versions.
+     * rbnge of the possible supported versions.
      */
-    static void checkRecordVersion(ProtocolVersion version,
-            boolean allowSSL20Hello) throws SSLException {
+    stbtic void checkRecordVersion(ProtocolVersion version,
+            boolebn bllowSSL20Hello) throws SSLException {
         // Check if the record version is too old (currently not possible)
-        // or if the major version does not match.
+        // or if the mbjor version does not mbtch.
         //
-        // The actual version negotiation is in the handshaker classes
+        // The bctubl version negotibtion is in the hbndshbker clbsses
         if ((version.v < ProtocolVersion.MIN.v) ||
-            ((version.major & 0xFF) > (ProtocolVersion.MAX.major & 0xFF))) {
+            ((version.mbjor & 0xFF) > (ProtocolVersion.MAX.mbjor & 0xFF))) {
 
             // if it's not SSLv2, we're out of here.
-            if (!allowSSL20Hello ||
+            if (!bllowSSL20Hello ||
                     (version.v != ProtocolVersion.SSL20Hello.v)) {
                 throw new SSLException("Unsupported record version " + version);
             }
@@ -555,207 +555,207 @@ class InputRecord extends ByteArrayInputStream implements Record {
     }
 
     /**
-     * Read a SSL/TLS record. Throw an IOException if the format is invalid.
+     * Rebd b SSL/TLS record. Throw bn IOException if the formbt is invblid.
      */
-    private void readV3Record(InputStream s, OutputStream o)
+    privbte void rebdV3Record(InputStrebm s, OutputStrebm o)
             throws IOException {
-        ProtocolVersion recordVersion = ProtocolVersion.valueOf(buf[1], buf[2]);
+        ProtocolVersion recordVersion = ProtocolVersion.vblueOf(buf[1], buf[2]);
 
         // check the record version
-        checkRecordVersion(recordVersion, false);
+        checkRecordVersion(recordVersion, fblse);
 
         /*
-         * Get and check length, then the data.
+         * Get bnd check length, then the dbtb.
          */
         int contentLen = ((buf[3] & 0x0ff) << 8) + (buf[4] & 0xff);
 
         /*
          * Check for upper bound.
          */
-        if (contentLen < 0 || contentLen > maxLargeRecordSize - headerSize) {
-            throw new SSLProtocolException("Bad InputRecord size"
+        if (contentLen < 0 || contentLen > mbxLbrgeRecordSize - hebderSize) {
+            throw new SSLProtocolException("Bbd InputRecord size"
                 + ", count = " + contentLen
                 + ", buf.length = " + buf.length);
         }
 
         /*
-         * Grow "buf" if needed. Since buf is maxRecordSize by default,
-         * this only occurs when we receive records which violate the
-         * SSL specification. This is a workaround for a Microsoft SSL bug.
+         * Grow "buf" if needed. Since buf is mbxRecordSize by defbult,
+         * this only occurs when we receive records which violbte the
+         * SSL specificbtion. This is b workbround for b Microsoft SSL bug.
          */
-        if (contentLen > buf.length - headerSize) {
-            byte[] newbuf = new byte[contentLen + headerSize];
-            System.arraycopy(buf, 0, newbuf, 0, headerSize);
+        if (contentLen > buf.length - hebderSize) {
+            byte[] newbuf = new byte[contentLen + hebderSize];
+            System.brrbycopy(buf, 0, newbuf, 0, hebderSize);
             buf = newbuf;
         }
 
-        if (exlen < contentLen + headerSize) {
-            int really = readFully(
-                s, buf, exlen, contentLen + headerSize - exlen);
-            if (really < 0) {
+        if (exlen < contentLen + hebderSize) {
+            int reblly = rebdFully(
+                s, buf, exlen, contentLen + hebderSize - exlen);
+            if (reblly < 0) {
                 throw new SSLException("SSL peer shut down incorrectly");
             }
         }
 
-        // now we've got a complete record.
-        count = contentLen + headerSize;
+        // now we've got b complete record.
+        count = contentLen + hebderSize;
         exlen = 0;
 
         if (debug != null && Debug.isOn("record")) {
-            if (count < 0 || count > (maxRecordSize - headerSize)) {
-                System.out.println(Thread.currentThread().getName()
-                    + ", Bad InputRecord size" + ", count = " + count);
+            if (count < 0 || count > (mbxRecordSize - hebderSize)) {
+                System.out.println(Threbd.currentThrebd().getNbme()
+                    + ", Bbd InputRecord size" + ", count = " + count);
             }
-            System.out.println(Thread.currentThread().getName()
+            System.out.println(Threbd.currentThrebd().getNbme()
                 + ", READ: " + recordVersion + " "
-                + contentName(contentType()) + ", length = " + available());
+                + contentNbme(contentType()) + ", length = " + bvbilbble());
         }
         /*
-         * then caller decrypts, verifies, and uncompresses
+         * then cbller decrypts, verifies, bnd uncompresses
          */
     }
 
     /**
-     * Deal with unknown records. Called if the first data we read on this
-     * connection does not look like an SSL/TLS record. It could a SSLv2
-     * message, or just garbage.
+     * Debl with unknown records. Cblled if the first dbtb we rebd on this
+     * connection does not look like bn SSL/TLS record. It could b SSLv2
+     * messbge, or just gbrbbge.
      */
-    private void handleUnknownRecord(InputStream s, OutputStream o)
+    privbte void hbndleUnknownRecord(InputStrebm s, OutputStrebm o)
             throws IOException {
         /*
-         * No?  Oh well; does it look like a V2 "ClientHello"?
-         * That'd be an unpadded handshake message; we don't
+         * No?  Oh well; does it look like b V2 "ClientHello"?
+         * Thbt'd be bn unpbdded hbndshbke messbge; we don't
          * bother checking length just now.
          */
         if (((buf[0] & 0x080) != 0) && buf[2] == 1) {
             /*
-             * if the user has disabled SSLv2Hello (using
-             * setEnabledProtocol) then throw an
+             * if the user hbs disbbled SSLv2Hello (using
+             * setEnbbledProtocol) then throw bn
              * exception
              */
             if (helloVersion != ProtocolVersion.SSL20Hello) {
-                throw new SSLHandshakeException("SSLv2Hello is disabled");
+                throw new SSLHbndshbkeException("SSLv2Hello is disbbled");
             }
 
             ProtocolVersion recordVersion =
-                                ProtocolVersion.valueOf(buf[3], buf[4]);
+                                ProtocolVersion.vblueOf(buf[3], buf[4]);
 
             if (recordVersion == ProtocolVersion.SSL20Hello) {
                 /*
-                 * Looks like a V2 client hello, but not one saying
-                 * "let's talk SSLv3".  So we send an SSLv2 error
-                 * message, one that's treated as fatal by clients.
-                 * (Otherwise we'll hang.)
+                 * Looks like b V2 client hello, but not one sbying
+                 * "let's tblk SSLv3".  So we send bn SSLv2 error
+                 * messbge, one thbt's trebted bs fbtbl by clients.
+                 * (Otherwise we'll hbng.)
                  */
                 try {
                     writeBuffer(o, v2NoCipher, 0, v2NoCipher.length);
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                     /* NOTHING */
                 }
                 throw new SSLException("Unsupported SSL v2.0 ClientHello");
             }
 
             /*
-             * If we can map this into a V3 ClientHello, read and
-             * hash the rest of the V2 handshake, turn it into a
-             * V3 ClientHello message, and pass it up.
+             * If we cbn mbp this into b V3 ClientHello, rebd bnd
+             * hbsh the rest of the V2 hbndshbke, turn it into b
+             * V3 ClientHello messbge, bnd pbss it up.
              */
             int len = ((buf[0] & 0x7f) << 8) +
                 (buf[1] & 0xff) - 3;
             if (v2Buf == null) {
                 v2Buf = new byte[len];
             }
-            if (exlen < len + headerSize) {
-                int really = readFully(
-                        s, v2Buf, exlen - headerSize, len + headerSize - exlen);
-                if (really < 0) {
+            if (exlen < len + hebderSize) {
+                int reblly = rebdFully(
+                        s, v2Buf, exlen - hebderSize, len + hebderSize - exlen);
+                if (reblly < 0) {
                     throw new EOFException("SSL peer shut down incorrectly");
                 }
             }
 
-            // now we've got a complete record.
+            // now we've got b complete record.
             exlen = 0;
 
-            hashInternal(buf, 2, 3);
-            hashInternal(v2Buf, 0, len);
+            hbshInternbl(buf, 2, 3);
+            hbshInternbl(v2Buf, 0, len);
             V2toV3ClientHello(v2Buf);
             v2Buf = null;
-            lastHashed = count;
+            lbstHbshed = count;
 
             if (debug != null && Debug.isOn("record"))  {
                 System.out.println(
-                    Thread.currentThread().getName()
+                    Threbd.currentThrebd().getNbme()
                     + ", READ:  SSL v2, contentType = "
-                    + contentName(contentType())
-                    + ", translated length = " + available());
+                    + contentNbme(contentType())
+                    + ", trbnslbted length = " + bvbilbble());
             }
             return;
 
         } else {
             /*
-             * Does it look like a V2 "ServerHello"?
+             * Does it look like b V2 "ServerHello"?
              */
             if (((buf [0] & 0x080) != 0) && buf [2] == 4) {
                 throw new SSLException(
-                    "SSL V2.0 servers are not supported.");
+                    "SSL V2.0 servers bre not supported.");
             }
 
             /*
-             * If this is a V2 NoCipher message then this means
+             * If this is b V2 NoCipher messbge then this mebns
              * the other server doesn't support V3. Otherwise, we just
-             * don't understand what it's saying.
+             * don't understbnd whbt it's sbying.
              */
             for (int i = 0; i < v2NoCipher.length; i++) {
                 if (buf[i] != v2NoCipher[i]) {
                     throw new SSLException(
-                        "Unrecognized SSL message, plaintext connection?");
+                        "Unrecognized SSL messbge, plbintext connection?");
                 }
             }
 
-            throw new SSLException("SSL V2.0 servers are not supported.");
+            throw new SSLException("SSL V2.0 servers bre not supported.");
         }
     }
 
     /*
-     * Actually do the write here.  For SSLEngine's HS data,
-     * we'll override this method and let it take the appropriate
-     * action.
+     * Actublly do the write here.  For SSLEngine's HS dbtb,
+     * we'll override this method bnd let it tbke the bppropribte
+     * bction.
      */
-    void writeBuffer(OutputStream s, byte [] buf, int off, int len)
+    void writeBuffer(OutputStrebm s, byte [] buf, int off, int len)
             throws IOException {
         s.write(buf, 0, len);
         s.flush();
     }
 
     /*
-     * Support "old" clients which are capable of SSL V3.0 protocol ... for
-     * example, Navigator 3.0 clients.  The V2 message is in the header and
-     * the bytes passed as parameter.  This routine translates the V2 message
-     * into an equivalent V3 one.
+     * Support "old" clients which bre cbpbble of SSL V3.0 protocol ... for
+     * exbmple, Nbvigbtor 3.0 clients.  The V2 messbge is in the hebder bnd
+     * the bytes pbssed bs pbrbmeter.  This routine trbnslbtes the V2 messbge
+     * into bn equivblent V3 one.
      */
-    private void V2toV3ClientHello(byte v2Msg []) throws SSLException
+    privbte void V2toV3ClientHello(byte v2Msg []) throws SSLException
     {
         int i;
 
         /*
-         * Build the first part of the V3 record header from the V2 one
-         * that's now buffered up.  (Lengths are fixed up later).
+         * Build the first pbrt of the V3 record hebder from the V2 one
+         * thbt's now buffered up.  (Lengths bre fixed up lbter).
          */
-        buf [0] = ct_handshake;
+        buf [0] = ct_hbndshbke;
         buf [1] = buf [3];      // V3.x
         buf[2] = buf[4];
-        // header [3..4] for handshake message length
+        // hebder [3..4] for hbndshbke messbge length
         // count = 5;
 
         /*
-         * Store the generic V3 handshake header:  4 bytes
+         * Store the generic V3 hbndshbke hebder:  4 bytes
          */
-        buf [5] = 1;    // HandshakeMessage.ht_client_hello
+        buf [5] = 1;    // HbndshbkeMessbge.ht_client_hello
         // buf [6..8] for length of ClientHello (int24)
         // count += 4;
 
         /*
-         * ClientHello header starts with SSL version
+         * ClientHello hebder stbrts with SSL version
          */
         buf [9] = buf [1];
         buf [10] = buf [2];
@@ -763,7 +763,7 @@ class InputRecord extends ByteArrayInputStream implements Record {
         count = 11;
 
         /*
-         * Start parsing the V2 message ...
+         * Stbrt pbrsing the V2 messbge ...
          */
         int      cipherSpecLen, sessionIdLen, nonceLen;
 
@@ -772,19 +772,19 @@ class InputRecord extends ByteArrayInputStream implements Record {
         nonceLen   = ((v2Msg [4] & 0xff) << 8) + (v2Msg [5] & 0xff);
 
         /*
-         * Copy Random value/nonce ... if less than the 32 bytes of
-         * a V3 "Random", right justify and zero pad to the left.  Else
-         * just take the last 32 bytes.
+         * Copy Rbndom vblue/nonce ... if less thbn the 32 bytes of
+         * b V3 "Rbndom", right justify bnd zero pbd to the left.  Else
+         * just tbke the lbst 32 bytes.
          */
         int      offset = 6 + cipherSpecLen + sessionIdLen;
 
         if (nonceLen < 32) {
             for (i = 0; i < (32 - nonceLen); i++)
                 buf [count++] = 0;
-            System.arraycopy(v2Msg, offset, buf, count, nonceLen);
+            System.brrbycopy(v2Msg, offset, buf, count, nonceLen);
             count += nonceLen;
         } else {
-            System.arraycopy(v2Msg, offset + (nonceLen - 32),
+            System.brrbycopy(v2Msg, offset + (nonceLen - 32),
                     buf, count, 32);
             count += 32;
         }
@@ -795,20 +795,20 @@ class InputRecord extends ByteArrayInputStream implements Record {
         offset -= sessionIdLen;
         buf [count++] = (byte) sessionIdLen;
 
-        System.arraycopy(v2Msg, offset, buf, count, sessionIdLen);
+        System.brrbycopy(v2Msg, offset, buf, count, sessionIdLen);
         count += sessionIdLen;
 
         /*
-         * Copy and translate cipher suites ... V2 specs with first byte zero
-         * are really V3 specs (in the last 2 bytes), just copy those and drop
-         * the other ones.  Preference order remains unchanged.
+         * Copy bnd trbnslbte cipher suites ... V2 specs with first byte zero
+         * bre reblly V3 specs (in the lbst 2 bytes), just copy those bnd drop
+         * the other ones.  Preference order rembins unchbnged.
          *
-         * Example:  Netscape Navigator 3.0 (exportable) says:
+         * Exbmple:  Netscbpe Nbvigbtor 3.0 (exportbble) sbys:
          *
          * 0/3,     SSL_RSA_EXPORT_WITH_RC4_40_MD5
          * 0/6,     SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5
          *
-         * Microsoft Internet Explorer 3.0 (exportable) supports only
+         * Microsoft Internet Explorer 3.0 (exportbble) supports only
          *
          * 0/3,     SSL_RSA_EXPORT_WITH_RC4_40_MD5
          */
@@ -830,41 +830,41 @@ class InputRecord extends ByteArrayInputStream implements Record {
         count += j;
 
         /*
-         * Append compression methods (default/null only)
+         * Append compression methods (defbult/null only)
          */
         buf [count++] = 1;
         buf [count++] = 0;      // Session.compression_null
 
         /*
-         * Fill in lengths of the messages we synthesized (nested:
-         * V3 handshake message within V3 record) and then return
+         * Fill in lengths of the messbges we synthesized (nested:
+         * V3 hbndshbke messbge within V3 record) bnd then return
          */
-        buf [3] = (byte) (count - headerSize);
-        buf [4] = (byte) ((count - headerSize) >>> 8);
+        buf [3] = (byte) (count - hebderSize);
+        buf [4] = (byte) ((count - hebderSize) >>> 8);
 
-        buf [headerSize + 1] = 0;
-        buf [headerSize + 2] = (byte) (((count - headerSize) - 4) >>> 8);
-        buf [headerSize + 3] = (byte) ((count - headerSize) - 4);
+        buf [hebderSize + 1] = 0;
+        buf [hebderSize + 2] = (byte) (((count - hebderSize) - 4) >>> 8);
+        buf [hebderSize + 3] = (byte) ((count - hebderSize) - 4);
 
-        pos = headerSize;
+        pos = hebderSize;
     }
 
     /**
-     * Return a description for the given content type. This method should be
-     * in Record, but since that is an interface this is not possible.
-     * Called from InputRecord and OutputRecord.
+     * Return b description for the given content type. This method should be
+     * in Record, but since thbt is bn interfbce this is not possible.
+     * Cblled from InputRecord bnd OutputRecord.
      */
-    static String contentName(int contentType) {
+    stbtic String contentNbme(int contentType) {
         switch (contentType) {
-        case ct_change_cipher_spec:
-            return "Change Cipher Spec";
-        case ct_alert:
+        cbse ct_chbnge_cipher_spec:
+            return "Chbnge Cipher Spec";
+        cbse ct_blert:
             return "Alert";
-        case ct_handshake:
-            return "Handshake";
-        case ct_application_data:
-            return "Application Data";
-        default:
+        cbse ct_hbndshbke:
+            return "Hbndshbke";
+        cbse ct_bpplicbtion_dbtb:
+            return "Applicbtion Dbtb";
+        defbult:
             return "contentType = " + contentType;
         }
     }

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,160 +56,160 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.signature;
+pbckbge jdk.internbl.org.objectweb.bsm.signbture;
 
-import jdk.internal.org.objectweb.asm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
 
 /**
- * A signature visitor that generates signatures in string format.
+ * A signbture visitor thbt generbtes signbtures in string formbt.
  *
- * @author Thomas Hallgren
- * @author Eric Bruneton
+ * @buthor Thombs Hbllgren
+ * @buthor Eric Bruneton
  */
-public class SignatureWriter extends SignatureVisitor {
+public clbss SignbtureWriter extends SignbtureVisitor {
 
     /**
-     * Buffer used to construct the signature.
+     * Buffer used to construct the signbture.
      */
-    private final StringBuffer buf = new StringBuffer();
+    privbte finbl StringBuffer buf = new StringBuffer();
 
     /**
-     * Indicates if the signature contains formal type parameters.
+     * Indicbtes if the signbture contbins formbl type pbrbmeters.
      */
-    private boolean hasFormals;
+    privbte boolebn hbsFormbls;
 
     /**
-     * Indicates if the signature contains method parameter types.
+     * Indicbtes if the signbture contbins method pbrbmeter types.
      */
-    private boolean hasParameters;
+    privbte boolebn hbsPbrbmeters;
 
     /**
-     * Stack used to keep track of class types that have arguments. Each element
-     * of this stack is a boolean encoded in one bit. The top of the stack is
-     * the lowest order bit. Pushing false = *2, pushing true = *2+1, popping =
+     * Stbck used to keep trbck of clbss types thbt hbve brguments. Ebch element
+     * of this stbck is b boolebn encoded in one bit. The top of the stbck is
+     * the lowest order bit. Pushing fblse = *2, pushing true = *2+1, popping =
      * /2.
      */
-    private int argumentStack;
+    privbte int brgumentStbck;
 
     /**
-     * Constructs a new {@link SignatureWriter} object.
+     * Constructs b new {@link SignbtureWriter} object.
      */
-    public SignatureWriter() {
+    public SignbtureWriter() {
         super(Opcodes.ASM5);
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the SignatureVisitor interface
+    // Implementbtion of the SignbtureVisitor interfbce
     // ------------------------------------------------------------------------
 
     @Override
-    public void visitFormalTypeParameter(final String name) {
-        if (!hasFormals) {
-            hasFormals = true;
-            buf.append('<');
+    public void visitFormblTypePbrbmeter(finbl String nbme) {
+        if (!hbsFormbls) {
+            hbsFormbls = true;
+            buf.bppend('<');
         }
-        buf.append(name);
-        buf.append(':');
+        buf.bppend(nbme);
+        buf.bppend(':');
     }
 
     @Override
-    public SignatureVisitor visitClassBound() {
+    public SignbtureVisitor visitClbssBound() {
         return this;
     }
 
     @Override
-    public SignatureVisitor visitInterfaceBound() {
-        buf.append(':');
+    public SignbtureVisitor visitInterfbceBound() {
+        buf.bppend(':');
         return this;
     }
 
     @Override
-    public SignatureVisitor visitSuperclass() {
-        endFormals();
+    public SignbtureVisitor visitSuperclbss() {
+        endFormbls();
         return this;
     }
 
     @Override
-    public SignatureVisitor visitInterface() {
+    public SignbtureVisitor visitInterfbce() {
         return this;
     }
 
     @Override
-    public SignatureVisitor visitParameterType() {
-        endFormals();
-        if (!hasParameters) {
-            hasParameters = true;
-            buf.append('(');
+    public SignbtureVisitor visitPbrbmeterType() {
+        endFormbls();
+        if (!hbsPbrbmeters) {
+            hbsPbrbmeters = true;
+            buf.bppend('(');
         }
         return this;
     }
 
     @Override
-    public SignatureVisitor visitReturnType() {
-        endFormals();
-        if (!hasParameters) {
-            buf.append('(');
+    public SignbtureVisitor visitReturnType() {
+        endFormbls();
+        if (!hbsPbrbmeters) {
+            buf.bppend('(');
         }
-        buf.append(')');
+        buf.bppend(')');
         return this;
     }
 
     @Override
-    public SignatureVisitor visitExceptionType() {
-        buf.append('^');
+    public SignbtureVisitor visitExceptionType() {
+        buf.bppend('^');
         return this;
     }
 
     @Override
-    public void visitBaseType(final char descriptor) {
-        buf.append(descriptor);
+    public void visitBbseType(finbl chbr descriptor) {
+        buf.bppend(descriptor);
     }
 
     @Override
-    public void visitTypeVariable(final String name) {
-        buf.append('T');
-        buf.append(name);
-        buf.append(';');
+    public void visitTypeVbribble(finbl String nbme) {
+        buf.bppend('T');
+        buf.bppend(nbme);
+        buf.bppend(';');
     }
 
     @Override
-    public SignatureVisitor visitArrayType() {
-        buf.append('[');
+    public SignbtureVisitor visitArrbyType() {
+        buf.bppend('[');
         return this;
     }
 
     @Override
-    public void visitClassType(final String name) {
-        buf.append('L');
-        buf.append(name);
-        argumentStack *= 2;
+    public void visitClbssType(finbl String nbme) {
+        buf.bppend('L');
+        buf.bppend(nbme);
+        brgumentStbck *= 2;
     }
 
     @Override
-    public void visitInnerClassType(final String name) {
+    public void visitInnerClbssType(finbl String nbme) {
         endArguments();
-        buf.append('.');
-        buf.append(name);
-        argumentStack *= 2;
+        buf.bppend('.');
+        buf.bppend(nbme);
+        brgumentStbck *= 2;
     }
 
     @Override
     public void visitTypeArgument() {
-        if (argumentStack % 2 == 0) {
-            ++argumentStack;
-            buf.append('<');
+        if (brgumentStbck % 2 == 0) {
+            ++brgumentStbck;
+            buf.bppend('<');
         }
-        buf.append('*');
+        buf.bppend('*');
     }
 
     @Override
-    public SignatureVisitor visitTypeArgument(final char wildcard) {
-        if (argumentStack % 2 == 0) {
-            ++argumentStack;
-            buf.append('<');
+    public SignbtureVisitor visitTypeArgument(finbl chbr wildcbrd) {
+        if (brgumentStbck % 2 == 0) {
+            ++brgumentStbck;
+            buf.bppend('<');
         }
-        if (wildcard != '=') {
-            buf.append(wildcard);
+        if (wildcbrd != '=') {
+            buf.bppend(wildcbrd);
         }
         return this;
     }
@@ -217,13 +217,13 @@ public class SignatureWriter extends SignatureVisitor {
     @Override
     public void visitEnd() {
         endArguments();
-        buf.append(';');
+        buf.bppend(';');
     }
 
     /**
-     * Returns the signature that was built by this signature writer.
+     * Returns the signbture thbt wbs built by this signbture writer.
      *
-     * @return the signature that was built by this signature writer.
+     * @return the signbture thbt wbs built by this signbture writer.
      */
     @Override
     public String toString() {
@@ -235,22 +235,22 @@ public class SignatureWriter extends SignatureVisitor {
     // ------------------------------------------------------------------------
 
     /**
-     * Ends the formal type parameters section of the signature.
+     * Ends the formbl type pbrbmeters section of the signbture.
      */
-    private void endFormals() {
-        if (hasFormals) {
-            hasFormals = false;
-            buf.append('>');
+    privbte void endFormbls() {
+        if (hbsFormbls) {
+            hbsFormbls = fblse;
+            buf.bppend('>');
         }
     }
 
     /**
-     * Ends the type arguments of a class or inner class type.
+     * Ends the type brguments of b clbss or inner clbss type.
      */
-    private void endArguments() {
-        if (argumentStack % 2 != 0) {
-            buf.append('>');
+    privbte void endArguments() {
+        if (brgumentStbck % 2 != 0) {
+            buf.bppend('>');
         }
-        argumentStack /= 2;
+        brgumentStbck /= 2;
     }
 }

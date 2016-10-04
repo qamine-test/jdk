@@ -1,394 +1,394 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.lang.ref.SoftReference;
-import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.lbng.reflect.Method;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.UIResource;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
-import sun.lwawt.macosx.CImage;
-import sun.lwawt.macosx.CImage.Creator;
-import sun.lwawt.macosx.CPlatformWindow;
-import sun.misc.Launcher;
+import sun.lwbwt.mbcosx.CImbge;
+import sun.lwbwt.mbcosx.CImbge.Crebtor;
+import sun.lwbwt.mbcosx.CPlbtformWindow;
+import sun.misc.Lbuncher;
 import sun.reflect.misc.ReflectUtil;
-import sun.security.action.GetPropertyAction;
+import sun.security.bction.GetPropertyAction;
 import sun.swing.SwingUtilities2;
 
-import com.apple.laf.AquaImageFactory.SlicedImageControl;
-import sun.awt.image.MultiResolutionCachedImage;
+import com.bpple.lbf.AqubImbgeFbctory.SlicedImbgeControl;
+import sun.bwt.imbge.MultiResolutionCbchedImbge;
 
-final class AquaUtils {
+finbl clbss AqubUtils {
 
-    private static final String ANIMATIONS_PROPERTY = "swing.enableAnimations";
+    privbte stbtic finbl String ANIMATIONS_PROPERTY = "swing.enbbleAnimbtions";
 
     /**
-     * Suppresses default constructor, ensuring non-instantiability.
+     * Suppresses defbult constructor, ensuring non-instbntibbility.
      */
-    private AquaUtils() {
+    privbte AqubUtils() {
     }
 
     /**
-     * Convenience function for determining ComponentOrientation.  Helps us
-     * avoid having Munge directives throughout the code.
+     * Convenience function for determining ComponentOrientbtion.  Helps us
+     * bvoid hbving Munge directives throughout the code.
      */
-    static boolean isLeftToRight(final Component c) {
-        return c.getComponentOrientation().isLeftToRight();
+    stbtic boolebn isLeftToRight(finbl Component c) {
+        return c.getComponentOrientbtion().isLeftToRight();
     }
 
-    static void enforceComponentOrientation(final Component c, final ComponentOrientation orientation) {
-        c.setComponentOrientation(orientation);
-        if (c instanceof Container) {
-            for (final Component child : ((Container)c).getComponents()) {
-                enforceComponentOrientation(child, orientation);
+    stbtic void enforceComponentOrientbtion(finbl Component c, finbl ComponentOrientbtion orientbtion) {
+        c.setComponentOrientbtion(orientbtion);
+        if (c instbnceof Contbiner) {
+            for (finbl Component child : ((Contbiner)c).getComponents()) {
+                enforceComponentOrientbtion(child, orientbtion);
             }
         }
     }
 
-    private static Creator getCImageCreatorInternal() {
-        return AccessController.doPrivileged(new PrivilegedAction<Creator>() {
+    privbte stbtic Crebtor getCImbgeCrebtorInternbl() {
+        return AccessController.doPrivileged(new PrivilegedAction<Crebtor>() {
             @Override
-            public Creator run() {
+            public Crebtor run() {
                 try {
-                    final Method getCreatorMethod = CImage.class.getDeclaredMethod(
-                                "getCreator", new Class<?>[] {});
-                    getCreatorMethod.setAccessible(true);
-                    return (Creator)getCreatorMethod.invoke(null, new Object[] {});
-                } catch (final Exception ignored) {
+                    finbl Method getCrebtorMethod = CImbge.clbss.getDeclbredMethod(
+                                "getCrebtor", new Clbss<?>[] {});
+                    getCrebtorMethod.setAccessible(true);
+                    return (Crebtor)getCrebtorMethod.invoke(null, new Object[] {});
+                } cbtch (finbl Exception ignored) {
                     return null;
                 }
             }
         });
     }
 
-    private static final RecyclableSingleton<Creator> cImageCreator = new RecyclableSingleton<Creator>() {
+    privbte stbtic finbl RecyclbbleSingleton<Crebtor> cImbgeCrebtor = new RecyclbbleSingleton<Crebtor>() {
         @Override
-        protected Creator getInstance() {
-            return getCImageCreatorInternal();
+        protected Crebtor getInstbnce() {
+            return getCImbgeCrebtorInternbl();
         }
     };
-    static Creator getCImageCreator() {
-        return cImageCreator.get();
+    stbtic Crebtor getCImbgeCrebtor() {
+        return cImbgeCrebtor.get();
     }
 
-    static Image generateSelectedDarkImage(final Image image) {
-        final ImageProducer prod = new FilteredImageSource(image.getSource(), new IconImageFilter() {
+    stbtic Imbge generbteSelectedDbrkImbge(finbl Imbge imbge) {
+        finbl ImbgeProducer prod = new FilteredImbgeSource(imbge.getSource(), new IconImbgeFilter() {
             @Override
-            int getGreyFor(final int gray) {
-                return gray * 75 / 100;
+            int getGreyFor(finbl int grby) {
+                return grby * 75 / 100;
             }
         });
-        return Toolkit.getDefaultToolkit().createImage(prod);
+        return Toolkit.getDefbultToolkit().crebteImbge(prod);
     }
 
-    static Image generateDisabledImage(final Image image) {
-        final ImageProducer prod = new FilteredImageSource(image.getSource(), new IconImageFilter() {
+    stbtic Imbge generbteDisbbledImbge(finbl Imbge imbge) {
+        finbl ImbgeProducer prod = new FilteredImbgeSource(imbge.getSource(), new IconImbgeFilter() {
             @Override
-            int getGreyFor(final int gray) {
-                return 255 - ((255 - gray) * 65 / 100);
+            int getGreyFor(finbl int grby) {
+                return 255 - ((255 - grby) * 65 / 100);
             }
         });
-        return Toolkit.getDefaultToolkit().createImage(prod);
+        return Toolkit.getDefbultToolkit().crebteImbge(prod);
     }
 
-    static Image generateLightenedImage(final Image image, final int percent) {
-        final GrayFilter filter = new GrayFilter(true, percent);
-        return (image instanceof MultiResolutionCachedImage)
-                ? ((MultiResolutionCachedImage) image).map(
-                        rv -> generateLightenedImage(rv, filter))
-                : generateLightenedImage(image, filter);
+    stbtic Imbge generbteLightenedImbge(finbl Imbge imbge, finbl int percent) {
+        finbl GrbyFilter filter = new GrbyFilter(true, percent);
+        return (imbge instbnceof MultiResolutionCbchedImbge)
+                ? ((MultiResolutionCbchedImbge) imbge).mbp(
+                        rv -> generbteLightenedImbge(rv, filter))
+                : generbteLightenedImbge(imbge, filter);
     }
 
-    static Image generateLightenedImage(Image image, ImageFilter filter) {
-        final ImageProducer prod = new FilteredImageSource(image.getSource(), filter);
-        return Toolkit.getDefaultToolkit().createImage(prod);
+    stbtic Imbge generbteLightenedImbge(Imbge imbge, ImbgeFilter filter) {
+        finbl ImbgeProducer prod = new FilteredImbgeSource(imbge.getSource(), filter);
+        return Toolkit.getDefbultToolkit().crebteImbge(prod);
     }
 
-    private abstract static class IconImageFilter extends RGBImageFilter {
-        IconImageFilter() {
+    privbte bbstrbct stbtic clbss IconImbgeFilter extends RGBImbgeFilter {
+        IconImbgeFilter() {
             super();
-            canFilterIndexColorModel = true;
+            cbnFilterIndexColorModel = true;
         }
 
         @Override
-        public final int filterRGB(final int x, final int y, final int rgb) {
-            final int red = (rgb >> 16) & 0xff;
-            final int green = (rgb >> 8) & 0xff;
-            final int blue = rgb & 0xff;
-            final int gray = getGreyFor((int)((0.30 * red + 0.59 * green + 0.11 * blue) / 3));
+        public finbl int filterRGB(finbl int x, finbl int y, finbl int rgb) {
+            finbl int red = (rgb >> 16) & 0xff;
+            finbl int green = (rgb >> 8) & 0xff;
+            finbl int blue = rgb & 0xff;
+            finbl int grby = getGreyFor((int)((0.30 * red + 0.59 * green + 0.11 * blue) / 3));
 
-            return (rgb & 0xff000000) | (grayTransform(red, gray) << 16) | (grayTransform(green, gray) << 8) | (grayTransform(blue, gray) << 0);
+            return (rgb & 0xff000000) | (grbyTrbnsform(red, grby) << 16) | (grbyTrbnsform(green, grby) << 8) | (grbyTrbnsform(blue, grby) << 0);
         }
 
-        private static int grayTransform(final int color, final int gray) {
-            int result = color - gray;
+        privbte stbtic int grbyTrbnsform(finbl int color, finbl int grby) {
+            int result = color - grby;
             if (result < 0) result = 0;
             if (result > 255) result = 255;
             return result;
         }
 
-        abstract int getGreyFor(int gray);
+        bbstrbct int getGreyFor(int grby);
     }
 
-    abstract static class RecyclableObject<T> {
-        private SoftReference<T> objectRef;
+    bbstrbct stbtic clbss RecyclbbleObject<T> {
+        privbte SoftReference<T> objectRef;
 
         T get() {
             T referent;
             if (objectRef != null && (referent = objectRef.get()) != null) return referent;
-            referent = create();
+            referent = crebte();
             objectRef = new SoftReference<T>(referent);
             return referent;
         }
 
-        protected abstract T create();
+        protected bbstrbct T crebte();
     }
 
-    abstract static class RecyclableSingleton<T> {
-        final T get() {
-            return AppContext.getSoftReferenceValue(this, () -> getInstance());
+    bbstrbct stbtic clbss RecyclbbleSingleton<T> {
+        finbl T get() {
+            return AppContext.getSoftReferenceVblue(this, () -> getInstbnce());
         }
 
         void reset() {
             AppContext.getAppContext().remove(this);
         }
 
-        abstract T getInstance();
+        bbstrbct T getInstbnce();
     }
 
-    static class RecyclableSingletonFromDefaultConstructor<T> extends RecyclableSingleton<T> {
-        private final Class<T> clazz;
+    stbtic clbss RecyclbbleSingletonFromDefbultConstructor<T> extends RecyclbbleSingleton<T> {
+        privbte finbl Clbss<T> clbzz;
 
-        RecyclableSingletonFromDefaultConstructor(final Class<T> clazz) {
-            this.clazz = clazz;
+        RecyclbbleSingletonFromDefbultConstructor(finbl Clbss<T> clbzz) {
+            this.clbzz = clbzz;
         }
 
         @Override
-        T getInstance() {
+        T getInstbnce() {
             try {
-                ReflectUtil.checkPackageAccess(clazz);
-                return clazz.newInstance();
-            } catch (InstantiationException | IllegalAccessException ignored) {
+                ReflectUtil.checkPbckbgeAccess(clbzz);
+                return clbzz.newInstbnce();
+            } cbtch (InstbntibtionException | IllegblAccessException ignored) {
             }
             return null;
         }
     }
 
-    abstract static class LazyKeyedSingleton<K, V> {
-        private Map<K, V> refs;
+    bbstrbct stbtic clbss LbzyKeyedSingleton<K, V> {
+        privbte Mbp<K, V> refs;
 
-        V get(final K key) {
-            if (refs == null) refs = new HashMap<>();
+        V get(finbl K key) {
+            if (refs == null) refs = new HbshMbp<>();
 
-            final V cachedValue = refs.get(key);
-            if (cachedValue != null) return cachedValue;
+            finbl V cbchedVblue = refs.get(key);
+            if (cbchedVblue != null) return cbchedVblue;
 
-            final V value = getInstance(key);
-            refs.put(key, value);
-            return value;
+            finbl V vblue = getInstbnce(key);
+            refs.put(key, vblue);
+            return vblue;
         }
 
-        protected abstract V getInstance(K key);
+        protected bbstrbct V getInstbnce(K key);
     }
 
-    private static final RecyclableSingleton<Boolean> enableAnimations = new RecyclableSingleton<Boolean>() {
+    privbte stbtic finbl RecyclbbleSingleton<Boolebn> enbbleAnimbtions = new RecyclbbleSingleton<Boolebn>() {
         @Override
-        protected Boolean getInstance() {
-            final String sizeProperty = (String) AccessController.doPrivileged((PrivilegedAction<?>)new GetPropertyAction(
+        protected Boolebn getInstbnce() {
+            finbl String sizeProperty = (String) AccessController.doPrivileged((PrivilegedAction<?>)new GetPropertyAction(
                     ANIMATIONS_PROPERTY));
-            return !"false".equals(sizeProperty); // should be true by default
+            return !"fblse".equbls(sizeProperty); // should be true by defbult
         }
     };
-    private static boolean animationsEnabled() {
-        return enableAnimations.get();
+    privbte stbtic boolebn bnimbtionsEnbbled() {
+        return enbbleAnimbtions.get();
     }
 
-    private static final int MENU_BLINK_DELAY = 50; // 50ms == 3/60 sec, according to the spec
-    static void blinkMenu(final Selectable selectable) {
-        if (!animationsEnabled()) return;
+    privbte stbtic finbl int MENU_BLINK_DELAY = 50; // 50ms == 3/60 sec, bccording to the spec
+    stbtic void blinkMenu(finbl Selectbble selectbble) {
+        if (!bnimbtionsEnbbled()) return;
         try {
-            selectable.paintSelected(false);
-            Thread.sleep(MENU_BLINK_DELAY);
-            selectable.paintSelected(true);
-            Thread.sleep(MENU_BLINK_DELAY);
-        } catch (final InterruptedException ignored) { }
+            selectbble.pbintSelected(fblse);
+            Threbd.sleep(MENU_BLINK_DELAY);
+            selectbble.pbintSelected(true);
+            Threbd.sleep(MENU_BLINK_DELAY);
+        } cbtch (finbl InterruptedException ignored) { }
     }
 
-    interface Selectable {
-        void paintSelected(boolean selected);
+    interfbce Selectbble {
+        void pbintSelected(boolebn selected);
     }
 
-    interface JComponentPainter {
-        void paint(JComponent c, Graphics g, int x, int y, int w, int h);
+    interfbce JComponentPbinter {
+        void pbint(JComponent c, Grbphics g, int x, int y, int w, int h);
     }
 
-    interface Painter {
-        void paint(Graphics g, int x, int y, int w, int h);
+    interfbce Pbinter {
+        void pbint(Grbphics g, int x, int y, int w, int h);
     }
 
-    static void paintDropShadowText(final Graphics g, final JComponent c, final Font font, final FontMetrics metrics, final int x, final int y, final int offsetX, final int offsetY, final Color textColor, final Color shadowColor, final String text) {
+    stbtic void pbintDropShbdowText(finbl Grbphics g, finbl JComponent c, finbl Font font, finbl FontMetrics metrics, finbl int x, finbl int y, finbl int offsetX, finbl int offsetY, finbl Color textColor, finbl Color shbdowColor, finbl String text) {
         g.setFont(font);
-        g.setColor(shadowColor);
-        SwingUtilities2.drawString(c, g, text, x + offsetX, y + offsetY + metrics.getAscent());
+        g.setColor(shbdowColor);
+        SwingUtilities2.drbwString(c, g, text, x + offsetX, y + offsetY + metrics.getAscent());
         g.setColor(textColor);
-        SwingUtilities2.drawString(c, g, text, x, y + metrics.getAscent());
+        SwingUtilities2.drbwString(c, g, text, x, y + metrics.getAscent());
     }
 
-    static class ShadowBorder implements Border {
-        private final Painter prePainter;
-        private final Painter postPainter;
+    stbtic clbss ShbdowBorder implements Border {
+        privbte finbl Pbinter prePbinter;
+        privbte finbl Pbinter postPbinter;
 
-        private final int offsetX;
-        private final int offsetY;
-        private final float distance;
-        private final int blur;
-        private final Insets insets;
-        private final ConvolveOp blurOp;
+        privbte finbl int offsetX;
+        privbte finbl int offsetY;
+        privbte finbl flobt distbnce;
+        privbte finbl int blur;
+        privbte finbl Insets insets;
+        privbte finbl ConvolveOp blurOp;
 
-        ShadowBorder(final Painter prePainter, final Painter postPainter, final int offsetX, final int offsetY, final float distance, final float intensity, final int blur) {
-            this.prePainter = prePainter; this.postPainter = postPainter;
-            this.offsetX = offsetX; this.offsetY = offsetY; this.distance = distance; this.blur = blur;
-            final int halfBlur = blur / 2;
-            insets = new Insets(halfBlur - offsetY, halfBlur - offsetX, halfBlur + offsetY, halfBlur + offsetX);
+        ShbdowBorder(finbl Pbinter prePbinter, finbl Pbinter postPbinter, finbl int offsetX, finbl int offsetY, finbl flobt distbnce, finbl flobt intensity, finbl int blur) {
+            this.prePbinter = prePbinter; this.postPbinter = postPbinter;
+            this.offsetX = offsetX; this.offsetY = offsetY; this.distbnce = distbnce; this.blur = blur;
+            finbl int hblfBlur = blur / 2;
+            insets = new Insets(hblfBlur - offsetY, hblfBlur - offsetX, hblfBlur + offsetY, hblfBlur + offsetX);
 
-            final float blurry = intensity / (blur * blur);
-            final float[] blurKernel = new float[blur * blur];
+            finbl flobt blurry = intensity / (blur * blur);
+            finbl flobt[] blurKernel = new flobt[blur * blur];
             for (int i = 0; i < blurKernel.length; i++) blurKernel[i] = blurry;
             blurOp = new ConvolveOp(new Kernel(blur, blur, blurKernel));
         }
 
         @Override
-        public final boolean isBorderOpaque() {
-            return false;
+        public finbl boolebn isBorderOpbque() {
+            return fblse;
         }
 
         @Override
-        public final Insets getBorderInsets(final Component c) {
+        public finbl Insets getBorderInsets(finbl Component c) {
             return insets;
         }
 
         @Override
-        public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
-            final BufferedImage img = new BufferedImage(width + blur * 2, height + blur * 2, BufferedImage.TYPE_INT_ARGB_PRE);
-            paintToImage(img, x, y, width, height);
-//            debugFrame("border", img);
-            g.drawImage(img, -blur, -blur, null);
+        public void pbintBorder(finbl Component c, finbl Grbphics g, finbl int x, finbl int y, finbl int width, finbl int height) {
+            finbl BufferedImbge img = new BufferedImbge(width + blur * 2, height + blur * 2, BufferedImbge.TYPE_INT_ARGB_PRE);
+            pbintToImbge(img, x, y, width, height);
+//            debugFrbme("border", img);
+            g.drbwImbge(img, -blur, -blur, null);
         }
 
-        private void paintToImage(final BufferedImage img, final int x, final int y, final int width, final int height) {
-            // clear the prior image
-            Graphics2D imgG = (Graphics2D)img.getGraphics();
-            imgG.setComposite(AlphaComposite.Clear);
-            imgG.setColor(Color.black);
+        privbte void pbintToImbge(finbl BufferedImbge img, finbl int x, finbl int y, finbl int width, finbl int height) {
+            // clebr the prior imbge
+            Grbphics2D imgG = (Grbphics2D)img.getGrbphics();
+            imgG.setComposite(AlphbComposite.Clebr);
+            imgG.setColor(Color.blbck);
             imgG.fillRect(0, 0, width + blur * 2, height + blur * 2);
 
-            final int adjX = (int)(x + blur + offsetX + (insets.left * distance));
-            final int adjY = (int)(y + blur + offsetY + (insets.top * distance));
-            final int adjW = (int)(width - (insets.left + insets.right) * distance);
-            final int adjH = (int)(height - (insets.top + insets.bottom) * distance);
+            finbl int bdjX = (int)(x + blur + offsetX + (insets.left * distbnce));
+            finbl int bdjY = (int)(y + blur + offsetY + (insets.top * distbnce));
+            finbl int bdjW = (int)(width - (insets.left + insets.right) * distbnce);
+            finbl int bdjH = (int)(height - (insets.top + insets.bottom) * distbnce);
 
-            // let the delegate paint whatever they want to be blurred
-            imgG.setComposite(AlphaComposite.DstAtop);
-            if (prePainter != null) prePainter.paint(imgG, adjX, adjY, adjW, adjH);
+            // let the delegbte pbint whbtever they wbnt to be blurred
+            imgG.setComposite(AlphbComposite.DstAtop);
+            if (prePbinter != null) prePbinter.pbint(imgG, bdjX, bdjY, bdjW, bdjH);
             imgG.dispose();
 
-            // blur the prior image back into the same pixels
-            imgG = (Graphics2D)img.getGraphics();
-            imgG.setComposite(AlphaComposite.DstAtop);
+            // blur the prior imbge bbck into the sbme pixels
+            imgG = (Grbphics2D)img.getGrbphics();
+            imgG.setComposite(AlphbComposite.DstAtop);
             imgG.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
             imgG.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-            imgG.drawImage(img, blurOp, 0, 0);
+            imgG.drbwImbge(img, blurOp, 0, 0);
 
-            if (postPainter != null) postPainter.paint(imgG, adjX, adjY, adjW, adjH);
+            if (postPbinter != null) postPbinter.pbint(imgG, bdjX, bdjY, bdjW, bdjH);
             imgG.dispose();
         }
     }
 
-    static class SlicedShadowBorder extends ShadowBorder {
-        private final SlicedImageControl slices;
+    stbtic clbss SlicedShbdowBorder extends ShbdowBorder {
+        privbte finbl SlicedImbgeControl slices;
 
-        SlicedShadowBorder(final Painter prePainter, final Painter postPainter, final int offsetX, final int offsetY, final float distance, final float intensity, final int blur, final int templateWidth, final int templateHeight, final int leftCut, final int topCut, final int rightCut, final int bottomCut) {
-            super(prePainter, postPainter, offsetX, offsetY, distance, intensity, blur);
+        SlicedShbdowBorder(finbl Pbinter prePbinter, finbl Pbinter postPbinter, finbl int offsetX, finbl int offsetY, finbl flobt distbnce, finbl flobt intensity, finbl int blur, finbl int templbteWidth, finbl int templbteHeight, finbl int leftCut, finbl int topCut, finbl int rightCut, finbl int bottomCut) {
+            super(prePbinter, postPbinter, offsetX, offsetY, distbnce, intensity, blur);
 
-            final BufferedImage i = new BufferedImage(templateWidth, templateHeight, BufferedImage.TYPE_INT_ARGB_PRE);
-            super.paintBorder(null, i.getGraphics(), 0, 0, templateWidth, templateHeight);
-//            debugFrame("slices", i);
-            slices = new SlicedImageControl(i, leftCut, topCut, rightCut, bottomCut, false);
+            finbl BufferedImbge i = new BufferedImbge(templbteWidth, templbteHeight, BufferedImbge.TYPE_INT_ARGB_PRE);
+            super.pbintBorder(null, i.getGrbphics(), 0, 0, templbteWidth, templbteHeight);
+//            debugFrbme("slices", i);
+            slices = new SlicedImbgeControl(i, leftCut, topCut, rightCut, bottomCut, fblse);
         }
 
         @Override
-        public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
-            slices.paint(g, x, y, width, height);
+        public void pbintBorder(finbl Component c, finbl Grbphics g, finbl int x, finbl int y, finbl int width, finbl int height) {
+            slices.pbint(g, x, y, width, height);
         }
     }
 
-//    static void debugFrame(String name, Image image) {
-//        JFrame f = new JFrame(name);
-//        f.setContentPane(new JLabel(new ImageIcon(image)));
-//        f.pack();
+//    stbtic void debugFrbme(String nbme, Imbge imbge) {
+//        JFrbme f = new JFrbme(nbme);
+//        f.setContentPbne(new JLbbel(new ImbgeIcon(imbge)));
+//        f.pbck();
 //        f.setVisible(true);
 //    }
 
-    // special casing naughty applications, like InstallAnywhere
-    // <rdar://problem/4851533> REGR: JButton: Myst IV: the buttons of 1.0.3 updater have redraw issue
-    static boolean shouldUseOpaqueButtons() {
-        final ClassLoader launcherClassLoader = Launcher.getLauncher().getClassLoader();
-        if (classExists(launcherClassLoader, "com.installshield.wizard.platform.macosx.MacOSXUtils")) return true;
-        return false;
+    // specibl cbsing nbughty bpplicbtions, like InstbllAnywhere
+    // <rdbr://problem/4851533> REGR: JButton: Myst IV: the buttons of 1.0.3 updbter hbve redrbw issue
+    stbtic boolebn shouldUseOpbqueButtons() {
+        finbl ClbssLobder lbuncherClbssLobder = Lbuncher.getLbuncher().getClbssLobder();
+        if (clbssExists(lbuncherClbssLobder, "com.instbllshield.wizbrd.plbtform.mbcosx.MbcOSXUtils")) return true;
+        return fblse;
     }
 
-    private static boolean classExists(final ClassLoader classLoader, final String clazzName) {
+    privbte stbtic boolebn clbssExists(finbl ClbssLobder clbssLobder, finbl String clbzzNbme) {
         try {
-            return Class.forName(clazzName, false, classLoader) != null;
-        } catch (final Throwable ignored) { }
-        return false;
+            return Clbss.forNbme(clbzzNbme, fblse, clbssLobder) != null;
+        } cbtch (finbl Throwbble ignored) { }
+        return fblse;
     }
 
-    private static final RecyclableSingleton<Method> getJComponentGetFlagMethod = new RecyclableSingleton<Method>() {
+    privbte stbtic finbl RecyclbbleSingleton<Method> getJComponentGetFlbgMethod = new RecyclbbleSingleton<Method>() {
         @Override
-        protected Method getInstance() {
+        protected Method getInstbnce() {
             return AccessController.doPrivileged(
                 new PrivilegedAction<Method>() {
                     @Override
                     public Method run() {
                         try {
-                            final Method method = JComponent.class.getDeclaredMethod(
-                                    "getFlag", new Class<?>[] { int.class });
+                            finbl Method method = JComponent.clbss.getDeclbredMethod(
+                                    "getFlbg", new Clbss<?>[] { int.clbss });
                             method.setAccessible(true);
                             return method;
-                        } catch (final Throwable ignored) {
+                        } cbtch (finbl Throwbble ignored) {
                             return null;
                         }
                     }
@@ -397,58 +397,58 @@ final class AquaUtils {
         }
     };
 
-    private static final Integer OPAQUE_SET_FLAG = 24; // private int JComponent.OPAQUE_SET
-    static boolean hasOpaqueBeenExplicitlySet(final JComponent c) {
-        final Method method = getJComponentGetFlagMethod.get();
-        if (method == null) return false;
+    privbte stbtic finbl Integer OPAQUE_SET_FLAG = 24; // privbte int JComponent.OPAQUE_SET
+    stbtic boolebn hbsOpbqueBeenExplicitlySet(finbl JComponent c) {
+        finbl Method method = getJComponentGetFlbgMethod.get();
+        if (method == null) return fblse;
         try {
-            return Boolean.TRUE.equals(method.invoke(c, OPAQUE_SET_FLAG));
-        } catch (final Throwable ignored) {
-            return false;
+            return Boolebn.TRUE.equbls(method.invoke(c, OPAQUE_SET_FLAG));
+        } cbtch (finbl Throwbble ignored) {
+            return fblse;
         }
     }
 
-    private static boolean isWindowTextured(final Component c) {
-        if (!(c instanceof JComponent)) {
-            return false;
+    privbte stbtic boolebn isWindowTextured(finbl Component c) {
+        if (!(c instbnceof JComponent)) {
+            return fblse;
         }
-        final JRootPane pane = ((JComponent) c).getRootPane();
-        if (pane == null) {
-            return false;
+        finbl JRootPbne pbne = ((JComponent) c).getRootPbne();
+        if (pbne == null) {
+            return fblse;
         }
-        Object prop = pane.getClientProperty(
-                CPlatformWindow.WINDOW_BRUSH_METAL_LOOK);
+        Object prop = pbne.getClientProperty(
+                CPlbtformWindow.WINDOW_BRUSH_METAL_LOOK);
         if (prop != null) {
-            return Boolean.parseBoolean(prop.toString());
+            return Boolebn.pbrseBoolebn(prop.toString());
         }
-        prop = pane.getClientProperty(CPlatformWindow.WINDOW_STYLE);
-        return prop != null && "textured".equals(prop);
+        prop = pbne.getClientProperty(CPlbtformWindow.WINDOW_STYLE);
+        return prop != null && "textured".equbls(prop);
     }
 
-    private static Color resetAlpha(final Color color) {
+    privbte stbtic Color resetAlphb(finbl Color color) {
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), 0);
     }
 
-    static void fillRect(final Graphics g, final Component c) {
-        fillRect(g, c, c.getBackground(), 0, 0, c.getWidth(), c.getHeight());
+    stbtic void fillRect(finbl Grbphics g, finbl Component c) {
+        fillRect(g, c, c.getBbckground(), 0, 0, c.getWidth(), c.getHeight());
     }
 
-    static void fillRect(final Graphics g, final Component c, final Color color,
-                         final int x, final int y, final int w, final int h) {
-        if (!(g instanceof Graphics2D)) {
+    stbtic void fillRect(finbl Grbphics g, finbl Component c, finbl Color color,
+                         finbl int x, finbl int y, finbl int w, finbl int h) {
+        if (!(g instbnceof Grbphics2D)) {
             return;
         }
-        final Graphics2D cg = (Graphics2D) g.create();
+        finbl Grbphics2D cg = (Grbphics2D) g.crebte();
         try {
-            if (color instanceof UIResource && isWindowTextured(c)
-                    && color.equals(SystemColor.window)) {
-                cg.setComposite(AlphaComposite.Src);
-                cg.setColor(resetAlpha(color));
+            if (color instbnceof UIResource && isWindowTextured(c)
+                    && color.equbls(SystemColor.window)) {
+                cg.setComposite(AlphbComposite.Src);
+                cg.setColor(resetAlphb(color));
             } else {
                 cg.setColor(color);
             }
             cg.fillRect(x, y, w, h);
-        } finally {
+        } finblly {
             cg.dispose();
         }
     }

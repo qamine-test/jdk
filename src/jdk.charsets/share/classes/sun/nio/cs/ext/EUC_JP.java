@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.cs.ext;
+pbckbge sun.nio.cs.ext;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import sun.nio.cs.HistoricallyNamedCharset;
-import sun.nio.cs.Surrogate;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.CoderResult;
+import sun.nio.cs.HistoricbllyNbmedChbrset;
+import sun.nio.cs.Surrogbte;
 import sun.nio.cs.SingleByte;
-import static sun.nio.cs.CharsetMapping.*;
+import stbtic sun.nio.cs.ChbrsetMbpping.*;
 
-public class EUC_JP
-    extends Charset
-    implements HistoricallyNamedCharset
+public clbss EUC_JP
+    extends Chbrset
+    implements HistoricbllyNbmedChbrset
 {
     public EUC_JP() {
-        super("EUC-JP", ExtendedCharsets.aliasesFor("EUC-JP"));
+        super("EUC-JP", ExtendedChbrsets.blibsesFor("EUC-JP"));
     }
 
-    public String historicalName() {
+    public String historicblNbme() {
         return "EUC_JP";
     }
 
-    public boolean contains(Charset cs) {
-        return ((cs.name().equals("US-ASCII"))
-                || (cs instanceof JIS_X_0201)
-                || (cs instanceof JIS_X_0208)
-                || (cs instanceof JIS_X_0212)
-                || (cs instanceof EUC_JP));
+    public boolebn contbins(Chbrset cs) {
+        return ((cs.nbme().equbls("US-ASCII"))
+                || (cs instbnceof JIS_X_0201)
+                || (cs instbnceof JIS_X_0208)
+                || (cs instbnceof JIS_X_0212)
+                || (cs instbnceof EUC_JP));
     }
 
-    public CharsetDecoder newDecoder() {
+    public ChbrsetDecoder newDecoder() {
         return new Decoder(this);
     }
 
-    public CharsetEncoder newEncoder() {
+    public ChbrsetEncoder newEncoder() {
         return new Encoder(this);
     }
 
-    static class Decoder extends CharsetDecoder
-        implements DelegatableDecoder {
+    stbtic clbss Decoder extends ChbrsetDecoder
+        implements DelegbtbbleDecoder {
 
-        final static SingleByte.Decoder DEC0201 =
+        finbl stbtic SingleByte.Decoder DEC0201 =
             (SingleByte.Decoder)new JIS_X_0201().newDecoder();
 
-        final static DoubleByte.Decoder DEC0208 =
+        finbl stbtic DoubleByte.Decoder DEC0208 =
             (DoubleByte.Decoder)new JIS_X_0208().newDecoder();
 
-        final static DoubleByte.Decoder DEC0212 =
+        finbl stbtic DoubleByte.Decoder DEC0212 =
             (DoubleByte.Decoder)new JIS_X_0212().newDecoder();
 
-        private final SingleByte.Decoder dec0201;
-        private final DoubleByte.Decoder dec0208;
-        private final DoubleByte.Decoder dec0212;
+        privbte finbl SingleByte.Decoder dec0201;
+        privbte finbl DoubleByte.Decoder dec0208;
+        privbte finbl DoubleByte.Decoder dec0212;
 
-        protected Decoder(Charset cs) {
+        protected Decoder(Chbrset cs) {
             this(cs, 0.5f, 1.0f, DEC0201, DEC0208, DEC0212);
         }
 
-        protected Decoder(Charset cs, float avgCpb, float maxCpb,
+        protected Decoder(Chbrset cs, flobt bvgCpb, flobt mbxCpb,
                           SingleByte.Decoder dec0201,
                           DoubleByte.Decoder dec0208,
                           DoubleByte.Decoder dec0212) {
-            super(cs, avgCpb, maxCpb);
+            super(cs, bvgCpb, mbxCpb);
             this.dec0201 = dec0201;
             this.dec0208 = dec0208;
             this.dec0212 = dec0212;
         }
 
 
-        protected char decodeDouble(int byte1, int byte2) {
+        protected chbr decodeDouble(int byte1, int byte2) {
             if (byte1 == 0x8e) {
                 if (byte2 < 0x80)
                     return UNMAPPABLE_DECODING;
@@ -104,166 +104,166 @@ public class EUC_JP
             return dec0208.decodeDouble(byte1 - 0x80, byte2 - 0x80);
         }
 
-        private CoderResult decodeArrayLoop(ByteBuffer src,
-                                            CharBuffer dst)
+        privbte CoderResult decodeArrbyLoop(ByteBuffer src,
+                                            ChbrBuffer dst)
         {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            byte[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
 
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            chbr[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             int b1 = 0, b2 = 0;
             int inputSize = 0;
-            char outputChar = UNMAPPABLE_DECODING;
+            chbr outputChbr = UNMAPPABLE_DECODING;
             try {
                 while (sp < sl) {
-                    b1 = sa[sp] & 0xff;
+                    b1 = sb[sp] & 0xff;
                     inputSize = 1;
 
                     if ((b1 & 0x80) == 0) {
-                        outputChar = (char)b1;
-                    } else {                        // Multibyte char
+                        outputChbr = (chbr)b1;
+                    } else {                        // Multibyte chbr
                         if (b1 == 0x8f) {           // JIS0212
                             if (sp + 3 > sl)
                                return CoderResult.UNDERFLOW;
-                            b1 = sa[sp + 1] & 0xff;
-                            b2 = sa[sp + 2] & 0xff;
+                            b1 = sb[sp + 1] & 0xff;
+                            b2 = sb[sp + 2] & 0xff;
                             inputSize += 2;
                             if (dec0212 == null)    // JIS02012 not supported
-                                return CoderResult.unmappableForLength(inputSize);
-                            outputChar = dec0212.decodeDouble(b1-0x80, b2-0x80);
+                                return CoderResult.unmbppbbleForLength(inputSize);
+                            outputChbr = dec0212.decodeDouble(b1-0x80, b2-0x80);
                         } else {                     // JIS0201, JIS0208
                             if (sp + 2 > sl)
                                return CoderResult.UNDERFLOW;
-                            b2 = sa[sp + 1] & 0xff;
+                            b2 = sb[sp + 1] & 0xff;
                             inputSize++;
-                            outputChar = decodeDouble(b1, b2);
+                            outputChbr = decodeDouble(b1, b2);
                         }
                     }
-                    if (outputChar == UNMAPPABLE_DECODING) { // can't be decoded
-                        return CoderResult.unmappableForLength(inputSize);
+                    if (outputChbr == UNMAPPABLE_DECODING) { // cbn't be decoded
+                        return CoderResult.unmbppbbleForLength(inputSize);
                     }
                     if (dp + 1 > dl)
                         return CoderResult.OVERFLOW;
-                    da[dp++] = outputChar;
+                    db[dp++] = outputChbr;
                     sp += inputSize;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        private CoderResult decodeBufferLoop(ByteBuffer src,
-                                             CharBuffer dst)
+        privbte CoderResult decodeBufferLoop(ByteBuffer src,
+                                             ChbrBuffer dst)
         {
-            int mark = src.position();
+            int mbrk = src.position();
             int b1 = 0, b2 = 0;
             int inputSize = 0;
-            char outputChar = UNMAPPABLE_DECODING;
+            chbr outputChbr = UNMAPPABLE_DECODING;
 
             try {
-                while (src.hasRemaining()) {
+                while (src.hbsRembining()) {
                     b1 = src.get() & 0xff;
                     inputSize = 1;
                     if ((b1 & 0x80) == 0) {
-                        outputChar = (char)b1;
-                    } else {                         // Multibyte char
+                        outputChbr = (chbr)b1;
+                    } else {                         // Multibyte chbr
                         if (b1 == 0x8f) {   // JIS0212
-                            if (src.remaining() < 2)
+                            if (src.rembining() < 2)
                                return CoderResult.UNDERFLOW;
                             b1 = src.get() & 0xff;
                             b2 = src.get() & 0xff;
                             inputSize += 2;
                             if (dec0212 == null)    // JIS02012 not supported
-                                return CoderResult.unmappableForLength(inputSize);
-                            outputChar = dec0212.decodeDouble(b1-0x80, b2-0x80);
+                                return CoderResult.unmbppbbleForLength(inputSize);
+                            outputChbr = dec0212.decodeDouble(b1-0x80, b2-0x80);
                         } else {                     // JIS0201 JIS0208
-                            if (src.remaining() < 1)
+                            if (src.rembining() < 1)
                                return CoderResult.UNDERFLOW;
                             b2 = src.get() & 0xff;
                             inputSize++;
-                            outputChar = decodeDouble(b1, b2);
+                            outputChbr = decodeDouble(b1, b2);
                         }
                     }
-                    if (outputChar == UNMAPPABLE_DECODING) {
-                        return CoderResult.unmappableForLength(inputSize);
+                    if (outputChbr == UNMAPPABLE_DECODING) {
+                        return CoderResult.unmbppbbleForLength(inputSize);
                     }
-                if (dst.remaining() < 1)
+                if (dst.rembining() < 1)
                     return CoderResult.OVERFLOW;
-                dst.put(outputChar);
-                mark += inputSize;
+                dst.put(outputChbr);
+                mbrk += inputSize;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
 
-        // Make some protected methods public for use by JISAutoDetect
-        public CoderResult decodeLoop(ByteBuffer src, CharBuffer dst) {
-            if (src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
+        // Mbke some protected methods public for use by JISAutoDetect
+        public CoderResult decodeLoop(ByteBuffer src, ChbrBuffer dst) {
+            if (src.hbsArrby() && dst.hbsArrby())
+                return decodeArrbyLoop(src, dst);
             else
                 return decodeBufferLoop(src, dst);
         }
         public void implReset() {
             super.implReset();
         }
-        public CoderResult implFlush(CharBuffer out) {
+        public CoderResult implFlush(ChbrBuffer out) {
             return super.implFlush(out);
         }
     }
 
 
-    static class Encoder extends CharsetEncoder {
+    stbtic clbss Encoder extends ChbrsetEncoder {
 
-        final static SingleByte.Encoder ENC0201 =
+        finbl stbtic SingleByte.Encoder ENC0201 =
             (SingleByte.Encoder)new JIS_X_0201().newEncoder();
 
-        final static DoubleByte.Encoder ENC0208 =
+        finbl stbtic DoubleByte.Encoder ENC0208 =
             (DoubleByte.Encoder)new JIS_X_0208().newEncoder();
 
-        final static DoubleByte.Encoder ENC0212 =
+        finbl stbtic DoubleByte.Encoder ENC0212 =
             (DoubleByte.Encoder)new JIS_X_0212().newEncoder();
 
-        private final Surrogate.Parser sgp = new Surrogate.Parser();
+        privbte finbl Surrogbte.Pbrser sgp = new Surrogbte.Pbrser();
 
 
-        private final SingleByte.Encoder enc0201;
-        private final DoubleByte.Encoder enc0208;
-        private final DoubleByte.Encoder enc0212;
+        privbte finbl SingleByte.Encoder enc0201;
+        privbte finbl DoubleByte.Encoder enc0208;
+        privbte finbl DoubleByte.Encoder enc0212;
 
-        protected Encoder(Charset cs) {
+        protected Encoder(Chbrset cs) {
             this(cs, 3.0f, 3.0f, ENC0201, ENC0208, ENC0212);
         }
 
-        protected Encoder(Charset cs, float avgBpc, float maxBpc,
+        protected Encoder(Chbrset cs, flobt bvgBpc, flobt mbxBpc,
                           SingleByte.Encoder enc0201,
                           DoubleByte.Encoder enc0208,
                           DoubleByte.Encoder enc0212) {
-            super(cs, avgBpc, maxBpc);
+            super(cs, bvgBpc, mbxBpc);
             this.enc0201 = enc0201;
             this.enc0208 = enc0208;
             this.enc0212 = enc0212;
         }
 
-        public boolean canEncode(char c) {
+        public boolebn cbnEncode(chbr c) {
             byte[]  encodedBytes = new byte[3];
             return encodeSingle(c, encodedBytes) != 0 ||
                    encodeDouble(c) != UNMAPPABLE_ENCODING;
         }
 
-        protected int encodeSingle(char inputChar, byte[] outputByte) {
-            int b = enc0201.encode(inputChar);
+        protected int encodeSingle(chbr inputChbr, byte[] outputByte) {
+            int b = enc0201.encode(inputChbr);
             if (b == UNMAPPABLE_ENCODING)
                 return 0;
             if (b >= 0 && b < 128) {
@@ -275,30 +275,30 @@ public class EUC_JP
             return 2;
         }
 
-        protected int encodeDouble(char ch) {
-            int b = enc0208.encodeChar(ch);
+        protected int encodeDouble(chbr ch) {
+            int b = enc0208.encodeChbr(ch);
             if (b != UNMAPPABLE_ENCODING)
                 return b + 0x8080;
             if (enc0212 != null) {
-                b = enc0212.encodeChar(ch);
+                b = enc0212.encodeChbr(ch);
                 if (b != UNMAPPABLE_ENCODING)
                     b += 0x8F8080;
             }
             return b;
         }
 
-        private CoderResult encodeArrayLoop(CharBuffer src,
+        privbte CoderResult encodeArrbyLoop(ChbrBuffer src,
                                             ByteBuffer dst)
         {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            chbr[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            byte[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             int outputSize = 0;
@@ -309,11 +309,11 @@ public class EUC_JP
             try {
                 while (sp < sl) {
                     outputByte = tmpBuf;
-                    char c = sa[sp];
-                    if (Character.isSurrogate(c)) {
-                        if (sgp.parse(c, sa, sp, sl) < 0)
+                    chbr c = sb[sp];
+                    if (Chbrbcter.isSurrogbte(c)) {
+                        if (sgp.pbrse(c, sb, sp, sl) < 0)
                             return sgp.error();
-                        return sgp.unmappableResult();
+                        return sgp.unmbppbbleResult();
                     }
                     outputSize = encodeSingle(c, outputByte);
                     if (outputSize == 0) { // DoubleByte
@@ -330,25 +330,25 @@ public class EUC_JP
                                 outputSize = 3;
                             }
                         } else {
-                            return CoderResult.unmappableForLength(1);
+                            return CoderResult.unmbppbbleForLength(1);
                         }
                     }
                     if (dl - dp < outputSize)
                         return CoderResult.OVERFLOW;
                     // Put the byte in the output buffer
                     for (int i = 0; i < outputSize; i++) {
-                        da[dp++] = outputByte[i];
+                        db[dp++] = outputByte[i];
                     }
                     sp++;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        private CoderResult encodeBufferLoop(CharBuffer src,
+        privbte CoderResult encodeBufferLoop(ChbrBuffer src,
                                              ByteBuffer dst)
         {
             int outputSize = 0;
@@ -356,16 +356,16 @@ public class EUC_JP
             int     inputSize = 0;                 // Size of input
             byte[]  tmpBuf = new byte[3];
 
-            int mark = src.position();
+            int mbrk = src.position();
 
             try {
-                while (src.hasRemaining()) {
+                while (src.hbsRembining()) {
                     outputByte = tmpBuf;
-                    char c = src.get();
-                    if (Character.isSurrogate(c)) {
-                        if (sgp.parse(c, src) < 0)
+                    chbr c = src.get();
+                    if (Chbrbcter.isSurrogbte(c)) {
+                        if (sgp.pbrse(c, src) < 0)
                             return sgp.error();
-                        return sgp.unmappableResult();
+                        return sgp.unmbppbbleResult();
                     }
                     outputSize = encodeSingle(c, outputByte);
                     if (outputSize == 0) { // DoubleByte
@@ -382,28 +382,28 @@ public class EUC_JP
                                 outputSize = 3;
                             }
                         } else {
-                            return CoderResult.unmappableForLength(1);
+                            return CoderResult.unmbppbbleForLength(1);
                         }
                     }
-                    if (dst.remaining() < outputSize)
+                    if (dst.rembining() < outputSize)
                         return CoderResult.OVERFLOW;
                     // Put the byte in the output buffer
                     for (int i = 0; i < outputSize; i++) {
                         dst.put(outputByte[i]);
                     }
-                    mark++;
+                    mbrk++;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
 
-        protected CoderResult encodeLoop(CharBuffer src,
+        protected CoderResult encodeLoop(ChbrBuffer src,
                                          ByteBuffer dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return encodeArrayLoop(src, dst);
+            if (src.hbsArrby() && dst.hbsArrby())
+                return encodeArrbyLoop(src, dst);
             else
                 return encodeBufferLoop(src, dst);
         }

@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ec;
+pbckbge sun.security.ec;
 
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.interfbces.*;
+import jbvb.security.spec.*;
 
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
-import sun.security.util.ECParameters;
+import sun.security.util.DerInputStrebm;
+import sun.security.util.DerOutputStrebm;
+import sun.security.util.DerVblue;
+import sun.security.util.ECPbrbmeters;
 import sun.security.util.ECUtil;
 import sun.security.x509.AlgorithmId;
 import sun.security.pkcs.PKCS8Key;
 
 /**
- * Key implementation for EC private keys.
+ * Key implementbtion for EC privbte keys.
  *
- * ASN.1 syntax for EC private keys from SEC 1 v1.5 (draft):
+ * ASN.1 syntbx for EC privbte keys from SEC 1 v1.5 (drbft):
  *
  * <pre>
  * EXPLICIT TAGS
  *
- * ECPrivateKey ::= SEQUENCE {
+ * ECPrivbteKey ::= SEQUENCE {
  *   version INTEGER { ecPrivkeyVer1(1) } (ecPrivkeyVer1),
- *   privateKey OCTET STRING,
- *   parameters [0] ECDomainParameters {{ SECGCurveNames }} OPTIONAL,
+ *   privbteKey OCTET STRING,
+ *   pbrbmeters [0] ECDombinPbrbmeters {{ SECGCurveNbmes }} OPTIONAL,
  *   publicKey [1] BIT STRING OPTIONAL
  * }
  * </pre>
  *
- * We currently ignore the optional parameters and publicKey fields. We
- * require that the parameters are encoded as part of the AlgorithmIdentifier,
- * not in the private key structure.
+ * We currently ignore the optionbl pbrbmeters bnd publicKey fields. We
+ * require thbt the pbrbmeters bre encoded bs pbrt of the AlgorithmIdentifier,
+ * not in the privbte key structure.
  *
  * @since   1.6
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public final class ECPrivateKeyImpl extends PKCS8Key implements ECPrivateKey {
+public finbl clbss ECPrivbteKeyImpl extends PKCS8Key implements ECPrivbteKey {
 
-    private static final long serialVersionUID = 88695385615075129L;
+    privbte stbtic finbl long seriblVersionUID = 88695385615075129L;
 
-    private BigInteger s;       // private value
-    private ECParameterSpec params;
+    privbte BigInteger s;       // privbte vblue
+    privbte ECPbrbmeterSpec pbrbms;
 
     /**
-     * Construct a key from its encoding. Called by the ECKeyFactory.
+     * Construct b key from its encoding. Cblled by the ECKeyFbctory.
      */
-    ECPrivateKeyImpl(byte[] encoded) throws InvalidKeyException {
+    ECPrivbteKeyImpl(byte[] encoded) throws InvblidKeyException {
         decode(encoded);
     }
 
     /**
-     * Construct a key from its components. Used by the
-     * KeyFactory.
+     * Construct b key from its components. Used by the
+     * KeyFbctory.
      */
-    ECPrivateKeyImpl(BigInteger s, ECParameterSpec params)
-            throws InvalidKeyException {
+    ECPrivbteKeyImpl(BigInteger s, ECPbrbmeterSpec pbrbms)
+            throws InvblidKeyException {
         this.s = s;
-        this.params = params;
-        // generate the encoding
-        algid = new AlgorithmId
-            (AlgorithmId.EC_oid, ECParameters.getAlgorithmParameters(params));
+        this.pbrbms = pbrbms;
+        // generbte the encoding
+        blgid = new AlgorithmId
+            (AlgorithmId.EC_oid, ECPbrbmeters.getAlgorithmPbrbmeters(pbrbms));
         try {
-            DerOutputStream out = new DerOutputStream();
+            DerOutputStrebm out = new DerOutputStrebm();
             out.putInteger(1); // version 1
-            byte[] privBytes = ECUtil.trimZeroes(s.toByteArray());
+            byte[] privBytes = ECUtil.trimZeroes(s.toByteArrby());
             out.putOctetString(privBytes);
-            DerValue val =
-                new DerValue(DerValue.tag_Sequence, out.toByteArray());
-            key = val.toByteArray();
-        } catch (IOException exc) {
+            DerVblue vbl =
+                new DerVblue(DerVblue.tbg_Sequence, out.toByteArrby());
+            key = vbl.toByteArrby();
+        } cbtch (IOException exc) {
             // should never occur
-            throw new InvalidKeyException(exc);
+            throw new InvblidKeyException(exc);
         }
     }
 
@@ -113,47 +113,47 @@ public final class ECPrivateKeyImpl extends PKCS8Key implements ECPrivateKey {
     }
 
     // see JCA doc
-    public ECParameterSpec getParams() {
-        return params;
+    public ECPbrbmeterSpec getPbrbms() {
+        return pbrbms;
     }
 
     /**
-     * Parse the key. Called by PKCS8Key.
+     * Pbrse the key. Cblled by PKCS8Key.
      */
-    protected void parseKeyBits() throws InvalidKeyException {
+    protected void pbrseKeyBits() throws InvblidKeyException {
         try {
-            DerInputStream in = new DerInputStream(key);
-            DerValue derValue = in.getDerValue();
-            if (derValue.tag != DerValue.tag_Sequence) {
-                throw new IOException("Not a SEQUENCE");
+            DerInputStrebm in = new DerInputStrebm(key);
+            DerVblue derVblue = in.getDerVblue();
+            if (derVblue.tbg != DerVblue.tbg_Sequence) {
+                throw new IOException("Not b SEQUENCE");
             }
-            DerInputStream data = derValue.data;
-            int version = data.getInteger();
+            DerInputStrebm dbtb = derVblue.dbtb;
+            int version = dbtb.getInteger();
             if (version != 1) {
                 throw new IOException("Version must be 1");
             }
-            byte[] privData = data.getOctetString();
-            s = new BigInteger(1, privData);
-            while (data.available() != 0) {
-                DerValue value = data.getDerValue();
-                if (value.isContextSpecific((byte)0)) {
+            byte[] privDbtb = dbtb.getOctetString();
+            s = new BigInteger(1, privDbtb);
+            while (dbtb.bvbilbble() != 0) {
+                DerVblue vblue = dbtb.getDerVblue();
+                if (vblue.isContextSpecific((byte)0)) {
                     // ignore for now
-                } else if (value.isContextSpecific((byte)1)) {
+                } else if (vblue.isContextSpecific((byte)1)) {
                     // ignore for now
                 } else {
-                    throw new InvalidKeyException("Unexpected value: " + value);
+                    throw new InvblidKeyException("Unexpected vblue: " + vblue);
                 }
             }
-            AlgorithmParameters algParams = this.algid.getParameters();
-            if (algParams == null) {
-                throw new InvalidKeyException("EC domain parameters must be "
-                    + "encoded in the algorithm identifier");
+            AlgorithmPbrbmeters blgPbrbms = this.blgid.getPbrbmeters();
+            if (blgPbrbms == null) {
+                throw new InvblidKeyException("EC dombin pbrbmeters must be "
+                    + "encoded in the blgorithm identifier");
             }
-            params = algParams.getParameterSpec(ECParameterSpec.class);
-        } catch (IOException e) {
-            throw new InvalidKeyException("Invalid EC private key", e);
-        } catch (InvalidParameterSpecException e) {
-            throw new InvalidKeyException("Invalid EC private key", e);
+            pbrbms = blgPbrbms.getPbrbmeterSpec(ECPbrbmeterSpec.clbss);
+        } cbtch (IOException e) {
+            throw new InvblidKeyException("Invblid EC privbte key", e);
+        } cbtch (InvblidPbrbmeterSpecException e) {
+            throw new InvblidKeyException("Invblid EC privbte key", e);
         }
     }
 }

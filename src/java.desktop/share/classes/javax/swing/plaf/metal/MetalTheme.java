@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import javax.swing.plaf.*;
-import javax.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
 
 /**
- * {@code MetalTheme} provides the color palette and fonts used by
- * the Java Look and Feel.
+ * {@code MetblTheme} provides the color pblette bnd fonts used by
+ * the Jbvb Look bnd Feel.
  * <p>
- * {@code MetalTheme} is abstract, see {@code DefaultMetalTheme} and
- * {@code OceanTheme} for concrete implementations.
+ * {@code MetblTheme} is bbstrbct, see {@code DefbultMetblTheme} bnd
+ * {@code OcebnTheme} for concrete implementbtions.
  * <p>
- * {@code MetalLookAndFeel} maintains the current theme that the
- * the {@code ComponentUI} implementations for metal use. Refer to
- * {@link MetalLookAndFeel#setCurrentTheme
- * MetalLookAndFeel.setCurrentTheme(MetalTheme)} for details on changing
+ * {@code MetblLookAndFeel} mbintbins the current theme thbt the
+ * the {@code ComponentUI} implementbtions for metbl use. Refer to
+ * {@link MetblLookAndFeel#setCurrentTheme
+ * MetblLookAndFeel.setCurrentTheme(MetblTheme)} for detbils on chbnging
  * the current theme.
  * <p>
- * {@code MetalTheme} provides a number of public methods for getting
- * colors. These methods are implemented in terms of a
- * handful of protected abstract methods. A subclass need only override
- * the protected abstract methods ({@code getPrimary1},
- * {@code getPrimary2}, {@code getPrimary3}, {@code getSecondary1},
- * {@code getSecondary2}, and {@code getSecondary3}); although a subclass
- * may override the other public methods for more control over the set of
- * colors that are used.
+ * {@code MetblTheme} provides b number of public methods for getting
+ * colors. These methods bre implemented in terms of b
+ * hbndful of protected bbstrbct methods. A subclbss need only override
+ * the protected bbstrbct methods ({@code getPrimbry1},
+ * {@code getPrimbry2}, {@code getPrimbry3}, {@code getSecondbry1},
+ * {@code getSecondbry2}, bnd {@code getSecondbry3}); blthough b subclbss
+ * mby override the other public methods for more control over the set of
+ * colors thbt bre used.
  * <p>
- * Concrete implementations of {@code MetalTheme} must return {@code non-null}
- * values from all methods. While the behavior of returning {@code null} is
- * not specified, returning {@code null} will result in incorrect behavior.
+ * Concrete implementbtions of {@code MetblTheme} must return {@code non-null}
+ * vblues from bll methods. While the behbvior of returning {@code null} is
+ * not specified, returning {@code null} will result in incorrect behbvior.
  * <p>
- * It is strongly recommended that subclasses return completely opaque colors.
- * To do otherwise may result in rendering problems, such as visual garbage.
+ * It is strongly recommended thbt subclbsses return completely opbque colors.
+ * To do otherwise mby result in rendering problems, such bs visubl gbrbbge.
  *
- * @see DefaultMetalTheme
- * @see OceanTheme
- * @see MetalLookAndFeel#setCurrentTheme
+ * @see DefbultMetblTheme
+ * @see OcebnTheme
+ * @see MetblLookAndFeel#setCurrentTheme
  *
- * @author Steve Wilson
+ * @buthor Steve Wilson
  */
-public abstract class MetalTheme {
+public bbstrbct clbss MetblTheme {
 
-    // Contants identifying the various Fonts that are Theme can support
-    static final int CONTROL_TEXT_FONT = 0;
-    static final int SYSTEM_TEXT_FONT = 1;
-    static final int USER_TEXT_FONT = 2;
-    static final int MENU_TEXT_FONT = 3;
-    static final int WINDOW_TITLE_FONT = 4;
-    static final int SUB_TEXT_FONT = 5;
+    // Contbnts identifying the vbrious Fonts thbt bre Theme cbn support
+    stbtic finbl int CONTROL_TEXT_FONT = 0;
+    stbtic finbl int SYSTEM_TEXT_FONT = 1;
+    stbtic finbl int USER_TEXT_FONT = 2;
+    stbtic finbl int MENU_TEXT_FONT = 3;
+    stbtic finbl int WINDOW_TITLE_FONT = 4;
+    stbtic finbl int SUB_TEXT_FONT = 5;
 
-    static ColorUIResource white = new ColorUIResource( 255, 255, 255 );
-    private static ColorUIResource black = new ColorUIResource( 0, 0, 0 );
-
-    /**
-     * Returns the name of this theme.
-     *
-     * @return the name of this theme
-     */
-    public abstract String getName();
+    stbtic ColorUIResource white = new ColorUIResource( 255, 255, 255 );
+    privbte stbtic ColorUIResource blbck = new ColorUIResource( 0, 0, 0 );
 
     /**
-     * Returns the primary 1 color.
+     * Returns the nbme of this theme.
      *
-     * @return the primary 1 color
+     * @return the nbme of this theme
      */
-    protected abstract ColorUIResource getPrimary1();  // these are blue in Metal Default Theme
+    public bbstrbct String getNbme();
 
     /**
-     * Returns the primary 2 color.
+     * Returns the primbry 1 color.
      *
-     * @return the primary 2 color
+     * @return the primbry 1 color
      */
-    protected abstract ColorUIResource getPrimary2();
+    protected bbstrbct ColorUIResource getPrimbry1();  // these bre blue in Metbl Defbult Theme
 
     /**
-     * Returns the primary 3 color.
+     * Returns the primbry 2 color.
      *
-     * @return the primary 3 color
+     * @return the primbry 2 color
      */
-    protected abstract ColorUIResource getPrimary3();
+    protected bbstrbct ColorUIResource getPrimbry2();
 
     /**
-     * Returns the secondary 1 color.
+     * Returns the primbry 3 color.
      *
-     * @return the secondary 1 color
+     * @return the primbry 3 color
      */
-    protected abstract ColorUIResource getSecondary1();  // these are gray in Metal Default Theme
+    protected bbstrbct ColorUIResource getPrimbry3();
 
     /**
-     * Returns the secondary 2 color.
+     * Returns the secondbry 1 color.
      *
-     * @return the secondary 2 color
+     * @return the secondbry 1 color
      */
-    protected abstract ColorUIResource getSecondary2();
+    protected bbstrbct ColorUIResource getSecondbry1();  // these bre grby in Metbl Defbult Theme
 
     /**
-     * Returns the secondary 3 color.
+     * Returns the secondbry 2 color.
      *
-     * @return the secondary 3 color
+     * @return the secondbry 2 color
      */
-    protected abstract ColorUIResource getSecondary3();
+    protected bbstrbct ColorUIResource getSecondbry2();
+
+    /**
+     * Returns the secondbry 3 color.
+     *
+     * @return the secondbry 3 color
+     */
+    protected bbstrbct ColorUIResource getSecondbry3();
 
     /**
      * Returns the control text font.
      *
      * @return the control text font
      */
-    public abstract FontUIResource getControlTextFont();
+    public bbstrbct FontUIResource getControlTextFont();
 
     /**
      * Returns the system text font.
      *
      * @return the system text font
      */
-    public abstract FontUIResource getSystemTextFont();
+    public bbstrbct FontUIResource getSystemTextFont();
 
     /**
      * Returns the user text font.
      *
      * @return the user text font
      */
-    public abstract FontUIResource getUserTextFont();
+    public bbstrbct FontUIResource getUserTextFont();
 
     /**
      * Returns the menu text font.
      *
      * @return the menu text font
      */
-    public abstract FontUIResource getMenuTextFont();
+    public bbstrbct FontUIResource getMenuTextFont();
 
     /**
      * Returns the window title font.
      *
      * @return the window title font
      */
-    public abstract FontUIResource getWindowTitleFont();
+    public bbstrbct FontUIResource getWindowTitleFont();
 
     /**
      * Returns the sub-text font.
      *
      * @return the sub-text font
      */
-    public abstract FontUIResource getSubTextFont();
+    public bbstrbct FontUIResource getSubTextFont();
 
     /**
-     * Returns the white color. This returns opaque white
+     * Returns the white color. This returns opbque white
      * ({@code 0xFFFFFFFF}).
      *
      * @return the white color
@@ -176,126 +176,126 @@ public abstract class MetalTheme {
     protected ColorUIResource getWhite() { return white; }
 
     /**
-     * Returns the black color. This returns opaque black
+     * Returns the blbck color. This returns opbque blbck
      * ({@code 0xFF000000}).
      *
-     * @return the black color
+     * @return the blbck color
      */
-    protected ColorUIResource getBlack() { return black; }
+    protected ColorUIResource getBlbck() { return blbck; }
 
     /**
-     * Returns the focus color. This returns the value of
-     * {@code getPrimary2()}.
+     * Returns the focus color. This returns the vblue of
+     * {@code getPrimbry2()}.
      *
      * @return the focus color
      */
-    public ColorUIResource getFocusColor() { return getPrimary2(); }
+    public ColorUIResource getFocusColor() { return getPrimbry2(); }
 
     /**
-     * Returns the desktop color. This returns the value of
-     * {@code getPrimary2()}.
+     * Returns the desktop color. This returns the vblue of
+     * {@code getPrimbry2()}.
      *
      * @return the desktop color
      */
-    public  ColorUIResource getDesktopColor() { return getPrimary2(); }
+    public  ColorUIResource getDesktopColor() { return getPrimbry2(); }
 
     /**
-     * Returns the control color. This returns the value of
-     * {@code getSecondary3()}.
+     * Returns the control color. This returns the vblue of
+     * {@code getSecondbry3()}.
      *
      * @return the control color
      */
-    public ColorUIResource getControl() { return getSecondary3(); }
+    public ColorUIResource getControl() { return getSecondbry3(); }
 
     /**
-     * Returns the control shadow color. This returns
-     * the value of {@code getSecondary2()}.
+     * Returns the control shbdow color. This returns
+     * the vblue of {@code getSecondbry2()}.
      *
-     * @return the control shadow color
+     * @return the control shbdow color
      */
-    public ColorUIResource getControlShadow() { return getSecondary2(); }
+    public ColorUIResource getControlShbdow() { return getSecondbry2(); }
 
     /**
-     * Returns the control dark shadow color. This returns
-     * the value of {@code getSecondary1()}.
+     * Returns the control dbrk shbdow color. This returns
+     * the vblue of {@code getSecondbry1()}.
      *
-     * @return the control dark shadow color
+     * @return the control dbrk shbdow color
      */
-    public ColorUIResource getControlDarkShadow() { return getSecondary1(); }
+    public ColorUIResource getControlDbrkShbdow() { return getSecondbry1(); }
 
     /**
      * Returns the control info color. This returns
-     * the value of {@code getBlack()}.
+     * the vblue of {@code getBlbck()}.
      *
      * @return the control info color
      */
-    public ColorUIResource getControlInfo() { return getBlack(); }
+    public ColorUIResource getControlInfo() { return getBlbck(); }
 
     /**
      * Returns the control highlight color. This returns
-     * the value of {@code getWhite()}.
+     * the vblue of {@code getWhite()}.
      *
      * @return the control highlight color
      */
     public ColorUIResource getControlHighlight() { return getWhite(); }
 
     /**
-     * Returns the control disabled color. This returns
-     * the value of {@code getSecondary2()}.
+     * Returns the control disbbled color. This returns
+     * the vblue of {@code getSecondbry2()}.
      *
-     * @return the control disabled color
+     * @return the control disbbled color
      */
-    public ColorUIResource getControlDisabled() { return getSecondary2(); }
+    public ColorUIResource getControlDisbbled() { return getSecondbry2(); }
 
     /**
-     * Returns the primary control color. This returns
-     * the value of {@code getPrimary3()}.
+     * Returns the primbry control color. This returns
+     * the vblue of {@code getPrimbry3()}.
      *
-     * @return the primary control color
+     * @return the primbry control color
      */
-    public ColorUIResource getPrimaryControl() { return getPrimary3(); }
+    public ColorUIResource getPrimbryControl() { return getPrimbry3(); }
 
     /**
-     * Returns the primary control shadow color. This returns
-     * the value of {@code getPrimary2()}.
+     * Returns the primbry control shbdow color. This returns
+     * the vblue of {@code getPrimbry2()}.
      *
-     * @return the primary control shadow color
+     * @return the primbry control shbdow color
      */
-    public ColorUIResource getPrimaryControlShadow() { return getPrimary2(); }
+    public ColorUIResource getPrimbryControlShbdow() { return getPrimbry2(); }
     /**
-     * Returns the primary control dark shadow color. This
-     * returns the value of {@code getPrimary1()}.
+     * Returns the primbry control dbrk shbdow color. This
+     * returns the vblue of {@code getPrimbry1()}.
      *
-     * @return the primary control dark shadow color
+     * @return the primbry control dbrk shbdow color
      */
-    public ColorUIResource getPrimaryControlDarkShadow() { return getPrimary1(); }
+    public ColorUIResource getPrimbryControlDbrkShbdow() { return getPrimbry1(); }
 
     /**
-     * Returns the primary control info color. This
-     * returns the value of {@code getBlack()}.
+     * Returns the primbry control info color. This
+     * returns the vblue of {@code getBlbck()}.
      *
-     * @return the primary control info color
+     * @return the primbry control info color
      */
-    public ColorUIResource getPrimaryControlInfo() { return getBlack(); }
+    public ColorUIResource getPrimbryControlInfo() { return getBlbck(); }
 
     /**
-     * Returns the primary control highlight color. This
-     * returns the value of {@code getWhite()}.
+     * Returns the primbry control highlight color. This
+     * returns the vblue of {@code getWhite()}.
      *
-     * @return the primary control highlight color
+     * @return the primbry control highlight color
      */
-    public ColorUIResource getPrimaryControlHighlight() { return getWhite(); }
+    public ColorUIResource getPrimbryControlHighlight() { return getWhite(); }
 
     /**
-     * Returns the system text color. This returns the value of
-     * {@code getBlack()}.
+     * Returns the system text color. This returns the vblue of
+     * {@code getBlbck()}.
      *
      * @return the system text color
      */
-    public ColorUIResource getSystemTextColor() { return getBlack(); }
+    public ColorUIResource getSystemTextColor() { return getBlbck(); }
 
     /**
-     * Returns the control text color. This returns the value of
+     * Returns the control text color. This returns the vblue of
      * {@code getControlInfo()}.
      *
      * @return the control text color
@@ -303,39 +303,39 @@ public abstract class MetalTheme {
     public ColorUIResource getControlTextColor() { return getControlInfo(); }
 
     /**
-     * Returns the inactive control text color. This returns the value of
-     * {@code getControlDisabled()}.
+     * Returns the inbctive control text color. This returns the vblue of
+     * {@code getControlDisbbled()}.
      *
-     * @return the inactive control text color
+     * @return the inbctive control text color
      */
-    public ColorUIResource getInactiveControlTextColor() { return getControlDisabled(); }
+    public ColorUIResource getInbctiveControlTextColor() { return getControlDisbbled(); }
 
     /**
-     * Returns the inactive system text color. This returns the value of
-     * {@code getSecondary2()}.
+     * Returns the inbctive system text color. This returns the vblue of
+     * {@code getSecondbry2()}.
      *
-     * @return the inactive system text color
+     * @return the inbctive system text color
      */
-    public ColorUIResource getInactiveSystemTextColor() { return getSecondary2(); }
+    public ColorUIResource getInbctiveSystemTextColor() { return getSecondbry2(); }
 
     /**
-     * Returns the user text color. This returns the value of
-     * {@code getBlack()}.
+     * Returns the user text color. This returns the vblue of
+     * {@code getBlbck()}.
      *
      * @return the user text color
      */
-    public ColorUIResource getUserTextColor() { return getBlack(); }
+    public ColorUIResource getUserTextColor() { return getBlbck(); }
 
     /**
-     * Returns the text highlight color. This returns the value of
-     * {@code getPrimary3()}.
+     * Returns the text highlight color. This returns the vblue of
+     * {@code getPrimbry3()}.
      *
      * @return the text highlight color
      */
-    public ColorUIResource getTextHighlightColor() { return getPrimary3(); }
+    public ColorUIResource getTextHighlightColor() { return getPrimbry3(); }
 
     /**
-     * Returns the highlighted text color. This returns the value of
+     * Returns the highlighted text color. This returns the vblue of
      * {@code getControlTextColor()}.
      *
      * @return the highlighted text color
@@ -343,143 +343,143 @@ public abstract class MetalTheme {
     public ColorUIResource getHighlightedTextColor() { return getControlTextColor(); }
 
     /**
-     * Returns the window background color. This returns the value of
+     * Returns the window bbckground color. This returns the vblue of
      * {@code getWhite()}.
      *
-     * @return the window background color
+     * @return the window bbckground color
      */
-    public ColorUIResource getWindowBackground() { return getWhite(); }
+    public ColorUIResource getWindowBbckground() { return getWhite(); }
 
     /**
-     * Returns the window title background color. This returns the value of
-     * {@code getPrimary3()}.
+     * Returns the window title bbckground color. This returns the vblue of
+     * {@code getPrimbry3()}.
      *
-     * @return the window title background color
+     * @return the window title bbckground color
      */
-    public ColorUIResource getWindowTitleBackground() { return getPrimary3(); }
+    public ColorUIResource getWindowTitleBbckground() { return getPrimbry3(); }
 
     /**
-     * Returns the window title foreground color. This returns the value of
-     * {@code getBlack()}.
+     * Returns the window title foreground color. This returns the vblue of
+     * {@code getBlbck()}.
      *
      * @return the window title foreground color
      */
-    public ColorUIResource getWindowTitleForeground() { return getBlack(); }
+    public ColorUIResource getWindowTitleForeground() { return getBlbck(); }
 
     /**
-     * Returns the window title inactive background color. This
-     * returns the value of {@code getSecondary3()}.
+     * Returns the window title inbctive bbckground color. This
+     * returns the vblue of {@code getSecondbry3()}.
      *
-     * @return the window title inactive background color
+     * @return the window title inbctive bbckground color
      */
-    public ColorUIResource getWindowTitleInactiveBackground() { return getSecondary3(); }
+    public ColorUIResource getWindowTitleInbctiveBbckground() { return getSecondbry3(); }
 
     /**
-     * Returns the window title inactive foreground color. This
-     * returns the value of {@code getBlack()}.
+     * Returns the window title inbctive foreground color. This
+     * returns the vblue of {@code getBlbck()}.
      *
-     * @return the window title inactive foreground color
+     * @return the window title inbctive foreground color
      */
-    public ColorUIResource getWindowTitleInactiveForeground() { return getBlack(); }
+    public ColorUIResource getWindowTitleInbctiveForeground() { return getBlbck(); }
 
     /**
-     * Returns the menu background color. This
-     * returns the value of {@code getSecondary3()}.
+     * Returns the menu bbckground color. This
+     * returns the vblue of {@code getSecondbry3()}.
      *
-     * @return the menu background color
+     * @return the menu bbckground color
      */
-    public ColorUIResource getMenuBackground() { return getSecondary3(); }
+    public ColorUIResource getMenuBbckground() { return getSecondbry3(); }
 
     /**
      * Returns the menu foreground color. This
-     * returns the value of {@code getBlack()}.
+     * returns the vblue of {@code getBlbck()}.
      *
      * @return the menu foreground color
      */
-    public ColorUIResource getMenuForeground() { return  getBlack(); }
+    public ColorUIResource getMenuForeground() { return  getBlbck(); }
 
     /**
-     * Returns the menu selected background color. This
-     * returns the value of {@code getPrimary2()}.
+     * Returns the menu selected bbckground color. This
+     * returns the vblue of {@code getPrimbry2()}.
      *
-     * @return the menu selected background color
+     * @return the menu selected bbckground color
      */
-    public ColorUIResource getMenuSelectedBackground() { return getPrimary2(); }
+    public ColorUIResource getMenuSelectedBbckground() { return getPrimbry2(); }
 
     /**
      * Returns the menu selected foreground color. This
-     * returns the value of {@code getBlack()}.
+     * returns the vblue of {@code getBlbck()}.
      *
      * @return the menu selected foreground color
      */
-    public ColorUIResource getMenuSelectedForeground() { return getBlack(); }
+    public ColorUIResource getMenuSelectedForeground() { return getBlbck(); }
 
     /**
-     * Returns the menu disabled foreground color. This
-     * returns the value of {@code getSecondary2()}.
+     * Returns the menu disbbled foreground color. This
+     * returns the vblue of {@code getSecondbry2()}.
      *
-     * @return the menu disabled foreground color
+     * @return the menu disbbled foreground color
      */
-    public ColorUIResource getMenuDisabledForeground() { return getSecondary2(); }
+    public ColorUIResource getMenuDisbbledForeground() { return getSecondbry2(); }
 
     /**
-     * Returns the separator background color. This
-     * returns the value of {@code getWhite()}.
+     * Returns the sepbrbtor bbckground color. This
+     * returns the vblue of {@code getWhite()}.
      *
-     * @return the separator background color
+     * @return the sepbrbtor bbckground color
      */
-    public ColorUIResource getSeparatorBackground() { return getWhite(); }
+    public ColorUIResource getSepbrbtorBbckground() { return getWhite(); }
 
     /**
-     * Returns the separator foreground color. This
-     * returns the value of {@code getPrimary1()}.
+     * Returns the sepbrbtor foreground color. This
+     * returns the vblue of {@code getPrimbry1()}.
      *
-     * @return the separator foreground color
+     * @return the sepbrbtor foreground color
      */
-    public ColorUIResource getSeparatorForeground() { return getPrimary1(); }
+    public ColorUIResource getSepbrbtorForeground() { return getPrimbry1(); }
 
     /**
-     * Returns the accelerator foreground color. This
-     * returns the value of {@code getPrimary1()}.
+     * Returns the bccelerbtor foreground color. This
+     * returns the vblue of {@code getPrimbry1()}.
      *
-     * @return the accelerator foreground color
+     * @return the bccelerbtor foreground color
      */
-    public ColorUIResource getAcceleratorForeground() { return getPrimary1(); }
+    public ColorUIResource getAccelerbtorForeground() { return getPrimbry1(); }
 
     /**
-     * Returns the accelerator selected foreground color. This
-     * returns the value of {@code getBlack()}.
+     * Returns the bccelerbtor selected foreground color. This
+     * returns the vblue of {@code getBlbck()}.
      *
-     * @return the accelerator selected foreground color
+     * @return the bccelerbtor selected foreground color
      */
-    public ColorUIResource getAcceleratorSelectedForeground() { return getBlack(); }
+    public ColorUIResource getAccelerbtorSelectedForeground() { return getBlbck(); }
 
     /**
-     * Adds values specific to this theme to the defaults table. This method
-     * is invoked when the look and feel defaults are obtained from
-     * {@code MetalLookAndFeel}.
+     * Adds vblues specific to this theme to the defbults tbble. This method
+     * is invoked when the look bnd feel defbults bre obtbined from
+     * {@code MetblLookAndFeel}.
      * <p>
-     * This implementation does nothing; it is provided for subclasses
-     * that wish to customize the defaults table.
+     * This implementbtion does nothing; it is provided for subclbsses
+     * thbt wish to customize the defbults tbble.
      *
-     * @param table the {@code UIDefaults} to add the values to
+     * @pbrbm tbble the {@code UIDefbults} to bdd the vblues to
      *
-     * @see MetalLookAndFeel#getDefaults
+     * @see MetblLookAndFeel#getDefbults
      */
-    public void addCustomEntriesToTable(UIDefaults table) {}
+    public void bddCustomEntriesToTbble(UIDefbults tbble) {}
 
     /**
-     * This is invoked when a MetalLookAndFeel is installed and about to
-     * start using this theme. When we can add API this should be nuked
-     * in favor of DefaultMetalTheme overriding addCustomEntriesToTable.
+     * This is invoked when b MetblLookAndFeel is instblled bnd bbout to
+     * stbrt using this theme. When we cbn bdd API this should be nuked
+     * in fbvor of DefbultMetblTheme overriding bddCustomEntriesToTbble.
      */
-    void install() {
+    void instbll() {
     }
 
     /**
-     * Returns true if this is a theme provided by the core platform.
+     * Returns true if this is b theme provided by the core plbtform.
      */
-    boolean isSystemTheme() {
-        return false;
+    boolebn isSystemTheme() {
+        return fblse;
     }
 }

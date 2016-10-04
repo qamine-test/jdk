@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-abstract class CharacterData {
-    abstract int getProperties(int ch);
-    abstract int getType(int ch);
-    abstract boolean isWhitespace(int ch);
-    abstract boolean isMirrored(int ch);
-    abstract boolean isJavaIdentifierStart(int ch);
-    abstract boolean isJavaIdentifierPart(int ch);
-    abstract boolean isUnicodeIdentifierStart(int ch);
-    abstract boolean isUnicodeIdentifierPart(int ch);
-    abstract boolean isIdentifierIgnorable(int ch);
-    abstract int toLowerCase(int ch);
-    abstract int toUpperCase(int ch);
-    abstract int toTitleCase(int ch);
-    abstract int digit(int ch, int radix);
-    abstract int getNumericValue(int ch);
-    abstract byte getDirectionality(int ch);
+bbstrbct clbss ChbrbcterDbtb {
+    bbstrbct int getProperties(int ch);
+    bbstrbct int getType(int ch);
+    bbstrbct boolebn isWhitespbce(int ch);
+    bbstrbct boolebn isMirrored(int ch);
+    bbstrbct boolebn isJbvbIdentifierStbrt(int ch);
+    bbstrbct boolebn isJbvbIdentifierPbrt(int ch);
+    bbstrbct boolebn isUnicodeIdentifierStbrt(int ch);
+    bbstrbct boolebn isUnicodeIdentifierPbrt(int ch);
+    bbstrbct boolebn isIdentifierIgnorbble(int ch);
+    bbstrbct int toLowerCbse(int ch);
+    bbstrbct int toUpperCbse(int ch);
+    bbstrbct int toTitleCbse(int ch);
+    bbstrbct int digit(int ch, int rbdix);
+    bbstrbct int getNumericVblue(int ch);
+    bbstrbct byte getDirectionblity(int ch);
 
     //need to implement for JSR204
-    int toUpperCaseEx(int ch) {
-        return toUpperCase(ch);
+    int toUpperCbseEx(int ch) {
+        return toUpperCbse(ch);
     }
 
-    char[] toUpperCaseCharArray(int ch) {
+    chbr[] toUpperCbseChbrArrby(int ch) {
         return null;
     }
 
-    boolean isOtherLowercase(int ch) {
-        return false;
+    boolebn isOtherLowercbse(int ch) {
+        return fblse;
     }
 
-    boolean isOtherUppercase(int ch) {
-        return false;
+    boolebn isOtherUppercbse(int ch) {
+        return fblse;
     }
 
-    boolean isOtherAlphabetic(int ch) {
-        return false;
+    boolebn isOtherAlphbbetic(int ch) {
+        return fblse;
     }
 
-    boolean isIdeographic(int ch) {
-        return false;
+    boolebn isIdeogrbphic(int ch) {
+        return fblse;
     }
 
-    // Character <= 0xff (basic latin) is handled by internal fast-path
-    // to avoid initializing large tables.
-    // Note: performance of this "fast-path" code may be sub-optimal
-    // in negative cases for some accessors due to complicated ranges.
-    // Should revisit after optimization of table initialization.
+    // Chbrbcter <= 0xff (bbsic lbtin) is hbndled by internbl fbst-pbth
+    // to bvoid initiblizing lbrge tbbles.
+    // Note: performbnce of this "fbst-pbth" code mby be sub-optimbl
+    // in negbtive cbses for some bccessors due to complicbted rbnges.
+    // Should revisit bfter optimizbtion of tbble initiblizbtion.
 
-    static final CharacterData of(int ch) {
-        if (ch >>> 8 == 0) {     // fast-path
-            return CharacterDataLatin1.instance;
+    stbtic finbl ChbrbcterDbtb of(int ch) {
+        if (ch >>> 8 == 0) {     // fbst-pbth
+            return ChbrbcterDbtbLbtin1.instbnce;
         } else {
-            switch(ch >>> 16) {  //plane 00-16
-            case(0):
-                return CharacterData00.instance;
-            case(1):
-                return CharacterData01.instance;
-            case(2):
-                return CharacterData02.instance;
-            case(14):
-                return CharacterData0E.instance;
-            case(15):   // Private Use
-            case(16):   // Private Use
-                return CharacterDataPrivateUse.instance;
-            default:
-                return CharacterDataUndefined.instance;
+            switch(ch >>> 16) {  //plbne 00-16
+            cbse(0):
+                return ChbrbcterDbtb00.instbnce;
+            cbse(1):
+                return ChbrbcterDbtb01.instbnce;
+            cbse(2):
+                return ChbrbcterDbtb02.instbnce;
+            cbse(14):
+                return ChbrbcterDbtb0E.instbnce;
+            cbse(15):   // Privbte Use
+            cbse(16):   // Privbte Use
+                return ChbrbcterDbtbPrivbteUse.instbnce;
+            defbult:
+                return ChbrbcterDbtbUndefined.instbnce;
             }
         }
     }

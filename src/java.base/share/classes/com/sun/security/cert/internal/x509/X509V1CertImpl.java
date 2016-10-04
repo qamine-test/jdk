@@ -1,326 +1,326 @@
 /*
- * Copyright (c) 1997, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.cert.internal.x509;
+pbckbge com.sun.security.cert.internbl.x509;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
-import java.io.ObjectOutputStream;
-import java.math.BigInteger;
-import java.security.Signature;
-import javax.security.cert.*;
-import java.security.*;
-import java.util.Date;
-import java.util.BitSet;
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.io.InputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.mbth.BigInteger;
+import jbvb.security.Signbture;
+import jbvbx.security.cert.*;
+import jbvb.security.*;
+import jbvb.util.Dbte;
+import jbvb.util.BitSet;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Vector;
 
 /**
- * The X509V1CertImpl class is used as a conversion wrapper around
- * sun.security.x509.X509Cert certificates when running under JDK1.1.x.
+ * The X509V1CertImpl clbss is used bs b conversion wrbpper bround
+ * sun.security.x509.X509Cert certificbtes when running under JDK1.1.x.
  *
- * @author Jeff Nisewanger
+ * @buthor Jeff Nisewbnger
  */
-public class X509V1CertImpl extends X509Certificate implements Serializable {
-    static final long serialVersionUID = -2048442350420423405L;
-    private java.security.cert.X509Certificate wrappedCert;
+public clbss X509V1CertImpl extends X509Certificbte implements Seriblizbble {
+    stbtic finbl long seriblVersionUID = -2048442350420423405L;
+    privbte jbvb.security.cert.X509Certificbte wrbppedCert;
 
-    synchronized private static java.security.cert.CertificateFactory
-    getFactory()
-    throws java.security.cert.CertificateException
+    synchronized privbte stbtic jbvb.security.cert.CertificbteFbctory
+    getFbctory()
+    throws jbvb.security.cert.CertificbteException
     {
-        return java.security.cert.CertificateFactory.getInstance("X.509");
+        return jbvb.security.cert.CertificbteFbctory.getInstbnce("X.509");
     }
 
     /**
-     * Default constructor.
+     * Defbult constructor.
      */
     public X509V1CertImpl() { }
 
     /**
-     * Unmarshals a certificate from its encoded form, parsing the
-     * encoded bytes.  This form of constructor is used by agents which
-     * need to examine and use certificate contents.  That is, this is
-     * one of the more commonly used constructors.  Note that the buffer
-     * must include only a certificate, and no "garbage" may be left at
-     * the end.  If you need to ignore data at the end of a certificate,
-     * use another constructor.
+     * Unmbrshbls b certificbte from its encoded form, pbrsing the
+     * encoded bytes.  This form of constructor is used by bgents which
+     * need to exbmine bnd use certificbte contents.  Thbt is, this is
+     * one of the more commonly used constructors.  Note thbt the buffer
+     * must include only b certificbte, bnd no "gbrbbge" mby be left bt
+     * the end.  If you need to ignore dbtb bt the end of b certificbte,
+     * use bnother constructor.
      *
-     * @param certData the encoded bytes, with no trailing padding.
-     * @exception CertificateException on parsing errors.
+     * @pbrbm certDbtb the encoded bytes, with no trbiling pbdding.
+     * @exception CertificbteException on pbrsing errors.
      */
-    public X509V1CertImpl(byte[] certData)
-    throws CertificateException {
+    public X509V1CertImpl(byte[] certDbtb)
+    throws CertificbteException {
         try {
-            ByteArrayInputStream bs;
+            ByteArrbyInputStrebm bs;
 
-            bs = new ByteArrayInputStream(certData);
-            wrappedCert = (java.security.cert.X509Certificate)
-                getFactory().generateCertificate(bs);
-        } catch (java.security.cert.CertificateException e) {
-            throw new CertificateException(e.getMessage());
+            bs = new ByteArrbyInputStrebm(certDbtb);
+            wrbppedCert = (jbvb.security.cert.X509Certificbte)
+                getFbctory().generbteCertificbte(bs);
+        } cbtch (jbvb.security.cert.CertificbteException e) {
+            throw new CertificbteException(e.getMessbge());
         }
     }
 
     /**
-     * unmarshals an X.509 certificate from an input stream.
+     * unmbrshbls bn X.509 certificbte from bn input strebm.
      *
-     * @param in an input stream holding at least one certificate
-     * @exception CertificateException on parsing errors.
+     * @pbrbm in bn input strebm holding bt lebst one certificbte
+     * @exception CertificbteException on pbrsing errors.
      */
-    public X509V1CertImpl(InputStream in)
-    throws CertificateException {
+    public X509V1CertImpl(InputStrebm in)
+    throws CertificbteException {
         try {
-            wrappedCert = (java.security.cert.X509Certificate)
-                getFactory().generateCertificate(in);
-        } catch (java.security.cert.CertificateException e) {
-            throw new CertificateException(e.getMessage());
+            wrbppedCert = (jbvb.security.cert.X509Certificbte)
+                getFbctory().generbteCertificbte(in);
+        } cbtch (jbvb.security.cert.CertificbteException e) {
+            throw new CertificbteException(e.getMessbge());
         }
     }
 
     /**
-     * Returns the encoded form of this certificate. It is
-     * assumed that each certificate type would have only a single
-     * form of encoding; for example, X.509 certificates would
-     * be encoded as ASN.1 DER.
+     * Returns the encoded form of this certificbte. It is
+     * bssumed thbt ebch certificbte type would hbve only b single
+     * form of encoding; for exbmple, X.509 certificbtes would
+     * be encoded bs ASN.1 DER.
      */
-    public byte[] getEncoded() throws CertificateEncodingException {
+    public byte[] getEncoded() throws CertificbteEncodingException {
         try {
-            return wrappedCert.getEncoded();
-        } catch (java.security.cert.CertificateEncodingException e) {
-            throw new CertificateEncodingException(e.getMessage());
+            return wrbppedCert.getEncoded();
+        } cbtch (jbvb.security.cert.CertificbteEncodingException e) {
+            throw new CertificbteEncodingException(e.getMessbge());
         }
     }
 
     /**
-     * Throws an exception if the certificate was not signed using the
-     * verification key provided.  Successfully verifying a certificate
-     * does <em>not</em> indicate that one should trust the entity which
+     * Throws bn exception if the certificbte wbs not signed using the
+     * verificbtion key provided.  Successfully verifying b certificbte
+     * does <em>not</em> indicbte thbt one should trust the entity which
      * it represents.
      *
-     * @param key the public key used for verification.
+     * @pbrbm key the public key used for verificbtion.
      */
     public void verify(PublicKey key)
-        throws CertificateException, NoSuchAlgorithmException,
-        InvalidKeyException, NoSuchProviderException,
-        SignatureException
+        throws CertificbteException, NoSuchAlgorithmException,
+        InvblidKeyException, NoSuchProviderException,
+        SignbtureException
     {
         try {
-            wrappedCert.verify(key);
-        } catch (java.security.cert.CertificateException e) {
-            throw new CertificateException(e.getMessage());
+            wrbppedCert.verify(key);
+        } cbtch (jbvb.security.cert.CertificbteException e) {
+            throw new CertificbteException(e.getMessbge());
         }
     }
 
     /**
-     * Throws an exception if the certificate was not signed using the
-     * verification key provided.  Successfully verifying a certificate
-     * does <em>not</em> indicate that one should trust the entity which
+     * Throws bn exception if the certificbte wbs not signed using the
+     * verificbtion key provided.  Successfully verifying b certificbte
+     * does <em>not</em> indicbte thbt one should trust the entity which
      * it represents.
      *
-     * @param key the public key used for verification.
-     * @param sigProvider the name of the provider.
+     * @pbrbm key the public key used for verificbtion.
+     * @pbrbm sigProvider the nbme of the provider.
      */
     public void verify(PublicKey key, String sigProvider)
-        throws CertificateException, NoSuchAlgorithmException,
-        InvalidKeyException, NoSuchProviderException,
-        SignatureException
+        throws CertificbteException, NoSuchAlgorithmException,
+        InvblidKeyException, NoSuchProviderException,
+        SignbtureException
     {
         try {
-            wrappedCert.verify(key, sigProvider);
-        } catch (java.security.cert.CertificateException e) {
-            throw new CertificateException(e.getMessage());
+            wrbppedCert.verify(key, sigProvider);
+        } cbtch (jbvb.security.cert.CertificbteException e) {
+            throw new CertificbteException(e.getMessbge());
         }
     }
 
     /**
-     * Checks that the certificate is currently valid, i.e. the current
-     * time is within the specified validity period.
+     * Checks thbt the certificbte is currently vblid, i.e. the current
+     * time is within the specified vblidity period.
      */
-    public void checkValidity() throws
-      CertificateExpiredException, CertificateNotYetValidException {
-        checkValidity(new Date());
+    public void checkVblidity() throws
+      CertificbteExpiredException, CertificbteNotYetVblidException {
+        checkVblidity(new Dbte());
     }
 
     /**
-     * Checks that the specified date is within the certificate's
-     * validity period, or basically if the certificate would be
-     * valid at the specified date/time.
+     * Checks thbt the specified dbte is within the certificbte's
+     * vblidity period, or bbsicblly if the certificbte would be
+     * vblid bt the specified dbte/time.
      *
-     * @param date the Date to check against to see if this certificate
-     *        is valid at that date/time.
+     * @pbrbm dbte the Dbte to check bgbinst to see if this certificbte
+     *        is vblid bt thbt dbte/time.
      */
-    public void checkValidity(Date date) throws
-      CertificateExpiredException, CertificateNotYetValidException {
+    public void checkVblidity(Dbte dbte) throws
+      CertificbteExpiredException, CertificbteNotYetVblidException {
         try {
-            wrappedCert.checkValidity(date);
-        } catch (java.security.cert.CertificateNotYetValidException e) {
-            throw new CertificateNotYetValidException(e.getMessage());
-        } catch (java.security.cert.CertificateExpiredException e) {
-            throw new CertificateExpiredException(e.getMessage());
+            wrbppedCert.checkVblidity(dbte);
+        } cbtch (jbvb.security.cert.CertificbteNotYetVblidException e) {
+            throw new CertificbteNotYetVblidException(e.getMessbge());
+        } cbtch (jbvb.security.cert.CertificbteExpiredException e) {
+            throw new CertificbteExpiredException(e.getMessbge());
         }
     }
 
 
     /**
-     * Returns a printable representation of the certificate.  This does not
-     * contain all the information available to distinguish this from any
-     * other certificate.  The certificate must be fully constructed
-     * before this function may be called.
+     * Returns b printbble representbtion of the certificbte.  This does not
+     * contbin bll the informbtion bvbilbble to distinguish this from bny
+     * other certificbte.  The certificbte must be fully constructed
+     * before this function mby be cblled.
      */
     public String toString() {
-        return wrappedCert.toString();
+        return wrbppedCert.toString();
     }
 
     /**
-     * Gets the publickey from this certificate.
+     * Gets the publickey from this certificbte.
      *
      * @return the publickey.
      */
     public PublicKey getPublicKey() {
-        PublicKey key = wrappedCert.getPublicKey();
+        PublicKey key = wrbppedCert.getPublicKey();
         return key;
     }
 
     /*
-     * Gets the version number from the certificate.
+     * Gets the version number from the certificbte.
      *
      * @return the version number.
      */
     public int getVersion() {
-        return wrappedCert.getVersion() - 1;
+        return wrbppedCert.getVersion() - 1;
     }
 
     /**
-     * Gets the serial number from the certificate.
+     * Gets the seribl number from the certificbte.
      *
-     * @return the serial number.
+     * @return the seribl number.
      */
-    public BigInteger getSerialNumber() {
-        return wrappedCert.getSerialNumber();
+    public BigInteger getSeriblNumber() {
+        return wrbppedCert.getSeriblNumber();
     }
 
     /**
-     * Gets the subject distinguished name from the certificate.
+     * Gets the subject distinguished nbme from the certificbte.
      *
-     * @return the subject name.
-     * @exception CertificateException if a parsing error occurs.
+     * @return the subject nbme.
+     * @exception CertificbteException if b pbrsing error occurs.
      */
-    public Principal getSubjectDN() {
-        return wrappedCert.getSubjectDN();
+    public Principbl getSubjectDN() {
+        return wrbppedCert.getSubjectDN();
     }
 
     /**
-     * Gets the issuer distinguished name from the certificate.
+     * Gets the issuer distinguished nbme from the certificbte.
      *
-     * @return the issuer name.
-     * @exception CertificateException if a parsing error occurs.
+     * @return the issuer nbme.
+     * @exception CertificbteException if b pbrsing error occurs.
      */
-    public Principal getIssuerDN() {
-        return wrappedCert.getIssuerDN();
+    public Principbl getIssuerDN() {
+        return wrbppedCert.getIssuerDN();
     }
 
     /**
-     * Gets the notBefore date from the validity period of the certificate.
+     * Gets the notBefore dbte from the vblidity period of the certificbte.
      *
-     * @return the start date of the validity period.
-     * @exception CertificateException if a parsing error occurs.
+     * @return the stbrt dbte of the vblidity period.
+     * @exception CertificbteException if b pbrsing error occurs.
      */
-    public Date getNotBefore() {
-        return wrappedCert.getNotBefore();
+    public Dbte getNotBefore() {
+        return wrbppedCert.getNotBefore();
     }
 
     /**
-     * Gets the notAfter date from the validity period of the certificate.
+     * Gets the notAfter dbte from the vblidity period of the certificbte.
      *
-     * @return the end date of the validity period.
-     * @exception CertificateException if a parsing error occurs.
+     * @return the end dbte of the vblidity period.
+     * @exception CertificbteException if b pbrsing error occurs.
      */
-    public Date getNotAfter() {
-        return wrappedCert.getNotAfter();
+    public Dbte getNotAfter() {
+        return wrbppedCert.getNotAfter();
     }
 
     /**
-     * Gets the signature algorithm name for the certificate
-     * signature algorithm.
-     * For example, the string "SHA1/DSA".
+     * Gets the signbture blgorithm nbme for the certificbte
+     * signbture blgorithm.
+     * For exbmple, the string "SHA1/DSA".
      *
-     * @return the signature algorithm name.
-     * @exception CertificateException if a parsing error occurs.
+     * @return the signbture blgorithm nbme.
+     * @exception CertificbteException if b pbrsing error occurs.
      */
-    public String getSigAlgName() {
-        return wrappedCert.getSigAlgName();
+    public String getSigAlgNbme() {
+        return wrbppedCert.getSigAlgNbme();
     }
 
     /**
-     * Gets the signature algorithm OID string from the certificate.
-     * For example, the string "1.2.840.10040.4.3"
+     * Gets the signbture blgorithm OID string from the certificbte.
+     * For exbmple, the string "1.2.840.10040.4.3"
      *
-     * @return the signature algorithm oid string.
-     * @exception CertificateException if a parsing error occurs.
+     * @return the signbture blgorithm oid string.
+     * @exception CertificbteException if b pbrsing error occurs.
      */
     public String getSigAlgOID() {
-        return wrappedCert.getSigAlgOID();
+        return wrbppedCert.getSigAlgOID();
     }
 
     /**
-     * Gets the DER encoded signature algorithm parameters from this
-     * certificate's signature algorithm.
+     * Gets the DER encoded signbture blgorithm pbrbmeters from this
+     * certificbte's signbture blgorithm.
      *
-     * @return the DER encoded signature algorithm parameters, or
-     *         null if no parameters are present.
-     * @exception CertificateException if a parsing error occurs.
+     * @return the DER encoded signbture blgorithm pbrbmeters, or
+     *         null if no pbrbmeters bre present.
+     * @exception CertificbteException if b pbrsing error occurs.
      */
-    public byte[] getSigAlgParams() {
-        return wrappedCert.getSigAlgParams();
+    public byte[] getSigAlgPbrbms() {
+        return wrbppedCert.getSigAlgPbrbms();
     }
 
-    private synchronized void writeObject(ObjectOutputStream stream)
+    privbte synchronized void writeObject(ObjectOutputStrebm strebm)
         throws IOException {
         try {
-            stream.write(getEncoded());
-        } catch (CertificateEncodingException e) {
-            throw new IOException("getEncoded failed: " + e.getMessage());
+            strebm.write(getEncoded());
+        } cbtch (CertificbteEncodingException e) {
+            throw new IOException("getEncoded fbiled: " + e.getMessbge());
         }
     }
 
-    private synchronized void readObject(ObjectInputStream stream)
+    privbte synchronized void rebdObject(ObjectInputStrebm strebm)
         throws IOException {
         try {
-            wrappedCert = (java.security.cert.X509Certificate)
-                getFactory().generateCertificate(stream);
-        } catch (java.security.cert.CertificateException e) {
-            throw new IOException("generateCertificate failed: " + e.getMessage());
+            wrbppedCert = (jbvb.security.cert.X509Certificbte)
+                getFbctory().generbteCertificbte(strebm);
+        } cbtch (jbvb.security.cert.CertificbteException e) {
+            throw new IOException("generbteCertificbte fbiled: " + e.getMessbge());
         }
     }
 
-    public java.security.cert.X509Certificate getX509Certificate() {
-        return wrappedCert;
+    public jbvb.security.cert.X509Certificbte getX509Certificbte() {
+        return wrbppedCert;
     }
 }

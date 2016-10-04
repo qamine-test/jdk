@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtic sun.nio.fs.WindowsNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Security related utility methods.
+ * Security relbted utility methods.
  */
 
-class WindowsSecurity {
-    private WindowsSecurity() { }
+clbss WindowsSecurity {
+    privbte WindowsSecurity() { }
 
-    // opens process token for given access
-    private static long openProcessToken(int access) {
+    // opens process token for given bccess
+    privbte stbtic long openProcessToken(int bccess) {
         try {
-            return OpenProcessToken(GetCurrentProcess(), access);
-        } catch (WindowsException x) {
+            return OpenProcessToken(GetCurrentProcess(), bccess);
+        } cbtch (WindowsException x) {
             return 0L;
         }
     }
 
     /**
-     * Returns the access token for this process with TOKEN_DUPLICATE access
+     * Returns the bccess token for this process with TOKEN_DUPLICATE bccess
      */
-    static final long processTokenWithDuplicateAccess =
+    stbtic finbl long processTokenWithDuplicbteAccess =
         openProcessToken(TOKEN_DUPLICATE);
 
     /**
-     * Returns the access token for this process with TOKEN_QUERY access
+     * Returns the bccess token for this process with TOKEN_QUERY bccess
      */
-    static final long processTokenWithQueryAccess =
+    stbtic finbl long processTokenWithQueryAccess =
         openProcessToken(TOKEN_QUERY);
 
     /**
-     * Returned by enablePrivilege when code may require a given privilege.
-     * The drop method should be invoked after the operation completes so as
+     * Returned by enbblePrivilege when code mby require b given privilege.
+     * The drop method should be invoked bfter the operbtion completes so bs
      * to revert the privilege.
      */
-    static interface Privilege {
+    stbtic interfbce Privilege {
         void drop();
     }
 
     /**
-     * Attempts to enable the given privilege for this method.
+     * Attempts to enbble the given privilege for this method.
      */
-    static Privilege enablePrivilege(String priv) {
-        final long pLuid;
+    stbtic Privilege enbblePrivilege(String priv) {
+        finbl long pLuid;
         try {
-            pLuid = LookupPrivilegeValue(priv);
-        } catch (WindowsException x) {
-            // indicates bug in caller
+            pLuid = LookupPrivilegeVblue(priv);
+        } cbtch (WindowsException x) {
+            // indicbtes bug in cbller
             throw new AssertionError(x);
         }
 
         long hToken = 0L;
-        boolean impersontating = false;
-        boolean elevated = false;
+        boolebn impersontbting = fblse;
+        boolebn elevbted = fblse;
         try {
-            hToken = OpenThreadToken(GetCurrentThread(),
-                                     TOKEN_ADJUST_PRIVILEGES, false);
-            if (hToken == 0L && processTokenWithDuplicateAccess != 0L) {
-                hToken = DuplicateTokenEx(processTokenWithDuplicateAccess,
+            hToken = OpenThrebdToken(GetCurrentThrebd(),
+                                     TOKEN_ADJUST_PRIVILEGES, fblse);
+            if (hToken == 0L && processTokenWithDuplicbteAccess != 0L) {
+                hToken = DuplicbteTokenEx(processTokenWithDuplicbteAccess,
                     (TOKEN_ADJUST_PRIVILEGES|TOKEN_IMPERSONATE));
-                SetThreadToken(0L, hToken);
-                impersontating = true;
+                SetThrebdToken(0L, hToken);
+                impersontbting = true;
             }
 
             if (hToken != 0L) {
                 AdjustTokenPrivileges(hToken, pLuid, SE_PRIVILEGE_ENABLED);
-                elevated = true;
+                elevbted = true;
             }
-        } catch (WindowsException x) {
-            // nothing to do, privilege not enabled
+        } cbtch (WindowsException x) {
+            // nothing to do, privilege not enbbled
         }
 
-        final long token = hToken;
-        final boolean stopImpersontating = impersontating;
-        final boolean needToRevert = elevated;
+        finbl long token = hToken;
+        finbl boolebn stopImpersontbting = impersontbting;
+        finbl boolebn needToRevert = elevbted;
 
         return new Privilege() {
             @Override
             public void drop() {
                 if (token != 0L) {
                     try {
-                        if (stopImpersontating)
-                            SetThreadToken(0L, 0L);
+                        if (stopImpersontbting)
+                            SetThrebdToken(0L, 0L);
                         else if (needToRevert)
                             AdjustTokenPrivileges(token, pLuid, 0);
-                    } catch (WindowsException x) {
-                        // should not happen
+                    } cbtch (WindowsException x) {
+                        // should not hbppen
                         throw new AssertionError(x);
-                    } finally {
-                        CloseHandle(token);
+                    } finblly {
+                        CloseHbndle(token);
                     }
                 }
             }
@@ -123,28 +123,28 @@ class WindowsSecurity {
     }
 
     /**
-     * Check the access right against the securityInfo in the current thread.
+     * Check the bccess right bgbinst the securityInfo in the current threbd.
      */
-    static boolean checkAccessMask(long securityInfo, int accessMask,
-        int genericRead, int genericWrite, int genericExecute, int genericAll)
+    stbtic boolebn checkAccessMbsk(long securityInfo, int bccessMbsk,
+        int genericRebd, int genericWrite, int genericExecute, int genericAll)
         throws WindowsException
     {
         int privileges = TOKEN_QUERY;
-        long hToken = OpenThreadToken(GetCurrentThread(), privileges, false);
-        if (hToken == 0L && processTokenWithDuplicateAccess != 0L)
-            hToken = DuplicateTokenEx(processTokenWithDuplicateAccess,
+        long hToken = OpenThrebdToken(GetCurrentThrebd(), privileges, fblse);
+        if (hToken == 0L && processTokenWithDuplicbteAccess != 0L)
+            hToken = DuplicbteTokenEx(processTokenWithDuplicbteAccess,
                 privileges);
 
-        boolean hasRight = false;
+        boolebn hbsRight = fblse;
         if (hToken != 0L) {
             try {
-                hasRight = AccessCheck(hToken, securityInfo, accessMask,
-                    genericRead, genericWrite, genericExecute, genericAll);
-            } finally {
-                CloseHandle(hToken);
+                hbsRight = AccessCheck(hToken, securityInfo, bccessMbsk,
+                    genericRebd, genericWrite, genericExecute, genericAll);
+            } finblly {
+                CloseHbndle(hToken);
             }
         }
-        return hasRight;
+        return hbsRight;
     }
 
 }

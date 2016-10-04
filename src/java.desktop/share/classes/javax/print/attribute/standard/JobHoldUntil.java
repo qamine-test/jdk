@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import java.util.Date;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.DateTimeSyntax;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvb.util.Dbte;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.DbteTimeSyntbx;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class JobHoldUntil is a printing attribute class, a date-time attribute, that
- * specifies the exact date and time at which the job must become a candidate
+ * Clbss JobHoldUntil is b printing bttribute clbss, b dbte-time bttribute, thbt
+ * specifies the exbct dbte bnd time bt which the job must become b cbndidbte
  * for printing.
  * <P>
- * If the value of this attribute specifies a date-time that is in the future,
- * the printer should add the {@link JobStateReason JobStateReason} value of
- * JOB_HOLD_UNTIL_SPECIFIED to the job's {@link JobStateReasons JobStateReasons}
- * attribute, must move the job to the PENDING_HELD state, and must not schedule
- * the job for printing until the specified date-time arrives.
+ * If the vblue of this bttribute specifies b dbte-time thbt is in the future,
+ * the printer should bdd the {@link JobStbteRebson JobStbteRebson} vblue of
+ * JOB_HOLD_UNTIL_SPECIFIED to the job's {@link JobStbteRebsons JobStbteRebsons}
+ * bttribute, must move the job to the PENDING_HELD stbte, bnd must not schedule
+ * the job for printing until the specified dbte-time brrives.
  * <P>
- * When the specified date-time arrives, the printer must remove the {@link
- * JobStateReason JobStateReason} value of JOB_HOLD_UNTIL_SPECIFIED from the
- * job's {@link JobStateReasons JobStateReasons} attribute, if present. If there
- * are no other job state reasons that keep the job in the PENDING_HELD state,
- * the printer must consider the job as a candidate for processing by moving the
- * job to the PENDING state.
+ * When the specified dbte-time brrives, the printer must remove the {@link
+ * JobStbteRebson JobStbteRebson} vblue of JOB_HOLD_UNTIL_SPECIFIED from the
+ * job's {@link JobStbteRebsons JobStbteRebsons} bttribute, if present. If there
+ * bre no other job stbte rebsons thbt keep the job in the PENDING_HELD stbte,
+ * the printer must consider the job bs b cbndidbte for processing by moving the
+ * job to the PENDING stbte.
  * <P>
- * If the specified date-time has already passed, the job must be a candidate
- * for processing immediately. Thus, one way to make the job immediately become
- * a candidate for processing is to specify a JobHoldUntil attribute constructed
- * like this (denoting a date-time of January 1, 1970, 00:00:00 GMT):
+ * If the specified dbte-time hbs blrebdy pbssed, the job must be b cbndidbte
+ * for processing immedibtely. Thus, one wby to mbke the job immedibtely become
+ * b cbndidbte for processing is to specify b JobHoldUntil bttribute constructed
+ * like this (denoting b dbte-time of Jbnubry 1, 1970, 00:00:00 GMT):
  * <PRE>
- *     JobHoldUntil immediately = new JobHoldUntil (new Date (0L));
+ *     JobHoldUntil immedibtely = new JobHoldUntil (new Dbte (0L));
  * </PRE>
  * <P>
- * If the client does not supply this attribute in a Print Request and the
- * printer supports this attribute, the printer must use its
- * (implementation-dependent) default JobHoldUntil value at job submission time
- * (unlike most job template attributes that are used if necessary at job
+ * If the client does not supply this bttribute in b Print Request bnd the
+ * printer supports this bttribute, the printer must use its
+ * (implementbtion-dependent) defbult JobHoldUntil vblue bt job submission time
+ * (unlike most job templbte bttributes thbt bre used if necessbry bt job
  * processing time).
  * <P>
- * To construct a JobHoldUntil attribute from separate values of the year,
- * month, day, hour, minute, and so on, use a {@link java.util.Calendar
- * Calendar} object to construct a {@link java.util.Date Date} object, then use
- * the {@link java.util.Date Date} object to construct the JobHoldUntil
- * attribute. To convert a JobHoldUntil attribute to separate values of the
- * year, month, day, hour, minute, and so on, create a {@link java.util.Calendar
- * Calendar} object and set it to the {@link java.util.Date Date} from the
- * JobHoldUntil attribute.
+ * To construct b JobHoldUntil bttribute from sepbrbte vblues of the yebr,
+ * month, dby, hour, minute, bnd so on, use b {@link jbvb.util.Cblendbr
+ * Cblendbr} object to construct b {@link jbvb.util.Dbte Dbte} object, then use
+ * the {@link jbvb.util.Dbte Dbte} object to construct the JobHoldUntil
+ * bttribute. To convert b JobHoldUntil bttribute to sepbrbte vblues of the
+ * yebr, month, dby, hour, minute, bnd so on, crebte b {@link jbvb.util.Cblendbr
+ * Cblendbr} object bnd set it to the {@link jbvb.util.Dbte Dbte} from the
+ * JobHoldUntil bttribute.
  * <P>
- * <B>IPP Compatibility:</B> Although IPP supports a "job-hold-until" attribute
- * specified as a keyword, IPP does not at this time support a "job-hold-until"
- * attribute specified as a date and time. However, the date and time can be
- * converted to one of the standard IPP keywords with some loss of precision;
- * for example, a JobHoldUntil value with today's date and 9:00pm local time
- * might be converted to the standard IPP keyword "night". The category name
- * returned by <CODE>getName()</CODE> gives the IPP attribute name.
+ * <B>IPP Compbtibility:</B> Although IPP supports b "job-hold-until" bttribute
+ * specified bs b keyword, IPP does not bt this time support b "job-hold-until"
+ * bttribute specified bs b dbte bnd time. However, the dbte bnd time cbn be
+ * converted to one of the stbndbrd IPP keywords with some loss of precision;
+ * for exbmple, b JobHoldUntil vblue with todby's dbte bnd 9:00pm locbl time
+ * might be converted to the stbndbrd IPP keyword "night". The cbtegory nbme
+ * returned by <CODE>getNbme()</CODE> gives the IPP bttribute nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class JobHoldUntil extends DateTimeSyntax
+public finbl clbss JobHoldUntil extends DbteTimeSyntbx
         implements PrintRequestAttribute, PrintJobAttribute {
 
-    private static final long serialVersionUID = -1664471048860415024L;
+    privbte stbtic finbl long seriblVersionUID = -1664471048860415024L;
 
 
     /**
-     * Construct a new job hold until date-time attribute with the given
-     * {@link java.util.Date Date} value.
+     * Construct b new job hold until dbte-time bttribute with the given
+     * {@link jbvb.util.Dbte Dbte} vblue.
      *
-     * @param  dateTime  {@link java.util.Date Date} value.
+     * @pbrbm  dbteTime  {@link jbvb.util.Dbte Dbte} vblue.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>dateTime</CODE> is null.
+     *     (unchecked exception) Thrown if <CODE>dbteTime</CODE> is null.
      */
-    public JobHoldUntil(Date dateTime) {
-        super (dateTime);
+    public JobHoldUntil(Dbte dbteTime) {
+        super (dbteTime);
     }
 
     /**
-     * Returns whether this job hold until attribute is equivalent to the
-     * passed in object. To be equivalent, all of the following conditions
+     * Returns whether this job hold until bttribute is equivblent to the
+     * pbssed in object. To be equivblent, bll of the following conditions
      * must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class JobHoldUntil.
+     * <CODE>object</CODE> is bn instbnce of clbss JobHoldUntil.
      * <LI>
-     * This job hold until attribute's {@link java.util.Date Date} value and
-     * <CODE>object</CODE>'s {@link java.util.Date Date} value are equal.
+     * This job hold until bttribute's {@link jbvb.util.Dbte Dbte} vblue bnd
+     * <CODE>object</CODE>'s {@link jbvb.util.Dbte Dbte} vblue bre equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this job hold
-     *          until attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this job hold
+     *          until bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return (super.equals(object) && object instanceof JobHoldUntil);
+    public boolebn equbls(Object object) {
+        return (super.equbls(object) && object instbnceof JobHoldUntil);
     }
 
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class JobHoldUntil, the category is class JobHoldUntil itself.
+     * For clbss JobHoldUntil, the cbtegory is clbss JobHoldUntil itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobHoldUntil.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return JobHoldUntil.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class JobHoldUntil, the category name is <CODE>"job-hold-until"</CODE>.
+     * For clbss JobHoldUntil, the cbtegory nbme is <CODE>"job-hold-until"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "job-hold-until";
     }
 

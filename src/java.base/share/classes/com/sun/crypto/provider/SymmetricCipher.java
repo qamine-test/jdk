@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.InvalidKeyException;
+import jbvb.security.InvblidKeyException;
 
 /**
- * This abstract class represents the core of all block ciphers. It allows to
- * intialize the cipher and encrypt/decrypt single blocks. Larger quantities
- * are handled by modes, which are subclasses of FeedbackCipher.
+ * This bbstrbct clbss represents the core of bll block ciphers. It bllows to
+ * intiblize the cipher bnd encrypt/decrypt single blocks. Lbrger qubntities
+ * bre hbndled by modes, which bre subclbsses of FeedbbckCipher.
  *
- * @author Gigi Ankeny
- * @author Jan Luehe
+ * @buthor Gigi Ankeny
+ * @buthor Jbn Luehe
  *
  *
  * @see AESCrypt
  * @see DESCrypt
  * @see DESedeCrypt
  * @see BlowfishCrypt
- * @see FeedbackCipher
+ * @see FeedbbckCipher
  */
-abstract class SymmetricCipher {
+bbstrbct clbss SymmetricCipher {
 
     SymmetricCipher() {
         // empty
@@ -53,50 +53,50 @@ abstract class SymmetricCipher {
      *
      * @return the block size of this cipher
      */
-    abstract int getBlockSize();
+    bbstrbct int getBlockSize();
 
     /**
-     * Initializes the cipher in the specified mode with the given key.
+     * Initiblizes the cipher in the specified mode with the given key.
      *
-     * @param decrypting flag indicating encryption or decryption
-     * @param algorithm the algorithm name
-     * @param key the key
+     * @pbrbm decrypting flbg indicbting encryption or decryption
+     * @pbrbm blgorithm the blgorithm nbme
+     * @pbrbm key the key
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this cipher
      */
-    abstract void init(boolean decrypting, String algorithm, byte[] key)
-        throws InvalidKeyException;
+    bbstrbct void init(boolebn decrypting, String blgorithm, byte[] key)
+        throws InvblidKeyException;
 
     /**
      * Encrypt one cipher block.
      *
-     * <p>The input <code>plain</code>, starting at <code>plainOffset</code>
-     * and ending at <code>(plainOffset+blockSize-1)</code>, is encrypted.
-     * The result is stored in <code>cipher</code>, starting at
+     * <p>The input <code>plbin</code>, stbrting bt <code>plbinOffset</code>
+     * bnd ending bt <code>(plbinOffset+blockSize-1)</code>, is encrypted.
+     * The result is stored in <code>cipher</code>, stbrting bt
      * <code>cipherOffset</code>.
      *
-     * @param plain the input buffer with the data to be encrypted
-     * @param plainOffset the offset in <code>plain</code>
-     * @param cipher the buffer for the encryption result
-     * @param cipherOffset the offset in <code>cipher</code>
+     * @pbrbm plbin the input buffer with the dbtb to be encrypted
+     * @pbrbm plbinOffset the offset in <code>plbin</code>
+     * @pbrbm cipher the buffer for the encryption result
+     * @pbrbm cipherOffset the offset in <code>cipher</code>
      */
-    abstract void encryptBlock(byte[] plain, int plainOffset,
+    bbstrbct void encryptBlock(byte[] plbin, int plbinOffset,
                           byte[] cipher, int cipherOffset);
 
     /**
      * Decrypt one cipher block.
      *
-     * <p>The input <code>cipher</code>, starting at <code>cipherOffset</code>
-     * and ending at <code>(cipherOffset+blockSize-1)</code>, is decrypted.
-     * The result is stored in <code>plain</code>, starting at
-     * <code>plainOffset</code>.
+     * <p>The input <code>cipher</code>, stbrting bt <code>cipherOffset</code>
+     * bnd ending bt <code>(cipherOffset+blockSize-1)</code>, is decrypted.
+     * The result is stored in <code>plbin</code>, stbrting bt
+     * <code>plbinOffset</code>.
      *
-     * @param cipher the input buffer with the data to be decrypted
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @param plain the buffer for the decryption result
-     * @param plainOffset the offset in <code>plain</code>
+     * @pbrbm cipher the input buffer with the dbtb to be decrypted
+     * @pbrbm cipherOffset the offset in <code>cipher</code>
+     * @pbrbm plbin the buffer for the decryption result
+     * @pbrbm plbinOffset the offset in <code>plbin</code>
      */
-    abstract void decryptBlock(byte[] cipher, int cipherOffset,
-                          byte[] plain, int plainOffset);
+    bbstrbct void decryptBlock(byte[] cipher, int cipherOffset,
+                          byte[] plbin, int plbinOffset);
 }

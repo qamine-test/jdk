@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 import sun.security.util.*;
 
 /**
- * Represent the GeneralSubtrees ASN.1 object.
+ * Represent the GenerblSubtrees ASN.1 object.
  * <p>
  * The ASN.1 for this is
  * <pre>
- * GeneralSubtrees ::= SEQUENCE SIZE (1..MAX) OF GeneralSubtree
+ * GenerblSubtrees ::= SEQUENCE SIZE (1..MAX) OF GenerblSubtree
  * </pre>
  * </p>
  *
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @author Andreas Sterbenz
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
+ * @buthor Andrebs Sterbenz
  */
-public class GeneralSubtrees implements Cloneable {
+public clbss GenerblSubtrees implements Clonebble {
 
-    private final List<GeneralSubtree> trees;
+    privbte finbl List<GenerblSubtree> trees;
 
-    // Private variables
-    private static final int NAME_DIFF_TYPE = GeneralNameInterface.NAME_DIFF_TYPE;
-    private static final int NAME_MATCH = GeneralNameInterface.NAME_MATCH;
-    private static final int NAME_NARROWS = GeneralNameInterface.NAME_NARROWS;
-    private static final int NAME_WIDENS = GeneralNameInterface.NAME_WIDENS;
-    private static final int NAME_SAME_TYPE = GeneralNameInterface.NAME_SAME_TYPE;
+    // Privbte vbribbles
+    privbte stbtic finbl int NAME_DIFF_TYPE = GenerblNbmeInterfbce.NAME_DIFF_TYPE;
+    privbte stbtic finbl int NAME_MATCH = GenerblNbmeInterfbce.NAME_MATCH;
+    privbte stbtic finbl int NAME_NARROWS = GenerblNbmeInterfbce.NAME_NARROWS;
+    privbte stbtic finbl int NAME_WIDENS = GenerblNbmeInterfbce.NAME_WIDENS;
+    privbte stbtic finbl int NAME_SAME_TYPE = GenerblNbmeInterfbce.NAME_SAME_TYPE;
 
     /**
-     * The default constructor for the class.
+     * The defbult constructor for the clbss.
      */
-    public GeneralSubtrees() {
-        trees = new ArrayList<GeneralSubtree>();
+    public GenerblSubtrees() {
+        trees = new ArrbyList<GenerblSubtree>();
     }
 
-    private GeneralSubtrees(GeneralSubtrees source) {
-        trees = new ArrayList<GeneralSubtree>(source.trees);
+    privbte GenerblSubtrees(GenerblSubtrees source) {
+        trees = new ArrbyList<GenerblSubtree>(source.trees);
     }
 
     /**
-     * Create the object from the passed DER encoded form.
+     * Crebte the object from the pbssed DER encoded form.
      *
-     * @param val the DER encoded form of the same.
+     * @pbrbm vbl the DER encoded form of the sbme.
      */
-    public GeneralSubtrees(DerValue val) throws IOException {
+    public GenerblSubtrees(DerVblue vbl) throws IOException {
         this();
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding of GeneralSubtrees.");
+        if (vbl.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Invblid encoding of GenerblSubtrees.");
         }
-        while (val.data.available() != 0) {
-            DerValue opt = val.data.getDerValue();
-            GeneralSubtree tree = new GeneralSubtree(opt);
-            add(tree);
+        while (vbl.dbtb.bvbilbble() != 0) {
+            DerVblue opt = vbl.dbtb.getDerVblue();
+            GenerblSubtree tree = new GenerblSubtree(opt);
+            bdd(tree);
         }
     }
 
-    public GeneralSubtree get(int index) {
+    public GenerblSubtree get(int index) {
         return trees.get(index);
     }
 
@@ -91,335 +91,335 @@ public class GeneralSubtrees implements Cloneable {
         trees.remove(index);
     }
 
-    public void add(GeneralSubtree tree) {
+    public void bdd(GenerblSubtree tree) {
         if (tree == null) {
             throw new NullPointerException();
         }
-        trees.add(tree);
+        trees.bdd(tree);
     }
 
-    public boolean contains(GeneralSubtree tree) {
+    public boolebn contbins(GenerblSubtree tree) {
         if (tree == null) {
             throw new NullPointerException();
         }
-        return trees.contains(tree);
+        return trees.contbins(tree);
     }
 
     public int size() {
         return trees.size();
     }
 
-    public Iterator<GeneralSubtree> iterator() {
-        return trees.iterator();
+    public Iterbtor<GenerblSubtree> iterbtor() {
+        return trees.iterbtor();
     }
 
-    public List<GeneralSubtree> trees() {
+    public List<GenerblSubtree> trees() {
         return trees;
     }
 
     public Object clone() {
-        return new GeneralSubtrees(this);
+        return new GenerblSubtrees(this);
     }
 
     /**
-     * Return a printable string of the GeneralSubtree.
+     * Return b printbble string of the GenerblSubtree.
      */
     public String toString() {
-        String s = "   GeneralSubtrees:\n" + trees.toString() + "\n";
+        String s = "   GenerblSubtrees:\n" + trees.toString() + "\n";
         return s;
     }
 
     /**
-     * Encode the GeneralSubtrees.
+     * Encode the GenerblSubtrees.
      *
-     * @params out the DerOutputStrean to encode this object to.
+     * @pbrbms out the DerOutputStrebn to encode this object to.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream seq = new DerOutputStream();
+    public void encode(DerOutputStrebm out) throws IOException {
+        DerOutputStrebm seq = new DerOutputStrebm();
 
         for (int i = 0, n = size(); i < n; i++) {
             get(i).encode(seq);
         }
-        out.write(DerValue.tag_Sequence, seq);
+        out.write(DerVblue.tbg_Sequence, seq);
     }
 
     /**
-     * Compare two general subtrees by comparing the subtrees
-     * of each.
+     * Compbre two generbl subtrees by compbring the subtrees
+     * of ebch.
      *
-     * @param other GeneralSubtrees to compare to this
-     * @returns true if match
+     * @pbrbm other GenerblSubtrees to compbre to this
+     * @returns true if mbtch
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof GeneralSubtrees == false) {
-            return false;
+        if (obj instbnceof GenerblSubtrees == fblse) {
+            return fblse;
         }
-        GeneralSubtrees other = (GeneralSubtrees)obj;
-        return this.trees.equals(other.trees);
+        GenerblSubtrees other = (GenerblSubtrees)obj;
+        return this.trees.equbls(other.trees);
     }
 
-    public int hashCode() {
-        return trees.hashCode();
+    public int hbshCode() {
+        return trees.hbshCode();
     }
 
     /**
-     * Return the GeneralNameInterface form of the GeneralName in one of
-     * the GeneralSubtrees.
+     * Return the GenerblNbmeInterfbce form of the GenerblNbme in one of
+     * the GenerblSubtrees.
      *
-     * @param ndx index of the GeneralSubtree from which to obtain the name
+     * @pbrbm ndx index of the GenerblSubtree from which to obtbin the nbme
      */
-    private GeneralNameInterface getGeneralNameInterface(int ndx) {
-        return getGeneralNameInterface(get(ndx));
+    privbte GenerblNbmeInterfbce getGenerblNbmeInterfbce(int ndx) {
+        return getGenerblNbmeInterfbce(get(ndx));
     }
 
-    private static GeneralNameInterface getGeneralNameInterface(GeneralSubtree gs) {
-        GeneralName gn = gs.getName();
-        GeneralNameInterface gni = gn.getName();
+    privbte stbtic GenerblNbmeInterfbce getGenerblNbmeInterfbce(GenerblSubtree gs) {
+        GenerblNbme gn = gs.getNbme();
+        GenerblNbmeInterfbce gni = gn.getNbme();
         return gni;
     }
 
     /**
-     * minimize this GeneralSubtrees by removing all redundant entries.
-     * Internal method used by intersect and reduce.
+     * minimize this GenerblSubtrees by removing bll redundbnt entries.
+     * Internbl method used by intersect bnd reduce.
      */
-    private void minimize() {
+    privbte void minimize() {
 
-        // Algorithm: compare each entry n to all subsequent entries in
-        // the list: if any subsequent entry matches or widens entry n,
-        // remove entry n. If any subsequent entries narrow entry n, remove
+        // Algorithm: compbre ebch entry n to bll subsequent entries in
+        // the list: if bny subsequent entry mbtches or widens entry n,
+        // remove entry n. If bny subsequent entries nbrrow entry n, remove
         // the subsequent entries.
         for (int i = 0; i < size(); i++) {
-            GeneralNameInterface current = getGeneralNameInterface(i);
-            boolean remove1 = false;
+            GenerblNbmeInterfbce current = getGenerblNbmeInterfbce(i);
+            boolebn remove1 = fblse;
 
-            /* compare current to subsequent elements */
+            /* compbre current to subsequent elements */
             for (int j = i + 1; j < size(); j++) {
-                GeneralNameInterface subsequent = getGeneralNameInterface(j);
-                switch (current.constrains(subsequent)) {
-                    case GeneralNameInterface.NAME_DIFF_TYPE:
-                        /* not comparable; different name types; keep checking */
+                GenerblNbmeInterfbce subsequent = getGenerblNbmeInterfbce(j);
+                switch (current.constrbins(subsequent)) {
+                    cbse GenerblNbmeInterfbce.NAME_DIFF_TYPE:
+                        /* not compbrbble; different nbme types; keep checking */
                         continue;
-                    case GeneralNameInterface.NAME_MATCH:
-                        /* delete one of the duplicates */
+                    cbse GenerblNbmeInterfbce.NAME_MATCH:
+                        /* delete one of the duplicbtes */
                         remove1 = true;
-                        break;
-                    case GeneralNameInterface.NAME_NARROWS:
-                        /* subsequent narrows current */
-                        /* remove narrower name (subsequent) */
+                        brebk;
+                    cbse GenerblNbmeInterfbce.NAME_NARROWS:
+                        /* subsequent nbrrows current */
+                        /* remove nbrrower nbme (subsequent) */
                         remove(j);
                         j--; /* continue check with new subsequent */
                         continue;
-                    case GeneralNameInterface.NAME_WIDENS:
+                    cbse GenerblNbmeInterfbce.NAME_WIDENS:
                         /* subsequent widens current */
-                        /* remove narrower name current */
+                        /* remove nbrrower nbme current */
                         remove1 = true;
-                        break;
-                    case GeneralNameInterface.NAME_SAME_TYPE:
+                        brebk;
+                    cbse GenerblNbmeInterfbce.NAME_SAME_TYPE:
                         /* keep both for now; keep checking */
                         continue;
                 }
-                break;
-            } /* end of this pass of subsequent elements */
+                brebk;
+            } /* end of this pbss of subsequent elements */
 
             if (remove1) {
                 remove(i);
-                i--; /* check the new i value */
+                i--; /* check the new i vblue */
             }
 
         }
     }
 
     /**
-     * create a subtree containing an instance of the input
-     * name type that widens all other names of that type.
+     * crebte b subtree contbining bn instbnce of the input
+     * nbme type thbt widens bll other nbmes of thbt type.
      *
-     * @params name GeneralNameInterface name
-     * @returns GeneralSubtree containing widest name of that type
+     * @pbrbms nbme GenerblNbmeInterfbce nbme
+     * @returns GenerblSubtree contbining widest nbme of thbt type
      * @throws RuntimeException on error (should not occur)
      */
-    private GeneralSubtree createWidestSubtree(GeneralNameInterface name) {
+    privbte GenerblSubtree crebteWidestSubtree(GenerblNbmeInterfbce nbme) {
         try {
-            GeneralName newName;
-            switch (name.getType()) {
-            case GeneralNameInterface.NAME_ANY:
-                // Create new OtherName with same OID as baseName, but
-                // empty value
-                ObjectIdentifier otherOID = ((OtherName)name).getOID();
-                newName = new GeneralName(new OtherName(otherOID, null));
-                break;
-            case GeneralNameInterface.NAME_RFC822:
-                newName = new GeneralName(new RFC822Name(""));
-                break;
-            case GeneralNameInterface.NAME_DNS:
-                newName = new GeneralName(new DNSName(""));
-                break;
-            case GeneralNameInterface.NAME_X400:
-                newName = new GeneralName(new X400Address((byte[])null));
-                break;
-            case GeneralNameInterface.NAME_DIRECTORY:
-                newName = new GeneralName(new X500Name(""));
-                break;
-            case GeneralNameInterface.NAME_EDI:
-                newName = new GeneralName(new EDIPartyName(""));
-                break;
-            case GeneralNameInterface.NAME_URI:
-                newName = new GeneralName(new URIName(""));
-                break;
-            case GeneralNameInterface.NAME_IP:
-                newName = new GeneralName(new IPAddressName((byte[])null));
-                break;
-            case GeneralNameInterface.NAME_OID:
-                newName = new GeneralName
-                    (new OIDName(new ObjectIdentifier((int[])null)));
-                break;
-            default:
+            GenerblNbme newNbme;
+            switch (nbme.getType()) {
+            cbse GenerblNbmeInterfbce.NAME_ANY:
+                // Crebte new OtherNbme with sbme OID bs bbseNbme, but
+                // empty vblue
+                ObjectIdentifier otherOID = ((OtherNbme)nbme).getOID();
+                newNbme = new GenerblNbme(new OtherNbme(otherOID, null));
+                brebk;
+            cbse GenerblNbmeInterfbce.NAME_RFC822:
+                newNbme = new GenerblNbme(new RFC822Nbme(""));
+                brebk;
+            cbse GenerblNbmeInterfbce.NAME_DNS:
+                newNbme = new GenerblNbme(new DNSNbme(""));
+                brebk;
+            cbse GenerblNbmeInterfbce.NAME_X400:
+                newNbme = new GenerblNbme(new X400Address((byte[])null));
+                brebk;
+            cbse GenerblNbmeInterfbce.NAME_DIRECTORY:
+                newNbme = new GenerblNbme(new X500Nbme(""));
+                brebk;
+            cbse GenerblNbmeInterfbce.NAME_EDI:
+                newNbme = new GenerblNbme(new EDIPbrtyNbme(""));
+                brebk;
+            cbse GenerblNbmeInterfbce.NAME_URI:
+                newNbme = new GenerblNbme(new URINbme(""));
+                brebk;
+            cbse GenerblNbmeInterfbce.NAME_IP:
+                newNbme = new GenerblNbme(new IPAddressNbme((byte[])null));
+                brebk;
+            cbse GenerblNbmeInterfbce.NAME_OID:
+                newNbme = new GenerblNbme
+                    (new OIDNbme(new ObjectIdentifier((int[])null)));
+                brebk;
+            defbult:
                 throw new IOException
-                    ("Unsupported GeneralNameInterface type: " + name.getType());
+                    ("Unsupported GenerblNbmeInterfbce type: " + nbme.getType());
             }
-            return new GeneralSubtree(newName, 0, -1);
-        } catch (IOException e) {
+            return new GenerblSubtree(newNbme, 0, -1);
+        } cbtch (IOException e) {
             throw new RuntimeException("Unexpected error: " + e, e);
         }
     }
 
     /**
-     * intersect this GeneralSubtrees with other.  This function
-     * is used in merging permitted NameConstraints.  The operation
-     * is performed as follows:
+     * intersect this GenerblSubtrees with other.  This function
+     * is used in merging permitted NbmeConstrbints.  The operbtion
+     * is performed bs follows:
      * <ul>
-     * <li>If a name in other narrows all names of the same type in this,
-     *     the result will contain the narrower name and none of the
-     *     names it narrows.
-     * <li>If a name in other widens all names of the same type in this,
-     *     the result will not contain the wider name.
-     * <li>If a name in other does not share the same subtree with any name
-     *     of the same type in this, then the name is added to the list
-     *     of GeneralSubtrees returned.  These names should be added to
-     *     the list of names that are specifically excluded.  The reason
-     *     is that, if the intersection is empty, then no names of that
-     *     type are permitted, and the only way to express this in
-     *     NameConstraints is to include the name in excludedNames.
-     * <li>If a name in this has no name of the same type in other, then
-     *     the result contains the name in this.  No name of a given type
-     *     means the name type is completely permitted.
-     * <li>If a name in other has no name of the same type in this, then
-     *     the result contains the name in other.  This means that
-     *     the name is now constrained in some way, whereas before it was
+     * <li>If b nbme in other nbrrows bll nbmes of the sbme type in this,
+     *     the result will contbin the nbrrower nbme bnd none of the
+     *     nbmes it nbrrows.
+     * <li>If b nbme in other widens bll nbmes of the sbme type in this,
+     *     the result will not contbin the wider nbme.
+     * <li>If b nbme in other does not shbre the sbme subtree with bny nbme
+     *     of the sbme type in this, then the nbme is bdded to the list
+     *     of GenerblSubtrees returned.  These nbmes should be bdded to
+     *     the list of nbmes thbt bre specificblly excluded.  The rebson
+     *     is thbt, if the intersection is empty, then no nbmes of thbt
+     *     type bre permitted, bnd the only wby to express this in
+     *     NbmeConstrbints is to include the nbme in excludedNbmes.
+     * <li>If b nbme in this hbs no nbme of the sbme type in other, then
+     *     the result contbins the nbme in this.  No nbme of b given type
+     *     mebns the nbme type is completely permitted.
+     * <li>If b nbme in other hbs no nbme of the sbme type in this, then
+     *     the result contbins the nbme in other.  This mebns thbt
+     *     the nbme is now constrbined in some wby, wherebs before it wbs
      *     completely permitted.
      * <ul>
      *
-     * @param other GeneralSubtrees to be intersected with this
-     * @returns GeneralSubtrees to be merged with excluded; these are
-     *          empty-valued name types corresponding to entries that were
-     *          of the same type but did not share the same subtree between
-     *          this and other. Returns null if no such.
+     * @pbrbm other GenerblSubtrees to be intersected with this
+     * @returns GenerblSubtrees to be merged with excluded; these bre
+     *          empty-vblued nbme types corresponding to entries thbt were
+     *          of the sbme type but did not shbre the sbme subtree between
+     *          this bnd other. Returns null if no such.
      */
-    public GeneralSubtrees intersect(GeneralSubtrees other) {
+    public GenerblSubtrees intersect(GenerblSubtrees other) {
 
         if (other == null) {
-            throw new NullPointerException("other GeneralSubtrees must not be null");
+            throw new NullPointerException("other GenerblSubtrees must not be null");
         }
 
-        GeneralSubtrees newThis = new GeneralSubtrees();
-        GeneralSubtrees newExcluded = null;
+        GenerblSubtrees newThis = new GenerblSubtrees();
+        GenerblSubtrees newExcluded = null;
 
-        // Step 1: If this is empty, just add everything in other to this and
+        // Step 1: If this is empty, just bdd everything in other to this bnd
         // return no new excluded entries
         if (size() == 0) {
             union(other);
             return null;
         }
 
-        // Step 2: For ease of checking the subtrees, minimize them by
-        // constructing versions that contain only the widest instance of
-        // each type
+        // Step 2: For ebse of checking the subtrees, minimize them by
+        // constructing versions thbt contbin only the widest instbnce of
+        // ebch type
         this.minimize();
         other.minimize();
 
-        // Step 3: Check each entry in this to see whether we keep it or
-        // remove it, and whether we add anything to newExcluded or newThis.
-        // We keep an entry in this unless it is narrowed by all entries in
-        // other.  We add an entry to newExcluded if there is at least one
-        // entry of the same nameType in other, but this entry does
-        // not share the same subtree with any of the entries in other.
-        // We add an entry from other to newThis if there is no name of the
-        // same type in this.
+        // Step 3: Check ebch entry in this to see whether we keep it or
+        // remove it, bnd whether we bdd bnything to newExcluded or newThis.
+        // We keep bn entry in this unless it is nbrrowed by bll entries in
+        // other.  We bdd bn entry to newExcluded if there is bt lebst one
+        // entry of the sbme nbmeType in other, but this entry does
+        // not shbre the sbme subtree with bny of the entries in other.
+        // We bdd bn entry from other to newThis if there is no nbme of the
+        // sbme type in this.
         for (int i = 0; i < size(); i++) {
-            GeneralNameInterface thisEntry = getGeneralNameInterface(i);
-            boolean removeThisEntry = false;
+            GenerblNbmeInterfbce thisEntry = getGenerblNbmeInterfbce(i);
+            boolebn removeThisEntry = fblse;
 
-            // Step 3a: If the widest name of this type in other narrows
-            // thisEntry, remove thisEntry and add widest other to newThis.
-            // Simultaneously, check for situation where there is a name of
-            // this type in other, but no name in other matches, narrows,
+            // Step 3b: If the widest nbme of this type in other nbrrows
+            // thisEntry, remove thisEntry bnd bdd widest other to newThis.
+            // Simultbneously, check for situbtion where there is b nbme of
+            // this type in other, but no nbme in other mbtches, nbrrows,
             // or widens thisEntry.
-            boolean sameType = false;
+            boolebn sbmeType = fblse;
             for (int j = 0; j < other.size(); j++) {
-                GeneralSubtree otherEntryGS = other.get(j);
-                GeneralNameInterface otherEntry =
-                    getGeneralNameInterface(otherEntryGS);
-                switch (thisEntry.constrains(otherEntry)) {
-                    case NAME_NARROWS:
+                GenerblSubtree otherEntryGS = other.get(j);
+                GenerblNbmeInterfbce otherEntry =
+                    getGenerblNbmeInterfbce(otherEntryGS);
+                switch (thisEntry.constrbins(otherEntry)) {
+                    cbse NAME_NARROWS:
                         remove(i);
                         i--;
-                        newThis.add(otherEntryGS);
-                        sameType = false;
-                        break;
-                    case NAME_SAME_TYPE:
-                        sameType = true;
+                        newThis.bdd(otherEntryGS);
+                        sbmeType = fblse;
+                        brebk;
+                    cbse NAME_SAME_TYPE:
+                        sbmeType = true;
                         continue;
-                    case NAME_MATCH:
-                    case NAME_WIDENS:
-                        sameType = false;
-                        break;
-                    case NAME_DIFF_TYPE:
-                    default:
+                    cbse NAME_MATCH:
+                    cbse NAME_WIDENS:
+                        sbmeType = fblse;
+                        brebk;
+                    cbse NAME_DIFF_TYPE:
+                    defbult:
                         continue;
                 }
-                break;
+                brebk;
             }
 
-            // Step 3b: If sameType is still true, we have the situation
-            // where there was a name of the same type as thisEntry in
-            // other, but no name in other widened, matched, or narrowed
+            // Step 3b: If sbmeType is still true, we hbve the situbtion
+            // where there wbs b nbme of the sbme type bs thisEntry in
+            // other, but no nbme in other widened, mbtched, or nbrrowed
             // thisEntry.
-            if (sameType) {
+            if (sbmeType) {
 
-                // Step 3b.1: See if there are any entries in this and other
-                // with this type that match, widen, or narrow each other.
-                // If not, then we need to add a "widest subtree" of this
+                // Step 3b.1: See if there bre bny entries in this bnd other
+                // with this type thbt mbtch, widen, or nbrrow ebch other.
+                // If not, then we need to bdd b "widest subtree" of this
                 // type to excluded.
-                boolean intersection = false;
+                boolebn intersection = fblse;
                 for (int j = 0; j < size(); j++) {
-                    GeneralNameInterface thisAltEntry = getGeneralNameInterface(j);
+                    GenerblNbmeInterfbce thisAltEntry = getGenerblNbmeInterfbce(j);
 
                     if (thisAltEntry.getType() == thisEntry.getType()) {
                         for (int k = 0; k < other.size(); k++) {
-                            GeneralNameInterface othAltEntry =
-                                other.getGeneralNameInterface(k);
+                            GenerblNbmeInterfbce othAltEntry =
+                                other.getGenerblNbmeInterfbce(k);
 
-                            int constraintType =
-                                thisAltEntry.constrains(othAltEntry);
-                            if (constraintType == NAME_MATCH ||
-                                constraintType == NAME_WIDENS ||
-                                constraintType == NAME_NARROWS) {
+                            int constrbintType =
+                                thisAltEntry.constrbins(othAltEntry);
+                            if (constrbintType == NAME_MATCH ||
+                                constrbintType == NAME_WIDENS ||
+                                constrbintType == NAME_NARROWS) {
                                 intersection = true;
-                                break;
+                                brebk;
                             }
                         }
                     }
                 }
-                if (intersection == false) {
+                if (intersection == fblse) {
                     if (newExcluded == null) {
-                        newExcluded = new GeneralSubtrees();
+                        newExcluded = new GenerblSubtrees();
                     }
-                    GeneralSubtree widestSubtree =
-                         createWidestSubtree(thisEntry);
-                    if (!newExcluded.contains(widestSubtree)) {
-                        newExcluded.add(widestSubtree);
+                    GenerblSubtree widestSubtree =
+                         crebteWidestSubtree(thisEntry);
+                    if (!newExcluded.contbins(widestSubtree)) {
+                        newExcluded.bdd(widestSubtree);
                     }
                 }
 
@@ -429,56 +429,56 @@ public class GeneralSubtrees implements Cloneable {
             }
         }
 
-        // Step 4: Add all entries in newThis to this
+        // Step 4: Add bll entries in newThis to this
         if (newThis.size() > 0) {
             union(newThis);
         }
 
-        // Step 5: Add all entries in other that do not have any entry of the
-        // same type in this to this
+        // Step 5: Add bll entries in other thbt do not hbve bny entry of the
+        // sbme type in this to this
         for (int i = 0; i < other.size(); i++) {
-            GeneralSubtree otherEntryGS = other.get(i);
-            GeneralNameInterface otherEntry = getGeneralNameInterface(otherEntryGS);
-            boolean diffType = false;
+            GenerblSubtree otherEntryGS = other.get(i);
+            GenerblNbmeInterfbce otherEntry = getGenerblNbmeInterfbce(otherEntryGS);
+            boolebn diffType = fblse;
             for (int j = 0; j < size(); j++) {
-                GeneralNameInterface thisEntry = getGeneralNameInterface(j);
-                switch (thisEntry.constrains(otherEntry)) {
-                    case NAME_DIFF_TYPE:
+                GenerblNbmeInterfbce thisEntry = getGenerblNbmeInterfbce(j);
+                switch (thisEntry.constrbins(otherEntry)) {
+                    cbse NAME_DIFF_TYPE:
                         diffType = true;
-                        // continue to see if we find something later of the
-                        // same type
+                        // continue to see if we find something lbter of the
+                        // sbme type
                         continue;
-                    case NAME_NARROWS:
-                    case NAME_SAME_TYPE:
-                    case NAME_MATCH:
-                    case NAME_WIDENS:
-                        diffType = false; // we found an entry of the same type
-                        // break because we know we won't be adding it to
+                    cbse NAME_NARROWS:
+                    cbse NAME_SAME_TYPE:
+                    cbse NAME_MATCH:
+                    cbse NAME_WIDENS:
+                        diffType = fblse; // we found bn entry of the sbme type
+                        // brebk becbuse we know we won't be bdding it to
                         // this now
-                        break;
-                    default:
+                        brebk;
+                    defbult:
                         continue;
                 }
-                break;
+                brebk;
             }
             if (diffType) {
-                add(otherEntryGS);
+                bdd(otherEntryGS);
             }
         }
 
-        // Step 6: Return the newExcluded GeneralSubtrees
+        // Step 6: Return the newExcluded GenerblSubtrees
         return newExcluded;
     }
 
     /**
-     * construct union of this GeneralSubtrees with other.
+     * construct union of this GenerblSubtrees with other.
      *
-     * @param other GeneralSubtrees to be united with this
+     * @pbrbm other GenerblSubtrees to be united with this
      */
-    public void union(GeneralSubtrees other) {
+    public void union(GenerblSubtrees other) {
         if (other != null) {
             for (int i = 0, n = other.size(); i < n; i++) {
-                add(other.get(i));
+                bdd(other.get(i));
             }
             // Minimize this
             minimize();
@@ -486,40 +486,40 @@ public class GeneralSubtrees implements Cloneable {
     }
 
     /**
-     * reduce this GeneralSubtrees by contents of another.  This function
-     * is used in merging excluded NameConstraints with permitted NameConstraints
-     * to obtain a minimal form of permitted NameConstraints.  It is an
-     * optimization, and does not affect correctness of the results.
+     * reduce this GenerblSubtrees by contents of bnother.  This function
+     * is used in merging excluded NbmeConstrbints with permitted NbmeConstrbints
+     * to obtbin b minimbl form of permitted NbmeConstrbints.  It is bn
+     * optimizbtion, bnd does not bffect correctness of the results.
      *
-     * @param excluded GeneralSubtrees
+     * @pbrbm excluded GenerblSubtrees
      */
-    public void reduce(GeneralSubtrees excluded) {
+    public void reduce(GenerblSubtrees excluded) {
         if (excluded == null) {
             return;
         }
         for (int i = 0, n = excluded.size(); i < n; i++) {
-            GeneralNameInterface excludedName = excluded.getGeneralNameInterface(i);
+            GenerblNbmeInterfbce excludedNbme = excluded.getGenerblNbmeInterfbce(i);
             for (int j = 0; j < size(); j++) {
-                GeneralNameInterface permitted = getGeneralNameInterface(j);
-                switch (excludedName.constrains(permitted)) {
-                case GeneralNameInterface.NAME_DIFF_TYPE:
-                    break;
-                case GeneralNameInterface.NAME_MATCH:
+                GenerblNbmeInterfbce permitted = getGenerblNbmeInterfbce(j);
+                switch (excludedNbme.constrbins(permitted)) {
+                cbse GenerblNbmeInterfbce.NAME_DIFF_TYPE:
+                    brebk;
+                cbse GenerblNbmeInterfbce.NAME_MATCH:
                     remove(j);
                     j--;
-                    break;
-                case GeneralNameInterface.NAME_NARROWS:
-                    /* permitted narrows excluded */
+                    brebk;
+                cbse GenerblNbmeInterfbce.NAME_NARROWS:
+                    /* permitted nbrrows excluded */
                     remove(j);
                     j--;
-                    break;
-                case GeneralNameInterface.NAME_WIDENS:
+                    brebk;
+                cbse GenerblNbmeInterfbce.NAME_WIDENS:
                     /* permitted widens excluded */
-                    break;
-                case GeneralNameInterface.NAME_SAME_TYPE:
-                    break;
+                    brebk;
+                cbse GenerblNbmeInterfbce.NAME_SAME_TYPE:
+                    brebk;
                 }
-            } /* end of this pass of permitted */
-        } /* end of pass of excluded */
+            } /* end of this pbss of permitted */
+        } /* end of pbss of excluded */
     }
 }

@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.stream;
+pbckbge com.sun.imbgeio.strebm;
 
-import java.io.IOException;
-import java.util.Set;
-import java.util.WeakHashMap;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.io.IOException;
+import jbvb.util.Set;
+import jbvb.util.WebkHbshMbp;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
 
 /**
- * This class provide means to properly close hanging
- * image input/output streams on VM shutdown.
- * This might be useful for proper cleanup such as removal
- * of temporary files.
+ * This clbss provide mebns to properly close hbnging
+ * imbge input/output strebms on VM shutdown.
+ * This might be useful for proper clebnup such bs removbl
+ * of temporbry files.
  *
- * Addition of stream do not prevent it from being garbage collected
- * if no other references to it exists. Stream can be closed
- * explicitly without removal from StreamCloser queue.
- * Explicit removal from the queue only helps to save some memory.
+ * Addition of strebm do not prevent it from being gbrbbge collected
+ * if no other references to it exists. Strebm cbn be closed
+ * explicitly without removbl from StrebmCloser queue.
+ * Explicit removbl from the queue only helps to sbve some memory.
  */
-public class StreamCloser {
+public clbss StrebmCloser {
 
-    private static WeakHashMap<CloseAction, Object> toCloseQueue;
-    private static Thread streamCloser;
+    privbte stbtic WebkHbshMbp<CloseAction, Object> toCloseQueue;
+    privbte stbtic Threbd strebmCloser;
 
-    public static void addToQueue(CloseAction ca) {
-        synchronized (StreamCloser.class) {
+    public stbtic void bddToQueue(CloseAction cb) {
+        synchronized (StrebmCloser.clbss) {
             if (toCloseQueue == null) {
                 toCloseQueue =
-                    new WeakHashMap<CloseAction, Object>();
+                    new WebkHbshMbp<CloseAction, Object>();
             }
 
-            toCloseQueue.put(ca, null);
+            toCloseQueue.put(cb, null);
 
-            if (streamCloser == null) {
-                final Runnable streamCloserRunnable = new Runnable() {
+            if (strebmCloser == null) {
+                finbl Runnbble strebmCloserRunnbble = new Runnbble() {
                     public void run() {
                         if (toCloseQueue != null) {
-                            synchronized (StreamCloser.class) {
+                            synchronized (StrebmCloser.clbss) {
                                 Set<CloseAction> set =
                                     toCloseQueue.keySet();
-                                // Make a copy of the set in order to avoid
-                                // concurrent modification (the is.close()
-                                // will in turn call removeFromQueue())
-                                CloseAction[] actions =
+                                // Mbke b copy of the set in order to bvoid
+                                // concurrent modificbtion (the is.close()
+                                // will in turn cbll removeFromQueue())
+                                CloseAction[] bctions =
                                     new CloseAction[set.size()];
-                                actions = set.toArray(actions);
-                                for (CloseAction ca : actions) {
-                                    if (ca != null) {
+                                bctions = set.toArrby(bctions);
+                                for (CloseAction cb : bctions) {
+                                    if (cb != null) {
                                         try {
-                                            ca.performAction();
-                                        } catch (IOException e) {
+                                            cb.performAction();
+                                        } cbtch (IOException e) {
                                         }
                                     }
                                 }
@@ -81,24 +81,24 @@ public class StreamCloser {
                     }
                 };
 
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Object>() {
+                jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Object>() {
                         public Object run() {
-                            /* The thread must be a member of a thread group
+                            /* The threbd must be b member of b threbd group
                              * which will not get GCed before VM exit.
-                             * Make its parent the top-level thread group.
+                             * Mbke its pbrent the top-level threbd group.
                              */
-                            ThreadGroup tg =
-                                Thread.currentThread().getThreadGroup();
-                            for (ThreadGroup tgn = tg;
+                            ThrebdGroup tg =
+                                Threbd.currentThrebd().getThrebdGroup();
+                            for (ThrebdGroup tgn = tg;
                                  tgn != null;
-                                 tg = tgn, tgn = tg.getParent());
-                            streamCloser = new Thread(tg, streamCloserRunnable);
-                            /* Set context class loader to null in order to avoid
-                             * keeping a strong reference to an application classloader.
+                                 tg = tgn, tgn = tg.getPbrent());
+                            strebmCloser = new Threbd(tg, strebmCloserRunnbble);
+                            /* Set context clbss lobder to null in order to bvoid
+                             * keeping b strong reference to bn bpplicbtion clbsslobder.
                              */
-                            streamCloser.setContextClassLoader(null);
-                            Runtime.getRuntime().addShutdownHook(streamCloser);
+                            strebmCloser.setContextClbssLobder(null);
+                            Runtime.getRuntime().bddShutdownHook(strebmCloser);
                             return null;
                         }
                     });
@@ -106,22 +106,22 @@ public class StreamCloser {
         }
     }
 
-    public static void removeFromQueue(CloseAction ca) {
-        synchronized (StreamCloser.class) {
+    public stbtic void removeFromQueue(CloseAction cb) {
+        synchronized (StrebmCloser.clbss) {
             if (toCloseQueue != null) {
-                toCloseQueue.remove(ca);
+                toCloseQueue.remove(cb);
             }
         }
     }
 
-    public static CloseAction createCloseAction(ImageInputStream iis) {
+    public stbtic CloseAction crebteCloseAction(ImbgeInputStrebm iis) {
         return new CloseAction(iis);
     }
 
-    public static final class CloseAction {
-        private ImageInputStream iis;
+    public stbtic finbl clbss CloseAction {
+        privbte ImbgeInputStrebm iis;
 
-        private CloseAction(ImageInputStream iis) {
+        privbte CloseAction(ImbgeInputStrebm iis) {
             this.iis = iis;
         }
 

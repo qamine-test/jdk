@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.file.spi.*;
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.file.spi.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
+import jbvb.util.regex.Pbttern;
+import jbvb.security.AccessController;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * Base implementation of FileSystem for Unix-like implementations.
+ * Bbse implementbtion of FileSystem for Unix-like implementbtions.
  */
 
-abstract class UnixFileSystem
+bbstrbct clbss UnixFileSystem
     extends FileSystem
 {
-    private final UnixFileSystemProvider provider;
-    private final byte[] defaultDirectory;
-    private final boolean needToResolveAgainstDefaultDirectory;
-    private final UnixPath rootDirectory;
+    privbte finbl UnixFileSystemProvider provider;
+    privbte finbl byte[] defbultDirectory;
+    privbte finbl boolebn needToResolveAgbinstDefbultDirectory;
+    privbte finbl UnixPbth rootDirectory;
 
-    // package-private
+    // pbckbge-privbte
     UnixFileSystem(UnixFileSystemProvider provider, String dir) {
         this.provider = provider;
-        this.defaultDirectory = Util.toBytes(UnixPath.normalizeAndCheck(dir));
-        if (this.defaultDirectory[0] != '/') {
-            throw new RuntimeException("default directory must be absolute");
+        this.defbultDirectory = Util.toBytes(UnixPbth.normblizeAndCheck(dir));
+        if (this.defbultDirectory[0] != '/') {
+            throw new RuntimeException("defbult directory must be bbsolute");
         }
 
-        // if process-wide chdir is allowed or default directory is not the
-        // process working directory then paths must be resolved against the
-        // default directory.
-        String propValue = AccessController.doPrivileged(
-            new GetPropertyAction("sun.nio.fs.chdirAllowed", "false"));
-        boolean chdirAllowed = (propValue.length() == 0) ?
-            true : Boolean.valueOf(propValue);
+        // if process-wide chdir is bllowed or defbult directory is not the
+        // process working directory then pbths must be resolved bgbinst the
+        // defbult directory.
+        String propVblue = AccessController.doPrivileged(
+            new GetPropertyAction("sun.nio.fs.chdirAllowed", "fblse"));
+        boolebn chdirAllowed = (propVblue.length() == 0) ?
+            true : Boolebn.vblueOf(propVblue);
         if (chdirAllowed) {
-            this.needToResolveAgainstDefaultDirectory = true;
+            this.needToResolveAgbinstDefbultDirectory = true;
         } else {
-            byte[] cwd = UnixNativeDispatcher.getcwd();
-            boolean defaultIsCwd = (cwd.length == defaultDirectory.length);
-            if (defaultIsCwd) {
+            byte[] cwd = UnixNbtiveDispbtcher.getcwd();
+            boolebn defbultIsCwd = (cwd.length == defbultDirectory.length);
+            if (defbultIsCwd) {
                 for (int i=0; i<cwd.length; i++) {
-                    if (cwd[i] != defaultDirectory[i]) {
-                        defaultIsCwd = false;
-                        break;
+                    if (cwd[i] != defbultDirectory[i]) {
+                        defbultIsCwd = fblse;
+                        brebk;
                     }
                 }
             }
-            this.needToResolveAgainstDefaultDirectory = !defaultIsCwd;
+            this.needToResolveAgbinstDefbultDirectory = !defbultIsCwd;
         }
 
         // the root directory
-        this.rootDirectory = new UnixPath(this, "/");
+        this.rootDirectory = new UnixPbth(this, "/");
     }
 
-    // package-private
-    byte[] defaultDirectory() {
-        return defaultDirectory;
+    // pbckbge-privbte
+    byte[] defbultDirectory() {
+        return defbultDirectory;
     }
 
-    boolean needToResolveAgainstDefaultDirectory() {
-        return needToResolveAgainstDefaultDirectory;
+    boolebn needToResolveAgbinstDefbultDirectory() {
+        return needToResolveAgbinstDefbultDirectory;
     }
 
-    UnixPath rootDirectory() {
+    UnixPbth rootDirectory() {
         return rootDirectory;
     }
 
-    boolean isSolaris() {
-        return false;
+    boolebn isSolbris() {
+        return fblse;
     }
 
-    static List<String> standardFileAttributeViews() {
-        return Arrays.asList("basic", "posix", "unix", "owner");
+    stbtic List<String> stbndbrdFileAttributeViews() {
+        return Arrbys.bsList("bbsic", "posix", "unix", "owner");
     }
 
     @Override
-    public final FileSystemProvider provider() {
+    public finbl FileSystemProvider provider() {
         return provider;
     }
 
     @Override
-    public final String getSeparator() {
+    public finbl String getSepbrbtor() {
         return "/";
     }
 
     @Override
-    public final boolean isOpen() {
+    public finbl boolebn isOpen() {
         return true;
     }
 
     @Override
-    public final boolean isReadOnly() {
-        return false;
+    public finbl boolebn isRebdOnly() {
+        return fblse;
     }
 
     @Override
-    public final void close() throws IOException {
-        throw new UnsupportedOperationException();
+    public finbl void close() throws IOException {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Copies non-POSIX attributes from the source to target file.
+     * Copies non-POSIX bttributes from the source to tbrget file.
      *
-     * Copying a file preserving attributes, or moving a file, will preserve
-     * the file owner/group/permissions/timestamps but it does not preserve
-     * other non-POSIX attributes. This method is invoked by the
-     * copy or move operation to preserve these attributes. It should copy
-     * extended attributes, ACLs, or other attributes.
+     * Copying b file preserving bttributes, or moving b file, will preserve
+     * the file owner/group/permissions/timestbmps but it does not preserve
+     * other non-POSIX bttributes. This method is invoked by the
+     * copy or move operbtion to preserve these bttributes. It should copy
+     * extended bttributes, ACLs, or other bttributes.
      *
-     * @param   sfd
+     * @pbrbm   sfd
      *          Open file descriptor to source file
-     * @param   tfd
-     *          Open file descriptor to target file
+     * @pbrbm   tfd
+     *          Open file descriptor to tbrget file
      */
     void copyNonPosixAttributes(int sfd, int tfd) {
-        // no-op by default
+        // no-op by defbult
     }
 
     /**
-     * Unix systems only have a single root directory (/)
+     * Unix systems only hbve b single root directory (/)
      */
     @Override
-    public final Iterable<Path> getRootDirectories() {
-        final List<Path> allowedList =
-           Collections.unmodifiableList(Arrays.asList((Path)rootDirectory));
-        return new Iterable<Path>() {
-            public Iterator<Path> iterator() {
+    public finbl Iterbble<Pbth> getRootDirectories() {
+        finbl List<Pbth> bllowedList =
+           Collections.unmodifibbleList(Arrbys.bsList((Pbth)rootDirectory));
+        return new Iterbble<Pbth>() {
+            public Iterbtor<Pbth> iterbtor() {
                 try {
-                    SecurityManager sm = System.getSecurityManager();
+                    SecurityMbnbger sm = System.getSecurityMbnbger();
                     if (sm != null)
-                        sm.checkRead(rootDirectory.toString());
-                    return allowedList.iterator();
-                } catch (SecurityException x) {
-                    List<Path> disallowed = Collections.emptyList();
-                    return disallowed.iterator();
+                        sm.checkRebd(rootDirectory.toString());
+                    return bllowedList.iterbtor();
+                } cbtch (SecurityException x) {
+                    List<Pbth> disbllowed = Collections.emptyList();
+                    return disbllowed.iterbtor();
                 }
             }
         };
     }
 
     /**
-     * Returns object to iterate over entries in mounttab or equivalent
+     * Returns object to iterbte over entries in mounttbb or equivblent
      */
-    abstract Iterable<UnixMountEntry> getMountEntries();
+    bbstrbct Iterbble<UnixMountEntry> getMountEntries();
 
     /**
-     * Returns a FileStore to represent the file system for the given mount
+     * Returns b FileStore to represent the file system for the given mount
      * mount.
      */
-    abstract FileStore getFileStore(UnixMountEntry entry) throws IOException;
+    bbstrbct FileStore getFileStore(UnixMountEntry entry) throws IOException;
 
     /**
-     * Iterator returned by getFileStores method.
+     * Iterbtor returned by getFileStores method.
      */
-    private class FileStoreIterator implements Iterator<FileStore> {
-        private final Iterator<UnixMountEntry> entries;
-        private FileStore next;
+    privbte clbss FileStoreIterbtor implements Iterbtor<FileStore> {
+        privbte finbl Iterbtor<UnixMountEntry> entries;
+        privbte FileStore next;
 
-        FileStoreIterator() {
-            this.entries = getMountEntries().iterator();
+        FileStoreIterbtor() {
+            this.entries = getMountEntries().iterbtor();
         }
 
-        private FileStore readNext() {
-            assert Thread.holdsLock(this);
+        privbte FileStore rebdNext() {
+            bssert Threbd.holdsLock(this);
             for (;;) {
-                if (!entries.hasNext())
+                if (!entries.hbsNext())
                     return null;
                 UnixMountEntry entry = entries.next();
 
@@ -200,35 +200,35 @@ abstract class UnixFileSystem
                 if (entry.isIgnored())
                     continue;
 
-                // check permission to read mount point
-                SecurityManager sm = System.getSecurityManager();
+                // check permission to rebd mount point
+                SecurityMbnbger sm = System.getSecurityMbnbger();
                 if (sm != null) {
                     try {
-                        sm.checkRead(Util.toString(entry.dir()));
-                    } catch (SecurityException x) {
+                        sm.checkRebd(Util.toString(entry.dir()));
+                    } cbtch (SecurityException x) {
                         continue;
                     }
                 }
                 try {
                     return getFileStore(entry);
-                } catch (IOException ignore) {
-                    // ignore as per spec
+                } cbtch (IOException ignore) {
+                    // ignore bs per spec
                 }
             }
         }
 
         @Override
-        public synchronized boolean hasNext() {
+        public synchronized boolebn hbsNext() {
             if (next != null)
                 return true;
-            next = readNext();
+            next = rebdNext();
             return next != null;
         }
 
         @Override
         public synchronized FileStore next() {
             if (next == null)
-                next = readNext();
+                next = rebdNext();
             if (next == null) {
                 throw new NoSuchElementException();
             } else {
@@ -240,122 +240,122 @@ abstract class UnixFileSystem
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
     @Override
-    public final Iterable<FileStore> getFileStores() {
-        SecurityManager sm = System.getSecurityManager();
+    public finbl Iterbble<FileStore> getFileStores() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             try {
                 sm.checkPermission(new RuntimePermission("getFileStoreAttributes"));
-            } catch (SecurityException se) {
+            } cbtch (SecurityException se) {
                 return Collections.emptyList();
             }
         }
-        return new Iterable<FileStore>() {
-            public Iterator<FileStore> iterator() {
-                return new FileStoreIterator();
+        return new Iterbble<FileStore>() {
+            public Iterbtor<FileStore> iterbtor() {
+                return new FileStoreIterbtor();
             }
         };
     }
 
     @Override
-    public final Path getPath(String first, String... more) {
-        String path;
+    public finbl Pbth getPbth(String first, String... more) {
+        String pbth;
         if (more.length == 0) {
-            path = first;
+            pbth = first;
         } else {
             StringBuilder sb = new StringBuilder();
-            sb.append(first);
+            sb.bppend(first);
             for (String segment: more) {
                 if (segment.length() > 0) {
                     if (sb.length() > 0)
-                        sb.append('/');
-                    sb.append(segment);
+                        sb.bppend('/');
+                    sb.bppend(segment);
                 }
             }
-            path = sb.toString();
+            pbth = sb.toString();
         }
-        return new UnixPath(this, path);
+        return new UnixPbth(this, pbth);
     }
 
     @Override
-    public PathMatcher getPathMatcher(String syntaxAndInput) {
-        int pos = syntaxAndInput.indexOf(':');
-        if (pos <= 0 || pos == syntaxAndInput.length())
-            throw new IllegalArgumentException();
-        String syntax = syntaxAndInput.substring(0, pos);
-        String input = syntaxAndInput.substring(pos+1);
+    public PbthMbtcher getPbthMbtcher(String syntbxAndInput) {
+        int pos = syntbxAndInput.indexOf(':');
+        if (pos <= 0 || pos == syntbxAndInput.length())
+            throw new IllegblArgumentException();
+        String syntbx = syntbxAndInput.substring(0, pos);
+        String input = syntbxAndInput.substring(pos+1);
 
         String expr;
-        if (syntax.equals(GLOB_SYNTAX)) {
-            expr = Globs.toUnixRegexPattern(input);
+        if (syntbx.equbls(GLOB_SYNTAX)) {
+            expr = Globs.toUnixRegexPbttern(input);
         } else {
-            if (syntax.equals(REGEX_SYNTAX)) {
+            if (syntbx.equbls(REGEX_SYNTAX)) {
                 expr = input;
             } else {
-                throw new UnsupportedOperationException("Syntax '" + syntax +
+                throw new UnsupportedOperbtionException("Syntbx '" + syntbx +
                     "' not recognized");
             }
         }
 
-        // return matcher
-        final Pattern pattern = compilePathMatchPattern(expr);
+        // return mbtcher
+        finbl Pbttern pbttern = compilePbthMbtchPbttern(expr);
 
-        return new PathMatcher() {
+        return new PbthMbtcher() {
             @Override
-            public boolean matches(Path path) {
-                return pattern.matcher(path.toString()).matches();
+            public boolebn mbtches(Pbth pbth) {
+                return pbttern.mbtcher(pbth.toString()).mbtches();
             }
         };
     }
 
-    private static final String GLOB_SYNTAX = "glob";
-    private static final String REGEX_SYNTAX = "regex";
+    privbte stbtic finbl String GLOB_SYNTAX = "glob";
+    privbte stbtic finbl String REGEX_SYNTAX = "regex";
 
     @Override
-    public final UserPrincipalLookupService getUserPrincipalLookupService() {
-        return LookupService.instance;
+    public finbl UserPrincipblLookupService getUserPrincipblLookupService() {
+        return LookupService.instbnce;
     }
 
-    private static class LookupService {
-        static final UserPrincipalLookupService instance =
-            new UserPrincipalLookupService() {
+    privbte stbtic clbss LookupService {
+        stbtic finbl UserPrincipblLookupService instbnce =
+            new UserPrincipblLookupService() {
                 @Override
-                public UserPrincipal lookupPrincipalByName(String name)
+                public UserPrincipbl lookupPrincipblByNbme(String nbme)
                     throws IOException
                 {
-                    return UnixUserPrincipals.lookupUser(name);
+                    return UnixUserPrincipbls.lookupUser(nbme);
                 }
 
                 @Override
-                public GroupPrincipal lookupPrincipalByGroupName(String group)
+                public GroupPrincipbl lookupPrincipblByGroupNbme(String group)
                     throws IOException
                 {
-                    return UnixUserPrincipals.lookupGroup(group);
+                    return UnixUserPrincipbls.lookupGroup(group);
                 }
             };
     }
 
-    // Override if the platform has different path match requirement, such as
-    // case insensitive or Unicode canonical equal on MacOSX
-    Pattern compilePathMatchPattern(String expr) {
-        return Pattern.compile(expr);
+    // Override if the plbtform hbs different pbth mbtch requirement, such bs
+    // cbse insensitive or Unicode cbnonicbl equbl on MbcOSX
+    Pbttern compilePbthMbtchPbttern(String expr) {
+        return Pbttern.compile(expr);
     }
 
-    // Override if the platform uses different Unicode normalization form
-    // for native file path. For example on MacOSX, the native path is stored
+    // Override if the plbtform uses different Unicode normblizbtion form
+    // for nbtive file pbth. For exbmple on MbcOSX, the nbtive pbth is stored
     // in Unicode NFD form.
-    char[] normalizeNativePath(char[] path) {
-        return path;
+    chbr[] normblizeNbtivePbth(chbr[] pbth) {
+        return pbth;
     }
 
-    // Override if the native file path use non-NFC form. For example on MacOSX,
-    // the native path is stored in Unicode NFD form, the path need to be
-    // normalized back to NFC before passed back to Java level.
-    String normalizeJavaPath(String path) {
-        return path;
+    // Override if the nbtive file pbth use non-NFC form. For exbmple on MbcOSX,
+    // the nbtive pbth is stored in Unicode NFD form, the pbth need to be
+    // normblized bbck to NFC before pbssed bbck to Jbvb level.
+    String normblizeJbvbPbth(String pbth) {
+        return pbth;
     }
 }

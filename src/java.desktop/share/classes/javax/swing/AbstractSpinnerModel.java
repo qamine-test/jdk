@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.*;
-import javax.swing.event.*;
-import java.io.Serializable;
+import jbvb.util.*;
+import jbvbx.swing.event.*;
+import jbvb.io.Seriblizbble;
 
 
 /**
- * This class provides the ChangeListener part of the
- * SpinnerModel interface that should be suitable for most concrete SpinnerModel
- * implementations.  Subclasses must provide an implementation of the
- * <code>setValue</code>, <code>getValue</code>, <code>getNextValue</code> and
- * <code>getPreviousValue</code> methods.
+ * This clbss provides the ChbngeListener pbrt of the
+ * SpinnerModel interfbce thbt should be suitbble for most concrete SpinnerModel
+ * implementbtions.  Subclbsses must provide bn implementbtion of the
+ * <code>setVblue</code>, <code>getVblue</code>, <code>getNextVblue</code> bnd
+ * <code>getPreviousVblue</code> methods.
  *
  * @see JSpinner
  * @see SpinnerModel
  * @see SpinnerListModel
  * @see SpinnerNumberModel
- * @see SpinnerDateModel
+ * @see SpinnerDbteModel
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  * @since 1.4
  */
-@SuppressWarnings("serial") // Field contents are not serializable across versions
-public abstract class AbstractSpinnerModel implements SpinnerModel, Serializable
+@SuppressWbrnings("seribl") // Field contents bre not seriblizbble bcross versions
+public bbstrbct clbss AbstrbctSpinnerModel implements SpinnerModel, Seriblizbble
 {
 
     /**
-     * Only one ChangeEvent is needed per model instance since the
-     * event's only (read-only) state is the source property.  The source
-     * of events generated here is always "this".
+     * Only one ChbngeEvent is needed per model instbnce since the
+     * event's only (rebd-only) stbte is the source property.  The source
+     * of events generbted here is blwbys "this".
      */
-    private transient ChangeEvent changeEvent = null;
+    privbte trbnsient ChbngeEvent chbngeEvent = null;
 
 
     /**
-     * The list of ChangeListeners for this model.  Subclasses may
+     * The list of ChbngeListeners for this model.  Subclbsses mby
      * store their own listeners here.
      */
     protected EventListenerList listenerList = new EventListenerList();
 
 
     /**
-     * Adds a ChangeListener to the model's listener list.  The
-     * ChangeListeners must be notified when the models value changes.
+     * Adds b ChbngeListener to the model's listener list.  The
+     * ChbngeListeners must be notified when the models vblue chbnges.
      *
-     * @param l the ChangeListener to add
-     * @see #removeChangeListener
-     * @see SpinnerModel#addChangeListener
+     * @pbrbm l the ChbngeListener to bdd
+     * @see #removeChbngeListener
+     * @see SpinnerModel#bddChbngeListener
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    public void bddChbngeListener(ChbngeListener l) {
+        listenerList.bdd(ChbngeListener.clbss, l);
     }
 
 
     /**
-     * Removes a ChangeListener from the model's listener list.
+     * Removes b ChbngeListener from the model's listener list.
      *
-     * @param l the ChangeListener to remove
-     * @see #addChangeListener
-     * @see SpinnerModel#removeChangeListener
+     * @pbrbm l the ChbngeListener to remove
+     * @see #bddChbngeListener
+     * @see SpinnerModel#removeChbngeListener
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    public void removeChbngeListener(ChbngeListener l) {
+        listenerList.remove(ChbngeListener.clbss, l);
     }
 
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this AbstractSpinnerModel with addChangeListener().
+     * Returns bn brrby of bll the <code>ChbngeListener</code>s bdded
+     * to this AbstrbctSpinnerModel with bddChbngeListener().
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>ChbngeListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    public ChbngeListener[] getChbngeListeners() {
+        return listenerList.getListeners(ChbngeListener.clbss);
     }
 
 
     /**
-     * Run each ChangeListeners stateChanged() method.
+     * Run ebch ChbngeListeners stbteChbnged() method.
      *
-     * @see #setValue
+     * @see #setVblue
      * @see EventListenerList
      */
-    protected void fireStateChanged()
+    protected void fireStbteChbnged()
     {
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -=2 ) {
-            if (listeners[i] == ChangeListener.class) {
-                if (changeEvent == null) {
-                    changeEvent = new ChangeEvent(this);
+            if (listeners[i] == ChbngeListener.clbss) {
+                if (chbngeEvent == null) {
+                    chbngeEvent = new ChbngeEvent(this);
                 }
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+                ((ChbngeListener)listeners[i+1]).stbteChbnged(chbngeEvent);
             }
         }
     }
 
 
     /**
-     * Return an array of all the listeners of the given type that
-     * were added to this model.  For example to find all of the
-     * ChangeListeners added to this model:
+     * Return bn brrby of bll the listeners of the given type thbt
+     * were bdded to this model.  For exbmple to find bll of the
+     * ChbngeListeners bdded to this model:
      * <pre>
-     * myAbstractSpinnerModel.getListeners(ChangeListener.class);
+     * myAbstrbctSpinnerModel.getListeners(ChbngeListener.clbss);
      * </pre>
      *
-     * @param <T> the type of requested listeners
-     * @param listenerType the type of listeners to return, e.g. ChangeListener.class
-     * @return all of the objects receiving <em>listenerType</em> notifications
+     * @pbrbm <T> the type of requested listeners
+     * @pbrbm listenerType the type of listeners to return, e.g. ChbngeListener.clbss
+     * @return bll of the objects receiving <em>listenerType</em> notificbtions
      *         from this model
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         return listenerList.getListeners(listenerType);
     }
 }

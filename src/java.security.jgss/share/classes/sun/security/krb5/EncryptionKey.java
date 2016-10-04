@@ -1,386 +1,386 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5;
+pbckbge sun.security.krb5;
 
 import sun.security.util.*;
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.*;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.Arrays;
-import sun.security.krb5.internal.ktab.KeyTab;
-import sun.security.krb5.internal.ccache.CCacheOutputStream;
-import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.DESedeKeySpec;
+import sun.security.krb5.internbl.*;
+import sun.security.krb5.internbl.crypto.*;
+import jbvb.io.IOException;
+import jbvb.security.GenerblSecurityException;
+import jbvb.util.Arrbys;
+import sun.security.krb5.internbl.ktbb.KeyTbb;
+import sun.security.krb5.internbl.ccbche.CCbcheOutputStrebm;
+import jbvbx.crypto.spec.DESKeySpec;
+import jbvbx.crypto.spec.DESedeKeySpec;
 
 /**
- * This class encapsulates the concept of an EncryptionKey. An encryption
- * key is defined in RFC 4120 as:
+ * This clbss encbpsulbtes the concept of bn EncryptionKey. An encryption
+ * key is defined in RFC 4120 bs:
  *
  * EncryptionKey   ::= SEQUENCE {
- *         keytype         [0] Int32 -- actually encryption type --,
- *         keyvalue        [1] OCTET STRING
+ *         keytype         [0] Int32 -- bctublly encryption type --,
+ *         keyvblue        [1] OCTET STRING
  * }
  *
  * keytype
  *     This field specifies the encryption type of the encryption key
- *     that follows in the keyvalue field.  Although its name is
- *     "keytype", it actually specifies an encryption type.  Previously,
- *     multiple cryptosystems that performed encryption differently but
- *     were capable of using keys with the same characteristics were
- *     permitted to share an assigned number to designate the type of
- *     key; this usage is now deprecated.
+ *     thbt follows in the keyvblue field.  Although its nbme is
+ *     "keytype", it bctublly specifies bn encryption type.  Previously,
+ *     multiple cryptosystems thbt performed encryption differently but
+ *     were cbpbble of using keys with the sbme chbrbcteristics were
+ *     permitted to shbre bn bssigned number to designbte the type of
+ *     key; this usbge is now deprecbted.
  *
- * keyvalue
- *     This field contains the key itself, encoded as an octet string.
+ * keyvblue
+ *     This field contbins the key itself, encoded bs bn octet string.
  */
 
-public class EncryptionKey
-    implements Cloneable {
+public clbss EncryptionKey
+    implements Clonebble {
 
-    public static final EncryptionKey NULL_KEY =
-        new EncryptionKey(new byte[] {}, EncryptedData.ETYPE_NULL, null);
+    public stbtic finbl EncryptionKey NULL_KEY =
+        new EncryptionKey(new byte[] {}, EncryptedDbtb.ETYPE_NULL, null);
 
-    private int keyType;
-    private byte[] keyValue;
-    private Integer kvno; // not part of ASN1 encoding;
+    privbte int keyType;
+    privbte byte[] keyVblue;
+    privbte Integer kvno; // not pbrt of ASN1 encoding;
 
-    private static final boolean DEBUG = Krb5.DEBUG;
+    privbte stbtic finbl boolebn DEBUG = Krb5.DEBUG;
 
     public synchronized int getEType() {
         return keyType;
     }
 
-    public final Integer getKeyVersionNumber() {
+    public finbl Integer getKeyVersionNumber() {
         return kvno;
     }
 
     /**
-     * Returns the raw key bytes, not in any ASN.1 encoding.
+     * Returns the rbw key bytes, not in bny ASN.1 encoding.
      */
-    public final byte[] getBytes() {
-        // This method cannot be called outside sun.security, hence no
-        // cloning. getEncoded() calls this method.
-        return keyValue;
+    public finbl byte[] getBytes() {
+        // This method cbnnot be cblled outside sun.security, hence no
+        // cloning. getEncoded() cblls this method.
+        return keyVblue;
     }
 
     public synchronized Object clone() {
-        return new EncryptionKey(keyValue, keyType, kvno);
+        return new EncryptionKey(keyVblue, keyType, kvno);
     }
 
     /**
-     * Obtains all versions of the secret key of the principal from a
-     * keytab.
+     * Obtbins bll versions of the secret key of the principbl from b
+     * keytbb.
      *
-     * @Param princ the principal whose secret key is desired
-     * @param keytab the path to the keytab file. A value of null
-     * will be accepted to indicate that the default path should be
-     * searched.
-     * @returns an array of secret keys or null if none were found.
+     * @Pbrbm princ the principbl whose secret key is desired
+     * @pbrbm keytbb the pbth to the keytbb file. A vblue of null
+     * will be bccepted to indicbte thbt the defbult pbth should be
+     * sebrched.
+     * @returns bn brrby of secret keys or null if none were found.
      */
-    public static EncryptionKey[] acquireSecretKeys(PrincipalName princ,
-                                                    String keytab) {
+    public stbtic EncryptionKey[] bcquireSecretKeys(PrincipblNbme princ,
+                                                    String keytbb) {
 
         if (princ == null)
-            throw new IllegalArgumentException(
-                "Cannot have null pricipal name to look in keytab.");
+            throw new IllegblArgumentException(
+                "Cbnnot hbve null pricipbl nbme to look in keytbb.");
 
-        // KeyTab getInstance(keytab) will call KeyTab.getInstance()
-        // if keytab is null
-        KeyTab ktab = KeyTab.getInstance(keytab);
-        return ktab.readServiceKeys(princ);
+        // KeyTbb getInstbnce(keytbb) will cbll KeyTbb.getInstbnce()
+        // if keytbb is null
+        KeyTbb ktbb = KeyTbb.getInstbnce(keytbb);
+        return ktbb.rebdServiceKeys(princ);
     }
 
     /**
-     * Obtains a key for a given etype of a principal with possible new salt
-     * and s2kparams
-     * @param cname NOT null
-     * @param password NOT null
-     * @param etype
-     * @param snp can be NULL
+     * Obtbins b key for b given etype of b principbl with possible new sblt
+     * bnd s2kpbrbms
+     * @pbrbm cnbme NOT null
+     * @pbrbm pbssword NOT null
+     * @pbrbm etype
+     * @pbrbm snp cbn be NULL
      * @returns never null
      */
-    public static EncryptionKey acquireSecretKey(PrincipalName cname,
-            char[] password, int etype, PAData.SaltAndParams snp)
+    public stbtic EncryptionKey bcquireSecretKey(PrincipblNbme cnbme,
+            chbr[] pbssword, int etype, PADbtb.SbltAndPbrbms snp)
             throws KrbException {
-        String salt;
-        byte[] s2kparams;
+        String sblt;
+        byte[] s2kpbrbms;
         if (snp != null) {
-            salt = snp.salt != null ? snp.salt : cname.getSalt();
-            s2kparams = snp.params;
+            sblt = snp.sblt != null ? snp.sblt : cnbme.getSblt();
+            s2kpbrbms = snp.pbrbms;
         } else {
-            salt = cname.getSalt();
-            s2kparams = null;
+            sblt = cnbme.getSblt();
+            s2kpbrbms = null;
         }
-        return acquireSecretKey(password, salt, etype, s2kparams);
+        return bcquireSecretKey(pbssword, sblt, etype, s2kpbrbms);
     }
 
     /**
-     * Obtains a key for a given etype with salt and optional s2kparams
-     * @param password NOT null
-     * @param salt NOT null
-     * @param etype
-     * @param s2kparams can be NULL
+     * Obtbins b key for b given etype with sblt bnd optionbl s2kpbrbms
+     * @pbrbm pbssword NOT null
+     * @pbrbm sblt NOT null
+     * @pbrbm etype
+     * @pbrbm s2kpbrbms cbn be NULL
      * @returns never null
      */
-    public static EncryptionKey acquireSecretKey(char[] password,
-            String salt, int etype, byte[] s2kparams)
+    public stbtic EncryptionKey bcquireSecretKey(chbr[] pbssword,
+            String sblt, int etype, byte[] s2kpbrbms)
             throws KrbException {
 
         return new EncryptionKey(
-                        stringToKey(password, salt, s2kparams, etype),
+                        stringToKey(pbssword, sblt, s2kpbrbms, etype),
                         etype, null);
     }
 
     /**
-     * Generate a list of keys using the given principal and password.
-     * Construct a key for each configured etype.
-     * Caller is responsible for clearing password.
+     * Generbte b list of keys using the given principbl bnd pbssword.
+     * Construct b key for ebch configured etype.
+     * Cbller is responsible for clebring pbssword.
      */
     /*
-     * Usually, when keyType is decoded from ASN.1 it will contain a
-     * value indicating what the algorithm to be used is. However, when
-     * converting from a password to a key for the AS-EXCHANGE, this
-     * keyType will not be available. Use builtin list of default etypes
-     * as the default in that case. If default_tkt_enctypes was set in
-     * the libdefaults of krb5.conf, then use that sequence.
+     * Usublly, when keyType is decoded from ASN.1 it will contbin b
+     * vblue indicbting whbt the blgorithm to be used is. However, when
+     * converting from b pbssword to b key for the AS-EXCHANGE, this
+     * keyType will not be bvbilbble. Use builtin list of defbult etypes
+     * bs the defbult in thbt cbse. If defbult_tkt_enctypes wbs set in
+     * the libdefbults of krb5.conf, then use thbt sequence.
      */
-    public static EncryptionKey[] acquireSecretKeys(char[] password,
-            String salt) throws KrbException {
+    public stbtic EncryptionKey[] bcquireSecretKeys(chbr[] pbssword,
+            String sblt) throws KrbException {
 
-        int[] etypes = EType.getDefaults("default_tkt_enctypes");
+        int[] etypes = EType.getDefbults("defbult_tkt_enctypes");
 
         EncryptionKey[] encKeys = new EncryptionKey[etypes.length];
         for (int i = 0; i < etypes.length; i++) {
             if (EType.isSupported(etypes[i])) {
                 encKeys[i] = new EncryptionKey(
-                        stringToKey(password, salt, null, etypes[i]),
+                        stringToKey(pbssword, sblt, null, etypes[i]),
                         etypes[i], null);
             } else {
                 if (DEBUG) {
                     System.out.println("Encryption Type " +
                         EType.toString(etypes[i]) +
-                        " is not supported/enabled");
+                        " is not supported/enbbled");
                 }
             }
         }
         return encKeys;
     }
 
-    // Used in Krb5AcceptCredential, self
-    public EncryptionKey(byte[] keyValue,
+    // Used in Krb5AcceptCredentibl, self
+    public EncryptionKey(byte[] keyVblue,
                          int keyType,
                          Integer kvno) {
 
-        if (keyValue != null) {
-            this.keyValue = new byte[keyValue.length];
-            System.arraycopy(keyValue, 0, this.keyValue, 0, keyValue.length);
+        if (keyVblue != null) {
+            this.keyVblue = new byte[keyVblue.length];
+            System.brrbycopy(keyVblue, 0, this.keyVblue, 0, keyVblue.length);
         } else {
-            throw new IllegalArgumentException("EncryptionKey: " +
-                                               "Key bytes cannot be null!");
+            throw new IllegblArgumentException("EncryptionKey: " +
+                                               "Key bytes cbnnot be null!");
         }
         this.keyType = keyType;
         this.kvno = kvno;
     }
 
     /**
-     * Constructs an EncryptionKey by using the specified key type and key
-     * value.  It is used to recover the key when retrieving data from
-     * credential cache file.
+     * Constructs bn EncryptionKey by using the specified key type bnd key
+     * vblue.  It is used to recover the key when retrieving dbtb from
+     * credentibl cbche file.
      *
      */
-     // Used in JSSE (KerberosWrapper), Credentials,
-     // javax.security.auth.kerberos.KeyImpl
+     // Used in JSSE (KerberosWrbpper), Credentibls,
+     // jbvbx.security.buth.kerberos.KeyImpl
     public EncryptionKey(int keyType,
-                         byte[] keyValue) {
-        this(keyValue, keyType, null);
+                         byte[] keyVblue) {
+        this(keyVblue, keyType, null);
     }
 
-    private static byte[] stringToKey(char[] password, String salt,
-        byte[] s2kparams, int keyType) throws KrbCryptoException {
+    privbte stbtic byte[] stringToKey(chbr[] pbssword, String sblt,
+        byte[] s2kpbrbms, int keyType) throws KrbCryptoException {
 
-        char[] slt = salt.toCharArray();
-        char[] pwsalt = new char[password.length + slt.length];
-        System.arraycopy(password, 0, pwsalt, 0, password.length);
-        System.arraycopy(slt, 0, pwsalt, password.length, slt.length);
-        Arrays.fill(slt, '0');
+        chbr[] slt = sblt.toChbrArrby();
+        chbr[] pwsblt = new chbr[pbssword.length + slt.length];
+        System.brrbycopy(pbssword, 0, pwsblt, 0, pbssword.length);
+        System.brrbycopy(slt, 0, pwsblt, pbssword.length, slt.length);
+        Arrbys.fill(slt, '0');
 
         try {
             switch (keyType) {
-                case EncryptedData.ETYPE_DES_CBC_CRC:
-                case EncryptedData.ETYPE_DES_CBC_MD5:
-                        return Des.string_to_key_bytes(pwsalt);
+                cbse EncryptedDbtb.ETYPE_DES_CBC_CRC:
+                cbse EncryptedDbtb.ETYPE_DES_CBC_MD5:
+                        return Des.string_to_key_bytes(pwsblt);
 
-                case EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD:
-                        return Des3.stringToKey(pwsalt);
+                cbse EncryptedDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD:
+                        return Des3.stringToKey(pwsblt);
 
-                case EncryptedData.ETYPE_ARCFOUR_HMAC:
-                        return ArcFourHmac.stringToKey(password);
+                cbse EncryptedDbtb.ETYPE_ARCFOUR_HMAC:
+                        return ArcFourHmbc.stringToKey(pbssword);
 
-                case EncryptedData.ETYPE_AES128_CTS_HMAC_SHA1_96:
-                        return Aes128.stringToKey(password, salt, s2kparams);
+                cbse EncryptedDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+                        return Aes128.stringToKey(pbssword, sblt, s2kpbrbms);
 
-                case EncryptedData.ETYPE_AES256_CTS_HMAC_SHA1_96:
-                        return Aes256.stringToKey(password, salt, s2kparams);
+                cbse EncryptedDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+                        return Aes256.stringToKey(pbssword, sblt, s2kpbrbms);
 
-                default:
-                        throw new IllegalArgumentException("encryption type " +
+                defbult:
+                        throw new IllegblArgumentException("encryption type " +
                         EType.toString(keyType) + " not supported");
             }
 
-        } catch (GeneralSecurityException e) {
-            KrbCryptoException ke = new KrbCryptoException(e.getMessage());
-            ke.initCause(e);
+        } cbtch (GenerblSecurityException e) {
+            KrbCryptoException ke = new KrbCryptoException(e.getMessbge());
+            ke.initCbuse(e);
             throw ke;
-        } finally {
-            Arrays.fill(pwsalt, '0');
+        } finblly {
+            Arrbys.fill(pwsblt, '0');
         }
     }
 
-    // Used in javax.security.auth.kerberos.KeyImpl
-    public EncryptionKey(char[] password,
-                         String salt,
-                         String algorithm) throws KrbCryptoException {
+    // Used in jbvbx.security.buth.kerberos.KeyImpl
+    public EncryptionKey(chbr[] pbssword,
+                         String sblt,
+                         String blgorithm) throws KrbCryptoException {
 
-        if (algorithm == null || algorithm.equalsIgnoreCase("DES")
-                || algorithm.equalsIgnoreCase("des-cbc-md5")) {
-            keyType = EncryptedData.ETYPE_DES_CBC_MD5;
-        } else if (algorithm.equalsIgnoreCase("des-cbc-crc")) {
-            keyType = EncryptedData.ETYPE_DES_CBC_CRC;
-        } else if (algorithm.equalsIgnoreCase("DESede")
-                || algorithm.equalsIgnoreCase("des3-cbc-sha1-kd")) {
-            keyType = EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD;
-        } else if (algorithm.equalsIgnoreCase("AES128")
-                || algorithm.equalsIgnoreCase("aes128-cts-hmac-sha1-96")) {
-            keyType = EncryptedData.ETYPE_AES128_CTS_HMAC_SHA1_96;
-        } else if (algorithm.equalsIgnoreCase("ArcFourHmac")
-                || algorithm.equalsIgnoreCase("rc4-hmac")) {
-            keyType = EncryptedData.ETYPE_ARCFOUR_HMAC;
-        } else if (algorithm.equalsIgnoreCase("AES256")
-                || algorithm.equalsIgnoreCase("aes256-cts-hmac-sha1-96")) {
-            keyType = EncryptedData.ETYPE_AES256_CTS_HMAC_SHA1_96;
-            // validate if AES256 is enabled
+        if (blgorithm == null || blgorithm.equblsIgnoreCbse("DES")
+                || blgorithm.equblsIgnoreCbse("des-cbc-md5")) {
+            keyType = EncryptedDbtb.ETYPE_DES_CBC_MD5;
+        } else if (blgorithm.equblsIgnoreCbse("des-cbc-crc")) {
+            keyType = EncryptedDbtb.ETYPE_DES_CBC_CRC;
+        } else if (blgorithm.equblsIgnoreCbse("DESede")
+                || blgorithm.equblsIgnoreCbse("des3-cbc-shb1-kd")) {
+            keyType = EncryptedDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD;
+        } else if (blgorithm.equblsIgnoreCbse("AES128")
+                || blgorithm.equblsIgnoreCbse("bes128-cts-hmbc-shb1-96")) {
+            keyType = EncryptedDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96;
+        } else if (blgorithm.equblsIgnoreCbse("ArcFourHmbc")
+                || blgorithm.equblsIgnoreCbse("rc4-hmbc")) {
+            keyType = EncryptedDbtb.ETYPE_ARCFOUR_HMAC;
+        } else if (blgorithm.equblsIgnoreCbse("AES256")
+                || blgorithm.equblsIgnoreCbse("bes256-cts-hmbc-shb1-96")) {
+            keyType = EncryptedDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96;
+            // vblidbte if AES256 is enbbled
             if (!EType.isSupported(keyType)) {
-                throw new IllegalArgumentException("Algorithm " + algorithm +
-                        " not enabled");
+                throw new IllegblArgumentException("Algorithm " + blgorithm +
+                        " not enbbled");
             }
         } else {
-            throw new IllegalArgumentException("Algorithm " + algorithm +
+            throw new IllegblArgumentException("Algorithm " + blgorithm +
                 " not supported");
         }
 
-        keyValue = stringToKey(password, salt, null, keyType);
+        keyVblue = stringToKey(pbssword, sblt, null, keyType);
         kvno = null;
     }
 
     /**
-     * Generates a sub-sessionkey from a given session key.
+     * Generbtes b sub-sessionkey from b given session key.
      *
-     * Used in AcceptSecContextToken and KrbApReq by acceptor- and initiator-
+     * Used in AcceptSecContextToken bnd KrbApReq by bcceptor- bnd initibtor-
      * side respectively.
      */
     public EncryptionKey(EncryptionKey key) throws KrbCryptoException {
-        // generate random sub-session key
-        keyValue = Confounder.bytes(key.keyValue.length);
-        for (int i = 0; i < keyValue.length; i++) {
-          keyValue[i] ^= key.keyValue[i];
+        // generbte rbndom sub-session key
+        keyVblue = Confounder.bytes(key.keyVblue.length);
+        for (int i = 0; i < keyVblue.length; i++) {
+          keyVblue[i] ^= key.keyVblue[i];
         }
         keyType = key.keyType;
 
-        // check for key parity and weak keys
+        // check for key pbrity bnd webk keys
         try {
             // check for DES key
-            if ((keyType == EncryptedData.ETYPE_DES_CBC_MD5) ||
-                (keyType == EncryptedData.ETYPE_DES_CBC_CRC)) {
-                // fix DES key parity
-                if (!DESKeySpec.isParityAdjusted(keyValue, 0)) {
-                    keyValue = Des.set_parity(keyValue);
+            if ((keyType == EncryptedDbtb.ETYPE_DES_CBC_MD5) ||
+                (keyType == EncryptedDbtb.ETYPE_DES_CBC_CRC)) {
+                // fix DES key pbrity
+                if (!DESKeySpec.isPbrityAdjusted(keyVblue, 0)) {
+                    keyVblue = Des.set_pbrity(keyVblue);
                 }
-                // check for weak key
-                if (DESKeySpec.isWeak(keyValue, 0)) {
-                    keyValue[7] = (byte)(keyValue[7] ^ 0xF0);
+                // check for webk key
+                if (DESKeySpec.isWebk(keyVblue, 0)) {
+                    keyVblue[7] = (byte)(keyVblue[7] ^ 0xF0);
                 }
             }
             // check for 3DES key
-            if (keyType == EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD) {
-                // fix 3DES key parity
-                if (!DESedeKeySpec.isParityAdjusted(keyValue, 0)) {
-                    keyValue = Des3.parityFix(keyValue);
+            if (keyType == EncryptedDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD) {
+                // fix 3DES key pbrity
+                if (!DESedeKeySpec.isPbrityAdjusted(keyVblue, 0)) {
+                    keyVblue = Des3.pbrityFix(keyVblue);
                 }
-                // check for weak keys
+                // check for webk keys
                 byte[] oneKey = new byte[8];
-                for (int i=0; i<keyValue.length; i+=8) {
-                    System.arraycopy(keyValue, i, oneKey, 0, 8);
-                    if (DESKeySpec.isWeak(oneKey, 0)) {
-                        keyValue[i+7] = (byte)(keyValue[i+7] ^ 0xF0);
+                for (int i=0; i<keyVblue.length; i+=8) {
+                    System.brrbycopy(keyVblue, i, oneKey, 0, 8);
+                    if (DESKeySpec.isWebk(oneKey, 0)) {
+                        keyVblue[i+7] = (byte)(keyVblue[i+7] ^ 0xF0);
                     }
                 }
             }
-        } catch (GeneralSecurityException e) {
-            KrbCryptoException ke = new KrbCryptoException(e.getMessage());
-            ke.initCause(e);
+        } cbtch (GenerblSecurityException e) {
+            KrbCryptoException ke = new KrbCryptoException(e.getMessbge());
+            ke.initCbuse(e);
             throw ke;
         }
     }
 
     /**
-     * Constructs an instance of EncryptionKey type.
-     * @param encoding a single DER-encoded value.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1
-     * encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded
-     * data.
+     * Constructs bn instbnce of EncryptionKey type.
+     * @pbrbm encoding b single DER-encoded vblue.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1
+     * encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded
+     * dbtb.
      *
      *
      */
-         // Used in javax.security.auth.kerberos.KeyImpl
-    public EncryptionKey(DerValue encoding) throws Asn1Exception, IOException {
-        DerValue der;
-        if (encoding.getTag() != DerValue.tag_Sequence) {
+         // Used in jbvbx.security.buth.kerberos.KeyImpl
+    public EncryptionKey(DerVblue encoding) throws Asn1Exception, IOException {
+        DerVblue der;
+        if (encoding.getTbg() != DerVblue.tbg_Sequence) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte)0x1F) == (byte)0x00) {
-            keyType = der.getData().getBigInteger().intValue();
-        }
-        else
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte)0x1F) == (byte)0x01) {
-            keyValue = der.getData().getOctetString();
+        der = encoding.getDbtb().getDerVblue();
+        if ((der.getTbg() & (byte)0x1F) == (byte)0x00) {
+            keyType = der.getDbtb().getBigInteger().intVblue();
         }
         else
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        if (der.getData().available() > 0) {
+        der = encoding.getDbtb().getDerVblue();
+        if ((der.getTbg() & (byte)0x1F) == (byte)0x01) {
+            keyVblue = der.getDbtb().getOctetString();
+        }
+        else
+            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        if (der.getDbtb().bvbilbble() > 0) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
     }
@@ -391,148 +391,148 @@ public class EncryptionKey
      * <xmp>
      * EncryptionKey ::=   SEQUENCE {
      *                             keytype[0]    INTEGER,
-     *                             keyvalue[1]   OCTET STRING }
+     *                             keyvblue[1]   OCTET STRING }
      * </xmp>
      *
      * <p>
      * This definition reflects the Network Working Group RFC 4120
-     * specification available at
-     * <a href="http://www.ietf.org/rfc/rfc4120.txt">
-     * http://www.ietf.org/rfc/rfc4120.txt</a>.
+     * specificbtion bvbilbble bt
+     * <b href="http://www.ietf.org/rfc/rfc4120.txt">
+     * http://www.ietf.org/rfc/rfc4120.txt</b>.
      *
-     * @return byte array of encoded EncryptionKey object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1
-     * encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded
-     * data.
+     * @return byte brrby of encoded EncryptionKey object.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1
+     * encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded
+     * dbtb.
      *
      */
-    public synchronized byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
+    public synchronized byte[] bsn1Encode() throws Asn1Exception, IOException {
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        DerOutputStrebm temp = new DerOutputStrebm();
         temp.putInteger(keyType);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true,
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true,
                                        (byte)0x00), temp);
-        temp = new DerOutputStream();
-        temp.putOctetString(keyValue);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true,
+        temp = new DerOutputStrebm();
+        temp.putOctetString(keyVblue);
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true,
                                        (byte)0x01), temp);
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+        temp = new DerOutputStrebm();
+        temp.write(DerVblue.tbg_Sequence, bytes);
+        return temp.toByteArrby();
     }
 
     public synchronized void destroy() {
-        if (keyValue != null)
-            for (int i = 0; i < keyValue.length; i++)
-                keyValue[i] = 0;
+        if (keyVblue != null)
+            for (int i = 0; i < keyVblue.length; i++)
+                keyVblue[i] = 0;
     }
 
 
     /**
-     * Parse (unmarshal) an Encryption key from a DER input stream.  This form
-     * parsing might be used when expanding a value which is part of
-     * a constructed sequence and uses explicitly tagged type.
+     * Pbrse (unmbrshbl) bn Encryption key from b DER input strebm.  This form
+     * pbrsing might be used when expbnding b vblue which is pbrt of
+     * b constructed sequence bnd uses explicitly tbgged type.
      *
-     * @param data the Der input stream value, which contains one or more
-     * marshaled value.
-     * @param explicitTag tag number.
-     * @param optional indicate if this data field is optional
-     * @exception Asn1Exception if an error occurs while decoding an ASN1
-     * encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded
-     * data.
-     * @return an instance of EncryptionKey.
+     * @pbrbm dbtb the Der input strebm vblue, which contbins one or more
+     * mbrshbled vblue.
+     * @pbrbm explicitTbg tbg number.
+     * @pbrbm optionbl indicbte if this dbtb field is optionbl
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1
+     * encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded
+     * dbtb.
+     * @return bn instbnce of EncryptionKey.
      *
      */
-    public static EncryptionKey parse(DerInputStream data, byte
-                                      explicitTag, boolean optional) throws
+    public stbtic EncryptionKey pbrse(DerInputStrebm dbtb, byte
+                                      explicitTbg, boolebn optionbl) throws
                                       Asn1Exception, IOException {
-        if ((optional) && (((byte)data.peekByte() & (byte)0x1F) !=
-                           explicitTag)) {
+        if ((optionbl) && (((byte)dbtb.peekByte() & (byte)0x1F) !=
+                           explicitTbg)) {
             return null;
         }
-        DerValue der = data.getDerValue();
-        if (explicitTag != (der.getTag() & (byte)0x1F))  {
+        DerVblue der = dbtb.getDerVblue();
+        if (explicitTbg != (der.getTbg() & (byte)0x1F))  {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         } else {
-            DerValue subDer = der.getData().getDerValue();
+            DerVblue subDer = der.getDbtb().getDerVblue();
             return new EncryptionKey(subDer);
         }
     }
 
     /**
-     * Writes key value in FCC format to a <code>CCacheOutputStream</code>.
+     * Writes key vblue in FCC formbt to b <code>CCbcheOutputStrebm</code>.
      *
-     * @param cos a <code>CCacheOutputStream</code> to be written to.
-     * @exception IOException if an I/O exception occurs.
-     * @see sun.security.krb5.internal.ccache.CCacheOutputStream
+     * @pbrbm cos b <code>CCbcheOutputStrebm</code> to be written to.
+     * @exception IOException if bn I/O exception occurs.
+     * @see sun.security.krb5.internbl.ccbche.CCbcheOutputStrebm
      *
      */
-    public synchronized void writeKey(CCacheOutputStream cos)
+    public synchronized void writeKey(CCbcheOutputStrebm cos)
         throws IOException {
 
         cos.write16(keyType);
         // we use KRB5_FCC_FVNO_3
         cos.write16(keyType); // key type is recorded twice.
-        cos.write32(keyValue.length);
-        for (int i = 0; i < keyValue.length; i++) {
-            cos.write8(keyValue[i]);
+        cos.write32(keyVblue.length);
+        for (int i = 0; i < keyVblue.length; i++) {
+            cos.write8(keyVblue[i]);
         }
     }
 
     public String toString() {
         return new String("EncryptionKey: keyType=" + keyType
                           + " kvno=" + kvno
-                          + " keyValue (hex dump)="
-                          + (keyValue == null || keyValue.length == 0 ?
+                          + " keyVblue (hex dump)="
+                          + (keyVblue == null || keyVblue.length == 0 ?
                         " Empty Key" : '\n'
-                        + Krb5.hexDumper.encodeBuffer(keyValue)
+                        + Krb5.hexDumper.encodeBuffer(keyVblue)
                         + '\n'));
     }
 
     /**
-     * Find a key with given etype
+     * Find b key with given etype
      */
-    public static EncryptionKey findKey(int etype, EncryptionKey[] keys)
+    public stbtic EncryptionKey findKey(int etype, EncryptionKey[] keys)
             throws KrbException {
         return findKey(etype, null, keys);
     }
 
     /**
-     * Determines if a kvno matches another kvno. Used in the method
-     * findKey(type, kvno, keys). Always returns true if either input
-     * is null or zero, in case any side does not have kvno info available.
+     * Determines if b kvno mbtches bnother kvno. Used in the method
+     * findKey(type, kvno, keys). Alwbys returns true if either input
+     * is null or zero, in cbse bny side does not hbve kvno info bvbilbble.
      *
-     * Note: zero is included because N/A is not a legal value for kvno
-     * in javax.security.auth.kerberos.KerberosKey. Therefore, the info
-     * that the kvno is N/A might be lost when converting between this
-     * class and KerberosKey.
+     * Note: zero is included becbuse N/A is not b legbl vblue for kvno
+     * in jbvbx.security.buth.kerberos.KerberosKey. Therefore, the info
+     * thbt the kvno is N/A might be lost when converting between this
+     * clbss bnd KerberosKey.
      */
-    private static boolean versionMatches(Integer v1, Integer v2) {
+    privbte stbtic boolebn versionMbtches(Integer v1, Integer v2) {
         if (v1 == null || v1 == 0 || v2 == null || v2 == 0) {
             return true;
         }
-        return v1.equals(v2);
+        return v1.equbls(v2);
     }
 
     /**
-     * Find a key with given etype and kvno
-     * @param kvno if null, return any (first?) key
+     * Find b key with given etype bnd kvno
+     * @pbrbm kvno if null, return bny (first?) key
      */
-    public static EncryptionKey findKey(int etype, Integer kvno, EncryptionKey[] keys)
+    public stbtic EncryptionKey findKey(int etype, Integer kvno, EncryptionKey[] keys)
         throws KrbException {
 
         // check if encryption type is supported
         if (!EType.isSupported(etype)) {
             throw new KrbException("Encryption type " +
-                EType.toString(etype) + " is not supported/enabled");
+                EType.toString(etype) + " is not supported/enbbled");
         }
 
         int ktype;
-        boolean etypeFound = false;
+        boolebn etypeFound = fblse;
 
-        // When no matched kvno is found, returns tke key of the same
+        // When no mbtched kvno is found, returns tke key of the sbme
         // etype with the highest kvno
         int kvno_found = 0;
         EncryptionKey key_found = null;
@@ -543,7 +543,7 @@ public class EncryptionKey
                 Integer kv = keys[i].getKeyVersionNumber();
                 if (etype == ktype) {
                     etypeFound = true;
-                    if (versionMatches(kvno, kv)) {
+                    if (versionMbtches(kvno, kv)) {
                         return keys[i];
                     } else if (kv > kvno_found) {
                         // kv is not null
@@ -555,16 +555,16 @@ public class EncryptionKey
         }
 
         // Key not found.
-        // allow DES key to be used for the DES etypes
-        if ((etype == EncryptedData.ETYPE_DES_CBC_CRC ||
-            etype == EncryptedData.ETYPE_DES_CBC_MD5)) {
+        // bllow DES key to be used for the DES etypes
+        if ((etype == EncryptedDbtb.ETYPE_DES_CBC_CRC ||
+            etype == EncryptedDbtb.ETYPE_DES_CBC_MD5)) {
             for (int i = 0; i < keys.length; i++) {
                 ktype = keys[i].getEType();
-                if (ktype == EncryptedData.ETYPE_DES_CBC_CRC ||
-                        ktype == EncryptedData.ETYPE_DES_CBC_MD5) {
+                if (ktype == EncryptedDbtb.ETYPE_DES_CBC_CRC ||
+                        ktype == EncryptedDbtb.ETYPE_DES_CBC_MD5) {
                     Integer kv = keys[i].getKeyVersionNumber();
                     etypeFound = true;
-                    if (versionMatches(kvno, kv)) {
+                    if (versionMbtches(kvno, kv)) {
                         return new EncryptionKey(etype, keys[i].getBytes());
                     } else if (kv > kvno_found) {
                         key_found = new EncryptionKey(etype, keys[i].getBytes());
@@ -575,7 +575,7 @@ public class EncryptionKey
         }
         if (etypeFound) {
             return key_found;
-            // For compatibility, will not fail here.
+            // For compbtibility, will not fbil here.
             //throw new KrbException(Krb5.KRB_AP_ERR_BADKEYVER);
         }
         return null;

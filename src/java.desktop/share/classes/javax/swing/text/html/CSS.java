@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
-import java.awt.HeadlessException;
-import java.awt.Image;
-import java.io.*;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Locale;
-import javax.swing.ImageIcon;
-import javax.swing.SizeRequirements;
-import javax.swing.text.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.HebdlessException;
+import jbvb.bwt.Imbge;
+import jbvb.io.*;
+import jbvb.lbng.reflect.Method;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.util.Locble;
+import jbvbx.swing.ImbgeIcon;
+import jbvbx.swing.SizeRequirements;
+import jbvbx.swing.text.*;
 
 /**
- * Defines a set of
- * <a href="http://www.w3.org/TR/REC-CSS1">CSS attributes</a>
- * as a typesafe enumeration.  The HTML View implementations use
- * CSS attributes to determine how they will render. This also defines
- * methods to map between CSS/HTML/StyleConstants. Any shorthand
- * properties, such as font, are mapped to the intrinsic properties.
- * <p>The following describes the CSS properties that are supported by the
+ * Defines b set of
+ * <b href="http://www.w3.org/TR/REC-CSS1">CSS bttributes</b>
+ * bs b typesbfe enumerbtion.  The HTML View implementbtions use
+ * CSS bttributes to determine how they will render. This blso defines
+ * methods to mbp between CSS/HTML/StyleConstbnts. Any shorthbnd
+ * properties, such bs font, bre mbpped to the intrinsic properties.
+ * <p>The following describes the CSS properties thbt bre supported by the
  * rendering engine:
- * <ul><li>font-family
+ * <ul><li>font-fbmily
  *   <li>font-style
- *   <li>font-size (supports relative units)
+ *   <li>font-size (supports relbtive units)
  *   <li>font-weight
  *   <li>font
  *   <li>color
- *   <li>background-color (with the exception of transparent)
- *   <li>background-image
- *   <li>background-repeat
- *   <li>background-position
- *   <li>background
- *   <li>text-decoration (with the exception of blink and overline)
- *   <li>vertical-align (only sup and super)
- *   <li>text-align (justify is treated as center)
- *   <li>margin-top
- *   <li>margin-right
- *   <li>margin-bottom
- *   <li>margin-left
- *   <li>margin
- *   <li>padding-top
- *   <li>padding-right
- *   <li>padding-bottom
- *   <li>padding-left
- *   <li>padding
+ *   <li>bbckground-color (with the exception of trbnspbrent)
+ *   <li>bbckground-imbge
+ *   <li>bbckground-repebt
+ *   <li>bbckground-position
+ *   <li>bbckground
+ *   <li>text-decorbtion (with the exception of blink bnd overline)
+ *   <li>verticbl-blign (only sup bnd super)
+ *   <li>text-blign (justify is trebted bs center)
+ *   <li>mbrgin-top
+ *   <li>mbrgin-right
+ *   <li>mbrgin-bottom
+ *   <li>mbrgin-left
+ *   <li>mbrgin
+ *   <li>pbdding-top
+ *   <li>pbdding-right
+ *   <li>pbdding-bottom
+ *   <li>pbdding-left
+ *   <li>pbdding
  *   <li>border-top-style
  *   <li>border-right-style
  *   <li>border-bottom-style
  *   <li>border-left-style
- *   <li>border-style (only supports inset, outset and none)
+ *   <li>border-style (only supports inset, outset bnd none)
  *   <li>border-top-color
  *   <li>border-right-color
  *   <li>border-bottom-color
  *   <li>border-left-color
  *   <li>border-color
- *   <li>list-style-image
+ *   <li>list-style-imbge
  *   <li>list-style-type
  *   <li>list-style-position
  * </ul>
- * The following are modeled, but currently not rendered.
- * <ul><li>font-variant
- *   <li>background-attachment (background always treated as scroll)
- *   <li>word-spacing
- *   <li>letter-spacing
+ * The following bre modeled, but currently not rendered.
+ * <ul><li>font-vbribnt
+ *   <li>bbckground-bttbchment (bbckground blwbys trebted bs scroll)
+ *   <li>word-spbcing
+ *   <li>letter-spbcing
  *   <li>text-indent
- *   <li>text-transform
+ *   <li>text-trbnsform
  *   <li>line-height
- *   <li>border-top-width (this is used to indicate if a border should be used)
+ *   <li>border-top-width (this is used to indicbte if b border should be used)
  *   <li>border-right-width
  *   <li>border-bottom-width
  *   <li>border-left-width
@@ -109,468 +109,468 @@ import javax.swing.text.*;
  *   <li>border
  *   <li>width
  *   <li>height
- *   <li>float
- *   <li>clear
- *   <li>display
- *   <li>white-space
+ *   <li>flobt
+ *   <li>clebr
+ *   <li>displby
+ *   <li>white-spbce
  *   <li>list-style
  * </ul>
- * <p><b>Note: for the time being we do not fully support relative units,
- * unless noted, so that
- * p { margin-top: 10% } will be treated as if no margin-top was specified.</b>
+ * <p><b>Note: for the time being we do not fully support relbtive units,
+ * unless noted, so thbt
+ * p { mbrgin-top: 10% } will be trebted bs if no mbrgin-top wbs specified.</b>
  *
- * @author  Timothy Prinzing
- * @author  Scott Violet
+ * @buthor  Timothy Prinzing
+ * @buthor  Scott Violet
  * @see StyleSheet
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class CSS implements Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss CSS implements Seriblizbble {
 
     /**
-     * Definitions to be used as a key on AttributeSet's
-     * that might hold CSS attributes.  Since this is a
-     * closed set (i.e. defined exactly by the specification),
-     * it is final and cannot be extended.
+     * Definitions to be used bs b key on AttributeSet's
+     * thbt might hold CSS bttributes.  Since this is b
+     * closed set (i.e. defined exbctly by the specificbtion),
+     * it is finbl bnd cbnnot be extended.
      */
-    public static final class Attribute {
+    public stbtic finbl clbss Attribute {
 
-        private Attribute(String name, String defaultValue, boolean inherited) {
-            this.name = name;
-            this.defaultValue = defaultValue;
+        privbte Attribute(String nbme, String defbultVblue, boolebn inherited) {
+            this.nbme = nbme;
+            this.defbultVblue = defbultVblue;
             this.inherited = inherited;
         }
 
         /**
-         * The string representation of the attribute.  This
-         * should exactly match the string specified in the
-         * CSS specification.
+         * The string representbtion of the bttribute.  This
+         * should exbctly mbtch the string specified in the
+         * CSS specificbtion.
          */
         public String toString() {
-            return name;
+            return nbme;
         }
 
         /**
-         * Fetch the default value for the attribute.
-         * If there is no default value (such as for
-         * composite attributes), null will be returned.
+         * Fetch the defbult vblue for the bttribute.
+         * If there is no defbult vblue (such bs for
+         * composite bttributes), null will be returned.
          *
-         * @return default value for the attribute
+         * @return defbult vblue for the bttribute
          */
-        public String getDefaultValue() {
-            return defaultValue;
+        public String getDefbultVblue() {
+            return defbultVblue;
         }
 
         /**
-         * Indicates if the attribute should be inherited
-         * from the parent or not.
+         * Indicbtes if the bttribute should be inherited
+         * from the pbrent or not.
          *
-         * @return true if the attribute should be inherited from the parent
+         * @return true if the bttribute should be inherited from the pbrent
          */
-        public boolean isInherited() {
+        public boolebn isInherited() {
             return inherited;
         }
 
-        private String name;
-        private String defaultValue;
-        private boolean inherited;
+        privbte String nbme;
+        privbte String defbultVblue;
+        privbte boolebn inherited;
 
 
         /**
-         * CSS attribute "background".
+         * CSS bttribute "bbckground".
          */
-        public static final Attribute BACKGROUND =
-            new Attribute("background", null, false);
+        public stbtic finbl Attribute BACKGROUND =
+            new Attribute("bbckground", null, fblse);
 
         /**
-         * CSS attribute "background-attachment".
+         * CSS bttribute "bbckground-bttbchment".
          */
-        public static final Attribute BACKGROUND_ATTACHMENT =
-            new Attribute("background-attachment", "scroll", false);
+        public stbtic finbl Attribute BACKGROUND_ATTACHMENT =
+            new Attribute("bbckground-bttbchment", "scroll", fblse);
 
         /**
-         * CSS attribute "background-color".
+         * CSS bttribute "bbckground-color".
          */
-        public static final Attribute BACKGROUND_COLOR =
-            new Attribute("background-color", "transparent", false);
+        public stbtic finbl Attribute BACKGROUND_COLOR =
+            new Attribute("bbckground-color", "trbnspbrent", fblse);
 
         /**
-         * CSS attribute "background-image".
+         * CSS bttribute "bbckground-imbge".
          */
-        public static final Attribute BACKGROUND_IMAGE =
-            new Attribute("background-image", "none", false);
+        public stbtic finbl Attribute BACKGROUND_IMAGE =
+            new Attribute("bbckground-imbge", "none", fblse);
 
         /**
-         * CSS attribute "background-position".
+         * CSS bttribute "bbckground-position".
          */
-        public static final Attribute BACKGROUND_POSITION =
-            new Attribute("background-position", null, false);
+        public stbtic finbl Attribute BACKGROUND_POSITION =
+            new Attribute("bbckground-position", null, fblse);
 
         /**
-         * CSS attribute "background-repeat".
+         * CSS bttribute "bbckground-repebt".
          */
-        public static final Attribute BACKGROUND_REPEAT =
-            new Attribute("background-repeat", "repeat", false);
+        public stbtic finbl Attribute BACKGROUND_REPEAT =
+            new Attribute("bbckground-repebt", "repebt", fblse);
 
         /**
-         * CSS attribute "border".
+         * CSS bttribute "border".
          */
-        public static final Attribute BORDER =
-            new Attribute("border", null, false);
+        public stbtic finbl Attribute BORDER =
+            new Attribute("border", null, fblse);
 
         /**
-         * CSS attribute "border-bottom".
+         * CSS bttribute "border-bottom".
          */
-        public static final Attribute BORDER_BOTTOM =
-            new Attribute("border-bottom", null, false);
+        public stbtic finbl Attribute BORDER_BOTTOM =
+            new Attribute("border-bottom", null, fblse);
 
         /**
-         * CSS attribute "border-bottom-color".
+         * CSS bttribute "border-bottom-color".
          */
-        public static final Attribute BORDER_BOTTOM_COLOR =
-            new Attribute("border-bottom-color", null, false);
+        public stbtic finbl Attribute BORDER_BOTTOM_COLOR =
+            new Attribute("border-bottom-color", null, fblse);
 
         /**
-         * CSS attribute "border-bottom-style".
+         * CSS bttribute "border-bottom-style".
          */
-        public static final Attribute BORDER_BOTTOM_STYLE =
-            new Attribute("border-bottom-style", "none", false);
+        public stbtic finbl Attribute BORDER_BOTTOM_STYLE =
+            new Attribute("border-bottom-style", "none", fblse);
 
         /**
-         * CSS attribute "border-bottom-width".
+         * CSS bttribute "border-bottom-width".
          */
-        public static final Attribute BORDER_BOTTOM_WIDTH =
-            new Attribute("border-bottom-width", "medium", false);
+        public stbtic finbl Attribute BORDER_BOTTOM_WIDTH =
+            new Attribute("border-bottom-width", "medium", fblse);
 
         /**
-         * CSS attribute "border-color".
+         * CSS bttribute "border-color".
          */
-        public static final Attribute BORDER_COLOR =
-            new Attribute("border-color", null, false);
+        public stbtic finbl Attribute BORDER_COLOR =
+            new Attribute("border-color", null, fblse);
 
         /**
-         * CSS attribute "border-left".
+         * CSS bttribute "border-left".
          */
-        public static final Attribute BORDER_LEFT =
-            new Attribute("border-left", null, false);
+        public stbtic finbl Attribute BORDER_LEFT =
+            new Attribute("border-left", null, fblse);
 
         /**
-         * CSS attribute "margin-right".
+         * CSS bttribute "mbrgin-right".
          */
-        public static final Attribute BORDER_LEFT_COLOR =
-            new Attribute("border-left-color", null, false);
+        public stbtic finbl Attribute BORDER_LEFT_COLOR =
+            new Attribute("border-left-color", null, fblse);
 
         /**
-         * CSS attribute "border-left-style".
+         * CSS bttribute "border-left-style".
          */
-        public static final Attribute BORDER_LEFT_STYLE =
-            new Attribute("border-left-style", "none", false);
+        public stbtic finbl Attribute BORDER_LEFT_STYLE =
+            new Attribute("border-left-style", "none", fblse);
 
         /**
-         * CSS attribute "border-left-width".
+         * CSS bttribute "border-left-width".
          */
-        public static final Attribute BORDER_LEFT_WIDTH =
-            new Attribute("border-left-width", "medium", false);
+        public stbtic finbl Attribute BORDER_LEFT_WIDTH =
+            new Attribute("border-left-width", "medium", fblse);
 
         /**
-         * CSS attribute "border-right".
+         * CSS bttribute "border-right".
          */
-        public static final Attribute BORDER_RIGHT =
-            new Attribute("border-right", null, false);
+        public stbtic finbl Attribute BORDER_RIGHT =
+            new Attribute("border-right", null, fblse);
 
         /**
-         * CSS attribute "border-right-color".
+         * CSS bttribute "border-right-color".
          */
-        public static final Attribute BORDER_RIGHT_COLOR =
-            new Attribute("border-right-color", null, false);
+        public stbtic finbl Attribute BORDER_RIGHT_COLOR =
+            new Attribute("border-right-color", null, fblse);
 
         /**
-         * CSS attribute "border-right-style".
+         * CSS bttribute "border-right-style".
          */
-        public static final Attribute BORDER_RIGHT_STYLE =
-            new Attribute("border-right-style", "none", false);
+        public stbtic finbl Attribute BORDER_RIGHT_STYLE =
+            new Attribute("border-right-style", "none", fblse);
 
         /**
-         * CSS attribute "border-right-width".
+         * CSS bttribute "border-right-width".
          */
-        public static final Attribute BORDER_RIGHT_WIDTH =
-            new Attribute("border-right-width", "medium", false);
+        public stbtic finbl Attribute BORDER_RIGHT_WIDTH =
+            new Attribute("border-right-width", "medium", fblse);
 
         /**
-         * CSS attribute "border-style".
+         * CSS bttribute "border-style".
          */
-        public static final Attribute BORDER_STYLE =
-            new Attribute("border-style", "none", false);
+        public stbtic finbl Attribute BORDER_STYLE =
+            new Attribute("border-style", "none", fblse);
 
         /**
-         * CSS attribute "border-top".
+         * CSS bttribute "border-top".
          */
-        public static final Attribute BORDER_TOP =
-            new Attribute("border-top", null, false);
+        public stbtic finbl Attribute BORDER_TOP =
+            new Attribute("border-top", null, fblse);
 
         /**
-         * CSS attribute "border-top-color".
+         * CSS bttribute "border-top-color".
          */
-        public static final Attribute BORDER_TOP_COLOR =
-            new Attribute("border-top-color", null, false);
+        public stbtic finbl Attribute BORDER_TOP_COLOR =
+            new Attribute("border-top-color", null, fblse);
 
         /**
-         * CSS attribute "border-top-style".
+         * CSS bttribute "border-top-style".
          */
-        public static final Attribute BORDER_TOP_STYLE =
-            new Attribute("border-top-style", "none", false);
+        public stbtic finbl Attribute BORDER_TOP_STYLE =
+            new Attribute("border-top-style", "none", fblse);
 
         /**
-         * CSS attribute "border-top-width".
+         * CSS bttribute "border-top-width".
          */
-        public static final Attribute BORDER_TOP_WIDTH =
-            new Attribute("border-top-width", "medium", false);
+        public stbtic finbl Attribute BORDER_TOP_WIDTH =
+            new Attribute("border-top-width", "medium", fblse);
 
         /**
-         * CSS attribute "border-width".
+         * CSS bttribute "border-width".
          */
-        public static final Attribute BORDER_WIDTH =
-            new Attribute("border-width", "medium", false);
+        public stbtic finbl Attribute BORDER_WIDTH =
+            new Attribute("border-width", "medium", fblse);
 
         /**
-         * CSS attribute "clear".
+         * CSS bttribute "clebr".
          */
-        public static final Attribute CLEAR =
-            new Attribute("clear", "none", false);
+        public stbtic finbl Attribute CLEAR =
+            new Attribute("clebr", "none", fblse);
 
         /**
-         * CSS attribute "color".
+         * CSS bttribute "color".
          */
-        public static final Attribute COLOR =
-            new Attribute("color", "black", true);
+        public stbtic finbl Attribute COLOR =
+            new Attribute("color", "blbck", true);
 
         /**
-         * CSS attribute "display".
+         * CSS bttribute "displby".
          */
-        public static final Attribute DISPLAY =
-            new Attribute("display", "block", false);
+        public stbtic finbl Attribute DISPLAY =
+            new Attribute("displby", "block", fblse);
 
         /**
-         * CSS attribute "float".
+         * CSS bttribute "flobt".
          */
-        public static final Attribute FLOAT =
-            new Attribute("float", "none", false);
+        public stbtic finbl Attribute FLOAT =
+            new Attribute("flobt", "none", fblse);
 
         /**
-         * CSS attribute "font".
+         * CSS bttribute "font".
          */
-        public static final Attribute FONT =
+        public stbtic finbl Attribute FONT =
             new Attribute("font", null, true);
 
         /**
-         * CSS attribute "font-family".
+         * CSS bttribute "font-fbmily".
          */
-        public static final Attribute FONT_FAMILY =
-            new Attribute("font-family", null, true);
+        public stbtic finbl Attribute FONT_FAMILY =
+            new Attribute("font-fbmily", null, true);
 
         /**
-         * CSS attribute "font-size".
+         * CSS bttribute "font-size".
          */
-        public static final Attribute FONT_SIZE =
+        public stbtic finbl Attribute FONT_SIZE =
             new Attribute("font-size", "medium", true);
 
         /**
-         * CSS attribute "font-style".
+         * CSS bttribute "font-style".
          */
-        public static final Attribute FONT_STYLE =
-            new Attribute("font-style", "normal", true);
+        public stbtic finbl Attribute FONT_STYLE =
+            new Attribute("font-style", "normbl", true);
 
         /**
-         * CSS attribute "font-variant".
+         * CSS bttribute "font-vbribnt".
          */
-        public static final Attribute FONT_VARIANT =
-            new Attribute("font-variant", "normal", true);
+        public stbtic finbl Attribute FONT_VARIANT =
+            new Attribute("font-vbribnt", "normbl", true);
 
         /**
-         * CSS attribute "font-weight".
+         * CSS bttribute "font-weight".
          */
-        public static final Attribute FONT_WEIGHT =
-            new Attribute("font-weight", "normal", true);
+        public stbtic finbl Attribute FONT_WEIGHT =
+            new Attribute("font-weight", "normbl", true);
 
         /**
-         * CSS attribute "height".
+         * CSS bttribute "height".
          */
-        public static final Attribute HEIGHT =
-            new Attribute("height", "auto", false);
+        public stbtic finbl Attribute HEIGHT =
+            new Attribute("height", "buto", fblse);
 
         /**
-         * CSS attribute "letter-spacing".
+         * CSS bttribute "letter-spbcing".
          */
-        public static final Attribute LETTER_SPACING =
-            new Attribute("letter-spacing", "normal", true);
+        public stbtic finbl Attribute LETTER_SPACING =
+            new Attribute("letter-spbcing", "normbl", true);
 
         /**
-         * CSS attribute "line-height".
+         * CSS bttribute "line-height".
          */
-        public static final Attribute LINE_HEIGHT =
-            new Attribute("line-height", "normal", true);
+        public stbtic finbl Attribute LINE_HEIGHT =
+            new Attribute("line-height", "normbl", true);
 
         /**
-         * CSS attribute "list-style".
+         * CSS bttribute "list-style".
          */
-        public static final Attribute LIST_STYLE =
+        public stbtic finbl Attribute LIST_STYLE =
             new Attribute("list-style", null, true);
 
         /**
-         * CSS attribute "list-style-image".
+         * CSS bttribute "list-style-imbge".
          */
-        public static final Attribute LIST_STYLE_IMAGE =
-            new Attribute("list-style-image", "none", true);
+        public stbtic finbl Attribute LIST_STYLE_IMAGE =
+            new Attribute("list-style-imbge", "none", true);
 
         /**
-         * CSS attribute "list-style-position".
+         * CSS bttribute "list-style-position".
          */
-        public static final Attribute LIST_STYLE_POSITION =
+        public stbtic finbl Attribute LIST_STYLE_POSITION =
             new Attribute("list-style-position", "outside", true);
 
         /**
-         * CSS attribute "list-style-type".
+         * CSS bttribute "list-style-type".
          */
-        public static final Attribute LIST_STYLE_TYPE =
+        public stbtic finbl Attribute LIST_STYLE_TYPE =
             new Attribute("list-style-type", "disc", true);
 
         /**
-         * CSS attribute "margin".
+         * CSS bttribute "mbrgin".
          */
-        public static final Attribute MARGIN =
-            new Attribute("margin", null, false);
+        public stbtic finbl Attribute MARGIN =
+            new Attribute("mbrgin", null, fblse);
 
         /**
-         * CSS attribute "margin-bottom".
+         * CSS bttribute "mbrgin-bottom".
          */
-        public static final Attribute MARGIN_BOTTOM =
-            new Attribute("margin-bottom", "0", false);
+        public stbtic finbl Attribute MARGIN_BOTTOM =
+            new Attribute("mbrgin-bottom", "0", fblse);
 
         /**
-         * CSS attribute "margin-left".
+         * CSS bttribute "mbrgin-left".
          */
-        public static final Attribute MARGIN_LEFT =
-            new Attribute("margin-left", "0", false);
+        public stbtic finbl Attribute MARGIN_LEFT =
+            new Attribute("mbrgin-left", "0", fblse);
 
         /**
-         * CSS attribute "margin-right".
+         * CSS bttribute "mbrgin-right".
          */
-        public static final Attribute MARGIN_RIGHT =
-            new Attribute("margin-right", "0", false);
+        public stbtic finbl Attribute MARGIN_RIGHT =
+            new Attribute("mbrgin-right", "0", fblse);
 
         /*
-         * made up css attributes to describe orientation depended
-         * margins. used for <dir>, <menu>, <ul> etc. see
-         * 5088268 for more details
+         * mbde up css bttributes to describe orientbtion depended
+         * mbrgins. used for <dir>, <menu>, <ul> etc. see
+         * 5088268 for more detbils
          */
-        static final Attribute MARGIN_LEFT_LTR =
-            new Attribute("margin-left-ltr",
-                          Integer.toString(Integer.MIN_VALUE), false);
+        stbtic finbl Attribute MARGIN_LEFT_LTR =
+            new Attribute("mbrgin-left-ltr",
+                          Integer.toString(Integer.MIN_VALUE), fblse);
 
-        static final Attribute MARGIN_LEFT_RTL =
-            new Attribute("margin-left-rtl",
-                          Integer.toString(Integer.MIN_VALUE), false);
+        stbtic finbl Attribute MARGIN_LEFT_RTL =
+            new Attribute("mbrgin-left-rtl",
+                          Integer.toString(Integer.MIN_VALUE), fblse);
 
-        static final Attribute MARGIN_RIGHT_LTR =
-            new Attribute("margin-right-ltr",
-                          Integer.toString(Integer.MIN_VALUE), false);
+        stbtic finbl Attribute MARGIN_RIGHT_LTR =
+            new Attribute("mbrgin-right-ltr",
+                          Integer.toString(Integer.MIN_VALUE), fblse);
 
-        static final Attribute MARGIN_RIGHT_RTL =
-            new Attribute("margin-right-rtl",
-                          Integer.toString(Integer.MIN_VALUE), false);
+        stbtic finbl Attribute MARGIN_RIGHT_RTL =
+            new Attribute("mbrgin-right-rtl",
+                          Integer.toString(Integer.MIN_VALUE), fblse);
 
 
         /**
-         * CSS attribute "margin-top".
+         * CSS bttribute "mbrgin-top".
          */
-        public static final Attribute MARGIN_TOP =
-            new Attribute("margin-top", "0", false);
+        public stbtic finbl Attribute MARGIN_TOP =
+            new Attribute("mbrgin-top", "0", fblse);
 
         /**
-         * CSS attribute "padding".
+         * CSS bttribute "pbdding".
          */
-        public static final Attribute PADDING =
-            new Attribute("padding", null, false);
+        public stbtic finbl Attribute PADDING =
+            new Attribute("pbdding", null, fblse);
 
         /**
-         * CSS attribute "padding-bottom".
+         * CSS bttribute "pbdding-bottom".
          */
-        public static final Attribute PADDING_BOTTOM =
-            new Attribute("padding-bottom", "0", false);
+        public stbtic finbl Attribute PADDING_BOTTOM =
+            new Attribute("pbdding-bottom", "0", fblse);
 
         /**
-         * CSS attribute "padding-left".
+         * CSS bttribute "pbdding-left".
          */
-        public static final Attribute PADDING_LEFT =
-            new Attribute("padding-left", "0", false);
+        public stbtic finbl Attribute PADDING_LEFT =
+            new Attribute("pbdding-left", "0", fblse);
 
         /**
-         * CSS attribute "padding-right".
+         * CSS bttribute "pbdding-right".
          */
-        public static final Attribute PADDING_RIGHT =
-            new Attribute("padding-right", "0", false);
+        public stbtic finbl Attribute PADDING_RIGHT =
+            new Attribute("pbdding-right", "0", fblse);
 
         /**
-         * CSS attribute "padding-top".
+         * CSS bttribute "pbdding-top".
          */
-        public static final Attribute PADDING_TOP =
-            new Attribute("padding-top", "0", false);
+        public stbtic finbl Attribute PADDING_TOP =
+            new Attribute("pbdding-top", "0", fblse);
 
         /**
-         * CSS attribute "text-align".
+         * CSS bttribute "text-blign".
          */
-        public static final Attribute TEXT_ALIGN =
-            new Attribute("text-align", null, true);
+        public stbtic finbl Attribute TEXT_ALIGN =
+            new Attribute("text-blign", null, true);
 
         /**
-         * CSS attribute "text-decoration".
+         * CSS bttribute "text-decorbtion".
          */
-        public static final Attribute TEXT_DECORATION =
-            new Attribute("text-decoration", "none", true);
+        public stbtic finbl Attribute TEXT_DECORATION =
+            new Attribute("text-decorbtion", "none", true);
 
         /**
-         * CSS attribute "text-indent".
+         * CSS bttribute "text-indent".
          */
-        public static final Attribute TEXT_INDENT =
+        public stbtic finbl Attribute TEXT_INDENT =
             new Attribute("text-indent", "0", true);
 
         /**
-         * CSS attribute "text-transform".
+         * CSS bttribute "text-trbnsform".
          */
-        public static final Attribute TEXT_TRANSFORM =
-            new Attribute("text-transform", "none", true);
+        public stbtic finbl Attribute TEXT_TRANSFORM =
+            new Attribute("text-trbnsform", "none", true);
 
         /**
-         * CSS attribute "vertical-align".
+         * CSS bttribute "verticbl-blign".
          */
-        public static final Attribute VERTICAL_ALIGN =
-            new Attribute("vertical-align", "baseline", false);
+        public stbtic finbl Attribute VERTICAL_ALIGN =
+            new Attribute("verticbl-blign", "bbseline", fblse);
 
         /**
-         * CSS attribute "word-spacing".
+         * CSS bttribute "word-spbcing".
          */
-        public static final Attribute WORD_SPACING =
-            new Attribute("word-spacing", "normal", true);
+        public stbtic finbl Attribute WORD_SPACING =
+            new Attribute("word-spbcing", "normbl", true);
 
         /**
-         * CSS attribute "white-space".
+         * CSS bttribute "white-spbce".
          */
-        public static final Attribute WHITE_SPACE =
-            new Attribute("white-space", "normal", true);
+        public stbtic finbl Attribute WHITE_SPACE =
+            new Attribute("white-spbce", "normbl", true);
 
         /**
-         * CSS attribute "width".
+         * CSS bttribute "width".
          */
-        public static final Attribute WIDTH =
-            new Attribute("width", "auto", false);
+        public stbtic finbl Attribute WIDTH =
+            new Attribute("width", "buto", fblse);
 
-        /*public*/ static final Attribute BORDER_SPACING =
-            new Attribute("border-spacing", "0", true);
+        /*public*/ stbtic finbl Attribute BORDER_SPACING =
+            new Attribute("border-spbcing", "0", true);
 
-        /*public*/ static final Attribute CAPTION_SIDE =
-            new Attribute("caption-side", "left", true);
+        /*public*/ stbtic finbl Attribute CAPTION_SIDE =
+            new Attribute("cbption-side", "left", true);
 
-        // All possible CSS attribute keys.
-        static final Attribute[] allAttributes = {
+        // All possible CSS bttribute keys.
+        stbtic finbl Attribute[] bllAttributes = {
             BACKGROUND, BACKGROUND_ATTACHMENT, BACKGROUND_COLOR,
             BACKGROUND_IMAGE, BACKGROUND_POSITION, BACKGROUND_REPEAT,
             BORDER, BORDER_BOTTOM, BORDER_BOTTOM_WIDTH, BORDER_COLOR,
@@ -591,69 +591,69 @@ public class CSS implements Serializable {
             MARGIN_LEFT_LTR, MARGIN_LEFT_RTL, MARGIN_RIGHT_LTR, MARGIN_RIGHT_RTL
         };
 
-        private static final Attribute[] ALL_MARGINS =
+        privbte stbtic finbl Attribute[] ALL_MARGINS =
                 { MARGIN_TOP, MARGIN_RIGHT, MARGIN_BOTTOM, MARGIN_LEFT };
-        private static final Attribute[] ALL_PADDING =
+        privbte stbtic finbl Attribute[] ALL_PADDING =
                 { PADDING_TOP, PADDING_RIGHT, PADDING_BOTTOM, PADDING_LEFT };
-        private static final Attribute[] ALL_BORDER_WIDTHS =
+        privbte stbtic finbl Attribute[] ALL_BORDER_WIDTHS =
                 { BORDER_TOP_WIDTH, BORDER_RIGHT_WIDTH, BORDER_BOTTOM_WIDTH,
                   BORDER_LEFT_WIDTH };
-        private static final Attribute[] ALL_BORDER_STYLES =
+        privbte stbtic finbl Attribute[] ALL_BORDER_STYLES =
                 { BORDER_TOP_STYLE, BORDER_RIGHT_STYLE, BORDER_BOTTOM_STYLE,
                   BORDER_LEFT_STYLE };
-        private static final Attribute[] ALL_BORDER_COLORS =
+        privbte stbtic finbl Attribute[] ALL_BORDER_COLORS =
                 { BORDER_TOP_COLOR, BORDER_RIGHT_COLOR, BORDER_BOTTOM_COLOR,
                   BORDER_LEFT_COLOR };
 
     }
 
-    static final class Value {
+    stbtic finbl clbss Vblue {
 
-        private Value(String name) {
-            this.name = name;
+        privbte Vblue(String nbme) {
+            this.nbme = nbme;
         }
 
         /**
-         * The string representation of the attribute.  This
-         * should exactly match the string specified in the
-         * CSS specification.
+         * The string representbtion of the bttribute.  This
+         * should exbctly mbtch the string specified in the
+         * CSS specificbtion.
          */
         public String toString() {
-            return name;
+            return nbme;
         }
 
-        static final Value INHERITED = new Value("inherited");
-        static final Value NONE = new Value("none");
-        static final Value HIDDEN = new Value("hidden");
-        static final Value DOTTED = new Value("dotted");
-        static final Value DASHED = new Value("dashed");
-        static final Value SOLID = new Value("solid");
-        static final Value DOUBLE = new Value("double");
-        static final Value GROOVE = new Value("groove");
-        static final Value RIDGE = new Value("ridge");
-        static final Value INSET = new Value("inset");
-        static final Value OUTSET = new Value("outset");
+        stbtic finbl Vblue INHERITED = new Vblue("inherited");
+        stbtic finbl Vblue NONE = new Vblue("none");
+        stbtic finbl Vblue HIDDEN = new Vblue("hidden");
+        stbtic finbl Vblue DOTTED = new Vblue("dotted");
+        stbtic finbl Vblue DASHED = new Vblue("dbshed");
+        stbtic finbl Vblue SOLID = new Vblue("solid");
+        stbtic finbl Vblue DOUBLE = new Vblue("double");
+        stbtic finbl Vblue GROOVE = new Vblue("groove");
+        stbtic finbl Vblue RIDGE = new Vblue("ridge");
+        stbtic finbl Vblue INSET = new Vblue("inset");
+        stbtic finbl Vblue OUTSET = new Vblue("outset");
         // Lists.
-        static final Value DISC = new Value("disc");
-        static final Value CIRCLE = new Value("circle");
-        static final Value SQUARE = new Value("square");
-        static final Value DECIMAL = new Value("decimal");
-        static final Value LOWER_ROMAN = new Value("lower-roman");
-        static final Value UPPER_ROMAN = new Value("upper-roman");
-        static final Value LOWER_ALPHA = new Value("lower-alpha");
-        static final Value UPPER_ALPHA = new Value("upper-alpha");
-        // background-repeat
-        static final Value BACKGROUND_NO_REPEAT = new Value("no-repeat");
-        static final Value BACKGROUND_REPEAT = new Value("repeat");
-        static final Value BACKGROUND_REPEAT_X = new Value("repeat-x");
-        static final Value BACKGROUND_REPEAT_Y = new Value("repeat-y");
-        // background-attachment
-        static final Value BACKGROUND_SCROLL = new Value("scroll");
-        static final Value BACKGROUND_FIXED = new Value("fixed");
+        stbtic finbl Vblue DISC = new Vblue("disc");
+        stbtic finbl Vblue CIRCLE = new Vblue("circle");
+        stbtic finbl Vblue SQUARE = new Vblue("squbre");
+        stbtic finbl Vblue DECIMAL = new Vblue("decimbl");
+        stbtic finbl Vblue LOWER_ROMAN = new Vblue("lower-rombn");
+        stbtic finbl Vblue UPPER_ROMAN = new Vblue("upper-rombn");
+        stbtic finbl Vblue LOWER_ALPHA = new Vblue("lower-blphb");
+        stbtic finbl Vblue UPPER_ALPHA = new Vblue("upper-blphb");
+        // bbckground-repebt
+        stbtic finbl Vblue BACKGROUND_NO_REPEAT = new Vblue("no-repebt");
+        stbtic finbl Vblue BACKGROUND_REPEAT = new Vblue("repebt");
+        stbtic finbl Vblue BACKGROUND_REPEAT_X = new Vblue("repebt-x");
+        stbtic finbl Vblue BACKGROUND_REPEAT_Y = new Vblue("repebt-y");
+        // bbckground-bttbchment
+        stbtic finbl Vblue BACKGROUND_SCROLL = new Vblue("scroll");
+        stbtic finbl Vblue BACKGROUND_FIXED = new Vblue("fixed");
 
-        private String name;
+        privbte String nbme;
 
-        static final Value[] allValues = {
+        stbtic finbl Vblue[] bllVblues = {
             INHERITED, NONE, DOTTED, DASHED, SOLID, DOUBLE, GROOVE,
             RIDGE, INSET, OUTSET, DISC, CIRCLE, SQUARE, DECIMAL,
             LOWER_ROMAN, UPPER_ROMAN, LOWER_ALPHA, UPPER_ALPHA,
@@ -664,147 +664,147 @@ public class CSS implements Serializable {
     }
 
     /**
-     * Constructs a CSS object.
+     * Constructs b CSS object.
      */
     public CSS() {
-        baseFontSize = baseFontSizeIndex + 1;
-        // setup the css conversion table
-        valueConvertor = new Hashtable<Object, Object>();
-        valueConvertor.put(CSS.Attribute.FONT_SIZE, new FontSize());
-        valueConvertor.put(CSS.Attribute.FONT_FAMILY, new FontFamily());
-        valueConvertor.put(CSS.Attribute.FONT_WEIGHT, new FontWeight());
+        bbseFontSize = bbseFontSizeIndex + 1;
+        // setup the css conversion tbble
+        vblueConvertor = new Hbshtbble<Object, Object>();
+        vblueConvertor.put(CSS.Attribute.FONT_SIZE, new FontSize());
+        vblueConvertor.put(CSS.Attribute.FONT_FAMILY, new FontFbmily());
+        vblueConvertor.put(CSS.Attribute.FONT_WEIGHT, new FontWeight());
         Object bs = new BorderStyle();
-        valueConvertor.put(CSS.Attribute.BORDER_TOP_STYLE, bs);
-        valueConvertor.put(CSS.Attribute.BORDER_RIGHT_STYLE, bs);
-        valueConvertor.put(CSS.Attribute.BORDER_BOTTOM_STYLE, bs);
-        valueConvertor.put(CSS.Attribute.BORDER_LEFT_STYLE, bs);
-        Object cv = new ColorValue();
-        valueConvertor.put(CSS.Attribute.COLOR, cv);
-        valueConvertor.put(CSS.Attribute.BACKGROUND_COLOR, cv);
-        valueConvertor.put(CSS.Attribute.BORDER_TOP_COLOR, cv);
-        valueConvertor.put(CSS.Attribute.BORDER_RIGHT_COLOR, cv);
-        valueConvertor.put(CSS.Attribute.BORDER_BOTTOM_COLOR, cv);
-        valueConvertor.put(CSS.Attribute.BORDER_LEFT_COLOR, cv);
-        Object lv = new LengthValue();
-        valueConvertor.put(CSS.Attribute.MARGIN_TOP, lv);
-        valueConvertor.put(CSS.Attribute.MARGIN_BOTTOM, lv);
-        valueConvertor.put(CSS.Attribute.MARGIN_LEFT, lv);
-        valueConvertor.put(CSS.Attribute.MARGIN_LEFT_LTR, lv);
-        valueConvertor.put(CSS.Attribute.MARGIN_LEFT_RTL, lv);
-        valueConvertor.put(CSS.Attribute.MARGIN_RIGHT, lv);
-        valueConvertor.put(CSS.Attribute.MARGIN_RIGHT_LTR, lv);
-        valueConvertor.put(CSS.Attribute.MARGIN_RIGHT_RTL, lv);
-        valueConvertor.put(CSS.Attribute.PADDING_TOP, lv);
-        valueConvertor.put(CSS.Attribute.PADDING_BOTTOM, lv);
-        valueConvertor.put(CSS.Attribute.PADDING_LEFT, lv);
-        valueConvertor.put(CSS.Attribute.PADDING_RIGHT, lv);
-        Object bv = new BorderWidthValue(null, 0);
-        valueConvertor.put(CSS.Attribute.BORDER_TOP_WIDTH, bv);
-        valueConvertor.put(CSS.Attribute.BORDER_BOTTOM_WIDTH, bv);
-        valueConvertor.put(CSS.Attribute.BORDER_LEFT_WIDTH, bv);
-        valueConvertor.put(CSS.Attribute.BORDER_RIGHT_WIDTH, bv);
-        Object nlv = new LengthValue(true);
-        valueConvertor.put(CSS.Attribute.TEXT_INDENT, nlv);
-        valueConvertor.put(CSS.Attribute.WIDTH, lv);
-        valueConvertor.put(CSS.Attribute.HEIGHT, lv);
-        valueConvertor.put(CSS.Attribute.BORDER_SPACING, lv);
-        Object sv = new StringValue();
-        valueConvertor.put(CSS.Attribute.FONT_STYLE, sv);
-        valueConvertor.put(CSS.Attribute.TEXT_DECORATION, sv);
-        valueConvertor.put(CSS.Attribute.TEXT_ALIGN, sv);
-        valueConvertor.put(CSS.Attribute.VERTICAL_ALIGN, sv);
-        Object valueMapper = new CssValueMapper();
-        valueConvertor.put(CSS.Attribute.LIST_STYLE_TYPE,
-                           valueMapper);
-        valueConvertor.put(CSS.Attribute.BACKGROUND_IMAGE,
-                           new BackgroundImage());
-        valueConvertor.put(CSS.Attribute.BACKGROUND_POSITION,
-                           new BackgroundPosition());
-        valueConvertor.put(CSS.Attribute.BACKGROUND_REPEAT,
-                           valueMapper);
-        valueConvertor.put(CSS.Attribute.BACKGROUND_ATTACHMENT,
-                           valueMapper);
-        Object generic = new CssValue();
-        int n = CSS.Attribute.allAttributes.length;
+        vblueConvertor.put(CSS.Attribute.BORDER_TOP_STYLE, bs);
+        vblueConvertor.put(CSS.Attribute.BORDER_RIGHT_STYLE, bs);
+        vblueConvertor.put(CSS.Attribute.BORDER_BOTTOM_STYLE, bs);
+        vblueConvertor.put(CSS.Attribute.BORDER_LEFT_STYLE, bs);
+        Object cv = new ColorVblue();
+        vblueConvertor.put(CSS.Attribute.COLOR, cv);
+        vblueConvertor.put(CSS.Attribute.BACKGROUND_COLOR, cv);
+        vblueConvertor.put(CSS.Attribute.BORDER_TOP_COLOR, cv);
+        vblueConvertor.put(CSS.Attribute.BORDER_RIGHT_COLOR, cv);
+        vblueConvertor.put(CSS.Attribute.BORDER_BOTTOM_COLOR, cv);
+        vblueConvertor.put(CSS.Attribute.BORDER_LEFT_COLOR, cv);
+        Object lv = new LengthVblue();
+        vblueConvertor.put(CSS.Attribute.MARGIN_TOP, lv);
+        vblueConvertor.put(CSS.Attribute.MARGIN_BOTTOM, lv);
+        vblueConvertor.put(CSS.Attribute.MARGIN_LEFT, lv);
+        vblueConvertor.put(CSS.Attribute.MARGIN_LEFT_LTR, lv);
+        vblueConvertor.put(CSS.Attribute.MARGIN_LEFT_RTL, lv);
+        vblueConvertor.put(CSS.Attribute.MARGIN_RIGHT, lv);
+        vblueConvertor.put(CSS.Attribute.MARGIN_RIGHT_LTR, lv);
+        vblueConvertor.put(CSS.Attribute.MARGIN_RIGHT_RTL, lv);
+        vblueConvertor.put(CSS.Attribute.PADDING_TOP, lv);
+        vblueConvertor.put(CSS.Attribute.PADDING_BOTTOM, lv);
+        vblueConvertor.put(CSS.Attribute.PADDING_LEFT, lv);
+        vblueConvertor.put(CSS.Attribute.PADDING_RIGHT, lv);
+        Object bv = new BorderWidthVblue(null, 0);
+        vblueConvertor.put(CSS.Attribute.BORDER_TOP_WIDTH, bv);
+        vblueConvertor.put(CSS.Attribute.BORDER_BOTTOM_WIDTH, bv);
+        vblueConvertor.put(CSS.Attribute.BORDER_LEFT_WIDTH, bv);
+        vblueConvertor.put(CSS.Attribute.BORDER_RIGHT_WIDTH, bv);
+        Object nlv = new LengthVblue(true);
+        vblueConvertor.put(CSS.Attribute.TEXT_INDENT, nlv);
+        vblueConvertor.put(CSS.Attribute.WIDTH, lv);
+        vblueConvertor.put(CSS.Attribute.HEIGHT, lv);
+        vblueConvertor.put(CSS.Attribute.BORDER_SPACING, lv);
+        Object sv = new StringVblue();
+        vblueConvertor.put(CSS.Attribute.FONT_STYLE, sv);
+        vblueConvertor.put(CSS.Attribute.TEXT_DECORATION, sv);
+        vblueConvertor.put(CSS.Attribute.TEXT_ALIGN, sv);
+        vblueConvertor.put(CSS.Attribute.VERTICAL_ALIGN, sv);
+        Object vblueMbpper = new CssVblueMbpper();
+        vblueConvertor.put(CSS.Attribute.LIST_STYLE_TYPE,
+                           vblueMbpper);
+        vblueConvertor.put(CSS.Attribute.BACKGROUND_IMAGE,
+                           new BbckgroundImbge());
+        vblueConvertor.put(CSS.Attribute.BACKGROUND_POSITION,
+                           new BbckgroundPosition());
+        vblueConvertor.put(CSS.Attribute.BACKGROUND_REPEAT,
+                           vblueMbpper);
+        vblueConvertor.put(CSS.Attribute.BACKGROUND_ATTACHMENT,
+                           vblueMbpper);
+        Object generic = new CssVblue();
+        int n = CSS.Attribute.bllAttributes.length;
         for (int i = 0; i < n; i++) {
-            CSS.Attribute key = CSS.Attribute.allAttributes[i];
-            if (valueConvertor.get(key) == null) {
-                valueConvertor.put(key, generic);
+            CSS.Attribute key = CSS.Attribute.bllAttributes[i];
+            if (vblueConvertor.get(key) == null) {
+                vblueConvertor.put(key, generic);
             }
         }
     }
 
     /**
-     * Sets the base font size. <code>sz</code> is a CSS value, and is
-     * not necessarily the point size. Use getPointSize to determine the
+     * Sets the bbse font size. <code>sz</code> is b CSS vblue, bnd is
+     * not necessbrily the point size. Use getPointSize to determine the
      * point size corresponding to <code>sz</code>.
      */
-    void setBaseFontSize(int sz) {
+    void setBbseFontSize(int sz) {
         if (sz < 1)
-          baseFontSize = 0;
+          bbseFontSize = 0;
         else if (sz > 7)
-          baseFontSize = 7;
+          bbseFontSize = 7;
         else
-          baseFontSize = sz;
+          bbseFontSize = sz;
     }
 
     /**
-     * Sets the base font size from the passed in string.
+     * Sets the bbse font size from the pbssed in string.
      */
-    void setBaseFontSize(String size) {
-        int relSize, absSize, diff;
+    void setBbseFontSize(String size) {
+        int relSize, bbsSize, diff;
 
         if (size != null) {
-            if (size.startsWith("+")) {
-                relSize = Integer.valueOf(size.substring(1)).intValue();
-                setBaseFontSize(baseFontSize + relSize);
-            } else if (size.startsWith("-")) {
-                relSize = -Integer.valueOf(size.substring(1)).intValue();
-                setBaseFontSize(baseFontSize + relSize);
+            if (size.stbrtsWith("+")) {
+                relSize = Integer.vblueOf(size.substring(1)).intVblue();
+                setBbseFontSize(bbseFontSize + relSize);
+            } else if (size.stbrtsWith("-")) {
+                relSize = -Integer.vblueOf(size.substring(1)).intVblue();
+                setBbseFontSize(bbseFontSize + relSize);
             } else {
-                setBaseFontSize(Integer.valueOf(size).intValue());
+                setBbseFontSize(Integer.vblueOf(size).intVblue());
             }
         }
     }
 
     /**
-     * Returns the base font size.
+     * Returns the bbse font size.
      */
-    int getBaseFontSize() {
-        return baseFontSize;
+    int getBbseFontSize() {
+        return bbseFontSize;
     }
 
     /**
-     * Parses the CSS property <code>key</code> with value
-     * <code>value</code> placing the result in <code>att</code>.
+     * Pbrses the CSS property <code>key</code> with vblue
+     * <code>vblue</code> plbcing the result in <code>btt</code>.
      */
-    void addInternalCSSValue(MutableAttributeSet attr,
-                             CSS.Attribute key, String value) {
+    void bddInternblCSSVblue(MutbbleAttributeSet bttr,
+                             CSS.Attribute key, String vblue) {
         if (key == CSS.Attribute.FONT) {
-            ShorthandFontParser.parseShorthandFont(this, value, attr);
+            ShorthbndFontPbrser.pbrseShorthbndFont(this, vblue, bttr);
         }
         else if (key == CSS.Attribute.BACKGROUND) {
-            ShorthandBackgroundParser.parseShorthandBackground
-                               (this, value, attr);
+            ShorthbndBbckgroundPbrser.pbrseShorthbndBbckground
+                               (this, vblue, bttr);
         }
         else if (key == CSS.Attribute.MARGIN) {
-            ShorthandMarginParser.parseShorthandMargin(this, value, attr,
+            ShorthbndMbrginPbrser.pbrseShorthbndMbrgin(this, vblue, bttr,
                                            CSS.Attribute.ALL_MARGINS);
         }
         else if (key == CSS.Attribute.PADDING) {
-            ShorthandMarginParser.parseShorthandMargin(this, value, attr,
+            ShorthbndMbrginPbrser.pbrseShorthbndMbrgin(this, vblue, bttr,
                                            CSS.Attribute.ALL_PADDING);
         }
         else if (key == CSS.Attribute.BORDER_WIDTH) {
-            ShorthandMarginParser.parseShorthandMargin(this, value, attr,
+            ShorthbndMbrginPbrser.pbrseShorthbndMbrgin(this, vblue, bttr,
                                            CSS.Attribute.ALL_BORDER_WIDTHS);
         }
         else if (key == CSS.Attribute.BORDER_COLOR) {
-            ShorthandMarginParser.parseShorthandMargin(this, value, attr,
+            ShorthbndMbrginPbrser.pbrseShorthbndMbrgin(this, vblue, bttr,
                                             CSS.Attribute.ALL_BORDER_COLORS);
         }
         else if (key == CSS.Attribute.BORDER_STYLE) {
-            ShorthandMarginParser.parseShorthandMargin(this, value, attr,
+            ShorthbndMbrginPbrser.pbrseShorthbndMbrgin(this, vblue, bttr,
                                             CSS.Attribute.ALL_BORDER_STYLES);
         }
         else if ((key == CSS.Attribute.BORDER) ||
@@ -812,74 +812,74 @@ public class CSS implements Serializable {
                    (key == CSS.Attribute.BORDER_RIGHT) ||
                    (key == CSS.Attribute.BORDER_BOTTOM) ||
                    (key == CSS.Attribute.BORDER_LEFT)) {
-            ShorthandBorderParser.parseShorthandBorder(attr, key, value);
+            ShorthbndBorderPbrser.pbrseShorthbndBorder(bttr, key, vblue);
         }
         else {
-            Object iValue = getInternalCSSValue(key, value);
-            if (iValue != null) {
-                attr.addAttribute(key, iValue);
+            Object iVblue = getInternblCSSVblue(key, vblue);
+            if (iVblue != null) {
+                bttr.bddAttribute(key, iVblue);
             }
         }
     }
 
     /**
-     * Gets the internal CSS representation of <code>value</code> which is
-     * a CSS value of the CSS attribute named <code>key</code>. The receiver
-     * should not modify <code>value</code>, and the first <code>count</code>
-     * strings are valid.
+     * Gets the internbl CSS representbtion of <code>vblue</code> which is
+     * b CSS vblue of the CSS bttribute nbmed <code>key</code>. The receiver
+     * should not modify <code>vblue</code>, bnd the first <code>count</code>
+     * strings bre vblid.
      */
-    Object getInternalCSSValue(CSS.Attribute key, String value) {
-        CssValue conv = (CssValue) valueConvertor.get(key);
-        Object r = conv.parseCssValue(value);
-        return r != null ? r : conv.parseCssValue(key.getDefaultValue());
+    Object getInternblCSSVblue(CSS.Attribute key, String vblue) {
+        CssVblue conv = (CssVblue) vblueConvertor.get(key);
+        Object r = conv.pbrseCssVblue(vblue);
+        return r != null ? r : conv.pbrseCssVblue(key.getDefbultVblue());
     }
 
     /**
-     * Maps from a StyleConstants to a CSS Attribute.
+     * Mbps from b StyleConstbnts to b CSS Attribute.
      */
-    Attribute styleConstantsKeyToCSSKey(StyleConstants sc) {
-        return styleConstantToCssMap.get(sc);
+    Attribute styleConstbntsKeyToCSSKey(StyleConstbnts sc) {
+        return styleConstbntToCssMbp.get(sc);
     }
 
     /**
-     * Maps from a StyleConstants value to a CSS value.
+     * Mbps from b StyleConstbnts vblue to b CSS vblue.
      */
-    Object styleConstantsValueToCSSValue(StyleConstants sc,
-                                         Object styleValue) {
-        Attribute cssKey = styleConstantsKeyToCSSKey(sc);
+    Object styleConstbntsVblueToCSSVblue(StyleConstbnts sc,
+                                         Object styleVblue) {
+        Attribute cssKey = styleConstbntsKeyToCSSKey(sc);
         if (cssKey != null) {
-            CssValue conv = (CssValue)valueConvertor.get(cssKey);
-            return conv.fromStyleConstants(sc, styleValue);
+            CssVblue conv = (CssVblue)vblueConvertor.get(cssKey);
+            return conv.fromStyleConstbnts(sc, styleVblue);
         }
         return null;
     }
 
     /**
-     * Converts the passed in CSS value to a StyleConstants value.
-     * <code>key</code> identifies the CSS attribute being mapped.
+     * Converts the pbssed in CSS vblue to b StyleConstbnts vblue.
+     * <code>key</code> identifies the CSS bttribute being mbpped.
      */
-    Object cssValueToStyleConstantsValue(StyleConstants key, Object value) {
-        if (value instanceof CssValue) {
-            return ((CssValue)value).toStyleConstants(key, null);
+    Object cssVblueToStyleConstbntsVblue(StyleConstbnts key, Object vblue) {
+        if (vblue instbnceof CssVblue) {
+            return ((CssVblue)vblue).toStyleConstbnts(key, null);
         }
         return null;
     }
 
     /**
-     * Returns the font for the values in the passed in AttributeSet.
-     * It is assumed the keys will be CSS.Attribute keys.
-     * <code>sc</code> is the StyleContext that will be messaged to get
-     * the font once the size, name and style have been determined.
+     * Returns the font for the vblues in the pbssed in AttributeSet.
+     * It is bssumed the keys will be CSS.Attribute keys.
+     * <code>sc</code> is the StyleContext thbt will be messbged to get
+     * the font once the size, nbme bnd style hbve been determined.
      */
-    Font getFont(StyleContext sc, AttributeSet a, int defaultSize, StyleSheet ss) {
+    Font getFont(StyleContext sc, AttributeSet b, int defbultSize, StyleSheet ss) {
         ss = getStyleSheet(ss);
-        int size = getFontSize(a, defaultSize, ss);
+        int size = getFontSize(b, defbultSize, ss);
 
         /*
-         * If the vertical alignment is set to either superscirpt or
+         * If the verticbl blignment is set to either superscirpt or
          * subscript we reduce the font size by 2 points.
          */
-        StringValue vAlignV = (StringValue)a.getAttribute
+        StringVblue vAlignV = (StringVblue)b.getAttribute
                               (CSS.Attribute.VERTICAL_ALIGN);
         if ((vAlignV != null)) {
             String vAlign = vAlignV.toString();
@@ -889,399 +889,399 @@ public class CSS implements Serializable {
             }
         }
 
-        FontFamily familyValue = (FontFamily)a.getAttribute
+        FontFbmily fbmilyVblue = (FontFbmily)b.getAttribute
                                             (CSS.Attribute.FONT_FAMILY);
-        String family = (familyValue != null) ? familyValue.getValue() :
+        String fbmily = (fbmilyVblue != null) ? fbmilyVblue.getVblue() :
                                   Font.SANS_SERIF;
         int style = Font.PLAIN;
-        FontWeight weightValue = (FontWeight) a.getAttribute
+        FontWeight weightVblue = (FontWeight) b.getAttribute
                                   (CSS.Attribute.FONT_WEIGHT);
-        if ((weightValue != null) && (weightValue.getValue() > 400)) {
+        if ((weightVblue != null) && (weightVblue.getVblue() > 400)) {
             style |= Font.BOLD;
         }
-        Object fs = a.getAttribute(CSS.Attribute.FONT_STYLE);
-        if ((fs != null) && (fs.toString().indexOf("italic") >= 0)) {
+        Object fs = b.getAttribute(CSS.Attribute.FONT_STYLE);
+        if ((fs != null) && (fs.toString().indexOf("itblic") >= 0)) {
             style |= Font.ITALIC;
         }
-        if (family.equalsIgnoreCase("monospace")) {
-            family = Font.MONOSPACED;
+        if (fbmily.equblsIgnoreCbse("monospbce")) {
+            fbmily = Font.MONOSPACED;
         }
-        Font f = sc.getFont(family, style, size);
+        Font f = sc.getFont(fbmily, style, size);
         if (f == null
-            || (f.getFamily().equals(Font.DIALOG)
-                && ! family.equalsIgnoreCase(Font.DIALOG))) {
-            family = Font.SANS_SERIF;
-            f = sc.getFont(family, style, size);
+            || (f.getFbmily().equbls(Font.DIALOG)
+                && ! fbmily.equblsIgnoreCbse(Font.DIALOG))) {
+            fbmily = Font.SANS_SERIF;
+            f = sc.getFont(fbmily, style, size);
         }
         return f;
     }
 
-    static int getFontSize(AttributeSet attr, int defaultSize, StyleSheet ss) {
-        // PENDING(prinz) this is a 1.1 based implementation, need to also
-        // have a 1.2 version.
-        FontSize sizeValue = (FontSize)attr.getAttribute(CSS.Attribute.
+    stbtic int getFontSize(AttributeSet bttr, int defbultSize, StyleSheet ss) {
+        // PENDING(prinz) this is b 1.1 bbsed implementbtion, need to blso
+        // hbve b 1.2 version.
+        FontSize sizeVblue = (FontSize)bttr.getAttribute(CSS.Attribute.
                                                          FONT_SIZE);
 
-        return (sizeValue != null) ? sizeValue.getValue(attr, ss)
-                                   : defaultSize;
+        return (sizeVblue != null) ? sizeVblue.getVblue(bttr, ss)
+                                   : defbultSize;
     }
 
     /**
-     * Takes a set of attributes and turn it into a color
-     * specification.  This might be used to specify things
+     * Tbkes b set of bttributes bnd turn it into b color
+     * specificbtion.  This might be used to specify things
      * like brighter, more hue, etc.
-     * This will return null if there is no value for <code>key</code>.
+     * This will return null if there is no vblue for <code>key</code>.
      *
-     * @param key CSS.Attribute identifying where color is stored.
-     * @param a the set of attributes
+     * @pbrbm key CSS.Attribute identifying where color is stored.
+     * @pbrbm b the set of bttributes
      * @return the color
      */
-    Color getColor(AttributeSet a, CSS.Attribute key) {
-        ColorValue cv = (ColorValue) a.getAttribute(key);
+    Color getColor(AttributeSet b, CSS.Attribute key) {
+        ColorVblue cv = (ColorVblue) b.getAttribute(key);
         if (cv != null) {
-            return cv.getValue();
+            return cv.getVblue();
         }
         return null;
     }
 
     /**
-     * Returns the size of a font from the passed in string.
+     * Returns the size of b font from the pbssed in string.
      *
-     * @param size CSS string describing font size
-     * @param baseFontSize size to use for relative units.
+     * @pbrbm size CSS string describing font size
+     * @pbrbm bbseFontSize size to use for relbtive units.
      */
-    float getPointSize(String size, StyleSheet ss) {
-        int relSize, absSize, diff, index;
+    flobt getPointSize(String size, StyleSheet ss) {
+        int relSize, bbsSize, diff, index;
         ss = getStyleSheet(ss);
         if (size != null) {
-            if (size.startsWith("+")) {
-                relSize = Integer.valueOf(size.substring(1)).intValue();
-                return getPointSize(baseFontSize + relSize, ss);
-            } else if (size.startsWith("-")) {
-                relSize = -Integer.valueOf(size.substring(1)).intValue();
-                return getPointSize(baseFontSize + relSize, ss);
+            if (size.stbrtsWith("+")) {
+                relSize = Integer.vblueOf(size.substring(1)).intVblue();
+                return getPointSize(bbseFontSize + relSize, ss);
+            } else if (size.stbrtsWith("-")) {
+                relSize = -Integer.vblueOf(size.substring(1)).intVblue();
+                return getPointSize(bbseFontSize + relSize, ss);
             } else {
-                absSize = Integer.valueOf(size).intValue();
-                return getPointSize(absSize, ss);
+                bbsSize = Integer.vblueOf(size).intVblue();
+                return getPointSize(bbsSize, ss);
             }
         }
         return 0;
     }
 
     /**
-     * Returns the length of the attribute in <code>a</code> with
+     * Returns the length of the bttribute in <code>b</code> with
      * key <code>key</code>.
      */
-    float getLength(AttributeSet a, CSS.Attribute key, StyleSheet ss) {
+    flobt getLength(AttributeSet b, CSS.Attribute key, StyleSheet ss) {
         ss = getStyleSheet(ss);
-        LengthValue lv = (LengthValue) a.getAttribute(key);
-        boolean isW3CLengthUnits = (ss == null) ? false : ss.isW3CLengthUnits();
-        float len = (lv != null) ? lv.getValue(isW3CLengthUnits) : 0;
+        LengthVblue lv = (LengthVblue) b.getAttribute(key);
+        boolebn isW3CLengthUnits = (ss == null) ? fblse : ss.isW3CLengthUnits();
+        flobt len = (lv != null) ? lv.getVblue(isW3CLengthUnits) : 0;
         return len;
     }
 
     /**
-     * Convert a set of HTML attributes to an equivalent
-     * set of CSS attributes.
+     * Convert b set of HTML bttributes to bn equivblent
+     * set of CSS bttributes.
      *
-     * @param htmlAttrSet AttributeSet containing the HTML attributes.
-     * @return AttributeSet containing the corresponding CSS attributes.
-     *        The AttributeSet will be empty if there are no mapping
-     *        CSS attributes.
+     * @pbrbm htmlAttrSet AttributeSet contbining the HTML bttributes.
+     * @return AttributeSet contbining the corresponding CSS bttributes.
+     *        The AttributeSet will be empty if there bre no mbpping
+     *        CSS bttributes.
      */
-    AttributeSet translateHTMLToCSS(AttributeSet htmlAttrSet) {
-        MutableAttributeSet cssAttrSet = new SimpleAttributeSet();
+    AttributeSet trbnslbteHTMLToCSS(AttributeSet htmlAttrSet) {
+        MutbbleAttributeSet cssAttrSet = new SimpleAttributeSet();
         Element elem = (Element)htmlAttrSet;
-        HTML.Tag tag = getHTMLTag(htmlAttrSet);
-        if ((tag == HTML.Tag.TD) || (tag == HTML.Tag.TH)) {
-            // translate border width into the cells, if it has non-zero value.
-            AttributeSet tableAttr = elem.getParentElement().
-                                     getParentElement().getAttributes();
+        HTML.Tbg tbg = getHTMLTbg(htmlAttrSet);
+        if ((tbg == HTML.Tbg.TD) || (tbg == HTML.Tbg.TH)) {
+            // trbnslbte border width into the cells, if it hbs non-zero vblue.
+            AttributeSet tbbleAttr = elem.getPbrentElement().
+                                     getPbrentElement().getAttributes();
 
-            int borderWidth = getTableBorder(tableAttr);
+            int borderWidth = getTbbleBorder(tbbleAttr);
             if (borderWidth > 0) {
-                // If table contains the BORDER attribute cells should have border width equals 1
-                translateAttribute(HTML.Attribute.BORDER, "1", cssAttrSet);
+                // If tbble contbins the BORDER bttribute cells should hbve border width equbls 1
+                trbnslbteAttribute(HTML.Attribute.BORDER, "1", cssAttrSet);
             }
-            String pad = (String)tableAttr.getAttribute(HTML.Attribute.CELLPADDING);
-            if (pad != null) {
-                LengthValue v =
-                    (LengthValue)getInternalCSSValue(CSS.Attribute.PADDING_TOP, pad);
-                v.span = (v.span < 0) ? 0 : v.span;
-                cssAttrSet.addAttribute(CSS.Attribute.PADDING_TOP, v);
-                cssAttrSet.addAttribute(CSS.Attribute.PADDING_BOTTOM, v);
-                cssAttrSet.addAttribute(CSS.Attribute.PADDING_LEFT, v);
-                cssAttrSet.addAttribute(CSS.Attribute.PADDING_RIGHT, v);
+            String pbd = (String)tbbleAttr.getAttribute(HTML.Attribute.CELLPADDING);
+            if (pbd != null) {
+                LengthVblue v =
+                    (LengthVblue)getInternblCSSVblue(CSS.Attribute.PADDING_TOP, pbd);
+                v.spbn = (v.spbn < 0) ? 0 : v.spbn;
+                cssAttrSet.bddAttribute(CSS.Attribute.PADDING_TOP, v);
+                cssAttrSet.bddAttribute(CSS.Attribute.PADDING_BOTTOM, v);
+                cssAttrSet.bddAttribute(CSS.Attribute.PADDING_LEFT, v);
+                cssAttrSet.bddAttribute(CSS.Attribute.PADDING_RIGHT, v);
             }
         }
-        if (elem.isLeaf()) {
-            translateEmbeddedAttributes(htmlAttrSet, cssAttrSet);
+        if (elem.isLebf()) {
+            trbnslbteEmbeddedAttributes(htmlAttrSet, cssAttrSet);
         } else {
-            translateAttributes(tag, htmlAttrSet, cssAttrSet);
+            trbnslbteAttributes(tbg, htmlAttrSet, cssAttrSet);
         }
-        if (tag == HTML.Tag.CAPTION) {
+        if (tbg == HTML.Tbg.CAPTION) {
             /*
-             * Navigator uses ALIGN for caption placement and IE uses VALIGN.
+             * Nbvigbtor uses ALIGN for cbption plbcement bnd IE uses VALIGN.
              */
             Object v = htmlAttrSet.getAttribute(HTML.Attribute.ALIGN);
-            if ((v != null) && (v.equals("top") || v.equals("bottom"))) {
-                cssAttrSet.addAttribute(CSS.Attribute.CAPTION_SIDE, v);
+            if ((v != null) && (v.equbls("top") || v.equbls("bottom"))) {
+                cssAttrSet.bddAttribute(CSS.Attribute.CAPTION_SIDE, v);
                 cssAttrSet.removeAttribute(CSS.Attribute.TEXT_ALIGN);
             } else {
                 v = htmlAttrSet.getAttribute(HTML.Attribute.VALIGN);
                 if (v != null) {
-                    cssAttrSet.addAttribute(CSS.Attribute.CAPTION_SIDE, v);
+                    cssAttrSet.bddAttribute(CSS.Attribute.CAPTION_SIDE, v);
                 }
             }
         }
         return cssAttrSet;
     }
 
-    private static int getTableBorder(AttributeSet tableAttr) {
-        String borderValue = (String) tableAttr.getAttribute(HTML.Attribute.BORDER);
+    privbte stbtic int getTbbleBorder(AttributeSet tbbleAttr) {
+        String borderVblue = (String) tbbleAttr.getAttribute(HTML.Attribute.BORDER);
 
-        if (borderValue == HTML.NULL_ATTRIBUTE_VALUE || "".equals(borderValue)) {
-            // Some browsers accept <TABLE BORDER> and <TABLE BORDER=""> with the same semantics as BORDER=1
+        if (borderVblue == HTML.NULL_ATTRIBUTE_VALUE || "".equbls(borderVblue)) {
+            // Some browsers bccept <TABLE BORDER> bnd <TABLE BORDER=""> with the sbme sembntics bs BORDER=1
             return 1;
         }
 
         try {
-            return Integer.parseInt(borderValue);
-        } catch (NumberFormatException e) {
+            return Integer.pbrseInt(borderVblue);
+        } cbtch (NumberFormbtException e) {
             return 0;
         }
     }
 
-    private static final Hashtable<String, Attribute> attributeMap = new Hashtable<String, Attribute>();
-    private static final Hashtable<String, Value> valueMap = new Hashtable<String, Value>();
+    privbte stbtic finbl Hbshtbble<String, Attribute> bttributeMbp = new Hbshtbble<String, Attribute>();
+    privbte stbtic finbl Hbshtbble<String, Vblue> vblueMbp = new Hbshtbble<String, Vblue>();
 
     /**
-     * The hashtable and the static initalization block below,
-     * set up a mapping from well-known HTML attributes to
-     * CSS attributes.  For the most part, there is a 1-1 mapping
-     * between the two.  However in the case of certain HTML
-     * attributes for example HTML.Attribute.VSPACE or
-     * HTML.Attribute.HSPACE, end up mapping to two CSS.Attribute's.
-     * Therefore, the value associated with each HTML.Attribute.
-     * key ends up being an array of CSS.Attribute.* objects.
+     * The hbshtbble bnd the stbtic initblizbtion block below,
+     * set up b mbpping from well-known HTML bttributes to
+     * CSS bttributes.  For the most pbrt, there is b 1-1 mbpping
+     * between the two.  However in the cbse of certbin HTML
+     * bttributes for exbmple HTML.Attribute.VSPACE or
+     * HTML.Attribute.HSPACE, end up mbpping to two CSS.Attribute's.
+     * Therefore, the vblue bssocibted with ebch HTML.Attribute.
+     * key ends up being bn brrby of CSS.Attribute.* objects.
      */
-    private static final Hashtable<HTML.Attribute, CSS.Attribute[]> htmlAttrToCssAttrMap = new Hashtable<HTML.Attribute, CSS.Attribute[]>(20);
+    privbte stbtic finbl Hbshtbble<HTML.Attribute, CSS.Attribute[]> htmlAttrToCssAttrMbp = new Hbshtbble<HTML.Attribute, CSS.Attribute[]>(20);
 
     /**
-     * The hashtable and static initialization that follows sets
-     * up a translation from StyleConstants (i.e. the <em>well known</em>
-     * attributes) to the associated CSS attributes.
+     * The hbshtbble bnd stbtic initiblizbtion thbt follows sets
+     * up b trbnslbtion from StyleConstbnts (i.e. the <em>well known</em>
+     * bttributes) to the bssocibted CSS bttributes.
      */
-    private static final Hashtable<Object, Attribute> styleConstantToCssMap = new Hashtable<Object, Attribute>(17);
-    /** Maps from HTML value to a CSS value. Used in internal mapping. */
-    private static final Hashtable<String, CSS.Value> htmlValueToCssValueMap = new Hashtable<String, CSS.Value>(8);
-    /** Maps from CSS value (string) to internal value. */
-    private static final Hashtable<String, CSS.Value> cssValueToInternalValueMap = new Hashtable<String, CSS.Value>(13);
+    privbte stbtic finbl Hbshtbble<Object, Attribute> styleConstbntToCssMbp = new Hbshtbble<Object, Attribute>(17);
+    /** Mbps from HTML vblue to b CSS vblue. Used in internbl mbpping. */
+    privbte stbtic finbl Hbshtbble<String, CSS.Vblue> htmlVblueToCssVblueMbp = new Hbshtbble<String, CSS.Vblue>(8);
+    /** Mbps from CSS vblue (string) to internbl vblue. */
+    privbte stbtic finbl Hbshtbble<String, CSS.Vblue> cssVblueToInternblVblueMbp = new Hbshtbble<String, CSS.Vblue>(13);
 
-    static {
-        // load the attribute map
-        for (int i = 0; i < Attribute.allAttributes.length; i++ ) {
-            attributeMap.put(Attribute.allAttributes[i].toString(),
-                             Attribute.allAttributes[i]);
+    stbtic {
+        // lobd the bttribute mbp
+        for (int i = 0; i < Attribute.bllAttributes.length; i++ ) {
+            bttributeMbp.put(Attribute.bllAttributes[i].toString(),
+                             Attribute.bllAttributes[i]);
         }
-        // load the value map
-        for (int i = 0; i < Value.allValues.length; i++ ) {
-            valueMap.put(Value.allValues[i].toString(),
-                             Value.allValues[i]);
+        // lobd the vblue mbp
+        for (int i = 0; i < Vblue.bllVblues.length; i++ ) {
+            vblueMbp.put(Vblue.bllVblues[i].toString(),
+                             Vblue.bllVblues[i]);
         }
 
-        htmlAttrToCssAttrMap.put(HTML.Attribute.COLOR,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.COLOR,
                                  new CSS.Attribute[]{CSS.Attribute.COLOR});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.TEXT,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.TEXT,
                                  new CSS.Attribute[]{CSS.Attribute.COLOR});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.CLEAR,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.CLEAR,
                                  new CSS.Attribute[]{CSS.Attribute.CLEAR});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.BACKGROUND,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.BACKGROUND,
                                  new CSS.Attribute[]{CSS.Attribute.BACKGROUND_IMAGE});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.BGCOLOR,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.BGCOLOR,
                                  new CSS.Attribute[]{CSS.Attribute.BACKGROUND_COLOR});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.WIDTH,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.WIDTH,
                                  new CSS.Attribute[]{CSS.Attribute.WIDTH});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.HEIGHT,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.HEIGHT,
                                  new CSS.Attribute[]{CSS.Attribute.HEIGHT});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.BORDER,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.BORDER,
                                  new CSS.Attribute[]{CSS.Attribute.BORDER_TOP_WIDTH, CSS.Attribute.BORDER_RIGHT_WIDTH, CSS.Attribute.BORDER_BOTTOM_WIDTH, CSS.Attribute.BORDER_LEFT_WIDTH});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.CELLPADDING,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.CELLPADDING,
                                  new CSS.Attribute[]{CSS.Attribute.PADDING});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.CELLSPACING,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.CELLSPACING,
                                  new CSS.Attribute[]{CSS.Attribute.BORDER_SPACING});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.MARGINWIDTH,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.MARGINWIDTH,
                                  new CSS.Attribute[]{CSS.Attribute.MARGIN_LEFT,
                                                      CSS.Attribute.MARGIN_RIGHT});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.MARGINHEIGHT,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.MARGINHEIGHT,
                                  new CSS.Attribute[]{CSS.Attribute.MARGIN_TOP,
                                                      CSS.Attribute.MARGIN_BOTTOM});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.HSPACE,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.HSPACE,
                                  new CSS.Attribute[]{CSS.Attribute.PADDING_LEFT,
                                                      CSS.Attribute.PADDING_RIGHT});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.VSPACE,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.VSPACE,
                                  new CSS.Attribute[]{CSS.Attribute.PADDING_BOTTOM,
                                                      CSS.Attribute.PADDING_TOP});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.FACE,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.FACE,
                                  new CSS.Attribute[]{CSS.Attribute.FONT_FAMILY});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.SIZE,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.SIZE,
                                  new CSS.Attribute[]{CSS.Attribute.FONT_SIZE});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.VALIGN,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.VALIGN,
                                  new CSS.Attribute[]{CSS.Attribute.VERTICAL_ALIGN});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.ALIGN,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.ALIGN,
                                  new CSS.Attribute[]{CSS.Attribute.VERTICAL_ALIGN,
                                                      CSS.Attribute.TEXT_ALIGN,
                                                      CSS.Attribute.FLOAT});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.TYPE,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.TYPE,
                                  new CSS.Attribute[]{CSS.Attribute.LIST_STYLE_TYPE});
-        htmlAttrToCssAttrMap.put(HTML.Attribute.NOWRAP,
+        htmlAttrToCssAttrMbp.put(HTML.Attribute.NOWRAP,
                                  new CSS.Attribute[]{CSS.Attribute.WHITE_SPACE});
 
-        // initialize StyleConstants mapping
-        styleConstantToCssMap.put(StyleConstants.FontFamily,
+        // initiblize StyleConstbnts mbpping
+        styleConstbntToCssMbp.put(StyleConstbnts.FontFbmily,
                                   CSS.Attribute.FONT_FAMILY);
-        styleConstantToCssMap.put(StyleConstants.FontSize,
+        styleConstbntToCssMbp.put(StyleConstbnts.FontSize,
                                   CSS.Attribute.FONT_SIZE);
-        styleConstantToCssMap.put(StyleConstants.Bold,
+        styleConstbntToCssMbp.put(StyleConstbnts.Bold,
                                   CSS.Attribute.FONT_WEIGHT);
-        styleConstantToCssMap.put(StyleConstants.Italic,
+        styleConstbntToCssMbp.put(StyleConstbnts.Itblic,
                                   CSS.Attribute.FONT_STYLE);
-        styleConstantToCssMap.put(StyleConstants.Underline,
+        styleConstbntToCssMbp.put(StyleConstbnts.Underline,
                                   CSS.Attribute.TEXT_DECORATION);
-        styleConstantToCssMap.put(StyleConstants.StrikeThrough,
+        styleConstbntToCssMbp.put(StyleConstbnts.StrikeThrough,
                                   CSS.Attribute.TEXT_DECORATION);
-        styleConstantToCssMap.put(StyleConstants.Superscript,
+        styleConstbntToCssMbp.put(StyleConstbnts.Superscript,
                                   CSS.Attribute.VERTICAL_ALIGN);
-        styleConstantToCssMap.put(StyleConstants.Subscript,
+        styleConstbntToCssMbp.put(StyleConstbnts.Subscript,
                                   CSS.Attribute.VERTICAL_ALIGN);
-        styleConstantToCssMap.put(StyleConstants.Foreground,
+        styleConstbntToCssMbp.put(StyleConstbnts.Foreground,
                                   CSS.Attribute.COLOR);
-        styleConstantToCssMap.put(StyleConstants.Background,
+        styleConstbntToCssMbp.put(StyleConstbnts.Bbckground,
                                   CSS.Attribute.BACKGROUND_COLOR);
-        styleConstantToCssMap.put(StyleConstants.FirstLineIndent,
+        styleConstbntToCssMbp.put(StyleConstbnts.FirstLineIndent,
                                   CSS.Attribute.TEXT_INDENT);
-        styleConstantToCssMap.put(StyleConstants.LeftIndent,
+        styleConstbntToCssMbp.put(StyleConstbnts.LeftIndent,
                                   CSS.Attribute.MARGIN_LEFT);
-        styleConstantToCssMap.put(StyleConstants.RightIndent,
+        styleConstbntToCssMbp.put(StyleConstbnts.RightIndent,
                                   CSS.Attribute.MARGIN_RIGHT);
-        styleConstantToCssMap.put(StyleConstants.SpaceAbove,
+        styleConstbntToCssMbp.put(StyleConstbnts.SpbceAbove,
                                   CSS.Attribute.MARGIN_TOP);
-        styleConstantToCssMap.put(StyleConstants.SpaceBelow,
+        styleConstbntToCssMbp.put(StyleConstbnts.SpbceBelow,
                                   CSS.Attribute.MARGIN_BOTTOM);
-        styleConstantToCssMap.put(StyleConstants.Alignment,
+        styleConstbntToCssMbp.put(StyleConstbnts.Alignment,
                                   CSS.Attribute.TEXT_ALIGN);
 
         // HTML->CSS
-        htmlValueToCssValueMap.put("disc", CSS.Value.DISC);
-        htmlValueToCssValueMap.put("square", CSS.Value.SQUARE);
-        htmlValueToCssValueMap.put("circle", CSS.Value.CIRCLE);
-        htmlValueToCssValueMap.put("1", CSS.Value.DECIMAL);
-        htmlValueToCssValueMap.put("a", CSS.Value.LOWER_ALPHA);
-        htmlValueToCssValueMap.put("A", CSS.Value.UPPER_ALPHA);
-        htmlValueToCssValueMap.put("i", CSS.Value.LOWER_ROMAN);
-        htmlValueToCssValueMap.put("I", CSS.Value.UPPER_ROMAN);
+        htmlVblueToCssVblueMbp.put("disc", CSS.Vblue.DISC);
+        htmlVblueToCssVblueMbp.put("squbre", CSS.Vblue.SQUARE);
+        htmlVblueToCssVblueMbp.put("circle", CSS.Vblue.CIRCLE);
+        htmlVblueToCssVblueMbp.put("1", CSS.Vblue.DECIMAL);
+        htmlVblueToCssVblueMbp.put("b", CSS.Vblue.LOWER_ALPHA);
+        htmlVblueToCssVblueMbp.put("A", CSS.Vblue.UPPER_ALPHA);
+        htmlVblueToCssVblueMbp.put("i", CSS.Vblue.LOWER_ROMAN);
+        htmlVblueToCssVblueMbp.put("I", CSS.Vblue.UPPER_ROMAN);
 
-        // CSS-> internal CSS
-        cssValueToInternalValueMap.put("none", CSS.Value.NONE);
-        cssValueToInternalValueMap.put("disc", CSS.Value.DISC);
-        cssValueToInternalValueMap.put("square", CSS.Value.SQUARE);
-        cssValueToInternalValueMap.put("circle", CSS.Value.CIRCLE);
-        cssValueToInternalValueMap.put("decimal", CSS.Value.DECIMAL);
-        cssValueToInternalValueMap.put("lower-roman", CSS.Value.LOWER_ROMAN);
-        cssValueToInternalValueMap.put("upper-roman", CSS.Value.UPPER_ROMAN);
-        cssValueToInternalValueMap.put("lower-alpha", CSS.Value.LOWER_ALPHA);
-        cssValueToInternalValueMap.put("upper-alpha", CSS.Value.UPPER_ALPHA);
-        cssValueToInternalValueMap.put("repeat", CSS.Value.BACKGROUND_REPEAT);
-        cssValueToInternalValueMap.put("no-repeat",
-                                       CSS.Value.BACKGROUND_NO_REPEAT);
-        cssValueToInternalValueMap.put("repeat-x",
-                                       CSS.Value.BACKGROUND_REPEAT_X);
-        cssValueToInternalValueMap.put("repeat-y",
-                                       CSS.Value.BACKGROUND_REPEAT_Y);
-        cssValueToInternalValueMap.put("scroll",
-                                       CSS.Value.BACKGROUND_SCROLL);
-        cssValueToInternalValueMap.put("fixed",
-                                       CSS.Value.BACKGROUND_FIXED);
+        // CSS-> internbl CSS
+        cssVblueToInternblVblueMbp.put("none", CSS.Vblue.NONE);
+        cssVblueToInternblVblueMbp.put("disc", CSS.Vblue.DISC);
+        cssVblueToInternblVblueMbp.put("squbre", CSS.Vblue.SQUARE);
+        cssVblueToInternblVblueMbp.put("circle", CSS.Vblue.CIRCLE);
+        cssVblueToInternblVblueMbp.put("decimbl", CSS.Vblue.DECIMAL);
+        cssVblueToInternblVblueMbp.put("lower-rombn", CSS.Vblue.LOWER_ROMAN);
+        cssVblueToInternblVblueMbp.put("upper-rombn", CSS.Vblue.UPPER_ROMAN);
+        cssVblueToInternblVblueMbp.put("lower-blphb", CSS.Vblue.LOWER_ALPHA);
+        cssVblueToInternblVblueMbp.put("upper-blphb", CSS.Vblue.UPPER_ALPHA);
+        cssVblueToInternblVblueMbp.put("repebt", CSS.Vblue.BACKGROUND_REPEAT);
+        cssVblueToInternblVblueMbp.put("no-repebt",
+                                       CSS.Vblue.BACKGROUND_NO_REPEAT);
+        cssVblueToInternblVblueMbp.put("repebt-x",
+                                       CSS.Vblue.BACKGROUND_REPEAT_X);
+        cssVblueToInternblVblueMbp.put("repebt-y",
+                                       CSS.Vblue.BACKGROUND_REPEAT_Y);
+        cssVblueToInternblVblueMbp.put("scroll",
+                                       CSS.Vblue.BACKGROUND_SCROLL);
+        cssVblueToInternblVblueMbp.put("fixed",
+                                       CSS.Vblue.BACKGROUND_FIXED);
 
-        // Register all the CSS attribute keys for archival/unarchival
-        Object[] keys = CSS.Attribute.allAttributes;
+        // Register bll the CSS bttribute keys for brchivbl/unbrchivbl
+        Object[] keys = CSS.Attribute.bllAttributes;
         try {
             for (Object key : keys) {
-                StyleContext.registerStaticAttributeKey(key);
+                StyleContext.registerStbticAttributeKey(key);
             }
-        } catch (Throwable e) {
-            e.printStackTrace();
+        } cbtch (Throwbble e) {
+            e.printStbckTrbce();
         }
 
-        // Register all the CSS Values for archival/unarchival
-        keys = CSS.Value.allValues;
+        // Register bll the CSS Vblues for brchivbl/unbrchivbl
+        keys = CSS.Vblue.bllVblues;
         try {
             for (Object key : keys) {
-                StyleContext.registerStaticAttributeKey(key);
+                StyleContext.registerStbticAttributeKey(key);
             }
-        } catch (Throwable e) {
-            e.printStackTrace();
+        } cbtch (Throwbble e) {
+            e.printStbckTrbce();
         }
     }
 
     /**
-     * Return the set of all possible CSS attribute keys.
+     * Return the set of bll possible CSS bttribute keys.
      *
-     * @return the set of all possible CSS attribute keys
+     * @return the set of bll possible CSS bttribute keys
      */
-    public static Attribute[] getAllAttributeKeys() {
-        Attribute[] keys = new Attribute[Attribute.allAttributes.length];
-        System.arraycopy(Attribute.allAttributes, 0, keys, 0, Attribute.allAttributes.length);
+    public stbtic Attribute[] getAllAttributeKeys() {
+        Attribute[] keys = new Attribute[Attribute.bllAttributes.length];
+        System.brrbycopy(Attribute.bllAttributes, 0, keys, 0, Attribute.bllAttributes.length);
         return keys;
     }
 
     /**
-     * Translates a string to a <code>CSS.Attribute</code> object.
-     * This will return <code>null</code> if there is no attribute
-     * by the given name.
+     * Trbnslbtes b string to b <code>CSS.Attribute</code> object.
+     * This will return <code>null</code> if there is no bttribute
+     * by the given nbme.
      *
-     * @param name the name of the CSS attribute to fetch the
-     *  typesafe enumeration for
+     * @pbrbm nbme the nbme of the CSS bttribute to fetch the
+     *  typesbfe enumerbtion for
      * @return the <code>CSS.Attribute</code> object,
      *  or <code>null</code> if the string
-     *  doesn't represent a valid attribute key
+     *  doesn't represent b vblid bttribute key
      */
-    public static final Attribute getAttribute(String name) {
-        return attributeMap.get(name);
+    public stbtic finbl Attribute getAttribute(String nbme) {
+        return bttributeMbp.get(nbme);
     }
 
     /**
-     * Translates a string to a <code>CSS.Value</code> object.
-     * This will return <code>null</code> if there is no value
-     * by the given name.
+     * Trbnslbtes b string to b <code>CSS.Vblue</code> object.
+     * This will return <code>null</code> if there is no vblue
+     * by the given nbme.
      *
-     * @param name the name of the CSS value to fetch the
-     *  typesafe enumeration for
-     * @return the <code>CSS.Value</code> object,
+     * @pbrbm nbme the nbme of the CSS vblue to fetch the
+     *  typesbfe enumerbtion for
+     * @return the <code>CSS.Vblue</code> object,
      *  or <code>null</code> if the string
-     *  doesn't represent a valid CSS value name; this does
-     *  not mean that it doesn't represent a valid CSS value
+     *  doesn't represent b vblid CSS vblue nbme; this does
+     *  not mebn thbt it doesn't represent b vblid CSS vblue
      */
-    static final Value getValue(String name) {
-        return valueMap.get(name);
+    stbtic finbl Vblue getVblue(String nbme) {
+        return vblueMbp.get(nbme);
     }
 
 
     //
-    // Conversion related methods/classes
+    // Conversion relbted methods/clbsses
     //
 
     /**
-     * Returns a URL for the given CSS url string. If relative,
-     * <code>base</code> is used as the parent. If a valid URL can not
-     * be found, this will not throw a MalformedURLException, instead
+     * Returns b URL for the given CSS url string. If relbtive,
+     * <code>bbse</code> is used bs the pbrent. If b vblid URL cbn not
+     * be found, this will not throw b MblformedURLException, instebd
      * null will be returned.
      */
-    static URL getURL(URL base, String cssString) {
+    stbtic URL getURL(URL bbse, String cssString) {
         if (cssString == null) {
             return null;
         }
-        if (cssString.startsWith("url(") &&
+        if (cssString.stbrtsWith("url(") &&
             cssString.endsWith(")")) {
             cssString = cssString.substring(4, cssString.length() - 1);
         }
@@ -1291,26 +1291,26 @@ public class CSS implements Serializable {
             if (url != null) {
                 return url;
             }
-        } catch (MalformedURLException mue) {
+        } cbtch (MblformedURLException mue) {
         }
-        // Then relative
-        if (base != null) {
-            // Relative URL, try from base
+        // Then relbtive
+        if (bbse != null) {
+            // Relbtive URL, try from bbse
             try {
-                URL url = new URL(base, cssString);
+                URL url = new URL(bbse, cssString);
                 return url;
             }
-            catch (MalformedURLException muee) {
+            cbtch (MblformedURLException muee) {
             }
         }
         return null;
     }
 
     /**
-     * Converts a type Color to a hex string
-     * in the format "#RRGGBB"
+     * Converts b type Color to b hex string
+     * in the formbt "#RRGGBB"
      */
-    static String colorToHex(Color color) {
+    stbtic String colorToHex(Color color) {
 
       String colorstr = "#";
 
@@ -1345,92 +1345,92 @@ public class CSS implements Serializable {
     }
 
      /**
-      * Convert a "#FFFFFF" hex string to a Color.
-      * If the color specification is bad, an attempt
-      * will be made to fix it up.
+      * Convert b "#FFFFFF" hex string to b Color.
+      * If the color specificbtion is bbd, bn bttempt
+      * will be mbde to fix it up.
       */
-    static final Color hexToColor(String value) {
+    stbtic finbl Color hexToColor(String vblue) {
         String digits;
-        int n = value.length();
-        if (value.startsWith("#")) {
-            digits = value.substring(1, Math.min(value.length(), 7));
+        int n = vblue.length();
+        if (vblue.stbrtsWith("#")) {
+            digits = vblue.substring(1, Mbth.min(vblue.length(), 7));
         } else {
-            digits = value;
+            digits = vblue;
         }
         String hstr = "0x" + digits;
         Color c;
         try {
             c = Color.decode(hstr);
-        } catch (NumberFormatException nfe) {
+        } cbtch (NumberFormbtException nfe) {
             c = null;
         }
          return c;
      }
 
     /**
-     * Convert a color string such as "RED" or "#NNNNNN" or "rgb(r, g, b)"
-     * to a Color.
+     * Convert b color string such bs "RED" or "#NNNNNN" or "rgb(r, g, b)"
+     * to b Color.
      */
-    static Color stringToColor(String str) {
+    stbtic Color stringToColor(String str) {
       Color color;
 
       if (str == null) {
           return null;
       }
       if (str.length() == 0)
-        color = Color.black;
-      else if (str.startsWith("rgb(")) {
-          color = parseRGB(str);
+        color = Color.blbck;
+      else if (str.stbrtsWith("rgb(")) {
+          color = pbrseRGB(str);
       }
-      else if (str.charAt(0) == '#')
+      else if (str.chbrAt(0) == '#')
         color = hexToColor(str);
-      else if (str.equalsIgnoreCase("Black"))
+      else if (str.equblsIgnoreCbse("Blbck"))
         color = hexToColor("#000000");
-      else if(str.equalsIgnoreCase("Silver"))
+      else if(str.equblsIgnoreCbse("Silver"))
         color = hexToColor("#C0C0C0");
-      else if(str.equalsIgnoreCase("Gray"))
+      else if(str.equblsIgnoreCbse("Grby"))
         color = hexToColor("#808080");
-      else if(str.equalsIgnoreCase("White"))
+      else if(str.equblsIgnoreCbse("White"))
         color = hexToColor("#FFFFFF");
-      else if(str.equalsIgnoreCase("Maroon"))
+      else if(str.equblsIgnoreCbse("Mbroon"))
         color = hexToColor("#800000");
-      else if(str.equalsIgnoreCase("Red"))
+      else if(str.equblsIgnoreCbse("Red"))
         color = hexToColor("#FF0000");
-      else if(str.equalsIgnoreCase("Purple"))
+      else if(str.equblsIgnoreCbse("Purple"))
         color = hexToColor("#800080");
-      else if(str.equalsIgnoreCase("Fuchsia"))
+      else if(str.equblsIgnoreCbse("Fuchsib"))
         color = hexToColor("#FF00FF");
-      else if(str.equalsIgnoreCase("Green"))
+      else if(str.equblsIgnoreCbse("Green"))
         color = hexToColor("#008000");
-      else if(str.equalsIgnoreCase("Lime"))
+      else if(str.equblsIgnoreCbse("Lime"))
         color = hexToColor("#00FF00");
-      else if(str.equalsIgnoreCase("Olive"))
+      else if(str.equblsIgnoreCbse("Olive"))
         color = hexToColor("#808000");
-      else if(str.equalsIgnoreCase("Yellow"))
+      else if(str.equblsIgnoreCbse("Yellow"))
         color = hexToColor("#FFFF00");
-      else if(str.equalsIgnoreCase("Navy"))
+      else if(str.equblsIgnoreCbse("Nbvy"))
         color = hexToColor("#000080");
-      else if(str.equalsIgnoreCase("Blue"))
+      else if(str.equblsIgnoreCbse("Blue"))
         color = hexToColor("#0000FF");
-      else if(str.equalsIgnoreCase("Teal"))
+      else if(str.equblsIgnoreCbse("Tebl"))
         color = hexToColor("#008080");
-      else if(str.equalsIgnoreCase("Aqua"))
+      else if(str.equblsIgnoreCbse("Aqub"))
         color = hexToColor("#00FFFF");
-      else if(str.equalsIgnoreCase("Orange"))
+      else if(str.equblsIgnoreCbse("Orbnge"))
         color = hexToColor("#FF8000");
       else
-          color = hexToColor(str); // sometimes get specified without leading #
+          color = hexToColor(str); // sometimes get specified without lebding #
       return color;
     }
 
     /**
-     * Parses a String in the format <code>rgb(r, g, b)</code> where
-     * each of the Color components is either an integer, or a floating number
-     * with a % after indicating a percentage value of 255. Values are
-     * constrained to fit with 0-255. The resulting Color is returned.
+     * Pbrses b String in the formbt <code>rgb(r, g, b)</code> where
+     * ebch of the Color components is either bn integer, or b flobting number
+     * with b % bfter indicbting b percentbge vblue of 255. Vblues bre
+     * constrbined to fit with 0-255. The resulting Color is returned.
      */
-    private static Color parseRGB(String string) {
-        // Find the next numeric char
+    privbte stbtic Color pbrseRGB(String string) {
+        // Find the next numeric chbr
         int[] index = new int[1];
 
         index[0] = 4;
@@ -1442,257 +1442,257 @@ public class CSS implements Serializable {
     }
 
     /**
-     * Returns the next integer value from <code>string</code> starting
-     * at <code>index[0]</code>. The value can either can an integer, or
-     * a percentage (floating number ending with %), in which case it is
+     * Returns the next integer vblue from <code>string</code> stbrting
+     * bt <code>index[0]</code>. The vblue cbn either cbn bn integer, or
+     * b percentbge (flobting number ending with %), in which cbse it is
      * multiplied by 255.
      */
-    private static int getColorComponent(String string, int[] index) {
+    privbte stbtic int getColorComponent(String string, int[] index) {
         int length = string.length();
-        char aChar;
+        chbr bChbr;
 
-        // Skip non-decimal chars
-        while(index[0] < length && (aChar = string.charAt(index[0])) != '-' &&
-              !Character.isDigit(aChar) && aChar != '.') {
+        // Skip non-decimbl chbrs
+        while(index[0] < length && (bChbr = string.chbrAt(index[0])) != '-' &&
+              !Chbrbcter.isDigit(bChbr) && bChbr != '.') {
             index[0]++;
         }
 
-        int start = index[0];
+        int stbrt = index[0];
 
-        if (start < length && string.charAt(index[0]) == '-') {
+        if (stbrt < length && string.chbrAt(index[0]) == '-') {
             index[0]++;
         }
         while(index[0] < length &&
-                         Character.isDigit(string.charAt(index[0]))) {
+                         Chbrbcter.isDigit(string.chbrAt(index[0]))) {
             index[0]++;
         }
-        if (index[0] < length && string.charAt(index[0]) == '.') {
-            // Decimal value
+        if (index[0] < length && string.chbrAt(index[0]) == '.') {
+            // Decimbl vblue
             index[0]++;
             while(index[0] < length &&
-                  Character.isDigit(string.charAt(index[0]))) {
+                  Chbrbcter.isDigit(string.chbrAt(index[0]))) {
                 index[0]++;
             }
         }
-        if (start != index[0]) {
+        if (stbrt != index[0]) {
             try {
-                float value = Float.parseFloat(string.substring
-                                               (start, index[0]));
+                flobt vblue = Flobt.pbrseFlobt(string.substring
+                                               (stbrt, index[0]));
 
-                if (index[0] < length && string.charAt(index[0]) == '%') {
+                if (index[0] < length && string.chbrAt(index[0]) == '%') {
                     index[0]++;
-                    value = value * 255f / 100f;
+                    vblue = vblue * 255f / 100f;
                 }
-                return Math.min(255, Math.max(0, (int)value));
-            } catch (NumberFormatException nfe) {
-                // Treat as 0
+                return Mbth.min(255, Mbth.mbx(0, (int)vblue));
+            } cbtch (NumberFormbtException nfe) {
+                // Trebt bs 0
             }
         }
         return 0;
     }
 
-    static int getIndexOfSize(float pt, int[] sizeMap) {
-        for (int i = 0; i < sizeMap.length; i ++ )
-                if (pt <= sizeMap[i])
+    stbtic int getIndexOfSize(flobt pt, int[] sizeMbp) {
+        for (int i = 0; i < sizeMbp.length; i ++ )
+                if (pt <= sizeMbp[i])
                         return i + 1;
-        return sizeMap.length;
+        return sizeMbp.length;
     }
 
-    static int getIndexOfSize(float pt, StyleSheet ss) {
-        int[] sizeMap = (ss != null) ? ss.getSizeMap() :
-            StyleSheet.sizeMapDefault;
-        return getIndexOfSize(pt, sizeMap);
+    stbtic int getIndexOfSize(flobt pt, StyleSheet ss) {
+        int[] sizeMbp = (ss != null) ? ss.getSizeMbp() :
+            StyleSheet.sizeMbpDefbult;
+        return getIndexOfSize(pt, sizeMbp);
     }
 
 
     /**
-     * @return an array of all the strings in <code>value</code>
-     *         that are separated by whitespace.
+     * @return bn brrby of bll the strings in <code>vblue</code>
+     *         thbt bre sepbrbted by whitespbce.
      */
-    static String[] parseStrings(String value) {
-        int         current, last;
-        int         length = (value == null) ? 0 : value.length();
+    stbtic String[] pbrseStrings(String vblue) {
+        int         current, lbst;
+        int         length = (vblue == null) ? 0 : vblue.length();
         Vector<String> temp = new Vector<String>(4);
 
         current = 0;
         while (current < length) {
             // Skip ws
-            while (current < length && Character.isWhitespace
-                   (value.charAt(current))) {
+            while (current < length && Chbrbcter.isWhitespbce
+                   (vblue.chbrAt(current))) {
                 current++;
             }
-            last = current;
-            while (current < length && !Character.isWhitespace
-                   (value.charAt(current))) {
+            lbst = current;
+            while (current < length && !Chbrbcter.isWhitespbce
+                   (vblue.chbrAt(current))) {
                 current++;
             }
-            if (last != current) {
-                temp.addElement(value.substring(last, current));
+            if (lbst != current) {
+                temp.bddElement(vblue.substring(lbst, current));
             }
             current++;
         }
-        String[] retValue = new String[temp.size()];
-        temp.copyInto(retValue);
-        return retValue;
+        String[] retVblue = new String[temp.size()];
+        temp.copyInto(retVblue);
+        return retVblue;
     }
 
     /**
-     * Return the point size, given a size index. Legal HTML index sizes
-     * are 1-7.
+     * Return the point size, given b size index. Legbl HTML index sizes
+     * bre 1-7.
      */
-    float getPointSize(int index, StyleSheet ss) {
+    flobt getPointSize(int index, StyleSheet ss) {
         ss = getStyleSheet(ss);
-        int[] sizeMap = (ss != null) ? ss.getSizeMap() :
-            StyleSheet.sizeMapDefault;
+        int[] sizeMbp = (ss != null) ? ss.getSizeMbp() :
+            StyleSheet.sizeMbpDefbult;
         --index;
         if (index < 0)
-          return sizeMap[0];
-        else if (index > sizeMap.length - 1)
-          return sizeMap[sizeMap.length - 1];
+          return sizeMbp[0];
+        else if (index > sizeMbp.length - 1)
+          return sizeMbp[sizeMbp.length - 1];
         else
-          return sizeMap[index];
+          return sizeMbp[index];
     }
 
 
-    private void translateEmbeddedAttributes(AttributeSet htmlAttrSet,
-                                             MutableAttributeSet cssAttrSet) {
-        Enumeration<?> keys = htmlAttrSet.getAttributeNames();
-        if (htmlAttrSet.getAttribute(StyleConstants.NameAttribute) ==
-            HTML.Tag.HR) {
-            // HR needs special handling due to us treating it as a leaf.
-            translateAttributes(HTML.Tag.HR, htmlAttrSet, cssAttrSet);
+    privbte void trbnslbteEmbeddedAttributes(AttributeSet htmlAttrSet,
+                                             MutbbleAttributeSet cssAttrSet) {
+        Enumerbtion<?> keys = htmlAttrSet.getAttributeNbmes();
+        if (htmlAttrSet.getAttribute(StyleConstbnts.NbmeAttribute) ==
+            HTML.Tbg.HR) {
+            // HR needs specibl hbndling due to us trebting it bs b lebf.
+            trbnslbteAttributes(HTML.Tbg.HR, htmlAttrSet, cssAttrSet);
         }
-        while (keys.hasMoreElements()) {
+        while (keys.hbsMoreElements()) {
             Object key = keys.nextElement();
-            if (key instanceof HTML.Tag) {
-                HTML.Tag tag = (HTML.Tag)key;
-                Object o = htmlAttrSet.getAttribute(tag);
-                if (o != null && o instanceof AttributeSet) {
-                    translateAttributes(tag, (AttributeSet)o, cssAttrSet);
+            if (key instbnceof HTML.Tbg) {
+                HTML.Tbg tbg = (HTML.Tbg)key;
+                Object o = htmlAttrSet.getAttribute(tbg);
+                if (o != null && o instbnceof AttributeSet) {
+                    trbnslbteAttributes(tbg, (AttributeSet)o, cssAttrSet);
                 }
-            } else if (key instanceof CSS.Attribute) {
-                cssAttrSet.addAttribute(key, htmlAttrSet.getAttribute(key));
+            } else if (key instbnceof CSS.Attribute) {
+                cssAttrSet.bddAttribute(key, htmlAttrSet.getAttribute(key));
             }
         }
     }
 
-    private void translateAttributes(HTML.Tag tag,
+    privbte void trbnslbteAttributes(HTML.Tbg tbg,
                                             AttributeSet htmlAttrSet,
-                                            MutableAttributeSet cssAttrSet) {
-        Enumeration<?> names = htmlAttrSet.getAttributeNames();
-        while (names.hasMoreElements()) {
-            Object name = names.nextElement();
+                                            MutbbleAttributeSet cssAttrSet) {
+        Enumerbtion<?> nbmes = htmlAttrSet.getAttributeNbmes();
+        while (nbmes.hbsMoreElements()) {
+            Object nbme = nbmes.nextElement();
 
-            if (name instanceof HTML.Attribute) {
-                HTML.Attribute key = (HTML.Attribute)name;
+            if (nbme instbnceof HTML.Attribute) {
+                HTML.Attribute key = (HTML.Attribute)nbme;
 
                 /*
-                 * HTML.Attribute.ALIGN needs special processing.
-                 * It can map to to 1 of many(3) possible CSS attributes
-                 * depending on the nature of the tag the attribute is
-                 * part off and depending on the value of the attribute.
+                 * HTML.Attribute.ALIGN needs specibl processing.
+                 * It cbn mbp to to 1 of mbny(3) possible CSS bttributes
+                 * depending on the nbture of the tbg the bttribute is
+                 * pbrt off bnd depending on the vblue of the bttribute.
                  */
                 if (key == HTML.Attribute.ALIGN) {
-                    String htmlAttrValue = (String)htmlAttrSet.getAttribute(HTML.Attribute.ALIGN);
-                    if (htmlAttrValue != null) {
-                        CSS.Attribute cssAttr = getCssAlignAttribute(tag, htmlAttrSet);
+                    String htmlAttrVblue = (String)htmlAttrSet.getAttribute(HTML.Attribute.ALIGN);
+                    if (htmlAttrVblue != null) {
+                        CSS.Attribute cssAttr = getCssAlignAttribute(tbg, htmlAttrSet);
                         if (cssAttr != null) {
-                            Object o = getCssValue(cssAttr, htmlAttrValue);
+                            Object o = getCssVblue(cssAttr, htmlAttrVblue);
                             if (o != null) {
-                                cssAttrSet.addAttribute(cssAttr, o);
+                                cssAttrSet.bddAttribute(cssAttr, o);
                             }
                         }
                     }
                 } else {
-                    if (key == HTML.Attribute.SIZE && !isHTMLFontTag(tag)) {
+                    if (key == HTML.Attribute.SIZE && !isHTMLFontTbg(tbg)) {
                         /*
-                         * The html size attribute has a mapping in the CSS world only
-                         * if it is par of a font or base font tag.
+                         * The html size bttribute hbs b mbpping in the CSS world only
+                         * if it is pbr of b font or bbse font tbg.
                          */
-                    } else if (tag == HTML.Tag.TABLE && key == HTML.Attribute.BORDER) {
-                        int borderWidth = getTableBorder(htmlAttrSet);
+                    } else if (tbg == HTML.Tbg.TABLE && key == HTML.Attribute.BORDER) {
+                        int borderWidth = getTbbleBorder(htmlAttrSet);
 
                         if (borderWidth > 0) {
-                            translateAttribute(HTML.Attribute.BORDER, Integer.toString(borderWidth), cssAttrSet);
+                            trbnslbteAttribute(HTML.Attribute.BORDER, Integer.toString(borderWidth), cssAttrSet);
                         }
                     } else {
-                        translateAttribute(key, (String) htmlAttrSet.getAttribute(key), cssAttrSet);
+                        trbnslbteAttribute(key, (String) htmlAttrSet.getAttribute(key), cssAttrSet);
                     }
                 }
-            } else if (name instanceof CSS.Attribute) {
-                cssAttrSet.addAttribute(name, htmlAttrSet.getAttribute(name));
+            } else if (nbme instbnceof CSS.Attribute) {
+                cssAttrSet.bddAttribute(nbme, htmlAttrSet.getAttribute(nbme));
             }
         }
     }
 
-    private void translateAttribute(HTML.Attribute key,
-                                           String htmlAttrValue,
-                                           MutableAttributeSet cssAttrSet) {
+    privbte void trbnslbteAttribute(HTML.Attribute key,
+                                           String htmlAttrVblue,
+                                           MutbbleAttributeSet cssAttrSet) {
         /*
-         * In the case of all remaining HTML.Attribute's they
-         * map to 1 or more CCS.Attribute.
+         * In the cbse of bll rembining HTML.Attribute's they
+         * mbp to 1 or more CCS.Attribute.
          */
         CSS.Attribute[] cssAttrList = getCssAttribute(key);
 
-        if (cssAttrList == null || htmlAttrValue == null) {
+        if (cssAttrList == null || htmlAttrVblue == null) {
             return;
         }
         for (Attribute cssAttr : cssAttrList) {
-            Object o = getCssValue(cssAttr, htmlAttrValue);
+            Object o = getCssVblue(cssAttr, htmlAttrVblue);
             if (o != null) {
-                cssAttrSet.addAttribute(cssAttr , o);
+                cssAttrSet.bddAttribute(cssAttr , o);
             }
         }
     }
 
     /**
-     * Given a CSS.Attribute object and its corresponding HTML.Attribute's
-     * value, this method returns a CssValue object to associate with the
-     * CSS attribute.
+     * Given b CSS.Attribute object bnd its corresponding HTML.Attribute's
+     * vblue, this method returns b CssVblue object to bssocibte with the
+     * CSS bttribute.
      *
-     * @param the CSS.Attribute
-     * @param a String containing the value associated HTML.Attribtue.
+     * @pbrbm the CSS.Attribute
+     * @pbrbm b String contbining the vblue bssocibted HTML.Attribtue.
      */
-    Object getCssValue(CSS.Attribute cssAttr, String htmlAttrValue) {
-        CssValue value = (CssValue)valueConvertor.get(cssAttr);
-        Object o = value.parseHtmlValue(htmlAttrValue);
+    Object getCssVblue(CSS.Attribute cssAttr, String htmlAttrVblue) {
+        CssVblue vblue = (CssVblue)vblueConvertor.get(cssAttr);
+        Object o = vblue.pbrseHtmlVblue(htmlAttrVblue);
         return o;
     }
 
     /**
-     * Maps an HTML.Attribute object to its appropriate CSS.Attributes.
+     * Mbps bn HTML.Attribute object to its bppropribte CSS.Attributes.
      *
-     * @param HTML.Attribute
+     * @pbrbm HTML.Attribute
      * @return CSS.Attribute[]
      */
-    private CSS.Attribute[] getCssAttribute(HTML.Attribute hAttr) {
-        return htmlAttrToCssAttrMap.get(hAttr);
+    privbte CSS.Attribute[] getCssAttribute(HTML.Attribute hAttr) {
+        return htmlAttrToCssAttrMbp.get(hAttr);
     }
 
     /**
-     * Maps HTML.Attribute.ALIGN to either:
+     * Mbps HTML.Attribute.ALIGN to either:
      *     CSS.Attribute.TEXT_ALIGN
      *     CSS.Attribute.FLOAT
      *     CSS.Attribute.VERTICAL_ALIGN
-     * based on the tag associated with the attribute and the
-     * value of the attribute.
+     * bbsed on the tbg bssocibted with the bttribute bnd the
+     * vblue of the bttribute.
      *
-     * @param AttributeSet containing HTML attributes.
-     * @return CSS.Attribute mapping for HTML.Attribute.ALIGN.
+     * @pbrbm AttributeSet contbining HTML bttributes.
+     * @return CSS.Attribute mbpping for HTML.Attribute.ALIGN.
      */
-    private CSS.Attribute getCssAlignAttribute(HTML.Tag tag,
+    privbte CSS.Attribute getCssAlignAttribute(HTML.Tbg tbg,
                                                    AttributeSet htmlAttrSet) {
         return CSS.Attribute.TEXT_ALIGN;
 /*
-        String htmlAttrValue = (String)htmlAttrSet.getAttribute(HTML.Attribute.ALIGN);
+        String htmlAttrVblue = (String)htmlAttrSet.getAttribute(HTML.Attribute.ALIGN);
         CSS.Attribute cssAttr = CSS.Attribute.TEXT_ALIGN;
-        if (htmlAttrValue != null && htmlAttrSet instanceof Element) {
+        if (htmlAttrVblue != null && htmlAttrSet instbnceof Element) {
             Element elem = (Element)htmlAttrSet;
-            if (!elem.isLeaf() && tag.isBlock() && validTextAlignValue(htmlAttrValue)) {
+            if (!elem.isLebf() && tbg.isBlock() && vblidTextAlignVblue(htmlAttrVblue)) {
                 return CSS.Attribute.TEXT_ALIGN;
-            } else if (isFloater(htmlAttrValue)) {
+            } else if (isFlobter(htmlAttrVblue)) {
                 return CSS.Attribute.FLOAT;
-            } else if (elem.isLeaf()) {
+            } else if (elem.isLebf()) {
                 return CSS.Attribute.VERTICAL_ALIGN;
             }
         }
@@ -1701,511 +1701,511 @@ public class CSS implements Serializable {
     }
 
     /**
-     * Fetches the tag associated with the HTML AttributeSet.
+     * Fetches the tbg bssocibted with the HTML AttributeSet.
      *
-     * @param  AttributeSet containing the HTML attributes.
-     * @return HTML.Tag
+     * @pbrbm  AttributeSet contbining the HTML bttributes.
+     * @return HTML.Tbg
      */
-    private HTML.Tag getHTMLTag(AttributeSet htmlAttrSet) {
-        Object o = htmlAttrSet.getAttribute(StyleConstants.NameAttribute);
-        if (o instanceof HTML.Tag) {
-            HTML.Tag tag = (HTML.Tag) o;
-            return tag;
+    privbte HTML.Tbg getHTMLTbg(AttributeSet htmlAttrSet) {
+        Object o = htmlAttrSet.getAttribute(StyleConstbnts.NbmeAttribute);
+        if (o instbnceof HTML.Tbg) {
+            HTML.Tbg tbg = (HTML.Tbg) o;
+            return tbg;
         }
         return null;
     }
 
 
-    private boolean isHTMLFontTag(HTML.Tag tag) {
-        return (tag != null && ((tag == HTML.Tag.FONT) || (tag == HTML.Tag.BASEFONT)));
+    privbte boolebn isHTMLFontTbg(HTML.Tbg tbg) {
+        return (tbg != null && ((tbg == HTML.Tbg.FONT) || (tbg == HTML.Tbg.BASEFONT)));
     }
 
 
-    private boolean isFloater(String alignValue) {
-        return (alignValue.equals("left") || alignValue.equals("right"));
+    privbte boolebn isFlobter(String blignVblue) {
+        return (blignVblue.equbls("left") || blignVblue.equbls("right"));
     }
 
-    private boolean validTextAlignValue(String alignValue) {
-        return (isFloater(alignValue) || alignValue.equals("center"));
+    privbte boolebn vblidTextAlignVblue(String blignVblue) {
+        return (isFlobter(blignVblue) || blignVblue.equbls("center"));
     }
 
     /**
-     * Base class to CSS values in the attribute sets.  This
-     * is intended to act as a convertor to/from other attribute
-     * formats.
+     * Bbse clbss to CSS vblues in the bttribute sets.  This
+     * is intended to bct bs b convertor to/from other bttribute
+     * formbts.
      * <p>
-     * The CSS parser uses the parseCssValue method to convert
-     * a string to whatever format is appropriate a given key
-     * (i.e. these convertors are stored in a map using the
-     * CSS.Attribute as a key and the CssValue as the value).
+     * The CSS pbrser uses the pbrseCssVblue method to convert
+     * b string to whbtever formbt is bppropribte b given key
+     * (i.e. these convertors bre stored in b mbp using the
+     * CSS.Attribute bs b key bnd the CssVblue bs the vblue).
      * <p>
      * The HTML to CSS conversion process first converts the
-     * HTML.Attribute to a CSS.Attribute, and then calls
-     * the parseHtmlValue method on the value of the HTML
-     * attribute to produce the corresponding CSS value.
+     * HTML.Attribute to b CSS.Attribute, bnd then cblls
+     * the pbrseHtmlVblue method on the vblue of the HTML
+     * bttribute to produce the corresponding CSS vblue.
      * <p>
-     * The StyleConstants to CSS conversion process first
-     * converts the StyleConstants attribute to a
-     * CSS.Attribute, and then calls the fromStyleConstants
-     * method to convert the StyleConstants value to a
-     * CSS value.
+     * The StyleConstbnts to CSS conversion process first
+     * converts the StyleConstbnts bttribute to b
+     * CSS.Attribute, bnd then cblls the fromStyleConstbnts
+     * method to convert the StyleConstbnts vblue to b
+     * CSS vblue.
      * <p>
-     * The CSS to StyleConstants conversion process first
-     * converts the StyleConstants attribute to a
-     * CSS.Attribute, and then calls the toStyleConstants
-     * method to convert the CSS value to a StyleConstants
-     * value.
+     * The CSS to StyleConstbnts conversion process first
+     * converts the StyleConstbnts bttribute to b
+     * CSS.Attribute, bnd then cblls the toStyleConstbnts
+     * method to convert the CSS vblue to b StyleConstbnts
+     * vblue.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class CssValue implements Serializable {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss CssVblue implements Seriblizbble {
 
         /**
-         * Convert a CSS value string to the internal format
-         * (for fast processing) used in the attribute sets.
-         * The fallback storage for any value that we don't
-         * have a special binary format for is a String.
+         * Convert b CSS vblue string to the internbl formbt
+         * (for fbst processing) used in the bttribute sets.
+         * The fbllbbck storbge for bny vblue thbt we don't
+         * hbve b specibl binbry formbt for is b String.
          */
-        Object parseCssValue(String value) {
-            return value;
+        Object pbrseCssVblue(String vblue) {
+            return vblue;
         }
 
         /**
-         * Convert an HTML attribute value to a CSS attribute
-         * value.  If there is no conversion, return null.
-         * This is implemented to simply forward to the CSS
-         * parsing by default (since some of the attribute
-         * values are the same).  If the attribute value
-         * isn't recognized as a CSS value it is generally
-         * returned as null.
+         * Convert bn HTML bttribute vblue to b CSS bttribute
+         * vblue.  If there is no conversion, return null.
+         * This is implemented to simply forwbrd to the CSS
+         * pbrsing by defbult (since some of the bttribute
+         * vblues bre the sbme).  If the bttribute vblue
+         * isn't recognized bs b CSS vblue it is generblly
+         * returned bs null.
          */
-        Object parseHtmlValue(String value) {
-            return parseCssValue(value);
+        Object pbrseHtmlVblue(String vblue) {
+            return pbrseCssVblue(vblue);
         }
 
         /**
-         * Converts a <code>StyleConstants</code> attribute value to
-         * a CSS attribute value.  If there is no conversion,
-         * returns <code>null</code>.  By default, there is no conversion.
+         * Converts b <code>StyleConstbnts</code> bttribute vblue to
+         * b CSS bttribute vblue.  If there is no conversion,
+         * returns <code>null</code>.  By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @param value the value of a <code>StyleConstants</code>
-         *   attribute to be converted
-         * @return the CSS value that represents the
-         *   <code>StyleConstants</code> value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @pbrbm vblue the vblue of b <code>StyleConstbnts</code>
+         *   bttribute to be converted
+         * @return the CSS vblue thbt represents the
+         *   <code>StyleConstbnts</code> vblue
          */
-        Object fromStyleConstants(StyleConstants key, Object value) {
+        Object fromStyleConstbnts(StyleConstbnts key, Object vblue) {
             return null;
         }
 
         /**
-         * Converts a CSS attribute value to a
-         * <code>StyleConstants</code>
-         * value.  If there is no conversion, returns
+         * Converts b CSS bttribute vblue to b
+         * <code>StyleConstbnts</code>
+         * vblue.  If there is no conversion, returns
          * <code>null</code>.
-         * By default, there is no conversion.
+         * By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @param v the view containing <code>AttributeSet</code>
-         * @return the <code>StyleConstants</code> attribute value that
-         *   represents the CSS attribute value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @pbrbm v the view contbining <code>AttributeSet</code>
+         * @return the <code>StyleConstbnts</code> bttribute vblue thbt
+         *   represents the CSS bttribute vblue
          */
-        Object toStyleConstants(StyleConstants key, View v) {
+        Object toStyleConstbnts(StyleConstbnts key, View v) {
             return null;
         }
 
         /**
-         * Return the CSS format of the value
+         * Return the CSS formbt of the vblue
          */
         public String toString() {
-            return svalue;
+            return svblue;
         }
 
         /**
-         * The value as a string... before conversion to a
-         * binary format.
+         * The vblue bs b string... before conversion to b
+         * binbry formbt.
          */
-        String svalue;
+        String svblue;
     }
 
     /**
-     * By default CSS attributes are represented as simple
-     * strings.  They also have no conversion to/from
-     * StyleConstants by default. This class represents the
-     * value as a string (via the superclass), but
-     * provides StyleConstants conversion support for the
-     * CSS attributes that are held as strings.
+     * By defbult CSS bttributes bre represented bs simple
+     * strings.  They blso hbve no conversion to/from
+     * StyleConstbnts by defbult. This clbss represents the
+     * vblue bs b string (vib the superclbss), but
+     * provides StyleConstbnts conversion support for the
+     * CSS bttributes thbt bre held bs strings.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class StringValue extends CssValue {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss StringVblue extends CssVblue {
 
         /**
-         * Convert a CSS value string to the internal format
-         * (for fast processing) used in the attribute sets.
-         * This produces a StringValue, so that it can be
-         * used to convert from CSS to StyleConstants values.
+         * Convert b CSS vblue string to the internbl formbt
+         * (for fbst processing) used in the bttribute sets.
+         * This produces b StringVblue, so thbt it cbn be
+         * used to convert from CSS to StyleConstbnts vblues.
          */
-        Object parseCssValue(String value) {
-            StringValue sv = new StringValue();
-            sv.svalue = value;
+        Object pbrseCssVblue(String vblue) {
+            StringVblue sv = new StringVblue();
+            sv.svblue = vblue;
             return sv;
         }
 
         /**
-         * Converts a <code>StyleConstants</code> attribute value to
-         * a CSS attribute value.  If there is no conversion
+         * Converts b <code>StyleConstbnts</code> bttribute vblue to
+         * b CSS bttribute vblue.  If there is no conversion
          * returns <code>null</code>.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @param value the value of a <code>StyleConstants</code>
-         *   attribute to be converted
-         * @return the CSS value that represents the
-         *   <code>StyleConstants</code> value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @pbrbm vblue the vblue of b <code>StyleConstbnts</code>
+         *   bttribute to be converted
+         * @return the CSS vblue thbt represents the
+         *   <code>StyleConstbnts</code> vblue
          */
-        Object fromStyleConstants(StyleConstants key, Object value) {
-            if (key == StyleConstants.Italic) {
-                if (value.equals(Boolean.TRUE)) {
-                    return parseCssValue("italic");
+        Object fromStyleConstbnts(StyleConstbnts key, Object vblue) {
+            if (key == StyleConstbnts.Itblic) {
+                if (vblue.equbls(Boolebn.TRUE)) {
+                    return pbrseCssVblue("itblic");
                 }
-                return parseCssValue("");
-            } else if (key == StyleConstants.Underline) {
-                if (value.equals(Boolean.TRUE)) {
-                    return parseCssValue("underline");
+                return pbrseCssVblue("");
+            } else if (key == StyleConstbnts.Underline) {
+                if (vblue.equbls(Boolebn.TRUE)) {
+                    return pbrseCssVblue("underline");
                 }
-                return parseCssValue("");
-            } else if (key == StyleConstants.Alignment) {
-                int align = ((Integer)value).intValue();
-                String ta;
-                switch(align) {
-                case StyleConstants.ALIGN_LEFT:
-                    ta = "left";
-                    break;
-                case StyleConstants.ALIGN_RIGHT:
-                    ta = "right";
-                    break;
-                case StyleConstants.ALIGN_CENTER:
-                    ta = "center";
-                    break;
-                case StyleConstants.ALIGN_JUSTIFIED:
-                    ta = "justify";
-                    break;
-                default:
-                    ta = "left";
+                return pbrseCssVblue("");
+            } else if (key == StyleConstbnts.Alignment) {
+                int blign = ((Integer)vblue).intVblue();
+                String tb;
+                switch(blign) {
+                cbse StyleConstbnts.ALIGN_LEFT:
+                    tb = "left";
+                    brebk;
+                cbse StyleConstbnts.ALIGN_RIGHT:
+                    tb = "right";
+                    brebk;
+                cbse StyleConstbnts.ALIGN_CENTER:
+                    tb = "center";
+                    brebk;
+                cbse StyleConstbnts.ALIGN_JUSTIFIED:
+                    tb = "justify";
+                    brebk;
+                defbult:
+                    tb = "left";
                 }
-                return parseCssValue(ta);
-            } else if (key == StyleConstants.StrikeThrough) {
-                if (value.equals(Boolean.TRUE)) {
-                    return parseCssValue("line-through");
+                return pbrseCssVblue(tb);
+            } else if (key == StyleConstbnts.StrikeThrough) {
+                if (vblue.equbls(Boolebn.TRUE)) {
+                    return pbrseCssVblue("line-through");
                 }
-                return parseCssValue("");
-            } else if (key == StyleConstants.Superscript) {
-                if (value.equals(Boolean.TRUE)) {
-                    return parseCssValue("super");
+                return pbrseCssVblue("");
+            } else if (key == StyleConstbnts.Superscript) {
+                if (vblue.equbls(Boolebn.TRUE)) {
+                    return pbrseCssVblue("super");
                 }
-                return parseCssValue("");
-            } else if (key == StyleConstants.Subscript) {
-                if (value.equals(Boolean.TRUE)) {
-                    return parseCssValue("sub");
+                return pbrseCssVblue("");
+            } else if (key == StyleConstbnts.Subscript) {
+                if (vblue.equbls(Boolebn.TRUE)) {
+                    return pbrseCssVblue("sub");
                 }
-                return parseCssValue("");
+                return pbrseCssVblue("");
             }
             return null;
         }
 
         /**
-         * Converts a CSS attribute value to a
-         * <code>StyleConstants</code> value.
+         * Converts b CSS bttribute vblue to b
+         * <code>StyleConstbnts</code> vblue.
          * If there is no conversion, returns <code>null</code>.
-         * By default, there is no conversion.
+         * By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @return the <code>StyleConstants</code> attribute value that
-         *   represents the CSS attribute value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @return the <code>StyleConstbnts</code> bttribute vblue thbt
+         *   represents the CSS bttribute vblue
          */
-        Object toStyleConstants(StyleConstants key, View v) {
-            if (key == StyleConstants.Italic) {
-                if (svalue.indexOf("italic") >= 0) {
-                    return Boolean.TRUE;
+        Object toStyleConstbnts(StyleConstbnts key, View v) {
+            if (key == StyleConstbnts.Itblic) {
+                if (svblue.indexOf("itblic") >= 0) {
+                    return Boolebn.TRUE;
                 }
-                return Boolean.FALSE;
-            } else if (key == StyleConstants.Underline) {
-                if (svalue.indexOf("underline") >= 0) {
-                    return Boolean.TRUE;
+                return Boolebn.FALSE;
+            } else if (key == StyleConstbnts.Underline) {
+                if (svblue.indexOf("underline") >= 0) {
+                    return Boolebn.TRUE;
                 }
-                return Boolean.FALSE;
-            } else if (key == StyleConstants.Alignment) {
-                if (svalue.equals("right")) {
-                    return StyleConstants.ALIGN_RIGHT;
-                } else if (svalue.equals("center")) {
-                    return StyleConstants.ALIGN_CENTER;
-                } else if  (svalue.equals("justify")) {
-                    return StyleConstants.ALIGN_JUSTIFIED;
+                return Boolebn.FALSE;
+            } else if (key == StyleConstbnts.Alignment) {
+                if (svblue.equbls("right")) {
+                    return StyleConstbnts.ALIGN_RIGHT;
+                } else if (svblue.equbls("center")) {
+                    return StyleConstbnts.ALIGN_CENTER;
+                } else if  (svblue.equbls("justify")) {
+                    return StyleConstbnts.ALIGN_JUSTIFIED;
                 }
-                return StyleConstants.ALIGN_LEFT;
-            } else if (key == StyleConstants.StrikeThrough) {
-                if (svalue.indexOf("line-through") >= 0) {
-                    return Boolean.TRUE;
+                return StyleConstbnts.ALIGN_LEFT;
+            } else if (key == StyleConstbnts.StrikeThrough) {
+                if (svblue.indexOf("line-through") >= 0) {
+                    return Boolebn.TRUE;
                 }
-                return Boolean.FALSE;
-            } else if (key == StyleConstants.Superscript) {
-                if (svalue.indexOf("super") >= 0) {
-                    return Boolean.TRUE;
+                return Boolebn.FALSE;
+            } else if (key == StyleConstbnts.Superscript) {
+                if (svblue.indexOf("super") >= 0) {
+                    return Boolebn.TRUE;
                 }
-                return Boolean.FALSE;
-            } else if (key == StyleConstants.Subscript) {
-                if (svalue.indexOf("sub") >= 0) {
-                    return Boolean.TRUE;
+                return Boolebn.FALSE;
+            } else if (key == StyleConstbnts.Subscript) {
+                if (svblue.indexOf("sub") >= 0) {
+                    return Boolebn.TRUE;
                 }
-                return Boolean.FALSE;
+                return Boolebn.FALSE;
             }
             return null;
         }
 
         // Used by ViewAttributeSet
-        boolean isItalic() {
-            return (svalue.indexOf("italic") != -1);
+        boolebn isItblic() {
+            return (svblue.indexOf("itblic") != -1);
         }
 
-        boolean isStrike() {
-            return (svalue.indexOf("line-through") != -1);
+        boolebn isStrike() {
+            return (svblue.indexOf("line-through") != -1);
         }
 
-        boolean isUnderline() {
-            return (svalue.indexOf("underline") != -1);
+        boolebn isUnderline() {
+            return (svblue.indexOf("underline") != -1);
         }
 
-        boolean isSub() {
-            return (svalue.indexOf("sub") != -1);
+        boolebn isSub() {
+            return (svblue.indexOf("sub") != -1);
         }
 
-        boolean isSup() {
-            return (svalue.indexOf("sup") != -1);
+        boolebn isSup() {
+            return (svblue.indexOf("sup") != -1);
         }
     }
 
     /**
-     * Represents a value for the CSS.FONT_SIZE attribute.
-     * The binary format of the value can be one of several
-     * types.  If the type is Float,
-     * the value is specified in terms of point or
-     * percentage, depending upon the ending of the
-     * associated string.
-     * If the type is Integer, the value is specified
-     * in terms of a size index.
+     * Represents b vblue for the CSS.FONT_SIZE bttribute.
+     * The binbry formbt of the vblue cbn be one of severbl
+     * types.  If the type is Flobt,
+     * the vblue is specified in terms of point or
+     * percentbge, depending upon the ending of the
+     * bssocibted string.
+     * If the type is Integer, the vblue is specified
+     * in terms of b size index.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    class FontSize extends CssValue {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    clbss FontSize extends CssVblue {
 
         /**
-         * Returns the size in points.  This is ultimately
-         * what we need for the purpose of creating/fetching
-         * a Font object.
+         * Returns the size in points.  This is ultimbtely
+         * whbt we need for the purpose of crebting/fetching
+         * b Font object.
          *
-         * @param a the attribute set the value is being
-         *  requested from.  We may need to walk up the
-         *  resolve hierarchy if it's relative.
+         * @pbrbm b the bttribute set the vblue is being
+         *  requested from.  We mby need to wblk up the
+         *  resolve hierbrchy if it's relbtive.
          */
-        int getValue(AttributeSet a, StyleSheet ss) {
+        int getVblue(AttributeSet b, StyleSheet ss) {
             ss = getStyleSheet(ss);
             if (index) {
-                // it's an index, translate from size table
-                return Math.round(getPointSize((int) value, ss));
+                // it's bn index, trbnslbte from size tbble
+                return Mbth.round(getPointSize((int) vblue, ss));
             }
             else if (lu == null) {
-                return Math.round(value);
+                return Mbth.round(vblue);
             }
             else {
                 if (lu.type == 0) {
-                    boolean isW3CLengthUnits = (ss == null) ? false : ss.isW3CLengthUnits();
-                    return Math.round(lu.getValue(isW3CLengthUnits));
+                    boolebn isW3CLengthUnits = (ss == null) ? fblse : ss.isW3CLengthUnits();
+                    return Mbth.round(lu.getVblue(isW3CLengthUnits));
                 }
-                if (a != null) {
-                    AttributeSet resolveParent = a.getResolveParent();
+                if (b != null) {
+                    AttributeSet resolvePbrent = b.getResolvePbrent();
 
-                    if (resolveParent != null) {
-                        int pValue = StyleConstants.getFontSize(resolveParent);
+                    if (resolvePbrent != null) {
+                        int pVblue = StyleConstbnts.getFontSize(resolvePbrent);
 
-                        float retValue;
+                        flobt retVblue;
                         if (lu.type == 1 || lu.type == 3) {
-                            retValue = lu.value * (float)pValue;
+                            retVblue = lu.vblue * (flobt)pVblue;
                         }
                         else {
-                            retValue = lu.value + (float)pValue;
+                            retVblue = lu.vblue + (flobt)pVblue;
                         }
-                        return Math.round(retValue);
+                        return Mbth.round(retVblue);
                     }
                 }
-                // a is null, or no resolve parent.
+                // b is null, or no resolve pbrent.
                 return 12;
             }
         }
 
-        Object parseCssValue(String value) {
+        Object pbrseCssVblue(String vblue) {
             FontSize fs = new FontSize();
-            fs.svalue = value;
+            fs.svblue = vblue;
             try {
-                if (value.equals("xx-small")) {
-                    fs.value = 1;
+                if (vblue.equbls("xx-smbll")) {
+                    fs.vblue = 1;
                     fs.index = true;
-                } else if (value.equals("x-small")) {
-                    fs.value = 2;
+                } else if (vblue.equbls("x-smbll")) {
+                    fs.vblue = 2;
                     fs.index = true;
-                } else if (value.equals("small")) {
-                    fs.value = 3;
+                } else if (vblue.equbls("smbll")) {
+                    fs.vblue = 3;
                     fs.index = true;
-                } else if (value.equals("medium")) {
-                    fs.value = 4;
+                } else if (vblue.equbls("medium")) {
+                    fs.vblue = 4;
                     fs.index = true;
-                } else if (value.equals("large")) {
-                    fs.value = 5;
+                } else if (vblue.equbls("lbrge")) {
+                    fs.vblue = 5;
                     fs.index = true;
-                } else if (value.equals("x-large")) {
-                    fs.value = 6;
+                } else if (vblue.equbls("x-lbrge")) {
+                    fs.vblue = 6;
                     fs.index = true;
-                } else if (value.equals("xx-large")) {
-                    fs.value = 7;
+                } else if (vblue.equbls("xx-lbrge")) {
+                    fs.vblue = 7;
                     fs.index = true;
                 } else {
-                    fs.lu = new LengthUnit(value, (short)1, 1f);
+                    fs.lu = new LengthUnit(vblue, (short)1, 1f);
                 }
-                // relative sizes, larger | smaller (adjust from parent by
+                // relbtive sizes, lbrger | smbller (bdjust from pbrent by
                 // 1.5 pixels)
-                // em, ex refer to parent sizes
+                // em, ex refer to pbrent sizes
                 // lengths: pt, mm, cm, pc, in, px
                 //          em (font height 3em would be 3 times font height)
                 //          ex (height of X)
-                // lengths are (+/-) followed by a number and two letter
+                // lengths bre (+/-) followed by b number bnd two letter
                 // unit identifier
-            } catch (NumberFormatException nfe) {
+            } cbtch (NumberFormbtException nfe) {
                 fs = null;
             }
             return fs;
         }
 
-        Object parseHtmlValue(String value) {
-            if ((value == null) || (value.length() == 0)) {
+        Object pbrseHtmlVblue(String vblue) {
+            if ((vblue == null) || (vblue.length() == 0)) {
                 return null;
             }
             FontSize fs = new FontSize();
-            fs.svalue = value;
+            fs.svblue = vblue;
 
             try {
                 /*
-                 * relative sizes in the size attribute are relative
-                 * to the <basefont>'s size.
+                 * relbtive sizes in the size bttribute bre relbtive
+                 * to the <bbsefont>'s size.
                  */
-                int baseFontSize = getBaseFontSize();
-                if (value.charAt(0) == '+') {
-                    int relSize = Integer.valueOf(value.substring(1)).intValue();
-                    fs.value = baseFontSize + relSize;
+                int bbseFontSize = getBbseFontSize();
+                if (vblue.chbrAt(0) == '+') {
+                    int relSize = Integer.vblueOf(vblue.substring(1)).intVblue();
+                    fs.vblue = bbseFontSize + relSize;
                     fs.index = true;
-                } else if (value.charAt(0) == '-') {
-                    int relSize = -Integer.valueOf(value.substring(1)).intValue();
-                    fs.value = baseFontSize + relSize;
+                } else if (vblue.chbrAt(0) == '-') {
+                    int relSize = -Integer.vblueOf(vblue.substring(1)).intVblue();
+                    fs.vblue = bbseFontSize + relSize;
                     fs.index = true;
                 } else {
-                    fs.value = Integer.parseInt(value);
-                    if (fs.value > 7) {
-                        fs.value = 7;
-                    } else if (fs.value < 0) {
-                        fs.value = 0;
+                    fs.vblue = Integer.pbrseInt(vblue);
+                    if (fs.vblue > 7) {
+                        fs.vblue = 7;
+                    } else if (fs.vblue < 0) {
+                        fs.vblue = 0;
                     }
                     fs.index = true;
                 }
 
-            } catch (NumberFormatException nfe) {
+            } cbtch (NumberFormbtException nfe) {
                 fs = null;
             }
             return fs;
         }
 
         /**
-         * Converts a <code>StyleConstants</code> attribute value to
-         * a CSS attribute value.  If there is no conversion
-         * returns <code>null</code>.  By default, there is no conversion.
+         * Converts b <code>StyleConstbnts</code> bttribute vblue to
+         * b CSS bttribute vblue.  If there is no conversion
+         * returns <code>null</code>.  By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @param value the value of a <code>StyleConstants</code>
-         *   attribute to be converted
-         * @return the CSS value that represents the
-         *   <code>StyleConstants</code> value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @pbrbm vblue the vblue of b <code>StyleConstbnts</code>
+         *   bttribute to be converted
+         * @return the CSS vblue thbt represents the
+         *   <code>StyleConstbnts</code> vblue
          */
-        Object fromStyleConstants(StyleConstants key, Object value) {
-            if (value instanceof Number) {
+        Object fromStyleConstbnts(StyleConstbnts key, Object vblue) {
+            if (vblue instbnceof Number) {
                 FontSize fs = new FontSize();
 
-                fs.value = getIndexOfSize(((Number)value).floatValue(), StyleSheet.sizeMapDefault);
-                fs.svalue = Integer.toString((int)fs.value);
+                fs.vblue = getIndexOfSize(((Number)vblue).flobtVblue(), StyleSheet.sizeMbpDefbult);
+                fs.svblue = Integer.toString((int)fs.vblue);
                 fs.index = true;
                 return fs;
             }
-            return parseCssValue(value.toString());
+            return pbrseCssVblue(vblue.toString());
         }
 
         /**
-         * Converts a CSS attribute value to a <code>StyleConstants</code>
-         * value.  If there is no conversion, returns <code>null</code>.
-         * By default, there is no conversion.
+         * Converts b CSS bttribute vblue to b <code>StyleConstbnts</code>
+         * vblue.  If there is no conversion, returns <code>null</code>.
+         * By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @return the <code>StyleConstants</code> attribute value that
-         *   represents the CSS attribute value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @return the <code>StyleConstbnts</code> bttribute vblue thbt
+         *   represents the CSS bttribute vblue
          */
-        Object toStyleConstants(StyleConstants key, View v) {
+        Object toStyleConstbnts(StyleConstbnts key, View v) {
             if (v != null) {
-                return Integer.valueOf(getValue(v.getAttributes(), null));
+                return Integer.vblueOf(getVblue(v.getAttributes(), null));
             }
-            return Integer.valueOf(getValue(null, null));
+            return Integer.vblueOf(getVblue(null, null));
         }
 
-        float value;
-        boolean index;
+        flobt vblue;
+        boolebn index;
         LengthUnit lu;
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class FontFamily extends CssValue {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss FontFbmily extends CssVblue {
 
         /**
-         * Returns the font family to use.
+         * Returns the font fbmily to use.
          */
-        String getValue() {
-            return family;
+        String getVblue() {
+            return fbmily;
         }
 
-        Object parseCssValue(String value) {
-            int cIndex = value.indexOf(',');
-            FontFamily ff = new FontFamily();
-            ff.svalue = value;
-            ff.family = null;
+        Object pbrseCssVblue(String vblue) {
+            int cIndex = vblue.indexOf(',');
+            FontFbmily ff = new FontFbmily();
+            ff.svblue = vblue;
+            ff.fbmily = null;
 
             if (cIndex == -1) {
-                setFontName(ff, value);
+                setFontNbme(ff, vblue);
             }
             else {
-                boolean done = false;
-                int lastIndex;
-                int length = value.length();
+                boolebn done = fblse;
+                int lbstIndex;
+                int length = vblue.length();
                 cIndex = 0;
                 while (!done) {
                     // skip ws.
                     while (cIndex < length &&
-                           Character.isWhitespace(value.charAt(cIndex)))
+                           Chbrbcter.isWhitespbce(vblue.chbrAt(cIndex)))
                         cIndex++;
                     // Find next ','
-                    lastIndex = cIndex;
-                    cIndex = value.indexOf(',', cIndex);
+                    lbstIndex = cIndex;
+                    cIndex = vblue.indexOf(',', cIndex);
                     if (cIndex == -1) {
                         cIndex = length;
                     }
-                    if (lastIndex < length) {
-                        if (lastIndex != cIndex) {
-                            int lastCharIndex = cIndex;
-                            if (cIndex > 0 && value.charAt(cIndex - 1) == ' '){
-                                lastCharIndex--;
+                    if (lbstIndex < length) {
+                        if (lbstIndex != cIndex) {
+                            int lbstChbrIndex = cIndex;
+                            if (cIndex > 0 && vblue.chbrAt(cIndex - 1) == ' '){
+                                lbstChbrIndex--;
                             }
-                            setFontName(ff, value.substring
-                                        (lastIndex, lastCharIndex));
-                            done = (ff.family != null);
+                            setFontNbme(ff, vblue.substring
+                                        (lbstIndex, lbstChbrIndex));
+                            done = (ff.fbmily != null);
                         }
                         cIndex++;
                     }
@@ -2214,71 +2214,71 @@ public class CSS implements Serializable {
                     }
                 }
             }
-            if (ff.family == null) {
-                ff.family = Font.SANS_SERIF;
+            if (ff.fbmily == null) {
+                ff.fbmily = Font.SANS_SERIF;
             }
             return ff;
         }
 
-        private void setFontName(FontFamily ff, String fontName) {
-            ff.family = fontName;
+        privbte void setFontNbme(FontFbmily ff, String fontNbme) {
+            ff.fbmily = fontNbme;
         }
 
-        Object parseHtmlValue(String value) {
+        Object pbrseHtmlVblue(String vblue) {
             // TBD
-            return parseCssValue(value);
+            return pbrseCssVblue(vblue);
         }
 
         /**
-         * Converts a <code>StyleConstants</code> attribute value to
-         * a CSS attribute value.  If there is no conversion
-         * returns <code>null</code>.  By default, there is no conversion.
+         * Converts b <code>StyleConstbnts</code> bttribute vblue to
+         * b CSS bttribute vblue.  If there is no conversion
+         * returns <code>null</code>.  By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @param value the value of a <code>StyleConstants</code>
-         *   attribute to be converted
-         * @return the CSS value that represents the
-         *   <code>StyleConstants</code> value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @pbrbm vblue the vblue of b <code>StyleConstbnts</code>
+         *   bttribute to be converted
+         * @return the CSS vblue thbt represents the
+         *   <code>StyleConstbnts</code> vblue
          */
-        Object fromStyleConstants(StyleConstants key, Object value) {
-            return parseCssValue(value.toString());
+        Object fromStyleConstbnts(StyleConstbnts key, Object vblue) {
+            return pbrseCssVblue(vblue.toString());
         }
 
         /**
-         * Converts a CSS attribute value to a <code>StyleConstants</code>
-         * value.  If there is no conversion, returns <code>null</code>.
-         * By default, there is no conversion.
+         * Converts b CSS bttribute vblue to b <code>StyleConstbnts</code>
+         * vblue.  If there is no conversion, returns <code>null</code>.
+         * By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @return the <code>StyleConstants</code> attribute value that
-         *   represents the CSS attribute value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @return the <code>StyleConstbnts</code> bttribute vblue thbt
+         *   represents the CSS bttribute vblue
          */
-        Object toStyleConstants(StyleConstants key, View v) {
-            return family;
+        Object toStyleConstbnts(StyleConstbnts key, View v) {
+            return fbmily;
         }
 
-        String family;
+        String fbmily;
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class FontWeight extends CssValue {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss FontWeight extends CssVblue {
 
-        int getValue() {
+        int getVblue() {
             return weight;
         }
 
-        Object parseCssValue(String value) {
+        Object pbrseCssVblue(String vblue) {
             FontWeight fw = new FontWeight();
-            fw.svalue = value;
-            if (value.equals("bold")) {
+            fw.svblue = vblue;
+            if (vblue.equbls("bold")) {
                 fw.weight = 700;
-            } else if (value.equals("normal")) {
+            } else if (vblue.equbls("normbl")) {
                 fw.weight = 400;
             } else {
-                // PENDING(prinz) add support for relative values
+                // PENDING(prinz) bdd support for relbtive vblues
                 try {
-                    fw.weight = Integer.parseInt(value);
-                } catch (NumberFormatException nfe) {
+                    fw.weight = Integer.pbrseInt(vblue);
+                } cbtch (NumberFormbtException nfe) {
                     fw = null;
                 }
             }
@@ -2286,125 +2286,125 @@ public class CSS implements Serializable {
         }
 
         /**
-         * Converts a <code>StyleConstants</code> attribute value to
-         * a CSS attribute value.  If there is no conversion
-         * returns <code>null</code>.  By default, there is no conversion.
+         * Converts b <code>StyleConstbnts</code> bttribute vblue to
+         * b CSS bttribute vblue.  If there is no conversion
+         * returns <code>null</code>.  By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @param value the value of a <code>StyleConstants</code>
-         *   attribute to be converted
-         * @return the CSS value that represents the
-         *   <code>StyleConstants</code> value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @pbrbm vblue the vblue of b <code>StyleConstbnts</code>
+         *   bttribute to be converted
+         * @return the CSS vblue thbt represents the
+         *   <code>StyleConstbnts</code> vblue
          */
-        Object fromStyleConstants(StyleConstants key, Object value) {
-            if (value.equals(Boolean.TRUE)) {
-                return parseCssValue("bold");
+        Object fromStyleConstbnts(StyleConstbnts key, Object vblue) {
+            if (vblue.equbls(Boolebn.TRUE)) {
+                return pbrseCssVblue("bold");
             }
-            return parseCssValue("normal");
+            return pbrseCssVblue("normbl");
         }
 
         /**
-         * Converts a CSS attribute value to a <code>StyleConstants</code>
-         * value.  If there is no conversion, returns <code>null</code>.
-         * By default, there is no conversion.
+         * Converts b CSS bttribute vblue to b <code>StyleConstbnts</code>
+         * vblue.  If there is no conversion, returns <code>null</code>.
+         * By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @return the <code>StyleConstants</code> attribute value that
-         *   represents the CSS attribute value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @return the <code>StyleConstbnts</code> bttribute vblue thbt
+         *   represents the CSS bttribute vblue
          */
-        Object toStyleConstants(StyleConstants key, View v) {
-            return (weight > 500) ? Boolean.TRUE : Boolean.FALSE;
+        Object toStyleConstbnts(StyleConstbnts key, View v) {
+            return (weight > 500) ? Boolebn.TRUE : Boolebn.FALSE;
         }
 
-        boolean isBold() {
+        boolebn isBold() {
             return (weight > 500);
         }
 
         int weight;
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class ColorValue extends CssValue {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss ColorVblue extends CssVblue {
 
         /**
          * Returns the color to use.
          */
-        Color getValue() {
+        Color getVblue() {
             return c;
         }
 
-        Object parseCssValue(String value) {
+        Object pbrseCssVblue(String vblue) {
 
-            Color c = stringToColor(value);
+            Color c = stringToColor(vblue);
             if (c != null) {
-                ColorValue cv = new ColorValue();
-                cv.svalue = value;
+                ColorVblue cv = new ColorVblue();
+                cv.svblue = vblue;
                 cv.c = c;
                 return cv;
             }
             return null;
         }
 
-        Object parseHtmlValue(String value) {
-            return parseCssValue(value);
+        Object pbrseHtmlVblue(String vblue) {
+            return pbrseCssVblue(vblue);
         }
 
         /**
-         * Converts a <code>StyleConstants</code> attribute value to
-         * a CSS attribute value.  If there is no conversion
-         * returns <code>null</code>.  By default, there is no conversion.
+         * Converts b <code>StyleConstbnts</code> bttribute vblue to
+         * b CSS bttribute vblue.  If there is no conversion
+         * returns <code>null</code>.  By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @param value the value of a <code>StyleConstants</code>
-         *   attribute to be converted
-         * @return the CSS value that represents the
-         *   <code>StyleConstants</code> value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @pbrbm vblue the vblue of b <code>StyleConstbnts</code>
+         *   bttribute to be converted
+         * @return the CSS vblue thbt represents the
+         *   <code>StyleConstbnts</code> vblue
          */
-        Object fromStyleConstants(StyleConstants key, Object value) {
-            ColorValue colorValue = new ColorValue();
-            colorValue.c = (Color)value;
-            colorValue.svalue = colorToHex(colorValue.c);
-            return colorValue;
+        Object fromStyleConstbnts(StyleConstbnts key, Object vblue) {
+            ColorVblue colorVblue = new ColorVblue();
+            colorVblue.c = (Color)vblue;
+            colorVblue.svblue = colorToHex(colorVblue.c);
+            return colorVblue;
         }
 
         /**
-         * Converts a CSS attribute value to a <code>StyleConstants</code>
-         * value.  If there is no conversion, returns <code>null</code>.
-         * By default, there is no conversion.
+         * Converts b CSS bttribute vblue to b <code>StyleConstbnts</code>
+         * vblue.  If there is no conversion, returns <code>null</code>.
+         * By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @return the <code>StyleConstants</code> attribute value that
-         *   represents the CSS attribute value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @return the <code>StyleConstbnts</code> bttribute vblue thbt
+         *   represents the CSS bttribute vblue
          */
-        Object toStyleConstants(StyleConstants key, View v) {
+        Object toStyleConstbnts(StyleConstbnts key, View v) {
             return c;
         }
 
         Color c;
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class BorderStyle extends CssValue {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss BorderStyle extends CssVblue {
 
-        CSS.Value getValue() {
+        CSS.Vblue getVblue() {
             return style;
         }
 
-        Object parseCssValue(String value) {
-            CSS.Value cssv = CSS.getValue(value);
+        Object pbrseCssVblue(String vblue) {
+            CSS.Vblue cssv = CSS.getVblue(vblue);
             if (cssv != null) {
-                if ((cssv == CSS.Value.INSET) ||
-                    (cssv == CSS.Value.OUTSET) ||
-                    (cssv == CSS.Value.NONE) ||
-                    (cssv == CSS.Value.DOTTED) ||
-                    (cssv == CSS.Value.DASHED) ||
-                    (cssv == CSS.Value.SOLID) ||
-                    (cssv == CSS.Value.DOUBLE) ||
-                    (cssv == CSS.Value.GROOVE) ||
-                    (cssv == CSS.Value.RIDGE)) {
+                if ((cssv == CSS.Vblue.INSET) ||
+                    (cssv == CSS.Vblue.OUTSET) ||
+                    (cssv == CSS.Vblue.NONE) ||
+                    (cssv == CSS.Vblue.DOTTED) ||
+                    (cssv == CSS.Vblue.DASHED) ||
+                    (cssv == CSS.Vblue.SOLID) ||
+                    (cssv == CSS.Vblue.DOUBLE) ||
+                    (cssv == CSS.Vblue.GROOVE) ||
+                    (cssv == CSS.Vblue.RIDGE)) {
 
                     BorderStyle bs = new BorderStyle();
-                    bs.svalue = value;
+                    bs.svblue = vblue;
                     bs.style = cssv;
                     return bs;
                 }
@@ -2412,9 +2412,9 @@ public class CSS implements Serializable {
             return null;
         }
 
-        private void writeObject(java.io.ObjectOutputStream s)
+        privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
                      throws IOException {
-            s.defaultWriteObject();
+            s.defbultWriteObject();
             if (style == null) {
                 s.writeObject(null);
             }
@@ -2423,249 +2423,249 @@ public class CSS implements Serializable {
             }
         }
 
-        private void readObject(ObjectInputStream s)
-                throws ClassNotFoundException, IOException {
-            s.defaultReadObject();
-            Object value = s.readObject();
-            if (value != null) {
-                style = CSS.getValue((String)value);
+        privbte void rebdObject(ObjectInputStrebm s)
+                throws ClbssNotFoundException, IOException {
+            s.defbultRebdObject();
+            Object vblue = s.rebdObject();
+            if (vblue != null) {
+                style = CSS.getVblue((String)vblue);
             }
         }
 
-        // CSS.Values are static, don't archive it.
-        transient private CSS.Value style;
+        // CSS.Vblues bre stbtic, don't brchive it.
+        trbnsient privbte CSS.Vblue style;
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class LengthValue extends CssValue {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss LengthVblue extends CssVblue {
 
         /**
-         * if this length value may be negative.
+         * if this length vblue mby be negbtive.
          */
-        boolean mayBeNegative;
+        boolebn mbyBeNegbtive;
 
-        LengthValue() {
-            this(false);
+        LengthVblue() {
+            this(fblse);
         }
 
-        LengthValue(boolean mayBeNegative) {
-            this.mayBeNegative = mayBeNegative;
-        }
-
-        /**
-         * Returns the length (span) to use.
-         */
-        float getValue() {
-            return getValue(false);
-        }
-
-        float getValue(boolean isW3CLengthUnits) {
-            return getValue(0, isW3CLengthUnits);
+        LengthVblue(boolebn mbyBeNegbtive) {
+            this.mbyBeNegbtive = mbyBeNegbtive;
         }
 
         /**
-         * Returns the length (span) to use. If the value represents
-         * a percentage, it is scaled based on <code>currentValue</code>.
+         * Returns the length (spbn) to use.
          */
-        float getValue(float currentValue) {
-            return getValue(currentValue, false);
+        flobt getVblue() {
+            return getVblue(fblse);
         }
-        float getValue(float currentValue, boolean isW3CLengthUnits) {
-            if (percentage) {
-                return span * currentValue;
+
+        flobt getVblue(boolebn isW3CLengthUnits) {
+            return getVblue(0, isW3CLengthUnits);
+        }
+
+        /**
+         * Returns the length (spbn) to use. If the vblue represents
+         * b percentbge, it is scbled bbsed on <code>currentVblue</code>.
+         */
+        flobt getVblue(flobt currentVblue) {
+            return getVblue(currentVblue, fblse);
+        }
+        flobt getVblue(flobt currentVblue, boolebn isW3CLengthUnits) {
+            if (percentbge) {
+                return spbn * currentVblue;
             }
-            return LengthUnit.getValue(span, units, isW3CLengthUnits);
+            return LengthUnit.getVblue(spbn, units, isW3CLengthUnits);
         }
 
         /**
-         * Returns true if the length represents a percentage of the
-         * containing box.
+         * Returns true if the length represents b percentbge of the
+         * contbining box.
          */
-        boolean isPercentage() {
-            return percentage;
+        boolebn isPercentbge() {
+            return percentbge;
         }
 
-        Object parseCssValue(String value) {
-            LengthValue lv;
+        Object pbrseCssVblue(String vblue) {
+            LengthVblue lv;
             try {
                 // Assume pixels
-                float absolute = Float.valueOf(value).floatValue();
-                lv = new LengthValue();
-                lv.span = absolute;
-            } catch (NumberFormatException nfe) {
+                flobt bbsolute = Flobt.vblueOf(vblue).flobtVblue();
+                lv = new LengthVblue();
+                lv.spbn = bbsolute;
+            } cbtch (NumberFormbtException nfe) {
                 // Not pixels, use LengthUnit
-                LengthUnit lu = new LengthUnit(value,
+                LengthUnit lu = new LengthUnit(vblue,
                                                LengthUnit.UNINITALIZED_LENGTH,
                                                0);
 
-                // PENDING: currently, we only support absolute values and
-                // percentages.
+                // PENDING: currently, we only support bbsolute vblues bnd
+                // percentbges.
                 switch (lu.type) {
-                case 0:
+                cbse 0:
                     // Absolute
-                    lv = new LengthValue();
-                    lv.span =
-                        (mayBeNegative) ? lu.value : Math.max(0, lu.value);
+                    lv = new LengthVblue();
+                    lv.spbn =
+                        (mbyBeNegbtive) ? lu.vblue : Mbth.mbx(0, lu.vblue);
                     lv.units = lu.units;
-                    break;
-                case 1:
+                    brebk;
+                cbse 1:
                     // %
-                    lv = new LengthValue();
-                    lv.span = Math.max(0, Math.min(1, lu.value));
-                    lv.percentage = true;
-                    break;
-                default:
+                    lv = new LengthVblue();
+                    lv.spbn = Mbth.mbx(0, Mbth.min(1, lu.vblue));
+                    lv.percentbge = true;
+                    brebk;
+                defbult:
                     return null;
                 }
             }
-            lv.svalue = value;
+            lv.svblue = vblue;
             return lv;
         }
 
-        Object parseHtmlValue(String value) {
-            if (value.equals(HTML.NULL_ATTRIBUTE_VALUE)) {
-                value = "1";
+        Object pbrseHtmlVblue(String vblue) {
+            if (vblue.equbls(HTML.NULL_ATTRIBUTE_VALUE)) {
+                vblue = "1";
             }
-            return parseCssValue(value);
+            return pbrseCssVblue(vblue);
         }
         /**
-         * Converts a <code>StyleConstants</code> attribute value to
-         * a CSS attribute value.  If there is no conversion,
-         * returns <code>null</code>.  By default, there is no conversion.
+         * Converts b <code>StyleConstbnts</code> bttribute vblue to
+         * b CSS bttribute vblue.  If there is no conversion,
+         * returns <code>null</code>.  By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @param value the value of a <code>StyleConstants</code>
-         *   attribute to be converted
-         * @return the CSS value that represents the
-         *   <code>StyleConstants</code> value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @pbrbm vblue the vblue of b <code>StyleConstbnts</code>
+         *   bttribute to be converted
+         * @return the CSS vblue thbt represents the
+         *   <code>StyleConstbnts</code> vblue
          */
-        Object fromStyleConstants(StyleConstants key, Object value) {
-            LengthValue v = new LengthValue();
-            v.svalue = value.toString();
-            v.span = ((Float)value).floatValue();
+        Object fromStyleConstbnts(StyleConstbnts key, Object vblue) {
+            LengthVblue v = new LengthVblue();
+            v.svblue = vblue.toString();
+            v.spbn = ((Flobt)vblue).flobtVblue();
             return v;
         }
 
         /**
-         * Converts a CSS attribute value to a <code>StyleConstants</code>
-         * value.  If there is no conversion, returns <code>null</code>.
-         * By default, there is no conversion.
+         * Converts b CSS bttribute vblue to b <code>StyleConstbnts</code>
+         * vblue.  If there is no conversion, returns <code>null</code>.
+         * By defbult, there is no conversion.
          *
-         * @param key the <code>StyleConstants</code> attribute
-         * @return the <code>StyleConstants</code> attribute value that
-         *   represents the CSS attribute value
+         * @pbrbm key the <code>StyleConstbnts</code> bttribute
+         * @return the <code>StyleConstbnts</code> bttribute vblue thbt
+         *   represents the CSS bttribute vblue
          */
-        Object toStyleConstants(StyleConstants key, View v) {
-            return new Float(getValue(false));
+        Object toStyleConstbnts(StyleConstbnts key, View v) {
+            return new Flobt(getVblue(fblse));
         }
 
-        /** If true, span is a percentage value, and that to determine
-         * the length another value needs to be passed in. */
-        boolean percentage;
-        /** Either the absolute value (percentage == false) or
-         * a percentage value. */
-        float span;
+        /** If true, spbn is b percentbge vblue, bnd thbt to determine
+         * the length bnother vblue needs to be pbssed in. */
+        boolebn percentbge;
+        /** Either the bbsolute vblue (percentbge == fblse) or
+         * b percentbge vblue. */
+        flobt spbn;
 
         String units = null;
     }
 
 
     /**
-     * BorderWidthValue is used to model BORDER_XXX_WIDTH and adds support
-     * for the thin/medium/thick values.
+     * BorderWidthVblue is used to model BORDER_XXX_WIDTH bnd bdds support
+     * for the thin/medium/thick vblues.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class BorderWidthValue extends LengthValue {
-        BorderWidthValue(String svalue, int index) {
-            this.svalue = svalue;
-            span = values[index];
-            percentage = false;
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss BorderWidthVblue extends LengthVblue {
+        BorderWidthVblue(String svblue, int index) {
+            this.svblue = svblue;
+            spbn = vblues[index];
+            percentbge = fblse;
         }
 
-        Object parseCssValue(String value) {
-            if (value != null) {
-                if (value.equals("thick")) {
-                    return new BorderWidthValue(value, 2);
+        Object pbrseCssVblue(String vblue) {
+            if (vblue != null) {
+                if (vblue.equbls("thick")) {
+                    return new BorderWidthVblue(vblue, 2);
                 }
-                else if (value.equals("medium")) {
-                    return new BorderWidthValue(value, 1);
+                else if (vblue.equbls("medium")) {
+                    return new BorderWidthVblue(vblue, 1);
                 }
-                else if (value.equals("thin")) {
-                    return new BorderWidthValue(value, 0);
+                else if (vblue.equbls("thin")) {
+                    return new BorderWidthVblue(vblue, 0);
                 }
             }
-            // Assume its a length.
-            return super.parseCssValue(value);
+            // Assume its b length.
+            return super.pbrseCssVblue(vblue);
         }
 
-        Object parseHtmlValue(String value) {
-            if (value == HTML.NULL_ATTRIBUTE_VALUE) {
-                return parseCssValue("medium");
+        Object pbrseHtmlVblue(String vblue) {
+            if (vblue == HTML.NULL_ATTRIBUTE_VALUE) {
+                return pbrseCssVblue("medium");
             }
-            return parseCssValue(value);
+            return pbrseCssVblue(vblue);
         }
 
-        /** Values used to represent border width. */
-        private static final float[] values = { 1, 2, 4 };
+        /** Vblues used to represent border width. */
+        privbte stbtic finbl flobt[] vblues = { 1, 2, 4 };
    }
 
 
     /**
-     * Handles uniquing of CSS values, like lists, and background image
-     * repeating.
+     * Hbndles uniquing of CSS vblues, like lists, bnd bbckground imbge
+     * repebting.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class CssValueMapper extends CssValue {
-        Object parseCssValue(String value) {
-            Object retValue = cssValueToInternalValueMap.get(value);
-            if (retValue == null) {
-                retValue = cssValueToInternalValueMap.get(value.toLowerCase());
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss CssVblueMbpper extends CssVblue {
+        Object pbrseCssVblue(String vblue) {
+            Object retVblue = cssVblueToInternblVblueMbp.get(vblue);
+            if (retVblue == null) {
+                retVblue = cssVblueToInternblVblueMbp.get(vblue.toLowerCbse());
             }
-            return retValue;
+            return retVblue;
         }
 
 
-        Object parseHtmlValue(String value) {
-            Object retValue = htmlValueToCssValueMap.get(value);
-            if (retValue == null) {
-                retValue = htmlValueToCssValueMap.get(value.toLowerCase());
+        Object pbrseHtmlVblue(String vblue) {
+            Object retVblue = htmlVblueToCssVblueMbp.get(vblue);
+            if (retVblue == null) {
+                retVblue = htmlVblueToCssVblueMbp.get(vblue.toLowerCbse());
             }
-            return retValue;
+            return retVblue;
         }
     }
 
 
     /**
-     * Used for background images, to represent the position.
+     * Used for bbckground imbges, to represent the position.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class BackgroundPosition extends CssValue {
-        float horizontalPosition;
-        float verticalPosition;
-        // bitmask: bit 0, horizontal relative, bit 1 horizontal relative to
-        // font size, 2 vertical relative to size, 3 vertical relative to
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss BbckgroundPosition extends CssVblue {
+        flobt horizontblPosition;
+        flobt verticblPosition;
+        // bitmbsk: bit 0, horizontbl relbtive, bit 1 horizontbl relbtive to
+        // font size, 2 verticbl relbtive to size, 3 verticbl relbtive to
         // font size.
         //
-        short relative;
+        short relbtive;
 
-        Object parseCssValue(String value) {
-            // 'top left' and 'left top' both mean the same as '0% 0%'.
-            // 'top', 'top center' and 'center top' mean the same as '50% 0%'.
-            // 'right top' and 'top right' mean the same as '100% 0%'.
-            // 'left', 'left center' and 'center left' mean the same as
+        Object pbrseCssVblue(String vblue) {
+            // 'top left' bnd 'left top' both mebn the sbme bs '0% 0%'.
+            // 'top', 'top center' bnd 'center top' mebn the sbme bs '50% 0%'.
+            // 'right top' bnd 'top right' mebn the sbme bs '100% 0%'.
+            // 'left', 'left center' bnd 'center left' mebn the sbme bs
             //        '0% 50%'.
-            // 'center' and 'center center' mean the same as '50% 50%'.
-            // 'right', 'right center' and 'center right' mean the same as
+            // 'center' bnd 'center center' mebn the sbme bs '50% 50%'.
+            // 'right', 'right center' bnd 'center right' mebn the sbme bs
             //        '100% 50%'.
-            // 'bottom left' and 'left bottom' mean the same as '0% 100%'.
-            // 'bottom', 'bottom center' and 'center bottom' mean the same as
+            // 'bottom left' bnd 'left bottom' mebn the sbme bs '0% 100%'.
+            // 'bottom', 'bottom center' bnd 'center bottom' mebn the sbme bs
             //        '50% 100%'.
-            // 'bottom right' and 'right bottom' mean the same as '100% 100%'.
-            String[]  strings = CSS.parseStrings(value);
+            // 'bottom right' bnd 'right bottom' mebn the sbme bs '100% 100%'.
+            String[]  strings = CSS.pbrseStrings(vblue);
             int count = strings.length;
-            BackgroundPosition bp = new BackgroundPosition();
-            bp.relative = 5;
-            bp.svalue = value;
+            BbckgroundPosition bp = new BbckgroundPosition();
+            bp.relbtive = 5;
+            bp.svblue = vblue;
 
             if (count > 0) {
                 // bit 0 for vert, 1 hor, 2 for center
@@ -2674,29 +2674,29 @@ public class CSS implements Serializable {
                 while (index < count) {
                     // First, check for keywords
                     String string = strings[index++];
-                    if (string.equals("center")) {
+                    if (string.equbls("center")) {
                         found |= 4;
                         continue;
                     }
                     else {
                         if ((found & 1) == 0) {
-                            if (string.equals("top")) {
+                            if (string.equbls("top")) {
                                 found |= 1;
                             }
-                            else if (string.equals("bottom")) {
+                            else if (string.equbls("bottom")) {
                                 found |= 1;
-                                bp.verticalPosition = 1;
+                                bp.verticblPosition = 1;
                                 continue;
                             }
                         }
                         if ((found & 2) == 0) {
-                            if (string.equals("left")) {
+                            if (string.equbls("left")) {
                                 found |= 2;
-                                bp.horizontalPosition = 0;
+                                bp.horizontblPosition = 0;
                             }
-                            else if (string.equals("right")) {
+                            else if (string.equbls("right")) {
                                 found |= 2;
-                                bp.horizontalPosition = 1;
+                                bp.horizontblPosition = 1;
                             }
                         }
                     }
@@ -2704,17 +2704,17 @@ public class CSS implements Serializable {
                 if (found != 0) {
                     if ((found & 1) == 1) {
                         if ((found & 2) == 0) {
-                            // vert and no horiz.
-                            bp.horizontalPosition = .5f;
+                            // vert bnd no horiz.
+                            bp.horizontblPosition = .5f;
                         }
                     }
                     else if ((found & 2) == 2) {
-                        // horiz and no vert.
-                        bp.verticalPosition = .5f;
+                        // horiz bnd no vert.
+                        bp.verticblPosition = .5f;
                     }
                     else {
                         // no horiz, no vert, but center
-                        bp.horizontalPosition = bp.verticalPosition = .5f;
+                        bp.horizontblPosition = bp.verticblPosition = .5f;
                     }
                 }
                 else {
@@ -2722,323 +2722,323 @@ public class CSS implements Serializable {
                     LengthUnit lu = new LengthUnit(strings[0], (short)0, 0f);
 
                     if (lu.type == 0) {
-                        bp.horizontalPosition = lu.value;
-                        bp.relative = (short)(1 ^ bp.relative);
+                        bp.horizontblPosition = lu.vblue;
+                        bp.relbtive = (short)(1 ^ bp.relbtive);
                     }
                     else if (lu.type == 1) {
-                        bp.horizontalPosition = lu.value;
+                        bp.horizontblPosition = lu.vblue;
                     }
                     else if (lu.type == 3) {
-                        bp.horizontalPosition = lu.value;
-                        bp.relative = (short)((1 ^ bp.relative) | 2);
+                        bp.horizontblPosition = lu.vblue;
+                        bp.relbtive = (short)((1 ^ bp.relbtive) | 2);
                     }
                     if (count > 1) {
                         lu = new LengthUnit(strings[1], (short)0, 0f);
 
                         if (lu.type == 0) {
-                            bp.verticalPosition = lu.value;
-                            bp.relative = (short)(4 ^ bp.relative);
+                            bp.verticblPosition = lu.vblue;
+                            bp.relbtive = (short)(4 ^ bp.relbtive);
                         }
                         else if (lu.type == 1) {
-                            bp.verticalPosition = lu.value;
+                            bp.verticblPosition = lu.vblue;
                         }
                         else if (lu.type == 3) {
-                            bp.verticalPosition = lu.value;
-                            bp.relative = (short)((4 ^ bp.relative) | 8);
+                            bp.verticblPosition = lu.vblue;
+                            bp.relbtive = (short)((4 ^ bp.relbtive) | 8);
                         }
                     }
                     else {
-                        bp.verticalPosition = .5f;
+                        bp.verticblPosition = .5f;
                     }
                 }
             }
             return bp;
         }
 
-        boolean isHorizontalPositionRelativeToSize() {
-            return ((relative & 1) == 1);
+        boolebn isHorizontblPositionRelbtiveToSize() {
+            return ((relbtive & 1) == 1);
         }
 
-        boolean isHorizontalPositionRelativeToFontSize() {
-            return ((relative & 2) == 2);
+        boolebn isHorizontblPositionRelbtiveToFontSize() {
+            return ((relbtive & 2) == 2);
         }
 
-        float getHorizontalPosition() {
-            return horizontalPosition;
+        flobt getHorizontblPosition() {
+            return horizontblPosition;
         }
 
-        boolean isVerticalPositionRelativeToSize() {
-            return ((relative & 4) == 4);
+        boolebn isVerticblPositionRelbtiveToSize() {
+            return ((relbtive & 4) == 4);
         }
 
-        boolean isVerticalPositionRelativeToFontSize() {
-            return ((relative & 8) == 8);
+        boolebn isVerticblPositionRelbtiveToFontSize() {
+            return ((relbtive & 8) == 8);
         }
 
-        float getVerticalPosition() {
-            return verticalPosition;
+        flobt getVerticblPosition() {
+            return verticblPosition;
         }
     }
 
 
     /**
-     * Used for BackgroundImages.
+     * Used for BbckgroundImbges.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class BackgroundImage extends CssValue {
-        private boolean    loadedImage;
-        private ImageIcon  image;
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss BbckgroundImbge extends CssVblue {
+        privbte boolebn    lobdedImbge;
+        privbte ImbgeIcon  imbge;
 
-        Object parseCssValue(String value) {
-            BackgroundImage retValue = new BackgroundImage();
-            retValue.svalue = value;
-            return retValue;
+        Object pbrseCssVblue(String vblue) {
+            BbckgroundImbge retVblue = new BbckgroundImbge();
+            retVblue.svblue = vblue;
+            return retVblue;
         }
 
-        Object parseHtmlValue(String value) {
-            return parseCssValue(value);
+        Object pbrseHtmlVblue(String vblue) {
+            return pbrseCssVblue(vblue);
         }
 
-        // PENDING: this base is wrong for linked style sheets.
-        ImageIcon getImage(URL base) {
-            if (!loadedImage) {
+        // PENDING: this bbse is wrong for linked style sheets.
+        ImbgeIcon getImbge(URL bbse) {
+            if (!lobdedImbge) {
                 synchronized(this) {
-                    if (!loadedImage) {
-                        URL url = CSS.getURL(base, svalue);
-                        loadedImage = true;
+                    if (!lobdedImbge) {
+                        URL url = CSS.getURL(bbse, svblue);
+                        lobdedImbge = true;
                         if (url != null) {
-                            image = new ImageIcon();
-                            Image tmpImg = Toolkit.getDefaultToolkit().createImage(url);
+                            imbge = new ImbgeIcon();
+                            Imbge tmpImg = Toolkit.getDefbultToolkit().crebteImbge(url);
                             if (tmpImg != null) {
-                                image.setImage(tmpImg);
+                                imbge.setImbge(tmpImg);
                             }
                         }
                     }
                 }
             }
-            return image;
+            return imbge;
         }
     }
 
     /**
-     * Parses a length value, this is used internally, and never added
-     * to an AttributeSet or returned to the developer.
+     * Pbrses b length vblue, this is used internblly, bnd never bdded
+     * to bn AttributeSet or returned to the developer.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class LengthUnit implements Serializable {
-        static Hashtable<String, Float> lengthMapping = new Hashtable<String, Float>(6);
-        static Hashtable<String, Float> w3cLengthMapping = new Hashtable<String, Float>(6);
-        static {
-            lengthMapping.put("pt", new Float(1f));
-            // Not sure about 1.3, determined by experiementation.
-            lengthMapping.put("px", new Float(1.3f));
-            lengthMapping.put("mm", new Float(2.83464f));
-            lengthMapping.put("cm", new Float(28.3464f));
-            lengthMapping.put("pc", new Float(12f));
-            lengthMapping.put("in", new Float(72f));
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss LengthUnit implements Seriblizbble {
+        stbtic Hbshtbble<String, Flobt> lengthMbpping = new Hbshtbble<String, Flobt>(6);
+        stbtic Hbshtbble<String, Flobt> w3cLengthMbpping = new Hbshtbble<String, Flobt>(6);
+        stbtic {
+            lengthMbpping.put("pt", new Flobt(1f));
+            // Not sure bbout 1.3, determined by experiementbtion.
+            lengthMbpping.put("px", new Flobt(1.3f));
+            lengthMbpping.put("mm", new Flobt(2.83464f));
+            lengthMbpping.put("cm", new Flobt(28.3464f));
+            lengthMbpping.put("pc", new Flobt(12f));
+            lengthMbpping.put("in", new Flobt(72f));
             int res = 72;
             try {
-                res = Toolkit.getDefaultToolkit().getScreenResolution();
-            } catch (HeadlessException e) {
+                res = Toolkit.getDefbultToolkit().getScreenResolution();
+            } cbtch (HebdlessException e) {
             }
-            // mapping according to the CSS2 spec
-            w3cLengthMapping.put("pt", new Float(res/72f));
-            w3cLengthMapping.put("px", new Float(1f));
-            w3cLengthMapping.put("mm", new Float(res/25.4f));
-            w3cLengthMapping.put("cm", new Float(res/2.54f));
-            w3cLengthMapping.put("pc", new Float(res/6f));
-            w3cLengthMapping.put("in", new Float(res));
+            // mbpping bccording to the CSS2 spec
+            w3cLengthMbpping.put("pt", new Flobt(res/72f));
+            w3cLengthMbpping.put("px", new Flobt(1f));
+            w3cLengthMbpping.put("mm", new Flobt(res/25.4f));
+            w3cLengthMbpping.put("cm", new Flobt(res/2.54f));
+            w3cLengthMbpping.put("pc", new Flobt(res/6f));
+            w3cLengthMbpping.put("in", new Flobt(res));
         }
 
-        LengthUnit(String value, short defaultType, float defaultValue) {
-            parse(value, defaultType, defaultValue);
+        LengthUnit(String vblue, short defbultType, flobt defbultVblue) {
+            pbrse(vblue, defbultType, defbultVblue);
         }
 
-        void parse(String value, short defaultType, float defaultValue) {
-            type = defaultType;
-            this.value = defaultValue;
+        void pbrse(String vblue, short defbultType, flobt defbultVblue) {
+            type = defbultType;
+            this.vblue = defbultVblue;
 
-            int length = value.length();
-            if (length > 0 && value.charAt(length - 1) == '%') {
+            int length = vblue.length();
+            if (length > 0 && vblue.chbrAt(length - 1) == '%') {
                 try {
-                    this.value = Float.valueOf(value.substring(0, length - 1)).
-                                               floatValue() / 100.0f;
+                    this.vblue = Flobt.vblueOf(vblue.substring(0, length - 1)).
+                                               flobtVblue() / 100.0f;
                     type = 1;
                 }
-                catch (NumberFormatException nfe) { }
+                cbtch (NumberFormbtException nfe) { }
             }
             if (length >= 2) {
-                units = value.substring(length - 2, length);
-                Float scale = lengthMapping.get(units);
-                if (scale != null) {
+                units = vblue.substring(length - 2, length);
+                Flobt scble = lengthMbpping.get(units);
+                if (scble != null) {
                     try {
-                        this.value = Float.valueOf(value.substring(0,
-                               length - 2)).floatValue();
+                        this.vblue = Flobt.vblueOf(vblue.substring(0,
+                               length - 2)).flobtVblue();
                         type = 0;
                     }
-                    catch (NumberFormatException nfe) { }
+                    cbtch (NumberFormbtException nfe) { }
                 }
-                else if (units.equals("em") ||
-                         units.equals("ex")) {
+                else if (units.equbls("em") ||
+                         units.equbls("ex")) {
                     try {
-                        this.value = Float.valueOf(value.substring(0,
-                                      length - 2)).floatValue();
+                        this.vblue = Flobt.vblueOf(vblue.substring(0,
+                                      length - 2)).flobtVblue();
                         type = 3;
                     }
-                    catch (NumberFormatException nfe) { }
+                    cbtch (NumberFormbtException nfe) { }
                 }
-                else if (value.equals("larger")) {
-                    this.value = 2f;
+                else if (vblue.equbls("lbrger")) {
+                    this.vblue = 2f;
                     type = 2;
                 }
-                else if (value.equals("smaller")) {
-                    this.value = -2;
+                else if (vblue.equbls("smbller")) {
+                    this.vblue = -2;
                     type = 2;
                 }
                 else {
-                    // treat like points.
+                    // trebt like points.
                     try {
-                        this.value = Float.valueOf(value).floatValue();
+                        this.vblue = Flobt.vblueOf(vblue).flobtVblue();
                         type = 0;
-                    } catch (NumberFormatException nfe) {}
+                    } cbtch (NumberFormbtException nfe) {}
                 }
             }
             else if (length > 0) {
-                // treat like points.
+                // trebt like points.
                 try {
-                    this.value = Float.valueOf(value).floatValue();
+                    this.vblue = Flobt.vblueOf(vblue).flobtVblue();
                     type = 0;
-                } catch (NumberFormatException nfe) {}
+                } cbtch (NumberFormbtException nfe) {}
             }
         }
 
-        float getValue(boolean w3cLengthUnits) {
-            Hashtable<String, Float> mapping = (w3cLengthUnits) ? w3cLengthMapping : lengthMapping;
-            float scale = 1;
+        flobt getVblue(boolebn w3cLengthUnits) {
+            Hbshtbble<String, Flobt> mbpping = (w3cLengthUnits) ? w3cLengthMbpping : lengthMbpping;
+            flobt scble = 1;
             if (units != null) {
-                Float scaleFloat = mapping.get(units);
-                if (scaleFloat != null) {
-                    scale = scaleFloat.floatValue();
+                Flobt scbleFlobt = mbpping.get(units);
+                if (scbleFlobt != null) {
+                    scble = scbleFlobt.flobtVblue();
                 }
             }
-            return this.value * scale;
+            return this.vblue * scble;
 
         }
 
-        static float getValue(float value, String units, Boolean w3cLengthUnits) {
-            Hashtable<String, Float> mapping = (w3cLengthUnits) ? w3cLengthMapping : lengthMapping;
-            float scale = 1;
+        stbtic flobt getVblue(flobt vblue, String units, Boolebn w3cLengthUnits) {
+            Hbshtbble<String, Flobt> mbpping = (w3cLengthUnits) ? w3cLengthMbpping : lengthMbpping;
+            flobt scble = 1;
             if (units != null) {
-                Float scaleFloat = mapping.get(units);
-                if (scaleFloat != null) {
-                    scale = scaleFloat.floatValue();
+                Flobt scbleFlobt = mbpping.get(units);
+                if (scbleFlobt != null) {
+                    scble = scbleFlobt.flobtVblue();
                 }
             }
-            return value * scale;
+            return vblue * scble;
         }
 
         public String toString() {
-            return type + " " + value;
+            return type + " " + vblue;
         }
 
-        // 0 - value indicates real value
-        // 1 - % value, value relative to depends upon key.
-        //     50% will have a value = .5
-        // 2 - add value to parent value.
-        // 3 - em/ex relative to font size of element (except for
-        //     font-size, which is relative to parent).
+        // 0 - vblue indicbtes rebl vblue
+        // 1 - % vblue, vblue relbtive to depends upon key.
+        //     50% will hbve b vblue = .5
+        // 2 - bdd vblue to pbrent vblue.
+        // 3 - em/ex relbtive to font size of element (except for
+        //     font-size, which is relbtive to pbrent).
         short type;
-        float value;
+        flobt vblue;
         String units = null;
 
 
-        static final short UNINITALIZED_LENGTH = (short)10;
+        stbtic finbl short UNINITALIZED_LENGTH = (short)10;
     }
 
 
     /**
-     * Class used to parse font property. The font property is shorthand
-     * for the other font properties. This expands the properties, placing
-     * them in the attributeset.
+     * Clbss used to pbrse font property. The font property is shorthbnd
+     * for the other font properties. This expbnds the properties, plbcing
+     * them in the bttributeset.
      */
-    static class ShorthandFontParser {
+    stbtic clbss ShorthbndFontPbrser {
         /**
-         * Parses the shorthand font string <code>value</code>, placing the
-         * result in <code>attr</code>.
+         * Pbrses the shorthbnd font string <code>vblue</code>, plbcing the
+         * result in <code>bttr</code>.
          */
-        static void parseShorthandFont(CSS css, String value,
-                                       MutableAttributeSet attr) {
+        stbtic void pbrseShorthbndFont(CSS css, String vblue,
+                                       MutbbleAttributeSet bttr) {
             // font is of the form:
-            // [ <font-style> || <font-variant> || <font-weight> ]? <font-size>
-            //   [ / <line-height> ]? <font-family>
-            String[]   strings = CSS.parseStrings(value);
+            // [ <font-style> || <font-vbribnt> || <font-weight> ]? <font-size>
+            //   [ / <line-height> ]? <font-fbmily>
+            String[]   strings = CSS.pbrseStrings(vblue);
             int        count = strings.length;
             int        index = 0;
-            // bitmask, 1 for style, 2 for variant, 3 for weight
+            // bitmbsk, 1 for style, 2 for vbribnt, 3 for weight
             short      found = 0;
-            int        maxC = Math.min(3, count);
+            int        mbxC = Mbth.min(3, count);
 
-            // Check for font-style font-variant font-weight
-            while (index < maxC) {
+            // Check for font-style font-vbribnt font-weight
+            while (index < mbxC) {
                 if ((found & 1) == 0 && isFontStyle(strings[index])) {
-                    css.addInternalCSSValue(attr, CSS.Attribute.FONT_STYLE,
+                    css.bddInternblCSSVblue(bttr, CSS.Attribute.FONT_STYLE,
                                             strings[index++]);
                     found |= 1;
                 }
-                else if ((found & 2) == 0 && isFontVariant(strings[index])) {
-                    css.addInternalCSSValue(attr, CSS.Attribute.FONT_VARIANT,
+                else if ((found & 2) == 0 && isFontVbribnt(strings[index])) {
+                    css.bddInternblCSSVblue(bttr, CSS.Attribute.FONT_VARIANT,
                                             strings[index++]);
                     found |= 2;
                 }
                 else if ((found & 4) == 0 && isFontWeight(strings[index])) {
-                    css.addInternalCSSValue(attr, CSS.Attribute.FONT_WEIGHT,
+                    css.bddInternblCSSVblue(bttr, CSS.Attribute.FONT_WEIGHT,
                                             strings[index++]);
                     found |= 4;
                 }
-                else if (strings[index].equals("normal")) {
+                else if (strings[index].equbls("normbl")) {
                     index++;
                 }
                 else {
-                    break;
+                    brebk;
                 }
             }
             if ((found & 1) == 0) {
-                css.addInternalCSSValue(attr, CSS.Attribute.FONT_STYLE,
-                                        "normal");
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.FONT_STYLE,
+                                        "normbl");
             }
             if ((found & 2) == 0) {
-                css.addInternalCSSValue(attr, CSS.Attribute.FONT_VARIANT,
-                                        "normal");
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.FONT_VARIANT,
+                                        "normbl");
             }
             if ((found & 4) == 0) {
-                css.addInternalCSSValue(attr, CSS.Attribute.FONT_WEIGHT,
-                                        "normal");
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.FONT_WEIGHT,
+                                        "normbl");
             }
 
-            // string at index should be the font-size
+            // string bt index should be the font-size
             if (index < count) {
                 String fontSize = strings[index];
-                int slashIndex = fontSize.indexOf('/');
+                int slbshIndex = fontSize.indexOf('/');
 
-                if (slashIndex != -1) {
-                    fontSize = fontSize.substring(0, slashIndex);
-                    strings[index] = strings[index].substring(slashIndex);
+                if (slbshIndex != -1) {
+                    fontSize = fontSize.substring(0, slbshIndex);
+                    strings[index] = strings[index].substring(slbshIndex);
                 }
                 else {
                     index++;
                 }
-                css.addInternalCSSValue(attr, CSS.Attribute.FONT_SIZE,
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.FONT_SIZE,
                                         fontSize);
             }
             else {
-                css.addInternalCSSValue(attr, CSS.Attribute.FONT_SIZE,
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.FONT_SIZE,
                                         "medium");
             }
 
             // Check for line height
-            if (index < count && strings[index].startsWith("/")) {
+            if (index < count && strings[index].stbrtsWith("/")) {
                 String lineHeight = null;
-                if (strings[index].equals("/")) {
+                if (strings[index].equbls("/")) {
                     if (++index < count) {
                         lineHeight = strings[index++];
                     }
@@ -3048,252 +3048,252 @@ public class CSS implements Serializable {
                 }
                 // line height
                 if (lineHeight != null) {
-                    css.addInternalCSSValue(attr, CSS.Attribute.LINE_HEIGHT,
+                    css.bddInternblCSSVblue(bttr, CSS.Attribute.LINE_HEIGHT,
                                             lineHeight);
                 }
                 else {
-                    css.addInternalCSSValue(attr, CSS.Attribute.LINE_HEIGHT,
-                                            "normal");
+                    css.bddInternblCSSVblue(bttr, CSS.Attribute.LINE_HEIGHT,
+                                            "normbl");
                 }
             }
             else {
-                css.addInternalCSSValue(attr, CSS.Attribute.LINE_HEIGHT,
-                                        "normal");
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.LINE_HEIGHT,
+                                        "normbl");
             }
 
-            // remainder of strings are font-family
+            // rembinder of strings bre font-fbmily
             if (index < count) {
-                String family = strings[index++];
+                String fbmily = strings[index++];
 
                 while (index < count) {
-                    family += " " + strings[index++];
+                    fbmily += " " + strings[index++];
                 }
-                css.addInternalCSSValue(attr, CSS.Attribute.FONT_FAMILY,
-                                        family);
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.FONT_FAMILY,
+                                        fbmily);
             }
             else {
-                css.addInternalCSSValue(attr, CSS.Attribute.FONT_FAMILY,
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.FONT_FAMILY,
                                         Font.SANS_SERIF);
             }
         }
 
-        private static boolean isFontStyle(String string) {
-            return (string.equals("italic") ||
-                    string.equals("oblique"));
+        privbte stbtic boolebn isFontStyle(String string) {
+            return (string.equbls("itblic") ||
+                    string.equbls("oblique"));
         }
 
-        private static boolean isFontVariant(String string) {
-            return (string.equals("small-caps"));
+        privbte stbtic boolebn isFontVbribnt(String string) {
+            return (string.equbls("smbll-cbps"));
         }
 
-        private static boolean isFontWeight(String string) {
-            if (string.equals("bold") || string.equals("bolder") ||
-                string.equals("italic") || string.equals("lighter")) {
+        privbte stbtic boolebn isFontWeight(String string) {
+            if (string.equbls("bold") || string.equbls("bolder") ||
+                string.equbls("itblic") || string.equbls("lighter")) {
                 return true;
             }
             // test for 100-900
             return (string.length() == 3 &&
-                    string.charAt(0) >= '1' && string.charAt(0) <= '9' &&
-                    string.charAt(1) == '0' && string.charAt(2) == '0');
+                    string.chbrAt(0) >= '1' && string.chbrAt(0) <= '9' &&
+                    string.chbrAt(1) == '0' && string.chbrAt(2) == '0');
         }
 
     }
 
 
     /**
-     * Parses the background property into its intrinsic values.
+     * Pbrses the bbckground property into its intrinsic vblues.
      */
-    static class ShorthandBackgroundParser {
+    stbtic clbss ShorthbndBbckgroundPbrser {
         /**
-         * Parses the shorthand font string <code>value</code>, placing the
-         * result in <code>attr</code>.
+         * Pbrses the shorthbnd font string <code>vblue</code>, plbcing the
+         * result in <code>bttr</code>.
          */
-        static void parseShorthandBackground(CSS css, String value,
-                                             MutableAttributeSet attr) {
-            String[] strings = parseStrings(value);
+        stbtic void pbrseShorthbndBbckground(CSS css, String vblue,
+                                             MutbbleAttributeSet bttr) {
+            String[] strings = pbrseStrings(vblue);
             int count = strings.length;
             int index = 0;
-            // bitmask: 0 for image, 1 repeat, 2 attachment, 3 position,
+            // bitmbsk: 0 for imbge, 1 repebt, 2 bttbchment, 3 position,
             //          4 color
             short found = 0;
 
             while (index < count) {
                 String string = strings[index++];
-                if ((found & 1) == 0 && isImage(string)) {
-                    css.addInternalCSSValue(attr, CSS.Attribute.
+                if ((found & 1) == 0 && isImbge(string)) {
+                    css.bddInternblCSSVblue(bttr, CSS.Attribute.
                                             BACKGROUND_IMAGE, string);
                     found |= 1;
                 }
-                else if ((found & 2) == 0 && isRepeat(string)) {
-                    css.addInternalCSSValue(attr, CSS.Attribute.
+                else if ((found & 2) == 0 && isRepebt(string)) {
+                    css.bddInternblCSSVblue(bttr, CSS.Attribute.
                                             BACKGROUND_REPEAT, string);
                     found |= 2;
                 }
-                else if ((found & 4) == 0 && isAttachment(string)) {
-                    css.addInternalCSSValue(attr, CSS.Attribute.
+                else if ((found & 4) == 0 && isAttbchment(string)) {
+                    css.bddInternblCSSVblue(bttr, CSS.Attribute.
                                             BACKGROUND_ATTACHMENT, string);
                     found |= 4;
                 }
                 else if ((found & 8) == 0 && isPosition(string)) {
                     if (index < count && isPosition(strings[index])) {
-                        css.addInternalCSSValue(attr, CSS.Attribute.
+                        css.bddInternblCSSVblue(bttr, CSS.Attribute.
                                                 BACKGROUND_POSITION,
                                                 string + " " +
                                                 strings[index++]);
                     }
                     else {
-                        css.addInternalCSSValue(attr, CSS.Attribute.
+                        css.bddInternblCSSVblue(bttr, CSS.Attribute.
                                                 BACKGROUND_POSITION, string);
                     }
                     found |= 8;
                 }
                 else if ((found & 16) == 0 && isColor(string)) {
-                    css.addInternalCSSValue(attr, CSS.Attribute.
+                    css.bddInternblCSSVblue(bttr, CSS.Attribute.
                                             BACKGROUND_COLOR, string);
                     found |= 16;
                 }
             }
             if ((found & 1) == 0) {
-                css.addInternalCSSValue(attr, CSS.Attribute.BACKGROUND_IMAGE,
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.BACKGROUND_IMAGE,
                                         null);
             }
             if ((found & 2) == 0) {
-                css.addInternalCSSValue(attr, CSS.Attribute.BACKGROUND_REPEAT,
-                                        "repeat");
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.BACKGROUND_REPEAT,
+                                        "repebt");
             }
             if ((found & 4) == 0) {
-                css.addInternalCSSValue(attr, CSS.Attribute.
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.
                                         BACKGROUND_ATTACHMENT, "scroll");
             }
             if ((found & 8) == 0) {
-                css.addInternalCSSValue(attr, CSS.Attribute.
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.
                                         BACKGROUND_POSITION, null);
             }
-            // Currently, there is no good way to express this.
+            // Currently, there is no good wby to express this.
             /*
             if ((found & 16) == 0) {
-                css.addInternalCSSValue(attr, CSS.Attribute.BACKGROUND_COLOR,
+                css.bddInternblCSSVblue(bttr, CSS.Attribute.BACKGROUND_COLOR,
                                         null);
             }
             */
         }
 
-        static boolean isImage(String string) {
-            return (string.startsWith("url(") && string.endsWith(")"));
+        stbtic boolebn isImbge(String string) {
+            return (string.stbrtsWith("url(") && string.endsWith(")"));
         }
 
-        static boolean isRepeat(String string) {
-            return (string.equals("repeat-x") || string.equals("repeat-y") ||
-                    string.equals("repeat") || string.equals("no-repeat"));
+        stbtic boolebn isRepebt(String string) {
+            return (string.equbls("repebt-x") || string.equbls("repebt-y") ||
+                    string.equbls("repebt") || string.equbls("no-repebt"));
         }
 
-        static boolean isAttachment(String string) {
-            return (string.equals("fixed") || string.equals("scroll"));
+        stbtic boolebn isAttbchment(String string) {
+            return (string.equbls("fixed") || string.equbls("scroll"));
         }
 
-        static boolean isPosition(String string) {
-            return (string.equals("top") || string.equals("bottom") ||
-                    string.equals("left") || string.equals("right") ||
-                    string.equals("center") ||
+        stbtic boolebn isPosition(String string) {
+            return (string.equbls("top") || string.equbls("bottom") ||
+                    string.equbls("left") || string.equbls("right") ||
+                    string.equbls("center") ||
                     (string.length() > 0 &&
-                     Character.isDigit(string.charAt(0))));
+                     Chbrbcter.isDigit(string.chbrAt(0))));
         }
 
-        static boolean isColor(String string) {
+        stbtic boolebn isColor(String string) {
             return (CSS.stringToColor(string) != null);
         }
     }
 
 
     /**
-     * Used to parser margin and padding.
+     * Used to pbrser mbrgin bnd pbdding.
      */
-    static class ShorthandMarginParser {
+    stbtic clbss ShorthbndMbrginPbrser {
         /**
-         * Parses the shorthand margin/padding/border string
-         * <code>value</code>, placing the result in <code>attr</code>.
-         * <code>names</code> give the 4 instrinsic property names.
+         * Pbrses the shorthbnd mbrgin/pbdding/border string
+         * <code>vblue</code>, plbcing the result in <code>bttr</code>.
+         * <code>nbmes</code> give the 4 instrinsic property nbmes.
          */
-        static void parseShorthandMargin(CSS css, String value,
-                                         MutableAttributeSet attr,
-                                         CSS.Attribute[] names) {
-            String[] strings = parseStrings(value);
+        stbtic void pbrseShorthbndMbrgin(CSS css, String vblue,
+                                         MutbbleAttributeSet bttr,
+                                         CSS.Attribute[] nbmes) {
+            String[] strings = pbrseStrings(vblue);
             int count = strings.length;
             int index = 0;
             switch (count) {
-            case 0:
+            cbse 0:
                 // empty string
                 return;
-            case 1:
-                // Identifies all values.
+            cbse 1:
+                // Identifies bll vblues.
                 for (int counter = 0; counter < 4; counter++) {
-                    css.addInternalCSSValue(attr, names[counter], strings[0]);
+                    css.bddInternblCSSVblue(bttr, nbmes[counter], strings[0]);
                 }
-                break;
-            case 2:
+                brebk;
+            cbse 2:
                 // 0 & 2 = strings[0], 1 & 3 = strings[1]
-                css.addInternalCSSValue(attr, names[0], strings[0]);
-                css.addInternalCSSValue(attr, names[2], strings[0]);
-                css.addInternalCSSValue(attr, names[1], strings[1]);
-                css.addInternalCSSValue(attr, names[3], strings[1]);
-                break;
-            case 3:
-                css.addInternalCSSValue(attr, names[0], strings[0]);
-                css.addInternalCSSValue(attr, names[1], strings[1]);
-                css.addInternalCSSValue(attr, names[2], strings[2]);
-                css.addInternalCSSValue(attr, names[3], strings[1]);
-                break;
-            default:
+                css.bddInternblCSSVblue(bttr, nbmes[0], strings[0]);
+                css.bddInternblCSSVblue(bttr, nbmes[2], strings[0]);
+                css.bddInternblCSSVblue(bttr, nbmes[1], strings[1]);
+                css.bddInternblCSSVblue(bttr, nbmes[3], strings[1]);
+                brebk;
+            cbse 3:
+                css.bddInternblCSSVblue(bttr, nbmes[0], strings[0]);
+                css.bddInternblCSSVblue(bttr, nbmes[1], strings[1]);
+                css.bddInternblCSSVblue(bttr, nbmes[2], strings[2]);
+                css.bddInternblCSSVblue(bttr, nbmes[3], strings[1]);
+                brebk;
+            defbult:
                 for (int counter = 0; counter < 4; counter++) {
-                    css.addInternalCSSValue(attr, names[counter],
+                    css.bddInternblCSSVblue(bttr, nbmes[counter],
                                             strings[counter]);
                 }
-                break;
+                brebk;
             }
         }
     }
 
-    static class ShorthandBorderParser {
-        static Attribute[] keys = {
+    stbtic clbss ShorthbndBorderPbrser {
+        stbtic Attribute[] keys = {
             Attribute.BORDER_TOP, Attribute.BORDER_RIGHT,
             Attribute.BORDER_BOTTOM, Attribute.BORDER_LEFT,
         };
 
-        static void parseShorthandBorder(MutableAttributeSet attributes,
-                                            CSS.Attribute key, String value) {
-            Object[] parts = new Object[CSSBorder.PARSERS.length];
-            String[] strings = parseStrings(value);
+        stbtic void pbrseShorthbndBorder(MutbbleAttributeSet bttributes,
+                                            CSS.Attribute key, String vblue) {
+            Object[] pbrts = new Object[CSSBorder.PARSERS.length];
+            String[] strings = pbrseStrings(vblue);
             for (String s : strings) {
-                boolean valid = false;
-                for (int i = 0; i < parts.length; i++) {
-                    Object v = CSSBorder.PARSERS[i].parseCssValue(s);
+                boolebn vblid = fblse;
+                for (int i = 0; i < pbrts.length; i++) {
+                    Object v = CSSBorder.PARSERS[i].pbrseCssVblue(s);
                     if (v != null) {
-                        if (parts[i] == null) {
-                            parts[i] = v;
-                            valid = true;
+                        if (pbrts[i] == null) {
+                            pbrts[i] = v;
+                            vblid = true;
                         }
-                        break;
+                        brebk;
                     }
                 }
-                if (!valid) {
-                    // Part is non-parseable or occurred more than once.
+                if (!vblid) {
+                    // Pbrt is non-pbrsebble or occurred more thbn once.
                     return;
                 }
             }
 
-            // Unspecified parts get default values.
-            for (int i = 0; i < parts.length; i++) {
-                if (parts[i] == null) {
-                    parts[i] = CSSBorder.DEFAULTS[i];
+            // Unspecified pbrts get defbult vblues.
+            for (int i = 0; i < pbrts.length; i++) {
+                if (pbrts[i] == null) {
+                    pbrts[i] = CSSBorder.DEFAULTS[i];
                 }
             }
 
-            // Dispatch collected values to individual properties.
+            // Dispbtch collected vblues to individubl properties.
             for (int i = 0; i < keys.length; i++) {
                 if ((key == Attribute.BORDER) || (key == keys[i])) {
-                    for (int k = 0; k < parts.length; k++) {
-                        attributes.addAttribute(
-                                        CSSBorder.ATTRIBUTES[k][i], parts[k]);
+                    for (int k = 0; k < pbrts.length; k++) {
+                        bttributes.bddAttribute(
+                                        CSSBorder.ATTRIBUTES[k][i], pbrts[k]);
                     }
                 }
             }
@@ -3301,180 +3301,180 @@ public class CSS implements Serializable {
     }
 
     /**
-     * Calculate the requirements needed to tile the requirements
-     * given by the iterator that would be tiled.  The calculation
-     * takes into consideration margin and border spacing.
+     * Cblculbte the requirements needed to tile the requirements
+     * given by the iterbtor thbt would be tiled.  The cblculbtion
+     * tbkes into considerbtion mbrgin bnd border spbcing.
      */
-    static SizeRequirements calculateTiledRequirements(LayoutIterator iter, SizeRequirements r) {
+    stbtic SizeRequirements cblculbteTiledRequirements(LbyoutIterbtor iter, SizeRequirements r) {
         long minimum = 0;
-        long maximum = 0;
+        long mbximum = 0;
         long preferred = 0;
-        int lastMargin = 0;
-        int totalSpacing = 0;
+        int lbstMbrgin = 0;
+        int totblSpbcing = 0;
         int n = iter.getCount();
         for (int i = 0; i < n; i++) {
             iter.setIndex(i);
-            int margin0 = lastMargin;
-            int margin1 = (int) iter.getLeadingCollapseSpan();
-            totalSpacing += Math.max(margin0, margin1);
-            preferred += (int) iter.getPreferredSpan(0);
-            minimum += iter.getMinimumSpan(0);
-            maximum += iter.getMaximumSpan(0);
+            int mbrgin0 = lbstMbrgin;
+            int mbrgin1 = (int) iter.getLebdingCollbpseSpbn();
+            totblSpbcing += Mbth.mbx(mbrgin0, mbrgin1);
+            preferred += (int) iter.getPreferredSpbn(0);
+            minimum += iter.getMinimumSpbn(0);
+            mbximum += iter.getMbximumSpbn(0);
 
-            lastMargin = (int) iter.getTrailingCollapseSpan();
+            lbstMbrgin = (int) iter.getTrbilingCollbpseSpbn();
         }
-        totalSpacing += lastMargin;
-        totalSpacing += 2 * iter.getBorderWidth();
+        totblSpbcing += lbstMbrgin;
+        totblSpbcing += 2 * iter.getBorderWidth();
 
-        // adjust for the spacing area
-        minimum += totalSpacing;
-        preferred += totalSpacing;
-        maximum += totalSpacing;
+        // bdjust for the spbcing breb
+        minimum += totblSpbcing;
+        preferred += totblSpbcing;
+        mbximum += totblSpbcing;
 
-        // set return value
+        // set return vblue
         if (r == null) {
             r = new SizeRequirements();
         }
         r.minimum = (minimum > Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int)minimum;
         r.preferred = (preferred > Integer.MAX_VALUE) ? Integer.MAX_VALUE :(int) preferred;
-        r.maximum = (maximum > Integer.MAX_VALUE) ? Integer.MAX_VALUE :(int) maximum;
+        r.mbximum = (mbximum > Integer.MAX_VALUE) ? Integer.MAX_VALUE :(int) mbximum;
         return r;
     }
 
     /**
-     * Calculate a tiled layout for the given iterator.
-     * This should be done collapsing the neighboring
-     * margins to be a total of the maximum of the two
-     * neighboring margin areas as described in the CSS spec.
+     * Cblculbte b tiled lbyout for the given iterbtor.
+     * This should be done collbpsing the neighboring
+     * mbrgins to be b totbl of the mbximum of the two
+     * neighboring mbrgin brebs bs described in the CSS spec.
      */
-    static void calculateTiledLayout(LayoutIterator iter, int targetSpan) {
+    stbtic void cblculbteTiledLbyout(LbyoutIterbtor iter, int tbrgetSpbn) {
 
         /*
-         * first pass, calculate the preferred sizes, adjustments needed because
-         * of margin collapsing, and the flexibility to adjust the sizes.
+         * first pbss, cblculbte the preferred sizes, bdjustments needed becbuse
+         * of mbrgin collbpsing, bnd the flexibility to bdjust the sizes.
          */
         long preferred = 0;
         long currentPreferred;
-        int lastMargin = 0;
-        int totalSpacing = 0;
+        int lbstMbrgin = 0;
+        int totblSpbcing = 0;
         int n = iter.getCount();
-        int adjustmentWeightsCount = LayoutIterator.WorstAdjustmentWeight + 1;
-        //max gain we can get adjusting elements with adjustmentWeight <= i
-        long gain[] = new long[adjustmentWeightsCount];
-        //max loss we can get adjusting elements with adjustmentWeight <= i
-        long loss[] = new long[adjustmentWeightsCount];
+        int bdjustmentWeightsCount = LbyoutIterbtor.WorstAdjustmentWeight + 1;
+        //mbx gbin we cbn get bdjusting elements with bdjustmentWeight <= i
+        long gbin[] = new long[bdjustmentWeightsCount];
+        //mbx loss we cbn get bdjusting elements with bdjustmentWeight <= i
+        long loss[] = new long[bdjustmentWeightsCount];
 
-        for (int i = 0; i < adjustmentWeightsCount; i++) {
-            gain[i] = loss[i] = 0;
+        for (int i = 0; i < bdjustmentWeightsCount; i++) {
+            gbin[i] = loss[i] = 0;
         }
         for (int i = 0; i < n; i++) {
             iter.setIndex(i);
-            int margin0 = lastMargin;
-            int margin1 = (int) iter.getLeadingCollapseSpan();
+            int mbrgin0 = lbstMbrgin;
+            int mbrgin1 = (int) iter.getLebdingCollbpseSpbn();
 
-            iter.setOffset(Math.max(margin0, margin1));
-            totalSpacing += iter.getOffset();
+            iter.setOffset(Mbth.mbx(mbrgin0, mbrgin1));
+            totblSpbcing += iter.getOffset();
 
-            currentPreferred = (long)iter.getPreferredSpan(targetSpan);
-            iter.setSpan((int) currentPreferred);
+            currentPreferred = (long)iter.getPreferredSpbn(tbrgetSpbn);
+            iter.setSpbn((int) currentPreferred);
             preferred += currentPreferred;
-            gain[iter.getAdjustmentWeight()] +=
-                (long)iter.getMaximumSpan(targetSpan) - currentPreferred;
+            gbin[iter.getAdjustmentWeight()] +=
+                (long)iter.getMbximumSpbn(tbrgetSpbn) - currentPreferred;
             loss[iter.getAdjustmentWeight()] +=
-                currentPreferred - (long)iter.getMinimumSpan(targetSpan);
-            lastMargin = (int) iter.getTrailingCollapseSpan();
+                currentPreferred - (long)iter.getMinimumSpbn(tbrgetSpbn);
+            lbstMbrgin = (int) iter.getTrbilingCollbpseSpbn();
         }
-        totalSpacing += lastMargin;
-        totalSpacing += 2 * iter.getBorderWidth();
+        totblSpbcing += lbstMbrgin;
+        totblSpbcing += 2 * iter.getBorderWidth();
 
-        for (int i = 1; i < adjustmentWeightsCount; i++) {
-            gain[i] += gain[i - 1];
+        for (int i = 1; i < bdjustmentWeightsCount; i++) {
+            gbin[i] += gbin[i - 1];
             loss[i] += loss[i - 1];
         }
 
         /*
-         * Second pass, expand or contract by as much as possible to reach
-         * the target span.  This takes the margin collapsing into account
-         * prior to adjusting the span.
+         * Second pbss, expbnd or contrbct by bs much bs possible to rebch
+         * the tbrget spbn.  This tbkes the mbrgin collbpsing into bccount
+         * prior to bdjusting the spbn.
          */
 
-        // determine the adjustment to be made
-        int allocated = targetSpan - totalSpacing;
-        long desiredAdjustment = allocated - preferred;
-        long adjustmentsArray[] = (desiredAdjustment > 0) ? gain : loss;
-        desiredAdjustment = Math.abs(desiredAdjustment);
-        int adjustmentLevel = 0;
-        for (;adjustmentLevel <= LayoutIterator.WorstAdjustmentWeight;
-             adjustmentLevel++) {
-            // adjustmentsArray[] is sorted. I do not bother about
-            // binary search though
-            if (adjustmentsArray[adjustmentLevel] >= desiredAdjustment) {
-                break;
+        // determine the bdjustment to be mbde
+        int bllocbted = tbrgetSpbn - totblSpbcing;
+        long desiredAdjustment = bllocbted - preferred;
+        long bdjustmentsArrby[] = (desiredAdjustment > 0) ? gbin : loss;
+        desiredAdjustment = Mbth.bbs(desiredAdjustment);
+        int bdjustmentLevel = 0;
+        for (;bdjustmentLevel <= LbyoutIterbtor.WorstAdjustmentWeight;
+             bdjustmentLevel++) {
+            // bdjustmentsArrby[] is sorted. I do not bother bbout
+            // binbry sebrch though
+            if (bdjustmentsArrby[bdjustmentLevel] >= desiredAdjustment) {
+                brebk;
             }
         }
-        float adjustmentFactor = 0.0f;
-        if (adjustmentLevel <= LayoutIterator.WorstAdjustmentWeight) {
-            desiredAdjustment -= (adjustmentLevel > 0) ?
-                adjustmentsArray[adjustmentLevel - 1] : 0;
+        flobt bdjustmentFbctor = 0.0f;
+        if (bdjustmentLevel <= LbyoutIterbtor.WorstAdjustmentWeight) {
+            desiredAdjustment -= (bdjustmentLevel > 0) ?
+                bdjustmentsArrby[bdjustmentLevel - 1] : 0;
             if (desiredAdjustment != 0) {
-                float maximumAdjustment =
-                    adjustmentsArray[adjustmentLevel] -
-                    ((adjustmentLevel > 0) ?
-                     adjustmentsArray[adjustmentLevel - 1] : 0
+                flobt mbximumAdjustment =
+                    bdjustmentsArrby[bdjustmentLevel] -
+                    ((bdjustmentLevel > 0) ?
+                     bdjustmentsArrby[bdjustmentLevel - 1] : 0
                      );
-                adjustmentFactor = desiredAdjustment / maximumAdjustment;
+                bdjustmentFbctor = desiredAdjustment / mbximumAdjustment;
             }
         }
-        // make the adjustments
-        int totalOffset = (int)iter.getBorderWidth();
+        // mbke the bdjustments
+        int totblOffset = (int)iter.getBorderWidth();
         for (int i = 0; i < n; i++) {
             iter.setIndex(i);
-            iter.setOffset( iter.getOffset() + totalOffset);
-            if (iter.getAdjustmentWeight() < adjustmentLevel) {
-                iter.setSpan((int)
-                             ((allocated > preferred) ?
-                              Math.floor(iter.getMaximumSpan(targetSpan)) :
-                              Math.ceil(iter.getMinimumSpan(targetSpan))
+            iter.setOffset( iter.getOffset() + totblOffset);
+            if (iter.getAdjustmentWeight() < bdjustmentLevel) {
+                iter.setSpbn((int)
+                             ((bllocbted > preferred) ?
+                              Mbth.floor(iter.getMbximumSpbn(tbrgetSpbn)) :
+                              Mbth.ceil(iter.getMinimumSpbn(tbrgetSpbn))
                               )
                              );
-            } else if (iter.getAdjustmentWeight() == adjustmentLevel) {
-                int availableSpan = (allocated > preferred) ?
-                    (int) iter.getMaximumSpan(targetSpan) - iter.getSpan() :
-                    iter.getSpan() - (int) iter.getMinimumSpan(targetSpan);
-                int adj = (int)Math.floor(adjustmentFactor * availableSpan);
-                iter.setSpan(iter.getSpan() +
-                             ((allocated > preferred) ? adj : -adj));
+            } else if (iter.getAdjustmentWeight() == bdjustmentLevel) {
+                int bvbilbbleSpbn = (bllocbted > preferred) ?
+                    (int) iter.getMbximumSpbn(tbrgetSpbn) - iter.getSpbn() :
+                    iter.getSpbn() - (int) iter.getMinimumSpbn(tbrgetSpbn);
+                int bdj = (int)Mbth.floor(bdjustmentFbctor * bvbilbbleSpbn);
+                iter.setSpbn(iter.getSpbn() +
+                             ((bllocbted > preferred) ? bdj : -bdj));
             }
-            totalOffset = (int) Math.min((long) iter.getOffset() +
-                                         (long) iter.getSpan(),
+            totblOffset = (int) Mbth.min((long) iter.getOffset() +
+                                         (long) iter.getSpbn(),
                                          Integer.MAX_VALUE);
         }
 
-        // while rounding we could lose several pixels.
-        int roundError = targetSpan - totalOffset -
-            (int)iter.getTrailingCollapseSpan() -
+        // while rounding we could lose severbl pixels.
+        int roundError = tbrgetSpbn - totblOffset -
+            (int)iter.getTrbilingCollbpseSpbn() -
             (int)iter.getBorderWidth();
-        int adj = (roundError > 0) ? 1 : -1;
-        roundError *= adj;
+        int bdj = (roundError > 0) ? 1 : -1;
+        roundError *= bdj;
 
-        boolean canAdjust = true;
-        while (roundError > 0 && canAdjust) {
+        boolebn cbnAdjust = true;
+        while (roundError > 0 && cbnAdjust) {
             // check for infinite loop
-            canAdjust = false;
+            cbnAdjust = fblse;
             int offsetAdjust = 0;
             // try to distribute roundError. one pixel per cell
             for (int i = 0; i < n; i++) {
                 iter.setIndex(i);
                 iter.setOffset(iter.getOffset() + offsetAdjust);
-                int curSpan = iter.getSpan();
+                int curSpbn = iter.getSpbn();
                 if (roundError > 0) {
-                    int boundGap = (adj > 0) ?
-                        (int)Math.floor(iter.getMaximumSpan(targetSpan)) - curSpan :
-                        curSpan - (int)Math.ceil(iter.getMinimumSpan(targetSpan));
-                    if (boundGap >= 1) {
-                        canAdjust = true;
-                        iter.setSpan(curSpan + adj);
-                        offsetAdjust += adj;
+                    int boundGbp = (bdj > 0) ?
+                        (int)Mbth.floor(iter.getMbximumSpbn(tbrgetSpbn)) - curSpbn :
+                        curSpbn - (int)Mbth.ceil(iter.getMinimumSpbn(tbrgetSpbn));
+                    if (boundGbp >= 1) {
+                        cbnAdjust = true;
+                        iter.setSpbn(curSpbn + bdj);
+                        offsetAdjust += bdj;
                         roundError--;
                     }
                 }
@@ -3483,95 +3483,95 @@ public class CSS implements Serializable {
     }
 
     /**
-     * An iterator to express the requirements to use when computing
-     * layout.
+     * An iterbtor to express the requirements to use when computing
+     * lbyout.
      */
-    interface LayoutIterator {
+    interfbce LbyoutIterbtor {
 
         void setOffset(int offs);
 
         int getOffset();
 
-        void setSpan(int span);
+        void setSpbn(int spbn);
 
-        int getSpan();
+        int getSpbn();
 
         int getCount();
 
         void setIndex(int i);
 
-        float getMinimumSpan(float parentSpan);
+        flobt getMinimumSpbn(flobt pbrentSpbn);
 
-        float getPreferredSpan(float parentSpan);
+        flobt getPreferredSpbn(flobt pbrentSpbn);
 
-        float getMaximumSpan(float parentSpan);
+        flobt getMbximumSpbn(flobt pbrentSpbn);
 
-        int getAdjustmentWeight(); //0 is the best weight WorstAdjustmentWeight is a worst one
+        int getAdjustmentWeight(); //0 is the best weight WorstAdjustmentWeight is b worst one
 
-        //float getAlignment();
+        //flobt getAlignment();
 
-        float getBorderWidth();
+        flobt getBorderWidth();
 
-        float getLeadingCollapseSpan();
+        flobt getLebdingCollbpseSpbn();
 
-        float getTrailingCollapseSpan();
-        public static final int WorstAdjustmentWeight = 2;
+        flobt getTrbilingCollbpseSpbn();
+        public stbtic finbl int WorstAdjustmentWeight = 2;
     }
 
     //
-    // Serialization support
+    // Seriblizbtion support
     //
 
-    private void writeObject(java.io.ObjectOutputStream s)
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
         throws IOException
     {
-        s.defaultWriteObject();
+        s.defbultWriteObject();
 
-        // Determine what values in valueConvertor need to be written out.
-        Enumeration<?> keys = valueConvertor.keys();
-        s.writeInt(valueConvertor.size());
+        // Determine whbt vblues in vblueConvertor need to be written out.
+        Enumerbtion<?> keys = vblueConvertor.keys();
+        s.writeInt(vblueConvertor.size());
         if (keys != null) {
-            while (keys.hasMoreElements()) {
+            while (keys.hbsMoreElements()) {
                 Object key = keys.nextElement();
-                Object value = valueConvertor.get(key);
-                if (!(key instanceof Serializable) &&
-                    (key = StyleContext.getStaticAttributeKey(key)) == null) {
-                    // Should we throw an exception here?
+                Object vblue = vblueConvertor.get(key);
+                if (!(key instbnceof Seriblizbble) &&
+                    (key = StyleContext.getStbticAttributeKey(key)) == null) {
+                    // Should we throw bn exception here?
                     key = null;
-                    value = null;
+                    vblue = null;
                 }
-                else if (!(value instanceof Serializable) &&
-                    (value = StyleContext.getStaticAttributeKey(value)) == null){
-                    // Should we throw an exception here?
+                else if (!(vblue instbnceof Seriblizbble) &&
+                    (vblue = StyleContext.getStbticAttributeKey(vblue)) == null){
+                    // Should we throw bn exception here?
                     key = null;
-                    value = null;
+                    vblue = null;
                 }
                 s.writeObject(key);
-                s.writeObject(value);
+                s.writeObject(vblue);
             }
         }
     }
 
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException
     {
-        s.defaultReadObject();
-        // Reconstruct the hashtable.
-        int numValues = s.readInt();
-        valueConvertor = new Hashtable<Object, Object>(Math.max(1, numValues));
-        while (numValues-- > 0) {
-            Object key = s.readObject();
-            Object value = s.readObject();
-            Object staticKey = StyleContext.getStaticAttribute(key);
-            if (staticKey != null) {
-                key = staticKey;
+        s.defbultRebdObject();
+        // Reconstruct the hbshtbble.
+        int numVblues = s.rebdInt();
+        vblueConvertor = new Hbshtbble<Object, Object>(Mbth.mbx(1, numVblues));
+        while (numVblues-- > 0) {
+            Object key = s.rebdObject();
+            Object vblue = s.rebdObject();
+            Object stbticKey = StyleContext.getStbticAttribute(key);
+            if (stbticKey != null) {
+                key = stbticKey;
             }
-            Object staticValue = StyleContext.getStaticAttribute(value);
-            if (staticValue != null) {
-                value = staticValue;
+            Object stbticVblue = StyleContext.getStbticAttribute(vblue);
+            if (stbticVblue != null) {
+                vblue = stbticVblue;
             }
-            if (key != null && value != null) {
-                valueConvertor.put(key, value);
+            if (key != null && vblue != null) {
+                vblueConvertor.put(key, vblue);
             }
         }
     }
@@ -3580,31 +3580,31 @@ public class CSS implements Serializable {
     /*
      * we need StyleSheet for resolving lenght units. (see
      * isW3CLengthUnits)
-     * we can not pass stylesheet for handling relative sizes. (do not
-     * think changing public API is necessary)
-     * CSS is not likely to be accessed from more then one thread.
-     * Having local storage for StyleSheet for resolving relative
-     * sizes is safe
+     * we cbn not pbss stylesheet for hbndling relbtive sizes. (do not
+     * think chbnging public API is necessbry)
+     * CSS is not likely to be bccessed from more then one threbd.
+     * Hbving locbl storbge for StyleSheet for resolving relbtive
+     * sizes is sbfe
      *
      * idk 08/30/2004
      */
-    private StyleSheet getStyleSheet(StyleSheet ss) {
+    privbte StyleSheet getStyleSheet(StyleSheet ss) {
         if (ss != null) {
             styleSheet = ss;
         }
         return styleSheet;
     }
     //
-    // Instance variables
+    // Instbnce vbribbles
     //
 
-    /** Maps from CSS key to CssValue. */
-    private transient Hashtable<Object, Object> valueConvertor;
+    /** Mbps from CSS key to CssVblue. */
+    privbte trbnsient Hbshtbble<Object, Object> vblueConvertor;
 
-    /** Size used for relative units. */
-    private int baseFontSize;
+    /** Size used for relbtive units. */
+    privbte int bbseFontSize;
 
-    private transient StyleSheet styleSheet = null;
+    privbte trbnsient StyleSheet styleSheet = null;
 
-    static int baseFontSizeIndex = 3;
+    stbtic int bbseFontSizeIndex = 3;
 }

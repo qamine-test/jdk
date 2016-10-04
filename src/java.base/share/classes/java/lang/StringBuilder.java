@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 
 /**
- * A mutable sequence of characters.  This class provides an API compatible
- * with {@code StringBuffer}, but with no guarantee of synchronization.
- * This class is designed for use as a drop-in replacement for
- * {@code StringBuffer} in places where the string buffer was being
- * used by a single thread (as is generally the case).   Where possible,
- * it is recommended that this class be used in preference to
- * {@code StringBuffer} as it will be faster under most implementations.
+ * A mutbble sequence of chbrbcters.  This clbss provides bn API compbtible
+ * with {@code StringBuffer}, but with no gubrbntee of synchronizbtion.
+ * This clbss is designed for use bs b drop-in replbcement for
+ * {@code StringBuffer} in plbces where the string buffer wbs being
+ * used by b single threbd (bs is generblly the cbse).   Where possible,
+ * it is recommended thbt this clbss be used in preference to
+ * {@code StringBuffer} bs it will be fbster under most implementbtions.
  *
- * <p>The principal operations on a {@code StringBuilder} are the
- * {@code append} and {@code insert} methods, which are
- * overloaded so as to accept data of any type. Each effectively
- * converts a given datum to a string and then appends or inserts the
- * characters of that string to the string builder. The
- * {@code append} method always adds these characters at the end
- * of the builder; the {@code insert} method adds the characters at
- * a specified point.
+ * <p>The principbl operbtions on b {@code StringBuilder} bre the
+ * {@code bppend} bnd {@code insert} methods, which bre
+ * overlobded so bs to bccept dbtb of bny type. Ebch effectively
+ * converts b given dbtum to b string bnd then bppends or inserts the
+ * chbrbcters of thbt string to the string builder. The
+ * {@code bppend} method blwbys bdds these chbrbcters bt the end
+ * of the builder; the {@code insert} method bdds the chbrbcters bt
+ * b specified point.
  * <p>
- * For example, if {@code z} refers to a string builder object
- * whose current contents are "{@code start}", then
- * the method call {@code z.append("le")} would cause the string
- * builder to contain "{@code startle}", whereas
- * {@code z.insert(4, "le")} would alter the string builder to
- * contain "{@code starlet}".
+ * For exbmple, if {@code z} refers to b string builder object
+ * whose current contents bre "{@code stbrt}", then
+ * the method cbll {@code z.bppend("le")} would cbuse the string
+ * builder to contbin "{@code stbrtle}", wherebs
+ * {@code z.insert(4, "le")} would blter the string builder to
+ * contbin "{@code stbrlet}".
  * <p>
- * In general, if sb refers to an instance of a {@code StringBuilder},
- * then {@code sb.append(x)} has the same effect as
+ * In generbl, if sb refers to bn instbnce of b {@code StringBuilder},
+ * then {@code sb.bppend(x)} hbs the sbme effect bs
  * {@code sb.insert(sb.length(), x)}.
  * <p>
- * Every string builder has a capacity. As long as the length of the
- * character sequence contained in the string builder does not exceed
- * the capacity, it is not necessary to allocate a new internal
- * buffer. If the internal buffer overflows, it is automatically made larger.
+ * Every string builder hbs b cbpbcity. As long bs the length of the
+ * chbrbcter sequence contbined in the string builder does not exceed
+ * the cbpbcity, it is not necessbry to bllocbte b new internbl
+ * buffer. If the internbl buffer overflows, it is butombticblly mbde lbrger.
  *
- * <p>Instances of {@code StringBuilder} are not safe for
- * use by multiple threads. If such synchronization is required then it is
- * recommended that {@link java.lang.StringBuffer} be used.
+ * <p>Instbnces of {@code StringBuilder} bre not sbfe for
+ * use by multiple threbds. If such synchronizbtion is required then it is
+ * recommended thbt {@link jbvb.lbng.StringBuffer} be used.
  *
- * <p>Unless otherwise noted, passing a {@code null} argument to a constructor
- * or method in this class will cause a {@link NullPointerException} to be
+ * <p>Unless otherwise noted, pbssing b {@code null} brgument to b constructor
+ * or method in this clbss will cbuse b {@link NullPointerException} to be
  * thrown.
  *
- * @author      Michael McCloskey
- * @see         java.lang.StringBuffer
- * @see         java.lang.String
+ * @buthor      Michbel McCloskey
+ * @see         jbvb.lbng.StringBuffer
+ * @see         jbvb.lbng.String
  * @since       1.5
  */
-public final class StringBuilder
-    extends AbstractStringBuilder
-    implements java.io.Serializable, CharSequence
+public finbl clbss StringBuilder
+    extends AbstrbctStringBuilder
+    implements jbvb.io.Seriblizbble, ChbrSequence
 {
 
-    /** use serialVersionUID for interoperability */
-    static final long serialVersionUID = 4383685877147921099L;
+    /** use seriblVersionUID for interoperbbility */
+    stbtic finbl long seriblVersionUID = 4383685877147921099L;
 
     /**
-     * Constructs a string builder with no characters in it and an
-     * initial capacity of 16 characters.
+     * Constructs b string builder with no chbrbcters in it bnd bn
+     * initibl cbpbcity of 16 chbrbcters.
      */
     public StringBuilder() {
         super(16);
     }
 
     /**
-     * Constructs a string builder with no characters in it and an
-     * initial capacity specified by the {@code capacity} argument.
+     * Constructs b string builder with no chbrbcters in it bnd bn
+     * initibl cbpbcity specified by the {@code cbpbcity} brgument.
      *
-     * @param      capacity  the initial capacity.
-     * @throws     NegativeArraySizeException  if the {@code capacity}
-     *               argument is less than {@code 0}.
+     * @pbrbm      cbpbcity  the initibl cbpbcity.
+     * @throws     NegbtiveArrbySizeException  if the {@code cbpbcity}
+     *               brgument is less thbn {@code 0}.
      */
-    public StringBuilder(int capacity) {
-        super(capacity);
+    public StringBuilder(int cbpbcity) {
+        super(cbpbcity);
     }
 
     /**
-     * Constructs a string builder initialized to the contents of the
-     * specified string. The initial capacity of the string builder is
-     * {@code 16} plus the length of the string argument.
+     * Constructs b string builder initiblized to the contents of the
+     * specified string. The initibl cbpbcity of the string builder is
+     * {@code 16} plus the length of the string brgument.
      *
-     * @param   str   the initial contents of the buffer.
+     * @pbrbm   str   the initibl contents of the buffer.
      */
     public StringBuilder(String str) {
         super(str.length() + 16);
-        append(str);
+        bppend(str);
     }
 
     /**
-     * Constructs a string builder that contains the same characters
-     * as the specified {@code CharSequence}. The initial capacity of
+     * Constructs b string builder thbt contbins the sbme chbrbcters
+     * bs the specified {@code ChbrSequence}. The initibl cbpbcity of
      * the string builder is {@code 16} plus the length of the
-     * {@code CharSequence} argument.
+     * {@code ChbrSequence} brgument.
      *
-     * @param      seq   the sequence to copy.
+     * @pbrbm      seq   the sequence to copy.
      */
-    public StringBuilder(CharSequence seq) {
+    public StringBuilder(ChbrSequence seq) {
         this(seq.length() + 16);
-        append(seq);
+        bppend(seq);
     }
 
     @Override
-    public StringBuilder append(Object obj) {
-        return append(String.valueOf(obj));
+    public StringBuilder bppend(Object obj) {
+        return bppend(String.vblueOf(obj));
     }
 
     @Override
-    public StringBuilder append(String str) {
-        super.append(str);
+    public StringBuilder bppend(String str) {
+        super.bppend(str);
         return this;
     }
 
     /**
      * Appends the specified {@code StringBuffer} to this sequence.
      * <p>
-     * The characters of the {@code StringBuffer} argument are appended,
-     * in order, to this sequence, increasing the
-     * length of this sequence by the length of the argument.
-     * If {@code sb} is {@code null}, then the four characters
-     * {@code "null"} are appended to this sequence.
+     * The chbrbcters of the {@code StringBuffer} brgument bre bppended,
+     * in order, to this sequence, increbsing the
+     * length of this sequence by the length of the brgument.
+     * If {@code sb} is {@code null}, then the four chbrbcters
+     * {@code "null"} bre bppended to this sequence.
      * <p>
-     * Let <i>n</i> be the length of this character sequence just prior to
-     * execution of the {@code append} method. Then the character at index
-     * <i>k</i> in the new character sequence is equal to the character at
-     * index <i>k</i> in the old character sequence, if <i>k</i> is less than
-     * <i>n</i>; otherwise, it is equal to the character at index <i>k-n</i>
-     * in the argument {@code sb}.
+     * Let <i>n</i> be the length of this chbrbcter sequence just prior to
+     * execution of the {@code bppend} method. Then the chbrbcter bt index
+     * <i>k</i> in the new chbrbcter sequence is equbl to the chbrbcter bt
+     * index <i>k</i> in the old chbrbcter sequence, if <i>k</i> is less thbn
+     * <i>n</i>; otherwise, it is equbl to the chbrbcter bt index <i>k-n</i>
+     * in the brgument {@code sb}.
      *
-     * @param   sb   the {@code StringBuffer} to append.
-     * @return  a reference to this object.
+     * @pbrbm   sb   the {@code StringBuffer} to bppend.
+     * @return  b reference to this object.
      */
-    public StringBuilder append(StringBuffer sb) {
-        super.append(sb);
+    public StringBuilder bppend(StringBuffer sb) {
+        super.bppend(sb);
         return this;
     }
 
     @Override
-    public StringBuilder append(CharSequence s) {
-        super.append(s);
+    public StringBuilder bppend(ChbrSequence s) {
+        super.bppend(s);
         return this;
     }
 
@@ -171,14 +171,14 @@ public final class StringBuilder
      * @throws     IndexOutOfBoundsException {@inheritDoc}
      */
     @Override
-    public StringBuilder append(CharSequence s, int start, int end) {
-        super.append(s, start, end);
+    public StringBuilder bppend(ChbrSequence s, int stbrt, int end) {
+        super.bppend(s, stbrt, end);
         return this;
     }
 
     @Override
-    public StringBuilder append(char[] str) {
-        super.append(str);
+    public StringBuilder bppend(chbr[] str) {
+        super.bppend(str);
         return this;
     }
 
@@ -186,44 +186,44 @@ public final class StringBuilder
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     @Override
-    public StringBuilder append(char[] str, int offset, int len) {
-        super.append(str, offset, len);
+    public StringBuilder bppend(chbr[] str, int offset, int len) {
+        super.bppend(str, offset, len);
         return this;
     }
 
     @Override
-    public StringBuilder append(boolean b) {
-        super.append(b);
+    public StringBuilder bppend(boolebn b) {
+        super.bppend(b);
         return this;
     }
 
     @Override
-    public StringBuilder append(char c) {
-        super.append(c);
+    public StringBuilder bppend(chbr c) {
+        super.bppend(c);
         return this;
     }
 
     @Override
-    public StringBuilder append(int i) {
-        super.append(i);
+    public StringBuilder bppend(int i) {
+        super.bppend(i);
         return this;
     }
 
     @Override
-    public StringBuilder append(long lng) {
-        super.append(lng);
+    public StringBuilder bppend(long lng) {
+        super.bppend(lng);
         return this;
     }
 
     @Override
-    public StringBuilder append(float f) {
-        super.append(f);
+    public StringBuilder bppend(flobt f) {
+        super.bppend(f);
         return this;
     }
 
     @Override
-    public StringBuilder append(double d) {
-        super.append(d);
+    public StringBuilder bppend(double d) {
+        super.bppend(d);
         return this;
     }
 
@@ -231,8 +231,8 @@ public final class StringBuilder
      * @since 1.5
      */
     @Override
-    public StringBuilder appendCodePoint(int codePoint) {
-        super.appendCodePoint(codePoint);
+    public StringBuilder bppendCodePoint(int codePoint) {
+        super.bppendCodePoint(codePoint);
         return this;
     }
 
@@ -240,8 +240,8 @@ public final class StringBuilder
      * @throws StringIndexOutOfBoundsException {@inheritDoc}
      */
     @Override
-    public StringBuilder delete(int start, int end) {
-        super.delete(start, end);
+    public StringBuilder delete(int stbrt, int end) {
+        super.delete(stbrt, end);
         return this;
     }
 
@@ -249,8 +249,8 @@ public final class StringBuilder
      * @throws StringIndexOutOfBoundsException {@inheritDoc}
      */
     @Override
-    public StringBuilder deleteCharAt(int index) {
-        super.deleteCharAt(index);
+    public StringBuilder deleteChbrAt(int index) {
+        super.deleteChbrAt(index);
         return this;
     }
 
@@ -258,8 +258,8 @@ public final class StringBuilder
      * @throws StringIndexOutOfBoundsException {@inheritDoc}
      */
     @Override
-    public StringBuilder replace(int start, int end, String str) {
-        super.replace(start, end, str);
+    public StringBuilder replbce(int stbrt, int end, String str) {
+        super.replbce(stbrt, end, str);
         return this;
     }
 
@@ -267,7 +267,7 @@ public final class StringBuilder
      * @throws StringIndexOutOfBoundsException {@inheritDoc}
      */
     @Override
-    public StringBuilder insert(int index, char[] str, int offset,
+    public StringBuilder insert(int index, chbr[] str, int offset,
                                 int len)
     {
         super.insert(index, str, offset, len);
@@ -296,7 +296,7 @@ public final class StringBuilder
      * @throws StringIndexOutOfBoundsException {@inheritDoc}
      */
     @Override
-    public StringBuilder insert(int offset, char[] str) {
+    public StringBuilder insert(int offset, chbr[] str) {
         super.insert(offset, str);
         return this;
     }
@@ -305,7 +305,7 @@ public final class StringBuilder
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     @Override
-    public StringBuilder insert(int dstOffset, CharSequence s) {
+    public StringBuilder insert(int dstOffset, ChbrSequence s) {
             super.insert(dstOffset, s);
             return this;
     }
@@ -314,10 +314,10 @@ public final class StringBuilder
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     @Override
-    public StringBuilder insert(int dstOffset, CharSequence s,
-                                int start, int end)
+    public StringBuilder insert(int dstOffset, ChbrSequence s,
+                                int stbrt, int end)
     {
-        super.insert(dstOffset, s, start, end);
+        super.insert(dstOffset, s, stbrt, end);
         return this;
     }
 
@@ -325,7 +325,7 @@ public final class StringBuilder
      * @throws StringIndexOutOfBoundsException {@inheritDoc}
      */
     @Override
-    public StringBuilder insert(int offset, boolean b) {
+    public StringBuilder insert(int offset, boolebn b) {
         super.insert(offset, b);
         return this;
     }
@@ -334,7 +334,7 @@ public final class StringBuilder
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     @Override
-    public StringBuilder insert(int offset, char c) {
+    public StringBuilder insert(int offset, chbr c) {
         super.insert(offset, c);
         return this;
     }
@@ -361,7 +361,7 @@ public final class StringBuilder
      * @throws StringIndexOutOfBoundsException {@inheritDoc}
      */
     @Override
-    public StringBuilder insert(int offset, float f) {
+    public StringBuilder insert(int offset, flobt f) {
         super.insert(offset, f);
         return this;
     }
@@ -386,13 +386,13 @@ public final class StringBuilder
     }
 
     @Override
-    public int lastIndexOf(String str) {
-        return super.lastIndexOf(str);
+    public int lbstIndexOf(String str) {
+        return super.lbstIndexOf(str);
     }
 
     @Override
-    public int lastIndexOf(String str, int fromIndex) {
-        return super.lastIndexOf(str, fromIndex);
+    public int lbstIndexOf(String str, int fromIndex) {
+        return super.lbstIndexOf(str, fromIndex);
     }
 
     @Override
@@ -403,37 +403,37 @@ public final class StringBuilder
 
     @Override
     public String toString() {
-        // Create a copy, don't share the array
-        return new String(value, 0, count);
+        // Crebte b copy, don't shbre the brrby
+        return new String(vblue, 0, count);
     }
 
     /**
-     * Save the state of the {@code StringBuilder} instance to a stream
-     * (that is, serialize it).
+     * Sbve the stbte of the {@code StringBuilder} instbnce to b strebm
+     * (thbt is, seriblize it).
      *
-     * @serialData the number of characters currently stored in the string
-     *             builder ({@code int}), followed by the characters in the
-     *             string builder ({@code char[]}).   The length of the
-     *             {@code char} array may be greater than the number of
-     *             characters currently stored in the string builder, in which
-     *             case extra characters are ignored.
+     * @seriblDbtb the number of chbrbcters currently stored in the string
+     *             builder ({@code int}), followed by the chbrbcters in the
+     *             string builder ({@code chbr[]}).   The length of the
+     *             {@code chbr} brrby mby be grebter thbn the number of
+     *             chbrbcters currently stored in the string builder, in which
+     *             cbse extrb chbrbcters bre ignored.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        s.defaultWriteObject();
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
+        s.defbultWriteObject();
         s.writeInt(count);
-        s.writeObject(value);
+        s.writeObject(vblue);
     }
 
     /**
-     * readObject is called to restore the state of the StringBuffer from
-     * a stream.
+     * rebdObject is cblled to restore the stbte of the StringBuffer from
+     * b strebm.
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        count = s.readInt();
-        value = (char[]) s.readObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
+        count = s.rebdInt();
+        vblue = (chbr[]) s.rebdObject();
     }
 
 }

@@ -1,257 +1,257 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.nio.channels.FileChannel;
-import sun.nio.ch.FileChannelImpl;
+import jbvb.nio.chbnnels.FileChbnnel;
+import sun.nio.ch.FileChbnnelImpl;
 
 
 /**
- * Instances of this class support both reading and writing to a
- * random access file. A random access file behaves like a large
- * array of bytes stored in the file system. There is a kind of cursor,
- * or index into the implied array, called the <em>file pointer</em>;
- * input operations read bytes starting at the file pointer and advance
- * the file pointer past the bytes read. If the random access file is
- * created in read/write mode, then output operations are also available;
- * output operations write bytes starting at the file pointer and advance
- * the file pointer past the bytes written. Output operations that write
- * past the current end of the implied array cause the array to be
- * extended. The file pointer can be read by the
- * {@code getFilePointer} method and set by the {@code seek}
+ * Instbnces of this clbss support both rebding bnd writing to b
+ * rbndom bccess file. A rbndom bccess file behbves like b lbrge
+ * brrby of bytes stored in the file system. There is b kind of cursor,
+ * or index into the implied brrby, cblled the <em>file pointer</em>;
+ * input operbtions rebd bytes stbrting bt the file pointer bnd bdvbnce
+ * the file pointer pbst the bytes rebd. If the rbndom bccess file is
+ * crebted in rebd/write mode, then output operbtions bre blso bvbilbble;
+ * output operbtions write bytes stbrting bt the file pointer bnd bdvbnce
+ * the file pointer pbst the bytes written. Output operbtions thbt write
+ * pbst the current end of the implied brrby cbuse the brrby to be
+ * extended. The file pointer cbn be rebd by the
+ * {@code getFilePointer} method bnd set by the {@code seek}
  * method.
  * <p>
- * It is generally true of all the reading routines in this class that
- * if end-of-file is reached before the desired number of bytes has been
- * read, an {@code EOFException} (which is a kind of
- * {@code IOException}) is thrown. If any byte cannot be read for
- * any reason other than end-of-file, an {@code IOException} other
- * than {@code EOFException} is thrown. In particular, an
- * {@code IOException} may be thrown if the stream has been closed.
+ * It is generblly true of bll the rebding routines in this clbss thbt
+ * if end-of-file is rebched before the desired number of bytes hbs been
+ * rebd, bn {@code EOFException} (which is b kind of
+ * {@code IOException}) is thrown. If bny byte cbnnot be rebd for
+ * bny rebson other thbn end-of-file, bn {@code IOException} other
+ * thbn {@code EOFException} is thrown. In pbrticulbr, bn
+ * {@code IOException} mby be thrown if the strebm hbs been closed.
  *
- * @author  unascribed
+ * @buthor  unbscribed
  * @since   1.0
  */
 
-public class RandomAccessFile implements DataOutput, DataInput, Closeable {
+public clbss RbndomAccessFile implements DbtbOutput, DbtbInput, Closebble {
 
-    private FileDescriptor fd;
-    private FileChannel channel = null;
-    private boolean rw;
+    privbte FileDescriptor fd;
+    privbte FileChbnnel chbnnel = null;
+    privbte boolebn rw;
 
     /**
-     * The path of the referenced file
-     * (null if the stream is created with a file descriptor)
+     * The pbth of the referenced file
+     * (null if the strebm is crebted with b file descriptor)
      */
-    private final String path;
+    privbte finbl String pbth;
 
-    private Object closeLock = new Object();
-    private volatile boolean closed = false;
+    privbte Object closeLock = new Object();
+    privbte volbtile boolebn closed = fblse;
 
-    private static final int O_RDONLY = 1;
-    private static final int O_RDWR =   2;
-    private static final int O_SYNC =   4;
-    private static final int O_DSYNC =  8;
+    privbte stbtic finbl int O_RDONLY = 1;
+    privbte stbtic finbl int O_RDWR =   2;
+    privbte stbtic finbl int O_SYNC =   4;
+    privbte stbtic finbl int O_DSYNC =  8;
 
     /**
-     * Creates a random access file stream to read from, and optionally
-     * to write to, a file with the specified name. A new
-     * {@link FileDescriptor} object is created to represent the
+     * Crebtes b rbndom bccess file strebm to rebd from, bnd optionblly
+     * to write to, b file with the specified nbme. A new
+     * {@link FileDescriptor} object is crebted to represent the
      * connection to the file.
      *
-     * <p> The <tt>mode</tt> argument specifies the access mode with which the
-     * file is to be opened.  The permitted values and their meanings are as
-     * specified for the <a
-     * href="#mode"><tt>RandomAccessFile(File,String)</tt></a> constructor.
+     * <p> The <tt>mode</tt> brgument specifies the bccess mode with which the
+     * file is to be opened.  The permitted vblues bnd their mebnings bre bs
+     * specified for the <b
+     * href="#mode"><tt>RbndomAccessFile(File,String)</tt></b> constructor.
      *
      * <p>
-     * If there is a security manager, its {@code checkRead} method
-     * is called with the {@code name} argument
-     * as its argument to see if read access to the file is allowed.
-     * If the mode allows writing, the security manager's
+     * If there is b security mbnbger, its {@code checkRebd} method
+     * is cblled with the {@code nbme} brgument
+     * bs its brgument to see if rebd bccess to the file is bllowed.
+     * If the mode bllows writing, the security mbnbger's
      * {@code checkWrite} method
-     * is also called with the {@code name} argument
-     * as its argument to see if write access to the file is allowed.
+     * is blso cblled with the {@code nbme} brgument
+     * bs its brgument to see if write bccess to the file is bllowed.
      *
-     * @param      name   the system-dependent filename
-     * @param      mode   the access <a href="#mode">mode</a>
-     * @exception  IllegalArgumentException  if the mode argument is not equal
+     * @pbrbm      nbme   the system-dependent filenbme
+     * @pbrbm      mode   the bccess <b href="#mode">mode</b>
+     * @exception  IllegblArgumentException  if the mode brgument is not equbl
      *               to one of <tt>"r"</tt>, <tt>"rw"</tt>, <tt>"rws"</tt>, or
      *               <tt>"rwd"</tt>
      * @exception FileNotFoundException
      *            if the mode is <tt>"r"</tt> but the given string does not
-     *            denote an existing regular file, or if the mode begins with
-     *            <tt>"rw"</tt> but the given string does not denote an
-     *            existing, writable regular file and a new regular file of
-     *            that name cannot be created, or if some other error occurs
-     *            while opening or creating the file
-     * @exception  SecurityException         if a security manager exists and its
-     *               {@code checkRead} method denies read access to the file
-     *               or the mode is "rw" and the security manager's
-     *               {@code checkWrite} method denies write access to the file
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkRead(java.lang.String)
-     * @see        java.lang.SecurityManager#checkWrite(java.lang.String)
+     *            denote bn existing regulbr file, or if the mode begins with
+     *            <tt>"rw"</tt> but the given string does not denote bn
+     *            existing, writbble regulbr file bnd b new regulbr file of
+     *            thbt nbme cbnnot be crebted, or if some other error occurs
+     *            while opening or crebting the file
+     * @exception  SecurityException         if b security mbnbger exists bnd its
+     *               {@code checkRebd} method denies rebd bccess to the file
+     *               or the mode is "rw" bnd the security mbnbger's
+     *               {@code checkWrite} method denies write bccess to the file
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)
+     * @see        jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)
      * @revised 1.4
      * @spec JSR-51
      */
-    public RandomAccessFile(String name, String mode)
+    public RbndomAccessFile(String nbme, String mode)
         throws FileNotFoundException
     {
-        this(name != null ? new File(name) : null, mode);
+        this(nbme != null ? new File(nbme) : null, mode);
     }
 
     /**
-     * Creates a random access file stream to read from, and optionally to
-     * write to, the file specified by the {@link File} argument.  A new {@link
-     * FileDescriptor} object is created to represent this file connection.
+     * Crebtes b rbndom bccess file strebm to rebd from, bnd optionblly to
+     * write to, the file specified by the {@link File} brgument.  A new {@link
+     * FileDescriptor} object is crebted to represent this file connection.
      *
-     * <p>The <a name="mode"><tt>mode</tt></a> argument specifies the access mode
-     * in which the file is to be opened.  The permitted values and their
-     * meanings are:
+     * <p>The <b nbme="mode"><tt>mode</tt></b> brgument specifies the bccess mode
+     * in which the file is to be opened.  The permitted vblues bnd their
+     * mebnings bre:
      *
-     * <table summary="Access mode permitted values and meanings">
-     * <tr><th align="left">Value</th><th align="left">Meaning</th></tr>
-     * <tr><td valign="top"><tt>"r"</tt></td>
-     *     <td> Open for reading only.  Invoking any of the <tt>write</tt>
-     *     methods of the resulting object will cause an {@link
-     *     java.io.IOException} to be thrown. </td></tr>
-     * <tr><td valign="top"><tt>"rw"</tt></td>
-     *     <td> Open for reading and writing.  If the file does not already
-     *     exist then an attempt will be made to create it. </td></tr>
-     * <tr><td valign="top"><tt>"rws"</tt></td>
-     *     <td> Open for reading and writing, as with <tt>"rw"</tt>, and also
-     *     require that every update to the file's content or metadata be
-     *     written synchronously to the underlying storage device.  </td></tr>
-     * <tr><td valign="top"><tt>"rwd"&nbsp;&nbsp;</tt></td>
-     *     <td> Open for reading and writing, as with <tt>"rw"</tt>, and also
-     *     require that every update to the file's content be written
-     *     synchronously to the underlying storage device. </td></tr>
-     * </table>
+     * <tbble summbry="Access mode permitted vblues bnd mebnings">
+     * <tr><th blign="left">Vblue</th><th blign="left">Mebning</th></tr>
+     * <tr><td vblign="top"><tt>"r"</tt></td>
+     *     <td> Open for rebding only.  Invoking bny of the <tt>write</tt>
+     *     methods of the resulting object will cbuse bn {@link
+     *     jbvb.io.IOException} to be thrown. </td></tr>
+     * <tr><td vblign="top"><tt>"rw"</tt></td>
+     *     <td> Open for rebding bnd writing.  If the file does not blrebdy
+     *     exist then bn bttempt will be mbde to crebte it. </td></tr>
+     * <tr><td vblign="top"><tt>"rws"</tt></td>
+     *     <td> Open for rebding bnd writing, bs with <tt>"rw"</tt>, bnd blso
+     *     require thbt every updbte to the file's content or metbdbtb be
+     *     written synchronously to the underlying storbge device.  </td></tr>
+     * <tr><td vblign="top"><tt>"rwd"&nbsp;&nbsp;</tt></td>
+     *     <td> Open for rebding bnd writing, bs with <tt>"rw"</tt>, bnd blso
+     *     require thbt every updbte to the file's content be written
+     *     synchronously to the underlying storbge device. </td></tr>
+     * </tbble>
      *
-     * The <tt>"rws"</tt> and <tt>"rwd"</tt> modes work much like the {@link
-     * java.nio.channels.FileChannel#force(boolean) force(boolean)} method of
-     * the {@link java.nio.channels.FileChannel} class, passing arguments of
-     * <tt>true</tt> and <tt>false</tt>, respectively, except that they always
-     * apply to every I/O operation and are therefore often more efficient.  If
-     * the file resides on a local storage device then when an invocation of a
-     * method of this class returns it is guaranteed that all changes made to
-     * the file by that invocation will have been written to that device.  This
-     * is useful for ensuring that critical information is not lost in the
-     * event of a system crash.  If the file does not reside on a local device
-     * then no such guarantee is made.
+     * The <tt>"rws"</tt> bnd <tt>"rwd"</tt> modes work much like the {@link
+     * jbvb.nio.chbnnels.FileChbnnel#force(boolebn) force(boolebn)} method of
+     * the {@link jbvb.nio.chbnnels.FileChbnnel} clbss, pbssing brguments of
+     * <tt>true</tt> bnd <tt>fblse</tt>, respectively, except thbt they blwbys
+     * bpply to every I/O operbtion bnd bre therefore often more efficient.  If
+     * the file resides on b locbl storbge device then when bn invocbtion of b
+     * method of this clbss returns it is gubrbnteed thbt bll chbnges mbde to
+     * the file by thbt invocbtion will hbve been written to thbt device.  This
+     * is useful for ensuring thbt criticbl informbtion is not lost in the
+     * event of b system crbsh.  If the file does not reside on b locbl device
+     * then no such gubrbntee is mbde.
      *
-     * <p>The <tt>"rwd"</tt> mode can be used to reduce the number of I/O
-     * operations performed.  Using <tt>"rwd"</tt> only requires updates to the
-     * file's content to be written to storage; using <tt>"rws"</tt> requires
-     * updates to both the file's content and its metadata to be written, which
-     * generally requires at least one more low-level I/O operation.
+     * <p>The <tt>"rwd"</tt> mode cbn be used to reduce the number of I/O
+     * operbtions performed.  Using <tt>"rwd"</tt> only requires updbtes to the
+     * file's content to be written to storbge; using <tt>"rws"</tt> requires
+     * updbtes to both the file's content bnd its metbdbtb to be written, which
+     * generblly requires bt lebst one more low-level I/O operbtion.
      *
-     * <p>If there is a security manager, its {@code checkRead} method is
-     * called with the pathname of the {@code file} argument as its
-     * argument to see if read access to the file is allowed.  If the mode
-     * allows writing, the security manager's {@code checkWrite} method is
-     * also called with the path argument to see if write access to the file is
-     * allowed.
+     * <p>If there is b security mbnbger, its {@code checkRebd} method is
+     * cblled with the pbthnbme of the {@code file} brgument bs its
+     * brgument to see if rebd bccess to the file is bllowed.  If the mode
+     * bllows writing, the security mbnbger's {@code checkWrite} method is
+     * blso cblled with the pbth brgument to see if write bccess to the file is
+     * bllowed.
      *
-     * @param      file   the file object
-     * @param      mode   the access mode, as described
-     *                    <a href="#mode">above</a>
-     * @exception  IllegalArgumentException  if the mode argument is not equal
+     * @pbrbm      file   the file object
+     * @pbrbm      mode   the bccess mode, bs described
+     *                    <b href="#mode">bbove</b>
+     * @exception  IllegblArgumentException  if the mode brgument is not equbl
      *               to one of <tt>"r"</tt>, <tt>"rw"</tt>, <tt>"rws"</tt>, or
      *               <tt>"rwd"</tt>
      * @exception FileNotFoundException
      *            if the mode is <tt>"r"</tt> but the given file object does
-     *            not denote an existing regular file, or if the mode begins
+     *            not denote bn existing regulbr file, or if the mode begins
      *            with <tt>"rw"</tt> but the given file object does not denote
-     *            an existing, writable regular file and a new regular file of
-     *            that name cannot be created, or if some other error occurs
-     *            while opening or creating the file
-     * @exception  SecurityException         if a security manager exists and its
-     *               {@code checkRead} method denies read access to the file
-     *               or the mode is "rw" and the security manager's
-     *               {@code checkWrite} method denies write access to the file
-     * @see        java.lang.SecurityManager#checkRead(java.lang.String)
-     * @see        java.lang.SecurityManager#checkWrite(java.lang.String)
-     * @see        java.nio.channels.FileChannel#force(boolean)
+     *            bn existing, writbble regulbr file bnd b new regulbr file of
+     *            thbt nbme cbnnot be crebted, or if some other error occurs
+     *            while opening or crebting the file
+     * @exception  SecurityException         if b security mbnbger exists bnd its
+     *               {@code checkRebd} method denies rebd bccess to the file
+     *               or the mode is "rw" bnd the security mbnbger's
+     *               {@code checkWrite} method denies write bccess to the file
+     * @see        jbvb.lbng.SecurityMbnbger#checkRebd(jbvb.lbng.String)
+     * @see        jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)
+     * @see        jbvb.nio.chbnnels.FileChbnnel#force(boolebn)
      * @revised 1.4
      * @spec JSR-51
      */
-    public RandomAccessFile(File file, String mode)
+    public RbndomAccessFile(File file, String mode)
         throws FileNotFoundException
     {
-        String name = (file != null ? file.getPath() : null);
+        String nbme = (file != null ? file.getPbth() : null);
         int imode = -1;
-        if (mode.equals("r"))
+        if (mode.equbls("r"))
             imode = O_RDONLY;
-        else if (mode.startsWith("rw")) {
+        else if (mode.stbrtsWith("rw")) {
             imode = O_RDWR;
             rw = true;
             if (mode.length() > 2) {
-                if (mode.equals("rws"))
+                if (mode.equbls("rws"))
                     imode |= O_SYNC;
-                else if (mode.equals("rwd"))
+                else if (mode.equbls("rwd"))
                     imode |= O_DSYNC;
                 else
                     imode = -1;
             }
         }
         if (imode < 0)
-            throw new IllegalArgumentException("Illegal mode \"" + mode
+            throw new IllegblArgumentException("Illegbl mode \"" + mode
                                                + "\" must be one of "
                                                + "\"r\", \"rw\", \"rws\","
                                                + " or \"rwd\"");
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkRead(name);
+            security.checkRebd(nbme);
             if (rw) {
-                security.checkWrite(name);
+                security.checkWrite(nbme);
             }
         }
-        if (name == null) {
+        if (nbme == null) {
             throw new NullPointerException();
         }
-        if (file.isInvalid()) {
-            throw new FileNotFoundException("Invalid file path");
+        if (file.isInvblid()) {
+            throw new FileNotFoundException("Invblid file pbth");
         }
         fd = new FileDescriptor();
-        fd.attach(this);
-        path = name;
-        open(name, imode);
+        fd.bttbch(this);
+        pbth = nbme;
+        open(nbme, imode);
     }
 
     /**
-     * Returns the opaque file descriptor object associated with this
-     * stream.
+     * Returns the opbque file descriptor object bssocibted with this
+     * strebm.
      *
-     * @return     the file descriptor object associated with this stream.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FileDescriptor
+     * @return     the file descriptor object bssocibted with this strebm.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FileDescriptor
      */
-    public final FileDescriptor getFD() throws IOException {
+    public finbl FileDescriptor getFD() throws IOException {
         if (fd != null) {
             return fd;
         }
@@ -259,164 +259,164 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
     }
 
     /**
-     * Returns the unique {@link java.nio.channels.FileChannel FileChannel}
-     * object associated with this file.
+     * Returns the unique {@link jbvb.nio.chbnnels.FileChbnnel FileChbnnel}
+     * object bssocibted with this file.
      *
-     * <p> The {@link java.nio.channels.FileChannel#position()
-     * position} of the returned channel will always be equal to
-     * this object's file-pointer offset as returned by the {@link
-     * #getFilePointer getFilePointer} method.  Changing this object's
-     * file-pointer offset, whether explicitly or by reading or writing bytes,
-     * will change the position of the channel, and vice versa.  Changing the
-     * file's length via this object will change the length seen via the file
-     * channel, and vice versa.
+     * <p> The {@link jbvb.nio.chbnnels.FileChbnnel#position()
+     * position} of the returned chbnnel will blwbys be equbl to
+     * this object's file-pointer offset bs returned by the {@link
+     * #getFilePointer getFilePointer} method.  Chbnging this object's
+     * file-pointer offset, whether explicitly or by rebding or writing bytes,
+     * will chbnge the position of the chbnnel, bnd vice versb.  Chbnging the
+     * file's length vib this object will chbnge the length seen vib the file
+     * chbnnel, bnd vice versb.
      *
-     * @return  the file channel associated with this file
+     * @return  the file chbnnel bssocibted with this file
      *
      * @since 1.4
      * @spec JSR-51
      */
-    public final FileChannel getChannel() {
+    public finbl FileChbnnel getChbnnel() {
         synchronized (this) {
-            if (channel == null) {
-                channel = FileChannelImpl.open(fd, path, true, rw, this);
+            if (chbnnel == null) {
+                chbnnel = FileChbnnelImpl.open(fd, pbth, true, rw, this);
             }
-            return channel;
+            return chbnnel;
         }
     }
 
     /**
-     * Opens a file and returns the file descriptor.  The file is
-     * opened in read-write mode if the O_RDWR bit in {@code mode}
-     * is true, else the file is opened as read-only.
-     * If the {@code name} refers to a directory, an IOException
+     * Opens b file bnd returns the file descriptor.  The file is
+     * opened in rebd-write mode if the O_RDWR bit in {@code mode}
+     * is true, else the file is opened bs rebd-only.
+     * If the {@code nbme} refers to b directory, bn IOException
      * is thrown.
      *
-     * @param name the name of the file
-     * @param mode the mode flags, a combination of the O_ constants
-     *             defined above
+     * @pbrbm nbme the nbme of the file
+     * @pbrbm mode the mode flbgs, b combinbtion of the O_ constbnts
+     *             defined bbove
      */
-    private native void open(String name, int mode)
+    privbte nbtive void open(String nbme, int mode)
         throws FileNotFoundException;
 
-    // 'Read' primitives
+    // 'Rebd' primitives
 
     /**
-     * Reads a byte of data from this file. The byte is returned as an
-     * integer in the range 0 to 255 ({@code 0x00-0x0ff}). This
-     * method blocks if no input is yet available.
+     * Rebds b byte of dbtb from this file. The byte is returned bs bn
+     * integer in the rbnge 0 to 255 ({@code 0x00-0x0ff}). This
+     * method blocks if no input is yet bvbilbble.
      * <p>
-     * Although {@code RandomAccessFile} is not a subclass of
-     * {@code InputStream}, this method behaves in exactly the same
-     * way as the {@link InputStream#read()} method of
-     * {@code InputStream}.
+     * Although {@code RbndomAccessFile} is not b subclbss of
+     * {@code InputStrebm}, this method behbves in exbctly the sbme
+     * wby bs the {@link InputStrebm#rebd()} method of
+     * {@code InputStrebm}.
      *
-     * @return     the next byte of data, or {@code -1} if the end of the
-     *             file has been reached.
-     * @exception  IOException  if an I/O error occurs. Not thrown if
-     *                          end-of-file has been reached.
+     * @return     the next byte of dbtb, or {@code -1} if the end of the
+     *             file hbs been rebched.
+     * @exception  IOException  if bn I/O error occurs. Not thrown if
+     *                          end-of-file hbs been rebched.
      */
-    public int read() throws IOException {
-        return read0();
+    public int rebd() throws IOException {
+        return rebd0();
     }
 
-    private native int read0() throws IOException;
+    privbte nbtive int rebd0() throws IOException;
 
     /**
-     * Reads a sub array as a sequence of bytes.
-     * @param b the buffer into which the data is read.
-     * @param off the start offset of the data.
-     * @param len the number of bytes to read.
-     * @exception IOException If an I/O error has occurred.
+     * Rebds b sub brrby bs b sequence of bytes.
+     * @pbrbm b the buffer into which the dbtb is rebd.
+     * @pbrbm off the stbrt offset of the dbtb.
+     * @pbrbm len the number of bytes to rebd.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private native int readBytes(byte b[], int off, int len) throws IOException;
+    privbte nbtive int rebdBytes(byte b[], int off, int len) throws IOException;
 
     /**
-     * Reads up to {@code len} bytes of data from this file into an
-     * array of bytes. This method blocks until at least one byte of input
-     * is available.
+     * Rebds up to {@code len} bytes of dbtb from this file into bn
+     * brrby of bytes. This method blocks until bt lebst one byte of input
+     * is bvbilbble.
      * <p>
-     * Although {@code RandomAccessFile} is not a subclass of
-     * {@code InputStream}, this method behaves in exactly the
-     * same way as the {@link InputStream#read(byte[], int, int)} method of
-     * {@code InputStream}.
+     * Although {@code RbndomAccessFile} is not b subclbss of
+     * {@code InputStrebm}, this method behbves in exbctly the
+     * sbme wby bs the {@link InputStrebm#rebd(byte[], int, int)} method of
+     * {@code InputStrebm}.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param      off   the start offset in array {@code b}
-     *                   at which the data is written.
-     * @param      len   the maximum number of bytes read.
-     * @return     the total number of bytes read into the buffer, or
-     *             {@code -1} if there is no more data because the end of
-     *             the file has been reached.
-     * @exception  IOException If the first byte cannot be read for any reason
-     * other than end of file, or if the random access file has been closed, or if
+     * @pbrbm      b     the buffer into which the dbtb is rebd.
+     * @pbrbm      off   the stbrt offset in brrby {@code b}
+     *                   bt which the dbtb is written.
+     * @pbrbm      len   the mbximum number of bytes rebd.
+     * @return     the totbl number of bytes rebd into the buffer, or
+     *             {@code -1} if there is no more dbtb becbuse the end of
+     *             the file hbs been rebched.
+     * @exception  IOException If the first byte cbnnot be rebd for bny rebson
+     * other thbn end of file, or if the rbndom bccess file hbs been closed, or if
      * some other I/O error occurs.
      * @exception  NullPointerException If {@code b} is {@code null}.
-     * @exception  IndexOutOfBoundsException If {@code off} is negative,
-     * {@code len} is negative, or {@code len} is greater than
+     * @exception  IndexOutOfBoundsException If {@code off} is negbtive,
+     * {@code len} is negbtive, or {@code len} is grebter thbn
      * {@code b.length - off}
      */
-    public int read(byte b[], int off, int len) throws IOException {
-        return readBytes(b, off, len);
+    public int rebd(byte b[], int off, int len) throws IOException {
+        return rebdBytes(b, off, len);
     }
 
     /**
-     * Reads up to {@code b.length} bytes of data from this file
-     * into an array of bytes. This method blocks until at least one byte
-     * of input is available.
+     * Rebds up to {@code b.length} bytes of dbtb from this file
+     * into bn brrby of bytes. This method blocks until bt lebst one byte
+     * of input is bvbilbble.
      * <p>
-     * Although {@code RandomAccessFile} is not a subclass of
-     * {@code InputStream}, this method behaves in exactly the
-     * same way as the {@link InputStream#read(byte[])} method of
-     * {@code InputStream}.
+     * Although {@code RbndomAccessFile} is not b subclbss of
+     * {@code InputStrebm}, this method behbves in exbctly the
+     * sbme wby bs the {@link InputStrebm#rebd(byte[])} method of
+     * {@code InputStrebm}.
      *
-     * @param      b   the buffer into which the data is read.
-     * @return     the total number of bytes read into the buffer, or
-     *             {@code -1} if there is no more data because the end of
-     *             this file has been reached.
-     * @exception  IOException If the first byte cannot be read for any reason
-     * other than end of file, or if the random access file has been closed, or if
+     * @pbrbm      b   the buffer into which the dbtb is rebd.
+     * @return     the totbl number of bytes rebd into the buffer, or
+     *             {@code -1} if there is no more dbtb becbuse the end of
+     *             this file hbs been rebched.
+     * @exception  IOException If the first byte cbnnot be rebd for bny rebson
+     * other thbn end of file, or if the rbndom bccess file hbs been closed, or if
      * some other I/O error occurs.
      * @exception  NullPointerException If {@code b} is {@code null}.
      */
-    public int read(byte b[]) throws IOException {
-        return readBytes(b, 0, b.length);
+    public int rebd(byte b[]) throws IOException {
+        return rebdBytes(b, 0, b.length);
     }
 
     /**
-     * Reads {@code b.length} bytes from this file into the byte
-     * array, starting at the current file pointer. This method reads
-     * repeatedly from the file until the requested number of bytes are
-     * read. This method blocks until the requested number of bytes are
-     * read, the end of the stream is detected, or an exception is thrown.
+     * Rebds {@code b.length} bytes from this file into the byte
+     * brrby, stbrting bt the current file pointer. This method rebds
+     * repebtedly from the file until the requested number of bytes bre
+     * rebd. This method blocks until the requested number of bytes bre
+     * rebd, the end of the strebm is detected, or bn exception is thrown.
      *
-     * @param      b   the buffer into which the data is read.
-     * @exception  EOFException  if this file reaches the end before reading
-     *               all the bytes.
-     * @exception  IOException   if an I/O error occurs.
+     * @pbrbm      b   the buffer into which the dbtb is rebd.
+     * @exception  EOFException  if this file rebches the end before rebding
+     *               bll the bytes.
+     * @exception  IOException   if bn I/O error occurs.
      */
-    public final void readFully(byte b[]) throws IOException {
-        readFully(b, 0, b.length);
+    public finbl void rebdFully(byte b[]) throws IOException {
+        rebdFully(b, 0, b.length);
     }
 
     /**
-     * Reads exactly {@code len} bytes from this file into the byte
-     * array, starting at the current file pointer. This method reads
-     * repeatedly from the file until the requested number of bytes are
-     * read. This method blocks until the requested number of bytes are
-     * read, the end of the stream is detected, or an exception is thrown.
+     * Rebds exbctly {@code len} bytes from this file into the byte
+     * brrby, stbrting bt the current file pointer. This method rebds
+     * repebtedly from the file until the requested number of bytes bre
+     * rebd. This method blocks until the requested number of bytes bre
+     * rebd, the end of the strebm is detected, or bn exception is thrown.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param      off   the start offset of the data.
-     * @param      len   the number of bytes to read.
-     * @exception  EOFException  if this file reaches the end before reading
-     *               all the bytes.
-     * @exception  IOException   if an I/O error occurs.
+     * @pbrbm      b     the buffer into which the dbtb is rebd.
+     * @pbrbm      off   the stbrt offset of the dbtb.
+     * @pbrbm      len   the number of bytes to rebd.
+     * @exception  EOFException  if this file rebches the end before rebding
+     *               bll the bytes.
+     * @exception  IOException   if bn I/O error occurs.
      */
-    public final void readFully(byte b[], int off, int len) throws IOException {
+    public finbl void rebdFully(byte b[], int off, int len) throws IOException {
         int n = 0;
         do {
-            int count = this.read(b, off + n, len - n);
+            int count = this.rebd(b, off + n, len - n);
             if (count < 0)
                 throw new EOFException();
             n += count;
@@ -424,20 +424,20 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
     }
 
     /**
-     * Attempts to skip over {@code n} bytes of input discarding the
+     * Attempts to skip over {@code n} bytes of input discbrding the
      * skipped bytes.
      * <p>
      *
-     * This method may skip over some smaller number of bytes, possibly zero.
-     * This may result from any of a number of conditions; reaching end of
-     * file before {@code n} bytes have been skipped is only one
-     * possibility. This method never throws an {@code EOFException}.
-     * The actual number of bytes skipped is returned.  If {@code n}
-     * is negative, no bytes are skipped.
+     * This method mby skip over some smbller number of bytes, possibly zero.
+     * This mby result from bny of b number of conditions; rebching end of
+     * file before {@code n} bytes hbve been skipped is only one
+     * possibility. This method never throws bn {@code EOFException}.
+     * The bctubl number of bytes skipped is returned.  If {@code n}
+     * is negbtive, no bytes bre skipped.
      *
-     * @param      n   the number of bytes to be skipped.
-     * @return     the actual number of bytes skipped.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      n   the number of bytes to be skipped.
+     * @return     the bctubl number of bytes skipped.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public int skipBytes(int n) throws IOException {
         long pos;
@@ -455,133 +455,133 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
         }
         seek(newpos);
 
-        /* return the actual number of bytes skipped */
+        /* return the bctubl number of bytes skipped */
         return (int) (newpos - pos);
     }
 
     // 'Write' primitives
 
     /**
-     * Writes the specified byte to this file. The write starts at
+     * Writes the specified byte to this file. The write stbrts bt
      * the current file pointer.
      *
-     * @param      b   the {@code byte} to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b   the {@code byte} to be written.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public void write(int b) throws IOException {
         write0(b);
     }
 
-    private native void write0(int b) throws IOException;
+    privbte nbtive void write0(int b) throws IOException;
 
     /**
-     * Writes a sub array as a sequence of bytes.
-     * @param b the data to be written
+     * Writes b sub brrby bs b sequence of bytes.
+     * @pbrbm b the dbtb to be written
 
-     * @param off the start offset in the data
-     * @param len the number of bytes that are written
-     * @exception IOException If an I/O error has occurred.
+     * @pbrbm off the stbrt offset in the dbtb
+     * @pbrbm len the number of bytes thbt bre written
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    private native void writeBytes(byte b[], int off, int len) throws IOException;
+    privbte nbtive void writeBytes(byte b[], int off, int len) throws IOException;
 
     /**
-     * Writes {@code b.length} bytes from the specified byte array
-     * to this file, starting at the current file pointer.
+     * Writes {@code b.length} bytes from the specified byte brrby
+     * to this file, stbrting bt the current file pointer.
      *
-     * @param      b   the data.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b   the dbtb.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public void write(byte b[]) throws IOException {
         writeBytes(b, 0, b.length);
     }
 
     /**
-     * Writes {@code len} bytes from the specified byte array
-     * starting at offset {@code off} to this file.
+     * Writes {@code len} bytes from the specified byte brrby
+     * stbrting bt offset {@code off} to this file.
      *
-     * @param      b     the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of bytes to write.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b     the dbtb.
+     * @pbrbm      off   the stbrt offset in the dbtb.
+     * @pbrbm      len   the number of bytes to write.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public void write(byte b[], int off, int len) throws IOException {
         writeBytes(b, off, len);
     }
 
-    // 'Random access' stuff
+    // 'Rbndom bccess' stuff
 
     /**
      * Returns the current offset in this file.
      *
      * @return     the offset from the beginning of the file, in bytes,
-     *             at which the next read or write occurs.
-     * @exception  IOException  if an I/O error occurs.
+     *             bt which the next rebd or write occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public native long getFilePointer() throws IOException;
+    public nbtive long getFilePointer() throws IOException;
 
     /**
-     * Sets the file-pointer offset, measured from the beginning of this
-     * file, at which the next read or write occurs.  The offset may be
+     * Sets the file-pointer offset, mebsured from the beginning of this
+     * file, bt which the next rebd or write occurs.  The offset mby be
      * set beyond the end of the file. Setting the offset beyond the end
-     * of the file does not change the file length.  The file length will
-     * change only by writing after the offset has been set beyond the end
+     * of the file does not chbnge the file length.  The file length will
+     * chbnge only by writing bfter the offset hbs been set beyond the end
      * of the file.
      *
-     * @param      pos   the offset position, measured in bytes from the
-     *                   beginning of the file, at which to set the file
+     * @pbrbm      pos   the offset position, mebsured in bytes from the
+     *                   beginning of the file, bt which to set the file
      *                   pointer.
-     * @exception  IOException  if {@code pos} is less than
-     *                          {@code 0} or if an I/O error occurs.
+     * @exception  IOException  if {@code pos} is less thbn
+     *                          {@code 0} or if bn I/O error occurs.
      */
     public void seek(long pos) throws IOException {
         if (pos < 0) {
-            throw new IOException("Negative seek offset");
+            throw new IOException("Negbtive seek offset");
         } else {
             seek0(pos);
         }
     }
 
-    private native void seek0(long pos) throws IOException;
+    privbte nbtive void seek0(long pos) throws IOException;
 
     /**
      * Returns the length of this file.
      *
-     * @return     the length of this file, measured in bytes.
-     * @exception  IOException  if an I/O error occurs.
+     * @return     the length of this file, mebsured in bytes.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public native long length() throws IOException;
+    public nbtive long length() throws IOException;
 
     /**
      * Sets the length of this file.
      *
-     * <p> If the present length of the file as returned by the
-     * {@code length} method is greater than the {@code newLength}
-     * argument then the file will be truncated.  In this case, if the file
-     * offset as returned by the {@code getFilePointer} method is greater
-     * than {@code newLength} then after this method returns the offset
-     * will be equal to {@code newLength}.
+     * <p> If the present length of the file bs returned by the
+     * {@code length} method is grebter thbn the {@code newLength}
+     * brgument then the file will be truncbted.  In this cbse, if the file
+     * offset bs returned by the {@code getFilePointer} method is grebter
+     * thbn {@code newLength} then bfter this method returns the offset
+     * will be equbl to {@code newLength}.
      *
-     * <p> If the present length of the file as returned by the
-     * {@code length} method is smaller than the {@code newLength}
-     * argument then the file will be extended.  In this case, the contents of
-     * the extended portion of the file are not defined.
+     * <p> If the present length of the file bs returned by the
+     * {@code length} method is smbller thbn the {@code newLength}
+     * brgument then the file will be extended.  In this cbse, the contents of
+     * the extended portion of the file bre not defined.
      *
-     * @param      newLength    The desired length of the file
-     * @exception  IOException  If an I/O error occurs
+     * @pbrbm      newLength    The desired length of the file
+     * @exception  IOException  If bn I/O error occurs
      * @since      1.2
      */
-    public native void setLength(long newLength) throws IOException;
+    public nbtive void setLength(long newLength) throws IOException;
 
     /**
-     * Closes this random access file stream and releases any system
-     * resources associated with the stream. A closed random access
-     * file cannot perform input or output operations and cannot be
+     * Closes this rbndom bccess file strebm bnd relebses bny system
+     * resources bssocibted with the strebm. A closed rbndom bccess
+     * file cbnnot perform input or output operbtions bnd cbnnot be
      * reopened.
      *
-     * <p> If this file has an associated channel then the channel is closed
-     * as well.
+     * <p> If this file hbs bn bssocibted chbnnel then the chbnnel is closed
+     * bs well.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      *
      * @revised 1.4
      * @spec JSR-51
@@ -593,11 +593,11 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
             }
             closed = true;
         }
-        if (channel != null) {
-            channel.close();
+        if (chbnnel != null) {
+            chbnnel.close();
         }
 
-        fd.closeAll(new Closeable() {
+        fd.closeAll(new Closebble() {
             public void close() throws IOException {
                close0();
            }
@@ -605,200 +605,200 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
     }
 
     //
-    //  Some "reading/writing Java data types" methods stolen from
-    //  DataInputStream and DataOutputStream.
+    //  Some "rebding/writing Jbvb dbtb types" methods stolen from
+    //  DbtbInputStrebm bnd DbtbOutputStrebm.
     //
 
     /**
-     * Reads a {@code boolean} from this file. This method reads a
-     * single byte from the file, starting at the current file pointer.
-     * A value of {@code 0} represents
-     * {@code false}. Any other value represents {@code true}.
-     * This method blocks until the byte is read, the end of the stream
-     * is detected, or an exception is thrown.
+     * Rebds b {@code boolebn} from this file. This method rebds b
+     * single byte from the file, stbrting bt the current file pointer.
+     * A vblue of {@code 0} represents
+     * {@code fblse}. Any other vblue represents {@code true}.
+     * This method blocks until the byte is rebd, the end of the strebm
+     * is detected, or bn exception is thrown.
      *
-     * @return     the {@code boolean} value read.
-     * @exception  EOFException  if this file has reached the end.
-     * @exception  IOException   if an I/O error occurs.
+     * @return     the {@code boolebn} vblue rebd.
+     * @exception  EOFException  if this file hbs rebched the end.
+     * @exception  IOException   if bn I/O error occurs.
      */
-    public final boolean readBoolean() throws IOException {
-        int ch = this.read();
+    public finbl boolebn rebdBoolebn() throws IOException {
+        int ch = this.rebd();
         if (ch < 0)
             throw new EOFException();
         return (ch != 0);
     }
 
     /**
-     * Reads a signed eight-bit value from this file. This method reads a
-     * byte from the file, starting from the current file pointer.
-     * If the byte read is {@code b}, where
+     * Rebds b signed eight-bit vblue from this file. This method rebds b
+     * byte from the file, stbrting from the current file pointer.
+     * If the byte rebd is {@code b}, where
      * <code>0&nbsp;&lt;=&nbsp;b&nbsp;&lt;=&nbsp;255</code>,
      * then the result is:
      * <blockquote><pre>
      *     (byte)(b)
      * </pre></blockquote>
      * <p>
-     * This method blocks until the byte is read, the end of the stream
-     * is detected, or an exception is thrown.
+     * This method blocks until the byte is rebd, the end of the strebm
+     * is detected, or bn exception is thrown.
      *
-     * @return     the next byte of this file as a signed eight-bit
+     * @return     the next byte of this file bs b signed eight-bit
      *             {@code byte}.
-     * @exception  EOFException  if this file has reached the end.
-     * @exception  IOException   if an I/O error occurs.
+     * @exception  EOFException  if this file hbs rebched the end.
+     * @exception  IOException   if bn I/O error occurs.
      */
-    public final byte readByte() throws IOException {
-        int ch = this.read();
+    public finbl byte rebdByte() throws IOException {
+        int ch = this.rebd();
         if (ch < 0)
             throw new EOFException();
         return (byte)(ch);
     }
 
     /**
-     * Reads an unsigned eight-bit number from this file. This method reads
-     * a byte from this file, starting at the current file pointer,
-     * and returns that byte.
+     * Rebds bn unsigned eight-bit number from this file. This method rebds
+     * b byte from this file, stbrting bt the current file pointer,
+     * bnd returns thbt byte.
      * <p>
-     * This method blocks until the byte is read, the end of the stream
-     * is detected, or an exception is thrown.
+     * This method blocks until the byte is rebd, the end of the strebm
+     * is detected, or bn exception is thrown.
      *
-     * @return     the next byte of this file, interpreted as an unsigned
+     * @return     the next byte of this file, interpreted bs bn unsigned
      *             eight-bit number.
-     * @exception  EOFException  if this file has reached the end.
-     * @exception  IOException   if an I/O error occurs.
+     * @exception  EOFException  if this file hbs rebched the end.
+     * @exception  IOException   if bn I/O error occurs.
      */
-    public final int readUnsignedByte() throws IOException {
-        int ch = this.read();
+    public finbl int rebdUnsignedByte() throws IOException {
+        int ch = this.rebd();
         if (ch < 0)
             throw new EOFException();
         return ch;
     }
 
     /**
-     * Reads a signed 16-bit number from this file. The method reads two
-     * bytes from this file, starting at the current file pointer.
-     * If the two bytes read, in order, are
-     * {@code b1} and {@code b2}, where each of the two values is
-     * between {@code 0} and {@code 255}, inclusive, then the
-     * result is equal to:
+     * Rebds b signed 16-bit number from this file. The method rebds two
+     * bytes from this file, stbrting bt the current file pointer.
+     * If the two bytes rebd, in order, bre
+     * {@code b1} bnd {@code b2}, where ebch of the two vblues is
+     * between {@code 0} bnd {@code 255}, inclusive, then the
+     * result is equbl to:
      * <blockquote><pre>
      *     (short)((b1 &lt;&lt; 8) | b2)
      * </pre></blockquote>
      * <p>
-     * This method blocks until the two bytes are read, the end of the
-     * stream is detected, or an exception is thrown.
+     * This method blocks until the two bytes bre rebd, the end of the
+     * strebm is detected, or bn exception is thrown.
      *
-     * @return     the next two bytes of this file, interpreted as a signed
+     * @return     the next two bytes of this file, interpreted bs b signed
      *             16-bit number.
-     * @exception  EOFException  if this file reaches the end before reading
+     * @exception  EOFException  if this file rebches the end before rebding
      *               two bytes.
-     * @exception  IOException   if an I/O error occurs.
+     * @exception  IOException   if bn I/O error occurs.
      */
-    public final short readShort() throws IOException {
-        int ch1 = this.read();
-        int ch2 = this.read();
+    public finbl short rebdShort() throws IOException {
+        int ch1 = this.rebd();
+        int ch2 = this.rebd();
         if ((ch1 | ch2) < 0)
             throw new EOFException();
         return (short)((ch1 << 8) + (ch2 << 0));
     }
 
     /**
-     * Reads an unsigned 16-bit number from this file. This method reads
-     * two bytes from the file, starting at the current file pointer.
-     * If the bytes read, in order, are
-     * {@code b1} and {@code b2}, where
+     * Rebds bn unsigned 16-bit number from this file. This method rebds
+     * two bytes from the file, stbrting bt the current file pointer.
+     * If the bytes rebd, in order, bre
+     * {@code b1} bnd {@code b2}, where
      * <code>0&nbsp;&lt;=&nbsp;b1, b2&nbsp;&lt;=&nbsp;255</code>,
-     * then the result is equal to:
+     * then the result is equbl to:
      * <blockquote><pre>
      *     (b1 &lt;&lt; 8) | b2
      * </pre></blockquote>
      * <p>
-     * This method blocks until the two bytes are read, the end of the
-     * stream is detected, or an exception is thrown.
+     * This method blocks until the two bytes bre rebd, the end of the
+     * strebm is detected, or bn exception is thrown.
      *
-     * @return     the next two bytes of this file, interpreted as an unsigned
+     * @return     the next two bytes of this file, interpreted bs bn unsigned
      *             16-bit integer.
-     * @exception  EOFException  if this file reaches the end before reading
+     * @exception  EOFException  if this file rebches the end before rebding
      *               two bytes.
-     * @exception  IOException   if an I/O error occurs.
+     * @exception  IOException   if bn I/O error occurs.
      */
-    public final int readUnsignedShort() throws IOException {
-        int ch1 = this.read();
-        int ch2 = this.read();
+    public finbl int rebdUnsignedShort() throws IOException {
+        int ch1 = this.rebd();
+        int ch2 = this.rebd();
         if ((ch1 | ch2) < 0)
             throw new EOFException();
         return (ch1 << 8) + (ch2 << 0);
     }
 
     /**
-     * Reads a character from this file. This method reads two
-     * bytes from the file, starting at the current file pointer.
-     * If the bytes read, in order, are
-     * {@code b1} and {@code b2}, where
+     * Rebds b chbrbcter from this file. This method rebds two
+     * bytes from the file, stbrting bt the current file pointer.
+     * If the bytes rebd, in order, bre
+     * {@code b1} bnd {@code b2}, where
      * <code>0&nbsp;&lt;=&nbsp;b1,&nbsp;b2&nbsp;&lt;=&nbsp;255</code>,
-     * then the result is equal to:
+     * then the result is equbl to:
      * <blockquote><pre>
-     *     (char)((b1 &lt;&lt; 8) | b2)
+     *     (chbr)((b1 &lt;&lt; 8) | b2)
      * </pre></blockquote>
      * <p>
-     * This method blocks until the two bytes are read, the end of the
-     * stream is detected, or an exception is thrown.
+     * This method blocks until the two bytes bre rebd, the end of the
+     * strebm is detected, or bn exception is thrown.
      *
-     * @return     the next two bytes of this file, interpreted as a
-     *                  {@code char}.
-     * @exception  EOFException  if this file reaches the end before reading
+     * @return     the next two bytes of this file, interpreted bs b
+     *                  {@code chbr}.
+     * @exception  EOFException  if this file rebches the end before rebding
      *               two bytes.
-     * @exception  IOException   if an I/O error occurs.
+     * @exception  IOException   if bn I/O error occurs.
      */
-    public final char readChar() throws IOException {
-        int ch1 = this.read();
-        int ch2 = this.read();
+    public finbl chbr rebdChbr() throws IOException {
+        int ch1 = this.rebd();
+        int ch2 = this.rebd();
         if ((ch1 | ch2) < 0)
             throw new EOFException();
-        return (char)((ch1 << 8) + (ch2 << 0));
+        return (chbr)((ch1 << 8) + (ch2 << 0));
     }
 
     /**
-     * Reads a signed 32-bit integer from this file. This method reads 4
-     * bytes from the file, starting at the current file pointer.
-     * If the bytes read, in order, are {@code b1},
-     * {@code b2}, {@code b3}, and {@code b4}, where
+     * Rebds b signed 32-bit integer from this file. This method rebds 4
+     * bytes from the file, stbrting bt the current file pointer.
+     * If the bytes rebd, in order, bre {@code b1},
+     * {@code b2}, {@code b3}, bnd {@code b4}, where
      * <code>0&nbsp;&lt;=&nbsp;b1, b2, b3, b4&nbsp;&lt;=&nbsp;255</code>,
-     * then the result is equal to:
+     * then the result is equbl to:
      * <blockquote><pre>
      *     (b1 &lt;&lt; 24) | (b2 &lt;&lt; 16) + (b3 &lt;&lt; 8) + b4
      * </pre></blockquote>
      * <p>
-     * This method blocks until the four bytes are read, the end of the
-     * stream is detected, or an exception is thrown.
+     * This method blocks until the four bytes bre rebd, the end of the
+     * strebm is detected, or bn exception is thrown.
      *
-     * @return     the next four bytes of this file, interpreted as an
+     * @return     the next four bytes of this file, interpreted bs bn
      *             {@code int}.
-     * @exception  EOFException  if this file reaches the end before reading
+     * @exception  EOFException  if this file rebches the end before rebding
      *               four bytes.
-     * @exception  IOException   if an I/O error occurs.
+     * @exception  IOException   if bn I/O error occurs.
      */
-    public final int readInt() throws IOException {
-        int ch1 = this.read();
-        int ch2 = this.read();
-        int ch3 = this.read();
-        int ch4 = this.read();
+    public finbl int rebdInt() throws IOException {
+        int ch1 = this.rebd();
+        int ch2 = this.rebd();
+        int ch3 = this.rebd();
+        int ch4 = this.rebd();
         if ((ch1 | ch2 | ch3 | ch4) < 0)
             throw new EOFException();
         return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
     }
 
     /**
-     * Reads a signed 64-bit integer from this file. This method reads eight
-     * bytes from the file, starting at the current file pointer.
-     * If the bytes read, in order, are
+     * Rebds b signed 64-bit integer from this file. This method rebds eight
+     * bytes from the file, stbrting bt the current file pointer.
+     * If the bytes rebd, in order, bre
      * {@code b1}, {@code b2}, {@code b3},
      * {@code b4}, {@code b5}, {@code b6},
-     * {@code b7}, and {@code b8,} where:
+     * {@code b7}, bnd {@code b8,} where:
      * <blockquote><pre>
      *     0 &lt;= b1, b2, b3, b4, b5, b6, b7, b8 &lt;=255,
      * </pre></blockquote>
      * <p>
-     * then the result is equal to:
+     * then the result is equbl to:
      * <blockquote><pre>
      *     ((long)b1 &lt;&lt; 56) + ((long)b2 &lt;&lt; 48)
      *     + ((long)b3 &lt;&lt; 40) + ((long)b4 &lt;&lt; 32)
@@ -806,110 +806,110 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
      *     + ((long)b7 &lt;&lt; 8) + b8
      * </pre></blockquote>
      * <p>
-     * This method blocks until the eight bytes are read, the end of the
-     * stream is detected, or an exception is thrown.
+     * This method blocks until the eight bytes bre rebd, the end of the
+     * strebm is detected, or bn exception is thrown.
      *
-     * @return     the next eight bytes of this file, interpreted as a
+     * @return     the next eight bytes of this file, interpreted bs b
      *             {@code long}.
-     * @exception  EOFException  if this file reaches the end before reading
+     * @exception  EOFException  if this file rebches the end before rebding
      *               eight bytes.
-     * @exception  IOException   if an I/O error occurs.
+     * @exception  IOException   if bn I/O error occurs.
      */
-    public final long readLong() throws IOException {
-        return ((long)(readInt()) << 32) + (readInt() & 0xFFFFFFFFL);
+    public finbl long rebdLong() throws IOException {
+        return ((long)(rebdInt()) << 32) + (rebdInt() & 0xFFFFFFFFL);
     }
 
     /**
-     * Reads a {@code float} from this file. This method reads an
-     * {@code int} value, starting at the current file pointer,
-     * as if by the {@code readInt} method
-     * and then converts that {@code int} to a {@code float}
-     * using the {@code intBitsToFloat} method in class
-     * {@code Float}.
+     * Rebds b {@code flobt} from this file. This method rebds bn
+     * {@code int} vblue, stbrting bt the current file pointer,
+     * bs if by the {@code rebdInt} method
+     * bnd then converts thbt {@code int} to b {@code flobt}
+     * using the {@code intBitsToFlobt} method in clbss
+     * {@code Flobt}.
      * <p>
-     * This method blocks until the four bytes are read, the end of the
-     * stream is detected, or an exception is thrown.
+     * This method blocks until the four bytes bre rebd, the end of the
+     * strebm is detected, or bn exception is thrown.
      *
-     * @return     the next four bytes of this file, interpreted as a
-     *             {@code float}.
-     * @exception  EOFException  if this file reaches the end before reading
+     * @return     the next four bytes of this file, interpreted bs b
+     *             {@code flobt}.
+     * @exception  EOFException  if this file rebches the end before rebding
      *             four bytes.
-     * @exception  IOException   if an I/O error occurs.
-     * @see        java.io.RandomAccessFile#readInt()
-     * @see        java.lang.Float#intBitsToFloat(int)
+     * @exception  IOException   if bn I/O error occurs.
+     * @see        jbvb.io.RbndomAccessFile#rebdInt()
+     * @see        jbvb.lbng.Flobt#intBitsToFlobt(int)
      */
-    public final float readFloat() throws IOException {
-        return Float.intBitsToFloat(readInt());
+    public finbl flobt rebdFlobt() throws IOException {
+        return Flobt.intBitsToFlobt(rebdInt());
     }
 
     /**
-     * Reads a {@code double} from this file. This method reads a
-     * {@code long} value, starting at the current file pointer,
-     * as if by the {@code readLong} method
-     * and then converts that {@code long} to a {@code double}
+     * Rebds b {@code double} from this file. This method rebds b
+     * {@code long} vblue, stbrting bt the current file pointer,
+     * bs if by the {@code rebdLong} method
+     * bnd then converts thbt {@code long} to b {@code double}
      * using the {@code longBitsToDouble} method in
-     * class {@code Double}.
+     * clbss {@code Double}.
      * <p>
-     * This method blocks until the eight bytes are read, the end of the
-     * stream is detected, or an exception is thrown.
+     * This method blocks until the eight bytes bre rebd, the end of the
+     * strebm is detected, or bn exception is thrown.
      *
-     * @return     the next eight bytes of this file, interpreted as a
+     * @return     the next eight bytes of this file, interpreted bs b
      *             {@code double}.
-     * @exception  EOFException  if this file reaches the end before reading
+     * @exception  EOFException  if this file rebches the end before rebding
      *             eight bytes.
-     * @exception  IOException   if an I/O error occurs.
-     * @see        java.io.RandomAccessFile#readLong()
-     * @see        java.lang.Double#longBitsToDouble(long)
+     * @exception  IOException   if bn I/O error occurs.
+     * @see        jbvb.io.RbndomAccessFile#rebdLong()
+     * @see        jbvb.lbng.Double#longBitsToDouble(long)
      */
-    public final double readDouble() throws IOException {
-        return Double.longBitsToDouble(readLong());
+    public finbl double rebdDouble() throws IOException {
+        return Double.longBitsToDouble(rebdLong());
     }
 
     /**
-     * Reads the next line of text from this file.  This method successively
-     * reads bytes from the file, starting at the current file pointer,
-     * until it reaches a line terminator or the end
-     * of the file.  Each byte is converted into a character by taking the
-     * byte's value for the lower eight bits of the character and setting the
-     * high eight bits of the character to zero.  This method does not,
-     * therefore, support the full Unicode character set.
+     * Rebds the next line of text from this file.  This method successively
+     * rebds bytes from the file, stbrting bt the current file pointer,
+     * until it rebches b line terminbtor or the end
+     * of the file.  Ebch byte is converted into b chbrbcter by tbking the
+     * byte's vblue for the lower eight bits of the chbrbcter bnd setting the
+     * high eight bits of the chbrbcter to zero.  This method does not,
+     * therefore, support the full Unicode chbrbcter set.
      *
-     * <p> A line of text is terminated by a carriage-return character
-     * ({@code '\u005Cr'}), a newline character ({@code '\u005Cn'}), a
-     * carriage-return character immediately followed by a newline character,
-     * or the end of the file.  Line-terminating characters are discarded and
-     * are not included as part of the string returned.
+     * <p> A line of text is terminbted by b cbrribge-return chbrbcter
+     * ({@code '\u005Cr'}), b newline chbrbcter ({@code '\u005Cn'}), b
+     * cbrribge-return chbrbcter immedibtely followed by b newline chbrbcter,
+     * or the end of the file.  Line-terminbting chbrbcters bre discbrded bnd
+     * bre not included bs pbrt of the string returned.
      *
-     * <p> This method blocks until a newline character is read, a carriage
-     * return and the byte following it are read (to see if it is a newline),
-     * the end of the file is reached, or an exception is thrown.
+     * <p> This method blocks until b newline chbrbcter is rebd, b cbrribge
+     * return bnd the byte following it bre rebd (to see if it is b newline),
+     * the end of the file is rebched, or bn exception is thrown.
      *
      * @return     the next line of text from this file, or null if end
-     *             of file is encountered before even one byte is read.
-     * @exception  IOException  if an I/O error occurs.
+     *             of file is encountered before even one byte is rebd.
+     * @exception  IOException  if bn I/O error occurs.
      */
 
-    public final String readLine() throws IOException {
+    public finbl String rebdLine() throws IOException {
         StringBuilder input = new StringBuilder();
         int c = -1;
-        boolean eol = false;
+        boolebn eol = fblse;
 
         while (!eol) {
-            switch (c = read()) {
-            case -1:
-            case '\n':
+            switch (c = rebd()) {
+            cbse -1:
+            cbse '\n':
                 eol = true;
-                break;
-            case '\r':
+                brebk;
+            cbse '\r':
                 eol = true;
                 long cur = getFilePointer();
-                if ((read()) != '\n') {
+                if ((rebd()) != '\n') {
                     seek(cur);
                 }
-                break;
-            default:
-                input.append((char)c);
-                break;
+                brebk;
+            defbult:
+                input.bppend((chbr)c);
+                brebk;
             }
         }
 
@@ -920,96 +920,96 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
     }
 
     /**
-     * Reads in a string from this file. The string has been encoded
-     * using a
-     * <a href="DataInput.html#modified-utf-8">modified UTF-8</a>
-     * format.
+     * Rebds in b string from this file. The string hbs been encoded
+     * using b
+     * <b href="DbtbInput.html#modified-utf-8">modified UTF-8</b>
+     * formbt.
      * <p>
-     * The first two bytes are read, starting from the current file
-     * pointer, as if by
-     * {@code readUnsignedShort}. This value gives the number of
-     * following bytes that are in the encoded string, not
-     * the length of the resulting string. The following bytes are then
-     * interpreted as bytes encoding characters in the modified UTF-8 format
-     * and are converted into characters.
+     * The first two bytes bre rebd, stbrting from the current file
+     * pointer, bs if by
+     * {@code rebdUnsignedShort}. This vblue gives the number of
+     * following bytes thbt bre in the encoded string, not
+     * the length of the resulting string. The following bytes bre then
+     * interpreted bs bytes encoding chbrbcters in the modified UTF-8 formbt
+     * bnd bre converted into chbrbcters.
      * <p>
-     * This method blocks until all the bytes are read, the end of the
-     * stream is detected, or an exception is thrown.
+     * This method blocks until bll the bytes bre rebd, the end of the
+     * strebm is detected, or bn exception is thrown.
      *
-     * @return     a Unicode string.
-     * @exception  EOFException            if this file reaches the end before
-     *               reading all the bytes.
-     * @exception  IOException             if an I/O error occurs.
-     * @exception  UTFDataFormatException  if the bytes do not represent
-     *               valid modified UTF-8 encoding of a Unicode string.
-     * @see        java.io.RandomAccessFile#readUnsignedShort()
+     * @return     b Unicode string.
+     * @exception  EOFException            if this file rebches the end before
+     *               rebding bll the bytes.
+     * @exception  IOException             if bn I/O error occurs.
+     * @exception  UTFDbtbFormbtException  if the bytes do not represent
+     *               vblid modified UTF-8 encoding of b Unicode string.
+     * @see        jbvb.io.RbndomAccessFile#rebdUnsignedShort()
      */
-    public final String readUTF() throws IOException {
-        return DataInputStream.readUTF(this);
+    public finbl String rebdUTF() throws IOException {
+        return DbtbInputStrebm.rebdUTF(this);
     }
 
     /**
-     * Writes a {@code boolean} to the file as a one-byte value. The
-     * value {@code true} is written out as the value
-     * {@code (byte)1}; the value {@code false} is written out
-     * as the value {@code (byte)0}. The write starts at
+     * Writes b {@code boolebn} to the file bs b one-byte vblue. The
+     * vblue {@code true} is written out bs the vblue
+     * {@code (byte)1}; the vblue {@code fblse} is written out
+     * bs the vblue {@code (byte)0}. The write stbrts bt
      * the current position of the file pointer.
      *
-     * @param      v   a {@code boolean} value to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      v   b {@code boolebn} vblue to be written.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public final void writeBoolean(boolean v) throws IOException {
+    public finbl void writeBoolebn(boolebn v) throws IOException {
         write(v ? 1 : 0);
         //written++;
     }
 
     /**
-     * Writes a {@code byte} to the file as a one-byte value. The
-     * write starts at the current position of the file pointer.
+     * Writes b {@code byte} to the file bs b one-byte vblue. The
+     * write stbrts bt the current position of the file pointer.
      *
-     * @param      v   a {@code byte} value to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      v   b {@code byte} vblue to be written.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public final void writeByte(int v) throws IOException {
+    public finbl void writeByte(int v) throws IOException {
         write(v);
         //written++;
     }
 
     /**
-     * Writes a {@code short} to the file as two bytes, high byte first.
-     * The write starts at the current position of the file pointer.
+     * Writes b {@code short} to the file bs two bytes, high byte first.
+     * The write stbrts bt the current position of the file pointer.
      *
-     * @param      v   a {@code short} to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      v   b {@code short} to be written.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public final void writeShort(int v) throws IOException {
+    public finbl void writeShort(int v) throws IOException {
         write((v >>> 8) & 0xFF);
         write((v >>> 0) & 0xFF);
         //written += 2;
     }
 
     /**
-     * Writes a {@code char} to the file as a two-byte value, high
-     * byte first. The write starts at the current position of the
+     * Writes b {@code chbr} to the file bs b two-byte vblue, high
+     * byte first. The write stbrts bt the current position of the
      * file pointer.
      *
-     * @param      v   a {@code char} value to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      v   b {@code chbr} vblue to be written.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public final void writeChar(int v) throws IOException {
+    public finbl void writeChbr(int v) throws IOException {
         write((v >>> 8) & 0xFF);
         write((v >>> 0) & 0xFF);
         //written += 2;
     }
 
     /**
-     * Writes an {@code int} to the file as four bytes, high byte first.
-     * The write starts at the current position of the file pointer.
+     * Writes bn {@code int} to the file bs four bytes, high byte first.
+     * The write stbrts bt the current position of the file pointer.
      *
-     * @param      v   an {@code int} to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      v   bn {@code int} to be written.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public final void writeInt(int v) throws IOException {
+    public finbl void writeInt(int v) throws IOException {
         write((v >>> 24) & 0xFF);
         write((v >>> 16) & 0xFF);
         write((v >>>  8) & 0xFF);
@@ -1018,13 +1018,13 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
     }
 
     /**
-     * Writes a {@code long} to the file as eight bytes, high byte first.
-     * The write starts at the current position of the file pointer.
+     * Writes b {@code long} to the file bs eight bytes, high byte first.
+     * The write stbrts bt the current position of the file pointer.
      *
-     * @param      v   a {@code long} to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      v   b {@code long} to be written.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public final void writeLong(long v) throws IOException {
+    public finbl void writeLong(long v) throws IOException {
         write((int)(v >>> 56) & 0xFF);
         write((int)(v >>> 48) & 0xFF);
         write((int)(v >>> 40) & 0xFF);
@@ -1037,46 +1037,46 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
     }
 
     /**
-     * Converts the float argument to an {@code int} using the
-     * {@code floatToIntBits} method in class {@code Float},
-     * and then writes that {@code int} value to the file as a
-     * four-byte quantity, high byte first. The write starts at the
+     * Converts the flobt brgument to bn {@code int} using the
+     * {@code flobtToIntBits} method in clbss {@code Flobt},
+     * bnd then writes thbt {@code int} vblue to the file bs b
+     * four-byte qubntity, high byte first. The write stbrts bt the
      * current position of the file pointer.
      *
-     * @param      v   a {@code float} value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.lang.Float#floatToIntBits(float)
+     * @pbrbm      v   b {@code flobt} vblue to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.lbng.Flobt#flobtToIntBits(flobt)
      */
-    public final void writeFloat(float v) throws IOException {
-        writeInt(Float.floatToIntBits(v));
+    public finbl void writeFlobt(flobt v) throws IOException {
+        writeInt(Flobt.flobtToIntBits(v));
     }
 
     /**
-     * Converts the double argument to a {@code long} using the
-     * {@code doubleToLongBits} method in class {@code Double},
-     * and then writes that {@code long} value to the file as an
-     * eight-byte quantity, high byte first. The write starts at the current
+     * Converts the double brgument to b {@code long} using the
+     * {@code doubleToLongBits} method in clbss {@code Double},
+     * bnd then writes thbt {@code long} vblue to the file bs bn
+     * eight-byte qubntity, high byte first. The write stbrts bt the current
      * position of the file pointer.
      *
-     * @param      v   a {@code double} value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.lang.Double#doubleToLongBits(double)
+     * @pbrbm      v   b {@code double} vblue to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.lbng.Double#doubleToLongBits(double)
      */
-    public final void writeDouble(double v) throws IOException {
+    public finbl void writeDouble(double v) throws IOException {
         writeLong(Double.doubleToLongBits(v));
     }
 
     /**
-     * Writes the string to the file as a sequence of bytes. Each
-     * character in the string is written out, in sequence, by discarding
-     * its high eight bits. The write starts at the current position of
+     * Writes the string to the file bs b sequence of bytes. Ebch
+     * chbrbcter in the string is written out, in sequence, by discbrding
+     * its high eight bits. The write stbrts bt the current position of
      * the file pointer.
      *
-     * @param      s   a string of bytes to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      s   b string of bytes to be written.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    @SuppressWarnings("deprecation")
-    public final void writeBytes(String s) throws IOException {
+    @SuppressWbrnings("deprecbtion")
+    public finbl void writeBytes(String s) throws IOException {
         int len = s.length();
         byte[] b = new byte[len];
         s.getBytes(0, len, b, 0);
@@ -1084,21 +1084,21 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
     }
 
     /**
-     * Writes a string to the file as a sequence of characters. Each
-     * character is written to the data output stream as if by the
-     * {@code writeChar} method. The write starts at the current
+     * Writes b string to the file bs b sequence of chbrbcters. Ebch
+     * chbrbcter is written to the dbtb output strebm bs if by the
+     * {@code writeChbr} method. The write stbrts bt the current
      * position of the file pointer.
      *
-     * @param      s   a {@code String} value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.RandomAccessFile#writeChar(int)
+     * @pbrbm      s   b {@code String} vblue to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.RbndomAccessFile#writeChbr(int)
      */
-    public final void writeChars(String s) throws IOException {
+    public finbl void writeChbrs(String s) throws IOException {
         int clen = s.length();
         int blen = 2*clen;
         byte[] b = new byte[blen];
-        char[] c = new char[clen];
-        s.getChars(0, clen, c, 0);
+        chbr[] c = new chbr[clen];
+        s.getChbrs(0, clen, c, 0);
         for (int i = 0, j = 0; i < clen; i++) {
             b[j++] = (byte)(c[i] >>> 8);
             b[j++] = (byte)(c[i] >>> 0);
@@ -1107,30 +1107,30 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
     }
 
     /**
-     * Writes a string to the file using
-     * <a href="DataInput.html#modified-utf-8">modified UTF-8</a>
-     * encoding in a machine-independent manner.
+     * Writes b string to the file using
+     * <b href="DbtbInput.html#modified-utf-8">modified UTF-8</b>
+     * encoding in b mbchine-independent mbnner.
      * <p>
-     * First, two bytes are written to the file, starting at the
-     * current file pointer, as if by the
+     * First, two bytes bre written to the file, stbrting bt the
+     * current file pointer, bs if by the
      * {@code writeShort} method giving the number of bytes to
-     * follow. This value is the number of bytes actually written out,
-     * not the length of the string. Following the length, each character
+     * follow. This vblue is the number of bytes bctublly written out,
+     * not the length of the string. Following the length, ebch chbrbcter
      * of the string is output, in sequence, using the modified UTF-8 encoding
-     * for each character.
+     * for ebch chbrbcter.
      *
-     * @param      str   a string to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      str   b string to be written.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public final void writeUTF(String str) throws IOException {
-        DataOutputStream.writeUTF(str, this);
+    public finbl void writeUTF(String str) throws IOException {
+        DbtbOutputStrebm.writeUTF(str, this);
     }
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    private native void close0() throws IOException;
+    privbte nbtive void close0() throws IOException;
 
-    static {
+    stbtic {
         initIDs();
     }
 }

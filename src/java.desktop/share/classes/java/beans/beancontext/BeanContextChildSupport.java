@@ -1,343 +1,343 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans.beancontext;
+pbckbge jbvb.bebns.bebncontext;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeSupport;
 
-import java.beans.VetoableChangeListener;
-import java.beans.VetoableChangeSupport;
+import jbvb.bebns.VetobbleChbngeListener;
+import jbvb.bebns.VetobbleChbngeSupport;
 
-import java.beans.PropertyVetoException;
+import jbvb.bebns.PropertyVetoException;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.Seriblizbble;
 
 /**
  * <p>
- * This is a general support class to provide support for implementing the
- * BeanContextChild protocol.
+ * This is b generbl support clbss to provide support for implementing the
+ * BebnContextChild protocol.
  *
- * This class may either be directly subclassed, or encapsulated and delegated
- * to in order to implement this interface for a given component.
+ * This clbss mby either be directly subclbssed, or encbpsulbted bnd delegbted
+ * to in order to implement this interfbce for b given component.
  * </p>
  *
- * @author      Laurence P. G. Cable
+ * @buthor      Lburence P. G. Cbble
  * @since       1.2
  *
- * @see java.beans.beancontext.BeanContext
- * @see java.beans.beancontext.BeanContextServices
- * @see java.beans.beancontext.BeanContextChild
+ * @see jbvb.bebns.bebncontext.BebnContext
+ * @see jbvb.bebns.bebncontext.BebnContextServices
+ * @see jbvb.bebns.bebncontext.BebnContextChild
  */
 
-public class BeanContextChildSupport implements BeanContextChild, BeanContextServicesListener, Serializable {
+public clbss BebnContextChildSupport implements BebnContextChild, BebnContextServicesListener, Seriblizbble {
 
-    static final long serialVersionUID = 6328947014421475877L;
+    stbtic finbl long seriblVersionUID = 6328947014421475877L;
 
     /**
-     * construct a BeanContextChildSupport where this class has been
-     * subclassed in order to implement the JavaBean component itself.
+     * construct b BebnContextChildSupport where this clbss hbs been
+     * subclbssed in order to implement the JbvbBebn component itself.
      */
 
-    public BeanContextChildSupport() {
+    public BebnContextChildSupport() {
         super();
 
-        beanContextChildPeer = this;
+        bebnContextChildPeer = this;
 
-        pcSupport = new PropertyChangeSupport(beanContextChildPeer);
-        vcSupport = new VetoableChangeSupport(beanContextChildPeer);
+        pcSupport = new PropertyChbngeSupport(bebnContextChildPeer);
+        vcSupport = new VetobbleChbngeSupport(bebnContextChildPeer);
     }
 
     /**
-     * construct a BeanContextChildSupport where the JavaBean component
-     * itself implements BeanContextChild, and encapsulates this, delegating
-     * that interface to this implementation
-     * @param bcc the underlying bean context child
+     * construct b BebnContextChildSupport where the JbvbBebn component
+     * itself implements BebnContextChild, bnd encbpsulbtes this, delegbting
+     * thbt interfbce to this implementbtion
+     * @pbrbm bcc the underlying bebn context child
      */
 
-    public BeanContextChildSupport(BeanContextChild bcc) {
+    public BebnContextChildSupport(BebnContextChild bcc) {
         super();
 
-        beanContextChildPeer = (bcc != null) ? bcc : this;
+        bebnContextChildPeer = (bcc != null) ? bcc : this;
 
-        pcSupport = new PropertyChangeSupport(beanContextChildPeer);
-        vcSupport = new VetoableChangeSupport(beanContextChildPeer);
+        pcSupport = new PropertyChbngeSupport(bebnContextChildPeer);
+        vcSupport = new VetobbleChbngeSupport(bebnContextChildPeer);
     }
 
     /**
-     * Sets the <code>BeanContext</code> for
-     * this <code>BeanContextChildSupport</code>.
-     * @param bc the new value to be assigned to the <code>BeanContext</code>
+     * Sets the <code>BebnContext</code> for
+     * this <code>BebnContextChildSupport</code>.
+     * @pbrbm bc the new vblue to be bssigned to the <code>BebnContext</code>
      * property
-     * @throws PropertyVetoException if the change is rejected
+     * @throws PropertyVetoException if the chbnge is rejected
      */
-    public synchronized void setBeanContext(BeanContext bc) throws PropertyVetoException {
-        if (bc == beanContext) return;
+    public synchronized void setBebnContext(BebnContext bc) throws PropertyVetoException {
+        if (bc == bebnContext) return;
 
-        BeanContext oldValue = beanContext;
-        BeanContext newValue = bc;
+        BebnContext oldVblue = bebnContext;
+        BebnContext newVblue = bc;
 
         if (!rejectedSetBCOnce) {
-            if (rejectedSetBCOnce = !validatePendingSetBeanContext(bc)) {
+            if (rejectedSetBCOnce = !vblidbtePendingSetBebnContext(bc)) {
                 throw new PropertyVetoException(
-                    "setBeanContext() change rejected:",
-                    new PropertyChangeEvent(beanContextChildPeer, "beanContext", oldValue, newValue)
+                    "setBebnContext() chbnge rejected:",
+                    new PropertyChbngeEvent(bebnContextChildPeer, "bebnContext", oldVblue, newVblue)
                 );
             }
 
             try {
-                fireVetoableChange("beanContext",
-                                   oldValue,
-                                   newValue
+                fireVetobbleChbnge("bebnContext",
+                                   oldVblue,
+                                   newVblue
                 );
-            } catch (PropertyVetoException pve) {
+            } cbtch (PropertyVetoException pve) {
                 rejectedSetBCOnce = true;
 
                 throw pve; // re-throw
             }
         }
 
-        if (beanContext != null) releaseBeanContextResources();
+        if (bebnContext != null) relebseBebnContextResources();
 
-        beanContext       = newValue;
-        rejectedSetBCOnce = false;
+        bebnContext       = newVblue;
+        rejectedSetBCOnce = fblse;
 
-        firePropertyChange("beanContext",
-                           oldValue,
-                           newValue
+        firePropertyChbnge("bebnContext",
+                           oldVblue,
+                           newVblue
         );
 
-        if (beanContext != null) initializeBeanContextResources();
+        if (bebnContext != null) initiblizeBebnContextResources();
     }
 
     /**
-     * Gets the nesting <code>BeanContext</code>
-     * for this <code>BeanContextChildSupport</code>.
-     * @return the nesting <code>BeanContext</code> for
-     * this <code>BeanContextChildSupport</code>.
+     * Gets the nesting <code>BebnContext</code>
+     * for this <code>BebnContextChildSupport</code>.
+     * @return the nesting <code>BebnContext</code> for
+     * this <code>BebnContextChildSupport</code>.
      */
-    public synchronized BeanContext getBeanContext() { return beanContext; }
+    public synchronized BebnContext getBebnContext() { return bebnContext; }
 
     /**
-     * Add a PropertyChangeListener for a specific property.
-     * The same listener object may be added more than once.  For each
-     * property,  the listener will be invoked the number of times it was added
-     * for that property.
-     * If <code>name</code> or <code>pcl</code> is null, no exception is thrown
-     * and no action is taken.
+     * Add b PropertyChbngeListener for b specific property.
+     * The sbme listener object mby be bdded more thbn once.  For ebch
+     * property,  the listener will be invoked the number of times it wbs bdded
+     * for thbt property.
+     * If <code>nbme</code> or <code>pcl</code> is null, no exception is thrown
+     * bnd no bction is tbken.
      *
-     * @param name The name of the property to listen on
-     * @param pcl The <code>PropertyChangeListener</code> to be added
+     * @pbrbm nbme The nbme of the property to listen on
+     * @pbrbm pcl The <code>PropertyChbngeListener</code> to be bdded
      */
-    public void addPropertyChangeListener(String name, PropertyChangeListener pcl) {
-        pcSupport.addPropertyChangeListener(name, pcl);
+    public void bddPropertyChbngeListener(String nbme, PropertyChbngeListener pcl) {
+        pcSupport.bddPropertyChbngeListener(nbme, pcl);
     }
 
     /**
-     * Remove a PropertyChangeListener for a specific property.
-     * If <code>pcl</code> was added more than once to the same event
+     * Remove b PropertyChbngeListener for b specific property.
+     * If <code>pcl</code> wbs bdded more thbn once to the sbme event
      * source for the specified property, it will be notified one less time
-     * after being removed.
-     * If <code>name</code> is null, no exception is thrown
-     * and no action is taken.
-     * If <code>pcl</code> is null, or was never added for the specified
-     * property, no exception is thrown and no action is taken.
+     * bfter being removed.
+     * If <code>nbme</code> is null, no exception is thrown
+     * bnd no bction is tbken.
+     * If <code>pcl</code> is null, or wbs never bdded for the specified
+     * property, no exception is thrown bnd no bction is tbken.
      *
-     * @param name The name of the property that was listened on
-     * @param pcl The PropertyChangeListener to be removed
+     * @pbrbm nbme The nbme of the property thbt wbs listened on
+     * @pbrbm pcl The PropertyChbngeListener to be removed
      */
-    public void removePropertyChangeListener(String name, PropertyChangeListener pcl) {
-        pcSupport.removePropertyChangeListener(name, pcl);
+    public void removePropertyChbngeListener(String nbme, PropertyChbngeListener pcl) {
+        pcSupport.removePropertyChbngeListener(nbme, pcl);
     }
 
     /**
-     * Add a VetoableChangeListener for a specific property.
-     * The same listener object may be added more than once.  For each
-     * property,  the listener will be invoked the number of times it was added
-     * for that property.
-     * If <code>name</code> or <code>vcl</code> is null, no exception is thrown
-     * and no action is taken.
+     * Add b VetobbleChbngeListener for b specific property.
+     * The sbme listener object mby be bdded more thbn once.  For ebch
+     * property,  the listener will be invoked the number of times it wbs bdded
+     * for thbt property.
+     * If <code>nbme</code> or <code>vcl</code> is null, no exception is thrown
+     * bnd no bction is tbken.
      *
-     * @param name The name of the property to listen on
-     * @param vcl The <code>VetoableChangeListener</code> to be added
+     * @pbrbm nbme The nbme of the property to listen on
+     * @pbrbm vcl The <code>VetobbleChbngeListener</code> to be bdded
      */
-    public void addVetoableChangeListener(String name, VetoableChangeListener vcl) {
-        vcSupport.addVetoableChangeListener(name, vcl);
+    public void bddVetobbleChbngeListener(String nbme, VetobbleChbngeListener vcl) {
+        vcSupport.bddVetobbleChbngeListener(nbme, vcl);
     }
 
     /**
-     * Removes a <code>VetoableChangeListener</code>.
-     * If <code>pcl</code> was added more than once to the same event
+     * Removes b <code>VetobbleChbngeListener</code>.
+     * If <code>pcl</code> wbs bdded more thbn once to the sbme event
      * source for the specified property, it will be notified one less time
-     * after being removed.
-     * If <code>name</code> is null, no exception is thrown
-     * and no action is taken.
-     * If <code>vcl</code> is null, or was never added for the specified
-     * property, no exception is thrown and no action is taken.
+     * bfter being removed.
+     * If <code>nbme</code> is null, no exception is thrown
+     * bnd no bction is tbken.
+     * If <code>vcl</code> is null, or wbs never bdded for the specified
+     * property, no exception is thrown bnd no bction is tbken.
      *
-     * @param name The name of the property that was listened on
-     * @param vcl The <code>VetoableChangeListener</code> to be removed
+     * @pbrbm nbme The nbme of the property thbt wbs listened on
+     * @pbrbm vcl The <code>VetobbleChbngeListener</code> to be removed
      */
-    public void removeVetoableChangeListener(String name, VetoableChangeListener vcl) {
-        vcSupport.removeVetoableChangeListener(name, vcl);
+    public void removeVetobbleChbngeListener(String nbme, VetobbleChbngeListener vcl) {
+        vcSupport.removeVetobbleChbngeListener(nbme, vcl);
     }
 
     /**
-     * A service provided by the nesting BeanContext has been revoked.
+     * A service provided by the nesting BebnContext hbs been revoked.
      *
-     * Subclasses may override this method in order to implement their own
-     * behaviors.
-     * @param bcsre The <code>BeanContextServiceRevokedEvent</code> fired as a
-     * result of a service being revoked
+     * Subclbsses mby override this method in order to implement their own
+     * behbviors.
+     * @pbrbm bcsre The <code>BebnContextServiceRevokedEvent</code> fired bs b
+     * result of b service being revoked
      */
-    public void serviceRevoked(BeanContextServiceRevokedEvent bcsre) { }
+    public void serviceRevoked(BebnContextServiceRevokedEvent bcsre) { }
 
     /**
-     * A new service is available from the nesting BeanContext.
+     * A new service is bvbilbble from the nesting BebnContext.
      *
-     * Subclasses may override this method in order to implement their own
-     * behaviors
-     * @param bcsae The BeanContextServiceAvailableEvent fired as a
-     * result of a service becoming available
+     * Subclbsses mby override this method in order to implement their own
+     * behbviors
+     * @pbrbm bcsbe The BebnContextServiceAvbilbbleEvent fired bs b
+     * result of b service becoming bvbilbble
      *
      */
-    public void serviceAvailable(BeanContextServiceAvailableEvent bcsae) { }
+    public void serviceAvbilbble(BebnContextServiceAvbilbbleEvent bcsbe) { }
 
     /**
-     * Gets the <tt>BeanContextChild</tt> associated with this
-     * <tt>BeanContextChildSupport</tt>.
+     * Gets the <tt>BebnContextChild</tt> bssocibted with this
+     * <tt>BebnContextChildSupport</tt>.
      *
-     * @return the <tt>BeanContextChild</tt> peer of this class
+     * @return the <tt>BebnContextChild</tt> peer of this clbss
      */
-    public BeanContextChild getBeanContextChildPeer() { return beanContextChildPeer; }
+    public BebnContextChild getBebnContextChildPeer() { return bebnContextChildPeer; }
 
     /**
-     * Reports whether or not this class is a delegate of another.
+     * Reports whether or not this clbss is b delegbte of bnother.
      *
-     * @return true if this class is a delegate of another
+     * @return true if this clbss is b delegbte of bnother
      */
-    public boolean isDelegated() { return !this.equals(beanContextChildPeer); }
+    public boolebn isDelegbted() { return !this.equbls(bebnContextChildPeer); }
 
     /**
-     * Report a bound property update to any registered listeners. No event is
-     * fired if old and new are equal and non-null.
-     * @param name The programmatic name of the property that was changed
-     * @param oldValue  The old value of the property
-     * @param newValue  The new value of the property
+     * Report b bound property updbte to bny registered listeners. No event is
+     * fired if old bnd new bre equbl bnd non-null.
+     * @pbrbm nbme The progrbmmbtic nbme of the property thbt wbs chbnged
+     * @pbrbm oldVblue  The old vblue of the property
+     * @pbrbm newVblue  The new vblue of the property
      */
-    public void firePropertyChange(String name, Object oldValue, Object newValue) {
-        pcSupport.firePropertyChange(name, oldValue, newValue);
+    public void firePropertyChbnge(String nbme, Object oldVblue, Object newVblue) {
+        pcSupport.firePropertyChbnge(nbme, oldVblue, newVblue);
     }
 
     /**
-     * Report a vetoable property update to any registered listeners.
-     * If anyone vetos the change, then fire a new event
-     * reverting everyone to the old value and then rethrow
+     * Report b vetobble property updbte to bny registered listeners.
+     * If bnyone vetos the chbnge, then fire b new event
+     * reverting everyone to the old vblue bnd then rethrow
      * the PropertyVetoException. <P>
      *
-     * No event is fired if old and new are equal and non-null.
+     * No event is fired if old bnd new bre equbl bnd non-null.
      *
-     * @param name The programmatic name of the property that is about to
-     * change
+     * @pbrbm nbme The progrbmmbtic nbme of the property thbt is bbout to
+     * chbnge
      *
-     * @param oldValue The old value of the property
-     * @param newValue - The new value of the property
+     * @pbrbm oldVblue The old vblue of the property
+     * @pbrbm newVblue - The new vblue of the property
      *
      * @throws PropertyVetoException if the recipient wishes the property
-     * change to be rolled back.
+     * chbnge to be rolled bbck.
      */
-    public void fireVetoableChange(String name, Object oldValue, Object newValue) throws PropertyVetoException {
-        vcSupport.fireVetoableChange(name, oldValue, newValue);
+    public void fireVetobbleChbnge(String nbme, Object oldVblue, Object newVblue) throws PropertyVetoException {
+        vcSupport.fireVetobbleChbnge(nbme, oldVblue, newVblue);
     }
 
     /**
-     * Called from setBeanContext to validate (or otherwise) the
-     * pending change in the nesting BeanContext property value.
-     * Returning false will cause setBeanContext to throw
+     * Cblled from setBebnContext to vblidbte (or otherwise) the
+     * pending chbnge in the nesting BebnContext property vblue.
+     * Returning fblse will cbuse setBebnContext to throw
      * PropertyVetoException.
-     * @param newValue the new value that has been requested for
-     *  the BeanContext property
-     * @return <code>true</code> if the change operation is to be vetoed
+     * @pbrbm newVblue the new vblue thbt hbs been requested for
+     *  the BebnContext property
+     * @return <code>true</code> if the chbnge operbtion is to be vetoed
      */
-    public boolean validatePendingSetBeanContext(BeanContext newValue) {
+    public boolebn vblidbtePendingSetBebnContext(BebnContext newVblue) {
         return true;
     }
 
     /**
-     * This method may be overridden by subclasses to provide their own
-     * release behaviors. When invoked any resources held by this instance
-     * obtained from its current BeanContext property should be released
-     * since the object is no longer nested within that BeanContext.
+     * This method mby be overridden by subclbsses to provide their own
+     * relebse behbviors. When invoked bny resources held by this instbnce
+     * obtbined from its current BebnContext property should be relebsed
+     * since the object is no longer nested within thbt BebnContext.
      */
 
-    protected  void releaseBeanContextResources() {
+    protected  void relebseBebnContextResources() {
         // do nothing
     }
 
     /**
-     * This method may be overridden by subclasses to provide their own
-     * initialization behaviors. When invoked any resources required by the
-     * BeanContextChild should be obtained from the current BeanContext.
+     * This method mby be overridden by subclbsses to provide their own
+     * initiblizbtion behbviors. When invoked bny resources required by the
+     * BebnContextChild should be obtbined from the current BebnContext.
      */
 
-    protected void initializeBeanContextResources() {
+    protected void initiblizeBebnContextResources() {
         // do nothing
     }
 
     /**
-     * Write the persistence state of the object.
+     * Write the persistence stbte of the object.
      */
 
-    private void writeObject(ObjectOutputStream oos) throws IOException {
+    privbte void writeObject(ObjectOutputStrebm oos) throws IOException {
 
         /*
-         * don't serialize if we are delegated and the delegator is not also
-         * serializable.
+         * don't seriblize if we bre delegbted bnd the delegbtor is not blso
+         * seriblizbble.
          */
 
-        if (!equals(beanContextChildPeer) && !(beanContextChildPeer instanceof Serializable))
-            throw new IOException("BeanContextChildSupport beanContextChildPeer not Serializable");
+        if (!equbls(bebnContextChildPeer) && !(bebnContextChildPeer instbnceof Seriblizbble))
+            throw new IOException("BebnContextChildSupport bebnContextChildPeer not Seriblizbble");
 
         else
-            oos.defaultWriteObject();
+            oos.defbultWriteObject();
 
     }
 
 
     /**
-     * Restore a persistent object, must wait for subsequent setBeanContext()
-     * to fully restore any resources obtained from the new nesting
-     * BeanContext
+     * Restore b persistent object, must wbit for subsequent setBebnContext()
+     * to fully restore bny resources obtbined from the new nesting
+     * BebnContext
      */
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+        ois.defbultRebdObject();
     }
 
     /*
@@ -345,33 +345,33 @@ public class BeanContextChildSupport implements BeanContextChild, BeanContextSer
      */
 
     /**
-     * The <code>BeanContext</code> in which
-     * this <code>BeanContextChild</code> is nested.
+     * The <code>BebnContext</code> in which
+     * this <code>BebnContextChild</code> is nested.
      */
-    public    BeanContextChild      beanContextChildPeer;
+    public    BebnContextChild      bebnContextChildPeer;
 
    /**
-    * The <tt>PropertyChangeSupport</tt> associated with this
-    * <tt>BeanContextChildSupport</tt>.
+    * The <tt>PropertyChbngeSupport</tt> bssocibted with this
+    * <tt>BebnContextChildSupport</tt>.
     */
-    protected PropertyChangeSupport pcSupport;
+    protected PropertyChbngeSupport pcSupport;
 
    /**
-    * The <tt>VetoableChangeSupport</tt> associated with this
-    * <tt>BeanContextChildSupport</tt>.
+    * The <tt>VetobbleChbngeSupport</tt> bssocibted with this
+    * <tt>BebnContextChildSupport</tt>.
     */
-    protected VetoableChangeSupport vcSupport;
+    protected VetobbleChbngeSupport vcSupport;
 
     /**
-     * The bean context.
+     * The bebn context.
      */
-    protected transient BeanContext           beanContext;
+    protected trbnsient BebnContext           bebnContext;
 
    /**
-    * A flag indicating that there has been
-    * at least one <code>PropertyChangeVetoException</code>
-    * thrown for the attempted setBeanContext operation.
+    * A flbg indicbting thbt there hbs been
+    * bt lebst one <code>PropertyChbngeVetoException</code>
+    * thrown for the bttempted setBebnContext operbtion.
     */
-    protected transient boolean               rejectedSetBCOnce;
+    protected trbnsient boolebn               rejectedSetBCOnce;
 
 }

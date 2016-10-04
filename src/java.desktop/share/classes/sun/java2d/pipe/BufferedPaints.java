@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.LinearGradientPaint;
-import java.awt.MultipleGradientPaint;
-import java.awt.MultipleGradientPaint.ColorSpaceType;
-import java.awt.MultipleGradientPaint.CycleMethod;
-import java.awt.Paint;
-import java.awt.RadialGradientPaint;
-import java.awt.TexturePaint;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import sun.awt.image.PixelConverter;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.SurfaceType;
-import static sun.java2d.pipe.BufferedOpCodes.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.GrbdientPbint;
+import jbvb.bwt.LinebrGrbdientPbint;
+import jbvb.bwt.MultipleGrbdientPbint;
+import jbvb.bwt.MultipleGrbdientPbint.ColorSpbceType;
+import jbvb.bwt.MultipleGrbdientPbint.CycleMethod;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.RbdiblGrbdientPbint;
+import jbvb.bwt.TexturePbint;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.imbge.AffineTrbnsformOp;
+import jbvb.bwt.imbge.BufferedImbge;
+import sun.bwt.imbge.PixelConverter;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.SurfbceType;
+import stbtic sun.jbvb2d.pipe.BufferedOpCodes.*;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
-public class BufferedPaints {
+public clbss BufferedPbints {
 
-    static void setPaint(RenderQueue rq, SunGraphics2D sg2d,
-                         Paint paint, int ctxflags)
+    stbtic void setPbint(RenderQueue rq, SunGrbphics2D sg2d,
+                         Pbint pbint, int ctxflbgs)
     {
-        if (sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR) {
+        if (sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR) {
             setColor(rq, sg2d.pixel);
         } else {
-            boolean useMask = (ctxflags & BufferedContext.USE_MASK) != 0;
-            switch (sg2d.paintState) {
-            case SunGraphics2D.PAINT_GRADIENT:
-                setGradientPaint(rq, sg2d,
-                                 (GradientPaint)paint, useMask);
-                break;
-            case SunGraphics2D.PAINT_LIN_GRADIENT:
-                setLinearGradientPaint(rq, sg2d,
-                                       (LinearGradientPaint)paint, useMask);
-                break;
-            case SunGraphics2D.PAINT_RAD_GRADIENT:
-                setRadialGradientPaint(rq, sg2d,
-                                       (RadialGradientPaint)paint, useMask);
-                break;
-            case SunGraphics2D.PAINT_TEXTURE:
-                setTexturePaint(rq, sg2d,
-                                (TexturePaint)paint, useMask);
-                break;
-            default:
-                break;
+            boolebn useMbsk = (ctxflbgs & BufferedContext.USE_MASK) != 0;
+            switch (sg2d.pbintStbte) {
+            cbse SunGrbphics2D.PAINT_GRADIENT:
+                setGrbdientPbint(rq, sg2d,
+                                 (GrbdientPbint)pbint, useMbsk);
+                brebk;
+            cbse SunGrbphics2D.PAINT_LIN_GRADIENT:
+                setLinebrGrbdientPbint(rq, sg2d,
+                                       (LinebrGrbdientPbint)pbint, useMbsk);
+                brebk;
+            cbse SunGrbphics2D.PAINT_RAD_GRADIENT:
+                setRbdiblGrbdientPbint(rq, sg2d,
+                                       (RbdiblGrbdientPbint)pbint, useMbsk);
+                brebk;
+            cbse SunGrbphics2D.PAINT_TEXTURE:
+                setTexturePbint(rq, sg2d,
+                                (TexturePbint)pbint, useMbsk);
+                brebk;
+            defbult:
+                brebk;
             }
         }
     }
 
-    static void resetPaint(RenderQueue rq) {
-        // assert rq.lock.isHeldByCurrentThread();
-        rq.ensureCapacity(4);
+    stbtic void resetPbint(RenderQueue rq) {
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        rq.ensureCbpbcity(4);
         RenderBuffer buf = rq.getBuffer();
         buf.putInt(RESET_PAINT);
     }
 
 /****************************** Color support *******************************/
 
-    private static void setColor(RenderQueue rq, int pixel) {
-        // assert rq.lock.isHeldByCurrentThread();
-        rq.ensureCapacity(8);
+    privbte stbtic void setColor(RenderQueue rq, int pixel) {
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        rq.ensureCbpbcity(8);
         RenderBuffer buf = rq.getBuffer();
         buf.putInt(SET_COLOR);
         buf.putInt(pixel);
     }
 
-/************************* GradientPaint support ****************************/
+/************************* GrbdientPbint support ****************************/
 
     /**
-     * Note: This code is factored out into a separate static method
-     * so that it can be shared by both the Gradient and LinearGradient
-     * implementations.  LinearGradient uses this code (for the
-     * two-color sRGB case only) because it can be much faster than the
-     * equivalent implementation that uses fragment shaders.
+     * Note: This code is fbctored out into b sepbrbte stbtic method
+     * so thbt it cbn be shbred by both the Grbdient bnd LinebrGrbdient
+     * implementbtions.  LinebrGrbdient uses this code (for the
+     * two-color sRGB cbse only) becbuse it cbn be much fbster thbn the
+     * equivblent implementbtion thbt uses frbgment shbders.
      *
-     * We use OpenGL's texture coordinate generator to automatically
-     * apply a smooth gradient (either cyclic or acyclic) to the geometry
-     * being rendered.  This technique is almost identical to the one
-     * described in the comments for BufferedPaints.setTexturePaint(),
-     * except the calculations take place in one dimension instead of two.
-     * Instead of an anchor rectangle in the TexturePaint case, we use
-     * the vector between the two GradientPaint end points in our
-     * calculations.  The generator uses a single plane equation that
-     * takes the (x,y) location (in device space) of the fragment being
-     * rendered to calculate a (u) texture coordinate for that fragment:
+     * We use OpenGL's texture coordinbte generbtor to butombticblly
+     * bpply b smooth grbdient (either cyclic or bcyclic) to the geometry
+     * being rendered.  This technique is blmost identicbl to the one
+     * described in the comments for BufferedPbints.setTexturePbint(),
+     * except the cblculbtions tbke plbce in one dimension instebd of two.
+     * Instebd of bn bnchor rectbngle in the TexturePbint cbse, we use
+     * the vector between the two GrbdientPbint end points in our
+     * cblculbtions.  The generbtor uses b single plbne equbtion thbt
+     * tbkes the (x,y) locbtion (in device spbce) of the frbgment being
+     * rendered to cblculbte b (u) texture coordinbte for thbt frbgment:
      *     u = Ax + By + Cz + Dw
      *
-     * The gradient renderer uses a two-pixel 1D texture where the first
-     * pixel contains the first GradientPaint color, and the second pixel
-     * contains the second GradientPaint color.  (Note that we use the
-     * GL_CLAMP_TO_EDGE wrapping mode for acyclic gradients so that we
-     * clamp the colors properly at the extremes.)  The following diagram
-     * attempts to show the layout of the texture containing the two
-     * GradientPaint colors (C1 and C2):
+     * The grbdient renderer uses b two-pixel 1D texture where the first
+     * pixel contbins the first GrbdientPbint color, bnd the second pixel
+     * contbins the second GrbdientPbint color.  (Note thbt we use the
+     * GL_CLAMP_TO_EDGE wrbpping mode for bcyclic grbdients so thbt we
+     * clbmp the colors properly bt the extremes.)  The following dibgrbm
+     * bttempts to show the lbyout of the texture contbining the two
+     * GrbdientPbint colors (C1 bnd C2):
      *
      *                        +-----------------+
      *                        |   C1   |   C2   |
@@ -132,17 +132,17 @@ public class BufferedPaints {
      *                        +-----------------+
      *                      u=0  .25  .5   .75  1
      *
-     * We calculate our plane equation constants (A,B,D) such that u=0.25
-     * corresponds to the first GradientPaint end point in user space and
-     * u=0.75 corresponds to the second end point.  This is somewhat
-     * non-obvious, but since the gradient colors are generated by
-     * interpolating between C1 and C2, we want the pure color at the
-     * end points, and we will get the pure color only when u correlates
-     * to the center of a texel.  The following chart shows the expected
-     * color for some sample values of u (where C' is the color halfway
-     * between C1 and C2):
+     * We cblculbte our plbne equbtion constbnts (A,B,D) such thbt u=0.25
+     * corresponds to the first GrbdientPbint end point in user spbce bnd
+     * u=0.75 corresponds to the second end point.  This is somewhbt
+     * non-obvious, but since the grbdient colors bre generbted by
+     * interpolbting between C1 bnd C2, we wbnt the pure color bt the
+     * end points, bnd we will get the pure color only when u correlbtes
+     * to the center of b texel.  The following chbrt shows the expected
+     * color for some sbmple vblues of u (where C' is the color hblfwby
+     * between C1 bnd C2):
      *
-     *       u value      acyclic (GL_CLAMP)      cyclic (GL_REPEAT)
+     *       u vblue      bcyclic (GL_CLAMP)      cyclic (GL_REPEAT)
      *       -------      ------------------      ------------------
      *        -0.25              C1                       C2
      *         0.0               C1                       C'
@@ -152,384 +152,384 @@ public class BufferedPaints {
      *         1.0               C2                       C'
      *         1.25              C2                       C1
      *
-     * Original inspiration for this technique came from UMD's Agile2D
-     * project (GradientManager.java).
+     * Originbl inspirbtion for this technique cbme from UMD's Agile2D
+     * project (GrbdientMbnbger.jbvb).
      */
-    private static void setGradientPaint(RenderQueue rq, AffineTransform at,
+    privbte stbtic void setGrbdientPbint(RenderQueue rq, AffineTrbnsform bt,
                                          Color c1, Color c2,
                                          Point2D pt1, Point2D pt2,
-                                         boolean isCyclic, boolean useMask)
+                                         boolebn isCyclic, boolebn useMbsk)
     {
-        // convert gradient colors to IntArgbPre format
-        PixelConverter pc = PixelConverter.ArgbPre.instance;
+        // convert grbdient colors to IntArgbPre formbt
+        PixelConverter pc = PixelConverter.ArgbPre.instbnce;
         int pixel1 = pc.rgbToPixel(c1.getRGB(), null);
         int pixel2 = pc.rgbToPixel(c2.getRGB(), null);
 
-        // calculate plane equation constants
+        // cblculbte plbne equbtion constbnts
         double x = pt1.getX();
         double y = pt1.getY();
-        at.translate(x, y);
-        // now gradient point 1 is at the origin
+        bt.trbnslbte(x, y);
+        // now grbdient point 1 is bt the origin
         x = pt2.getX() - x;
         y = pt2.getY() - y;
-        double len = Math.sqrt(x * x + y * y);
-        at.rotate(x, y);
-        // now gradient point 2 is on the positive x-axis
-        at.scale(2*len, 1);
-        // now gradient point 2 is at (0.5, 0)
-        at.translate(-0.25, 0);
-        // now gradient point 1 is at (0.25, 0), point 2 is at (0.75, 0)
+        double len = Mbth.sqrt(x * x + y * y);
+        bt.rotbte(x, y);
+        // now grbdient point 2 is on the positive x-bxis
+        bt.scble(2*len, 1);
+        // now grbdient point 2 is bt (0.5, 0)
+        bt.trbnslbte(-0.25, 0);
+        // now grbdient point 1 is bt (0.25, 0), point 2 is bt (0.75, 0)
 
         double p0, p1, p3;
         try {
-            at.invert();
-            p0 = at.getScaleX();
-            p1 = at.getShearX();
-            p3 = at.getTranslateX();
-        } catch (java.awt.geom.NoninvertibleTransformException e) {
+            bt.invert();
+            p0 = bt.getScbleX();
+            p1 = bt.getShebrX();
+            p3 = bt.getTrbnslbteX();
+        } cbtch (jbvb.bwt.geom.NoninvertibleTrbnsformException e) {
             p0 = p1 = p3 = 0.0;
         }
 
-        // assert rq.lock.isHeldByCurrentThread();
-        rq.ensureCapacityAndAlignment(44, 12);
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        rq.ensureCbpbcityAndAlignment(44, 12);
         RenderBuffer buf = rq.getBuffer();
         buf.putInt(SET_GRADIENT_PAINT);
-        buf.putInt(useMask ? 1 : 0);
+        buf.putInt(useMbsk ? 1 : 0);
         buf.putInt(isCyclic ? 1 : 0);
         buf.putDouble(p0).putDouble(p1).putDouble(p3);
         buf.putInt(pixel1).putInt(pixel2);
     }
 
-    private static void setGradientPaint(RenderQueue rq,
-                                         SunGraphics2D sg2d,
-                                         GradientPaint paint,
-                                         boolean useMask)
+    privbte stbtic void setGrbdientPbint(RenderQueue rq,
+                                         SunGrbphics2D sg2d,
+                                         GrbdientPbint pbint,
+                                         boolebn useMbsk)
     {
-        setGradientPaint(rq, (AffineTransform)sg2d.transform.clone(),
-                         paint.getColor1(), paint.getColor2(),
-                         paint.getPoint1(), paint.getPoint2(),
-                         paint.isCyclic(), useMask);
+        setGrbdientPbint(rq, (AffineTrbnsform)sg2d.trbnsform.clone(),
+                         pbint.getColor1(), pbint.getColor2(),
+                         pbint.getPoint1(), pbint.getPoint2(),
+                         pbint.isCyclic(), useMbsk);
     }
 
-/************************** TexturePaint support ****************************/
+/************************** TexturePbint support ****************************/
 
     /**
-     * We use OpenGL's texture coordinate generator to automatically
-     * map the TexturePaint image to the geometry being rendered.  The
-     * generator uses two separate plane equations that take the (x,y)
-     * location (in device space) of the fragment being rendered to
-     * calculate (u,v) texture coordinates for that fragment:
+     * We use OpenGL's texture coordinbte generbtor to butombticblly
+     * mbp the TexturePbint imbge to the geometry being rendered.  The
+     * generbtor uses two sepbrbte plbne equbtions thbt tbke the (x,y)
+     * locbtion (in device spbce) of the frbgment being rendered to
+     * cblculbte (u,v) texture coordinbtes for thbt frbgment:
      *     u = Ax + By + Cz + Dw
      *     v = Ex + Fy + Gz + Hw
      *
-     * Since we use a 2D orthographic projection, we can assume that z=0
-     * and w=1 for any fragment.  So we need to calculate appropriate
-     * values for the plane equation constants (A,B,D) and (E,F,H) such
-     * that {u,v}=0 for the top-left of the TexturePaint's anchor
-     * rectangle and {u,v}=1 for the bottom-right of the anchor rectangle.
-     * We can easily make the texture image repeat for {u,v} values
-     * outside the range [0,1] by specifying the GL_REPEAT texture wrap
+     * Since we use b 2D orthogrbphic projection, we cbn bssume thbt z=0
+     * bnd w=1 for bny frbgment.  So we need to cblculbte bppropribte
+     * vblues for the plbne equbtion constbnts (A,B,D) bnd (E,F,H) such
+     * thbt {u,v}=0 for the top-left of the TexturePbint's bnchor
+     * rectbngle bnd {u,v}=1 for the bottom-right of the bnchor rectbngle.
+     * We cbn ebsily mbke the texture imbge repebt for {u,v} vblues
+     * outside the rbnge [0,1] by specifying the GL_REPEAT texture wrbp
      * mode.
      *
-     * Calculating the plane equation constants is surprisingly simple.
-     * We can think of it as an inverse matrix operation that takes
-     * device space coordinates and transforms them into user space
-     * coordinates that correspond to a location relative to the anchor
-     * rectangle.  First, we translate and scale the current user space
-     * transform by applying the anchor rectangle bounds.  We then take
-     * the inverse of this affine transform.  The rows of the resulting
-     * inverse matrix correlate nicely to the plane equation constants
+     * Cblculbting the plbne equbtion constbnts is surprisingly simple.
+     * We cbn think of it bs bn inverse mbtrix operbtion thbt tbkes
+     * device spbce coordinbtes bnd trbnsforms them into user spbce
+     * coordinbtes thbt correspond to b locbtion relbtive to the bnchor
+     * rectbngle.  First, we trbnslbte bnd scble the current user spbce
+     * trbnsform by bpplying the bnchor rectbngle bounds.  We then tbke
+     * the inverse of this bffine trbnsform.  The rows of the resulting
+     * inverse mbtrix correlbte nicely to the plbne equbtion constbnts
      * we were seeking.
      */
-    private static void setTexturePaint(RenderQueue rq,
-                                        SunGraphics2D sg2d,
-                                        TexturePaint paint,
-                                        boolean useMask)
+    privbte stbtic void setTexturePbint(RenderQueue rq,
+                                        SunGrbphics2D sg2d,
+                                        TexturePbint pbint,
+                                        boolebn useMbsk)
     {
-        BufferedImage bi = paint.getImage();
-        SurfaceData dstData = sg2d.surfaceData;
-        SurfaceData srcData =
-            dstData.getSourceSurfaceData(bi, SunGraphics2D.TRANSFORM_ISIDENT,
+        BufferedImbge bi = pbint.getImbge();
+        SurfbceDbtb dstDbtb = sg2d.surfbceDbtb;
+        SurfbceDbtb srcDbtb =
+            dstDbtb.getSourceSurfbceDbtb(bi, SunGrbphics2D.TRANSFORM_ISIDENT,
                                          CompositeType.SrcOver, null);
-        boolean filter =
-            (sg2d.interpolationType !=
-             AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        boolebn filter =
+            (sg2d.interpolbtionType !=
+             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR);
 
-        // calculate plane equation constants
-        AffineTransform at = (AffineTransform)sg2d.transform.clone();
-        Rectangle2D anchor = paint.getAnchorRect();
-        at.translate(anchor.getX(), anchor.getY());
-        at.scale(anchor.getWidth(), anchor.getHeight());
+        // cblculbte plbne equbtion constbnts
+        AffineTrbnsform bt = (AffineTrbnsform)sg2d.trbnsform.clone();
+        Rectbngle2D bnchor = pbint.getAnchorRect();
+        bt.trbnslbte(bnchor.getX(), bnchor.getY());
+        bt.scble(bnchor.getWidth(), bnchor.getHeight());
 
         double xp0, xp1, xp3, yp0, yp1, yp3;
         try {
-            at.invert();
-            xp0 = at.getScaleX();
-            xp1 = at.getShearX();
-            xp3 = at.getTranslateX();
-            yp0 = at.getShearY();
-            yp1 = at.getScaleY();
-            yp3 = at.getTranslateY();
-        } catch (java.awt.geom.NoninvertibleTransformException e) {
+            bt.invert();
+            xp0 = bt.getScbleX();
+            xp1 = bt.getShebrX();
+            xp3 = bt.getTrbnslbteX();
+            yp0 = bt.getShebrY();
+            yp1 = bt.getScbleY();
+            yp3 = bt.getTrbnslbteY();
+        } cbtch (jbvb.bwt.geom.NoninvertibleTrbnsformException e) {
             xp0 = xp1 = xp3 = yp0 = yp1 = yp3 = 0.0;
         }
 
-        // assert rq.lock.isHeldByCurrentThread();
-        rq.ensureCapacityAndAlignment(68, 12);
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        rq.ensureCbpbcityAndAlignment(68, 12);
         RenderBuffer buf = rq.getBuffer();
         buf.putInt(SET_TEXTURE_PAINT);
-        buf.putInt(useMask ? 1 : 0);
+        buf.putInt(useMbsk ? 1 : 0);
         buf.putInt(filter ? 1 : 0);
-        buf.putLong(srcData.getNativeOps());
+        buf.putLong(srcDbtb.getNbtiveOps());
         buf.putDouble(xp0).putDouble(xp1).putDouble(xp3);
         buf.putDouble(yp0).putDouble(yp1).putDouble(yp3);
     }
 
-/****************** Shared MultipleGradientPaint support ********************/
+/****************** Shbred MultipleGrbdientPbint support ********************/
 
     /**
-     * The maximum number of gradient "stops" supported by our native
-     * fragment shader implementations.
+     * The mbximum number of grbdient "stops" supported by our nbtive
+     * frbgment shbder implementbtions.
      *
-     * This value has been empirically determined and capped to allow
-     * our native shaders to run on all shader-level graphics hardware,
-     * even on the older, more limited GPUs.  Even the oldest Nvidia
-     * hardware could handle 16, or even 32 fractions without any problem.
-     * But the first-generation boards from ATI would fall back into
-     * software mode (which is unusably slow) for values larger than 12;
-     * it appears that those boards do not have enough native registers
-     * to support the number of array accesses required by our gradient
-     * shaders.  So for now we will cap this value at 12, but we can
-     * re-evaluate this in the future as hardware becomes more capable.
+     * This vblue hbs been empiricblly determined bnd cbpped to bllow
+     * our nbtive shbders to run on bll shbder-level grbphics hbrdwbre,
+     * even on the older, more limited GPUs.  Even the oldest Nvidib
+     * hbrdwbre could hbndle 16, or even 32 frbctions without bny problem.
+     * But the first-generbtion bobrds from ATI would fbll bbck into
+     * softwbre mode (which is unusbbly slow) for vblues lbrger thbn 12;
+     * it bppebrs thbt those bobrds do not hbve enough nbtive registers
+     * to support the number of brrby bccesses required by our grbdient
+     * shbders.  So for now we will cbp this vblue bt 12, but we cbn
+     * re-evblubte this in the future bs hbrdwbre becomes more cbpbble.
      */
-    @Native public static final int MULTI_MAX_FRACTIONS = 12;
+    @Nbtive public stbtic finbl int MULTI_MAX_FRACTIONS = 12;
 
     /**
-     * Helper function to convert a color component in sRGB space to
-     * linear RGB space.  Copied directly from the
-     * MultipleGradientPaintContext class.
+     * Helper function to convert b color component in sRGB spbce to
+     * linebr RGB spbce.  Copied directly from the
+     * MultipleGrbdientPbintContext clbss.
      */
-    public static int convertSRGBtoLinearRGB(int color) {
-        float input, output;
+    public stbtic int convertSRGBtoLinebrRGB(int color) {
+        flobt input, output;
 
         input = color / 255.0f;
         if (input <= 0.04045f) {
             output = input / 12.92f;
         } else {
-            output = (float)Math.pow((input + 0.055) / 1.055, 2.4);
+            output = (flobt)Mbth.pow((input + 0.055) / 1.055, 2.4);
         }
 
-        return Math.round(output * 255.0f);
+        return Mbth.round(output * 255.0f);
     }
 
     /**
-     * Helper function to convert a (non-premultiplied) Color in sRGB
-     * space to an IntArgbPre pixel value, optionally in linear RGB space.
-     * Based on the PixelConverter.ArgbPre.rgbToPixel() method.
+     * Helper function to convert b (non-premultiplied) Color in sRGB
+     * spbce to bn IntArgbPre pixel vblue, optionblly in linebr RGB spbce.
+     * Bbsed on the PixelConverter.ArgbPre.rgbToPixel() method.
      */
-    private static int colorToIntArgbPrePixel(Color c, boolean linear) {
+    privbte stbtic int colorToIntArgbPrePixel(Color c, boolebn linebr) {
         int rgb = c.getRGB();
-        if (!linear && ((rgb >> 24) == -1)) {
+        if (!linebr && ((rgb >> 24) == -1)) {
             return rgb;
         }
-        int a = rgb >>> 24;
+        int b = rgb >>> 24;
         int r = (rgb >> 16) & 0xff;
         int g = (rgb >>  8) & 0xff;
         int b = (rgb      ) & 0xff;
-        if (linear) {
-            r = convertSRGBtoLinearRGB(r);
-            g = convertSRGBtoLinearRGB(g);
-            b = convertSRGBtoLinearRGB(b);
+        if (linebr) {
+            r = convertSRGBtoLinebrRGB(r);
+            g = convertSRGBtoLinebrRGB(g);
+            b = convertSRGBtoLinebrRGB(b);
         }
-        int a2 = a + (a >> 7);
-        r = (r * a2) >> 8;
-        g = (g * a2) >> 8;
-        b = (b * a2) >> 8;
-        return ((a << 24) | (r << 16) | (g << 8) | (b));
+        int b2 = b + (b >> 7);
+        r = (r * b2) >> 8;
+        g = (g * b2) >> 8;
+        b = (b * b2) >> 8;
+        return ((b << 24) | (r << 16) | (g << 8) | (b));
     }
 
     /**
-     * Converts the given array of Color objects into an int array
-     * containing IntArgbPre pixel values.  If the linear parameter
-     * is true, the Color values will be converted into a linear RGB
-     * color space before being returned.
+     * Converts the given brrby of Color objects into bn int brrby
+     * contbining IntArgbPre pixel vblues.  If the linebr pbrbmeter
+     * is true, the Color vblues will be converted into b linebr RGB
+     * color spbce before being returned.
      */
-    private static int[] convertToIntArgbPrePixels(Color[] colors,
-                                                   boolean linear)
+    privbte stbtic int[] convertToIntArgbPrePixels(Color[] colors,
+                                                   boolebn linebr)
     {
         int[] pixels = new int[colors.length];
         for (int i = 0; i < colors.length; i++) {
-            pixels[i] = colorToIntArgbPrePixel(colors[i], linear);
+            pixels[i] = colorToIntArgbPrePixel(colors[i], linebr);
         }
         return pixels;
     }
 
-/********************** LinearGradientPaint support *************************/
+/********************** LinebrGrbdientPbint support *************************/
 
     /**
-     * This method uses techniques that are nearly identical to those
-     * employed in setGradientPaint() above.  The primary difference
-     * is that at the native level we use a fragment shader to manually
-     * apply the plane equation constants to the current fragment position
-     * to calculate the gradient position in the range [0,1] (the native
-     * code for GradientPaint does the same, except that it uses OpenGL's
-     * automatic texture coordinate generation facilities).
+     * This method uses techniques thbt bre nebrly identicbl to those
+     * employed in setGrbdientPbint() bbove.  The primbry difference
+     * is thbt bt the nbtive level we use b frbgment shbder to mbnublly
+     * bpply the plbne equbtion constbnts to the current frbgment position
+     * to cblculbte the grbdient position in the rbnge [0,1] (the nbtive
+     * code for GrbdientPbint does the sbme, except thbt it uses OpenGL's
+     * butombtic texture coordinbte generbtion fbcilities).
      *
-     * One other minor difference worth mentioning is that
-     * setGradientPaint() calculates the plane equation constants
-     * such that the gradient end points are positioned at 0.25 and 0.75
-     * (for reasons discussed in the comments for that method).  In
-     * contrast, for LinearGradientPaint we setup the equation constants
-     * such that the gradient end points fall at 0.0 and 1.0.  The
-     * reason for this difference is that in the fragment shader we
-     * have more control over how the gradient values are interpreted
-     * (depending on the paint's CycleMethod).
+     * One other minor difference worth mentioning is thbt
+     * setGrbdientPbint() cblculbtes the plbne equbtion constbnts
+     * such thbt the grbdient end points bre positioned bt 0.25 bnd 0.75
+     * (for rebsons discussed in the comments for thbt method).  In
+     * contrbst, for LinebrGrbdientPbint we setup the equbtion constbnts
+     * such thbt the grbdient end points fbll bt 0.0 bnd 1.0.  The
+     * rebson for this difference is thbt in the frbgment shbder we
+     * hbve more control over how the grbdient vblues bre interpreted
+     * (depending on the pbint's CycleMethod).
      */
-    private static void setLinearGradientPaint(RenderQueue rq,
-                                               SunGraphics2D sg2d,
-                                               LinearGradientPaint paint,
-                                               boolean useMask)
+    privbte stbtic void setLinebrGrbdientPbint(RenderQueue rq,
+                                               SunGrbphics2D sg2d,
+                                               LinebrGrbdientPbint pbint,
+                                               boolebn useMbsk)
     {
-        boolean linear =
-            (paint.getColorSpace() == ColorSpaceType.LINEAR_RGB);
-        Color[] colors = paint.getColors();
+        boolebn linebr =
+            (pbint.getColorSpbce() == ColorSpbceType.LINEAR_RGB);
+        Color[] colors = pbint.getColors();
         int numStops = colors.length;
-        Point2D pt1 = paint.getStartPoint();
-        Point2D pt2 = paint.getEndPoint();
-        AffineTransform at = paint.getTransform();
-        at.preConcatenate(sg2d.transform);
+        Point2D pt1 = pbint.getStbrtPoint();
+        Point2D pt2 = pbint.getEndPoint();
+        AffineTrbnsform bt = pbint.getTrbnsform();
+        bt.preConcbtenbte(sg2d.trbnsform);
 
-        if (!linear && numStops == 2 &&
-            paint.getCycleMethod() != CycleMethod.REPEAT)
+        if (!linebr && numStops == 2 &&
+            pbint.getCycleMethod() != CycleMethod.REPEAT)
         {
-            // delegate to the optimized two-color gradient codepath
-            boolean isCyclic =
-                (paint.getCycleMethod() != CycleMethod.NO_CYCLE);
-            setGradientPaint(rq, at,
+            // delegbte to the optimized two-color grbdient codepbth
+            boolebn isCyclic =
+                (pbint.getCycleMethod() != CycleMethod.NO_CYCLE);
+            setGrbdientPbint(rq, bt,
                              colors[0], colors[1],
                              pt1, pt2,
-                             isCyclic, useMask);
+                             isCyclic, useMbsk);
             return;
         }
 
-        int cycleMethod = paint.getCycleMethod().ordinal();
-        float[] fractions = paint.getFractions();
-        int[] pixels = convertToIntArgbPrePixels(colors, linear);
+        int cycleMethod = pbint.getCycleMethod().ordinbl();
+        flobt[] frbctions = pbint.getFrbctions();
+        int[] pixels = convertToIntArgbPrePixels(colors, linebr);
 
-        // calculate plane equation constants
+        // cblculbte plbne equbtion constbnts
         double x = pt1.getX();
         double y = pt1.getY();
-        at.translate(x, y);
-        // now gradient point 1 is at the origin
+        bt.trbnslbte(x, y);
+        // now grbdient point 1 is bt the origin
         x = pt2.getX() - x;
         y = pt2.getY() - y;
-        double len = Math.sqrt(x * x + y * y);
-        at.rotate(x, y);
-        // now gradient point 2 is on the positive x-axis
-        at.scale(len, 1);
-        // now gradient point 1 is at (0.0, 0), point 2 is at (1.0, 0)
+        double len = Mbth.sqrt(x * x + y * y);
+        bt.rotbte(x, y);
+        // now grbdient point 2 is on the positive x-bxis
+        bt.scble(len, 1);
+        // now grbdient point 1 is bt (0.0, 0), point 2 is bt (1.0, 0)
 
-        float p0, p1, p3;
+        flobt p0, p1, p3;
         try {
-            at.invert();
-            p0 = (float)at.getScaleX();
-            p1 = (float)at.getShearX();
-            p3 = (float)at.getTranslateX();
-        } catch (java.awt.geom.NoninvertibleTransformException e) {
+            bt.invert();
+            p0 = (flobt)bt.getScbleX();
+            p1 = (flobt)bt.getShebrX();
+            p3 = (flobt)bt.getTrbnslbteX();
+        } cbtch (jbvb.bwt.geom.NoninvertibleTrbnsformException e) {
             p0 = p1 = p3 = 0.0f;
         }
 
-        // assert rq.lock.isHeldByCurrentThread();
-        rq.ensureCapacity(20 + 12 + (numStops*4*2));
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        rq.ensureCbpbcity(20 + 12 + (numStops*4*2));
         RenderBuffer buf = rq.getBuffer();
         buf.putInt(SET_LINEAR_GRADIENT_PAINT);
-        buf.putInt(useMask ? 1 : 0);
-        buf.putInt(linear  ? 1 : 0);
+        buf.putInt(useMbsk ? 1 : 0);
+        buf.putInt(linebr  ? 1 : 0);
         buf.putInt(cycleMethod);
         buf.putInt(numStops);
-        buf.putFloat(p0);
-        buf.putFloat(p1);
-        buf.putFloat(p3);
-        buf.put(fractions);
+        buf.putFlobt(p0);
+        buf.putFlobt(p1);
+        buf.putFlobt(p3);
+        buf.put(frbctions);
         buf.put(pixels);
     }
 
-/********************** RadialGradientPaint support *************************/
+/********************** RbdiblGrbdientPbint support *************************/
 
     /**
-     * This method calculates six m** values and a focusX value that
-     * are used by the native fragment shader.  These techniques are
-     * based on a whitepaper by Daniel Rice on radial gradient performance
-     * (attached to the bug report for 6521533).  One can refer to that
-     * document for the complete set of formulas and calculations, but
-     * the basic goal is to compose a transform that will convert an
-     * (x,y) position in device space into a "u" value that represents
-     * the relative distance to the gradient focus point.  The resulting
-     * value can be used to look up the appropriate color by linearly
-     * interpolating between the two nearest colors in the gradient.
+     * This method cblculbtes six m** vblues bnd b focusX vblue thbt
+     * bre used by the nbtive frbgment shbder.  These techniques bre
+     * bbsed on b whitepbper by Dbniel Rice on rbdibl grbdient performbnce
+     * (bttbched to the bug report for 6521533).  One cbn refer to thbt
+     * document for the complete set of formulbs bnd cblculbtions, but
+     * the bbsic gobl is to compose b trbnsform thbt will convert bn
+     * (x,y) position in device spbce into b "u" vblue thbt represents
+     * the relbtive distbnce to the grbdient focus point.  The resulting
+     * vblue cbn be used to look up the bppropribte color by linebrly
+     * interpolbting between the two nebrest colors in the grbdient.
      */
-    private static void setRadialGradientPaint(RenderQueue rq,
-                                               SunGraphics2D sg2d,
-                                               RadialGradientPaint paint,
-                                               boolean useMask)
+    privbte stbtic void setRbdiblGrbdientPbint(RenderQueue rq,
+                                               SunGrbphics2D sg2d,
+                                               RbdiblGrbdientPbint pbint,
+                                               boolebn useMbsk)
     {
-        boolean linear =
-            (paint.getColorSpace() == ColorSpaceType.LINEAR_RGB);
-        int cycleMethod = paint.getCycleMethod().ordinal();
-        float[] fractions = paint.getFractions();
-        Color[] colors = paint.getColors();
+        boolebn linebr =
+            (pbint.getColorSpbce() == ColorSpbceType.LINEAR_RGB);
+        int cycleMethod = pbint.getCycleMethod().ordinbl();
+        flobt[] frbctions = pbint.getFrbctions();
+        Color[] colors = pbint.getColors();
         int numStops = colors.length;
-        int[] pixels = convertToIntArgbPrePixels(colors, linear);
-        Point2D center = paint.getCenterPoint();
-        Point2D focus = paint.getFocusPoint();
-        float radius = paint.getRadius();
+        int[] pixels = convertToIntArgbPrePixels(colors, linebr);
+        Point2D center = pbint.getCenterPoint();
+        Point2D focus = pbint.getFocusPoint();
+        flobt rbdius = pbint.getRbdius();
 
-        // save original (untransformed) center and focus points
+        // sbve originbl (untrbnsformed) center bnd focus points
         double cx = center.getX();
         double cy = center.getY();
         double fx = focus.getX();
         double fy = focus.getY();
 
-        // transform from gradient coords to device coords
-        AffineTransform at = paint.getTransform();
-        at.preConcatenate(sg2d.transform);
-        focus = at.transform(focus, focus);
+        // trbnsform from grbdient coords to device coords
+        AffineTrbnsform bt = pbint.getTrbnsform();
+        bt.preConcbtenbte(sg2d.trbnsform);
+        focus = bt.trbnsform(focus, focus);
 
-        // transform unit circle to gradient coords; we start with the
-        // unit circle (center=(0,0), focus on positive x-axis, radius=1)
-        // and then transform into gradient space
-        at.translate(cx, cy);
-        at.rotate(fx - cx, fy - cy);
-        at.scale(radius, radius);
+        // trbnsform unit circle to grbdient coords; we stbrt with the
+        // unit circle (center=(0,0), focus on positive x-bxis, rbdius=1)
+        // bnd then trbnsform into grbdient spbce
+        bt.trbnslbte(cx, cy);
+        bt.rotbte(fx - cx, fy - cy);
+        bt.scble(rbdius, rbdius);
 
-        // invert to get mapping from device coords to unit circle
+        // invert to get mbpping from device coords to unit circle
         try {
-            at.invert();
-        } catch (Exception e) {
-            at.setToScale(0.0, 0.0);
+            bt.invert();
+        } cbtch (Exception e) {
+            bt.setToScble(0.0, 0.0);
         }
-        focus = at.transform(focus, focus);
+        focus = bt.trbnsform(focus, focus);
 
-        // clamp the focus point so that it does not rest on, or outside
-        // of, the circumference of the gradient circle
-        fx = Math.min(focus.getX(), 0.99);
+        // clbmp the focus point so thbt it does not rest on, or outside
+        // of, the circumference of the grbdient circle
+        fx = Mbth.min(focus.getX(), 0.99);
 
-        // assert rq.lock.isHeldByCurrentThread();
-        rq.ensureCapacity(20 + 28 + (numStops*4*2));
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        rq.ensureCbpbcity(20 + 28 + (numStops*4*2));
         RenderBuffer buf = rq.getBuffer();
         buf.putInt(SET_RADIAL_GRADIENT_PAINT);
-        buf.putInt(useMask ? 1 : 0);
-        buf.putInt(linear  ? 1 : 0);
+        buf.putInt(useMbsk ? 1 : 0);
+        buf.putInt(linebr  ? 1 : 0);
         buf.putInt(numStops);
         buf.putInt(cycleMethod);
-        buf.putFloat((float)at.getScaleX());
-        buf.putFloat((float)at.getShearX());
-        buf.putFloat((float)at.getTranslateX());
-        buf.putFloat((float)at.getShearY());
-        buf.putFloat((float)at.getScaleY());
-        buf.putFloat((float)at.getTranslateY());
-        buf.putFloat((float)fx);
-        buf.put(fractions);
+        buf.putFlobt((flobt)bt.getScbleX());
+        buf.putFlobt((flobt)bt.getShebrX());
+        buf.putFlobt((flobt)bt.getTrbnslbteX());
+        buf.putFlobt((flobt)bt.getShebrY());
+        buf.putFlobt((flobt)bt.getScbleY());
+        buf.putFlobt((flobt)bt.getTrbnslbteY());
+        buf.putFlobt((flobt)fx);
+        buf.put(frbctions);
         buf.put(pixels);
     }
 }

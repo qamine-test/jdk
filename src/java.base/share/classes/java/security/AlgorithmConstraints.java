@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.util.Set;
+import jbvb.util.Set;
 
 /**
- * This interface specifies constraints for cryptographic algorithms,
- * keys (key sizes), and other algorithm parameters.
+ * This interfbce specifies constrbints for cryptogrbphic blgorithms,
+ * keys (key sizes), bnd other blgorithm pbrbmeters.
  * <p>
- * {@code AlgorithmConstraints} objects are immutable.  An implementation
- * of this interface should not provide methods that can change the state
- * of an instance once it has been created.
+ * {@code AlgorithmConstrbints} objects bre immutbble.  An implementbtion
+ * of this interfbce should not provide methods thbt cbn chbnge the stbte
+ * of bn instbnce once it hbs been crebted.
  * <p>
- * Note that {@code AlgorithmConstraints} can be used to represent the
+ * Note thbt {@code AlgorithmConstrbints} cbn be used to represent the
  * restrictions described by the security properties
- * {@code jdk.certpath.disabledAlgorithms} and
- * {@code jdk.tls.disabledAlgorithms}, or could be used by a
- * concrete {@code PKIXCertPathChecker} to check whether a specified
- * certificate in the certification path contains the required algorithm
- * constraints.
+ * {@code jdk.certpbth.disbbledAlgorithms} bnd
+ * {@code jdk.tls.disbbledAlgorithms}, or could be used by b
+ * concrete {@code PKIXCertPbthChecker} to check whether b specified
+ * certificbte in the certificbtion pbth contbins the required blgorithm
+ * constrbints.
  *
- * @see javax.net.ssl.SSLParameters#getAlgorithmConstraints
- * @see javax.net.ssl.SSLParameters#setAlgorithmConstraints(AlgorithmConstraints)
+ * @see jbvbx.net.ssl.SSLPbrbmeters#getAlgorithmConstrbints
+ * @see jbvbx.net.ssl.SSLPbrbmeters#setAlgorithmConstrbints(AlgorithmConstrbints)
  *
  * @since 1.7
  */
 
-public interface AlgorithmConstraints {
+public interfbce AlgorithmConstrbints {
 
     /**
-     * Determines whether an algorithm is granted permission for the
-     * specified cryptographic primitives.
+     * Determines whether bn blgorithm is grbnted permission for the
+     * specified cryptogrbphic primitives.
      *
-     * @param primitives a set of cryptographic primitives
-     * @param algorithm the algorithm name
-     * @param parameters the algorithm parameters, or null if no additional
-     *     parameters
+     * @pbrbm primitives b set of cryptogrbphic primitives
+     * @pbrbm blgorithm the blgorithm nbme
+     * @pbrbm pbrbmeters the blgorithm pbrbmeters, or null if no bdditionbl
+     *     pbrbmeters
      *
-     * @return true if the algorithm is permitted and can be used for all
-     *     of the specified cryptographic primitives
+     * @return true if the blgorithm is permitted bnd cbn be used for bll
+     *     of the specified cryptogrbphic primitives
      *
-     * @throws IllegalArgumentException if primitives or algorithm is null
+     * @throws IllegblArgumentException if primitives or blgorithm is null
      *     or empty
      */
-    public boolean permits(Set<CryptoPrimitive> primitives,
-            String algorithm, AlgorithmParameters parameters);
+    public boolebn permits(Set<CryptoPrimitive> primitives,
+            String blgorithm, AlgorithmPbrbmeters pbrbmeters);
 
     /**
-     * Determines whether a key is granted permission for the specified
-     * cryptographic primitives.
+     * Determines whether b key is grbnted permission for the specified
+     * cryptogrbphic primitives.
      * <p>
-     * This method is usually used to check key size and key usage.
+     * This method is usublly used to check key size bnd key usbge.
      *
-     * @param primitives a set of cryptographic primitives
-     * @param key the key
+     * @pbrbm primitives b set of cryptogrbphic primitives
+     * @pbrbm key the key
      *
-     * @return true if the key can be used for all of the specified
-     *     cryptographic primitives
+     * @return true if the key cbn be used for bll of the specified
+     *     cryptogrbphic primitives
      *
-     * @throws IllegalArgumentException if primitives is null or empty,
+     * @throws IllegblArgumentException if primitives is null or empty,
      *     or the key is null
      */
-    public boolean permits(Set<CryptoPrimitive> primitives, Key key);
+    public boolebn permits(Set<CryptoPrimitive> primitives, Key key);
 
     /**
-     * Determines whether an algorithm and the corresponding key are granted
-     * permission for the specified cryptographic primitives.
+     * Determines whether bn blgorithm bnd the corresponding key bre grbnted
+     * permission for the specified cryptogrbphic primitives.
      *
-     * @param primitives a set of cryptographic primitives
-     * @param algorithm the algorithm name
-     * @param key the key
-     * @param parameters the algorithm parameters, or null if no additional
-     *     parameters
+     * @pbrbm primitives b set of cryptogrbphic primitives
+     * @pbrbm blgorithm the blgorithm nbme
+     * @pbrbm key the key
+     * @pbrbm pbrbmeters the blgorithm pbrbmeters, or null if no bdditionbl
+     *     pbrbmeters
      *
-     * @return true if the key and the algorithm can be used for all of the
-     *     specified cryptographic primitives
+     * @return true if the key bnd the blgorithm cbn be used for bll of the
+     *     specified cryptogrbphic primitives
      *
-     * @throws IllegalArgumentException if primitives or algorithm is null
+     * @throws IllegblArgumentException if primitives or blgorithm is null
      *     or empty, or the key is null
      */
-    public boolean permits(Set<CryptoPrimitive> primitives,
-                String algorithm, Key key, AlgorithmParameters parameters);
+    public boolebn permits(Set<CryptoPrimitive> primitives,
+                String blgorithm, Key key, AlgorithmPbrbmeters pbrbmeters);
 
 }

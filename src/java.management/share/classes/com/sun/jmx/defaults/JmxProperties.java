@@ -1,232 +1,232 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.defaults;
+pbckbge com.sun.jmx.defbults;
 
-import java.util.logging.Logger;
+import jbvb.util.logging.Logger;
 
 /**
- * This contains the property list defined for this
- * JMX implementation.
+ * This contbins the property list defined for this
+ * JMX implementbtion.
  *
  *
  * @since 1.5
  */
-public class JmxProperties {
+public clbss JmxProperties {
 
-    // private constructor defined to "hide" the default public constructor
-    private JmxProperties() {
+    // privbte constructor defined to "hide" the defbult public constructor
+    privbte JmxProperties() {
     }
 
     // PUBLIC STATIC CONSTANTS
     //------------------------
 
     /**
-     * References the property that specifies the directory where
-     * the native libraries will be stored before the MLet Service
-     * loads them into memory.
+     * References the property thbt specifies the directory where
+     * the nbtive librbries will be stored before the MLet Service
+     * lobds them into memory.
      * <p>
-     * Property Name: <B>jmx.mlet.library.dir</B>
+     * Property Nbme: <B>jmx.mlet.librbry.dir</B>
      */
-    public static final String JMX_INITIAL_BUILDER =
-            "javax.management.builder.initial";
+    public stbtic finbl String JMX_INITIAL_BUILDER =
+            "jbvbx.mbnbgement.builder.initibl";
 
     /**
-     * References the property that specifies the directory where
-     * the native libraries will be stored before the MLet Service
-     * loads them into memory.
+     * References the property thbt specifies the directory where
+     * the nbtive librbries will be stored before the MLet Service
+     * lobds them into memory.
      * <p>
-     * Property Name: <B>jmx.mlet.library.dir</B>
+     * Property Nbme: <B>jmx.mlet.librbry.dir</B>
      */
-    public static final String MLET_LIB_DIR = "jmx.mlet.library.dir";
+    public stbtic finbl String MLET_LIB_DIR = "jmx.mlet.librbry.dir";
 
     /**
-     * References the property that specifies the full name of the JMX
-     * specification implemented by this product.
+     * References the property thbt specifies the full nbme of the JMX
+     * specificbtion implemented by this product.
      * <p>
-     * Property Name: <B>jmx.specification.name</B>
+     * Property Nbme: <B>jmx.specificbtion.nbme</B>
      */
-    public static final String JMX_SPEC_NAME = "jmx.specification.name";
+    public stbtic finbl String JMX_SPEC_NAME = "jmx.specificbtion.nbme";
 
     /**
-     * References the property that specifies the version of the JMX
-     * specification implemented by this product.
+     * References the property thbt specifies the version of the JMX
+     * specificbtion implemented by this product.
      * <p>
-     * Property Name: <B>jmx.specification.version</B>
+     * Property Nbme: <B>jmx.specificbtion.version</B>
      */
-    public static final String JMX_SPEC_VERSION = "jmx.specification.version";
+    public stbtic finbl String JMX_SPEC_VERSION = "jmx.specificbtion.version";
 
     /**
-     * References the property that specifies the vendor of the JMX
-     * specification implemented by this product.
+     * References the property thbt specifies the vendor of the JMX
+     * specificbtion implemented by this product.
      * <p>
-     * Property Name: <B>jmx.specification.vendor</B>
+     * Property Nbme: <B>jmx.specificbtion.vendor</B>
      */
-    public static final String JMX_SPEC_VENDOR = "jmx.specification.vendor";
+    public stbtic finbl String JMX_SPEC_VENDOR = "jmx.specificbtion.vendor";
 
     /**
-     * References the property that specifies the full name of this product
-     * implementing the  JMX specification.
+     * References the property thbt specifies the full nbme of this product
+     * implementing the  JMX specificbtion.
      * <p>
-     * Property Name: <B>jmx.implementation.name</B>
+     * Property Nbme: <B>jmx.implementbtion.nbme</B>
      */
-    public static final String JMX_IMPL_NAME = "jmx.implementation.name";
+    public stbtic finbl String JMX_IMPL_NAME = "jmx.implementbtion.nbme";
 
     /**
-     * References the property that specifies the name of the vendor of this
-     * product implementing the  JMX specification.
+     * References the property thbt specifies the nbme of the vendor of this
+     * product implementing the  JMX specificbtion.
      * <p>
-     * Property Name: <B>jmx.implementation.vendor</B>
+     * Property Nbme: <B>jmx.implementbtion.vendor</B>
      */
-    public static final String JMX_IMPL_VENDOR = "jmx.implementation.vendor";
+    public stbtic finbl String JMX_IMPL_VENDOR = "jmx.implementbtion.vendor";
 
     /**
-     * References the property that specifies the version of this product
-     * implementing the  JMX specification.
+     * References the property thbt specifies the version of this product
+     * implementing the  JMX specificbtion.
      * <p>
-     * Property Name: <B>jmx.implementation.version</B>
+     * Property Nbme: <B>jmx.implementbtion.version</B>
      */
-    public static final String JMX_IMPL_VERSION = "jmx.implementation.version";
+    public stbtic finbl String JMX_IMPL_VERSION = "jmx.implementbtion.version";
 
     /**
-     * Logger name for MBean Server information.
+     * Logger nbme for MBebn Server informbtion.
      */
-    public static final String MBEANSERVER_LOGGER_NAME =
-            "javax.management.mbeanserver";
+    public stbtic finbl String MBEANSERVER_LOGGER_NAME =
+            "jbvbx.mbnbgement.mbebnserver";
 
     /**
-     * Logger for MBean Server information.
+     * Logger for MBebn Server informbtion.
      */
-    public static final Logger MBEANSERVER_LOGGER =
+    public stbtic finbl Logger MBEANSERVER_LOGGER =
             Logger.getLogger(MBEANSERVER_LOGGER_NAME);
 
     /**
-     * Logger name for MLet service information.
+     * Logger nbme for MLet service informbtion.
      */
-    public static final String MLET_LOGGER_NAME =
-            "javax.management.mlet";
+    public stbtic finbl String MLET_LOGGER_NAME =
+            "jbvbx.mbnbgement.mlet";
 
     /**
-     * Logger for MLet service information.
+     * Logger for MLet service informbtion.
      */
-    public static final Logger MLET_LOGGER =
+    public stbtic finbl Logger MLET_LOGGER =
             Logger.getLogger(MLET_LOGGER_NAME);
 
     /**
-     * Logger name for Monitor information.
+     * Logger nbme for Monitor informbtion.
      */
-    public static final String MONITOR_LOGGER_NAME =
-            "javax.management.monitor";
+    public stbtic finbl String MONITOR_LOGGER_NAME =
+            "jbvbx.mbnbgement.monitor";
 
     /**
-     * Logger for Monitor information.
+     * Logger for Monitor informbtion.
      */
-    public static final Logger MONITOR_LOGGER =
+    public stbtic finbl Logger MONITOR_LOGGER =
             Logger.getLogger(MONITOR_LOGGER_NAME);
 
     /**
-     * Logger name for Timer information.
+     * Logger nbme for Timer informbtion.
      */
-    public static final String TIMER_LOGGER_NAME =
-            "javax.management.timer";
+    public stbtic finbl String TIMER_LOGGER_NAME =
+            "jbvbx.mbnbgement.timer";
 
     /**
-     * Logger for Timer information.
+     * Logger for Timer informbtion.
      */
-    public static final Logger TIMER_LOGGER =
+    public stbtic finbl Logger TIMER_LOGGER =
             Logger.getLogger(TIMER_LOGGER_NAME);
 
     /**
-     * Logger name for Event Management information.
+     * Logger nbme for Event Mbnbgement informbtion.
      */
-    public static final String NOTIFICATION_LOGGER_NAME =
-            "javax.management.notification";
+    public stbtic finbl String NOTIFICATION_LOGGER_NAME =
+            "jbvbx.mbnbgement.notificbtion";
 
     /**
-     * Logger for Event Management information.
+     * Logger for Event Mbnbgement informbtion.
      */
-    public static final Logger NOTIFICATION_LOGGER =
+    public stbtic finbl Logger NOTIFICATION_LOGGER =
             Logger.getLogger(NOTIFICATION_LOGGER_NAME);
 
     /**
-     * Logger name for Relation Service.
+     * Logger nbme for Relbtion Service.
      */
-    public static final String RELATION_LOGGER_NAME =
-            "javax.management.relation";
+    public stbtic finbl String RELATION_LOGGER_NAME =
+            "jbvbx.mbnbgement.relbtion";
 
     /**
-     * Logger for Relation Service.
+     * Logger for Relbtion Service.
      */
-    public static final Logger RELATION_LOGGER =
+    public stbtic finbl Logger RELATION_LOGGER =
             Logger.getLogger(RELATION_LOGGER_NAME);
 
     /**
-     * Logger name for Model MBean.
+     * Logger nbme for Model MBebn.
      */
-    public static final String MODELMBEAN_LOGGER_NAME =
-            "javax.management.modelmbean";
+    public stbtic finbl String MODELMBEAN_LOGGER_NAME =
+            "jbvbx.mbnbgement.modelmbebn";
 
     /**
-     * Logger for Model MBean.
+     * Logger for Model MBebn.
      */
-    public static final Logger MODELMBEAN_LOGGER =
+    public stbtic finbl Logger MODELMBEAN_LOGGER =
             Logger.getLogger(MODELMBEAN_LOGGER_NAME);
 
     /**
-     * Logger name for all other JMX classes.
+     * Logger nbme for bll other JMX clbsses.
      */
-    public static final String MISC_LOGGER_NAME =
-            "javax.management.misc";
+    public stbtic finbl String MISC_LOGGER_NAME =
+            "jbvbx.mbnbgement.misc";
 
     /**
-     * Logger for all other JMX classes.
+     * Logger for bll other JMX clbsses.
      */
-    public static final Logger MISC_LOGGER =
+    public stbtic finbl Logger MISC_LOGGER =
             Logger.getLogger(MISC_LOGGER_NAME);
 
     /**
-     * Logger name for SNMP.
+     * Logger nbme for SNMP.
      */
-    public static final String SNMP_LOGGER_NAME =
-            "javax.management.snmp";
+    public stbtic finbl String SNMP_LOGGER_NAME =
+            "jbvbx.mbnbgement.snmp";
 
     /**
      * Logger for SNMP.
      */
-    public static final Logger SNMP_LOGGER =
+    public stbtic finbl Logger SNMP_LOGGER =
             Logger.getLogger(SNMP_LOGGER_NAME);
 
     /**
-     * Logger name for SNMP Adaptor.
+     * Logger nbme for SNMP Adbptor.
      */
-    public static final String SNMP_ADAPTOR_LOGGER_NAME =
-            "javax.management.snmp.daemon";
+    public stbtic finbl String SNMP_ADAPTOR_LOGGER_NAME =
+            "jbvbx.mbnbgement.snmp.dbemon";
 
     /**
-     * Logger for SNMP Adaptor.
+     * Logger for SNMP Adbptor.
      */
-    public static final Logger SNMP_ADAPTOR_LOGGER =
+    public stbtic finbl Logger SNMP_ADAPTOR_LOGGER =
             Logger.getLogger(SNMP_ADAPTOR_LOGGER_NAME);
 }

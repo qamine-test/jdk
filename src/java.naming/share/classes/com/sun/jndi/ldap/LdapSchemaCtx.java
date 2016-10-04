@@ -1,437 +1,437 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import java.util.Hashtable;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvb.util.Hbshtbble;
 import com.sun.jndi.toolkit.dir.HierMemDirCtx;
 
 /**
- * This is the class used to implement LDAP's GetSchema call.
+ * This is the clbss used to implement LDAP's GetSchemb cbll.
  *
- * It subclasses HierMemDirContext for most of the functionality. It
- * overrides functions that cause the schema definitions to change.
- * In such a case, it write the schema to the LdapServer and (assuming
- * there are no errors), calls it's superclass's equivalent function.
- * Thus, the schema tree and the LDAP server's schema attributes are
- * always in sync.
+ * It subclbsses HierMemDirContext for most of the functionblity. It
+ * overrides functions thbt cbuse the schemb definitions to chbnge.
+ * In such b cbse, it write the schemb to the LdbpServer bnd (bssuming
+ * there bre no errors), cblls it's superclbss's equivblent function.
+ * Thus, the schemb tree bnd the LDAP server's schemb bttributes bre
+ * blwbys in sync.
  */
 
-final class LdapSchemaCtx extends HierMemDirCtx {
+finbl clbss LdbpSchembCtx extends HierMemDirCtx {
 
-    static private final boolean debug = false;
+    stbtic privbte finbl boolebn debug = fblse;
 
-    private static final int LEAF = 0;  // schema object (e.g. attribute type defn)
-    private static final int SCHEMA_ROOT = 1;   // schema tree root
-    static final int OBJECTCLASS_ROOT = 2;   // root of object class subtree
-    static final int ATTRIBUTE_ROOT = 3;     // root of attribute type subtree
-    static final int SYNTAX_ROOT = 4;        // root of syntax subtree
-    static final int MATCHRULE_ROOT = 5;     // root of matching rule subtree
-    static final int OBJECTCLASS = 6;   // an object class definition
-    static final int ATTRIBUTE = 7;     // an attribute type definition
-    static final int SYNTAX = 8;        // a syntax definition
-    static final int MATCHRULE = 9;     // a matching rule definition
+    privbte stbtic finbl int LEAF = 0;  // schemb object (e.g. bttribute type defn)
+    privbte stbtic finbl int SCHEMA_ROOT = 1;   // schemb tree root
+    stbtic finbl int OBJECTCLASS_ROOT = 2;   // root of object clbss subtree
+    stbtic finbl int ATTRIBUTE_ROOT = 3;     // root of bttribute type subtree
+    stbtic finbl int SYNTAX_ROOT = 4;        // root of syntbx subtree
+    stbtic finbl int MATCHRULE_ROOT = 5;     // root of mbtching rule subtree
+    stbtic finbl int OBJECTCLASS = 6;   // bn object clbss definition
+    stbtic finbl int ATTRIBUTE = 7;     // bn bttribute type definition
+    stbtic finbl int SYNTAX = 8;        // b syntbx definition
+    stbtic finbl int MATCHRULE = 9;     // b mbtching rule definition
 
-    private SchemaInfo info= null;
-    private boolean setupMode = true;
+    privbte SchembInfo info= null;
+    privbte boolebn setupMode = true;
 
-    private int objectType;
+    privbte int objectType;
 
-    static DirContext createSchemaTree(Hashtable<String,Object> env,
-            String subschemasubentry, LdapCtx schemaEntry,
-            Attributes schemaAttrs, boolean netscapeBug)
-        throws NamingException {
+    stbtic DirContext crebteSchembTree(Hbshtbble<String,Object> env,
+            String subschembsubentry, LdbpCtx schembEntry,
+            Attributes schembAttrs, boolebn netscbpeBug)
+        throws NbmingException {
             try {
-                LdapSchemaParser parser = new LdapSchemaParser(netscapeBug);
+                LdbpSchembPbrser pbrser = new LdbpSchembPbrser(netscbpeBug);
 
-                SchemaInfo allinfo = new SchemaInfo(subschemasubentry,
-                    schemaEntry, parser);
+                SchembInfo bllinfo = new SchembInfo(subschembsubentry,
+                    schembEntry, pbrser);
 
-                LdapSchemaCtx root = new LdapSchemaCtx(SCHEMA_ROOT, env, allinfo);
-                LdapSchemaParser.LDAP2JNDISchema(schemaAttrs, root);
+                LdbpSchembCtx root = new LdbpSchembCtx(SCHEMA_ROOT, env, bllinfo);
+                LdbpSchembPbrser.LDAP2JNDISchemb(schembAttrs, root);
                 return root;
-            } catch (NamingException e) {
-                schemaEntry.close(); // cleanup
+            } cbtch (NbmingException e) {
+                schembEntry.close(); // clebnup
                 throw e;
             }
     }
 
-    // Called by createNewCtx
-    private LdapSchemaCtx(int objectType, Hashtable<String,Object> environment,
-                          SchemaInfo info) {
-        super(environment, LdapClient.caseIgnore);
+    // Cblled by crebteNewCtx
+    privbte LdbpSchembCtx(int objectType, Hbshtbble<String,Object> environment,
+                          SchembInfo info) {
+        super(environment, LdbpClient.cbseIgnore);
 
         this.objectType = objectType;
         this.info = info;
     }
 
-    // override HierMemDirCtx.close to prevent premature GC of shared data
-    public void close() throws NamingException {
+    // override HierMemDirCtx.close to prevent prembture GC of shbred dbtb
+    public void close() throws NbmingException {
         info.close();
     }
 
-    // override to ignore obj and use attrs
-    // treat same as createSubcontext
-    final public void bind(Name name, Object obj, Attributes attrs)
-        throws NamingException {
+    // override to ignore obj bnd use bttrs
+    // trebt sbme bs crebteSubcontext
+    finbl public void bind(Nbme nbme, Object obj, Attributes bttrs)
+        throws NbmingException {
         if (!setupMode) {
             if (obj != null) {
-                throw new IllegalArgumentException("obj must be null");
+                throw new IllegblArgumentException("obj must be null");
             }
 
-            // Update server
-            addServerSchema(attrs);
+            // Updbte server
+            bddServerSchemb(bttrs);
         }
 
-        // Update in-memory copy
-        LdapSchemaCtx newEntry =
-            (LdapSchemaCtx)super.doCreateSubcontext(name, attrs);
+        // Updbte in-memory copy
+        LdbpSchembCtx newEntry =
+            (LdbpSchembCtx)super.doCrebteSubcontext(nbme, bttrs);
     }
 
-    final protected void doBind(Name name, Object obj, Attributes attrs,
-        boolean useFactory) throws NamingException {
+    finbl protected void doBind(Nbme nbme, Object obj, Attributes bttrs,
+        boolebn useFbctory) throws NbmingException {
         if (!setupMode) {
-            throw new SchemaViolationException(
-                "Cannot bind arbitrary object; use createSubcontext()");
+            throw new SchembViolbtionException(
+                "Cbnnot bind brbitrbry object; use crebteSubcontext()");
         } else {
-            super.doBind(name, obj, attrs, false); // always ignore factories
+            super.doBind(nbme, obj, bttrs, fblse); // blwbys ignore fbctories
         }
     }
 
-    // override to use bind() instead
-    final public void rebind(Name name, Object obj, Attributes attrs)
-        throws NamingException {
+    // override to use bind() instebd
+    finbl public void rebind(Nbme nbme, Object obj, Attributes bttrs)
+        throws NbmingException {
         try {
-            doLookup(name, false);
-            throw new SchemaViolationException(
-                "Cannot replace existing schema object");
-        } catch (NameNotFoundException e) {
-            bind(name, obj, attrs);
+            doLookup(nbme, fblse);
+            throw new SchembViolbtionException(
+                "Cbnnot replbce existing schemb object");
+        } cbtch (NbmeNotFoundException e) {
+            bind(nbme, obj, bttrs);
         }
     }
 
-    final protected void doRebind(Name name, Object obj, Attributes attrs,
-        boolean useFactory) throws NamingException {
+    finbl protected void doRebind(Nbme nbme, Object obj, Attributes bttrs,
+        boolebn useFbctory) throws NbmingException {
         if (!setupMode) {
-            throw new SchemaViolationException(
-                "Cannot bind arbitrary object; use createSubcontext()");
+            throw new SchembViolbtionException(
+                "Cbnnot bind brbitrbry object; use crebteSubcontext()");
         } else {
-            super.doRebind(name, obj, attrs, false); // always ignore factories
+            super.doRebind(nbme, obj, bttrs, fblse); // blwbys ignore fbctories
         }
     }
 
-    final protected void doUnbind(Name name) throws NamingException {
+    finbl protected void doUnbind(Nbme nbme) throws NbmingException {
         if (!setupMode) {
-            // Update server
+            // Updbte server
             try {
                 // Lookup entry from memory
-                LdapSchemaCtx target = (LdapSchemaCtx)doLookup(name, false);
+                LdbpSchembCtx tbrget = (LdbpSchembCtx)doLookup(nbme, fblse);
 
-                deleteServerSchema(target.attrs);
-            } catch (NameNotFoundException e) {
+                deleteServerSchemb(tbrget.bttrs);
+            } cbtch (NbmeNotFoundException e) {
                 return;
             }
         }
-        // Update in-memory copy
-        super.doUnbind(name);
+        // Updbte in-memory copy
+        super.doUnbind(nbme);
     }
 
-    final protected void doRename(Name oldname, Name newname)
-        throws NamingException {
+    finbl protected void doRenbme(Nbme oldnbme, Nbme newnbme)
+        throws NbmingException {
         if (!setupMode) {
-            throw new SchemaViolationException("Cannot rename a schema object");
+            throw new SchembViolbtionException("Cbnnot renbme b schemb object");
         } else {
-            super.doRename(oldname, newname);
+            super.doRenbme(oldnbme, newnbme);
         }
     }
 
-    final protected void doDestroySubcontext(Name name) throws NamingException {
+    finbl protected void doDestroySubcontext(Nbme nbme) throws NbmingException {
         if (!setupMode) {
-            // Update server
+            // Updbte server
             try {
                 // Lookup entry from memory
-                LdapSchemaCtx target = (LdapSchemaCtx)doLookup(name, false);
+                LdbpSchembCtx tbrget = (LdbpSchembCtx)doLookup(nbme, fblse);
 
-                deleteServerSchema(target.attrs);
-            } catch (NameNotFoundException e) {
+                deleteServerSchemb(tbrget.bttrs);
+            } cbtch (NbmeNotFoundException e) {
                 return;
             }
         }
 
-        // Update in-memory copy
-        super.doDestroySubcontext(name);
+        // Updbte in-memory copy
+        super.doDestroySubcontext(nbme);
      }
 
-    // Called to create oc, attr, syntax or matching rule roots and leaf entries
-    final LdapSchemaCtx setup(int objectType, String name, Attributes attrs)
-        throws NamingException{
+    // Cblled to crebte oc, bttr, syntbx or mbtching rule roots bnd lebf entries
+    finbl LdbpSchembCtx setup(int objectType, String nbme, Attributes bttrs)
+        throws NbmingException{
             try {
                 setupMode = true;
-                LdapSchemaCtx answer =
-                    (LdapSchemaCtx) super.doCreateSubcontext(
-                        new CompositeName(name), attrs);
+                LdbpSchembCtx bnswer =
+                    (LdbpSchembCtx) super.doCrebteSubcontext(
+                        new CompositeNbme(nbme), bttrs);
 
-                answer.objectType = objectType;
-                answer.setupMode = false;
-                return answer;
-            } finally {
-                setupMode = false;
+                bnswer.objectType = objectType;
+                bnswer.setupMode = fblse;
+                return bnswer;
+            } finblly {
+                setupMode = fblse;
             }
     }
 
-    final protected DirContext doCreateSubcontext(Name name, Attributes attrs)
-        throws NamingException {
+    finbl protected DirContext doCrebteSubcontext(Nbme nbme, Attributes bttrs)
+        throws NbmingException {
 
-        if (attrs == null || attrs.size() == 0) {
-            throw new SchemaViolationException(
-                "Must supply attributes describing schema");
+        if (bttrs == null || bttrs.size() == 0) {
+            throw new SchembViolbtionException(
+                "Must supply bttributes describing schemb");
         }
 
         if (!setupMode) {
-            // Update server
-            addServerSchema(attrs);
+            // Updbte server
+            bddServerSchemb(bttrs);
         }
 
-        // Update in-memory copy
-        LdapSchemaCtx newEntry =
-            (LdapSchemaCtx) super.doCreateSubcontext(name, attrs);
+        // Updbte in-memory copy
+        LdbpSchembCtx newEntry =
+            (LdbpSchembCtx) super.doCrebteSubcontext(nbme, bttrs);
         return newEntry;
     }
 
-    final private static Attributes deepClone(Attributes orig)
-        throws NamingException {
-        BasicAttributes copy = new BasicAttributes(true);
-        NamingEnumeration<? extends Attribute> attrs = orig.getAll();
-        while (attrs.hasMore()) {
-            copy.put((Attribute)attrs.next().clone());
+    finbl privbte stbtic Attributes deepClone(Attributes orig)
+        throws NbmingException {
+        BbsicAttributes copy = new BbsicAttributes(true);
+        NbmingEnumerbtion<? extends Attribute> bttrs = orig.getAll();
+        while (bttrs.hbsMore()) {
+            copy.put((Attribute)bttrs.next().clone());
         }
         return copy;
     }
 
-    final protected void doModifyAttributes(ModificationItem[] mods)
-        throws NamingException {
+    finbl protected void doModifyAttributes(ModificbtionItem[] mods)
+        throws NbmingException {
         if (setupMode) {
             super.doModifyAttributes(mods);
         } else {
-            Attributes copy = deepClone(attrs);
+            Attributes copy = deepClone(bttrs);
 
-            // Apply modifications to copy
-            applyMods(mods, copy);
+            // Apply modificbtions to copy
+            bpplyMods(mods, copy);
 
-            // Update server copy
-            modifyServerSchema(attrs, copy);
+            // Updbte server copy
+            modifyServerSchemb(bttrs, copy);
 
-            // Update in-memory copy
-            attrs = copy;
+            // Updbte in-memory copy
+            bttrs = copy;
         }
     }
 
-    // we override this so the superclass creates the right kind of contexts
-    // Default is to create LEAF objects; caller will change after creation
-    // if necessary
-    final protected HierMemDirCtx createNewCtx() {
-        LdapSchemaCtx ctx = new LdapSchemaCtx(LEAF, myEnv, info);
+    // we override this so the superclbss crebtes the right kind of contexts
+    // Defbult is to crebte LEAF objects; cbller will chbnge bfter crebtion
+    // if necessbry
+    finbl protected HierMemDirCtx crebteNewCtx() {
+        LdbpSchembCtx ctx = new LdbpSchembCtx(LEAF, myEnv, info);
         return ctx;
     }
 
 
-    final private void addServerSchema(Attributes attrs)
-        throws NamingException {
-        Attribute schemaAttr;
+    finbl privbte void bddServerSchemb(Attributes bttrs)
+        throws NbmingException {
+        Attribute schembAttr;
 
         switch (objectType) {
-        case OBJECTCLASS_ROOT:
-            schemaAttr = info.parser.stringifyObjDesc(attrs);
-            break;
+        cbse OBJECTCLASS_ROOT:
+            schembAttr = info.pbrser.stringifyObjDesc(bttrs);
+            brebk;
 
-        case ATTRIBUTE_ROOT:
-            schemaAttr = info.parser.stringifyAttrDesc(attrs);
-            break;
+        cbse ATTRIBUTE_ROOT:
+            schembAttr = info.pbrser.stringifyAttrDesc(bttrs);
+            brebk;
 
-        case SYNTAX_ROOT:
-            schemaAttr = info.parser.stringifySyntaxDesc(attrs);
-            break;
+        cbse SYNTAX_ROOT:
+            schembAttr = info.pbrser.stringifySyntbxDesc(bttrs);
+            brebk;
 
-        case MATCHRULE_ROOT:
-            schemaAttr = info.parser.stringifyMatchRuleDesc(attrs);
-            break;
+        cbse MATCHRULE_ROOT:
+            schembAttr = info.pbrser.stringifyMbtchRuleDesc(bttrs);
+            brebk;
 
-        case SCHEMA_ROOT:
-            throw new SchemaViolationException(
-                "Cannot create new entry under schema root");
+        cbse SCHEMA_ROOT:
+            throw new SchembViolbtionException(
+                "Cbnnot crebte new entry under schemb root");
 
-        default:
-            throw new SchemaViolationException(
-                "Cannot create child of schema object");
+        defbult:
+            throw new SchembViolbtionException(
+                "Cbnnot crebte child of schemb object");
         }
 
-        Attributes holder = new BasicAttributes(true);
-        holder.put(schemaAttr);
-        //System.err.println((String)schemaAttr.get());
+        Attributes holder = new BbsicAttributes(true);
+        holder.put(schembAttr);
+        //System.err.println((String)schembAttr.get());
 
         info.modifyAttributes(myEnv, DirContext.ADD_ATTRIBUTE, holder);
 
     }
 
     /**
-      * When we delete an entry, we use the original to make sure that
-      * any formatting inconsistencies are eliminated.
-      * This is because we're just deleting a value from an attribute
-      * on the server and there might not be any checks for extra spaces
-      * or parens.
+      * When we delete bn entry, we use the originbl to mbke sure thbt
+      * bny formbtting inconsistencies bre eliminbted.
+      * This is becbuse we're just deleting b vblue from bn bttribute
+      * on the server bnd there might not be bny checks for extrb spbces
+      * or pbrens.
       */
-    final private void deleteServerSchema(Attributes origAttrs)
-        throws NamingException {
+    finbl privbte void deleteServerSchemb(Attributes origAttrs)
+        throws NbmingException {
 
-        Attribute origAttrVal;
+        Attribute origAttrVbl;
 
         switch (objectType) {
-        case OBJECTCLASS_ROOT:
-            origAttrVal = info.parser.stringifyObjDesc(origAttrs);
-            break;
+        cbse OBJECTCLASS_ROOT:
+            origAttrVbl = info.pbrser.stringifyObjDesc(origAttrs);
+            brebk;
 
-        case ATTRIBUTE_ROOT:
-            origAttrVal = info.parser.stringifyAttrDesc(origAttrs);
-            break;
+        cbse ATTRIBUTE_ROOT:
+            origAttrVbl = info.pbrser.stringifyAttrDesc(origAttrs);
+            brebk;
 
-        case SYNTAX_ROOT:
-            origAttrVal = info.parser.stringifySyntaxDesc(origAttrs);
-            break;
+        cbse SYNTAX_ROOT:
+            origAttrVbl = info.pbrser.stringifySyntbxDesc(origAttrs);
+            brebk;
 
-        case MATCHRULE_ROOT:
-            origAttrVal = info.parser.stringifyMatchRuleDesc(origAttrs);
-            break;
+        cbse MATCHRULE_ROOT:
+            origAttrVbl = info.pbrser.stringifyMbtchRuleDesc(origAttrs);
+            brebk;
 
-        case SCHEMA_ROOT:
-            throw new SchemaViolationException(
-                "Cannot delete schema root");
+        cbse SCHEMA_ROOT:
+            throw new SchembViolbtionException(
+                "Cbnnot delete schemb root");
 
-        default:
-            throw new SchemaViolationException(
-                "Cannot delete child of schema object");
+        defbult:
+            throw new SchembViolbtionException(
+                "Cbnnot delete child of schemb object");
         }
 
-        ModificationItem[] mods = new ModificationItem[1];
-        mods[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, origAttrVal);
+        ModificbtionItem[] mods = new ModificbtionItem[1];
+        mods[0] = new ModificbtionItem(DirContext.REMOVE_ATTRIBUTE, origAttrVbl);
 
         info.modifyAttributes(myEnv, mods);
     }
 
     /**
-      * When we modify an entry, we use the original attribute value
-      * in the schema to make sure that any formatting inconsistencies
-      * are eliminated. A modification is done by deleting the original
-      * value and adding a new value with the modification.
+      * When we modify bn entry, we use the originbl bttribute vblue
+      * in the schemb to mbke sure thbt bny formbtting inconsistencies
+      * bre eliminbted. A modificbtion is done by deleting the originbl
+      * vblue bnd bdding b new vblue with the modificbtion.
       */
-    final private void modifyServerSchema(Attributes origAttrs,
-        Attributes newAttrs) throws NamingException {
+    finbl privbte void modifyServerSchemb(Attributes origAttrs,
+        Attributes newAttrs) throws NbmingException {
 
-        Attribute newAttrVal;
-        Attribute origAttrVal;
+        Attribute newAttrVbl;
+        Attribute origAttrVbl;
 
         switch (objectType) {
-        case OBJECTCLASS:
-            origAttrVal = info.parser.stringifyObjDesc(origAttrs);
-            newAttrVal = info.parser.stringifyObjDesc(newAttrs);
-            break;
+        cbse OBJECTCLASS:
+            origAttrVbl = info.pbrser.stringifyObjDesc(origAttrs);
+            newAttrVbl = info.pbrser.stringifyObjDesc(newAttrs);
+            brebk;
 
-        case ATTRIBUTE:
-            origAttrVal = info.parser.stringifyAttrDesc(origAttrs);
-            newAttrVal = info.parser.stringifyAttrDesc(newAttrs);
-            break;
+        cbse ATTRIBUTE:
+            origAttrVbl = info.pbrser.stringifyAttrDesc(origAttrs);
+            newAttrVbl = info.pbrser.stringifyAttrDesc(newAttrs);
+            brebk;
 
-        case SYNTAX:
-            origAttrVal = info.parser.stringifySyntaxDesc(origAttrs);
-            newAttrVal = info.parser.stringifySyntaxDesc(newAttrs);
-            break;
+        cbse SYNTAX:
+            origAttrVbl = info.pbrser.stringifySyntbxDesc(origAttrs);
+            newAttrVbl = info.pbrser.stringifySyntbxDesc(newAttrs);
+            brebk;
 
-        case MATCHRULE:
-            origAttrVal = info.parser.stringifyMatchRuleDesc(origAttrs);
-            newAttrVal = info.parser.stringifyMatchRuleDesc(newAttrs);
-            break;
+        cbse MATCHRULE:
+            origAttrVbl = info.pbrser.stringifyMbtchRuleDesc(origAttrs);
+            newAttrVbl = info.pbrser.stringifyMbtchRuleDesc(newAttrs);
+            brebk;
 
-        default:
-            throw new SchemaViolationException(
-                "Cannot modify schema root");
+        defbult:
+            throw new SchembViolbtionException(
+                "Cbnnot modify schemb root");
         }
 
-        ModificationItem[] mods = new ModificationItem[2];
-        mods[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, origAttrVal);
-        mods[1] = new ModificationItem(DirContext.ADD_ATTRIBUTE, newAttrVal);
+        ModificbtionItem[] mods = new ModificbtionItem[2];
+        mods[0] = new ModificbtionItem(DirContext.REMOVE_ATTRIBUTE, origAttrVbl);
+        mods[1] = new ModificbtionItem(DirContext.ADD_ATTRIBUTE, newAttrVbl);
 
         info.modifyAttributes(myEnv, mods);
     }
 
-    final static private class SchemaInfo {
-        private LdapCtx schemaEntry;
-        private String schemaEntryName;
-        LdapSchemaParser parser;
-        private String host;
-        private int port;
-        private boolean hasLdapsScheme;
+    finbl stbtic privbte clbss SchembInfo {
+        privbte LdbpCtx schembEntry;
+        privbte String schembEntryNbme;
+        LdbpSchembPbrser pbrser;
+        privbte String host;
+        privbte int port;
+        privbte boolebn hbsLdbpsScheme;
 
-        SchemaInfo(String schemaEntryName, LdapCtx schemaEntry,
-            LdapSchemaParser parser) {
-            this.schemaEntryName = schemaEntryName;
-            this.schemaEntry = schemaEntry;
-            this.parser = parser;
-            this.port = schemaEntry.port_number;
-            this.host = schemaEntry.hostname;
-            this.hasLdapsScheme = schemaEntry.hasLdapsScheme;
+        SchembInfo(String schembEntryNbme, LdbpCtx schembEntry,
+            LdbpSchembPbrser pbrser) {
+            this.schembEntryNbme = schembEntryNbme;
+            this.schembEntry = schembEntry;
+            this.pbrser = pbrser;
+            this.port = schembEntry.port_number;
+            this.host = schembEntry.hostnbme;
+            this.hbsLdbpsScheme = schembEntry.hbsLdbpsScheme;
         }
 
-        synchronized void close() throws NamingException {
-            if (schemaEntry != null) {
-                schemaEntry.close();
-                schemaEntry = null;
+        synchronized void close() throws NbmingException {
+            if (schembEntry != null) {
+                schembEntry.close();
+                schembEntry = null;
             }
         }
 
-        private LdapCtx reopenEntry(Hashtable<?,?> env) throws NamingException {
-            // Use subschemasubentry name as DN
-            return new LdapCtx(schemaEntryName, host, port,
-                                env, hasLdapsScheme);
+        privbte LdbpCtx reopenEntry(Hbshtbble<?,?> env) throws NbmingException {
+            // Use subschembsubentry nbme bs DN
+            return new LdbpCtx(schembEntryNbme, host, port,
+                                env, hbsLdbpsScheme);
         }
 
-        synchronized void modifyAttributes(Hashtable<?,?> env,
-                                           ModificationItem[] mods)
-            throws NamingException {
-            if (schemaEntry == null) {
-                schemaEntry = reopenEntry(env);
+        synchronized void modifyAttributes(Hbshtbble<?,?> env,
+                                           ModificbtionItem[] mods)
+            throws NbmingException {
+            if (schembEntry == null) {
+                schembEntry = reopenEntry(env);
             }
-            schemaEntry.modifyAttributes("", mods);
+            schembEntry.modifyAttributes("", mods);
         }
 
-        synchronized void modifyAttributes(Hashtable<?,?> env, int mod,
-            Attributes attrs) throws NamingException {
-            if (schemaEntry == null) {
-                schemaEntry = reopenEntry(env);
+        synchronized void modifyAttributes(Hbshtbble<?,?> env, int mod,
+            Attributes bttrs) throws NbmingException {
+            if (schembEntry == null) {
+                schembEntry = reopenEntry(env);
             }
-            schemaEntry.modifyAttributes("", mod, attrs);
+            schembEntry.modifyAttributes("", mod, bttrs);
         }
     }
 }

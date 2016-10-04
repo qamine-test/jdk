@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.management;
+pbckbge com.sun.mbnbgement;
 
-import java.lang.management.PlatformManagedObject;
-import javax.management.DynamicMBean;
+import jbvb.lbng.mbnbgement.PlbtformMbnbgedObject;
+import jbvbx.mbnbgement.DynbmicMBebn;
 
 /**
- * Management interface for the diagnostic commands for the HotSpot Virtual Machine.
+ * Mbnbgement interfbce for the dibgnostic commbnds for the HotSpot Virtubl Mbchine.
  *
- * <p>The {code DiagnosticCommandMBean} is registered to the
- * {@linkplain java.lang.management.ManagementFactory#getPlatformMBeanServer
- * platform MBeanServer} as are other platform MBeans.
+ * <p>The {code DibgnosticCommbndMBebn} is registered to the
+ * {@linkplbin jbvb.lbng.mbnbgement.MbnbgementFbctory#getPlbtformMBebnServer
+ * plbtform MBebnServer} bs bre other plbtform MBebns.
  *
- * <p>The {@link javax.management.ObjectName ObjectName} for uniquely identifying
- * the diagnostic MBean within an MBeanServer is:
+ * <p>The {@link jbvbx.mbnbgement.ObjectNbme ObjectNbme} for uniquely identifying
+ * the dibgnostic MBebn within bn MBebnServer is:
  * <blockquote>
- *    {@code com.sun.management:type=DiagnosticCommand}
+ *    {@code com.sun.mbnbgement:type=DibgnosticCommbnd}
  * </blockquote>
  *
- * <p>This MBean is a {@link javax.management.DynamicMBean DynamicMBean}
- * and also a {@link javax.management.NotificationEmitter}.
- * The {@code DiagnosticCommandMBean} is generated at runtime and is subject to
- * modifications during the lifetime of the Java virtual machine.
+ * <p>This MBebn is b {@link jbvbx.mbnbgement.DynbmicMBebn DynbmicMBebn}
+ * bnd blso b {@link jbvbx.mbnbgement.NotificbtionEmitter}.
+ * The {@code DibgnosticCommbndMBebn} is generbted bt runtime bnd is subject to
+ * modificbtions during the lifetime of the Jbvb virtubl mbchine.
  *
- * A <em>diagnostic command</em> is represented as an operation of
- * the {@code DiagnosticCommandMBean} interface. Each diagnostic command has:
+ * A <em>dibgnostic commbnd</em> is represented bs bn operbtion of
+ * the {@code DibgnosticCommbndMBebn} interfbce. Ebch dibgnostic commbnd hbs:
  * <ul>
- * <li>the diagnostic command name which is the name being referenced in
- *     the HotSpot Virtual Machine</li>
- * <li>the MBean operation name which is the
- *     {@linkplain javax.management.MBeanOperationInfo#getName() name}
- *     generated for the diagnostic command operation invocation.
- *     The MBean operation name is implementation dependent</li>
+ * <li>the dibgnostic commbnd nbme which is the nbme being referenced in
+ *     the HotSpot Virtubl Mbchine</li>
+ * <li>the MBebn operbtion nbme which is the
+ *     {@linkplbin jbvbx.mbnbgement.MBebnOperbtionInfo#getNbme() nbme}
+ *     generbted for the dibgnostic commbnd operbtion invocbtion.
+ *     The MBebn operbtion nbme is implementbtion dependent</li>
  * </ul>
  *
- * The recommended way to transform a diagnostic command name into a MBean
- * operation name is as follows:
+ * The recommended wby to trbnsform b dibgnostic commbnd nbme into b MBebn
+ * operbtion nbme is bs follows:
  * <ul>
- * <li>All characters from the first one to the first dot are set to be
- *      lower-case characters</li>
- * <li>Every dot or underline character is removed and the following
- *   character is set to be an upper-case character</li>
- * <li>All other characters are copied without modification</li>
+ * <li>All chbrbcters from the first one to the first dot bre set to be
+ *      lower-cbse chbrbcters</li>
+ * <li>Every dot or underline chbrbcter is removed bnd the following
+ *   chbrbcter is set to be bn upper-cbse chbrbcter</li>
+ * <li>All other chbrbcters bre copied without modificbtion</li>
  * </ul>
  *
- * <p>The diagnostic command name is always provided with the meta-data on the
- * operation in a field named {@code dcmd.name} (see below).
+ * <p>The dibgnostic commbnd nbme is blwbys provided with the metb-dbtb on the
+ * operbtion in b field nbmed {@code dcmd.nbme} (see below).
  *
- * <p>A diagnostic command may or may not support options or arguments.
- * All the operations return {@code String} and either take
- * no parameter for operations that do not support any option or argument,
- * or take a {@code String[]} parameter for operations that support at least
- * one option or argument.
- * Each option or argument must be stored in a single String.
- * Options or arguments split across several String instances are not supported.
+ * <p>A dibgnostic commbnd mby or mby not support options or brguments.
+ * All the operbtions return {@code String} bnd either tbke
+ * no pbrbmeter for operbtions thbt do not support bny option or brgument,
+ * or tbke b {@code String[]} pbrbmeter for operbtions thbt support bt lebst
+ * one option or brgument.
+ * Ebch option or brgument must be stored in b single String.
+ * Options or brguments split bcross severbl String instbnces bre not supported.
  *
- * <p>The distinction between options and arguments: options are identified by
- * the option name while arguments are identified by their position in the
- * command line. Options and arguments are processed in the order of the array
- * passed to the invocation method.
+ * <p>The distinction between options bnd brguments: options bre identified by
+ * the option nbme while brguments bre identified by their position in the
+ * commbnd line. Options bnd brguments bre processed in the order of the brrby
+ * pbssed to the invocbtion method.
  *
- * <p>Like any operation of a dynamic MBean, each of these operations is
- * described by {@link javax.management.MBeanOperationInfo MBeanOperationInfo}
- * instance. Here's the values returned by this object:
+ * <p>Like bny operbtion of b dynbmic MBebn, ebch of these operbtions is
+ * described by {@link jbvbx.mbnbgement.MBebnOperbtionInfo MBebnOperbtionInfo}
+ * instbnce. Here's the vblues returned by this object:
  * <ul>
- *  <li>{@link javax.management.MBeanOperationInfo#getName() getName()}
- *      returns the operation name generated from the diagnostic command name</li>
- *  <li>{@link javax.management.MBeanOperationInfo#getDescription() getDescription()}
- *      returns the diagnostic command description
- *      (the same as the one return in the 'help' command)</li>
- *  <li>{@link javax.management.MBeanOperationInfo#getImpact() getImpact()}
+ *  <li>{@link jbvbx.mbnbgement.MBebnOperbtionInfo#getNbme() getNbme()}
+ *      returns the operbtion nbme generbted from the dibgnostic commbnd nbme</li>
+ *  <li>{@link jbvbx.mbnbgement.MBebnOperbtionInfo#getDescription() getDescription()}
+ *      returns the dibgnostic commbnd description
+ *      (the sbme bs the one return in the 'help' commbnd)</li>
+ *  <li>{@link jbvbx.mbnbgement.MBebnOperbtionInfo#getImpbct() getImpbct()}
  *      returns <code>ACTION_INFO</code></li>
- *  <li>{@link javax.management.MBeanOperationInfo#getReturnType() getReturnType()}
- *      returns {@code java.lang.String}</li>
- *  <li>{@link javax.management.MBeanOperationInfo#getDescriptor() getDescriptor()}
- *      returns a Descriptor instance (see below)</li>
+ *  <li>{@link jbvbx.mbnbgement.MBebnOperbtionInfo#getReturnType() getReturnType()}
+ *      returns {@code jbvb.lbng.String}</li>
+ *  <li>{@link jbvbx.mbnbgement.MBebnOperbtionInfo#getDescriptor() getDescriptor()}
+ *      returns b Descriptor instbnce (see below)</li>
  * </ul>
  *
- * <p>The {@link javax.management.Descriptor Descriptor}
- * is a collection of fields containing additional
- * meta-data for a JMX element. A field is a name and an associated value.
- * The additional meta-data provided for an operation associated with a
- * diagnostic command are described in the table below:
+ * <p>The {@link jbvbx.mbnbgement.Descriptor Descriptor}
+ * is b collection of fields contbining bdditionbl
+ * metb-dbtb for b JMX element. A field is b nbme bnd bn bssocibted vblue.
+ * The bdditionbl metb-dbtb provided for bn operbtion bssocibted with b
+ * dibgnostic commbnd bre described in the tbble below:
  * <p>
  *
- * <table border="1" cellpadding="5">
+ * <tbble border="1" cellpbdding="5">
  *   <tr>
- *     <th>Name</th><th>Type</th><th>Description</th>
+ *     <th>Nbme</th><th>Type</th><th>Description</th>
  *   </tr>
  *   <tr>
- *     <td>dcmd.name</td><td>String</td>
- *     <td>The original diagnostic command name (not the operation name)</td>
+ *     <td>dcmd.nbme</td><td>String</td>
+ *     <td>The originbl dibgnostic commbnd nbme (not the operbtion nbme)</td>
  *   </tr>
  *   <tr>
  *     <td>dcmd.description</td><td>String</td>
- *     <td>The diagnostic command description</td>
+ *     <td>The dibgnostic commbnd description</td>
  *   </tr>
  *   <tr>
  *     <td>dcmd.help</td><td>String</td>
- *     <td>The full help message for this diagnostic command (same output as
- *          the one produced by the 'help' command)</td>
+ *     <td>The full help messbge for this dibgnostic commbnd (sbme output bs
+ *          the one produced by the 'help' commbnd)</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.vmImpact</td><td>String</td>
- *     <td>The impact of the diagnostic command,
- *      this value is the same as the one printed in the 'impact'
- *      section of the help message of the diagnostic command, and it
- *      is different from the getImpact() of the MBeanOperationInfo</td>
+ *     <td>dcmd.vmImpbct</td><td>String</td>
+ *     <td>The impbct of the dibgnostic commbnd,
+ *      this vblue is the sbme bs the one printed in the 'impbct'
+ *      section of the help messbge of the dibgnostic commbnd, bnd it
+ *      is different from the getImpbct() of the MBebnOperbtionInfo</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.enabled</td><td>boolean</td>
- *     <td>True if the diagnostic command is enabled, false otherwise</td>
+ *     <td>dcmd.enbbled</td><td>boolebn</td>
+ *     <td>True if the dibgnostic commbnd is enbbled, fblse otherwise</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.permissionClass</td><td>String</td>
- *     <td>Some diagnostic command might require a specific permission to be
- *          executed, in addition to the MBeanPermission to invoke their
- *          associated MBean operation. This field returns the fully qualified
- *          name of the permission class or null if no permission is required
+ *     <td>dcmd.permissionClbss</td><td>String</td>
+ *     <td>Some dibgnostic commbnd might require b specific permission to be
+ *          executed, in bddition to the MBebnPermission to invoke their
+ *          bssocibted MBebn operbtion. This field returns the fully qublified
+ *          nbme of the permission clbss or null if no permission is required
  *   </td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.permissionName</td><td>String</td>
- *     <td>The fist argument of the permission required to execute this
- *          diagnostic command or null if no permission is required</td>
+ *     <td>dcmd.permissionNbme</td><td>String</td>
+ *     <td>The fist brgument of the permission required to execute this
+ *          dibgnostic commbnd or null if no permission is required</td>
  *   </tr>
  *   <tr>
  *     <td>dcmd.permissionAction</td><td>String</td>
- *     <td>The second argument of the permission required to execute this
- *          diagnostic command or null if the permission constructor has only
- *          one argument (like the ManagementPermission) or if no permission
+ *     <td>The second brgument of the permission required to execute this
+ *          dibgnostic commbnd or null if the permission constructor hbs only
+ *          one brgument (like the MbnbgementPermission) or if no permission
  *          is required</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arguments</td><td>Descriptor</td>
- *     <td>A Descriptor instance containing the descriptions of options and
- *          arguments supported by the diagnostic command (see below)</td>
+ *     <td>dcmd.brguments</td><td>Descriptor</td>
+ *     <td>A Descriptor instbnce contbining the descriptions of options bnd
+ *          brguments supported by the dibgnostic commbnd (see below)</td>
  *   </tr>
- * </table>
+ * </tbble>
  * <p>
  *
- * <p>The description of parameters (options or arguments) of a diagnostic
- * command is provided within a Descriptor instance. In this Descriptor,
- * each field name is a parameter name, and each field value is itself
- * a Descriptor instance. The fields provided in this second Descriptor
- * instance are described in the table below:
+ * <p>The description of pbrbmeters (options or brguments) of b dibgnostic
+ * commbnd is provided within b Descriptor instbnce. In this Descriptor,
+ * ebch field nbme is b pbrbmeter nbme, bnd ebch field vblue is itself
+ * b Descriptor instbnce. The fields provided in this second Descriptor
+ * instbnce bre described in the tbble below:
  *
- * <table border="1" cellpadding="5">
+ * <tbble border="1" cellpbdding="5">
  *   <tr>
- *     <th>Name</th><th>Type</th><th>Description</th>
+ *     <th>Nbme</th><th>Type</th><th>Description</th>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arg.name</td><td>String</td>
- *     <td>The name of the parameter</td>
+ *     <td>dcmd.brg.nbme</td><td>String</td>
+ *     <td>The nbme of the pbrbmeter</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arg.type</td><td>String</td>
- *     <td>The type of the parameter. The returned String is the name of a type
- *          recognized by the diagnostic command parser. These types are not
- *          Java types and are implementation dependent.
+ *     <td>dcmd.brg.type</td><td>String</td>
+ *     <td>The type of the pbrbmeter. The returned String is the nbme of b type
+ *          recognized by the dibgnostic commbnd pbrser. These types bre not
+ *          Jbvb types bnd bre implementbtion dependent.
  *          </td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arg.description</td><td>String</td>
- *     <td>The parameter description</td>
+ *     <td>dcmd.brg.description</td><td>String</td>
+ *     <td>The pbrbmeter description</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arg.isMandatory</td><td>boolean</td>
- *     <td>True if the parameter is mandatory, false otherwise</td>
+ *     <td>dcmd.brg.isMbndbtory</td><td>boolebn</td>
+ *     <td>True if the pbrbmeter is mbndbtory, fblse otherwise</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arg.isOption</td><td>boolean</td>
- *     <td>True if the parameter is an option, false if it is an argument</td>
+ *     <td>dcmd.brg.isOption</td><td>boolebn</td>
+ *     <td>True if the pbrbmeter is bn option, fblse if it is bn brgument</td>
  *   </tr>
  *   <tr>
- *     <td>dcmd.arg.isMultiple</td><td>boolean</td>
- *     <td>True if the parameter can be specified several times, false
+ *     <td>dcmd.brg.isMultiple</td><td>boolebn</td>
+ *     <td>True if the pbrbmeter cbn be specified severbl times, fblse
  *          otherwise</td>
  *   </tr>
- * </table>
+ * </tbble>
  *
- * <p>When the set of diagnostic commands currently supported by the Java
- * Virtual Machine is modified, the {@code DiagnosticCommandMBean} emits
- * a {@link javax.management.Notification} with a
- * {@linkplain javax.management.Notification#getType() type} of
- * <a href="{@docRoot}/../../../../api/javax/management/MBeanInfo.html#info-changed">
- * {@code "jmx.mbean.info.changed"}</a> and a
- * {@linkplain javax.management.Notification#getUserData() userData} that
- * is the new {@code MBeanInfo}.
+ * <p>When the set of dibgnostic commbnds currently supported by the Jbvb
+ * Virtubl Mbchine is modified, the {@code DibgnosticCommbndMBebn} emits
+ * b {@link jbvbx.mbnbgement.Notificbtion} with b
+ * {@linkplbin jbvbx.mbnbgement.Notificbtion#getType() type} of
+ * <b href="{@docRoot}/../../../../bpi/jbvbx/mbnbgement/MBebnInfo.html#info-chbnged">
+ * {@code "jmx.mbebn.info.chbnged"}</b> bnd b
+ * {@linkplbin jbvbx.mbnbgement.Notificbtion#getUserDbtb() userDbtb} thbt
+ * is the new {@code MBebnInfo}.
  *
  * @since 1.8
  */
-public interface DiagnosticCommandMBean extends DynamicMBean
+public interfbce DibgnosticCommbndMBebn extends DynbmicMBebn
 {
 
 }

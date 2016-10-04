@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2011 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2011 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,20 +53,20 @@
 //---------------------------------------------------------------------------------
 //
 
-#ifndef _lcms_internal_H
+#ifndef _lcms_internbl_H
 
-// Include plug-in foundation
+// Include plug-in foundbtion
 #ifndef _lcms_plugin_H
 #   include "lcms2_plugin.h"
 #endif
 
-// ctype is part of C99 as per 7.1.2
+// ctype is pbrt of C99 bs per 7.1.2
 #include <ctype.h>
 
-// assert macro is part of C99 as per 7.2
-#include <assert.h>
+// bssert mbcro is pbrt of C99 bs per 7.2
+#include <bssert.h>
 
-// Some needed constants
+// Some needed constbnts
 #ifndef M_PI
 #       define M_PI        3.14159265358979323846
 #endif
@@ -75,41 +75,41 @@
 #       define M_LOG10E    0.434294481903251827651
 #endif
 
-// BorlandC 5.5, VC2003 are broken on that
+// BorlbndC 5.5, VC2003 bre broken on thbt
 #if defined(__BORLANDC__) || (_MSC_VER < 1400) // 1400 == VC++ 8.0
-#define sinf(x) (float)sin((float)x)
-#define sqrtf(x) (float)sqrt((float)x)
+#define sinf(x) (flobt)sin((flobt)x)
+#define sqrtf(x) (flobt)sqrt((flobt)x)
 #endif
 
 
-// Alignment of ICC file format uses 4 bytes (cmsUInt32Number)
+// Alignment of ICC file formbt uses 4 bytes (cmsUInt32Number)
 #define _cmsALIGNLONG(x) (((x)+(sizeof(cmsUInt32Number)-1)) & ~(sizeof(cmsUInt32Number)-1))
 
 // Alignment to memory pointer
 #define _cmsALIGNMEM(x)  (((x)+(sizeof(void *) - 1)) & ~(sizeof(void *) - 1))
 
-// Maximum encodeable values in floating point
+// Mbximum encodebble vblues in flobting point
 #define MAX_ENCODEABLE_XYZ  (1.0 + 32767.0/32768.0)
-#define MIN_ENCODEABLE_ab2  (-128.0)
-#define MAX_ENCODEABLE_ab2  ((65535.0/256.0) - 128.0)
-#define MIN_ENCODEABLE_ab4  (-128.0)
-#define MAX_ENCODEABLE_ab4  (127.0)
+#define MIN_ENCODEABLE_bb2  (-128.0)
+#define MAX_ENCODEABLE_bb2  ((65535.0/256.0) - 128.0)
+#define MIN_ENCODEABLE_bb4  (-128.0)
+#define MAX_ENCODEABLE_bb4  (127.0)
 
-// Maximum of channels for internal pipeline evaluation
+// Mbximum of chbnnels for internbl pipeline evblubtion
 #define MAX_STAGE_CHANNELS  128
 
-// Unused parameter warning supression
+// Unused pbrbmeter wbrning supression
 #define cmsUNUSED_PARAMETER(x) ((void)x)
 
-// The specification for "inline" is section 6.7.4 of the C99 standard (ISO/IEC 9899:1999).
-// unfortunately VisualC++ does not conform that
+// The specificbtion for "inline" is section 6.7.4 of the C99 stbndbrd (ISO/IEC 9899:1999).
+// unfortunbtely VisublC++ does not conform thbt
 #if defined(_MSC_VER) || defined(__BORLANDC__)
 #   define cmsINLINE __inline
 #else
-#   define cmsINLINE static inline
+#   define cmsINLINE stbtic inline
 #endif
 
-// Other replacement functions
+// Other replbcement functions
 #ifdef _MSC_VER
 # ifndef snprintf
 #       define snprintf  _snprintf
@@ -120,24 +120,24 @@
 #endif
 
 
-// A fast way to convert from/to 16 <-> 8 bits
+// A fbst wby to convert from/to 16 <-> 8 bits
 #define FROM_8_TO_16(rgb) (cmsUInt16Number) ((((cmsUInt16Number) (rgb)) << 8)|(rgb))
 #define FROM_16_TO_8(rgb) (cmsUInt8Number) ((((rgb) * 65281 + 8388608) >> 24) & 0xFF)
 
-// Code analysis is broken on asserts
+// Code bnblysis is broken on bsserts
 #ifdef _MSC_VER
 #    if (_MSC_VER >= 1500)
-#            define _cmsAssert(a)  { assert((a)); __analysis_assume((a)); }
+#            define _cmsAssert(b)  { bssert((b)); __bnblysis_bssume((b)); }
 #     else
-#            define _cmsAssert(a)   assert((a))
+#            define _cmsAssert(b)   bssert((b))
 #     endif
 #else
-#      define _cmsAssert(a)   assert((a))
+#      define _cmsAssert(b)   bssert((b))
 #endif
 
 //---------------------------------------------------------------------------------
 
-// Determinant lower than that are assumed zero (used on matrix invert)
+// Determinbnt lower thbn thbt bre bssumed zero (used on mbtrix invert)
 #define MATRIX_DET_TOLERANCE    0.0001
 
 //---------------------------------------------------------------------------------
@@ -147,44 +147,44 @@
 #define FIXED_REST_TO_INT(x)    ((x)&0xFFFFU)
 #define ROUND_FIXED_TO_INT(x)   (((x)+0x8000)>>16)
 
-cmsINLINE cmsS15Fixed16Number _cmsToFixedDomain(int a)                   { return a + ((a + 0x7fff) / 0xffff); }
-cmsINLINE int                 _cmsFromFixedDomain(cmsS15Fixed16Number a) { return a - ((a + 0x7fff) >> 16); }
+cmsINLINE cmsS15Fixed16Number _cmsToFixedDombin(int b)                   { return b + ((b + 0x7fff) / 0xffff); }
+cmsINLINE int                 _cmsFromFixedDombin(cmsS15Fixed16Number b) { return b - ((b + 0x7fff) >> 16); }
 
 // -----------------------------------------------------------------------------------------------------------
 
-// Fast floor conversion logic. Thanks to Sree Kotay and Stuart Nixon
-// note than this only works in the range ..-32767...+32767 because
-// mantissa is interpreted as 15.16 fixed point.
-// The union is to avoid pointer aliasing overoptimization.
-cmsINLINE int _cmsQuickFloor(cmsFloat64Number val)
+// Fbst floor conversion logic. Thbnks to Sree Kotby bnd Stubrt Nixon
+// note thbn this only works in the rbnge ..-32767...+32767 becbuse
+// mbntissb is interpreted bs 15.16 fixed point.
+// The union is to bvoid pointer blibsing overoptimizbtion.
+cmsINLINE int _cmsQuickFloor(cmsFlobt64Number vbl)
 {
 #ifdef CMS_DONT_USE_FAST_FLOOR
-    return (int) floor(val);
+    return (int) floor(vbl);
 #else
-    const cmsFloat64Number _lcms_double2fixmagic = 68719476736.0 * 1.5;  // 2^36 * 1.5, (52-16=36) uses limited precision to floor
+    const cmsFlobt64Number _lcms_double2fixmbgic = 68719476736.0 * 1.5;  // 2^36 * 1.5, (52-16=36) uses limited precision to floor
     union {
-        cmsFloat64Number val;
-        int halves[2];
+        cmsFlobt64Number vbl;
+        int hblves[2];
     } temp;
 
-    temp.val = val + _lcms_double2fixmagic;
+    temp.vbl = vbl + _lcms_double2fixmbgic;
 
 #ifdef CMS_USE_BIG_ENDIAN
-    return temp.halves[1] >> 16;
+    return temp.hblves[1] >> 16;
 #else
-    return temp.halves[0] >> 16;
+    return temp.hblves[0] >> 16;
 #endif
 #endif
 }
 
-// Fast floor restricted to 0..65535.0
-cmsINLINE cmsUInt16Number _cmsQuickFloorWord(cmsFloat64Number d)
+// Fbst floor restricted to 0..65535.0
+cmsINLINE cmsUInt16Number _cmsQuickFloorWord(cmsFlobt64Number d)
 {
     return (cmsUInt16Number) _cmsQuickFloor(d - 32767.0) + 32767U;
 }
 
-// Floor to word, taking care of saturation
-cmsINLINE cmsUInt16Number _cmsQuickSaturateWord(cmsFloat64Number d)
+// Floor to word, tbking cbre of sbturbtion
+cmsINLINE cmsUInt16Number _cmsQuickSbturbteWord(cmsFlobt64Number d)
 {
     d += 0.5;
     if (d <= 0) return 0;
@@ -195,71 +195,71 @@ cmsINLINE cmsUInt16Number _cmsQuickSaturateWord(cmsFloat64Number d)
 
 // Plug-In registering ---------------------------------------------------------------
 
-// Specialized function for plug-in memory management. No pairing free() since whole pool is freed at once.
-void* _cmsPluginMalloc(cmsContext ContextID, cmsUInt32Number size);
+// Speciblized function for plug-in memory mbnbgement. No pbiring free() since whole pool is freed bt once.
+void* _cmsPluginMblloc(cmsContext ContextID, cmsUInt32Number size);
 
-// Memory management
-cmsBool   _cmsRegisterMemHandlerPlugin(cmsPluginBase* Plugin);
+// Memory mbnbgement
+cmsBool   _cmsRegisterMemHbndlerPlugin(cmsPluginBbse* Plugin);
 
-// Interpolation
-cmsBool  _cmsRegisterInterpPlugin(cmsPluginBase* Plugin);
+// Interpolbtion
+cmsBool  _cmsRegisterInterpPlugin(cmsPluginBbse* Plugin);
 
-// Parametric curves
-cmsBool  _cmsRegisterParametricCurvesPlugin(cmsContext ContextID, cmsPluginBase* Plugin);
+// Pbrbmetric curves
+cmsBool  _cmsRegisterPbrbmetricCurvesPlugin(cmsContext ContextID, cmsPluginBbse* Plugin);
 
-// Formatters management
-cmsBool  _cmsRegisterFormattersPlugin(cmsContext ContextID, cmsPluginBase* Plugin);
+// Formbtters mbnbgement
+cmsBool  _cmsRegisterFormbttersPlugin(cmsContext ContextID, cmsPluginBbse* Plugin);
 
-// Tag type management
-cmsBool  _cmsRegisterTagTypePlugin(cmsContext ContextID, cmsPluginBase* Plugin);
+// Tbg type mbnbgement
+cmsBool  _cmsRegisterTbgTypePlugin(cmsContext ContextID, cmsPluginBbse* Plugin);
 
-// Tag management
-cmsBool  _cmsRegisterTagPlugin(cmsContext ContextID, cmsPluginBase* Plugin);
+// Tbg mbnbgement
+cmsBool  _cmsRegisterTbgPlugin(cmsContext ContextID, cmsPluginBbse* Plugin);
 
-// Intent management
-cmsBool  _cmsRegisterRenderingIntentPlugin(cmsContext ContextID, cmsPluginBase* Plugin);
+// Intent mbnbgement
+cmsBool  _cmsRegisterRenderingIntentPlugin(cmsContext ContextID, cmsPluginBbse* Plugin);
 
 // Multi Process elements
-cmsBool  _cmsRegisterMultiProcessElementPlugin(cmsContext ContextID, cmsPluginBase* Plugin);
+cmsBool  _cmsRegisterMultiProcessElementPlugin(cmsContext ContextID, cmsPluginBbse* Plugin);
 
-// Optimization
-cmsBool  _cmsRegisterOptimizationPlugin(cmsContext ContextID, cmsPluginBase* Plugin);
+// Optimizbtion
+cmsBool  _cmsRegisterOptimizbtionPlugin(cmsContext ContextID, cmsPluginBbse* Plugin);
 
-// Transform
-cmsBool  _cmsRegisterTransformPlugin(cmsContext ContextID, cmsPluginBase* Plugin);
+// Trbnsform
+cmsBool  _cmsRegisterTrbnsformPlugin(cmsContext ContextID, cmsPluginBbse* Plugin);
 
 // ---------------------------------------------------------------------------------------------------------
 
-// Suballocators. Those are blocks of memory that is freed at the end on whole block.
-typedef struct _cmsSubAllocator_chunk_st {
+// Subbllocbtors. Those bre blocks of memory thbt is freed bt the end on whole block.
+typedef struct _cmsSubAllocbtor_chunk_st {
 
     cmsUInt8Number* Block;
     cmsUInt32Number BlockSize;
     cmsUInt32Number Used;
 
-    struct _cmsSubAllocator_chunk_st* next;
+    struct _cmsSubAllocbtor_chunk_st* next;
 
-} _cmsSubAllocator_chunk;
+} _cmsSubAllocbtor_chunk;
 
 
 typedef struct {
 
     cmsContext ContextID;
-    _cmsSubAllocator_chunk* h;
+    _cmsSubAllocbtor_chunk* h;
 
-} _cmsSubAllocator;
+} _cmsSubAllocbtor;
 
 
-_cmsSubAllocator* _cmsCreateSubAlloc(cmsContext ContextID, cmsUInt32Number Initial);
-void              _cmsSubAllocDestroy(_cmsSubAllocator* s);
-void*             _cmsSubAlloc(_cmsSubAllocator* s, cmsUInt32Number size);
+_cmsSubAllocbtor* _cmsCrebteSubAlloc(cmsContext ContextID, cmsUInt32Number Initibl);
+void              _cmsSubAllocDestroy(_cmsSubAllocbtor* s);
+void*             _cmsSubAlloc(_cmsSubAllocbtor* s, cmsUInt32Number size);
 
 // ----------------------------------------------------------------------------------
 
-// MLU internal representation
+// MLU internbl representbtion
 typedef struct {
 
-    cmsUInt16Number Language;
+    cmsUInt16Number Lbngubge;
     cmsUInt16Number Country;
 
     cmsUInt32Number StrW;       // Offset to current unicode string
@@ -272,33 +272,33 @@ struct _cms_MLU_struct {
     cmsContext ContextID;
 
     // The directory
-    int AllocatedEntries;
+    int AllocbtedEntries;
     int UsedEntries;
-    _cmsMLUentry* Entries;     // Array of pointers to strings allocated in MemPool
+    _cmsMLUentry* Entries;     // Arrby of pointers to strings bllocbted in MemPool
 
     // The Pool
-    cmsUInt32Number PoolSize;  // The maximum allocated size
+    cmsUInt32Number PoolSize;  // The mbximum bllocbted size
     cmsUInt32Number PoolUsed;  // The used size
     void*  MemPool;            // Pointer to begin of memory pool
 };
 
-// Named color list internal representation
+// Nbmed color list internbl representbtion
 typedef struct {
 
-    char Name[cmsMAX_PATH];
+    chbr Nbme[cmsMAX_PATH];
     cmsUInt16Number PCS[3];
-    cmsUInt16Number DeviceColorant[cmsMAXCHANNELS];
+    cmsUInt16Number DeviceColorbnt[cmsMAXCHANNELS];
 
 } _cmsNAMEDCOLOR;
 
 struct _cms_NAMEDCOLORLIST_struct {
 
     cmsUInt32Number nColors;
-    cmsUInt32Number Allocated;
-    cmsUInt32Number ColorantCount;
+    cmsUInt32Number Allocbted;
+    cmsUInt32Number ColorbntCount;
 
-    char Prefix[33];      // Prefix and suffix are defined to be 32 characters at most
-    char Suffix[33];
+    chbr Prefix[33];      // Prefix bnd suffix bre defined to be 32 chbrbcters bt most
+    chbr Suffix[33];
 
     _cmsNAMEDCOLOR* List;
 
@@ -308,173 +308,173 @@ struct _cms_NAMEDCOLORLIST_struct {
 
 // ----------------------------------------------------------------------------------
 
-// This is the internal struct holding profile details.
+// This is the internbl struct holding profile detbils.
 
-// Maximum supported tags in a profile
+// Mbximum supported tbgs in b profile
 #define MAX_TABLE_TAG       100
 
 typedef struct _cms_iccprofile_struct {
 
-    // I/O handler
-    cmsIOHANDLER*            IOhandler;
+    // I/O hbndler
+    cmsIOHANDLER*            IOhbndler;
 
-    // The thread ID
+    // The threbd ID
     cmsContext               ContextID;
 
-    // Creation time
-    struct tm                Created;
+    // Crebtion time
+    struct tm                Crebted;
 
-    // Only most important items found in ICC profiles
+    // Only most importbnt items found in ICC profiles
     cmsUInt32Number          Version;
-    cmsProfileClassSignature DeviceClass;
-    cmsColorSpaceSignature   ColorSpace;
-    cmsColorSpaceSignature   PCS;
+    cmsProfileClbssSignbture DeviceClbss;
+    cmsColorSpbceSignbture   ColorSpbce;
+    cmsColorSpbceSignbture   PCS;
     cmsUInt32Number          RenderingIntent;
 
-    cmsUInt32Number          flags;
-    cmsUInt32Number          manufacturer, model;
-    cmsUInt64Number          attributes;
-    cmsUInt32Number          creator;
+    cmsUInt32Number          flbgs;
+    cmsUInt32Number          mbnufbcturer, model;
+    cmsUInt64Number          bttributes;
+    cmsUInt32Number          crebtor;
 
     cmsProfileID             ProfileID;
 
-    // Dictionary
-    cmsUInt32Number          TagCount;
-    cmsTagSignature          TagNames[MAX_TABLE_TAG];
-    cmsTagSignature          TagLinked[MAX_TABLE_TAG];           // The tag to wich is linked (0=none)
-    cmsUInt32Number          TagSizes[MAX_TABLE_TAG];            // Size on disk
-    cmsUInt32Number          TagOffsets[MAX_TABLE_TAG];
-    cmsBool                  TagSaveAsRaw[MAX_TABLE_TAG];        // True to write uncooked
-    void *                   TagPtrs[MAX_TABLE_TAG];
-    cmsTagTypeHandler*       TagTypeHandlers[MAX_TABLE_TAG];     // Same structure may be serialized on different types
-                                                                 // depending on profile version, so we keep track of the                                                             // type handler for each tag in the list.
-    // Special
+    // Dictionbry
+    cmsUInt32Number          TbgCount;
+    cmsTbgSignbture          TbgNbmes[MAX_TABLE_TAG];
+    cmsTbgSignbture          TbgLinked[MAX_TABLE_TAG];           // The tbg to wich is linked (0=none)
+    cmsUInt32Number          TbgSizes[MAX_TABLE_TAG];            // Size on disk
+    cmsUInt32Number          TbgOffsets[MAX_TABLE_TAG];
+    cmsBool                  TbgSbveAsRbw[MAX_TABLE_TAG];        // True to write uncooked
+    void *                   TbgPtrs[MAX_TABLE_TAG];
+    cmsTbgTypeHbndler*       TbgTypeHbndlers[MAX_TABLE_TAG];     // Sbme structure mby be seriblized on different types
+                                                                 // depending on profile version, so we keep trbck of the                                                             // type hbndler for ebch tbg in the list.
+    // Specibl
     cmsBool                  IsWrite;
 
 } _cmsICCPROFILE;
 
 // IO helpers for profiles
-cmsBool              _cmsReadHeader(_cmsICCPROFILE* Icc);
-cmsBool              _cmsWriteHeader(_cmsICCPROFILE* Icc, cmsUInt32Number UsedSpace);
-int                  _cmsSearchTag(_cmsICCPROFILE* Icc, cmsTagSignature sig, cmsBool lFollowLinks);
+cmsBool              _cmsRebdHebder(_cmsICCPROFILE* Icc);
+cmsBool              _cmsWriteHebder(_cmsICCPROFILE* Icc, cmsUInt32Number UsedSpbce);
+int                  _cmsSebrchTbg(_cmsICCPROFILE* Icc, cmsTbgSignbture sig, cmsBool lFollowLinks);
 
-// Tag types
-cmsTagTypeHandler*   _cmsGetTagTypeHandler(cmsTagTypeSignature sig);
-cmsTagTypeSignature  _cmsGetTagTrueType(cmsHPROFILE hProfile, cmsTagSignature sig);
-cmsTagDescriptor*    _cmsGetTagDescriptor(cmsTagSignature sig);
+// Tbg types
+cmsTbgTypeHbndler*   _cmsGetTbgTypeHbndler(cmsTbgTypeSignbture sig);
+cmsTbgTypeSignbture  _cmsGetTbgTrueType(cmsHPROFILE hProfile, cmsTbgSignbture sig);
+cmsTbgDescriptor*    _cmsGetTbgDescriptor(cmsTbgSignbture sig);
 
 // Error logging ---------------------------------------------------------------------------------------------------------
 
-void                 _cmsTagSignature2String(char String[5], cmsTagSignature sig);
+void                 _cmsTbgSignbture2String(chbr String[5], cmsTbgSignbture sig);
 
-// Interpolation ---------------------------------------------------------------------------------------------------------
+// Interpolbtion ---------------------------------------------------------------------------------------------------------
 
-cmsInterpParams*     _cmsComputeInterpParams(cmsContext ContextID, int nSamples, int InputChan, int OutputChan, const void* Table, cmsUInt32Number dwFlags);
-cmsInterpParams*     _cmsComputeInterpParamsEx(cmsContext ContextID, const cmsUInt32Number nSamples[], int InputChan, int OutputChan, const void* Table, cmsUInt32Number dwFlags);
-void                 _cmsFreeInterpParams(cmsInterpParams* p);
-cmsBool              _cmsSetInterpolationRoutine(cmsInterpParams* p);
+cmsInterpPbrbms*     _cmsComputeInterpPbrbms(cmsContext ContextID, int nSbmples, int InputChbn, int OutputChbn, const void* Tbble, cmsUInt32Number dwFlbgs);
+cmsInterpPbrbms*     _cmsComputeInterpPbrbmsEx(cmsContext ContextID, const cmsUInt32Number nSbmples[], int InputChbn, int OutputChbn, const void* Tbble, cmsUInt32Number dwFlbgs);
+void                 _cmsFreeInterpPbrbms(cmsInterpPbrbms* p);
+cmsBool              _cmsSetInterpolbtionRoutine(cmsInterpPbrbms* p);
 
 // Curves ----------------------------------------------------------------------------------------------------------------
 
-// This struct holds information about a segment, plus a pointer to the function that implements the evaluation.
-// In the case of table-based, Eval pointer is set to NULL
+// This struct holds informbtion bbout b segment, plus b pointer to the function thbt implements the evblubtion.
+// In the cbse of tbble-bbsed, Evbl pointer is set to NULL
 
-// The gamma function main structure
+// The gbmmb function mbin structure
 struct _cms_curve_struct {
 
-    cmsInterpParams*  InterpParams;  // Private optimizations for interpolation
+    cmsInterpPbrbms*  InterpPbrbms;  // Privbte optimizbtions for interpolbtion
 
-    cmsUInt32Number   nSegments;     // Number of segments in the curve. Zero for a 16-bit based tables
+    cmsUInt32Number   nSegments;     // Number of segments in the curve. Zero for b 16-bit bbsed tbbles
     cmsCurveSegment*  Segments;      // The segments
-    cmsInterpParams** SegInterp;     // Array of private optimizations for interpolation in table-based segments
+    cmsInterpPbrbms** SegInterp;     // Arrby of privbte optimizbtions for interpolbtion in tbble-bbsed segments
 
-    cmsParametricCurveEvaluator* Evals;  // Evaluators (one per segment)
+    cmsPbrbmetricCurveEvblubtor* Evbls;  // Evblubtors (one per segment)
 
-    // 16 bit Table-based representation follows
-    cmsUInt32Number    nEntries;      // Number of table elements
-    cmsUInt16Number*   Table16;       // The table itself.
+    // 16 bit Tbble-bbsed representbtion follows
+    cmsUInt32Number    nEntries;      // Number of tbble elements
+    cmsUInt16Number*   Tbble16;       // The tbble itself.
 };
 
 
-//  Pipelines & Stages ---------------------------------------------------------------------------------------------
+//  Pipelines & Stbges ---------------------------------------------------------------------------------------------
 
-// A single stage
-struct _cmsStage_struct {
+// A single stbge
+struct _cmsStbge_struct {
 
     cmsContext          ContextID;
 
-    cmsStageSignature   Type;           // Identifies the stage
-    cmsStageSignature   Implements;     // Identifies the *function* of the stage (for optimizations)
+    cmsStbgeSignbture   Type;           // Identifies the stbge
+    cmsStbgeSignbture   Implements;     // Identifies the *function* of the stbge (for optimizbtions)
 
-    cmsUInt32Number     InputChannels;  // Input channels -- for optimization purposes
-    cmsUInt32Number     OutputChannels; // Output channels -- for optimization purposes
+    cmsUInt32Number     InputChbnnels;  // Input chbnnels -- for optimizbtion purposes
+    cmsUInt32Number     OutputChbnnels; // Output chbnnels -- for optimizbtion purposes
 
-    _cmsStageEvalFn     EvalPtr;        // Points to fn that evaluates the stage (always in floating point)
-    _cmsStageDupElemFn  DupElemPtr;     // Points to a fn that duplicates the *data* of the stage
-    _cmsStageFreeElemFn FreePtr;        // Points to a fn that sets the *data* of the stage free
+    _cmsStbgeEvblFn     EvblPtr;        // Points to fn thbt evblubtes the stbge (blwbys in flobting point)
+    _cmsStbgeDupElemFn  DupElemPtr;     // Points to b fn thbt duplicbtes the *dbtb* of the stbge
+    _cmsStbgeFreeElemFn FreePtr;        // Points to b fn thbt sets the *dbtb* of the stbge free
 
-    // A generic pointer to whatever memory needed by the stage
-    void*               Data;
+    // A generic pointer to whbtever memory needed by the stbge
+    void*               Dbtb;
 
-    // Maintains linked list (used internally)
-    struct _cmsStage_struct* Next;
+    // Mbintbins linked list (used internblly)
+    struct _cmsStbge_struct* Next;
 };
 
 
-// Special Stages (cannot be saved)
-cmsStage*        _cmsStageAllocLab2XYZ(cmsContext ContextID);
-cmsStage*        _cmsStageAllocXYZ2Lab(cmsContext ContextID);
-cmsStage*        _cmsStageAllocLabPrelin(cmsContext ContextID);
-cmsStage*        _cmsStageAllocLabV2ToV4(cmsContext ContextID);
-cmsStage*        _cmsStageAllocLabV2ToV4curves(cmsContext ContextID);
-cmsStage*        _cmsStageAllocLabV4ToV2(cmsContext ContextID);
-cmsStage*        _cmsStageAllocNamedColor(cmsNAMEDCOLORLIST* NamedColorList, cmsBool UsePCS);
-cmsStage*        _cmsStageAllocIdentityCurves(cmsContext ContextID, int nChannels);
-cmsStage*        _cmsStageAllocIdentityCLut(cmsContext ContextID, int nChan);
-cmsStage*        _cmsStageNormalizeFromLabFloat(cmsContext ContextID);
-cmsStage*        _cmsStageNormalizeFromXyzFloat(cmsContext ContextID);
-cmsStage*        _cmsStageNormalizeToLabFloat(cmsContext ContextID);
-cmsStage*        _cmsStageNormalizeToXyzFloat(cmsContext ContextID);
+// Specibl Stbges (cbnnot be sbved)
+cmsStbge*        _cmsStbgeAllocLbb2XYZ(cmsContext ContextID);
+cmsStbge*        _cmsStbgeAllocXYZ2Lbb(cmsContext ContextID);
+cmsStbge*        _cmsStbgeAllocLbbPrelin(cmsContext ContextID);
+cmsStbge*        _cmsStbgeAllocLbbV2ToV4(cmsContext ContextID);
+cmsStbge*        _cmsStbgeAllocLbbV2ToV4curves(cmsContext ContextID);
+cmsStbge*        _cmsStbgeAllocLbbV4ToV2(cmsContext ContextID);
+cmsStbge*        _cmsStbgeAllocNbmedColor(cmsNAMEDCOLORLIST* NbmedColorList, cmsBool UsePCS);
+cmsStbge*        _cmsStbgeAllocIdentityCurves(cmsContext ContextID, int nChbnnels);
+cmsStbge*        _cmsStbgeAllocIdentityCLut(cmsContext ContextID, int nChbn);
+cmsStbge*        _cmsStbgeNormblizeFromLbbFlobt(cmsContext ContextID);
+cmsStbge*        _cmsStbgeNormblizeFromXyzFlobt(cmsContext ContextID);
+cmsStbge*        _cmsStbgeNormblizeToLbbFlobt(cmsContext ContextID);
+cmsStbge*        _cmsStbgeNormblizeToXyzFlobt(cmsContext ContextID);
 
 // For curve set only
-cmsToneCurve**     _cmsStageGetPtrToCurveSet(const cmsStage* mpe);
+cmsToneCurve**     _cmsStbgeGetPtrToCurveSet(const cmsStbge* mpe);
 
 
-// Pipeline Evaluator (in floating point)
-typedef void (* _cmsPipelineEvalFloatFn)(const cmsFloat32Number In[],
-                                         cmsFloat32Number Out[],
-                                         const void* Data);
+// Pipeline Evblubtor (in flobting point)
+typedef void (* _cmsPipelineEvblFlobtFn)(const cmsFlobt32Number In[],
+                                         cmsFlobt32Number Out[],
+                                         const void* Dbtb);
 
 struct _cmsPipeline_struct {
 
-    cmsStage* Elements;                                // Points to elements chain
-    cmsUInt32Number InputChannels, OutputChannels;
+    cmsStbge* Elements;                                // Points to elements chbin
+    cmsUInt32Number InputChbnnels, OutputChbnnels;
 
-    // Data & evaluators
-    void *Data;
+    // Dbtb & evblubtors
+    void *Dbtb;
 
-   _cmsOPTeval16Fn         Eval16Fn;
-   _cmsPipelineEvalFloatFn EvalFloatFn;
-   _cmsFreeUserDataFn      FreeDataFn;
-   _cmsDupUserDataFn       DupDataFn;
+   _cmsOPTevbl16Fn         Evbl16Fn;
+   _cmsPipelineEvblFlobtFn EvblFlobtFn;
+   _cmsFreeUserDbtbFn      FreeDbtbFn;
+   _cmsDupUserDbtbFn       DupDbtbFn;
 
     cmsContext ContextID;            // Environment
 
-    cmsBool  SaveAs8Bits;            // Implementation-specific: save as 8 bits if possible
+    cmsBool  SbveAs8Bits;            // Implementbtion-specific: sbve bs 8 bits if possible
 };
 
-// LUT reading & creation -------------------------------------------------------------------------------------------
+// LUT rebding & crebtion -------------------------------------------------------------------------------------------
 
-// Read tags using low-level function, provide necessary glue code to adapt versions, etc. All those return a brand new copy
-// of the LUTS, since ownership of original is up to the profile. The user should free allocated resources.
+// Rebd tbgs using low-level function, provide necessbry glue code to bdbpt versions, etc. All those return b brbnd new copy
+// of the LUTS, since ownership of originbl is up to the profile. The user should free bllocbted resources.
 
-cmsPipeline*      _cmsReadInputLUT(cmsHPROFILE hProfile, int Intent);
-cmsPipeline*      _cmsReadOutputLUT(cmsHPROFILE hProfile, int Intent);
-cmsPipeline*      _cmsReadDevicelinkLUT(cmsHPROFILE hProfile, int Intent);
+cmsPipeline*      _cmsRebdInputLUT(cmsHPROFILE hProfile, int Intent);
+cmsPipeline*      _cmsRebdOutputLUT(cmsHPROFILE hProfile, int Intent);
+cmsPipeline*      _cmsRebdDevicelinkLUT(cmsHPROFILE hProfile, int Intent);
 
-// Special values
-cmsBool           _cmsReadMediaWhitePoint(cmsCIEXYZ* Dest, cmsHPROFILE hProfile);
-cmsBool           _cmsReadCHAD(cmsMAT3* Dest, cmsHPROFILE hProfile);
+// Specibl vblues
+cmsBool           _cmsRebdMedibWhitePoint(cmsCIEXYZ* Dest, cmsHPROFILE hProfile);
+cmsBool           _cmsRebdCHAD(cmsMAT3* Dest, cmsHPROFILE hProfile);
 
 // Profile linker --------------------------------------------------------------------------------------------------
 
@@ -483,143 +483,143 @@ cmsPipeline* _cmsLinkProfiles(cmsContext         ContextID,
                               cmsUInt32Number    TheIntents[],
                               cmsHPROFILE        hProfiles[],
                               cmsBool            BPC[],
-                              cmsFloat64Number   AdaptationStates[],
-                              cmsUInt32Number    dwFlags);
+                              cmsFlobt64Number   AdbptbtionStbtes[],
+                              cmsUInt32Number    dwFlbgs);
 
 // Sequence --------------------------------------------------------------------------------------------------------
 
-cmsSEQ* _cmsReadProfileSequence(cmsHPROFILE hProfile);
+cmsSEQ* _cmsRebdProfileSequence(cmsHPROFILE hProfile);
 cmsBool _cmsWriteProfileSequence(cmsHPROFILE hProfile, const cmsSEQ* seq);
 cmsSEQ* _cmsCompileProfileSequence(cmsContext ContextID, cmsUInt32Number nProfiles, cmsHPROFILE hProfiles[]);
 
 
-// LUT optimization ------------------------------------------------------------------------------------------------
+// LUT optimizbtion ------------------------------------------------------------------------------------------------
 
-cmsUInt16Number  _cmsQuantizeVal(cmsFloat64Number i, int MaxSamples);
-int              _cmsReasonableGridpointsByColorspace(cmsColorSpaceSignature Colorspace, cmsUInt32Number dwFlags);
+cmsUInt16Number  _cmsQubntizeVbl(cmsFlobt64Number i, int MbxSbmples);
+int              _cmsRebsonbbleGridpointsByColorspbce(cmsColorSpbceSignbture Colorspbce, cmsUInt32Number dwFlbgs);
 
-cmsBool          _cmsEndPointsBySpace(cmsColorSpaceSignature Space,
+cmsBool          _cmsEndPointsBySpbce(cmsColorSpbceSignbture Spbce,
                                       cmsUInt16Number **White,
-                                      cmsUInt16Number **Black,
+                                      cmsUInt16Number **Blbck,
                                       cmsUInt32Number *nOutputs);
 
 cmsBool          _cmsOptimizePipeline(cmsPipeline**    Lut,
                                       int              Intent,
-                                      cmsUInt32Number* InputFormat,
-                                      cmsUInt32Number* OutputFormat,
-                                      cmsUInt32Number* dwFlags );
+                                      cmsUInt32Number* InputFormbt,
+                                      cmsUInt32Number* OutputFormbt,
+                                      cmsUInt32Number* dwFlbgs );
 
 
 // Hi level LUT building ----------------------------------------------------------------------------------------------
 
-cmsPipeline*     _cmsCreateGamutCheckPipeline(cmsContext ContextID,
+cmsPipeline*     _cmsCrebteGbmutCheckPipeline(cmsContext ContextID,
                                               cmsHPROFILE hProfiles[],
                                               cmsBool  BPC[],
                                               cmsUInt32Number Intents[],
-                                              cmsFloat64Number AdaptationStates[],
-                                              cmsUInt32Number nGamutPCSposition,
-                                              cmsHPROFILE hGamut);
+                                              cmsFlobt64Number AdbptbtionStbtes[],
+                                              cmsUInt32Number nGbmutPCSposition,
+                                              cmsHPROFILE hGbmut);
 
 
-// Formatters ------------------------------------------------------------------------------------------------------------
+// Formbtters ------------------------------------------------------------------------------------------------------------
 
-#define cmsFLAGS_CAN_CHANGE_FORMATTER     0x02000000   // Allow change buffer format
+#define cmsFLAGS_CAN_CHANGE_FORMATTER     0x02000000   // Allow chbnge buffer formbt
 
-cmsBool         _cmsFormatterIsFloat(cmsUInt32Number Type);
-cmsBool         _cmsFormatterIs8bit(cmsUInt32Number Type);
+cmsBool         _cmsFormbtterIsFlobt(cmsUInt32Number Type);
+cmsBool         _cmsFormbtterIs8bit(cmsUInt32Number Type);
 
-cmsFormatter    _cmsGetFormatter(cmsUInt32Number Type,          // Specific type, i.e. TYPE_RGB_8
-                                 cmsFormatterDirection Dir,
-                                 cmsUInt32Number dwFlags);
+cmsFormbtter    _cmsGetFormbtter(cmsUInt32Number Type,          // Specific type, i.e. TYPE_RGB_8
+                                 cmsFormbtterDirection Dir,
+                                 cmsUInt32Number dwFlbgs);
 
 
 #ifndef CMS_NO_HALF_SUPPORT
 
-// Half float
-cmsFloat32Number _cmsHalf2Float(cmsUInt16Number h);
-cmsUInt16Number  _cmsFloat2Half(cmsFloat32Number flt);
+// Hblf flobt
+cmsFlobt32Number _cmsHblf2Flobt(cmsUInt16Number h);
+cmsUInt16Number  _cmsFlobt2Hblf(cmsFlobt32Number flt);
 
 #endif
 
-// Transform logic ------------------------------------------------------------------------------------------------------
+// Trbnsform logic ------------------------------------------------------------------------------------------------------
 
-struct _cmstransform_struct;
+struct _cmstrbnsform_struct;
 
 typedef struct {
 
-    // 1-pixel cache (16 bits only)
-    cmsUInt16Number CacheIn[cmsMAXCHANNELS];
-    cmsUInt16Number CacheOut[cmsMAXCHANNELS];
+    // 1-pixel cbche (16 bits only)
+    cmsUInt16Number CbcheIn[cmsMAXCHANNELS];
+    cmsUInt16Number CbcheOut[cmsMAXCHANNELS];
 
 } _cmsCACHE;
 
 
 
-// Transformation
-typedef struct _cmstransform_struct {
+// Trbnsformbtion
+typedef struct _cmstrbnsform_struct {
 
-    cmsUInt32Number InputFormat, OutputFormat; // Keep formats for further reference
+    cmsUInt32Number InputFormbt, OutputFormbt; // Keep formbts for further reference
 
-    // Points to transform code
-    _cmsTransformFn xform;
+    // Points to trbnsform code
+    _cmsTrbnsformFn xform;
 
-    // Formatters, cannot be embedded into LUT because cache
-    cmsFormatter16 FromInput;
-    cmsFormatter16 ToOutput;
+    // Formbtters, cbnnot be embedded into LUT becbuse cbche
+    cmsFormbtter16 FromInput;
+    cmsFormbtter16 ToOutput;
 
-    cmsFormatterFloat FromInputFloat;
-    cmsFormatterFloat ToOutputFloat;
+    cmsFormbtterFlobt FromInputFlobt;
+    cmsFormbtterFlobt ToOutputFlobt;
 
-    // 1-pixel cache seed for zero as input (16 bits, read only)
-    _cmsCACHE Cache;
+    // 1-pixel cbche seed for zero bs input (16 bits, rebd only)
+    _cmsCACHE Cbche;
 
-    // A Pipeline holding the full (optimized) transform
+    // A Pipeline holding the full (optimized) trbnsform
     cmsPipeline* Lut;
 
-    // A Pipeline holding the gamut check. It goes from the input space to bilevel
-    cmsPipeline* GamutCheck;
+    // A Pipeline holding the gbmut check. It goes from the input spbce to bilevel
+    cmsPipeline* GbmutCheck;
 
-    // Colorant tables
-    cmsNAMEDCOLORLIST* InputColorant;       // Input Colorant table
-    cmsNAMEDCOLORLIST* OutputColorant;      // Colorant table (for n chans > CMYK)
+    // Colorbnt tbbles
+    cmsNAMEDCOLORLIST* InputColorbnt;       // Input Colorbnt tbble
+    cmsNAMEDCOLORLIST* OutputColorbnt;      // Colorbnt tbble (for n chbns > CMYK)
 
-    // Informational only
-    cmsColorSpaceSignature EntryColorSpace;
-    cmsColorSpaceSignature ExitColorSpace;
+    // Informbtionbl only
+    cmsColorSpbceSignbture EntryColorSpbce;
+    cmsColorSpbceSignbture ExitColorSpbce;
 
-    // White points (informative only)
+    // White points (informbtive only)
     cmsCIEXYZ EntryWhitePoint;
     cmsCIEXYZ ExitWhitePoint;
 
-    // Profiles used to create the transform
+    // Profiles used to crebte the trbnsform
     cmsSEQ* Sequence;
 
-    cmsUInt32Number  dwOriginalFlags;
-    cmsFloat64Number AdaptationState;
+    cmsUInt32Number  dwOriginblFlbgs;
+    cmsFlobt64Number AdbptbtionStbte;
 
-    // The intent of this transform. That is usually the last intent in the profilechain, but may differ
+    // The intent of this trbnsform. Thbt is usublly the lbst intent in the profilechbin, but mby differ
     cmsUInt32Number RenderingIntent;
 
-    // An id that uniquely identifies the running context. May be null.
+    // An id thbt uniquely identifies the running context. Mby be null.
     cmsContext ContextID;
 
-    // A user-defined pointer that can be used to store data for transform plug-ins
-    void* UserData;
-    _cmsFreeUserDataFn FreeUserData;
+    // A user-defined pointer thbt cbn be used to store dbtb for trbnsform plug-ins
+    void* UserDbtb;
+    _cmsFreeUserDbtbFn FreeUserDbtb;
 
 } _cmsTRANSFORM;
 
 // --------------------------------------------------------------------------------------------------
 
-cmsHTRANSFORM _cmsChain2Lab(cmsContext             ContextID,
+cmsHTRANSFORM _cmsChbin2Lbb(cmsContext             ContextID,
                             cmsUInt32Number        nProfiles,
-                            cmsUInt32Number        InputFormat,
-                            cmsUInt32Number        OutputFormat,
+                            cmsUInt32Number        InputFormbt,
+                            cmsUInt32Number        OutputFormbt,
                             const cmsUInt32Number  Intents[],
                             const cmsHPROFILE      hProfiles[],
                             const cmsBool          BPC[],
-                            const cmsFloat64Number AdaptationStates[],
-                            cmsUInt32Number        dwFlags);
+                            const cmsFlobt64Number AdbptbtionStbtes[],
+                            cmsUInt32Number        dwFlbgs);
 
 
 cmsToneCurve* _cmsBuildKToneCurve(cmsContext       ContextID,
@@ -628,13 +628,13 @@ cmsToneCurve* _cmsBuildKToneCurve(cmsContext       ContextID,
                             const cmsUInt32Number  Intents[],
                             const cmsHPROFILE      hProfiles[],
                             const cmsBool          BPC[],
-                            const cmsFloat64Number AdaptationStates[],
-                            cmsUInt32Number        dwFlags);
+                            const cmsFlobt64Number AdbptbtionStbtes[],
+                            cmsUInt32Number        dwFlbgs);
 
-cmsBool   _cmsAdaptationMatrix(cmsMAT3* r, const cmsMAT3* ConeMatrix, const cmsCIEXYZ* FromIll, const cmsCIEXYZ* ToIll);
+cmsBool   _cmsAdbptbtionMbtrix(cmsMAT3* r, const cmsMAT3* ConeMbtrix, const cmsCIEXYZ* FromIll, const cmsCIEXYZ* ToIll);
 
-cmsBool   _cmsBuildRGB2XYZtransferMatrix(cmsMAT3* r, const cmsCIExyY* WhitePoint, const cmsCIExyYTRIPLE* Primaries);
+cmsBool   _cmsBuildRGB2XYZtrbnsferMbtrix(cmsMAT3* r, const cmsCIExyY* WhitePoint, const cmsCIExyYTRIPLE* Primbries);
 
 
-#define _lcms_internal_H
+#define _lcms_internbl_H
 #endif

@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect;
+pbckbge sun.reflect;
 
-/** <P> MagicAccessorImpl (named for parity with FieldAccessorImpl and
-    others, not because it actually implements an interface) is a
-    marker class in the hierarchy. All subclasses of this class are
-    "magically" granted access by the VM to otherwise inaccessible
-    fields and methods of other classes. It is used to hold the code
-    for dynamically-generated FieldAccessorImpl and MethodAccessorImpl
-    subclasses. (Use of the word "unsafe" was avoided in this class's
-    name to avoid confusion with {@link sun.misc.Unsafe}.) </P>
+/** <P> MbgicAccessorImpl (nbmed for pbrity with FieldAccessorImpl bnd
+    others, not becbuse it bctublly implements bn interfbce) is b
+    mbrker clbss in the hierbrchy. All subclbsses of this clbss bre
+    "mbgicblly" grbnted bccess by the VM to otherwise inbccessible
+    fields bnd methods of other clbsses. It is used to hold the code
+    for dynbmicblly-generbted FieldAccessorImpl bnd MethodAccessorImpl
+    subclbsses. (Use of the word "unsbfe" wbs bvoided in this clbss's
+    nbme to bvoid confusion with {@link sun.misc.Unsbfe}.) </P>
 
-    <P> The bug fix for 4486457 also necessitated disabling
-    verification for this class and all subclasses, as opposed to just
-    SerializationConstructorAccessorImpl and subclasses, to avoid
-    having to indicate to the VM which of these dynamically-generated
-    stub classes were known to be able to pass the verifier. </P>
+    <P> The bug fix for 4486457 blso necessitbted disbbling
+    verificbtion for this clbss bnd bll subclbsses, bs opposed to just
+    SeriblizbtionConstructorAccessorImpl bnd subclbsses, to bvoid
+    hbving to indicbte to the VM which of these dynbmicblly-generbted
+    stub clbsses were known to be bble to pbss the verifier. </P>
 
-    <P> Do not change the name of this class without also changing the
+    <P> Do not chbnge the nbme of this clbss without blso chbnging the
     VM's code. </P> */
 
-class MagicAccessorImpl {
+clbss MbgicAccessorImpl {
 }

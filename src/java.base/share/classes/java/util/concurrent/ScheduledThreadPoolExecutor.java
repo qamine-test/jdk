@@ -1,211 +1,211 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.*;
+pbckbge jbvb.util.concurrent;
+import stbtic jbvb.util.concurrent.TimeUnit.NANOSECONDS;
+import jbvb.util.concurrent.btomic.AtomicLong;
+import jbvb.util.concurrent.locks.Condition;
+import jbvb.util.concurrent.locks.ReentrbntLock;
+import jbvb.util.*;
 
 /**
- * A {@link ThreadPoolExecutor} that can additionally schedule
- * commands to run after a given delay, or to execute
- * periodically. This class is preferable to {@link java.util.Timer}
- * when multiple worker threads are needed, or when the additional
- * flexibility or capabilities of {@link ThreadPoolExecutor} (which
- * this class extends) are required.
+ * A {@link ThrebdPoolExecutor} thbt cbn bdditionblly schedule
+ * commbnds to run bfter b given delby, or to execute
+ * periodicblly. This clbss is preferbble to {@link jbvb.util.Timer}
+ * when multiple worker threbds bre needed, or when the bdditionbl
+ * flexibility or cbpbbilities of {@link ThrebdPoolExecutor} (which
+ * this clbss extends) bre required.
  *
- * <p>Delayed tasks execute no sooner than they are enabled, but
- * without any real-time guarantees about when, after they are
- * enabled, they will commence. Tasks scheduled for exactly the same
- * execution time are enabled in first-in-first-out (FIFO) order of
+ * <p>Delbyed tbsks execute no sooner thbn they bre enbbled, but
+ * without bny rebl-time gubrbntees bbout when, bfter they bre
+ * enbbled, they will commence. Tbsks scheduled for exbctly the sbme
+ * execution time bre enbbled in first-in-first-out (FIFO) order of
  * submission.
  *
- * <p>When a submitted task is cancelled before it is run, execution
- * is suppressed. By default, such a cancelled task is not
- * automatically removed from the work queue until its delay
- * elapses. While this enables further inspection and monitoring, it
- * may also cause unbounded retention of cancelled tasks. To avoid
- * this, set {@link #setRemoveOnCancelPolicy} to {@code true}, which
- * causes tasks to be immediately removed from the work queue at
- * time of cancellation.
+ * <p>When b submitted tbsk is cbncelled before it is run, execution
+ * is suppressed. By defbult, such b cbncelled tbsk is not
+ * butombticblly removed from the work queue until its delby
+ * elbpses. While this enbbles further inspection bnd monitoring, it
+ * mby blso cbuse unbounded retention of cbncelled tbsks. To bvoid
+ * this, set {@link #setRemoveOnCbncelPolicy} to {@code true}, which
+ * cbuses tbsks to be immedibtely removed from the work queue bt
+ * time of cbncellbtion.
  *
- * <p>Successive executions of a task scheduled via
- * {@code scheduleAtFixedRate} or
- * {@code scheduleWithFixedDelay} do not overlap. While different
- * executions may be performed by different threads, the effects of
- * prior executions <a
- * href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
+ * <p>Successive executions of b tbsk scheduled vib
+ * {@code scheduleAtFixedRbte} or
+ * {@code scheduleWithFixedDelby} do not overlbp. While different
+ * executions mby be performed by different threbds, the effects of
+ * prior executions <b
+ * href="pbckbge-summbry.html#MemoryVisibility"><i>hbppen-before</i></b>
  * those of subsequent ones.
  *
- * <p>While this class inherits from {@link ThreadPoolExecutor}, a few
- * of the inherited tuning methods are not useful for it. In
- * particular, because it acts as a fixed-sized pool using
- * {@code corePoolSize} threads and an unbounded queue, adjustments
- * to {@code maximumPoolSize} have no useful effect. Additionally, it
- * is almost never a good idea to set {@code corePoolSize} to zero or
- * use {@code allowCoreThreadTimeOut} because this may leave the pool
- * without threads to handle tasks once they become eligible to run.
+ * <p>While this clbss inherits from {@link ThrebdPoolExecutor}, b few
+ * of the inherited tuning methods bre not useful for it. In
+ * pbrticulbr, becbuse it bcts bs b fixed-sized pool using
+ * {@code corePoolSize} threbds bnd bn unbounded queue, bdjustments
+ * to {@code mbximumPoolSize} hbve no useful effect. Additionblly, it
+ * is blmost never b good ideb to set {@code corePoolSize} to zero or
+ * use {@code bllowCoreThrebdTimeOut} becbuse this mby lebve the pool
+ * without threbds to hbndle tbsks once they become eligible to run.
  *
- * <p><b>Extension notes:</b> This class overrides the
- * {@link ThreadPoolExecutor#execute(Runnable) execute} and
- * {@link AbstractExecutorService#submit(Runnable) submit}
- * methods to generate internal {@link ScheduledFuture} objects to
- * control per-task delays and scheduling.  To preserve
- * functionality, any further overrides of these methods in
- * subclasses must invoke superclass versions, which effectively
- * disables additional task customization.  However, this class
- * provides alternative protected extension method
- * {@code decorateTask} (one version each for {@code Runnable} and
- * {@code Callable}) that can be used to customize the concrete task
- * types used to execute commands entered via {@code execute},
- * {@code submit}, {@code schedule}, {@code scheduleAtFixedRate},
- * and {@code scheduleWithFixedDelay}.  By default, a
- * {@code ScheduledThreadPoolExecutor} uses a task type extending
- * {@link FutureTask}. However, this may be modified or replaced using
- * subclasses of the form:
+ * <p><b>Extension notes:</b> This clbss overrides the
+ * {@link ThrebdPoolExecutor#execute(Runnbble) execute} bnd
+ * {@link AbstrbctExecutorService#submit(Runnbble) submit}
+ * methods to generbte internbl {@link ScheduledFuture} objects to
+ * control per-tbsk delbys bnd scheduling.  To preserve
+ * functionblity, bny further overrides of these methods in
+ * subclbsses must invoke superclbss versions, which effectively
+ * disbbles bdditionbl tbsk customizbtion.  However, this clbss
+ * provides blternbtive protected extension method
+ * {@code decorbteTbsk} (one version ebch for {@code Runnbble} bnd
+ * {@code Cbllbble}) thbt cbn be used to customize the concrete tbsk
+ * types used to execute commbnds entered vib {@code execute},
+ * {@code submit}, {@code schedule}, {@code scheduleAtFixedRbte},
+ * bnd {@code scheduleWithFixedDelby}.  By defbult, b
+ * {@code ScheduledThrebdPoolExecutor} uses b tbsk type extending
+ * {@link FutureTbsk}. However, this mby be modified or replbced using
+ * subclbsses of the form:
  *
  *  <pre> {@code
- * public class CustomScheduledExecutor extends ScheduledThreadPoolExecutor {
+ * public clbss CustomScheduledExecutor extends ScheduledThrebdPoolExecutor {
  *
- *   static class CustomTask<V> implements RunnableScheduledFuture<V> { ... }
+ *   stbtic clbss CustomTbsk<V> implements RunnbbleScheduledFuture<V> { ... }
  *
- *   protected <V> RunnableScheduledFuture<V> decorateTask(
- *                Runnable r, RunnableScheduledFuture<V> task) {
- *       return new CustomTask<V>(r, task);
+ *   protected <V> RunnbbleScheduledFuture<V> decorbteTbsk(
+ *                Runnbble r, RunnbbleScheduledFuture<V> tbsk) {
+ *       return new CustomTbsk<V>(r, tbsk);
  *   }
  *
- *   protected <V> RunnableScheduledFuture<V> decorateTask(
- *                Callable<V> c, RunnableScheduledFuture<V> task) {
- *       return new CustomTask<V>(c, task);
+ *   protected <V> RunnbbleScheduledFuture<V> decorbteTbsk(
+ *                Cbllbble<V> c, RunnbbleScheduledFuture<V> tbsk) {
+ *       return new CustomTbsk<V>(c, tbsk);
  *   }
- *   // ... add constructors, etc.
+ *   // ... bdd constructors, etc.
  * }}</pre>
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class ScheduledThreadPoolExecutor
-        extends ThreadPoolExecutor
+public clbss ScheduledThrebdPoolExecutor
+        extends ThrebdPoolExecutor
         implements ScheduledExecutorService {
 
     /*
-     * This class specializes ThreadPoolExecutor implementation by
+     * This clbss speciblizes ThrebdPoolExecutor implementbtion by
      *
-     * 1. Using a custom task type, ScheduledFutureTask for
-     *    tasks, even those that don't require scheduling (i.e.,
+     * 1. Using b custom tbsk type, ScheduledFutureTbsk for
+     *    tbsks, even those thbt don't require scheduling (i.e.,
      *    those submitted using ExecutorService execute, not
-     *    ScheduledExecutorService methods) which are treated as
-     *    delayed tasks with a delay of zero.
+     *    ScheduledExecutorService methods) which bre trebted bs
+     *    delbyed tbsks with b delby of zero.
      *
-     * 2. Using a custom queue (DelayedWorkQueue), a variant of
-     *    unbounded DelayQueue. The lack of capacity constraint and
-     *    the fact that corePoolSize and maximumPoolSize are
-     *    effectively identical simplifies some execution mechanics
-     *    (see delayedExecute) compared to ThreadPoolExecutor.
+     * 2. Using b custom queue (DelbyedWorkQueue), b vbribnt of
+     *    unbounded DelbyQueue. The lbck of cbpbcity constrbint bnd
+     *    the fbct thbt corePoolSize bnd mbximumPoolSize bre
+     *    effectively identicbl simplifies some execution mechbnics
+     *    (see delbyedExecute) compbred to ThrebdPoolExecutor.
      *
-     * 3. Supporting optional run-after-shutdown parameters, which
-     *    leads to overrides of shutdown methods to remove and cancel
-     *    tasks that should NOT be run after shutdown, as well as
-     *    different recheck logic when task (re)submission overlaps
-     *    with a shutdown.
+     * 3. Supporting optionbl run-bfter-shutdown pbrbmeters, which
+     *    lebds to overrides of shutdown methods to remove bnd cbncel
+     *    tbsks thbt should NOT be run bfter shutdown, bs well bs
+     *    different recheck logic when tbsk (re)submission overlbps
+     *    with b shutdown.
      *
-     * 4. Task decoration methods to allow interception and
-     *    instrumentation, which are needed because subclasses cannot
+     * 4. Tbsk decorbtion methods to bllow interception bnd
+     *    instrumentbtion, which bre needed becbuse subclbsses cbnnot
      *    otherwise override submit methods to get this effect. These
-     *    don't have any impact on pool control logic though.
+     *    don't hbve bny impbct on pool control logic though.
      */
 
     /**
-     * False if should cancel/suppress periodic tasks on shutdown.
+     * Fblse if should cbncel/suppress periodic tbsks on shutdown.
      */
-    private volatile boolean continueExistingPeriodicTasksAfterShutdown;
+    privbte volbtile boolebn continueExistingPeriodicTbsksAfterShutdown;
 
     /**
-     * False if should cancel non-periodic tasks on shutdown.
+     * Fblse if should cbncel non-periodic tbsks on shutdown.
      */
-    private volatile boolean executeExistingDelayedTasksAfterShutdown = true;
+    privbte volbtile boolebn executeExistingDelbyedTbsksAfterShutdown = true;
 
     /**
-     * True if ScheduledFutureTask.cancel should remove from queue
+     * True if ScheduledFutureTbsk.cbncel should remove from queue
      */
-    private volatile boolean removeOnCancel = false;
+    privbte volbtile boolebn removeOnCbncel = fblse;
 
     /**
-     * Sequence number to break scheduling ties, and in turn to
-     * guarantee FIFO order among tied entries.
+     * Sequence number to brebk scheduling ties, bnd in turn to
+     * gubrbntee FIFO order bmong tied entries.
      */
-    private static final AtomicLong sequencer = new AtomicLong();
+    privbte stbtic finbl AtomicLong sequencer = new AtomicLong();
 
     /**
-     * Returns current nanosecond time.
+     * Returns current nbnosecond time.
      */
-    final long now() {
-        return System.nanoTime();
+    finbl long now() {
+        return System.nbnoTime();
     }
 
-    private class ScheduledFutureTask<V>
-            extends FutureTask<V> implements RunnableScheduledFuture<V> {
+    privbte clbss ScheduledFutureTbsk<V>
+            extends FutureTbsk<V> implements RunnbbleScheduledFuture<V> {
 
-        /** Sequence number to break ties FIFO */
-        private final long sequenceNumber;
+        /** Sequence number to brebk ties FIFO */
+        privbte finbl long sequenceNumber;
 
-        /** The time the task is enabled to execute in nanoTime units */
-        private long time;
-
-        /**
-         * Period in nanoseconds for repeating tasks.  A positive
-         * value indicates fixed-rate execution.  A negative value
-         * indicates fixed-delay execution.  A value of 0 indicates a
-         * non-repeating task.
-         */
-        private final long period;
-
-        /** The actual task to be re-enqueued by reExecutePeriodic */
-        RunnableScheduledFuture<V> outerTask = this;
+        /** The time the tbsk is enbbled to execute in nbnoTime units */
+        privbte long time;
 
         /**
-         * Index into delay queue, to support faster cancellation.
+         * Period in nbnoseconds for repebting tbsks.  A positive
+         * vblue indicbtes fixed-rbte execution.  A negbtive vblue
+         * indicbtes fixed-delby execution.  A vblue of 0 indicbtes b
+         * non-repebting tbsk.
          */
-        int heapIndex;
+        privbte finbl long period;
+
+        /** The bctubl tbsk to be re-enqueued by reExecutePeriodic */
+        RunnbbleScheduledFuture<V> outerTbsk = this;
 
         /**
-         * Creates a one-shot action with given nanoTime-based trigger time.
+         * Index into delby queue, to support fbster cbncellbtion.
          */
-        ScheduledFutureTask(Runnable r, V result, long ns) {
+        int hebpIndex;
+
+        /**
+         * Crebtes b one-shot bction with given nbnoTime-bbsed trigger time.
+         */
+        ScheduledFutureTbsk(Runnbble r, V result, long ns) {
             super(r, result);
             this.time = ns;
             this.period = 0;
@@ -213,9 +213,9 @@ public class ScheduledThreadPoolExecutor
         }
 
         /**
-         * Creates a periodic action with given nano time and period.
+         * Crebtes b periodic bction with given nbno time bnd period.
          */
-        ScheduledFutureTask(Runnable r, V result, long ns, long period) {
+        ScheduledFutureTbsk(Runnbble r, V result, long ns, long period) {
             super(r, result);
             this.time = ns;
             this.period = period;
@@ -223,24 +223,24 @@ public class ScheduledThreadPoolExecutor
         }
 
         /**
-         * Creates a one-shot action with given nanoTime-based trigger time.
+         * Crebtes b one-shot bction with given nbnoTime-bbsed trigger time.
          */
-        ScheduledFutureTask(Callable<V> callable, long ns) {
-            super(callable);
+        ScheduledFutureTbsk(Cbllbble<V> cbllbble, long ns) {
+            super(cbllbble);
             this.time = ns;
             this.period = 0;
             this.sequenceNumber = sequencer.getAndIncrement();
         }
 
-        public long getDelay(TimeUnit unit) {
+        public long getDelby(TimeUnit unit) {
             return unit.convert(time - now(), NANOSECONDS);
         }
 
-        public int compareTo(Delayed other) {
-            if (other == this) // compare zero if same object
+        public int compbreTo(Delbyed other) {
+            if (other == this) // compbre zero if sbme object
                 return 0;
-            if (other instanceof ScheduledFutureTask) {
-                ScheduledFutureTask<?> x = (ScheduledFutureTask<?>)other;
+            if (other instbnceof ScheduledFutureTbsk) {
+                ScheduledFutureTbsk<?> x = (ScheduledFutureTbsk<?>)other;
                 long diff = time - x.time;
                 if (diff < 0)
                     return -1;
@@ -251,23 +251,23 @@ public class ScheduledThreadPoolExecutor
                 else
                     return 1;
             }
-            long diff = getDelay(NANOSECONDS) - other.getDelay(NANOSECONDS);
+            long diff = getDelby(NANOSECONDS) - other.getDelby(NANOSECONDS);
             return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
         }
 
         /**
-         * Returns {@code true} if this is a periodic (not a one-shot) action.
+         * Returns {@code true} if this is b periodic (not b one-shot) bction.
          *
          * @return {@code true} if periodic
          */
-        public boolean isPeriodic() {
+        public boolebn isPeriodic() {
             return period != 0;
         }
 
         /**
-         * Sets the next time to run for a periodic task.
+         * Sets the next time to run for b periodic tbsk.
          */
-        private void setNextRunTime() {
+        privbte void setNextRunTime() {
             long p = period;
             if (p > 0)
                 time += p;
@@ -275,262 +275,262 @@ public class ScheduledThreadPoolExecutor
                 time = triggerTime(-p);
         }
 
-        public boolean cancel(boolean mayInterruptIfRunning) {
-            boolean cancelled = super.cancel(mayInterruptIfRunning);
-            if (cancelled && removeOnCancel && heapIndex >= 0)
+        public boolebn cbncel(boolebn mbyInterruptIfRunning) {
+            boolebn cbncelled = super.cbncel(mbyInterruptIfRunning);
+            if (cbncelled && removeOnCbncel && hebpIndex >= 0)
                 remove(this);
-            return cancelled;
+            return cbncelled;
         }
 
         /**
-         * Overrides FutureTask version so as to reset/requeue if periodic.
+         * Overrides FutureTbsk version so bs to reset/requeue if periodic.
          */
         public void run() {
-            boolean periodic = isPeriodic();
-            if (!canRunInCurrentRunState(periodic))
-                cancel(false);
+            boolebn periodic = isPeriodic();
+            if (!cbnRunInCurrentRunStbte(periodic))
+                cbncel(fblse);
             else if (!periodic)
-                ScheduledFutureTask.super.run();
-            else if (ScheduledFutureTask.super.runAndReset()) {
+                ScheduledFutureTbsk.super.run();
+            else if (ScheduledFutureTbsk.super.runAndReset()) {
                 setNextRunTime();
-                reExecutePeriodic(outerTask);
+                reExecutePeriodic(outerTbsk);
             }
         }
     }
 
     /**
-     * Returns true if can run a task given current run state
-     * and run-after-shutdown parameters.
+     * Returns true if cbn run b tbsk given current run stbte
+     * bnd run-bfter-shutdown pbrbmeters.
      *
-     * @param periodic true if this task periodic, false if delayed
+     * @pbrbm periodic true if this tbsk periodic, fblse if delbyed
      */
-    boolean canRunInCurrentRunState(boolean periodic) {
+    boolebn cbnRunInCurrentRunStbte(boolebn periodic) {
         return isRunningOrShutdown(periodic ?
-                                   continueExistingPeriodicTasksAfterShutdown :
-                                   executeExistingDelayedTasksAfterShutdown);
+                                   continueExistingPeriodicTbsksAfterShutdown :
+                                   executeExistingDelbyedTbsksAfterShutdown);
     }
 
     /**
-     * Main execution method for delayed or periodic tasks.  If pool
-     * is shut down, rejects the task. Otherwise adds task to queue
-     * and starts a thread, if necessary, to run it.  (We cannot
-     * prestart the thread to run the task because the task (probably)
-     * shouldn't be run yet.)  If the pool is shut down while the task
-     * is being added, cancel and remove it if required by state and
-     * run-after-shutdown parameters.
+     * Mbin execution method for delbyed or periodic tbsks.  If pool
+     * is shut down, rejects the tbsk. Otherwise bdds tbsk to queue
+     * bnd stbrts b threbd, if necessbry, to run it.  (We cbnnot
+     * prestbrt the threbd to run the tbsk becbuse the tbsk (probbbly)
+     * shouldn't be run yet.)  If the pool is shut down while the tbsk
+     * is being bdded, cbncel bnd remove it if required by stbte bnd
+     * run-bfter-shutdown pbrbmeters.
      *
-     * @param task the task
+     * @pbrbm tbsk the tbsk
      */
-    private void delayedExecute(RunnableScheduledFuture<?> task) {
+    privbte void delbyedExecute(RunnbbleScheduledFuture<?> tbsk) {
         if (isShutdown())
-            reject(task);
+            reject(tbsk);
         else {
-            super.getQueue().add(task);
+            super.getQueue().bdd(tbsk);
             if (isShutdown() &&
-                !canRunInCurrentRunState(task.isPeriodic()) &&
-                remove(task))
-                task.cancel(false);
+                !cbnRunInCurrentRunStbte(tbsk.isPeriodic()) &&
+                remove(tbsk))
+                tbsk.cbncel(fblse);
             else
-                ensurePrestart();
+                ensurePrestbrt();
         }
     }
 
     /**
-     * Requeues a periodic task unless current run state precludes it.
-     * Same idea as delayedExecute except drops task rather than rejecting.
+     * Requeues b periodic tbsk unless current run stbte precludes it.
+     * Sbme ideb bs delbyedExecute except drops tbsk rbther thbn rejecting.
      *
-     * @param task the task
+     * @pbrbm tbsk the tbsk
      */
-    void reExecutePeriodic(RunnableScheduledFuture<?> task) {
-        if (canRunInCurrentRunState(true)) {
-            super.getQueue().add(task);
-            if (!canRunInCurrentRunState(true) && remove(task))
-                task.cancel(false);
+    void reExecutePeriodic(RunnbbleScheduledFuture<?> tbsk) {
+        if (cbnRunInCurrentRunStbte(true)) {
+            super.getQueue().bdd(tbsk);
+            if (!cbnRunInCurrentRunStbte(true) && remove(tbsk))
+                tbsk.cbncel(fblse);
             else
-                ensurePrestart();
+                ensurePrestbrt();
         }
     }
 
     /**
-     * Cancels and clears the queue of all tasks that should not be run
+     * Cbncels bnd clebrs the queue of bll tbsks thbt should not be run
      * due to shutdown policy.  Invoked within super.shutdown.
      */
     @Override void onShutdown() {
-        BlockingQueue<Runnable> q = super.getQueue();
-        boolean keepDelayed =
-            getExecuteExistingDelayedTasksAfterShutdownPolicy();
-        boolean keepPeriodic =
-            getContinueExistingPeriodicTasksAfterShutdownPolicy();
-        if (!keepDelayed && !keepPeriodic) {
-            for (Object e : q.toArray())
-                if (e instanceof RunnableScheduledFuture<?>)
-                    ((RunnableScheduledFuture<?>) e).cancel(false);
-            q.clear();
+        BlockingQueue<Runnbble> q = super.getQueue();
+        boolebn keepDelbyed =
+            getExecuteExistingDelbyedTbsksAfterShutdownPolicy();
+        boolebn keepPeriodic =
+            getContinueExistingPeriodicTbsksAfterShutdownPolicy();
+        if (!keepDelbyed && !keepPeriodic) {
+            for (Object e : q.toArrby())
+                if (e instbnceof RunnbbleScheduledFuture<?>)
+                    ((RunnbbleScheduledFuture<?>) e).cbncel(fblse);
+            q.clebr();
         }
         else {
-            // Traverse snapshot to avoid iterator exceptions
-            for (Object e : q.toArray()) {
-                if (e instanceof RunnableScheduledFuture) {
-                    RunnableScheduledFuture<?> t =
-                        (RunnableScheduledFuture<?>)e;
-                    if ((t.isPeriodic() ? !keepPeriodic : !keepDelayed) ||
-                        t.isCancelled()) { // also remove if already cancelled
+            // Trbverse snbpshot to bvoid iterbtor exceptions
+            for (Object e : q.toArrby()) {
+                if (e instbnceof RunnbbleScheduledFuture) {
+                    RunnbbleScheduledFuture<?> t =
+                        (RunnbbleScheduledFuture<?>)e;
+                    if ((t.isPeriodic() ? !keepPeriodic : !keepDelbyed) ||
+                        t.isCbncelled()) { // blso remove if blrebdy cbncelled
                         if (q.remove(t))
-                            t.cancel(false);
+                            t.cbncel(fblse);
                     }
                 }
             }
         }
-        tryTerminate();
+        tryTerminbte();
     }
 
     /**
-     * Modifies or replaces the task used to execute a runnable.
-     * This method can be used to override the concrete
-     * class used for managing internal tasks.
-     * The default implementation simply returns the given task.
+     * Modifies or replbces the tbsk used to execute b runnbble.
+     * This method cbn be used to override the concrete
+     * clbss used for mbnbging internbl tbsks.
+     * The defbult implementbtion simply returns the given tbsk.
      *
-     * @param runnable the submitted Runnable
-     * @param task the task created to execute the runnable
-     * @param <V> the type of the task's result
-     * @return a task that can execute the runnable
+     * @pbrbm runnbble the submitted Runnbble
+     * @pbrbm tbsk the tbsk crebted to execute the runnbble
+     * @pbrbm <V> the type of the tbsk's result
+     * @return b tbsk thbt cbn execute the runnbble
      * @since 1.6
      */
-    protected <V> RunnableScheduledFuture<V> decorateTask(
-        Runnable runnable, RunnableScheduledFuture<V> task) {
-        return task;
+    protected <V> RunnbbleScheduledFuture<V> decorbteTbsk(
+        Runnbble runnbble, RunnbbleScheduledFuture<V> tbsk) {
+        return tbsk;
     }
 
     /**
-     * Modifies or replaces the task used to execute a callable.
-     * This method can be used to override the concrete
-     * class used for managing internal tasks.
-     * The default implementation simply returns the given task.
+     * Modifies or replbces the tbsk used to execute b cbllbble.
+     * This method cbn be used to override the concrete
+     * clbss used for mbnbging internbl tbsks.
+     * The defbult implementbtion simply returns the given tbsk.
      *
-     * @param callable the submitted Callable
-     * @param task the task created to execute the callable
-     * @param <V> the type of the task's result
-     * @return a task that can execute the callable
+     * @pbrbm cbllbble the submitted Cbllbble
+     * @pbrbm tbsk the tbsk crebted to execute the cbllbble
+     * @pbrbm <V> the type of the tbsk's result
+     * @return b tbsk thbt cbn execute the cbllbble
      * @since 1.6
      */
-    protected <V> RunnableScheduledFuture<V> decorateTask(
-        Callable<V> callable, RunnableScheduledFuture<V> task) {
-        return task;
+    protected <V> RunnbbleScheduledFuture<V> decorbteTbsk(
+        Cbllbble<V> cbllbble, RunnbbleScheduledFuture<V> tbsk) {
+        return tbsk;
     }
 
     /**
-     * Creates a new {@code ScheduledThreadPoolExecutor} with the
+     * Crebtes b new {@code ScheduledThrebdPoolExecutor} with the
      * given core pool size.
      *
-     * @param corePoolSize the number of threads to keep in the pool, even
-     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
+     * @pbrbm corePoolSize the number of threbds to keep in the pool, even
+     *        if they bre idle, unless {@code bllowCoreThrebdTimeOut} is set
+     * @throws IllegblArgumentException if {@code corePoolSize < 0}
      */
-    public ScheduledThreadPoolExecutor(int corePoolSize) {
+    public ScheduledThrebdPoolExecutor(int corePoolSize) {
         super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,
-              new DelayedWorkQueue());
+              new DelbyedWorkQueue());
     }
 
     /**
-     * Creates a new {@code ScheduledThreadPoolExecutor} with the
-     * given initial parameters.
+     * Crebtes b new {@code ScheduledThrebdPoolExecutor} with the
+     * given initibl pbrbmeters.
      *
-     * @param corePoolSize the number of threads to keep in the pool, even
-     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
-     * @param threadFactory the factory to use when the executor
-     *        creates a new thread
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
-     * @throws NullPointerException if {@code threadFactory} is null
+     * @pbrbm corePoolSize the number of threbds to keep in the pool, even
+     *        if they bre idle, unless {@code bllowCoreThrebdTimeOut} is set
+     * @pbrbm threbdFbctory the fbctory to use when the executor
+     *        crebtes b new threbd
+     * @throws IllegblArgumentException if {@code corePoolSize < 0}
+     * @throws NullPointerException if {@code threbdFbctory} is null
      */
-    public ScheduledThreadPoolExecutor(int corePoolSize,
-                                       ThreadFactory threadFactory) {
+    public ScheduledThrebdPoolExecutor(int corePoolSize,
+                                       ThrebdFbctory threbdFbctory) {
         super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,
-              new DelayedWorkQueue(), threadFactory);
+              new DelbyedWorkQueue(), threbdFbctory);
     }
 
     /**
-     * Creates a new ScheduledThreadPoolExecutor with the given
-     * initial parameters.
+     * Crebtes b new ScheduledThrebdPoolExecutor with the given
+     * initibl pbrbmeters.
      *
-     * @param corePoolSize the number of threads to keep in the pool, even
-     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
-     * @param handler the handler to use when execution is blocked
-     *        because the thread bounds and queue capacities are reached
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
-     * @throws NullPointerException if {@code handler} is null
+     * @pbrbm corePoolSize the number of threbds to keep in the pool, even
+     *        if they bre idle, unless {@code bllowCoreThrebdTimeOut} is set
+     * @pbrbm hbndler the hbndler to use when execution is blocked
+     *        becbuse the threbd bounds bnd queue cbpbcities bre rebched
+     * @throws IllegblArgumentException if {@code corePoolSize < 0}
+     * @throws NullPointerException if {@code hbndler} is null
      */
-    public ScheduledThreadPoolExecutor(int corePoolSize,
-                                       RejectedExecutionHandler handler) {
+    public ScheduledThrebdPoolExecutor(int corePoolSize,
+                                       RejectedExecutionHbndler hbndler) {
         super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,
-              new DelayedWorkQueue(), handler);
+              new DelbyedWorkQueue(), hbndler);
     }
 
     /**
-     * Creates a new ScheduledThreadPoolExecutor with the given
-     * initial parameters.
+     * Crebtes b new ScheduledThrebdPoolExecutor with the given
+     * initibl pbrbmeters.
      *
-     * @param corePoolSize the number of threads to keep in the pool, even
-     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
-     * @param threadFactory the factory to use when the executor
-     *        creates a new thread
-     * @param handler the handler to use when execution is blocked
-     *        because the thread bounds and queue capacities are reached
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
-     * @throws NullPointerException if {@code threadFactory} or
-     *         {@code handler} is null
+     * @pbrbm corePoolSize the number of threbds to keep in the pool, even
+     *        if they bre idle, unless {@code bllowCoreThrebdTimeOut} is set
+     * @pbrbm threbdFbctory the fbctory to use when the executor
+     *        crebtes b new threbd
+     * @pbrbm hbndler the hbndler to use when execution is blocked
+     *        becbuse the threbd bounds bnd queue cbpbcities bre rebched
+     * @throws IllegblArgumentException if {@code corePoolSize < 0}
+     * @throws NullPointerException if {@code threbdFbctory} or
+     *         {@code hbndler} is null
      */
-    public ScheduledThreadPoolExecutor(int corePoolSize,
-                                       ThreadFactory threadFactory,
-                                       RejectedExecutionHandler handler) {
+    public ScheduledThrebdPoolExecutor(int corePoolSize,
+                                       ThrebdFbctory threbdFbctory,
+                                       RejectedExecutionHbndler hbndler) {
         super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,
-              new DelayedWorkQueue(), threadFactory, handler);
+              new DelbyedWorkQueue(), threbdFbctory, hbndler);
     }
 
     /**
-     * Returns the trigger time of a delayed action.
+     * Returns the trigger time of b delbyed bction.
      */
-    private long triggerTime(long delay, TimeUnit unit) {
-        return triggerTime(unit.toNanos((delay < 0) ? 0 : delay));
+    privbte long triggerTime(long delby, TimeUnit unit) {
+        return triggerTime(unit.toNbnos((delby < 0) ? 0 : delby));
     }
 
     /**
-     * Returns the trigger time of a delayed action.
+     * Returns the trigger time of b delbyed bction.
      */
-    long triggerTime(long delay) {
+    long triggerTime(long delby) {
         return now() +
-            ((delay < (Long.MAX_VALUE >> 1)) ? delay : overflowFree(delay));
+            ((delby < (Long.MAX_VALUE >> 1)) ? delby : overflowFree(delby));
     }
 
     /**
-     * Constrains the values of all delays in the queue to be within
-     * Long.MAX_VALUE of each other, to avoid overflow in compareTo.
-     * This may occur if a task is eligible to be dequeued, but has
-     * not yet been, while some other task is added with a delay of
+     * Constrbins the vblues of bll delbys in the queue to be within
+     * Long.MAX_VALUE of ebch other, to bvoid overflow in compbreTo.
+     * This mby occur if b tbsk is eligible to be dequeued, but hbs
+     * not yet been, while some other tbsk is bdded with b delby of
      * Long.MAX_VALUE.
      */
-    private long overflowFree(long delay) {
-        Delayed head = (Delayed) super.getQueue().peek();
-        if (head != null) {
-            long headDelay = head.getDelay(NANOSECONDS);
-            if (headDelay < 0 && (delay - headDelay < 0))
-                delay = Long.MAX_VALUE + headDelay;
+    privbte long overflowFree(long delby) {
+        Delbyed hebd = (Delbyed) super.getQueue().peek();
+        if (hebd != null) {
+            long hebdDelby = hebd.getDelby(NANOSECONDS);
+            if (hebdDelby < 0 && (delby - hebdDelby < 0))
+                delby = Long.MAX_VALUE + hebdDelby;
         }
-        return delay;
+        return delby;
     }
 
     /**
      * @throws RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
-    public ScheduledFuture<?> schedule(Runnable command,
-                                       long delay,
+    public ScheduledFuture<?> schedule(Runnbble commbnd,
+                                       long delby,
                                        TimeUnit unit) {
-        if (command == null || unit == null)
+        if (commbnd == null || unit == null)
             throw new NullPointerException();
-        RunnableScheduledFuture<?> t = decorateTask(command,
-            new ScheduledFutureTask<Void>(command, null,
-                                          triggerTime(delay, unit)));
-        delayedExecute(t);
+        RunnbbleScheduledFuture<?> t = decorbteTbsk(commbnd,
+            new ScheduledFutureTbsk<Void>(commbnd, null,
+                                          triggerTime(delby, unit)));
+        delbyedExecute(t);
         return t;
     }
 
@@ -538,222 +538,222 @@ public class ScheduledThreadPoolExecutor
      * @throws RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
-    public <V> ScheduledFuture<V> schedule(Callable<V> callable,
-                                           long delay,
+    public <V> ScheduledFuture<V> schedule(Cbllbble<V> cbllbble,
+                                           long delby,
                                            TimeUnit unit) {
-        if (callable == null || unit == null)
+        if (cbllbble == null || unit == null)
             throw new NullPointerException();
-        RunnableScheduledFuture<V> t = decorateTask(callable,
-            new ScheduledFutureTask<V>(callable,
-                                       triggerTime(delay, unit)));
-        delayedExecute(t);
+        RunnbbleScheduledFuture<V> t = decorbteTbsk(cbllbble,
+            new ScheduledFutureTbsk<V>(cbllbble,
+                                       triggerTime(delby, unit)));
+        delbyedExecute(t);
         return t;
     }
 
     /**
      * @throws RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
-     * @throws IllegalArgumentException   {@inheritDoc}
+     * @throws IllegblArgumentException   {@inheritDoc}
      */
-    public ScheduledFuture<?> scheduleAtFixedRate(Runnable command,
-                                                  long initialDelay,
+    public ScheduledFuture<?> scheduleAtFixedRbte(Runnbble commbnd,
+                                                  long initiblDelby,
                                                   long period,
                                                   TimeUnit unit) {
-        if (command == null || unit == null)
+        if (commbnd == null || unit == null)
             throw new NullPointerException();
         if (period <= 0)
-            throw new IllegalArgumentException();
-        ScheduledFutureTask<Void> sft =
-            new ScheduledFutureTask<Void>(command,
+            throw new IllegblArgumentException();
+        ScheduledFutureTbsk<Void> sft =
+            new ScheduledFutureTbsk<Void>(commbnd,
                                           null,
-                                          triggerTime(initialDelay, unit),
-                                          unit.toNanos(period));
-        RunnableScheduledFuture<Void> t = decorateTask(command, sft);
-        sft.outerTask = t;
-        delayedExecute(t);
+                                          triggerTime(initiblDelby, unit),
+                                          unit.toNbnos(period));
+        RunnbbleScheduledFuture<Void> t = decorbteTbsk(commbnd, sft);
+        sft.outerTbsk = t;
+        delbyedExecute(t);
         return t;
     }
 
     /**
      * @throws RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
-     * @throws IllegalArgumentException   {@inheritDoc}
+     * @throws IllegblArgumentException   {@inheritDoc}
      */
-    public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command,
-                                                     long initialDelay,
-                                                     long delay,
+    public ScheduledFuture<?> scheduleWithFixedDelby(Runnbble commbnd,
+                                                     long initiblDelby,
+                                                     long delby,
                                                      TimeUnit unit) {
-        if (command == null || unit == null)
+        if (commbnd == null || unit == null)
             throw new NullPointerException();
-        if (delay <= 0)
-            throw new IllegalArgumentException();
-        ScheduledFutureTask<Void> sft =
-            new ScheduledFutureTask<Void>(command,
+        if (delby <= 0)
+            throw new IllegblArgumentException();
+        ScheduledFutureTbsk<Void> sft =
+            new ScheduledFutureTbsk<Void>(commbnd,
                                           null,
-                                          triggerTime(initialDelay, unit),
-                                          unit.toNanos(-delay));
-        RunnableScheduledFuture<Void> t = decorateTask(command, sft);
-        sft.outerTask = t;
-        delayedExecute(t);
+                                          triggerTime(initiblDelby, unit),
+                                          unit.toNbnos(-delby));
+        RunnbbleScheduledFuture<Void> t = decorbteTbsk(commbnd, sft);
+        sft.outerTbsk = t;
+        delbyedExecute(t);
         return t;
     }
 
     /**
-     * Executes {@code command} with zero required delay.
-     * This has effect equivalent to
-     * {@link #schedule(Runnable,long,TimeUnit) schedule(command, 0, anyUnit)}.
-     * Note that inspections of the queue and of the list returned by
-     * {@code shutdownNow} will access the zero-delayed
-     * {@link ScheduledFuture}, not the {@code command} itself.
+     * Executes {@code commbnd} with zero required delby.
+     * This hbs effect equivblent to
+     * {@link #schedule(Runnbble,long,TimeUnit) schedule(commbnd, 0, bnyUnit)}.
+     * Note thbt inspections of the queue bnd of the list returned by
+     * {@code shutdownNow} will bccess the zero-delbyed
+     * {@link ScheduledFuture}, not the {@code commbnd} itself.
      *
      * <p>A consequence of the use of {@code ScheduledFuture} objects is
-     * that {@link ThreadPoolExecutor#afterExecute afterExecute} is always
-     * called with a null second {@code Throwable} argument, even if the
-     * {@code command} terminated abruptly.  Instead, the {@code Throwable}
-     * thrown by such a task can be obtained via {@link Future#get}.
+     * thbt {@link ThrebdPoolExecutor#bfterExecute bfterExecute} is blwbys
+     * cblled with b null second {@code Throwbble} brgument, even if the
+     * {@code commbnd} terminbted bbruptly.  Instebd, the {@code Throwbble}
+     * thrown by such b tbsk cbn be obtbined vib {@link Future#get}.
      *
-     * @throws RejectedExecutionException at discretion of
-     *         {@code RejectedExecutionHandler}, if the task
-     *         cannot be accepted for execution because the
-     *         executor has been shut down
+     * @throws RejectedExecutionException bt discretion of
+     *         {@code RejectedExecutionHbndler}, if the tbsk
+     *         cbnnot be bccepted for execution becbuse the
+     *         executor hbs been shut down
      * @throws NullPointerException {@inheritDoc}
      */
-    public void execute(Runnable command) {
-        schedule(command, 0, NANOSECONDS);
+    public void execute(Runnbble commbnd) {
+        schedule(commbnd, 0, NANOSECONDS);
     }
 
-    // Override AbstractExecutorService methods
+    // Override AbstrbctExecutorService methods
 
     /**
      * @throws RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
-    public Future<?> submit(Runnable task) {
-        return schedule(task, 0, NANOSECONDS);
-    }
-
-    /**
-     * @throws RejectedExecutionException {@inheritDoc}
-     * @throws NullPointerException       {@inheritDoc}
-     */
-    public <T> Future<T> submit(Runnable task, T result) {
-        return schedule(Executors.callable(task, result), 0, NANOSECONDS);
+    public Future<?> submit(Runnbble tbsk) {
+        return schedule(tbsk, 0, NANOSECONDS);
     }
 
     /**
      * @throws RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
-    public <T> Future<T> submit(Callable<T> task) {
-        return schedule(task, 0, NANOSECONDS);
+    public <T> Future<T> submit(Runnbble tbsk, T result) {
+        return schedule(Executors.cbllbble(tbsk, result), 0, NANOSECONDS);
+    }
+
+    /**
+     * @throws RejectedExecutionException {@inheritDoc}
+     * @throws NullPointerException       {@inheritDoc}
+     */
+    public <T> Future<T> submit(Cbllbble<T> tbsk) {
+        return schedule(tbsk, 0, NANOSECONDS);
     }
 
     /**
      * Sets the policy on whether to continue executing existing
-     * periodic tasks even when this executor has been {@code shutdown}.
-     * In this case, these tasks will only terminate upon
-     * {@code shutdownNow} or after setting the policy to
-     * {@code false} when already shutdown.
-     * This value is by default {@code false}.
+     * periodic tbsks even when this executor hbs been {@code shutdown}.
+     * In this cbse, these tbsks will only terminbte upon
+     * {@code shutdownNow} or bfter setting the policy to
+     * {@code fblse} when blrebdy shutdown.
+     * This vblue is by defbult {@code fblse}.
      *
-     * @param value if {@code true}, continue after shutdown, else don't
-     * @see #getContinueExistingPeriodicTasksAfterShutdownPolicy
+     * @pbrbm vblue if {@code true}, continue bfter shutdown, else don't
+     * @see #getContinueExistingPeriodicTbsksAfterShutdownPolicy
      */
-    public void setContinueExistingPeriodicTasksAfterShutdownPolicy(boolean value) {
-        continueExistingPeriodicTasksAfterShutdown = value;
-        if (!value && isShutdown())
+    public void setContinueExistingPeriodicTbsksAfterShutdownPolicy(boolebn vblue) {
+        continueExistingPeriodicTbsksAfterShutdown = vblue;
+        if (!vblue && isShutdown())
             onShutdown();
     }
 
     /**
      * Gets the policy on whether to continue executing existing
-     * periodic tasks even when this executor has been {@code shutdown}.
-     * In this case, these tasks will only terminate upon
-     * {@code shutdownNow} or after setting the policy to
-     * {@code false} when already shutdown.
-     * This value is by default {@code false}.
+     * periodic tbsks even when this executor hbs been {@code shutdown}.
+     * In this cbse, these tbsks will only terminbte upon
+     * {@code shutdownNow} or bfter setting the policy to
+     * {@code fblse} when blrebdy shutdown.
+     * This vblue is by defbult {@code fblse}.
      *
-     * @return {@code true} if will continue after shutdown
-     * @see #setContinueExistingPeriodicTasksAfterShutdownPolicy
+     * @return {@code true} if will continue bfter shutdown
+     * @see #setContinueExistingPeriodicTbsksAfterShutdownPolicy
      */
-    public boolean getContinueExistingPeriodicTasksAfterShutdownPolicy() {
-        return continueExistingPeriodicTasksAfterShutdown;
+    public boolebn getContinueExistingPeriodicTbsksAfterShutdownPolicy() {
+        return continueExistingPeriodicTbsksAfterShutdown;
     }
 
     /**
-     * Sets the policy on whether to execute existing delayed
-     * tasks even when this executor has been {@code shutdown}.
-     * In this case, these tasks will only terminate upon
-     * {@code shutdownNow}, or after setting the policy to
-     * {@code false} when already shutdown.
-     * This value is by default {@code true}.
+     * Sets the policy on whether to execute existing delbyed
+     * tbsks even when this executor hbs been {@code shutdown}.
+     * In this cbse, these tbsks will only terminbte upon
+     * {@code shutdownNow}, or bfter setting the policy to
+     * {@code fblse} when blrebdy shutdown.
+     * This vblue is by defbult {@code true}.
      *
-     * @param value if {@code true}, execute after shutdown, else don't
-     * @see #getExecuteExistingDelayedTasksAfterShutdownPolicy
+     * @pbrbm vblue if {@code true}, execute bfter shutdown, else don't
+     * @see #getExecuteExistingDelbyedTbsksAfterShutdownPolicy
      */
-    public void setExecuteExistingDelayedTasksAfterShutdownPolicy(boolean value) {
-        executeExistingDelayedTasksAfterShutdown = value;
-        if (!value && isShutdown())
+    public void setExecuteExistingDelbyedTbsksAfterShutdownPolicy(boolebn vblue) {
+        executeExistingDelbyedTbsksAfterShutdown = vblue;
+        if (!vblue && isShutdown())
             onShutdown();
     }
 
     /**
-     * Gets the policy on whether to execute existing delayed
-     * tasks even when this executor has been {@code shutdown}.
-     * In this case, these tasks will only terminate upon
-     * {@code shutdownNow}, or after setting the policy to
-     * {@code false} when already shutdown.
-     * This value is by default {@code true}.
+     * Gets the policy on whether to execute existing delbyed
+     * tbsks even when this executor hbs been {@code shutdown}.
+     * In this cbse, these tbsks will only terminbte upon
+     * {@code shutdownNow}, or bfter setting the policy to
+     * {@code fblse} when blrebdy shutdown.
+     * This vblue is by defbult {@code true}.
      *
-     * @return {@code true} if will execute after shutdown
-     * @see #setExecuteExistingDelayedTasksAfterShutdownPolicy
+     * @return {@code true} if will execute bfter shutdown
+     * @see #setExecuteExistingDelbyedTbsksAfterShutdownPolicy
      */
-    public boolean getExecuteExistingDelayedTasksAfterShutdownPolicy() {
-        return executeExistingDelayedTasksAfterShutdown;
+    public boolebn getExecuteExistingDelbyedTbsksAfterShutdownPolicy() {
+        return executeExistingDelbyedTbsksAfterShutdown;
     }
 
     /**
-     * Sets the policy on whether cancelled tasks should be immediately
-     * removed from the work queue at time of cancellation.  This value is
-     * by default {@code false}.
+     * Sets the policy on whether cbncelled tbsks should be immedibtely
+     * removed from the work queue bt time of cbncellbtion.  This vblue is
+     * by defbult {@code fblse}.
      *
-     * @param value if {@code true}, remove on cancellation, else don't
-     * @see #getRemoveOnCancelPolicy
+     * @pbrbm vblue if {@code true}, remove on cbncellbtion, else don't
+     * @see #getRemoveOnCbncelPolicy
      * @since 1.7
      */
-    public void setRemoveOnCancelPolicy(boolean value) {
-        removeOnCancel = value;
+    public void setRemoveOnCbncelPolicy(boolebn vblue) {
+        removeOnCbncel = vblue;
     }
 
     /**
-     * Gets the policy on whether cancelled tasks should be immediately
-     * removed from the work queue at time of cancellation.  This value is
-     * by default {@code false}.
+     * Gets the policy on whether cbncelled tbsks should be immedibtely
+     * removed from the work queue bt time of cbncellbtion.  This vblue is
+     * by defbult {@code fblse}.
      *
-     * @return {@code true} if cancelled tasks are immediately removed
+     * @return {@code true} if cbncelled tbsks bre immedibtely removed
      *         from the queue
-     * @see #setRemoveOnCancelPolicy
+     * @see #setRemoveOnCbncelPolicy
      * @since 1.7
      */
-    public boolean getRemoveOnCancelPolicy() {
-        return removeOnCancel;
+    public boolebn getRemoveOnCbncelPolicy() {
+        return removeOnCbncel;
     }
 
     /**
-     * Initiates an orderly shutdown in which previously submitted
-     * tasks are executed, but no new tasks will be accepted.
-     * Invocation has no additional effect if already shut down.
+     * Initibtes bn orderly shutdown in which previously submitted
+     * tbsks bre executed, but no new tbsks will be bccepted.
+     * Invocbtion hbs no bdditionbl effect if blrebdy shut down.
      *
-     * <p>This method does not wait for previously submitted tasks to
-     * complete execution.  Use {@link #awaitTermination awaitTermination}
-     * to do that.
+     * <p>This method does not wbit for previously submitted tbsks to
+     * complete execution.  Use {@link #bwbitTerminbtion bwbitTerminbtion}
+     * to do thbt.
      *
-     * <p>If the {@code ExecuteExistingDelayedTasksAfterShutdownPolicy}
-     * has been set {@code false}, existing delayed tasks whose delays
-     * have not yet elapsed are cancelled.  And unless the {@code
-     * ContinueExistingPeriodicTasksAfterShutdownPolicy} has been set
-     * {@code true}, future executions of existing periodic tasks will
-     * be cancelled.
+     * <p>If the {@code ExecuteExistingDelbyedTbsksAfterShutdownPolicy}
+     * hbs been set {@code fblse}, existing delbyed tbsks whose delbys
+     * hbve not yet elbpsed bre cbncelled.  And unless the {@code
+     * ContinueExistingPeriodicTbsksAfterShutdownPolicy} hbs been set
+     * {@code true}, future executions of existing periodic tbsks will
+     * be cbncelled.
      *
      * @throws SecurityException {@inheritDoc}
      */
@@ -762,146 +762,146 @@ public class ScheduledThreadPoolExecutor
     }
 
     /**
-     * Attempts to stop all actively executing tasks, halts the
-     * processing of waiting tasks, and returns a list of the tasks
-     * that were awaiting execution.
+     * Attempts to stop bll bctively executing tbsks, hblts the
+     * processing of wbiting tbsks, bnd returns b list of the tbsks
+     * thbt were bwbiting execution.
      *
-     * <p>This method does not wait for actively executing tasks to
-     * terminate.  Use {@link #awaitTermination awaitTermination} to
-     * do that.
+     * <p>This method does not wbit for bctively executing tbsks to
+     * terminbte.  Use {@link #bwbitTerminbtion bwbitTerminbtion} to
+     * do thbt.
      *
-     * <p>There are no guarantees beyond best-effort attempts to stop
-     * processing actively executing tasks.  This implementation
-     * cancels tasks via {@link Thread#interrupt}, so any task that
-     * fails to respond to interrupts may never terminate.
+     * <p>There bre no gubrbntees beyond best-effort bttempts to stop
+     * processing bctively executing tbsks.  This implementbtion
+     * cbncels tbsks vib {@link Threbd#interrupt}, so bny tbsk thbt
+     * fbils to respond to interrupts mby never terminbte.
      *
-     * @return list of tasks that never commenced execution.
-     *         Each element of this list is a {@link ScheduledFuture},
-     *         including those tasks submitted using {@code execute},
-     *         which are for scheduling purposes used as the basis of a
-     *         zero-delay {@code ScheduledFuture}.
+     * @return list of tbsks thbt never commenced execution.
+     *         Ebch element of this list is b {@link ScheduledFuture},
+     *         including those tbsks submitted using {@code execute},
+     *         which bre for scheduling purposes used bs the bbsis of b
+     *         zero-delby {@code ScheduledFuture}.
      * @throws SecurityException {@inheritDoc}
      */
-    public List<Runnable> shutdownNow() {
+    public List<Runnbble> shutdownNow() {
         return super.shutdownNow();
     }
 
     /**
-     * Returns the task queue used by this executor.  Each element of
-     * this queue is a {@link ScheduledFuture}, including those
-     * tasks submitted using {@code execute} which are for scheduling
-     * purposes used as the basis of a zero-delay
-     * {@code ScheduledFuture}.  Iteration over this queue is
-     * <em>not</em> guaranteed to traverse tasks in the order in
+     * Returns the tbsk queue used by this executor.  Ebch element of
+     * this queue is b {@link ScheduledFuture}, including those
+     * tbsks submitted using {@code execute} which bre for scheduling
+     * purposes used bs the bbsis of b zero-delby
+     * {@code ScheduledFuture}.  Iterbtion over this queue is
+     * <em>not</em> gubrbnteed to trbverse tbsks in the order in
      * which they will execute.
      *
-     * @return the task queue
+     * @return the tbsk queue
      */
-    public BlockingQueue<Runnable> getQueue() {
+    public BlockingQueue<Runnbble> getQueue() {
         return super.getQueue();
     }
 
     /**
-     * Specialized delay queue. To mesh with TPE declarations, this
-     * class must be declared as a BlockingQueue<Runnable> even though
-     * it can only hold RunnableScheduledFutures.
+     * Speciblized delby queue. To mesh with TPE declbrbtions, this
+     * clbss must be declbred bs b BlockingQueue<Runnbble> even though
+     * it cbn only hold RunnbbleScheduledFutures.
      */
-    static class DelayedWorkQueue extends AbstractQueue<Runnable>
-        implements BlockingQueue<Runnable> {
+    stbtic clbss DelbyedWorkQueue extends AbstrbctQueue<Runnbble>
+        implements BlockingQueue<Runnbble> {
 
         /*
-         * A DelayedWorkQueue is based on a heap-based data structure
-         * like those in DelayQueue and PriorityQueue, except that
-         * every ScheduledFutureTask also records its index into the
-         * heap array. This eliminates the need to find a task upon
-         * cancellation, greatly speeding up removal (down from O(n)
-         * to O(log n)), and reducing garbage retention that would
-         * otherwise occur by waiting for the element to rise to top
-         * before clearing. But because the queue may also hold
-         * RunnableScheduledFutures that are not ScheduledFutureTasks,
-         * we are not guaranteed to have such indices available, in
-         * which case we fall back to linear search. (We expect that
-         * most tasks will not be decorated, and that the faster cases
+         * A DelbyedWorkQueue is bbsed on b hebp-bbsed dbtb structure
+         * like those in DelbyQueue bnd PriorityQueue, except thbt
+         * every ScheduledFutureTbsk blso records its index into the
+         * hebp brrby. This eliminbtes the need to find b tbsk upon
+         * cbncellbtion, grebtly speeding up removbl (down from O(n)
+         * to O(log n)), bnd reducing gbrbbge retention thbt would
+         * otherwise occur by wbiting for the element to rise to top
+         * before clebring. But becbuse the queue mby blso hold
+         * RunnbbleScheduledFutures thbt bre not ScheduledFutureTbsks,
+         * we bre not gubrbnteed to hbve such indices bvbilbble, in
+         * which cbse we fbll bbck to linebr sebrch. (We expect thbt
+         * most tbsks will not be decorbted, bnd thbt the fbster cbses
          * will be much more common.)
          *
-         * All heap operations must record index changes -- mainly
-         * within siftUp and siftDown. Upon removal, a task's
-         * heapIndex is set to -1. Note that ScheduledFutureTasks can
-         * appear at most once in the queue (this need not be true for
-         * other kinds of tasks or work queues), so are uniquely
-         * identified by heapIndex.
+         * All hebp operbtions must record index chbnges -- mbinly
+         * within siftUp bnd siftDown. Upon removbl, b tbsk's
+         * hebpIndex is set to -1. Note thbt ScheduledFutureTbsks cbn
+         * bppebr bt most once in the queue (this need not be true for
+         * other kinds of tbsks or work queues), so bre uniquely
+         * identified by hebpIndex.
          */
 
-        private static final int INITIAL_CAPACITY = 16;
-        private RunnableScheduledFuture<?>[] queue =
-            new RunnableScheduledFuture<?>[INITIAL_CAPACITY];
-        private final ReentrantLock lock = new ReentrantLock();
-        private int size = 0;
+        privbte stbtic finbl int INITIAL_CAPACITY = 16;
+        privbte RunnbbleScheduledFuture<?>[] queue =
+            new RunnbbleScheduledFuture<?>[INITIAL_CAPACITY];
+        privbte finbl ReentrbntLock lock = new ReentrbntLock();
+        privbte int size = 0;
 
         /**
-         * Thread designated to wait for the task at the head of the
-         * queue.  This variant of the Leader-Follower pattern
+         * Threbd designbted to wbit for the tbsk bt the hebd of the
+         * queue.  This vbribnt of the Lebder-Follower pbttern
          * (http://www.cs.wustl.edu/~schmidt/POSA/POSA2/) serves to
-         * minimize unnecessary timed waiting.  When a thread becomes
-         * the leader, it waits only for the next delay to elapse, but
-         * other threads await indefinitely.  The leader thread must
-         * signal some other thread before returning from take() or
-         * poll(...), unless some other thread becomes leader in the
-         * interim.  Whenever the head of the queue is replaced with a
-         * task with an earlier expiration time, the leader field is
-         * invalidated by being reset to null, and some waiting
-         * thread, but not necessarily the current leader, is
-         * signalled.  So waiting threads must be prepared to acquire
-         * and lose leadership while waiting.
+         * minimize unnecessbry timed wbiting.  When b threbd becomes
+         * the lebder, it wbits only for the next delby to elbpse, but
+         * other threbds bwbit indefinitely.  The lebder threbd must
+         * signbl some other threbd before returning from tbke() or
+         * poll(...), unless some other threbd becomes lebder in the
+         * interim.  Whenever the hebd of the queue is replbced with b
+         * tbsk with bn ebrlier expirbtion time, the lebder field is
+         * invblidbted by being reset to null, bnd some wbiting
+         * threbd, but not necessbrily the current lebder, is
+         * signblled.  So wbiting threbds must be prepbred to bcquire
+         * bnd lose lebdership while wbiting.
          */
-        private Thread leader = null;
+        privbte Threbd lebder = null;
 
         /**
-         * Condition signalled when a newer task becomes available at the
-         * head of the queue or a new thread may need to become leader.
+         * Condition signblled when b newer tbsk becomes bvbilbble bt the
+         * hebd of the queue or b new threbd mby need to become lebder.
          */
-        private final Condition available = lock.newCondition();
+        privbte finbl Condition bvbilbble = lock.newCondition();
 
         /**
-         * Sets f's heapIndex if it is a ScheduledFutureTask.
+         * Sets f's hebpIndex if it is b ScheduledFutureTbsk.
          */
-        private void setIndex(RunnableScheduledFuture<?> f, int idx) {
-            if (f instanceof ScheduledFutureTask)
-                ((ScheduledFutureTask)f).heapIndex = idx;
+        privbte void setIndex(RunnbbleScheduledFuture<?> f, int idx) {
+            if (f instbnceof ScheduledFutureTbsk)
+                ((ScheduledFutureTbsk)f).hebpIndex = idx;
         }
 
         /**
-         * Sifts element added at bottom up to its heap-ordered spot.
-         * Call only when holding lock.
+         * Sifts element bdded bt bottom up to its hebp-ordered spot.
+         * Cbll only when holding lock.
          */
-        private void siftUp(int k, RunnableScheduledFuture<?> key) {
+        privbte void siftUp(int k, RunnbbleScheduledFuture<?> key) {
             while (k > 0) {
-                int parent = (k - 1) >>> 1;
-                RunnableScheduledFuture<?> e = queue[parent];
-                if (key.compareTo(e) >= 0)
-                    break;
+                int pbrent = (k - 1) >>> 1;
+                RunnbbleScheduledFuture<?> e = queue[pbrent];
+                if (key.compbreTo(e) >= 0)
+                    brebk;
                 queue[k] = e;
                 setIndex(e, k);
-                k = parent;
+                k = pbrent;
             }
             queue[k] = key;
             setIndex(key, k);
         }
 
         /**
-         * Sifts element added at top down to its heap-ordered spot.
-         * Call only when holding lock.
+         * Sifts element bdded bt top down to its hebp-ordered spot.
+         * Cbll only when holding lock.
          */
-        private void siftDown(int k, RunnableScheduledFuture<?> key) {
-            int half = size >>> 1;
-            while (k < half) {
+        privbte void siftDown(int k, RunnbbleScheduledFuture<?> key) {
+            int hblf = size >>> 1;
+            while (k < hblf) {
                 int child = (k << 1) + 1;
-                RunnableScheduledFuture<?> c = queue[child];
+                RunnbbleScheduledFuture<?> c = queue[child];
                 int right = child + 1;
-                if (right < size && c.compareTo(queue[right]) > 0)
+                if (right < size && c.compbreTo(queue[right]) > 0)
                     c = queue[child = right];
-                if (key.compareTo(c) <= 0)
-                    break;
+                if (key.compbreTo(c) <= 0)
+                    brebk;
                 queue[k] = c;
                 setIndex(c, k);
                 k = child;
@@ -911,102 +911,102 @@ public class ScheduledThreadPoolExecutor
         }
 
         /**
-         * Resizes the heap array.  Call only when holding lock.
+         * Resizes the hebp brrby.  Cbll only when holding lock.
          */
-        private void grow() {
-            int oldCapacity = queue.length;
-            int newCapacity = oldCapacity + (oldCapacity >> 1); // grow 50%
-            if (newCapacity < 0) // overflow
-                newCapacity = Integer.MAX_VALUE;
-            queue = Arrays.copyOf(queue, newCapacity);
+        privbte void grow() {
+            int oldCbpbcity = queue.length;
+            int newCbpbcity = oldCbpbcity + (oldCbpbcity >> 1); // grow 50%
+            if (newCbpbcity < 0) // overflow
+                newCbpbcity = Integer.MAX_VALUE;
+            queue = Arrbys.copyOf(queue, newCbpbcity);
         }
 
         /**
-         * Finds index of given object, or -1 if absent.
+         * Finds index of given object, or -1 if bbsent.
          */
-        private int indexOf(Object x) {
+        privbte int indexOf(Object x) {
             if (x != null) {
-                if (x instanceof ScheduledFutureTask) {
-                    int i = ((ScheduledFutureTask) x).heapIndex;
-                    // Sanity check; x could conceivably be a
-                    // ScheduledFutureTask from some other pool.
+                if (x instbnceof ScheduledFutureTbsk) {
+                    int i = ((ScheduledFutureTbsk) x).hebpIndex;
+                    // Sbnity check; x could conceivbbly be b
+                    // ScheduledFutureTbsk from some other pool.
                     if (i >= 0 && i < size && queue[i] == x)
                         return i;
                 } else {
                     for (int i = 0; i < size; i++)
-                        if (x.equals(queue[i]))
+                        if (x.equbls(queue[i]))
                             return i;
                 }
             }
             return -1;
         }
 
-        public boolean contains(Object x) {
-            final ReentrantLock lock = this.lock;
+        public boolebn contbins(Object x) {
+            finbl ReentrbntLock lock = this.lock;
             lock.lock();
             try {
                 return indexOf(x) != -1;
-            } finally {
+            } finblly {
                 lock.unlock();
             }
         }
 
-        public boolean remove(Object x) {
-            final ReentrantLock lock = this.lock;
+        public boolebn remove(Object x) {
+            finbl ReentrbntLock lock = this.lock;
             lock.lock();
             try {
                 int i = indexOf(x);
                 if (i < 0)
-                    return false;
+                    return fblse;
 
                 setIndex(queue[i], -1);
                 int s = --size;
-                RunnableScheduledFuture<?> replacement = queue[s];
+                RunnbbleScheduledFuture<?> replbcement = queue[s];
                 queue[s] = null;
                 if (s != i) {
-                    siftDown(i, replacement);
-                    if (queue[i] == replacement)
-                        siftUp(i, replacement);
+                    siftDown(i, replbcement);
+                    if (queue[i] == replbcement)
+                        siftUp(i, replbcement);
                 }
                 return true;
-            } finally {
+            } finblly {
                 lock.unlock();
             }
         }
 
         public int size() {
-            final ReentrantLock lock = this.lock;
+            finbl ReentrbntLock lock = this.lock;
             lock.lock();
             try {
                 return size;
-            } finally {
+            } finblly {
                 lock.unlock();
             }
         }
 
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             return size() == 0;
         }
 
-        public int remainingCapacity() {
+        public int rembiningCbpbcity() {
             return Integer.MAX_VALUE;
         }
 
-        public RunnableScheduledFuture<?> peek() {
-            final ReentrantLock lock = this.lock;
+        public RunnbbleScheduledFuture<?> peek() {
+            finbl ReentrbntLock lock = this.lock;
             lock.lock();
             try {
                 return queue[0];
-            } finally {
+            } finblly {
                 lock.unlock();
             }
         }
 
-        public boolean offer(Runnable x) {
+        public boolebn offer(Runnbble x) {
             if (x == null)
                 throw new NullPointerException();
-            RunnableScheduledFuture<?> e = (RunnableScheduledFuture<?>)x;
-            final ReentrantLock lock = this.lock;
+            RunnbbleScheduledFuture<?> e = (RunnbbleScheduledFuture<?>)x;
+            finbl ReentrbntLock lock = this.lock;
             lock.lock();
             try {
                 int i = size;
@@ -1020,36 +1020,36 @@ public class ScheduledThreadPoolExecutor
                     siftUp(i, e);
                 }
                 if (queue[0] == e) {
-                    leader = null;
-                    available.signal();
+                    lebder = null;
+                    bvbilbble.signbl();
                 }
-            } finally {
+            } finblly {
                 lock.unlock();
             }
             return true;
         }
 
-        public void put(Runnable e) {
+        public void put(Runnbble e) {
             offer(e);
         }
 
-        public boolean add(Runnable e) {
+        public boolebn bdd(Runnbble e) {
             return offer(e);
         }
 
-        public boolean offer(Runnable e, long timeout, TimeUnit unit) {
+        public boolebn offer(Runnbble e, long timeout, TimeUnit unit) {
             return offer(e);
         }
 
         /**
-         * Performs common bookkeeping for poll and take: Replaces
-         * first element with last and sifts it down.  Call only when
+         * Performs common bookkeeping for poll bnd tbke: Replbces
+         * first element with lbst bnd sifts it down.  Cbll only when
          * holding lock.
-         * @param f the task to remove and return
+         * @pbrbm f the tbsk to remove bnd return
          */
-        private RunnableScheduledFuture<?> finishPoll(RunnableScheduledFuture<?> f) {
+        privbte RunnbbleScheduledFuture<?> finishPoll(RunnbbleScheduledFuture<?> f) {
             int s = --size;
-            RunnableScheduledFuture<?> x = queue[s];
+            RunnbbleScheduledFuture<?> x = queue[s];
             queue[s] = null;
             if (s != 0)
                 siftDown(0, x);
@@ -1057,226 +1057,226 @@ public class ScheduledThreadPoolExecutor
             return f;
         }
 
-        public RunnableScheduledFuture<?> poll() {
-            final ReentrantLock lock = this.lock;
+        public RunnbbleScheduledFuture<?> poll() {
+            finbl ReentrbntLock lock = this.lock;
             lock.lock();
             try {
-                RunnableScheduledFuture<?> first = queue[0];
-                if (first == null || first.getDelay(NANOSECONDS) > 0)
+                RunnbbleScheduledFuture<?> first = queue[0];
+                if (first == null || first.getDelby(NANOSECONDS) > 0)
                     return null;
                 else
                     return finishPoll(first);
-            } finally {
+            } finblly {
                 lock.unlock();
             }
         }
 
-        public RunnableScheduledFuture<?> take() throws InterruptedException {
-            final ReentrantLock lock = this.lock;
+        public RunnbbleScheduledFuture<?> tbke() throws InterruptedException {
+            finbl ReentrbntLock lock = this.lock;
             lock.lockInterruptibly();
             try {
                 for (;;) {
-                    RunnableScheduledFuture<?> first = queue[0];
+                    RunnbbleScheduledFuture<?> first = queue[0];
                     if (first == null)
-                        available.await();
+                        bvbilbble.bwbit();
                     else {
-                        long delay = first.getDelay(NANOSECONDS);
-                        if (delay <= 0)
+                        long delby = first.getDelby(NANOSECONDS);
+                        if (delby <= 0)
                             return finishPoll(first);
-                        first = null; // don't retain ref while waiting
-                        if (leader != null)
-                            available.await();
+                        first = null; // don't retbin ref while wbiting
+                        if (lebder != null)
+                            bvbilbble.bwbit();
                         else {
-                            Thread thisThread = Thread.currentThread();
-                            leader = thisThread;
+                            Threbd thisThrebd = Threbd.currentThrebd();
+                            lebder = thisThrebd;
                             try {
-                                available.awaitNanos(delay);
-                            } finally {
-                                if (leader == thisThread)
-                                    leader = null;
+                                bvbilbble.bwbitNbnos(delby);
+                            } finblly {
+                                if (lebder == thisThrebd)
+                                    lebder = null;
                             }
                         }
                     }
                 }
-            } finally {
-                if (leader == null && queue[0] != null)
-                    available.signal();
+            } finblly {
+                if (lebder == null && queue[0] != null)
+                    bvbilbble.signbl();
                 lock.unlock();
             }
         }
 
-        public RunnableScheduledFuture<?> poll(long timeout, TimeUnit unit)
+        public RunnbbleScheduledFuture<?> poll(long timeout, TimeUnit unit)
             throws InterruptedException {
-            long nanos = unit.toNanos(timeout);
-            final ReentrantLock lock = this.lock;
+            long nbnos = unit.toNbnos(timeout);
+            finbl ReentrbntLock lock = this.lock;
             lock.lockInterruptibly();
             try {
                 for (;;) {
-                    RunnableScheduledFuture<?> first = queue[0];
+                    RunnbbleScheduledFuture<?> first = queue[0];
                     if (first == null) {
-                        if (nanos <= 0)
+                        if (nbnos <= 0)
                             return null;
                         else
-                            nanos = available.awaitNanos(nanos);
+                            nbnos = bvbilbble.bwbitNbnos(nbnos);
                     } else {
-                        long delay = first.getDelay(NANOSECONDS);
-                        if (delay <= 0)
+                        long delby = first.getDelby(NANOSECONDS);
+                        if (delby <= 0)
                             return finishPoll(first);
-                        if (nanos <= 0)
+                        if (nbnos <= 0)
                             return null;
-                        first = null; // don't retain ref while waiting
-                        if (nanos < delay || leader != null)
-                            nanos = available.awaitNanos(nanos);
+                        first = null; // don't retbin ref while wbiting
+                        if (nbnos < delby || lebder != null)
+                            nbnos = bvbilbble.bwbitNbnos(nbnos);
                         else {
-                            Thread thisThread = Thread.currentThread();
-                            leader = thisThread;
+                            Threbd thisThrebd = Threbd.currentThrebd();
+                            lebder = thisThrebd;
                             try {
-                                long timeLeft = available.awaitNanos(delay);
-                                nanos -= delay - timeLeft;
-                            } finally {
-                                if (leader == thisThread)
-                                    leader = null;
+                                long timeLeft = bvbilbble.bwbitNbnos(delby);
+                                nbnos -= delby - timeLeft;
+                            } finblly {
+                                if (lebder == thisThrebd)
+                                    lebder = null;
                             }
                         }
                     }
                 }
-            } finally {
-                if (leader == null && queue[0] != null)
-                    available.signal();
+            } finblly {
+                if (lebder == null && queue[0] != null)
+                    bvbilbble.signbl();
                 lock.unlock();
             }
         }
 
-        public void clear() {
-            final ReentrantLock lock = this.lock;
+        public void clebr() {
+            finbl ReentrbntLock lock = this.lock;
             lock.lock();
             try {
                 for (int i = 0; i < size; i++) {
-                    RunnableScheduledFuture<?> t = queue[i];
+                    RunnbbleScheduledFuture<?> t = queue[i];
                     if (t != null) {
                         queue[i] = null;
                         setIndex(t, -1);
                     }
                 }
                 size = 0;
-            } finally {
+            } finblly {
                 lock.unlock();
             }
         }
 
         /**
          * Returns first element only if it is expired.
-         * Used only by drainTo.  Call only when holding lock.
+         * Used only by drbinTo.  Cbll only when holding lock.
          */
-        private RunnableScheduledFuture<?> peekExpired() {
-            // assert lock.isHeldByCurrentThread();
-            RunnableScheduledFuture<?> first = queue[0];
-            return (first == null || first.getDelay(NANOSECONDS) > 0) ?
+        privbte RunnbbleScheduledFuture<?> peekExpired() {
+            // bssert lock.isHeldByCurrentThrebd();
+            RunnbbleScheduledFuture<?> first = queue[0];
+            return (first == null || first.getDelby(NANOSECONDS) > 0) ?
                 null : first;
         }
 
-        public int drainTo(Collection<? super Runnable> c) {
+        public int drbinTo(Collection<? super Runnbble> c) {
             if (c == null)
                 throw new NullPointerException();
             if (c == this)
-                throw new IllegalArgumentException();
-            final ReentrantLock lock = this.lock;
+                throw new IllegblArgumentException();
+            finbl ReentrbntLock lock = this.lock;
             lock.lock();
             try {
-                RunnableScheduledFuture<?> first;
+                RunnbbleScheduledFuture<?> first;
                 int n = 0;
                 while ((first = peekExpired()) != null) {
-                    c.add(first);   // In this order, in case add() throws.
+                    c.bdd(first);   // In this order, in cbse bdd() throws.
                     finishPoll(first);
                     ++n;
                 }
                 return n;
-            } finally {
+            } finblly {
                 lock.unlock();
             }
         }
 
-        public int drainTo(Collection<? super Runnable> c, int maxElements) {
+        public int drbinTo(Collection<? super Runnbble> c, int mbxElements) {
             if (c == null)
                 throw new NullPointerException();
             if (c == this)
-                throw new IllegalArgumentException();
-            if (maxElements <= 0)
+                throw new IllegblArgumentException();
+            if (mbxElements <= 0)
                 return 0;
-            final ReentrantLock lock = this.lock;
+            finbl ReentrbntLock lock = this.lock;
             lock.lock();
             try {
-                RunnableScheduledFuture<?> first;
+                RunnbbleScheduledFuture<?> first;
                 int n = 0;
-                while (n < maxElements && (first = peekExpired()) != null) {
-                    c.add(first);   // In this order, in case add() throws.
+                while (n < mbxElements && (first = peekExpired()) != null) {
+                    c.bdd(first);   // In this order, in cbse bdd() throws.
                     finishPoll(first);
                     ++n;
                 }
                 return n;
-            } finally {
+            } finblly {
                 lock.unlock();
             }
         }
 
-        public Object[] toArray() {
-            final ReentrantLock lock = this.lock;
+        public Object[] toArrby() {
+            finbl ReentrbntLock lock = this.lock;
             lock.lock();
             try {
-                return Arrays.copyOf(queue, size, Object[].class);
-            } finally {
+                return Arrbys.copyOf(queue, size, Object[].clbss);
+            } finblly {
                 lock.unlock();
             }
         }
 
-        @SuppressWarnings("unchecked")
-        public <T> T[] toArray(T[] a) {
-            final ReentrantLock lock = this.lock;
+        @SuppressWbrnings("unchecked")
+        public <T> T[] toArrby(T[] b) {
+            finbl ReentrbntLock lock = this.lock;
             lock.lock();
             try {
-                if (a.length < size)
-                    return (T[]) Arrays.copyOf(queue, size, a.getClass());
-                System.arraycopy(queue, 0, a, 0, size);
-                if (a.length > size)
-                    a[size] = null;
-                return a;
-            } finally {
+                if (b.length < size)
+                    return (T[]) Arrbys.copyOf(queue, size, b.getClbss());
+                System.brrbycopy(queue, 0, b, 0, size);
+                if (b.length > size)
+                    b[size] = null;
+                return b;
+            } finblly {
                 lock.unlock();
             }
         }
 
-        public Iterator<Runnable> iterator() {
-            return new Itr(Arrays.copyOf(queue, size));
+        public Iterbtor<Runnbble> iterbtor() {
+            return new Itr(Arrbys.copyOf(queue, size));
         }
 
         /**
-         * Snapshot iterator that works off copy of underlying q array.
+         * Snbpshot iterbtor thbt works off copy of underlying q brrby.
          */
-        private class Itr implements Iterator<Runnable> {
-            final RunnableScheduledFuture<?>[] array;
+        privbte clbss Itr implements Iterbtor<Runnbble> {
+            finbl RunnbbleScheduledFuture<?>[] brrby;
             int cursor = 0;     // index of next element to return
-            int lastRet = -1;   // index of last element, or -1 if no such
+            int lbstRet = -1;   // index of lbst element, or -1 if no such
 
-            Itr(RunnableScheduledFuture<?>[] array) {
-                this.array = array;
+            Itr(RunnbbleScheduledFuture<?>[] brrby) {
+                this.brrby = brrby;
             }
 
-            public boolean hasNext() {
-                return cursor < array.length;
+            public boolebn hbsNext() {
+                return cursor < brrby.length;
             }
 
-            public Runnable next() {
-                if (cursor >= array.length)
+            public Runnbble next() {
+                if (cursor >= brrby.length)
                     throw new NoSuchElementException();
-                lastRet = cursor;
-                return array[cursor++];
+                lbstRet = cursor;
+                return brrby[cursor++];
             }
 
             public void remove() {
-                if (lastRet < 0)
-                    throw new IllegalStateException();
-                DelayedWorkQueue.this.remove(array[lastRet]);
-                lastRet = -1;
+                if (lbstRet < 0)
+                    throw new IllegblStbteException();
+                DelbyedWorkQueue.this.remove(brrby[lbstRet]);
+                lbstRet = -1;
             }
         }
     }

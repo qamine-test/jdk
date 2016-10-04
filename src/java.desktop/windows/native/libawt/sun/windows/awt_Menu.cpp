@@ -1,37 +1,37 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt_Menu.h"
-#include "awt_MenuBar.h"
-#include "awt_Frame.h"
-#include <java_awt_Menu.h>
-#include <sun_awt_windows_WMenuPeer.h>
-#include <java_awt_MenuBar.h>
-#include <sun_awt_windows_WMenuBarPeer.h>
+#include "bwt_Menu.h"
+#include "bwt_MenuBbr.h"
+#include "bwt_Frbme.h"
+#include <jbvb_bwt_Menu.h>
+#include <sun_bwt_windows_WMenuPeer.h>
+#include <jbvb_bwt_MenuBbr.h>
+#include <sun_bwt_windows_WMenuBbrPeer.h>
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rebd the README.JNI file for notes on JNI converted AWT code.
  */
 
 /************************************************************************
@@ -58,8 +58,8 @@ void AwtMenu::Dispose()
 {
     if (m_hMenu != NULL) {
         /*
-         * Don't verify -- may not be a valid anymore if its window
-         * was disposed of first.
+         * Don't verify -- mby not be b vblid bnymore if its window
+         * wbs disposed of first.
          */
         ::DestroyMenu(m_hMenu);
         m_hMenu = NULL;
@@ -68,141 +68,141 @@ void AwtMenu::Dispose()
     AwtMenuItem::Dispose();
 }
 
-LPCTSTR AwtMenu::GetClassName() {
+LPCTSTR AwtMenu::GetClbssNbme() {
     return TEXT("SunAwtMenu");
 }
 
-/* Create a new AwtMenu object and menu.   */
-AwtMenu* AwtMenu::Create(jobject self, AwtMenu* parentMenu)
+/* Crebte b new AwtMenu object bnd menu.   */
+AwtMenu* AwtMenu::Crebte(jobject self, AwtMenu* pbrentMenu)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    jobject target = NULL;
+    jobject tbrget = NULL;
     AwtMenu* menu = NULL;
 
     try {
-        if (env->EnsureLocalCapacity(1) < 0) {
+        if (env->EnsureLocblCbpbcity(1) < 0) {
             return NULL;
         }
 
-        target = env->GetObjectField(self, AwtObject::targetID);
-        JNI_CHECK_NULL_GOTO(target, "null target", done);
+        tbrget = env->GetObjectField(self, AwtObject::tbrgetID);
+        JNI_CHECK_NULL_GOTO(tbrget, "null tbrget", done);
 
         menu = new AwtMenu();
 
-        SetLastError(0);
-        HMENU hMenu = ::CreateMenu();
+        SetLbstError(0);
+        HMENU hMenu = ::CrebteMenu();
         // fix for 5088782
-        if (!CheckMenuCreation(env, self, hMenu))
+        if (!CheckMenuCrebtion(env, self, hMenu))
         {
-            env->DeleteLocalRef(target);
+            env->DeleteLocblRef(tbrget);
             return NULL;
         }
 
         menu->SetHMenu(hMenu);
 
         menu->LinkObjects(env, self);
-        menu->SetMenuContainer(parentMenu);
-        if (parentMenu != NULL) {
-            parentMenu->AddItem(menu);
+        menu->SetMenuContbiner(pbrentMenu);
+        if (pbrentMenu != NULL) {
+            pbrentMenu->AddItem(menu);
         }
-    } catch (...) {
-        env->DeleteLocalRef(target);
+    } cbtch (...) {
+        env->DeleteLocblRef(tbrget);
         throw;
     }
 
 done:
-    if (target != NULL) {
-        env->DeleteLocalRef(target);
+    if (tbrget != NULL) {
+        env->DeleteLocblRef(tbrget);
     }
 
     return menu;
 }
 
-void AwtMenu::UpdateLayout()
+void AwtMenu::UpdbteLbyout()
 {
-    UpdateLayout(GetHMenu());
-    RedrawMenuBar();
+    UpdbteLbyout(GetHMenu());
+    RedrbwMenuBbr();
 }
 
-void AwtMenu::UpdateLayout(const HMENU hmenu)
+void AwtMenu::UpdbteLbyout(const HMENU hmenu)
 {
     const int nMenuItemCount = ::GetMenuItemCount(hmenu);
-    static MENUITEMINFO  mii;
+    stbtic MENUITEMINFO  mii;
     for (int idx = 0; idx < nMenuItemCount; ++idx) {
         memset(&mii, 0, sizeof(mii));
         mii.cbSize = sizeof(mii);
-        mii.fMask = MIIM_CHECKMARKS | MIIM_DATA | MIIM_ID
+        mii.fMbsk = MIIM_CHECKMARKS | MIIM_DATA | MIIM_ID
                   | MIIM_STATE | MIIM_SUBMENU | MIIM_TYPE;
         if (::GetMenuItemInfo(hmenu, idx, TRUE, &mii)) {
             VERIFY(::RemoveMenu(hmenu, idx, MF_BYPOSITION));
             VERIFY(::InsertMenuItem(hmenu, idx, TRUE, &mii));
             if (mii.hSubMenu !=  NULL) {
-                UpdateLayout(mii.hSubMenu);
+                UpdbteLbyout(mii.hSubMenu);
             }
         }
     }
 }
 
-void AwtMenu::UpdateContainerLayout()
+void AwtMenu::UpdbteContbinerLbyout()
 {
-    AwtMenu* menu = GetMenuContainer();
+    AwtMenu* menu = GetMenuContbiner();
     if (menu != NULL) {
-        menu->UpdateLayout();
+        menu->UpdbteLbyout();
     } else {
-        UpdateLayout();
+        UpdbteLbyout();
     }
 }
 
-AwtMenuBar* AwtMenu::GetMenuBar() {
-    return (GetMenuContainer() == NULL) ? NULL : GetMenuContainer()->GetMenuBar();
+AwtMenuBbr* AwtMenu::GetMenuBbr() {
+    return (GetMenuContbiner() == NULL) ? NULL : GetMenuContbiner()->GetMenuBbr();
 }
 
 HWND AwtMenu::GetOwnerHWnd() {
-    return (GetMenuContainer() == NULL) ? NULL : GetMenuContainer()->GetOwnerHWnd();
+    return (GetMenuContbiner() == NULL) ? NULL : GetMenuContbiner()->GetOwnerHWnd();
 }
 
-void AwtMenu::AddSeparator() {
+void AwtMenu::AddSepbrbtor() {
     VERIFY(::AppendMenu(GetHMenu(), MF_SEPARATOR, 0, 0));
 }
 
 void AwtMenu::AddItem(AwtMenuItem* item)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(2) < 0) {
+    if (env->EnsureLocblCbpbcity(2) < 0) {
         return;
     }
 
-    if (item->IsSeparator()) {
-        AddSeparator();
+    if (item->IsSepbrbtor()) {
+        AddSepbrbtor();
     } else {
-        /* jitem is a java.awt.MenuItem */
-        jobject jitem = item->GetTarget(env);
+        /* jitem is b jbvb.bwt.MenuItem */
+        jobject jitem = item->GetTbrget(env);
 
-        jboolean enabled =
-            (jboolean)env->GetBooleanField(jitem, AwtMenuItem::enabledID);
+        jboolebn enbbled =
+            (jboolebn)env->GetBoolebnField(jitem, AwtMenuItem::enbbledID);
 
-        UINT flags = MF_STRING | (enabled ? MF_ENABLED : MF_GRAYED);
-        flags |= MF_OWNERDRAW;
+        UINT flbgs = MF_STRING | (enbbled ? MF_ENABLED : MF_GRAYED);
+        flbgs |= MF_OWNERDRAW;
         LPCTSTR itemInfo = (LPCTSTR) this;
 
-        if (_tcscmp(item->GetClassName(), TEXT("SunAwtMenu")) == 0) {
-            flags |= MF_POPUP;
+        if (_tcscmp(item->GetClbssNbme(), TEXT("SunAwtMenu")) == 0) {
+            flbgs |= MF_POPUP;
             itemInfo = (LPCTSTR) item;
         }
 
-        VERIFY(::AppendMenu(GetHMenu(), flags, item->GetID(), itemInfo));
+        VERIFY(::AppendMenu(GetHMenu(), flbgs, item->GetID(), itemInfo));
         if (GetRTL()) {
             MENUITEMINFO  mif;
             memset(&mif, 0, sizeof(MENUITEMINFO));
             mif.cbSize = sizeof(MENUITEMINFO);
-            mif.fMask = MIIM_TYPE;
+            mif.fMbsk = MIIM_TYPE;
             ::GetMenuItemInfo(GetHMenu(), item->GetID(), FALSE, &mif);
             mif.fType |= MFT_RIGHTJUSTIFY | MFT_RIGHTORDER;
             ::SetMenuItemInfo(GetHMenu(), item->GetID(), FALSE, &mif);
         }
 
-        env->DeleteLocalRef(jitem);
+        env->DeleteLocblRef(jitem);
     }
 }
 
@@ -211,142 +211,142 @@ void AwtMenu::DeleteItem(UINT index)
     VERIFY(::RemoveMenu(GetHMenu(), index, MF_BYPOSITION));
 }
 
-void AwtMenu::SendDrawItem(AwtMenuItem* awtMenuItem,
-                           DRAWITEMSTRUCT& drawInfo)
+void AwtMenu::SendDrbwItem(AwtMenuItem* bwtMenuItem,
+                           DRAWITEMSTRUCT& drbwInfo)
 {
-    awtMenuItem->DrawItem(drawInfo);
+    bwtMenuItem->DrbwItem(drbwInfo);
 }
 
-void AwtMenu::SendMeasureItem(AwtMenuItem* awtMenuItem,
-                              HDC hDC, MEASUREITEMSTRUCT& measureInfo)
+void AwtMenu::SendMebsureItem(AwtMenuItem* bwtMenuItem,
+                              HDC hDC, MEASUREITEMSTRUCT& mebsureInfo)
 {
-    awtMenuItem->MeasureItem(hDC, measureInfo);
+    bwtMenuItem->MebsureItem(hDC, mebsureInfo);
 }
 
-int AwtMenu::CountItem(jobject target)
+int AwtMenu::CountItem(jobject tbrget)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jint nCount = env->CallIntMethod(target, AwtMenu::countItemsMID);
-    DASSERT(!safe_ExceptionOccurred(env));
+    jint nCount = env->CbllIntMethod(tbrget, AwtMenu::countItemsMID);
+    DASSERT(!sbfe_ExceptionOccurred(env));
     return nCount;
 }
 
-AwtMenuItem* AwtMenu::GetItem(jobject target, jint index)
+AwtMenuItem* AwtMenu::GetItem(jobject tbrget, jint index)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(2) < 0) {
+    if (env->EnsureLocblCbpbcity(2) < 0) {
         return NULL;
     }
-    jobject menuItem = env->CallObjectMethod(target, AwtMenu::getItemMID,
+    jobject menuItem = env->CbllObjectMethod(tbrget, AwtMenu::getItemMID,
                                              index);
-    DASSERT(!safe_ExceptionOccurred(env));
+    DASSERT(!sbfe_ExceptionOccurred(env));
 
-    jobject wMenuItemPeer = GetPeerForTarget(env, menuItem);
+    jobject wMenuItemPeer = GetPeerForTbrget(env, menuItem);
 
-    PDATA pData;
-    AwtMenuItem* awtMenuItem = NULL;
+    PDATA pDbtb;
+    AwtMenuItem* bwtMenuItem = NULL;
 
     JNI_CHECK_PEER_GOTO(wMenuItemPeer, done);
-    awtMenuItem = (AwtMenuItem*)pData;
+    bwtMenuItem = (AwtMenuItem*)pDbtb;
 
  done:
-    env->DeleteLocalRef(menuItem);
-    env->DeleteLocalRef(wMenuItemPeer);
+    env->DeleteLocblRef(menuItem);
+    env->DeleteLocblRef(wMenuItemPeer);
 
-    return awtMenuItem;
+    return bwtMenuItem;
 }
 
-void AwtMenu::DrawItems(DRAWITEMSTRUCT& drawInfo)
+void AwtMenu::DrbwItems(DRAWITEMSTRUCT& drbwInfo)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(1) < 0) {
+    if (env->EnsureLocblCbpbcity(1) < 0) {
         return;
     }
-    /* target is a java.awt.Menu */
-    jobject target = GetTarget(env);
+    /* tbrget is b jbvb.bwt.Menu */
+    jobject tbrget = GetTbrget(env);
 
-    int nCount = CountItem(target);
+    int nCount = CountItem(tbrget);
     for (int i = 0; i < nCount; i++) {
-        AwtMenuItem* awtMenuItem = GetItem(target, i);
-        if (awtMenuItem != NULL) {
-            SendDrawItem(awtMenuItem, drawInfo);
+        AwtMenuItem* bwtMenuItem = GetItem(tbrget, i);
+        if (bwtMenuItem != NULL) {
+            SendDrbwItem(bwtMenuItem, drbwInfo);
         }
     }
-    env->DeleteLocalRef(target);
+    env->DeleteLocblRef(tbrget);
 }
 
-void AwtMenu::DrawItem(DRAWITEMSTRUCT& drawInfo)
+void AwtMenu::DrbwItem(DRAWITEMSTRUCT& drbwInfo)
 {
-    DASSERT(drawInfo.CtlType == ODT_MENU);
+    DASSERT(drbwInfo.CtlType == ODT_MENU);
 
-    if (drawInfo.itemID == GetID()) {
-        DrawSelf(drawInfo);
+    if (drbwInfo.itemID == GetID()) {
+        DrbwSelf(drbwInfo);
         return;
     }
-    DrawItems(drawInfo);
+    DrbwItems(drbwInfo);
 }
 
-void AwtMenu::MeasureItems(HDC hDC, MEASUREITEMSTRUCT& measureInfo)
+void AwtMenu::MebsureItems(HDC hDC, MEASUREITEMSTRUCT& mebsureInfo)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(1) < 0) {
+    if (env->EnsureLocblCbpbcity(1) < 0) {
         return;
     }
-   /* target is a java.awt.Menu */
-    jobject target = GetTarget(env);
-    int nCount = CountItem(target);
+   /* tbrget is b jbvb.bwt.Menu */
+    jobject tbrget = GetTbrget(env);
+    int nCount = CountItem(tbrget);
     for (int i = 0; i < nCount; i++) {
-        AwtMenuItem* awtMenuItem = GetItem(target, i);
-        if (awtMenuItem != NULL) {
-            SendMeasureItem(awtMenuItem, hDC, measureInfo);
+        AwtMenuItem* bwtMenuItem = GetItem(tbrget, i);
+        if (bwtMenuItem != NULL) {
+            SendMebsureItem(bwtMenuItem, hDC, mebsureInfo);
         }
     }
-    env->DeleteLocalRef(target);
+    env->DeleteLocblRef(tbrget);
 }
 
-void AwtMenu::MeasureItem(HDC hDC, MEASUREITEMSTRUCT& measureInfo)
+void AwtMenu::MebsureItem(HDC hDC, MEASUREITEMSTRUCT& mebsureInfo)
 {
-    DASSERT(measureInfo.CtlType == ODT_MENU);
+    DASSERT(mebsureInfo.CtlType == ODT_MENU);
 
-    if (measureInfo.itemID == GetID()) {
-        MeasureSelf(hDC, measureInfo);
+    if (mebsureInfo.itemID == GetID()) {
+        MebsureSelf(hDC, mebsureInfo);
         return;
     }
 
-    MeasureItems(hDC, measureInfo);
+    MebsureItems(hDC, mebsureInfo);
 }
 
 BOOL AwtMenu::IsTopMenu()
 {
-    return (GetMenuBar() == GetMenuContainer());
+    return (GetMenuBbr() == GetMenuContbiner());
 }
 
-LRESULT AwtMenu::WinThreadExecProc(ExecuteArgs * args)
+LRESULT AwtMenu::WinThrebdExecProc(ExecuteArgs * brgs)
 {
-    switch( args->cmdId ) {
-        case MENU_ADDSEPARATOR:
-            this->AddSeparator();
-            break;
+    switch( brgs->cmdId ) {
+        cbse MENU_ADDSEPARATOR:
+            this->AddSepbrbtor();
+            brebk;
 
-        case MENU_DELITEM:
-            this->DeleteItem(static_cast<UINT>(args->param1));
-            break;
+        cbse MENU_DELITEM:
+            this->DeleteItem(stbtic_cbst<UINT>(brgs->pbrbm1));
+            brebk;
 
-        default:
-            AwtMenuItem::WinThreadExecProc(args);
-            break;
+        defbult:
+            AwtMenuItem::WinThrebdExecProc(brgs);
+            brebk;
     }
     return 0L;
 }
 
 /************************************************************************
- * WMenuPeer native methods
+ * WMenuPeer nbtive methods
  */
 
 extern "C" {
 
 JNIEXPORT void JNICALL
-Java_java_awt_Menu_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_Menu_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
@@ -355,7 +355,7 @@ Java_java_awt_Menu_initIDs(JNIEnv *env, jclass cls)
     CHECK_NULL(AwtMenu::countItemsMID);
 
     AwtMenu::getItemMID = env->GetMethodID(cls, "getItemImpl",
-                                           "(I)Ljava/awt/MenuItem;");
+                                           "(I)Ljbvb/bwt/MenuItem;");
     DASSERT(AwtMenu::getItemMID != NULL);
 
     CATCH_BAD_ALLOC;
@@ -365,88 +365,88 @@ Java_java_awt_Menu_initIDs(JNIEnv *env, jclass cls)
 
 
 /************************************************************************
- * WMenuPeer native methods
+ * WMenuPeer nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     sun_awt_windows_WMenuPeer
- * Method:    addSeparator
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WMenuPeer
+ * Method:    bddSepbrbtor
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuPeer_addSeparator(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WMenuPeer_bddSepbrbtor(JNIEnv *env, jobject self)
 {
     TRY;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_RETURN(self);
 
-    AwtObject::WinThreadExec(self, AwtMenu::MENU_ADDSEPARATOR);
+    AwtObject::WinThrebdExec(self, AwtMenu::MENU_ADDSEPARATOR);
 
     CATCH_BAD_ALLOC;
 }
 
 
 /*
- * Class:     sun_awt_windows_WMenuPeer
+ * Clbss:     sun_bwt_windows_WMenuPeer
  * Method:    delItem
- * Signature: (I)V
+ * Signbture: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuPeer_delItem(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WMenuPeer_delItem(JNIEnv *env, jobject self,
                                        jint index)
 {
     TRY;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_RETURN(self);
 
-    AwtObject::WinThreadExec(self, AwtMenu::MENU_DELITEM, index);
+    AwtObject::WinThrebdExec(self, AwtMenu::MENU_DELITEM, index);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WMenuPeer
- * Method:    createMenu
- * Signature: (Lsun/awt/windows/WMenuBarPeer;)V
+ * Clbss:     sun_bwt_windows_WMenuPeer
+ * Method:    crebteMenu
+ * Signbture: (Lsun/bwt/windows/WMenuBbrPeer;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuPeer_createMenu(JNIEnv *env, jobject self,
-                                          jobject menuBar)
+Jbvb_sun_bwt_windows_WMenuPeer_crebteMenu(JNIEnv *env, jobject self,
+                                          jobject menuBbr)
 {
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(menuBar);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(menuBbr);
 
-    AwtMenuBar* awtMenuBar = (AwtMenuBar *)pData;
-    AwtToolkit::CreateComponent(self, awtMenuBar,
-                                (AwtToolkit::ComponentFactory)AwtMenu::Create,FALSE);
+    AwtMenuBbr* bwtMenuBbr = (AwtMenuBbr *)pDbtb;
+    AwtToolkit::CrebteComponent(self, bwtMenuBbr,
+                                (AwtToolkit::ComponentFbctory)AwtMenu::Crebte,FALSE);
     JNI_CHECK_PEER_CREATION_RETURN(self);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WMenuPeer
- * Method:    createSubMenu
- * Signature: (Lsun/awt/windows/WMenuPeer;)V
+ * Clbss:     sun_bwt_windows_WMenuPeer
+ * Method:    crebteSubMenu
+ * Signbture: (Lsun/bwt/windows/WMenuPeer;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuPeer_createSubMenu(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WMenuPeer_crebteSubMenu(JNIEnv *env, jobject self,
                                              jobject menu)
 {
     TRY;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_RETURN(menu);
 
-    AwtMenu* awtMenu = (AwtMenu *)pData;
-    AwtToolkit::CreateComponent(self, awtMenu,
-                                (AwtToolkit::ComponentFactory)AwtMenu::Create,FALSE);
+    AwtMenu* bwtMenu = (AwtMenu *)pDbtb;
+    AwtToolkit::CrebteComponent(self, bwtMenu,
+                                (AwtToolkit::ComponentFbctory)AwtMenu::Crebte,FALSE);
     JNI_CHECK_PEER_CREATION_RETURN(self);
 
     CATCH_BAD_ALLOC;

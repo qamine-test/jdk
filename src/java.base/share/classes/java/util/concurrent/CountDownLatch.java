@@ -1,300 +1,300 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+pbckbge jbvb.util.concurrent;
+import jbvb.util.concurrent.locks.AbstrbctQueuedSynchronizer;
 
 /**
- * A synchronization aid that allows one or more threads to wait until
- * a set of operations being performed in other threads completes.
+ * A synchronizbtion bid thbt bllows one or more threbds to wbit until
+ * b set of operbtions being performed in other threbds completes.
  *
- * <p>A {@code CountDownLatch} is initialized with a given <em>count</em>.
- * The {@link #await await} methods block until the current count reaches
- * zero due to invocations of the {@link #countDown} method, after which
- * all waiting threads are released and any subsequent invocations of
- * {@link #await await} return immediately.  This is a one-shot phenomenon
- * -- the count cannot be reset.  If you need a version that resets the
- * count, consider using a {@link CyclicBarrier}.
+ * <p>A {@code CountDownLbtch} is initiblized with b given <em>count</em>.
+ * The {@link #bwbit bwbit} methods block until the current count rebches
+ * zero due to invocbtions of the {@link #countDown} method, bfter which
+ * bll wbiting threbds bre relebsed bnd bny subsequent invocbtions of
+ * {@link #bwbit bwbit} return immedibtely.  This is b one-shot phenomenon
+ * -- the count cbnnot be reset.  If you need b version thbt resets the
+ * count, consider using b {@link CyclicBbrrier}.
  *
- * <p>A {@code CountDownLatch} is a versatile synchronization tool
- * and can be used for a number of purposes.  A
- * {@code CountDownLatch} initialized with a count of one serves as a
- * simple on/off latch, or gate: all threads invoking {@link #await await}
- * wait at the gate until it is opened by a thread invoking {@link
- * #countDown}.  A {@code CountDownLatch} initialized to <em>N</em>
- * can be used to make one thread wait until <em>N</em> threads have
- * completed some action, or some action has been completed N times.
+ * <p>A {@code CountDownLbtch} is b versbtile synchronizbtion tool
+ * bnd cbn be used for b number of purposes.  A
+ * {@code CountDownLbtch} initiblized with b count of one serves bs b
+ * simple on/off lbtch, or gbte: bll threbds invoking {@link #bwbit bwbit}
+ * wbit bt the gbte until it is opened by b threbd invoking {@link
+ * #countDown}.  A {@code CountDownLbtch} initiblized to <em>N</em>
+ * cbn be used to mbke one threbd wbit until <em>N</em> threbds hbve
+ * completed some bction, or some bction hbs been completed N times.
  *
- * <p>A useful property of a {@code CountDownLatch} is that it
- * doesn't require that threads calling {@code countDown} wait for
- * the count to reach zero before proceeding, it simply prevents any
- * thread from proceeding past an {@link #await await} until all
- * threads could pass.
+ * <p>A useful property of b {@code CountDownLbtch} is thbt it
+ * doesn't require thbt threbds cblling {@code countDown} wbit for
+ * the count to rebch zero before proceeding, it simply prevents bny
+ * threbd from proceeding pbst bn {@link #bwbit bwbit} until bll
+ * threbds could pbss.
  *
- * <p><b>Sample usage:</b> Here is a pair of classes in which a group
- * of worker threads use two countdown latches:
+ * <p><b>Sbmple usbge:</b> Here is b pbir of clbsses in which b group
+ * of worker threbds use two countdown lbtches:
  * <ul>
- * <li>The first is a start signal that prevents any worker from proceeding
- * until the driver is ready for them to proceed;
- * <li>The second is a completion signal that allows the driver to wait
- * until all workers have completed.
+ * <li>The first is b stbrt signbl thbt prevents bny worker from proceeding
+ * until the driver is rebdy for them to proceed;
+ * <li>The second is b completion signbl thbt bllows the driver to wbit
+ * until bll workers hbve completed.
  * </ul>
  *
  *  <pre> {@code
- * class Driver { // ...
- *   void main() throws InterruptedException {
- *     CountDownLatch startSignal = new CountDownLatch(1);
- *     CountDownLatch doneSignal = new CountDownLatch(N);
+ * clbss Driver { // ...
+ *   void mbin() throws InterruptedException {
+ *     CountDownLbtch stbrtSignbl = new CountDownLbtch(1);
+ *     CountDownLbtch doneSignbl = new CountDownLbtch(N);
  *
- *     for (int i = 0; i < N; ++i) // create and start threads
- *       new Thread(new Worker(startSignal, doneSignal)).start();
+ *     for (int i = 0; i < N; ++i) // crebte bnd stbrt threbds
+ *       new Threbd(new Worker(stbrtSignbl, doneSignbl)).stbrt();
  *
  *     doSomethingElse();            // don't let run yet
- *     startSignal.countDown();      // let all threads proceed
+ *     stbrtSignbl.countDown();      // let bll threbds proceed
  *     doSomethingElse();
- *     doneSignal.await();           // wait for all to finish
+ *     doneSignbl.bwbit();           // wbit for bll to finish
  *   }
  * }
  *
- * class Worker implements Runnable {
- *   private final CountDownLatch startSignal;
- *   private final CountDownLatch doneSignal;
- *   Worker(CountDownLatch startSignal, CountDownLatch doneSignal) {
- *     this.startSignal = startSignal;
- *     this.doneSignal = doneSignal;
+ * clbss Worker implements Runnbble {
+ *   privbte finbl CountDownLbtch stbrtSignbl;
+ *   privbte finbl CountDownLbtch doneSignbl;
+ *   Worker(CountDownLbtch stbrtSignbl, CountDownLbtch doneSignbl) {
+ *     this.stbrtSignbl = stbrtSignbl;
+ *     this.doneSignbl = doneSignbl;
  *   }
  *   public void run() {
  *     try {
- *       startSignal.await();
+ *       stbrtSignbl.bwbit();
  *       doWork();
- *       doneSignal.countDown();
- *     } catch (InterruptedException ex) {} // return;
+ *       doneSignbl.countDown();
+ *     } cbtch (InterruptedException ex) {} // return;
  *   }
  *
  *   void doWork() { ... }
  * }}</pre>
  *
- * <p>Another typical usage would be to divide a problem into N parts,
- * describe each part with a Runnable that executes that portion and
- * counts down on the latch, and queue all the Runnables to an
- * Executor.  When all sub-parts are complete, the coordinating thread
- * will be able to pass through await. (When threads must repeatedly
- * count down in this way, instead use a {@link CyclicBarrier}.)
+ * <p>Another typicbl usbge would be to divide b problem into N pbrts,
+ * describe ebch pbrt with b Runnbble thbt executes thbt portion bnd
+ * counts down on the lbtch, bnd queue bll the Runnbbles to bn
+ * Executor.  When bll sub-pbrts bre complete, the coordinbting threbd
+ * will be bble to pbss through bwbit. (When threbds must repebtedly
+ * count down in this wby, instebd use b {@link CyclicBbrrier}.)
  *
  *  <pre> {@code
- * class Driver2 { // ...
- *   void main() throws InterruptedException {
- *     CountDownLatch doneSignal = new CountDownLatch(N);
+ * clbss Driver2 { // ...
+ *   void mbin() throws InterruptedException {
+ *     CountDownLbtch doneSignbl = new CountDownLbtch(N);
  *     Executor e = ...
  *
- *     for (int i = 0; i < N; ++i) // create and start threads
- *       e.execute(new WorkerRunnable(doneSignal, i));
+ *     for (int i = 0; i < N; ++i) // crebte bnd stbrt threbds
+ *       e.execute(new WorkerRunnbble(doneSignbl, i));
  *
- *     doneSignal.await();           // wait for all to finish
+ *     doneSignbl.bwbit();           // wbit for bll to finish
  *   }
  * }
  *
- * class WorkerRunnable implements Runnable {
- *   private final CountDownLatch doneSignal;
- *   private final int i;
- *   WorkerRunnable(CountDownLatch doneSignal, int i) {
- *     this.doneSignal = doneSignal;
+ * clbss WorkerRunnbble implements Runnbble {
+ *   privbte finbl CountDownLbtch doneSignbl;
+ *   privbte finbl int i;
+ *   WorkerRunnbble(CountDownLbtch doneSignbl, int i) {
+ *     this.doneSignbl = doneSignbl;
  *     this.i = i;
  *   }
  *   public void run() {
  *     try {
  *       doWork(i);
- *       doneSignal.countDown();
- *     } catch (InterruptedException ex) {} // return;
+ *       doneSignbl.countDown();
+ *     } cbtch (InterruptedException ex) {} // return;
  *   }
  *
  *   void doWork() { ... }
  * }}</pre>
  *
- * <p>Memory consistency effects: Until the count reaches
- * zero, actions in a thread prior to calling
+ * <p>Memory consistency effects: Until the count rebches
+ * zero, bctions in b threbd prior to cblling
  * {@code countDown()}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions following a successful return from a corresponding
- * {@code await()} in another thread.
+ * <b href="pbckbge-summbry.html#MemoryVisibility"><i>hbppen-before</i></b>
+ * bctions following b successful return from b corresponding
+ * {@code bwbit()} in bnother threbd.
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class CountDownLatch {
+public clbss CountDownLbtch {
     /**
-     * Synchronization control For CountDownLatch.
-     * Uses AQS state to represent count.
+     * Synchronizbtion control For CountDownLbtch.
+     * Uses AQS stbte to represent count.
      */
-    private static final class Sync extends AbstractQueuedSynchronizer {
-        private static final long serialVersionUID = 4982264981922014374L;
+    privbte stbtic finbl clbss Sync extends AbstrbctQueuedSynchronizer {
+        privbte stbtic finbl long seriblVersionUID = 4982264981922014374L;
 
         Sync(int count) {
-            setState(count);
+            setStbte(count);
         }
 
         int getCount() {
-            return getState();
+            return getStbte();
         }
 
-        protected int tryAcquireShared(int acquires) {
-            return (getState() == 0) ? 1 : -1;
+        protected int tryAcquireShbred(int bcquires) {
+            return (getStbte() == 0) ? 1 : -1;
         }
 
-        protected boolean tryReleaseShared(int releases) {
-            // Decrement count; signal when transition to zero
+        protected boolebn tryRelebseShbred(int relebses) {
+            // Decrement count; signbl when trbnsition to zero
             for (;;) {
-                int c = getState();
+                int c = getStbte();
                 if (c == 0)
-                    return false;
+                    return fblse;
                 int nextc = c-1;
-                if (compareAndSetState(c, nextc))
+                if (compbreAndSetStbte(c, nextc))
                     return nextc == 0;
             }
         }
     }
 
-    private final Sync sync;
+    privbte finbl Sync sync;
 
     /**
-     * Constructs a {@code CountDownLatch} initialized with the given count.
+     * Constructs b {@code CountDownLbtch} initiblized with the given count.
      *
-     * @param count the number of times {@link #countDown} must be invoked
-     *        before threads can pass through {@link #await}
-     * @throws IllegalArgumentException if {@code count} is negative
+     * @pbrbm count the number of times {@link #countDown} must be invoked
+     *        before threbds cbn pbss through {@link #bwbit}
+     * @throws IllegblArgumentException if {@code count} is negbtive
      */
-    public CountDownLatch(int count) {
-        if (count < 0) throw new IllegalArgumentException("count < 0");
+    public CountDownLbtch(int count) {
+        if (count < 0) throw new IllegblArgumentException("count < 0");
         this.sync = new Sync(count);
     }
 
     /**
-     * Causes the current thread to wait until the latch has counted down to
-     * zero, unless the thread is {@linkplain Thread#interrupt interrupted}.
+     * Cbuses the current threbd to wbit until the lbtch hbs counted down to
+     * zero, unless the threbd is {@linkplbin Threbd#interrupt interrupted}.
      *
-     * <p>If the current count is zero then this method returns immediately.
+     * <p>If the current count is zero then this method returns immedibtely.
      *
-     * <p>If the current count is greater than zero then the current
-     * thread becomes disabled for thread scheduling purposes and lies
-     * dormant until one of two things happen:
+     * <p>If the current count is grebter thbn zero then the current
+     * threbd becomes disbbled for threbd scheduling purposes bnd lies
+     * dormbnt until one of two things hbppen:
      * <ul>
-     * <li>The count reaches zero due to invocations of the
+     * <li>The count rebches zero due to invocbtions of the
      * {@link #countDown} method; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread.
+     * <li>Some other threbd {@linkplbin Threbd#interrupt interrupts}
+     * the current threbd.
      * </ul>
      *
-     * <p>If the current thread:
+     * <p>If the current threbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting,
+     * <li>hbs its interrupted stbtus set on entry to this method; or
+     * <li>is {@linkplbin Threbd#interrupt interrupted} while wbiting,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * then {@link InterruptedException} is thrown bnd the current threbd's
+     * interrupted stbtus is clebred.
      *
-     * @throws InterruptedException if the current thread is interrupted
-     *         while waiting
+     * @throws InterruptedException if the current threbd is interrupted
+     *         while wbiting
      */
-    public void await() throws InterruptedException {
-        sync.acquireSharedInterruptibly(1);
+    public void bwbit() throws InterruptedException {
+        sync.bcquireShbredInterruptibly(1);
     }
 
     /**
-     * Causes the current thread to wait until the latch has counted down to
-     * zero, unless the thread is {@linkplain Thread#interrupt interrupted},
-     * or the specified waiting time elapses.
+     * Cbuses the current threbd to wbit until the lbtch hbs counted down to
+     * zero, unless the threbd is {@linkplbin Threbd#interrupt interrupted},
+     * or the specified wbiting time elbpses.
      *
-     * <p>If the current count is zero then this method returns immediately
-     * with the value {@code true}.
+     * <p>If the current count is zero then this method returns immedibtely
+     * with the vblue {@code true}.
      *
-     * <p>If the current count is greater than zero then the current
-     * thread becomes disabled for thread scheduling purposes and lies
-     * dormant until one of three things happen:
+     * <p>If the current count is grebter thbn zero then the current
+     * threbd becomes disbbled for threbd scheduling purposes bnd lies
+     * dormbnt until one of three things hbppen:
      * <ul>
-     * <li>The count reaches zero due to invocations of the
+     * <li>The count rebches zero due to invocbtions of the
      * {@link #countDown} method; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
-     * <li>The specified waiting time elapses.
+     * <li>Some other threbd {@linkplbin Threbd#interrupt interrupts}
+     * the current threbd; or
+     * <li>The specified wbiting time elbpses.
      * </ul>
      *
-     * <p>If the count reaches zero then the method returns with the
-     * value {@code true}.
+     * <p>If the count rebches zero then the method returns with the
+     * vblue {@code true}.
      *
-     * <p>If the current thread:
+     * <p>If the current threbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting,
+     * <li>hbs its interrupted stbtus set on entry to this method; or
+     * <li>is {@linkplbin Threbd#interrupt interrupted} while wbiting,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * then {@link InterruptedException} is thrown bnd the current threbd's
+     * interrupted stbtus is clebred.
      *
-     * <p>If the specified waiting time elapses then the value {@code false}
-     * is returned.  If the time is less than or equal to zero, the method
-     * will not wait at all.
+     * <p>If the specified wbiting time elbpses then the vblue {@code fblse}
+     * is returned.  If the time is less thbn or equbl to zero, the method
+     * will not wbit bt bll.
      *
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the {@code timeout} argument
-     * @return {@code true} if the count reached zero and {@code false}
-     *         if the waiting time elapsed before the count reached zero
-     * @throws InterruptedException if the current thread is interrupted
-     *         while waiting
+     * @pbrbm timeout the mbximum time to wbit
+     * @pbrbm unit the time unit of the {@code timeout} brgument
+     * @return {@code true} if the count rebched zero bnd {@code fblse}
+     *         if the wbiting time elbpsed before the count rebched zero
+     * @throws InterruptedException if the current threbd is interrupted
+     *         while wbiting
      */
-    public boolean await(long timeout, TimeUnit unit)
+    public boolebn bwbit(long timeout, TimeUnit unit)
         throws InterruptedException {
-        return sync.tryAcquireSharedNanos(1, unit.toNanos(timeout));
+        return sync.tryAcquireShbredNbnos(1, unit.toNbnos(timeout));
     }
 
     /**
-     * Decrements the count of the latch, releasing all waiting threads if
-     * the count reaches zero.
+     * Decrements the count of the lbtch, relebsing bll wbiting threbds if
+     * the count rebches zero.
      *
-     * <p>If the current count is greater than zero then it is decremented.
-     * If the new count is zero then all waiting threads are re-enabled for
-     * thread scheduling purposes.
+     * <p>If the current count is grebter thbn zero then it is decremented.
+     * If the new count is zero then bll wbiting threbds bre re-enbbled for
+     * threbd scheduling purposes.
      *
-     * <p>If the current count equals zero then nothing happens.
+     * <p>If the current count equbls zero then nothing hbppens.
      */
     public void countDown() {
-        sync.releaseShared(1);
+        sync.relebseShbred(1);
     }
 
     /**
      * Returns the current count.
      *
-     * <p>This method is typically used for debugging and testing purposes.
+     * <p>This method is typicblly used for debugging bnd testing purposes.
      *
      * @return the current count
      */
@@ -303,11 +303,11 @@ public class CountDownLatch {
     }
 
     /**
-     * Returns a string identifying this latch, as well as its state.
-     * The state, in brackets, includes the String {@code "Count ="}
+     * Returns b string identifying this lbtch, bs well bs its stbte.
+     * The stbte, in brbckets, includes the String {@code "Count ="}
      * followed by the current count.
      *
-     * @return a string identifying this latch, as well as its state
+     * @return b string identifying this lbtch, bs well bs its stbte
      */
     public String toString() {
         return super.toString() + "[Count = " + sync.getCount() + "]";

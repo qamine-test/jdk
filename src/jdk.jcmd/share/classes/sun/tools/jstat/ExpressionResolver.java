@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
-import sun.jvmstat.monitor.*;
+import sun.jvmstbt.monitor.*;
 
 /**
- * A class implementing the ExpressionEvaluator to resolve unresolved
- * symbols in an Expression in the context of the available monitoring data.
- * This class also performs some minimal optimizations of the expressions,
- * such as simplification of constant subexpressions.
+ * A clbss implementing the ExpressionEvblubtor to resolve unresolved
+ * symbols in bn Expression in the context of the bvbilbble monitoring dbtb.
+ * This clbss blso performs some minimbl optimizbtions of the expressions,
+ * such bs simplificbtion of constbnt subexpressions.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class ExpressionResolver implements ExpressionEvaluator {
-    private static boolean debug = Boolean.getBoolean("ExpressionResolver.debug");
-    private MonitoredVm vm;
+public clbss ExpressionResolver implements ExpressionEvblubtor {
+    privbte stbtic boolebn debug = Boolebn.getBoolebn("ExpressionResolver.debug");
+    privbte MonitoredVm vm;
 
     ExpressionResolver(MonitoredVm vm) {
         this.vm = vm;
     }
 
     /*
-     * evaluate the given expression. evaluation in this case means
-     * to resolve the counter names in the expression
+     * evblubte the given expression. evblubtion in this cbse mebns
+     * to resolve the counter nbmes in the expression
      */
-    public Object evaluate(Expression e) throws MonitorException {
+    public Object evblubte(Expression e) throws MonitorException {
 
         if (e == null) {
             return null;
@@ -58,34 +58,34 @@ public class ExpressionResolver implements ExpressionEvaluator {
             System.out.println("Resolving Expression:" + e);
         }
 
-        if (e instanceof Identifier) {
+        if (e instbnceof Identifier) {
             Identifier id = (Identifier)e;
 
-            // check if it's already resolved
+            // check if it's blrebdy resolved
             if (id.isResolved()) {
                 return id;
             }
 
             // look it up
-            Monitor m = vm.findByName(id.getName());
+            Monitor m = vm.findByNbme(id.getNbme());
             if (m == null) {
-                System.err.println("Warning: Unresolved Symbol: "
-                                   + id.getName() + " substituted NaN");
-                return new Literal(new Double(Double.NaN));
+                System.err.println("Wbrning: Unresolved Symbol: "
+                                   + id.getNbme() + " substituted NbN");
+                return new Literbl(new Double(Double.NbN));
             }
-            if (m.getVariability() == Variability.CONSTANT) {
+            if (m.getVbribbility() == Vbribbility.CONSTANT) {
                 if (debug) {
-                    System.out.println("Converting constant " + id.getName()
-                                       + " to literal with value "
-                                       + m.getValue());
+                    System.out.println("Converting constbnt " + id.getNbme()
+                                       + " to literbl with vblue "
+                                       + m.getVblue());
                 }
-                return new Literal(m.getValue());
+                return new Literbl(m.getVblue());
             }
-            id.setValue(m);
+            id.setVblue(m);
             return id;
         }
 
-        if (e instanceof Literal) {
+        if (e instbnceof Literbl) {
             return e;
         }
 
@@ -93,43 +93,43 @@ public class ExpressionResolver implements ExpressionEvaluator {
         Expression r = null;
 
         if (e.getLeft() != null) {
-            l = (Expression)evaluate(e.getLeft());
+            l = (Expression)evblubte(e.getLeft());
         }
         if (e.getRight() != null) {
-            r = (Expression)evaluate(e.getRight());
+            r = (Expression)evblubte(e.getRight());
         }
 
         if (l != null && r != null) {
-            if ((l instanceof Literal) && (r instanceof Literal)) {
-                Literal ll = (Literal)l;
-                Literal rl = (Literal)r;
-                boolean warn = false;
+            if ((l instbnceof Literbl) && (r instbnceof Literbl)) {
+                Literbl ll = (Literbl)l;
+                Literbl rl = (Literbl)r;
+                boolebn wbrn = fblse;
 
-                Double nan = new Double(Double.NaN);
-                if (ll.getValue() instanceof String) {
-                    warn = true; ll.setValue(nan);
+                Double nbn = new Double(Double.NbN);
+                if (ll.getVblue() instbnceof String) {
+                    wbrn = true; ll.setVblue(nbn);
                 }
-                if (rl.getValue() instanceof String) {
-                    warn = true; rl.setValue(nan);
+                if (rl.getVblue() instbnceof String) {
+                    wbrn = true; rl.setVblue(nbn);
                 }
-                if (debug && warn) {
-                     System.out.println("Warning: String literal in "
-                                        + "numerical expression: "
-                                        + "substitutied NaN");
+                if (debug && wbrn) {
+                     System.out.println("Wbrning: String literbl in "
+                                        + "numericbl expression: "
+                                        + "substitutied NbN");
                 }
 
-                // perform the operation
-                Number ln = (Number)ll.getValue();
-                Number rn = (Number)rl.getValue();
-                double result = e.getOperator().eval(ln.doubleValue(),
-                                                     rn.doubleValue());
+                // perform the operbtion
+                Number ln = (Number)ll.getVblue();
+                Number rn = (Number)rl.getVblue();
+                double result = e.getOperbtor().evbl(ln.doubleVblue(),
+                                                     rn.doubleVblue());
                 if (debug) {
                     System.out.println("Converting expression " + e
-                                       + " (left = " + ln.doubleValue() + ")"
-                                       + " (right = " + rn.doubleValue() + ")"
-                                       + " to literal value " + result);
+                                       + " (left = " + ln.doubleVblue() + ")"
+                                       + " (right = " + rn.doubleVblue() + ")"
+                                       + " to literbl vblue " + result);
                 }
-                return new Literal(new Double(result));
+                return new Literbl(new Double(result));
             }
         }
 

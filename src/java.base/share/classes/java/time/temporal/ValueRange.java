@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2011-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,370 +59,370 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbckbge jbvb.time.temporbl;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.DateTimeException;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.DbteTimeException;
 
 /**
- * The range of valid values for a date-time field.
+ * The rbnge of vblid vblues for b dbte-time field.
  * <p>
- * All {@link TemporalField} instances have a valid range of values.
- * For example, the ISO day-of-month runs from 1 to somewhere between 28 and 31.
- * This class captures that valid range.
+ * All {@link TemporblField} instbnces hbve b vblid rbnge of vblues.
+ * For exbmple, the ISO dby-of-month runs from 1 to somewhere between 28 bnd 31.
+ * This clbss cbptures thbt vblid rbnge.
  * <p>
- * It is important to be aware of the limitations of this class.
- * Only the minimum and maximum values are provided.
- * It is possible for there to be invalid values within the outer range.
- * For example, a weird field may have valid values of 1, 2, 4, 6, 7, thus
- * have a range of '1 - 7', despite that fact that values 3 and 5 are invalid.
+ * It is importbnt to be bwbre of the limitbtions of this clbss.
+ * Only the minimum bnd mbximum vblues bre provided.
+ * It is possible for there to be invblid vblues within the outer rbnge.
+ * For exbmple, b weird field mby hbve vblid vblues of 1, 2, 4, 6, 7, thus
+ * hbve b rbnge of '1 - 7', despite thbt fbct thbt vblues 3 bnd 5 bre invblid.
  * <p>
- * Instances of this class are not tied to a specific field.
+ * Instbnces of this clbss bre not tied to b specific field.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class ValueRange implements Serializable {
+public finbl clbss VblueRbnge implements Seriblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = -7317881728594519368L;
+    privbte stbtic finbl long seriblVersionUID = -7317881728594519368L;
 
     /**
-     * The smallest minimum value.
+     * The smbllest minimum vblue.
      */
-    private final long minSmallest;
+    privbte finbl long minSmbllest;
     /**
-     * The largest minimum value.
+     * The lbrgest minimum vblue.
      */
-    private final long minLargest;
+    privbte finbl long minLbrgest;
     /**
-     * The smallest maximum value.
+     * The smbllest mbximum vblue.
      */
-    private final long maxSmallest;
+    privbte finbl long mbxSmbllest;
     /**
-     * The largest maximum value.
+     * The lbrgest mbximum vblue.
      */
-    private final long maxLargest;
+    privbte finbl long mbxLbrgest;
 
     /**
-     * Obtains a fixed value range.
+     * Obtbins b fixed vblue rbnge.
      * <p>
-     * This factory obtains a range where the minimum and maximum values are fixed.
-     * For example, the ISO month-of-year always runs from 1 to 12.
+     * This fbctory obtbins b rbnge where the minimum bnd mbximum vblues bre fixed.
+     * For exbmple, the ISO month-of-yebr blwbys runs from 1 to 12.
      *
-     * @param min  the minimum value
-     * @param max  the maximum value
-     * @return the ValueRange for min, max, not null
-     * @throws IllegalArgumentException if the minimum is greater than the maximum
+     * @pbrbm min  the minimum vblue
+     * @pbrbm mbx  the mbximum vblue
+     * @return the VblueRbnge for min, mbx, not null
+     * @throws IllegblArgumentException if the minimum is grebter thbn the mbximum
      */
-    public static ValueRange of(long min, long max) {
-        if (min > max) {
-            throw new IllegalArgumentException("Minimum value must be less than maximum value");
+    public stbtic VblueRbnge of(long min, long mbx) {
+        if (min > mbx) {
+            throw new IllegblArgumentException("Minimum vblue must be less thbn mbximum vblue");
         }
-        return new ValueRange(min, min, max, max);
+        return new VblueRbnge(min, min, mbx, mbx);
     }
 
     /**
-     * Obtains a variable value range.
+     * Obtbins b vbribble vblue rbnge.
      * <p>
-     * This factory obtains a range where the minimum value is fixed and the maximum value may vary.
-     * For example, the ISO day-of-month always starts at 1, but ends between 28 and 31.
+     * This fbctory obtbins b rbnge where the minimum vblue is fixed bnd the mbximum vblue mby vbry.
+     * For exbmple, the ISO dby-of-month blwbys stbrts bt 1, but ends between 28 bnd 31.
      *
-     * @param min  the minimum value
-     * @param maxSmallest  the smallest maximum value
-     * @param maxLargest  the largest maximum value
-     * @return the ValueRange for min, smallest max, largest max, not null
-     * @throws IllegalArgumentException if
-     *     the minimum is greater than the smallest maximum,
-     *  or the smallest maximum is greater than the largest maximum
+     * @pbrbm min  the minimum vblue
+     * @pbrbm mbxSmbllest  the smbllest mbximum vblue
+     * @pbrbm mbxLbrgest  the lbrgest mbximum vblue
+     * @return the VblueRbnge for min, smbllest mbx, lbrgest mbx, not null
+     * @throws IllegblArgumentException if
+     *     the minimum is grebter thbn the smbllest mbximum,
+     *  or the smbllest mbximum is grebter thbn the lbrgest mbximum
      */
-    public static ValueRange of(long min, long maxSmallest, long maxLargest) {
-        return of(min, min, maxSmallest, maxLargest);
+    public stbtic VblueRbnge of(long min, long mbxSmbllest, long mbxLbrgest) {
+        return of(min, min, mbxSmbllest, mbxLbrgest);
     }
 
     /**
-     * Obtains a fully variable value range.
+     * Obtbins b fully vbribble vblue rbnge.
      * <p>
-     * This factory obtains a range where both the minimum and maximum value may vary.
+     * This fbctory obtbins b rbnge where both the minimum bnd mbximum vblue mby vbry.
      *
-     * @param minSmallest  the smallest minimum value
-     * @param minLargest  the largest minimum value
-     * @param maxSmallest  the smallest maximum value
-     * @param maxLargest  the largest maximum value
-     * @return the ValueRange for smallest min, largest min, smallest max, largest max, not null
-     * @throws IllegalArgumentException if
-     *     the smallest minimum is greater than the smallest maximum,
-     *  or the smallest maximum is greater than the largest maximum
-     *  or the largest minimum is greater than the largest maximum
+     * @pbrbm minSmbllest  the smbllest minimum vblue
+     * @pbrbm minLbrgest  the lbrgest minimum vblue
+     * @pbrbm mbxSmbllest  the smbllest mbximum vblue
+     * @pbrbm mbxLbrgest  the lbrgest mbximum vblue
+     * @return the VblueRbnge for smbllest min, lbrgest min, smbllest mbx, lbrgest mbx, not null
+     * @throws IllegblArgumentException if
+     *     the smbllest minimum is grebter thbn the smbllest mbximum,
+     *  or the smbllest mbximum is grebter thbn the lbrgest mbximum
+     *  or the lbrgest minimum is grebter thbn the lbrgest mbximum
      */
-    public static ValueRange of(long minSmallest, long minLargest, long maxSmallest, long maxLargest) {
-        if (minSmallest > minLargest) {
-            throw new IllegalArgumentException("Smallest minimum value must be less than largest minimum value");
+    public stbtic VblueRbnge of(long minSmbllest, long minLbrgest, long mbxSmbllest, long mbxLbrgest) {
+        if (minSmbllest > minLbrgest) {
+            throw new IllegblArgumentException("Smbllest minimum vblue must be less thbn lbrgest minimum vblue");
         }
-        if (maxSmallest > maxLargest) {
-            throw new IllegalArgumentException("Smallest maximum value must be less than largest maximum value");
+        if (mbxSmbllest > mbxLbrgest) {
+            throw new IllegblArgumentException("Smbllest mbximum vblue must be less thbn lbrgest mbximum vblue");
         }
-        if (minLargest > maxLargest) {
-            throw new IllegalArgumentException("Minimum value must be less than maximum value");
+        if (minLbrgest > mbxLbrgest) {
+            throw new IllegblArgumentException("Minimum vblue must be less thbn mbximum vblue");
         }
-        return new ValueRange(minSmallest, minLargest, maxSmallest, maxLargest);
+        return new VblueRbnge(minSmbllest, minLbrgest, mbxSmbllest, mbxLbrgest);
     }
 
     /**
      * Restrictive constructor.
      *
-     * @param minSmallest  the smallest minimum value
-     * @param minLargest  the largest minimum value
-     * @param maxSmallest  the smallest minimum value
-     * @param maxLargest  the largest minimum value
+     * @pbrbm minSmbllest  the smbllest minimum vblue
+     * @pbrbm minLbrgest  the lbrgest minimum vblue
+     * @pbrbm mbxSmbllest  the smbllest minimum vblue
+     * @pbrbm mbxLbrgest  the lbrgest minimum vblue
      */
-    private ValueRange(long minSmallest, long minLargest, long maxSmallest, long maxLargest) {
-        this.minSmallest = minSmallest;
-        this.minLargest = minLargest;
-        this.maxSmallest = maxSmallest;
-        this.maxLargest = maxLargest;
+    privbte VblueRbnge(long minSmbllest, long minLbrgest, long mbxSmbllest, long mbxLbrgest) {
+        this.minSmbllest = minSmbllest;
+        this.minLbrgest = minLbrgest;
+        this.mbxSmbllest = mbxSmbllest;
+        this.mbxLbrgest = mbxLbrgest;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Is the value range fixed and fully known.
+     * Is the vblue rbnge fixed bnd fully known.
      * <p>
-     * For example, the ISO day-of-month runs from 1 to between 28 and 31.
-     * Since there is uncertainty about the maximum value, the range is not fixed.
-     * However, for the month of January, the range is always 1 to 31, thus it is fixed.
+     * For exbmple, the ISO dby-of-month runs from 1 to between 28 bnd 31.
+     * Since there is uncertbinty bbout the mbximum vblue, the rbnge is not fixed.
+     * However, for the month of Jbnubry, the rbnge is blwbys 1 to 31, thus it is fixed.
      *
-     * @return true if the set of values is fixed
+     * @return true if the set of vblues is fixed
      */
-    public boolean isFixed() {
-        return minSmallest == minLargest && maxSmallest == maxLargest;
+    public boolebn isFixed() {
+        return minSmbllest == minLbrgest && mbxSmbllest == mbxLbrgest;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the minimum value that the field can take.
+     * Gets the minimum vblue thbt the field cbn tbke.
      * <p>
-     * For example, the ISO day-of-month always starts at 1.
+     * For exbmple, the ISO dby-of-month blwbys stbrts bt 1.
      * The minimum is therefore 1.
      *
-     * @return the minimum value for this field
+     * @return the minimum vblue for this field
      */
     public long getMinimum() {
-        return minSmallest;
+        return minSmbllest;
     }
 
     /**
-     * Gets the largest possible minimum value that the field can take.
+     * Gets the lbrgest possible minimum vblue thbt the field cbn tbke.
      * <p>
-     * For example, the ISO day-of-month always starts at 1.
-     * The largest minimum is therefore 1.
+     * For exbmple, the ISO dby-of-month blwbys stbrts bt 1.
+     * The lbrgest minimum is therefore 1.
      *
-     * @return the largest possible minimum value for this field
+     * @return the lbrgest possible minimum vblue for this field
      */
-    public long getLargestMinimum() {
-        return minLargest;
+    public long getLbrgestMinimum() {
+        return minLbrgest;
     }
 
     /**
-     * Gets the smallest possible maximum value that the field can take.
+     * Gets the smbllest possible mbximum vblue thbt the field cbn tbke.
      * <p>
-     * For example, the ISO day-of-month runs to between 28 and 31 days.
-     * The smallest maximum is therefore 28.
+     * For exbmple, the ISO dby-of-month runs to between 28 bnd 31 dbys.
+     * The smbllest mbximum is therefore 28.
      *
-     * @return the smallest possible maximum value for this field
+     * @return the smbllest possible mbximum vblue for this field
      */
-    public long getSmallestMaximum() {
-        return maxSmallest;
+    public long getSmbllestMbximum() {
+        return mbxSmbllest;
     }
 
     /**
-     * Gets the maximum value that the field can take.
+     * Gets the mbximum vblue thbt the field cbn tbke.
      * <p>
-     * For example, the ISO day-of-month runs to between 28 and 31 days.
-     * The maximum is therefore 31.
+     * For exbmple, the ISO dby-of-month runs to between 28 bnd 31 dbys.
+     * The mbximum is therefore 31.
      *
-     * @return the maximum value for this field
+     * @return the mbximum vblue for this field
      */
-    public long getMaximum() {
-        return maxLargest;
+    public long getMbximum() {
+        return mbxLbrgest;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if all values in the range fit in an {@code int}.
+     * Checks if bll vblues in the rbnge fit in bn {@code int}.
      * <p>
-     * This checks that all valid values are within the bounds of an {@code int}.
+     * This checks thbt bll vblid vblues bre within the bounds of bn {@code int}.
      * <p>
-     * For example, the ISO month-of-year has values from 1 to 12, which fits in an {@code int}.
-     * By comparison, ISO nano-of-day runs from 1 to 86,400,000,000,000 which does not fit in an {@code int}.
+     * For exbmple, the ISO month-of-yebr hbs vblues from 1 to 12, which fits in bn {@code int}.
+     * By compbrison, ISO nbno-of-dby runs from 1 to 86,400,000,000,000 which does not fit in bn {@code int}.
      * <p>
-     * This implementation uses {@link #getMinimum()} and {@link #getMaximum()}.
+     * This implementbtion uses {@link #getMinimum()} bnd {@link #getMbximum()}.
      *
-     * @return true if a valid value always fits in an {@code int}
+     * @return true if b vblid vblue blwbys fits in bn {@code int}
      */
-    public boolean isIntValue() {
-        return getMinimum() >= Integer.MIN_VALUE && getMaximum() <= Integer.MAX_VALUE;
+    public boolebn isIntVblue() {
+        return getMinimum() >= Integer.MIN_VALUE && getMbximum() <= Integer.MAX_VALUE;
     }
 
     /**
-     * Checks if the value is within the valid range.
+     * Checks if the vblue is within the vblid rbnge.
      * <p>
-     * This checks that the value is within the stored range of values.
+     * This checks thbt the vblue is within the stored rbnge of vblues.
      *
-     * @param value  the value to check
-     * @return true if the value is valid
+     * @pbrbm vblue  the vblue to check
+     * @return true if the vblue is vblid
      */
-    public boolean isValidValue(long value) {
-        return (value >= getMinimum() && value <= getMaximum());
+    public boolebn isVblidVblue(long vblue) {
+        return (vblue >= getMinimum() && vblue <= getMbximum());
     }
 
     /**
-     * Checks if the value is within the valid range and that all values
-     * in the range fit in an {@code int}.
+     * Checks if the vblue is within the vblid rbnge bnd thbt bll vblues
+     * in the rbnge fit in bn {@code int}.
      * <p>
-     * This method combines {@link #isIntValue()} and {@link #isValidValue(long)}.
+     * This method combines {@link #isIntVblue()} bnd {@link #isVblidVblue(long)}.
      *
-     * @param value  the value to check
-     * @return true if the value is valid and fits in an {@code int}
+     * @pbrbm vblue  the vblue to check
+     * @return true if the vblue is vblid bnd fits in bn {@code int}
      */
-    public boolean isValidIntValue(long value) {
-        return isIntValue() && isValidValue(value);
+    public boolebn isVblidIntVblue(long vblue) {
+        return isIntVblue() && isVblidVblue(vblue);
     }
 
     /**
-     * Checks that the specified value is valid.
+     * Checks thbt the specified vblue is vblid.
      * <p>
-     * This validates that the value is within the valid range of values.
-     * The field is only used to improve the error message.
+     * This vblidbtes thbt the vblue is within the vblid rbnge of vblues.
+     * The field is only used to improve the error messbge.
      *
-     * @param value  the value to check
-     * @param field  the field being checked, may be null
-     * @return the value that was passed in
-     * @see #isValidValue(long)
+     * @pbrbm vblue  the vblue to check
+     * @pbrbm field  the field being checked, mby be null
+     * @return the vblue thbt wbs pbssed in
+     * @see #isVblidVblue(long)
      */
-    public long checkValidValue(long value, TemporalField field) {
-        if (isValidValue(value) == false) {
-            throw new DateTimeException(genInvalidFieldMessage(field, value));
+    public long checkVblidVblue(long vblue, TemporblField field) {
+        if (isVblidVblue(vblue) == fblse) {
+            throw new DbteTimeException(genInvblidFieldMessbge(field, vblue));
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Checks that the specified value is valid and fits in an {@code int}.
+     * Checks thbt the specified vblue is vblid bnd fits in bn {@code int}.
      * <p>
-     * This validates that the value is within the valid range of values and that
-     * all valid values are within the bounds of an {@code int}.
-     * The field is only used to improve the error message.
+     * This vblidbtes thbt the vblue is within the vblid rbnge of vblues bnd thbt
+     * bll vblid vblues bre within the bounds of bn {@code int}.
+     * The field is only used to improve the error messbge.
      *
-     * @param value  the value to check
-     * @param field  the field being checked, may be null
-     * @return the value that was passed in
-     * @see #isValidIntValue(long)
+     * @pbrbm vblue  the vblue to check
+     * @pbrbm field  the field being checked, mby be null
+     * @return the vblue thbt wbs pbssed in
+     * @see #isVblidIntVblue(long)
      */
-    public int checkValidIntValue(long value, TemporalField field) {
-        if (isValidIntValue(value) == false) {
-            throw new DateTimeException(genInvalidFieldMessage(field, value));
+    public int checkVblidIntVblue(long vblue, TemporblField field) {
+        if (isVblidIntVblue(vblue) == fblse) {
+            throw new DbteTimeException(genInvblidFieldMessbge(field, vblue));
         }
-        return (int) value;
+        return (int) vblue;
     }
 
-    private String genInvalidFieldMessage(TemporalField field, long value) {
+    privbte String genInvblidFieldMessbge(TemporblField field, long vblue) {
         if (field != null) {
-            return "Invalid value for " + field + " (valid values " + this + "): " + value;
+            return "Invblid vblue for " + field + " (vblid vblues " + this + "): " + vblue;
         } else {
-            return "Invalid value (valid values " + this + "): " + value;
+            return "Invblid vblue (vblid vblues " + this + "): " + vblue;
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Restore the state of an ValueRange from the stream.
-     * Check that the values are valid.
+     * Restore the stbte of bn VblueRbnge from the strebm.
+     * Check thbt the vblues bre vblid.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException if
-     *     the smallest minimum is greater than the smallest maximum,
-     *  or the smallest maximum is greater than the largest maximum
-     *  or the largest minimum is greater than the largest maximum
-     * @throws ClassNotFoundException if a class cannot be resolved
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException if
+     *     the smbllest minimum is grebter thbn the smbllest mbximum,
+     *  or the smbllest mbximum is grebter thbn the lbrgest mbximum
+     *  or the lbrgest minimum is grebter thbn the lbrgest mbximum
+     * @throws ClbssNotFoundException if b clbss cbnnot be resolved
      */
-    private void readObject(ObjectInputStream s)
-         throws IOException, ClassNotFoundException, InvalidObjectException
+    privbte void rebdObject(ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException, InvblidObjectException
     {
-        s.defaultReadObject();
-        if (minSmallest > minLargest) {
-            throw new InvalidObjectException("Smallest minimum value must be less than largest minimum value");
+        s.defbultRebdObject();
+        if (minSmbllest > minLbrgest) {
+            throw new InvblidObjectException("Smbllest minimum vblue must be less thbn lbrgest minimum vblue");
         }
-        if (maxSmallest > maxLargest) {
-            throw new InvalidObjectException("Smallest maximum value must be less than largest maximum value");
+        if (mbxSmbllest > mbxLbrgest) {
+            throw new InvblidObjectException("Smbllest mbximum vblue must be less thbn lbrgest mbximum vblue");
         }
-        if (minLargest > maxLargest) {
-            throw new InvalidObjectException("Minimum value must be less than maximum value");
+        if (minLbrgest > mbxLbrgest) {
+            throw new InvblidObjectException("Minimum vblue must be less thbn mbximum vblue");
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this range is equal to another range.
+     * Checks if this rbnge is equbl to bnother rbnge.
      * <p>
-     * The comparison is based on the four values, minimum, largest minimum,
-     * smallest maximum and maximum.
-     * Only objects of type {@code ValueRange} are compared, other types return false.
+     * The compbrison is bbsed on the four vblues, minimum, lbrgest minimum,
+     * smbllest mbximum bnd mbximum.
+     * Only objects of type {@code VblueRbnge} bre compbred, other types return fblse.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other range
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other rbnge
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof ValueRange) {
-            ValueRange other = (ValueRange) obj;
-           return minSmallest == other.minSmallest && minLargest == other.minLargest &&
-                   maxSmallest == other.maxSmallest && maxLargest == other.maxLargest;
+        if (obj instbnceof VblueRbnge) {
+            VblueRbnge other = (VblueRbnge) obj;
+           return minSmbllest == other.minSmbllest && minLbrgest == other.minLbrgest &&
+                   mbxSmbllest == other.mbxSmbllest && mbxLbrgest == other.mbxLbrgest;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this range.
+     * A hbsh code for this rbnge.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    public int hashCode() {
-        long hash = minSmallest + minLargest << 16 + minLargest >> 48 + maxSmallest << 32 +
-            maxSmallest >> 32 + maxLargest << 48 + maxLargest >> 16;
-        return (int) (hash ^ (hash >>> 32));
+    public int hbshCode() {
+        long hbsh = minSmbllest + minLbrgest << 16 + minLbrgest >> 48 + mbxSmbllest << 32 +
+            mbxSmbllest >> 32 + mbxLbrgest << 48 + mbxLbrgest >> 16;
+        return (int) (hbsh ^ (hbsh >>> 32));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this range as a {@code String}.
+     * Outputs this rbnge bs b {@code String}.
      * <p>
-     * The format will be '{min}/{largestMin} - {smallestMax}/{max}',
-     * where the largestMin or smallestMax sections may be omitted, together
-     * with associated slash, if they are the same as the min or max.
+     * The formbt will be '{min}/{lbrgestMin} - {smbllestMbx}/{mbx}',
+     * where the lbrgestMin or smbllestMbx sections mby be omitted, together
+     * with bssocibted slbsh, if they bre the sbme bs the min or mbx.
      *
-     * @return a string representation of this range, not null
+     * @return b string representbtion of this rbnge, not null
      */
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append(minSmallest);
-        if (minSmallest != minLargest) {
-            buf.append('/').append(minLargest);
+        buf.bppend(minSmbllest);
+        if (minSmbllest != minLbrgest) {
+            buf.bppend('/').bppend(minLbrgest);
         }
-        buf.append(" - ").append(maxSmallest);
-        if (maxSmallest != maxLargest) {
-            buf.append('/').append(maxLargest);
+        buf.bppend(" - ").bppend(mbxSmbllest);
+        if (mbxSmbllest != mbxLbrgest) {
+            buf.bppend('/').bppend(mbxLbrgest);
         }
         return buf.toString();
     }

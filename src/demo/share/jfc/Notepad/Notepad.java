@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,165 +30,165 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.undo.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
-import javax.swing.UIManager.LookAndFeelInfo;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.util.*;
+import jbvb.util.logging.*;
+import jbvbx.swing.*;
+import jbvbx.swing.undo.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.UIMbnbger.LookAndFeelInfo;
 
 
 /**
- * Sample application using the simple text editor component that
+ * Sbmple bpplicbtion using the simple text editor component thbt
  * supports only one font.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial")
-class Notepad extends JPanel {
+@SuppressWbrnings("seribl")
+clbss Notepbd extends JPbnel {
 
-    protected static Properties properties;
-    private static ResourceBundle resources;
-    private final static String EXIT_AFTER_PAINT = "-exit";
-    private static boolean exitAfterFirstPaint;
+    protected stbtic Properties properties;
+    privbte stbtic ResourceBundle resources;
+    privbte finbl stbtic String EXIT_AFTER_PAINT = "-exit";
+    privbte stbtic boolebn exitAfterFirstPbint;
 
-    private static final String[] MENUBAR_KEYS = {"file", "edit", "debug"};
-    private static final String[] TOOLBAR_KEYS = {"new", "open", "save", "-", "cut", "copy", "paste"};
-    private static final String[] FILE_KEYS = {"new", "open", "save", "-", "exit"};
-    private static final String[] EDIT_KEYS = {"cut", "copy", "paste", "-", "undo", "redo"};
-    private static final String[] DEBUG_KEYS = {"dump", "showElementTree"};
+    privbte stbtic finbl String[] MENUBAR_KEYS = {"file", "edit", "debug"};
+    privbte stbtic finbl String[] TOOLBAR_KEYS = {"new", "open", "sbve", "-", "cut", "copy", "pbste"};
+    privbte stbtic finbl String[] FILE_KEYS = {"new", "open", "sbve", "-", "exit"};
+    privbte stbtic finbl String[] EDIT_KEYS = {"cut", "copy", "pbste", "-", "undo", "redo"};
+    privbte stbtic finbl String[] DEBUG_KEYS = {"dump", "showElementTree"};
 
-    static {
+    stbtic {
         try {
             properties = new Properties();
-            properties.load(Notepad.class.getResourceAsStream(
-                    "resources/NotepadSystem.properties"));
-            resources = ResourceBundle.getBundle("resources.Notepad",
-                    Locale.getDefault());
-        } catch (MissingResourceException | IOException  e) {
-            System.err.println("resources/Notepad.properties "
-                    + "or resources/NotepadSystem.properties not found");
+            properties.lobd(Notepbd.clbss.getResourceAsStrebm(
+                    "resources/NotepbdSystem.properties"));
+            resources = ResourceBundle.getBundle("resources.Notepbd",
+                    Locble.getDefbult());
+        } cbtch (MissingResourceException | IOException  e) {
+            System.err.println("resources/Notepbd.properties "
+                    + "or resources/NotepbdSystem.properties not found");
             System.exit(1);
         }
     }
 
     @Override
-    public void paintChildren(Graphics g) {
-        super.paintChildren(g);
-        if (exitAfterFirstPaint) {
+    public void pbintChildren(Grbphics g) {
+        super.pbintChildren(g);
+        if (exitAfterFirstPbint) {
             System.exit(0);
         }
     }
 
-    @SuppressWarnings("OverridableMethodCallInConstructor")
-    Notepad() {
+    @SuppressWbrnings("OverridbbleMethodCbllInConstructor")
+    Notepbd() {
         super(true);
 
-        // Trying to set Nimbus look and feel
+        // Trying to set Nimbus look bnd feel
         try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            for (LookAndFeelInfo info : UIMbnbger.getInstblledLookAndFeels()) {
+                if ("Nimbus".equbls(info.getNbme())) {
+                    UIMbnbger.setLookAndFeel(info.getClbssNbme());
+                    brebk;
                 }
             }
-        } catch (Exception ignored) {
+        } cbtch (Exception ignored) {
         }
 
-        setBorder(BorderFactory.createEtchedBorder());
-        setLayout(new BorderLayout());
+        setBorder(BorderFbctory.crebteEtchedBorder());
+        setLbyout(new BorderLbyout());
 
-        // create the embedded JTextComponent
-        editor = createEditor();
-        // Add this as a listener for undoable edits.
-        editor.getDocument().addUndoableEditListener(undoHandler);
+        // crebte the embedded JTextComponent
+        editor = crebteEditor();
+        // Add this bs b listener for undobble edits.
+        editor.getDocument().bddUndobbleEditListener(undoHbndler);
 
-        // install the command table
-        commands = new HashMap<Object, Action>();
-        Action[] actions = getActions();
-        for (Action a : actions) {
-            commands.put(a.getValue(Action.NAME), a);
+        // instbll the commbnd tbble
+        commbnds = new HbshMbp<Object, Action>();
+        Action[] bctions = getActions();
+        for (Action b : bctions) {
+            commbnds.put(b.getVblue(Action.NAME), b);
         }
 
-        JScrollPane scroller = new JScrollPane();
+        JScrollPbne scroller = new JScrollPbne();
         JViewport port = scroller.getViewport();
-        port.add(editor);
+        port.bdd(editor);
 
-        String vpFlag = getProperty("ViewportBackingStore");
-        if (vpFlag != null) {
-            Boolean bs = Boolean.valueOf(vpFlag);
+        String vpFlbg = getProperty("ViewportBbckingStore");
+        if (vpFlbg != null) {
+            Boolebn bs = Boolebn.vblueOf(vpFlbg);
             port.setScrollMode(bs
                     ? JViewport.BACKINGSTORE_SCROLL_MODE
                     : JViewport.BLIT_SCROLL_MODE);
         }
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.add("North", createToolbar());
-        panel.add("Center", scroller);
-        add("Center", panel);
-        add("South", createStatusbar());
+        JPbnel pbnel = new JPbnel();
+        pbnel.setLbyout(new BorderLbyout());
+        pbnel.bdd("North", crebteToolbbr());
+        pbnel.bdd("Center", scroller);
+        bdd("Center", pbnel);
+        bdd("South", crebteStbtusbbr());
     }
 
-    public static void main(String[] args) throws Exception {
-        if (args.length > 0 && args[0].equals(EXIT_AFTER_PAINT)) {
-            exitAfterFirstPaint = true;
+    public stbtic void mbin(String[] brgs) throws Exception {
+        if (brgs.length > 0 && brgs[0].equbls(EXIT_AFTER_PAINT)) {
+            exitAfterFirstPbint = true;
         }
-        SwingUtilities.invokeAndWait(new Runnable() {
+        SwingUtilities.invokeAndWbit(new Runnbble() {
 
             public void run() {
-                JFrame frame = new JFrame();
-                frame.setTitle(resources.getString("Title"));
-                frame.setBackground(Color.lightGray);
-                frame.getContentPane().setLayout(new BorderLayout());
-                Notepad notepad = new Notepad();
-                frame.getContentPane().add("Center", notepad);
-                frame.setJMenuBar(notepad.createMenubar());
-                frame.addWindowListener(new AppCloser());
-                frame.pack();
-                frame.setSize(500, 600);
-                frame.setVisible(true);
+                JFrbme frbme = new JFrbme();
+                frbme.setTitle(resources.getString("Title"));
+                frbme.setBbckground(Color.lightGrby);
+                frbme.getContentPbne().setLbyout(new BorderLbyout());
+                Notepbd notepbd = new Notepbd();
+                frbme.getContentPbne().bdd("Center", notepbd);
+                frbme.setJMenuBbr(notepbd.crebteMenubbr());
+                frbme.bddWindowListener(new AppCloser());
+                frbme.pbck();
+                frbme.setSize(500, 600);
+                frbme.setVisible(true);
             }
         });
     }
 
     /**
-     * Fetch the list of actions supported by this
+     * Fetch the list of bctions supported by this
      * editor.  It is implemented to return the list
-     * of actions supported by the embedded JTextComponent
-     * augmented with the actions defined locally.
+     * of bctions supported by the embedded JTextComponent
+     * bugmented with the bctions defined locblly.
      */
     public Action[] getActions() {
-        return TextAction.augmentList(editor.getActions(), defaultActions);
+        return TextAction.bugmentList(editor.getActions(), defbultActions);
     }
 
     /**
-     * Create an editor to represent the given document.
+     * Crebte bn editor to represent the given document.
      */
-    protected JTextComponent createEditor() {
-        JTextComponent c = new JTextArea();
-        c.setDragEnabled(true);
-        c.setFont(new Font("monospaced", Font.PLAIN, 12));
+    protected JTextComponent crebteEditor() {
+        JTextComponent c = new JTextAreb();
+        c.setDrbgEnbbled(true);
+        c.setFont(new Font("monospbced", Font.PLAIN, 12));
         return c;
     }
 
     /**
-     * Fetch the editor contained in this panel
+     * Fetch the editor contbined in this pbnel
      */
     protected JTextComponent getEditor() {
         return editor;
@@ -196,12 +196,12 @@ class Notepad extends JPanel {
 
 
     /**
-     * To shutdown when run as an application.  This is a
-     * fairly lame implementation.   A more self-respecting
-     * implementation would at least check to see if a save
-     * was needed.
+     * To shutdown when run bs bn bpplicbtion.  This is b
+     * fbirly lbme implementbtion.   A more self-respecting
+     * implementbtion would bt lebst check to see if b sbve
+     * wbs needed.
      */
-    protected static final class AppCloser extends WindowAdapter {
+    protected stbtic finbl clbss AppCloser extends WindowAdbpter {
 
         @Override
         public void windowClosing(WindowEvent e) {
@@ -210,46 +210,46 @@ class Notepad extends JPanel {
     }
 
     /**
-     * Find the hosting frame, for the file-chooser dialog.
+     * Find the hosting frbme, for the file-chooser diblog.
      */
-    protected Frame getFrame() {
-        for (Container p = getParent(); p != null; p = p.getParent()) {
-            if (p instanceof Frame) {
-                return (Frame) p;
+    protected Frbme getFrbme() {
+        for (Contbiner p = getPbrent(); p != null; p = p.getPbrent()) {
+            if (p instbnceof Frbme) {
+                return (Frbme) p;
             }
         }
         return null;
     }
 
     /**
-     * This is the hook through which all menu items are
-     * created.
+     * This is the hook through which bll menu items bre
+     * crebted.
      */
-    protected JMenuItem createMenuItem(String cmd) {
-        JMenuItem mi = new JMenuItem(getResourceString(cmd + labelSuffix));
-        URL url = getResource(cmd + imageSuffix);
+    protected JMenuItem crebteMenuItem(String cmd) {
+        JMenuItem mi = new JMenuItem(getResourceString(cmd + lbbelSuffix));
+        URL url = getResource(cmd + imbgeSuffix);
         if (url != null) {
-            mi.setHorizontalTextPosition(JButton.RIGHT);
-            mi.setIcon(new ImageIcon(url));
+            mi.setHorizontblTextPosition(JButton.RIGHT);
+            mi.setIcon(new ImbgeIcon(url));
         }
-        String astr = getProperty(cmd + actionSuffix);
-        if (astr == null) {
-            astr = cmd;
+        String bstr = getProperty(cmd + bctionSuffix);
+        if (bstr == null) {
+            bstr = cmd;
         }
-        mi.setActionCommand(astr);
-        Action a = getAction(astr);
-        if (a != null) {
-            mi.addActionListener(a);
-            a.addPropertyChangeListener(createActionChangeListener(mi));
-            mi.setEnabled(a.isEnabled());
+        mi.setActionCommbnd(bstr);
+        Action b = getAction(bstr);
+        if (b != null) {
+            mi.bddActionListener(b);
+            b.bddPropertyChbngeListener(crebteActionChbngeListener(mi));
+            mi.setEnbbled(b.isEnbbled());
         } else {
-            mi.setEnabled(false);
+            mi.setEnbbled(fblse);
         }
         return mi;
     }
 
     protected Action getAction(String cmd) {
-        return commands.get(cmd);
+        return commbnds.get(cmd);
     }
 
     protected String getProperty(String key) {
@@ -260,93 +260,93 @@ class Notepad extends JPanel {
         String str;
         try {
             str = resources.getString(nm);
-        } catch (MissingResourceException mre) {
+        } cbtch (MissingResourceException mre) {
             str = null;
         }
         return str;
     }
 
     protected URL getResource(String key) {
-        String name = getResourceString(key);
-        if (name != null) {
-            return this.getClass().getResource(name);
+        String nbme = getResourceString(key);
+        if (nbme != null) {
+            return this.getClbss().getResource(nbme);
         }
         return null;
     }
 
     /**
-     * Create a status bar
+     * Crebte b stbtus bbr
      */
-    protected Component createStatusbar() {
-        // need to do something reasonable here
-        status = new StatusBar();
-        return status;
+    protected Component crebteStbtusbbr() {
+        // need to do something rebsonbble here
+        stbtus = new StbtusBbr();
+        return stbtus;
     }
 
     /**
-     * Resets the undo manager.
+     * Resets the undo mbnbger.
      */
-    protected void resetUndoManager() {
-        undo.discardAllEdits();
-        undoAction.update();
-        redoAction.update();
+    protected void resetUndoMbnbger() {
+        undo.discbrdAllEdits();
+        undoAction.updbte();
+        redoAction.updbte();
     }
 
     /**
-     * Create the toolbar.  By default this reads the
-     * resource file for the definition of the toolbar.
+     * Crebte the toolbbr.  By defbult this rebds the
+     * resource file for the definition of the toolbbr.
      */
-    private Component createToolbar() {
-        toolbar = new JToolBar();
-        for (String toolKey: getToolBarKeys()) {
-            if (toolKey.equals("-")) {
-                toolbar.add(Box.createHorizontalStrut(5));
+    privbte Component crebteToolbbr() {
+        toolbbr = new JToolBbr();
+        for (String toolKey: getToolBbrKeys()) {
+            if (toolKey.equbls("-")) {
+                toolbbr.bdd(Box.crebteHorizontblStrut(5));
             } else {
-                toolbar.add(createTool(toolKey));
+                toolbbr.bdd(crebteTool(toolKey));
             }
         }
-        toolbar.add(Box.createHorizontalGlue());
-        return toolbar;
+        toolbbr.bdd(Box.crebteHorizontblGlue());
+        return toolbbr;
     }
 
     /**
-     * Hook through which every toolbar item is created.
+     * Hook through which every toolbbr item is crebted.
      */
-    protected Component createTool(String key) {
-        return createToolbarButton(key);
+    protected Component crebteTool(String key) {
+        return crebteToolbbrButton(key);
     }
 
     /**
-     * Create a button to go inside of the toolbar.  By default this
-     * will load an image resource.  The image filename is relative to
-     * the classpath (including the '.' directory if its a part of the
-     * classpath), and may either be in a JAR file or a separate file.
+     * Crebte b button to go inside of the toolbbr.  By defbult this
+     * will lobd bn imbge resource.  The imbge filenbme is relbtive to
+     * the clbsspbth (including the '.' directory if its b pbrt of the
+     * clbsspbth), bnd mby either be in b JAR file or b sepbrbte file.
      *
-     * @param key The key in the resource file to serve as the basis
+     * @pbrbm key The key in the resource file to serve bs the bbsis
      *  of lookups.
      */
-    protected JButton createToolbarButton(String key) {
-        URL url = getResource(key + imageSuffix);
-        JButton b = new JButton(new ImageIcon(url)) {
+    protected JButton crebteToolbbrButton(String key) {
+        URL url = getResource(key + imbgeSuffix);
+        JButton b = new JButton(new ImbgeIcon(url)) {
 
             @Override
-            public float getAlignmentY() {
+            public flobt getAlignmentY() {
                 return 0.5f;
             }
         };
-        b.setRequestFocusEnabled(false);
-        b.setMargin(new Insets(1, 1, 1, 1));
+        b.setRequestFocusEnbbled(fblse);
+        b.setMbrgin(new Insets(1, 1, 1, 1));
 
-        String astr = getProperty(key + actionSuffix);
-        if (astr == null) {
-            astr = key;
+        String bstr = getProperty(key + bctionSuffix);
+        if (bstr == null) {
+            bstr = key;
         }
-        Action a = getAction(astr);
-        if (a != null) {
-            b.setActionCommand(astr);
-            b.addActionListener(a);
+        Action b = getAction(bstr);
+        if (b != null) {
+            b.setActionCommbnd(bstr);
+            b.bddActionListener(b);
         } else {
-            b.setEnabled(false);
+            b.setEnbbled(fblse);
         }
 
         String tip = getResourceString(key + tipSuffix);
@@ -358,32 +358,32 @@ class Notepad extends JPanel {
     }
 
     /**
-     * Create the menubar for the app.  By default this pulls the
-     * definition of the menu from the associated resource file.
+     * Crebte the menubbr for the bpp.  By defbult this pulls the
+     * definition of the menu from the bssocibted resource file.
      */
-    protected JMenuBar createMenubar() {
-        JMenuBar mb = new JMenuBar();
-        for(String menuKey: getMenuBarKeys()){
-            JMenu m = createMenu(menuKey);
+    protected JMenuBbr crebteMenubbr() {
+        JMenuBbr mb = new JMenuBbr();
+        for(String menuKey: getMenuBbrKeys()){
+            JMenu m = crebteMenu(menuKey);
             if (m != null) {
-                mb.add(m);
+                mb.bdd(m);
             }
         }
         return mb;
     }
 
     /**
-     * Create a menu for the app.  By default this pulls the
-     * definition of the menu from the associated resource file.
+     * Crebte b menu for the bpp.  By defbult this pulls the
+     * definition of the menu from the bssocibted resource file.
      */
-    protected JMenu createMenu(String key) {
-        JMenu menu = new JMenu(getResourceString(key + labelSuffix));
+    protected JMenu crebteMenu(String key) {
+        JMenu menu = new JMenu(getResourceString(key + lbbelSuffix));
         for (String itemKey: getItemKeys(key)) {
-            if (itemKey.equals("-")) {
-                menu.addSeparator();
+            if (itemKey.equbls("-")) {
+                menu.bddSepbrbtor();
             } else {
-                JMenuItem mi = createMenuItem(itemKey);
-                menu.add(mi);
+                JMenuItem mi = crebteMenuItem(itemKey);
+                menu.bdd(mi);
             }
         }
         return menu;
@@ -394,102 +394,102 @@ class Notepad extends JPanel {
      */
     protected String[] getItemKeys(String key) {
         switch (key) {
-            case "file":
+            cbse "file":
                 return FILE_KEYS;
-            case "edit":
+            cbse "edit":
                 return EDIT_KEYS;
-            case "debug":
+            cbse "debug":
                 return DEBUG_KEYS;
-            default:
+            defbult:
                 return null;
         }
     }
 
-    protected String[] getMenuBarKeys() {
+    protected String[] getMenuBbrKeys() {
         return MENUBAR_KEYS;
     }
 
-    protected String[] getToolBarKeys() {
+    protected String[] getToolBbrKeys() {
         return TOOLBAR_KEYS;
     }
 
-    // Yarked from JMenu, ideally this would be public.
-    protected PropertyChangeListener createActionChangeListener(JMenuItem b) {
-        return new ActionChangedListener(b);
+    // Ybrked from JMenu, ideblly this would be public.
+    protected PropertyChbngeListener crebteActionChbngeListener(JMenuItem b) {
+        return new ActionChbngedListener(b);
     }
 
-    // Yarked from JMenu, ideally this would be public.
+    // Ybrked from JMenu, ideblly this would be public.
 
-    private class ActionChangedListener implements PropertyChangeListener {
+    privbte clbss ActionChbngedListener implements PropertyChbngeListener {
 
         JMenuItem menuItem;
 
-        ActionChangedListener(JMenuItem mi) {
+        ActionChbngedListener(JMenuItem mi) {
             super();
             this.menuItem = mi;
         }
 
-        public void propertyChange(PropertyChangeEvent e) {
-            String propertyName = e.getPropertyName();
-            if (e.getPropertyName().equals(Action.NAME)) {
-                String text = (String) e.getNewValue();
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String propertyNbme = e.getPropertyNbme();
+            if (e.getPropertyNbme().equbls(Action.NAME)) {
+                String text = (String) e.getNewVblue();
                 menuItem.setText(text);
-            } else if (propertyName.equals("enabled")) {
-                Boolean enabledState = (Boolean) e.getNewValue();
-                menuItem.setEnabled(enabledState.booleanValue());
+            } else if (propertyNbme.equbls("enbbled")) {
+                Boolebn enbbledStbte = (Boolebn) e.getNewVblue();
+                menuItem.setEnbbled(enbbledStbte.boolebnVblue());
             }
         }
     }
-    private JTextComponent editor;
-    private Map<Object, Action> commands;
-    private JToolBar toolbar;
-    private JComponent status;
-    private JFrame elementTreeFrame;
-    protected ElementTreePanel elementTreePanel;
+    privbte JTextComponent editor;
+    privbte Mbp<Object, Action> commbnds;
+    privbte JToolBbr toolbbr;
+    privbte JComponent stbtus;
+    privbte JFrbme elementTreeFrbme;
+    protected ElementTreePbnel elementTreePbnel;
 
     /**
      * Listener for the edits on the current document.
      */
-    protected UndoableEditListener undoHandler = new UndoHandler();
-    /** UndoManager that we add edits to. */
-    protected UndoManager undo = new UndoManager();
+    protected UndobbleEditListener undoHbndler = new UndoHbndler();
+    /** UndoMbnbger thbt we bdd edits to. */
+    protected UndoMbnbger undo = new UndoMbnbger();
     /**
-     * Suffix applied to the key used in resource file
-     * lookups for an image.
+     * Suffix bpplied to the key used in resource file
+     * lookups for bn imbge.
      */
-    public static final String imageSuffix = "Image";
+    public stbtic finbl String imbgeSuffix = "Imbge";
     /**
-     * Suffix applied to the key used in resource file
-     * lookups for a label.
+     * Suffix bpplied to the key used in resource file
+     * lookups for b lbbel.
      */
-    public static final String labelSuffix = "Label";
+    public stbtic finbl String lbbelSuffix = "Lbbel";
     /**
-     * Suffix applied to the key used in resource file
-     * lookups for an action.
+     * Suffix bpplied to the key used in resource file
+     * lookups for bn bction.
      */
-    public static final String actionSuffix = "Action";
+    public stbtic finbl String bctionSuffix = "Action";
     /**
-     * Suffix applied to the key used in resource file
+     * Suffix bpplied to the key used in resource file
      * lookups for tooltip text.
      */
-    public static final String tipSuffix = "Tooltip";
-    public static final String openAction = "open";
-    public static final String newAction = "new";
-    public static final String saveAction = "save";
-    public static final String exitAction = "exit";
-    public static final String showElementTreeAction = "showElementTree";
+    public stbtic finbl String tipSuffix = "Tooltip";
+    public stbtic finbl String openAction = "open";
+    public stbtic finbl String newAction = "new";
+    public stbtic finbl String sbveAction = "sbve";
+    public stbtic finbl String exitAction = "exit";
+    public stbtic finbl String showElementTreeAction = "showElementTree";
 
 
-    class UndoHandler implements UndoableEditListener {
+    clbss UndoHbndler implements UndobbleEditListener {
 
         /**
-         * Messaged when the Document has created an edit, the edit is
-         * added to <code>undo</code>, an instance of UndoManager.
+         * Messbged when the Document hbs crebted bn edit, the edit is
+         * bdded to <code>undo</code>, bn instbnce of UndoMbnbger.
          */
-        public void undoableEditHappened(UndoableEditEvent e) {
-            undo.addEdit(e.getEdit());
-            undoAction.update();
-            redoAction.update();
+        public void undobbleEditHbppened(UndobbleEditEvent e) {
+            undo.bddEdit(e.getEdit());
+            undoAction.updbte();
+            redoAction.updbte();
         }
     }
 
@@ -497,28 +497,28 @@ class Notepad extends JPanel {
     /**
      * FIXME - I'm not very useful yet
      */
-    class StatusBar extends JComponent {
+    clbss StbtusBbr extends JComponent {
 
-        public StatusBar() {
+        public StbtusBbr() {
             super();
-            setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+            setLbyout(new BoxLbyout(this, BoxLbyout.X_AXIS));
         }
 
         @Override
-        public void paint(Graphics g) {
-            super.paint(g);
+        public void pbint(Grbphics g) {
+            super.pbint(g);
         }
     }
-    // --- action implementations -----------------------------------
-    private UndoAction undoAction = new UndoAction();
-    private RedoAction redoAction = new RedoAction();
+    // --- bction implementbtions -----------------------------------
+    privbte UndoAction undoAction = new UndoAction();
+    privbte RedoAction redoAction = new RedoAction();
     /**
-     * Actions defined by the Notepad class
+     * Actions defined by the Notepbd clbss
      */
-    private Action[] defaultActions = {
+    privbte Action[] defbultActions = {
         new NewAction(),
         new OpenAction(),
-        new SaveAction(),
+        new SbveAction(),
         new ExitAction(),
         new ShowElementTreeAction(),
         undoAction,
@@ -526,129 +526,129 @@ class Notepad extends JPanel {
     };
 
 
-    class UndoAction extends AbstractAction {
+    clbss UndoAction extends AbstrbctAction {
 
         public UndoAction() {
             super("Undo");
-            setEnabled(false);
+            setEnbbled(fblse);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             try {
                 undo.undo();
-            } catch (CannotUndoException ex) {
-                Logger.getLogger(UndoAction.class.getName()).log(Level.SEVERE,
-                        "Unable to undo", ex);
+            } cbtch (CbnnotUndoException ex) {
+                Logger.getLogger(UndoAction.clbss.getNbme()).log(Level.SEVERE,
+                        "Unbble to undo", ex);
             }
-            update();
-            redoAction.update();
+            updbte();
+            redoAction.updbte();
         }
 
-        protected void update() {
-            if (undo.canUndo()) {
-                setEnabled(true);
-                putValue(Action.NAME, undo.getUndoPresentationName());
+        protected void updbte() {
+            if (undo.cbnUndo()) {
+                setEnbbled(true);
+                putVblue(Action.NAME, undo.getUndoPresentbtionNbme());
             } else {
-                setEnabled(false);
-                putValue(Action.NAME, "Undo");
+                setEnbbled(fblse);
+                putVblue(Action.NAME, "Undo");
             }
         }
     }
 
 
-    class RedoAction extends AbstractAction {
+    clbss RedoAction extends AbstrbctAction {
 
         public RedoAction() {
             super("Redo");
-            setEnabled(false);
+            setEnbbled(fblse);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             try {
                 undo.redo();
-            } catch (CannotRedoException ex) {
-                Logger.getLogger(RedoAction.class.getName()).log(Level.SEVERE,
-                        "Unable to redo", ex);
+            } cbtch (CbnnotRedoException ex) {
+                Logger.getLogger(RedoAction.clbss.getNbme()).log(Level.SEVERE,
+                        "Unbble to redo", ex);
             }
-            update();
-            undoAction.update();
+            updbte();
+            undoAction.updbte();
         }
 
-        protected void update() {
-            if (undo.canRedo()) {
-                setEnabled(true);
-                putValue(Action.NAME, undo.getRedoPresentationName());
+        protected void updbte() {
+            if (undo.cbnRedo()) {
+                setEnbbled(true);
+                putVblue(Action.NAME, undo.getRedoPresentbtionNbme());
             } else {
-                setEnabled(false);
-                putValue(Action.NAME, "Redo");
+                setEnbbled(fblse);
+                putVblue(Action.NAME, "Redo");
             }
         }
     }
 
 
-    class OpenAction extends NewAction {
+    clbss OpenAction extends NewAction {
 
         OpenAction() {
             super(openAction);
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
-            Frame frame = getFrame();
+        public void bctionPerformed(ActionEvent e) {
+            Frbme frbme = getFrbme();
             JFileChooser chooser = new JFileChooser();
-            int ret = chooser.showOpenDialog(frame);
+            int ret = chooser.showOpenDiblog(frbme);
 
             if (ret != JFileChooser.APPROVE_OPTION) {
                 return;
             }
 
             File f = chooser.getSelectedFile();
-            if (f.isFile() && f.canRead()) {
+            if (f.isFile() && f.cbnRebd()) {
                 Document oldDoc = getEditor().getDocument();
                 if (oldDoc != null) {
-                    oldDoc.removeUndoableEditListener(undoHandler);
+                    oldDoc.removeUndobbleEditListener(undoHbndler);
                 }
-                if (elementTreePanel != null) {
-                    elementTreePanel.setEditor(null);
+                if (elementTreePbnel != null) {
+                    elementTreePbnel.setEditor(null);
                 }
-                getEditor().setDocument(new PlainDocument());
-                frame.setTitle(f.getName());
-                Thread loader = new FileLoader(f, editor.getDocument());
-                loader.start();
+                getEditor().setDocument(new PlbinDocument());
+                frbme.setTitle(f.getNbme());
+                Threbd lobder = new FileLobder(f, editor.getDocument());
+                lobder.stbrt();
             } else {
-                JOptionPane.showMessageDialog(getFrame(),
+                JOptionPbne.showMessbgeDiblog(getFrbme(),
                         "Could not open file: " + f,
                         "Error opening file",
-                        JOptionPane.ERROR_MESSAGE);
+                        JOptionPbne.ERROR_MESSAGE);
             }
         }
     }
 
 
-    class SaveAction extends AbstractAction {
+    clbss SbveAction extends AbstrbctAction {
 
-        SaveAction() {
-            super(saveAction);
+        SbveAction() {
+            super(sbveAction);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            Frame frame = getFrame();
+        public void bctionPerformed(ActionEvent e) {
+            Frbme frbme = getFrbme();
             JFileChooser chooser = new JFileChooser();
-            int ret = chooser.showSaveDialog(frame);
+            int ret = chooser.showSbveDiblog(frbme);
 
             if (ret != JFileChooser.APPROVE_OPTION) {
                 return;
             }
 
             File f = chooser.getSelectedFile();
-            frame.setTitle(f.getName());
-            Thread saver = new FileSaver(f, editor.getDocument());
-            saver.start();
+            frbme.setTitle(f.getNbme());
+            Threbd sbver = new FileSbver(f, editor.getDocument());
+            sbver.stbrt();
         }
     }
 
 
-    class NewAction extends AbstractAction {
+    clbss NewAction extends AbstrbctAction {
 
         NewAction() {
             super(newAction);
@@ -658,81 +658,81 @@ class Notepad extends JPanel {
             super(nm);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             Document oldDoc = getEditor().getDocument();
             if (oldDoc != null) {
-                oldDoc.removeUndoableEditListener(undoHandler);
+                oldDoc.removeUndobbleEditListener(undoHbndler);
             }
-            getEditor().setDocument(new PlainDocument());
-            getEditor().getDocument().addUndoableEditListener(undoHandler);
-            resetUndoManager();
-            getFrame().setTitle(resources.getString("Title"));
-            revalidate();
+            getEditor().setDocument(new PlbinDocument());
+            getEditor().getDocument().bddUndobbleEditListener(undoHbndler);
+            resetUndoMbnbger();
+            getFrbme().setTitle(resources.getString("Title"));
+            revblidbte();
         }
     }
 
 
     /**
-     * Really lame implementation of an exit command
+     * Reblly lbme implementbtion of bn exit commbnd
      */
-    class ExitAction extends AbstractAction {
+    clbss ExitAction extends AbstrbctAction {
 
         ExitAction() {
             super(exitAction);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             System.exit(0);
         }
     }
 
 
     /**
-     * Action that brings up a JFrame with a JTree showing the structure
+     * Action thbt brings up b JFrbme with b JTree showing the structure
      * of the document.
      */
-    class ShowElementTreeAction extends AbstractAction {
+    clbss ShowElementTreeAction extends AbstrbctAction {
 
         ShowElementTreeAction() {
             super(showElementTreeAction);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            if (elementTreeFrame == null) {
-                // Create a frame containing an instance of
-                // ElementTreePanel.
+        public void bctionPerformed(ActionEvent e) {
+            if (elementTreeFrbme == null) {
+                // Crebte b frbme contbining bn instbnce of
+                // ElementTreePbnel.
                 try {
-                    String title = resources.getString("ElementTreeFrameTitle");
-                    elementTreeFrame = new JFrame(title);
-                } catch (MissingResourceException mre) {
-                    elementTreeFrame = new JFrame();
+                    String title = resources.getString("ElementTreeFrbmeTitle");
+                    elementTreeFrbme = new JFrbme(title);
+                } cbtch (MissingResourceException mre) {
+                    elementTreeFrbme = new JFrbme();
                 }
 
-                elementTreeFrame.addWindowListener(new WindowAdapter() {
+                elementTreeFrbme.bddWindowListener(new WindowAdbpter() {
 
                     @Override
                     public void windowClosing(WindowEvent weeee) {
-                        elementTreeFrame.setVisible(false);
+                        elementTreeFrbme.setVisible(fblse);
                     }
                 });
-                Container fContentPane = elementTreeFrame.getContentPane();
+                Contbiner fContentPbne = elementTreeFrbme.getContentPbne();
 
-                fContentPane.setLayout(new BorderLayout());
-                elementTreePanel = new ElementTreePanel(getEditor());
-                fContentPane.add(elementTreePanel);
-                elementTreeFrame.pack();
+                fContentPbne.setLbyout(new BorderLbyout());
+                elementTreePbnel = new ElementTreePbnel(getEditor());
+                fContentPbne.bdd(elementTreePbnel);
+                elementTreeFrbme.pbck();
             }
-            elementTreeFrame.setVisible(true);
+            elementTreeFrbme.setVisible(true);
         }
     }
 
 
     /**
-     * Thread to load a file into the text storage model
+     * Threbd to lobd b file into the text storbge model
      */
-    class FileLoader extends Thread {
+    clbss FileLobder extends Threbd {
 
-        FileLoader(File f, Document doc) {
+        FileLobder(File f, Document doc) {
             setPriority(4);
             this.f = f;
             this.doc = doc;
@@ -741,49 +741,49 @@ class Notepad extends JPanel {
         @Override
         public void run() {
             try {
-                // initialize the statusbar
-                status.removeAll();
-                JProgressBar progress = new JProgressBar();
+                // initiblize the stbtusbbr
+                stbtus.removeAll();
+                JProgressBbr progress = new JProgressBbr();
                 progress.setMinimum(0);
-                progress.setMaximum((int) f.length());
-                status.add(progress);
-                status.revalidate();
+                progress.setMbximum((int) f.length());
+                stbtus.bdd(progress);
+                stbtus.revblidbte();
 
-                // try to start reading
-                Reader in = new FileReader(f);
-                char[] buff = new char[4096];
+                // try to stbrt rebding
+                Rebder in = new FileRebder(f);
+                chbr[] buff = new chbr[4096];
                 int nch;
-                while ((nch = in.read(buff, 0, buff.length)) != -1) {
+                while ((nch = in.rebd(buff, 0, buff.length)) != -1) {
                     doc.insertString(doc.getLength(), new String(buff, 0, nch),
                             null);
-                    progress.setValue(progress.getValue() + nch);
+                    progress.setVblue(progress.getVblue() + nch);
                 }
-            } catch (IOException e) {
-                final String msg = e.getMessage();
-                SwingUtilities.invokeLater(new Runnable() {
+            } cbtch (IOException e) {
+                finbl String msg = e.getMessbge();
+                SwingUtilities.invokeLbter(new Runnbble() {
 
                     public void run() {
-                        JOptionPane.showMessageDialog(getFrame(),
+                        JOptionPbne.showMessbgeDiblog(getFrbme(),
                                 "Could not open file: " + msg,
                                 "Error opening file",
-                                JOptionPane.ERROR_MESSAGE);
+                                JOptionPbne.ERROR_MESSAGE);
                     }
                 });
-            } catch (BadLocationException e) {
-                System.err.println(e.getMessage());
+            } cbtch (BbdLocbtionException e) {
+                System.err.println(e.getMessbge());
             }
-            doc.addUndoableEditListener(undoHandler);
-            // we are done... get rid of progressbar
-            status.removeAll();
-            status.revalidate();
+            doc.bddUndobbleEditListener(undoHbndler);
+            // we bre done... get rid of progressbbr
+            stbtus.removeAll();
+            stbtus.revblidbte();
 
-            resetUndoManager();
+            resetUndoMbnbger();
 
-            if (elementTreePanel != null) {
-                SwingUtilities.invokeLater(new Runnable() {
+            if (elementTreePbnel != null) {
+                SwingUtilities.invokeLbter(new Runnbble() {
 
                     public void run() {
-                        elementTreePanel.setEditor(getEditor());
+                        elementTreePbnel.setEditor(getEditor());
                     }
                 });
             }
@@ -794,70 +794,70 @@ class Notepad extends JPanel {
 
 
     /**
-     * Thread to save a document to file
+     * Threbd to sbve b document to file
      */
-    class FileSaver extends Thread {
+    clbss FileSbver extends Threbd {
 
         Document doc;
         File f;
 
-        FileSaver(File f, Document doc) {
+        FileSbver(File f, Document doc) {
             setPriority(4);
             this.f = f;
             this.doc = doc;
         }
 
         @Override
-        @SuppressWarnings("SleepWhileHoldingLock")
+        @SuppressWbrnings("SleepWhileHoldingLock")
         public void run() {
             try {
-                // initialize the statusbar
-                status.removeAll();
-                JProgressBar progress = new JProgressBar();
+                // initiblize the stbtusbbr
+                stbtus.removeAll();
+                JProgressBbr progress = new JProgressBbr();
                 progress.setMinimum(0);
-                progress.setMaximum(doc.getLength());
-                status.add(progress);
-                status.revalidate();
+                progress.setMbximum(doc.getLength());
+                stbtus.bdd(progress);
+                stbtus.revblidbte();
 
-                // start writing
+                // stbrt writing
                 Writer out = new FileWriter(f);
                 Segment text = new Segment();
-                text.setPartialReturn(true);
-                int charsLeft = doc.getLength();
+                text.setPbrtiblReturn(true);
+                int chbrsLeft = doc.getLength();
                 int offset = 0;
-                while (charsLeft > 0) {
-                    doc.getText(offset, Math.min(4096, charsLeft), text);
-                    out.write(text.array, text.offset, text.count);
-                    charsLeft -= text.count;
+                while (chbrsLeft > 0) {
+                    doc.getText(offset, Mbth.min(4096, chbrsLeft), text);
+                    out.write(text.brrby, text.offset, text.count);
+                    chbrsLeft -= text.count;
                     offset += text.count;
-                    progress.setValue(offset);
+                    progress.setVblue(offset);
                     try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        Logger.getLogger(FileSaver.class.getName()).log(
+                        Threbd.sleep(10);
+                    } cbtch (InterruptedException e) {
+                        Logger.getLogger(FileSbver.clbss.getNbme()).log(
                                 Level.SEVERE,
                                 null, e);
                     }
                 }
                 out.flush();
                 out.close();
-            } catch (IOException e) {
-                final String msg = e.getMessage();
-                SwingUtilities.invokeLater(new Runnable() {
+            } cbtch (IOException e) {
+                finbl String msg = e.getMessbge();
+                SwingUtilities.invokeLbter(new Runnbble() {
 
                     public void run() {
-                        JOptionPane.showMessageDialog(getFrame(),
-                                "Could not save file: " + msg,
-                                "Error saving file",
-                                JOptionPane.ERROR_MESSAGE);
+                        JOptionPbne.showMessbgeDiblog(getFrbme(),
+                                "Could not sbve file: " + msg,
+                                "Error sbving file",
+                                JOptionPbne.ERROR_MESSAGE);
                     }
                 });
-            } catch (BadLocationException e) {
-                System.err.println(e.getMessage());
+            } cbtch (BbdLocbtionException e) {
+                System.err.println(e.getMessbge());
             }
-            // we are done... get rid of progressbar
-            status.removeAll();
-            status.revalidate();
+            // we bre done... get rid of progressbbr
+            stbtus.removeAll();
+            stbtus.revblidbte();
         }
     }
 }

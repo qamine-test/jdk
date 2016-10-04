@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* ********************************************************************
  **********************************************************************
  **********************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997                      ***
- *** As  an unpublished  work pursuant to Title 17 of the United    ***
- *** States Code.  All rights reserved.                             ***
+ *** COPYRIGHT (c) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublished  work pursubnt to Title 17 of the United    ***
+ *** Stbtes Code.  All rights reserved.                             ***
  **********************************************************************
  **********************************************************************
  **********************************************************************/
 
-package java.awt.image.renderable;
-import java.util.*;
-import java.awt.geom.*;
-import java.awt.*;
-import java.awt.image.*;
+pbckbge jbvb.bwt.imbge.renderbble;
+import jbvb.util.*;
+import jbvb.bwt.geom.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
 
 /**
- * A RenderContext encapsulates the information needed to produce a
- * specific rendering from a RenderableImage.  It contains the area to
+ * A RenderContext encbpsulbtes the informbtion needed to produce b
+ * specific rendering from b RenderbbleImbge.  It contbins the breb to
  * be rendered specified in rendering-independent terms, the
- * resolution at which the rendering is to be performed, and hints
+ * resolution bt which the rendering is to be performed, bnd hints
  * used to control the rendering process.
  *
- * <p> Users create RenderContexts and pass them to the
- * RenderableImage via the createRendering method.  Most of the methods of
- * RenderContexts are not meant to be used directly by applications,
- * but by the RenderableImage and operator classes to which it is
- * passed.
+ * <p> Users crebte RenderContexts bnd pbss them to the
+ * RenderbbleImbge vib the crebteRendering method.  Most of the methods of
+ * RenderContexts bre not mebnt to be used directly by bpplicbtions,
+ * but by the RenderbbleImbge bnd operbtor clbsses to which it is
+ * pbssed.
  *
- * <p> The AffineTransform parameter passed into and out of this class
- * are cloned.  The RenderingHints and Shape parameters are not
- * necessarily cloneable and are therefore only reference copied.
- * Altering RenderingHints or Shape instances that are in use by
- * instances of RenderContext may have undesired side effects.
+ * <p> The AffineTrbnsform pbrbmeter pbssed into bnd out of this clbss
+ * bre cloned.  The RenderingHints bnd Shbpe pbrbmeters bre not
+ * necessbrily clonebble bnd bre therefore only reference copied.
+ * Altering RenderingHints or Shbpe instbnces thbt bre in use by
+ * instbnces of RenderContext mby hbve undesired side effects.
  */
-public class RenderContext implements Cloneable {
+public clbss RenderContext implements Clonebble {
 
-    /** Table of hints. May be null. */
+    /** Tbble of hints. Mby be null. */
     RenderingHints hints;
 
-    /** Transform to convert user coordinates to device coordinates.  */
-    AffineTransform usr2dev;
+    /** Trbnsform to convert user coordinbtes to device coordinbtes.  */
+    AffineTrbnsform usr2dev;
 
-    /** The area of interest.  May be null. */
-    Shape aoi;
+    /** The breb of interest.  Mby be null. */
+    Shbpe boi;
 
-    // Various constructors that allow different levels of
-    // specificity. If the Shape is missing the whole renderable area
-    // is assumed. If hints is missing no hints are assumed.
+    // Vbrious constructors thbt bllow different levels of
+    // specificity. If the Shbpe is missing the whole renderbble breb
+    // is bssumed. If hints is missing no hints bre bssumed.
 
     /**
-     * Constructs a RenderContext with a given transform.
-     * The area of interest is supplied as a Shape,
-     * and the rendering hints are supplied as a RenderingHints object.
+     * Constructs b RenderContext with b given trbnsform.
+     * The breb of interest is supplied bs b Shbpe,
+     * bnd the rendering hints bre supplied bs b RenderingHints object.
      *
-     * @param usr2dev an AffineTransform.
-     * @param aoi a Shape representing the area of interest.
-     * @param hints a RenderingHints object containing rendering hints.
+     * @pbrbm usr2dev bn AffineTrbnsform.
+     * @pbrbm boi b Shbpe representing the breb of interest.
+     * @pbrbm hints b RenderingHints object contbining rendering hints.
      */
-    public RenderContext(AffineTransform usr2dev,
-                         Shape aoi,
+    public RenderContext(AffineTrbnsform usr2dev,
+                         Shbpe boi,
                          RenderingHints hints) {
         this.hints = hints;
-        this.aoi = aoi;
-        this.usr2dev = (AffineTransform)usr2dev.clone();
+        this.boi = boi;
+        this.usr2dev = (AffineTrbnsform)usr2dev.clone();
     }
 
     /**
-     * Constructs a RenderContext with a given transform.
-     * The area of interest is taken to be the entire renderable area.
-     * No rendering hints are used.
+     * Constructs b RenderContext with b given trbnsform.
+     * The breb of interest is tbken to be the entire renderbble breb.
+     * No rendering hints bre used.
      *
-     * @param usr2dev an AffineTransform.
+     * @pbrbm usr2dev bn AffineTrbnsform.
      */
-    public RenderContext(AffineTransform usr2dev) {
+    public RenderContext(AffineTrbnsform usr2dev) {
         this(usr2dev, null, null);
     }
 
     /**
-     * Constructs a RenderContext with a given transform and rendering hints.
-     * The area of interest is taken to be the entire renderable area.
+     * Constructs b RenderContext with b given trbnsform bnd rendering hints.
+     * The breb of interest is tbken to be the entire renderbble breb.
      *
-     * @param usr2dev an AffineTransform.
-     * @param hints a RenderingHints object containing rendering hints.
+     * @pbrbm usr2dev bn AffineTrbnsform.
+     * @pbrbm hints b RenderingHints object contbining rendering hints.
      */
-    public RenderContext(AffineTransform usr2dev, RenderingHints hints) {
+    public RenderContext(AffineTrbnsform usr2dev, RenderingHints hints) {
         this(usr2dev, null, hints);
     }
 
     /**
-     * Constructs a RenderContext with a given transform and area of interest.
-     * The area of interest is supplied as a Shape.
-     * No rendering hints are used.
+     * Constructs b RenderContext with b given trbnsform bnd breb of interest.
+     * The breb of interest is supplied bs b Shbpe.
+     * No rendering hints bre used.
      *
-     * @param usr2dev an AffineTransform.
-     * @param aoi a Shape representing the area of interest.
+     * @pbrbm usr2dev bn AffineTrbnsform.
+     * @pbrbm boi b Shbpe representing the breb of interest.
      */
-    public RenderContext(AffineTransform usr2dev, Shape aoi) {
-        this(usr2dev, aoi, null);
+    public RenderContext(AffineTrbnsform usr2dev, Shbpe boi) {
+        this(usr2dev, boi, null);
     }
 
     /**
      * Gets the rendering hints of this <code>RenderContext</code>.
-     * @return a <code>RenderingHints</code> object that represents
+     * @return b <code>RenderingHints</code> object thbt represents
      * the rendering hints of this <code>RenderContext</code>.
      * @see #setRenderingHints(RenderingHints)
      */
@@ -136,8 +136,8 @@ public class RenderContext implements Cloneable {
 
     /**
      * Sets the rendering hints of this <code>RenderContext</code>.
-     * @param hints a <code>RenderingHints</code> object that represents
-     * the rendering hints to assign to this <code>RenderContext</code>.
+     * @pbrbm hints b <code>RenderingHints</code> object thbt represents
+     * the rendering hints to bssign to this <code>RenderContext</code>.
      * @see #getRenderingHints
      */
     public void setRenderingHints(RenderingHints hints) {
@@ -145,128 +145,128 @@ public class RenderContext implements Cloneable {
     }
 
     /**
-     * Sets the current user-to-device AffineTransform contained
-     * in the RenderContext to a given transform.
+     * Sets the current user-to-device AffineTrbnsform contbined
+     * in the RenderContext to b given trbnsform.
      *
-     * @param newTransform the new AffineTransform.
-     * @see #getTransform
+     * @pbrbm newTrbnsform the new AffineTrbnsform.
+     * @see #getTrbnsform
      */
-    public void setTransform(AffineTransform newTransform) {
-        usr2dev = (AffineTransform)newTransform.clone();
+    public void setTrbnsform(AffineTrbnsform newTrbnsform) {
+        usr2dev = (AffineTrbnsform)newTrbnsform.clone();
     }
 
     /**
-     * Modifies the current user-to-device transform by prepending another
-     * transform.  In matrix notation the operation is:
+     * Modifies the current user-to-device trbnsform by prepending bnother
+     * trbnsform.  In mbtrix notbtion the operbtion is:
      * <pre>
-     * [this] = [modTransform] x [this]
+     * [this] = [modTrbnsform] x [this]
      * </pre>
      *
-     * @param modTransform the AffineTransform to prepend to the
-     *        current usr2dev transform.
+     * @pbrbm modTrbnsform the AffineTrbnsform to prepend to the
+     *        current usr2dev trbnsform.
      * @since 1.3
      */
-    public void preConcatenateTransform(AffineTransform modTransform) {
-        this.preConcetenateTransform(modTransform);
+    public void preConcbtenbteTrbnsform(AffineTrbnsform modTrbnsform) {
+        this.preConcetenbteTrbnsform(modTrbnsform);
     }
 
     /**
-     * Modifies the current user-to-device transform by prepending another
-     * transform.  In matrix notation the operation is:
+     * Modifies the current user-to-device trbnsform by prepending bnother
+     * trbnsform.  In mbtrix notbtion the operbtion is:
      * <pre>
-     * [this] = [modTransform] x [this]
+     * [this] = [modTrbnsform] x [this]
      * </pre>
-     * This method does the same thing as the preConcatenateTransform
-     * method.  It is here for backward compatibility with previous releases
-     * which misspelled the method name.
+     * This method does the sbme thing bs the preConcbtenbteTrbnsform
+     * method.  It is here for bbckwbrd compbtibility with previous relebses
+     * which misspelled the method nbme.
      *
-     * @param modTransform the AffineTransform to prepend to the
-     *        current usr2dev transform.
-     * @deprecated     replaced by
-     *                 <code>preConcatenateTransform(AffineTransform)</code>.
+     * @pbrbm modTrbnsform the AffineTrbnsform to prepend to the
+     *        current usr2dev trbnsform.
+     * @deprecbted     replbced by
+     *                 <code>preConcbtenbteTrbnsform(AffineTrbnsform)</code>.
      */
-    @Deprecated
-    public void preConcetenateTransform(AffineTransform modTransform) {
-        usr2dev.preConcatenate(modTransform);
+    @Deprecbted
+    public void preConcetenbteTrbnsform(AffineTrbnsform modTrbnsform) {
+        usr2dev.preConcbtenbte(modTrbnsform);
     }
 
     /**
-     * Modifies the current user-to-device transform by appending another
-     * transform.  In matrix notation the operation is:
+     * Modifies the current user-to-device trbnsform by bppending bnother
+     * trbnsform.  In mbtrix notbtion the operbtion is:
      * <pre>
-     * [this] = [this] x [modTransform]
+     * [this] = [this] x [modTrbnsform]
      * </pre>
      *
-     * @param modTransform the AffineTransform to append to the
-     *        current usr2dev transform.
+     * @pbrbm modTrbnsform the AffineTrbnsform to bppend to the
+     *        current usr2dev trbnsform.
      * @since 1.3
      */
-    public void concatenateTransform(AffineTransform modTransform) {
-        this.concetenateTransform(modTransform);
+    public void concbtenbteTrbnsform(AffineTrbnsform modTrbnsform) {
+        this.concetenbteTrbnsform(modTrbnsform);
     }
 
     /**
-     * Modifies the current user-to-device transform by appending another
-     * transform.  In matrix notation the operation is:
+     * Modifies the current user-to-device trbnsform by bppending bnother
+     * trbnsform.  In mbtrix notbtion the operbtion is:
      * <pre>
-     * [this] = [this] x [modTransform]
+     * [this] = [this] x [modTrbnsform]
      * </pre>
-     * This method does the same thing as the concatenateTransform
-     * method.  It is here for backward compatibility with previous releases
-     * which misspelled the method name.
+     * This method does the sbme thing bs the concbtenbteTrbnsform
+     * method.  It is here for bbckwbrd compbtibility with previous relebses
+     * which misspelled the method nbme.
      *
-     * @param modTransform the AffineTransform to append to the
-     *        current usr2dev transform.
-     * @deprecated     replaced by
-     *                 <code>concatenateTransform(AffineTransform)</code>.
+     * @pbrbm modTrbnsform the AffineTrbnsform to bppend to the
+     *        current usr2dev trbnsform.
+     * @deprecbted     replbced by
+     *                 <code>concbtenbteTrbnsform(AffineTrbnsform)</code>.
      */
-    @Deprecated
-    public void concetenateTransform(AffineTransform modTransform) {
-        usr2dev.concatenate(modTransform);
+    @Deprecbted
+    public void concetenbteTrbnsform(AffineTrbnsform modTrbnsform) {
+        usr2dev.concbtenbte(modTrbnsform);
     }
 
     /**
-     * Gets the current user-to-device AffineTransform.
+     * Gets the current user-to-device AffineTrbnsform.
      *
-     * @return a reference to the current AffineTransform.
-     * @see #setTransform(AffineTransform)
+     * @return b reference to the current AffineTrbnsform.
+     * @see #setTrbnsform(AffineTrbnsform)
      */
-    public AffineTransform getTransform() {
-        return (AffineTransform)usr2dev.clone();
+    public AffineTrbnsform getTrbnsform() {
+        return (AffineTrbnsform)usr2dev.clone();
     }
 
     /**
-     * Sets the current area of interest.  The old area is discarded.
+     * Sets the current breb of interest.  The old breb is discbrded.
      *
-     * @param newAoi The new area of interest.
-     * @see #getAreaOfInterest
+     * @pbrbm newAoi The new breb of interest.
+     * @see #getArebOfInterest
      */
-    public void setAreaOfInterest(Shape newAoi) {
-        aoi = newAoi;
+    public void setArebOfInterest(Shbpe newAoi) {
+        boi = newAoi;
     }
 
     /**
-     * Gets the ares of interest currently contained in the
+     * Gets the bres of interest currently contbined in the
      * RenderContext.
      *
-     * @return a reference to the area of interest of the RenderContext,
+     * @return b reference to the breb of interest of the RenderContext,
      *         or null if none is specified.
-     * @see #setAreaOfInterest(Shape)
+     * @see #setArebOfInterest(Shbpe)
      */
-    public Shape getAreaOfInterest() {
-        return aoi;
+    public Shbpe getArebOfInterest() {
+        return boi;
     }
 
     /**
-     * Makes a copy of a RenderContext. The area of interest is copied
-     * by reference.  The usr2dev AffineTransform and hints are cloned,
-     * while the area of interest is copied by reference.
+     * Mbkes b copy of b RenderContext. The breb of interest is copied
+     * by reference.  The usr2dev AffineTrbnsform bnd hints bre cloned,
+     * while the breb of interest is copied by reference.
      *
      * @return the new cloned RenderContext.
      */
     public Object clone() {
         RenderContext newRenderContext = new RenderContext(usr2dev,
-                                                           aoi, hints);
+                                                           boi, hints);
         return newRenderContext;
     }
 }

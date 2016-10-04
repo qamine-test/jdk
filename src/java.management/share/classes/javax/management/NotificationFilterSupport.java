@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
-import java.util.List;
-import java.util.Vector;
+import jbvb.util.List;
+import jbvb.util.Vector;
 
 /**
- * Provides an implementation of the {@link javax.management.NotificationFilter} interface.
- * The filtering is performed on the notification type attribute.
+ * Provides bn implementbtion of the {@link jbvbx.mbnbgement.NotificbtionFilter} interfbce.
+ * The filtering is performed on the notificbtion type bttribute.
  * <P>
- * Manages a list of enabled notification types.
- * A method allows users to enable/disable as many notification types as required.
+ * Mbnbges b list of enbbled notificbtion types.
+ * A method bllows users to enbble/disbble bs mbny notificbtion types bs required.
  * <P>
- * Then, before sending a notification to a listener registered with a filter,
- * the notification broadcaster compares this notification type with all notification types
- * enabled by the filter. The notification will be sent to the listener
- * only if its filter enables this notification type.
+ * Then, before sending b notificbtion to b listener registered with b filter,
+ * the notificbtion brobdcbster compbres this notificbtion type with bll notificbtion types
+ * enbbled by the filter. The notificbtion will be sent to the listener
+ * only if its filter enbbles this notificbtion type.
  * <P>
- * Example:
+ * Exbmple:
  * <BLOCKQUOTE>
  * <PRE>
- * NotificationFilterSupport myFilter = new NotificationFilterSupport();
- * myFilter.enableType("my_example.my_type");
- * myBroadcaster.addListener(myListener, myFilter, null);
+ * NotificbtionFilterSupport myFilter = new NotificbtionFilterSupport();
+ * myFilter.enbbleType("my_exbmple.my_type");
+ * myBrobdcbster.bddListener(myListener, myFilter, null);
  * </PRE>
  * </BLOCKQUOTE>
- * The listener <CODE>myListener</CODE> will only receive notifications the type of which equals/starts with "my_example.my_type".
+ * The listener <CODE>myListener</CODE> will only receive notificbtions the type of which equbls/stbrts with "my_exbmple.my_type".
  *
- * @see javax.management.NotificationBroadcaster#addNotificationListener
+ * @see jbvbx.mbnbgement.NotificbtionBrobdcbster#bddNotificbtionListener
  *
  * @since 1.5
  */
-public class NotificationFilterSupport implements NotificationFilter {
+public clbss NotificbtionFilterSupport implements NotificbtionFilter {
 
-    /* Serial version */
-    private static final long serialVersionUID = 6579080007561786969L;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = 6579080007561786969L;
 
     /**
-     * @serial {@link Vector} that contains the enabled notification types.
-     *         The default value is an empty vector.
+     * @seribl {@link Vector} thbt contbins the enbbled notificbtion types.
+     *         The defbult vblue is bn empty vector.
      */
-    private List<String> enabledTypes = new Vector<String>();
+    privbte List<String> enbbledTypes = new Vector<String>();
 
 
     /**
-     * Invoked before sending the specified notification to the listener.
-     * <BR>This filter compares the type of the specified notification with each enabled type.
-     * If the notification type matches one of the enabled types,
-     * the notification should be sent to the listener and this method returns <CODE>true</CODE>.
+     * Invoked before sending the specified notificbtion to the listener.
+     * <BR>This filter compbres the type of the specified notificbtion with ebch enbbled type.
+     * If the notificbtion type mbtches one of the enbbled types,
+     * the notificbtion should be sent to the listener bnd this method returns <CODE>true</CODE>.
      *
-     * @param notification The notification to be sent.
-     * @return <CODE>true</CODE> if the notification should be sent to the listener, <CODE>false</CODE> otherwise.
+     * @pbrbm notificbtion The notificbtion to be sent.
+     * @return <CODE>true</CODE> if the notificbtion should be sent to the listener, <CODE>fblse</CODE> otherwise.
      */
-    public synchronized boolean isNotificationEnabled(Notification notification) {
+    public synchronized boolebn isNotificbtionEnbbled(Notificbtion notificbtion) {
 
-        String type = notification.getType();
+        String type = notificbtion.getType();
 
         if (type == null) {
-            return false;
+            return fblse;
         }
         try {
-            for (String prefix : enabledTypes) {
-                if (type.startsWith(prefix)) {
+            for (String prefix : enbbledTypes) {
+                if (type.stbrtsWith(prefix)) {
                     return true;
                 }
             }
-        } catch (java.lang.NullPointerException e) {
+        } cbtch (jbvb.lbng.NullPointerException e) {
             // Should never occurs...
-            return false;
+            return fblse;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Enables all the notifications the type of which starts with the specified prefix
+     * Enbbles bll the notificbtions the type of which stbrts with the specified prefix
      * to be sent to the listener.
-     * <BR>If the specified prefix is already in the list of enabled notification types,
-     * this method has no effect.
+     * <BR>If the specified prefix is blrebdy in the list of enbbled notificbtion types,
+     * this method hbs no effect.
      * <P>
-     * Example:
+     * Exbmple:
      * <BLOCKQUOTE>
      * <PRE>
-     * // Enables all notifications the type of which starts with "my_example" to be sent.
-     * myFilter.enableType("my_example");
-     * // Enables all notifications the type of which is "my_example.my_type" to be sent.
-     * myFilter.enableType("my_example.my_type");
+     * // Enbbles bll notificbtions the type of which stbrts with "my_exbmple" to be sent.
+     * myFilter.enbbleType("my_exbmple");
+     * // Enbbles bll notificbtions the type of which is "my_exbmple.my_type" to be sent.
+     * myFilter.enbbleType("my_exbmple.my_type");
      * </PRE>
      * </BLOCKQUOTE>
      *
-     * Note that:
+     * Note thbt:
      * <BLOCKQUOTE><CODE>
-     * myFilter.enableType("my_example.*");
+     * myFilter.enbbleType("my_exbmple.*");
      * </CODE></BLOCKQUOTE>
-     * will no match any notification type.
+     * will no mbtch bny notificbtion type.
      *
-     * @param prefix The prefix.
-     * @exception java.lang.IllegalArgumentException The prefix parameter is null.
+     * @pbrbm prefix The prefix.
+     * @exception jbvb.lbng.IllegblArgumentException The prefix pbrbmeter is null.
      */
-    public synchronized void enableType(String prefix)
-            throws IllegalArgumentException {
+    public synchronized void enbbleType(String prefix)
+            throws IllegblArgumentException {
 
         if (prefix == null) {
-            throw new IllegalArgumentException("The prefix cannot be null.");
+            throw new IllegblArgumentException("The prefix cbnnot be null.");
         }
-        if (!enabledTypes.contains(prefix)) {
-            enabledTypes.add(prefix);
+        if (!enbbledTypes.contbins(prefix)) {
+            enbbledTypes.bdd(prefix);
         }
     }
 
     /**
      * Removes the given prefix from the prefix list.
-     * <BR>If the specified prefix is not in the list of enabled notification types,
-     * this method has no effect.
+     * <BR>If the specified prefix is not in the list of enbbled notificbtion types,
+     * this method hbs no effect.
      *
-     * @param prefix The prefix.
+     * @pbrbm prefix The prefix.
      */
-    public synchronized void disableType(String prefix) {
-        enabledTypes.remove(prefix);
+    public synchronized void disbbleType(String prefix) {
+        enbbledTypes.remove(prefix);
     }
 
     /**
-     * Disables all notification types.
+     * Disbbles bll notificbtion types.
      */
-    public synchronized void disableAllTypes() {
-        enabledTypes.clear();
+    public synchronized void disbbleAllTypes() {
+        enbbledTypes.clebr();
     }
 
 
     /**
-     * Gets all the enabled notification types for this filter.
+     * Gets bll the enbbled notificbtion types for this filter.
      *
-     * @return The list containing all the enabled notification types.
+     * @return The list contbining bll the enbbled notificbtion types.
      */
-    public synchronized Vector<String> getEnabledTypes() {
-        return (Vector<String>)enabledTypes;
+    public synchronized Vector<String> getEnbbledTypes() {
+        return (Vector<String>)enbbledTypes;
     }
 
 }

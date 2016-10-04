@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.event;
+pbckbge jbvb.bwt.event;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
 /**
- * The listener interface for receiving text events.
+ * The listener interfbce for receiving text events.
  *
- * The class that is interested in processing a text event
- * implements this interface. The object created with that
- * class is then registered with a component using the
- * component's <code>addTextListener</code> method. When the
- * component's text changes, the listener object's
- * <code>textValueChanged</code> method is invoked.
+ * The clbss thbt is interested in processing b text event
+ * implements this interfbce. The object crebted with thbt
+ * clbss is then registered with b component using the
+ * component's <code>bddTextListener</code> method. When the
+ * component's text chbnges, the listener object's
+ * <code>textVblueChbnged</code> method is invoked.
  *
- * @author Georges Saab
+ * @buthor Georges Sbbb
  *
  * @see TextEvent
  *
  * @since 1.1
  */
-public interface TextListener extends EventListener {
+public interfbce TextListener extends EventListener {
 
     /**
-     * Invoked when the value of the text has changed.
-     * The code written for this method performs the operations
-     * that need to occur when text changes.
+     * Invoked when the vblue of the text hbs chbnged.
+     * The code written for this method performs the operbtions
+     * thbt need to occur when text chbnges.
      *
-     * @param e the event to be processed
+     * @pbrbm e the event to be processed
      */
-    public void textValueChanged(TextEvent e);
+    public void textVblueChbnged(TextEvent e);
 
 }

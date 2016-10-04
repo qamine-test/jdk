@@ -3,97 +3,97 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
-import java.util.Iterator;
+import jbvb.util.Iterbtor;
 import org.w3c.dom.Element;
 
 /**
- * A wrapper for a pointer from a key value of an <code>EncryptedKey</code> to
- * items encrypted by that key value (<code>EncryptedData</code> or
+ * A wrbpper for b pointer from b key vblue of bn <code>EncryptedKey</code> to
+ * items encrypted by thbt key vblue (<code>EncryptedDbtb</code> or
  * <code>EncryptedKey</code> elements).
  * <p>
- * It is defined as follows:
+ * It is defined bs follows:
  * <xmp>
- * <complexType name='ReferenceType'>
+ * <complexType nbme='ReferenceType'>
  *     <sequence>
- *         <any namespace='##other' minOccurs='0' maxOccurs='unbounded'/>
+ *         <bny nbmespbce='##other' minOccurs='0' mbxOccurs='unbounded'/>
  *     </sequence>
- *     <attribute name='URI' type='anyURI' use='required'/>
+ *     <bttribute nbme='URI' type='bnyURI' use='required'/>
  * </complexType>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @buthor Axl Mbttheus
  * @see ReferenceList
  */
-public interface Reference {
+public interfbce Reference {
     /**
-     * Returns the <code>Element</code> tag name for this <code>Reference</code>.
+     * Returns the <code>Element</code> tbg nbme for this <code>Reference</code>.
      *
-     * @return the tag name of this <code>Reference</code>.
+     * @return the tbg nbme of this <code>Reference</code>.
      */
     String getType();
 
     /**
-     * Returns a <code>URI</code> that points to an <code>Element</code> that
+     * Returns b <code>URI</code> thbt points to bn <code>Element</code> thbt
      * were encrypted using the key defined in the enclosing
      * <code>EncryptedKey</code> element.
      *
-     * @return an Uniform Resource Identifier that qualifies an
+     * @return bn Uniform Resource Identifier thbt qublifies bn
      *   <code>EncryptedType</code>.
      */
     String getURI();
 
     /**
-     * Sets a <code>URI</code> that points to an <code>Element</code> that
+     * Sets b <code>URI</code> thbt points to bn <code>Element</code> thbt
      * were encrypted using the key defined in the enclosing
      * <code>EncryptedKey</code> element.
      *
-     * @param uri the Uniform Resource Identifier that qualifies an
+     * @pbrbm uri the Uniform Resource Identifier thbt qublifies bn
      *   <code>EncryptedType</code>.
      */
     void setURI(String uri);
 
     /**
-     * Returns an <code>Iterator</code> over all the child elements contained in
-     * this <code>Reference</code> that will aid the recipient in retrieving the
-     * <code>EncryptedKey</code> and/or <code>EncryptedData</code> elements.
-     * These could include information such as XPath transforms, decompression
-     * transforms, or information on how to retrieve the elements from a
-     * document storage facility.
+     * Returns bn <code>Iterbtor</code> over bll the child elements contbined in
+     * this <code>Reference</code> thbt will bid the recipient in retrieving the
+     * <code>EncryptedKey</code> bnd/or <code>EncryptedDbtb</code> elements.
+     * These could include informbtion such bs XPbth trbnsforms, decompression
+     * trbnsforms, or informbtion on how to retrieve the elements from b
+     * document storbge fbcility.
      *
      * @return child elements.
      */
-    Iterator<Element> getElementRetrievalInformation();
+    Iterbtor<Element> getElementRetrievblInformbtion();
 
     /**
-     * Adds retrieval information.
+     * Adds retrievbl informbtion.
      *
-     * @param info
+     * @pbrbm info
      */
-    void addElementRetrievalInformation(Element info);
+    void bddElementRetrievblInformbtion(Element info);
 
     /**
-     * Removes the specified retrieval information.
+     * Removes the specified retrievbl informbtion.
      *
-     * @param info
+     * @pbrbm info
      */
-    void removeElementRetrievalInformation(Element info);
+    void removeElementRetrievblInformbtion(Element info);
 }

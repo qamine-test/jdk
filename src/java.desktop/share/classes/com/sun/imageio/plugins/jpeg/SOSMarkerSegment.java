@@ -1,239 +1,239 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbckbge com.sun.imbgeio.plugins.jpeg;
 
-//import javax.imageio.IIOException;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
+//import jbvbx.imbgeio.IIOException;
+import jbvbx.imbgeio.metbdbtb.IIOInvblidTreeException;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbNode;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 
 /**
- * An SOS (Start Of Scan) marker segment.
+ * An SOS (Stbrt Of Scbn) mbrker segment.
  */
-class SOSMarkerSegment extends MarkerSegment {
-    int startSpectralSelection;
-    int endSpectralSelection;
-    int approxHigh;
-    int approxLow;
-    ScanComponentSpec [] componentSpecs; // Array size is numScanComponents
+clbss SOSMbrkerSegment extends MbrkerSegment {
+    int stbrtSpectrblSelection;
+    int endSpectrblSelection;
+    int bpproxHigh;
+    int bpproxLow;
+    ScbnComponentSpec [] componentSpecs; // Arrby size is numScbnComponents
 
-    SOSMarkerSegment(boolean willSubsample,
+    SOSMbrkerSegment(boolebn willSubsbmple,
                      byte[] componentIDs,
                      int numComponents) {
         super(JPEG.SOS);
-        startSpectralSelection = 0;
-        endSpectralSelection = 63;
-        approxHigh = 0;
-        approxLow = 0;
-        componentSpecs = new ScanComponentSpec[numComponents];
+        stbrtSpectrblSelection = 0;
+        endSpectrblSelection = 63;
+        bpproxHigh = 0;
+        bpproxLow = 0;
+        componentSpecs = new ScbnComponentSpec[numComponents];
         for (int i = 0; i < numComponents; i++) {
-            int tableSel = 0;
-            if (willSubsample) {
+            int tbbleSel = 0;
+            if (willSubsbmple) {
                 if ((i == 1) || (i == 2)) {
-                    tableSel = 1;
+                    tbbleSel = 1;
                 }
             }
-            componentSpecs[i] = new ScanComponentSpec(componentIDs[i],
-                                                      tableSel);
+            componentSpecs[i] = new ScbnComponentSpec(componentIDs[i],
+                                                      tbbleSel);
         }
     }
 
-    SOSMarkerSegment(JPEGBuffer buffer) throws IOException {
+    SOSMbrkerSegment(JPEGBuffer buffer) throws IOException {
         super(buffer);
         int numComponents = buffer.buf[buffer.bufPtr++];
-        componentSpecs = new ScanComponentSpec[numComponents];
+        componentSpecs = new ScbnComponentSpec[numComponents];
         for (int i = 0; i < numComponents; i++) {
-            componentSpecs[i] = new ScanComponentSpec(buffer);
+            componentSpecs[i] = new ScbnComponentSpec(buffer);
         }
-        startSpectralSelection = buffer.buf[buffer.bufPtr++];
-        endSpectralSelection = buffer.buf[buffer.bufPtr++];
-        approxHigh = buffer.buf[buffer.bufPtr] >> 4;
-        approxLow = buffer.buf[buffer.bufPtr++] &0xf;
-        buffer.bufAvail -= length;
+        stbrtSpectrblSelection = buffer.buf[buffer.bufPtr++];
+        endSpectrblSelection = buffer.buf[buffer.bufPtr++];
+        bpproxHigh = buffer.buf[buffer.bufPtr] >> 4;
+        bpproxLow = buffer.buf[buffer.bufPtr++] &0xf;
+        buffer.bufAvbil -= length;
     }
 
-    SOSMarkerSegment(Node node) throws IIOInvalidTreeException {
+    SOSMbrkerSegment(Node node) throws IIOInvblidTreeException {
         super(JPEG.SOS);
-        startSpectralSelection = 0;
-        endSpectralSelection = 63;
-        approxHigh = 0;
-        approxLow = 0;
-        updateFromNativeNode(node, true);
+        stbrtSpectrblSelection = 0;
+        endSpectrblSelection = 63;
+        bpproxHigh = 0;
+        bpproxLow = 0;
+        updbteFromNbtiveNode(node, true);
     }
 
     protected Object clone () {
-        SOSMarkerSegment newGuy = (SOSMarkerSegment) super.clone();
+        SOSMbrkerSegment newGuy = (SOSMbrkerSegment) super.clone();
         if (componentSpecs != null) {
             newGuy.componentSpecs = componentSpecs.clone();
             for (int i = 0; i < componentSpecs.length; i++) {
                 newGuy.componentSpecs[i] =
-                    (ScanComponentSpec) componentSpecs[i].clone();
+                    (ScbnComponentSpec) componentSpecs[i].clone();
             }
         }
         return newGuy;
     }
 
-    IIOMetadataNode getNativeNode() {
-        IIOMetadataNode node = new IIOMetadataNode("sos");
-        node.setAttribute("numScanComponents",
+    IIOMetbdbtbNode getNbtiveNode() {
+        IIOMetbdbtbNode node = new IIOMetbdbtbNode("sos");
+        node.setAttribute("numScbnComponents",
                           Integer.toString(componentSpecs.length));
-        node.setAttribute("startSpectralSelection",
-                          Integer.toString(startSpectralSelection));
-        node.setAttribute("endSpectralSelection",
-                          Integer.toString(endSpectralSelection));
-        node.setAttribute("approxHigh",
-                          Integer.toString(approxHigh));
-        node.setAttribute("approxLow",
-                          Integer.toString(approxLow));
+        node.setAttribute("stbrtSpectrblSelection",
+                          Integer.toString(stbrtSpectrblSelection));
+        node.setAttribute("endSpectrblSelection",
+                          Integer.toString(endSpectrblSelection));
+        node.setAttribute("bpproxHigh",
+                          Integer.toString(bpproxHigh));
+        node.setAttribute("bpproxLow",
+                          Integer.toString(bpproxLow));
         for (int i = 0; i < componentSpecs.length; i++) {
-            node.appendChild(componentSpecs[i].getNativeNode());
+            node.bppendChild(componentSpecs[i].getNbtiveNode());
         }
 
         return node;
     }
 
-    void updateFromNativeNode(Node node, boolean fromScratch)
-        throws IIOInvalidTreeException {
-        NamedNodeMap attrs = node.getAttributes();
-        int numComponents = getAttributeValue(node, attrs, "numScanComponents",
+    void updbteFromNbtiveNode(Node node, boolebn fromScrbtch)
+        throws IIOInvblidTreeException {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        int numComponents = getAttributeVblue(node, bttrs, "numScbnComponents",
                                               1, 4, true);
-        int value = getAttributeValue(node, attrs, "startSpectralSelection",
-                                      0, 63, false);
-        startSpectralSelection = (value != -1) ? value : startSpectralSelection;
-        value = getAttributeValue(node, attrs, "endSpectralSelection",
-                                  0, 63, false);
-        endSpectralSelection = (value != -1) ? value : endSpectralSelection;
-        value = getAttributeValue(node, attrs, "approxHigh", 0, 15, false);
-        approxHigh = (value != -1) ? value : approxHigh;
-        value = getAttributeValue(node, attrs, "approxLow", 0, 15, false);
-        approxLow = (value != -1) ? value : approxLow;
+        int vblue = getAttributeVblue(node, bttrs, "stbrtSpectrblSelection",
+                                      0, 63, fblse);
+        stbrtSpectrblSelection = (vblue != -1) ? vblue : stbrtSpectrblSelection;
+        vblue = getAttributeVblue(node, bttrs, "endSpectrblSelection",
+                                  0, 63, fblse);
+        endSpectrblSelection = (vblue != -1) ? vblue : endSpectrblSelection;
+        vblue = getAttributeVblue(node, bttrs, "bpproxHigh", 0, 15, fblse);
+        bpproxHigh = (vblue != -1) ? vblue : bpproxHigh;
+        vblue = getAttributeVblue(node, bttrs, "bpproxLow", 0, 15, fblse);
+        bpproxLow = (vblue != -1) ? vblue : bpproxLow;
 
         // Now the children
         NodeList children = node.getChildNodes();
         if (children.getLength() != numComponents) {
-            throw new IIOInvalidTreeException
-                ("numScanComponents must match the number of children", node);
+            throw new IIOInvblidTreeException
+                ("numScbnComponents must mbtch the number of children", node);
         }
-        componentSpecs = new ScanComponentSpec[numComponents];
+        componentSpecs = new ScbnComponentSpec[numComponents];
         for (int i = 0; i < numComponents; i++) {
-            componentSpecs[i] = new ScanComponentSpec(children.item(i));
+            componentSpecs[i] = new ScbnComponentSpec(children.item(i));
         }
     }
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format.
+     * Writes the dbtb for this segment to the strebm in
+     * vblid JPEG formbt.
      */
-    void write(ImageOutputStream ios) throws IOException {
-        // We don't write SOS segments; the IJG library does.
+    void write(ImbgeOutputStrebm ios) throws IOException {
+        // We don't write SOS segments; the IJG librbry does.
     }
 
     void print () {
-        printTag("SOS");
-        System.out.print("Start spectral selection: ");
-        System.out.println(startSpectralSelection);
-        System.out.print("End spectral selection: ");
-        System.out.println(endSpectralSelection);
+        printTbg("SOS");
+        System.out.print("Stbrt spectrbl selection: ");
+        System.out.println(stbrtSpectrblSelection);
+        System.out.print("End spectrbl selection: ");
+        System.out.println(endSpectrblSelection);
         System.out.print("Approx high: ");
-        System.out.println(approxHigh);
+        System.out.println(bpproxHigh);
         System.out.print("Approx low: ");
-        System.out.println(approxLow);
-        System.out.print("Num scan components: ");
+        System.out.println(bpproxLow);
+        System.out.print("Num scbn components: ");
         System.out.println(componentSpecs.length);
         for (int i = 0; i< componentSpecs.length; i++) {
             componentSpecs[i].print();
         }
     }
 
-    ScanComponentSpec getScanComponentSpec(byte componentSel, int tableSel) {
-        return new ScanComponentSpec(componentSel, tableSel);
+    ScbnComponentSpec getScbnComponentSpec(byte componentSel, int tbbleSel) {
+        return new ScbnComponentSpec(componentSel, tbbleSel);
     }
 
     /**
-     * A scan component spec within an SOS marker segment.
+     * A scbn component spec within bn SOS mbrker segment.
      */
-    class ScanComponentSpec implements Cloneable {
+    clbss ScbnComponentSpec implements Clonebble {
         int componentSelector;
-        int dcHuffTable;
-        int acHuffTable;
+        int dcHuffTbble;
+        int bcHuffTbble;
 
-        ScanComponentSpec(byte componentSel, int tableSel) {
+        ScbnComponentSpec(byte componentSel, int tbbleSel) {
             componentSelector = componentSel;
-            dcHuffTable = tableSel;
-            acHuffTable = tableSel;
+            dcHuffTbble = tbbleSel;
+            bcHuffTbble = tbbleSel;
         }
 
-        ScanComponentSpec(JPEGBuffer buffer) {
-            // Parent already loaded the buffer
+        ScbnComponentSpec(JPEGBuffer buffer) {
+            // Pbrent blrebdy lobded the buffer
             componentSelector = buffer.buf[buffer.bufPtr++];
-            dcHuffTable = buffer.buf[buffer.bufPtr] >> 4;
-            acHuffTable = buffer.buf[buffer.bufPtr++] & 0xf;
+            dcHuffTbble = buffer.buf[buffer.bufPtr] >> 4;
+            bcHuffTbble = buffer.buf[buffer.bufPtr++] & 0xf;
         }
 
-        ScanComponentSpec(Node node) throws IIOInvalidTreeException {
-            NamedNodeMap attrs = node.getAttributes();
-            componentSelector = getAttributeValue(node, attrs, "componentSelector",
+        ScbnComponentSpec(Node node) throws IIOInvblidTreeException {
+            NbmedNodeMbp bttrs = node.getAttributes();
+            componentSelector = getAttributeVblue(node, bttrs, "componentSelector",
                                                   0, 255, true);
-            dcHuffTable = getAttributeValue(node, attrs, "dcHuffTable",
+            dcHuffTbble = getAttributeVblue(node, bttrs, "dcHuffTbble",
                                             0, 3, true);
-            acHuffTable = getAttributeValue(node, attrs, "acHuffTable",
+            bcHuffTbble = getAttributeVblue(node, bttrs, "bcHuffTbble",
                                             0, 3, true);
         }
 
         protected Object clone() {
             try {
                 return super.clone();
-            } catch (CloneNotSupportedException e) {} // won't happen
+            } cbtch (CloneNotSupportedException e) {} // won't hbppen
             return null;
         }
 
-        IIOMetadataNode getNativeNode() {
-            IIOMetadataNode node = new IIOMetadataNode("scanComponentSpec");
+        IIOMetbdbtbNode getNbtiveNode() {
+            IIOMetbdbtbNode node = new IIOMetbdbtbNode("scbnComponentSpec");
             node.setAttribute("componentSelector",
                               Integer.toString(componentSelector));
-            node.setAttribute("dcHuffTable",
-                              Integer.toString(dcHuffTable));
-            node.setAttribute("acHuffTable",
-                              Integer.toString(acHuffTable));
+            node.setAttribute("dcHuffTbble",
+                              Integer.toString(dcHuffTbble));
+            node.setAttribute("bcHuffTbble",
+                              Integer.toString(bcHuffTbble));
             return node;
         }
 
         void print () {
             System.out.print("Component Selector: ");
             System.out.println(componentSelector);
-            System.out.print("DC huffman table: ");
-            System.out.println(dcHuffTable);
-            System.out.print("AC huffman table: ");
-            System.out.println(acHuffTable);
+            System.out.print("DC huffmbn tbble: ");
+            System.out.println(dcHuffTbble);
+            System.out.print("AC huffmbn tbble: ");
+            System.out.println(bcHuffTbble);
         }
     }
 

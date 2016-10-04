@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// DefaultHandler.java - default implementation of the core handlers.
-// http://www.saxproject.org
-// Written by David Megginson
-// NO WARRANTY!  This class is in the public domain.
-// $Id: DefaultHandler.java,v 1.3 2006/04/13 02:06:32 jeffsuttor Exp $
+// DefbultHbndler.jbvb - defbult implementbtion of the core hbndlers.
+// http://www.sbxproject.org
+// Written by Dbvid Megginson
+// NO WARRANTY!  This clbss is in the public dombin.
+// $Id: DefbultHbndler.jbvb,v 1.3 2006/04/13 02:06:32 jeffsuttor Exp $
 
-package jdk.internal.org.xml.sax.helpers;
+pbckbge jdk.internbl.org.xml.sbx.helpers;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import jdk.internal.org.xml.sax.InputSource;
-import jdk.internal.org.xml.sax.Locator;
-import jdk.internal.org.xml.sax.Attributes;
-import jdk.internal.org.xml.sax.EntityResolver;
-import jdk.internal.org.xml.sax.DTDHandler;
-import jdk.internal.org.xml.sax.ContentHandler;
-import jdk.internal.org.xml.sax.ErrorHandler;
-import jdk.internal.org.xml.sax.SAXException;
-import jdk.internal.org.xml.sax.SAXParseException;
+import jdk.internbl.org.xml.sbx.InputSource;
+import jdk.internbl.org.xml.sbx.Locbtor;
+import jdk.internbl.org.xml.sbx.Attributes;
+import jdk.internbl.org.xml.sbx.EntityResolver;
+import jdk.internbl.org.xml.sbx.DTDHbndler;
+import jdk.internbl.org.xml.sbx.ContentHbndler;
+import jdk.internbl.org.xml.sbx.ErrorHbndler;
+import jdk.internbl.org.xml.sbx.SAXException;
+import jdk.internbl.org.xml.sbx.SAXPbrseException;
 
 
 /**
- * Default base class for SAX2 event handlers.
+ * Defbult bbse clbss for SAX2 event hbndlers.
  *
  * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
+ * <em>This module, both source code bnd documentbtion, is in the
+ * Public Dombin, bnd comes with <strong>NO WARRANTY</strong>.</em>
+ * See <b href='http://www.sbxproject.org'>http://www.sbxproject.org</b>
+ * for further informbtion.
  * </blockquote>
  *
- * <p>This class is available as a convenience base class for SAX2
- * applications: it provides default implementations for all of the
- * callbacks in the four core SAX2 handler classes:</p>
+ * <p>This clbss is bvbilbble bs b convenience bbse clbss for SAX2
+ * bpplicbtions: it provides defbult implementbtions for bll of the
+ * cbllbbcks in the four core SAX2 hbndler clbsses:</p>
  *
  * <ul>
- * <li>{@link org.xml.sax.EntityResolver EntityResolver}</li>
- * <li>{@link org.xml.sax.DTDHandler DTDHandler}</li>
- * <li>{@link org.xml.sax.ContentHandler ContentHandler}</li>
- * <li>{@link org.xml.sax.ErrorHandler ErrorHandler}</li>
+ * <li>{@link org.xml.sbx.EntityResolver EntityResolver}</li>
+ * <li>{@link org.xml.sbx.DTDHbndler DTDHbndler}</li>
+ * <li>{@link org.xml.sbx.ContentHbndler ContentHbndler}</li>
+ * <li>{@link org.xml.sbx.ErrorHbndler ErrorHbndler}</li>
  * </ul>
  *
- * <p>Application writers can extend this class when they need to
- * implement only part of an interface; parser writers can
- * instantiate this class to provide default handlers when the
- * application has not supplied its own.</p>
+ * <p>Applicbtion writers cbn extend this clbss when they need to
+ * implement only pbrt of bn interfbce; pbrser writers cbn
+ * instbntibte this clbss to provide defbult hbndlers when the
+ * bpplicbtion hbs not supplied its own.</p>
  *
- * <p>This class replaces the deprecated SAX1
- * {@link org.xml.sax.HandlerBase HandlerBase} class.</p>
+ * <p>This clbss replbces the deprecbted SAX1
+ * {@link org.xml.sbx.HbndlerBbse HbndlerBbse} clbss.</p>
  *
  * @since SAX 2.0
- * @author David Megginson,
- * @see org.xml.sax.EntityResolver
- * @see org.xml.sax.DTDHandler
- * @see org.xml.sax.ContentHandler
- * @see org.xml.sax.ErrorHandler
+ * @buthor Dbvid Megginson,
+ * @see org.xml.sbx.EntityResolver
+ * @see org.xml.sbx.DTDHbndler
+ * @see org.xml.sbx.ContentHbndler
+ * @see org.xml.sbx.ErrorHbndler
  */
-public class DefaultHandler
-    implements EntityResolver, DTDHandler, ContentHandler, ErrorHandler
+public clbss DefbultHbndler
+    implements EntityResolver, DTDHbndler, ContentHbndler, ErrorHbndler
 {
 
 
     ////////////////////////////////////////////////////////////////////
-    // Default implementation of the EntityResolver interface.
+    // Defbult implementbtion of the EntityResolver interfbce.
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Resolve an external entity.
+     * Resolve bn externbl entity.
      *
-     * <p>Always return null, so that the parser will use the system
+     * <p>Alwbys return null, so thbt the pbrser will use the system
      * identifier provided in the XML document.  This method implements
-     * the SAX default behaviour: application writers can override it
-     * in a subclass to do special translations such as catalog lookups
+     * the SAX defbult behbviour: bpplicbtion writers cbn override it
+     * in b subclbss to do specibl trbnslbtions such bs cbtblog lookups
      * or URI redirection.</p>
      *
-     * @param publicId The public identifier, or null if none is
-     *                 available.
-     * @param systemId The system identifier provided in the XML
+     * @pbrbm publicId The public identifier, or null if none is
+     *                 bvbilbble.
+     * @pbrbm systemId The system identifier provided in the XML
      *                 document.
      * @return The new input source, or null to require the
-     *         default behaviour.
-     * @exception java.io.IOException If there is an error setting
+     *         defbult behbviour.
+     * @exception jbvb.io.IOException If there is bn error setting
      *            up the new input source.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.EntityResolver#resolveEntity
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.EntityResolver#resolveEntity
      */
     public InputSource resolveEntity (String publicId, String systemId)
         throws IOException, SAXException
@@ -119,26 +119,26 @@ public class DefaultHandler
 
 
     ////////////////////////////////////////////////////////////////////
-    // Default implementation of DTDHandler interface.
+    // Defbult implementbtion of DTDHbndler interfbce.
     ////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Receive notification of a notation declaration.
+     * Receive notificbtion of b notbtion declbrbtion.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass if they wish to keep track of the notations
-     * declared in a document.</p>
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method in b subclbss if they wish to keep trbck of the notbtions
+     * declbred in b document.</p>
      *
-     * @param name The notation name.
-     * @param publicId The notation public identifier, or null if not
-     *                 available.
-     * @param systemId The notation system identifier.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.DTDHandler#notationDecl
+     * @pbrbm nbme The notbtion nbme.
+     * @pbrbm publicId The notbtion public identifier, or null if not
+     *                 bvbilbble.
+     * @pbrbm systemId The notbtion system identifier.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.DTDHbndler#notbtionDecl
      */
-    public void notationDecl (String name, String publicId, String systemId)
+    public void notbtionDecl (String nbme, String publicId, String systemId)
         throws SAXException
     {
         // no op
@@ -146,23 +146,23 @@ public class DefaultHandler
 
 
     /**
-     * Receive notification of an unparsed entity declaration.
+     * Receive notificbtion of bn unpbrsed entity declbrbtion.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to keep track of the unparsed entities
-     * declared in a document.</p>
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method in b subclbss to keep trbck of the unpbrsed entities
+     * declbred in b document.</p>
      *
-     * @param name The entity name.
-     * @param publicId The entity public identifier, or null if not
-     *                 available.
-     * @param systemId The entity system identifier.
-     * @param notationName The name of the associated notation.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.DTDHandler#unparsedEntityDecl
+     * @pbrbm nbme The entity nbme.
+     * @pbrbm publicId The entity public identifier, or null if not
+     *                 bvbilbble.
+     * @pbrbm systemId The entity system identifier.
+     * @pbrbm notbtionNbme The nbme of the bssocibted notbtion.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.DTDHbndler#unpbrsedEntityDecl
      */
-    public void unparsedEntityDecl (String name, String publicId,
-                                    String systemId, String notationName)
+    public void unpbrsedEntityDecl (String nbme, String publicId,
+                                    String systemId, String notbtionNbme)
         throws SAXException
     {
         // no op
@@ -171,40 +171,40 @@ public class DefaultHandler
 
 
     ////////////////////////////////////////////////////////////////////
-    // Default implementation of ContentHandler interface.
+    // Defbult implementbtion of ContentHbndler interfbce.
     ////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Receive a Locator object for document events.
+     * Receive b Locbtor object for document events.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass if they wish to store the locator for use
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method in b subclbss if they wish to store the locbtor for use
      * with other document events.</p>
      *
-     * @param locator A locator for all SAX document events.
-     * @see org.xml.sax.ContentHandler#setDocumentLocator
-     * @see org.xml.sax.Locator
+     * @pbrbm locbtor A locbtor for bll SAX document events.
+     * @see org.xml.sbx.ContentHbndler#setDocumentLocbtor
+     * @see org.xml.sbx.Locbtor
      */
-    public void setDocumentLocator (Locator locator)
+    public void setDocumentLocbtor (Locbtor locbtor)
     {
         // no op
     }
 
 
     /**
-     * Receive notification of the beginning of the document.
+     * Receive notificbtion of the beginning of the document.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions at the beginning
-     * of a document (such as allocating the root node of a tree or
-     * creating an output file).</p>
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method in b subclbss to tbke specific bctions bt the beginning
+     * of b document (such bs bllocbting the root node of b tree or
+     * crebting bn output file).</p>
      *
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#startDocument
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ContentHbndler#stbrtDocument
      */
-    public void startDocument ()
+    public void stbrtDocument ()
         throws SAXException
     {
         // no op
@@ -212,16 +212,16 @@ public class DefaultHandler
 
 
     /**
-     * Receive notification of the end of the document.
+     * Receive notificbtion of the end of the document.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions at the end
-     * of a document (such as finalising a tree or closing an output
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method in b subclbss to tbke specific bctions bt the end
+     * of b document (such bs finblising b tree or closing bn output
      * file).</p>
      *
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#endDocument
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ContentHbndler#endDocument
      */
     public void endDocument ()
         throws SAXException
@@ -231,19 +231,19 @@ public class DefaultHandler
 
 
     /**
-     * Receive notification of the start of a Namespace mapping.
+     * Receive notificbtion of the stbrt of b Nbmespbce mbpping.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions at the start of
-     * each Namespace prefix scope (such as storing the prefix mapping).</p>
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method in b subclbss to tbke specific bctions bt the stbrt of
+     * ebch Nbmespbce prefix scope (such bs storing the prefix mbpping).</p>
      *
-     * @param prefix The Namespace prefix being declared.
-     * @param uri The Namespace URI mapped to the prefix.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#startPrefixMapping
+     * @pbrbm prefix The Nbmespbce prefix being declbred.
+     * @pbrbm uri The Nbmespbce URI mbpped to the prefix.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ContentHbndler#stbrtPrefixMbpping
      */
-    public void startPrefixMapping (String prefix, String uri)
+    public void stbrtPrefixMbpping (String prefix, String uri)
         throws SAXException
     {
         // no op
@@ -251,18 +251,18 @@ public class DefaultHandler
 
 
     /**
-     * Receive notification of the end of a Namespace mapping.
+     * Receive notificbtion of the end of b Nbmespbce mbpping.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions at the end of
-     * each prefix mapping.</p>
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method in b subclbss to tbke specific bctions bt the end of
+     * ebch prefix mbpping.</p>
      *
-     * @param prefix The Namespace prefix being declared.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#endPrefixMapping
+     * @pbrbm prefix The Nbmespbce prefix being declbred.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ContentHbndler#endPrefixMbpping
      */
-    public void endPrefixMapping (String prefix)
+    public void endPrefixMbpping (String prefix)
         throws SAXException
     {
         // no op
@@ -270,30 +270,30 @@ public class DefaultHandler
 
 
     /**
-     * Receive notification of the start of an element.
+     * Receive notificbtion of the stbrt of bn element.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions at the start of
-     * each element (such as allocating a new tree node or writing
-     * output to a file).</p>
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method in b subclbss to tbke specific bctions bt the stbrt of
+     * ebch element (such bs bllocbting b new tree node or writing
+     * output to b file).</p>
      *
-     * @param uri The Namespace URI, or the empty string if the
-     *        element has no Namespace URI or if Namespace
+     * @pbrbm uri The Nbmespbce URI, or the empty string if the
+     *        element hbs no Nbmespbce URI or if Nbmespbce
      *        processing is not being performed.
-     * @param localName The local name (without prefix), or the
-     *        empty string if Namespace processing is not being
+     * @pbrbm locblNbme The locbl nbme (without prefix), or the
+     *        empty string if Nbmespbce processing is not being
      *        performed.
-     * @param qName The qualified name (with prefix), or the
-     *        empty string if qualified names are not available.
-     * @param attributes The attributes attached to the element.  If
-     *        there are no attributes, it shall be an empty
+     * @pbrbm qNbme The qublified nbme (with prefix), or the
+     *        empty string if qublified nbmes bre not bvbilbble.
+     * @pbrbm bttributes The bttributes bttbched to the element.  If
+     *        there bre no bttributes, it shbll be bn empty
      *        Attributes object.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#startElement
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ContentHbndler#stbrtElement
      */
-    public void startElement (String uri, String localName,
-                              String qName, Attributes attributes)
+    public void stbrtElement (String uri, String locblNbme,
+                              String qNbme, Attributes bttributes)
         throws SAXException
     {
         // no op
@@ -301,26 +301,26 @@ public class DefaultHandler
 
 
     /**
-     * Receive notification of the end of an element.
+     * Receive notificbtion of the end of bn element.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions at the end of
-     * each element (such as finalising a tree node or writing
-     * output to a file).</p>
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method in b subclbss to tbke specific bctions bt the end of
+     * ebch element (such bs finblising b tree node or writing
+     * output to b file).</p>
      *
-     * @param uri The Namespace URI, or the empty string if the
-     *        element has no Namespace URI or if Namespace
+     * @pbrbm uri The Nbmespbce URI, or the empty string if the
+     *        element hbs no Nbmespbce URI or if Nbmespbce
      *        processing is not being performed.
-     * @param localName The local name (without prefix), or the
-     *        empty string if Namespace processing is not being
+     * @pbrbm locblNbme The locbl nbme (without prefix), or the
+     *        empty string if Nbmespbce processing is not being
      *        performed.
-     * @param qName The qualified name (with prefix), or the
-     *        empty string if qualified names are not available.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#endElement
+     * @pbrbm qNbme The qublified nbme (with prefix), or the
+     *        empty string if qublified nbmes bre not bvbilbble.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ContentHbndler#endElement
      */
-    public void endElement (String uri, String localName, String qName)
+    public void endElement (String uri, String locblNbme, String qNbme)
         throws SAXException
     {
         // no op
@@ -328,22 +328,22 @@ public class DefaultHandler
 
 
     /**
-     * Receive notification of character data inside an element.
+     * Receive notificbtion of chbrbcter dbtb inside bn element.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method to take specific actions for each chunk of character data
-     * (such as adding the data to a node or buffer, or printing it to
-     * a file).</p>
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method to tbke specific bctions for ebch chunk of chbrbcter dbtb
+     * (such bs bdding the dbtb to b node or buffer, or printing it to
+     * b file).</p>
      *
-     * @param ch The characters.
-     * @param start The start position in the character array.
-     * @param length The number of characters to use from the
-     *               character array.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#characters
+     * @pbrbm ch The chbrbcters.
+     * @pbrbm stbrt The stbrt position in the chbrbcter brrby.
+     * @pbrbm length The number of chbrbcters to use from the
+     *               chbrbcter brrby.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ContentHbndler#chbrbcters
      */
-    public void characters (char ch[], int start, int length)
+    public void chbrbcters (chbr ch[], int stbrt, int length)
         throws SAXException
     {
         // no op
@@ -351,22 +351,22 @@ public class DefaultHandler
 
 
     /**
-     * Receive notification of ignorable whitespace in element content.
+     * Receive notificbtion of ignorbble whitespbce in element content.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method to take specific actions for each chunk of ignorable
-     * whitespace (such as adding data to a node or buffer, or printing
-     * it to a file).</p>
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method to tbke specific bctions for ebch chunk of ignorbble
+     * whitespbce (such bs bdding dbtb to b node or buffer, or printing
+     * it to b file).</p>
      *
-     * @param ch The whitespace characters.
-     * @param start The start position in the character array.
-     * @param length The number of characters to use from the
-     *               character array.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#ignorableWhitespace
+     * @pbrbm ch The whitespbce chbrbcters.
+     * @pbrbm stbrt The stbrt position in the chbrbcter brrby.
+     * @pbrbm length The number of chbrbcters to use from the
+     *               chbrbcter brrby.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ContentHbndler#ignorbbleWhitespbce
      */
-    public void ignorableWhitespace (char ch[], int start, int length)
+    public void ignorbbleWhitespbce (chbr ch[], int stbrt, int length)
         throws SAXException
     {
         // no op
@@ -374,21 +374,21 @@ public class DefaultHandler
 
 
     /**
-     * Receive notification of a processing instruction.
+     * Receive notificbtion of b processing instruction.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions for each
-     * processing instruction, such as setting status variables or
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method in b subclbss to tbke specific bctions for ebch
+     * processing instruction, such bs setting stbtus vbribbles or
      * invoking other methods.</p>
      *
-     * @param target The processing instruction target.
-     * @param data The processing instruction data, or null if
+     * @pbrbm tbrget The processing instruction tbrget.
+     * @pbrbm dbtb The processing instruction dbtb, or null if
      *             none is supplied.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#processingInstruction
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ContentHbndler#processingInstruction
      */
-    public void processingInstruction (String target, String data)
+    public void processingInstruction (String tbrget, String dbtb)
         throws SAXException
     {
         // no op
@@ -396,19 +396,19 @@ public class DefaultHandler
 
 
     /**
-     * Receive notification of a skipped entity.
+     * Receive notificbtion of b skipped entity.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions for each
-     * processing instruction, such as setting status variables or
+     * <p>By defbult, do nothing.  Applicbtion writers mby override this
+     * method in b subclbss to tbke specific bctions for ebch
+     * processing instruction, such bs setting stbtus vbribbles or
      * invoking other methods.</p>
      *
-     * @param name The name of the skipped entity.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#processingInstruction
+     * @pbrbm nbme The nbme of the skipped entity.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ContentHbndler#processingInstruction
      */
-    public void skippedEntity (String name)
+    public void skippedEntity (String nbme)
         throws SAXException
     {
         // no op
@@ -417,25 +417,25 @@ public class DefaultHandler
 
 
     ////////////////////////////////////////////////////////////////////
-    // Default implementation of the ErrorHandler interface.
+    // Defbult implementbtion of the ErrorHbndler interfbce.
     ////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Receive notification of a parser warning.
+     * Receive notificbtion of b pbrser wbrning.
      *
-     * <p>The default implementation does nothing.  Application writers
-     * may override this method in a subclass to take specific actions
-     * for each warning, such as inserting the message in a log file or
+     * <p>The defbult implementbtion does nothing.  Applicbtion writers
+     * mby override this method in b subclbss to tbke specific bctions
+     * for ebch wbrning, such bs inserting the messbge in b log file or
      * printing it to the console.</p>
      *
-     * @param e The warning information encoded as an exception.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ErrorHandler#warning
-     * @see org.xml.sax.SAXParseException
+     * @pbrbm e The wbrning informbtion encoded bs bn exception.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ErrorHbndler#wbrning
+     * @see org.xml.sbx.SAXPbrseException
      */
-    public void warning (SAXParseException e)
+    public void wbrning (SAXPbrseException e)
         throws SAXException
     {
         // no op
@@ -443,20 +443,20 @@ public class DefaultHandler
 
 
     /**
-     * Receive notification of a recoverable parser error.
+     * Receive notificbtion of b recoverbble pbrser error.
      *
-     * <p>The default implementation does nothing.  Application writers
-     * may override this method in a subclass to take specific actions
-     * for each error, such as inserting the message in a log file or
+     * <p>The defbult implementbtion does nothing.  Applicbtion writers
+     * mby override this method in b subclbss to tbke specific bctions
+     * for ebch error, such bs inserting the messbge in b log file or
      * printing it to the console.</p>
      *
-     * @param e The error information encoded as an exception.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ErrorHandler#warning
-     * @see org.xml.sax.SAXParseException
+     * @pbrbm e The error informbtion encoded bs bn exception.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ErrorHbndler#wbrning
+     * @see org.xml.sbx.SAXPbrseException
      */
-    public void error (SAXParseException e)
+    public void error (SAXPbrseException e)
         throws SAXException
     {
         // no op
@@ -464,23 +464,23 @@ public class DefaultHandler
 
 
     /**
-     * Report a fatal XML parsing error.
+     * Report b fbtbl XML pbrsing error.
      *
-     * <p>The default implementation throws a SAXParseException.
-     * Application writers may override this method in a subclass if
-     * they need to take specific actions for each fatal error (such as
-     * collecting all of the errors into a single report): in any case,
-     * the application must stop all regular processing when this
-     * method is invoked, since the document is no longer reliable, and
-     * the parser may no longer report parsing events.</p>
+     * <p>The defbult implementbtion throws b SAXPbrseException.
+     * Applicbtion writers mby override this method in b subclbss if
+     * they need to tbke specific bctions for ebch fbtbl error (such bs
+     * collecting bll of the errors into b single report): in bny cbse,
+     * the bpplicbtion must stop bll regulbr processing when this
+     * method is invoked, since the document is no longer relibble, bnd
+     * the pbrser mby no longer report pbrsing events.</p>
      *
-     * @param e The error information encoded as an exception.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ErrorHandler#fatalError
-     * @see org.xml.sax.SAXParseException
+     * @pbrbm e The error informbtion encoded bs bn exception.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.ErrorHbndler#fbtblError
+     * @see org.xml.sbx.SAXPbrseException
      */
-    public void fatalError (SAXParseException e)
+    public void fbtblError (SAXPbrseException e)
         throws SAXException
     {
         throw e;
@@ -488,4 +488,4 @@ public class DefaultHandler
 
 }
 
-// end of DefaultHandler.java
+// end of DefbultHbndler.jbvb

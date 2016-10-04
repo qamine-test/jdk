@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "GraphicsPrimitiveMgr.h"
+#include "GrbphicsPrimitiveMgr.h"
 
-#include "sun_java2d_loops_FillRect.h"
+#include "sun_jbvb2d_loops_FillRect.h"
 
 /*
- * Class:     sun_java2d_loops_FillRect
+ * Clbss:     sun_jbvb2d_loops_FillRect
  * Method:    FillRect
- * Signature: (Lsun/java2d/SunGraphics2D;Lsun/java2d/SurfaceData;IIII)V
+ * Signbture: (Lsun/jbvb2d/SunGrbphics2D;Lsun/jbvb2d/SurfbceDbtb;IIII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_FillRect_FillRect
+Jbvb_sun_jbvb2d_loops_FillRect_FillRect
     (JNIEnv *env, jobject self,
-     jobject sg2d, jobject sData,
+     jobject sg2d, jobject sDbtb,
      jint x, jint y, jint w, jint h)
 {
-    SurfaceDataOps *sdOps;
-    SurfaceDataRasInfo rasInfo;
-    NativePrimitive *pPrim;
+    SurfbceDbtbOps *sdOps;
+    SurfbceDbtbRbsInfo rbsInfo;
+    NbtivePrimitive *pPrim;
     CompositeInfo compInfo;
     jint pixel = GrPrim_Sg2dGetPixel(env, sg2d);
 
@@ -48,7 +48,7 @@ Java_sun_java2d_loops_FillRect_FillRect
         return;
     }
 
-    pPrim = GetNativePrim(env, self);
+    pPrim = GetNbtivePrim(env, self);
     if (pPrim == NULL) {
         return;
     }
@@ -56,34 +56,34 @@ Java_sun_java2d_loops_FillRect_FillRect
         GrPrim_Sg2dGetCompInfo(env, sg2d, pPrim, &compInfo);
     }
 
-    sdOps = SurfaceData_GetOps(env, sData);
+    sdOps = SurfbceDbtb_GetOps(env, sDbtb);
     if (sdOps == 0) {
         return;
     }
 
-    GrPrim_Sg2dGetClip(env, sg2d, &rasInfo.bounds);
-    SurfaceData_IntersectBoundsXYWH(&rasInfo.bounds, x, y, w, h);
-    if (rasInfo.bounds.y2 <= rasInfo.bounds.y1 ||
-        rasInfo.bounds.x2 <= rasInfo.bounds.x1)
+    GrPrim_Sg2dGetClip(env, sg2d, &rbsInfo.bounds);
+    SurfbceDbtb_IntersectBoundsXYWH(&rbsInfo.bounds, x, y, w, h);
+    if (rbsInfo.bounds.y2 <= rbsInfo.bounds.y1 ||
+        rbsInfo.bounds.x2 <= rbsInfo.bounds.x1)
     {
         return;
     }
 
-    if (sdOps->Lock(env, sdOps, &rasInfo, pPrim->dstflags) != SD_SUCCESS) {
+    if (sdOps->Lock(env, sdOps, &rbsInfo, pPrim->dstflbgs) != SD_SUCCESS) {
         return;
     }
 
-    if (rasInfo.bounds.x2 > rasInfo.bounds.x1 &&
-        rasInfo.bounds.y2 > rasInfo.bounds.y1)
+    if (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+        rbsInfo.bounds.y2 > rbsInfo.bounds.y1)
     {
-        sdOps->GetRasInfo(env, sdOps, &rasInfo);
-        if (rasInfo.rasBase) {
-            (*pPrim->funcs.fillrect)(&rasInfo,
-                                     rasInfo.bounds.x1, rasInfo.bounds.y1,
-                                     rasInfo.bounds.x2, rasInfo.bounds.y2,
+        sdOps->GetRbsInfo(env, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbse) {
+            (*pPrim->funcs.fillrect)(&rbsInfo,
+                                     rbsInfo.bounds.x1, rbsInfo.bounds.y1,
+                                     rbsInfo.bounds.x2, rbsInfo.bounds.y2,
                                      pixel, pPrim, &compInfo);
         }
-        SurfaceData_InvokeRelease(env, sdOps, &rasInfo);
+        SurfbceDbtb_InvokeRelebse(env, sdOps, &rbsInfo);
     }
-    SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+    SurfbceDbtb_InvokeUnlock(env, sdOps, &rbsInfo);
 }

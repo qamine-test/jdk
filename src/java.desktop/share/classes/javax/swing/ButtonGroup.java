@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.event.*;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.io.Serializable;
+import jbvb.bwt.event.*;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.io.Seriblizbble;
 
 /**
- * This class is used to create a multiple-exclusion scope for
- * a set of buttons. Creating a set of buttons with the
- * same <code>ButtonGroup</code> object means that
+ * This clbss is used to crebte b multiple-exclusion scope for
+ * b set of buttons. Crebting b set of buttons with the
+ * sbme <code>ButtonGroup</code> object mebns thbt
  * turning "on" one of those buttons
- * turns off all other buttons in the group.
+ * turns off bll other buttons in the group.
  * <p>
- * A <code>ButtonGroup</code> can be used with
- * any set of objects that inherit from <code>AbstractButton</code>.
- * Typically a button group contains instances of
- * <code>JRadioButton</code>,
- * <code>JRadioButtonMenuItem</code>,
+ * A <code>ButtonGroup</code> cbn be used with
+ * bny set of objects thbt inherit from <code>AbstrbctButton</code>.
+ * Typicblly b button group contbins instbnces of
+ * <code>JRbdioButton</code>,
+ * <code>JRbdioButtonMenuItem</code>,
  * or <code>JToggleButton</code>.
- * It wouldn't make sense to put an instance of
+ * It wouldn't mbke sense to put bn instbnce of
  * <code>JButton</code> or <code>JMenuItem</code>
- * in a button group
- * because <code>JButton</code> and <code>JMenuItem</code>
- * don't implement the selected state.
+ * in b button group
+ * becbuse <code>JButton</code> bnd <code>JMenuItem</code>
+ * don't implement the selected stbte.
  * <p>
- * Initially, all buttons in the group are unselected.
+ * Initiblly, bll buttons in the group bre unselected.
  * <p>
- * For examples and further information on using button groups see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/button.html#radiobutton">How to Use Radio Buttons</a>,
- * a section in <em>The Java Tutorial</em>.
+ * For exbmples bnd further informbtion on using button groups see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/button.html#rbdiobutton">How to Use Rbdio Buttons</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  * @since 1.2
  */
-@SuppressWarnings("serial")
-public class ButtonGroup implements Serializable {
+@SuppressWbrnings("seribl")
+public clbss ButtonGroup implements Seriblizbble {
 
-    // the list of buttons participating in this group
-    protected Vector<AbstractButton> buttons = new Vector<AbstractButton>();
+    // the list of buttons pbrticipbting in this group
+    protected Vector<AbstrbctButton> buttons = new Vector<AbstrbctButton>();
 
     /**
      * The current selection.
@@ -78,25 +78,25 @@ public class ButtonGroup implements Serializable {
     ButtonModel selection = null;
 
     /**
-     * Creates a new <code>ButtonGroup</code>.
+     * Crebtes b new <code>ButtonGroup</code>.
      */
     public ButtonGroup() {}
 
     /**
      * Adds the button to the group.
-     * @param b the button to be added
+     * @pbrbm b the button to be bdded
      */
-    public void add(AbstractButton b) {
+    public void bdd(AbstrbctButton b) {
         if(b == null) {
             return;
         }
-        buttons.addElement(b);
+        buttons.bddElement(b);
 
         if (b.isSelected()) {
             if (selection == null) {
                 selection = b.getModel();
             } else {
-                b.setSelected(false);
+                b.setSelected(fblse);
             }
         }
 
@@ -105,9 +105,9 @@ public class ButtonGroup implements Serializable {
 
     /**
      * Removes the button from the group.
-     * @param b the button to be removed
+     * @pbrbm b the button to be removed
      */
-    public void remove(AbstractButton b) {
+    public void remove(AbstrbctButton b) {
         if(b == null) {
             return;
         }
@@ -119,25 +119,25 @@ public class ButtonGroup implements Serializable {
     }
 
     /**
-     * Clears the selection such that none of the buttons
-     * in the <code>ButtonGroup</code> are selected.
+     * Clebrs the selection such thbt none of the buttons
+     * in the <code>ButtonGroup</code> bre selected.
      *
      * @since 1.6
      */
-    public void clearSelection() {
+    public void clebrSelection() {
         if (selection != null) {
             ButtonModel oldSelection = selection;
             selection = null;
-            oldSelection.setSelected(false);
+            oldSelection.setSelected(fblse);
         }
     }
 
     /**
-     * Returns all the buttons that are participating in
+     * Returns bll the buttons thbt bre pbrticipbting in
      * this group.
-     * @return an <code>Enumeration</code> of the buttons in this group
+     * @return bn <code>Enumerbtion</code> of the buttons in this group
      */
-    public Enumeration<AbstractButton> getElements() {
+    public Enumerbtion<AbstrbctButton> getElements() {
         return buttons.elements();
     }
 
@@ -150,31 +150,31 @@ public class ButtonGroup implements Serializable {
     }
 
     /**
-     * Sets the selected value for the <code>ButtonModel</code>.
-     * Only one button in the group may be selected at a time.
-     * @param m the <code>ButtonModel</code>
-     * @param b <code>true</code> if this button is to be
-     *   selected, otherwise <code>false</code>
+     * Sets the selected vblue for the <code>ButtonModel</code>.
+     * Only one button in the group mby be selected bt b time.
+     * @pbrbm m the <code>ButtonModel</code>
+     * @pbrbm b <code>true</code> if this button is to be
+     *   selected, otherwise <code>fblse</code>
      */
-    public void setSelected(ButtonModel m, boolean b) {
+    public void setSelected(ButtonModel m, boolebn b) {
         if (b && m != null && m != selection) {
             ButtonModel oldSelection = selection;
             selection = m;
             if (oldSelection != null) {
-                oldSelection.setSelected(false);
+                oldSelection.setSelected(fblse);
             }
             m.setSelected(true);
         }
     }
 
     /**
-     * Returns whether a {@code ButtonModel} is selected.
+     * Returns whether b {@code ButtonModel} is selected.
      *
-     * @param m an isntance of {@code ButtonModel}
+     * @pbrbm m bn isntbnce of {@code ButtonModel}
      * @return {@code true} if the button is selected,
-     *   otherwise returns {@code false}
+     *   otherwise returns {@code fblse}
      */
-    public boolean isSelected(ButtonModel m) {
+    public boolebn isSelected(ButtonModel m) {
         return (m == selection);
     }
 

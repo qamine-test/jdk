@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf;
+pbckbge jbvbx.swing.plbf;
 
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
-import javax.accessibility.Accessible;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.SwingUtilities;
+import jbvbx.bccessibility.Accessible;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
 
 
 /**
- * The base class for all UI delegate objects in the Swing pluggable
- * look and feel architecture.  The UI delegate object for a Swing
- * component is responsible for implementing the aspects of the
- * component that depend on the look and feel.
- * The <code>JComponent</code> class
- * invokes methods from this class in order to delegate operations
- * (painting, layout calculations, etc.) that may vary depending on the
- * look and feel installed.  <b>Client programs should not invoke methods
- * on this class directly.</b>
+ * The bbse clbss for bll UI delegbte objects in the Swing pluggbble
+ * look bnd feel brchitecture.  The UI delegbte object for b Swing
+ * component is responsible for implementing the bspects of the
+ * component thbt depend on the look bnd feel.
+ * The <code>JComponent</code> clbss
+ * invokes methods from this clbss in order to delegbte operbtions
+ * (pbinting, lbyout cblculbtions, etc.) thbt mby vbry depending on the
+ * look bnd feel instblled.  <b>Client progrbms should not invoke methods
+ * on this clbss directly.</b>
  *
- * @see javax.swing.JComponent
- * @see javax.swing.UIManager
+ * @see jbvbx.swing.JComponent
+ * @see jbvbx.swing.UIMbnbger
  *
  */
-public abstract class ComponentUI {
+public bbstrbct clbss ComponentUI {
     /**
-     * Sole constructor. (For invocation by subclass constructors,
-     * typically implicit.)
+     * Sole constructor. (For invocbtion by subclbss constructors,
+     * typicblly implicit.)
      */
     public ComponentUI() {
     }
 
     /**
-     * Configures the specified component appropriately for the look and feel.
-     * This method is invoked when the <code>ComponentUI</code> instance is being installed
-     * as the UI delegate on the specified component.  This method should
-     * completely configure the component for the look and feel,
+     * Configures the specified component bppropribtely for the look bnd feel.
+     * This method is invoked when the <code>ComponentUI</code> instbnce is being instblled
+     * bs the UI delegbte on the specified component.  This method should
+     * completely configure the component for the look bnd feel,
      * including the following:
      * <ol>
-     * <li>Install default property values for color, fonts, borders,
-     *     icons, opacity, etc. on the component.  Whenever possible,
-     *     property values initialized by the client program should <i>not</i>
+     * <li>Instbll defbult property vblues for color, fonts, borders,
+     *     icons, opbcity, etc. on the component.  Whenever possible,
+     *     property vblues initiblized by the client progrbm should <i>not</i>
      *     be overridden.
-     * <li>Install a <code>LayoutManager</code> on the component if necessary.
-     * <li>Create/add any required sub-components to the component.
-     * <li>Create/install event listeners on the component.
-     * <li>Create/install a <code>PropertyChangeListener</code> on the component in order
-     *     to detect and respond to component property changes appropriately.
-     * <li>Install keyboard UI (mnemonics, traversal, etc.) on the component.
-     * <li>Initialize any appropriate instance data.
+     * <li>Instbll b <code>LbyoutMbnbger</code> on the component if necessbry.
+     * <li>Crebte/bdd bny required sub-components to the component.
+     * <li>Crebte/instbll event listeners on the component.
+     * <li>Crebte/instbll b <code>PropertyChbngeListener</code> on the component in order
+     *     to detect bnd respond to component property chbnges bppropribtely.
+     * <li>Instbll keybobrd UI (mnemonics, trbversbl, etc.) on the component.
+     * <li>Initiblize bny bppropribte instbnce dbtb.
      * </ol>
-     * @param c the component where this UI delegate is being installed
+     * @pbrbm c the component where this UI delegbte is being instblled
      *
-     * @see #uninstallUI
-     * @see javax.swing.JComponent#setUI
-     * @see javax.swing.JComponent#updateUI
+     * @see #uninstbllUI
+     * @see jbvbx.swing.JComponent#setUI
+     * @see jbvbx.swing.JComponent#updbteUI
      */
-    public void installUI(JComponent c) {
+    public void instbllUI(JComponent c) {
     }
 
     /**
-     * Reverses configuration which was done on the specified component during
-     * <code>installUI</code>.  This method is invoked when this
-     * <code>UIComponent</code> instance is being removed as the UI delegate
+     * Reverses configurbtion which wbs done on the specified component during
+     * <code>instbllUI</code>.  This method is invoked when this
+     * <code>UIComponent</code> instbnce is being removed bs the UI delegbte
      * for the specified component.  This method should undo the
-     * configuration performed in <code>installUI</code>, being careful to
-     * leave the <code>JComponent</code> instance in a clean state (no
-     * extraneous listeners, look-and-feel-specific property objects, etc.).
+     * configurbtion performed in <code>instbllUI</code>, being cbreful to
+     * lebve the <code>JComponent</code> instbnce in b clebn stbte (no
+     * extrbneous listeners, look-bnd-feel-specific property objects, etc.).
      * This should include the following:
      * <ol>
-     * <li>Remove any UI-set borders from the component.
-     * <li>Remove any UI-set layout managers on the component.
-     * <li>Remove any UI-added sub-components from the component.
-     * <li>Remove any UI-added event/property listeners from the component.
-     * <li>Remove any UI-installed keyboard UI from the component.
-     * <li>Nullify any allocated instance data objects to allow for GC.
+     * <li>Remove bny UI-set borders from the component.
+     * <li>Remove bny UI-set lbyout mbnbgers on the component.
+     * <li>Remove bny UI-bdded sub-components from the component.
+     * <li>Remove bny UI-bdded event/property listeners from the component.
+     * <li>Remove bny UI-instblled keybobrd UI from the component.
+     * <li>Nullify bny bllocbted instbnce dbtb objects to bllow for GC.
      * </ol>
-     * @param c the component from which this UI delegate is being removed;
-     *          this argument is often ignored,
-     *          but might be used if the UI object is stateless
-     *          and shared by multiple components
+     * @pbrbm c the component from which this UI delegbte is being removed;
+     *          this brgument is often ignored,
+     *          but might be used if the UI object is stbteless
+     *          bnd shbred by multiple components
      *
-     * @see #installUI
-     * @see javax.swing.JComponent#updateUI
+     * @see #instbllUI
+     * @see jbvbx.swing.JComponent#updbteUI
      */
-    public void uninstallUI(JComponent c) {
+    public void uninstbllUI(JComponent c) {
     }
 
     /**
-     * Paints the specified component appropriately for the look and feel.
-     * This method is invoked from the <code>ComponentUI.update</code> method when
-     * the specified component is being painted.  Subclasses should override
-     * this method and use the specified <code>Graphics</code> object to
+     * Pbints the specified component bppropribtely for the look bnd feel.
+     * This method is invoked from the <code>ComponentUI.updbte</code> method when
+     * the specified component is being pbinted.  Subclbsses should override
+     * this method bnd use the specified <code>Grbphics</code> object to
      * render the content of the component.
      *
-     * @param g the <code>Graphics</code> context in which to paint
-     * @param c the component being painted;
-     *          this argument is often ignored,
-     *          but might be used if the UI object is stateless
-     *          and shared by multiple components
+     * @pbrbm g the <code>Grbphics</code> context in which to pbint
+     * @pbrbm c the component being pbinted;
+     *          this brgument is often ignored,
+     *          but might be used if the UI object is stbteless
+     *          bnd shbred by multiple components
      *
-     * @see #update
+     * @see #updbte
      */
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
     }
 
     /**
-     * Notifies this UI delegate that it is time to paint the specified
+     * Notifies this UI delegbte thbt it is time to pbint the specified
      * component.  This method is invoked by <code>JComponent</code>
-     * when the specified component is being painted.
+     * when the specified component is being pbinted.
      *
-     * <p>By default this method fills the specified component with
-     * its background color if its {@code opaque} property is {@code true},
-     * and then immediately calls {@code paint}. In general this method need
-     * not be overridden by subclasses; all look-and-feel rendering code should
-     * reside in the {@code paint} method.
+     * <p>By defbult this method fills the specified component with
+     * its bbckground color if its {@code opbque} property is {@code true},
+     * bnd then immedibtely cblls {@code pbint}. In generbl this method need
+     * not be overridden by subclbsses; bll look-bnd-feel rendering code should
+     * reside in the {@code pbint} method.
      *
-     * @param g the <code>Graphics</code> context in which to paint
-     * @param c the component being painted;
-     *          this argument is often ignored,
-     *          but might be used if the UI object is stateless
-     *          and shared by multiple components
+     * @pbrbm g the <code>Grbphics</code> context in which to pbint
+     * @pbrbm c the component being pbinted;
+     *          this brgument is often ignored,
+     *          but might be used if the UI object is stbteless
+     *          bnd shbred by multiple components
      *
-     * @see #paint
-     * @see javax.swing.JComponent#paintComponent
+     * @see #pbint
+     * @see jbvbx.swing.JComponent#pbintComponent
      */
-    public void update(Graphics g, JComponent c) {
-        if (c.isOpaque()) {
-            g.setColor(c.getBackground());
+    public void updbte(Grbphics g, JComponent c) {
+        if (c.isOpbque()) {
+            g.setColor(c.getBbckground());
             g.fillRect(0, 0, c.getWidth(),c.getHeight());
         }
-        paint(g, c);
+        pbint(g, c);
     }
 
     /**
-     * Returns the specified component's preferred size appropriate for
-     * the look and feel.  If <code>null</code> is returned, the preferred
-     * size will be calculated by the component's layout manager instead
-     * (this is the preferred approach for any component with a specific
-     * layout manager installed).  The default implementation of this
+     * Returns the specified component's preferred size bppropribte for
+     * the look bnd feel.  If <code>null</code> is returned, the preferred
+     * size will be cblculbted by the component's lbyout mbnbger instebd
+     * (this is the preferred bpprobch for bny component with b specific
+     * lbyout mbnbger instblled).  The defbult implementbtion of this
      * method returns <code>null</code>.
      *
-     * @param c the component whose preferred size is being queried;
-     *          this argument is often ignored,
-     *          but might be used if the UI object is stateless
-     *          and shared by multiple components
+     * @pbrbm c the component whose preferred size is being queried;
+     *          this brgument is often ignored,
+     *          but might be used if the UI object is stbteless
+     *          bnd shbred by multiple components
      *
-     * @see javax.swing.JComponent#getPreferredSize
-     * @see java.awt.LayoutManager#preferredLayoutSize
+     * @see jbvbx.swing.JComponent#getPreferredSize
+     * @see jbvb.bwt.LbyoutMbnbger#preferredLbyoutSize
      */
     public Dimension getPreferredSize(JComponent c) {
         return null;
     }
 
     /**
-     * Returns the specified component's minimum size appropriate for
-     * the look and feel.  If <code>null</code> is returned, the minimum
-     * size will be calculated by the component's layout manager instead
-     * (this is the preferred approach for any component with a specific
-     * layout manager installed).  The default implementation of this
-     * method invokes <code>getPreferredSize</code> and returns that value.
+     * Returns the specified component's minimum size bppropribte for
+     * the look bnd feel.  If <code>null</code> is returned, the minimum
+     * size will be cblculbted by the component's lbyout mbnbger instebd
+     * (this is the preferred bpprobch for bny component with b specific
+     * lbyout mbnbger instblled).  The defbult implementbtion of this
+     * method invokes <code>getPreferredSize</code> bnd returns thbt vblue.
      *
-     * @param c the component whose minimum size is being queried;
-     *          this argument is often ignored,
-     *          but might be used if the UI object is stateless
-     *          and shared by multiple components
+     * @pbrbm c the component whose minimum size is being queried;
+     *          this brgument is often ignored,
+     *          but might be used if the UI object is stbteless
+     *          bnd shbred by multiple components
      *
-     * @return a <code>Dimension</code> object or <code>null</code>
+     * @return b <code>Dimension</code> object or <code>null</code>
      *
-     * @see javax.swing.JComponent#getMinimumSize
-     * @see java.awt.LayoutManager#minimumLayoutSize
+     * @see jbvbx.swing.JComponent#getMinimumSize
+     * @see jbvb.bwt.LbyoutMbnbger#minimumLbyoutSize
      * @see #getPreferredSize
      */
     public Dimension getMinimumSize(JComponent c) {
@@ -205,135 +205,135 @@ public abstract class ComponentUI {
     }
 
     /**
-     * Returns the specified component's maximum size appropriate for
-     * the look and feel.  If <code>null</code> is returned, the maximum
-     * size will be calculated by the component's layout manager instead
-     * (this is the preferred approach for any component with a specific
-     * layout manager installed).  The default implementation of this
-     * method invokes <code>getPreferredSize</code> and returns that value.
+     * Returns the specified component's mbximum size bppropribte for
+     * the look bnd feel.  If <code>null</code> is returned, the mbximum
+     * size will be cblculbted by the component's lbyout mbnbger instebd
+     * (this is the preferred bpprobch for bny component with b specific
+     * lbyout mbnbger instblled).  The defbult implementbtion of this
+     * method invokes <code>getPreferredSize</code> bnd returns thbt vblue.
      *
-     * @param c the component whose maximum size is being queried;
-     *          this argument is often ignored,
-     *          but might be used if the UI object is stateless
-     *          and shared by multiple components
-     * @return a <code>Dimension</code> object or <code>null</code>
+     * @pbrbm c the component whose mbximum size is being queried;
+     *          this brgument is often ignored,
+     *          but might be used if the UI object is stbteless
+     *          bnd shbred by multiple components
+     * @return b <code>Dimension</code> object or <code>null</code>
      *
-     * @see javax.swing.JComponent#getMaximumSize
-     * @see java.awt.LayoutManager2#maximumLayoutSize
+     * @see jbvbx.swing.JComponent#getMbximumSize
+     * @see jbvb.bwt.LbyoutMbnbger2#mbximumLbyoutSize
      */
-    public Dimension getMaximumSize(JComponent c) {
+    public Dimension getMbximumSize(JComponent c) {
         return getPreferredSize(c);
     }
 
     /**
-     * Returns <code>true</code> if the specified <i>x,y</i> location is
-     * contained within the look and feel's defined shape of the specified
-     * component. <code>x</code> and <code>y</code> are defined to be relative
-     * to the coordinate system of the specified component.  Although
-     * a component's <code>bounds</code> is constrained to a rectangle,
-     * this method provides the means for defining a non-rectangular
-     * shape within those bounds for the purpose of hit detection.
+     * Returns <code>true</code> if the specified <i>x,y</i> locbtion is
+     * contbined within the look bnd feel's defined shbpe of the specified
+     * component. <code>x</code> bnd <code>y</code> bre defined to be relbtive
+     * to the coordinbte system of the specified component.  Although
+     * b component's <code>bounds</code> is constrbined to b rectbngle,
+     * this method provides the mebns for defining b non-rectbngulbr
+     * shbpe within those bounds for the purpose of hit detection.
      *
-     * @param c the component where the <i>x,y</i> location is being queried;
-     *          this argument is often ignored,
-     *          but might be used if the UI object is stateless
-     *          and shared by multiple components
-     * @param x the <i>x</i> coordinate of the point
-     * @param y the <i>y</i> coordinate of the point
+     * @pbrbm c the component where the <i>x,y</i> locbtion is being queried;
+     *          this brgument is often ignored,
+     *          but might be used if the UI object is stbteless
+     *          bnd shbred by multiple components
+     * @pbrbm x the <i>x</i> coordinbte of the point
+     * @pbrbm y the <i>y</i> coordinbte of the point
      *
-     * @see javax.swing.JComponent#contains
-     * @see java.awt.Component#contains
+     * @see jbvbx.swing.JComponent#contbins
+     * @see jbvb.bwt.Component#contbins
      */
-    @SuppressWarnings("deprecation")
-    public boolean contains(JComponent c, int x, int y) {
+    @SuppressWbrnings("deprecbtion")
+    public boolebn contbins(JComponent c, int x, int y) {
         return c.inside(x, y);
     }
 
     /**
-     * Returns an instance of the UI delegate for the specified component.
-     * Each subclass must provide its own static <code>createUI</code>
-     * method that returns an instance of that UI delegate subclass.
-     * If the UI delegate subclass is stateless, it may return an instance
-     * that is shared by multiple components.  If the UI delegate is
-     * stateful, then it should return a new instance per component.
-     * The default implementation of this method throws an error, as it
+     * Returns bn instbnce of the UI delegbte for the specified component.
+     * Ebch subclbss must provide its own stbtic <code>crebteUI</code>
+     * method thbt returns bn instbnce of thbt UI delegbte subclbss.
+     * If the UI delegbte subclbss is stbteless, it mby return bn instbnce
+     * thbt is shbred by multiple components.  If the UI delegbte is
+     * stbteful, then it should return b new instbnce per component.
+     * The defbult implementbtion of this method throws bn error, bs it
      * should never be invoked.
      */
-    public static ComponentUI createUI(JComponent c) {
-        throw new Error("ComponentUI.createUI not implemented.");
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        throw new Error("ComponentUI.crebteUI not implemented.");
     }
 
     /**
-     * Returns the baseline.  The baseline is measured from the top of
-     * the component.  This method is primarily meant for
-     * <code>LayoutManager</code>s to align components along their
-     * baseline.  A return value less than 0 indicates this component
-     * does not have a reasonable baseline and that
-     * <code>LayoutManager</code>s should not align this component on
-     * its baseline.
+     * Returns the bbseline.  The bbseline is mebsured from the top of
+     * the component.  This method is primbrily mebnt for
+     * <code>LbyoutMbnbger</code>s to blign components blong their
+     * bbseline.  A return vblue less thbn 0 indicbtes this component
+     * does not hbve b rebsonbble bbseline bnd thbt
+     * <code>LbyoutMbnbger</code>s should not blign this component on
+     * its bbseline.
      * <p>
-     * This method returns -1.  Subclasses that have a meaningful baseline
-     * should override appropriately.
+     * This method returns -1.  Subclbsses thbt hbve b mebningful bbseline
+     * should override bppropribtely.
      *
-     * @param c <code>JComponent</code> baseline is being requested for
-     * @param width the width to get the baseline for
-     * @param height the height to get the baseline for
+     * @pbrbm c <code>JComponent</code> bbseline is being requested for
+     * @pbrbm width the width to get the bbseline for
+     * @pbrbm height the height to get the bbseline for
      * @throws NullPointerException if <code>c</code> is <code>null</code>
-     * @throws IllegalArgumentException if width or height is &lt; 0
-     * @return baseline or a value &lt; 0 indicating there is no reasonable
-     *                  baseline
-     * @see javax.swing.JComponent#getBaseline(int,int)
+     * @throws IllegblArgumentException if width or height is &lt; 0
+     * @return bbseline or b vblue &lt; 0 indicbting there is no rebsonbble
+     *                  bbseline
+     * @see jbvbx.swing.JComponent#getBbseline(int,int)
      * @since 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
+    public int getBbseline(JComponent c, int width, int height) {
         if (c == null) {
             throw new NullPointerException("Component must be non-null");
         }
         if (width < 0 || height < 0) {
-            throw new IllegalArgumentException(
-                    "Width and height must be >= 0");
+            throw new IllegblArgumentException(
+                    "Width bnd height must be >= 0");
         }
         return -1;
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.  This method is primarily meant for
-     * layout managers and GUI builders.
+     * Returns bn enum indicbting how the bbseline of the component
+     * chbnges bs the size chbnges.  This method is primbrily mebnt for
+     * lbyout mbnbgers bnd GUI builders.
      * <p>
-     * This method returns <code>BaselineResizeBehavior.OTHER</code>.
-     * Subclasses that support a baseline should override appropriately.
+     * This method returns <code>BbselineResizeBehbvior.OTHER</code>.
+     * Subclbsses thbt support b bbseline should override bppropribtely.
      *
-     * @param c <code>JComponent</code> to return baseline resize behavior for
-     * @return an enum indicating how the baseline changes as the component
-     *         size changes
+     * @pbrbm c <code>JComponent</code> to return bbseline resize behbvior for
+     * @return bn enum indicbting how the bbseline chbnges bs the component
+     *         size chbnges
      * @throws NullPointerException if <code>c</code> is <code>null</code>
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
+    public Component.BbselineResizeBehbvior getBbselineResizeBehbvior(
             JComponent c) {
         if (c == null) {
             throw new NullPointerException("Component must be non-null");
         }
-        return Component.BaselineResizeBehavior.OTHER;
+        return Component.BbselineResizeBehbvior.OTHER;
     }
 
     /**
-     * Returns the number of accessible children in the object.  If all
+     * Returns the number of bccessible children in the object.  If bll
      * of the children of this object implement <code>Accessible</code>,
      * this
      * method should return the number of children of this object.
-     * UIs might wish to override this if they present areas on the
-     * screen that can be viewed as components, but actual components
-     * are not used for presenting those areas.
+     * UIs might wish to override this if they present brebs on the
+     * screen thbt cbn be viewed bs components, but bctubl components
+     * bre not used for presenting those brebs.
      *
-     * Note: As of v1.3, it is recommended that developers call
-     * <code>Component.AccessibleAWTComponent.getAccessibleChildrenCount()</code> instead
+     * Note: As of v1.3, it is recommended thbt developers cbll
+     * <code>Component.AccessibleAWTComponent.getAccessibleChildrenCount()</code> instebd
      * of this method.
      *
      * @see #getAccessibleChild
-     * @return the number of accessible children in the object
+     * @return the number of bccessible children in the object
      */
     public int getAccessibleChildrenCount(JComponent c) {
         return SwingUtilities.getAccessibleChildrenCount(c);
@@ -341,18 +341,18 @@ public abstract class ComponentUI {
 
     /**
      * Returns the <code>i</code>th <code>Accessible</code> child of the object.
-     * UIs might need to override this if they present areas on the
-     * screen that can be viewed as components, but actual components
-     * are not used for presenting those areas.
+     * UIs might need to override this if they present brebs on the
+     * screen thbt cbn be viewed bs components, but bctubl components
+     * bre not used for presenting those brebs.
      *
      * <p>
      *
-     * Note: As of v1.3, it is recommended that developers call
-     * <code>Component.AccessibleAWTComponent.getAccessibleChild()</code> instead of
+     * Note: As of v1.3, it is recommended thbt developers cbll
+     * <code>Component.AccessibleAWTComponent.getAccessibleChild()</code> instebd of
      * this method.
      *
      * @see #getAccessibleChildrenCount
-     * @param i zero-based index of child
+     * @pbrbm i zero-bbsed index of child
      * @return the <code>i</code>th <code>Accessible</code> child of the object
      */
     public Accessible getAccessibleChild(JComponent c, int i) {

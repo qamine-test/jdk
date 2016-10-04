@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.interfbces.*;
+import jbvb.security.spec.*;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtic sun.security.pkcs11.TemplbteMbnbger.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 /**
- * DSA KeyFactory implementation.
+ * DSA KeyFbctory implementbtion.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class P11DSAKeyFactory extends P11KeyFactory {
+finbl clbss P11DSAKeyFbctory extends P11KeyFbctory {
 
-    P11DSAKeyFactory(Token token, String algorithm) {
-        super(token, algorithm);
+    P11DSAKeyFbctory(Token token, String blgorithm) {
+        super(token, blgorithm);
     }
 
-    PublicKey implTranslatePublicKey(PublicKey key) throws InvalidKeyException {
+    PublicKey implTrbnslbtePublicKey(PublicKey key) throws InvblidKeyException {
         try {
-            if (key instanceof DSAPublicKey) {
-                DSAPublicKey dsaKey = (DSAPublicKey)key;
-                DSAParams params = dsaKey.getParams();
-                return generatePublic(
-                    dsaKey.getY(),
-                    params.getP(),
-                    params.getQ(),
-                    params.getG()
+            if (key instbnceof DSAPublicKey) {
+                DSAPublicKey dsbKey = (DSAPublicKey)key;
+                DSAPbrbms pbrbms = dsbKey.getPbrbms();
+                return generbtePublic(
+                    dsbKey.getY(),
+                    pbrbms.getP(),
+                    pbrbms.getQ(),
+                    pbrbms.getG()
                 );
-            } else if ("X.509".equals(key.getFormat())) {
-                // let Sun provider parse for us, then recurse
+            } else if ("X.509".equbls(key.getFormbt())) {
+                // let Sun provider pbrse for us, then recurse
                 byte[] encoded = key.getEncoded();
                 key = new sun.security.provider.DSAPublicKey(encoded);
-                return implTranslatePublicKey(key);
+                return implTrbnslbtePublicKey(key);
             } else {
-                throw new InvalidKeyException("PublicKey must be instance "
-                        + "of DSAPublicKey or have X.509 encoding");
+                throw new InvblidKeyException("PublicKey must be instbnce "
+                        + "of DSAPublicKey or hbve X.509 encoding");
             }
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not create DSA public key", e);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeyException("Could not crebte DSA public key", e);
         }
     }
 
-    PrivateKey implTranslatePrivateKey(PrivateKey key)
-            throws InvalidKeyException {
+    PrivbteKey implTrbnslbtePrivbteKey(PrivbteKey key)
+            throws InvblidKeyException {
         try {
-            if (key instanceof DSAPrivateKey) {
-                DSAPrivateKey dsaKey = (DSAPrivateKey)key;
-                DSAParams params = dsaKey.getParams();
-                return generatePrivate(
-                    dsaKey.getX(),
-                    params.getP(),
-                    params.getQ(),
-                    params.getG()
+            if (key instbnceof DSAPrivbteKey) {
+                DSAPrivbteKey dsbKey = (DSAPrivbteKey)key;
+                DSAPbrbms pbrbms = dsbKey.getPbrbms();
+                return generbtePrivbte(
+                    dsbKey.getX(),
+                    pbrbms.getP(),
+                    pbrbms.getQ(),
+                    pbrbms.getG()
                 );
-            } else if ("PKCS#8".equals(key.getFormat())) {
-                // let Sun provider parse for us, then recurse
+            } else if ("PKCS#8".equbls(key.getFormbt())) {
+                // let Sun provider pbrse for us, then recurse
                 byte[] encoded = key.getEncoded();
-                key = new sun.security.provider.DSAPrivateKey(encoded);
-                return implTranslatePrivateKey(key);
+                key = new sun.security.provider.DSAPrivbteKey(encoded);
+                return implTrbnslbtePrivbteKey(key);
             } else {
-                throw new InvalidKeyException("PrivateKey must be instance "
-                        + "of DSAPrivateKey or have PKCS#8 encoding");
+                throw new InvblidKeyException("PrivbteKey must be instbnce "
+                        + "of DSAPrivbteKey or hbve PKCS#8 encoding");
             }
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not create DSA private key", e);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeyException("Could not crebte DSA privbte key", e);
         }
     }
 
     // see JCA spec
-    protected PublicKey engineGeneratePublic(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
-        if (keySpec instanceof X509EncodedKeySpec) {
+    protected PublicKey engineGenerbtePublic(KeySpec keySpec)
+            throws InvblidKeySpecException {
+        token.ensureVblid();
+        if (keySpec instbnceof X509EncodedKeySpec) {
             try {
                 byte[] encoded = ((X509EncodedKeySpec)keySpec).getEncoded();
                 PublicKey key = new sun.security.provider.DSAPublicKey(encoded);
-                return implTranslatePublicKey(key);
-            } catch (InvalidKeyException e) {
-                throw new InvalidKeySpecException
-                        ("Could not create DSA public key", e);
+                return implTrbnslbtePublicKey(key);
+            } cbtch (InvblidKeyException e) {
+                throw new InvblidKeySpecException
+                        ("Could not crebte DSA public key", e);
             }
         }
-        if (keySpec instanceof DSAPublicKeySpec == false) {
-            throw new InvalidKeySpecException("Only DSAPublicKeySpec and "
+        if (keySpec instbnceof DSAPublicKeySpec == fblse) {
+            throw new InvblidKeySpecException("Only DSAPublicKeySpec bnd "
                 + "X509EncodedKeySpec supported for DSA public keys");
         }
         try {
             DSAPublicKeySpec ds = (DSAPublicKeySpec)keySpec;
-            return generatePublic(
+            return generbtePublic(
                 ds.getY(),
                 ds.getP(),
                 ds.getQ(),
                 ds.getG()
             );
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeySpecException
-                ("Could not create DSA public key", e);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeySpecException
+                ("Could not crebte DSA public key", e);
         }
     }
 
     // see JCA spec
-    protected PrivateKey engineGeneratePrivate(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
-        if (keySpec instanceof PKCS8EncodedKeySpec) {
+    protected PrivbteKey engineGenerbtePrivbte(KeySpec keySpec)
+            throws InvblidKeySpecException {
+        token.ensureVblid();
+        if (keySpec instbnceof PKCS8EncodedKeySpec) {
             try {
                 byte[] encoded = ((PKCS8EncodedKeySpec)keySpec).getEncoded();
-                PrivateKey key = new sun.security.provider.DSAPrivateKey(encoded);
-                return implTranslatePrivateKey(key);
-            } catch (GeneralSecurityException e) {
-                throw new InvalidKeySpecException
-                        ("Could not create DSA private key", e);
+                PrivbteKey key = new sun.security.provider.DSAPrivbteKey(encoded);
+                return implTrbnslbtePrivbteKey(key);
+            } cbtch (GenerblSecurityException e) {
+                throw new InvblidKeySpecException
+                        ("Could not crebte DSA privbte key", e);
             }
         }
-        if (keySpec instanceof DSAPrivateKeySpec == false) {
-            throw new InvalidKeySpecException("Only DSAPrivateKeySpec and "
-                + "PKCS8EncodedKeySpec supported for DSA private keys");
+        if (keySpec instbnceof DSAPrivbteKeySpec == fblse) {
+            throw new InvblidKeySpecException("Only DSAPrivbteKeySpec bnd "
+                + "PKCS8EncodedKeySpec supported for DSA privbte keys");
         }
         try {
-            DSAPrivateKeySpec ds = (DSAPrivateKeySpec)keySpec;
-            return generatePrivate(
+            DSAPrivbteKeySpec ds = (DSAPrivbteKeySpec)keySpec;
+            return generbtePrivbte(
                 ds.getX(),
                 ds.getP(),
                 ds.getQ(),
                 ds.getG()
             );
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeySpecException
-                ("Could not create DSA private key", e);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeySpecException
+                ("Could not crebte DSA privbte key", e);
         }
     }
 
-    private PublicKey generatePublic(BigInteger y, BigInteger p, BigInteger q,
+    privbte PublicKey generbtePublic(BigInteger y, BigInteger p, BigInteger q,
             BigInteger g) throws PKCS11Exception {
-        CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+        CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
             new CK_ATTRIBUTE(CKA_CLASS, CKO_PUBLIC_KEY),
             new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_DSA),
             new CK_ATTRIBUTE(CKA_VALUE, y),
@@ -172,22 +172,22 @@ final class P11DSAKeyFactory extends P11KeyFactory {
             new CK_ATTRIBUTE(CKA_SUBPRIME, q),
             new CK_ATTRIBUTE(CKA_BASE, g),
         };
-        attributes = token.getAttributes
-                (O_IMPORT, CKO_PUBLIC_KEY, CKK_DSA, attributes);
+        bttributes = token.getAttributes
+                (O_IMPORT, CKO_PUBLIC_KEY, CKK_DSA, bttributes);
         Session session = null;
         try {
             session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
+            long keyID = token.p11.C_CrebteObject(session.id(), bttributes);
             return P11Key.publicKey
-                (session, keyID, "DSA", p.bitLength(), attributes);
-        } finally {
-            token.releaseSession(session);
+                (session, keyID, "DSA", p.bitLength(), bttributes);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 
-    private PrivateKey generatePrivate(BigInteger x, BigInteger p,
+    privbte PrivbteKey generbtePrivbte(BigInteger x, BigInteger p,
             BigInteger q, BigInteger g) throws PKCS11Exception {
-        CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+        CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
             new CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
             new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_DSA),
             new CK_ATTRIBUTE(CKA_VALUE, x),
@@ -195,69 +195,69 @@ final class P11DSAKeyFactory extends P11KeyFactory {
             new CK_ATTRIBUTE(CKA_SUBPRIME, q),
             new CK_ATTRIBUTE(CKA_BASE, g),
         };
-        attributes = token.getAttributes
-                (O_IMPORT, CKO_PRIVATE_KEY, CKK_DSA, attributes);
+        bttributes = token.getAttributes
+                (O_IMPORT, CKO_PRIVATE_KEY, CKK_DSA, bttributes);
         Session session = null;
         try {
             session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
-            return P11Key.privateKey
-                (session, keyID, "DSA", p.bitLength(), attributes);
-        } finally {
-            token.releaseSession(session);
+            long keyID = token.p11.C_CrebteObject(session.id(), bttributes);
+            return P11Key.privbteKey
+                (session, keyID, "DSA", p.bitLength(), bttributes);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 
-    <T extends KeySpec> T implGetPublicKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException {
-        if (DSAPublicKeySpec.class.isAssignableFrom(keySpec)) {
+    <T extends KeySpec> T implGetPublicKeySpec(P11Key key, Clbss<T> keySpec,
+            Session[] session) throws PKCS11Exception, InvblidKeySpecException {
+        if (DSAPublicKeySpec.clbss.isAssignbbleFrom(keySpec)) {
             session[0] = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+            CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_VALUE),
                 new CK_ATTRIBUTE(CKA_PRIME),
                 new CK_ATTRIBUTE(CKA_SUBPRIME),
                 new CK_ATTRIBUTE(CKA_BASE),
             };
-            token.p11.C_GetAttributeValue(session[0].id(), key.keyID, attributes);
+            token.p11.C_GetAttributeVblue(session[0].id(), key.keyID, bttributes);
             KeySpec spec = new DSAPublicKeySpec(
-                attributes[0].getBigInteger(),
-                attributes[1].getBigInteger(),
-                attributes[2].getBigInteger(),
-                attributes[3].getBigInteger()
+                bttributes[0].getBigInteger(),
+                bttributes[1].getBigInteger(),
+                bttributes[2].getBigInteger(),
+                bttributes[3].getBigInteger()
             );
-            return keySpec.cast(spec);
-        } else { // X.509 handled in superclass
-            throw new InvalidKeySpecException("Only DSAPublicKeySpec and "
+            return keySpec.cbst(spec);
+        } else { // X.509 hbndled in superclbss
+            throw new InvblidKeySpecException("Only DSAPublicKeySpec bnd "
                 + "X509EncodedKeySpec supported for DSA public keys");
         }
     }
 
-    <T extends KeySpec> T implGetPrivateKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException {
-        if (DSAPrivateKeySpec.class.isAssignableFrom(keySpec)) {
+    <T extends KeySpec> T implGetPrivbteKeySpec(P11Key key, Clbss<T> keySpec,
+            Session[] session) throws PKCS11Exception, InvblidKeySpecException {
+        if (DSAPrivbteKeySpec.clbss.isAssignbbleFrom(keySpec)) {
             session[0] = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+            CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_VALUE),
                 new CK_ATTRIBUTE(CKA_PRIME),
                 new CK_ATTRIBUTE(CKA_SUBPRIME),
                 new CK_ATTRIBUTE(CKA_BASE),
             };
-            token.p11.C_GetAttributeValue(session[0].id(), key.keyID, attributes);
-            KeySpec spec = new DSAPrivateKeySpec(
-                attributes[0].getBigInteger(),
-                attributes[1].getBigInteger(),
-                attributes[2].getBigInteger(),
-                attributes[3].getBigInteger()
+            token.p11.C_GetAttributeVblue(session[0].id(), key.keyID, bttributes);
+            KeySpec spec = new DSAPrivbteKeySpec(
+                bttributes[0].getBigInteger(),
+                bttributes[1].getBigInteger(),
+                bttributes[2].getBigInteger(),
+                bttributes[3].getBigInteger()
             );
-            return keySpec.cast(spec);
-        } else { // PKCS#8 handled in superclass
-            throw new InvalidKeySpecException("Only DSAPrivateKeySpec "
-                + "and PKCS8EncodedKeySpec supported for DSA private keys");
+            return keySpec.cbst(spec);
+        } else { // PKCS#8 hbndled in superclbss
+            throw new InvblidKeySpecException("Only DSAPrivbteKeySpec "
+                + "bnd PKCS8EncodedKeySpec supported for DSA privbte keys");
         }
     }
 
-    KeyFactory implGetSoftwareFactory() throws GeneralSecurityException {
-        return KeyFactory.getInstance("DSA", P11Util.getSunProvider());
+    KeyFbctory implGetSoftwbreFbctory() throws GenerblSecurityException {
+        return KeyFbctory.getInstbnce("DSA", P11Util.getSunProvider());
     }
 
 }

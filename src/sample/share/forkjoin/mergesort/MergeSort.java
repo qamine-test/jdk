@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,53 +30,53 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.util.Arrays;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveAction;
+import jbvb.util.Arrbys;
+import jbvb.util.concurrent.ForkJoinPool;
+import jbvb.util.concurrent.ForkJoinTbsk;
+import jbvb.util.concurrent.RecursiveAction;
 
 /**
- * A class for sorting an array of {@code ints} in parallel.
- * A {@code ForkJoinPool} is used for the parallelism, using the merge sort
- * algorithm the array is split into halves and a new sub task is created
- * for each part. Each sub task is dispatched to the {@code ForkJoinPool}
- * which will schedule the task to a {@code Thread}.
- * This happens until the size of the array is at most 2
- * elements long. At this point the array is sorted using a simple compare
- * and possibly a swap. The tasks then finish by using insert sort to
- * merge the two just sorted arrays.
+ * A clbss for sorting bn brrby of {@code ints} in pbrbllel.
+ * A {@code ForkJoinPool} is used for the pbrbllelism, using the merge sort
+ * blgorithm the brrby is split into hblves bnd b new sub tbsk is crebted
+ * for ebch pbrt. Ebch sub tbsk is dispbtched to the {@code ForkJoinPool}
+ * which will schedule the tbsk to b {@code Threbd}.
+ * This hbppens until the size of the brrby is bt most 2
+ * elements long. At this point the brrby is sorted using b simple compbre
+ * bnd possibly b swbp. The tbsks then finish by using insert sort to
+ * merge the two just sorted brrbys.
  *
- * The idea of this class is to demonstrate the usage of RecursiveAction not
- * to implement the best possible parallel merge sort. This version creates
- * a small array for each merge (creating a lot of objects), this could
- * be avoided by keeping a single array.
+ * The ideb of this clbss is to demonstrbte the usbge of RecursiveAction not
+ * to implement the best possible pbrbllel merge sort. This version crebtes
+ * b smbll brrby for ebch merge (crebting b lot of objects), this could
+ * be bvoided by keeping b single brrby.
  */
-public class MergeSort {
-    private final ForkJoinPool pool;
+public clbss MergeSort {
+    privbte finbl ForkJoinPool pool;
 
-    private static class MergeSortTask extends RecursiveAction {
-        private final int[] array;
-        private final int low;
-        private final int high;
-        private static final int THRESHOLD = 8;
+    privbte stbtic clbss MergeSortTbsk extends RecursiveAction {
+        privbte finbl int[] brrby;
+        privbte finbl int low;
+        privbte finbl int high;
+        privbte stbtic finbl int THRESHOLD = 8;
 
         /**
-         * Creates a {@code MergeSortTask} containing the array and the bounds of the array
+         * Crebtes b {@code MergeSortTbsk} contbining the brrby bnd the bounds of the brrby
          *
-         * @param array the array to sort
-         * @param low the lower element to start sorting at
-         * @param high the non-inclusive high element to sort to
+         * @pbrbm brrby the brrby to sort
+         * @pbrbm low the lower element to stbrt sorting bt
+         * @pbrbm high the non-inclusive high element to sort to
          */
-        protected MergeSortTask(int[] array, int low, int high) {
-            this.array = array;
+        protected MergeSortTbsk(int[] brrby, int low, int high) {
+            this.brrby = brrby;
             this.low = low;
             this.high = high;
         }
@@ -84,54 +84,54 @@ public class MergeSort {
         @Override
         protected void compute() {
             if (high - low <= THRESHOLD) {
-                Arrays.sort(array, low, high);
+                Arrbys.sort(brrby, low, high);
             } else {
                 int middle = low + ((high - low) >> 1);
-                // Execute the sub tasks and wait for them to finish
-                invokeAll(new MergeSortTask(array, low, middle), new MergeSortTask(array, middle, high));
+                // Execute the sub tbsks bnd wbit for them to finish
+                invokeAll(new MergeSortTbsk(brrby, low, middle), new MergeSortTbsk(brrby, middle, high));
                 // Then merge the results
                 merge(middle);
             }
         }
 
         /**
-         * Merges the two sorted arrays this.low, middle - 1 and middle, this.high - 1
-         * @param middle the index in the array where the second sorted list begins
+         * Merges the two sorted brrbys this.low, middle - 1 bnd middle, this.high - 1
+         * @pbrbm middle the index in the brrby where the second sorted list begins
          */
-        private void merge(int middle) {
-            if (array[middle - 1] < array[middle]) {
-                return; // the arrays are already correctly sorted, so we can skip the merge
+        privbte void merge(int middle) {
+            if (brrby[middle - 1] < brrby[middle]) {
+                return; // the brrbys bre blrebdy correctly sorted, so we cbn skip the merge
             }
             int[] copy = new int[high - low];
-            System.arraycopy(array, low, copy, 0, copy.length);
+            System.brrbycopy(brrby, low, copy, 0, copy.length);
             int copyLow = 0;
             int copyHigh = high - low;
             int copyMiddle = middle - low;
 
             for (int i = low, p = copyLow, q = copyMiddle; i < high; i++) {
                 if (q >= copyHigh || (p < copyMiddle && copy[p] < copy[q]) ) {
-                    array[i] = copy[p++];
+                    brrby[i] = copy[p++];
                 } else {
-                    array[i] = copy[q++];
+                    brrby[i] = copy[q++];
                 }
             }
         }
     }
 
     /**
-     * Creates a {@code MergeSort} containing a ForkJoinPool with the indicated parallelism level
-     * @param parallelism the parallelism level used
+     * Crebtes b {@code MergeSort} contbining b ForkJoinPool with the indicbted pbrbllelism level
+     * @pbrbm pbrbllelism the pbrbllelism level used
      */
-    public MergeSort(int parallelism) {
-        pool = new ForkJoinPool(parallelism);
+    public MergeSort(int pbrbllelism) {
+        pool = new ForkJoinPool(pbrbllelism);
     }
 
     /**
-     * Sorts all the elements of the given array using the ForkJoin framework
-     * @param array the array to sort
+     * Sorts bll the elements of the given brrby using the ForkJoin frbmework
+     * @pbrbm brrby the brrby to sort
      */
-    public void sort(int[] array) {
-        ForkJoinTask<Void> job = pool.submit(new MergeSortTask(array, 0, array.length));
+    public void sort(int[] brrby) {
+        ForkJoinTbsk<Void> job = pool.submit(new MergeSortTbsk(brrby, 0, brrby.length));
         job.join();
     }
 }

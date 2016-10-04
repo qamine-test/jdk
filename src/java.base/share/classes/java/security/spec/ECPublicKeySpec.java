@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.security.spec;
+pbckbge jbvb.security.spec;
 
 /**
- * This immutable class specifies an elliptic curve public key with
- * its associated parameters.
+ * This immutbble clbss specifies bn elliptic curve public key with
+ * its bssocibted pbrbmeters.
  *
  * @see KeySpec
  * @see ECPoint
- * @see ECParameterSpec
+ * @see ECPbrbmeterSpec
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  *
  * @since 1.5
  */
-public class ECPublicKeySpec implements KeySpec {
+public clbss ECPublicKeySpec implements KeySpec {
 
-    private ECPoint w;
-    private ECParameterSpec params;
+    privbte ECPoint w;
+    privbte ECPbrbmeterSpec pbrbms;
 
     /**
-     * Creates a new ECPublicKeySpec with the specified
-     * parameter values.
-     * @param w the public point.
-     * @param params the associated elliptic curve domain
-     * parameters.
+     * Crebtes b new ECPublicKeySpec with the specified
+     * pbrbmeter vblues.
+     * @pbrbm w the public point.
+     * @pbrbm pbrbms the bssocibted elliptic curve dombin
+     * pbrbmeters.
      * @exception NullPointerException if {@code w}
-     * or {@code params} is null.
-     * @exception IllegalArgumentException if {@code w}
-     * is point at infinity, i.e. ECPoint.POINT_INFINITY
+     * or {@code pbrbms} is null.
+     * @exception IllegblArgumentException if {@code w}
+     * is point bt infinity, i.e. ECPoint.POINT_INFINITY
      */
-    public ECPublicKeySpec(ECPoint w, ECParameterSpec params) {
+    public ECPublicKeySpec(ECPoint w, ECPbrbmeterSpec pbrbms) {
         if (w == null) {
             throw new NullPointerException("w is null");
         }
-        if (params == null) {
-            throw new NullPointerException("params is null");
+        if (pbrbms == null) {
+            throw new NullPointerException("pbrbms is null");
         }
         if (w == ECPoint.POINT_INFINITY) {
-            throw new IllegalArgumentException("w is ECPoint.POINT_INFINITY");
+            throw new IllegblArgumentException("w is ECPoint.POINT_INFINITY");
         }
         this.w = w;
-        this.params = params;
+        this.pbrbms = pbrbms;
     }
 
     /**
@@ -75,11 +75,11 @@ public class ECPublicKeySpec implements KeySpec {
     }
 
     /**
-     * Returns the associated elliptic curve domain
-     * parameters.
-     * @return the EC domain parameters.
+     * Returns the bssocibted elliptic curve dombin
+     * pbrbmeters.
+     * @return the EC dombin pbrbmeters.
      */
-    public ECParameterSpec getParams() {
-        return params;
+    public ECPbrbmeterSpec getPbrbms() {
+        return pbrbms;
     }
 }

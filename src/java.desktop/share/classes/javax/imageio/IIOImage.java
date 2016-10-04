@@ -1,322 +1,322 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio;
+pbckbge jbvbx.imbgeio;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.util.List;
-import javax.imageio.metadata.IIOMetadata;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.util.List;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
 
 /**
- * A simple container class to aggregate an image, a set of
- * thumbnail (preview) images, and an object representing metadata
- * associated with the image.
+ * A simple contbiner clbss to bggregbte bn imbge, b set of
+ * thumbnbil (preview) imbges, bnd bn object representing metbdbtb
+ * bssocibted with the imbge.
  *
- * <p> The image data may take the form of either a
- * <code>RenderedImage</code>, or a <code>Raster</code>.  Reader
- * methods that return an <code>IIOImage</code> will always return a
- * <code>BufferedImage</code> using the <code>RenderedImage</code>
- * reference.  Writer methods that accept an <code>IIOImage</code>
- * will always accept a <code>RenderedImage</code>, and may optionally
- * accept a <code>Raster</code>.
+ * <p> The imbge dbtb mby tbke the form of either b
+ * <code>RenderedImbge</code>, or b <code>Rbster</code>.  Rebder
+ * methods thbt return bn <code>IIOImbge</code> will blwbys return b
+ * <code>BufferedImbge</code> using the <code>RenderedImbge</code>
+ * reference.  Writer methods thbt bccept bn <code>IIOImbge</code>
+ * will blwbys bccept b <code>RenderedImbge</code>, bnd mby optionblly
+ * bccept b <code>Rbster</code>.
  *
- * <p> Exactly one of <code>getRenderedImage</code> and
- * <code>getRaster</code> will return a non-<code>null</code> value.
- * Subclasses are responsible for ensuring this behavior.
+ * <p> Exbctly one of <code>getRenderedImbge</code> bnd
+ * <code>getRbster</code> will return b non-<code>null</code> vblue.
+ * Subclbsses bre responsible for ensuring this behbvior.
  *
- * @see ImageReader#readAll(int, ImageReadParam)
- * @see ImageReader#readAll(java.util.Iterator)
- * @see ImageWriter#write(javax.imageio.metadata.IIOMetadata,
- *                        IIOImage, ImageWriteParam)
- * @see ImageWriter#write(IIOImage)
- * @see ImageWriter#writeToSequence(IIOImage, ImageWriteParam)
- * @see ImageWriter#writeInsert(int, IIOImage, ImageWriteParam)
+ * @see ImbgeRebder#rebdAll(int, ImbgeRebdPbrbm)
+ * @see ImbgeRebder#rebdAll(jbvb.util.Iterbtor)
+ * @see ImbgeWriter#write(jbvbx.imbgeio.metbdbtb.IIOMetbdbtb,
+ *                        IIOImbge, ImbgeWritePbrbm)
+ * @see ImbgeWriter#write(IIOImbge)
+ * @see ImbgeWriter#writeToSequence(IIOImbge, ImbgeWritePbrbm)
+ * @see ImbgeWriter#writeInsert(int, IIOImbge, ImbgeWritePbrbm)
  *
  */
-public class IIOImage {
+public clbss IIOImbge {
 
     /**
-     * The <code>RenderedImage</code> being referenced.
+     * The <code>RenderedImbge</code> being referenced.
      */
-    protected RenderedImage image;
+    protected RenderedImbge imbge;
 
     /**
-     * The <code>Raster</code> being referenced.
+     * The <code>Rbster</code> being referenced.
      */
-    protected Raster raster;
+    protected Rbster rbster;
 
     /**
-     * A <code>List</code> of <code>BufferedImage</code> thumbnails,
-     * or <code>null</code>.  Non-<code>BufferedImage</code> objects
+     * A <code>List</code> of <code>BufferedImbge</code> thumbnbils,
+     * or <code>null</code>.  Non-<code>BufferedImbge</code> objects
      * must not be stored in this <code>List</code>.
      */
-    protected List<? extends BufferedImage> thumbnails = null;
+    protected List<? extends BufferedImbge> thumbnbils = null;
 
     /**
-     * An <code>IIOMetadata</code> object containing metadata
-     * associated with the image.
+     * An <code>IIOMetbdbtb</code> object contbining metbdbtb
+     * bssocibted with the imbge.
      */
-    protected IIOMetadata metadata;
+    protected IIOMetbdbtb metbdbtb;
 
     /**
-     * Constructs an <code>IIOImage</code> containing a
-     * <code>RenderedImage</code>, and thumbnails and metadata
-     * associated with it.
+     * Constructs bn <code>IIOImbge</code> contbining b
+     * <code>RenderedImbge</code>, bnd thumbnbils bnd metbdbtb
+     * bssocibted with it.
      *
-     * <p> All parameters are stored by reference.
+     * <p> All pbrbmeters bre stored by reference.
      *
-     * <p> The <code>thumbnails</code> argument must either be
-     * <code>null</code> or contain only <code>BufferedImage</code>
+     * <p> The <code>thumbnbils</code> brgument must either be
+     * <code>null</code> or contbin only <code>BufferedImbge</code>
      * objects.
      *
-     * @param image a <code>RenderedImage</code>.
-     * @param thumbnails a <code>List</code> of <code>BufferedImage</code>s,
+     * @pbrbm imbge b <code>RenderedImbge</code>.
+     * @pbrbm thumbnbils b <code>List</code> of <code>BufferedImbge</code>s,
      * or <code>null</code>.
-     * @param metadata an <code>IIOMetadata</code> object, or
+     * @pbrbm metbdbtb bn <code>IIOMetbdbtb</code> object, or
      * <code>null</code>.
      *
-     * @exception IllegalArgumentException if <code>image</code> is
+     * @exception IllegblArgumentException if <code>imbge</code> is
      * <code>null</code>.
      */
-    public IIOImage(RenderedImage image,
-                    List<? extends BufferedImage> thumbnails,
-                    IIOMetadata metadata) {
-        if (image == null) {
-            throw new IllegalArgumentException("image == null!");
+    public IIOImbge(RenderedImbge imbge,
+                    List<? extends BufferedImbge> thumbnbils,
+                    IIOMetbdbtb metbdbtb) {
+        if (imbge == null) {
+            throw new IllegblArgumentException("imbge == null!");
         }
-        this.image = image;
-        this.raster = null;
-        this.thumbnails = thumbnails;
-        this.metadata = metadata;
+        this.imbge = imbge;
+        this.rbster = null;
+        this.thumbnbils = thumbnbils;
+        this.metbdbtb = metbdbtb;
     }
 
     /**
-     * Constructs an <code>IIOImage</code> containing a
-     * <code>Raster</code>, and thumbnails and metadata
-     * associated with it.
+     * Constructs bn <code>IIOImbge</code> contbining b
+     * <code>Rbster</code>, bnd thumbnbils bnd metbdbtb
+     * bssocibted with it.
      *
-     * <p> All parameters are stored by reference.
+     * <p> All pbrbmeters bre stored by reference.
      *
-     * @param raster a <code>Raster</code>.
-     * @param thumbnails a <code>List</code> of <code>BufferedImage</code>s,
+     * @pbrbm rbster b <code>Rbster</code>.
+     * @pbrbm thumbnbils b <code>List</code> of <code>BufferedImbge</code>s,
      * or <code>null</code>.
-     * @param metadata an <code>IIOMetadata</code> object, or
+     * @pbrbm metbdbtb bn <code>IIOMetbdbtb</code> object, or
      * <code>null</code>.
      *
-     * @exception IllegalArgumentException if <code>raster</code> is
+     * @exception IllegblArgumentException if <code>rbster</code> is
      * <code>null</code>.
      */
-    public IIOImage(Raster raster,
-                    List<? extends BufferedImage> thumbnails,
-                    IIOMetadata metadata) {
-        if (raster == null) {
-            throw new IllegalArgumentException("raster == null!");
+    public IIOImbge(Rbster rbster,
+                    List<? extends BufferedImbge> thumbnbils,
+                    IIOMetbdbtb metbdbtb) {
+        if (rbster == null) {
+            throw new IllegblArgumentException("rbster == null!");
         }
-        this.raster = raster;
-        this.image = null;
-        this.thumbnails = thumbnails;
-        this.metadata = metadata;
+        this.rbster = rbster;
+        this.imbge = null;
+        this.thumbnbils = thumbnbils;
+        this.metbdbtb = metbdbtb;
     }
 
     /**
-     * Returns the currently set <code>RenderedImage</code>, or
-     * <code>null</code> if only a <code>Raster</code> is available.
+     * Returns the currently set <code>RenderedImbge</code>, or
+     * <code>null</code> if only b <code>Rbster</code> is bvbilbble.
      *
-     * @return a <code>RenderedImage</code>, or <code>null</code>.
+     * @return b <code>RenderedImbge</code>, or <code>null</code>.
      *
-     * @see #setRenderedImage
+     * @see #setRenderedImbge
      */
-    public RenderedImage getRenderedImage() {
+    public RenderedImbge getRenderedImbge() {
         synchronized(this) {
-            return image;
+            return imbge;
         }
     }
 
     /**
-     * Sets the current <code>RenderedImage</code>.  The value is
-     * stored by reference.  Any existing <code>Raster</code> is
-     * discarded.
+     * Sets the current <code>RenderedImbge</code>.  The vblue is
+     * stored by reference.  Any existing <code>Rbster</code> is
+     * discbrded.
      *
-     * @param image a <code>RenderedImage</code>.
+     * @pbrbm imbge b <code>RenderedImbge</code>.
      *
-     * @exception IllegalArgumentException if <code>image</code> is
+     * @exception IllegblArgumentException if <code>imbge</code> is
      * <code>null</code>.
      *
-     * @see #getRenderedImage
+     * @see #getRenderedImbge
      */
-    public void setRenderedImage(RenderedImage image) {
+    public void setRenderedImbge(RenderedImbge imbge) {
         synchronized(this) {
-            if (image == null) {
-                throw new IllegalArgumentException("image == null!");
+            if (imbge == null) {
+                throw new IllegblArgumentException("imbge == null!");
             }
-            this.image = image;
-            this.raster = null;
+            this.imbge = imbge;
+            this.rbster = null;
         }
     }
 
     /**
-     * Returns <code>true</code> if this <code>IIOImage</code> stores
-     * a <code>Raster</code> rather than a <code>RenderedImage</code>.
+     * Returns <code>true</code> if this <code>IIOImbge</code> stores
+     * b <code>Rbster</code> rbther thbn b <code>RenderedImbge</code>.
      *
-     * @return <code>true</code> if a <code>Raster</code> is
-     * available.
+     * @return <code>true</code> if b <code>Rbster</code> is
+     * bvbilbble.
      */
-    public boolean hasRaster() {
+    public boolebn hbsRbster() {
         synchronized(this) {
-            return (raster != null);
+            return (rbster != null);
         }
     }
 
     /**
-     * Returns the currently set <code>Raster</code>, or
-     * <code>null</code> if only a <code>RenderedImage</code> is
-     * available.
+     * Returns the currently set <code>Rbster</code>, or
+     * <code>null</code> if only b <code>RenderedImbge</code> is
+     * bvbilbble.
      *
-     * @return a <code>Raster</code>, or <code>null</code>.
+     * @return b <code>Rbster</code>, or <code>null</code>.
      *
-     * @see #setRaster
+     * @see #setRbster
      */
-    public Raster getRaster() {
+    public Rbster getRbster() {
         synchronized(this) {
-            return raster;
+            return rbster;
         }
     }
 
     /**
-     * Sets the current <code>Raster</code>.  The value is
-     * stored by reference.  Any existing <code>RenderedImage</code> is
-     * discarded.
+     * Sets the current <code>Rbster</code>.  The vblue is
+     * stored by reference.  Any existing <code>RenderedImbge</code> is
+     * discbrded.
      *
-     * @param raster a <code>Raster</code>.
+     * @pbrbm rbster b <code>Rbster</code>.
      *
-     * @exception IllegalArgumentException if <code>raster</code> is
+     * @exception IllegblArgumentException if <code>rbster</code> is
      * <code>null</code>.
      *
-     * @see #getRaster
+     * @see #getRbster
      */
-    public void setRaster(Raster raster) {
+    public void setRbster(Rbster rbster) {
         synchronized(this) {
-            if (raster == null) {
-                throw new IllegalArgumentException("raster == null!");
+            if (rbster == null) {
+                throw new IllegblArgumentException("rbster == null!");
             }
-            this.raster = raster;
-            this.image = null;
+            this.rbster = rbster;
+            this.imbge = null;
         }
     }
 
     /**
-     * Returns the number of thumbnails stored in this
-     * <code>IIOImage</code>.
+     * Returns the number of thumbnbils stored in this
+     * <code>IIOImbge</code>.
      *
-     * @return the number of thumbnails, as an <code>int</code>.
+     * @return the number of thumbnbils, bs bn <code>int</code>.
      */
-    public int getNumThumbnails() {
-        return thumbnails == null ? 0 : thumbnails.size();
+    public int getNumThumbnbils() {
+        return thumbnbils == null ? 0 : thumbnbils.size();
     }
 
     /**
-     * Returns a thumbnail associated with the main image.
+     * Returns b thumbnbil bssocibted with the mbin imbge.
      *
-     * @param index the index of the desired thumbnail image.
+     * @pbrbm index the index of the desired thumbnbil imbge.
      *
-     * @return a thumbnail image, as a <code>BufferedImage</code>.
+     * @return b thumbnbil imbge, bs b <code>BufferedImbge</code>.
      *
      * @exception IndexOutOfBoundsException if the supplied index is
-     * negative or larger than the largest valid index.
-     * @exception ClassCastException if a
-     * non-<code>BufferedImage</code> object is encountered in the
-     * list of thumbnails at the given index.
+     * negbtive or lbrger thbn the lbrgest vblid index.
+     * @exception ClbssCbstException if b
+     * non-<code>BufferedImbge</code> object is encountered in the
+     * list of thumbnbils bt the given index.
      *
-     * @see #getThumbnails
-     * @see #setThumbnails
+     * @see #getThumbnbils
+     * @see #setThumbnbils
      */
-    public BufferedImage getThumbnail(int index) {
-        if (thumbnails == null) {
-            throw new IndexOutOfBoundsException("No thumbnails available!");
+    public BufferedImbge getThumbnbil(int index) {
+        if (thumbnbils == null) {
+            throw new IndexOutOfBoundsException("No thumbnbils bvbilbble!");
         }
-        return (BufferedImage)thumbnails.get(index);
+        return (BufferedImbge)thumbnbils.get(index);
     }
 
     /**
-     * Returns the current <code>List</code> of thumbnail
-     * <code>BufferedImage</code>s, or <code>null</code> if none is
+     * Returns the current <code>List</code> of thumbnbil
+     * <code>BufferedImbge</code>s, or <code>null</code> if none is
      * set.  A live reference is returned.
      *
      * @return the current <code>List</code> of
-     * <code>BufferedImage</code> thumbnails, or <code>null</code>.
+     * <code>BufferedImbge</code> thumbnbils, or <code>null</code>.
      *
-     * @see #getThumbnail(int)
-     * @see #setThumbnails
+     * @see #getThumbnbil(int)
+     * @see #setThumbnbils
      */
-    public List<? extends BufferedImage> getThumbnails() {
-        return thumbnails;
+    public List<? extends BufferedImbge> getThumbnbils() {
+        return thumbnbils;
     }
 
     /**
-     * Sets the list of thumbnails to a new <code>List</code> of
-     * <code>BufferedImage</code>s, or to <code>null</code>.  The
-     * reference to the previous <code>List</code> is discarded.
+     * Sets the list of thumbnbils to b new <code>List</code> of
+     * <code>BufferedImbge</code>s, or to <code>null</code>.  The
+     * reference to the previous <code>List</code> is discbrded.
      *
-     * <p> The <code>thumbnails</code> argument must either be
-     * <code>null</code> or contain only <code>BufferedImage</code>
+     * <p> The <code>thumbnbils</code> brgument must either be
+     * <code>null</code> or contbin only <code>BufferedImbge</code>
      * objects.
      *
-     * @param thumbnails a <code>List</code> of
-     * <code>BufferedImage</code> thumbnails, or <code>null</code>.
+     * @pbrbm thumbnbils b <code>List</code> of
+     * <code>BufferedImbge</code> thumbnbils, or <code>null</code>.
      *
-     * @see #getThumbnail(int)
-     * @see #getThumbnails
+     * @see #getThumbnbil(int)
+     * @see #getThumbnbils
      */
-    public void setThumbnails(List<? extends BufferedImage> thumbnails) {
-        this.thumbnails = thumbnails;
+    public void setThumbnbils(List<? extends BufferedImbge> thumbnbils) {
+        this.thumbnbils = thumbnbils;
     }
 
     /**
-     * Returns a reference to the current <code>IIOMetadata</code>
+     * Returns b reference to the current <code>IIOMetbdbtb</code>
      * object, or <code>null</code> is none is set.
      *
-     * @return an <code>IIOMetadata</code> object, or <code>null</code>.
+     * @return bn <code>IIOMetbdbtb</code> object, or <code>null</code>.
      *
-     * @see #setMetadata
+     * @see #setMetbdbtb
      */
-    public IIOMetadata getMetadata() {
-        return metadata;
+    public IIOMetbdbtb getMetbdbtb() {
+        return metbdbtb;
     }
 
     /**
-     * Sets the <code>IIOMetadata</code> to a new object, or
+     * Sets the <code>IIOMetbdbtb</code> to b new object, or
      * <code>null</code>.
      *
-     * @param metadata an <code>IIOMetadata</code> object, or
+     * @pbrbm metbdbtb bn <code>IIOMetbdbtb</code> object, or
      * <code>null</code>.
      *
-     * @see #getMetadata
+     * @see #getMetbdbtb
      */
-    public void setMetadata(IIOMetadata metadata) {
-        this.metadata = metadata;
+    public void setMetbdbtb(IIOMetbdbtb metbdbtb) {
+        this.metbdbtb = metbdbtb;
     }
 }

@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss;
+pbckbge sun.security.jgss;
 
 import org.ietf.jgss.*;
 import sun.security.jgss.spi.*;
-import java.util.*;
+import jbvb.util.*;
 import com.sun.security.jgss.*;
 import sun.security.jgss.spnego.SpNegoCredElement;
 
-public class GSSCredentialImpl implements ExtendedGSSCredential {
+public clbss GSSCredentiblImpl implements ExtendedGSSCredentibl {
 
-    private GSSManagerImpl gssManager = null;
-    private boolean destroyed = false;
+    privbte GSSMbnbgerImpl gssMbnbger = null;
+    privbte boolebn destroyed = fblse;
 
     /*
-     * We store all elements in a hashtable, using <oid, usage> as the
-     * key. This makes it easy to locate the specific kind of credential we
-     * need. The implementation needs to be optimized for the case where
+     * We store bll elements in b hbshtbble, using <oid, usbge> bs the
+     * key. This mbkes it ebsy to locbte the specific kind of credentibl we
+     * need. The implementbtion needs to be optimized for the cbse where
      * there is just one element (tempCred).
      */
-    private Hashtable<SearchKey, GSSCredentialSpi> hashtable = null;
+    privbte Hbshtbble<SebrchKey, GSSCredentiblSpi> hbshtbble = null;
 
-    // XXX Optimization for single mech usage
-    private GSSCredentialSpi tempCred = null;
+    // XXX Optimizbtion for single mech usbge
+    privbte GSSCredentiblSpi tempCred = null;
 
-    GSSCredentialImpl(GSSManagerImpl gssManager, int usage)
+    GSSCredentiblImpl(GSSMbnbgerImpl gssMbnbger, int usbge)
         throws GSSException {
-        this(gssManager, null, GSSCredential.DEFAULT_LIFETIME,
-             (Oid[]) null, usage);
+        this(gssMbnbger, null, GSSCredentibl.DEFAULT_LIFETIME,
+             (Oid[]) null, usbge);
     }
 
-    GSSCredentialImpl(GSSManagerImpl gssManager, GSSName name,
-                             int lifetime, Oid mech, int usage)
+    GSSCredentiblImpl(GSSMbnbgerImpl gssMbnbger, GSSNbme nbme,
+                             int lifetime, Oid mech, int usbge)
         throws GSSException {
         if (mech == null) mech = ProviderList.DEFAULT_MECH_OID;
 
-        init(gssManager);
-        add(name, lifetime, lifetime, mech, usage);
+        init(gssMbnbger);
+        bdd(nbme, lifetime, lifetime, mech, usbge);
     }
 
-    GSSCredentialImpl(GSSManagerImpl gssManager, GSSName name,
-                      int lifetime, Oid mechs[], int usage)
+    GSSCredentiblImpl(GSSMbnbgerImpl gssMbnbger, GSSNbme nbme,
+                      int lifetime, Oid mechs[], int usbge)
         throws GSSException {
-        init(gssManager);
-        boolean defaultList = false;
+        init(gssMbnbger);
+        boolebn defbultList = fblse;
         if (mechs == null) {
-            mechs = gssManager.getMechs();
-            defaultList = true;
+            mechs = gssMbnbger.getMechs();
+            defbultList = true;
         }
 
         for (int i = 0; i < mechs.length; i++) {
             try {
-                add(name, lifetime, lifetime, mechs[i], usage);
-            } catch (GSSException e) {
-                if (defaultList) {
-                    // Try the next mechanism
-                    GSSUtil.debug("Ignore " + e + " while acquring cred for "
+                bdd(nbme, lifetime, lifetime, mechs[i], usbge);
+            } cbtch (GSSException e) {
+                if (defbultList) {
+                    // Try the next mechbnism
+                    GSSUtil.debug("Ignore " + e + " while bcquring cred for "
                         + mechs[i]);
-                    //e.printStackTrace();
-                } else throw e; // else try the next mechanism
+                    //e.printStbckTrbce();
+                } else throw e; // else try the next mechbnism
             }
         }
-        if ((hashtable.size() == 0) || (usage != getUsage()))
+        if ((hbshtbble.size() == 0) || (usbge != getUsbge()))
             throw new GSSException(GSSException.NO_CRED);
     }
 
-    // Wrap a mech cred into a GSS cred
-    public GSSCredentialImpl(GSSManagerImpl gssManager,
-                      GSSCredentialSpi mechElement) throws GSSException {
+    // Wrbp b mech cred into b GSS cred
+    public GSSCredentiblImpl(GSSMbnbgerImpl gssMbnbger,
+                      GSSCredentiblSpi mechElement) throws GSSException {
 
-        init(gssManager);
-        int usage = GSSCredential.ACCEPT_ONLY;
-        if (mechElement.isInitiatorCredential()) {
-            if (mechElement.isAcceptorCredential()) {
-                usage = GSSCredential.INITIATE_AND_ACCEPT;
+        init(gssMbnbger);
+        int usbge = GSSCredentibl.ACCEPT_ONLY;
+        if (mechElement.isInitibtorCredentibl()) {
+            if (mechElement.isAcceptorCredentibl()) {
+                usbge = GSSCredentibl.INITIATE_AND_ACCEPT;
             } else {
-                usage = GSSCredential.INITIATE_ONLY;
+                usbge = GSSCredentibl.INITIATE_ONLY;
             }
         }
-        SearchKey key = new SearchKey(mechElement.getMechanism(),
-                                        usage);
+        SebrchKey key = new SebrchKey(mechElement.getMechbnism(),
+                                        usbge);
         tempCred = mechElement;
-        hashtable.put(key, tempCred);
-        // More mechs that can use this cred, say, SPNEGO
-        if (!GSSUtil.isSpNegoMech(mechElement.getMechanism())) {
-            key = new SearchKey(GSSUtil.GSS_SPNEGO_MECH_OID, usage);
-            hashtable.put(key, new SpNegoCredElement(mechElement));
+        hbshtbble.put(key, tempCred);
+        // More mechs thbt cbn use this cred, sby, SPNEGO
+        if (!GSSUtil.isSpNegoMech(mechElement.getMechbnism())) {
+            key = new SebrchKey(GSSUtil.GSS_SPNEGO_MECH_OID, usbge);
+            hbshtbble.put(key, new SpNegoCredElement(mechElement));
         }
     }
 
-    void init(GSSManagerImpl gssManager) {
-        this.gssManager = gssManager;
-        hashtable = new Hashtable<SearchKey, GSSCredentialSpi>(
-                                                gssManager.getMechs().length);
+    void init(GSSMbnbgerImpl gssMbnbger) {
+        this.gssMbnbger = gssMbnbger;
+        hbshtbble = new Hbshtbble<SebrchKey, GSSCredentiblSpi>(
+                                                gssMbnbger.getMechs().length);
     }
 
     public void dispose() throws GSSException {
         if (!destroyed) {
-            GSSCredentialSpi element;
-            Enumeration<GSSCredentialSpi> values = hashtable.elements();
-            while (values.hasMoreElements()) {
-                element = values.nextElement();
+            GSSCredentiblSpi element;
+            Enumerbtion<GSSCredentiblSpi> vblues = hbshtbble.elements();
+            while (vblues.hbsMoreElements()) {
+                element = vblues.nextElement();
                 element.dispose();
             }
             destroyed = true;
         }
     }
 
-    public GSSCredential impersonate(GSSName name) throws GSSException {
+    public GSSCredentibl impersonbte(GSSNbme nbme) throws GSSException {
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
-        Oid mech = tempCred.getMechanism();
-        GSSNameSpi nameElement = (name == null ? null :
-                                  ((GSSNameImpl)name).getElement(mech));
-        GSSCredentialSpi cred = tempCred.impersonate(nameElement);
+        Oid mech = tempCred.getMechbnism();
+        GSSNbmeSpi nbmeElement = (nbme == null ? null :
+                                  ((GSSNbmeImpl)nbme).getElement(mech));
+        GSSCredentiblSpi cred = tempCred.impersonbte(nbmeElement);
         return (cred == null ?
-            null : new GSSCredentialImpl(gssManager, cred));
+            null : new GSSCredentiblImpl(gssMbnbger, cred));
     }
 
-    public GSSName getName() throws GSSException {
+    public GSSNbme getNbme() throws GSSException {
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
-        return GSSNameImpl.wrapElement(gssManager, tempCred.getName());
+        return GSSNbmeImpl.wrbpElement(gssMbnbger, tempCred.getNbme());
     }
 
-    public GSSName getName(Oid mech) throws GSSException {
+    public GSSNbme getNbme(Oid mech) throws GSSException {
 
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
 
-        SearchKey key = null;
-        GSSCredentialSpi element = null;
+        SebrchKey key = null;
+        GSSCredentiblSpi element = null;
 
         if (mech == null) mech = ProviderList.DEFAULT_MECH_OID;
 
-        key = new SearchKey(mech, GSSCredential.INITIATE_ONLY);
-        element = hashtable.get(key);
+        key = new SebrchKey(mech, GSSCredentibl.INITIATE_ONLY);
+        element = hbshtbble.get(key);
 
         if (element == null) {
-            key = new SearchKey(mech, GSSCredential.ACCEPT_ONLY);
-            element = hashtable.get(key);
+            key = new SebrchKey(mech, GSSCredentibl.ACCEPT_ONLY);
+            element = hbshtbble.get(key);
         }
 
         if (element == null) {
-            key = new SearchKey(mech, GSSCredential.INITIATE_AND_ACCEPT);
-            element = hashtable.get(key);
+            key = new SebrchKey(mech, GSSCredentibl.INITIATE_AND_ACCEPT);
+            element = hbshtbble.get(key);
         }
 
         if (element == null) {
             throw new GSSExceptionImpl(GSSException.BAD_MECH, mech);
         }
 
-        return GSSNameImpl.wrapElement(gssManager, element.getName());
+        return GSSNbmeImpl.wrbpElement(gssMbnbger, element.getNbme());
 
     }
 
     /**
-     * Returns the remaining lifetime of this credential. The remaining
-     * lifetime is defined as the minimum lifetime, either for initiate or
-     * for accept, across all elements contained in it. Not terribly
+     * Returns the rembining lifetime of this credentibl. The rembining
+     * lifetime is defined bs the minimum lifetime, either for initibte or
+     * for bccept, bcross bll elements contbined in it. Not terribly
      * useful, but required by GSS-API.
      */
-    public int getRemainingLifetime() throws GSSException {
+    public int getRembiningLifetime() throws GSSException {
 
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
 
-        SearchKey tempKey;
-        GSSCredentialSpi tempCred;
+        SebrchKey tempKey;
+        GSSCredentiblSpi tempCred;
         int tempLife = 0, tempInitLife = 0, tempAcceptLife = 0;
         int min = INDEFINITE_LIFETIME;
 
-        for (Enumeration<SearchKey> e = hashtable.keys();
-                                        e.hasMoreElements(); ) {
+        for (Enumerbtion<SebrchKey> e = hbshtbble.keys();
+                                        e.hbsMoreElements(); ) {
             tempKey = e.nextElement();
-            tempCred = hashtable.get(tempKey);
-            if (tempKey.getUsage() == INITIATE_ONLY)
+            tempCred = hbshtbble.get(tempKey);
+            if (tempKey.getUsbge() == INITIATE_ONLY)
                 tempLife = tempCred.getInitLifetime();
-            else if (tempKey.getUsage() == ACCEPT_ONLY)
+            else if (tempKey.getUsbge() == ACCEPT_ONLY)
                 tempLife = tempCred.getAcceptLifetime();
             else {
                 tempInitLife = tempCred.getInitLifetime();
@@ -224,115 +224,115 @@ public class GSSCredentialImpl implements ExtendedGSSCredential {
         return min;
     }
 
-    public int getRemainingInitLifetime(Oid mech) throws GSSException {
+    public int getRembiningInitLifetime(Oid mech) throws GSSException {
 
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
 
-        GSSCredentialSpi element = null;
-        SearchKey key = null;
-        boolean found = false;
-        int max = 0;
+        GSSCredentiblSpi element = null;
+        SebrchKey key = null;
+        boolebn found = fblse;
+        int mbx = 0;
 
         if (mech == null) mech = ProviderList.DEFAULT_MECH_OID;
 
-        key = new SearchKey(mech, GSSCredential.INITIATE_ONLY);
-        element = hashtable.get(key);
+        key = new SebrchKey(mech, GSSCredentibl.INITIATE_ONLY);
+        element = hbshtbble.get(key);
 
         if (element != null) {
             found = true;
-            if (max < element.getInitLifetime())
-                max = element.getInitLifetime();
+            if (mbx < element.getInitLifetime())
+                mbx = element.getInitLifetime();
         }
 
-        key = new SearchKey(mech, GSSCredential.INITIATE_AND_ACCEPT);
-        element = hashtable.get(key);
+        key = new SebrchKey(mech, GSSCredentibl.INITIATE_AND_ACCEPT);
+        element = hbshtbble.get(key);
 
         if (element != null) {
             found = true;
-            if (max < element.getInitLifetime())
-                max = element.getInitLifetime();
+            if (mbx < element.getInitLifetime())
+                mbx = element.getInitLifetime();
         }
 
         if (!found) {
             throw new GSSExceptionImpl(GSSException.BAD_MECH, mech);
         }
 
-        return max;
+        return mbx;
 
     }
 
-    public int getRemainingAcceptLifetime(Oid mech) throws GSSException {
+    public int getRembiningAcceptLifetime(Oid mech) throws GSSException {
 
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
 
-        GSSCredentialSpi element = null;
-        SearchKey key = null;
-        boolean found = false;
-        int max = 0;
+        GSSCredentiblSpi element = null;
+        SebrchKey key = null;
+        boolebn found = fblse;
+        int mbx = 0;
 
         if (mech == null) mech = ProviderList.DEFAULT_MECH_OID;
 
-        key = new SearchKey(mech, GSSCredential.ACCEPT_ONLY);
-        element = hashtable.get(key);
+        key = new SebrchKey(mech, GSSCredentibl.ACCEPT_ONLY);
+        element = hbshtbble.get(key);
 
         if (element != null) {
             found = true;
-            if (max < element.getAcceptLifetime())
-                max = element.getAcceptLifetime();
+            if (mbx < element.getAcceptLifetime())
+                mbx = element.getAcceptLifetime();
         }
 
-        key = new SearchKey(mech, GSSCredential.INITIATE_AND_ACCEPT);
-        element = hashtable.get(key);
+        key = new SebrchKey(mech, GSSCredentibl.INITIATE_AND_ACCEPT);
+        element = hbshtbble.get(key);
 
         if (element != null) {
             found = true;
-            if (max < element.getAcceptLifetime())
-                max = element.getAcceptLifetime();
+            if (mbx < element.getAcceptLifetime())
+                mbx = element.getAcceptLifetime();
         }
 
         if (!found) {
             throw new GSSExceptionImpl(GSSException.BAD_MECH, mech);
         }
 
-        return max;
+        return mbx;
 
     }
 
     /**
-     * Returns the usage mode for this credential. Returns
-     * INITIATE_AND_ACCEPT if any one element contained in it supports
+     * Returns the usbge mode for this credentibl. Returns
+     * INITIATE_AND_ACCEPT if bny one element contbined in it supports
      * INITIATE_AND_ACCEPT or if two different elements exist where one
-     * support INITIATE_ONLY and the other supports ACCEPT_ONLY.
+     * support INITIATE_ONLY bnd the other supports ACCEPT_ONLY.
      */
-    public int getUsage() throws GSSException {
+    public int getUsbge() throws GSSException {
 
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
 
-        SearchKey tempKey;
-        boolean initiate = false;
-        boolean accept = false;
+        SebrchKey tempKey;
+        boolebn initibte = fblse;
+        boolebn bccept = fblse;
 
-        for (Enumeration<SearchKey> e = hashtable.keys();
-                                        e.hasMoreElements(); ) {
+        for (Enumerbtion<SebrchKey> e = hbshtbble.keys();
+                                        e.hbsMoreElements(); ) {
             tempKey = e.nextElement();
-            if (tempKey.getUsage() == INITIATE_ONLY)
-                initiate = true;
-            else if (tempKey.getUsage() == ACCEPT_ONLY)
-                accept = true;
+            if (tempKey.getUsbge() == INITIATE_ONLY)
+                initibte = true;
+            else if (tempKey.getUsbge() == ACCEPT_ONLY)
+                bccept = true;
             else
                 return INITIATE_AND_ACCEPT;
         }
-        if (initiate) {
-            if (accept)
+        if (initibte) {
+            if (bccept)
                 return INITIATE_AND_ACCEPT;
             else
                 return INITIATE_ONLY;
@@ -340,48 +340,48 @@ public class GSSCredentialImpl implements ExtendedGSSCredential {
             return ACCEPT_ONLY;
     }
 
-    public int getUsage(Oid mech) throws GSSException {
+    public int getUsbge(Oid mech) throws GSSException {
 
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
 
-        GSSCredentialSpi element = null;
-        SearchKey key = null;
-        boolean initiate = false;
-        boolean accept = false;
+        GSSCredentiblSpi element = null;
+        SebrchKey key = null;
+        boolebn initibte = fblse;
+        boolebn bccept = fblse;
 
         if (mech == null) mech = ProviderList.DEFAULT_MECH_OID;
 
-        key = new SearchKey(mech, GSSCredential.INITIATE_ONLY);
-        element = hashtable.get(key);
+        key = new SebrchKey(mech, GSSCredentibl.INITIATE_ONLY);
+        element = hbshtbble.get(key);
 
         if (element != null) {
-            initiate = true;
+            initibte = true;
         }
 
-        key = new SearchKey(mech, GSSCredential.ACCEPT_ONLY);
-        element = hashtable.get(key);
+        key = new SebrchKey(mech, GSSCredentibl.ACCEPT_ONLY);
+        element = hbshtbble.get(key);
 
         if (element != null) {
-            accept = true;
+            bccept = true;
         }
 
-        key = new SearchKey(mech, GSSCredential.INITIATE_AND_ACCEPT);
-        element = hashtable.get(key);
+        key = new SebrchKey(mech, GSSCredentibl.INITIATE_AND_ACCEPT);
+        element = hbshtbble.get(key);
 
         if (element != null) {
-            initiate = true;
-            accept = true;
+            initibte = true;
+            bccept = true;
         }
 
-        if (initiate && accept)
-            return GSSCredential.INITIATE_AND_ACCEPT;
-        else if (initiate)
-            return GSSCredential.INITIATE_ONLY;
-        else if (accept)
-            return GSSCredential.ACCEPT_ONLY;
+        if (initibte && bccept)
+            return GSSCredentibl.INITIATE_AND_ACCEPT;
+        else if (initibte)
+            return GSSCredentibl.INITIATE_ONLY;
+        else if (bccept)
+            return GSSCredentibl.ACCEPT_ONLY;
         else {
             throw new GSSExceptionImpl(GSSException.BAD_MECH, mech);
         }
@@ -390,300 +390,300 @@ public class GSSCredentialImpl implements ExtendedGSSCredential {
     public Oid[] getMechs() throws GSSException {
 
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
-        Vector<Oid> result = new Vector<Oid>(hashtable.size());
+        Vector<Oid> result = new Vector<Oid>(hbshtbble.size());
 
-        for (Enumeration<SearchKey> e = hashtable.keys();
-                                                e.hasMoreElements(); ) {
-            SearchKey tempKey = e.nextElement();
-            result.addElement(tempKey.getMech());
+        for (Enumerbtion<SebrchKey> e = hbshtbble.keys();
+                                                e.hbsMoreElements(); ) {
+            SebrchKey tempKey = e.nextElement();
+            result.bddElement(tempKey.getMech());
         }
-        return result.toArray(new Oid[0]);
+        return result.toArrby(new Oid[0]);
     }
 
-    public void add(GSSName name, int initLifetime, int acceptLifetime,
-                    Oid mech, int usage) throws GSSException {
+    public void bdd(GSSNbme nbme, int initLifetime, int bcceptLifetime,
+                    Oid mech, int usbge) throws GSSException {
 
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
         if (mech == null) mech = ProviderList.DEFAULT_MECH_OID;
 
-        SearchKey key = new SearchKey(mech, usage);
-        if (hashtable.containsKey(key)) {
+        SebrchKey key = new SebrchKey(mech, usbge);
+        if (hbshtbble.contbinsKey(key)) {
             throw new GSSExceptionImpl(GSSException.DUPLICATE_ELEMENT,
-                                       "Duplicate element found: " +
-                                       getElementStr(mech, usage));
+                                       "Duplicbte element found: " +
+                                       getElementStr(mech, usbge));
         }
 
-        // XXX If not instance of GSSNameImpl then throw exception
-        // Application mixing GSS implementations
-        GSSNameSpi nameElement = (name == null ? null :
-                                  ((GSSNameImpl)name).getElement(mech));
+        // XXX If not instbnce of GSSNbmeImpl then throw exception
+        // Applicbtion mixing GSS implementbtions
+        GSSNbmeSpi nbmeElement = (nbme == null ? null :
+                                  ((GSSNbmeImpl)nbme).getElement(mech));
 
-        tempCred = gssManager.getCredentialElement(nameElement,
+        tempCred = gssMbnbger.getCredentiblElement(nbmeElement,
                                                    initLifetime,
-                                                   acceptLifetime,
+                                                   bcceptLifetime,
                                                    mech,
-                                                   usage);
+                                                   usbge);
         /*
-         * Not all mechanisms support the concept of one credential element
-         * that can be used for both initiating and accepting a context. In
-         * the event that an application requests usage INITIATE_AND_ACCEPT
-         * for a credential from such a mechanism, the GSS framework will
-         * need to obtain two different credential elements from the
-         * mechanism, one that will have usage INITIATE_ONLY and another
-         * that will have usage ACCEPT_ONLY. The mechanism will help the
-         * GSS-API realize this by returning a credential element with
-         * usage INITIATE_ONLY or ACCEPT_ONLY prompting it to make another
-         * call to getCredentialElement, this time with the other usage
+         * Not bll mechbnisms support the concept of one credentibl element
+         * thbt cbn be used for both initibting bnd bccepting b context. In
+         * the event thbt bn bpplicbtion requests usbge INITIATE_AND_ACCEPT
+         * for b credentibl from such b mechbnism, the GSS frbmework will
+         * need to obtbin two different credentibl elements from the
+         * mechbnism, one thbt will hbve usbge INITIATE_ONLY bnd bnother
+         * thbt will hbve usbge ACCEPT_ONLY. The mechbnism will help the
+         * GSS-API reblize this by returning b credentibl element with
+         * usbge INITIATE_ONLY or ACCEPT_ONLY prompting it to mbke bnother
+         * cbll to getCredentiblElement, this time with the other usbge
          * mode.
          */
 
         if (tempCred != null) {
-            if (usage == GSSCredential.INITIATE_AND_ACCEPT &&
-                (!tempCred.isAcceptorCredential() ||
-                !tempCred.isInitiatorCredential())) {
+            if (usbge == GSSCredentibl.INITIATE_AND_ACCEPT &&
+                (!tempCred.isAcceptorCredentibl() ||
+                !tempCred.isInitibtorCredentibl())) {
 
-                int currentUsage;
-                int desiredUsage;
+                int currentUsbge;
+                int desiredUsbge;
 
-                if (!tempCred.isInitiatorCredential()) {
-                    currentUsage = GSSCredential.ACCEPT_ONLY;
-                    desiredUsage = GSSCredential.INITIATE_ONLY;
+                if (!tempCred.isInitibtorCredentibl()) {
+                    currentUsbge = GSSCredentibl.ACCEPT_ONLY;
+                    desiredUsbge = GSSCredentibl.INITIATE_ONLY;
                 } else {
-                    currentUsage = GSSCredential.INITIATE_ONLY;
-                    desiredUsage = GSSCredential.ACCEPT_ONLY;
+                    currentUsbge = GSSCredentibl.INITIATE_ONLY;
+                    desiredUsbge = GSSCredentibl.ACCEPT_ONLY;
                 }
 
-                key = new SearchKey(mech, currentUsage);
-                hashtable.put(key, tempCred);
+                key = new SebrchKey(mech, currentUsbge);
+                hbshtbble.put(key, tempCred);
 
-                tempCred = gssManager.getCredentialElement(nameElement,
+                tempCred = gssMbnbger.getCredentiblElement(nbmeElement,
                                                         initLifetime,
-                                                        acceptLifetime,
+                                                        bcceptLifetime,
                                                         mech,
-                                                        desiredUsage);
+                                                        desiredUsbge);
 
-                key = new SearchKey(mech, desiredUsage);
-                hashtable.put(key, tempCred);
+                key = new SebrchKey(mech, desiredUsbge);
+                hbshtbble.put(key, tempCred);
             } else {
-                hashtable.put(key, tempCred);
+                hbshtbble.put(key, tempCred);
             }
         }
     }
 
-    public boolean equals(Object another) {
+    public boolebn equbls(Object bnother) {
 
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
 
-        if (this == another) {
+        if (this == bnother) {
             return true;
         }
 
-        if (!(another instanceof GSSCredentialImpl)) {
-            return false;
+        if (!(bnother instbnceof GSSCredentiblImpl)) {
+            return fblse;
         }
 
-        // NOTE: The specification does not define the criteria to compare
-        // credentials.
+        // NOTE: The specificbtion does not define the criterib to compbre
+        // credentibls.
         /*
          * XXX
-         * The RFC says: "Tests if this GSSCredential refers to the same
-         * entity as the supplied object.  The two credentials must be
-         * acquired over the same mechanisms and must refer to the same
-         * principal.  Returns "true" if the two GSSCredentials refer to
-         * the same entity; "false" otherwise."
+         * The RFC sbys: "Tests if this GSSCredentibl refers to the sbme
+         * entity bs the supplied object.  The two credentibls must be
+         * bcquired over the sbme mechbnisms bnd must refer to the sbme
+         * principbl.  Returns "true" if the two GSSCredentibls refer to
+         * the sbme entity; "fblse" otherwise."
          *
-         * Well, when do two credentials refer to the same principal? Do
-         * they need to have one GSSName in common for the different
-         * GSSName's that the credential elements return? Or do all
-         * GSSName's have to be in common when the names are exported with
-         * their respective mechanisms for the credential elements?
+         * Well, when do two credentibls refer to the sbme principbl? Do
+         * they need to hbve one GSSNbme in common for the different
+         * GSSNbme's thbt the credentibl elements return? Or do bll
+         * GSSNbme's hbve to be in common when the nbmes bre exported with
+         * their respective mechbnisms for the credentibl elements?
          */
-        return false;
+        return fblse;
 
     }
 
     /**
-     * Returns a hashcode value for this GSSCredential.
+     * Returns b hbshcode vblue for this GSSCredentibl.
      *
-     * @return a hashCode value
+     * @return b hbshCode vblue
      */
-    public int hashCode() {
+    public int hbshCode() {
 
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
 
-        // NOTE: The specification does not define the criteria to compare
-        // credentials.
+        // NOTE: The specificbtion does not define the criterib to compbre
+        // credentibls.
         /*
          * XXX
-         * Decide on a criteria for equals first then do this.
+         * Decide on b criterib for equbls first then do this.
          */
         return 1;
     }
 
     /**
-     * Returns the specified mechanism's credential-element.
+     * Returns the specified mechbnism's credentibl-element.
      *
-     * @param mechOid - the oid for mechanism to retrieve
-     * @param throwExcep - boolean indicating if the function is
+     * @pbrbm mechOid - the oid for mechbnism to retrieve
+     * @pbrbm throwExcep - boolebn indicbting if the function is
      *    to throw exception or return null when element is not
      *    found.
-     * @return mechanism credential object
-     * @exception GSSException of invalid mechanism
+     * @return mechbnism credentibl object
+     * @exception GSSException of invblid mechbnism
      */
-    public GSSCredentialSpi getElement(Oid mechOid, boolean initiate)
+    public GSSCredentiblSpi getElement(Oid mechOid, boolebn initibte)
         throws GSSException {
 
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
 
-        SearchKey key;
-        GSSCredentialSpi element;
+        SebrchKey key;
+        GSSCredentiblSpi element;
 
         if (mechOid == null) {
             /*
-             * First see if the default mechanism satisfies the
-             * desired usage.
+             * First see if the defbult mechbnism sbtisfies the
+             * desired usbge.
              */
             mechOid = ProviderList.DEFAULT_MECH_OID;
-            key = new SearchKey(mechOid,
-                                 initiate? INITIATE_ONLY : ACCEPT_ONLY);
-            element = hashtable.get(key);
+            key = new SebrchKey(mechOid,
+                                 initibte? INITIATE_ONLY : ACCEPT_ONLY);
+            element = hbshtbble.get(key);
             if (element == null) {
-                key = new SearchKey(mechOid, INITIATE_AND_ACCEPT);
-                element = hashtable.get(key);
+                key = new SebrchKey(mechOid, INITIATE_AND_ACCEPT);
+                element = hbshtbble.get(key);
                 if (element == null) {
                     /*
-                     * Now just return any element that satisfies the
-                     * desired usage.
+                     * Now just return bny element thbt sbtisfies the
+                     * desired usbge.
                      */
-                    Object[] elements = hashtable.entrySet().toArray();
+                    Object[] elements = hbshtbble.entrySet().toArrby();
                     for (int i = 0; i < elements.length; i++) {
-                        element = (GSSCredentialSpi)
-                            ((Map.Entry)elements[i]).getValue();
-                        if (element.isInitiatorCredential() == initiate)
-                            break;
+                        element = (GSSCredentiblSpi)
+                            ((Mbp.Entry)elements[i]).getVblue();
+                        if (element.isInitibtorCredentibl() == initibte)
+                            brebk;
                     } // for loop
                 }
             }
         } else {
 
-            if (initiate)
-                key = new SearchKey(mechOid, INITIATE_ONLY);
+            if (initibte)
+                key = new SebrchKey(mechOid, INITIATE_ONLY);
             else
-                key = new SearchKey(mechOid, ACCEPT_ONLY);
+                key = new SebrchKey(mechOid, ACCEPT_ONLY);
 
-            element = hashtable.get(key);
+            element = hbshtbble.get(key);
 
             if (element == null) {
-                key = new SearchKey(mechOid, INITIATE_AND_ACCEPT);
-                element = hashtable.get(key);
+                key = new SebrchKey(mechOid, INITIATE_AND_ACCEPT);
+                element = hbshtbble.get(key);
             }
         }
 
         if (element == null)
             throw new GSSExceptionImpl(GSSException.NO_CRED,
-                                       "No credential found for: " +
+                                       "No credentibl found for: " +
                                        getElementStr(mechOid,
-                                       initiate? INITIATE_ONLY : ACCEPT_ONLY));
+                                       initibte? INITIATE_ONLY : ACCEPT_ONLY));
         return element;
     }
 
-    Set<GSSCredentialSpi> getElements() {
-        HashSet<GSSCredentialSpi> retVal =
-                        new HashSet<GSSCredentialSpi>(hashtable.size());
-        Enumeration<GSSCredentialSpi> values = hashtable.elements();
-        while (values.hasMoreElements()) {
-            GSSCredentialSpi o = values.nextElement();
-            retVal.add(o);
+    Set<GSSCredentiblSpi> getElements() {
+        HbshSet<GSSCredentiblSpi> retVbl =
+                        new HbshSet<GSSCredentiblSpi>(hbshtbble.size());
+        Enumerbtion<GSSCredentiblSpi> vblues = hbshtbble.elements();
+        while (vblues.hbsMoreElements()) {
+            GSSCredentiblSpi o = vblues.nextElement();
+            retVbl.bdd(o);
         }
-        return retVal;
+        return retVbl;
     }
 
-    private static String getElementStr(Oid mechOid, int usage) {
-        String displayString = mechOid.toString();
-        if (usage == GSSCredential.INITIATE_ONLY) {
-            displayString =
-                displayString.concat(" usage: Initiate");
-        } else if (usage == GSSCredential.ACCEPT_ONLY) {
-            displayString =
-                displayString.concat(" usage: Accept");
+    privbte stbtic String getElementStr(Oid mechOid, int usbge) {
+        String displbyString = mechOid.toString();
+        if (usbge == GSSCredentibl.INITIATE_ONLY) {
+            displbyString =
+                displbyString.concbt(" usbge: Initibte");
+        } else if (usbge == GSSCredentibl.ACCEPT_ONLY) {
+            displbyString =
+                displbyString.concbt(" usbge: Accept");
         } else {
-            displayString =
-                displayString.concat(" usage: Initiate and Accept");
+            displbyString =
+                displbyString.concbt(" usbge: Initibte bnd Accept");
         }
-        return displayString;
+        return displbyString;
     }
 
     public String toString() {
 
         if (destroyed) {
-            throw new IllegalStateException("This credential is " +
-                                        "no longer valid");
+            throw new IllegblStbteException("This credentibl is " +
+                                        "no longer vblid");
         }
 
-        GSSCredentialSpi element = null;
-        StringBuilder sb = new StringBuilder("[GSSCredential: ");
-        Object[] elements = hashtable.entrySet().toArray();
+        GSSCredentiblSpi element = null;
+        StringBuilder sb = new StringBuilder("[GSSCredentibl: ");
+        Object[] elements = hbshtbble.entrySet().toArrby();
         for (int i = 0; i < elements.length; i++) {
             try {
-                sb.append('\n');
-                element = (GSSCredentialSpi)
-                    ((Map.Entry)elements[i]).getValue();
-                sb.append(element.getName());
-                sb.append(' ');
-                sb.append(element.getMechanism());
-                sb.append(element.isInitiatorCredential() ?
-                          " Initiate" : "");
-                sb.append(element.isAcceptorCredential() ?
+                sb.bppend('\n');
+                element = (GSSCredentiblSpi)
+                    ((Mbp.Entry)elements[i]).getVblue();
+                sb.bppend(element.getNbme());
+                sb.bppend(' ');
+                sb.bppend(element.getMechbnism());
+                sb.bppend(element.isInitibtorCredentibl() ?
+                          " Initibte" : "");
+                sb.bppend(element.isAcceptorCredentibl() ?
                           " Accept" : "");
-                sb.append(" [");
-                sb.append(element.getClass());
-                sb.append(']');
-            } catch (GSSException e) {
+                sb.bppend(" [");
+                sb.bppend(element.getClbss());
+                sb.bppend(']');
+            } cbtch (GSSException e) {
                 // skip to next element
             }
         }
-        sb.append(']');
+        sb.bppend(']');
         return sb.toString();
     }
 
-    static class SearchKey {
-        private Oid mechOid = null;
-        private int usage = GSSCredential.INITIATE_AND_ACCEPT;
-        public SearchKey(Oid mechOid, int usage) {
+    stbtic clbss SebrchKey {
+        privbte Oid mechOid = null;
+        privbte int usbge = GSSCredentibl.INITIATE_AND_ACCEPT;
+        public SebrchKey(Oid mechOid, int usbge) {
 
             this.mechOid = mechOid;
-            this.usage = usage;
+            this.usbge = usbge;
         }
         public Oid getMech() {
             return mechOid;
         }
-        public int getUsage() {
-            return usage;
+        public int getUsbge() {
+            return usbge;
         }
-        public boolean equals(Object other) {
-            if (! (other instanceof SearchKey))
-                return false;
-            SearchKey that = (SearchKey) other;
-            return ((this.mechOid.equals(that.mechOid)) &&
-                    (this.usage == that.usage));
+        public boolebn equbls(Object other) {
+            if (! (other instbnceof SebrchKey))
+                return fblse;
+            SebrchKey thbt = (SebrchKey) other;
+            return ((this.mechOid.equbls(thbt.mechOid)) &&
+                    (this.usbge == thbt.usbge));
         }
-        public int hashCode() {
-            return mechOid.hashCode();
+        public int hbshCode() {
+            return mechOid.hbshCode();
         }
     }
 

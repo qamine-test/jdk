@@ -3,222 +3,222 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMTransform.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMTrbnsform.jbvb 1333415 2012-05-03 12:03:51Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import java.io.OutputStream;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.Provider;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.io.OutputStrebm;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.Provider;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.dom.DOMSignContext;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.dom.DOMSignContext;
 
 /**
- * DOM-based abstract implementation of Transform.
+ * DOM-bbsed bbstrbct implementbtion of Trbnsform.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public class DOMTransform extends DOMStructure implements Transform {
+public clbss DOMTrbnsform extends DOMStructure implements Trbnsform {
 
-    protected TransformService spi;
+    protected TrbnsformService spi;
 
     /**
-     * Creates a <code>DOMTransform</code>.
+     * Crebtes b <code>DOMTrbnsform</code>.
      *
-     * @param spi the TransformService
+     * @pbrbm spi the TrbnsformService
      */
-    public DOMTransform(TransformService spi) {
+    public DOMTrbnsform(TrbnsformService spi) {
         this.spi = spi;
     }
 
     /**
-     * Creates a <code>DOMTransform</code> from an element. This constructor
-     * invokes the abstract {@link #unmarshalParams unmarshalParams} method to
-     * unmarshal any algorithm-specific input parameters.
+     * Crebtes b <code>DOMTrbnsform</code> from bn element. This constructor
+     * invokes the bbstrbct {@link #unmbrshblPbrbms unmbrshblPbrbms} method to
+     * unmbrshbl bny blgorithm-specific input pbrbmeters.
      *
-     * @param transElem a Transform element
+     * @pbrbm trbnsElem b Trbnsform element
      */
-    public DOMTransform(Element transElem, XMLCryptoContext context,
+    public DOMTrbnsform(Element trbnsElem, XMLCryptoContext context,
                         Provider provider)
-        throws MarshalException
+        throws MbrshblException
     {
-        String algorithm = DOMUtils.getAttributeValue(transElem, "Algorithm");
+        String blgorithm = DOMUtils.getAttributeVblue(trbnsElem, "Algorithm");
 
         if (provider == null) {
             try {
-                spi = TransformService.getInstance(algorithm, "DOM");
-            } catch (NoSuchAlgorithmException e1) {
-                throw new MarshalException(e1);
+                spi = TrbnsformService.getInstbnce(blgorithm, "DOM");
+            } cbtch (NoSuchAlgorithmException e1) {
+                throw new MbrshblException(e1);
             }
         } else {
             try {
-                spi = TransformService.getInstance(algorithm, "DOM", provider);
-            } catch (NoSuchAlgorithmException nsae) {
+                spi = TrbnsformService.getInstbnce(blgorithm, "DOM", provider);
+            } cbtch (NoSuchAlgorithmException nsbe) {
                 try {
-                    spi = TransformService.getInstance(algorithm, "DOM");
-                } catch (NoSuchAlgorithmException e2) {
-                    throw new MarshalException(e2);
+                    spi = TrbnsformService.getInstbnce(blgorithm, "DOM");
+                } cbtch (NoSuchAlgorithmException e2) {
+                    throw new MbrshblException(e2);
                 }
             }
         }
         try {
-            spi.init(new javax.xml.crypto.dom.DOMStructure(transElem), context);
-        } catch (InvalidAlgorithmParameterException iape) {
-            throw new MarshalException(iape);
+            spi.init(new jbvbx.xml.crypto.dom.DOMStructure(trbnsElem), context);
+        } cbtch (InvblidAlgorithmPbrbmeterException ibpe) {
+            throw new MbrshblException(ibpe);
         }
     }
 
-    public final AlgorithmParameterSpec getParameterSpec() {
-        return spi.getParameterSpec();
+    public finbl AlgorithmPbrbmeterSpec getPbrbmeterSpec() {
+        return spi.getPbrbmeterSpec();
     }
 
-    public final String getAlgorithm() {
+    public finbl String getAlgorithm() {
         return spi.getAlgorithm();
     }
 
     /**
-     * This method invokes the abstract {@link #marshalParams marshalParams}
-     * method to marshal any algorithm-specific parameters.
+     * This method invokes the bbstrbct {@link #mbrshblPbrbms mbrshblPbrbms}
+     * method to mbrshbl bny blgorithm-specific pbrbmeters.
      */
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    public void mbrshbl(Node pbrent, String dsPrefix, DOMCryptoContext context)
+        throws MbrshblException
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
+        Document ownerDoc = DOMUtils.getOwnerDocument(pbrent);
 
-        Element transformElem = null;
-        if (parent.getLocalName().equals("Transforms")) {
-            transformElem = DOMUtils.createElement(ownerDoc, "Transform",
-                                                   XMLSignature.XMLNS,
+        Element trbnsformElem = null;
+        if (pbrent.getLocblNbme().equbls("Trbnsforms")) {
+            trbnsformElem = DOMUtils.crebteElement(ownerDoc, "Trbnsform",
+                                                   XMLSignbture.XMLNS,
                                                    dsPrefix);
         } else {
-            transformElem = DOMUtils.createElement(ownerDoc,
-                                                   "CanonicalizationMethod",
-                                                   XMLSignature.XMLNS,
+            trbnsformElem = DOMUtils.crebteElement(ownerDoc,
+                                                   "CbnonicblizbtionMethod",
+                                                   XMLSignbture.XMLNS,
                                                    dsPrefix);
         }
-        DOMUtils.setAttribute(transformElem, "Algorithm", getAlgorithm());
+        DOMUtils.setAttribute(trbnsformElem, "Algorithm", getAlgorithm());
 
-        spi.marshalParams(new javax.xml.crypto.dom.DOMStructure(transformElem),
+        spi.mbrshblPbrbms(new jbvbx.xml.crypto.dom.DOMStructure(trbnsformElem),
                           context);
 
-        parent.appendChild(transformElem);
+        pbrent.bppendChild(trbnsformElem);
     }
 
     /**
-     * Transforms the specified data using the underlying transform algorithm.
+     * Trbnsforms the specified dbtb using the underlying trbnsform blgorithm.
      *
-     * @param data the data to be transformed
-     * @param sc the <code>XMLCryptoContext</code> containing
-     *    additional context (may be <code>null</code> if not applicable)
-     * @return the transformed data
-     * @throws NullPointerException if <code>data</code> is <code>null</code>
-     * @throws XMLSignatureException if an unexpected error occurs while
-     *    executing the transform
+     * @pbrbm dbtb the dbtb to be trbnsformed
+     * @pbrbm sc the <code>XMLCryptoContext</code> contbining
+     *    bdditionbl context (mby be <code>null</code> if not bpplicbble)
+     * @return the trbnsformed dbtb
+     * @throws NullPointerException if <code>dbtb</code> is <code>null</code>
+     * @throws XMLSignbtureException if bn unexpected error occurs while
+     *    executing the trbnsform
      */
-    public Data transform(Data data, XMLCryptoContext xc)
-        throws TransformException
+    public Dbtb trbnsform(Dbtb dbtb, XMLCryptoContext xc)
+        throws TrbnsformException
     {
-        return spi.transform(data, xc);
+        return spi.trbnsform(dbtb, xc);
     }
 
     /**
-     * Transforms the specified data using the underlying transform algorithm.
+     * Trbnsforms the specified dbtb using the underlying trbnsform blgorithm.
      *
-     * @param data the data to be transformed
-     * @param sc the <code>XMLCryptoContext</code> containing
-     *    additional context (may be <code>null</code> if not applicable)
-     * @param os the <code>OutputStream</code> that should be used to write
-     *    the transformed data to
-     * @return the transformed data
-     * @throws NullPointerException if <code>data</code> is <code>null</code>
-     * @throws XMLSignatureException if an unexpected error occurs while
-     *    executing the transform
+     * @pbrbm dbtb the dbtb to be trbnsformed
+     * @pbrbm sc the <code>XMLCryptoContext</code> contbining
+     *    bdditionbl context (mby be <code>null</code> if not bpplicbble)
+     * @pbrbm os the <code>OutputStrebm</code> thbt should be used to write
+     *    the trbnsformed dbtb to
+     * @return the trbnsformed dbtb
+     * @throws NullPointerException if <code>dbtb</code> is <code>null</code>
+     * @throws XMLSignbtureException if bn unexpected error occurs while
+     *    executing the trbnsform
      */
-    public Data transform(Data data, XMLCryptoContext xc, OutputStream os)
-        throws TransformException
+    public Dbtb trbnsform(Dbtb dbtb, XMLCryptoContext xc, OutputStrebm os)
+        throws TrbnsformException
     {
-        return spi.transform(data, xc, os);
+        return spi.trbnsform(dbtb, xc, os);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o) {
             return true;
         }
 
-        if (!(o instanceof Transform)) {
-            return false;
+        if (!(o instbnceof Trbnsform)) {
+            return fblse;
         }
-        Transform otransform = (Transform)o;
+        Trbnsform otrbnsform = (Trbnsform)o;
 
-        return (getAlgorithm().equals(otransform.getAlgorithm()) &&
-                DOMUtils.paramsEqual(getParameterSpec(),
-                                     otransform.getParameterSpec()));
+        return (getAlgorithm().equbls(otrbnsform.getAlgorithm()) &&
+                DOMUtils.pbrbmsEqubl(getPbrbmeterSpec(),
+                                     otrbnsform.getPbrbmeterSpec()));
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
-        result = 31 * result + getAlgorithm().hashCode();
-        AlgorithmParameterSpec spec = getParameterSpec();
+        result = 31 * result + getAlgorithm().hbshCode();
+        AlgorithmPbrbmeterSpec spec = getPbrbmeterSpec();
         if (spec != null) {
-            result = 31 * result + spec.hashCode();
+            result = 31 * result + spec.hbshCode();
         }
 
         return result;
     }
 
     /**
-     * Transforms the specified data using the underlying transform algorithm.
-     * This method invokes the {@link #marshal marshal} method and passes it
-     * the specified <code>DOMSignContext</code> before transforming the data.
+     * Trbnsforms the specified dbtb using the underlying trbnsform blgorithm.
+     * This method invokes the {@link #mbrshbl mbrshbl} method bnd pbsses it
+     * the specified <code>DOMSignContext</code> before trbnsforming the dbtb.
      *
-     * @param data the data to be transformed
-     * @param sc the <code>XMLCryptoContext</code> containing
-     *    additional context (may be <code>null</code> if not applicable)
-     * @param context the marshalling context
-     * @return the transformed data
-     * @throws MarshalException if an exception occurs while marshalling
-     * @throws NullPointerException if <code>data</code> or <code>context</code>
+     * @pbrbm dbtb the dbtb to be trbnsformed
+     * @pbrbm sc the <code>XMLCryptoContext</code> contbining
+     *    bdditionbl context (mby be <code>null</code> if not bpplicbble)
+     * @pbrbm context the mbrshblling context
+     * @return the trbnsformed dbtb
+     * @throws MbrshblException if bn exception occurs while mbrshblling
+     * @throws NullPointerException if <code>dbtb</code> or <code>context</code>
      *    is <code>null</code>
-     * @throws XMLSignatureException if an unexpected error occurs while
-     *    executing the transform
+     * @throws XMLSignbtureException if bn unexpected error occurs while
+     *    executing the trbnsform
      */
-    Data transform(Data data, XMLCryptoContext xc, DOMSignContext context)
-        throws MarshalException, TransformException
+    Dbtb trbnsform(Dbtb dbtb, XMLCryptoContext xc, DOMSignContext context)
+        throws MbrshblException, TrbnsformException
     {
-        marshal(context.getParent(),
-                DOMUtils.getSignaturePrefix(context), context);
-        return transform(data, xc);
+        mbrshbl(context.getPbrent(),
+                DOMUtils.getSignbturePrefix(context), context);
+        return trbnsform(dbtb, xc);
     }
 }

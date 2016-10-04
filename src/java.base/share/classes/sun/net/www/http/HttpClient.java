@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.http;
+pbckbge sun.net.www.http;
 
-import java.io.*;
-import java.net.*;
-import java.util.Locale;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.util.Locble;
 import sun.net.NetworkClient;
 import sun.net.ProgressSource;
-import sun.net.www.MessageHeader;
-import sun.net.www.HeaderParser;
-import sun.net.www.MeteredStream;
-import sun.net.www.ParseUtil;
+import sun.net.www.MessbgeHebder;
+import sun.net.www.HebderPbrser;
+import sun.net.www.MeteredStrebm;
+import sun.net.www.PbrseUtil;
 import sun.net.www.protocol.http.HttpURLConnection;
-import sun.util.logging.PlatformLogger;
-import static sun.net.www.protocol.http.HttpURLConnection.TunnelState.*;
+import sun.util.logging.PlbtformLogger;
+import stbtic sun.net.www.protocol.http.HttpURLConnection.TunnelStbte.*;
 
 /**
- * @author Herb Jellinek
- * @author Dave Brown
+ * @buthor Herb Jellinek
+ * @buthor Dbve Brown
  */
-public class HttpClient extends NetworkClient {
-    // whether this httpclient comes from the cache
-    protected boolean cachedHttpClient = false;
+public clbss HttpClient extends NetworkClient {
+    // whether this httpclient comes from the cbche
+    protected boolebn cbchedHttpClient = fblse;
 
-    protected boolean inCache;
+    protected boolebn inCbche;
 
     // Http requests we send
-    MessageHeader requests;
+    MessbgeHebder requests;
 
-    // Http data we send with the headers
-    PosterOutputStream poster = null;
+    // Http dbtb we send with the hebders
+    PosterOutputStrebm poster = null;
 
-    // true if we are in streaming mode (fixed length or chunked)
-    boolean streaming;
+    // true if we bre in strebming mode (fixed length or chunked)
+    boolebn strebming;
 
-    // if we've had one io error
-    boolean failedOnce = false;
+    // if we've hbd one io error
+    boolebn fbiledOnce = fblse;
 
     /** Response code for CONTINUE */
-    private boolean ignoreContinue = true;
-    private static final int    HTTP_CONTINUE = 100;
+    privbte boolebn ignoreContinue = true;
+    privbte stbtic finbl int    HTTP_CONTINUE = 100;
 
-    /** Default port number for http daemons. REMIND: make these private */
-    static final int    httpPortNumber = 80;
+    /** Defbult port number for http dbemons. REMIND: mbke these privbte */
+    stbtic finbl int    httpPortNumber = 80;
 
-    /** return default port number (subclasses may override) */
-    protected int getDefaultPort () { return httpPortNumber; }
+    /** return defbult port number (subclbsses mby override) */
+    protected int getDefbultPort () { return httpPortNumber; }
 
-    static private int getDefaultPort(String proto) {
-        if ("http".equalsIgnoreCase(proto))
+    stbtic privbte int getDefbultPort(String proto) {
+        if ("http".equblsIgnoreCbse(proto))
             return 80;
-        if ("https".equalsIgnoreCase(proto))
+        if ("https".equblsIgnoreCbse(proto))
             return 443;
         return -1;
     }
 
-    /* All proxying (generic as well as instance-specific) may be
-     * disabled through use of this flag
+    /* All proxying (generic bs well bs instbnce-specific) mby be
+     * disbbled through use of this flbg
      */
-    protected boolean proxyDisabled;
+    protected boolebn proxyDisbbled;
 
-    // are we using proxy in this instance?
-    public boolean usingProxy = false;
-    // target host, port for the URL
+    // bre we using proxy in this instbnce?
+    public boolebn usingProxy = fblse;
+    // tbrget host, port for the URL
     protected String host;
     protected int port;
 
-    /* where we cache currently open, persistent connections */
-    protected static KeepAliveCache kac = new KeepAliveCache();
+    /* where we cbche currently open, persistent connections */
+    protected stbtic KeepAliveCbche kbc = new KeepAliveCbche();
 
-    private static boolean keepAliveProp = true;
+    privbte stbtic boolebn keepAliveProp = true;
 
-    // retryPostProp is true by default so as to preserve behavior
-    // from previous releases.
-    private static boolean retryPostProp = true;
+    // retryPostProp is true by defbult so bs to preserve behbvior
+    // from previous relebses.
+    privbte stbtic boolebn retryPostProp = true;
 
-    volatile boolean keepingAlive = false;     /* this is a keep-alive connection */
-    int keepAliveConnections = -1;    /* number of keep-alives left */
+    volbtile boolebn keepingAlive = fblse;     /* this is b keep-blive connection */
+    int keepAliveConnections = -1;    /* number of keep-blives left */
 
-    /**Idle timeout value, in milliseconds. Zero means infinity,
+    /**Idle timeout vblue, in milliseconds. Zero mebns infinity,
      * iff keepingAlive=true.
-     * Unfortunately, we can't always believe this one.  If I'm connected
-     * through a Netscape proxy to a server that sent me a keep-alive
-     * time of 15 sec, the proxy unilaterally terminates my connection
-     * after 5 sec.  So we have to hard code our effective timeout to
-     * 4 sec for the case where we're using a proxy. *SIGH*
+     * Unfortunbtely, we cbn't blwbys believe this one.  If I'm connected
+     * through b Netscbpe proxy to b server thbt sent me b keep-blive
+     * time of 15 sec, the proxy unilbterblly terminbtes my connection
+     * bfter 5 sec.  So we hbve to hbrd code our effective timeout to
+     * 4 sec for the cbse where we're using b proxy. *SIGH*
      */
     int keepAliveTimeout = 0;
 
-    /** whether the response is to be cached */
-    private CacheRequest cacheRequest = null;
+    /** whether the response is to be cbched */
+    privbte CbcheRequest cbcheRequest = null;
 
     /** Url being fetched. */
     protected URL       url;
 
-    /* if set, the client will be reused and must not be put in cache */
-    public boolean reuse = false;
+    /* if set, the client will be reused bnd must not be put in cbche */
+    public boolebn reuse = fblse;
 
-    // Traffic capture tool, if configured. See HttpCapture class for info
-    private HttpCapture capture = null;
+    // Trbffic cbpture tool, if configured. See HttpCbpture clbss for info
+    privbte HttpCbpture cbpture = null;
 
-    private static final PlatformLogger logger = HttpURLConnection.getHttpLogger();
-    private static void logFinest(String msg) {
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
+    privbte stbtic finbl PlbtformLogger logger = HttpURLConnection.getHttpLogger();
+    privbte stbtic void logFinest(String msg) {
+        if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
             logger.finest(msg);
         }
     }
 
     /**
-     * A NOP method kept for backwards binary compatibility
-     * @deprecated -- system properties are no longer cached.
+     * A NOP method kept for bbckwbrds binbry compbtibility
+     * @deprecbted -- system properties bre no longer cbched.
      */
-    @Deprecated
-    public static synchronized void resetProperties() {
+    @Deprecbted
+    public stbtic synchronized void resetProperties() {
     }
 
     int getKeepAliveTimeout() {
         return keepAliveTimeout;
     }
 
-    static {
-        String keepAlive = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("http.keepAlive"));
+    stbtic {
+        String keepAlive = jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction("http.keepAlive"));
 
-        String retryPost = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("sun.net.http.retryPost"));
+        String retryPost = jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction("sun.net.http.retryPost"));
 
         if (keepAlive != null) {
-            keepAliveProp = Boolean.valueOf(keepAlive).booleanValue();
+            keepAliveProp = Boolebn.vblueOf(keepAlive).boolebnVblue();
         } else {
             keepAliveProp = true;
         }
 
         if (retryPost != null) {
-            retryPostProp = Boolean.valueOf(retryPost).booleanValue();
+            retryPostProp = Boolebn.vblueOf(retryPost).boolebnVblue();
         } else
             retryPostProp = true;
 
     }
 
     /**
-     * @return true iff http keep alive is set (i.e. enabled).  Defaults
+     * @return true iff http keep blive is set (i.e. enbbled).  Defbults
      *          to true if the system property http.keepAlive isn't set.
      */
-    public boolean getHttpKeepAliveSet() {
+    public boolebn getHttpKeepAliveSet() {
         return keepAliveProp;
     }
 
@@ -174,27 +174,27 @@ public class HttpClient extends NetworkClient {
     protected HttpClient() {
     }
 
-    private HttpClient(URL url)
+    privbte HttpClient(URL url)
     throws IOException {
-        this(url, (String)null, -1, false);
+        this(url, (String)null, -1, fblse);
     }
 
     protected HttpClient(URL url,
-                         boolean proxyDisabled) throws IOException {
-        this(url, null, -1, proxyDisabled);
+                         boolebn proxyDisbbled) throws IOException {
+        this(url, null, -1, proxyDisbbled);
     }
 
-    /* This package-only CTOR should only be used for FTP piggy-backed on HTTP
-     * HTTP URL's that use this won't take advantage of keep-alive.
-     * Additionally, this constructor may be used as a last resort when the
-     * first HttpClient gotten through New() failed (probably b/c of a
-     * Keep-Alive mismatch).
+    /* This pbckbge-only CTOR should only be used for FTP piggy-bbcked on HTTP
+     * HTTP URL's thbt use this won't tbke bdvbntbge of keep-blive.
+     * Additionblly, this constructor mby be used bs b lbst resort when the
+     * first HttpClient gotten through New() fbiled (probbbly b/c of b
+     * Keep-Alive mismbtch).
      *
-     * XXX That documentation is wrong ... it's not package-private any more
+     * XXX Thbt documentbtion is wrong ... it's not pbckbge-privbte bny more
      */
     public HttpClient(URL url, String proxyHost, int proxyPort)
     throws IOException {
-        this(url, proxyHost, proxyPort, false);
+        this(url, proxyHost, proxyPort, fblse);
     }
 
     protected HttpClient(URL url, Proxy p, int to) throws IOException {
@@ -203,101 +203,101 @@ public class HttpClient extends NetworkClient {
         this.url = url;
         port = url.getPort();
         if (port == -1) {
-            port = getDefaultPort();
+            port = getDefbultPort();
         }
         setConnectTimeout(to);
 
-        capture = HttpCapture.getCapture(url);
+        cbpture = HttpCbpture.getCbpture(url);
         openServer();
     }
 
-    static protected Proxy newHttpProxy(String proxyHost, int proxyPort,
+    stbtic protected Proxy newHttpProxy(String proxyHost, int proxyPort,
                                       String proto) {
         if (proxyHost == null || proto == null)
             return Proxy.NO_PROXY;
-        int pport = proxyPort < 0 ? getDefaultPort(proto) : proxyPort;
-        InetSocketAddress saddr = InetSocketAddress.createUnresolved(proxyHost, pport);
-        return new Proxy(Proxy.Type.HTTP, saddr);
+        int pport = proxyPort < 0 ? getDefbultPort(proto) : proxyPort;
+        InetSocketAddress sbddr = InetSocketAddress.crebteUnresolved(proxyHost, pport);
+        return new Proxy(Proxy.Type.HTTP, sbddr);
     }
 
     /*
-     * This constructor gives "ultimate" flexibility, including the ability
-     * to bypass implicit proxying.  Sometimes we need to be using tunneling
-     * (transport or network level) instead of proxying (application level),
-     * for example when we don't want the application level data to become
-     * visible to third parties.
+     * This constructor gives "ultimbte" flexibility, including the bbility
+     * to bypbss implicit proxying.  Sometimes we need to be using tunneling
+     * (trbnsport or network level) instebd of proxying (bpplicbtion level),
+     * for exbmple when we don't wbnt the bpplicbtion level dbtb to become
+     * visible to third pbrties.
      *
-     * @param url               the URL to which we're connecting
-     * @param proxy             proxy to use for this URL (e.g. forwarding)
-     * @param proxyPort         proxy port to use for this URL
-     * @param proxyDisabled     true to disable default proxying
+     * @pbrbm url               the URL to which we're connecting
+     * @pbrbm proxy             proxy to use for this URL (e.g. forwbrding)
+     * @pbrbm proxyPort         proxy port to use for this URL
+     * @pbrbm proxyDisbbled     true to disbble defbult proxying
      */
-    private HttpClient(URL url, String proxyHost, int proxyPort,
-                       boolean proxyDisabled)
+    privbte HttpClient(URL url, String proxyHost, int proxyPort,
+                       boolebn proxyDisbbled)
         throws IOException {
-        this(url, proxyDisabled ? Proxy.NO_PROXY :
+        this(url, proxyDisbbled ? Proxy.NO_PROXY :
              newHttpProxy(proxyHost, proxyPort, "http"), -1);
     }
 
     public HttpClient(URL url, String proxyHost, int proxyPort,
-                       boolean proxyDisabled, int to)
+                       boolebn proxyDisbbled, int to)
         throws IOException {
-        this(url, proxyDisabled ? Proxy.NO_PROXY :
+        this(url, proxyDisbbled ? Proxy.NO_PROXY :
              newHttpProxy(proxyHost, proxyPort, "http"), to);
     }
 
-    /* This class has no public constructor for HTTP.  This method is used to
-     * get an HttpClient to the specified URL.  If there's currently an
-     * active HttpClient to that server/port, you'll get that one.
+    /* This clbss hbs no public constructor for HTTP.  This method is used to
+     * get bn HttpClient to the specified URL.  If there's currently bn
+     * bctive HttpClient to thbt server/port, you'll get thbt one.
      */
-    public static HttpClient New(URL url)
+    public stbtic HttpClient New(URL url)
     throws IOException {
         return HttpClient.New(url, Proxy.NO_PROXY, -1, true, null);
     }
 
-    public static HttpClient New(URL url, boolean useCache)
+    public stbtic HttpClient New(URL url, boolebn useCbche)
         throws IOException {
-        return HttpClient.New(url, Proxy.NO_PROXY, -1, useCache, null);
+        return HttpClient.New(url, Proxy.NO_PROXY, -1, useCbche, null);
     }
 
-    public static HttpClient New(URL url, Proxy p, int to, boolean useCache,
+    public stbtic HttpClient New(URL url, Proxy p, int to, boolebn useCbche,
         HttpURLConnection httpuc) throws IOException
     {
         if (p == null) {
             p = Proxy.NO_PROXY;
         }
         HttpClient ret = null;
-        /* see if one's already around */
-        if (useCache) {
-            ret = kac.get(url, null);
+        /* see if one's blrebdy bround */
+        if (useCbche) {
+            ret = kbc.get(url, null);
             if (ret != null && httpuc != null &&
-                httpuc.streaming() &&
+                httpuc.strebming() &&
                 httpuc.getRequestMethod() == "POST") {
-                if (!ret.available()) {
-                    ret.inCache = false;
+                if (!ret.bvbilbble()) {
+                    ret.inCbche = fblse;
                     ret.closeServer();
                     ret = null;
                 }
             }
 
             if (ret != null) {
-                if ((ret.proxy != null && ret.proxy.equals(p)) ||
+                if ((ret.proxy != null && ret.proxy.equbls(p)) ||
                     (ret.proxy == null && p == null)) {
                     synchronized (ret) {
-                        ret.cachedHttpClient = true;
-                        assert ret.inCache;
-                        ret.inCache = false;
+                        ret.cbchedHttpClient = true;
+                        bssert ret.inCbche;
+                        ret.inCbche = fblse;
                         if (httpuc != null && ret.needsTunneling())
-                            httpuc.setTunnelState(TUNNELING);
-                        logFinest("KeepAlive stream retrieved from the cache, " + ret);
+                            httpuc.setTunnelStbte(TUNNELING);
+                        logFinest("KeepAlive strebm retrieved from the cbche, " + ret);
                     }
                 } else {
-                    // We cannot return this connection to the cache as it's
+                    // We cbnnot return this connection to the cbche bs it's
                     // KeepAliveTimeout will get reset. We simply close the connection.
-                    // This should be fine as it is very rare that a connection
-                    // to the same host will not use the same proxy.
+                    // This should be fine bs it is very rbre thbt b connection
+                    // to the sbme host will not use the sbme proxy.
                     synchronized(ret) {
-                        ret.inCache = false;
+                        ret.inCbche = fblse;
                         ret.closeServer();
                     }
                     ret = null;
@@ -307,10 +307,10 @@ public class HttpClient extends NetworkClient {
         if (ret == null) {
             ret = new HttpClient(url, p, to);
         } else {
-            SecurityManager security = System.getSecurityManager();
+            SecurityMbnbger security = System.getSecurityMbnbger();
             if (security != null) {
                 if (ret.proxy == Proxy.NO_PROXY || ret.proxy == null) {
-                    security.checkConnect(InetAddress.getByName(url.getHost()).getHostAddress(), url.getPort());
+                    security.checkConnect(InetAddress.getByNbme(url.getHost()).getHostAddress(), url.getPort());
                 } else {
                     security.checkConnect(url.getHost(), url.getPort());
                 }
@@ -320,35 +320,35 @@ public class HttpClient extends NetworkClient {
         return ret;
     }
 
-    public static HttpClient New(URL url, Proxy p, int to,
+    public stbtic HttpClient New(URL url, Proxy p, int to,
         HttpURLConnection httpuc) throws IOException
     {
         return New(url, p, to, true, httpuc);
     }
 
-    public static HttpClient New(URL url, String proxyHost, int proxyPort,
-                                 boolean useCache)
+    public stbtic HttpClient New(URL url, String proxyHost, int proxyPort,
+                                 boolebn useCbche)
         throws IOException {
         return New(url, newHttpProxy(proxyHost, proxyPort, "http"),
-            -1, useCache, null);
+            -1, useCbche, null);
     }
 
-    public static HttpClient New(URL url, String proxyHost, int proxyPort,
-                                 boolean useCache, int to,
+    public stbtic HttpClient New(URL url, String proxyHost, int proxyPort,
+                                 boolebn useCbche, int to,
                                  HttpURLConnection httpuc)
         throws IOException {
         return New(url, newHttpProxy(proxyHost, proxyPort, "http"),
-            to, useCache, httpuc);
+            to, useCbche, httpuc);
     }
 
-    /* return it to the cache as still usable, if:
-     * 1) It's keeping alive, AND
-     * 2) It still has some connections left, AND
-     * 3) It hasn't had a error (PrintStream.checkError())
-     * 4) It hasn't timed out
+    /* return it to the cbche bs still usbble, if:
+     * 1) It's keeping blive, AND
+     * 2) It still hbs some connections left, AND
+     * 3) It hbsn't hbd b error (PrintStrebm.checkError())
+     * 4) It hbsn't timed out
      *
-     * If this client is not keepingAlive, it should have been
-     * removed from the cache in the parseHeaders() method.
+     * If this client is not keepingAlive, it should hbve been
+     * removed from the cbche in the pbrseHebders() method.
      */
 
     public void finished() {
@@ -358,143 +358,143 @@ public class HttpClient extends NetworkClient {
         poster = null;
         if (keepAliveConnections > 0 && isKeepingAlive() &&
                !(serverOutput.checkError())) {
-            /* This connection is keepingAlive && still valid.
-             * Return it to the cache.
+            /* This connection is keepingAlive && still vblid.
+             * Return it to the cbche.
              */
-            putInKeepAliveCache();
+            putInKeepAliveCbche();
         } else {
             closeServer();
         }
     }
 
-    protected synchronized boolean available() {
-        boolean available = true;
+    protected synchronized boolebn bvbilbble() {
+        boolebn bvbilbble = true;
         int old = -1;
 
         try {
             try {
                 old = serverSocket.getSoTimeout();
                 serverSocket.setSoTimeout(1);
-                BufferedInputStream tmpbuf =
-                        new BufferedInputStream(serverSocket.getInputStream());
-                int r = tmpbuf.read();
+                BufferedInputStrebm tmpbuf =
+                        new BufferedInputStrebm(serverSocket.getInputStrebm());
+                int r = tmpbuf.rebd();
                 if (r == -1) {
-                    logFinest("HttpClient.available(): " +
-                            "read returned -1: not available");
-                    available = false;
+                    logFinest("HttpClient.bvbilbble(): " +
+                            "rebd returned -1: not bvbilbble");
+                    bvbilbble = fblse;
                 }
-            } catch (SocketTimeoutException e) {
-                logFinest("HttpClient.available(): " +
-                        "SocketTimeout: its available");
-            } finally {
+            } cbtch (SocketTimeoutException e) {
+                logFinest("HttpClient.bvbilbble(): " +
+                        "SocketTimeout: its bvbilbble");
+            } finblly {
                 if (old != -1)
                     serverSocket.setSoTimeout(old);
             }
-        } catch (IOException e) {
-            logFinest("HttpClient.available(): " +
-                        "SocketException: not available");
-            available = false;
+        } cbtch (IOException e) {
+            logFinest("HttpClient.bvbilbble(): " +
+                        "SocketException: not bvbilbble");
+            bvbilbble = fblse;
         }
-        return available;
+        return bvbilbble;
     }
 
-    protected synchronized void putInKeepAliveCache() {
-        if (inCache) {
-            assert false : "Duplicate put to keep alive cache";
+    protected synchronized void putInKeepAliveCbche() {
+        if (inCbche) {
+            bssert fblse : "Duplicbte put to keep blive cbche";
             return;
         }
-        inCache = true;
-        kac.put(url, null, this);
+        inCbche = true;
+        kbc.put(url, null, this);
     }
 
-    protected synchronized boolean isInKeepAliveCache() {
-        return inCache;
+    protected synchronized boolebn isInKeepAliveCbche() {
+        return inCbche;
     }
 
     /*
-     * Close an idle connection to this URL (if it exists in the
-     * cache).
+     * Close bn idle connection to this URL (if it exists in the
+     * cbche).
      */
     public void closeIdleConnection() {
-        HttpClient http = kac.get(url, null);
+        HttpClient http = kbc.get(url, null);
         if (http != null) {
             http.closeServer();
         }
     }
 
-    /* We're very particular here about what our InputStream to the server
-     * looks like for reasons that are apparent if you can decipher the
-     * method parseHTTP().  That's why this method is overidden from the
-     * superclass.
+    /* We're very pbrticulbr here bbout whbt our InputStrebm to the server
+     * looks like for rebsons thbt bre bppbrent if you cbn decipher the
+     * method pbrseHTTP().  Thbt's why this method is overidden from the
+     * superclbss.
      */
     @Override
     public void openServer(String server, int port) throws IOException {
         serverSocket = doConnect(server, port);
         try {
-            OutputStream out = serverSocket.getOutputStream();
-            if (capture != null) {
-                out = new HttpCaptureOutputStream(out, capture);
+            OutputStrebm out = serverSocket.getOutputStrebm();
+            if (cbpture != null) {
+                out = new HttpCbptureOutputStrebm(out, cbpture);
             }
-            serverOutput = new PrintStream(
-                new BufferedOutputStream(out),
-                                         false, encoding);
-        } catch (UnsupportedEncodingException e) {
-            throw new InternalError(encoding+" encoding not found", e);
+            serverOutput = new PrintStrebm(
+                new BufferedOutputStrebm(out),
+                                         fblse, encoding);
+        } cbtch (UnsupportedEncodingException e) {
+            throw new InternblError(encoding+" encoding not found", e);
         }
-        serverSocket.setTcpNoDelay(true);
+        serverSocket.setTcpNoDelby(true);
     }
 
     /*
      * Returns true if the http request should be tunneled through proxy.
-     * An example where this is the case is Https.
+     * An exbmple where this is the cbse is Https.
      */
-    public boolean needsTunneling() {
-        return false;
+    public boolebn needsTunneling() {
+        return fblse;
     }
 
     /*
-     * Returns true if this httpclient is from cache
+     * Returns true if this httpclient is from cbche
      */
-    public synchronized boolean isCachedConnection() {
-        return cachedHttpClient;
+    public synchronized boolebn isCbchedConnection() {
+        return cbchedHttpClient;
     }
 
     /*
-     * Finish any work left after the socket connection is
-     * established.  In the normal http case, it's a NO-OP. Subclass
-     * may need to override this. An example is Https, where for
-     * direct connection to the origin server, ssl handshake needs to
+     * Finish bny work left bfter the socket connection is
+     * estbblished.  In the normbl http cbse, it's b NO-OP. Subclbss
+     * mby need to override this. An exbmple is Https, where for
+     * direct connection to the origin server, ssl hbndshbke needs to
      * be done; for proxy tunneling, the socket needs to be converted
-     * into an SSL socket before ssl handshake can take place.
+     * into bn SSL socket before ssl hbndshbke cbn tbke plbce.
      */
-    public void afterConnect() throws IOException, UnknownHostException {
+    public void bfterConnect() throws IOException, UnknownHostException {
         // NO-OP. Needs to be overwritten by HttpsClient
     }
 
     /*
-     * call openServer in a privileged block
+     * cbll openServer in b privileged block
      */
-    private synchronized void privilegedOpenServer(final InetSocketAddress server)
+    privbte synchronized void privilegedOpenServer(finbl InetSocketAddress server)
          throws IOException
     {
         try {
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedExceptionAction<Void>() {
+            jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedExceptionAction<Void>() {
                     public Void run() throws IOException {
                     openServer(server.getHostString(), server.getPort());
                     return null;
                 }
             });
-        } catch (java.security.PrivilegedActionException pae) {
-            throw (IOException) pae.getException();
+        } cbtch (jbvb.security.PrivilegedActionException pbe) {
+            throw (IOException) pbe.getException();
         }
     }
 
     /*
-     * call super.openServer
+     * cbll super.openServer
      */
-    private void superOpenServer(final String proxyHost,
-                                 final int proxyPort)
+    privbte void superOpenServer(finbl String proxyHost,
+                                 finbl int proxyPort)
         throws IOException, UnknownHostException
     {
         super.openServer(proxyHost, proxyPort);
@@ -504,44 +504,44 @@ public class HttpClient extends NetworkClient {
      */
     protected synchronized void openServer() throws IOException {
 
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
 
         if (security != null) {
             security.checkConnect(host, port);
         }
 
-        if (keepingAlive) { // already opened
+        if (keepingAlive) { // blrebdy opened
             return;
         }
 
-        if (url.getProtocol().equals("http") ||
-            url.getProtocol().equals("https") ) {
+        if (url.getProtocol().equbls("http") ||
+            url.getProtocol().equbls("https") ) {
 
             if ((proxy != null) && (proxy.type() == Proxy.Type.HTTP)) {
                 sun.net.www.URLConnection.setProxiedHost(host);
-                privilegedOpenServer((InetSocketAddress) proxy.address());
+                privilegedOpenServer((InetSocketAddress) proxy.bddress());
                 usingProxy = true;
                 return;
             } else {
-                // make direct connection
+                // mbke direct connection
                 openServer(host, port);
-                usingProxy = false;
+                usingProxy = fblse;
                 return;
             }
 
         } else {
-            /* we're opening some other kind of url, most likely an
+            /* we're opening some other kind of url, most likely bn
              * ftp url.
              */
             if ((proxy != null) && (proxy.type() == Proxy.Type.HTTP)) {
                 sun.net.www.URLConnection.setProxiedHost(host);
-                privilegedOpenServer((InetSocketAddress) proxy.address());
+                privilegedOpenServer((InetSocketAddress) proxy.bddress());
                 usingProxy = true;
                 return;
             } else {
-                // make direct connection
+                // mbke direct connection
                 super.openServer(host, port);
-                usingProxy = false;
+                usingProxy = fblse;
                 return;
             }
         }
@@ -549,67 +549,67 @@ public class HttpClient extends NetworkClient {
 
     public String getURLFile() throws IOException {
 
-        String fileName;
+        String fileNbme;
 
         /**
-         * proxyDisabled is set by subclass HttpsClient!
+         * proxyDisbbled is set by subclbss HttpsClient!
          */
-        if (usingProxy && !proxyDisabled) {
-            // Do not use URLStreamHandler.toExternalForm as the fragment
-            // should not be part of the RequestURI. It should be an
-            // absolute URI which does not have a fragment part.
+        if (usingProxy && !proxyDisbbled) {
+            // Do not use URLStrebmHbndler.toExternblForm bs the frbgment
+            // should not be pbrt of the RequestURI. It should be bn
+            // bbsolute URI which does not hbve b frbgment pbrt.
             StringBuilder result = new StringBuilder(128);
-            result.append(url.getProtocol());
-            result.append(":");
+            result.bppend(url.getProtocol());
+            result.bppend(":");
             if (url.getAuthority() != null && url.getAuthority().length() > 0) {
-                result.append("//");
-                result.append(url.getAuthority());
+                result.bppend("//");
+                result.bppend(url.getAuthority());
             }
-            if (url.getPath() != null) {
-                result.append(url.getPath());
+            if (url.getPbth() != null) {
+                result.bppend(url.getPbth());
             }
             if (url.getQuery() != null) {
-                result.append('?');
-                result.append(url.getQuery());
+                result.bppend('?');
+                result.bppend(url.getQuery());
             }
 
-            fileName = result.toString();
+            fileNbme = result.toString();
         } else {
-            fileName = url.getFile();
+            fileNbme = url.getFile();
 
-            if ((fileName == null) || (fileName.length() == 0)) {
-                fileName = "/";
-            } else if (fileName.charAt(0) == '?') {
-                /* HTTP/1.1 spec says in 5.1.2. about Request-URI:
-                 * "Note that the absolute path cannot be empty; if
-                 * none is present in the original URI, it MUST be
-                 * given as "/" (the server root)."  So if the file
-                 * name here has only a query string, the path is
-                 * empty and we also have to add a "/".
+            if ((fileNbme == null) || (fileNbme.length() == 0)) {
+                fileNbme = "/";
+            } else if (fileNbme.chbrAt(0) == '?') {
+                /* HTTP/1.1 spec sbys in 5.1.2. bbout Request-URI:
+                 * "Note thbt the bbsolute pbth cbnnot be empty; if
+                 * none is present in the originbl URI, it MUST be
+                 * given bs "/" (the server root)."  So if the file
+                 * nbme here hbs only b query string, the pbth is
+                 * empty bnd we blso hbve to bdd b "/".
                  */
-                fileName = "/" + fileName;
+                fileNbme = "/" + fileNbme;
             }
         }
 
-        if (fileName.indexOf('\n') == -1)
-            return fileName;
+        if (fileNbme.indexOf('\n') == -1)
+            return fileNbme;
         else
-            throw new java.net.MalformedURLException("Illegal character in URL");
+            throw new jbvb.net.MblformedURLException("Illegbl chbrbcter in URL");
     }
 
     /**
-     * @deprecated
+     * @deprecbted
      */
-    @Deprecated
-    public void writeRequests(MessageHeader head) {
-        requests = head;
+    @Deprecbted
+    public void writeRequests(MessbgeHebder hebd) {
+        requests = hebd;
         requests.print(serverOutput);
         serverOutput.flush();
     }
 
-    public void writeRequests(MessageHeader head,
-                              PosterOutputStream pos) throws IOException {
-        requests = head;
+    public void writeRequests(MessbgeHebder hebd,
+                              PosterOutputStrebm pos) throws IOException {
+        requests = hebd;
         requests.print(serverOutput);
         poster = pos;
         if (poster != null)
@@ -617,61 +617,61 @@ public class HttpClient extends NetworkClient {
         serverOutput.flush();
     }
 
-    public void writeRequests(MessageHeader head,
-                              PosterOutputStream pos,
-                              boolean streaming) throws IOException {
-        this.streaming = streaming;
-        writeRequests(head, pos);
+    public void writeRequests(MessbgeHebder hebd,
+                              PosterOutputStrebm pos,
+                              boolebn strebming) throws IOException {
+        this.strebming = strebming;
+        writeRequests(hebd, pos);
     }
 
-    /** Parse the first line of the HTTP request.  It usually looks
+    /** Pbrse the first line of the HTTP request.  It usublly looks
         something like: "HTTP/1.0 <number> comment\r\n". */
 
-    public boolean parseHTTP(MessageHeader responses, ProgressSource pi, HttpURLConnection httpuc)
+    public boolebn pbrseHTTP(MessbgeHebder responses, ProgressSource pi, HttpURLConnection httpuc)
     throws IOException {
         /* If "HTTP/*" is found in the beginning, return true.  Let
-         * HttpURLConnection parse the mime header itself.
+         * HttpURLConnection pbrse the mime hebder itself.
          *
-         * If this isn't valid HTTP, then we don't try to parse a header
+         * If this isn't vblid HTTP, then we don't try to pbrse b hebder
          * out of the beginning of the response into the responses,
-         * and instead just queue up the output stream to it's very beginning.
-         * This seems most reasonable, and is what the NN browser does.
+         * bnd instebd just queue up the output strebm to it's very beginning.
+         * This seems most rebsonbble, bnd is whbt the NN browser does.
          */
 
         try {
-            serverInput = serverSocket.getInputStream();
-            if (capture != null) {
-                serverInput = new HttpCaptureInputStream(serverInput, capture);
+            serverInput = serverSocket.getInputStrebm();
+            if (cbpture != null) {
+                serverInput = new HttpCbptureInputStrebm(serverInput, cbpture);
             }
-            serverInput = new BufferedInputStream(serverInput);
-            return (parseHTTPHeader(responses, pi, httpuc));
-        } catch (SocketTimeoutException stex) {
-            // We don't want to retry the request when the app. sets a timeout
-            // but don't close the server if timeout while waiting for 100-continue
+            serverInput = new BufferedInputStrebm(serverInput);
+            return (pbrseHTTPHebder(responses, pi, httpuc));
+        } cbtch (SocketTimeoutException stex) {
+            // We don't wbnt to retry the request when the bpp. sets b timeout
+            // but don't close the server if timeout while wbiting for 100-continue
             if (ignoreContinue) {
                 closeServer();
             }
             throw stex;
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             closeServer();
-            cachedHttpClient = false;
-            if (!failedOnce && requests != null) {
-                failedOnce = true;
-                if (getRequestMethod().equals("CONNECT") ||
-                    (httpuc.getRequestMethod().equals("POST") &&
-                    (!retryPostProp || streaming))) {
+            cbchedHttpClient = fblse;
+            if (!fbiledOnce && requests != null) {
+                fbiledOnce = true;
+                if (getRequestMethod().equbls("CONNECT") ||
+                    (httpuc.getRequestMethod().equbls("POST") &&
+                    (!retryPostProp || strebming))) {
                     // do not retry the request
                 }  else {
                     // try once more
                     openServer();
                     if (needsTunneling()) {
-                        MessageHeader origRequests = requests;
+                        MessbgeHebder origRequests = requests;
                         httpuc.doTunneling();
                         requests = origRequests;
                     }
-                    afterConnect();
+                    bfterConnect();
                     writeRequests(requests, poster);
-                    return parseHTTP(responses, pi, httpuc);
+                    return pbrseHTTP(responses, pi, httpuc);
                 }
             }
             throw e;
@@ -679,187 +679,187 @@ public class HttpClient extends NetworkClient {
 
     }
 
-    private boolean parseHTTPHeader(MessageHeader responses, ProgressSource pi, HttpURLConnection httpuc)
+    privbte boolebn pbrseHTTPHebder(MessbgeHebder responses, ProgressSource pi, HttpURLConnection httpuc)
     throws IOException {
         /* If "HTTP/*" is found in the beginning, return true.  Let
-         * HttpURLConnection parse the mime header itself.
+         * HttpURLConnection pbrse the mime hebder itself.
          *
-         * If this isn't valid HTTP, then we don't try to parse a header
+         * If this isn't vblid HTTP, then we don't try to pbrse b hebder
          * out of the beginning of the response into the responses,
-         * and instead just queue up the output stream to it's very beginning.
-         * This seems most reasonable, and is what the NN browser does.
+         * bnd instebd just queue up the output strebm to it's very beginning.
+         * This seems most rebsonbble, bnd is whbt the NN browser does.
          */
 
         keepAliveConnections = -1;
         keepAliveTimeout = 0;
 
-        boolean ret = false;
+        boolebn ret = fblse;
         byte[] b = new byte[8];
 
         try {
-            int nread = 0;
-            serverInput.mark(10);
-            while (nread < 8) {
-                int r = serverInput.read(b, nread, 8 - nread);
+            int nrebd = 0;
+            serverInput.mbrk(10);
+            while (nrebd < 8) {
+                int r = serverInput.rebd(b, nrebd, 8 - nrebd);
                 if (r < 0) {
-                    break;
+                    brebk;
                 }
-                nread += r;
+                nrebd += r;
             }
             String keep=null;
             ret = b[0] == 'H' && b[1] == 'T'
                     && b[2] == 'T' && b[3] == 'P' && b[4] == '/' &&
                 b[5] == '1' && b[6] == '.';
             serverInput.reset();
-            if (ret) { // is valid HTTP - response started w/ "HTTP/1."
-                responses.parseHeader(serverInput);
+            if (ret) { // is vblid HTTP - response stbrted w/ "HTTP/1."
+                responses.pbrseHebder(serverInput);
 
-                // we've finished parsing http headers
-                // check if there are any applicable cookies to set (in cache)
-                CookieHandler cookieHandler = httpuc.getCookieHandler();
-                if (cookieHandler != null) {
-                    URI uri = ParseUtil.toURI(url);
-                    // NOTE: That cast from Map shouldn't be necessary but
-                    // a bug in javac is triggered under certain circumstances
-                    // So we do put the cast in as a workaround until
+                // we've finished pbrsing http hebders
+                // check if there bre bny bpplicbble cookies to set (in cbche)
+                CookieHbndler cookieHbndler = httpuc.getCookieHbndler();
+                if (cookieHbndler != null) {
+                    URI uri = PbrseUtil.toURI(url);
+                    // NOTE: Thbt cbst from Mbp shouldn't be necessbry but
+                    // b bug in jbvbc is triggered under certbin circumstbnces
+                    // So we do put the cbst in bs b workbround until
                     // it is resolved.
                     if (uri != null)
-                        cookieHandler.put(uri, responses.getHeaders());
+                        cookieHbndler.put(uri, responses.getHebders());
                 }
 
-                /* decide if we're keeping alive:
-                 * This is a bit tricky.  There's a spec, but most current
-                 * servers (10/1/96) that support this differ in dialects.
-                 * If the server/client misunderstand each other, the
-                 * protocol should fall back onto HTTP/1.0, no keep-alive.
+                /* decide if we're keeping blive:
+                 * This is b bit tricky.  There's b spec, but most current
+                 * servers (10/1/96) thbt support this differ in diblects.
+                 * If the server/client misunderstbnd ebch other, the
+                 * protocol should fbll bbck onto HTTP/1.0, no keep-blive.
                  */
-                if (usingProxy) { // not likely a proxy will return this
-                    keep = responses.findValue("Proxy-Connection");
+                if (usingProxy) { // not likely b proxy will return this
+                    keep = responses.findVblue("Proxy-Connection");
                 }
                 if (keep == null) {
-                    keep = responses.findValue("Connection");
+                    keep = responses.findVblue("Connection");
                 }
-                if (keep != null && keep.toLowerCase(Locale.US).equals("keep-alive")) {
-                    /* some servers, notably Apache1.1, send something like:
-                     * "Keep-Alive: timeout=15, max=1" which we should respect.
+                if (keep != null && keep.toLowerCbse(Locble.US).equbls("keep-blive")) {
+                    /* some servers, notbbly Apbche1.1, send something like:
+                     * "Keep-Alive: timeout=15, mbx=1" which we should respect.
                      */
-                    HeaderParser p = new HeaderParser(
-                            responses.findValue("Keep-Alive"));
+                    HebderPbrser p = new HebderPbrser(
+                            responses.findVblue("Keep-Alive"));
                     if (p != null) {
-                        /* default should be larger in case of proxy */
-                        keepAliveConnections = p.findInt("max", usingProxy?50:5);
+                        /* defbult should be lbrger in cbse of proxy */
+                        keepAliveConnections = p.findInt("mbx", usingProxy?50:5);
                         keepAliveTimeout = p.findInt("timeout", usingProxy?60:5);
                     }
                 } else if (b[7] != '0') {
                     /*
-                     * We're talking 1.1 or later. Keep persistent until
-                     * the server says to close.
+                     * We're tblking 1.1 or lbter. Keep persistent until
+                     * the server sbys to close.
                      */
                     if (keep != null) {
                         /*
-                         * The only Connection token we understand is close.
-                         * Paranoia: if there is any Connection header then
-                         * treat as non-persistent.
+                         * The only Connection token we understbnd is close.
+                         * Pbrbnoib: if there is bny Connection hebder then
+                         * trebt bs non-persistent.
                          */
                         keepAliveConnections = 1;
                     } else {
                         keepAliveConnections = 5;
                     }
                 }
-            } else if (nread != 8) {
-                if (!failedOnce && requests != null) {
-                    failedOnce = true;
-                    if (getRequestMethod().equals("CONNECT") ||
-                        (httpuc.getRequestMethod().equals("POST") &&
-                         (!retryPostProp || streaming))) {
+            } else if (nrebd != 8) {
+                if (!fbiledOnce && requests != null) {
+                    fbiledOnce = true;
+                    if (getRequestMethod().equbls("CONNECT") ||
+                        (httpuc.getRequestMethod().equbls("POST") &&
+                         (!retryPostProp || strebming))) {
                         // do not retry the request
                     } else {
                         closeServer();
-                        cachedHttpClient = false;
+                        cbchedHttpClient = fblse;
                         openServer();
                         if (needsTunneling()) {
-                            MessageHeader origRequests = requests;
+                            MessbgeHebder origRequests = requests;
                             httpuc.doTunneling();
                             requests = origRequests;
                         }
-                        afterConnect();
+                        bfterConnect();
                         writeRequests(requests, poster);
-                        return parseHTTP(responses, pi, httpuc);
+                        return pbrseHTTP(responses, pi, httpuc);
                     }
                 }
                 throw new SocketException("Unexpected end of file from server");
             } else {
-                // we can't vouche for what this is....
+                // we cbn't vouche for whbt this is....
                 responses.set("Content-type", "unknown/unknown");
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw e;
         }
 
         int code = -1;
         try {
             String resp;
-            resp = responses.getValue(0);
-            /* should have no leading/trailing LWS
-             * expedite the typical case by assuming it has
+            resp = responses.getVblue(0);
+            /* should hbve no lebding/trbiling LWS
+             * expedite the typicbl cbse by bssuming it hbs
              * form "HTTP/1.x <WS> 2XX <mumble>"
              */
             int ind;
             ind = resp.indexOf(' ');
-            while(resp.charAt(ind) == ' ')
+            while(resp.chbrAt(ind) == ' ')
                 ind++;
-            code = Integer.parseInt(resp.substring(ind, ind + 3));
-        } catch (Exception e) {}
+            code = Integer.pbrseInt(resp.substring(ind, ind + 3));
+        } cbtch (Exception e) {}
 
         if (code == HTTP_CONTINUE && ignoreContinue) {
             responses.reset();
-            return parseHTTPHeader(responses, pi, httpuc);
+            return pbrseHTTPHebder(responses, pi, httpuc);
         }
 
         long cl = -1;
 
         /*
-         * Set things up to parse the entity body of the reply.
-         * We should be smarter about avoid pointless work when
-         * the HTTP method and response code indicate there will be
-         * no entity body to parse.
+         * Set things up to pbrse the entity body of the reply.
+         * We should be smbrter bbout bvoid pointless work when
+         * the HTTP method bnd response code indicbte there will be
+         * no entity body to pbrse.
          */
-        String te = responses.findValue("Transfer-Encoding");
-        if (te != null && te.equalsIgnoreCase("chunked")) {
-            serverInput = new ChunkedInputStream(serverInput, this, responses);
+        String te = responses.findVblue("Trbnsfer-Encoding");
+        if (te != null && te.equblsIgnoreCbse("chunked")) {
+            serverInput = new ChunkedInputStrebm(serverInput, this, responses);
 
             /*
-             * If keep alive not specified then close after the stream
-             * has completed.
+             * If keep blive not specified then close bfter the strebm
+             * hbs completed.
              */
             if (keepAliveConnections <= 1) {
                 keepAliveConnections = 1;
-                keepingAlive = false;
+                keepingAlive = fblse;
             } else {
                 keepingAlive = true;
             }
-            failedOnce = false;
+            fbiledOnce = fblse;
         } else {
 
             /*
-             * If it's a keep alive connection then we will keep
-             * (alive if :-
+             * If it's b keep blive connection then we will keep
+             * (blive if :-
              * 1. content-length is specified, or
-             * 2. "Not-Modified" or "No-Content" responses - RFC 2616 states that
-             *    204 or 304 response must not include a message body.
+             * 2. "Not-Modified" or "No-Content" responses - RFC 2616 stbtes thbt
+             *    204 or 304 response must not include b messbge body.
              */
-            String cls = responses.findValue("content-length");
+            String cls = responses.findVblue("content-length");
             if (cls != null) {
                 try {
-                    cl = Long.parseLong(cls);
-                } catch (NumberFormatException e) {
+                    cl = Long.pbrseLong(cls);
+                } cbtch (NumberFormbtException e) {
                     cl = -1;
                 }
             }
             String requestLine = requests.getKey(0);
 
             if ((requestLine != null &&
-                 (requestLine.startsWith("HEAD"))) ||
+                 (requestLine.stbrtsWith("HEAD"))) ||
                 code == HttpURLConnection.HTTP_NOT_MODIFIED ||
                 code == HttpURLConnection.HTTP_NO_CONTENT) {
                 cl = 0;
@@ -870,89 +870,89 @@ public class HttpClient extends NetworkClient {
                  code == HttpURLConnection.HTTP_NOT_MODIFIED ||
                  code == HttpURLConnection.HTTP_NO_CONTENT)) {
                 keepingAlive = true;
-                failedOnce = false;
+                fbiledOnce = fblse;
             } else if (keepingAlive) {
-                /* Previously we were keeping alive, and now we're not.  Remove
-                 * this from the cache (but only here, once) - otherwise we get
-                 * multiple removes and the cache count gets messed up.
+                /* Previously we were keeping blive, bnd now we're not.  Remove
+                 * this from the cbche (but only here, once) - otherwise we get
+                 * multiple removes bnd the cbche count gets messed up.
                  */
-                keepingAlive=false;
+                keepingAlive=fblse;
             }
         }
 
-        /* wrap a KeepAliveStream/MeteredStream around it if appropriate */
+        /* wrbp b KeepAliveStrebm/MeteredStrebm bround it if bppropribte */
 
         if (cl > 0) {
-            // In this case, content length is well known, so it is okay
-            // to wrap the input stream with KeepAliveStream/MeteredStream.
+            // In this cbse, content length is well known, so it is okby
+            // to wrbp the input strebm with KeepAliveStrebm/MeteredStrebm.
 
             if (pi != null) {
-                // Progress monitor is enabled
-                pi.setContentType(responses.findValue("content-type"));
+                // Progress monitor is enbbled
+                pi.setContentType(responses.findVblue("content-type"));
             }
 
             if (isKeepingAlive())   {
-                // Wrap KeepAliveStream if keep alive is enabled.
-                logFinest("KeepAlive stream used: " + url);
-                serverInput = new KeepAliveStream(serverInput, pi, cl, this);
-                failedOnce = false;
+                // Wrbp KeepAliveStrebm if keep blive is enbbled.
+                logFinest("KeepAlive strebm used: " + url);
+                serverInput = new KeepAliveStrebm(serverInput, pi, cl, this);
+                fbiledOnce = fblse;
             }
             else        {
-                serverInput = new MeteredStream(serverInput, pi, cl);
+                serverInput = new MeteredStrebm(serverInput, pi, cl);
             }
         }
         else if (cl == -1)  {
-            // In this case, content length is unknown - the input
-            // stream would simply be a regular InputStream or
-            // ChunkedInputStream.
+            // In this cbse, content length is unknown - the input
+            // strebm would simply be b regulbr InputStrebm or
+            // ChunkedInputStrebm.
 
             if (pi != null) {
-                // Progress monitoring is enabled.
+                // Progress monitoring is enbbled.
 
-                pi.setContentType(responses.findValue("content-type"));
+                pi.setContentType(responses.findVblue("content-type"));
 
-                // Wrap MeteredStream for tracking indeterministic
-                // progress, even if the input stream is ChunkedInputStream.
-                serverInput = new MeteredStream(serverInput, pi, cl);
+                // Wrbp MeteredStrebm for trbcking indeterministic
+                // progress, even if the input strebm is ChunkedInputStrebm.
+                serverInput = new MeteredStrebm(serverInput, pi, cl);
             }
             else    {
-                // Progress monitoring is disabled, and there is no
-                // need to wrap an unknown length input stream.
+                // Progress monitoring is disbbled, bnd there is no
+                // need to wrbp bn unknown length input strebm.
 
-                // ** This is an no-op **
+                // ** This is bn no-op **
             }
         }
         else    {
             if (pi != null)
-                pi.finishTracking();
+                pi.finishTrbcking();
         }
 
         return ret;
     }
 
-    public synchronized InputStream getInputStream() {
+    public synchronized InputStrebm getInputStrebm() {
         return serverInput;
     }
 
-    public OutputStream getOutputStream() {
+    public OutputStrebm getOutputStrebm() {
         return serverOutput;
     }
 
     @Override
     public String toString() {
-        return getClass().getName()+"("+url+")";
+        return getClbss().getNbme()+"("+url+")";
     }
 
-    public final boolean isKeepingAlive() {
+    public finbl boolebn isKeepingAlive() {
         return getHttpKeepAliveSet() && keepingAlive;
     }
 
-    public void setCacheRequest(CacheRequest cacheRequest) {
-        this.cacheRequest = cacheRequest;
+    public void setCbcheRequest(CbcheRequest cbcheRequest) {
+        this.cbcheRequest = cbcheRequest;
     }
 
-    CacheRequest getCacheRequest() {
-        return cacheRequest;
+    CbcheRequest getCbcheRequest() {
+        return cbcheRequest;
     }
 
     String getRequestMethod() {
@@ -966,48 +966,48 @@ public class HttpClient extends NetworkClient {
     }
 
     @Override
-    protected void finalize() throws Throwable {
-        // This should do nothing.  The stream finalizer will
+    protected void finblize() throws Throwbble {
+        // This should do nothing.  The strebm finblizer will
         // close the fd.
     }
 
-    public void setDoNotRetry(boolean value) {
-        // failedOnce is used to determine if a request should be retried.
-        failedOnce = value;
+    public void setDoNotRetry(boolebn vblue) {
+        // fbiledOnce is used to determine if b request should be retried.
+        fbiledOnce = vblue;
     }
 
-    public void setIgnoreContinue(boolean value) {
-        ignoreContinue = value;
+    public void setIgnoreContinue(boolebn vblue) {
+        ignoreContinue = vblue;
     }
 
     /* Use only on connections in error. */
     @Override
     public void closeServer() {
         try {
-            keepingAlive = false;
+            keepingAlive = fblse;
             serverSocket.close();
-        } catch (Exception e) {}
+        } cbtch (Exception e) {}
     }
 
     /**
      * @return the proxy host being used for this client, or null
-     *          if we're not going through a proxy
+     *          if we're not going through b proxy
      */
     public String getProxyHostUsed() {
         if (!usingProxy) {
             return null;
         } else {
-            return ((InetSocketAddress)proxy.address()).getHostString();
+            return ((InetSocketAddress)proxy.bddress()).getHostString();
         }
     }
 
     /**
-     * @return the proxy port being used for this client.  Meaningless
+     * @return the proxy port being used for this client.  Mebningless
      *          if getProxyHostUsed() gives null.
      */
     public int getProxyPortUsed() {
         if (usingProxy)
-            return ((InetSocketAddress)proxy.address()).getPort();
+            return ((InetSocketAddress)proxy.bddress()).getPort();
         return -1;
     }
 }

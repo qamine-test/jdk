@@ -1,41 +1,41 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import java.io.PrintStream;
-import java.io.ByteArrayOutputStream;
+import sun.tools.jbvb.*;
+import jbvb.io.PrintStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class Node implements Constants, Cloneable {
+clbss Node implements Constbnts, Clonebble {
     int op;
     long where;
 
@@ -48,7 +48,7 @@ class Node implements Constants, Cloneable {
     }
 
     /**
-     * Get the operator
+     * Get the operbtor
      */
     public int getOp() {
         return op;
@@ -66,12 +66,12 @@ class Node implements Constants, Cloneable {
      */
     public Expression convert(Environment env, Context ctx, Type t, Expression e) {
         if (e.type.isType(TC_ERROR) || t.isType(TC_ERROR)) {
-            // An error was already reported
+            // An error wbs blrebdy reported
             return e;
         }
 
-        if (e.type.equals(t)) {
-            // The types are already the same
+        if (e.type.equbls(t)) {
+            // The types bre blrebdy the sbme
             return e;
         }
 
@@ -80,23 +80,23 @@ class Node implements Constants, Cloneable {
                 return new ConvertExpression(where, t, e);
             }
 
-            if (env.explicitCast(e.type, t)) {
-                env.error(where, "explicit.cast.needed", opNames[op], e.type, t);
+            if (env.explicitCbst(e.type, t)) {
+                env.error(where, "explicit.cbst.needed", opNbmes[op], e.type, t);
                 return new ConvertExpression(where, t, e);
             }
-        } catch (ClassNotFound ee) {
-            env.error(where, "class.not.found", ee.name, opNames[op]);
+        } cbtch (ClbssNotFound ee) {
+            env.error(where, "clbss.not.found", ee.nbme, opNbmes[op]);
         }
 
-        // The cast is not allowed
-        env.error(where, "incompatible.type", opNames[op], e.type, t);
+        // The cbst is not bllowed
+        env.error(where, "incompbtible.type", opNbmes[op], e.type, t);
         return new ConvertExpression(where, Type.tError, e);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
+    public void print(PrintStrebm out) {
         throw new CompilerError("print");
     }
 
@@ -106,9 +106,9 @@ class Node implements Constants, Cloneable {
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw (InternalError) new InternalError().initCause(e);
+        } cbtch (CloneNotSupportedException e) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw (InternblError) new InternblError().initCbuse(e);
         }
     }
 
@@ -116,8 +116,8 @@ class Node implements Constants, Cloneable {
      * Useful for simple debugging
      */
     public String toString() {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        print(new PrintStream(bos));
+        ByteArrbyOutputStrebm bos = new ByteArrbyOutputStrebm();
+        print(new PrintStrebm(bos));
         return bos.toString();
     }
 

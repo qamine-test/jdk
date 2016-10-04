@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.util.NoSuchElementException;
-import java.util.PrimitiveIterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.IntConsumer;
-import java.util.stream.IntStream;
-import java.util.stream.StreamSupport;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.PrimitiveIterbtor;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.strebm.IntStrebm;
+import jbvb.util.strebm.StrebmSupport;
 
 /**
- * A <tt>CharSequence</tt> is a readable sequence of <code>char</code> values. This
- * interface provides uniform, read-only access to many different kinds of
- * <code>char</code> sequences.
- * A <code>char</code> value represents a character in the <i>Basic
- * Multilingual Plane (BMP)</i> or a surrogate. Refer to <a
- * href="Character.html#unicode">Unicode Character Representation</a> for details.
+ * A <tt>ChbrSequence</tt> is b rebdbble sequence of <code>chbr</code> vblues. This
+ * interfbce provides uniform, rebd-only bccess to mbny different kinds of
+ * <code>chbr</code> sequences.
+ * A <code>chbr</code> vblue represents b chbrbcter in the <i>Bbsic
+ * Multilingubl Plbne (BMP)</i> or b surrogbte. Refer to <b
+ * href="Chbrbcter.html#unicode">Unicode Chbrbcter Representbtion</b> for detbils.
  *
- * <p> This interface does not refine the general contracts of the {@link
- * java.lang.Object#equals(java.lang.Object) equals} and {@link
- * java.lang.Object#hashCode() hashCode} methods.  The result of comparing two
- * objects that implement <tt>CharSequence</tt> is therefore, in general,
- * undefined.  Each object may be implemented by a different class, and there
- * is no guarantee that each class will be capable of testing its instances
- * for equality with those of the other.  It is therefore inappropriate to use
- * arbitrary <tt>CharSequence</tt> instances as elements in a set or as keys in
- * a map. </p>
+ * <p> This interfbce does not refine the generbl contrbcts of the {@link
+ * jbvb.lbng.Object#equbls(jbvb.lbng.Object) equbls} bnd {@link
+ * jbvb.lbng.Object#hbshCode() hbshCode} methods.  The result of compbring two
+ * objects thbt implement <tt>ChbrSequence</tt> is therefore, in generbl,
+ * undefined.  Ebch object mby be implemented by b different clbss, bnd there
+ * is no gubrbntee thbt ebch clbss will be cbpbble of testing its instbnces
+ * for equblity with those of the other.  It is therefore inbppropribte to use
+ * brbitrbry <tt>ChbrSequence</tt> instbnces bs elements in b set or bs keys in
+ * b mbp. </p>
  *
- * @author Mike McCloskey
+ * @buthor Mike McCloskey
  * @since 1.4
  * @spec JSR-51
  */
 
-public interface CharSequence {
+public interfbce ChbrSequence {
 
     /**
-     * Returns the length of this character sequence.  The length is the number
-     * of 16-bit <code>char</code>s in the sequence.
+     * Returns the length of this chbrbcter sequence.  The length is the number
+     * of 16-bit <code>chbr</code>s in the sequence.
      *
-     * @return  the number of <code>char</code>s in this sequence
+     * @return  the number of <code>chbr</code>s in this sequence
      */
     int length();
 
     /**
-     * Returns the <code>char</code> value at the specified index.  An index ranges from zero
-     * to <tt>length() - 1</tt>.  The first <code>char</code> value of the sequence is at
-     * index zero, the next at index one, and so on, as for array
+     * Returns the <code>chbr</code> vblue bt the specified index.  An index rbnges from zero
+     * to <tt>length() - 1</tt>.  The first <code>chbr</code> vblue of the sequence is bt
+     * index zero, the next bt index one, bnd so on, bs for brrby
      * indexing.
      *
-     * <p>If the <code>char</code> value specified by the index is a
-     * <a href="{@docRoot}/java/lang/Character.html#unicode">surrogate</a>, the surrogate
-     * value is returned.
+     * <p>If the <code>chbr</code> vblue specified by the index is b
+     * <b href="{@docRoot}/jbvb/lbng/Chbrbcter.html#unicode">surrogbte</b>, the surrogbte
+     * vblue is returned.
      *
-     * @param   index   the index of the <code>char</code> value to be returned
+     * @pbrbm   index   the index of the <code>chbr</code> vblue to be returned
      *
-     * @return  the specified <code>char</code> value
+     * @return  the specified <code>chbr</code> vblue
      *
      * @throws  IndexOutOfBoundsException
-     *          if the <tt>index</tt> argument is negative or not less than
+     *          if the <tt>index</tt> brgument is negbtive or not less thbn
      *          <tt>length()</tt>
      */
-    char charAt(int index);
+    chbr chbrAt(int index);
 
     /**
-     * Returns a <code>CharSequence</code> that is a subsequence of this sequence.
-     * The subsequence starts with the <code>char</code> value at the specified index and
-     * ends with the <code>char</code> value at index <tt>end - 1</tt>.  The length
-     * (in <code>char</code>s) of the
-     * returned sequence is <tt>end - start</tt>, so if <tt>start == end</tt>
-     * then an empty sequence is returned.
+     * Returns b <code>ChbrSequence</code> thbt is b subsequence of this sequence.
+     * The subsequence stbrts with the <code>chbr</code> vblue bt the specified index bnd
+     * ends with the <code>chbr</code> vblue bt index <tt>end - 1</tt>.  The length
+     * (in <code>chbr</code>s) of the
+     * returned sequence is <tt>end - stbrt</tt>, so if <tt>stbrt == end</tt>
+     * then bn empty sequence is returned.
      *
-     * @param   start   the start index, inclusive
-     * @param   end     the end index, exclusive
+     * @pbrbm   stbrt   the stbrt index, inclusive
+     * @pbrbm   end     the end index, exclusive
      *
      * @return  the specified subsequence
      *
      * @throws  IndexOutOfBoundsException
-     *          if <tt>start</tt> or <tt>end</tt> are negative,
-     *          if <tt>end</tt> is greater than <tt>length()</tt>,
-     *          or if <tt>start</tt> is greater than <tt>end</tt>
+     *          if <tt>stbrt</tt> or <tt>end</tt> bre negbtive,
+     *          if <tt>end</tt> is grebter thbn <tt>length()</tt>,
+     *          or if <tt>stbrt</tt> is grebter thbn <tt>end</tt>
      */
-    CharSequence subSequence(int start, int end);
+    ChbrSequence subSequence(int stbrt, int end);
 
     /**
-     * Returns a string containing the characters in this sequence in the same
-     * order as this sequence.  The length of the string will be the length of
+     * Returns b string contbining the chbrbcters in this sequence in the sbme
+     * order bs this sequence.  The length of the string will be the length of
      * this sequence.
      *
-     * @return  a string consisting of exactly this sequence of characters
+     * @return  b string consisting of exbctly this sequence of chbrbcters
      */
     public String toString();
 
     /**
-     * Returns a stream of {@code int} zero-extending the {@code char} values
-     * from this sequence.  Any char which maps to a <a
-     * href="{@docRoot}/java/lang/Character.html#unicode">surrogate code
-     * point</a> is passed through uninterpreted.
+     * Returns b strebm of {@code int} zero-extending the {@code chbr} vblues
+     * from this sequence.  Any chbr which mbps to b <b
+     * href="{@docRoot}/jbvb/lbng/Chbrbcter.html#unicode">surrogbte code
+     * point</b> is pbssed through uninterpreted.
      *
-     * <p>If the sequence is mutated while the stream is being read, the
+     * <p>If the sequence is mutbted while the strebm is being rebd, the
      * result is undefined.
      *
-     * @return an IntStream of char values from this sequence
+     * @return bn IntStrebm of chbr vblues from this sequence
      * @since 1.8
      */
-    public default IntStream chars() {
-        class CharIterator implements PrimitiveIterator.OfInt {
+    public defbult IntStrebm chbrs() {
+        clbss ChbrIterbtor implements PrimitiveIterbtor.OfInt {
             int cur = 0;
 
-            public boolean hasNext() {
+            public boolebn hbsNext() {
                 return cur < length();
             }
 
             public int nextInt() {
-                if (hasNext()) {
-                    return charAt(cur++);
+                if (hbsNext()) {
+                    return chbrAt(cur++);
                 } else {
                     throw new NoSuchElementException();
                 }
             }
 
             @Override
-            public void forEachRemaining(IntConsumer block) {
+            public void forEbchRembining(IntConsumer block) {
                 for (; cur < length(); cur++) {
-                    block.accept(charAt(cur));
+                    block.bccept(chbrAt(cur));
                 }
             }
         }
 
-        return StreamSupport.intStream(() ->
-                Spliterators.spliterator(
-                        new CharIterator(),
+        return StrebmSupport.intStrebm(() ->
+                Spliterbtors.spliterbtor(
+                        new ChbrIterbtor(),
                         length(),
-                        Spliterator.ORDERED),
-                Spliterator.SUBSIZED | Spliterator.SIZED | Spliterator.ORDERED,
-                false);
+                        Spliterbtor.ORDERED),
+                Spliterbtor.SUBSIZED | Spliterbtor.SIZED | Spliterbtor.ORDERED,
+                fblse);
     }
 
     /**
-     * Returns a stream of code point values from this sequence.  Any surrogate
-     * pairs encountered in the sequence are combined as if by {@linkplain
-     * Character#toCodePoint Character.toCodePoint} and the result is passed
-     * to the stream. Any other code units, including ordinary BMP characters,
-     * unpaired surrogates, and undefined code units, are zero-extended to
-     * {@code int} values which are then passed to the stream.
+     * Returns b strebm of code point vblues from this sequence.  Any surrogbte
+     * pbirs encountered in the sequence bre combined bs if by {@linkplbin
+     * Chbrbcter#toCodePoint Chbrbcter.toCodePoint} bnd the result is pbssed
+     * to the strebm. Any other code units, including ordinbry BMP chbrbcters,
+     * unpbired surrogbtes, bnd undefined code units, bre zero-extended to
+     * {@code int} vblues which bre then pbssed to the strebm.
      *
-     * <p>If the sequence is mutated while the stream is being read, the result
+     * <p>If the sequence is mutbted while the strebm is being rebd, the result
      * is undefined.
      *
-     * @return an IntStream of Unicode code points from this sequence
+     * @return bn IntStrebm of Unicode code points from this sequence
      * @since 1.8
      */
-    public default IntStream codePoints() {
-        class CodePointIterator implements PrimitiveIterator.OfInt {
+    public defbult IntStrebm codePoints() {
+        clbss CodePointIterbtor implements PrimitiveIterbtor.OfInt {
             int cur = 0;
 
             @Override
-            public void forEachRemaining(IntConsumer block) {
-                final int length = length();
+            public void forEbchRembining(IntConsumer block) {
+                finbl int length = length();
                 int i = cur;
                 try {
                     while (i < length) {
-                        char c1 = charAt(i++);
-                        if (!Character.isHighSurrogate(c1) || i >= length) {
-                            block.accept(c1);
+                        chbr c1 = chbrAt(i++);
+                        if (!Chbrbcter.isHighSurrogbte(c1) || i >= length) {
+                            block.bccept(c1);
                         } else {
-                            char c2 = charAt(i);
-                            if (Character.isLowSurrogate(c2)) {
+                            chbr c2 = chbrAt(i);
+                            if (Chbrbcter.isLowSurrogbte(c2)) {
                                 i++;
-                                block.accept(Character.toCodePoint(c1, c2));
+                                block.bccept(Chbrbcter.toCodePoint(c1, c2));
                             } else {
-                                block.accept(c1);
+                                block.bccept(c1);
                             }
                         }
                     }
-                } finally {
+                } finblly {
                     cur = i;
                 }
             }
 
-            public boolean hasNext() {
+            public boolebn hbsNext() {
                 return cur < length();
             }
 
             public int nextInt() {
-                final int length = length();
+                finbl int length = length();
 
                 if (cur >= length) {
                     throw new NoSuchElementException();
                 }
-                char c1 = charAt(cur++);
-                if (Character.isHighSurrogate(c1) && cur < length) {
-                    char c2 = charAt(cur);
-                    if (Character.isLowSurrogate(c2)) {
+                chbr c1 = chbrAt(cur++);
+                if (Chbrbcter.isHighSurrogbte(c1) && cur < length) {
+                    chbr c2 = chbrAt(cur);
+                    if (Chbrbcter.isLowSurrogbte(c2)) {
                         cur++;
-                        return Character.toCodePoint(c1, c2);
+                        return Chbrbcter.toCodePoint(c1, c2);
                     }
                 }
                 return c1;
             }
         }
 
-        return StreamSupport.intStream(() ->
-                Spliterators.spliteratorUnknownSize(
-                        new CodePointIterator(),
-                        Spliterator.ORDERED),
-                Spliterator.ORDERED,
-                false);
+        return StrebmSupport.intStrebm(() ->
+                Spliterbtors.spliterbtorUnknownSize(
+                        new CodePointIterbtor(),
+                        Spliterbtor.ORDERED),
+                Spliterbtor.ORDERED,
+                fblse);
     }
 }

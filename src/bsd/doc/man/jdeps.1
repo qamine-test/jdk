@@ -1,510 +1,510 @@
 '\" t
-.\"  Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Basic Tools
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
+.\"     SectDesc: Bbsic Tools
 .\"     Title: jdeps.1
 .\"
 .if n .pl 99999
-.TH jdeps 1 "21 November 2013" "JDK 8" "Basic Tools"
+.TH jdeps 1 "21 November 2013" "JDK 8" "Bbsic Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jdeps \- Java class dependency analyzer\&.
+jdeps \- Jbvb clbss dependency bnblyzer\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjdeps\fR [\fIoptions\fR] \fIclasses\fR \&.\&.\&.
+\fBjdeps\fR [\fIoptions\fR] \fIclbsses\fR \&.\&.\&.
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-Command-line options\&. See Options\&.
+Commbnd-line options\&. See Options\&.
 .TP     
-\fIclasses\fR
-Name of the classes to analyze\&. You can specify a class that can be found in the class path, by its file name, a directory, or a JAR file\&.
+\fIclbsses\fR
+Nbme of the clbsses to bnblyze\&. You cbn specify b clbss thbt cbn be found in the clbss pbth, by its file nbme, b directory, or b JAR file\&.
 .SH DESCRIPTION    
-The \fI\fR\f3jdeps\fR command shows the package-level or class-level dependencies of Java class files\&. The input class can be a path name to a \f3\&.class\fR file, a directory, a JAR file, or it can be a fully qualified class name to analyze all class files\&. The options determine the output\&. By default, \f3jdeps\fR outputs the dependencies to the system output\&. It can generate the dependencies in DOT language (see the \f3-dotoutput\fR option)\&.
+The \fI\fR\f3jdeps\fR commbnd shows the pbckbge-level or clbss-level dependencies of Jbvb clbss files\&. The input clbss cbn be b pbth nbme to b \f3\&.clbss\fR file, b directory, b JAR file, or it cbn be b fully qublified clbss nbme to bnblyze bll clbss files\&. The options determine the output\&. By defbult, \f3jdeps\fR outputs the dependencies to the system output\&. It cbn generbte the dependencies in DOT lbngubge (see the \f3-dotoutput\fR option)\&.
 .SH OPTIONS    
 .TP
 -dotoutput <\fIdir\fR>
 .br
-Destination directory for DOT file output\&. If specified, \f3jdeps\fR will generate one dot file per each analyzed archive named <\fIarchive-file-name\fR>\&.dot listing the dependencies, and also a summary file named summary\&.dot listing the dependencies among the archives\&.
+Destinbtion directory for DOT file output\&. If specified, \f3jdeps\fR will generbte one dot file per ebch bnblyzed brchive nbmed <\fIbrchive-file-nbme\fR>\&.dot listing the dependencies, bnd blso b summbry file nbmed summbry\&.dot listing the dependencies bmong the brchives\&.
 .TP
--s, -summary
+-s, -summbry
 .br
-Prints dependency summary only\&.
+Prints dependency summbry only\&.
 .TP
 -v, -verbose
 .br
-Prints all class-level dependencies\&.
+Prints bll clbss-level dependencies\&.
 .TP
--verbose:package
+-verbose:pbckbge
 .br
-Prints package-level dependencies excluding dependencies within the same archive\&.
+Prints pbckbge-level dependencies excluding dependencies within the sbme brchive\&.
 .TP
--verbose:class
+-verbose:clbss
 .br
-Prints class-level dependencies excluding dependencies within the same archive\&.
+Prints clbss-level dependencies excluding dependencies within the sbme brchive\&.
 .TP
--cp <\fIpath\fR>, -classpath <\fIpath\fR>
+-cp <\fIpbth\fR>, -clbsspbth <\fIpbth\fR>
 .br
-Specifies where to find class files\&.
+Specifies where to find clbss files\&.
 
-See also Setting the Class Path\&.
+See blso Setting the Clbss Pbth\&.
 .TP
--p <\fIpkg name\fR>, -package <\fIpkg name\fR>
+-p <\fIpkg nbme\fR>, -pbckbge <\fIpkg nbme\fR>
 .br
-Finds dependencies in the specified package\&. You can specify this option multiple times for different packages\&. The \f3-p\fR and \f3-e\fR options are mutually exclusive\&.
+Finds dependencies in the specified pbckbge\&. You cbn specify this option multiple times for different pbckbges\&. The \f3-p\fR bnd \f3-e\fR options bre mutublly exclusive\&.
 .TP
 -e <\fIregex\fR>, -regex <\fIregex\fR>
 .br
-Finds dependencies in packages matching the specified regular expression pattern\&. The \f3-p\fR and \f3-e\fR options are mutually exclusive\&.
+Finds dependencies in pbckbges mbtching the specified regulbr expression pbttern\&. The \f3-p\fR bnd \f3-e\fR options bre mutublly exclusive\&.
 .TP
 -include <\fIregex\fR>
 .br
-Restricts analysis to classes matching pattern\&. This option filters the list of classes to be analyzed\&. It can be used together with \f3-p\fR and \f3-e\fR which apply pattern to the dependencies\&.
+Restricts bnblysis to clbsses mbtching pbttern\&. This option filters the list of clbsses to be bnblyzed\&. It cbn be used together with \f3-p\fR bnd \f3-e\fR which bpply pbttern to the dependencies\&.
 .TP
--jdkinternals
+-jdkinternbls
 .br
-Finds class-level dependences in JDK internal APIs\&. By default, it analyzes all classes specified in the \f3-classpath\fR option and in input files unless you specified the \f3-include\fR option\&. You cannot use this option with the \f3-p\fR, \f3-e\fR, and \f3-s\fR options\&.
+Finds clbss-level dependences in JDK internbl APIs\&. By defbult, it bnblyzes bll clbsses specified in the \f3-clbsspbth\fR option bnd in input files unless you specified the \f3-include\fR option\&. You cbnnot use this option with the \f3-p\fR, \f3-e\fR, bnd \f3-s\fR options\&.
 
-\fIWarning\fR: JDK internal APIs may not be accessible in upcoming releases\&.
+\fIWbrning\fR: JDK internbl APIs mby not be bccessible in upcoming relebses\&.
 .TP
 -P, -profile
 .br
-Shows profile or the file containing a package\&.
+Shows profile or the file contbining b pbckbge\&.
 .TP
--apionly
+-bpionly
 .br
-Restricts analysis to APIs, for example, dependences from the signature of \f3public\fR and \f3protected\fR members of public classes including field type, method parameter types, returned type, and checked exception types\&.
+Restricts bnblysis to APIs, for exbmple, dependences from the signbture of \f3public\fR bnd \f3protected\fR members of public clbsses including field type, method pbrbmeter types, returned type, bnd checked exception types\&.
 .TP
 -R, -recursive
 .br
-Recursively traverses all dependencies\&.
+Recursively trbverses bll dependencies\&.
 .TP
 -version
 .br
-Prints version information\&.
+Prints version informbtion\&.
 .TP
 -h, -?, -help
 .br
-Prints help message for \f3jdeps\fR\&.
+Prints help messbge for \f3jdeps\fR\&.
 .SH EXAMPLES    
-Analyzing the dependencies of Notepad\&.jar\&.
+Anblyzing the dependencies of Notepbd\&.jbr\&.
 .sp     
 .nf     
-\f3$ jdeps demo/jfc/Notepad/Notepad\&.jar\fP
+\f3$ jdeps demo/jfc/Notepbd/Notepbd\&.jbr\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3demo/jfc/Notepad/Notepad\&.jar \-> /usr/java/jre/lib/rt\&.jar\fP
+\f3demo/jfc/Notepbd/Notepbd\&.jbr \-> /usr/jbvb/jre/lib/rt\&.jbr\fP
 .fi     
 .nf     
-\f3   <unnamed> (Notepad\&.jar)\fP
+\f3   <unnbmed> (Notepbd\&.jbr)\fP
 .fi     
 .nf     
-\f3      \-> java\&.awt                                           \fP
+\f3      \-> jbvb\&.bwt                                           \fP
 .fi     
 .nf     
-\f3      \-> java\&.awt\&.event                                     \fP
+\f3      \-> jbvb\&.bwt\&.event                                     \fP
 .fi     
 .nf     
-\f3      \-> java\&.beans                                         \fP
+\f3      \-> jbvb\&.bebns                                         \fP
 .fi     
 .nf     
-\f3      \-> java\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
 .fi     
 .nf     
-\f3      \-> java\&.lang                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
 .fi     
 .nf     
-\f3      \-> java\&.net                                           \fP
+\f3      \-> jbvb\&.net                                           \fP
 .fi     
 .nf     
-\f3      \-> java\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
 .fi     
 .nf     
-\f3      \-> java\&.util\&.logging                                  \fP
+\f3      \-> jbvb\&.util\&.logging                                  \fP
 .fi     
 .nf     
-\f3      \-> javax\&.swing                                        \fP
+\f3      \-> jbvbx\&.swing                                        \fP
 .fi     
 .nf     
-\f3      \-> javax\&.swing\&.border                                 \fP
+\f3      \-> jbvbx\&.swing\&.border                                 \fP
 .fi     
 .nf     
-\f3      \-> javax\&.swing\&.event                                  \fP
+\f3      \-> jbvbx\&.swing\&.event                                  \fP
 .fi     
 .nf     
-\f3      \-> javax\&.swing\&.text                                   \fP
+\f3      \-> jbvbx\&.swing\&.text                                   \fP
 .fi     
 .nf     
-\f3      \-> javax\&.swing\&.tree                                   \fP
+\f3      \-> jbvbx\&.swing\&.tree                                   \fP
 .fi     
 .nf     
-\f3      \-> javax\&.swing\&.undo  \fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.sp     
-Use -P or -profile option to show on which profile that Notepad depends\&.
-.sp     
-.nf     
-\f3$ jdeps \-profile demo/jfc/Notepad/Notepad\&.jar \fP
-.fi     
-.nf     
-\f3demo/jfc/Notepad/Notepad\&.jar \-> /usr/java/jre/lib/rt\&.jar (Full JRE)\fP
-.fi     
-.nf     
-\f3   <unnamed> (Notepad\&.jar)\fP
-.fi     
-.nf     
-\f3      \-> java\&.awt                                           Full JRE\fP
-.fi     
-.nf     
-\f3      \-> java\&.awt\&.event                                     Full JRE\fP
-.fi     
-.nf     
-\f3      \-> java\&.beans                                         Full JRE\fP
-.fi     
-.nf     
-\f3      \-> java\&.io                                            compact1\fP
-.fi     
-.nf     
-\f3      \-> java\&.lang                                          compact1\fP
-.fi     
-.nf     
-\f3      \-> java\&.net                                           compact1\fP
-.fi     
-.nf     
-\f3      \-> java\&.util                                          compact1\fP
-.fi     
-.nf     
-\f3      \-> java\&.util\&.logging                                  compact1\fP
-.fi     
-.nf     
-\f3      \-> javax\&.swing                                        Full JRE\fP
-.fi     
-.nf     
-\f3      \-> javax\&.swing\&.border                                 Full JRE\fP
-.fi     
-.nf     
-\f3      \-> javax\&.swing\&.event                                  Full JRE\fP
-.fi     
-.nf     
-\f3      \-> javax\&.swing\&.text                                   Full JRE\fP
-.fi     
-.nf     
-\f3      \-> javax\&.swing\&.tree                                   Full JRE\fP
-.fi     
-.nf     
-\f3      \-> javax\&.swing\&.undo                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.undo  \fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Analyzing the immediate dependencies of a specific class in a given classpath, for example the \f3com\&.sun\&.tools\&.jdeps\&.Main\fR class in the tools\&.jar file\&.
+Use -P or -profile option to show on which profile thbt Notepbd depends\&.
 .sp     
 .nf     
-\f3$ jdeps \-cp lib/tools\&.jar com\&.sun\&.tools\&.jdeps\&.Main\fP
+\f3$ jdeps \-profile demo/jfc/Notepbd/Notepbd\&.jbr \fP
 .fi     
 .nf     
-\f3lib/tools\&.jar \-> /usr/java/jre/lib/rt\&.jar\fP
+\f3demo/jfc/Notepbd/Notepbd\&.jbr \-> /usr/jbvb/jre/lib/rt\&.jbr (Full JRE)\fP
 .fi     
 .nf     
-\f3   com\&.sun\&.tools\&.jdeps (tools\&.jar)\fP
+\f3   <unnbmed> (Notepbd\&.jbr)\fP
 .fi     
 .nf     
-\f3      \-> java\&.io                                            \fP
+\f3      \-> jbvb\&.bwt                                           Full JRE\fP
 .fi     
 .nf     
-\f3      \-> java\&.lang \fP
+\f3      \-> jbvb\&.bwt\&.event                                     Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.bebns                                         Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.io                                            compbct1\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng                                          compbct1\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.net                                           compbct1\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util                                          compbct1\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.logging                                  compbct1\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing                                        Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.border                                 Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.event                                  Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.text                                   Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.tree                                   Full JRE\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.swing\&.undo                                   Full JRE\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Use the \f3-verbose:class\fR option to find class-level dependencies or use the \f3-v\fR or \f3-verbose\fR option to include dependencies from the same JAR file\&.
+Anblyzing the immedibte dependencies of b specific clbss in b given clbsspbth, for exbmple the \f3com\&.sun\&.tools\&.jdeps\&.Mbin\fR clbss in the tools\&.jbr file\&.
 .sp     
 .nf     
-\f3$ jdeps \-verbose:class \-cp lib/tools\&.jar com\&.sun\&.tools\&.jdeps\&.Main\fP
+\f3$ jdeps \-cp lib/tools\&.jbr com\&.sun\&.tools\&.jdeps\&.Mbin\fP
 .fi     
 .nf     
-\f3\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jre/lib/rt\&.jbr\fP
 .fi     
 .nf     
-\f3lib/tools\&.jar \-> /usr/java/jre/lib/rt\&.jar\fP
+\f3   com\&.sun\&.tools\&.jdeps (tools\&.jbr)\fP
 .fi     
 .nf     
-\f3   com\&.sun\&.tools\&.jdeps\&.Main (tools\&.jar)\fP
+\f3      \-> jbvb\&.io                                            \fP
 .fi     
 .nf     
-\f3      \-> java\&.io\&.PrintWriter                                \fP
-.fi     
-.nf     
-\f3      \-> java\&.lang\&.Exception                                \fP
-.fi     
-.nf     
-\f3      \-> java\&.lang\&.Object                                   \fP
-.fi     
-.nf     
-\f3      \-> java\&.lang\&.String                                   \fP
-.fi     
-.nf     
-\f3      \-> java\&.lang\&.System \fP
+\f3      \-> jbvb\&.lbng \fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Use the \f3-R\fR or \f3-recursive\fR option to analyze the transitive dependencies of the \f3com\&.sun\&.tools\&.jdeps\&.Main\fR class\&.
+Use the \f3-verbose:clbss\fR option to find clbss-level dependencies or use the \f3-v\fR or \f3-verbose\fR option to include dependencies from the sbme JAR file\&.
 .sp     
 .nf     
-\f3$ jdeps \-R \-cp lib/tools\&.jar com\&.sun\&.tools\&.jdeps\&.Main\fP
+\f3$ jdeps \-verbose:clbss \-cp lib/tools\&.jbr com\&.sun\&.tools\&.jdeps\&.Mbin\fP
 .fi     
 .nf     
-\f3lib/tools\&.jar \-> /usr/java/jre/lib/rt\&.jar\fP
+\f3\fP
 .fi     
 .nf     
-\f3   com\&.sun\&.tools\&.classfile (tools\&.jar)\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jre/lib/rt\&.jbr\fP
 .fi     
 .nf     
-\f3      \-> java\&.io                                            \fP
+\f3   com\&.sun\&.tools\&.jdeps\&.Mbin (tools\&.jbr)\fP
 .fi     
 .nf     
-\f3      \-> java\&.lang                                          \fP
+\f3      \-> jbvb\&.io\&.PrintWriter                                \fP
 .fi     
 .nf     
-\f3      \-> java\&.lang\&.reflect                                  \fP
+\f3      \-> jbvb\&.lbng\&.Exception                                \fP
 .fi     
 .nf     
-\f3      \-> java\&.nio\&.charset                                   \fP
+\f3      \-> jbvb\&.lbng\&.Object                                   \fP
 .fi     
 .nf     
-\f3      \-> java\&.nio\&.file                                      \fP
+\f3      \-> jbvb\&.lbng\&.String                                   \fP
 .fi     
 .nf     
-\f3      \-> java\&.util                                          \fP
-.fi     
-.nf     
-\f3      \-> java\&.util\&.regex                                    \fP
-.fi     
-.nf     
-\f3   com\&.sun\&.tools\&.jdeps (tools\&.jar)\fP
-.fi     
-.nf     
-\f3      \-> java\&.io                                            \fP
-.fi     
-.nf     
-\f3      \-> java\&.lang                                          \fP
-.fi     
-.nf     
-\f3      \-> java\&.nio\&.file                                      \fP
-.fi     
-.nf     
-\f3      \-> java\&.nio\&.file\&.attribute                            \fP
-.fi     
-.nf     
-\f3      \-> java\&.text                                          \fP
-.fi     
-.nf     
-\f3      \-> java\&.util                                          \fP
-.fi     
-.nf     
-\f3      \-> java\&.util\&.jar                                      \fP
-.fi     
-.nf     
-\f3      \-> java\&.util\&.regex                                    \fP
-.fi     
-.nf     
-\f3      \-> java\&.util\&.zip                                      \fP
-.fi     
-.nf     
-\f3/usr/java/jre/lib/jce\&.jar \-> /usr/java/jre/lib/rt\&.jar\fP
-.fi     
-.nf     
-\f3   javax\&.crypto (jce\&.jar)\fP
-.fi     
-.nf     
-\f3      \-> java\&.io                                            \fP
-.fi     
-.nf     
-\f3      \-> java\&.lang                                          \fP
-.fi     
-.nf     
-\f3      \-> java\&.lang\&.reflect                                  \fP
-.fi     
-.nf     
-\f3      \-> java\&.net                                           \fP
-.fi     
-.nf     
-\f3      \-> java\&.nio                                           \fP
-.fi     
-.nf     
-\f3      \-> java\&.security                                      \fP
-.fi     
-.nf     
-\f3      \-> java\&.security\&.cert                                 \fP
-.fi     
-.nf     
-\f3      \-> java\&.security\&.spec                                 \fP
-.fi     
-.nf     
-\f3      \-> java\&.util                                          \fP
-.fi     
-.nf     
-\f3      \-> java\&.util\&.concurrent                               \fP
-.fi     
-.nf     
-\f3      \-> java\&.util\&.jar                                      \fP
-.fi     
-.nf     
-\f3      \-> java\&.util\&.regex                                    \fP
-.fi     
-.nf     
-\f3      \-> java\&.util\&.zip                                      \fP
-.fi     
-.nf     
-\f3      \-> javax\&.security\&.auth                                \fP
-.fi     
-.nf     
-\f3      \-> sun\&.security\&.jca                                   JDK internal API (rt\&.jar)\fP
-.fi     
-.nf     
-\f3      \-> sun\&.security\&.util                                  JDK internal API (rt\&.jar)\fP
-.fi     
-.nf     
-\f3   javax\&.crypto\&.spec (jce\&.jar)\fP
-.fi     
-.nf     
-\f3      \-> java\&.lang                                          \fP
-.fi     
-.nf     
-\f3      \-> java\&.security\&.spec                                 \fP
-.fi     
-.nf     
-\f3      \-> java\&.util                                          \fP
-.fi     
-.nf     
-\f3/usr/java/jre/lib/rt\&.jar \-> /usr/java/jre/lib/jce\&.jar\fP
-.fi     
-.nf     
-\f3   java\&.security (rt\&.jar)\fP
-.fi     
-.nf     
-\f3      \-> javax\&.crypto\fP
+\f3      \-> jbvb\&.lbng\&.System \fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Generate dot files of the dependencies of Notepad demo\&.
+Use the \f3-R\fR or \f3-recursive\fR option to bnblyze the trbnsitive dependencies of the \f3com\&.sun\&.tools\&.jdeps\&.Mbin\fR clbss\&.
 .sp     
 .nf     
-\f3$ jdeps \-dotoutput dot demo/jfc/Notepad/Notepad\&.jar\fP
+\f3$ jdeps \-R \-cp lib/tools\&.jbr com\&.sun\&.tools\&.jdeps\&.Mbin\fP
+.fi     
+.nf     
+\f3lib/tools\&.jbr \-> /usr/jbvb/jre/lib/rt\&.jbr\fP
+.fi     
+.nf     
+\f3   com\&.sun\&.tools\&.clbssfile (tools\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.io                                            \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng\&.reflect                                  \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nio\&.chbrset                                   \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nio\&.file                                      \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.regex                                    \fP
+.fi     
+.nf     
+\f3   com\&.sun\&.tools\&.jdeps (tools\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.io                                            \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nio\&.file                                      \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nio\&.file\&.bttribute                            \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.text                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.jbr                                      \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.regex                                    \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.zip                                      \fP
+.fi     
+.nf     
+\f3/usr/jbvb/jre/lib/jce\&.jbr \-> /usr/jbvb/jre/lib/rt\&.jbr\fP
+.fi     
+.nf     
+\f3   jbvbx\&.crypto (jce\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.io                                            \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng\&.reflect                                  \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.net                                           \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.nio                                           \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.security                                      \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.security\&.cert                                 \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.security\&.spec                                 \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.concurrent                               \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.jbr                                      \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.regex                                    \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util\&.zip                                      \fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.security\&.buth                                \fP
+.fi     
+.nf     
+\f3      \-> sun\&.security\&.jcb                                   JDK internbl API (rt\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> sun\&.security\&.util                                  JDK internbl API (rt\&.jbr)\fP
+.fi     
+.nf     
+\f3   jbvbx\&.crypto\&.spec (jce\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.lbng                                          \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.security\&.spec                                 \fP
+.fi     
+.nf     
+\f3      \-> jbvb\&.util                                          \fP
+.fi     
+.nf     
+\f3/usr/jbvb/jre/lib/rt\&.jbr \-> /usr/jbvb/jre/lib/jce\&.jbr\fP
+.fi     
+.nf     
+\f3   jbvb\&.security (rt\&.jbr)\fP
+.fi     
+.nf     
+\f3      \-> jbvbx\&.crypto\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-\f3jdeps\fR will create one dot file for each given JAR file named <\fIfilename\fR>\&.dot in the dot directory specified in the \f3-dotoutput\fR option, and also a summary file named summary\&.dot that will list the dependencies among the JAR files
+Generbte dot files of the dependencies of Notepbd demo\&.
 .sp     
 .nf     
-\f3$ cat dot/Notepad\&.jar\&.dot \fP
+\f3$ jdeps \-dotoutput dot demo/jfc/Notepbd/Notepbd\&.jbr\fP
 .fi     
 .nf     
-\f3digraph "Notepad\&.jar" {\fP
+\f3\fP
+.fi     
+.sp     
+\f3jdeps\fR will crebte one dot file for ebch given JAR file nbmed <\fIfilenbme\fR>\&.dot in the dot directory specified in the \f3-dotoutput\fR option, bnd blso b summbry file nbmed summbry\&.dot thbt will list the dependencies bmong the JAR files
+.sp     
+.nf     
+\f3$ cbt dot/Notepbd\&.jbr\&.dot \fP
 .fi     
 .nf     
-\f3    // Path: demo/jfc/Notepad/Notepad\&.jar\fP
+\f3digrbph "Notepbd\&.jbr" {\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "java\&.awt";\fP
+\f3    // Pbth: demo/jfc/Notepbd/Notepbd\&.jbr\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "java\&.awt\&.event";\fP
+\f3   "<unnbmed>"                                        \-> "jbvb\&.bwt";\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "java\&.beans";\fP
+\f3   "<unnbmed>"                                        \-> "jbvb\&.bwt\&.event";\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "java\&.io";\fP
+\f3   "<unnbmed>"                                        \-> "jbvb\&.bebns";\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "java\&.lang";\fP
+\f3   "<unnbmed>"                                        \-> "jbvb\&.io";\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "java\&.net";\fP
+\f3   "<unnbmed>"                                        \-> "jbvb\&.lbng";\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "java\&.util";\fP
+\f3   "<unnbmed>"                                        \-> "jbvb\&.net";\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "java\&.util\&.logging";\fP
+\f3   "<unnbmed>"                                        \-> "jbvb\&.util";\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "javax\&.swing";\fP
+\f3   "<unnbmed>"                                        \-> "jbvb\&.util\&.logging";\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "javax\&.swing\&.border";\fP
+\f3   "<unnbmed>"                                        \-> "jbvbx\&.swing";\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "javax\&.swing\&.event";\fP
+\f3   "<unnbmed>"                                        \-> "jbvbx\&.swing\&.border";\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "javax\&.swing\&.text";\fP
+\f3   "<unnbmed>"                                        \-> "jbvbx\&.swing\&.event";\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "javax\&.swing\&.tree";\fP
+\f3   "<unnbmed>"                                        \-> "jbvbx\&.swing\&.text";\fP
 .fi     
 .nf     
-\f3   "<unnamed>"                                        \-> "javax\&.swing\&.undo";\fP
+\f3   "<unnbmed>"                                        \-> "jbvbx\&.swing\&.tree";\fP
+.fi     
+.nf     
+\f3   "<unnbmed>"                                        \-> "jbvbx\&.swing\&.undo";\fP
 .fi     
 .nf     
 \f3}\fP
@@ -513,13 +513,13 @@ Generate dot files of the dependencies of Notepad demo\&.
 \f3\fP
 .fi     
 .nf     
-\f3$ cat dot/summary\&.dot\fP
+\f3$ cbt dot/summbry\&.dot\fP
 .fi     
 .nf     
-\f3digraph "summary" {\fP
+\f3digrbph "summbry" {\fP
 .fi     
 .nf     
-\f3   "Notepad\&.jar"                  \-> "rt\&.jar";\fP
+\f3   "Notepbd\&.jbr"                  \-> "rt\&.jbr";\fP
 .fi     
 .nf     
 \f3}\fP
@@ -531,7 +531,7 @@ Generate dot files of the dependencies of Notepad demo\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-javap(1)
+jbvbp(1)
 .RE
 .br
 'pl 8.5i

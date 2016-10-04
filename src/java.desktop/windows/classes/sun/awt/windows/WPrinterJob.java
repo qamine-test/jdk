@@ -1,493 +1,493 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.KeyboardFocusManager;
-import java.awt.Toolkit;
-import java.awt.BasicStroke;
-import java.awt.Button;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Event;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.FileDialog;
-import java.awt.Dialog;
-import java.awt.Label;
-import java.awt.Panel;
-import java.awt.Rectangle;
-import java.awt.Window;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.HebdlessException;
+import jbvb.bwt.KeybobrdFocusMbnbger;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.BbsicStroke;
+import jbvb.bwt.Button;
+import jbvb.bwt.Component;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Event;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.FileDiblog;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Lbbel;
+import jbvb.bwt.Pbnel;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Window;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.IndexColorModel;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.IndexColorModel;
 
-import java.awt.print.Pageable;
-import java.awt.print.PageFormat;
-import java.awt.print.Paper;
-import java.awt.print.Printable;
-import java.awt.print.PrinterJob;
-import java.awt.print.PrinterException;
-import javax.print.PrintService;
+import jbvb.bwt.print.Pbgebble;
+import jbvb.bwt.print.PbgeFormbt;
+import jbvb.bwt.print.Pbper;
+import jbvb.bwt.print.Printbble;
+import jbvb.bwt.print.PrinterJob;
+import jbvb.bwt.print.PrinterException;
+import jbvbx.print.PrintService;
 
-import java.io.File;
+import jbvb.io.File;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
 
-import sun.print.PeekGraphics;
+import sun.print.PeekGrbphics;
 import sun.print.PeekMetrics;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import jbvb.net.URI;
+import jbvb.net.URISyntbxException;
 
-import javax.print.PrintServiceLookup;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.standard.Sides;
-import javax.print.attribute.standard.Chromaticity;
-import javax.print.attribute.standard.PrintQuality;
-import javax.print.attribute.standard.PrinterResolution;
-import javax.print.attribute.standard.SheetCollate;
-import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.Destination;
-import javax.print.attribute.standard.OrientationRequested;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.MediaSizeName;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaTray;
-import javax.print.attribute.standard.PageRanges;
+import jbvbx.print.PrintServiceLookup;
+import jbvbx.print.bttribute.PrintRequestAttributeSet;
+import jbvbx.print.bttribute.HbshPrintRequestAttributeSet;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.stbndbrd.Sides;
+import jbvbx.print.bttribute.stbndbrd.Chrombticity;
+import jbvbx.print.bttribute.stbndbrd.PrintQublity;
+import jbvbx.print.bttribute.stbndbrd.PrinterResolution;
+import jbvbx.print.bttribute.stbndbrd.SheetCollbte;
+import jbvbx.print.bttribute.stbndbrd.Copies;
+import jbvbx.print.bttribute.stbndbrd.Destinbtion;
+import jbvbx.print.bttribute.stbndbrd.OrientbtionRequested;
+import jbvbx.print.bttribute.stbndbrd.Medib;
+import jbvbx.print.bttribute.stbndbrd.MedibSizeNbme;
+import jbvbx.print.bttribute.stbndbrd.MedibSize;
+import jbvbx.print.bttribute.stbndbrd.MedibTrby;
+import jbvbx.print.bttribute.stbndbrd.PbgeRbnges;
 
-import sun.awt.Win32FontManager;
+import sun.bwt.Win32FontMbnbger;
 
-import sun.print.RasterPrinterJob;
-import sun.print.SunAlternateMedia;
-import sun.print.SunPageSelection;
-import sun.print.Win32MediaTray;
+import sun.print.RbsterPrinterJob;
+import sun.print.SunAlternbteMedib;
+import sun.print.SunPbgeSelection;
+import sun.print.Win32MedibTrby;
 import sun.print.Win32PrintService;
 import sun.print.Win32PrintServiceLookup;
-import sun.print.ServiceDialog;
-import sun.print.DialogOwner;
+import sun.print.ServiceDiblog;
+import sun.print.DiblogOwner;
 
-import java.awt.Frame;
-import java.io.FilePermission;
+import jbvb.bwt.Frbme;
+import jbvb.io.FilePermission;
 
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
-import sun.java2d.DisposerTarget;
+import sun.jbvb2d.Disposer;
+import sun.jbvb2d.DisposerRecord;
+import sun.jbvb2d.DisposerTbrget;
 
 /**
- * A class which initiates and executes a Win32 printer job.
+ * A clbss which initibtes bnd executes b Win32 printer job.
  *
- * @author Richard Blanchard
+ * @buthor Richbrd Blbnchbrd
  */
-public final class WPrinterJob extends RasterPrinterJob
-        implements DisposerTarget {
+public finbl clbss WPrinterJob extends RbsterPrinterJob
+        implements DisposerTbrget {
 
- /* Class Constants */
+ /* Clbss Constbnts */
 
 
-/* Instance Variables */
-
-    /**
-     * These are Windows' ExtCreatePen End Cap Styles
-     * and must match the values in <WINGDI.h>
-     */
-    protected static final long PS_ENDCAP_ROUND  = 0x00000000;
-    protected static final long PS_ENDCAP_SQUARE   = 0x00000100;
-    protected static final long PS_ENDCAP_FLAT   =   0x00000200;
+/* Instbnce Vbribbles */
 
     /**
-     * These are Windows' ExtCreatePen Line Join Styles
-     * and must match the values in <WINGDI.h>
+     * These bre Windows' ExtCrebtePen End Cbp Styles
+     * bnd must mbtch the vblues in <WINGDI.h>
      */
-    protected static final long PS_JOIN_ROUND   =    0x00000000;
-    protected static final long PS_JOIN_BEVEL   =    0x00001000;
-    protected static final long PS_JOIN_MITER   =    0x00002000;
+    protected stbtic finbl long PS_ENDCAP_ROUND  = 0x00000000;
+    protected stbtic finbl long PS_ENDCAP_SQUARE   = 0x00000100;
+    protected stbtic finbl long PS_ENDCAP_FLAT   =   0x00000200;
 
     /**
-     * This is the Window's Polygon fill rule which
-     * Selects alternate mode (fills the area between odd-numbered
-     * and even-numbered polygon sides on each scan line).
-     * It must match the value in <WINGDI.h> It can be passed
-     * to setPolyFillMode().
+     * These bre Windows' ExtCrebtePen Line Join Styles
+     * bnd must mbtch the vblues in <WINGDI.h>
      */
-    protected static final int POLYFILL_ALTERNATE = 1;
+    protected stbtic finbl long PS_JOIN_ROUND   =    0x00000000;
+    protected stbtic finbl long PS_JOIN_BEVEL   =    0x00001000;
+    protected stbtic finbl long PS_JOIN_MITER   =    0x00002000;
 
     /**
      * This is the Window's Polygon fill rule which
-     * Selects winding mode which fills any region
-     * with a nonzero winding value). It must match
-     * the value in <WINGDI.h> It can be passed
+     * Selects blternbte mode (fills the breb between odd-numbered
+     * bnd even-numbered polygon sides on ebch scbn line).
+     * It must mbtch the vblue in <WINGDI.h> It cbn be pbssed
      * to setPolyFillMode().
      */
-    protected static final int POLYFILL_WINDING = 2;
+    protected stbtic finbl int POLYFILL_ALTERNATE = 1;
 
     /**
-     * The maximum value for a Window's color component
-     * as passed to selectSolidBrush.
+     * This is the Window's Polygon fill rule which
+     * Selects winding mode which fills bny region
+     * with b nonzero winding vblue). It must mbtch
+     * the vblue in <WINGDI.h> It cbn be pbssed
+     * to setPolyFillMode().
      */
-    private static final int MAX_WCOLOR = 255;
+    protected stbtic finbl int POLYFILL_WINDING = 2;
 
     /**
-     * Flags for setting values from devmode in native code.
-     * Values must match those defined in awt_PrintControl.cpp
+     * The mbximum vblue for b Window's color component
+     * bs pbssed to selectSolidBrush.
      */
-    private static final int SET_DUP_VERTICAL = 0x00000010;
-    private static final int SET_DUP_HORIZONTAL = 0x00000020;
-    private static final int SET_RES_HIGH = 0x00000040;
-    private static final int SET_RES_LOW = 0x00000080;
-    private static final int SET_COLOR = 0x00000200;
-    private static final int SET_ORIENTATION = 0x00004000;
-    private static final int SET_COLLATED    = 0x00008000;
+    privbte stbtic finbl int MAX_WCOLOR = 255;
 
     /**
-     * Values must match those defined in wingdi.h & commdlg.h
+     * Flbgs for setting vblues from devmode in nbtive code.
+     * Vblues must mbtch those defined in bwt_PrintControl.cpp
      */
-    private static final int PD_COLLATE = 0x00000010;
-    private static final int PD_PRINTTOFILE = 0x00000020;
-    private static final int DM_ORIENTATION   = 0x00000001;
-    private static final int DM_PAPERSIZE     = 0x00000002;
-    private static final int DM_COPIES        = 0x00000100;
-    private static final int DM_DEFAULTSOURCE = 0x00000200;
-    private static final int DM_PRINTQUALITY  = 0x00000400;
-    private static final int DM_COLOR         = 0x00000800;
-    private static final int DM_DUPLEX        = 0x00001000;
-    private static final int DM_YRESOLUTION   = 0x00002000;
-    private static final int DM_COLLATE       = 0x00008000;
-
-    private static final short DMCOLLATE_FALSE  = 0;
-    private static final short DMCOLLATE_TRUE   = 1;
-
-    private static final short DMORIENT_PORTRAIT  = 1;
-    private static final short DMORIENT_LANDSCAPE = 2;
-
-    private static final short DMCOLOR_MONOCHROME = 1;
-    private static final short DMCOLOR_COLOR      = 2;
-
-    private static final short DMRES_DRAFT  = -1;
-    private static final short DMRES_LOW    = -2;
-    private static final short DMRES_MEDIUM = -3;
-    private static final short DMRES_HIGH   = -4;
-
-    private static final short DMDUP_SIMPLEX    = 1;
-    private static final short DMDUP_VERTICAL   = 2;
-    private static final short DMDUP_HORIZONTAL = 3;
+    privbte stbtic finbl int SET_DUP_VERTICAL = 0x00000010;
+    privbte stbtic finbl int SET_DUP_HORIZONTAL = 0x00000020;
+    privbte stbtic finbl int SET_RES_HIGH = 0x00000040;
+    privbte stbtic finbl int SET_RES_LOW = 0x00000080;
+    privbte stbtic finbl int SET_COLOR = 0x00000200;
+    privbte stbtic finbl int SET_ORIENTATION = 0x00004000;
+    privbte stbtic finbl int SET_COLLATED    = 0x00008000;
 
     /**
-     * Pageable MAX pages
+     * Vblues must mbtch those defined in wingdi.h & commdlg.h
      */
-    private static final int MAX_UNKNOWN_PAGES = 9999;
+    privbte stbtic finbl int PD_COLLATE = 0x00000010;
+    privbte stbtic finbl int PD_PRINTTOFILE = 0x00000020;
+    privbte stbtic finbl int DM_ORIENTATION   = 0x00000001;
+    privbte stbtic finbl int DM_PAPERSIZE     = 0x00000002;
+    privbte stbtic finbl int DM_COPIES        = 0x00000100;
+    privbte stbtic finbl int DM_DEFAULTSOURCE = 0x00000200;
+    privbte stbtic finbl int DM_PRINTQUALITY  = 0x00000400;
+    privbte stbtic finbl int DM_COLOR         = 0x00000800;
+    privbte stbtic finbl int DM_DUPLEX        = 0x00001000;
+    privbte stbtic finbl int DM_YRESOLUTION   = 0x00002000;
+    privbte stbtic finbl int DM_COLLATE       = 0x00008000;
+
+    privbte stbtic finbl short DMCOLLATE_FALSE  = 0;
+    privbte stbtic finbl short DMCOLLATE_TRUE   = 1;
+
+    privbte stbtic finbl short DMORIENT_PORTRAIT  = 1;
+    privbte stbtic finbl short DMORIENT_LANDSCAPE = 2;
+
+    privbte stbtic finbl short DMCOLOR_MONOCHROME = 1;
+    privbte stbtic finbl short DMCOLOR_COLOR      = 2;
+
+    privbte stbtic finbl short DMRES_DRAFT  = -1;
+    privbte stbtic finbl short DMRES_LOW    = -2;
+    privbte stbtic finbl short DMRES_MEDIUM = -3;
+    privbte stbtic finbl short DMRES_HIGH   = -4;
+
+    privbte stbtic finbl short DMDUP_SIMPLEX    = 1;
+    privbte stbtic finbl short DMDUP_VERTICAL   = 2;
+    privbte stbtic finbl short DMDUP_HORIZONTAL = 3;
+
+    /**
+     * Pbgebble MAX pbges
+     */
+    privbte stbtic finbl int MAX_UNKNOWN_PAGES = 9999;
 
 
-    /* Collation and copy flags.
-     * The Windows PRINTDLG struct has a nCopies field which on return
-     * indicates how many copies of a print job an application must render.
-     * There is also a PD_COLLATE member of the flags field which if
-     * set on return indicates the application generated copies should be
-     * collated.
-     * Windows printer drivers typically - but not always - support
-     * generating multiple copies themselves, but uncollated is more
-     * universal than collated copies.
-     * When they do, they read the initial values from the PRINTDLG structure
-     * and set them into the driver's DEVMODE structure and intialise
-     * the printer DC based on that, so that when printed those settings
+    /* Collbtion bnd copy flbgs.
+     * The Windows PRINTDLG struct hbs b nCopies field which on return
+     * indicbtes how mbny copies of b print job bn bpplicbtion must render.
+     * There is blso b PD_COLLATE member of the flbgs field which if
+     * set on return indicbtes the bpplicbtion generbted copies should be
+     * collbted.
+     * Windows printer drivers typicblly - but not blwbys - support
+     * generbting multiple copies themselves, but uncollbted is more
+     * universbl thbn collbted copies.
+     * When they do, they rebd the initibl vblues from the PRINTDLG structure
+     * bnd set them into the driver's DEVMODE structure bnd intiblise
+     * the printer DC bbsed on thbt, so thbt when printed those settings
      * will be used.
-     * For drivers supporting both these capabilities via DEVMODE, then on
-     * return from the Print Dialog, nCopies is set to 1 and the PD_COLLATE is
-     * cleared, so that the application will only render 1 copy and the
-     * driver takes care of the rest.
+     * For drivers supporting both these cbpbbilities vib DEVMODE, then on
+     * return from the Print Diblog, nCopies is set to 1 bnd the PD_COLLATE is
+     * clebred, so thbt the bpplicbtion will only render 1 copy bnd the
+     * driver tbkes cbre of the rest.
      *
-     * Applications which want to know what's going on have to be DEVMODE
-     * savvy and peek at that.
-     * DM_COPIES flag indicates support for multiple driver copies
-     * and dmCopies is the number of copies the driver will print
-     * DM_COLLATE flag indicates support for collated driver copies and
-     * dmCollate == DMCOLLATE_TRUE indicates the option is in effect.
+     * Applicbtions which wbnt to know whbt's going on hbve to be DEVMODE
+     * sbvvy bnd peek bt thbt.
+     * DM_COPIES flbg indicbtes support for multiple driver copies
+     * bnd dmCopies is the number of copies the driver will print
+     * DM_COLLATE flbg indicbtes support for collbted driver copies bnd
+     * dmCollbte == DMCOLLATE_TRUE indicbtes the option is in effect.
      *
-     * Multiple copies from Java applications:
-     * We provide API to get & set the number of copies as well as allowing the
-     * user to choose it, so we need to be savvy about DEVMODE, so that
-     * we can accurately report back the number of copies selected by
-     * the user, as well as make use of the driver to render multiple copies.
+     * Multiple copies from Jbvb bpplicbtions:
+     * We provide API to get & set the number of copies bs well bs bllowing the
+     * user to choose it, so we need to be sbvvy bbout DEVMODE, so thbt
+     * we cbn bccurbtely report bbck the number of copies selected by
+     * the user, bs well bs mbke use of the driver to render multiple copies.
      *
-     * Collation and Java applications:
-     * We presently provide no API for specifying collation, but its
-     * present on the Windows Print Dialog, and when a user checks it
+     * Collbtion bnd Jbvb bpplicbtions:
+     * We presently provide no API for specifying collbtion, but its
+     * present on the Windows Print Diblog, bnd when b user checks it
      * they expect it to be obeyed.
-     * The best thing to do is to detect exactly the cases where the
-     * driver doesn't support this and render multiple copies ourselves.
-     * To support all this we need several flags which signal the
-     * printer's capabilities and the user's requests.
-     * Its questionable if we (yet) need to make a distinction between
-     * the user requesting collation and the driver supporting it.
+     * The best thing to do is to detect exbctly the cbses where the
+     * driver doesn't support this bnd render multiple copies ourselves.
+     * To support bll this we need severbl flbgs which signbl the
+     * printer's cbpbbilities bnd the user's requests.
+     * Its questionbble if we (yet) need to mbke b distinction between
+     * the user requesting collbtion bnd the driver supporting it.
      * Since for now we only need to know whether we need to render the
-     * copies. However it allows the logic to be clearer.
-     * These fields are changed by native code which detects the driver's
-     * capabilities and the user's choices.
+     * copies. However it bllows the logic to be clebrer.
+     * These fields bre chbnged by nbtive code which detects the driver's
+     * cbpbbilities bnd the user's choices.
      */
 
-    //initialize to false because the Flags that we initialized in PRINTDLG
-    // tells GDI that we can handle our own collation and multiple copies
-     private boolean driverDoesMultipleCopies = false;
-     private boolean driverDoesCollation = false;
-     private boolean userRequestedCollation = false;
-     private boolean noDefaultPrinter = false;
+    //initiblize to fblse becbuse the Flbgs thbt we initiblized in PRINTDLG
+    // tells GDI thbt we cbn hbndle our own collbtion bnd multiple copies
+     privbte boolebn driverDoesMultipleCopies = fblse;
+     privbte boolebn driverDoesCollbtion = fblse;
+     privbte boolebn userRequestedCollbtion = fblse;
+     privbte boolebn noDefbultPrinter = fblse;
 
-    /* The HandleRecord holds the native resources that need to be freed
+    /* The HbndleRecord holds the nbtive resources thbt need to be freed
      * when this WPrinterJob is GC'd.
      */
-    static class HandleRecord implements DisposerRecord {
+    stbtic clbss HbndleRecord implements DisposerRecord {
         /**
          * The Windows device context we will print into.
-         * This variable is set after the Print dialog
-         * is okayed by the user. If the user cancels
-         * the print dialog, then this variable is 0.
-         * Much of the configuration information for a printer is
-         * obtained through printer device specific handles.
-         * We need to associate these with, and free with, the mPrintDC.
+         * This vbribble is set bfter the Print diblog
+         * is okbyed by the user. If the user cbncels
+         * the print diblog, then this vbribble is 0.
+         * Much of the configurbtion informbtion for b printer is
+         * obtbined through printer device specific hbndles.
+         * We need to bssocibte these with, bnd free with, the mPrintDC.
          */
-        private long mPrintDC;
-        private long mPrintHDevMode;
-        private long mPrintHDevNames;
+        privbte long mPrintDC;
+        privbte long mPrintHDevMode;
+        privbte long mPrintHDevNbmes;
 
         @Override
         public void dispose() {
-            WPrinterJob.deleteDC(mPrintDC, mPrintHDevMode, mPrintHDevNames);
+            WPrinterJob.deleteDC(mPrintDC, mPrintHDevMode, mPrintHDevNbmes);
         }
     }
 
-    private HandleRecord handleRecord = new HandleRecord();
+    privbte HbndleRecord hbndleRecord = new HbndleRecord();
 
-    private int mPrintPaperSize;
+    privbte int mPrintPbperSize;
 
-    /* These fields are directly set in upcalls from the values
-     * obtained from calling DeviceCapabilities()
+    /* These fields bre directly set in upcblls from the vblues
+     * obtbined from cblling DeviceCbpbbilities()
      */
-    private int mPrintXRes;   // pixels per inch in x direction
+    privbte int mPrintXRes;   // pixels per inch in x direction
 
-    private int mPrintYRes;   // pixels per inch in y direction
+    privbte int mPrintYRes;   // pixels per inch in y direction
 
-    private int mPrintPhysX;  // x offset in pixels of printable area
+    privbte int mPrintPhysX;  // x offset in pixels of printbble breb
 
-    private int mPrintPhysY;  // y offset in pixels of printable area
+    privbte int mPrintPhysY;  // y offset in pixels of printbble breb
 
-    private int mPrintWidth;  // width in pixels of printable area
+    privbte int mPrintWidth;  // width in pixels of printbble breb
 
-    private int mPrintHeight; // height in pixels of printable area
+    privbte int mPrintHeight; // height in pixels of printbble breb
 
-    private int mPageWidth;   // width in pixels of entire page
+    privbte int mPbgeWidth;   // width in pixels of entire pbge
 
-    private int mPageHeight;  // height in pixels of entire page
+    privbte int mPbgeHeight;  // height in pixels of entire pbge
 
-    /* The values of the following variables are pulled directly
-     * into native code (even bypassing getter methods) when starting a doc.
-     * So these need to be synced up from any resulting native changes
-     * by a user dialog.
-     * But the native changes call up to into the attributeset, and that
-     * should be sufficient, since before heading down to native either
-     * to (re-)display a dialog, or to print the doc, these are all
-     * re-populated from the AttributeSet,
-     * Nonetheless having them in sync with the attributeset and native
-     * state is probably safer.
-     * Also whereas the startDoc native code pulls the variables directly,
-     * the dialog code does use getter to pull some of these values.
-     * That's an inconsistency we should fix if it causes problems.
+    /* The vblues of the following vbribbles bre pulled directly
+     * into nbtive code (even bypbssing getter methods) when stbrting b doc.
+     * So these need to be synced up from bny resulting nbtive chbnges
+     * by b user diblog.
+     * But the nbtive chbnges cbll up to into the bttributeset, bnd thbt
+     * should be sufficient, since before hebding down to nbtive either
+     * to (re-)displby b diblog, or to print the doc, these bre bll
+     * re-populbted from the AttributeSet,
+     * Nonetheless hbving them in sync with the bttributeset bnd nbtive
+     * stbte is probbbly sbfer.
+     * Also wherebs the stbrtDoc nbtive code pulls the vbribbles directly,
+     * the diblog code does use getter to pull some of these vblues.
+     * Thbt's bn inconsistency we should fix if it cbuses problems.
      */
-    private int mAttSides;
-    private int mAttChromaticity;
-    private int mAttXRes;
-    private int mAttYRes;
-    private int mAttQuality;
-    private int mAttCollate;
-    private int mAttCopies;
-    private int mAttMediaSizeName;
-    private int mAttMediaTray;
+    privbte int mAttSides;
+    privbte int mAttChrombticity;
+    privbte int mAttXRes;
+    privbte int mAttYRes;
+    privbte int mAttQublity;
+    privbte int mAttCollbte;
+    privbte int mAttCopies;
+    privbte int mAttMedibSizeNbme;
+    privbte int mAttMedibTrby;
 
-    private String mDestination = null;
+    privbte String mDestinbtion = null;
 
     /**
-     * The last color set into the print device context or
-     * <code>null</code> if no color has been set.
+     * The lbst color set into the print device context or
+     * <code>null</code> if no color hbs been set.
      */
-    private Color mLastColor;
+    privbte Color mLbstColor;
 
     /**
-     * The last text color set into the print device context or
-     * <code>null</code> if no color has been set.
+     * The lbst text color set into the print device context or
+     * <code>null</code> if no color hbs been set.
      */
-    private Color mLastTextColor;
+    privbte Color mLbstTextColor;
 
     /**
-     * Define the most recent java font set as a GDI font in the printer
-     * device context. mLastFontFamily will be NULL if no
-     * GDI font has been set.
+     * Define the most recent jbvb font set bs b GDI font in the printer
+     * device context. mLbstFontFbmily will be NULL if no
+     * GDI font hbs been set.
      */
-    private String mLastFontFamily;
-    private float mLastFontSize;
-    private int mLastFontStyle;
-    private int mLastRotation;
-    private float mLastAwScale;
+    privbte String mLbstFontFbmily;
+    privbte flobt mLbstFontSize;
+    privbte int mLbstFontStyle;
+    privbte int mLbstRotbtion;
+    privbte flobt mLbstAwScble;
 
-    // for AwtPrintControl::InitPrintDialog
-    private PrinterJob pjob;
+    // for AwtPrintControl::InitPrintDiblog
+    privbte PrinterJob pjob;
 
-    private java.awt.peer.ComponentPeer dialogOwnerPeer = null;
+    privbte jbvb.bwt.peer.ComponentPeer diblogOwnerPeer = null;
 
- /* Static Initializations */
+ /* Stbtic Initiblizbtions */
 
-    static {
-        // AWT has to be initialized for the native code to function correctly.
-        Toolkit.getDefaultToolkit();
+    stbtic {
+        // AWT hbs to be initiblized for the nbtive code to function correctly.
+        Toolkit.getDefbultToolkit();
 
         initIDs();
 
-        Win32FontManager.registerJREFontsForPrinting();
+        Win32FontMbnbger.registerJREFontsForPrinting();
     }
 
     /* Constructors */
 
     public WPrinterJob()
     {
-        Disposer.addRecord(disposerReferent,
-                           handleRecord = new HandleRecord());
+        Disposer.bddRecord(disposerReferent,
+                           hbndleRecord = new HbndleRecord());
         initAttributeMembers();
     }
 
-    /* Implement DisposerTarget. Weak references to an Object can delay
-     * its storage reclaimation marginally.
-     * It won't make the native resources be release any more quickly, but
-     * by pointing the reference held by Disposer at an object which becomes
-     * no longer strongly reachable when this WPrinterJob is no longer
-     * strongly reachable, we allow the WPrinterJob to be freed more promptly
-     * than if it were the referenced object.
+    /* Implement DisposerTbrget. Webk references to bn Object cbn delby
+     * its storbge reclbimbtion mbrginblly.
+     * It won't mbke the nbtive resources be relebse bny more quickly, but
+     * by pointing the reference held by Disposer bt bn object which becomes
+     * no longer strongly rebchbble when this WPrinterJob is no longer
+     * strongly rebchbble, we bllow the WPrinterJob to be freed more promptly
+     * thbn if it were the referenced object.
      */
-    private Object disposerReferent = new Object();
+    privbte Object disposerReferent = new Object();
 
     @Override
     public Object getDisposerReferent() {
         return disposerReferent;
     }
 
-/* Instance Methods */
+/* Instbnce Methods */
 
     /**
-     * Display a dialog to the user allowing the modification of a
-     * PageFormat instance.
-     * The <code>page</code> argument is used to initialize controls
-     * in the page setup dialog.
-     * If the user cancels the dialog, then the method returns the
-     * original <code>page</code> object unmodified.
-     * If the user okays the dialog then the method returns a new
-     * PageFormat object with the indicated changes.
-     * In either case the original <code>page</code> object will
+     * Displby b diblog to the user bllowing the modificbtion of b
+     * PbgeFormbt instbnce.
+     * The <code>pbge</code> brgument is used to initiblize controls
+     * in the pbge setup diblog.
+     * If the user cbncels the diblog, then the method returns the
+     * originbl <code>pbge</code> object unmodified.
+     * If the user okbys the diblog then the method returns b new
+     * PbgeFormbt object with the indicbted chbnges.
+     * In either cbse the originbl <code>pbge</code> object will
      * not be modified.
-     * @param     page    the default PageFormat presented to the user
-     *                    for modification
-     * @return    the original <code>page</code> object if the dialog
-     *            is cancelled, or a new PageFormat object containing
-     *            the format indicated by the user if the dialog is
-     *            acknowledged
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm     pbge    the defbult PbgeFormbt presented to the user
+     *                    for modificbtion
+     * @return    the originbl <code>pbge</code> object if the diblog
+     *            is cbncelled, or b new PbgeFormbt object contbining
+     *            the formbt indicbted by the user if the diblog is
+     *            bcknowledged
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since     1.2
      */
     @Override
-    public PageFormat pageDialog(PageFormat page) throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public PbgeFormbt pbgeDiblog(PbgeFormbt pbge) throws HebdlessException {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
 
-        if (!(getPrintService() instanceof Win32PrintService)) {
-            return super.pageDialog(page);
+        if (!(getPrintService() instbnceof Win32PrintService)) {
+            return super.pbgeDiblog(pbge);
         }
 
-        PageFormat pageClone = (PageFormat) page.clone();
-        boolean result = false;
+        PbgeFormbt pbgeClone = (PbgeFormbt) pbge.clone();
+        boolebn result = fblse;
 
         /*
-         * Fix for 4507585: show the native modal dialog the same way printDialog() does so
-         * that it won't block event dispatching when called on EventDispatchThread.
+         * Fix for 4507585: show the nbtive modbl diblog the sbme wby printDiblog() does so
+         * thbt it won't block event dispbtching when cblled on EventDispbtchThrebd.
          */
-        WPageDialog dialog = new WPageDialog((Frame)null, this,
-                                     pageClone, null);
-        dialog.setRetVal(false);
-        dialog.setVisible(true);
-        result = dialog.getRetVal();
-        dialog.dispose();
+        WPbgeDiblog diblog = new WPbgeDiblog((Frbme)null, this,
+                                     pbgeClone, null);
+        diblog.setRetVbl(fblse);
+        diblog.setVisible(true);
+        result = diblog.getRetVbl();
+        diblog.dispose();
 
         // myService => current PrintService
         if (result && (myService != null)) {
-            // It's possible that current printer is changed through
-            // the "Printer..." button so we query again from native.
-            String printerName = getNativePrintService();
-            if (!myService.getName().equals(printerName)) {
-                // native printer is different !
-                // we update the current PrintService
+            // It's possible thbt current printer is chbnged through
+            // the "Printer..." button so we query bgbin from nbtive.
+            String printerNbme = getNbtivePrintService();
+            if (!myService.getNbme().equbls(printerNbme)) {
+                // nbtive printer is different !
+                // we updbte the current PrintService
                 try {
                     setPrintService(Win32PrintServiceLookup.
                                     getWin32PrintLUS().
-                                    getPrintServiceByName(printerName));
-                } catch (PrinterException e) {
+                                    getPrintServiceByNbme(printerNbme));
+                } cbtch (PrinterException e) {
                 }
             }
-            // Update attributes, this will preserve the page settings.
-            //  - same code as in RasterPrinterJob.java
-            updatePageAttributes(myService, pageClone);
+            // Updbte bttributes, this will preserve the pbge settings.
+            //  - sbme code bs in RbsterPrinterJob.jbvb
+            updbtePbgeAttributes(myService, pbgeClone);
 
-            return pageClone;
+            return pbgeClone;
         } else {
-            return page;
+            return pbge;
         }
     }
 
 
-    private boolean displayNativeDialog() {
-        // "attributes" is required for getting the updated attributes
-        if (attributes == null) {
-            return false;
+    privbte boolebn displbyNbtiveDiblog() {
+        // "bttributes" is required for getting the updbted bttributes
+        if (bttributes == null) {
+            return fblse;
         }
 
-        DialogOwner dlgOwner = (DialogOwner)attributes.get(DialogOwner.class);
-        Frame ownerFrame = (dlgOwner != null) ? dlgOwner.getOwner() : null;
+        DiblogOwner dlgOwner = (DiblogOwner)bttributes.get(DiblogOwner.clbss);
+        Frbme ownerFrbme = (dlgOwner != null) ? dlgOwner.getOwner() : null;
 
-        WPrintDialog dialog = new WPrintDialog(ownerFrame, this);
-        dialog.setRetVal(false);
-        dialog.setVisible(true);
-        boolean prv = dialog.getRetVal();
-        dialog.dispose();
+        WPrintDiblog diblog = new WPrintDiblog(ownerFrbme, this);
+        diblog.setRetVbl(fblse);
+        diblog.setVisible(true);
+        boolebn prv = diblog.getRetVbl();
+        diblog.dispose();
 
-        Destination dest =
-                (Destination)attributes.get(Destination.class);
+        Destinbtion dest =
+                (Destinbtion)bttributes.get(Destinbtion.clbss);
         if ((dest == null) || !prv){
                 return prv;
         } else {
@@ -495,103 +495,103 @@ public final class WPrinterJob extends RasterPrinterJob
             String strBundle = "sun.print.resources.serviceui";
             ResourceBundle rb = ResourceBundle.getBundle(strBundle);
             try {
-                title = rb.getString("dialog.printtofile");
-            } catch (MissingResourceException e) {
+                title = rb.getString("diblog.printtofile");
+            } cbtch (MissingResourceException e) {
             }
-            FileDialog fileDialog = new FileDialog(ownerFrame, title,
-                                                   FileDialog.SAVE);
+            FileDiblog fileDiblog = new FileDiblog(ownerFrbme, title,
+                                                   FileDiblog.SAVE);
 
             URI destURI = dest.getURI();
-            // Old code destURI.getPath() would return null for "file:out.prn"
-            // so we use getSchemeSpecificPart instead.
-            String pathName = (destURI != null) ?
-                destURI.getSchemeSpecificPart() : null;
-            if (pathName != null) {
-               File file = new File(pathName);
-               fileDialog.setFile(file.getName());
-               File parent = file.getParentFile();
-               if (parent != null) {
-                   fileDialog.setDirectory(parent.getPath());
+            // Old code destURI.getPbth() would return null for "file:out.prn"
+            // so we use getSchemeSpecificPbrt instebd.
+            String pbthNbme = (destURI != null) ?
+                destURI.getSchemeSpecificPbrt() : null;
+            if (pbthNbme != null) {
+               File file = new File(pbthNbme);
+               fileDiblog.setFile(file.getNbme());
+               File pbrent = file.getPbrentFile();
+               if (pbrent != null) {
+                   fileDiblog.setDirectory(pbrent.getPbth());
                }
             } else {
-                fileDialog.setFile("out.prn");
+                fileDiblog.setFile("out.prn");
             }
 
-            fileDialog.setVisible(true);
-            String fileName = fileDialog.getFile();
-            if (fileName == null) {
-                fileDialog.dispose();
-                return false;
+            fileDiblog.setVisible(true);
+            String fileNbme = fileDiblog.getFile();
+            if (fileNbme == null) {
+                fileDiblog.dispose();
+                return fblse;
             }
-            String fullName = fileDialog.getDirectory() + fileName;
-            File f = new File(fullName);
-            File pFile = f.getParentFile();
+            String fullNbme = fileDiblog.getDirectory() + fileNbme;
+            File f = new File(fullNbme);
+            File pFile = f.getPbrentFile();
             while ((f.exists() &&
-                      (!f.isFile() || !f.canWrite())) ||
+                      (!f.isFile() || !f.cbnWrite())) ||
                    ((pFile != null) &&
-                      (!pFile.exists() || (pFile.exists() && !pFile.canWrite())))) {
+                      (!pFile.exists() || (pFile.exists() && !pFile.cbnWrite())))) {
 
-                (new PrintToFileErrorDialog(ownerFrame,
-                                ServiceDialog.getMsg("dialog.owtitle"),
-                                ServiceDialog.getMsg("dialog.writeerror")+" "+fullName,
-                                ServiceDialog.getMsg("button.ok"))).setVisible(true);
+                (new PrintToFileErrorDiblog(ownerFrbme,
+                                ServiceDiblog.getMsg("diblog.owtitle"),
+                                ServiceDiblog.getMsg("diblog.writeerror")+" "+fullNbme,
+                                ServiceDiblog.getMsg("button.ok"))).setVisible(true);
 
-                fileDialog.setVisible(true);
-                fileName = fileDialog.getFile();
-                if (fileName == null) {
-                    fileDialog.dispose();
-                    return false;
+                fileDiblog.setVisible(true);
+                fileNbme = fileDiblog.getFile();
+                if (fileNbme == null) {
+                    fileDiblog.dispose();
+                    return fblse;
                 }
-                fullName = fileDialog.getDirectory() + fileName;
-                f = new File(fullName);
-                pFile = f.getParentFile();
+                fullNbme = fileDiblog.getDirectory() + fileNbme;
+                f = new File(fullNbme);
+                pFile = f.getPbrentFile();
             }
-            fileDialog.dispose();
-            attributes.add(new Destination(f.toURI()));
+            fileDiblog.dispose();
+            bttributes.bdd(new Destinbtion(f.toURI()));
             return true;
         }
 
     }
 
     /**
-     * Presents the user a dialog for changing properties of the
-     * print job interactively.
-     * @returns false if the user cancels the dialog and
+     * Presents the user b diblog for chbnging properties of the
+     * print job interbctively.
+     * @returns fblse if the user cbncels the diblog bnd
      *          true otherwise.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
     @Override
-    public boolean printDialog() throws HeadlessException {
+    public boolebn printDiblog() throws HebdlessException {
 
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
-        // current request attribute set should be reflected to the print dialog.
-        // If null, create new instance of HashPrintRequestAttributeSet.
-        if (attributes == null) {
-            attributes = new HashPrintRequestAttributeSet();
-        }
-
-        if (!(getPrintService() instanceof Win32PrintService)) {
-            return super.printDialog(attributes);
+        // current request bttribute set should be reflected to the print diblog.
+        // If null, crebte new instbnce of HbshPrintRequestAttributeSet.
+        if (bttributes == null) {
+            bttributes = new HbshPrintRequestAttributeSet();
         }
 
-        if (noDefaultPrinter == true) {
-            return false;
+        if (!(getPrintService() instbnceof Win32PrintService)) {
+            return super.printDiblog(bttributes);
+        }
+
+        if (noDefbultPrinter == true) {
+            return fblse;
         } else {
-            return displayNativeDialog();
+            return displbyNbtiveDiblog();
         }
     }
 
      /**
-     * Associate this PrinterJob with a new PrintService.
+     * Associbte this PrinterJob with b new PrintService.
      *
      * Throws <code>PrinterException</code> if the specified service
-     * cannot support the <code>Pageable</code> and
-     * </code>Printable</code> interfaces necessary to support 2D printing.
-     * @param a print service which supports 2D printing.
+     * cbnnot support the <code>Pbgebble</code> bnd
+     * </code>Printbble</code> interfbces necessbry to support 2D printing.
+     * @pbrbm b print service which supports 2D printing.
      *
      * @throws PrinterException if the specified service does not support
      * 2D printing.
@@ -600,48 +600,48 @@ public final class WPrinterJob extends RasterPrinterJob
     public void setPrintService(PrintService service)
         throws PrinterException {
         super.setPrintService(service);
-        if (!(service instanceof Win32PrintService)) {
+        if (!(service instbnceof Win32PrintService)) {
             return;
         }
-        driverDoesMultipleCopies = false;
-        driverDoesCollation = false;
-        setNativePrintServiceIfNeeded(service.getName());
+        driverDoesMultipleCopies = fblse;
+        driverDoesCollbtion = fblse;
+        setNbtivePrintServiceIfNeeded(service.getNbme());
     }
 
-    /* associates this job with the specified native service */
-    private native void setNativePrintService(String name)
+    /* bssocibtes this job with the specified nbtive service */
+    privbte nbtive void setNbtivePrintService(String nbme)
         throws PrinterException;
 
-    private String lastNativeService = null;
-    private void setNativePrintServiceIfNeeded(String name)
+    privbte String lbstNbtiveService = null;
+    privbte void setNbtivePrintServiceIfNeeded(String nbme)
         throws PrinterException {
 
-        if (name != null && !(name.equals(lastNativeService))) {
-            setNativePrintService(name);
-            lastNativeService = name;
+        if (nbme != null && !(nbme.equbls(lbstNbtiveService))) {
+            setNbtivePrintService(nbme);
+            lbstNbtiveService = nbme;
         }
     }
 
     @Override
     public PrintService getPrintService() {
         if (myService == null) {
-            String printerName = getNativePrintService();
+            String printerNbme = getNbtivePrintService();
 
-            if (printerName != null) {
+            if (printerNbme != null) {
                 myService = Win32PrintServiceLookup.getWin32PrintLUS().
-                    getPrintServiceByName(printerName);
-                // no need to call setNativePrintService as this name is
-                // currently set in native
+                    getPrintServiceByNbme(printerNbme);
+                // no need to cbll setNbtivePrintService bs this nbme is
+                // currently set in nbtive
                 if (myService != null) {
                     return myService;
                 }
             }
 
-            myService = PrintServiceLookup.lookupDefaultPrintService();
-            if (myService instanceof Win32PrintService) {
+            myService = PrintServiceLookup.lookupDefbultPrintService();
+            if (myService instbnceof Win32PrintService) {
                 try {
-                    setNativePrintServiceIfNeeded(myService.getName());
-                } catch (Exception e) {
+                    setNbtivePrintServiceIfNeeded(myService.getNbme());
+                } cbtch (Exception e) {
                     myService = null;
                 }
             }
@@ -650,164 +650,164 @@ public final class WPrinterJob extends RasterPrinterJob
           return myService;
     }
 
-    private native String getNativePrintService();
+    privbte nbtive String getNbtivePrintService();
 
-    private void initAttributeMembers() {
+    privbte void initAttributeMembers() {
             mAttSides = 0;
-            mAttChromaticity = 0;
+            mAttChrombticity = 0;
             mAttXRes = 0;
             mAttYRes = 0;
-            mAttQuality = 0;
-            mAttCollate = -1;
+            mAttQublity = 0;
+            mAttCollbte = -1;
             mAttCopies = 0;
-            mAttMediaTray = 0;
-            mAttMediaSizeName = 0;
-            mDestination = null;
+            mAttMedibTrby = 0;
+            mAttMedibSizeNbme = 0;
+            mDestinbtion = null;
 
     }
 
     /**
-     * copy the attributes to the native print job
-     * Note that this method, and hence the re-initialisation
-     * of the GDI values is done on each entry to the print dialog since
-     * an app could redisplay the print dialog for the same job and
-     * 1) the application may have changed attribute settings
-     * 2) the application may have changed the printer.
-     * In the event that the user changes the printer using the
-      dialog, then it is up to GDI to report back all changed values.
+     * copy the bttributes to the nbtive print job
+     * Note thbt this method, bnd hence the re-initiblisbtion
+     * of the GDI vblues is done on ebch entry to the print diblog since
+     * bn bpp could redisplby the print diblog for the sbme job bnd
+     * 1) the bpplicbtion mby hbve chbnged bttribute settings
+     * 2) the bpplicbtion mby hbve chbnged the printer.
+     * In the event thbt the user chbnges the printer using the
+      diblog, then it is up to GDI to report bbck bll chbnged vblues.
      */
     @Override
-    protected void setAttributes(PrintRequestAttributeSet attributes)
+    protected void setAttributes(PrintRequestAttributeSet bttributes)
         throws PrinterException {
 
-        // initialize attribute values
+        // initiblize bttribute vblues
         initAttributeMembers();
-        super.setAttributes(attributes);
+        super.setAttributes(bttributes);
 
         mAttCopies = getCopiesInt();
-        mDestination = destinationAttr;
+        mDestinbtion = destinbtionAttr;
 
-        if (attributes == null) {
-            return; // now always use attributes, so this shouldn't happen.
+        if (bttributes == null) {
+            return; // now blwbys use bttributes, so this shouldn't hbppen.
         }
-        Attribute[] attrs = attributes.toArray();
-        for (int i=0; i< attrs.length; i++) {
-            Attribute attr = attrs[i];
+        Attribute[] bttrs = bttributes.toArrby();
+        for (int i=0; i< bttrs.length; i++) {
+            Attribute bttr = bttrs[i];
             try {
-                 if (attr.getCategory() == Sides.class) {
-                    setSidesAttrib(attr);
+                 if (bttr.getCbtegory() == Sides.clbss) {
+                    setSidesAttrib(bttr);
                 }
-                else if (attr.getCategory() == Chromaticity.class) {
-                    setColorAttrib(attr);
+                else if (bttr.getCbtegory() == Chrombticity.clbss) {
+                    setColorAttrib(bttr);
                 }
-                else if (attr.getCategory() == PrinterResolution.class) {
-                    if (myService.isAttributeValueSupported(attr, null, null)) {
-                        setResolutionAttrib(attr);
+                else if (bttr.getCbtegory() == PrinterResolution.clbss) {
+                    if (myService.isAttributeVblueSupported(bttr, null, null)) {
+                        setResolutionAttrib(bttr);
                     }
                 }
-                else if (attr.getCategory() == PrintQuality.class) {
-                    setQualityAttrib(attr);
+                else if (bttr.getCbtegory() == PrintQublity.clbss) {
+                    setQublityAttrib(bttr);
                 }
-                else if (attr.getCategory() == SheetCollate.class) {
-                    setCollateAttrib(attr);
-                }  else if (attr.getCategory() == Media.class ||
-                            attr.getCategory() == SunAlternateMedia.class) {
-                    /* SunAlternateMedia is used if its a tray, and
-                     * any Media that is specified is not a tray.
+                else if (bttr.getCbtegory() == SheetCollbte.clbss) {
+                    setCollbteAttrib(bttr);
+                }  else if (bttr.getCbtegory() == Medib.clbss ||
+                            bttr.getCbtegory() == SunAlternbteMedib.clbss) {
+                    /* SunAlternbteMedib is used if its b trby, bnd
+                     * bny Medib thbt is specified is not b trby.
                      */
-                    if (attr.getCategory() == SunAlternateMedia.class) {
-                        Media media = (Media)attributes.get(Media.class);
-                        if (media == null ||
-                            !(media instanceof MediaTray)) {
-                            attr = ((SunAlternateMedia)attr).getMedia();
+                    if (bttr.getCbtegory() == SunAlternbteMedib.clbss) {
+                        Medib medib = (Medib)bttributes.get(Medib.clbss);
+                        if (medib == null ||
+                            !(medib instbnceof MedibTrby)) {
+                            bttr = ((SunAlternbteMedib)bttr).getMedib();
                         }
                     }
-                    if (attr instanceof MediaSizeName) {
-                        setWin32MediaAttrib(attr);
+                    if (bttr instbnceof MedibSizeNbme) {
+                        setWin32MedibAttrib(bttr);
                     }
-                    if (attr instanceof MediaTray) {
-                        setMediaTrayAttrib(attr);
+                    if (bttr instbnceof MedibTrby) {
+                        setMedibTrbyAttrib(bttr);
                     }
                 }
 
-            } catch (ClassCastException e) {
+            } cbtch (ClbssCbstException e) {
             }
         }
     }
 
     /**
-     * Alters the orientation and Paper to match defaults obtained
-     * from a printer.
+     * Alters the orientbtion bnd Pbper to mbtch defbults obtbined
+     * from b printer.
      */
-    private native void getDefaultPage(PageFormat page);
+    privbte nbtive void getDefbultPbge(PbgeFormbt pbge);
 
     /**
-     * The passed in PageFormat will be copied and altered to describe
-     * the default page size and orientation of the PrinterJob's
+     * The pbssed in PbgeFormbt will be copied bnd bltered to describe
+     * the defbult pbge size bnd orientbtion of the PrinterJob's
      * current printer.
-     * Note: PageFormat.getPaper() returns a clone and getDefaultPage()
-     * gets that clone so it won't overwrite the original paper.
+     * Note: PbgeFormbt.getPbper() returns b clone bnd getDefbultPbge()
+     * gets thbt clone so it won't overwrite the originbl pbper.
      */
     @Override
-    public PageFormat defaultPage(PageFormat page) {
-        PageFormat newPage = (PageFormat)page.clone();
-        getDefaultPage(newPage);
-        return newPage;
+    public PbgeFormbt defbultPbge(PbgeFormbt pbge) {
+        PbgeFormbt newPbge = (PbgeFormbt)pbge.clone();
+        getDefbultPbge(newPbge);
+        return newPbge;
     }
 
     /**
-     * validate the paper size against the current printer.
+     * vblidbte the pbper size bgbinst the current printer.
      */
     @Override
-    protected native void validatePaper(Paper origPaper, Paper newPaper );
+    protected nbtive void vblidbtePbper(Pbper origPbper, Pbper newPbper );
 
     /**
-     * Examine the metrics captured by the
-     * <code>PeekGraphics</code> instance and
-     * if capable of directly converting this
-     * print job to the printer's control language
-     * or the native OS's graphics primitives, then
-     * return a <code>PathGraphics</code> to perform
-     * that conversion. If there is not an object
-     * capable of the conversion then return
+     * Exbmine the metrics cbptured by the
+     * <code>PeekGrbphics</code> instbnce bnd
+     * if cbpbble of directly converting this
+     * print job to the printer's control lbngubge
+     * or the nbtive OS's grbphics primitives, then
+     * return b <code>PbthGrbphics</code> to perform
+     * thbt conversion. If there is not bn object
+     * cbpbble of the conversion then return
      * <code>null</code>. Returning <code>null</code>
-     * causes the print job to be rasterized.
+     * cbuses the print job to be rbsterized.
      */
 
     @Override
-    protected Graphics2D createPathGraphics(PeekGraphics peekGraphics,
+    protected Grbphics2D crebtePbthGrbphics(PeekGrbphics peekGrbphics,
                                             PrinterJob printerJob,
-                                            Printable painter,
-                                            PageFormat pageFormat,
-                                            int pageIndex) {
+                                            Printbble pbinter,
+                                            PbgeFormbt pbgeFormbt,
+                                            int pbgeIndex) {
 
-        WPathGraphics pathGraphics;
-        PeekMetrics metrics = peekGraphics.getMetrics();
+        WPbthGrbphics pbthGrbphics;
+        PeekMetrics metrics = peekGrbphics.getMetrics();
 
-        /* If the application has drawn anything that
-         * out PathGraphics class can not handle then
-         * return a null PathGraphics. If the property
-         * to force the raster pipeline has been set then
-         * we also want to avoid the path (pdl) pipeline
-         * and return null.
+        /* If the bpplicbtion hbs drbwn bnything thbt
+         * out PbthGrbphics clbss cbn not hbndle then
+         * return b null PbthGrbphics. If the property
+         * to force the rbster pipeline hbs been set then
+         * we blso wbnt to bvoid the pbth (pdl) pipeline
+         * bnd return null.
          */
-       if (forcePDL == false && (forceRaster == true
-                                  || metrics.hasNonSolidColors()
-                                  || metrics.hasCompositing()
+       if (forcePDL == fblse && (forceRbster == true
+                                  || metrics.hbsNonSolidColors()
+                                  || metrics.hbsCompositing()
                                   )) {
-            pathGraphics = null;
+            pbthGrbphics = null;
         } else {
-            BufferedImage bufferedImage = new BufferedImage(8, 8,
-                                            BufferedImage.TYPE_INT_RGB);
-            Graphics2D bufferedGraphics = bufferedImage.createGraphics();
+            BufferedImbge bufferedImbge = new BufferedImbge(8, 8,
+                                            BufferedImbge.TYPE_INT_RGB);
+            Grbphics2D bufferedGrbphics = bufferedImbge.crebteGrbphics();
 
-            boolean canRedraw = peekGraphics.getAWTDrawingOnly() == false;
-            pathGraphics =  new WPathGraphics(bufferedGraphics, printerJob,
-                                              painter, pageFormat, pageIndex,
-                                              canRedraw);
+            boolebn cbnRedrbw = peekGrbphics.getAWTDrbwingOnly() == fblse;
+            pbthGrbphics =  new WPbthGrbphics(bufferedGrbphics, printerJob,
+                                              pbinter, pbgeFormbt, pbgeIndex,
+                                              cbnRedrbw);
         }
 
-        return pathGraphics;
+        return pbthGrbphics;
     }
 
 
@@ -830,63 +830,63 @@ public final class WPrinterJob extends RasterPrinterJob
     }
 
     @Override
-    protected double getPhysicalPrintableX(Paper p) {
+    protected double getPhysicblPrintbbleX(Pbper p) {
         return mPrintPhysX;
     }
 
     @Override
-    protected double getPhysicalPrintableY(Paper p) {
+    protected double getPhysicblPrintbbleY(Pbper p) {
         return mPrintPhysY;
     }
 
     @Override
-    protected double getPhysicalPrintableWidth(Paper p) {
+    protected double getPhysicblPrintbbleWidth(Pbper p) {
         return mPrintWidth;
     }
 
     @Override
-    protected double getPhysicalPrintableHeight(Paper p) {
+    protected double getPhysicblPrintbbleHeight(Pbper p) {
         return mPrintHeight;
     }
 
     @Override
-    protected double getPhysicalPageWidth(Paper p) {
-        return mPageWidth;
+    protected double getPhysicblPbgeWidth(Pbper p) {
+        return mPbgeWidth;
     }
 
     @Override
-    protected double getPhysicalPageHeight(Paper p) {
-        return mPageHeight;
+    protected double getPhysicblPbgeHeight(Pbper p) {
+        return mPbgeHeight;
     }
 
     /**
-     * We don't (yet) provide API to support collation, and
-     * when we do the logic here will require adjustment, but
-     * this method is currently necessary to honour user-originated
-     * collation requests - which can only originate from the print dialog.
-     * REMIND: check if this can be deleted already.
+     * We don't (yet) provide API to support collbtion, bnd
+     * when we do the logic here will require bdjustment, but
+     * this method is currently necessbry to honour user-originbted
+     * collbtion requests - which cbn only originbte from the print diblog.
+     * REMIND: check if this cbn be deleted blrebdy.
      */
     @Override
-    protected boolean isCollated() {
-        return userRequestedCollation;
+    protected boolebn isCollbted() {
+        return userRequestedCollbtion;
     }
 
     /**
-     * Returns how many times the entire book should
+     * Returns how mbny times the entire book should
      * be printed by the PrintJob. If the printer
-     * itself supports collation then this method
-     * should return 1 indicating that the entire
-     * book need only be printed once and the copies
-     * will be collated and made in the printer.
+     * itself supports collbtion then this method
+     * should return 1 indicbting thbt the entire
+     * book need only be printed once bnd the copies
+     * will be collbted bnd mbde in the printer.
      */
     @Override
-    protected int getCollatedCopies() {
+    protected int getCollbtedCopies() {
         debug_println("driverDoesMultipleCopies="+driverDoesMultipleCopies
-                      +" driverDoesCollation="+driverDoesCollation);
-        if  (super.isCollated() && !driverDoesCollation) {
-            // we will do our own collation so we need to
-            // tell the printer to not collate
-            mAttCollate = 0;
+                      +" driverDoesCollbtion="+driverDoesCollbtion);
+        if  (super.isCollbted() && !driverDoesCollbtion) {
+            // we will do our own collbtion so we need to
+            // tell the printer to not collbte
+            mAttCollbte = 0;
             mAttCopies = 1;
             return getCopies();
         }
@@ -895,79 +895,79 @@ public final class WPrinterJob extends RasterPrinterJob
     }
 
     /**
-     * Returns how many times each page in the book
+     * Returns how mbny times ebch pbge in the book
      * should be consecutively printed by PrinterJob.
      * If the underlying Window's driver will
-     * generate the copies, rather than having RasterPrinterJob
-     * iterate over the number of copies, this method always returns
+     * generbte the copies, rbther thbn hbving RbsterPrinterJob
+     * iterbte over the number of copies, this method blwbys returns
      * 1.
      */
     @Override
-    protected int getNoncollatedCopies() {
-        if (driverDoesMultipleCopies || super.isCollated()) {
+    protected int getNoncollbtedCopies() {
+        if (driverDoesMultipleCopies || super.isCollbted()) {
             return 1;
         } else {
             return getCopies();
         }
     }
 
-    /* These getter/setters are called from native code */
+    /* These getter/setters bre cblled from nbtive code */
 
     /**
-     * Return the Window's device context that we are printing
+     * Return the Window's device context thbt we bre printing
      * into.
      */
-    private long getPrintDC() {
-        return handleRecord.mPrintDC;
+    privbte long getPrintDC() {
+        return hbndleRecord.mPrintDC;
     }
 
-    private void setPrintDC(long mPrintDC) {
-        handleRecord.mPrintDC = mPrintDC;
+    privbte void setPrintDC(long mPrintDC) {
+        hbndleRecord.mPrintDC = mPrintDC;
     }
 
-    private long getDevMode() {
-        return handleRecord.mPrintHDevMode;
+    privbte long getDevMode() {
+        return hbndleRecord.mPrintHDevMode;
     }
 
-    private void setDevMode(long mPrintHDevMode) {
-        handleRecord.mPrintHDevMode = mPrintHDevMode;
+    privbte void setDevMode(long mPrintHDevMode) {
+        hbndleRecord.mPrintHDevMode = mPrintHDevMode;
     }
 
-    private long getDevNames() {
-        return handleRecord.mPrintHDevNames;
+    privbte long getDevNbmes() {
+        return hbndleRecord.mPrintHDevNbmes;
     }
 
-    private void setDevNames(long mPrintHDevNames) {
-        handleRecord.mPrintHDevNames = mPrintHDevNames;
+    privbte void setDevNbmes(long mPrintHDevNbmes) {
+        hbndleRecord.mPrintHDevNbmes = mPrintHDevNbmes;
     }
 
-    protected void beginPath() {
-        beginPath(getPrintDC());
+    protected void beginPbth() {
+        beginPbth(getPrintDC());
     }
 
-    protected void endPath() {
-        endPath(getPrintDC());
+    protected void endPbth() {
+        endPbth(getPrintDC());
     }
 
     protected void closeFigure() {
         closeFigure(getPrintDC());
     }
 
-    protected void fillPath() {
-        fillPath(getPrintDC());
+    protected void fillPbth() {
+        fillPbth(getPrintDC());
     }
 
-    protected void moveTo(float x, float y) {
+    protected void moveTo(flobt x, flobt y) {
         moveTo(getPrintDC(), x, y);
     }
 
-    protected void lineTo(float x, float y) {
+    protected void lineTo(flobt x, flobt y) {
         lineTo(getPrintDC(), x, y);
     }
 
-    protected void polyBezierTo(float control1x, float control1y,
-                                float control2x, float control2y,
-                                float endX, float endY) {
+    protected void polyBezierTo(flobt control1x, flobt control1y,
+                                flobt control2x, flobt control2y,
+                                flobt endX, flobt endY) {
 
         polyBezierTo(getPrintDC(), control1x, control1y,
                                control2x, control2y,
@@ -977,7 +977,7 @@ public final class WPrinterJob extends RasterPrinterJob
     /**
      * Set the current polgon fill rule into the printer device context.
      * The <code>fillRule</code> should
-     * be one of the following Windows constants:
+     * be one of the following Windows constbnts:
      * <code>ALTERNATE</code> or <code>WINDING</code>.
      */
     protected void setPolyFillMode(int fillRule) {
@@ -985,18 +985,18 @@ public final class WPrinterJob extends RasterPrinterJob
     }
 
     /*
-     * Create a Window's solid brush for the color specified
+     * Crebte b Window's solid brush for the color specified
      * by <code>(red, green, blue)</code>. Once the brush
-     * is created, select it in the current printing device
-     * context and free the old brush.
+     * is crebted, select it in the current printing device
+     * context bnd free the old brush.
      */
     protected void selectSolidBrush(Color color) {
 
-        /* We only need to select a brush if the color has changed.
+        /* We only need to select b brush if the color hbs chbnged.
         */
-        if (color.equals(mLastColor) == false) {
-            mLastColor = color;
-            float[] rgb = color.getRGBColorComponents(null);
+        if (color.equbls(mLbstColor) == fblse) {
+            mLbstColor = color;
+            flobt[] rgb = color.getRGBColorComponents(null);
 
             selectSolidBrush(getPrintDC(),
                              (int) (rgb[0] * MAX_WCOLOR),
@@ -1006,7 +1006,7 @@ public final class WPrinterJob extends RasterPrinterJob
     }
 
     /**
-     * Return the x coordinate of the current pen
+     * Return the x coordinbte of the current pen
      * position in the print device context.
      */
     protected int getPenX() {
@@ -1016,7 +1016,7 @@ public final class WPrinterJob extends RasterPrinterJob
 
 
     /**
-     * Return the y coordinate of the current pen
+     * Return the y coordinbte of the current pen
      * position in the print device context.
      */
     protected int getPenY() {
@@ -1025,21 +1025,21 @@ public final class WPrinterJob extends RasterPrinterJob
     }
 
     /**
-     * Set the current path in the printer device's
-     * context to be clipping path.
+     * Set the current pbth in the printer device's
+     * context to be clipping pbth.
      */
-    protected void selectClipPath() {
-        selectClipPath(getPrintDC());
+    protected void selectClipPbth() {
+        selectClipPbth(getPrintDC());
     }
 
 
-    protected void frameRect(float x, float y, float width, float height) {
-        frameRect(getPrintDC(), x, y, width, height);
+    protected void frbmeRect(flobt x, flobt y, flobt width, flobt height) {
+        frbmeRect(getPrintDC(), x, y, width, height);
     }
 
-    protected void fillRect(float x, float y, float width, float height,
+    protected void fillRect(flobt x, flobt y, flobt width, flobt height,
                             Color color) {
-        float[] rgb = color.getRGBColorComponents(null);
+        flobt[] rgb = color.getRGBColorComponents(null);
 
         fillRect(getPrintDC(), x, y, width, height,
                  (int) (rgb[0] * MAX_WCOLOR),
@@ -1048,9 +1048,9 @@ public final class WPrinterJob extends RasterPrinterJob
     }
 
 
-    protected void selectPen(float width, Color color) {
+    protected void selectPen(flobt width, Color color) {
 
-        float[] rgb = color.getRGBColorComponents(null);
+        flobt[] rgb = color.getRGBColorComponents(null);
 
         selectPen(getPrintDC(), width,
                   (int) (rgb[0] * MAX_WCOLOR),
@@ -1059,76 +1059,76 @@ public final class WPrinterJob extends RasterPrinterJob
     }
 
 
-    protected boolean selectStylePen(int cap, int join, float width,
+    protected boolebn selectStylePen(int cbp, int join, flobt width,
                                      Color color) {
 
-        long endCap;
+        long endCbp;
         long lineJoin;
 
-        float[] rgb = color.getRGBColorComponents(null);
+        flobt[] rgb = color.getRGBColorComponents(null);
 
-        switch(cap) {
-        case BasicStroke.CAP_BUTT: endCap = PS_ENDCAP_FLAT; break;
-        case BasicStroke.CAP_ROUND: endCap = PS_ENDCAP_ROUND; break;
-        default:
-        case BasicStroke.CAP_SQUARE: endCap = PS_ENDCAP_SQUARE; break;
+        switch(cbp) {
+        cbse BbsicStroke.CAP_BUTT: endCbp = PS_ENDCAP_FLAT; brebk;
+        cbse BbsicStroke.CAP_ROUND: endCbp = PS_ENDCAP_ROUND; brebk;
+        defbult:
+        cbse BbsicStroke.CAP_SQUARE: endCbp = PS_ENDCAP_SQUARE; brebk;
         }
 
         switch(join) {
-        case BasicStroke.JOIN_BEVEL:lineJoin = PS_JOIN_BEVEL; break;
-        default:
-        case BasicStroke.JOIN_MITER:lineJoin = PS_JOIN_MITER; break;
-        case BasicStroke.JOIN_ROUND:lineJoin = PS_JOIN_ROUND; break;
+        cbse BbsicStroke.JOIN_BEVEL:lineJoin = PS_JOIN_BEVEL; brebk;
+        defbult:
+        cbse BbsicStroke.JOIN_MITER:lineJoin = PS_JOIN_MITER; brebk;
+        cbse BbsicStroke.JOIN_ROUND:lineJoin = PS_JOIN_ROUND; brebk;
         }
 
-        return (selectStylePen(getPrintDC(), endCap, lineJoin, width,
+        return (selectStylePen(getPrintDC(), endCbp, lineJoin, width,
                                (int) (rgb[0] * MAX_WCOLOR),
                                (int) (rgb[1] * MAX_WCOLOR),
                                (int) (rgb[2] * MAX_WCOLOR)));
     }
 
     /**
-     * Set a GDI font capable of drawing the java Font
-     * passed in.
+     * Set b GDI font cbpbble of drbwing the jbvb Font
+     * pbssed in.
      */
-    protected boolean setFont(String family, float size, int style,
-                              int rotation, float awScale) {
+    protected boolebn setFont(String fbmily, flobt size, int style,
+                              int rotbtion, flobt bwScble) {
 
-        boolean didSetFont = true;
+        boolebn didSetFont = true;
 
-        if (!family.equals(mLastFontFamily) ||
-            size     != mLastFontSize       ||
-            style    != mLastFontStyle      ||
-            rotation != mLastRotation       ||
-            awScale  != mLastAwScale) {
+        if (!fbmily.equbls(mLbstFontFbmily) ||
+            size     != mLbstFontSize       ||
+            style    != mLbstFontStyle      ||
+            rotbtion != mLbstRotbtion       ||
+            bwScble  != mLbstAwScble) {
 
             didSetFont = setFont(getPrintDC(),
-                                 family,
+                                 fbmily,
                                  size,
                                  (style & Font.BOLD) != 0,
                                  (style & Font.ITALIC) != 0,
-                                 rotation, awScale);
+                                 rotbtion, bwScble);
             if (didSetFont) {
-                mLastFontFamily   = family;
-                mLastFontSize     = size;
-                mLastFontStyle    = style;
-                mLastRotation     = rotation;
-                mLastAwScale      = awScale;
+                mLbstFontFbmily   = fbmily;
+                mLbstFontSize     = size;
+                mLbstFontStyle    = style;
+                mLbstRotbtion     = rotbtion;
+                mLbstAwScble      = bwScble;
             }
         }
         return didSetFont;
     }
 
     /**
-     * Set the GDI color for text drawing.
+     * Set the GDI color for text drbwing.
      */
     protected void setTextColor(Color color) {
 
-        /* We only need to select a brush if the color has changed.
+        /* We only need to select b brush if the color hbs chbnged.
         */
-        if (color.equals(mLastTextColor) == false) {
-            mLastTextColor = color;
-            float[] rgb = color.getRGBColorComponents(null);
+        if (color.equbls(mLbstTextColor) == fblse) {
+            mLbstTextColor = color;
+            flobt[] rgb = color.getRGBColorComponents(null);
 
             setTextColor(getPrintDC(),
                          (int) (rgb[0] * MAX_WCOLOR),
@@ -1138,94 +1138,94 @@ public final class WPrinterJob extends RasterPrinterJob
     }
 
     /**
-     * Remove control characters.
+     * Remove control chbrbcters.
      */
     @Override
-    protected String removeControlChars(String str) {
-        return super.removeControlChars(str);
+    protected String removeControlChbrs(String str) {
+        return super.removeControlChbrs(str);
     }
 
     /**
-     * Draw the string <code>text</code> to the printer's
-     * device context at the specified position.
+     * Drbw the string <code>text</code> to the printer's
+     * device context bt the specified position.
      */
-    protected void textOut(String str, float x, float y,
-                           float[] positions) {
-        /* Don't leave handling of control chars to GDI.
-         * If control chars are removed,  'positions' isn't valid.
-         * This means the caller needs to be aware of this and remove
-         * control chars up front if supplying positions. Since the
-         * caller is tightly integrated here, that's acceptable.
+    protected void textOut(String str, flobt x, flobt y,
+                           flobt[] positions) {
+        /* Don't lebve hbndling of control chbrs to GDI.
+         * If control chbrs bre removed,  'positions' isn't vblid.
+         * This mebns the cbller needs to be bwbre of this bnd remove
+         * control chbrs up front if supplying positions. Since the
+         * cbller is tightly integrbted here, thbt's bcceptbble.
          */
-        String text = removeControlChars(str);
-        assert (positions == null) || (text.length() == str.length());
+        String text = removeControlChbrs(str);
+        bssert (positions == null) || (text.length() == str.length());
         if (text.length() == 0) {
             return;
         }
-        textOut(getPrintDC(), text, text.length(), false, x, y, positions);
+        textOut(getPrintDC(), text, text.length(), fblse, x, y, positions);
     }
 
    /**
-     * Draw the glyphs <code>glyphs</code> to the printer's
-     * device context at the specified position.
+     * Drbw the glyphs <code>glyphs</code> to the printer's
+     * device context bt the specified position.
      */
-    protected void glyphsOut(int []glyphs, float x, float y,
-                             float[] positions) {
+    protected void glyphsOut(int []glyphs, flobt x, flobt y,
+                             flobt[] positions) {
 
-        /* TrueType glyph codes are 16 bit values, so can be packed
-         * in a unicode string, and that's how GDI expects them.
-         * A flag bit is set to indicate to GDI that these are glyphs,
-         * not characters. The positions array must always be non-null
-         * here for our purposes, although if not supplied, GDI should
-         * just use the default advances for the glyphs.
-         * Mask out upper 16 bits to remove any slot from a composite.
+        /* TrueType glyph codes bre 16 bit vblues, so cbn be pbcked
+         * in b unicode string, bnd thbt's how GDI expects them.
+         * A flbg bit is set to indicbte to GDI thbt these bre glyphs,
+         * not chbrbcters. The positions brrby must blwbys be non-null
+         * here for our purposes, blthough if not supplied, GDI should
+         * just use the defbult bdvbnces for the glyphs.
+         * Mbsk out upper 16 bits to remove bny slot from b composite.
          */
-        char[] glyphCharArray = new char[glyphs.length];
+        chbr[] glyphChbrArrby = new chbr[glyphs.length];
         for (int i=0;i<glyphs.length;i++) {
-            glyphCharArray[i] = (char)(glyphs[i] & 0xffff);
+            glyphChbrArrby[i] = (chbr)(glyphs[i] & 0xffff);
         }
-        String glyphStr = new String(glyphCharArray);
+        String glyphStr = new String(glyphChbrArrby);
         textOut(getPrintDC(), glyphStr, glyphs.length, true, x, y, positions);
     }
 
 
     /**
-     * Get the advance of this text that GDI returns for the
+     * Get the bdvbnce of this text thbt GDI returns for the
      * font currently selected into the GDI device context for
-     * this job. Note that the removed control characters are
-     * interpreted as zero-width by JDK and we remove them for
-     * rendering so also remove them for measurement so that
-     * this measurement can be properly compared with JDK measurement.
+     * this job. Note thbt the removed control chbrbcters bre
+     * interpreted bs zero-width by JDK bnd we remove them for
+     * rendering so blso remove them for mebsurement so thbt
+     * this mebsurement cbn be properly compbred with JDK mebsurement.
      */
-    protected int getGDIAdvance(String text) {
-        /* Don't leave handling of control chars to GDI. */
-        text = removeControlChars(text);
+    protected int getGDIAdvbnce(String text) {
+        /* Don't lebve hbndling of control chbrs to GDI. */
+        text = removeControlChbrs(text);
         if (text.length() == 0) {
             return 0;
         }
-        return getGDIAdvance(getPrintDC(), text);
+        return getGDIAdvbnce(getPrintDC(), text);
     }
 
      /**
-     * Draw the 24 bit BGR image buffer represented by
-     * <code>image</code> to the GDI device context
-     * <code>printDC</code>. The image is drawn at
-     * <code>(destX, destY)</code> in device coordinates.
-     * The image is scaled into a square of size
-     * specified by <code>destWidth</code> and
+     * Drbw the 24 bit BGR imbge buffer represented by
+     * <code>imbge</code> to the GDI device context
+     * <code>printDC</code>. The imbge is drbwn bt
+     * <code>(destX, destY)</code> in device coordinbtes.
+     * The imbge is scbled into b squbre of size
+     * specified by <code>destWidth</code> bnd
      * <code>destHeight</code>. The portion of the
-     * source image copied into that square is specified
+     * source imbge copied into thbt squbre is specified
      * by <code>srcX</code>, <code>srcY</code>,
-     * <code>srcWidth</code>, and srcHeight.
+     * <code>srcWidth</code>, bnd srcHeight.
      */
-    protected void drawImage3ByteBGR(byte[] image,
-                                     float destX, float destY,
-                                     float destWidth, float destHeight,
-                                     float srcX, float srcY,
-                                     float srcWidth, float srcHeight) {
+    protected void drbwImbge3ByteBGR(byte[] imbge,
+                                     flobt destX, flobt destY,
+                                     flobt destWidth, flobt destHeight,
+                                     flobt srcX, flobt srcY,
+                                     flobt srcWidth, flobt srcHeight) {
 
 
-        drawDIBImage(getPrintDC(), image,
+        drbwDIBImbge(getPrintDC(), imbge,
                      destX, destY,
                      destWidth, destHeight,
                      srcX, srcY,
@@ -1235,41 +1235,41 @@ public final class WPrinterJob extends RasterPrinterJob
     }
 
     /* If 'icm' is null we expect its 24 bit (ie 3BYTE_BGR).
-     * If 'icm' is non-null we expect its no more than 8 bpp and
-     * specifically must be a valid DIB sizes : 1, 4 or 8 bpp.
-     * Then we need to extract the colours into a byte array of the
-     * format required by GDI which is an array of 'RGBQUAD'
+     * If 'icm' is non-null we expect its no more thbn 8 bpp bnd
+     * specificblly must be b vblid DIB sizes : 1, 4 or 8 bpp.
+     * Then we need to extrbct the colours into b byte brrby of the
+     * formbt required by GDI which is bn brrby of 'RGBQUAD'
      * RGBQUAD looks like :
-     * typedef struct tagRGBQUAD {
+     * typedef struct tbgRGBQUAD {
      *    BYTE    rgbBlue;
      *    BYTE    rgbGreen;
      *    BYTE    rgbRed;
      *    BYTE    rgbReserved; // must be zero.
      * } RGBQUAD;
-     * There's no alignment problem as GDI expects this to be packed
-     * and each struct will start on a 4 byte boundary anyway.
+     * There's no blignment problem bs GDI expects this to be pbcked
+     * bnd ebch struct will stbrt on b 4 byte boundbry bnywby.
      */
-    protected void drawDIBImage(byte[] image,
-                                float destX, float destY,
-                                float destWidth, float destHeight,
-                                float srcX, float srcY,
-                                float srcWidth, float srcHeight,
-                                int sampleBitsPerPixel,
+    protected void drbwDIBImbge(byte[] imbge,
+                                flobt destX, flobt destY,
+                                flobt destWidth, flobt destHeight,
+                                flobt srcX, flobt srcY,
+                                flobt srcWidth, flobt srcHeight,
+                                int sbmpleBitsPerPixel,
                                 IndexColorModel icm) {
         int bitCount = 24;
         byte[] bmiColors = null;
 
         if (icm != null) {
-            bitCount = sampleBitsPerPixel;
+            bitCount = sbmpleBitsPerPixel;
             bmiColors = new byte[(1<<icm.getPixelSize())*4];
-            for (int i=0;i<icm.getMapSize(); i++) {
+            for (int i=0;i<icm.getMbpSize(); i++) {
                 bmiColors[i*4+0]=(byte)(icm.getBlue(i)&0xff);
                 bmiColors[i*4+1]=(byte)(icm.getGreen(i)&0xff);
                 bmiColors[i*4+2]=(byte)(icm.getRed(i)&0xff);
             }
         }
 
-        drawDIBImage(getPrintDC(), image,
+        drbwDIBImbge(getPrintDC(), imbge,
                      destX, destY,
                      destWidth, destHeight,
                      srcX, srcY,
@@ -1278,378 +1278,378 @@ public final class WPrinterJob extends RasterPrinterJob
     }
 
     /**
-     * Begin a new page.
+     * Begin b new pbge.
      */
     @Override
-    protected void startPage(PageFormat format, Printable painter,
-                             int index, boolean paperChanged) {
+    protected void stbrtPbge(PbgeFormbt formbt, Printbble pbinter,
+                             int index, boolebn pbperChbnged) {
 
-        /* Invalidate any device state caches we are
-         * maintaining. Win95/98 resets the device
-         * context attributes to default values at
-         * the start of each page.
+        /* Invblidbte bny device stbte cbches we bre
+         * mbintbining. Win95/98 resets the device
+         * context bttributes to defbult vblues bt
+         * the stbrt of ebch pbge.
          */
-        invalidateCachedState();
+        invblidbteCbchedStbte();
 
-        deviceStartPage(format, painter, index, paperChanged);
+        deviceStbrtPbge(formbt, pbinter, index, pbperChbnged);
     }
 
     /**
-     * End a page.
+     * End b pbge.
      */
     @Override
-    protected void endPage(PageFormat format, Printable painter,
+    protected void endPbge(PbgeFormbt formbt, Printbble pbinter,
                            int index) {
 
-        deviceEndPage(format, painter, index);
+        deviceEndPbge(formbt, pbinter, index);
     }
 
     /**
-     * Forget any device state we may have cached.
+     * Forget bny device stbte we mby hbve cbched.
      */
-    private void invalidateCachedState() {
-        mLastColor = null;
-        mLastTextColor = null;
-        mLastFontFamily = null;
+    privbte void invblidbteCbchedStbte() {
+        mLbstColor = null;
+        mLbstTextColor = null;
+        mLbstFontFbmily = null;
     }
 
-    private boolean defaultCopies = true;
+    privbte boolebn defbultCopies = true;
     /**
      * Set the number of copies to be printed.
      */
     @Override
     public void setCopies(int copies) {
         super.setCopies(copies);
-        defaultCopies = false;
+        defbultCopies = fblse;
         mAttCopies = copies;
-        setNativeCopies(copies);
+        setNbtiveCopies(copies);
     }
 
 
- /* Native Methods */
+ /* Nbtive Methods */
 
     /**
      * Set copies in device.
      */
-    private native void setNativeCopies(int copies);
+    privbte nbtive void setNbtiveCopies(int copies);
 
     /**
-     * Displays the print dialog and records the user's settings
-     * into this object. Return false if the user cancels the
-     * dialog.
-     * If the dialog is to use a set of attributes, useAttributes is true.
+     * Displbys the print diblog bnd records the user's settings
+     * into this object. Return fblse if the user cbncels the
+     * diblog.
+     * If the diblog is to use b set of bttributes, useAttributes is true.
      */
-    private native boolean jobSetup(Pageable doc, boolean allowPrintToFile);
+    privbte nbtive boolebn jobSetup(Pbgebble doc, boolebn bllowPrintToFile);
 
-    /* Make sure printer DC is intialised and that info about the printer
-     * is reflected back up to Java code
+    /* Mbke sure printer DC is intiblised bnd thbt info bbout the printer
+     * is reflected bbck up to Jbvb code
      */
     @Override
-    protected native void initPrinter();
+    protected nbtive void initPrinter();
 
     /**
-     * Call Window's StartDoc routine to begin a
-     * print job. The DC from the print dialog is
-     * used. If the print dialog was not displayed
-     * then a DC for the default printer is created.
-     * The native StartDoc returns false if the end-user cancelled
+     * Cbll Window's StbrtDoc routine to begin b
+     * print job. The DC from the print diblog is
+     * used. If the print diblog wbs not displbyed
+     * then b DC for the defbult printer is crebted.
+     * The nbtive StbrtDoc returns fblse if the end-user cbncelled
      * printing. This is possible if the printer is connected to FILE:
-     * in which case windows queries the user for a destination and the
-     * user may cancel out of it. Note that the implementation of
-     * cancel() throws PrinterAbortException to indicate the user cancelled.
+     * in which cbse windows queries the user for b destinbtion bnd the
+     * user mby cbncel out of it. Note thbt the implementbtion of
+     * cbncel() throws PrinterAbortException to indicbte the user cbncelled.
      */
-    private native boolean _startDoc(String dest, String jobName)
+    privbte nbtive boolebn _stbrtDoc(String dest, String jobNbme)
                                      throws PrinterException;
     @Override
-    protected void startDoc() throws PrinterException {
-        if (!_startDoc(mDestination, getJobName())) {
-            cancel();
+    protected void stbrtDoc() throws PrinterException {
+        if (!_stbrtDoc(mDestinbtion, getJobNbme())) {
+            cbncel();
         }
     }
 
     /**
-     * Call Window's EndDoc routine to end a
+     * Cbll Window's EndDoc routine to end b
      * print job.
      */
     @Override
-    protected native void endDoc();
+    protected nbtive void endDoc();
 
     /**
-     * Call Window's AbortDoc routine to abort a
+     * Cbll Window's AbortDoc routine to bbort b
      * print job.
      */
     @Override
-    protected native void abortDoc();
+    protected nbtive void bbortDoc();
 
     /**
-     * Call Windows native resource freeing APIs
+     * Cbll Windows nbtive resource freeing APIs
      */
-    private static native void deleteDC(long dc, long devmode, long devnames);
+    privbte stbtic nbtive void deleteDC(long dc, long devmode, long devnbmes);
 
     /**
-     * Begin a new page. This call's Window's
-     * StartPage routine.
+     * Begin b new pbge. This cbll's Window's
+     * StbrtPbge routine.
      */
-    protected native void deviceStartPage(PageFormat format, Printable painter,
-                                          int index, boolean paperChanged);
+    protected nbtive void deviceStbrtPbge(PbgeFormbt formbt, Printbble pbinter,
+                                          int index, boolebn pbperChbnged);
     /**
-     * End a page. This call's Window's EndPage
+     * End b pbge. This cbll's Window's EndPbge
      * routine.
      */
-    protected native void deviceEndPage(PageFormat format, Printable painter,
+    protected nbtive void deviceEndPbge(PbgeFormbt formbt, Printbble pbinter,
                                         int index);
 
     /**
-     * Prints the contents of the array of ints, 'data'
-     * to the current page. The band is placed at the
-     * location (x, y) in device coordinates on the
-     * page. The width and height of the band is
-     * specified by the caller.
+     * Prints the contents of the brrby of ints, 'dbtb'
+     * to the current pbge. The bbnd is plbced bt the
+     * locbtion (x, y) in device coordinbtes on the
+     * pbge. The width bnd height of the bbnd is
+     * specified by the cbller.
      */
     @Override
-    protected native void printBand(byte[] data, int x, int y,
+    protected nbtive void printBbnd(byte[] dbtb, int x, int y,
                                     int width, int height);
 
     /**
-     * Begin a Window's rendering path in the device
+     * Begin b Window's rendering pbth in the device
      * context <code>printDC</code>.
      */
-    protected native void beginPath(long printDC);
+    protected nbtive void beginPbth(long printDC);
 
     /**
-     * End a Window's rendering path in the device
+     * End b Window's rendering pbth in the device
      * context <code>printDC</code>.
      */
-    protected native void endPath(long printDC);
+    protected nbtive void endPbth(long printDC);
 
     /**
-     * Close a subpath in a Window's rendering path in the device
+     * Close b subpbth in b Window's rendering pbth in the device
      * context <code>printDC</code>.
      */
-    protected native void closeFigure(long printDC);
+    protected nbtive void closeFigure(long printDC);
 
     /**
-     * Fill a defined Window's rendering path in the device
+     * Fill b defined Window's rendering pbth in the device
      * context <code>printDC</code>.
      */
-    protected native void fillPath(long printDC);
+    protected nbtive void fillPbth(long printDC);
 
     /**
      * Move the Window's pen position to <code>(x,y)</code>
      * in the device context <code>printDC</code>.
      */
-    protected native void moveTo(long printDC, float x, float y);
+    protected nbtive void moveTo(long printDC, flobt x, flobt y);
 
     /**
-     * Draw a line from the current pen position to
+     * Drbw b line from the current pen position to
      * <code>(x,y)</code> in the device context <code>printDC</code>.
      */
-    protected native void lineTo(long printDC, float x, float y);
+    protected nbtive void lineTo(long printDC, flobt x, flobt y);
 
-    protected native void polyBezierTo(long printDC,
-                                       float control1x, float control1y,
-                                       float control2x, float control2y,
-                                       float endX, float endY);
+    protected nbtive void polyBezierTo(long printDC,
+                                       flobt control1x, flobt control1y,
+                                       flobt control2x, flobt control2y,
+                                       flobt endX, flobt endY);
 
     /**
      * Set the current polgon fill rule into the device context
      * <code>printDC</code>. The <code>fillRule</code> should
-     * be one of the following Windows constants:
+     * be one of the following Windows constbnts:
      * <code>ALTERNATE</code> or <code>WINDING</code>.
      */
-    protected native void setPolyFillMode(long printDC, int fillRule);
+    protected nbtive void setPolyFillMode(long printDC, int fillRule);
 
     /**
-     * Create a Window's solid brush for the color specified
+     * Crebte b Window's solid brush for the color specified
      * by <code>(red, green, blue)</code>. Once the brush
-     * is created, select it in the device
-     * context <code>printDC</code> and free the old brush.
+     * is crebted, select it in the device
+     * context <code>printDC</code> bnd free the old brush.
      */
-    protected native void selectSolidBrush(long printDC,
+    protected nbtive void selectSolidBrush(long printDC,
                                            int red, int green, int blue);
 
     /**
-     * Return the x coordinate of the current pen
+     * Return the x coordinbte of the current pen
      * position in the device context
      * <code>printDC</code>.
      */
-    protected native int getPenX(long printDC);
+    protected nbtive int getPenX(long printDC);
 
     /**
-     * Return the y coordinate of the current pen
+     * Return the y coordinbte of the current pen
      * position in the device context
      * <code>printDC</code>.
      */
-    protected native int getPenY(long printDC);
+    protected nbtive int getPenY(long printDC);
 
     /**
-     * Select the device context's current path
-     * to be the clipping path.
+     * Select the device context's current pbth
+     * to be the clipping pbth.
      */
-    protected native void selectClipPath(long printDC);
+    protected nbtive void selectClipPbth(long printDC);
 
     /**
-     * Draw a rectangle using specified brush.
+     * Drbw b rectbngle using specified brush.
      */
-    protected native void frameRect(long printDC, float x, float y,
-                                    float width, float height);
+    protected nbtive void frbmeRect(long printDC, flobt x, flobt y,
+                                    flobt width, flobt height);
 
     /**
-     * Fill a rectangle specified by the coordinates using
+     * Fill b rectbngle specified by the coordinbtes using
      * specified brush.
      */
-    protected native void fillRect(long printDC, float x, float y,
-                                   float width, float height,
+    protected nbtive void fillRect(long printDC, flobt x, flobt y,
+                                   flobt width, flobt height,
                                    int red, int green, int blue);
 
     /**
-     * Create a solid brush using the RG & B colors and width.
-     * Select this brush and delete the old one.
+     * Crebte b solid brush using the RG & B colors bnd width.
+     * Select this brush bnd delete the old one.
      */
-    protected native void selectPen(long printDC, float width,
+    protected nbtive void selectPen(long printDC, flobt width,
                                     int red, int green, int blue);
 
     /**
-     * Create a solid brush using the RG & B colors and specified
-     * pen styles.  Select this created brush and delete the old one.
+     * Crebte b solid brush using the RG & B colors bnd specified
+     * pen styles.  Select this crebted brush bnd delete the old one.
      */
-    protected native boolean selectStylePen(long printDC, long cap,
-                                            long join, float width,
+    protected nbtive boolebn selectStylePen(long printDC, long cbp,
+                                            long join, flobt width,
                                             int red, int green, int blue);
 
     /**
-     * Set a GDI font capable of drawing the java Font
-     * passed in.
+     * Set b GDI font cbpbble of drbwing the jbvb Font
+     * pbssed in.
      */
-    protected native boolean setFont(long printDC, String familyName,
-                                     float fontSize,
-                                     boolean bold,
-                                     boolean italic,
-                                     int rotation,
-                                     float awScale);
+    protected nbtive boolebn setFont(long printDC, String fbmilyNbme,
+                                     flobt fontSize,
+                                     boolebn bold,
+                                     boolebn itblic,
+                                     int rotbtion,
+                                     flobt bwScble);
 
 
     /**
-     * Set the GDI color for text drawing.
+     * Set the GDI color for text drbwing.
      */
-    protected native void setTextColor(long printDC,
+    protected nbtive void setTextColor(long printDC,
                                        int red, int green, int blue);
 
 
     /**
-     * Draw the string <code>text</code> into the device
-     * context <code>printDC</code> at the specified
+     * Drbw the string <code>text</code> into the device
+     * context <code>printDC</code> bt the specified
      * position.
      */
-    protected native void textOut(long printDC, String text,
-                                  int strlen, boolean glyphs,
-                                  float x, float y, float[] positions);
+    protected nbtive void textOut(long printDC, String text,
+                                  int strlen, boolebn glyphs,
+                                  flobt x, flobt y, flobt[] positions);
 
 
-    private native int getGDIAdvance(long printDC, String text);
+    privbte nbtive int getGDIAdvbnce(long printDC, String text);
 
      /**
-     * Draw the DIB compatible image buffer represented by
-     * <code>image</code> to the GDI device context
-     * <code>printDC</code>. The image is drawn at
-     * <code>(destX, destY)</code> in device coordinates.
-     * The image is scaled into a square of size
-     * specified by <code>destWidth</code> and
+     * Drbw the DIB compbtible imbge buffer represented by
+     * <code>imbge</code> to the GDI device context
+     * <code>printDC</code>. The imbge is drbwn bt
+     * <code>(destX, destY)</code> in device coordinbtes.
+     * The imbge is scbled into b squbre of size
+     * specified by <code>destWidth</code> bnd
      * <code>destHeight</code>. The portion of the
-     * source image copied into that square is specified
+     * source imbge copied into thbt squbre is specified
      * by <code>srcX</code>, <code>srcY</code>,
-     * <code>srcWidth</code>, and srcHeight.
-     * Note that the image isn't completely compatible with DIB format.
-     * At the very least it needs to be padded so each scanline is
-     * DWORD aligned. Also we "flip" the image to make it a bottom-up DIB.
+     * <code>srcWidth</code>, bnd srcHeight.
+     * Note thbt the imbge isn't completely compbtible with DIB formbt.
+     * At the very lebst it needs to be pbdded so ebch scbnline is
+     * DWORD bligned. Also we "flip" the imbge to mbke it b bottom-up DIB.
      */
-    private native void drawDIBImage(long printDC, byte[] image,
-                                     float destX, float destY,
-                                     float destWidth, float destHeight,
-                                     float srcX, float srcY,
-                                     float srcWidth, float srcHeight,
+    privbte nbtive void drbwDIBImbge(long printDC, byte[] imbge,
+                                     flobt destX, flobt destY,
+                                     flobt destWidth, flobt destHeight,
+                                     flobt srcX, flobt srcY,
+                                     flobt srcWidth, flobt srcHeight,
                                      int bitCount, byte[] bmiColors);
 
 
-    //** BEGIN Functions called by native code for querying/updating attributes
+    //** BEGIN Functions cblled by nbtive code for querying/updbting bttributes
 
-    private final String getPrinterAttrib() {
-        // getPrintService will get current print service or default if none
+    privbte finbl String getPrinterAttrib() {
+        // getPrintService will get current print service or defbult if none
         PrintService service = this.getPrintService();
-        String name = (service != null) ? service.getName() : null;
-        return name;
+        String nbme = (service != null) ? service.getNbme() : null;
+        return nbme;
     }
 
-    /* SheetCollate */
-    private final int getCollateAttrib() {
-        // -1 means unset, 0 uncollated, 1 collated.
-        return mAttCollate;
+    /* SheetCollbte */
+    privbte finbl int getCollbteAttrib() {
+        // -1 mebns unset, 0 uncollbted, 1 collbted.
+        return mAttCollbte;
     }
 
-    private void setCollateAttrib(Attribute attr) {
-        if (attr == SheetCollate.COLLATED) {
-            mAttCollate = 1; // DMCOLLATE_TRUE
+    privbte void setCollbteAttrib(Attribute bttr) {
+        if (bttr == SheetCollbte.COLLATED) {
+            mAttCollbte = 1; // DMCOLLATE_TRUE
         } else {
-            mAttCollate = 0; // DMCOLLATE_FALSE
+            mAttCollbte = 0; // DMCOLLATE_FALSE
         }
     }
 
-    private void setCollateAttrib(Attribute attr,
+    privbte void setCollbteAttrib(Attribute bttr,
                                   PrintRequestAttributeSet set) {
-        setCollateAttrib(attr);
-        set.add(attr);
+        setCollbteAttrib(bttr);
+        set.bdd(bttr);
     }
 
-    /* Orientation */
+    /* Orientbtion */
 
-    private final int getOrientAttrib() {
-        int orient = PageFormat.PORTRAIT;
-        OrientationRequested orientReq = (attributes == null) ? null :
-            (OrientationRequested)attributes.get(OrientationRequested.class);
+    privbte finbl int getOrientAttrib() {
+        int orient = PbgeFormbt.PORTRAIT;
+        OrientbtionRequested orientReq = (bttributes == null) ? null :
+            (OrientbtionRequested)bttributes.get(OrientbtionRequested.clbss);
         if (orientReq == null) {
-            orientReq = (OrientationRequested)
-               myService.getDefaultAttributeValue(OrientationRequested.class);
+            orientReq = (OrientbtionRequested)
+               myService.getDefbultAttributeVblue(OrientbtionRequested.clbss);
         }
         if (orientReq != null) {
-            if (orientReq == OrientationRequested.REVERSE_LANDSCAPE) {
-                orient = PageFormat.REVERSE_LANDSCAPE;
-            } else if (orientReq == OrientationRequested.LANDSCAPE) {
-                orient = PageFormat.LANDSCAPE;
+            if (orientReq == OrientbtionRequested.REVERSE_LANDSCAPE) {
+                orient = PbgeFormbt.REVERSE_LANDSCAPE;
+            } else if (orientReq == OrientbtionRequested.LANDSCAPE) {
+                orient = PbgeFormbt.LANDSCAPE;
             }
         }
 
         return orient;
     }
 
-    private void setOrientAttrib(Attribute attr,
+    privbte void setOrientAttrib(Attribute bttr,
                                  PrintRequestAttributeSet set) {
         if (set != null) {
-            set.add(attr);
+            set.bdd(bttr);
         }
     }
 
-    /* Copies and Page Range. */
-    private final int getCopiesAttrib() {
-        if (defaultCopies) {
+    /* Copies bnd Pbge Rbnge. */
+    privbte finbl int getCopiesAttrib() {
+        if (defbultCopies) {
             return 0;
         } else {
             return getCopiesInt();
         }
      }
 
-    private final void setRangeCopiesAttribute(int from, int to,
-                                               boolean isRangeSet,
+    privbte finbl void setRbngeCopiesAttribute(int from, int to,
+                                               boolebn isRbngeSet,
                                                int copies) {
-        if (attributes != null) {
-            if (isRangeSet) {
-                attributes.add(new PageRanges(from, to));
-                setPageRange(from, to);
+        if (bttributes != null) {
+            if (isRbngeSet) {
+                bttributes.bdd(new PbgeRbnges(from, to));
+                setPbgeRbnge(from, to);
             }
-            defaultCopies = false;
-            attributes.add(new Copies(copies));
-            /* Since this is called from native to tell Java to sync
-             * up with native, we don't call this class's own setCopies()
-             * method which is mainly to send the value down to native
+            defbultCopies = fblse;
+            bttributes.bdd(new Copies(copies));
+            /* Since this is cblled from nbtive to tell Jbvb to sync
+             * up with nbtive, we don't cbll this clbss's own setCopies()
+             * method which is mbinly to send the vblue down to nbtive
              */
             super.setCopies(copies);
             mAttCopies = copies;
@@ -1658,290 +1658,290 @@ public final class WPrinterJob extends RasterPrinterJob
 
 
 
-    private final boolean getDestAttrib() {
-        return (mDestination != null);
+    privbte finbl boolebn getDestAttrib() {
+        return (mDestinbtion != null);
     }
 
-    /* Quality */
-    private final int getQualityAttrib() {
-        return mAttQuality;
+    /* Qublity */
+    privbte finbl int getQublityAttrib() {
+        return mAttQublity;
     }
 
-    private void setQualityAttrib(Attribute attr) {
-        if (attr == PrintQuality.HIGH) {
-            mAttQuality = -4; // DMRES_HIGH
-        } else if (attr == PrintQuality.NORMAL) {
-            mAttQuality = -3; // DMRES_MEDIUM
+    privbte void setQublityAttrib(Attribute bttr) {
+        if (bttr == PrintQublity.HIGH) {
+            mAttQublity = -4; // DMRES_HIGH
+        } else if (bttr == PrintQublity.NORMAL) {
+            mAttQublity = -3; // DMRES_MEDIUM
         } else {
-            mAttQuality = -2; // DMRES_LOW
+            mAttQublity = -2; // DMRES_LOW
         }
     }
 
-    private void setQualityAttrib(Attribute attr,
+    privbte void setQublityAttrib(Attribute bttr,
                                   PrintRequestAttributeSet set) {
-        setQualityAttrib(attr);
-        set.add(attr);
+        setQublityAttrib(bttr);
+        set.bdd(bttr);
     }
 
-    /* Color/Chromaticity */
-    private final int getColorAttrib() {
-        return mAttChromaticity;
+    /* Color/Chrombticity */
+    privbte finbl int getColorAttrib() {
+        return mAttChrombticity;
     }
 
-    private void setColorAttrib(Attribute attr) {
-        if (attr == Chromaticity.COLOR) {
-            mAttChromaticity = 2; // DMCOLOR_COLOR
+    privbte void setColorAttrib(Attribute bttr) {
+        if (bttr == Chrombticity.COLOR) {
+            mAttChrombticity = 2; // DMCOLOR_COLOR
         } else {
-            mAttChromaticity = 1; // DMCOLOR_MONOCHROME
+            mAttChrombticity = 1; // DMCOLOR_MONOCHROME
         }
     }
 
-    private void setColorAttrib(Attribute attr,
+    privbte void setColorAttrib(Attribute bttr,
                                   PrintRequestAttributeSet set) {
-        setColorAttrib(attr);
-        set.add(attr);
+        setColorAttrib(bttr);
+        set.bdd(bttr);
     }
 
     /* Sides */
-    private final int getSidesAttrib() {
+    privbte finbl int getSidesAttrib() {
         return mAttSides;
     }
 
-    private void setSidesAttrib(Attribute attr) {
-        if (attr == Sides.TWO_SIDED_LONG_EDGE) {
+    privbte void setSidesAttrib(Attribute bttr) {
+        if (bttr == Sides.TWO_SIDED_LONG_EDGE) {
             mAttSides = 2; // DMDUP_VERTICAL
-        } else if (attr == Sides.TWO_SIDED_SHORT_EDGE) {
+        } else if (bttr == Sides.TWO_SIDED_SHORT_EDGE) {
             mAttSides = 3; // DMDUP_HORIZONTAL
         } else { // Sides.ONE_SIDED
             mAttSides = 1;
         }
     }
 
-    private void setSidesAttrib(Attribute attr,
+    privbte void setSidesAttrib(Attribute bttr,
                                 PrintRequestAttributeSet set) {
-        setSidesAttrib(attr);
-        set.add(attr);
+        setSidesAttrib(bttr);
+        set.bdd(bttr);
     }
 
-    /** MediaSizeName / dmPaper */
-    private final int[] getWin32MediaAttrib() {
+    /** MedibSizeNbme / dmPbper */
+    privbte finbl int[] getWin32MedibAttrib() {
         int wid_ht[] = {0, 0};
-        if (attributes != null) {
-            Media media = (Media)attributes.get(Media.class);
-            if (media instanceof MediaSizeName) {
-                MediaSizeName msn = (MediaSizeName)media;
-                MediaSize ms = MediaSize.getMediaSizeForName(msn);
+        if (bttributes != null) {
+            Medib medib = (Medib)bttributes.get(Medib.clbss);
+            if (medib instbnceof MedibSizeNbme) {
+                MedibSizeNbme msn = (MedibSizeNbme)medib;
+                MedibSize ms = MedibSize.getMedibSizeForNbme(msn);
                 if (ms != null) {
-                    wid_ht[0] = (int)(ms.getX(MediaSize.INCH) * 72.0);
-                    wid_ht[1] = (int)(ms.getY(MediaSize.INCH) * 72.0);
+                    wid_ht[0] = (int)(ms.getX(MedibSize.INCH) * 72.0);
+                    wid_ht[1] = (int)(ms.getY(MedibSize.INCH) * 72.0);
                 }
             }
         }
         return wid_ht;
     }
 
-    private void setWin32MediaAttrib(Attribute attr) {
-        if (!(attr instanceof MediaSizeName)) {
+    privbte void setWin32MedibAttrib(Attribute bttr) {
+        if (!(bttr instbnceof MedibSizeNbme)) {
             return;
         }
-        MediaSizeName msn = (MediaSizeName)attr;
-        mAttMediaSizeName = ((Win32PrintService)myService).findPaperID(msn);
+        MedibSizeNbme msn = (MedibSizeNbme)bttr;
+        mAttMedibSizeNbme = ((Win32PrintService)myService).findPbperID(msn);
     }
 
-    private void addPaperSize(PrintRequestAttributeSet aset,
+    privbte void bddPbperSize(PrintRequestAttributeSet bset,
                               int dmIndex, int width, int length) {
 
-        if (aset == null) {
+        if (bset == null) {
             return;
         }
-        MediaSizeName msn =
-           ((Win32PrintService)myService).findWin32Media(dmIndex);
+        MedibSizeNbme msn =
+           ((Win32PrintService)myService).findWin32Medib(dmIndex);
         if (msn == null) {
             msn = ((Win32PrintService)myService).
-                findMatchingMediaSizeNameMM((float)width, (float)length);
+                findMbtchingMedibSizeNbmeMM((flobt)width, (flobt)length);
         }
 
         if (msn != null) {
-            aset.add(msn);
+            bset.bdd(msn);
         }
     }
 
-    private void setWin32MediaAttrib(int dmIndex, int width, int length) {
-        addPaperSize(attributes, dmIndex, width, length);
-        mAttMediaSizeName = dmIndex;
+    privbte void setWin32MedibAttrib(int dmIndex, int width, int length) {
+        bddPbperSize(bttributes, dmIndex, width, length);
+        mAttMedibSizeNbme = dmIndex;
     }
 
-    /* MediaTray / dmTray */
-    private void setMediaTrayAttrib(Attribute attr) {
-        if (attr == MediaTray.BOTTOM) {
-            mAttMediaTray = 2;    // DMBIN_LOWER
-        } else if (attr == MediaTray.ENVELOPE) {
-            mAttMediaTray = 5;    // DMBIN_ENVELOPE
-        } else if (attr == MediaTray.LARGE_CAPACITY) {
-            mAttMediaTray = 11;      // DMBIN_LARGECAPACITY
-        } else if (attr == MediaTray.MAIN) {
-            mAttMediaTray =1;               // DMBIN_UPPER
-        } else if (attr == MediaTray.MANUAL) {
-            mAttMediaTray = 4;              // DMBIN_MANUAL
-        } else if (attr == MediaTray.MIDDLE) {
-            mAttMediaTray = 3;              // DMBIN_MIDDLE
-        } else if (attr == MediaTray.SIDE) {
-            // no equivalent predefined value
-            mAttMediaTray = 7;              // DMBIN_AUTO
-        } else if (attr == MediaTray.TOP) {
-            mAttMediaTray = 1;              // DMBIN_UPPER
+    /* MedibTrby / dmTrby */
+    privbte void setMedibTrbyAttrib(Attribute bttr) {
+        if (bttr == MedibTrby.BOTTOM) {
+            mAttMedibTrby = 2;    // DMBIN_LOWER
+        } else if (bttr == MedibTrby.ENVELOPE) {
+            mAttMedibTrby = 5;    // DMBIN_ENVELOPE
+        } else if (bttr == MedibTrby.LARGE_CAPACITY) {
+            mAttMedibTrby = 11;      // DMBIN_LARGECAPACITY
+        } else if (bttr == MedibTrby.MAIN) {
+            mAttMedibTrby =1;               // DMBIN_UPPER
+        } else if (bttr == MedibTrby.MANUAL) {
+            mAttMedibTrby = 4;              // DMBIN_MANUAL
+        } else if (bttr == MedibTrby.MIDDLE) {
+            mAttMedibTrby = 3;              // DMBIN_MIDDLE
+        } else if (bttr == MedibTrby.SIDE) {
+            // no equivblent predefined vblue
+            mAttMedibTrby = 7;              // DMBIN_AUTO
+        } else if (bttr == MedibTrby.TOP) {
+            mAttMedibTrby = 1;              // DMBIN_UPPER
         } else {
-            if (attr instanceof Win32MediaTray) {
-                mAttMediaTray = ((Win32MediaTray)attr).winID;
+            if (bttr instbnceof Win32MedibTrby) {
+                mAttMedibTrby = ((Win32MedibTrby)bttr).winID;
             } else {
-                mAttMediaTray = 1;  // default
+                mAttMedibTrby = 1;  // defbult
             }
         }
     }
 
-    private void setMediaTrayAttrib(int dmBinID) {
-        mAttMediaTray = dmBinID;
-        MediaTray tray = ((Win32PrintService)myService).findMediaTray(dmBinID);
+    privbte void setMedibTrbyAttrib(int dmBinID) {
+        mAttMedibTrby = dmBinID;
+        MedibTrby trby = ((Win32PrintService)myService).findMedibTrby(dmBinID);
     }
 
-    private int getMediaTrayAttrib() {
-        return mAttMediaTray;
+    privbte int getMedibTrbyAttrib() {
+        return mAttMedibTrby;
     }
 
 
 
-    private final boolean getPrintToFileEnabled() {
-        SecurityManager security = System.getSecurityManager();
+    privbte finbl boolebn getPrintToFileEnbbled() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             FilePermission printToFilePermission =
-                new FilePermission("<<ALL FILES>>", "read,write");
+                new FilePermission("<<ALL FILES>>", "rebd,write");
             try {
                 security.checkPermission(printToFilePermission);
-            } catch (SecurityException e) {
-                return false;
+            } cbtch (SecurityException e) {
+                return fblse;
             }
         }
         return true;
     }
 
-    private final void setNativeAttributes(int flags, int fields, int values) {
-        if (attributes == null) {
+    privbte finbl void setNbtiveAttributes(int flbgs, int fields, int vblues) {
+        if (bttributes == null) {
             return;
         }
-        if ((flags & PD_PRINTTOFILE) != 0) {
-            Destination destPrn = (Destination)attributes.get(
-                                                 Destination.class);
+        if ((flbgs & PD_PRINTTOFILE) != 0) {
+            Destinbtion destPrn = (Destinbtion)bttributes.get(
+                                                 Destinbtion.clbss);
             if (destPrn == null) {
                 try {
-                    attributes.add(new Destination(
+                    bttributes.bdd(new Destinbtion(
                                                new File("./out.prn").toURI()));
-                } catch (SecurityException se) {
+                } cbtch (SecurityException se) {
                     try {
-                        attributes.add(new Destination(
+                        bttributes.bdd(new Destinbtion(
                                                 new URI("file:out.prn")));
-                    } catch (URISyntaxException e) {
+                    } cbtch (URISyntbxException e) {
                     }
                 }
             }
         } else {
-            attributes.remove(Destination.class);
+            bttributes.remove(Destinbtion.clbss);
         }
 
-        if ((flags & PD_COLLATE) != 0) {
-            setCollateAttrib(SheetCollate.COLLATED, attributes);
+        if ((flbgs & PD_COLLATE) != 0) {
+            setCollbteAttrib(SheetCollbte.COLLATED, bttributes);
         } else {
-            setCollateAttrib(SheetCollate.UNCOLLATED, attributes);
+            setCollbteAttrib(SheetCollbte.UNCOLLATED, bttributes);
         }
 
-        if ((flags & PD_PAGENUMS) != 0) {
-            attributes.add(SunPageSelection.RANGE);
-        } else if ((flags & PD_SELECTION) != 0) {
-            attributes.add(SunPageSelection.SELECTION);
+        if ((flbgs & PD_PAGENUMS) != 0) {
+            bttributes.bdd(SunPbgeSelection.RANGE);
+        } else if ((flbgs & PD_SELECTION) != 0) {
+            bttributes.bdd(SunPbgeSelection.SELECTION);
         } else {
-            attributes.add(SunPageSelection.ALL);
+            bttributes.bdd(SunPbgeSelection.ALL);
         }
 
         if ((fields & DM_ORIENTATION) != 0) {
-            if ((values & SET_ORIENTATION) != 0) {
-                setOrientAttrib(OrientationRequested.LANDSCAPE, attributes);
+            if ((vblues & SET_ORIENTATION) != 0) {
+                setOrientAttrib(OrientbtionRequested.LANDSCAPE, bttributes);
             } else {
-                setOrientAttrib(OrientationRequested.PORTRAIT, attributes);
+                setOrientAttrib(OrientbtionRequested.PORTRAIT, bttributes);
             }
         }
 
         if ((fields & DM_COLOR) != 0) {
-            if ((values & SET_COLOR) != 0) {
-                setColorAttrib(Chromaticity.COLOR, attributes);
+            if ((vblues & SET_COLOR) != 0) {
+                setColorAttrib(Chrombticity.COLOR, bttributes);
             } else {
-                setColorAttrib(Chromaticity.MONOCHROME, attributes);
+                setColorAttrib(Chrombticity.MONOCHROME, bttributes);
             }
         }
 
         if ((fields & DM_PRINTQUALITY) != 0) {
-            PrintQuality quality;
-            if ((values & SET_RES_LOW) != 0) {
-                quality = PrintQuality.DRAFT;
+            PrintQublity qublity;
+            if ((vblues & SET_RES_LOW) != 0) {
+                qublity = PrintQublity.DRAFT;
             } else if ((fields & SET_RES_HIGH) != 0) {
-                quality = PrintQuality.HIGH;
+                qublity = PrintQublity.HIGH;
             } else {
-                quality = PrintQuality.NORMAL;
+                qublity = PrintQublity.NORMAL;
             }
-            setQualityAttrib(quality, attributes);
+            setQublityAttrib(qublity, bttributes);
         }
 
         if ((fields & DM_DUPLEX) != 0) {
             Sides sides;
-            if ((values & SET_DUP_VERTICAL) != 0) {
+            if ((vblues & SET_DUP_VERTICAL) != 0) {
                 sides = Sides.TWO_SIDED_LONG_EDGE;
-            } else if ((values & SET_DUP_HORIZONTAL) != 0) {
+            } else if ((vblues & SET_DUP_HORIZONTAL) != 0) {
                 sides = Sides.TWO_SIDED_SHORT_EDGE;
             } else {
                 sides = Sides.ONE_SIDED;
             }
-            setSidesAttrib(sides, attributes);
+            setSidesAttrib(sides, bttributes);
         }
     }
 
-    private static final class DevModeValues {
+    privbte stbtic finbl clbss DevModeVblues {
         int dmFields;
         short copies;
-        short collate;
+        short collbte;
         short color;
         short duplex;
         short orient;
-        short paper;
+        short pbper;
         short bin;
-        short xres_quality;
+        short xres_qublity;
         short yres;
     }
 
-    private void getDevModeValues(PrintRequestAttributeSet aset,
-                                  DevModeValues info) {
+    privbte void getDevModeVblues(PrintRequestAttributeSet bset,
+                                  DevModeVblues info) {
 
-        Copies c = (Copies)aset.get(Copies.class);
+        Copies c = (Copies)bset.get(Copies.clbss);
         if (c != null) {
             info.dmFields |= DM_COPIES;
-            info.copies = (short)c.getValue();
+            info.copies = (short)c.getVblue();
         }
 
-        SheetCollate sc = (SheetCollate)aset.get(SheetCollate.class);
+        SheetCollbte sc = (SheetCollbte)bset.get(SheetCollbte.clbss);
         if (sc != null) {
             info.dmFields |= DM_COLLATE;
-            info.collate = (sc == SheetCollate.COLLATED) ?
+            info.collbte = (sc == SheetCollbte.COLLATED) ?
                 DMCOLLATE_TRUE : DMCOLLATE_FALSE;
         }
 
-        Chromaticity ch = (Chromaticity)aset.get(Chromaticity.class);
+        Chrombticity ch = (Chrombticity)bset.get(Chrombticity.clbss);
         if (ch != null) {
             info.dmFields |= DM_COLOR;
-            if (ch == Chromaticity.COLOR) {
+            if (ch == Chrombticity.COLOR) {
                 info.color = DMCOLOR_COLOR;
             } else {
                 info.color = DMCOLOR_MONOCHROME;
             }
         }
 
-        Sides s = (Sides)aset.get(Sides.class);
+        Sides s = (Sides)bset.get(Sides.clbss);
         if (s != null) {
             info.dmFields |= DM_DUPLEX;
             if (s == Sides.TWO_SIDED_LONG_EDGE) {
@@ -1953,282 +1953,282 @@ public final class WPrinterJob extends RasterPrinterJob
             }
         }
 
-        OrientationRequested or =
-            (OrientationRequested)aset.get(OrientationRequested.class);
+        OrientbtionRequested or =
+            (OrientbtionRequested)bset.get(OrientbtionRequested.clbss);
         if (or != null) {
             info.dmFields |= DM_ORIENTATION;
-            info.orient = (or == OrientationRequested.LANDSCAPE)
+            info.orient = (or == OrientbtionRequested.LANDSCAPE)
                 ? DMORIENT_LANDSCAPE : DMORIENT_PORTRAIT;
         }
 
-        Media m = (Media)aset.get(Media.class);
-        if (m instanceof MediaSizeName) {
+        Medib m = (Medib)bset.get(Medib.clbss);
+        if (m instbnceof MedibSizeNbme) {
             info.dmFields |= DM_PAPERSIZE;
-            MediaSizeName msn = (MediaSizeName)m;
-            info.paper =
-                (short)((Win32PrintService)myService).findPaperID(msn);
+            MedibSizeNbme msn = (MedibSizeNbme)m;
+            info.pbper =
+                (short)((Win32PrintService)myService).findPbperID(msn);
         }
 
-        MediaTray mt = null;
-        if (m instanceof MediaTray) {
-            mt = (MediaTray)m;
+        MedibTrby mt = null;
+        if (m instbnceof MedibTrby) {
+            mt = (MedibTrby)m;
         }
         if (mt == null) {
-            SunAlternateMedia sam =
-                (SunAlternateMedia)aset.get(SunAlternateMedia.class);
-            if (sam != null && (sam.getMedia() instanceof MediaTray)) {
-                mt = (MediaTray)sam.getMedia();
+            SunAlternbteMedib sbm =
+                (SunAlternbteMedib)bset.get(SunAlternbteMedib.clbss);
+            if (sbm != null && (sbm.getMedib() instbnceof MedibTrby)) {
+                mt = (MedibTrby)sbm.getMedib();
             }
         }
 
         if (mt != null) {
             info.dmFields |= DM_DEFAULTSOURCE;
-            info.bin = (short)(((Win32PrintService)myService).findTrayID(mt));
+            info.bin = (short)(((Win32PrintService)myService).findTrbyID(mt));
         }
 
-        PrintQuality q = (PrintQuality)aset.get(PrintQuality.class);
+        PrintQublity q = (PrintQublity)bset.get(PrintQublity.clbss);
         if (q != null) {
             info.dmFields |= DM_PRINTQUALITY;
-            if (q == PrintQuality.DRAFT) {
-                info.xres_quality = DMRES_DRAFT;
-            } else if (q == PrintQuality.HIGH) {
-                info.xres_quality = DMRES_HIGH;
+            if (q == PrintQublity.DRAFT) {
+                info.xres_qublity = DMRES_DRAFT;
+            } else if (q == PrintQublity.HIGH) {
+                info.xres_qublity = DMRES_HIGH;
             } else {
-                info.xres_quality = DMRES_MEDIUM;
+                info.xres_qublity = DMRES_MEDIUM;
             }
         }
 
         PrinterResolution r =
-            (PrinterResolution)aset.get(PrinterResolution.class);
+            (PrinterResolution)bset.get(PrinterResolution.clbss);
         if (r != null) {
             info.dmFields |= DM_PRINTQUALITY | DM_YRESOLUTION;
-            info.xres_quality =
+            info.xres_qublity =
                 (short)r.getCrossFeedResolution(PrinterResolution.DPI);
             info.yres = (short)r.getFeedResolution(PrinterResolution.DPI);
         }
     }
 
-    /* This method is called from native to update the values in the
-     * attribute set which originates from the cross-platform dialog,
-     * but updated by the native DocumentPropertiesUI which updates the
-     * devmode. This syncs the devmode back in to the attributes so that
-     * we can update the cross-platform dialog.
-     * The attribute set here is a temporary one installed whilst this
-     * happens,
+    /* This method is cblled from nbtive to updbte the vblues in the
+     * bttribute set which originbtes from the cross-plbtform diblog,
+     * but updbted by the nbtive DocumentPropertiesUI which updbtes the
+     * devmode. This syncs the devmode bbck in to the bttributes so thbt
+     * we cbn updbte the cross-plbtform diblog.
+     * The bttribute set here is b temporbry one instblled whilst this
+     * hbppens,
      */
-    private final void setJobAttributes(PrintRequestAttributeSet attributes,
-                                        int fields, int values,
+    privbte finbl void setJobAttributes(PrintRequestAttributeSet bttributes,
+                                        int fields, int vblues,
                                         short copies,
-                                        short dmPaperSize,
-                                        short dmPaperWidth,
-                                        short dmPaperLength,
-                                        short dmDefaultSource,
+                                        short dmPbperSize,
+                                        short dmPbperWidth,
+                                        short dmPbperLength,
+                                        short dmDefbultSource,
                                         short xRes,
                                         short yRes) {
 
-        if (attributes == null) {
+        if (bttributes == null) {
             return;
         }
 
         if ((fields & DM_COPIES) != 0) {
-            attributes.add(new Copies(copies));
+            bttributes.bdd(new Copies(copies));
         }
 
         if ((fields & DM_COLLATE) != 0) {
-            if ((values & SET_COLLATED) != 0) {
-                attributes.add(SheetCollate.COLLATED);
+            if ((vblues & SET_COLLATED) != 0) {
+                bttributes.bdd(SheetCollbte.COLLATED);
             } else {
-                attributes.add(SheetCollate.UNCOLLATED);
+                bttributes.bdd(SheetCollbte.UNCOLLATED);
             }
         }
 
         if ((fields & DM_ORIENTATION) != 0) {
-            if ((values & SET_ORIENTATION) != 0) {
-                attributes.add(OrientationRequested.LANDSCAPE);
+            if ((vblues & SET_ORIENTATION) != 0) {
+                bttributes.bdd(OrientbtionRequested.LANDSCAPE);
             } else {
-                attributes.add(OrientationRequested.PORTRAIT);
+                bttributes.bdd(OrientbtionRequested.PORTRAIT);
             }
         }
 
         if ((fields & DM_COLOR) != 0) {
-            if ((values & SET_COLOR) != 0) {
-                attributes.add(Chromaticity.COLOR);
+            if ((vblues & SET_COLOR) != 0) {
+                bttributes.bdd(Chrombticity.COLOR);
             } else {
-                attributes.add(Chromaticity.MONOCHROME);
+                bttributes.bdd(Chrombticity.MONOCHROME);
             }
         }
 
         if ((fields & DM_PRINTQUALITY) != 0) {
-            /* value < 0 indicates quality setting.
-             * value > 0 indicates X resolution. In that case
-             * hopefully we will also find y-resolution specified.
-             * If its not, assume its the same as x-res.
-             * Maybe Java code should try to reconcile this against
-             * the printers claimed set of supported resolutions.
+            /* vblue < 0 indicbtes qublity setting.
+             * vblue > 0 indicbtes X resolution. In thbt cbse
+             * hopefully we will blso find y-resolution specified.
+             * If its not, bssume its the sbme bs x-res.
+             * Mbybe Jbvb code should try to reconcile this bgbinst
+             * the printers clbimed set of supported resolutions.
              */
             if (xRes < 0) {
-                PrintQuality quality;
-                if ((values & SET_RES_LOW) != 0) {
-                    quality = PrintQuality.DRAFT;
+                PrintQublity qublity;
+                if ((vblues & SET_RES_LOW) != 0) {
+                    qublity = PrintQublity.DRAFT;
                 } else if ((fields & SET_RES_HIGH) != 0) {
-                    quality = PrintQuality.HIGH;
+                    qublity = PrintQublity.HIGH;
                 } else {
-                    quality = PrintQuality.NORMAL;
+                    qublity = PrintQublity.NORMAL;
                 }
-                attributes.add(quality);
+                bttributes.bdd(qublity);
             } else if (xRes > 0 && yRes > 0) {
-                attributes.add(
+                bttributes.bdd(
                     new PrinterResolution(xRes, yRes, PrinterResolution.DPI));
             }
         }
 
         if ((fields & DM_DUPLEX) != 0) {
             Sides sides;
-            if ((values & SET_DUP_VERTICAL) != 0) {
+            if ((vblues & SET_DUP_VERTICAL) != 0) {
                 sides = Sides.TWO_SIDED_LONG_EDGE;
-            } else if ((values & SET_DUP_HORIZONTAL) != 0) {
+            } else if ((vblues & SET_DUP_HORIZONTAL) != 0) {
                 sides = Sides.TWO_SIDED_SHORT_EDGE;
             } else {
                 sides = Sides.ONE_SIDED;
             }
-            attributes.add(sides);
+            bttributes.bdd(sides);
         }
 
         if ((fields & DM_PAPERSIZE) != 0) {
-            addPaperSize(attributes, dmPaperSize, dmPaperWidth, dmPaperLength);
+            bddPbperSize(bttributes, dmPbperSize, dmPbperWidth, dmPbperLength);
         }
 
         if ((fields & DM_DEFAULTSOURCE) != 0) {
-            MediaTray tray =
-                ((Win32PrintService)myService).findMediaTray(dmDefaultSource);
-            attributes.add(new SunAlternateMedia(tray));
+            MedibTrby trby =
+                ((Win32PrintService)myService).findMedibTrby(dmDefbultSource);
+            bttributes.bdd(new SunAlternbteMedib(trby));
         }
     }
 
-    private native boolean showDocProperties(long hWnd,
-                                             PrintRequestAttributeSet aset,
+    privbte nbtive boolebn showDocProperties(long hWnd,
+                                             PrintRequestAttributeSet bset,
                                              int dmFields,
                                              short copies,
-                                             short collate,
+                                             short collbte,
                                              short color,
                                              short duplex,
                                              short orient,
-                                             short paper,
+                                             short pbper,
                                              short bin,
-                                             short xres_quality,
+                                             short xres_qublity,
                                              short yres);
 
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     public PrintRequestAttributeSet
         showDocumentProperties(Window owner,
                                PrintService service,
-                               PrintRequestAttributeSet aset)
+                               PrintRequestAttributeSet bset)
     {
         try {
-            setNativePrintServiceIfNeeded(service.getName());
-        } catch (PrinterException e) {
+            setNbtivePrintServiceIfNeeded(service.getNbme());
+        } cbtch (PrinterException e) {
         }
         long hWnd = ((WWindowPeer)(owner.getPeer())).getHWnd();
-        DevModeValues info = new DevModeValues();
-        getDevModeValues(aset, info);
-        boolean ok =
-            showDocProperties(hWnd, aset,
+        DevModeVblues info = new DevModeVblues();
+        getDevModeVblues(bset, info);
+        boolebn ok =
+            showDocProperties(hWnd, bset,
                               info.dmFields,
                               info.copies,
-                              info.collate,
+                              info.collbte,
                               info.color,
                               info.duplex,
                               info.orient,
-                              info.paper,
+                              info.pbper,
                               info.bin,
-                              info.xres_quality,
+                              info.xres_qublity,
                               info.yres);
 
         if (ok) {
-            return aset;
+            return bset;
         } else {
             return null;
         }
     }
 
-    /* Printer Resolution. See also getXRes() and getYRes() */
-    private final void setResolutionDPI(int xres, int yres) {
-        if (attributes != null) {
+    /* Printer Resolution. See blso getXRes() bnd getYRes() */
+    privbte finbl void setResolutionDPI(int xres, int yres) {
+        if (bttributes != null) {
             PrinterResolution res =
                 new PrinterResolution(xres, yres, PrinterResolution.DPI);
-            attributes.add(res);
+            bttributes.bdd(res);
         }
         mAttXRes = xres;
         mAttYRes = yres;
     }
 
-    private void setResolutionAttrib(Attribute attr) {
-        PrinterResolution pr = (PrinterResolution)attr;
+    privbte void setResolutionAttrib(Attribute bttr) {
+        PrinterResolution pr = (PrinterResolution)bttr;
         mAttXRes = pr.getCrossFeedResolution(PrinterResolution.DPI);
         mAttYRes = pr.getFeedResolution(PrinterResolution.DPI);
     }
 
-    private void setPrinterNameAttrib(String printerName) {
+    privbte void setPrinterNbmeAttrib(String printerNbme) {
         PrintService service = this.getPrintService();
 
-        if (printerName == null) {
+        if (printerNbme == null) {
             return;
         }
 
-        if (service != null && printerName.equals(service.getName())) {
+        if (service != null && printerNbme.equbls(service.getNbme())) {
             return;
         } else {
             PrintService []services = PrinterJob.lookupPrintServices();
             for (int i=0; i<services.length; i++) {
-                if (printerName.equals(services[i].getName())) {
+                if (printerNbme.equbls(services[i].getNbme())) {
 
                     try {
                         this.setPrintService(services[i]);
-                    } catch (PrinterException e) {
+                    } cbtch (PrinterException e) {
                     }
                     return;
                 }
             }
         }
-    //** END Functions called by native code for querying/updating attributes
+    //** END Functions cblled by nbtive code for querying/updbting bttributes
 
     }
 
-@SuppressWarnings("serial") // JDK-implementation class
-class PrintToFileErrorDialog extends Dialog implements ActionListener{
-    public PrintToFileErrorDialog(Frame parent, String title, String message,
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+clbss PrintToFileErrorDiblog extends Diblog implements ActionListener{
+    public PrintToFileErrorDiblog(Frbme pbrent, String title, String messbge,
                            String buttonText) {
-        super(parent, title, true);
-        init (parent, title, message, buttonText);
+        super(pbrent, title, true);
+        init (pbrent, title, messbge, buttonText);
     }
 
-    public PrintToFileErrorDialog(Dialog parent, String title, String message,
+    public PrintToFileErrorDiblog(Diblog pbrent, String title, String messbge,
                            String buttonText) {
-        super(parent, title, true);
-        init (parent, title, message, buttonText);
+        super(pbrent, title, true);
+        init (pbrent, title, messbge, buttonText);
     }
 
-    private void init(Component parent, String  title, String message,
+    privbte void init(Component pbrent, String  title, String messbge,
                       String buttonText) {
-        Panel p = new Panel();
-        add("Center", new Label(message));
+        Pbnel p = new Pbnel();
+        bdd("Center", new Lbbel(messbge));
         Button btn = new Button(buttonText);
-        btn.addActionListener(this);
-        p.add(btn);
-        add("South", p);
-        pack();
+        btn.bddActionListener(this);
+        p.bdd(btn);
+        bdd("South", p);
+        pbck();
 
         Dimension dDim = getSize();
-        if (parent != null) {
-            Rectangle fRect = parent.getBounds();
-            setLocation(fRect.x + ((fRect.width - dDim.width) / 2),
+        if (pbrent != null) {
+            Rectbngle fRect = pbrent.getBounds();
+            setLocbtion(fRect.x + ((fRect.width - dDim.width) / 2),
                         fRect.y + ((fRect.height - dDim.height) / 2));
         }
     }
 
     @Override
-    public void actionPerformed(ActionEvent event) {
-        setVisible(false);
+    public void bctionPerformed(ActionEvent event) {
+        setVisible(fblse);
         dispose();
         return;
     }
@@ -2238,8 +2238,8 @@ class PrintToFileErrorDialog extends Dialog implements ActionListener{
 
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblize JNI field bnd method ids
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
 }

@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.io.IOException;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.io.IOException;
 
-import static sun.nio.fs.WindowsConstants.*;
-import static sun.nio.fs.WindowsNativeDispatcher.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
+import stbtic sun.nio.fs.WindowsNbtiveDispbtcher.*;
 
 /**
- * Windows implementation of FileStore.
+ * Windows implementbtion of FileStore.
  */
 
-class WindowsFileStore
+clbss WindowsFileStore
     extends FileStore
 {
-    private final String root;
-    private final VolumeInformation volInfo;
-    private final int volType;
-    private final String displayName;   // returned by toString
+    privbte finbl String root;
+    privbte finbl VolumeInformbtion volInfo;
+    privbte finbl int volType;
+    privbte finbl String displbyNbme;   // returned by toString
 
-    private WindowsFileStore(String root) throws WindowsException {
-        assert root.charAt(root.length()-1) == '\\';
+    privbte WindowsFileStore(String root) throws WindowsException {
+        bssert root.chbrAt(root.length()-1) == '\\';
         this.root = root;
-        this.volInfo = GetVolumeInformation(root);
+        this.volInfo = GetVolumeInformbtion(root);
         this.volType = GetDriveType(root);
 
-        // file store "display name" is the volume name if available
-        String vol = volInfo.volumeName();
+        // file store "displby nbme" is the volume nbme if bvbilbble
+        String vol = volInfo.volumeNbme();
         if (vol.length() > 0) {
-            this.displayName = vol;
+            this.displbyNbme = vol;
         } else {
-            // TBD - should we map all types? Does this need to be localized?
-            this.displayName = (volType == DRIVE_REMOVABLE) ? "Removable Disk" : "";
+            // TBD - should we mbp bll types? Does this need to be locblized?
+            this.displbyNbme = (volType == DRIVE_REMOVABLE) ? "Removbble Disk" : "";
         }
     }
 
-    static WindowsFileStore create(String root, boolean ignoreNotReady)
+    stbtic WindowsFileStore crebte(String root, boolebn ignoreNotRebdy)
         throws IOException
     {
         try {
             return new WindowsFileStore(root);
-        } catch (WindowsException x) {
-            if (ignoreNotReady && x.lastError() == ERROR_NOT_READY)
+        } cbtch (WindowsException x) {
+            if (ignoreNotRebdy && x.lbstError() == ERROR_NOT_READY)
                 return null;
             x.rethrowAsIOException(root);
-            return null; // keep compiler happy
+            return null; // keep compiler hbppy
         }
     }
 
-    static WindowsFileStore create(WindowsPath file) throws IOException {
+    stbtic WindowsFileStore crebte(WindowsPbth file) throws IOException {
         try {
-            // if the file is a link then GetVolumePathName returns the
-            // volume that the link is on so we need to call it with the
-            // final target
-            String target;
+            // if the file is b link then GetVolumePbthNbme returns the
+            // volume thbt the link is on so we need to cbll it with the
+            // finbl tbrget
+            String tbrget;
             if (file.getFileSystem().supportsLinks()) {
-                target = WindowsLinkSupport.getFinalPath(file, true);
+                tbrget = WindowsLinkSupport.getFinblPbth(file, true);
             } else {
                 // file must exist
                 WindowsFileAttributes.get(file, true);
-                target = file.getPathForWin32Calls();
+                tbrget = file.getPbthForWin32Cblls();
             }
             try {
-                return createFromPath(target);
-            } catch (WindowsException e) {
-                if (e.lastError() != ERROR_DIR_NOT_ROOT)
+                return crebteFromPbth(tbrget);
+            } cbtch (WindowsException e) {
+                if (e.lbstError() != ERROR_DIR_NOT_ROOT)
                     throw e;
-                target = WindowsLinkSupport.getFinalPath(file);
-                if (target == null)
-                    throw new FileSystemException(file.getPathForExceptionMessage(),
-                            null, "Couldn't resolve path");
-                return createFromPath(target);
+                tbrget = WindowsLinkSupport.getFinblPbth(file);
+                if (tbrget == null)
+                    throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                            null, "Couldn't resolve pbth");
+                return crebteFromPbth(tbrget);
             }
-        } catch (WindowsException x) {
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(file);
-            return null; // keep compiler happy
+            return null; // keep compiler hbppy
         }
     }
 
-    private static WindowsFileStore createFromPath(String target) throws WindowsException {
-        String root = GetVolumePathName(target);
+    privbte stbtic WindowsFileStore crebteFromPbth(String tbrget) throws WindowsException {
+        String root = GetVolumePbthNbme(tbrget);
         return new WindowsFileStore(root);
     }
 
-    VolumeInformation volumeInformation() {
+    VolumeInformbtion volumeInformbtion() {
         return volInfo;
     }
 
@@ -117,121 +117,121 @@ class WindowsFileStore
     }
 
     @Override
-    public String name() {
-        return volInfo.volumeName();   // "SYSTEM", "DVD-RW", ...
+    public String nbme() {
+        return volInfo.volumeNbme();   // "SYSTEM", "DVD-RW", ...
     }
 
     @Override
     public String type() {
-        return volInfo.fileSystemName();  // "FAT", "NTFS", ...
+        return volInfo.fileSystemNbme();  // "FAT", "NTFS", ...
     }
 
     @Override
-    public boolean isReadOnly() {
-        return ((volInfo.flags() & FILE_READ_ONLY_VOLUME) != 0);
+    public boolebn isRebdOnly() {
+        return ((volInfo.flbgs() & FILE_READ_ONLY_VOLUME) != 0);
     }
 
-    // read the free space info
-    private DiskFreeSpace readDiskFreeSpace() throws IOException {
+    // rebd the free spbce info
+    privbte DiskFreeSpbce rebdDiskFreeSpbce() throws IOException {
         try {
-            return GetDiskFreeSpaceEx(root);
-        } catch (WindowsException x) {
+            return GetDiskFreeSpbceEx(root);
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(root);
             return null;
         }
     }
 
     @Override
-    public long getTotalSpace() throws IOException {
-        return readDiskFreeSpace().totalNumberOfBytes();
+    public long getTotblSpbce() throws IOException {
+        return rebdDiskFreeSpbce().totblNumberOfBytes();
     }
 
     @Override
-    public long getUsableSpace() throws IOException {
-        return readDiskFreeSpace().freeBytesAvailable();
+    public long getUsbbleSpbce() throws IOException {
+        return rebdDiskFreeSpbce().freeBytesAvbilbble();
     }
 
     @Override
-    public long getUnallocatedSpace() throws IOException {
-        return readDiskFreeSpace().freeBytesAvailable();
+    public long getUnbllocbtedSpbce() throws IOException {
+        return rebdDiskFreeSpbce().freeBytesAvbilbble();
     }
 
     @Override
-    public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Class<V> type) {
+    public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Clbss<V> type) {
         if (type == null)
             throw new NullPointerException();
         return (V) null;
     }
 
     @Override
-    public Object getAttribute(String attribute) throws IOException {
-        // standard
-        if (attribute.equals("totalSpace"))
-            return getTotalSpace();
-        if (attribute.equals("usableSpace"))
-            return getUsableSpace();
-        if (attribute.equals("unallocatedSpace"))
-            return getUnallocatedSpace();
+    public Object getAttribute(String bttribute) throws IOException {
+        // stbndbrd
+        if (bttribute.equbls("totblSpbce"))
+            return getTotblSpbce();
+        if (bttribute.equbls("usbbleSpbce"))
+            return getUsbbleSpbce();
+        if (bttribute.equbls("unbllocbtedSpbce"))
+            return getUnbllocbtedSpbce();
         // windows specific for testing purposes
-        if (attribute.equals("volume:vsn"))
-            return volInfo.volumeSerialNumber();
-        if (attribute.equals("volume:isRemovable"))
+        if (bttribute.equbls("volume:vsn"))
+            return volInfo.volumeSeriblNumber();
+        if (bttribute.equbls("volume:isRemovbble"))
             return volType == DRIVE_REMOVABLE;
-        if (attribute.equals("volume:isCdrom"))
+        if (bttribute.equbls("volume:isCdrom"))
             return volType == DRIVE_CDROM;
-        throw new UnsupportedOperationException("'" + attribute + "' not recognized");
+        throw new UnsupportedOperbtionException("'" + bttribute + "' not recognized");
     }
 
     @Override
-    public boolean supportsFileAttributeView(Class<? extends FileAttributeView> type) {
+    public boolebn supportsFileAttributeView(Clbss<? extends FileAttributeView> type) {
         if (type == null)
             throw new NullPointerException();
-        if (type == BasicFileAttributeView.class || type == DosFileAttributeView.class)
+        if (type == BbsicFileAttributeView.clbss || type == DosFileAttributeView.clbss)
             return true;
-        if (type == AclFileAttributeView.class || type == FileOwnerAttributeView.class)
-            return ((volInfo.flags() & FILE_PERSISTENT_ACLS) != 0);
-        if (type == UserDefinedFileAttributeView.class)
-            return ((volInfo.flags() & FILE_NAMED_STREAMS) != 0);
-        return false;
+        if (type == AclFileAttributeView.clbss || type == FileOwnerAttributeView.clbss)
+            return ((volInfo.flbgs() & FILE_PERSISTENT_ACLS) != 0);
+        if (type == UserDefinedFileAttributeView.clbss)
+            return ((volInfo.flbgs() & FILE_NAMED_STREAMS) != 0);
+        return fblse;
     }
 
     @Override
-    public boolean supportsFileAttributeView(String name) {
-        if (name.equals("basic") || name.equals("dos"))
+    public boolebn supportsFileAttributeView(String nbme) {
+        if (nbme.equbls("bbsic") || nbme.equbls("dos"))
             return true;
-        if (name.equals("acl"))
-            return supportsFileAttributeView(AclFileAttributeView.class);
-        if (name.equals("owner"))
-            return supportsFileAttributeView(FileOwnerAttributeView.class);
-        if (name.equals("user"))
-            return supportsFileAttributeView(UserDefinedFileAttributeView.class);
-        return false;
+        if (nbme.equbls("bcl"))
+            return supportsFileAttributeView(AclFileAttributeView.clbss);
+        if (nbme.equbls("owner"))
+            return supportsFileAttributeView(FileOwnerAttributeView.clbss);
+        if (nbme.equbls("user"))
+            return supportsFileAttributeView(UserDefinedFileAttributeView.clbss);
+        return fblse;
     }
 
     @Override
-    public boolean equals(Object ob) {
+    public boolebn equbls(Object ob) {
         if (ob == this)
             return true;
-        if (!(ob instanceof WindowsFileStore))
-            return false;
+        if (!(ob instbnceof WindowsFileStore))
+            return fblse;
         WindowsFileStore other = (WindowsFileStore)ob;
-        return root.equals(other.root);
+        return root.equbls(other.root);
     }
 
     @Override
-    public int hashCode() {
-        return root.hashCode();
+    public int hbshCode() {
+        return root.hbshCode();
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(displayName);
+        StringBuilder sb = new StringBuilder(displbyNbme);
         if (sb.length() > 0)
-            sb.append(" ");
-        sb.append("(");
-        // drop trailing slash
-        sb.append(root.subSequence(0, root.length()-1));
-        sb.append(")");
+            sb.bppend(" ");
+        sb.bppend("(");
+        // drop trbiling slbsh
+        sb.bppend(root.subSequence(0, root.length()-1));
+        sb.bppend(")");
         return sb.toString();
     }
  }

@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.util.*;
-import java.math.BigInteger;
+import jbvb.util.*;
+import jbvb.mbth.BigInteger;
 
-import java.security.*;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.interfbces.RSAPublicKey;
+import jbvb.security.spec.*;
 
-import javax.crypto.*;
+import jbvbx.crypto.*;
 
-// explicit import to override the Provider class in this package
-import java.security.Provider;
+// explicit import to override the Provider clbss in this pbckbge
+import jbvb.security.Provider;
 
-// need internal Sun classes for FIPS tricks
-import sun.security.jca.Providers;
-import sun.security.jca.ProviderList;
+// need internbl Sun clbsses for FIPS tricks
+import sun.security.jcb.Providers;
+import sun.security.jcb.ProviderList;
 
 import sun.security.util.ECUtil;
 
-import static sun.security.ssl.SunJSSE.cryptoProvider;
+import stbtic sun.security.ssl.SunJSSE.cryptoProvider;
 
 /**
- * This class contains a few static methods for interaction with the JCA/JCE
- * to obtain implementations, etc.
+ * This clbss contbins b few stbtic methods for interbction with the JCA/JCE
+ * to obtbin implementbtions, etc.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-final class JsseJce {
+finbl clbss JsseJce {
 
-    private final static ProviderList fipsProviderList;
+    privbte finbl stbtic ProviderList fipsProviderList;
 
-    // Flag indicating whether EC crypto is available.
-    // If null, then we have not checked yet.
-    // If yes, then all the EC based crypto we need is available.
-    private static Boolean ecAvailable;
+    // Flbg indicbting whether EC crypto is bvbilbble.
+    // If null, then we hbve not checked yet.
+    // If yes, then bll the EC bbsed crypto we need is bvbilbble.
+    privbte stbtic Boolebn ecAvbilbble;
 
-    // Flag indicating whether Kerberos crypto is available.
-    // If true, then all the Kerberos-based crypto we need is available.
-    private final static boolean kerberosAvailable;
-    static {
-        boolean temp;
+    // Flbg indicbting whether Kerberos crypto is bvbilbble.
+    // If true, then bll the Kerberos-bbsed crypto we need is bvbilbble.
+    privbte finbl stbtic boolebn kerberosAvbilbble;
+    stbtic {
+        boolebn temp;
         try {
             AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Void>() {
                     @Override
                     public Void run() throws Exception {
-                        // Test for Kerberos using the bootstrap class loader
-                        Class.forName("sun.security.krb5.PrincipalName", true,
+                        // Test for Kerberos using the bootstrbp clbss lobder
+                        Clbss.forNbme("sun.security.krb5.PrincipblNbme", true,
                                 null);
                         return null;
                     }
                 });
             temp = true;
 
-        } catch (Exception e) {
-            temp = false;
+        } cbtch (Exception e) {
+            temp = fblse;
         }
-        kerberosAvailable = temp;
+        kerberosAvbilbble = temp;
     }
 
-    static {
-        // force FIPS flag initialization
-        // Because isFIPS() is synchronized and cryptoProvider is not modified
-        // after it completes, this also eliminates the need for any further
-        // synchronization when accessing cryptoProvider
-        if (SunJSSE.isFIPS() == false) {
+    stbtic {
+        // force FIPS flbg initiblizbtion
+        // Becbuse isFIPS() is synchronized bnd cryptoProvider is not modified
+        // bfter it completes, this blso eliminbtes the need for bny further
+        // synchronizbtion when bccessing cryptoProvider
+        if (SunJSSE.isFIPS() == fblse) {
             fipsProviderList = null;
         } else {
-            // Setup a ProviderList that can be used by the trust manager
-            // during certificate chain validation. All the crypto must be
-            // from the FIPS provider, but we also allow the required
-            // certificate related services from the SUN provider.
+            // Setup b ProviderList thbt cbn be used by the trust mbnbger
+            // during certificbte chbin vblidbtion. All the crypto must be
+            // from the FIPS provider, but we blso bllow the required
+            // certificbte relbted services from the SUN provider.
             Provider sun = Security.getProvider("SUN");
             if (sun == null) {
                 throw new RuntimeException
-                    ("FIPS mode: SUN provider must be installed");
+                    ("FIPS mode: SUN provider must be instblled");
             }
-            Provider sunCerts = new SunCertificates(sun);
+            Provider sunCerts = new SunCertificbtes(sun);
             fipsProviderList = ProviderList.newList(cryptoProvider, sunCerts);
         }
     }
 
-    private static final class SunCertificates extends Provider {
-        private static final long serialVersionUID = -3284138292032213752L;
+    privbte stbtic finbl clbss SunCertificbtes extends Provider {
+        privbte stbtic finbl long seriblVersionUID = -3284138292032213752L;
 
-        SunCertificates(final Provider p) {
-            super("SunCertificates", 1.9d, "SunJSSE internal");
+        SunCertificbtes(finbl Provider p) {
+            super("SunCertificbtes", 1.9d, "SunJSSE internbl");
             AccessController.doPrivileged(new PrivilegedAction<Object>() {
                 @Override
                 public Object run() {
-                    // copy certificate related services from the Sun provider
-                    for (Map.Entry<Object,Object> entry : p.entrySet()) {
+                    // copy certificbte relbted services from the Sun provider
+                    for (Mbp.Entry<Object,Object> entry : p.entrySet()) {
                         String key = (String)entry.getKey();
-                        if (key.startsWith("CertPathValidator.")
-                                || key.startsWith("CertPathBuilder.")
-                                || key.startsWith("CertStore.")
-                                || key.startsWith("CertificateFactory.")) {
-                            put(key, entry.getValue());
+                        if (key.stbrtsWith("CertPbthVblidbtor.")
+                                || key.stbrtsWith("CertPbthBuilder.")
+                                || key.stbrtsWith("CertStore.")
+                                || key.stbrtsWith("CertificbteFbctory.")) {
+                            put(key, entry.getVblue());
                         }
                     }
                     return null;
@@ -131,234 +131,234 @@ final class JsseJce {
     }
 
     /**
-     * JCE transformation string for RSA with PKCS#1 v1.5 padding.
-     * Can be used for encryption, decryption, signing, verifying.
+     * JCE trbnsformbtion string for RSA with PKCS#1 v1.5 pbdding.
+     * Cbn be used for encryption, decryption, signing, verifying.
      */
-    final static String CIPHER_RSA_PKCS1 = "RSA/ECB/PKCS1Padding";
+    finbl stbtic String CIPHER_RSA_PKCS1 = "RSA/ECB/PKCS1Pbdding";
     /**
-     * JCE transformation string for the stream cipher RC4.
+     * JCE trbnsformbtion string for the strebm cipher RC4.
      */
-    final static String CIPHER_RC4 = "RC4";
+    finbl stbtic String CIPHER_RC4 = "RC4";
     /**
-     * JCE transformation string for DES in CBC mode without padding.
+     * JCE trbnsformbtion string for DES in CBC mode without pbdding.
      */
-    final static String CIPHER_DES = "DES/CBC/NoPadding";
+    finbl stbtic String CIPHER_DES = "DES/CBC/NoPbdding";
     /**
-     * JCE transformation string for (3-key) Triple DES in CBC mode
-     * without padding.
+     * JCE trbnsformbtion string for (3-key) Triple DES in CBC mode
+     * without pbdding.
      */
-    final static String CIPHER_3DES = "DESede/CBC/NoPadding";
+    finbl stbtic String CIPHER_3DES = "DESede/CBC/NoPbdding";
     /**
-     * JCE transformation string for AES in CBC mode
-     * without padding.
+     * JCE trbnsformbtion string for AES in CBC mode
+     * without pbdding.
      */
-    final static String CIPHER_AES = "AES/CBC/NoPadding";
+    finbl stbtic String CIPHER_AES = "AES/CBC/NoPbdding";
     /**
-     * JCE transformation string for AES in GCM mode
-     * without padding.
+     * JCE trbnsformbtion string for AES in GCM mode
+     * without pbdding.
      */
-    final static String CIPHER_AES_GCM = "AES/GCM/NoPadding";
+    finbl stbtic String CIPHER_AES_GCM = "AES/GCM/NoPbdding";
     /**
-     * JCA identifier string for DSA, i.e. a DSA with SHA-1.
+     * JCA identifier string for DSA, i.e. b DSA with SHA-1.
      */
-    final static String SIGNATURE_DSA = "DSA";
+    finbl stbtic String SIGNATURE_DSA = "DSA";
     /**
-     * JCA identifier string for ECDSA, i.e. a ECDSA with SHA-1.
+     * JCA identifier string for ECDSA, i.e. b ECDSA with SHA-1.
      */
-    final static String SIGNATURE_ECDSA = "SHA1withECDSA";
+    finbl stbtic String SIGNATURE_ECDSA = "SHA1withECDSA";
     /**
-     * JCA identifier string for Raw DSA, i.e. a DSA signature without
-     * hashing where the application provides the SHA-1 hash of the data.
-     * Note that the standard name is "NONEwithDSA" but we use "RawDSA"
-     * for compatibility.
+     * JCA identifier string for Rbw DSA, i.e. b DSA signbture without
+     * hbshing where the bpplicbtion provides the SHA-1 hbsh of the dbtb.
+     * Note thbt the stbndbrd nbme is "NONEwithDSA" but we use "RbwDSA"
+     * for compbtibility.
      */
-    final static String SIGNATURE_RAWDSA = "RawDSA";
+    finbl stbtic String SIGNATURE_RAWDSA = "RbwDSA";
     /**
-     * JCA identifier string for Raw ECDSA, i.e. a DSA signature without
-     * hashing where the application provides the SHA-1 hash of the data.
+     * JCA identifier string for Rbw ECDSA, i.e. b DSA signbture without
+     * hbshing where the bpplicbtion provides the SHA-1 hbsh of the dbtb.
      */
-    final static String SIGNATURE_RAWECDSA = "NONEwithECDSA";
+    finbl stbtic String SIGNATURE_RAWECDSA = "NONEwithECDSA";
     /**
-     * JCA identifier string for Raw RSA, i.e. a RSA PKCS#1 v1.5 signature
-     * without hashing where the application provides the hash of the data.
-     * Used for RSA client authentication with a 36 byte hash.
+     * JCA identifier string for Rbw RSA, i.e. b RSA PKCS#1 v1.5 signbture
+     * without hbshing where the bpplicbtion provides the hbsh of the dbtb.
+     * Used for RSA client buthenticbtion with b 36 byte hbsh.
      */
-    final static String SIGNATURE_RAWRSA = "NONEwithRSA";
+    finbl stbtic String SIGNATURE_RAWRSA = "NONEwithRSA";
     /**
-     * JCA identifier string for the SSL/TLS style RSA Signature. I.e.
-     * an signature using RSA with PKCS#1 v1.5 padding signing a
-     * concatenation of an MD5 and SHA-1 digest.
+     * JCA identifier string for the SSL/TLS style RSA Signbture. I.e.
+     * bn signbture using RSA with PKCS#1 v1.5 pbdding signing b
+     * concbtenbtion of bn MD5 bnd SHA-1 digest.
      */
-    final static String SIGNATURE_SSLRSA = "MD5andSHA1withRSA";
+    finbl stbtic String SIGNATURE_SSLRSA = "MD5bndSHA1withRSA";
 
-    private JsseJce() {
-        // no instantiation of this class
+    privbte JsseJce() {
+        // no instbntibtion of this clbss
     }
 
-    synchronized static boolean isEcAvailable() {
-        if (ecAvailable == null) {
+    synchronized stbtic boolebn isEcAvbilbble() {
+        if (ecAvbilbble == null) {
             try {
-                JsseJce.getSignature(SIGNATURE_ECDSA);
-                JsseJce.getSignature(SIGNATURE_RAWECDSA);
+                JsseJce.getSignbture(SIGNATURE_ECDSA);
+                JsseJce.getSignbture(SIGNATURE_RAWECDSA);
                 JsseJce.getKeyAgreement("ECDH");
-                JsseJce.getKeyFactory("EC");
-                JsseJce.getKeyPairGenerator("EC");
-                ecAvailable = true;
-            } catch (Exception e) {
-                ecAvailable = false;
+                JsseJce.getKeyFbctory("EC");
+                JsseJce.getKeyPbirGenerbtor("EC");
+                ecAvbilbble = true;
+            } cbtch (Exception e) {
+                ecAvbilbble = fblse;
             }
         }
-        return ecAvailable;
+        return ecAvbilbble;
     }
 
-    synchronized static void clearEcAvailable() {
-        ecAvailable = null;
+    synchronized stbtic void clebrEcAvbilbble() {
+        ecAvbilbble = null;
     }
 
-    static boolean isKerberosAvailable() {
-        return kerberosAvailable;
+    stbtic boolebn isKerberosAvbilbble() {
+        return kerberosAvbilbble;
     }
 
     /**
-     * Return an JCE cipher implementation for the specified algorithm.
+     * Return bn JCE cipher implementbtion for the specified blgorithm.
      */
-    static Cipher getCipher(String transformation)
+    stbtic Cipher getCipher(String trbnsformbtion)
             throws NoSuchAlgorithmException {
         try {
             if (cryptoProvider == null) {
-                return Cipher.getInstance(transformation);
+                return Cipher.getInstbnce(trbnsformbtion);
             } else {
-                return Cipher.getInstance(transformation, cryptoProvider);
+                return Cipher.getInstbnce(trbnsformbtion, cryptoProvider);
             }
-        } catch (NoSuchPaddingException e) {
+        } cbtch (NoSuchPbddingException e) {
             throw new NoSuchAlgorithmException(e);
         }
     }
 
     /**
-     * Return an JCA signature implementation for the specified algorithm.
-     * The algorithm string should be one of the constants defined
-     * in this class.
+     * Return bn JCA signbture implementbtion for the specified blgorithm.
+     * The blgorithm string should be one of the constbnts defined
+     * in this clbss.
      */
-    static Signature getSignature(String algorithm)
+    stbtic Signbture getSignbture(String blgorithm)
             throws NoSuchAlgorithmException {
         if (cryptoProvider == null) {
-            return Signature.getInstance(algorithm);
+            return Signbture.getInstbnce(blgorithm);
         } else {
-            // reference equality
-            if (algorithm == SIGNATURE_SSLRSA) {
+            // reference equblity
+            if (blgorithm == SIGNATURE_SSLRSA) {
                 // The SunPKCS11 provider currently does not support this
-                // special algorithm. We allow a fallback in this case because
-                // the SunJSSE implementation does the actual crypto using
-                // a NONEwithRSA signature obtained from the cryptoProvider.
-                if (cryptoProvider.getService("Signature", algorithm) == null) {
-                    // Calling Signature.getInstance() and catching the
-                    // exception would be cleaner, but exceptions are a little
-                    // expensive. So we check directly via getService().
+                // specibl blgorithm. We bllow b fbllbbck in this cbse becbuse
+                // the SunJSSE implementbtion does the bctubl crypto using
+                // b NONEwithRSA signbture obtbined from the cryptoProvider.
+                if (cryptoProvider.getService("Signbture", blgorithm) == null) {
+                    // Cblling Signbture.getInstbnce() bnd cbtching the
+                    // exception would be clebner, but exceptions bre b little
+                    // expensive. So we check directly vib getService().
                     try {
-                        return Signature.getInstance(algorithm, "SunJSSE");
-                    } catch (NoSuchProviderException e) {
+                        return Signbture.getInstbnce(blgorithm, "SunJSSE");
+                    } cbtch (NoSuchProviderException e) {
                         throw new NoSuchAlgorithmException(e);
                     }
                 }
             }
-            return Signature.getInstance(algorithm, cryptoProvider);
+            return Signbture.getInstbnce(blgorithm, cryptoProvider);
         }
     }
 
-    static KeyGenerator getKeyGenerator(String algorithm)
+    stbtic KeyGenerbtor getKeyGenerbtor(String blgorithm)
             throws NoSuchAlgorithmException {
         if (cryptoProvider == null) {
-            return KeyGenerator.getInstance(algorithm);
+            return KeyGenerbtor.getInstbnce(blgorithm);
         } else {
-            return KeyGenerator.getInstance(algorithm, cryptoProvider);
+            return KeyGenerbtor.getInstbnce(blgorithm, cryptoProvider);
         }
     }
 
-    static KeyPairGenerator getKeyPairGenerator(String algorithm)
+    stbtic KeyPbirGenerbtor getKeyPbirGenerbtor(String blgorithm)
             throws NoSuchAlgorithmException {
         if (cryptoProvider == null) {
-            return KeyPairGenerator.getInstance(algorithm);
+            return KeyPbirGenerbtor.getInstbnce(blgorithm);
         } else {
-            return KeyPairGenerator.getInstance(algorithm, cryptoProvider);
+            return KeyPbirGenerbtor.getInstbnce(blgorithm, cryptoProvider);
         }
     }
 
-    static KeyAgreement getKeyAgreement(String algorithm)
+    stbtic KeyAgreement getKeyAgreement(String blgorithm)
             throws NoSuchAlgorithmException {
         if (cryptoProvider == null) {
-            return KeyAgreement.getInstance(algorithm);
+            return KeyAgreement.getInstbnce(blgorithm);
         } else {
-            return KeyAgreement.getInstance(algorithm, cryptoProvider);
+            return KeyAgreement.getInstbnce(blgorithm, cryptoProvider);
         }
     }
 
-    static Mac getMac(String algorithm)
+    stbtic Mbc getMbc(String blgorithm)
             throws NoSuchAlgorithmException {
         if (cryptoProvider == null) {
-            return Mac.getInstance(algorithm);
+            return Mbc.getInstbnce(blgorithm);
         } else {
-            return Mac.getInstance(algorithm, cryptoProvider);
+            return Mbc.getInstbnce(blgorithm, cryptoProvider);
         }
     }
 
-    static KeyFactory getKeyFactory(String algorithm)
+    stbtic KeyFbctory getKeyFbctory(String blgorithm)
             throws NoSuchAlgorithmException {
         if (cryptoProvider == null) {
-            return KeyFactory.getInstance(algorithm);
+            return KeyFbctory.getInstbnce(blgorithm);
         } else {
-            return KeyFactory.getInstance(algorithm, cryptoProvider);
+            return KeyFbctory.getInstbnce(blgorithm, cryptoProvider);
         }
     }
 
-    static SecureRandom getSecureRandom() throws KeyManagementException {
+    stbtic SecureRbndom getSecureRbndom() throws KeyMbnbgementException {
         if (cryptoProvider == null) {
-            return new SecureRandom();
+            return new SecureRbndom();
         }
-        // Try "PKCS11" first. If that is not supported, iterate through
-        // the provider and return the first working implementation.
+        // Try "PKCS11" first. If thbt is not supported, iterbte through
+        // the provider bnd return the first working implementbtion.
         try {
-            return SecureRandom.getInstance("PKCS11", cryptoProvider);
-        } catch (NoSuchAlgorithmException e) {
+            return SecureRbndom.getInstbnce("PKCS11", cryptoProvider);
+        } cbtch (NoSuchAlgorithmException e) {
             // ignore
         }
         for (Provider.Service s : cryptoProvider.getServices()) {
-            if (s.getType().equals("SecureRandom")) {
+            if (s.getType().equbls("SecureRbndom")) {
                 try {
-                    return SecureRandom.getInstance(s.getAlgorithm(), cryptoProvider);
-                } catch (NoSuchAlgorithmException ee) {
+                    return SecureRbndom.getInstbnce(s.getAlgorithm(), cryptoProvider);
+                } cbtch (NoSuchAlgorithmException ee) {
                     // ignore
                 }
             }
         }
-        throw new KeyManagementException("FIPS mode: no SecureRandom "
-            + " implementation found in provider " + cryptoProvider.getName());
+        throw new KeyMbnbgementException("FIPS mode: no SecureRbndom "
+            + " implementbtion found in provider " + cryptoProvider.getNbme());
     }
 
-    static MessageDigest getMD5() {
-        return getMessageDigest("MD5");
+    stbtic MessbgeDigest getMD5() {
+        return getMessbgeDigest("MD5");
     }
 
-    static MessageDigest getSHA() {
-        return getMessageDigest("SHA");
+    stbtic MessbgeDigest getSHA() {
+        return getMessbgeDigest("SHA");
     }
 
-    static MessageDigest getMessageDigest(String algorithm) {
+    stbtic MessbgeDigest getMessbgeDigest(String blgorithm) {
         try {
             if (cryptoProvider == null) {
-                return MessageDigest.getInstance(algorithm);
+                return MessbgeDigest.getInstbnce(blgorithm);
             } else {
-                return MessageDigest.getInstance(algorithm, cryptoProvider);
+                return MessbgeDigest.getInstbnce(blgorithm, cryptoProvider);
             }
-        } catch (NoSuchAlgorithmException e) {
+        } cbtch (NoSuchAlgorithmException e) {
             throw new RuntimeException
-                        ("Algorithm " + algorithm + " not available", e);
+                        ("Algorithm " + blgorithm + " not bvbilbble", e);
         }
     }
 
-    static int getRSAKeyLength(PublicKey key) {
+    stbtic int getRSAKeyLength(PublicKey key) {
         BigInteger modulus;
-        if (key instanceof RSAPublicKey) {
+        if (key instbnceof RSAPublicKey) {
             modulus = ((RSAPublicKey)key).getModulus();
         } else {
             RSAPublicKeySpec spec = getRSAPublicKeySpec(key);
@@ -367,50 +367,50 @@ final class JsseJce {
         return modulus.bitLength();
     }
 
-    static RSAPublicKeySpec getRSAPublicKeySpec(PublicKey key) {
-        if (key instanceof RSAPublicKey) {
-            RSAPublicKey rsaKey = (RSAPublicKey)key;
-            return new RSAPublicKeySpec(rsaKey.getModulus(),
-                                        rsaKey.getPublicExponent());
+    stbtic RSAPublicKeySpec getRSAPublicKeySpec(PublicKey key) {
+        if (key instbnceof RSAPublicKey) {
+            RSAPublicKey rsbKey = (RSAPublicKey)key;
+            return new RSAPublicKeySpec(rsbKey.getModulus(),
+                                        rsbKey.getPublicExponent());
         }
         try {
-            KeyFactory factory = JsseJce.getKeyFactory("RSA");
-            return factory.getKeySpec(key, RSAPublicKeySpec.class);
-        } catch (Exception e) {
+            KeyFbctory fbctory = JsseJce.getKeyFbctory("RSA");
+            return fbctory.getKeySpec(key, RSAPublicKeySpec.clbss);
+        } cbtch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    static ECParameterSpec getECParameterSpec(String namedCurveOid) {
-        return ECUtil.getECParameterSpec(cryptoProvider, namedCurveOid);
+    stbtic ECPbrbmeterSpec getECPbrbmeterSpec(String nbmedCurveOid) {
+        return ECUtil.getECPbrbmeterSpec(cryptoProvider, nbmedCurveOid);
     }
 
-    static String getNamedCurveOid(ECParameterSpec params) {
-        return ECUtil.getCurveName(cryptoProvider, params);
+    stbtic String getNbmedCurveOid(ECPbrbmeterSpec pbrbms) {
+        return ECUtil.getCurveNbme(cryptoProvider, pbrbms);
     }
 
-    static ECPoint decodePoint(byte[] encoded, EllipticCurve curve)
-            throws java.io.IOException {
+    stbtic ECPoint decodePoint(byte[] encoded, EllipticCurve curve)
+            throws jbvb.io.IOException {
         return ECUtil.decodePoint(encoded, curve);
     }
 
-    static byte[] encodePoint(ECPoint point, EllipticCurve curve) {
+    stbtic byte[] encodePoint(ECPoint point, EllipticCurve curve) {
         return ECUtil.encodePoint(point, curve);
     }
 
-    // In FIPS mode, set thread local providers; otherwise a no-op.
-    // Must be paired with endFipsProvider.
-    static Object beginFipsProvider() {
+    // In FIPS mode, set threbd locbl providers; otherwise b no-op.
+    // Must be pbired with endFipsProvider.
+    stbtic Object beginFipsProvider() {
         if (fipsProviderList == null) {
             return null;
         } else {
-            return Providers.beginThreadProviderList(fipsProviderList);
+            return Providers.beginThrebdProviderList(fipsProviderList);
         }
     }
 
-    static void endFipsProvider(Object o) {
+    stbtic void endFipsProvider(Object o) {
         if (fipsProviderList != null) {
-            Providers.endThreadProviderList((ProviderList)o);
+            Providers.endThrebdProviderList((ProviderList)o);
         }
     }
 

@@ -1,286 +1,286 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.event.*;
+import jbvbx.swing.*;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.event.*;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.*;
 
-import com.sun.tools.example.debug.bdi.*;
-import com.sun.tools.example.debug.event.*;
+import com.sun.tools.exbmple.debug.bdi.*;
+import com.sun.tools.exbmple.debug.event.*;
 
-public class CommandTool extends JPanel {
+public clbss CommbndTool extends JPbnel {
 
-    private static final long serialVersionUID = 8613516856378346415L;
+    privbte stbtic finbl long seriblVersionUID = 8613516856378346415L;
 
-    private Environment env;
+    privbte Environment env;
 
-    private ContextManager context;
-    private ExecutionManager runtime;
-    private SourceManager sourceManager;
+    privbte ContextMbnbger context;
+    privbte ExecutionMbnbger runtime;
+    privbte SourceMbnbger sourceMbnbger;
 
-    private TypeScript script;
+    privbte TypeScript script;
 
-    private static final String DEFAULT_CMD_PROMPT = "Command:";
+    privbte stbtic finbl String DEFAULT_CMD_PROMPT = "Commbnd:";
 
-    public CommandTool(Environment env) {
+    public CommbndTool(Environment env) {
 
-        super(new BorderLayout());
+        super(new BorderLbyout());
 
         this.env = env;
-        this.context = env.getContextManager();
-        this.runtime = env.getExecutionManager();
-        this.sourceManager = env.getSourceManager();
+        this.context = env.getContextMbnbger();
+        this.runtime = env.getExecutionMbnbger();
+        this.sourceMbnbger = env.getSourceMbnbger();
 
-        script = new TypeScript(DEFAULT_CMD_PROMPT, false); //no echo
-        this.add(script);
+        script = new TypeScript(DEFAULT_CMD_PROMPT, fblse); //no echo
+        this.bdd(script);
 
-        final CommandInterpreter interpreter =
-            new CommandInterpreter(env);
+        finbl CommbndInterpreter interpreter =
+            new CommbndInterpreter(env);
 
-        // Establish handler for incoming commands.
+        // Estbblish hbndler for incoming commbnds.
 
-        script.addActionListener(new ActionListener() {
+        script.bddActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                interpreter.executeCommand(script.readln());
+            public void bctionPerformed(ActionEvent e) {
+                interpreter.executeCommbnd(script.rebdln());
             }
         });
 
-        // Establish ourselves as the listener for VM diagnostics.
+        // Estbblish ourselves bs the listener for VM dibgnostics.
 
-        OutputListener diagnosticsListener =
+        OutputListener dibgnosticsListener =
             new TypeScriptOutputListener(script, true);
-        runtime.addDiagnosticsListener(diagnosticsListener);
+        runtime.bddDibgnosticsListener(dibgnosticsListener);
 
-        // Establish ourselves as the shared debugger typescript.
+        // Estbblish ourselves bs the shbred debugger typescript.
 
         env.setTypeScript(new PrintWriter(new TypeScriptWriter(script)));
 
-        // Handle VM events.
+        // Hbndle VM events.
 
-        TTYDebugListener listener = new TTYDebugListener(diagnosticsListener);
+        TTYDebugListener listener = new TTYDebugListener(dibgnosticsListener);
 
-        runtime.addJDIListener(listener);
-        runtime.addSessionListener(listener);
-        runtime.addSpecListener(listener);
-        context.addContextListener(listener);
+        runtime.bddJDIListener(listener);
+        runtime.bddSessionListener(listener);
+        runtime.bddSpecListener(listener);
+        context.bddContextListener(listener);
 
         //### remove listeners on exit!
 
     }
 
-    private class TTYDebugListener implements
+    privbte clbss TTYDebugListener implements
             JDIListener, SessionListener, SpecListener, ContextListener {
 
-        private OutputListener diagnostics;
+        privbte OutputListener dibgnostics;
 
-        TTYDebugListener(OutputListener diagnostics) {
-            this.diagnostics = diagnostics;
+        TTYDebugListener(OutputListener dibgnostics) {
+            this.dibgnostics = dibgnostics;
         }
 
         // JDIListener
 
         @Override
-        public void accessWatchpoint(AccessWatchpointEventSet e) {
-            setThread(e);
-            for (EventIterator it = e.eventIterator(); it.hasNext(); ) {
+        public void bccessWbtchpoint(AccessWbtchpointEventSet e) {
+            setThrebd(e);
+            for (EventIterbtor it = e.eventIterbtor(); it.hbsNext(); ) {
                 it.nextEvent();
-                diagnostics.putString("Watchpoint hit: " +
-                                      locationString(e));
+                dibgnostics.putString("Wbtchpoint hit: " +
+                                      locbtionString(e));
             }
         }
 
         @Override
-        public void classPrepare(ClassPrepareEventSet e) {
-            if (context.getVerboseFlag()) {
-                String name = e.getReferenceType().name();
-                diagnostics.putString("Class " + name + " loaded");
+        public void clbssPrepbre(ClbssPrepbreEventSet e) {
+            if (context.getVerboseFlbg()) {
+                String nbme = e.getReferenceType().nbme();
+                dibgnostics.putString("Clbss " + nbme + " lobded");
             }
         }
 
         @Override
-        public void classUnload(ClassUnloadEventSet e) {
-            if (context.getVerboseFlag()) {
-                diagnostics.putString("Class " + e.getClassName() +
-                                      " unloaded.");
+        public void clbssUnlobd(ClbssUnlobdEventSet e) {
+            if (context.getVerboseFlbg()) {
+                dibgnostics.putString("Clbss " + e.getClbssNbme() +
+                                      " unlobded.");
             }
         }
 
         @Override
         public void exception(ExceptionEventSet e) {
-            setThread(e);
-            String name = e.getException().referenceType().name();
-            diagnostics.putString("Exception: " + name);
+            setThrebd(e);
+            String nbme = e.getException().referenceType().nbme();
+            dibgnostics.putString("Exception: " + nbme);
         }
 
         @Override
-        public void locationTrigger(LocationTriggerEventSet e) {
-            String locString = locationString(e);
-            setThread(e);
-            for (EventIterator it = e.eventIterator(); it.hasNext(); ) {
+        public void locbtionTrigger(LocbtionTriggerEventSet e) {
+            String locString = locbtionString(e);
+            setThrebd(e);
+            for (EventIterbtor it = e.eventIterbtor(); it.hbsNext(); ) {
                 Event evt = it.nextEvent();
-                if (evt instanceof BreakpointEvent) {
-                    diagnostics.putString("Breakpoint hit: " + locString);
-                } else if (evt instanceof StepEvent) {
-                    diagnostics.putString("Step completed: " + locString);
-                } else if (evt instanceof MethodEntryEvent) {
-                    diagnostics.putString("Method entered: " + locString);
-                } else if (evt instanceof MethodExitEvent) {
-                    diagnostics.putString("Method exited: " + locString);
+                if (evt instbnceof BrebkpointEvent) {
+                    dibgnostics.putString("Brebkpoint hit: " + locString);
+                } else if (evt instbnceof StepEvent) {
+                    dibgnostics.putString("Step completed: " + locString);
+                } else if (evt instbnceof MethodEntryEvent) {
+                    dibgnostics.putString("Method entered: " + locString);
+                } else if (evt instbnceof MethodExitEvent) {
+                    dibgnostics.putString("Method exited: " + locString);
                 } else {
-                    diagnostics.putString("UNKNOWN event: " + e);
+                    dibgnostics.putString("UNKNOWN event: " + e);
                 }
             }
         }
 
         @Override
-        public void modificationWatchpoint(ModificationWatchpointEventSet e) {
-            setThread(e);
-            for (EventIterator it = e.eventIterator(); it.hasNext(); ) {
+        public void modificbtionWbtchpoint(ModificbtionWbtchpointEventSet e) {
+            setThrebd(e);
+            for (EventIterbtor it = e.eventIterbtor(); it.hbsNext(); ) {
                 it.nextEvent();
-                diagnostics.putString("Watchpoint hit: " +
-                                      locationString(e));
+                dibgnostics.putString("Wbtchpoint hit: " +
+                                      locbtionString(e));
             }
         }
 
         @Override
-        public void threadDeath(ThreadDeathEventSet e) {
-            if (context.getVerboseFlag()) {
-                diagnostics.putString("Thread " + e.getThread() +
+        public void threbdDebth(ThrebdDebthEventSet e) {
+            if (context.getVerboseFlbg()) {
+                dibgnostics.putString("Threbd " + e.getThrebd() +
                                       " ended.");
             }
         }
 
         @Override
-        public void threadStart(ThreadStartEventSet e) {
-            if (context.getVerboseFlag()) {
-                diagnostics.putString("Thread " + e.getThread() +
-                                      " started.");
+        public void threbdStbrt(ThrebdStbrtEventSet e) {
+            if (context.getVerboseFlbg()) {
+                dibgnostics.putString("Threbd " + e.getThrebd() +
+                                      " stbrted.");
             }
         }
 
         @Override
-        public void vmDeath(VMDeathEventSet e) {
+        public void vmDebth(VMDebthEventSet e) {
             script.setPrompt(DEFAULT_CMD_PROMPT);
-            diagnostics.putString("VM exited");
+            dibgnostics.putString("VM exited");
         }
 
         @Override
         public void vmDisconnect(VMDisconnectEventSet e) {
             script.setPrompt(DEFAULT_CMD_PROMPT);
-            diagnostics.putString("Disconnected from VM");
+            dibgnostics.putString("Disconnected from VM");
         }
 
         @Override
-        public void vmStart(VMStartEventSet e) {
+        public void vmStbrt(VMStbrtEventSet e) {
             script.setPrompt(DEFAULT_CMD_PROMPT);
-            diagnostics.putString("VM started");
+            dibgnostics.putString("VM stbrted");
         }
 
         // SessionListener
 
         @Override
-        public void sessionStart(EventObject e) {}
+        public void sessionStbrt(EventObject e) {}
 
         @Override
         public void sessionInterrupt(EventObject e) {
-            Thread.yield();  // fetch output
-            diagnostics.putString("VM interrupted by user.");
+            Threbd.yield();  // fetch output
+            dibgnostics.putString("VM interrupted by user.");
             script.setPrompt(DEFAULT_CMD_PROMPT);
         }
 
         @Override
         public void sessionContinue(EventObject e) {
-            diagnostics.putString("Execution resumed.");
+            dibgnostics.putString("Execution resumed.");
             script.setPrompt(DEFAULT_CMD_PROMPT);
         }
 
         // SpecListener
 
         @Override
-        public void breakpointSet(SpecEvent e) {
+        public void brebkpointSet(SpecEvent e) {
             EventRequestSpec spec = e.getEventRequestSpec();
-            diagnostics.putString("Breakpoint set at " + spec + ".");
+            dibgnostics.putString("Brebkpoint set bt " + spec + ".");
         }
         @Override
-        public void breakpointDeferred(SpecEvent e) {
+        public void brebkpointDeferred(SpecEvent e) {
             EventRequestSpec spec = e.getEventRequestSpec();
-            diagnostics.putString("Breakpoint will be set at " +
-                                  spec + " when its class is loaded.");
+            dibgnostics.putString("Brebkpoint will be set bt " +
+                                  spec + " when its clbss is lobded.");
         }
         @Override
-        public void breakpointDeleted(SpecEvent e) {
+        public void brebkpointDeleted(SpecEvent e) {
             EventRequestSpec spec = e.getEventRequestSpec();
-            diagnostics.putString("Breakpoint at " + spec.toString() + " deleted.");
+            dibgnostics.putString("Brebkpoint bt " + spec.toString() + " deleted.");
         }
         @Override
-        public void breakpointResolved(SpecEvent e) {
+        public void brebkpointResolved(SpecEvent e) {
             EventRequestSpec spec = e.getEventRequestSpec();
-            diagnostics.putString("Breakpoint resolved to " + spec.toString() + ".");
+            dibgnostics.putString("Brebkpoint resolved to " + spec.toString() + ".");
         }
         @Override
-        public void breakpointError(SpecErrorEvent e) {
+        public void brebkpointError(SpecErrorEvent e) {
             EventRequestSpec spec = e.getEventRequestSpec();
-            diagnostics.putString("Deferred breakpoint at " +
+            dibgnostics.putString("Deferred brebkpoint bt " +
                                   spec + " could not be resolved:" +
-                                  e.getReason());
+                                  e.getRebson());
         }
 
-//### Add info for watchpoints and exceptions
+//### Add info for wbtchpoints bnd exceptions
 
         @Override
-        public void watchpointSet(SpecEvent e) {
+        public void wbtchpointSet(SpecEvent e) {
         }
         @Override
-        public void watchpointDeferred(SpecEvent e) {
+        public void wbtchpointDeferred(SpecEvent e) {
         }
         @Override
-        public void watchpointDeleted(SpecEvent e) {
+        public void wbtchpointDeleted(SpecEvent e) {
         }
         @Override
-        public void watchpointResolved(SpecEvent e) {
+        public void wbtchpointResolved(SpecEvent e) {
         }
         @Override
-        public void watchpointError(SpecErrorEvent e) {
+        public void wbtchpointError(SpecErrorEvent e) {
         }
 
         @Override
@@ -302,41 +302,41 @@ public class CommandTool extends JPanel {
 
         // ContextListener.
 
-        // If the user selects a new current thread or frame, update prompt.
+        // If the user selects b new current threbd or frbme, updbte prompt.
 
         @Override
-        public void currentFrameChanged(CurrentFrameChangedEvent e) {
-            // Update prompt only if affect thread is current.
-            ThreadReference thread = e.getThread();
-            if (thread == context.getCurrentThread()) {
-                script.setPrompt(promptString(thread, e.getIndex()));
+        public void currentFrbmeChbnged(CurrentFrbmeChbngedEvent e) {
+            // Updbte prompt only if bffect threbd is current.
+            ThrebdReference threbd = e.getThrebd();
+            if (threbd == context.getCurrentThrebd()) {
+                script.setPrompt(promptString(threbd, e.getIndex()));
             }
         }
 
     }
 
-    private String locationString(LocatableEventSet e) {
-        Location loc = e.getLocation();
-        return "thread=\"" + e.getThread().name() +
-            "\", " + Utils.locationString(loc);
+    privbte String locbtionString(LocbtbbleEventSet e) {
+        Locbtion loc = e.getLocbtion();
+        return "threbd=\"" + e.getThrebd().nbme() +
+            "\", " + Utils.locbtionString(loc);
     }
 
-    private void setThread(LocatableEventSet e) {
+    privbte void setThrebd(LocbtbbleEventSet e) {
         if (!e.suspendedNone()) {
-            Thread.yield();  // fetch output
-            script.setPrompt(promptString(e.getThread(), 0));
-            //### Current thread should be set elsewhere, e.g.,
-            //### in ContextManager
-            //### context.setCurrentThread(thread);
+            Threbd.yield();  // fetch output
+            script.setPrompt(promptString(e.getThrebd(), 0));
+            //### Current threbd should be set elsewhere, e.g.,
+            //### in ContextMbnbger
+            //### context.setCurrentThrebd(threbd);
         }
     }
 
-    private String promptString(ThreadReference thread, int frameIndex) {
-        if (thread == null) {
+    privbte String promptString(ThrebdReference threbd, int frbmeIndex) {
+        if (threbd == null) {
             return DEFAULT_CMD_PROMPT;
         } else {
-            // Frame indices are presented to user as indexed from 1.
-            return (thread.name() + "[" + (frameIndex + 1) + "]:");
+            // Frbme indices bre presented to user bs indexed from 1.
+            return (threbd.nbme() + "[" + (frbmeIndex + 1) + "]:");
         }
     }
 }

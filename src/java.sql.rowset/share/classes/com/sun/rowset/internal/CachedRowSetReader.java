@@ -1,345 +1,345 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rowset.internal;
+pbckbge com.sun.rowset.internbl;
 
-import java.sql.*;
-import javax.sql.*;
-import javax.naming.*;
-import java.io.*;
-import java.lang.reflect.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.lbng.reflect.*;
 
 import com.sun.rowset.*;
-import javax.sql.rowset.*;
-import javax.sql.rowset.spi.*;
+import jbvbx.sql.rowset.*;
+import jbvbx.sql.rowset.spi.*;
 
 /**
- * The facility called by the <code>RIOptimisticProvider</code> object
- * internally to read data into it.  The calling <code>RowSet</code> object
- * must have implemented the <code>RowSetInternal</code> interface
- * and have the standard <code>CachedRowSetReader</code> object set as its
- * reader.
+ * The fbcility cblled by the <code>RIOptimisticProvider</code> object
+ * internblly to rebd dbtb into it.  The cblling <code>RowSet</code> object
+ * must hbve implemented the <code>RowSetInternbl</code> interfbce
+ * bnd hbve the stbndbrd <code>CbchedRowSetRebder</code> object set bs its
+ * rebder.
  * <P>
- * This implementation always reads all rows of the data source,
- * and it assumes that the <code>command</code> property for the caller
- * is set with a query that is appropriate for execution by a
- * <code>PreparedStatement</code> object.
+ * This implementbtion blwbys rebds bll rows of the dbtb source,
+ * bnd it bssumes thbt the <code>commbnd</code> property for the cbller
+ * is set with b query thbt is bppropribte for execution by b
+ * <code>PrepbredStbtement</code> object.
  * <P>
- * Typically the <code>SyncFactory</code> manages the <code>RowSetReader</code> and
- * the <code>RowSetWriter</code> implementations using <code>SyncProvider</code> objects.
- * Standard JDBC RowSet implementations provide an object instance of this
- * reader by invoking the <code>SyncProvider.getRowSetReader()</code> method.
+ * Typicblly the <code>SyncFbctory</code> mbnbges the <code>RowSetRebder</code> bnd
+ * the <code>RowSetWriter</code> implementbtions using <code>SyncProvider</code> objects.
+ * Stbndbrd JDBC RowSet implementbtions provide bn object instbnce of this
+ * rebder by invoking the <code>SyncProvider.getRowSetRebder()</code> method.
  *
- * @author Jonathan Bruce
- * @see javax.sql.rowset.spi.SyncProvider
- * @see javax.sql.rowset.spi.SyncFactory
- * @see javax.sql.rowset.spi.SyncFactoryException
+ * @buthor Jonbthbn Bruce
+ * @see jbvbx.sql.rowset.spi.SyncProvider
+ * @see jbvbx.sql.rowset.spi.SyncFbctory
+ * @see jbvbx.sql.rowset.spi.SyncFbctoryException
  */
-public class CachedRowSetReader implements RowSetReader, Serializable {
+public clbss CbchedRowSetRebder implements RowSetRebder, Seriblizbble {
 
     /**
-     * The field that keeps track of whether the writer associated with
-     * this <code>CachedRowSetReader</code> object's rowset has been called since
-     * the rowset was populated.
+     * The field thbt keeps trbck of whether the writer bssocibted with
+     * this <code>CbchedRowSetRebder</code> object's rowset hbs been cblled since
+     * the rowset wbs populbted.
      * <P>
-     * When this <code>CachedRowSetReader</code> object reads data into
-     * its rowset, it sets the field <code>writerCalls</code> to 0.
-     * When the writer associated with the rowset is called to write
-     * data back to the underlying data source, its <code>writeData</code>
-     * method calls the method <code>CachedRowSetReader.reset</code>,
-     * which increments <code>writerCalls</code> and returns <code>true</code>
-     * if <code>writerCalls</code> is 1. Thus, <code>writerCalls</code> equals
-     * 1 after the first call to <code>writeData</code> that occurs
-     * after the rowset has had data read into it.
+     * When this <code>CbchedRowSetRebder</code> object rebds dbtb into
+     * its rowset, it sets the field <code>writerCblls</code> to 0.
+     * When the writer bssocibted with the rowset is cblled to write
+     * dbtb bbck to the underlying dbtb source, its <code>writeDbtb</code>
+     * method cblls the method <code>CbchedRowSetRebder.reset</code>,
+     * which increments <code>writerCblls</code> bnd returns <code>true</code>
+     * if <code>writerCblls</code> is 1. Thus, <code>writerCblls</code> equbls
+     * 1 bfter the first cbll to <code>writeDbtb</code> thbt occurs
+     * bfter the rowset hbs hbd dbtb rebd into it.
      *
-     * @serial
+     * @seribl
      */
-    private int writerCalls = 0;
+    privbte int writerCblls = 0;
 
-    private boolean userCon = false;
+    privbte boolebn userCon = fblse;
 
-    private int startPosition;
+    privbte int stbrtPosition;
 
-    private JdbcRowSetResourceBundle resBundle;
+    privbte JdbcRowSetResourceBundle resBundle;
 
-    public CachedRowSetReader() {
+    public CbchedRowSetRebder() {
         try {
                 resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
     }
 
 
     /**
-     * Reads data from a data source and populates the given
-     * <code>RowSet</code> object with that data.
-     * This method is called by the rowset internally when
-     * the application invokes the method <code>execute</code>
-     * to read a new set of rows.
+     * Rebds dbtb from b dbtb source bnd populbtes the given
+     * <code>RowSet</code> object with thbt dbtb.
+     * This method is cblled by the rowset internblly when
+     * the bpplicbtion invokes the method <code>execute</code>
+     * to rebd b new set of rows.
      * <P>
-     * After clearing the rowset of its contents, if any, and setting
-     * the number of writer calls to <code>0</code>, this reader calls
-     * its <code>connect</code> method to make
-     * a connection to the rowset's data source. Depending on which
-     * of the rowset's properties have been set, the <code>connect</code>
-     * method will use a <code>DataSource</code> object or the
-     * <code>DriverManager</code> facility to make a connection to the
-     * data source.
+     * After clebring the rowset of its contents, if bny, bnd setting
+     * the number of writer cblls to <code>0</code>, this rebder cblls
+     * its <code>connect</code> method to mbke
+     * b connection to the rowset's dbtb source. Depending on which
+     * of the rowset's properties hbve been set, the <code>connect</code>
+     * method will use b <code>DbtbSource</code> object or the
+     * <code>DriverMbnbger</code> fbcility to mbke b connection to the
+     * dbtb source.
      * <P>
-     * Once the connection to the data source is made, this reader
-     * executes the query in the calling <code>CachedRowSet</code> object's
-     * <code>command</code> property. Then it calls the rowset's
-     * <code>populate</code> method, which reads data from the
+     * Once the connection to the dbtb source is mbde, this rebder
+     * executes the query in the cblling <code>CbchedRowSet</code> object's
+     * <code>commbnd</code> property. Then it cblls the rowset's
+     * <code>populbte</code> method, which rebds dbtb from the
      * <code>ResultSet</code> object produced by executing the rowset's
-     * command. The rowset is then populated with this data.
+     * commbnd. The rowset is then populbted with this dbtb.
      * <P>
-     * This method's final act is to close the connection it made, thus
-     * leaving the rowset disconnected from its data source.
+     * This method's finbl bct is to close the connection it mbde, thus
+     * lebving the rowset disconnected from its dbtb source.
      *
-     * @param caller a <code>RowSet</code> object that has implemented
-     *               the <code>RowSetInternal</code> interface and had
-     *               this <code>CachedRowSetReader</code> object set as
-     *               its reader
-     * @throws SQLException if there is a database access error, there is a
-     *         problem making the connection, or the command property has not
+     * @pbrbm cbller b <code>RowSet</code> object thbt hbs implemented
+     *               the <code>RowSetInternbl</code> interfbce bnd hbd
+     *               this <code>CbchedRowSetRebder</code> object set bs
+     *               its rebder
+     * @throws SQLException if there is b dbtbbbse bccess error, there is b
+     *         problem mbking the connection, or the commbnd property hbs not
      *         been set
      */
-    public void readData(RowSetInternal caller) throws SQLException
+    public void rebdDbtb(RowSetInternbl cbller) throws SQLException
     {
         Connection con = null;
         try {
-            CachedRowSet crs = (CachedRowSet)caller;
+            CbchedRowSet crs = (CbchedRowSet)cbller;
 
             // Get rid of the current contents of the rowset.
 
             /**
-             * Checking added to verify whether page size has been set or not.
-             * If set then do not close the object as certain parameters need
-             * to be maintained.
+             * Checking bdded to verify whether pbge size hbs been set or not.
+             * If set then do not close the object bs certbin pbrbmeters need
+             * to be mbintbined.
              */
 
-            if(crs.getPageSize() == 0 && crs.size() >0 ) {
-               // When page size is not set,
-               // crs.size() will show the total no of rows.
+            if(crs.getPbgeSize() == 0 && crs.size() >0 ) {
+               // When pbge size is not set,
+               // crs.size() will show the totbl no of rows.
                crs.close();
             }
 
-            writerCalls = 0;
+            writerCblls = 0;
 
-            // Get a connection.  This reader assumes that the necessary
-            // properties have been set on the caller to let it supply a
+            // Get b connection.  This rebder bssumes thbt the necessbry
+            // properties hbve been set on the cbller to let it supply b
             // connection.
-            userCon = false;
+            userCon = fblse;
 
-            con = this.connect(caller);
+            con = this.connect(cbller);
 
-            // Check our assumptions.
-            if (con == null || crs.getCommand() == null)
-                throw new SQLException(resBundle.handleGetObject("crsreader.connecterr").toString());
+            // Check our bssumptions.
+            if (con == null || crs.getCommbnd() == null)
+                throw new SQLException(resBundle.hbndleGetObject("crsrebder.connecterr").toString());
 
             try {
-                con.setTransactionIsolation(crs.getTransactionIsolation());
-            } catch (Exception ex) {
+                con.setTrbnsbctionIsolbtion(crs.getTrbnsbctionIsolbtion());
+            } cbtch (Exception ex) {
                 ;
             }
-            // Use JDBC to read the data.
-            PreparedStatement pstmt = con.prepareStatement(crs.getCommand());
-            // Pass any input parameters to JDBC.
+            // Use JDBC to rebd the dbtb.
+            PrepbredStbtement pstmt = con.prepbreStbtement(crs.getCommbnd());
+            // Pbss bny input pbrbmeters to JDBC.
 
-            decodeParams(caller.getParams(), pstmt);
+            decodePbrbms(cbller.getPbrbms(), pstmt);
             try {
-                pstmt.setMaxRows(crs.getMaxRows());
-                pstmt.setMaxFieldSize(crs.getMaxFieldSize());
-                pstmt.setEscapeProcessing(crs.getEscapeProcessing());
+                pstmt.setMbxRows(crs.getMbxRows());
+                pstmt.setMbxFieldSize(crs.getMbxFieldSize());
+                pstmt.setEscbpeProcessing(crs.getEscbpeProcessing());
                 pstmt.setQueryTimeout(crs.getQueryTimeout());
-            } catch (Exception ex) {
+            } cbtch (Exception ex) {
                 /*
-                 * drivers may not support the above - esp. older
+                 * drivers mby not support the bbove - esp. older
                  * drivers being used by the bridge..
                  */
-                throw new SQLException(ex.getMessage());
+                throw new SQLException(ex.getMessbge());
             }
 
-            if(crs.getCommand().toLowerCase().indexOf("select") != -1) {
-                // can be (crs.getCommand()).indexOf("select")) == 0
-                // because we will be getting resultset when
-                // it may be the case that some false select query with
-                // select coming in between instead of first.
+            if(crs.getCommbnd().toLowerCbse().indexOf("select") != -1) {
+                // cbn be (crs.getCommbnd()).indexOf("select")) == 0
+                // becbuse we will be getting resultset when
+                // it mby be the cbse thbt some fblse select query with
+                // select coming in between instebd of first.
 
-                // if ((crs.getCommand()).indexOf("?")) does not return -1
-                // implies a Prepared Statement like query exists.
+                // if ((crs.getCommbnd()).indexOf("?")) does not return -1
+                // implies b Prepbred Stbtement like query exists.
 
                 ResultSet rs = pstmt.executeQuery();
-               if(crs.getPageSize() == 0){
-                      crs.populate(rs);
+               if(crs.getPbgeSize() == 0){
+                      crs.populbte(rs);
                }
                else {
                        /**
-                        * If page size has been set then create a ResultSet object that is scrollable using a
-                        * PreparedStatement handle.Also call the populate(ResultSet,int) function to populate
-                        * a page of data as specified by the page size.
+                        * If pbge size hbs been set then crebte b ResultSet object thbt is scrollbble using b
+                        * PrepbredStbtement hbndle.Also cbll the populbte(ResultSet,int) function to populbte
+                        * b pbge of dbtb bs specified by the pbge size.
                         */
-                       pstmt = con.prepareStatement(crs.getCommand(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-                       decodeParams(caller.getParams(), pstmt);
+                       pstmt = con.prepbreStbtement(crs.getCommbnd(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+                       decodePbrbms(cbller.getPbrbms(), pstmt);
                        try {
-                               pstmt.setMaxRows(crs.getMaxRows());
-                               pstmt.setMaxFieldSize(crs.getMaxFieldSize());
-                               pstmt.setEscapeProcessing(crs.getEscapeProcessing());
+                               pstmt.setMbxRows(crs.getMbxRows());
+                               pstmt.setMbxFieldSize(crs.getMbxFieldSize());
+                               pstmt.setEscbpeProcessing(crs.getEscbpeProcessing());
                                pstmt.setQueryTimeout(crs.getQueryTimeout());
-                           } catch (Exception ex) {
+                           } cbtch (Exception ex) {
                           /*
-                           * drivers may not support the above - esp. older
+                           * drivers mby not support the bbove - esp. older
                            * drivers being used by the bridge..
                            */
-                            throw new SQLException(ex.getMessage());
+                            throw new SQLException(ex.getMessbge());
                           }
                        rs = pstmt.executeQuery();
-                       crs.populate(rs,startPosition);
+                       crs.populbte(rs,stbrtPosition);
                }
                 rs.close();
             } else  {
-                pstmt.executeUpdate();
+                pstmt.executeUpdbte();
             }
 
-            // Get the data.
+            // Get the dbtb.
             pstmt.close();
             try {
                 con.commit();
-            } catch (SQLException ex) {
+            } cbtch (SQLException ex) {
                 ;
             }
-            // only close connections we created...
+            // only close connections we crebted...
             if (getCloseConnection() == true)
                 con.close();
         }
-        catch (SQLException ex) {
-            // Throw an exception if reading fails for any reason.
+        cbtch (SQLException ex) {
+            // Throw bn exception if rebding fbils for bny rebson.
             throw ex;
-        } finally {
+        } finblly {
             try {
-                // only close connections we created...
+                // only close connections we crebted...
                 if (con != null && getCloseConnection() == true) {
                     try {
                         if (!con.getAutoCommit()) {
-                            con.rollback();
+                            con.rollbbck();
                         }
-                    } catch (Exception dummy) {
+                    } cbtch (Exception dummy) {
                         /*
-                         * not an error condition, we're closing anyway, but
-                         * we'd like to clean up any locks if we can since
-                         * it is not clear the connection pool will clean
-                         * these connections in a timely manner
+                         * not bn error condition, we're closing bnywby, but
+                         * we'd like to clebn up bny locks if we cbn since
+                         * it is not clebr the connection pool will clebn
+                         * these connections in b timely mbnner
                          */
                     }
                     con.close();
                     con = null;
                 }
-            } catch (SQLException e) {
-                // will get exception if something already went wrong, but don't
-                // override that exception with this one
+            } cbtch (SQLException e) {
+                // will get exception if something blrebdy went wrong, but don't
+                // override thbt exception with this one
             }
         }
     }
 
     /**
-     * Checks to see if the writer associated with this reader needs
-     * to reset its state.  The writer will need to initialize its state
-     * if new contents have been read since the writer was last called.
-     * This method is called by the writer that was registered with
-     * this reader when components were being wired together.
+     * Checks to see if the writer bssocibted with this rebder needs
+     * to reset its stbte.  The writer will need to initiblize its stbte
+     * if new contents hbve been rebd since the writer wbs lbst cblled.
+     * This method is cblled by the writer thbt wbs registered with
+     * this rebder when components were being wired together.
      *
-     * @return <code>true</code> if writer associated with this reader needs
-     *         to reset the values of its fields; <code>false</code> otherwise
-     * @throws SQLException if an access error occurs
+     * @return <code>true</code> if writer bssocibted with this rebder needs
+     *         to reset the vblues of its fields; <code>fblse</code> otherwise
+     * @throws SQLException if bn bccess error occurs
      */
-    public boolean reset() throws SQLException {
-        writerCalls++;
-        return writerCalls == 1;
+    public boolebn reset() throws SQLException {
+        writerCblls++;
+        return writerCblls == 1;
     }
 
     /**
-     * Establishes a connection with the data source for the given
-     * <code>RowSet</code> object.  If the rowset's <code>dataSourceName</code>
-     * property has been set, this method uses the JNDI API to retrieve the
-     * <code>DataSource</code> object that it can use to make the connection.
-     * If the url, username, and password properties have been set, this
-     * method uses the <code>DriverManager.getConnection</code> method to
-     * make the connection.
+     * Estbblishes b connection with the dbtb source for the given
+     * <code>RowSet</code> object.  If the rowset's <code>dbtbSourceNbme</code>
+     * property hbs been set, this method uses the JNDI API to retrieve the
+     * <code>DbtbSource</code> object thbt it cbn use to mbke the connection.
+     * If the url, usernbme, bnd pbssword properties hbve been set, this
+     * method uses the <code>DriverMbnbger.getConnection</code> method to
+     * mbke the connection.
      * <P>
-     * This method is used internally by the reader and writer associated with
-     * the calling <code>RowSet</code> object; an application never calls it
+     * This method is used internblly by the rebder bnd writer bssocibted with
+     * the cblling <code>RowSet</code> object; bn bpplicbtion never cblls it
      * directly.
      *
-     * @param caller a <code>RowSet</code> object that has implemented
-     *               the <code>RowSetInternal</code> interface and had
-     *               this <code>CachedRowSetReader</code> object set as
-     *               its reader
-     * @return a <code>Connection</code> object that represents a connection
-     *         to the caller's data source
-     * @throws SQLException if an access error occurs
+     * @pbrbm cbller b <code>RowSet</code> object thbt hbs implemented
+     *               the <code>RowSetInternbl</code> interfbce bnd hbd
+     *               this <code>CbchedRowSetRebder</code> object set bs
+     *               its rebder
+     * @return b <code>Connection</code> object thbt represents b connection
+     *         to the cbller's dbtb source
+     * @throws SQLException if bn bccess error occurs
      */
-    public Connection connect(RowSetInternal caller) throws SQLException {
+    public Connection connect(RowSetInternbl cbller) throws SQLException {
 
-        // Get a JDBC connection.
-        if (caller.getConnection() != null) {
-            // A connection was passed to execute(), so use it.
-            // As we are using a connection the user gave us we
+        // Get b JDBC connection.
+        if (cbller.getConnection() != null) {
+            // A connection wbs pbssed to execute(), so use it.
+            // As we bre using b connection the user gbve us we
             // won't close it.
             userCon = true;
-            return caller.getConnection();
+            return cbller.getConnection();
         }
-        else if (((RowSet)caller).getDataSourceName() != null) {
+        else if (((RowSet)cbller).getDbtbSourceNbme() != null) {
             // Connect using JNDI.
             try {
-                Context ctx = new InitialContext();
-                DataSource ds = (DataSource)ctx.lookup
-                    (((RowSet)caller).getDataSourceName());
+                Context ctx = new InitiblContext();
+                DbtbSource ds = (DbtbSource)ctx.lookup
+                    (((RowSet)cbller).getDbtbSourceNbme());
 
-                // Check for username, password,
-                // if it exists try getting a Connection handle through them
+                // Check for usernbme, pbssword,
+                // if it exists try getting b Connection hbndle through them
                 // else try without these
                 // else throw SQLException
 
-                if(((RowSet)caller).getUsername() != null) {
-                     return ds.getConnection(((RowSet)caller).getUsername(),
-                                            ((RowSet)caller).getPassword());
+                if(((RowSet)cbller).getUsernbme() != null) {
+                     return ds.getConnection(((RowSet)cbller).getUsernbme(),
+                                            ((RowSet)cbller).getPbssword());
                 } else {
                      return ds.getConnection();
                 }
             }
-            catch (javax.naming.NamingException ex) {
-                SQLException sqlEx = new SQLException(resBundle.handleGetObject("crsreader.connect").toString());
-                sqlEx.initCause(ex);
+            cbtch (jbvbx.nbming.NbmingException ex) {
+                SQLException sqlEx = new SQLException(resBundle.hbndleGetObject("crsrebder.connect").toString());
+                sqlEx.initCbuse(ex);
                 throw sqlEx;
             }
-        } else if (((RowSet)caller).getUrl() != null) {
-            // Connect using the driver manager.
-            return DriverManager.getConnection(((RowSet)caller).getUrl(),
-                                               ((RowSet)caller).getUsername(),
-                                               ((RowSet)caller).getPassword());
+        } else if (((RowSet)cbller).getUrl() != null) {
+            // Connect using the driver mbnbger.
+            return DriverMbnbger.getConnection(((RowSet)cbller).getUrl(),
+                                               ((RowSet)cbller).getUsernbme(),
+                                               ((RowSet)cbller).getPbssword());
         }
         else {
             return null;
@@ -347,164 +347,164 @@ public class CachedRowSetReader implements RowSetReader, Serializable {
     }
 
     /**
-     * Sets the parameter placeholders
-     * in the rowset's command (the given <code>PreparedStatement</code>
-     * object) with the parameters in the given array.
-     * This method, called internally by the method
-     * <code>CachedRowSetReader.readData</code>, reads each parameter, and
-     * based on its type, determines the correct
-     * <code>PreparedStatement.setXXX</code> method to use for setting
-     * that parameter.
+     * Sets the pbrbmeter plbceholders
+     * in the rowset's commbnd (the given <code>PrepbredStbtement</code>
+     * object) with the pbrbmeters in the given brrby.
+     * This method, cblled internblly by the method
+     * <code>CbchedRowSetRebder.rebdDbtb</code>, rebds ebch pbrbmeter, bnd
+     * bbsed on its type, determines the correct
+     * <code>PrepbredStbtement.setXXX</code> method to use for setting
+     * thbt pbrbmeter.
      *
-     * @param params an array of parameters to be used with the given
-     *               <code>PreparedStatement</code> object
-     * @param pstmt  the <code>PreparedStatement</code> object that is the
-     *               command for the calling rowset and into which
-     *               the given parameters are to be set
-     * @throws SQLException if an access error occurs
+     * @pbrbm pbrbms bn brrby of pbrbmeters to be used with the given
+     *               <code>PrepbredStbtement</code> object
+     * @pbrbm pstmt  the <code>PrepbredStbtement</code> object thbt is the
+     *               commbnd for the cblling rowset bnd into which
+     *               the given pbrbmeters bre to be set
+     * @throws SQLException if bn bccess error occurs
      */
-    @SuppressWarnings("deprecation")
-    private void decodeParams(Object[] params,
-                              PreparedStatement pstmt) throws SQLException {
-    // There is a corresponding decodeParams in JdbcRowSetImpl
-    // which does the same as this method. This is a design flaw.
-    // Update the JdbcRowSetImpl.decodeParams when you update
+    @SuppressWbrnings("deprecbtion")
+    privbte void decodePbrbms(Object[] pbrbms,
+                              PrepbredStbtement pstmt) throws SQLException {
+    // There is b corresponding decodePbrbms in JdbcRowSetImpl
+    // which does the sbme bs this method. This is b design flbw.
+    // Updbte the JdbcRowSetImpl.decodePbrbms when you updbte
     // this method.
 
-    // Adding the same comments to JdbcRowSetImpl.decodeParams.
+    // Adding the sbme comments to JdbcRowSetImpl.decodePbrbms.
 
-        int arraySize;
-        Object[] param = null;
+        int brrbySize;
+        Object[] pbrbm = null;
 
-        for (int i=0; i < params.length; i++) {
-            if (params[i] instanceof Object[]) {
-                param = (Object[])params[i];
+        for (int i=0; i < pbrbms.length; i++) {
+            if (pbrbms[i] instbnceof Object[]) {
+                pbrbm = (Object[])pbrbms[i];
 
-                if (param.length == 2) {
-                    if (param[0] == null) {
-                        pstmt.setNull(i + 1, ((Integer)param[1]).intValue());
+                if (pbrbm.length == 2) {
+                    if (pbrbm[0] == null) {
+                        pstmt.setNull(i + 1, ((Integer)pbrbm[1]).intVblue());
                         continue;
                     }
 
-                    if (param[0] instanceof java.sql.Date ||
-                        param[0] instanceof java.sql.Time ||
-                        param[0] instanceof java.sql.Timestamp) {
-                        System.err.println(resBundle.handleGetObject("crsreader.datedetected").toString());
-                        if (param[1] instanceof java.util.Calendar) {
-                            System.err.println(resBundle.handleGetObject("crsreader.caldetected").toString());
-                            pstmt.setDate(i + 1, (java.sql.Date)param[0],
-                                       (java.util.Calendar)param[1]);
+                    if (pbrbm[0] instbnceof jbvb.sql.Dbte ||
+                        pbrbm[0] instbnceof jbvb.sql.Time ||
+                        pbrbm[0] instbnceof jbvb.sql.Timestbmp) {
+                        System.err.println(resBundle.hbndleGetObject("crsrebder.dbtedetected").toString());
+                        if (pbrbm[1] instbnceof jbvb.util.Cblendbr) {
+                            System.err.println(resBundle.hbndleGetObject("crsrebder.cbldetected").toString());
+                            pstmt.setDbte(i + 1, (jbvb.sql.Dbte)pbrbm[0],
+                                       (jbvb.util.Cblendbr)pbrbm[1]);
                             continue;
                         }
                         else {
-                            throw new SQLException(resBundle.handleGetObject("crsreader.paramtype").toString());
+                            throw new SQLException(resBundle.hbndleGetObject("crsrebder.pbrbmtype").toString());
                         }
                     }
 
-                    if (param[0] instanceof Reader) {
-                        pstmt.setCharacterStream(i + 1, (Reader)param[0],
-                                              ((Integer)param[1]).intValue());
+                    if (pbrbm[0] instbnceof Rebder) {
+                        pstmt.setChbrbcterStrebm(i + 1, (Rebder)pbrbm[0],
+                                              ((Integer)pbrbm[1]).intVblue());
                         continue;
                     }
 
                     /*
-                     * What's left should be setObject(int, Object, scale)
+                     * Whbt's left should be setObject(int, Object, scble)
                      */
-                    if (param[1] instanceof Integer) {
-                        pstmt.setObject(i + 1, param[0], ((Integer)param[1]).intValue());
+                    if (pbrbm[1] instbnceof Integer) {
+                        pstmt.setObject(i + 1, pbrbm[0], ((Integer)pbrbm[1]).intVblue());
                         continue;
                     }
 
-                } else if (param.length == 3) {
+                } else if (pbrbm.length == 3) {
 
-                    if (param[0] == null) {
-                        pstmt.setNull(i + 1, ((Integer)param[1]).intValue(),
-                                   (String)param[2]);
+                    if (pbrbm[0] == null) {
+                        pstmt.setNull(i + 1, ((Integer)pbrbm[1]).intVblue(),
+                                   (String)pbrbm[2]);
                         continue;
                     }
 
-                    if (param[0] instanceof java.io.InputStream) {
-                        switch (((Integer)param[2]).intValue()) {
-                        case CachedRowSetImpl.UNICODE_STREAM_PARAM:
-                            pstmt.setUnicodeStream(i + 1,
-                                                (java.io.InputStream)param[0],
-                                                ((Integer)param[1]).intValue());
-                            break;
-                        case CachedRowSetImpl.BINARY_STREAM_PARAM:
-                            pstmt.setBinaryStream(i + 1,
-                                               (java.io.InputStream)param[0],
-                                               ((Integer)param[1]).intValue());
-                            break;
-                        case CachedRowSetImpl.ASCII_STREAM_PARAM:
-                            pstmt.setAsciiStream(i + 1,
-                                              (java.io.InputStream)param[0],
-                                              ((Integer)param[1]).intValue());
-                            break;
-                        default:
-                            throw new SQLException(resBundle.handleGetObject("crsreader.paramtype").toString());
+                    if (pbrbm[0] instbnceof jbvb.io.InputStrebm) {
+                        switch (((Integer)pbrbm[2]).intVblue()) {
+                        cbse CbchedRowSetImpl.UNICODE_STREAM_PARAM:
+                            pstmt.setUnicodeStrebm(i + 1,
+                                                (jbvb.io.InputStrebm)pbrbm[0],
+                                                ((Integer)pbrbm[1]).intVblue());
+                            brebk;
+                        cbse CbchedRowSetImpl.BINARY_STREAM_PARAM:
+                            pstmt.setBinbryStrebm(i + 1,
+                                               (jbvb.io.InputStrebm)pbrbm[0],
+                                               ((Integer)pbrbm[1]).intVblue());
+                            brebk;
+                        cbse CbchedRowSetImpl.ASCII_STREAM_PARAM:
+                            pstmt.setAsciiStrebm(i + 1,
+                                              (jbvb.io.InputStrebm)pbrbm[0],
+                                              ((Integer)pbrbm[1]).intVblue());
+                            brebk;
+                        defbult:
+                            throw new SQLException(resBundle.hbndleGetObject("crsrebder.pbrbmtype").toString());
                         }
                     }
 
                     /*
-                     * no point at looking at the first element now;
-                     * what's left must be the setObject() cases.
+                     * no point bt looking bt the first element now;
+                     * whbt's left must be the setObject() cbses.
                      */
-                    if (param[1] instanceof Integer && param[2] instanceof Integer) {
-                        pstmt.setObject(i + 1, param[0], ((Integer)param[1]).intValue(),
-                                     ((Integer)param[2]).intValue());
+                    if (pbrbm[1] instbnceof Integer && pbrbm[2] instbnceof Integer) {
+                        pstmt.setObject(i + 1, pbrbm[0], ((Integer)pbrbm[1]).intVblue(),
+                                     ((Integer)pbrbm[2]).intVblue());
                         continue;
                     }
 
-                    throw new SQLException(resBundle.handleGetObject("crsreader.paramtype").toString());
+                    throw new SQLException(resBundle.hbndleGetObject("crsrebder.pbrbmtype").toString());
 
                 } else {
-                    // common case - this catches all SQL92 types
-                    pstmt.setObject(i + 1, params[i]);
+                    // common cbse - this cbtches bll SQL92 types
+                    pstmt.setObject(i + 1, pbrbms[i]);
                     continue;
                 }
             }  else {
-               // Try to get all the params to be set here
-               pstmt.setObject(i + 1, params[i]);
+               // Try to get bll the pbrbms to be set here
+               pstmt.setObject(i + 1, pbrbms[i]);
 
             }
         }
     }
 
     /**
-     * Assists in determining whether the current connection was created by this
-     * CachedRowSet to ensure incorrect connections are not prematurely terminated.
+     * Assists in determining whether the current connection wbs crebted by this
+     * CbchedRowSet to ensure incorrect connections bre not prembturely terminbted.
      *
-     * @return a boolean giving the status of whether the connection has been closed.
+     * @return b boolebn giving the stbtus of whether the connection hbs been closed.
      */
-    protected boolean getCloseConnection() {
+    protected boolebn getCloseConnection() {
         if (userCon == true)
-            return false;
+            return fblse;
 
         return true;
     }
 
     /**
-     *  This sets the start position in the ResultSet from where to begin. This is
-     * called by the Reader in the CachedRowSetImpl to set the position on the page
-     * to begin populating from.
-     * @param pos integer indicating the position in the <code>ResultSet</code> to begin
-     *        populating from.
+     *  This sets the stbrt position in the ResultSet from where to begin. This is
+     * cblled by the Rebder in the CbchedRowSetImpl to set the position on the pbge
+     * to begin populbting from.
+     * @pbrbm pos integer indicbting the position in the <code>ResultSet</code> to begin
+     *        populbting from.
      */
-    public void setStartPosition(int pos){
-        startPosition = pos;
+    public void setStbrtPosition(int pos){
+        stbrtPosition = pos;
     }
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Default state initialization happens here
-        ois.defaultReadObject();
-        // Initialization of  Res Bundle happens here .
+    privbte void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+        // Defbult stbte initiblizbtion hbppens here
+        ois.defbultRebdObject();
+        // Initiblizbtion of  Res Bundle hbppens here .
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
 
     }
 
-    static final long serialVersionUID =5049738185801363801L;
+    stbtic finbl long seriblVersionUID =5049738185801363801L;
 }

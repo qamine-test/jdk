@@ -1,310 +1,310 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import com.sun.jmx.defaults.ServiceName;
-import static com.sun.jmx.defaults.JmxProperties.MBEANSERVER_LOGGER;
+import com.sun.jmx.defbults.ServiceNbme;
+import stbtic com.sun.jmx.defbults.JmxProperties.MBEANSERVER_LOGGER;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.logging.Level;
-import java.util.Map;
-import java.util.Set;
-import javax.management.DynamicMBean;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.ObjectName;
-import javax.management.QueryExp;
-import javax.management.RuntimeOperationsException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.concurrent.locks.ReentrbntRebdWriteLock;
+import jbvb.util.logging.Level;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvbx.mbnbgement.DynbmicMBebn;
+import jbvbx.mbnbgement.InstbnceAlrebdyExistsException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.QueryExp;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
 
 /**
  * This repository does not support persistency.
  *
  * @since 1.5
  */
-public class Repository {
+public clbss Repository {
 
     /**
-     * An interface that allows the caller to get some control
-     * over the registration.
-     * @see #addMBean
+     * An interfbce thbt bllows the cbller to get some control
+     * over the registrbtion.
+     * @see #bddMBebn
      * @see #remove
      */
-    public interface RegistrationContext {
+    public interfbce RegistrbtionContext {
         /**
-         * Called by {@link #addMBean}.
-         * Can throw a RuntimeOperationsException to cancel the
-         * registration.
+         * Cblled by {@link #bddMBebn}.
+         * Cbn throw b RuntimeOperbtionsException to cbncel the
+         * registrbtion.
          */
         public void registering();
 
         /**
-         * Called by {@link #remove}.
+         * Cblled by {@link #remove}.
          * Any exception thrown by this method will be ignored.
          */
         public void unregistered();
     }
 
-    // Private fields -------------------------------------------->
+    // Privbte fields -------------------------------------------->
 
     /**
-     * The structure for storing the objects is very basic.
-     * A Hashtable is used for storing the different domains
-     * For each domain, a hashtable contains the instances with
-     * canonical key property list string as key and named object
-     * aggregated from given object name and mbean instance as value.
+     * The structure for storing the objects is very bbsic.
+     * A Hbshtbble is used for storing the different dombins
+     * For ebch dombin, b hbshtbble contbins the instbnces with
+     * cbnonicbl key property list string bs key bnd nbmed object
+     * bggregbted from given object nbme bnd mbebn instbnce bs vblue.
      */
-    private final Map<String,Map<String,NamedObject>> domainTb;
+    privbte finbl Mbp<String,Mbp<String,NbmedObject>> dombinTb;
 
     /**
-     * Number of elements contained in the Repository
+     * Number of elements contbined in the Repository
      */
-    private volatile int nbElements = 0;
+    privbte volbtile int nbElements = 0;
 
     /**
-     * Domain name of the server the repository is attached to.
-     * It is quicker to store the information in the repository rather
-     * than querying the framework each time the info is required.
+     * Dombin nbme of the server the repository is bttbched to.
+     * It is quicker to store the informbtion in the repository rbther
+     * thbn querying the frbmework ebch time the info is required.
      */
-    private final String domain;
+    privbte finbl String dombin;
 
     /**
-     * We use a global reentrant read write lock to protect the repository.
-     * This seems safer and more efficient: we are using Maps of Maps,
-     * Guaranteing consistency while using Concurent objects at each level
-     * may be more difficult.
+     * We use b globbl reentrbnt rebd write lock to protect the repository.
+     * This seems sbfer bnd more efficient: we bre using Mbps of Mbps,
+     * Gubrbnteing consistency while using Concurent objects bt ebch level
+     * mby be more difficult.
      **/
-    private final ReentrantReadWriteLock lock;
+    privbte finbl ReentrbntRebdWriteLock lock;
 
-    // Private fields <=============================================
+    // Privbte fields <=============================================
 
-    // Private methods --------------------------------------------->
+    // Privbte methods --------------------------------------------->
 
-    /* This class is used to match an ObjectName against a pattern. */
-    private final static class ObjectNamePattern {
-        private final String[] keys;
-        private final String[] values;
-        private final String   properties;
-        private final boolean  isPropertyListPattern;
-        private final boolean  isPropertyValuePattern;
-
-        /**
-         * The ObjectName pattern against which ObjectNames are matched.
-         **/
-        public final ObjectName pattern;
+    /* This clbss is used to mbtch bn ObjectNbme bgbinst b pbttern. */
+    privbte finbl stbtic clbss ObjectNbmePbttern {
+        privbte finbl String[] keys;
+        privbte finbl String[] vblues;
+        privbte finbl String   properties;
+        privbte finbl boolebn  isPropertyListPbttern;
+        privbte finbl boolebn  isPropertyVbluePbttern;
 
         /**
-         * Builds a new ObjectNamePattern object from an ObjectName pattern.
-         * @param pattern The ObjectName pattern under examination.
+         * The ObjectNbme pbttern bgbinst which ObjectNbmes bre mbtched.
          **/
-        public ObjectNamePattern(ObjectName pattern) {
-            this(pattern.isPropertyListPattern(),
-                 pattern.isPropertyValuePattern(),
-                 pattern.getCanonicalKeyPropertyListString(),
-                 pattern.getKeyPropertyList(),
-                 pattern);
+        public finbl ObjectNbme pbttern;
+
+        /**
+         * Builds b new ObjectNbmePbttern object from bn ObjectNbme pbttern.
+         * @pbrbm pbttern The ObjectNbme pbttern under exbminbtion.
+         **/
+        public ObjectNbmePbttern(ObjectNbme pbttern) {
+            this(pbttern.isPropertyListPbttern(),
+                 pbttern.isPropertyVbluePbttern(),
+                 pbttern.getCbnonicblKeyPropertyListString(),
+                 pbttern.getKeyPropertyList(),
+                 pbttern);
         }
 
         /**
-         * Builds a new ObjectNamePattern object from an ObjectName pattern
+         * Builds b new ObjectNbmePbttern object from bn ObjectNbme pbttern
          * constituents.
-         * @param propertyListPattern pattern.isPropertyListPattern().
-         * @param propertyValuePattern pattern.isPropertyValuePattern().
-         * @param canonicalProps pattern.getCanonicalKeyPropertyListString().
-         * @param keyPropertyList pattern.getKeyPropertyList().
-         * @param pattern The ObjectName pattern under examination.
+         * @pbrbm propertyListPbttern pbttern.isPropertyListPbttern().
+         * @pbrbm propertyVbluePbttern pbttern.isPropertyVbluePbttern().
+         * @pbrbm cbnonicblProps pbttern.getCbnonicblKeyPropertyListString().
+         * @pbrbm keyPropertyList pbttern.getKeyPropertyList().
+         * @pbrbm pbttern The ObjectNbme pbttern under exbminbtion.
          **/
-        ObjectNamePattern(boolean propertyListPattern,
-                          boolean propertyValuePattern,
-                          String canonicalProps,
-                          Map<String,String> keyPropertyList,
-                          ObjectName pattern) {
-            this.isPropertyListPattern = propertyListPattern;
-            this.isPropertyValuePattern = propertyValuePattern;
-            this.properties = canonicalProps;
-            final int len = keyPropertyList.size();
+        ObjectNbmePbttern(boolebn propertyListPbttern,
+                          boolebn propertyVbluePbttern,
+                          String cbnonicblProps,
+                          Mbp<String,String> keyPropertyList,
+                          ObjectNbme pbttern) {
+            this.isPropertyListPbttern = propertyListPbttern;
+            this.isPropertyVbluePbttern = propertyVbluePbttern;
+            this.properties = cbnonicblProps;
+            finbl int len = keyPropertyList.size();
             this.keys   = new String[len];
-            this.values = new String[len];
+            this.vblues = new String[len];
             int i = 0;
-            for (Map.Entry<String,String> entry : keyPropertyList.entrySet()) {
+            for (Mbp.Entry<String,String> entry : keyPropertyList.entrySet()) {
                 keys[i]   = entry.getKey();
-                values[i] = entry.getValue();
+                vblues[i] = entry.getVblue();
                 i++;
             }
-            this.pattern = pattern;
+            this.pbttern = pbttern;
         }
 
         /**
-         * Return true if the given ObjectName matches the ObjectName pattern
-         * for which this object has been built.
-         * WARNING: domain name is not considered here because it is supposed
-         *          not to be wildcard when called. PropertyList is also
+         * Return true if the given ObjectNbme mbtches the ObjectNbme pbttern
+         * for which this object hbs been built.
+         * WARNING: dombin nbme is not considered here becbuse it is supposed
+         *          not to be wildcbrd when cblled. PropertyList is blso
          *          supposed not to be zero-length.
-         * @param name The ObjectName we want to match against the pattern.
-         * @return true if <code>name</code> matches the pattern.
+         * @pbrbm nbme The ObjectNbme we wbnt to mbtch bgbinst the pbttern.
+         * @return true if <code>nbme</code> mbtches the pbttern.
          **/
-        public boolean matchKeys(ObjectName name) {
-            // If key property value pattern but not key property list
-            // pattern, then the number of key properties must be equal
+        public boolebn mbtchKeys(ObjectNbme nbme) {
+            // If key property vblue pbttern but not key property list
+            // pbttern, then the number of key properties must be equbl
             //
-            if (isPropertyValuePattern &&
-                !isPropertyListPattern &&
-                (name.getKeyPropertyList().size() != keys.length))
-                return false;
+            if (isPropertyVbluePbttern &&
+                !isPropertyListPbttern &&
+                (nbme.getKeyPropertyList().size() != keys.length))
+                return fblse;
 
-            // If key property value pattern or key property list pattern,
-            // then every property inside pattern should exist in name
+            // If key property vblue pbttern or key property list pbttern,
+            // then every property inside pbttern should exist in nbme
             //
-            if (isPropertyValuePattern || isPropertyListPattern) {
+            if (isPropertyVbluePbttern || isPropertyListPbttern) {
                 for (int i = keys.length - 1; i >= 0 ; i--) {
-                    // Find value in given object name for key at current
+                    // Find vblue in given object nbme for key bt current
                     // index in receiver
                     //
-                    String v = name.getKeyProperty(keys[i]);
-                    // Did we find a value for this key ?
+                    String v = nbme.getKeyProperty(keys[i]);
+                    // Did we find b vblue for this key ?
                     //
-                    if (v == null) return false;
-                    // If this property is ok (same key, same value), go to next
+                    if (v == null) return fblse;
+                    // If this property is ok (sbme key, sbme vblue), go to next
                     //
-                    if (isPropertyValuePattern &&
-                        pattern.isPropertyValuePattern(keys[i])) {
-                        // wildmatch key property values
-                        // values[i] is the pattern;
+                    if (isPropertyVbluePbttern &&
+                        pbttern.isPropertyVbluePbttern(keys[i])) {
+                        // wildmbtch key property vblues
+                        // vblues[i] is the pbttern;
                         // v is the string
-                        if (Util.wildmatch(v,values[i]))
+                        if (Util.wildmbtch(v,vblues[i]))
                             continue;
                         else
-                            return false;
+                            return fblse;
                     }
-                    if (v.equals(values[i])) continue;
-                    return false;
+                    if (v.equbls(vblues[i])) continue;
+                    return fblse;
                 }
                 return true;
             }
 
-            // If no pattern, then canonical names must be equal
+            // If no pbttern, then cbnonicbl nbmes must be equbl
             //
-            final String p1 = name.getCanonicalKeyPropertyListString();
-            final String p2 = properties;
-            return (p1.equals(p2));
+            finbl String p1 = nbme.getCbnonicblKeyPropertyListString();
+            finbl String p2 = properties;
+            return (p1.equbls(p2));
         }
     }
 
     /**
-     * Add all the matching objects from the given hashtable in the
-     * result set for the given ObjectNamePattern
-     * Do not check whether the domains match (only check for matching
-     * key property lists - see <i>matchKeys()</i>)
+     * Add bll the mbtching objects from the given hbshtbble in the
+     * result set for the given ObjectNbmePbttern
+     * Do not check whether the dombins mbtch (only check for mbtching
+     * key property lists - see <i>mbtchKeys()</i>)
      **/
-    private void addAllMatching(final Map<String,NamedObject> moiTb,
-                                final Set<NamedObject> result,
-                                final ObjectNamePattern pattern) {
+    privbte void bddAllMbtching(finbl Mbp<String,NbmedObject> moiTb,
+                                finbl Set<NbmedObject> result,
+                                finbl ObjectNbmePbttern pbttern) {
         synchronized (moiTb) {
-            for (NamedObject no : moiTb.values()) {
-                final ObjectName on = no.getName();
-                // if all couples (property, value) are contained
-                if (pattern.matchKeys(on)) result.add(no);
+            for (NbmedObject no : moiTb.vblues()) {
+                finbl ObjectNbme on = no.getNbme();
+                // if bll couples (property, vblue) bre contbined
+                if (pbttern.mbtchKeys(on)) result.bdd(no);
             }
         }
     }
 
-    private void addNewDomMoi(final DynamicMBean object,
-                              final String dom,
-                              final ObjectName name,
-                              final RegistrationContext context) {
-        final Map<String,NamedObject> moiTb =
-            new HashMap<String,NamedObject>();
-        final String key = name.getCanonicalKeyPropertyListString();
-        addMoiToTb(object,name,key,moiTb,context);
-        domainTb.put(dom, moiTb);
+    privbte void bddNewDomMoi(finbl DynbmicMBebn object,
+                              finbl String dom,
+                              finbl ObjectNbme nbme,
+                              finbl RegistrbtionContext context) {
+        finbl Mbp<String,NbmedObject> moiTb =
+            new HbshMbp<String,NbmedObject>();
+        finbl String key = nbme.getCbnonicblKeyPropertyListString();
+        bddMoiToTb(object,nbme,key,moiTb,context);
+        dombinTb.put(dom, moiTb);
         nbElements++;
     }
 
-    private void registering(RegistrationContext context) {
+    privbte void registering(RegistrbtionContext context) {
         if (context == null) return;
         try {
             context.registering();
-        } catch (RuntimeOperationsException x) {
+        } cbtch (RuntimeOperbtionsException x) {
             throw x;
-        } catch (RuntimeException x) {
-            throw new RuntimeOperationsException(x);
+        } cbtch (RuntimeException x) {
+            throw new RuntimeOperbtionsException(x);
         }
     }
 
-    private void unregistering(RegistrationContext context, ObjectName name) {
+    privbte void unregistering(RegistrbtionContext context, ObjectNbme nbme) {
         if (context == null) return;
         try {
             context.unregistered();
-        } catch (Exception x) {
+        } cbtch (Exception x) {
             // shouldn't come here...
             MBEANSERVER_LOGGER.log(Level.FINE,
-                    "Unexpected exception while unregistering "+name,
+                    "Unexpected exception while unregistering "+nbme,
                     x);
         }
     }
 
-    private void addMoiToTb(final DynamicMBean object,
-            final ObjectName name,
-            final String key,
-            final Map<String,NamedObject> moiTb,
-            final RegistrationContext context) {
+    privbte void bddMoiToTb(finbl DynbmicMBebn object,
+            finbl ObjectNbme nbme,
+            finbl String key,
+            finbl Mbp<String,NbmedObject> moiTb,
+            finbl RegistrbtionContext context) {
         registering(context);
-        moiTb.put(key,new NamedObject(name, object));
+        moiTb.put(key,new NbmedObject(nbme, object));
     }
 
     /**
-     * Retrieves the named object contained in repository
-     * from the given objectname.
+     * Retrieves the nbmed object contbined in repository
+     * from the given objectnbme.
      */
-    private NamedObject retrieveNamedObject(ObjectName name) {
+    privbte NbmedObject retrieveNbmedObject(ObjectNbme nbme) {
 
-        // No patterns inside reposit
-        if (name.isPattern()) return null;
+        // No pbtterns inside reposit
+        if (nbme.isPbttern()) return null;
 
-        // Extract the domain name.
-        String dom = name.getDomain().intern();
+        // Extrbct the dombin nbme.
+        String dom = nbme.getDombin().intern();
 
-        // Default domain case
+        // Defbult dombin cbse
         if (dom.length() == 0) {
-            dom = domain;
+            dom = dombin;
         }
 
-        Map<String,NamedObject> moiTb = domainTb.get(dom);
+        Mbp<String,NbmedObject> moiTb = dombinTb.get(dom);
         if (moiTb == null) {
-            return null; // No domain containing registered object names
+            return null; // No dombin contbining registered object nbmes
         }
 
-        return moiTb.get(name.getCanonicalKeyPropertyListString());
+        return moiTb.get(nbme.getCbnonicblKeyPropertyListString());
     }
 
-    // Private methods <=============================================
+    // Privbte methods <=============================================
 
     // Protected methods --------------------------------------------->
 
@@ -313,365 +313,365 @@ public class Repository {
     // Public methods --------------------------------------------->
 
     /**
-     * Construct a new repository with the given default domain.
+     * Construct b new repository with the given defbult dombin.
      */
-    public Repository(String domain) {
-        this(domain,true);
+    public Repository(String dombin) {
+        this(dombin,true);
     }
 
     /**
-     * Construct a new repository with the given default domain.
+     * Construct b new repository with the given defbult dombin.
      */
-    public Repository(String domain, boolean fairLock) {
-        lock = new ReentrantReadWriteLock(fairLock);
+    public Repository(String dombin, boolebn fbirLock) {
+        lock = new ReentrbntRebdWriteLock(fbirLock);
 
-        domainTb = new HashMap<String,Map<String,NamedObject>>(5);
+        dombinTb = new HbshMbp<String,Mbp<String,NbmedObject>>(5);
 
-        if (domain != null && domain.length() != 0)
-            this.domain = domain.intern(); // we use == domain later on...
+        if (dombin != null && dombin.length() != 0)
+            this.dombin = dombin.intern(); // we use == dombin lbter on...
         else
-            this.domain = ServiceName.DOMAIN;
+            this.dombin = ServiceNbme.DOMAIN;
 
-        // Creates a new hashtable for the default domain
-        domainTb.put(this.domain, new HashMap<String,NamedObject>());
+        // Crebtes b new hbshtbble for the defbult dombin
+        dombinTb.put(this.dombin, new HbshMbp<String,NbmedObject>());
     }
 
     /**
-     * Returns the list of domains in which any MBean is currently
+     * Returns the list of dombins in which bny MBebn is currently
      * registered.
      *
      */
-    public String[] getDomains() {
+    public String[] getDombins() {
 
-        lock.readLock().lock();
-        final List<String> result;
+        lock.rebdLock().lock();
+        finbl List<String> result;
         try {
-            // Temporary list
-            result = new ArrayList<String>(domainTb.size());
-            for (Map.Entry<String,Map<String,NamedObject>> entry :
-                     domainTb.entrySet()) {
-                // Skip domains that are in the table but have no
-                // MBean registered in them
-                // in particular the default domain may be like this
-                Map<String,NamedObject> t = entry.getValue();
+            // Temporbry list
+            result = new ArrbyList<String>(dombinTb.size());
+            for (Mbp.Entry<String,Mbp<String,NbmedObject>> entry :
+                     dombinTb.entrySet()) {
+                // Skip dombins thbt bre in the tbble but hbve no
+                // MBebn registered in them
+                // in pbrticulbr the defbult dombin mby be like this
+                Mbp<String,NbmedObject> t = entry.getVblue();
                 if (t != null && t.size() != 0)
-                    result.add(entry.getKey());
+                    result.bdd(entry.getKey());
             }
-        } finally {
-            lock.readLock().unlock();
+        } finblly {
+            lock.rebdLock().unlock();
         }
 
-        // Make an array from result.
-        return result.toArray(new String[result.size()]);
+        // Mbke bn brrby from result.
+        return result.toArrby(new String[result.size()]);
     }
 
     /**
-     * Stores an MBean associated with its object name in the repository.
+     * Stores bn MBebn bssocibted with its object nbme in the repository.
      *
-     * @param object  MBean to be stored in the repository.
-     * @param name    MBean object name.
-     * @param context A registration context. If non null, the repository
-     *                will call {@link RegistrationContext#registering()
+     * @pbrbm object  MBebn to be stored in the repository.
+     * @pbrbm nbme    MBebn object nbme.
+     * @pbrbm context A registrbtion context. If non null, the repository
+     *                will cbll {@link RegistrbtionContext#registering()
      *                context.registering()} from within the repository
-     *                lock, when it has determined that the {@code object}
-     *                can be stored in the repository with that {@code name}.
-     *                If {@link RegistrationContext#registering()
-     *                context.registering()} throws an exception, the
-     *                operation is abandonned, the MBean is not added to the
-     *                repository, and a {@link RuntimeOperationsException}
+     *                lock, when it hbs determined thbt the {@code object}
+     *                cbn be stored in the repository with thbt {@code nbme}.
+     *                If {@link RegistrbtionContext#registering()
+     *                context.registering()} throws bn exception, the
+     *                operbtion is bbbndonned, the MBebn is not bdded to the
+     *                repository, bnd b {@link RuntimeOperbtionsException}
      *                is thrown.
      */
-    public void addMBean(final DynamicMBean object, ObjectName name,
-            final RegistrationContext context)
-        throws InstanceAlreadyExistsException {
+    public void bddMBebn(finbl DynbmicMBebn object, ObjectNbme nbme,
+            finbl RegistrbtionContext context)
+        throws InstbnceAlrebdyExistsException {
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER, Repository.class.getName(),
-                    "addMBean", "name = " + name);
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
+            MBEANSERVER_LOGGER.logp(Level.FINER, Repository.clbss.getNbme(),
+                    "bddMBebn", "nbme = " + nbme);
         }
 
-        // Extract the domain name.
-        String dom = name.getDomain().intern();
-        boolean to_default_domain = false;
+        // Extrbct the dombin nbme.
+        String dom = nbme.getDombin().intern();
+        boolebn to_defbult_dombin = fblse;
 
-        // Set domain to default if domain is empty and not already set
+        // Set dombin to defbult if dombin is empty bnd not blrebdy set
         if (dom.length() == 0)
-            name = Util.newObjectName(domain + name.toString());
+            nbme = Util.newObjectNbme(dombin + nbme.toString());
 
-        // Do we have default domain ?
-        if (dom == domain) {  // ES: OK (dom & domain are interned)
-            to_default_domain = true;
-            dom = domain;
+        // Do we hbve defbult dombin ?
+        if (dom == dombin) {  // ES: OK (dom & dombin bre interned)
+            to_defbult_dombin = true;
+            dom = dombin;
         } else {
-            to_default_domain = false;
+            to_defbult_dombin = fblse;
         }
 
-        // Validate name for an object
-        if (name.isPattern()) {
-            throw new RuntimeOperationsException(
-             new IllegalArgumentException("Repository: cannot add mbean for " +
-                                          "pattern name " + name.toString()));
+        // Vblidbte nbme for bn object
+        if (nbme.isPbttern()) {
+            throw new RuntimeOperbtionsException(
+             new IllegblArgumentException("Repository: cbnnot bdd mbebn for " +
+                                          "pbttern nbme " + nbme.toString()));
         }
 
         lock.writeLock().lock();
         try {
-            // Domain cannot be JMImplementation if entry does not exist
-            if ( !to_default_domain &&
-                    dom.equals("JMImplementation") &&
-                    domainTb.containsKey("JMImplementation")) {
-                throw new RuntimeOperationsException(
-                        new IllegalArgumentException(
-                        "Repository: domain name cannot be JMImplementation"));
+            // Dombin cbnnot be JMImplementbtion if entry does not exist
+            if ( !to_defbult_dombin &&
+                    dom.equbls("JMImplementbtion") &&
+                    dombinTb.contbinsKey("JMImplementbtion")) {
+                throw new RuntimeOperbtionsException(
+                        new IllegblArgumentException(
+                        "Repository: dombin nbme cbnnot be JMImplementbtion"));
             }
 
-            // If domain does not already exist, add it to the hash table
-            final Map<String,NamedObject> moiTb = domainTb.get(dom);
+            // If dombin does not blrebdy exist, bdd it to the hbsh tbble
+            finbl Mbp<String,NbmedObject> moiTb = dombinTb.get(dom);
             if (moiTb == null) {
-                addNewDomMoi(object, dom, name, context);
+                bddNewDomMoi(object, dom, nbme, context);
                 return;
             } else {
-                // Add instance if not already present
-                String cstr = name.getCanonicalKeyPropertyListString();
-                NamedObject elmt= moiTb.get(cstr);
+                // Add instbnce if not blrebdy present
+                String cstr = nbme.getCbnonicblKeyPropertyListString();
+                NbmedObject elmt= moiTb.get(cstr);
                 if (elmt != null) {
-                    throw new InstanceAlreadyExistsException(name.toString());
+                    throw new InstbnceAlrebdyExistsException(nbme.toString());
                 } else {
                     nbElements++;
-                    addMoiToTb(object,name,cstr,moiTb,context);
+                    bddMoiToTb(object,nbme,cstr,moiTb,context);
                 }
             }
 
-        } finally {
+        } finblly {
             lock.writeLock().unlock();
         }
     }
 
     /**
-     * Checks whether an MBean of the name specified is already stored in
+     * Checks whether bn MBebn of the nbme specified is blrebdy stored in
      * the repository.
      *
-     * @param name name of the MBean to find.
+     * @pbrbm nbme nbme of the MBebn to find.
      *
-     * @return  true if the MBean is stored in the repository,
-     *          false otherwise.
+     * @return  true if the MBebn is stored in the repository,
+     *          fblse otherwise.
      */
-    public boolean contains(ObjectName name) {
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER, Repository.class.getName(),
-                    "contains", " name = " + name);
+    public boolebn contbins(ObjectNbme nbme) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
+            MBEANSERVER_LOGGER.logp(Level.FINER, Repository.clbss.getNbme(),
+                    "contbins", " nbme = " + nbme);
         }
-        lock.readLock().lock();
+        lock.rebdLock().lock();
         try {
-            return (retrieveNamedObject(name) != null);
-        } finally {
-            lock.readLock().unlock();
+            return (retrieveNbmedObject(nbme) != null);
+        } finblly {
+            lock.rebdLock().unlock();
         }
     }
 
     /**
-     * Retrieves the MBean of the name specified from the repository. The
-     * object name must match exactly.
+     * Retrieves the MBebn of the nbme specified from the repository. The
+     * object nbme must mbtch exbctly.
      *
-     * @param name name of the MBean to retrieve.
+     * @pbrbm nbme nbme of the MBebn to retrieve.
      *
-     * @return  The retrieved MBean if it is contained in the repository,
+     * @return  The retrieved MBebn if it is contbined in the repository,
      *          null otherwise.
      */
-    public DynamicMBean retrieve(ObjectName name) {
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER, Repository.class.getName(),
-                    "retrieve", "name = " + name);
+    public DynbmicMBebn retrieve(ObjectNbme nbme) {
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
+            MBEANSERVER_LOGGER.logp(Level.FINER, Repository.clbss.getNbme(),
+                    "retrieve", "nbme = " + nbme);
         }
 
-        // Calls internal retrieve method to get the named object
-        lock.readLock().lock();
+        // Cblls internbl retrieve method to get the nbmed object
+        lock.rebdLock().lock();
         try {
-            NamedObject no = retrieveNamedObject(name);
+            NbmedObject no = retrieveNbmedObject(nbme);
             if (no == null) return null;
             else return no.getObject();
-        } finally {
-            lock.readLock().unlock();
+        } finblly {
+            lock.rebdLock().unlock();
         }
     }
 
     /**
-     * Selects and retrieves the list of MBeans whose names match the specified
-     * object name pattern and which match the specified query expression
-     * (optionally).
+     * Selects bnd retrieves the list of MBebns whose nbmes mbtch the specified
+     * object nbme pbttern bnd which mbtch the specified query expression
+     * (optionblly).
      *
-     * @param pattern The name of the MBean(s) to retrieve - may be a specific
-     * object or a name pattern allowing multiple MBeans to be selected.
-     * @param query query expression to apply when selecting objects - this
-     * parameter will be ignored when the Repository Service does not
+     * @pbrbm pbttern The nbme of the MBebn(s) to retrieve - mby be b specific
+     * object or b nbme pbttern bllowing multiple MBebns to be selected.
+     * @pbrbm query query expression to bpply when selecting objects - this
+     * pbrbmeter will be ignored when the Repository Service does not
      * support filtering.
      *
-     * @return  The list of MBeans selected. There may be zero, one or many
-     *          MBeans returned in the set.
+     * @return  The list of MBebns selected. There mby be zero, one or mbny
+     *          MBebns returned in the set.
      */
-    public Set<NamedObject> query(ObjectName pattern, QueryExp query) {
+    public Set<NbmedObject> query(ObjectNbme pbttern, QueryExp query) {
 
-        final Set<NamedObject> result = new HashSet<NamedObject>();
+        finbl Set<NbmedObject> result = new HbshSet<NbmedObject>();
 
-        // The following filter cases are considered:
-        // null, "", "*:*" : names in all domains
-        // ":*", ":[key=value],*" : names in defaultDomain
-        // "domain:*", "domain:[key=value],*" : names in the specified domain
+        // The following filter cbses bre considered:
+        // null, "", "*:*" : nbmes in bll dombins
+        // ":*", ":[key=vblue],*" : nbmes in defbultDombin
+        // "dombin:*", "dombin:[key=vblue],*" : nbmes in the specified dombin
 
-        // Surely one of the most frequent cases ... query on the whole world
-        ObjectName name;
-        if (pattern == null ||
-            pattern.getCanonicalName().length() == 0 ||
-            pattern.equals(ObjectName.WILDCARD))
-           name = ObjectName.WILDCARD;
-        else name = pattern;
+        // Surely one of the most frequent cbses ... query on the whole world
+        ObjectNbme nbme;
+        if (pbttern == null ||
+            pbttern.getCbnonicblNbme().length() == 0 ||
+            pbttern.equbls(ObjectNbme.WILDCARD))
+           nbme = ObjectNbme.WILDCARD;
+        else nbme = pbttern;
 
-        lock.readLock().lock();
+        lock.rebdLock().lock();
         try {
 
-            // If pattern is not a pattern, retrieve this mbean !
-            if (!name.isPattern()) {
-                final NamedObject no = retrieveNamedObject(name);
-                if (no != null) result.add(no);
+            // If pbttern is not b pbttern, retrieve this mbebn !
+            if (!nbme.isPbttern()) {
+                finbl NbmedObject no = retrieveNbmedObject(nbme);
+                if (no != null) result.bdd(no);
                 return result;
             }
 
-            // All names in all domains
-            if (name == ObjectName.WILDCARD) {
-                for (Map<String,NamedObject> moiTb : domainTb.values()) {
-                    result.addAll(moiTb.values());
+            // All nbmes in bll dombins
+            if (nbme == ObjectNbme.WILDCARD) {
+                for (Mbp<String,NbmedObject> moiTb : dombinTb.vblues()) {
+                    result.bddAll(moiTb.vblues());
                 }
                 return result;
             }
 
-            final String canonical_key_property_list_string =
-                    name.getCanonicalKeyPropertyListString();
-            final boolean allNames =
-                    (canonical_key_property_list_string.length()==0);
-            final ObjectNamePattern namePattern =
-                (allNames?null:new ObjectNamePattern(name));
+            finbl String cbnonicbl_key_property_list_string =
+                    nbme.getCbnonicblKeyPropertyListString();
+            finbl boolebn bllNbmes =
+                    (cbnonicbl_key_property_list_string.length()==0);
+            finbl ObjectNbmePbttern nbmePbttern =
+                (bllNbmes?null:new ObjectNbmePbttern(nbme));
 
-            // All names in default domain
-            if (name.getDomain().length() == 0) {
-                final Map<String,NamedObject> moiTb = domainTb.get(domain);
-                if (allNames)
-                    result.addAll(moiTb.values());
+            // All nbmes in defbult dombin
+            if (nbme.getDombin().length() == 0) {
+                finbl Mbp<String,NbmedObject> moiTb = dombinTb.get(dombin);
+                if (bllNbmes)
+                    result.bddAll(moiTb.vblues());
                 else
-                    addAllMatching(moiTb, result, namePattern);
+                    bddAllMbtching(moiTb, result, nbmePbttern);
                 return result;
             }
 
-            if (!name.isDomainPattern()) {
-                final Map<String,NamedObject> moiTb = domainTb.get(name.getDomain());
+            if (!nbme.isDombinPbttern()) {
+                finbl Mbp<String,NbmedObject> moiTb = dombinTb.get(nbme.getDombin());
                 if (moiTb == null) return Collections.emptySet();
-                if (allNames)
-                    result.addAll(moiTb.values());
+                if (bllNbmes)
+                    result.bddAll(moiTb.vblues());
                 else
-                    addAllMatching(moiTb, result, namePattern);
+                    bddAllMbtching(moiTb, result, nbmePbttern);
                 return result;
             }
 
-            // Pattern matching in the domain name (*, ?)
-            final String dom2Match = name.getDomain();
-            for (String dom : domainTb.keySet()) {
-                if (Util.wildmatch(dom, dom2Match)) {
-                    final Map<String,NamedObject> moiTb = domainTb.get(dom);
-                    if (allNames)
-                        result.addAll(moiTb.values());
+            // Pbttern mbtching in the dombin nbme (*, ?)
+            finbl String dom2Mbtch = nbme.getDombin();
+            for (String dom : dombinTb.keySet()) {
+                if (Util.wildmbtch(dom, dom2Mbtch)) {
+                    finbl Mbp<String,NbmedObject> moiTb = dombinTb.get(dom);
+                    if (bllNbmes)
+                        result.bddAll(moiTb.vblues());
                     else
-                        addAllMatching(moiTb, result, namePattern);
+                        bddAllMbtching(moiTb, result, nbmePbttern);
                 }
             }
             return result;
-        } finally {
-            lock.readLock().unlock();
+        } finblly {
+            lock.rebdLock().unlock();
         }
     }
 
     /**
-     * Removes an MBean from the repository.
+     * Removes bn MBebn from the repository.
      *
-     * @param name name of the MBean to remove.
-     * @param context A registration context. If non null, the repository
-     *                will call {@link RegistrationContext#unregistered()
+     * @pbrbm nbme nbme of the MBebn to remove.
+     * @pbrbm context A registrbtion context. If non null, the repository
+     *                will cbll {@link RegistrbtionContext#unregistered()
      *                context.unregistered()} from within the repository
-     *                lock, just after the mbean associated with
-     *                {@code name} is removed from the repository.
-     *                If {@link RegistrationContext#unregistered()
-     *                context.unregistered()} is not expected to throw any
+     *                lock, just bfter the mbebn bssocibted with
+     *                {@code nbme} is removed from the repository.
+     *                If {@link RegistrbtionContext#unregistered()
+     *                context.unregistered()} is not expected to throw bny
      *                exception. If it does, the exception is logged
-     *                and swallowed.
+     *                bnd swbllowed.
      *
-     * @exception InstanceNotFoundException The MBean does not exist in
+     * @exception InstbnceNotFoundException The MBebn does not exist in
      *            the repository.
      */
-    public void remove(final ObjectName name,
-            final RegistrationContext context)
-        throws InstanceNotFoundException {
+    public void remove(finbl ObjectNbme nbme,
+            finbl RegistrbtionContext context)
+        throws InstbnceNotFoundException {
 
         // Debugging stuff
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER, Repository.class.getName(),
-                    "remove", "name = " + name);
+        if (MBEANSERVER_LOGGER.isLoggbble(Level.FINER)) {
+            MBEANSERVER_LOGGER.logp(Level.FINER, Repository.clbss.getNbme(),
+                    "remove", "nbme = " + nbme);
         }
 
-        // Extract domain name.
-        String dom= name.getDomain().intern();
+        // Extrbct dombin nbme.
+        String dom= nbme.getDombin().intern();
 
-        // Default domain case
-        if (dom.length() == 0) dom = domain;
+        // Defbult dombin cbse
+        if (dom.length() == 0) dom = dombin;
 
         lock.writeLock().lock();
         try {
-            // Find the domain subtable
-            final Map<String,NamedObject> moiTb = domainTb.get(dom);
+            // Find the dombin subtbble
+            finbl Mbp<String,NbmedObject> moiTb = dombinTb.get(dom);
             if (moiTb == null) {
-                throw new InstanceNotFoundException(name.toString());
+                throw new InstbnceNotFoundException(nbme.toString());
             }
 
             // Remove the corresponding element
-            if (moiTb.remove(name.getCanonicalKeyPropertyListString())==null) {
-                throw new InstanceNotFoundException(name.toString());
+            if (moiTb.remove(nbme.getCbnonicblKeyPropertyListString())==null) {
+                throw new InstbnceNotFoundException(nbme.toString());
             }
 
             // We removed it !
             nbElements--;
 
-            // No more object for this domain, we remove this domain hashtable
+            // No more object for this dombin, we remove this dombin hbshtbble
             if (moiTb.isEmpty()) {
-                domainTb.remove(dom);
+                dombinTb.remove(dom);
 
-                // set a new default domain table (always present)
-                // need to reinstantiate a hashtable because of possible
-                // big buckets array size inside table, never cleared,
+                // set b new defbult dombin tbble (blwbys present)
+                // need to reinstbntibte b hbshtbble becbuse of possible
+                // big buckets brrby size inside tbble, never clebred,
                 // thus the new !
-                if (dom == domain) // ES: OK dom and domain are interned.
-                    domainTb.put(domain, new HashMap<String,NamedObject>());
+                if (dom == dombin) // ES: OK dom bnd dombin bre interned.
+                    dombinTb.put(dombin, new HbshMbp<String,NbmedObject>());
             }
 
-            unregistering(context,name);
+            unregistering(context,nbme);
 
-        } finally {
+        } finblly {
             lock.writeLock().unlock();
         }
     }
 
     /**
-     * Gets the number of MBeans stored in the repository.
+     * Gets the number of MBebns stored in the repository.
      *
-     * @return  Number of MBeans.
+     * @return  Number of MBebns.
      */
     public Integer getCount() {
         return nbElements;
     }
 
     /**
-     * Gets the name of the domain currently used by default in the
+     * Gets the nbme of the dombin currently used by defbult in the
      * repository.
      *
-     * @return  A string giving the name of the default domain name.
+     * @return  A string giving the nbme of the defbult dombin nbme.
      */
-    public String getDefaultDomain() {
-        return domain;
+    public String getDefbultDombin() {
+        return dombin;
     }
 
     // Public methods <=============================================

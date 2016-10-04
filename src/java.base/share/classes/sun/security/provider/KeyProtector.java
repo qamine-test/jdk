@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.Key;
-import java.security.KeyStoreException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.UnrecoverableKeyException;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.security.Key;
+import jbvb.security.KeyStoreException;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.SecureRbndom;
+import jbvb.security.UnrecoverbbleKeyException;
+import jbvb.util.*;
 
 import sun.security.pkcs.PKCS8Key;
-import sun.security.pkcs.EncryptedPrivateKeyInfo;
+import sun.security.pkcs.EncryptedPrivbteKeyInfo;
 import sun.security.x509.AlgorithmId;
 import sun.security.util.ObjectIdentifier;
-import sun.security.util.DerValue;
+import sun.security.util.DerVblue;
 
 /**
- * This is an implementation of a Sun proprietary, exportable algorithm
- * intended for use when protecting (or recovering the cleartext version of)
+ * This is bn implementbtion of b Sun proprietbry, exportbble blgorithm
+ * intended for use when protecting (or recovering the clebrtext version of)
  * sensitive keys.
- * This algorithm is not intended as a general purpose cipher.
+ * This blgorithm is not intended bs b generbl purpose cipher.
  *
- * This is how the algorithm works for key protection:
+ * This is how the blgorithm works for key protection:
  *
- * p - user password
- * s - random salt
+ * p - user pbssword
+ * s - rbndom sblt
  * X - xor key
  * P - to-be-protected key
  * Y - protected key
- * R - what gets stored in the keystore
+ * R - whbt gets stored in the keystore
  *
  * Step 1:
- * Take the user's password, append a random salt (of fixed size) to it,
- * and hash it: d1 = digest(p, s)
+ * Tbke the user's pbssword, bppend b rbndom sblt (of fixed size) to it,
+ * bnd hbsh it: d1 = digest(p, s)
  * Store d1 in X.
  *
  * Step 2:
- * Take the user's password, append the digest result from the previous step,
- * and hash it: dn = digest(p, dn-1).
- * Store dn in X (append it to the previously stored digests).
- * Repeat this step until the length of X matches the length of the private key
+ * Tbke the user's pbssword, bppend the digest result from the previous step,
+ * bnd hbsh it: dn = digest(p, dn-1).
+ * Store dn in X (bppend it to the previously stored digests).
+ * Repebt this step until the length of X mbtches the length of the privbte key
  * P.
  *
  * Step 3:
- * XOR X and P, and store the result in Y: Y = X XOR P.
+ * XOR X bnd P, bnd store the result in Y: Y = X XOR P.
  *
  * Step 4:
- * Store s, Y, and digest(p, P) in the result buffer R:
- * R = s + Y + digest(p, P), where "+" denotes concatenation.
- * (NOTE: digest(p, P) is stored in the result buffer, so that when the key is
- * recovered, we can check if the recovered key indeed matches the original
+ * Store s, Y, bnd digest(p, P) in the result buffer R:
+ * R = s + Y + digest(p, P), where "+" denotes concbtenbtion.
+ * (NOTE: digest(p, P) is stored in the result buffer, so thbt when the key is
+ * recovered, we cbn check if the recovered key indeed mbtches the originbl
  * key.) R is stored in the keystore.
  *
- * The protected key is recovered as follows:
+ * The protected key is recovered bs follows:
  *
- * Step1 and Step2 are the same as above, except that the salt is not randomly
- * generated, but taken from the result R of step 4 (the first length(s)
+ * Step1 bnd Step2 bre the sbme bs bbove, except thbt the sblt is not rbndomly
+ * generbted, but tbken from the result R of step 4 (the first length(s)
  * bytes).
  *
- * Step 3 (XOR operation) yields the plaintext key.
+ * Step 3 (XOR operbtion) yields the plbintext key.
  *
- * Then concatenate the password with the recovered key, and compare with the
- * last length(digest(p, P)) bytes of R. If they match, the recovered key is
- * indeed the same key as the original key.
+ * Then concbtenbte the pbssword with the recovered key, bnd compbre with the
+ * lbst length(digest(p, P)) bytes of R. If they mbtch, the recovered key is
+ * indeed the sbme key bs the originbl key.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  *
- * @see java.security.KeyStore
- * @see JavaKeyStore
+ * @see jbvb.security.KeyStore
+ * @see JbvbKeyStore
  * @see KeyTool
  *
  * @since 1.2
  */
 
-final class KeyProtector {
+finbl clbss KeyProtector {
 
-    private static final int SALT_LEN = 20; // the salt length
-    private static final String DIGEST_ALG = "SHA";
-    private static final int DIGEST_LEN = 20;
+    privbte stbtic finbl int SALT_LEN = 20; // the sblt length
+    privbte stbtic finbl String DIGEST_ALG = "SHA";
+    privbte stbtic finbl int DIGEST_LEN = 20;
 
-    // defined by JavaSoft
-    private static final String KEY_PROTECTOR_OID = "1.3.6.1.4.1.42.2.17.1.1";
+    // defined by JbvbSoft
+    privbte stbtic finbl String KEY_PROTECTOR_OID = "1.3.6.1.4.1.42.2.17.1.1";
 
-    // The password used for protecting/recovering keys passed through this
-    // key protector. We store it as a byte array, so that we can digest it.
-    private byte[] passwdBytes;
+    // The pbssword used for protecting/recovering keys pbssed through this
+    // key protector. We store it bs b byte brrby, so thbt we cbn digest it.
+    privbte byte[] pbsswdBytes;
 
-    private MessageDigest md;
+    privbte MessbgeDigest md;
 
 
     /**
-     * Creates an instance of this class, and initializes it with the given
-     * password.
+     * Crebtes bn instbnce of this clbss, bnd initiblizes it with the given
+     * pbssword.
      *
-     * <p>The password is expected to be in printable ASCII.
-     * Normal rules for good password selection apply: at least
-     * seven characters, mixed case, with punctuation encouraged.
-     * Phrases or words which are easily guessed, for example by
-     * being found in dictionaries, are bad.
+     * <p>The pbssword is expected to be in printbble ASCII.
+     * Normbl rules for good pbssword selection bpply: bt lebst
+     * seven chbrbcters, mixed cbse, with punctubtion encourbged.
+     * Phrbses or words which bre ebsily guessed, for exbmple by
+     * being found in dictionbries, bre bbd.
      */
-    public KeyProtector(char[] password)
+    public KeyProtector(chbr[] pbssword)
         throws NoSuchAlgorithmException
     {
         int i, j;
 
-        if (password == null) {
-           throw new IllegalArgumentException("password can't be null");
+        if (pbssword == null) {
+           throw new IllegblArgumentException("pbssword cbn't be null");
         }
-        md = MessageDigest.getInstance(DIGEST_ALG);
-        // Convert password to byte array, so that it can be digested
-        passwdBytes = new byte[password.length * 2];
-        for (i=0, j=0; i<password.length; i++) {
-            passwdBytes[j++] = (byte)(password[i] >> 8);
-            passwdBytes[j++] = (byte)password[i];
+        md = MessbgeDigest.getInstbnce(DIGEST_ALG);
+        // Convert pbssword to byte brrby, so thbt it cbn be digested
+        pbsswdBytes = new byte[pbssword.length * 2];
+        for (i=0, j=0; i<pbssword.length; i++) {
+            pbsswdBytes[j++] = (byte)(pbssword[i] >> 8);
+            pbsswdBytes[j++] = (byte)pbssword[i];
         }
     }
 
     /**
-     * Ensures that the password bytes of this key protector are
-     * set to zero when there are no more references to it.
+     * Ensures thbt the pbssword bytes of this key protector bre
+     * set to zero when there bre no more references to it.
      */
-    protected void finalize() {
-        if (passwdBytes != null) {
-            Arrays.fill(passwdBytes, (byte)0x00);
-            passwdBytes = null;
+    protected void finblize() {
+        if (pbsswdBytes != null) {
+            Arrbys.fill(pbsswdBytes, (byte)0x00);
+            pbsswdBytes = null;
         }
     }
 
     /*
-     * Protects the given plaintext key, using the password provided at
+     * Protects the given plbintext key, using the pbssword provided bt
      * construction time.
      */
     public byte[] protect(Key key) throws KeyStoreException
@@ -167,90 +167,90 @@ final class KeyProtector {
         int encrKeyOffset = 0;
 
         if (key == null) {
-            throw new IllegalArgumentException("plaintext key can't be null");
+            throw new IllegblArgumentException("plbintext key cbn't be null");
         }
 
-        if (!"PKCS#8".equalsIgnoreCase(key.getFormat())) {
+        if (!"PKCS#8".equblsIgnoreCbse(key.getFormbt())) {
             throw new KeyStoreException(
-                "Cannot get key bytes, not PKCS#8 encoded");
+                "Cbnnot get key bytes, not PKCS#8 encoded");
         }
 
-        byte[] plainKey = key.getEncoded();
-        if (plainKey == null) {
+        byte[] plbinKey = key.getEncoded();
+        if (plbinKey == null) {
             throw new KeyStoreException(
-                "Cannot get key bytes, encoding not supported");
+                "Cbnnot get key bytes, encoding not supported");
         }
 
         // Determine the number of digest rounds
-        numRounds = plainKey.length / DIGEST_LEN;
-        if ((plainKey.length % DIGEST_LEN) != 0)
+        numRounds = plbinKey.length / DIGEST_LEN;
+        if ((plbinKey.length % DIGEST_LEN) != 0)
             numRounds++;
 
-        // Create a random salt
-        byte[] salt = new byte[SALT_LEN];
-        SecureRandom random = new SecureRandom();
-        random.nextBytes(salt);
+        // Crebte b rbndom sblt
+        byte[] sblt = new byte[SALT_LEN];
+        SecureRbndom rbndom = new SecureRbndom();
+        rbndom.nextBytes(sblt);
 
-        // Set up the byte array which will be XORed with "plainKey"
-        byte[] xorKey = new byte[plainKey.length];
+        // Set up the byte brrby which will be XORed with "plbinKey"
+        byte[] xorKey = new byte[plbinKey.length];
 
-        // Compute the digests, and store them in "xorKey"
-        for (i = 0, xorOffset = 0, digest = salt;
+        // Compute the digests, bnd store them in "xorKey"
+        for (i = 0, xorOffset = 0, digest = sblt;
              i < numRounds;
              i++, xorOffset += DIGEST_LEN) {
-            md.update(passwdBytes);
-            md.update(digest);
+            md.updbte(pbsswdBytes);
+            md.updbte(digest);
             digest = md.digest();
             md.reset();
             // Copy the digest into "xorKey"
             if (i < numRounds - 1) {
-                System.arraycopy(digest, 0, xorKey, xorOffset,
+                System.brrbycopy(digest, 0, xorKey, xorOffset,
                                  digest.length);
             } else {
-                System.arraycopy(digest, 0, xorKey, xorOffset,
+                System.brrbycopy(digest, 0, xorKey, xorOffset,
                                  xorKey.length - xorOffset);
             }
         }
 
-        // XOR "plainKey" with "xorKey", and store the result in "tmpKey"
-        byte[] tmpKey = new byte[plainKey.length];
+        // XOR "plbinKey" with "xorKey", bnd store the result in "tmpKey"
+        byte[] tmpKey = new byte[plbinKey.length];
         for (i = 0; i < tmpKey.length; i++) {
-            tmpKey[i] = (byte)(plainKey[i] ^ xorKey[i]);
+            tmpKey[i] = (byte)(plbinKey[i] ^ xorKey[i]);
         }
 
-        // Store salt and "tmpKey" in "encrKey"
-        byte[] encrKey = new byte[salt.length + tmpKey.length + DIGEST_LEN];
-        System.arraycopy(salt, 0, encrKey, encrKeyOffset, salt.length);
-        encrKeyOffset += salt.length;
-        System.arraycopy(tmpKey, 0, encrKey, encrKeyOffset, tmpKey.length);
+        // Store sblt bnd "tmpKey" in "encrKey"
+        byte[] encrKey = new byte[sblt.length + tmpKey.length + DIGEST_LEN];
+        System.brrbycopy(sblt, 0, encrKey, encrKeyOffset, sblt.length);
+        encrKeyOffset += sblt.length;
+        System.brrbycopy(tmpKey, 0, encrKey, encrKeyOffset, tmpKey.length);
         encrKeyOffset += tmpKey.length;
 
-        // Append digest(password, plainKey) as an integrity check to "encrKey"
-        md.update(passwdBytes);
-        Arrays.fill(passwdBytes, (byte)0x00);
-        passwdBytes = null;
-        md.update(plainKey);
+        // Append digest(pbssword, plbinKey) bs bn integrity check to "encrKey"
+        md.updbte(pbsswdBytes);
+        Arrbys.fill(pbsswdBytes, (byte)0x00);
+        pbsswdBytes = null;
+        md.updbte(plbinKey);
         digest = md.digest();
         md.reset();
-        System.arraycopy(digest, 0, encrKey, encrKeyOffset, digest.length);
+        System.brrbycopy(digest, 0, encrKey, encrKeyOffset, digest.length);
 
-        // wrap the protected private key in a PKCS#8-style
-        // EncryptedPrivateKeyInfo, and returns its encoding
+        // wrbp the protected privbte key in b PKCS#8-style
+        // EncryptedPrivbteKeyInfo, bnd returns its encoding
         AlgorithmId encrAlg;
         try {
             encrAlg = new AlgorithmId(new ObjectIdentifier(KEY_PROTECTOR_OID));
-            return new EncryptedPrivateKeyInfo(encrAlg,encrKey).getEncoded();
-        } catch (IOException ioe) {
-            throw new KeyStoreException(ioe.getMessage());
+            return new EncryptedPrivbteKeyInfo(encrAlg,encrKey).getEncoded();
+        } cbtch (IOException ioe) {
+            throw new KeyStoreException(ioe.getMessbge());
         }
     }
 
     /*
-     * Recovers the plaintext version of the given key (in protected format),
-     * using the password provided at construction time.
+     * Recovers the plbintext version of the given key (in protected formbt),
+     * using the pbssword provided bt construction time.
      */
-    public Key recover(EncryptedPrivateKeyInfo encrInfo)
-        throws UnrecoverableKeyException
+    public Key recover(EncryptedPrivbteKeyInfo encrInfo)
+        throws UnrecoverbbleKeyException
     {
         int i;
         byte[] digest;
@@ -258,84 +258,84 @@ final class KeyProtector {
         int xorOffset; // offset in xorKey where next digest will be stored
         int encrKeyLen; // the length of the encrpyted key
 
-        // do we support the algorithm?
+        // do we support the blgorithm?
         AlgorithmId encrAlg = encrInfo.getAlgorithm();
-        if (!(encrAlg.getOID().toString().equals(KEY_PROTECTOR_OID))) {
-            throw new UnrecoverableKeyException("Unsupported key protection "
-                                                + "algorithm");
+        if (!(encrAlg.getOID().toString().equbls(KEY_PROTECTOR_OID))) {
+            throw new UnrecoverbbleKeyException("Unsupported key protection "
+                                                + "blgorithm");
         }
 
-        byte[] protectedKey = encrInfo.getEncryptedData();
+        byte[] protectedKey = encrInfo.getEncryptedDbtb();
 
         /*
-         * Get the salt associated with this key (the first SALT_LEN bytes of
+         * Get the sblt bssocibted with this key (the first SALT_LEN bytes of
          * <code>protectedKey</code>)
          */
-        byte[] salt = new byte[SALT_LEN];
-        System.arraycopy(protectedKey, 0, salt, 0, SALT_LEN);
+        byte[] sblt = new byte[SALT_LEN];
+        System.brrbycopy(protectedKey, 0, sblt, 0, SALT_LEN);
 
         // Determine the number of digest rounds
         encrKeyLen = protectedKey.length - SALT_LEN - DIGEST_LEN;
         numRounds = encrKeyLen / DIGEST_LEN;
         if ((encrKeyLen % DIGEST_LEN) != 0) numRounds++;
 
-        // Get the encrypted key portion and store it in "encrKey"
+        // Get the encrypted key portion bnd store it in "encrKey"
         byte[] encrKey = new byte[encrKeyLen];
-        System.arraycopy(protectedKey, SALT_LEN, encrKey, 0, encrKeyLen);
+        System.brrbycopy(protectedKey, SALT_LEN, encrKey, 0, encrKeyLen);
 
-        // Set up the byte array which will be XORed with "encrKey"
+        // Set up the byte brrby which will be XORed with "encrKey"
         byte[] xorKey = new byte[encrKey.length];
 
-        // Compute the digests, and store them in "xorKey"
-        for (i = 0, xorOffset = 0, digest = salt;
+        // Compute the digests, bnd store them in "xorKey"
+        for (i = 0, xorOffset = 0, digest = sblt;
              i < numRounds;
              i++, xorOffset += DIGEST_LEN) {
-            md.update(passwdBytes);
-            md.update(digest);
+            md.updbte(pbsswdBytes);
+            md.updbte(digest);
             digest = md.digest();
             md.reset();
             // Copy the digest into "xorKey"
             if (i < numRounds - 1) {
-                System.arraycopy(digest, 0, xorKey, xorOffset,
+                System.brrbycopy(digest, 0, xorKey, xorOffset,
                                  digest.length);
             } else {
-                System.arraycopy(digest, 0, xorKey, xorOffset,
+                System.brrbycopy(digest, 0, xorKey, xorOffset,
                                  xorKey.length - xorOffset);
             }
         }
 
-        // XOR "encrKey" with "xorKey", and store the result in "plainKey"
-        byte[] plainKey = new byte[encrKey.length];
-        for (i = 0; i < plainKey.length; i++) {
-            plainKey[i] = (byte)(encrKey[i] ^ xorKey[i]);
+        // XOR "encrKey" with "xorKey", bnd store the result in "plbinKey"
+        byte[] plbinKey = new byte[encrKey.length];
+        for (i = 0; i < plbinKey.length; i++) {
+            plbinKey[i] = (byte)(encrKey[i] ^ xorKey[i]);
         }
 
         /*
-         * Check the integrity of the recovered key by concatenating it with
-         * the password, digesting the concatenation, and comparing the
-         * result of the digest operation with the digest provided at the end
-         * of <code>protectedKey</code>. If the two digest values are
-         * different, throw an exception.
+         * Check the integrity of the recovered key by concbtenbting it with
+         * the pbssword, digesting the concbtenbtion, bnd compbring the
+         * result of the digest operbtion with the digest provided bt the end
+         * of <code>protectedKey</code>. If the two digest vblues bre
+         * different, throw bn exception.
          */
-        md.update(passwdBytes);
-        Arrays.fill(passwdBytes, (byte)0x00);
-        passwdBytes = null;
-        md.update(plainKey);
+        md.updbte(pbsswdBytes);
+        Arrbys.fill(pbsswdBytes, (byte)0x00);
+        pbsswdBytes = null;
+        md.updbte(plbinKey);
         digest = md.digest();
         md.reset();
         for (i = 0; i < digest.length; i++) {
             if (digest[i] != protectedKey[SALT_LEN + encrKeyLen + i]) {
-                throw new UnrecoverableKeyException("Cannot recover key");
+                throw new UnrecoverbbleKeyException("Cbnnot recover key");
             }
         }
 
-        // The parseKey() method of PKCS8Key parses the key
-        // algorithm and instantiates the appropriate key factory,
-        // which in turn parses the key material.
+        // The pbrseKey() method of PKCS8Key pbrses the key
+        // blgorithm bnd instbntibtes the bppropribte key fbctory,
+        // which in turn pbrses the key mbteribl.
         try {
-            return PKCS8Key.parseKey(new DerValue(plainKey));
-        } catch (IOException ioe) {
-            throw new UnrecoverableKeyException(ioe.getMessage());
+            return PKCS8Key.pbrseKey(new DerVblue(plbinKey));
+        } cbtch (IOException ioe) {
+            throw new UnrecoverbbleKeyException(ioe.getMessbge());
         }
     }
 }

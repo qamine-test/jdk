@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.util.*;
-import java.io.*;
-import java.math.BigInteger;
-import java.security.InvalidKeyException;
-import java.security.ProviderException;
-import java.security.AlgorithmParameters;
-import java.security.spec.DSAParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import java.security.interfaces.DSAParams;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.mbth.BigInteger;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.ProviderException;
+import jbvb.security.AlgorithmPbrbmeters;
+import jbvb.security.spec.DSAPbrbmeterSpec;
+import jbvb.security.spec.InvblidPbrbmeterSpecException;
+import jbvb.security.interfbces.DSAPbrbms;
 
 import sun.security.x509.X509Key;
 import sun.security.x509.AlgIdDSA;
-import sun.security.util.BitArray;
+import sun.security.util.BitArrby;
 import sun.security.util.Debug;
-import sun.security.util.DerValue;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
+import sun.security.util.DerVblue;
+import sun.security.util.DerInputStrebm;
+import sun.security.util.DerOutputStrebm;
 
 /**
- * An X.509 public key for the Digital Signature Algorithm.
+ * An X.509 public key for the Digitbl Signbture Algorithm.
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  *
  *
- * @see DSAPrivateKey
+ * @see DSAPrivbteKey
  * @see AlgIdDSA
  * @see DSA
  */
 
-public class DSAPublicKey extends X509Key
-implements java.security.interfaces.DSAPublicKey, Serializable {
+public clbss DSAPublicKey extends X509Key
+implements jbvb.security.interfbces.DSAPublicKey, Seriblizbble {
 
-    /** use serialVersionUID from JDK 1.1. for interoperability */
-    private static final long serialVersionUID = -2994193307391104133L;
+    /** use seriblVersionUID from JDK 1.1. for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = -2994193307391104133L;
 
     /* the public key */
-    private BigInteger y;
+    privbte BigInteger y;
 
     /*
-     * Keep this constructor for backwards compatibility with JDK1.1.
+     * Keep this constructor for bbckwbrds compbtibility with JDK1.1.
      */
     public DSAPublicKey() {
     }
 
     /**
-     * Make a DSA public key out of a public key and three parameters.
-     * The p, q, and g parameters may be null, but if so, parameters will need
-     * to be supplied from some other source before this key can be used in
-     * cryptographic operations.  PKIX RFC2459bis explicitly allows DSA public
-     * keys without parameters, where the parameters are provided in the
+     * Mbke b DSA public key out of b public key bnd three pbrbmeters.
+     * The p, q, bnd g pbrbmeters mby be null, but if so, pbrbmeters will need
+     * to be supplied from some other source before this key cbn be used in
+     * cryptogrbphic operbtions.  PKIX RFC2459bis explicitly bllows DSA public
+     * keys without pbrbmeters, where the pbrbmeters bre provided in the
      * issuer's DSA public key.
      *
-     * @param y the actual key bits
-     * @param p DSA parameter p, may be null if all of p, q, and g are null.
-     * @param q DSA parameter q, may be null if all of p, q, and g are null.
-     * @param g DSA parameter g, may be null if all of p, q, and g are null.
+     * @pbrbm y the bctubl key bits
+     * @pbrbm p DSA pbrbmeter p, mby be null if bll of p, q, bnd g bre null.
+     * @pbrbm q DSA pbrbmeter q, mby be null if bll of p, q, bnd g bre null.
+     * @pbrbm g DSA pbrbmeter g, mby be null if bll of p, q, bnd g bre null.
      */
     public DSAPublicKey(BigInteger y, BigInteger p, BigInteger q,
                         BigInteger g)
-    throws InvalidKeyException {
+    throws InvblidKeyException {
         this.y = y;
-        algid = new AlgIdDSA(p, q, g);
+        blgid = new AlgIdDSA(p, q, g);
 
         try {
-            byte[] keyArray = new DerValue(DerValue.tag_Integer,
-                               y.toByteArray()).toByteArray();
-            setKey(new BitArray(keyArray.length*8, keyArray));
+            byte[] keyArrby = new DerVblue(DerVblue.tbg_Integer,
+                               y.toByteArrby()).toByteArrby();
+            setKey(new BitArrby(keyArrby.length*8, keyArrby));
             encode();
-        } catch (IOException e) {
-            throw new InvalidKeyException("could not DER encode y: " +
-                                          e.getMessage());
+        } cbtch (IOException e) {
+            throw new InvblidKeyException("could not DER encode y: " +
+                                          e.getMessbge());
         }
     }
 
     /**
-     * Make a DSA public key from its DER encoding (X.509).
+     * Mbke b DSA public key from its DER encoding (X.509).
      */
-    public DSAPublicKey(byte[] encoded) throws InvalidKeyException {
+    public DSAPublicKey(byte[] encoded) throws InvblidKeyException {
         decode(encoded);
     }
 
     /**
-     * Returns the DSA parameters associated with this key, or null if the
-     * parameters could not be parsed.
+     * Returns the DSA pbrbmeters bssocibted with this key, or null if the
+     * pbrbmeters could not be pbrsed.
      */
-    public DSAParams getParams() {
+    public DSAPbrbms getPbrbms() {
         try {
-            if (algid instanceof DSAParams) {
-                return (DSAParams)algid;
+            if (blgid instbnceof DSAPbrbms) {
+                return (DSAPbrbms)blgid;
             } else {
-                DSAParameterSpec paramSpec;
-                AlgorithmParameters algParams = algid.getParameters();
-                if (algParams == null) {
+                DSAPbrbmeterSpec pbrbmSpec;
+                AlgorithmPbrbmeters blgPbrbms = blgid.getPbrbmeters();
+                if (blgPbrbms == null) {
                     return null;
                 }
-                paramSpec = algParams.getParameterSpec(DSAParameterSpec.class);
-                return (DSAParams)paramSpec;
+                pbrbmSpec = blgPbrbms.getPbrbmeterSpec(DSAPbrbmeterSpec.clbss);
+                return (DSAPbrbms)pbrbmSpec;
             }
-        } catch (InvalidParameterSpecException e) {
+        } cbtch (InvblidPbrbmeterSpecException e) {
             return null;
         }
     }
 
     /**
-     * Get the raw public value, y, without the parameters.
+     * Get the rbw public vblue, y, without the pbrbmeters.
      *
-     * @see getParameters
+     * @see getPbrbmeters
      */
     public BigInteger getY() {
         return y;
     }
 
     public String toString() {
-        return "Sun DSA Public Key\n    Parameters:" + algid
+        return "Sun DSA Public Key\n    Pbrbmeters:" + blgid
             + "\n  y:\n" + Debug.toHexString(y) + "\n";
     }
 
-    protected void parseKeyBits() throws InvalidKeyException {
+    protected void pbrseKeyBits() throws InvblidKeyException {
         try {
-            DerInputStream in = new DerInputStream(getKey().toByteArray());
+            DerInputStrebm in = new DerInputStrebm(getKey().toByteArrby());
             y = in.getBigInteger();
-        } catch (IOException e) {
-            throw new InvalidKeyException("Invalid key: y value\n" +
-                                          e.getMessage());
+        } cbtch (IOException e) {
+            throw new InvblidKeyException("Invblid key: y vblue\n" +
+                                          e.getMessbge());
         }
     }
 }

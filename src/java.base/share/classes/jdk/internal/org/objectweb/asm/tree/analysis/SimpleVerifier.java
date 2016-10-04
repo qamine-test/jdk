@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,293 +56,293 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree.analysis;
+pbckbge jdk.internbl.org.objectweb.bsm.tree.bnblysis;
 
-import java.util.List;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.Type;
+import jdk.internbl.org.objectweb.bsm.Type;
 
 /**
- * An extended {@link BasicVerifier} that performs more precise verifications.
- * This verifier computes exact class types, instead of using a single "object
- * reference" type (as done in the {@link BasicVerifier}).
+ * An extended {@link BbsicVerifier} thbt performs more precise verificbtions.
+ * This verifier computes exbct clbss types, instebd of using b single "object
+ * reference" type (bs done in the {@link BbsicVerifier}).
  *
- * @author Eric Bruneton
- * @author Bing Ran
+ * @buthor Eric Bruneton
+ * @buthor Bing Rbn
  */
-public class SimpleVerifier extends BasicVerifier {
+public clbss SimpleVerifier extends BbsicVerifier {
 
     /**
-     * The class that is verified.
+     * The clbss thbt is verified.
      */
-    private final Type currentClass;
+    privbte finbl Type currentClbss;
 
     /**
-     * The super class of the class that is verified.
+     * The super clbss of the clbss thbt is verified.
      */
-    private final Type currentSuperClass;
+    privbte finbl Type currentSuperClbss;
 
     /**
-     * The interfaces implemented by the class that is verified.
+     * The interfbces implemented by the clbss thbt is verified.
      */
-    private final List<Type> currentClassInterfaces;
+    privbte finbl List<Type> currentClbssInterfbces;
 
     /**
-     * If the class that is verified is an interface.
+     * If the clbss thbt is verified is bn interfbce.
      */
-    private final boolean isInterface;
+    privbte finbl boolebn isInterfbce;
 
     /**
-     * The loader to use for referenced classes.
+     * The lobder to use for referenced clbsses.
      */
-    private ClassLoader loader = getClass().getClassLoader();
+    privbte ClbssLobder lobder = getClbss().getClbssLobder();
 
     /**
-     * Constructs a new {@link SimpleVerifier}.
+     * Constructs b new {@link SimpleVerifier}.
      */
     public SimpleVerifier() {
-        this(null, null, false);
+        this(null, null, fblse);
     }
 
     /**
-     * Constructs a new {@link SimpleVerifier} to verify a specific class. This
-     * class will not be loaded into the JVM since it may be incorrect.
+     * Constructs b new {@link SimpleVerifier} to verify b specific clbss. This
+     * clbss will not be lobded into the JVM since it mby be incorrect.
      *
-     * @param currentClass
-     *            the class that is verified.
-     * @param currentSuperClass
-     *            the super class of the class that is verified.
-     * @param isInterface
-     *            if the class that is verified is an interface.
+     * @pbrbm currentClbss
+     *            the clbss thbt is verified.
+     * @pbrbm currentSuperClbss
+     *            the super clbss of the clbss thbt is verified.
+     * @pbrbm isInterfbce
+     *            if the clbss thbt is verified is bn interfbce.
      */
-    public SimpleVerifier(final Type currentClass,
-            final Type currentSuperClass, final boolean isInterface) {
-        this(currentClass, currentSuperClass, null, isInterface);
+    public SimpleVerifier(finbl Type currentClbss,
+            finbl Type currentSuperClbss, finbl boolebn isInterfbce) {
+        this(currentClbss, currentSuperClbss, null, isInterfbce);
     }
 
     /**
-     * Constructs a new {@link SimpleVerifier} to verify a specific class. This
-     * class will not be loaded into the JVM since it may be incorrect.
+     * Constructs b new {@link SimpleVerifier} to verify b specific clbss. This
+     * clbss will not be lobded into the JVM since it mby be incorrect.
      *
-     * @param currentClass
-     *            the class that is verified.
-     * @param currentSuperClass
-     *            the super class of the class that is verified.
-     * @param currentClassInterfaces
-     *            the interfaces implemented by the class that is verified.
-     * @param isInterface
-     *            if the class that is verified is an interface.
+     * @pbrbm currentClbss
+     *            the clbss thbt is verified.
+     * @pbrbm currentSuperClbss
+     *            the super clbss of the clbss thbt is verified.
+     * @pbrbm currentClbssInterfbces
+     *            the interfbces implemented by the clbss thbt is verified.
+     * @pbrbm isInterfbce
+     *            if the clbss thbt is verified is bn interfbce.
      */
-    public SimpleVerifier(final Type currentClass,
-            final Type currentSuperClass,
-            final List<Type> currentClassInterfaces, final boolean isInterface) {
-        this(ASM5, currentClass, currentSuperClass, currentClassInterfaces,
-                isInterface);
+    public SimpleVerifier(finbl Type currentClbss,
+            finbl Type currentSuperClbss,
+            finbl List<Type> currentClbssInterfbces, finbl boolebn isInterfbce) {
+        this(ASM5, currentClbss, currentSuperClbss, currentClbssInterfbces,
+                isInterfbce);
     }
 
-    protected SimpleVerifier(final int api, final Type currentClass,
-            final Type currentSuperClass,
-            final List<Type> currentClassInterfaces, final boolean isInterface) {
-        super(api);
-        this.currentClass = currentClass;
-        this.currentSuperClass = currentSuperClass;
-        this.currentClassInterfaces = currentClassInterfaces;
-        this.isInterface = isInterface;
+    protected SimpleVerifier(finbl int bpi, finbl Type currentClbss,
+            finbl Type currentSuperClbss,
+            finbl List<Type> currentClbssInterfbces, finbl boolebn isInterfbce) {
+        super(bpi);
+        this.currentClbss = currentClbss;
+        this.currentSuperClbss = currentSuperClbss;
+        this.currentClbssInterfbces = currentClbssInterfbces;
+        this.isInterfbce = isInterfbce;
     }
 
     /**
-     * Set the <code>ClassLoader</code> which will be used to load referenced
-     * classes. This is useful if you are verifying multiple interdependent
-     * classes.
+     * Set the <code>ClbssLobder</code> which will be used to lobd referenced
+     * clbsses. This is useful if you bre verifying multiple interdependent
+     * clbsses.
      *
-     * @param loader
-     *            a <code>ClassLoader</code> to use
+     * @pbrbm lobder
+     *            b <code>ClbssLobder</code> to use
      */
-    public void setClassLoader(final ClassLoader loader) {
-        this.loader = loader;
+    public void setClbssLobder(finbl ClbssLobder lobder) {
+        this.lobder = lobder;
     }
 
     @Override
-    public BasicValue newValue(final Type type) {
+    public BbsicVblue newVblue(finbl Type type) {
         if (type == null) {
-            return BasicValue.UNINITIALIZED_VALUE;
+            return BbsicVblue.UNINITIALIZED_VALUE;
         }
 
-        boolean isArray = type.getSort() == Type.ARRAY;
-        if (isArray) {
+        boolebn isArrby = type.getSort() == Type.ARRAY;
+        if (isArrby) {
             switch (type.getElementType().getSort()) {
-            case Type.BOOLEAN:
-            case Type.CHAR:
-            case Type.BYTE:
-            case Type.SHORT:
-                return new BasicValue(type);
+            cbse Type.BOOLEAN:
+            cbse Type.CHAR:
+            cbse Type.BYTE:
+            cbse Type.SHORT:
+                return new BbsicVblue(type);
             }
         }
 
-        BasicValue v = super.newValue(type);
-        if (BasicValue.REFERENCE_VALUE.equals(v)) {
-            if (isArray) {
-                v = newValue(type.getElementType());
+        BbsicVblue v = super.newVblue(type);
+        if (BbsicVblue.REFERENCE_VALUE.equbls(v)) {
+            if (isArrby) {
+                v = newVblue(type.getElementType());
                 String desc = v.getType().getDescriptor();
                 for (int i = 0; i < type.getDimensions(); ++i) {
                     desc = '[' + desc;
                 }
-                v = new BasicValue(Type.getType(desc));
+                v = new BbsicVblue(Type.getType(desc));
             } else {
-                v = new BasicValue(type);
+                v = new BbsicVblue(type);
             }
         }
         return v;
     }
 
     @Override
-    protected boolean isArrayValue(final BasicValue value) {
-        Type t = value.getType();
+    protected boolebn isArrbyVblue(finbl BbsicVblue vblue) {
+        Type t = vblue.getType();
         return t != null
-                && ("Lnull;".equals(t.getDescriptor()) || t.getSort() == Type.ARRAY);
+                && ("Lnull;".equbls(t.getDescriptor()) || t.getSort() == Type.ARRAY);
     }
 
     @Override
-    protected BasicValue getElementValue(final BasicValue objectArrayValue)
-            throws AnalyzerException {
-        Type arrayType = objectArrayValue.getType();
-        if (arrayType != null) {
-            if (arrayType.getSort() == Type.ARRAY) {
-                return newValue(Type.getType(arrayType.getDescriptor()
+    protected BbsicVblue getElementVblue(finbl BbsicVblue objectArrbyVblue)
+            throws AnblyzerException {
+        Type brrbyType = objectArrbyVblue.getType();
+        if (brrbyType != null) {
+            if (brrbyType.getSort() == Type.ARRAY) {
+                return newVblue(Type.getType(brrbyType.getDescriptor()
                         .substring(1)));
-            } else if ("Lnull;".equals(arrayType.getDescriptor())) {
-                return objectArrayValue;
+            } else if ("Lnull;".equbls(brrbyType.getDescriptor())) {
+                return objectArrbyVblue;
             }
         }
-        throw new Error("Internal error");
+        throw new Error("Internbl error");
     }
 
     @Override
-    protected boolean isSubTypeOf(final BasicValue value,
-            final BasicValue expected) {
+    protected boolebn isSubTypeOf(finbl BbsicVblue vblue,
+            finbl BbsicVblue expected) {
         Type expectedType = expected.getType();
-        Type type = value.getType();
+        Type type = vblue.getType();
         switch (expectedType.getSort()) {
-        case Type.INT:
-        case Type.FLOAT:
-        case Type.LONG:
-        case Type.DOUBLE:
-            return type.equals(expectedType);
-        case Type.ARRAY:
-        case Type.OBJECT:
-            if ("Lnull;".equals(type.getDescriptor())) {
+        cbse Type.INT:
+        cbse Type.FLOAT:
+        cbse Type.LONG:
+        cbse Type.DOUBLE:
+            return type.equbls(expectedType);
+        cbse Type.ARRAY:
+        cbse Type.OBJECT:
+            if ("Lnull;".equbls(type.getDescriptor())) {
                 return true;
             } else if (type.getSort() == Type.OBJECT
                     || type.getSort() == Type.ARRAY) {
-                return isAssignableFrom(expectedType, type);
+                return isAssignbbleFrom(expectedType, type);
             } else {
-                return false;
+                return fblse;
             }
-        default:
-            throw new Error("Internal error");
+        defbult:
+            throw new Error("Internbl error");
         }
     }
 
     @Override
-    public BasicValue merge(final BasicValue v, final BasicValue w) {
-        if (!v.equals(w)) {
+    public BbsicVblue merge(finbl BbsicVblue v, finbl BbsicVblue w) {
+        if (!v.equbls(w)) {
             Type t = v.getType();
             Type u = w.getType();
             if (t != null
                     && (t.getSort() == Type.OBJECT || t.getSort() == Type.ARRAY)) {
                 if (u != null
                         && (u.getSort() == Type.OBJECT || u.getSort() == Type.ARRAY)) {
-                    if ("Lnull;".equals(t.getDescriptor())) {
+                    if ("Lnull;".equbls(t.getDescriptor())) {
                         return w;
                     }
-                    if ("Lnull;".equals(u.getDescriptor())) {
+                    if ("Lnull;".equbls(u.getDescriptor())) {
                         return v;
                     }
-                    if (isAssignableFrom(t, u)) {
+                    if (isAssignbbleFrom(t, u)) {
                         return v;
                     }
-                    if (isAssignableFrom(u, t)) {
+                    if (isAssignbbleFrom(u, t)) {
                         return w;
                     }
-                    // TODO case of array classes of the same dimension
-                    // TODO should we look also for a common super interface?
-                    // problem: there may be several possible common super
-                    // interfaces
+                    // TODO cbse of brrby clbsses of the sbme dimension
+                    // TODO should we look blso for b common super interfbce?
+                    // problem: there mby be severbl possible common super
+                    // interfbces
                     do {
-                        if (t == null || isInterface(t)) {
-                            return BasicValue.REFERENCE_VALUE;
+                        if (t == null || isInterfbce(t)) {
+                            return BbsicVblue.REFERENCE_VALUE;
                         }
-                        t = getSuperClass(t);
-                        if (isAssignableFrom(t, u)) {
-                            return newValue(t);
+                        t = getSuperClbss(t);
+                        if (isAssignbbleFrom(t, u)) {
+                            return newVblue(t);
                         }
                     } while (true);
                 }
             }
-            return BasicValue.UNINITIALIZED_VALUE;
+            return BbsicVblue.UNINITIALIZED_VALUE;
         }
         return v;
     }
 
-    protected boolean isInterface(final Type t) {
-        if (currentClass != null && t.equals(currentClass)) {
-            return isInterface;
+    protected boolebn isInterfbce(finbl Type t) {
+        if (currentClbss != null && t.equbls(currentClbss)) {
+            return isInterfbce;
         }
-        return getClass(t).isInterface();
+        return getClbss(t).isInterfbce();
     }
 
-    protected Type getSuperClass(final Type t) {
-        if (currentClass != null && t.equals(currentClass)) {
-            return currentSuperClass;
+    protected Type getSuperClbss(finbl Type t) {
+        if (currentClbss != null && t.equbls(currentClbss)) {
+            return currentSuperClbss;
         }
-        Class<?> c = getClass(t).getSuperclass();
+        Clbss<?> c = getClbss(t).getSuperclbss();
         return c == null ? null : Type.getType(c);
     }
 
-    protected boolean isAssignableFrom(final Type t, final Type u) {
-        if (t.equals(u)) {
+    protected boolebn isAssignbbleFrom(finbl Type t, finbl Type u) {
+        if (t.equbls(u)) {
             return true;
         }
-        if (currentClass != null && t.equals(currentClass)) {
-            if (getSuperClass(u) == null) {
-                return false;
+        if (currentClbss != null && t.equbls(currentClbss)) {
+            if (getSuperClbss(u) == null) {
+                return fblse;
             } else {
-                if (isInterface) {
+                if (isInterfbce) {
                     return u.getSort() == Type.OBJECT
                             || u.getSort() == Type.ARRAY;
                 }
-                return isAssignableFrom(t, getSuperClass(u));
+                return isAssignbbleFrom(t, getSuperClbss(u));
             }
         }
-        if (currentClass != null && u.equals(currentClass)) {
-            if (isAssignableFrom(t, currentSuperClass)) {
+        if (currentClbss != null && u.equbls(currentClbss)) {
+            if (isAssignbbleFrom(t, currentSuperClbss)) {
                 return true;
             }
-            if (currentClassInterfaces != null) {
-                for (int i = 0; i < currentClassInterfaces.size(); ++i) {
-                    Type v = currentClassInterfaces.get(i);
-                    if (isAssignableFrom(t, v)) {
+            if (currentClbssInterfbces != null) {
+                for (int i = 0; i < currentClbssInterfbces.size(); ++i) {
+                    Type v = currentClbssInterfbces.get(i);
+                    if (isAssignbbleFrom(t, v)) {
                         return true;
                     }
                 }
             }
-            return false;
+            return fblse;
         }
-        Class<?> tc = getClass(t);
-        if (tc.isInterface()) {
-            tc = Object.class;
+        Clbss<?> tc = getClbss(t);
+        if (tc.isInterfbce()) {
+            tc = Object.clbss;
         }
-        return tc.isAssignableFrom(getClass(u));
+        return tc.isAssignbbleFrom(getClbss(u));
     }
 
-    protected Class<?> getClass(final Type t) {
+    protected Clbss<?> getClbss(finbl Type t) {
         try {
             if (t.getSort() == Type.ARRAY) {
-                return Class.forName(t.getDescriptor().replace('/', '.'),
-                        false, loader);
+                return Clbss.forNbme(t.getDescriptor().replbce('/', '.'),
+                        fblse, lobder);
             }
-            return Class.forName(t.getClassName(), false, loader);
-        } catch (ClassNotFoundException e) {
+            return Clbss.forNbme(t.getClbssNbme(), fblse, lobder);
+        } cbtch (ClbssNotFoundException e) {
             throw new RuntimeException(e.toString());
         }
     }

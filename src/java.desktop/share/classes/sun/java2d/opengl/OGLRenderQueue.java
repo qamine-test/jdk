@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import sun.awt.util.ThreadGroupUtils;
-import sun.java2d.pipe.RenderBuffer;
-import sun.java2d.pipe.RenderQueue;
-import static sun.java2d.pipe.BufferedOpCodes.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import sun.bwt.util.ThrebdGroupUtils;
+import sun.jbvb2d.pipe.RenderBuffer;
+import sun.jbvb2d.pipe.RenderQueue;
+import stbtic sun.jbvb2d.pipe.BufferedOpCodes.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * OGL-specific implementation of RenderQueue.  This class provides a
- * single (daemon) thread that is responsible for periodically flushing
- * the queue, thus ensuring that only one thread communicates with the native
- * OpenGL libraries for the entire process.
+ * OGL-specific implementbtion of RenderQueue.  This clbss provides b
+ * single (dbemon) threbd thbt is responsible for periodicblly flushing
+ * the queue, thus ensuring thbt only one threbd communicbtes with the nbtive
+ * OpenGL librbries for the entire process.
  */
-public class OGLRenderQueue extends RenderQueue {
+public clbss OGLRenderQueue extends RenderQueue {
 
-    private static OGLRenderQueue theInstance;
-    private final QueueFlusher flusher;
+    privbte stbtic OGLRenderQueue theInstbnce;
+    privbte finbl QueueFlusher flusher;
 
-    private OGLRenderQueue() {
+    privbte OGLRenderQueue() {
         /*
-         * The thread must be a member of a thread group
+         * The threbd must be b member of b threbd group
          * which will not get GCed before VM exit.
          */
         flusher = AccessController.doPrivileged((PrivilegedAction<QueueFlusher>) () -> {
-            return new QueueFlusher(ThreadGroupUtils.getRootThreadGroup());
+            return new QueueFlusher(ThrebdGroupUtils.getRootThrebdGroup());
         });
     }
 
     /**
-     * Returns the single OGLRenderQueue instance.  If it has not yet been
-     * initialized, this method will first construct the single instance
+     * Returns the single OGLRenderQueue instbnce.  If it hbs not yet been
+     * initiblized, this method will first construct the single instbnce
      * before returning it.
      */
-    public static synchronized OGLRenderQueue getInstance() {
-        if (theInstance == null) {
-            theInstance = new OGLRenderQueue();
+    public stbtic synchronized OGLRenderQueue getInstbnce() {
+        if (theInstbnce == null) {
+            theInstbnce = new OGLRenderQueue();
         }
-        return theInstance;
+        return theInstbnce;
     }
 
     /**
-     * Flushes the single OGLRenderQueue instance synchronously.  If an
-     * OGLRenderQueue has not yet been instantiated, this method is a no-op.
-     * This method is useful in the case of Toolkit.sync(), in which we want
+     * Flushes the single OGLRenderQueue instbnce synchronously.  If bn
+     * OGLRenderQueue hbs not yet been instbntibted, this method is b no-op.
+     * This method is useful in the cbse of Toolkit.sync(), in which we wbnt
      * to flush the OGL pipeline, but only if the OGL pipeline is currently
-     * enabled.  Since this class has few external dependencies, callers need
-     * not be concerned that calling this method will trigger initialization
-     * of the OGL pipeline and related classes.
+     * enbbled.  Since this clbss hbs few externbl dependencies, cbllers need
+     * not be concerned thbt cblling this method will trigger initiblizbtion
+     * of the OGL pipeline bnd relbted clbsses.
      */
-    public static void sync() {
-        if (theInstance != null) {
-            theInstance.lock();
+    public stbtic void sync() {
+        if (theInstbnce != null) {
+            theInstbnce.lock();
             try {
-                theInstance.ensureCapacity(4);
-                theInstance.getBuffer().putInt(SYNC);
-                theInstance.flushNow();
-            } finally {
-                theInstance.unlock();
+                theInstbnce.ensureCbpbcity(4);
+                theInstbnce.getBuffer().putInt(SYNC);
+                theInstbnce.flushNow();
+            } finblly {
+                theInstbnce.unlock();
             }
         }
     }
 
     /**
-     * Disposes the native memory associated with the given native
-     * graphics config info pointer on the single queue flushing thread.
+     * Disposes the nbtive memory bssocibted with the given nbtive
+     * grbphics config info pointer on the single queue flushing threbd.
      */
-    public static void disposeGraphicsConfig(long pConfigInfo) {
-        OGLRenderQueue rq = getInstance();
+    public stbtic void disposeGrbphicsConfig(long pConfigInfo) {
+        OGLRenderQueue rq = getInstbnce();
         rq.lock();
         try {
-            // make sure we make the context associated with the given
-            // GraphicsConfig current before disposing the native resources
-            OGLContext.setScratchSurface(pConfigInfo);
+            // mbke sure we mbke the context bssocibted with the given
+            // GrbphicsConfig current before disposing the nbtive resources
+            OGLContext.setScrbtchSurfbce(pConfigInfo);
 
             RenderBuffer buf = rq.getBuffer();
-            rq.ensureCapacityAndAlignment(12, 4);
+            rq.ensureCbpbcityAndAlignment(12, 4);
             buf.putInt(DISPOSE_CONFIG);
             buf.putLong(pConfigInfo);
 
-            // this call is expected to complete synchronously, so flush now
+            // this cbll is expected to complete synchronously, so flush now
             rq.flushNow();
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 
     /**
-     * Returns true if the current thread is the OGL QueueFlusher thread.
+     * Returns true if the current threbd is the OGL QueueFlusher threbd.
      */
-    public static boolean isQueueFlusherThread() {
-        return (Thread.currentThread() == getInstance().flusher);
+    public stbtic boolebn isQueueFlusherThrebd() {
+        return (Threbd.currentThrebd() == getInstbnce().flusher);
     }
 
     public void flushNow() {
-        // assert lock.isHeldByCurrentThread();
+        // bssert lock.isHeldByCurrentThrebd();
         try {
             flusher.flushNow();
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             System.err.println("exception in flushNow:");
-            e.printStackTrace();
+            e.printStbckTrbce();
         }
     }
 
-    public void flushAndInvokeNow(Runnable r) {
-        // assert lock.isHeldByCurrentThread();
+    public void flushAndInvokeNow(Runnbble r) {
+        // bssert lock.isHeldByCurrentThrebd();
         try {
             flusher.flushAndInvokeNow(r);
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             System.err.println("exception in flushAndInvokeNow:");
-            e.printStackTrace();
+            e.printStbckTrbce();
         }
     }
 
-    private native void flushBuffer(long buf, int limit);
+    privbte nbtive void flushBuffer(long buf, int limit);
 
-    private void flushBuffer() {
-        // assert lock.isHeldByCurrentThread();
+    privbte void flushBuffer() {
+        // bssert lock.isHeldByCurrentThrebd();
         int limit = buf.position();
         if (limit > 0) {
             // process the queue
             flushBuffer(buf.getAddress(), limit);
         }
         // reset the buffer position
-        buf.clear();
-        // clear the set of references, since we no longer need them
-        refSet.clear();
+        buf.clebr();
+        // clebr the set of references, since we no longer need them
+        refSet.clebr();
     }
 
-    private class QueueFlusher extends Thread {
-        private boolean needsFlush;
-        private Runnable task;
-        private Error error;
+    privbte clbss QueueFlusher extends Threbd {
+        privbte boolebn needsFlush;
+        privbte Runnbble tbsk;
+        privbte Error error;
 
-        public QueueFlusher(ThreadGroup threadGroup) {
-            super(threadGroup, "Java2D Queue Flusher");
-            setDaemon(true);
-            setPriority(Thread.MAX_PRIORITY);
-            start();
+        public QueueFlusher(ThrebdGroup threbdGroup) {
+            super(threbdGroup, "Jbvb2D Queue Flusher");
+            setDbemon(true);
+            setPriority(Threbd.MAX_PRIORITY);
+            stbrt();
         }
 
         public synchronized void flushNow() {
-            // wake up the flusher
+            // wbke up the flusher
             needsFlush = true;
             notify();
 
-            // wait for flush to complete
+            // wbit for flush to complete
             while (needsFlush) {
                 try {
-                    wait();
-                } catch (InterruptedException e) {
+                    wbit();
+                } cbtch (InterruptedException e) {
                 }
             }
 
-            // re-throw any error that may have occurred during the flush
+            // re-throw bny error thbt mby hbve occurred during the flush
             if (error != null) {
                 throw error;
             }
         }
 
-        public synchronized void flushAndInvokeNow(Runnable task) {
-            this.task = task;
+        public synchronized void flushAndInvokeNow(Runnbble tbsk) {
+            this.tbsk = tbsk;
             flushNow();
         }
 
         public synchronized void run() {
-            boolean timedOut = false;
+            boolebn timedOut = fblse;
             while (true) {
                 while (!needsFlush) {
                     try {
-                        timedOut = false;
+                        timedOut = fblse;
                         /*
-                         * Wait until we're woken up with a flushNow() call,
-                         * or the timeout period elapses (so that we can
-                         * flush the queue periodically).
+                         * Wbit until we're woken up with b flushNow() cbll,
+                         * or the timeout period elbpses (so thbt we cbn
+                         * flush the queue periodicblly).
                          */
-                        wait(100);
+                        wbit(100);
                         /*
-                         * We will automatically flush the queue if the
-                         * following conditions apply:
-                         *   - the wait() timed out
-                         *   - we can lock the queue (without blocking)
+                         * We will butombticblly flush the queue if the
+                         * following conditions bpply:
+                         *   - the wbit() timed out
+                         *   - we cbn lock the queue (without blocking)
                          *   - there is something in the queue to flush
-                         * Otherwise, just continue (we'll flush eventually).
+                         * Otherwise, just continue (we'll flush eventublly).
                          */
                         if (!needsFlush && (timedOut = tryLock())) {
                             if (buf.position() > 0) {
@@ -216,30 +216,30 @@ public class OGLRenderQueue extends RenderQueue {
                                 unlock();
                             }
                         }
-                    } catch (InterruptedException e) {
+                    } cbtch (InterruptedException e) {
                     }
                 }
                 try {
-                    // reset the throwable state
+                    // reset the throwbble stbte
                     error = null;
                     // flush the buffer now
                     flushBuffer();
-                    // if there's a task, invoke that now as well
-                    if (task != null) {
-                        task.run();
+                    // if there's b tbsk, invoke thbt now bs well
+                    if (tbsk != null) {
+                        tbsk.run();
                     }
-                } catch (Error e) {
+                } cbtch (Error e) {
                     error = e;
-                } catch (Exception x) {
+                } cbtch (Exception x) {
                     System.err.println("exception in QueueFlusher:");
-                    x.printStackTrace();
-                } finally {
+                    x.printStbckTrbce();
+                } finblly {
                     if (timedOut) {
                         unlock();
                     }
-                    task = null;
-                    // allow the waiting thread to continue
-                    needsFlush = false;
+                    tbsk = null;
+                    // bllow the wbiting threbd to continue
+                    needsFlush = fblse;
                     notify();
                 }
             }

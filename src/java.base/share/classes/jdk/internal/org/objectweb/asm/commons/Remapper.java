@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,39 +57,39 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm.commons;
+pbckbge jdk.internbl.org.objectweb.bsm.commons;
 
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.signature.SignatureReader;
-import jdk.internal.org.objectweb.asm.signature.SignatureVisitor;
-import jdk.internal.org.objectweb.asm.signature.SignatureWriter;
+import jdk.internbl.org.objectweb.bsm.Hbndle;
+import jdk.internbl.org.objectweb.bsm.Type;
+import jdk.internbl.org.objectweb.bsm.signbture.SignbtureRebder;
+import jdk.internbl.org.objectweb.bsm.signbture.SignbtureVisitor;
+import jdk.internbl.org.objectweb.bsm.signbture.SignbtureWriter;
 
 /**
- * A class responsible for remapping types and names. Subclasses can override
+ * A clbss responsible for rembpping types bnd nbmes. Subclbsses cbn override
  * the following methods:
  *
  * <ul>
- * <li>{@link #map(String)} - map type</li>
- * <li>{@link #mapFieldName(String, String, String)} - map field name</li>
- * <li>{@link #mapMethodName(String, String, String)} - map method name</li>
+ * <li>{@link #mbp(String)} - mbp type</li>
+ * <li>{@link #mbpFieldNbme(String, String, String)} - mbp field nbme</li>
+ * <li>{@link #mbpMethodNbme(String, String, String)} - mbp method nbme</li>
  * </ul>
  *
- * @author Eugene Kuleshov
+ * @buthor Eugene Kuleshov
  */
-public abstract class Remapper {
+public bbstrbct clbss Rembpper {
 
-    public String mapDesc(String desc) {
+    public String mbpDesc(String desc) {
         Type t = Type.getType(desc);
         switch (t.getSort()) {
-        case Type.ARRAY:
-            String s = mapDesc(t.getElementType().getDescriptor());
+        cbse Type.ARRAY:
+            String s = mbpDesc(t.getElementType().getDescriptor());
             for (int i = 0; i < t.getDimensions(); ++i) {
                 s = '[' + s;
             }
             return s;
-        case Type.OBJECT:
-            String newType = map(t.getInternalName());
+        cbse Type.OBJECT:
+            String newType = mbp(t.getInternblNbme());
             if (newType != null) {
                 return 'L' + newType + ';';
             }
@@ -97,156 +97,156 @@ public abstract class Remapper {
         return desc;
     }
 
-    private Type mapType(Type t) {
+    privbte Type mbpType(Type t) {
         switch (t.getSort()) {
-        case Type.ARRAY:
-            String s = mapDesc(t.getElementType().getDescriptor());
+        cbse Type.ARRAY:
+            String s = mbpDesc(t.getElementType().getDescriptor());
             for (int i = 0; i < t.getDimensions(); ++i) {
                 s = '[' + s;
             }
             return Type.getType(s);
-        case Type.OBJECT:
-            s = map(t.getInternalName());
+        cbse Type.OBJECT:
+            s = mbp(t.getInternblNbme());
             return s != null ? Type.getObjectType(s) : t;
-        case Type.METHOD:
-            return Type.getMethodType(mapMethodDesc(t.getDescriptor()));
+        cbse Type.METHOD:
+            return Type.getMethodType(mbpMethodDesc(t.getDescriptor()));
         }
         return t;
     }
 
-    public String mapType(String type) {
+    public String mbpType(String type) {
         if (type == null) {
             return null;
         }
-        return mapType(Type.getObjectType(type)).getInternalName();
+        return mbpType(Type.getObjectType(type)).getInternblNbme();
     }
 
-    public String[] mapTypes(String[] types) {
+    public String[] mbpTypes(String[] types) {
         String[] newTypes = null;
-        boolean needMapping = false;
+        boolebn needMbpping = fblse;
         for (int i = 0; i < types.length; i++) {
             String type = types[i];
-            String newType = map(type);
+            String newType = mbp(type);
             if (newType != null && newTypes == null) {
                 newTypes = new String[types.length];
                 if (i > 0) {
-                    System.arraycopy(types, 0, newTypes, 0, i);
+                    System.brrbycopy(types, 0, newTypes, 0, i);
                 }
-                needMapping = true;
+                needMbpping = true;
             }
-            if (needMapping) {
+            if (needMbpping) {
                 newTypes[i] = newType == null ? type : newType;
             }
         }
-        return needMapping ? newTypes : types;
+        return needMbpping ? newTypes : types;
     }
 
-    public String mapMethodDesc(String desc) {
-        if ("()V".equals(desc)) {
+    public String mbpMethodDesc(String desc) {
+        if ("()V".equbls(desc)) {
             return desc;
         }
 
-        Type[] args = Type.getArgumentTypes(desc);
+        Type[] brgs = Type.getArgumentTypes(desc);
         StringBuilder sb = new StringBuilder("(");
-        for (int i = 0; i < args.length; i++) {
-            sb.append(mapDesc(args[i].getDescriptor()));
+        for (int i = 0; i < brgs.length; i++) {
+            sb.bppend(mbpDesc(brgs[i].getDescriptor()));
         }
         Type returnType = Type.getReturnType(desc);
         if (returnType == Type.VOID_TYPE) {
-            sb.append(")V");
+            sb.bppend(")V");
             return sb.toString();
         }
-        sb.append(')').append(mapDesc(returnType.getDescriptor()));
+        sb.bppend(')').bppend(mbpDesc(returnType.getDescriptor()));
         return sb.toString();
     }
 
-    public Object mapValue(Object value) {
-        if (value instanceof Type) {
-            return mapType((Type) value);
+    public Object mbpVblue(Object vblue) {
+        if (vblue instbnceof Type) {
+            return mbpType((Type) vblue);
         }
-        if (value instanceof Handle) {
-            Handle h = (Handle) value;
-            return new Handle(h.getTag(), mapType(h.getOwner()), mapMethodName(
-                    h.getOwner(), h.getName(), h.getDesc()),
-                    mapMethodDesc(h.getDesc()));
+        if (vblue instbnceof Hbndle) {
+            Hbndle h = (Hbndle) vblue;
+            return new Hbndle(h.getTbg(), mbpType(h.getOwner()), mbpMethodNbme(
+                    h.getOwner(), h.getNbme(), h.getDesc()),
+                    mbpMethodDesc(h.getDesc()));
         }
-        return value;
+        return vblue;
     }
 
     /**
      *
-     * @param typeSignature
-     *            true if signature is a FieldTypeSignature, such as the
-     *            signature parameter of the ClassVisitor.visitField or
-     *            MethodVisitor.visitLocalVariable methods
+     * @pbrbm typeSignbture
+     *            true if signbture is b FieldTypeSignbture, such bs the
+     *            signbture pbrbmeter of the ClbssVisitor.visitField or
+     *            MethodVisitor.visitLocblVbribble methods
      */
-    public String mapSignature(String signature, boolean typeSignature) {
-        if (signature == null) {
+    public String mbpSignbture(String signbture, boolebn typeSignbture) {
+        if (signbture == null) {
             return null;
         }
-        SignatureReader r = new SignatureReader(signature);
-        SignatureWriter w = new SignatureWriter();
-        SignatureVisitor a = createRemappingSignatureAdapter(w);
-        if (typeSignature) {
-            r.acceptType(a);
+        SignbtureRebder r = new SignbtureRebder(signbture);
+        SignbtureWriter w = new SignbtureWriter();
+        SignbtureVisitor b = crebteRembppingSignbtureAdbpter(w);
+        if (typeSignbture) {
+            r.bcceptType(b);
         } else {
-            r.accept(a);
+            r.bccept(b);
         }
         return w.toString();
     }
 
-    protected SignatureVisitor createRemappingSignatureAdapter(
-            SignatureVisitor v) {
-        return new RemappingSignatureAdapter(v, this);
+    protected SignbtureVisitor crebteRembppingSignbtureAdbpter(
+            SignbtureVisitor v) {
+        return new RembppingSignbtureAdbpter(v, this);
     }
 
     /**
-     * Map method name to the new name. Subclasses can override.
+     * Mbp method nbme to the new nbme. Subclbsses cbn override.
      *
-     * @param owner
+     * @pbrbm owner
      *            owner of the method.
-     * @param name
-     *            name of the method.
-     * @param desc
+     * @pbrbm nbme
+     *            nbme of the method.
+     * @pbrbm desc
      *            descriptor of the method.
-     * @return new name of the method
+     * @return new nbme of the method
      */
-    public String mapMethodName(String owner, String name, String desc) {
-        return name;
+    public String mbpMethodNbme(String owner, String nbme, String desc) {
+        return nbme;
     }
 
     /**
-     * Map invokedynamic method name to the new name. Subclasses can override.
+     * Mbp invokedynbmic method nbme to the new nbme. Subclbsses cbn override.
      *
-     * @param name
-     *            name of the invokedynamic.
-     * @param desc
-     *            descriptor of the invokedynamic.
-     * @return new invokdynamic name.
+     * @pbrbm nbme
+     *            nbme of the invokedynbmic.
+     * @pbrbm desc
+     *            descriptor of the invokedynbmic.
+     * @return new invokdynbmic nbme.
      */
-    public String mapInvokeDynamicMethodName(String name, String desc) {
-        return name;
+    public String mbpInvokeDynbmicMethodNbme(String nbme, String desc) {
+        return nbme;
     }
 
     /**
-     * Map field name to the new name. Subclasses can override.
+     * Mbp field nbme to the new nbme. Subclbsses cbn override.
      *
-     * @param owner
+     * @pbrbm owner
      *            owner of the field.
-     * @param name
-     *            name of the field
-     * @param desc
+     * @pbrbm nbme
+     *            nbme of the field
+     * @pbrbm desc
      *            descriptor of the field
-     * @return new name of the field.
+     * @return new nbme of the field.
      */
-    public String mapFieldName(String owner, String name, String desc) {
-        return name;
+    public String mbpFieldNbme(String owner, String nbme, String desc) {
+        return nbme;
     }
 
     /**
-     * Map type name to the new name. Subclasses can override.
+     * Mbp type nbme to the new nbme. Subclbsses cbn override.
      */
-    public String map(String typeName) {
-        return typeName;
+    public String mbp(String typeNbme) {
+        return typeNbme;
     }
 }

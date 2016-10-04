@@ -3,522 +3,522 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 5798 $"/>
-		<generation date="$Date: 2011-05-02 15:05:34 +0900 (Mon, 02 May 2011) $"/>
-		<language type="ia"/>
+		<generbtion dbte="$Dbte: 2011-05-02 15:05:34 +0900 (Mon, 02 Mby 2011) $"/>
+		<lbngubge type="ib"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="af" draft="unconfirmed">afrikaans</language>
-			<language type="am" draft="unconfirmed">amharico</language>
-			<language type="ar" draft="unconfirmed">arabe</language>
-			<language type="as" draft="unconfirmed">Assamese</language>
-			<language type="az" draft="unconfirmed">azerbaidzhani</language>
-			<language type="be" draft="unconfirmed">bielorusso</language>
-			<language type="bg" draft="unconfirmed">bulgaro</language>
-			<language type="bh" draft="unconfirmed">bihari</language>
-			<language type="bn" draft="unconfirmed">bengali</language>
-			<language type="br" draft="unconfirmed">breton</language>
-			<language type="bs" draft="unconfirmed">bosniaco</language>
-			<language type="ca" draft="unconfirmed">catalano</language>
-			<language type="cs" draft="unconfirmed">checo</language>
-			<language type="cy" draft="unconfirmed">gallese</language>
-			<language type="da" draft="unconfirmed">danese</language>
-			<language type="de" draft="unconfirmed">germano</language>
-			<language type="el" draft="unconfirmed">greco</language>
-			<language type="en" draft="unconfirmed">anglese</language>
-			<language type="en_GB" draft="unconfirmed">anglese (RU)</language>
-			<language type="en_US" draft="unconfirmed">anglese (SUA)</language>
-			<language type="eo" draft="unconfirmed">esperanto</language>
-			<language type="es" draft="unconfirmed">espaniol</language>
-			<language type="et" draft="unconfirmed">estoniano</language>
-			<language type="eu" draft="unconfirmed">basco</language>
-			<language type="fa" draft="unconfirmed">persiano</language>
-			<language type="fi" draft="unconfirmed">finnese</language>
-			<language type="fil" draft="unconfirmed">tagalog</language>
-			<language type="fo" draft="unconfirmed">faroese</language>
-			<language type="fr" draft="unconfirmed">francese</language>
-			<language type="fy" draft="unconfirmed">frisiano</language>
-			<language type="ga" draft="unconfirmed">irlandese</language>
-			<language type="gd" draft="unconfirmed">scoto gaelic</language>
-			<language type="gl" draft="unconfirmed">gallego</language>
-			<language type="gn" draft="unconfirmed">guarani</language>
-			<language type="gu" draft="unconfirmed">gujarati</language>
-			<language type="he" draft="unconfirmed">hebreo</language>
-			<language type="hi" draft="unconfirmed">hindi</language>
-			<language type="hr" draft="unconfirmed">croato</language>
-			<language type="hu" draft="unconfirmed">hungaro</language>
-			<language type="hy" draft="unconfirmed">armeniano</language>
-			<language type="ia" draft="unconfirmed">interlingua</language>
-			<language type="id" draft="unconfirmed">indonesiano</language>
-			<language type="ie" draft="unconfirmed">Interlingue</language>
-			<language type="is" draft="unconfirmed">islandese</language>
-			<language type="it" draft="unconfirmed">italiano</language>
-			<language type="ja" draft="unconfirmed">japonese</language>
-			<language type="jv" draft="unconfirmed">javanese</language>
-			<language type="ka" draft="unconfirmed">georgiano</language>
-			<language type="km" draft="unconfirmed">Cambodiano</language>
-			<language type="kn" draft="unconfirmed">kannada</language>
-			<language type="ko" draft="unconfirmed">coreano</language>
-			<language type="ku" draft="unconfirmed">kurdo</language>
-			<language type="ky" draft="unconfirmed">kirghizo</language>
-			<language type="la" draft="unconfirmed">latino</language>
-			<language type="ln" draft="unconfirmed">lingala</language>
-			<language type="lo" draft="unconfirmed">laotiano</language>
-			<language type="lt" draft="unconfirmed">lithuano</language>
-			<language type="lv" draft="unconfirmed">letton</language>
-			<language type="mk" draft="unconfirmed">macedone</language>
-			<language type="ml" draft="unconfirmed">malayalam</language>
-			<language type="mn" draft="unconfirmed">mongolico</language>
-			<language type="mr" draft="unconfirmed">marathi</language>
-			<language type="ms" draft="unconfirmed">malay</language>
-			<language type="mt" draft="unconfirmed">maltese</language>
-			<language type="ne" draft="unconfirmed">nepalese</language>
-			<language type="nl" draft="unconfirmed">nederlandese</language>
-			<language type="nn" draft="unconfirmed">norvegiano (nynorsk)</language>
-			<language type="no" draft="unconfirmed">norvegiano</language>
-			<language type="oc" draft="unconfirmed">occitano</language>
-			<language type="or" draft="unconfirmed">oriya</language>
-			<language type="pa" draft="unconfirmed">punjabi</language>
-			<language type="pl" draft="unconfirmed">polonese</language>
-			<language type="ps" draft="unconfirmed">pashto</language>
-			<language type="pt" draft="unconfirmed">portugese</language>
-			<language type="ro" draft="unconfirmed">romaniano</language>
-			<language type="ru" draft="unconfirmed">russo</language>
-			<language type="sa" draft="unconfirmed">sanscrito</language>
-			<language type="sd" draft="unconfirmed">sindhi</language>
-			<language type="sh" draft="unconfirmed">serbocroate</language>
-			<language type="si" draft="unconfirmed">sinhalese</language>
-			<language type="sk" draft="unconfirmed">slovaco</language>
-			<language type="sl" draft="unconfirmed">sloveno</language>
-			<language type="so" draft="unconfirmed">somali</language>
-			<language type="sq" draft="unconfirmed">albanese</language>
-			<language type="sr" draft="unconfirmed">serbo</language>
-			<language type="st" draft="unconfirmed">sesotho</language>
-			<language type="su" draft="unconfirmed">sundanese</language>
-			<language type="sv" draft="unconfirmed">svedese</language>
-			<language type="sw" draft="unconfirmed">swahili</language>
-			<language type="ta" draft="unconfirmed">tamil</language>
-			<language type="te" draft="unconfirmed">telugu</language>
-			<language type="th" draft="unconfirmed">thai</language>
-			<language type="ti" draft="unconfirmed">tigrinya</language>
-			<language type="tk" draft="unconfirmed">turkmeno</language>
-			<language type="tlh" draft="unconfirmed">Klingon</language>
-			<language type="tr" draft="unconfirmed">turco</language>
-			<language type="tw" draft="unconfirmed">twi</language>
-			<language type="ug" draft="unconfirmed">Uyghur</language>
-			<language type="uk" draft="unconfirmed">ukrainiano</language>
-			<language type="ur" draft="unconfirmed">urdu</language>
-			<language type="uz" draft="unconfirmed">uzbeco</language>
-			<language type="vi" draft="unconfirmed">vietnamese</language>
-			<language type="xh" draft="unconfirmed">xhosa</language>
-			<language type="yi" draft="unconfirmed">yiddish</language>
-			<language type="zu" draft="unconfirmed">zulu</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bf" drbft="unconfirmed">bfrikbbns</lbngubge>
+			<lbngubge type="bm" drbft="unconfirmed">bmhbrico</lbngubge>
+			<lbngubge type="br" drbft="unconfirmed">brbbe</lbngubge>
+			<lbngubge type="bs" drbft="unconfirmed">Assbmese</lbngubge>
+			<lbngubge type="bz" drbft="unconfirmed">bzerbbidzhbni</lbngubge>
+			<lbngubge type="be" drbft="unconfirmed">bielorusso</lbngubge>
+			<lbngubge type="bg" drbft="unconfirmed">bulgbro</lbngubge>
+			<lbngubge type="bh" drbft="unconfirmed">bihbri</lbngubge>
+			<lbngubge type="bn" drbft="unconfirmed">bengbli</lbngubge>
+			<lbngubge type="br" drbft="unconfirmed">breton</lbngubge>
+			<lbngubge type="bs" drbft="unconfirmed">bosnibco</lbngubge>
+			<lbngubge type="cb" drbft="unconfirmed">cbtblbno</lbngubge>
+			<lbngubge type="cs" drbft="unconfirmed">checo</lbngubge>
+			<lbngubge type="cy" drbft="unconfirmed">gbllese</lbngubge>
+			<lbngubge type="db" drbft="unconfirmed">dbnese</lbngubge>
+			<lbngubge type="de" drbft="unconfirmed">germbno</lbngubge>
+			<lbngubge type="el" drbft="unconfirmed">greco</lbngubge>
+			<lbngubge type="en" drbft="unconfirmed">bnglese</lbngubge>
+			<lbngubge type="en_GB" drbft="unconfirmed">bnglese (RU)</lbngubge>
+			<lbngubge type="en_US" drbft="unconfirmed">bnglese (SUA)</lbngubge>
+			<lbngubge type="eo" drbft="unconfirmed">esperbnto</lbngubge>
+			<lbngubge type="es" drbft="unconfirmed">espbniol</lbngubge>
+			<lbngubge type="et" drbft="unconfirmed">estonibno</lbngubge>
+			<lbngubge type="eu" drbft="unconfirmed">bbsco</lbngubge>
+			<lbngubge type="fb" drbft="unconfirmed">persibno</lbngubge>
+			<lbngubge type="fi" drbft="unconfirmed">finnese</lbngubge>
+			<lbngubge type="fil" drbft="unconfirmed">tbgblog</lbngubge>
+			<lbngubge type="fo" drbft="unconfirmed">fbroese</lbngubge>
+			<lbngubge type="fr" drbft="unconfirmed">frbncese</lbngubge>
+			<lbngubge type="fy" drbft="unconfirmed">frisibno</lbngubge>
+			<lbngubge type="gb" drbft="unconfirmed">irlbndese</lbngubge>
+			<lbngubge type="gd" drbft="unconfirmed">scoto gbelic</lbngubge>
+			<lbngubge type="gl" drbft="unconfirmed">gbllego</lbngubge>
+			<lbngubge type="gn" drbft="unconfirmed">gubrbni</lbngubge>
+			<lbngubge type="gu" drbft="unconfirmed">gujbrbti</lbngubge>
+			<lbngubge type="he" drbft="unconfirmed">hebreo</lbngubge>
+			<lbngubge type="hi" drbft="unconfirmed">hindi</lbngubge>
+			<lbngubge type="hr" drbft="unconfirmed">crobto</lbngubge>
+			<lbngubge type="hu" drbft="unconfirmed">hungbro</lbngubge>
+			<lbngubge type="hy" drbft="unconfirmed">brmenibno</lbngubge>
+			<lbngubge type="ib" drbft="unconfirmed">interlingub</lbngubge>
+			<lbngubge type="id" drbft="unconfirmed">indonesibno</lbngubge>
+			<lbngubge type="ie" drbft="unconfirmed">Interlingue</lbngubge>
+			<lbngubge type="is" drbft="unconfirmed">islbndese</lbngubge>
+			<lbngubge type="it" drbft="unconfirmed">itblibno</lbngubge>
+			<lbngubge type="jb" drbft="unconfirmed">jbponese</lbngubge>
+			<lbngubge type="jv" drbft="unconfirmed">jbvbnese</lbngubge>
+			<lbngubge type="kb" drbft="unconfirmed">georgibno</lbngubge>
+			<lbngubge type="km" drbft="unconfirmed">Cbmbodibno</lbngubge>
+			<lbngubge type="kn" drbft="unconfirmed">kbnnbdb</lbngubge>
+			<lbngubge type="ko" drbft="unconfirmed">corebno</lbngubge>
+			<lbngubge type="ku" drbft="unconfirmed">kurdo</lbngubge>
+			<lbngubge type="ky" drbft="unconfirmed">kirghizo</lbngubge>
+			<lbngubge type="lb" drbft="unconfirmed">lbtino</lbngubge>
+			<lbngubge type="ln" drbft="unconfirmed">lingblb</lbngubge>
+			<lbngubge type="lo" drbft="unconfirmed">lbotibno</lbngubge>
+			<lbngubge type="lt" drbft="unconfirmed">lithubno</lbngubge>
+			<lbngubge type="lv" drbft="unconfirmed">letton</lbngubge>
+			<lbngubge type="mk" drbft="unconfirmed">mbcedone</lbngubge>
+			<lbngubge type="ml" drbft="unconfirmed">mblbyblbm</lbngubge>
+			<lbngubge type="mn" drbft="unconfirmed">mongolico</lbngubge>
+			<lbngubge type="mr" drbft="unconfirmed">mbrbthi</lbngubge>
+			<lbngubge type="ms" drbft="unconfirmed">mblby</lbngubge>
+			<lbngubge type="mt" drbft="unconfirmed">mbltese</lbngubge>
+			<lbngubge type="ne" drbft="unconfirmed">nepblese</lbngubge>
+			<lbngubge type="nl" drbft="unconfirmed">nederlbndese</lbngubge>
+			<lbngubge type="nn" drbft="unconfirmed">norvegibno (nynorsk)</lbngubge>
+			<lbngubge type="no" drbft="unconfirmed">norvegibno</lbngubge>
+			<lbngubge type="oc" drbft="unconfirmed">occitbno</lbngubge>
+			<lbngubge type="or" drbft="unconfirmed">oriyb</lbngubge>
+			<lbngubge type="pb" drbft="unconfirmed">punjbbi</lbngubge>
+			<lbngubge type="pl" drbft="unconfirmed">polonese</lbngubge>
+			<lbngubge type="ps" drbft="unconfirmed">pbshto</lbngubge>
+			<lbngubge type="pt" drbft="unconfirmed">portugese</lbngubge>
+			<lbngubge type="ro" drbft="unconfirmed">rombnibno</lbngubge>
+			<lbngubge type="ru" drbft="unconfirmed">russo</lbngubge>
+			<lbngubge type="sb" drbft="unconfirmed">sbnscrito</lbngubge>
+			<lbngubge type="sd" drbft="unconfirmed">sindhi</lbngubge>
+			<lbngubge type="sh" drbft="unconfirmed">serbocrobte</lbngubge>
+			<lbngubge type="si" drbft="unconfirmed">sinhblese</lbngubge>
+			<lbngubge type="sk" drbft="unconfirmed">slovbco</lbngubge>
+			<lbngubge type="sl" drbft="unconfirmed">sloveno</lbngubge>
+			<lbngubge type="so" drbft="unconfirmed">sombli</lbngubge>
+			<lbngubge type="sq" drbft="unconfirmed">blbbnese</lbngubge>
+			<lbngubge type="sr" drbft="unconfirmed">serbo</lbngubge>
+			<lbngubge type="st" drbft="unconfirmed">sesotho</lbngubge>
+			<lbngubge type="su" drbft="unconfirmed">sundbnese</lbngubge>
+			<lbngubge type="sv" drbft="unconfirmed">svedese</lbngubge>
+			<lbngubge type="sw" drbft="unconfirmed">swbhili</lbngubge>
+			<lbngubge type="tb" drbft="unconfirmed">tbmil</lbngubge>
+			<lbngubge type="te" drbft="unconfirmed">telugu</lbngubge>
+			<lbngubge type="th" drbft="unconfirmed">thbi</lbngubge>
+			<lbngubge type="ti" drbft="unconfirmed">tigrinyb</lbngubge>
+			<lbngubge type="tk" drbft="unconfirmed">turkmeno</lbngubge>
+			<lbngubge type="tlh" drbft="unconfirmed">Klingon</lbngubge>
+			<lbngubge type="tr" drbft="unconfirmed">turco</lbngubge>
+			<lbngubge type="tw" drbft="unconfirmed">twi</lbngubge>
+			<lbngubge type="ug" drbft="unconfirmed">Uyghur</lbngubge>
+			<lbngubge type="uk" drbft="unconfirmed">ukrbinibno</lbngubge>
+			<lbngubge type="ur" drbft="unconfirmed">urdu</lbngubge>
+			<lbngubge type="uz" drbft="unconfirmed">uzbeco</lbngubge>
+			<lbngubge type="vi" drbft="unconfirmed">vietnbmese</lbngubge>
+			<lbngubge type="xh" drbft="unconfirmed">xhosb</lbngubge>
+			<lbngubge type="yi" drbft="unconfirmed">yiddish</lbngubge>
+			<lbngubge type="zu" drbft="unconfirmed">zulu</lbngubge>
+		</lbngubges>
 		<territories>
-			<territory type="AE" draft="unconfirmed">Emiratos Arabe Unite</territory>
-			<territory type="AF" draft="unconfirmed">Afghanistan</territory>
-			<territory type="AG" draft="unconfirmed">Antigua e Barbuda</territory>
-			<territory type="AL" draft="unconfirmed">Albania</territory>
-			<territory type="AM" draft="unconfirmed">Armenia</territory>
-			<territory type="AN" draft="unconfirmed">Antillas nederlandese</territory>
-			<territory type="AO" draft="unconfirmed">Angola</territory>
-			<territory type="AQ" draft="unconfirmed">Antarctica</territory>
-			<territory type="AR" draft="unconfirmed">Argentina</territory>
-			<territory type="AS" draft="unconfirmed">Samoa american</territory>
-			<territory type="AT" draft="unconfirmed">Austria</territory>
-			<territory type="AU" draft="unconfirmed">Australia</territory>
-			<territory type="AZ" draft="unconfirmed">Azerbaidzhan</territory>
-			<territory type="BA" draft="unconfirmed">Bosnia e Herzegovina</territory>
-			<territory type="BD" draft="unconfirmed">Bangladesh</territory>
-			<territory type="BE" draft="unconfirmed">Belgica</territory>
-			<territory type="BF" draft="unconfirmed">Burkina Faso</territory>
-			<territory type="BG" draft="unconfirmed">Bulgaria</territory>
-			<territory type="BI" draft="unconfirmed">Burundi</territory>
-			<territory type="BJ" draft="unconfirmed">Benin</territory>
-			<territory type="BO" draft="unconfirmed">Bolivia</territory>
-			<territory type="BR" draft="unconfirmed">Brasil</territory>
-			<territory type="BS" draft="unconfirmed">Bahamas</territory>
-			<territory type="BT" draft="unconfirmed">Bhutan</territory>
-			<territory type="BV" draft="unconfirmed">Insula de Bouvet</territory>
-			<territory type="BW" draft="unconfirmed">Botswana</territory>
-			<territory type="BY" draft="unconfirmed">Bielorussia</territory>
-			<territory type="CA" draft="unconfirmed">Canada</territory>
-			<territory type="CF" draft="unconfirmed">Republica African Central</territory>
-			<territory type="CG" draft="unconfirmed">Congo</territory>
-			<territory type="CH" draft="unconfirmed">Suissa</territory>
-			<territory type="CK" draft="unconfirmed">Insulas Cook</territory>
-			<territory type="CL" draft="unconfirmed">Chile</territory>
-			<territory type="CM" draft="unconfirmed">Camerun</territory>
-			<territory type="CN" draft="unconfirmed">China</territory>
-			<territory type="CO" draft="unconfirmed">Colombia</territory>
-			<territory type="CU" draft="unconfirmed">Cuba</territory>
-			<territory type="CX" draft="unconfirmed">Insula de Natal</territory>
-			<territory type="CY" draft="unconfirmed">Cypro</territory>
-			<territory type="CZ" draft="unconfirmed">Republica Tchec</territory>
-			<territory type="DE" draft="unconfirmed">Germania</territory>
-			<territory type="DK" draft="unconfirmed">Danmark</territory>
-			<territory type="DO" draft="unconfirmed">Republica Dominican</territory>
-			<territory type="DZ" draft="unconfirmed">Algeria</territory>
-			<territory type="EC" draft="unconfirmed">Ecuador</territory>
-			<territory type="EE" draft="unconfirmed">Estonia</territory>
-			<territory type="EG" draft="unconfirmed">Egypto</territory>
-			<territory type="EH" draft="unconfirmed">Sahara occidental</territory>
-			<territory type="ER" draft="unconfirmed">Eritrea</territory>
-			<territory type="ES" draft="unconfirmed">Espania</territory>
-			<territory type="ET" draft="unconfirmed">Ethiopia</territory>
-			<territory type="FI" draft="unconfirmed">Finlandia</territory>
-			<territory type="FM" draft="unconfirmed">Micronesia</territory>
-			<territory type="FO" draft="unconfirmed">Insulas Feroe</territory>
-			<territory type="FR" draft="unconfirmed">Francia</territory>
-			<territory type="GA" draft="unconfirmed">Gabon</territory>
-			<territory type="GB" draft="unconfirmed">Regno Unite</territory>
-			<territory type="GE" draft="unconfirmed">Georgia</territory>
-			<territory type="GF" draft="unconfirmed">Guyana francese</territory>
-			<territory type="GH" draft="unconfirmed">Ghana</territory>
-			<territory type="GL" draft="unconfirmed">Groenlandia</territory>
-			<territory type="GM" draft="unconfirmed">Gambia</territory>
-			<territory type="GN" draft="unconfirmed">Guinea</territory>
-			<territory type="GQ" draft="unconfirmed">Guinea equatorial</territory>
-			<territory type="GR" draft="unconfirmed">Grecia</territory>
-			<territory type="GW" draft="unconfirmed">Guinea-Bissau</territory>
-			<territory type="HN" draft="unconfirmed">Honduras</territory>
-			<territory type="HR" draft="unconfirmed">Croatia</territory>
-			<territory type="HT" draft="unconfirmed">Haiti</territory>
-			<territory type="HU" draft="unconfirmed">Hungaria</territory>
-			<territory type="ID" draft="unconfirmed">Indonesia</territory>
-			<territory type="IE" draft="unconfirmed">Irlanda</territory>
-			<territory type="IL" draft="unconfirmed">Israel</territory>
-			<territory type="IN" draft="unconfirmed">India</territory>
-			<territory type="IO" draft="unconfirmed">Territorio oceanic britanno-indian</territory>
-			<territory type="IQ" draft="unconfirmed">Irak</territory>
-			<territory type="IR" draft="unconfirmed">Iran</territory>
-			<territory type="IS" draft="unconfirmed">Islanda</territory>
-			<territory type="IT" draft="unconfirmed">Italia</territory>
-			<territory type="JO" draft="unconfirmed">Jordania</territory>
-			<territory type="JP" draft="unconfirmed">Japon</territory>
-			<territory type="KE" draft="unconfirmed">Kenya</territory>
-			<territory type="KG" draft="unconfirmed">Kirghizistan</territory>
-			<territory type="KH" draft="unconfirmed">Cambodgia</territory>
-			<territory type="KI" draft="unconfirmed">Kiribati</territory>
-			<territory type="KM" draft="unconfirmed">Comoros</territory>
-			<territory type="KN" draft="unconfirmed">Sancte Christophoro e Nevis</territory>
-			<territory type="KP" draft="unconfirmed">Corea del Nord</territory>
-			<territory type="KR" draft="unconfirmed">Corea del Sud</territory>
-			<territory type="KY" draft="unconfirmed">Insulas de Caiman</territory>
-			<territory type="KZ" draft="unconfirmed">Kazakhstan</territory>
-			<territory type="LB" draft="unconfirmed">Libano</territory>
-			<territory type="LC" draft="unconfirmed">Sancte Lucia</territory>
-			<territory type="LI" draft="unconfirmed">Liechtenstein</territory>
-			<territory type="LK" draft="unconfirmed">Sri Lanka</territory>
-			<territory type="LR" draft="unconfirmed">Liberia</territory>
-			<territory type="LS" draft="unconfirmed">Lesotho</territory>
-			<territory type="LT" draft="unconfirmed">Lituania</territory>
-			<territory type="LV" draft="unconfirmed">Lettonia</territory>
-			<territory type="LY" draft="unconfirmed">Libya</territory>
-			<territory type="MA" draft="unconfirmed">Marocco</territory>
-			<territory type="MD" draft="unconfirmed">Moldavia</territory>
-			<territory type="MG" draft="unconfirmed">Madagascar</territory>
-			<territory type="MH" draft="unconfirmed">Insulas Marshall</territory>
-			<territory type="MK" draft="unconfirmed">Macedonia</territory>
-			<territory type="ML" draft="unconfirmed">Mali</territory>
-			<territory type="MM" draft="unconfirmed">Birmania/Myanmar</territory>
-			<territory type="MN" draft="unconfirmed">Mongolia</territory>
-			<territory type="MP" draft="unconfirmed">Insulas Marianna del Nord</territory>
-			<territory type="MR" draft="unconfirmed">Mauritania</territory>
-			<territory type="MW" draft="unconfirmed">Malawi</territory>
-			<territory type="MX" draft="unconfirmed">Mexico</territory>
-			<territory type="MY" draft="unconfirmed">Malaysia</territory>
-			<territory type="MZ" draft="unconfirmed">Mozambique</territory>
-			<territory type="NA" draft="unconfirmed">Namibia</territory>
-			<territory type="NC" draft="unconfirmed">Nove Caledonia</territory>
-			<territory type="NE" draft="unconfirmed">Niger</territory>
-			<territory type="NF" draft="unconfirmed">Insula Norfolk</territory>
-			<territory type="NG" draft="unconfirmed">Nigeria</territory>
-			<territory type="NI" draft="unconfirmed">Nicaragua</territory>
-			<territory type="NL" draft="unconfirmed">Nederlandia</territory>
-			<territory type="NO" draft="unconfirmed">Norvegia</territory>
-			<territory type="NP" draft="unconfirmed">Nepal</territory>
-			<territory type="NZ" draft="unconfirmed">Nove Zelanda</territory>
-			<territory type="OM" draft="unconfirmed">Oman</territory>
-			<territory type="PE" draft="unconfirmed">Peru</territory>
-			<territory type="PF" draft="unconfirmed">Polynesia francese</territory>
-			<territory type="PG" draft="unconfirmed">Papua Nove Guinea</territory>
-			<territory type="PH" draft="unconfirmed">Philippinas</territory>
-			<territory type="PK" draft="unconfirmed">Pakistan</territory>
-			<territory type="PL" draft="unconfirmed">Polonia</territory>
-			<territory type="PT" draft="unconfirmed">Portugal</territory>
-			<territory type="PY" draft="unconfirmed">Paraguay</territory>
-			<territory type="RO" draft="unconfirmed">Romania</territory>
-			<territory type="RW" draft="unconfirmed">Ruanda</territory>
-			<territory type="SA" draft="unconfirmed">Arabia Saudita</territory>
-			<territory type="SB" draft="unconfirmed">Insulas Solomon</territory>
-			<territory type="SC" draft="unconfirmed">Seychelles</territory>
-			<territory type="SD" draft="unconfirmed">Sudan</territory>
-			<territory type="SE" draft="unconfirmed">Svedia</territory>
-			<territory type="SI" draft="unconfirmed">Slovenia</territory>
-			<territory type="SK" draft="unconfirmed">Slovachia</territory>
-			<territory type="SL" draft="unconfirmed">Sierra Leone</territory>
-			<territory type="SM" draft="unconfirmed">San Marino</territory>
-			<territory type="SN" draft="unconfirmed">Senegal</territory>
-			<territory type="SO" draft="unconfirmed">Somalia</territory>
-			<territory type="SR" draft="unconfirmed">Suriname</territory>
-			<territory type="SY" draft="unconfirmed">Syria</territory>
-			<territory type="SZ" draft="unconfirmed">Swazilandia</territory>
-			<territory type="TC" draft="unconfirmed">Insulas Turcos e Caicos</territory>
-			<territory type="TD" draft="unconfirmed">Tchad</territory>
-			<territory type="TF" draft="unconfirmed">Territorios meridional francese</territory>
-			<territory type="TG" draft="unconfirmed">Togo</territory>
-			<territory type="TH" draft="unconfirmed">Thailandia</territory>
-			<territory type="TJ" draft="unconfirmed">Tadzhikistan</territory>
-			<territory type="TK" draft="unconfirmed">Tokelau</territory>
-			<territory type="TL" draft="unconfirmed">Timor del Est</territory>
-			<territory type="TM" draft="unconfirmed">Turkmenistan</territory>
-			<territory type="TN" draft="unconfirmed">Tunisia</territory>
-			<territory type="TO" draft="unconfirmed">tonga</territory>
-			<territory type="TR" draft="unconfirmed">Turchia</territory>
-			<territory type="TT" draft="unconfirmed">Trinidad e Tobago</territory>
-			<territory type="TV" draft="unconfirmed">Tuvalu</territory>
-			<territory type="TW" draft="unconfirmed">Taiwan</territory>
-			<territory type="TZ" draft="unconfirmed">Tanzania</territory>
-			<territory type="UA" draft="unconfirmed">Ukraina</territory>
-			<territory type="UG" draft="unconfirmed">Uganda</territory>
-			<territory type="US" draft="unconfirmed">Statos Unite</territory>
-			<territory type="UY" draft="unconfirmed">Uruguay</territory>
-			<territory type="UZ" draft="unconfirmed">Uzbekistan</territory>
-			<territory type="VC" draft="unconfirmed">Sancte Vincente e le Grenadinas</territory>
-			<territory type="VE" draft="unconfirmed">Venezuela</territory>
-			<territory type="VU" draft="unconfirmed">Vanuatu</territory>
-			<territory type="WS" draft="unconfirmed">Samoa</territory>
-			<territory type="YE" draft="unconfirmed">Yemen</territory>
-			<territory type="ZA" draft="unconfirmed">Africa del Sud</territory>
-			<territory type="ZM" draft="unconfirmed">Zambia</territory>
-			<territory type="ZW" draft="unconfirmed">Zimbabwe</territory>
+			<territory type="AE" drbft="unconfirmed">Emirbtos Arbbe Unite</territory>
+			<territory type="AF" drbft="unconfirmed">Afghbnistbn</territory>
+			<territory type="AG" drbft="unconfirmed">Antigub e Bbrbudb</territory>
+			<territory type="AL" drbft="unconfirmed">Albbnib</territory>
+			<territory type="AM" drbft="unconfirmed">Armenib</territory>
+			<territory type="AN" drbft="unconfirmed">Antillbs nederlbndese</territory>
+			<territory type="AO" drbft="unconfirmed">Angolb</territory>
+			<territory type="AQ" drbft="unconfirmed">Antbrcticb</territory>
+			<territory type="AR" drbft="unconfirmed">Argentinb</territory>
+			<territory type="AS" drbft="unconfirmed">Sbmob bmericbn</territory>
+			<territory type="AT" drbft="unconfirmed">Austrib</territory>
+			<territory type="AU" drbft="unconfirmed">Austrblib</territory>
+			<territory type="AZ" drbft="unconfirmed">Azerbbidzhbn</territory>
+			<territory type="BA" drbft="unconfirmed">Bosnib e Herzegovinb</territory>
+			<territory type="BD" drbft="unconfirmed">Bbnglbdesh</territory>
+			<territory type="BE" drbft="unconfirmed">Belgicb</territory>
+			<territory type="BF" drbft="unconfirmed">Burkinb Fbso</territory>
+			<territory type="BG" drbft="unconfirmed">Bulgbrib</territory>
+			<territory type="BI" drbft="unconfirmed">Burundi</territory>
+			<territory type="BJ" drbft="unconfirmed">Benin</territory>
+			<territory type="BO" drbft="unconfirmed">Bolivib</territory>
+			<territory type="BR" drbft="unconfirmed">Brbsil</territory>
+			<territory type="BS" drbft="unconfirmed">Bbhbmbs</territory>
+			<territory type="BT" drbft="unconfirmed">Bhutbn</territory>
+			<territory type="BV" drbft="unconfirmed">Insulb de Bouvet</territory>
+			<territory type="BW" drbft="unconfirmed">Botswbnb</territory>
+			<territory type="BY" drbft="unconfirmed">Bielorussib</territory>
+			<territory type="CA" drbft="unconfirmed">Cbnbdb</territory>
+			<territory type="CF" drbft="unconfirmed">Republicb Africbn Centrbl</territory>
+			<territory type="CG" drbft="unconfirmed">Congo</territory>
+			<territory type="CH" drbft="unconfirmed">Suissb</territory>
+			<territory type="CK" drbft="unconfirmed">Insulbs Cook</territory>
+			<territory type="CL" drbft="unconfirmed">Chile</territory>
+			<territory type="CM" drbft="unconfirmed">Cbmerun</territory>
+			<territory type="CN" drbft="unconfirmed">Chinb</territory>
+			<territory type="CO" drbft="unconfirmed">Colombib</territory>
+			<territory type="CU" drbft="unconfirmed">Cubb</territory>
+			<territory type="CX" drbft="unconfirmed">Insulb de Nbtbl</territory>
+			<territory type="CY" drbft="unconfirmed">Cypro</territory>
+			<territory type="CZ" drbft="unconfirmed">Republicb Tchec</territory>
+			<territory type="DE" drbft="unconfirmed">Germbnib</territory>
+			<territory type="DK" drbft="unconfirmed">Dbnmbrk</territory>
+			<territory type="DO" drbft="unconfirmed">Republicb Dominicbn</territory>
+			<territory type="DZ" drbft="unconfirmed">Algerib</territory>
+			<territory type="EC" drbft="unconfirmed">Ecubdor</territory>
+			<territory type="EE" drbft="unconfirmed">Estonib</territory>
+			<territory type="EG" drbft="unconfirmed">Egypto</territory>
+			<territory type="EH" drbft="unconfirmed">Sbhbrb occidentbl</territory>
+			<territory type="ER" drbft="unconfirmed">Eritreb</territory>
+			<territory type="ES" drbft="unconfirmed">Espbnib</territory>
+			<territory type="ET" drbft="unconfirmed">Ethiopib</territory>
+			<territory type="FI" drbft="unconfirmed">Finlbndib</territory>
+			<territory type="FM" drbft="unconfirmed">Micronesib</territory>
+			<territory type="FO" drbft="unconfirmed">Insulbs Feroe</territory>
+			<territory type="FR" drbft="unconfirmed">Frbncib</territory>
+			<territory type="GA" drbft="unconfirmed">Gbbon</territory>
+			<territory type="GB" drbft="unconfirmed">Regno Unite</territory>
+			<territory type="GE" drbft="unconfirmed">Georgib</territory>
+			<territory type="GF" drbft="unconfirmed">Guybnb frbncese</territory>
+			<territory type="GH" drbft="unconfirmed">Ghbnb</territory>
+			<territory type="GL" drbft="unconfirmed">Groenlbndib</territory>
+			<territory type="GM" drbft="unconfirmed">Gbmbib</territory>
+			<territory type="GN" drbft="unconfirmed">Guineb</territory>
+			<territory type="GQ" drbft="unconfirmed">Guineb equbtoribl</territory>
+			<territory type="GR" drbft="unconfirmed">Grecib</territory>
+			<territory type="GW" drbft="unconfirmed">Guineb-Bissbu</territory>
+			<territory type="HN" drbft="unconfirmed">Hondurbs</territory>
+			<territory type="HR" drbft="unconfirmed">Crobtib</territory>
+			<territory type="HT" drbft="unconfirmed">Hbiti</territory>
+			<territory type="HU" drbft="unconfirmed">Hungbrib</territory>
+			<territory type="ID" drbft="unconfirmed">Indonesib</territory>
+			<territory type="IE" drbft="unconfirmed">Irlbndb</territory>
+			<territory type="IL" drbft="unconfirmed">Isrbel</territory>
+			<territory type="IN" drbft="unconfirmed">Indib</territory>
+			<territory type="IO" drbft="unconfirmed">Territorio ocebnic britbnno-indibn</territory>
+			<territory type="IQ" drbft="unconfirmed">Irbk</territory>
+			<territory type="IR" drbft="unconfirmed">Irbn</territory>
+			<territory type="IS" drbft="unconfirmed">Islbndb</territory>
+			<territory type="IT" drbft="unconfirmed">Itblib</territory>
+			<territory type="JO" drbft="unconfirmed">Jordbnib</territory>
+			<territory type="JP" drbft="unconfirmed">Jbpon</territory>
+			<territory type="KE" drbft="unconfirmed">Kenyb</territory>
+			<territory type="KG" drbft="unconfirmed">Kirghizistbn</territory>
+			<territory type="KH" drbft="unconfirmed">Cbmbodgib</territory>
+			<territory type="KI" drbft="unconfirmed">Kiribbti</territory>
+			<territory type="KM" drbft="unconfirmed">Comoros</territory>
+			<territory type="KN" drbft="unconfirmed">Sbncte Christophoro e Nevis</territory>
+			<territory type="KP" drbft="unconfirmed">Coreb del Nord</territory>
+			<territory type="KR" drbft="unconfirmed">Coreb del Sud</territory>
+			<territory type="KY" drbft="unconfirmed">Insulbs de Cbimbn</territory>
+			<territory type="KZ" drbft="unconfirmed">Kbzbkhstbn</territory>
+			<territory type="LB" drbft="unconfirmed">Libbno</territory>
+			<territory type="LC" drbft="unconfirmed">Sbncte Lucib</territory>
+			<territory type="LI" drbft="unconfirmed">Liechtenstein</territory>
+			<territory type="LK" drbft="unconfirmed">Sri Lbnkb</territory>
+			<territory type="LR" drbft="unconfirmed">Liberib</territory>
+			<territory type="LS" drbft="unconfirmed">Lesotho</territory>
+			<territory type="LT" drbft="unconfirmed">Litubnib</territory>
+			<territory type="LV" drbft="unconfirmed">Lettonib</territory>
+			<territory type="LY" drbft="unconfirmed">Libyb</territory>
+			<territory type="MA" drbft="unconfirmed">Mbrocco</territory>
+			<territory type="MD" drbft="unconfirmed">Moldbvib</territory>
+			<territory type="MG" drbft="unconfirmed">Mbdbgbscbr</territory>
+			<territory type="MH" drbft="unconfirmed">Insulbs Mbrshbll</territory>
+			<territory type="MK" drbft="unconfirmed">Mbcedonib</territory>
+			<territory type="ML" drbft="unconfirmed">Mbli</territory>
+			<territory type="MM" drbft="unconfirmed">Birmbnib/Mybnmbr</territory>
+			<territory type="MN" drbft="unconfirmed">Mongolib</territory>
+			<territory type="MP" drbft="unconfirmed">Insulbs Mbribnnb del Nord</territory>
+			<territory type="MR" drbft="unconfirmed">Mburitbnib</territory>
+			<territory type="MW" drbft="unconfirmed">Mblbwi</territory>
+			<territory type="MX" drbft="unconfirmed">Mexico</territory>
+			<territory type="MY" drbft="unconfirmed">Mblbysib</territory>
+			<territory type="MZ" drbft="unconfirmed">Mozbmbique</territory>
+			<territory type="NA" drbft="unconfirmed">Nbmibib</territory>
+			<territory type="NC" drbft="unconfirmed">Nove Cbledonib</territory>
+			<territory type="NE" drbft="unconfirmed">Niger</territory>
+			<territory type="NF" drbft="unconfirmed">Insulb Norfolk</territory>
+			<territory type="NG" drbft="unconfirmed">Nigerib</territory>
+			<territory type="NI" drbft="unconfirmed">Nicbrbgub</territory>
+			<territory type="NL" drbft="unconfirmed">Nederlbndib</territory>
+			<territory type="NO" drbft="unconfirmed">Norvegib</territory>
+			<territory type="NP" drbft="unconfirmed">Nepbl</territory>
+			<territory type="NZ" drbft="unconfirmed">Nove Zelbndb</territory>
+			<territory type="OM" drbft="unconfirmed">Ombn</territory>
+			<territory type="PE" drbft="unconfirmed">Peru</territory>
+			<territory type="PF" drbft="unconfirmed">Polynesib frbncese</territory>
+			<territory type="PG" drbft="unconfirmed">Pbpub Nove Guineb</territory>
+			<territory type="PH" drbft="unconfirmed">Philippinbs</territory>
+			<territory type="PK" drbft="unconfirmed">Pbkistbn</territory>
+			<territory type="PL" drbft="unconfirmed">Polonib</territory>
+			<territory type="PT" drbft="unconfirmed">Portugbl</territory>
+			<territory type="PY" drbft="unconfirmed">Pbrbguby</territory>
+			<territory type="RO" drbft="unconfirmed">Rombnib</territory>
+			<territory type="RW" drbft="unconfirmed">Rubndb</territory>
+			<territory type="SA" drbft="unconfirmed">Arbbib Sbuditb</territory>
+			<territory type="SB" drbft="unconfirmed">Insulbs Solomon</territory>
+			<territory type="SC" drbft="unconfirmed">Seychelles</territory>
+			<territory type="SD" drbft="unconfirmed">Sudbn</territory>
+			<territory type="SE" drbft="unconfirmed">Svedib</territory>
+			<territory type="SI" drbft="unconfirmed">Slovenib</territory>
+			<territory type="SK" drbft="unconfirmed">Slovbchib</territory>
+			<territory type="SL" drbft="unconfirmed">Sierrb Leone</territory>
+			<territory type="SM" drbft="unconfirmed">Sbn Mbrino</territory>
+			<territory type="SN" drbft="unconfirmed">Senegbl</territory>
+			<territory type="SO" drbft="unconfirmed">Somblib</territory>
+			<territory type="SR" drbft="unconfirmed">Surinbme</territory>
+			<territory type="SY" drbft="unconfirmed">Syrib</territory>
+			<territory type="SZ" drbft="unconfirmed">Swbzilbndib</territory>
+			<territory type="TC" drbft="unconfirmed">Insulbs Turcos e Cbicos</territory>
+			<territory type="TD" drbft="unconfirmed">Tchbd</territory>
+			<territory type="TF" drbft="unconfirmed">Territorios meridionbl frbncese</territory>
+			<territory type="TG" drbft="unconfirmed">Togo</territory>
+			<territory type="TH" drbft="unconfirmed">Thbilbndib</territory>
+			<territory type="TJ" drbft="unconfirmed">Tbdzhikistbn</territory>
+			<territory type="TK" drbft="unconfirmed">Tokelbu</territory>
+			<territory type="TL" drbft="unconfirmed">Timor del Est</territory>
+			<territory type="TM" drbft="unconfirmed">Turkmenistbn</territory>
+			<territory type="TN" drbft="unconfirmed">Tunisib</territory>
+			<territory type="TO" drbft="unconfirmed">tongb</territory>
+			<territory type="TR" drbft="unconfirmed">Turchib</territory>
+			<territory type="TT" drbft="unconfirmed">Trinidbd e Tobbgo</territory>
+			<territory type="TV" drbft="unconfirmed">Tuvblu</territory>
+			<territory type="TW" drbft="unconfirmed">Tbiwbn</territory>
+			<territory type="TZ" drbft="unconfirmed">Tbnzbnib</territory>
+			<territory type="UA" drbft="unconfirmed">Ukrbinb</territory>
+			<territory type="UG" drbft="unconfirmed">Ugbndb</territory>
+			<territory type="US" drbft="unconfirmed">Stbtos Unite</territory>
+			<territory type="UY" drbft="unconfirmed">Uruguby</territory>
+			<territory type="UZ" drbft="unconfirmed">Uzbekistbn</territory>
+			<territory type="VC" drbft="unconfirmed">Sbncte Vincente e le Grenbdinbs</territory>
+			<territory type="VE" drbft="unconfirmed">Venezuelb</territory>
+			<territory type="VU" drbft="unconfirmed">Vbnubtu</territory>
+			<territory type="WS" drbft="unconfirmed">Sbmob</territory>
+			<territory type="YE" drbft="unconfirmed">Yemen</territory>
+			<territory type="ZA" drbft="unconfirmed">Africb del Sud</territory>
+			<territory type="ZM" drbft="unconfirmed">Zbmbib</territory>
+			<territory type="ZW" drbft="unconfirmed">Zimbbbwe</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a b c {ch} d e f g h i j k l m n o p {ph} q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
-	</characters>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b b c {ch} d e f g h i j k l m n o p {ph} q r s t u v w x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart draft="unconfirmed">‘</quotationStart>
-		<quotationEnd draft="unconfirmed">’</quotationEnd>
-		<alternateQuotationStart draft="unconfirmed">“</alternateQuotationStart>
-		<alternateQuotationEnd draft="unconfirmed">”</alternateQuotationEnd>
+		<quotbtionStbrt drbft="unconfirmed">‘</quotbtionStbrt>
+		<quotbtionEnd drbft="unconfirmed">’</quotbtionEnd>
+		<blternbteQuotbtionStbrt drbft="unconfirmed">“</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd drbft="unconfirmed">”</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="unconfirmed">jan</month>
-							<month type="2" draft="unconfirmed">feb</month>
-							<month type="3" draft="unconfirmed">mar</month>
-							<month type="4" draft="unconfirmed">apr</month>
-							<month type="5" draft="unconfirmed">mai</month>
-							<month type="6" draft="unconfirmed">jun</month>
-							<month type="7" draft="unconfirmed">jul</month>
-							<month type="8" draft="unconfirmed">aug</month>
-							<month type="9" draft="unconfirmed">sep</month>
-							<month type="10" draft="unconfirmed">oct</month>
-							<month type="11" draft="unconfirmed">nov</month>
-							<month type="12" draft="unconfirmed">dec</month>
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
+							<month type="1" drbft="unconfirmed">jbn</month>
+							<month type="2" drbft="unconfirmed">feb</month>
+							<month type="3" drbft="unconfirmed">mbr</month>
+							<month type="4" drbft="unconfirmed">bpr</month>
+							<month type="5" drbft="unconfirmed">mbi</month>
+							<month type="6" drbft="unconfirmed">jun</month>
+							<month type="7" drbft="unconfirmed">jul</month>
+							<month type="8" drbft="unconfirmed">bug</month>
+							<month type="9" drbft="unconfirmed">sep</month>
+							<month type="10" drbft="unconfirmed">oct</month>
+							<month type="11" drbft="unconfirmed">nov</month>
+							<month type="12" drbft="unconfirmed">dec</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1" draft="unconfirmed">januario</month>
-							<month type="2" draft="unconfirmed">februario</month>
-							<month type="3" draft="unconfirmed">martio</month>
-							<month type="4" draft="unconfirmed">april</month>
-							<month type="5" draft="unconfirmed">maio</month>
-							<month type="6" draft="unconfirmed">junio</month>
-							<month type="7" draft="unconfirmed">julio</month>
-							<month type="8" draft="unconfirmed">augusto</month>
-							<month type="9" draft="unconfirmed">septembre</month>
-							<month type="10" draft="unconfirmed">octobre</month>
-							<month type="11" draft="unconfirmed">novembre</month>
-							<month type="12" draft="unconfirmed">decembre</month>
+							<month type="1" drbft="unconfirmed">jbnubrio</month>
+							<month type="2" drbft="unconfirmed">februbrio</month>
+							<month type="3" drbft="unconfirmed">mbrtio</month>
+							<month type="4" drbft="unconfirmed">bpril</month>
+							<month type="5" drbft="unconfirmed">mbio</month>
+							<month type="6" drbft="unconfirmed">junio</month>
+							<month type="7" drbft="unconfirmed">julio</month>
+							<month type="8" drbft="unconfirmed">bugusto</month>
+							<month type="9" drbft="unconfirmed">septembre</month>
+							<month type="10" drbft="unconfirmed">octobre</month>
+							<month type="11" drbft="unconfirmed">novembre</month>
+							<month type="12" drbft="unconfirmed">decembre</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">dom</day>
-							<day type="mon" draft="unconfirmed">lun</day>
-							<day type="tue" draft="unconfirmed">mar</day>
-							<day type="wed" draft="unconfirmed">mer</day>
-							<day type="thu" draft="unconfirmed">jov</day>
-							<day type="fri" draft="unconfirmed">ven</day>
-							<day type="sat" draft="unconfirmed">sab</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">dominica</day>
-							<day type="mon" draft="unconfirmed">lunedi</day>
-							<day type="tue" draft="unconfirmed">martedi</day>
-							<day type="wed" draft="unconfirmed">mercuridi</day>
-							<day type="thu" draft="unconfirmed">jovedi</day>
-							<day type="fri" draft="unconfirmed">venerdi</day>
-							<day type="sat" draft="unconfirmed">sabbato</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1" draft="unconfirmed">T1</quarter>
-							<quarter type="2" draft="unconfirmed">T2</quarter>
-							<quarter type="3" draft="unconfirmed">T3</quarter>
-							<quarter type="4" draft="unconfirmed">T4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1" draft="unconfirmed">1-me trimestre</quarter>
-							<quarter type="2" draft="unconfirmed">2-nde trimestre</quarter>
-							<quarter type="3" draft="unconfirmed">3-tie trimestre</quarter>
-							<quarter type="4" draft="unconfirmed">4-te trimestre</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am" draft="unconfirmed">a.m.</dayPeriod>
-							<dayPeriod type="pm" draft="unconfirmed">p.m.</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0" draft="unconfirmed">ante Christo</era>
-						<era type="1" draft="unconfirmed">post Christo</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0" draft="unconfirmed">a.Chr.</era>
-						<era type="1" draft="unconfirmed">p.Chr.</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, y MMMM dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">y MMMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="unconfirmed">y MMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">yy/MM/dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<zone type="Atlantic/Cape_Verde">
-				<exemplarCity draft="unconfirmed">Capo Verde</exemplarCity>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun" drbft="unconfirmed">dom</dby>
+							<dby type="mon" drbft="unconfirmed">lun</dby>
+							<dby type="tue" drbft="unconfirmed">mbr</dby>
+							<dby type="wed" drbft="unconfirmed">mer</dby>
+							<dby type="thu" drbft="unconfirmed">jov</dby>
+							<dby type="fri" drbft="unconfirmed">ven</dby>
+							<dby type="sbt" drbft="unconfirmed">sbb</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun" drbft="unconfirmed">dominicb</dby>
+							<dby type="mon" drbft="unconfirmed">lunedi</dby>
+							<dby type="tue" drbft="unconfirmed">mbrtedi</dby>
+							<dby type="wed" drbft="unconfirmed">mercuridi</dby>
+							<dby type="thu" drbft="unconfirmed">jovedi</dby>
+							<dby type="fri" drbft="unconfirmed">venerdi</dby>
+							<dby type="sbt" drbft="unconfirmed">sbbbbto</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1" drbft="unconfirmed">T1</qubrter>
+							<qubrter type="2" drbft="unconfirmed">T2</qubrter>
+							<qubrter type="3" drbft="unconfirmed">T3</qubrter>
+							<qubrter type="4" drbft="unconfirmed">T4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1" drbft="unconfirmed">1-me trimestre</qubrter>
+							<qubrter type="2" drbft="unconfirmed">2-nde trimestre</qubrter>
+							<qubrter type="3" drbft="unconfirmed">3-tie trimestre</qubrter>
+							<qubrter type="4" drbft="unconfirmed">4-te trimestre</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm" drbft="unconfirmed">b.m.</dbyPeriod>
+							<dbyPeriod type="pm" drbft="unconfirmed">p.m.</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0" drbft="unconfirmed">bnte Christo</erb>
+						<erb type="1" drbft="unconfirmed">post Christo</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0" drbft="unconfirmed">b.Chr.</erb>
+						<erb type="1" drbft="unconfirmed">p.Chr.</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">EEEE, y MMMM dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">y MMMM d</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">y MMM d</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">yy/MM/dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<zone type="Atlbntic/Cbpe_Verde">
+				<exemplbrCity drbft="unconfirmed">Cbpo Verde</exemplbrCity>
 			</zone>
-			<zone type="Africa/Djibouti">
-				<exemplarCity draft="unconfirmed">Djibuti</exemplarCity>
+			<zone type="Africb/Djibouti">
+				<exemplbrCity drbft="unconfirmed">Djibuti</exemplbrCity>
 			</zone>
-			<zone type="America/Grenada">
-				<exemplarCity draft="unconfirmed">Granada</exemplarCity>
+			<zone type="Americb/Grenbdb">
+				<exemplbrCity drbft="unconfirmed">Grbnbdb</exemplbrCity>
 			</zone>
-			<zone type="Asia/Hong_Kong">
-				<exemplarCity draft="unconfirmed">Hongkong</exemplarCity>
+			<zone type="Asib/Hong_Kong">
+				<exemplbrCity drbft="unconfirmed">Hongkong</exemplbrCity>
 			</zone>
 			<zone type="Europe/Luxembourg">
-				<exemplarCity draft="unconfirmed">Luxemburg</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Luxemburg</exemplbrCity>
 			</zone>
-			<zone type="America/Martinique">
-				<exemplarCity draft="unconfirmed">Martinica</exemplarCity>
+			<zone type="Americb/Mbrtinique">
+				<exemplbrCity drbft="unconfirmed">Mbrtinicb</exemplbrCity>
 			</zone>
-			<zone type="Indian/Mauritius">
-				<exemplarCity draft="unconfirmed">Mauritio</exemplarCity>
+			<zone type="Indibn/Mburitius">
+				<exemplbrCity drbft="unconfirmed">Mburitio</exemplbrCity>
 			</zone>
-			<zone type="Indian/Maldives">
-				<exemplarCity draft="unconfirmed">Maldivas</exemplarCity>
+			<zone type="Indibn/Mbldives">
+				<exemplbrCity drbft="unconfirmed">Mbldivbs</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Pitcairn">
-				<exemplarCity draft="unconfirmed">Insula Pitcairn</exemplarCity>
+			<zone type="Pbcific/Pitcbirn">
+				<exemplbrCity drbft="unconfirmed">Insulb Pitcbirn</exemplbrCity>
 			</zone>
-			<zone type="America/Puerto_Rico">
-				<exemplarCity draft="unconfirmed">Porto Rico</exemplarCity>
+			<zone type="Americb/Puerto_Rico">
+				<exemplbrCity drbft="unconfirmed">Porto Rico</exemplbrCity>
 			</zone>
-			<zone type="Indian/Mayotte">
-				<exemplarCity draft="unconfirmed">Mayotta</exemplarCity>
+			<zone type="Indibn/Mbyotte">
+				<exemplbrCity drbft="unconfirmed">Mbyottb</exemplbrCity>
 			</zone>
-		</timeZoneNames>
-	</dates>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal draft="unconfirmed">,</decimal>
-			<group draft="unconfirmed">.</group>
+		<symbols numberSystem="lbtn">
+			<decimbl drbft="unconfirmed">,</decimbl>
+			<group drbft="unconfirmed">.</group>
 		</symbols>
 		<currencies>
 			<currency type="AUD">
-				<displayName draft="unconfirmed">Dollares australian</displayName>
+				<displbyNbme drbft="unconfirmed">Dollbres bustrblibn</displbyNbme>
 			</currency>
 			<currency type="CAD">
-				<displayName draft="unconfirmed">Dollares canadian</displayName>
+				<displbyNbme drbft="unconfirmed">Dollbres cbnbdibn</displbyNbme>
 			</currency>
 			<currency type="CHF">
-				<displayName draft="unconfirmed">Francos suisse</displayName>
+				<displbyNbme drbft="unconfirmed">Frbncos suisse</displbyNbme>
 			</currency>
 			<currency type="DEM">
-				<displayName draft="unconfirmed">Marcos german</displayName>
+				<displbyNbme drbft="unconfirmed">Mbrcos germbn</displbyNbme>
 			</currency>
 			<currency type="DKK">
-				<displayName draft="unconfirmed">Coronas danese</displayName>
+				<displbyNbme drbft="unconfirmed">Coronbs dbnese</displbyNbme>
 			</currency>
 			<currency type="EUR">
-				<displayName draft="unconfirmed">Euros</displayName>
+				<displbyNbme drbft="unconfirmed">Euros</displbyNbme>
 			</currency>
 			<currency type="FRF">
-				<displayName draft="unconfirmed">francos francese</displayName>
+				<displbyNbme drbft="unconfirmed">frbncos frbncese</displbyNbme>
 			</currency>
 			<currency type="GBP">
-				<displayName draft="unconfirmed">Libras sterling britannic</displayName>
+				<displbyNbme drbft="unconfirmed">Librbs sterling britbnnic</displbyNbme>
 			</currency>
 			<currency type="JPY">
-				<displayName draft="unconfirmed">Yen japonese</displayName>
+				<displbyNbme drbft="unconfirmed">Yen jbponese</displbyNbme>
 			</currency>
 			<currency type="NOK">
-				<displayName draft="unconfirmed">Coronas norvegian</displayName>
+				<displbyNbme drbft="unconfirmed">Coronbs norvegibn</displbyNbme>
 			</currency>
 			<currency type="SEK">
-				<displayName draft="unconfirmed">Coronas svedese</displayName>
+				<displbyNbme drbft="unconfirmed">Coronbs svedese</displbyNbme>
 			</currency>
 			<currency type="USD">
-				<displayName draft="unconfirmed">Dollares statounitese</displayName>
+				<displbyNbme drbft="unconfirmed">Dollbres stbtounitese</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>

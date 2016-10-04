@@ -1,360 +1,360 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.ConstructorProperties;
-import java.util.Locale;
-import java.io.Serializable;
-import javax.accessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.ConstructorProperties;
+import jbvb.util.Locble;
+import jbvb.io.Seriblizbble;
+import jbvbx.bccessibility.*;
 
 /**
- * A lightweight container
- * that uses a BoxLayout object as its layout manager.
- * Box provides several class methods
- * that are useful for containers using BoxLayout --
- * even non-Box containers.
+ * A lightweight contbiner
+ * thbt uses b BoxLbyout object bs its lbyout mbnbger.
+ * Box provides severbl clbss methods
+ * thbt bre useful for contbiners using BoxLbyout --
+ * even non-Box contbiners.
  *
  * <p>
- * The <code>Box</code> class can create several kinds
+ * The <code>Box</code> clbss cbn crebte severbl kinds
  * of invisible components
- * that affect layout:
- * glue, struts, and rigid areas.
- * If all the components your <code>Box</code> contains
- * have a fixed size,
- * you might want to use a glue component
- * (returned by <code>createGlue</code>)
+ * thbt bffect lbyout:
+ * glue, struts, bnd rigid brebs.
+ * If bll the components your <code>Box</code> contbins
+ * hbve b fixed size,
+ * you might wbnt to use b glue component
+ * (returned by <code>crebteGlue</code>)
  * to control the components' positions.
- * If you need a fixed amount of space between two components,
- * try using a strut
- * (<code>createHorizontalStrut</code> or <code>createVerticalStrut</code>).
- * If you need an invisible component
- * that always takes up the same amount of space,
- * get it by invoking <code>createRigidArea</code>.
+ * If you need b fixed bmount of spbce between two components,
+ * try using b strut
+ * (<code>crebteHorizontblStrut</code> or <code>crebteVerticblStrut</code>).
+ * If you need bn invisible component
+ * thbt blwbys tbkes up the sbme bmount of spbce,
+ * get it by invoking <code>crebteRigidAreb</code>.
  * <p>
- * If you are implementing a <code>BoxLayout</code> you
- * can find further information and examples in
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/layout/box.html">How to Use BoxLayout</a>,
- * a section in <em>The Java Tutorial.</em>
+ * If you bre implementing b <code>BoxLbyout</code> you
+ * cbn find further informbtion bnd exbmples in
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/lbyout/box.html">How to Use BoxLbyout</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see BoxLayout
+ * @see BoxLbyout
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @since 1.2
  */
-@SuppressWarnings("serial")
-public class Box extends JComponent implements Accessible {
+@SuppressWbrnings("seribl")
+public clbss Box extends JComponent implements Accessible {
 
     /**
-     * Creates a <code>Box</code> that displays its components
-     * along the the specified axis.
+     * Crebtes b <code>Box</code> thbt displbys its components
+     * blong the the specified bxis.
      *
-     * @param axis  can be {@link BoxLayout#X_AXIS},
-     *              {@link BoxLayout#Y_AXIS},
-     *              {@link BoxLayout#LINE_AXIS} or
-     *              {@link BoxLayout#PAGE_AXIS}.
-     * @throws AWTError if the <code>axis</code> is invalid
-     * @see #createHorizontalBox
-     * @see #createVerticalBox
+     * @pbrbm bxis  cbn be {@link BoxLbyout#X_AXIS},
+     *              {@link BoxLbyout#Y_AXIS},
+     *              {@link BoxLbyout#LINE_AXIS} or
+     *              {@link BoxLbyout#PAGE_AXIS}.
+     * @throws AWTError if the <code>bxis</code> is invblid
+     * @see #crebteHorizontblBox
+     * @see #crebteVerticblBox
      */
-    public Box(int axis) {
+    public Box(int bxis) {
         super();
-        super.setLayout(new BoxLayout(this, axis));
+        super.setLbyout(new BoxLbyout(this, bxis));
     }
 
     /**
-     * Creates a <code>Box</code> that displays its components
-     * from left to right. If you want a <code>Box</code> that
-     * respects the component orientation you should create the
-     * <code>Box</code> using the constructor and pass in
-     * <code>BoxLayout.LINE_AXIS</code>, eg:
+     * Crebtes b <code>Box</code> thbt displbys its components
+     * from left to right. If you wbnt b <code>Box</code> thbt
+     * respects the component orientbtion you should crebte the
+     * <code>Box</code> using the constructor bnd pbss in
+     * <code>BoxLbyout.LINE_AXIS</code>, eg:
      * <pre>
-     *   Box lineBox = new Box(BoxLayout.LINE_AXIS);
+     *   Box lineBox = new Box(BoxLbyout.LINE_AXIS);
      * </pre>
      *
      * @return the box
      */
-    public static Box createHorizontalBox() {
-        return new Box(BoxLayout.X_AXIS);
+    public stbtic Box crebteHorizontblBox() {
+        return new Box(BoxLbyout.X_AXIS);
     }
 
     /**
-     * Creates a <code>Box</code> that displays its components
-     * from top to bottom. If you want a <code>Box</code> that
-     * respects the component orientation you should create the
-     * <code>Box</code> using the constructor and pass in
-     * <code>BoxLayout.PAGE_AXIS</code>, eg:
+     * Crebtes b <code>Box</code> thbt displbys its components
+     * from top to bottom. If you wbnt b <code>Box</code> thbt
+     * respects the component orientbtion you should crebte the
+     * <code>Box</code> using the constructor bnd pbss in
+     * <code>BoxLbyout.PAGE_AXIS</code>, eg:
      * <pre>
-     *   Box lineBox = new Box(BoxLayout.PAGE_AXIS);
+     *   Box lineBox = new Box(BoxLbyout.PAGE_AXIS);
      * </pre>
      *
      * @return the box
      */
-    public static Box createVerticalBox() {
-        return new Box(BoxLayout.Y_AXIS);
+    public stbtic Box crebteVerticblBox() {
+        return new Box(BoxLbyout.Y_AXIS);
     }
 
     /**
-     * Creates an invisible component that's always the specified size.
+     * Crebtes bn invisible component thbt's blwbys the specified size.
      * <!-- WHEN WOULD YOU USE THIS AS OPPOSED TO A STRUT? -->
      *
-     * @param d the dimensions of the invisible component
+     * @pbrbm d the dimensions of the invisible component
      * @return the component
-     * @see #createGlue
-     * @see #createHorizontalStrut
-     * @see #createVerticalStrut
+     * @see #crebteGlue
+     * @see #crebteHorizontblStrut
+     * @see #crebteVerticblStrut
      */
-    public static Component createRigidArea(Dimension d) {
+    public stbtic Component crebteRigidAreb(Dimension d) {
         return new Filler(d, d, d);
     }
 
     /**
-     * Creates an invisible, fixed-width component.
-     * In a horizontal box,
-     * you typically use this method
-     * to force a certain amount of space between two components.
-     * In a vertical box,
+     * Crebtes bn invisible, fixed-width component.
+     * In b horizontbl box,
+     * you typicblly use this method
+     * to force b certbin bmount of spbce between two components.
+     * In b verticbl box,
      * you might use this method
-     * to force the box to be at least the specified width.
-     * The invisible component has no height
-     * unless excess space is available,
-     * in which case it takes its share of available space,
-     * just like any other component that has no maximum height.
+     * to force the box to be bt lebst the specified width.
+     * The invisible component hbs no height
+     * unless excess spbce is bvbilbble,
+     * in which cbse it tbkes its shbre of bvbilbble spbce,
+     * just like bny other component thbt hbs no mbximum height.
      *
-     * @param width the width of the invisible component, in pixels &gt;= 0
+     * @pbrbm width the width of the invisible component, in pixels &gt;= 0
      * @return the component
-     * @see #createVerticalStrut
-     * @see #createGlue
-     * @see #createRigidArea
+     * @see #crebteVerticblStrut
+     * @see #crebteGlue
+     * @see #crebteRigidAreb
      */
-    public static Component createHorizontalStrut(int width) {
+    public stbtic Component crebteHorizontblStrut(int width) {
         return new Filler(new Dimension(width,0), new Dimension(width,0),
                           new Dimension(width, Short.MAX_VALUE));
     }
 
     /**
-     * Creates an invisible, fixed-height component.
-     * In a vertical box,
-     * you typically use this method
-     * to force a certain amount of space between two components.
-     * In a horizontal box,
+     * Crebtes bn invisible, fixed-height component.
+     * In b verticbl box,
+     * you typicblly use this method
+     * to force b certbin bmount of spbce between two components.
+     * In b horizontbl box,
      * you might use this method
-     * to force the box to be at least the specified height.
-     * The invisible component has no width
-     * unless excess space is available,
-     * in which case it takes its share of available space,
-     * just like any other component that has no maximum width.
+     * to force the box to be bt lebst the specified height.
+     * The invisible component hbs no width
+     * unless excess spbce is bvbilbble,
+     * in which cbse it tbkes its shbre of bvbilbble spbce,
+     * just like bny other component thbt hbs no mbximum width.
      *
-     * @param height the height of the invisible component, in pixels &gt;= 0
+     * @pbrbm height the height of the invisible component, in pixels &gt;= 0
      * @return the component
-     * @see #createHorizontalStrut
-     * @see #createGlue
-     * @see #createRigidArea
+     * @see #crebteHorizontblStrut
+     * @see #crebteGlue
+     * @see #crebteRigidAreb
      */
-    public static Component createVerticalStrut(int height) {
+    public stbtic Component crebteVerticblStrut(int height) {
         return new Filler(new Dimension(0,height), new Dimension(0,height),
                           new Dimension(Short.MAX_VALUE, height));
     }
 
     /**
-     * Creates an invisible "glue" component
-     * that can be useful in a Box
-     * whose visible components have a maximum width
-     * (for a horizontal box)
-     * or height (for a vertical box).
-     * You can think of the glue component
-     * as being a gooey substance
-     * that expands as much as necessary
-     * to fill the space between its neighboring components.
+     * Crebtes bn invisible "glue" component
+     * thbt cbn be useful in b Box
+     * whose visible components hbve b mbximum width
+     * (for b horizontbl box)
+     * or height (for b verticbl box).
+     * You cbn think of the glue component
+     * bs being b gooey substbnce
+     * thbt expbnds bs much bs necessbry
+     * to fill the spbce between its neighboring components.
      *
      * <p>
      *
-     * For example, suppose you have
-     * a horizontal box that contains two fixed-size components.
-     * If the box gets extra space,
-     * the fixed-size components won't become larger,
-    * so where does the extra space go?
+     * For exbmple, suppose you hbve
+     * b horizontbl box thbt contbins two fixed-size components.
+     * If the box gets extrb spbce,
+     * the fixed-size components won't become lbrger,
+    * so where does the extrb spbce go?
      * Without glue,
-     * the extra space goes to the right of the second component.
+     * the extrb spbce goes to the right of the second component.
      * If you put glue between the fixed-size components,
-     * then the extra space goes there.
+     * then the extrb spbce goes there.
      * If you put glue before the first fixed-size component,
-     * the extra space goes there,
-     * and the fixed-size components are shoved against the right
+     * the extrb spbce goes there,
+     * bnd the fixed-size components bre shoved bgbinst the right
      * edge of the box.
      * If you put glue before the first fixed-size component
-     * and after the second fixed-size component,
-     * the fixed-size components are centered in the box.
+     * bnd bfter the second fixed-size component,
+     * the fixed-size components bre centered in the box.
      *
      * <p>
      *
      * To use glue,
-     * call <code>Box.createGlue</code>
-     * and add the returned component to a container.
-     * The glue component has no minimum or preferred size,
-     * so it takes no space unless excess space is available.
-     * If excess space is available,
-     * then the glue component takes its share of available
-     * horizontal or vertical space,
-     * just like any other component that has no maximum width or height.
+     * cbll <code>Box.crebteGlue</code>
+     * bnd bdd the returned component to b contbiner.
+     * The glue component hbs no minimum or preferred size,
+     * so it tbkes no spbce unless excess spbce is bvbilbble.
+     * If excess spbce is bvbilbble,
+     * then the glue component tbkes its shbre of bvbilbble
+     * horizontbl or verticbl spbce,
+     * just like bny other component thbt hbs no mbximum width or height.
      *
      * @return the component
      */
-    public static Component createGlue() {
+    public stbtic Component crebteGlue() {
         return new Filler(new Dimension(0,0), new Dimension(0,0),
                           new Dimension(Short.MAX_VALUE, Short.MAX_VALUE));
     }
 
     /**
-     * Creates a horizontal glue component.
+     * Crebtes b horizontbl glue component.
      *
      * @return the component
      */
-    public static Component createHorizontalGlue() {
+    public stbtic Component crebteHorizontblGlue() {
         return new Filler(new Dimension(0,0), new Dimension(0,0),
                           new Dimension(Short.MAX_VALUE, 0));
     }
 
     /**
-     * Creates a vertical glue component.
+     * Crebtes b verticbl glue component.
      *
      * @return the component
      */
-    public static Component createVerticalGlue() {
+    public stbtic Component crebteVerticblGlue() {
         return new Filler(new Dimension(0,0), new Dimension(0,0),
                           new Dimension(0, Short.MAX_VALUE));
     }
 
     /**
-     * Throws an AWTError, since a Box can use only a BoxLayout.
+     * Throws bn AWTError, since b Box cbn use only b BoxLbyout.
      *
-     * @param l the layout manager to use
+     * @pbrbm l the lbyout mbnbger to use
      */
-    public void setLayout(LayoutManager l) {
-        throw new AWTError("Illegal request");
+    public void setLbyout(LbyoutMbnbger l) {
+        throw new AWTError("Illegbl request");
     }
 
     /**
-     * Paints this <code>Box</code>.  If this <code>Box</code> has a UI this
-     * method invokes super's implementation, otherwise if this
-     * <code>Box</code> is opaque the <code>Graphics</code> is filled
-     * using the background.
+     * Pbints this <code>Box</code>.  If this <code>Box</code> hbs b UI this
+     * method invokes super's implementbtion, otherwise if this
+     * <code>Box</code> is opbque the <code>Grbphics</code> is filled
+     * using the bbckground.
      *
-     * @param g the <code>Graphics</code> to paint to
+     * @pbrbm g the <code>Grbphics</code> to pbint to
      * @throws NullPointerException if <code>g</code> is null
      * @since 1.6
      */
-    protected void paintComponent(Graphics g) {
+    protected void pbintComponent(Grbphics g) {
         if (ui != null) {
-            // On the off chance some one created a UI, honor it
-            super.paintComponent(g);
-        } else if (isOpaque()) {
-            g.setColor(getBackground());
+            // On the off chbnce some one crebted b UI, honor it
+            super.pbintComponent(g);
+        } else if (isOpbque()) {
+            g.setColor(getBbckground());
             g.fillRect(0, 0, getWidth(), getHeight());
         }
     }
 
 
     /**
-     * An implementation of a lightweight component that participates in
-     * layout but has no view.
+     * An implementbtion of b lightweight component thbt pbrticipbtes in
+     * lbyout but hbs no view.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    public static class Filler extends JComponent implements Accessible {
+    @SuppressWbrnings("seribl")
+    public stbtic clbss Filler extends JComponent implements Accessible {
 
         /**
-         * Constructor to create shape with the given size ranges.
+         * Constructor to crebte shbpe with the given size rbnges.
          *
-         * @param min   Minimum size
-         * @param pref  Preferred size
-         * @param max   Maximum size
+         * @pbrbm min   Minimum size
+         * @pbrbm pref  Preferred size
+         * @pbrbm mbx   Mbximum size
          */
-        @ConstructorProperties({"minimumSize", "preferredSize", "maximumSize"})
-        public Filler(Dimension min, Dimension pref, Dimension max) {
+        @ConstructorProperties({"minimumSize", "preferredSize", "mbximumSize"})
+        public Filler(Dimension min, Dimension pref, Dimension mbx) {
             setMinimumSize(min);
             setPreferredSize(pref);
-            setMaximumSize(max);
+            setMbximumSize(mbx);
         }
 
         /**
-         * Change the size requests for this shape.  An invalidate() is
-         * propagated upward as a result so that layout will eventually
-         * happen with using the new sizes.
+         * Chbnge the size requests for this shbpe.  An invblidbte() is
+         * propbgbted upwbrd bs b result so thbt lbyout will eventublly
+         * hbppen with using the new sizes.
          *
-         * @param min   Value to return for getMinimumSize
-         * @param pref  Value to return for getPreferredSize
-         * @param max   Value to return for getMaximumSize
+         * @pbrbm min   Vblue to return for getMinimumSize
+         * @pbrbm pref  Vblue to return for getPreferredSize
+         * @pbrbm mbx   Vblue to return for getMbximumSize
          */
-        public void changeShape(Dimension min, Dimension pref, Dimension max) {
+        public void chbngeShbpe(Dimension min, Dimension pref, Dimension mbx) {
             setMinimumSize(min);
             setPreferredSize(pref);
-            setMaximumSize(max);
-            revalidate();
+            setMbximumSize(mbx);
+            revblidbte();
         }
 
         // ---- Component methods ------------------------------------------
 
         /**
-         * Paints this <code>Filler</code>.  If this
-         * <code>Filler</code> has a UI this method invokes super's
-         * implementation, otherwise if this <code>Filler</code> is
-         * opaque the <code>Graphics</code> is filled using the
-         * background.
+         * Pbints this <code>Filler</code>.  If this
+         * <code>Filler</code> hbs b UI this method invokes super's
+         * implementbtion, otherwise if this <code>Filler</code> is
+         * opbque the <code>Grbphics</code> is filled using the
+         * bbckground.
          *
-         * @param g the <code>Graphics</code> to paint to
+         * @pbrbm g the <code>Grbphics</code> to pbint to
          * @throws NullPointerException if <code>g</code> is null
          * @since 1.6
          */
-        protected void paintComponent(Graphics g) {
+        protected void pbintComponent(Grbphics g) {
             if (ui != null) {
-                // On the off chance some one created a UI, honor it
-                super.paintComponent(g);
-            } else if (isOpaque()) {
-                g.setColor(getBackground());
+                // On the off chbnce some one crebted b UI, honor it
+                super.pbintComponent(g);
+            } else if (isOpbque()) {
+                g.setColor(getBbckground());
                 g.fillRect(0, 0, getWidth(), getHeight());
             }
         }
@@ -364,33 +364,33 @@ public class Box extends JComponent implements Accessible {
 ////////////////
 
         /**
-         * Gets the AccessibleContext associated with this Box.Filler.
-         * For box fillers, the AccessibleContext takes the form of an
+         * Gets the AccessibleContext bssocibted with this Box.Filler.
+         * For box fillers, the AccessibleContext tbkes the form of bn
          * AccessibleBoxFiller.
-         * A new AccessibleAWTBoxFiller instance is created if necessary.
+         * A new AccessibleAWTBoxFiller instbnce is crebted if necessbry.
          *
-         * @return an AccessibleBoxFiller that serves as the
+         * @return bn AccessibleBoxFiller thbt serves bs the
          *         AccessibleContext of this Box.Filler.
          */
         public AccessibleContext getAccessibleContext() {
-            if (accessibleContext == null) {
-                accessibleContext = new AccessibleBoxFiller();
+            if (bccessibleContext == null) {
+                bccessibleContext = new AccessibleBoxFiller();
             }
-            return accessibleContext;
+            return bccessibleContext;
         }
 
         /**
-         * This class implements accessibility support for the
-         * <code>Box.Filler</code> class.
+         * This clbss implements bccessibility support for the
+         * <code>Box.Filler</code> clbss.
          */
-        @SuppressWarnings("serial")
-        protected class AccessibleBoxFiller extends AccessibleAWTComponent {
+        @SuppressWbrnings("seribl")
+        protected clbss AccessibleBoxFiller extends AccessibleAWTComponent {
             // AccessibleContext methods
             //
             /**
              * Gets the role of this object.
              *
-             * @return an instance of AccessibleRole describing the role of
+             * @return bn instbnce of AccessibleRole describing the role of
              *   the object (AccessibleRole.FILLER)
              * @see AccessibleRole
              */
@@ -405,38 +405,38 @@ public class Box extends JComponent implements Accessible {
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this Box.
-     * For boxes, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this Box.
+     * For boxes, the AccessibleContext tbkes the form of bn
      * AccessibleBox.
-     * A new AccessibleAWTBox instance is created if necessary.
+     * A new AccessibleAWTBox instbnce is crebted if necessbry.
      *
-     * @return an AccessibleBox that serves as the
+     * @return bn AccessibleBox thbt serves bs the
      *         AccessibleContext of this Box
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleBox();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleBox();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Box</code> class.
+     * This clbss implements bccessibility support for the
+     * <code>Box</code> clbss.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleBox extends AccessibleAWTContainer {
+    @SuppressWbrnings("seribl")
+    protected clbss AccessibleBox extends AccessibleAWTContbiner {
         // AccessibleContext methods
         //
         /**
          * Gets the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          *   object (AccessibleRole.FILLER)
          * @see AccessibleRole
          */
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.FILLER;
         }
-    } // inner class AccessibleBox
+    } // inner clbss AccessibleBox
 }

@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Licensed Materials - Property of IBM
+ * Licensed Mbteribls - Property of IBM
  * RMI-IIOP v1.0
  * Copyright IBM Corp. 1998 1999  All Rights Reserved
  *
  */
 
-package sun.rmi.rmic;
+pbckbge sun.rmi.rmic;
 
-import java.io.File;
-import sun.tools.java.Identifier;
+import jbvb.io.File;
+import sun.tools.jbvb.Identifier;
 
 /**
- * Util provides static utility methods used by other rmic classes.
+ * Util provides stbtic utility methods used by other rmic clbsses.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author Bryan Atsatt
+ * @buthor Brybn Atsbtt
  */
 
-public class Util implements sun.rmi.rmic.Constants {
+public clbss Util implements sun.rmi.rmic.Constbnts {
 
     /**
-     * Return the directory that should be used for output for a given
-     * class.
-     * @param theClass The fully qualified name of the class.
-     * @param rootDir The directory to use as the root of the
-     * package hierarchy.  May be null, in which case the current
-     * working directory is used as the root.
+     * Return the directory thbt should be used for output for b given
+     * clbss.
+     * @pbrbm theClbss The fully qublified nbme of the clbss.
+     * @pbrbm rootDir The directory to use bs the root of the
+     * pbckbge hierbrchy.  Mby be null, in which cbse the current
+     * working directory is used bs the root.
      */
-    public static File getOutputDirectoryFor(Identifier theClass,
+    public stbtic File getOutputDirectoryFor(Identifier theClbss,
                                              File rootDir,
-                                             BatchEnvironment env) {
+                                             BbtchEnvironment env) {
 
         File outputDir = null;
-        String className = theClass.getFlatName().toString().replace('.', SIGC_INNERCLASS);
-        String qualifiedClassName = className;
-        String packagePath = null;
-        String packageName = theClass.getQualifier().toString();
+        String clbssNbme = theClbss.getFlbtNbme().toString().replbce('.', SIGC_INNERCLASS);
+        String qublifiedClbssNbme = clbssNbme;
+        String pbckbgePbth = null;
+        String pbckbgeNbme = theClbss.getQublifier().toString();
 
-        if (packageName.length() > 0) {
-            qualifiedClassName = packageName + "." + className;
-            packagePath = packageName.replace('.', File.separatorChar);
+        if (pbckbgeNbme.length() > 0) {
+            qublifiedClbssNbme = pbckbgeNbme + "." + clbssNbme;
+            pbckbgePbth = pbckbgeNbme.replbce('.', File.sepbrbtorChbr);
         }
 
-        // Do we have a root directory?
+        // Do we hbve b root directory?
 
         if (rootDir != null) {
 
-            // Yes, do we have a package name?
+            // Yes, do we hbve b pbckbge nbme?
 
-            if (packagePath != null) {
+            if (pbckbgePbth != null) {
 
-                // Yes, so use it as the root. Open the directory...
+                // Yes, so use it bs the root. Open the directory...
 
-                outputDir = new File(rootDir, packagePath);
+                outputDir = new File(rootDir, pbckbgePbth);
 
-                // Make sure the directory exists...
+                // Mbke sure the directory exists...
 
                 ensureDirectory(outputDir,env);
 
             } else {
 
-                // Default package, so use root as output dir...
+                // Defbult pbckbge, so use root bs output dir...
 
                 outputDir = rootDir;
             }
@@ -96,12 +96,12 @@ public class Util implements sun.rmi.rmic.Constants {
 
             // No root directory. Get the current working directory...
 
-            String workingDirPath = System.getProperty("user.dir");
-            File workingDir = new File(workingDirPath);
+            String workingDirPbth = System.getProperty("user.dir");
+            File workingDir = new File(workingDirPbth);
 
-            // Do we have a package name?
+            // Do we hbve b pbckbge nbme?
 
-            if (packagePath == null) {
+            if (pbckbgePbth == null) {
 
                 // No, so use working directory...
 
@@ -109,27 +109,27 @@ public class Util implements sun.rmi.rmic.Constants {
 
             } else {
 
-                // Yes, so use working directory as the root...
+                // Yes, so use working directory bs the root...
 
-                outputDir = new File(workingDir, packagePath);
+                outputDir = new File(workingDir, pbckbgePbth);
 
-                // Make sure the directory exists...
+                // Mbke sure the directory exists...
 
                 ensureDirectory(outputDir,env);
             }
         }
 
-        // Finally, return the directory...
+        // Finblly, return the directory...
 
         return outputDir;
     }
 
-    private static void ensureDirectory (File dir, BatchEnvironment env) {
+    privbte stbtic void ensureDirectory (File dir, BbtchEnvironment env) {
         if (!dir.exists()) {
             dir.mkdirs();
             if (!dir.exists()) {
-                env.error(0,"rmic.cannot.create.dir",dir.getAbsolutePath());
-                throw new InternalError();
+                env.error(0,"rmic.cbnnot.crebte.dir",dir.getAbsolutePbth());
+                throw new InternblError();
             }
         }
     }

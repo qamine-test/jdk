@@ -1,269 +1,269 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.ntlm;
+pbckbge com.sun.security.ntlm;
 
-import static com.sun.security.ntlm.Version.*;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
-import java.util.Locale;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.Mac;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.SecretKeySpec;
+import stbtic com.sun.security.ntlm.Version.*;
+import jbvb.io.IOException;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.spec.InvblidKeySpecException;
+import jbvb.util.Arrbys;
+import jbvb.util.Locble;
+import jbvbx.crypto.BbdPbddingException;
+import jbvbx.crypto.Cipher;
+import jbvbx.crypto.IllegblBlockSizeException;
+import jbvbx.crypto.Mbc;
+import jbvbx.crypto.NoSuchPbddingException;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.SecretKeyFbctory;
+import jbvbx.crypto.spec.DESKeySpec;
+import jbvbx.crypto.spec.SecretKeySpec;
 
 /**
- * NTLM authentication implemented according to MS-NLMP, version 12.1
+ * NTLM buthenticbtion implemented bccording to MS-NLMP, version 12.1
  * @since 1.7
  */
-class NTLM {
+clbss NTLM {
 
-    private final SecretKeyFactory fac;
-    private final Cipher cipher;
-    private final MessageDigest md4;
-    private final Mac hmac;
-    private final MessageDigest md5;
-    private static final boolean DEBUG =
+    privbte finbl SecretKeyFbctory fbc;
+    privbte finbl Cipher cipher;
+    privbte finbl MessbgeDigest md4;
+    privbte finbl Mbc hmbc;
+    privbte finbl MessbgeDigest md5;
+    privbte stbtic finbl boolebn DEBUG =
             System.getProperty("ntlm.debug") != null;
 
-    final Version v;
+    finbl Version v;
 
-    final boolean writeLM;
-    final boolean writeNTLM;
+    finbl boolebn writeLM;
+    finbl boolebn writeNTLM;
 
     protected NTLM(String version) throws NTLMException {
         if (version == null) version = "LMv2/NTLMv2";
         switch (version) {
-            case "LM": v = NTLM; writeLM = true; writeNTLM = false; break;
-            case "NTLM": v = NTLM; writeLM = false; writeNTLM = true; break;
-            case "LM/NTLM": v = NTLM; writeLM = writeNTLM = true; break;
-            case "NTLM2": v = NTLM2; writeLM = writeNTLM = true; break;
-            case "LMv2": v = NTLMv2; writeLM = true; writeNTLM = false; break;
-            case "NTLMv2": v = NTLMv2; writeLM = false; writeNTLM = true; break;
-            case "LMv2/NTLMv2": v = NTLMv2; writeLM = writeNTLM = true; break;
-            default: throw new NTLMException(NTLMException.BAD_VERSION,
+            cbse "LM": v = NTLM; writeLM = true; writeNTLM = fblse; brebk;
+            cbse "NTLM": v = NTLM; writeLM = fblse; writeNTLM = true; brebk;
+            cbse "LM/NTLM": v = NTLM; writeLM = writeNTLM = true; brebk;
+            cbse "NTLM2": v = NTLM2; writeLM = writeNTLM = true; brebk;
+            cbse "LMv2": v = NTLMv2; writeLM = true; writeNTLM = fblse; brebk;
+            cbse "NTLMv2": v = NTLMv2; writeLM = fblse; writeNTLM = true; brebk;
+            cbse "LMv2/NTLMv2": v = NTLMv2; writeLM = writeNTLM = true; brebk;
+            defbult: throw new NTLMException(NTLMException.BAD_VERSION,
                     "Unknown version " + version);
         }
         try {
-            fac = SecretKeyFactory.getInstance ("DES");
-            cipher = Cipher.getInstance ("DES/ECB/NoPadding");
-            md4 = sun.security.provider.MD4.getInstance();
-            hmac = Mac.getInstance("HmacMD5");
-            md5 = MessageDigest.getInstance("MD5");
-        } catch (NoSuchPaddingException e) {
+            fbc = SecretKeyFbctory.getInstbnce ("DES");
+            cipher = Cipher.getInstbnce ("DES/ECB/NoPbdding");
+            md4 = sun.security.provider.MD4.getInstbnce();
+            hmbc = Mbc.getInstbnce("HmbcMD5");
+            md5 = MessbgeDigest.getInstbnce("MD5");
+        } cbtch (NoSuchPbddingException e) {
             throw new AssertionError();
-        } catch (NoSuchAlgorithmException e) {
+        } cbtch (NoSuchAlgorithmException e) {
             throw new AssertionError();
         }
     }
 
     /**
-     * Prints out a formatted string, called in various places inside then NTLM
-     * implementation for debugging/logging purposes. When the system property
-     * "ntlm.debug" is set, <code>System.out.printf(format, args)</code> is
-     * called. This method is designed to be overridden by child classes to
-     * match their own debugging/logging mechanisms.
-     * @param format a format string
-     * @param args the arguments referenced by <code>format</code>
-     * @see java.io.PrintStream#printf(java.lang.String, java.lang.Object[])
+     * Prints out b formbtted string, cblled in vbrious plbces inside then NTLM
+     * implementbtion for debugging/logging purposes. When the system property
+     * "ntlm.debug" is set, <code>System.out.printf(formbt, brgs)</code> is
+     * cblled. This method is designed to be overridden by child clbsses to
+     * mbtch their own debugging/logging mechbnisms.
+     * @pbrbm formbt b formbt string
+     * @pbrbm brgs the brguments referenced by <code>formbt</code>
+     * @see jbvb.io.PrintStrebm#printf(jbvb.lbng.String, jbvb.lbng.Object[])
      */
-    public void debug(String format, Object... args) {
+    public void debug(String formbt, Object... brgs) {
         if (DEBUG) {
-            System.out.printf(format, args);
+            System.out.printf(formbt, brgs);
         }
     }
 
     /**
-     * Prints out the content of a byte array, called in various places inside
-     * the NTLM implementation for debugging/logging purposes. When the system
-     * property "ntlm.debug" is set, the hexdump of the array is printed into
-     * System.out. This method is designed to be overridden by child classes to
-     * match their own debugging/logging mechanisms.
-     * @param bytes the byte array to print out
+     * Prints out the content of b byte brrby, cblled in vbrious plbces inside
+     * the NTLM implementbtion for debugging/logging purposes. When the system
+     * property "ntlm.debug" is set, the hexdump of the brrby is printed into
+     * System.out. This method is designed to be overridden by child clbsses to
+     * mbtch their own debugging/logging mechbnisms.
+     * @pbrbm bytes the byte brrby to print out
      */
     public void debug(byte[] bytes) {
         if (DEBUG) {
             try {
                 new sun.misc.HexDumpEncoder().encodeBuffer(bytes, System.out);
-            } catch (IOException ioe) {
+            } cbtch (IOException ioe) {
                 // Impossible
             }
         }
     }
 
     /**
-     * Reading an NTLM packet
+     * Rebding bn NTLM pbcket
      */
-    static class Reader {
+    stbtic clbss Rebder {
 
-        private final byte[] internal;
+        privbte finbl byte[] internbl;
 
-        Reader(byte[] data) {
-            internal = data;
+        Rebder(byte[] dbtb) {
+            internbl = dbtb;
         }
 
-        int readInt(int offset) throws NTLMException {
+        int rebdInt(int offset) throws NTLMException {
             try {
-                return (internal[offset] & 0xff) +
-                        ((internal[offset+1] & 0xff) << 8) +
-                        ((internal[offset+2] & 0xff) << 16) +
-                        ((internal[offset+3] & 0xff) << 24);
-            } catch (ArrayIndexOutOfBoundsException ex) {
+                return (internbl[offset] & 0xff) +
+                        ((internbl[offset+1] & 0xff) << 8) +
+                        ((internbl[offset+2] & 0xff) << 16) +
+                        ((internbl[offset+3] & 0xff) << 24);
+            } cbtch (ArrbyIndexOutOfBoundsException ex) {
                 throw new NTLMException(NTLMException.PACKET_READ_ERROR,
-                        "Input message incorrect size");
+                        "Input messbge incorrect size");
             }
         }
 
-        int readShort(int offset) throws NTLMException {
+        int rebdShort(int offset) throws NTLMException {
             try {
-                return (internal[offset] & 0xff) +
-                        ((internal[offset+1] & 0xff << 8));
-            } catch (ArrayIndexOutOfBoundsException ex) {
+                return (internbl[offset] & 0xff) +
+                        ((internbl[offset+1] & 0xff << 8));
+            } cbtch (ArrbyIndexOutOfBoundsException ex) {
                 throw new NTLMException(NTLMException.PACKET_READ_ERROR,
-                        "Input message incorrect size");
+                        "Input messbge incorrect size");
             }
         }
 
-        byte[] readBytes(int offset, int len) throws NTLMException {
+        byte[] rebdBytes(int offset, int len) throws NTLMException {
             try {
-                return Arrays.copyOfRange(internal, offset, offset + len);
-            } catch (ArrayIndexOutOfBoundsException ex) {
+                return Arrbys.copyOfRbnge(internbl, offset, offset + len);
+            } cbtch (ArrbyIndexOutOfBoundsException ex) {
                 throw new NTLMException(NTLMException.PACKET_READ_ERROR,
-                        "Input message incorrect size");
+                        "Input messbge incorrect size");
             }
         }
 
-        byte[] readSecurityBuffer(int offset) throws NTLMException {
-            int pos = readInt(offset+4);
+        byte[] rebdSecurityBuffer(int offset) throws NTLMException {
+            int pos = rebdInt(offset+4);
             if (pos == 0) return null;
             try {
-                return Arrays.copyOfRange(
-                        internal, pos, pos + readShort(offset));
-            } catch (ArrayIndexOutOfBoundsException ex) {
+                return Arrbys.copyOfRbnge(
+                        internbl, pos, pos + rebdShort(offset));
+            } cbtch (ArrbyIndexOutOfBoundsException ex) {
                 throw new NTLMException(NTLMException.PACKET_READ_ERROR,
-                        "Input message incorrect size");
+                        "Input messbge incorrect size");
             }
         }
 
-        String readSecurityBuffer(int offset, boolean unicode)
+        String rebdSecurityBuffer(int offset, boolebn unicode)
                 throws NTLMException {
-            byte[] raw = readSecurityBuffer(offset);
+            byte[] rbw = rebdSecurityBuffer(offset);
             try {
-                return raw == null ? null : new String(
-                        raw, unicode ? "UnicodeLittleUnmarked" : "ISO8859_1");
-            } catch (UnsupportedEncodingException ex) {
+                return rbw == null ? null : new String(
+                        rbw, unicode ? "UnicodeLittleUnmbrked" : "ISO8859_1");
+            } cbtch (UnsupportedEncodingException ex) {
                 throw new NTLMException(NTLMException.PACKET_READ_ERROR,
-                        "Invalid input encoding");
+                        "Invblid input encoding");
             }
         }
     }
 
     /**
-     * Writing an NTLM packet
+     * Writing bn NTLM pbcket
      */
-    static class Writer {
+    stbtic clbss Writer {
 
-        private byte[] internal;    // buffer
-        private int current;        // current written content interface buffer
+        privbte byte[] internbl;    // buffer
+        privbte int current;        // current written content interfbce buffer
 
         /**
-         * Starts writing a NTLM packet
-         * @param type NEGOTIATE || CHALLENGE || AUTHENTICATE
-         * @param len the base length, without security buffers
+         * Stbrts writing b NTLM pbcket
+         * @pbrbm type NEGOTIATE || CHALLENGE || AUTHENTICATE
+         * @pbrbm len the bbse length, without security buffers
          */
         Writer(int type, int len) {
-            assert len < 256;
-            internal = new byte[256];
+            bssert len < 256;
+            internbl = new byte[256];
             current = len;
-            System.arraycopy (
+            System.brrbycopy (
                     new byte[] {'N','T','L','M','S','S','P',0,(byte)type},
-                    0, internal, 0, 9);
+                    0, internbl, 0, 9);
         }
 
         void writeShort(int offset, int number) {
-            internal[offset] = (byte)(number);
-            internal[offset+1] = (byte)(number >> 8);
+            internbl[offset] = (byte)(number);
+            internbl[offset+1] = (byte)(number >> 8);
         }
 
         void writeInt(int offset, int number) {
-            internal[offset] = (byte)(number);
-            internal[offset+1] = (byte)(number >> 8);
-            internal[offset+2] = (byte)(number >> 16);
-            internal[offset+3] = (byte)(number >> 24);
+            internbl[offset] = (byte)(number);
+            internbl[offset+1] = (byte)(number >> 8);
+            internbl[offset+2] = (byte)(number >> 16);
+            internbl[offset+3] = (byte)(number >> 24);
         }
 
-        void writeBytes(int offset, byte[] data) {
-            System.arraycopy(data, 0, internal, offset, data.length);
+        void writeBytes(int offset, byte[] dbtb) {
+            System.brrbycopy(dbtb, 0, internbl, offset, dbtb.length);
         }
 
-        void writeSecurityBuffer(int offset, byte[] data) {
-            if (data == null) {
+        void writeSecurityBuffer(int offset, byte[] dbtb) {
+            if (dbtb == null) {
                 writeShort(offset+4, current);
             } else {
-                int len = data.length;
-                if (current + len > internal.length) {
-                    internal = Arrays.copyOf(internal, current + len + 256);
+                int len = dbtb.length;
+                if (current + len > internbl.length) {
+                    internbl = Arrbys.copyOf(internbl, current + len + 256);
                 }
                 writeShort(offset, len);
                 writeShort(offset+2, len);
                 writeShort(offset+4, current);
-                System.arraycopy(data, 0, internal, current, len);
+                System.brrbycopy(dbtb, 0, internbl, current, len);
                 current += len;
             }
         }
 
-        void writeSecurityBuffer(int offset, String str, boolean unicode) {
+        void writeSecurityBuffer(int offset, String str, boolebn unicode) {
             try {
                 writeSecurityBuffer(offset, str == null ? null : str.getBytes(
-                        unicode ? "UnicodeLittleUnmarked" : "ISO8859_1"));
-            } catch (UnsupportedEncodingException ex) {
-                assert false;
+                        unicode ? "UnicodeLittleUnmbrked" : "ISO8859_1"));
+            } cbtch (UnsupportedEncodingException ex) {
+                bssert fblse;
             }
         }
 
         byte[] getBytes() {
-            return Arrays.copyOf(internal, current);
+            return Arrbys.copyOf(internbl, current);
         }
     }
 
     // LM/NTLM
 
-    /* Convert a 7 byte array to an 8 byte array (for a des key with parity)
-     * input starts at offset off
+    /* Convert b 7 byte brrby to bn 8 byte brrby (for b des key with pbrity)
+     * input stbrts bt offset off
      */
-    byte[] makeDesKey (byte[] input, int off) {
+    byte[] mbkeDesKey (byte[] input, int off) {
         int[] in = new int [input.length];
         for (int i=0; i<in.length; i++ ) {
             in[i] = input[i]<0 ? input[i]+256: input[i];
@@ -280,148 +280,148 @@ class NTLM {
         return out;
     }
 
-    byte[] calcLMHash (byte[] pwb) {
-        byte[] magic = {0x4b, 0x47, 0x53, 0x21, 0x40, 0x23, 0x24, 0x25};
+    byte[] cblcLMHbsh (byte[] pwb) {
+        byte[] mbgic = {0x4b, 0x47, 0x53, 0x21, 0x40, 0x23, 0x24, 0x25};
         byte[] pwb1 = new byte [14];
         int len = pwb.length;
         if (len > 14)
             len = 14;
-        System.arraycopy (pwb, 0, pwb1, 0, len); /* Zero padded */
+        System.brrbycopy (pwb, 0, pwb1, 0, len); /* Zero pbdded */
 
         try {
-            DESKeySpec dks1 = new DESKeySpec (makeDesKey (pwb1, 0));
-            DESKeySpec dks2 = new DESKeySpec (makeDesKey (pwb1, 7));
+            DESKeySpec dks1 = new DESKeySpec (mbkeDesKey (pwb1, 0));
+            DESKeySpec dks2 = new DESKeySpec (mbkeDesKey (pwb1, 7));
 
-            SecretKey key1 = fac.generateSecret (dks1);
-            SecretKey key2 = fac.generateSecret (dks2);
+            SecretKey key1 = fbc.generbteSecret (dks1);
+            SecretKey key2 = fbc.generbteSecret (dks2);
             cipher.init (Cipher.ENCRYPT_MODE, key1);
-            byte[] out1 = cipher.doFinal (magic, 0, 8);
+            byte[] out1 = cipher.doFinbl (mbgic, 0, 8);
             cipher.init (Cipher.ENCRYPT_MODE, key2);
-            byte[] out2 = cipher.doFinal (magic, 0, 8);
+            byte[] out2 = cipher.doFinbl (mbgic, 0, 8);
             byte[] result = new byte [21];
-            System.arraycopy (out1, 0, result, 0, 8);
-            System.arraycopy (out2, 0, result, 8, 8);
+            System.brrbycopy (out1, 0, result, 0, 8);
+            System.brrbycopy (out2, 0, result, 8, 8);
             return result;
-        } catch (InvalidKeyException ive) {
-            // Will not happen, all key material are 8 bytes
-            assert false;
-        } catch (InvalidKeySpecException ikse) {
-            // Will not happen, we only feed DESKeySpec to DES factory
-            assert false;
-        } catch (IllegalBlockSizeException ibse) {
-            // Will not happen, we encrypt 8 bytes
-            assert false;
-        } catch (BadPaddingException bpe) {
-            // Will not happen, this is encryption
-            assert false;
+        } cbtch (InvblidKeyException ive) {
+            // Will not hbppen, bll key mbteribl bre 8 bytes
+            bssert fblse;
+        } cbtch (InvblidKeySpecException ikse) {
+            // Will not hbppen, we only feed DESKeySpec to DES fbctory
+            bssert fblse;
+        } cbtch (IllegblBlockSizeException ibse) {
+            // Will not hbppen, we encrypt 8 bytes
+            bssert fblse;
+        } cbtch (BbdPbddingException bpe) {
+            // Will not hbppen, this is encryption
+            bssert fblse;
         }
-        return null;    // will not happen, we returned already
+        return null;    // will not hbppen, we returned blrebdy
     }
 
-    byte[] calcNTHash (byte[] pw) {
+    byte[] cblcNTHbsh (byte[] pw) {
         byte[] out = md4.digest (pw);
         byte[] result = new byte [21];
-        System.arraycopy (out, 0, result, 0, 16);
+        System.brrbycopy (out, 0, result, 0, 16);
         return result;
     }
 
-    /* key is a 21 byte array. Split it into 3 7 byte chunks,
-     * Convert each to 8 byte DES keys, encrypt the text arg with
-     * each key and return the three results in a sequential []
+    /* key is b 21 byte brrby. Split it into 3 7 byte chunks,
+     * Convert ebch to 8 byte DES keys, encrypt the text brg with
+     * ebch key bnd return the three results in b sequentibl []
      */
-    byte[] calcResponse (byte[] key, byte[] text) {
+    byte[] cblcResponse (byte[] key, byte[] text) {
         try {
-            assert key.length == 21;
-            DESKeySpec dks1 = new DESKeySpec(makeDesKey(key, 0));
-            DESKeySpec dks2 = new DESKeySpec(makeDesKey(key, 7));
-            DESKeySpec dks3 = new DESKeySpec(makeDesKey(key, 14));
-            SecretKey key1 = fac.generateSecret(dks1);
-            SecretKey key2 = fac.generateSecret(dks2);
-            SecretKey key3 = fac.generateSecret(dks3);
+            bssert key.length == 21;
+            DESKeySpec dks1 = new DESKeySpec(mbkeDesKey(key, 0));
+            DESKeySpec dks2 = new DESKeySpec(mbkeDesKey(key, 7));
+            DESKeySpec dks3 = new DESKeySpec(mbkeDesKey(key, 14));
+            SecretKey key1 = fbc.generbteSecret(dks1);
+            SecretKey key2 = fbc.generbteSecret(dks2);
+            SecretKey key3 = fbc.generbteSecret(dks3);
             cipher.init(Cipher.ENCRYPT_MODE, key1);
-            byte[] out1 = cipher.doFinal(text, 0, 8);
+            byte[] out1 = cipher.doFinbl(text, 0, 8);
             cipher.init(Cipher.ENCRYPT_MODE, key2);
-            byte[] out2 = cipher.doFinal(text, 0, 8);
+            byte[] out2 = cipher.doFinbl(text, 0, 8);
             cipher.init(Cipher.ENCRYPT_MODE, key3);
-            byte[] out3 = cipher.doFinal(text, 0, 8);
+            byte[] out3 = cipher.doFinbl(text, 0, 8);
             byte[] result = new byte[24];
-            System.arraycopy(out1, 0, result, 0, 8);
-            System.arraycopy(out2, 0, result, 8, 8);
-            System.arraycopy(out3, 0, result, 16, 8);
+            System.brrbycopy(out1, 0, result, 0, 8);
+            System.brrbycopy(out2, 0, result, 8, 8);
+            System.brrbycopy(out3, 0, result, 16, 8);
             return result;
-        } catch (IllegalBlockSizeException ex) {    // None will happen
-            assert false;
-        } catch (BadPaddingException ex) {
-            assert false;
-        } catch (InvalidKeySpecException ex) {
-            assert false;
-        } catch (InvalidKeyException ex) {
-            assert false;
+        } cbtch (IllegblBlockSizeException ex) {    // None will hbppen
+            bssert fblse;
+        } cbtch (BbdPbddingException ex) {
+            bssert fblse;
+        } cbtch (InvblidKeySpecException ex) {
+            bssert fblse;
+        } cbtch (InvblidKeyException ex) {
+            bssert fblse;
         }
         return null;
     }
 
     // LMv2/NTLMv2
 
-    byte[] hmacMD5(byte[] key, byte[] text) {
+    byte[] hmbcMD5(byte[] key, byte[] text) {
         try {
             SecretKeySpec skey =
-                    new SecretKeySpec(Arrays.copyOf(key, 16), "HmacMD5");
-            hmac.init(skey);
-            return hmac.doFinal(text);
-        } catch (InvalidKeyException ex) {
-            assert false;
-        } catch (RuntimeException e) {
-            assert false;
+                    new SecretKeySpec(Arrbys.copyOf(key, 16), "HmbcMD5");
+            hmbc.init(skey);
+            return hmbc.doFinbl(text);
+        } cbtch (InvblidKeyException ex) {
+            bssert fblse;
+        } cbtch (RuntimeException e) {
+            bssert fblse;
         }
         return null;
     }
 
-    byte[] calcV2(byte[] nthash, String text, byte[] blob, byte[] challenge) {
+    byte[] cblcV2(byte[] nthbsh, String text, byte[] blob, byte[] chbllenge) {
         try {
-            byte[] ntlmv2hash = hmacMD5(nthash,
-                    text.getBytes("UnicodeLittleUnmarked"));
+            byte[] ntlmv2hbsh = hmbcMD5(nthbsh,
+                    text.getBytes("UnicodeLittleUnmbrked"));
             byte[] cn = new byte[blob.length+8];
-            System.arraycopy(challenge, 0, cn, 0, 8);
-            System.arraycopy(blob, 0, cn, 8, blob.length);
+            System.brrbycopy(chbllenge, 0, cn, 0, 8);
+            System.brrbycopy(blob, 0, cn, 8, blob.length);
             byte[] result = new byte[16+blob.length];
-            System.arraycopy(hmacMD5(ntlmv2hash, cn), 0, result, 0, 16);
-            System.arraycopy(blob, 0, result, 16, blob.length);
+            System.brrbycopy(hmbcMD5(ntlmv2hbsh, cn), 0, result, 0, 16);
+            System.brrbycopy(blob, 0, result, 16, blob.length);
             return result;
-        } catch (UnsupportedEncodingException ex) {
-            assert false;
+        } cbtch (UnsupportedEncodingException ex) {
+            bssert fblse;
         }
         return null;
     }
 
     // NTLM2 LM/NTLM
 
-    static byte[] ntlm2LM(byte[] nonce) {
-        return Arrays.copyOf(nonce, 24);
+    stbtic byte[] ntlm2LM(byte[] nonce) {
+        return Arrbys.copyOf(nonce, 24);
     }
 
-    byte[] ntlm2NTLM(byte[] ntlmHash, byte[] nonce, byte[] challenge) {
-        byte[] b = Arrays.copyOf(challenge, 16);
-        System.arraycopy(nonce, 0, b, 8, 8);
-        byte[] sesshash = Arrays.copyOf(md5.digest(b), 8);
-        return calcResponse(ntlmHash, sesshash);
+    byte[] ntlm2NTLM(byte[] ntlmHbsh, byte[] nonce, byte[] chbllenge) {
+        byte[] b = Arrbys.copyOf(chbllenge, 16);
+        System.brrbycopy(nonce, 0, b, 8, 8);
+        byte[] sesshbsh = Arrbys.copyOf(md5.digest(b), 8);
+        return cblcResponse(ntlmHbsh, sesshbsh);
     }
 
-    // Password in ASCII and UNICODE
+    // Pbssword in ASCII bnd UNICODE
 
-    static byte[] getP1(char[] password) {
+    stbtic byte[] getP1(chbr[] pbssword) {
         try {
-            return new String(password).toUpperCase(
-                                    Locale.ENGLISH).getBytes("ISO8859_1");
-        } catch (UnsupportedEncodingException ex) {
+            return new String(pbssword).toUpperCbse(
+                                    Locble.ENGLISH).getBytes("ISO8859_1");
+        } cbtch (UnsupportedEncodingException ex) {
             return null;
         }
     }
 
-    static byte[] getP2(char[] password) {
+    stbtic byte[] getP2(chbr[] pbssword) {
         try {
-            return new String(password).getBytes("UnicodeLittleUnmarked");
-        } catch (UnsupportedEncodingException ex) {
+            return new String(pbssword).getBytes("UnicodeLittleUnmbrked");
+        } cbtch (UnsupportedEncodingException ex) {
             return null;
         }
     }

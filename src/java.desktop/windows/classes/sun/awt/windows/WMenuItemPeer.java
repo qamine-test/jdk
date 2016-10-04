@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.ActionEvent;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.ResourceBundle;
+import jbvb.util.MissingResourceException;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.util.logging.PlbtformLogger;
 
-class WMenuItemPeer extends WObjectPeer implements MenuItemPeer {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.WMenuItemPeer");
+clbss WMenuItemPeer extends WObjectPeer implements MenuItemPeer {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.WMenuItemPeer");
 
-    static {
+    stbtic {
         initIDs();
     }
 
-    String shortcutLabel;
-    //WMenuBarPeer extends WMenuPeer
-    //so parent is always instanceof WMenuPeer
-    protected WMenuPeer parent;
+    String shortcutLbbel;
+    //WMenuBbrPeer extends WMenuPeer
+    //so pbrent is blwbys instbnceof WMenuPeer
+    protected WMenuPeer pbrent;
 
-    // MenuItemPeer implementation
+    // MenuItemPeer implementbtion
 
-    private synchronized native void _dispose();
+    privbte synchronized nbtive void _dispose();
     protected void disposeImpl() {
-        WToolkit.targetDisposedPeer(target, this);
+        WToolkit.tbrgetDisposedPeer(tbrget, this);
         _dispose();
     }
 
-    public void setEnabled(boolean b) {
-        enable(b);
+    public void setEnbbled(boolebn b) {
+        enbble(b);
     }
 
     /**
-     * DEPRECATED:  Replaced by setEnabled(boolean).
+     * DEPRECATED:  Replbced by setEnbbled(boolebn).
      */
-    public void enable() {
-        enable(true);
+    public void enbble() {
+        enbble(true);
     }
 
     /**
-     * DEPRECATED:  Replaced by setEnabled(boolean).
+     * DEPRECATED:  Replbced by setEnbbled(boolebn).
      */
-    public void disable() {
-        enable(false);
+    public void disbble() {
+        enbble(fblse);
     }
 
-    public void readShortcutLabel() {
-        //Fix for 6288578: PIT. Windows: Shortcuts displayed for the menuitems in a popup menu
-        WMenuPeer ancestor = parent;
-        while (ancestor != null && !(ancestor instanceof WMenuBarPeer)) {
-            ancestor = ancestor.parent;
+    public void rebdShortcutLbbel() {
+        //Fix for 6288578: PIT. Windows: Shortcuts displbyed for the menuitems in b popup menu
+        WMenuPeer bncestor = pbrent;
+        while (bncestor != null && !(bncestor instbnceof WMenuBbrPeer)) {
+            bncestor = bncestor.pbrent;
         }
-        if (ancestor instanceof WMenuBarPeer) {
-            MenuShortcut sc = ((MenuItem)target).getShortcut();
-            shortcutLabel = (sc != null) ? sc.toString() : null;
+        if (bncestor instbnceof WMenuBbrPeer) {
+            MenuShortcut sc = ((MenuItem)tbrget).getShortcut();
+            shortcutLbbel = (sc != null) ? sc.toString() : null;
         } else {
-            shortcutLabel = null;
+            shortcutLbbel = null;
         }
     }
 
-    public void setLabel(String label) {
-        //Fix for 6288578: PIT. Windows: Shortcuts displayed for the menuitems in a popup menu
-        readShortcutLabel();
-        _setLabel(label);
+    public void setLbbel(String lbbel) {
+        //Fix for 6288578: PIT. Windows: Shortcuts displbyed for the menuitems in b popup menu
+        rebdShortcutLbbel();
+        _setLbbel(lbbel);
     }
-    public native void _setLabel(String label);
+    public nbtive void _setLbbel(String lbbel);
 
-    // Toolkit & peer internals
+    // Toolkit & peer internbls
 
-    private final boolean isCheckbox;
+    privbte finbl boolebn isCheckbox;
 
     protected WMenuItemPeer() {
-        isCheckbox = false;
+        isCheckbox = fblse;
     }
-    WMenuItemPeer(MenuItem target) {
-        this(target, false);
+    WMenuItemPeer(MenuItem tbrget) {
+        this(tbrget, fblse);
     }
 
-    WMenuItemPeer(MenuItem target, boolean isCheckbox) {
-        this.target = target;
-        this.parent = (WMenuPeer) WToolkit.targetToPeer(target.getParent());
+    WMenuItemPeer(MenuItem tbrget, boolebn isCheckbox) {
+        this.tbrget = tbrget;
+        this.pbrent = (WMenuPeer) WToolkit.tbrgetToPeer(tbrget.getPbrent());
         this.isCheckbox = isCheckbox;
-        create(parent);
-        // fix for 5088782: check if menu object is created successfully
-        checkMenuCreation();
-        //Fix for 6288578: PIT. Windows: Shortcuts displayed for the menuitems in a popup menu
-        readShortcutLabel();
+        crebte(pbrent);
+        // fix for 5088782: check if menu object is crebted successfully
+        checkMenuCrebtion();
+        //Fix for 6288578: PIT. Windows: Shortcuts displbyed for the menuitems in b popup menu
+        rebdShortcutLbbel();
     }
 
-    protected void checkMenuCreation()
+    protected void checkMenuCrebtion()
     {
-        // fix for 5088782: check if menu peer is created successfully
-        if (pData == 0)
+        // fix for 5088782: check if menu peer is crebted successfully
+        if (pDbtb == 0)
         {
-            if (createError != null)
+            if (crebteError != null)
             {
-                throw createError;
+                throw crebteError;
             }
             else
             {
-                throw new InternalError("couldn't create menu peer");
+                throw new InternblError("couldn't crebte menu peer");
             }
         }
 
     }
 
     /*
-     * Post an event. Queue it for execution by the callback thread.
+     * Post bn event. Queue it for execution by the cbllbbck threbd.
      */
     void postEvent(AWTEvent event) {
-        WToolkit.postEvent(WToolkit.targetToAppContext(target), event);
+        WToolkit.postEvent(WToolkit.tbrgetToAppContext(tbrget), event);
     }
 
-    native void create(WMenuPeer parent);
+    nbtive void crebte(WMenuPeer pbrent);
 
-    native void enable(boolean e);
+    nbtive void enbble(boolebn e);
 
-    // native callbacks
+    // nbtive cbllbbcks
 
-    void handleAction(final long when, final int modifiers) {
-        WToolkit.executeOnEventHandlerThread(target, new Runnable() {
+    void hbndleAction(finbl long when, finbl int modifiers) {
+        WToolkit.executeOnEventHbndlerThrebd(tbrget, new Runnbble() {
             public void run() {
-                postEvent(new ActionEvent(target, ActionEvent.ACTION_PERFORMED,
-                                          ((MenuItem)target).
-                                              getActionCommand(), when,
+                postEvent(new ActionEvent(tbrget, ActionEvent.ACTION_PERFORMED,
+                                          ((MenuItem)tbrget).
+                                              getActionCommbnd(), when,
                                           modifiers));
             }
         });
     }
 
-    private static Font defaultMenuFont;
+    privbte stbtic Font defbultMenuFont;
 
-    static {
-        defaultMenuFont = AccessController.doPrivileged(
+    stbtic {
+        defbultMenuFont = AccessController.doPrivileged(
             new PrivilegedAction <Font> () {
                 public Font run() {
                     try {
-                        ResourceBundle rb = ResourceBundle.getBundle("sun.awt.windows.awtLocalization");
+                        ResourceBundle rb = ResourceBundle.getBundle("sun.bwt.windows.bwtLocblizbtion");
                         return Font.decode(rb.getString("menuFont"));
-                    } catch (MissingResourceException e) {
-                        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                            log.fine("WMenuItemPeer: " + e.getMessage()+". Using default MenuItem font.", e);
+                    } cbtch (MissingResourceException e) {
+                        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                            log.fine("WMenuItemPeer: " + e.getMessbge()+". Using defbult MenuItem font.", e);
                         }
-                        return new Font("SanSerif", Font.PLAIN, 11);
+                        return new Font("SbnSerif", Font.PLAIN, 11);
                     }
                 }
             });
     }
 
-    static Font getDefaultFont() {
-        return defaultMenuFont;
+    stbtic Font getDefbultFont() {
+        return defbultMenuFont;
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    private native void _setFont(Font f);
+    privbte nbtive void _setFont(Font f);
 
-    public void setFont(final Font f) {
+    public void setFont(finbl Font f) {
         _setFont(f);
     }
 }

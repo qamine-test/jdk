@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.Rectangle2D;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bebns.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.UIResource;
-import javax.swing.text.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.text.*;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class AquaCaret extends DefaultCaret implements UIResource, PropertyChangeListener {
-    final boolean isMultiLineEditor;
-    final JTextComponent c;
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss AqubCbret extends DefbultCbret implements UIResource, PropertyChbngeListener {
+    finbl boolebn isMultiLineEditor;
+    finbl JTextComponent c;
 
-    boolean mFocused = false;
+    boolebn mFocused = fblse;
 
-    public AquaCaret(final Window inParentWindow, final JTextComponent inComponent) {
+    public AqubCbret(finbl Window inPbrentWindow, finbl JTextComponent inComponent) {
         super();
         c = inComponent;
-        isMultiLineEditor = (c instanceof JTextArea || c instanceof JEditorPane);
-        inComponent.addPropertyChangeListener(this);
+        isMultiLineEditor = (c instbnceof JTextAreb || c instbnceof JEditorPbne);
+        inComponent.bddPropertyChbngeListener(this);
     }
 
-    protected Highlighter.HighlightPainter getSelectionPainter() {
-        return AquaHighlighter.getInstance();
+    protected Highlighter.HighlightPbinter getSelectionPbinter() {
+        return AqubHighlighter.getInstbnce();
     }
 
     /**
-     * Only show the flashing caret if the selection range is zero
+     * Only show the flbshing cbret if the selection rbnge is zero
      */
-    public void setVisible(boolean e) {
-        if (e) e = getDot() == getMark();
+    public void setVisible(boolebn e) {
+        if (e) e = getDot() == getMbrk();
         super.setVisible(e);
     }
 
-    protected void fireStateChanged() {
-        // If we have focus the caret should only flash if the range length is zero
-        if (mFocused) setVisible(getComponent().isEditable());
+    protected void fireStbteChbnged() {
+        // If we hbve focus the cbret should only flbsh if the rbnge length is zero
+        if (mFocused) setVisible(getComponent().isEditbble());
 
-        super.fireStateChanged();
+        super.fireStbteChbnged();
     }
 
-    public void propertyChange(final PropertyChangeEvent evt) {
-        final String propertyName = evt.getPropertyName();
+    public void propertyChbnge(finbl PropertyChbngeEvent evt) {
+        finbl String propertyNbme = evt.getPropertyNbme();
 
-        if (AquaFocusHandler.FRAME_ACTIVE_PROPERTY.equals(propertyName)) {
-            final JTextComponent comp = ((JTextComponent)evt.getSource());
+        if (AqubFocusHbndler.FRAME_ACTIVE_PROPERTY.equbls(propertyNbme)) {
+            finbl JTextComponent comp = ((JTextComponent)evt.getSource());
 
-            if (evt.getNewValue() == Boolean.TRUE) {
-                setVisible(comp.hasFocus());
+            if (evt.getNewVblue() == Boolebn.TRUE) {
+                setVisible(comp.hbsFocus());
             } else {
-                setVisible(false);
+                setVisible(fblse);
             }
 
-            if (getDot() != getMark()) comp.getUI().damageRange(comp, getDot(), getMark());
+            if (getDot() != getMbrk()) comp.getUI().dbmbgeRbnge(comp, getDot(), getMbrk());
         }
     }
 
     // --- FocusListener methods --------------------------
 
-    private boolean shouldSelectAllOnFocus = true;
-    public void focusGained(final FocusEvent e) {
-        final JTextComponent component = getComponent();
-        if (!component.isEnabled() || !component.isEditable()) {
-            super.focusGained(e);
+    privbte boolebn shouldSelectAllOnFocus = true;
+    public void focusGbined(finbl FocusEvent e) {
+        finbl JTextComponent component = getComponent();
+        if (!component.isEnbbled() || !component.isEditbble()) {
+            super.focusGbined(e);
             return;
         }
 
         mFocused = true;
         if (!shouldSelectAllOnFocus) {
             shouldSelectAllOnFocus = true;
-            super.focusGained(e);
+            super.focusGbined(e);
             return;
         }
 
         if (isMultiLineEditor) {
-            super.focusGained(e);
+            super.focusGbined(e);
             return;
         }
 
-        final int end = component.getDocument().getLength();
-        final int dot = getDot();
-        final int mark = getMark();
-        if (dot == mark) {
+        finbl int end = component.getDocument().getLength();
+        finbl int dot = getDot();
+        finbl int mbrk = getMbrk();
+        if (dot == mbrk) {
             if (dot == 0) {
-                component.setCaretPosition(end);
-                component.moveCaretPosition(0);
+                component.setCbretPosition(end);
+                component.moveCbretPosition(0);
             } else if (dot == end) {
-                component.setCaretPosition(0);
-                component.moveCaretPosition(end);
+                component.setCbretPosition(0);
+                component.moveCbretPosition(end);
             }
         }
 
-        super.focusGained(e);
+        super.focusGbined(e);
     }
 
-    public void focusLost(final FocusEvent e) {
-        mFocused = false;
+    public void focusLost(finbl FocusEvent e) {
+        mFocused = fblse;
         shouldSelectAllOnFocus = true;
         if (isMultiLineEditor) {
-            setVisible(false);
-            c.repaint();
+            setVisible(fblse);
+            c.repbint();
         } else {
             super.focusLost(e);
         }
     }
 
-    // This fixes the problem where when on the mac you have to ctrl left click to
-    // get popup triggers the caret has code that only looks at button number.
-    // see radar # 3125390
-    public void mousePressed(final MouseEvent e) {
+    // This fixes the problem where when on the mbc you hbve to ctrl left click to
+    // get popup triggers the cbret hbs code thbt only looks bt button number.
+    // see rbdbr # 3125390
+    public void mousePressed(finbl MouseEvent e) {
         if (!e.isPopupTrigger()) {
             super.mousePressed(e);
-            shouldSelectAllOnFocus = false;
+            shouldSelectAllOnFocus = fblse;
         }
     }
 
     /**
-     * Damages the area surrounding the caret to cause
-     * it to be repainted in a new location.  If paint()
-     * is reimplemented, this method should also be
-     * reimplemented.  This method should update the
-     * caret bounds (x, y, width, and height).
+     * Dbmbges the breb surrounding the cbret to cbuse
+     * it to be repbinted in b new locbtion.  If pbint()
+     * is reimplemented, this method should blso be
+     * reimplemented.  This method should updbte the
+     * cbret bounds (x, y, width, bnd height).
      *
-     * @param r  the current location of the caret
-     * @see #paint
+     * @pbrbm r  the current locbtion of the cbret
+     * @see #pbint
      */
-    protected synchronized void damage(final Rectangle r) {
-        if (r == null || fPainting) return;
+    protected synchronized void dbmbge(finbl Rectbngle r) {
+        if (r == null || fPbinting) return;
 
         x = r.x - 4;
         y = r.y;
         width = 10;
         height = r.height;
 
-        // Don't damage the border area.  We can't paint a partial border, so get the
-        // intersection of the caret rectangle and the component less the border, if any.
-        final Rectangle caretRect = new Rectangle(x, y, width, height);
-        final Border border = getComponent().getBorder();
+        // Don't dbmbge the border breb.  We cbn't pbint b pbrtibl border, so get the
+        // intersection of the cbret rectbngle bnd the component less the border, if bny.
+        finbl Rectbngle cbretRect = new Rectbngle(x, y, width, height);
+        finbl Border border = getComponent().getBorder();
         if (border != null) {
-            final Rectangle alloc = getComponent().getBounds();
-            alloc.x = alloc.y = 0;
-            final Insets borderInsets = border.getBorderInsets(getComponent());
-            alloc.x += borderInsets.left;
-            alloc.y += borderInsets.top;
-            alloc.width -= borderInsets.left + borderInsets.right;
-            alloc.height -= borderInsets.top + borderInsets.bottom;
-            Rectangle2D.intersect(caretRect, alloc, caretRect);
+            finbl Rectbngle blloc = getComponent().getBounds();
+            blloc.x = blloc.y = 0;
+            finbl Insets borderInsets = border.getBorderInsets(getComponent());
+            blloc.x += borderInsets.left;
+            blloc.y += borderInsets.top;
+            blloc.width -= borderInsets.left + borderInsets.right;
+            blloc.height -= borderInsets.top + borderInsets.bottom;
+            Rectbngle2D.intersect(cbretRect, blloc, cbretRect);
         }
-        x = caretRect.x;
-        y = caretRect.y;
-        width = Math.max(caretRect.width, 1);
-        height = Math.max(caretRect.height, 1);
-        repaint();
+        x = cbretRect.x;
+        y = cbretRect.y;
+        width = Mbth.mbx(cbretRect.width, 1);
+        height = Mbth.mbx(cbretRect.height, 1);
+        repbint();
     }
 
-    boolean fPainting = false;
+    boolebn fPbinting = fblse;
 
-    // See <rdar://problem/3833837> 1.4.2_05-141.3: JTextField performance with Aqua L&F
-    // We are getting into a circular condition with the BasicCaret paint code since it doesn't know about the fact that our
-    // damage routine above elminates the border. Sadly we can't easily change either one, so we will
-    // add a painting flag and not damage during a repaint.
-    public void paint(final Graphics g) {
+    // See <rdbr://problem/3833837> 1.4.2_05-141.3: JTextField performbnce with Aqub L&F
+    // We bre getting into b circulbr condition with the BbsicCbret pbint code since it doesn't know bbout the fbct thbt our
+    // dbmbge routine bbove elminbtes the border. Sbdly we cbn't ebsily chbnge either one, so we will
+    // bdd b pbinting flbg bnd not dbmbge during b repbint.
+    public void pbint(finbl Grbphics g) {
         if (isVisible()) {
-            fPainting = true;
-            super.paint(g);
-            fPainting = false;
+            fPbinting = true;
+            super.pbint(g);
+            fPbinting = fblse;
         }
     }
 }

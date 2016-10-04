@@ -3,111 +3,111 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMXPathTransform.java 1203789 2011-11-18 18:46:07Z mullan $
+ * $Id: DOMXPbthTrbnsform.jbvb 1203789 2011-11-18 18:46:07Z mullbn $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.spec.TransformParameterSpec;
-import javax.xml.crypto.dsig.spec.XPathFilterParameterSpec;
-import java.security.InvalidAlgorithmParameterException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.spec.TrbnsformPbrbmeterSpec;
+import jbvbx.xml.crypto.dsig.spec.XPbthFilterPbrbmeterSpec;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 
 /**
- * DOM-based implementation of XPath Filtering Transform.
- * (Uses Apache XML-Sec Transform implementation)
+ * DOM-bbsed implementbtion of XPbth Filtering Trbnsform.
+ * (Uses Apbche XML-Sec Trbnsform implementbtion)
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public final class DOMXPathTransform extends ApacheTransform {
+public finbl clbss DOMXPbthTrbnsform extends ApbcheTrbnsform {
 
-    public void init(TransformParameterSpec params)
-        throws InvalidAlgorithmParameterException
+    public void init(TrbnsformPbrbmeterSpec pbrbms)
+        throws InvblidAlgorithmPbrbmeterException
     {
-        if (params == null) {
-            throw new InvalidAlgorithmParameterException("params are required");
-        } else if (!(params instanceof XPathFilterParameterSpec)) {
-            throw new InvalidAlgorithmParameterException
-                ("params must be of type XPathFilterParameterSpec");
+        if (pbrbms == null) {
+            throw new InvblidAlgorithmPbrbmeterException("pbrbms bre required");
+        } else if (!(pbrbms instbnceof XPbthFilterPbrbmeterSpec)) {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("pbrbms must be of type XPbthFilterPbrbmeterSpec");
         }
-        this.params = params;
+        this.pbrbms = pbrbms;
     }
 
-    public void init(XMLStructure parent, XMLCryptoContext context)
-        throws InvalidAlgorithmParameterException
+    public void init(XMLStructure pbrent, XMLCryptoContext context)
+        throws InvblidAlgorithmPbrbmeterException
     {
-        super.init(parent, context);
-        unmarshalParams(DOMUtils.getFirstChildElement(transformElem));
+        super.init(pbrent, context);
+        unmbrshblPbrbms(DOMUtils.getFirstChildElement(trbnsformElem));
     }
 
-    private void unmarshalParams(Element paramsElem) {
-        String xPath = paramsElem.getFirstChild().getNodeValue();
-        // create a Map of namespace prefixes
-        NamedNodeMap attributes = paramsElem.getAttributes();
-        if (attributes != null) {
-            int length = attributes.getLength();
-            Map<String, String> namespaceMap =
-                new HashMap<String, String>(length);
+    privbte void unmbrshblPbrbms(Element pbrbmsElem) {
+        String xPbth = pbrbmsElem.getFirstChild().getNodeVblue();
+        // crebte b Mbp of nbmespbce prefixes
+        NbmedNodeMbp bttributes = pbrbmsElem.getAttributes();
+        if (bttributes != null) {
+            int length = bttributes.getLength();
+            Mbp<String, String> nbmespbceMbp =
+                new HbshMbp<String, String>(length);
             for (int i = 0; i < length; i++) {
-                Attr attr = (Attr)attributes.item(i);
-                String prefix = attr.getPrefix();
-                if (prefix != null && prefix.equals("xmlns")) {
-                    namespaceMap.put(attr.getLocalName(), attr.getValue());
+                Attr bttr = (Attr)bttributes.item(i);
+                String prefix = bttr.getPrefix();
+                if (prefix != null && prefix.equbls("xmlns")) {
+                    nbmespbceMbp.put(bttr.getLocblNbme(), bttr.getVblue());
                 }
             }
-            this.params = new XPathFilterParameterSpec(xPath, namespaceMap);
+            this.pbrbms = new XPbthFilterPbrbmeterSpec(xPbth, nbmespbceMbp);
         } else {
-            this.params = new XPathFilterParameterSpec(xPath);
+            this.pbrbms = new XPbthFilterPbrbmeterSpec(xPbth);
         }
     }
 
-    public void marshalParams(XMLStructure parent, XMLCryptoContext context)
-        throws MarshalException
+    public void mbrshblPbrbms(XMLStructure pbrent, XMLCryptoContext context)
+        throws MbrshblException
     {
-        super.marshalParams(parent, context);
-        XPathFilterParameterSpec xp =
-            (XPathFilterParameterSpec)getParameterSpec();
-        Element xpathElem = DOMUtils.createElement(ownerDoc, "XPath",
-             XMLSignature.XMLNS, DOMUtils.getSignaturePrefix(context));
-        xpathElem.appendChild(ownerDoc.createTextNode(xp.getXPath()));
+        super.mbrshblPbrbms(pbrent, context);
+        XPbthFilterPbrbmeterSpec xp =
+            (XPbthFilterPbrbmeterSpec)getPbrbmeterSpec();
+        Element xpbthElem = DOMUtils.crebteElement(ownerDoc, "XPbth",
+             XMLSignbture.XMLNS, DOMUtils.getSignbturePrefix(context));
+        xpbthElem.bppendChild(ownerDoc.crebteTextNode(xp.getXPbth()));
 
-        // add namespace attributes, if necessary
-        @SuppressWarnings("unchecked")
-        Set<Map.Entry<String, String>> entries =
-            xp.getNamespaceMap().entrySet();
-        for (Map.Entry<String, String> entry : entries) {
-            xpathElem.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" +
+        // bdd nbmespbce bttributes, if necessbry
+        @SuppressWbrnings("unchecked")
+        Set<Mbp.Entry<String, String>> entries =
+            xp.getNbmespbceMbp().entrySet();
+        for (Mbp.Entry<String, String> entry : entries) {
+            xpbthElem.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" +
                                      entry.getKey(),
-                                     entry.getValue());
+                                     entry.getVblue());
         }
 
-        transformElem.appendChild(xpathElem);
+        trbnsformElem.bppendChild(xpbthElem);
     }
 }

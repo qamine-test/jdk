@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-// java import
-import javax.swing.*;
-import java.util.Objects;
+// jbvb import
+import jbvbx.swing.*;
+import jbvb.util.Objects;
 
 /**
- * This provides a wrapper to the Object class to allow it to be
- displayed/manipulated as a GUI object.
+ * This provides b wrbpper to the Object clbss to bllow it to be
+ displbyed/mbnipulbted bs b GUI object.
 */
-@SuppressWarnings("serial")
-public class XObject extends JLabel {
-    private Object object;
-    private static boolean useHashCodeRepresentation = true;
-    public final static XObject NULL_OBJECT = new XObject("null");
+@SuppressWbrnings("seribl")
+public clbss XObject extends JLbbel {
+    privbte Object object;
+    privbte stbtic boolebn useHbshCodeRepresentbtion = true;
+    public finbl stbtic XObject NULL_OBJECT = new XObject("null");
     public XObject (Object object, Icon icon) {
         this(object);
         setIcon(icon);
@@ -45,19 +45,19 @@ public class XObject extends JLabel {
 
     public XObject (Object object) {
         setObject(object);
-        setHorizontalAlignment(SwingConstants.LEFT);
+        setHorizontblAlignment(SwingConstbnts.LEFT);
     }
 
-    public boolean equals(Object o) {
-        if (o instanceof XObject) {
-            return Objects.equals(object, ((XObject)o).getObject());
+    public boolebn equbls(Object o) {
+        if (o instbnceof XObject) {
+            return Objects.equbls(object, ((XObject)o).getObject());
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public int hashCode() {
-        return object.hashCode();
+    public int hbshCode() {
+        return object.hbshCode();
     }
 
 
@@ -65,30 +65,30 @@ public class XObject extends JLabel {
         return object;
     }
 
-    //if true the the object.hashcode is added to the label
-    public static void
-        useHashCodeRepresentation(boolean useHashCodeRepresentation) {
-        XObject.useHashCodeRepresentation = useHashCodeRepresentation;
+    //if true the the object.hbshcode is bdded to the lbbel
+    public stbtic void
+        useHbshCodeRepresentbtion(boolebn useHbshCodeRepresentbtion) {
+        XObject.useHbshCodeRepresentbtion = useHbshCodeRepresentbtion;
     }
 
-    public static boolean hashCodeRepresentation() {
-        return useHashCodeRepresentation;
+    public stbtic boolebn hbshCodeRepresentbtion() {
+        return useHbshCodeRepresentbtion;
     }
 
     public void setObject(Object object) {
         this.object = object;
-        // if the object is not  a swing component,
-        // use default icon
+        // if the object is not  b swing component,
+        // use defbult icon
         try {
             String text = null;
-            if (object instanceof JLabel) {
-                setIcon(((JLabel)object).getIcon());
+            if (object instbnceof JLbbel) {
+                setIcon(((JLbbel)object).getIcon());
                 if (getText() != null) {
-                    text = ((JLabel)object).getText();
+                    text = ((JLbbel)object).getText();
 
                 }
             }
-            else if (object instanceof JButton) {
+            else if (object instbnceof JButton) {
                 setIcon(((JButton)object).getIcon());
                 if (getText() != null) {
                     text = ((JButton)object).getText();
@@ -96,18 +96,18 @@ public class XObject extends JLabel {
             }
             else if (getText() != null) {
                 text = object.toString();
-                setIcon(IconManager.DEFAULT_XOBJECT);
+                setIcon(IconMbnbger.DEFAULT_XOBJECT);
             }
             if (text != null) {
-                if (useHashCodeRepresentation && (this != NULL_OBJECT)) {
-                    text = text + "     ("+object.hashCode()+")";
+                if (useHbshCodeRepresentbtion && (this != NULL_OBJECT)) {
+                    text = text + "     ("+object.hbshCode()+")";
                 }
                 setText(text);
             }
         }
-        catch (Exception e) {
+        cbtch (Exception e) {
              System.out.println("Error setting XObject object :"+
-                                e.getMessage());
+                                e.getMessbge());
         }
     }
 }

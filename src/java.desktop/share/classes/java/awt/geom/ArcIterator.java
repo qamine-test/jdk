@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.geom;
+pbckbge jbvb.bwt.geom;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * A utility class to iterate over the path segments of an arc
- * through the PathIterator interface.
+ * A utility clbss to iterbte over the pbth segments of bn brc
+ * through the PbthIterbtor interfbce.
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  */
-class ArcIterator implements PathIterator {
-    double x, y, w, h, angStRad, increment, cv;
-    AffineTransform affine;
+clbss ArcIterbtor implements PbthIterbtor {
+    double x, y, w, h, bngStRbd, increment, cv;
+    AffineTrbnsform bffine;
     int index;
-    int arcSegs;
+    int brcSegs;
     int lineSegs;
 
-    ArcIterator(Arc2D a, AffineTransform at) {
-        this.w = a.getWidth() / 2;
-        this.h = a.getHeight() / 2;
-        this.x = a.getX() + w;
-        this.y = a.getY() + h;
-        this.angStRad = -Math.toRadians(a.getAngleStart());
-        this.affine = at;
-        double ext = -a.getAngleExtent();
+    ArcIterbtor(Arc2D b, AffineTrbnsform bt) {
+        this.w = b.getWidth() / 2;
+        this.h = b.getHeight() / 2;
+        this.x = b.getX() + w;
+        this.y = b.getY() + h;
+        this.bngStRbd = -Mbth.toRbdibns(b.getAngleStbrt());
+        this.bffine = bt;
+        double ext = -b.getAngleExtent();
         if (ext >= 360.0 || ext <= -360) {
-            arcSegs = 4;
-            this.increment = Math.PI / 2;
-            // btan(Math.PI / 2);
+            brcSegs = 4;
+            this.increment = Mbth.PI / 2;
+            // btbn(Mbth.PI / 2);
             this.cv = 0.5522847498307933;
             if (ext < 0) {
                 increment = -increment;
                 cv = -cv;
             }
         } else {
-            arcSegs = (int) Math.ceil(Math.abs(ext) / 90.0);
-            this.increment = Math.toRadians(ext / arcSegs);
-            this.cv = btan(increment);
+            brcSegs = (int) Mbth.ceil(Mbth.bbs(ext) / 90.0);
+            this.increment = Mbth.toRbdibns(ext / brcSegs);
+            this.cv = btbn(increment);
             if (cv == 0) {
-                arcSegs = 0;
+                brcSegs = 0;
             }
         }
-        switch (a.getArcType()) {
-        case Arc2D.OPEN:
+        switch (b.getArcType()) {
+        cbse Arc2D.OPEN:
             lineSegs = 0;
-            break;
-        case Arc2D.CHORD:
+            brebk;
+        cbse Arc2D.CHORD:
             lineSegs = 1;
-            break;
-        case Arc2D.PIE:
+            brebk;
+        cbse Arc2D.PIE:
             lineSegs = 2;
-            break;
+            brebk;
         }
         if (w < 0 || h < 0) {
-            arcSegs = lineSegs = -1;
+            brcSegs = lineSegs = -1;
         }
     }
 
     /**
      * Return the winding rule for determining the insideness of the
-     * path.
+     * pbth.
      * @see #WIND_EVEN_ODD
      * @see #WIND_NON_ZERO
      */
@@ -92,176 +92,176 @@ class ArcIterator implements PathIterator {
     }
 
     /**
-     * Tests if there are more points to read.
-     * @return true if there are more points to read
+     * Tests if there bre more points to rebd.
+     * @return true if there bre more points to rebd
      */
-    public boolean isDone() {
-        return index > arcSegs + lineSegs;
+    public boolebn isDone() {
+        return index > brcSegs + lineSegs;
     }
 
     /**
-     * Moves the iterator to the next segment of the path forwards
-     * along the primary direction of traversal as long as there are
-     * more points in that direction.
+     * Moves the iterbtor to the next segment of the pbth forwbrds
+     * blong the primbry direction of trbversbl bs long bs there bre
+     * more points in thbt direction.
      */
     public void next() {
         index++;
     }
 
     /*
-     * btan computes the length (k) of the control segments at
-     * the beginning and end of a cubic bezier that approximates
-     * a segment of an arc with extent less than or equal to
-     * 90 degrees.  This length (k) will be used to generate the
-     * 2 bezier control points for such a segment.
+     * btbn computes the length (k) of the control segments bt
+     * the beginning bnd end of b cubic bezier thbt bpproximbtes
+     * b segment of bn brc with extent less thbn or equbl to
+     * 90 degrees.  This length (k) will be used to generbte the
+     * 2 bezier control points for such b segment.
      *
      *   Assumptions:
-     *     a) arc is centered on 0,0 with radius of 1.0
-     *     b) arc extent is less than 90 degrees
-     *     c) control points should preserve tangent
-     *     d) control segments should have equal length
+     *     b) brc is centered on 0,0 with rbdius of 1.0
+     *     b) brc extent is less thbn 90 degrees
+     *     c) control points should preserve tbngent
+     *     d) control segments should hbve equbl length
      *
-     *   Initial data:
-     *     start angle: ang1
-     *     end angle:   ang2 = ang1 + extent
-     *     start point: P1 = (x1, y1) = (cos(ang1), sin(ang1))
-     *     end point:   P4 = (x4, y4) = (cos(ang2), sin(ang2))
+     *   Initibl dbtb:
+     *     stbrt bngle: bng1
+     *     end bngle:   bng2 = bng1 + extent
+     *     stbrt point: P1 = (x1, y1) = (cos(bng1), sin(bng1))
+     *     end point:   P4 = (x4, y4) = (cos(bng2), sin(bng2))
      *
      *   Control points:
      *     P2 = (x2, y2)
-     *     | x2 = x1 - k * sin(ang1) = cos(ang1) - k * sin(ang1)
-     *     | y2 = y1 + k * cos(ang1) = sin(ang1) + k * cos(ang1)
+     *     | x2 = x1 - k * sin(bng1) = cos(bng1) - k * sin(bng1)
+     *     | y2 = y1 + k * cos(bng1) = sin(bng1) + k * cos(bng1)
      *
      *     P3 = (x3, y3)
-     *     | x3 = x4 + k * sin(ang2) = cos(ang2) + k * sin(ang2)
-     *     | y3 = y4 - k * cos(ang2) = sin(ang2) - k * cos(ang2)
+     *     | x3 = x4 + k * sin(bng2) = cos(bng2) + k * sin(bng2)
+     *     | y3 = y4 - k * cos(bng2) = sin(bng2) - k * cos(bng2)
      *
-     * The formula for this length (k) can be found using the
-     * following derivations:
+     * The formulb for this length (k) cbn be found using the
+     * following derivbtions:
      *
      *   Midpoints:
-     *     a) bezier (t = 1/2)
+     *     b) bezier (t = 1/2)
      *        bPm = P1 * (1-t)^3 +
      *              3 * P2 * t * (1-t)^2 +
      *              3 * P3 * t^2 * (1-t) +
      *              P4 * t^3 =
      *            = (P1 + 3P2 + 3P3 + P4)/8
      *
-     *     b) arc
-     *        aPm = (cos((ang1 + ang2)/2), sin((ang1 + ang2)/2))
+     *     b) brc
+     *        bPm = (cos((bng1 + bng2)/2), sin((bng1 + bng2)/2))
      *
-     *   Let angb = (ang2 - ang1)/2; angb is half of the angle
-     *   between ang1 and ang2.
+     *   Let bngb = (bng2 - bng1)/2; bngb is hblf of the bngle
+     *   between bng1 bnd bng2.
      *
-     *   Solve the equation bPm == aPm
+     *   Solve the equbtion bPm == bPm
      *
-     *     a) For xm coord:
-     *        x1 + 3*x2 + 3*x3 + x4 = 8*cos((ang1 + ang2)/2)
+     *     b) For xm coord:
+     *        x1 + 3*x2 + 3*x3 + x4 = 8*cos((bng1 + bng2)/2)
      *
-     *        cos(ang1) + 3*cos(ang1) - 3*k*sin(ang1) +
-     *        3*cos(ang2) + 3*k*sin(ang2) + cos(ang2) =
-     *        = 8*cos((ang1 + ang2)/2)
+     *        cos(bng1) + 3*cos(bng1) - 3*k*sin(bng1) +
+     *        3*cos(bng2) + 3*k*sin(bng2) + cos(bng2) =
+     *        = 8*cos((bng1 + bng2)/2)
      *
-     *        4*cos(ang1) + 4*cos(ang2) + 3*k*(sin(ang2) - sin(ang1)) =
-     *        = 8*cos((ang1 + ang2)/2)
+     *        4*cos(bng1) + 4*cos(bng2) + 3*k*(sin(bng2) - sin(bng1)) =
+     *        = 8*cos((bng1 + bng2)/2)
      *
-     *        8*cos((ang1 + ang2)/2)*cos((ang2 - ang1)/2) +
-     *        6*k*sin((ang2 - ang1)/2)*cos((ang1 + ang2)/2) =
-     *        = 8*cos((ang1 + ang2)/2)
+     *        8*cos((bng1 + bng2)/2)*cos((bng2 - bng1)/2) +
+     *        6*k*sin((bng2 - bng1)/2)*cos((bng1 + bng2)/2) =
+     *        = 8*cos((bng1 + bng2)/2)
      *
-     *        4*cos(angb) + 3*k*sin(angb) = 4
+     *        4*cos(bngb) + 3*k*sin(bngb) = 4
      *
-     *        k = 4 / 3 * (1 - cos(angb)) / sin(angb)
+     *        k = 4 / 3 * (1 - cos(bngb)) / sin(bngb)
      *
-     *     b) For ym coord we derive the same formula.
+     *     b) For ym coord we derive the sbme formulb.
      *
-     * Since this formula can generate "NaN" values for small
-     * angles, we will derive a safer form that does not involve
-     * dividing by very small values:
-     *     (1 - cos(angb)) / sin(angb) =
-     *     = (1 - cos(angb))*(1 + cos(angb)) / sin(angb)*(1 + cos(angb)) =
-     *     = (1 - cos(angb)^2) / sin(angb)*(1 + cos(angb)) =
-     *     = sin(angb)^2 / sin(angb)*(1 + cos(angb)) =
-     *     = sin(angb) / (1 + cos(angb))
+     * Since this formulb cbn generbte "NbN" vblues for smbll
+     * bngles, we will derive b sbfer form thbt does not involve
+     * dividing by very smbll vblues:
+     *     (1 - cos(bngb)) / sin(bngb) =
+     *     = (1 - cos(bngb))*(1 + cos(bngb)) / sin(bngb)*(1 + cos(bngb)) =
+     *     = (1 - cos(bngb)^2) / sin(bngb)*(1 + cos(bngb)) =
+     *     = sin(bngb)^2 / sin(bngb)*(1 + cos(bngb)) =
+     *     = sin(bngb) / (1 + cos(bngb))
      *
      */
-    private static double btan(double increment) {
+    privbte stbtic double btbn(double increment) {
         increment /= 2.0;
-        return 4.0 / 3.0 * Math.sin(increment) / (1.0 + Math.cos(increment));
+        return 4.0 / 3.0 * Mbth.sin(increment) / (1.0 + Mbth.cos(increment));
     }
 
     /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path segment type:
+     * Returns the coordinbtes bnd type of the current pbth segment in
+     * the iterbtion.
+     * The return vblue is the pbth segment type:
      * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A float array of length 6 must be passed in and may be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of float x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types will return one point,
+     * A flobt brrby of length 6 must be pbssed in bnd mby be used to
+     * store the coordinbtes of the point(s).
+     * Ebch point is stored bs b pbir of flobt x,y coordinbtes.
+     * SEG_MOVETO bnd SEG_LINETO types will return one point,
      * SEG_QUADTO will return two points,
      * SEG_CUBICTO will return 3 points
-     * and SEG_CLOSE will not return any points.
+     * bnd SEG_CLOSE will not return bny points.
      * @see #SEG_MOVETO
      * @see #SEG_LINETO
      * @see #SEG_QUADTO
      * @see #SEG_CUBICTO
      * @see #SEG_CLOSE
      */
-    public int currentSegment(float[] coords) {
+    public int currentSegment(flobt[] coords) {
         if (isDone()) {
-            throw new NoSuchElementException("arc iterator out of bounds");
+            throw new NoSuchElementException("brc iterbtor out of bounds");
         }
-        double angle = angStRad;
+        double bngle = bngStRbd;
         if (index == 0) {
-            coords[0] = (float) (x + Math.cos(angle) * w);
-            coords[1] = (float) (y + Math.sin(angle) * h);
-            if (affine != null) {
-                affine.transform(coords, 0, coords, 0, 1);
+            coords[0] = (flobt) (x + Mbth.cos(bngle) * w);
+            coords[1] = (flobt) (y + Mbth.sin(bngle) * h);
+            if (bffine != null) {
+                bffine.trbnsform(coords, 0, coords, 0, 1);
             }
             return SEG_MOVETO;
         }
-        if (index > arcSegs) {
-            if (index == arcSegs + lineSegs) {
+        if (index > brcSegs) {
+            if (index == brcSegs + lineSegs) {
                 return SEG_CLOSE;
             }
-            coords[0] = (float) x;
-            coords[1] = (float) y;
-            if (affine != null) {
-                affine.transform(coords, 0, coords, 0, 1);
+            coords[0] = (flobt) x;
+            coords[1] = (flobt) y;
+            if (bffine != null) {
+                bffine.trbnsform(coords, 0, coords, 0, 1);
             }
             return SEG_LINETO;
         }
-        angle += increment * (index - 1);
-        double relx = Math.cos(angle);
-        double rely = Math.sin(angle);
-        coords[0] = (float) (x + (relx - cv * rely) * w);
-        coords[1] = (float) (y + (rely + cv * relx) * h);
-        angle += increment;
-        relx = Math.cos(angle);
-        rely = Math.sin(angle);
-        coords[2] = (float) (x + (relx + cv * rely) * w);
-        coords[3] = (float) (y + (rely - cv * relx) * h);
-        coords[4] = (float) (x + relx * w);
-        coords[5] = (float) (y + rely * h);
-        if (affine != null) {
-            affine.transform(coords, 0, coords, 0, 3);
+        bngle += increment * (index - 1);
+        double relx = Mbth.cos(bngle);
+        double rely = Mbth.sin(bngle);
+        coords[0] = (flobt) (x + (relx - cv * rely) * w);
+        coords[1] = (flobt) (y + (rely + cv * relx) * h);
+        bngle += increment;
+        relx = Mbth.cos(bngle);
+        rely = Mbth.sin(bngle);
+        coords[2] = (flobt) (x + (relx + cv * rely) * w);
+        coords[3] = (flobt) (y + (rely - cv * relx) * h);
+        coords[4] = (flobt) (x + relx * w);
+        coords[5] = (flobt) (y + rely * h);
+        if (bffine != null) {
+            bffine.trbnsform(coords, 0, coords, 0, 3);
         }
         return SEG_CUBICTO;
     }
 
     /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path segment type:
+     * Returns the coordinbtes bnd type of the current pbth segment in
+     * the iterbtion.
+     * The return vblue is the pbth segment type:
      * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A double array of length 6 must be passed in and may be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of double x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types will return one point,
+     * A double brrby of length 6 must be pbssed in bnd mby be used to
+     * store the coordinbtes of the point(s).
+     * Ebch point is stored bs b pbir of double x,y coordinbtes.
+     * SEG_MOVETO bnd SEG_LINETO types will return one point,
      * SEG_QUADTO will return two points,
      * SEG_CUBICTO will return 3 points
-     * and SEG_CLOSE will not return any points.
+     * bnd SEG_CLOSE will not return bny points.
      * @see #SEG_MOVETO
      * @see #SEG_LINETO
      * @see #SEG_QUADTO
@@ -270,42 +270,42 @@ class ArcIterator implements PathIterator {
      */
     public int currentSegment(double[] coords) {
         if (isDone()) {
-            throw new NoSuchElementException("arc iterator out of bounds");
+            throw new NoSuchElementException("brc iterbtor out of bounds");
         }
-        double angle = angStRad;
+        double bngle = bngStRbd;
         if (index == 0) {
-            coords[0] = x + Math.cos(angle) * w;
-            coords[1] = y + Math.sin(angle) * h;
-            if (affine != null) {
-                affine.transform(coords, 0, coords, 0, 1);
+            coords[0] = x + Mbth.cos(bngle) * w;
+            coords[1] = y + Mbth.sin(bngle) * h;
+            if (bffine != null) {
+                bffine.trbnsform(coords, 0, coords, 0, 1);
             }
             return SEG_MOVETO;
         }
-        if (index > arcSegs) {
-            if (index == arcSegs + lineSegs) {
+        if (index > brcSegs) {
+            if (index == brcSegs + lineSegs) {
                 return SEG_CLOSE;
             }
             coords[0] = x;
             coords[1] = y;
-            if (affine != null) {
-                affine.transform(coords, 0, coords, 0, 1);
+            if (bffine != null) {
+                bffine.trbnsform(coords, 0, coords, 0, 1);
             }
             return SEG_LINETO;
         }
-        angle += increment * (index - 1);
-        double relx = Math.cos(angle);
-        double rely = Math.sin(angle);
+        bngle += increment * (index - 1);
+        double relx = Mbth.cos(bngle);
+        double rely = Mbth.sin(bngle);
         coords[0] = x + (relx - cv * rely) * w;
         coords[1] = y + (rely + cv * relx) * h;
-        angle += increment;
-        relx = Math.cos(angle);
-        rely = Math.sin(angle);
+        bngle += increment;
+        relx = Mbth.cos(bngle);
+        rely = Mbth.sin(bngle);
         coords[2] = x + (relx + cv * rely) * w;
         coords[3] = y + (rely - cv * relx) * h;
         coords[4] = x + relx * w;
         coords[5] = y + rely * h;
-        if (affine != null) {
-            affine.transform(coords, 0, coords, 0, 3);
+        if (bffine != null) {
+            bffine.trbnsform(coords, 0, coords, 0, 3);
         }
         return SEG_CUBICTO;
     }

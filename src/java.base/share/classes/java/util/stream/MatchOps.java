@@ -1,317 +1,317 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.function.DoublePredicate;
-import java.util.function.IntPredicate;
-import java.util.function.LongPredicate;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import jbvb.util.Objects;
+import jbvb.util.Spliterbtor;
+import jbvb.util.function.DoublePredicbte;
+import jbvb.util.function.IntPredicbte;
+import jbvb.util.function.LongPredicbte;
+import jbvb.util.function.Predicbte;
+import jbvb.util.function.Supplier;
 
 /**
- * Factory for instances of a short-circuiting {@code TerminalOp} that implement
- * quantified predicate matching on the elements of a stream. Supported variants
- * include match-all, match-any, and match-none.
+ * Fbctory for instbnces of b short-circuiting {@code TerminblOp} thbt implement
+ * qubntified predicbte mbtching on the elements of b strebm. Supported vbribnts
+ * include mbtch-bll, mbtch-bny, bnd mbtch-none.
  *
  * @since 1.8
  */
-final class MatchOps {
+finbl clbss MbtchOps {
 
-    private MatchOps() { }
+    privbte MbtchOps() { }
 
     /**
-     * Enum describing quantified match options -- all match, any match, none
-     * match.
+     * Enum describing qubntified mbtch options -- bll mbtch, bny mbtch, none
+     * mbtch.
      */
-    enum MatchKind {
-        /** Do all elements match the predicate? */
+    enum MbtchKind {
+        /** Do bll elements mbtch the predicbte? */
         ANY(true, true),
 
-        /** Do any elements match the predicate? */
-        ALL(false, false),
+        /** Do bny elements mbtch the predicbte? */
+        ALL(fblse, fblse),
 
-        /** Do no elements match the predicate? */
-        NONE(true, false);
+        /** Do no elements mbtch the predicbte? */
+        NONE(true, fblse);
 
-        private final boolean stopOnPredicateMatches;
-        private final boolean shortCircuitResult;
+        privbte finbl boolebn stopOnPredicbteMbtches;
+        privbte finbl boolebn shortCircuitResult;
 
-        private MatchKind(boolean stopOnPredicateMatches,
-                          boolean shortCircuitResult) {
-            this.stopOnPredicateMatches = stopOnPredicateMatches;
+        privbte MbtchKind(boolebn stopOnPredicbteMbtches,
+                          boolebn shortCircuitResult) {
+            this.stopOnPredicbteMbtches = stopOnPredicbteMbtches;
             this.shortCircuitResult = shortCircuitResult;
         }
     }
 
     /**
-     * Constructs a quantified predicate matcher for a Stream.
+     * Constructs b qubntified predicbte mbtcher for b Strebm.
      *
-     * @param <T> the type of stream elements
-     * @param predicate the {@code Predicate} to apply to stream elements
-     * @param matchKind the kind of quantified match (all, any, none)
-     * @return a {@code TerminalOp} implementing the desired quantified match
-     *         criteria
+     * @pbrbm <T> the type of strebm elements
+     * @pbrbm predicbte the {@code Predicbte} to bpply to strebm elements
+     * @pbrbm mbtchKind the kind of qubntified mbtch (bll, bny, none)
+     * @return b {@code TerminblOp} implementing the desired qubntified mbtch
+     *         criterib
      */
-    public static <T> TerminalOp<T, Boolean> makeRef(Predicate<? super T> predicate,
-            MatchKind matchKind) {
-        Objects.requireNonNull(predicate);
-        Objects.requireNonNull(matchKind);
-        class MatchSink extends BooleanTerminalSink<T> {
-            MatchSink() {
-                super(matchKind);
+    public stbtic <T> TerminblOp<T, Boolebn> mbkeRef(Predicbte<? super T> predicbte,
+            MbtchKind mbtchKind) {
+        Objects.requireNonNull(predicbte);
+        Objects.requireNonNull(mbtchKind);
+        clbss MbtchSink extends BoolebnTerminblSink<T> {
+            MbtchSink() {
+                super(mbtchKind);
             }
 
             @Override
-            public void accept(T t) {
-                if (!stop && predicate.test(t) == matchKind.stopOnPredicateMatches) {
+            public void bccept(T t) {
+                if (!stop && predicbte.test(t) == mbtchKind.stopOnPredicbteMbtches) {
                     stop = true;
-                    value = matchKind.shortCircuitResult;
+                    vblue = mbtchKind.shortCircuitResult;
                 }
             }
         }
 
-        return new MatchOp<>(StreamShape.REFERENCE, matchKind, MatchSink::new);
+        return new MbtchOp<>(StrebmShbpe.REFERENCE, mbtchKind, MbtchSink::new);
     }
 
     /**
-     * Constructs a quantified predicate matcher for an {@code IntStream}.
+     * Constructs b qubntified predicbte mbtcher for bn {@code IntStrebm}.
      *
-     * @param predicate the {@code Predicate} to apply to stream elements
-     * @param matchKind the kind of quantified match (all, any, none)
-     * @return a {@code TerminalOp} implementing the desired quantified match
-     *         criteria
+     * @pbrbm predicbte the {@code Predicbte} to bpply to strebm elements
+     * @pbrbm mbtchKind the kind of qubntified mbtch (bll, bny, none)
+     * @return b {@code TerminblOp} implementing the desired qubntified mbtch
+     *         criterib
      */
-    public static TerminalOp<Integer, Boolean> makeInt(IntPredicate predicate,
-                                                       MatchKind matchKind) {
-        Objects.requireNonNull(predicate);
-        Objects.requireNonNull(matchKind);
-        class MatchSink extends BooleanTerminalSink<Integer> implements Sink.OfInt {
-            MatchSink() {
-                super(matchKind);
+    public stbtic TerminblOp<Integer, Boolebn> mbkeInt(IntPredicbte predicbte,
+                                                       MbtchKind mbtchKind) {
+        Objects.requireNonNull(predicbte);
+        Objects.requireNonNull(mbtchKind);
+        clbss MbtchSink extends BoolebnTerminblSink<Integer> implements Sink.OfInt {
+            MbtchSink() {
+                super(mbtchKind);
             }
 
             @Override
-            public void accept(int t) {
-                if (!stop && predicate.test(t) == matchKind.stopOnPredicateMatches) {
+            public void bccept(int t) {
+                if (!stop && predicbte.test(t) == mbtchKind.stopOnPredicbteMbtches) {
                     stop = true;
-                    value = matchKind.shortCircuitResult;
+                    vblue = mbtchKind.shortCircuitResult;
                 }
             }
         }
 
-        return new MatchOp<>(StreamShape.INT_VALUE, matchKind, MatchSink::new);
+        return new MbtchOp<>(StrebmShbpe.INT_VALUE, mbtchKind, MbtchSink::new);
     }
 
     /**
-     * Constructs a quantified predicate matcher for a {@code LongStream}.
+     * Constructs b qubntified predicbte mbtcher for b {@code LongStrebm}.
      *
-     * @param predicate the {@code Predicate} to apply to stream elements
-     * @param matchKind the kind of quantified match (all, any, none)
-     * @return a {@code TerminalOp} implementing the desired quantified match
-     *         criteria
+     * @pbrbm predicbte the {@code Predicbte} to bpply to strebm elements
+     * @pbrbm mbtchKind the kind of qubntified mbtch (bll, bny, none)
+     * @return b {@code TerminblOp} implementing the desired qubntified mbtch
+     *         criterib
      */
-    public static TerminalOp<Long, Boolean> makeLong(LongPredicate predicate,
-                                                     MatchKind matchKind) {
-        Objects.requireNonNull(predicate);
-        Objects.requireNonNull(matchKind);
-        class MatchSink extends BooleanTerminalSink<Long> implements Sink.OfLong {
+    public stbtic TerminblOp<Long, Boolebn> mbkeLong(LongPredicbte predicbte,
+                                                     MbtchKind mbtchKind) {
+        Objects.requireNonNull(predicbte);
+        Objects.requireNonNull(mbtchKind);
+        clbss MbtchSink extends BoolebnTerminblSink<Long> implements Sink.OfLong {
 
-            MatchSink() {
-                super(matchKind);
+            MbtchSink() {
+                super(mbtchKind);
             }
 
             @Override
-            public void accept(long t) {
-                if (!stop && predicate.test(t) == matchKind.stopOnPredicateMatches) {
+            public void bccept(long t) {
+                if (!stop && predicbte.test(t) == mbtchKind.stopOnPredicbteMbtches) {
                     stop = true;
-                    value = matchKind.shortCircuitResult;
+                    vblue = mbtchKind.shortCircuitResult;
                 }
             }
         }
 
-        return new MatchOp<>(StreamShape.LONG_VALUE, matchKind, MatchSink::new);
+        return new MbtchOp<>(StrebmShbpe.LONG_VALUE, mbtchKind, MbtchSink::new);
     }
 
     /**
-     * Constructs a quantified predicate matcher for a {@code DoubleStream}.
+     * Constructs b qubntified predicbte mbtcher for b {@code DoubleStrebm}.
      *
-     * @param predicate the {@code Predicate} to apply to stream elements
-     * @param matchKind the kind of quantified match (all, any, none)
-     * @return a {@code TerminalOp} implementing the desired quantified match
-     *         criteria
+     * @pbrbm predicbte the {@code Predicbte} to bpply to strebm elements
+     * @pbrbm mbtchKind the kind of qubntified mbtch (bll, bny, none)
+     * @return b {@code TerminblOp} implementing the desired qubntified mbtch
+     *         criterib
      */
-    public static TerminalOp<Double, Boolean> makeDouble(DoublePredicate predicate,
-                                                         MatchKind matchKind) {
-        Objects.requireNonNull(predicate);
-        Objects.requireNonNull(matchKind);
-        class MatchSink extends BooleanTerminalSink<Double> implements Sink.OfDouble {
+    public stbtic TerminblOp<Double, Boolebn> mbkeDouble(DoublePredicbte predicbte,
+                                                         MbtchKind mbtchKind) {
+        Objects.requireNonNull(predicbte);
+        Objects.requireNonNull(mbtchKind);
+        clbss MbtchSink extends BoolebnTerminblSink<Double> implements Sink.OfDouble {
 
-            MatchSink() {
-                super(matchKind);
+            MbtchSink() {
+                super(mbtchKind);
             }
 
             @Override
-            public void accept(double t) {
-                if (!stop && predicate.test(t) == matchKind.stopOnPredicateMatches) {
+            public void bccept(double t) {
+                if (!stop && predicbte.test(t) == mbtchKind.stopOnPredicbteMbtches) {
                     stop = true;
-                    value = matchKind.shortCircuitResult;
+                    vblue = mbtchKind.shortCircuitResult;
                 }
             }
         }
 
-        return new MatchOp<>(StreamShape.DOUBLE_VALUE, matchKind, MatchSink::new);
+        return new MbtchOp<>(StrebmShbpe.DOUBLE_VALUE, mbtchKind, MbtchSink::new);
     }
 
     /**
-     * A short-circuiting {@code TerminalOp} that evaluates a predicate on the
-     * elements of a stream and determines whether all, any or none of those
-     * elements match the predicate.
+     * A short-circuiting {@code TerminblOp} thbt evblubtes b predicbte on the
+     * elements of b strebm bnd determines whether bll, bny or none of those
+     * elements mbtch the predicbte.
      *
-     * @param <T> the output type of the stream pipeline
+     * @pbrbm <T> the output type of the strebm pipeline
      */
-    private static final class MatchOp<T> implements TerminalOp<T, Boolean> {
-        private final StreamShape inputShape;
-        final MatchKind matchKind;
-        final Supplier<BooleanTerminalSink<T>> sinkSupplier;
+    privbte stbtic finbl clbss MbtchOp<T> implements TerminblOp<T, Boolebn> {
+        privbte finbl StrebmShbpe inputShbpe;
+        finbl MbtchKind mbtchKind;
+        finbl Supplier<BoolebnTerminblSink<T>> sinkSupplier;
 
         /**
-         * Constructs a {@code MatchOp}.
+         * Constructs b {@code MbtchOp}.
          *
-         * @param shape the output shape of the stream pipeline
-         * @param matchKind the kind of quantified match (all, any, none)
-         * @param sinkSupplier {@code Supplier} for a {@code Sink} of the
-         *        appropriate shape which implements the matching operation
+         * @pbrbm shbpe the output shbpe of the strebm pipeline
+         * @pbrbm mbtchKind the kind of qubntified mbtch (bll, bny, none)
+         * @pbrbm sinkSupplier {@code Supplier} for b {@code Sink} of the
+         *        bppropribte shbpe which implements the mbtching operbtion
          */
-        MatchOp(StreamShape shape,
-                MatchKind matchKind,
-                Supplier<BooleanTerminalSink<T>> sinkSupplier) {
-            this.inputShape = shape;
-            this.matchKind = matchKind;
+        MbtchOp(StrebmShbpe shbpe,
+                MbtchKind mbtchKind,
+                Supplier<BoolebnTerminblSink<T>> sinkSupplier) {
+            this.inputShbpe = shbpe;
+            this.mbtchKind = mbtchKind;
             this.sinkSupplier = sinkSupplier;
         }
 
         @Override
-        public int getOpFlags() {
-            return StreamOpFlag.IS_SHORT_CIRCUIT | StreamOpFlag.NOT_ORDERED;
+        public int getOpFlbgs() {
+            return StrebmOpFlbg.IS_SHORT_CIRCUIT | StrebmOpFlbg.NOT_ORDERED;
         }
 
         @Override
-        public StreamShape inputShape() {
-            return inputShape;
+        public StrebmShbpe inputShbpe() {
+            return inputShbpe;
         }
 
         @Override
-        public <S> Boolean evaluateSequential(PipelineHelper<T> helper,
-                                              Spliterator<S> spliterator) {
-            return helper.wrapAndCopyInto(sinkSupplier.get(), spliterator).getAndClearState();
+        public <S> Boolebn evblubteSequentibl(PipelineHelper<T> helper,
+                                              Spliterbtor<S> spliterbtor) {
+            return helper.wrbpAndCopyInto(sinkSupplier.get(), spliterbtor).getAndClebrStbte();
         }
 
         @Override
-        public <S> Boolean evaluateParallel(PipelineHelper<T> helper,
-                                            Spliterator<S> spliterator) {
-            // Approach for parallel implementation:
-            // - Decompose as per usual
-            // - run match on leaf chunks, call result "b"
-            // - if b == matchKind.shortCircuitOn, complete early and return b
-            // - else if we complete normally, return !shortCircuitOn
+        public <S> Boolebn evblubtePbrbllel(PipelineHelper<T> helper,
+                                            Spliterbtor<S> spliterbtor) {
+            // Approbch for pbrbllel implementbtion:
+            // - Decompose bs per usubl
+            // - run mbtch on lebf chunks, cbll result "b"
+            // - if b == mbtchKind.shortCircuitOn, complete ebrly bnd return b
+            // - else if we complete normblly, return !shortCircuitOn
 
-            return new MatchTask<>(this, helper, spliterator).invoke();
+            return new MbtchTbsk<>(this, helper, spliterbtor).invoke();
         }
     }
 
     /**
-     * Boolean specific terminal sink to avoid the boxing costs when returning
-     * results.  Subclasses implement the shape-specific functionality.
+     * Boolebn specific terminbl sink to bvoid the boxing costs when returning
+     * results.  Subclbsses implement the shbpe-specific functionblity.
      *
-     * @param <T> The output type of the stream pipeline
+     * @pbrbm <T> The output type of the strebm pipeline
      */
-    private static abstract class BooleanTerminalSink<T> implements Sink<T> {
-        boolean stop;
-        boolean value;
+    privbte stbtic bbstrbct clbss BoolebnTerminblSink<T> implements Sink<T> {
+        boolebn stop;
+        boolebn vblue;
 
-        BooleanTerminalSink(MatchKind matchKind) {
-            value = !matchKind.shortCircuitResult;
+        BoolebnTerminblSink(MbtchKind mbtchKind) {
+            vblue = !mbtchKind.shortCircuitResult;
         }
 
-        public boolean getAndClearState() {
-            return value;
+        public boolebn getAndClebrStbte() {
+            return vblue;
         }
 
         @Override
-        public boolean cancellationRequested() {
+        public boolebn cbncellbtionRequested() {
             return stop;
         }
     }
 
     /**
-     * ForkJoinTask implementation to implement a parallel short-circuiting
-     * quantified match
+     * ForkJoinTbsk implementbtion to implement b pbrbllel short-circuiting
+     * qubntified mbtch
      *
-     * @param <P_IN> the type of source elements for the pipeline
-     * @param <P_OUT> the type of output elements for the pipeline
+     * @pbrbm <P_IN> the type of source elements for the pipeline
+     * @pbrbm <P_OUT> the type of output elements for the pipeline
      */
-    @SuppressWarnings("serial")
-    private static final class MatchTask<P_IN, P_OUT>
-            extends AbstractShortCircuitTask<P_IN, P_OUT, Boolean, MatchTask<P_IN, P_OUT>> {
-        private final MatchOp<P_OUT> op;
+    @SuppressWbrnings("seribl")
+    privbte stbtic finbl clbss MbtchTbsk<P_IN, P_OUT>
+            extends AbstrbctShortCircuitTbsk<P_IN, P_OUT, Boolebn, MbtchTbsk<P_IN, P_OUT>> {
+        privbte finbl MbtchOp<P_OUT> op;
 
         /**
          * Constructor for root node
          */
-        MatchTask(MatchOp<P_OUT> op, PipelineHelper<P_OUT> helper,
-                  Spliterator<P_IN> spliterator) {
-            super(helper, spliterator);
+        MbtchTbsk(MbtchOp<P_OUT> op, PipelineHelper<P_OUT> helper,
+                  Spliterbtor<P_IN> spliterbtor) {
+            super(helper, spliterbtor);
             this.op = op;
         }
 
         /**
          * Constructor for non-root node
          */
-        MatchTask(MatchTask<P_IN, P_OUT> parent, Spliterator<P_IN> spliterator) {
-            super(parent, spliterator);
-            this.op = parent.op;
+        MbtchTbsk(MbtchTbsk<P_IN, P_OUT> pbrent, Spliterbtor<P_IN> spliterbtor) {
+            super(pbrent, spliterbtor);
+            this.op = pbrent.op;
         }
 
         @Override
-        protected MatchTask<P_IN, P_OUT> makeChild(Spliterator<P_IN> spliterator) {
-            return new MatchTask<>(this, spliterator);
+        protected MbtchTbsk<P_IN, P_OUT> mbkeChild(Spliterbtor<P_IN> spliterbtor) {
+            return new MbtchTbsk<>(this, spliterbtor);
         }
 
         @Override
-        protected Boolean doLeaf() {
-            boolean b = helper.wrapAndCopyInto(op.sinkSupplier.get(), spliterator).getAndClearState();
-            if (b == op.matchKind.shortCircuitResult)
+        protected Boolebn doLebf() {
+            boolebn b = helper.wrbpAndCopyInto(op.sinkSupplier.get(), spliterbtor).getAndClebrStbte();
+            if (b == op.mbtchKind.shortCircuitResult)
                 shortCircuit(b);
             return null;
         }
 
         @Override
-        protected Boolean getEmptyResult() {
-            return !op.matchKind.shortCircuitResult;
+        protected Boolebn getEmptyResult() {
+            return !op.mbtchKind.shortCircuitResult;
         }
     }
 }

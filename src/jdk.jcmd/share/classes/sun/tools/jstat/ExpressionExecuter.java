@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
-import java.util.*;
-import sun.jvmstat.monitor.*;
+import jbvb.util.*;
+import sun.jvmstbt.monitor.*;
 
 /**
- * A class implementing the ExpressionEvaluator to evaluate an expression
- * in the context of the available monitoring data.
+ * A clbss implementing the ExpressionEvblubtor to evblubte bn expression
+ * in the context of the bvbilbble monitoring dbtb.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class ExpressionExecuter implements ExpressionEvaluator {
-    private static final boolean debug =
-            Boolean.getBoolean("ExpressionEvaluator.debug");
-    private MonitoredVm vm;
-    private HashMap<String, Object> map = new HashMap<String, Object>();
+public clbss ExpressionExecuter implements ExpressionEvblubtor {
+    privbte stbtic finbl boolebn debug =
+            Boolebn.getBoolebn("ExpressionEvblubtor.debug");
+    privbte MonitoredVm vm;
+    privbte HbshMbp<String, Object> mbp = new HbshMbp<String, Object>();
 
     ExpressionExecuter(MonitoredVm vm) {
         this.vm = vm;
     }
 
     /*
-     * evaluate the given expression.
+     * evblubte the given expression.
      */
-    public Object evaluate(Expression e) {
+    public Object evblubte(Expression e) {
         if (e == null) {
             return null;
         }
 
         if (debug) {
-            System.out.println("Evaluating expression: " + e);
+            System.out.println("Evblubting expression: " + e);
         }
 
-        if (e instanceof Literal) {
-            return ((Literal)e).getValue();
+        if (e instbnceof Literbl) {
+            return ((Literbl)e).getVblue();
         }
 
-        if (e instanceof Identifier) {
+        if (e instbnceof Identifier) {
             Identifier id = (Identifier)e;
-            if (map.containsKey(id.getName())) {
-                return map.get(id.getName());
+            if (mbp.contbinsKey(id.getNbme())) {
+                return mbp.get(id.getNbme());
             } else {
-                // cache the data values for coherency of the values over
+                // cbche the dbtb vblues for coherency of the vblues over
                 // the life of this expression executer.
-                Monitor m = (Monitor)id.getValue();
-                Object v = m.getValue();
-                map.put(id.getName(), v);
+                Monitor m = (Monitor)id.getVblue();
+                Object v = m.getVblue();
+                mbp.put(id.getNbme(), v);
                 return v;
             }
         }
@@ -78,16 +78,16 @@ public class ExpressionExecuter implements ExpressionEvaluator {
         Expression l = e.getLeft();
         Expression r = e.getRight();
 
-        Operator op = e.getOperator();
+        Operbtor op = e.getOperbtor();
 
         if (op == null) {
-            return evaluate(l);
+            return evblubte(l);
         } else {
-            Double lval = new Double(((Number)evaluate(l)).doubleValue());
-            Double rval = new Double(((Number)evaluate(r)).doubleValue());
-            double result = op.eval(lval.doubleValue(), rval.doubleValue());
+            Double lvbl = new Double(((Number)evblubte(l)).doubleVblue());
+            Double rvbl = new Double(((Number)evblubte(r)).doubleVblue());
+            double result = op.evbl(lvbl.doubleVblue(), rvbl.doubleVblue());
             if (debug) {
-                System.out.println("Performed Operation: " + lval + op + rval
+                System.out.println("Performed Operbtion: " + lvbl + op + rvbl
                                    + " = " + result);
             }
             return new Double(result);

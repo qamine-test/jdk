@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf;
+pbckbge jbvbx.swing.plbf;
 
-import javax.swing.Action;
-import javax.swing.BoundedRangeModel;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Insets;
-import javax.swing.text.*;
+import jbvbx.swing.Action;
+import jbvbx.swing.BoundedRbngeModel;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Insets;
+import jbvbx.swing.text.*;
 
 /**
- * Text editor user interface
+ * Text editor user interfbce
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public abstract class TextUI extends ComponentUI
+public bbstrbct clbss TextUI extends ComponentUI
 {
     /**
-     * Converts the given location in the model to a place in
-     * the view coordinate system.
+     * Converts the given locbtion in the model to b plbce in
+     * the view coordinbte system.
      *
-     * @param pos  the local location in the model to translate &gt;= 0
-     * @return the coordinates as a rectangle
-     * @exception BadLocationException  if the given position does not
-     *   represent a valid location in the associated document
+     * @pbrbm pos  the locbl locbtion in the model to trbnslbte &gt;= 0
+     * @return the coordinbtes bs b rectbngle
+     * @exception BbdLocbtionException  if the given position does not
+     *   represent b vblid locbtion in the bssocibted document
      */
-    public abstract Rectangle modelToView(JTextComponent t, int pos) throws BadLocationException;
+    public bbstrbct Rectbngle modelToView(JTextComponent t, int pos) throws BbdLocbtionException;
 
     /**
-     * Converts the given location in the model to a place in
-     * the view coordinate system.
+     * Converts the given locbtion in the model to b plbce in
+     * the view coordinbte system.
      *
-     * @param pos  the local location in the model to translate &gt;= 0
-     * @return the coordinates as a rectangle
-     * @exception BadLocationException  if the given position does not
-     *   represent a valid location in the associated document
+     * @pbrbm pos  the locbl locbtion in the model to trbnslbte &gt;= 0
+     * @return the coordinbtes bs b rectbngle
+     * @exception BbdLocbtionException  if the given position does not
+     *   represent b vblid locbtion in the bssocibted document
      */
-    public abstract Rectangle modelToView(JTextComponent t, int pos, Position.Bias bias) throws BadLocationException;
+    public bbstrbct Rectbngle modelToView(JTextComponent t, int pos, Position.Bibs bibs) throws BbdLocbtionException;
 
     /**
-     * Converts the given place in the view coordinate system
-     * to the nearest representative location in the model.
+     * Converts the given plbce in the view coordinbte system
+     * to the nebrest representbtive locbtion in the model.
      *
-     * @param pt  the location in the view to translate.  This
-     *   should be in the same coordinate system as the mouse
+     * @pbrbm pt  the locbtion in the view to trbnslbte.  This
+     *   should be in the sbme coordinbte system bs the mouse
      *   events.
-     * @return the offset from the start of the document &gt;= 0
+     * @return the offset from the stbrt of the document &gt;= 0
      */
-    public abstract int viewToModel(JTextComponent t, Point pt);
+    public bbstrbct int viewToModel(JTextComponent t, Point pt);
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Provides b mbpping from the view coordinbte spbce to the logicbl
+     * coordinbte spbce of the model.
      *
-     * @param pt the location in the view to translate.
-     *           This should be in the same coordinate system
-     *           as the mouse events.
-     * @param biasReturn
-     *           filled in by this method to indicate whether
+     * @pbrbm pt the locbtion in the view to trbnslbte.
+     *           This should be in the sbme coordinbte system
+     *           bs the mouse events.
+     * @pbrbm bibsReturn
+     *           filled in by this method to indicbte whether
      *           the point given is closer to the previous or the next
-     *           character in the model
+     *           chbrbcter in the model
      *
-     * @return the location within the model that best represents the
+     * @return the locbtion within the model thbt best represents the
      *         given point in the view &gt;= 0
      */
-    public abstract int viewToModel(JTextComponent t, Point pt,
-                                    Position.Bias[] biasReturn);
+    public bbstrbct int viewToModel(JTextComponent t, Point pt,
+                                    Position.Bibs[] bibsReturn);
 
     /**
-     * Provides a way to determine the next visually represented model
-     * location that one might place a caret.  Some views may not be visible,
-     * they might not be in the same order found in the model, or they just
-     * might not allow access to some of the locations in the model.
+     * Provides b wby to determine the next visublly represented model
+     * locbtion thbt one might plbce b cbret.  Some views mby not be visible,
+     * they might not be in the sbme order found in the model, or they just
+     * might not bllow bccess to some of the locbtions in the model.
      *
-     * @param t the text component for which this UI is installed
-     * @param pos the position to convert &gt;= 0
-     * @param b the bias for the position
-     * @param direction the direction from the current position that can
-     *  be thought of as the arrow keys typically found on a keyboard.
-     *  This may be SwingConstants.WEST, SwingConstants.EAST,
-     *  SwingConstants.NORTH, or SwingConstants.SOUTH
-     * @param biasRet an array to contain the bias for the returned position
-     * @return the location within the model that best represents the next
-     *  location visual position
-     * @exception BadLocationException for a bad location within a document model
-     * @exception IllegalArgumentException for an invalid direction
+     * @pbrbm t the text component for which this UI is instblled
+     * @pbrbm pos the position to convert &gt;= 0
+     * @pbrbm b the bibs for the position
+     * @pbrbm direction the direction from the current position thbt cbn
+     *  be thought of bs the brrow keys typicblly found on b keybobrd.
+     *  This mby be SwingConstbnts.WEST, SwingConstbnts.EAST,
+     *  SwingConstbnts.NORTH, or SwingConstbnts.SOUTH
+     * @pbrbm bibsRet bn brrby to contbin the bibs for the returned position
+     * @return the locbtion within the model thbt best represents the next
+     *  locbtion visubl position
+     * @exception BbdLocbtionException for b bbd locbtion within b document model
+     * @exception IllegblArgumentException for bn invblid direction
      */
-    public abstract int getNextVisualPositionFrom(JTextComponent t,
-                         int pos, Position.Bias b,
-                         int direction, Position.Bias[] biasRet)
-                         throws BadLocationException;
+    public bbstrbct int getNextVisublPositionFrom(JTextComponent t,
+                         int pos, Position.Bibs b,
+                         int direction, Position.Bibs[] bibsRet)
+                         throws BbdLocbtionException;
 
     /**
-     * Causes the portion of the view responsible for the
-     * given part of the model to be repainted.
+     * Cbuses the portion of the view responsible for the
+     * given pbrt of the model to be repbinted.
      *
-     * @param p0 the beginning of the range &gt;= 0
-     * @param p1 the end of the range &gt;= p0
+     * @pbrbm p0 the beginning of the rbnge &gt;= 0
+     * @pbrbm p1 the end of the rbnge &gt;= p0
      */
-    public abstract void damageRange(JTextComponent t, int p0, int p1);
+    public bbstrbct void dbmbgeRbnge(JTextComponent t, int p0, int p1);
 
     /**
-     * Causes the portion of the view responsible for the
-     * given part of the model to be repainted.
+     * Cbuses the portion of the view responsible for the
+     * given pbrt of the model to be repbinted.
      *
-     * @param p0 the beginning of the range &gt;= 0
-     * @param p1 the end of the range &gt;= p0
+     * @pbrbm p0 the beginning of the rbnge &gt;= 0
+     * @pbrbm p1 the end of the rbnge &gt;= p0
      */
-    public abstract void damageRange(JTextComponent t, int p0, int p1,
-                                     Position.Bias firstBias,
-                                     Position.Bias secondBias);
+    public bbstrbct void dbmbgeRbnge(JTextComponent t, int p0, int p1,
+                                     Position.Bibs firstBibs,
+                                     Position.Bibs secondBibs);
 
     /**
-     * Fetches the binding of services that set a policy
-     * for the type of document being edited.  This contains
-     * things like the commands available, stream readers and
+     * Fetches the binding of services thbt set b policy
+     * for the type of document being edited.  This contbins
+     * things like the commbnds bvbilbble, strebm rebders bnd
      * writers, etc.
      *
      * @return the editor kit binding
      */
-    public abstract EditorKit getEditorKit(JTextComponent t);
+    public bbstrbct EditorKit getEditorKit(JTextComponent t);
 
     /**
-     * Fetches a View with the allocation of the associated
-     * text component (i.e. the root of the hierarchy) that
-     * can be traversed to determine how the model is being
-     * represented spatially.
+     * Fetches b View with the bllocbtion of the bssocibted
+     * text component (i.e. the root of the hierbrchy) thbt
+     * cbn be trbversed to determine how the model is being
+     * represented spbtiblly.
      *
      * @return the view
      */
-    public abstract View getRootView(JTextComponent t);
+    public bbstrbct View getRootView(JTextComponent t);
 
     /**
-     * Returns the string to be used as the tooltip at the passed in location.
+     * Returns the string to be used bs the tooltip bt the pbssed in locbtion.
      *
-     * @see javax.swing.text.JTextComponent#getToolTipText
+     * @see jbvbx.swing.text.JTextComponent#getToolTipText
      * @since 1.4
      */
     public String getToolTipText(JTextComponent t, Point pt) {

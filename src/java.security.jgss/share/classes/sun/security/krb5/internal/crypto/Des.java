@@ -1,63 +1,63 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.crypto;
+pbckbge sun.security.krb5.internbl.crypto;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.SecretKey;
-import java.security.GeneralSecurityException;
-import javax.crypto.spec.IvParameterSpec;
+import jbvbx.crypto.Cipher;
+import jbvbx.crypto.spec.SecretKeySpec;
+import jbvbx.crypto.SecretKeyFbctory;
+import jbvbx.crypto.SecretKey;
+import jbvb.security.GenerblSecurityException;
+import jbvbx.crypto.spec.IvPbrbmeterSpec;
 import sun.security.krb5.KrbCryptoException;
-import java.util.Arrays;
-import sun.security.action.GetPropertyAction;
+import jbvb.util.Arrbys;
+import sun.security.bction.GetPropertyAction;
 
-public final class Des {
+public finbl clbss Des {
 
-    // RFC 3961 demands that UTF-8 encoding be used in DES's
-    // string-to-key function. For historical reasons, some
-    // implementations use a locale-specific encoding. Even
-    // so, when the client and server use different locales,
-    // they must agree on a common value, normally the one
-    // used when the password is set/reset.
+    // RFC 3961 dembnds thbt UTF-8 encoding be used in DES's
+    // string-to-key function. For historicbl rebsons, some
+    // implementbtions use b locble-specific encoding. Even
+    // so, when the client bnd server use different locbles,
+    // they must bgree on b common vblue, normblly the one
+    // used when the pbssword is set/reset.
     //
     // The following system property is provided to perform the
-    // string-to-key encoding. When set, the specified charset
-    // name is used. Otherwise, the system default charset.
+    // string-to-key encoding. When set, the specified chbrset
+    // nbme is used. Otherwise, the system defbult chbrset.
 
-    private final static String CHARSET =
-            java.security.AccessController.doPrivileged(
-            new GetPropertyAction("sun.security.krb5.msinterop.des.s2kcharset"));
+    privbte finbl stbtic String CHARSET =
+            jbvb.security.AccessController.doPrivileged(
+            new GetPropertyAction("sun.security.krb5.msinterop.des.s2kchbrset"));
 
-    private static final long[] bad_keys = {
+    privbte stbtic finbl long[] bbd_keys = {
         0x0101010101010101L, 0xfefefefefefefefeL,
         0x1f1f1f1f1f1f1f1fL, 0xe0e0e0e0e0e0e0e0L,
         0x01fe01fe01fe01feL, 0xfe01fe01fe01fe01L,
@@ -68,7 +68,7 @@ public final class Des {
         0xe0fee0fef1fef1feL, 0xfee0fee0fef1fef1L
     };
 
-    private static final byte[] good_parity = {
+    privbte stbtic finbl byte[] good_pbrity = {
         1,       1,   2,   2,   4,   4,   7,   7,
         8,   8,   11,  11,  13,  13,  14,  14,
         16,  16,  19,  19,  21,  21,  22,  22,
@@ -119,35 +119,35 @@ public final class Des {
         (byte)253, (byte)253, (byte)254, (byte)254
     };
 
-    public static final byte[] set_parity(byte[] key) {
+    public stbtic finbl byte[] set_pbrity(byte[] key) {
         for (int i=0; i < 8; i++) {
-            key[i] = good_parity[key[i] & 0xff];
+            key[i] = good_pbrity[key[i] & 0xff];
         }
         return key;
     }
 
-    public static final long set_parity(long key) {
-        return octet2long(set_parity(long2octet(key)));
+    public stbtic finbl long set_pbrity(long key) {
+        return octet2long(set_pbrity(long2octet(key)));
     }
 
-    public static final boolean bad_key(long key) {
-        for (int i = 0; i < bad_keys.length; i++) {
-            if (bad_keys[i] == key) {
+    public stbtic finbl boolebn bbd_key(long key) {
+        for (int i = 0; i < bbd_keys.length; i++) {
+            if (bbd_keys[i] == key) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public static final boolean bad_key(byte[] key) {
-        return bad_key(octet2long(key));
+    public stbtic finbl boolebn bbd_key(byte[] key) {
+        return bbd_key(octet2long(key));
     }
 
-    public static long octet2long(byte[] input) {
+    public stbtic long octet2long(byte[] input) {
         return octet2long(input, 0);
     }
 
-    public static long octet2long(byte[] input, int offset) {   //convert a 8-byte to a long
+    public stbtic long octet2long(byte[] input, int offset) {   //convert b 8-byte to b long
         long result = 0;
         for (int i = 0; i < 8; i++) {
             if (i + offset < input.length) {
@@ -157,7 +157,7 @@ public final class Des {
         return result;
     }
 
-    public static byte[] long2octet(long input) {
+    public stbtic byte[] long2octet(long input) {
         byte[] output = new byte[8];
         for (int i = 0; i < 8; i++) {
             output[i] = (byte)((input >>> ((7 - i) * 8)) & 0xffL);
@@ -165,11 +165,11 @@ public final class Des {
         return output;
     }
 
-    public static void long2octet(long input, byte[] output) {
+    public stbtic void long2octet(long input, byte[] output) {
         long2octet(input, output, 0);
     }
 
-    public static void long2octet(long input, byte[] output, int offset) {
+    public stbtic void long2octet(long input, byte[] output, int offset) {
         for (int i = 0; i < 8; i++) {
             if (i + offset < output.length) {
                 output[i + offset] =
@@ -179,88 +179,88 @@ public final class Des {
     }
 
     /**
-     * Creates a DES cipher in Electronic Codebook mode, with no padding.
-     * @param input plain text.
-     * @param output the buffer for the result.
-     * @param key DES the key to encrypt the text.
-     * @param ivec initialization vector.
+     * Crebtes b DES cipher in Electronic Codebook mode, with no pbdding.
+     * @pbrbm input plbin text.
+     * @pbrbm output the buffer for the result.
+     * @pbrbm key DES the key to encrypt the text.
+     * @pbrbm ivec initiblizbtion vector.
      *
-     * @created by Yanni Zhang, Dec 6 99.
+     * @crebted by Ybnni Zhbng, Dec 6 99.
      */
-    public static void cbc_encrypt (
+    public stbtic void cbc_encrypt (
                                     byte[] input,
                                     byte[] output,
                                     byte[] key,
                                     byte[] ivec,
-                                    boolean encrypt) throws KrbCryptoException {
+                                    boolebn encrypt) throws KrbCryptoException {
 
         Cipher cipher = null;
 
         try {
-            cipher = Cipher.getInstance("DES/CBC/NoPadding");
-        } catch (GeneralSecurityException e) {
-            KrbCryptoException ke = new KrbCryptoException("JCE provider may not be installed. "
-                                                           + e.getMessage());
-            ke.initCause(e);
+            cipher = Cipher.getInstbnce("DES/CBC/NoPbdding");
+        } cbtch (GenerblSecurityException e) {
+            KrbCryptoException ke = new KrbCryptoException("JCE provider mby not be instblled. "
+                                                           + e.getMessbge());
+            ke.initCbuse(e);
             throw ke;
         }
-        IvParameterSpec params = new IvParameterSpec(ivec);
+        IvPbrbmeterSpec pbrbms = new IvPbrbmeterSpec(ivec);
         SecretKeySpec skSpec = new SecretKeySpec(key, "DES");
         try {
-            SecretKeyFactory skf = SecretKeyFactory.getInstance("DES");
-            //                  SecretKey sk = skf.generateSecret(skSpec);
+            SecretKeyFbctory skf = SecretKeyFbctory.getInstbnce("DES");
+            //                  SecretKey sk = skf.generbteSecret(skSpec);
             SecretKey sk = (SecretKey) skSpec;
             if (encrypt)
-                cipher.init(Cipher.ENCRYPT_MODE, sk, params);
+                cipher.init(Cipher.ENCRYPT_MODE, sk, pbrbms);
             else
-                cipher.init(Cipher.DECRYPT_MODE, sk, params);
+                cipher.init(Cipher.DECRYPT_MODE, sk, pbrbms);
             byte[] result;
-            result = cipher.doFinal(input);
-            System.arraycopy(result, 0, output, 0, result.length);
-        } catch (GeneralSecurityException e) {
-            KrbCryptoException ke = new KrbCryptoException(e.getMessage());
-            ke.initCause(e);
+            result = cipher.doFinbl(input);
+            System.brrbycopy(result, 0, output, 0, result.length);
+        } cbtch (GenerblSecurityException e) {
+            KrbCryptoException ke = new KrbCryptoException(e.getMessbge());
+            ke.initCbuse(e);
             throw ke;
         }
     }
 
     /**
-     * Generates DES key from the password.
-     * @param password a char[] used to create the key.
+     * Generbtes DES key from the pbssword.
+     * @pbrbm pbssword b chbr[] used to crebte the key.
      * @return DES key.
      *
-     * @modified by Yanni Zhang, Dec 6, 99
+     * @modified by Ybnni Zhbng, Dec 6, 99
      */
-    public static long char_to_key(char[] passwdChars) throws KrbCryptoException {
+    public stbtic long chbr_to_key(chbr[] pbsswdChbrs) throws KrbCryptoException {
         long key = 0;
         long octet, octet1, octet2 = 0;
         byte[] cbytes = null;
 
-        // Convert password to byte array
+        // Convert pbssword to byte brrby
         try {
             if (CHARSET == null) {
-                cbytes = (new String(passwdChars)).getBytes();
+                cbytes = (new String(pbsswdChbrs)).getBytes();
             } else {
-                cbytes = (new String(passwdChars)).getBytes(CHARSET);
+                cbytes = (new String(pbsswdChbrs)).getBytes(CHARSET);
             }
-        } catch (Exception e) {
-            // clear-up sensitive information
+        } cbtch (Exception e) {
+            // clebr-up sensitive informbtion
             if (cbytes != null) {
-                Arrays.fill(cbytes, 0, cbytes.length, (byte) 0);
+                Arrbys.fill(cbytes, 0, cbytes.length, (byte) 0);
             }
             KrbCryptoException ce =
-                new KrbCryptoException("Unable to convert passwd, " + e);
-            ce.initCause(e);
+                new KrbCryptoException("Unbble to convert pbsswd, " + e);
+            ce.initCbuse(e);
             throw ce;
         }
 
-        // pad data
-        byte[] passwdBytes = pad(cbytes);
+        // pbd dbtb
+        byte[] pbsswdBytes = pbd(cbytes);
 
         byte[] newkey = new byte[8];
-        int length = (passwdBytes.length / 8) + (passwdBytes.length % 8  == 0 ? 0 : 1);
+        int length = (pbsswdBytes.length / 8) + (pbsswdBytes.length % 8  == 0 ? 0 : 1);
         for (int i = 0; i < length; i++) {
-            octet = octet2long(passwdBytes, i * 8) & 0x7f7f7f7f7f7f7f7fL;
+            octet = octet2long(pbsswdBytes, i * 8) & 0x7f7f7f7f7f7f7f7fL;
             if (i % 2 == 1) {
                 octet1 = 0;
                 for (int j = 0; j < 64; j++) {
@@ -270,99 +270,99 @@ public final class Des {
             }
             key ^= (octet << 1);
         }
-        key = set_parity(key);
-        if (bad_key(key)) {
+        key = set_pbrity(key);
+        if (bbd_key(key)) {
             byte [] temp = long2octet(key);
             temp[7] ^= 0xf0;
             key = octet2long(temp);
         }
 
-        newkey = des_cksum(long2octet(key), passwdBytes, long2octet(key));
-        key = octet2long(set_parity(newkey));
-        if (bad_key(key)) {
+        newkey = des_cksum(long2octet(key), pbsswdBytes, long2octet(key));
+        key = octet2long(set_pbrity(newkey));
+        if (bbd_key(key)) {
             byte [] temp = long2octet(key);
             temp[7] ^= 0xf0;
             key = octet2long(temp);
         }
 
-        // clear-up sensitive information
+        // clebr-up sensitive informbtion
         if (cbytes != null) {
-            Arrays.fill(cbytes, 0, cbytes.length, (byte) 0);
+            Arrbys.fill(cbytes, 0, cbytes.length, (byte) 0);
         }
-        if (passwdBytes != null) {
-            Arrays.fill(passwdBytes, 0, passwdBytes.length, (byte) 0);
+        if (pbsswdBytes != null) {
+            Arrbys.fill(pbsswdBytes, 0, pbsswdBytes.length, (byte) 0);
         }
 
         return key;
     }
 
     /**
-     * Encrypts the message blocks using DES CBC and output the
-     * final block of 8-byte ciphertext.
-     * @param ivec Initialization vector.
-     * @param msg Input message as an byte array.
-     * @param key DES key to encrypt the message.
-     * @return the last block of ciphertext.
+     * Encrypts the messbge blocks using DES CBC bnd output the
+     * finbl block of 8-byte ciphertext.
+     * @pbrbm ivec Initiblizbtion vector.
+     * @pbrbm msg Input messbge bs bn byte brrby.
+     * @pbrbm key DES key to encrypt the messbge.
+     * @return the lbst block of ciphertext.
      *
-     * @created by Yanni Zhang, Dec 6, 99.
+     * @crebted by Ybnni Zhbng, Dec 6, 99.
      */
-    public static byte[] des_cksum(byte[] ivec, byte[] msg, byte[] key) throws KrbCryptoException {
+    public stbtic byte[] des_cksum(byte[] ivec, byte[] msg, byte[] key) throws KrbCryptoException {
         Cipher cipher = null;
 
         byte[] result = new byte[8];
         try{
-            cipher = Cipher.getInstance("DES/CBC/NoPadding");
-        } catch (Exception e) {
-            KrbCryptoException ke = new KrbCryptoException("JCE provider may not be installed. "
-                                                           + e.getMessage());
-            ke.initCause(e);
+            cipher = Cipher.getInstbnce("DES/CBC/NoPbdding");
+        } cbtch (Exception e) {
+            KrbCryptoException ke = new KrbCryptoException("JCE provider mby not be instblled. "
+                                                           + e.getMessbge());
+            ke.initCbuse(e);
             throw ke;
         }
-        IvParameterSpec params = new IvParameterSpec(ivec);
+        IvPbrbmeterSpec pbrbms = new IvPbrbmeterSpec(ivec);
         SecretKeySpec skSpec = new SecretKeySpec(key, "DES");
         try {
-            SecretKeyFactory skf = SecretKeyFactory.getInstance("DES");
-            // SecretKey sk = skf.generateSecret(skSpec);
+            SecretKeyFbctory skf = SecretKeyFbctory.getInstbnce("DES");
+            // SecretKey sk = skf.generbteSecret(skSpec);
             SecretKey sk = (SecretKey) skSpec;
-            cipher.init(Cipher.ENCRYPT_MODE, sk, params);
+            cipher.init(Cipher.ENCRYPT_MODE, sk, pbrbms);
             for (int i = 0; i < msg.length / 8; i++) {
-                result = cipher.doFinal(msg, i * 8, 8);
-                cipher.init(Cipher.ENCRYPT_MODE, sk, (new IvParameterSpec(result)));
+                result = cipher.doFinbl(msg, i * 8, 8);
+                cipher.init(Cipher.ENCRYPT_MODE, sk, (new IvPbrbmeterSpec(result)));
             }
         }
-        catch (GeneralSecurityException e) {
-            KrbCryptoException ke = new KrbCryptoException(e.getMessage());
-            ke.initCause(e);
+        cbtch (GenerblSecurityException e) {
+            KrbCryptoException ke = new KrbCryptoException(e.getMessbge());
+            ke.initCbuse(e);
             throw ke;
         }
         return result;
     }
 
     /**
-     * Pads the data so that its length is a multiple of 8 bytes.
-     * @param data the raw data.
-     * @return the data being padded.
+     * Pbds the dbtb so thbt its length is b multiple of 8 bytes.
+     * @pbrbm dbtb the rbw dbtb.
+     * @return the dbtb being pbdded.
      *
-     * @created by Yanni Zhang, Dec 6 99. //Kerberos does not use PKCS5 padding.
+     * @crebted by Ybnni Zhbng, Dec 6 99. //Kerberos does not use PKCS5 pbdding.
      */
-    static byte[] pad(byte[] data) {
+    stbtic byte[] pbd(byte[] dbtb) {
         int len;
-        if (data.length < 8) len = data.length;
-        else len = data.length % 8;
-        if (len == 0) return data;
+        if (dbtb.length < 8) len = dbtb.length;
+        else len = dbtb.length % 8;
+        if (len == 0) return dbtb;
         else {
-            byte[] padding = new byte[ 8 - len + data.length];
-            for (int i = padding.length - 1; i > data.length - 1; i--) {
-                padding[i] = 0;
+            byte[] pbdding = new byte[ 8 - len + dbtb.length];
+            for (int i = pbdding.length - 1; i > dbtb.length - 1; i--) {
+                pbdding[i] = 0;
             }
-            System.arraycopy(data, 0, padding, 0, data.length);
-            return padding;
+            System.brrbycopy(dbtb, 0, pbdding, 0, dbtb.length);
+            return pbdding;
         }
     }
 
-    // Caller is responsible for clearing password
-    public static byte[] string_to_key_bytes(char[] passwdChars)
+    // Cbller is responsible for clebring pbssword
+    public stbtic byte[] string_to_key_bytes(chbr[] pbsswdChbrs)
         throws KrbCryptoException {
-        return long2octet(char_to_key(passwdChars));
+        return long2octet(chbr_to_key(pbsswdChbrs));
     }
 }

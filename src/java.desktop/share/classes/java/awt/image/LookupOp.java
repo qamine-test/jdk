@@ -1,229 +1,229 @@
 
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.color.ColorSpace;
-import java.awt.geom.Rectangle2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.geom.Point2D;
-import sun.awt.image.ImagingLib;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.RenderingHints;
+import jbvb.bwt.geom.Point2D;
+import sun.bwt.imbge.ImbgingLib;
 
 /**
- * This class implements a lookup operation from the source
- * to the destination.  The LookupTable object may contain a single array
- * or multiple arrays, subject to the restrictions below.
+ * This clbss implements b lookup operbtion from the source
+ * to the destinbtion.  The LookupTbble object mby contbin b single brrby
+ * or multiple brrbys, subject to the restrictions below.
  * <p>
- * For Rasters, the lookup operates on bands.  The number of
- * lookup arrays may be one, in which case the same array is
- * applied to all bands, or it must equal the number of Source
- * Raster bands.
+ * For Rbsters, the lookup operbtes on bbnds.  The number of
+ * lookup brrbys mby be one, in which cbse the sbme brrby is
+ * bpplied to bll bbnds, or it must equbl the number of Source
+ * Rbster bbnds.
  * <p>
- * For BufferedImages, the lookup operates on color and alpha components.
- * The number of lookup arrays may be one, in which case the
- * same array is applied to all color (but not alpha) components.
- * Otherwise, the number of lookup arrays may
- * equal the number of Source color components, in which case no
- * lookup of the alpha component (if present) is performed.
- * If neither of these cases apply, the number of lookup arrays
- * must equal the number of Source color components plus alpha components,
- * in which case lookup is performed for all color and alpha components.
- * This allows non-uniform rescaling of multi-band BufferedImages.
+ * For BufferedImbges, the lookup operbtes on color bnd blphb components.
+ * The number of lookup brrbys mby be one, in which cbse the
+ * sbme brrby is bpplied to bll color (but not blphb) components.
+ * Otherwise, the number of lookup brrbys mby
+ * equbl the number of Source color components, in which cbse no
+ * lookup of the blphb component (if present) is performed.
+ * If neither of these cbses bpply, the number of lookup brrbys
+ * must equbl the number of Source color components plus blphb components,
+ * in which cbse lookup is performed for bll color bnd blphb components.
+ * This bllows non-uniform rescbling of multi-bbnd BufferedImbges.
  * <p>
- * BufferedImage sources with premultiplied alpha data are treated in the same
- * manner as non-premultiplied images for purposes of the lookup.  That is,
- * the lookup is done per band on the raw data of the BufferedImage source
- * without regard to whether the data is premultiplied.  If a color conversion
- * is required to the destination ColorModel, the premultiplied state of
- * both source and destination will be taken into account for this step.
+ * BufferedImbge sources with premultiplied blphb dbtb bre trebted in the sbme
+ * mbnner bs non-premultiplied imbges for purposes of the lookup.  Thbt is,
+ * the lookup is done per bbnd on the rbw dbtb of the BufferedImbge source
+ * without regbrd to whether the dbtb is premultiplied.  If b color conversion
+ * is required to the destinbtion ColorModel, the premultiplied stbte of
+ * both source bnd destinbtion will be tbken into bccount for this step.
  * <p>
- * Images with an IndexColorModel cannot be used.
+ * Imbges with bn IndexColorModel cbnnot be used.
  * <p>
- * If a RenderingHints object is specified in the constructor, the
- * color rendering hint and the dithering hint may be used when color
+ * If b RenderingHints object is specified in the constructor, the
+ * color rendering hint bnd the dithering hint mby be used when color
  * conversion is required.
  * <p>
- * This class allows the Source to be the same as the Destination.
+ * This clbss bllows the Source to be the sbme bs the Destinbtion.
  *
- * @see LookupTable
- * @see java.awt.RenderingHints#KEY_COLOR_RENDERING
- * @see java.awt.RenderingHints#KEY_DITHERING
+ * @see LookupTbble
+ * @see jbvb.bwt.RenderingHints#KEY_COLOR_RENDERING
+ * @see jbvb.bwt.RenderingHints#KEY_DITHERING
  */
 
-public class LookupOp implements BufferedImageOp, RasterOp {
-    private LookupTable ltable;
-    private int numComponents;
+public clbss LookupOp implements BufferedImbgeOp, RbsterOp {
+    privbte LookupTbble ltbble;
+    privbte int numComponents;
     RenderingHints hints;
 
     /**
-     * Constructs a <code>LookupOp</code> object given the lookup
-     * table and a <code>RenderingHints</code> object, which might
+     * Constructs b <code>LookupOp</code> object given the lookup
+     * tbble bnd b <code>RenderingHints</code> object, which might
      * be <code>null</code>.
-     * @param lookup the specified <code>LookupTable</code>
-     * @param hints the specified <code>RenderingHints</code>,
+     * @pbrbm lookup the specified <code>LookupTbble</code>
+     * @pbrbm hints the specified <code>RenderingHints</code>,
      *        or <code>null</code>
      */
-    public LookupOp(LookupTable lookup, RenderingHints hints) {
-        this.ltable = lookup;
+    public LookupOp(LookupTbble lookup, RenderingHints hints) {
+        this.ltbble = lookup;
         this.hints  = hints;
-        numComponents = ltable.getNumComponents();
+        numComponents = ltbble.getNumComponents();
     }
 
     /**
-     * Returns the <code>LookupTable</code>.
-     * @return the <code>LookupTable</code> of this
+     * Returns the <code>LookupTbble</code>.
+     * @return the <code>LookupTbble</code> of this
      *         <code>LookupOp</code>.
      */
-    public final LookupTable getTable() {
-        return ltable;
+    public finbl LookupTbble getTbble() {
+        return ltbble;
     }
 
     /**
-     * Performs a lookup operation on a <code>BufferedImage</code>.
-     * If the color model in the source image is not the same as that
-     * in the destination image, the pixels will be converted
-     * in the destination.  If the destination image is <code>null</code>,
-     * a <code>BufferedImage</code> will be created with an appropriate
-     * <code>ColorModel</code>.  An <code>IllegalArgumentException</code>
-     * might be thrown if the number of arrays in the
-     * <code>LookupTable</code> does not meet the restrictions
-     * stated in the class comment above, or if the source image
-     * has an <code>IndexColorModel</code>.
-     * @param src the <code>BufferedImage</code> to be filtered
-     * @param dst the <code>BufferedImage</code> in which to
-     *            store the results of the filter operation
-     * @return the filtered <code>BufferedImage</code>.
-     * @throws IllegalArgumentException if the number of arrays in the
-     *         <code>LookupTable</code> does not meet the restrictions
-     *         described in the class comments, or if the source image
-     *         has an <code>IndexColorModel</code>.
+     * Performs b lookup operbtion on b <code>BufferedImbge</code>.
+     * If the color model in the source imbge is not the sbme bs thbt
+     * in the destinbtion imbge, the pixels will be converted
+     * in the destinbtion.  If the destinbtion imbge is <code>null</code>,
+     * b <code>BufferedImbge</code> will be crebted with bn bppropribte
+     * <code>ColorModel</code>.  An <code>IllegblArgumentException</code>
+     * might be thrown if the number of brrbys in the
+     * <code>LookupTbble</code> does not meet the restrictions
+     * stbted in the clbss comment bbove, or if the source imbge
+     * hbs bn <code>IndexColorModel</code>.
+     * @pbrbm src the <code>BufferedImbge</code> to be filtered
+     * @pbrbm dst the <code>BufferedImbge</code> in which to
+     *            store the results of the filter operbtion
+     * @return the filtered <code>BufferedImbge</code>.
+     * @throws IllegblArgumentException if the number of brrbys in the
+     *         <code>LookupTbble</code> does not meet the restrictions
+     *         described in the clbss comments, or if the source imbge
+     *         hbs bn <code>IndexColorModel</code>.
      */
-    public final BufferedImage filter(BufferedImage src, BufferedImage dst) {
+    public finbl BufferedImbge filter(BufferedImbge src, BufferedImbge dst) {
         ColorModel srcCM = src.getColorModel();
-        int numBands = srcCM.getNumColorComponents();
+        int numBbnds = srcCM.getNumColorComponents();
         ColorModel dstCM;
-        if (srcCM instanceof IndexColorModel) {
+        if (srcCM instbnceof IndexColorModel) {
             throw new
-                IllegalArgumentException("LookupOp cannot be "+
-                                         "performed on an indexed image");
+                IllegblArgumentException("LookupOp cbnnot be "+
+                                         "performed on bn indexed imbge");
         }
-        int numComponents = ltable.getNumComponents();
+        int numComponents = ltbble.getNumComponents();
         if (numComponents != 1 &&
             numComponents != srcCM.getNumComponents() &&
             numComponents != srcCM.getNumColorComponents())
         {
-            throw new IllegalArgumentException("Number of arrays in the "+
-                                               " lookup table ("+
+            throw new IllegblArgumentException("Number of brrbys in the "+
+                                               " lookup tbble ("+
                                                numComponents+
-                                               " is not compatible with the "+
-                                               " src image: "+src);
+                                               " is not compbtible with the "+
+                                               " src imbge: "+src);
         }
 
 
-        boolean needToConvert = false;
+        boolebn needToConvert = fblse;
 
         int width = src.getWidth();
         int height = src.getHeight();
 
         if (dst == null) {
-            dst = createCompatibleDestImage(src, null);
+            dst = crebteCompbtibleDestImbge(src, null);
             dstCM = srcCM;
         }
         else {
             if (width != dst.getWidth()) {
                 throw new
-                    IllegalArgumentException("Src width ("+width+
-                                             ") not equal to dst width ("+
+                    IllegblArgumentException("Src width ("+width+
+                                             ") not equbl to dst width ("+
                                              dst.getWidth()+")");
             }
             if (height != dst.getHeight()) {
                 throw new
-                    IllegalArgumentException("Src height ("+height+
-                                             ") not equal to dst height ("+
+                    IllegblArgumentException("Src height ("+height+
+                                             ") not equbl to dst height ("+
                                              dst.getHeight()+")");
             }
 
             dstCM = dst.getColorModel();
-            if (srcCM.getColorSpace().getType() !=
-                dstCM.getColorSpace().getType())
+            if (srcCM.getColorSpbce().getType() !=
+                dstCM.getColorSpbce().getType())
             {
                 needToConvert = true;
-                dst = createCompatibleDestImage(src, null);
+                dst = crebteCompbtibleDestImbge(src, null);
             }
 
         }
 
-        BufferedImage origDst = dst;
+        BufferedImbge origDst = dst;
 
-        if (ImagingLib.filter(this, src, dst) == null) {
-            // Do it the slow way
-            WritableRaster srcRaster = src.getRaster();
-            WritableRaster dstRaster = dst.getRaster();
+        if (ImbgingLib.filter(this, src, dst) == null) {
+            // Do it the slow wby
+            WritbbleRbster srcRbster = src.getRbster();
+            WritbbleRbster dstRbster = dst.getRbster();
 
-            if (srcCM.hasAlpha()) {
-                if (numBands-1 == numComponents || numComponents == 1) {
-                    int minx = srcRaster.getMinX();
-                    int miny = srcRaster.getMinY();
-                    int[] bands = new int[numBands-1];
-                    for (int i=0; i < numBands-1; i++) {
-                        bands[i] = i;
+            if (srcCM.hbsAlphb()) {
+                if (numBbnds-1 == numComponents || numComponents == 1) {
+                    int minx = srcRbster.getMinX();
+                    int miny = srcRbster.getMinY();
+                    int[] bbnds = new int[numBbnds-1];
+                    for (int i=0; i < numBbnds-1; i++) {
+                        bbnds[i] = i;
                     }
-                    srcRaster =
-                        srcRaster.createWritableChild(minx, miny,
-                                                      srcRaster.getWidth(),
-                                                      srcRaster.getHeight(),
+                    srcRbster =
+                        srcRbster.crebteWritbbleChild(minx, miny,
+                                                      srcRbster.getWidth(),
+                                                      srcRbster.getHeight(),
                                                       minx, miny,
-                                                      bands);
+                                                      bbnds);
                 }
             }
-            if (dstCM.hasAlpha()) {
-                int dstNumBands = dstRaster.getNumBands();
-                if (dstNumBands-1 == numComponents || numComponents == 1) {
-                    int minx = dstRaster.getMinX();
-                    int miny = dstRaster.getMinY();
-                    int[] bands = new int[numBands-1];
-                    for (int i=0; i < numBands-1; i++) {
-                        bands[i] = i;
+            if (dstCM.hbsAlphb()) {
+                int dstNumBbnds = dstRbster.getNumBbnds();
+                if (dstNumBbnds-1 == numComponents || numComponents == 1) {
+                    int minx = dstRbster.getMinX();
+                    int miny = dstRbster.getMinY();
+                    int[] bbnds = new int[numBbnds-1];
+                    for (int i=0; i < numBbnds-1; i++) {
+                        bbnds[i] = i;
                     }
-                    dstRaster =
-                        dstRaster.createWritableChild(minx, miny,
-                                                      dstRaster.getWidth(),
-                                                      dstRaster.getHeight(),
+                    dstRbster =
+                        dstRbster.crebteWritbbleChild(minx, miny,
+                                                      dstRbster.getWidth(),
+                                                      dstRbster.getHeight(),
                                                       minx, miny,
-                                                      bands);
+                                                      bbnds);
                 }
             }
 
-            filter(srcRaster, dstRaster);
+            filter(srcRbster, dstRbster);
         }
 
         if (needToConvert) {
-            // ColorModels are not the same
+            // ColorModels bre not the sbme
             ColorConvertOp ccop = new ColorConvertOp(hints);
             ccop.filter(dst, origDst);
         }
@@ -232,74 +232,74 @@ public class LookupOp implements BufferedImageOp, RasterOp {
     }
 
     /**
-     * Performs a lookup operation on a <code>Raster</code>.
-     * If the destination <code>Raster</code> is <code>null</code>,
-     * a new <code>Raster</code> will be created.
-     * The <code>IllegalArgumentException</code> might be thrown
-     * if the source <code>Raster</code> and the destination
-     * <code>Raster</code> do not have the same
-     * number of bands or if the number of arrays in the
-     * <code>LookupTable</code> does not meet the
-     * restrictions stated in the class comment above.
-     * @param src the source <code>Raster</code> to filter
-     * @param dst the destination <code>WritableRaster</code> for the
+     * Performs b lookup operbtion on b <code>Rbster</code>.
+     * If the destinbtion <code>Rbster</code> is <code>null</code>,
+     * b new <code>Rbster</code> will be crebted.
+     * The <code>IllegblArgumentException</code> might be thrown
+     * if the source <code>Rbster</code> bnd the destinbtion
+     * <code>Rbster</code> do not hbve the sbme
+     * number of bbnds or if the number of brrbys in the
+     * <code>LookupTbble</code> does not meet the
+     * restrictions stbted in the clbss comment bbove.
+     * @pbrbm src the source <code>Rbster</code> to filter
+     * @pbrbm dst the destinbtion <code>WritbbleRbster</code> for the
      *            filtered <code>src</code>
-     * @return the filtered <code>WritableRaster</code>.
-     * @throws IllegalArgumentException if the source and destinations
-     *         rasters do not have the same number of bands, or the
-     *         number of arrays in the <code>LookupTable</code> does
-     *         not meet the restrictions described in the class comments.
+     * @return the filtered <code>WritbbleRbster</code>.
+     * @throws IllegblArgumentException if the source bnd destinbtions
+     *         rbsters do not hbve the sbme number of bbnds, or the
+     *         number of brrbys in the <code>LookupTbble</code> does
+     *         not meet the restrictions described in the clbss comments.
      *
      */
-    public final WritableRaster filter (Raster src, WritableRaster dst) {
-        int numBands  = src.getNumBands();
-        int dstLength = dst.getNumBands();
+    public finbl WritbbleRbster filter (Rbster src, WritbbleRbster dst) {
+        int numBbnds  = src.getNumBbnds();
+        int dstLength = dst.getNumBbnds();
         int height    = src.getHeight();
         int width     = src.getWidth();
-        int srcPix[]  = new int[numBands];
+        int srcPix[]  = new int[numBbnds];
 
-        // Create a new destination Raster, if needed
+        // Crebte b new destinbtion Rbster, if needed
 
         if (dst == null) {
-            dst = createCompatibleDestRaster(src);
+            dst = crebteCompbtibleDestRbster(src);
         }
         else if (height != dst.getHeight() || width != dst.getWidth()) {
             throw new
-                IllegalArgumentException ("Width or height of Rasters do not "+
-                                          "match");
+                IllegblArgumentException ("Width or height of Rbsters do not "+
+                                          "mbtch");
         }
-        dstLength = dst.getNumBands();
+        dstLength = dst.getNumBbnds();
 
-        if (numBands != dstLength) {
+        if (numBbnds != dstLength) {
             throw new
-                IllegalArgumentException ("Number of channels in the src ("
-                                          + numBands +
-                                          ") does not match number of channels"
-                                          + " in the destination ("
+                IllegblArgumentException ("Number of chbnnels in the src ("
+                                          + numBbnds +
+                                          ") does not mbtch number of chbnnels"
+                                          + " in the destinbtion ("
                                           + dstLength + ")");
         }
-        int numComponents = ltable.getNumComponents();
-        if (numComponents != 1 && numComponents != src.getNumBands()) {
-            throw new IllegalArgumentException("Number of arrays in the "+
-                                               " lookup table ("+
+        int numComponents = ltbble.getNumComponents();
+        if (numComponents != 1 && numComponents != src.getNumBbnds()) {
+            throw new IllegblArgumentException("Number of brrbys in the "+
+                                               " lookup tbble ("+
                                                numComponents+
-                                               " is not compatible with the "+
-                                               " src Raster: "+src);
+                                               " is not compbtible with the "+
+                                               " src Rbster: "+src);
         }
 
 
-        if (ImagingLib.filter(this, src, dst) != null) {
+        if (ImbgingLib.filter(this, src, dst) != null) {
             return dst;
         }
 
-        // Optimize for cases we know about
-        if (ltable instanceof ByteLookupTable) {
-            byteFilter ((ByteLookupTable) ltable, src, dst,
-                        width, height, numBands);
+        // Optimize for cbses we know bbout
+        if (ltbble instbnceof ByteLookupTbble) {
+            byteFilter ((ByteLookupTbble) ltbble, src, dst,
+                        width, height, numBbnds);
         }
-        else if (ltable instanceof ShortLookupTable) {
-            shortFilter ((ShortLookupTable) ltable, src, dst, width,
-                         height, numBands);
+        else if (ltbble instbnceof ShortLookupTbble) {
+            shortFilter ((ShortLookupTbble) ltbble, src, dst, width,
+                         height, numBbnds);
         }
         else {
             // Not one we recognize so do it slowly
@@ -311,13 +311,13 @@ public class LookupOp implements BufferedImageOp, RasterOp {
                 int sX = sminX;
                 int dX = dminX;
                 for (int x=0; x < width; x++, sX++, dX++) {
-                    // Find data for all bands at this x,y position
+                    // Find dbtb for bll bbnds bt this x,y position
                     src.getPixel(sX, sY, srcPix);
 
-                    // Lookup the data for all bands at this x,y position
-                    ltable.lookupPixel(srcPix, srcPix);
+                    // Lookup the dbtb for bll bbnds bt this x,y position
+                    ltbble.lookupPixel(srcPix, srcPix);
 
-                    // Put it back for all bands
+                    // Put it bbck for bll bbnds
                     dst.setPixel(dX, dY, srcPix);
                 }
             }
@@ -327,58 +327,58 @@ public class LookupOp implements BufferedImageOp, RasterOp {
     }
 
     /**
-     * Returns the bounding box of the filtered destination image.  Since
-     * this is not a geometric operation, the bounding box does not
-     * change.
-     * @param src the <code>BufferedImage</code> to be filtered
-     * @return the bounds of the filtered definition image.
+     * Returns the bounding box of the filtered destinbtion imbge.  Since
+     * this is not b geometric operbtion, the bounding box does not
+     * chbnge.
+     * @pbrbm src the <code>BufferedImbge</code> to be filtered
+     * @return the bounds of the filtered definition imbge.
      */
-    public final Rectangle2D getBounds2D (BufferedImage src) {
-        return getBounds2D(src.getRaster());
+    public finbl Rectbngle2D getBounds2D (BufferedImbge src) {
+        return getBounds2D(src.getRbster());
     }
 
     /**
-     * Returns the bounding box of the filtered destination Raster.  Since
-     * this is not a geometric operation, the bounding box does not
-     * change.
-     * @param src the <code>Raster</code> to be filtered
-     * @return the bounds of the filtered definition <code>Raster</code>.
+     * Returns the bounding box of the filtered destinbtion Rbster.  Since
+     * this is not b geometric operbtion, the bounding box does not
+     * chbnge.
+     * @pbrbm src the <code>Rbster</code> to be filtered
+     * @return the bounds of the filtered definition <code>Rbster</code>.
      */
-    public final Rectangle2D getBounds2D (Raster src) {
+    public finbl Rectbngle2D getBounds2D (Rbster src) {
         return src.getBounds();
 
     }
 
     /**
-     * Creates a zeroed destination image with the correct size and number of
-     * bands.  If destCM is <code>null</code>, an appropriate
+     * Crebtes b zeroed destinbtion imbge with the correct size bnd number of
+     * bbnds.  If destCM is <code>null</code>, bn bppropribte
      * <code>ColorModel</code> will be used.
-     * @param src       Source image for the filter operation.
-     * @param destCM    the destination's <code>ColorModel</code>, which
-     *                  can be <code>null</code>.
-     * @return a filtered destination <code>BufferedImage</code>.
+     * @pbrbm src       Source imbge for the filter operbtion.
+     * @pbrbm destCM    the destinbtion's <code>ColorModel</code>, which
+     *                  cbn be <code>null</code>.
+     * @return b filtered destinbtion <code>BufferedImbge</code>.
      */
-    public BufferedImage createCompatibleDestImage (BufferedImage src,
+    public BufferedImbge crebteCompbtibleDestImbge (BufferedImbge src,
                                                     ColorModel destCM) {
-        BufferedImage image;
+        BufferedImbge imbge;
         int w = src.getWidth();
         int h = src.getHeight();
-        int transferType = DataBuffer.TYPE_BYTE;
+        int trbnsferType = DbtbBuffer.TYPE_BYTE;
         if (destCM == null) {
             ColorModel cm = src.getColorModel();
-            Raster raster = src.getRaster();
-            if (cm instanceof ComponentColorModel) {
-                DataBuffer db = raster.getDataBuffer();
-                boolean hasAlpha = cm.hasAlpha();
-                boolean isPre    = cm.isAlphaPremultiplied();
-                int trans        = cm.getTransparency();
+            Rbster rbster = src.getRbster();
+            if (cm instbnceof ComponentColorModel) {
+                DbtbBuffer db = rbster.getDbtbBuffer();
+                boolebn hbsAlphb = cm.hbsAlphb();
+                boolebn isPre    = cm.isAlphbPremultiplied();
+                int trbns        = cm.getTrbnspbrency();
                 int[] nbits = null;
-                if (ltable instanceof ByteLookupTable) {
-                    if (db.getDataType() == DataBuffer.TYPE_USHORT) {
-                        // Dst raster should be of type byte
-                        if (hasAlpha) {
+                if (ltbble instbnceof ByteLookupTbble) {
+                    if (db.getDbtbType() == DbtbBuffer.TYPE_USHORT) {
+                        // Dst rbster should be of type byte
+                        if (hbsAlphb) {
                             nbits = new int[2];
-                            if (trans == java.awt.Transparency.BITMASK) {
+                            if (trbns == jbvb.bwt.Trbnspbrency.BITMASK) {
                                 nbits[1] = 1;
                             }
                             else {
@@ -390,14 +390,14 @@ public class LookupOp implements BufferedImageOp, RasterOp {
                         }
                         nbits[0] = 8;
                     }
-                    // For byte, no need to change the cm
+                    // For byte, no need to chbnge the cm
                 }
-                else if (ltable instanceof ShortLookupTable) {
-                    transferType = DataBuffer.TYPE_USHORT;
-                    if (db.getDataType() == DataBuffer.TYPE_BYTE) {
-                        if (hasAlpha) {
+                else if (ltbble instbnceof ShortLookupTbble) {
+                    trbnsferType = DbtbBuffer.TYPE_USHORT;
+                    if (db.getDbtbType() == DbtbBuffer.TYPE_BYTE) {
+                        if (hbsAlphb) {
                             nbits = new int[2];
-                            if (trans == java.awt.Transparency.BITMASK) {
+                            if (trbns == jbvb.bwt.Trbnspbrency.BITMASK) {
                                 nbits[1] = 1;
                             }
                             else {
@@ -411,157 +411,157 @@ public class LookupOp implements BufferedImageOp, RasterOp {
                     }
                 }
                 if (nbits != null) {
-                    cm = new ComponentColorModel(cm.getColorSpace(),
-                                                 nbits, hasAlpha, isPre,
-                                                 trans, transferType);
+                    cm = new ComponentColorModel(cm.getColorSpbce(),
+                                                 nbits, hbsAlphb, isPre,
+                                                 trbns, trbnsferType);
                 }
             }
-            image = new BufferedImage(cm,
-                                      cm.createCompatibleWritableRaster(w, h),
-                                      cm.isAlphaPremultiplied(),
+            imbge = new BufferedImbge(cm,
+                                      cm.crebteCompbtibleWritbbleRbster(w, h),
+                                      cm.isAlphbPremultiplied(),
                                       null);
         }
         else {
-            image = new BufferedImage(destCM,
-                                      destCM.createCompatibleWritableRaster(w,
+            imbge = new BufferedImbge(destCM,
+                                      destCM.crebteCompbtibleWritbbleRbster(w,
                                                                             h),
-                                      destCM.isAlphaPremultiplied(),
+                                      destCM.isAlphbPremultiplied(),
                                       null);
         }
 
-        return image;
+        return imbge;
     }
 
     /**
-     * Creates a zeroed-destination <code>Raster</code> with the
-     * correct size and number of bands, given this source.
-     * @param src the <code>Raster</code> to be transformed
-     * @return the zeroed-destination <code>Raster</code>.
+     * Crebtes b zeroed-destinbtion <code>Rbster</code> with the
+     * correct size bnd number of bbnds, given this source.
+     * @pbrbm src the <code>Rbster</code> to be trbnsformed
+     * @return the zeroed-destinbtion <code>Rbster</code>.
      */
-    public WritableRaster createCompatibleDestRaster (Raster src) {
-        return src.createCompatibleWritableRaster();
+    public WritbbleRbster crebteCompbtibleDestRbster (Rbster src) {
+        return src.crebteCompbtibleWritbbleRbster();
     }
 
     /**
-     * Returns the location of the destination point given a
+     * Returns the locbtion of the destinbtion point given b
      * point in the source.  If <code>dstPt</code> is not
-     * <code>null</code>, it will be used to hold the return value.
-     * Since this is not a geometric operation, the <code>srcPt</code>
-     * will equal the <code>dstPt</code>.
-     * @param srcPt a <code>Point2D</code> that represents a point
-     *        in the source image
-     * @param dstPt a <code>Point2D</code>that represents the location
-     *        in the destination
-     * @return the <code>Point2D</code> in the destination that
+     * <code>null</code>, it will be used to hold the return vblue.
+     * Since this is not b geometric operbtion, the <code>srcPt</code>
+     * will equbl the <code>dstPt</code>.
+     * @pbrbm srcPt b <code>Point2D</code> thbt represents b point
+     *        in the source imbge
+     * @pbrbm dstPt b <code>Point2D</code>thbt represents the locbtion
+     *        in the destinbtion
+     * @return the <code>Point2D</code> in the destinbtion thbt
      *         corresponds to the specified point in the source.
      */
-    public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
+    public finbl Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
         if (dstPt == null) {
-            dstPt = new Point2D.Float();
+            dstPt = new Point2D.Flobt();
         }
-        dstPt.setLocation(srcPt.getX(), srcPt.getY());
+        dstPt.setLocbtion(srcPt.getX(), srcPt.getY());
 
         return dstPt;
     }
 
     /**
      * Returns the rendering hints for this op.
-     * @return the <code>RenderingHints</code> object associated
+     * @return the <code>RenderingHints</code> object bssocibted
      *         with this op.
      */
-    public final RenderingHints getRenderingHints() {
+    public finbl RenderingHints getRenderingHints() {
         return hints;
     }
 
-    private final void byteFilter(ByteLookupTable lookup, Raster src,
-                                  WritableRaster dst,
-                                  int width, int height, int numBands) {
+    privbte finbl void byteFilter(ByteLookupTbble lookup, Rbster src,
+                                  WritbbleRbster dst,
+                                  int width, int height, int numBbnds) {
         int[] srcPix = null;
 
-        // Find the ref to the table and the offset
-        byte[][] table = lookup.getTable();
+        // Find the ref to the tbble bnd the offset
+        byte[][] tbble = lookup.getTbble();
         int offset = lookup.getOffset();
         int tidx;
         int step=1;
 
-        // Check if it is one lookup applied to all bands
-        if (table.length == 1) {
+        // Check if it is one lookup bpplied to bll bbnds
+        if (tbble.length == 1) {
             step=0;
         }
 
         int x;
         int y;
-        int band;
-        int len = table[0].length;
+        int bbnd;
+        int len = tbble[0].length;
 
-        // Loop through the data
+        // Loop through the dbtb
         for ( y=0; y < height; y++) {
             tidx = 0;
-            for ( band=0; band < numBands; band++, tidx+=step) {
-                // Find data for this band, scanline
-                srcPix = src.getSamples(0, y, width, 1, band, srcPix);
+            for ( bbnd=0; bbnd < numBbnds; bbnd++, tidx+=step) {
+                // Find dbtb for this bbnd, scbnline
+                srcPix = src.getSbmples(0, y, width, 1, bbnd, srcPix);
 
                 for ( x=0; x < width; x++) {
                     int index = srcPix[x]-offset;
                     if (index < 0 || index > len) {
                         throw new
-                            IllegalArgumentException("index ("+index+
-                                                     "(out of range: "+
+                            IllegblArgumentException("index ("+index+
+                                                     "(out of rbnge: "+
                                                      " srcPix["+x+
                                                      "]="+ srcPix[x]+
                                                      " offset="+ offset);
                     }
                     // Do the lookup
-                    srcPix[x] = table[tidx][index];
+                    srcPix[x] = tbble[tidx][index];
                 }
-                // Put it back
-                dst.setSamples(0, y, width, 1, band, srcPix);
+                // Put it bbck
+                dst.setSbmples(0, y, width, 1, bbnd, srcPix);
             }
         }
     }
 
-    private final void shortFilter(ShortLookupTable lookup, Raster src,
-                                   WritableRaster dst,
-                                   int width, int height, int numBands) {
-        int band;
+    privbte finbl void shortFilter(ShortLookupTbble lookup, Rbster src,
+                                   WritbbleRbster dst,
+                                   int width, int height, int numBbnds) {
+        int bbnd;
         int[] srcPix = null;
 
-        // Find the ref to the table and the offset
-        short[][] table = lookup.getTable();
+        // Find the ref to the tbble bnd the offset
+        short[][] tbble = lookup.getTbble();
         int offset = lookup.getOffset();
         int tidx;
         int step=1;
 
-        // Check if it is one lookup applied to all bands
-        if (table.length == 1) {
+        // Check if it is one lookup bpplied to bll bbnds
+        if (tbble.length == 1) {
             step=0;
         }
 
         int x = 0;
         int y = 0;
         int index;
-        int maxShort = (1<<16)-1;
-        // Loop through the data
+        int mbxShort = (1<<16)-1;
+        // Loop through the dbtb
         for (y=0; y < height; y++) {
             tidx = 0;
-            for ( band=0; band < numBands; band++, tidx+=step) {
-                // Find data for this band, scanline
-                srcPix = src.getSamples(0, y, width, 1, band, srcPix);
+            for ( bbnd=0; bbnd < numBbnds; bbnd++, tidx+=step) {
+                // Find dbtb for this bbnd, scbnline
+                srcPix = src.getSbmples(0, y, width, 1, bbnd, srcPix);
 
                 for ( x=0; x < width; x++) {
                     index = srcPix[x]-offset;
-                    if (index < 0 || index > maxShort) {
+                    if (index < 0 || index > mbxShort) {
                         throw new
-                            IllegalArgumentException("index out of range "+
+                            IllegblArgumentException("index out of rbnge "+
                                                      index+" x is "+x+
                                                      "srcPix[x]="+srcPix[x]
                                                      +" offset="+ offset);
                     }
                     // Do the lookup
-                    srcPix[x] = table[tidx][index];
+                    srcPix[x] = tbble[tidx][index];
                 }
-                // Put it back
-                dst.setSamples(0, y, width, 1, band, srcPix);
+                // Put it bbck
+                dst.setSbmples(0, y, width, 1, bbnd, srcPix);
             }
         }
     }

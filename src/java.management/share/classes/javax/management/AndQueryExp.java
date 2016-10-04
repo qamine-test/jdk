@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
 /**
- * This class is used by the query building mechanism to represent conjunctions
- * of relational expressions.
- * @serial include
+ * This clbss is used by the query building mechbnism to represent conjunctions
+ * of relbtionbl expressions.
+ * @seribl include
  *
  * @since 1.5
  */
-class AndQueryExp extends QueryEval implements QueryExp {
+clbss AndQueryExp extends QueryEvbl implements QueryExp {
 
-    /* Serial version */
-    private static final long serialVersionUID = -1081892073854801359L;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = -1081892073854801359L;
 
     /**
-     * @serial The first QueryExp of the conjunction
+     * @seribl The first QueryExp of the conjunction
      */
-    private QueryExp exp1;
+    privbte QueryExp exp1;
 
     /**
-     * @serial The second QueryExp of the conjunction
+     * @seribl The second QueryExp of the conjunction
      */
-    private QueryExp exp2;
+    privbte QueryExp exp2;
 
 
     /**
-     * Default constructor.
+     * Defbult constructor.
      */
     public AndQueryExp() {
     }
 
     /**
-     * Creates a new AndQueryExp with q1 and q2 QueryExp.
+     * Crebtes b new AndQueryExp with q1 bnd q2 QueryExp.
      */
     public AndQueryExp(QueryExp q1, QueryExp q2) {
         exp1 = q1;
@@ -79,29 +79,29 @@ class AndQueryExp extends QueryEval implements QueryExp {
     }
 
     /**
-     * Applies the AndQueryExp on a MBean.
+     * Applies the AndQueryExp on b MBebn.
      *
-     * @param name The name of the MBean on which the AndQueryExp will be applied.
+     * @pbrbm nbme The nbme of the MBebn on which the AndQueryExp will be bpplied.
      *
-     * @return  True if the query was successfully applied to the MBean, false otherwise.
+     * @return  True if the query wbs successfully bpplied to the MBebn, fblse otherwise.
      *
      *
-     * @exception BadStringOperationException The string passed to the method is invalid.
-     * @exception BadBinaryOpValueExpException The expression passed to the method is invalid.
-     * @exception BadAttributeValueExpException The attribute value passed to the method is invalid.
-     * @exception InvalidApplicationException  An attempt has been made to apply a subquery expression to a
-     * managed object or a qualified attribute expression to a managed object of the wrong class.
+     * @exception BbdStringOperbtionException The string pbssed to the method is invblid.
+     * @exception BbdBinbryOpVblueExpException The expression pbssed to the method is invblid.
+     * @exception BbdAttributeVblueExpException The bttribute vblue pbssed to the method is invblid.
+     * @exception InvblidApplicbtionException  An bttempt hbs been mbde to bpply b subquery expression to b
+     * mbnbged object or b qublified bttribute expression to b mbnbged object of the wrong clbss.
      */
-    public boolean apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
-        BadAttributeValueExpException, InvalidApplicationException  {
-        return exp1.apply(name) && exp2.apply(name);
+    public boolebn bpply(ObjectNbme nbme) throws BbdStringOperbtionException, BbdBinbryOpVblueExpException,
+        BbdAttributeVblueExpException, InvblidApplicbtionException  {
+        return exp1.bpply(nbme) && exp2.bpply(nbme);
     }
 
    /**
-    * Returns a string representation of this AndQueryExp
+    * Returns b string representbtion of this AndQueryExp
     */
     @Override
     public String toString() {
-        return "(" + exp1 + ") and (" + exp2 + ")";
+        return "(" + exp1 + ") bnd (" + exp2 + ")";
     }
 }

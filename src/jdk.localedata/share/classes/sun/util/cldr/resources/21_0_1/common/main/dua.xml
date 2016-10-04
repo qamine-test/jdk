@@ -3,44 +3,44 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="dua"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="dub"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="dua">duálá</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="dub">duálá</lbngubge>
+		</lbngubges>
 		<territories>
-			<territory type="CM">Cameroun</territory>
+			<territory type="CM">Cbmeroun</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a á b ɓ c d ɗ e é ɛ {ɛ\u0301} f g i í j k l m n {ny} ŋ o ó ɔ {ɔ\u0301} p r s t u ú ū w y]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[h q v x z]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B Ɓ C D Ɗ E Ɛ F G I J K L M N Ŋ O Ɔ P S T U W Y]</exemplarCharacters>
-	</characters>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b á b ɓ c d ɗ e é ɛ {ɛ\u0301} f g i í j k l m n {ny} ŋ o ó ɔ {ɔ\u0301} p r s t u ú ū w y]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[h q v x z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index">[A B Ɓ C D Ɗ E Ɛ F G I J K L M N Ŋ O Ɔ P S T U W Y]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>«</quotationStart>
-		<quotationEnd>»</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionEnd>»</quotbtionEnd>
+		<blternbteQuotbtionStbrt>‘</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>’</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="1">di</month>
 							<month type="2">ŋgɔn</month>
 							<month type="3">sɔŋ</month>
 							<month type="4">diɓ</month>
 							<month type="5">emi</month>
 							<month type="6">esɔ</month>
-							<month type="7">mad</month>
+							<month type="7">mbd</month>
 							<month type="8">diŋ</month>
 							<month type="9">nyɛt</month>
-							<month type="10">may</month>
+							<month type="10">mby</month>
 							<month type="11">tin</month>
 							<month type="12">elá</month>
 						</monthWidth>
@@ -49,18 +49,18 @@
 							<month type="2">ŋgɔndɛ</month>
 							<month type="3">sɔŋɛ</month>
 							<month type="4">diɓáɓá</month>
-							<month type="5">emiasele</month>
+							<month type="5">emibsele</month>
 							<month type="6">esɔpɛsɔpɛ</month>
-							<month type="7">madiɓɛ́díɓɛ́</month>
+							<month type="7">mbdiɓɛ́díɓɛ́</month>
 							<month type="8">diŋgindi</month>
 							<month type="9">nyɛtɛki</month>
-							<month type="10">mayésɛ́</month>
+							<month type="10">mbyésɛ́</month>
 							<month type="11">tiníní</month>
 							<month type="12">eláŋgɛ́</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
+					<monthContext type="stbnd-blone">
+						<monthWidth type="nbrrow">
 							<month type="1">d</month>
 							<month type="2">ŋ</month>
 							<month type="3">s</month>
@@ -76,212 +76,212 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">ét</day>
-							<day type="mon">mɔ́s</day>
-							<day type="tue">kwa</day>
-							<day type="wed">muk</day>
-							<day type="thu">ŋgi</day>
-							<day type="fri">ɗón</day>
-							<day type="sat">esa</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">éti</day>
-							<day type="mon">mɔ́sú</day>
-							<day type="tue">kwasú</day>
-							<day type="wed">mukɔ́sú</day>
-							<day type="thu">ŋgisú</day>
-							<day type="fri">ɗónɛsú</day>
-							<day type="sat">esaɓasú</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">e</day>
-							<day type="mon">m</day>
-							<day type="tue">k</day>
-							<day type="wed">m</day>
-							<day type="thu">ŋ</day>
-							<day type="fri">ɗ</day>
-							<day type="sat">e</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">ndu1</quarter>
-							<quarter type="2">ndu2</quarter>
-							<quarter type="3">ndu3</quarter>
-							<quarter type="4">ndu4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">ndúmbū nyá ɓosó</quarter>
-							<quarter type="2">ndúmbū ní lóndɛ́ íɓaá</quarter>
-							<quarter type="3">ndúmbū ní lóndɛ́ ílálo</quarter>
-							<quarter type="4">ndúmbū ní lóndɛ́ ínɛ́y</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">idiɓa</dayPeriod>
-							<dayPeriod type="pm">ebyámu</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">ɓoso ɓwá yáɓe lá</era>
-						<era type="1">mbúsa kwédi a Yés</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">ɓ.Ys</era>
-						<era type="1">mb.Ys</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E d/M</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="ms">m:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E d/M/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">ét</dby>
+							<dby type="mon">mɔ́s</dby>
+							<dby type="tue">kwb</dby>
+							<dby type="wed">muk</dby>
+							<dby type="thu">ŋgi</dby>
+							<dby type="fri">ɗón</dby>
+							<dby type="sbt">esb</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">éti</dby>
+							<dby type="mon">mɔ́sú</dby>
+							<dby type="tue">kwbsú</dby>
+							<dby type="wed">mukɔ́sú</dby>
+							<dby type="thu">ŋgisú</dby>
+							<dby type="fri">ɗónɛsú</dby>
+							<dby type="sbt">esbɓbsú</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">e</dby>
+							<dby type="mon">m</dby>
+							<dby type="tue">k</dby>
+							<dby type="wed">m</dby>
+							<dby type="thu">ŋ</dby>
+							<dby type="fri">ɗ</dby>
+							<dby type="sbt">e</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">ndu1</qubrter>
+							<qubrter type="2">ndu2</qubrter>
+							<qubrter type="3">ndu3</qubrter>
+							<qubrter type="4">ndu4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">ndúmbū nyá ɓosó</qubrter>
+							<qubrter type="2">ndúmbū ní lóndɛ́ íɓbá</qubrter>
+							<qubrter type="3">ndúmbū ní lóndɛ́ ílálo</qubrter>
+							<qubrter type="4">ndúmbū ní lóndɛ́ ínɛ́y</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">idiɓb</dbyPeriod>
+							<dbyPeriod type="pm">ebyámu</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">ɓoso ɓwá yáɓe lá</erb>
+						<erb type="1">mbúsb kwédi b Yés</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0">ɓ.Ys</erb>
+						<erb type="1">mb.Ys</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>HH:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>HH:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="d">d</dbteFormbtItem>
+						<dbteFormbtItem id="Ed">E d</dbteFormbtItem>
+						<dbteFormbtItem id="hm">h:mm b</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">HH:mm</dbteFormbtItem>
+						<dbteFormbtItem id="hms">h:mm:ss b</dbteFormbtItem>
+						<dbteFormbtItem id="Hms">HH:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="M">L</dbteFormbtItem>
+						<dbteFormbtItem id="Md">d/M</dbteFormbtItem>
+						<dbteFormbtItem id="MEd">E d/M</dbteFormbtItem>
+						<dbteFormbtItem id="MMM">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="ms">m:ss</dbteFormbtItem>
+						<dbteFormbtItem id="y">y</dbteFormbtItem>
+						<dbteFormbtItem id="yM">M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMd">d/M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E d/M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd">d MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E d MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yQ">Q y</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ y</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>póndá</displayName>
+					<field type="erb">
+						<displbyNbme>póndá</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>mbú</displayName>
+					<field type="yebr">
+						<displbyNbme>mbú</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>mɔ́di</displayName>
+						<displbyNbme>mɔ́di</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>disama</displayName>
+						<displbyNbme>disbmb</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>búnyá</displayName>
-						<relative type="-1">kíɛlɛ nítómb́í</relative>
-						<relative type="0">wɛ́ŋgɛ̄</relative>
-						<relative type="1">kíɛlɛ</relative>
+					<field type="dby">
+						<displbyNbme>búnyá</displbyNbme>
+						<relbtive type="-1">kíɛlɛ nítómb́í</relbtive>
+						<relbtive type="0">wɛ́ŋgɛ̄</relbtive>
+						<relbtive type="1">kíɛlɛ</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>mínyá má disama</displayName>
+					<field type="weekdby">
+						<displbyNbme>mínyá má disbmb</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName>epasi a búnyá</displayName>
+					<field type="dbyperiod">
+						<displbyNbme>epbsi b búnyá</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>ŋgandɛ</displayName>
+						<displbyNbme>ŋgbndɛ</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>ndɔkɔ</displayName>
+						<displbyNbme>ndɔkɔ</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>píndí</displayName>
+						<displbyNbme>píndí</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>,</decimbl>
 			<group> </group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##0 %</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00 ¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength>
+				<decimblFormbt>
+					<pbttern>#,##0.###</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<percentFormbts numberSystem="lbtn">
+			<percentFormbtLength>
+				<percentFormbt>
+					<pbttern>#,##0 %</pbttern>
+				</percentFormbt>
+			</percentFormbtLength>
+		</percentFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>#,##0.00 ¤</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 	</numbers>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>ee:e</yesstr>
 			<nostr>kɛ́m:k</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>

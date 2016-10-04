@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.Lbbel;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class InstanceOfExpression extends BinaryExpression {
+clbss InstbnceOfExpression extends BinbryExpression {
     /**
      * constructor
      */
-    public InstanceOfExpression(long where, Expression left, Expression right) {
-        super(INSTANCEOF, where, Type.tBoolean, left, right);
+    public InstbnceOfExpression(long where, Expression left, Expression right) {
+        super(INSTANCEOF, where, Type.tBoolebn, left, right);
     }
 
     /**
      * Check the expression
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        vset = left.checkValue(env, ctx, vset, exp);
+    public Vset checkVblue(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        vset = left.checkVblue(env, ctx, vset, exp);
         right = new TypeExpression(right.where, right.toType(env, ctx));
 
         if (right.type.isType(TC_ERROR) || left.type.isType(TC_ERROR)) {
-            // An error was already reported
+            // An error wbs blrebdy reported
             return vset;
         }
 
-        if (!right.type.inMask(TM_CLASS|TM_ARRAY)) {
-            env.error(right.where, "invalid.arg.type", right.type, opNames[op]);
+        if (!right.type.inMbsk(TM_CLASS|TM_ARRAY)) {
+            env.error(right.where, "invblid.brg.type", right.type, opNbmes[op]);
             return vset;
         }
         try {
-            if (!env.explicitCast(left.type, right.type)) {
-                env.error(where, "invalid.instanceof", left.type, right.type);
+            if (!env.explicitCbst(left.type, right.type)) {
+                env.error(where, "invblid.instbnceof", left.type, right.type);
             }
-        } catch (ClassNotFound e) {
-            env.error(where, "class.not.found", e.name, opNames[op]);
+        } cbtch (ClbssNotFound e) {
+            env.error(where, "clbss.not.found", e.nbme, opNbmes[op]);
         }
         return vset;
     }
@@ -77,8 +77,8 @@ class InstanceOfExpression extends BinaryExpression {
     public Expression inline(Environment env, Context ctx) {
         return left.inline(env, ctx);
     }
-    public Expression inlineValue(Environment env, Context ctx) {
-        left = left.inlineValue(env, ctx);
+    public Expression inlineVblue(Environment env, Context ctx) {
+        left = left.inlineVblue(env, ctx);
         return this;
     }
 
@@ -86,15 +86,15 @@ class InstanceOfExpression extends BinaryExpression {
         if (ctx == null) {
             return 1 + left.costInline(thresh, env, ctx);
         }
-        // sourceClass is the current class trying to inline this method
-        ClassDefinition sourceClass = ctx.field.getClassDefinition();
+        // sourceClbss is the current clbss trying to inline this method
+        ClbssDefinition sourceClbss = ctx.field.getClbssDefinition();
         try {
-            // We only allow the inlining if the current class can access
-            // the "instance of" class
+            // We only bllow the inlining if the current clbss cbn bccess
+            // the "instbnce of" clbss
             if (right.type.isType(TC_ARRAY) ||
-                 sourceClass.permitInlinedAccess(env, env.getClassDeclaration(right.type)))
+                 sourceClbss.permitInlinedAccess(env, env.getClbssDeclbrbtion(right.type)))
                 return 1 + left.costInline(thresh, env, ctx);
-        } catch (ClassNotFound e) {
+        } cbtch (ClbssNotFound e) {
         }
         return thresh;
     }
@@ -105,27 +105,27 @@ class InstanceOfExpression extends BinaryExpression {
     /**
      * Code
      */
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        left.codeValue(env, ctx, asm);
+    public void codeVblue(Environment env, Context ctx, Assembler bsm) {
+        left.codeVblue(env, ctx, bsm);
         if (right.type.isType(TC_CLASS)) {
-            asm.add(where, opc_instanceof, env.getClassDeclaration(right.type));
+            bsm.bdd(where, opc_instbnceof, env.getClbssDeclbrbtion(right.type));
         } else {
-            asm.add(where, opc_instanceof, right.type);
+            bsm.bdd(where, opc_instbnceof, right.type);
         }
     }
-    void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
-        codeValue(env, ctx, asm);
-        asm.add(where, whenTrue ? opc_ifne : opc_ifeq, lbl, whenTrue);
+    void codeBrbnch(Environment env, Context ctx, Assembler bsm, Lbbel lbl, boolebn whenTrue) {
+        codeVblue(env, ctx, bsm);
+        bsm.bdd(where, whenTrue ? opc_ifne : opc_ifeq, lbl, whenTrue);
     }
-    public void code(Environment env, Context ctx, Assembler asm) {
-        left.code(env, ctx, asm);
+    public void code(Environment env, Context ctx, Assembler bsm) {
+        left.code(env, ctx, bsm);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        out.print("(" + opNames[op] + " ");
+    public void print(PrintStrebm out) {
+        out.print("(" + opNbmes[op] + " ");
         left.print(out);
         out.print(" ");
         if (right.op == TYPE) {

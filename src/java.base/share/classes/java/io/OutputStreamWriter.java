@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import sun.nio.cs.StreamEncoder;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import sun.nio.cs.StrebmEncoder;
 
 
 /**
- * An OutputStreamWriter is a bridge from character streams to byte streams:
- * Characters written to it are encoded into bytes using a specified {@link
- * java.nio.charset.Charset charset}.  The charset that it uses
- * may be specified by name or may be given explicitly, or the platform's
- * default charset may be accepted.
+ * An OutputStrebmWriter is b bridge from chbrbcter strebms to byte strebms:
+ * Chbrbcters written to it bre encoded into bytes using b specified {@link
+ * jbvb.nio.chbrset.Chbrset chbrset}.  The chbrset thbt it uses
+ * mby be specified by nbme or mby be given explicitly, or the plbtform's
+ * defbult chbrset mby be bccepted.
  *
- * <p> Each invocation of a write() method causes the encoding converter to be
- * invoked on the given character(s).  The resulting bytes are accumulated in a
- * buffer before being written to the underlying output stream.  The size of
- * this buffer may be specified, but by default it is large enough for most
- * purposes.  Note that the characters passed to the write() methods are not
+ * <p> Ebch invocbtion of b write() method cbuses the encoding converter to be
+ * invoked on the given chbrbcter(s).  The resulting bytes bre bccumulbted in b
+ * buffer before being written to the underlying output strebm.  The size of
+ * this buffer mby be specified, but by defbult it is lbrge enough for most
+ * purposes.  Note thbt the chbrbcters pbssed to the write() methods bre not
  * buffered.
  *
- * <p> For top efficiency, consider wrapping an OutputStreamWriter within a
- * BufferedWriter so as to avoid frequent converter invocations.  For example:
+ * <p> For top efficiency, consider wrbpping bn OutputStrebmWriter within b
+ * BufferedWriter so bs to bvoid frequent converter invocbtions.  For exbmple:
  *
  * <pre>
  * Writer out
- *   = new BufferedWriter(new OutputStreamWriter(System.out));
+ *   = new BufferedWriter(new OutputStrebmWriter(System.out));
  * </pre>
  *
- * <p> A <i>surrogate pair</i> is a character represented by a sequence of two
- * <tt>char</tt> values: A <i>high</i> surrogate in the range '&#92;uD800' to
- * '&#92;uDBFF' followed by a <i>low</i> surrogate in the range '&#92;uDC00' to
+ * <p> A <i>surrogbte pbir</i> is b chbrbcter represented by b sequence of two
+ * <tt>chbr</tt> vblues: A <i>high</i> surrogbte in the rbnge '&#92;uD800' to
+ * '&#92;uDBFF' followed by b <i>low</i> surrogbte in the rbnge '&#92;uDC00' to
  * '&#92;uDFFF'.
  *
- * <p> A <i>malformed surrogate element</i> is a high surrogate that is not
- * followed by a low surrogate or a low surrogate that is not preceded by a
- * high surrogate.
+ * <p> A <i>mblformed surrogbte element</i> is b high surrogbte thbt is not
+ * followed by b low surrogbte or b low surrogbte thbt is not preceded by b
+ * high surrogbte.
  *
- * <p> This class always replaces malformed surrogate elements and unmappable
- * character sequences with the charset's default <i>substitution sequence</i>.
- * The {@linkplain java.nio.charset.CharsetEncoder} class should be used when more
+ * <p> This clbss blwbys replbces mblformed surrogbte elements bnd unmbppbble
+ * chbrbcter sequences with the chbrset's defbult <i>substitution sequence</i>.
+ * The {@linkplbin jbvb.nio.chbrset.ChbrsetEncoder} clbss should be used when more
  * control over the encoding process is required.
  *
  * @see BufferedWriter
- * @see OutputStream
- * @see java.nio.charset.Charset
+ * @see OutputStrebm
+ * @see jbvb.nio.chbrset.Chbrset
  *
- * @author      Mark Reinhold
+ * @buthor      Mbrk Reinhold
  * @since       1.1
  */
 
-public class OutputStreamWriter extends Writer {
+public clbss OutputStrebmWriter extends Writer {
 
-    private final StreamEncoder se;
+    privbte finbl StrebmEncoder se;
 
     /**
-     * Creates an OutputStreamWriter that uses the named charset.
+     * Crebtes bn OutputStrebmWriter thbt uses the nbmed chbrset.
      *
-     * @param  out
-     *         An OutputStream
+     * @pbrbm  out
+     *         An OutputStrebm
      *
-     * @param  charsetName
-     *         The name of a supported
-     *         {@link java.nio.charset.Charset charset}
+     * @pbrbm  chbrsetNbme
+     *         The nbme of b supported
+     *         {@link jbvb.nio.chbrset.Chbrset chbrset}
      *
      * @exception  UnsupportedEncodingException
-     *             If the named encoding is not supported
+     *             If the nbmed encoding is not supported
      */
-    public OutputStreamWriter(OutputStream out, String charsetName)
+    public OutputStrebmWriter(OutputStrebm out, String chbrsetNbme)
         throws UnsupportedEncodingException
     {
         super(out);
-        if (charsetName == null)
-            throw new NullPointerException("charsetName");
-        se = StreamEncoder.forOutputStreamWriter(out, this, charsetName);
+        if (chbrsetNbme == null)
+            throw new NullPointerException("chbrsetNbme");
+        se = StrebmEncoder.forOutputStrebmWriter(out, this, chbrsetNbme);
     }
 
     /**
-     * Creates an OutputStreamWriter that uses the default character encoding.
+     * Crebtes bn OutputStrebmWriter thbt uses the defbult chbrbcter encoding.
      *
-     * @param  out  An OutputStream
+     * @pbrbm  out  An OutputStrebm
      */
-    public OutputStreamWriter(OutputStream out) {
+    public OutputStrebmWriter(OutputStrebm out) {
         super(out);
         try {
-            se = StreamEncoder.forOutputStreamWriter(out, this, (String)null);
-        } catch (UnsupportedEncodingException e) {
+            se = StrebmEncoder.forOutputStrebmWriter(out, this, (String)null);
+        } cbtch (UnsupportedEncodingException e) {
             throw new Error(e);
         }
     }
 
     /**
-     * Creates an OutputStreamWriter that uses the given charset.
+     * Crebtes bn OutputStrebmWriter thbt uses the given chbrset.
      *
-     * @param  out
-     *         An OutputStream
+     * @pbrbm  out
+     *         An OutputStrebm
      *
-     * @param  cs
-     *         A charset
+     * @pbrbm  cs
+     *         A chbrset
      *
      * @since 1.4
      * @spec JSR-51
      */
-    public OutputStreamWriter(OutputStream out, Charset cs) {
+    public OutputStrebmWriter(OutputStrebm out, Chbrset cs) {
         super(out);
         if (cs == null)
-            throw new NullPointerException("charset");
-        se = StreamEncoder.forOutputStreamWriter(out, this, cs);
+            throw new NullPointerException("chbrset");
+        se = StrebmEncoder.forOutputStrebmWriter(out, this, cs);
     }
 
     /**
-     * Creates an OutputStreamWriter that uses the given charset encoder.
+     * Crebtes bn OutputStrebmWriter thbt uses the given chbrset encoder.
      *
-     * @param  out
-     *         An OutputStream
+     * @pbrbm  out
+     *         An OutputStrebm
      *
-     * @param  enc
-     *         A charset encoder
+     * @pbrbm  enc
+     *         A chbrset encoder
      *
      * @since 1.4
      * @spec JSR-51
      */
-    public OutputStreamWriter(OutputStream out, CharsetEncoder enc) {
+    public OutputStrebmWriter(OutputStrebm out, ChbrsetEncoder enc) {
         super(out);
         if (enc == null)
-            throw new NullPointerException("charset encoder");
-        se = StreamEncoder.forOutputStreamWriter(out, this, enc);
+            throw new NullPointerException("chbrset encoder");
+        se = StrebmEncoder.forOutputStrebmWriter(out, this, enc);
     }
 
     /**
-     * Returns the name of the character encoding being used by this stream.
+     * Returns the nbme of the chbrbcter encoding being used by this strebm.
      *
-     * <p> If the encoding has an historical name then that name is returned;
-     * otherwise the encoding's canonical name is returned.
+     * <p> If the encoding hbs bn historicbl nbme then thbt nbme is returned;
+     * otherwise the encoding's cbnonicbl nbme is returned.
      *
-     * <p> If this instance was created with the {@link
-     * #OutputStreamWriter(OutputStream, String)} constructor then the returned
-     * name, being unique for the encoding, may differ from the name passed to
-     * the constructor.  This method may return <tt>null</tt> if the stream has
+     * <p> If this instbnce wbs crebted with the {@link
+     * #OutputStrebmWriter(OutputStrebm, String)} constructor then the returned
+     * nbme, being unique for the encoding, mby differ from the nbme pbssed to
+     * the constructor.  This method mby return <tt>null</tt> if the strebm hbs
      * been closed. </p>
      *
-     * @return The historical name of this encoding, or possibly
-     *         <code>null</code> if the stream has been closed
+     * @return The historicbl nbme of this encoding, or possibly
+     *         <code>null</code> if the strebm hbs been closed
      *
-     * @see java.nio.charset.Charset
+     * @see jbvb.nio.chbrset.Chbrset
      *
      * @revised 1.4
      * @spec JSR-51
@@ -177,53 +177,53 @@ public class OutputStreamWriter extends Writer {
     }
 
     /**
-     * Flushes the output buffer to the underlying byte stream, without flushing
-     * the byte stream itself.  This method is non-private only so that it may
-     * be invoked by PrintStream.
+     * Flushes the output buffer to the underlying byte strebm, without flushing
+     * the byte strebm itself.  This method is non-privbte only so thbt it mby
+     * be invoked by PrintStrebm.
      */
     void flushBuffer() throws IOException {
         se.flushBuffer();
     }
 
     /**
-     * Writes a single character.
+     * Writes b single chbrbcter.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
     public void write(int c) throws IOException {
         se.write(c);
     }
 
     /**
-     * Writes a portion of an array of characters.
+     * Writes b portion of bn brrby of chbrbcters.
      *
-     * @param  cbuf  Buffer of characters
-     * @param  off   Offset from which to start writing characters
-     * @param  len   Number of characters to write
+     * @pbrbm  cbuf  Buffer of chbrbcters
+     * @pbrbm  off   Offset from which to stbrt writing chbrbcters
+     * @pbrbm  len   Number of chbrbcters to write
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public void write(char cbuf[], int off, int len) throws IOException {
+    public void write(chbr cbuf[], int off, int len) throws IOException {
         se.write(cbuf, off, len);
     }
 
     /**
-     * Writes a portion of a string.
+     * Writes b portion of b string.
      *
-     * @param  str  A String
-     * @param  off  Offset from which to start writing characters
-     * @param  len  Number of characters to write
+     * @pbrbm  str  A String
+     * @pbrbm  off  Offset from which to stbrt writing chbrbcters
+     * @pbrbm  len  Number of chbrbcters to write
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
     public void write(String str, int off, int len) throws IOException {
         se.write(str, off, len);
     }
 
     /**
-     * Flushes the stream.
+     * Flushes the strebm.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
     public void flush() throws IOException {
         se.flush();

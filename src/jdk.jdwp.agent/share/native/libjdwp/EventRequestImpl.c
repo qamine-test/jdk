@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "util.h"
 #include "EventRequestImpl.h"
-#include "eventHandler.h"
-#include "inStream.h"
-#include "outStream.h"
+#include "eventHbndler.h"
+#include "inStrebm.h"
+#include "outStrebm.h"
 #include "stepControl.h"
 
 /**
- * Take JDWP "modifiers" (which are JDI explicit filters, like
- * addCountFilter(), and implicit filters, like the LocationOnly
- * filter that goes with breakpoints) and add them as filters
- * (eventFilter) to the HandlerNode (eventHandler).
+ * Tbke JDWP "modifiers" (which bre JDI explicit filters, like
+ * bddCountFilter(), bnd implicit filters, like the LocbtionOnly
+ * filter thbt goes with brebkpoints) bnd bdd them bs filters
+ * (eventFilter) to the HbndlerNode (eventHbndler).
  */
-static jdwpError
-readAndSetFilters(JNIEnv *env, PacketInputStream *in, HandlerNode *node,
+stbtic jdwpError
+rebdAndSetFilters(JNIEnv *env, PbcketInputStrebm *in, HbndlerNode *node,
                   jint filterCount)
 {
     int i;
@@ -47,306 +47,306 @@ readAndSetFilters(JNIEnv *env, PacketInputStream *in, HandlerNode *node,
 
         jbyte modifier;
 
-        modifier = inStream_readByte(in);
-        if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-            break;
+        modifier = inStrebm_rebdByte(in);
+        if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+            brebk;
 
         switch (modifier) {
 
-            case JDWP_REQUEST_MODIFIER(Conditional): {
+            cbse JDWP_REQUEST_MODIFIER(Conditionbl): {
                 jint exprID;
-                exprID = inStream_readInt(in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                serror = map2jdwpError(
-                        eventFilter_setConditionalFilter(node, i, exprID));
-                break;
+                exprID = inStrebm_rebdInt(in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                serror = mbp2jdwpError(
+                        eventFilter_setConditionblFilter(node, i, exprID));
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(Count): {
+            cbse JDWP_REQUEST_MODIFIER(Count): {
                 jint count;
-                count = inStream_readInt(in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                serror = map2jdwpError(
+                count = inStrebm_rebdInt(in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                serror = mbp2jdwpError(
                         eventFilter_setCountFilter(node, i, count));
-                break;
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(ThreadOnly): {
-                jthread thread;
-                thread = inStream_readThreadRef(env, in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                serror = map2jdwpError(
-                        eventFilter_setThreadOnlyFilter(node, i, thread));
-                break;
+            cbse JDWP_REQUEST_MODIFIER(ThrebdOnly): {
+                jthrebd threbd;
+                threbd = inStrebm_rebdThrebdRef(env, in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                serror = mbp2jdwpError(
+                        eventFilter_setThrebdOnlyFilter(node, i, threbd));
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(LocationOnly): {
-                jbyte tag;
-                jclass clazz;
+            cbse JDWP_REQUEST_MODIFIER(LocbtionOnly): {
+                jbyte tbg;
+                jclbss clbzz;
                 jmethodID method;
-                jlocation location;
-                tag = inStream_readByte(in); /* not currently used */
-                tag = tag; /* To shut up lint */
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                clazz = inStream_readClassRef(env, in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                method = inStream_readMethodID(in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                location = inStream_readLocation(in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                serror = map2jdwpError(
-                        eventFilter_setLocationOnlyFilter(node, i, clazz, method, location));
-                break;
+                jlocbtion locbtion;
+                tbg = inStrebm_rebdByte(in); /* not currently used */
+                tbg = tbg; /* To shut up lint */
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                clbzz = inStrebm_rebdClbssRef(env, in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                method = inStrebm_rebdMethodID(in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                locbtion = inStrebm_rebdLocbtion(in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                serror = mbp2jdwpError(
+                        eventFilter_setLocbtionOnlyFilter(node, i, clbzz, method, locbtion));
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(FieldOnly): {
-                jclass clazz;
+            cbse JDWP_REQUEST_MODIFIER(FieldOnly): {
+                jclbss clbzz;
                 jfieldID field;
-                clazz = inStream_readClassRef(env, in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                field = inStream_readFieldID(in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                serror = map2jdwpError(
-                        eventFilter_setFieldOnlyFilter(node, i, clazz, field));
-                break;
+                clbzz = inStrebm_rebdClbssRef(env, in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                field = inStrebm_rebdFieldID(in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                serror = mbp2jdwpError(
+                        eventFilter_setFieldOnlyFilter(node, i, clbzz, field));
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(ClassOnly): {
-                jclass clazz;
-                clazz = inStream_readClassRef(env, in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                serror = map2jdwpError(
-                        eventFilter_setClassOnlyFilter(node, i, clazz));
-                break;
+            cbse JDWP_REQUEST_MODIFIER(ClbssOnly): {
+                jclbss clbzz;
+                clbzz = inStrebm_rebdClbssRef(env, in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                serror = mbp2jdwpError(
+                        eventFilter_setClbssOnlyFilter(node, i, clbzz));
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(ExceptionOnly): {
-                jclass exception;
-                jboolean caught;
-                jboolean uncaught;
-                exception = inStream_readClassRef(env, in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                caught = inStream_readBoolean(in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                uncaught = inStream_readBoolean(in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                serror = map2jdwpError(
+            cbse JDWP_REQUEST_MODIFIER(ExceptionOnly): {
+                jclbss exception;
+                jboolebn cbught;
+                jboolebn uncbught;
+                exception = inStrebm_rebdClbssRef(env, in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                cbught = inStrebm_rebdBoolebn(in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                uncbught = inStrebm_rebdBoolebn(in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                serror = mbp2jdwpError(
                         eventFilter_setExceptionOnlyFilter(node, i,
-                                             exception, caught, uncaught));
-                break;
+                                             exception, cbught, uncbught));
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(InstanceOnly): {
-                jobject instance;
-                instance = inStream_readObjectRef(env, in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                serror = map2jdwpError(
-                        eventFilter_setInstanceOnlyFilter(node, i, instance));
-                break;
+            cbse JDWP_REQUEST_MODIFIER(InstbnceOnly): {
+                jobject instbnce;
+                instbnce = inStrebm_rebdObjectRef(env, in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                serror = mbp2jdwpError(
+                        eventFilter_setInstbnceOnlyFilter(node, i, instbnce));
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(ClassMatch): {
-                char *pattern;
-                pattern = inStream_readString(in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                serror = map2jdwpError(
-                        eventFilter_setClassMatchFilter(node, i,
-                                                                pattern));
-                break;
+            cbse JDWP_REQUEST_MODIFIER(ClbssMbtch): {
+                chbr *pbttern;
+                pbttern = inStrebm_rebdString(in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                serror = mbp2jdwpError(
+                        eventFilter_setClbssMbtchFilter(node, i,
+                                                                pbttern));
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(ClassExclude): {
-                char *pattern;
-                pattern = inStream_readString(in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                serror = map2jdwpError(
-                        eventFilter_setClassExcludeFilter(node, i, pattern));
-                break;
+            cbse JDWP_REQUEST_MODIFIER(ClbssExclude): {
+                chbr *pbttern;
+                pbttern = inStrebm_rebdString(in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                serror = mbp2jdwpError(
+                        eventFilter_setClbssExcludeFilter(node, i, pbttern));
+                brebk;
             }
-            case JDWP_REQUEST_MODIFIER(Step): {
-                jthread thread;
+            cbse JDWP_REQUEST_MODIFIER(Step): {
+                jthrebd threbd;
                 jint size;
                 jint depth;
-                thread = inStream_readThreadRef(env, in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                size = inStream_readInt(in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                depth = inStream_readInt(in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) )
-                    break;
-                serror = map2jdwpError(
-                      eventFilter_setStepFilter(node, i, thread, size, depth));
-                break;
+                threbd = inStrebm_rebdThrebdRef(env, in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                size = inStrebm_rebdInt(in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                depth = inStrebm_rebdInt(in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) )
+                    brebk;
+                serror = mbp2jdwpError(
+                      eventFilter_setStepFilter(node, i, threbd, size, depth));
+                brebk;
             }
-            case JDWP_REQUEST_MODIFIER(SourceNameMatch): {
-                char *sourceNamePattern;
-                sourceNamePattern = inStream_readString(in);
-                if ( (serror = inStream_error(in)) != JDWP_ERROR(NONE) ) {
-                    break;
+            cbse JDWP_REQUEST_MODIFIER(SourceNbmeMbtch): {
+                chbr *sourceNbmePbttern;
+                sourceNbmePbttern = inStrebm_rebdString(in);
+                if ( (serror = inStrebm_error(in)) != JDWP_ERROR(NONE) ) {
+                    brebk;
                 }
-                serror = map2jdwpError(
-                        eventFilter_setSourceNameMatchFilter(node, i, sourceNamePattern));
-                break;
+                serror = mbp2jdwpError(
+                        eventFilter_setSourceNbmeMbtchFilter(node, i, sourceNbmePbttern));
+                brebk;
             }
 
-            default:
+            defbult:
                 serror = JDWP_ERROR(ILLEGAL_ARGUMENT);
-                break;
+                brebk;
         }
         if ( serror != JDWP_ERROR(NONE) )
-            break;
+            brebk;
     }
     return serror;
 }
 
 /**
- * This is the back-end implementation for enabling
- * (what are at the JDI level) EventRequests.
+ * This is the bbck-end implementbtion for enbbling
+ * (whbt bre bt the JDI level) EventRequests.
  *
- * Allocate the event request handler (eventHandler).
- * Add any filters (explicit or implicit).
- * Install the handler.
- * Return the handlerID which is used to map subsequent
- * events to the EventRequest that created it.
+ * Allocbte the event request hbndler (eventHbndler).
+ * Add bny filters (explicit or implicit).
+ * Instbll the hbndler.
+ * Return the hbndlerID which is used to mbp subsequent
+ * events to the EventRequest thbt crebted it.
  */
-static jboolean
-setCommand(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+setCommbnd(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     jdwpError serror;
-    HandlerNode *node;
-    HandlerID requestID = -1;
+    HbndlerNode *node;
+    HbndlerID requestID = -1;
     jdwpEvent eventType;
     jbyte suspendPolicy;
     jint filterCount;
     EventIndex ei;
 
     node = NULL;
-    eventType = inStream_readByte(in);
-    if (inStream_error(in)) {
+    eventType = inStrebm_rebdByte(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    suspendPolicy = inStream_readByte(in);
-    if (inStream_error(in)) {
+    suspendPolicy = inStrebm_rebdByte(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    filterCount = inStream_readInt(in);
-    if (inStream_error(in)) {
+    filterCount = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     ei = jdwp2EventIndex(eventType);
     if (ei == 0) {
-        outStream_setError(out, JDWP_ERROR(INVALID_EVENT_TYPE));
+        outStrebm_setError(out, JDWP_ERROR(INVALID_EVENT_TYPE));
         return JNI_TRUE;
     }
 
     if (ei == EI_VM_INIT) {
         /*
-         * VM is already initialized so there's no need to install a handler
-         * for this event. However we need to allocate a requestID to send in
+         * VM is blrebdy initiblized so there's no need to instbll b hbndler
+         * for this event. However we need to bllocbte b requestID to send in
          * the reply to the debugger.
          */
         serror = JDWP_ERROR(NONE);
-        requestID = eventHandler_allocHandlerID();
+        requestID = eventHbndler_bllocHbndlerID();
     } else {
-        node = eventHandler_alloc(filterCount, ei, suspendPolicy);
+        node = eventHbndler_blloc(filterCount, ei, suspendPolicy);
         if (node == NULL) {
-            outStream_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
+            outStrebm_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
             return JNI_TRUE;
         }
         if (eventType == JDWP_EVENT(METHOD_EXIT_WITH_RETURN_VALUE)) {
-            node->needReturnValue = 1;
+            node->needReturnVblue = 1;
         } else {
-            node->needReturnValue = 0;
+            node->needReturnVblue = 0;
         }
-        serror = readAndSetFilters(getEnv(), in, node, filterCount);
+        serror = rebdAndSetFilters(getEnv(), in, node, filterCount);
         if (serror == JDWP_ERROR(NONE)) {
             jvmtiError error;
-            error = eventHandler_installExternal(node);
-            serror = map2jdwpError(error);
+            error = eventHbndler_instbllExternbl(node);
+            serror = mbp2jdwpError(error);
             if (serror == JDWP_ERROR(NONE)) {
-                requestID = node->handlerID;
+                requestID = node->hbndlerID;
             }
         }
     }
 
     if (serror == JDWP_ERROR(NONE)) {
-        (void)outStream_writeInt(out, requestID);
+        (void)outStrebm_writeInt(out, requestID);
     } else {
-        (void)eventHandler_free(node);
-        outStream_setError(out, serror);
+        (void)eventHbndler_free(node);
+        outStrebm_setError(out, serror);
     }
 
     return JNI_TRUE;
 }
 
 /**
- * This is the back-end implementation for disabling
- * (what are at the JDI level) EventRequests.
+ * This is the bbck-end implementbtion for disbbling
+ * (whbt bre bt the JDI level) EventRequests.
  */
-static jboolean
-clearCommand(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+clebrCommbnd(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     jvmtiError error;
     jdwpEvent eventType;
-    HandlerID handlerID;
+    HbndlerID hbndlerID;
     EventIndex ei;
 
-    eventType = inStream_readByte(in);
-    if (inStream_error(in)) {
+    eventType = inStrebm_rebdByte(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    handlerID = inStream_readInt(in);
-    if (inStream_error(in)) {
+    hbndlerID = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     ei = jdwp2EventIndex(eventType);
     if (ei == 0) {
-        /* NOTE: Clear command not yet spec'ed to return INVALID_EVENT_TYPE */
-        outStream_setError(out, JDWP_ERROR(INVALID_EVENT_TYPE));
+        /* NOTE: Clebr commbnd not yet spec'ed to return INVALID_EVENT_TYPE */
+        outStrebm_setError(out, JDWP_ERROR(INVALID_EVENT_TYPE));
         return JNI_TRUE;
     }
 
-    error = eventHandler_freeByID(ei, handlerID);
+    error = eventHbndler_freeByID(ei, hbndlerID);
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
     }
 
     return JNI_TRUE;
 }
 
-static jboolean
-clearAllBreakpoints(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+clebrAllBrebkpoints(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     jvmtiError error;
 
-    error = eventHandler_freeAll(EI_BREAKPOINT);
+    error = eventHbndler_freeAll(EI_BREAKPOINT);
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
     }
     return JNI_TRUE;
 }
 
 void *EventRequest_Cmds[] = { (void *)0x3
-    ,(void *)setCommand
-    ,(void *)clearCommand
-    ,(void *)clearAllBreakpoints};
+    ,(void *)setCommbnd
+    ,(void *)clebrCommbnd
+    ,(void *)clebrAllBrebkpoints};

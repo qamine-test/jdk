@@ -3,108 +3,108 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.content.x509;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.content.x509;
 
-import java.io.ByteArrayInputStream;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertificbteFbctory;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.Arrbys;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class XMLX509Certificate extends SignatureElementProxy implements XMLX509DataContent {
+public clbss XMLX509Certificbte extends SignbtureElementProxy implements XMLX509DbtbContent {
 
     /** Field JCA_CERT_ID */
-    public static final String JCA_CERT_ID = "X.509";
+    public stbtic finbl String JCA_CERT_ID = "X.509";
 
     /**
-     * Constructor X509Certificate
+     * Constructor X509Certificbte
      *
-     * @param element
-     * @param BaseURI
+     * @pbrbm element
+     * @pbrbm BbseURI
      * @throws XMLSecurityException
      */
-    public XMLX509Certificate(Element element, String BaseURI) throws XMLSecurityException {
-        super(element, BaseURI);
+    public XMLX509Certificbte(Element element, String BbseURI) throws XMLSecurityException {
+        super(element, BbseURI);
     }
 
     /**
-     * Constructor X509Certificate
+     * Constructor X509Certificbte
      *
-     * @param doc
-     * @param certificateBytes
+     * @pbrbm doc
+     * @pbrbm certificbteBytes
      */
-    public XMLX509Certificate(Document doc, byte[] certificateBytes) {
+    public XMLX509Certificbte(Document doc, byte[] certificbteBytes) {
         super(doc);
 
-        this.addBase64Text(certificateBytes);
+        this.bddBbse64Text(certificbteBytes);
     }
 
     /**
-     * Constructor XMLX509Certificate
+     * Constructor XMLX509Certificbte
      *
-     * @param doc
-     * @param x509certificate
+     * @pbrbm doc
+     * @pbrbm x509certificbte
      * @throws XMLSecurityException
      */
-    public XMLX509Certificate(Document doc, X509Certificate x509certificate)
+    public XMLX509Certificbte(Document doc, X509Certificbte x509certificbte)
         throws XMLSecurityException {
         super(doc);
 
         try {
-            this.addBase64Text(x509certificate.getEncoded());
-        } catch (java.security.cert.CertificateEncodingException ex) {
+            this.bddBbse64Text(x509certificbte.getEncoded());
+        } cbtch (jbvb.security.cert.CertificbteEncodingException ex) {
             throw new XMLSecurityException("empty", ex);
         }
     }
 
     /**
-     * Method getCertificateBytes
+     * Method getCertificbteBytes
      *
-     * @return the certificate bytes
+     * @return the certificbte bytes
      * @throws XMLSecurityException
      */
-    public byte[] getCertificateBytes() throws XMLSecurityException {
+    public byte[] getCertificbteBytes() throws XMLSecurityException {
         return this.getBytesFromTextChild();
     }
 
     /**
-     * Method getX509Certificate
+     * Method getX509Certificbte
      *
-     * @return the x509 certificate
+     * @return the x509 certificbte
      * @throws XMLSecurityException
      */
-    public X509Certificate getX509Certificate() throws XMLSecurityException {
+    public X509Certificbte getX509Certificbte() throws XMLSecurityException {
         try {
-            byte certbytes[] = this.getCertificateBytes();
-            CertificateFactory certFact =
-                CertificateFactory.getInstance(XMLX509Certificate.JCA_CERT_ID);
-            X509Certificate cert =
-                (X509Certificate) certFact.generateCertificate(
-                    new ByteArrayInputStream(certbytes)
+            byte certbytes[] = this.getCertificbteBytes();
+            CertificbteFbctory certFbct =
+                CertificbteFbctory.getInstbnce(XMLX509Certificbte.JCA_CERT_ID);
+            X509Certificbte cert =
+                (X509Certificbte) certFbct.generbteCertificbte(
+                    new ByteArrbyInputStrebm(certbytes)
                 );
 
             if (cert != null) {
@@ -112,7 +112,7 @@ public class XMLX509Certificate extends SignatureElementProxy implements XMLX509
             }
 
             return null;
-        } catch (CertificateException ex) {
+        } cbtch (CertificbteException ex) {
             throw new XMLSecurityException("empty", ex);
         }
     }
@@ -124,7 +124,7 @@ public class XMLX509Certificate extends SignatureElementProxy implements XMLX509
      * @throws XMLSecurityException
      */
     public PublicKey getPublicKey() throws XMLSecurityException {
-        X509Certificate cert = this.getX509Certificate();
+        X509Certificbte cert = this.getX509Certificbte();
 
         if (cert != null) {
             return cert.getPublicKey();
@@ -134,35 +134,35 @@ public class XMLX509Certificate extends SignatureElementProxy implements XMLX509
     }
 
     /** @inheritDoc */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof XMLX509Certificate)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof XMLX509Certificbte)) {
+            return fblse;
         }
-        XMLX509Certificate other = (XMLX509Certificate) obj;
+        XMLX509Certificbte other = (XMLX509Certificbte) obj;
         try {
-            return Arrays.equals(other.getCertificateBytes(), this.getCertificateBytes());
-        } catch (XMLSecurityException ex) {
-            return false;
+            return Arrbys.equbls(other.getCertificbteBytes(), this.getCertificbteBytes());
+        } cbtch (XMLSecurityException ex) {
+            return fblse;
         }
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
         try {
-            byte[] bytes = getCertificateBytes();
+            byte[] bytes = getCertificbteBytes();
             for (int i = 0; i < bytes.length; i++) {
                 result = 31 * result + bytes[i];
             }
-        } catch (XMLSecurityException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, e.getMessage(), e);
+        } cbtch (XMLSecurityException e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, e.getMessbge(), e);
             }
         }
         return result;
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_X509CERTIFICATE;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_X509CERTIFICATE;
     }
 }

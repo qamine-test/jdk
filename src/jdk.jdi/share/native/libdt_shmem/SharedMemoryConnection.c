@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <string.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <jni.h>
-#include "SharedMemory.h"
-#include "com_sun_tools_jdi_SharedMemoryConnection.h"
-#include "jdwpTransport.h"
-#include "shmemBase.h"
+#include "ShbredMemory.h"
+#include "com_sun_tools_jdi_ShbredMemoryConnection.h"
+#include "jdwpTrbnsport.h"
+#include "shmemBbse.h"
 #include "sys.h"
 
 /*
- * JNI interface to the shared memory transport. These JNI methods
- * call the base shared memory support to do the real work.
+ * JNI interfbce to the shbred memory trbnsport. These JNI methods
+ * cbll the bbse shbred memory support to do the rebl work.
  *
- * That is, this is the front-ends interface to our shared memory
- * communication code.
+ * Thbt is, this is the front-ends interfbce to our shbred memory
+ * communicbtion code.
  */
 
 /*
- * Cached architecture
+ * Cbched brchitecture
  */
-static int byte_ordering_known;
-static int is_big_endian;
+stbtic int byte_ordering_known;
+stbtic int is_big_endibn;
 
 
 /*
- * Returns 1 if big endian architecture
+ * Returns 1 if big endibn brchitecture
  */
-static int isBigEndian() {
+stbtic int isBigEndibn() {
     if (!byte_ordering_known) {
         unsigned int i = 0xff000000;
-        if (((char *)(&i))[0] != 0) {
-            is_big_endian = 1;
+        if (((chbr *)(&i))[0] != 0) {
+            is_big_endibn = 1;
         } else {
-            is_big_endian = 0;
+            is_big_endibn = 0;
         }
         byte_ordering_known = 1;
     }
-    return is_big_endian;
+    return is_big_endibn;
 }
 
 /*
- * Convert to big endian
+ * Convert to big endibn
  */
-static jint intToBigInt(jint i) {
+stbtic jint intToBigInt(jint i) {
     unsigned int b[4];
-    if (isBigEndian()) {
+    if (isBigEndibn()) {
         return i;
     }
     b[0] = (i >> 24) & 0xff;
@@ -77,18 +77,18 @@ static jint intToBigInt(jint i) {
     b[3] = i & 0xff;
 
     /*
-     * It doesn't matter that jint is signed as we are or'ing
-     * and hence end up with the correct bits.
+     * It doesn't mbtter thbt jint is signed bs we bre or'ing
+     * bnd hence end up with the correct bits.
      */
     return (b[3] << 24) | (b[2] << 16) | (b[1] << 8) | b[0];
 }
 
 /*
- * Convert unsigned short to big endian
+ * Convert unsigned short to big endibn
  */
-static unsigned short shortToBigShort(unsigned short s) {
+stbtic unsigned short shortToBigShort(unsigned short s) {
     unsigned int b[2];
-    if (isBigEndian()) {
+    if (isBigEndibn()) {
         return s;
     }
     b[0] = (s >> 8) & 0xff;
@@ -97,231 +97,231 @@ static unsigned short shortToBigShort(unsigned short s) {
 }
 
 /*
- * Create a byte[] from a packet struct. All data in the byte array
- * is JDWP packet suitable for wire transmission. That is, all fields,
- * and data are in big-endian format as required by the JDWP
- * specification.
+ * Crebte b byte[] from b pbcket struct. All dbtb in the byte brrby
+ * is JDWP pbcket suitbble for wire trbnsmission. Thbt is, bll fields,
+ * bnd dbtb bre in big-endibn formbt bs required by the JDWP
+ * specificbtion.
  */
-static jbyteArray
-packetToByteArray(JNIEnv *env, jdwpPacket *str)
+stbtic jbyteArrby
+pbcketToByteArrby(JNIEnv *env, jdwpPbcket *str)
 {
-    jbyteArray array;
-    jsize data_length;
-    jint total_length;
+    jbyteArrby brrby;
+    jsize dbtb_length;
+    jint totbl_length;
     jint tmpInt;
 
-    total_length = str->type.cmd.len;
-    data_length = total_length - 11;
+    totbl_length = str->type.cmd.len;
+    dbtb_length = totbl_length - 11;
 
-    /* total packet length is header + data */
-    array = (*env)->NewByteArray(env, total_length);
+    /* totbl pbcket length is hebder + dbtb */
+    brrby = (*env)->NewByteArrby(env, totbl_length);
     if ((*env)->ExceptionOccurred(env)) {
         return NULL;
     }
 
-    /* First 4 bytes of packet are the length (in big endian format) */
-    tmpInt = intToBigInt((unsigned int)total_length);
-    (*env)->SetByteArrayRegion(env, array, 0, 4, (const jbyte *)&tmpInt);
+    /* First 4 bytes of pbcket bre the length (in big endibn formbt) */
+    tmpInt = intToBigInt((unsigned int)totbl_length);
+    (*env)->SetByteArrbyRegion(env, brrby, 0, 4, (const jbyte *)&tmpInt);
 
-    /* Next 4 bytes are the id field */
+    /* Next 4 bytes bre the id field */
     tmpInt = intToBigInt(str->type.cmd.id);
-    (*env)->SetByteArrayRegion(env, array, 4, 4, (const jbyte *)&tmpInt);
+    (*env)->SetByteArrbyRegion(env, brrby, 4, 4, (const jbyte *)&tmpInt);
 
-    /* next byte is the flags */
-    (*env)->SetByteArrayRegion(env, array, 8, 1, (const jbyte *)&(str->type.cmd.flags));
+    /* next byte is the flbgs */
+    (*env)->SetByteArrbyRegion(env, brrby, 8, 1, (const jbyte *)&(str->type.cmd.flbgs));
 
-    /* next two bytes are either the error code or the command set/command */
-    if (str->type.cmd.flags & JDWPTRANSPORT_FLAGS_REPLY) {
+    /* next two bytes bre either the error code or the commbnd set/commbnd */
+    if (str->type.cmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
         short s = shortToBigShort(str->type.reply.errorCode);
-        (*env)->SetByteArrayRegion(env, array, 9, 2, (const jbyte *)&(s));
+        (*env)->SetByteArrbyRegion(env, brrby, 9, 2, (const jbyte *)&(s));
     } else {
-        (*env)->SetByteArrayRegion(env, array, 9, 1, (const jbyte *)&(str->type.cmd.cmdSet));
-        (*env)->SetByteArrayRegion(env, array, 10, 1, (const jbyte *)&(str->type.cmd.cmd));
+        (*env)->SetByteArrbyRegion(env, brrby, 9, 1, (const jbyte *)&(str->type.cmd.cmdSet));
+        (*env)->SetByteArrbyRegion(env, brrby, 10, 1, (const jbyte *)&(str->type.cmd.cmd));
     }
 
-    /* finally the data */
+    /* finblly the dbtb */
 
-    if (data_length > 0) {
-        (*env)->SetByteArrayRegion(env, array, 11,
-                                   data_length, str->type.cmd.data);
+    if (dbtb_length > 0) {
+        (*env)->SetByteArrbyRegion(env, brrby, 11,
+                                   dbtb_length, str->type.cmd.dbtb);
         if ((*env)->ExceptionOccurred(env)) {
             return NULL;
         }
     }
 
-    return array;
+    return brrby;
 }
 
 /*
- * Fill a packet struct from a byte array. The byte array is a
- * JDWP packet suitable for wire transmission. That is, all fields,
- * and data are in big-endian format as required by the JDWP
- * specification. We thus need to convert the fields from big
- * endian to the platform endian.
+ * Fill b pbcket struct from b byte brrby. The byte brrby is b
+ * JDWP pbcket suitbble for wire trbnsmission. Thbt is, bll fields,
+ * bnd dbtb bre in big-endibn formbt bs required by the JDWP
+ * specificbtion. We thus need to convert the fields from big
+ * endibn to the plbtform endibn.
  *
- * The jbyteArray provided to this function is assumed to
- * of a length than is equal or greater than the length of
- * the JDWP packet that is contains.
+ * The jbyteArrby provided to this function is bssumed to
+ * of b length thbn is equbl or grebter thbn the length of
+ * the JDWP pbcket thbt is contbins.
  */
-static void
-byteArrayToPacket(JNIEnv *env, jbyteArray b, jdwpPacket *str)
+stbtic void
+byteArrbyToPbcket(JNIEnv *env, jbyteArrby b, jdwpPbcket *str)
 {
-    jsize total_length, data_length;
-    jbyte *data;
-    unsigned char pktHeader[11]; /* sizeof length + id + flags + cmdSet + cmd */
+    jsize totbl_length, dbtb_length;
+    jbyte *dbtb;
+    unsigned chbr pktHebder[11]; /* sizeof length + id + flbgs + cmdSet + cmd */
 
     /*
-     * Get the packet header
+     * Get the pbcket hebder
      */
-    (*env)->GetByteArrayRegion(env, b, 0, sizeof(pktHeader), pktHeader);
+    (*env)->GetByteArrbyRegion(env, b, 0, sizeof(pktHebder), pktHebder);
 
-    total_length = (int)pktHeader[3] | ((int)pktHeader[2] << 8) |
-                   ((int)pktHeader[1] << 16) | ((int)pktHeader[0] << 24);
+    totbl_length = (int)pktHebder[3] | ((int)pktHebder[2] << 8) |
+                   ((int)pktHebder[1] << 16) | ((int)pktHebder[0] << 24);
     /*
-     * The id field is in big endian (also errorCode field in the case
-     * of reply packets).
+     * The id field is in big endibn (blso errorCode field in the cbse
+     * of reply pbckets).
      */
-    str->type.cmd.id = (int)pktHeader[7] | ((int)pktHeader[6] << 8) |
-                       ((int)pktHeader[5] << 16) | ((int)pktHeader[4] << 24);
+    str->type.cmd.id = (int)pktHebder[7] | ((int)pktHebder[6] << 8) |
+                       ((int)pktHebder[5] << 16) | ((int)pktHebder[4] << 24);
 
-    str->type.cmd.flags = (jbyte)pktHeader[8];
+    str->type.cmd.flbgs = (jbyte)pktHebder[8];
 
-    if (str->type.cmd.flags & JDWPTRANSPORT_FLAGS_REPLY) {
-        str->type.reply.errorCode = (int)pktHeader[9] + ((int)pktHeader[10] << 8);
+    if (str->type.cmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        str->type.reply.errorCode = (int)pktHebder[9] + ((int)pktHebder[10] << 8);
     } else {
-        /* command packet */
-        str->type.cmd.cmdSet = (jbyte)pktHeader[9];
-        str->type.cmd.cmd = (jbyte)pktHeader[10];
+        /* commbnd pbcket */
+        str->type.cmd.cmdSet = (jbyte)pktHebder[9];
+        str->type.cmd.cmd = (jbyte)pktHebder[10];
     }
 
     /*
-     * The length of the JDWP packet is 11 + data
+     * The length of the JDWP pbcket is 11 + dbtb
      */
-    data_length = total_length - 11;
+    dbtb_length = totbl_length - 11;
 
-    if (data_length == 0) {
-        data = NULL;
+    if (dbtb_length == 0) {
+        dbtb = NULL;
     } else {
-        data = malloc(data_length);
-        if (data == NULL) {
-            throwException(env, "java/lang/OutOfMemoryError",
-                           "Unable to allocate command data buffer");
+        dbtb = mblloc(dbtb_length);
+        if (dbtb == NULL) {
+            throwException(env, "jbvb/lbng/OutOfMemoryError",
+                           "Unbble to bllocbte commbnd dbtb buffer");
             return;
         }
 
-        (*env)->GetByteArrayRegion(env, b, 11, /*sizeof(CmdPacket)+4*/ data_length, data);
+        (*env)->GetByteArrbyRegion(env, b, 11, /*sizeof(CmdPbcket)+4*/ dbtb_length, dbtb);
         if ((*env)->ExceptionOccurred(env)) {
-            free(data);
+            free(dbtb);
             return;
         }
     }
 
-    str->type.cmd.len = total_length;
-    str->type.cmd.data = data;
+    str->type.cmd.len = totbl_length;
+    str->type.cmd.dbtb = dbtb;
 }
 
-static void
-freePacketData(jdwpPacket *packet)
+stbtic void
+freePbcketDbtb(jdwpPbcket *pbcket)
 {
-    if (packet->type.cmd.len > 0) {
-        free(packet->type.cmd.data);
+    if (pbcket->type.cmd.len > 0) {
+        free(pbcket->type.cmd.dbtb);
     }
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryConnection
+ * Clbss:     com_sun_tools_jdi_ShbredMemoryConnection
  * Method:    close0
- * Signature: (J)V
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_com_sun_tools_jdi_SharedMemoryConnection_close0
+JNIEXPORT void JNICALL Jbvb_com_sun_tools_jdi_ShbredMemoryConnection_close0
   (JNIEnv *env, jobject thisObject, jlong id)
 {
-    SharedMemoryConnection *connection = ID_TO_CONNECTION(id);
-    shmemBase_closeConnection(connection);
+    ShbredMemoryConnection *connection = ID_TO_CONNECTION(id);
+    shmemBbse_closeConnection(connection);
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryConnection
+ * Clbss:     com_sun_tools_jdi_ShbredMemoryConnection
  * Method:    receiveByte0
- * Signature: (J)B
+ * Signbture: (J)B
  */
-JNIEXPORT jbyte JNICALL Java_com_sun_tools_jdi_SharedMemoryConnection_receiveByte0
+JNIEXPORT jbyte JNICALL Jbvb_com_sun_tools_jdi_ShbredMemoryConnection_receiveByte0
   (JNIEnv *env, jobject thisObject, jlong id)
 {
-    SharedMemoryConnection *connection = ID_TO_CONNECTION(id);
+    ShbredMemoryConnection *connection = ID_TO_CONNECTION(id);
     jbyte b = 0;
     jint rc;
 
-    rc = shmemBase_receiveByte(connection, &b);
+    rc = shmemBbse_receiveByte(connection, &b);
     if (rc != SYS_OK) {
-        throwShmemException(env, "shmemBase_receiveByte failed", rc);
+        throwShmemException(env, "shmemBbse_receiveByte fbiled", rc);
     }
 
     return b;
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryConnection
- * Method:    receivePacket0
- * Signature: (JLcom/sun/tools/jdi/Packet;)V
+ * Clbss:     com_sun_tools_jdi_ShbredMemoryConnection
+ * Method:    receivePbcket0
+ * Signbture: (JLcom/sun/tools/jdi/Pbcket;)V
  */
-JNIEXPORT jbyteArray JNICALL Java_com_sun_tools_jdi_SharedMemoryConnection_receivePacket0
+JNIEXPORT jbyteArrby JNICALL Jbvb_com_sun_tools_jdi_ShbredMemoryConnection_receivePbcket0
   (JNIEnv *env, jobject thisObject, jlong id)
 {
-    SharedMemoryConnection *connection = ID_TO_CONNECTION(id);
-    jdwpPacket packet;
+    ShbredMemoryConnection *connection = ID_TO_CONNECTION(id);
+    jdwpPbcket pbcket;
     jint rc;
 
-    rc = shmemBase_receivePacket(connection, &packet);
+    rc = shmemBbse_receivePbcket(connection, &pbcket);
     if (rc != SYS_OK) {
-        throwShmemException(env, "shmemBase_receivePacket failed", rc);
+        throwShmemException(env, "shmemBbse_receivePbcket fbiled", rc);
         return NULL;
     } else {
-        jbyteArray array = packetToByteArray(env, &packet);
+        jbyteArrby brrby = pbcketToByteArrby(env, &pbcket);
 
-        /* Free the packet even if there was an exception above */
-        freePacketData(&packet);
-        return array;
+        /* Free the pbcket even if there wbs bn exception bbove */
+        freePbcketDbtb(&pbcket);
+        return brrby;
     }
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryConnection
+ * Clbss:     com_sun_tools_jdi_ShbredMemoryConnection
  * Method:    sendByte0
- * Signature: (JB)V
+ * Signbture: (JB)V
  */
-JNIEXPORT void JNICALL Java_com_sun_tools_jdi_SharedMemoryConnection_sendByte0
+JNIEXPORT void JNICALL Jbvb_com_sun_tools_jdi_ShbredMemoryConnection_sendByte0
   (JNIEnv *env, jobject thisObject, jlong id, jbyte b)
 {
-    SharedMemoryConnection *connection = ID_TO_CONNECTION(id);
+    ShbredMemoryConnection *connection = ID_TO_CONNECTION(id);
     jint rc;
 
-    rc = shmemBase_sendByte(connection, b);
+    rc = shmemBbse_sendByte(connection, b);
     if (rc != SYS_OK) {
-        throwShmemException(env, "shmemBase_sendByte failed", rc);
+        throwShmemException(env, "shmemBbse_sendByte fbiled", rc);
     }
 }
 
 /*
- * Class:     com_sun_tools_jdi_SharedMemoryConnection
- * Method:    sendPacket0
- * Signature: (JLcom/sun/tools/jdi/Packet;)V
+ * Clbss:     com_sun_tools_jdi_ShbredMemoryConnection
+ * Method:    sendPbcket0
+ * Signbture: (JLcom/sun/tools/jdi/Pbcket;)V
  */
-JNIEXPORT void JNICALL Java_com_sun_tools_jdi_SharedMemoryConnection_sendPacket0
-  (JNIEnv *env, jobject thisObject, jlong id, jbyteArray b)
+JNIEXPORT void JNICALL Jbvb_com_sun_tools_jdi_ShbredMemoryConnection_sendPbcket0
+  (JNIEnv *env, jobject thisObject, jlong id, jbyteArrby b)
 {
-    SharedMemoryConnection *connection = ID_TO_CONNECTION(id);
-    jdwpPacket packet;
+    ShbredMemoryConnection *connection = ID_TO_CONNECTION(id);
+    jdwpPbcket pbcket;
     jint rc;
 
-    byteArrayToPacket(env, b, &packet);
+    byteArrbyToPbcket(env, b, &pbcket);
     if ((*env)->ExceptionOccurred(env)) {
         return;
     }
 
-    rc = shmemBase_sendPacket(connection, &packet);
+    rc = shmemBbse_sendPbcket(connection, &pbcket);
     if (rc != SYS_OK) {
-        throwShmemException(env, "shmemBase_sendPacket failed", rc);
+        throwShmemException(env, "shmemBbse_sendPbcket fbiled", rc);
     }
-    freePacketData(&packet);
+    freePbcketDbtb(&pbcket);
 }

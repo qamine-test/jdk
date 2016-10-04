@@ -1,482 +1,482 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-class LocaleISOData {
+clbss LocbleISODbtb {
     /**
-     * The 2- and 3-letter ISO 639 language codes.
+     * The 2- bnd 3-letter ISO 639 lbngubge codes.
      */
-    static final String isoLanguageTable =
-          "aa" + "aar"  // Afar
-        + "ab" + "abk"  // Abkhazian
-        + "ae" + "ave"  // Avestan
-        + "af" + "afr"  // Afrikaans
-        + "ak" + "aka"  // Akan
-        + "am" + "amh"  // Amharic
-        + "an" + "arg"  // Aragonese
-        + "ar" + "ara"  // Arabic
-        + "as" + "asm"  // Assamese
-        + "av" + "ava"  // Avaric
-        + "ay" + "aym"  // Aymara
-        + "az" + "aze"  // Azerbaijani
-        + "ba" + "bak"  // Bashkir
-        + "be" + "bel"  // Belarusian
-        + "bg" + "bul"  // Bulgarian
-        + "bh" + "bih"  // Bihari
-        + "bi" + "bis"  // Bislama
-        + "bm" + "bam"  // Bambara
-        + "bn" + "ben"  // Bengali
-        + "bo" + "bod"  // Tibetan
+    stbtic finbl String isoLbngubgeTbble =
+          "bb" + "bbr"  // Afbr
+        + "bb" + "bbk"  // Abkhbzibn
+        + "be" + "bve"  // Avestbn
+        + "bf" + "bfr"  // Afrikbbns
+        + "bk" + "bkb"  // Akbn
+        + "bm" + "bmh"  // Amhbric
+        + "bn" + "brg"  // Arbgonese
+        + "br" + "brb"  // Arbbic
+        + "bs" + "bsm"  // Assbmese
+        + "bv" + "bvb"  // Avbric
+        + "by" + "bym"  // Aymbrb
+        + "bz" + "bze"  // Azerbbijbni
+        + "bb" + "bbk"  // Bbshkir
+        + "be" + "bel"  // Belbrusibn
+        + "bg" + "bul"  // Bulgbribn
+        + "bh" + "bih"  // Bihbri
+        + "bi" + "bis"  // Bislbmb
+        + "bm" + "bbm"  // Bbmbbrb
+        + "bn" + "ben"  // Bengbli
+        + "bo" + "bod"  // Tibetbn
         + "br" + "bre"  // Breton
-        + "bs" + "bos"  // Bosnian
-        + "ca" + "cat"  // Catalan
+        + "bs" + "bos"  // Bosnibn
+        + "cb" + "cbt"  // Cbtblbn
         + "ce" + "che"  // Chechen
-        + "ch" + "cha"  // Chamorro
-        + "co" + "cos"  // Corsican
+        + "ch" + "chb"  // Chbmorro
+        + "co" + "cos"  // Corsicbn
         + "cr" + "cre"  // Cree
         + "cs" + "ces"  // Czech
-        + "cu" + "chu"  // Church Slavic
-        + "cv" + "chv"  // Chuvash
+        + "cu" + "chu"  // Church Slbvic
+        + "cv" + "chv"  // Chuvbsh
         + "cy" + "cym"  // Welsh
-        + "da" + "dan"  // Danish
-        + "de" + "deu"  // German
+        + "db" + "dbn"  // Dbnish
+        + "de" + "deu"  // Germbn
         + "dv" + "div"  // Divehi
-        + "dz" + "dzo"  // Dzongkha
+        + "dz" + "dzo"  // Dzongkhb
         + "ee" + "ewe"  // Ewe
         + "el" + "ell"  // Greek
         + "en" + "eng"  // English
-        + "eo" + "epo"  // Esperanto
-        + "es" + "spa"  // Spanish
-        + "et" + "est"  // Estonian
-        + "eu" + "eus"  // Basque
-        + "fa" + "fas"  // Persian
-        + "ff" + "ful"  // Fulah
+        + "eo" + "epo"  // Esperbnto
+        + "es" + "spb"  // Spbnish
+        + "et" + "est"  // Estonibn
+        + "eu" + "eus"  // Bbsque
+        + "fb" + "fbs"  // Persibn
+        + "ff" + "ful"  // Fulbh
         + "fi" + "fin"  // Finnish
-        + "fj" + "fij"  // Fijian
-        + "fo" + "fao"  // Faroese
-        + "fr" + "fra"  // French
-        + "fy" + "fry"  // Frisian
-        + "ga" + "gle"  // Irish
-        + "gd" + "gla"  // Scottish Gaelic
-        + "gl" + "glg"  // Gallegan
-        + "gn" + "grn"  // Guarani
-        + "gu" + "guj"  // Gujarati
-        + "gv" + "glv"  // Manx
-        + "ha" + "hau"  // Hausa
+        + "fj" + "fij"  // Fijibn
+        + "fo" + "fbo"  // Fbroese
+        + "fr" + "frb"  // French
+        + "fy" + "fry"  // Frisibn
+        + "gb" + "gle"  // Irish
+        + "gd" + "glb"  // Scottish Gbelic
+        + "gl" + "glg"  // Gbllegbn
+        + "gn" + "grn"  // Gubrbni
+        + "gu" + "guj"  // Gujbrbti
+        + "gv" + "glv"  // Mbnx
+        + "hb" + "hbu"  // Hbusb
         + "he" + "heb"  // Hebrew
         + "hi" + "hin"  // Hindi
         + "ho" + "hmo"  // Hiri Motu
-        + "hr" + "hrv"  // Croatian
-        + "ht" + "hat"  // Haitian
-        + "hu" + "hun"  // Hungarian
-        + "hy" + "hye"  // Armenian
+        + "hr" + "hrv"  // Crobtibn
+        + "ht" + "hbt"  // Hbitibn
+        + "hu" + "hun"  // Hungbribn
+        + "hy" + "hye"  // Armenibn
         + "hz" + "her"  // Herero
-        + "ia" + "ina"  // Interlingua
-        + "id" + "ind"  // Indonesian
+        + "ib" + "inb"  // Interlingub
+        + "id" + "ind"  // Indonesibn
         + "ie" + "ile"  // Interlingue
         + "ig" + "ibo"  // Igbo
-        + "ii" + "iii"  // Sichuan Yi
-        + "ik" + "ipk"  // Inupiaq
-        + "in" + "ind"  // Indonesian (old)
+        + "ii" + "iii"  // Sichubn Yi
+        + "ik" + "ipk"  // Inupibq
+        + "in" + "ind"  // Indonesibn (old)
         + "io" + "ido"  // Ido
-        + "is" + "isl"  // Icelandic
-        + "it" + "ita"  // Italian
+        + "is" + "isl"  // Icelbndic
+        + "it" + "itb"  // Itblibn
         + "iu" + "iku"  // Inuktitut
         + "iw" + "heb"  // Hebrew (old)
-        + "ja" + "jpn"  // Japanese
+        + "jb" + "jpn"  // Jbpbnese
         + "ji" + "yid"  // Yiddish (old)
-        + "jv" + "jav"  // Javanese
-        + "ka" + "kat"  // Georgian
+        + "jv" + "jbv"  // Jbvbnese
+        + "kb" + "kbt"  // Georgibn
         + "kg" + "kon"  // Kongo
         + "ki" + "kik"  // Kikuyu
-        + "kj" + "kua"  // Kwanyama
-        + "kk" + "kaz"  // Kazakh
-        + "kl" + "kal"  // Greenlandic
+        + "kj" + "kub"  // Kwbnybmb
+        + "kk" + "kbz"  // Kbzbkh
+        + "kl" + "kbl"  // Greenlbndic
         + "km" + "khm"  // Khmer
-        + "kn" + "kan"  // Kannada
-        + "ko" + "kor"  // Korean
-        + "kr" + "kau"  // Kanuri
-        + "ks" + "kas"  // Kashmiri
+        + "kn" + "kbn"  // Kbnnbdb
+        + "ko" + "kor"  // Korebn
+        + "kr" + "kbu"  // Kbnuri
+        + "ks" + "kbs"  // Kbshmiri
         + "ku" + "kur"  // Kurdish
         + "kv" + "kom"  // Komi
         + "kw" + "cor"  // Cornish
         + "ky" + "kir"  // Kirghiz
-        + "la" + "lat"  // Latin
+        + "lb" + "lbt"  // Lbtin
         + "lb" + "ltz"  // Luxembourgish
-        + "lg" + "lug"  // Ganda
+        + "lg" + "lug"  // Gbndb
         + "li" + "lim"  // Limburgish
-        + "ln" + "lin"  // Lingala
-        + "lo" + "lao"  // Lao
-        + "lt" + "lit"  // Lithuanian
-        + "lu" + "lub"  // Luba-Katanga
-        + "lv" + "lav"  // Latvian
-        + "mg" + "mlg"  // Malagasy
-        + "mh" + "mah"  // Marshallese
-        + "mi" + "mri"  // Maori
-        + "mk" + "mkd"  // Macedonian
-        + "ml" + "mal"  // Malayalam
-        + "mn" + "mon"  // Mongolian
-        + "mo" + "mol"  // Moldavian
-        + "mr" + "mar"  // Marathi
-        + "ms" + "msa"  // Malay
-        + "mt" + "mlt"  // Maltese
-        + "my" + "mya"  // Burmese
-        + "na" + "nau"  // Nauru
-        + "nb" + "nob"  // Norwegian Bokm?l
+        + "ln" + "lin"  // Lingblb
+        + "lo" + "lbo"  // Lbo
+        + "lt" + "lit"  // Lithubnibn
+        + "lu" + "lub"  // Lubb-Kbtbngb
+        + "lv" + "lbv"  // Lbtvibn
+        + "mg" + "mlg"  // Mblbgbsy
+        + "mh" + "mbh"  // Mbrshbllese
+        + "mi" + "mri"  // Mbori
+        + "mk" + "mkd"  // Mbcedonibn
+        + "ml" + "mbl"  // Mblbyblbm
+        + "mn" + "mon"  // Mongolibn
+        + "mo" + "mol"  // Moldbvibn
+        + "mr" + "mbr"  // Mbrbthi
+        + "ms" + "msb"  // Mblby
+        + "mt" + "mlt"  // Mbltese
+        + "my" + "myb"  // Burmese
+        + "nb" + "nbu"  // Nburu
+        + "nb" + "nob"  // Norwegibn Bokm?l
         + "nd" + "nde"  // North Ndebele
-        + "ne" + "nep"  // Nepali
-        + "ng" + "ndo"  // Ndonga
+        + "ne" + "nep"  // Nepbli
+        + "ng" + "ndo"  // Ndongb
         + "nl" + "nld"  // Dutch
-        + "nn" + "nno"  // Norwegian Nynorsk
-        + "no" + "nor"  // Norwegian
+        + "nn" + "nno"  // Norwegibn Nynorsk
+        + "no" + "nor"  // Norwegibn
         + "nr" + "nbl"  // South Ndebele
-        + "nv" + "nav"  // Navajo
-        + "ny" + "nya"  // Nyanja
-        + "oc" + "oci"  // Occitan
-        + "oj" + "oji"  // Ojibwa
+        + "nv" + "nbv"  // Nbvbjo
+        + "ny" + "nyb"  // Nybnjb
+        + "oc" + "oci"  // Occitbn
+        + "oj" + "oji"  // Ojibwb
         + "om" + "orm"  // Oromo
-        + "or" + "ori"  // Oriya
-        + "os" + "oss"  // Ossetian
-        + "pa" + "pan"  // Panjabi
-        + "pi" + "pli"  // Pali
+        + "or" + "ori"  // Oriyb
+        + "os" + "oss"  // Ossetibn
+        + "pb" + "pbn"  // Pbnjbbi
+        + "pi" + "pli"  // Pbli
         + "pl" + "pol"  // Polish
         + "ps" + "pus"  // Pushto
         + "pt" + "por"  // Portuguese
-        + "qu" + "que"  // Quechua
-        + "rm" + "roh"  // Raeto-Romance
+        + "qu" + "que"  // Quechub
+        + "rm" + "roh"  // Rbeto-Rombnce
         + "rn" + "run"  // Rundi
-        + "ro" + "ron"  // Romanian
-        + "ru" + "rus"  // Russian
-        + "rw" + "kin"  // Kinyarwanda
-        + "sa" + "san"  // Sanskrit
-        + "sc" + "srd"  // Sardinian
+        + "ro" + "ron"  // Rombnibn
+        + "ru" + "rus"  // Russibn
+        + "rw" + "kin"  // Kinybrwbndb
+        + "sb" + "sbn"  // Sbnskrit
+        + "sc" + "srd"  // Sbrdinibn
         + "sd" + "snd"  // Sindhi
-        + "se" + "sme"  // Northern Sami
-        + "sg" + "sag"  // Sango
-        + "si" + "sin"  // Sinhalese
-        + "sk" + "slk"  // Slovak
-        + "sl" + "slv"  // Slovenian
-        + "sm" + "smo"  // Samoan
-        + "sn" + "sna"  // Shona
-        + "so" + "som"  // Somali
-        + "sq" + "sqi"  // Albanian
-        + "sr" + "srp"  // Serbian
-        + "ss" + "ssw"  // Swati
+        + "se" + "sme"  // Northern Sbmi
+        + "sg" + "sbg"  // Sbngo
+        + "si" + "sin"  // Sinhblese
+        + "sk" + "slk"  // Slovbk
+        + "sl" + "slv"  // Slovenibn
+        + "sm" + "smo"  // Sbmobn
+        + "sn" + "snb"  // Shonb
+        + "so" + "som"  // Sombli
+        + "sq" + "sqi"  // Albbnibn
+        + "sr" + "srp"  // Serbibn
+        + "ss" + "ssw"  // Swbti
         + "st" + "sot"  // Southern Sotho
-        + "su" + "sun"  // Sundanese
+        + "su" + "sun"  // Sundbnese
         + "sv" + "swe"  // Swedish
-        + "sw" + "swa"  // Swahili
-        + "ta" + "tam"  // Tamil
+        + "sw" + "swb"  // Swbhili
+        + "tb" + "tbm"  // Tbmil
         + "te" + "tel"  // Telugu
-        + "tg" + "tgk"  // Tajik
-        + "th" + "tha"  // Thai
-        + "ti" + "tir"  // Tigrinya
+        + "tg" + "tgk"  // Tbjik
+        + "th" + "thb"  // Thbi
+        + "ti" + "tir"  // Tigrinyb
         + "tk" + "tuk"  // Turkmen
-        + "tl" + "tgl"  // Tagalog
-        + "tn" + "tsn"  // Tswana
-        + "to" + "ton"  // Tonga
+        + "tl" + "tgl"  // Tbgblog
+        + "tn" + "tsn"  // Tswbnb
+        + "to" + "ton"  // Tongb
         + "tr" + "tur"  // Turkish
-        + "ts" + "tso"  // Tsonga
-        + "tt" + "tat"  // Tatar
+        + "ts" + "tso"  // Tsongb
+        + "tt" + "tbt"  // Tbtbr
         + "tw" + "twi"  // Twi
-        + "ty" + "tah"  // Tahitian
+        + "ty" + "tbh"  // Tbhitibn
         + "ug" + "uig"  // Uighur
-        + "uk" + "ukr"  // Ukrainian
+        + "uk" + "ukr"  // Ukrbinibn
         + "ur" + "urd"  // Urdu
         + "uz" + "uzb"  // Uzbek
-        + "ve" + "ven"  // Venda
-        + "vi" + "vie"  // Vietnamese
-        + "vo" + "vol"  // Volap?k
-        + "wa" + "wln"  // Walloon
+        + "ve" + "ven"  // Vendb
+        + "vi" + "vie"  // Vietnbmese
+        + "vo" + "vol"  // Volbp?k
+        + "wb" + "wln"  // Wblloon
         + "wo" + "wol"  // Wolof
-        + "xh" + "xho"  // Xhosa
+        + "xh" + "xho"  // Xhosb
         + "yi" + "yid"  // Yiddish
-        + "yo" + "yor"  // Yoruba
-        + "za" + "zha"  // Zhuang
+        + "yo" + "yor"  // Yorubb
+        + "zb" + "zhb"  // Zhubng
         + "zh" + "zho"  // Chinese
         + "zu" + "zul"  // Zulu
         ;
 
     /**
-     * The 2- and 3-letter ISO 3166 country codes.
+     * The 2- bnd 3-letter ISO 3166 country codes.
      */
-    static final String isoCountryTable =
-          "AD" + "AND"  // Andorra, Principality of
-        + "AE" + "ARE"  // United Arab Emirates
-        + "AF" + "AFG"  // Afghanistan
-        + "AG" + "ATG"  // Antigua and Barbuda
-        + "AI" + "AIA"  // Anguilla
-        + "AL" + "ALB"  // Albania, People's Socialist Republic of
-        + "AM" + "ARM"  // Armenia
-        + "AN" + "ANT"  // Netherlands Antilles
-        + "AO" + "AGO"  // Angola, Republic of
-        + "AQ" + "ATA"  // Antarctica (the territory South of 60 deg S)
-        + "AR" + "ARG"  // Argentina, Argentine Republic
-        + "AS" + "ASM"  // American Samoa
-        + "AT" + "AUT"  // Austria, Republic of
-        + "AU" + "AUS"  // Australia, Commonwealth of
-        + "AW" + "ABW"  // Aruba
-        + "AX" + "ALA"  // \u00c5land Islands
-        + "AZ" + "AZE"  // Azerbaijan, Republic of
-        + "BA" + "BIH"  // Bosnia and Herzegovina
-        + "BB" + "BRB"  // Barbados
-        + "BD" + "BGD"  // Bangladesh, People's Republic of
+    stbtic finbl String isoCountryTbble =
+          "AD" + "AND"  // Andorrb, Principblity of
+        + "AE" + "ARE"  // United Arbb Emirbtes
+        + "AF" + "AFG"  // Afghbnistbn
+        + "AG" + "ATG"  // Antigub bnd Bbrbudb
+        + "AI" + "AIA"  // Anguillb
+        + "AL" + "ALB"  // Albbnib, People's Sociblist Republic of
+        + "AM" + "ARM"  // Armenib
+        + "AN" + "ANT"  // Netherlbnds Antilles
+        + "AO" + "AGO"  // Angolb, Republic of
+        + "AQ" + "ATA"  // Antbrcticb (the territory South of 60 deg S)
+        + "AR" + "ARG"  // Argentinb, Argentine Republic
+        + "AS" + "ASM"  // Americbn Sbmob
+        + "AT" + "AUT"  // Austrib, Republic of
+        + "AU" + "AUS"  // Austrblib, Commonweblth of
+        + "AW" + "ABW"  // Arubb
+        + "AX" + "ALA"  // \u00c5lbnd Islbnds
+        + "AZ" + "AZE"  // Azerbbijbn, Republic of
+        + "BA" + "BIH"  // Bosnib bnd Herzegovinb
+        + "BB" + "BRB"  // Bbrbbdos
+        + "BD" + "BGD"  // Bbnglbdesh, People's Republic of
         + "BE" + "BEL"  // Belgium, Kingdom of
-        + "BF" + "BFA"  // Burkina Faso
-        + "BG" + "BGR"  // Bulgaria, People's Republic of
-        + "BH" + "BHR"  // Bahrain, Kingdom of
+        + "BF" + "BFA"  // Burkinb Fbso
+        + "BG" + "BGR"  // Bulgbrib, People's Republic of
+        + "BH" + "BHR"  // Bbhrbin, Kingdom of
         + "BI" + "BDI"  // Burundi, Republic of
         + "BJ" + "BEN"  // Benin, People's Republic of
-        + "BL" + "BLM"  // Saint Barth\u00e9lemy
-        + "BM" + "BMU"  // Bermuda
-        + "BN" + "BRN"  // Brunei Darussalam
-        + "BO" + "BOL"  // Bolivia, Republic of
-        + "BQ" + "BES"  // Bonaire, Sint Eustatius and Saba
-        + "BR" + "BRA"  // Brazil, Federative Republic of
-        + "BS" + "BHS"  // Bahamas, Commonwealth of the
-        + "BT" + "BTN"  // Bhutan, Kingdom of
-        + "BV" + "BVT"  // Bouvet Island (Bouvetoya)
-        + "BW" + "BWA"  // Botswana, Republic of
-        + "BY" + "BLR"  // Belarus
+        + "BL" + "BLM"  // Sbint Bbrth\u00e9lemy
+        + "BM" + "BMU"  // Bermudb
+        + "BN" + "BRN"  // Brunei Dbrussblbm
+        + "BO" + "BOL"  // Bolivib, Republic of
+        + "BQ" + "BES"  // Bonbire, Sint Eustbtius bnd Sbbb
+        + "BR" + "BRA"  // Brbzil, Federbtive Republic of
+        + "BS" + "BHS"  // Bbhbmbs, Commonweblth of the
+        + "BT" + "BTN"  // Bhutbn, Kingdom of
+        + "BV" + "BVT"  // Bouvet Islbnd (Bouvetoyb)
+        + "BW" + "BWA"  // Botswbnb, Republic of
+        + "BY" + "BLR"  // Belbrus
         + "BZ" + "BLZ"  // Belize
-        + "CA" + "CAN"  // Canada
-        + "CC" + "CCK"  // Cocos (Keeling) Islands
-        + "CD" + "COD"  // Congo, Democratic Republic of
-        + "CF" + "CAF"  // Central African Republic
+        + "CA" + "CAN"  // Cbnbdb
+        + "CC" + "CCK"  // Cocos (Keeling) Islbnds
+        + "CD" + "COD"  // Congo, Democrbtic Republic of
+        + "CF" + "CAF"  // Centrbl Africbn Republic
         + "CG" + "COG"  // Congo, People's Republic of
-        + "CH" + "CHE"  // Switzerland, Swiss Confederation
-        + "CI" + "CIV"  // Cote D'Ivoire, Ivory Coast, Republic of the
-        + "CK" + "COK"  // Cook Islands
+        + "CH" + "CHE"  // Switzerlbnd, Swiss Confederbtion
+        + "CI" + "CIV"  // Cote D'Ivoire, Ivory Cobst, Republic of the
+        + "CK" + "COK"  // Cook Islbnds
         + "CL" + "CHL"  // Chile, Republic of
-        + "CM" + "CMR"  // Cameroon, United Republic of
-        + "CN" + "CHN"  // China, People's Republic of
-        + "CO" + "COL"  // Colombia, Republic of
-        + "CR" + "CRI"  // Costa Rica, Republic of
-//      + "CS" + "SCG"  // Serbia and Montenegro
-        + "CU" + "CUB"  // Cuba, Republic of
-        + "CV" + "CPV"  // Cape Verde, Republic of
-        + "CW" + "CUW"  // Cura\u00e7ao
-        + "CX" + "CXR"  // Christmas Island
+        + "CM" + "CMR"  // Cbmeroon, United Republic of
+        + "CN" + "CHN"  // Chinb, People's Republic of
+        + "CO" + "COL"  // Colombib, Republic of
+        + "CR" + "CRI"  // Costb Ricb, Republic of
+//      + "CS" + "SCG"  // Serbib bnd Montenegro
+        + "CU" + "CUB"  // Cubb, Republic of
+        + "CV" + "CPV"  // Cbpe Verde, Republic of
+        + "CW" + "CUW"  // Curb\u00e7bo
+        + "CX" + "CXR"  // Christmbs Islbnd
         + "CY" + "CYP"  // Cyprus, Republic of
         + "CZ" + "CZE"  // Czech Republic
-        + "DE" + "DEU"  // Germany
+        + "DE" + "DEU"  // Germbny
         + "DJ" + "DJI"  // Djibouti, Republic of
-        + "DK" + "DNK"  // Denmark, Kingdom of
-        + "DM" + "DMA"  // Dominica, Commonwealth of
-        + "DO" + "DOM"  // Dominican Republic
-        + "DZ" + "DZA"  // Algeria, People's Democratic Republic of
-        + "EC" + "ECU"  // Ecuador, Republic of
-        + "EE" + "EST"  // Estonia
-        + "EG" + "EGY"  // Egypt, Arab Republic of
-        + "EH" + "ESH"  // Western Sahara
-        + "ER" + "ERI"  // Eritrea
-        + "ES" + "ESP"  // Spain, Spanish State
-        + "ET" + "ETH"  // Ethiopia
-        + "FI" + "FIN"  // Finland, Republic of
-        + "FJ" + "FJI"  // Fiji, Republic of the Fiji Islands
-        + "FK" + "FLK"  // Falkland Islands (Malvinas)
-        + "FM" + "FSM"  // Micronesia, Federated States of
-        + "FO" + "FRO"  // Faeroe Islands
-        + "FR" + "FRA"  // France, French Republic
-        + "GA" + "GAB"  // Gabon, Gabonese Republic
-        + "GB" + "GBR"  // United Kingdom of Great Britain & N. Ireland
-        + "GD" + "GRD"  // Grenada
-        + "GE" + "GEO"  // Georgia
-        + "GF" + "GUF"  // French Guiana
+        + "DK" + "DNK"  // Denmbrk, Kingdom of
+        + "DM" + "DMA"  // Dominicb, Commonweblth of
+        + "DO" + "DOM"  // Dominicbn Republic
+        + "DZ" + "DZA"  // Algerib, People's Democrbtic Republic of
+        + "EC" + "ECU"  // Ecubdor, Republic of
+        + "EE" + "EST"  // Estonib
+        + "EG" + "EGY"  // Egypt, Arbb Republic of
+        + "EH" + "ESH"  // Western Sbhbrb
+        + "ER" + "ERI"  // Eritreb
+        + "ES" + "ESP"  // Spbin, Spbnish Stbte
+        + "ET" + "ETH"  // Ethiopib
+        + "FI" + "FIN"  // Finlbnd, Republic of
+        + "FJ" + "FJI"  // Fiji, Republic of the Fiji Islbnds
+        + "FK" + "FLK"  // Fblklbnd Islbnds (Mblvinbs)
+        + "FM" + "FSM"  // Micronesib, Federbted Stbtes of
+        + "FO" + "FRO"  // Fberoe Islbnds
+        + "FR" + "FRA"  // Frbnce, French Republic
+        + "GA" + "GAB"  // Gbbon, Gbbonese Republic
+        + "GB" + "GBR"  // United Kingdom of Grebt Britbin & N. Irelbnd
+        + "GD" + "GRD"  // Grenbdb
+        + "GE" + "GEO"  // Georgib
+        + "GF" + "GUF"  // French Guibnb
         + "GG" + "GGY"  // Guernsey
-        + "GH" + "GHA"  // Ghana, Republic of
-        + "GI" + "GIB"  // Gibraltar
-        + "GL" + "GRL"  // Greenland
-        + "GM" + "GMB"  // Gambia, Republic of the
-        + "GN" + "GIN"  // Guinea, Revolutionary People's Rep'c of
-        + "GP" + "GLP"  // Guadaloupe
-        + "GQ" + "GNQ"  // Equatorial Guinea, Republic of
+        + "GH" + "GHA"  // Ghbnb, Republic of
+        + "GI" + "GIB"  // Gibrbltbr
+        + "GL" + "GRL"  // Greenlbnd
+        + "GM" + "GMB"  // Gbmbib, Republic of the
+        + "GN" + "GIN"  // Guineb, Revolutionbry People's Rep'c of
+        + "GP" + "GLP"  // Gubdbloupe
+        + "GQ" + "GNQ"  // Equbtoribl Guineb, Republic of
         + "GR" + "GRC"  // Greece, Hellenic Republic
-        + "GS" + "SGS"  // South Georgia and the South Sandwich Islands
-        + "GT" + "GTM"  // Guatemala, Republic of
-        + "GU" + "GUM"  // Guam
-        + "GW" + "GNB"  // Guinea-Bissau, Republic of
-        + "GY" + "GUY"  // Guyana, Republic of
-        + "HK" + "HKG"  // Hong Kong, Special Administrative Region of China
-        + "HM" + "HMD"  // Heard and McDonald Islands
-        + "HN" + "HND"  // Honduras, Republic of
-        + "HR" + "HRV"  // Hrvatska (Croatia)
-        + "HT" + "HTI"  // Haiti, Republic of
-        + "HU" + "HUN"  // Hungary, Hungarian People's Republic
-        + "ID" + "IDN"  // Indonesia, Republic of
-        + "IE" + "IRL"  // Ireland
-        + "IL" + "ISR"  // Israel, State of
-        + "IM" + "IMN"  // Isle of Man
-        + "IN" + "IND"  // India, Republic of
-        + "IO" + "IOT"  // British Indian Ocean Territory (Chagos Archipelago)
-        + "IQ" + "IRQ"  // Iraq, Republic of
-        + "IR" + "IRN"  // Iran, Islamic Republic of
-        + "IS" + "ISL"  // Iceland, Republic of
-        + "IT" + "ITA"  // Italy, Italian Republic
+        + "GS" + "SGS"  // South Georgib bnd the South Sbndwich Islbnds
+        + "GT" + "GTM"  // Gubtemblb, Republic of
+        + "GU" + "GUM"  // Gubm
+        + "GW" + "GNB"  // Guineb-Bissbu, Republic of
+        + "GY" + "GUY"  // Guybnb, Republic of
+        + "HK" + "HKG"  // Hong Kong, Specibl Administrbtive Region of Chinb
+        + "HM" + "HMD"  // Hebrd bnd McDonbld Islbnds
+        + "HN" + "HND"  // Hondurbs, Republic of
+        + "HR" + "HRV"  // Hrvbtskb (Crobtib)
+        + "HT" + "HTI"  // Hbiti, Republic of
+        + "HU" + "HUN"  // Hungbry, Hungbribn People's Republic
+        + "ID" + "IDN"  // Indonesib, Republic of
+        + "IE" + "IRL"  // Irelbnd
+        + "IL" + "ISR"  // Isrbel, Stbte of
+        + "IM" + "IMN"  // Isle of Mbn
+        + "IN" + "IND"  // Indib, Republic of
+        + "IO" + "IOT"  // British Indibn Ocebn Territory (Chbgos Archipelbgo)
+        + "IQ" + "IRQ"  // Irbq, Republic of
+        + "IR" + "IRN"  // Irbn, Islbmic Republic of
+        + "IS" + "ISL"  // Icelbnd, Republic of
+        + "IT" + "ITA"  // Itbly, Itblibn Republic
         + "JE" + "JEY"  // Jersey
-        + "JM" + "JAM"  // Jamaica
-        + "JO" + "JOR"  // Jordan, Hashemite Kingdom of
-        + "JP" + "JPN"  // Japan
-        + "KE" + "KEN"  // Kenya, Republic of
+        + "JM" + "JAM"  // Jbmbicb
+        + "JO" + "JOR"  // Jordbn, Hbshemite Kingdom of
+        + "JP" + "JPN"  // Jbpbn
+        + "KE" + "KEN"  // Kenyb, Republic of
         + "KG" + "KGZ"  // Kyrgyz Republic
-        + "KH" + "KHM"  // Cambodia, Kingdom of
-        + "KI" + "KIR"  // Kiribati, Republic of
+        + "KH" + "KHM"  // Cbmbodib, Kingdom of
+        + "KI" + "KIR"  // Kiribbti, Republic of
         + "KM" + "COM"  // Comoros, Union of the
-        + "KN" + "KNA"  // St. Kitts and Nevis
-        + "KP" + "PRK"  // Korea, Democratic People's Republic of
-        + "KR" + "KOR"  // Korea, Republic of
-        + "KW" + "KWT"  // Kuwait, State of
-        + "KY" + "CYM"  // Cayman Islands
-        + "KZ" + "KAZ"  // Kazakhstan, Republic of
-        + "LA" + "LAO"  // Lao People's Democratic Republic
-        + "LB" + "LBN"  // Lebanon, Lebanese Republic
-        + "LC" + "LCA"  // St. Lucia
-        + "LI" + "LIE"  // Liechtenstein, Principality of
-        + "LK" + "LKA"  // Sri Lanka, Democratic Socialist Republic of
-        + "LR" + "LBR"  // Liberia, Republic of
+        + "KN" + "KNA"  // St. Kitts bnd Nevis
+        + "KP" + "PRK"  // Koreb, Democrbtic People's Republic of
+        + "KR" + "KOR"  // Koreb, Republic of
+        + "KW" + "KWT"  // Kuwbit, Stbte of
+        + "KY" + "CYM"  // Cbymbn Islbnds
+        + "KZ" + "KAZ"  // Kbzbkhstbn, Republic of
+        + "LA" + "LAO"  // Lbo People's Democrbtic Republic
+        + "LB" + "LBN"  // Lebbnon, Lebbnese Republic
+        + "LC" + "LCA"  // St. Lucib
+        + "LI" + "LIE"  // Liechtenstein, Principblity of
+        + "LK" + "LKA"  // Sri Lbnkb, Democrbtic Sociblist Republic of
+        + "LR" + "LBR"  // Liberib, Republic of
         + "LS" + "LSO"  // Lesotho, Kingdom of
-        + "LT" + "LTU"  // Lithuania
-        + "LU" + "LUX"  // Luxembourg, Grand Duchy of
-        + "LV" + "LVA"  // Latvia
-        + "LY" + "LBY"  // Libyan Arab Jamahiriya
+        + "LT" + "LTU"  // Lithubnib
+        + "LU" + "LUX"  // Luxembourg, Grbnd Duchy of
+        + "LV" + "LVA"  // Lbtvib
+        + "LY" + "LBY"  // Libybn Arbb Jbmbhiriyb
         + "MA" + "MAR"  // Morocco, Kingdom of
-        + "MC" + "MCO"  // Monaco, Principality of
-        + "MD" + "MDA"  // Moldova, Republic of
+        + "MC" + "MCO"  // Monbco, Principblity of
+        + "MD" + "MDA"  // Moldovb, Republic of
         + "ME" + "MNE"  // Montenegro, Republic of
-        + "MF" + "MAF"  // Saint Martin
-        + "MG" + "MDG"  // Madagascar, Republic of
-        + "MH" + "MHL"  // Marshall Islands
-        + "MK" + "MKD"  // Macedonia, the former Yugoslav Republic of
-        + "ML" + "MLI"  // Mali, Republic of
-        + "MM" + "MMR"  // Myanmar
-        + "MN" + "MNG"  // Mongolia, Mongolian People's Republic
-        + "MO" + "MAC"  // Macao, Special Administrative Region of China
-        + "MP" + "MNP"  // Northern Mariana Islands
-        + "MQ" + "MTQ"  // Martinique
-        + "MR" + "MRT"  // Mauritania, Islamic Republic of
-        + "MS" + "MSR"  // Montserrat
-        + "MT" + "MLT"  // Malta, Republic of
-        + "MU" + "MUS"  // Mauritius
-        + "MV" + "MDV"  // Maldives, Republic of
-        + "MW" + "MWI"  // Malawi, Republic of
-        + "MX" + "MEX"  // Mexico, United Mexican States
-        + "MY" + "MYS"  // Malaysia
-        + "MZ" + "MOZ"  // Mozambique, People's Republic of
-        + "NA" + "NAM"  // Namibia
-        + "NC" + "NCL"  // New Caledonia
+        + "MF" + "MAF"  // Sbint Mbrtin
+        + "MG" + "MDG"  // Mbdbgbscbr, Republic of
+        + "MH" + "MHL"  // Mbrshbll Islbnds
+        + "MK" + "MKD"  // Mbcedonib, the former Yugoslbv Republic of
+        + "ML" + "MLI"  // Mbli, Republic of
+        + "MM" + "MMR"  // Mybnmbr
+        + "MN" + "MNG"  // Mongolib, Mongolibn People's Republic
+        + "MO" + "MAC"  // Mbcbo, Specibl Administrbtive Region of Chinb
+        + "MP" + "MNP"  // Northern Mbribnb Islbnds
+        + "MQ" + "MTQ"  // Mbrtinique
+        + "MR" + "MRT"  // Mburitbnib, Islbmic Republic of
+        + "MS" + "MSR"  // Montserrbt
+        + "MT" + "MLT"  // Mbltb, Republic of
+        + "MU" + "MUS"  // Mburitius
+        + "MV" + "MDV"  // Mbldives, Republic of
+        + "MW" + "MWI"  // Mblbwi, Republic of
+        + "MX" + "MEX"  // Mexico, United Mexicbn Stbtes
+        + "MY" + "MYS"  // Mblbysib
+        + "MZ" + "MOZ"  // Mozbmbique, People's Republic of
+        + "NA" + "NAM"  // Nbmibib
+        + "NC" + "NCL"  // New Cbledonib
         + "NE" + "NER"  // Niger, Republic of the
-        + "NF" + "NFK"  // Norfolk Island
-        + "NG" + "NGA"  // Nigeria, Federal Republic of
-        + "NI" + "NIC"  // Nicaragua, Republic of
-        + "NL" + "NLD"  // Netherlands, Kingdom of the
-        + "NO" + "NOR"  // Norway, Kingdom of
-        + "NP" + "NPL"  // Nepal, Kingdom of
-        + "NR" + "NRU"  // Nauru, Republic of
+        + "NF" + "NFK"  // Norfolk Islbnd
+        + "NG" + "NGA"  // Nigerib, Federbl Republic of
+        + "NI" + "NIC"  // Nicbrbgub, Republic of
+        + "NL" + "NLD"  // Netherlbnds, Kingdom of the
+        + "NO" + "NOR"  // Norwby, Kingdom of
+        + "NP" + "NPL"  // Nepbl, Kingdom of
+        + "NR" + "NRU"  // Nburu, Republic of
         + "NU" + "NIU"  // Niue, Republic of
-        + "NZ" + "NZL"  // New Zealand
-        + "OM" + "OMN"  // Oman, Sultanate of
-        + "PA" + "PAN"  // Panama, Republic of
+        + "NZ" + "NZL"  // New Zeblbnd
+        + "OM" + "OMN"  // Ombn, Sultbnbte of
+        + "PA" + "PAN"  // Pbnbmb, Republic of
         + "PE" + "PER"  // Peru, Republic of
-        + "PF" + "PYF"  // French Polynesia
-        + "PG" + "PNG"  // Papua New Guinea
+        + "PF" + "PYF"  // French Polynesib
+        + "PG" + "PNG"  // Pbpub New Guineb
         + "PH" + "PHL"  // Philippines, Republic of the
-        + "PK" + "PAK"  // Pakistan, Islamic Republic of
-        + "PL" + "POL"  // Poland, Republic of Poland
-        + "PM" + "SPM"  // St. Pierre and Miquelon
-        + "PN" + "PCN"  // Pitcairn Island
+        + "PK" + "PAK"  // Pbkistbn, Islbmic Republic of
+        + "PL" + "POL"  // Polbnd, Republic of Polbnd
+        + "PM" + "SPM"  // St. Pierre bnd Miquelon
+        + "PN" + "PCN"  // Pitcbirn Islbnd
         + "PR" + "PRI"  // Puerto Rico
-        + "PS" + "PSE"  // Palestinian Territory, Occupied
-        + "PT" + "PRT"  // Portugal, Portuguese Republic
-        + "PW" + "PLW"  // Palau
-        + "PY" + "PRY"  // Paraguay, Republic of
-        + "QA" + "QAT"  // Qatar, State of
+        + "PS" + "PSE"  // Pblestinibn Territory, Occupied
+        + "PT" + "PRT"  // Portugbl, Portuguese Republic
+        + "PW" + "PLW"  // Pblbu
+        + "PY" + "PRY"  // Pbrbguby, Republic of
+        + "QA" + "QAT"  // Qbtbr, Stbte of
         + "RE" + "REU"  // Reunion
-        + "RO" + "ROU"  // Romania, Socialist Republic of
-        + "RS" + "SRB"  // Serbia, Republic of
-        + "RU" + "RUS"  // Russian Federation
-        + "RW" + "RWA"  // Rwanda, Rwandese Republic
-        + "SA" + "SAU"  // Saudi Arabia, Kingdom of
-        + "SB" + "SLB"  // Solomon Islands
+        + "RO" + "ROU"  // Rombnib, Sociblist Republic of
+        + "RS" + "SRB"  // Serbib, Republic of
+        + "RU" + "RUS"  // Russibn Federbtion
+        + "RW" + "RWA"  // Rwbndb, Rwbndese Republic
+        + "SA" + "SAU"  // Sbudi Arbbib, Kingdom of
+        + "SB" + "SLB"  // Solomon Islbnds
         + "SC" + "SYC"  // Seychelles, Republic of
-        + "SD" + "SDN"  // Sudan, Democratic Republic of the
+        + "SD" + "SDN"  // Sudbn, Democrbtic Republic of the
         + "SE" + "SWE"  // Sweden, Kingdom of
-        + "SG" + "SGP"  // Singapore, Republic of
-        + "SH" + "SHN"  // St. Helena
-        + "SI" + "SVN"  // Slovenia
-        + "SJ" + "SJM"  // Svalbard & Jan Mayen Islands
-        + "SK" + "SVK"  // Slovakia (Slovak Republic)
-        + "SL" + "SLE"  // Sierra Leone, Republic of
-        + "SM" + "SMR"  // San Marino, Republic of
-        + "SN" + "SEN"  // Senegal, Republic of
-        + "SO" + "SOM"  // Somalia, Somali Republic
-        + "SR" + "SUR"  // Suriname, Republic of
-        + "SS" + "SSD"  // South Sudan
-        + "ST" + "STP"  // Sao Tome and Principe, Democratic Republic of
-        + "SV" + "SLV"  // El Salvador, Republic of
-        + "SX" + "SXM"  // Sint Maarten (Dutch part)
-        + "SY" + "SYR"  // Syrian Arab Republic
-        + "SZ" + "SWZ"  // Swaziland, Kingdom of
-        + "TC" + "TCA"  // Turks and Caicos Islands
-        + "TD" + "TCD"  // Chad, Republic of
+        + "SG" + "SGP"  // Singbpore, Republic of
+        + "SH" + "SHN"  // St. Helenb
+        + "SI" + "SVN"  // Slovenib
+        + "SJ" + "SJM"  // Svblbbrd & Jbn Mbyen Islbnds
+        + "SK" + "SVK"  // Slovbkib (Slovbk Republic)
+        + "SL" + "SLE"  // Sierrb Leone, Republic of
+        + "SM" + "SMR"  // Sbn Mbrino, Republic of
+        + "SN" + "SEN"  // Senegbl, Republic of
+        + "SO" + "SOM"  // Somblib, Sombli Republic
+        + "SR" + "SUR"  // Surinbme, Republic of
+        + "SS" + "SSD"  // South Sudbn
+        + "ST" + "STP"  // Sbo Tome bnd Principe, Democrbtic Republic of
+        + "SV" + "SLV"  // El Sblvbdor, Republic of
+        + "SX" + "SXM"  // Sint Mbbrten (Dutch pbrt)
+        + "SY" + "SYR"  // Syribn Arbb Republic
+        + "SZ" + "SWZ"  // Swbzilbnd, Kingdom of
+        + "TC" + "TCA"  // Turks bnd Cbicos Islbnds
+        + "TD" + "TCD"  // Chbd, Republic of
         + "TF" + "ATF"  // French Southern Territories
         + "TG" + "TGO"  // Togo, Togolese Republic
-        + "TH" + "THA"  // Thailand, Kingdom of
-        + "TJ" + "TJK"  // Tajikistan
-        + "TK" + "TKL"  // Tokelau (Tokelau Islands)
-        + "TL" + "TLS"  // Timor-Leste, Democratic Republic of
-        + "TM" + "TKM"  // Turkmenistan
-        + "TN" + "TUN"  // Tunisia, Republic of
-        + "TO" + "TON"  // Tonga, Kingdom of
+        + "TH" + "THA"  // Thbilbnd, Kingdom of
+        + "TJ" + "TJK"  // Tbjikistbn
+        + "TK" + "TKL"  // Tokelbu (Tokelbu Islbnds)
+        + "TL" + "TLS"  // Timor-Leste, Democrbtic Republic of
+        + "TM" + "TKM"  // Turkmenistbn
+        + "TN" + "TUN"  // Tunisib, Republic of
+        + "TO" + "TON"  // Tongb, Kingdom of
         + "TR" + "TUR"  // Turkey, Republic of
-        + "TT" + "TTO"  // Trinidad and Tobago, Republic of
-        + "TV" + "TUV"  // Tuvalu
-        + "TW" + "TWN"  // Taiwan, Province of China
-        + "TZ" + "TZA"  // Tanzania, United Republic of
-        + "UA" + "UKR"  // Ukraine
-        + "UG" + "UGA"  // Uganda, Republic of
-        + "UM" + "UMI"  // United States Minor Outlying Islands
-        + "US" + "USA"  // United States of America
-        + "UY" + "URY"  // Uruguay, Eastern Republic of
-        + "UZ" + "UZB"  // Uzbekistan
-        + "VA" + "VAT"  // Holy See (Vatican City State)
-        + "VC" + "VCT"  // St. Vincent and the Grenadines
-        + "VE" + "VEN"  // Venezuela, Bolivarian Republic of
-        + "VG" + "VGB"  // British Virgin Islands
-        + "VI" + "VIR"  // US Virgin Islands
-        + "VN" + "VNM"  // Viet Nam, Socialist Republic of
-        + "VU" + "VUT"  // Vanuatu
-        + "WF" + "WLF"  // Wallis and Futuna Islands
-        + "WS" + "WSM"  // Samoa, Independent State of
+        + "TT" + "TTO"  // Trinidbd bnd Tobbgo, Republic of
+        + "TV" + "TUV"  // Tuvblu
+        + "TW" + "TWN"  // Tbiwbn, Province of Chinb
+        + "TZ" + "TZA"  // Tbnzbnib, United Republic of
+        + "UA" + "UKR"  // Ukrbine
+        + "UG" + "UGA"  // Ugbndb, Republic of
+        + "UM" + "UMI"  // United Stbtes Minor Outlying Islbnds
+        + "US" + "USA"  // United Stbtes of Americb
+        + "UY" + "URY"  // Uruguby, Ebstern Republic of
+        + "UZ" + "UZB"  // Uzbekistbn
+        + "VA" + "VAT"  // Holy See (Vbticbn City Stbte)
+        + "VC" + "VCT"  // St. Vincent bnd the Grenbdines
+        + "VE" + "VEN"  // Venezuelb, Bolivbribn Republic of
+        + "VG" + "VGB"  // British Virgin Islbnds
+        + "VI" + "VIR"  // US Virgin Islbnds
+        + "VN" + "VNM"  // Viet Nbm, Sociblist Republic of
+        + "VU" + "VUT"  // Vbnubtu
+        + "WF" + "WLF"  // Wbllis bnd Futunb Islbnds
+        + "WS" + "WSM"  // Sbmob, Independent Stbte of
         + "YE" + "YEM"  // Yemen
-        + "YT" + "MYT"  // Mayotte
-        + "ZA" + "ZAF"  // South Africa, Republic of
-        + "ZM" + "ZMB"  // Zambia, Republic of
-        + "ZW" + "ZWE"  // Zimbabwe
+        + "YT" + "MYT"  // Mbyotte
+        + "ZA" + "ZAF"  // South Africb, Republic of
+        + "ZM" + "ZMB"  // Zbmbib, Republic of
+        + "ZW" + "ZWE"  // Zimbbbwe
         ;
 
-    private LocaleISOData() {
+    privbte LocbleISODbtb() {
     }
 }

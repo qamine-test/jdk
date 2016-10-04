@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -32,95 +32,95 @@
 # define IMGEXTERN extern
 #endif
 
-/* BufferedImage ids */
-IMGEXTERN jfieldID g_BImgRasterID;
+/* BufferedImbge ids */
+IMGEXTERN jfieldID g_BImgRbsterID;
 IMGEXTERN jfieldID g_BImgTypeID;
 IMGEXTERN jfieldID g_BImgCMID;
 IMGEXTERN jmethodID g_BImgGetRGBMID;
 IMGEXTERN jmethodID g_BImgSetRGBMID;
 
-/* Raster ids */
-IMGEXTERN jfieldID g_RasterWidthID;
-IMGEXTERN jfieldID g_RasterHeightID;
-IMGEXTERN jfieldID g_RasterNumBandsID;
-IMGEXTERN jfieldID g_RasterBaseRasterID;
-IMGEXTERN jfieldID g_RasterMinXID;
-IMGEXTERN jfieldID g_RasterMinYID;
-IMGEXTERN jfieldID g_RasterBaseOriginXID;
-IMGEXTERN jfieldID g_RasterBaseOriginYID;
-IMGEXTERN jfieldID g_RasterSampleModelID;
-IMGEXTERN jfieldID g_RasterDataBufferID;
-IMGEXTERN jfieldID g_RasterNumDataElementsID;
-IMGEXTERN jfieldID g_RasterNumBandsID;
-IMGEXTERN jmethodID g_RasterGetDataMID;
+/* Rbster ids */
+IMGEXTERN jfieldID g_RbsterWidthID;
+IMGEXTERN jfieldID g_RbsterHeightID;
+IMGEXTERN jfieldID g_RbsterNumBbndsID;
+IMGEXTERN jfieldID g_RbsterBbseRbsterID;
+IMGEXTERN jfieldID g_RbsterMinXID;
+IMGEXTERN jfieldID g_RbsterMinYID;
+IMGEXTERN jfieldID g_RbsterBbseOriginXID;
+IMGEXTERN jfieldID g_RbsterBbseOriginYID;
+IMGEXTERN jfieldID g_RbsterSbmpleModelID;
+IMGEXTERN jfieldID g_RbsterDbtbBufferID;
+IMGEXTERN jfieldID g_RbsterNumDbtbElementsID;
+IMGEXTERN jfieldID g_RbsterNumBbndsID;
+IMGEXTERN jmethodID g_RbsterGetDbtbMID;
 
-IMGEXTERN jfieldID g_BCRdataID;
-IMGEXTERN jfieldID g_BCRscanstrID;
+IMGEXTERN jfieldID g_BCRdbtbID;
+IMGEXTERN jfieldID g_BCRscbnstrID;
 IMGEXTERN jfieldID g_BCRpixstrID;
-IMGEXTERN jfieldID g_BCRbandoffsID;
-IMGEXTERN jfieldID g_BCRdataOffsetsID;
+IMGEXTERN jfieldID g_BCRbbndoffsID;
+IMGEXTERN jfieldID g_BCRdbtbOffsetsID;
 IMGEXTERN jfieldID g_BCRtypeID;
-IMGEXTERN jfieldID g_BPRdataID;
-IMGEXTERN jfieldID g_BPRscanstrID;
+IMGEXTERN jfieldID g_BPRdbtbID;
+IMGEXTERN jfieldID g_BPRscbnstrID;
 IMGEXTERN jfieldID g_BPRpixstrID;
 IMGEXTERN jfieldID g_BPRtypeID;
-IMGEXTERN jfieldID g_BPRdataBitOffsetID;
-IMGEXTERN jfieldID g_SCRdataID;
-IMGEXTERN jfieldID g_SCRscanstrID;
+IMGEXTERN jfieldID g_BPRdbtbBitOffsetID;
+IMGEXTERN jfieldID g_SCRdbtbID;
+IMGEXTERN jfieldID g_SCRscbnstrID;
 IMGEXTERN jfieldID g_SCRpixstrID;
-IMGEXTERN jfieldID g_SCRbandoffsID;
-IMGEXTERN jfieldID g_SCRdataOffsetsID;
+IMGEXTERN jfieldID g_SCRbbndoffsID;
+IMGEXTERN jfieldID g_SCRdbtbOffsetsID;
 IMGEXTERN jfieldID g_SCRtypeID;
-IMGEXTERN jfieldID g_ICRdataID;
-IMGEXTERN jfieldID g_ICRscanstrID;
+IMGEXTERN jfieldID g_ICRdbtbID;
+IMGEXTERN jfieldID g_ICRscbnstrID;
 IMGEXTERN jfieldID g_ICRpixstrID;
-IMGEXTERN jfieldID g_ICRbandoffsID;
-IMGEXTERN jfieldID g_ICRdataOffsetsID;
+IMGEXTERN jfieldID g_ICRbbndoffsID;
+IMGEXTERN jfieldID g_ICRdbtbOffsetsID;
 IMGEXTERN jfieldID g_ICRtypeID;
-IMGEXTERN jmethodID g_ICRputDataMID;
+IMGEXTERN jmethodID g_ICRputDbtbMID;
 
 /* Color Model ids */
-IMGEXTERN jfieldID g_CMpDataID;
+IMGEXTERN jfieldID g_CMpDbtbID;
 IMGEXTERN jfieldID g_CMnBitsID;
-IMGEXTERN jfieldID g_CMcspaceID;
+IMGEXTERN jfieldID g_CMcspbceID;
 IMGEXTERN jfieldID g_CMnumComponentsID;
-IMGEXTERN jfieldID g_CMsuppAlphaID;
-IMGEXTERN jfieldID g_CMisAlphaPreID;
-IMGEXTERN jfieldID g_CMtransparencyID;
+IMGEXTERN jfieldID g_CMsuppAlphbID;
+IMGEXTERN jfieldID g_CMisAlphbPreID;
+IMGEXTERN jfieldID g_CMtrbnspbrencyID;
 IMGEXTERN jmethodID g_CMgetRGBMID;
 IMGEXTERN jfieldID g_CMcsTypeID;
 IMGEXTERN jfieldID g_CMis_sRGBID;
-IMGEXTERN jmethodID g_CMgetRGBdefaultMID;
+IMGEXTERN jmethodID g_CMgetRGBdefbultMID;
 
-IMGEXTERN jfieldID g_ICMtransIdxID;
-IMGEXTERN jfieldID g_ICMmapSizeID;
+IMGEXTERN jfieldID g_ICMtrbnsIdxID;
+IMGEXTERN jfieldID g_ICMmbpSizeID;
 IMGEXTERN jfieldID g_ICMrgbID;
 
-/* Sample Model ids */
+/* Sbmple Model ids */
 IMGEXTERN jfieldID g_SMWidthID;
 IMGEXTERN jfieldID g_SMHeightID;
 IMGEXTERN jmethodID g_SMGetPixelsMID;
 IMGEXTERN jmethodID g_SMSetPixelsMID;
 
-/* Single Pixel Packed Sample Model ids */
-IMGEXTERN jfieldID g_SPPSMmaskArrID;
-IMGEXTERN jfieldID g_SPPSMmaskOffID;
+/* Single Pixel Pbcked Sbmple Model ids */
+IMGEXTERN jfieldID g_SPPSMmbskArrID;
+IMGEXTERN jfieldID g_SPPSMmbskOffID;
 IMGEXTERN jfieldID g_SPPSMnBitsID;
-IMGEXTERN jfieldID g_SPPSMmaxBitID;
+IMGEXTERN jfieldID g_SPPSMmbxBitID;
 
-/* Component Sample Model ids */
+/* Component Sbmple Model ids */
 IMGEXTERN jfieldID g_CSMPixStrideID;
-IMGEXTERN jfieldID g_CSMScanStrideID;
-IMGEXTERN jfieldID g_CSMBandOffsetsID;
+IMGEXTERN jfieldID g_CSMScbnStrideID;
+IMGEXTERN jfieldID g_CSMBbndOffsetsID;
 
 /* Kernel ids */
 IMGEXTERN jfieldID g_KernelWidthID;
 IMGEXTERN jfieldID g_KernelHeightID;
 IMGEXTERN jfieldID g_KernelXOriginID;
 IMGEXTERN jfieldID g_KernelYOriginD;
-IMGEXTERN jfieldID g_KernelDataID;
+IMGEXTERN jfieldID g_KernelDbtbID;
 
-/* DataBufferInt ids */
-IMGEXTERN jfieldID g_DataBufferIntPdataID;
+/* DbtbBufferInt ids */
+IMGEXTERN jfieldID g_DbtbBufferIntPdbtbID;
 
 #endif /* IMAGEINITIDS_H */

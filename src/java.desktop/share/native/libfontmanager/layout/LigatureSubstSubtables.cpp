@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -32,69 +32,69 @@
 
 #include "LETypes.h"
 #include "LEGlyphFilter.h"
-#include "OpenTypeTables.h"
-#include "GlyphSubstitutionTables.h"
-#include "LigatureSubstSubtables.h"
-#include "GlyphIterator.h"
-#include "LESwaps.h"
+#include "OpenTypeTbbles.h"
+#include "GlyphSubstitutionTbbles.h"
+#include "LigbtureSubstSubtbbles.h"
+#include "GlyphIterbtor.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-le_uint32 LigatureSubstitutionSubtable::process(const LETableReference &base, GlyphIterator *glyphIterator, LEErrorCode &success, const LEGlyphFilter *filter) const
+le_uint32 LigbtureSubstitutionSubtbble::process(const LETbbleReference &bbse, GlyphIterbtor *glyphIterbtor, LEErrorCode &success, const LEGlyphFilter *filter) const
 {
-    LEGlyphID glyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(base, glyph, success);
+    LEGlyphID glyph = glyphIterbtor->getCurrGlyphID();
+    le_int32 coverbgeIndex = getGlyphCoverbge(bbse, glyph, success);
 
     if (LE_FAILURE(success)) {
       return 0;
     }
 
-    LEReferenceToArrayOf<Offset> ligSetTableOffsetArrayRef(base, success, ligSetTableOffsetArray, SWAPW(ligSetCount));
+    LEReferenceToArrbyOf<Offset> ligSetTbbleOffsetArrbyRef(bbse, success, ligSetTbbleOffsetArrby, SWAPW(ligSetCount));
 
-    if (coverageIndex >= 0 && LE_SUCCESS(success) && (le_uint32)coverageIndex < ligSetTableOffsetArrayRef.getCount()) {
-        Offset ligSetTableOffset = SWAPW(ligSetTableOffsetArray[coverageIndex]);
-        LEReferenceTo<LigatureSetTable>   ligSetTable(base, success, ligSetTableOffset);
+    if (coverbgeIndex >= 0 && LE_SUCCESS(success) && (le_uint32)coverbgeIndex < ligSetTbbleOffsetArrbyRef.getCount()) {
+        Offset ligSetTbbleOffset = SWAPW(ligSetTbbleOffsetArrby[coverbgeIndex]);
+        LEReferenceTo<LigbtureSetTbble>   ligSetTbble(bbse, success, ligSetTbbleOffset);
 
         if( LE_FAILURE(success) ) { return 0; }
-        le_uint16 ligCount = SWAPW(ligSetTable->ligatureCount);
+        le_uint16 ligCount = SWAPW(ligSetTbble->ligbtureCount);
 
-        LEReferenceTo<Offset> ligatureTableOffsetArray(base, success, ligSetTable->ligatureTableOffsetArray, ligCount);
+        LEReferenceTo<Offset> ligbtureTbbleOffsetArrby(bbse, success, ligSetTbble->ligbtureTbbleOffsetArrby, ligCount);
         for (le_uint16 lig = 0; LE_SUCCESS(success) && lig < ligCount; lig += 1) {
-            Offset ligTableOffset = SWAPW(ligSetTable->ligatureTableOffsetArray[lig]);
-            LEReferenceTo<LigatureTable>   ligTable(ligSetTable, success, ligTableOffset);
+            Offset ligTbbleOffset = SWAPW(ligSetTbble->ligbtureTbbleOffsetArrby[lig]);
+            LEReferenceTo<LigbtureTbble>   ligTbble(ligSetTbble, success, ligTbbleOffset);
             if(LE_FAILURE(success)) { return 0; }
-            le_uint16 compCount = SWAPW(ligTable->compCount) - 1;
-            le_int32 startPosition = glyphIterator->getCurrStreamPosition();
-            TTGlyphID ligGlyph = SWAPW(ligTable->ligGlyph);
+            le_uint16 compCount = SWAPW(ligTbble->compCount) - 1;
+            le_int32 stbrtPosition = glyphIterbtor->getCurrStrebmPosition();
+            TTGlyphID ligGlyph = SWAPW(ligTbble->ligGlyph);
             le_uint16 comp;
 
             for (comp = 0; comp < compCount; comp += 1) {
-                if (! glyphIterator->next()) {
-                    break;
+                if (! glyphIterbtor->next()) {
+                    brebk;
                 }
 
-                if (LE_GET_GLYPH(glyphIterator->getCurrGlyphID()) != SWAPW(ligTable->componentArray[comp])) {
-                    break;
+                if (LE_GET_GLYPH(glyphIterbtor->getCurrGlyphID()) != SWAPW(ligTbble->componentArrby[comp])) {
+                    brebk;
                 }
             }
 
-            if (comp == compCount && (filter == NULL || filter->accept(LE_SET_GLYPH(glyph, ligGlyph), success))) {
-                GlyphIterator tempIterator(*glyphIterator);
-                TTGlyphID deletedGlyph = tempIterator.ignoresMarks()? 0xFFFE : 0xFFFF;
+            if (comp == compCount && (filter == NULL || filter->bccept(LE_SET_GLYPH(glyph, ligGlyph), success))) {
+                GlyphIterbtor tempIterbtor(*glyphIterbtor);
+                TTGlyphID deletedGlyph = tempIterbtor.ignoresMbrks()? 0xFFFE : 0xFFFF;
 
                 while (comp > 0) {
-                    tempIterator.setCurrGlyphID(deletedGlyph);
-                    tempIterator.prev();
+                    tempIterbtor.setCurrGlyphID(deletedGlyph);
+                    tempIterbtor.prev();
 
                     comp -= 1;
                 }
 
-                tempIterator.setCurrGlyphID(ligGlyph);
+                tempIterbtor.setCurrGlyphID(ligGlyph);
 
                 return compCount + 1;
             }
 
-            glyphIterator->setCurrStreamPosition(startPosition);
+            glyphIterbtor->setCurrStrebmPosition(stbrtPosition);
         }
 
     }

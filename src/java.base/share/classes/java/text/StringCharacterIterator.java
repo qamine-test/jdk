@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
 /**
- * <code>StringCharacterIterator</code> implements the
- * <code>CharacterIterator</code> protocol for a <code>String</code>.
- * The <code>StringCharacterIterator</code> class iterates over the
+ * <code>StringChbrbcterIterbtor</code> implements the
+ * <code>ChbrbcterIterbtor</code> protocol for b <code>String</code>.
+ * The <code>StringChbrbcterIterbtor</code> clbss iterbtes over the
  * entire <code>String</code>.
  *
- * @see CharacterIterator
+ * @see ChbrbcterIterbtor
  */
 
-public final class StringCharacterIterator implements CharacterIterator
+public finbl clbss StringChbrbcterIterbtor implements ChbrbcterIterbtor
 {
-    private String text;
-    private int begin;
-    private int end;
-    // invariant: begin <= pos <= end
-    private int pos;
+    privbte String text;
+    privbte int begin;
+    privbte int end;
+    // invbribnt: begin <= pos <= end
+    privbte int pos;
 
     /**
-     * Constructs an iterator with an initial index of 0.
+     * Constructs bn iterbtor with bn initibl index of 0.
      *
-     * @param text the {@code String} to be iterated over
+     * @pbrbm text the {@code String} to be iterbted over
      */
-    public StringCharacterIterator(String text)
+    public StringChbrbcterIterbtor(String text)
     {
         this(text, 0);
     }
 
     /**
-     * Constructs an iterator with the specified initial index.
+     * Constructs bn iterbtor with the specified initibl index.
      *
-     * @param  text   The String to be iterated over
-     * @param  pos    Initial iterator position
+     * @pbrbm  text   The String to be iterbted over
+     * @pbrbm  pos    Initibl iterbtor position
      */
-    public StringCharacterIterator(String text, int pos)
+    public StringChbrbcterIterbtor(String text, int pos)
     {
     this(text, 0, text.length(), pos);
     }
 
     /**
-     * Constructs an iterator over the given range of the given string, with the
-     * index set at the specified position.
+     * Constructs bn iterbtor over the given rbnge of the given string, with the
+     * index set bt the specified position.
      *
-     * @param  text   The String to be iterated over
-     * @param  begin  Index of the first character
-     * @param  end    Index of the character following the last character
-     * @param  pos    Initial iterator position
+     * @pbrbm  text   The String to be iterbted over
+     * @pbrbm  begin  Index of the first chbrbcter
+     * @pbrbm  end    Index of the chbrbcter following the lbst chbrbcter
+     * @pbrbm  pos    Initibl iterbtor position
      */
-    public StringCharacterIterator(String text, int begin, int end, int pos) {
+    public StringChbrbcterIterbtor(String text, int begin, int end, int pos) {
         if (text == null)
             throw new NullPointerException();
         this.text = text;
 
         if (begin < 0 || begin > end || end > text.length())
-            throw new IllegalArgumentException("Invalid substring range");
+            throw new IllegblArgumentException("Invblid substring rbnge");
 
         if (pos < begin || pos > end)
-            throw new IllegalArgumentException("Invalid position");
+            throw new IllegblArgumentException("Invblid position");
 
         this.begin = begin;
         this.end = end;
@@ -104,12 +104,12 @@ public final class StringCharacterIterator implements CharacterIterator
     }
 
     /**
-     * Reset this iterator to point to a new string.  This package-visible
-     * method is used by other java.text classes that want to avoid allocating
-     * new StringCharacterIterator objects every time their setText method
-     * is called.
+     * Reset this iterbtor to point to b new string.  This pbckbge-visible
+     * method is used by other jbvb.text clbsses thbt wbnt to bvoid bllocbting
+     * new StringChbrbcterIterbtor objects every time their setText method
+     * is cblled.
      *
-     * @param  text   The String to be iterated over
+     * @pbrbm  text   The String to be iterbted over
      * @since 1.2
      */
     public void setText(String text) {
@@ -122,20 +122,20 @@ public final class StringCharacterIterator implements CharacterIterator
     }
 
     /**
-     * Implements CharacterIterator.first() for String.
-     * @see CharacterIterator#first
+     * Implements ChbrbcterIterbtor.first() for String.
+     * @see ChbrbcterIterbtor#first
      */
-    public char first()
+    public chbr first()
     {
         pos = begin;
         return current();
     }
 
     /**
-     * Implements CharacterIterator.last() for String.
-     * @see CharacterIterator#last
+     * Implements ChbrbcterIterbtor.lbst() for String.
+     * @see ChbrbcterIterbtor#lbst
      */
-    public char last()
+    public chbr lbst()
     {
         if (end != begin) {
             pos = end - 1;
@@ -146,25 +146,25 @@ public final class StringCharacterIterator implements CharacterIterator
      }
 
     /**
-     * Implements CharacterIterator.setIndex() for String.
-     * @see CharacterIterator#setIndex
+     * Implements ChbrbcterIterbtor.setIndex() for String.
+     * @see ChbrbcterIterbtor#setIndex
      */
-    public char setIndex(int p)
+    public chbr setIndex(int p)
     {
     if (p < begin || p > end)
-            throw new IllegalArgumentException("Invalid index");
+            throw new IllegblArgumentException("Invblid index");
         pos = p;
         return current();
     }
 
     /**
-     * Implements CharacterIterator.current() for String.
-     * @see CharacterIterator#current
+     * Implements ChbrbcterIterbtor.current() for String.
+     * @see ChbrbcterIterbtor#current
      */
-    public char current()
+    public chbr current()
     {
         if (pos >= begin && pos < end) {
-            return text.charAt(pos);
+            return text.chbrAt(pos);
         }
         else {
             return DONE;
@@ -172,14 +172,14 @@ public final class StringCharacterIterator implements CharacterIterator
     }
 
     /**
-     * Implements CharacterIterator.next() for String.
-     * @see CharacterIterator#next
+     * Implements ChbrbcterIterbtor.next() for String.
+     * @see ChbrbcterIterbtor#next
      */
-    public char next()
+    public chbr next()
     {
         if (pos < end - 1) {
             pos++;
-            return text.charAt(pos);
+            return text.chbrAt(pos);
         }
         else {
             pos = end;
@@ -188,14 +188,14 @@ public final class StringCharacterIterator implements CharacterIterator
     }
 
     /**
-     * Implements CharacterIterator.previous() for String.
-     * @see CharacterIterator#previous
+     * Implements ChbrbcterIterbtor.previous() for String.
+     * @see ChbrbcterIterbtor#previous
      */
-    public char previous()
+    public chbr previous()
     {
         if (pos > begin) {
             pos--;
-            return text.charAt(pos);
+            return text.chbrAt(pos);
         }
         else {
             return DONE;
@@ -203,8 +203,8 @@ public final class StringCharacterIterator implements CharacterIterator
     }
 
     /**
-     * Implements CharacterIterator.getBeginIndex() for String.
-     * @see CharacterIterator#getBeginIndex
+     * Implements ChbrbcterIterbtor.getBeginIndex() for String.
+     * @see ChbrbcterIterbtor#getBeginIndex
      */
     public int getBeginIndex()
     {
@@ -212,8 +212,8 @@ public final class StringCharacterIterator implements CharacterIterator
     }
 
     /**
-     * Implements CharacterIterator.getEndIndex() for String.
-     * @see CharacterIterator#getEndIndex
+     * Implements ChbrbcterIterbtor.getEndIndex() for String.
+     * @see ChbrbcterIterbtor#getEndIndex
      */
     public int getEndIndex()
     {
@@ -221,8 +221,8 @@ public final class StringCharacterIterator implements CharacterIterator
     }
 
     /**
-     * Implements CharacterIterator.getIndex() for String.
-     * @see CharacterIterator#getIndex
+     * Implements ChbrbcterIterbtor.getIndex() for String.
+     * @see ChbrbcterIterbtor#getIndex
      */
     public int getIndex()
     {
@@ -230,51 +230,51 @@ public final class StringCharacterIterator implements CharacterIterator
     }
 
     /**
-     * Compares the equality of two StringCharacterIterator objects.
-     * @param obj the StringCharacterIterator object to be compared with.
-     * @return true if the given obj is the same as this
-     * StringCharacterIterator object; false otherwise.
+     * Compbres the equblity of two StringChbrbcterIterbtor objects.
+     * @pbrbm obj the StringChbrbcterIterbtor object to be compbred with.
+     * @return true if the given obj is the sbme bs this
+     * StringChbrbcterIterbtor object; fblse otherwise.
      */
-    public boolean equals(Object obj)
+    public boolebn equbls(Object obj)
     {
         if (this == obj)
             return true;
-        if (!(obj instanceof StringCharacterIterator))
-            return false;
+        if (!(obj instbnceof StringChbrbcterIterbtor))
+            return fblse;
 
-        StringCharacterIterator that = (StringCharacterIterator) obj;
+        StringChbrbcterIterbtor thbt = (StringChbrbcterIterbtor) obj;
 
-        if (hashCode() != that.hashCode())
-            return false;
-        if (!text.equals(that.text))
-            return false;
-        if (pos != that.pos || begin != that.begin || end != that.end)
-            return false;
+        if (hbshCode() != thbt.hbshCode())
+            return fblse;
+        if (!text.equbls(thbt.text))
+            return fblse;
+        if (pos != thbt.pos || begin != thbt.begin || end != thbt.end)
+            return fblse;
         return true;
     }
 
     /**
-     * Computes a hashcode for this iterator.
-     * @return A hash code
+     * Computes b hbshcode for this iterbtor.
+     * @return A hbsh code
      */
-    public int hashCode()
+    public int hbshCode()
     {
-        return text.hashCode() ^ pos ^ begin ^ end;
+        return text.hbshCode() ^ pos ^ begin ^ end;
     }
 
     /**
-     * Creates a copy of this iterator.
+     * Crebtes b copy of this iterbtor.
      * @return A copy of this
      */
     public Object clone()
     {
         try {
-            StringCharacterIterator other
-            = (StringCharacterIterator) super.clone();
+            StringChbrbcterIterbtor other
+            = (StringChbrbcterIterbtor) super.clone();
             return other;
         }
-        catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+        cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e);
         }
     }
 

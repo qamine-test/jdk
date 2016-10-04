@@ -1,384 +1,384 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.callback;
+pbckbge jbvbx.security.buth.cbllbbck;
 
 /**
- * <p> Underlying security services instantiate and pass a
- * {@code ConfirmationCallback} to the {@code handle}
- * method of a {@code CallbackHandler} to ask for YES/NO,
- * OK/CANCEL, YES/NO/CANCEL or other similar confirmations.
+ * <p> Underlying security services instbntibte bnd pbss b
+ * {@code ConfirmbtionCbllbbck} to the {@code hbndle}
+ * method of b {@code CbllbbckHbndler} to bsk for YES/NO,
+ * OK/CANCEL, YES/NO/CANCEL or other similbr confirmbtions.
  *
- * @see javax.security.auth.callback.CallbackHandler
+ * @see jbvbx.security.buth.cbllbbck.CbllbbckHbndler
  */
-public class ConfirmationCallback implements Callback, java.io.Serializable {
+public clbss ConfirmbtionCbllbbck implements Cbllbbck, jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = -9095656433782481624L;
+    privbte stbtic finbl long seriblVersionUID = -9095656433782481624L;
 
     /**
      * Unspecified option type.
      *
      * <p> The {@code getOptionType} method returns this
-     * value if this {@code ConfirmationCallback} was instantiated
-     * with {@code options} instead of an {@code optionType}.
+     * vblue if this {@code ConfirmbtionCbllbbck} wbs instbntibted
+     * with {@code options} instebd of bn {@code optionType}.
      */
-    public static final int UNSPECIFIED_OPTION          = -1;
+    public stbtic finbl int UNSPECIFIED_OPTION          = -1;
 
     /**
-     * YES/NO confirmation option.
+     * YES/NO confirmbtion option.
      *
-     * <p> An underlying security service specifies this as the
-     * {@code optionType} to a {@code ConfirmationCallback}
-     * constructor if it requires a confirmation which can be answered
+     * <p> An underlying security service specifies this bs the
+     * {@code optionType} to b {@code ConfirmbtionCbllbbck}
+     * constructor if it requires b confirmbtion which cbn be bnswered
      * with either {@code YES} or {@code NO}.
      */
-    public static final int YES_NO_OPTION               = 0;
+    public stbtic finbl int YES_NO_OPTION               = 0;
 
     /**
-     * YES/NO/CANCEL confirmation confirmation option.
+     * YES/NO/CANCEL confirmbtion confirmbtion option.
      *
-     * <p> An underlying security service specifies this as the
-     * {@code optionType} to a {@code ConfirmationCallback}
-     * constructor if it requires a confirmation which can be answered
+     * <p> An underlying security service specifies this bs the
+     * {@code optionType} to b {@code ConfirmbtionCbllbbck}
+     * constructor if it requires b confirmbtion which cbn be bnswered
      * with either {@code YES}, {@code NO} or {@code CANCEL}.
      */
-    public static final int YES_NO_CANCEL_OPTION        = 1;
+    public stbtic finbl int YES_NO_CANCEL_OPTION        = 1;
 
     /**
-     * OK/CANCEL confirmation confirmation option.
+     * OK/CANCEL confirmbtion confirmbtion option.
      *
-     * <p> An underlying security service specifies this as the
-     * {@code optionType} to a {@code ConfirmationCallback}
-     * constructor if it requires a confirmation which can be answered
+     * <p> An underlying security service specifies this bs the
+     * {@code optionType} to b {@code ConfirmbtionCbllbbck}
+     * constructor if it requires b confirmbtion which cbn be bnswered
      * with either {@code OK} or {@code CANCEL}.
      */
-    public static final int OK_CANCEL_OPTION            = 2;
+    public stbtic finbl int OK_CANCEL_OPTION            = 2;
 
     /**
      * YES option.
      *
-     * <p> If an {@code optionType} was specified to this
-     * {@code ConfirmationCallback}, this option may be specified as a
-     * {@code defaultOption} or returned as the selected index.
+     * <p> If bn {@code optionType} wbs specified to this
+     * {@code ConfirmbtionCbllbbck}, this option mby be specified bs b
+     * {@code defbultOption} or returned bs the selected index.
      */
-    public static final int YES                         = 0;
+    public stbtic finbl int YES                         = 0;
 
     /**
      * NO option.
      *
-     * <p> If an {@code optionType} was specified to this
-     * {@code ConfirmationCallback}, this option may be specified as a
-     * {@code defaultOption} or returned as the selected index.
+     * <p> If bn {@code optionType} wbs specified to this
+     * {@code ConfirmbtionCbllbbck}, this option mby be specified bs b
+     * {@code defbultOption} or returned bs the selected index.
      */
-    public static final int NO                          = 1;
+    public stbtic finbl int NO                          = 1;
 
     /**
      * CANCEL option.
      *
-     * <p> If an {@code optionType} was specified to this
-     * {@code ConfirmationCallback}, this option may be specified as a
-     * {@code defaultOption} or returned as the selected index.
+     * <p> If bn {@code optionType} wbs specified to this
+     * {@code ConfirmbtionCbllbbck}, this option mby be specified bs b
+     * {@code defbultOption} or returned bs the selected index.
      */
-    public static final int CANCEL                      = 2;
+    public stbtic finbl int CANCEL                      = 2;
 
     /**
      * OK option.
      *
-     * <p> If an {@code optionType} was specified to this
-     * {@code ConfirmationCallback}, this option may be specified as a
-     * {@code defaultOption} or returned as the selected index.
+     * <p> If bn {@code optionType} wbs specified to this
+     * {@code ConfirmbtionCbllbbck}, this option mby be specified bs b
+     * {@code defbultOption} or returned bs the selected index.
      */
-    public static final int OK                          = 3;
+    public stbtic finbl int OK                          = 3;
 
-    /** INFORMATION message type.  */
-    public static final int INFORMATION                 = 0;
+    /** INFORMATION messbge type.  */
+    public stbtic finbl int INFORMATION                 = 0;
 
-    /** WARNING message type. */
-    public static final int WARNING                     = 1;
+    /** WARNING messbge type. */
+    public stbtic finbl int WARNING                     = 1;
 
-    /** ERROR message type. */
-    public static final int ERROR                       = 2;
+    /** ERROR messbge type. */
+    public stbtic finbl int ERROR                       = 2;
     /**
-     * @serial
+     * @seribl
      * @since 1.4
      */
-    private String prompt;
+    privbte String prompt;
     /**
-     * @serial
+     * @seribl
      * @since 1.4
      */
-    private int messageType;
+    privbte int messbgeType;
     /**
-     * @serial
+     * @seribl
      * @since 1.4
      */
-    private int optionType = UNSPECIFIED_OPTION;
+    privbte int optionType = UNSPECIFIED_OPTION;
     /**
-     * @serial
+     * @seribl
      * @since 1.4
      */
-    private int defaultOption;
+    privbte int defbultOption;
     /**
-     * @serial
+     * @seribl
      * @since 1.4
      */
-    private String[] options;
+    privbte String[] options;
     /**
-     * @serial
+     * @seribl
      * @since 1.4
      */
-    private int selection;
+    privbte int selection;
 
     /**
-     * Construct a {@code ConfirmationCallback} with a
-     * message type, an option type and a default option.
+     * Construct b {@code ConfirmbtionCbllbbck} with b
+     * messbge type, bn option type bnd b defbult option.
      *
      * <p> Underlying security services use this constructor if
-     * they require either a YES/NO, YES/NO/CANCEL or OK/CANCEL
-     * confirmation.
+     * they require either b YES/NO, YES/NO/CANCEL or OK/CANCEL
+     * confirmbtion.
      *
      * <p>
      *
-     * @param messageType the message type ({@code INFORMATION},
+     * @pbrbm messbgeType the messbge type ({@code INFORMATION},
      *                  {@code WARNING} or {@code ERROR}). <p>
      *
-     * @param optionType the option type ({@code YES_NO_OPTION},
+     * @pbrbm optionType the option type ({@code YES_NO_OPTION},
      *                  {@code YES_NO_CANCEL_OPTION} or
      *                  {@code OK_CANCEL_OPTION}). <p>
      *
-     * @param defaultOption the default option
+     * @pbrbm defbultOption the defbult option
      *                  from the provided optionType ({@code YES},
      *                  {@code NO}, {@code CANCEL} or
      *                  {@code OK}).
      *
-     * @exception IllegalArgumentException if messageType is not either
+     * @exception IllegblArgumentException if messbgeType is not either
      *                  {@code INFORMATION}, {@code WARNING},
      *                  or {@code ERROR}, if optionType is not either
      *                  {@code YES_NO_OPTION},
      *                  {@code YES_NO_CANCEL_OPTION}, or
      *                  {@code OK_CANCEL_OPTION},
-     *                  or if {@code defaultOption}
+     *                  or if {@code defbultOption}
      *                  does not correspond to one of the options in
      *                  {@code optionType}.
      */
-    public ConfirmationCallback(int messageType,
-                int optionType, int defaultOption) {
+    public ConfirmbtionCbllbbck(int messbgeType,
+                int optionType, int defbultOption) {
 
-        if (messageType < INFORMATION || messageType > ERROR ||
+        if (messbgeType < INFORMATION || messbgeType > ERROR ||
             optionType < YES_NO_OPTION || optionType > OK_CANCEL_OPTION)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
 
         switch (optionType) {
-        case YES_NO_OPTION:
-            if (defaultOption != YES && defaultOption != NO)
-                throw new IllegalArgumentException();
-            break;
-        case YES_NO_CANCEL_OPTION:
-            if (defaultOption != YES && defaultOption != NO &&
-                defaultOption != CANCEL)
-                throw new IllegalArgumentException();
-            break;
-        case OK_CANCEL_OPTION:
-            if (defaultOption != OK && defaultOption != CANCEL)
-                throw new IllegalArgumentException();
-            break;
+        cbse YES_NO_OPTION:
+            if (defbultOption != YES && defbultOption != NO)
+                throw new IllegblArgumentException();
+            brebk;
+        cbse YES_NO_CANCEL_OPTION:
+            if (defbultOption != YES && defbultOption != NO &&
+                defbultOption != CANCEL)
+                throw new IllegblArgumentException();
+            brebk;
+        cbse OK_CANCEL_OPTION:
+            if (defbultOption != OK && defbultOption != CANCEL)
+                throw new IllegblArgumentException();
+            brebk;
         }
 
-        this.messageType = messageType;
+        this.messbgeType = messbgeType;
         this.optionType = optionType;
-        this.defaultOption = defaultOption;
+        this.defbultOption = defbultOption;
     }
 
     /**
-     * Construct a {@code ConfirmationCallback} with a
-     * message type, a list of options and a default option.
+     * Construct b {@code ConfirmbtionCbllbbck} with b
+     * messbge type, b list of options bnd b defbult option.
      *
      * <p> Underlying security services use this constructor if
-     * they require a confirmation different from the available preset
-     * confirmations provided (for example, CONTINUE/ABORT or STOP/GO).
-     * The confirmation options are listed in the {@code options} array,
-     * and are displayed by the {@code CallbackHandler} implementation
-     * in a manner consistent with the way preset options are displayed.
+     * they require b confirmbtion different from the bvbilbble preset
+     * confirmbtions provided (for exbmple, CONTINUE/ABORT or STOP/GO).
+     * The confirmbtion options bre listed in the {@code options} brrby,
+     * bnd bre displbyed by the {@code CbllbbckHbndler} implementbtion
+     * in b mbnner consistent with the wby preset options bre displbyed.
      *
      * <p>
      *
-     * @param messageType the message type ({@code INFORMATION},
+     * @pbrbm messbgeType the messbge type ({@code INFORMATION},
      *                  {@code WARNING} or {@code ERROR}). <p>
      *
-     * @param options the list of confirmation options. <p>
+     * @pbrbm options the list of confirmbtion options. <p>
      *
-     * @param defaultOption the default option, represented as an index
-     *                  into the {@code options} array.
+     * @pbrbm defbultOption the defbult option, represented bs bn index
+     *                  into the {@code options} brrby.
      *
-     * @exception IllegalArgumentException if messageType is not either
+     * @exception IllegblArgumentException if messbgeType is not either
      *                  {@code INFORMATION}, {@code WARNING},
      *                  or {@code ERROR}, if {@code options} is null,
-     *                  if {@code options} has a length of 0,
-     *                  if any element from {@code options} is null,
-     *                  if any element from {@code options}
-     *                  has a length of 0, or if {@code defaultOption}
-     *                  does not lie within the array boundaries of
+     *                  if {@code options} hbs b length of 0,
+     *                  if bny element from {@code options} is null,
+     *                  if bny element from {@code options}
+     *                  hbs b length of 0, or if {@code defbultOption}
+     *                  does not lie within the brrby boundbries of
      *                  {@code options}.
      */
-    public ConfirmationCallback(int messageType,
-                String[] options, int defaultOption) {
+    public ConfirmbtionCbllbbck(int messbgeType,
+                String[] options, int defbultOption) {
 
-        if (messageType < INFORMATION || messageType > ERROR ||
+        if (messbgeType < INFORMATION || messbgeType > ERROR ||
             options == null || options.length == 0 ||
-            defaultOption < 0 || defaultOption >= options.length)
-            throw new IllegalArgumentException();
+            defbultOption < 0 || defbultOption >= options.length)
+            throw new IllegblArgumentException();
 
         for (int i = 0; i < options.length; i++) {
             if (options[i] == null || options[i].length() == 0)
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
         }
 
-        this.messageType = messageType;
+        this.messbgeType = messbgeType;
         this.options = options;
-        this.defaultOption = defaultOption;
+        this.defbultOption = defbultOption;
     }
 
     /**
-     * Construct a {@code ConfirmationCallback} with a prompt,
-     * message type, an option type and a default option.
+     * Construct b {@code ConfirmbtionCbllbbck} with b prompt,
+     * messbge type, bn option type bnd b defbult option.
      *
      * <p> Underlying security services use this constructor if
-     * they require either a YES/NO, YES/NO/CANCEL or OK/CANCEL
-     * confirmation.
+     * they require either b YES/NO, YES/NO/CANCEL or OK/CANCEL
+     * confirmbtion.
      *
      * <p>
      *
-     * @param prompt the prompt used to describe the list of options. <p>
+     * @pbrbm prompt the prompt used to describe the list of options. <p>
      *
-     * @param messageType the message type ({@code INFORMATION},
+     * @pbrbm messbgeType the messbge type ({@code INFORMATION},
      *                  {@code WARNING} or {@code ERROR}). <p>
      *
-     * @param optionType the option type ({@code YES_NO_OPTION},
+     * @pbrbm optionType the option type ({@code YES_NO_OPTION},
      *                  {@code YES_NO_CANCEL_OPTION} or
      *                  {@code OK_CANCEL_OPTION}). <p>
      *
-     * @param defaultOption the default option
+     * @pbrbm defbultOption the defbult option
      *                  from the provided optionType ({@code YES},
      *                  {@code NO}, {@code CANCEL} or
      *                  {@code OK}).
      *
-     * @exception IllegalArgumentException if {@code prompt} is null,
-     *                  if {@code prompt} has a length of 0,
-     *                  if messageType is not either
+     * @exception IllegblArgumentException if {@code prompt} is null,
+     *                  if {@code prompt} hbs b length of 0,
+     *                  if messbgeType is not either
      *                  {@code INFORMATION}, {@code WARNING},
      *                  or {@code ERROR}, if optionType is not either
      *                  {@code YES_NO_OPTION},
      *                  {@code YES_NO_CANCEL_OPTION}, or
      *                  {@code OK_CANCEL_OPTION},
-     *                  or if {@code defaultOption}
+     *                  or if {@code defbultOption}
      *                  does not correspond to one of the options in
      *                  {@code optionType}.
      */
-    public ConfirmationCallback(String prompt, int messageType,
-                int optionType, int defaultOption) {
+    public ConfirmbtionCbllbbck(String prompt, int messbgeType,
+                int optionType, int defbultOption) {
 
         if (prompt == null || prompt.length() == 0 ||
-            messageType < INFORMATION || messageType > ERROR ||
+            messbgeType < INFORMATION || messbgeType > ERROR ||
             optionType < YES_NO_OPTION || optionType > OK_CANCEL_OPTION)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
 
         switch (optionType) {
-        case YES_NO_OPTION:
-            if (defaultOption != YES && defaultOption != NO)
-                throw new IllegalArgumentException();
-            break;
-        case YES_NO_CANCEL_OPTION:
-            if (defaultOption != YES && defaultOption != NO &&
-                defaultOption != CANCEL)
-                throw new IllegalArgumentException();
-            break;
-        case OK_CANCEL_OPTION:
-            if (defaultOption != OK && defaultOption != CANCEL)
-                throw new IllegalArgumentException();
-            break;
+        cbse YES_NO_OPTION:
+            if (defbultOption != YES && defbultOption != NO)
+                throw new IllegblArgumentException();
+            brebk;
+        cbse YES_NO_CANCEL_OPTION:
+            if (defbultOption != YES && defbultOption != NO &&
+                defbultOption != CANCEL)
+                throw new IllegblArgumentException();
+            brebk;
+        cbse OK_CANCEL_OPTION:
+            if (defbultOption != OK && defbultOption != CANCEL)
+                throw new IllegblArgumentException();
+            brebk;
         }
 
         this.prompt = prompt;
-        this.messageType = messageType;
+        this.messbgeType = messbgeType;
         this.optionType = optionType;
-        this.defaultOption = defaultOption;
+        this.defbultOption = defbultOption;
     }
 
     /**
-     * Construct a {@code ConfirmationCallback} with a prompt,
-     * message type, a list of options and a default option.
+     * Construct b {@code ConfirmbtionCbllbbck} with b prompt,
+     * messbge type, b list of options bnd b defbult option.
      *
      * <p> Underlying security services use this constructor if
-     * they require a confirmation different from the available preset
-     * confirmations provided (for example, CONTINUE/ABORT or STOP/GO).
-     * The confirmation options are listed in the {@code options} array,
-     * and are displayed by the {@code CallbackHandler} implementation
-     * in a manner consistent with the way preset options are displayed.
+     * they require b confirmbtion different from the bvbilbble preset
+     * confirmbtions provided (for exbmple, CONTINUE/ABORT or STOP/GO).
+     * The confirmbtion options bre listed in the {@code options} brrby,
+     * bnd bre displbyed by the {@code CbllbbckHbndler} implementbtion
+     * in b mbnner consistent with the wby preset options bre displbyed.
      *
      * <p>
      *
-     * @param prompt the prompt used to describe the list of options. <p>
+     * @pbrbm prompt the prompt used to describe the list of options. <p>
      *
-     * @param messageType the message type ({@code INFORMATION},
+     * @pbrbm messbgeType the messbge type ({@code INFORMATION},
      *                  {@code WARNING} or {@code ERROR}). <p>
      *
-     * @param options the list of confirmation options. <p>
+     * @pbrbm options the list of confirmbtion options. <p>
      *
-     * @param defaultOption the default option, represented as an index
-     *                  into the {@code options} array.
+     * @pbrbm defbultOption the defbult option, represented bs bn index
+     *                  into the {@code options} brrby.
      *
-     * @exception IllegalArgumentException if {@code prompt} is null,
-     *                  if {@code prompt} has a length of 0,
-     *                  if messageType is not either
+     * @exception IllegblArgumentException if {@code prompt} is null,
+     *                  if {@code prompt} hbs b length of 0,
+     *                  if messbgeType is not either
      *                  {@code INFORMATION}, {@code WARNING},
      *                  or {@code ERROR}, if {@code options} is null,
-     *                  if {@code options} has a length of 0,
-     *                  if any element from {@code options} is null,
-     *                  if any element from {@code options}
-     *                  has a length of 0, or if {@code defaultOption}
-     *                  does not lie within the array boundaries of
+     *                  if {@code options} hbs b length of 0,
+     *                  if bny element from {@code options} is null,
+     *                  if bny element from {@code options}
+     *                  hbs b length of 0, or if {@code defbultOption}
+     *                  does not lie within the brrby boundbries of
      *                  {@code options}.
      */
-    public ConfirmationCallback(String prompt, int messageType,
-                String[] options, int defaultOption) {
+    public ConfirmbtionCbllbbck(String prompt, int messbgeType,
+                String[] options, int defbultOption) {
 
         if (prompt == null || prompt.length() == 0 ||
-            messageType < INFORMATION || messageType > ERROR ||
+            messbgeType < INFORMATION || messbgeType > ERROR ||
             options == null || options.length == 0 ||
-            defaultOption < 0 || defaultOption >= options.length)
-            throw new IllegalArgumentException();
+            defbultOption < 0 || defbultOption >= options.length)
+            throw new IllegblArgumentException();
 
         for (int i = 0; i < options.length; i++) {
             if (options[i] == null || options[i].length() == 0)
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
         }
 
         this.prompt = prompt;
-        this.messageType = messageType;
+        this.messbgeType = messbgeType;
         this.options = options;
-        this.defaultOption = defaultOption;
+        this.defbultOption = defbultOption;
     }
 
     /**
@@ -386,33 +386,33 @@ public class ConfirmationCallback implements Callback, java.io.Serializable {
      *
      * <p>
      *
-     * @return the prompt, or null if this {@code ConfirmationCallback}
-     *          was instantiated without a {@code prompt}.
+     * @return the prompt, or null if this {@code ConfirmbtionCbllbbck}
+     *          wbs instbntibted without b {@code prompt}.
      */
     public String getPrompt() {
         return prompt;
     }
 
     /**
-     * Get the message type.
+     * Get the messbge type.
      *
      * <p>
      *
-     * @return the message type ({@code INFORMATION},
+     * @return the messbge type ({@code INFORMATION},
      *          {@code WARNING} or {@code ERROR}).
      */
-    public int getMessageType() {
-        return messageType;
+    public int getMessbgeType() {
+        return messbgeType;
     }
 
     /**
      * Get the option type.
      *
      * <p> If this method returns {@code UNSPECIFIED_OPTION}, then this
-     * {@code ConfirmationCallback} was instantiated with
-     * {@code options} instead of an {@code optionType}.
-     * In this case, invoke the {@code getOptions} method
-     * to determine which confirmation options to display.
+     * {@code ConfirmbtionCbllbbck} wbs instbntibted with
+     * {@code options} instebd of bn {@code optionType}.
+     * In this cbse, invoke the {@code getOptions} method
+     * to determine which confirmbtion options to displby.
      *
      * <p>
      *
@@ -420,57 +420,57 @@ public class ConfirmationCallback implements Callback, java.io.Serializable {
      *          {@code YES_NO_CANCEL_OPTION} or
      *          {@code OK_CANCEL_OPTION}), or
      *          {@code UNSPECIFIED_OPTION} if this
-     *          {@code ConfirmationCallback} was instantiated with
-     *          {@code options} instead of an {@code optionType}.
+     *          {@code ConfirmbtionCbllbbck} wbs instbntibted with
+     *          {@code options} instebd of bn {@code optionType}.
      */
     public int getOptionType() {
         return optionType;
     }
 
     /**
-     * Get the confirmation options.
+     * Get the confirmbtion options.
      *
      * <p>
      *
-     * @return the list of confirmation options, or null if this
-     *          {@code ConfirmationCallback} was instantiated with
-     *          an {@code optionType} instead of {@code options}.
+     * @return the list of confirmbtion options, or null if this
+     *          {@code ConfirmbtionCbllbbck} wbs instbntibted with
+     *          bn {@code optionType} instebd of {@code options}.
      */
     public String[] getOptions() {
         return options;
     }
 
     /**
-     * Get the default option.
+     * Get the defbult option.
      *
      * <p>
      *
-     * @return the default option, represented as
+     * @return the defbult option, represented bs
      *          {@code YES}, {@code NO}, {@code OK} or
-     *          {@code CANCEL} if an {@code optionType}
-     *          was specified to the constructor of this
-     *          {@code ConfirmationCallback}.
-     *          Otherwise, this method returns the default option as
-     *          an index into the
-     *          {@code options} array specified to the constructor
-     *          of this {@code ConfirmationCallback}.
+     *          {@code CANCEL} if bn {@code optionType}
+     *          wbs specified to the constructor of this
+     *          {@code ConfirmbtionCbllbbck}.
+     *          Otherwise, this method returns the defbult option bs
+     *          bn index into the
+     *          {@code options} brrby specified to the constructor
+     *          of this {@code ConfirmbtionCbllbbck}.
      */
-    public int getDefaultOption() {
-        return defaultOption;
+    public int getDefbultOption() {
+        return defbultOption;
     }
 
     /**
-     * Set the selected confirmation option.
+     * Set the selected confirmbtion option.
      *
      * <p>
      *
-     * @param selection the selection represented as {@code YES},
+     * @pbrbm selection the selection represented bs {@code YES},
      *          {@code NO}, {@code OK} or {@code CANCEL}
-     *          if an {@code optionType} was specified to the constructor
-     *          of this {@code ConfirmationCallback}.
+     *          if bn {@code optionType} wbs specified to the constructor
+     *          of this {@code ConfirmbtionCbllbbck}.
      *          Otherwise, the selection represents the index into the
-     *          {@code options} array specified to the constructor
-     *          of this {@code ConfirmationCallback}.
+     *          {@code options} brrby specified to the constructor
+     *          of this {@code ConfirmbtionCbllbbck}.
      *
      * @see #getSelectedIndex
      */
@@ -479,19 +479,19 @@ public class ConfirmationCallback implements Callback, java.io.Serializable {
     }
 
     /**
-     * Get the selected confirmation option.
+     * Get the selected confirmbtion option.
      *
      * <p>
      *
-     * @return the selected confirmation option represented as
+     * @return the selected confirmbtion option represented bs
      *          {@code YES}, {@code NO}, {@code OK} or
-     *          {@code CANCEL} if an {@code optionType}
-     *          was specified to the constructor of this
-     *          {@code ConfirmationCallback}.
-     *          Otherwise, this method returns the selected confirmation
-     *          option as an index into the
-     *          {@code options} array specified to the constructor
-     *          of this {@code ConfirmationCallback}.
+     *          {@code CANCEL} if bn {@code optionType}
+     *          wbs specified to the constructor of this
+     *          {@code ConfirmbtionCbllbbck}.
+     *          Otherwise, this method returns the selected confirmbtion
+     *          option bs bn index into the
+     *          {@code options} brrby specified to the constructor
+     *          of this {@code ConfirmbtionCbllbbck}.
      *
      * @see #setSelectedIndex
      */

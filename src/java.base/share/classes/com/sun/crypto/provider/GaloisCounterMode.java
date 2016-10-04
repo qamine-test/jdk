@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.util.Arrays;
-import java.io.*;
-import java.security.*;
-import javax.crypto.*;
-import static com.sun.crypto.provider.AESConstants.AES_BLOCK_SIZE;
+import jbvb.util.Arrbys;
+import jbvb.io.*;
+import jbvb.security.*;
+import jbvbx.crypto.*;
+import stbtic com.sun.crypto.provider.AESConstbnts.AES_BLOCK_SIZE;
 
 /**
- * This class represents ciphers in GaloisCounter (GCM) mode.
+ * This clbss represents ciphers in GbloisCounter (GCM) mode.
  *
  * <p>This mode currently should only be used w/ AES cipher.
- * Although no checking is done, caller should only pass AES
+ * Although no checking is done, cbller should only pbss AES
  * Cipher to the constructor.
  *
- * <p>NOTE: Unlike other modes, when used for decryption, this class
- * will buffer all processed outputs internally and won't return them
- * until the tag has been successfully verified.
+ * <p>NOTE: Unlike other modes, when used for decryption, this clbss
+ * will buffer bll processed outputs internblly bnd won't return them
+ * until the tbg hbs been successfully verified.
  *
  * @since 1.8
  */
-final class GaloisCounterMode extends FeedbackCipher {
+finbl clbss GbloisCounterMode extends FeedbbckCipher {
 
-    static int DEFAULT_TAG_LEN = AES_BLOCK_SIZE;
-    static int DEFAULT_IV_LEN = 12; // in bytes
+    stbtic int DEFAULT_TAG_LEN = AES_BLOCK_SIZE;
+    stbtic int DEFAULT_IV_LEN = 12; // in bytes
 
-    // buffer for AAD data; if null, meaning update has been called
-    private ByteArrayOutputStream aadBuffer = new ByteArrayOutputStream();
-    private int sizeOfAAD = 0;
+    // buffer for AAD dbtb; if null, mebning updbte hbs been cblled
+    privbte ByteArrbyOutputStrebm bbdBuffer = new ByteArrbyOutputStrebm();
+    privbte int sizeOfAAD = 0;
 
     // buffer for storing input in decryption, not used for encryption
-    private ByteArrayOutputStream ibuffer = null;
+    privbte ByteArrbyOutputStrebm ibuffer = null;
 
-    // in bytes; need to convert to bits (default value 128) when needed
-    private int tagLenBytes = DEFAULT_TAG_LEN;
+    // in bytes; need to convert to bits (defbult vblue 128) when needed
+    privbte int tbgLenBytes = DEFAULT_TAG_LEN;
 
-    // these following 2 fields can only be initialized after init() is
-    // called, e.g. after cipher key k is set, and STAY UNCHANGED
-    private byte[] subkeyH = null;
-    private byte[] preCounterBlock = null;
+    // these following 2 fields cbn only be initiblized bfter init() is
+    // cblled, e.g. bfter cipher key k is set, bnd STAY UNCHANGED
+    privbte byte[] subkeyH = null;
+    privbte byte[] preCounterBlock = null;
 
-    private GCTR gctrPAndC = null;
-    private GHASH ghashAllToS = null;
+    privbte GCTR gctrPAndC = null;
+    privbte GHASH ghbshAllToS = null;
 
-    // length of total data, i.e. len(C)
-    private int processed = 0;
+    // length of totbl dbtb, i.e. len(C)
+    privbte int processed = 0;
 
-    // additional variables for save/restore calls
-    private byte[] aadBufferSave = null;
-    private int sizeOfAADSave = 0;
-    private byte[] ibufferSave = null;
-    private int processedSave = 0;
+    // bdditionbl vbribbles for sbve/restore cblls
+    privbte byte[] bbdBufferSbve = null;
+    privbte int sizeOfAADSbve = 0;
+    privbte byte[] ibufferSbve = null;
+    privbte int processedSbve = 0;
 
-    // value must be 16-byte long; used by GCTR and GHASH as well
-    static void increment32(byte[] value) {
-        if (value.length != AES_BLOCK_SIZE) {
-            // should never happen
-            throw new ProviderException("Illegal counter block length");
+    // vblue must be 16-byte long; used by GCTR bnd GHASH bs well
+    stbtic void increment32(byte[] vblue) {
+        if (vblue.length != AES_BLOCK_SIZE) {
+            // should never hbppen
+            throw new ProviderException("Illegbl counter block length");
         }
-        // start from last byte and only go over 4 bytes, i.e. total 32 bits
-        int n = value.length - 1;
-        while ((n >= value.length - 4) && (++value[n] == 0)) {
+        // stbrt from lbst byte bnd only go over 4 bytes, i.e. totbl 32 bits
+        int n = vblue.length - 1;
+        while ((n >= vblue.length - 4) && (++vblue[n] == 0)) {
             n--;
         }
     }
 
     // ivLen in bits
-    private static byte[] getLengthBlock(int ivLen) {
+    privbte stbtic byte[] getLengthBlock(int ivLen) {
         byte[] out = new byte[AES_BLOCK_SIZE];
         out[12] = (byte)(ivLen >>> 24);
         out[13] = (byte)(ivLen >>> 16);
@@ -99,13 +99,13 @@ final class GaloisCounterMode extends FeedbackCipher {
         return out;
     }
 
-    // aLen and cLen both in bits
-    private static byte[] getLengthBlock(int aLen, int cLen) {
+    // bLen bnd cLen both in bits
+    privbte stbtic byte[] getLengthBlock(int bLen, int cLen) {
         byte[] out = new byte[AES_BLOCK_SIZE];
-        out[4] = (byte)(aLen >>> 24);
-        out[5] = (byte)(aLen >>> 16);
-        out[6] = (byte)(aLen >>> 8);
-        out[7] = (byte)aLen;
+        out[4] = (byte)(bLen >>> 24);
+        out[5] = (byte)(bLen >>> 16);
+        out[6] = (byte)(bLen >>> 8);
+        out[7] = (byte)bLen;
         out[12] = (byte)(cLen >>> 24);
         out[13] = (byte)(cLen >>> 16);
         out[14] = (byte)(cLen >>> 8);
@@ -113,69 +113,69 @@ final class GaloisCounterMode extends FeedbackCipher {
         return out;
     }
 
-    private static byte[] expandToOneBlock(byte[] in, int inOfs, int len) {
+    privbte stbtic byte[] expbndToOneBlock(byte[] in, int inOfs, int len) {
         if (len > AES_BLOCK_SIZE) {
             throw new ProviderException("input " + len + " too long");
         }
         if (len == AES_BLOCK_SIZE && inOfs == 0) {
             return in;
         } else {
-            byte[] paddedIn = new byte[AES_BLOCK_SIZE];
-            System.arraycopy(in, inOfs, paddedIn, 0, len);
-            return paddedIn;
+            byte[] pbddedIn = new byte[AES_BLOCK_SIZE];
+            System.brrbycopy(in, inOfs, pbddedIn, 0, len);
+            return pbddedIn;
         }
     }
 
-    private static byte[] getJ0(byte[] iv, byte[] subkeyH) {
+    privbte stbtic byte[] getJ0(byte[] iv, byte[] subkeyH) {
         byte[] j0;
         if (iv.length == 12) { // 96 bits
-            j0 = expandToOneBlock(iv, 0, iv.length);
+            j0 = expbndToOneBlock(iv, 0, iv.length);
             j0[AES_BLOCK_SIZE - 1] = 1;
         } else {
             GHASH g = new GHASH(subkeyH);
-            int lastLen = iv.length % AES_BLOCK_SIZE;
-            if (lastLen != 0) {
-                g.update(iv, 0, iv.length - lastLen);
-                byte[] padded =
-                    expandToOneBlock(iv, iv.length - lastLen, lastLen);
-                g.update(padded);
+            int lbstLen = iv.length % AES_BLOCK_SIZE;
+            if (lbstLen != 0) {
+                g.updbte(iv, 0, iv.length - lbstLen);
+                byte[] pbdded =
+                    expbndToOneBlock(iv, iv.length - lbstLen, lbstLen);
+                g.updbte(pbdded);
             } else {
-                g.update(iv);
+                g.updbte(iv);
             }
             byte[] lengthBlock = getLengthBlock(iv.length*8);
-            g.update(lengthBlock);
+            g.updbte(lengthBlock);
             j0 = g.digest();
         }
         return j0;
     }
 
-    GaloisCounterMode(SymmetricCipher embeddedCipher) {
+    GbloisCounterMode(SymmetricCipher embeddedCipher) {
         super(embeddedCipher);
-        aadBuffer = new ByteArrayOutputStream();
+        bbdBuffer = new ByteArrbyOutputStrebm();
     }
 
     /**
-     * Gets the name of the feedback mechanism
+     * Gets the nbme of the feedbbck mechbnism
      *
-     * @return the name of the feedback mechanism
+     * @return the nbme of the feedbbck mechbnism
      */
-    String getFeedback() {
+    String getFeedbbck() {
         return "GCM";
     }
 
     /**
-     * Resets the cipher object to its original state.
-     * This is used when doFinal is called in the Cipher class, so that the
-     * cipher can be reused (with its original key and iv).
+     * Resets the cipher object to its originbl stbte.
+     * This is used when doFinbl is cblled in the Cipher clbss, so thbt the
+     * cipher cbn be reused (with its originbl key bnd iv).
      */
     void reset() {
-        if (aadBuffer == null) {
-            aadBuffer = new ByteArrayOutputStream();
+        if (bbdBuffer == null) {
+            bbdBuffer = new ByteArrbyOutputStrebm();
         } else {
-            aadBuffer.reset();
+            bbdBuffer.reset();
         }
         if (gctrPAndC != null) gctrPAndC.reset();
-        if (ghashAllToS != null) ghashAllToS.reset();
+        if (ghbshAllToS != null) ghbshAllToS.reset();
         processed = 0;
         sizeOfAAD = 0;
         if (ibuffer != null) {
@@ -184,163 +184,163 @@ final class GaloisCounterMode extends FeedbackCipher {
     }
 
     /**
-     * Save the current content of this cipher.
+     * Sbve the current content of this cipher.
      */
-    void save() {
-        processedSave = processed;
-        sizeOfAADSave = sizeOfAAD;
-        aadBufferSave =
-            ((aadBuffer == null || aadBuffer.size() == 0)?
-             null : aadBuffer.toByteArray());
-        if (gctrPAndC != null) gctrPAndC.save();
-        if (ghashAllToS != null) ghashAllToS.save();
+    void sbve() {
+        processedSbve = processed;
+        sizeOfAADSbve = sizeOfAAD;
+        bbdBufferSbve =
+            ((bbdBuffer == null || bbdBuffer.size() == 0)?
+             null : bbdBuffer.toByteArrby());
+        if (gctrPAndC != null) gctrPAndC.sbve();
+        if (ghbshAllToS != null) ghbshAllToS.sbve();
         if (ibuffer != null) {
-            ibufferSave = ibuffer.toByteArray();
+            ibufferSbve = ibuffer.toByteArrby();
         }
     }
 
     /**
-     * Restores the content of this cipher to the previous saved one.
+     * Restores the content of this cipher to the previous sbved one.
      */
     void restore() {
-        processed = processedSave;
-        sizeOfAAD = sizeOfAADSave;
-        if (aadBuffer != null) {
-            aadBuffer.reset();
-            if (aadBufferSave != null) {
-                aadBuffer.write(aadBufferSave, 0, aadBufferSave.length);
+        processed = processedSbve;
+        sizeOfAAD = sizeOfAADSbve;
+        if (bbdBuffer != null) {
+            bbdBuffer.reset();
+            if (bbdBufferSbve != null) {
+                bbdBuffer.write(bbdBufferSbve, 0, bbdBufferSbve.length);
             }
         }
         if (gctrPAndC != null) gctrPAndC.restore();
-        if (ghashAllToS != null) ghashAllToS.restore();
+        if (ghbshAllToS != null) ghbshAllToS.restore();
         if (ibuffer != null) {
             ibuffer.reset();
-            ibuffer.write(ibufferSave, 0, ibufferSave.length);
+            ibuffer.write(ibufferSbve, 0, ibufferSbve.length);
         }
     }
 
     /**
-     * Initializes the cipher in the specified mode with the given key
-     * and iv.
+     * Initiblizes the cipher in the specified mode with the given key
+     * bnd iv.
      *
-     * @param decrypting flag indicating encryption or decryption
-     * @param algorithm the algorithm name
-     * @param key the key
-     * @param iv the iv
-     * @param tagLenBytes the length of tag in bytes
+     * @pbrbm decrypting flbg indicbting encryption or decryption
+     * @pbrbm blgorithm the blgorithm nbme
+     * @pbrbm key the key
+     * @pbrbm iv the iv
+     * @pbrbm tbgLenBytes the length of tbg in bytes
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this cipher
      */
-    void init(boolean decrypting, String algorithm, byte[] key, byte[] iv)
-            throws InvalidKeyException {
-        init(decrypting, algorithm, key, iv, DEFAULT_TAG_LEN);
+    void init(boolebn decrypting, String blgorithm, byte[] key, byte[] iv)
+            throws InvblidKeyException {
+        init(decrypting, blgorithm, key, iv, DEFAULT_TAG_LEN);
     }
 
     /**
-     * Initializes the cipher in the specified mode with the given key
-     * and iv.
+     * Initiblizes the cipher in the specified mode with the given key
+     * bnd iv.
      *
-     * @param decrypting flag indicating encryption or decryption
-     * @param algorithm the algorithm name
-     * @param key the key
-     * @param iv the iv
-     * @param tagLenBytes the length of tag in bytes
+     * @pbrbm decrypting flbg indicbting encryption or decryption
+     * @pbrbm blgorithm the blgorithm nbme
+     * @pbrbm key the key
+     * @pbrbm iv the iv
+     * @pbrbm tbgLenBytes the length of tbg in bytes
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this cipher
      */
-    void init(boolean decrypting, String algorithm, byte[] keyValue,
-              byte[] ivValue, int tagLenBytes)
-              throws InvalidKeyException {
-        if (keyValue == null || ivValue == null) {
-            throw new InvalidKeyException("Internal error");
+    void init(boolebn decrypting, String blgorithm, byte[] keyVblue,
+              byte[] ivVblue, int tbgLenBytes)
+              throws InvblidKeyException {
+        if (keyVblue == null || ivVblue == null) {
+            throw new InvblidKeyException("Internbl error");
         }
 
-        // always encrypt mode for embedded cipher
-        this.embeddedCipher.init(false, algorithm, keyValue);
+        // blwbys encrypt mode for embedded cipher
+        this.embeddedCipher.init(fblse, blgorithm, keyVblue);
         this.subkeyH = new byte[AES_BLOCK_SIZE];
         this.embeddedCipher.encryptBlock(new byte[AES_BLOCK_SIZE], 0,
                 this.subkeyH, 0);
 
-        this.iv = ivValue.clone();
+        this.iv = ivVblue.clone();
         preCounterBlock = getJ0(iv, subkeyH);
         byte[] j0Plus1 = preCounterBlock.clone();
         increment32(j0Plus1);
         gctrPAndC = new GCTR(embeddedCipher, j0Plus1);
-        ghashAllToS = new GHASH(subkeyH);
+        ghbshAllToS = new GHASH(subkeyH);
 
-        this.tagLenBytes = tagLenBytes;
-        if (aadBuffer == null) {
-            aadBuffer = new ByteArrayOutputStream();
+        this.tbgLenBytes = tbgLenBytes;
+        if (bbdBuffer == null) {
+            bbdBuffer = new ByteArrbyOutputStrebm();
         } else {
-            aadBuffer.reset();
+            bbdBuffer.reset();
         }
         processed = 0;
         sizeOfAAD = 0;
         if (decrypting) {
-            ibuffer = new ByteArrayOutputStream();
+            ibuffer = new ByteArrbyOutputStrebm();
         }
     }
 
     /**
-     * Continues a multi-part update of the Additional Authentication
-     * Data (AAD), using a subset of the provided buffer. If this
-     * cipher is operating in either GCM or CCM mode, all AAD must be
-     * supplied before beginning operations on the ciphertext (via the
-     * {@code update} and {@code doFinal} methods).
+     * Continues b multi-pbrt updbte of the Additionbl Authenticbtion
+     * Dbtb (AAD), using b subset of the provided buffer. If this
+     * cipher is operbting in either GCM or CCM mode, bll AAD must be
+     * supplied before beginning operbtions on the ciphertext (vib the
+     * {@code updbte} bnd {@code doFinbl} methods).
      * <p>
-     * NOTE: Given most modes do not accept AAD, default impl for this
-     * method throws IllegalStateException.
+     * NOTE: Given most modes do not bccept AAD, defbult impl for this
+     * method throws IllegblStbteException.
      *
-     * @param src the buffer containing the AAD
-     * @param offset the offset in {@code src} where the AAD input starts
-     * @param len the number of AAD bytes
+     * @pbrbm src the buffer contbining the AAD
+     * @pbrbm offset the offset in {@code src} where the AAD input stbrts
+     * @pbrbm len the number of AAD bytes
      *
-     * @throws IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized), does not accept AAD, or if
-     * operating in either GCM or CCM mode and one of the {@code update}
-     * methods has already been called for the active
-     * encryption/decryption operation
-     * @throws UnsupportedOperationException if this method
-     * has not been overridden by an implementation
+     * @throws IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized), does not bccept AAD, or if
+     * operbting in either GCM or CCM mode bnd one of the {@code updbte}
+     * methods hbs blrebdy been cblled for the bctive
+     * encryption/decryption operbtion
+     * @throws UnsupportedOperbtionException if this method
+     * hbs not been overridden by bn implementbtion
      *
      * @since 1.8
      */
-    void updateAAD(byte[] src, int offset, int len) {
-        if (aadBuffer != null) {
-            aadBuffer.write(src, offset, len);
+    void updbteAAD(byte[] src, int offset, int len) {
+        if (bbdBuffer != null) {
+            bbdBuffer.write(src, offset, len);
         } else {
-            // update has already been called
-            throw new IllegalStateException
-                ("Update has been called; no more AAD data");
+            // updbte hbs blrebdy been cblled
+            throw new IllegblStbteException
+                ("Updbte hbs been cblled; no more AAD dbtb");
         }
     }
 
-    // Feed the AAD data to GHASH, pad if necessary
+    // Feed the AAD dbtb to GHASH, pbd if necessbry
     void processAAD() {
-        if (aadBuffer != null && aadBuffer.size() > 0) {
-            byte[] aad = aadBuffer.toByteArray();
-            sizeOfAAD = aad.length;
-            aadBuffer = null;
+        if (bbdBuffer != null && bbdBuffer.size() > 0) {
+            byte[] bbd = bbdBuffer.toByteArrby();
+            sizeOfAAD = bbd.length;
+            bbdBuffer = null;
 
-            int lastLen = aad.length % AES_BLOCK_SIZE;
-            if (lastLen != 0) {
-                ghashAllToS.update(aad, 0, aad.length - lastLen);
-                byte[] padded = expandToOneBlock(aad, aad.length - lastLen,
-                                                 lastLen);
-                ghashAllToS.update(padded);
+            int lbstLen = bbd.length % AES_BLOCK_SIZE;
+            if (lbstLen != 0) {
+                ghbshAllToS.updbte(bbd, 0, bbd.length - lbstLen);
+                byte[] pbdded = expbndToOneBlock(bbd, bbd.length - lbstLen,
+                                                 lbstLen);
+                ghbshAllToS.updbte(pbdded);
             } else {
-                ghashAllToS.update(aad);
+                ghbshAllToS.updbte(bbd);
             }
         }
     }
 
-    // Utility to process the last block; used by encryptFinal and decryptFinal
-    void doLastBlock(byte[] in, int inOfs, int len, byte[] out, int outOfs,
-                     boolean isEncrypt) throws IllegalBlockSizeException {
-        // process data in 'in'
-        gctrPAndC.doFinal(in, inOfs, len, out, outOfs);
+    // Utility to process the lbst block; used by encryptFinbl bnd decryptFinbl
+    void doLbstBlock(byte[] in, int inOfs, int len, byte[] out, int outOfs,
+                     boolebn isEncrypt) throws IllegblBlockSizeException {
+        // process dbtb in 'in'
+        gctrPAndC.doFinbl(in, inOfs, len, out, outOfs);
         processed += len;
 
         byte[] ct;
@@ -352,113 +352,113 @@ final class GaloisCounterMode extends FeedbackCipher {
             ct = in;
             ctOfs = inOfs;
         }
-        int lastLen = len  % AES_BLOCK_SIZE;
-        if (lastLen != 0) {
-            ghashAllToS.update(ct, ctOfs, len - lastLen);
-            byte[] padded =
-                expandToOneBlock(ct, (ctOfs + len - lastLen), lastLen);
-            ghashAllToS.update(padded);
+        int lbstLen = len  % AES_BLOCK_SIZE;
+        if (lbstLen != 0) {
+            ghbshAllToS.updbte(ct, ctOfs, len - lbstLen);
+            byte[] pbdded =
+                expbndToOneBlock(ct, (ctOfs + len - lbstLen), lbstLen);
+            ghbshAllToS.updbte(pbdded);
         } else {
-            ghashAllToS.update(ct, ctOfs, len);
+            ghbshAllToS.updbte(ct, ctOfs, len);
         }
     }
 
 
     /**
-     * Performs encryption operation.
+     * Performs encryption operbtion.
      *
-     * <p>The input plain text <code>in</code>, starting at <code>inOff</code>
-     * and ending at <code>(inOff + len - 1)</code>, is encrypted. The result
-     * is stored in <code>out</code>, starting at <code>outOfs</code>.
+     * <p>The input plbin text <code>in</code>, stbrting bt <code>inOff</code>
+     * bnd ending bt <code>(inOff + len - 1)</code>, is encrypted. The result
+     * is stored in <code>out</code>, stbrting bt <code>outOfs</code>.
      *
-     * <p>It is the application's responsibility to make sure that
-     * <code>len</code> is a multiple of the embedded cipher's block size,
-     * otherwise, a ProviderException will be thrown.
+     * <p>It is the bpplicbtion's responsibility to mbke sure thbt
+     * <code>len</code> is b multiple of the embedded cipher's block size,
+     * otherwise, b ProviderException will be thrown.
      *
-     * <p>It is also the application's responsibility to make sure that
-     * <code>init</code> has been called before this method is called.
-     * (This check is omitted here, to avoid double checking.)
+     * <p>It is blso the bpplicbtion's responsibility to mbke sure thbt
+     * <code>init</code> hbs been cblled before this method is cblled.
+     * (This check is omitted here, to bvoid double checking.)
      *
-     * @param in the buffer with the input data to be encrypted
-     * @param inOfs the offset in <code>in</code>
-     * @param len the length of the input data
-     * @param out the buffer for the result
-     * @param outOfs the offset in <code>out</code>
+     * @pbrbm in the buffer with the input dbtb to be encrypted
+     * @pbrbm inOfs the offset in <code>in</code>
+     * @pbrbm len the length of the input dbtb
+     * @pbrbm out the buffer for the result
+     * @pbrbm outOfs the offset in <code>out</code>
      */
     int encrypt(byte[] in, int inOfs, int len, byte[] out, int outOfs) {
         processAAD();
         if (len > 0) {
-            gctrPAndC.update(in, inOfs, len, out, outOfs);
+            gctrPAndC.updbte(in, inOfs, len, out, outOfs);
             processed += len;
-            ghashAllToS.update(out, outOfs, len);
+            ghbshAllToS.updbte(out, outOfs, len);
         }
         return len;
     }
 
     /**
-     * Performs encryption operation for the last time.
+     * Performs encryption operbtion for the lbst time.
      *
-     * <p>NOTE: <code>len</code> may not be multiple of the embedded
-     * cipher's block size for this call.
+     * <p>NOTE: <code>len</code> mby not be multiple of the embedded
+     * cipher's block size for this cbll.
      *
-     * @param in the input buffer with the data to be encrypted
-     * @param inOfs the offset in <code>in</code>
-     * @param len the length of the input data
-     * @param out the buffer for the encryption result
-     * @param outOfs the offset in <code>out</code>
-     * @return the number of bytes placed into the <code>out</code> buffer
+     * @pbrbm in the input buffer with the dbtb to be encrypted
+     * @pbrbm inOfs the offset in <code>in</code>
+     * @pbrbm len the length of the input dbtb
+     * @pbrbm out the buffer for the encryption result
+     * @pbrbm outOfs the offset in <code>out</code>
+     * @return the number of bytes plbced into the <code>out</code> buffer
      */
-    int encryptFinal(byte[] in, int inOfs, int len, byte[] out, int outOfs)
-        throws IllegalBlockSizeException, ShortBufferException {
-        if (out.length - outOfs < (len + tagLenBytes)) {
-            throw new ShortBufferException("Output buffer too small");
+    int encryptFinbl(byte[] in, int inOfs, int len, byte[] out, int outOfs)
+        throws IllegblBlockSizeException, ShortBufferException {
+        if (out.length - outOfs < (len + tbgLenBytes)) {
+            throw new ShortBufferException("Output buffer too smbll");
         }
 
         processAAD();
         if (len > 0) {
-            doLastBlock(in, inOfs, len, out, outOfs, true);
+            doLbstBlock(in, inOfs, len, out, outOfs, true);
         }
 
         byte[] lengthBlock =
             getLengthBlock(sizeOfAAD*8, processed*8);
-        ghashAllToS.update(lengthBlock);
-        byte[] s = ghashAllToS.digest();
+        ghbshAllToS.updbte(lengthBlock);
+        byte[] s = ghbshAllToS.digest();
         byte[] sOut = new byte[s.length];
-        GCTR gctrForSToTag = new GCTR(embeddedCipher, this.preCounterBlock);
-        gctrForSToTag.doFinal(s, 0, s.length, sOut, 0);
+        GCTR gctrForSToTbg = new GCTR(embeddedCipher, this.preCounterBlock);
+        gctrForSToTbg.doFinbl(s, 0, s.length, sOut, 0);
 
-        System.arraycopy(sOut, 0, out, (outOfs + len), tagLenBytes);
-        return (len + tagLenBytes);
+        System.brrbycopy(sOut, 0, out, (outOfs + len), tbgLenBytes);
+        return (len + tbgLenBytes);
     }
 
     /**
-     * Performs decryption operation.
+     * Performs decryption operbtion.
      *
-     * <p>The input cipher text <code>in</code>, starting at
-     * <code>inOfs</code> and ending at <code>(inOfs + len - 1)</code>,
-     * is decrypted. The result is stored in <code>out</code>, starting at
+     * <p>The input cipher text <code>in</code>, stbrting bt
+     * <code>inOfs</code> bnd ending bt <code>(inOfs + len - 1)</code>,
+     * is decrypted. The result is stored in <code>out</code>, stbrting bt
      * <code>outOfs</code>.
      *
-     * <p>It is the application's responsibility to make sure that
-     * <code>len</code> is a multiple of the embedded cipher's block
-     * size, as any excess bytes are ignored.
+     * <p>It is the bpplicbtion's responsibility to mbke sure thbt
+     * <code>len</code> is b multiple of the embedded cipher's block
+     * size, bs bny excess bytes bre ignored.
      *
-     * <p>It is also the application's responsibility to make sure that
-     * <code>init</code> has been called before this method is called.
-     * (This check is omitted here, to avoid double checking.)
+     * <p>It is blso the bpplicbtion's responsibility to mbke sure thbt
+     * <code>init</code> hbs been cblled before this method is cblled.
+     * (This check is omitted here, to bvoid double checking.)
      *
-     * @param in the buffer with the input data to be decrypted
-     * @param inOfs the offset in <code>in</code>
-     * @param len the length of the input data
-     * @param out the buffer for the result
-     * @param outOfs the offset in <code>out</code>
+     * @pbrbm in the buffer with the input dbtb to be decrypted
+     * @pbrbm inOfs the offset in <code>in</code>
+     * @pbrbm len the length of the input dbtb
+     * @pbrbm out the buffer for the result
+     * @pbrbm outOfs the offset in <code>out</code>
      */
     int decrypt(byte[] in, int inOfs, int len, byte[] out, int outOfs) {
         processAAD();
 
         if (len > 0) {
-            // store internally until decryptFinal is called because
-            // spec mentioned that only return recovered data after tag
+            // store internblly until decryptFinbl is cblled becbuse
+            // spec mentioned thbt only return recovered dbtb bfter tbg
             // is successfully verified
             ibuffer.write(in, inOfs, len);
         }
@@ -466,70 +466,70 @@ final class GaloisCounterMode extends FeedbackCipher {
     }
 
     /**
-     * Performs decryption operation for the last time.
+     * Performs decryption operbtion for the lbst time.
      *
-     * <p>NOTE: For cipher feedback modes which does not perform
-     * special handling for the last few blocks, this is essentially
-     * the same as <code>encrypt(...)</code>. Given most modes do
-     * not do special handling, the default impl for this method is
-     * to simply call <code>decrypt(...)</code>.
+     * <p>NOTE: For cipher feedbbck modes which does not perform
+     * specibl hbndling for the lbst few blocks, this is essentiblly
+     * the sbme bs <code>encrypt(...)</code>. Given most modes do
+     * not do specibl hbndling, the defbult impl for this method is
+     * to simply cbll <code>decrypt(...)</code>.
      *
-     * @param in the input buffer with the data to be decrypted
-     * @param inOfs the offset in <code>cipher</code>
-     * @param len the length of the input data
-     * @param out the buffer for the decryption result
-     * @param outOfs the offset in <code>plain</code>
-     * @return the number of bytes placed into the <code>out</code> buffer
+     * @pbrbm in the input buffer with the dbtb to be decrypted
+     * @pbrbm inOfs the offset in <code>cipher</code>
+     * @pbrbm len the length of the input dbtb
+     * @pbrbm out the buffer for the decryption result
+     * @pbrbm outOfs the offset in <code>plbin</code>
+     * @return the number of bytes plbced into the <code>out</code> buffer
      */
-    int decryptFinal(byte[] in, int inOfs, int len,
+    int decryptFinbl(byte[] in, int inOfs, int len,
                      byte[] out, int outOfs)
-        throws IllegalBlockSizeException, AEADBadTagException,
+        throws IllegblBlockSizeException, AEADBbdTbgException,
         ShortBufferException {
-        if (len < tagLenBytes) {
-            throw new AEADBadTagException("Input too short - need tag");
+        if (len < tbgLenBytes) {
+            throw new AEADBbdTbgException("Input too short - need tbg");
         }
-        if (out.length - outOfs < ((ibuffer.size() + len) - tagLenBytes)) {
-            throw new ShortBufferException("Output buffer too small");
+        if (out.length - outOfs < ((ibuffer.size() + len) - tbgLenBytes)) {
+            throw new ShortBufferException("Output buffer too smbll");
         }
         processAAD();
         if (len != 0) {
             ibuffer.write(in, inOfs, len);
         }
 
-        // refresh 'in' to all buffered-up bytes
-        in = ibuffer.toByteArray();
+        // refresh 'in' to bll buffered-up bytes
+        in = ibuffer.toByteArrby();
         inOfs = 0;
         len = in.length;
         ibuffer.reset();
 
-        byte[] tag = new byte[tagLenBytes];
-        // get the trailing tag bytes from 'in'
-        System.arraycopy(in, len - tagLenBytes, tag, 0, tagLenBytes);
-        len -= tagLenBytes;
+        byte[] tbg = new byte[tbgLenBytes];
+        // get the trbiling tbg bytes from 'in'
+        System.brrbycopy(in, len - tbgLenBytes, tbg, 0, tbgLenBytes);
+        len -= tbgLenBytes;
 
         if (len > 0) {
-            doLastBlock(in, inOfs, len, out, outOfs, false);
+            doLbstBlock(in, inOfs, len, out, outOfs, fblse);
         }
 
         byte[] lengthBlock =
             getLengthBlock(sizeOfAAD*8, processed*8);
-        ghashAllToS.update(lengthBlock);
+        ghbshAllToS.updbte(lengthBlock);
 
-        byte[] s = ghashAllToS.digest();
+        byte[] s = ghbshAllToS.digest();
         byte[] sOut = new byte[s.length];
-        GCTR gctrForSToTag = new GCTR(embeddedCipher, this.preCounterBlock);
-        gctrForSToTag.doFinal(s, 0, s.length, sOut, 0);
-        for (int i = 0; i < tagLenBytes; i++) {
-            if (tag[i] != sOut[i]) {
-                throw new AEADBadTagException("Tag mismatch!");
+        GCTR gctrForSToTbg = new GCTR(embeddedCipher, this.preCounterBlock);
+        gctrForSToTbg.doFinbl(s, 0, s.length, sOut, 0);
+        for (int i = 0; i < tbgLenBytes; i++) {
+            if (tbg[i] != sOut[i]) {
+                throw new AEADBbdTbgException("Tbg mismbtch!");
             }
         }
         return len;
     }
 
-    // return tag length in bytes
-    int getTagLen() {
-        return this.tagLenBytes;
+    // return tbg length in bytes
+    int getTbgLen() {
+        return this.tbgLenBytes;
     }
 
     int getBufferedLength() {

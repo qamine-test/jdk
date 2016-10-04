@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
-package com.sun.tools.example.debug.tty;
+pbckbge com.sun.tools.exbmple.debug.tty;
 
-import java.util.*;
-import java.text.MessageFormat;
+import jbvb.util.*;
+import jbvb.text.MessbgeFormbt;
 /**
- * Internationalization (i18n) convenience methods for jdb.
+ * Internbtionblizbtion (i18n) convenience methods for jdb.
  *
- * All program output should flow through these methods, and this is
- * the only class that should be printing directly or otherwise
- * accessing System.[out,err].
+ * All progrbm output should flow through these methods, bnd this is
+ * the only clbss thbt should be printing directly or otherwise
+ * bccessing System.[out,err].
  *
  * @bug 4348376
- * @author Tim Bell
+ * @buthor Tim Bell
  */
-public class MessageOutput {
+public clbss MessbgeOutput {
     /**
-     * The resource bundle containing localizable message content.
-     * This is loaded by TTY.main() at start-up
+     * The resource bundle contbining locblizbble messbge content.
+     * This is lobded by TTY.mbin() bt stbrt-up
      */
-    static ResourceBundle textResources;
+    stbtic ResourceBundle textResources;
 
-    /** Our message formatter.  Allocated once, used many times */
-    private static MessageFormat messageFormat;
+    /** Our messbge formbtter.  Allocbted once, used mbny times */
+    privbte stbtic MessbgeFormbt messbgeFormbt;
 
     /**
-     * Fatal shutdown notification.  This is sent to System.err
-     * instead of System.out
+     * Fbtbl shutdown notificbtion.  This is sent to System.err
+     * instebd of System.out
      */
-    static void fatalError(String messageKey) {
+    stbtic void fbtblError(String messbgeKey) {
         System.err.println();
-        System.err.println(format("Fatal error"));
-        System.err.println(format(messageKey));
+        System.err.println(formbt("Fbtbl error"));
+        System.err.println(formbt(messbgeKey));
         Env.shutdown();
     }
 
     /**
-     * "Format" a string by doing a simple key lookup.
+     * "Formbt" b string by doing b simple key lookup.
      */
-    static String format(String key) {
+    stbtic String formbt(String key) {
         return (textResources.getString(key));
     }
 
     /**
-     * Fetch and format a message with one string argument.
-     * This is the most common usage.
+     * Fetch bnd formbt b messbge with one string brgument.
+     * This is the most common usbge.
      */
-    static String format(String key, String argument) {
-        return format(key, new Object [] {argument});
+    stbtic String formbt(String key, String brgument) {
+        return formbt(key, new Object [] {brgument});
     }
 
     /**
-     * Fetch a string by key lookup and format in the arguments.
+     * Fetch b string by key lookup bnd formbt in the brguments.
      */
-    static synchronized String format(String key, Object [] arguments) {
-        if (messageFormat == null) {
-            messageFormat = new MessageFormat (textResources.getString(key));
+    stbtic synchronized String formbt(String key, Object [] brguments) {
+        if (messbgeFormbt == null) {
+            messbgeFormbt = new MessbgeFormbt (textResources.getString(key));
         } else {
-            messageFormat.applyPattern (textResources.getString(key));
+            messbgeFormbt.bpplyPbttern (textResources.getString(key));
         }
-        return (messageFormat.format (arguments));
+        return (messbgeFormbt.formbt (brguments));
     }
 
     /**
      * Print directly to System.out.
-     * Every rule has a few exceptions.
-     * The exceptions to "must use the MessageOutput formatters" are:
-     *     VMConnection.dumpStream()
-     *     TTY.monitorCommand()
-     *     TTY.TTY() (for the '!!' command only)
-     *     Commands.java (multiple locations)
-     * These are the only sites that should be calling this
+     * Every rule hbs b few exceptions.
+     * The exceptions to "must use the MessbgeOutput formbtters" bre:
+     *     VMConnection.dumpStrebm()
+     *     TTY.monitorCommbnd()
+     *     TTY.TTY() (for the '!!' commbnd only)
+     *     Commbnds.jbvb (multiple locbtions)
+     * These bre the only sites thbt should be cblling this
      * method.
      */
-    static void printDirectln(String line) {
+    stbtic void printDirectln(String line) {
         System.out.println(line);
     }
-    static void printDirect(String line) {
+    stbtic void printDirect(String line) {
         System.out.print(line);
     }
-    static void printDirect(char c) {
+    stbtic void printDirect(chbr c) {
         System.out.print(c);
     }
 
     /**
-     * Print a newline.
-     * Use this instead of '\n'
+     * Print b newline.
+     * Use this instebd of '\n'
      */
-    static void println() {
+    stbtic void println() {
         System.out.println();
     }
 
     /**
-     * Format and print a simple string.
+     * Formbt bnd print b simple string.
      */
-    static void print(String key) {
-        System.out.print(format(key));
+    stbtic void print(String key) {
+        System.out.print(formbt(key));
     }
     /**
-     * Format and print a simple string.
+     * Formbt bnd print b simple string.
      */
-    static void println(String key) {
-        System.out.println(format(key));
+    stbtic void println(String key) {
+        System.out.println(formbt(key));
     }
 
 
     /**
-     * Fetch, format and print a message with one string argument.
-     * This is the most common usage.
+     * Fetch, formbt bnd print b messbge with one string brgument.
+     * This is the most common usbge.
      */
-    static void print(String key, String argument) {
-        System.out.print(format(key, argument));
+    stbtic void print(String key, String brgument) {
+        System.out.print(formbt(key, brgument));
     }
-    static void println(String key, String argument) {
-        System.out.println(format(key, argument));
-    }
-
-    /**
-     * Fetch, format and print a message with an arbitrary
-     * number of message arguments.
-     */
-    static void println(String key, Object [] arguments) {
-        System.out.println(format(key, arguments));
+    stbtic void println(String key, String brgument) {
+        System.out.println(formbt(key, brgument));
     }
 
     /**
-     * Print a newline, followed by the string.
+     * Fetch, formbt bnd print b messbge with bn brbitrbry
+     * number of messbge brguments.
      */
-    static void lnprint(String key) {
+    stbtic void println(String key, Object [] brguments) {
+        System.out.println(formbt(key, brguments));
+    }
+
+    /**
+     * Print b newline, followed by the string.
+     */
+    stbtic void lnprint(String key) {
         System.out.println();
         System.out.print(textResources.getString(key));
     }
 
-    static void lnprint(String key, String argument) {
+    stbtic void lnprint(String key, String brgument) {
         System.out.println();
-        System.out.print(format(key, argument));
+        System.out.print(formbt(key, brgument));
     }
 
-    static void lnprint(String key, Object [] arguments) {
+    stbtic void lnprint(String key, Object [] brguments) {
         System.out.println();
-        System.out.print(format(key, arguments));
+        System.out.print(formbt(key, brguments));
     }
 
     /**
-     * Print an exception message with a stack trace.
+     * Print bn exception messbge with b stbck trbce.
      */
-    static void printException(String key, Exception e) {
+    stbtic void printException(String key, Exception e) {
         if (key != null) {
             try {
                 println(key);
-            } catch (MissingResourceException mex) {
+            } cbtch (MissingResourceException mex) {
                 printDirectln(key);
             }
         }
         System.out.flush();
-        e.printStackTrace();
+        e.printStbckTrbce();
     }
 
-    static void printPrompt() {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
+    stbtic void printPrompt() {
+        ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+        if (threbdInfo == null) {
             System.out.print
-                (MessageOutput.format("jdb prompt with no current thread"));
+                (MessbgeOutput.formbt("jdb prompt with no current threbd"));
         } else {
             System.out.print
-                (MessageOutput.format("jdb prompt thread name and current stack frame",
+                (MessbgeOutput.formbt("jdb prompt threbd nbme bnd current stbck frbme",
                                       new Object [] {
-                                          threadInfo.getThread().name(),
-                                          new Integer (threadInfo.getCurrentFrameIndex() + 1)}));
+                                          threbdInfo.getThrebd().nbme(),
+                                          new Integer (threbdInfo.getCurrentFrbmeIndex() + 1)}));
         }
         System.out.flush();
     }

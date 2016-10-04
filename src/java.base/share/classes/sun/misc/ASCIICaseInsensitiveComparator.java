@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2002, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.util.Comparator;
+import jbvb.util.Compbrbtor;
 
-/** Implements a locale and case insensitive comparator suitable for
-    strings that are known to only contain ASCII characters. Some
-    tables internal to the JDK contain only ASCII data and are using
-    the "generalized" java.lang.String case-insensitive comparator
-    which converts each character to both upper and lower case. */
+/** Implements b locble bnd cbse insensitive compbrbtor suitbble for
+    strings thbt bre known to only contbin ASCII chbrbcters. Some
+    tbbles internbl to the JDK contbin only ASCII dbtb bnd bre using
+    the "generblized" jbvb.lbng.String cbse-insensitive compbrbtor
+    which converts ebch chbrbcter to both upper bnd lower cbse. */
 
-public class ASCIICaseInsensitiveComparator implements Comparator<String> {
-    public static final Comparator<String> CASE_INSENSITIVE_ORDER =
-        new ASCIICaseInsensitiveComparator();
+public clbss ASCIICbseInsensitiveCompbrbtor implements Compbrbtor<String> {
+    public stbtic finbl Compbrbtor<String> CASE_INSENSITIVE_ORDER =
+        new ASCIICbseInsensitiveCompbrbtor();
 
-    public int compare(String s1, String s2) {
+    public int compbre(String s1, String s2) {
         int n1=s1.length(), n2=s2.length();
         int minLen = n1 < n2 ? n1 : n2;
         for (int i=0; i < minLen; i++) {
-            char c1 = s1.charAt(i);
-            char c2 = s2.charAt(i);
-            assert c1 <= '\u007F' && c2 <= '\u007F';
+            chbr c1 = s1.chbrAt(i);
+            chbr c2 = s2.chbrAt(i);
+            bssert c1 <= '\u007F' && c2 <= '\u007F';
             if (c1 != c2) {
-                c1 = (char)toLower(c1);
-                c2 = (char)toLower(c2);
+                c1 = (chbr)toLower(c1);
+                c2 = (chbr)toLower(c2);
                 if (c1 != c2) {
                     return c1 - c2;
                 }
@@ -56,44 +56,44 @@ public class ASCIICaseInsensitiveComparator implements Comparator<String> {
     }
 
     /**
-     * A case insensitive hash code method to go with the case insensitive
-     * compare() method.
+     * A cbse insensitive hbsh code method to go with the cbse insensitive
+     * compbre() method.
      *
-     * Returns a hash code for this ASCII string as if it were lower case.
+     * Returns b hbsh code for this ASCII string bs if it were lower cbse.
      *
-     * returns same answer as:<p>
-     * <code>s.toLowerCase(Locale.US).hashCode();</code><p>
-     * but does not allocate memory (it does NOT have the special
-     * case Turkish rules).
+     * returns sbme bnswer bs:<p>
+     * <code>s.toLowerCbse(Locble.US).hbshCode();</code><p>
+     * but does not bllocbte memory (it does NOT hbve the specibl
+     * cbse Turkish rules).
      *
-     * @param s a String to compute the hashcode on.
-     * @return  a hash code value for this object.
+     * @pbrbm s b String to compute the hbshcode on.
+     * @return  b hbsh code vblue for this object.
      */
-    public static int lowerCaseHashCode(String s) {
+    public stbtic int lowerCbseHbshCode(String s) {
         int h = 0;
         int len = s.length();
 
         for (int i = 0; i < len; i++) {
-            h = 31*h + toLower(s.charAt(i));
+            h = 31*h + toLower(s.chbrAt(i));
         }
 
         return h;
     }
 
-    /* If java.util.regex.ASCII ever becomes public or sun.*, use its code instead:*/
-    static boolean isLower(int ch) {
-        return ((ch-'a')|('z'-ch)) >= 0;
+    /* If jbvb.util.regex.ASCII ever becomes public or sun.*, use its code instebd:*/
+    stbtic boolebn isLower(int ch) {
+        return ((ch-'b')|('z'-ch)) >= 0;
     }
 
-    static boolean isUpper(int ch) {
+    stbtic boolebn isUpper(int ch) {
         return ((ch-'A')|('Z'-ch)) >= 0;
     }
 
-    static int toLower(int ch) {
+    stbtic int toLower(int ch) {
         return isUpper(ch) ? (ch + 0x20) : ch;
     }
 
-    static int toUpper(int ch) {
+    stbtic int toUpper(int ch) {
         return isLower(ch) ? (ch - 0x20) : ch;
     }
 }

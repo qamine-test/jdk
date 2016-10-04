@@ -1,306 +1,306 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.snmp.agent;
+pbckbge com.sun.jmx.snmp.bgent;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Arrays;
-import java.util.logging.Level;
+import jbvb.util.Vector;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Arrbys;
+import jbvb.util.logging.Level;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpStatusException;
+import stbtic com.sun.jmx.defbults.JmxProperties.SNMP_ADAPTOR_LOGGER;
+import com.sun.jmx.snmp.SnmpVbrBind;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpDefinitions;
 import com.sun.jmx.snmp.SnmpOid;
 import com.sun.jmx.snmp.SnmpPdu;
 import com.sun.jmx.snmp.SnmpEngine;
 
-//  XXX: things to do: use SnmpOid rather than `instance' for future
+//  XXX: things to do: use SnmpOid rbther thbn `instbnce' for future
 //       evolutions.
-//  XXX: Maybe use hashlists rather than vectors for entries?
-//       => in that case, the key should be SnmpOid.toString()
+//  XXX: Mbybe use hbshlists rbther thbn vectors for entries?
+//       => in thbt cbse, the key should be SnmpOid.toString()
 //
 /**
- * This class is used to register varbinds from a SNMP varbind list with
- * the SnmpMibNode responsible for handling the requests concerning that
- * varbind.
- * This class holds a hashtable of Handler nodes, whith the involved
- * SnmpMibNode as a key.
- * When the involved SnmpMibNode is a group, the sublist of varbind is
- * directly stored in the Handler node.
- * When the involved SnmpMibNode is a table, the sublist is stored in a
- * sorted array indexed by the OID of the entry involved.
+ * This clbss is used to register vbrbinds from b SNMP vbrbind list with
+ * the SnmpMibNode responsible for hbndling the requests concerning thbt
+ * vbrbind.
+ * This clbss holds b hbshtbble of Hbndler nodes, whith the involved
+ * SnmpMibNode bs b key.
+ * When the involved SnmpMibNode is b group, the sublist of vbrbind is
+ * directly stored in the Hbndler node.
+ * When the involved SnmpMibNode is b tbble, the sublist is stored in b
+ * sorted brrby indexed by the OID of the entry involved.
  */
-final class SnmpRequestTree {
+finbl clbss SnmpRequestTree {
 
     // Constructor:
-    // @param  req The SnmpMibRequest that will be segmented in this
-    //         tree. It holds the original varbind vector passed
-    //         by the SnmpSubRequestHandler to this MIB. This
-    //         varbind vector is used to retrieve the "real"
-    //         position of a varbind in the vector. There is no other easy
-    //         way to do this - since as a result of the segmentation the
-    //         original positions will be lost.
-    // @param  creationflag indicates whether the operation involved
-    //         allows for entry creation (ie: it is a SET request).
-    // @param  pdutype indicates the type of the request PDU as defined
+    // @pbrbm  req The SnmpMibRequest thbt will be segmented in this
+    //         tree. It holds the originbl vbrbind vector pbssed
+    //         by the SnmpSubRequestHbndler to this MIB. This
+    //         vbrbind vector is used to retrieve the "rebl"
+    //         position of b vbrbind in the vector. There is no other ebsy
+    //         wby to do this - since bs b result of the segmentbtion the
+    //         originbl positions will be lost.
+    // @pbrbm  crebtionflbg indicbtes whether the operbtion involved
+    //         bllows for entry crebtion (ie: it is b SET request).
+    // @pbrbm  pdutype indicbtes the type of the request PDU bs defined
     //         in SnmpDefinitions
     //
-    SnmpRequestTree(SnmpMibRequest req, boolean creationflag, int pdutype) {
+    SnmpRequestTree(SnmpMibRequest req, boolebn crebtionflbg, int pdutype) {
         this.request = req;
         this.version  = req.getVersion();
-        this.creationflag = creationflag;
-        this.hashtable = new Hashtable<>();
+        this.crebtionflbg = crebtionflbg;
+        this.hbshtbble = new Hbshtbble<>();
         setPduType(pdutype);
     }
 
-    public static int mapSetException(int errorStatus, int version)
-        throws SnmpStatusException {
+    public stbtic int mbpSetException(int errorStbtus, int version)
+        throws SnmpStbtusException {
 
-        final int errorCode = errorStatus;
+        finbl int errorCode = errorStbtus;
 
         if (version == SnmpDefinitions.snmpVersionOne)
             return errorCode;
 
-        int mappedErrorCode = errorCode;
+        int mbppedErrorCode = errorCode;
 
-        // Now take care of V2 errorCodes that can be stored
-        // in the varbind itself:
-        if (errorCode == SnmpStatusException.noSuchObject)
-            // noSuchObject => notWritable
-            mappedErrorCode = SnmpStatusException.snmpRspNotWritable;
+        // Now tbke cbre of V2 errorCodes thbt cbn be stored
+        // in the vbrbind itself:
+        if (errorCode == SnmpStbtusException.noSuchObject)
+            // noSuchObject => notWritbble
+            mbppedErrorCode = SnmpStbtusException.snmpRspNotWritbble;
 
-        else if (errorCode == SnmpStatusException.noSuchInstance)
-            // noSuchInstance => notWritable
-            mappedErrorCode = SnmpStatusException.snmpRspNotWritable;
+        else if (errorCode == SnmpStbtusException.noSuchInstbnce)
+            // noSuchInstbnce => notWritbble
+            mbppedErrorCode = SnmpStbtusException.snmpRspNotWritbble;
 
-        return mappedErrorCode;
+        return mbppedErrorCode;
     }
 
-    public static int mapGetException(int errorStatus, int version)
-        throws SnmpStatusException {
+    public stbtic int mbpGetException(int errorStbtus, int version)
+        throws SnmpStbtusException {
 
-        final int errorCode = errorStatus;
+        finbl int errorCode = errorStbtus;
         if (version == SnmpDefinitions.snmpVersionOne)
             return errorCode;
 
-        int mappedErrorCode = errorCode;
+        int mbppedErrorCode = errorCode;
 
-        // Now take care of V2 errorCodes that can be stored
-        // in the varbind itself:
+        // Now tbke cbre of V2 errorCodes thbt cbn be stored
+        // in the vbrbind itself:
         if (errorCode ==
-            SnmpStatusException.noSuchObject)
+            SnmpStbtusException.noSuchObject)
             // noSuchObject => noSuchObject
-            mappedErrorCode = errorCode;
+            mbppedErrorCode = errorCode;
 
         else if (errorCode ==
-                 SnmpStatusException.noSuchInstance)
-            // noSuchInstance => noSuchInstance
-            mappedErrorCode = errorCode;
+                 SnmpStbtusException.noSuchInstbnce)
+            // noSuchInstbnce => noSuchInstbnce
+            mbppedErrorCode = errorCode;
 
-        // Now we're going to try to transform every other
-        // global code in either noSuchInstance or noSuchObject,
-        // so that the get can return a partial result.
+        // Now we're going to try to trbnsform every other
+        // globbl code in either noSuchInstbnce or noSuchObject,
+        // so thbt the get cbn return b pbrtibl result.
         //
-        // Only noSuchInstance or noSuchObject can be stored
-        // in the varbind itself.
+        // Only noSuchInstbnce or noSuchObject cbn be stored
+        // in the vbrbind itself.
         //
 
         // According to RFC 1905: noAccess is emitted when the
-        // the access is denied because it is not in the MIB view...
+        // the bccess is denied becbuse it is not in the MIB view...
         //
         else if (errorCode ==
-                 SnmpStatusException.noAccess)
-            // noAccess => noSuchInstance
-            mappedErrorCode = SnmpStatusException.noSuchInstance;
+                 SnmpStbtusException.noAccess)
+            // noAccess => noSuchInstbnce
+            mbppedErrorCode = SnmpStbtusException.noSuchInstbnce;
 
-        // According to RFC 1905: (my interpretation because it is not
-        // really clear) The specified variable name exists - but the
-        // variable does not exists and cannot be created under the
-        // present circumstances (probably because the request specifies
-        // another variable/value which is incompatible, or because the
-        // value of some other variable in the MIB prevents the creation)
+        // According to RFC 1905: (my interpretbtion becbuse it is not
+        // reblly clebr) The specified vbribble nbme exists - but the
+        // vbribble does not exists bnd cbnnot be crebted under the
+        // present circumstbnces (probbbly becbuse the request specifies
+        // bnother vbribble/vblue which is incompbtible, or becbuse the
+        // vblue of some other vbribble in the MIB prevents the crebtion)
         //
-        // Note that this error should never be raised in a GET context
+        // Note thbt this error should never be rbised in b GET context
         // but who knows?
         //
-        else if (errorCode == SnmpStatusException.snmpRspInconsistentName)
-            // inconsistentName => noSuchInstance
-            mappedErrorCode = SnmpStatusException.noSuchInstance;
+        else if (errorCode == SnmpStbtusException.snmpRspInconsistentNbme)
+            // inconsistentNbme => noSuchInstbnce
+            mbppedErrorCode = SnmpStbtusException.noSuchInstbnce;
 
-        // All the errors comprised between snmpRspWrongType and
-        // snmpRspInconsistentValue concern values: so we're going
-        // to assume the OID was correct, and reply with noSuchInstance.
+        // All the errors comprised between snmpRspWrongType bnd
+        // snmpRspInconsistentVblue concern vblues: so we're going
+        // to bssume the OID wbs correct, bnd reply with noSuchInstbnce.
         //
-        // Note that this error should never be raised in a GET context
+        // Note thbt this error should never be rbised in b GET context
         // but who knows?
         //
-        else if ((errorCode >= SnmpStatusException.snmpRspWrongType) &&
-                 (errorCode <= SnmpStatusException.snmpRspInconsistentValue))
-            mappedErrorCode = SnmpStatusException.noSuchInstance;
+        else if ((errorCode >= SnmpStbtusException.snmpRspWrongType) &&
+                 (errorCode <= SnmpStbtusException.snmpRspInconsistentVblue))
+            mbppedErrorCode = SnmpStbtusException.noSuchInstbnce;
 
-        // We're going to assume the OID was correct, and reply
-        // with noSuchInstance.
+        // We're going to bssume the OID wbs correct, bnd reply
+        // with noSuchInstbnce.
         //
-        else if (errorCode == SnmpStatusException.readOnly)
-            mappedErrorCode = SnmpStatusException.noSuchInstance;
+        else if (errorCode == SnmpStbtusException.rebdOnly)
+            mbppedErrorCode = SnmpStbtusException.noSuchInstbnce;
 
-        // For all other errors but genErr, we're going to reply with
+        // For bll other errors but genErr, we're going to reply with
         // noSuchObject
         //
-        else if (errorCode != SnmpStatusException.snmpRspAuthorizationError &&
-                 errorCode != SnmpStatusException.snmpRspGenErr)
-            mappedErrorCode = SnmpStatusException.noSuchObject;
+        else if (errorCode != SnmpStbtusException.snmpRspAuthorizbtionError &&
+                 errorCode != SnmpStbtusException.snmpRspGenErr)
+            mbppedErrorCode = SnmpStbtusException.noSuchObject;
 
-        // Only genErr will abort the GET and be returned as global
+        // Only genErr will bbort the GET bnd be returned bs globbl
         // error.
         //
-        return mappedErrorCode;
+        return mbppedErrorCode;
 
     }
 
     //-------------------------------------------------------------------
-    // This class is a package implementation of the enumeration of
-    // SnmSubRequest associated with an Handler node.
+    // This clbss is b pbckbge implementbtion of the enumerbtion of
+    // SnmSubRequest bssocibted with bn Hbndler node.
     //-------------------------------------------------------------------
 
-    static final class Enum implements Enumeration<SnmpMibSubRequest> {
-        Enum(SnmpRequestTree hlist,Handler h) {
-            handler = h;
+    stbtic finbl clbss Enum implements Enumerbtion<SnmpMibSubRequest> {
+        Enum(SnmpRequestTree hlist,Hbndler h) {
+            hbndler = h;
             this.hlist = hlist;
             size = h.getSubReqCount();
         }
-        private final Handler handler;
-        private final SnmpRequestTree hlist;
-        private int   entry = 0;
-        private int   iter  = 0;
-        private int   size  = 0;
+        privbte finbl Hbndler hbndler;
+        privbte finbl SnmpRequestTree hlist;
+        privbte int   entry = 0;
+        privbte int   iter  = 0;
+        privbte int   size  = 0;
 
         @Override
-        public boolean hasMoreElements() {
+        public boolebn hbsMoreElements() {
             return iter < size;
         }
 
         @Override
         public SnmpMibSubRequest nextElement() throws NoSuchElementException  {
             if (iter == 0) {
-                if (handler.sublist != null) {
+                if (hbndler.sublist != null) {
                     iter++;
-                    return hlist.getSubRequest(handler);
+                    return hlist.getSubRequest(hbndler);
                 }
             }
             iter ++;
             if (iter > size) throw new NoSuchElementException();
-            SnmpMibSubRequest result = hlist.getSubRequest(handler,entry);
+            SnmpMibSubRequest result = hlist.getSubRequest(hbndler,entry);
             entry++;
             return result;
         }
     }
 
     //-------------------------------------------------------------------
-    // This class is a package implementation of the SnmpMibSubRequest
-    // interface. It can only be instantiated by SnmpRequestTree.
+    // This clbss is b pbckbge implementbtion of the SnmpMibSubRequest
+    // interfbce. It cbn only be instbntibted by SnmpRequestTree.
     //-------------------------------------------------------------------
 
-    static final class SnmpMibSubRequestImpl implements SnmpMibSubRequest {
-        SnmpMibSubRequestImpl(SnmpMibRequest global, Vector<SnmpVarBind> sublist,
-                           SnmpOid entryoid, boolean isnew,
-                           boolean getnextflag, SnmpVarBind rs) {
-            this.global = global;
-            varbinds           = sublist;
-            this.version       = global.getVersion();
+    stbtic finbl clbss SnmpMibSubRequestImpl implements SnmpMibSubRequest {
+        SnmpMibSubRequestImpl(SnmpMibRequest globbl, Vector<SnmpVbrBind> sublist,
+                           SnmpOid entryoid, boolebn isnew,
+                           boolebn getnextflbg, SnmpVbrBind rs) {
+            this.globbl = globbl;
+            vbrbinds           = sublist;
+            this.version       = globbl.getVersion();
             this.entryoid      = entryoid;
             this.isnew         = isnew;
-            this.getnextflag   = getnextflag;
-            this.statusvb      = rs;
+            this.getnextflbg   = getnextflbg;
+            this.stbtusvb      = rs;
         }
 
-        final private Vector<SnmpVarBind> varbinds;
-        final private SnmpMibRequest global;
-        final private int            version;
-        final private boolean        isnew;
-        final private SnmpOid        entryoid;
-        final private boolean        getnextflag;
-        final private SnmpVarBind    statusvb;
+        finbl privbte Vector<SnmpVbrBind> vbrbinds;
+        finbl privbte SnmpMibRequest globbl;
+        finbl privbte int            version;
+        finbl privbte boolebn        isnew;
+        finbl privbte SnmpOid        entryoid;
+        finbl privbte boolebn        getnextflbg;
+        finbl privbte SnmpVbrBind    stbtusvb;
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
+        // Implements the method defined in SnmpMibRequest interfbce.
+        // See SnmpMibRequest for the jbvb doc.
         // -------------------------------------------------------------
         @Override
-        public Enumeration<SnmpVarBind> getElements() {
-            return varbinds.elements();
-        }
-
-        // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
-        // -------------------------------------------------------------
-        @Override
-        public Vector<SnmpVarBind> getSubList() {
-            return varbinds;
+        public Enumerbtion<SnmpVbrBind> getElements() {
+            return vbrbinds.elements();
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
+        // Implements the method defined in SnmpMibRequest interfbce.
+        // See SnmpMibRequest for the jbvb doc.
         // -------------------------------------------------------------
         @Override
-        public final int getSize()  {
-            if (varbinds == null) return 0;
-            return varbinds.size();
+        public Vector<SnmpVbrBind> getSubList() {
+            return vbrbinds;
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
+        // Implements the method defined in SnmpMibRequest interfbce.
+        // See SnmpMibRequest for the jbvb doc.
         // -------------------------------------------------------------
         @Override
-        public void addVarBind(SnmpVarBind varbind) {
-            // XXX not sure we must also add the varbind in the global
-            //     request? or whether we should raise an exception:
-            //     in principle, this method should not be called!
-            varbinds.addElement(varbind);
-            global.addVarBind(varbind);
+        public finbl int getSize()  {
+            if (vbrbinds == null) return 0;
+            return vbrbinds.size();
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibSubRequest interface.
-        // See SnmpMibSubRequest for the java doc.
+        // Implements the method defined in SnmpMibRequest interfbce.
+        // See SnmpMibRequest for the jbvb doc.
         // -------------------------------------------------------------
         @Override
-        public boolean isNewEntry() {
+        public void bddVbrBind(SnmpVbrBind vbrbind) {
+            // XXX not sure we must blso bdd the vbrbind in the globbl
+            //     request? or whether we should rbise bn exception:
+            //     in principle, this method should not be cblled!
+            vbrbinds.bddElement(vbrbind);
+            globbl.bddVbrBind(vbrbind);
+        }
+
+        // -------------------------------------------------------------
+        // Implements the method defined in SnmpMibSubRequest interfbce.
+        // See SnmpMibSubRequest for the jbvb doc.
+        // -------------------------------------------------------------
+        @Override
+        public boolebn isNewEntry() {
             return isnew;
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibSubRequest interface.
-        // See SnmpMibSubRequest for the java doc.
+        // Implements the method defined in SnmpMibSubRequest interfbce.
+        // See SnmpMibSubRequest for the jbvb doc.
         // -------------------------------------------------------------
         @Override
         public SnmpOid getEntryOid() {
@@ -308,118 +308,118 @@ final class SnmpRequestTree {
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
+        // Implements the method defined in SnmpMibRequest interfbce.
+        // See SnmpMibRequest for the jbvb doc.
         // -------------------------------------------------------------
         @Override
-        public int getVarIndex(SnmpVarBind varbind) {
-            if (varbind == null) return 0;
-            return global.getVarIndex(varbind);
+        public int getVbrIndex(SnmpVbrBind vbrbind) {
+            if (vbrbind == null) return 0;
+            return globbl.getVbrIndex(vbrbind);
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
+        // Implements the method defined in SnmpMibRequest interfbce.
+        // See SnmpMibRequest for the jbvb doc.
         // -------------------------------------------------------------
         @Override
-        public Object getUserData() { return global.getUserData(); }
+        public Object getUserDbtb() { return globbl.getUserDbtb(); }
 
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibSubRequest interface.
-        // See SnmpMibSubRequest for the java doc.
+        // Implements the method defined in SnmpMibSubRequest interfbce.
+        // See SnmpMibSubRequest for the jbvb doc.
         // -------------------------------------------------------------
 
         @Override
-        public void registerGetException(SnmpVarBind var,
-                                         SnmpStatusException exception)
-            throws SnmpStatusException {
+        public void registerGetException(SnmpVbrBind vbr,
+                                         SnmpStbtusException exception)
+            throws SnmpStbtusException {
             // The index in the exception must correspond to
             // the SNMP index ...
             //
             if (version == SnmpDefinitions.snmpVersionOne)
-                throw new SnmpStatusException(exception, getVarIndex(var)+1);
+                throw new SnmpStbtusException(exception, getVbrIndex(vbr)+1);
 
-            if (var == null)
+            if (vbr == null)
                 throw exception;
 
-            // If we're doing a getnext ==> endOfMibView
-            if (getnextflag) {
-                var.value = SnmpVarBind.endOfMibView;
+            // If we're doing b getnext ==> endOfMibView
+            if (getnextflbg) {
+                vbr.vblue = SnmpVbrBind.endOfMibView;
                 return;
             }
 
-            final int errorCode = mapGetException(exception.getStatus(),
+            finbl int errorCode = mbpGetException(exception.getStbtus(),
                                                   version);
 
-            // Now take care of V2 errorCodes that can be stored
-            // in the varbind itself:
+            // Now tbke cbre of V2 errorCodes thbt cbn be stored
+            // in the vbrbind itself:
             if (errorCode ==
-                SnmpStatusException.noSuchObject)
+                SnmpStbtusException.noSuchObject)
                 // noSuchObject => noSuchObject
-                var.value= SnmpVarBind.noSuchObject;
+                vbr.vblue= SnmpVbrBind.noSuchObject;
 
             else if (errorCode ==
-                     SnmpStatusException.noSuchInstance)
-                // noSuchInstance => noSuchInstance
-                var.value= SnmpVarBind.noSuchInstance;
+                     SnmpStbtusException.noSuchInstbnce)
+                // noSuchInstbnce => noSuchInstbnce
+                vbr.vblue= SnmpVbrBind.noSuchInstbnce;
 
             else
-                throw new SnmpStatusException(errorCode, getVarIndex(var)+1);
+                throw new SnmpStbtusException(errorCode, getVbrIndex(vbr)+1);
 
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibSubRequest interface.
-        // See SnmpMibSubRequest for the java doc.
+        // Implements the method defined in SnmpMibSubRequest interfbce.
+        // See SnmpMibSubRequest for the jbvb doc.
         // -------------------------------------------------------------
         @Override
-        public void registerSetException(SnmpVarBind var,
-                                         SnmpStatusException exception)
-            throws SnmpStatusException {
+        public void registerSetException(SnmpVbrBind vbr,
+                                         SnmpStbtusException exception)
+            throws SnmpStbtusException {
             // The index in the exception must correspond to
             // the SNMP index ...
             //
             if (version == SnmpDefinitions.snmpVersionOne)
-                throw new SnmpStatusException(exception, getVarIndex(var)+1);
+                throw new SnmpStbtusException(exception, getVbrIndex(vbr)+1);
 
-            // Although the first pass of check() did not fail,
-            // the set() phase could not be carried out correctly.
-            // Since we don't know how to make an "undo", and some
-            // assignation may already have been performed, we're going
-            // to throw an snmpRspUndoFailed.
+            // Although the first pbss of check() did not fbil,
+            // the set() phbse could not be cbrried out correctly.
+            // Since we don't know how to mbke bn "undo", bnd some
+            // bssignbtion mby blrebdy hbve been performed, we're going
+            // to throw bn snmpRspUndoFbiled.
             //
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspUndoFailed,
-                                          getVarIndex(var)+1);
+            throw new SnmpStbtusException(SnmpDefinitions.snmpRspUndoFbiled,
+                                          getVbrIndex(vbr)+1);
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibSubRequest interface.
-        // See SnmpMibSubRequest for the java doc.
+        // Implements the method defined in SnmpMibSubRequest interfbce.
+        // See SnmpMibSubRequest for the jbvb doc.
         // -------------------------------------------------------------
         @Override
-        public void registerCheckException(SnmpVarBind var,
-                                           SnmpStatusException exception)
-            throws SnmpStatusException {
+        public void registerCheckException(SnmpVbrBind vbr,
+                                           SnmpStbtusException exception)
+            throws SnmpStbtusException {
             // The index in the exception must correspond to
             // the SNMP index ...
             //
-            // We throw the exception in order to abort the SET operation
-            // in an atomic way.
-            final int errorCode = exception.getStatus();
-            final int mappedErrorCode = mapSetException(errorCode,
+            // We throw the exception in order to bbort the SET operbtion
+            // in bn btomic wby.
+            finbl int errorCode = exception.getStbtus();
+            finbl int mbppedErrorCode = mbpSetException(errorCode,
                                                         version);
 
-            if (errorCode != mappedErrorCode)
+            if (errorCode != mbppedErrorCode)
                 throw new
-                    SnmpStatusException(mappedErrorCode, getVarIndex(var)+1);
+                    SnmpStbtusException(mbppedErrorCode, getVbrIndex(vbr)+1);
             else
-                throw new SnmpStatusException(exception, getVarIndex(var)+1);
+                throw new SnmpStbtusException(exception, getVbrIndex(vbr)+1);
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
+        // Implements the method defined in SnmpMibRequest interfbce.
+        // See SnmpMibRequest for the jbvb doc.
         // -------------------------------------------------------------
         @Override
         public int getVersion() {
@@ -427,238 +427,238 @@ final class SnmpRequestTree {
         }
 
         @Override
-        public SnmpVarBind getRowStatusVarBind() {
-            return statusvb;
+        public SnmpVbrBind getRowStbtusVbrBind() {
+            return stbtusvb;
         }
 
         @Override
         public SnmpPdu getPdu() {
-            return global.getPdu();
+            return globbl.getPdu();
         }
 
         @Override
         public int getRequestPduVersion() {
-            return global.getRequestPduVersion();
+            return globbl.getRequestPduVersion();
         }
 
         @Override
         public SnmpEngine getEngine() {
-            return global.getEngine();
+            return globbl.getEngine();
         }
 
         @Override
-        public String getPrincipal() {
-            return global.getPrincipal();
+        public String getPrincipbl() {
+            return globbl.getPrincipbl();
         }
 
         @Override
         public int getSecurityLevel() {
-            return global.getSecurityLevel();
+            return globbl.getSecurityLevel();
         }
 
         @Override
         public int getSecurityModel() {
-            return global.getSecurityModel();
+            return globbl.getSecurityModel();
         }
 
         @Override
-        public byte[] getContextName() {
-            return global.getContextName();
+        public byte[] getContextNbme() {
+            return globbl.getContextNbme();
         }
 
         @Override
-        public byte[] getAccessContextName() {
-            return global.getAccessContextName();
+        public byte[] getAccessContextNbme() {
+            return globbl.getAccessContextNbme();
         }
     }
 
     //-------------------------------------------------------------------
-    // This class implements a node in the SnmpRequestTree.
+    // This clbss implements b node in the SnmpRequestTree.
     // It stores:
     //    o The SnmpMibNode involved (key)
-    //    o The sublist of varbind directly handled by this node
+    //    o The sublist of vbrbind directly hbndled by this node
     //    o A vector of sublists concerning the entries (existing or not)
-    //      of the SnmpMIbNode (when it is a table).
+    //      of the SnmpMIbNode (when it is b tbble).
     //-------------------------------------------------------------------
 
-    static final class Handler {
-        SnmpMibNode meta;       // The meta  which handles the sublist.
-        int         depth;      // The depth of the meta node.
-        Vector<SnmpVarBind> sublist; // The sublist of varbinds to be handled.
-        // List        entryoids;  // Sorted array of entry oids
-        // List        entrylists; // Sorted array of entry lists
-        // List        isentrynew; // Sorted array of booleans
-        SnmpOid[]     entryoids  = null; // Sorted array of entry oids
-        Vector<SnmpVarBind>[] entrylists = null; // Sorted array of entry lists
-        boolean[]     isentrynew = null; // Sorted array of booleans
-        SnmpVarBind[] rowstatus  = null; // RowStatus varbind, if any
+    stbtic finbl clbss Hbndler {
+        SnmpMibNode metb;       // The metb  which hbndles the sublist.
+        int         depth;      // The depth of the metb node.
+        Vector<SnmpVbrBind> sublist; // The sublist of vbrbinds to be hbndled.
+        // List        entryoids;  // Sorted brrby of entry oids
+        // List        entrylists; // Sorted brrby of entry lists
+        // List        isentrynew; // Sorted brrby of boolebns
+        SnmpOid[]     entryoids  = null; // Sorted brrby of entry oids
+        Vector<SnmpVbrBind>[] entrylists = null; // Sorted brrby of entry lists
+        boolebn[]     isentrynew = null; // Sorted brrby of boolebns
+        SnmpVbrBind[] rowstbtus  = null; // RowStbtus vbrbind, if bny
         int entrycount = 0;
         int entrysize  = 0;
 
-        final int type; // request PDU type as defined in SnmpDefinitions
-        final private static int Delta = 10;
+        finbl int type; // request PDU type bs defined in SnmpDefinitions
+        finbl privbte stbtic int Deltb = 10;
 
-        public Handler(int pduType) {
+        public Hbndler(int pduType) {
             this.type = pduType;
         }
 
         /**
-         * Adds a varbind in this node sublist.
+         * Adds b vbrbind in this node sublist.
          */
-        public void addVarbind(SnmpVarBind varbind) {
+        public void bddVbrbind(SnmpVbrBind vbrbind) {
             if (sublist == null) sublist = new Vector<>();
-            sublist.addElement(varbind);
+            sublist.bddElement(vbrbind);
         }
 
         /**
-         * register an entry for the given oid at the given position with
+         * register bn entry for the given oid bt the given position with
          * the given sublist.
          */
-        @SuppressWarnings("unchecked")
-        // We need this because of new Vector[n] instead of
-        // new Vector<SnmpVarBind>[n], which is illegal.
-        void add(int pos,SnmpOid oid, Vector<SnmpVarBind> v, boolean isnew,
-                 SnmpVarBind statusvb) {
+        @SuppressWbrnings("unchecked")
+        // We need this becbuse of new Vector[n] instebd of
+        // new Vector<SnmpVbrBind>[n], which is illegbl.
+        void bdd(int pos,SnmpOid oid, Vector<SnmpVbrBind> v, boolebn isnew,
+                 SnmpVbrBind stbtusvb) {
 
             if (entryoids == null) {
-                // Vectors are null: Allocate new vectors
+                // Vectors bre null: Allocbte new vectors
 
-                entryoids  = new SnmpOid[Delta];
-                entrylists = (Vector<SnmpVarBind>[])new Vector<?>[Delta];
-                isentrynew = new boolean[Delta];
-                rowstatus  = new SnmpVarBind[Delta];
-                entrysize  = Delta;
+                entryoids  = new SnmpOid[Deltb];
+                entrylists = (Vector<SnmpVbrBind>[])new Vector<?>[Deltb];
+                isentrynew = new boolebn[Deltb];
+                rowstbtus  = new SnmpVbrBind[Deltb];
+                entrysize  = Deltb;
                 pos = 0;
 
             } else if (pos >= entrysize || entrycount == entrysize) {
-                // Vectors must be enlarged
+                // Vectors must be enlbrged
 
-                // Save old vectors
+                // Sbve old vectors
                 SnmpOid[]     olde = entryoids;
-                Vector<SnmpVarBind>[]      oldl = entrylists;
-                boolean[]     oldn = isentrynew;
-                SnmpVarBind[] oldr = rowstatus;
+                Vector<SnmpVbrBind>[]      oldl = entrylists;
+                boolebn[]     oldn = isentrynew;
+                SnmpVbrBind[] oldr = rowstbtus;
 
-                // Allocate larger vectors
-                entrysize += Delta;
+                // Allocbte lbrger vectors
+                entrysize += Deltb;
                 entryoids =  new SnmpOid[entrysize];
-                entrylists = (Vector<SnmpVarBind>[])new Vector<?>[entrysize];
-                isentrynew = new boolean[entrysize];
-                rowstatus  = new SnmpVarBind[entrysize];
+                entrylists = (Vector<SnmpVbrBind>[])new Vector<?>[entrysize];
+                isentrynew = new boolebn[entrysize];
+                rowstbtus  = new SnmpVbrBind[entrysize];
 
-                // Check pos validity
+                // Check pos vblidity
                 if (pos > entrycount) pos = entrycount;
                 if (pos < 0) pos = 0;
 
-                final int l1 = pos;
-                final int l2 = entrycount - pos;
+                finbl int l1 = pos;
+                finbl int l2 = entrycount - pos;
 
-                // Copy original vectors up to `pos'
+                // Copy originbl vectors up to `pos'
                 if (l1 > 0) {
-                    java.lang.System.arraycopy(olde,0,entryoids,
+                    jbvb.lbng.System.brrbycopy(olde,0,entryoids,
                                                0,l1);
-                    java.lang.System.arraycopy(oldl,0,entrylists,
+                    jbvb.lbng.System.brrbycopy(oldl,0,entrylists,
                                                0,l1);
-                    java.lang.System.arraycopy(oldn,0,isentrynew,
+                    jbvb.lbng.System.brrbycopy(oldn,0,isentrynew,
                                                0,l1);
-                    java.lang.System.arraycopy(oldr,0,rowstatus,
+                    jbvb.lbng.System.brrbycopy(oldr,0,rowstbtus,
                                                0,l1);
                 }
 
-                // Copy original vectors from `pos' to end, leaving
-                // an empty room at `pos' in the new vectors.
+                // Copy originbl vectors from `pos' to end, lebving
+                // bn empty room bt `pos' in the new vectors.
                 if (l2 > 0) {
-                    final int l3 = l1+1;
-                    java.lang.System.arraycopy(olde,l1,entryoids,
+                    finbl int l3 = l1+1;
+                    jbvb.lbng.System.brrbycopy(olde,l1,entryoids,
                                                l3,l2);
-                    java.lang.System.arraycopy(oldl,l1,entrylists,
+                    jbvb.lbng.System.brrbycopy(oldl,l1,entrylists,
                                                l3,l2);
-                    java.lang.System.arraycopy(oldn,l1,isentrynew,
+                    jbvb.lbng.System.brrbycopy(oldn,l1,isentrynew,
                                                l3,l2);
-                    java.lang.System.arraycopy(oldr,l1,rowstatus,
+                    jbvb.lbng.System.brrbycopy(oldr,l1,rowstbtus,
                                                l3,l2);
                 }
 
 
             } else if (pos < entrycount) {
-                // Vectors are large enough to accommodate one additional
+                // Vectors bre lbrge enough to bccommodbte one bdditionbl
                 // entry.
                 //
-                // Shift vectors, making an empty room at `pos'
-                final int l1 = pos+1;
-                final int l2 = entrycount - pos;
+                // Shift vectors, mbking bn empty room bt `pos'
+                finbl int l1 = pos+1;
+                finbl int l2 = entrycount - pos;
 
-                java.lang.System.arraycopy(entryoids,pos,entryoids,
+                jbvb.lbng.System.brrbycopy(entryoids,pos,entryoids,
                                            l1,l2);
-                java.lang.System.arraycopy(entrylists,pos,entrylists,
+                jbvb.lbng.System.brrbycopy(entrylists,pos,entrylists,
                                            l1,l2);
-                java.lang.System.arraycopy(isentrynew,pos,isentrynew,
+                jbvb.lbng.System.brrbycopy(isentrynew,pos,isentrynew,
                                            l1,l2);
-                java.lang.System.arraycopy(rowstatus,pos,rowstatus,
+                jbvb.lbng.System.brrbycopy(rowstbtus,pos,rowstbtus,
                                            l1,l2);
             }
 
-            // Fill the gap at `pos'
+            // Fill the gbp bt `pos'
             entryoids[pos]  = oid;
             entrylists[pos] = v;
             isentrynew[pos] = isnew;
-            rowstatus[pos]  = statusvb;
+            rowstbtus[pos]  = stbtusvb;
             entrycount++;
         }
 
-        public void addVarbind(SnmpVarBind varbind, SnmpOid entryoid,
-                               boolean isnew, SnmpVarBind statusvb)
-            throws SnmpStatusException {
-            Vector<SnmpVarBind> v = null;
-            SnmpVarBind rs = statusvb;
+        public void bddVbrbind(SnmpVbrBind vbrbind, SnmpOid entryoid,
+                               boolebn isnew, SnmpVbrBind stbtusvb)
+            throws SnmpStbtusException {
+            Vector<SnmpVbrBind> v = null;
+            SnmpVbrBind rs = stbtusvb;
 
             if (entryoids == null) {
-//              entryoids = new ArrayList();
-//              entrylists = new ArrayList();
-//              isentrynew = new ArrayList();
+//              entryoids = new ArrbyList();
+//              entrylists = new ArrbyList();
+//              isentrynew = new ArrbyList();
                 v = new Vector<>();
-//              entryoids.add(entryoid);
-//              entrylists.add(v);
-//              isentrynew.add(new Boolean(isnew));
-                add(0,entryoid,v,isnew,rs);
+//              entryoids.bdd(entryoid);
+//              entrylists.bdd(v);
+//              isentrynew.bdd(new Boolebn(isnew));
+                bdd(0,entryoid,v,isnew,rs);
             } else {
                 // int pos = findOid(entryoids,entryoid);
                 // int pos = findOid(entryoids,entrycount,entryoid);
-                final int pos =
+                finbl int pos =
                     getInsertionPoint(entryoids,entrycount,entryoid);
                 if (pos > -1 && pos < entrycount &&
-                    entryoid.compareTo(entryoids[pos]) == 0) {
+                    entryoid.compbreTo(entryoids[pos]) == 0) {
                     v  = entrylists[pos];
-                    rs = rowstatus[pos];
+                    rs = rowstbtus[pos];
                 } else {
                     // if (pos == -1 || pos >= entryoids.size() ) {
                     // if (pos == -1 || pos >= entrycount ) {
                     // pos = getInsertionPoint(entryoids,entryoid);
                     // pos = getInsertionPoint(entryoids,entrycount,entryoid);
                     v = new Vector<>();
-//                  entryoids.add(pos,entryoid);
-//                  entrylists.add(pos,v);
-//                  isentrynew.add(pos,new Boolean(isnew));
-                    add(pos,entryoid,v,isnew,rs);
+//                  entryoids.bdd(pos,entryoid);
+//                  entrylists.bdd(pos,v);
+//                  isentrynew.bdd(pos,new Boolebn(isnew));
+                    bdd(pos,entryoid,v,isnew,rs);
                 }
 //              } else v = (Vector) entrylists.get(pos);
                     // } else v = entrylists[pos];
-                if (statusvb != null) {
-                    if ((rs != null) && (rs != statusvb) &&
-                        ((type == SnmpDefinitions.pduWalkRequest) ||
+                if (stbtusvb != null) {
+                    if ((rs != null) && (rs != stbtusvb) &&
+                        ((type == SnmpDefinitions.pduWblkRequest) ||
                          (type == SnmpDefinitions.pduSetRequestPdu))) {
-                        throw new SnmpStatusException(
-                              SnmpStatusException.snmpRspInconsistentValue);
+                        throw new SnmpStbtusException(
+                              SnmpStbtusException.snmpRspInconsistentVblue);
                     }
-                    rowstatus[pos] = statusvb;
+                    rowstbtus[pos] = stbtusvb;
                 }
             }
 
-            // We do not include the status variable in the varbind,
-            // because we're going to set it separately...
+            // We do not include the stbtus vbribble in the vbrbind,
+            // becbuse we're going to set it sepbrbtely...
             //
-            if (statusvb != varbind)
-                v.addElement(varbind);
+            if (stbtusvb != vbrbind)
+                v.bddElement(vbrbind);
         }
 
         public int getSubReqCount() {
@@ -669,7 +669,7 @@ final class SnmpRequestTree {
             return count;
         }
 
-        public Vector<SnmpVarBind> getSubList() {
+        public Vector<SnmpVbrBind> getSubList() {
             return sublist;
         }
 
@@ -686,23 +686,23 @@ final class SnmpRequestTree {
             return entryoids[pos];
         }
 
-        public boolean isNewEntry(int pos) {
-            if (entryoids == null) return false;
-            // if (pos == -1 || pos >= entryoids.size() ) return false;
-            if (pos == -1 || pos >= entrycount ) return false;
-            // return ((Boolean)isentrynew.get(pos)).booleanValue();
+        public boolebn isNewEntry(int pos) {
+            if (entryoids == null) return fblse;
+            // if (pos == -1 || pos >= entryoids.size() ) return fblse;
+            if (pos == -1 || pos >= entrycount ) return fblse;
+            // return ((Boolebn)isentrynew.get(pos)).boolebnVblue();
             return isentrynew[pos];
         }
 
-        public SnmpVarBind getRowStatusVarBind(int pos) {
+        public SnmpVbrBind getRowStbtusVbrBind(int pos) {
             if (entryoids == null) return null;
-            // if (pos == -1 || pos >= entryoids.size() ) return false;
+            // if (pos == -1 || pos >= entryoids.size() ) return fblse;
             if (pos == -1 || pos >= entrycount ) return null;
-            // return ((Boolean)isentrynew.get(pos)).booleanValue();
-            return rowstatus[pos];
+            // return ((Boolebn)isentrynew.get(pos)).boolebnVblue();
+            return rowstbtus[pos];
         }
 
-        public Vector<SnmpVarBind> getEntrySubList(int pos) {
+        public Vector<SnmpVbrBind> getEntrySubList(int pos) {
             if (entrylists == null) return null;
             // if (pos == -1 || pos >= entrylists.size() ) return null;
             if (pos == -1 || pos >= entrycount ) return null;
@@ -710,10 +710,10 @@ final class SnmpRequestTree {
             return entrylists[pos];
         }
 
-        public Iterator<SnmpOid> getEntryOids() {
+        public Iterbtor<SnmpOid> getEntryOids() {
             if (entryoids == null) return null;
-            // return entryoids.iterator();
-            return Arrays.asList(entryoids).iterator();
+            // return entryoids.iterbtor();
+            return Arrbys.bsList(entryoids).iterbtor();
         }
 
         public int getEntryCount() {
@@ -727,37 +727,37 @@ final class SnmpRequestTree {
 
     //-------------------------------------------------------------------
     //-------------------------------------------------------------------
-    // Public interface
+    // Public interfbce
     //-------------------------------------------------------------------
     //-------------------------------------------------------------------
 
     //-------------------------------------------------------------------
-    // Returns the contextual object containing user-data allocated
-    // through the SnmpUserDataFactory for this request.
+    // Returns the contextubl object contbining user-dbtb bllocbted
+    // through the SnmpUserDbtbFbctory for this request.
     //-------------------------------------------------------------------
 
-    public Object getUserData() { return request.getUserData(); }
+    public Object getUserDbtb() { return request.getUserDbtb(); }
 
     //-------------------------------------------------------------------
-    // Tells whether creation of new entries is allowed with respect
-    // to the operation involved (GET=>false/SET=>true)
+    // Tells whether crebtion of new entries is bllowed with respect
+    // to the operbtion involved (GET=>fblse/SET=>true)
     //-------------------------------------------------------------------
 
-    public boolean isCreationAllowed() {
-        return creationflag;
+    public boolebn isCrebtionAllowed() {
+        return crebtionflbg;
     }
 
     //-------------------------------------------------------------------
-    // Tells whether we are currently processing a SET request (check/set)
+    // Tells whether we bre currently processing b SET request (check/set)
     //-------------------------------------------------------------------
 
-    public boolean isSetRequest() {
-        return setreqflag;
+    public boolebn isSetRequest() {
+        return setreqflbg;
     }
 
     //-------------------------------------------------------------------
-    // Returns the protocol version in which the original request is
-    // evaluated.
+    // Returns the protocol version in which the originbl request is
+    // evblubted.
     //-------------------------------------------------------------------
 
     public int getVersion() {
@@ -765,7 +765,7 @@ final class SnmpRequestTree {
     }
 
     //-------------------------------------------------------------------
-    // Returns the actual protocol version of the request PDU.
+    // Returns the bctubl protocol version of the request PDU.
     //-------------------------------------------------------------------
 
     public int getRequestPduVersion() {
@@ -773,76 +773,76 @@ final class SnmpRequestTree {
     }
 
     //-------------------------------------------------------------------
-    // Returns the SnmpMibNode associated with the given handler
+    // Returns the SnmpMibNode bssocibted with the given hbndler
     //-------------------------------------------------------------------
 
-    public SnmpMibNode getMetaNode(Handler handler) {
-        return handler.meta;
+    public SnmpMibNode getMetbNode(Hbndler hbndler) {
+        return hbndler.metb;
     }
 
     //-------------------------------------------------------------------
-    // Indicates the depth of the arc in the OID that identifies the
-    // SnmpMibNode associated with the given handler
+    // Indicbtes the depth of the brc in the OID thbt identifies the
+    // SnmpMibNode bssocibted with the given hbndler
     //-------------------------------------------------------------------
 
-    public int getOidDepth(Handler handler) {
-        return handler.depth;
+    public int getOidDepth(Hbndler hbndler) {
+        return hbndler.depth;
     }
 
     //-------------------------------------------------------------------
-    // returns an enumeration of the SnmpMibSubRequest's to be invoked on
-    // the SnmpMibNode associated with a given Handler node.
-    // If this node is a group, there will be a single subrequest.
-    // If it is a table, there will be one subrequest per entry involved.
+    // returns bn enumerbtion of the SnmpMibSubRequest's to be invoked on
+    // the SnmpMibNode bssocibted with b given Hbndler node.
+    // If this node is b group, there will be b single subrequest.
+    // If it is b tbble, there will be one subrequest per entry involved.
     //-------------------------------------------------------------------
 
-    public Enumeration<SnmpMibSubRequest> getSubRequests(Handler handler) {
-        return new Enum(this,handler);
+    public Enumerbtion<SnmpMibSubRequest> getSubRequests(Hbndler hbndler) {
+        return new Enum(this,hbndler);
     }
 
     //-------------------------------------------------------------------
-    // returns an enumeration of the Handlers stored in the Hashtable.
+    // returns bn enumerbtion of the Hbndlers stored in the Hbshtbble.
     //-------------------------------------------------------------------
 
-    public Enumeration<Handler> getHandlers() {
-        return hashtable.elements();
+    public Enumerbtion<Hbndler> getHbndlers() {
+        return hbshtbble.elements();
     }
 
     //-------------------------------------------------------------------
-    // adds a varbind to a handler node sublist
+    // bdds b vbrbind to b hbndler node sublist
     //-------------------------------------------------------------------
 
-    public void add(SnmpMibNode meta, int depth, SnmpVarBind varbind)
-        throws SnmpStatusException {
-        registerNode(meta,depth,null,varbind,false,null);
+    public void bdd(SnmpMibNode metb, int depth, SnmpVbrBind vbrbind)
+        throws SnmpStbtusException {
+        registerNode(metb,depth,null,vbrbind,fblse,null);
     }
 
     //-------------------------------------------------------------------
-    // adds an entry varbind to a handler node sublist
+    // bdds bn entry vbrbind to b hbndler node sublist
     //-------------------------------------------------------------------
 
-    public void add(SnmpMibNode meta, int depth, SnmpOid entryoid,
-                    SnmpVarBind varbind, boolean isnew)
-        throws SnmpStatusException {
-        registerNode(meta,depth,entryoid,varbind,isnew,null);
+    public void bdd(SnmpMibNode metb, int depth, SnmpOid entryoid,
+                    SnmpVbrBind vbrbind, boolebn isnew)
+        throws SnmpStbtusException {
+        registerNode(metb,depth,entryoid,vbrbind,isnew,null);
     }
 
     //-------------------------------------------------------------------
-    // adds an entry varbind to a handler node sublist - specifying the
-    // varbind which holds the row status
+    // bdds bn entry vbrbind to b hbndler node sublist - specifying the
+    // vbrbind which holds the row stbtus
     //-------------------------------------------------------------------
 
-    public void add(SnmpMibNode meta, int depth, SnmpOid entryoid,
-                    SnmpVarBind varbind, boolean isnew,
-                    SnmpVarBind statusvb)
-        throws SnmpStatusException {
-        registerNode(meta,depth,entryoid,varbind,isnew,statusvb);
+    public void bdd(SnmpMibNode metb, int depth, SnmpOid entryoid,
+                    SnmpVbrBind vbrbind, boolebn isnew,
+                    SnmpVbrBind stbtusvb)
+        throws SnmpStbtusException {
+        registerNode(metb,depth,entryoid,vbrbind,isnew,stbtusvb);
     }
 
 
     //-------------------------------------------------------------------
     //-------------------------------------------------------------------
-    // Protected interface
+    // Protected interfbce
     //-------------------------------------------------------------------
     //-------------------------------------------------------------------
 
@@ -852,161 +852,161 @@ final class SnmpRequestTree {
 
     void setPduType(int pduType) {
         type = pduType;
-        setreqflag = ((pduType == SnmpDefinitions.pduWalkRequest) ||
+        setreqflbg = ((pduType == SnmpDefinitions.pduWblkRequest) ||
             (pduType == SnmpDefinitions.pduSetRequestPdu));
     }
 
     //-------------------------------------------------------------------
-    // We deal with a GET-NEXT request
+    // We debl with b GET-NEXT request
     //-------------------------------------------------------------------
 
-    void setGetNextFlag() {
-        getnextflag = true;
+    void setGetNextFlbg() {
+        getnextflbg = true;
     }
 
     //-------------------------------------------------------------------
-    // Tell whether creation is allowed.
+    // Tell whether crebtion is bllowed.
     //-------------------------------------------------------------------
-    void switchCreationFlag(boolean flag) {
-        creationflag = flag;
+    void switchCrebtionFlbg(boolebn flbg) {
+        crebtionflbg = flbg;
     }
 
 
     //-------------------------------------------------------------------
-    // Returns the subrequest handled by the SnmpMibNode itself
+    // Returns the subrequest hbndled by the SnmpMibNode itself
     // (in principle, only for Groups)
     //-------------------------------------------------------------------
 
-    SnmpMibSubRequest getSubRequest(Handler handler) {
-        if (handler == null) return null;
-        return new SnmpMibSubRequestImpl(request,handler.getSubList(),
-                                      null,false,getnextflag,null);
+    SnmpMibSubRequest getSubRequest(Hbndler hbndler) {
+        if (hbndler == null) return null;
+        return new SnmpMibSubRequestImpl(request,hbndler.getSubList(),
+                                      null,fblse,getnextflbg,null);
     }
 
     //-------------------------------------------------------------------
-    // Returns the subrequest associated with the entry identified by
-    // the given entry (only for tables)
+    // Returns the subrequest bssocibted with the entry identified by
+    // the given entry (only for tbbles)
     //-------------------------------------------------------------------
 
-    SnmpMibSubRequest getSubRequest(Handler handler, SnmpOid oid) {
-        if (handler == null) return null;
-        final int pos = handler.getEntryPos(oid);
+    SnmpMibSubRequest getSubRequest(Hbndler hbndler, SnmpOid oid) {
+        if (hbndler == null) return null;
+        finbl int pos = hbndler.getEntryPos(oid);
         if (pos == -1) return null;
         return new SnmpMibSubRequestImpl(request,
-                                         handler.getEntrySubList(pos),
-                                         handler.getEntryOid(pos),
-                                         handler.isNewEntry(pos),
-                                         getnextflag,
-                                         handler.getRowStatusVarBind(pos));
+                                         hbndler.getEntrySubList(pos),
+                                         hbndler.getEntryOid(pos),
+                                         hbndler.isNewEntry(pos),
+                                         getnextflbg,
+                                         hbndler.getRowStbtusVbrBind(pos));
     }
 
     //-------------------------------------------------------------------
-    // Returns the subrequest associated with the entry identified by
-    // the given entry (only for tables). The `entry' parameter is an
-    // index relative to the position of the entry in the handler sublist.
+    // Returns the subrequest bssocibted with the entry identified by
+    // the given entry (only for tbbles). The `entry' pbrbmeter is bn
+    // index relbtive to the position of the entry in the hbndler sublist.
     //-------------------------------------------------------------------
 
-    SnmpMibSubRequest getSubRequest(Handler handler, int entry) {
-        if (handler == null) return null;
+    SnmpMibSubRequest getSubRequest(Hbndler hbndler, int entry) {
+        if (hbndler == null) return null;
         return new
-            SnmpMibSubRequestImpl(request,handler.getEntrySubList(entry),
-                                  handler.getEntryOid(entry),
-                                  handler.isNewEntry(entry),getnextflag,
-                                  handler.getRowStatusVarBind(entry));
+            SnmpMibSubRequestImpl(request,hbndler.getEntrySubList(entry),
+                                  hbndler.getEntryOid(entry),
+                                  hbndler.isNewEntry(entry),getnextflbg,
+                                  hbndler.getRowStbtusVbrBind(entry));
     }
 
     //-------------------------------------------------------------------
     //-------------------------------------------------------------------
-    // Private section
+    // Privbte section
     //-------------------------------------------------------------------
     //-------------------------------------------------------------------
 
 
     //-------------------------------------------------------------------
-    // stores a handler node in the Hashtable
+    // stores b hbndler node in the Hbshtbble
     //-------------------------------------------------------------------
 
-    private void put(Object key, Handler handler) {
-        if (handler == null) return;
+    privbte void put(Object key, Hbndler hbndler) {
+        if (hbndler == null) return;
         if (key == null) return;
-        if (hashtable == null) hashtable = new Hashtable<Object, Handler>();
-        hashtable.put(key,handler);
+        if (hbshtbble == null) hbshtbble = new Hbshtbble<Object, Hbndler>();
+        hbshtbble.put(key,hbndler);
     }
 
     //-------------------------------------------------------------------
-    // finds a handler node in the Hashtable
+    // finds b hbndler node in the Hbshtbble
     //-------------------------------------------------------------------
 
-    private Handler get(Object key) {
+    privbte Hbndler get(Object key) {
         if (key == null) return null;
-        if (hashtable == null) return null;
-        return hashtable.get(key);
+        if (hbshtbble == null) return null;
+        return hbshtbble.get(key);
     }
 
     //-------------------------------------------------------------------
-    // Search for the given oid in `oids'. If none is found, returns -1
-    // otherwise, returns the index at which the oid is located.
+    // Sebrch for the given oid in `oids'. If none is found, returns -1
+    // otherwise, returns the index bt which the oid is locbted.
     //-------------------------------------------------------------------
 
-    private static int findOid(SnmpOid[] oids, int count, SnmpOid oid) {
-        final int size = count;
+    privbte stbtic int findOid(SnmpOid[] oids, int count, SnmpOid oid) {
+        finbl int size = count;
         int low= 0;
-        int max= size - 1;
-        int curr= low + (max-low)/2;
+        int mbx= size - 1;
+        int curr= low + (mbx-low)/2;
         //System.out.println("Try to retrieve: " + oid.toString());
-        while (low <= max) {
+        while (low <= mbx) {
 
-            final SnmpOid pos = oids[curr];
+            finbl SnmpOid pos = oids[curr];
 
-            //System.out.println("Compare with" + pos.toString());
+            //System.out.println("Compbre with" + pos.toString());
             // never know ...we might find something ...
             //
-            final int comp = oid.compareTo(pos);
+            finbl int comp = oid.compbreTo(pos);
             if (comp == 0)
                 return curr;
 
-            if (oid.equals(pos)) {
+            if (oid.equbls(pos)) {
                 return curr;
             }
             if (comp > 0) {
                 low = curr + 1;
             } else {
-                max = curr - 1;
+                mbx = curr - 1;
             }
-            curr = low + (max-low)/2;
+            curr = low + (mbx-low)/2;
         }
         return -1;
     }
 
     //-------------------------------------------------------------------
-    // Return the index at which the given oid should be inserted in the
-    // `oids' array.
+    // Return the index bt which the given oid should be inserted in the
+    // `oids' brrby.
     //-------------------------------------------------------------------
 
-    private static int getInsertionPoint(SnmpOid[] oids, int count,
+    privbte stbtic int getInsertionPoint(SnmpOid[] oids, int count,
                                          SnmpOid oid) {
-        final SnmpOid[] localoids = oids;
-        final int size = count;
+        finbl SnmpOid[] locbloids = oids;
+        finbl int size = count;
         int low= 0;
-        int max= size - 1;
-        int curr= low + (max-low)/2;
+        int mbx= size - 1;
+        int curr= low + (mbx-low)/2;
 
 
-        while (low <= max) {
+        while (low <= mbx) {
 
-            final SnmpOid pos = localoids[curr];
+            finbl SnmpOid pos = locbloids[curr];
 
             // never know ...we might find something ...
             //
-            final int comp= oid.compareTo(pos);
+            finbl int comp= oid.compbreTo(pos);
 
-            // In the calling method we will have to check for this case...
+            // In the cblling method we will hbve to check for this cbse...
             //    if (comp == 0)
             //       return -1;
-            // Returning curr instead of -1 avoids having to call
-            // findOid() first and getInsertionPoint() afterwards.
-            // We can simply call getInsertionPoint() and then checks whether
-            // there's an OID at the returned position which equals the
+            // Returning curr instebd of -1 bvoids hbving to cbll
+            // findOid() first bnd getInsertionPoint() bfterwbrds.
+            // We cbn simply cbll getInsertionPoint() bnd then checks whether
+            // there's bn OID bt the returned position which equbls the
             // given OID.
             if (comp == 0)
                 return curr;
@@ -1014,78 +1014,78 @@ final class SnmpRequestTree {
             if (comp>0) {
                 low= curr +1;
             } else {
-                max= curr -1;
+                mbx= curr -1;
             }
-            curr= low + (max-low)/2;
+            curr= low + (mbx-low)/2;
         }
         return curr;
     }
 
     //-------------------------------------------------------------------
-    // adds a varbind in a handler node sublist
+    // bdds b vbrbind in b hbndler node sublist
     //-------------------------------------------------------------------
 
-    private void registerNode(SnmpMibNode meta, int depth, SnmpOid entryoid,
-                              SnmpVarBind varbind, boolean isnew,
-                              SnmpVarBind statusvb)
-        throws SnmpStatusException {
-        if (meta == null) {
+    privbte void registerNode(SnmpMibNode metb, int depth, SnmpOid entryoid,
+                              SnmpVbrBind vbrbind, boolebn isnew,
+                              SnmpVbrBind stbtusvb)
+        throws SnmpStbtusException {
+        if (metb == null) {
             SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                    SnmpRequestTree.class.getName(),
-                    "registerNode", "meta-node is null!");
+                    SnmpRequestTree.clbss.getNbme(),
+                    "registerNode", "metb-node is null!");
             return;
         }
-        if (varbind == null) {
+        if (vbrbind == null) {
             SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                    SnmpRequestTree.class.getName(),
-                    "registerNode", "varbind is null!");
+                    SnmpRequestTree.clbss.getNbme(),
+                    "registerNode", "vbrbind is null!");
             return ;
         }
 
-        final Object key = meta;
+        finbl Object key = metb;
 
-        // retrieve the handler node associated with the given meta,
-        // if any
-        Handler handler = get(key);
+        // retrieve the hbndler node bssocibted with the given metb,
+        // if bny
+        Hbndler hbndler = get(key);
 
-        // If no handler node was found for that meta, create one.
-        if (handler == null) {
+        // If no hbndler node wbs found for thbt metb, crebte one.
+        if (hbndler == null) {
             // if (isDebugOn())
-            //    debug("registerNode", "adding node for " +
-            //          varbind.oid.toString());
-            handler = new Handler(type);
-            handler.meta  = meta;
-            handler.depth = depth;
-            put(key,handler);
+            //    debug("registerNode", "bdding node for " +
+            //          vbrbind.oid.toString());
+            hbndler = new Hbndler(type);
+            hbndler.metb  = metb;
+            hbndler.depth = depth;
+            put(key,hbndler);
         }
         // else {
         //   if (isDebugOn())
         //      debug("registerNode","found node for " +
-        //            varbind.oid.toString());
+        //            vbrbind.oid.toString());
         // }
 
-        // Adds the varbind in the handler node's sublist.
+        // Adds the vbrbind in the hbndler node's sublist.
         if (entryoid == null)
-            handler.addVarbind(varbind);
+            hbndler.bddVbrbind(vbrbind);
         else
-            handler.addVarbind(varbind,entryoid,isnew,statusvb);
+            hbndler.bddVbrbind(vbrbind,entryoid,isnew,stbtusvb);
     }
 
 
     //-------------------------------------------------------------------
-    // private variables
+    // privbte vbribbles
     //-------------------------------------------------------------------
 
-    private Hashtable<Object, Handler> hashtable = null;
-                                             // Hashtable of Handler objects
-    private SnmpMibRequest request = null;   // The original list of varbinds
-    private int       version      = 0;      // The protocol version
-    private boolean   creationflag = false;  // Does the operation allow
-                                             // creation of entries
-    private boolean   getnextflag  = false;  // Does the operation allow
-                                             // creation of entries
-    private int       type         = 0;      // Request PDU type as defined
+    privbte Hbshtbble<Object, Hbndler> hbshtbble = null;
+                                             // Hbshtbble of Hbndler objects
+    privbte SnmpMibRequest request = null;   // The originbl list of vbrbinds
+    privbte int       version      = 0;      // The protocol version
+    privbte boolebn   crebtionflbg = fblse;  // Does the operbtion bllow
+                                             // crebtion of entries
+    privbte boolebn   getnextflbg  = fblse;  // Does the operbtion bllow
+                                             // crebtion of entries
+    privbte int       type         = 0;      // Request PDU type bs defined
                                              // in SnmpDefinitions
-    private boolean   setreqflag   = false;  // True if we're processing a
+    privbte boolebn   setreqflbg   = fblse;  // True if we're processing b
                                              // SET request (check/set).
 }

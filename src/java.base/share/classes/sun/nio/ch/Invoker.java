@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.util.concurrent.*;
-import java.security.AccessController;
-import sun.security.action.GetIntegerAction;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.concurrent.*;
+import jbvb.security.AccessController;
+import sun.security.bction.GetIntegerAction;
 
 /**
- * Defines static methods to invoke a completion handler or arbitrary task.
+ * Defines stbtic methods to invoke b completion hbndler or brbitrbry tbsk.
  */
 
-class Invoker {
-    private Invoker() { }
+clbss Invoker {
+    privbte Invoker() { }
 
-    // maximum number of completion handlers that may be invoked on the current
-    // thread before it re-directs invocations to the thread pool. This helps
-    // avoid stack overflow and lessens the risk of starvation.
-    private static final int maxHandlerInvokeCount = AccessController.doPrivileged(
-        new GetIntegerAction("sun.nio.ch.maxCompletionHandlersOnStack", 16));
+    // mbximum number of completion hbndlers thbt mby be invoked on the current
+    // threbd before it re-directs invocbtions to the threbd pool. This helps
+    // bvoid stbck overflow bnd lessens the risk of stbrvbtion.
+    privbte stbtic finbl int mbxHbndlerInvokeCount = AccessController.doPrivileged(
+        new GetIntegerAction("sun.nio.ch.mbxCompletionHbndlersOnStbck", 16));
 
-    // Per-thread object with reference to channel group and a counter for
-    // the number of completion handlers invoked. This should be reset to 0
-    // when all completion handlers have completed.
-    static class GroupAndInvokeCount {
-        private final AsynchronousChannelGroupImpl group;
-        private int handlerInvokeCount;
-        GroupAndInvokeCount(AsynchronousChannelGroupImpl group) {
+    // Per-threbd object with reference to chbnnel group bnd b counter for
+    // the number of completion hbndlers invoked. This should be reset to 0
+    // when bll completion hbndlers hbve completed.
+    stbtic clbss GroupAndInvokeCount {
+        privbte finbl AsynchronousChbnnelGroupImpl group;
+        privbte int hbndlerInvokeCount;
+        GroupAndInvokeCount(AsynchronousChbnnelGroupImpl group) {
             this.group = group;
         }
-        AsynchronousChannelGroupImpl group() {
+        AsynchronousChbnnelGroupImpl group() {
             return group;
         }
         int invokeCount() {
-            return handlerInvokeCount;
+            return hbndlerInvokeCount;
         }
-        void setInvokeCount(int value) {
-            handlerInvokeCount = value;
+        void setInvokeCount(int vblue) {
+            hbndlerInvokeCount = vblue;
         }
         void resetInvokeCount() {
-            handlerInvokeCount = 0;
+            hbndlerInvokeCount = 0;
         }
         void incrementInvokeCount() {
-            handlerInvokeCount++;
+            hbndlerInvokeCount++;
         }
     }
-    private static final ThreadLocal<GroupAndInvokeCount> myGroupAndInvokeCount =
-        new ThreadLocal<GroupAndInvokeCount>() {
-            @Override protected GroupAndInvokeCount initialValue() {
+    privbte stbtic finbl ThrebdLocbl<GroupAndInvokeCount> myGroupAndInvokeCount =
+        new ThrebdLocbl<GroupAndInvokeCount>() {
+            @Override protected GroupAndInvokeCount initiblVblue() {
                 return null;
             }
         };
 
     /**
-     * Binds this thread to the given group
+     * Binds this threbd to the given group
      */
-    static void bindToGroup(AsynchronousChannelGroupImpl group) {
+    stbtic void bindToGroup(AsynchronousChbnnelGroupImpl group) {
         myGroupAndInvokeCount.set(new GroupAndInvokeCount(group));
     }
 
     /**
-     * Returns the GroupAndInvokeCount object for this thread.
+     * Returns the GroupAndInvokeCount object for this threbd.
      */
-    static GroupAndInvokeCount getGroupAndInvokeCount() {
+    stbtic GroupAndInvokeCount getGroupAndInvokeCount() {
         return myGroupAndInvokeCount.get();
     }
 
     /**
-     * Returns true if the current thread is in a channel group's thread pool
+     * Returns true if the current threbd is in b chbnnel group's threbd pool
      */
-    static boolean isBoundToAnyGroup() {
+    stbtic boolebn isBoundToAnyGroup() {
         return myGroupAndInvokeCount.get() != null;
     }
 
     /**
-     * Returns true if the current thread is in the given channel's thread
-     * pool and we haven't exceeded the maximum number of handler frames on
-     * the stack.
+     * Returns true if the current threbd is in the given chbnnel's threbd
+     * pool bnd we hbven't exceeded the mbximum number of hbndler frbmes on
+     * the stbck.
      */
-    static boolean mayInvokeDirect(GroupAndInvokeCount myGroupAndInvokeCount,
-                                   AsynchronousChannelGroupImpl group)
+    stbtic boolebn mbyInvokeDirect(GroupAndInvokeCount myGroupAndInvokeCount,
+                                   AsynchronousChbnnelGroupImpl group)
     {
         if ((myGroupAndInvokeCount != null) &&
             (myGroupAndInvokeCount.group() == group) &&
-            (myGroupAndInvokeCount.invokeCount() < maxHandlerInvokeCount))
+            (myGroupAndInvokeCount.invokeCount() < mbxHbndlerInvokeCount))
         {
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Invoke handler without checking the thread identity or number of handlers
-     * on the thread stack.
+     * Invoke hbndler without checking the threbd identity or number of hbndlers
+     * on the threbd stbck.
      */
-    static <V,A> void invokeUnchecked(CompletionHandler<V,? super A> handler,
-                                      A attachment,
-                                      V value,
-                                      Throwable exc)
+    stbtic <V,A> void invokeUnchecked(CompletionHbndler<V,? super A> hbndler,
+                                      A bttbchment,
+                                      V vblue,
+                                      Throwbble exc)
     {
         if (exc == null) {
-            handler.completed(value, attachment);
+            hbndler.completed(vblue, bttbchment);
         } else {
-            handler.failed(exc, attachment);
+            hbndler.fbiled(exc, bttbchment);
         }
 
-        // clear interrupt
-        Thread.interrupted();
+        // clebr interrupt
+        Threbd.interrupted();
 
-        // clear thread locals when in default thread pool
-        if (System.getSecurityManager() != null) {
-            Thread me = Thread.currentThread();
-            if (me instanceof sun.misc.InnocuousThread) {
+        // clebr threbd locbls when in defbult threbd pool
+        if (System.getSecurityMbnbger() != null) {
+            Threbd me = Threbd.currentThrebd();
+            if (me instbnceof sun.misc.InnocuousThrebd) {
                 GroupAndInvokeCount thisGroupAndInvokeCount = myGroupAndInvokeCount.get();
-                ((sun.misc.InnocuousThread)me).eraseThreadLocals();
+                ((sun.misc.InnocuousThrebd)me).erbseThrebdLocbls();
                 if (thisGroupAndInvokeCount != null) {
                     myGroupAndInvokeCount.set(thisGroupAndInvokeCount);
                 }
@@ -145,175 +145,175 @@ class Invoker {
     }
 
     /**
-     * Invoke handler assuming thread identity already checked
+     * Invoke hbndler bssuming threbd identity blrebdy checked
      */
-    static <V,A> void invokeDirect(GroupAndInvokeCount myGroupAndInvokeCount,
-                                   CompletionHandler<V,? super A> handler,
-                                   A attachment,
+    stbtic <V,A> void invokeDirect(GroupAndInvokeCount myGroupAndInvokeCount,
+                                   CompletionHbndler<V,? super A> hbndler,
+                                   A bttbchment,
                                    V result,
-                                   Throwable exc)
+                                   Throwbble exc)
     {
         myGroupAndInvokeCount.incrementInvokeCount();
-        Invoker.invokeUnchecked(handler, attachment, result, exc);
+        Invoker.invokeUnchecked(hbndler, bttbchment, result, exc);
     }
 
     /**
-     * Invokes the handler. If the current thread is in the channel group's
-     * thread pool then the handler is invoked directly, otherwise it is
+     * Invokes the hbndler. If the current threbd is in the chbnnel group's
+     * threbd pool then the hbndler is invoked directly, otherwise it is
      * invoked indirectly.
      */
-    static <V,A> void invoke(AsynchronousChannel channel,
-                             CompletionHandler<V,? super A> handler,
-                             A attachment,
+    stbtic <V,A> void invoke(AsynchronousChbnnel chbnnel,
+                             CompletionHbndler<V,? super A> hbndler,
+                             A bttbchment,
                              V result,
-                             Throwable exc)
+                             Throwbble exc)
     {
-        boolean invokeDirect = false;
-        boolean identityOkay = false;
+        boolebn invokeDirect = fblse;
+        boolebn identityOkby = fblse;
         GroupAndInvokeCount thisGroupAndInvokeCount = myGroupAndInvokeCount.get();
         if (thisGroupAndInvokeCount != null) {
-            if ((thisGroupAndInvokeCount.group() == ((Groupable)channel).group()))
-                identityOkay = true;
-            if (identityOkay &&
-                (thisGroupAndInvokeCount.invokeCount() < maxHandlerInvokeCount))
+            if ((thisGroupAndInvokeCount.group() == ((Groupbble)chbnnel).group()))
+                identityOkby = true;
+            if (identityOkby &&
+                (thisGroupAndInvokeCount.invokeCount() < mbxHbndlerInvokeCount))
             {
-                // group match
+                // group mbtch
                 invokeDirect = true;
             }
         }
         if (invokeDirect) {
-            invokeDirect(thisGroupAndInvokeCount, handler, attachment, result, exc);
+            invokeDirect(thisGroupAndInvokeCount, hbndler, bttbchment, result, exc);
         } else {
             try {
-                invokeIndirectly(channel, handler, attachment, result, exc);
-            } catch (RejectedExecutionException ree) {
-                // channel group shutdown; fallback to invoking directly
-                // if the current thread has the right identity.
-                if (identityOkay) {
+                invokeIndirectly(chbnnel, hbndler, bttbchment, result, exc);
+            } cbtch (RejectedExecutionException ree) {
+                // chbnnel group shutdown; fbllbbck to invoking directly
+                // if the current threbd hbs the right identity.
+                if (identityOkby) {
                     invokeDirect(thisGroupAndInvokeCount,
-                                 handler, attachment, result, exc);
+                                 hbndler, bttbchment, result, exc);
                 } else {
-                    throw new ShutdownChannelGroupException();
+                    throw new ShutdownChbnnelGroupException();
                 }
             }
         }
     }
 
     /**
-     * Invokes the handler indirectly via the channel group's thread pool.
+     * Invokes the hbndler indirectly vib the chbnnel group's threbd pool.
      */
-    static <V,A> void invokeIndirectly(AsynchronousChannel channel,
-                                       final CompletionHandler<V,? super A> handler,
-                                       final A attachment,
-                                       final V result,
-                                       final Throwable exc)
+    stbtic <V,A> void invokeIndirectly(AsynchronousChbnnel chbnnel,
+                                       finbl CompletionHbndler<V,? super A> hbndler,
+                                       finbl A bttbchment,
+                                       finbl V result,
+                                       finbl Throwbble exc)
     {
         try {
-            ((Groupable)channel).group().executeOnPooledThread(new Runnable() {
+            ((Groupbble)chbnnel).group().executeOnPooledThrebd(new Runnbble() {
                 public void run() {
                     GroupAndInvokeCount thisGroupAndInvokeCount =
                         myGroupAndInvokeCount.get();
                     if (thisGroupAndInvokeCount != null)
                         thisGroupAndInvokeCount.setInvokeCount(1);
-                    invokeUnchecked(handler, attachment, result, exc);
+                    invokeUnchecked(hbndler, bttbchment, result, exc);
                 }
             });
-        } catch (RejectedExecutionException ree) {
-            throw new ShutdownChannelGroupException();
+        } cbtch (RejectedExecutionException ree) {
+            throw new ShutdownChbnnelGroupException();
         }
     }
 
     /**
-     * Invokes the handler "indirectly" in the given Executor
+     * Invokes the hbndler "indirectly" in the given Executor
      */
-    static <V,A> void invokeIndirectly(final CompletionHandler<V,? super A> handler,
-                                       final A attachment,
-                                       final V value,
-                                       final Throwable exc,
+    stbtic <V,A> void invokeIndirectly(finbl CompletionHbndler<V,? super A> hbndler,
+                                       finbl A bttbchment,
+                                       finbl V vblue,
+                                       finbl Throwbble exc,
                                        Executor executor)
     {
          try {
-            executor.execute(new Runnable() {
+            executor.execute(new Runnbble() {
                 public void run() {
-                    invokeUnchecked(handler, attachment, value, exc);
+                    invokeUnchecked(hbndler, bttbchment, vblue, exc);
                 }
             });
-        } catch (RejectedExecutionException ree) {
-            throw new ShutdownChannelGroupException();
+        } cbtch (RejectedExecutionException ree) {
+            throw new ShutdownChbnnelGroupException();
         }
     }
 
     /**
-     * Invokes the given task on the thread pool associated with the given
-     * channel. If the current thread is in the thread pool then the task is
+     * Invokes the given tbsk on the threbd pool bssocibted with the given
+     * chbnnel. If the current threbd is in the threbd pool then the tbsk is
      * invoked directly.
      */
-    static void invokeOnThreadInThreadPool(Groupable channel,
-                                           Runnable task)
+    stbtic void invokeOnThrebdInThrebdPool(Groupbble chbnnel,
+                                           Runnbble tbsk)
     {
-        boolean invokeDirect;
+        boolebn invokeDirect;
         GroupAndInvokeCount thisGroupAndInvokeCount = myGroupAndInvokeCount.get();
-        AsynchronousChannelGroupImpl targetGroup = channel.group();
+        AsynchronousChbnnelGroupImpl tbrgetGroup = chbnnel.group();
         if (thisGroupAndInvokeCount == null) {
-            invokeDirect = false;
+            invokeDirect = fblse;
         } else {
-            invokeDirect = (thisGroupAndInvokeCount.group == targetGroup);
+            invokeDirect = (thisGroupAndInvokeCount.group == tbrgetGroup);
         }
         try {
             if (invokeDirect) {
-                task.run();
+                tbsk.run();
             } else {
-                targetGroup.executeOnPooledThread(task);
+                tbrgetGroup.executeOnPooledThrebd(tbsk);
             }
-        } catch (RejectedExecutionException ree) {
-            throw new ShutdownChannelGroupException();
+        } cbtch (RejectedExecutionException ree) {
+            throw new ShutdownChbnnelGroupException();
         }
     }
 
     /**
-     * Invoke handler with completed result. This method does not check the
-     * thread identity or the number of handlers on the thread stack.
+     * Invoke hbndler with completed result. This method does not check the
+     * threbd identity or the number of hbndlers on the threbd stbck.
      */
-    static <V,A> void invokeUnchecked(PendingFuture<V,A> future) {
-        assert future.isDone();
-        CompletionHandler<V,? super A> handler = future.handler();
-        if (handler != null) {
-            invokeUnchecked(handler,
-                            future.attachment(),
-                            future.value(),
+    stbtic <V,A> void invokeUnchecked(PendingFuture<V,A> future) {
+        bssert future.isDone();
+        CompletionHbndler<V,? super A> hbndler = future.hbndler();
+        if (hbndler != null) {
+            invokeUnchecked(hbndler,
+                            future.bttbchment(),
+                            future.vblue(),
                             future.exception());
         }
     }
 
     /**
-     * Invoke handler with completed result. If the current thread is in the
-     * channel group's thread pool then the handler is invoked directly,
+     * Invoke hbndler with completed result. If the current threbd is in the
+     * chbnnel group's threbd pool then the hbndler is invoked directly,
      * otherwise it is invoked indirectly.
      */
-    static <V,A> void invoke(PendingFuture<V,A> future) {
-        assert future.isDone();
-        CompletionHandler<V,? super A> handler = future.handler();
-        if (handler != null) {
-            invoke(future.channel(),
-                   handler,
-                   future.attachment(),
-                   future.value(),
+    stbtic <V,A> void invoke(PendingFuture<V,A> future) {
+        bssert future.isDone();
+        CompletionHbndler<V,? super A> hbndler = future.hbndler();
+        if (hbndler != null) {
+            invoke(future.chbnnel(),
+                   hbndler,
+                   future.bttbchment(),
+                   future.vblue(),
                    future.exception());
         }
     }
 
     /**
-     * Invoke handler with completed result. The handler is invoked indirectly,
-     * via the channel group's thread pool.
+     * Invoke hbndler with completed result. The hbndler is invoked indirectly,
+     * vib the chbnnel group's threbd pool.
      */
-    static <V,A> void invokeIndirectly(PendingFuture<V,A> future) {
-        assert future.isDone();
-        CompletionHandler<V,? super A> handler = future.handler();
-        if (handler != null) {
-            invokeIndirectly(future.channel(),
-                             handler,
-                             future.attachment(),
-                             future.value(),
+    stbtic <V,A> void invokeIndirectly(PendingFuture<V,A> future) {
+        bssert future.isDone();
+        CompletionHbndler<V,? super A> hbndler = future.hbndler();
+        if (hbndler != null) {
+            invokeIndirectly(future.chbnnel(),
+                             hbndler,
+                             future.bttbchment(),
+                             future.vblue(),
                              future.exception());
         }
     }

@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "jni.h"
 #include "jni_util.h"
 #include "jvm.h"
-#include "java_io_Console.h"
+#include "jbvb_io_Console.h"
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <termios.h>
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_Console_istty(JNIEnv *env, jclass cls)
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_io_Console_istty(JNIEnv *env, jclbss cls)
 {
-    return isatty(fileno(stdin)) && isatty(fileno(stdout));
+    return isbtty(fileno(stdin)) && isbtty(fileno(stdout));
 }
 
 JNIEXPORT jstring JNICALL
-Java_java_io_Console_encoding(JNIEnv *env, jclass cls)
+Jbvb_jbvb_io_Console_encoding(JNIEnv *env, jclbss cls)
 {
     return NULL;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_Console_echo(JNIEnv *env,
-                          jclass cls,
-                          jboolean on)
+JNIEXPORT jboolebn JNICALL
+Jbvb_jbvb_io_Console_echo(JNIEnv *env,
+                          jclbss cls,
+                          jboolebn on)
 {
     struct termios tio;
-    jboolean old;
+    jboolebn old;
     int tty = fileno(stdin);
-    if (tcgetattr(tty, &tio) == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "tcgetattr failed");
+    if (tcgetbttr(tty, &tio) == -1) {
+        JNU_ThrowIOExceptionWithLbstError(env, "tcgetbttr fbiled");
         return !on;
     }
-    old = (tio.c_lflag & ECHO);
+    old = (tio.c_lflbg & ECHO);
     if (on) {
-        tio.c_lflag |= ECHO;
+        tio.c_lflbg |= ECHO;
     } else {
-        tio.c_lflag &= ~ECHO;
+        tio.c_lflbg &= ~ECHO;
     }
-    if (tcsetattr(tty, TCSANOW, &tio) == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "tcsetattr failed");
+    if (tcsetbttr(tty, TCSANOW, &tio) == -1) {
+        JNU_ThrowIOExceptionWithLbstError(env, "tcsetbttr fbiled");
     }
     return old;
 }

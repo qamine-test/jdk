@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss;
+pbckbge sun.security.jgss;
 
-import java.util.HashMap;
-import javax.security.auth.login.AppConfigurationEntry;
-import javax.security.auth.login.Configuration;
+import jbvb.util.HbshMbp;
+import jbvbx.security.buth.login.AppConfigurbtionEntry;
+import jbvbx.security.buth.login.Configurbtion;
 import org.ietf.jgss.Oid;
 
 /**
- * A Configuration implementation especially designed for JGSS.
+ * A Configurbtion implementbtion especiblly designed for JGSS.
  *
- * @author weijun.wang
+ * @buthor weijun.wbng
  * @since 1.6
  */
-public class LoginConfigImpl extends Configuration {
+public clbss LoginConfigImpl extends Configurbtion {
 
-    private final Configuration config;
-    private final GSSCaller caller;
-    private final String mechName;
-    private static final sun.security.util.Debug debug =
-        sun.security.util.Debug.getInstance("gssloginconfig", "\t[GSS LoginConfigImpl]");
+    privbte finbl Configurbtion config;
+    privbte finbl GSSCbller cbller;
+    privbte finbl String mechNbme;
+    privbte stbtic finbl sun.security.util.Debug debug =
+        sun.security.util.Debug.getInstbnce("gssloginconfig", "\t[GSS LoginConfigImpl]");
 
     /**
-     * A new instance of LoginConfigImpl must be created for each login request
-     * since it's only used by a single (caller, mech) pair
-     * @param caller defined in GSSUtil as CALLER_XXX final fields
-     * @param oid defined in GSSUtil as XXX_MECH_OID final fields
+     * A new instbnce of LoginConfigImpl must be crebted for ebch login request
+     * since it's only used by b single (cbller, mech) pbir
+     * @pbrbm cbller defined in GSSUtil bs CALLER_XXX finbl fields
+     * @pbrbm oid defined in GSSUtil bs XXX_MECH_OID finbl fields
      */
-    public LoginConfigImpl(GSSCaller caller, Oid mech) {
+    public LoginConfigImpl(GSSCbller cbller, Oid mech) {
 
-        this.caller = caller;
+        this.cbller = cbller;
 
-        if (mech.equals(GSSUtil.GSS_KRB5_MECH_OID)) {
-            mechName = "krb5";
+        if (mech.equbls(GSSUtil.GSS_KRB5_MECH_OID)) {
+            mechNbme = "krb5";
         } else {
-            throw new IllegalArgumentException(mech.toString() + " not supported");
+            throw new IllegblArgumentException(mech.toString() + " not supported");
         }
-        config = java.security.AccessController.doPrivileged
-                (new java.security.PrivilegedAction <Configuration> () {
-            public Configuration run() {
-                return Configuration.getConfiguration();
+        config = jbvb.security.AccessController.doPrivileged
+                (new jbvb.security.PrivilegedAction <Configurbtion> () {
+            public Configurbtion run() {
+                return Configurbtion.getConfigurbtion();
             }
         });
     }
 
     /**
-     * @param name Almost useless, since the (caller, mech) is already passed
+     * @pbrbm nbme Almost useless, since the (cbller, mech) is blrebdy pbssed
      *             into constructor. The only use will be detecting OTHER which
-     *             is called in LoginContext
+     *             is cblled in LoginContext
      */
-    public AppConfigurationEntry[] getAppConfigurationEntry(String name) {
+    public AppConfigurbtionEntry[] getAppConfigurbtionEntry(String nbme) {
 
-        AppConfigurationEntry[] entries = null;
+        AppConfigurbtionEntry[] entries = null;
 
-        // This is the second call from LoginContext, which we will just ignore
-        if ("OTHER".equalsIgnoreCase(name)) {
+        // This is the second cbll from LoginContext, which we will just ignore
+        if ("OTHER".equblsIgnoreCbse(nbme)) {
             return null;
         }
 
-        String[] alts = null;
+        String[] blts = null;
 
-        // Compatibility:
-        // For the 4 old callers, old entry names will be used if the new
-        // entry name is not provided.
+        // Compbtibility:
+        // For the 4 old cbllers, old entry nbmes will be used if the new
+        // entry nbme is not provided.
 
-        if ("krb5".equals(mechName)) {
-            if (caller == GSSCaller.CALLER_INITIATE) {
-                alts = new String[] {
-                    "com.sun.security.jgss.krb5.initiate",
-                    "com.sun.security.jgss.initiate",
+        if ("krb5".equbls(mechNbme)) {
+            if (cbller == GSSCbller.CALLER_INITIATE) {
+                blts = new String[] {
+                    "com.sun.security.jgss.krb5.initibte",
+                    "com.sun.security.jgss.initibte",
                 };
-            } else if (caller == GSSCaller.CALLER_ACCEPT) {
-                alts = new String[] {
-                    "com.sun.security.jgss.krb5.accept",
-                    "com.sun.security.jgss.accept",
+            } else if (cbller == GSSCbller.CALLER_ACCEPT) {
+                blts = new String[] {
+                    "com.sun.security.jgss.krb5.bccept",
+                    "com.sun.security.jgss.bccept",
                 };
-            } else if (caller == GSSCaller.CALLER_SSL_CLIENT) {
-                alts = new String[] {
-                    "com.sun.security.jgss.krb5.initiate",
+            } else if (cbller == GSSCbller.CALLER_SSL_CLIENT) {
+                blts = new String[] {
+                    "com.sun.security.jgss.krb5.initibte",
                     "com.sun.net.ssl.client",
                 };
-            } else if (caller == GSSCaller.CALLER_SSL_SERVER) {
-                alts = new String[] {
-                    "com.sun.security.jgss.krb5.accept",
+            } else if (cbller == GSSCbller.CALLER_SSL_SERVER) {
+                blts = new String[] {
+                    "com.sun.security.jgss.krb5.bccept",
                     "com.sun.net.ssl.server",
                 };
-            } else if (caller instanceof HttpCaller) {
-                alts = new String[] {
-                    "com.sun.security.jgss.krb5.initiate",
+            } else if (cbller instbnceof HttpCbller) {
+                blts = new String[] {
+                    "com.sun.security.jgss.krb5.initibte",
                 };
-            } else if (caller == GSSCaller.CALLER_UNKNOWN) {
-                throw new AssertionError("caller not defined");
+            } else if (cbller == GSSCbller.CALLER_UNKNOWN) {
+                throw new AssertionError("cbller not defined");
             }
         } else {
-            throw new IllegalArgumentException(mechName + " not supported");
-            // No other mech at the moment, maybe --
+            throw new IllegblArgumentException(mechNbme + " not supported");
+            // No other mech bt the moment, mbybe --
             /*
-            switch (caller) {
-            case GSSUtil.CALLER_INITIATE:
-            case GSSUtil.CALLER_SSL_CLIENT:
-            case GSSUtil.CALLER_HTTP_NEGOTIATE:
-                alts = new String[] {
-                    "com.sun.security.jgss." + mechName + ".initiate",
+            switch (cbller) {
+            cbse GSSUtil.CALLER_INITIATE:
+            cbse GSSUtil.CALLER_SSL_CLIENT:
+            cbse GSSUtil.CALLER_HTTP_NEGOTIATE:
+                blts = new String[] {
+                    "com.sun.security.jgss." + mechNbme + ".initibte",
                 };
-                break;
-            case GSSUtil.CALLER_ACCEPT:
-            case GSSUtil.CALLER_SSL_SERVER:
-                alts = new String[] {
-                    "com.sun.security.jgss." + mechName + ".accept",
+                brebk;
+            cbse GSSUtil.CALLER_ACCEPT:
+            cbse GSSUtil.CALLER_SSL_SERVER:
+                blts = new String[] {
+                    "com.sun.security.jgss." + mechNbme + ".bccept",
                 };
-                break;
-            case GSSUtil.CALLER_UNKNOWN:
+                brebk;
+            cbse GSSUtil.CALLER_UNKNOWN:
                 // should never use
-                throw new AssertionError("caller cannot be unknown");
-            default:
-                throw new AssertionError("caller not defined");
+                throw new AssertionError("cbller cbnnot be unknown");
+            defbult:
+                throw new AssertionError("cbller not defined");
             }
              */
         }
-        for (String alt: alts) {
-            entries = config.getAppConfigurationEntry(alt);
+        for (String blt: blts) {
+            entries = config.getAppConfigurbtionEntry(blt);
             if (debug != null) {
-                debug.println("Trying " + alt +
+                debug.println("Trying " + blt +
                         ((entries == null)?": does not exist.":": Found!"));
             }
             if (entries != null) {
-                break;
+                brebk;
             }
         }
 
         if (entries == null) {
             if (debug != null) {
-                debug.println("Cannot read JGSS entry, use default values instead.");
+                debug.println("Cbnnot rebd JGSS entry, use defbult vblues instebd.");
             }
-            entries = getDefaultConfigurationEntry();
+            entries = getDefbultConfigurbtionEntry();
         }
         return entries;
     }
 
     /**
-     * Default value for a caller-mech pair when no entry is defined in
-     * the system-wide Configuration object.
+     * Defbult vblue for b cbller-mech pbir when no entry is defined in
+     * the system-wide Configurbtion object.
      */
-    private AppConfigurationEntry[] getDefaultConfigurationEntry() {
-        HashMap <String, String> options = new HashMap <String, String> (2);
+    privbte AppConfigurbtionEntry[] getDefbultConfigurbtionEntry() {
+        HbshMbp <String, String> options = new HbshMbp <String, String> (2);
 
-        if (mechName == null || mechName.equals("krb5")) {
-            if (isServerSide(caller)) {
-                // Assuming the keytab file can be found through
+        if (mechNbme == null || mechNbme.equbls("krb5")) {
+            if (isServerSide(cbller)) {
+                // Assuming the keytbb file cbn be found through
                 // krb5 config file or under user home directory
-                options.put("useKeyTab", "true");
+                options.put("useKeyTbb", "true");
                 options.put("storeKey", "true");
                 options.put("doNotPrompt", "true");
-                options.put("principal", "*");
-                options.put("isInitiator", "false");
+                options.put("principbl", "*");
+                options.put("isInitibtor", "fblse");
             } else {
-                options.put("useTicketCache", "true");
-                options.put("doNotPrompt", "false");
+                options.put("useTicketCbche", "true");
+                options.put("doNotPrompt", "fblse");
             }
-            return new AppConfigurationEntry[] {
-                new AppConfigurationEntry(
-                        "com.sun.security.auth.module.Krb5LoginModule",
-                        AppConfigurationEntry.LoginModuleControlFlag.REQUIRED,
+            return new AppConfigurbtionEntry[] {
+                new AppConfigurbtionEntry(
+                        "com.sun.security.buth.module.Krb5LoginModule",
+                        AppConfigurbtionEntry.LoginModuleControlFlbg.REQUIRED,
                         options)
             };
         }
         return null;
     }
 
-    private static boolean isServerSide (GSSCaller caller) {
-        return GSSCaller.CALLER_ACCEPT == caller ||
-               GSSCaller.CALLER_SSL_SERVER == caller;
+    privbte stbtic boolebn isServerSide (GSSCbller cbller) {
+        return GSSCbller.CALLER_ACCEPT == cbller ||
+               GSSCbller.CALLER_SSL_SERVER == cbller;
     }
 }

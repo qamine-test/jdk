@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled.spi;
+pbckbge jbvbx.sound.sbmpled.spi;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
 
-import static javax.sound.sampled.AudioFormat.Encoding;
+import stbtic jbvbx.sound.sbmpled.AudioFormbt.Encoding;
 
 /**
- * A format conversion provider provides format conversion services from one or
- * more input formats to one or more output formats. Converters include codecs,
- * which encode and/or decode audio data, as well as transcoders, etc. Format
- * converters provide methods for determining what conversions are supported and
- * for obtaining an audio stream from which converted data can be read.
+ * A formbt conversion provider provides formbt conversion services from one or
+ * more input formbts to one or more output formbts. Converters include codecs,
+ * which encode bnd/or decode budio dbtb, bs well bs trbnscoders, etc. Formbt
+ * converters provide methods for determining whbt conversions bre supported bnd
+ * for obtbining bn budio strebm from which converted dbtb cbn be rebd.
  * <p>
- * The source format represents the format of the incoming audio data, which
+ * The source formbt represents the formbt of the incoming budio dbtb, which
  * will be converted.
  * <p>
- * The target format represents the format of the processed, converted audio
- * data. This is the format of the data that can be read from the stream
- * returned by one of the {@code getAudioInputStream} methods.
+ * The tbrget formbt represents the formbt of the processed, converted budio
+ * dbtb. This is the formbt of the dbtb thbt cbn be rebd from the strebm
+ * returned by one of the {@code getAudioInputStrebm} methods.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  * @since 1.3
  */
-public abstract class FormatConversionProvider {
+public bbstrbct clbss FormbtConversionProvider {
 
     /**
-     * Obtains the set of source format encodings from which format conversion
-     * services are provided by this provider.
+     * Obtbins the set of source formbt encodings from which formbt conversion
+     * services bre provided by this provider.
      *
-     * @return array of source format encodings. If for some reason provider
-     *         does not provide any conversion services, an array of length 0 is
+     * @return brrby of source formbt encodings. If for some rebson provider
+     *         does not provide bny conversion services, bn brrby of length 0 is
      *         returned.
      */
-    public abstract Encoding[] getSourceEncodings();
+    public bbstrbct Encoding[] getSourceEncodings();
 
     /**
-     * Obtains the set of target format encodings to which format conversion
-     * services are provided by this provider.
+     * Obtbins the set of tbrget formbt encodings to which formbt conversion
+     * services bre provided by this provider.
      *
-     * @return array of target format encodings. If for some reason provider
-     *         does not provide any conversion services, an array of length 0 is
+     * @return brrby of tbrget formbt encodings. If for some rebson provider
+     *         does not provide bny conversion services, bn brrby of length 0 is
      *         returned.
      */
-    public abstract Encoding[] getTargetEncodings();
+    public bbstrbct Encoding[] getTbrgetEncodings();
 
     /**
-     * Indicates whether the format converter supports conversion from the
-     * specified source format encoding.
+     * Indicbtes whether the formbt converter supports conversion from the
+     * specified source formbt encoding.
      *
-     * @param  sourceEncoding the source format encoding for which support is
+     * @pbrbm  sourceEncoding the source formbt encoding for which support is
      *         queried
      * @return {@code true} if the encoding is supported, otherwise
-     *         {@code false}
+     *         {@code fblse}
      */
-    public boolean isSourceEncodingSupported(Encoding sourceEncoding) {
+    public boolebn isSourceEncodingSupported(Encoding sourceEncoding) {
 
         Encoding sourceEncodings[] = getSourceEncodings();
 
         for(int i=0; i<sourceEncodings.length; i++) {
-            if( sourceEncoding.equals( sourceEncodings[i]) ) {
+            if( sourceEncoding.equbls( sourceEncodings[i]) ) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Indicates whether the format converter supports conversion to the
-     * specified target format encoding.
+     * Indicbtes whether the formbt converter supports conversion to the
+     * specified tbrget formbt encoding.
      *
-     * @param  targetEncoding the target format encoding for which support is
+     * @pbrbm  tbrgetEncoding the tbrget formbt encoding for which support is
      *         queried
      * @return {@code true} if the encoding is supported, otherwise
-     *         {@code false}
+     *         {@code fblse}
      */
-    public boolean isTargetEncodingSupported(Encoding targetEncoding) {
+    public boolebn isTbrgetEncodingSupported(Encoding tbrgetEncoding) {
 
-        Encoding targetEncodings[] = getTargetEncodings();
+        Encoding tbrgetEncodings[] = getTbrgetEncodings();
 
-        for(int i=0; i<targetEncodings.length; i++) {
-            if( targetEncoding.equals( targetEncodings[i]) ) {
+        for(int i=0; i<tbrgetEncodings.length; i++) {
+            if( tbrgetEncoding.equbls( tbrgetEncodings[i]) ) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Obtains the set of target format encodings supported by the format
-     * converter given a particular source format. If no target format encodings
-     * are supported for this source format, an array of length 0 is returned.
+     * Obtbins the set of tbrget formbt encodings supported by the formbt
+     * converter given b pbrticulbr source formbt. If no tbrget formbt encodings
+     * bre supported for this source formbt, bn brrby of length 0 is returned.
      *
-     * @param  sourceFormat format of the incoming data
-     * @return array of supported target format encodings
+     * @pbrbm  sourceFormbt formbt of the incoming dbtb
+     * @return brrby of supported tbrget formbt encodings
      */
-    public abstract Encoding[] getTargetEncodings(AudioFormat sourceFormat);
+    public bbstrbct Encoding[] getTbrgetEncodings(AudioFormbt sourceFormbt);
 
     /**
-     * Indicates whether the format converter supports conversion to a
-     * particular encoding from a particular format.
+     * Indicbtes whether the formbt converter supports conversion to b
+     * pbrticulbr encoding from b pbrticulbr formbt.
      *
-     * @param  targetEncoding desired encoding of the outgoing data
-     * @param  sourceFormat format of the incoming data
+     * @pbrbm  tbrgetEncoding desired encoding of the outgoing dbtb
+     * @pbrbm  sourceFormbt formbt of the incoming dbtb
      * @return {@code true} if the conversion is supported, otherwise
-     *         {@code false}
+     *         {@code fblse}
      */
-    public boolean isConversionSupported(Encoding targetEncoding,
-                                         AudioFormat sourceFormat) {
+    public boolebn isConversionSupported(Encoding tbrgetEncoding,
+                                         AudioFormbt sourceFormbt) {
 
-        Encoding targetEncodings[] = getTargetEncodings(sourceFormat);
+        Encoding tbrgetEncodings[] = getTbrgetEncodings(sourceFormbt);
 
-        for(int i=0; i<targetEncodings.length; i++) {
-            if( targetEncoding.equals( targetEncodings[i]) ) {
+        for(int i=0; i<tbrgetEncodings.length; i++) {
+            if( tbrgetEncoding.equbls( tbrgetEncodings[i]) ) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Obtains the set of target formats with the encoding specified supported
-     * by the format converter If no target formats with the specified encoding
-     * are supported for this source format, an array of length 0 is returned.
+     * Obtbins the set of tbrget formbts with the encoding specified supported
+     * by the formbt converter If no tbrget formbts with the specified encoding
+     * bre supported for this source formbt, bn brrby of length 0 is returned.
      *
-     * @param  targetEncoding desired encoding of the stream after processing
-     * @param  sourceFormat format of the incoming data
-     * @return array of supported target formats
+     * @pbrbm  tbrgetEncoding desired encoding of the strebm bfter processing
+     * @pbrbm  sourceFormbt formbt of the incoming dbtb
+     * @return brrby of supported tbrget formbts
      */
-    public abstract AudioFormat[] getTargetFormats(Encoding targetEncoding,
-                                                   AudioFormat sourceFormat);
+    public bbstrbct AudioFormbt[] getTbrgetFormbts(Encoding tbrgetEncoding,
+                                                   AudioFormbt sourceFormbt);
 
     /**
-     * Indicates whether the format converter supports conversion to one
-     * particular format from another.
+     * Indicbtes whether the formbt converter supports conversion to one
+     * pbrticulbr formbt from bnother.
      *
-     * @param  targetFormat desired format of outgoing data
-     * @param  sourceFormat format of the incoming data
+     * @pbrbm  tbrgetFormbt desired formbt of outgoing dbtb
+     * @pbrbm  sourceFormbt formbt of the incoming dbtb
      * @return {@code true} if the conversion is supported, otherwise
-     *         {@code false}
+     *         {@code fblse}
      */
-    public boolean isConversionSupported(AudioFormat targetFormat,
-                                         AudioFormat sourceFormat) {
+    public boolebn isConversionSupported(AudioFormbt tbrgetFormbt,
+                                         AudioFormbt sourceFormbt) {
 
-        AudioFormat targetFormats[] = getTargetFormats( targetFormat.getEncoding(), sourceFormat );
+        AudioFormbt tbrgetFormbts[] = getTbrgetFormbts( tbrgetFormbt.getEncoding(), sourceFormbt );
 
-        for(int i=0; i<targetFormats.length; i++) {
-            if( targetFormat.matches( targetFormats[i] ) ) {
+        for(int i=0; i<tbrgetFormbts.length; i++) {
+            if( tbrgetFormbt.mbtches( tbrgetFormbts[i] ) ) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Obtains an audio input stream with the specified encoding from the given
-     * audio input stream.
+     * Obtbins bn budio input strebm with the specified encoding from the given
+     * budio input strebm.
      *
-     * @param  targetEncoding desired encoding of the stream after processing
-     * @param  sourceStream stream from which data to be processed should be
-     *         read
-     * @return stream from which processed data with the specified target
-     *         encoding may be read
-     * @throws IllegalArgumentException if the format combination supplied is
+     * @pbrbm  tbrgetEncoding desired encoding of the strebm bfter processing
+     * @pbrbm  sourceStrebm strebm from which dbtb to be processed should be
+     *         rebd
+     * @return strebm from which processed dbtb with the specified tbrget
+     *         encoding mby be rebd
+     * @throws IllegblArgumentException if the formbt combinbtion supplied is
      *         not supported
      */
-    public abstract AudioInputStream getAudioInputStream(
-            Encoding targetEncoding, AudioInputStream sourceStream);
+    public bbstrbct AudioInputStrebm getAudioInputStrebm(
+            Encoding tbrgetEncoding, AudioInputStrebm sourceStrebm);
 
     /**
-     * Obtains an audio input stream with the specified format from the given
-     * audio input stream.
+     * Obtbins bn budio input strebm with the specified formbt from the given
+     * budio input strebm.
      *
-     * @param  targetFormat desired data format of the stream after processing
-     * @param  sourceStream stream from which data to be processed should be
-     *         read
-     * @return stream from which processed data with the specified format may be
-     *         read
-     * @throws IllegalArgumentException if the format combination supplied is
+     * @pbrbm  tbrgetFormbt desired dbtb formbt of the strebm bfter processing
+     * @pbrbm  sourceStrebm strebm from which dbtb to be processed should be
+     *         rebd
+     * @return strebm from which processed dbtb with the specified formbt mby be
+     *         rebd
+     * @throws IllegblArgumentException if the formbt combinbtion supplied is
      *         not supported
      */
-    public abstract AudioInputStream getAudioInputStream(
-            AudioFormat targetFormat, AudioInputStream sourceStream);
+    public bbstrbct AudioInputStrebm getAudioInputStrebm(
+            AudioFormbt tbrgetFormbt, AudioInputStrebm sourceStrebm);
 }

@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.Arrays;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Arrbys;
 
 /**
- * Histogram derived from an integer array of events (int[]).
- * @author John Rose
+ * Histogrbm derived from bn integer brrby of events (int[]).
+ * @buthor John Rose
  */
-final class Histogram {
-    // Compact histogram representation:  4 bytes per distinct value,
+finbl clbss Histogrbm {
+    // Compbct histogrbm representbtion:  4 bytes per distinct vblue,
     // plus 5 words per distinct count.
-    protected final int[][] matrix;  // multi-row matrix {{counti,valueij...}}
-    protected final int     totalWeight;  // sum of all counts
+    protected finbl int[][] mbtrix;  // multi-row mbtrix {{counti,vblueij...}}
+    protected finbl int     totblWeight;  // sum of bll counts
 
-    // These are created eagerly also, since that saves work.
-    // They cost another 8 bytes per distinct value.
-    protected final int[]   values;  // unique values, sorted by value
-    protected final int[]   counts;  // counts, same order as values
+    // These bre crebted ebgerly blso, since thbt sbves work.
+    // They cost bnother 8 bytes per distinct vblue.
+    protected finbl int[]   vblues;  // unique vblues, sorted by vblue
+    protected finbl int[]   counts;  // counts, sbme order bs vblues
 
-    private static final long LOW32 = (long)-1 >>> 32;
+    privbte stbtic finbl long LOW32 = (long)-1 >>> 32;
 
-    /** Build a histogram given a sequence of values.
-     *  To save work, the input should be sorted, but need not be.
+    /** Build b histogrbm given b sequence of vblues.
+     *  To sbve work, the input should be sorted, but need not be.
      */
     public
-    Histogram(int[] valueSequence) {
-        long[] hist2col = computeHistogram2Col(maybeSort(valueSequence));
-        int[][] table = makeTable(hist2col);
-        values = table[0];
-        counts = table[1];
-        this.matrix = makeMatrix(hist2col);
-        this.totalWeight = valueSequence.length;
-        assert(assertWellFormed(valueSequence));
+    Histogrbm(int[] vblueSequence) {
+        long[] hist2col = computeHistogrbm2Col(mbybeSort(vblueSequence));
+        int[][] tbble = mbkeTbble(hist2col);
+        vblues = tbble[0];
+        counts = tbble[1];
+        this.mbtrix = mbkeMbtrix(hist2col);
+        this.totblWeight = vblueSequence.length;
+        bssert(bssertWellFormed(vblueSequence));
     }
     public
-    Histogram(int[] valueSequence, int start, int end) {
-        this(sortedSlice(valueSequence, start, end));
+    Histogrbm(int[] vblueSequence, int stbrt, int end) {
+        this(sortedSlice(vblueSequence, stbrt, end));
     }
 
-    /** Build a histogram given a compact matrix of counts and values. */
+    /** Build b histogrbm given b compbct mbtrix of counts bnd vblues. */
     public
-    Histogram(int[][] matrix) {
+    Histogrbm(int[][] mbtrix) {
         // sort the rows
-        matrix = normalizeMatrix(matrix);  // clone and sort
-        this.matrix = matrix;
+        mbtrix = normblizeMbtrix(mbtrix);  // clone bnd sort
+        this.mbtrix = mbtrix;
         int length = 0;
         int weight = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            int rowLength = matrix[i].length-1;
+        for (int i = 0; i < mbtrix.length; i++) {
+            int rowLength = mbtrix[i].length-1;
             length += rowLength;
-            weight += matrix[i][0] * rowLength;
+            weight += mbtrix[i][0] * rowLength;
         }
-        this.totalWeight = weight;
+        this.totblWeight = weight;
         long[] hist2col = new long[length];
         int fillp = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 1; j < matrix[i].length; j++) {
-                // sort key is value, so put it in the high 32!
-                hist2col[fillp++] = ((long) matrix[i][j] << 32)
-                                  | (LOW32 & matrix[i][0]);
+        for (int i = 0; i < mbtrix.length; i++) {
+            for (int j = 1; j < mbtrix[i].length; j++) {
+                // sort key is vblue, so put it in the high 32!
+                hist2col[fillp++] = ((long) mbtrix[i][j] << 32)
+                                  | (LOW32 & mbtrix[i][0]);
             }
         }
-        assert(fillp == hist2col.length);
-        Arrays.sort(hist2col);
-        int[][] table = makeTable(hist2col);
-        values = table[1]; //backwards
-        counts = table[0]; //backwards
-        assert(assertWellFormed(null));
+        bssert(fillp == hist2col.length);
+        Arrbys.sort(hist2col);
+        int[][] tbble = mbkeTbble(hist2col);
+        vblues = tbble[1]; //bbckwbrds
+        counts = tbble[0]; //bbckwbrds
+        bssert(bssertWellFormed(null));
     }
 
-    /** Histogram of int values, reported compactly as a ragged matrix,
-     *  indexed by descending frequency rank.
+    /** Histogrbm of int vblues, reported compbctly bs b rbgged mbtrix,
+     *  indexed by descending frequency rbnk.
      *  <p>
-     *  Format of matrix:
-     *  Each row in the matrix begins with an occurrence count,
-     *  and continues with all int values that occur at that frequency.
+     *  Formbt of mbtrix:
+     *  Ebch row in the mbtrix begins with bn occurrence count,
+     *  bnd continues with bll int vblues thbt occur bt thbt frequency.
      *  <pre>
-     *  int[][] matrix = {
-     *    { count1, value11, value12, value13, ...  },
-     *    { count2, value21, value22, ... },
+     *  int[][] mbtrix = {
+     *    { count1, vblue11, vblue12, vblue13, ...  },
+     *    { count2, vblue21, vblue22, ... },
      *    ...
      *  }
      *  </pre>
-     *  The first column of the matrix { count1, count2, ... }
-     *  is sorted in descending order, and contains no duplicates.
-     *  Each row of the matrix (apart from its first element)
-     *  is sorted in ascending order, and contains no duplicates.
-     *  That is, each sequence { valuei1, valuei2, ... } is sorted.
+     *  The first column of the mbtrix { count1, count2, ... }
+     *  is sorted in descending order, bnd contbins no duplicbtes.
+     *  Ebch row of the mbtrix (bpbrt from its first element)
+     *  is sorted in bscending order, bnd contbins no duplicbtes.
+     *  Thbt is, ebch sequence { vbluei1, vbluei2, ... } is sorted.
      */
     public
-    int[][] getMatrix() { return matrix; }
+    int[][] getMbtrix() { return mbtrix; }
 
     public
-    int getRowCount() { return matrix.length; }
+    int getRowCount() { return mbtrix.length; }
 
     public
-    int getRowFrequency(int rn) { return matrix[rn][0]; }
+    int getRowFrequency(int rn) { return mbtrix[rn][0]; }
 
     public
-    int getRowLength(int rn) { return matrix[rn].length-1; }
+    int getRowLength(int rn) { return mbtrix[rn].length-1; }
 
     public
-    int getRowValue(int rn, int vn) { return matrix[rn][vn+1]; }
+    int getRowVblue(int rn, int vn) { return mbtrix[rn][vn+1]; }
 
     public
     int getRowWeight(int rn) {
@@ -136,117 +136,117 @@ final class Histogram {
     }
 
     public
-    int getTotalWeight() {
-        return totalWeight;
+    int getTotblWeight() {
+        return totblWeight;
     }
 
     public
-    int getTotalLength() {
-        return values.length;
+    int getTotblLength() {
+        return vblues.length;
     }
 
-    /** Returns an array of all values, sorted. */
+    /** Returns bn brrby of bll vblues, sorted. */
     public
-    int[] getAllValues() {
+    int[] getAllVblues() {
 
-        return values;
+        return vblues;
     }
 
-    /** Returns an array parallel with {@link #getValues},
-     *  with a frequency for each value.
+    /** Returns bn brrby pbrbllel with {@link #getVblues},
+     *  with b frequency for ebch vblue.
      */
     public
     int[] getAllFrequencies() {
         return counts;
     }
 
-    private static double log2 = Math.log(2);
+    privbte stbtic double log2 = Mbth.log(2);
 
     public
-    int getFrequency(int value) {
-        int pos = Arrays.binarySearch(values, value);
+    int getFrequency(int vblue) {
+        int pos = Arrbys.binbrySebrch(vblues, vblue);
         if (pos < 0)  return 0;
-        assert(values[pos] == value);
+        bssert(vblues[pos] == vblue);
         return counts[pos];
     }
 
     public
-    double getBitLength(int value) {
-        double prob = (double) getFrequency(value) / getTotalWeight();
-        return - Math.log(prob) / log2;
+    double getBitLength(int vblue) {
+        double prob = (double) getFrequency(vblue) / getTotblWeight();
+        return - Mbth.log(prob) / log2;
     }
 
     public
     double getRowBitLength(int rn) {
-        double prob = (double) getRowFrequency(rn) / getTotalWeight();
-        return - Math.log(prob) / log2;
+        double prob = (double) getRowFrequency(rn) / getTotblWeight();
+        return - Mbth.log(prob) / log2;
     }
 
     public
-    interface BitMetric {
-        public double getBitLength(int value);
+    interfbce BitMetric {
+        public double getBitLength(int vblue);
     }
-    private final BitMetric bitMetric = new BitMetric() {
-        public double getBitLength(int value) {
-            return Histogram.this.getBitLength(value);
+    privbte finbl BitMetric bitMetric = new BitMetric() {
+        public double getBitLength(int vblue) {
+            return Histogrbm.this.getBitLength(vblue);
         }
     };
     public BitMetric getBitMetric() {
         return bitMetric;
     }
 
-    /** bit-length is negative entropy:  -H(matrix). */
+    /** bit-length is negbtive entropy:  -H(mbtrix). */
     public
     double getBitLength() {
         double sum = 0;
-        for (int i = 0; i < matrix.length; i++) {
+        for (int i = 0; i < mbtrix.length; i++) {
             sum += getRowBitLength(i) * getRowWeight(i);
         }
-        assert(0.1 > Math.abs(sum - getBitLength(bitMetric)));
+        bssert(0.1 > Mbth.bbs(sum - getBitLength(bitMetric)));
         return sum;
     }
 
-    /** bit-length in to another coding (cross-entropy) */
+    /** bit-length in to bnother coding (cross-entropy) */
     public
     double getBitLength(BitMetric len) {
         double sum = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 1; j < matrix[i].length; j++) {
-                sum += matrix[i][0] * len.getBitLength(matrix[i][j]);
+        for (int i = 0; i < mbtrix.length; i++) {
+            for (int j = 1; j < mbtrix[i].length; j++) {
+                sum += mbtrix[i][0] * len.getBitLength(mbtrix[i][j]);
             }
         }
         return sum;
     }
 
-    static private
-    double round(double x, double scale) {
-        return Math.round(x * scale) / scale;
+    stbtic privbte
+    double round(double x, double scble) {
+        return Mbth.round(x * scble) / scble;
     }
 
-    /** Sort rows and columns.
-     *  Merge adjacent rows with the same key element [0].
-     *  Make a fresh copy of all of it.
+    /** Sort rows bnd columns.
+     *  Merge bdjbcent rows with the sbme key element [0].
+     *  Mbke b fresh copy of bll of it.
      */
-    public int[][] normalizeMatrix(int[][] matrix) {
-        long[] rowMap = new long[matrix.length];
-        for (int i = 0; i < matrix.length; i++) {
-            if (matrix[i].length <= 1)  continue;
-            int count = matrix[i][0];
+    public int[][] normblizeMbtrix(int[][] mbtrix) {
+        long[] rowMbp = new long[mbtrix.length];
+        for (int i = 0; i < mbtrix.length; i++) {
+            if (mbtrix[i].length <= 1)  continue;
+            int count = mbtrix[i][0];
             if (count <= 0)  continue;
-            rowMap[i] = (long) count << 32 | i;
+            rowMbp[i] = (long) count << 32 | i;
         }
-        Arrays.sort(rowMap);
-        int[][] newMatrix = new int[matrix.length][];
+        Arrbys.sort(rowMbp);
+        int[][] newMbtrix = new int[mbtrix.length][];
         int prevCount = -1;
         int fillp1 = 0;
         int fillp2 = 0;
         for (int i = 0; ; i++) {
             int[] row;
-            if (i < matrix.length) {
-                long rowMapEntry = rowMap[rowMap.length-i-1];
-                if (rowMapEntry == 0)  continue;
-                row = matrix[(int)rowMapEntry];
-                assert(rowMapEntry>>>32 == row[0]);
+            if (i < mbtrix.length) {
+                long rowMbpEntry = rowMbp[rowMbp.length-i-1];
+                if (rowMbpEntry == 0)  continue;
+                row = mbtrix[(int)rowMbpEntry];
+                bssert(rowMbpEntry>>>32 == row[0]);
             } else {
                 row = new int[]{ -1 };  // close it off
             }
@@ -254,71 +254,71 @@ final class Histogram {
                 // Close off previous run.
                 int length = 0;
                 for (int p = fillp1; p < fillp2; p++) {
-                    int[] row0 = newMatrix[p];  // previously visited row
-                    assert(row0[0] == prevCount);
+                    int[] row0 = newMbtrix[p];  // previously visited row
+                    bssert(row0[0] == prevCount);
                     length += row0.length-1;
                 }
-                int[] row1 = new int[1+length];  // cloned & consolidated row
+                int[] row1 = new int[1+length];  // cloned & consolidbted row
                 row1[0] = prevCount;
                 int rfillp = 1;
                 for (int p = fillp1; p < fillp2; p++) {
-                    int[] row0 = newMatrix[p];  // previously visited row
-                    assert(row0[0] == prevCount);
-                    System.arraycopy(row0, 1, row1, rfillp, row0.length-1);
+                    int[] row0 = newMbtrix[p];  // previously visited row
+                    bssert(row0[0] == prevCount);
+                    System.brrbycopy(row0, 1, row1, rfillp, row0.length-1);
                     rfillp += row0.length-1;
                 }
                 if (!isSorted(row1, 1, true)) {
-                    Arrays.sort(row1, 1, row1.length);
+                    Arrbys.sort(row1, 1, row1.length);
                     int jfillp = 2;
-                    // Detect and squeeze out duplicates.
+                    // Detect bnd squeeze out duplicbtes.
                     for (int j = 2; j < row1.length; j++) {
                         if (row1[j] != row1[j-1])
                             row1[jfillp++] = row1[j];
                     }
                     if (jfillp < row1.length) {
-                        // Reallocate because of lost duplicates.
+                        // Rebllocbte becbuse of lost duplicbtes.
                         int[] newRow1 = new int[jfillp];
-                        System.arraycopy(row1, 0, newRow1, 0, jfillp);
+                        System.brrbycopy(row1, 0, newRow1, 0, jfillp);
                         row1 = newRow1;
                     }
                 }
-                newMatrix[fillp1++] = row1;
+                newMbtrix[fillp1++] = row1;
                 fillp2 = fillp1;
             }
-            if (i == matrix.length)
-                break;
+            if (i == mbtrix.length)
+                brebk;
             prevCount = row[0];
-            newMatrix[fillp2++] = row;
+            newMbtrix[fillp2++] = row;
         }
-        assert(fillp1 == fillp2);  // no unfinished business
+        bssert(fillp1 == fillp2);  // no unfinished business
         // Now drop missing rows.
-        matrix = newMatrix;
-        if (fillp1 < matrix.length) {
-            newMatrix = new int[fillp1][];
-            System.arraycopy(matrix, 0, newMatrix, 0, fillp1);
-            matrix = newMatrix;
+        mbtrix = newMbtrix;
+        if (fillp1 < mbtrix.length) {
+            newMbtrix = new int[fillp1][];
+            System.brrbycopy(mbtrix, 0, newMbtrix, 0, fillp1);
+            mbtrix = newMbtrix;
         }
-        return matrix;
+        return mbtrix;
     }
 
     public
-    String[] getRowTitles(String name) {
-        int totalUnique = getTotalLength();
-        int ltotalWeight = getTotalWeight();
-        String[] histTitles = new String[matrix.length];
+    String[] getRowTitles(String nbme) {
+        int totblUnique = getTotblLength();
+        int ltotblWeight = getTotblWeight();
+        String[] histTitles = new String[mbtrix.length];
         int cumWeight = 0;
         int cumUnique = 0;
-        for (int i = 0; i < matrix.length; i++) {
+        for (int i = 0; i < mbtrix.length; i++) {
             int count  = getRowFrequency(i);
             int unique = getRowLength(i);
             int weight = getRowWeight(i);
             cumWeight += weight;
             cumUnique += unique;
-            long wpct = ((long)cumWeight * 100 + ltotalWeight/2) / ltotalWeight;
-            long upct = ((long)cumUnique * 100 + totalUnique/2) / totalUnique;
+            long wpct = ((long)cumWeight * 100 + ltotblWeight/2) / ltotblWeight;
+            long upct = ((long)cumUnique * 100 + totblUnique/2) / totblUnique;
             double len = getRowBitLength(i);
-            assert(0.1 > Math.abs(len - getBitLength(matrix[i][1])));
-            histTitles[i] = name+"["+i+"]"
+            bssert(0.1 > Mbth.bbs(len - getBitLength(mbtrix[i][1])));
+            histTitles[i] = nbme+"["+i+"]"
                 +" len="+round(len,10)
                 +" ("+count+"*["+unique+"])"
                 +" ("+cumWeight+":"+wpct+"%)"
@@ -327,47 +327,47 @@ final class Histogram {
         return histTitles;
     }
 
-    /** Print a report of this histogram.
+    /** Print b report of this histogrbm.
      */
     public
-    void print(PrintStream out) {
+    void print(PrintStrebm out) {
         print("hist", out);
     }
 
-    /** Print a report of this histogram.
+    /** Print b report of this histogrbm.
      */
     public
-    void print(String name, PrintStream out) {
-        print(name, getRowTitles(name), out);
+    void print(String nbme, PrintStrebm out) {
+        print(nbme, getRowTitles(nbme), out);
     }
 
-    /** Print a report of this histogram.
+    /** Print b report of this histogrbm.
      */
     public
-    void print(String name, String[] histTitles, PrintStream out) {
-        int totalUnique = getTotalLength();
-        int ltotalWeight = getTotalWeight();
+    void print(String nbme, String[] histTitles, PrintStrebm out) {
+        int totblUnique = getTotblLength();
+        int ltotblWeight = getTotblWeight();
         double tlen = getBitLength();
-        double avgLen = tlen / ltotalWeight;
-        double avg = (double) ltotalWeight / totalUnique;
-        String title = (name
+        double bvgLen = tlen / ltotblWeight;
+        double bvg = (double) ltotblWeight / totblUnique;
+        String title = (nbme
                         +" len="+round(tlen,10)
-                        +" avgLen="+round(avgLen,10)
-                        +" weight("+ltotalWeight+")"
-                        +" unique["+totalUnique+"]"
-                        +" avgWeight("+round(avg,100)+")");
+                        +" bvgLen="+round(bvgLen,10)
+                        +" weight("+ltotblWeight+")"
+                        +" unique["+totblUnique+"]"
+                        +" bvgWeight("+round(bvg,100)+")");
         if (histTitles == null) {
             out.println(title);
         } else {
             out.println(title+" {");
             StringBuffer buf = new StringBuffer();
-            for (int i = 0; i < matrix.length; i++) {
+            for (int i = 0; i < mbtrix.length; i++) {
                 buf.setLength(0);
-                buf.append("  ").append(histTitles[i]).append(" {");
-                for (int j = 1; j < matrix[i].length; j++) {
-                    buf.append(" ").append(matrix[i][j]);
+                buf.bppend("  ").bppend(histTitles[i]).bppend(" {");
+                for (int j = 1; j < mbtrix[i].length; j++) {
+                    buf.bppend(" ").bppend(mbtrix[i][j]);
                 }
-                buf.append(" }");
+                buf.bppend(" }");
                 out.println(buf);
             }
             out.println("}");
@@ -375,128 +375,128 @@ final class Histogram {
     }
 
 /*
-    public static
-    int[][] makeHistogramMatrix(int[] values) {
-        // Make sure they are sorted.
-        values = maybeSort(values);
-        long[] hist2col = computeHistogram2Col(values);
-        int[][] matrix = makeMatrix(hist2col);
-        return matrix;
+    public stbtic
+    int[][] mbkeHistogrbmMbtrix(int[] vblues) {
+        // Mbke sure they bre sorted.
+        vblues = mbybeSort(vblues);
+        long[] hist2col = computeHistogrbm2Col(vblues);
+        int[][] mbtrix = mbkeMbtrix(hist2col);
+        return mbtrix;
     }
 */
 
-    private static
-    int[][] makeMatrix(long[] hist2col) {
-        // Sort by increasing count, then by increasing value.
-        Arrays.sort(hist2col);
+    privbte stbtic
+    int[][] mbkeMbtrix(long[] hist2col) {
+        // Sort by increbsing count, then by increbsing vblue.
+        Arrbys.sort(hist2col);
         int[] counts = new int[hist2col.length];
         for (int i = 0; i < counts.length; i++) {
             counts[i] = (int)( hist2col[i] >>> 32 );
         }
-        long[] countHist = computeHistogram2Col(counts);
-        int[][] matrix = new int[countHist.length][];
-        int histp = 0;  // cursor into hist2col (increasing count, value)
-        int countp = 0; // cursor into countHist (increasing count)
-        // Do a join between hist2col (resorted) and countHist.
-        for (int i = matrix.length; --i >= 0; ) {
+        long[] countHist = computeHistogrbm2Col(counts);
+        int[][] mbtrix = new int[countHist.length][];
+        int histp = 0;  // cursor into hist2col (increbsing count, vblue)
+        int countp = 0; // cursor into countHist (increbsing count)
+        // Do b join between hist2col (resorted) bnd countHist.
+        for (int i = mbtrix.length; --i >= 0; ) {
             long countAndRep = countHist[countp++];
-            int count  = (int) (countAndRep);  // what is the value count?
-            int repeat = (int) (countAndRep >>> 32);  // # times repeated?
-            int[] row = new int[1+repeat];
+            int count  = (int) (countAndRep);  // whbt is the vblue count?
+            int repebt = (int) (countAndRep >>> 32);  // # times repebted?
+            int[] row = new int[1+repebt];
             row[0] = count;
-            for (int j = 0; j < repeat; j++) {
-                long countAndValue = hist2col[histp++];
-                assert(countAndValue >>> 32 == count);
-                row[1+j] = (int) countAndValue;
+            for (int j = 0; j < repebt; j++) {
+                long countAndVblue = hist2col[histp++];
+                bssert(countAndVblue >>> 32 == count);
+                row[1+j] = (int) countAndVblue;
             }
-            matrix[i] = row;
+            mbtrix[i] = row;
         }
-        assert(histp == hist2col.length);
-        return matrix;
+        bssert(histp == hist2col.length);
+        return mbtrix;
     }
 
-    private static
-    int[][] makeTable(long[] hist2col) {
-        int[][] table = new int[2][hist2col.length];
-        // Break apart the entries in hist2col.
-        // table[0] gets values, table[1] gets entries.
+    privbte stbtic
+    int[][] mbkeTbble(long[] hist2col) {
+        int[][] tbble = new int[2][hist2col.length];
+        // Brebk bpbrt the entries in hist2col.
+        // tbble[0] gets vblues, tbble[1] gets entries.
         for (int i = 0; i < hist2col.length; i++) {
-            table[0][i] = (int)( hist2col[i] );
-            table[1][i] = (int)( hist2col[i] >>> 32 );
+            tbble[0][i] = (int)( hist2col[i] );
+            tbble[1][i] = (int)( hist2col[i] >>> 32 );
         }
-        return table;
+        return tbble;
     }
 
-    /** Simple two-column histogram.  Contains repeated counts.
+    /** Simple two-column histogrbm.  Contbins repebted counts.
      *  Assumes input is sorted.  Does not sort output columns.
      *  <p>
-     *  Format of result:
+     *  Formbt of result:
      *  <pre>
      *  long[] hist = {
-     *    (count1 << 32) | (value1),
-     *    (count2 << 32) | (value2),
+     *    (count1 << 32) | (vblue1),
+     *    (count2 << 32) | (vblue2),
      *    ...
      *  }
      *  </pre>
-     *  In addition, the sequence {valuei...} is guaranteed to be sorted.
-     *  Note that resorting this using Arrays.sort() will reorder the
-     *  entries by increasing count.
+     *  In bddition, the sequence {vbluei...} is gubrbnteed to be sorted.
+     *  Note thbt resorting this using Arrbys.sort() will reorder the
+     *  entries by increbsing count.
      */
-    private static
-    long[] computeHistogram2Col(int[] sortedValues) {
-        switch (sortedValues.length) {
-        case 0:
+    privbte stbtic
+    long[] computeHistogrbm2Col(int[] sortedVblues) {
+        switch (sortedVblues.length) {
+        cbse 0:
             return new long[]{ };
-        case 1:
-            return new long[]{ ((long)1 << 32) | (LOW32 & sortedValues[0]) };
+        cbse 1:
+            return new long[]{ ((long)1 << 32) | (LOW32 & sortedVblues[0]) };
         }
         long[] hist = null;
-        for (boolean sizeOnly = true; ; sizeOnly = false) {
+        for (boolebn sizeOnly = true; ; sizeOnly = fblse) {
             int prevIndex = -1;
-            int prevValue = sortedValues[0] ^ -1;  // force a difference
+            int prevVblue = sortedVblues[0] ^ -1;  // force b difference
             int prevCount = 0;
-            for (int i = 0; i <= sortedValues.length; i++) {
-                int thisValue;
-                if (i < sortedValues.length)
-                    thisValue = sortedValues[i];
+            for (int i = 0; i <= sortedVblues.length; i++) {
+                int thisVblue;
+                if (i < sortedVblues.length)
+                    thisVblue = sortedVblues[i];
                 else
-                    thisValue = prevValue ^ -1;  // force a difference at end
-                if (thisValue == prevValue) {
+                    thisVblue = prevVblue ^ -1;  // force b difference bt end
+                if (thisVblue == prevVblue) {
                     prevCount += 1;
                 } else {
-                    // Found a new value.
+                    // Found b new vblue.
                     if (!sizeOnly && prevCount != 0) {
-                        // Save away previous value.
+                        // Sbve bwby previous vblue.
                         hist[prevIndex] = ((long)prevCount << 32)
-                                        | (LOW32 & prevValue);
+                                        | (LOW32 & prevVblue);
                     }
-                    prevValue = thisValue;
+                    prevVblue = thisVblue;
                     prevCount = 1;
                     prevIndex += 1;
                 }
             }
             if (sizeOnly) {
-                // Finished the sizing pass.  Allocate the histogram.
+                // Finished the sizing pbss.  Allocbte the histogrbm.
                 hist = new long[prevIndex];
             } else {
-                break;  // done
+                brebk;  // done
             }
         }
         return hist;
     }
 
-    /** Regroup the histogram, so that it becomes an approximate histogram
-     *  whose rows are of the given lengths.
-     *  If matrix rows must be split, the latter parts (larger values)
-     *  are placed earlier in the new matrix.
-     *  If matrix rows are joined, they are resorted into ascending order.
-     *  In the new histogram, the counts are averaged over row entries.
+    /** Regroup the histogrbm, so thbt it becomes bn bpproximbte histogrbm
+     *  whose rows bre of the given lengths.
+     *  If mbtrix rows must be split, the lbtter pbrts (lbrger vblues)
+     *  bre plbced ebrlier in the new mbtrix.
+     *  If mbtrix rows bre joined, they bre resorted into bscending order.
+     *  In the new histogrbm, the counts bre bverbged over row entries.
      */
-    private static
-    int[][] regroupHistogram(int[][] matrix, int[] groups) {
+    privbte stbtic
+    int[][] regroupHistogrbm(int[][] mbtrix, int[] groups) {
         long oldEntries = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            oldEntries += matrix[i].length-1;
+        for (int i = 0; i < mbtrix.length; i++) {
+            oldEntries += mbtrix[i].length-1;
         }
         long newEntries = 0;
         for (int ni = 0; ni < groups.length; ni++) {
@@ -508,271 +508,271 @@ final class Histogram {
             for (int ni = 0; ni < groups.length; ni++) {
                 if (ok < groups[ni]) {
                     int[] newGroups = new int[ni+1];
-                    System.arraycopy(groups, 0, newGroups, 0, ni+1);
+                    System.brrbycopy(groups, 0, newGroups, 0, ni+1);
                     groups = newGroups;
                     groups[ni] = (int) ok;
                     ok = 0;
-                    break;
+                    brebk;
                 }
                 ok -= groups[ni];
             }
         } else {
             long excess = oldEntries - newEntries;
             int[] newGroups = new int[groups.length+1];
-            System.arraycopy(groups, 0, newGroups, 0, groups.length);
+            System.brrbycopy(groups, 0, newGroups, 0, groups.length);
             newGroups[groups.length] = (int) excess;
             groups = newGroups;
         }
-        int[][] newMatrix = new int[groups.length][];
+        int[][] newMbtrix = new int[groups.length][];
         // Fill pointers.
-        int i = 0;  // into matrix
+        int i = 0;  // into mbtrix
         int jMin = 1;
-        int jMax = matrix[i].length;
+        int jMbx = mbtrix[i].length;
         for (int ni = 0; ni < groups.length; ni++) {
             int groupLength = groups[ni];
             int[] group = new int[1+groupLength];
-            long groupWeight = 0;  // count of all in new group
-            newMatrix[ni] = group;
+            long groupWeight = 0;  // count of bll in new group
+            newMbtrix[ni] = group;
             int njFill = 1;
             while (njFill < group.length) {
                 int len = group.length - njFill;
-                while (jMin == jMax) {
+                while (jMin == jMbx) {
                     jMin = 1;
-                    jMax = matrix[++i].length;
+                    jMbx = mbtrix[++i].length;
                 }
-                if (len > jMax - jMin)  len = jMax - jMin;
-                groupWeight += (long) matrix[i][0] * len;
-                System.arraycopy(matrix[i], jMax - len, group, njFill, len);
-                jMax -= len;
+                if (len > jMbx - jMin)  len = jMbx - jMin;
+                groupWeight += (long) mbtrix[i][0] * len;
+                System.brrbycopy(mbtrix[i], jMbx - len, group, njFill, len);
+                jMbx -= len;
                 njFill += len;
             }
-            Arrays.sort(group, 1, group.length);
-            // compute average count of new group:
+            Arrbys.sort(group, 1, group.length);
+            // compute bverbge count of new group:
             group[0] = (int) ((groupWeight + groupLength/2) / groupLength);
         }
-        assert(jMin == jMax);
-        assert(i == matrix.length-1);
-        return newMatrix;
+        bssert(jMin == jMbx);
+        bssert(i == mbtrix.length-1);
+        return newMbtrix;
     }
 
-    public static
-    Histogram makeByteHistogram(InputStream bytes) throws IOException {
+    public stbtic
+    Histogrbm mbkeByteHistogrbm(InputStrebm bytes) throws IOException {
         byte[] buf = new byte[1<<12];
-        int[] tally = new int[1<<8];
-        for (int nr; (nr = bytes.read(buf)) > 0; ) {
+        int[] tblly = new int[1<<8];
+        for (int nr; (nr = bytes.rebd(buf)) > 0; ) {
             for (int i = 0; i < nr; i++) {
-                tally[buf[i] & 0xFF] += 1;
+                tblly[buf[i] & 0xFF] += 1;
             }
         }
-        // Build a matrix.
-        int[][] matrix = new int[1<<8][2];
-        for (int i = 0; i < tally.length; i++) {
-            matrix[i][0] = tally[i];
-            matrix[i][1] = i;
+        // Build b mbtrix.
+        int[][] mbtrix = new int[1<<8][2];
+        for (int i = 0; i < tblly.length; i++) {
+            mbtrix[i][0] = tblly[i];
+            mbtrix[i][1] = i;
         }
-        return new Histogram(matrix);
+        return new Histogrbm(mbtrix);
     }
 
-    /** Slice and sort the given input array. */
-    private static
-    int[] sortedSlice(int[] valueSequence, int start, int end) {
-        if (start == 0 && end == valueSequence.length &&
-            isSorted(valueSequence, 0, false)) {
-            return valueSequence;
+    /** Slice bnd sort the given input brrby. */
+    privbte stbtic
+    int[] sortedSlice(int[] vblueSequence, int stbrt, int end) {
+        if (stbrt == 0 && end == vblueSequence.length &&
+            isSorted(vblueSequence, 0, fblse)) {
+            return vblueSequence;
         } else {
-            int[] slice = new int[end-start];
-            System.arraycopy(valueSequence, start, slice, 0, slice.length);
-            Arrays.sort(slice);
+            int[] slice = new int[end-stbrt];
+            System.brrbycopy(vblueSequence, stbrt, slice, 0, slice.length);
+            Arrbys.sort(slice);
             return slice;
         }
     }
 
-    /** Tell if an array is sorted. */
-    private static
-    boolean isSorted(int[] values, int from, boolean strict) {
-        for (int i = from+1; i < values.length; i++) {
-            if (strict ? !(values[i-1] < values[i])
-                       : !(values[i-1] <= values[i])) {
-                return false;  // found witness to disorder
+    /** Tell if bn brrby is sorted. */
+    privbte stbtic
+    boolebn isSorted(int[] vblues, int from, boolebn strict) {
+        for (int i = from+1; i < vblues.length; i++) {
+            if (strict ? !(vblues[i-1] < vblues[i])
+                       : !(vblues[i-1] <= vblues[i])) {
+                return fblse;  // found witness to disorder
             }
         }
         return true;  // no witness => sorted
     }
 
-    /** Clone and sort the array, if not already sorted. */
-    private static
-    int[] maybeSort(int[] values) {
-        if (!isSorted(values, 0, false)) {
-            values = values.clone();
-            Arrays.sort(values);
+    /** Clone bnd sort the brrby, if not blrebdy sorted. */
+    privbte stbtic
+    int[] mbybeSort(int[] vblues) {
+        if (!isSorted(vblues, 0, fblse)) {
+            vblues = vblues.clone();
+            Arrbys.sort(vblues);
         }
-        return values;
+        return vblues;
     }
 
 
     /// Debug stuff follows.
 
-    private boolean assertWellFormed(int[] valueSequence) {
+    privbte boolebn bssertWellFormed(int[] vblueSequence) {
 /*
-        // Sanity check.
+        // Sbnity check.
         int weight = 0;
         int vlength = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            int vlengthi = (matrix[i].length-1);
-            int count = matrix[i][0];
-            assert(vlengthi > 0);  // no empty rows
-            assert(count > 0);  // no impossible rows
+        for (int i = 0; i < mbtrix.length; i++) {
+            int vlengthi = (mbtrix[i].length-1);
+            int count = mbtrix[i][0];
+            bssert(vlengthi > 0);  // no empty rows
+            bssert(count > 0);  // no impossible rows
             vlength += vlengthi;
             weight += count * vlengthi;
         }
-        assert(isSorted(values, 0, true));
-        // make sure the counts all add up
-        assert(totalWeight == weight);
-        assert(vlength == values.length);
-        assert(vlength == counts.length);
+        bssert(isSorted(vblues, 0, true));
+        // mbke sure the counts bll bdd up
+        bssert(totblWeight == weight);
+        bssert(vlength == vblues.length);
+        bssert(vlength == counts.length);
         int weight2 = 0;
         for (int i = 0; i < counts.length; i++) {
             weight2 += counts[i];
         }
-        assert(weight2 == weight);
-        int[] revcol1 = new int[matrix.length];  //1st matrix colunm
-        for (int i = 0; i < matrix.length; i++) {
-            // spot checking:  try a random query on each matrix row
-            assert(matrix[i].length > 1);
-            revcol1[matrix.length-i-1] = matrix[i][0];
-            assert(isSorted(matrix[i], 1, true));
-            int rand = (matrix[i].length+1) / 2;
-            int val = matrix[i][rand];
-            int count = matrix[i][0];
-            int pos = Arrays.binarySearch(values, val);
-            assert(values[pos] == val);
-            assert(counts[pos] == matrix[i][0]);
-            if (valueSequence != null) {
+        bssert(weight2 == weight);
+        int[] revcol1 = new int[mbtrix.length];  //1st mbtrix colunm
+        for (int i = 0; i < mbtrix.length; i++) {
+            // spot checking:  try b rbndom query on ebch mbtrix row
+            bssert(mbtrix[i].length > 1);
+            revcol1[mbtrix.length-i-1] = mbtrix[i][0];
+            bssert(isSorted(mbtrix[i], 1, true));
+            int rbnd = (mbtrix[i].length+1) / 2;
+            int vbl = mbtrix[i][rbnd];
+            int count = mbtrix[i][0];
+            int pos = Arrbys.binbrySebrch(vblues, vbl);
+            bssert(vblues[pos] == vbl);
+            bssert(counts[pos] == mbtrix[i][0]);
+            if (vblueSequence != null) {
                 int count2 = 0;
-                for (int j = 0; j < valueSequence.length; j++) {
-                    if (valueSequence[j] == val)  count2++;
+                for (int j = 0; j < vblueSequence.length; j++) {
+                    if (vblueSequence[j] == vbl)  count2++;
                 }
-                assert(count2 == count);
+                bssert(count2 == count);
             }
         }
-        assert(isSorted(revcol1, 0, true));
+        bssert(isSorted(revcol1, 0, true));
 //*/
         return true;
     }
 
 /*
-    public static
-    int[] readValuesFrom(InputStream instr) {
-        return readValuesFrom(new InputStreamReader(instr));
+    public stbtic
+    int[] rebdVbluesFrom(InputStrebm instr) {
+        return rebdVbluesFrom(new InputStrebmRebder(instr));
     }
-    public static
-    int[] readValuesFrom(Reader inrdr) {
-        inrdr = new BufferedReader(inrdr);
-        final StreamTokenizer in = new StreamTokenizer(inrdr);
-        final int TT_NOTHING = -99;
-        in.commentChar('#');
-        return readValuesFrom(new Iterator() {
+    public stbtic
+    int[] rebdVbluesFrom(Rebder inrdr) {
+        inrdr = new BufferedRebder(inrdr);
+        finbl StrebmTokenizer in = new StrebmTokenizer(inrdr);
+        finbl int TT_NOTHING = -99;
+        in.commentChbr('#');
+        return rebdVbluesFrom(new Iterbtor() {
             int token = TT_NOTHING;
-            private int getToken() {
+            privbte int getToken() {
                 if (token == TT_NOTHING) {
                     try {
                         token = in.nextToken();
-                        assert(token != TT_NOTHING);
-                    } catch (IOException ee) {
+                        bssert(token != TT_NOTHING);
+                    } cbtch (IOException ee) {
                         throw new RuntimeException(ee);
                     }
                 }
                 return token;
             }
-            public boolean hasNext() {
-                return getToken() != StreamTokenizer.TT_EOF;
+            public boolebn hbsNext() {
+                return getToken() != StrebmTokenizer.TT_EOF;
             }
             public Object next() {
                 int ntok = getToken();
                 token = TT_NOTHING;
                 switch (ntok) {
-                case StreamTokenizer.TT_EOF:
+                cbse StrebmTokenizer.TT_EOF:
                     throw new NoSuchElementException();
-                case StreamTokenizer.TT_NUMBER:
-                    return new Integer((int) in.nval);
-                default:
-                    assert(false);
+                cbse StrebmTokenizer.TT_NUMBER:
+                    return new Integer((int) in.nvbl);
+                defbult:
+                    bssert(fblse);
                     return null;
                 }
             }
             public void remove() {
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperbtionException();
             }
         });
     }
-    public static
-    int[] readValuesFrom(Iterator iter) {
-        return readValuesFrom(iter, 0);
+    public stbtic
+    int[] rebdVbluesFrom(Iterbtor iter) {
+        return rebdVbluesFrom(iter, 0);
     }
-    public static
-    int[] readValuesFrom(Iterator iter, int initSize) {
-        int[] na = new int[Math.max(10, initSize)];
+    public stbtic
+    int[] rebdVbluesFrom(Iterbtor iter, int initSize) {
+        int[] nb = new int[Mbth.mbx(10, initSize)];
         int np = 0;
-        while (iter.hasNext()) {
-            Integer val = (Integer) iter.next();
-            if (np == na.length) {
-                int[] na2 = new int[np*2];
-                System.arraycopy(na, 0, na2, 0, np);
-                na = na2;
+        while (iter.hbsNext()) {
+            Integer vbl = (Integer) iter.next();
+            if (np == nb.length) {
+                int[] nb2 = new int[np*2];
+                System.brrbycopy(nb, 0, nb2, 0, np);
+                nb = nb2;
             }
-            na[np++] = val.intValue();
+            nb[np++] = vbl.intVblue();
         }
-        if (np != na.length) {
-            int[] na2 = new int[np];
-            System.arraycopy(na, 0, na2, 0, np);
-            na = na2;
+        if (np != nb.length) {
+            int[] nb2 = new int[np];
+            System.brrbycopy(nb, 0, nb2, 0, np);
+            nb = nb2;
         }
-        return na;
+        return nb;
     }
 
-    public static
-    Histogram makeByteHistogram(byte[] bytes) {
+    public stbtic
+    Histogrbm mbkeByteHistogrbm(byte[] bytes) {
         try {
-            return makeByteHistogram(new ByteArrayInputStream(bytes));
-        } catch (IOException ee) {
+            return mbkeByteHistogrbm(new ByteArrbyInputStrebm(bytes));
+        } cbtch (IOException ee) {
             throw new RuntimeException(ee);
         }
     }
 
-    public static
-    void main(String[] av) throws IOException {
-        if (av.length > 0 && av[0].equals("-r")) {
-            int[] values = new int[Integer.parseInt(av[1])];
-            int limit = values.length;
-            if (av.length >= 3) {
-                limit  = (int)( limit * Double.parseDouble(av[2]) );
+    public stbtic
+    void mbin(String[] bv) throws IOException {
+        if (bv.length > 0 && bv[0].equbls("-r")) {
+            int[] vblues = new int[Integer.pbrseInt(bv[1])];
+            int limit = vblues.length;
+            if (bv.length >= 3) {
+                limit  = (int)( limit * Double.pbrseDouble(bv[2]) );
             }
-            Random rnd = new Random();
-            for (int i = 0; i < values.length; i++) {
-                values[i] = rnd.nextInt(limit);;
+            Rbndom rnd = new Rbndom();
+            for (int i = 0; i < vblues.length; i++) {
+                vblues[i] = rnd.nextInt(limit);;
             }
-            Histogram rh = new Histogram(values);
-            rh.print("random", System.out);
+            Histogrbm rh = new Histogrbm(vblues);
+            rh.print("rbndom", System.out);
             return;
         }
-        if (av.length > 0 && av[0].equals("-s")) {
-            int[] values = readValuesFrom(System.in);
-            Random rnd = new Random();
-            for (int i = values.length; --i > 0; ) {
+        if (bv.length > 0 && bv[0].equbls("-s")) {
+            int[] vblues = rebdVbluesFrom(System.in);
+            Rbndom rnd = new Rbndom();
+            for (int i = vblues.length; --i > 0; ) {
                 int j = rnd.nextInt(i+1);
                 if (j < i) {
-                    int tem = values[i];
-                    values[i] = values[j];
-                    values[j] = tem;
+                    int tem = vblues[i];
+                    vblues[i] = vblues[j];
+                    vblues[j] = tem;
                 }
             }
-            for (int i = 0; i < values.length; i++)
-                System.out.println(values[i]);
+            for (int i = 0; i < vblues.length; i++)
+                System.out.println(vblues[i]);
             return;
         }
-        if (av.length > 0 && av[0].equals("-e")) {
-            // edge cases
-            new Histogram(new int[][] {
+        if (bv.length > 0 && bv[0].equbls("-e")) {
+            // edge cbses
+            new Histogrbm(new int[][] {
                 {1, 11, 111},
                 {0, 123, 456},
                 {1, 111, 1111},
@@ -785,19 +785,19 @@ final class Histogram {
             }).print(System.out);
             return;
         }
-        if (av.length > 0 && av[0].equals("-b")) {
-            // edge cases
-            Histogram bh = makeByteHistogram(System.in);
+        if (bv.length > 0 && bv[0].equbls("-b")) {
+            // edge cbses
+            Histogrbm bh = mbkeByteHistogrbm(System.in);
             bh.print("bytes", System.out);
             return;
         }
-        boolean regroup = false;
-        if (av.length > 0 && av[0].equals("-g")) {
+        boolebn regroup = fblse;
+        if (bv.length > 0 && bv[0].equbls("-g")) {
             regroup = true;
         }
 
-        int[] values = readValuesFrom(System.in);
-        Histogram h = new Histogram(values);
+        int[] vblues = rebdVbluesFrom(System.in);
+        Histogrbm h = new Histogrbm(vblues);
         if (!regroup)
             h.print(System.out);
         if (regroup) {
@@ -805,8 +805,8 @@ final class Histogram {
             for (int i = 0; i < groups.length; i++) {
                 groups[i] = 1<<i;
             }
-            int[][] gm = regroupHistogram(h.getMatrix(), groups);
-            Histogram g = new Histogram(gm);
+            int[][] gm = regroupHistogrbm(h.getMbtrix(), groups);
+            Histogrbm g = new Histogrbm(gm);
             System.out.println("h.getBitLength(g) = "+
                                h.getBitLength(g.getBitMetric()));
             System.out.println("g.getBitLength(h) = "+

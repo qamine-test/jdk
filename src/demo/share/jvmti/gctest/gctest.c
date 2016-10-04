@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,15 +30,15 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* Example of using JVMTI_EVENT_GARBAGE_COLLECTION_START and
+/* Exbmple of using JVMTI_EVENT_GARBAGE_COLLECTION_START bnd
  *                  JVMTI_EVENT_GARBAGE_COLLECTION_FINISH events.
  */
 
@@ -49,150 +49,150 @@
 #include "jni.h"
 #include "jvmti.h"
 
-/* For stdout_message(), fatal_error(), and check_jvmti_error() */
-#include "agent_util.h"
+/* For stdout_messbge(), fbtbl_error(), bnd check_jvmti_error() */
+#include "bgent_util.h"
 
-/* Global static data */
-static jvmtiEnv     *jvmti;
-static int           gc_count;
-static jrawMonitorID lock;
+/* Globbl stbtic dbtb */
+stbtic jvmtiEnv     *jvmti;
+stbtic int           gc_count;
+stbtic jrbwMonitorID lock;
 
-/* Worker thread that waits for garbage collections */
-static void JNICALL
+/* Worker threbd thbt wbits for gbrbbge collections */
+stbtic void JNICALL
 worker(jvmtiEnv* jvmti, JNIEnv* jni, void *p)
 {
     jvmtiError err;
 
-    stdout_message("GC worker started...\n");
+    stdout_messbge("GC worker stbrted...\n");
 
     for (;;) {
-        err = (*jvmti)->RawMonitorEnter(jvmti, lock);
-        check_jvmti_error(jvmti, err, "raw monitor enter");
+        err = (*jvmti)->RbwMonitorEnter(jvmti, lock);
+        check_jvmti_error(jvmti, err, "rbw monitor enter");
         while (gc_count == 0) {
-            err = (*jvmti)->RawMonitorWait(jvmti, lock, 0);
+            err = (*jvmti)->RbwMonitorWbit(jvmti, lock, 0);
             if (err != JVMTI_ERROR_NONE) {
-                err = (*jvmti)->RawMonitorExit(jvmti, lock);
-                check_jvmti_error(jvmti, err, "raw monitor wait");
+                err = (*jvmti)->RbwMonitorExit(jvmti, lock);
+                check_jvmti_error(jvmti, err, "rbw monitor wbit");
                 return;
             }
         }
         gc_count = 0;
 
-        err = (*jvmti)->RawMonitorExit(jvmti, lock);
-        check_jvmti_error(jvmti, err, "raw monitor exit");
+        err = (*jvmti)->RbwMonitorExit(jvmti, lock);
+        check_jvmti_error(jvmti, err, "rbw monitor exit");
 
-        /* Perform arbitrary JVMTI/JNI work here to do post-GC cleanup */
-        stdout_message("post-GarbageCollectionFinish actions...\n");
+        /* Perform brbitrbry JVMTI/JNI work here to do post-GC clebnup */
+        stdout_messbge("post-GbrbbgeCollectionFinish bctions...\n");
     }
 }
 
-/* Creates a new jthread */
-static jthread
-alloc_thread(JNIEnv *env)
+/* Crebtes b new jthrebd */
+stbtic jthrebd
+blloc_threbd(JNIEnv *env)
 {
-    jclass    thrClass;
+    jclbss    thrClbss;
     jmethodID cid;
-    jthread   res;
+    jthrebd   res;
 
-    thrClass = (*env)->FindClass(env, "java/lang/Thread");
-    if ( thrClass == NULL ) {
-        fatal_error("Cannot find Thread class\n");
+    thrClbss = (*env)->FindClbss(env, "jbvb/lbng/Threbd");
+    if ( thrClbss == NULL ) {
+        fbtbl_error("Cbnnot find Threbd clbss\n");
     }
-    cid      = (*env)->GetMethodID(env, thrClass, "<init>", "()V");
+    cid      = (*env)->GetMethodID(env, thrClbss, "<init>", "()V");
     if ( cid == NULL ) {
-        fatal_error("Cannot find Thread constructor method\n");
+        fbtbl_error("Cbnnot find Threbd constructor method\n");
     }
-    res      = (*env)->NewObject(env, thrClass, cid);
+    res      = (*env)->NewObject(env, thrClbss, cid);
     if ( res == NULL ) {
-        fatal_error("Cannot create new Thread object\n");
+        fbtbl_error("Cbnnot crebte new Threbd object\n");
     }
     return res;
 }
 
-/* Callback for JVMTI_EVENT_VM_INIT */
-static void JNICALL
-vm_init(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Cbllbbck for JVMTI_EVENT_VM_INIT */
+stbtic void JNICALL
+vm_init(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd)
 {
     jvmtiError err;
 
-    stdout_message("VMInit...\n");
+    stdout_messbge("VMInit...\n");
 
-    err = (*jvmti)->RunAgentThread(jvmti, alloc_thread(env), &worker, NULL,
+    err = (*jvmti)->RunAgentThrebd(jvmti, blloc_threbd(env), &worker, NULL,
         JVMTI_THREAD_MAX_PRIORITY);
-    check_jvmti_error(jvmti, err, "running agent thread");
+    check_jvmti_error(jvmti, err, "running bgent threbd");
 }
 
-/* Callback for JVMTI_EVENT_GARBAGE_COLLECTION_START */
-static void JNICALL
-gc_start(jvmtiEnv* jvmti_env)
+/* Cbllbbck for JVMTI_EVENT_GARBAGE_COLLECTION_START */
+stbtic void JNICALL
+gc_stbrt(jvmtiEnv* jvmti_env)
 {
-    stdout_message("GarbageCollectionStart...\n");
+    stdout_messbge("GbrbbgeCollectionStbrt...\n");
 }
 
-/* Callback for JVMTI_EVENT_GARBAGE_COLLECTION_FINISH */
-static void JNICALL
+/* Cbllbbck for JVMTI_EVENT_GARBAGE_COLLECTION_FINISH */
+stbtic void JNICALL
 gc_finish(jvmtiEnv* jvmti_env)
 {
     jvmtiError err;
 
-    stdout_message("GarbageCollectionFinish...\n");
+    stdout_messbge("GbrbbgeCollectionFinish...\n");
 
-    err = (*jvmti)->RawMonitorEnter(jvmti, lock);
-    check_jvmti_error(jvmti, err, "raw monitor enter");
+    err = (*jvmti)->RbwMonitorEnter(jvmti, lock);
+    check_jvmti_error(jvmti, err, "rbw monitor enter");
     gc_count++;
-    err = (*jvmti)->RawMonitorNotify(jvmti, lock);
-    check_jvmti_error(jvmti, err, "raw monitor notify");
-    err = (*jvmti)->RawMonitorExit(jvmti, lock);
-    check_jvmti_error(jvmti, err, "raw monitor exit");
+    err = (*jvmti)->RbwMonitorNotify(jvmti, lock);
+    check_jvmti_error(jvmti, err, "rbw monitor notify");
+    err = (*jvmti)->RbwMonitorExit(jvmti, lock);
+    check_jvmti_error(jvmti, err, "rbw monitor exit");
 }
 
-/* Agent_OnLoad() is called first, we prepare for a VM_INIT event here. */
+/* Agent_OnLobd() is cblled first, we prepbre for b VM_INIT event here. */
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
+Agent_OnLobd(JbvbVM *vm, chbr *options, void *reserved)
 {
     jint                rc;
     jvmtiError          err;
-    jvmtiCapabilities   capabilities;
-    jvmtiEventCallbacks callbacks;
+    jvmtiCbpbbilities   cbpbbilities;
+    jvmtiEventCbllbbcks cbllbbcks;
 
     /* Get JVMTI environment */
     rc = (*vm)->GetEnv(vm, (void **)&jvmti, JVMTI_VERSION);
     if (rc != JNI_OK) {
-        fatal_error("ERROR: Unable to create jvmtiEnv, rc=%d\n", rc);
+        fbtbl_error("ERROR: Unbble to crebte jvmtiEnv, rc=%d\n", rc);
         return -1;
     }
 
-    /* Get/Add JVMTI capabilities */
-    (void)memset(&capabilities, 0, sizeof(capabilities));
-    capabilities.can_generate_garbage_collection_events = 1;
-    err = (*jvmti)->AddCapabilities(jvmti, &capabilities);
-    check_jvmti_error(jvmti, err, "add capabilities");
+    /* Get/Add JVMTI cbpbbilities */
+    (void)memset(&cbpbbilities, 0, sizeof(cbpbbilities));
+    cbpbbilities.cbn_generbte_gbrbbge_collection_events = 1;
+    err = (*jvmti)->AddCbpbbilities(jvmti, &cbpbbilities);
+    check_jvmti_error(jvmti, err, "bdd cbpbbilities");
 
-    /* Set callbacks and enable event notifications */
-    memset(&callbacks, 0, sizeof(callbacks));
-    callbacks.VMInit                  = &vm_init;
-    callbacks.GarbageCollectionStart  = &gc_start;
-    callbacks.GarbageCollectionFinish = &gc_finish;
-    err = (*jvmti)->SetEventCallbacks(jvmti, &callbacks, sizeof(callbacks));
-    check_jvmti_error(jvmti, err, "set event callbacks");
-    err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
+    /* Set cbllbbcks bnd enbble event notificbtions */
+    memset(&cbllbbcks, 0, sizeof(cbllbbcks));
+    cbllbbcks.VMInit                  = &vm_init;
+    cbllbbcks.GbrbbgeCollectionStbrt  = &gc_stbrt;
+    cbllbbcks.GbrbbgeCollectionFinish = &gc_finish;
+    err = (*jvmti)->SetEventCbllbbcks(jvmti, &cbllbbcks, sizeof(cbllbbcks));
+    check_jvmti_error(jvmti, err, "set event cbllbbcks");
+    err = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_ENABLE,
                         JVMTI_EVENT_VM_INIT, NULL);
-    check_jvmti_error(jvmti, err, "set event notification");
-    err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
+    check_jvmti_error(jvmti, err, "set event notificbtion");
+    err = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_ENABLE,
                         JVMTI_EVENT_GARBAGE_COLLECTION_START, NULL);
-    check_jvmti_error(jvmti, err, "set event notification");
-    err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
+    check_jvmti_error(jvmti, err, "set event notificbtion");
+    err = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_ENABLE,
                         JVMTI_EVENT_GARBAGE_COLLECTION_FINISH, NULL);
-    check_jvmti_error(jvmti, err, "set event notification");
+    check_jvmti_error(jvmti, err, "set event notificbtion");
 
-    /* Create the necessary raw monitor */
-    err = (*jvmti)->CreateRawMonitor(jvmti, "lock", &lock);
-    check_jvmti_error(jvmti, err, "create raw monitor");
+    /* Crebte the necessbry rbw monitor */
+    err = (*jvmti)->CrebteRbwMonitor(jvmti, "lock", &lock);
+    check_jvmti_error(jvmti, err, "crebte rbw monitor");
     return 0;
 }
 
-/* Agent_OnUnload() is called last */
+/* Agent_OnUnlobd() is cblled lbst */
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm)
+Agent_OnUnlobd(JbvbVM *vm)
 {
 }
